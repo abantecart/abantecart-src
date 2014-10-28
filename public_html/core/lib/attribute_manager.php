@@ -138,7 +138,7 @@ class AAttribute_Manager extends AAttribute {
         $update = array();
         foreach ( $fields as $f ) {
             if ( isset($data[$f]) ) {
-                $update[] = "$f = '".$this->db->escape($data[$f])."'";
+                $update[] = $f." = '".$this->db->escape($data[$f])."'";
 			}
         }
         if ( !empty($update) ) {
@@ -362,7 +362,7 @@ class AAttribute_Manager extends AAttribute {
         $update = array();
         foreach ( $fields as $f ) {
             if ( isset($data[$f]) )
-                $update[] = "$f = '".(int)$data[$f]."'";
+                $update[] = $f." = '".(int)$data[$f]."'";
         }
         if ( !empty($update) ) {
             $this->db->query(
@@ -708,25 +708,5 @@ class AAttribute_Manager extends AAttribute {
 			}
 
 			return $error;
-	}
-	/**
-	 * deprecated methods (typo)
-	 * @deprecated since v1.1.7
-	 */
-	public function deleteAllAttributeValueDescritpions($attribute_value_id) {
-		return $this->deleteAllAttributeValueDescriptions($attribute_value_id);
-	}
-	/**
-	 * deprecated methods
-	 * @deprecated since v1.1.7
-	 */
-	public function deleteAttributeValueDescritpion($attribute_value_id, $language_id) {
-		return $this->deleteAttributeValueDescription($attribute_value_id, $language_id);
-	}
-	/**
-	 * @deprecated since v1.1.7
-	 */
-	public function updateAttributeValueDescritpion($attribute_id, $attribute_value_id, $language_id, $value) {
-		return $this->updateAttributeValueDescription($attribute_id, $attribute_value_id, $language_id, $value);
 	}
 }

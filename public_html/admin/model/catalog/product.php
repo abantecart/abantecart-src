@@ -234,7 +234,7 @@ class ModelCatalogProduct extends Model {
 				if (in_array($f, $preformat_fields)) {
 					$data[$f] = preformatFloat($data[$f], $this->language->get('decimal_point'));
 				}
-				$update[] = "$f = '" . $this->db->escape($data[$f]) . "'";
+				$update[] = $f." = '" . $this->db->escape($data[$f]) . "'";
 			}
 		}
 		if (!empty($update)) {
@@ -311,7 +311,7 @@ class ModelCatalogProduct extends Model {
 		$update = array();
 		foreach ($fields as $f) {
 			if (isset($data[$f]))
-				$update[] = "$f = '" . $this->db->escape($data[$f]) . "'";
+				$update[] = $f." = '" . $this->db->escape($data[$f]) . "'";
 		}
 		if (!empty($update)) {
 			$this->db->query("UPDATE " . $this->db->table("product_discounts") . " 
@@ -340,7 +340,7 @@ class ModelCatalogProduct extends Model {
 		$update = array();
 		foreach ($fields as $f) {
 			if (isset($data[$f]))
-				$update[] = "$f = '" . $this->db->escape($data[$f]) . "'";
+				$update[] = $f." = '" . $this->db->escape($data[$f]) . "'";
 		}
 		if (!empty($update)) {
 			$this->db->query("UPDATE `" . $this->db->table("product_specials`") . " SET " . implode(',', $update) . " WHERE product_special_id = '" . (int)$product_special_id . "'");
@@ -1369,7 +1369,7 @@ class ModelCatalogProduct extends Model {
 		$update = array();
 		foreach ($fields as $f) {
 			if (isset($data[$f]))
-				$update[] = "$f = '" . $this->db->escape($data[$f]) . "'";
+				$update[] = $f." = '" . $this->db->escape($data[$f]) . "'";
 		}
 		if (!empty($update)) {
 			$this->db->query("UPDATE " . $this->db->table("product_options") . " 

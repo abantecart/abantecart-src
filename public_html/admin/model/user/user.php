@@ -40,7 +40,7 @@ class ModelUserUser extends Model {
 		$update = array();
 		foreach ( $fields as $f ) {
 			if ( isset($data[$f]) )
-				$update[] = "$f = '".$this->db->escape($data[$f])."'";
+				$update[] = $f." = '".$this->db->escape($data[$f])."'";
 		}
 		if ( !empty($data['password']) )
 				$update[] = "password = '". $this->db->escape(AEncryption::getHash($data['password'])) ."'";
@@ -122,4 +122,3 @@ class ModelUserUser extends Model {
 		return $query->row['total'];
 	}
 }
-?>

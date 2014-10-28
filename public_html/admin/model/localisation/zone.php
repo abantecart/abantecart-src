@@ -43,7 +43,7 @@ class ModelLocalisationZone extends Model {
 		$update = array();
 		foreach ( $fields as $f ) {
 			if ( isset($data[$f]) )
-				$update[] = "$f = '".$this->db->escape($data[$f])."'";
+				$update[] = $f." = '".$this->db->escape($data[$f])."'";
 		}
 		if ( !empty($update) ) {
 			$this->db->query("UPDATE " . $this->db->table("zones") . " SET ". implode(',', $update) ." WHERE zone_id = '" . (int)$zone_id . "'");
@@ -241,4 +241,3 @@ class ModelLocalisationZone extends Model {
 		return 0;
 	}
 }
-?>

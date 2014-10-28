@@ -20,7 +20,15 @@
 if (! defined ( 'DIR_CORE' ) || !IS_ADMIN) {
 	header ( 'Location: static_pages/' );
 }
+
+/**
+ * Class ModelLocalisationCountry
+ */
 class ModelLocalisationCountry extends Model {
+	/**
+	 * @param array $data
+	 * @return int
+	 */
 	public function addCountry($data) {
 		$this->db->query("INSERT INTO " . $this->db->table("countries") . " SET status = '" . (int)$data['status'] . "', iso_code_2 = '" . $this->db->escape($data['iso_code_2']) . "', iso_code_3 = '" . $this->db->escape($data['iso_code_3']) . "', address_format = '" . $this->db->escape($data['address_format']) . "'");
 
@@ -37,14 +45,18 @@ class ModelLocalisationCountry extends Model {
 		$this->cache->delete('country');
 		return $country_id;
 	}
-	
+
+	/**
+	 * @param int $country_id
+	 * @param $data
+	 */
 	public function editCountry($country_id, $data) {
 
 		$fields = array('status', 'iso_code_2', 'iso_code_3', 'address_format', );
 		$update = array();
 		foreach ( $fields as $f ) {
 			if ( isset($data[$f]) )
-				$update[] = "$f = '".$this->db->escape($data[$f])."'";
+				$update[] = $f." = '".$this->db->escape($data[$f])."'";
 		}
 		if ( !empty($update) ) {
 			$this->db->query("UPDATE " . $this->db->table("countries") . " SET ". implode(',', $update) ." WHERE country_id = '" . (int)$country_id . "'");
@@ -61,13 +73,20 @@ class ModelLocalisationCountry extends Model {
 			}
 		}
 	}
-	
+
+	/**
+	 * @param int $country_id
+	 */
 	public function deleteCountry($country_id) {
 		$this->db->query("DELETE FROM " . $this->db->table("countries") . " WHERE country_id = '" . (int)$country_id . "'");
 		$this->db->query("DELETE FROM " . $this->db->table("country_descriptions") . " WHERE country_id = '" . (int)$country_id . "'");		
 		$this->cache->delete('country');
 	}
-	
+
+	/**
+	 * @param int $country_id
+	 * @return array
+	 */
 	public function getCountry($country_id) {
 		$language_id = $this->session->data['content_language_id'];
 		$default_lang_id = $this->language->getDefaultLanguageID();	
@@ -82,6 +101,10 @@ class ModelLocalisationCountry extends Model {
 		return $ret_data;
 	}
 
+	/**
+	 * @param int $country_id
+	 * @return array
+	 */
 	public function getCountryDescriptions($country_id) {
 		$country_data = array();
 		
@@ -96,7 +119,11 @@ class ModelLocalisationCountry extends Model {
 		return $country_data;
 	}
 
-		
+	/**
+	 * @param array $data
+	 * @param string $mode
+	 * @return array|int
+	 */
 	public function getCountries($data = array(), $mode = 'default') {
 		$language_id = $this->session->data['content_language_id'];
 		$default_language_id = $this->language->getDefaultLanguageID();
@@ -191,9 +218,12 @@ class ModelLocalisationCountry extends Model {
 			return $country_data;			
 		}	
 	}
-	
+
+	/**
+	 * @param array $data
+	 * @return int
+	 */
 	public function getTotalCountries( $data = array()) {
 		return $this->getCountries($data, 'total_only');
 	}
 }
-?>

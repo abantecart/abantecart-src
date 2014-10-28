@@ -20,7 +20,15 @@
 if (!defined('DIR_CORE') || !IS_ADMIN) {
 	header('Location: static_pages/');
 }
+
+/**
+ * Class ModelLocalisationCurrency
+ */
 class ModelLocalisationCurrency extends Model {
+	/**
+	 * @param array $data
+	 * @return int
+	 */
 	public function addCurrency($data) {
 		$this->db->query("INSERT INTO " . $this->db->table("currencies") . " 
 		                    (`title`,
@@ -44,6 +52,11 @@ class ModelLocalisationCurrency extends Model {
 		return $this->db->getLastId();
 	}
 
+	/**
+	 * @param int $currency_id
+	 * @param $data
+	 * @return bool
+	 */
 	public function editCurrency($currency_id, $data) {
 		// prevent disabling the only enabled currency in cart
 		if (isset($data[ 'status' ]) && !$data[ 'status' ]) {
@@ -63,7 +76,7 @@ class ModelLocalisationCurrency extends Model {
 		$update = array( 'date_modified = NOW()' );
 		foreach ($fields as $f) {
 			if (isset($data[ $f ]))
-				$update[ ] = "$f = '" . $this->db->escape($data[ $f ]) . "'";
+				$update[ ] = $f." = '" . $this->db->escape($data[ $f ]) . "'";
 		}
 		if (!empty($update)) {
 			$this->db->query("UPDATE " . $this->db->table("currencies") . " 
@@ -74,6 +87,9 @@ class ModelLocalisationCurrency extends Model {
 		return true;
 	}
 
+	/**
+	 * @param int $currency_id
+	 */
 	public function deleteCurrency($currency_id) {
 		// prevent deleting all currencies
 		if ($this->getTotalCurrencies() < 2) {
@@ -84,6 +100,10 @@ class ModelLocalisationCurrency extends Model {
 		$this->cache->delete('currency');
 	}
 
+	/**
+	 * @param int $currency_id
+	 * @return array
+	 */
 	public function getCurrency($currency_id) {
 		$query = $this->db->query("SELECT DISTINCT *
 								   FROM " . $this->db->table("currencies") . " 
@@ -92,6 +112,10 @@ class ModelLocalisationCurrency extends Model {
 		return $query->row;
 	}
 
+	/**
+	 * @param array $data
+	 * @return array
+	 */
 	public function getCurrencies($data = array()) {
 		if ($data) {
 			$sql = "SELECT * FROM " . $this->db->table("currencies") . " ";
@@ -159,6 +183,9 @@ class ModelLocalisationCurrency extends Model {
 		}
 	}
 
+	/**
+	 * @throws AException
+	 */
 	public function updateCurrencies() {
 		if (extension_loaded('curl')) {
 			$data = array();
@@ -197,10 +224,11 @@ class ModelLocalisationCurrency extends Model {
 		}
 	}
 
+	/**
+	 * @return int
+	 */
 	public function getTotalCurrencies() {
 		$query = $this->db->query("SELECT COUNT(*) AS total FROM " . $this->db->table("currencies") . " ");
 		return $query->row[ 'total' ];
 	}
 }
-
-?>

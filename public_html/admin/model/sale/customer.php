@@ -53,6 +53,11 @@ class ModelSaleCustomer extends Model {
       	return $this->db->getLastId();
 	}
 
+	/**
+	 * @param int $customer_id
+	 * @param array $address
+	 * @return int
+	 */
 	public function addAddress($customer_id, $address=array()){
 		if(!(int)$customer_id || !$address || !is_array($address)){
 			return false;
@@ -113,6 +118,11 @@ class ModelSaleCustomer extends Model {
 
 	}
 
+	/**
+	 * @param int $customer_id
+	 * @param int $address_id
+	 * @param array $address
+	 */
 	public function editAddress($customer_id, $address_id, $address){
 
 		if(!(int)$customer_id || !(int)$address_id || !$address || !is_array($address)){
@@ -141,6 +151,10 @@ class ModelSaleCustomer extends Model {
 								zone_id = '" . (int)$address['zone_id'] . "'");
 	}
 
+	/**
+	 * @param int $customer_id
+	 * @param int $address_id
+	 */
 	public function deleteAddress($customer_id, $address_id){
 		if(!(int)$customer_id || !(int)$address_id ){
 			return false;
@@ -180,7 +194,6 @@ class ModelSaleCustomer extends Model {
 	/**
 	 * @param int $customer_id
 	 * @param string $default_address_id
-	 * @param none
 	 */
 	public function setDefaultAddress($customer_id, $default_address_id) {
       	if ($customer_id && $default_address_id) {
@@ -509,16 +522,19 @@ class ModelSaleCustomer extends Model {
 						  SET approved = '1'
 						        WHERE customer_id = '" . (int)$customer_id . "'");
 	}
-	
+
+	/**
+	 * @return array
+	 */
 	public function getCustomersByNewsletter() {
 		$store_based = '';
 		if( has_value($this->session->data['current_store_id']) ) {
-			$store_based = " and store_id = " . (int)$this->session->data['current_store_id'];
+			$store_based = " AND store_id = " . (int)$this->session->data['current_store_id'];
 		}
 
 		$query = $this->db->query("SELECT *
 									FROM " . $this->db->table("customers") . "
-									WHERE newsletter = '1' $store_based
+									WHERE newsletter = '1' " . $store_based . "
 									ORDER BY firstname, lastname, email");
 	
 		$result_rows = array();
@@ -535,14 +551,14 @@ class ModelSaleCustomer extends Model {
 	public function getCustomersByKeyword($keyword) {
 		$store_based = '';
 		if( has_value($this->session->data['current_store_id']) ) {
-			$store_based = " and store_id = " . (int)$this->session->data['current_store_id'];
+			$store_based = " AND store_id = " . (int)$this->session->data['current_store_id'];
 		}
 
 		if ($keyword) {
 			$query = $this->db->query("SELECT *
 									   FROM " . $this->db->table("customers") . "
 									   WHERE LCASE(CONCAT(firstname, ' ', lastname)) LIKE '%" . $this->db->escape(strtolower($keyword)) . "%'
-									        OR LCASE(email) LIKE '%" . $this->db->escape(strtolower($keyword)) . "%' $store_based
+									        OR LCASE(email) LIKE '%" . $this->db->escape(strtolower($keyword)) . "%' " . $store_based . "
 									   ORDER BY firstname, lastname, email");
 	
 			$result_rows = array();
@@ -646,7 +662,10 @@ class ModelSaleCustomer extends Model {
       		return true;
       	}                           
 	}
-		
+
+	/**
+	 * @return int
+	 */
 	public function getTotalCustomersAwaitingApproval() {
       	$query = $this->db->query("SELECT COUNT(*) AS total
       	                           FROM " . $this->db->table("customers") . "
@@ -657,7 +676,7 @@ class ModelSaleCustomer extends Model {
 
 	/**
 	 * @param int $customer_id
-	 * @return mixed
+	 * @return int
 	 */
 	public function getTotalAddressesByCustomerId($customer_id) {
       	$query = $this->db->query("SELECT COUNT(*) AS total
@@ -703,23 +722,44 @@ class ModelSaleCustomer extends Model {
 		return (int)$query->row['total'];
 	}
 
+	/**
+	 * @param array $data
+	 * @param string $mode
+	 * @return array|int
+	 */
 	public function getAllSubscribers($data=array(), $mode = 'default'){
 		$data['filter']['all_subscribers'] = 1;
 		return $this->getCustomers($data, $mode);
 	}
 
+	/**
+	 * @param array $data
+	 * @param string $mode
+	 * @return array|int
+	 */
 	public function getOnlyNewsletterSubscribers($data=array(), $mode = 'default'){
 		$data['filter']['customer_group_id'] = $this->getSubscribersCustomerGroupId();
 		return $this->getCustomers($data, $mode);
 	}
 
+	/**
+	 * @param array $data
+	 * @param string $mode
+	 * @return array|int
+	 */
 	public function getOnlyCustomers($data=array(), $mode = 'default'){
 		$data['filter']['only_customers'] = 1;
 		return $this->getCustomers($data, $mode);
 	}
 
+	/**
+	 * @return int
+	 */
 	public function getSubscribersCustomerGroupId() {
-		$query = $this->db->query("SELECT customer_group_id	FROM `" . $this->db->table("customer_groups") . "` WHERE `name` = 'Newsletter Subscribers' LIMIT 0,1");
+		$query = $this->db->query("SELECT customer_group_id
+									FROM `" . $this->db->table("customer_groups") . "`
+									WHERE `name` = 'Newsletter Subscribers'
+									LIMIT 0,1");
 		$result = !$query->row['customer_group_id'] ? (int)$this->config->get('config_customer_group_id') :  $query->row['customer_group_id'];
 		return $result;
 	}

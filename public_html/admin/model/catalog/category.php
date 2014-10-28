@@ -20,7 +20,15 @@
 if (! defined ( 'DIR_CORE' ) || !IS_ADMIN) {
 	header ( 'Location: static_pages/' );
 }
+
+/**
+ * Class ModelCatalogCategory
+ */
 class ModelCatalogCategory extends Model {
+	/**
+	 * @param $data
+	 * @return int
+	 */
 	public function addCategory($data) {
 		$this->db->query("INSERT INTO " . $this->db->table("categories") . " 
 						  SET parent_id = '" . (int)$data['parent_id'] . "',
@@ -75,13 +83,17 @@ class ModelCatalogCategory extends Model {
 		return $category_id;
 	}
 
+	/**
+	 * @param int $category_id
+	 * @param array $data
+	 */
 	public function editCategory($category_id, $data) {
 
 		$fields = array('parent_id', 'sort_order', 'status');
 		$update = array('date_modified = NOW()');
 		foreach ( $fields as $f ) {
 			if ( isset($data[$f]) )
-				$update[] = "$f = '".$this->db->escape($data[$f])."'";
+				$update[] = $f." = '".$this->db->escape($data[$f])."'";
 		}
 		if ( !empty($update) ) $this->db->query("UPDATE " . $this->db->table("categories") . " SET ". implode(',', $update) ." WHERE category_id = '" . (int)$category_id . "'");
 
@@ -134,7 +146,10 @@ class ModelCatalogCategory extends Model {
 		$this->cache->delete('category');
 
 	}
-	
+
+	/**
+	 * @param int $category_id
+	 */
 	public function deleteCategory($category_id) {
 		$this->db->query("DELETE FROM " . $this->db->table("categories") . " WHERE category_id = '" . (int)$category_id . "'");
 		$this->db->query("DELETE FROM " . $this->db->table("category_descriptions") . " WHERE category_id = '" . (int)$category_id . "'");
@@ -151,8 +166,12 @@ class ModelCatalogCategory extends Model {
 		}
 		$lm->deletePageLayout('pages/product/category','path',$category_id);
 		$this->cache->delete('category');
-	} 
+	}
 
+	/**
+	 * @param int $category_id
+	 * @return array
+	 */
 	public function getCategory($category_id) {
 		$query = $this->db->query("SELECT DISTINCT *,
 										(SELECT keyword
@@ -165,6 +184,10 @@ class ModelCatalogCategory extends Model {
 		return $query->row;
 	}
 
+	/**
+	 * @param int $parent_id
+	 * @return array
+	 */
 	public function getCategories($parent_id) {
 		$language_id = $this->session->data['content_language_id'];
 		$category_data = $this->cache->get('category.' . $parent_id, $language_id);
@@ -197,7 +220,12 @@ class ModelCatalogCategory extends Model {
 
 		return $category_data;
 	}
-	
+
+	/**
+	 * @param array $data
+	 * @param string $mode
+	 * @return array|int
+	 */
 	public function getCategoriesData($data, $mode = 'default') {
 
 		if ( $data['language_id'] ) {
@@ -287,6 +315,9 @@ class ModelCatalogCategory extends Model {
 		return $category_data;
 	}
 
+	/**
+	 * @return array
+	 */
 	public function getParents() {
 		$query = $this->db->query(
 			"SELECT DISTINCT c.parent_id, cd.name
@@ -303,6 +334,9 @@ class ModelCatalogCategory extends Model {
 		return $result;
 	}
 
+	/**
+	 * @return array
+	 */
 	public function getLeafCategories() {
 		$query = $this->db->query(
 			"SELECT t1.category_id as category_id FROM " . $this->db->table("categories") . " AS t1 LEFT JOIN " . $this->db->table("categories") . " as t2
@@ -315,6 +349,10 @@ class ModelCatalogCategory extends Model {
 		return $result;
 	}
 
+	/**
+	 * @param int $category_id
+	 * @return string
+	 */
 	public function getPath($category_id) {
 		$language_id = (int)$this->session->data['content_language_id'];
 		$query = $this->db->query("SELECT name, parent_id
@@ -332,7 +370,11 @@ class ModelCatalogCategory extends Model {
 			return $category_info['name'];
 		}
 	}
-	
+
+	/**
+	 * @param int $category_id
+	 * @return array
+	 */
 	public function getCategoryDescriptions($category_id) {
 		$category_description_data = array();
 		
@@ -348,8 +390,12 @@ class ModelCatalogCategory extends Model {
 		}
 		
 		return $category_description_data;
-	}	
+	}
 
+	/**
+	 * @param int $category_id
+	 * @return array
+	 */
 	public function getCategoryStores($category_id) {
 		$category_store_data = array();
 		
@@ -361,7 +407,11 @@ class ModelCatalogCategory extends Model {
 		
 		return $category_store_data;
 	}
-	
+
+	/**
+	 * @param array $data
+	 * @return array
+	 */
 	public function getTotalCategories($data = array()) {
 		return $this->getCategoriesData($data, 'total_only');
 	}
