@@ -129,28 +129,25 @@ class APackageManager {
 			$error->toLog()->toDebug();
 			return false;
 		}
+		$exit_code = 0;
+		if(class_exists('PharData') ){
+			//remove destination folder first
+			$this->removeDir($dst_dir . $this->session->data['package_info']['tmp_dir']);
 
-
-		$command = 'tar -C ' . $dst_dir . ' -xzvf ' . $tar_filename . ' > /dev/null';
-		if (isFunctionAvailable('system')) {
-			system($command, $exit_code);
-		} else {
-			$exit_code = 1;
+			try {
+				$phar = new PharData($tar_filename);
+				$phar->extractTo($dst_dir);
+			} catch (Exception $e){
+				$exit_code =1;
+			}
+		}else{
+			$exit_code =1;
 		}
 
-		if ($exit_code) {
-			if(class_exists('PharData') ){
-				//remove destination folder first
-				$this->removeDir($dst_dir . $this->session->data['package_info']['tmp_dir']);
-				try {
-					$phar = new PharData($tar_filename);
-					$phar->extractTo($dst_dir);
-				} catch (Exception $e){}
-			}else{
-				$this->load->library('targz');
-				$targz = new Atargz();
-				$targz->extractTar($tar_filename, $dst_dir);
-			}
+		if($exit_code){
+			$this->load->library('targz');
+			$targz = new Atargz();
+			$targz->extractTar($tar_filename, $dst_dir);
 		}
 
 		$this->chmod_R($dst_dir . $this->session->data['package_info']['tmp_dir'], 0777, 0777);
