@@ -84,163 +84,29 @@ form .help-block {
 	font-size:12px;
 }
 
-
-
-.ckbox,
-.rdio {
-	position: relative;
+.passwordset_element { 
+	float:left; 
 }
-
-.ckbox input[type="checkbox"],
-.rdio input[type="radio"] {
-	opacity: 0;
+.password_strength {
+	display:block; width: 50px;
 }
-
-.ckbox label,
-.rdio label {
-	padding-left: 10px;
-	cursor: pointer;
-	margin-bottom: 7px !important;
+.password_strength span { 
+	display:block; width: 50px; 
+	height: 4px;
+	margin-top: 5px; 
 }
-
-.ckbox label:before {
-	width: 18px;
-	height: 18px;
-	position: absolute;
-	top: 1px;
-	left: 0;
-	content: '';
-	display: inline-block;
-	-moz-border-radius: 2px;
-	-webkit-border-radius: 2px;
-	border-radius: 2px;
-	border: 1px solid #bbb;
-	background: #fff;
+.password_strength span.strength1 {
+	background-color: gray 
 }
-
-.ckbox input[type="checkbox"]:disabled + label  {
-	color: #999;
+.password_strength span.strength2 { 
+	background-color: red 
 }
-
-.ckbox input[type="checkbox"]:disabled + label:before  {
-	background-color: #eee;
+.password_strength span.strength3 {	
+	background-color: orange 
 }
-
-.ckbox input[type="checkbox"]:checked + label::after  {
-	font-family: 'FontAwesome';
-	content: "\F00C";
-	position: absolute;
-	top: 0;
-	left: 3.5px;
-	display: inline-block;
-	font-size: 11px;
-	width: 16px;
-	height: 16px;
-	color: #fff;
+.password_strength span.strength4 {
+	background-color: green 
 }
-
-.ckbox-default input[type="checkbox"]:checked + label:before {
-	border-color: #999;
-}
-
-.ckbox-default input[type="checkbox"]:checked + label::after {
-	color: #333;
-}
-
-.ckbox-primary input[type="checkbox"]:checked + label:before {
-	border-color: #357EBD;
-	background-color: #428BCA;
-}
-
-.ckbox-warning input[type="checkbox"]:checked + label:before {
-	border-color: #EEA236;
-	background-color: #F0AD4E;
-}
-
-.ckbox-success input[type="checkbox"]:checked + label:before {
-	border-color: #F19013;
-	background-color: #F19013;
-}
-
-.ckbox-danger input[type="checkbox"]:checked + label:before {
-	border-color: #D43F3A;
-	background-color: #D9534F;
-}
-
-.rdio label:before {
-	width: 18px;
-	height: 18px;
-	position: absolute;
-	top: 1px;
-	left: 0;
-	content: '';
-	display: inline-block;
-	-moz-border-radius: 50px;
-	-webkit-border-radius: 50px;
-	border-radius: 50px;
-	border: 1px solid #bbb;
-	background: #fff;
-}
-
-.rdio input[type="radio"]:disabled + label  {
-	color: #999;
-}
-
-.rdio input[type="radio"]:disabled + label:before  {
-	background-color: #eee;
-}
-
-.rdio input[type="radio"]:checked + label::after  {
-	content: '';
-	position: absolute;
-	top: 5px;
-	left: 4px;
-	display: inline-block;
-	font-size: 11px;
-	width: 10px;
-	height: 10px;
-	background-color: #444;
-	-moz-border-radius: 50px;
-	-webkit-border-radius: 50px;
-	border-radius: 50px;
-}
-
-.rdio-default input[type="radio"]:checked + label:before {
-	border-color: #999;
-}
-
-.rdio-primary input[type="radio"]:checked + label:before {
-	border-color: #428BCA;
-}
-
-.rdio-primary input[type="radio"]:checked + label::after {
-	background-color: #428BCA;
-}
-
-.rdio-warning input[type="radio"]:checked + label:before {
-	border-color: #F0AD4E;
-}
-
-.rdio-warning input[type="radio"]:checked + label::after {
-	background-color: #F0AD4E;
-}
-
-.rdio-success input[type="radio"]:checked + label:before {
-	border-color: #F19013;
-}
-
-.rdio-success input[type="radio"]:checked + label::after {
-	background-color: #F19013;
-}
-
-.rdio-danger input[type="radio"]:checked + label:before {
-	border-color: #D9534F;
-}
-
-.rdio-danger input[type="radio"]:checked + label::after {
-	background-color: #D9534F;
-}
-
 
 pre {
 	font-size: 12px;
@@ -288,26 +154,10 @@ div.error label.error:before {
 
 /***
 
-OLD CSS
+Older fields CSS
+Candidate for review
 
 ***/
-.ajax_loading {
-	background: url(../image/ajax-loader.gif) 0 50% no-repeat;
-	display:inline-block;
-	padding-left:20px;
-	height:20px;
-	line-height:20px;
-	color:#91b118;
-}
-.ajax_success {
-	line-height:20px;
-	color:#91b118;
-}
-.ajax_error {
-	line-height:20px;
-	color:#F00;
-}
-
 .ml_field input, .ml_field textarea {
 	width:350px;
 	resize:none;
@@ -412,24 +262,11 @@ div.aselect select .disabled {
 	color: grey;
 }
 
-
 .small-field, .ml_field input.small-field {width:40px}
 .medium-field, .ml_field input.medium-field {width:150px}
 .large-field, .ml_field input.large-field {width:300px}
 .xl-field, .ml_field input.xl-field {width:610px}
 textarea.large-field, textarea.xl-field {height:100px}
-
-.passwordset_element { float:left; }
-.confirm_default { position:absolute; color:#ccc; margin: 4px 8px}
-.password_strength{ display:block; width:90%; height:3px; line-height: 3px; margin: 3px 0;}
-.password_strength span{ display:block; width: 0; height: 3px; }
-.password_strength span.strength0{ width: 0; }
-.password_strength span.strength1{ width: 25%; background-color: gray }
-.password_strength span.strength2{ width: 50%; background-color: red }
-.password_strength span.strength3{ width: 75%; background-color: orange }
-.password_strength span.strength4{ width: 100%; background-color: green }
-
-
 
 /* Checkbox */
 div.acheckbox.checked span {
@@ -490,19 +327,6 @@ div.acheckbox.checked span {
     padding: 0;
     vertical-align: middle;
 }
-
-.progressbar{
-	background: url('../image/progressbar.gif') 50% 65% no-repeat;
-	height:60px;
-	width:230px;
-	margin: 30% auto;
-	padding-left:  28px;
-	padding-top:  7px;
-	border:1px solid #caccd2;
-	background-color:#fbeddc;
-	vertical-align: bottom;
-}
-
 
 .fileupload {
     width: 395px;

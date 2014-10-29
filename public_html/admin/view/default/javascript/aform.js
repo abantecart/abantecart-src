@@ -90,7 +90,7 @@
 
         function doPasswordset(elem) {
             var $el = $(elem);
-            var $el_strength = $('#' + $el.attr('id') + '_strength').width($el.width());
+            var $el_strength = $('#' + $el.attr('id') + '_strength');
             var $el_confirm = $('#' + $el.attr('id') + '_confirm');
             var $el_confirm_default = $('#' + $el.attr('id') + '_confirm_default');
 
@@ -750,14 +750,22 @@
 
 		//process reset event of the form
         $("[type='reset']").bind({
-        	"click.aform":function () {
+        	"click.aform":function (evnt) {
+        		   
+				// stops the form from resetting after this function
+				evnt.preventDefault();
+				//reset form and update all the fields
+				$(this).closest('form').get(0).reset();
         		var arr = $("input, textarea, select").toArray();
     			$.each(arr, function () {
     				var $elem = $(this);
-    				resetField($elem);
-    				removeQuickSave($elem);
-    				//alert($elem.parent().html());
-    				$elem.parent().find('*').removeClass('changed');
+    				if($elem.hasClass("aswitcher")) {
+    					//reset switcher differently
+    					resetField($elem);
+    					removeQuickSave($elem);						
+    				} else {
+    					$elem.change();    				
+    				}
     			});
 			}
   		});
@@ -785,7 +793,7 @@
             } else if (elem.is(":text, :password, input[type='email']")) {
                 if (elem.is(":password") && $(elem).is('[name$="_confirm"]')) {
                     ;
-                } else if (elem.is(":password") && $(elem).parents('.passwordset_element').length > 0) {
+                } else if (elem.is(":password") && elem.hasClass('passwordset_element')) {
                     doPasswordset(elem);                    
                 } else {
                     doInput(elem);
@@ -877,6 +885,10 @@ var formOnExit = function(){
         var $form = $(this).parents('form');
         //reset elements to not changed status
         $form.prop('changed', 'submit');
+        //put submited button to loading state
+        if ($(this).attr("type") !== 'reset') {
+	        $(this).button('loading');        
+        }
     });
     // prevent submit of form for "quicksave"
     $("form").bind("keypress", function(e) {

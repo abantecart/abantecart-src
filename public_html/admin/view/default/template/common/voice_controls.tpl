@@ -205,11 +205,11 @@ if (!('webkitSpeechRecognition' in window)) {
 
 $(function () {
 
-	$('#select_dialect').on('change', function () {
+	$('#select_dialect').on('change', function (event) {
 		startButton(event);
 	});
 	
-	$('#voiceModal').on('hide.bs.modal', function () {
+	$('#voiceModal').on('hide.bs.modal', function (event) {
   		if( recognition ) {
    			recognition.stop();
   		}
@@ -219,7 +219,7 @@ $(function () {
    		$('.try_again_now').hide();
 	});
 	
-	$('.mic_on').on('click', function () {
+	$('.mic_on').on('click', function (event) {
 		recognition.stop();
 		startButton(event);
 		$(".try_again_now").show(); 

@@ -196,29 +196,48 @@ class ControllerResponsesListingGridCustomer extends AController {
 		}
 		$customer_id = $this->request->get['id'];
 		$address_id = $this->request->get['address_id'];
+		$post_data = $this->request->post;
 		if (isset($customer_id)) {
-			foreach ($this->request->post as $field => $value) {
-				$err = $this->_validateForm($field, $value, $customer_id);
-				if (!$err) {
-					if($field == 'approved') {
-						$this->_sendMail($customer_id, $value);
-					}
-					if($field == 'default' && $address_id) {
-						$this->model_sale_customer->setDefaultAddress($customer_id, $address_id);
-					}
-					else if( has_value($address_id) ){
-						$this->model_sale_customer->editAddressField($address_id, $field, $value);
-					}else{
-						$this->model_sale_customer->editCustomerField($customer_id, $field, $value);
-					}
-				} else {
-					$error = new AError('');
+			if ( $post_data['password'] || $post_data['password_confirm']  ) {
+				$error = new AError('');
+		    	if (mb_strlen($post_data['password']) < 4) {
 					return $error->toJSONResponse('VALIDATION_ERROR_406',
-													array('error_text' => $err,
-														'reset_value' => false
-													));
-
-				}
+														array('error_text' => $this->language->get('error_password'),
+															'reset_value' => true
+														));
+		    	}
+		    	if ($post_data['password'] != $post_data['password_confirm']) {
+					return $error->toJSONResponse('VALIDATION_ERROR_406',
+														array('error_text' => $this->language->get('error_confirm'),
+															'reset_value' => true
+														));
+		    	}			
+		    	//paswords do match, save 
+		    	$this->model_sale_customer->editCustomerField($customer_id, 'password', $post_data['password']);
+			} else {
+				foreach ($post_data as $field => $value) {
+					$err = $this->_validateForm($field, $value, $customer_id);
+					if (!$err) {
+						if($field == 'approved') {
+							$this->_sendMail($customer_id, $value);
+						}
+						if($field == 'default' && $address_id) {
+							$this->model_sale_customer->setDefaultAddress($customer_id, $address_id);
+						}
+						else if( has_value($address_id) ){
+							$this->model_sale_customer->editAddressField($address_id, $field, $value);
+						}else{
+							$this->model_sale_customer->editCustomerField($customer_id, $field, $value);
+						}
+					} else {
+						$error = new AError('');
+						return $error->toJSONResponse('VALIDATION_ERROR_406',
+														array('error_text' => $err,
+															'reset_value' => false
+														));
+	
+					}
+				}			
 			}
 			//update controller data
 			$this->extensions->hk_UpdateData($this, __FUNCTION__);
