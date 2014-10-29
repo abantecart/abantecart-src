@@ -52,6 +52,11 @@ echo $this->html->buildElement(
 		$('.grid_action_edit').each( function () {
 			$(this).attr('data-toggle','modal').attr('data-target','#setting_modal');
 		});
+
+		$('td[aria-describedby="setting_grid_value"], td[aria-describedby="setting_grid_value"] button').click(function(){
+			$(this).parents('tr').find('.grid_action_edit').click();
+		});
+
 	}
 
 	$('#setting_modal').on('loaded.bs.modal', function (e) {
