@@ -281,24 +281,15 @@ final class AData {
 		//generate errors: No space on device (log to message as error too), No permissons, Others
 		//return Success or failed.
 
-		$command = 'tar -C ' . $tar_dir . ' -czvf ' . $tar_filename . ' ' . $filename. ' > /dev/null';
-		if(isFunctionAvailable('system')){
-			system($command,$exit_code);
-		}else{
-			$exit_code = 1;
-		}
 
-		if ( $exit_code ) {
-			$this->load->library('targz');
-			$targz = new Atargz();
-		    $targz->makeTar($tar_dir . $filename, $tar_filename);
-		}
+		compressTarGZ($tar_dir . $filename, $tar_dir);
 
 		if(!file_exists($tar_filename)){
 			$this->processError('Archive error', 'Error: cannot to pack ' . $tar_filename."\n Exit code:". $exit_code);
 			return false;
 		}
 		@chmod($tar_filename,0777);
+
 		$this->_removeDir( $tar_dir.$filename );
 		return true;
 	}

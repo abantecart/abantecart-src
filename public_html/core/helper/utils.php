@@ -748,12 +748,13 @@ function getGravatar( $email = '', $s = 80, $d = 'mm', $r = 'g') {
 function compressTarGZ($tar_filename, $tar_dir){
 
 	$exit_code = 0;
+	if(pathinfo($tar_filename,PATHINFO_EXTENSION)=='gz'){
+		$filename = rtrim($tar_filename,'.gz');
+	}else{
+		$filename = $tar_filename.'.tar.gz';
+	}
 	if(class_exists('PharData') ){
 		try{
-			if(pathinfo($tar_filename,PATHINFO_EXTENSION)=='gz'){
-				$filename = rtrim($tar_filename,'.gz');
-			}
-
 			$a = new PharData($filename );
 			$a->buildFromDirectory($tar_dir);
 			$a->compress(Phar::GZ);
@@ -761,13 +762,15 @@ function compressTarGZ($tar_filename, $tar_dir){
 		}catch (Exception $e){
 			$exit_code =1;
 		}
+	}else{
+		$exit_code =1;
 	}
 
 	if ( $exit_code ) {
 		$registry = Registry::getInstance();
 		$registry->get('load')->library('targz');
 		$targz = new Atargz();
-		return $targz->makeTar($tar_dir,$tar_filename);
+		return $targz->makeTar($tar_dir.$tar_filename, $filename);
 	}else{
 		return true;
 	}
