@@ -116,8 +116,8 @@ class ControllerResponsesGridForm extends AController {
 							if ( isset($this->request->post[ $f ][ $id ]) ) {
 								$err = $this->_validateField($f, $this->request->post[ $f ][ $id ]);
 								if (!empty($err)) {
-									$dd = new ADispatcher('responses/error/ajaxerror/validation', array( 'error_text' => $err ));
-									return $dd->dispatch();
+									$error = new AError('');
+									return $error->toJSONResponse('VALIDATION_ERROR_406', array( 'error_text' => $err ));
 								}
 								$this->model_tool_forms_manager->updateForm(array( 'form_id' => $id, $f => $this->request->post[ $f ][ $id ] ));
 							}

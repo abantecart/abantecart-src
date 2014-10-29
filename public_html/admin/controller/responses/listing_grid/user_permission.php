@@ -115,8 +115,8 @@ class ControllerResponsesListingGridUserPermission extends AController {
 				foreach ($this->request->post[ $f ] as $k => $v) {
 					$err = $this->_validateField($f, $v);
 					if (!empty($err)) {
-						$dd = new ADispatcher('responses/error/ajaxerror/validation', array( 'error_text' => $err ));
-						return $dd->dispatch();
+						$error = new AError('');
+						return $error->toJSONResponse('VALIDATION_ERROR_406', array( 'error_text' => $err ));
 					}
 					$this->model_user_user_group->editUserGroup($k, array( $f => $v ));
 				}

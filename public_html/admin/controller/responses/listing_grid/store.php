@@ -47,8 +47,8 @@ class ControllerResponsesListingGridStore extends AController {
 			foreach ($this->request->post as $key => $value) {
 				$err = $this->_validateField($key, $value);
 				if (!empty($err)) {
-					$dd = new ADispatcher('responses/error/ajaxerror/validation', array( 'error_text' => $err ));
-					return $dd->dispatch();
+					$error = new AError('');
+					return $error->toJSONResponse('VALIDATION_ERROR_406', array( 'error_text' => $err ));
 				}
 				$data = array( $key => $value );
 				$this->model_setting_store->editStore($this->request->get[ 'id' ], $data);

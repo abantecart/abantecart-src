@@ -124,8 +124,9 @@ class ControllerResponsesListingGridAttribute extends AController {
 					foreach ($ids as $id) {
 						$err = $this->validateDelete($id);
 						if (!empty($err)) {
-							$dd = new ADispatcher('responses/error/ajaxerror/validation', array( 'error_text' => $err ));
-							return $dd->dispatch();
+							$error = new AError('');
+							return $error->toJSONResponse('VALIDATION_ERROR_406', array( 'error_text' => $err ));
+
 						}
 						$this->attribute_manager->deleteAttribute($id);
 					}
@@ -148,8 +149,8 @@ class ControllerResponsesListingGridAttribute extends AController {
 							if (isset($this->request->post[ $f ][ $id ])) {
 								$err = $this->_validateField($f, $this->request->post[ $f ][ $id ]);
 								if (!empty($err)) {
-									$dd = new ADispatcher('responses/error/ajaxerror/validation', array( 'error_text' => $err ));
-									return $dd->dispatch();
+									$error = new AError('');
+									return $error->toJSONResponse('VALIDATION_ERROR_406', array( 'error_text' => $err ));
 								}
 								$this->attribute_manager->updateAttribute($id, array( $f => $this->request->post[ $f ][ $id ] ));
 							}
@@ -189,8 +190,8 @@ class ControllerResponsesListingGridAttribute extends AController {
 			foreach ($this->request->post as $key => $value) {
 				$err = $this->_validateField($key, $value);
 				if (!empty($err)) {
-					$dd = new ADispatcher('responses/error/ajaxerror/validation', array( 'error_text' => $err ));
-					return $dd->dispatch();
+					$error = new AError('');
+					return $error->toJSONResponse('VALIDATION_ERROR_406', array( 'error_text' => $err ));
 				}
 				$data = array( $key => $value );
 				$this->attribute_manager->updateAttribute($this->request->get[ 'id' ], $data);
@@ -205,8 +206,8 @@ class ControllerResponsesListingGridAttribute extends AController {
 				foreach ($this->request->post[ $f ] as $k => $v) {
 					$err = $this->_validateField($f, $v);
 					if (!empty($err)) {
-						$dd = new ADispatcher('responses/error/ajaxerror/validation', array( 'error_text' => $err ));
-						return $dd->dispatch();
+						$error = new AError('');
+						return $error->toJSONResponse('VALIDATION_ERROR_406', array( 'error_text' => $err ));
 					}
 					$this->attribute_manager->updateAttribute($k, array( $f => $v ));
 				}

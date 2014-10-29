@@ -208,15 +208,15 @@ class ControllerResponsesListingGridCategory extends AController {
 		    foreach ($this->request->post as $field => $value ) {
 				if($field=='keyword'){
 					if($err = $this->html->isSEOkeywordExists('category_id='.$this->request->get['id'], $value)){
-						$dd = new ADispatcher('responses/error/ajaxerror/validation',array('error_text'=>$err));
-						return $dd->dispatch();
+						$error = new AError('');
+						return $error->toJSONResponse('VALIDATION_ERROR_406', array( 'error_text' => $err ));
 					}
 				}
 
 				$err = $this->_validateField($field, $value);
 				if (!empty($err)) {
-					$dd = new ADispatcher('responses/error/ajaxerror/validation', array( 'error_text' => $err ));
-					return $dd->dispatch();
+					$error = new AError('');
+					return $error->toJSONResponse('VALIDATION_ERROR_406', array( 'error_text' => $err ));
 				}
 
 				$this->model_catalog_category->editCategory($this->request->get['id'], array($field => $value) );
@@ -230,8 +230,8 @@ class ControllerResponsesListingGridCategory extends AController {
 	             if($field=='category_description'){
 				    if ( mb_strlen($v[$language_id]['name']) < 2 || mb_strlen($v[$language_id]['name']) > 32 ) {
 						$err = $this->language->get('error_name');
-						$dd = new ADispatcher('responses/error/ajaxerror/validation',array('error_text'=>$err));
-						return $dd->dispatch();
+					    $error = new AError('');
+					    return $error->toJSONResponse('VALIDATION_ERROR_406', array( 'error_text' => $err ));
 					}
 			    }
 				$this->model_catalog_category->editCategory($k, array($field => $v) );

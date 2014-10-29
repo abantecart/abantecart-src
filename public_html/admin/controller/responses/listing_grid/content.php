@@ -214,8 +214,8 @@ class ControllerResponsesListingGridContent extends AController {
 				}
 				if($field=='keyword'){
 					if($err = $this->html->isSEOkeywordExists('content_id='.$this->request->get['id'], $value)){
-						$dd = new ADispatcher('responses/error/ajaxerror/validation',array('error_text'=>$err));
-						return $dd->dispatch();
+						$error = new AError('');
+						return $error->toJSONResponse('VALIDATION_ERROR_406', array( 'error_text' => $err ));
 					}
 				}
 				if($field=='sort_order'){
