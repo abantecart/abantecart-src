@@ -878,6 +878,10 @@ jQuery(document).ready(function() {
 //------------------------------------------------------------------------------
 var formOnExit = function(){
     $('form[data-confirm-exit="true"]').find('.btn').bind('click', function () {
+    	//skip switches 
+    	if ($(this).parent().hasClass("btn_switch")) {
+    		return;
+    	}
         var $form = $(this).parents('form');
         //reset elements to not changed status
         $form.prop('changed', 'submit');
