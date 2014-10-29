@@ -69,7 +69,6 @@
 								<i class="fa fa-microphone fa-lg"></i>
 							</a>
 						</div>
-						<?php include($template_dir . '/template/common/voice_controls.tpl'); ?>
 					<?php } else { ?>
 						<div class="btn-group" id="voice_disabled">
 							<a href="<?php echo $voicecontrol_setting_url; ?>"
@@ -99,14 +98,6 @@
 					</li>
 				<?php } ?>
 				<li>
-					<?php
-					echo $this->html->buildElement(
-							array('type' => 'modal',
-									'id' => 'message_modal',
-									'modal_type' => 'lg',
-									'data_source' => 'ajax'));
-
-					?>
 					<div class="btn-group new_messages">
 						<a href="" class="btn btn-default dropdown-toggle tp-icon"
 						   data-toggle="dropdown">
@@ -211,6 +202,18 @@
 		<!-- header-right -->
 
 	</div><!-- headerbar -->
+
+	<!-- modals location outside of headerbar -->
+	<?php if ($config_voicecontrol) { ?>
+		<?php include($template_dir . '/template/common/voice_controls.tpl'); ?>
+	<?php } ?>
+	<?php
+		echo $this->html->buildElement(
+			array(	'type' => 'modal',
+					'id' => 'message_modal',
+					'modal_type' => 'lg',
+					'data_source' => 'ajax'));
+	?>
 
 	<div class="pageheader">
 		<?php

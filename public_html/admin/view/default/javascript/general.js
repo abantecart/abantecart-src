@@ -335,13 +335,6 @@ jQuery(document).ready(function() {
 		$(".summary_loading").show();
 	});
 
-	$('.button_loader').unbind('click');
-	$('.button_loader').on('click', function(e) {
-		$(this).click(function () { return false; });
-		$(this).find("span").hide();
-		$(this).append('<span class="ajax_loading">Processing…</span>').show();
-	});
-
     $("#gotop").click(function () {
         $("html, body").animate({ scrollTop: 0 }, "fast");
         return false;

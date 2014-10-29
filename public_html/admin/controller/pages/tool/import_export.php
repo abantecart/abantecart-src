@@ -272,7 +272,6 @@ class ControllerPagesToolImportExport extends AController {
 			$csv_array = $this->handler->CSV2ArrayFromFile($file['tmp_name'], $this->request->post['options']['delimiter']);
 			$results = $this->handler->importData($csv_array, $run_mode);
 			$this->cache->delete('*');
-
 		} elseif ( $file['type'] == 'text/xml' ) {
 			$xml_array = $this->handler->XML2ArrayFromFile($file['tmp_name']);
 			$results = $this->handler->importData($xml_array, $run_mode);

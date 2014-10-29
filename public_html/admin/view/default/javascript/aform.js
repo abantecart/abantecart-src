@@ -90,7 +90,7 @@
 
         function doPasswordset(elem) {
             var $el = $(elem);
-            var $el_strength = $('#' + $el.attr('id') + '_strength').width($el.width());
+            var $el_strength = $('#' + $el.attr('id') + '_strength');
             var $el_confirm = $('#' + $el.attr('id') + '_confirm');
             var $el_confirm_default = $('#' + $el.attr('id') + '_confirm_default');
 
@@ -743,19 +743,29 @@
 		    return $err;
 		}
 
-		//process reset event for reset-buttons inside(!) form
-        $(this).find("[type='reset']").bind(
-            {"click.aform":function () {
-                    var arr = $("input, textarea, select").toArray();
-                    $.each(arr, function () {
-                        var $elem = $(this);
-                        resetField($elem);
-                        removeQuickSave($elem);
-                        $elem.parent().find('*').removeClass('changed');
-                    });
-                }
-            });
-
+		//process reset event of the form
+        $("[type='reset']").bind({
+        	"click.aform":function (evnt) {
+        		   
+				// stops the form from resetting after this function
+				evnt.preventDefault();
+				//reset form and update all the fields
+				$(this).closest('form').get(0).reset();
+        		var arr = $("input, textarea, select").toArray();
+    			$.each(arr, function () {
+    				var $elem = $(this);
+    				if($elem.hasClass("aswitcher")) {
+    					//reset switcher differently
+    					resetField($elem);
+    					removeQuickSave($elem);	
+    					$elem.parent().find('*').removeClass('changed');					
+    				} else {
+    					$elem.change();    				
+    				}
+    			});
+			}
+  		});
+				
 		/* Process each form's element */
         return this.each(function () {
             var elem = $(this);
@@ -779,7 +789,7 @@
             } else if (elem.is(":text, :password, input[type='email']")) {
                 if (elem.is(":password") && $(elem).is('[name$="_confirm"]')) {
                     ;
-                } else if (elem.is(":password") && $(elem).parents('.passwordset_element').length > 0) {
+                } else if (elem.is(":password") && elem.hasClass('passwordset_element')) {
                     doPasswordset(elem);                    
                 } else {
                     doInput(elem);
@@ -868,9 +878,17 @@ jQuery(document).ready(function() {
 //------------------------------------------------------------------------------
 var formOnExit = function(){
     $('form[data-confirm-exit="true"]').find('.btn').bind('click', function () {
+    	//skip switches 
+    	if ($(this).parent().hasClass("btn_switch")) {
+    		return;
+    	}
         var $form = $(this).parents('form');
         //reset elements to not changed status
         $form.prop('changed', 'submit');
+        //put submited button to loading state
+        if ($(this).attr("type") !== 'reset') {
+	        $(this).button('loading');        
+        }
     });
     // prevent submit of form for "quicksave"
     $("form").bind("keypress", function(e) {
