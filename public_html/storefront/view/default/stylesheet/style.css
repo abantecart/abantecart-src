@@ -10,7 +10,6 @@ AbanteCart brand color styles: #064770 (dark blue) #F19013 (Orange)
 
 @import url('bootstrap.min.css');
 @import url('flexslider.css');
-@import url('cloud-zoom.css');
 @import url('onebyone.css');
 @import url('print.css');
 @import url('font-awesome.min.css');
@@ -1642,7 +1641,8 @@ ul.reveiw ul.rate {
 }
 
 .cloud-zoom-lens {
-	border: 1px solid #fff; /* Set this to minus the border thickness. */
+	border: 1px solid #fff; 
+	margin:-1px;	/* Set this to minus the border thickness. */
 	background-color: #fff;
 	cursor: move;
 }
@@ -1658,18 +1658,11 @@ ul.reveiw ul.rate {
 	top: 0;
 }
 
-#musthave {
-	margin: 0;
-}
-
 /* This is the zoom window. */
 .cloud-zoom-big {
-	border: 2px solid #fff;
+	border: 2px solid #ccc;
 	overflow: hidden;
-}
-
-#ContactUsFrm button {
-	margin-top: 10px;
+	margin: 4px;
 }
 
 /* This is the loading message. */
@@ -1678,6 +1671,14 @@ ul.reveiw ul.rate {
 	background: #222;
 	padding: 3px;
 	border: 1px solid #999999;
+}
+
+#ContactUsFrm button {
+	margin-top: 10px;
+}
+
+#musthave {
+	margin: 0;
 }
 
 /* cart */
