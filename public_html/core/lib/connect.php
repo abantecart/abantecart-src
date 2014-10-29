@@ -321,7 +321,7 @@ final class AConnect {
         //???? will be developed later
         if ($this->config->get('connection_method')) {
             $this->connect_method = $this->config->get('connection_method');
-            return;
+            return null;
         }
         //We prefer Curl first, Curl is the fastest performing
         if ($this->_check_curl()) {

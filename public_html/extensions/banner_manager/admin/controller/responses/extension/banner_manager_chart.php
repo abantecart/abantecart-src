@@ -42,7 +42,7 @@ class ControllerResponsesExtensionbannerManagerChart extends AController {
 			$range = 'month';
 		}
 		$banner_id = (int)$this->request->get['banner_id'];
-		if(!$banner_id){ return;}
+		if(!$banner_id){ return null;}
 		switch ($range) {
 			case 'day':
 				for ($i = 0; $i < 24; $i++) {
@@ -153,4 +153,3 @@ class ControllerResponsesExtensionbannerManagerChart extends AController {
 		$this->response->setOutput(AJson::encode($data));
 	}
 }
-?>

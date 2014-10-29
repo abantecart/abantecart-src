@@ -230,7 +230,7 @@ class ControllerResponsesListingGridMenu extends AController {
 				$data = array( $key => $value );
 				$menu->updateMenuItem($this->request->get[ 'id' ], $data);
 			}
-			return;
+			return null;
 		}
 
 		//request sent from jGrid. ID is key of array
@@ -248,5 +248,3 @@ class ControllerResponsesListingGridMenu extends AController {
 	}
 
 }
-
-?>

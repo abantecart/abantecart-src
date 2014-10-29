@@ -21,7 +21,7 @@ if (! defined ( 'DIR_CORE' )) {
 	header ( 'Location: static_pages/' );
 }
 class ControllerResponsesProductReview extends AController {
-	private $error = array();
+	public $error = array();
 	public $data = array();
 	
 	public function review() {
@@ -97,11 +97,11 @@ class ControllerResponsesProductReview extends AController {
 	}
 	
 	private function _validate() {
-		if ((strlen(utf8_decode($this->request->post['name'])) < 3) || (strlen(utf8_decode($this->request->post['name'])) > 25)) {
+		if ( mb_strlen($this->request->post['name']) < 3 || mb_strlen($this->request->post['name']) > 25 ) {
 			$this->error['message'] = $this->language->get('error_name');
 		}
 		
-		if ((strlen(utf8_decode($this->request->post['text'])) < 25) || (strlen(utf8_decode($this->request->post['text'])) > 1000)) {
+		if ( mb_strlen($this->request->post['text']) < 25 || mb_strlen($this->request->post['text']) > 1000 ) {
 			$this->error['message'] = $this->language->get('error_text');
 		}
 
@@ -112,6 +112,8 @@ class ControllerResponsesProductReview extends AController {
 		if (!isset($this->session->data['captcha']) || ($this->session->data['captcha'] != $this->request->post['captcha'])) {
 			$this->error['message'] = $this->language->get('error_captcha');
 		}
+
+		$this->extensions->hk_ValidateData($this);
 
 		if (!$this->error) {
 			return TRUE;

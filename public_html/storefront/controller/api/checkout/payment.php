@@ -31,12 +31,12 @@ class ControllerApiCheckoutPayment extends AControllerAPI {
 		
 		if (!$this->customer->isLoggedWithToken( $request['token'] )) {
 			$this->rest->sendResponse(401, array( 'error' => 'Not logged in or Login attempt failed!' ) );
-			return;			
+			return null;
     	} 
 
 		if ( $request['mode'] != 'select' && $request['mode'] != 'list' ) {
 			$this->rest->sendResponse(400, array( 'error' => 'Incorrect request mode!' ) );
-			return;						
+			return null;
 		}
 
 		//load language from main section
@@ -51,12 +51,12 @@ class ControllerApiCheckoutPayment extends AControllerAPI {
 		if (!$this->cart->hasProducts()) {
 			//No products in the cart.
 			$this->rest->sendResponse(200, array('status' => 2, 'error' => 'Nothing in the cart!' ) );
-			return;			
+			return null;
 		}		
 		if (!$this->cart->hasStock() && !$this->config->get('config_stock_checkout')) {
 			//No stock for products in the cart if tracked.
 			$this->rest->sendResponse(200, array('status' => 3, 'error' => 'No stock for product!' ));
-			return;			
+			return null;
 		}
 
 		$this->loadModel('account/address');
@@ -64,13 +64,13 @@ class ControllerApiCheckoutPayment extends AControllerAPI {
 			if (!isset($this->session->data[ 'shipping_address_id' ]) || !$this->session->data[ 'shipping_address_id' ]) {
 				//Problem. Missing shipping address
 				$this->rest->sendResponse(200, array('status' => 4, 'error' => 'Missing shipping address!' ) );
-				return;	
+				return null;
 			}
 
 			if (!isset($this->session->data[ 'shipping_method' ])) {
 				//Problem. Missing shipping address
 				$this->rest->sendResponse(200, array('status' => 5, 'error' => 'Missing shipping method!' ) );
-				return;	
+				return null;
 			}
 		} else {
 			unset($this->session->data[ 'shipping_address_id' ]);
@@ -91,7 +91,7 @@ class ControllerApiCheckoutPayment extends AControllerAPI {
 		if (!$this->session->data[ 'payment_address_id' ]) {
 			//Problem. Missing shipping address
 			$this->rest->sendResponse(200, array('status' => 6, 'error' => 'Missing billing address!' ) );
-			return;	
+			return null;
 		}
 
 		$this->loadModel('account/address');
@@ -99,7 +99,7 @@ class ControllerApiCheckoutPayment extends AControllerAPI {
 		if (!$payment_address) {
 			//Problem. Missing shipping address
 			$this->rest->sendResponse(500, array('status' => 6, 'error' => 'Inaccessible billing address!' ) );
-			return;	
+			return null;
 		}
 		if (!$this->cart->hasShipping() || $this->config->get('config_tax_customer')) {
 			$this->tax->setZone($payment_address[ 'country_id' ], $payment_address[ 'zone_id' ]);
@@ -128,7 +128,7 @@ class ControllerApiCheckoutPayment extends AControllerAPI {
 			$this->extensions->hk_ProcessData($this);
 
 			$this->rest->sendResponse( 200, array('status' => 1, 'payment_select' => 'success') );
-			return;
+			return null;
 		}
 
 		//build data for return

@@ -47,7 +47,7 @@ class ControllerApiProductFilter extends AControllerAPI {
 		if ( !$category_id && !$manufacturer_id && !$keyword) {
 			$this->rest->setResponseData( array('Error' => 'Missing one of required product filter parameters') );
 			$this->rest->sendResponse(200);
-			return;
+			return null;
 		}
 
 

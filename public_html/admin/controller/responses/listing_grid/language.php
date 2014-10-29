@@ -21,7 +21,6 @@ if (!defined('DIR_CORE') || !IS_ADMIN) {
 	header('Location: static_pages/');
 }
 class ControllerResponsesListingGridLanguage extends AController {
-	private $error = array();
 
 	public function main() {
 
@@ -107,19 +106,19 @@ class ControllerResponsesListingGridLanguage extends AController {
 						if ($language_info) {
 							if ($this->config->get('config_storefront_language') == $language_info[ 'code' ]) {
 								$this->response->setOutput($this->language->get('error_default'));
-								return;
+								return null;
 							}
 
 							if ($this->config->get('admin_language') == $language_info[ 'code' ]) {
 								$this->response->setOutput($this->language->get('error_admin'));
-								return;
+								return null;
 							}
 
 							$store_total = $this->model_setting_store->getTotalStoresByLanguage($language_info[ 'code' ]);
 
 							if ($store_total) {
 								$this->response->setOutput(sprintf($this->language->get('error_store'), $store_total));
-								return;
+								return null;
 							}
 						}
 
@@ -127,7 +126,7 @@ class ControllerResponsesListingGridLanguage extends AController {
 
 						if ($order_total) {
 							$this->response->setOutput(sprintf($this->language->get('error_order'), $order_total));
-							return;
+							return null;
 						}
 						$this->model_localisation_language->deleteLanguage($id);
 					}
@@ -193,7 +192,7 @@ class ControllerResponsesListingGridLanguage extends AController {
 				$data = array( $key => $value );
 				$this->model_localisation_language->editLanguage($this->request->get[ 'id' ], $data);
 			}
-			return;
+			return null;
 		}
 
 		//request sent from jGrid. ID is key of array

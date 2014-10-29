@@ -145,7 +145,7 @@ class ControllerResponsesListingGridReview extends AController {
 				$data = array( $key => $value );
 				$this->model_catalog_review->editReview($this->request->get[ 'id' ], $data);
 			}
-			return;
+			return null;
 		}
 
 		//request sent from jGrid. ID is key of array
@@ -162,5 +162,3 @@ class ControllerResponsesListingGridReview extends AController {
 	}
 
 }
-
-?>

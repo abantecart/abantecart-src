@@ -21,7 +21,7 @@ if (! defined ( 'DIR_CORE' ) || !IS_ADMIN) {
 	header ( 'Location: static_pages/' );
 }
 class ControllerPagesCatalogManufacturer extends AController {
-	private $error = array();
+	public $error = array();
 	public $data = array();
 	private $fields = array('name', 'manufacturer_store', 'keyword', 'sort_order');
   
@@ -322,7 +322,7 @@ class ControllerPagesCatalogManufacturer extends AController {
       		$this->error['warning'][] = $this->language->get('error_permission');
     	}
 
-    	if ((strlen(utf8_decode($this->request->post['name'])) < 2) || (strlen(utf8_decode($this->request->post['name'])) > 64)) {
+    	if ( mb_strlen($this->request->post['name']) < 2 || mb_strlen($this->request->post['name']) > 64 ) {
       		$this->error['warning'][] = $this->language->get('error_name');
 		}
 		if (($error_text = $this->html->isSEOkeywordExists('manufacturer_id='.$this->request->get['manufacturer_id'], $this->request->post['keyword']))) {

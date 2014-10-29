@@ -21,7 +21,7 @@ if (! defined ( 'DIR_CORE' )) {
 	header ( 'Location: static_pages/' );
 }
 class ControllerPagesAccountPassword extends AController {
-	private $error = array();
+	public $error = array();
 	     
   	public function main() {
 
@@ -125,13 +125,15 @@ class ControllerPagesAccountPassword extends AController {
       		$this->error['current_password'] = $this->language->get('error_current_password');
 		}
 
-    	if ((strlen(utf8_decode($this->request->post['password'])) < 4) || (strlen(utf8_decode($this->request->post['password'])) > 20)) {
+    	if ( mb_strlen($this->request->post['password']) < 4 || mb_strlen($this->request->post['password']) > 20 ) {
       		$this->error['password'] = $this->language->get('error_password');
     	}
 
     	if ($this->request->post['confirm'] != $this->request->post['password']) {
       		$this->error['confirm'] = $this->language->get('error_confirm');
-    	}  
+    	}
+
+	    $this->extensions->hk_ValidateData($this);
 	
 		if (!$this->error) {
 	  		return TRUE;

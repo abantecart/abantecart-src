@@ -46,7 +46,7 @@ class ControllerPagesInstall extends AController {
 			}
 
 			echo $this->runlevel((int)$run_level);
-			return;
+			return null;
 		}
 
 		if ( $this->request->is_POST() && ($this->_validate())) {

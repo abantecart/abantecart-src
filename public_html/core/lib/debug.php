@@ -147,7 +147,7 @@ class ADebug {
     static function display_queries( $start, $end )
     {
         
-        if ( $end - $start <= 0 ) return;
+        if ( $end - $start <= 0 ) return null;
 
         echo '<table class="mysql" cellpadding=5>
             <tr>
@@ -159,7 +159,7 @@ class ADebug {
         for ($i=$start; $i<$end; $i++ ) {
             $key = $i;
             $query = self::$queries[$key];
-            $color = '';
+
             echo '<tr valign="top" ' . ($key % 2 ? 'class="even"' : '').'>
                        <td><b>' . $query['time'] . '</b></td>
                        <td>' . $query['file'] . '</td>
@@ -172,7 +172,7 @@ class ADebug {
 
     static function display_errors()
     {
-        if ( !self::$_is_error ) return;
+        if ( !self::$_is_error ) return null;
         echo '<table class="debug_info" cellpadding=5>
                     <tr>
                         <td><b>Name</b></td>

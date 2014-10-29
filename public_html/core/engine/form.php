@@ -147,7 +147,7 @@ class AForm {
 		$form = $this->cache->get($cache_name, (int)$this->config->get('storefront_language_id'), (int)$this->config->get('config_store_id'));
 		if (isset($form)) {
 			$this->form = $form;
-			return;
+			return null;
 		}
 
 		$query = $this->db->query("SELECT f.*, fd.description
@@ -243,7 +243,7 @@ class AForm {
 		$groups = $this->cache->get($cache_name, (int)$this->config->get('storefront_language_id'), (int)$this->config->get('config_store_id'));
 		if (isset($groups)) {
 			$this->groups = $groups;
-			return;
+			return null;
 		}
 
 		$query = $this->db->query("

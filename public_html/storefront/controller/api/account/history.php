@@ -30,7 +30,7 @@ class ControllerApiAccountHistory extends AControllerAPI {
 		if (!$this->customer->isLoggedWithToken( $request_data['token'] )) {
 			$this->rest->setResponseData( array( 'error' => 'Not logged in or Login attempt failed!' ) );	
 			$this->rest->sendResponse(401);
-			return;			
+			return null;
     	} 
     	
 		$this->loadModel('account/order');

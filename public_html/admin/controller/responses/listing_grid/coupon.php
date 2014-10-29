@@ -160,7 +160,7 @@ class ControllerResponsesListingGridCoupon extends AController {
 					$this->model_sale_coupon->editCouponProducts($this->request->get['id'], $this->request->post);
 			    }
 		    }
-		    return;
+		    return null;
 	    }
 
 	    //request sent from jGrid. ID is key of array

@@ -29,12 +29,12 @@ class ControllerApiAccountLogout extends AControllerAPI {
 		if (!$this->customer->isLoggedWithToken( $request_data['token'] )) {
 			$this->rest->setResponseData( array( 'status' => 0,  'error' => 'Not logged in logout attempt failed!' ) );	
 			$this->rest->sendResponse(401);
-			return;			
+			return null;
     	}else{
     		$this->_logout();
 			$this->rest->setResponseData( array( 'status' => 1, 'success' => 'Logged out', ) );	
 			$this->rest->sendResponse(200);
-			return;			
+			return null;
     	} 
 	}
 
@@ -45,12 +45,12 @@ class ControllerApiAccountLogout extends AControllerAPI {
 		if (!$this->customer->isLoggedWithToken( $request_data['token'] )) {
 			$this->rest->setResponseData( array( 'status' => 0, 'error' => 'Not logged in logout attempt failed!' ) );	
 			$this->rest->sendResponse(401);
-			return;			
+			return null;
     	}else{
     		$this->_logout();
 			$this->rest->setResponseData( array( 'status' => 1, 'success' => 'Logged out', ) );	
 			$this->rest->sendResponse(200);
-			return;			
+			return null;
     	} 
 	}
 	

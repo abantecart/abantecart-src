@@ -33,7 +33,7 @@ class ControllerApiAccountCreate extends AControllerAPI {
 		if ($this->customer->isLoggedWithToken( $request['token'] )) {
 			$this->rest->setResponseData( array( 'error' => 'Already Logged in. Can not create new account.' ) );	
 			$this->rest->sendResponse(401);
-			return;			
+			return null;
     	} 
 
 		$this->loadModel('account/customer');

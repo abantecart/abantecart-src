@@ -48,7 +48,7 @@ class ModelLocalisationLocation extends Model {
     public function addLocationZone($location_id, $data) {
         $zones = !is_array($data['zone_id']) ? array((int)$data['zone_id']) : $data['zone_id'];
         if (!$zones || !$location_id) {
-            return;
+            return null;
         }
         $sql = "INSERT INTO " . $this->db->table("zones_to_locations") . " (`country_id`, `zone_id`, `location_id`, `date_added`) VALUES ";
         foreach ($zones as $zone_id) {

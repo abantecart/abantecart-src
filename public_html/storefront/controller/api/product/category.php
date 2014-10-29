@@ -32,7 +32,7 @@ class ControllerApiProductCategory extends AControllerAPI {
 		if ( !isset($this->request->get['path']) && !isset($this->request->get['category_id']) ) {
 			$this->rest->setResponseData( array('Error' => 'Missing one of required category parameters') );
 			$this->rest->sendResponse(200);
-			return;
+			return null;
 		}
 		
 		if (isset($this->request->get['path']) && $this->request->get['path'] != 0) {		

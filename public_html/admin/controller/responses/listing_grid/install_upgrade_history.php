@@ -33,7 +33,7 @@ class ControllerResponsesListingGridInstallUpgradeHistory extends AController {
 			$response->userdata->error = sprintf( $this->language->get( 'error_permission_access' ), 'tool/install_upgrade_history' );
 			$this->load->library('json');
 			$this->response->setOutput(AJson::encode($response));
-			return;
+			return null;
 		}
 		
 		$this->loadModel ( 'tool/install_upgrade_history' );

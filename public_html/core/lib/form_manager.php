@@ -323,12 +323,12 @@ class AFormManager {
 			}
 		
 		} //end of form manipulation
-		return;
+		return null;
 	}
 	
 	private function _processFieldXML($field, $field_group_id = '', $field_group_sort_order = 0) {
 		if (! $this->form_id) {
-			return;
+			return null;
 		}
 		$field_group_id = ( int ) $field_group_id;
 		
@@ -338,12 +338,12 @@ class AFormManager {
 			$error = new AError ( $errmessage );
 			$error->toLog ()->toDebug ();
 			$this->errors = 1;
-			return;
+			return null;
 		}
 		
 		if ($field->action == "delete") {
 			if (! $field_id) {
-				return;
+				return null;
 			}
 			
 			$sql = array ();
@@ -354,7 +354,7 @@ class AFormManager {
 			foreach ( $sql as $query ) {
 				$this->db->query ( $query );
 			}
-			return;
+			return null;
 		}
 		// checks
 		if (! in_array ( $field->element_type, $this->field_types )) {
@@ -362,7 +362,7 @@ class AFormManager {
 			$error = new AError ( $errmessage );
 			$error->toLog ()->toDebug ();
 			$this->errors = 1;
-			return;
+			return null;
 		}
 
 		if (! $field_id) { // if new field
@@ -532,7 +532,7 @@ class AFormManager {
 				$error->toLog ()->toDebug ();
 				$this->errors = 1;
 			}
-			return;
+			return null;
 		}
 		
 		if ($field_group->action == 'insert' && $field_group_id) {
@@ -540,7 +540,7 @@ class AFormManager {
 			$error = new AError ( $errmessage );
 			$error->toLog ()->toDebug ();
 			$this->errors = 1;
-			return;
+			return null;
 		}
 		
 		if ($field_group->action == 'insert') {

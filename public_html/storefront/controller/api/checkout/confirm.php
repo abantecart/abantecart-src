@@ -31,31 +31,31 @@ class ControllerApiCheckoutConfirm extends AControllerAPI {
 		
 		if (!$this->customer->isLoggedWithToken( $request['token'] )) {
 			$this->rest->sendResponse(401, array( 'error' => 'Not logged in or Login attempt failed!' ) );
-			return;			
+			return null;
     	} 
     	
 		if (!$this->cart->hasProducts()) {
 			//No products in the cart.
 			$this->rest->sendResponse(200, array('status' => 2, 'error' => 'Nothing in the cart!' ) );
-			return;			
+			return null;
 		}		
 		if (!$this->cart->hasStock() && !$this->config->get('config_stock_checkout')) {
 			//No stock for products in the cart if tracked.
 			$this->rest->sendResponse(200, array('status' => 3, 'error' => 'No stock for product!' ));
-			return;			
+			return null;
 		}
 
 		if ($this->cart->hasShipping()) {
 			if (!isset($this->session->data[ 'shipping_address_id' ]) || !$this->session->data[ 'shipping_address_id' ]) {
 				//Problem. Missing shipping address
 				$this->rest->sendResponse(200, array('status' => 4, 'error' => 'Missing shipping address!' ) );
-				return;	
+				return null;
 			}
 
 			if (!isset($this->session->data[ 'shipping_method' ])) {
 				//Problem. Missing shipping address
 				$this->rest->sendResponse(200, array('status' => 5, 'error' => 'Missing shipping method!' ) );
-				return;	
+				return null;
 			}
 		} else {
 			unset($this->session->data[ 'shipping_address_id' ]);
@@ -67,12 +67,12 @@ class ControllerApiCheckoutConfirm extends AControllerAPI {
 		
     	if (!isset($this->session->data['payment_address_id']) || !$this->session->data['payment_address_id']) { 
 	  		$this->rest->sendResponse(200, array('status' => 6, 'error' => 'Missing payment (billing) address!' ) );
-	  		return;
+	  		return null;
     	}  
 		
 		if (!isset($this->session->data['payment_method'])) {
 	  		$this->rest->sendResponse(200, array('status' => 5, 'error' => 'Missing payment (billing) method!' ) );
-	  		return;
+	  		return null;
     	}		
 
 		//build order and pre-save

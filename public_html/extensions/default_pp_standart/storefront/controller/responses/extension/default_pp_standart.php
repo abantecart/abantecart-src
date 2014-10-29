@@ -245,7 +245,7 @@ class ControllerResponsesExtensionDefaultPPStandart extends AController {
 			} else {
 				$header  = 'POST /cgi-bin/webscr HTTP/1.0' . "\r\n";
 				$header .= 'Content-Type: application/x-www-form-urlencoded' . "\r\n";
-				$header .= 'Content-Length: ' . strlen(utf8_decode($request)) . "\r\n";
+				$header .= 'Content-Length: ' . mb_strlen($request) . "\r\n";
 				$header .= 'Connection: close'  ."\r\n\r\n";
 				
 				if (!$this->config->get('default_pp_standart_test')) {

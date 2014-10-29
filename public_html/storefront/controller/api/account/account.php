@@ -29,7 +29,7 @@ class ControllerApiAccountAccount extends AControllerAPI {
 		if (!$this->customer->isLoggedWithToken( $request['token'] )) {
 			$this->rest->setResponseData( array( 'error' => 'Not logged in or Login attempt failed!' ) );	
 			$this->rest->sendResponse(401);
-			return;			
+			return null;
     	} 
 
 		//load language from main section

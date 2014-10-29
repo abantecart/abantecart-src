@@ -21,7 +21,6 @@ if (!defined('DIR_CORE') || !IS_ADMIN) {
 	header('Location: static_pages/');
 }
 class ControllerResponsesListingGridWeightClass extends AController {
-	private $error = array();
 
 	public function main() {
 
@@ -110,8 +109,8 @@ class ControllerResponsesListingGridWeightClass extends AController {
 					foreach ($ids as $id) {
 						$err = $this->_validateDelete($id);
 						if (!empty($err)) {
-							$dd = new ADispatcher('responses/error/ajaxerror/validation', array( 'error_text' => $err ));
-							return $dd->dispatch();
+							$error = new AError('');
+							return $error->toJSONResponse('VALIDATION_ERROR_406', array('error_text' => $err));
 						}
 						$this->model_localisation_weight_class->deleteWeightClass($id);
 					}
@@ -125,8 +124,8 @@ class ControllerResponsesListingGridWeightClass extends AController {
 							if (isset($this->request->post[ $f ][ $id ])) {
 								$err = $this->_validateField($f, $this->request->post[ $f ][ $id ]);
 								if (!empty($err)) {
-									$dd = new ADispatcher('responses/error/ajaxerror/validation', array( 'error_text' => $err ));
-									return $dd->dispatch();
+									$error = new AError('');
+									return $error->toJSONResponse('VALIDATION_ERROR_406', array('error_text' => $err));
 								}
 								$this->model_localisation_weight_class->editWeightClass($id, array( $f => $this->request->post[ $f ][ $id ] ));
 							}
@@ -169,13 +168,13 @@ class ControllerResponsesListingGridWeightClass extends AController {
 			foreach ($this->request->post as $key => $value) {
 				$err = $this->_validateField($key, $value);
 				if (!empty($err)) {
-					$dd = new ADispatcher('responses/error/ajaxerror/validation', array( 'error_text' => $err ));
-					return $dd->dispatch();
+					$error = new AError('');
+					return $error->toJSONResponse('VALIDATION_ERROR_406', array('error_text' => $err));
 				}
 				$data = array( $key => $value );
 				$this->model_localisation_weight_class->editWeightClass($this->request->get[ 'id' ], $data);
 			}
-			return;
+			return null;
 		}
 
 		//request sent from jGrid. ID is key of array
@@ -185,8 +184,8 @@ class ControllerResponsesListingGridWeightClass extends AController {
 				foreach ($this->request->post[ $f ] as $k => $v) {
 					$err = $this->_validateField($f, $v);
 					if (!empty($err)) {
-						$dd = new ADispatcher('responses/error/ajaxerror/validation', array( 'error_text' => $err ));
-						return $dd->dispatch();
+						$error = new AError('');
+						return $error->toJSONResponse('VALIDATION_ERROR_406', array('error_text' => $err));
 					}
 					$this->model_localisation_weight_class->editWeightClass($k, array( $f => $v ));
 				}
@@ -202,12 +201,12 @@ class ControllerResponsesListingGridWeightClass extends AController {
 			case 'weight_class_description' :
 				foreach ($value as $v) {
 					if (isset($v[ 'title' ]))
-						if ((strlen(utf8_decode($v[ 'title' ])) < 2) || (strlen(utf8_decode($v[ 'title' ])) > 32)) {
+						if ( mb_strlen($v[ 'title' ]) < 2 || mb_strlen($v[ 'title' ]) > 32 ) {
 							$err = $this->language->get('error_title');
 						}
 
 					if (isset($v[ 'unit' ]))
-						if ((!$v[ 'unit' ]) || (strlen(utf8_decode($v[ 'unit' ])) > 4)) {
+						if (!$v[ 'unit' ] || mb_strlen($v[ 'unit' ]) > 4) {
 							$err = $this->language->get('error_unit');
 						}
 				}
@@ -230,5 +229,3 @@ class ControllerResponsesListingGridWeightClass extends AController {
 	}
 
 }
-
-?>

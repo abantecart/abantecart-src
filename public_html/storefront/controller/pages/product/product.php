@@ -112,7 +112,7 @@ class ControllerPagesProductProduct extends AController {
 		//can not locate product? get out
 		if (!$product_info) { 
 			$this->_product_not_found($product_id);
-			return;
+			return null;
 		}
 
 		$url = $this->_build_url();

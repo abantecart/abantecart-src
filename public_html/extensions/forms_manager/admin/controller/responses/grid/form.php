@@ -177,7 +177,7 @@ class ControllerResponsesGridForm extends AController {
 	}
 
 	private function _validateDelete($id) {
-		return;
+		return null;
 	}
 
 }

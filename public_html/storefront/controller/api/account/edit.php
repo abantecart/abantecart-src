@@ -31,7 +31,7 @@ class ControllerApiAccountEdit extends AControllerAPI {
 		if (!$this->customer->isLoggedWithToken($request_data[ 'token' ])) {
 			$this->rest->setResponseData(array( 'error' => 'Not logged in or Login attempt failed!' ));
 			$this->rest->sendResponse(401);
-			return;
+			return null;
 		}
 
 		$this->loadModel('account/customer');
@@ -68,7 +68,7 @@ class ControllerApiAccountEdit extends AControllerAPI {
 		if (!$this->customer->isLoggedWithToken($request_data[ 'token' ])) {
 			$this->rest->setResponseData(array( 'error' => 'Not logged in or Login attempt failed!' ));
 			$this->rest->sendResponse(401);
-			return;
+			return null;
 		}
 
 		return $this->_build_responce();

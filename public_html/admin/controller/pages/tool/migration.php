@@ -308,7 +308,7 @@ class ControllerPagesToolMigration extends AController {
 	}
 
 	private function _setErrors($errors) {
-		if (empty($errors)) return;
+		if (empty($errors)) return null;
 		foreach ($errors as $err) {
 			if (isset($this->error[$err])) {
 				$this->data['error_' . $err] = $this->error[$err];
@@ -320,7 +320,7 @@ class ControllerPagesToolMigration extends AController {
 	}
 
 	private function _setFormData($data, $source) {
-		if (empty($data)) return;
+		if (empty($data)) return null;
 		foreach ($data as $field) {
 			$this->data[$field] = isset($source[$field]) ? html_entity_decode($source[$field]) : '';
 		}

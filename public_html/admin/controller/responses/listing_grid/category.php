@@ -213,7 +213,7 @@ class ControllerResponsesListingGridCategory extends AController {
 					}
 				}
 
-				$err = $this->_validateField($f, $value);
+				$err = $this->_validateField($field, $value);
 				if (!empty($err)) {
 					$dd = new ADispatcher('responses/error/ajaxerror/validation', array( 'error_text' => $err ));
 					return $dd->dispatch();
@@ -223,12 +223,12 @@ class ControllerResponsesListingGridCategory extends AController {
 			}
 		    return null;
 	    }
-		$language_id = $this->session->data['content_language_id'];
+		$language_id = $this->language->getContentLanguageID();
 	    //request sent from jGrid. ID is key of array
         foreach ($this->request->post as $field => $value ) {
             foreach ( $value as $k => $v ) {
 	             if($field=='category_description'){
-				    if ((strlen(utf8_decode($v[$language_id]['name'])) < 2) || (strlen(utf8_decode($v[$language_id]['name'])) > 32)) {
+				    if ( mb_strlen($v[$language_id]['name']) < 2 || mb_strlen($v[$language_id]['name']) > 32 ) {
 						$err = $this->language->get('error_name');
 						$dd = new ADispatcher('responses/error/ajaxerror/validation',array('error_text'=>$err));
 						return $dd->dispatch();
@@ -244,15 +244,18 @@ class ControllerResponsesListingGridCategory extends AController {
 
 
 	private function _validateField($field, $value) {
+
 		$err = '';
 		switch ($field) {
 			case 'category_description' :
-				if (isset($value[ 'name' ]) && ((mb_strlen($value[ 'name' ]) < 1) || (mb_strlen($value[ 'name' ]) > 255))) {
+				$language_id = $this->language->getContentLanguageID();
+
+				if (isset($value[$language_id][ 'name' ]) && ( mb_strlen($value[$language_id][ 'name' ]) < 1 || mb_strlen($value[$language_id][ 'name' ]) > 255 )) {
 					$err = $this->language->get('error_name');
 				}
 				break;
 			case 'model' :
-				if ((mb_strlen($value) < 1) || (mb_strlen($value) > 64)) {
+				if ( mb_strlen($value) < 1 || mb_strlen($value) > 64 ) {
 					$err = $this->language->get('error_model');
 				}
 				break;

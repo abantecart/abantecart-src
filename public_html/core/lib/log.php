@@ -21,9 +21,16 @@ if (! defined ( 'DIR_CORE' )) {
 	header ( 'Location: static_pages/' );
 }
 
+/**
+ * Class ALog
+ */
 final class ALog {
 	private $filename;
 	private $mode=true;
+
+	/**
+	 * @param string $filename
+	 */
 	public function __construct($filename) {
 		if(is_dir($filename)){
 			$filename .= (substr($filename,-1)!='/' ? '/' : '').'error.txt';
@@ -36,13 +43,15 @@ final class ALog {
 			}
 		}
 	}
-	
+
+	/**
+	 * @param string $message
+	 */
 	public function write($message) {
-		if(!$this->mode) return;
+		if(!$this->mode) return null;
 		$file = $this->filename;
 		$handle = fopen($file, 'a+');
 		fwrite($handle, date('Y-m-d G:i:s') . ' - ' . $message . "\n");
 		fclose($handle); 
 	}
 }
-?>

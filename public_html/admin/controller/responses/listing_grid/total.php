@@ -216,7 +216,7 @@ class ControllerResponsesListingGridTotal extends AController {
 		if (isset($this->request->get['id'])) {
 			//request sent from edit form. ID in url
 			$this->model_setting_setting->editSetting($this->request->get['id'], $this->request->post);
-			return;
+			return null;
 		}
 
 		//request sent from jGrid. ID is key of array

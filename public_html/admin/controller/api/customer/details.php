@@ -37,14 +37,14 @@ class ControllerApiCustomerDetails extends AControllerAPI {
 		if ( !has_value($request['customer_id']) ) {
 			$this->rest->setResponseData( array('Error' => 'Customer ID is missing') );
 			$this->rest->sendResponse(200);
-			return;
+			return null;
 		}		
 		
 		$customer_details =  $this->model_sale_customer->getCustomer($request['customer_id']);
 		if (!count($customer_details)) {
 			$this->rest->setResponseData( array('Error' => 'Incorrect Customer ID or missing customer data') );
 			$this->rest->sendResponse(200);
-			return;			
+			return null;
 		}
 
 		//clean up data before display

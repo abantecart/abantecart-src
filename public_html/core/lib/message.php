@@ -234,7 +234,7 @@ final class AMessage {
 	 */
 	public function saveANTMessage($data = array()) {
 		if (!$data || !$data['message_id']) {
-			return;
+			return null;
 		}
 
 		// need to find message with same id and language. If language not set - find for all

@@ -176,7 +176,7 @@ abstract class AController {
 
 	//Load language and store to veiw
 	public function loadLanguage($rt, $mode = '') {
-		if (empty ($rt) || !method_exists($this->language, 'load')) return;
+		if (empty ($rt) || !method_exists($this->language, 'load')) return null;
 		// strip off pages or responce
 		$rt = preg_replace('/^(api|pages|responses)\//', '', $rt);
 		$this->languages[ ] = $rt;
@@ -185,7 +185,7 @@ abstract class AController {
 	}
 
 	public function loadModel($rt, $mode = '') {
-		if (empty ($rt) || !method_exists($this->load, 'model')) return;
+		if (empty ($rt) || !method_exists($this->load, 'model')) return null;
 		// strip off pages or responce
 		$rt = preg_replace('/^(pages|responses)\//', '', $rt);
 		$this->load->model($rt, $mode);
@@ -338,7 +338,7 @@ abstract class AController {
 
 	public function can_access() {
 		if (!defined('IS_ADMIN') || !IS_ADMIN) {
-			return;
+			return null;
 		}
 
 		//Future stronger security permissions validation

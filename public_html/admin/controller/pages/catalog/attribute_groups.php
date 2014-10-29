@@ -22,7 +22,7 @@ if (! defined ( 'DIR_CORE' ) || !IS_ADMIN) {
 }
 class ControllerPagesCatalogAttributeGroups extends AController {
 	public $data = array();
-	private $error = array();
+	public $error = array();
     private $attribute_manager;
 
     public function __construct($registry, $instance_id, $controller, $parent_controller = '') {
@@ -263,9 +263,11 @@ class ControllerPagesCatalogAttributeGroups extends AController {
 			$this->error['warning'] = $this->language->get('error_permission');
 		}
 
-		if ((strlen(utf8_decode($this->request->post['name'])) < 2) || (strlen(utf8_decode($this->request->post['name'])) > 32)) {
+		if ( mb_strlen($this->request->post['name']) < 2 || mb_strlen($this->request->post['name']) > 32 ) {
 		    $this->error['name'] = $this->language->get('error_name');
 		}
+
+		$this->extensions->hk_ValidateData($this);
 
 		if (!$this->error) {
 			return TRUE;
@@ -275,4 +277,3 @@ class ControllerPagesCatalogAttributeGroups extends AController {
 	}
 	
 }
-?>

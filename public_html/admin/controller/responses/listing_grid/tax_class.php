@@ -85,8 +85,8 @@ class ControllerResponsesListingGridTaxClass extends AController {
 					foreach ($ids as $id) {
 						$err = $this->_validateDelete($id);
 						if (!empty($err)) {
-							$dd = new ADispatcher('responses/error/ajaxerror/validation', array('error_text' => $err));
-							return $dd->dispatch();
+							$error = new AError('');
+							return $error->toJSONResponse('VALIDATION_ERROR_406', array('error_text' => $err));
 						}
 
 						$this->model_localisation_tax_class->deleteTaxClass($id);
@@ -102,7 +102,7 @@ class ControllerResponsesListingGridTaxClass extends AController {
 									$err = $this->_validateField('title', $value['title']);
 									if (!empty($err)) {
 										$this->response->setOutput($err);
-										return;
+										return null;
 									}
 								}
 							}
@@ -157,7 +157,7 @@ class ControllerResponsesListingGridTaxClass extends AController {
 				$data = array($key => $value);
 				$this->model_localisation_tax_class->editTaxClass($this->request->get['id'], $data);
 			}
-			return;
+			return null;
 		}
 
 		//request sent from jGrid. ID is key of array
@@ -209,7 +209,7 @@ class ControllerResponsesListingGridTaxClass extends AController {
 				$data = array($key => $value);
 				$this->model_localisation_tax_class->editTaxRate($this->request->get['id'], $data);
 			}
-			return;
+			return null;
 		}
 
 		//update controller data
@@ -220,7 +220,7 @@ class ControllerResponsesListingGridTaxClass extends AController {
 		$err = '';
 		switch ($field) {
 			case 'title' :
-				if ((strlen(utf8_decode($value)) < 2) || (strlen(utf8_decode($value)) > 128)) {
+				if (mb_strlen($value) < 2 || mb_strlen($value) > 128) {
 					$err = $this->language->get('error_tax_title');
 				}
 				break;

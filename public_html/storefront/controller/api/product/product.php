@@ -31,7 +31,7 @@ class ControllerApiProductProduct extends AControllerAPI {
 		if (empty($product_id) || !is_numeric($product_id)) {
 			$this->rest->setResponseData( array('Error' => 'Missing or incorrect format product ID') );
 			$this->rest->sendResponse(200);
-			return;
+			return null;
 		}
 
 		//Load all the data from the model
@@ -40,7 +40,7 @@ class ControllerApiProductProduct extends AControllerAPI {
 		if ( count ($product_info) <= 0 ) {
 			$this->rest->setResponseData( array('Error' => 'No product found') );
 			$this->rest->sendResponse(200);	
-			return;
+			return null;
 		}
 		//Add and edit data based on the more details 
 		

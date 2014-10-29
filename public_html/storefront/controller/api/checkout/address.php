@@ -31,19 +31,19 @@ class ControllerApiCheckoutAddress extends AControllerAPI {
 		
 		if (!$this->customer->isLoggedWithToken( $request['token'] )) {
 			$this->rest->sendResponse(401, array( 'error' => 'Not logged in or Login attempt failed!' ) );
-			return;			
+			return null;
     	} 
 
 		if (!$this->cart->hasProducts()) {
 		    //No products in the cart.
 		    $this->rest->sendResponse(200, array('status' => 2, 'error' => 'Nothing in the cart!' ) );
-		    return;			
+		    return null;
 		}
 		
 		if (!$this->cart->hasStock() && !$this->config->get('config_stock_checkout')) {
 		    //No stock for products in the cart if tracked.
 		    $this->rest->sendResponse(200, array('status' => 3, 'error' => 'No stock for product!' ));
-		    return;			
+		    return null;
 		}
 
 		//load language from main section
@@ -54,7 +54,7 @@ class ControllerApiCheckoutAddress extends AControllerAPI {
 
 			if (!$this->cart->hasShipping()) {
 				$this->rest->sendResponse( 200, array('status' => 0, 'shipping' => 'products do not require shipping') );
-				return;	
+				return null;
 			}
 		
 			if ( isset($request['address_id'])) {
@@ -71,7 +71,7 @@ class ControllerApiCheckoutAddress extends AControllerAPI {
 				}
 				
 				$this->rest->sendResponse( 200, array('status' => 1, 'shipping' => 'shipping address selected') );
-				return;
+				return null;
 			}
 
 		   	if ( $request['action'] == 'save' ) {
@@ -86,7 +86,7 @@ class ControllerApiCheckoutAddress extends AControllerAPI {
 					}	
 	
 					$this->rest->sendResponse( 200, array('status' => 1, 'shipping' => 'shipping address selected') );
-					return;
+					return null;
 				}
 			}
 			
@@ -103,7 +103,7 @@ class ControllerApiCheckoutAddress extends AControllerAPI {
 				unset($this->session->data['payment_method']);
 				
 				$this->rest->sendResponse( 200, array('status' => 1, 'payment' => 'payment address selected') );
-				return;
+				return null;
 			} 
 		   
 		   	if ( $request['action'] == 'save' ) {
@@ -115,7 +115,7 @@ class ControllerApiCheckoutAddress extends AControllerAPI {
 					unset($this->session->data['payment_method']);
 					
 					$this->rest->sendResponse( 200, array('status' => 1, 'payment' => 'payment address selected') );
-					return;
+					return null;
 		    	}
 	    	}
 	    	

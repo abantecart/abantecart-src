@@ -136,16 +136,16 @@ class ControllerPagesIndexEditDetails extends AController {
   	}
 
 	private function _validate() {
-    	if ((strlen(utf8_decode($this->request->post['firstname'])) < 2) || (strlen(utf8_decode($this->request->post['firstname'])) > 32)) {
+    	if ( mb_strlen($this->request->post['firstname']) < 2 || mb_strlen($this->request->post['firstname']) > 32 ) {
       		$this->error['firstname'] = $this->language->get('error_firstname');
     	}
 
-    	if ((strlen(utf8_decode($this->request->post['lastname'])) < 2) || (strlen(utf8_decode($this->request->post['lastname'])) > 32)) {
+    	if ( mb_strlen($this->request->post['lastname']) < 2 || mb_strlen($this->request->post['lastname']) > 32 ) {
       		$this->error['lastname'] = $this->language->get('error_lastname');
     	}
 
     	if ( !empty($this->request->post['password']) ) {
-      		if ((strlen(utf8_decode($this->request->post['password'])) < 4)) {
+      		if ( mb_strlen($this->request->post['password']) < 4 ) {
         		$this->error['password'] = $this->language->get('error_password');
       		}
 
@@ -158,6 +158,8 @@ class ControllerPagesIndexEditDetails extends AController {
     	if (!preg_match($pattern, $this->request->post['email'])) {
       		$this->error['email'] = $this->language->get('error_email');
     	}
+
+		$this->extensions->hk_ValidateData($this);
 
 	    if (!$this->error) {
 	  		return TRUE;

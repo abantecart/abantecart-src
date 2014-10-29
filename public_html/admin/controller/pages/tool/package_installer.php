@@ -289,7 +289,7 @@ class ControllerPagesToolPackageInstaller extends AController {
 
 			$this->view->batchAssign($this->data);
 			$this->processTemplate('pages/tool/package_installer_agreement.tpl');
-			return;
+			return null;
 		}
 
 		$form = new AForm('ST');

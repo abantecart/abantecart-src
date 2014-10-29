@@ -75,7 +75,7 @@ class ControllerResponsesExtensionDefaultLiqPay extends AController {
 	}
 
 	public function confirm() {
-		return;
+		return null;
 	}	
 
 	public function callback() {

@@ -390,7 +390,7 @@ class ModelToolFormsManager extends Model {
 
 	public function updateFieldValues($data, $language_id) {
 
-		if (!$language_id) return;
+		if (!$language_id) return null;
 		$values = array();
 		if (!empty($data['field_value_id'])) {
 			foreach ($data['field_value_id'] as $key => $status) {
@@ -420,7 +420,7 @@ class ModelToolFormsManager extends Model {
 
 	public function addFieldValue($field_id, $data, $language_id) {
 		if (!$language_id || !$field_id) {
-			return;
+			return null;
 		}
 		$this->language->replaceDescriptionsSerialized('field_values',
 				array('field_id' => (int)$field_id),

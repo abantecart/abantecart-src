@@ -21,7 +21,7 @@ if (!defined('DIR_CORE') || !IS_ADMIN) {
 	header('Location: static_pages/');
 }
 class ControllerResponsesListingGridAttribute extends AController {
-	private $error = array();
+
 	private $attribute_manager;
 	public $data;
 
@@ -159,7 +159,6 @@ class ControllerResponsesListingGridAttribute extends AController {
 				break;
 
 			default:
-				//print_r($this->request->post);
 
 		}
 
@@ -221,7 +220,7 @@ class ControllerResponsesListingGridAttribute extends AController {
 		$err = '';
 		switch ($field) {
 			case 'name' :
-				if ((strlen(utf8_decode($value)) < 2) || (strlen(utf8_decode($value)) > 32)) {
+				if (((mb_strlen($value)) < 2) || ((mb_strlen($value)) > 32)) {
 					$err = $this->language->get('error_name');
 				}
 				break;

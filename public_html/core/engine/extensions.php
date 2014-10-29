@@ -100,7 +100,8 @@ class ExtensionCollection {
 	protected $extensions = array();
 
 	/**
-	 * @throws Exception when encounters extension not of class extension.
+	 * @param array $extensions
+	 * @throws Exception {when encounters extension not of class extension.}
 	 */
 	public function __construct(array $extensions) {
 		foreach ($extensions as $extension) {
@@ -192,6 +193,7 @@ class ExtensionCollection {
  * @method hk_confirm(object $baseObject, int $order_id, int $order_status_id, string $comment)
  * @method hk_query(object $baseObject, string $sql, bool $noexcept)
  * @method hk_load(object $baseObject, string $block, string $mode)
+ * @method hk_apply_promotions(object $baseObject, array $total_data, array $total)
  * @package MyExtensionsApi
  */
 class ExtensionsApi {
@@ -591,6 +593,10 @@ class ExtensionsApi {
 	/**
 	 * check if language file exists in extension resource
 	 *
+	 * @param string $route
+	 * @param string $language_name
+	 * @param int|bool $section
+	 * @return array|bool
 	 */
 	public function isExtensionLanguageFile($route, $language_name, $section) {
 		$registry = Registry::getInstance();

@@ -30,20 +30,20 @@ class ControllerApiCheckoutProcess extends AControllerAPI {
 		
 		if (!$this->customer->isLoggedWithToken( $request['token'] )) {
 			$this->rest->sendResponse(401, array( 'error' => 'Not logged in or Login attempt failed!' ) );
-			return;			
+			return null;
     	} 
 
 		//Check if confirmation details were reviewed. 
 		if ( !$this->session->data['confirmed'] ) {
 			$this->rest->sendResponse(400, array( 'status' => 0, 'error' => 'Need to review confirmation details first!' ) );
-			return;					
+			return null;
 		}
 		$this->session->data['confirmed'] = FALSE;
 		
 		//Check if order is created and process payment
 		if (!isset($this->session->data['order_id'])) {
 			$this->rest->sendResponse(500, array( 'status' => 2, 'error' => 'Not order data available!' ) );
-			return;					
+			return null;
 		}
 		
 		$order = new AOrder( $this->registry );
@@ -51,18 +51,18 @@ class ControllerApiCheckoutProcess extends AControllerAPI {
 		//Check if order is present and not processed yet
 		if ( !isset( $order_data )) {
 			$this->rest->sendResponse(500, array( 'status' => 3, 'error' => 'No order available. Something went wrong!' ) );
-			return;							
+			return null;
 		}
 		if ( $order_data['order_status_id'] > 0 ) {
 			$this->rest->sendResponse(200, array(  'status' => 4, 'error' => 'Order was already processed!' ) );
-			return;							
+			return null;
 		}
 		
 				
 		//Dispatch the payment send controller process and capture the result
 		if ( !$this->session->data['process_rt'] ) {
 			$this->rest->sendResponse(500, array(  'status' => 5, 'error' => 'Something went wrong. Incomplete request!' ) );
-			return;							
+			return null;
 		}
 		//we process only responce type payment extensions
 		$payment_controller = $this->dispatch( 'responses/extension/' . $this->session->data['process_rt'] );
@@ -72,7 +72,7 @@ class ControllerApiCheckoutProcess extends AControllerAPI {
 		if ( $this->data['error'] ){
 			$this->data['status'] = 6;
 			$this->rest->sendResponse(200, $this->data );
-			return;									
+			return null;
 		} else if ( $this->data['success']) {
 			$this->data['status'] = 1;
 			//order completed clean up 

@@ -30,11 +30,11 @@ class ControllerApiAccountLogin extends AControllerAPI {
 			if ( $this->customer->isLoggedWithToken( $request['token'] )) {
 				$this->rest->setResponseData( array( 'status' => 1,  'request' => 'authorized' ) );	
 				$this->rest->sendResponse(200);
-				return;			
+				return null;
     		} else {
 				$this->rest->setResponseData( array( 'status' => 0, 'request' => 'unauthorized' ) );	
 				$this->rest->sendResponse(401);
-				return;	    		
+				return null;
     		} 		 	
 		
 		} else {
@@ -43,11 +43,11 @@ class ControllerApiAccountLogin extends AControllerAPI {
 			if ( isset($loginname) && isset($request['password']) && $this->_validate($loginname, $request['password']) ) {
 				$this->rest->setResponseData( array( 'status' => 1, 'success' => 'Logged in', 'token' => $this->session->data['token'] ) );	
 				$this->rest->sendResponse(200);
-				return;			
+				return null;
 			} else {
 				$this->rest->setResponseData( array( 'status' => 0, 'error' => 'Login attempt failed!') );	
 				$this->rest->sendResponse(401);
-				return;	
+				return null;
 			}
 		}				
 	}

@@ -24,7 +24,7 @@ class ControllerPagesIndexForgotPassword extends AController {
 
 	public $data = array();
 	private $user_data;
-	private $error = array();
+	public $error = array();
 
 	public function main() {
 
@@ -224,7 +224,7 @@ class ControllerPagesIndexForgotPassword extends AController {
 	}
 
     private function _validate() {
-    	if ((strlen(utf8_decode($this->request->post['username'])) < 1)) {
+    	if ( mb_strlen($this->request->post['username']) < 1 ) {
       		$this->error['username'] = $this->language->get('error_username');
     	}
 
@@ -240,6 +240,8 @@ class ControllerPagesIndexForgotPassword extends AController {
 	    if ( !$this->error && !$this->user->validate($this->request->post['username'], $this->request->post['email']) ) {
 		    $this->error['warning'] = $this->language->get('error_match');
 	    }
+
+	    $this->extensions->hk_ValidateData($this);
 
 		if (!$this->error) {
 	  		return TRUE;
@@ -266,6 +268,8 @@ class ControllerPagesIndexForgotPassword extends AController {
 				$this->user_data = $users[0];
 			}
 		}
+
+		$this->extensions->hk_ValidateData($this);
 
 	    if (!$this->error) {
 	  		return TRUE;

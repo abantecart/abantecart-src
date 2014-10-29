@@ -33,9 +33,9 @@ class ControllerApiCommonAccess extends AControllerAPI {
 					( $this->config->get('config_admin_api_key') == $this->request->post['api_key'] ||
 					  $this->config->get('config_admin_api_key') == $this->request->get['api_key'] )
 				) {
-				return;
+				return null;
 			} else if ( !$this->config->get('config_admin_api_key') ) {
-				return;
+				return null;
 			}
 		}	
 		return $this->dispatch('api/error/no_access');
@@ -87,7 +87,7 @@ class ControllerApiCommonAccess extends AControllerAPI {
 	public function permission() {
 		$request = $this->rest->getRequestParams();
 		
-		if ( $this->extensions->isExtensionController($request['rt']) ) return;
+		if ( $this->extensions->isExtensionController($request['rt']) ) return null;
 
 		if ( isset($request['rt']) ) {
 			$route = '';

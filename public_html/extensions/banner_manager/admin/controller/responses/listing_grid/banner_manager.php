@@ -157,7 +157,7 @@ class ControllerResponsesListingGridBannerManager extends AController {
 		$this->loadLanguage('banner_manager/banner_manager');
 		if (!$this->user->canModify('extension/banner_manager')) {
 			$this->response->setOutput(sprintf($this->language->get('error_permission_modify'), 'extension/banner_manager'));
-			return;
+			return null;
 		}
 
 		switch ($this->request->post['oper']) {
