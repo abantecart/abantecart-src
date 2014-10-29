@@ -8,7 +8,7 @@ jQuery(function($){
         },
         save_url: '<?php echo $update; ?>',
         saved_txt: '<?php echo $text_saved; ?>',
-        processing_txt: '<?php echo $text_processing; ?>',        
+        processing_txt: '<?php echo $text_processing; ?>'
 	});
 
 	//do not apply highlight & save to elements with class="no-save"

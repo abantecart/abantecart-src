@@ -34,7 +34,7 @@ class ControllerPagesIndexForgotPassword extends AController {
 		$this->loadLanguage('common/forgot_password');
 		$this->document->setTitle( $this->language->get('heading_title') );
 
-		if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->_validate()) {
+		if ($this->request->is_POST() && $this->_validate()) {
 
 			//generate hash
 			$hash = AEncryption::getHash(time());
@@ -130,7 +130,7 @@ class ControllerPagesIndexForgotPassword extends AController {
 		$this->loadLanguage('common/forgot_password');
 		$this->document->setTitle( $this->language->get('heading_title') );
 
-		if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->_validateCaptcha()) {
+		if ($this->request->is_POST() && $this->_validateCaptcha()) {
 
 			//generate password
 			$password = AUser::generatePassword(8);

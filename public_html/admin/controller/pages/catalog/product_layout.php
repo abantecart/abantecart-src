@@ -37,7 +37,7 @@ class ControllerPagesCatalogProductLayout extends AController {
 		$this->document->setTitle($this->language->get('heading_title'));
 		$this->loadModel('catalog/product');
 
-		if (has_value($product_id) && ($this->request->server[ 'REQUEST_METHOD' ] != 'POST')) {
+		if (has_value($product_id) && $this->request->is_GET()) {
 			$product_info = $this->model_catalog_product->getProduct( $product_id );
 			if (!$product_info) {
 				unset($this->session->data['success']);
@@ -189,7 +189,7 @@ class ControllerPagesCatalogProductLayout extends AController {
 	}
 
 	public function save() {
-		if (($this->request->server[ 'REQUEST_METHOD' ] != 'POST')) {
+		if ($this->request->is_GET()) {
 			$this->redirect($this->html->getSecureURL('catalog/product_layout'));
 		}
 

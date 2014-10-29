@@ -657,8 +657,7 @@ class ControllerPagesCatalogProduct extends AController {
 			'type' => 'input',
 			'name' => 'quantity',
 			'value' => (int)$this->data['quantity'],
-			'style' => 'col-xs-1',
-	        'style' => 'small-field'
+			'style' => 'col-xs-1 small-field'
 	    ));
         $this->data['form']['fields']['data']['minimum'] = $form->getFieldHtml(array(
 			'type' => 'input',
@@ -826,6 +825,15 @@ class ControllerPagesCatalogProduct extends AController {
     	if (($error_text = $this->html->isSEOkeywordExists('product_id='.$this->request->get['product_id'], $this->request->post['keyword']))) {
       		$this->error['keyword'] = $error_text;
     	}
+
+
+	    foreach(array('length', 'width', 'height','weight') as $name){
+		    $this->request->post[$name] = abs($this->request->post[$name]);
+		    $v =  preformatFloat($this->request->post[$name], $this->language->get('decimal_point'));
+            if($v>=1000){
+	            $this->error[$name] = $this->language->get('error_measure_value');
+            }
+		}
 
 		$this->extensions->hk_ValidateData($this,__FUNCTION__);
 

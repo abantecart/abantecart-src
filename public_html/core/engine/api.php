@@ -22,7 +22,13 @@ if (! defined ( 'DIR_CORE' )) {
 }
 
 final class AAPI {
+	/**
+	 * @var Registry
+	 */
 	protected $registry;
+	/**
+	 * @var array
+	 */
 	protected $pre_dispatch = array();
 	protected $error;
 	private $recursion_limit = 0;
@@ -41,16 +47,25 @@ final class AAPI {
 	public function __set($key, $value) {
 		$this->registry->set($key, $value);
 	}
-	
+
+	/**
+	 * @param string $dispatch_rt
+	 */
 	public function addPreDispatch($dispatch_rt) {
 		$this->pre_dispatch[] = new ADispatcher($dispatch_rt, array("instance_id" => "0"));
 	}
-	
+
+	/**
+	 * @param string $dispatch_rt
+	 */
   	public function build($dispatch_rt) {
 		$dispatch = '';
  		$this->recursion_limit = 0;
 
 		foreach ($this->pre_dispatch as $pre_dispatch) {
+			/**
+			 * @var ADispatcher $pre_dispatch
+			 */
 			$result = $pre_dispatch->dispatch();					
 			if ($result) {
 				//Something happened. Need to run different page
@@ -72,4 +87,3 @@ final class AAPI {
 		unset($dispatch); 
   	}
 }
-?>

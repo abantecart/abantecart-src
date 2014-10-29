@@ -33,7 +33,7 @@ class ControllerPagesCatalogProductExtensions extends AController {
     	$this->document->setTitle( $this->language->get('heading_title') );
 		$this->loadModel('catalog/product');
 
-		if (isset($this->request->get['product_id']) && ($this->request->server['REQUEST_METHOD'] != 'POST')) {
+		if (isset($this->request->get['product_id']) && $this->request->is_GET()) {
       		$product_info = $this->model_catalog_product->getProduct($this->request->get['product_id']);
 			if ( !$product_info ) {
 				$this->session->data['warning'] = $this->language->get('error_product_not_found');

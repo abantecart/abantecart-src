@@ -180,7 +180,7 @@ class ControllerPagesCatalogManufacturer extends AController {
 							
 		$this->view->assign('cancel', $this->html->getSecureURL('catalog/manufacturer'));
 
-		if (isset($this->request->get['manufacturer_id']) && ($this->request->server['REQUEST_METHOD'] != 'POST')) {
+		if (isset($this->request->get['manufacturer_id']) && $this->request->is_GET()) {
       		$manufacturer_info = $this->model_catalog_manufacturer->getManufacturer($this->request->get['manufacturer_id']);
     	}
 

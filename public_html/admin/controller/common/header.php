@@ -32,7 +32,7 @@ class ControllerCommonHeader extends AController {
 
 		$this->view->assign('breadcrumbs', $this->document->getBreadcrumbs());
 
-		if (($this->request->server['REQUEST_METHOD'] == 'POST') && isset($this->request->post['language_code'])) {
+		if ($this->request->is_POST() && isset($this->request->post['language_code'])) {
 			unset($this->session->data['content_language']);
 			$this->session->data['language'] = $this->request->post['language_code'];
 			$this->cache->delete('admin_menu');

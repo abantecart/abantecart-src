@@ -35,7 +35,7 @@ class ControllerPagesCheckoutPayment extends AController {
 		}
 
 		//Selections are posted, validate and apply
-		if (($this->request->server[ 'REQUEST_METHOD' ] == 'POST') && isset($this->request->post[ 'coupon' ]) && $this->_validateCoupon()) {
+		if ( $this->request->is_POST() && isset($this->request->post[ 'coupon' ]) && $this->_validateCoupon()) {
 			$this->session->data[ 'coupon' ] = $this->request->post[ 'coupon' ];
 			$this->session->data[ 'success' ] = $this->language->get('text_success');
 
@@ -168,7 +168,7 @@ class ControllerPagesCheckoutPayment extends AController {
 
 		$this->session->data[ 'payment_methods' ] = $method_data;
 
-		if (($this->request->server[ 'REQUEST_METHOD' ] == 'POST') && !isset($this->request->post[ 'coupon' ]) && $this->_validate()) {
+		if ( $this->request->is_POST() && !isset($this->request->post[ 'coupon' ]) && $this->_validate()) {
 			$this->session->data[ 'payment_method' ] = $this->session->data[ 'payment_methods' ][ $this->request->post[ 'payment_method' ] ];
 			$this->session->data[ 'comment' ] = strip_tags($this->request->post[ 'comment' ]);
 

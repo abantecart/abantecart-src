@@ -37,7 +37,7 @@ class ControllerPagesContentContact extends AController {
 		$this->form->loadFromDb('ContactUsFrm');
 	    $form = $this->form->getForm();
 
-    	if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->_validate()) {
+    	if ($this->request->is_POST() && $this->_validate()) {
 		    // move all uploaded files to their directories
 		    $file_pathes = $this->form->processFileUploads($this->request->files);
 
@@ -66,7 +66,7 @@ class ControllerPagesContentContact extends AController {
 	  		$this->redirect($success_url);
     	}
 
-	    if (($this->request->server['REQUEST_METHOD'] == 'POST')){
+	    if ($this->request->is_POST()){
 	 	  foreach($this->request->post as $name => $value){
 			  $this->form->assign($name,$value);
 		  }

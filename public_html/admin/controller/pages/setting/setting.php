@@ -174,6 +174,17 @@ class ControllerPagesSettingSetting extends AController {
 							'href' => $href,
 							'text' => $this->language->get('text_clone_template')));
 
+			$this->data['manage_extensions'] = $this->html->buildElement(
+					array(
+							'type' => 'button',
+							'name' => 'manage_extensions',
+							'href' => $this->html->getSecureURL('extension/extensions/template'),
+							'text' => $this->language->get('button_manage_extensions'),
+							'title' => $this->language->get('button_manage_extensions')
+					));
+
+
+
 		}
 
 		$this->data['settings'] = $this->model_setting_setting->getSetting($group, $this->data['store_id']);

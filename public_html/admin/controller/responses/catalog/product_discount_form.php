@@ -78,7 +78,7 @@ class ControllerResponsesCatalogProductDiscountForm extends AController {
 		$this->data['heading_title'] = $this->language->get('text_edit') . '&nbsp;' . $this->language->get('text_product') . ' - ' . $this->data['product_description'][$this->session->data['content_language_id']]['name'];
 
 
-		if (isset($this->request->get['product_discount_id']) && ($this->request->server['REQUEST_METHOD'] != 'POST')) {
+		if (isset($this->request->get['product_discount_id']) && $this->request->is_GET()) {
 			$discount_info = $this->model_catalog_product->getProductDiscount($this->request->get['product_discount_id']);
 			if ($discount_info['date_start'] == '0000-00-00') $discount_info['date_start'] = '';
 			if ($discount_info['date_end'] == '0000-00-00') $discount_info['date_end'] = '';

@@ -35,7 +35,7 @@ class ControllerPagesAccountNewsletter extends AController {
 		
 		$this->document->setTitle( $this->language->get('heading_title') );
 				
-		if ($this->request->server['REQUEST_METHOD'] == 'POST') {
+		if ($this->request->is_POST()) {
 			$this->loadModel('account/customer');
 			
 			$this->model_account_customer->editNewsletter($this->request->post['newsletter']);
@@ -99,4 +99,3 @@ class ControllerPagesAccountNewsletter extends AController {
         $this->extensions->hk_UpdateData($this,__FUNCTION__);
   	}
 }
-?>

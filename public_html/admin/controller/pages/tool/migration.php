@@ -81,14 +81,14 @@ class ControllerPagesToolMigration extends AController {
 			'db_prefix',
 		);
 
-		if (($this->request->server['REQUEST_METHOD'] == 'POST') && ($this->_validateStepOne())) {
+		if ($this->request->is_POST() && ($this->_validateStepOne())) {
 			$this->model_tool_migration->saveStepData($formData);
 			$this->redirect($this->html->getSecureURL('tool/migration/step_two'));
 		}
 
 		$this->data['cancel'] = $this->html->getSecureURL('tool/migration');
 
-		$source = ($this->request->server['REQUEST_METHOD'] == 'POST') ? $this->request->post : $this->session->data['migration'];
+		$source = $this->request->is_POST() ? $this->request->post : $this->session->data['migration'];
 
 		$this->_setFormData($formData, $source);
 
@@ -194,7 +194,7 @@ class ControllerPagesToolMigration extends AController {
 			'erase_existing_data',
 		);
 
-		if (($this->request->server['REQUEST_METHOD'] == 'POST') && ($this->_validateStepTwo())) {
+		if ($this->request->is_POST() && ($this->_validateStepTwo())) {
 			$this->model_tool_migration->saveStepData($formData);
 			$this->redirect($this->html->getSecureURL('tool/migration/step_three'));
 		}
@@ -236,7 +236,7 @@ class ControllerPagesToolMigration extends AController {
 		$this->data['cancel'] = $this->html->getSecureURL('tool/migration');
 		$this->data['back'] = $this->html->getSecureURL('tool/migration/step_one');
 
-		$source = ($this->request->server['REQUEST_METHOD'] == 'POST') ? $this->request->post : $this->session->data['migration'];
+		$source = $this->request->is_POST() ? $this->request->post : $this->session->data['migration'];
 		$this->_setFormData($formData, $source);
 		$this->_setErrors($errors);
 

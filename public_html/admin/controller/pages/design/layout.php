@@ -135,7 +135,7 @@ class ControllerPagesDesignLayout extends AController {
 
     $url = '';
 
-    if (($this->request->server['REQUEST_METHOD'] == 'POST')) {
+    if ($this->request->is_POST()) {
       $tmpl_id = $this->request->post['tmpl_id'];
       $page_id = $this->request->post['page_id'];
       $layout_id = $this->request->post['layout_id'];
@@ -164,7 +164,7 @@ class ControllerPagesDesignLayout extends AController {
 
     $url = '';
 
-    if (($this->request->server['REQUEST_METHOD'] == 'POST')) {
+    if ($this->request->is_POST()) {
       $tmpl_id = $this->request->post['tmpl_id'];
       $page_id = $this->request->post['page_id'];
       $layout_id = $this->request->post['layout_id'];

@@ -730,16 +730,6 @@ class ControllerPagesExtensionExtensions extends AController {
 		$this->extensions->hk_UpdateData($this, __FUNCTION__);
 	}
 
-	public function initTabs(){
-
-		//init controller data
-		$this->extensions->hk_InitData($this, __FUNCTION__);
-
-
-
-
-	}
-
 	/**
 	 * @param string $extension
 	 * @param int $store_id

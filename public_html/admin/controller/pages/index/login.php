@@ -49,7 +49,7 @@ class ControllerPagesIndexLogin extends AController {
             'icon' => '' //need getMenuIconByRT method 
         ));
 
-		if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->_validate()) {
+		if ($this->request->is_POST() && $this->_validate()) {
 			$this->session->data['token'] = AEncryption::getHash(mt_rand());
 			//login is sussessful redirect to otiginaly requested page 
 			if (isset($this->request->post['redirect']) && !preg_match("/rt=index\/login/i", $this->request->post['redirect'])) {
@@ -128,7 +128,7 @@ class ControllerPagesIndexLogin extends AController {
 			if ($this->request->get) {
 				$url = '&' . http_build_query($this->request->get);
 			}
-			if($this->request->server['REQUEST_METHOD'] == 'POST'){
+			if($this->request->is_POST()){
 				$this->view->assign('redirect', $this->request->post['redirect'] ); // if login attempt failed - save path for redirect
 			}else{
 				$this->view->assign('redirect', $this->html->getSecureURL( $route , $url));

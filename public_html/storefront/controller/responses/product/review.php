@@ -81,7 +81,7 @@ class ControllerResponsesProductReview extends AController {
 		$this->loadLanguage('product/product');
 		$this->loadModel('catalog/review');
 		$json = array();
-		if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->_validate()) {
+		if ($this->request->is_POST() && $this->_validate()) {
 			$this->model_catalog_review->addReview($this->request->get['product_id'], $this->request->post);
 			unset($this->session->data['captcha']);
 			$json['success'] = $this->language->get('text_success');

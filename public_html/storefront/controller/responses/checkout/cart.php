@@ -28,7 +28,7 @@ class ControllerResponsesCheckoutCart extends AController {
         //init controller data
         $this->extensions->hk_InitData($this,__FUNCTION__);
 
-		if ($this->request->server['REQUEST_METHOD'] == 'POST') {
+		if ($this->request->is_POST()) {
 
       		if (isset($this->request->post['quantity'])) {
 				if (!is_array($this->request->post['quantity'])) {
@@ -85,7 +85,7 @@ class ControllerResponsesCheckoutCart extends AController {
         $this->extensions->hk_InitData($this,__FUNCTION__);
 		$output = array();
 		$this->load->library('json');
-		if ($this->request->server['REQUEST_METHOD'] != 'POST') {
+		if ($this->request->is_GET()) {
 			$this->response->setOutput(AJson::encode($output));
 			return '';
 		}
@@ -175,7 +175,7 @@ class ControllerResponsesCheckoutCart extends AController {
 
 		$this->load->library('json');
 
-		if ($this->request->server['REQUEST_METHOD'] != 'POST') {
+		if ($this->request->is_GET()) {
 			$this->response->setOutput(AJson::encode($output));
 			return '';
 		}
@@ -201,5 +201,4 @@ class ControllerResponsesCheckoutCart extends AController {
 
 		$this->response->setOutput(AJson::encode($this->data));
 	}
-
 }

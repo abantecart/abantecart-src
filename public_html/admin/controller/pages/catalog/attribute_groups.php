@@ -119,7 +119,7 @@ class ControllerPagesCatalogAttributeGroups extends AController {
 
     	$this->document->setTitle( $this->language->get('heading_title') );
 
-		if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->_validateForm()) {
+		if ($this->request->is_POST() && $this->_validateForm()) {
 			$attribute_groups_id = $this->attribute_manager->addAttributeGroup($this->request->post);
 			$this->session->data['success'] = $this->language->get('text_success');
       		$this->redirect($this->html->getSecureURL('catalog/attribute_groups/update', '&attribute_groups_id=' . $attribute_groups_id ));
@@ -142,7 +142,7 @@ class ControllerPagesCatalogAttributeGroups extends AController {
 
     	$this->document->setTitle( $this->language->get('heading_title') );
 
-    	if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->_validateForm()) {
+    	if ($this->request->is_POST() && $this->_validateForm()) {
 	  		$this->attribute_manager->updateAttributeGroup($this->request->get['attribute_groups_id'], $this->request->post);
 			$this->session->data['success'] = $this->language->get('text_success');
 			$this->redirect($this->html->getSecureURL('catalog/attribute_groups/update', '&attribute_groups_id=' . $this->request->get['attribute_groups_id'] ));
@@ -170,7 +170,7 @@ class ControllerPagesCatalogAttributeGroups extends AController {
       		'separator' => ' :: '
    		 ));
 
-		if (isset($this->request->get['attribute_groups_id']) && ($this->request->server['REQUEST_METHOD'] != 'POST')) {
+		if (isset($this->request->get['attribute_groups_id']) && $this->request->is_GET()) {
       		$attribute_groups_info = $this->attribute_manager->getAttributeGroup(
                   $this->request->get['attribute_groups_id'],
                   $this->session->data['content_language_id']

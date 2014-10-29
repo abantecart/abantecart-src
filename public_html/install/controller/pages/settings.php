@@ -23,7 +23,7 @@ class ControllerPagesSettings extends AController {
 
 	public function main() {
 		$template_data = array();
-		if (($this->request->server['REQUEST_METHOD'] == 'POST') && ($this->validate())) {
+		if ($this->request->is_POST() && ($this->validate())) {
 			$this->redirect(HTTP_SERVER . 'index.php?rt=install');
 		}
 

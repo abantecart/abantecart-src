@@ -54,7 +54,7 @@ class ControllerPagesAccountAddress extends AController {
 
 		$this->document->setTitle($this->language->get('heading_title'));
 
-		if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->validateForm()) {
+		if ($this->request->is_POST() && $this->validateForm()) {
 			$this->model_account_address->addAddress($this->request->post);
 
 			$this->session->data['success'] = $this->language->get('text_insert');
@@ -81,7 +81,7 @@ class ControllerPagesAccountAddress extends AController {
 
 		$this->document->setTitle($this->language->get('heading_title'));
 
-		if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->validateForm()) {
+		if ($this->request->is_POST() && $this->validateForm()) {
 			$this->model_account_address->editAddress($this->request->get['address_id'], $this->request->post);
 
 			if (isset($this->session->data['shipping_address_id']) && ($this->request->get['address_id'] == $this->session->data['shipping_address_id'])) {
@@ -266,7 +266,7 @@ class ControllerPagesAccountAddress extends AController {
 		$this->view->assign('error_zone', $this->error['zone']);
 
 
-		if (isset($this->request->get['address_id']) && ($this->request->server['REQUEST_METHOD'] != 'POST')) {
+		if (isset($this->request->get['address_id']) && $this->request->is_GET()) {
 			$address_info = $this->model_account_address->getAddress($this->request->get['address_id']);
 		}
 

@@ -27,7 +27,7 @@ class ControllerBlocksLanguage extends AController {
         //init controller data
         $this->extensions->hk_InitData($this,__FUNCTION__);
 
-        if (($this->request->server['REQUEST_METHOD'] == 'POST') && isset($this->request->post['language_code'])) {
+        if ($this->request->is_POST() && isset($this->request->post['language_code'])) {
 			$this->session->data['language'] = $this->request->post['language_code'];
 		
 			if (isset($this->request->post['redirect'])) {
@@ -69,4 +69,3 @@ class ControllerBlocksLanguage extends AController {
         $this->extensions->hk_UpdateData($this,__FUNCTION__);
 	}
 }
-?>

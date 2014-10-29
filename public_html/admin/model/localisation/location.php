@@ -20,7 +20,15 @@
 if (!defined('DIR_CORE') || !IS_ADMIN) {
     header('Location: static_pages/');
 }
+
+/**
+ * Class ModelLocalisationLocation
+ */
 class ModelLocalisationLocation extends Model {
+	/**
+	 * @param array $data
+	 * @return int
+	 */
     public function addLocation($data) {
         $this->db->query(
             "INSERT INTO " . $this->db->table("locations") . " 
@@ -32,6 +40,11 @@ class ModelLocalisationLocation extends Model {
         return $this->db->getLastId();
     }
 
+	/**
+	 * @param int $location_id
+	 * @param array $data
+	 * @return int
+	 */
     public function addLocationZone($location_id, $data) {
         $zones = !is_array($data['zone_id']) ? array((int)$data['zone_id']) : $data['zone_id'];
         if (!$zones || !$location_id) {
@@ -53,12 +66,16 @@ class ModelLocalisationLocation extends Model {
         return $this->db->getLastId();
     }
 
+	/**
+	 * @param int $location_id
+	 * @param array $data
+	 */
     public function editLocation($location_id, $data) {
         $fields = array('name', 'description',);
         $update = array('date_modified = NOW()');
         foreach ($fields as $f) {
             if (isset($data[$f]))
-                $update[] = "$f = '" . $this->db->escape($data[$f]) . "'";
+                $update[] = $f." = '" . $this->db->escape($data[$f]) . "'";
         }
         if (!empty($update)) {
             $this->db->query("UPDATE " . $this->db->table("locations") . " SET " . implode(',', $update) . " WHERE location_id = '" . (int)$location_id . "'");
@@ -67,12 +84,16 @@ class ModelLocalisationLocation extends Model {
         }
     }
 
+	/**
+	 * @param int zone_to_location_id
+	 * @param array $data
+	 */
     public function editLocationZone($zone_to_location_id, $data) {
         $fields = array('country_id', 'zone_id',);
         $update = array('date_modified = NOW()');
         foreach ($fields as $f) {
             if (isset($data[$f]))
-                $update[] = "$f = '" . $this->db->escape($data[$f]) . "'";
+                $update[] = $f." = '" . $this->db->escape($data[$f]) . "'";
         }
         if (!empty($update)) {
             $this->db->query("UPDATE " . $this->db->table("zones_to_locations") . " SET " . implode(',', $update) . " WHERE zone_to_location_id = '" . (int)$zone_to_location_id . "'");
@@ -80,30 +101,47 @@ class ModelLocalisationLocation extends Model {
         }
     }
 
-
+	/**
+	 * @param int $location_id
+	 */
     public function deleteLocation($location_id) {
         $this->db->query("DELETE FROM " . $this->db->table("locations") . " WHERE location_id = '" . (int)$location_id . "'");
         $this->db->query("DELETE FROM " . $this->db->table("zones_to_locations") . " WHERE location_id = '" . (int)$location_id . "'");
         $this->cache->delete('location');
     }
 
+	/**
+	 * @param int $zone_to_location_id
+	 */
     public function deleteLocationZone($zone_to_location_id) {
         $this->db->query("DELETE FROM " . $this->db->table("zones_to_locations") . " WHERE zone_to_location_id = '" . (int)$zone_to_location_id . "'");
         $this->cache->delete('location');
     }
 
+	/**
+	 * @param int $location_id
+	 * @return array
+	 */
     public function getLocation($location_id) {
         $query = $this->db->query("SELECT DISTINCT * FROM " . $this->db->table("locations") . " WHERE location_id = '" . (int)$location_id . "'");
 
         return $query->row;
     }
 
+	/**
+	 * @param int $zone_to_location_id
+	 * @return array mixed
+	 */
     public function getLocationZone($zone_to_location_id) {
         $query = $this->db->query("SELECT * FROM " . $this->db->table("zones_to_locations") . " WHERE zone_to_location_id = '" . (int)$zone_to_location_id . "'");
 
         return $query->row;
     }
 
+	/**
+	 * @param array $data
+	 * @return array
+	 */
     public function getLocations($data = array()) {
         if ($data) {
             $sql = "SELECT * FROM " . $this->db->table("locations") . " ";
@@ -156,7 +194,10 @@ class ModelLocalisationLocation extends Model {
         }
     }
 
-
+	/**
+	 * @param array $data
+	 * @return int
+	 */
     public function getTotalLocations($data = array()) {
         $sql = "SELECT count(*) as total FROM " . $this->db->table("locations") . " ";
         if (!empty($data['subsql_filter'])) {
@@ -166,6 +207,10 @@ class ModelLocalisationLocation extends Model {
         return $query->row['total'];
     }
 
+	/**
+	 * @param array $data
+	 * @return array
+	 */
     public function getZoneToLocations($data) {
 		$language_id = $this->session->data['content_language_id'];
 		$default_language_id = $this->language->getDefaultLanguageID();
@@ -190,6 +235,10 @@ class ModelLocalisationLocation extends Model {
         return $query->rows;
     }
 
+	/**
+	 * @param int $location_id
+	 * @return array
+	 */
     public function getTotalZoneToLocationsByLocationID($location_id) {
         $query = $this->db->query("SELECT COUNT(*) AS total
                                    FROM " . $this->db->table("zones_to_locations") . " 
@@ -197,15 +246,21 @@ class ModelLocalisationLocation extends Model {
         return $query->row['total'];
     }
 
+	/**
+	 * @param int $country_id
+	 * @return int
+	 */
     public function getTotalZoneToLocationByCountryID($country_id) {
         $query = $this->db->query("SELECT COUNT(*) AS total FROM " . $this->db->table("zones_to_locations") . " WHERE country_id = '" . (int)$country_id . "'");
         return $query->row['total'];
     }
 
+	/**
+	 * @param int $zone_id
+	 * @return int
+	 */
     public function getTotalZoneToLocationByZoneId($zone_id) {
         $query = $this->db->query("SELECT COUNT(*) AS total FROM " . $this->db->table("zones_to_locations") . " WHERE zone_id = '" . (int)$zone_id . "'");
         return $query->row['total'];
     }
 }
-
-?>

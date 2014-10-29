@@ -66,7 +66,7 @@ class ModelCatalogManufacturer extends Model {
 		$update = array();
 		foreach ( $fields as $f ) {
 			if ( isset($data[$f]) )
-				$update[] = "$f = '".$this->db->escape($data[$f])."'";
+				$update[] = $f." = '".$this->db->escape($data[$f])."'";
 		}
 		if ( !empty($update) ) $this->db->query("UPDATE " . $this->db->table("manufacturers") . " SET ". implode(',', $update) ." WHERE manufacturer_id = '" . (int)$manufacturer_id . "'");
 

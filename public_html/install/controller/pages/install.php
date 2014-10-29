@@ -49,7 +49,7 @@ class ControllerPagesInstall extends AController {
 			return;
 		}
 
-		if (($this->request->server[ 'REQUEST_METHOD' ] == 'POST') && ($this->_validate())) {
+		if ( $this->request->is_POST() && ($this->_validate())) {
 
 			$this->session->data['install_step_data'] = $this->request->post;
 			$this->redirect(HTTP_SERVER . 'index.php?rt=install&runlevel=1');

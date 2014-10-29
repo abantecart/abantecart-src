@@ -22,6 +22,9 @@ if (! defined ( 'DIR_CORE' )) {
 }
 
 final class APage {
+	/**
+	 * @var Registry
+	 */
 	protected $registry;
 	protected $pre_dispatch = array();
 	protected $error;
@@ -53,6 +56,9 @@ final class APage {
  		$this->recursion_limit = 0;
 
 		foreach ($this->pre_dispatch as $pre_dispatch) {
+			/**
+			 * @var ADispatcher $pre_dispatch
+			 */
 			$result = $pre_dispatch->dispatch();					
 			if ($result) {
 				//Something happened. Need to run different page
@@ -86,4 +92,3 @@ final class APage {
   	}
 	
 }
-?>

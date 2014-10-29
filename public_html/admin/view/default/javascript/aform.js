@@ -198,12 +198,7 @@
             });
         }
 
-        function doScrollbox(elem) {
-            var $field = $(elem);
-
-            var $wrapper = $field.closest('.afield');
-
-        }
+        function doScrollbox(elem) {}
 
         function doCheckbox(elem) {
 			var $field = $(elem);
@@ -689,21 +684,21 @@
 		    	//show ajax wrapper
 		        var growl = notice(o.processing_txt, false, null, 'info', 'fa fa-spinner fa-spin');
 		        $.ajax({
-		            url:url,
-		            type:"POST",
-		            dataType:"text",
-		            data:$data,
+		            url: url,
+		            type: 'POST',
+		            dataType: 'text',
+		            data: $data,
 		            error:function (data) {
-		                var $json = $.parseJSON(data.responseText);
-		                var $error_text = '';
-		                if( $json.error_text ){  
-		                    $error_text = '<span class="ajax_error">' + $json.error_text + '</span>';
-		                } else {
-		                    $error_text = '<span class="ajax_error">There\'s an error in the request.</span>';
-		                }
-		                // show ajax error and fadeout
-		                remove_alert(growl);
-		                error_alert($error_text, true);                
+                        var $json;
+                        try {
+                            $json = $.parseJSON(data.responseText);
+                        }catch(e){
+                            $json = {};
+                        }
+                        remove_alert(growl);
+		                /*
+		                * error alert shows by global js error handler (see file general.js, $(document).ajaxError() )
+		                * */
 		                $('.field_err', $wrapper).remove();
 		                $field.focus();
 		             
@@ -762,7 +757,8 @@
     				if($elem.hasClass("aswitcher")) {
     					//reset switcher differently
     					resetField($elem);
-    					removeQuickSave($elem);						
+    					removeQuickSave($elem);	
+    					$elem.parent().find('*').removeClass('changed');					
     				} else {
     					$elem.change();    				
     				}
@@ -920,13 +916,13 @@ var bindAform = function(selector, op){
 //------------------------------------------------------------------------------
 // remove changed marks on fields
 //------------------------------------------------------------------------------
-var resetAForm = function(selector){
-	if ( selector == null ) {
-		selector = $("input, textarea, select");
-	}
-	
-	$(selector).each(function () {
-		var $field = $(this);
-		$field.removeClass('changed');
-	});
+var resetAForm = function (selector) {
+    if (selector == null) {
+        selector = $("input, textarea, select");
+    }
+
+    $(selector).each(function () {
+        var $field = $(this);
+        $field.removeClass('changed');
+    });
 }

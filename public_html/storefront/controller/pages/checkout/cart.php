@@ -52,7 +52,7 @@ class ControllerPagesCheckoutCart extends AController {
 
 			$this->redirect($this->html->getSecureURL('checkout/cart'));
 			
-		} else if ($this->request->server['REQUEST_METHOD'] == 'POST') {
+		} else if ($this->request->is_POST()) {
 
 			//if this is coupon, validate and apply
 			if ( isset($this->request->post['coupon']) && $this->_validateCoupon() ) {

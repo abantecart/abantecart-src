@@ -110,7 +110,7 @@ class ModelSaleOrder extends Model {
 			
 		foreach ( $fields as $f ) {
 			if ( isset($data[$f]) )
-				$update[] = "$f = '".$this->db->escape($data[$f])."'";
+				$update[] = $f." = '".$this->db->escape($data[$f])."'";
 		}
 		$this->db->query("UPDATE `" . $this->db->table("orders") . "`
 						  SET ". implode(',', $update) ."

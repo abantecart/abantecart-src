@@ -42,7 +42,7 @@ class ControllerPagesAccountForgotten extends AController {
 		$this->loadModel('account/customer');
 		
 		$cust_detatils = array();
-		if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->_find_customer('password', $cust_detatils)) {
+		if ($this->request->is_POST() && $this->_find_customer('password', $cust_detatils)) {
 			//extra check that we have csutomer details 
 			if (!empty($cust_detatils['email'])) {
 				$this->loadLanguage('mail/account_forgotten');
@@ -149,7 +149,7 @@ class ControllerPagesAccountForgotten extends AController {
 		$this->loadModel('account/customer');
 		
 		$cust_detatils = array();
-		if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->_find_customer('loginname', $cust_detatils)) {
+		if ($this->request->is_POST() && $this->_find_customer('loginname', $cust_detatils)) {
 			//extra check that we have csutomer details 
 			if (!empty($cust_detatils['email'])) {
 				$this->loadLanguage('mail/account_forgotten_login');

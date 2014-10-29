@@ -185,7 +185,7 @@ class ControllerPagesCatalogReview extends AController {
 
 		$this->document->setTitle( $this->language->get('heading_title') );
 		
-		if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->_validateForm()) {
+		if ($this->request->is_POST() && $this->_validateForm()) {
 			$review_id = $this->model_catalog_review->addReview($this->request->post);
 			$this->session->data['success'] = $this->language->get('text_success');
 

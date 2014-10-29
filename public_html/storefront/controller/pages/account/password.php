@@ -35,7 +35,7 @@ class ControllerPagesAccountPassword extends AController {
 
     	$this->document->setTitle( $this->language->get('heading_title') );
 			  
-    	if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->_validate()) {
+    	if ($this->request->is_POST() && $this->_validate()) {
 			$this->loadModel('account/customer');
 			
 			$this->model_account_customer->editPassword($this->customer->getLoginName(), $this->request->post['password']);
@@ -141,4 +141,3 @@ class ControllerPagesAccountPassword extends AController {
 		}
   	}
 }
-?>
