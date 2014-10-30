@@ -98,7 +98,7 @@ class ControllerResponsesCatalogAttribute extends AController {
 				                                                                       'value' => $this->data[ 'error_text' ],
 				                                                                       'style' => 'large-field',
 				                                                                  ));
-
+		$this->data['children'] = array();
 		//Build atribute values part of the form
 		if ( $this->request->get['attribute_id'] ) {
 
