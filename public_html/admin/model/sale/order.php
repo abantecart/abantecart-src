@@ -69,6 +69,7 @@ class ModelSaleOrder extends Model {
 		$fields = array(
 			'telephone',
 			'email',
+			'fax',
 			'shipping_firstname',
 			'shipping_lastname',
 			'shipping_company',
@@ -109,8 +110,9 @@ class ModelSaleOrder extends Model {
 		}
 			
 		foreach ( $fields as $f ) {
-			if ( isset($data[$f]) )
-				$update[] = $f." = '".$this->db->escape($data[$f])."'";
+			if ( isset($data[$f]) ) {
+				$update[] = $f . " = '" . $this->db->escape($data[$f]) . "'";
+			}
 		}
 		$this->db->query("UPDATE `" . $this->db->table("orders") . "`
 						  SET ". implode(',', $update) ."

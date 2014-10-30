@@ -450,8 +450,19 @@ class ControllerPagesSaleOrder extends AController {
 
 		$this->data = array();
 		$fields = array(
-			'shipping_firstname', 'shipping_lastname', 'shipping_company', 'shipping_address_1', 'shipping_address_2',
-			'shipping_city', 'shipping_postcode', 'shipping_zone', 'shipping_zone_id', 'shipping_country', 'shipping_country_id',
+
+				'shipping_firstname',
+				'shipping_lastname',
+				'shipping_company',
+				'shipping_address_1',
+				'shipping_address_2',
+				'shipping_city',
+				'shipping_postcode',
+				'fax',
+				'shipping_zone',
+				'shipping_zone_id',
+				'shipping_country',
+				'shipping_country_id',
 		);
 
 		//init controller data
@@ -574,8 +585,7 @@ class ControllerPagesSaleOrder extends AController {
 		$this->data['form']['fields']['fax'] = $form->getFieldHtml(array(
 			'type' => 'input',
 			'name' => 'fax',
-			'value' => $this->data['fax'],
-			'style' => 'no-save'
+			'value' => $this->data['fax']
 		));
 
 		$this->loadModel('localisation/country');
@@ -594,16 +604,14 @@ class ControllerPagesSaleOrder extends AController {
 			'type' => 'selectbox',
 			'name' => 'shipping_country_id',
 			'value' => $this->data['shipping_country_id'],
-			'options' => $countries,
-			'style' => 'no-save'
+			'options' => $countries
 		));
 
 		$this->data['form']['fields']['zone'] = $form->getFieldHtml(array(
 			'type' => 'selectbox',
 			'name' => 'shipping_zone_id',
 			'value' => '',
-			'options' => array(),
-			'style' => 'no-save'
+			'options' => array()
 		));
 
 		$this->addChild('pages/sale/order_summary', 'summary_form', 'pages/sale/order_summary.tpl');
@@ -897,13 +905,13 @@ class ControllerPagesSaleOrder extends AController {
 			'name' => 'notify',
 			'value' => 1,
 			'checked' => false,
-			//'style' => 'btn_switch'
+			'style' => 'btn_switch'
 		));
 		$this->data['form']['fields']['append'] = $form->getFieldHtml(array(
 			'type' => 'checkbox',
 			'name' => 'append',
 			'value' => 1,
-			//'style' => 'btn_switch',
+			'style' => 'btn_switch',
 		));
 		$this->data['form']['fields']['comment'] = $form->getFieldHtml(array(
 			'type' => 'textarea',
