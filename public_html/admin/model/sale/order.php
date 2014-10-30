@@ -460,7 +460,12 @@ class ModelSaleOrder extends Model {
 		if ( has_value($data['filter_total']) ) {
 			$data['filter_total'] = (float)$data['filter_total'];
 			$currencies = $this->currency->getCurrencies();
-			$temp = $temp2 = array($data['filter_total']);
+			$temp = $temp2 = array(
+					$data['filter_total'],
+					floor($data['filter_total']),
+					ceil($data['filter_total'])
+			);
+
 			foreach( $currencies  as $currency1){
 				foreach( $currencies  as $currency2){
 					if($currency1['code']!=$currency2['code']){
@@ -469,6 +474,7 @@ class ModelSaleOrder extends Model {
 					}
 				}
 			}
+
 			$sql .= " AND ( FLOOR(o.total) IN  (" . implode(",",$temp) . ")
 							OR FLOOR(CAST(o.total as DECIMAL(15,4)) * CAST(o.value as DECIMAL(15,4))) IN  (" . implode(",",$temp) . ")
 							OR CEIL(o.total) IN  (" . implode(",",$temp2) . ")
@@ -510,7 +516,7 @@ class ModelSaleOrder extends Model {
 			
 			$sql .= " LIMIT " . (int)$data['start'] . "," . (int)$data['limit'];
 		}
-				
+
 		$query = $this->db->query($sql);
 		$result_rows = array();
 		foreach ($query->rows as $row) {
