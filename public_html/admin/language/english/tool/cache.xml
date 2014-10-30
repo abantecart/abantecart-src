@@ -90,7 +90,7 @@
   </definition>
   <definition>
     <key>desc_localisations</key>
-    <value><![CDATA[Currency, Laguage, Country, Zone, Length, Weight, &amp; other]]></value>
+    <value><![CDATA[Currency, Language, Country, Zone, Length, Weight, &amp; other]]></value>
   </definition>
   <definition>
     <key>desc_error_log</key>

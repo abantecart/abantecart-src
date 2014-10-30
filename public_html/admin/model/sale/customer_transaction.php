@@ -34,7 +34,7 @@ class ModelSaleCustomerTransaction extends Model {
     public function getCustomerTransaction($customer_transaction_id=0){
         if(!(int)$customer_transaction_id) return array();
 
-        $sql = "SELECT *,
+        $sql = "SELECT *, t.date_added, t.date_modified,
 				CASE
 					WHEN t.section=1
 						THEN CONCAT(u.firstname,' ',u.lastname, ' (',u.username,')')
@@ -58,7 +58,7 @@ class ModelSaleCustomerTransaction extends Model {
         // get decrypted customer name first
         $this->load->model('sale/customer');
         $customer_info = $this->model_sale_customer->getCustomer((int)$data['customer_id']);
-        $sql = "SELECT *,
+        $sql = "SELECT *, t.date_added, t.date_modified,
 				CASE
 					WHEN t.section=1
 						THEN CONCAT(u.firstname,' ',u.lastname, ' (',u.username,')')
@@ -137,7 +137,6 @@ class ModelSaleCustomerTransaction extends Model {
         }
 
         $query = $this->db->query( $sql );
-
         return $query->rows;
     }
 

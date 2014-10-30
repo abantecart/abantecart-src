@@ -178,8 +178,6 @@ class ControllerResponsesListingGridCustomerTransaction extends AController {
 		$this->response->setOutput(AJson::encode($result));
 	}
 
-
-
 	public function transaction(){
 
 		//init controller data
@@ -283,8 +281,8 @@ class ControllerResponsesListingGridCustomerTransaction extends AController {
 																	));
 
 			if($readonly){
-				$this->data['form']['fields']['date_added'] = dateInt2Display($info['date_added'],$this->language->get('date_format_short').' '.$this->language->get('time_format'));
-				$this->data['form']['fields']['date_modified'] = dateInt2Display($info['date_modified'],$this->language->get('date_format_short').' '.$this->language->get('time_format'));
+				$this->data['form']['fields']['date_added'] = dateISO2Display($info['date_added'],$this->language->get('date_format_short').' '.$this->language->get('time_format'));
+				$this->data['form']['fields']['date_modified'] = dateISO2Display($info['date_modified'],$this->language->get('date_format_short').' '.$this->language->get('time_format'));
 			}
 
 
@@ -299,5 +297,4 @@ class ControllerResponsesListingGridCustomerTransaction extends AController {
 		$this->processTemplate('responses/sale/customer_transaction_form.tpl');
 
 	}
-
 }
