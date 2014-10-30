@@ -5,13 +5,13 @@
 
 	<div class="panel-heading col-xs-12">
 		<div class="primary_content_actions pull-left">
-
+		<?php if($active=='appearance'){?>
 			<div class="btn-group">
 				<a class="btn btn-primary actionitem tooltips" title="<?php echo $manage_extensions->title; ?>" href="<?php echo $manage_extensions->href; ?>">
 				<i class="fa fa-puzzle-piece"></i>
 				</a>
 			</div>
-
+		<?php } ?>
 		<?php if($store_id > 0){ ?>
 			<div class="btn-group">
 				<a  class="btn btn-primary actionitem tooltips" title="<?php echo $edit_store_button->title; ?>" href="<?php echo $edit_store_button->href; ?>">
