@@ -281,12 +281,19 @@ class ControllerResponsesListingGridCustomerTransaction extends AController {
 																	));
 
 			if($readonly){
-				$this->data['form']['fields']['date_added'] = dateISO2Display($info['date_added'],$this->language->get('date_format_short').' '.$this->language->get('time_format'));
-				$this->data['form']['fields']['date_modified'] = dateISO2Display($info['date_modified'],$this->language->get('date_format_short').' '.$this->language->get('time_format'));
+				$this->data['form']['fields']['date_added'] = $form->getFieldHtml(array(
+																					'type' => 'input',
+																					'name' => 'date_added',
+																					'value' => dateISO2Display($info['date_added'],$this->language->get('date_format_short').' '.$this->language->get('time_format')),
+																					'attr' => 'disabled="disabled"'
+				));
+				$this->data['form']['fields']['date_modified'] =  $form->getFieldHtml(array(
+																					'type' => 'input',
+																					'name' => 'date_modified',
+																					'value' => dateISO2Display($info['date_modified'],$this->language->get('date_format_short').' '.$this->language->get('time_format')),
+																					'attr' => 'disabled="disabled"'
+				));
 			}
-
-
-
 
 		//update controller data
 		$this->extensions->hk_UpdateData($this, __FUNCTION__);

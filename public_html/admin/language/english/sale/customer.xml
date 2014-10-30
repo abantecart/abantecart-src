@@ -325,5 +325,12 @@
         <key>error_delete_last</key>
         <value><![CDATA[Error: you must have at least one address!]]></value>
     </definition>
-	
+    <definition>
+        <key>entry_date_added</key>
+        <value><![CDATA[Date Added:]]></value>
+    </definition>
+    <definition>
+        <key>entry_date_modified</key>
+        <value><![CDATA[Date Modified:]]></value>
+    </definition>
 </definitions>
