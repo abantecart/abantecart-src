@@ -742,7 +742,7 @@
   </definition>
   <definition>
     <key>entry_coupon_on_cart_page</key>
-    <value><![CDATA[Купон на странице корзины:<br /><span class="help">Позволить клиентам вводить код купона и получить скидку. (HTML5 Шаблон)</span>]]></value>
+    <value><![CDATA[Купон на странице корзины:<br /><span class="help">Позволить клиентам вводить код купона и получить скидку.</span>]]></value>
   </definition>
   <definition>
     <key>entry_google_analytics</key>

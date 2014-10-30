@@ -81,10 +81,10 @@ class ControllerBlocksCart extends AController {
 
 		$this->data['products'] = $products;
 		$this->data['total_qty'] = $qty;
-	
-      	$display_totals = $this->cart->buildTotalDisplay();      				
+
+      	$display_totals = $this->cart->buildTotalDisplay();
     	$this->data['totals'] = $display_totals['total_data'];
-    	$this->data['subtotal'] = $this->currency->format($this->tax->calculate($display_totals['total'], $result['tax_class_id'], $this->config->get('config_tax')));
+		$this->data['subtotal'] = $this->currency->format($display_totals['total']);
 		$this->data['taxes'] = $display_totals['taxes'];
 		
 		$this->data['ajax'] = $this->config->get('cart_ajax');

@@ -804,11 +804,11 @@
 	</definition>
 	<definition>
 		<key>entry_shipping_tax_estimate</key>
-		<value><![CDATA[Shipping and Tax Estimate:<br /><span class="help">Allow customers to get quick shipping and tax estimate in the shopping cart. (HTML5 template)</span>]]></value>
+		<value><![CDATA[Shipping and Tax Estimate:<br /><span class="help">Allow customers to get quick shipping and tax estimate in the shopping cart.</span>]]></value>
 	</definition>
 	<definition>
 		<key>entry_coupon_on_cart_page</key>
-		<value><![CDATA[Coupon on shopping cart page:<br /><span class="help">Allow customers to enter coupon code and see discount in the shopping cart. (HTML5 Template)</span>]]></value>
+		<value><![CDATA[Coupon on shopping cart page:<br /><span class="help">Allow customers to enter coupon code and see discount in the shopping cart.</span>]]></value>
 	</definition>
 	<definition>
 		<key>entry_google_analytics</key>
