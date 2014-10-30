@@ -40,7 +40,7 @@
 				</ul>
 			</div>
 			<div class="btn-group mr20 toolbar">
-				<a class="actionitem btn btn-primary tooltips" href="<?php echo $text_add_address; ?>" title="<?php echo $text_add_address; ?>">
+				<a class="actionitem btn btn-primary tooltips" href="<?php echo $add_address_url; ?>" title="<?php echo $text_add_address; ?>">
 				<i class="fa fa-plus fa-fw"></i>
 				</a>
 			</div>			
