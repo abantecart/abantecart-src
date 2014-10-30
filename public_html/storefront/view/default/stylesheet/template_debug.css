@@ -6,7 +6,6 @@
 .postit_notes_box {
 	font: 11px Tahoma, Arial, Helvetica;
 	color: #000000;
-	background: url(../image/icon_note.png) 50% 50% no-repeat;
 	position: absolute;
 	top: 0;
 	right: 0;
@@ -16,7 +15,6 @@
 .postit_notes_box_parent {
 	position: absolute;
 	top: -5px;
-	background: url(../image/icon_note.png) 50% 50% no-repeat;
 	color: #000000;
 	z-index: 100;
 }

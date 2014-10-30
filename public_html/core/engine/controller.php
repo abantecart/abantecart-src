@@ -300,7 +300,7 @@ abstract class AController {
 							$debug_wrapper = $this->dispatch('common/template_debug', array( 'instance_id' => $this->instance_id, 'details' => $args ));
 							$debug_output = $debug_wrapper->dispatchGetOutput();
 							$output = trim($this->view->getOutput());
-							if (!empty($output)) $output = '<div class="block_tmpl_wrapper">' . $output . $debug_output . '</div>';
+							if (!empty($output)) $output = '<span class="block_tmpl_wrapper">' . $output . $debug_output . '</span>';
 							$this->view->setOutput($output);
 						}
 					}

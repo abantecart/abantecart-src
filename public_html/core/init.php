@@ -285,9 +285,6 @@ try {
 //Hook class
 	$hook = new AHook($registry);
 
-// Session
-	$registry->set('session', new ASession(SESSION_ID) );
-
 // Database
 	$registry->set('db', new ADB(DB_DRIVER, DB_HOSTNAME, DB_USERNAME, DB_PASSWORD, DB_DATABASE));
 
@@ -297,6 +294,9 @@ try {
 // Config
 	$config = new AConfig($registry);
 	$registry->set('config', $config);
+
+// Session
+	$registry->set('session', new ASession(SESSION_ID) );
 
 // Set up HTTP and HTTPS based automatic and based on config
 	if (IS_ADMIN) {
@@ -321,7 +321,13 @@ try {
 	
 		//Admin specific loads
 		$registry->set('extension_manager', new AExtensionManager());
-		
+
+		//Now we have session, reload config for store if provided or set in session 
+	    $session = $registry->get('session');
+	    if (has_value($request->get['store_id']) || has_value($session->data['current_store_id']) ) {
+			$config = new AConfig($registry);
+			$registry->set('config', $config);
+	    }
 	} else {
 		// Storefront HTTP
 		define('HTTP_SERVER', $config->get('config_url'));
@@ -385,8 +391,8 @@ try {
 	unset($extensions);
 
 //check if we specify template directly
-	if (!IS_ADMIN && !empty($request->get[ 'sf' ])) {
-		$template = preg_replace('/[^A-Za-z0-9_]+/', '', $request->get[ 'sf' ]);
+	if (!IS_ADMIN && !empty($request->get['sf'])) {
+		$template = preg_replace('/[^A-Za-z0-9_]+/', '', $request->get['sf']);
 		$dir = $template . DIR_EXT_STORE . DIR_EXT_TEMPLATE . $template;
 		if (in_array($template, $enabled_extensions) && is_dir(DIR_EXT . $dir)) {
 			$is_valid = true;
