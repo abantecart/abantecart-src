@@ -895,11 +895,15 @@ class ControllerPagesSaleOrder extends AController {
 		$this->data['form']['fields']['notify'] = $form->getFieldHtml(array(
 			'type' => 'checkbox',
 			'name' => 'notify',
+			'value' => 1,
+			'checked' => false,
+			//'style' => 'btn_switch'
 		));
 		$this->data['form']['fields']['append'] = $form->getFieldHtml(array(
 			'type' => 'checkbox',
 			'name' => 'append',
 			'value' => 1,
+			//'style' => 'btn_switch',
 		));
 		$this->data['form']['fields']['comment'] = $form->getFieldHtml(array(
 			'type' => 'textarea',

@@ -4,7 +4,7 @@
 <input type="checkbox"
            name="<?php echo $name ?>"
            id="<?php echo $id ?>"
-           value="<?php echo $value ?>" 
+           value="1"
            class="ckbox acheckbox <?php echo $style; ?>"
 		   <?php echo ( ($checked) ? 'checked="checked"':'' ) ?>
            data-orgvalue="<?php echo ($checked ? 'true':'false') ?>"
