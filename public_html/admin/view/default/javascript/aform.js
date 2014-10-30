@@ -886,9 +886,12 @@ var formOnExit = function(){
         //reset elements to not changed status
         $form.prop('changed', 'submit');
         //put submited button to loading state
-        if ($(this).attr("type") !== 'reset') {
+        /*TODO: check this commented code in modal save with errors. Also "plus"-buttons for dynamic forms such as adding options value for option selectbox
+        ALSO check GENERATE-button on product edit form
+        */
+       /* if ($(this).attr("type") !== 'reset') {
 	        $(this).button('loading');        
-        }
+        }*/
     });
     // prevent submit of form for "quicksave"
     $("form").bind("keypress", function(e) {
