@@ -282,7 +282,11 @@ class ControllerPagesSaleOrder extends AController {
 		$this->data['heading_title'] = $this->language->get('heading_title') . ' #' . $order_info['order_id'];
 		$this->data['token'] = $this->session->data['token'];
 		$this->data['invoice_url'] = $this->html->getSecureURL('sale/invoice', '&order_id=' . (int)$order_id);
-		$this->data['button_invoice'] = $this->html->buildButton(array('name' => 'btn_invoice', 'text' => $this->language->get('text_invoice'), 'style' => 'button3',));
+		$this->data['button_invoice'] = $this->html->buildElement(array(
+				'type' => 'button',
+				'name' => 'generate_invoice',
+				'text' => $this->language->get('button_generate')
+				));
 		$this->data['invoice_generate'] = $this->html->getSecureURL('sale/invoice/generate');
 		$this->data['category_products'] = $this->html->getSecureURL('product/product/category');
 		$this->data['product_update'] = $this->html->getSecureURL('catalog/product/update');

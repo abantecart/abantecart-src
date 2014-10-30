@@ -33,11 +33,14 @@
 		</div>
 		<div class="form-group">
 			<label class="control-label col-sm-5"><?php echo $entry_invoice_id; ?></label>
-			<div class="input-group afield col-sm-7">
+			<div class="input-group afield col-sm-7"><p class="form-control-static">
 				<?php if ($invoice_id) {
 					echo $invoice_id;
-				} else col-sm-5 ?>
-			</div>
+				} else {
+					$button_invoice->style = 'btn btn-info';
+					echo $button_invoice;
+				} ?>
+			</p></div>
 		</div>
 		<div class="form-group">
 			<label class="control-label col-sm-5"><?php echo $entry_customer; ?></label>
@@ -353,20 +356,20 @@
 
 	}
 
-	$('#generate_button').click(function () {
-		var that = $(this).parent();
+	$('#generate_invoice').click(function () {
+		var that = $(this).parents('p');
 		$.ajax({
 			url: '<?php echo $invoice_generate; ?>&order_id=<?php echo $order_id; ?>',
 			dataType: 'json',
 			beforeSend: function () {
-				$('#generate_button').attr('disabled', 'disabled');
+				$('#generate_invoice').attr('disabled', 'disabled');
 			},
 			complete: function () {
-				$('#generate_button').attr('disabled', '');
+				$('#generate_invoice').attr('disabled', '');
 			},
 			success: function (data) {
 				if (data.hasOwnProperty('invoice_id')) {
-					$('#generate_button').fadeOut('slow', function(){
+					$('#generate_invoice').fadeOut('slow', function(){
 						that.html(data.invoice_id).fadeIn();
 					});
 				}
