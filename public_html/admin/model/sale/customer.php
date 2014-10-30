@@ -421,15 +421,15 @@ class ModelSaleCustomer extends Model {
 		}
 					
 		$sort_data = array(
-			'name',
-			'c.loginname',
-			'c.lastname',
-			'c.email',
-			'customer_group',
-			'c.status',
-			'c.approved',
-			'c.date_added',
-			'orders_count'
+				'name'              => 'name',
+				'loginname'         => 'c.loginname',
+				'lastname'          => 'c.lastname',
+				'email'             => 'c.email',
+				'customer_group'    => 'customer_group',
+				'status'            => 'c.status',
+				'approved'          => 'c.approved',
+				'date_added'        => 'c.date_added',
+				'orders_count'      => 'orders_count'
 		);	
 
 		if ( $mode != 'total_only'){
@@ -439,12 +439,9 @@ class ModelSaleCustomer extends Model {
 		//Total culculation for encrypted mode 
 		// NOTE: Performance slowdown might be noticed or larger search results	
 		if ( $mode != 'total_only' ) {
-			if (isset($data['sort']) && in_array($data['sort'], $sort_data)) {
-				$sql .= " ORDER BY " . $data['sort'];	
-			} else {
-				$sql .= " ORDER BY name";	
-			}
-				
+
+			$sql .= " ORDER BY ".($sort_data[ $data['sort'] ] ? $sort_data[ $data['sort'] ] : 'name');
+
 			if (isset($data['order']) && (strtoupper($data['order']) == 'DESC')) {
 				$sql .= " DESC";
 			} else {
