@@ -493,6 +493,21 @@ function remove_alert(growl) {
 
 //-----------------------------------------
 
+var isModalOpen = function () {
+    var result = false;
+    $('div.modal').each(function(){
+       var id = $(this).attr('id');
+
+        if(id!=undefined){
+            if (typeof $('#'+id).data === 'function' && $('#'+id).data('bs.modal') != undefined && $('#'+id).data('bs.modal').isShown) {
+                result = true;
+            }
+        }
+    });
+
+	return result;
+}
+
 // global error handler.
 // If you don't need to use it in your custom ajax-call set ajax option "global" to "false"
 $(document).ajaxError(function (e, jqXHR, settings, exception) {
@@ -509,21 +524,6 @@ $(document).ajaxError(function (e, jqXHR, settings, exception) {
     	} else {
     		error_alert(text, autohide);
     	}
-    }
-
-    var isModalOpen = function () {
-        var result = false;
-        $('div.modal').each(function(){
-           var id = $(this).attr('id');
-
-            if(id!=undefined){
-                if (typeof $('#'+id).data === 'function' && $('#'+id).data('bs.modal') != undefined && $('#'+id).data('bs.modal').isShown) {
-                    result = true;
-                }
-            }
-        });
-
-    	return result;
     }
 
     try {

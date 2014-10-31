@@ -682,7 +682,8 @@
 		
 		    if (!$err) {
 		    	//show ajax wrapper
-		        var growl = notice(o.processing_txt, false, null, 'info', 'fa fa-spinner fa-spin');
+                var p = isModalOpen() ? '.modal-content' : null;
+		        var growl = notice(o.processing_txt, false, p, 'info', 'fa fa-spinner fa-spin');
 		        $.ajax({
 		            url: url,
 		            type: 'POST',
@@ -722,7 +723,16 @@
 		                $field.removeClass('has-error');
 		                removeQuickSave($field);
 						remove_alert(growl);	
-						success_alert(data, true);
+
+
+                        if (data.length > 0) {
+                            if (isModalOpen()) {
+                                success_alert(data, true, '.modal-content');
+                            } else {
+                                success_alert(data, true);
+                            }
+                        }
+
 		            }
 		        });	
 		    }
