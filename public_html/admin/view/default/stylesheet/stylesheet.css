@@ -1232,7 +1232,7 @@ p {
 #choose_resource_type>div{
 	height: 416px;
 }
-#choose_resource_type>div button{
+#choose_resource_type>div a.btn{
 	margin-top: 50% !important;
 }
 

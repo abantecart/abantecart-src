@@ -54,13 +54,13 @@
 
 		<div id="choose_resource_type" class="row">
 			<div class="col-sm-6 col-xs-12 center">
-				<button class="tooltips btn btn-primary rl_add_file"
-						data-original-title="<?php echo $text_add_file; ?>"><i class="fa fa-file fa-5x"></i></button>
+				<a class="tooltips btn btn-success rl_add_file"
+						data-original-title="<?php echo $text_add_file; ?>"><i class="fa fa-file fa-5x"></i></a>
 			</div>
 			<div class="col-sm-6 col-xs-12 center">
-				<button class="tooltips btn btn-primary rl_add_code"
+				<a class="tooltips btn btn-primary rl_add_code"
 						data-original-title="<?php echo $text_add_code; ?>"><i class="fa fa-file-code-o fa-5x"></i>
-				</button>
+				</a>
 			</div>
 		</div>
 		<div class="row">
@@ -154,9 +154,12 @@
 		<!-- <div class="tab-content"> -->
 		</div>
 	</div>
+<?php /*
 
+    //TODO: need to add it in the future. Code have issues with js.recursion in downloads modals
 	<script type="text/javascript"><!--
 		//this code needed for correct work of ckeditor inside bootstrap modal
+
 		$.fn.modal.Constructor.prototype.enforceFocus = function () {
 		    var $modalElement = this.$element;
 		    $(document).on('focusin.modal', function (e) {
@@ -183,3 +186,4 @@
 				]
 		});
 	//--></script>
+<?php */ ?>

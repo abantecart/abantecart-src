@@ -106,8 +106,7 @@
 					</div>
 					<div class="col-md-8">
 						<a class="prdocutname" href="<?php echo $item['info_url'] ?>"><?php echo $item['title'] ?>
-							(<?php echo $product['model'] ?>)</a>
-
+							<?php echo $product['model'] ? "(".$product['model'].")" :''; ?></a>
 						<div class="productdiscrption"><?php echo $product['description'] ?></div>
 						<div class="shortlinks">
 							<a class="details" href="<?php echo $item['info_url'] ?>"><?php echo $button_view ?></a>
