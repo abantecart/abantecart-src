@@ -636,16 +636,9 @@
 		        }
 		    }
 		    
+		    //check if we need to reload page after quick save
 		    var need_reload = false;
 		    $wrapper.find('input, select, textarea').each(function () {
-		        $err = validate($(this).attr('name'), $(this).val())
-		        if ($err != '') {
-		            if ($('.field_err', $wrapper).length > 0) {
-		                $('.field_err', $wrapper).html($err);
-		            } else {
-		                $wrapper.append('<div class="field_err">' + $err + '</div>');
-		            }
-		        }
 		        if (!need_reload) {
 		            if ($(this).attr("reload_on_save")) {
 		                need_reload = true;
@@ -728,21 +721,6 @@
 		    }
 		}
 		
-		function validate(name, value) {
-		    $err = '';
-		
-		    switch (name) {
-		        case 'name':
-		        case 'model':
-		            if (String(value) == '') {
-		                $err = 'This field is required!';
-		            }
-		            break;
-		    }
-		
-		    return $err;
-		}
-
 		//process reset event of the form
         $("[type='reset']").bind({
         	"click.aform":function (evnt) {

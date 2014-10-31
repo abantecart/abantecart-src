@@ -324,9 +324,9 @@ class ControllerResponsesListingGridProduct extends AController {
 				if (isset($value[ 'name' ]) && ((mb_strlen($value[ 'name' ]) < 1) || (mb_strlen($value[ 'name' ]) > 255))) {
 					$err = $this->language->get('error_name');
 				}
-				break;
+				break;				
 			case 'model' :
-				if ((mb_strlen($value) < 1) || (mb_strlen($value) > 64)) {
+				if (mb_strlen($value) > 64) {
 					$err = $this->language->get('error_model');
 				}
 				break;
