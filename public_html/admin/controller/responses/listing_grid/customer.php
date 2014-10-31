@@ -298,7 +298,7 @@ class ControllerResponsesListingGridCustomer extends AController {
 				}
 				break;
 			case 'telephone':
-				if ( mb_strlen($value) < 3 || mb_strlen($value) > 32 ) {
+				if ( mb_strlen($value) > 32 ) {
 					$this->error = $this->language->get('error_telephone');
 				}
 				break;

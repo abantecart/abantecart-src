@@ -171,8 +171,8 @@ class ControllerPagesAccountEdit extends AController {
 		$this->data['form'][ 'telephone' ] = $form->getFieldHtml( array(
                                                                        'type' => 'input',
 		                                                               'name' => 'telephone',
-		                                                               'value' => $telephone,
-		                                                               'required' => true ));
+		                                                               'value' => $telephone
+		                                                                ));
 		$this->data['form'][ 'fax' ] = $form->getFieldHtml( array(
                                                                        'type' => 'input',
 		                                                               'name' => 'fax',

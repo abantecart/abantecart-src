@@ -852,7 +852,7 @@ class ControllerPagesSaleCustomer extends AController {
 		    $this->error['email'] = $this->language->get('error_email');
 		}
 
-		if (mb_strlen($this->request->post['telephone']) < 3 || mb_strlen($this->request->post['telephone']) > 32) {
+		if (mb_strlen($this->request->post['telephone']) > 32) {
 		    $this->error['telephone'] = $this->language->get('error_telephone');
 		}
 

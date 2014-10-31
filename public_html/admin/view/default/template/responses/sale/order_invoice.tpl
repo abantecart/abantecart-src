@@ -18,7 +18,9 @@
 
 					<td><?php echo $order['store_name']; ?><br/>
 						<?php echo $order['address']; ?><br/>
-						<?php echo $text_telephone; ?> <?php echo $order['telephone']; ?><br/>
+						<?php if ($order['telephone']) { ?>
+							<?php echo $text_telephone; ?> <?php echo $order['telephone']; ?><br/>
+						<?php } ?>
 						<?php if ($order['fax']) { ?>
 							<?php echo $text_fax; ?> <?php echo $order['fax']; ?><br/>
 						<?php } ?>

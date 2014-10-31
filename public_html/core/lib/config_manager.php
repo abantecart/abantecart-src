@@ -183,7 +183,6 @@ class AConfigManager {
 			'type' => 'input',
 			'name' => 'config_telephone',
 			'value' => $data['config_telephone'],
-			'required' => true,
 			'style' => 'medium-field',
 		));
 		$fields['fax'] = $form->getFieldHtml($props[] = array(
@@ -1134,7 +1133,7 @@ class AConfigManager {
 							$error['email'] = $this->language->get('error_email');
 						}
 
-						if ( mb_strlen($fields['config_telephone']) < 2 ||  mb_strlen( $fields['config_telephone'] ) > 32 ) {
+						if ( mb_strlen( $fields['config_telephone'] ) > 32 ) {
 							$error['telephone'] = $this->language->get('error_telephone');
 						}
 					}

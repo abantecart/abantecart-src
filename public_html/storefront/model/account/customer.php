@@ -312,7 +312,7 @@ class ModelAccountCustomer extends Model {
       		$error['warning'] = $this->language->get('error_exists');
     	}
 
-		if ((mb_strlen($data['telephone']) < 3) || (mb_strlen($data['telephone']) > 32)) {
+		if ( mb_strlen($data['telephone']) > 32 ) {
 			$error['telephone'] = $this->language->get('error_telephone');
 		}
 

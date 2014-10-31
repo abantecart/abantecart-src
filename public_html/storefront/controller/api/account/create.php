@@ -129,7 +129,6 @@ class ControllerApiAccountCreate extends AControllerAPI {
                                                     'type' => 'input',
 		                                            'name' => 'telephone',
 		                                            'value' => $this->request->post['telephone'],
-													'required' => true,
 													'error' =>  $this->v_error['telephone']);
 		$this->data['fields'][ 'fax' ] =  array(
                                                     'type' => 'input',

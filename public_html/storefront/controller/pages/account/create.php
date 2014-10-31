@@ -155,8 +155,8 @@ class ControllerPagesAccountCreate extends AController {
 		$this->data['form'][ 'telephone' ] = $form->getFieldHtml( array(
                                                                        'type' => 'input',
 		                                                               'name' => 'telephone',
-		                                                               'value' => $this->request->post['telephone'],
-		                                                               'required' => true ));
+		                                                               'value' => $this->request->post['telephone']
+		                                                               ));
 		$this->data['form'][ 'fax' ] = $form->getFieldHtml( array(
                                                                        'type' => 'input',
 		                                                               'name' => 'fax',
