@@ -63,10 +63,11 @@
 				</a>
 			</div>
 		</div>
-		<div class="row">
+
+		<div id="file_subform" class="row">
 			<div class="panel-body panel-body-nopadding">
 				<?php // resource file form ?>
-				<div id="file_subform" class="col-sm-12 col-xs-12 form-horizontal form-bordered">
+				<div class="col-sm-12 col-xs-12 form-horizontal form-bordered">
 					<div class="resource_image center">
 						<div class="fileupload_drag_area">
 							<form action="<?php echo $rl_upload; ?>" method="POST" enctype="multipart/form-data">
@@ -82,23 +83,22 @@
 						</div>
 					</div>
 				</div>
+			</div>
+		</div>
 
-
-				<?php echo $form['form_open']; ?>
-				<?php // resource_code form ?>
-				<div id="code_subform" >
+		<?php echo $form['form_open']; ?>
+		<div id="code_subform" class="row edit_resource_form">
+			<div class="panel-body panel-body-nopadding">
+			<?php // resource_code form ?>
+				<div>
 					<div class="col-sm-8 col-xs-12 form-horizontal form-bordered">
 						<div class="form-group <?php echo(!empty($error['resource_code']) ? "has-error" : ""); ?>">
-							<label class="control-label"
-								   for="<?php echo $form['field_resource_code']->element_id; ?>"><?php echo $text_resource_code; ?></label>
-
+							<label class="control-label" for="<?php echo $form['field_resource_code']->element_id; ?>"><?php echo $text_resource_code; ?></label>
 							<div class="input-group afield col-sm-12">
 								<?php echo $form['field_resource_code']; ?>
 							</div>
 						</div>
 					</div>
-
-
 					<!-- col-sm-6 -->
 					<div class="col-sm-4 col-xs-12">
 						<h3 class="panel-title">&nbsp;</h3>
@@ -150,9 +150,9 @@
 					</div>
 				</div>
 			</div>
-			</form>
 		<!-- <div class="tab-content"> -->
 		</div>
+		</form>
 	</div>
 <?php /*
 
