@@ -226,28 +226,21 @@
         }
         
         function doRadio(elem) {
-            var $el = $(elem);
+ 			var $field = $(elem);
+            var $wrapper = $field.parent('.afield');
 
-            var $wrapper = '';
-            var $field = $el.closest('.afield');
-
-            if (!$el.parents('.scrollbox').length) {
-                $field.wrap($.aform.wrapper);
-                $wrapper = $el.closest('.aform');
+            if ($field.prop("disabled")) {
+                $wrapper.addClass(o.disabledClass);
             }
 
-            if ($el.prop("disabled")) {
-                $field.addClass(o.disabledClass);
-            }
-
-            $el.bind({
+            $field.bind({
                 "change.aform":function () {
-                    if (!$el.prop("checked")) {
-                        $field.removeClass(o.checkedClass);
+                    if (!$field.prop("checked")) {
+                        $wrapper.removeClass(o.checkedClass);
                     } else {
-                        $field.addClass(o.checkedClass);
+                        $wrapper.addClass(o.checkedClass);
                     }
-                    onChangedAction($el, $(this).prop("checked"), $(this).attr('data-orgvalue'));
+                    onChangedAction($field, $(this).prop("checked"), $(this).attr('data-orgvalue'));
                 }
             });
         }
