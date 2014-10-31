@@ -63,7 +63,7 @@
 	<div class="panel-footer col-xs-12">
 		<div class="center">
 		<?php if($allow_edit) { ?>
-			<a class="btn btn-primary" href="<?php echo $block_edit; ?>" target="_new">
+			<a class="btn btn-primary lock-on-click" href="<?php echo $block_edit; ?>" target="_new">
 			<i class="fa fa-edit fa-fw"></i> <?php echo $text_edit; ?>
 			</a>
 		<?php } ?>

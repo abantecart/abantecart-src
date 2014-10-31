@@ -48,7 +48,7 @@
 		    	<div class="input-group">
 		    	<?php echo $form['input']; ?>
 		    	</div>
-		    	<button type="submit" class="btn btn-primary"><?php echo $button_go; ?></button>
+		    	<button type="submit" class="btn btn-primary lock-on-click"><?php echo $button_go; ?></button>
 		    </div>
 		    </form>
 		</div>

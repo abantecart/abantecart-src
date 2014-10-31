@@ -7,7 +7,7 @@
 	<div class="panel-heading col-xs-12">
 		<div class="primary_content_actions pull-left">
 			<div class="btn-group mr10 toolbar">
-				<a class="btn btn-primary tooltips" title="<?php echo $insert->title; ?>" href="<?php echo $insert->href; ?>">
+				<a class="btn btn-primary lock-on-click tooltips" title="<?php echo $insert->title; ?>" href="<?php echo $insert->href; ?>">
 				<i class="fa fa-plus"></i>
 				</a>
 			</div>

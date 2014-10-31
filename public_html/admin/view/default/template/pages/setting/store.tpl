@@ -6,7 +6,7 @@
 	<div class="panel-heading col-xs-12">
 		<div class="primary_content_actions pull-left">
 			<div class="btn-group mr10 toolbar">
-				<a class="btn btn-primary actionitem tooltips" title="<?php echo $new_store_button->title; ?>" href="<?php echo $new_store_button->href; ?>"><i class="fa fa-plus fa-fw"></i></a>
+				<a class="btn btn-primary lock-on-click actionitem tooltips" title="<?php echo $new_store_button->title; ?>" href="<?php echo $new_store_button->href; ?>"><i class="fa fa-plus fa-fw"></i></a>
 			</div>
 			<?php if($store_id > 0){ ?>
 			<div class="btn-group mr10 toolbar">
@@ -65,7 +65,7 @@
 
 	<div class="panel-footer col-xs-12">
 		<div class="text-center">
-			<button class="btn btn-primary">
+			<button class="btn btn-primary lock-on-click">
 			<i class="fa fa-save fa-fw"></i> <?php echo $form['submit']->text; ?>
 			</button>
 			<a class="btn btn-default" href="<?php echo $cancel; ?>">

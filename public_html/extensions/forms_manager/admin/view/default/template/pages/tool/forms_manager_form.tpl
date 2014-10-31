@@ -58,7 +58,7 @@
 	</div>
 	<div class="panel-footer">
 		<div class="center">
-			<button type="submit" class="btn btn-primary">
+			<button type="submit" class="btn btn-primary lock-on-click">
 				<i class="fa fa-save"></i> <?php echo $head_form['button_save']->text; ?>
 			</button>
 			&nbsp;

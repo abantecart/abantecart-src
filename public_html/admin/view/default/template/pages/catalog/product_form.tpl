@@ -7,11 +7,13 @@
 
 	<div class="panel-heading col-xs-12">
 		<div class="primary_content_actions pull-left">
+			<?php if ($product_id) { ?>
 		    <div class="btn-group mr10 toolbar">
-    	        <a class="btn btn-white tooltips" href="<?php echo $clone_url; ?>" data-toggle="tooltip" title="<?php echo $text_clone; ?>" data-original-title="<?php echo $text_clone; ?>">
+    	        <a class="btn btn-white lock-on-click tooltips" href="<?php echo $clone_url; ?>" data-toggle="tooltip" title="<?php echo $text_clone; ?>" data-original-title="<?php echo $text_clone; ?>">
     	        <i class="fa fa-tags"></i>
     	        </a>
 		    </div>	
+		    <?php } ?>
 		</div>
 		<?php include($tpl_common_dir . 'content_buttons.tpl'); ?>
 	</div>
@@ -52,7 +54,7 @@
 	
 	<div class="panel-footer col-xs-12">
 		<div class="text-center">
-			<button class="btn btn-primary">
+			<button class="btn btn-primary lock-on-click">
 			<i class="fa fa-save fa-fw"></i> <?php echo $form['submit']->text; ?>
 			</button>
 			<button class="btn btn-default" type="reset">
@@ -86,15 +88,13 @@ $('#productFrm_generate_seo_keyword').click(function(){
 	});
 });
 
-if (document.getElementById('productFrm_product_descriptiondescription'))
-    $('#productFrm_product_descriptiondescription').parents('.afield').removeClass('mask2');
-CKEDITOR.replace('productFrm_product_descriptiondescription',
-    {
+if (document.getElementById('productFrm_product_descriptiondescription')){
+	CKEDITOR.replace('productFrm_product_descriptiondescription',{
         filebrowserBrowseUrl:false,
         filebrowserImageBrowseUrl:'<?php echo $rl; ?>',
         filebrowserWindowWidth:'920',
         filebrowserWindowHeight:'520',
         language:'<?php echo $language_code; ?>'
-    }
-);
+    });
+}
 //--></script>

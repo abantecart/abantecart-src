@@ -3,7 +3,7 @@
 
 	<div class="panel-heading col-xs-12">
 		<div class="primary_content_actions pull-left">
-			<button class="btn btn-primary" id="clearall" type="button"><i class="fa fa-trash-o"></i> <?php echo $text_clear_all_cache;?></button>
+			<button class="btn btn-primary lock-on-click" id="clearall" type="button"><i class="fa fa-trash-o"></i> <?php echo $text_clear_all_cache;?></button>
 		</div>
 
 		<?php include($tpl_common_dir . 'content_buttons.tpl'); ?>	
@@ -43,7 +43,7 @@
 
 	<div class="panel-footer col-xs-12">
 		<div class="text-center">
-				<button class="btn btn-primary">
+				<button class="btn btn-primary lock-on-click">
 					<i class="fa fa-trash-o"></i> <?php echo $form['submit']->text; ?>
 				</button>
 		</div>
