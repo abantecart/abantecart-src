@@ -30,13 +30,13 @@ foreach ($templates as $template) {
 			</div>
 
 			<div class="btn-group toolbar">
-				<button class="actionitem btn btn-primary layout-form-save tooltips" title="<?php echo $button_save; ?>">
+				<button class="actionitem btn btn-primary lock-on-click layout-form-save tooltips" title="<?php echo $button_save; ?>">
 					<i class="fa fa-save fa-fw"></i>
 				</button>
 			</div>
 
 			<div class="btn-group mr10 toolbar">
-				<a class="actionitem btn btn-default tooltips" href="<?php echo $current_url; ?>" title="<?php echo $button_reset; ?>">
+				<a class="actionitem btn btn-default lock-on-click tooltips" href="<?php echo $current_url; ?>" title="<?php echo $button_reset; ?>">
 					<i class="fa fa-refresh fa-fw"></i>
 				</a>
 			</div>
@@ -51,7 +51,7 @@ foreach ($templates as $template) {
 				</div>
 				<div class="form-group">
 					<div class="input-group input-group-sm">
-					<button class="btn btn-default btn-xs tooltips" type="submit" title="<?php echo $text_apply_layout; ?>">
+					<button class="btn btn-default btn-xs lock-on-click tooltips" type="submit" title="<?php echo $text_apply_layout; ?>">
 						<i class="fa fa-copy fa-fw"></i>
 					</button>
 					</div>
@@ -69,6 +69,18 @@ foreach ($templates as $template) {
 		<?php echo $layoutform; ?>
 		<?php echo $hidden_fields; ?>
 	</div>
+
+	<div class="panel-footer col-xs-12">
+		<div class="text-center">
+			<button class="btn btn-primary lock-on-click">
+			<i class="fa fa-save fa-fw"></i> <?php echo $button_save; ?>
+			</button>
+			<a class="btn btn-default" href="<?php echo $current_url; ?>">
+			<i class="fa fa-refresh fa-fw"></i> <?php echo $button_reset; ?>
+			</a>
+		</div>
+	</div>
+	
 	</form>
 
 </div>

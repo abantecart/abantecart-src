@@ -13,14 +13,20 @@
         
  		<?php echo $form['form_open']; ?>
  		<div class="form-group">
+     		<div class="input-group">
+      		<div class="input-group-addon"><i class="fa fa-user fa-fw"></i></div>			
  			<?php echo $form['fields']['username']; ?>
+ 			</div>
  		</div>
  		<div class="form-group">
+     		<div class="input-group">
+      		<div class="input-group-addon"><i class="fa fa-key fa-fw"></i></div>			
  			<?php echo $form['fields']['password']; ?>
+ 			</div>
  		</div>
  		
  		<div class="form-group">
-	 		<button type="submit" class="btn btn-primary btn-block"><i class="fa fa-lock"></i> <?php echo $form['submit']->text; ?></button>
+	 		<button type="submit" class="btn btn-primary btn-block"><i class="fa fa-lock fa-fw"></i> <?php echo $form['submit']->text; ?></button>
  		</div>
 	
 		<?php if ($redirect) { ?>

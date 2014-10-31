@@ -882,17 +882,10 @@ var formOnExit = function(){
     	if ($(this).parent().hasClass("btn_switch")) {
     		return;
     	}
-        var $form = $(this).parents('form');
+		var $form = $(this).parents('form');
         //reset elements to not changed status
-        $form.prop('changed', 'submit');
-        //put submited button to loading state
-        /*TODO: check this commented code in modal save with errors. Also "plus"-buttons for dynamic forms such as adding options value for option selectbox
-        ALSO check GENERATE-button on product edit form
-        */
-       /* if ($(this).attr("type") !== 'reset') {
-	        $(this).button('loading');        
-        }*/
-    });
+		$form.prop('changed', 'submit');
+	});
     // prevent submit of form for "quicksave"
     $("form").bind("keypress", function(e) {
         if (e.keyCode == 13){
@@ -903,8 +896,16 @@ var formOnExit = function(){
             }
         }
     });
-}
 
+    //put submited or clicked button to loading state   
+    $('.lock-on-click').each(function () {
+    	$btn = $(this);
+    	$btn.attr('data-loading-text',"<i class='fa fa-refresh fa-spin fa-fw'></i>");
+    	$btn.bind('click', function () {
+    		$(this).button('loading');  
+    	});
+    });
+}
 
 //------------------------------------------------------------------------------
 // Add form events. Function can be reloaded after AJAX responce to dinamic HTML

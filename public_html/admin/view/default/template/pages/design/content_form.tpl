@@ -17,7 +17,7 @@
 		<div class="primary_content_actions pull-left">
 		<?php if ($insert) { ?>
 			<div class="btn-group mr10 toolbar">
-				<a class="actionitem btn btn-primary tooltips" href="<?php echo $insert; ?>" title="<?php echo $button_add; ?>">
+				<a class="actionitem btn btn-primary lock-on-click tooltips" href="<?php echo $insert; ?>" title="<?php echo $button_add; ?>">
 				<i class="fa fa-plus fa-fw"></i>
 				</a>
 			</div>
@@ -74,7 +74,7 @@
 
 	<div class="panel-footer col-xs-12">
 		<div class="text-center">
-			<button class="btn btn-primary">
+			<button class="btn btn-primary lock-on-click">
 			<i class="fa fa-save fa-fw"></i> <?php echo $form['submit']->text; ?>
 			</button>
 			<a class="btn btn-default" href="<?php echo $cancel; ?>">

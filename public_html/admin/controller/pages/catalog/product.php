@@ -293,8 +293,13 @@ class ControllerPagesCatalogProduct extends AController {
   	}
 
   	private function _getForm() {
-
-		$this->data[ 'product_description' ] = $this->model_catalog_product->getProductDescriptions($this->request->get[ 'product_id' ]);
+		if (isset($this->request->get['product_id']) && $this->request->is_GET()) {
+			$product_id = $this->request->get['product_id'];
+      		$product_info = $this->model_catalog_product->getProduct($product_id);
+			$product_info['featured'] = $product_info['featured'] ? 1 : 0;
+    	}
+		
+		$this->data['product_description'] = $this->model_catalog_product->getProductDescriptions($product_id);
     	$this->data['error'] = $this->error;
 		$this->data['cancel'] = $this->html->getSecureURL('catalog/product');
 
@@ -306,19 +311,10 @@ class ControllerPagesCatalogProduct extends AController {
    		$this->document->addBreadcrumb( array (
        		'href'      => $this->html->getSecureURL('catalog/product'),
        		'text' =>
-			($this->request->get_or_post('product_id')
-			?
-			$this->language->get('text_edit') .'&nbsp;'. $this->language->get('text_product') . ' - ' . $this->data[ 'product_description' ][ $this->session->data[ 'content_language_id' ] ][ 'name' ]
-			:
-			$this->language->get('text_insert')),
+			($product_id ? $this->language->get('text_edit') .'&nbsp;'. $this->language->get('text_product') . ' - ' . $this->data['product_description'][$this->session->data['content_language_id']]['name'] : $this->language->get('text_insert')),
       		'separator' => ' :: ',
       		'current' => true,
    		 ));
-
-		if (isset($this->request->get['product_id']) && $this->request->is_GET()) {
-      		$product_info = $this->model_catalog_product->getProduct($this->request->get['product_id']);
-			$product_info['featured'] = $product_info['featured'] ? 1 : 0;
-    	}
 
         $this->loadModel('catalog/category');
 		$this->data['categories'] = array();
@@ -401,7 +397,7 @@ class ControllerPagesCatalogProduct extends AController {
 
 		foreach ( $fields as $f ) {
 			if (isset ( $this->request->post [$f] )) {
-				$this->data [$f] = $this->request->post [$f];
+				$this->data[$f] = $this->request->post [$f];
 			} elseif (isset($product_info)) {
 				$this->data[$f] = $product_info[$f];
 			}
@@ -410,7 +406,7 @@ class ControllerPagesCatalogProduct extends AController {
 		if (isset($this->request->post['product_category'])) {
 			$this->data['product_category'] = $this->request->post['product_category'];
 		} elseif (isset($product_info)) {
-			$this->data['product_category'] = $this->model_catalog_product->getProductCategories($this->request->get['product_id']);
+			$this->data['product_category'] = $this->model_catalog_product->getProductCategories($product_id);
 		} else {
 			$this->data['product_category'] = array();
 		}
@@ -418,7 +414,7 @@ class ControllerPagesCatalogProduct extends AController {
         if (isset($this->request->post['product_store'])) {
 			$this->data['product_store'] = $this->request->post['product_store'];
 		} elseif (isset($product_info)) {
-			$this->data['product_store'] = $this->model_catalog_product->getProductStores($this->request->get['product_id']);
+			$this->data['product_store'] = $this->model_catalog_product->getProductStores($product_id);
 		} else {
 			$this->data['product_store'] = array(0);
 		}
@@ -426,7 +422,7 @@ class ControllerPagesCatalogProduct extends AController {
         if (isset($this->request->post['product_description'])) {
 			$this->data['product_description'] = $this->request->post['product_description'];
 		} elseif (isset($product_info)) {
-			$this->data['product_description'] = $this->model_catalog_product->getProductDescriptions($this->request->get['product_id'],$this->session->data['content_language_id']);
+			$this->data['product_description'] = $this->model_catalog_product->getProductDescriptions($product_id,$this->session->data['content_language_id']);
 		} else {
 			$this->data['product_description'] = array();
 		}
@@ -442,7 +438,7 @@ class ControllerPagesCatalogProduct extends AController {
 		if (isset($this->request->post['product_tags'])) {
 			$this->data['product_tags'] = $this->request->post['product_tags'];
 		} elseif (isset($product_info)) {
-			$this->data['product_tags'] = $this->model_catalog_product->getProductTags($this->request->get['product_id'], $this->session->data['content_language_id']);
+			$this->data['product_tags'] = $this->model_catalog_product->getProductTags($product_id, $this->session->data['content_language_id']);
 		} else {
 			$this->data['product_tags'] = '';
 		}
@@ -493,16 +489,16 @@ class ControllerPagesCatalogProduct extends AController {
 
 
         $this->data['active'] = 'details';
-		if (!isset($this->request->get['product_id'])) {
+		if (!isset($product_id)) {
 			$this->data['action'] = $this->html->getSecureURL('catalog/product/insert');
 			$this->data['form_title'] = $this->language->get('text_insert') . $this->language->get('text_product');
 			$this->data['update'] = '';
 			$form = new AForm('ST');
             $this->data['summary_form'] = '';
 		} else {
-			$this->data['action'] = $this->html->getSecureURL('catalog/product/update', '&product_id=' . $this->request->get['product_id'] );
+			$this->data['action'] = $this->html->getSecureURL('catalog/product/update', '&product_id=' . $product_id );
 			$this->data['form_title'] = $this->language->get('text_edit') .'&nbsp;'. $this->language->get('text_product');
-			$this->data['update'] = $this->html->getSecureURL('listing_grid/product/update_field','&id='.$this->request->get['product_id']);
+			$this->data['update'] = $this->html->getSecureURL('listing_grid/product/update_field','&id='.$product_id);
 			$form = new AForm('HS');
 
 			$this->data['active'] = 'general';
@@ -699,7 +695,7 @@ class ControllerPagesCatalogProduct extends AController {
 								'attr' => 'type="button"',
 								'style' => 'btn btn-info'
 								));
-		$this->data['generate_seo_url'] =  $this->html->getSecureURL('common/common/getseokeyword','&object_key_name=product_id&id='.$this->request->get['product_id']);
+		$this->data['generate_seo_url'] =  $this->html->getSecureURL('common/common/getseokeyword','&object_key_name=product_id&id='.$product_id);
 
 		$this->data['form']['fields']['data']['keyword'] .= $form->getFieldHtml(array(
 					'type' => 'input',
@@ -795,6 +791,7 @@ class ControllerPagesCatalogProduct extends AController {
             'style' => 'small-field',
 		));
 
+		$this->data['product_id'] = $product_id;
 		$this->view->batchAssign( $this->data );
 
 		$this->view->assign('text_clone',  $this->language->get('text_clone'));

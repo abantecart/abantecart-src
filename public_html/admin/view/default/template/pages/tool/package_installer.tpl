@@ -13,15 +13,18 @@
 		<?php echo $this->getHookVar('extension_tabs'); ?>
 	</ul>
 <?php } ?>
-<div class="tab-content">
 
-	<div class="panel-heading">
-		<?php include($tpl_common_dir . 'content_buttons.tpl'); ?>
+<div id="content" class="panel panel-default">
+
+	<div class="panel-heading col-xs-12">
+		<div class="primary_content_actions pull-left">
+		</div>
+
+		<?php include($tpl_common_dir . 'content_buttons.tpl'); ?>	
 	</div>
 
 	<?php echo $form['form_open']; ?>
-	<div class="panel-body panel-body-nopadding">
-
+	<div class="panel-body panel-body-nopadding tab-content col-xs-12">
 		<?php foreach ($form['fields'] as $name => $field) {
 
 		//Logic to calculate fields width
@@ -58,21 +61,17 @@
 
 	</div>
 
-	<div class="panel-footer">
-		<div class="row">
-			<div class="center">
-				<button class="btn btn-primary">
-					<i class="fa fa-cogs"></i> <?php echo $form['submit']->text; ?>
-				</button>
-				&nbsp;
-				<?php if($form['cancel']){?>
-				<a class="btn btn-default" href="<?php echo $form['cancel']->href; ?>">
-					<i class="fa fa-refresh"></i> <?php echo $form['cancel']->text; ?>
-				</a>
-				<?php } ?>
-			</div>
+	<div class="panel-footer col-xs-12">
+		<div class="text-center">
+			<button class="btn btn-primary">
+			<i class="fa fa-save fa-fw"></i> <?php echo $form['submit']->text; ?>
+			</button>
+			<button class="btn btn-default" type="reset">
+			<i class="fa fa-refresh fa-fw"></i> <?php echo $button_reset; ?>
+			</button>
 		</div>
 	</div>
+
 	</form>
 
 </div><!-- <div class="tab-content"> -->

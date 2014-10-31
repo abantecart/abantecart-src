@@ -6,13 +6,13 @@
 		<div class="primary_content_actions pull-left">
 
 			<div class="btn-group">
-				<a class="btn btn-primary actionitem tooltips" title="<?php echo $manage_extensions->title; ?>" href="<?php echo $manage_extensions->href; ?>">
+				<a class="btn btn-primary lock-on-click actionitem tooltips" title="<?php echo $manage_extensions->title; ?>" href="<?php echo $manage_extensions->href; ?>">
 				<i class="fa fa-puzzle-piece"></i>
 				</a>
 			</div>
 
 			<div class="btn-group mr10 toolbar">
-				<a class="actionitem btn btn-primary tooltips" href="<?php echo $insert; ?>" title="<?php echo $button_add; ?>">
+				<a class="actionitem btn btn-primary lock-on-click tooltips" href="<?php echo $insert; ?>" title="<?php echo $button_add; ?>">
 				<i class="fa fa-plus fa-fw"></i>
 				</a>
 			</div>

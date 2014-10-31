@@ -180,11 +180,6 @@ class ControllerPagesToolPackageInstaller extends AController {
 						'value' => '',
 						'attr' => ' autocomplete="off" '));
 
-		$this->data['form']['cancel'] = $form->getFieldHtml(
-				array(
-						'type' => 'button',
-						'name' => 'cancel',
-						'text' => $this->language->get('button_cancel')));
 		$this->data['form']['submit'] = $form->getFieldHtml(
 				array(
 						'type' => 'button',

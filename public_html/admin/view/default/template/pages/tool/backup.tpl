@@ -48,7 +48,7 @@
 						data-complete-task-url="<?php echo $form['complete_task_url']?>">
 					<i class="fa fa-database"></i> <?php echo $form['backup_now']->text; ?>
 				</button>
-				<button class="btn btn-primary task_schedule" >
+				<button class="btn btn-primary lock-on-click task_schedule" >
 					<i class="fa fa-clock-o fa-fw"></i> <?php echo $form['backup_schedule']->text; ?>
 				</button>
 		</div>
@@ -76,7 +76,7 @@
 	</div>
 	<div class="panel-footer col-xs-12">
 		<div class="text-center">
-				<button class="btn btn-primary">
+				<button class="btn btn-primary lock-on-click">
 					<i class="fa fa-undo fa-fw"></i> <?php echo $restoreform['submit']->text; ?>
 				</button>
 		</div>
@@ -103,7 +103,7 @@
 	</div>
 	<div class="panel-footer col-xs-12">
 		<div class="text-center">
-				<button class="btn btn-primary">
+				<button class="btn btn-primary lock-on-click">
 					<i class="fa fa-upload fa-fw"></i> <?php echo $xmlform['submit']->text; ?>
 				</button>
 		</div>

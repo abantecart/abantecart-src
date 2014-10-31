@@ -122,7 +122,7 @@
 	<div class="panel-footer">
 		<div class="row center">
 			<div class="col-sm-6 col-sm-offset-3">
-				<button class="btn btn-primary">
+				<button class="btn btn-primary lock-on-click">
 					<i class="fa fa-save"></i> <?php echo $form['submit']->text; ?>
 				</button>
 				&nbsp;

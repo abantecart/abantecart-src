@@ -573,9 +573,6 @@ function checkAll(fldName, checked) {
     }
 }
 
-
-
-
 var numberSeparators = {};
 function formatPrice(field) {
     numberSeparators = numberSeparators.length==0 ? {decimal:'.', thousand:','} : numberSeparators;

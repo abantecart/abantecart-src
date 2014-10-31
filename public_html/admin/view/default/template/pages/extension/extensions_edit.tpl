@@ -4,18 +4,12 @@ echo $resources_scripts;
 echo $extension_summary;
 echo $tabs;
 ?>
-<div class="tab-content">
-	<div class="panel-heading">
-		<div class="pull-right">
+<div id="content" class="panel panel-default">
+
+	<div class="panel-heading col-xs-12">
+		<div class="primary_content_actions pull-left">
 			<div class="btn-group mr10 toolbar">
 				<?php echo $this->getHookVar('common_content_buttons'); ?>
-
-				<?php if(!empty($form_store_switch)) { ?>
-				<div class="btn-group">
-					<?php echo $form_store_switch; ?>
-				</div>
-		        <?php } ?>
-
 				<?php if ($extension_info['help']) {
 					if ($extension_info['help']['file']) {
 						?>
@@ -34,26 +28,17 @@ echo $tabs;
 									class="fa fa-life-ring fa-lg"></i></a>
 
 					<?php } ?>
-
-					<?php echo $this->getHookVar('extension_toolbar_buttons'); ?>
-
-				<?php
-				}
-				if (!empty ($help_url)) : ?>
-					<a class="btn btn-white tooltips" href="<?php echo $help_url; ?>" target="new" data-toggle="tooltip"
-					   title="" data-original-title="Help">
-						<i class="fa fa-question-circle fa-lg"></i>
-					</a>
-				<?php endif; ?>
+				<?php } ?>
+				<?php echo $this->getHookVar('extension_toolbar_buttons'); ?>
 			</div>
-
-			<?php echo $form_language_switch; ?>
 		</div>
 
+		<?php include($tpl_common_dir . 'content_buttons.tpl'); ?>	
 	</div>
 
+
 <?php echo $form['form_open']; ?>
-<div class="panel-body panel-body-nopadding">
+<div class="panel-body panel-body-nopadding tab-content col-xs-12">
 
 	<label class="h4 heading"><?php echo ${'tab_' . $section}; ?></label>
 	<?php foreach ($settings as $name => $field) {
@@ -92,7 +77,7 @@ echo $tabs;
 </div>
 
 <?php if ($extension_info['preview']) { ?>
-	<div class="panel-body panel-body-nopadding">
+	<div class="panel-body panel-body-nopadding tab-content col-xs-12">
 		<label class="h4 heading"><?php echo $text_preview; ?></label>
 
 
@@ -159,7 +144,7 @@ echo $tabs;
 	</div>
 <?php } ?>
 <?php if (!empty($extension_info['dependencies'])) { ?>
-	<div class="panel-body panel-body-nopadding">
+	<div class="panel-body panel-body-nopadding tab-content col-xs-12">
 		<label class="h4 heading"><?php echo $text_dependencies; ?></label>
 		<table class="table table-striped">
 			<thead>
@@ -203,19 +188,16 @@ echo $tabs;
 
 	</div>
 <?php } ?>
-<div class="panel-footer">
-	<div class="row">
-		<div class="col-sm-6 col-sm-offset-3 center">
-			<button class="btn btn-primary">
-				<i class="fa fa-save"></i> <?php echo $button_save->text; ?>
+	<div class="panel-footer col-xs-12">
+		<div class="text-center">
+			<button class="btn btn-primary lock-on-click">
+			<i class="fa fa-save fa-fw"></i> <?php echo $button_save->text; ?>
 			</button>
-			&nbsp;
 			<a class="btn btn-default" href="<?php echo $button_restore_defaults->href; ?>">
-				<i class="fa fa-refresh"></i> <?php echo $button_restore_defaults->text; ?>
+			<i class="fa fa-arrow-left fa-fw"></i> <?php echo $button_restore_defaults->text; ?>
 			</a>
 		</div>
 	</div>
-</div>
 </form>
 
 </div><!-- <div class="tab-content"> -->

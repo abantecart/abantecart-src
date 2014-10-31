@@ -55,7 +55,7 @@
 	</div>
 	<div class="panel-footer col-xs-12">
 		<div class="text-center">
-			<button class="btn btn-primary">
+			<button class="btn btn-primary lock-on-click">
 			<i class="fa fa-save fa-fw"></i> <?php echo $form['submit']->text; ?>
 			</button>
 			<button class="btn btn-default" type="reset">
