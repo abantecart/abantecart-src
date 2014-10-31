@@ -324,15 +324,18 @@ jQuery(function () {
 		return false;
 	});
 
-	$(document).on('click', 'button.rl_add_file', function () {
+	$(document).on('click', 'a.rl_add_file', function (e) {
 		$('#choose_resource_type').fadeOut("normal", function () {
 			$('#add_form, #file_subform').fadeIn("normal");
+
 		});
+		return false;
 	});
-	$(document).on('click', 'button.rl_add_code', function () {
+	$(document).on('click', 'a.rl_add_code', function (e) {
 		$('#choose_resource_type').fadeOut("normal", function () {
 			$('#add_form, #code_subform, #add_resource_buttons').fadeIn("normal");
 		});
+		return false;
 	});
 
 });
