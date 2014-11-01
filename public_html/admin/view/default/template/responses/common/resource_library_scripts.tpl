@@ -148,7 +148,7 @@ var loadMedia = function (type, wrapper) {
 					<?php // variable t needs to prevent browser caching in case of replacement of file of resource?>
 					src = '<img class="img-responsive" src="' + item['thumbnail_url'] + '?t=' + t + '" title="' + item['name'] + '" />';
 				}
-				html += '<div class="col-xs-3 col-sm-3 col-md-2">';
+				html += '<div class="col-md-1 reslibrary_block">';
 				html += '<div class="center thumbnail" id="image_row' + item['resource_id'] + '" >\
                 <a class="btn resource_edit" data-type="' + type + '" data-rl-id="' + item['resource_id'] + '">' + src + '</a></div>';
 
@@ -177,7 +177,7 @@ var loadMedia = function (type, wrapper) {
 				html += '</div></div></div>';
 			});
 
-			html += '<div class="col-xs-3 col-sm-3 col-md-2">' +
+			html += '<div class="col-md-1 reslibrary_block">' +
 					'<div class="center thumbnail fileupload_drag_area">' +
 					'<form action="<?php echo $rl_upload; ?>&type=' + type + '" method="POST" enctype="multipart/form-data"><input type="file" name="files[]" multiple="" class="hide">';
 			html += '<a class="btn resource_add tooltips transparent" data-type="' + type + '" data-original-title="<?php echo $text_add_media ?>"><img src="<?php echo $template_dir . 'image/icons/icon_add_media.png'; ?>" alt="<?php echo $text_add_media; ?>" width="100" /></a>';
@@ -746,27 +746,12 @@ var multi_action = function (action) {
 	active_tab().click(); // reload modal with object's resources
 }
 
-var isModalOpen = function () {
-	if (typeof $("#rl_modal").data === 'function' && $("#rl_modal").data('bs.modal') != undefined && $("#rl_modal").data('bs.modal').isShown) {
-		return true;
-	}
-	return false;
-}
-
 var rl_error_alert = function (text, autohide) {
-	if (isModalOpen()) {
-		error_alert(text, autohide, '.modal-content');
-	} else {
-		error_alert(text, autohide);
-	}
+	error_alert(text, autohide);
 }
 
 var rl_success_alert = function (text, autohide) {
-	if (isModalOpen()) {
-		success_alert(text, autohide, '.modal-content');
-	} else {
-		success_alert(text, autohide);
-	}
+	success_alert(text, autohide);
 }
 
 

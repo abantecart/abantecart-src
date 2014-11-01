@@ -1052,14 +1052,14 @@ p {
 	padding: 0;
 }
 
-
 /* resource library */
+.reslibrary_block{
+	width: 150px;
+}
 .reslibrary .thumbnail {
 	margin-bottom : 0px;
 }
-
-.reslibrary .thumbnail .resource_add{
-
+.reslibrary .thumbnail .resource_add {
 }
 
 /* resource library */

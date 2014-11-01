@@ -38,8 +38,7 @@
 					<?php echo $entry_weight_type; ?></label>
 				<div class="input-group input-group-sm afield"><?php echo $form['fields']['weight_type']; ?></div>
 			</div>
-
-			<div class="col-xs-12 col-sm-12 col-md-12">
+			<div class="mt10 col-xs-12 col-sm-12 col-md-12">
 			<?php echo $resources_html; ?>
 			</div>
 		</div>

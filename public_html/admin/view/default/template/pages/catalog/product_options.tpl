@@ -119,32 +119,6 @@ var setRLparams = function (attr_val_id) {
 	urls.attr_val_id = attr_val_id;
 }
 
-
-
-/*
-var mediaDialog = function (type, action, id) {
-	$('#dialog').remove();
-
-	var src = urls.resource_library + '&' + action + '=1&type=' + type;
-
-	if (id) {
-		src += '&resource_id=' + id;
-	}
-	$('#content').prepend('<div id="dialog" style="padding: 3px 0px 0px 0px;"><iframe src="' + src + '" style="padding:0; margin: 0; display: block; width: 100%; height: 100%;" frameborder="no" scrolling="auto"></iframe></div>');
-	$('#dialog iframe').load(function (e) {
-		try {
-			var error_data = $.parseJSON($(this).contents().find('body').html());
-		} catch (e) {
-			var error_data = null;
-		}
-		if (error_data && error_data.error_code) {
-			$('#dialog').dialog('close');
-			httpError(error_data);
-		}
-	});
-
-};*/
-
 var text = {
 	error_attribute_not_selected: '<?php echo $error_attribute_not_selected ?>',
 	text_expand: '<?php echo $text_expand ?>',
@@ -218,6 +192,7 @@ jQuery(function ($) {
 		});
 	}
 
+	//save option form details. 
 	var editOption = function (id) {
 		$('#notify_error').remove();
 		$.ajax({
@@ -240,6 +215,7 @@ jQuery(function ($) {
 				resetAForm($("input, checkbox, select", '#option_edit_form'));
 				success_alert('<?php echo $text_success_option?>',true);
 			},
+			global: false,
 			error: function (jqXHR, textStatus, errorThrown) {
 				error_alert(errorThrown);
 			}
@@ -342,6 +318,7 @@ jQuery(function ($) {
 			success: function (html) {
 				$('#option_values').html(html);
 			},
+			global: false,
 			error: function (jqXHR, textStatus, errorThrown) {
 				error_alert(errorThrown);
 			},
@@ -365,7 +342,8 @@ jQuery(function ($) {
 		$('#option').change();
 		return false;
 	});
-		
+	
+	//save option values	
 	$(document).on('click','#option_values button[type="submit"]', function () {
 		//Mark rows to be deleted
 		$('#option_values_tbl .toDelete input[name^=product_option_value_id]').val('delete');
@@ -381,6 +359,7 @@ jQuery(function ($) {
 			success: function (html) {
 				$('#option_values').html(html);
 			},
+			global: false,
 			error: function (jqXHR, textStatus, errorThrown) {
 				error_alert(errorThrown);
 			},
@@ -406,6 +385,7 @@ function optionDelete ( url ) {
 				$("#option").trigger("change");
 				success_alert(html,true);
 			},
+			global: false,
 			error: function (jqXHR, textStatus, errorThrown) {
 				error_alert(errorThrown);
 			},

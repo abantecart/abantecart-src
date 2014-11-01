@@ -1,7 +1,8 @@
 
 <div class="row">
 
-<div class="col-md-4 panel panel-default">
+<div class="col-md-4"> 
+	<div class="panel panel-default">
 	<div class="panel-heading">
 		<h3 class="panel-title"><?php echo $option_data['language'][$language_id]['name']; ?></h3>
 	</div>
@@ -66,9 +67,11 @@
 		</div>
 	</div>
 </div>
+</div>
 
 <?php echo $update_option_values_form['open']; ?>
-<div class="col-md-8 tab-content">
+<div class="col-md-8"> 
+<div class="panel panel-default">
 	<div class="panel-heading">
 		<h3 class="panel-title"><?php echo $text_option_values; ?></h3>
 	</div>
@@ -115,6 +118,7 @@
 			</a>
 		</div>
 	</div>
+</div>
 </div>
 </form>
 

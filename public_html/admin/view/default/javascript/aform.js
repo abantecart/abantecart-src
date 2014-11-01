@@ -710,13 +710,8 @@
 		                removeQuickSave($field);
 						remove_alert(growl);	
 
-
                         if (data.length > 0) {
-                            if (isModalOpen()) {
-                                success_alert(data, true, '.modal-content');
-                            } else {
-                                success_alert(data, true);
-                            }
+                        	success_alert(data, true);
                         }
 
 		            }
