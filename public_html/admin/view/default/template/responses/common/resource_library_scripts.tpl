@@ -327,7 +327,6 @@ jQuery(function () {
 	$(document).on('click', 'a.rl_add_file', function (e) {
 		$('#choose_resource_type').fadeOut("normal", function () {
 			$('#add_form, #file_subform').fadeIn("normal");
-
 		});
 		return false;
 	});
@@ -469,11 +468,12 @@ var bind_rl = function (elm) {
 		$t.closest('.thmb').toggleClass('checked');
 		enable_menu($obj, true);
 		//togle checkbox
-		$t.find('input:checkbox').attr('checked', function (idx, oldProp) {
+		$t.find('input:checkbox').prop('checked', function (idx, oldProp) {
 			enable_menu($obj, false);
-			return !oldProp;
+			return oldProp;
 		});
 	});
+
 
 	$obj.find('.rl_select').click(function () {
 		if (modalscope.mode == 'single') {
@@ -757,15 +757,16 @@ var rl_success_alert = function (text, autohide) {
 
 /*UPLOAD FUNCTIONS*/
 jQuery(function () {
-	var sendFileToServer = function (formData, status) {
+	var sendFileToServer = function (formData, status, URL) {
 		var response = {};
 		var extraData = {}; //Extra Data.
 
-		var URL = '';
-		if ($('#resource_types_tabs li.active').attr('data-type')) {
-			URL = $('div.fileupload_drag_area').find('form').attr('action') + '&type=' + $('#resource_types_tabs li.active').attr('data-type');
-		} else {
-			URL = $('div.fileupload_drag_area').find('form').attr('action');
+		if(!URL) {
+			if ($('#resource_types_tabs li.active').attr('data-type')) {
+				URL = $('div.fileupload_drag_area').find('form').attr('action') + '&type=' + $('#resource_types_tabs li.active').attr('data-type');
+			} else {
+				URL = $('div.fileupload_drag_area').find('form').attr('action');
+			}
 		}
 
 		//if need to upload from html-resource element of html-form
@@ -851,7 +852,7 @@ jQuery(function () {
 		}
 	}
 
-	var handleFileUpload = function (files, obj) {
+	var handleFileUpload = function (files, obj, URL) {
 		if(files.length<1){ return false;}
 
 		$(obj).find('.fileupload-buttonbar').html('');
@@ -864,7 +865,7 @@ jQuery(function () {
 
 			var status = new createStatusbar($(obj).find('.fileupload-buttonbar')); //Using this we can set progress.
 			status.setFileNameSize(files[i].name, files[i].size);
-			var response = sendFileToServer(fd, status);
+			var response = sendFileToServer(fd, status, URL);
 			if (response.hasOwnProperty('error_text')) {
 				rl_error_alert('File ' + files[i].name + ' (' + response.error_text + ')', false);
 				e++;
@@ -898,24 +899,24 @@ jQuery(function () {
 		e.preventDefault();
 	});
 	obj.on('dragover', "div.fileupload_drag_area", function (e) {
-		$(this).css('border', '2px dotted #F19013');
+		$('div.fileupload_drag_area').css('border', '2px dotted #F19013');
 		e.stopPropagation();
 		e.preventDefault();
 	});
 	obj.on('drop', "div.fileupload_drag_area", function (e) {
 
-		$("div.fileupload_drag_area").css('border', '2px dotted #F19013');
+		$('div.fileupload_drag_area').css('border', '2px dotted #F19013');
 		e.preventDefault();
 		var files = e.originalEvent.dataTransfer.files;
 
 		//enable single mode based on attribute
-		var btn = $("div.fileupload_drag_area").find('a.btn');
+		var btn = $('div.fileupload_drag_area').find('a.btn');
 		modalscope.mode = btn.attr('data-mode') ? btn.attr('data-mode') : '';
 		modalscope.wrapper_id = btn.attr('data-wrapper_id');
 		modalscope.field = btn.attr('data-field');
 
 		//if replacement of file - take only first dragged file
-		if ($("div.fileupload_drag_area").attr('data-upload-type') == 'single') {
+		if ($('div.fileupload_drag_area').attr('data-upload-type') == 'single') {
 			files = [files[0]];
 		}
 
@@ -931,19 +932,19 @@ jQuery(function () {
 	doc.on('dragover', "div.fileupload_drag_area", function (e) {
 		e.stopPropagation();
 		e.preventDefault();
-		obj.css('border', '2px dotted #F19013');
+		$('div.fileupload_drag_area').css('border', '2px dotted #F19013');
 	});
 	doc.on('drop', "div.fileupload_drag_area", function (e) {
-		obj.css('border', '1px dashed grey');
+		$('div.fileupload_drag_area').css('border', '1px dashed grey');
 		e.stopPropagation();
 		e.preventDefault();
 	});
 
 	$('body').on('change', 'input[name="files\[\]"]', function () {
-		obj.css('border', '2px dotted #F19013');
+		$('div.fileupload_drag_area').css('border', '2px dotted #F19013');
 		var files = this.files;
 		//We need to send dropped files to Server
-		handleFileUpload(files, obj);
+		handleFileUpload(files, obj, $('input[name="files\[\]"]').parents('form').attr('action'));
 	});
 
 });

@@ -68,18 +68,19 @@
         
 	</ul>
 
-
 	<div class="row edit_resource_form">
-        <div class="col-sm-6 col-xs-12 form-horizontal form-bordered">
-			<?php if (!empty ($resource['resource_code'])) { ?>
-			<?php echo $form['form_open'];?>
+        <div class="col-sm-6 col-xs-12">
+	<?php if (!empty ($resource['resource_code'])) { ?>
+
 			<div class="form-group <?php echo (!empty($error['resource_code']) ? "has-error" : ""); ?>">
 			    <label class="control-label" for="<?php echo $form['field_resource_code']->element_id; ?>"><?php echo $text_resource_code; ?></label>
 			    <div class="input-group afield col-sm-12">
 			    	<?php echo $form['field_resource_code'];?>
 			    </div>
 		    </div>
-        	<?php } else { ?>
+
+    <?php } else { ?>
+
 		    <div class="resource_image center">
 		    <a target="_preview" href="<?php echo $rl_get_preview; ?>&resource_id=<?php echo $resource['resource_id']; ?>&language_id=<?php echo $resource['language_id']; ?>" title="<?php echo $text_preview; ?>">
 		    	<?php // NOTE: USE time as parameter for image to prevent caching of thumbnail (in case of replacement of resource file)?>
@@ -88,9 +89,9 @@
 		    </div>
 			<?php // upload form for file replacement ?>
 			<div class="form-group fileupload_drag_area" data-upload-type="single">
-				<form action="<?php echo $rl_replace; ?>" method="POST" enctype="multipart/form-data">
+				<form name="RlRplc" action="<?php echo $rl_replace; ?>" method="POST" enctype="multipart/form-data" fole="form">
 					<div class="fileupload-buttonbar col-sm-12">
-						<label class="btn btn-block tooltips fileinput-button ui-button  "
+						<label class="btn btn-block tooltips fileinput-button ui-button"
 							   role="button"
 							   data-original-title="<?php echo $text_replace_file.' '.$text_drag; ?>">
 							<span class="btn btn-primary btn-block ui-button-text"><span><i class="fa fa-upload"></i><?php echo $text_replace_file;?></span></span>
@@ -100,7 +101,7 @@
 				</form>
 			</div>
 
-        	<?php } ?>		 
+    <?php } ?>
         	  				
 			<div class="form-group">
 			    <label class="col-sm-6 control-label"><?php echo $text_mapped_to; ?></label>
@@ -112,31 +113,23 @@
 			    ?>
 			    	<div class="dropdown-menu dropdown-menu-sm pull-right">
 			    <?php		
-			    	foreach ( $resource['resource_objects'] as $obj_area => $items ) {
-			    ?>		
+			    	foreach ( $resource['resource_objects'] as $obj_area => $items ) { ?>
 			    		<h5 class="title"><?php echo $obj_area; ?></h5>
 			    		<ul class="dropdown-list dropdown-list-sm">
 			    <?php							
 			    		foreach ( $items as $item) {
-			    			$total_cnt++;
-			    ?>		
+			    			$total_cnt++; ?>
 			    		<li>
 			    			<a href="<?php echo $item['url']; ?>" target="_new" data-object-id="<?php echo $item['object_id']; ?>">
 			    			<?php echo $item['name']; ?>
 			    			</a>
 			    		</li>								
 
-			    <?php														
-			    		}	
-			    ?>		
+			    <?php } ?>
 			    		</ul>
-			    <?php																											
-			    	}
-			    ?>
+			    <?php } ?>
 			    	</div>	
-			    <?php																											
-			    }
-			    ?>
+			    <?php } ?>
 			    	<button data-toggle="dropdown" class="btn btn-default btn-xs dropdown-toggle" >
 			    		<i class="fa fa-external-link fa-lg"></i>&nbsp;
 			    		<span class="caret"></span>&nbsp;
@@ -175,8 +168,6 @@
         </div><!-- col-sm-6 -->
 
         <div class="col-sm-6 col-xs-12">
-			<h3 class="panel-title"></h3>
-
 			<?php if ($mode == 'new') { ?>
 			<div class="form-group">
 				<div class="input-group afield col-sm-12"> 
@@ -211,10 +202,7 @@
 
         </div><!-- col-sm-6 -->
 	</div>
-      
-	<div class="panel-body panel-body-nopadding">
-	</div>
-		
+
 	<div class="panel-footer">
 		<div class="row">
 		   <div class="center">
@@ -227,7 +215,6 @@
 		   </div>
 		</div>
 	</div>
-	
  </div><!-- <div class="tab-content"> -->
 
 </div>
