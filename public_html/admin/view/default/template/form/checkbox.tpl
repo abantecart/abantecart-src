@@ -4,9 +4,9 @@
 <input type="checkbox"
            name="<?php echo $name ?>"
            id="<?php echo $id ?>"
-           value="1"
+           value="<?php echo $value ?>"
            class="ckbox acheckbox <?php echo $style; ?>"
-		   <?php echo ( ($checked) ? 'checked="checked"':'' ) ?>
+		   <?php echo ( ($checked ) ? 'checked="checked"':'' ) ?>
            data-orgvalue="<?php echo ($checked ? 'true':'false') ?>"
 		   <?php echo $attr ?>
            <?php echo ($is_switch ? 'style="opacity: 0;"' : ''); ?>

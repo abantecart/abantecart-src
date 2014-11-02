@@ -2,7 +2,7 @@
     $radio_id = preg_replace('/[^a-zA-Z0-9\.-_]/', '', $id . $v); ?>
 <div class="radio">
     <label for="<?php echo $radio_id ?>">
-    	<input id="<?php echo $radio_id ?>" type="radio" value="<?php echo $v ?>" name="<?php echo $name ?>" <?php echo($v == $value ? ' checked="checked" ' : '') ?> <?php echo $attr ?>><?php echo $text ?>
+    	<input id="<?php echo $radio_id ?>" type="radio" value="<?php echo $v ?>" name="<?php echo $name ?>" <?php echo($v == $value ? ' checked="checked" ' : '') ?> data-orgvalue="<?php echo $value; ?>" <?php echo $attr ?>><?php echo $text ?>
     </label>
 </div>
 <?php } ?>

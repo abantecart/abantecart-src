@@ -77,8 +77,8 @@ var reloadModal = function (URL) {
 			$('.tooltip.in').remove();
 			$(mdb).html('');
 			$(mdb).html(html);
-			//if modal is not yet open, open and initilize close event
-			if (!isModalOpen()) {
+			//if #rl_modal modal is not yet open, open and initilize close event
+			if (!isModalOpen('#rl_modal')) {
 				$(mdb).css({height: '560'});
 				$md.modal('show');
 				$md.unbind('hidden.bs.modal').on('hidden.bs.modal', function () {
@@ -89,6 +89,10 @@ var reloadModal = function (URL) {
 						<?php 	foreach ($types as $type) { ?>
 						loadMedia('<?php echo $type['type_name']?>');
 						<?php 	} ?>
+					}
+					//if any other modal is open, make it active
+					if (isModalOpen()) {
+						$("body").addClass("modal-open");
 					}
 				});
 			}

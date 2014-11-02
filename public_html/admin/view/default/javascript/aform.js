@@ -217,8 +217,10 @@
                 "change.aform":function () {
                     if (!$field.prop("checked")) {
                         $wrapper.removeClass(o.checkedClass);
+                        $field.val('0');
                     } else {
                         $wrapper.addClass(o.checkedClass);
+                        $field.val('1');
                     }
                     onChangedAction($field, $(this).prop("checked"), $(this).attr('data-orgvalue'));
                 }
@@ -240,7 +242,7 @@
                     } else {
                         $wrapper.addClass(o.checkedClass);
                     }
-                    onChangedAction($field, $(this).prop("checked"), $(this).attr('data-orgvalue'));
+                    onChangedAction($field, $(this).val(), $(this).attr('data-orgvalue'));
                 }
             });
         }
@@ -483,13 +485,22 @@
 		          	if ($wrapper.find(".chosen-select").length > 0) {
 		          		$wrapper.find(".chosen-select").trigger("chosen:updated");
 		          	}
+		        } else if ($e.is(":radio")) {
+		            if ($e.attr('data-orgvalue') == $e.val()) {
+		            	$e.attr('checked', 'checked');
+					} else {
+		                $e.removeAttr('checked');
+					}
 		        } else if ($e.is(":text, :password, input[type='email'], textarea")) {
 		            $e.val($e.attr('data-orgvalue'));
 		        } else if ($e.is(":checkbox")) {
 		            if ($e.attr('data-orgvalue') == 'true') {
 		                $e.attr('checked', 'checked');
+		                $e.val('1');
 		                $e.closest('.afield').addClass('checked');
 		            } else {
+		                $e.removeAttr('checked');
+		                $e.val('0');
 		                $e.closest('.afield').removeClass('checked');
 		            }
 		        //reset switch    
@@ -519,6 +530,13 @@
 		            		$(this).attr('data-orgvalue', "true");
 		            	}
 		            });
+		        } else if ($e.is(":radio")) {		        	
+		            $e.attr('data-orgvalue', elem.val());
+		        	if($e.val() == elem.val()) {
+		        		$e.attr('checked', 'checked');
+		        	} else {
+		            	$e.removeAttr('checked');
+		        	}		            
 		        } else if ($e.is(":text, :password, input[type='email'], textarea")) {
 		            $e.attr('data-orgvalue', $e.val());
 		        } else if ($e.is(":checkbox")) {
@@ -611,7 +629,7 @@
 
 		function saveField(elem, url) {		
 			var $field = $(elem);
-		    var $wrapper = $field.parent('.afield');
+		    var $wrapper = $field.closest('.afield');
 		    //find a button container
 		    var $grp = $wrapper.find(o.btnGrpSelector);
 		    var $err = false;
@@ -640,7 +658,6 @@
 		    });
 		
 		    $data = $wrapper.find('input, select, textarea').serialize();
-
 			//if impty and we have select, need to pass blank value 
 			if (!$data) {
 			    $wrapper.find('select').each(function () {
@@ -668,8 +685,7 @@
 		
 		    if (!$err) {
 		    	//show ajax wrapper
-                var p = isModalOpen() ? '.modal-content' : null;
-		        var growl = notice(o.processing_txt, false, p, 'info', 'fa fa-spinner fa-spin');
+ 		        var growl = notice(o.processing_txt, false, null, 'info', 'fa fa-spinner fa-spin');
 		        $.ajax({
 		            url: url,
 		            type: 'POST',

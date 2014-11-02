@@ -492,13 +492,20 @@ function remove_alert(growl) {
 	growl.close();
 }
 
-function isModalOpen(){
+//Check if modal open. Can be specific or any
+function isModalOpen( modal = ''){
     var result = false;
-    $('div.modal').each(function(){
-		if ($(this).hasClass('in')) {
-       	 result = true;
-       }	
-    });
+    if (modal) {
+	    if ($(modal).hasClass('in') ) {
+    		result = true;
+    	}
+    } else {
+	    $('div.modal').each(function(){
+			if ($(this).hasClass('in')) {
+	       	 result = true;
+	       }	
+	    });
+    }
 	return result;
 }
 
