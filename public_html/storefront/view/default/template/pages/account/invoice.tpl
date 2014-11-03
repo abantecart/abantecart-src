@@ -22,9 +22,11 @@
 					<b><?php echo $text_email; ?></b><br/>
 					<?php echo $email; ?><br/>
 					<br/>
-					<b><?php echo $text_telephone; ?></b><br/>
-					<?php echo $telephone; ?><br/>
-					<br/>
+					<?php if ($telephone) { ?>
+						<b><?php echo $text_telephone; ?></b><br/>
+						<?php echo $telephone; ?><br/>
+						<br/>
+					<?php } ?>
 					<?php if ($fax) { ?>
 						<b><?php echo $text_fax; ?></b><br/>
 						<?php echo $fax; ?><br/>

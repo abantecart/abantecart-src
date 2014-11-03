@@ -76,6 +76,5 @@
 				'modal_type' => 'lg',
 				'data_source' => 'ajax',
 				'js_onload' => "$('#downloadFrm_activate').change(); "
-
 		));
 ?>

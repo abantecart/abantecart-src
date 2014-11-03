@@ -82,26 +82,33 @@
 									$widthcasses = "col-sm-7";
 								} else if ( is_int(stripos($field->style, 'medium-field')) || is_int(stripos($field->style, 'date')) ) {
 									$widthcasses = "col-sm-5";
-								} else if ( is_int(stripos($field->style, 'small-field')) || is_int(stripos($field->style, 'btn_switch')) ) {
+								} else if ( is_int(stripos($field->style, 'small-field')) ) {
 									$widthcasses = "col-sm-3";
-								} else if ( is_int(stripos($field->style, 'tiny-field')) ) {
-									$widthcasses = "col-sm-2";
+								} else if ( is_int(stripos($field->style, 'btn_switch')) ) {
+									$widthcasses = "col-sm-6";
 								}
 								$widthcasses .= " col-xs-12";
 							?>
 						<div class="form-group <?php if (!empty($error[$name])) { echo "has-error"; } ?>">
 							<label class="control-label col-sm-3 col-xs-12" for="<?php echo $field->element_id; ?>"><?php echo ${'entry_' . $name}; ?></label>
-							<div class="input-group afield <?php echo $widthcasses; ?> <?php echo ($name == 'description' ? 'ml_ckeditor' : '')?>">
-								<?php echo $field;
-								 if($name=='shared' && $map_list){ ?>
-									<div class="list-group">
-										<span class="list-group-item disabled"><?php echo $text_shared_with?></span>
-									<?php foreach($map_list as $i){?>
-										<a href="<?php echo $i['href'];?>" target="_blank" class="list-group-item"><?php echo $i['text']?></a>
-									<?php } ?>
-									</div>
-								<?php } ?>
+							<?php if($name=='shared' && $map_list){ ?>
+							<div class="btn-group toolbar">
+							<button data-toggle="dropdown" type="button" class="btn btn-default dropdown-toggle">
+			    			    <i class="fa fa-link fa-fw"></i>
+			    			    <?php echo $text_shared_with?> <span class="caret"></span>
+			  				</button>
+							<ul class="dropdown-menu" role="menu">
+							<?php foreach($map_list as $i){?>
+							    <li><a href="<?php echo $i['href'];?>" target="_blank"><?php echo $i['text']?></a></li>
+							<?php } ?>
+							</ul>
 							</div>
+							<?php } else { ?>
+							<div class="input-group afield <?php echo $widthcasses; ?> <?php echo ($name == 'description' ? 'ml_ckeditor' : '')?>">
+							<?php echo $field; ?>
+							</div>
+							<?php } ?>
+
 							<?php if (!empty($error[$name])) { ?>
 							<span class="help-block field_err"><?php echo $error[$name]; ?></span>
 							<?php }
@@ -162,8 +169,6 @@
 		}
 	});
 
-
-
 	$('#downloadFrm').submit(function () {
 		$.ajax(
 				{   url: '<?php echo $form['form_open']->action; ?>',
@@ -172,13 +177,14 @@
 					dataType: 'json',
 					success: function (data) {
 						if (data.result_text != '') {
-						<?php
-							if(!$download_id){?>
+						<?php if(!$download_id){?>
 								goTo('<?php echo $file_list_url; ?>');
-					<?php   }else{ ?>
+						<?php } else { ?>
 							$('#file_modal').scrollTop(0);
 							success_alert(data.result_text, true, "#downloadFrm");
-							<?php } ?>
+							//close modal and reload parent page.
+							location.reload();
+						<?php } ?>
 						}
 					},
 					error: function(jqXHR){

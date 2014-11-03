@@ -141,7 +141,6 @@ class ControllerApiAccountEdit extends AControllerAPI {
 			'type' => 'input',
 			'name' => 'telephone',
 			'value' => $telephone,
-			'required' => true,
 			'error' => $this->v_error[ 'telephone' ] );
 		$this->data[ 'fields' ][ 'fax' ] = array(
 			'type' => 'input',

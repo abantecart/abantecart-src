@@ -1,5 +1,4 @@
-<?php
-foreach ( $types as $type ) { ?>
+<?php foreach ( $types as $type ) { ?>
 <div class="panel panel-default panel_<?php echo $type['type_name']; ?>" id="panel_<?php echo $type['type_name']; ?>">
 	<div class="panel-heading">
 	  <div class="panel-btns">

@@ -297,7 +297,7 @@ class ControllerResponsesProductProduct extends AController {
 		$errors = $attribute_manager->validateAttributeCommonData($data);
 		if(!$errors){
 			$this->model_catalog_product->updateProductOption($this->request->get['option_id'], $this->request->get);
-		}else{
+		} else {
 			$error = new AError('');
 			return $error-> toJSONResponse('',
 				array( 'error_title' => implode('<br>',$errors)		));

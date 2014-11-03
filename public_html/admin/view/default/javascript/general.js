@@ -477,6 +477,7 @@ function notice(text, autohide, elm, type, icon) {
 		message: "&nbsp;&nbsp;"+text+"&nbsp;&nbsp;&nbsp;"
 	},{
 		element: elm,
+		z_index: 99999,
 		delay: delay,
     	type: type,
 		animate: {
@@ -491,22 +492,24 @@ function remove_alert(growl) {
 	growl.close();
 }
 
-//-----------------------------------------
-
-var isModalOpen = function () {
+//Check if modal open. Can be specific or any
+function isModalOpen( modal = ''){
     var result = false;
-    $('div.modal').each(function(){
-       var id = $(this).attr('id');
-
-        if(id!=undefined){
-            if (typeof $('#'+id).data === 'function' && $('#'+id).data('bs.modal') != undefined && $('#'+id).data('bs.modal').isShown) {
-                result = true;
-            }
-        }
-    });
-
+    if (modal) {
+	    if ($(modal).hasClass('in') ) {
+    		result = true;
+    	}
+    } else {
+	    $('div.modal').each(function(){
+			if ($(this).hasClass('in')) {
+	       	 result = true;
+	       }	
+	    });
+    }
 	return result;
 }
+
+//-----------------------------------------
 
 // global error handler.
 // If you don't need to use it in your custom ajax-call set ajax option "global" to "false"
@@ -518,24 +521,22 @@ $(document).ajaxError(function (e, jqXHR, settings, exception) {
     }
 
     var gl_error_alert = function (text, autohide) {
-        if(text.length==0){ return false;}
-    	if (isModalOpen()) {
-    		error_alert(text, autohide, '.modal-content');
-    	} else {
-    		error_alert(text, autohide);
-    	}
+        if(text.length == 0){ 
+        	return false;
+        }
+    	error_alert(text, autohide);
     }
 
     try {
         var err = $.parseJSON(jqXHR.responseText);
-
-        if (err.hasOwnProperty("error_text")) {
+        if (err.hasOwnProperty("error_title") || err.hasOwnProperty("error_text")) {
             var errors = err.error_text;
             var errlist = typeof errors === 'string' ? [errors] : errors;
-
+			//show alert for every error in the array of responce
             for (var k in errlist) {
                 if (errlist[k].length > 0) {
-                    gl_error_alert(errlist[k], false);
+                	//show error and prepend the title of the error
+                    gl_error_alert(err.error_title+' '+errlist[k], false);
                 }
             }
         }

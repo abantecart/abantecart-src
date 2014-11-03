@@ -39,13 +39,13 @@ echo ${$header}; ?>
 
 	<div class="container">
 		<?php if ( !empty(${$column_left} ) ) { ?>
-		<div class="column_left col-md-3">
+		<div class="column_left col-md-3 col-xs-12">
 		<?php echo ${$column_left}; ?>
 		</div>
 		<?php } ?>
 
 		<?php $span = 12 - 3 * ($present_columns -1); ?>
-		<div class="col-md-<?php echo $span ?> mt20">
+		<div class="col-md-<?php echo $span ?> col-xs-12 mt20">
 		<?php if ( !empty( ${$content_top} ) ) { ?>
 		<!-- content top blocks placeholder -->
 		<?php echo ${$content_top}; ?>
@@ -64,7 +64,7 @@ echo ${$header}; ?>
 		</div>
 
 		<?php if ( !empty(${$column_right} ) ) { ?>
-		<div class="column_right col-md-3 mt20">
+		<div class="column_right col-md-3 col-xs-12 mt20">
 		<?php echo ${$column_right}; ?>
 		</div>
 		<?php } ?>

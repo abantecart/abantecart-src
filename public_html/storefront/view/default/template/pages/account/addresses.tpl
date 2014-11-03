@@ -36,7 +36,7 @@
     </div>
     <?php } ?>
 
-	<div class="col-md-12 pull-right mt20 mb20">
+	<div class="col-md-12 col-xs-12 pull-right mt20 mb20">
 		<a href="<?php echo $back; ?>" class="btn btn-default mr10" title="<?php echo $button_back->text ?>">
 		    <i class="<?php echo $button_back->{'icon'}; ?>"></i>
 		    <?php echo $button_back->text ?>

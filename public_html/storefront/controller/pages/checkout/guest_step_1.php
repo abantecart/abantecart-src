@@ -237,8 +237,8 @@ class ControllerPagesCheckoutGuestStep1 extends AController {
 		$this->data['form']['telephone'] = $form->getFieldHtml(array(
 				'type' => 'input',
 				'name' => 'telephone',
-				'value' => $telephone,
-				'required' => true));
+				'value' => $telephone
+				));
 		if (isset($this->request->post['fax'])) {
 			$fax = $this->request->post['fax'];
 		} elseif (isset($this->session->data['guest']['fax'])) {
@@ -529,7 +529,7 @@ class ControllerPagesCheckoutGuestStep1 extends AController {
 			$this->error['email'] = $this->language->get('error_email');
 		}
 
-		if ((mb_strlen($this->request->post['telephone']) < 3) || (mb_strlen($this->request->post['telephone']) > 32)) {
+		if ( mb_strlen($this->request->post['telephone']) > 32 ) {
 			$this->error['telephone'] = $this->language->get('error_telephone');
 		}
 

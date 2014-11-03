@@ -117,7 +117,7 @@
      	</div>
 		
 		<div class="form-group">
-			<div class="col-md-12">
+			<div class="col-md-12 mt20">
     			<?php echo $this->getHookVar('buttons_pre'); ?>
 				<?php echo $buttons; ?>
 				<?php echo $this->getHookVar('buttons_post'); ?>
