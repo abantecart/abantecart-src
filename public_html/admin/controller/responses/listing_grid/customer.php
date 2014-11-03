@@ -366,4 +366,37 @@ class ControllerResponsesListingGridCustomer extends AController {
 		}
 	}
 
+	public function customers() {
+
+		$customers = array();
+		$customers_data = array();
+
+		//init controller data
+		$this->extensions->hk_InitData($this, __FUNCTION__);
+		$this->loadModel('sale/customer');
+		if (isset($this->request->post['term'])) {
+			$filter = array('limit' => 20,
+							'content_language_id' => $this->language->getContentLanguageID(),
+							'filter' => array(
+								'name_email' => $this->request->post['term'],
+								'match' => 'any',
+								'only_customers' => 1
+							));
+			$customers = $this->model_sale_customer->getCustomers($filter);
+			foreach ($customers as $cdata) {
+					$customers_data[ ] = array(
+						'id' => $cdata['customer_id'],
+						'name' => $cdata['firstname'].' '.$cdata['lastname']
+					);
+			}
+		}
+
+		//update controller data
+		$this->extensions->hk_UpdateData($this, __FUNCTION__);
+
+		$this->load->library('json');
+		$this->response->addJSONHeader();
+		$this->response->setOutput(AJson::encode($customers_data));
+	}
+
 }

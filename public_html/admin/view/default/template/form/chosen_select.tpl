@@ -59,7 +59,12 @@ $(document).ready(function () {
 	}, function (data) {
 	    var results = [];
 	    $.each(data, function (i, val) {
-	    	var html = val.image + '<span class="hide_text"> ' + val.name;
+	    	var html = '', css = '';
+		    if(val.hasOwnProperty('image')){
+			    html += val.image;
+			    css='hide_text';
+		    }
+		    html +=  '<span class="'+css+'"> ' + val.name;
 	    	if (val.meta) {
 	    		html += '&nbsp;(' + val.meta + ')';
 	    	}
