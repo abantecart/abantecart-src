@@ -7,7 +7,7 @@
 
 	<?php foreach ($orders as $order) { ?>
 		
-	<div class="row mt20">
+	<div class="container-fluid mt20">
 	    <div style="width: 49%; float: left; margin-bottom: 2px;"><b><?php echo $text_order; ?></b>
 	    	#<?php echo $order[ 'order_id' ]; ?></div>
 	    <div style="width: 49%; float: right; margin-bottom: 2px; text-align: right;">
@@ -30,9 +30,9 @@
 	</div>
 	<?php } ?>
 
-	<div class="row"><?php echo $pagination_bootstrap; ?></div>
+	<div class="container-fluid"><?php echo $pagination_bootstrap; ?></div>
 
-	<div class="row">
+	<div class="container-fluid">
 		<div class="col-md-12 mt20">
 			<a href="<?php echo $continue; ?>" class="btn btn-default pull-right" title="<?php echo $button_continue->text ?>">
 	    		    <i class="fa fa-arrow-right"></i>

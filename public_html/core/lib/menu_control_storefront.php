@@ -48,16 +48,22 @@ class AMenu_Storefront extends AMenu {
 		foreach ($this->dataset_rows as $item) {
 
 			foreach ($this->dataset_decription_rows as $description_item) {
-				if ($description_item[ 'item_id' ] == $item[ 'item_id' ]) {
-					$item[ 'item_text' ][ $description_item[ 'language_id' ] ] = $description_item[ 'item_text' ];
+				if ($description_item['item_id'] == $item['item_id']) {
+					$item['item_text'][ $description_item['language_id'] ] = $description_item['item_text'];
 				}
 			}
 
-			if (isset ($tmp [ $item [ 'parent_id' ] ] [ $item [ 'sort_order' ] ])) {
+			if (isset ($tmp [ $item ['parent_id'] ] [ $item['sort_order'] ])) {
 				$offset++;
 			}
-			$tmp [ $item [ 'parent_id' ] ] [ $item [ 'sort_order' ] + $offset ] = $item;
-			$this->item_ids [ ] = $item [ 'item_id' ];
+			//mark current page
+			$rt = $this->registry->get('request')->get_or_post('rt');
+			if ($item['item_url'] == $rt ) {
+				$item['current'] = true;
+			}
+
+			$tmp [ $item['parent_id'] ] [ $item['sort_order'] + $offset ] = $item;			
+			$this->item_ids [ ] = $item['item_id'];
 
 		}
 		$menu = array();
@@ -80,15 +86,15 @@ class AMenu_Storefront extends AMenu {
 		$menu_item = false;
 
 		foreach ($this->dataset_rows as $item) {
-			if ($item_id == $item [ 'item_id' ]) {
+			if ($item_id == $item ['item_id']) {
 				$menu_item = $item;
 				break;
 			}
 		}
 		// add text data
 		foreach ($this->dataset_decription_rows as $item) {
-			if ($item_id == $item [ 'item_id' ]) {
-				$menu_item[ 'item_text' ][ $item[ 'language_id' ] ] = $item[ 'item_text' ];
+			if ($item_id == $item ['item_id']) {
+				$menu_item['item_text'][ $item['language_id'] ] = $item['item_text'];
 			}
 		}
 		return $menu_item;
@@ -103,13 +109,13 @@ class AMenu_Storefront extends AMenu {
 		$return_arr = array();
 		$all_parents = array();
 		foreach ($this->dataset_rows as $item) {
-			if ($item [ 'parent_id' ]) {
-				$all_parents[ ] = $item[ 'parent_id' ];
+			if ($item ['parent_id']) {
+				$all_parents[ ] = $item['parent_id'];
 			}
 		}
 		foreach ($this->dataset_rows as $item) {
-			if (!in_array($item[ 'item_id' ], $all_parents)) {
-				$return_arr[ $item[ 'item_id' ] ] = $item[ 'item_id' ];
+			if (!in_array($item['item_id'], $all_parents)) {
+				$return_arr[ $item['item_id'] ] = $item['item_id'];
 			}
 		}
 		return $return_arr;
@@ -136,8 +142,8 @@ class AMenu_Storefront extends AMenu {
 			return 'Error: Cannot to add menu item because item array is wrong.';
 		}
 
-		if ($item [ 'parent_id' ] && !in_array($item [ 'parent_id' ], $this->item_ids)) {
-			return 'Error: Cannot to add menu item because parent "' . $item [ 'parent_id' ] . '" is not exists';
+		if ($item ['parent_id'] && !in_array($item ['parent_id'], $this->item_ids)) {
+			return 'Error: Cannot to add menu item because parent "' . $item ['parent_id'] . '" is not exists';
 		}
 
 		if (!$item [ "sort_order" ]) {
@@ -146,7 +152,7 @@ class AMenu_Storefront extends AMenu {
 			$new_sort_order = 0;
 			if ($brothers) {
 				foreach ($brothers as $brother) {
-					$new_sort_order = $brother [ 'sort_order' ] > $new_sort_order ? $brother [ 'sort_order' ] : $new_sort_order;
+					$new_sort_order = $brother ['sort_order'] > $new_sort_order ? $brother ['sort_order'] : $new_sort_order;
 				}
 			}
 			$new_sort_order += 10;
@@ -154,23 +160,23 @@ class AMenu_Storefront extends AMenu {
 
 		}
 		// concatenate parent_name with item name 
-		if (!$item [ 'item_type' ]) {
-			$item [ 'item_type' ] = 'extension';
+		if (!$item ['item_type']) {
+			$item ['item_type'] = 'extension';
 		}
 		// checks for unique item_id				
 		if (in_array($item [ "item_id" ], $this->item_ids)) {
 			return 'Error: Cannot to add menu item because item with item_id "' . $item [ "item_id" ] . '" is already exists.';
 		}
 		$row = $item;
-		unset($row[ 'item_text' ]);
+		unset($row['item_text']);
 		//insert row in storefront
 		$result = $this->dataset->addRows(array( $row ));
 
 		//insert language data in storefront_description
 		$item_text = array();
-		foreach ($item[ 'item_text' ] as $language_id => $text) {
+		foreach ($item['item_text'] as $language_id => $text) {
 			$item_text[ ] = array(
-				'item_id' => $item[ 'item_id' ],
+				'item_id' => $item['item_id'],
 				'language_id' => $language_id,
 				'item_text' => $text,
 			);
@@ -219,21 +225,21 @@ class AMenu_Storefront extends AMenu {
 
 		//update row in storefront
 		$row = $new_values;
-		unset($row[ 'item_text' ]);
+		unset($row['item_text']);
 		if (!empty($row)) {
 			$this->dataset->updateRows(array( "column_name" => "item_id", "operator" => "=", "value" => $item_id ), $row);
 		}
 
-		if (!empty($new_values[ 'item_text' ])) {
+		if (!empty($new_values['item_text'])) {
 			//insert language data in storefront_description
 			// not possible to get data for certain item id and lang id
 			// get all languages for item and update them
 			$item_text = $this->dataset_decription->searchRows(array( "column_name" => "item_id", "operator" => "=", "value" => $item_id ));
 
-			foreach ($new_values[ 'item_text' ] as $language_id => $text) {
+			foreach ($new_values['item_text'] as $language_id => $text) {
 				foreach ($item_text as $id => $item) {
-					if ($item[ 'language_id' ] == $language_id) {
-						$item_text[ $id ][ 'item_text' ] = $text;
+					if ($item['language_id'] == $language_id) {
+						$item_text[ $id ]['item_text'] = $text;
 						break;
 					}
 				}
@@ -266,20 +272,20 @@ class AMenu_Storefront extends AMenu {
 
 		$config = $this->registry->get('config');
 		foreach ($this->dataset_rows as $item) {
-			$item_rt[ $item[ 'item_id' ] ] = $item[ 'item_url' ];
+			$item_rt[ $item['item_id'] ] = $item['item_url'];
 		}
 
 		//insert language data in storefront_description
 		$item_text = array();
 		foreach ($this->dataset_decription_rows as $row) {
-			if ($row[ 'language_id' ] == $config->get('storefront_language_id')) {
-				if (isset($data[ $item_rt[ $row[ 'item_id' ] ] ])) {
-					$text = $data[ $item_rt[ $row[ 'item_id' ] ] ];
+			if ($row['language_id'] == $config->get('storefront_language_id')) {
+				if (isset($data[ $item_rt[ $row['item_id'] ] ])) {
+					$text = $data[ $item_rt[ $row['item_id'] ] ];
 				} else {
-					$text = $row[ 'item_text' ];
+					$text = $row['item_text'];
 				}
 				$item_text[ ] = array(
-					'item_id' => $row[ 'item_id' ],
+					'item_id' => $row['item_id'],
 					'language_id' => $language_id,
 					'item_text' => $text,
 				);

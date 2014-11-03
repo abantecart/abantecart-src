@@ -6,7 +6,7 @@
 <div class="contentpanel">
 
 	<?php foreach ($downloads as $download) { ?>
-		<div class="row mt20">
+		<div class="container-fluid mt20">
 			<div style="width: 45%; float: left; margin-bottom: 2px;">
 				<b><?php echo $text_order; ?></b> <?php echo $download['order_id']; ?></div>
 			<div style="width: 45%; float: right; margin-bottom: 2px; text-align: right;">
@@ -49,9 +49,9 @@
 		</div>
 	<?php } ?>
 
-	<div class="row"><?php echo $pagination_bootstrap; ?></div>
+	<div class="container-fluid"><?php echo $pagination_bootstrap; ?></div>
 
-	<div class="row">
+	<div class="container-fluid">
 		<div class="col-md-12 mt20">
 			<a href="<?php echo $button_continue->href ?>" class="btn btn-default pull-right">
 	    		    <i class="fa fa-arrow-right"></i>

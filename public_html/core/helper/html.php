@@ -62,7 +62,7 @@ function renderStoreMenu( $menu, $level = 0 ){
 }
 
 
-//New menu tree builder (1.1.9) 
+//New menu tree builder (1.2+) 
 function buildStoreFrontMenuTree( $menu_array, $level = 0 ){
     $menu_array = (array)$menu_array;
     if (!$menu_array) {
@@ -94,7 +94,11 @@ function buildStoreFrontMenuTree( $menu_array, $level = 0 ){
     	}
     	$href = empty($item['href']) ? '' : ' href="'.$item['href'].'" ';
     	//construct HTML
-    	$result .= '<li ' . $id . ' class="dropdown hover">';
+    	$current = ''; 
+    	if ($item['current']) {
+    		$current = 'current'; 
+    	}
+    	$result .= '<li ' . $id . ' class="dropdown hover '.$current.'">';
     	$result .= '<a ' . $class . $href . '>';
     	
     	//check icon rl type html, image or none.

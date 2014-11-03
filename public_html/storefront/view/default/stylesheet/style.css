@@ -588,6 +588,15 @@ li.dropdown {
 }
 */
 
+/* ------------ Main Menu ------------ */
+#main_menu .dropdown .menu_text {
+	padding-left: 10px;
+}
+#main_menu .dropdown.open a, #main_menu .dropdown.current a {
+	background-color: #00A1CB;
+	color: #fff;
+}
+
 /* ------------ Category Menu ------------ */
 #categorymenu {
 	padding: 7px 0 7px 0;
@@ -629,7 +638,9 @@ ul.categorymenu > li > a {
 	padding: 5px 10px 5px 5px;
 }
 
-ul.categorymenu > li:hover > a, ul.categorymenu > li > a.active {
+ul.categorymenu > li:hover > a,
+ul.categorymenu > li > a.active,
+ul.categorymenu > li.current > a {
 	color: #fff !important;
 	text-shadow: none;
 	background-color: #00A1CB;
@@ -734,7 +745,8 @@ ul.categorymenu > li ul > li > a {
 	padding: 8px 8px 8px 0;
 }
 
-ul.categorymenu > li > div > ul li:hover a {
+ul.categorymenu > li > div > ul li:hover a,
+ul.categorymenu > li > div > ul li.current > a {
 	background-color: #00A1CB;
 	color: #fff;
 	text-shadow: none;
