@@ -1,13 +1,13 @@
 <h1 class="heading1">
-  <span class="maintext"><i class="fa fa-briefcase"></i> <?php echo $heading_title; ?></span>
-  <span class="subtext"></span>
+	<span class="maintext"><i class="fa fa-briefcase"></i> <?php echo $heading_title; ?></span>
+	<span class="subtext"></span>
 </h1>
 
 <div class="contentpanel">
 
 	<?php foreach ($orders as $order) { ?>
 		
-	<div style="display: inline-block; margin-bottom: 10px; width: 100%;">
+	<div class="row mt20">
 	    <div style="width: 49%; float: left; margin-bottom: 2px;"><b><?php echo $text_order; ?></b>
 	    	#<?php echo $order[ 'order_id' ]; ?></div>
 	    <div style="width: 49%; float: right; margin-bottom: 2px; text-align: right;">
@@ -30,11 +30,11 @@
 	</div>
 	<?php } ?>
 
-	<div class="container-fluid"><?php echo $pagination_bootstrap; ?></div>
+	<div class="row"><?php echo $pagination_bootstrap; ?></div>
 
-	<div class="container-fluid cart_total">
-		<div class="row">
-			<a href="<?php echo $continue; ?>" class="btn btn-default mt10 pull-right" title="<?php echo $button_continue->text ?>">
+	<div class="row">
+		<div class="col-md-12 mt20">
+			<a href="<?php echo $continue; ?>" class="btn btn-default pull-right" title="<?php echo $button_continue->text ?>">
 	    		    <i class="fa fa-arrow-right"></i>
 	    		    <?php echo $button_continue->text ?>
 			</a>

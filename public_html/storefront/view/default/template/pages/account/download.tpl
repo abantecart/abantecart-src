@@ -1,11 +1,12 @@
-<h1 class="heading1" style="border:none;">
+<h1 class="heading1">
 	<span class="maintext"><i class="fa fa-cloud-download"></i> <?php echo $heading_title; ?></span>
 	<span class="subtext"></span>
 </h1>
 
 <div class="contentpanel">
+
 	<?php foreach ($downloads as $download) { ?>
-		<div class="row mb20" style="border-top: 1px solid #EFEFEF;">
+		<div class="row mt20">
 			<div style="width: 45%; float: left; margin-bottom: 2px;">
 				<b><?php echo $text_order; ?></b> <?php echo $download['order_id']; ?></div>
 			<div style="width: 45%; float: right; margin-bottom: 2px; text-align: right;">
@@ -28,7 +29,19 @@
 							</td>
 							<td style="width: 20%"><?php if($download['remaining']){ echo $text_remaining; ?> <?php echo $download['remaining']; }?></td>
 							<td style="width: 20%"><?php if($download['expire_date']) { echo $text_expire_date; ?> <?php echo $download['expire_date'];} ?></td>
-							<td rowspan="2" ><?php echo $download['link']; ?></td>
+							<td rowspan="2" >
+							<?php if($download['text']) { ?>
+							<a class="btn btn-primary disabled">
+	    				    <i class="fa fa-download"></i>
+	    		    		<?php echo $download['text']; ?>
+							</a>
+							<?php } else { ?>
+							<a href="<?php echo $download['button']->href; ?>" class="btn btn-primary">
+	    				    <i class="fa fa-download"></i>
+	    		    		<?php echo $download['button']->text; ?>
+							</a>
+							<?php } ?>
+							</td>
 						</tr>
 					</table>
 				</div>
@@ -36,11 +49,14 @@
 		</div>
 	<?php } ?>
 
-	<div class="pagination"><?php echo $pagination; ?></div>
+	<div class="row"><?php echo $pagination_bootstrap; ?></div>
 
-	<div class="form-group" style="border-top: 1px solid #EFEFEF;">
-		<div class="controls pull-right">
-			<div class=" row mt20 mb20"> <?php echo $button_continue; ?></div>
+	<div class="row">
+		<div class="col-md-12 mt20">
+			<a href="<?php echo $button_continue->href ?>" class="btn btn-default pull-right">
+	    		    <i class="fa fa-arrow-right"></i>
+	    		    <?php echo $button_continue->text ?>
+			</a>
 		</div>
 	</div>
 
