@@ -25,7 +25,7 @@
 <?php } ?>
 
 
-<?php if ( $style == 'chosen') {  //for chosen we puplate HTML into options  ?>
+<?php if ( strpos($style,'chosen') !== false ) {  //for chosen we puplate HTML into options  ?>
 <script type="text/javascript">
 $(document).ready(function () {
 <?php 
