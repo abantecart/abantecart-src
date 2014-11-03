@@ -356,7 +356,7 @@ class ModelLocalisationLanguageDefinitions extends Model {
 		
 		$fields = array( 'language_key', 'language_value', 'block', 'section' );
 		$language_definition_id = $request->get['language_definition_id'];
-		$view_mode = $request->get['view_mode'];		
+		$view_mode = 'all';
 		//if existing definition disable edit for some fields
 		$disable_attr = '';
 		if (has_value($language_definition_id)) {

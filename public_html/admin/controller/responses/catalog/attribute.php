@@ -159,25 +159,25 @@ class ControllerResponsesCatalogAttribute extends AController {
 			'extensions' => $form->getFieldHtml(array(
 				'type' => 'input',
 				'name' => 'settings[extensions]',
-				'value' => $this->data['settings']['extensions'],
+				'value' => (has_value($this->data['settings']['extensions']) ? $this->data['settings']['extensions'] : ''),
 				'style' => 'no-save'
 			)),
 			'min_size' => $form->getFieldHtml(array(
 				'type' => 'input',
 				'name' => 'settings[min_size]',
-				'value' => $this->data['settings']['min_size'],
+				'value' => (has_value($this->data['settings']['min_size']) ? $this->data['settings']['min_size'] :''),
 				'style' => 'small-field no-save'
 			)),
 			'max_size' => $form->getFieldHtml(array(
 				'type' => 'input',
 				'name' => 'settings[max_size]',
-				'value' => $this->data['settings']['max_size'],
+				'value' => (has_value($this->data['settings']['max_size']) ? $this->data['settings']['max_size'] : ''),
 				'style' => 'small-field no-save'
 			)),
 			'directory' => $form->getFieldHtml(array(
 				'type' => 'input',
 				'name' => 'settings[directory]',
-				'value' => $this->data['settings']['directory'],
+				'value' => (has_value($this->data['settings']['directory']) ? $this->data['settings']['directory'] : ''),
 				'style' => 'no-save'
 			)),
 		);

@@ -119,8 +119,15 @@ class ControllerResponsesListingGridGlobalSearchResult extends AController {
 						}
 					}
 
+					if($item['controller'] == 'setting/setting'){
+						$a = explode('-',$item['active']);
+						if($a[0] == 'appearance'){
+							unset($result_controllers[ $tmp_id ][ 'response' ]);
+						}
+					}
 
-					$item[ 'controller' ] = $result_controllers[ $tmp_id ][ 'response' ] ? $this->html->getSecureURL($result_controllers[ $tmp_id ][ 'response' ], ($tmp_id == 'languages' ? '&popup=1&target=suggest_popup_dialog' : '') . '&' . implode('&', $tmp)) : '';
+
+					$item[ 'controller' ] = $result_controllers[ $tmp_id ][ 'response' ] ? $this->html->getSecureURL($result_controllers[ $tmp_id ][ 'response' ], '&' . implode('&', $tmp)) : '';
 					$item[ 'page' ] = $this->html->getSecureURL($result_controllers[ $tmp_id ][ 'page' ], '&' . implode('&', $tmp));
 					$item[ 'category' ] = $id;
 					$item[ 'category_name' ] = $this->language->get('text_' . $id);
