@@ -1,4 +1,4 @@
-<?php //NOTE: For maltivalue, need to pass attribute multiple="multiple" ?>
+<?php //NOTE: For multivalue, need to pass attribute multiple="multiple" ?>
 <select id="<?php echo $id ?>" name="<?php echo $name ?>" data-placeholder="<?php echo $placeholder; ?>" class="chosen-select form-control aselect <?php echo ($style ? $style:''); ?>" style="display: none;" <?php echo $attr; ?>>
 <?php 
 	foreach ( $options as $v => $text ) { 	
@@ -64,7 +64,20 @@ $(document).ready(function () {
 	    		html += '&nbsp;(' + val.meta + ')';
 	    	}
 	    	html += '</span>';
-	        results.push({ value: val.id, text: html });
+		    <?php // process custom html-atributes for "option"-tag
+		        $oa = '';
+
+		        if($option_attr){
+		            $i=0;
+		            $k = array();
+		            foreach($option_attr as $attr_name){
+		                $k[] = "'".$i."': {name: '".$attr_name."', value: val.".$attr_name." }";
+		                $i++;
+		            }
+		            $oa = implode(', ',$k);
+		        }
+		    ?>
+	        results.push({ value: val.id, text: html, option_attr:{<?php echo $oa;?>}});
 	    });
 	    return results;
 	});
