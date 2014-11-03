@@ -439,6 +439,17 @@ class ControllerPagesSaleOrder extends AController {
 			$product['price'] = $this->currency->format($product['price']);
 		}
 
+		$this->data['add_product'] = $this->html->buildElement( array(
+		        'type' => 'multiselectbox',
+		        'name' => 'add_product',
+		        'value' => '',
+		        'options' => array(),
+		        'style' => 'aform_noaction chosen',
+		        'ajax_url' => $this->html->getSecureURL('r/product/product/products', '&currency_code='.$this->data['currency']['code']),
+		        'placeholder' => $this->language->get('text_select_from_lookup'),
+				'option_attr' => array('price') // list of json-item properties that becomes html5 attributes of option tag. Ex. price will be data-price="00.000"
+		));
+
 		$this->addChild('pages/sale/order_summary', 'summary_form', 'pages/sale/order_summary.tpl');
 
 		$this->view->batchAssign($this->data);
