@@ -493,7 +493,7 @@ function remove_alert(growl) {
 }
 
 //Check if modal open. Can be specific or any
-function isModalOpen( modal = ''){
+function isModalOpen( modal ){
     var result = false;
     if (modal) {
 	    if ($(modal).hasClass('in') ) {
