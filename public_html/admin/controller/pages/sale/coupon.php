@@ -219,7 +219,6 @@ class ControllerPagesSaleCoupon extends AController {
 				}
 			}
 
-            $this->request->post['coupon_product'] = $this->_convertProduct_list($this->request->post['selected'][0]);
             $coupon_id = $this->model_sale_coupon->addCoupon($this->request->post);
             $this->session->data['success'] = $this->language->get('text_success');
             $this->redirect($this->html->getSecureURL('sale/coupon/update', '&coupon_id=' . $coupon_id));
