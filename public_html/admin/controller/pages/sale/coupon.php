@@ -210,10 +210,10 @@ class ControllerPagesSaleCoupon extends AController {
         $this->load->library('json');
         if ( $this->request->is_POST() && $this->_validateForm()) {
 			if (has_value($this->request->post[ 'date_start' ])) {
-				$this->request->post[ 'date_start' ] = dateDisplay2ISO($this->request->post[ 'date_start' ]);
+				$this->request->post[ 'date_start' ] = dateDisplay2ISO($this->request->post[ 'date_start' ],$this->language->get('date_format_short'));
 			}
 			if (has_value($this->request->post[ 'date_end' ])) {
-				$this->request->post[ 'date_end' ] = dateDisplay2ISO($this->request->post[ 'date_end' ]);
+				$this->request->post[ 'date_end' ] = dateDisplay2ISO($this->request->post[ 'date_end' ],$this->language->get('date_format_short'));
 				if(strtotime($this->request->post[ 'date_end' ])<time()){
 					$this->request->post[ 'status' ] = 0;
 				}
@@ -244,10 +244,10 @@ class ControllerPagesSaleCoupon extends AController {
         $this->load->library('json');
         if ( $this->request->is_POST() && $this->_validateForm()) {
 			if (has_value($this->request->post[ 'date_start' ])) {
-				$this->request->post[ 'date_start' ] = dateDisplay2ISO($this->request->post[ 'date_start' ]);
+				$this->request->post[ 'date_start' ] = dateDisplay2ISO($this->request->post[ 'date_start' ],$this->language->get('date_format_short'));
 			}
 			if (has_value($this->request->post[ 'date_end' ])) {
-				$this->request->post[ 'date_end' ] = dateDisplay2ISO($this->request->post[ 'date_end' ]);
+				$this->request->post[ 'date_end' ] = dateDisplay2ISO($this->request->post[ 'date_end' ],$this->language->get('date_format_short'));
 				if(strtotime($this->request->post[ 'date_end' ])<time()){
 					$this->request->post[ 'status' ] = 0;
 				}
