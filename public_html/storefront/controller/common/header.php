@@ -50,8 +50,6 @@ class ControllerCommonHeader extends AController {
     	$this->data['sitemap'] = $this->html->getURL('content/sitemap');
 		$this->data['logged'] = $this->customer->isLogged();
 		$this->data['checkout'] = $this->html->getSecureURL('checkout/shipping');
-		//adds menu
-		$this->addChild('common/menu', 'menu', 'common/menu.tpl');
 
 		if (isset($this->request->get['category_id'])) {
 			$this->data['category_id'] = $this->request->get['category_id'];
