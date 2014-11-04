@@ -428,7 +428,9 @@ class ControllerPagesProductProduct extends AController {
 		    		   'thumb'=> array('width'=>$this->config->get('config_image_thumb_width'),
 		    	                       'height' => $this->config->get('config_image_thumb_height')));
 		$this->data['image_main'] = $resource->getResourceAllObjects('products', $product_id, $sizes,1, false);
-		$this->data['image_main']['sizes'] = $sizes;
+		if($this->data['image_main']) {
+			$this->data['image_main']['sizes'] = $sizes;
+		}
 
 		// additional images
 		$sizes = array('main'=> array( 'width'=>$this->config->get('config_image_popup_width'),
