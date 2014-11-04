@@ -527,6 +527,10 @@ $(document).ajaxError(function (e, jqXHR, settings, exception) {
     	error_alert(text, autohide);
     }
 
+    if(!jqXHR.hasOwnProperty('responseText') ) {
+        return false;
+    }
+
     try {
         var err = $.parseJSON(jqXHR.responseText);
         if (err.hasOwnProperty("error_title") || err.hasOwnProperty("error_text")) {
@@ -541,7 +545,7 @@ $(document).ajaxError(function (e, jqXHR, settings, exception) {
             }
         }
     } catch (e) {
-        if(jqXHR.responseText.length>0){
+        if (jqXHR.responseText.length > 0) {
             gl_error_alert(jqXHR.responseText, false);
         }
     }
