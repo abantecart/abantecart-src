@@ -29,7 +29,7 @@ class ControllerPagesCheckoutCart extends AController {
         //init controller data
         $this->extensions->hk_InitData($this,__FUNCTION__);
 
-		if ($this->request->server['REQUEST_METHOD'] == 'GET' && isset($this->request->get['product_id']) ) {
+		if ($this->request->is_GET() && isset($this->request->get['product_id']) ) {
 
 			if (isset($this->request->get['option'])) {
 				$option = $this->request->get['option'];
@@ -380,7 +380,12 @@ class ControllerPagesCheckoutCart extends AController {
 														'type' => 'submit',
 														'name' => $this->language->get('button_text_estimate') 
 														));
-				
+
+		    if($this->session->data['error']){
+			    $error_msg[] = $this->session->data['error'];
+			    unset($this->session->data['error']);
+		    }
+
 			$this->view->assign('error_warning', $error_msg );
 			$this->view->setTemplate( 'pages/checkout/cart.tpl' );
 
