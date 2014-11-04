@@ -671,9 +671,8 @@ class ControllerResponsesProductProduct extends AController {
 			'value' => $this->data['prefix'],
 			'options' => array(
 				'$' => $currency_symbol,
-				'%' => '%',
+				'%' => '%'),
 			'style' => 'small-field'
-			),
 		));
 		$this->data['form']['fields']['sort_order'] = $form->getFieldHtml(array(
 			'type' => 'input',
