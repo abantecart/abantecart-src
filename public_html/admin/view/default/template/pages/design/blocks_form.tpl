@@ -64,10 +64,6 @@
 <script type="text/javascript">
     CKEDITOR.replace('BlockFrm_block_content', {
         height:'400px',
-        filebrowserBrowseUrl:false,
-        filebrowserImageBrowseUrl:'<?php echo $rl; ?>',
-        filebrowserWindowWidth:'920',
-        filebrowserWindowHeight:'520',
         language:'<?php echo $language_code; ?>',
 		startupMode: 'source'
     });

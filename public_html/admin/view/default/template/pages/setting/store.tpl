@@ -80,10 +80,6 @@
 
 <script type="text/javascript"><!--
 CKEDITOR.replace('store_description[<?php echo $content_language_id; ?>][description]', {
-	filebrowserBrowseUrl : false,
-    filebrowserImageBrowseUrl : '<?php echo $rl; ?>',
-    filebrowserWindowWidth : '920',
-    filebrowserWindowHeight : '520',
 	language: '<?php echo $language_code; ?>'
 });
 //--></script>

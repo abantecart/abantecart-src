@@ -81,10 +81,6 @@
 
 	CKEDITOR.replace('editFrm_category_description<?php echo $language_id; ?>description',
 	{
-		filebrowserBrowseUrl : false,
-	    filebrowserImageBrowseUrl : '<?php echo $rl; ?>',
-	    filebrowserWindowWidth : '920',
-	    filebrowserWindowHeight : '520',
 		language: '<?php echo $language_code; ?>'
 	});
 //--></script>

@@ -92,10 +92,6 @@ var wrapCKEditor = function(mode){
 		if (mode == 'add') {
 			try{
 				CKEDITOR.replace(id, {
-					filebrowserBrowseUrl: false,
-					filebrowserImageBrowseUrl: '<?php echo $ck_rl_url; ?>',
-					filebrowserWindowWidth: '920',
-					filebrowserWindowHeight: '520',
 					language: '<?php echo $language_code; ?>'
 				});
 			}catch(e){}

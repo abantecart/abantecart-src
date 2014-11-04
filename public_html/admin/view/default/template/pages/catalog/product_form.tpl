@@ -90,10 +90,6 @@ $('#productFrm_generate_seo_keyword').click(function(){
 
 if (document.getElementById('productFrm_product_descriptiondescription')){
 	CKEDITOR.replace('productFrm_product_descriptiondescription',{
-        filebrowserBrowseUrl:false,
-        filebrowserImageBrowseUrl:'<?php echo $rl; ?>',
-        filebrowserWindowWidth:'920',
-        filebrowserWindowHeight:'520',
         language:'<?php echo $language_code; ?>'
     });
 }

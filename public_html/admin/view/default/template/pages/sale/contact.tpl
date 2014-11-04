@@ -81,10 +81,5 @@
 		}
 	});
 
-	CKEDITOR.replace('message', {   filebrowserBrowseUrl : false,
-									filebrowserImageBrowseUrl : '<?php echo $rl; ?>',
-									filebrowserWindowWidth : '920',
-									filebrowserWindowHeight : '520',
-									language: '<?php echo $language_code; ?>'
-	});
+	CKEDITOR.replace('message', { language: '<?php echo $language_code; ?>'});
 </script>
