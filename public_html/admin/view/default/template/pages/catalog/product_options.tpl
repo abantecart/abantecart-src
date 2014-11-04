@@ -8,6 +8,7 @@
 
 	<div class="panel-heading col-xs-12">
 		<div class="primary_content_actions pull-left form-inline">
+		<?php if(sizeof($options->options)){?>
 			<div class="form-group">
 				<div class="input-group input-group-sm">
 					<label><?php echo $tab_option; ?></label>
@@ -17,7 +18,8 @@
 				<div class="input-group input-group-sm">
 				<?php echo $options; ?>
 				</div>
-			</div>			
+			</div>
+		<?php } ?>
 			<div class="btn-group ml10 toolbar">
                     <a class="btn btn-white tooltips" href="#"
 					   title="<?php echo $text_new_option; ?>"
