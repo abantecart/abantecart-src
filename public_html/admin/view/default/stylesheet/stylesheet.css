@@ -1229,8 +1229,12 @@ p {
     display: block;
 }
 
+#choose_resource_type{
+	margin: 0;
+}
+
 #choose_resource_type>div{
-	height: 416px;
+	height: 390px;
 }
 #choose_resource_type>div a.btn{
 	margin-top: 50% !important;
