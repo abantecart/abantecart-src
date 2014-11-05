@@ -40,7 +40,11 @@
 			$(this).attr('data-toggle','modal'). attr('data-target','#block_info_modal');
 		});
 
-		$('.grid_action_edit').each(function(){
+		$('.grid_action_delete').each(function(){
+			$(this).attr('data-confirmation', 'delete');
+		});
+
+		$('.grid_action_edit, .grid_action_delete').each(function(){
 			var tr = $(this).parents('tr');
 			if(!tr.hasClass('disable-edit')){
 				var rowid = tr.attr('id').split('_');
