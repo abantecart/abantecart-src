@@ -712,6 +712,7 @@ class ControllerPagesExtensionBannerManager extends AController {
 			$this->data['banner_group_name'] = $content['banner_group_name'];
 			$lm = new AListingManager($this->request->get ['custom_block_id']);
 			$list = $lm->getCustomList();
+
 			$options_list = array();
 			if ($list) {
 				foreach ($list as $row) {
@@ -909,7 +910,7 @@ class ControllerPagesExtensionBannerManager extends AController {
 		        'name' => 'block_banners[]',
 		        'value' => $ids,
 		        'options' => $options_list,
-		        'style' => 'chosen',
+		        'style' => 'no-save chosen',
 		        'ajax_url' => $this->html->getSecureURL('listing_grid/banner_manager/banners'),
 		        'placeholder' => $this->language->get('text_select_from_lookup'),
 		));
