@@ -870,8 +870,9 @@ jQuery(function () {
 		if(!rl_type){
 			rl_type = $('#library').attr('data-type');
 		}
-
-		URL += '&type='+rl_type;
+		if(rl_type) {
+			URL += '&type=' + rl_type;
+		}
 
 		for (var i = 0; i < files.length; i++) {
 			var fd = new FormData();
@@ -906,6 +907,14 @@ jQuery(function () {
 		}
 	}
 
+	var getDnDArea = function(e){
+		var o = $(e.target);
+		if(!o.hasClass('fileupload_drag_area')){
+			o = $(e.target).parents('div.fileupload_drag_area');
+		}
+		return o;
+	}
+
 	var obj = $("body");
 
 	obj.on('dragenter', "div.fileupload_drag_area", function (e) {
@@ -913,18 +922,29 @@ jQuery(function () {
 		e.preventDefault();
 	});
 	obj.on('dragover', "div.fileupload_drag_area", function (e) {
-		$('div.fileupload_drag_area').css('border', '2px dotted #F19013');
+		var o = getDnDArea(e);
+		o.css('border', '2px dotted #F19013');
 		e.stopPropagation();
 		e.preventDefault();
 	});
+
+	obj.on('dragleave', "div.fileupload_drag_area", function (e) {
+		e.stopPropagation();
+		e.preventDefault();
+		var o = getDnDArea(e);
+		o.css('border', 'border: 1px solid #ddd;');
+	});
+
 	obj.on('drop', "div.fileupload_drag_area", function (e) {
 
-		$('div.fileupload_drag_area').css('border', '2px dotted #F19013');
+		var o = getDnDArea(e);
+		o.css('border', '2px dotted #F19013');
+
 		e.preventDefault();
 		var files = e.originalEvent.dataTransfer.files;
 
 		//enable single mode based on attribute
-		var btn = $('div.fileupload_drag_area').find('a.btn');
+		var btn = o.find('a.btn');
 		modalscope.mode = btn.attr('data-mode') ? btn.attr('data-mode') : '';
 		modalscope.wrapper_id = btn.attr('data-wrapper_id');
 		modalscope.field = btn.attr('data-field');
@@ -935,7 +955,7 @@ jQuery(function () {
 		}
 
 		//We need to send dropped files to Server
-		handleFileUpload(files, obj);
+		handleFileUpload(files, obj, o.find('form').attr('action'));
 	});
 
 	var doc = $(document);
@@ -946,10 +966,18 @@ jQuery(function () {
 	doc.on('dragover', "div.fileupload_drag_area", function (e) {
 		e.stopPropagation();
 		e.preventDefault();
-		$('div.fileupload_drag_area').css('border', '2px dotted #F19013');
+		var o = getDnDArea(e);
+		o.css('border', '2px dotted #F19013');
+	});
+	doc.on('dragleave', "div.fileupload_drag_area", function (e) {
+		e.stopPropagation();
+		e.preventDefault();
+		var o = getDnDArea(e);
+		o.css('border', 'border: 1px solid #ddd;');
 	});
 	doc.on('drop', "div.fileupload_drag_area", function (e) {
-		$('div.fileupload_drag_area').css('border', '1px dashed grey');
+		var o = getDnDArea(e);
+		o.css('border', '1px dashed grey');
 		e.stopPropagation();
 		e.preventDefault();
 	});
