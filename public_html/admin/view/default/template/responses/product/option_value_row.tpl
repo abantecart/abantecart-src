@@ -1,13 +1,14 @@
 <?php $colspan = 7; ?>
 <tr id="<?php echo $row_id; ?>" class="optionRow">
-	<?php echo $form['fields']['product_option_value_id']; ?>
+
 	<?php
 		if($with_default){
 			echo '<td>'.$form['fields']['default'].'</td>';
 			$colspan++;
 	 	}
 	?>
-    <td><div class="input-group input-group-sm afield"><?php echo $form['fields']['option_value']; ?></div></td>
+    <td><?php echo $form['fields']['product_option_value_id']; ?>
+	    <div class="input-group input-group-sm afield"><?php echo $form['fields']['option_value']; ?></div></td>
     <td class="small-td"><div class="input-group input-group-sm afield"><?php echo $form['fields']['quantity']; ?></div></td>
     <td><div class="input-group input-group-sm afield"><?php echo $form['fields']['subtract']; ?></div></td>
     <td class="small-td"><div class="input-group input-group-sm afield"><?php echo $form['fields']['price']; ?></div></td>

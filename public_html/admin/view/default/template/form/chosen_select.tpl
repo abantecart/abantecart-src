@@ -1,4 +1,4 @@
-<?php //NOTE: For maltivalue, need to pass attribute multiple="multiple" ?>
+<?php //NOTE: For multivalue, need to pass attribute multiple="multiple" ?>
 <select id="<?php echo $id ?>" name="<?php echo $name ?>" data-placeholder="<?php echo $placeholder; ?>" class="chosen-select form-control aselect <?php echo ($style ? $style:''); ?>" style="display: none;" <?php echo $attr; ?>>
 <?php 
 	foreach ( $options as $v => $text ) { 	
@@ -25,7 +25,7 @@
 <?php } ?>
 
 
-<?php if ( $style == 'chosen') {  //for chosen we puplate HTML into options  ?>
+<?php if ( strpos($style,'chosen') !== false ) {  //for chosen we puplate HTML into options  ?>
 <script type="text/javascript">
 $(document).ready(function () {
 <?php 
@@ -59,12 +59,30 @@ $(document).ready(function () {
 	}, function (data) {
 	    var results = [];
 	    $.each(data, function (i, val) {
-	    	var html = val.image + '<span class="hide_text"> ' + val.name;
+	    	var html = '', css = '';
+		    if(val.hasOwnProperty('image')){
+			    html += val.image;
+			    css='hide_text';
+		    }
+		    html +=  '<span class="'+css+'"> ' + val.name;
 	    	if (val.meta) {
 	    		html += '&nbsp;(' + val.meta + ')';
 	    	}
 	    	html += '</span>';
-	        results.push({ value: val.id, text: html });
+		    <?php // process custom html-atributes for "option"-tag
+		        $oa = '';
+
+		        if($option_attr){
+		            $i=0;
+		            $k = array();
+		            foreach($option_attr as $attr_name){
+		                $k[] = "'".$i."': {name: '".$attr_name."', value: val.".$attr_name." }";
+		                $i++;
+		            }
+		            $oa = implode(', ',$k);
+		        }
+		    ?>
+	        results.push({ value: val.id, text: html, option_attr:{<?php echo $oa;?>}});
 	    });
 	    return results;
 	});

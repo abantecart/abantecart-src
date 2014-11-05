@@ -91,10 +91,6 @@
  $(document).ready(function(){
 		CKEDITOR.replace('contentFrm_content', {
 			height: '400px',
-			filebrowserBrowseUrl: false,
-			filebrowserImageBrowseUrl: '<?php echo $rl; ?>',
-			filebrowserWindowWidth: '920',
-			filebrowserWindowHeight: '520',
 			language: '<?php echo $language_code; ?>'
 		});
 

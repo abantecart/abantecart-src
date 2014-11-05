@@ -272,10 +272,9 @@ class ControllerResponsesCommonResourceLibrary extends AController {
 
 	public function list_library() {
 
-		$language_id = $this->request->get['language_id'];
-		if(!$language_id){
-			$language_id = $this->language->getContentLanguageID();
-		}
+
+		$language_id = $this->language->getContentLanguageID();
+
 
 		$this->data['sort'] = $this->request->get['sort'];
 		$this->data['order'] = $this->request->get['order'];

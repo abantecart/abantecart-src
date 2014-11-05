@@ -210,16 +210,15 @@ class ControllerPagesSaleCoupon extends AController {
         $this->load->library('json');
         if ( $this->request->is_POST() && $this->_validateForm()) {
 			if (has_value($this->request->post[ 'date_start' ])) {
-				$this->request->post[ 'date_start' ] = dateDisplay2ISO($this->request->post[ 'date_start' ]);
+				$this->request->post[ 'date_start' ] = dateDisplay2ISO($this->request->post[ 'date_start' ],$this->language->get('date_format_short'));
 			}
 			if (has_value($this->request->post[ 'date_end' ])) {
-				$this->request->post[ 'date_end' ] = dateDisplay2ISO($this->request->post[ 'date_end' ]);
+				$this->request->post[ 'date_end' ] = dateDisplay2ISO($this->request->post[ 'date_end' ],$this->language->get('date_format_short'));
 				if(strtotime($this->request->post[ 'date_end' ])<time()){
 					$this->request->post[ 'status' ] = 0;
 				}
 			}
 
-            $this->request->post['coupon_product'] = $this->_convertProduct_list($this->request->post['selected'][0]);
             $coupon_id = $this->model_sale_coupon->addCoupon($this->request->post);
             $this->session->data['success'] = $this->language->get('text_success');
             $this->redirect($this->html->getSecureURL('sale/coupon/update', '&coupon_id=' . $coupon_id));
@@ -245,10 +244,10 @@ class ControllerPagesSaleCoupon extends AController {
         $this->load->library('json');
         if ( $this->request->is_POST() && $this->_validateForm()) {
 			if (has_value($this->request->post[ 'date_start' ])) {
-				$this->request->post[ 'date_start' ] = dateDisplay2ISO($this->request->post[ 'date_start' ]);
+				$this->request->post[ 'date_start' ] = dateDisplay2ISO($this->request->post[ 'date_start' ],$this->language->get('date_format_short'));
 			}
 			if (has_value($this->request->post[ 'date_end' ])) {
-				$this->request->post[ 'date_end' ] = dateDisplay2ISO($this->request->post[ 'date_end' ]);
+				$this->request->post[ 'date_end' ] = dateDisplay2ISO($this->request->post[ 'date_end' ],$this->language->get('date_format_short'));
 				if(strtotime($this->request->post[ 'date_end' ])<time()){
 					$this->request->post[ 'status' ] = 0;
 				}

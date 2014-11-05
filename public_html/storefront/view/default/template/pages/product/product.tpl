@@ -409,7 +409,7 @@
 				var html2 = '';
 				if (data.images) {
 					for (img in data.images) {
-						html1 += '<li class="col-md-4">';
+						html1 += '<li>';
 						html2 += '<li class="producthtumb">';
 
 						var img_url = data.images[img].main_url;

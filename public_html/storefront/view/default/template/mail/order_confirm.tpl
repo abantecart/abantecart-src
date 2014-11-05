@@ -1,4 +1,3 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/1999/REC-html401-19991224/strict.dtd">
 <html>
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
@@ -62,11 +61,10 @@
 		<td class="align_left">
 			<table style="width: 100%; font-family: Verdana,sans-serif; font-size: 11px; color: #000000;">
 				<tr style="background-color: #CCCCCC;">
-					<th class="align_left"
-					    style="width: 15%; padding: 0.3em; color: #FFFFFF;"><?php echo $column_product; ?></th>
+					<th style="width: 40%; padding: 0.3em; color: #FFFFFF;"><?php echo $column_product; ?></th>
 					<th class="align_left" style="color: #FFFFFF;"><?php echo $column_model; ?></th>
 					<th class="align_right"
-					    style="width: 15%; padding: 0.3em; color: #FFFFFF;"><?php echo $column_price; ?></th>
+					    style="width: 10%; padding: 0.3em; color: #FFFFFF;"><?php echo $column_price; ?></th>
 					<th class="align_right"
 					    style="width: 15%; padding: 0.3em; color: #FFFFFF;"><?php echo $column_quantity; ?></th>
 					<th class="align_right"
@@ -74,7 +72,7 @@
 				</tr>
 				<?php foreach ($products as $product) { ?>
 				<tr style="background-color: #EEEEEE; text-align: center;">
-					<td class="align_left"><?php echo $product[ 'name' ]; ?>
+					<td class="align_left" style="text-align: left;"><?php echo $product[ 'name' ]; ?>
 						<?php foreach ($product[ 'option' ] as $option) { ?>
 							<br/>
 							&nbsp;&nbsp;- <?php echo $option[ 'name' ]; ?>: <?php echo $option[ 'value' ]; ?>

@@ -361,6 +361,10 @@ class ModelSaleCustomer extends Model {
 		if (has_value($filter['name'])) {
 			$implode[] = "CONCAT(c.firstname, ' ', c.lastname) LIKE '%" . $this->db->escape($filter['name']) . "%' collate utf8_general_ci";
 		}
+
+		if (has_value($filter['name_email'])) {
+			$implode[] = "CONCAT(c.firstname, ' ', c.lastname, ' ', c.email) LIKE '%" . $this->db->escape($filter['name_email']) . "%' collate utf8_general_ci";
+		}
 	    //more specific login, last and first name search
 		if (has_value($filter['loginname'])) {
 			$implode[] = "LOWER(c.loginname) = LOWER('" .$this->db->escape($filter['loginname']) . "') collate utf8_general_ci";

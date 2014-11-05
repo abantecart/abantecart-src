@@ -178,10 +178,6 @@ jQuery(function () {
 $(document).ready(function () {
     if ($('#settingFrm_config_description_<?php echo $content_language_id; ?>').length) {
         CKEDITOR.replace('settingFrm_config_description_<?php echo $content_language_id; ?>', {
-            filebrowserBrowseUrl:false,
-            filebrowserImageBrowseUrl:'<?php echo $rl; ?>',
-            filebrowserWindowWidth:'920',
-            filebrowserWindowHeight:'520',
             language:'<?php echo $language_code; ?>'
         });
     }

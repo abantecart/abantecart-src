@@ -30,6 +30,7 @@ if (! defined ( 'DIR_CORE' )) {
  * @property AWeight $weight
  * @property AConfig $config
  * @property ALoader $load
+ * @property ALanguage $language
  * @property ModelCheckoutExtension $model_checkout_extension
  */
 final class ACart {
@@ -454,6 +455,7 @@ final class ACart {
 		foreach ($this->getProducts() as $product) {
 			if ($product['maximum'] > 0) {
 				if ($product['quantity'] > $product['maximum']) {
+					$this->session->data['error'] = $this->language->get('error_quantity_maximum');
 					$this->session->data['cart'][$product['key']]['qty'] = $product['maximum'];
 				}
 			}

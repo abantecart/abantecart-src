@@ -150,7 +150,7 @@ class ControllerPagesSaleContact extends AController {
 				'update' => $this->data['update']
 		));
 
-		$this->data['form_open'] = $form->getFieldHtml(
+		$this->data['form']['form_open'] = $form->getFieldHtml(
 				array('type' => 'form',
 						'name' => 'mail_form',
 						'action' => $this->html->getSecureURL('sale/contact/sendNewsletter'),
@@ -210,41 +210,25 @@ class ControllerPagesSaleContact extends AController {
 				'required' => true
 		));
 
+		$this->data['form']['customers'] = $form->getFieldHtml( array(
+		        'type' => 'multiselectbox',
+		        'name' => 'to[]',
+		        'value' => $this->data['to'],
+		        'options' => array(),
+		        'style' => 'chosen',
+		        'ajax_url' => $this->html->getSecureURL('r/listing_grid/customer/customers'),
+		        'placeholder' => $this->language->get('text_select_from_lookup')
+		));
 
-		$this->data['customers'] = array();
-		$this->loadModel('sale/customer');
-		$results = $this->model_sale_customer->getOnlyCustomers();
-		foreach( $results as $r ) {
-			$this->data['customers'][ $r['customer_id'] ] = $r['firstname'].' '.$r['firstname'].' ('.$r['email'].')';
-		}
-
-		$this->data['form']['customers'] = $form->getFieldHtml(
-														array(
-																'type' => 'checkboxgroup',
-																'name' => 'to[]',
-																'value' => $this->data['to'],
-																'options' => $this->data['customers'],
-																'style' => 'chosen',
-																'placeholder' => $this->language->get('text_select_customer'),
-																'required' => true
-														));
-
-		$this->data['products'] = array();
-		$this->loadModel('catalog/product');
-		$results = $this->model_catalog_product->getProducts();
-		foreach( $results as $r ) {
-			$this->data['products'][ $r['product_id'] ] = $r['name'];
-		}
-
-		$this->data['form']['fields']['product'] = $form->getFieldHtml(
-														array(
-																'type' => 'checkboxgroup',
-																'name' => 'product[]',
-																'value' => $this->data['product'],
-																'options' => $this->data['products'],
-																'style' => 'chosen',
-																'placeholder' => $this->language->get('text_select_product'),
-														));
+		$this->data['form']['fields']['product'] = $form->getFieldHtml( array(
+		        'type' => 'multiselectbox',
+		        'name' => 'product[]',
+		        'value' => '',
+		        'options' => array(),
+		        'style' => 'chosen',
+		        'ajax_url' => $this->html->getSecureURL('r/product/product/products'),
+		        'placeholder' => $this->language->get('text_select_from_lookup')
+		));
 
 		$this->data['form']['fields']['subject'] = $form->getFieldHtml(array(
 				'type' => 'input',

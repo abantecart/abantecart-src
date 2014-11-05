@@ -17,6 +17,7 @@
 	?>
 
 	<div class="tab-content rl-content">
+		<?php if(sizeof($types)>1){ ?>
 		<ul id="resource_types_tabs" class="nav nav-tabs nav-justified nav-profile">
 	        <?php foreach($types as $rl_type){
 				switch($rl_type['type_name']){
@@ -51,7 +52,7 @@
 	        </li>
 	        <?php } ?>
 		</ul>
-
+		<?php } ?>
 		<div id="choose_resource_type" class="row">
 			<div class="col-sm-6 col-xs-12 center">
 				<a class="tooltips btn btn-success rl_add_file"

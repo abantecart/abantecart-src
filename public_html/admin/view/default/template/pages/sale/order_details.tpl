@@ -233,17 +233,7 @@
 	<div class="container-fluid form-inline">
 		<div class="list-inline col-sm-12"><?php echo $entry_add_product; ?></div>
 		<div class="list-inline input-group afield col-sm-7 col-xs-9">
-			<select multiple id="add_product" class="form-control no-save" data-placeholder="<?php echo $text_select_product; ?>">
-				<?php
-				foreach ($products as $product) {
-					?>
-					<option id="product_id_<?php echo $product['product_id']; ?>"
-							value="<?php echo $product['product_id'] ?>"
-							data-price="<?php echo $product['price'] ?>"
-							><?php echo $product['name'] ?> <?php echo $product['model'] ? "(" . $product['model'] . ")" : '' ?>
-						- <?php echo $product['price'] ?></option>
-				<?php } ?>
-			</select>
+			<?php echo $add_product;?>
 		</div>
 		<div class="list-inline input-group afield col-sm-offset-1 col-sm-3 col-xs-1">
 			<a class="add btn btn-success tooltips" data-original-title="<?php echo $text_add; ?>"><i
@@ -301,7 +291,7 @@
 		});
 
 
-		$('#products input[name*=quantity]').on('keyup', function () {
+		$(document).on('keyup', '#products input[name*=quantity], #products input[name*=price]', function () {
 			recalculate();
 		});
 
@@ -382,18 +372,25 @@
 	var order_product_row = <?php echo $order_product_row; ?>;
 
 	function addProduct() {
-		var vals = $("#add_product").chosen().val();
-		for (var k in vals) {
-			var product = $('#product_id_' + vals[k]);
-			html = '<tbody id="product_' + order_product_row + '"><tr>';
+		$("#add_product option").each(function(){
+			var product = $(this);
+			var html = '<tbody id="product_' + order_product_row + '"><tr>';
 			html += '<td><a class="remove btn btn-xs btn-danger-alt tooltips" data-original-title="<?php echo $text_remove;?>"  "data-order-product-row="' + order_product_row + '"><i class="fa fa-minus-circle"></i></a></td>';
 			html += '<td class="left">';
-			html += '<input type="hidden" name="product[' + order_product_row + '][product_id]" value="' + vals[k] + '">';
-			html += '<a href="<?php echo $product_update . '&product_id='; ?>' + vals[k] + '&token=<?php echo $token; ?>">' + product.text() + '</a>';
+			html += '<input type="hidden" name="product[' + order_product_row + '][product_id]" value="' + product.attr('value') + '">';
+			html += '<a href="<?php echo $product_update . '&product_id='; ?>' + product.attr('value') + '&token=<?php echo $token; ?>">' + product.html() + '</a>';
 			html += '</td>';
 			html += '<td class="right"><input type="text" name="product[' + order_product_row + '][quantity]" value="1" size="4" /></td>';
-			html += '<td class="right"><input type="text" name="product[' + order_product_row + '][price]" value="' + product.attr('data-price') + '" /></td>';
-			html += '<td class="right"><input type="text" name="product[' + order_product_row + '][total]" value="' + product.attr('data-price') + '" /></td>';
+
+			var price;
+			if (currency_location == 'left') {
+				price = currency_symbol + product.attr('data-price');
+			} else {
+				price = product.attr('data-price') + currency_symbol;
+			}
+
+			html += '<td class="right"><input type="text" name="product[' + order_product_row + '][price]" value="' + price + '" /></td>';
+			html += '<td class="right"><input type="text" name="product[' + order_product_row + '][total]" value="' + price + '" readonly /></td>';
 			html += '</tr></tbody>';
 
 			$('#totals').before(html);
@@ -404,9 +401,9 @@
 			});
 
 			order_product_row++;
-		}
-		$("#add_product").chosen().val('').trigger("chosen:updated");
+		});
 		recalculate();
+		$("#add_product").chosen().val('').trigger("chosen:updated");
 	}
 
 </script>

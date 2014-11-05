@@ -244,10 +244,13 @@ class AResource {
 
             $sql = "SELECT
                         rd.*,
+                        COALESCE(rd.resource_path,rdd.resource_path) as resource_path,
+				        COALESCE(rd.resource_code,rdd.resource_code) as resource_code,
                         rt.type_name,
                         rt.default_icon
                     FROM " . $this->db->table("resource_library") . " rl " . "
                     LEFT JOIN " . $this->db->table("resource_descriptions") . " rd ON (rl.resource_id = rd.resource_id)
+                    LEFT JOIN " . $this->db->table("resource_descriptions") . " rdd ON (rl.resource_id = rdd.resource_id AND rdd.language_id = '".$this->language->getDefaultLanguageID()."')
                     LEFT JOIN " . $this->db->table("resource_types") . " rt ON (rl.type_id = rt.type_id )
                     " . $where;
 

@@ -1444,7 +1444,7 @@ class ModelCatalogProduct extends Model {
 				'sort_order' => $data['sort_order'][$opt_val_id],
 				'weight' => $data['weight'][$opt_val_id],
 				'weight_type' => $data['weight_type'][$opt_val_id],
-				'default' => ($data['default'] == $opt_val_id ? 1 : 0)
+				'default' => ($data['default_value'] == $opt_val_id ? 1 : 0)
 			);
 
 			//Check if new, delete or update

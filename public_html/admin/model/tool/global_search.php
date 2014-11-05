@@ -76,7 +76,7 @@ class ModelToolGlobalSearch extends Model {
 		"settings" => array(
 			'alias' => 'setting',
 			'id' => array('setting_id', 'active'),
-			'page' => 'setting/setting_quick_form',
+			'page' => 'setting/setting',
 			'response' => 'setting/setting_quick_form'),
 		"messages" => array(
 			'alias' => 'information',

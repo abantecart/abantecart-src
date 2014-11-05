@@ -110,7 +110,7 @@
 	</definition>
 	<definition>
 		<key>text_contact</key>
-		<value><![CDATA[Mail]]></value>
+		<value><![CDATA[Send Mail]]></value>
 	</definition>
 	<definition>
 		<key>text_manufacturer</key>

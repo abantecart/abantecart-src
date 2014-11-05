@@ -65,12 +65,23 @@ class ControllerResponsesProductProduct extends AController {
 												(int)$this->config->get('config_image_grid_width'),
 												(int)$this->config->get('config_image_grid_height'),
 												true);
-				
+
+				if($this->request->get['currency_code']){
+					$price = round($this->currency->convert($pdata['price'],
+														$this->config->get('config_currency'),
+														$this->request->get['currency_code']),2);
+				}else {
+					$price = $pdata['price'];
+				}
+
+				$frmt_price = $this->currency->format($price,($this->request->get['currency_code'] ? $this->request->get['currency_code'] : $this->config->get('config_currency')));
+
 					$products_data[ ] = array(
 						'image' => $thumbnail['thumb_html'],
 						'id' => $pdata['product_id'],
-						'name' => $pdata['name'],
-						'meta' => $pdata['model'],
+						'name' => $pdata['name'].' - '. $frmt_price,
+						'price' => $price,
+						'meta' => $pdata['model'] ,
 						'sort_order' => (int)$pdata['sort_order'],
 					);
 			}
@@ -660,9 +671,8 @@ class ControllerResponsesProductProduct extends AController {
 			'value' => $this->data['prefix'],
 			'options' => array(
 				'$' => $currency_symbol,
-				'%' => '%',
+				'%' => '%'),
 			'style' => 'small-field'
-			),
 		));
 		$this->data['form']['fields']['sort_order'] = $form->getFieldHtml(array(
 			'type' => 'input',
