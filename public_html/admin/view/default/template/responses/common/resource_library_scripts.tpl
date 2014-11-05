@@ -136,11 +136,15 @@ var loadMedia = function (type, wrapper) {
 		global: false,
 		success: function (json) {
 			if (json.items.length<1 && type != default_type) {
-				$( '#type_' + type ).hide();
+				$( '#type_' + type).hide();
 				$( '#panel_' + type ).hide();
 				return;
 			}
-			$('#type_' + type).show();
+
+			if(json.items.length>0){
+				$( '#type_' + type).show();
+				$( '#panel_' + type ).show();
+			}
 
 			var html = '';
 			var t = new Date().getTime();
@@ -861,7 +865,13 @@ jQuery(function () {
 
 		$(obj).find('.fileupload-buttonbar').html('');
 		var e = 0;
+		//set type of resource for upload etc
 		var rl_type = $('#resource_types_tabs li.active').attr('data-type');
+		if(!rl_type){
+			rl_type = $('#library').attr('data-type');
+		}
+
+		URL += '&type='+rl_type;
 
 		for (var i = 0; i < files.length; i++) {
 			var fd = new FormData();

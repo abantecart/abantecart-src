@@ -145,7 +145,7 @@ class ControllerResponsesCommonResourceLibrary extends AController {
 			$resource['can_delete'] = $rm->isMapped($resource['resource_id'])>0 ? false : true;
 		}
 
-		$this->_buildFrom($resource);
+		$this->_buildForm($resource);
 
 		$this->view->assign('form_language_switch', $this->html->getContentLanguageSwitcher());
 		$this->view->assign('help_url', $this->gen_help_url('resource_library'));
@@ -211,14 +211,14 @@ class ControllerResponsesCommonResourceLibrary extends AController {
 		$this->view->assign('form_language_switch', $this->html->getContentLanguageSwitcher());
 		$this->view->assign('help_url', $this->gen_help_url('global_attributes_listing'));
 
-		$this->_buildFrom();
+		$this->_buildForm();
 
 		$this->view->batchAssign($this->data);
 
 		$this->processTemplate('responses/common/resource_library_add.tpl');
 	}
 
-	private function _buildFrom($resource=array()){
+	private function _buildForm($resource=array()){
 		//Resource edit form fields
 		$form = new AForm('HT');
 		$form->setForm(array('form_name' => 'RlFrm'));
@@ -248,11 +248,6 @@ class ControllerResponsesCommonResourceLibrary extends AController {
 						array(  'type'=>'hidden',
 								'value'=> $resource['resource_id'],
 								'name'=>'resource_id')
-		);
-		$this->data['form']['field_type'] .= $form->getFieldHtml(
-						array(  'type'=>'hidden',
-								'value'=> $resource['type_name'],
-								'name'=>'type')
 		);
 
 		$this->data['form']['field_title'] = $form->getFieldHtml(
