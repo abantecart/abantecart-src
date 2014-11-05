@@ -874,7 +874,7 @@ class ControllerResponsesCommonResourceLibrary extends AController {
 					$path_parts = pathinfo($file_path);
 					$this->response->addHeader('Content-type: application/octet-stream');
 					$this->response->addHeader("Content-Disposition: filename=\"" . $result['name'] . '.' . $path_parts["extension"] . "\"");
-					$this->response->addHeader("Content-length: $fsize");
+					$this->response->addHeader("Content-length: ".$fsize);
 					$this->response->addHeader("Cache-control: private"); //use this to open files directly
 					$buffer = '';
 					while (!feof($fd)) {

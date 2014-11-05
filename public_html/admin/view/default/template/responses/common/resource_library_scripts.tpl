@@ -645,17 +645,7 @@ var bind_rl = function (elm) {
 	$obj.find('.rl_download').click(function () {
 		var rl_id = $(this).attr('data-rl-id');
 		var url = urls.download + '&resource_id=' + rl_id;
-
-		var hiddenIFrameID = 'hiddenDownloader',
-				iframe = document.getElementById(hiddenIFrameID);
-		if (iframe === null) {
-			iframe = document.createElement('iframe');
-			iframe.id = hiddenIFrameID;
-			iframe.style.display = 'none';
-			document.body.appendChild(iframe);
-		}
-		iframe.src = url;
-
+		window.open(url);
 		return false;
 	});
 
