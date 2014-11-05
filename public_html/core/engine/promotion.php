@@ -224,7 +224,7 @@ class APromotion {
 		$sort_data = array(
 			'pd.name',
 			'p.sort_order',
-			'p.price',
+			'ps.price',
 			'rating',
 			'date_modified'
 		);

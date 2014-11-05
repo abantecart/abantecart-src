@@ -182,13 +182,13 @@ class ControllerPagesProductSpecial extends AController {
 
 			$sorts[] = array(
 				'text'  => $this->language->get('text_sorting_price_asc'),
-				'value' => 'p.price-ASC',
+				'value' => 'ps.price-ASC',
 				'href'  => $this->html->getURL('product/special', $url . '&sort=special&order=ASC', '&encode')
 			); 
 
 			$sorts[] = array(
 				'text'  => $this->language->get('text_sorting_price_desc'),
-				'value' => 'p.price-DESC',
+				'value' => 'ps.price-DESC',
 				'href'  => $this->html->getURL('product/special', $url . '&sort=special&order=DESC', '&encode')
 			); 
 				
