@@ -785,8 +785,6 @@ function compressZIP($zip_filename, $zip_dir){
 
 }
 
-
-
 function getMimeType($filename) {
 $filename = (string)$filename;
     $mime_types = array(
@@ -846,13 +844,13 @@ $filename = (string)$filename;
     );
 
     $ext = strtolower(array_pop(explode('.',$filename)));
-    if (array_key_exists($ext, $mime_types)) {
+    if (has_value($mime_types[$ext])) {
         return $mime_types[$ext];
-    }
-    elseif (function_exists('finfo_open')) {
+    }elseif (function_exists('finfo_open')) {
         $finfo = finfo_open(FILEINFO_MIME);
         $mimetype = finfo_file($finfo, $filename);
         finfo_close($finfo);
+	    $mimetype = !$mimetype ? 'application/octet-stream' : $mimetype;
         return $mimetype;
     }
     else {

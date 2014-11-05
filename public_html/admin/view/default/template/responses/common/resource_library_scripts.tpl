@@ -813,7 +813,7 @@ jQuery(function () {
 		var row = "odd";
 		if (rowCount % 2 == 0) row = "even";
 		this.statusbar = $("<div class='statusbar row " + row + "'></div>");
-		this.filename = $("<div class='filename col-sm-6'></div>").appendTo(this.statusbar);
+		this.filename = $("<div class='filename col-sm-6 ellipsis'></div>").appendTo(this.statusbar);
 		this.size = $("<div class='filesize col-sm-2'></div>").appendTo(this.statusbar);
 		this.progressBar = $('<div class="progress col-sm-3"><div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%;"></div></div>')
 				.appendTo(this.statusbar);
@@ -972,11 +972,12 @@ jQuery(function () {
 		e.preventDefault();
 	});
 
-	$('body').on('change', 'input[name="files\[\]"]', function () {
-		$('div.fileupload_drag_area').css('border', '2px dotted #F19013');
+	$('body').on('change', 'input[name="files\[\]"]', function (e) {
+		var o = getDnDArea(e);
+		o.css('border', '2px dotted #F19013');
 		var files = this.files;
 		//We need to send dropped files to Server
-		handleFileUpload(files, obj, $('input[name="files\[\]"]').parents('form').attr('action'));
+		handleFileUpload(files, obj, o.find('form').attr('action'));
 	});
 
 });
