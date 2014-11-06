@@ -178,14 +178,6 @@ $(document).ready(function(){
 							location.reload();
 						<?php } ?>
 						}
-					},
-					error: function(jqXHR){
-						try{
-							var err = $.parseJSON(jqXHR.responseText);
-						}catch(e){}
-						if(err){
-							error_alert(err.error_title, false, "#downloadFrm");
-						}
 					}
 				});
 		return false;

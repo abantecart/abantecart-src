@@ -781,9 +781,7 @@ class ControllerResponsesProductProduct extends AController {
 
 		}else{
 			$error = new AError( '' );
-			$err_data = array(
-				'error_title' => implode( '<br>', $this->error )
-			);
+			$err_data = array('error_text' => $this->error);
 			return $error->toJSONResponse('VALIDATION_ERROR_406', $err_data );
 		}
 
