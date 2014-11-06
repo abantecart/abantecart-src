@@ -6,15 +6,17 @@
 <div id="content" class="panel panel-default">
 	<div class="panel-heading col-xs-12">
 		<div class="primary_content_actions pull-left">
+			<div class="btn-group mr10 toolbar">
+				<a class="btn btn-primary tooltips" href="<?php echo $button_add_file->href; ?>" data-target="#file_modal" data-toggle="modal" title="<?php echo $button_add_file->text; ?>">
+				<i class="fa fa-plus"></i>
+				</a>
+			</div>
 		</div>
 		<?php include($tpl_common_dir . 'content_buttons.tpl'); ?>
 	</div>
 
 	<div class="panel-body panel-body-nopadding tab-content col-xs-12">
 	
-		<div class="panel-heading">
-			<h4 class="panel-title"><?php echo $tab_files; ?></h4>
-		</div>
 		<?php echo $form['form_open']; ?>
 		<div class="panel-body panel-body-nopadding">
 			<table class="table table-striped">
@@ -54,20 +56,7 @@
 				</tbody>
 			</table>
 		</div>
-		<div class="panel-footer">
-			<div class="row pull-right">
-				<div class="col-sm-6 col-sm-offset-0">
-					<a href="<?php echo $button_add_file->href; ?>"
-					   data-target="#file_modal"
-					   data-toggle="modal">
-						<button class="btn btn-primary">
-							<i class="fa fa-plus"></i> <?php echo $button_add_file->text; ?>
-						</button>
-					</a>
-				</div>
-			</div>
-		</div>
-		
+				
 	</div>
 </div>
 <?php echo $this->html->buildElement(

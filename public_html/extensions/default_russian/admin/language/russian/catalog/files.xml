@@ -166,7 +166,7 @@
 	</definition>
 	<definition>
 		<key>text_select_shared_downloads</key>
-		<value><![CDATA[Выберите общие загрузки: ]]></value>
+		<value><![CDATA[Выберите общие загрузки]]></value>
 	</definition>
 	<definition>
 		<key>error_selected_downloads</key>

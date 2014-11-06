@@ -6,53 +6,34 @@
 <div class="modal-body">
 <?php echo $resources_scripts;?>
 <?php if (!$download_id) { ?>
-		<div class="panel-group" id="accordion">
-		<?php if($form0){ ?>
+		<div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+		<?php if( $form0 ){ ?>
 			<div class="panel panel-default">
-				<div class="panel-heading">
-					<h4 class="panel-title">
-						<a class="h4" data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
+				<div class="panel-heading" role="tab">
+					<label class="h4 heading">
+						<a data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
 							<?php echo $text_select_shared_downloads; ?>
 						</a>
-					</h4>
+					</label>
+					<i class="pull-right fa fa-chevron-down"></i>
 				</div>
 				<div id="collapseOne" class="panel-collapse collapse in">
 			<?php echo $form0['form_open']; ?>
 				<div class="panel-body panel-body-nopadding">
 						<?php
-							//Logic to calculate fields width
-							$widthcasses = "col-sm-7";
-							if ( is_int(stripos($field->style, 'large-field')) ) {
-								$widthcasses = "col-sm-7";
-							} else if ( is_int(stripos($field->style, 'medium-field')) || is_int(stripos($field->style, 'date')) ) {
-								$widthcasses = "col-sm-5";
-							} else if ( is_int(stripos($field->style, 'small-field')) || is_int(stripos($field->style, 'btn_switch')) ) {
-								$widthcasses = "col-sm-3";
-							} else if ( is_int(stripos($field->style, 'tiny-field')) ) {
-								$widthcasses = "col-sm-2";
-							}
-							$widthcasses .= " col-xs-12";
 						$name = 'shared';
 						?>
-					<div class="form-group <?php if (!empty($error[$name])) { echo "has-error"; } ?>">
+					<div class="form-inline form-group <?php if (!empty($error[$name])) { echo "has-error"; } ?>">
 						<label class="control-label col-sm-3 col-xs-12" for="<?php echo $form0['shared']->element_id; ?>"><?php echo $text_select_shared_downloads; ?></label>
-						<div class="input-group afield <?php echo $widthcasses; ?> ">
+						<div class="input-group afield col-sm-7 col-xs-12">
 							<?php echo $form0['shared']; ?>
 						</div>
+						<button class="btn btn-primary">
+							<i class="fa fa-plus"></i> <?php echo $button_add; ?>
+						</button>
 						<?php if (!empty($error[$name])) { ?>
 						<span class="help-block field_err"><?php echo $error[$name]; ?></span>
 						<?php } ?>
-					</div>
-				</div>
-				<div class="panel-footer">
-					<div class="row pull-right">
-						<div class="col-sm-6 col-sm-offset-0">
-							<a href="<?php echo $form0['submit']->href; ?>">
-								<button class="btn btn-primary">
-									<i class="fa fa-plus"></i> <?php echo $form0['submit']->text; ?>
-								</button>
-							</a>
-						</div>
 					</div>
 				</div>
 			</form>
@@ -61,11 +42,12 @@
 		<?php } ?>
 			<?php // insert collapses when create new product file to split form to 2 part - create from shared and create new ?>
 			<div class="panel panel-default">
-				<?php if($form0){?>
-				<div class="panel-heading">
-					<h4 class="panel-title">
-						<a class="h4" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo"><?php echo $text_new_file;?></a>
-					</h4>
+				<?php if( $form0 ){ ?>
+				<div class="panel-heading" role="tab">
+					<label class="h4 heading">
+						<a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo"><?php echo $text_new_file;?></a>
+					</label>
+					<i class="pull-right fa fa-chevron-up"></i>
 				</div>
 				<div id="collapseTwo" class="panel-collapse collapse <?php echo !$form0 ? 'in' : ''; ?>">
 				<?php }?>
@@ -153,6 +135,16 @@
 </div>
 
 <script type="application/javascript">
+
+$(document).ready(function(){    
+	//manage icons in the acorrdion
+    $('.collapse').on('hidden.bs.collapse', function () {
+       $(this).parent().find(".fa-chevron-down").removeClass("fa-chevron-down").addClass("fa-chevron-up");
+    });
+    $('.collapse').on('shown.bs.collapse', function () {
+       $(this).parent().find(".fa-chevron-up").removeClass("fa-chevron-up").addClass("fa-chevron-down");
+    });
+
 	$('#downloadFrm_activate').on('change', function () {
 		if ($(this).val() != 'order_status') {
 			$('#downloadFrm_activate_order_status_id').fadeOut().next('.input-group-addon').fadeOut();
@@ -198,5 +190,5 @@
 				});
 		return false;
 	});
-
+});
 </script>

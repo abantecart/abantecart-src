@@ -38,10 +38,6 @@ class ControllerPagesCatalogCategoryTabs extends AController {
 
 		$this->data['groups'] = array('general', 'data' );
 
-		if($this->data['category_id']){
-			$this->data['groups'][] = 'image';
-		}
-
 		foreach ($this->data['groups'] as $group) {
 			$this->data['link_' . $group] = $this->html->getSecureURL('catalog/category/'.($this->data['category_id'] ? 'update' : 'insert'),
 																	 ($this->data['category_id'] ? '&category_id='.$this->data['category_id'] : '')). '#'.$group;

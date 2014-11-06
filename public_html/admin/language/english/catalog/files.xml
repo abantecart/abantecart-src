@@ -187,7 +187,7 @@
 	</definition>
 	<definition>
 		<key>text_select_shared_downloads</key>
-		<value><![CDATA[Select shared downloads: ]]></value>
+		<value><![CDATA[Select shared downloads]]></value>
 	</definition>
 	<definition>
 		<key>error_selected_downloads</key>

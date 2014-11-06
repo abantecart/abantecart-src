@@ -21,6 +21,7 @@
 	<?php echo $form['form_open']; ?>
 	<div class="panel-body panel-body-nopadding tab-content col-xs-12">
 
+	<div class="col-md-9 mb10">
 		<?php foreach ($form['fields'] as $section => $fields) { ?>
 		<label class="h4 heading" id="<?php echo $section;?>"><?php echo ${'tab_' . $section}; ?></label>
 			<?php foreach ($fields as $name => $field) { ?>
@@ -49,7 +50,16 @@
 		</div>
 			<?php }  ?><!-- <div class="fieldset"> -->
 		<?php }  ?>
-
+	</div>
+	
+	<div class="col-md-3 mb10">
+		<div id="image">
+		   <?php if ( !empty($update) ) {
+			echo $resources_html;
+			echo $resources_scripts;
+			} ?>
+		</div>
+	</div>
 	</div>
 
 	<div class="panel-footer col-xs-12">
@@ -67,13 +77,6 @@
 	</div>
 	</form>
 
-</div>
-
-<div id="image">
-   <?php if ( !empty($update) ) {
-	echo $resources_html;
-	echo $resources_scripts;
-} ?>
 </div>
 
 <script type="text/javascript"><!--
