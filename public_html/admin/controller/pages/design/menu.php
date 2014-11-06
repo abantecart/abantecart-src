@@ -390,7 +390,8 @@ class ControllerPagesDesignMenu extends AController {
 				array(
 						'object_name' => 'storefront_menu_item',
 						'object_id' => $this->request->get['item_id'],
-						'types' => 'image',
+						'types' => array('image'),
+						'onload' => true,
 						'mode' => 'single'
 				)
 		);

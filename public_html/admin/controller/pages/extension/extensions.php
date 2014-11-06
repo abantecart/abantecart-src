@@ -386,7 +386,8 @@ class ControllerPagesExtensionExtensions extends AController {
 												array(
 													'object_name' => '',
 													'object_id' => '',
-													'types' => $item['resource_type'],
+													'types' => array($item['resource_type']),
+													'onload' => true,
 													'mode' => 'single'
 												));
 						$result['rl_scripts'] = $scripts->dispatchGetOutput();

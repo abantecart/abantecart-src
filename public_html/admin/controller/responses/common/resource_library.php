@@ -78,7 +78,7 @@ class ControllerResponsesCommonResourceLibrary extends AController {
 		$this->data['rl_update_sort_order'] = $this->html->getSecureURL('common/resource_library/update_sort_order');
 		$this->data['rl_map'] = $this->html->getSecureURL('common/resource_library/map', '&object_name=' . $this->data['object_name'] . '&object_id=' . $this->data['object_id']);
 		$this->data['rl_unmap'] = $this->html->getSecureURL('common/resource_library/unmap', '&object_name=' . $this->data['object_name'] . '&object_id=' . $this->data['object_id']);
-		$this->data['rl_upload'] = $this->html->getSecureURL('common/resource_library/upload', '&type='.$this->request->get['type'].'&object_name='.$this->request->get['object_name'].'&object_id=' . $this->request->get['object_id']);
+		$this->data['rl_upload'] = $this->html->getSecureURL('common/resource_library/upload', '&mode='.$this->data['mode'].'&type='.$this->request->get['type'].'&object_name='.$this->request->get['object_name'].'&object_id=' . $this->request->get['object_id']);
 		$this->data['rl_replace'] = $this->html->getSecureURL('common/resource_library/replace', '&resource_id=' . $this->data['resource_id']);
 		$this->data['type'] = $this->request->get['type'];
 
@@ -200,10 +200,11 @@ class ControllerResponsesCommonResourceLibrary extends AController {
 		$this->data['image_width'] = $this->config->get('config_image_grid_width');
 		$this->data['image_height'] = $this->config->get('config_image_grid_height');
 
-		$params = '&type='.$this->request->get['type'].'&object_name='.$this->request->get['object_name'].'&object_id=' . $this->request->get['object_id'];
+		$params = '&mode='.$this->request->get['mode'].'&type='.$this->request->get['type'].'&object_name='.$this->request->get['object_name'].'&object_id=' . $this->request->get['object_id'];
 		$this->data['rl_add_code'] = $this->html->getSecureURL('common/resource_library/add_code', $params);
 		$this->data['rl_get_info'] = $this->html->getSecureURL('common/resource_library/get_resource_details');
 		$this->data['rl_upload'] = $this->html->getSecureURL('common/resource_library/upload', $params);
+
 		if ((int)ini_get('post_max_size') <= 2) { // because 2Mb is default value for php
 			$this->data['attention'] = sprintf($this->language->get('error_file size'), ini_get('post_max_size'));
 		}
@@ -1025,7 +1026,7 @@ class ControllerResponsesCommonResourceLibrary extends AController {
 
 	public function get_resources_scripts() {
 
-		list($object_name,$object_id,$types, $onload) = func_get_args();
+		list($object_name,$object_id,$types, $onload, $mode) = func_get_args();
 
 		$this->data['onload'] = is_bool($onload) ? $onload : true; //sign of call js-function on page load. default true.
 
@@ -1045,8 +1046,9 @@ class ControllerResponsesCommonResourceLibrary extends AController {
 		$this->data['default_type'] = reset($this->data['types']);
 		$this->data['object_name'] = $object_name;
 		$this->data['object_id'] = $object_id;
+		$this->data['mode'] = $mode;
 
-		$params = '&object_name=' . $object_name . '&object_id=' . $object_id;
+		$params = '&mode='.$mode.'&object_name=' . $object_name . '&object_id=' . $object_id;
 		$this->data['rl_resource_library'] = $this->html->getSecureURL('common/resource_library', $params);
 		$this->data['rl_resources'] = $this->html->getSecureURL('common/resource_library/resources', $params);
 		$this->data['rl_resource_single'] = $this->html->getSecureURL('common/resource_library/get_resource_details', $params);

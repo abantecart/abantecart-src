@@ -27,7 +27,7 @@ var urls = {
 
 //vars for open modal.  will purge after modal close!
 var modalscope = {
-	mode: '',
+	mode: '<?php echo $mode;?>',
 	wrapper_id: '',
 	field_id: ''
 };
@@ -125,7 +125,7 @@ var saveRL = function (URL, postdata) {
 	});
 	return rid;
 }
-
+<?php // function that load sections into html(not modal!)?>
 var loadMedia = function (type, wrapper) {
 	wrapper = !wrapper ? '#type_' + type + ' div.type_blocks' : wrapper;
 	$.ajax({
@@ -141,7 +141,7 @@ var loadMedia = function (type, wrapper) {
 				return;
 			}
 
-			if(json.items.length>0){
+			if(json.items.length>0 || type == default_type){
 				$( '#type_' + type).show();
 				$( '#panel_' + type ).show();
 			}
@@ -935,7 +935,7 @@ jQuery(function () {
 
 		//enable single mode based on attribute
 		var btn = o.find('a.btn');
-		modalscope.mode = btn.attr('data-mode') ? btn.attr('data-mode') : '';
+		modalscope.mode = btn.attr('data-mode') ? btn.attr('data-mode') : modalscope.mode;
 		modalscope.wrapper_id = btn.attr('data-wrapper_id');
 		modalscope.field = btn.attr('data-field');
 

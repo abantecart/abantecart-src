@@ -333,6 +333,8 @@ class ControllerPagesSettingSetting extends AController {
 			array(
 				'object_name' => 'store',
 				'object_id' => (int)$this->request->get['store_id'],
+				'types' => array('image'),
+				'onload' => true,
 				'mode' => 'single'
 			)
 		);
@@ -444,6 +446,8 @@ class ControllerPagesSettingSetting extends AController {
 					array(
 						'object_name' => 'store',
 						'object_id' => (int)$this->request->get['store_id'],
+						'types' => array($item['resource_type']),
+						'onload' => true,
 						'mode' => 'single'
 					)
 				);
