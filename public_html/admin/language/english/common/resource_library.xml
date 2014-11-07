@@ -321,4 +321,8 @@
 		<key>error_cannot_move</key>
 		<value><![CDATA[Error: Cannot move file %s to resources directory.]]></value>
 	</definition>
+	<definition>
+		<key>button_save_n_link</key>
+		<value><![CDATA[Save and Link]]></value>
+	</definition>
 </definitions>

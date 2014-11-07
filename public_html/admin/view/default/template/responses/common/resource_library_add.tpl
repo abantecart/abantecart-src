@@ -57,16 +57,16 @@
 			<?php //dnd area?>
 			<form action="<?php echo $rl_upload; ?>" method="POST" enctype="multipart/form-data">
 				<input class="hide" type="file" name="files[]" multiple="">
+				<div class="fileupload-buttonbar">
+					<div class="col-sm-6 col-xs-12 center">
+						<a class="tooltips btn btn-success rl_add_file" data-original-title="<?php echo $text_add_file; ?>"><i class="fa fa-file fa-5x"></i></a>
+					</div>
+					<div class="col-sm-6 col-xs-12 center">
+						<a class="tooltips btn btn-primary rl_add_code" data-original-title="<?php echo $text_add_code; ?>"><i class="fa fa-file-code-o fa-5x"></i>
+						</a>
+					</div>
+				</div>
 			</form>
-			<div class="col-sm-6 col-xs-12 center">
-				<a class="tooltips btn btn-success rl_add_file"
-						data-original-title="<?php echo $text_add_file; ?>"><i class="fa fa-file fa-5x"></i></a>
-			</div>
-			<div class="col-sm-6 col-xs-12 center">
-				<a class="tooltips btn btn-primary rl_add_code"
-						data-original-title="<?php echo $text_add_code; ?>"><i class="fa fa-file-code-o fa-5x"></i>
-				</a>
-			</div>
 		</div>
 
 		<div id="file_subform" class="row">

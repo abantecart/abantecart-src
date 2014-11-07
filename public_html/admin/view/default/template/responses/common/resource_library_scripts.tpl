@@ -594,7 +594,11 @@ var bind_rl = function (elm) {
 		} else {
 			rid = new_rid;
 		}
-		mediaDialog(type, 'update', rid);
+
+		//for button save and link (select)
+		if(!$(this).hasClass('rl_select')) {
+			mediaDialog(type, 'update', rid);
+		}
 		return false;
 	});
 
@@ -772,31 +776,35 @@ jQuery(function () {
 			URL = urls.upload+'&type='+$('div.fileupload_drag_area').find('a.btn').attr('data-type');
 		}
 
+
 		var jqXHR = $.ajax({
-			xhr: function () {
-				var xhrobj = $.ajaxSettings.xhr();
-				if (xhrobj.upload) {
-					xhrobj.upload.addEventListener('progress', function (event) {
-						var percent = 0;
-						var position = event.loaded || event.position;
-						var total = event.total;
-						if (event.lengthComputable) {
-							percent = Math.ceil(position / total * 100);
-						}
-						//Set progress
-						status.setProgress(percent);
-					}, false);
-				}
-				return xhrobj;
-			},
+			xhr: function() {
+					var xhrobj = $.ajaxSettings.xhr();
+		                if (xhrobj.upload) {
+						xhrobj.upload.addEventListener('progress', function (event) {
+		                                        var percent = 0;
+		                                        var position = event.loaded || event.position;
+		                                        var total = event.total;
+		                                        if (event.lengthComputable) {
+		                                            percent = Math.ceil(position / total * 100);
+		                                        }
+		                                        //Set progress
+		                                        status.setProgress(percent);
+		                                    }, false);
+		            } else {
+		                console.log("Uploadress is not supported.");
+		            }
+		            return xhrobj;
+		        },
 			url: URL,
 			type: "POST",
 			contentType: false,
 			processData: false,
 			cache: false,
+			async: false,
 			data: formData,
 			datatype: 'json',
-			async: false,
+
 			success: function (data) {
 				response = data[0];
 				status.setProgress(100);
@@ -810,15 +818,19 @@ jQuery(function () {
 	var rowCount = 0;
 	var createStatusbar = function (obj) {
 		rowCount++;
-		var row = "odd";
-		if (rowCount % 2 == 0) row = "even";
-		this.statusbar = $("<div class='statusbar row " + row + "'></div>");
-		this.filename = $("<div class='filename col-sm-6 ellipsis'></div>").appendTo(this.statusbar);
-		this.size = $("<div class='filesize col-sm-2'></div>").appendTo(this.statusbar);
-		this.progressBar = $('<div class="progress col-sm-3"><div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%;"></div></div>')
-				.appendTo(this.statusbar);
-		this.abort = $('<a class="remove btn btn-xs btn-danger-alt tooltips" data-original-title="Abort" title="Abort"><i class="fa fa-minus-circle"></i></a>')
-				.appendTo(this.statusbar);
+		this.statusbar = $('<div class="statusbar row"></div>');
+		this.filename = $('<div class="filename col-sm-6 ellipsis"></div>').appendTo(this.statusbar);
+		this.size = $('<div class="filesize col-sm-2"></div>').appendTo(this.statusbar);
+		this.progressBar = $('<div class="progress col-sm-4"><div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%;">loading</div></div>')
+						.appendTo(this.statusbar);
+
+		/*this.progressBar = $('<div class="progress col-sm-3"><div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%;"></div></div>')
+				.appendTo(this.statusbar);*/
+		/*this.abort = $('<a class="remove btn btn-xs btn-danger-alt tooltips" data-original-title="Abort" title="Abort"><i class="fa fa-minus-circle"></i></a>')
+				.appendTo(this.statusbar);*/
+
+		this.abort = $('').appendTo(this.statusbar);
+
 		this.statusbar.appendTo(obj);
 
 		this.setFileNameSize = function (name, size) {
@@ -838,6 +850,7 @@ jQuery(function () {
 			var progressBarWidth = progress * this.progressBar.width() / 100;
 			this.progressBar.find('div').animate({ width: progressBarWidth }, 10).html(progress + "%&nbsp;");
 			if (parseInt(progress) >= 100) {
+				this.progressBar.find('div').removeClass('active');
 				this.abort.hide();
 			}
 		}
@@ -870,6 +883,7 @@ jQuery(function () {
 
 			var status = new createStatusbar($(obj).find('.fileupload-buttonbar')); //Using this we can set progress.
 			status.setFileNameSize(files[i].name, files[i].size);
+
 			var response = sendFileToServer(fd, status, URL);
 			if (response.hasOwnProperty('error_text')) {
 				rl_error_alert('File ' + files[i].name + ' (' + response.error_text + ')', false);
@@ -945,7 +959,7 @@ jQuery(function () {
 		}
 
 		//We need to send dropped files to Server
-		handleFileUpload(files, obj, o.find('form').attr('action'));
+		handleFileUpload(files, o, o.find('form').attr('action'));
 	});
 
 	var doc = $(document);
@@ -977,7 +991,7 @@ jQuery(function () {
 		o.css('border', '2px dotted #F19013');
 		var files = this.files;
 		//We need to send dropped files to Server
-		handleFileUpload(files, obj, o.find('form').attr('action'));
+		handleFileUpload(files, o, o.find('form').attr('action'));
 	});
 
 });
