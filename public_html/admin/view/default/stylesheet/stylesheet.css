@@ -1233,11 +1233,11 @@ p {
 	margin: 0;
 }
 
-#choose_resource_type>div{
+#choose_resource_type .fileupload-buttonbar>div{
 	height: 390px;
 }
-#choose_resource_type>div a.btn{
-	margin-top: 50% !important;
+#choose_resource_type .fileupload-buttonbar>div a.btn{
+	margin-top: 40% !important;
 }
 
 #add_form{
