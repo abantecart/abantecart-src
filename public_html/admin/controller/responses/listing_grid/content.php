@@ -35,7 +35,7 @@ class ControllerResponsesListingGridContent extends AController {
 		$this->acm = new AContentManager();
 
 		//Prepare filter config
-		$grid_filter_params = array( 'sort_order', 'title', 'status', 'nodeid' );
+		$grid_filter_params = array( 'sort_order', 'id.title', 'status', 'nodeid' );
 		//Build advanced filter
 		$filter_data = array( 'method' => 'post',
 							  'grid_filter_params' => $grid_filter_params);

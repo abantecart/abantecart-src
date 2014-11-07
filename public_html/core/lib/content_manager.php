@@ -51,7 +51,10 @@ class AContentManager {
 		$this->registry->set($key, $value);
 	}
 
-
+	/**
+	 * @param array $data
+	 * @return int
+	 */
 	public function addContent($data) {
 		if(!is_array($data) || !$data){ return false;}
 		$sql = "INSERT INTO " . $this->db->table("contents") . " 
@@ -71,12 +74,12 @@ class AContentManager {
 		if($seo_key){
 			$this->language->replaceDescriptions('url_aliases',
 												array('query' => "content_id=" . ( int )$content_id),
-												array((int)$this->session->data['content_language_id'] => array('keyword'=>$seo_key)));
+												array((int)$this->language->getContentLanguageID() => array('keyword'=>$seo_key)));
 		}else{
 			$this->db->query("DELETE
 							FROM " . $this->db->table("url_aliases") . " 
 							WHERE query = 'content_id=" . ( int )$content_id . "'
-								AND language_id = '".(int)$this->session->data['content_language_id']."'");
+								AND language_id = '".(int)$this->language->getContentLanguageID()."'");
 		}
 
 		if($data[ 'parent_content_id' ]){
@@ -113,9 +116,14 @@ class AContentManager {
         return $content_id;
 	}
 
+	/**
+	 * @param int $content_id
+	 * @param array $data
+	 * @return bool
+	 */
 	public function editContent($content_id, $data) {
 		if(!$content_id){return false;}
-		$language_id = (int)$this->session->data['content_language_id'];
+		$language_id = (int)$this->language->getContentLanguageID();
 
 		//Delete store and instert back again with the same ID.
 		//Area for improvment 
@@ -147,12 +155,12 @@ class AContentManager {
 			if($data['keyword']){
 				$this->language->replaceDescriptions('url_aliases',
 														array('query' => "content_id=" . ( int )$content_id),
-														array((int)$this->session->data['content_language_id'] => array('keyword' => $data['keyword'])));
+														array((int)$this->language->getContentLanguageID() => array('keyword' => $data['keyword'])));
 			}else{
 				$this->db->query("DELETE
 								FROM " . $this->db->table("url_aliases") . " 
 								WHERE query = 'content_id=" . ( int )$content_id . "'
-									AND language_id = '".(int)$this->session->data['content_language_id']."'");
+									AND language_id = '".(int)$this->language->getContentLanguageID()."'");
 			}
 		}
 
@@ -172,9 +180,16 @@ class AContentManager {
 		return true;
 	}
 
+	/**
+	 * @param int $content_id
+	 * @param string $field
+	 * @param mixed $value
+	 * @param null|int $parent_content_id
+	 * @return bool
+	 */
 	public function editContentField($content_id, $field, $value, $parent_content_id=null) {
 		$content_id = (int)$content_id;
-		$language_id = (int)$this->session->data['content_language_id'];
+		$language_id = (int)$this->language->getContentLanguageID();
 		if(!$language_id){
 			return false;
 		}
@@ -205,12 +220,12 @@ class AContentManager {
 				if($value){
 					$this->language->replaceDescriptions('url_aliases',
 															array('query' => "content_id=" . ( int )$content_id),
-															array((int)$this->session->data['content_language_id'] => array('keyword' => $value)));
+															array((int)$this->language->getContentLanguageID() => array('keyword' => $value)));
 				}else{
 					$this->db->query("DELETE
 									FROM " . $this->db->table("url_aliases") . " 
 									WHERE query = 'content_id=" . ( int )$content_id . "'
-										AND language_id = '".(int)$this->session->data['content_language_id']."'");
+										AND language_id = '".(int)$this->language->getContentLanguageID()."'");
 				}
 
 				break;
@@ -273,6 +288,9 @@ class AContentManager {
 		return true;
 	}
 
+	/**
+	 * @param int $content_id
+	 */
 	public function deleteContent($content_id) {
 		$lm = new ALayoutManager();
 		$lm->deletePageLayout('pages/content/content','content_id',( int )$content_id);
@@ -285,11 +303,16 @@ class AContentManager {
 		$this->cache->delete('contents');
 	}
 
-	public function getContent($content_id, $language_id = '') {
+	/**
+	 * @param int $content_id
+	 * @param int $language_id
+	 * @return mixed
+	 */
+	public function getContent($content_id, $language_id = null) {
 		$output = array();
 		$content_id = (int)$content_id;
 		if ( !has_value($language_id) ) {
-			$language_id = ( int )$this->session->data['content_language_id'];
+			$language_id = ( int )$this->language->getContentLanguageID();
 		}
 		
 		if(!$content_id){
@@ -330,6 +353,13 @@ class AContentManager {
 		return $output[0];
 	}
 
+	/**
+	 * @param array $data
+	 * @param string $mode
+	 * @param int $store_id
+	 * @param bool $parent_only
+	 * @return array
+	 */
 	public function getContents($data = array(), $mode = 'default', $store_id = 0, $parent_only = false) {
 		if ($parent_only) {
 			if($data[ "subsql_filter" ]){
@@ -362,10 +392,10 @@ class AContentManager {
 				FROM " . $this->db->table("contents") . " i
 				LEFT JOIN " . $this->db->table("content_descriptions") . " id
 					ON (i.content_id = id.content_id
-						AND id.language_id = '" . ( int )$this->session->data['content_language_id'] . "')
+						AND id.language_id = '" . ( int )$this->language->getContentLanguageID() . "')
 				LEFT JOIN " . $this->db->table("content_descriptions") . " cd
 					ON (cd.content_id = i.parent_content_id
-						AND cd.language_id = '" . ( int )$this->session->data['content_language_id'] . "')
+						AND cd.language_id = '" . ( int )$this->language->getContentLanguageID() . "')
 				LEFT JOIN " . $this->db->table('contents_to_stores')." cs				
 					ON (i.content_id = cs.content_id AND cs.store_id = '" . $store_id . "')
 				";
@@ -379,7 +409,7 @@ class AContentManager {
 			$sql .= " AND " . str_replace('`name`','id.name',$data [ 'subsql_filter' ]);
 		}
 
-		if (isset($filter['title']) && !is_null($filter['title'])) {
+		if (isset($filter['id.title']) && !is_null($filter['id.title'])) {
 			$sql .= " AND id.title LIKE '%" . (float)$filter['pfrom'] ."%' ";
 		}
 		if (isset($filter['status']) && !is_null($filter['status'])) {
@@ -452,6 +482,9 @@ class AContentManager {
 
 	}
 
+	/**
+	 * @return array
+	 */
 	public function getLeafContents() {
 			$query = $this->db->query(
 				"SELECT t1.content_id as content_id
@@ -465,14 +498,29 @@ class AContentManager {
 			return $result;
 		}
 
+	/**
+	 * @param array $data
+	 * @return int
+	 */
 	public function getTotalContents($data = array()) {
 		return $this->getContents($data, 'total_only');
 	}
 
+	/**
+	 * @param array $data
+	 * @param int $store_id
+	 * @return array
+	 */
 	public function getParentContents($data = array(), $store_id = 0) {
 		return $this->getContents($data, '', $store_id, true);
 	}
 
+	/**
+	 * @param bool $parent_only
+	 * @param bool $without_top
+	 * @param int $store_id
+	 * @return array
+	 */
 	public function getContentsForSelect($parent_only = false, $without_top = false, $store_id=0) {
 
 		$all = $parent_only
