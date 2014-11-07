@@ -140,6 +140,9 @@ class ControllerResponsesDesignBlocksManager extends AController {
 		}
 
 		$info = $lm->getBlockInfo((int)$block_id);
+		foreach($info as &$i){
+			$i['block_date_added'] = dateISO2Display($i['block_date_added'], $this->language->get('date_format_short'). ' '.$this->language->get('time_format'));
+		}
 		//expect only 1 block details per layout
 		$this->data = array_merge($info[0],$this->data);
 		$this->data['block_info'] = $info;
@@ -172,14 +175,16 @@ class ControllerResponsesDesignBlocksManager extends AController {
 			$this->data['title'] = $this->data['title'] == 'heading_title' ? $this->data['block_txt_id'] : $this->data['title'];
 		}
 
+		$this->data['blocks_layouts'] = $lm->getBlocksLayouts($block_id, $custom_block_id);
+
 		$this->data['text_edit'] = $this->language->get('text_edit');
 		$this->data['text_close'] = $this->language->get('text_close');
 		//update controller data
-		$view = new AView($this->registry, 0);
-		$view->batchAssign( $this->data );
+
+		$this->view->batchAssign( $this->data );
 		$this->extensions->hk_UpdateData($this, __FUNCTION__);
 
-		$this->response->setOutput( $view->fetch('responses/design/block_details.tpl') );
+		$this->processTemplate('responses/design/block_details.tpl');
 	}
 
 }

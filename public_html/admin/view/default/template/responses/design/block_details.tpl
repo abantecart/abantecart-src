@@ -13,9 +13,7 @@
 		if ($block_info) {
 			$tmp = '';
 			foreach ($block_info as $row) {
-				if ((int)$row['layout_id']) {
-					$layouts[] = '<a target="_blank" href="' . $this->html->getSecureURL('design/layout', '&tmpl_id=' . $row['template_id'] . '&page_id=' . $row['page_id'] . '&layout_id=' . $row['layout_id']) . '">' . $row['layout_name'] . '</a>';
-				}
+
 				if ($tmp == $row['template_id'] . '-' . $row['page_id'] . '-' . $row['layout_id']) {
 					continue;
 				} else {
@@ -25,10 +23,13 @@
 				unset($row['layout_id'], $row['layout_name'], $row['page_id'], $row['template_id'], $row['store_id']);
 				$info = $row;
 			}	
-			if (!$layouts) {
+
+			foreach($blocks_layouts as $row){
+				$info['layouts'][] = '<a target="_blank" href="' . $this->html->getSecureURL('design/layout', '&tmpl_id=' . $row['template_id'] . '&page_id=' . $row['page_id'] . '&layout_id=' . $row['layout_id']) . '">' . $row['layout_name'] . '</a>';
+			}
+			if(!$info['layouts']){
 				$layouts = array($text_none);
 			}
-			$info['layouts'] = $layouts;
 
 			foreach ($info as $key => $item) {
 				if (!is_array($item)) {

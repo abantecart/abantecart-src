@@ -600,10 +600,9 @@ class ALayoutManager {
 	}
 
 	/**
-	 * Process post data and prepare for layout to save 
-	 * @param $data array
+	 * Process post data and prepare for layout to save
+	 * @param array $post
 	 * @return array
-	 *
 	 */
 	public function prepareInput( $post ) {
 		if( empty($post) ){
@@ -1242,6 +1241,28 @@ class ALayoutManager {
 		$block_name = $info[$language_id] ? $info[$language_id]['name'] : '';
 		$block_name = !$block_name ? $info[key($info)]['name'] : $block_name;
 		return $block_name;
+	}
+
+	/**
+	 * get list of layouts that block used
+	 * @param int $block_id
+	 * @param int $custom_block_id
+	 * @return array
+	 */
+	public function getBlocksLayouts($block_id, $custom_block_id = 0){
+		$block_id = (int)$block_id;
+		$custom_block_id = (int)$custom_block_id;
+		if(!$block_id && !$custom_block_id){
+			return array();
+		}
+
+		$sql = "SELECT l.*
+				FROM  ".$this->db->table('layouts')." l
+				INNER JOIN ".$this->db->table('block_layouts')." bl
+					ON (bl.layout_id = l.layout_id AND " .( $custom_block_id ? "bl.custom_block_id = ".$custom_block_id : "bl.block_id=".$block_id ).")";
+
+		$result = $this->db->query($sql);
+		return $result->rows;
 	}
 
 	/**
