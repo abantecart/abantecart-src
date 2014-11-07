@@ -1209,6 +1209,7 @@ p {
 }
 .reslibrary .thmb-icon {
     background: #eee;
+	height: 100px;
 }
 .reslibrary .thmb-icon i {
 	font-size: 7em;

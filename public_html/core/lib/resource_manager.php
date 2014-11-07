@@ -31,7 +31,7 @@ if (!defined('DIR_CORE')) {
 class AResourceManager extends AResource {
 	protected $registry;
 	public $error = array();
-	
+
 	public function __construct() {
 		if (!IS_ADMIN) { // forbid for non admin calls
 			throw new AException (AC_ERR_LOAD, 'Error: permission denied to change resources');

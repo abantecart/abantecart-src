@@ -175,4 +175,8 @@
 		<key>text_count</key>
 		<value><![CDATA[ count ]]></value>
 	</definition>
+	<definition>
+		<key>text_banners</key>
+		<value><![CDATA[ Banners ]]></value>
+	</definition>
 </definitions>

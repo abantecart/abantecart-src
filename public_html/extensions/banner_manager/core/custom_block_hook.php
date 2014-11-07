@@ -20,6 +20,42 @@
 if (!defined('DIR_CORE')) {
 	header('Location: static_pages/');
 }
+/*
+class BannerManagerResource extends AResourceManager{
+	protected $registry;
+	public function __construct(){
+		$this->registry = Registry::getInstance();
+		parent::$objectList[] = 'banners';
+	}
+
+	protected function getResourceBanners($resource_id, $language_id = 0) {
+
+        if ( !$language_id ) {
+            $language_id = $this->registry->get('language')->getContentLanguageID();
+        }
+
+        $sql = "SELECT rm.object_id, 'banners' as object_name, bd.name
+                FROM " . $this->registry->get('db')->table("resource_map") . " rm
+                LEFT JOIN " . $this->registry->get('db')->table("banner_descriptions") . " bd ON ( rm.object_id = bd.banner_id AND bd.language_id = '".(int)$language_id."')
+                WHERE rm.resource_id = '".(int)$resource_id."'
+                    AND rm.object_name = 'banners'";
+        $query = $this->registry->get('db')->query($sql);
+        $resource_objects = $query->rows;
+
+        $result = array();
+        foreach ( $resource_objects as $row ) {
+            $result[] = array(
+                'object_id' => $row['object_id'],
+                'object_name' => $row['object_name'],
+                'name' => $row['name'],
+                'url' => $$this->registry->get('html')->getSecureURL('catalog/product/update', '&product_id='.$row['object_id'] )
+            );
+        }
+
+        return $result;
+    }
+
+}*/
 
 class ExtensionBannerManager extends Extension {
 	private $registry;
@@ -31,6 +67,49 @@ class ExtensionBannerManager extends Extension {
 		return $this->registry->get($key);
 	}
 
+
+	private function _getResourceBanners($resource_id, $language_id = 0){
+
+		if ( !$language_id ) {
+            $language_id = $this->registry->get('language')->getContentLanguageID();
+        }
+
+        $sql = "SELECT rm.object_id, 'banners' as object_name, bd.name
+                FROM " . $this->registry->get('db')->table("resource_map") . " rm
+                LEFT JOIN " . $this->registry->get('db')->table("banner_descriptions") . " bd ON ( rm.object_id = bd.banner_id AND bd.language_id = '".(int)$language_id."')
+                WHERE rm.resource_id = '".(int)$resource_id."'
+                    AND rm.object_name = 'banners'";
+        $query = $this->registry->get('db')->query($sql);
+        $resource_objects = $query->rows;
+
+        $result = array();
+        foreach ( $resource_objects as $row ) {
+            $result[] = array(
+                'object_id' => $row['object_id'],
+                'object_name' => $row['object_name'],
+                'name' => $row['name'],
+                'url' => $this->registry->get('html')->getSecureURL('extension/banner_manager/edit', '&banner_id='.$row['object_id'] )
+            );
+        }
+
+        return $result;
+	}
+
+
+	public function onControllerResponsesCommonResourceLibrary_InitData() {
+		$this->baseObject->loadLanguage('banner_manager/banner_manager');
+	}
+	public function onControllerResponsesCommonResourceLibrary_UpdateData() {
+		if($this->baseObject_method == 'main') {
+			$resource = &$this->baseObject->data['resource'];
+			$result = $this->_getResourceBanners($resource['resource_id'], $resource['language_id']);
+			if($result){
+				$key = $this->registry->get('language')->get('text_banners');
+				$key = !$key ? 'banners' : $key;
+				$resource['resource_objects'][$key] = $result;
+			}
+		}
+	}
 
 	public function onControllerPagesDesignBlocks_InitData() {
 		$method_name = $this->baseObject_method;
