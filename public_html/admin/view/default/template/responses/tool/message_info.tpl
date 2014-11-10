@@ -35,7 +35,6 @@
 
 </div>
 <script type="application/javascript">
-	wrapConfirmDelete();
 	var delete_msg = function(){
 		$.ajax({
 				url: '<?php echo $delete_url; ?>',

@@ -30,6 +30,7 @@ class ControllerPagesExtensionDefaultWeight extends AController {
 
         //init controller data
         $this->extensions->hk_InitData($this,__FUNCTION__);
+		$this->request->get['extension'] = 'default_weight';
 
 		$this->loadLanguage('default_weight/default_weight');
 		$this->document->setTitle( $this->language->get('default_weight_name') );

@@ -81,6 +81,7 @@ class ControllerPagesExtensionDefaultUPS extends AController {
 	
 	public function main() {
 
+		$this->request->get['extension'] = 'default_ups';
 		$this->loadLanguage('default_ups/default_ups');
 		$this->document->setTitle( $this->language->get('heading_title') );
 		$this->load->model('setting/setting');
