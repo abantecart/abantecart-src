@@ -764,7 +764,8 @@ class ControllerPagesToolFormsManager extends AController {
 		$this->data['form']['form_open'] = $form->getFieldHtml(array(
 				'type' => 'form',
 				'name' => 'CustomFormBlockFrm',
-				'action' => $this->data ['action']
+				'action' => $this->data ['action'],
+				'attr' => 'data-confirm-exit="true" class="aform form-horizontal"',
 		));
 		$this->data['form']['submit'] = $form->getFieldHtml(array(
 				'type' => 'button',
