@@ -72,9 +72,7 @@ class ControllerResponsesListingGridBlocksGrid extends AController {
 			$response->rows[$i]['id'] = $result['custom_block_id'] ? $result['block_id'] . '_' . $result['custom_block_id'] : $result['block_id'];
 			$id = $response->rows[$i]['id'];
 
-			if ($result['custom_block_id']) {
-				$response->userdata->classes[ $id ] = 'disable-view';
-			} else {
+			if (!$result['custom_block_id']) {
 				$response->userdata->classes[ $id ] = 'disable-edit disable-delete';
 			}
 
