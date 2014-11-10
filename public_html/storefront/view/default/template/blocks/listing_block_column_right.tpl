@@ -32,7 +32,7 @@
 
 				?>
 
-				<li class="col-md-3">
+				<li class="">
 					<?php if ($item[ 'resource_code' ]) {
 						echo $item[ 'resource_code' ];
 					} else {?>
