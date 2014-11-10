@@ -1256,7 +1256,7 @@ class ALayoutManager {
 			return array();
 		}
 
-		$sql = "SELECT l.*
+		$sql = "SELECT DISTINCT l.*
 				FROM  ".$this->db->table('layouts')." l
 				INNER JOIN ".$this->db->table('block_layouts')." bl
 					ON (bl.layout_id = l.layout_id AND " .( $custom_block_id ? "bl.custom_block_id = ".$custom_block_id : "bl.block_id=".$block_id ).")";
