@@ -14,7 +14,7 @@
             <type required="true">textarea</type>
             <default_value></default_value>
         </item>
-	    <item id="default_banktransfer_order_min">
+	    <item id="default_banktransfer_payment_minimum_total">
             <type>input</type>
             <default_value></default_value>
         </item>
