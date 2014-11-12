@@ -60,21 +60,26 @@ class ControllerPagesExtensionTotal extends AController {
 			'sortorder' => 'asc',
 			'multiselect' => 'false',
 			'columns_search' => false,
+			'actions' => array(
+						'edit' => array(
+							'text' => $this->language->get('text_edit'),
+							'href' => $this->html->getSecureURL('')
+						)
+			),
+			'grid_ready' => 'grid_ready(data);' // run custom js-trigger with userdata from json-response as parameter
 		);
 
 		$grid_settings['colNames'] = array (
 			$this->language->get ( 'column_name' ),
 			$this->language->get ( 'column_status' ),
 			$this->language->get ( 'column_sort_order' ),
-			$this->language->get ( 'column_calculation_order' ),
-			$this->language->get ( 'column_action' )
+			$this->language->get ( 'column_calculation_order' )
 		);
 		$grid_settings['colModel'] = array (
 			array ('name' => 'name', 'index' => 'name', 'width' => 320, 'align' => 'left', 'search' => false ),
 			array ('name' => 'status', 'index' => 'status', 'align' => 'center', 'search' => false ),
 			array ('name' => 'sort_order', 'index' => 'sort_order', 'align' => 'center', 'search' => false ),
-			array ('name' => 'calculation_order', 'index' => 'calculation_order', 'align' => 'center', 'search' => false ),
-			array ('name' => 'action', 'index' => 'action', 'align' => 'center', 'search' => false, 'sortable' => false )
+			array ('name' => 'calculation_order', 'index' => 'calculation_order', 'align' => 'center', 'search' => false )
 		);
 
 		$grid = $this->dispatch ( 'common/listing_grid', array ($grid_settings ) );
@@ -112,28 +117,5 @@ class ControllerPagesExtensionTotal extends AController {
         //update controller data
         $this->extensions->hk_UpdateData($this,__FUNCTION__);
 	}
-	
-	public function uninstall() {
 
-        //init controller data
-        $this->extensions->hk_InitData($this,__FUNCTION__);
-
-		if (!$this->user->canModify('extension/total')) {
-			$this->session->data['error'] = $this->language->get('error_permission'); 
-			
-			$this->redirect($this->html->getSecureURL('extension/total'));
-		} else {			
-			$this->loadModel('setting/extension');
-			$this->loadModel('setting/setting');
-		
-			$this->model_setting_extension->uninstall('total', $this->request->get['extension']);
-		
-			$this->model_setting_setting->deleteSetting($this->request->get['extension']);
-		
-			$this->redirect($this->html->getSecureURL('extension/total'));
-		}
-
-        //update controller data
-        $this->extensions->hk_UpdateData($this,__FUNCTION__);
-	}	
 }

@@ -22,7 +22,7 @@ if (!defined('DIR_CORE') || !IS_ADMIN) {
 }
 class ControllerPagesTotalTotal extends AController {
 	public $data = array();
-	private $error = array();
+	public $error = array();
 	private $fields = array('total_status', 'total_sort_order', 'total_calculation_order', 'total_total_type');
 
 	public function main() {
@@ -62,7 +62,8 @@ class ControllerPagesTotalTotal extends AController {
 		$this->document->addBreadcrumb(array(
 			'href' => $this->html->getSecureURL('total/total'),
 			'text' => $this->language->get('heading_title'),
-			'separator' => ' :: '
+			'separator' => ' :: ',
+			'current' => true
 		));
 
 		foreach ($this->fields as $f) {
@@ -80,11 +81,26 @@ class ControllerPagesTotalTotal extends AController {
 		$this->data ['update'] = $this->html->getSecureURL('listing_grid/total/update_field', '&id=total');
 
 		$form = new AForm ('HS');
-		$form->setForm(array('form_name' => 'editFrm', 'update' => $this->data ['update']));
+		$form->setForm(array(
+				'form_name' => 'editFrm',
+				'update' => $this->data ['update']));
 
-		$this->data['form']['form_open'] = $form->getFieldHtml(array('type' => 'form', 'name' => 'editFrm', 'action' => $this->data ['action']));
-		$this->data['form']['submit'] = $form->getFieldHtml(array('type' => 'button', 'name' => 'submit', 'text' => $this->language->get('button_save'), 'style' => 'button1'));
-		$this->data['form']['cancel'] = $form->getFieldHtml(array('type' => 'button', 'name' => 'cancel', 'text' => $this->language->get('button_cancel'), 'style' => 'button2'));
+		$this->data['form']['form_open'] = $form->getFieldHtml(array(
+				'type' => 'form',
+				'name' => 'editFrm',
+				'action' => $this->data ['action'],
+				'attr' => 'data-confirm-exit="true" class="aform form-horizontal"',
+		));
+		$this->data['form']['submit'] = $form->getFieldHtml(array(
+				'type' => 'button',
+				'name' => 'submit',
+				'text' => $this->language->get('button_save')
+		));
+		$this->data['form']['cancel'] = $form->getFieldHtml(array(
+				'type' => 'button',
+				'name' => 'cancel',
+				'text' => $this->language->get('button_cancel')
+		));
 
 		$this->data['form']['fields']['status'] = $form->getFieldHtml(array(
 			'type' => 'checkbox',
@@ -94,18 +110,19 @@ class ControllerPagesTotalTotal extends AController {
 		));
 
 		$this->loadLanguage('extension/extensions');
-		$options = array('subtotal' => $this->language->get('text_subtotal'),
-			'shipping' => $this->language->get('text_shipping'),
-			'fee' => $this->language->get('text_fee'),
-			'discount' => $this->language->get('text_discount'),
-			'total' => $this->language->get('text_total'),
-			'tax' => $this->language->get('text_tax')
+		$options = array(
+				'subtotal' => $this->language->get('text_subtotal'),
+				'shipping' => $this->language->get('text_shipping'),
+				'fee' => $this->language->get('text_fee'),
+				'discount' => $this->language->get('text_discount'),
+				'total' => $this->language->get('text_total'),
+				'tax' => $this->language->get('text_tax')
 		);
 		$this->data['form']['fields']['total_type'] = $form->getFieldHtml(array(
-			'type' => 'selectbox',
-			'name' => 'total_type',
-			'options' => $options,
-			'value' => $this->data['total_total_type']
+				'type' => 'selectbox',
+				'name' => 'total_type',
+				'options' => $options,
+				'value' => $this->data['total_total_type']
 		));
 
 		$this->data['form']['fields']['sort_order'] = $form->getFieldHtml(array(
@@ -130,6 +147,8 @@ class ControllerPagesTotalTotal extends AController {
 		if (!$this->user->canModify('total/total')) {
 			$this->error['warning'] = $this->language->get('error_permission');
 		}
+
+		$this->extensions->hk_ValidateData($this);
 
 		if (!$this->error) {
 			return TRUE;

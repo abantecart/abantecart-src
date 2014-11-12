@@ -22,7 +22,7 @@ if (!defined('DIR_CORE') || !IS_ADMIN) {
 }
 class ControllerPagesTotalLowOrderFee extends AController {
 	public $data = array();
-	private $error = array();
+	public $error = array();
 	private $fields = array('low_order_fee_total', 'low_order_fee_fee', 'low_order_fee_tax_class_id', 'low_order_fee_status', 'low_order_fee_sort_order', 'low_order_fee_calculation_order', 'low_order_fee_total_type');
 
 	public function main() {
@@ -62,7 +62,8 @@ class ControllerPagesTotalLowOrderFee extends AController {
 		$this->document->addBreadcrumb(array(
 			'href' => $this->html->getSecureURL('total/low_order_fee'),
 			'text' => $this->language->get('heading_title'),
-			'separator' => ' :: '
+			'separator' => ' :: ',
+			'current'   => true
 		));
 
 		$this->loadModel('localisation/tax_class');
@@ -87,11 +88,26 @@ class ControllerPagesTotalLowOrderFee extends AController {
 		$this->data ['update'] = $this->html->getSecureURL('listing_grid/total/update_field', '&id=low_order_fee');
 
 		$form = new AForm ('HS');
-		$form->setForm(array('form_name' => 'editFrm', 'update' => $this->data ['update']));
+		$form->setForm(array(
+				'form_name' => 'editFrm',
+				'update' => $this->data ['update']));
 
-		$this->data['form']['form_open'] = $form->getFieldHtml(array('type' => 'form', 'name' => 'editFrm', 'action' => $this->data ['action']));
-		$this->data['form']['submit'] = $form->getFieldHtml(array('type' => 'button', 'name' => 'submit', 'text' => $this->language->get('button_save'), 'style' => 'button1'));
-		$this->data['form']['cancel'] = $form->getFieldHtml(array('type' => 'button', 'name' => 'cancel', 'text' => $this->language->get('button_cancel'), 'style' => 'button2'));
+		$this->data['form']['form_open'] = $form->getFieldHtml(array(
+				'type' => 'form',
+				'name' => 'editFrm',
+				'action' => $this->data ['action'],
+				'attr' => 'data-confirm-exit="true" class="aform form-horizontal"'
+		));
+		$this->data['form']['submit'] = $form->getFieldHtml(array(
+				'type' => 'button',
+				'name' => 'submit',
+				'text' => $this->language->get('button_save')
+		));
+		$this->data['form']['cancel'] = $form->getFieldHtml(array(
+				'type' => 'button',
+				'name' => 'cancel',
+				'text' => $this->language->get('button_cancel')
+		));
 
 		$this->data['form']['fields']['status'] = $form->getFieldHtml(array(
 			'type' => 'checkbox',
@@ -152,7 +168,7 @@ class ControllerPagesTotalLowOrderFee extends AController {
 		if (!$this->user->canModify('total/low_order_fee')) {
 			$this->error['warning'] = $this->language->get('error_permission');
 		}
-
+		$this->extensions->hk_ValidateData($this);
 		if (!$this->error) {
 			return TRUE;
 		} else {
