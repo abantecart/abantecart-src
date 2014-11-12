@@ -9,11 +9,11 @@
     <value><![CDATA[Basket]]></value>
   </definition>
   <definition>
-    <key>text_shipping</key>
+    <key>entry_shipping</key>
     <value><![CDATA[Shipping]]></value>
   </definition>
   <definition>
-    <key>text_payment</key>
+    <key>entry_payment</key>
     <value><![CDATA[Payment]]></value>
   </definition>
   <definition>
