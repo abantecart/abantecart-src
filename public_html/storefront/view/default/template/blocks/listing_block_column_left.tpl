@@ -15,11 +15,11 @@
 				}else{
 					$item['image'] = $item['thumb']['thumb_html'];
 				}
-				$item['title'] = $item['name'];
+				$item['title'] = $item['name'] ? $item['name'] : $item['thumb']['title'];
 				$item['description'] = $item['model'];
 				$item['rating'] = ($item['rating']) ? "<img src='" . $this->templateResource('/image/stars_' . $item['rating'] . '.png') . "' alt='" . $item['stars'] . "' />" : '';
 
-				$item['info_url'] = $item['href'];
+				$item['info_url'] = $item['href'] ? $item['href'] : $item['thumb']['main_url'];
 				$item['buy_url'] = $item['add'];
 				if (!$display_price) {
 					$item['price'] = '';
