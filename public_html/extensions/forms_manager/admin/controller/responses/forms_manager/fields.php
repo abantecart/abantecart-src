@@ -316,7 +316,7 @@ class ControllerResponsesFormsManagerFields extends AController {
 			$this->data['row_id'] = 'row' . $field_value_id;
 			$this->data['attr_val_id'] = $field_value_id;
 		} else {
-			$field_value_id = 'new1';
+			$field_value_id = '';
 			$this->data['row_id'] = 'new1_row';
 		}
 
@@ -337,7 +337,7 @@ class ControllerResponsesFormsManagerFields extends AController {
 			$this->data['form']['fields']['sort_order'] = $form->getFieldHtml(array(
 					'type' => 'input',
 					'name' => 'sort_order[' . $field_value_id . ']',
-					'value' => $item['sort_order'],
+					'value' => (int)$item['sort_order'],
 					'style' => 'small-field'
 			));
 		}

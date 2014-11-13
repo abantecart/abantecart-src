@@ -10,10 +10,11 @@
 <?php } ?>
 </div>
 
-<script>
+
+<script type="application/javascript">
 	jQuery(function($){
 
-		$('form').live('submit', function(){
+		$('form').on('submit', function(){
 
 			var field_divs = $(this).find('.form_field');
 			var errors = 0;
@@ -21,42 +22,33 @@
 			$.each(field_divs, function(i, field_div) {
 
 				var field_type = $(field_div).find('span').first().attr('class')
+				var field = $(field_div).find('input, select, textarea').first();
+				var attr = $(field).attr('aform_field_type');
 
 				var values = [];
 
 				if ( field_type == 'checkbox_element' ) {
-
 					var elements = $(field_div).find('input');
-
 					$.each(elements, function(i, element) {
 						if ( $(element).is(':checked') ) {
 							values[i] = $(element).val();
 						}
 					});
-
 				} else {
-					var value = $(field_div).find('input, select, textarea').first().val();
-
+					var value = field.val();
 					if ( value.length > 0 ) {
-						values[0] = $(field_div).find('input, select, textarea').first().val();
+						values[0] = value;
 					}
 				}
 
 				if ( !values.length ) {
-
-					if ( $(field_div).find('span.required').length ) {
+					if ( $(field_div).find('span.required').length && attr!='file') {
 						$(field_div).find('input, select, textarea').addClass('custom_form_field_error');
 						$(field_div).find('.element_error').text('<?php echo $error_required; ?>');
 						errors++;
 					}
-
 				} else {
-
-					var field = $(field_div).find('input, select, textarea').first();
-					var attr = $(field).attr('aform_field_type');
-
 					if ( attr ) {
-
 						switch (attr) {
 							case 'email':
 								if ( !validateEmail($(field).val()) ) {
@@ -116,7 +108,6 @@
 			if ( errors > 0 ) {
 				return false;
 			}
-
 		});
 	});
 

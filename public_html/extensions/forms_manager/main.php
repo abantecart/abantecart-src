@@ -28,7 +28,8 @@ if(!class_exists('ExtensionFormsManager')){
 $controllers = array(
     'storefront' => array(
 		'blocks/custom_form_block',
-		'pages/forms_manager/default_email'
+		'pages/forms_manager/default_email',
+		'responses/forms_manager/validate'
 	),
     'admin' => array(
     	'pages/tool/forms_manager',

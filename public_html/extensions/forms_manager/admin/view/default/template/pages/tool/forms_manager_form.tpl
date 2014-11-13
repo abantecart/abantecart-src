@@ -257,7 +257,7 @@ jQuery(function ($) {
 
 
 	$(document).on('click', "#add_field_value", function () {
-		var new_row = $('#new1_row').parent().find('tr').clone();
+		var new_row = $('#new1_row').parent().find('tr').last().clone();
 		$(new_row).attr('id', 'new' + row_id);
 
 		//find next sort order number

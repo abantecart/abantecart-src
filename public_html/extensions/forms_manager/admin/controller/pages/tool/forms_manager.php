@@ -527,12 +527,13 @@ class ControllerPagesToolFormsManager extends AController {
 							'title' => $this->request->post['block_title'],
 							'description' => $this->request->post['block_description'],
 							'content' => $content,
-							'status' => (int)$this->request->post['block_status'],
 							'block_wrapper' => $this->request->post['block_wrapper'],
 							'block_framed' => ((int)$this->request->post['block_framed'] > 0) ? 1 : 0,
 							'language_id' => $this->language->getContentLanguageID()
 					)
 			);
+
+			$layout->editBlockStatus((int)$this->request->post['block_status'], $this->data['block_id'], $custom_block_id);
 
 			// save custom_block in layout
 			if (isset($this->session->data['layout_params'])) {
@@ -633,12 +634,13 @@ class ControllerPagesToolFormsManager extends AController {
 							'title' => $this->request->post['block_title'],
 							'description' => $this->request->post['block_description'],
 							'content' => $content,
-							'status' => (int)$this->request->post['block_status'],
 							'block_wrapper' => $this->request->post['block_wrapper'],
 							'block_framed' => $this->request->post['block_framed'],
 							'language_id' => $this->language->getContentLanguageID()
 					)
 			);
+
+			$layout->editBlockStatus((int)$this->request->post['block_status'], $this->data['block_id'], $custom_block_id);
 
 			// save list if it is custom
 			$this->request->post['selected'] = json_decode(html_entity_decode($this->request->post['selected'][0]), true);

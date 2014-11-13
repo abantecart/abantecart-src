@@ -7,10 +7,10 @@
 	<?php } ?>
 	</select>
 	<?php if ( $required == 'Y' ) : ?>
-	<span class="required">*</span>
+	<span class="input-group-addon required">*</span>
 	<?php endif; ?>
-</div>
-<div class="input-group">
+</div>&nbsp;
+<div class="input-group ">
 	<select name="<?php echo $name ?>_zones[]" id="<?php echo $id ?>_zones" class="form-control <?php echo $style; ?>" data-placeholder="<?php echo $placeholder ?>">
 	<?php foreach ( $zone_options as $v => $text ) { ?>
 	            <option value="<?php echo $v ?>" <?php echo (in_array($v, (array)$zone_value) ? ' selected="selected" ':'') ?> >
@@ -18,6 +18,9 @@
 				</option>
 		<?php } ?>
 	</select>
+	<?php if ( $required == 'Y' ) : ?>
+	<span class="input-group-addon required">*</span>
+	<?php endif; ?>
 </div>
 <script type="text/javascript">
 	<?php 
