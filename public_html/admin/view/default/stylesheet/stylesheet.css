@@ -2859,3 +2859,15 @@ body.stickyheader .sticky_left {
     width: 11px;
     height: 11px;
 }
+
+/* product option default value radio button*/
+.optionRow .radio label{
+	margin: 0;
+	padding: 0;
+	display: block;
+}
+.optionRow .radio input{
+	margin: 0;
+	padding: 0;
+	display: block;
+}

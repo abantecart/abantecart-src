@@ -147,8 +147,10 @@ class ControllerResponsesListingGridBlocksGrid extends AController {
 			$layout->saveBlockDescription((int)$this->request->post['block_id'],
 				$custom_block_id,
 				$tmp);
-			$info = $layout->getBlockDescriptions($custom_block_id);
+
 			if (isset($tmp['status'])) {
+				$layout->editBlockStatus($tmp['status'], (int)$this->request->post['block_id'],	$custom_block_id);
+				$info = $layout->getBlockDescriptions($custom_block_id);
 				if ($info[$tmp['language_id']]['status'] != $tmp['status']) {
 					$error = new AError('');
 					return $error->toJSONResponse('NO_PERMISSIONS_406',

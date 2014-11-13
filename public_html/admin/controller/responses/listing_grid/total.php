@@ -126,6 +126,8 @@ class ControllerResponsesListingGridTotal extends AController {
 		$response->page = $page;
 		$response->total = $total_pages;
 		$response->records = $total;
+
+		$response->userdata = new stdClass();
 		$response->userdata->rt = array();
 		$response->userdata->classes = array();
 
