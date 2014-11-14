@@ -35,7 +35,7 @@
 				$widthcasses .= " col-xs-12";
 			?>
 		<div class="form-group <?php if (!empty($error[$name])) { echo "has-error"; } ?>">
-			<label class="control-label col-sm-3 col-xs-12" for="<?php echo $field->element_id; ?>"><?php echo ${'entry_' . $name}; ?></label>
+			<label class="control-label col-sm-4 col-xs-12" for="<?php echo $field->element_id; ?>"><?php echo ${'entry_' . $name}; ?></label>
 			<div class="input-group afield <?php echo $widthcasses; ?> <?php echo (is_int(strpos($name, 'description')) ? 'ml_ckeditor' : '')?>">
 				<?php echo $field; ?>
 			</div>
@@ -46,7 +46,7 @@
 		<?php
 		if($name=='template'){ ?>
 			<div class="form-group">
-				<label class="control-label col-sm-3 col-xs-12" ></label>
+				<label class="control-label col-sm-7 col-xs-12" ></label>
 				<div id="template_preview" class="input-group afield <?php echo $widthcasses; ?>">
 
 				</div>
