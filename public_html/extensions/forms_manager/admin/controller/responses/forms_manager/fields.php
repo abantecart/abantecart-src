@@ -299,6 +299,7 @@ class ControllerResponsesFormsManagerFields extends AController {
 
 		$this->view->batchAssign($this->data);
 		$this->processTemplate('responses/forms_manager/field_values.tpl');
+
 	}
 
 	private function _sort_by_sort_order($a, $b) {
@@ -315,6 +316,9 @@ class ControllerResponsesFormsManagerFields extends AController {
 	 * @return string
 	 */
 	private function _field_value_form($item, $form) {
+
+		if(in_array($this->data['field_data']['element_type'], array('U','K'))){ return array();}
+
 		$field_value_id = '';
 		if (isset($item['id'])) {
 			$field_value_id = $item['id'];
