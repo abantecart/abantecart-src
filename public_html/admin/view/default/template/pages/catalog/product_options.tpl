@@ -279,7 +279,7 @@ jQuery(function ($) {
 		if (so.length > 0) {
 			var highest = 0;
 			so.each(function () {
-				highest = Math.max(highest, parseInt(this.value));
+				highest = Math.max(highest, Number(this.value));
 			});
 			$(new_row).find("input[name^='sort_order']").val(highest + 1);
 		} else {
@@ -376,8 +376,8 @@ jQuery(function ($) {
 
 });
 
-// Function to delete option. NOTE. Needs to be here (global)
-function optionDelete ( url ) {
+	// Function to delete option. NOTE. Needs to be here (global)
+	function optionDelete ( url ) {
 		$.ajax({
 			url: url,
 			type: 'GET',
@@ -396,6 +396,6 @@ function optionDelete ( url ) {
 			}
 		});
 		return false;
-}
+	}
 
 //--></script>
