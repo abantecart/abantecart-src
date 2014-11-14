@@ -47,11 +47,14 @@ class ControllerResponsesListingGridSetting extends AController {
 		$response->page = $filter_grid->getParam('page');
 		$response->total = $filter_grid->calcTotalPages($total);
 		$response->records = $total;
+		$response->userdata = new stdClass();
+		$response->userdata->href = array();
 
 		$results = $this->model_setting_setting->getAllSettings($filter_grid->getFilterData());
 
 		$i = 0;
 		foreach ($results as $result) {
+
 
 			if (($result[ 'value' ] == '1' || $result[ 'value' ] == '0')
 					&& !is_int(strpos($result[ 'key' ], '_id'))
@@ -68,6 +71,9 @@ class ControllerResponsesListingGridSetting extends AController {
 			}
 
 			$response->rows[ $i ][ 'id' ] = $result[ 'group' ] . '-' . $result[ 'key' ] . '-' . $result[ 'store_id' ];
+			if($result['group']=='appearance'){
+				$response->userdata->href[$response->rows[ $i ][ 'id' ]] = $this->html->getSecureURL('setting/setting/appearance');
+			}
 			$response->rows[ $i ][ 'cell' ] = array(
 				$result[ 'alias' ],
 				$result[ 'group' ],

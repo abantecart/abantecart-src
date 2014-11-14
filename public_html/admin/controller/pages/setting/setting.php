@@ -258,7 +258,7 @@ class ControllerPagesSettingSetting extends AController {
 														'&target=edit_dialog&active=%ID%')
 				),
 			),
-			'grid_ready' => 'grid_ready();'
+			'grid_ready' => 'grid_ready(data);'
 		);
 
 		$grid_settings['colNames'] = array(
