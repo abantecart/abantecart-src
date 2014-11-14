@@ -28,6 +28,7 @@
 			<?php
 			$entry = $$e;
 			$field = $$name;
+			if(!$field){ continue;}
 
 			if ($name == 'option_placeholder' && !(string)$option_placeholder) {
 				continue;
