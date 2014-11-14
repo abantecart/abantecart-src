@@ -289,7 +289,7 @@ class ControllerPagesSettingSetting extends AController {
 			array(
 				'name' => 'value',
 				'index' => 'value',
-				'align' => 'left',
+				'align' => 'center',
 				'sortable' => false,
 				'search' => false,
 			),
