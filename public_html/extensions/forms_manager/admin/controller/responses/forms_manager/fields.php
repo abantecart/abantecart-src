@@ -79,11 +79,16 @@ class ControllerResponsesFormsManagerFields extends AController {
 			$this->error['warning'] = $this->language->get('error_permission');
 		}
 
-		$data['field_name'] = preg_replace('/[^a-zA-Z0-9\.]/', '', $data['field_name']);
+		$data['field_name'] = preg_replace('/[^a-zA-Z0-9\._]/', '', $data['field_name']);
 
 		if ((!$data['element_type'] && !$data['field_id']) || !$data['field_description'] || !$data['field_name']) {
 			$this->error['error_required'] = $this->language->get('error_fill_required');
 		}
+
+		if($rr = $this->model_tool_forms_manager->checkFieldInForm($this->request->get['form_id'],$data['field_name'])){
+			$this->error['field_name'] = sprintf($this->language->get('error_field_name_exists'),$data['field_name']) ;
+		}
+
 
 		$this->extensions->hk_ValidateData($this);
 
