@@ -104,7 +104,7 @@ final class AConfig {
 		}
 
 		// Load default store settings
-		$settings = $cache->force_get('settings', '', 0);
+		//$settings = $cache->force_get('settings', '', 0);
 		if (empty($settings)) {
 			// set global settings (without extensions settings)
 			$sql = "SELECT se.*
@@ -200,7 +200,7 @@ final class AConfig {
 		$settings = $cache->force_get('settings.extension.' . $cache_suffix);
 		if (empty($settings)) {
 			// all extensions settings of store
-			$sql = "SELECT se.*, e.type as extension_type
+			$sql = "SELECT se.*, e.type as extension_type, e.key as extension_txt_id
 					FROM " . $db->table('settings')." se
 					LEFT JOIN " . $db->table('extensions')." e ON (TRIM(se.`group`) = TRIM(e.`key`))
 					WHERE se.store_id='" . (int)$this->cnfg['config_store_id'] . "' AND e.extension_id IS NOT NULL
@@ -208,8 +208,8 @@ final class AConfig {
 
 			$query = $db->query($sql);
 			foreach( $query->rows as $row ){
-				//skip settings for non-active template
-				if( $row['extension_type'] == 'template' && $tmpl_id!=$row['group'] ){ continue;}
+				//skip settings for non-active template except status (needed for extensions list in admin)
+				if( $row['extension_type'] == 'template' && $tmpl_id!=$row['group'] && $row['key'] != $row['extension_txt_id'].'_status' ){ continue;}
 				$settings[] = $row;
 			}
 			$cache->force_set('settings.extension.' . $cache_suffix, $settings);

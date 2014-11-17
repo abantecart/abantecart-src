@@ -342,11 +342,10 @@ class ControllerPagesDesignBlocks extends AController {
 							'title' => $this->request->post['block_title'],
 							'description' => $this->request->post['block_description'],
 							'content' => $content,
-							'status' => (int)$this->request->post['block_status'],
 							'block_wrapper' => $this->request->post['block_wrapper'],
 							'block_framed' => (int)$this->request->post['block_framed'],
 							'language_id' => $this->session->data['content_language_id']));
-
+			$layout->editBlockStatus((int)$this->request->post['block_status'], 0,	$custom_block_id);
 			$this->session->data ['success'] = $this->language->get('text_success');
 			$this->redirect($this->html->getSecureURL('design/blocks/edit', '&custom_block_id=' . $custom_block_id));
 		}

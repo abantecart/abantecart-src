@@ -457,7 +457,7 @@ class ControllerPagesExtensionExtensions extends AController {
 			
 			$this->extension_manager->editSetting($extension, $this->request->post);
 			$this->cache->delete('settings.extension');
-			$this->session->data['success'] = $this->language->get('text_success');
+			$this->session->data['success'] = $this->language->get('text_save_success');
 			$this->redirect($this->data['target_url']);
 		}
 

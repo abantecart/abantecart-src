@@ -142,7 +142,7 @@
 	    </ul>					
 	    		
 	    <?php if( $sorting && $pagination_bootstrap ) { ?>
-	    <div class="container-fluid mt10">
+	    <div class="col-md-12  mt10">
 	    	<div class="col-md-4 form-inline pull-left">
 				<div class="form-group">
 					<div class="input-group input-group-sm">

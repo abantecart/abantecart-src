@@ -22,7 +22,7 @@ if (!defined('DIR_CORE') || !IS_ADMIN) {
 }
 class ControllerPagesTotalSubtotal extends AController {
 	public $data = array();
-	private $error = array();
+	public $error = array();
 	private $fields = array('sub_total_status', 'sub_total_sort_order', 'sub_total_calculation_order', 'sub_total_total_type');
 
 	public function main() {
@@ -62,7 +62,8 @@ class ControllerPagesTotalSubtotal extends AController {
 		$this->document->addBreadcrumb(array(
 			'href' => $this->html->getSecureURL('total/sub_total'),
 			'text' => $this->language->get('heading_title'),
-			'separator' => ' :: '
+			'separator' => ' :: ',
+			'current'   => true
 		));
 
 		foreach ($this->fields as $f) {
@@ -82,9 +83,22 @@ class ControllerPagesTotalSubtotal extends AController {
 		$form = new AForm ('HS');
 		$form->setForm(array('form_name' => 'editFrm', 'update' => $this->data ['update']));
 
-		$this->data['form']['form_open'] = $form->getFieldHtml(array('type' => 'form', 'name' => 'editFrm', 'action' => $this->data ['action']));
-		$this->data['form']['submit'] = $form->getFieldHtml(array('type' => 'button', 'name' => 'submit', 'text' => $this->language->get('button_save'), 'style' => 'button1'));
-		$this->data['form']['cancel'] = $form->getFieldHtml(array('type' => 'button', 'name' => 'cancel', 'text' => $this->language->get('button_cancel'), 'style' => 'button2'));
+		$this->data['form']['form_open'] = $form->getFieldHtml(array(
+				'type' => 'form',
+				'name' => 'editFrm',
+				'action' => $this->data ['action'],
+				'attr' => 'data-confirm-exit="true" class="aform form-horizontal"'
+		));
+		$this->data['form']['submit'] = $form->getFieldHtml(array(
+				'type' => 'button',
+				'name' => 'submit',
+				'text' => $this->language->get('button_save')
+		));
+		$this->data['form']['cancel'] = $form->getFieldHtml(array(
+				'type' => 'button',
+				'name' => 'cancel',
+				'text' => $this->language->get('button_cancel')
+		));
 
 		$this->data['form']['fields']['status'] = $form->getFieldHtml(array(
 			'type' => 'checkbox',
@@ -128,7 +142,7 @@ class ControllerPagesTotalSubtotal extends AController {
 		if (!$this->user->canModify('total/sub_total')) {
 			$this->error['warning'] = $this->language->get('error_permission');
 		}
-
+		$this->extensions->hk_ValidateData($this);
 		if (!$this->error) {
 			return TRUE;
 		} else {

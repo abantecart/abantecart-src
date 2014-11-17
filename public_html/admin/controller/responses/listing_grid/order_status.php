@@ -197,10 +197,6 @@ class ControllerResponsesListingGridOrderStatus extends AController {
 			return $this->language->get('error_default');
 		}
 
-		if ($this->config->get('config_download_status') == $order_status_id) {
-			return $this->language->get('error_download');
-		}
-
 		$store_total = $this->model_setting_store->getTotalStoresByOrderStatusId($order_status_id);
 		if ($store_total) {
 			return sprintf($this->language->get('error_store'), $store_total);

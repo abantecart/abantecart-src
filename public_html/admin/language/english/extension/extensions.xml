@@ -106,7 +106,7 @@
 		<value><![CDATA[Warning: Uninstall extension before delete!]]></value>
 	</definition>
 	<definition>
-		<key>text_success</key>
+		<key>text_save_success</key>
 		<value><![CDATA[Success: You have modified extension settings!]]></value>
 	</definition>
 	<definition>

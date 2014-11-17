@@ -228,4 +228,8 @@
 		<key>error_form_description</key>
 		<value><![CDATA[Description of form cannot be empty!]]></value>
 	</definition>
+	<definition>
+		<key>error_field_name_exists</key>
+		<value><![CDATA[Field With Name %s already present in the Form!]]></value>
+	</definition>
 </definitions>

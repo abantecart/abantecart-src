@@ -162,7 +162,7 @@ class ControllerPagesExtensionBannerManager extends AController {
 			$this->loadModel('extension/banner_manager');
 			$banner_id = $this->model_extension_banner_manager->addBanner($this->request->post);
 
-			$this->session->data ['success'] = $this->language->get('text_success');
+			$this->session->data ['success'] = $this->language->get('text_banner_success');
 			$this->redirect($this->html->getSecureURL('extension/banner_manager/edit', '&banner_id=' . $banner_id));
 		}
 
@@ -195,7 +195,7 @@ class ControllerPagesExtensionBannerManager extends AController {
 			$this->loadModel('extension/banner_manager');
 			$this->model_extension_banner_manager->editBanner($banner_id, $this->request->post);
 
-			$this->session->data ['success'] = $this->language->get('text_success');
+			$this->session->data ['success'] = $this->language->get('text_banner_success');
 			$this->redirect($this->html->getSecureURL('extension/banner_manager/edit', '&banner_id=' . $banner_id));
 		}
 
@@ -564,7 +564,7 @@ class ControllerPagesExtensionBannerManager extends AController {
 
 			}
 
-			$this->session->data ['success'] = $this->language->get('text_success');
+			$this->session->data ['success'] = $this->language->get('text_banner_success');
 			$this->redirect($this->html->getSecureURL('extension/banner_manager/edit_block', '&custom_block_id=' . $custom_block_id));
 		}
 
@@ -646,7 +646,7 @@ class ControllerPagesExtensionBannerManager extends AController {
 
 			}
 
-			$this->session->data ['success'] = $this->language->get('text_success');
+			$this->session->data ['success'] = $this->language->get('text_banner_success');
 			$this->redirect($this->html->getSecureURL('extension/banner_manager/edit_block', '&custom_block_id=' . $custom_block_id));
 		}
 

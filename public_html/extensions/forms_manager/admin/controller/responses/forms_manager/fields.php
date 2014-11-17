@@ -79,11 +79,16 @@ class ControllerResponsesFormsManagerFields extends AController {
 			$this->error['warning'] = $this->language->get('error_permission');
 		}
 
-		$data['field_name'] = preg_replace('/[^a-zA-Z0-9\.]/', '', $data['field_name']);
+		$data['field_name'] = preg_replace('/[^a-zA-Z0-9\._]/', '', $data['field_name']);
 
 		if ((!$data['element_type'] && !$data['field_id']) || !$data['field_description'] || !$data['field_name']) {
 			$this->error['error_required'] = $this->language->get('error_fill_required');
 		}
+
+		if($rr = $this->model_tool_forms_manager->checkFieldInForm($this->request->get['form_id'],$data['field_name'])){
+			$this->error['field_name'] = sprintf($this->language->get('error_field_name_exists'),$data['field_name']) ;
+		}
+
 
 		$this->extensions->hk_ValidateData($this);
 
@@ -294,6 +299,7 @@ class ControllerResponsesFormsManagerFields extends AController {
 
 		$this->view->batchAssign($this->data);
 		$this->processTemplate('responses/forms_manager/field_values.tpl');
+
 	}
 
 	private function _sort_by_sort_order($a, $b) {
@@ -310,13 +316,16 @@ class ControllerResponsesFormsManagerFields extends AController {
 	 * @return string
 	 */
 	private function _field_value_form($item, $form) {
+
+		if(in_array($this->data['field_data']['element_type'], array('U','K'))){ return array();}
+
 		$field_value_id = '';
 		if (isset($item['id'])) {
 			$field_value_id = $item['id'];
 			$this->data['row_id'] = 'row' . $field_value_id;
 			$this->data['attr_val_id'] = $field_value_id;
 		} else {
-			$field_value_id = 'new1';
+			$field_value_id = '';
 			$this->data['row_id'] = 'new1_row';
 		}
 
@@ -337,7 +346,7 @@ class ControllerResponsesFormsManagerFields extends AController {
 			$this->data['form']['fields']['sort_order'] = $form->getFieldHtml(array(
 					'type' => 'input',
 					'name' => 'sort_order[' . $field_value_id . ']',
-					'value' => $item['sort_order'],
+					'value' => (int)$item['sort_order'],
 					'style' => 'small-field'
 			));
 		}

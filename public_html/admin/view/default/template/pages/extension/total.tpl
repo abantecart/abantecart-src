@@ -14,3 +14,14 @@
 	</div>
 
 </div>
+
+<script type="application/javascript">
+	/* run after grid load */
+	var grid_ready = function(data){
+		var userdata = data.userdata;
+		$('.grid_action_edit' ).each(function(){
+			var row_id = $(this).parents('tr').attr('id');
+			$(this).attr('href', userdata.rt[ row_id ]);
+		});
+	};
+</script>

@@ -40,6 +40,10 @@
 			$(this).attr('data-toggle','modal'). attr('data-target','#block_info_modal');
 		});
 
+		$('td[aria-describedby="block_grid_status"] button').click(function(){
+			goTo($(this).parents('tr').find('.grid_action_edit').attr('href'));
+		});
+
 		$('.grid_action_delete').each(function(){
 			$(this).attr('data-confirmation', 'delete');
 		});

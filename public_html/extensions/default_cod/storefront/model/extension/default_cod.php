@@ -29,4 +29,3 @@ class ModelExtensionDefaultCOD extends Model {
     	return $method_data;
   	}
 }
-?>

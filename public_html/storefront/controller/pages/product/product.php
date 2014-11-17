@@ -525,28 +525,30 @@ class ControllerPagesProductProduct extends AController {
         $this->data['tags'] = $tags;
 
 
-		//downloads before order
-		$dwn = new ADownload();
-		$download_list = $dwn->getDownloadsBeforeOrder($product_id);
-		if($download_list){
+		//downloads before order if allowed
+		if($this->config->get('config_download')){
+			$dwn = new ADownload();
+			$download_list = $dwn->getDownloadsBeforeOrder($product_id);
+			if($download_list){
 
-			foreach($download_list as $download){
-				$href = $this->html->getURL('account/download/startdownload','&download_id='.$download['download_id']);
-				$download['attributes'] = $this->download->getDownloadAttributesValuesForCustomer($download['download_id']);
+				foreach($download_list as $download){
+					$href = $this->html->getURL('account/download/startdownload', '&download_id=' . $download['download_id']);
+					$download['attributes'] = $this->download->getDownloadAttributesValuesForCustomer($download['download_id']);
 
-				$download['href'] = $form->getFieldHtml(
-						array(  'type'=> 'button',
-								'id' => 'download_'. $download['download_id'],
-								'href'=> $href,
-								'title' => $this->language->get('text_start_download'),
-								'text' => $this->language->get('text_start_download'),
-								'style' => 'button1 fa fa-download-alt'	));
+					$download['href'] = $form->getFieldHtml(
+							array('type'  => 'button',
+							      'id'    => 'download_' . $download['download_id'],
+							      'href'  => $href,
+							      'title' => $this->language->get('text_start_download'),
+							      'text'  => $this->language->get('text_start_download'),
+							      'style' => 'button1 fa fa-download-alt'));
 
-				$downloads[] = $download;
+					$downloads[] = $download;
+				}
+
+
+				$this->data['downloads'] = $downloads;
 			}
-
-
-		$this->data['downloads'] = $downloads;
 		}
 
 

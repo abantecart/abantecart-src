@@ -46,11 +46,16 @@ echo $this->html->buildElement(
 				'data_source' => 'ajax'
 		));
 ?>
-<script type="text/javascript">
 
-	var grid_ready = function(){
+<script type="text/javascript">
+	var grid_ready = function(data){
 		$('.grid_action_edit').each( function () {
-			$(this).attr('data-toggle','modal').attr('data-target','#setting_modal');
+			if($(this).is('[href*=appearance]')){
+				var id = $(this).parents('tr').attr('id');
+				$(this).attr('href', data.userdata.href[id]).attr('target', '_blank');
+			}else {
+				$(this).attr('data-toggle', 'modal').attr('data-target', '#setting_modal');
+			}
 		});
 
 		$('td[aria-describedby="setting_grid_value"], td[aria-describedby="setting_grid_value"] button').click(function(){

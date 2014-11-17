@@ -28,6 +28,7 @@
 			<?php
 			$entry = $$e;
 			$field = $$name;
+			if(!$field){ continue;}
 
 			if ($name == 'option_placeholder' && !(string)$option_placeholder) {
 				continue;
@@ -72,7 +73,7 @@
 			</div>
 		</div>
 	</div>
-
+<?php if($new_value_row){?>
 	<?php echo $update_field_values_form['open']; ?>
 	<div class="col-md-8 tab-content">
 		<div class="panel-heading">
@@ -118,5 +119,5 @@
 	<table style="display:none;" id="new_row_table">
 		<?php echo $new_value_row ?>
 	</table>
-
+<?php } ?>
 </div>

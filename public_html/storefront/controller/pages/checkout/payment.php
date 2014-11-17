@@ -221,13 +221,13 @@ class ControllerPagesCheckoutPayment extends AController {
 
 		$this->document->addBreadcrumb(array(
 		                                    'href' => $this->html->getURL('checkout/shipping'),
-		                                    'text' => $this->language->get('text_shipping'),
+		                                    'text' => $this->language->get('entry_shipping'),
 		                                    'separator' => $this->language->get('text_separator')
 		                               ));
 
 		$this->document->addBreadcrumb(array(
 		                                    'href' => $this->html->getURL('checkout/payment'),
-		                                    'text' => $this->language->get('text_payment'),
+		                                    'text' => $this->language->get('entry_payment'),
 		                                    'separator' => $this->language->get('text_separator')
 		                               ));
 

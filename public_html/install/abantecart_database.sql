@@ -1565,7 +1565,6 @@ INSERT INTO `ac_settings` (`group`, `key`, `value`) VALUES
 ('general','config_stock_status_id',5),
 ('general','enable_reviews',1),
 ('general','config_download',1),
-('general','config_download_status',5),
 ('general','config_help_links',1),
 ('general','config_show_tree_data',1),
 ('general','config_product_default_sort_order','date_modified-ASC'),

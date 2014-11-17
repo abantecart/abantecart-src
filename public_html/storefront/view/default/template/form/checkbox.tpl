@@ -6,5 +6,5 @@
 	<?php echo $label_text; ?></label>
 <?php } ?>
 <?php if ( $required == 'Y' ){ ?>
-<span class="input-group-addon required">*</span>
+<span class=" required">*</span>
 <?php } ?>

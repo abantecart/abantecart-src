@@ -125,7 +125,7 @@
     <value><![CDATA[Ошибка: Пожалуйста, заполните все необходимые поля формы.]]></value>
   </definition>
   <definition>
-    <key>text_success</key>
+    <key>text_banner_success</key>
     <value><![CDATA[Успешно: Вы изменили баннер.]]></value>
   </definition>
   <definition>

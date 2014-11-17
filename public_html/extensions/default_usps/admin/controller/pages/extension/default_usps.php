@@ -84,7 +84,7 @@ class ControllerPagesExtensionDefaultUsps extends AController {
 
         //init controller data
         $this->extensions->hk_InitData($this,__FUNCTION__);
-
+		$this->request->get['extension'] = 'default_usps';
 		$this->loadLanguage('extension/extensions');
 		$this->loadLanguage('default_usps/default_usps');
 		$this->document->setTitle( $this->language->get('text_additional_settings') );

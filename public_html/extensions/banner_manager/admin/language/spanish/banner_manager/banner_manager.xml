@@ -127,7 +127,7 @@
 		<value><![CDATA[ Error: Por favor, rellene todos los campos obligatorios del formulario.. ]]></value>
 	</definition>
 	<definition>
-		<key>text_success</key>
+		<key>text_banner_success</key>
 		<value><![CDATA[ Éxito: Se ha modificado la bandera. ]]></value>
 	</definition>
 	<definition>

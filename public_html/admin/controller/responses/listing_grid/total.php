@@ -87,23 +87,13 @@ class ControllerResponsesListingGridTotal extends AController {
 		if ($extensions) {
 			foreach ($extensions as $extension) {
 				$this->loadLanguage($extension['language_rt']);
-				if (!in_array($extension, $extensions)) {
-					$action = '<a class="btn_action" href="' . $this->html->getSecureURL('extension/total/install', '&extension=' . $extension['extension_txt_id']) . '">' .
-							'<img src="' . RDIR_TEMPLATE . 'image/icons/icon_grid_install.png" alt="' . $this->language->get('text_install') . '" />' .
-							'</a>';
-				} else {
-					$action = '<a class="btn_action" href="' . $this->html->getSecureURL($extension['config_controller']) . '">' .
-							'<img src="' . RDIR_TEMPLATE . 'image/icons/icon_grid_edit.png" alt="' . $this->language->get('text_edit') . '" />' .
-							'</a>';
-				}
-
 				$items[] = array(
 					'id' => $extension['extension_txt_id'],
 					'name' => $this->language->get('total_name'),
 					'status' => $this->config->get($extension['extension_txt_id'] . '_status'),
 					'sort_order' => (int)$this->config->get($extension['extension_txt_id'] . '_sort_order'),
 					'calculation_order' => (int)$this->config->get($extension['extension_txt_id'] . '_calculation_order'),
-					'action' => $action
+					'action' => $this->html->getSecureURL($extension['config_controller'])
 				);
 			}
 		}
@@ -137,11 +127,15 @@ class ControllerResponsesListingGridTotal extends AController {
 		$response->total = $total_pages;
 		$response->records = $total;
 
+		$response->userdata = new stdClass();
+		$response->userdata->rt = array();
+		$response->userdata->classes = array();
+
 		$results = array_slice($items, ($page - 1) * -$limit, $limit);
 
 		$i = 0;
 		foreach ($results as $result) {
-
+			$response->userdata->rt[ $result['id'] ] = $result['action'];
 			$status = $this->html->buildCheckbox(array(
 				'name' => $result['id'] . '[' . $result['id'] . '_status]',
 				'value' => $result['status'],
@@ -162,8 +156,7 @@ class ControllerResponsesListingGridTotal extends AController {
 				$result['name'],
 				$status,
 				($result['status'] ? $sort : ''),
-				($result['status'] ? $calc : ''),
-				$result['action'],
+				($result['status'] ? $calc : '')
 			);
 			$i++;
 		}
@@ -223,7 +216,6 @@ class ControllerResponsesListingGridTotal extends AController {
 		foreach ($this->request->post as $group => $values) {
 			$this->model_setting_setting->editSetting($group, $values);
 		}
-
 
 		//update controller data
 		$this->extensions->hk_UpdateData($this, __FUNCTION__);

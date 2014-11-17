@@ -131,7 +131,7 @@
 					temp_clone.find('input').attr('value', old_values[values[k]].replace(/[^0-9]/g, ''));
 				}
 
-				temp_clone.find('div.row>div').first().html($(this).find('option:selected[value=' + values[k] + ']').text() + ':');
+				temp_clone.find('label').first().html($(this).find('option:selected[value=' + values[k] + ']').text() + ':');
 
 				$('#field_sort_order').find('ul').append('<li>'+temp_clone.html() + '</li');
 

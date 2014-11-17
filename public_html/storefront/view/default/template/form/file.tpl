@@ -20,7 +20,22 @@
     	</span>
     	<a href="#" class="btn fileupload-exists" data-dismiss="fileupload"><i class="fa fa-remove"></i> </a>
 
-	<?php if ( $required == 'Y' ) : ?>
-	<span class="input-group-addon"><span class="required">*</span></span>
-	<?php endif; ?>
+	<?php if ( $required == 'Y' ){ ?>
+	<span class="required">*</span>
+	<?php } ?>
 </div>
+
+<script type="text/javascript">
+jQuery(document).ready(function() {
+	$("#<?php echo $id; ?>").fileinput({
+	    overwriteInitial: false,
+	    browseClass: 'btn btn-info',
+	    showUpload: false,
+	    showCaption: true,
+	    showPreview: false,
+	    browseIcon: '<i class="fa fa-folder-open fa-fw"></i> ',
+	    browseLabel: '<?php echo $text_browse ?>',
+	    initialCaption: '<?php echo $default_text ?>'
+	});
+});
+</script>

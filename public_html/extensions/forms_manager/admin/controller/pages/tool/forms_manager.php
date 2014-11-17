@@ -527,12 +527,13 @@ class ControllerPagesToolFormsManager extends AController {
 							'title' => $this->request->post['block_title'],
 							'description' => $this->request->post['block_description'],
 							'content' => $content,
-							'status' => (int)$this->request->post['block_status'],
 							'block_wrapper' => $this->request->post['block_wrapper'],
 							'block_framed' => ((int)$this->request->post['block_framed'] > 0) ? 1 : 0,
 							'language_id' => $this->language->getContentLanguageID()
 					)
 			);
+
+			$layout->editBlockStatus((int)$this->request->post['block_status'], $this->data['block_id'], $custom_block_id);
 
 			// save custom_block in layout
 			if (isset($this->session->data['layout_params'])) {
@@ -633,12 +634,13 @@ class ControllerPagesToolFormsManager extends AController {
 							'title' => $this->request->post['block_title'],
 							'description' => $this->request->post['block_description'],
 							'content' => $content,
-							'status' => (int)$this->request->post['block_status'],
 							'block_wrapper' => $this->request->post['block_wrapper'],
 							'block_framed' => $this->request->post['block_framed'],
 							'language_id' => $this->language->getContentLanguageID()
 					)
 			);
+
+			$layout->editBlockStatus((int)$this->request->post['block_status'], $this->data['block_id'], $custom_block_id);
 
 			// save list if it is custom
 			$this->request->post['selected'] = json_decode(html_entity_decode($this->request->post['selected'][0]), true);
@@ -764,7 +766,8 @@ class ControllerPagesToolFormsManager extends AController {
 		$this->data['form']['form_open'] = $form->getFieldHtml(array(
 				'type' => 'form',
 				'name' => 'CustomFormBlockFrm',
-				'action' => $this->data ['action']
+				'action' => $this->data ['action'],
+				'attr' => 'data-confirm-exit="true" class="aform form-horizontal"',
 		));
 		$this->data['form']['submit'] = $form->getFieldHtml(array(
 				'type' => 'button',
@@ -786,9 +789,9 @@ class ControllerPagesToolFormsManager extends AController {
 					'value' => $this->data['status'],
 					'style' => 'btn_switch'
 			));
-			$this->data['form']['text']['block_status'] = $this->html->convertLinks($this->language->get('entry_block_status'));
+			$this->data['entry_block_status_note'] = $this->html->convertLinks($this->language->get('entry_block_status_note'));
 			$this->data['form']['fields']['block_status_note'] = '';
-			$this->data['form']['text']['block_status_note'] = $this->html->convertLinks($this->language->get('entry_block_status_note'));
+			$this->data['entry_block_status_note'] = $this->html->convertLinks($this->language->get('entry_block_status_note'));
 		}
 
 		$this->data['form']['fields']['block_name'] = $form->getFieldHtml(array(

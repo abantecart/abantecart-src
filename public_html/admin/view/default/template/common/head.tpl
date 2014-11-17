@@ -86,6 +86,8 @@ var wrapConfirmDelete = function(){
     });
 }
 
+$(document).on('change', wrapConfirmDelete);
+
 var wrapCKEditor = function(mode){
 	$('.ml_ckeditor > textarea').each(function () {
 		var id = $(this).attr('id');

@@ -128,7 +128,7 @@
 		<value><![CDATA[ Error: Please Fill All Required Fields of Form. ]]></value>
 	</definition>
 	<definition>
-		<key>text_success</key>
+		<key>text_banner_success</key>
 		<value><![CDATA[ Success : You have modified banner. ]]></value>
 	</definition>
 	<definition>

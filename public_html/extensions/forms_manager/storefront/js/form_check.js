@@ -46,7 +46,7 @@ function validatePhone(phone) {
 function validateCaptcha(str) {
 	var res = false;
 	$.ajax({
-		url: '?rt=forms_manager/captcha_validate&captcha='+ str,
+		url: '?rt=r/forms_manager/validate/captcha&captcha='+ str,
 		type: 'GET',
 		async: false,
 		success: function(result) {
