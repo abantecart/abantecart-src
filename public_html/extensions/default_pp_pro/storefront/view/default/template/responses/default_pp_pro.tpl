@@ -1,8 +1,6 @@
 <h4 class="heading4"><?php echo $text_credit_card; ?>:</h4>
 
 <form id="paypal" class="form-horizontal">
-
-
 		<div class="form-group ">
 			<label class="col-sm-5 control-label"><?php echo $entry_cc_owner; ?></label>
 			<div class="col-sm-7 input-group">

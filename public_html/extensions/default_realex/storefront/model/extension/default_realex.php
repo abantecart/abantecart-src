@@ -156,8 +156,7 @@ class ModelExtensionDefaultRealex extends Model {
 			if ($this->config->get('default_realex_tss_check')) {
 				$xml .= '<tssinfo>'."\n";
 
-				//	$xml .= '<custipaddress>' . $order_info['ip'] . '</custipaddress>'."\n";
-					$xml .= '<custipaddress>98.109.76.34</custipaddress>'."\n";
+					$xml .= '<custipaddress>' . $order_info['ip'] . '</custipaddress>'."\n";
 					//if not guest checkout
 					if ($this->customer->getId() > 0) {
 						$xml .= '<custnum>' . (int)$this->customer->getId() . '</custnum>'."\n";
