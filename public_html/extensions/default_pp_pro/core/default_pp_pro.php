@@ -18,9 +18,9 @@
 	needs please refer to http://www.AbanteCart.com for more information.
  ------------------------------------------------------------------------------*/
 
-	if (! defined ( 'DIR_CORE' )) {
-		header ( 'Location: static_pages/' );
-	}
+if (! defined ( 'DIR_CORE' )) {
+	header ( 'Location: static_pages/' );
+}
 
 class ExtensionDefaultPpPro extends Extension {
 

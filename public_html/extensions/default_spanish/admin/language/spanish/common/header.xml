@@ -113,10 +113,6 @@
         <value><![CDATA[Situaci&oacute;n pedidos]]></value>
     </definition>
     <definition>
-        <key>text_opencart</key>
-        <value><![CDATA[Ir a Opencart]]></value>
-    </definition>
-    <definition>
         <key>text_payment</key>
         <value><![CDATA[Formas de pago]]></value>
     </definition>

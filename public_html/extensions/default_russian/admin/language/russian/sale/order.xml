@@ -17,6 +17,10 @@
 		<value><![CDATA[Изменить платежный адрес]]></value>
 	</definition>
 	<definition>
+		<key>title_payment_details</key>
+		<value><![CDATA[Платеж]]></value>
+	</definition>
+	<definition>
 		<key>text_success</key>
 		<value><![CDATA[Успешно: Вы изменили заказ!]]></value>
 	</definition>
@@ -275,6 +279,10 @@
 	<definition>
 		<key>tab_files</key>
 		<value><![CDATA[Файлы]]></value>
+	</definition>
+	<definition>
+		<key>tab_payment_details</key>
+		<value><![CDATA[Платеж]]></value>
 	</definition>
 	<definition>
 		<key>edit_title_files</key>

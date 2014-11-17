@@ -36,9 +36,9 @@ class ControllerPagesSaleOrderTabs extends AController {
 
 		$this->loadLanguage('sale/order');
 		$order_id = $this->request->get['order_id'];
-
+		$this->data['order_id'] = $order_id;
 		$this->data['groups'] = array('details','shipping','payment');
-
+		
 		$this->data['link_details'] = $this->html->getSecureURL('sale/order/details', '&order_id=' . $order_id);
 		$this->data['link_shipping'] = $this->html->getSecureURL('sale/order/shipping', '&order_id=' . $order_id);
 		$this->data['link_payment'] = $this->html->getSecureURL('sale/order/payment', '&order_id=' . $order_id);
@@ -48,8 +48,6 @@ class ControllerPagesSaleOrderTabs extends AController {
 		}
 		$this->data['link_history'] = $this->html->getSecureURL('sale/order/history', '&order_id=' . $order_id);
 		$this->data['groups'][] = 'history';
-
-		$this->view->batchAssign( $this->data );
 
 		$this->view->batchAssign( $this->data );
 		$this->processTemplate('pages/sale/order_tabs.tpl');

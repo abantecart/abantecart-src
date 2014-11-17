@@ -22,7 +22,7 @@
   </definition>
   <definition>
     <key>entry_cc_owner</key>
-    <value><![CDATA[Card Owner:]]></value>
+    <value><![CDATA[Name on the card:]]></value>
   </definition>
   <definition>
     <key>entry_cc_type</key>

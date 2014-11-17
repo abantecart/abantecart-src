@@ -239,8 +239,7 @@ class ControllerPagesCatalogProductFiles extends AController {
 						);
 			}
 
-
-			$this->load->language('catalog/files');
+			$this->loadLanguage('catalog/files');
 			$this->session->data['success'] = sprintf($this->language->get('success_push_to_orders'), count($updated_array));
 		}
 		//update controller data

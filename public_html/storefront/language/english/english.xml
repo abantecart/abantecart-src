@@ -281,4 +281,8 @@
 		<key>text_discount</key>
 		<value><![CDATA[Discount]]></value>
     </definition>
+	<definition>
+		<key>error_unknown</key>
+		<value><![CDATA[Unknown error encountered. Please try again!]]></value>
+    </definition>
 </definitions>

@@ -609,6 +609,24 @@ class ModelCheckoutOrder extends Model {
 
 	/**
 	 * @param int $order_id
+	 * @param int $order_status_id
+	 * @return string $comment
+	 * @return null
+	 */
+	public function addHistory($order_id, $order_status_id, $comment) {
+		$this->db->query("INSERT INTO " . $this->db->table('order_history') . " 
+							SET order_id = '" . (int)$order_id . "', 
+								order_status_id = '" . (int)$order_status_id . "', 
+								notify = '0', 
+								comment = '" . $this->db->escape($comment) . "', 
+								date_added = NOW()"
+						);
+		return null;
+	}
+
+
+	/**
+	 * @param int $order_id
 	 * @param string|array $data
 	 * @return bool|stdClass
 	 */

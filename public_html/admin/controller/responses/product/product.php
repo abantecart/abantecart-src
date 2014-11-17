@@ -1155,7 +1155,7 @@ class ControllerResponsesProductProduct extends AController {
 		}
 
 		$this->error = array();
-		$this->load->language('catalog/files');
+		$this->loadLanguage('catalog/files');
 		$this->loadModel('catalog/download');
 
 		if (!empty($data['download_id']) && !$this->model_catalog_download->getDownload($data['download_id'])) {

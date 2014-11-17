@@ -17,6 +17,10 @@
 		<value><![CDATA[Editar Dirección de Pago]]></value>
 	</definition>
 	<definition>
+		<key>title_payment_details</key>
+		<value><![CDATA[Detalles de pago]]></value>
+	</definition>
+	<definition>
 		<key>text_success</key>
 		<value><![CDATA[Se han modificado los pedidos de!]]></value>
 	</definition>
@@ -279,6 +283,10 @@
 	<definition>
 		<key>tab_files</key>
 		<value><![CDATA[Archivos]]></value>
+	</definition>
+	<definition>
+		<key>tab_payment_details</key>
+		<value><![CDATA[Detalles de pago]]></value>
 	</definition>
 	<definition>
 		<key>edit_title_files</key>

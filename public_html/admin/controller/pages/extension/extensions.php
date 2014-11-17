@@ -373,6 +373,21 @@ class ControllerPagesExtensionExtensions extends AController {
 						$data['style'] = "chosen";
 					}
 				    break;
+				case 'html_template':
+					// if options need to extract from db
+					$data['template'] = $item['template'];
+					$data['options'] = $item['options'];
+					if ($item['model_rt'] != '') {
+						//force to load models even before extension is enabled
+						$this->loadModel($item['model_rt'], 'force');
+						$model = $this->{'model_' . str_replace("/", "_", $item['model_rt'])};
+						$method_name = $item['method'];
+						if (method_exists($model, $method_name)) {
+							$data['options'][$method_name] = call_user_func(array($model, $method_name));
+						}
+					}
+
+				    break;				    
 				case 'checkbox':
 					$data['style'] = "btn_switch";
 					break;
@@ -397,15 +412,28 @@ class ControllerPagesExtensionExtensions extends AController {
 					break;
 				default:
 			}
-			/**
-			 * @var HtmlElementFactory
-			 * */
-			$field = $form->getFieldHtml($data);
-			$result[ 'html' ][ $data[ 'name' ] ] = array(
-										'note'  => $data[ 'note' ],
-										'value' => $field);
+			$html = '';
+			//if template process diffrently
+			if ( has_value((string)$data['template']) ) {
+		    	//build path to template directory.
+				$dir_template = DIR_EXT.$extension.DIR_EXT_ADMIN.DIR_EXT_TEMPLATE.$this->config->get('admin_template')."/template/".$data['template'];
+				//validate template and report issue
+				if (!file_exists( $dir_template )) {
+            		$warning = new AWarning(sprintf($this->language->get('error_could_not_load_override')
+            								, $dir_template, $extension));
+            		$warning->toLog()->toDebug();
+				} else {
+					$this->view->batchAssign($data);
+					$html = $this->view->fetch($dir_template);				
+				}			
+			} else {
+				$html = $form->getFieldHtml($data);
+			}
+			$result['html'][$data['name']] = array(
+				'note'  => $data['note'],
+				'value' => $html
+			);
 		}
-
 
 		// end building aform
 		$this->data['settings'] = $result['html'];
@@ -519,9 +547,6 @@ class ControllerPagesExtensionExtensions extends AController {
 		} else {
 			$this->data['error'] = '';
 		}
-
-
-
 
 		$missing_extensions = $this->extensions->getMissingExtensions();
 		//if extension is missing - do redirect on extensions list with alert!
@@ -720,9 +745,6 @@ class ControllerPagesExtensionExtensions extends AController {
 		$obj = $this->dispatch('pages/extension/extension_summary', array( $this->data ) );
 		$this->data['extension_summary'] = $obj->dispatchGetOutput();
 		unset($obj);
-
-
-
 
 		$this->view->batchAssign($this->data);
 		$this->processTemplate($template);

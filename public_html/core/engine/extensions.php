@@ -984,8 +984,10 @@ class ExtensionUtils {
 					'method' => (string)$item->variants->data_source->method,
 					'field1' => (string)$item->variants->fields->field[0],
 					'field2' => (string)$item->variants->fields->field[1],
+					'template' => (string)$item->template,
 				);
-				if ($item->variants->item) { // if just hardcoded selectbox options
+				// if just static option values are used 
+				if ($item->variants->item) {
 					foreach ($item->variants->item as $k) {
 						$k = (string)$k;
 						$result[$i]['options'][$k] = $this->registry->get('language')->get((string)$item['id'] . '_' . $k);
@@ -1090,7 +1092,8 @@ class ExtensionUtils {
 			$items = $this->config->settings->item;
 			foreach ($items as $item) {
 				if(!isset($data[(string)$item['id']])){
-					continue;//if data for check not given - do nothing
+					//if data for check not given - do nothing
+					continue;
 				}
 				$value = $data[(string)$item['id']];
 				if (is_array($value)) {

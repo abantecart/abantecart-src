@@ -1341,6 +1341,17 @@ ul.productinfo li .productinfoleft {
 	text-align: left;
 }
 
+.form-control::-moz-placeholder{
+	color:#ccc;	
+	opacity:1;
+}
+.form-control:-ms-input-placeholder{
+	color:#ccc;
+}
+.form-control::-webkit-input-placeholder{
+	color:#ccc;
+}
+
 .productaddtocart {
 	margin: 10px 10px 10px 160px;
 	float: left !important
@@ -2123,7 +2134,7 @@ span.viewfancypopup {
 .confirm_total {
 }
 .payment_confirmation {
-	padding-top: 10px;
+	border: 1px solid #E7E7E7;
 }
 
 /* Sidebar */
