@@ -1072,7 +1072,7 @@ ul.productpagecart .nostock {
 }
 
 .thumbnail .shortlinks a {
-	font-size: 12px;
+
 	padding: 5px 5px 0 25px;
 	background: url(../image/sprite.png) 0 0 no-repeat;
 }
@@ -1083,6 +1083,10 @@ ul.productpagecart .nostock {
 
 .thumbnail .shortlinks a.compare {
 	background-position: 0 -462px
+}
+
+a.compare>img{
+	display: inline;
 }
 
 .thumbnail .price .oneprice {
