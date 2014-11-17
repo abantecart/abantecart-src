@@ -29,6 +29,8 @@ class ControllerPagesProductSpecial extends AController {
         //init controller data
         $this->extensions->hk_InitData($this,__FUNCTION__);
 
+		$this->loadLanguage('product/special');
+
     	$this->document->setTitle( $this->language->get('heading_title') );
 
 		$this->document->resetBreadcrumbs();

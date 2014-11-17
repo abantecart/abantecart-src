@@ -27,6 +27,8 @@ class ControllerBlocksLatest extends AController {
         //init controller data
         $this->extensions->hk_InitData($this,__FUNCTION__);
 
+		$this->loadLanguage('blocks/latest');
+
       	$this->view->assign('heading_title', $this->language->get('heading_title') );
 
 		$this->loadModel('catalog/product');

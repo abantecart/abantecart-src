@@ -27,6 +27,8 @@ class ControllerBlocksLanguage extends AController {
         //init controller data
         $this->extensions->hk_InitData($this,__FUNCTION__);
 
+		$this->loadLanguage('blocks/language');
+
         if ($this->request->is_POST() && isset($this->request->post['language_code'])) {
 			$this->session->data['language'] = $this->request->post['language_code'];
 		

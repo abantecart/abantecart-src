@@ -28,7 +28,9 @@ class ControllerBlocksSpecial extends AController {
         //init controller data
         $this->extensions->hk_InitData($this,__FUNCTION__);
 
-      	$this->data['heading_title'] = $this->language->get('heading_title');
+		$this->loadLanguage('blocks/special');
+
+		$this->data['heading_title'] = $this->language->get('heading_title');
 		
 		$this->loadModel('catalog/product');
 		$this->loadModel('catalog/review');
