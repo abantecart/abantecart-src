@@ -55,8 +55,8 @@ class ControllerBlocksCart extends AController {
 
 			$thumbnail = $resource->getMainThumb('products',
 			                                     $result['product_id'],
-			                                     $this->config->get('config_image_product_width'),
-			                                     $this->config->get('config_image_product_height'),true);
+			                                     $this->config->get('config_image_additional_width'),
+			                                     $this->config->get('config_image_additional_width'),true);
 
         	foreach ($result['option'] as $option) {
           		$option_data[] = array(
