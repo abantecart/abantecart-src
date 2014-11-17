@@ -116,6 +116,7 @@
 							<?php } ?>
 							<?php echo $product['buttons'];?>
 						</div>
+						<?php if ($display_price) { ?>
 						<div class="pricetag pull-right">
 							<span class="spiral"></span><a data-id="<?php echo $product['product_id'] ?>"
 														   href="<?php echo $item['buy_url'] ?>"
@@ -130,6 +131,7 @@
 								<?php } ?>
 							</div>
 						</div>
+						<?php } ?>
 
 					</div>
 
