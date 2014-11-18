@@ -28,6 +28,8 @@ class ControllerPagesProductCategory extends AController {
         //init controller data
         $this->extensions->hk_InitData($this,__FUNCTION__);
 
+		$this->loadLanguage('product/category');
+
 		$this->document->resetBreadcrumbs();
 
    		$this->document->addBreadcrumb( array ( 
