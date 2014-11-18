@@ -833,7 +833,8 @@ class AConfigManager {
 	 * @return array
 	 */
 	public function getTemplatesLIst($section){
-		if($this->templates[$section]){
+
+		if(has_value($this->templates[$section])){
 			return $this->templates[$section];
 		}
 
@@ -843,14 +844,15 @@ class AConfigManager {
 		foreach ($directories as $directory) {
 			$this->templates[$section][basename($directory)] = basename($directory);
 		}
-
-
-		$extension_templates = $this->extension_manager->getExtensionsList(array('filter' => 'template', 'status' => 1));
-		if ($extension_templates->total > 0){
-			foreach ($extension_templates->rows as $row) {
-				$this->templates[$section][$row['key']] = $row['key'];
+		if($section!='admin'){
+			$extension_templates = $this->extension_manager->getExtensionsList(array('filter' => 'template', 'status' => 1));
+			if($extension_templates->total > 0){
+				foreach($extension_templates->rows as $row){
+					$this->templates[$section][$row['key']] = $row['key'];
+				}
 			}
 		}
+
 		return $this->templates[$section];
 	}
 
