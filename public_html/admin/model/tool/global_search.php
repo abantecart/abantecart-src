@@ -124,9 +124,12 @@ class ModelToolGlobalSearch extends Model {
 
 
 		$needle = $this->db->escape(mb_strtolower(htmlentities($keyword, ENT_QUOTES)));
-		$search_languages[] = ( int )$this->config->get('storefront_language_id');
+		$all_languages = $this->language->getActiveLanguages();
+		$search_languages = array();
+		foreach($all_languages as $l){
+			$search_languages[] = (int)$l['language_id'];
+		}
 
-		//sleep(3);
 		switch ($search_category) {
 			case 'product_categories' :
 				$sql = "SELECT count(*) as total
@@ -142,8 +145,8 @@ class ModelToolGlobalSearch extends Model {
 				$sql = "SELECT count(*) as total
 						FROM " . $this->db->table("language_definitions") . " l						
 						WHERE (LOWER(l.language_value) like '%" . $needle . "%' OR LOWER(l.language_key) like '%" . $needle . "%')
-							AND l.language_id = " . ( int )$this->config->get('storefront_language_id');
-
+							AND l.language_id IN (" . implode(",", $search_languages) . ")";
+echo $sql; exit;
 				$result = $this->db->query($sql);
 				$output = $result->row ['total'];
 
@@ -341,7 +344,11 @@ class ModelToolGlobalSearch extends Model {
 			$rows_count = $mode == 'listing' ? 10 : 3;
 		}
 
-		$search_languages[] = ( int )$this->config->get('storefront_language_id');
+		$all_languages = $this->language->getActiveLanguages();
+		$search_languages = array();
+		foreach($all_languages as $l){
+			$search_languages[] = (int)$l['language_id'];
+		}
 
 		switch ($search_category) {
 			case 'product_categories' :
