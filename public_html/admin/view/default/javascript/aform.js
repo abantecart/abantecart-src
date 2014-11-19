@@ -768,6 +768,8 @@
 
             if (elem.is("select")) {
                  doSelect(elem);
+            }else if (elem.hasClass('scrollbox')) {
+                doScrollbox(elem);
             } else if(elem.hasClass("aswitcher")) {
             	doSwitchButton(elem);    
             } else if (elem.is(":checkbox")) {
@@ -788,8 +790,6 @@
                 }
             } else if (elem.is("textarea")) {
                 doTextarea(elem);
-            } else if (elem.hasClass('scrollbox')) {
-                doScrollbox(elem);
             }
         });
 

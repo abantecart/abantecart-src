@@ -114,7 +114,7 @@ jQuery(function ($) {
 			if(i!=0){
             options += '<label for="check_' + i + '">'
 				+'<div class="afield acheckbox"><span>'
-				+'<input id="check_'+i+'" type="checkbox" value="'+i+'" name="zone_id[]" />'
+				+'<input class="scrollbox" id="check_'+i+'" type="checkbox" value="'+i+'" name="zone_id[]" />'
 				+'</span></div>' + opt.value + '</label>';
 			}
 
