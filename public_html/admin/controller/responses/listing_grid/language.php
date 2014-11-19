@@ -75,6 +75,7 @@ class ControllerResponsesListingGridLanguage extends AController {
 		$this->extensions->hk_UpdateData($this, __FUNCTION__);
 
 		$this->load->library('json');
+		$this->response->addJSONHeader();
 		$this->response->setOutput(AJson::encode($response));
 	}
 
@@ -183,7 +184,7 @@ class ControllerResponsesListingGridLanguage extends AController {
 
 		$this->loadLanguage('localisation/language');
 		$this->loadModel('localisation/language');
-		$allowedFields = array( 'name', 'code', 'sort_order', 'status', 'locale' );
+		$allowedFields = array( 'name', 'code', 'sort_order', 'status', 'locale','directory' );
 
 		if (isset($this->request->get[ 'id' ])) {
 			//request sent from edit form. ID in url
