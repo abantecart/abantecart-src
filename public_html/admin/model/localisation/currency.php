@@ -125,6 +125,7 @@ class ModelLocalisationCurrency extends Model {
 				'code',
 				'value',
 				'status',
+				'date_modified'
 			);
 
 			if (isset($data[ 'sort' ]) && in_array($data[ 'sort' ], $sort_data)) {
