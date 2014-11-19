@@ -285,7 +285,7 @@ final class AData {
 		compressTarGZ($tar_dir . $filename, $tar_dir);
 
 		if(!file_exists($tar_filename)){
-			$this->processError('Archive error', 'Error: cannot to pack ' . $tar_filename."\n Exit code:". $exit_code);
+			$this->processError('Archive error', 'Error: cannot to pack ' . $tar_filename);
 			return false;
 		}
 		@chmod($tar_filename,0777);

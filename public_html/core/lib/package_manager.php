@@ -132,16 +132,18 @@ class APackageManager {
 		$exit_code = 0;
 		if(class_exists('PharData') ){
 			//remove destination folder first
-			$this->removeDir($dst_dir . $this->session->data['package_info']['tmp_dir']);
-
+			$this->removeDir($dst_dir . pathinfo(pathinfo($tar_filename,PATHINFO_FILENAME),PATHINFO_FILENAME) ); //run pathinfo twice for tar.gz. files
 			try {
 				$phar = new PharData($tar_filename);
 				$phar->extractTo($dst_dir);
 			} catch (Exception $e){
-				$exit_code =1;
+				$error = new AError( $e->getMessage() );
+				$error->toLog()->toDebug();
+				$this->error = 'Error: Cannot to unpack file "' . $tar_filename . '". Please, see error log for details. ';
+				return false;
 			}
 		}else{
-			$exit_code =1;
+			$exit_code = 1;
 		}
 
 		if($exit_code){

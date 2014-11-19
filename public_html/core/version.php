@@ -1,4 +1,4 @@
 <?php
 define('MASTER_VERSION', '1');
 define('MINOR_VERSION', '2');
-define('VERSION_BUILT', '0a');
+define('VERSION_BUILT', '0b');

@@ -28,6 +28,8 @@ class ControllerPagesProductManufacturer extends AController {
         //init controller data
         $this->extensions->hk_InitData($this,__FUNCTION__);
 
+		$this->loadLanguage('product/manufacturer');
+
 		$this->loadModel('catalog/manufacturer');
 		$this->loadModel('catalog/product');
 		$this->loadModel('tool/seo_url'); 
