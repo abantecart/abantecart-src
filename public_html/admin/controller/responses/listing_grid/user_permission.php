@@ -84,6 +84,7 @@ class ControllerResponsesListingGridUserPermission extends AController {
         $this->extensions->hk_UpdateData($this,__FUNCTION__);
 
 		$this->load->library('json');
+	    $this->response->addJSONHeader();
 		$this->response->setOutput(AJson::encode($response));
 	}
 
@@ -108,7 +109,8 @@ class ControllerResponsesListingGridUserPermission extends AController {
 
         $this->loadModel('user/user_group');
 
-		//request sent from jGrid. ID is key of array
+		// update user group name
+	    // request sent from jGrid. ID is key of array
 		$fields = array( 'name' );
 		foreach ($fields as $f) {
 			if (isset($this->request->post[ $f ]))
@@ -120,6 +122,12 @@ class ControllerResponsesListingGridUserPermission extends AController {
 					}
 					$this->model_user_user_group->editUserGroup($k, array( $f => $v ));
 				}
+		}
+
+	    // update user group permissions
+
+		if (has_value($this->request->post['permission']) && has_value($this->request->get['user_group_id'])){
+			$this->model_user_user_group->editUserGroup($this->request->get['user_group_id'], $this->request->post);
 		}
 
 		//update controller data
@@ -238,7 +246,7 @@ class ControllerResponsesListingGridUserPermission extends AController {
 
 		//update controller data
         $this->extensions->hk_UpdateData($this,__FUNCTION__);
-
+		$this->response->addJSONHeader();
 		$this->response->setOutput(AJson::encode($response));
 	}
 
