@@ -760,7 +760,9 @@ function compressTarGZ($tar_filename, $tar_dir){
 			$a->compress(Phar::GZ);
 			@unlink($filename);
 		}catch (Exception $e){
-			$exit_code =1;
+			$error = new AError( $e->getMessage() );
+			$error->toLog()->toDebug();
+			return false;
 		}
 	}else{
 		$exit_code =1;
