@@ -382,7 +382,14 @@ try {
 
 // Extensions api
 	$extensions = new ExtensionsApi();
-	$extensions->loadEnabledExtensions();
+	if (IS_ADMIN) {
+		//for admin we load all available(installed) extensions. 
+		//This is a solution to make controllers and hooks available for extensions that are in the status off. 
+		$extensions->loadAvailableExtensions();
+	} else {
+		$extensions->loadEnabledExtensions();
+	
+	}
 	$registry->set('extensions', $extensions);
 
 //validate template
