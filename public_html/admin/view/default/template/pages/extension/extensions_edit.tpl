@@ -63,7 +63,7 @@ echo $tabs;
 	<div class="form-group <?php if (!empty($error[$name])) {
 		echo "has-error";
 	} ?>">
-		<label class="control-label col-sm-3 col-xs-12"
+		<label class="control-label col-sm-4 col-xs-12"
 			   for="<?php echo $field['value']->element_id; ?>"><?php echo $field['note']; ?></label>
 
 		<div class="input-group afield <?php echo $widthcasses; ?> <?php echo($name == 'description' ? 'ml_ckeditor' : '') ?>">

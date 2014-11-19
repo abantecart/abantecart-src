@@ -1,4 +1,4 @@
-<b><a target="_new" href="http://www.realexpayments.co.uk/partner-refer?id=abantecart">Realex</a> Payment Configuration</b>
+<b><a target="_new" href="http://www.realexpayments.com/partner-referral?id=abantecart">Realex</a> Payment Configuration</b>
 <br/><br/>
 
 1. To use this extension, you need to have active Realex Payments account. <br/>
@@ -19,4 +19,4 @@ If you do not have Realex account, please follow <a href="http://www.realexpayme
 For Realex Payments service and details about transactions access Realex RealControl (Transaction Management tool)  
 <br/><br/>
 
-<a target="_new" href="http://www.realexpayments.co.uk/partner-refer?id=abantecart">Access Realex</a>
+<a target="_new" href="http://www.realexpayments.com/partner-referral?id=abantecart">Access Realex</a>

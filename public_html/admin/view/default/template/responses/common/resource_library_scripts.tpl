@@ -230,7 +230,7 @@ var loadSingle = function (type, wrapper_id, resource_id, field) {
 					<?php // variable t needs to prevent browser caching in case of replacement of file of resource?>
 					src = '<img class="img-responsive" src="' + item['thumbnail_url'] + '?t=' + t + '" title="' + item['name'] + '" />';
 				}
-				html += '<div class="col-xs-4 col-sm-4 col-md-4">';
+				html += '<div class="resource_single col-sm-6 col-xs-12">';
 				html += '<div class="center thumbnail fileupload_drag_area" id="image_row' + item['resource_id'] + '" >'+
 						'<a class="btn resource_edit" ' +
 								'data-mode="single" ' +
@@ -248,7 +248,7 @@ var loadSingle = function (type, wrapper_id, resource_id, field) {
 
 
 			} else {
-				html = '<div class="col-xs-4 col-sm-4 col-md-4"><div class="center thumbnail fileupload_drag_area" >';
+				html = '<div class="resource_single col-sm-6 col-xs-12"><div class="center thumbnail fileupload_drag_area" >';
 				html += '<a class="btn resource_add tooltips transparent" ' +
 						'data-mode="single" ' +
 						'data-type="' + type + '" ' +

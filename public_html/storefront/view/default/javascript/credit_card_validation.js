@@ -112,6 +112,12 @@ jQuery(document).ready(function() {
 						prefixes: "51,52,53,54,55",
 						checkdigit: true
 					},{
+						name: "MasterCard", 
+					  	code: "mastercard", 
+						length: "16", 
+						prefixes: "51,52,53,54,55",
+						checkdigit: true
+					},{
 						name: "American Express", 
 					  	code: "amex", 
 						length: "15", 
@@ -437,7 +443,7 @@ jQuery(document).ready(function() {
 			}
 		
 			// Now check the modulus 10 check digit - if required
-			if (card_rec.checkdigit) {
+			if (card_rec && card_rec.checkdigit) {
 				var checksum = 0;                                 
 				var mychar = "";                
 				var j = 1;

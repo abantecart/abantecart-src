@@ -193,7 +193,7 @@
         </item>
     </settings>
 	<help_file><![CDATA[help.txt]]></help_file>
-	<help_link><![CDATA[http://www.realexpayments.co.uk/partner-refer?id=abantecart]]></help_link>
+	<help_link><![CDATA[http://www.realexpayments.com/partner-referral?id=abantecart]]></help_link>
     <install>
 	    <sql>install.sql</sql>
 	</install>

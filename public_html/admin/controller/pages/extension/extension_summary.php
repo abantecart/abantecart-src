@@ -43,13 +43,13 @@ class ControllerPagesExtensionExtensionSummary extends AController {
 	    $this->data['extension_info']['icon'] = $icon;
         $this->data['extension_info']['name'] = $this->language->get($extension . '_name');
 
-        $long_datetime_format = $this->language->get('date_format_long').' '.$this->language->get('time_format');
+        $datetime_format = $this->language->get('date_format_short').' '.$this->language->get('time_format');
 
         if($this->data['extension_info']['date_installed']){
-            $this->data['extension_info']['installed'] = dateISO2Display($this->data['extension_info']['date_installed'], $long_datetime_format );
+            $this->data['extension_info']['installed'] = dateISO2Display($this->data['extension_info']['date_installed'], $datetime_format );
         }
         if($this->data['extension_info']['date_added']){
-            $this->data['extension_info']['date_added'] =  dateISO2Display($this->data['extension_info']['date_added'], $long_datetime_format );
+            $this->data['extension_info']['date_added'] =  dateISO2Display($this->data['extension_info']['date_added'], $datetime_format );
         }
 
 
