@@ -28,66 +28,77 @@ class ModelExtensionDefaultFedex extends Model {
         $this->load->language('default_fedex/default_fedex');
 		
 		if ($this->config->get('default_fedex_status')) {
-
-			$taxes = $this->tax->getTaxes((int)$address['country_id'], (int)$address['zone_id']);
 		
       		if (!$this->config->get('default_fedex_location_id')) {
         		$status = TRUE;
-      		} elseif ($taxes) {
-        		$status = TRUE;
       		} else {
-        		$status = FALSE;
+		        $query = $this->db->query("SELECT *
+                                            FROM " . $this->db->table('zones_to_locations') . "
+                                            WHERE location_id = '" . (int)$this->config->get('default_fedex_location_id') . "'
+                                                AND country_id = '" . (int)$address['country_id'] . "'
+                                                AND (zone_id = '" . (int)$address['zone_id'] . "' OR zone_id = '0')");
+                if ($query->num_rows) {
+                    $status = TRUE;
+                } else {
+                    $status = FALSE;
+                }
       		}
 		} else {
 			$status = FALSE;
 		}
-        if($status){
-            $products = $this->cart->basicShippingProducts();
-            if($products){
-                $quote_data = $this->_processRequest($address, $products);
-                $error_msg =  $quote_data['error_msg'];
-                $quote_data =  $quote_data['quote_data'];
-            }
-            $special_ship_products = $this->cart->specialShippingProducts();
-            foreach ($special_ship_products as $product) {
-                //check if free or fixed shipping
-                $fixed_cost = -1;
-                $new_quote_data = array();
-                if ($product['free_shipping']) {
-                    $fixed_cost = 0;
-                } else if($product['shipping_price'] > 0) {
-                    $fixed_cost = $product['shipping_price'];
-                    //If ship individually count every quintaty
-                    if ($product['ship_individually']) {
-                        $fixed_cost = $fixed_cost * $product['quantity'];
-                    }
-                    $fixed_cost = $this->currency->convert($fixed_cost, $this->config->get('config_currency'), $this->currency->getCode());
 
-                } else {
-                    $new_quote_data = $this->_processRequest( $address,  array($product));
-                    $error_msg .=  $new_quote_data['error_msg'];
-                    $new_quote_data =  $new_quote_data['quote_data'];
+		$method_data = array();
 
-                }
+		if (!$status) {
+			return $method_data;
+		}
 
-                //merge data and accumulate shipping cost
-                if ( $quote_data) {
-                    foreach ($quote_data as $key => $value) {
-                        if ($fixed_cost >= 0){
-                                $quote_data[$key]['cost'] = (float)$quote_data[$key]['cost'] + $fixed_cost;
-                            } else {
-                                $quote_data[$key]['cost'] =  (float)$quote_data[$key]['cost'] + $new_quote_data[$key]['cost'];
-                            }
-
-                        $quote_data[$key]['text'] = $this->currency->format($quote_data[$key]['cost'], $this->currency->getCode(),1 );
-                    }
-                } else if ( $new_quote_data ) {
-                    $quote_data = $new_quote_data['quote_data'];
-                    $error_msg .=  $new_quote_data['error_msg'];
-                }
-            }
-
+        $products = $this->cart->basicShippingProducts();
+        if($products){
+            $quote_data = $this->_processRequest($address, $products);
+            $error_msg =  $quote_data['error_msg'];
+            $quote_data =  $quote_data['quote_data'];
         }
+        $special_ship_products = $this->cart->specialShippingProducts();
+        foreach ($special_ship_products as $product) {
+            //check if free or fixed shipping
+            $fixed_cost = -1;
+            $new_quote_data = array();
+            if ($product['free_shipping']) {
+                $fixed_cost = 0;
+            } else if($product['shipping_price'] > 0) {
+                $fixed_cost = $product['shipping_price'];
+                //If ship individually count every quintaty
+                if ($product['ship_individually']) {
+                    $fixed_cost = $fixed_cost * $product['quantity'];
+                }
+                $fixed_cost = $this->currency->convert($fixed_cost, $this->config->get('config_currency'), $this->currency->getCode());
+
+            } else {
+                $new_quote_data = $this->_processRequest( $address,  array($product));
+                $error_msg .=  $new_quote_data['error_msg'];
+                $new_quote_data =  $new_quote_data['quote_data'];
+
+            }
+
+            //merge data and accumulate shipping cost
+            if ( $quote_data) {
+                foreach ($quote_data as $key => $value) {
+                    if ($fixed_cost >= 0){
+                            $quote_data[$key]['cost'] = (float)$quote_data[$key]['cost'] + $fixed_cost;
+                        } else {
+                            $quote_data[$key]['cost'] =  (float)$quote_data[$key]['cost'] + $new_quote_data[$key]['cost'];
+                        }
+
+                    $quote_data[$key]['text'] = $this->currency->format($quote_data[$key]['cost'], $this->currency->getCode(),1 );
+                }
+            } else if ( $new_quote_data ) {
+                $quote_data = $new_quote_data['quote_data'];
+                $error_msg .=  $new_quote_data['error_msg'];
+            }
+        }
+
+
 
         if($quote_data || $error_msg){
             $title = $this->language->get('text_title');

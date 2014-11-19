@@ -26,9 +26,8 @@ class ModelExtensionDefaultPerItemShipping extends Model {
 		$this->load->language('default_per_item_shipping/default_per_item_shipping');
 
 		if ($this->config->get('default_per_item_shipping_status')) {
-			$taxes = $this->tax->getTaxes((int)$address['country_id'], (int)$address['zone_id']);
 
-			if (!$this->config->get('default_per_item_shipping_location_id') || $taxes) {
+			if (!$this->config->get('default_per_item_shipping_location_id')) {
 				$status = TRUE;
 			} else {
 				$query = $this->db->query("SELECT *
@@ -41,55 +40,55 @@ class ModelExtensionDefaultPerItemShipping extends Model {
 				} else {
 					$status = FALSE;
 				}
-
 			}
 		} else {
 			$status = FALSE;
 		}
 
 		$method_data = array();
-
-		if ($status) {
-			$cost = 0;
-
-			//Process all products shipped together with not special shipping settings on a product level
-			$b_products = $this->cart->basicShippingProducts();
-			if (count($b_products) > 0) {
-				foreach ($b_products as $prd) {
-					$cost += $this->config->get('default_per_item_shipping_cost') * $prd['quantity'];
-				}
-			}
-
-			//Process products that have special shipping settings
-			$special_ship_products = $this->cart->specialShippingProducts();
-			foreach ($special_ship_products as $product) {
-				if ($product['free_shipping']) {
-					continue;
-				} else if ($product['shipping_price'] > 0) {
-					$cost += $product['shipping_price'] * $product['quantity'];
-				} else {
-					$cost += $this->config->get('default_per_item_shipping_cost') * $product['quantity'];
-				}
-			}
-
-			$quote_data = array();
-
-			$quote_data['default_per_item_shipping'] = array(
-					'id' => 'default_per_item_shipping.default_per_item_shipping',
-					'title' => $this->language->get('text_description'),
-					'cost' => $cost,
-					'tax_class_id' => $this->config->get('default_per_item_shipping_tax'),
-					'text' => $this->currency->format($this->tax->calculate($cost, $this->config->get('default_per_item_shipping_tax'), $this->config->get('config_tax')))
-			);
-
-			$method_data = array(
-					'id' => 'default_per_item_shipping',
-					'title' => $this->language->get('text_title'),
-					'quote' => $quote_data,
-					'sort_order' => $this->config->get('default_per_item_shipping_sort_order'),
-					'error' => FALSE
-			);
+		if (!$status) {
+			return $method_data;
 		}
+
+		$cost = 0;
+
+		//Process all products shipped together with not special shipping settings on a product level
+		$b_products = $this->cart->basicShippingProducts();
+		if (count($b_products) > 0) {
+			foreach ($b_products as $prd) {
+				$cost += $this->config->get('default_per_item_shipping_cost') * $prd['quantity'];
+			}
+		}
+
+		//Process products that have special shipping settings
+		$special_ship_products = $this->cart->specialShippingProducts();
+		foreach ($special_ship_products as $product) {
+			if ($product['free_shipping']) {
+				continue;
+			} else if ($product['shipping_price'] > 0) {
+				$cost += $product['shipping_price'] * $product['quantity'];
+			} else {
+				$cost += $this->config->get('default_per_item_shipping_cost') * $product['quantity'];
+			}
+		}
+
+		$quote_data = array();
+
+		$quote_data['default_per_item_shipping'] = array(
+				'id' => 'default_per_item_shipping.default_per_item_shipping',
+				'title' => $this->language->get('text_description'),
+				'cost' => $cost,
+				'tax_class_id' => $this->config->get('default_per_item_shipping_tax'),
+				'text' => $this->currency->format($this->tax->calculate($cost, $this->config->get('default_per_item_shipping_tax'), $this->config->get('config_tax')))
+		);
+
+		$method_data = array(
+				'id' => 'default_per_item_shipping',
+				'title' => $this->language->get('text_title'),
+				'quote' => $quote_data,
+				'sort_order' => $this->config->get('default_per_item_shipping_sort_order'),
+				'error' => FALSE
+		);
 
 		return $method_data;
 	}
