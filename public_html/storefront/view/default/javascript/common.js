@@ -18,6 +18,15 @@ $(document).ready(function() {
         $('#filter_keyword').focus();
     });
 
+    //put submited or clicked button to loading state   
+    $('.lock-on-click').each(function () {
+    	$btn = $(this);
+    	$btn.attr('data-loading-text',"<i class='fa fa-refresh fa-spin fa-fw'></i>");
+    	$btn.bind('click', function () {
+    		$(this).button('loading');  
+    	});
+    });
+    
 	if (!route) {
 		$('#tab_home').addClass('selected');
 	} else {

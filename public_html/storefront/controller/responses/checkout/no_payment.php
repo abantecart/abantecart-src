@@ -26,7 +26,6 @@ class ControllerResponsesCheckoutNoPayment extends AController {
 			                                      'style' => 'button mr10',
 		                                          'text' => $this->language->get('button_back'),
 												  'icon' => 'fa fa-arrow-left'));
-		$item = $item->getHtml();
 		$this->view->assign('button_back', $item);
 
 		$item = HtmlElementFactory::create( array( 'type' => 'button',
@@ -34,7 +33,6 @@ class ControllerResponsesCheckoutNoPayment extends AController {
 			                                      'style' => 'button btn-orange pull-right',
 		                                          'text' => $this->language->get('button_confirm'),
 												  'icon' => 'fa fa-check'));
-		$item = $item->getHtml();
 		$this->view->assign('button_confirm', $item);
 
 		$this->view->assign('continue', $this->html->getSecureURL('checkout/success'));

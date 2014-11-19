@@ -43,7 +43,7 @@ class ControllerResponsesExtensionDefaultPPPro extends AController {
 		//load accepted card types
 		$cardtypes = $this->model_extension_default_pp_pro->getCreditCardTypes();
 		$cards = unserialize($this->config->get('default_pp_pro_creditcard_types'));
-		$options = array();
+		$options = array('');
 		foreach ( $cards as $card) {
 			if ($card && isset($cardtypes[$card])) {
 				$options[$card] = $cardtypes[$card];
@@ -134,6 +134,9 @@ class ControllerResponsesExtensionDefaultPPPro extends AController {
 			                                                  'style' => 'button btn-orange',
 		                                               ));
 
+		//load creditcard input validation
+		$this->document->addScriptBottom($this->view->templateResource('/javascript/credit_card_validation.js'));
+
 		$this->view->batchAssign( $data );
 		$this->processTemplate('responses/default_pp_pro.tpl' );
 	}
@@ -222,7 +225,6 @@ class ControllerResponsesExtensionDefaultPPPro extends AController {
 			}
 		}
 
-//$this->log->write(var_export($payment_data, true));
 		$curl = curl_init($api_endpoint);
 		
 		curl_setopt($curl, CURLOPT_PORT, 443);
@@ -369,10 +371,6 @@ class ControllerResponsesExtensionDefaultPPPro extends AController {
 				);
 			}
 		}
-
-
-
-
 
 		if($this->data['discount_amount_cart']>0){
 			$price = -1*$this->currency->format($this->data['discount_amount_cart'], $order_info['currency'], $order_info['value'], FALSE);

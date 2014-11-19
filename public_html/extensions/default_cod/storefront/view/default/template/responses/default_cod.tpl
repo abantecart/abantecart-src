@@ -17,16 +17,17 @@ function confirmSubmit() {
 		type: 'GET',
 		url: 'index.php?rt=extension/default_cod/confirm',
 		beforeSend: function() {
-			$('#checkout_btn').parent().hide();
-			$('.action-buttons').before('<div class="wait alert alert-info"><img src="<?php echo $template_dir; ?>image/loading_1.gif" alt="" /> <?php echo $text_wait; ?></div>');
+			$('.alert').remove();
+			$('.action-buttons').hide(); 
+			$('.action-buttons').before('<div class="wait alert alert-info text-center"><i class="fa fa-refresh fa-spin"></i> <?php echo $text_wait; ?></div>');
 		},		
 		success: function() {
 			location = '<?php echo $continue; ?>';
 		},
 		error: function (jqXHR, textStatus, errorThrown) {
 			alert(textStatus + ' ' + errorThrown);
-			$('.wait').remove();	
-			$('#checkout_btn').parent().show();	
+			$('.wait').remove();
+			$('.action-buttons').show();
 		}				
 	});
 }
