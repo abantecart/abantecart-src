@@ -364,6 +364,9 @@ class ExtensionsApi {
 	 */
 	public function getExtensionsList($data = array()) {
 
+		//Improvment! 
+		//Add cache for this static select if $data is not provided 
+		//Need to add clear cache every place ext added/updated
 		$registry = Registry::getInstance();
 		$sql = "SELECT DISTINCT
 		              e.extension_id,
@@ -534,7 +537,25 @@ class ExtensionsApi {
 		$this->extension_models = $value;
 	}
 
-	public function loadEnabledExtensions() {
+	
+	/**
+	 * load all available (installed) extenions (for admin)
+	 *
+	 * @param none
+	 * @return none
+	 */   
+	public function loadAvailableExtensions() {
+		$this->loadEnabledExtensions(true);
+	}
+
+	/**
+	 * load all enabled extensions. 
+	 * If force parameter provided,load all installed (for admin)
+	 *
+	 * @param bool $force_enabled_off
+	 * @return none
+	 */
+	public function loadEnabledExtensions($force_enabled_off = false) {
 		/**
 		 * @var Registry
 		 */
@@ -543,7 +564,15 @@ class ExtensionsApi {
 		$enabled_extensions = $extensions = array();
 
 		foreach ($this->db_extensions as $ext) {
-			if ($registry->get('config')->get($ext . '_status') && !in_array($ext, $enabled_extensions)) {
+			//check if extension is enabled and not already in the picked list
+			if (
+				 //check if we need only available extensions with status 0
+				 ( ($force_enabled_off && has_value($registry->get('config')->get($ext . '_status')) )
+				 		|| $registry->get('config')->get($ext . '_status')
+				 )
+				  && !in_array($ext, $enabled_extensions)
+				  && has_value($ext)
+				) {
 
 				$priority = (int)$registry->get('config')->get($ext . '_priority');
 				$enabled_extensions[$priority][] = $ext;
