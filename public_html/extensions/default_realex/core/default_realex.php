@@ -17,7 +17,7 @@ class ExtensionDefaultRealex extends Extension {
 		$method = func_get_args(0);
 		$that = $this->baseObject;
 	    if ( IS_ADMIN && $that->user->isLogged() && $method[0] == 'edit' ) {
-	    	$html = '<a class="btn btn-white tooltips" target="_blank" href="http://www.realexpayments.co.uk/partner-refer?id=abantecart" title="Visit Realex">
+	    	$html = '<a class="btn btn-white tooltips" target="_blank" href="http://www.realexpayments.com/partner-referral?id=abantecart" title="Visit Realex">
 	    				<i class="fa fa-external-link fa-lg"></i>
 	    			</a>';
 	    
