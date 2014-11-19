@@ -26,13 +26,19 @@ class ModelExtensionDefaultRoyalMail extends Model {
 		$this->load->language('default_royal_mail/default_royal_mail');
 		
 		if ($this->config->get('default_royal_mail_status')) {
-      		$taxes = $this->tax->getTaxes((int)$address['country_id'], (int)$address['zone_id']);
       		if (!$this->config->get('default_royal_mail_location_id')) {
         		$status = TRUE;
-      		} elseif ($taxes) {
-        		$status = TRUE;
       		} else {
-        		$status = FALSE;
+		        $query = $this->db->query("SELECT *
+                                            FROM " . $this->db->table('zones_to_locations') . "
+                                            WHERE location_id = '" . (int)$this->config->get('default_royal_mail_location_id') . "'
+                                                AND country_id = '" . (int)$address['country_id'] . "'
+                                                AND (zone_id = '" . (int)$address['zone_id'] . "' OR zone_id = '0')");
+                if ($query->num_rows) {
+                    $status = TRUE;
+                } else {
+                    $status = FALSE;
+                }
       		}
 		} else {
 			$status = FALSE;
