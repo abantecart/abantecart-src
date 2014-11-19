@@ -88,8 +88,7 @@ class ModelLocalisationCountry extends Model {
 	 * @return array
 	 */
 	public function getCountry($country_id) {
-		$language_id = $this->session->data['content_language_id'];
-		$default_lang_id = $this->language->getDefaultLanguageID();	
+		$language_id = $this->language->getContentLanguageID();
 
 		$query = $this->db->query("SELECT DISTINCT *
 										FROM " . $this->db->table("countries") . " c
@@ -125,7 +124,7 @@ class ModelLocalisationCountry extends Model {
 	 * @return array|int
 	 */
 	public function getCountries($data = array(), $mode = 'default') {
-		$language_id = $this->session->data['content_language_id'];
+		$language_id = $this->language->getContentLanguageID();
 		$default_language_id = $this->language->getDefaultLanguageID();
 		
 		if ($data) {
@@ -161,7 +160,7 @@ class ModelLocalisationCountry extends Model {
 				'iso_code_3' => 'c.iso_code_3'
 			);	
 			
-			if (isset($data['sort']) && in_array($data['sort'], $sort_data)) {
+			if (isset($data['sort']) && in_array($data['sort'], array_keys($sort_data))) {
 				$sql .= " ORDER BY " . $sort_data[$data['sort']];	
 			} else {
 				$sql .= " ORDER BY cd.name";	
@@ -184,7 +183,7 @@ class ModelLocalisationCountry extends Model {
 			
 				$sql .= " LIMIT " . (int)$data['start'] . "," . (int)$data['limit'];
 			}		
-			
+
 			$query = $this->db->query($sql);
 
 			return $query->rows;
