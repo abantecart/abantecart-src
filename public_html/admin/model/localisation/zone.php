@@ -22,7 +22,10 @@ if (! defined ( 'DIR_CORE' ) || !IS_ADMIN) {
 }
 class ModelLocalisationZone extends Model {
 	public function addZone($data) {
-		$this->db->query("INSERT INTO " . $this->db->table("zones") . "SET status = '" . (int)$data['status'] . "', code = '" . $this->db->escape($data['code']) . "', country_id = '" . (int)$data['country_id'] . "'");
+		$this->db->query("INSERT INTO " . $this->db->table("zones") . "
+						  SET status = '" . (int)$data['status'] . "',
+						        code = '" . $this->db->escape($data['code']) . "',
+						        country_id = '" . (int)$data['country_id'] . "'");
 			
 		$zone_id = $this->db->getLastId();
 
