@@ -742,8 +742,9 @@
 				// stops the form from resetting after this function
 				evnt.preventDefault();
 				//reset form and update all the fields
-				$(this).closest('form').get(0).reset();
-        		var arr = $("input, textarea, select").toArray();
+				var form = $(this).closest('form').get(0);
+                form.reset();
+        		var arr = $(form).find("input, textarea, select").toArray();
     			$.each(arr, function () {
     				var $elem = $(this);
     				if($elem.hasClass("aswitcher")) {
