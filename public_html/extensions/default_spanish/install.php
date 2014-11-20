@@ -4272,6 +4272,7 @@ $this->db->query("INSERT INTO ".$this->db->table('weight_class_descriptions')."
 
 $this->db->query("INSERT INTO ".$this->db->table('order_statuses')."
 (`order_status_id`, `language_id`, `name`) VALUES 
+(0, ".$new_language_id.", 'Incompleto'),
 (1, ".$new_language_id.", 'Pendiente'),
 (2, ".$new_language_id.", 'Tratamiento'),
 (3, ".$new_language_id.", 'Enviado'),

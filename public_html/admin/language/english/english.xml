@@ -378,6 +378,10 @@
 		<value><![CDATA[- Select Status -]]></value>
 	</definition>
 	<definition>
+		<key>text_all_orders</key>
+		<value><![CDATA[All Orders]]></value>
+	</definition>
+	<definition>
 		<key>text_confirm_password</key>
 		<value><![CDATA[confirm password]]></value>
 	</definition>

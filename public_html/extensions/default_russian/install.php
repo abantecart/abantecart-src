@@ -4283,6 +4283,7 @@ $this->db->query("INSERT INTO ".$this->db->table('order_statuses')."
 (3, ".$new_language_id.", 'Поставляется'),
 (2, ".$new_language_id.", 'В обработке'),
 (1, ".$new_language_id.", 'В ожидании'),
+(0, ".$new_language_id.", 'Не завершен'),
 (11, ".$new_language_id.", 'Возмещенный'),
 (12, ".$new_language_id.", 'Обратный'),
 (13, ".$new_language_id.", 'Chargeback');

@@ -1223,6 +1223,7 @@ CREATE TABLE `ac_order_statuses` (
 --
 
 INSERT INTO `ac_order_statuses` (`order_status_id`, `language_id`, `name`) VALUES
+(0, 1, 'Incomplete'),
 (1, 1, 'Pending'),
 (2, 1, 'Processing'),
 (3, 1, 'Shipped'),

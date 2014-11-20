@@ -427,7 +427,9 @@ class ModelSaleOrder extends Model {
 			$sql .= " LEFT JOIN  `" . $this->db->table("order_products") . "` op ON o.order_id = op.order_id ";
 		}
 		
-		if ( has_value($data['filter_order_status_id']) ) {
+		if ( $data['filter_order_status_id'] == 'all' ) {
+			$sql .= " WHERE o.order_status_id >= 0";
+		} else if( has_value($data['filter_order_status_id']) ) {
 			$sql .= " WHERE o.order_status_id = '" . (int)$data['filter_order_status_id'] . "'";
 		} else {
 			$sql .= " WHERE o.order_status_id > '0'";

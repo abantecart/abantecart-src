@@ -373,6 +373,10 @@
     <value><![CDATA[- Выберите статус -]]></value>
   </definition>
   <definition>
+	<key>text_all_orders</key>
+	<value><![CDATA[Все Заказы]]></value>
+  </definition>
+  <definition>
     <key>text_confirm_password</key>
     <value><![CDATA[подтверждение пароля]]></value>
   </definition>

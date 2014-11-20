@@ -374,6 +374,10 @@
 		<value><![CDATA[- Seleccione el Estado -]]></value>
 	</definition>
 	<definition>
+		<key>text_all_orders</key>
+		<value><![CDATA[Madre]]></value>
+	</definition>
+	<definition>
 		<key>text_confirm_password</key>
 		<value><![CDATA[confirmar la contraseña]]></value>
 	</definition>

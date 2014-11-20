@@ -133,7 +133,10 @@ class ControllerPagesSaleOrder extends AController {
 
 		$this->loadModel('localisation/order_status');
 		$results = $this->model_localisation_order_status->getOrderStatuses();
-		$statuses = array('' => $this->language->get('text_select_status'),);
+		$statuses = array(
+			'' => $this->language->get('text_select_status'),
+			'all' => $this->language->get('text_all_orders')
+		);
 		foreach ($results as $item) {
 			$statuses[$item['order_status_id']] = $item['name'];
 		}
