@@ -21,7 +21,6 @@ if (! defined ( 'DIR_CORE' ) || !IS_ADMIN) {
 	header ( 'Location: static_pages/' );
 }
 class ControllerResponsesListingGridLengthClass extends AController {
-	private $error = array();
 
     public function main() {
 
@@ -42,10 +41,11 @@ class ControllerResponsesListingGridLengthClass extends AController {
 	    if ( !in_array($sord, $allowedDirection) ) $sord = $allowedDirection[0];
 
 	    $data = array(
+			'sort' => $sidx,
 			'order' => strtoupper($sord),
 			'start' => ($page - 1) * $limit,
 			'limit' => $limit,
-		    'content_language_id' => $this->session->data['content_language_id'],
+		    'content_language_id' => $this->language->getContentLanguageID()
 		);
 
 		$total = $this->model_localisation_length_class->getTotalLengthClasses();
