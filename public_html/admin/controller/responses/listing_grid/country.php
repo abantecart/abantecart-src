@@ -42,12 +42,14 @@ class ControllerResponsesListingGridCountry extends AController {
 		$results = $this->model_localisation_country->getCountries($filter->getFilterData());
 
 		$i = 0;
+		$language_id = $this->language->getContentLanguageID();
+
 		foreach ($results as $result) {
 
 			$response->rows[ $i ][ 'id' ] = $result[ 'country_id' ];
 			$response->rows[ $i ][ 'cell' ] = array(
 				$this->html->buildInput(array(
-					'name' => 'country_name[' . $result[ 'country_id' ] . '][' . $this->session->data[ 'content_language_id' ] . '][name]',
+					'name' => 'country_name[' . $result[ 'country_id' ] . '][' . $language_id . '][name]',
 					'value' => $result[ 'name' ],
 				)),
 				$this->html->buildInput(array(

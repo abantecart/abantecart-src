@@ -311,7 +311,7 @@ class ControllerPagesUserUser extends AController {
 				'type' => ( $f == 'password' ? 'passwordset' : 'input' ),
 				'name' => $f,
 				'value' => $this->data[$f],
-				'required' => ( !in_array($f, array('username','firstname','lastname','password')) ? false: true),
+				'required' => true,
 				'attr' => ( in_array($f, array('password', 'password_confirm')) ? 'class="no-save"' : '' ),
 				'style' => ($f == 'password' ? 'medium-field' : '')
 			));
@@ -346,6 +346,12 @@ class ControllerPagesUserUser extends AController {
     	if (mb_strlen($this->request->post['lastname']) < 2 || mb_strlen($this->request->post['lastname']) > 32) {
       		$this->error['lastname'] = $this->language->get('error_lastname');
     	}
+
+	    $email_pattern = '/^[A-Z0-9._%-]+@[A-Z0-9][A-Z0-9.-]{0,61}\.[A-Z]{2,6}$/i';
+
+        if (mb_strlen($this->request->post['email']) > 96 || !preg_match($email_pattern, $this->request->post['email'])) {
+            $this->error['email'] = $this->language->get('error_email');
+        }
 
     	if (($this->request->post['password']) || (!isset($this->request->get['user_id']))) {
       		if (mb_strlen($this->request->post['password']) < 4 ) {

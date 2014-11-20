@@ -46,8 +46,10 @@ class ModelUserUserGroup extends Model {
 
 		$update = array();
 		if ( isset($data['name']) )	$update[] = "name = '".$this->db->escape($data['name'])."'";
+
 		if ( isset($data['permission']) )	{
 			$p = $user_group['permission'];
+
 			if ( isset($data['permission']['access']) ) {
 				foreach( $data['permission']['access'] as $controller => $value ){
 						$value = !in_array($value, array(null,0,1)) ? 0 : $value;
@@ -59,15 +61,16 @@ class ModelUserUserGroup extends Model {
 			}
 			if ( isset($data['permission']['modify'])){
 				foreach( $data['permission']['modify'] as $controller => $value ){
-					$value = !in_array($value, array(null,0,1)) ? 0 : $value;
-					$p['modify'][ $controller ] = $value;
-					if(!isset($p['access'][ $controller ]) && !isset($data['permission']['access'][$controller])){
+						$value = !in_array($value, array(null,0,1)) ? 0 : $value;
+						$p['modify'][ $controller ] = $value;
+						if(!isset($p['access'][ $controller ]) && !isset($data['permission']['access'][$controller])){
 							$p['access'][ $controller ] = 0;
 						}
 				}
 			}
 			$update[] = "permission = '".serialize($p)."'";
 		}
+
 		if ( !empty($update) ){
 			$this->db->query("UPDATE " . $this->db->table("user_groups") . " SET ". implode(',', $update) ." WHERE user_group_id = '" . (int)$user_group_id . "'");
 		}
