@@ -16,7 +16,8 @@ class ExtensionDefaultRealex extends Extension {
 	public function onControllerPagesExtensionExtensions_UpdateData() {
 		$method = func_get_args(0);
 		$that = $this->baseObject;
-	    if ( IS_ADMIN && $that->user->isLogged() && $method[0] == 'edit' ) {
+		$current_ext_id = $that->request->get['extension'];
+	    if ( IS_ADMIN && $current_ext_id == 'default_realex' && $method[0] == 'edit' ) {
 	    	$html = '<a class="btn btn-white tooltips" target="_blank" href="http://www.realexpayments.com/partner-referral?id=abantecart" title="Visit Realex">
 	    				<i class="fa fa-external-link fa-lg"></i>
 	    			</a>';

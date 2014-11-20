@@ -63,7 +63,8 @@ class ControllerResponsesExtensionDefaultPPPro extends AController {
 			'type' => 'input',
 			'name' => 'cc_number',
 			'value' => '',
-			'style' => 'input-medium'
+			'style' => 'input-medium',
+			'attr' => 'autocomplete="off"'
 		));
 
 		$months = array();
@@ -110,13 +111,13 @@ class ControllerResponsesExtensionDefaultPPPro extends AController {
 		                                                     'name' => 'cc_cvv2',
 		                                                     'value' => '',
 		                                                     'style' => 'short',
-		                                                     'attr' => ' size="3" maxlength="4" '
+		                                                     'attr' => ' size="3" maxlength="4" autocomplete="off"'
 		                                                ));
         $data[ 'cc_issue' ] = HtmlElementFactory::create(array( 'type' => 'input',
 		                                                     'name' => 'cc_issue',
 		                                                     'value' => '',
 		                                                     'style' => 'short',
-		                                                     'attr' => ' size="1" maxlength="2" '
+		                                                     'attr' => ' size="1" maxlength="2" autocomplete="off"'
 		                                                ));
 
 		$back = $this->request->get[ 'rt' ] != 'checkout/guest_step_3' ? $this->html->getSecureURL('checkout/payment')

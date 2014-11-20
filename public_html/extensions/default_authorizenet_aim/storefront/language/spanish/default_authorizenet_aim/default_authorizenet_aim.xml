@@ -36,4 +36,21 @@
 	<key>entry_what_cvv2</key>
 	<value><![CDATA[¿Qué es el CVV2?]]></value>
   </definition>
+  <definition>
+	<key>warning_suspicious</key>
+	<value><![CDATA[La actividad sospechosa se ha detectado. Su cuenta será cerrada y marcada para revisión detallada.]]></value>
+  </definition>
+  <definition>
+	<key>warning_declined</key>
+	<value><![CDATA[Su tarjeta de crédito ha sido rechazada. Por favor, inténtelo de nuevo con otro tarjeta.]]></value>
+  </definition>
+  <definition>
+	<key>warning_suspicious_to_admin</key>
+	<value><![CDATA[Múltiples intentos de disminución de tarjetas de crédito]]></value>
+  </definition>
+  <definition>
+	<key>warning_suspicious_to_admin_body</key>
+	<value><![CDATA[Cuenta de cliente se ha disaled. Haga clic <b><a href="%s" target="_new">en este enlace para ver los detalles del cliente</a></b>]]></value>
+  </definition>
+  
 </definitions>

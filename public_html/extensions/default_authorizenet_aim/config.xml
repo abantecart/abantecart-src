@@ -50,6 +50,10 @@
 			</variants>
 			<default_value>2</default_value>
         </item>
+	    <item id="default_authorizenet_aim_decline_limit">
+            <type>input</type>
+            <default_value>5</default_value>
+        </item>
 	    <item id="default_authorizenet_aim_location_id">
             <type>selectbox</type>
 			<variants>
