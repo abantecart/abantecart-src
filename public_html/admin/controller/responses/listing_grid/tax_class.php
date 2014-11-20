@@ -268,6 +268,7 @@ class ControllerResponsesListingGridTaxClass extends AController {
 
 		$total = sizeof($tax_rates);
 
+		$rates = array();
 		foreach ($tax_rates as $rate) {
 			$rates[] = $rate['location_id'];
 		}
