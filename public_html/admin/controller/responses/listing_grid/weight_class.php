@@ -33,6 +33,7 @@ class ControllerResponsesListingGridWeightClass extends AController {
 		$page = $this->request->post[ 'page' ]; // get the requested page
 		$limit = $this->request->post[ 'rows' ]; // get how many rows we want to have into the grid
 		$sord = $this->request->post[ 'sord' ]; // get the direction
+		$sidx = $this->request->post['sidx']; // get index row - i.e. user click to sort
 
 		// process jGrid search parameter
 		$allowedDirection = array( 'asc', 'desc' );
@@ -40,6 +41,7 @@ class ControllerResponsesListingGridWeightClass extends AController {
 		if (!in_array($sord, $allowedDirection)) $sord = $allowedDirection[ 0 ];
 
 		$data = array(
+			'sort' => $sidx,
 			'order' => strtoupper($sord),
 			'start' => ($page - 1) * $limit,
 			'limit' => $limit,
