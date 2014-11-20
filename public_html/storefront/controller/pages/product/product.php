@@ -23,6 +23,7 @@ if (! defined ( 'DIR_CORE' )) {
 class ControllerPagesProductProduct extends AController {
 
 	public $data = array();
+
 	public function main() {
 
         //init controller data
@@ -535,13 +536,12 @@ class ControllerPagesProductProduct extends AController {
 					$href = $this->html->getURL('account/download/startdownload', '&download_id=' . $download['download_id']);
 					$download['attributes'] = $this->download->getDownloadAttributesValuesForCustomer($download['download_id']);
 
-					$download['href'] = $form->getFieldHtml(
+					$download['button'] = $form->getFieldHtml(
 							array('type'  => 'button',
 							      'id'    => 'download_' . $download['download_id'],
 							      'href'  => $href,
 							      'title' => $this->language->get('text_start_download'),
-							      'text'  => $this->language->get('text_start_download'),
-							      'style' => 'button1 fa fa-download-alt'));
+							      'text'  => $this->language->get('text_start_download')));
 
 					$downloads[] = $download;
 				}

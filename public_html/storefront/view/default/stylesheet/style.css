@@ -3341,6 +3341,10 @@ paypal pro styles
 	text-align: right;
 }
 
+#productdownloads .list-group-item {
+	min-height: 54px;
+}
+
 /* Responsive Section */
 @media (min-width: 1200px) {
 	.cart-info .estimate{

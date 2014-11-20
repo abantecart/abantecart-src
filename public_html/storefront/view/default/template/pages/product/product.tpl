@@ -315,12 +315,12 @@
 				<?php if ($related_products) { ?>
 					<div class="tab-pane" id="relatedproducts">
 						<ul class="row side_prd_list">
-							<?php foreach ($related_products as $related_product) {
+						<?php foreach ($related_products as $related_product) {
 								$item['rating'] = ($related_product['rating']) ? "<img src='" . $this->templateResource('/image/stars_' . $related_product['rating'] . '.png') . "' alt='" . $related_product['stars'] . "' />" : '';
 								if (!$display_price) {
 									$related_product['price'] = $related_product['special'] = '';
 								}
-								?>
+							?>
 								<li class="col-md-4 col-sm-6 col-xs-12 related_product">
 									<a href="<?php echo $related_product['href']; ?>"><?php echo $related_product['image']['thumb_html'] ?></a>
 									<a class="productname"
@@ -336,24 +336,24 @@
 										<?php } ?>
 									</div>
 								</li>
-							<?php } ?>
+						<?php } ?>
 						</ul>
 					</div>
 				<?php } ?>
 
 				<?php if ($downloads) { ?>
 					<div class="tab-pane" id="productdownloads">
-						<ul class="downloads">
+						<ul class="list-group">
 							<?php foreach ($downloads as $download) { ?>
-							<li class="row">
-								<div class="pull-left"><?php echo $download['name']; ?><div class="download-list-attributes">
+							<li class="list-group-item">
+								<a class="pull-right btn btn-default" href="<?php echo $download['button']->href; ?>"><i class="fa fa-download"></i> <?php echo $download['button']->text; ?></a>
+								<div><?php echo $download['name']; ?><div class="download-list-attributes">
 								<?php foreach($download['attributes'] as $name=>$value){
 									echo '<small>- '.$name.': '.(is_array($value) ? implode(' ',$value) : $value).'</small>';
 									}?></div>
 								</div>
-								<div class="pull-right mr10"><?php echo $download['href']; ?></div>
 							</li>
-								<?php } ?>
+							<?php } ?>
 						</ul>
 					</div>
 				<?php } ?>
