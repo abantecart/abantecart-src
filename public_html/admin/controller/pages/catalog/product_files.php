@@ -135,6 +135,8 @@ class ControllerPagesCatalogProductFiles extends AController {
 				$file[ 'icon' ] = $resource_info['resource_code'];
 			}
 
+			$file['status'] = $file['status'] ? $this->language->get('text_enabled') : $this->language->get('text_disabled');
+
 			$file['button_edit'] = $this->html->buildElement(
 					array(
 							'type' => 'button',

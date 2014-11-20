@@ -908,6 +908,7 @@ class ControllerResponsesProductProduct extends AController {
 			$this->data['error'] = $this->error;
 		}else{
 			$file_data = array();
+			$file_data['status'] = 1; //set status ON for new download by default
 		}
 
 		$this->data['form']['form_open'] = $form->getFieldHtml(array(
