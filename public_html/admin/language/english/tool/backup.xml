@@ -94,4 +94,12 @@
 		<key>text_success_scheduled</key>
 		<value><![CDATA[Success: You have successfully created scheduled backup task! <a href="%s">See details</a>]]></value>
 	</definition>
+	<definition>
+		<key>text_success_scheduled</key>
+		<value><![CDATA[]]></value>
+	</definition>
+	<definition>
+		<key>text_fail_note</key>
+		<value><![CDATA[NOTE: This process execution depends on your AbanteCart data size as well as your server virtual memory size. If process terminates with errors, check directory %s permissions to be set to -rw-rw-rw and <a href="http://php.net/manual/en/ini.core.php#ini.memory-limit" target="_blank">[PHP memory setting]</a>. Increases memory setting or run backup manually if process still fail.]]></value>
+	</definition>
 </definitions>

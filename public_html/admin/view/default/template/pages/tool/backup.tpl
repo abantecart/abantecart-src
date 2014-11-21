@@ -113,6 +113,10 @@
 
 
 <script type="text/javascript">
+	$(document).ready(function(){
+		task_fail_text = '<div class="alert alert-warning" role="alert"><?php echo $text_fail_note; ?></div>';
+	});
+
 	function selectAll() {
 		$('input[name*=\'backup\[\]\']').attr('checked', 'checked');
 		$('#tables').find('.afield').addClass('checked');
