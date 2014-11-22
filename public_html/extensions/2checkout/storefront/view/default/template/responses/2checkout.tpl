@@ -33,15 +33,15 @@
 	<input type="hidden" name="demo" value="<?php echo $demo; ?>"/>
 	<?php } ?>
 	<input type="hidden" name="lang" value="<?php echo $lang; ?>"/>
-	
-	<div class="form-group">
-	    <div class="input-group">
-	    	<button class="btn btn-orange pull-right" title="<?php echo $button_confirm; ?>" type="submit">
-	    	    <i class="icon-ok icon-white"></i>
+
+	<div class="form-group action-buttons">
+	    <div class="col-md-12">
+	    	<button id="checkout_btn" class="btn btn-orange pull-right" title="<?php echo $button_confirm; ?>">
+	    	    <i class="fa fa-check"></i>
 	    	    <?php echo $button_confirm; ?>
 	    	</button>
-	    	<a href="<?php echo str_replace('&', '&amp;', $back); ?>" class="btn btn-default mr10" title="<?php echo $button_back; ?>">
-	    	    <i class="icon-arrow-left"></i>
+	    	<a href="<?php echo str_replace('&', '&amp;', $back); ?>" class="btn btn-default" title="<?php echo button_back; ?>">
+	    	    <i class="fa fa-arrow-left"></i>
 	    	    <?php echo $button_back; ?>
 	    	</a>
 	    </div>

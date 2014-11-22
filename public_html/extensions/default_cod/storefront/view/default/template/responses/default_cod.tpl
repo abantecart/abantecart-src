@@ -4,7 +4,7 @@
     	    <i class="fa fa-check"></i>
     	    <?php echo $button_confirm->text; ?>
     	</button>
-    	<a id="<?php echo $button_back->name ?>" href="<?php echo $back; ?>" class="btn btn-default wmr10" title="<?php echo $button_back->text ?>">
+    	<a id="<?php echo $button_back->name ?>" href="<?php echo $back; ?>" class="btn btn-default" title="<?php echo $button_back->text ?>">
     	    <i class="fa fa-arrow-left"></i>
     	    <?php echo $button_back->text ?>
     	</a>

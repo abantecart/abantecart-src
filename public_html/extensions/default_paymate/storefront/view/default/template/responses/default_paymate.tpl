@@ -17,14 +17,15 @@
   <input type="hidden" name="regindi_pcode" value="<?php echo $regindi_pcode; ?>" />
   <input type="hidden" name="return" value="<?php echo $return; ?>" />
   
-	<div class="form-group">
-	   <div class="input-group">
+  
+	<div class="form-group action-buttons">
+    	<div class="col-md-12">
 	   	<button class="btn btn-orange pull-right" title="<?php echo $button_confirm; ?>" onclick="$('#checkout').submit();" type="submit">
-	   	    <i class="icon-ok icon-white"></i>
+	   	    <i class="fa fa-check"></i>
 	   	    <?php echo $button_confirm; ?>
 	   	</button>
 	   	<a  href="<?php echo str_replace('&', '&amp;', $back); ?>" class="btn btn-default mr10" title="<?php echo $button_back; ?>">
-	   	    <i class="icon-arrow-left"></i>
+	   	    <i class="fa fa-arrow-left"></i>
 	   	    <?php echo $button_back; ?>
 	   	</a>
 	    </div>

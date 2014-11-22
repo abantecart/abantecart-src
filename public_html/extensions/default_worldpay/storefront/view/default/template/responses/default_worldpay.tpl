@@ -12,14 +12,14 @@
   <input type="hidden" name="email" value="<?php echo $email; ?>" />
   <input type="hidden" name="testMode" value="<?php echo $test; ?>" />
 
-	<div class="form-group">
-	   <div class="input-group">
+	<div class="form-group action-buttons">
+    	<div class="col-md-12">
 	   	<button class="btn btn-orange pull-right" onclick="$('#checkout').submit();" title="<?php echo $button_confirm; ?>" type="submit">
-	   	    <i class="icon-ok icon-white"></i>
+	   	    <i class="fa fa-check"></i>
 	   	    <?php echo $button_confirm; ?>
 	   	</button>
 	   	<a href="<?php echo str_replace('&', '&amp;', $back); ?>" class="btn btn-default mr10" title="<?php echo $button_back; ?>">
-	   	    <i class="icon-arrow-left"></i>
+	   	    <i class="fa fa-arrow-left"></i>
 	   	    <?php echo $button_back; ?>
 	   	</a>
 	    </div>

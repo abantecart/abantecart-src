@@ -4,12 +4,21 @@ echo $resources_scripts;
 echo $extension_summary;
 echo $tabs;
 ?>
+
 <div id="content" class="panel panel-default">
 
 	<div class="panel-heading col-xs-12">
 		<div class="primary_content_actions pull-left">
 			<div class="btn-group mr10 toolbar">
 				<?php echo $this->getHookVar('common_content_buttons'); ?>
+
+				<?php if ($extension_info['note']) { ?>
+						<a class="btn btn-white tooltips"
+						   data-toggle="modal" data-target="#note_modal"
+						   title="<?php echo $text_help ?>">
+						<i class="fa fa-info-circle fa-lg"></i>
+						</a>
+				<?php } ?>
 				<?php if ($extension_info['help']) {
 					if ($extension_info['help']['file']) {
 						?>
@@ -200,11 +209,7 @@ echo $tabs;
 	</div>
 </form>
 
-</div><!-- <div class="tab-content"> -->
-<?php if ($extension_info['note']) { ?>
-	<div class="alert alert-warning"><i class="fa fa-info-circle fa-fw"></i> <?php echo $extension_info['note']; ?></div>
-<?php } ?>
-
+</div>
 
 <?php
 echo $this->html->buildElement(
@@ -213,6 +218,18 @@ echo $this->html->buildElement(
 				'modal_type' => 'lg',
 				'data_source' => 'ajax'
 		));
+?>
+<?php 
+	if ($extension_info['note']) {
+		echo $this->html->buildElement(
+		array('type' => 'modal',
+				'id' => 'note_modal',
+				'modal_type' => 'lg',
+				'title' => $heading_title . '  ' . $text_help,
+				'content' => $extension_info['note'],
+				'footer' => ''
+		));
+	} 
 ?>
 <script type="text/javascript">
 	<!--

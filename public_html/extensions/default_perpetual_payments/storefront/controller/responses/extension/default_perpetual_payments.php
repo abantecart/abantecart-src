@@ -131,6 +131,8 @@ class ControllerResponsesExtensionDefaultPerpetualPayments extends AController {
 		                                               ));
 
 		$this->view->batchAssign( $data );
+		//load creditcard input validation
+		$this->document->addScriptBottom($this->view->templateResource('/javascript/credit_card_validation.js'));
 		$this->processTemplate('responses/default_perpetual_payments.tpl' );
 	}
 
