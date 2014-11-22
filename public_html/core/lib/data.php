@@ -282,7 +282,7 @@ final class AData {
 		//return Success or failed.
 
 
-		compressTarGZ($tar_dir . $filename, $tar_dir);
+		compressTarGZ($tar_filename, $tar_dir.$filename);
 
 		if(!file_exists($tar_filename)){
 			$this->processError('Archive error', 'Error: cannot to pack ' . $tar_filename);

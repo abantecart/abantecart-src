@@ -753,16 +753,30 @@ function compressTarGZ($tar_filename, $tar_dir){
 	}else{
 		$filename = $tar_filename.'.tar.gz';
 	}
+	$tar = rtrim($tar_filename,'.gz');
+	//remove archive if exists
+	if(is_file($tar_filename)){
+		unlink($tar_filename);
+	}
+	if(is_file($filename)){
+		unlink($filename);
+	}
+	if(is_file($tar)){
+		unlink($tar);
+	}
+
 	if(class_exists('PharData') ){
 		try{
 			$a = new PharData($filename );
-			$a->buildFromDirectory($tar_dir);
+			$a->buildFromDirectory($tar_dir); // this code creates tar-file
 			$a->compress(Phar::GZ);
-			@unlink($filename);
+			if(file_exists($tar)){ // remove tar-file after zipping
+				unlink($tar);
+			}
 		}catch (Exception $e){
 			$error = new AError( $e->getMessage() );
 			$error->toLog()->toDebug();
-			return false;
+			$exit_code =1;
 		}
 	}else{
 		$exit_code =1;

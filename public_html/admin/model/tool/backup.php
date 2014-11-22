@@ -117,6 +117,11 @@ class ModelToolBackup extends Model {
 			$this->errors[] = 'Can not to create task. Empty task name given';
 		}
 
+		//NOTE: remove temp backup dir before process to prevent progressive increment of directory date if some backup-steps will be failed
+		$bkp = new ABackup('manual_backup');
+		$bkp->removeBackupDirectory();
+		unset($bkp);
+
 		$tm = new ATaskManager();
 
 		//1. create new task

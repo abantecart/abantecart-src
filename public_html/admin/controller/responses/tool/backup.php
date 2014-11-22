@@ -21,7 +21,7 @@ if (! defined ( 'DIR_CORE' ) || !IS_ADMIN) {
 	header ( 'Location: static_pages/' );
 }
 class ControllerResponsesToolBackup extends AController {
-	private $errors = array();
+	public $errors = array();
 	public $data = array();
 
 	public function buildTask(){
@@ -91,8 +91,6 @@ class ControllerResponsesToolBackup extends AController {
 
 		if ($this->request->is_POST() && $this->_validate()) {
 
-
-
 			$this->loadModel('tool/backup');
 
 	        $bkp = $this->model_tool_backup->backup($this->request->post['backup'],$this->request->post['backup_files'],$this->request->post['backup_config']);
@@ -132,6 +130,8 @@ class ControllerResponsesToolBackup extends AController {
 		if(!$this->request->post['backup'] &&  !$this->request->post['backup_files'] && !$this->request->post['backup_config']){
 			$this->errors['warning'] = $this->language->get('error_nothing_to_backup');
 		}
+
+	    $this->extensions->hk_ValidateData( $this );
 
 		if (!$this->errors) {
 			return TRUE;

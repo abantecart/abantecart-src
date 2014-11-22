@@ -630,6 +630,7 @@ $(".task_run").on('click', function () {
         dataType: 'json',
         data: send_data,
         success: runTaskUI,
+        global: false,
         error: function (xhr, ajaxOptions, thrownError) {
             try{
                 var err = $.parseJSON(xhr.responseText);
@@ -688,6 +689,7 @@ var runTaskStepsUI = function (task_details) {
                         token: getUrlParameter('token'),
                         s: getUrlParameter('s') },
                     dataType: 'json',
+                    global: false,
                     success: function (data, textStatus, xhr) {
                         //TODO: add check for php-syntax errors (if php-crashed we got HTTP200 and error handler fired)
                         var prc = Math.round(step_num * 100 / steps_cnt);
@@ -773,6 +775,7 @@ var runTaskComplete = function (task_id) {
             url: complete_task_url,
             data: {task_id: task_id },
             datatype: 'json',
+            global: false,
             success: function (data) {
                 task_complete_text += '<div class="alert-success">Task Success</div>';
                 // replace progressbar by result message

@@ -29,17 +29,15 @@ final class ABackup {
 	private $backup_name;
 	private $backup_dir;
 	private $registry;
-	private $log;
-	private $message;
 	public  $error;
 
   	public function __construct( $name ) {
 		$this->registry = Registry::getInstance();
-		$this->log = $this->registry->get('log');
-		$this->message = $this->registry->get('messages');
+
 
   		//Add [date] snapshot to the name and validate if archive is already used.
-  		//Return error if archive can not be created 
+  		//Return error if archive can not be created
+	    $name = !$name ? 'backup_'.time() : $name;
 		$this->backup_name = $name;
 		//Create a tmp directory with backup name in admin/system/backup/ (add config constant DIR_BACKUP with path in init.php)
 		//Create subdirectory /code and  /data
@@ -47,7 +45,7 @@ final class ABackup {
 
 
 		if(!is_dir($this->backup_dir)){
-			$result = mkdir($this->backup_dir);
+			$result = mkdir($this->backup_dir, 0777, true);
 
 			if(!$result){
 				$this->error = "Error: Can't create directory ".$this->backup_dir." during backup.";
@@ -312,6 +310,10 @@ final class ABackup {
 		//remove source folder after compress
 		$this->_removeDir( $src_dir.$filename );
 		return true;
+	}
+
+	public function removeBackupDirectory(){
+		$this->_removeDir($this->backup_dir);
 	}
 
 	// Future:  1. We will add methods to brows and restore backup. 
