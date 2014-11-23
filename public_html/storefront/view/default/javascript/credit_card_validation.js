@@ -100,6 +100,12 @@ jQuery(document).ready(function() {
 						prefixes: "36,38,39,54,55",
 						checkdigit: true
 					},{
+						name: "DinersClub", 
+					  	code: "dc", 
+						length: "14,16", 
+						prefixes: "36,38,39,54,55",
+						checkdigit: true
+					},{
 						name: "Diners Club Carte Blanche", 
 					  	code: "cblanche", 
 						length: "14", 

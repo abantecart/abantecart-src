@@ -68,7 +68,6 @@ class ControllerResponsesExtensionDefaultSagepayDirect extends AController {
 			'style' => 'input-medium'
 		));
 
-
 		$months = array();
 		for ($i = 1; $i <= 12; $i++) {
 			$months[ sprintf('%02d', $i) ] = strftime('%B', mktime(0, 0, 0, $i, 1, 2000));
@@ -136,13 +135,14 @@ class ControllerResponsesExtensionDefaultSagepayDirect extends AController {
 		                                                      'text' => $this->language->get('button_confirm'),
 			                                                  'style' => 'button btn-orange',
 		                                               ));
-
-
 		
 		$this->view->batchAssign( $data );
 
 		//init controller data
 		$this->extensions->hk_UpdateData($this, __FUNCTION__);
+
+		//load creditcard input validation
+		$this->document->addScriptBottom($this->view->templateResource('/javascript/credit_card_validation.js'));
 
 		$this->processTemplate('responses/default_sagepay_direct.tpl' );
 
@@ -441,7 +441,6 @@ class ControllerResponsesExtensionDefaultSagepayDirect extends AController {
 
 		$image = '<img src="' . $this->view->templateResource('/image/securitycode.jpg') . '" alt="' . $this->language->get('entry_what_cvv2') . '" />';
 
-		$this->view->assign('title', $this->language->get('entry_what_cvv2') );
 		$this->view->assign('description', $image );
 
 		//init controller data
