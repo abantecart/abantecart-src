@@ -146,7 +146,6 @@ class ModelToolGlobalSearch extends Model {
 						FROM " . $this->db->table("language_definitions") . " l						
 						WHERE (LOWER(l.language_value) like '%" . $needle . "%' OR LOWER(l.language_key) like '%" . $needle . "%')
 							AND l.language_id IN (" . implode(",", $search_languages) . ")";
-echo $sql; exit;
 				$result = $this->db->query($sql);
 				$output = $result->row ['total'];
 

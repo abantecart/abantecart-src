@@ -36,8 +36,7 @@ class ControllerPagesToolGlobalSearch extends AController {
 		$this->request->post ['search'] = $this->request->post ['search'] ? $this->request->post ['search'] : $this->request->get ['search'];
 
 		$this->data ['heading_title'] = $this->language->get ( 'heading_title').':&nbsp;&nbsp;&nbsp;&nbsp;'. htmlentities($this->request->post ['search'],ENT_QUOTES,'UTF-8');
-
-		
+	
 		if (isset ( $this->error ['warning'] )) {
 			$this->data ['error_warning'] = $this->error ['warning'];
 		} else {
