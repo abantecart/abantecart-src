@@ -270,7 +270,7 @@ class ControllerPagesSaleCoupon extends AController {
         $this->data['token'] = $this->session->data['token'];
         $this->data['cancel'] = $this->html->getSecureURL('sale/coupon');
         $this->data['error'] = $this->error;
-        $cont_lang_id = $this->session->data['content_language_id'];
+        $cont_lang_id = $this->language->getContentLanguageID();
         $this->view->assign('category_products_url', $this->html->getSecureURL('r/product/product/category', '&language_id='.$cont_lang_id));
 
         $this->document->initBreadcrumb(array(

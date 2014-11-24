@@ -20,7 +20,15 @@
 if (! defined ( 'DIR_CORE' ) || !IS_ADMIN) {
 	header ( 'Location: static_pages/' );
 }
+
+/**
+ * Class ModelSaleCoupon
+ */
 class ModelSaleCoupon extends Model {
+	/**
+	 * @param array $data
+	 * @return int
+	 */
 	public function addCoupon($data) {
 		if (has_value($data[ 'date_start' ])) {
 			$data[ 'date_start' ] = "DATE('" . $data[ 'date_start' ] . "')";
@@ -67,7 +75,11 @@ class ModelSaleCoupon extends Model {
 		}
 		return $coupon_id;
 	}
-	
+
+	/**
+	 * @param int $coupon_id
+	 * @param array $data
+	 */
 	public function editCoupon($coupon_id, $data) {
 		if (has_value($data[ 'date_start' ])) {
 			$data[ 'date_start' ] = "DATE('" . $data[ 'date_start' ] . "')";
@@ -129,6 +141,10 @@ class ModelSaleCoupon extends Model {
 
 	}
 
+	/**
+	 * @param int $coupon_id
+	 * @param array $data
+	 */
 	public function editCouponProducts($coupon_id, $data) {
 		$this->db->query("DELETE FROM " . $this->db->table("coupons_products") . " 
 						  WHERE coupon_id = '" . (int)$coupon_id . "'");
@@ -141,20 +157,31 @@ class ModelSaleCoupon extends Model {
       		}
 		}
 	}
-	
+
+	/**
+	 * @param int $coupon_id
+	 */
 	public function deleteCoupon($coupon_id) {
       	$this->db->query("DELETE FROM " . $this->db->table("coupons") . " WHERE coupon_id = '" . (int)$coupon_id . "'");
       	$this->db->query("DELETE FROM " . $this->db->table("coupon_descriptions") . " WHERE coupon_id = '" . (int)$coupon_id . "'");
 		$this->db->query("DELETE FROM " . $this->db->table("coupons_products") . " WHERE coupon_id = '" . (int)$coupon_id . "'");
 	}
-	
+
+	/**
+	 * @param int $coupon_id
+	 * @return array
+	 */
 	public function getCouponByID($coupon_id) {
       	$query = $this->db->query("SELECT DISTINCT * FROM " . $this->db->table("coupons") . " WHERE coupon_id = '" . (int)$coupon_id . "'");
 		
 		return $query->row;
 	}
-	
-	
+
+	/**
+	 * @param array $data
+	 * @param string $mode
+	 * @return array|int
+	 */
 	public function getCoupons($data = array(), $mode = 'default') {
 		if ( !empty($data['content_language_id']) ) {
 			$language_id = ( int )$data['content_language_id'];
@@ -236,10 +263,18 @@ class ModelSaleCoupon extends Model {
 		return $query->rows;
 	}
 
+	/**
+	 * @param array $data
+	 * @return int
+	 */
 	public function getTotalCoupons( $data ) {
 		return $this->getCoupons($data,'total_only');
-	}		
-	
+	}
+
+	/**
+	 * @param int $coupon_id
+	 * @return array
+	 */
 	public function getCouponDescriptions($coupon_id) {
 		$coupon_description_data = array();
 		
@@ -257,6 +292,10 @@ class ModelSaleCoupon extends Model {
 		return $coupon_description_data;
 	}
 
+	/**
+	 * @param int $coupon_id
+	 * @return array
+	 */
 	public function getCouponProducts($coupon_id) {
 		$coupon_product_data = array();
 		
@@ -270,6 +309,4 @@ class ModelSaleCoupon extends Model {
 		
 		return $coupon_product_data;
 	}
-	
 }
-?>

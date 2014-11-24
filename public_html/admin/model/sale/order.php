@@ -20,8 +20,14 @@
 if (! defined ( 'DIR_CORE' ) || !IS_ADMIN) {
 	header ( 'Location: static_pages/' );
 }
+
+/**
+ * Class ModelSaleOrder
+ */
 class ModelSaleOrder extends Model {
-	
+	/**
+	 * @param array $data
+	 */
 	public function addOrder($data) {
 		//encrypt order data
 		$key_sql = '';
@@ -64,7 +70,11 @@ class ModelSaleOrder extends Model {
 			}
 		}
 	}
-	
+
+	/**
+	 * @param int $order_id
+	 * @param array $data
+	 */
 	public function editOrder($order_id, $data) {
 		$fields = array(
 			'telephone',
@@ -181,7 +191,10 @@ class ModelSaleOrder extends Model {
 
 		}
 	}
-	
+
+	/**
+	 * @param int $order_id
+	 */
 	public function deleteOrder($order_id) {
 		if ($this->config->get('config_stock_subtract')) {
 			$order_query = $this->db->query("SELECT *
@@ -218,7 +231,12 @@ class ModelSaleOrder extends Model {
 	  	$this->db->query("DELETE FROM " . $this->db->table("order_downloads") . " WHERE order_id = '" . (int)$order_id . "'");
       	$this->db->query("DELETE FROM " . $this->db->table("order_totals") . " WHERE order_id = '" . (int)$order_id . "'");
 	}
-	
+
+	/**
+	 * @param int $order_id
+	 * @param array $data
+	 * @throws AException
+	 */
 	public function addOrderHistory($order_id, $data) {
 		$this->db->query(  "UPDATE `" . $this->db->table("orders") . "`
 							SET order_status_id = '" . (int)$data['order_status_id'] . "',
@@ -282,6 +300,11 @@ class ModelSaleOrder extends Model {
 		}
 	}
 
+	/**
+	 * @param $order_id
+	 * @return array|bool
+	 * @throws AException
+	 */
 	public function getOrder($order_id) {
 		$order_query = $this->db->query("SELECT *
 										 FROM `" . $this->db->table("orders") . "`
@@ -393,7 +416,12 @@ class ModelSaleOrder extends Model {
 			return FALSE;	
 		}
 	}
-	
+
+	/**
+	 * @param array $data
+	 * @param string $mode
+	 * @return array
+	 */
 	public function getOrders($data = array(), $mode = 'default') {
 		$language_id = $this->language->getLanguageID();
 
@@ -437,6 +465,9 @@ class ModelSaleOrder extends Model {
 
 		if ( has_value($data['filter_product_id'])  ) {
 			$sql .= " AND op.product_id = '" . (int)$data['filter_product_id'] . "'";
+		}
+		if ( has_value($data['filter_coupon_id'])  ) {
+			$sql .= " AND o.coupon_id = '" . (int)$data['filter_coupon_id'] . "'";
 		}
 
 		if ( has_value($data['filter_customer_id']) ) {
@@ -525,14 +556,18 @@ class ModelSaleOrder extends Model {
 			$result_rows[] = $this->dcrypt->decrypt_data($row, 'orders');	
 		}		
 		return $result_rows;
-	}	
+	}
 
+	/**
+	 * @param array $data
+	 * @return array
+	 */
 	public function getTotalOrders($data = array()) {
 		return $this->getOrders($data, 'total_only');
 	} 
 
 	/**
-	 * @param $product_id
+	 * @param int $product_id
 	 * @return int
 	 */
 	public function getOrderTotalWithProduct($product_id){
@@ -544,7 +579,11 @@ class ModelSaleOrder extends Model {
 		$query = $this->db->query($sql);
 		return $query->row['total'];
 	}
-	
+
+	/**
+	 * @param int $order_id
+	 * @return string
+	 */
 	public function generateInvoiceId($order_id) {
 		$query = $this->db->query("SELECT MAX(invoice_id) AS invoice_id FROM `" . $this->db->table("orders") . "`");
 		
@@ -564,7 +603,11 @@ class ModelSaleOrder extends Model {
 		
 		return $this->config->get('invoice_prefix') . $invoice_id;
 	}
-	
+
+	/**
+	 * @param int $order_id
+	 * @return array
+	 */
 	public function getOrderProducts($order_id) {
 		$query = $this->db->query( "SELECT *
 									FROM " . $this->db->table("order_products") . "
@@ -573,6 +616,11 @@ class ModelSaleOrder extends Model {
 		return $query->rows;
 	}
 
+	/**
+	 * @param int $order_id
+	 * @param int $order_product_id
+	 * @return array
+	 */
 	public function getOrderOptions($order_id, $order_product_id) {
 		$query = $this->db->query("SELECT op.*, po.element_type, po.attribute_id
 									FROM " . $this->db->table("order_options") . " op
@@ -582,7 +630,11 @@ class ModelSaleOrder extends Model {
 	
 		return $query->rows;
 	}
-	
+
+	/**
+	 * @param int $order_id
+	 * @return array
+	 */
 	public function getOrderTotals($order_id) {
 		$query = $this->db->query("SELECT *
 									FROM " . $this->db->table("order_totals") . "
@@ -590,8 +642,12 @@ class ModelSaleOrder extends Model {
 									ORDER BY sort_order");
 	
 		return $query->rows;
-	}	
+	}
 
+	/**
+	 * @param int $order_id
+	 * @return array
+	 */
 	public function getOrderHistory($order_id) { 
 		$language_id = $this->language->getContentLanguageID();
 		$default_language_id = $this->language->getDefaultLanguageID();
@@ -609,8 +665,12 @@ class ModelSaleOrder extends Model {
 									ORDER BY oh.date_added");
 	
 		return $query->rows;
-	}	
+	}
 
+	/**
+	 * @param int $order_id
+	 * @return array
+	 */
 	public function getOrderDownloads($order_id) {
 		$query = $this->db->query("SELECT op.product_id, op.name as product_name, od.*
 								   FROM " . $this->db->table("order_downloads") . " od
@@ -633,6 +693,10 @@ class ModelSaleOrder extends Model {
 		return $output;
 	}
 
+	/**
+	 * @param int $order_id
+	 * @return int
+	 */
 	public function getTotalOrderDownloads($order_id) {
 		$query = $this->db->query("SELECT COUNT(*) as total
 								   FROM " . $this->db->table("order_downloads") . " od
@@ -640,7 +704,11 @@ class ModelSaleOrder extends Model {
 
 		return $query->row['total'];
 	}
-				
+
+	/**
+	 * @param int $store_id
+	 * @return int
+	 */
 	public function getTotalOrdersByStoreId($store_id) {
       	$query = $this->db->query("SELECT COUNT(*) AS total
       	                            FROM `" . $this->db->table("orders") . "`
@@ -648,7 +716,11 @@ class ModelSaleOrder extends Model {
 		
 		return $query->row['total'];
 	}
-	
+
+	/**
+	 * @param int $order_status_id
+	 * @return int
+	 */
 	public function getOrderHistoryTotalByOrderStatusId($order_status_id) {
 	  	$query = $this->db->query("SELECT oh.order_id
 	  	                            FROM " . $this->db->table("order_history") . " oh
@@ -659,38 +731,53 @@ class ModelSaleOrder extends Model {
 		return $query->num_rows;
 	}
 
+	/**
+	 * @param int $order_status_id
+	 * @return int
+	 */
 	public function getTotalOrdersByOrderStatusId($order_status_id) {
       	$query = $this->db->query("SELECT COUNT(*) AS total
       	                            FROM `" . $this->db->table("orders") . "`
       	                            WHERE order_status_id = '" . (int)$order_status_id . "' AND order_status_id > '0'");
-		
 		return $query->row['total'];
 	}
-	
+
+	/**
+	 * @param int $language_id
+	 * @return int
+	 */
 	public function getTotalOrdersByLanguageId($language_id) {
       	$query = $this->db->query("SELECT COUNT(*) AS total
       	                            FROM `" . $this->db->table("orders") . "`
       	                            WHERE language_id = '" . (int)$language_id . "' AND order_status_id > '0'");
-		
 		return $query->row['total'];
-	}	
-	
+	}
+
+	/**
+	 * @param int $currency_id
+	 * @return int
+	 */
 	public function getTotalOrdersByCurrencyId($currency_id) {
       	$query = $this->db->query("SELECT COUNT(*) AS total
       	                            FROM `" . $this->db->table("orders") . "`
       	                            WHERE currency_id = '" . (int)$currency_id . "' AND order_status_id > '0'");
-		
 		return $query->row['total'];
-	}	
-	
+	}
+
+	/**
+	 * @return int
+	 */
 	public function getTotalSales() {
       	$query = $this->db->query("SELECT SUM(total) AS total
       	                            FROM `" . $this->db->table("orders") . "`
       	                            WHERE order_status_id > '0'");
-		
 		return $query->row['total'];
 	}
-	
+
+	/**
+	 * @param int $year
+	 * @return int
+	 */
 	public function getTotalSalesByYear($year) {
       	$query = $this->db->query("SELECT SUM(total) AS total
       	                            FROM `" . $this->db->table("orders") . "`
