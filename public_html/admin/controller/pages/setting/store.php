@@ -161,7 +161,7 @@ class ControllerPagesSettingStore extends AController {
                 'title' => $this->language->get('button_delete_store'),
                 'text' => '&nbsp;',
                 'style' => 'icon_delete',
-				'href' => $this->html->getSecureURL('setting/store/delete', '&store_id='.$store_id)
+				'href' => $this->html->getSecureURL('setting/store/delete', '&store_id='.$this->request->get['store_id'])
             ));
         }
 
