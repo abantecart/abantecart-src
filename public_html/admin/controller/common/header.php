@@ -103,12 +103,15 @@ class ControllerCommonHeader extends AController {
 			$this->view->assign('current_menu', $current_menu);
 		}
 		if ($this->user->isLogged()) {
-			$this->view->assign('ant', $this->messages->getANTMessage());
+			$ant_message = $this->messages->getANTMessage();
+			$this->view->assign('ant', $ant_message['html']);
+			$this->view->assign('mark_read_url', $this->html->getSecureURL('common/common/antMessageRead', '&message_id='.$ant_message['id']));
+			$this->view->assign('ant_viewed', $ant_message['viewed']);
 		}	
 		$this->view->assign('config_voicecontrol', $this->config->get('config_voicecontrol'));
 		$this->view->assign('voicecontrol_setting_url', $this->html->getSecureURL('setting/setting/system'));
 		$this->view->assign('command_lookup_url', $this->html->getSecureURL('common/action_commands'));
-		$this->view->assign('search_suggest_url', $this->html->getSecureURL('listing_grid/global_search_result/suggest'));
+		$this->view->assign('search_suggest_url', $this->html->getSecureURL('listing_grid/global_search_result/suggest'));		
 		$this->view->assign('search_everywhere', $this->language->get('search_everywhere'));
 		$this->view->assign('text_all_matches', $this->language->get('text_all_matches'));
 		$this->view->assign('dialog_title', $this->language->get('text_quick_edit_form'));

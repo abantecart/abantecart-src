@@ -653,5 +653,9 @@
 		<key>button_manage_extensions</key>
 		<value><![CDATA[Manage Extensions]]></value>
 	</definition>
+	<definition>
+		<key>text_abc_notification</key>
+		<value><![CDATA[Software Updates & Notifications]]></value>
+	</definition>
 	
 </definitions>

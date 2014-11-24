@@ -571,4 +571,9 @@
 		<key>text_apply_layout</key>
 		<value><![CDATA[Aplicar ahora]]></value>
 	</definition>	
+	<definition>
+		<key>text_abc_notification</key>
+		<value><![CDATA[Software Updates & Notifications]]></value>
+	</definition>
+	
 </definitions>

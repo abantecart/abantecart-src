@@ -85,9 +85,12 @@
 						<div class="btn-group ant_window">
 							<button class="btn btn-default dropdown-toggle tp-icon" data-toggle="dropdown">
 								<i class="fa fa-comments fa-lg"></i>
+								<?php if ($ant_viewed <= 0) { ?>
+								<span class="badge"><i class="fa fa-bell"></i></span>
+								<?php } ?>
 							</button>
 							<div class="dropdown-menu dropdown-menu-head ant-menu-head pull-right">
-								<h5 class="title">From AbanteCart</h5>
+								<h5 class="title"><?php echo $text_abc_notification; ?></h5>
 								<ul class="dropdown-list gen-list">
 									<li>
 										<?php echo $ant; ?>
@@ -262,6 +265,11 @@
 <script type="text/javascript">
 $(document).ready(function () {
 	
+	<?php if (count($breadcrumbs) <= 1 && $ant) { ?>
+	//register ant shown in dashboard 
+	updateANT('<?php echo $mark_read_url; ?>');
+	<?php } ?>
+	
 	//global seach section 
 	$("#global_search").chosen({'width':'260px','white-space':'nowrap'});
 
@@ -317,7 +325,23 @@ $(document).ready(function () {
 		return results;
 	});
 	
+	//update ANT Viewed message
+	$('.ant_window button').click(function (event) {
+		updateANT('<?php echo $mark_read_url; ?>');
+	});
+		
 });
+
+var updateANT = function (url) {
+    $.ajax({
+    	type: 'POST',
+    	url: url,
+    	dataType: 'json',		
+    	success: function(data) {
+    		$('.ant_window').find('span.badge').remove();
+    	},
+    });
+}
 </script>
 
 <?php } else { ?><!-- not logged in -->
