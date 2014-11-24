@@ -104,11 +104,9 @@ class AContentManager {
 		}
 		if ($data [ 'store_id' ]) {
 			foreach ($data [ 'store_id' ] as $store_id) {
-				if ((int)$store_id) {
 					$sql = "INSERT INTO " . $this->db->table("contents_to_stores") . " (content_id,store_id)
 								VALUES ('" . $content_id . "','" . (int)$store_id . "')";
 					$this->db->query($sql);
-				}
 			}
 		}
 
@@ -169,11 +167,9 @@ class AContentManager {
 			$this->db->query($sql);
 
 			foreach ($data [ 'store_id' ] as $store_id) {
-				if ((int)$store_id) {
 					$sql = "INSERT INTO " . $this->db->table("contents_to_stores") . " (content_id,store_id)
-								VALUES ('" . $content_id . "','" . $store_id . "')";
+								VALUES ('" . $content_id . "','" . (int)$store_id . "')";
 					$this->db->query($sql);
-				}
 			}
 		}
 		$this->cache->delete('contents');

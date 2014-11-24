@@ -420,14 +420,18 @@ class ControllerPagesDesignContent extends AController {
 		// get array with stores looks like array (store_id=>array(content_id=>store_name))
 		$store_values = $store_selected = array();
 		$store_values[0] = $this->language->get('text_default');
-		$store_selected[0] = 0;
 
 		$stores = $this->acm->getContentStores($content_id);
+
 		foreach ($stores as $store_id => $store) {
 			$store_values[$store_id] = trim(current($store));
 			if (isset($store[$content_id])) {
 				$store_selected[$store_id] = $store_id;
 			}
+		}
+
+		if(!$store_selected){
+			$store_selected[0] = 0;
 		}
 
 		$this->data['form']['fields']['store'] = $form->getFieldHtml(array(
