@@ -315,6 +315,12 @@ class ControllerPagesSaleCoupon extends AController {
             }
         }
 
+	    //check if coupon is active based on dates and update status
+		$now = time();
+		if ( ($this->data[ 'date_start' ] && dateISO2Int($this->data[ 'date_start' ]) > $now) || ($this->data[ 'date_end' ] && dateISO2Int($this->data[ 'date_end' ]) < $now ) ) {
+			$this->data[ 'status' ] = 0;
+		}
+
         if (isset($this->request->post['date_start'])) {
             $this->data['date_start'] = dateDisplay2ISO($this->request->post['date_start'],$this->language->get('date_format_short'));
         } elseif (isset($coupon_info)) {
@@ -344,14 +350,10 @@ class ControllerPagesSaleCoupon extends AController {
         }
 
 
-        if (isset($this->data['status']) && $this->data['status'] == '') {
+        if ( !has_value($this->data['status']) ) {
             $this->data['status'] = 1;
         }
-		//check if coupon is active based on dates and update status
-		$now = time();
-		if ( dateISO2Int($this->data[ 'date_start' ]) > $now || dateISO2Int($this->data[ 'date_end' ]) < $now ) {
-			$this->data[ 'status' ] = 0;
-		}
+
 
         if (!has_value($this->request->get['coupon_id'])) {
             $this->data['action'] = $this->html->getSecureURL('sale/coupon/insert');
