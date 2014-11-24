@@ -203,6 +203,26 @@ class ControllerResponsesExtensionDefaultPPPro extends AController {
 			'NOTIFYURL'		 => $this->html->getSecureURL('extension/default_pp_pro/callback')
 		);
 
+		if ($this->cart->hasShipping()) {
+			$payment_data = array_merge($payment_data, array(
+				'SHIPTONAME' 		=> $order_info['shipping_firstname'] . ' ' . $order_info['shipping_lastname'],
+				'SHIPTOSTREET' 		=> $order_info['shipping_address_1'],
+				'SHIPTOCITY' 		=> $order_info['shipping_city'],
+				'SHIPTOSTATE'		=> ($order_info['shipping_iso_code_2'] != 'US') ? $order_info['shipping_zone'] : $order_info['shipping_zone_code'],
+				'SHIPTOCOUNTRYCODE'	=> $order_info['shipping_iso_code_2'],
+				'SHIPTOZIP'			=> $order_info['shipping_postcode']
+			));
+		} else {
+			$payment_data = array_merge($payment_data, array(
+				'SHIPTONAME' 		=> $order_info['payment_firstname'] . ' ' . $order_info['payment_lastname'],
+				'SHIPTOSTREET' 		=> $order_info['payment_address_1'],
+				'SHIPTOCITY' 		=> $order_info['payment_city'],
+				'SHIPTOSTATE'		=> ($order_info['payment_iso_code_2'] != 'US') ? $order_info['payment_zone'] : $order_info['payment_zone_code'],
+				'SHIPTOCOUNTRYCODE'	=> $order_info['payment_iso_code_2'],
+				'SHIPTOZIP'			=> $order_info['payment_postcode']
+			));
+		}
+
 		//items list
 		//check amounts
 		$calc_total = $this->data['items_total']
