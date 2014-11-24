@@ -302,11 +302,24 @@ final class AMessage {
 		$result = $this->db->query($sql);
 		if ($result->num_rows) {
 			$output = $result->row['html'] ? $result->row['html'] : $result->row['description'];
-			$sql = "UPDATE  " . $this->db->table("ant_messages") . " SET viewed = viewed+1 , viewed_date = NOW() WHERE id = '" . $result->row['id'] . "'
-					AND language_code = '" . $result->row['language_code'] . "'";
-			$this->db->query($sql);
+			//$this->markViewedANT($result->row['id'],$result->row['language_code']);
 		}
-		return $output;
+		return array('id' => $result->row['id'], 'viewed' => $result->row['viewed'], 'html' => $output);
+	}
+
+	/**
+	 * @return string
+	 */
+	public function markViewedANT($message_id, $language_code) {
+		if (!has_value($message_id) || !has_value($language_code)) {
+			return null;
+		}
+		$sql = "UPDATE  " . $this->db->table("ant_messages") . " 
+				SET viewed = viewed+1 , viewed_date = NOW() 
+				WHERE id = '" . $this->db->escape($message_id) . "'
+					AND language_code = '" . $this->db->escape($language_code) . "'";
+		$this->db->query($sql);
+		return $message_id;
 	}
 
 	/**

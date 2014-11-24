@@ -48,4 +48,27 @@ class ControllerResponsesCommonCommon extends AController {
 		$this->response->setOutput($seo_key);
 	}
 
+	/**
+	 * function to mark ANT message read
+	 */
+	public function antMessageRead(){
+		//init controller data
+		$this->extensions->hk_InitData($this, __FUNCTION__);
+
+		$message_id = $this->request->get['message_id'];
+
+		$result = array();
+		if( has_value($message_id) && $this->messages->markViewedANT($message_id, '*')) {
+			$result['success'] = true;
+		}
+
+		//update controller data
+		$this->extensions->hk_UpdateData($this, __FUNCTION__);
+
+		$this->load->library('json');
+		$this->response->setOutput(AJson::encode($result));		
+	}
+	
+
+
 }
