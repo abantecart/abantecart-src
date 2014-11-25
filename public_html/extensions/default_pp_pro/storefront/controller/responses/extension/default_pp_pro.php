@@ -175,7 +175,7 @@ class ControllerResponsesExtensionDefaultPPPro extends AController {
 			'SIGNATURE'      => html_entity_decode($this->config->get('default_pp_pro_signature'), ENT_QUOTES, 'UTF-8'),
 			'CUSTREF'        => $order_info['order_id'],
 			'CUSTOM'         => $order_info['order_id'],
-			'INVNUM'         => $order_info['order_id'],
+			'INVNUM'         => '#'.$order_info['order_id'],
 			'PAYMENTACTION'  => $payment_type,
 			'AMT'            => $this->currency->format($order_info['total'], $order_info['currency'], $order_info['value'], FALSE),
 			'ITEMAMT'        => (float)$this->data['items_total'],

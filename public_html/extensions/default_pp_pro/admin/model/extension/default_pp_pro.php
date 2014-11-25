@@ -42,9 +42,9 @@ class ModelExtensionDefaultPpPro extends Model {
 		}
 
 		return $this->db->query(
-			'UPDATE ' . $this->db->table('orders') . '
-				SET payment_method_data = "' . $this->db->escape($data) . '"
-				WHERE order_id = "' . (int) $order_id . '"'
+				"UPDATE " . $this->db->table('orders') . "
+				SET payment_method_data = '" . $this->db->escape($data) . "'
+				WHERE order_id = '" . (int) $order_id . "'"
 		);
 	}
 

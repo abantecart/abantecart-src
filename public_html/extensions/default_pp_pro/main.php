@@ -45,8 +45,7 @@ $templates = array(
     'storefront' => array(
 	    'responses/default_pp_pro.tpl' ),
     'admin' => array(
-		'pages/extension/paypal_capture.tpl',
-		'pages/extension/paypal_refund.tpl',
-		'pages/extension/default_pp_pro_settings.tpl'
+		'pages/extension/default_pp_pro_settings.tpl',
+		'pages/sale/pp_pro_payment_details.tpl'
 	)
 );
