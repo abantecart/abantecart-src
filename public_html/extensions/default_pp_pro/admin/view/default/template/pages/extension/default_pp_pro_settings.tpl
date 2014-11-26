@@ -57,7 +57,7 @@ echo $tabs;
 			</div>
 		</div>
 	</div>
-	
+
 </div>
 
 <div class="tab-content">
@@ -115,6 +115,23 @@ echo $tabs;
 					'name' => 'test_connection',
 					'title' => $text_test,
 					'text' => $text_test,
+					'style' => 'btn btn-info'
+				)); ?>
+			</div>
+		</div>
+
+		<div class="form-group">
+			<label class="control-label col-sm-4 col-xs-12" ><?php echo $this->config->get('default_pp_pro_test') ? $text_api_credentials_note_sandbox : $text_api_credentials_note; ?></label>
+			<div class="input-group afield <?php echo $widthcasses; ?>">
+				<?php
+				$title = ($this->config->get('default_pp_pro_test') ? $button_get_api_credentials_sandbox : $button_get_api_credentials);
+				echo $this->html->buildElement( array(
+					'type' => 'button',
+					'id' => 'button_get_api_credentials',
+					'name' => 'button_get_api_credentials',
+					'href' => "https://www.paypal.com/us/cgi-bin/webscr?cmd=_get-api-signature&generic-flow=true",
+					'title' => $title,
+					'text' => $title,
 					'style' => 'btn btn-info'
 				)); ?>
 			</div>
