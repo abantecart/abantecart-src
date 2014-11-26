@@ -16,7 +16,7 @@ CREATE TABLE IF NOT EXISTS `ac_realex_orders` (
 	`date_added` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
 	`date_modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 	PRIMARY KEY (`realex_order_id`),
-	INDEX `ac_realex_orders_idx` ON `ac_realex_orders` (`realex_order_id`, `order_id`)
+	INDEX `ac_realex_orders_idx` (`realex_order_id`, `order_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 
