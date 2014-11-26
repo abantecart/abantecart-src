@@ -1,0 +1,63 @@
+<?xml version="1.0"?>
+<extension>
+    <id>default_payza</id>
+    <version>1.0.1</version>
+	<type>payment</type>
+	<category>payment</category>
+    <cartversions>
+        <item>1.2</item>
+    </cartversions>
+    <layout></layout>
+    <priority>10</priority>
+    <settings>
+	    <item id="default_payza_merchant">
+            <type required="true">input</type>
+            <default_value></default_value>
+        </item>
+	    <item id="default_payza_security">
+            <type required="true">input</type>
+            <default_value></default_value>
+        </item>
+	    <item id="default_payza_callback">
+            <type required="true">textarea</type>
+            <default_value></default_value>
+        </item>
+        <item id="default_payza_order_status_id">
+            <type>selectbox</type>
+			<variants>
+				<data_source>
+                   <model_rt>localisation/order_status</model_rt>
+                   <method>getOrderStatuses</method>
+				</data_source>
+				<fields>
+					<field>order_status_id</field>
+					<field>name</field>
+				</fields>
+			</variants>
+			<default_value>2</default_value>
+        </item>
+	    <item id="default_payza_location_id">
+            <type>selectbox</type>
+			<variants>
+				<item>0</item>
+				<data_source>
+                   <model_rt>localisation/location</model_rt>
+                   <method>getLocations</method>
+				</data_source>
+				<fields>
+					<field>location_id</field>
+					<field>name</field>
+				</fields>
+			</variants>
+        </item>
+    </settings>
+    <help_link><![CDATA[https://secure.payza.com/?8dYDuHG0dFxqAh3PEXvZiu%2fblIIczM5Th75CF6Csm0Q%3d]]></help_link>
+    <install>
+	    <sql></sql>
+	    <trigger></trigger>
+	</install>
+	<uninstall>
+	    <sql></sql>
+	    <trigger></trigger>
+	</uninstall>
+</extension>
