@@ -51,7 +51,7 @@ echo $tabs;
 
 	<label class="h4 heading"><?php echo ${'tab_' . $section}; ?></label>
 	<?php foreach ($settings as $name => $field) {
-	if (is_integer($field['note'])) {
+	if (is_integer($field['note']) || $field['value']->type=='hidden') {
 		echo $field['value'];
 		continue;
 	}
