@@ -1,16 +1,19 @@
 <?php echo $form['form_open']; ?>
-	<?php echo $form['ap_merchant'].$form['ap_amount'].$form['ap_currency'].$form['ap_purchasetype'].$form['ap_itemname'].$form['ap_itemcode'].$form['ap_returnurl'].$form['ap_cancelurl']; ?>
-	
-	<div class="form-group">
-	   <div class="input-group">
-	   	<button class="btn btn-orange pull-right" title="<?php echo $form['submit']->name ?>" type="submit">
-	   	    <i class="icon-ok icon-white"></i>
-	   	    <?php echo $form['submit']->name; ?>
-	   	</button>
-	   	<a id="<?php echo $form['back']->name ?>" href="<?php echo $form['back']->href; ?>" class="btn btn-default mr10" title="<?php echo $form['back']->text ?>">
-	   	    <i class="icon-arrow-left"></i>
-	   	    <?php echo $form['back']->text ?>
-	   	</a>
-	    </div>
-	</div>
+<?php 
+	foreach($form['fields'] as $field => $value) { 
+		echo $value;
+	}
+?>
+<div class="form-group action-buttons">
+    <div class="col-md-12">
+	    <a id="<?php echo $form['back']->text ?>" href="<?php echo $back; ?>" class="btn btn-default" title="<?php echo $form['back']->text ?>">
+	    	<i class="fa fa-arrow-left"></i>
+	    	<?php echo $form['back']->text ?>
+	    </a>
+	    <button id="<?php echo $form['submit']->name; ?>" class="btn btn-orange lock-on-click pull-right" title="<?php echo $form['submit']->name; ?>" type="submit">
+	        <i class="fa fa-check"></i>
+	        <?php echo $form['submit']->name; ?>
+	    </button>
+    </div>
+</div>
 </form>

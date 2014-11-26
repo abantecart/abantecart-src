@@ -15,9 +15,9 @@
 <b>Regístrate gratis hoy mismo! Utilice ABANTECART2CO código promocional para una exención de la cuota del servicio de aplicación (un ahorro de $ 10,99) y empezar a vender en línea hoy! </b> Visita <a href="https://www.2checkout.com/signup/">www.2checkout.com</a>, complete la solicitud y, a continuación, introduzca el código en el campo código de promoción para llevar Aprovecha esta oferta especial de hoy!
 		Ir a <a href="https://www.2checkout.com/">https://www.2checkout.com/</a> primero en registrarse y obtener credenciales de cuenta.<br>
 		No se olvide de configurar URL aquí <a href="https://www.2checkout.com/va/notifications/">https://www.2checkout.com/va/notifications/</a> INS.<br>
-		Su URL es INS <h3>#storefront#rt=extension/2checkout/callback</h3>
+		Su URL es INS <h4>#storefront#rt=extension/2checkout/callback</h4>
 		<br><br>También configurar direcciones URL permitidas aquí  <a href="https://www.2checkout.com/va/notifications/">https://www.2checkout.com/va/acct/detail_company_info</a> y elegir la opción "Redirección del Encabezado (Su URL) ".
-		<br><br>Su URL permitidas se <h3>#storefront#rt=checkout/success</h3>]]></value>
+		<br><br>Su URL permitidas se <h4>#storefront#rt=checkout/success</h4>]]></value>
 	</definition>
 	<definition>
 		<key>text_success</key>

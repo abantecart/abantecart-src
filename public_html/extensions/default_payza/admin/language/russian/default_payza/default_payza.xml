@@ -12,6 +12,14 @@
     <key>text_success</key>
     <value><![CDATA[Успешно: Вы изменили детали Payza аккаунта!]]></value>
   </definition>
+	<definition>
+		<key>default_payza_note</key>
+		<value><![CDATA[
+With this extension you can use Payza IPN system to accept payments from your customers.<br> 
+<br>Don't forget to setup and enable IPN in your <a href="https://secure.payza.com/?8dYDuHG0dFxqAh3PEXvZiu%2fblIIczM5Th75CF6Csm0Q%3d" target="_new">Payza account</a> to use this extension.
+<br><br>Your Alert URL is <h4>#storefront#rt=extension/default_payza/callback</h4>
+		 ]]></value>
+	</definition>  
   <definition>
     <key>default_payza_merchant</key>
     <value><![CDATA[ID продавца:]]></value>
