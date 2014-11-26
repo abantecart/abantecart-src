@@ -15,9 +15,10 @@ CREATE TABLE IF NOT EXISTS `ac_realex_orders` (
 	`total` DECIMAL( 10, 2 ) NOT NULL,
 	`date_added` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
 	`date_modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-	PRIMARY KEY (`realex_order_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
-CREATE INDEX `ac_realex_orders_idx` ON `ac_realex_orders` (`realex_order_id`, `order_id`);
+	PRIMARY KEY (`realex_order_id`),
+	INDEX `ac_realex_orders_idx` ON `ac_realex_orders` (`realex_order_id`, `order_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
 
 CREATE TABLE IF NOT EXISTS `ac_realex_order_transactions` (
 	`realex_order_transaction_id` INT(11) NOT NULL AUTO_INCREMENT,
@@ -27,4 +28,4 @@ CREATE TABLE IF NOT EXISTS `ac_realex_order_transactions` (
 	`date_added` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
 	`date_modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 	PRIMARY KEY (`realex_order_transaction_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;

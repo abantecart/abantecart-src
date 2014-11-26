@@ -183,7 +183,7 @@ class ControllerResponsesExtensionDefaultPpPro extends AController {
 			$this->session->data['error'] = $this->language->get('error_no_order_id');
 		}
 
-		$json['href'] = $this->html->getSecureURL('sale/order/details', '&order_id=' . (int) $this->request->get['order_id']);
+		$json['href'] = $this->html->getSecureURL('sale/order/payment_details', '&order_id=' . (int) $this->request->get['order_id'].'&extension=default_pp_pro');
 		$this->load->library('json');
 		$this->response->setOutput(AJson::encode($json));
 
@@ -308,7 +308,7 @@ class ControllerResponsesExtensionDefaultPpPro extends AController {
 			$this->session->data['error'] = $this->language->get('error_no_order_id');
 		}
 
-		$json['href'] = $this->html->getSecureURL('sale/order/details', '&order_id=' . (int) $this->request->get['order_id']);
+		$json['href'] = $this->html->getSecureURL('sale/order/payment_details', '&order_id=' . (int) $this->request->get['order_id'].'&extension=default_pp_pro');
 
 		$this->load->library('json');
 		$this->response->setOutput(AJson::encode($json));
