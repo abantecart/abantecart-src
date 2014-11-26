@@ -75,6 +75,13 @@ class ControllerResponsesExtensionDefaultPayza extends AController {
 		                                                             'name' => 'ap_cancelurl',
 		                                                             'value' => $back,
 		                                                        ));
+
+		$data['form']['ap_alerturl'] = $form->getFieldHtml(array( 
+														'type' => 'hidden',
+														'name' => 'ap_alerturl',
+														'value' => $this->html->getSecureURL('extension/default_payza/callback'),
+		                                                        ));
+
 		$data['form']['back'] = $form->getFieldHtml(array( 'type' => 'button',
 		                                                     'name' => 'back',
 		                                                     'text' => $this->language->get('button_back'),
@@ -89,8 +96,11 @@ class ControllerResponsesExtensionDefaultPayza extends AController {
 		$this->processTemplate('responses/default_payza.tpl');
 	}
 
+	//This is Payza IPN call back
 	public function callback() {
+	$this->log->write(var_export( $this->request->post, true ));
 		if (isset($this->request->post['ap_securitycode']) && ($this->request->post['ap_securitycode'] == $this->config->get('default_payza_security'))) {
+			
 			$this->load->model('checkout/order');
 
 			$this->model_checkout_order->confirm($this->request->post['ap_itemcode'], $this->config->get('default_payza_order_status_id'));

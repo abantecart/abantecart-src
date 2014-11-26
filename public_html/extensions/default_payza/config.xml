@@ -18,10 +18,6 @@
             <type required="true">input</type>
             <default_value></default_value>
         </item>
-	    <item id="default_payza_callback">
-            <type required="true">textarea</type>
-            <default_value></default_value>
-        </item>
         <item id="default_payza_order_status_id">
             <type>selectbox</type>
 			<variants>
@@ -51,7 +47,7 @@
 			</variants>
         </item>
     </settings>
-    <help_link><![CDATA[https://secure.payza.com/?8dYDuHG0dFxqAh3PEXvZiu%2fblIIczM5Th75CF6Csm0Q%3d]]></help_link>
+    <note>true</note>
     <install>
 	    <sql></sql>
 	    <trigger></trigger>
