@@ -32,10 +32,17 @@ class ControllerResponsesExtensionDefaultPayza extends AController {
 
 		$form = new AForm();
 		$form->setForm(array( 'form_name' => 'checkout' ));
+
+		if($this->config->get('default_payza_test_mode')){
+			$action = 'https://sandbox.Payza.com/sandbox/payprocess.aspx';
+		}else{
+			$action = 'https://secure.payza.com/checkout';
+		}
+
 		$data['form']['form_open'] = $form->getFieldHtml(array( 
 														'type' => 'form',
 														'name' => 'checkout',
-														'action' => 'https://secure.payza.com/checkout'
+														'action' => $action
 														));
 		$fs = array();														
 		$fs['ap_purchasetype'] = $form->getFieldHtml(array( 
@@ -54,11 +61,10 @@ class ControllerResponsesExtensionDefaultPayza extends AController {
 														'name' => 'ap_currency',
 														'value' => $order_info['currency'],
 														));
-
-		$fs['ap_referencenumber'] = $form->getFieldHtml(array(
+		$fs['apc_1'] = $form->getFieldHtml(array(
 														'type' => 'hidden',
-														'name' => 'ap_referencenumber',
-														'value' => 'Order#:' . $this->session->data['order_id'],
+														'name' => 'apc_1',
+														'value' => $this->session->data['order_id']
 														));
 
 		//product details
@@ -206,13 +212,9 @@ class ControllerResponsesExtensionDefaultPayza extends AController {
 
 	//This is Payza IPN callback
 	public function callback() {
-		if (isset($this->request->post['ap_securitycode']) && ($this->request->post['ap_securitycode'] == $this->config->get('default_payza_security'))) {
-			
+		if (has_value($this->request->post['ap_securitycode']) && ($this->request->post['ap_securitycode'] == $this->config->get('default_payza_security'))) {
 			$this->load->model('checkout/order');
-
-			$this->model_checkout_order->confirm($this->request->post['ap_itemcode'], $this->config->get('default_payza_order_status_id'));
+			$this->model_checkout_order->confirm($this->request->post['apc_1'], $this->config->get('default_payza_order_status_id'));
 		}
 	}
 }
-
-?>

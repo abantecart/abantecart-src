@@ -29,6 +29,10 @@ With this extension you can use Payza IPN v1 system to accept payments from your
 		<value><![CDATA[Security Code:]]></value>
 	</definition>
 	<definition>
+		<key>default_payza_test_mode</key>
+		<value><![CDATA[Test Mode:]]></value>
+	</definition>
+	<definition>
 		<key>default_payza_callback</key>
 		<value>
 			<![CDATA[Alert URL:<br /><span class="help">This has to be set in the Payza control panel. You will also need to check the "IPN Status" to enabled.</span>]]></value>

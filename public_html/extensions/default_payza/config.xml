@@ -18,6 +18,10 @@
             <type required="true">input</type>
             <default_value></default_value>
         </item>
+	    <item id="default_payza_test_mode">
+            <type>checkbox</type>
+            <default_value></default_value>
+        </item>
         <item id="default_payza_order_status_id">
             <type>selectbox</type>
 			<variants>
