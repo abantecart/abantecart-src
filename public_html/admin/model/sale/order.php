@@ -510,7 +510,7 @@ class ModelSaleOrder extends Model {
 				$sql .= " AND FLOOR(CAST(o.total as DECIMAL(15,4))) " . $compare . "  FLOOR(CAST(" . $data['filter_total'] . " as DECIMAL(15,4)))";
 			} else {
 				$currencies = $this->currency->getCurrencies();
-				$temp = $temp2 = array($data['filter_total']);
+				$temp = $temp2 = array($data['filter_total'], ceil($data['filter_total']), floor($data['filter_total']));
 				foreach( $currencies  as $currency1){
 					foreach( $currencies  as $currency2){
 						if($currency1['code']!=$currency2['code']){
