@@ -60,13 +60,9 @@ class ExtensionDefaultPpPro extends Extension {
 	    	if ( in_array('payment_details', $that->data['groups'])) {
 	    		return null;
 	    	}
-	    	//check if we this order is used pp_pro payment
-	    	$this->_load_pp_pro_order_data($order_id, $that);
-	    	if ( !$this->pp_data ) {
-	    		//return;
-	    	}
+
 	    	$that->data['groups'][] = 'payment_details';
-	    	$that->data['link_payment_details'] = $that->html->getSecureURL('sale/order/payment_details', '&order_id=' . $order_id.'&extension=default_pp_pro');
+	    	$that->data['link_payment_details'] = $that->html->getSecureURL('sale/order/payment_details', '&order_id=' . $order_id.'&extension=default_pp_express');
 			//reload main view data with updated tab
 			$that->view->batchAssign( $that->data );
 	    }

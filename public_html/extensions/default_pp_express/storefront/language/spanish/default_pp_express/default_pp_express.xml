@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+<definitions>
+	<definition>
+		<key>text_title</key>
+		<value><![CDATA[PayPal Salida exprés]]></value>
+	</definition>
+	<definition>
+		<key>button_back</key>
+		<value><![CDATA[Espalda]]></value>
+	</definition>
+	<definition>
+		<key>button_confirm</key>
+		<value><![CDATA[Confirmar Orden]]></value>
+	</definition>
+	<definition>
+		<key>text_paypal_error</key>
+		<value><![CDATA[PayPal Salida Exprés Error]]></value>
+	</definition>
+	<definition>
+		<key>service_error</key>
+		<value><![CDATA[Error se ha producido durante la petición. Por favor inténtelo de nuevo más tarde.]]></value>
+	</definition>
+	<definition>
+		<key>text_billmelater_description</key>
+		<value><![CDATA[<b> Sin pagos + sin interés si pagas el total Withing 6 meses </b> en la compra de $ 99 o más]]></value>
+	</definition>
+	<definition>
+		<key>text_learn_more</key>
+		<value><![CDATA[Más Información]]></value>
+	</definition>
+    <definition>
+        <key>text_discount</key>
+        <value><![CDATA[Descuento]]></value>
+    </definition>
+	<definition>
+		<key>text_order_total_amount</key>
+		<value><![CDATA[Solicite cantidad total]]></value>
+	</definition>
+</definitions>
