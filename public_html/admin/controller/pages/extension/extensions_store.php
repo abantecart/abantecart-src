@@ -65,7 +65,7 @@ class ControllerPagesExtensionExtensionsStore extends AController {
 
 		$request_data = $this->request->get;
 		if(!has_value($request_data['sidx'])){
-			$request_data['sidx'] = 'rating';
+			$request_data['sidx'] = 'date_modified';
 		}
 		if(!has_value($request_data['sord'])){
 			$request_data['sord'] = 'desc';

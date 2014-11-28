@@ -138,6 +138,11 @@
 		<value><![CDATA[All Categories]]></value>
 	</definition>
 	<definition>
+		<key>text_compatibility</key>
+		<value><![CDATA[This extension is not confirmed to work with your version of AbanteCart.
+		 Contact extension developer to confirm compatibility.]]></value>
+	</definition>
+	<definition>
 		<key>error_mp_connection</key>
 		<value><![CDATA[Oops, can not connect to AbanteCart MarketPlace. Please try to check later or ask your hosting service provider for help.]]></value>
 	</definition>
