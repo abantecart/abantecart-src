@@ -491,27 +491,39 @@ class ModelSaleOrder extends Model {
 		}
 
 		if ( has_value($data['filter_total']) ) {
+			$data['filter_total'] = trim($data['filter_total']);	
+			//check if compare signs are used in the request 
+			$compare = '';
+			if ( in_array( substr($data['filter_total'], 0, 2), array('>=', '<=')) ){
+				$compare = substr($data['filter_total'], 0, 2);
+				$data['filter_total'] = substr($data['filter_total'], 2, strlen($data['filter_total']));
+				$data['filter_total'] = trim($data['filter_total']);
+			} else if ( in_array( substr($data['filter_total'], 0, 1), array('>', '<', '=')) ){
+				$compare = substr($data['filter_total'], 0, 1);
+				$data['filter_total'] = substr($data['filter_total'], 1, strlen($data['filter_total']));
+				$data['filter_total'] = trim($data['filter_total']);			
+			} 
+			 
 			$data['filter_total'] = (float)$data['filter_total'];
-			$currencies = $this->currency->getCurrencies();
-			$temp = $temp2 = array(
-					$data['filter_total'],
-					floor($data['filter_total']),
-					ceil($data['filter_total'])
-			);
-
-			foreach( $currencies  as $currency1){
-				foreach( $currencies  as $currency2){
-					if($currency1['code']!=$currency2['code']){
-						$temp[] = floor($this->currency->convert($data['filter_total'], $currency1['code'],$currency2['code']));
-						$temp2[] = ceil($this->currency->convert($data['filter_total'], $currency1['code'],$currency2['code']));
+			//if we compare, easier select
+			if ($compare) {
+				$sql .= " AND FLOOR(CAST(o.total as DECIMAL(15,4))) " . $compare . "  FLOOR(CAST(" . $data['filter_total'] . " as DECIMAL(15,4)))";
+			} else {
+				$currencies = $this->currency->getCurrencies();
+				$temp = $temp2 = array($data['filter_total']);
+				foreach( $currencies  as $currency1){
+					foreach( $currencies  as $currency2){
+						if($currency1['code']!=$currency2['code']){
+							$temp[] = floor($this->currency->convert($data['filter_total'], $currency1['code'],$currency2['code']));
+							$temp2[] = ceil($this->currency->convert($data['filter_total'], $currency1['code'],$currency2['code']));
+						}
 					}
 				}
+				$sql .= " AND ( FLOOR(o.total) IN  (" . implode(",",$temp) . ")
+								OR FLOOR(CAST(o.total as DECIMAL(15,4)) * CAST(o.value as DECIMAL(15,4))) IN  (" . implode(",",$temp) . ")
+								OR CEIL(o.total) IN  (" . implode(",",$temp2) . ")
+								OR CEIL(CAST(o.total as DECIMAL(15,4)) * CAST(o.value as DECIMAL(15,4))) IN  (" . implode(",",$temp2) . ") )";
 			}
-
-			$sql .= " AND ( FLOOR(o.total) IN  (" . implode(",",$temp) . ")
-							OR FLOOR(CAST(o.total as DECIMAL(15,4)) * CAST(o.value as DECIMAL(15,4))) IN  (" . implode(",",$temp) . ")
-							OR CEIL(o.total) IN  (" . implode(",",$temp2) . ")
-							OR CEIL(CAST(o.total as DECIMAL(15,4)) * CAST(o.value as DECIMAL(15,4))) IN  (" . implode(",",$temp2) . ") )";
 		}
 
 		//If for total, we done bulding the query
