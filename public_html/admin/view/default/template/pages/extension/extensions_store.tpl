@@ -93,8 +93,7 @@
 	    
 	        		if ($item['rating']) {
 	        			$review = $item['rating'];
-	        		}
-	    
+	        		}	    
 	        		?>
 	        		<li class="product-item col-md-4" data-product-id="<?php echo $product['id'] ?>">
 	        			<div class="ext_thumbnail">
@@ -126,10 +125,16 @@
 	        					<div class="ext_price">
 	        					    <div class="oneprice"><?php echo $item['price'] ?></div>
 	        					</div>
+
+	    						<?php if ( !$product['version_supported'] ) { ?>
+	        					<div class="tooltips pull-left ml10" data-toggle="tooltip" data-original-title="<?php echo $text_compatibility; ?>">
+	        						<i class="fa fa-exclamation-triangle text-danger"></i>
+	        					</div>
+	    						<?php } ?>
 	    
 	        					<div class="ext_icons">
-	        						<a class="productcart" data-id="<?php echo $product['product_id'] ?>">
-	        						<i class="icon-shopping-cart"></i>
+	        						<a href="#" class="productcart" data-id="<?php echo $product['product_id'] ?>">
+	        						<i class="fa fa-shopping-cart"></i>
 	        						</a>
 	        					</div>
 	        				</div>
