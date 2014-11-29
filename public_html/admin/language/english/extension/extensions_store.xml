@@ -139,8 +139,7 @@
 	</definition>
 	<definition>
 		<key>text_compatibility</key>
-		<value><![CDATA[This extension is not confirmed to work with your version of AbanteCart.
-		 Contact extension developer to confirm compatibility.]]></value>
+		<value><![CDATA[This extension is not confirmed to work with your version of AbanteCart. Contact extension developer to confirm compatibility.]]></value>
 	</definition>
 	<definition>
 		<key>error_mp_connection</key>

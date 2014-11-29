@@ -32,8 +32,18 @@ class ControllerCommonHeader extends AController {
 		$this->data['breadcrumbs'] = $this->document->getBreadcrumbs();
 		$this->data['store'] = $this->config->get('store_name');
 
-        $this->data[ 'logo' ] = $this->config->get('config_logo');
-
+        $this->data['logo'] = $this->config->get('config_logo');
+		//see if we have a resource ID	
+		if (is_numeric($this->data['logo'])) {
+			$resource = new AResource('image');
+		    $image_data = $resource->getResource( $this->data['logo'] );
+		    if ( is_file(DIR_RESOURCE . $image_data['image']) ) {
+		    	$this->data['logo'] = 'resources/'.$image_data['image'];
+		    } else {
+		    	$this->data['logo'] = $image_data['resource_code'];
+		    }
+		}
+        
 		$this->data['text_special'] = $this->language->get('text_special');
 		$this->data['text_contact'] = $this->language->get('text_contact');
 		$this->data['text_sitemap'] = $this->language->get('text_sitemap');
@@ -55,7 +65,6 @@ class ControllerCommonHeader extends AController {
 			$this->data['category_id'] = $this->request->get['category_id'];
 		} elseif (isset($this->request->get['path'])) {
 			$path = explode('_', $this->request->get['path']);
-		
 			$this->data['category_id'] = end($path);
 		} else {
 			$this->data['category_id'] = '';
@@ -70,19 +79,14 @@ class ControllerCommonHeader extends AController {
 			$this->loadModel('tool/seo_url');
 			
 			$data = $this->request->get;
-			
 			unset($data['_route_']);
-			
 			$route = $data['rt'];
-			
 			unset($data['rt']);
 			
 			$url = '';
-			
 			if ($data) {
 				$url = '&' . urldecode(http_build_query($data));
-			}			
-			
+			}
 			$this->data['redirect'] = $this->html->getSEOURL( $route,  $url, '&encode');
 		}
 		
@@ -94,7 +98,6 @@ class ControllerCommonHeader extends AController {
 		$this->data['currency_code'] = $this->currency->getCode();
 		$this->loadModel('localisation/currency');
 		$this->data['currencies'] = array();
-
 
 		$this->data['search'] = $this->html->buildInput(
 										array (

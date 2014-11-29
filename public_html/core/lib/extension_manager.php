@@ -324,6 +324,15 @@ class AExtensionManager {
 					}
 				}
 			}
+			
+			//Special case. 
+			//Check that we have single mode RL with ID 
+			if ( has_value($data[$key."_resource_id"]) && !has_value($value) ) {
+				//save ID if resource path is missing
+				$value = $data[$key."_resource_id"];
+			} 
+			//skip saving ???
+			
 			// now re-insert settings
 			$this->db->query("INSERT INTO " . $this->db->table("settings") . " 
 							  SET `store_id` = '" . (int)$data['store_id'] . "',

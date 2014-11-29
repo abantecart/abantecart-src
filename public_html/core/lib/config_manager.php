@@ -695,19 +695,39 @@ class AConfigManager {
 				'style' => 'small-field',
 				'required' => true,
 			));
-			$fields['logo'] = $form->getFieldHtml($props[] = array(
-				'type' => 'resource',
-				'name' => 'config_logo',
-				'resource_path' => htmlspecialchars($data['config_logo'], ENT_COMPAT, 'UTF-8'),
-				'rl_type' => 'image'
-			));
+			//see if we have resource id or path 
+			if ( is_numeric($data['config_logo']) ) {
+				$fields['logo'] = $form->getFieldHtml($props[] = array(
+					'type' => 'resource',
+					'name' => 'config_logo',
+					'resource_id' => $data['config_logo'],
+					'rl_type' => 'image'
+				));			
+			} else {
+				$fields['logo'] = $form->getFieldHtml($props[] = array(
+					'type' => 'resource',
+					'name' => 'config_logo',
+					'resource_path' => htmlspecialchars($data['config_logo'], ENT_COMPAT, 'UTF-8'),
+					'rl_type' => 'image'
+				));
+			}
+			//see if we have resource id or path 
+			if ( is_numeric($data['config_icon']) ) {
+				$fields['icon'] = $form->getFieldHtml($props[] = array(
+					'type' => 'resource',
+					'name' => 'config_icon',
+					'resource_id' => $data['config_icon'],
+					'rl_type' => 'image'
+				));			
+			} else {
+				$fields['icon'] = $form->getFieldHtml($props[] = array(
+					'type' => 'resource',
+					'name' => 'config_icon',
+					'resource_path' => htmlspecialchars($data['config_icon'], ENT_COMPAT, 'UTF-8'),
+					'rl_type' => 'image'
+				));			
+			}
 
-			$fields['icon'] = $form->getFieldHtml($props[] = array(
-				'type' => 'resource',
-				'name' => 'config_icon',
-				'resource_path' => htmlspecialchars($data['config_icon'], ENT_COMPAT, 'UTF-8'),
-				'rl_type' => 'image'
-			));
 			$fields['image_thumb_width'] = $form->getFieldHtml($props[] = array(
 				'type' => 'input',
 				'name' => 'config_image_thumb_width',

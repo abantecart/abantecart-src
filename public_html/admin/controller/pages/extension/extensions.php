@@ -250,7 +250,6 @@ class ControllerPagesExtensionExtensions extends AController {
 			'text' => $this->language->get('heading_title'),
 			'separator' => ' :: '));
 
-
 		$this->loadLanguage('extension/extensions');
 		$this->loadLanguage($extension . '/' . $extension);
 
@@ -396,6 +395,13 @@ class ControllerPagesExtensionExtensions extends AController {
 					$item['resource_type'] = (string)$item['resource_type'];
 					$data['rl_types'] = array($item['resource_type']);
 					$data['rl_type'] = $item['resource_type'];
+					//check if ID for resource is provided or path
+					if ( is_numeric($item['value']) ) {
+						$data['resource_id'] = $item['value'];
+					} else {
+						$data['resource_path'] = $item['value'];
+					}
+					
 					if (!$result['rl_scripts']) {
 						$scripts = $this->dispatch('responses/common/resource_library/get_resources_scripts',
 												array(
@@ -408,7 +414,6 @@ class ControllerPagesExtensionExtensions extends AController {
 						$result['rl_scripts'] = $scripts->dispatchGetOutput();
 						unset($scripts);
 					}
-					$data['resource_path'] = $item['value'];
 					break;
 				default:
 			}
@@ -441,6 +446,7 @@ class ControllerPagesExtensionExtensions extends AController {
 		$this->data['resources_scripts'] = $result['rl_scripts'];
 		$this->data['target_url'] = $this->html->getSecureURL('extension/extensions/edit', '&extension=' . $extension . '&store_id=' . $store_id);
 
+		//check if we restore settings to default values
 		if (isset($this->request->get['restore']) && $this->request->get['restore']) {
 			$this->extension_manager->editSetting($extension, $ext->getDefaultSettings());
 			$this->cache->delete('settings.extension');
@@ -448,6 +454,7 @@ class ControllerPagesExtensionExtensions extends AController {
 			$this->redirect($this->data['target_url']);
 		}
 
+		//check if we save settings with the post
 		if ($this->request->is_POST() && $this->_validateSettings($extension,$store_id)) {
 			foreach ($settings as $item) {
 				if (!isset($this->request->post[$item['name']])) {
@@ -693,9 +700,7 @@ class ControllerPagesExtensionExtensions extends AController {
 			}
 		}
 
-
 		// additional settings page
-
 		if ($ext->getConfig('additional_settings') && $status) {
 			$btn_param = array(
 					'type' => 'button',

@@ -106,7 +106,7 @@ class ModelCheckoutExtension extends Model {
 		} 
 		
 		$resource = new AResource('image');
-		if (is_integer($rl_image)) {
+		if (is_numeric($rl_image)) {
 		    // consider this is a pure image resource ID 
 		    $image_data = $resource->getResource( $rl_image );
 		} else {

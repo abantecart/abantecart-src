@@ -40,14 +40,24 @@ class ControllerCommonHead extends AController {
 			$this->view->assign('base', HTTP_SERVER);
 		}
 		
-		$icon_path = $this->config->get('config_icon');
-		if( $icon_path){
-			if(!is_file(DIR_RESOURCE.$this->config->get('config_icon'))){
-				$this->messages->saveWarning('Check favicon.','Warning: please check favicon in your store settings. Current path is "'.DIR_RESOURCE.$this->config->get('config_icon').'" but file does not exists.');
-				$icon_path ='';
+		$icon_rl = $this->config->get('config_icon');
+		if($icon_rl){		
+			//see if we have a resource ID or path
+			if (is_numeric($icon_rl)) {
+				$resource = new AResource('image');
+			    $image_data = $resource->getResource( $icon_rl );
+			    if ( is_file(DIR_RESOURCE . $image_data['image']) ) {
+			    	$icon_rl = 'resources/'.$image_data['image'];
+			    } else {
+			    	$icon_rl = $image_data['resource_code'];
+			    }
+			} else	
+			if(!is_file(DIR_RESOURCE.$icon_rl)){
+				$this->messages->saveWarning('Check favicon.','Warning: please check favicon in your store settings. Current path is "'.DIR_RESOURCE.$icon_rl.'" but file does not exists.');
+				$icon_rl ='';
 			}
 		}
-		$this->view->assign('icon', $icon_path);
+		$this->view->assign('icon', $icon_rl);
 		$this->view->assign('lang', $this->language->get('code'));
 		$this->view->assign('direction', $this->language->get('direction'));
 		$this->view->assign('links', $this->document->getLinks());	

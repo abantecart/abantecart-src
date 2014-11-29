@@ -48,11 +48,17 @@ class ControllerPagesSettingSetting extends AController {
 
 		$this->document->setTitle($this->language->get('heading_title'));
 		if ($this->request->is_POST() && $this->_validate($this->request->get['active'])) {
-			if (isset ($this->request->post ['config_logo'])) {
+			if (has_value($this->request->post['config_logo'])) {
 				$this->request->post['config_logo'] = html_entity_decode($this->request->post['config_logo'], ENT_COMPAT, 'UTF-8');
-			}
-			if (isset ($this->request->post ['config_icon'])) {
+			} else if(!$this->request->post['config_logo'] && isset($this->request->post['config_logo_resource_id'])) {
+				//we save resource ID vs resource path
+				$this->request->post['config_logo'] = $this->request->post['config_logo_resource_id'];
+			} 
+			if (has_value($this->request->post['config_icon'])) {
 				$this->request->post['config_icon'] = html_entity_decode($this->request->post['config_icon'], ENT_COMPAT, 'UTF-8');
+			} else if(!$this->request->post['config_icon'] && isset($this->request->post['config_icon_resource_id'])) {
+				//we save resource ID vs resource path
+				$this->request->post['config_icon'] = $this->request->post['config_icon_resource_id'];
 			}
 
 			$group = $this->request->get['active'];
