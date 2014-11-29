@@ -90,7 +90,7 @@
 						echo $icon . $field;
 						break;
 					case 'template':
-						echo $field . '<div id="template"></div>';
+						echo $field . '<br/><br/><div id="template" class="thumbnail text-center mt10"></div>';
 						break;
 					case 'template_debug':
 						echo $field;

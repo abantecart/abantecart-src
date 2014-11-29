@@ -151,7 +151,7 @@ class ControllerPagesSettingSetting extends AController {
 
 			foreach ($tmpls as $tmpl) {
 				$templates[$tmpl] = array(
-										'name' => $tmpl,
+										'name' => "&nbsp;&nbsp;&nbsp;".$tmpl,
 										'href' => $this->html->getSecureURL('setting/setting', '&active=' . $this->data['active'].'&tmpl_id='.$tmpl));
 			}
 

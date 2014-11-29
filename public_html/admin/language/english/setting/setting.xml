@@ -46,7 +46,7 @@
 	</definition>
 	<definition>
 		<key>text_common_template_settings</key>
-		<value><![CDATA[Common Settings]]></value>
+		<value><![CDATA[Template Selection]]></value>
 	</definition>
 	<definition>
 		<key>text_edit_store</key>
