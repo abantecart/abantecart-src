@@ -48,10 +48,11 @@ Storefront:
 - Out of stock handling in product listing and product details
 - minimum/maximum allowed quantity message fix for product page 
 - Improve checkout from cart page. Update cart before checkout. 
+- Update credit card entry to improve user experience
 
 Extensions:
 - All core extensions are updated to bootstrap and new version. 
-- New core extensions
+- Added PayPal Express, Realex, CashFlows and Payza payments
 
 Installation : 
 - New redesigned and improved installation 
