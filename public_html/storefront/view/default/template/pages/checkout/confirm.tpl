@@ -54,7 +54,7 @@
 				</td>
 				<td class="align_left"><?php echo $shipping_method; ?></td>
 				<td class="align_right">
-					<a class="btn btn-mini" href="<?php echo $checkout_shipping_edit; ?>">
+					<a class="btn btn-default btn-xs" href="<?php echo $checkout_shipping_edit; ?>">
 						<i class="fa fa-edit"></i>
 						<?php echo $text_edit_shipping; ?>
 					</a>
@@ -83,9 +83,13 @@
 					</td>
 					<td class="align_left"><?php echo $payment_method; ?></td>
 					<td class="align_right">
-						<a class="btn btn-mini" href="<?php echo $checkout_payment_edit; ?>">
+						<a class="btn btn-default btn-xs" href="<?php echo $checkout_payment_edit; ?>">
 							<i class="fa fa-edit"></i>
 							<?php echo $text_edit_payment; ?>
+						</a>
+						<a class="btn btn-default btn-xs" href="<?php echo $checkout_payment_edit; ?>">
+							<i class="fa fa-check-square-o"></i>
+							<?php echo $text_add_coupon; ?>
 						</a>
 					</td>
 				</tr>
@@ -97,7 +101,7 @@
 					<td class="align_left">&nbsp;</td>
 					<td class="align_right">
 						<?php if($disapply_balance){ ?>
-						<a class="btn btn-mini" href="<?php echo $disapply_balance['href']; ?>">
+						<a class="btn btn-default btn-xs" href="<?php echo $disapply_balance['href']; ?>">
 							<i class="fa fa-edit"></i>
 							<?php echo $disapply_balance['text']; ?>
 						</a>
@@ -140,7 +144,7 @@
 		<tr>
 			<td colspan="4"></td>
 			<td>
-				<a class="btn btn-mini" href="<?php echo $cart; ?>">
+				<a class="btn btn-default btn-xs" href="<?php echo $cart; ?>">
 					<i class="fa fa-shopping-cart"></i>
 					<?php echo $text_edit_basket; ?>
 				</a>
