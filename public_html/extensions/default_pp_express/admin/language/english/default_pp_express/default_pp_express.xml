@@ -257,4 +257,8 @@
 		<key>default_pp_express_see_terms_text</key>
 		<value><![CDATA[See Terms.]]></value>
 	</definition>
+	<definition>
+		<key>default_pp_express_error_bg_color</key>
+		<value><![CDATA[Error: Wrong HEX-value of Given Background Color.]]></value>
+	</definition>
 </definitions>

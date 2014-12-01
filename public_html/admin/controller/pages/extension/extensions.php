@@ -28,7 +28,7 @@ if (!defined('DIR_CORE') || !IS_ADMIN) {
 class ControllerPagesExtensionExtensions extends AController {
 
 	public $data;
-	private $error;
+	public $error;
 
 	public function main() {
 

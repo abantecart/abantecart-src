@@ -24,6 +24,46 @@
 
 class ExtensionDefaultPPExpress extends Extension {
 
+	public function onControllerPagesExtensionExtensions_validateData(){
+		$that = $this->baseObject;
+		$that->request->post['default_pp_express_custom_bg_color'] = ltrim($that->request->post['default_pp_express_custom_bg_color'],'#');
+		$is_valid = $this->_check_valid_colorhex($that->request->post['default_pp_express_custom_bg_color']);
+		if(!$is_valid){
+			$that->loadLanguage('default_pp_express/default_pp_express');
+			$that->error['warning'] = $that->language->get('default_pp_express_error_bg_color');
+		}
+	}
+
+	public function onControllerResponsesListingGridExtension_InitData(){
+		if($this->baseObject_method!='update'){ return null;}
+		$that = $this->baseObject;
+		if( $that->request->get['id'] != 'default_pp_express' ){ return false; }
+		if( !has_value($that->request->post['default_pp_express_custom_bg_color']) ){ return false; }
+
+		$that->request->post['default_pp_express_custom_bg_color'] = ltrim($that->request->post['default_pp_express_custom_bg_color'],'#');
+		$is_valid = $this->_check_valid_colorhex($that->request->post['default_pp_express_custom_bg_color']);
+		if(!$is_valid){
+			$that->loadLanguage('default_pp_express/default_pp_express');
+			$error = new AError('');
+			return $error->toJSONResponse('NO_PERMISSIONS_402',
+				array('error_text' => $that->language->get('default_pp_express_error_bg_color'),
+					'reset_value' => false
+				));
+		}
+	}
+
+	private function _check_valid_colorhex($colorCode) {
+	    // If user accidentally passed along the # sign, strip it off
+	    $colorCode = ltrim($colorCode, '#');
+
+	    if ( ctype_xdigit($colorCode) &&
+	          (strlen($colorCode) == 6 || strlen($colorCode) == 3)){
+		    return true;
+	    }else{
+		    return false;
+	    }
+	}
+
 	public function onControllerCommonHead_InitData() {
 		if(IS_ADMIN!==true){
 			$that = $this->baseObject;
