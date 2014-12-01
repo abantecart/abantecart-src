@@ -65,7 +65,8 @@ class ControllerPagesExtensionDefaultWeight extends AController {
    		$this->document->addBreadcrumb( array ( 
        		'href'      => $this->html->getSecureURL('extension/default_weight'),
        		'text'      => $this->language->get('default_weight_name'),
-      		'separator' => ' :: '
+      		'separator' => ' :: ',
+		    'current'   => true
    		 ));
 		
 		$this->load->model('localisation/tax_class');
@@ -112,11 +113,26 @@ class ControllerPagesExtensionDefaultWeight extends AController {
 		$this->data ['update'] = $this->html->getSecureURL ( 'listing_grid/extension/update', '&id=default_weight' );
 
 		$form = new AForm ( 'HS' );
-		$form->setForm ( array ('form_name' => 'editFrm', 'update' => $this->data ['update'] ) );
+		$form->setForm ( array (
+				'form_name' => 'editFrm',
+				'update' => $this->data ['update'] ) );
 
-		$this->data['form']['form_open'] = $form->getFieldHtml ( array ('type' => 'form', 'name' => 'editFrm', 'action' => $this->data ['action'] ) );
-		$this->data['form']['submit'] = $form->getFieldHtml ( array ('type' => 'button', 'name' => 'submit', 'text' => $this->language->get ( 'button_go' ), 'style' => 'button1' ) );
-		$this->data['form']['cancel'] = $form->getFieldHtml ( array ('type' => 'button', 'name' => 'cancel', 'text' => $this->language->get ( 'button_cancel' ), 'style' => 'button2' ) );
+		$this->data['form']['form_open'] = $form->getFieldHtml ( array (
+				'type' => 'form',
+				'name' => 'editFrm',
+				'action' => $this->data ['action'],
+				'attr' => 'data-confirm-exit="true" class="aform form-horizontal"',
+		) );
+		$this->data['form']['submit'] = $form->getFieldHtml ( array (
+				'type' => 'button',
+				'name' => 'submit',
+				'text' => $this->language->get ( 'button_save' )
+		) );
+		$this->data['form']['cancel'] = $form->getFieldHtml ( array (
+				'type' => 'button',
+				'name' => 'cancel',
+				'text' => $this->language->get ( 'button_cancel' )
+		) );
 
 
 		foreach ($this->data['locations'] as $location) {
@@ -124,18 +140,19 @@ class ControllerPagesExtensionDefaultWeight extends AController {
 			$rate = 'default_weight_' . $location['location_id'] . '_rate';
 			$status = 'default_weight_' . $location['location_id'] . '_status';
 
-			$this->data['form']['fields'][$rate] = $form->getFieldHtml(array(
-				'type' => 'textarea',
-				'name' => $rate,
-				'value' => $this->data[$rate],
-				'style' => 'xl-field',
-			));
 
-			$this->data['form']['fields'][$status] = $form->getFieldHtml(array(
+
+			$this->data['form']['fields']['rates'][$status] = $form->getFieldHtml(array(
 				'type' => 'checkbox',
 				'name' => $status,
 				'value' => $this->data[$status],
 				'style'  => 'btn_switch',
+			));
+			$this->data['form']['fields']['rates'][$rate] = $form->getFieldHtml(array(
+				'type' => 'textarea',
+				'name' => $rate,
+				'value' => $this->data[$rate],
+				'style' => 'xl-field',
 			));
 		}
 
@@ -152,6 +169,21 @@ class ControllerPagesExtensionDefaultWeight extends AController {
 	    ));
 
 		$this->view->batchAssign (  $this->language->getASet () );
+
+		//load tabs controller
+
+		$this->data['groups'][] = 'additional_settings';
+		$this->data['link_additional_settings'] = $this->data['add_sett']->href;
+		$this->data['active_group'] = 'additional_settings';
+
+		$tabs_obj = $this->dispatch('pages/extension/extension_tabs', array( $this->data ) );
+		$this->data['tabs'] = $tabs_obj->dispatchGetOutput();
+		unset($tabs_obj);
+
+		$obj = $this->dispatch('pages/extension/extension_summary', array( $this->data ) );
+		$this->data['extension_summary'] = $obj->dispatchGetOutput();
+		unset($obj);
+
 		$this->view->batchAssign( $this->data );
 		$this->processTemplate('pages/extension/default_weight.tpl' );
 
