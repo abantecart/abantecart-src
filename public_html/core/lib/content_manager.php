@@ -161,12 +161,11 @@ class AContentManager {
 									AND language_id = '".(int)$this->language->getContentLanguageID()."'");
 			}
 		}
-
-		if ($data [ 'store_id' ]) {
+		if ($data['store_id']) {
 			$sql = "DELETE FROM " . $this->db->table("contents_to_stores") . " WHERE content_id='" . $content_id . "'";
 			$this->db->query($sql);
 
-			foreach ($data [ 'store_id' ] as $store_id) {
+			foreach ($data['store_id'] as $store_id) {
 					$sql = "INSERT INTO " . $this->db->table("contents_to_stores") . " (content_id,store_id)
 								VALUES ('" . $content_id . "','" . (int)$store_id . "')";
 					$this->db->query($sql);
@@ -269,11 +268,11 @@ class AContentManager {
 			case 'store_id':
 				$query = "DELETE FROM " . $this->db->table("contents_to_stores") . " WHERE content_id='" . $content_id . "'";
 				$this->db->query($query);
-
+echo_array($value);
 				foreach ($value as $store_id) {
-					if ((int)$store_id) {
+					if(has_value($store_id)) {
 						$query = "INSERT INTO " . $this->db->table("contents_to_stores") . " (content_id,store_id)
-										VALUES ('" . $content_id . "','" . $store_id . "')";
+										VALUES ('" . $content_id . "','" . (int)$store_id . "')";
 						$this->db->query($query);
 					}
 				}
