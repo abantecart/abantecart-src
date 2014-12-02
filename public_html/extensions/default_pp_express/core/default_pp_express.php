@@ -26,11 +26,13 @@ class ExtensionDefaultPPExpress extends Extension {
 
 	public function onControllerPagesExtensionExtensions_validateData(){
 		$that = $this->baseObject;
-		$that->request->post['default_pp_express_custom_bg_color'] = ltrim($that->request->post['default_pp_express_custom_bg_color'],'#');
-		$is_valid = $this->_check_valid_colorhex($that->request->post['default_pp_express_custom_bg_color']);
-		if(!$is_valid){
-			$that->loadLanguage('default_pp_express/default_pp_express');
-			$that->error['warning'] = $that->language->get('default_pp_express_error_bg_color');
+		if(has_value($that->request->post['default_pp_express_custom_bg_color'])){
+			$that->request->post['default_pp_express_custom_bg_color'] = ltrim($that->request->post['default_pp_express_custom_bg_color'], '#');
+			$is_valid = $this->_check_valid_colorhex($that->request->post['default_pp_express_custom_bg_color']);
+			if(!$is_valid){
+				$that->loadLanguage('default_pp_express/default_pp_express');
+				$that->error['warning'] = $that->language->get('default_pp_express_error_bg_color');
+			}
 		}
 	}
 
