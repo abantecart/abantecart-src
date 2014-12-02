@@ -217,10 +217,8 @@
                 "change.aform":function () {
                     if (!$field.prop("checked")) {
                         $wrapper.removeClass(o.checkedClass);
-                        $field.val('0');
                     } else {
                         $wrapper.addClass(o.checkedClass);
-                        $field.val('1');
                     }
                     onChangedAction($field, $(this).prop("checked"), $(this).attr('data-orgvalue'));
                 }
