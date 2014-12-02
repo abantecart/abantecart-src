@@ -44,4 +44,8 @@
 		<key>text_run</key>
 		<value><![CDATA[ Run Task]]></value>
 	</definition>
+	<definition>
+		<key>text_task_started</key>
+		<value><![CDATA[ Task started]]></value>
+	</definition>
 </definitions>

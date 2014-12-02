@@ -606,7 +606,7 @@ var run_task_url, complete_task_url;
 var task_fail = false;
 var task_complete_text = task_fail_text = ''; // You can set you own value inside tpl who runs interactive task. see admin/view/default/template/pages/tool/backup.tpl
 
-$(".task_run").on('click', function () {
+$(document).on('click', ".task_run", function () {
     var modal =
         '<div id="task_modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">' +
         '<div class="modal-dialog">' +

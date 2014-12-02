@@ -13,3 +13,38 @@
 	</div>
 
 </div>
+
+<script type="text/javascript">
+
+	var grid_ready = function(){
+		$('.grid_action_run').each(function(){
+			var task_id = $(this).parents('tr').attr('id');
+			var URL = '<?php echo $run_task_url?>' + '&task_id=' + task_id;
+			$(this).click(function(){
+				$.ajax({
+					url: URL,
+					type:'POST'
+				});
+				success_alert('<?php echo $text_task_started; ?>', true);
+				$('#tasks_grid').trigger("reloadGrid");
+				return false;
+			})
+		});
+
+		$('.grid_action_restart').each(function(){
+			var task_id = $(this).parents('tr').attr('id');
+			var URL = '<?php echo $restart_task_url?>' + '&task_id=' + task_id;
+			$(this).click(function(){
+				$.ajax({
+					url: URL,
+					type:'POST'
+				});
+				success_alert('<?php echo $text_task_started; ?>', true);
+				$('#tasks_grid').trigger("reloadGrid");
+				return false;
+			})
+		});
+
+	};
+
+</script>

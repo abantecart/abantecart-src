@@ -134,7 +134,6 @@ class ControllerResponsesListingGridTask extends AController {
 													'last_result' => 2 //interrupted
 														));
 			}
-			//$this->response->setOutput(AJson::encode(array('result'=> true)));
 			$this->_run_task();
 		}else{
 			$this->response->setOutput(AJson::encode(array('result'=> false)));
@@ -154,14 +153,12 @@ class ControllerResponsesListingGridTask extends AController {
 		if(has_value($this->request->post_or_get('task_id'))){
 			$tm = new ATaskManager();
 			$task = $tm->getTaskById($this->request->post_or_get('task_id'));
-
 			//check
 			if($task && $task['status'] == 1){
 				$tm->updateTask($task['task_id'], array(
 													'start_time' => date('Y-m-d H:i:s'),
 														));
 			}
-			//$this->response->setOutput(AJson::encode(array('result'=> true)));
 			$this->_run_task();
 		}else{
 			$this->response->setOutput(AJson::encode(array('result'=> false)));
