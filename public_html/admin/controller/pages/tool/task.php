@@ -44,7 +44,7 @@ class ControllerPagesToolTask extends AController {
 		
 		$grid_settings = array (
 								//id of grid
-								'table_id' => 'task',
+								'table_id' => 'tasks_grid',
 								// url to load data from
 								'url' => $this->html->getSecureURL ( 'listing_grid/task' ),
 								// url to send data for edit / delete
@@ -67,10 +67,10 @@ class ControllerPagesToolTask extends AController {
 										'delete' => array(
 											'text' => $this->language->get('button_delete'),
 											'href' => $this->html->getSecureURL('tool/task/delete', '&task_id=%ID%')
-										),
-				            ),
+										)),
 								'columns_search' => true,
-								'sortable' => true );
+								'sortable' => true,
+								'grid_ready' => 'grid_ready();');
 		
 		$grid_settings ['colNames'] = array (
 											$this->language->get ( 'column_id' ),
@@ -128,9 +128,10 @@ class ControllerPagesToolTask extends AController {
 			unset($this->session->data['success']);
 		}
 
+		$this->view->assign('run_task_url', $this->html->getSecureURL('listing_grid/task/run'));
+		$this->view->assign('restart_task_url', $this->html->getSecureURL('listing_grid/task/restart'));
 
 		$this->view->batchAssign (  $this->language->getASet () );
-		
 		$this->processTemplate ( 'pages/tool/task.tpl' );
 		
 		//update controller data
