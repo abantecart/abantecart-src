@@ -614,7 +614,6 @@ class ControllerPagesExtensionBannerManager extends AController {
 		}
 		$layout = new ALayoutManager();
 		if ($this->request->is_POST() && $this->_validateBlockForm()) {
-
 			$content = '';
 			if ($this->request->post['banner_group_name']) {
 				$content = serialize(array('banner_group_name' => $this->request->post['banner_group_name']));
@@ -643,9 +642,12 @@ class ControllerPagesExtensionBannerManager extends AController {
 									'sort_order' => (int)$k));
 					$k++;
 				}
-
+			} else {
+				//delete the list as nothing provided
+				$listing_manager = new AListingManager($custom_block_id);
+				$listing_manager->deleteCustomListing();			
 			}
-
+			
 			$this->session->data ['success'] = $this->language->get('text_banner_success');
 			$this->redirect($this->html->getSecureURL('extension/banner_manager/edit_block', '&custom_block_id=' . $custom_block_id));
 		}
