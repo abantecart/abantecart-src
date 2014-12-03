@@ -34,6 +34,8 @@ class ControllerPagesCatalogManufacturerLayout extends AController {
 		$this->extensions->hk_InitData($this,__FUNCTION__);
 
 		$this->loadLanguage('catalog/manufacturer');
+		$this->loadLanguage('design/layout');
+		
 		$this->document->setTitle($this->language->get('heading_title'));
 		$this->loadModel('catalog/manufacturer');
 		$manufacturer_info = $this->model_catalog_manufacturer->getManufacturer( $manufacturer_id );

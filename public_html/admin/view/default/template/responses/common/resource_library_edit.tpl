@@ -232,10 +232,6 @@ $txt_unlink_resource = sprintf($text_unmap_from, $object_title);
 <div class="panel-footer">
 	<div class="row">
 		<div class="center">
-			<a class="btn btn-primary rl_save rl_close" href="#">
-				<i class="fa fa-save"></i> <?php echo $button_save_and_close; ?>
-			</a>
-			&nbsp;
 			<a class="btn btn-primary rl_save" href="#">
 				<i class="fa fa-save"></i> <?php echo $button_save; ?>
 			</a>
@@ -245,6 +241,10 @@ $txt_unlink_resource = sprintf($text_unmap_from, $object_title);
 				        data-rl-id="<?php echo $resource_id; ?>"
 				        data-type="<?php echo $type; ?>">
 					<i class="fa fa-save"></i> <?php echo $button_save_n_link; ?>
+				</a>&nbsp;
+			<?php } else { ?>
+				<a class="btn btn-primary rl_save rl_close" href="#">
+					<i class="fa fa-save"></i> <?php echo $button_save_and_close; ?>
 				</a>&nbsp;
 			<?php } ?>
 			<a class="btn btn-default rl_reset" href="<?php echo $cancel; ?>">

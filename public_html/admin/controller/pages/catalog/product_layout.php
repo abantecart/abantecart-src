@@ -34,6 +34,7 @@ class ControllerPagesCatalogProductLayout extends AController {
 		$this->extensions->hk_InitData($this,__FUNCTION__);
 
 		$this->loadLanguage('catalog/product');
+		$this->loadLanguage('design/layout');
 		$this->document->setTitle($this->language->get('heading_title'));
 		$this->loadModel('catalog/product');
 

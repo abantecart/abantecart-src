@@ -499,6 +499,7 @@ class ControllerPagesDesignContent extends AController {
 		//init controller data
 		$this->extensions->hk_InitData($this, __FUNCTION__);
 
+		$this->loadLanguage('design/layout');
 		$this->document->setTitle($this->language->get('update_title'));
 		$this->acm = new AContentManager();
 

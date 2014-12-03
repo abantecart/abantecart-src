@@ -515,7 +515,7 @@ class ControllerPagesCatalogCategory extends AController {
 		//init controller data
 		$this->extensions->hk_InitData($this, __FUNCTION__);
 		$this->loadLanguage('catalog/category');
-
+		$this->loadLanguage('design/layout');
 		$this->data['help_url'] = $this->gen_help_url('category_layout_edit');
 
 		if (has_value($category_id) && $this->request->is_GET()) {
