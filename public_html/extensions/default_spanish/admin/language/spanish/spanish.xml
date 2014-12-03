@@ -118,8 +118,12 @@
 	</definition>
 	<definition>
 		<key>button_save</key>
-		<value><![CDATA[Guardar]]></value>
+		<value><![CDATA[Guardar y cerrar]]></value>
 	</definition>
+	<definition>
+		<key>button_save_and_close</key>
+		<value><![CDATA[Сохранить и закрыть]]></value>
+	</definition>	
 	<definition>
 		<key>button_cancel</key>
 		<value><![CDATA[Cancelar]]></value>

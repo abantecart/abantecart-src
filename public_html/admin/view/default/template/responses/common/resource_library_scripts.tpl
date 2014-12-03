@@ -595,10 +595,21 @@ var bind_rl = function (elm) {
 			rid = new_rid;
 		}
 
+		//for button save and close
+		if($(this).hasClass('rl_close')) {
+			//close modal
+			$('#rl_modal').modal('hide');
+			modalscope.mode = '';
+			modalscope.wrapper_id = '';
+			modalscope.field_id = '';
+			return false;
+		}
+
 		//for button save and link (select)
 		if(!$(this).hasClass('rl_select')) {
 			mediaDialog(type, 'update', rid);
 		}
+		
 		return false;
 	});
 

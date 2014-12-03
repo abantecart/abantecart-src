@@ -121,6 +121,10 @@
     <value><![CDATA[Сохранить]]></value>
   </definition>
   <definition>
+	<key>button_save_and_close</key>
+	<value><![CDATA[Сохранить и закрыть]]></value>
+  </definition>
+  <definition>
     <key>button_cancel</key>
     <value><![CDATA[Отменить]]></value>
   </definition>

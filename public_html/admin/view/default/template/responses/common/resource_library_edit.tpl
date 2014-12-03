@@ -232,7 +232,11 @@ $txt_unlink_resource = sprintf($text_unmap_from, $object_title);
 <div class="panel-footer">
 	<div class="row">
 		<div class="center">
-			<a class="btn btn-primary rl_save">
+			<a class="btn btn-primary rl_save rl_close" href="#">
+				<i class="fa fa-save"></i> <?php echo $button_save_and_close; ?>
+			</a>
+			&nbsp;
+			<a class="btn btn-primary rl_save" href="#">
 				<i class="fa fa-save"></i> <?php echo $button_save; ?>
 			</a>
 			&nbsp;
