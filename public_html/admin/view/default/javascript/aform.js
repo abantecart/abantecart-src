@@ -849,8 +849,9 @@ jQuery(document).ready(function() {
 		            if ($(this).prop('changed') == 'true') {
 		                message = "You might have unsaved changes!";
 		            }
+
 		            //check if all elements are unchanged. If yes, we already undo or saved them
-		            if ($(this).find(".afield").hasClass('changed') == false && ckedit == false) {
+		            if ($(this).find(".afield .changed").length == 0 && ckedit == false) {
 		                message = '';
 		            }
 	            }

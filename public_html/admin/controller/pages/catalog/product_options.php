@@ -211,6 +211,7 @@ class ControllerPagesCatalogProductOptions extends AController {
         $this->data['required'] = $form->getFieldHtml(array(
             'type' => 'checkbox',
             'name' => 'required',
+    		'style' => 'btn_switch',
         ));
         $this->data['element_type'] = $form->getFieldHtml(array(
             'type' => 'selectbox',
@@ -218,8 +219,6 @@ class ControllerPagesCatalogProductOptions extends AController {
             'required' => true,
             'options' => $element_types
         ));
-
-
 
 		$this->addChild('pages/catalog/product_summary', 'summary_form', 'pages/catalog/product_summary.tpl');
 
@@ -243,9 +242,7 @@ class ControllerPagesCatalogProductOptions extends AController {
             )
         );
 
-
 		$this->view->assign('resources_scripts', $resources_scripts->dispatchGetOutput());
-
 
 		$this->view->assign('help_url', $this->gen_help_url('product_options') );
         $this->view->assign('form_language_switch', $this->html->getContentLanguageSwitcher());
@@ -270,5 +267,4 @@ class ControllerPagesCatalogProductOptions extends AController {
 			return FALSE;
 		}
 	}
-
 }
