@@ -1647,20 +1647,20 @@ p {
 
 
 /***** Right Panel *****/
-.chat-view {
+.stats-view {
    margin-right: 240px;
 }
 
-.chat-view .rightpanel {
+.stats-view .rightpanel {
    display: block;
    right: 0;
 }
 
-.chat-relative-view {
+.stats-relative-view {
    right: 240px;
 }
 
-.chat-relative-view .rightpanel {
+.stats-relative-view .rightpanel {
    display: block;
    right: 0;
 }
@@ -1914,11 +1914,11 @@ p {
    margin-left: 0;
 }
 
-.fixed-noleft.chat-view .headerbar {
+.fixed-noleft.stats-view .headerbar {
    margin-left: 0;
 }
 
-.fixed-noleft.chat-view .logopanel {
+.fixed-noleft.stats-view .logopanel {
    display: block;
 }
 
@@ -2118,7 +2118,7 @@ body.stickyheader .sticky_left {
 .stickyheader.leftpanel-collapsed .header-right {
    margin-right: 0;
 }
-.stickyheader.chat-view .headerbar {
+.stickyheader.stats-view .headerbar {
    right: 240px;
    width: auto;
 }
@@ -2351,7 +2351,7 @@ body.stickyheader .sticky_left {
       left: 240px;
    }
    
-   .stickyheader.chat-relative-view .headerbar {
+   .stickyheader.stats-relative-view .headerbar {
       right: 240px;
       left: auto;
    }

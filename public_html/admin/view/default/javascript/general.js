@@ -136,7 +136,7 @@ jQuery(document).ready(function() {
 		      $('.nav-bracket ul').attr('style','');
 		      $(this).addClass('menu-collapsed');
 		   } else {
-		      body.removeClass('leftpanel-collapsed chat-view');
+		      body.removeClass('leftpanel-collapsed stats-view');
 		      $('.nav-bracket li.active ul').css({display: 'block'});
 		      $(this).removeClass('menu-collapsed');
 		   }
@@ -156,24 +156,24 @@ jQuery(document).ready(function() {
       var body = $('body');
       var bodypos = body.css('position');
       if(bodypos != 'relative') {
-         if(!body.hasClass('chat-view')) {
-            body.addClass('leftpanel-collapsed chat-view');
+         if(!body.hasClass('stats-view')) {
+            body.addClass('leftpanel-collapsed stats-view');
             $('.nav-bracket ul').attr('style','');
             $('#right_side_view').addClass('dropdown-toggle');
          } else {
-            body.removeClass('chat-view');
+            body.removeClass('stats-view');
             if(!$('.menutoggle').hasClass('menu-collapsed')) {
                $('body').removeClass('leftpanel-collapsed');
-               $('.nav-bracket li.active ul').css({display: 'block'});
+               $('.nav-bracket li.active > ul').css({display: 'block'});
                $('#right_side_view').removeClass('dropdown-toggle');
             }
          }
       } else {
-         if(!body.hasClass('chat-relative-view')) {
-            body.addClass('chat-relative-view');
+         if(!body.hasClass('stats-relative-view')) {
+            body.addClass('stats-relative-view');
             body.css({left: ''});
          } else {
-            body.removeClass('chat-relative-view');   
+            body.removeClass('stats-relative-view');   
          }
       }
    });
@@ -183,9 +183,9 @@ jQuery(document).ready(function() {
    
    jQuery(window).resize(function(){
       if($('body').css('position') == 'relative') {
-         $('body').removeClass('leftpanel-collapsed chat-view');
+         $('body').removeClass('leftpanel-collapsed stats-view');
       } else {
-         $('body').removeClass('chat-relative-view');         
+         $('body').removeClass('stats-relative-view');         
          $('body').css({left: '', marginRight: ''});
       }
       reposition_searchform();
