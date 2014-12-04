@@ -65,9 +65,9 @@ class ControllerResponsesListingGridReportViewed extends AController {
 
             $response->rows[$i]['id'] = $i;
 			$response->rows[$i]['cell'] = array(
+				$result['product_id'],
 				$result['name'],
 				$result['model'],
-				$result['category'],
 				$result['viewed'],
                 $result['percent'],
 			);

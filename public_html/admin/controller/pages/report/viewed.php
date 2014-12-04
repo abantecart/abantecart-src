@@ -39,18 +39,25 @@ class ControllerPagesReportViewed extends AController {
 		);
 
 		$grid_settings['colNames'] = array(
+			$this->language->get('column_product_id'),			
 			$this->language->get('column_name'),
 			$this->language->get('column_model'),
-			$this->language->get('column_category'),
 			$this->language->get('column_viewed'),
 			$this->language->get('column_percent'),
 		);
 
 		$grid_settings['colModel'] = array(
 			array(
+				'name' => 'product_id',
+				'index' => 'product_id',
+				'width' => 60,
+                'align' => 'left',
+				'sortable' => false,
+			),
+			array(
 				'name' => 'name',
 				'index' => 'name',
-				'width' => 240,
+				'width' => 260,
 				'align' => 'left',
 				'sortable' => false,
 			),
@@ -62,23 +69,16 @@ class ControllerPagesReportViewed extends AController {
 				'sortable' => false,
 			),
 			array(
-				'name' => 'category',
-				'index' => 'category',
-				'width' => 100,
-                'align' => 'left',
-				'sortable' => false,
-			),
-			array(
 				'name' => 'viewed',
 				'index' => 'viewed',
-				'width' => 50,
+				'width' => 60,
                 'align' => 'center',
 				'sortable' => false,
 			),
             array(
 				'name' => 'percent',
 				'index' => 'percent',
-				'width' => 50,
+				'width' => 60,
                 'align' => 'center',
 	            'sortable' => false,
 			),
