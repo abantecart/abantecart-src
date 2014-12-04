@@ -121,10 +121,7 @@ if ($action == 'list_object') {
 									<div class="ckbox ckbox-default" style="display: none;">
 										<input class="checksign" type="checkbox" value="<?php echo $rl['resource_id']; ?>" id="check_<?php echo $rl['resource_id']; ?>">
 										<label for="check<?php echo $rl['resource_id']; ?>"></label>
-										<?php if (has_value($active_object)) {
-											if (!$rl['sort_order']) {
-												$rl['sort_order'] = '';
-											} ?>
+										<?php if (has_value($active_object)) { ?>
 											<div class="rl_sort_order center ml10 mt10" title="sort order">
 												<input type="text"
 													   class="form-control input-sm"

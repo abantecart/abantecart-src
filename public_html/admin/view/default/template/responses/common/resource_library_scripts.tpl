@@ -162,7 +162,6 @@ var loadMedia = function (type, wrapper) {
 
 				html += '<div class="caption center">';
 
-
 				html += '<a class="btn resource_edit tooltips" ' +
 						'data-type="' + type + '" ' +
 						'data-rl-id="' + item['resource_id'] + '" ' +
@@ -460,7 +459,7 @@ var bind_rl = function (elm) {
 		}
 	});
 
-	$obj.find('.thmb .ckbox').click(function () {
+	$obj.find('.thmb .checksign').click(function () {
 		if (modalscope.mode == 'single') {
 			var rl_id = $(this).find('input.checksign').val()
 
@@ -472,16 +471,23 @@ var bind_rl = function (elm) {
 			return false;
 		}
 
-		var $t = $(this);
-		$t.closest('.thmb').toggleClass('checked');
+		var $cbx = $(this);
+		$cbx.closest('.thmb').toggleClass('checked');
 		enable_menu($obj, true);
 		//togle checkbox
-		$t.find('input:checkbox').prop('checked', function (idx, oldProp) {
+		$cbx.prop('checked', function (idx, oldProp) {
 			enable_menu($obj, false);
 			return oldProp;
 		});
 	});
 
+	//Select element to be saved before edit if click on the field
+	$obj.find("input[name^='sort_order']").click(function () {
+		$cbx = $(this).closest('.ckbox');
+		$cbx.find('.checksign').prop('checked','checked');
+		$cbx.closest('.thmb').addClass('checked');
+		enable_menu($obj, true);
+	});
 
 	$obj.find('.rl_select').click(function () {
 		if (modalscope.mode == 'single') {
@@ -700,6 +706,7 @@ var bind_rl = function (elm) {
 		$(this).parents('li').addClass('active');
 		return false;
 	});
+	
 }
 
 

@@ -742,6 +742,11 @@ class ControllerResponsesCommonResourceLibrary extends AController {
 			$filter_data['page'] = $page;
 			$filter_data['limit'] = 12;
 		}
+		if (!empty($this->request->get['sort'])) {
+			$filter_data['sort'] = $this->request->get['sort'];		
+		} else {
+			$filter_data['sort'] = 'sort_order';		
+		}
 
 		$result = array(
 			'items' => $rm->getResourcesList($filter_data),
@@ -749,8 +754,6 @@ class ControllerResponsesCommonResourceLibrary extends AController {
 			'object_name' => $this->request->get['object_name'],
 			'object_id' => $this->request->get['object_id']
 		);
-
-
 
 		foreach ($result['items'] as $key => $item) {
 			$result['items'][$key]['thumbnail_url'] = $rm->getResourceThumb(
