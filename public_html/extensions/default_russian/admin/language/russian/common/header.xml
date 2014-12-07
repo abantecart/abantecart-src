@@ -40,6 +40,10 @@
     <key>text_coupon</key>
     <value><![CDATA[Купоны]]></value>
   </definition>
+	<definition>
+		<key>text_discount</key>
+		<value><![CDATA[Скидки]]></value>
+	</definition>
   <definition>
     <key>text_currency</key>
     <value><![CDATA[Валюты]]></value>

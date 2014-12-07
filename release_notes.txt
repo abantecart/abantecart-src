@@ -12,6 +12,7 @@ New Features and improvements summary:
 - Updated Bootstrap v3.2 Storefront with few new features.
 - Introduce Tasks Management to improve time consuming processing 
 - Database optimization for performance
+- Improved and extended reporting
 - Updated and new core extensions
 
 Updates and Improvements in more details:
@@ -40,6 +41,9 @@ Control Panel (admin):
 - Added form manager 
 - Improved product lookup and select with chosen element 
 - Notification of new customer registrations and new product reviews
+- Improved reporting for sales
+- Added reporting for taxes,shipping,discounts and customers 
+- Incomplete (not finished) orders are now included in displays 
 
 Storefront:
 - Updated to Bootstrap 3.2 and mobile screen improvements

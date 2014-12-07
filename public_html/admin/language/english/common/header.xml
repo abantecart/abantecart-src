@@ -41,6 +41,10 @@
 		<value><![CDATA[Coupons]]></value>
 	</definition>
 	<definition>
+		<key>text_discount</key>
+		<value><![CDATA[Discounts]]></value>
+	</definition>
+	<definition>
 		<key>text_currency</key>
 		<value><![CDATA[Currencies]]></value>
 	</definition>
@@ -139,6 +143,18 @@
 	<definition>
 		<key>text_reports</key>
 		<value><![CDATA[Reports]]></value>
+	</definition>
+	<definition>
+		<key>text_online</key>
+		<value><![CDATA[Online]]></value>
+	</definition>
+	<definition>
+		<key>text_transactions</key>
+		<value><![CDATA[Transactions]]></value>
+	</definition>
+	<definition>
+		<key>text_tax</key>
+		<value><![CDATA[Tax]]></value>
 	</definition>
 	<definition>
 		<key>text_report_purchased</key>

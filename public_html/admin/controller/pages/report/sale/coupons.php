@@ -20,18 +20,18 @@
 if (!defined('DIR_CORE') || !IS_ADMIN) {
     header('Location: static_pages/');
 }
-class ControllerPagesReportSale extends AController{
+class ControllerPagesReportSaleCoupons extends AController{
 	public $data = array();
     public function main()   {
 
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
-
+		
         $grid_settings = array(
             //id of grid
-            'table_id' => 'report_sales_grid',
+            'table_id' => 'report_coupons_grid',
             // url to load data from
-            'url' => $this->html->getSecureURL('listing_grid/report_sale'),
+            'url' => $this->html->getSecureURL('listing_grid/report_sale/coupons'),
             // default sort column
             'sortname' => 'date_end',
             'columns_search' => false,
@@ -40,14 +40,14 @@ class ControllerPagesReportSale extends AController{
 
         $form = new AForm();
         $form->setForm(array(
-            'form_name' => 'report_sales_grid_search',
+            'form_name' => 'report_coupons_grid_search',
         ));
 
         $this->data['grid_search_form'] = array();
-        $this->data['grid_search_form']['id'] = 'report_sales_grid_search';
+        $this->data['grid_search_form']['id'] = 'report_coupons_grid_search';
         $this->data['grid_search_form']['form_open'] = $form->getFieldHtml(array(
             'type' => 'form',
-            'name' => 'report_sales_grid_search',
+            'name' => 'report_coupons_grid_search',
             'action' => '',
         ));
         $this->data['grid_search_form']['submit'] = $form->getFieldHtml(array(
@@ -55,12 +55,6 @@ class ControllerPagesReportSale extends AController{
             'name' => 'submit',
             'text' => $this->language->get('button_go'),
             'style' => 'button1',
-        ));
-        $this->data['grid_search_form']['reset'] = $form->getFieldHtml(array(
-            'type' => 'button',
-            'name' => 'reset',
-            'text' => $this->language->get('button_reset'),
-            'style' => 'button2',
         ));
 		$this->view->assign('js_date_format', format4Datepicker($this->language->get('date_format_short')));
         $this->data['grid_search_form']['fields']['date_start'] = $form->getFieldHtml(array(
@@ -75,39 +69,27 @@ class ControllerPagesReportSale extends AController{
             'default' => dateInt2Display(time()),
         ));
 
-        $groups = array();
-        $groups['year'] = $this->language->get('text_year');
-        $groups['month'] = $this->language->get('text_month');
-        $groups['week'] = $this->language->get('text_week');
-        $groups['day'] = $this->language->get('text_day');
-
-        $this->data['grid_search_form']['fields']['status'] = $form->getFieldHtml(array(
-            'type' => 'selectbox',
-            'name' => 'group',
-            'options' => $groups,
-            'value' => "week",
-        ));
-
         $grid_settings['search_form'] = true;
 
         $grid_settings['colNames'] = array(
-            $this->language->get('column_date_start'),
-            $this->language->get('column_date_end'),
+            $this->language->get('column_coupon_name'),
+            $this->language->get('column_code'),
             $this->language->get('column_orders'),
             $this->language->get('column_total'),
+            $this->language->get('column_discount_total'),
         );
 
         $grid_settings['colModel'] = array(
             array(
-                'name' => 'date_start',
-                'index' => 'date_start',
+                'name' => 'coupon_name',
+                'index' => 'coupon_name',
                 'width' => 100,
                 'align' => 'center',
                 'sorttype' => 'string',
             ),
             array(
-                'name' => 'date_end',
-                'index' => 'date_end',
+                'name' => 'code',
+                'index' => 'code',
                 'width' => 100,
                 'align' => 'center',
                 'sorttype' => 'string',
@@ -117,21 +99,24 @@ class ControllerPagesReportSale extends AController{
                 'index' => 'orders',
                 'width' => 100,
                 'align' => 'center',
-                'sorttype' => 'string',
             ),
             array(
                 'name' => 'total',
                 'index' => 'total',
                 'width' => 110,
-                'align' => 'right',
+                'align' => 'center',
+            ),
+            array(
+                'name' => 'discount_total',
+                'index' => 'discount_total',
+                'width' => 110,
+                'align' => 'center',
             ),
         );
-
 
         $grid = $this->dispatch('common/listing_grid', array($grid_settings));
         $this->view->assign('listing_grid', $grid->dispatchGetOutput());
         $this->view->assign('search_form', $this->data['grid_search_form']);
-
 
         $this->document->setTitle($this->language->get('heading_title'));
         $this->document->initBreadcrumb(array(
@@ -140,16 +125,15 @@ class ControllerPagesReportSale extends AController{
             'separator' => FALSE
         ));
         $this->document->addBreadcrumb(array(
-            'href' => $this->html->getSecureURL('report/viewed'),
+            'href' => $this->html->getSecureURL('report/sale/coupon'),
             'text' => $this->language->get('heading_title'),
             'separator' => ' :: ',
 			'current'	=> true
         ));
 
-        $this->processTemplate('pages/report/sale.tpl');
+        $this->processTemplate('pages/report/sale/coupons.tpl');
 
         //update controller data
         $this->extensions->hk_UpdateData($this, __FUNCTION__);
     }
 }
-

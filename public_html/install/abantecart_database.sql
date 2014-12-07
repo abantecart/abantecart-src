@@ -11296,20 +11296,20 @@ VALUES  (40,'226',71),
 -- ITEM_ID
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`) 
 VALUES  (10,'report_sale',91),
-        (10,'viewed',92),
-        (10,'purchased',93),
+        (10,'report_customer',92),
+        (10,'report_product',93),
         (10,'banner_manager_stat',94 );
 -- ITEM_TEXT
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`) 
 VALUES  (11,'text_report_sale',91),
-        (11,'text_report_viewed',92),
-        (11,'text_report_purchased',93),
+        (11,'text_customer',92),
+        (11,'text_product',93),
         (11,'banner_manager_name_stat',94);
 -- ITEM_URL
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`) 
-VALUES  (12,'report/sale',91),
-        (12,'report/viewed',92),
-        (12,'report/purchased',93),
+VALUES  (12,'',91),
+        (12,'',92),
+        (12,'',93),
         (12,'extension/banner_manager_stat',94);
 -- PARENT_ID
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`) 
@@ -11333,8 +11333,8 @@ VALUES  (15,'core',91),
 -- ITEM_RL_ID
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
 VALUES  (40,'234',91),
-        (40,'235',92),
-        (40,'236',93),
+        (40,'222',92),
+        (40,'208',93),
         (40,'237',94);
 
 --
@@ -11447,6 +11447,8 @@ VALUES  (40,'241',131),
         (40,'245',135),
         (40,'246',136),
         (40,'248',200);
+
+
 --
 -- SUBMENU SYSTEM->SETTINGS
 -- ITEM_ID
@@ -11535,8 +11537,6 @@ VALUES  (40,'247',191),
         (40,'253',197),
         (40,'254',198),
         (40,'255',199);
-
-
 
 
 --
@@ -11757,6 +11757,139 @@ VALUES  (40,'274',186),
         (40,'275',187),
         (40,'254',189);
 
+
+--
+-- SUBMENU REPORTS->SALES
+-- ITEM_ID
+INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`) 
+VALUES
+(10,'report_sale_orders',200),
+(10,'report_sale_tax',201),
+(10,'report_sale_shipping',202),
+(10,'report_sale_coupon',203);
+-- ITEM_TEXT
+INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`) 
+VALUES
+(11,'text_order',200),
+(11,'text_tax',201),
+(11,'text_shipping',202),
+(11,'text_discount',203);
+-- ITEM_URL
+INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`) 
+VALUES
+(12,'report/sale/orders',200),
+(12,'report/sale/taxes',201),
+(12,'report/sale/shipping',202),
+(12,'report/sale/coupons',203);
+-- PARENT_ID	
+INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`) 
+VALUES
+(13,'report_sale',200),
+(13,'report_sale',201),
+(13,'report_sale',202),
+(13,'report_sale',203);
+-- SORT_ORDER
+INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_integer`,`row_id`) 
+VALUES
+(14,1,200),
+(14,2,201),
+(14,3,202),
+(14,4,203);
+-- ITEM_TYPE
+INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`) 
+VALUES
+(15,'core',200),
+(15,'core',201),
+(15,'core',202),
+(15,'core',203);
+-- ITEM_RL_ID
+INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
+VALUES  (40,'221',200),
+        (40,'266',201),
+        (40,'214',202),
+        (40,'224',203);
+
+--
+-- SUBMENU REPORTS->CUSTOMERS
+-- ITEM_ID
+INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`) 
+VALUES
+(10,'report_customer_online',204),
+(10,'report_customer_order',205),
+(10,'report_customer_transactions',206);
+-- ITEM_TEXT
+INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`) 
+VALUES
+(11,'text_online',204),
+(11,'text_order',205),
+(11,'text_transactions',206);
+-- ITEM_URL
+INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`) 
+VALUES
+(12,'report/customer/online',204),
+(12,'report/customer/orders',205),
+(12,'report/customer/transactions',206);
+-- PARENT_ID	
+INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`) 
+VALUES
+(13,'report_customer',204),
+(13,'report_customer',205),
+(13,'report_customer',206);
+-- SORT_ORDER
+INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_integer`,`row_id`) 
+VALUES
+(14,1,204),
+(14,2,205),
+(14,3,206);
+-- ITEM_TYPE
+INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`) 
+VALUES
+(15,'core',204),
+(15,'core',205),
+(15,'core',206);
+-- ITEM_RL_ID
+INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
+VALUES  (40,'222',204),
+        (40,'221',205),
+        (40,'260',206);
+        
+--
+-- SUBMENU REPORTS->PRODUCTS
+-- ITEM_ID
+INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`) 
+VALUES
+(10,'report_product_viewed',207),
+(10,'report_product_purchased',208);
+-- ITEM_TEXT
+INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`) 
+VALUES
+(11,'text_report_viewed',207),
+(11,'text_report_purchased',208);
+-- ITEM_URL
+INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`) 
+VALUES
+(12,'report/viewed',207),
+(12,'report/purchased',208);
+-- PARENT_ID	
+INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`) 
+VALUES
+(13,'report_product',207),
+(13,'report_product',208);
+-- SORT_ORDER
+INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_integer`,`row_id`) 
+VALUES
+(14,1,207),
+(14,2,208);
+-- ITEM_TYPE
+INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`) 
+VALUES
+(15,'core',207),
+(15,'core',208);
+-- ITEM_RL_ID
+INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
+VALUES  (40,'235',207),
+        (40,'236',208);
+                
 --
 -- Storefront menu names inserts
 --
@@ -12011,7 +12144,7 @@ VALUES
   ( 205,1,'Icon Reports', '', '', '', '<i class="fa fa-bar-chart-o"></i>&nbsp;', NOW() ),
   ( 206,1,'Icon Help', '', '', '', '<i class="fa fa-life-ring"></i>&nbsp;', NOW() ),
   ( 207,1,'Icon Category', '', '', '', '<i class="fa fa-folder-open"></i>&nbsp;', NOW() ),
-  ( 208,1,'Icon Product', '', '', '', '<i class="fa fa-plus-square"></i>&nbsp;', NOW() ),
+  ( 208,1,'Icon Product', '', '', '', '<i class="fa fa-cubes"></i>&nbsp;', NOW() ),
   ( 209,1,'Icon Manufacturer', '', '', '', '<i class="fa fa-bookmark-o"></i>&nbsp;', NOW() ),
   ( 210,1,'Icon Download', '', '', '', '<i class="fa fa-upload"></i>&nbsp;', NOW() ),
   ( 211,1,'Icon Review', '', '', '', '<i class="fa fa-comment-o"></i>&nbsp;', NOW() ),
@@ -12025,7 +12158,7 @@ VALUES
   ( 219,1,'Icon Add extension', '', '', '', '<i class="fa fa-paperclip"></i>&nbsp;', NOW() ),
   ( 220,1,'Icon Extensions stores', '', '', '', '<i class="fa fa-arrows-alt"></i>&nbsp;', NOW() ),
   ( 221,1,'Icon Order', '', '', '', '<i class="fa fa-flag-checkered"></i>&nbsp;', NOW() ),
-  ( 222,1,'Icon Customer', '', '', '', '<i class="fa fa-child"></i>&nbsp;', NOW() ),
+  ( 222,1,'Icon Customer', '', '', '', '<i class="fa fa-users"></i>&nbsp;', NOW() ),
   ( 223,1,'Icon Customer group', '', '', '', '<i class="fa fa-book"></i>&nbsp;', NOW() ),
   ( 224,1,'Icon Coupon', '', '', '', '<i class="fa fa-tags"></i>&nbsp;', NOW() ),
   ( 225,1,'Icon Contact', '', '', '', '<i class="fa fa-envelope-o"></i>&nbsp;', NOW() ),

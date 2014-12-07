@@ -1,5 +1,22 @@
 <?php include($tpl_common_dir . 'action_confirm.tpl'); ?>
 
+<ul class="nav nav-tabs nav-justified nav-profile">
+	<?php
+	foreach ($tabs as $tab) {
+		if ($tab['active']) {
+			$classname = 'active';
+		} else {
+			$classname = '';
+		}
+		?>
+		<li class="<?php echo $classname; ?>">
+			<a <?php echo($tab['href'] ? 'href="' . $tab['href'] . '" ' : ''); ?>><strong><?php echo $tab['text']; ?></strong></a>
+		</li>
+	<?php } ?>
+
+	<?php echo $this->getHookVar('extension_tabs'); ?>
+</ul>
+
 <div id="content" class="panel panel-default">
 
 	<div class="panel-heading col-xs-12">

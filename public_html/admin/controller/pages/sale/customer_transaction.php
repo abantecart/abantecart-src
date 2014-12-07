@@ -32,7 +32,11 @@ class ControllerPagesSaleCustomerTransaction extends AController {
 		$this->loadModel('sale/customer_transaction');
 		$this->loadModel('sale/customer');
 
-		$customer_info = $this->model_sale_customer->getCustomer($this->request->get['customer_id']);
+		$customer_id = $this->request->get['customer_id'];
+		$customer_info = $this->model_sale_customer->getCustomer($customer_id);
+		if (!has_value($customer_info)) {
+			$this->redirect($this->html->getSecureURL('sale/customer'));
+		}
 
 		$this->document->setTitle( $this->language->get('heading_title_transactions') );
 
@@ -47,16 +51,26 @@ class ControllerPagesSaleCustomerTransaction extends AController {
       		'separator' => ' :: '
    		 ));
    		$this->document->addBreadcrumb( array (
-       		'href'      => $this->html->getSecureURL('sale/customer/update','&customer_id='.$this->request->get['customer_id']),
+       		'href'      => $this->html->getSecureURL('sale/customer/update','&customer_id='.$customer_id),
        		'text'      => $this->language->get('text_edit') .' '. $this->language->get('text_customer').' - '.$customer_info['firstname'].' '.$customer_info['lastname'],
       		'separator' => ' :: '
    		 ));
    		$this->document->addBreadcrumb( array (
-       		'href'      => $this->html->getSecureURL('sale/customer_transaction','&customer_id='.$this->request->get['customer_id']),
+       		'href'      => $this->html->getSecureURL('sale/customer_transaction','&customer_id='.$customer_id),
        		'text'      => $this->language->get('heading_title_transactions'),
       		'separator' => ' :: ',
 			'current'	=> true
    		 ));
+
+		$this->data['tabs']['general'] = array(
+				'href' => $this->html->getSecureURL('sale/customer/update', '&customer_id=' . $customer_id),
+				'text' => $this->language->get('tab_customer_details'),
+		);	
+		$this->data['tabs'][] = array(
+				'href' => $this->html->getSecureURL('sale/customer_transaction', '&customer_id=' . $customer_id),
+				'text' => $this->language->get('tab_transactions'),
+				'active' => true
+		);
 
 		if (isset($this->session->data['error'])) {
 			$this->data['error_warning'] = $this->session->data['error'];
@@ -79,7 +93,7 @@ class ControllerPagesSaleCustomerTransaction extends AController {
 			//id of grid
             'table_id' => 'transactions_grid',
             // url to load data from
-			'url' => $this->html->getSecureURL('listing_grid/customer_transaction','&customer_id='.$this->request->get['customer_id']),
+			'url' => $this->html->getSecureURL('listing_grid/customer_transaction','&customer_id='.$customer_id),
             'sortname' => 'date_added',
             'sortorder' => 'desc',
 			'multiselect' => 'false',
@@ -173,9 +187,9 @@ class ControllerPagesSaleCustomerTransaction extends AController {
 
 		$this->document->setTitle( $this->language->get('heading_title_transactions') );
 
-		$this->view->assign( 'insert_href', $this->html->getSecureURL( 'listing_grid/customer_transaction/transaction','&customer_id='.$this->request->get['customer_id'] ) );
+		$this->view->assign( 'insert_href', $this->html->getSecureURL( 'listing_grid/customer_transaction/transaction','&customer_id='.$customer_id ) );
 
-		$balance = $this->model_sale_customer_transaction->getBalance($this->request->get['customer_id']);
+		$balance = $this->model_sale_customer_transaction->getBalance($customer_id);
 		$currency = $this->currency->getCurrency($this->config->get('config_currency'));
 		$this->data['balance'] = $this->language->get('text_balance') . ' ' . $currency['symbol_left'] . round($balance, 2) . $currency['symbol_right'];
 
@@ -186,11 +200,11 @@ class ControllerPagesSaleCustomerTransaction extends AController {
 		$this->data['ajax_form_open'] = (string)$form->getFieldHtml(array(
 					'type' => 'form',
 					'name' => 'transaction_form',
-					'action' => $this->html->getSecureURL('listing_grid/customer_transaction/addTransaction','&customer_id='.$this->request->get['customer_id']),
+					'action' => $this->html->getSecureURL('listing_grid/customer_transaction/addTransaction','&customer_id='.$customer_id),
 				));
 
 		$this->view->assign('help_url', $this->gen_help_url('customer_transactions_listing') );
-		$balance = $this->model_sale_customer_transaction->getBalance($this->request->get['customer_id']);
+		$balance = $this->model_sale_customer_transaction->getBalance($customer_id);
 		$currency = $this->currency->getCurrency($this->config->get('config_currency'));		
 		$this->data['balance'] = $this->language->get('text_balance').' '.$currency['symbol_left'].round($balance,2).$currency['symbol_right'];
 
@@ -198,19 +212,19 @@ class ControllerPagesSaleCustomerTransaction extends AController {
 					'type' => 'button',
 				    'text' => $this->language->get('button_actas'),
 				    'style' => 'button1',
-					'href' => $this->html->getSecureURL('sale/customer/actonbehalf', '&customer_id='.$this->request->get['customer_id']),
+					'href' => $this->html->getSecureURL('sale/customer/actonbehalf', '&customer_id='.$customer_id),
 					'target' => 'new'
 			    ));
 
 
-		if(has_value($customer_info['orders_count']) && $this->request->get['customer_id']){
+		if(has_value($customer_info['orders_count']) && $customer_id){
 			$this->data['button_orders_count'] = $form->getFieldHtml(
 							array(
 								'type'  => 'button',
 								'name' => 'view orders',
 								'text' => $this->language->get('text_order').': '.$customer_info['orders_count'],
 								'style' => 'button2',
-								'href'=> $this->html->getSecureURL('sale/order','&customer_id='.$this->request->get['customer_id']),
+								'href'=> $this->html->getSecureURL('sale/order','&customer_id='.$customer_id),
 								'title' => $this->language->get('text_view').' '.$this->language->get('tab_history')
 							)
 			);
