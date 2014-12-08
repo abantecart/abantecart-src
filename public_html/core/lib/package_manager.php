@@ -135,7 +135,7 @@ class APackageManager {
 			$this->removeDir($dst_dir . pathinfo(pathinfo($tar_filename,PATHINFO_FILENAME),PATHINFO_FILENAME) ); //run pathinfo twice for tar.gz. files
 			try {
 				$phar = new PharData($tar_filename);
-				$phar->extractTo($dst_dir);
+				$phar->extractTo($dst_dir, null, true);
 			} catch (Exception $e){
 				$error = new AError( $e->getMessage() );
 				$error->toLog()->toDebug();
