@@ -228,4 +228,8 @@ Ideal OpenSource Ecommerce Solution ]]></value>
 AbanteCart is about to be upgraded to version %s!
 Automatic full backup will be created. It is recommended to try upgrade on test site first. ]]></value>
 	</definition>
+	<definition>
+		<key>text_upgrade_now</key>
+		<value><![CDATA[ Upgrade Now! ]]></value>
+	</definition>
 </definitions>
