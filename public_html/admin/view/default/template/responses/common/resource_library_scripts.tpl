@@ -219,6 +219,7 @@ var loadSingle = function (type, wrapper_id, resource_id, field) {
 		dataType: 'json',
 		global: false,
 		success: function (item) {
+		
 			var html = '';
 			if (item != null) {
 				var t = new Date().getTime();
@@ -461,7 +462,8 @@ var bind_rl = function (elm) {
 
 	$obj.find('.thmb .checksign').click(function () {
 		if (modalscope.mode == 'single') {
-			var rl_id = $(this).find('input.checksign').val()
+			//get RL ID from check box value
+			var rl_id = $(this).val()
 
 			loadSingle($('#library').attr('data-type'), null, rl_id);
 			$('#rl_modal').modal('hide');
@@ -492,7 +494,6 @@ var bind_rl = function (elm) {
 	$obj.find('.rl_select').click(function () {
 		if (modalscope.mode == 'single') {
 			var rl_id = $(this).attr('data-rl-id');
-
 			loadSingle($('#library').attr('data-type'), null, rl_id);
 			$('#rl_modal').modal('hide');
 			modalscope.mode = '';
@@ -965,11 +966,14 @@ jQuery(function () {
 		e.preventDefault();
 		var files = e.originalEvent.dataTransfer.files;
 
-		//enable single mode based on attribute
-		var btn = o.find('a.btn');
-		modalscope.mode = btn.attr('data-mode') ? btn.attr('data-mode') : modalscope.mode;
-		modalscope.wrapper_id = btn.attr('data-wrapper_id');
-		modalscope.field = btn.attr('data-field');
+		//check if modal is open and we have details 
+		if (!modalscope.mode || !modalscope.wrapper_id) {
+			//enable single mode based on attribute
+			var btn = o.find('a.btn');
+			modalscope.mode = btn.attr('data-mode') ? btn.attr('data-mode') : modalscope.mode;
+			modalscope.wrapper_id = btn.attr('data-wrapper_id');
+			modalscope.field = btn.attr('data-field');
+		}
 
 		//if replacement of file - take only first dragged file
 		if ($('div.fileupload_drag_area').attr('data-upload-type') == 'single') {
