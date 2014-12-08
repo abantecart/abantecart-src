@@ -24,9 +24,13 @@
 								if (!has_value($im_height)) {
 									$im_height = 380;
 								}
-
+								//NOTE: ZOOM is not supported for embeded image tags
 								if ($image['origin'] == 'external') {
-									echo $image_url = $image['main_html'];
+								?>
+									<a class="thumbnail">
+									<?php echo $image['main_html'];	?>								
+									</a>
+								<?php
 								} else {
 									$image_url = $image['main_url'];?>
 									<a rel="position: 'inside', showTitle: false, adjustX:-4, adjustY:-4"
@@ -53,16 +57,15 @@
 						<?php foreach ($images as $image) { ?>
 							<li class="producthtumb">
 								<?php
-								if ($image['origin'] == 'external') {
-									$image_url = $image['thumb_html'];
-								} else {
-									$image_url = $image['thumb_url'];
-								}
+								if ($image['origin'] != 'external') {
 								?>
 								<a class="thumbnail">
-									<img src="<?php echo $image_url; ?>" alt="<?php echo $image['title']; ?>"
+									<img src="<?php echo $image['thumb_url']; ?>" alt="<?php echo $image['title']; ?>"
 										 title="<?php echo $image['title']; ?>">
 								</a>
+								<?php
+								}
+								?>
 							</li>
 						<?php } ?>
 					</ul>
@@ -371,6 +374,14 @@
 	var orig_thumbs = $('ul.smallimage').html();
 
 	jQuery(function ($) {
+		//if have product options, load select option images 
+		var $select = $('input[name^=\'option\'], select[name^=\'option\']'); 
+		if ($select.length) {
+			//if no images for options are present, main product images will be used. 
+			//if atleast one image is present in the option, main images will be replaced.
+			load_option_images($select.val());
+		}
+
 		display_total_price();
 
 		$('#current_reviews .pagination a').on('click', function () {
@@ -381,7 +392,6 @@
 		});
 
 		reload_review('index.php?rt=product/review/review&product_id=<?php echo $product_id; ?>');
-
 	});
 
 	$('#product_add_to_cart').click(function () {
@@ -399,11 +409,19 @@
 
 	/* Process images for product options */
 	$('input[name^=\'option\'], select[name^=\'option\']').change(function () {
+		load_option_images($(this).val());
+		display_total_price();
+	});
+
+	$('input[name=quantity]').keyup(function () {
+		display_total_price();
+	});
+
+	function load_option_images( attribute_value_id ) {
 		$.ajax({
 			type: 'POST',
-			url: 'index.php?rt=r/product/product/get_option_resources&attribute_value_id=' + $(this).val(),
+			url: 'index.php?rt=r/product/product/get_option_resources&attribute_value_id=' + attribute_value_id,
 			dataType: 'json',
-
 			success: function (data) {
 				var html1 = '';
 				var html2 = '';
@@ -417,9 +435,11 @@
 						if (data.images[img].origin == 'external') {
 							img_url = data.images[img].main_html;
 							tmb_url = data.images[img].thumb_html;
+							html1 += '<a class="thumbnail">'+ img_url +'</a>';
+						} else {
+							html1 += '<a href="' + img_url + '" rel="position: \'inside\' , showTitle: false, adjustX:-4, adjustY:-4" class="thumbnail cloud-zoom"  title="' + data.images[img].title + '"><img src="' + img_url + '" alt="' + data.images[img].title + '" title="' + data.images[img].title + '"></a>';
+							html2 += '<a class="thumbnail"><img src="' + tmb_url + '" alt="' + data.images[img].title + '" title="' + data.images[img].title + '"></a>';
 						}
-						html1 += '<a href="' + img_url + '" rel="position: \'inside\' , showTitle: false, adjustX:-4, adjustY:-4" class="thumbnail cloud-zoom"  title="' + data.images[img].title + '"><img src="' + img_url + '" alt="' + data.images[img].title + '" title="' + data.images[img].title + '"></a>';
-						html2 += '<a class="thumbnail"><img src="' + tmb_url + '" alt="' + data.images[img].title + '" title="' + data.images[img].title + '"></a>';
 						html1 += '</li>';
 						html2 += '</li>';
 					}
@@ -432,16 +452,8 @@
 				$('.cloud-zoom, .cloud-zoom-gallery').CloudZoom();
 				process_thumbnails();
 			}
-
 		});
-
-		display_total_price();
-
-	});
-
-	$('input[name=quantity]').keyup(function () {
-		display_total_price();
-	});
+	}
 
 	function display_total_price() {
 
