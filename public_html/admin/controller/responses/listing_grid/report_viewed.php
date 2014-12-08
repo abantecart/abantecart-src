@@ -37,8 +37,6 @@ class ControllerResponsesListingGridReportViewed extends AController {
 		$sidx = $this->request->post['sidx']; // get index row - i.e. user click to sort
 		$sord = $this->request->post['sord']; // get the direction
 
-
-
 	    $data = array(
 			'sort'  => $sidx,
 			'order' => $sord,
@@ -57,7 +55,6 @@ class ControllerResponsesListingGridReportViewed extends AController {
 		$response->page = $page;
 		$response->total = $total_pages;
 		$response->records = $total;
-
 
 	    $results = $this->model_report_viewed->getProductViewedReport($data['start'],$data['limit']);
 	    $i = 0;

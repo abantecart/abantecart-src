@@ -17,7 +17,9 @@ $blockName = $customBlockId ? $customName . ' <span>(' . $name . ')</span>' : $n
 <?php } ?>        
     </div>
   </div>
-  <input class="afield block-id" type="hidden" name="block[]" value="<?php echo $blockValue; ?>">
+  <div class="afield">
+  <input class="block-id" type="hidden" name="block[]" value="<?php echo $blockValue; ?>">
   <input class="block-status" type="hidden" name="blockStatus[]" value="<?php echo $status; ?>">
   <input class="block-parent" type="hidden" name="parentBlock[]" value="<?php echo $parentBlock; ?>">
+  </div>
 </div>

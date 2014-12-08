@@ -48,21 +48,21 @@ class ControllerPagesReportPurchased extends AController {
 			array(
 				'name' => 'name',
 				'index' => 'name',
-				'width' => 120,
+				'width' => 300,
 				'align' => 'left',
 				'sortable' => false,
 			),
 			array(
 				'name' => 'model',
 				'index' => 'model',
-				'width' => 100,
-                'align' => 'left',
+				'width' => 80,
+                'align' => 'center',
 				'sortable' => false,
 			),
 			array(
 				'name' => 'quantity',
 				'index' => 'quantity',
-				'width' => 100,
+				'width' => 50,
                 'align' => 'center',
 				'sortable' => false,
 			),
@@ -70,7 +70,7 @@ class ControllerPagesReportPurchased extends AController {
 				'name' => 'total',
 				'index' => 'total',
 				'width' => 90,
-                'align' => 'right',
+                'align' => 'center',
 	            'sortable' => false,
 			),
 		);
@@ -78,7 +78,6 @@ class ControllerPagesReportPurchased extends AController {
 
 		$grid = $this->dispatch('common/listing_grid', array( $grid_settings ) );
 		$this->view->assign('listing_grid', $grid->dispatchGetOutput());
-
 
    		$this->document->initBreadcrumb( array (
        		'href'      => $this->html->getSecureURL('index/home'),
@@ -92,6 +91,12 @@ class ControllerPagesReportPurchased extends AController {
 			'current'	=> true
    		 ));		
 		
+		$this->view->assign('reset', $this->html->getSecureURL('report/purchased'));
+		$this->view->assign('reset_button', $this->html->buildButton(array(
+		    'name' => 'reset_button',
+		    'text' => $this->language->get('button_reset'),
+		    'style' => 'button1',
+	    )));
 
 		$this->document->setTitle( $this->language->get('heading_title') );
 

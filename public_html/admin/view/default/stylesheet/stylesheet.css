@@ -632,7 +632,7 @@ h1,h2,h3,h4,h5 {
 
 .nav-bracket .child1 > li.nav-active > a {
    background-color: #fff;
-   background: transparent url(../image/minus.png) no-repeat 96% center; 
+   background: transparent url(../image/minus-white.png) no-repeat 96% center; 
 }
 
 .nav-bracket > li.nav-parent > a:focus {

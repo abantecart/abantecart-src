@@ -960,3 +960,25 @@
 	font-weight: bold !important;
 }
 
+/* Grid Row Messages */
+.ui-jqgrid-btable .success {
+	padding: 10px 10px 10px 20px;
+	margin-bottom: 15px;
+	background: #E4F1C9 !important;
+	border: 1px solid #A5BD71;
+	font-size: 12px;
+}
+.ui-jqgrid-btable .warning {
+	padding: 10px 10px 10px 20px;
+	margin-bottom: 15px;
+	background: #FFDFE0 !important;
+	border: 1px solid #FF9999;
+	font-size: 12px;
+}
+.ui-jqgrid-btable .attention {
+	padding: 10px 10px 10px 20px;
+	margin-bottom: 15px;
+	background: #FEFBCC !important;
+	border: 1px solid #E6DB55;
+	font-size: 12px;
+}

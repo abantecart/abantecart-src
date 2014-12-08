@@ -28,6 +28,10 @@
         <key>text_coupon</key>
         <value><![CDATA[Cupones]]></value>
     </definition>
+	<definition>
+		<key>text_discount</key>
+		<value><![CDATA[Discounts]]></value>
+	</definition>
     <definition>
         <key>text_currency</key>
         <value><![CDATA[Monedas]]></value>

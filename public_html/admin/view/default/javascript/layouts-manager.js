@@ -192,11 +192,12 @@ $(function () {
 	
 	formChanged = function (block) {
 		$('#layout_form').prop('changed', 'true');
-		if(block) {
-			$(block).children('.afield').addClass('changed');
+		var $inputs = $(block).children('.afield input');
+		if($inputs.length) {
+			$inputs.addClass('changed');
 		} else {
 			//find any element and mark changed
-			$('#layout_form').find('.afield').addClass('changed');
+			$('#layout_form').find('.afield input').addClass('changed');
 		}
 		$('#content.panel').addClass('afield')	
 		$('#content .panel-body').addClass('changed');
