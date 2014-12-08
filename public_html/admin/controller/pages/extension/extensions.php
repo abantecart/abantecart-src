@@ -701,7 +701,7 @@ class ControllerPagesExtensionExtensions extends AController {
 		}
 
 		// additional settings page
-		if ($ext->getConfig('additional_settings') && $status) {
+		if ($ext->getConfig('additional_settings')) {
 			$btn_param = array(
 					'type' => 'button',
 					'name' => 'btn_addsett',
@@ -738,7 +738,7 @@ class ControllerPagesExtensionExtensions extends AController {
 			}			
 		}
 
-		//load tabs controller
+		//load tabs controller for addtional settings
 		if($this->data['add_sett']){
 			$this->data['groups'][] = 'additional_settings';
 			$this->data['link_additional_settings'] = $this->data['add_sett']->href.'&extension='.$extension;
