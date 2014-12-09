@@ -165,8 +165,7 @@ class ControllerPagesSettingSetting extends AController {
 			//button for template cloning
 			$dev_tools = $this->extensions->getExtensionsList(array('search'=>'developer_tools'))->row;
 			if( is_null($dev_tools['status']) ){
-				//TODO: need to paste correct URL
-				$href = "http://www.abantecart.com/abantecart-extension-developer-tools";
+				$href = "http://www.abantecart.com/extension-developer-tools";
 			}elseif($dev_tools['status']==1){
 				$href = $this->html->getSecureURL('tool/developer_tools/create');
 			}else{
