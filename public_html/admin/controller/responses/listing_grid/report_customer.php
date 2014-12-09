@@ -96,8 +96,14 @@ class ControllerResponsesListingGridReportCustomer extends AController {
 	    $results = $this->model_report_customer->getCustomerOrders($data);
 	    $i = 0;
 		foreach ($results as $result) {
-            $response->rows[$i]['id'] = $result['customer_id'];
-            //mark inactive customers. 
+			if ($result['customer_id'] > 0) {
+	            $response->rows[$i]['id'] = $result['customer_id'];
+			} else {
+				//this is guest order
+				$response->rows[$i]['id'] = 'null';
+				$result['customer_id'] = 'Guest';
+			}
+            //mark inactive or missing customers. 
             if ($result['status'] != 1) {
 				$response->userdata->classes[$result['customer_id']] = 'attention';
 			}
