@@ -97,9 +97,9 @@ class ModelReportCustomer extends Model {
 			$total_sql = 'SELECT COUNT(DISTINCT o.customer_id) as total';
 		}
 		else {
-			$total_sql = "SELECT 	c.customer_id, 
-									CONCAT(c.firstname, ' ', c.lastname) AS customer, 
-									cg.name AS customer_group, 
+			$total_sql = "SELECT 	o.customer_id, 
+									CONCAT(o.firstname, ' ', o.lastname) AS customer, 
+									COALESCE(cg.name, 'N/A') AS customer_group, 
 									c.status, 
 									COUNT(DISTINCT o.order_id) AS order_count, 
 									SUM(o.total) AS `total`
@@ -109,7 +109,7 @@ class ModelReportCustomer extends Model {
 
 		$sql = $total_sql . " FROM `" . $this->db->table("orders") . "` o 
 								LEFT JOIN `" . $this->db->table("customers") . "` c ON (o.customer_id = c.customer_id) 
-								LEFT JOIN `" . $this->db->table("customer_groups") . "` cg ON (c.customer_group_id = cg.customer_group_id) 
+								LEFT JOIN `" . $this->db->table("customer_groups") . "` cg ON (o.customer_group_id = cg.customer_group_id) 
 							";
 
 		$filter = (isset($data['filter']) ? $data['filter'] : array());
@@ -120,7 +120,7 @@ class ModelReportCustomer extends Model {
 		}
 
 		if (has_value($filter['customer_id'])) {
-			$implode[] = " c.customer_id = " . (int)$filter['customer_id'] . " ";
+			$implode[] = " o.customer_id = " . (int)$filter['customer_id'] . " ";
 		}
 		if (!empty($filter['date_start'])) {
 			$date_start = dateDisplay2ISO($filter['date_start'],$this->language->get('date_format_short'));
@@ -132,7 +132,7 @@ class ModelReportCustomer extends Model {
 		}	
 		//fillter for first and last name 
 		if (has_value($filter['customer'])) {
-			$implode[] = "CONCAT(c.firstname, ' ', c.lastname) LIKE '%" . $this->db->escape($filter['customer']) . "%' collate utf8_general_ci";
+			$implode[] = "CONCAT(o.firstname, ' ', o.lastname) LIKE '%" . $this->db->escape($filter['customer']) . "%' collate utf8_general_ci";
 		}
 		
 		if ($implode) {

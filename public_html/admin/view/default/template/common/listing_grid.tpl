@@ -284,8 +284,10 @@ var initGrid_<?php echo $data['table_id'] ?> = function ($) {
             if (actions != '') {
                 var ids = jQuery(table_id).jqGrid('getDataIDs');
                 for (var i = 0; i < ids.length; i++) {
-                    var _a = actions.replace(/%ID%/g, ids[i]);
-                    jQuery(table_id).jqGrid('setRowData', ids[i], {action:_a});
+                	if (ids[i] != 'null') {
+	                    var _a = actions.replace(/%ID%/g, ids[i]);
+	                    jQuery(table_id).jqGrid('setRowData', ids[i], {action:_a});                	
+                	}
                 }
 
 				$(table_id + '_wrapper a[class*=grid_action_]')
