@@ -60,7 +60,7 @@
                 <li>
                     <div class="media">
                         <a href="<?php echo $order['url']; ?>" class="pull-left media-thumb">
-							Order #<?php echo $order['order_id'];?>
+							#<?php echo $order['order_id'];?>
                         </a>
                         <div class="media-body">
                             <strong>Status: <?php echo $order['status'];?></strong>

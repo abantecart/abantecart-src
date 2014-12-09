@@ -64,7 +64,7 @@ class ControllerCommonFooter extends AController {
 		$top_orders = $this->model_sale_order->getOrders($filter);
 		foreach( $top_orders as $indx => $order) {
 			$top_orders[$indx]['url'] = $this->html->getSecureURL('sale/order/details', '&order_id='.$order['order_id']);
-			$top_orders[$indx]['total'] = $this->currency->format($top_orders['total'], $this->config->get('config_currency'));
+			$top_orders[$indx]['total'] = $this->currency->format($order['total'], $this->config->get('config_currency'));
 		}
 		$this->view->assign('top_orders', $top_orders);
 		
