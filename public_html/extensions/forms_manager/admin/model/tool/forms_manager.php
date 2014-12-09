@@ -478,9 +478,9 @@ class ModelToolFormsManager extends Model {
 
 		$data['field_name'] = str_replace(' ', '_', $this->db->escape($data['field_name']));
 
-		if (!$this->checkFieldInForm($form_id, $data['field_name'])) {
+		if ($this->isFieldNameUnique($form_id, $data['field_name'])) {
 
-			$q = 'INSERT INTO ' . $this->db->table('fields') . '
+			$sql = 'INSERT INTO ' . $this->db->table('fields') . '
 				SET
 					form_id = "' . (int)$form_id . '",
 					field_name = "' . $data['field_name'] . '",
@@ -489,17 +489,17 @@ class ModelToolFormsManager extends Model {
 
 			$data['sort_order'] = isset($data['sort_order']) ? (int)$data['sort_order'] : 0;
 
-			$q .= 'sort_order = "' . $data['sort_order'] . '", ';
+			$sql .= 'sort_order = "' . $data['sort_order'] . '", ';
 
 			$data['required'] = ((int)$data['required'] > 0) ? 'Y' : 'N';
 
-			$q .= 'required = "' . $data['required'] . '", ';
+			$sql .= 'required = "' . $data['required'] . '", ';
 
 			$data['status'] = (int)$data['status'];
 
-			$q .= 'status = "' . $data['status'] . '"';
+			$sql .= 'status = "' . $data['status'] . '"';
 
-			$this->db->query($q);
+			$this->db->query($sql);
 
 			$field_id = $this->db->getLastId();
 
@@ -536,18 +536,20 @@ class ModelToolFormsManager extends Model {
 
 	}
 
-	public function checkFieldInForm($form_id, $field_name) {
+	public function isFieldNameUnique($form_id, $field_name, $field_id=0) {
 
 		$result = $this->db->query(
-				'SELECT field_id FROM ' . $this->db->table("fields") . '
-			WHERE form_id = "' . (int)$form_id . '"
-			AND field_name = "' . $field_name . '" LIMIT 1'
+				"SELECT field_id FROM " . $this->db->table("fields") . "
+			WHERE form_id = '" . (int)$form_id . "'
+			".($field_id ? " AND field_id<>'".(int)$field_id."'" : '')."
+			AND field_name = '" . $field_name . "'
+			LIMIT 1"
 		);
 
 		if ($result->num_rows > 0) {
-			return true;
+			return false;
 		}
-		return false;
+		return true;
 	}
 
 	public function getFields($form_id) {

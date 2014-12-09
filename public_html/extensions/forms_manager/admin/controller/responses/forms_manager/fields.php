@@ -85,7 +85,12 @@ class ControllerResponsesFormsManagerFields extends AController {
 			$this->error['error_required'] = $this->language->get('error_fill_required');
 		}
 
-		if($rr = $this->model_tool_forms_manager->checkFieldInForm($this->request->get['form_id'],$data['field_name'])){
+		if(!($rr = $this->model_tool_forms_manager->isFieldNameUnique(
+				$this->request->get['form_id'],
+				$data['field_name'],
+				$data['field_id']
+				))
+		){
 			$this->error['field_name'] = sprintf($this->language->get('error_field_name_exists'),$data['field_name']) ;
 		}
 
@@ -194,6 +199,7 @@ class ControllerResponsesFormsManagerFields extends AController {
 				'type' => 'checkbox',
 				'name' => 'required',
 				'value' => ($this->data['field_data']['required'] == 'Y') ? 1 : 0,
+				'style' => 'btn_switch'
 		));
 
 		if (!in_array($this->data['field_data']['element_type'], array('U', 'K'))) {
@@ -326,7 +332,7 @@ class ControllerResponsesFormsManagerFields extends AController {
 			$this->data['attr_val_id'] = $field_value_id;
 		} else {
 			$field_value_id = '';
-			$this->data['row_id'] = 'new1_row';
+			$this->data['row_id'] = 'new_row';
 		}
 
 		$this->data['form']['fields']['field_value_id'] = $form->getFieldHtml(array(
