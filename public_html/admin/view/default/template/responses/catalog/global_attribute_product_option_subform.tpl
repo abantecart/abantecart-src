@@ -73,10 +73,12 @@
 			<label class="control-label col-sm-3 col-xs-12"></label>
 			<div class="input-group afield cl-sm-7">
 				<ul class="list-group">
+				<?php if (is_array($children)) { ?>
 					<?php foreach ($children as $child) { ?>
 						<li class="list-group-item"><a
 									href="<?php echo $child['link']; ?>"><?php echo $child['name']; ?></a></li>
 					<?php } ?>
+				<?php } ?>
 				</ul>
 				<dl class="dl-horizontal">
 					<dt><?php echo $entry_allowed_extensions; ?></dt>
