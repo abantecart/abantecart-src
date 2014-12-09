@@ -125,6 +125,7 @@ class ControllerResponsesListingGridExtension extends AController {
 		}
 
 		$rows = array_merge( $to_install, $extensions->rows);
+		$upd = $this->cache->get('extensions.updates');
 
 		foreach ($rows as $row) {
 			$extension = $row['key'];
@@ -186,11 +187,11 @@ class ControllerResponsesListingGridExtension extends AController {
 				$category = $row['category'];
 
 				// if update available
-				if ($this->session->data['extension_updates']) {
-					if (in_array($extension, array_keys($this->session->data['extension_updates']))) {
-						$name = '<p class="warning">' . $name . '<br>' . str_replace('%NEWVERSION%', $this->session->data['extension_updates'][$extension]['new_version'], $this->language->get('text_update_it')) . '</p>';
-						$push[] = $i;
-					}
+				if( is_array($upd) && in_array($extension,array_keys($upd)) ){
+					$name = '<p class="alert-info">' . $name . '<br>' . sprintf(  $this->language->get('text_update_available'),
+																$upd[$extension]['version'],
+																$this->html->getSecureURL('tool/package_installer', '&extension_key=' . $upd[$extension]['installation_key'])) . '</p>';
+					$push[] = $i;
 				}
 
 			}

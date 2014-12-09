@@ -555,6 +555,14 @@ class ControllerPagesExtensionExtensions extends AController {
 			$this->data['error'] = '';
 		}
 
+		//info about available updates
+		$upd = $this->cache->get('extensions.updates');
+		if( is_array($upd) && in_array($extension,array_keys($upd)) ){
+			$this->data['info'] = sprintf(  $this->language->get('text_update_available'),
+											$upd[$extension]['version'],
+											$this->html->getSecureURL('tool/package_installer', '&extension_key=' . $upd[$extension]['installation_key']));
+		}
+
 		$missing_extensions = $this->extensions->getMissingExtensions();
 		//if extension is missing - do redirect on extensions list with alert!
 		if (in_array($extension, $missing_extensions)) {

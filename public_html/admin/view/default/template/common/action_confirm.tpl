@@ -7,3 +7,7 @@
 <?php if ($success) { ?>
 	<div class="success alert alert-success"><i class="fa fa fa-check fa-fw"></i> <?php echo $success; ?></div>
 <?php } ?>
+
+<?php if ($info) { ?>
+	<div class="info alert alert-info"><i class="fa fa fa-check fa-fw"></i> <?php echo $info; ?></div>
+<?php } ?>

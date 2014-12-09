@@ -152,6 +152,11 @@ var buildNotifier = function(data){
 $(document).ready(function(){
 	notifier_updater();
 	$(document).on('click', '#message_modal a[data-dismiss="modal"], #message_modal button[data-dismiss="modal"]', notifier_updater );
+	<?php
+	//do ajax call to check extension updates
+	if($check_updates_url){ ?>
+	$.get('<?php echo $check_updates_url?>');
+	<?php }?>
 });
 <?php } ?>
 </script>

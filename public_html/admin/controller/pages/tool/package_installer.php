@@ -337,9 +337,9 @@ class ControllerPagesToolPackageInstaller extends AController {
 			}else{ // for upgrades
 				$url = "/?option=com_abantecartrepository&format=raw";
 			}
-			$url .= "&store_id=" . UNIQUE_ID;
-			$url .= "&store_ip=" . $_SERVER ['SERVER_ADDR'];
-			$url .= "&store_url=" . HTTP_SERVER;
+			$url .= "&remote_store_id=" . UNIQUE_ID;
+			$url .= "&remote_store_ip=" . $_SERVER ['SERVER_ADDR'];
+			$url .= "&remote_store_url=" . HTTP_SERVER;
 			$url .= "&store_version=" . VERSION;
 			$url .= "&extension_key=" . $extension_key;
 		} else {

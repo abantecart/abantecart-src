@@ -135,7 +135,7 @@ class APackageManager {
 			$this->removeDir($dst_dir . pathinfo(pathinfo($tar_filename,PATHINFO_FILENAME),PATHINFO_FILENAME) ); //run pathinfo twice for tar.gz. files
 			try {
 				$phar = new PharData($tar_filename);
-				$phar->extractTo($dst_dir);
+				$phar->extractTo($dst_dir, null, true);
 			} catch (Exception $e){
 				$error = new AError( $e->getMessage() );
 				$error->toLog()->toDebug();
@@ -603,18 +603,21 @@ class APackageManager {
 						return false;
 					}
 
-				} elseif ($install_mode == 'upgrade') {
+				} elseif ($install_mode == 'upgrade'){
 					$install_upgrade_history = new ADataset('install_upgrade_history', 'admin');
-					$install_upgrade_history->addRows(array('date_added' => date("Y-m-d H:i:s", time()),
-						'name' => $extension_id,
-						'version' => $version,
-						'backup_file' => '',
-						'backup_date' => '',
-						'type' => 'upgrade',
-						'user' => $this->user->getUsername()));
+					$install_upgrade_history->addRows(array('date_added'  => date("Y-m-d H:i:s", time()),
+					                                        'name'        => $extension_id,
+					                                        'version'     => $version,
+					                                        'backup_file' => '',
+					                                        'backup_date' => '',
+					                                        'type'        => 'upgrade',
+					                                        'user'        => $this->user->getUsername()));
 
-
-					$config = simplexml_load_string(file_get_contents($this->session->data['package_info']['tmp_dir'] . $package_dirname . '/code/extensions/' . $extension_id . '/config.xml'));
+					$config = '';
+					$ext_conf_filename = $this->session->data['package_info']['tmp_dir'] . $package_dirname . '/code/extensions/' . $extension_id . '/config.xml';
+					if(is_file($ext_conf_filename)){
+						$config = simplexml_load_file($ext_conf_filename);
+					}
 					$config = !$config ? getExtensionConfigXml($extension_id) : $config;
 					// running sql upgrade script if it exists
 					if (isset($config->upgrade->sql)) {
@@ -634,7 +637,7 @@ class APackageManager {
 						}
 					}
 
-					$this->extension_manager->editSetting($extension_id, array('license_key' => $this->session->data['package_info']['installation_key'],
+					$this->extension_manager->editSetting($extension_id, array('license_key' => $this->session->data['package_info']['extension_key'],
 						'version' => $version));
 				}
 				break;

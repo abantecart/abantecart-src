@@ -228,8 +228,8 @@
 		<value><![CDATA[Dependencies]]></value>
 	</definition>
 	<definition>
-		<key>text_update_it</key>
-		<value><![CDATA[New version (%NEWVERSION%) is available]]></value>
+		<key>text_update_available</key>
+		<value><![CDATA[New version (%s) is available. <a href="%s">Click to update now.</a>]]></value>
 	</definition>
 	<definition>
 		<key>text_delete_confirm</key>
