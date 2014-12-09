@@ -546,20 +546,16 @@ class ControllerPagesExtensionBannerManager extends AController {
 				unset($this->session->data['layout_params']);
 			}
 			// save list if it is custom
-			$this->request->post['selected'] = json_decode(html_entity_decode($this->request->post['selected'][0]), true);
-			if ($this->request->post['selected']) {
-				$listing_manager = new AListingManager($custom_block_id);
 
-				foreach ($this->request->post['selected'] as $id => $info) {
-					if ($info['status']) {
-						$listing_manager->saveCustomListItem(
-								array('data_type' => 'banner_id',
-										'id' => $id,
-										'sort_order' => (int)$info['sort_order']));
-					} else {
-						$listing_manager->deleteCustomListItem(array('data_type' => 'banner_id',
-								'id' => $id));
-					}
+			if ($this->request->post['block_banners']) {
+				$listing_manager = new AListingManager($custom_block_id);
+				$listing_manager->deleteCustomListing();
+				foreach ($this->request->post['block_banners'] as $k=>$id) {
+					$listing_manager->saveCustomListItem(
+							array('data_type' => 'banner_id',
+									'id' => (int)$id,
+									'sort_order' => (int)$k));
+
 				}
 
 			}
