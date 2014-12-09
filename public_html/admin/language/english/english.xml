@@ -173,6 +173,10 @@
 		<value><![CDATA[Back]]></value>
 	</definition>
 	<definition>
+	    <key>button_continue</key>
+	    <value><![CDATA[Continue]]></value>
+	</definition>
+	<definition>
 		<key>button_remove</key>
 		<value><![CDATA[Remove]]></value>
 	</definition>

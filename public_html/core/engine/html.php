@@ -640,6 +640,10 @@ class AHtml extends AController {
 	 */
 	public function convertLinks($html, $type = '') {
 
+		$new_href = str_replace('#admin#', $this->getSecureURL('') . '&', $html);
+
+		return $new_href;
+
 		$route_sections = array( "admin", "storefront" );
 		foreach ($route_sections as $rt_type) {
 			preg_match_all('/(#' . $rt_type . '#rt=){1}[a-z0-9\/_\-\?\&=\%#]{1,255}(\b|\")/', $html, $matches, PREG_OFFSET_CAPTURE);
