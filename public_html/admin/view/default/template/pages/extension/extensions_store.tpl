@@ -171,6 +171,7 @@
 
 <script type="text/javascript">
 	$("#sorting").change(function () {
+		$(this).attr('disabled','disabled');
 		location = '<?php echo $listing_url?>&' + $(this).val();
 	});
 

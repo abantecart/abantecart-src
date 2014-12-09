@@ -51,6 +51,11 @@
 	-ms-transform: scale(2);
 	filter: progid:DXImageTransform.Microsoft.Matrix(sizingMethod='auto expand', M11=2, M12=-0, M21=0, M22=2);
 }
+.text_zoom a {
+	cursor: hand;
+	cursor: pointer;
+}
+
 .ext_more {
 	background-color: #F5F5F5;
 	padding: 3px 5px 4px 5px;	
