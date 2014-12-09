@@ -44,19 +44,20 @@ class ControllerResponsesListingGridProduct extends AController {
 
 		//Prepare filter config
 		$filter_params = array( 'category', 'status', 'keyword', 'match', 'pfrom', 'pto' );
-		$grid_filter_params = array( 'name', 'sort_order', 'model', 'quantity' );
+		$grid_filter_params = array( 'name', 'sort_order', 'model' );
 
 		$filter_form = new AFilter(array( 'method' => 'get', 'filter_params' => $filter_params ));
 		$filter_grid = new AFilter(array( 'method' => 'post', 'grid_filter_params' => $grid_filter_params ));
+		$data = array_merge($filter_form->getFilterData(), $filter_grid->getFilterData());
 
-		$total = $this->model_catalog_product->getTotalProducts(array_merge($filter_form->getFilterData(), $filter_grid->getFilterData()));
+		$total = $this->model_catalog_product->getTotalProducts($data);
 		$response = new stdClass();
 		$response->page = $filter_grid->getParam('page');
 		$response->total = $filter_grid->calcTotalPages($total);
 		$response->records = $total;
 		$response->userdata = new stdClass();
 		$response->userdata->classes = array();
-		$results = $this->model_catalog_product->getProducts(array_merge($filter_form->getFilterData(), $filter_grid->getFilterData()));
+		$results = $this->model_catalog_product->getProducts($data);
 
 		$resource = new AResource('image');
 		$i = 0;

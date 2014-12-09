@@ -118,12 +118,14 @@ class ControllerPagesCatalogProduct extends AController {
 				'index' => 'price',
                 'align' => 'center',
 				'width' => 90,
+				'search' => false,
 			),
 			array(
 				'name' => 'quantity',
 				'index' => 'quantity',
                 'align' => 'center',
 				'width' => 90,
+				'search' => false,
 			),
 			array(
 				'name' => 'status',
