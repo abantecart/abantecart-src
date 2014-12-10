@@ -106,7 +106,7 @@ $modal_content = '<div class="add-option-modal" >
 			    <div id="collapseTwo" >
 			    	' . $form['form_open'] . '
 			    	<div class="panel-body panel-body-nopadding">
-			    		' . $attributesdd . '
+			    		' . $attributes . '
 			    		<div class="mt10 ">
 			    			<div class="form-group ' . (!empty($error['status']) ? "has-error" : "") . '">
 			    				<label class="control-label col-sm-3 col-xs-12" for="' . $field->element_id . '">' . $entry_status . '</label>
@@ -227,6 +227,13 @@ jQuery(function ($) {
 		for (var k in flds) {
 			data[flds[k]] = $('#' + flds[k]).val();
 		}
+		var settings = $('input[name^=settings]');
+		if(settings.length>0){
+			settings.each(function(){
+				data[$(this).attr('name')] = $(this).val();
+			});
+		}
+
 		$.ajax({
 			url: opt_urls.update_field,
 			data: data,
