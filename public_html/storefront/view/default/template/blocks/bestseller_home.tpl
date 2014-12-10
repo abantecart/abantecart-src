@@ -1,5 +1,5 @@
 <section id="bestseller" class="row mt40">
-	<div class="container">
+	<div class="container-fluid">
 		<?php
 		if ( $block_framed ) { ?>
 		<div class="block_frame block_frame_<?php echo $block_details['block_txt_id'];?>"

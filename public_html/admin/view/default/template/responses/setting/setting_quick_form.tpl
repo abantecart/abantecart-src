@@ -58,8 +58,11 @@
 	<div class="panel-footer">
 		<div class="row">
 		   <div class="center">
+			 <a class="btn btn-primary on_save_close">
+			 <i class="fa fa-save"></i> <?php echo $button_save_and_close; ?>
+			 </a>&nbsp;
 			 <button class="btn btn-primary">
-			 <i class="fa fa-save"></i> <?php echo $form['submit']->text; ?>
+			 <i class="fa fa-save"></i> <?php echo $button_save; ?>
 			 </button>&nbsp;
 			 <a class="btn btn-default" data-dismiss="modal" href="<?php echo $cancel; ?>">
 			 <i class="fa fa-refresh"></i> <?php echo $form['cancel']->text; ?>
@@ -71,26 +74,23 @@
 </div>
 
 <script type="text/javascript">
-	$('#qsFrm').submit(function () {
-		$.ajax(
-				{   url: '<?php echo $form['form_open']->action; ?>',
-					type: 'POST',
-					data: $('#qsFrm').serializeArray(),
-					dataType: 'json',
-					success: function (data) {
-						if (data.result_text != '') {
-							success_alert(data.result_text, false, "#setting_form");
-						}
-					}
-				});
-		return false;
-	});
-
+//regular submit
+$('#qsFrm').submit(function () {
+	save_changes();
+	return false;
+});
+//save an close mode
+$('.on_save_close').on('click', function(){
+	var $btn = $(this);
+	save_changes();
+	$btn.closest('.modal').modal('hide');
+	return false;
+});
 
 $('#template_preview').load('<?php echo $template_image; ?>&template=' + $('#qsFrm_config_storefront_template').val());
     $('#qsFrm_config_storefront_template').change(function () {
         $('#template_preview').load('<?php echo $template_image; ?>&template=' + $('#qsFrm_config_storefront_template').val())
-    });
+});
 
 $('#store_switcher_form').on('submit', function(){
 	var that  = $(this);
@@ -108,7 +108,22 @@ $('#store_switcher_form').on('submit', function(){
 	});
 
 	return false;
+});
+
+function save_changes(){
+	$.ajax({
+		url: '<?php echo $form['form_open']->action; ?>',
+	    type: 'POST',
+	    data: $('#qsFrm').serializeArray(),
+	    dataType: 'json',
+	    success: function (data) {
+	        if (data.result_text != '') {
+	        	success_alert(data.result_text, false, "#setting_form");
+	        }
+	    }
 	});
+	return false;
+}
 
 </script>
 

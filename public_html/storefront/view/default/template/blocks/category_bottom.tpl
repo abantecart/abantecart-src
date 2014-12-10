@@ -1,4 +1,4 @@
-<div class="container">
+<div class="container-fluid">
 	<section id="categorymenu">
 		<nav class="subnav">
 			<ul class="nav-pills categorymenu">

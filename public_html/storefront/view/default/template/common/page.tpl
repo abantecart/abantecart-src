@@ -2,6 +2,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml" dir="<?php echo $direction; ?>" lang="<?php echo $lang; ?>" xml:lang="<?php echo $lang; ?>" <?php echo $this->getHookVar('hk_html_attribute'); ?>>
 <head><?php	echo $head; ?></head>
 <body>
+<div class="container-fixed" style="max-width: <?php echo $layout_width; ?>">
+
 <?php if($maintenance_warning){ ?>
 	<div class="alert">
 	 	<button type="button" class="close" data-dismiss="alert">&times;</button>
@@ -13,7 +15,7 @@ echo ${$header}; ?>
 
 <?php if ( !empty( ${$header_bottom} ) ) { ?>
 <!-- header_bottom blocks placeholder -->
-	<div class="container">
+	<div class="container-fluid">
 		<div class="col-md-12">
 	    <?php echo ${$header_bottom}; ?>
 	  	</div>
@@ -37,7 +39,7 @@ echo ${$header}; ?>
 	}
 ?>  
 
-	<div class="container">
+	<div class="container-fluid">
 		<?php if ( !empty(${$column_left} ) ) { ?>
 		<div class="column_left col-md-3 col-xs-12">
 		<?php echo ${$column_left}; ?>
@@ -75,7 +77,7 @@ echo ${$header}; ?>
 
 <?php if ( !empty( ${$footer_top} ) ) { ?>
 <!-- footer top blocks placeholder -->
-	<div class="container">
+	<div class="container-fluid">
 		<div class="col-md-12">
 	    <?php echo ${$footer_top}; ?>
 	  	</div>

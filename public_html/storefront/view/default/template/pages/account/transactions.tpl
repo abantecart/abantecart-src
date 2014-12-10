@@ -40,7 +40,7 @@
 </div>
 
 
-<div class="container cart_total">
+<div class="container-fluid cart_total">
 	<div class="cart-info totals pull-right">
 	    <table class="table table-striped table-bordered">
 	    	<tr>

@@ -1,5 +1,5 @@
 <section class="slider">
-  <div class="container">
+  <div class="container-fluid">
     <div class="flexslider" id="mainslider">
       <ul class="slides banner">
 	<?php if ($content) {

@@ -1,6 +1,6 @@
 <!-- Popular Brands-->
-<section id="popularbrands" class="container mt40">
-    <div class="container">
+<section id="popularbrands" class="container-fluid mt40">
+    <div class="container-fluid">
 <?php if ( $block_framed ) { ?>
 		<div class="block_frame block_frame_<?php echo $block_details['block_txt_id']; ?>"
 					 id="block_frame_<?php echo $block_details['block_txt_id'] . '_' . $block_details['instance_id'] ?>">
