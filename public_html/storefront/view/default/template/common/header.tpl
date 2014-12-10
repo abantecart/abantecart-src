@@ -1,6 +1,6 @@
 <header>
 <div class="headerstrip navbar navbar-inverse" role="navigation">
-	<div class="container">
+	<div class="container-fluid">
 	  <div class="navbar-header header-logo">
 	    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse">
 	      <span class="sr-only"></span>
@@ -26,7 +26,7 @@
 	   </div><!--/.navbar-collapse -->
 	</div>         
 </div>
-<div class="container">
+<div class="container-fluid">
     <div class="col-md-12 headerdetails">
     	<!-- header blocks placeholder -->
     	<div class="block_5"><?php echo ${$children_blocks[4]}; ?></div>			
@@ -42,7 +42,7 @@
 <!-- Header Start -->
 <header>
 	<div class="headerstrip">
-		<div class="container">
+		<div class="container-fluid">
 			<div class="row">
 				<div class="col-md-12">
 					<?php if (is_file(DIR_RESOURCE . $logo)) { ?>
@@ -63,7 +63,7 @@
 		</div>
 	</div>
 
-	<div class="container">
+	<div class="container-fluid">
 		<div class="headerdetails">
 			<!-- header blocks placeholder -->
 			<div class="pull-left"><?php echo ${$children_blocks[4]}; ?></div>			

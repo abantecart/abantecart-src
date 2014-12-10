@@ -45,7 +45,7 @@
 						<?php echo $product['buttons'] ?>
 					</div>
 					<?php if ($display_price) { ?>
-						<div class="pricetag">
+						<div class="pricetag jumbotron">
 							<span class="spiral"></span>
 							<?php if(!$product['call_to_order']){ ?>
 							<a data-id="<?php echo $product['product_id'] ?>" href="<?php echo $item['buy_url'] ?>" class="productcart"><?php echo $button_add_to_cart ?></a>

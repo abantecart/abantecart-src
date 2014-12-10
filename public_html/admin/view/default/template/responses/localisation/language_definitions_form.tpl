@@ -66,6 +66,9 @@
 
 	<div class="panel-footer">
 			<div class="center">
+				<a class="btn btn-primary on_save_close">
+					<i class="fa fa-save"></i> <?php echo $button_save_and_close; ?>
+				</a>&nbsp;
 				<button class="btn btn-primary">
 					<i class="fa fa-save"></i> <?php echo $form['submit']->text; ?>
 				</button>
@@ -79,28 +82,39 @@
 </div>
 
 <script type="text/javascript">
-	$('#definitionQFrm').submit(function () {
-		$.ajax(
-				{   url: '<?php echo $form['form_open']->action; ?>',
-					type: 'POST',
-					data: $('#definitionQFrm').serializeArray(),
-					dataType: 'json',
-					success: function (data) {
-							<?php if(!$language_definition_id){?>
-							if ($('#ld_modal')) {
-								$('#ld_modal').modal('hide');
-							}
-							if ($('#lang_definition_grid')) {
-								$('#lang_definition_grid').trigger("reloadGrid");
-								success_alert(data.result_text);
-							}
-							<?php }else{ ?>
-							success_alert(data.result_text, false, "#ld_form");
-							<?php } ?>
-					}
-				});
-		return false;
+$('#definitionQFrm').submit(function () {
+	save_changes();
+	return false;
+});
+//save an close mode
+$('.on_save_close').on('click', function(){
+	var $btn = $(this);
+	save_changes();
+	$btn.closest('.modal').modal('hide');
+	return false;
+});
+
+function save_changes(){
+	$.ajax({
+		url: '<?php echo $form['form_open']->action; ?>',
+	    type: 'POST',
+	    data: $('#definitionQFrm').serializeArray(),
+	    dataType: 'json',
+	    success: function (data) {
+			<?php if(!$language_definition_id){?>
+			if ($('#ld_modal')) {
+			    $('#ld_modal').modal('hide');
+			}
+			if ($('#lang_definition_grid')) {
+			    $('#lang_definition_grid').trigger("reloadGrid");
+			    success_alert(data.result_text);
+			}
+			<?php }else{ ?>
+				success_alert(data.result_text, false, "#ld_form");
+			<?php } ?>
+	    }
 	});
+}
 
 </script>
 

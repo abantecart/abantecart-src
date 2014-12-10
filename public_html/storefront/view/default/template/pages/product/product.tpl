@@ -81,7 +81,7 @@
 							<?php
 
 							if ($display_price) { ?>
-								<div class="productpageprice">
+								<div class="productpageprice jumbotron">
 									<?php if ($special) { ?>
 										<div class="productfilneprice">
 											<span class="spiral"></span><?php echo $special; ?></div>

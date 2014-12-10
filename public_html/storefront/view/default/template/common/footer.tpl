@@ -2,7 +2,7 @@
 <footer>
 	<!-- footer blocks placeholder -->
 	<section class="footersocial">
-		<div class="container">
+		<div class="container-fluid">
 			<div class="row">
 				<div class="col-md-3">
 					<?php echo ${$children_blocks[0]}; ?>
@@ -21,7 +21,7 @@
 	</section>
 
 	<section class="footerlinks">
-		<div class="container">
+		<div class="container-fluid">
 			<div class="pull-left">
 				<?php echo ${$children_blocks[4]}; ?>
 			</div>
@@ -31,7 +31,7 @@
 		</div>
 	</section>
 	<section class="copyrightbottom align_center">
-		<div class="container">
+		<div class="container-fluid">
 			<div class="pull-left mt10">
 				<?php echo ${$children_blocks[6]}; ?>
 			</div>
@@ -47,6 +47,7 @@
 	</section>
 	<a id="gotop" href="#">Back to top</a>
 </footer>
+</div><!-- container-fixed -->
 
 <div id="msgModal" class="modal fade">
 <div class="modal-dialog">
