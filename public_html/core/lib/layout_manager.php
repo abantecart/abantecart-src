@@ -484,10 +484,12 @@ class ALayoutManager{
 	 * @param int $instance_id
 	 * @return array
 	 */
-	public function getBlockChildren($instance_id = 0){
+	public function getBlockChildren($parent_instance_id, $parent_block_id){
 		$blocks = array();
 		foreach($this->blocks as $block){
-			if(( string )$block ['parent_instance_id'] == ( string )$instance_id){
+			if((string)$block['parent_instance_id'] == (string)$parent_instance_id){
+				//locate block template assigned based on parant block ID
+				$block['template'] = $this->getBlockTemplate($block['block_id'],$parent_block_id);
 				array_push($blocks, $block);
 			}
 		}
@@ -520,7 +522,7 @@ class ALayoutManager{
 			$block = $this->getLayoutBlockByTxtId($placeholder);
 			if(!empty ($block)){
 				$blocks [$block['block_id']] = $block;
-				$children = $this->getBlockChildren($block['instance_id']);
+				$children = $this->getBlockChildren($block['instance_id'], $block['block_id']);
 				//process special case of fixed location for header and footer
 				if($block['block_id'] == self::HEADER_MAIN
 						|| $block['block_id'] == self::FOOTER_MAIN
@@ -969,6 +971,24 @@ class ALayoutManager{
 		$result = $this->db->query($sql);
 		return $result->rows;
 	}
+
+	/**
+	 * @param $block_id, $parent_block_id
+	 * @return array
+	 */
+	public function getBlockTemplate($block_id, $parent_block_id = 0){
+		$block_id = (int)$block_id;
+		$parent_block_id = (int)$parent_block_id;
+		if(!$block_id) return '';
+
+		$sql = "SELECT template
+				FROM " . $this->db->table("block_templates") . " 
+				WHERE block_id='" . $block_id . "'
+				AND parent_block_id in (" . $parent_block_id . ", 0) ";
+		$result = $this->db->query($sql);
+		return $result->rows[0]['template'];
+	}
+
 
 	/**
 	 * @param $data array

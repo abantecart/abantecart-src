@@ -224,4 +224,16 @@
 		<key>text_block_info</key>
 		<value><![CDATA[ Information About Custom Block ]]></value>
 	</definition>
+	<definition>
+		<key>text_add_block</key>
+		<value><![CDATA[Adding block to section]]></value>
+	</definition>
+	<definition>
+		<key>text_available_block</key>
+		<value><![CDATA[Available Blocks]]></value>
+	</definition>
+	<definition>
+		<key>error_block_not_available</key>
+		<value><![CDATA[This block will not be displaied in selected position on a storefront!]]></value>
+	</definition>
 </definitions>

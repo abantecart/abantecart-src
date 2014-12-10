@@ -36,8 +36,6 @@ class ControllerResponsesListingGridReportPurchased extends AController {
 		$sidx = $this->request->post['sidx']; // get index row - i.e. user click to sort
 		$sord = $this->request->post['sord']; // get the direction
 
-
-
 	    $data = array(
 			'sort'  => $sidx,
 			'order' => $sord,

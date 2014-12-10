@@ -1,12 +1,11 @@
 <div class="blocks-manager">
   <div class="modal-header">
-    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-    <h4 class="modal-title">Adding block to section</h4>
+    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only"><?php echo $text_close; ?></span></button>
+    <h4 class="modal-title"><?php echo $text_add_block; ?></h4>
   </div>
   <div class="modal-body">
     <ul class="nav nav-tabs" role="tablist">
-      <li class="active"><a href="#blocks" role="tab" data-toggle="tab">Available Blocks</a></li>
-      <!-- <li><a href="#create-block" role="tab" data-toggle="tab">Create New Block</a></li> -->
+      <li class="active"><a href="#blocks" role="tab" data-toggle="tab"><?php echo $text_available_block; ?></a></li>
     </ul>
 
     <!-- Tab panes -->
