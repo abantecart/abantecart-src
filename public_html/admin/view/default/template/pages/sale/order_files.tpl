@@ -88,14 +88,17 @@
 						<tr>
 							<td colspan="6"><?php if ($download['download_history']) { ?>
 									<div class="caption"><?php echo $order_download_history; ?></div>
-									<div class="download-history">
-										<table>
-											<tr>
-												<th><?php echo $text_time; ?></th>
-												<th><?php echo $text_filename ?></th>
-												<th><?php echo $text_mask ?></th>
-												<th><?php echo $text_download_percent ?></th>
-											</tr>
+									<div class="download-history col-sm-7">
+										<table class="table table-striped table-condensed">
+											<thead>
+												<tr>
+													<th><?php echo $text_time; ?></th>
+													<th><?php echo $text_filename ?></th>
+													<th><?php echo $text_mask ?></th>
+													<th><?php echo $text_download_percent ?></th>
+												</tr>
+											</thead>
+											<tbody>
 											<tr></tr>
 											<?php foreach ($download['download_history'] as $history) { ?>
 												<tr>
@@ -105,6 +108,7 @@
 													<td><?php echo $history['download_percent'] ?>%</td>
 												</tr>
 											<?php } ?>
+											</tbody>
 										</table>
 									</div>
 								<?php } ?>

@@ -420,6 +420,7 @@ class ControllerPagesToolFormsManager extends AController {
 		$this->data['required'] = $form->getFieldHtml(array(
 				'type' => 'checkbox',
 				'name' => 'required',
+				'style'=> 'btn_switch'
 		));
 
 		$this->data['entry_element_type'] = $this->language->get('text_field_type');

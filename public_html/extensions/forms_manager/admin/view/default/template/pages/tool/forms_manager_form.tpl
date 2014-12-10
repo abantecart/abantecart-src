@@ -194,7 +194,7 @@ var opt_urls = {
 	get_options_list: '<?php echo $urls['get_fields_list'] ?>'
 };
 var current_field_id = null;
-var row_id = 2;
+var row_id = 1;
 
 jQuery(function ($) {
 
@@ -257,7 +257,8 @@ jQuery(function ($) {
 
 
 	$(document).on('click', "#add_field_value", function () {
-		var new_row = $('#new1_row').parent().find('tr').last().clone();
+
+		var new_row = $('#new_row').clone();
 		$(new_row).attr('id', 'new' + row_id);
 
 		//find next sort order number
@@ -281,13 +282,13 @@ jQuery(function ($) {
 			$('#field_values_tbl tr:last-child').after(new_row);
 		}
 		bindAform($("input, checkbox, select", new_row));
-
-		$('#new' + row_id + ' input[name^=field_value_id]').val('new');
-		$("#new" + row_id + " input, #new" + row_id + " textarea, #new" + row_id + " select").each(function (i) {
-			var new_name = $(this).attr('name');
-			new_name = new_name.replace("[]", "[new" + row_id + "]");
-			$(this).attr('name', new_name);
-		});
+		//Mark rows to be new
+				$('#new' + row_id + ' input[name^=field_value_id]').val('new');
+				$("#new" + row_id + " input, #new" + row_id + " textarea, #new" + row_id + " select").each(function (i) {
+					var new_name = $(this).attr('name');
+					new_name = new_name.replace("[]", "[new" + row_id + "]");
+					$(this).attr('name', new_name);
+				});
 		row_id++;
 		return false;
 	});
