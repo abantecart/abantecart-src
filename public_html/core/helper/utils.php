@@ -115,6 +115,17 @@ function is_serialized ($value) {
 }
 
 /*
+ * check that argument array is multidimensional  
+ * */
+function is_multi ($array) {
+	if (is_array($array) && count($array) != count($array, COUNT_RECURSIVE)) {
+	    return true;
+	} else {
+	    return false;
+	}
+}
+ 
+/*
 *
 */
 /**

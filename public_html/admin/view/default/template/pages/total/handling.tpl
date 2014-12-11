@@ -25,26 +25,40 @@
 			$widthcasses = "col-sm-2";
 		}
 		$widthcasses .= " col-xs-12";
-		?>
-		<div class="form-group <?php if (!empty($error[$name])) {
-			echo "has-error";
-		} ?>">
-			<label class="control-label col-sm-3 col-xs-12" for="<?php echo $field->element_id; ?>"><?php echo ${'entry_' . $name}; ?></label>
 
+		//special case for payment specific fee
+		if("payment_fee" != substr($name,0,11)) {
+		?>		
+		<div class="form-group <?php if (!empty($error[$name])) { echo "has-error";} ?>">
+			<label class="control-label col-sm-3 col-xs-12" for="<?php echo $field->element_id; ?>"><?php echo ${'entry_' . $name}; ?></label>
 			<div id="<?php echo $name?>_wrp" class="input-group afield <?php echo $widthcasses; ?> <?php echo($name == 'description' ? 'ml_ckeditor' : '') .' '.(is_array($field) ? "form-inline" : "") ?>">
 				<?php if(!is_array($field)){
 					echo $field;
 				}else{
 					foreach($field as $i=>$f){
-						$widthcasses = $f->type == 'input' ? 'col-sm-2' : '';
-						?>
-						<div class="input-group afield <?php echo $widthcasses?>"><?php echo $f;?></div>
+					?>
+						<div class="input-group afield col-sm-2"><?php echo $f;?></div>
 				<?php }
 				} ?>
 			</div>
 			<?php if (!empty($error[$name])) { ?>
 				<span class="help-block field_err"><?php echo $error[$name]; ?></span>
-			<?php } ?>
+		</div>
+		<?php }
+		} else {
+		//special case for payment specific fee
+		?>
+		<div class="form-group form-group-sm <?php if (!empty($error[$name])) { echo "has-error";} ?>">
+			<label class="control-label col-sm-3 col-xs-12"><?php echo $field[0]; ?></label> 
+			<div id="<?php echo $name?>_wrp" class="input-group afield form-inline col-sm-9">
+				<div class="input-group input-group-sm afield col-sm-2"><?php echo $field[1]; ?></div>	
+				<div class="input-group input-group-sm col-sm-3 text-right"><?php echo $field[2]; ?></div>			
+				<div class="input-group input-group-sm afield col-sm-1"><?php echo $field[3]; ?></div>			
+				<div class="input-group input-group-sm col-sm-1 text-right"><?php echo $field[4]; ?></div>			
+				<div class="input-group input-group-sm afield col-sm-1"><?php echo $field[5]; ?></div>			
+				<div class="input-group input-group-sm afield col-sm-1"><?php echo $field[6]; ?></div>			
+			</div>
+		<?php } ?>	
 		</div>
 		<?php } ?><!-- <div class="fieldset"> -->
 

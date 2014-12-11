@@ -231,10 +231,8 @@ class ControllerPagesExtensionExtensions extends AController {
 	}
 
 	public function edit() {
-
 		//init controller data
 		$this->extensions->hk_InitData($this, __FUNCTION__);
-
 
 		$extension = $this->request->get['extension'];
 
@@ -257,7 +255,6 @@ class ControllerPagesExtensionExtensions extends AController {
 		if ($this->request->get_or_post('store_id')) {
 			$store_id = $this->request->get_or_post('store_id');
 		}
-
 
 		$ext = new ExtensionUtils($extension, $store_id);
 		$settings = $ext->getSettings();

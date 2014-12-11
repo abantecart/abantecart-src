@@ -138,7 +138,6 @@ class ControllerPagesTotalHandling extends AController {
 				'text' => $this->language->get('button_cancel')
 		));
 
-
 		$currency_symbol = $this->currency->getCurrency($this->config->get('config_currency'));
 		$currency_symbol = $currency_symbol[ 'symbol_left' ] . $currency_symbol[ 'symbol_right' ];
 
@@ -152,6 +151,7 @@ class ControllerPagesTotalHandling extends AController {
 			'type' => 'input',
 			'name' => 'handling_total',
 			'value' => $this->data['handling_total'],
+			'placeholder' => $this->language->get('entry_total_palceholder')
 		));
 		$this->data['form']['fields']['fee'] = array(
 				$form->getFieldHtml(array(
@@ -170,7 +170,6 @@ class ControllerPagesTotalHandling extends AController {
 				))
 		);
 
-
 		$payments = $this->extensions->getExtensionsList(array('filter'=>'payment','sort_order'=>array('name')));
 		$options[] = $this->language->get('text_none');
 		foreach($payments->rows as $row){
@@ -185,7 +184,6 @@ class ControllerPagesTotalHandling extends AController {
 													'handling_payment_fee'=> array(0 => '')
 			);
 		}
-
 
 		foreach($this->data['handling_per_payment']['handling_payment'] as $i=>$payment){
 			$this->data['form']['fields']['payment_fee'.$i] = array(
@@ -221,8 +219,6 @@ class ControllerPagesTotalHandling extends AController {
 					))
 			);
 		}
-
-
 
 		$this->data['form']['fields']['tax'] = $form->getFieldHtml(array(
 			'type' => 'selectbox',
