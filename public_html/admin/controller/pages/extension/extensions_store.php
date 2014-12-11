@@ -145,8 +145,8 @@ class ControllerPagesExtensionExtensionsStore extends AController {
 
 			$sorts = array();
 
-			$sorts['&sidx=review&sord=DESC'] = $this->language->get('text_sorting_review_desc');
-			$sorts['&sidx=review&sord=ASC'] = $this->language->get('text_sorting_review_asc');
+			//$sorts['&sidx=review&sord=DESC'] = $this->language->get('text_sorting_review_desc');
+			//$sorts['&sidx=review&sord=ASC'] = $this->language->get('text_sorting_review_asc');
 			$sorts['&sidx=price&sord=ASC'] = $this->language->get('text_sorting_price_asc');
 			$sorts['&sidx=price&sord=DESC'] = $this->language->get('text_sorting_price_desc');
 			$sorts['&sidx=rating&sord=DESC'] = $this->language->get('text_sorting_rating_desc');
