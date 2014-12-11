@@ -194,13 +194,13 @@ echo $form['form_open'];
 
 			display_shippings();
 
-			$('#estimate_country_zones').change(function () {
+			$(document).on("change", '#estimate_country_zones', function () {
 				//zone is changed, need to reset poscode
 				$("#estimate input[name=\'postcode\']").val('')
 				display_shippings();
 			})
 
-			$('#shippings').on("change", function () {
+			$(document).on("change", '#shippings', function () {
 				display_totals();
 			})
 
