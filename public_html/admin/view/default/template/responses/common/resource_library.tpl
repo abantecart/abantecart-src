@@ -99,6 +99,11 @@ if ($action == 'list_object') {
 				<div class="col-sm-12">
 					<div class="row reslibrary">
 						<?php
+						if (!is_array($rls) || !count($rls)) {
+						?>
+							<div class="col-md-12 text-center"><?php echo $text_no_results; ?></div>
+						<?php
+						} else {
 						//list RL items
 						foreach ($rls as $rl) {
 							/*
@@ -190,6 +195,7 @@ if ($action == 'list_object') {
 								</div>
 							</div>
 						<?php
+						}
 						}
 						?>
 
