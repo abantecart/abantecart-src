@@ -59,10 +59,15 @@
 				<input class="hide" type="file" name="files[]" multiple="">
 				<div class="fileupload-buttonbar">
 					<div class="col-sm-6 col-xs-12 center">
-						<a class="tooltips btn btn-success rl_add_file" data-original-title="<?php echo $text_add_file; ?>"><i class="fa fa-file fa-5x"></i></a>
+						<a class="btn rl_add_file">
+							<i class="fa fa-file-image-o" style="font-size: 10em;"></i>
+							<br/><?php echo $text_add_file; ?>
+						</a>
 					</div>
 					<div class="col-sm-6 col-xs-12 center">
-						<a class="tooltips btn btn-primary rl_add_code" data-original-title="<?php echo $text_add_code; ?>"><i class="fa fa-file-code-o fa-5x"></i>
+						<a class="btn rl_add_code">
+							<i class="fa fa-file-code-o " style="font-size: 10em;"></i>
+							<br/><?php echo $text_add_code; ?>
 						</a>
 					</div>
 				</div>
@@ -77,10 +82,12 @@
 						<div class="fileupload_drag_area">
 							<form action="<?php echo $rl_upload; ?>" method="POST" enctype="multipart/form-data">
 								<div class="fileupload-buttonbar">
-									<label class="btn btn-primary tooltips fileinput-button ui-button  "
+									<label class="btn tooltips fileinput-button ui-button  "
 										   role="button"
 										   data-original-title="<?php echo $text_upload_files.' '.$text_drag; ?>">
-										<span class="ui-button-text"><span><i class="fa fa-upload" style="font-size: 16em;"></i></span></span>
+										<span class="ui-button-text"><span>
+											<i class="fa fa-upload" style="font-size: 14em;"></i>
+										</span></span>
 										<input type="file" name="files[]" multiple="">
 									</label>
 								</div>
