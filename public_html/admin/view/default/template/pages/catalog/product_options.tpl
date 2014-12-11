@@ -307,6 +307,8 @@ jQuery(function ($) {
 			new_name = new_name.replace("[]", "[new" + row_id + "]");
 			$(this).attr('name', new_name);
 		});
+		//disable image for new option value. Image can be added only after option is created
+		$("#new" + row_id + " .panel_image").hide();
 		row_id++;
 		return false;
 	});
