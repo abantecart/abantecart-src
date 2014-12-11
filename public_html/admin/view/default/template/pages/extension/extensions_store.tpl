@@ -101,15 +101,15 @@
 	        				<img width="57" alt="" src="<?php echo $item['image'] ?>">
 	        				</a>
 	        				<div class="tooltip-data hidden" style="display: none;">
-	        				<div class="product_data">
-	        					<span class="prdocut_title" title="<?php echo $item['title'] ?>"><?php echo $item['title'] ?></span>
-	        					<span class="review"><?php echo $review ?></span>
-	        					<span class="price">
+	        				<div class="product_data container-fluid">
+	        					<span class="prdocut_title col-md-8" title="<?php echo $item['title'] ?>"><?php echo $item['title'] ?></span>
+	        					<span class="review col-md-2"><?php echo $review ?></span>
+	        					<span class="price col-md-2">
 	        					    <span class="oneprice"><?php echo $item['price'] ?></span>
 	        					</span>	
 	        				</div>			
 	        				<div class="product_image">	
-	        					<img src="<?php echo $this->templateResource('/image/loading_row.gif'); ?>" class="load_ondemand" data-src="<?php echo $item['main_image'] ?>">
+	        					<img src="<?php echo $this->templateResource('/image/loading_row.gif'); ?>" class="load_ondemand" data-src="<?php echo $item['main_image'] ?>" width="500px">
 	        				</div>	
 	        				</div>			
 	        			</div>
