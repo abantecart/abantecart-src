@@ -1047,7 +1047,7 @@ class AConfigManager {
 					'type' => 'input',
 					'name' => 'config_upload_max_size',
 					'value' => (int)$data['config_upload_max_size']
-				)) . ' (<= ' . ini_get('post_max_size') . ')';
+				)) . 'This value can not exceed your php.ini setting (<= ' . ini_get('post_max_size') . ')';
 
 		$fields['error_display'] = $form->getFieldHtml($props[] = array(
 			'type' => 'checkbox',
