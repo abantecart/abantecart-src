@@ -299,9 +299,8 @@ final class ACache {
 	/**
 	 * Change mode recursive
 	 *
-	 * @param $path
-	 * @param $filemode
-	 * @param $dirmode
+	 * @param string $path
+	 * @param int $dirmode
 	 * @return bool
 	 */
 	private function _chmod_dir($path, $dirmode) {
@@ -315,5 +314,6 @@ final class ACache {
 			$this->registry->get('log')->write("link '".$path."' is skipped\n");
 			return false;
 	    }
+		return true;
 	}
 }
