@@ -21,6 +21,11 @@ if (! defined ( 'DIR_CORE' )) {
 	header ( 'Location: static_pages/' );
 }
 
+/**
+ * Class ABackup
+ * @property AMessage $message
+ * @property ALog $log
+ */
 final class ABackup {
 	/**
 	 * @var string - mode of sql dump. can be "data_only" and "recreate"
@@ -28,10 +33,16 @@ final class ABackup {
 	public  $sql_dump_mode = 'data_only';
 	private $backup_name;
 	private $backup_dir;
+	/**
+	 * @var Registry
+	 */
 	private $registry;
 	public  $error;
 
   	public function __construct( $name ) {
+	    /**
+         * @var Registry
+         */
 		$this->registry = Registry::getInstance();
 
 
@@ -302,7 +313,7 @@ final class ABackup {
 		if(!file_exists($archive_filename)){
 			$this->error = 'Error: cannot to pack ' . $archive_filename."\n ";
 			$this->log->write($this->error);
-			$this->message->saveError('Backup Compress Error',$this->error);
+			$this->messages->saveError('Backup Compress Error',$this->error);
 			return false;
 		}else{
 			@chmod($archive_filename,0777);
