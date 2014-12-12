@@ -380,7 +380,7 @@ class ControllerPagesToolFormsManager extends AController {
 				$element_types[$key] = $type['type'];
 		}
 
-		$this->data['entry_new_field_description'] = $this->language->get('entry_display_name');
+		$this->data['entry_new_field_description'] = $this->language->get('entry_field_description');
 		$this->data['new_field_description'] = $form->getFieldHtml(array(
 				'type' => 'input',
 				'name' => 'field_description',
