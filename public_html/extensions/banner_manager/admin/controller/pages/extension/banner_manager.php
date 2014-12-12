@@ -814,7 +814,9 @@ class ControllerPagesExtensionBannerManager extends AController {
 		$this->data['form']['form_open'] = $form->getFieldHtml(array('type' => 'form',
 				'name' => 'BannerBlockFrm',
 				'attr' => 'data-confirm-exit="true"',
-				'action' => $this->data ['action']));
+				'action' => $this->data ['action'],
+				'attr' => 'data-confirm-exit="true" class="aform form-horizontal"'
+				));
 		$this->data['form']['submit'] = $form->getFieldHtml(array('type' => 'button',
 				'name' => 'submit',
 				'text' => $this->language->get('button_save'),
@@ -825,14 +827,16 @@ class ControllerPagesExtensionBannerManager extends AController {
 				'style' => 'button2'));
 
 		if ($custom_block_id) {
-			$this->data['form']['fields']['block_status'] = $form->getFieldHtml(array('type' => 'checkbox',
+			$this->data['form']['fields']['block_status'] = $form->getFieldHtml(
+					array('type' => 'checkbox',
 					'name' => 'block_status',
 					'value' => $this->data['status'],
 					'style' => 'btn_switch'
 			));
-			$this->data['entry_block_status'] = $this->html->convertLinks($this->language->get('entry_block_status'));
+			$this->data['form']['text']['block_status'] = $this->html->convertLinks($this->language->get('entry_block_status'));
+
 			$this->data['form']['fields']['block_status_note'] = '';
-			$this->data['entry_block_status_note'] = $this->html->convertLinks($this->language->get('entry_block_status_note'));
+			$this->data['form']['text']['block_status_note'] = $this->html->convertLinks($this->language->get('entry_block_status_note'));
 		}
 
 		$this->data['form']['fields']['block_name'] = $form->getFieldHtml(array('type' => 'hidden',
