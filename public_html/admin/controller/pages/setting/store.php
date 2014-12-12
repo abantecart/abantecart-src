@@ -86,7 +86,7 @@ class ControllerPagesSettingStore extends AController {
         if (isset($this->request->get['store_id']) && $this->_validateDelete()) {
             $this->model_setting_store->deleteStore($this->request->get['store_id']);
             $this->session->data['success'] = $this->language->get('text_success');
-            $this->redirect($this->html->getSecureURL('setting/setting'));
+            $this->redirect($this->html->getSecureURL('setting/setting','&active=details&store_id=0'));
         }
         $this->getForm();
 
