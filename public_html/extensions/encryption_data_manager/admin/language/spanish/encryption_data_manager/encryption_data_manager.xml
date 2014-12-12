@@ -141,7 +141,7 @@
   </definition>
   <definition>
     <key>warn_encrypt_open_data</key>
-    <value><![CDATA[Use 'Encrypt Data' Tab for initial encryption]]></value>
+    <value><![CDATA[Use 'Encrypt Data' below for initial encryption]]></value>
   </definition>
   <definition>
     <key>text_encrepted_records</key>
