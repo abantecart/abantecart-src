@@ -34,7 +34,7 @@
 		} else if (is_int(stripos($field->style, 'medium-field')) || is_int(stripos($field->style, 'date'))) {
 			$widthcasses = "col-sm-5";
 		} else if (is_int(stripos($field->style, 'small-field')) || is_int(stripos($field->style, 'btn_switch'))) {
-			$widthcasses = "col-sm-3";
+			$widthcasses = "col-sm-4";
 		} else if (is_int(stripos($field->style, 'tiny-field'))) {
 			$widthcasses = "col-sm-2";
 		}

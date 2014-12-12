@@ -17,7 +17,7 @@
 			$fields = array(
 					'entry_status' => 'status',
 					'entry_field_name' => 'field_name',
-					'entry_description' => 'field_description',
+					'entry_field_description' => 'field_description',
 					'entry_field_note' => 'field_note',
 					'entry_sort_order' => 'field_sort_order',
 					'entry_required' => 'required',
@@ -42,7 +42,7 @@
 				$widthcasses = "col-sm-6";
 			} else if (is_int(stripos($field->style, 'medium-field')) || is_int(stripos($field->style, 'date'))) {
 				$widthcasses = "col-sm-6";
-			} else if (is_int(stripos($field->style, 'small-field')) || is_int(stripos($field->style, 'btn_switch'))) {
+			} else if (is_int(stripos($field->style, 'small-field')) ) {
 				$widthcasses = "col-sm-3";
 			} else if (is_int(stripos($field->style, 'tiny-field'))) {
 				$widthcasses = "col-sm-2";
