@@ -104,7 +104,7 @@ final class AConfig {
 		}
 
 		// Load default store settings
-		//$settings = $cache->force_get('settings', '', 0);
+		$settings = $cache->force_get('settings', '', 0);
 		if (empty($settings)) {
 			// set global settings (without extensions settings)
 			$sql = "SELECT se.*
