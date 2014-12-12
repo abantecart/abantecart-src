@@ -157,7 +157,7 @@
 		<value><![CDATA[Agregar nuevo campo]]></value>
 	</definition>
 	<definition>
-		<key>entry_display_name</key>
+		<key>entry_field_description</key>
 		<value><![CDATA[Exhibir nombre]]></value>
 	</definition>
 	<definition>
