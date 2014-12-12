@@ -457,7 +457,8 @@ class ALayout {
 			}
 
 			$where = 'WHERE bt.block_id = "' . (int)($block_id) . '" ';
-			$where .= 'AND bt.parent_block_id = "' . (int)$parent_block_id . '" ';
+			//locate template based on block parent ID or 0 if generic template is set 
+			$where .= 'AND bt.parent_block_id in (' . (int)$parent_block_id . ', 0) ';
 
 			$sql = "SELECT "
 					. "bt.template as template, "
@@ -467,7 +468,7 @@ class ALayout {
 					. $this->db->table("block_templates") . " as bt "
 					. $where
 					. "ORDER BY "
-					. "bt.block_id Asc";
+					. "bt.parent_block_id Desc";
 
 			$query = $this->db->query($sql);
 			if ($query->num_rows) {

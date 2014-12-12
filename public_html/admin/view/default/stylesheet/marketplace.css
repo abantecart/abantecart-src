@@ -111,10 +111,10 @@
 	display: block;
 	float: left;
 	text-align: left;
-	padding: 10px 5px 10px 20px;	
+	padding: 10px 5px 10px 10px;	
 	font-size: 13px;
 	color: #fff;
-	width: 180px;
+	width: 320px;
 }
 .product_data .review {
 	display: block;

@@ -1070,10 +1070,12 @@ class ExtensionUtils {
 					continue;//if data for check not given - do nothing
 				}
 				$value = $data[(string)$item['id']];
-				if (is_array($value)) {
-					$value = array_map('trim',$value);
-				}else{
-					$value = trim($value);
+				if(!is_multi($value)) {
+					if (is_array($value)) {
+						$value = array_map('trim',$value);
+					} else {
+						$value = trim($value);
+					}
 				}
 				if((string)$item->pattern_validate){
 					$matches = array();
@@ -1125,10 +1127,12 @@ class ExtensionUtils {
 					continue;
 				}
 				$value = $data[(string)$item['id']];
-				if (is_array($value)) {
-					$value = array_map('trim',$value);
-				}else{
-					$value = trim($value);
+				if(!is_multi($value)) {
+					if (is_array($value)) {
+						$value = array_map('trim',$value);
+					} else {
+						$value = trim($value);
+					}
 				}
 
 				/** @noinspection PhpUndefinedMethodInspection */

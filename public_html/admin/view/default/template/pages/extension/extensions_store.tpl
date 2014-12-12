@@ -109,7 +109,7 @@
 	        					</span>	
 	        				</div>			
 	        				<div class="product_image">	
-	        					<img src="<?php echo $this->templateResource('/image/loading_row.gif'); ?>" class="load_ondemand" data-src="<?php echo $item['main_image'] ?>">
+	        					<img src="<?php echo $this->templateResource('/image/loading_row.gif'); ?>" class="load_ondemand" data-src="<?php echo $item['main_image'] ?>" width="500px">
 	        				</div>	
 	        				</div>			
 	        			</div>

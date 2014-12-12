@@ -28,8 +28,25 @@
 	</div>
 
 	<?php echo $form['form_open']; ?>
+	<?php 
+		foreach ($form['hidden_fields'] as $name => $field) {
+			echo $field;
+		}
+	?>
 	<div class="panel-body panel-body-nopadding tab-content col-xs-12">
+
+		<?php if($banner_type == 1) { ?>
+		<div class="col-md-9 mb10">
+		<?php } ?>
 		<label class="h4 heading"><?php echo $form_title; ?></label>
+		<div class="form-group">
+			<label class="control-label col-sm-3 col-xs-12"></label>
+			<div class="btn-group mr10 toolbar">
+				<a class="btn btn-white disabled">
+					<?php echo $banner_types['icon']; ?> <?php echo $banner_types['text']; ?>
+				</a>
+			</div>
+		</div>
 			<?php foreach ($form['fields'] as $name => $field) {
 				if($name == 'new_banner_group'){ continue;}
 				//Logic to cululate fileds width
@@ -60,9 +77,16 @@
 		    <?php } ?>
 		</div>
 			<?php }  ?><!-- <div class="fieldset"> -->
-
-		<div id="subformcontent"></div>
-
+		
+		<?php if($banner_type == 1) { ?>
+		</div>
+		<div class="col-md-3 mb10">
+			<div id="image">
+			<?php echo $resources_html; ?>
+			<?php echo $resources_scripts ?>
+			</div>
+		</div>
+		<?php } ?>
 	</div>
 
 	<div class="panel-footer col-xs-12">
@@ -83,54 +107,28 @@
 </div><!-- <div class="tab-content"> -->
 
 <script type="text/javascript">
-	$('#BannerFrm_banner_group_name0').on('change',function(){
-		if($(this).val()=='new'){
-			$('#BannerFrm_banner_group_name1').fadeIn().focus();
-		}else{
-			$('#BannerFrm_banner_group_name1').fadeOut();
-		}
-	});
-
 $(document).ready(function() {
-	loadSubform();
 	$('#BannerFrm_banner_group_name0').change();
 });
 
-
-// override rl js-script function
-var loadSubform = function (){
-	if($('#BannerFrm_banner_type').val()=='2'){
-		$('#BannerFrm_target_url, #BannerFrm_blank').attr("disabled","disabled").parents('tr').hide();
-	}else{
-		$('#BannerFrm_target_url, #BannerFrm_blank').removeAttr("disabled").parents('tr').show();
-	}
-	$.ajax({
-        url: '<?php echo $subform_url ?>',
-        type: 'GET',
-        data: { 'type' : $('#BannerFrm_banner_type').val() },
-        success: function(html) {
-	        $('#subformcontent').html(html);
-
-	        if($('#BannerFrm_description').length){
-				$('#BannerFrm_description').parents('.afield').removeClass('mask2');
-		        if(CKEDITOR.instances['BannerFrm_description']){
-		            CKEDITOR.remove( CKEDITOR.instances['BannerFrm_description'] );
-		        }
-				CKEDITOR.replace('BannerFrm_description',{
-						height: '400px',
-						filebrowserBrowseUrl : false,
-						filebrowserImageBrowseUrl : '<?php echo $rl; ?>',
-						filebrowserWindowWidth : '920',
-						filebrowserWindowHeight : '520',
-						language: '<?php echo $language_code; ?>',
-						startupMode: 'source'
-					});
-			}
-        }
-	});
+if($('#BannerFrm_description').length){
+    CKEDITOR.replace('BannerFrm_description',{
+    		height: '300px',
+    		filebrowserBrowseUrl : false,
+    		filebrowserImageBrowseUrl : '<?php echo $rl; ?>',
+    		filebrowserWindowWidth : '920',
+    		filebrowserWindowHeight : '520',
+    		language: '<?php echo $language_code; ?>',
+    	});
 }
 
-$('#BannerFrm_banner_type').change(loadSubform);
+$('#BannerFrm_banner_group_name0').on('change',function(){
+    if($(this).val()=='new'){
+    	$('#BannerFrm_banner_group_name1').fadeIn().focus();
+    }else{
+    	$('#BannerFrm_banner_group_name1').fadeOut();
+    }
+});
 
 $('#BannerFrm_banner_group_name\\\[0\\\]').change( function(){
 	$(this).val() == 'new' ? $('#BannerFrm_banner_group_name\\\[1\\\]').show().parents('.aform').show() : $('#BannerFrm_banner_group_name\\\[1\\\]').hide().parents('.aform').hide();
@@ -139,5 +137,4 @@ $('#BannerFrm_banner_group_name\\\[0\\\]').change( function(){
 $('#BannerFrm_banner_group_name\\\[1\\\]').click( function(){
 	$(this).val() == '<?php echo $new_group_hint; ?>' ? $(this).val('') : null;
 });
-
 </script>

@@ -1,9 +1,9 @@
 <?php
-$statusClass = $status ? '' : 'off';
+$statusClass = ( $status && $template_availability ) ? '' : 'off';
 $blockValue = $blockId . '_' . $customBlockId;
 $blockName = $customBlockId ? $customName . ' <span>(' . $name . ')</span>' : $name;
 ?>
-<div class="block <?php echo $statusClass; ?>" data-instance-id="<?php echo $id; ?>">
+<div class="block <?php echo $statusClass; ?>" data-instance-id="<?php echo $id; ?>" data-validate-url="<?php echo $validate_url; ?>">
   <div class="block-content">
     <div class="block-title"><?php echo $blockName; ?></div>
     <div class="block-options">

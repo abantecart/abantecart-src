@@ -132,9 +132,22 @@ class ControllerPagesExtensionBannerManager extends AController {
 		} else {
 			$this->data ['success'] = '';
 		}
-
-
+		
+		$this->data['banner_types'] = array(
+			array(
+				'href' => $this->html->getSecureURL('extension/banner_manager/insert', '&banner_type=1'),
+				'text' => $this->language->get('text_graphic_banner'),
+				'icon' => '<i class="fa fa-file-image-o fa-fw"></i>'
+			),
+			array(
+				'href' => $this->html->getSecureURL('extension/banner_manager/insert', '&banner_type=2'),
+				'text' => $this->language->get('text_text_banner'),
+				'icon' => '<i class="fa fa-file-text-o fa-fw"></i>'
+			),		
+		);
+		$this->data['text_type'] = $this->language->get('column_banner_type');
 		$this->data['insert'] = $this->html->getSecureURL('extension/banner_manager/insert');
+
 		$this->data['form_language_switch'] = $this->html->getContentLanguageSwitcher();
 
 		$this->view->batchAssign($this->language->getASet());
@@ -185,7 +198,6 @@ class ControllerPagesExtensionBannerManager extends AController {
 		$this->document->setTitle($this->language->get('banner_manager_name'));
 		$this->data['heading_title'] = $this->language->get('banner_manager_name');
 		$banner_id = (int)$this->request->get['banner_id'];
-
 
 		// saving
 		if ($this->request->is_POST() && $this->_validateForm() && $banner_id) {
@@ -248,8 +260,14 @@ class ControllerPagesExtensionBannerManager extends AController {
 
 		$this->data ['cancel'] = $this->html->getSecureURL('extension/banner_manager');
 
-
-		if (!isset ($this->request->get ['banner_id'])) {
+		$banner_type = 1;
+		if (!isset($this->request->get['banner_id'])) {
+			if ( $this->request->get['banner_type'] ) {
+				$banner_type = $this->request->get['banner_type'];
+			} elseif ($this->request->post['banner_type']) {
+				$banner_type = $this->request->post['banner_type'];
+			}	
+					
 			$this->data ['action'] = $this->html->getSecureURL('extension/banner_manager/insert');
 			$this->data ['form_title'] = $this->language->get('text_create');
 			$this->data ['update'] = '';
@@ -260,15 +278,26 @@ class ControllerPagesExtensionBannerManager extends AController {
 			$this->data ['update'] = $this->html->getSecureURL('listing_grid/banner_manager/update_field', '&banner_id=' . $this->request->get ['banner_id']);
 			$form = new AForm ('HS');
 
-			//$this->data[ 'detail_link' ] =
-			//$this->data[ 'text_view_stat' ] = $this->language->get('text_view_stat');
 			$this->data['button_details'] = $this->html->buildElement(
 					array('type' => 'button',
 							'name' => 'btn_details',
 							'href' => $this->html->getSecureUrl('extension/banner_manager_stat/details', '&banner_id=' . $this->request->get ['banner_id']),
 							'text' => $this->language->get('text_view_stat')
 					));
+					
+			$banner_type = $this->data['banner_type'];
+		} 
 
+		if ($banner_type == 1) {
+			$this->data['banner_types'] = array(
+				'text' => $this->language->get('text_graphic_banner'),
+				'icon' => '<i class="fa fa-file-image-o fa-fw"></i>'
+			);		
+		} else {
+			$this->data['banner_types'] = array(
+				'text' => $this->language->get('text_text_banner'),
+				'icon' => '<i class="fa fa-file-text-o fa-fw"></i>'
+			);				
 		}
 
 		$this->document->addBreadcrumb(
@@ -285,6 +314,11 @@ class ControllerPagesExtensionBannerManager extends AController {
 						'name' => 'BannerFrm',
 						'attr' => 'data-confirm-exit="true" class="aform form-horizontal"',
 						'action' => $this->data ['action']));
+
+		$this->data['form']['hidden_fields']['type'] = $form->getFieldHtml(array(
+				'type' => 'hidden',
+				'name' => 'banner_type',
+				'value' => $banner_type ));
 
 		$this->data['form']['submit'] = $form->getFieldHtml(
 				array('type' => 'button',
@@ -308,15 +342,8 @@ class ControllerPagesExtensionBannerManager extends AController {
 				'style' => 'btn_switch'));
 		$this->data['form']['text']['status'] = $this->language->get('banner_manager_status');
 
-		$this->data['form']['fields']['type'] = $form->getFieldHtml(array('type' => 'selectbox',
-				'name' => 'banner_type',
-				'options' => array('1' => $this->language->get('text_graphic_banner'),
-						'2' => $this->language->get('text_text_banner')),
-				'value' => $this->data['banner_type'],
-				'style' => 'no-save'));
-		$this->data['form']['text']['type'] = $this->language->get('column_banner_type');
-
-		$this->data['form']['fields']['name'] = $form->getFieldHtml(array('type' => 'input',
+		$this->data['form']['fields']['name'] = $form->getFieldHtml(array(
+				'type' => 'input',
 				'name' => 'name',
 				'value' => $this->data['name'],
 				'required' => true));
@@ -336,7 +363,8 @@ class ControllerPagesExtensionBannerManager extends AController {
 			$value = 'new';
 		}
 
-		$this->data['form']['fields']['banner_group_name'] = $form->getFieldHtml(array('type' => 'selectbox',
+		$this->data['form']['fields']['banner_group_name'] = $form->getFieldHtml(array(
+				'type' => 'selectbox',
 				'name' => 'banner_group_name[0]',
 				'options' => $groups,
 				'value' => $value,
@@ -353,21 +381,24 @@ class ControllerPagesExtensionBannerManager extends AController {
 						'style' => 'no-save'
 						));
 		$this->data['new_group_hint'] = $this->language->get('text_put_new_group');
-		$this->data['form']['fields']['sort_order'] = $form->getFieldHtml(array('type' => 'input',
+		$this->data['form']['fields']['sort_order'] = $form->getFieldHtml(array(
+				'type' => 'input',
 				'name' => 'sort_order',
 				'value' => $this->data['sort_order'],
 				'style' => 'small-field',
 				''));
 		$this->data['form']['text']['sort_order'] = $this->language->get('entry_banner_sort_order');
 
-		$this->data['form']['fields']['url'] = $form->getFieldHtml(
+		if ($banner_type == 1) {
+			$this->data['form']['fields']['url'] = $form->getFieldHtml(
 				array(
 						'type' => 'input',
 						'name' => 'target_url',
 						'value' => $this->data['target_url'],
 						'required' => true
-		));
-		$this->data['form']['text']['url'] = $this->language->get('entry_banner_url');
+			));
+			$this->data['form']['text']['url'] = $this->language->get('entry_banner_url');
+		}
 		$this->data['form']['fields']['blank'] = $form->getFieldHtml(
 				array('type' => 'checkbox',
 						'name' => 'blank',
@@ -397,21 +428,45 @@ class ControllerPagesExtensionBannerManager extends AController {
 
 		$this->data['form']['text']['date_end'] = $this->language->get('entry_banner_date_end');
 
-
 		$this->data['banner_id'] = $this->request->get['banner_id'] ? $this->request->get['banner_id'] : '-1';
-
-
-
-
-		$this->data['subform_url'] = $this->html->getSecureURL('listing_grid/banner_manager/getsubform', '&banner_id=' . $this->data['banner_id']);
-
+		
+		if ($banner_type == 1) {
+			$this->data['form']['fields']['meta'] = $form->getFieldHtml(array(  
+				'type' => 'textarea',
+				'name' => 'meta',
+				'value' => $this->data ['meta'],
+				'attr' => ' style="height: 50px;"'  )
+				);
+			$this->data['form']['text']['meta'] = $this->language->get('entry_banner_meta');
+	
+			$this->addChild('responses/common/resource_library/get_resources_html', 'resources_html', 'responses/common/resource_library_scripts.tpl');
+			$resources_scripts = $this->dispatch(
+					'responses/common/resource_library/get_resources_scripts',
+					array(
+							'object_name' => 'banners',
+							'object_id' => $this->data['banner_id'],
+							'types' => array('image'),
+					)
+			);
+	
+			$this->view->assign('current_url', $this->html->currentURL());
+			$this->view->assign('resources_scripts', $resources_scripts->dispatchGetOutput());
+			$this->view->assign('rl', $this->html->getSecureURL('common/resource_library', '&object_name=banners&type=image'));
+		} else {
+			$this->data['form']['fields']['description'] = $form->getFieldHtml(array(
+				'type' => 'textarea',
+				'name' => 'description',
+				'value' => $this->data ['description'],
+				'attr' => '')
+				);
+			$this->data['form']['text']['description'] = $this->language->get('entry_banner_html');	
+		}
 
 		$this->view->batchAssign($this->language->getASet());
 		$this->view->batchAssign($this->data);
 		$this->view->assign('form_language_switch', $this->html->getContentLanguageSwitcher());
 		$this->view->assign('language_code', $this->session->data['language']);
 		$this->view->assign('help_url', $this->gen_help_url('banner_edit'));
-
 
 		$this->processTemplate('pages/extension/banner_manager_form.tpl');
 	}
@@ -426,7 +481,6 @@ class ControllerPagesExtensionBannerManager extends AController {
 			if ($this->request->post['banner_type'] == 1) {
 				$required[] = 'target_url';
 			}
-
 			foreach ($this->request->post as $name => $value) {
 				if (in_array($name, $required) && empty($value)) {
 					$this->error ['warning'] = $this->language->get('error_empty');
@@ -442,12 +496,6 @@ class ControllerPagesExtensionBannerManager extends AController {
 
 				$this->error ['warning'] = $this->language->get('error_empty');
 				$this->session->data['warning'] = $this->language->get('error_empty');
-			}
-		}
-
-		foreach ($required as $name) {
-			if (!in_array($name, array_keys($this->request->post))) {
-				return false;
 			}
 		}
 
@@ -849,7 +897,6 @@ class ControllerPagesExtensionBannerManager extends AController {
 			}
 
 		}
-
 
 		ksort($this->data['block_wrappers']);
 		array_unshift($this->data['block_wrappers'], $this->language->get('text_automatic'));

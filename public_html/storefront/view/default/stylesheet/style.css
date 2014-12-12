@@ -592,12 +592,20 @@ li.dropdown {
 */
 
 /* ------------ Main Menu ------------ */
-#main_menu .dropdown .menu_text {
+.main_menu .dropdown .menu_text {
 	padding-left: 10px;
 }
-#main_menu .dropdown.open a, #main_menu .dropdown.current a {
+.main_menu .dropdown.open a, .main_menu .dropdown.current a {
 	background-color: #00A1CB;
 	color: #fff;
+}
+
+.main_menu .dropdown-menu {
+	white-space: normal;
+	padding: 10px;
+	position: absolute;
+	top: 97%;
+	left: 10px;
 }
 
 /* ------------ Category Menu ------------ */

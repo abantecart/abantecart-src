@@ -17,12 +17,17 @@ $(function () {
 	      onAdd: function (evt){
 	        var itemEl = evt.item;
 	        updateBlockData($(itemEl));
+	        //check id block is allowed in the section 
+	        validate_block_location(itemEl);
 	 		//fill in empty if dragged from header or footer
 	 		fillInPlaceholder('header', 1);
 	  		fillInPlaceholder('footer', 8);
 	      },
-	      onUpdate: function(event, ui) {
-	        formChanged(event.item);
+	      onUpdate: function(evt, ui) {
+	      	var itemEl = evt.item;
+	        formChanged(itemEl);
+	        //check id block is allowed in the section 
+	        validate_block_location(itemEl);
 	      }
 	    });
 	  });
@@ -59,6 +64,28 @@ $(function () {
 	    parentSection.removeClass('off');
 	    sectionStatus.val(1);
 	  }
+	},
+	
+	validate_block_location = function(block) {
+		var url = $(block).attr('data-validate-url');
+		if(!url) {
+			return;
+		}
+		var section_id = $(block).closest('.section').attr('data-section-id');
+		url += '&parent_block_id='+section_id;
+    	$.ajax({
+    		type: 'GET',
+    		url: url,
+    		dataType: 'json',		
+    		success: function(data) {
+    			if(data.allowed === 'true'){
+    				$(block).removeClass('off');
+    			} else {
+    				warning_alert(data.message, true);
+	    			$(block).addClass('off');
+    			}
+    		},
+   		});		
 	},
 	
 	showBlockFormModal = function(referrer, url, params) {

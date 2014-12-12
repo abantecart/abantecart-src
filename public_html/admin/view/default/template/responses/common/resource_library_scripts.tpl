@@ -830,7 +830,7 @@ jQuery(function () {
 			}
 		});
 
-		status.setAbort(jqXHR);
+		/* status.setAbort(jqXHR); */
 		return response;
 	}
 
@@ -840,13 +840,11 @@ jQuery(function () {
 		this.statusbar = $('<div class="statusbar row"></div>');
 		this.filename = $('<div class="filename col-sm-6 ellipsis"></div>').appendTo(this.statusbar);
 		this.size = $('<div class="filesize col-sm-2"></div>').appendTo(this.statusbar);
-		this.progressBar = $('<div class="progress col-sm-4"><div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%;">loading</div></div>')
-						.appendTo(this.statusbar);
-
-		/*this.progressBar = $('<div class="progress col-sm-3"><div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%;"></div></div>')
-				.appendTo(this.statusbar);*/
-		/*this.abort = $('<a class="remove btn btn-xs btn-danger-alt tooltips" data-original-title="Abort" title="Abort"><i class="fa fa-minus-circle"></i></a>')
-				.appendTo(this.statusbar);*/
+		this.progressBar = $('<div class="progress col-sm-4"><div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%;">loading</div></div>').appendTo(this.statusbar);
+		/*
+			TODO: Fix progress bar and upload abort feature
+			this.abort = $('<a class="remove btn btn-xs btn-danger-alt tooltips" data-original-title="Abort" title="Abort"><i class="fa fa-minus-circle"></i></a>').appendTo(this.statusbar);	
+		*/
 
 		this.abort = $('').appendTo(this.statusbar);
 
@@ -873,6 +871,7 @@ jQuery(function () {
 				this.abort.hide();
 			}
 		}
+		/*
 		this.setAbort = function (jqxhr) {
 			var sb = this.statusbar;
 			this.abort.click(function () {
@@ -880,6 +879,7 @@ jQuery(function () {
 				sb.hide();
 			});
 		}
+		*/
 	}
 
 	var handleFileUpload = function (files, obj, URL) {

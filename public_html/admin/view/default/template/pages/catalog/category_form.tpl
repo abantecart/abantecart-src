@@ -56,9 +56,6 @@
 			<button class="btn btn-primary lock-on-click">
 			<i class="fa fa-save fa-fw"></i> <?php echo $form['submit']->text; ?>
 			</button>
-			<button class="btn btn-default" type="reset">
-			<i class="fa fa-refresh fa-fw"></i> <?php echo $button_reset; ?>
-			</button>
 			<a class="btn btn-default" href="<?php echo $cancel; ?>">
 			<i class="fa fa-arrow-left fa-fw"></i> <?php echo $form['cancel']->text; ?>
 			</a>

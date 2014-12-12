@@ -48,10 +48,10 @@ class ControllerResponsesDesignBlocksManager extends AController {
 		}
 		
 		$view = new AView($this->registry, 0);
-		
+		$this->loadLanguage('design/blocks');
+		$view->batchAssign($this->language->getASet());
 		$view->assign('blocks', $availableBlocks);
 		$view->assign('addBlock', $this->html->getSecureURL('design/blocks_manager/addBlock', '&section_id=' . $section_id));
-		
 		$blocks = $view->fetch('responses/design/blocks_manager.tpl');
 		
 		//update controller data
@@ -185,6 +185,34 @@ class ControllerResponsesDesignBlocksManager extends AController {
 		$this->extensions->hk_UpdateData($this, __FUNCTION__);
 
 		$this->processTemplate('responses/design/block_details.tpl');
+	}
+	
+	
+	public function validate_block() {
+		$responce = array();
+		$this->loadLanguage('design/blocks');
+		//init controller data
+		$this->extensions->hk_InitData($this, __FUNCTION__);
+		$block_id = $this->request->get['block_id'];
+		$parent_block_id = $this->request->get['parent_block_id'];
+		
+		if (has_value($block_id) && has_value($parent_block_id)) {
+			$lm = new ALayoutManager();
+			$template = $lm->getBlockTemplate($block_id, $parent_block_id);
+			if ($template) {
+				$responce['allowed'] = 'true';
+				$responce['template'] = $template;
+			} else {
+				$responce['allowed'] = 'false';		
+				$responce['message'] = $this->language->get('error_block_not_available');	
+			}			
+		}
+	
+        //update controller data
+        $this->extensions->hk_UpdateData($this,__FUNCTION__);
+
+		$this->load->library('json');		
+		$this->response->setOutput(AJson::encode($responce));
 	}
 
 }

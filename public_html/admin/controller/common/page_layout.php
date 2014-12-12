@@ -50,12 +50,10 @@ class ControllerCommonPageLayout extends AController {
     
     $this->installed_blocks = $layout->getInstalledBlocks();
     $layout_main_blocks = $layout->getLayoutBlocks();
-
     // Build Page Sections and Blocks
     $page_sections = $this->_buildPageSections($layout_main_blocks);
 
     $this->view->batchAssign($page_sections);
-
     $this->processTemplate('common/page_layout.tpl');
     
     // update controller data
@@ -112,6 +110,12 @@ class ControllerCommonPageLayout extends AController {
 		  $edit_url = $this->html->getSecureURL('design/blocks/edit', '&custom_block_id='.$block['custom_block_id']);
 		}
 		
+		//if temlpate for section/block is not present, block is not allowed here. 
+		$template_availability = true;
+		if (!$block['template']){
+			$template_availability = false; 
+		}
+		
 		$partialView->batchAssign(array(
 		  'id' => $block['instance_id'],
 		  'blockId' => $block['block_id'],
@@ -121,7 +125,12 @@ class ControllerCommonPageLayout extends AController {
 		  'editUrl' => $edit_url,
 		  'status' => $block['status'],
 		  'parentBlock' => $section_id,
-		  'block_info_url' => $this->html->getSecureURL('design/blocks_manager/block_info')
+		  'block_info_url' => $this->html->getSecureURL('design/blocks_manager/block_info'),
+		  'template_availability' => $template_availability,
+		  'validate_url' => $this->html->getSecureURL(
+		  						'design/blocks_manager/validate_block',
+		  						'&block_id='.$block['block_id']
+		  						)
 		));
 		
 		// render partial view
