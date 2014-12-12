@@ -82,7 +82,7 @@ class ControllerResponsesListingGridBlocksGrid extends AController {
 				$result['block_name'],
 				(isset($result['status']) ?
 						$this->html->buildCheckbox(array(
-							'name' => 'status[' . $result['product_id'] . ']',
+							'name' => 'status[' . $id . ']',
 							'value' => $result['status'],
 							'style' => 'btn_switch',
 							'attr' => 'readonly="true"'
