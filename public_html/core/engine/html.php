@@ -555,7 +555,7 @@ class AHtml extends AController {
 		if (sizeof($result_stores) > 0) {
 			foreach ($result_stores as $rs) {
 				$stores[$rs['store_id']] = array(
-					'name' => $rs['alias'],
+					'name' => $rs['alias'] ? $rs['alias']:$rs['name'],
 					'store_id' => $rs['store_id']
 				);
 			}
