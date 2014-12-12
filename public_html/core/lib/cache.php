@@ -107,10 +107,14 @@ final class ACache {
 			return null;
 		}else{ // if all good
 			if(file_exists($cache_file_full_name)){
-				$handle = fopen($cache_file_full_name, 'r');
-				$cache = fread($handle, filesize($cache_file_full_name));
-				fclose($handle);
-				$output = unserialize($cache);
+				if(filesize($cache_file_full_name)>0){
+					$handle = fopen($cache_file_full_name, 'r');
+					$cache = fread($handle, filesize($cache_file_full_name));
+					fclose($handle);
+					$output = unserialize($cache);
+				}else{
+					$output = '';
+				}
 				$this->empties[$key.'_'.$language_id.'_'.$store_id] = !empty($output); // if not empty
 				$this->exists[$key.'_'.$language_id.'_'.$store_id] = true;
 				return $output;
