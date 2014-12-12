@@ -1,6 +1,6 @@
 <center><b>Data Encryption Configuration Manual</b></center>
 <p>
-It is important for eCommerce site to maintain up to date security for data provided buy customers. This is required buy customers, industry and PCI standards.<br/>
+It is important for eCommerce site to maintain up to date security for data provided by customers. This is required buy customers, industry and PCI standards.<br/>
 By enabling AbanteCart data encryption you can secure your customers data from access. Information, such as customer addresses, emails, phone numbers, credit cards, etc. will be encrypted and not readable. Encryption key can be stored securely and prevent access to this date in event of hacking or database attack.     
 <br/><br>
 <b>Requirement:</b> PHP => 5.3 and openSSL enabled
@@ -8,7 +8,7 @@ By enabling AbanteCart data encryption you can secure your customers data from a
 NOTE: Do not confuse SSL data encryption with signed SSL certificates (HTTPS) used for browser access to sites 
 <br><br>
 
-<b>Important! Back your code and database before you start!<br> For security keep backup of unencrypted data out of your server!</b> 
+<b>Important! Backup your code and database before you start!<br> For security keep backup of unencrypted data out of your server!</b> 
 <br><br>
 
 <b>1. Configuration:</b> <br>

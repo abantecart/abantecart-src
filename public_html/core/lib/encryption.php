@@ -733,7 +733,6 @@ final class ADataEncryption {
 		        $error = "Error: Can not locate default key in configuration file. Refer to data encryption configuration help!";
 		        $this->log->write($error);
 		        $this->message->saveError('Data decryption error',$error);
-				throw new AException (AC_ERR_LOAD, $error);
 		}
 		
 		return $key_name;

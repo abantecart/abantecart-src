@@ -1,6 +1,7 @@
 /**!
  * Sortable
  * @author	RubaXa   <trash@rubaxa.org>
+ * https://github.com/RubaXa/Sortable
  * @license MIT
  */
 

@@ -73,12 +73,20 @@ class ControllerPagesExtensionEncryptionDataManager extends AController {
 				$enc_result = $this->_initial_data_encryption($this->request->post);
 				if ( $this->request->post['enc_test_mode'] ) {
 					$this->session->data['success'] = sprintf($this->language->get('text_encryption_test'), implode('<br/>', $enc_result['result']) );
-				} else if ( count($enc_result['result'])) {
+				} else if ( count($enc_result['result']) && !count($enc_result['errors'])) {
 					$this->session->data['success'] = '<br>' . sprintf(
 												$this->language->get('text_success_encrypting'), 
 												implode('<br/>', $enc_result['result']),
 												$enc_result['key_name']
 											);
+				} else if ( count($enc_result['result']) && count($enc_result['errors'])) {
+					//mixed restult
+					$this->session->data['success'] = '<br>' . sprintf(
+												$this->language->get('text_success_encrypting'), 
+												implode('<br/>', $enc_result['result']),
+												$enc_result['key_name']
+											);
+					$this->error['warning'] = '<br>' . implode('<br/>', $enc_result['errors']);
 				} else {
 					$this->error['warning'] = $this->language->get('error_encrypting');
 				}
@@ -87,12 +95,20 @@ class ControllerPagesExtensionEncryptionDataManager extends AController {
 				$enc_result = array();
 				foreach($new_keys as $old_key_id => $new_key_id){
 					$enc_result = $this->_key_rotation( array('old_key' => $old_key_id, 'new_key' => $new_key_id ));
-					if ( count($enc_result['result'])) {
+					if ( count($enc_result['result']) && !count($enc_result['errors']) ) {
 						$this->session->data['success'] .= sprintf(
 													$this->language->get('text_success_encrypting'), 
 													implode('<br/>', $enc_result['result']),
 													$enc_result['key_name']
 												);
+					} else if ( count($enc_result['result']) && count($enc_result['errors']) ) {
+						//mixed result
+						$this->session->data['success'] .= sprintf(
+													$this->language->get('text_success_encrypting'), 
+													implode('<br/>', $enc_result['result']),
+													$enc_result['key_name']
+												);
+						$this->error['warning'] = '<br>' . implode('<br/>', $enc_result['errors']);
 					} else {
 						$this->error['warning'] .= $this->language->get('error_encrypting');
 					}
@@ -409,10 +425,13 @@ class ControllerPagesExtensionEncryptionDataManager extends AController {
 		$key_id = $query->row['key_id'];
 		
 		$result = array();
+		$errors = array();
 								
 		//generate keys	and save	
 		$enc_data = new ADataEncryption( $key_name ); 
 		foreach ($enc_data->getEcryptedTables() as $table_name) {
+			//use tables with posfix in the name via $this->db->table()
+			$enc_table_name = $this->db->table($table_name);
 			$enc_fields = $enc_data->getEcryptedFields($table_name);
 			$id_field = $enc_data->getEcryptedTableID($table_name);
 			// important to use non-encripted table. Do NOT use table function wrapper
@@ -439,10 +458,11 @@ class ControllerPagesExtensionEncryptionDataManager extends AController {
 						}
 					}
 
-					try {
-						$this->db->query("INSERT INTO " . $this->db->table($table_name) . " SET ".$insert_flds.";" );
+					try {						
+						$this->db->query("INSERT INTO " . $enc_table_name . " SET ".$insert_flds.";" );
 					} catch (AException $e) {
-						$result[] = "<div class='error'>Error: Table ".$table_name." record ID: " . $enc_rec_data[$id_field] . " with key name ".$key_name." failed saving! </div>";
+						$errors[] = "Error saving: Table ".$enc_table_name." record ID: " . $enc_rec_data[$id_field] . "! See error log for details";
+						$this->log->write($e->getMessage());
 						$count--;						
 						continue;
 					}
@@ -456,7 +476,7 @@ class ControllerPagesExtensionEncryptionDataManager extends AController {
 					//check if such row exists for test
 					$test_row = $this->db->query("SELECT * FROM " . $this->db->table($table_name) . " WHERE ".$id_field." = " . $enc_rec_data[$id_field] );
 					if ($test_row->num_rows) {
-						$result[] = "<div class='error'>Error: Duplicate record ID: " . $enc_rec_data[$id_field] . " in table ". $this->db->table($table_name) ." !</div>";
+						$errors[] = "Error: Duplicate record ID: " . $enc_rec_data[$id_field] . " in table ". $this->db->table($table_name) ." !";
 						$count--;						
 					} 
 				}
@@ -464,7 +484,7 @@ class ControllerPagesExtensionEncryptionDataManager extends AController {
 			}			
 			$result[] = "<b>Table ".$table_name." has encrypted ".$count." records with key name ".$key_name."</b>";
 		}
-		return array('key_name' => $key_name, 'result' => $result);
+		return array('key_name' => $key_name, 'result' => $result, 'errors' => $errors);
 	}	
 
 	//Re-encrypt data with new key
@@ -483,6 +503,7 @@ class ControllerPagesExtensionEncryptionDataManager extends AController {
 		$key_id = $query->row['key_id'];
 		
 		$result = array();
+		$errors = array();
 								
 		//generate keys	and save	
 		$enc_data = new ADataEncryption( $key_name ); 
@@ -512,14 +533,14 @@ class ControllerPagesExtensionEncryptionDataManager extends AController {
 				try {
 				    $this->db->query( $update_sql );
 				} catch (AException $e) {
-				    $result[] = "<div class='error'>Error: Table $table_name record ID: " . $enc_rec_data[$id_field] . " with key name $key_name failed updating! </div>";
+				    $errors[] = "Error: Table $table_name record ID: " . $enc_rec_data[$id_field] . " with key name $key_name failed updating!";
 				    $count--;						
 				    continue;
 				}				
 			}			
 			$result[] = "<b>Table ".$table_name." has encrypted ".$count." records with key name ".$key_name."</b>";
 		}
-		return array('key_name' => $key_name, 'result' => $result);
+		return array('key_name' => $key_name, 'result' => $result, 'errors' => $errors);
 	}	
 
 	
