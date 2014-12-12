@@ -291,7 +291,7 @@
 		});
 
 
-		$(document).on('keyup', '#products input[name*=quantity], #products input[name*=price]', function () {
+		$(document).on('keyup', '#products input', function () {
 			recalculate();
 		});
 
