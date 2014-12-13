@@ -1,19 +1,20 @@
-AbanteCart version 1.2.0a (alfa) with new administrator and improved storefront designs.
-This is one of the biggest updates and improvement in AbanteCart project since project has started 3 years ago.
+AbanteCart version 1.2.0 with new administrator and improved storefront designs.
 
-NOTE: It is not recommended to use 1.2.0a (alfa) on live sites as of yet. Wait for the final release.
+This is one of the biggest updates and improvement in AbanteCart ecommerce since project has started 3 years ago.
+New mobile user and customer interfaces as well as new features set AbanteCart to be one of the best and leading open source ecommerce solutions. 
 
-New Features and improvements summary:
+New Features and improvements highlite:
 - AbanteCart is now 100% mobile for storefront and admin
 - New responsive administrator design. Powered by Bootstrap v3.2
 - New features in admin to improve ecommerce platform management. 
 - New improved Resource Library
 - Form manager to create and edit forms
 - Updated Bootstrap v3.2 Storefront with few new features.
-- Introduce Tasks Management to improve time consuming processing 
+- Introduce Tasks Management to improve time consuming processing (beta) 
 - Database optimization for performance
 - Improved and extended reporting
 - Updated and new core extensions
+- Further improvements to extension API
 
 Updates and Improvements in more details:
 
@@ -26,6 +27,7 @@ Core:
 - Updated static error pages. 
 - Standardization for date_added and date_modified fields
 - Large collection of icons with fornawsome 4.1
+- Now installed (not only enabled) extension controllers can be ran in admin. 
 
 Control Panel (admin):
 - New Bootstrap 3.2 responsive design. 
@@ -53,13 +55,14 @@ Storefront:
 - minimum/maximum allowed quantity message fix for product page 
 - Improve checkout from cart page. Update cart before checkout. 
 - Update credit card entry to improve user experience
+- Shopping cart update/checkout improved usability.
 
 Extensions:
 - All core extensions are updated to bootstrap and new version. 
-- Added PayPal Express, Realex, CashFlows and Payza payments
+- Added extensions Form manager, PayPal Express, Realex, CashFlows and Payza payments
 
 Installation : 
-- New redesigned and improved installation 
+- New redesigned and improved AbanteCart installation process 
 
 Many other fixes and improvements that would make this list very large and boring. 
 

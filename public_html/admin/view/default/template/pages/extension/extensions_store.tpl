@@ -94,6 +94,7 @@
 	        		if ($item['rating']) {
 	        			$review = $item['rating'];
 	        		}	    
+	        		$item['version_supported'] = $product['cell']['version_supported'];
 	        		?>
 	        		<li class="product-item col-md-4" data-product-id="<?php echo $product['id'] ?>">
 	        			<div class="ext_thumbnail">
@@ -126,7 +127,7 @@
 	        					    <div class="oneprice"><?php echo $item['price'] ?></div>
 	        					</div>
 
-	    						<?php if ( !$product['version_supported'] ) { ?>
+	    						<?php if ( !$item['version_supported'] ) { ?>
 	        					<div class="tooltips pull-left ml10" data-toggle="tooltip" data-original-title="<?php echo $text_compatibility; ?>">
 	        						<i class="fa fa-exclamation-triangle text-danger"></i>
 	        					</div>
