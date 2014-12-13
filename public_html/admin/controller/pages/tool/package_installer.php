@@ -37,8 +37,8 @@ class ControllerPagesToolPackageInstaller extends AController {
 		$this->_clean_temp_dir();
 
 		$package_info = &$this->session->data['package_info'];
-		$extension_key = !$this->request->get['extension_key'] ? '' : $this->request->get['extension_key'];
-		$extension_key = !$this->request->post['extension_key'] ? $extension_key : $this->request->post['extension_key'];
+		$extension_key = !$this->request->get['extension_key'] ? '' : trim($this->request->get['extension_key']);
+		$extension_key = !$this->request->post['extension_key'] ? $extension_key : trim($this->request->post['extension_key']);
 		$extension_key = $package_info['extension_key'] ? $package_info['extension_key'] : $extension_key;
 
 
@@ -225,7 +225,7 @@ class ControllerPagesToolPackageInstaller extends AController {
 
 	public function download() {
 		$package_info = &$this->session->data['package_info']; // for short code
-		$extension_key = $this->request->post_or_get('extension_key');
+		$extension_key = trim($this->request->post_or_get('extension_key'));
 
 		if (!$extension_key && !$package_info['package_url']) {
 			$this->redirect($this->_get_begin_href());
