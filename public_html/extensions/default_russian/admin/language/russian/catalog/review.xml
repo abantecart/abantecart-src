@@ -96,4 +96,8 @@
     <key>text_select_product</key>
     <value><![CDATA[- Выберите товар -]]></value>
   </definition>
+  <definition>
+    <key>text_select_category</key>
+    <value><![CDATA[- Выберите категорию -]]></value>
+  </definition>  
 </definitions>

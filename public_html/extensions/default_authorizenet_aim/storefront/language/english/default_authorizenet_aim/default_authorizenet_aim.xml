@@ -50,7 +50,7 @@
   </definition>
   <definition>
 	<key>warning_suspicious_to_admin_body</key>
-	<value><![CDATA[Customer account has been disaled. Click this <b><a href="%s" target="_new">link to see customer details</a></b>]]></value>
+	<value><![CDATA[Cuenta de cliente se ha desactivado. Click this <b><a href="%s" target="_new">link to see customer details</a></b>]]></value>
   </definition>
 
 </definitions>

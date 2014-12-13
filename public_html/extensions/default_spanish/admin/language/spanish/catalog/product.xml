@@ -44,6 +44,10 @@
 		<key>text_success_copy</key>
 		<value><![CDATA[Éxito: Ha clonar productos <b>%s</b>!]]></value>
 	</definition>
+    <definition>
+		<key>text_error_copy</key>
+		<value><![CDATA[La clonación ha fallado! Producto original no está disponible]]></value>
+	</definition>
 	<definition>
 		<key>text_product_summary</key>
 		<value><![CDATA[Resumen del producto]]></value>
@@ -397,6 +401,10 @@
 		<value><![CDATA[- Seleccione una Categoría -]]></value>
 	</definition>
 	<definition>
+		<key>text_select_product</key>
+		<value><![CDATA[- Seleccionar producto -]]></value>
+	</definition>
+	<definition>
 		<key>text_product_pagination</key>
 		<value><![CDATA[Producto(s) de {start} a {end} de {total}]]></value>
 	</definition>
@@ -568,4 +576,17 @@
         <key>entry_call_to_order</key>
         <value><![CDATA[Bloquear Producto De Pedidos:<br/><span class="help">Esto pondrá producto a modo de mostrar sólo sin posibilidad de pedir. Póngase en contacto con nosotros por mensaje de pedido se visualizará. </span>]]></value>
     </definition>
+	<definition>
+		<key>text_new_option</key>
+		<value><![CDATA[Nueva Opción]]></value>
+	</definition>
+	<definition>
+		<key>text_total_orders</key>
+		<value><![CDATA[El total de pedidos]]></value>
+	</definition>
+	<definition>
+		<key>error_measure_value</key>
+		<value><![CDATA[Se ha alcanzado el límite de 999.99. Proporcione el número más pequeño.]]></value>
+	</definition>
+    
 </definitions>

@@ -112,4 +112,21 @@
     <key>entry_range</key>
     <value><![CDATA[Seleccionar periodo:]]></value>
   </definition>
+  <definition>
+    <key>orders_text_all</key>
+    <value><![CDATA[Todos los pedidos]]></value>
+  </definition>
+  <definition>
+    <key>text_customer_all</key>
+    <value><![CDATA[Todos los clientes]]></value>
+  </definition>
+  <definition>
+    <key>text_latest_10_customers</key>
+    <value><![CDATA[últimas inscripciones]]></value>
+  </definition>
+  <definition>
+    <key>column_email</key>
+    <value><![CDATA[Correo electrónico]]></value>
+  </definition>
+  
 </definitions>

@@ -319,7 +319,7 @@
     </definition>
     <definition>
         <key>error_delete_default</key>
-        <value><![CDATA[Error: Default address cannnot be deleted!]]></value>
+        <value><![CDATA[Error: Default address cannot be deleted!]]></value>
     </definition>
     <definition>
         <key>error_delete_last</key>

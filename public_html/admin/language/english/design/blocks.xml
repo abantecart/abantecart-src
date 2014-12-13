@@ -234,6 +234,6 @@
 	</definition>
 	<definition>
 		<key>error_block_not_available</key>
-		<value><![CDATA[This block will not be displaied in selected position on a storefront!]]></value>
+		<value><![CDATA[This block will not be displayed in selected position on a storefront!]]></value>
 	</definition>
 </definitions>

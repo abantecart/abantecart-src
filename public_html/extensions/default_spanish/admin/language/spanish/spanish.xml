@@ -118,11 +118,11 @@
 	</definition>
 	<definition>
 		<key>button_save</key>
-		<value><![CDATA[Guardar y cerrar]]></value>
+		<value><![CDATA[Guardar]]></value>
 	</definition>
 	<definition>
 		<key>button_save_and_close</key>
-		<value><![CDATA[Сохранить и закрыть]]></value>
+		<value><![CDATA[Guardar y cerrar]]></value>
 	</definition>	
 	<definition>
 		<key>button_cancel</key>
@@ -163,6 +163,10 @@
 	<definition>
 		<key>button_back</key>
 		<value><![CDATA[Volver]]></value>
+	</definition>
+	<definition>
+	    <key>button_continue</key>
+	    <value><![CDATA[Continuar]]></value>
 	</definition>
 	<definition>
 		<key>button_remove</key>
@@ -569,15 +573,95 @@
 	</definition>
 	<definition>
 		<key>text_select_copy_layout</key>
-		<value><![CDATA[Aplicar diseño diferente para esta página]]></value>
+		<value><![CDATA[Seleccionar para copiar el diseño de]]></value>
 	</definition>
 	<definition>
 		<key>text_apply_layout</key>
 		<value><![CDATA[Aplicar ahora]]></value>
 	</definition>	
 	<definition>
+		<key>text_new_download</key>
+		<value><![CDATA[Nueva descarga]]></value>
+	</definition>
+	<definition>
+		<key>text_free</key>
+		<value><![CDATA[Gratis]]></value>
+	</definition>
+	<definition>
+		<key>text_sure</key>
+		<value><![CDATA[Estás seguro?]]></value>
+	</definition>
+	<definition>
+		<key>button_add</key>
+		<value><![CDATA[Añadir]]></value>
+	</definition>
+	<definition>
+		<key>text_please_confirm</key>
+		<value><![CDATA[Confirme por favor]]></value>
+	</definition>
+	<definition>
+		<key>button_confirm</key>
+		<value><![CDATA[Confirmar]]></value>
+	</definition>
+	<definition>
+		<key>button_download</key>
+		<value><![CDATA[Descargar]]></value>
+	</definition>
+	<definition>
+		<key>recent_customers</key>
+		<value><![CDATA[Clientes Recientemente Registrados]]></value>
+	</definition>
+	<definition>
+		<key>new_orders</key>
+		<value><![CDATA[Nuevos pedidos]]></value>
+	</definition>
+	<definition>
+		<key>text_saved</key>
+		<value><![CDATA[Guardado con Éxito]]></value>
+	</definition>
+	<definition>
+		<key>text_processing</key>
+		<value><![CDATA[Tratamiento...]]></value>
+	</definition>
+	<definition>
+		<key>text_next</key>
+		<value><![CDATA[¡Siguiente]]></value>
+	</definition>
+	<definition>
+		<key>text_previous</key>
+		<value><![CDATA[Anterior]]></value>
+	</definition>
+	<definition>
+		<key>text_on</key>
+		<value><![CDATA[ON]]></value>
+	</definition>
+	<definition>
+		<key>text_off</key>
+		<value><![CDATA[OFF]]></value>
+	</definition>
+	<definition>
+		<key>text_external_help</key>
+		<value><![CDATA[Ayuda externa]]></value>
+	</definition>
+	<definition>
+		<key>text_select_from_lookup</key>
+		<value><![CDATA[Tipo comienzo del nombre para buscar y seleccionar]]></value>
+	</definition>	
+	<definition>
+		<key>text_continue_typing</key>
+		<value><![CDATA[Siga escribiendo ...]]></value>
+	</definition>
+	<definition>
+		<key>text_looking_for</key>
+		<value><![CDATA[Buscando]]></value>
+	</definition>
+	<definition>
+		<key>button_manage_extensions</key>
+		<value><![CDATA[Administrar extensiones]]></value>
+	</definition>
+	<definition>
 		<key>text_abc_notification</key>
-		<value><![CDATA[Software Updates & Notifications]]></value>
+		<value><![CDATA[Actualización de Software y Notificaciones]]></value>
 	</definition>
 	
 </definitions>

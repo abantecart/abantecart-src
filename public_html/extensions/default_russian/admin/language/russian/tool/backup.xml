@@ -24,6 +24,10 @@
     <key>entry_restore</key>
     <value><![CDATA[Восстановить резервную копию:]]></value>
   </definition>
+	<definition>
+		<key>entry_tables</key>
+		<value><![CDATA[Backup Tables:]]></value>
+	</definition>
   <definition>
     <key>entry_backup</key>
     <value><![CDATA[Резервное копирование:]]></value>

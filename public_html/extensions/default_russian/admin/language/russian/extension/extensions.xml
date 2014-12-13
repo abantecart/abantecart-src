@@ -225,6 +225,10 @@
     <value><![CDATA[Зависимости]]></value>
   </definition>
   <definition>
+    <key>text_update_available</key>
+    <value><![CDATA[New version (%s) is available. <a href="%s">Click to update now.</a>]]></value>
+  </definition>
+  <definition>
     <key>text_update_it</key>
     <value><![CDATA[Доступна новая версия (%NEWVERSION%) ]]></value>
   </definition>

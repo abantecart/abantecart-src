@@ -128,6 +128,14 @@
         <key>text_unmap</key>
         <value><![CDATA[Desasignar del objeto]]></value>
     </definition>
+	<definition>
+		<key>text_unmap_from</key>
+		<value><![CDATA[Desvinculación de %s]]></value>
+	</definition>
+	<definition>
+		<key>text_success_unmap</key>
+		<value><![CDATA[Éxito: Recursos ha sido desvinculado.]]></value>
+	</definition>
     <definition>
         <key>text_file_delete</key>
         <value><![CDATA[De recursos ha sido eliminado!]]></value>
@@ -280,4 +288,28 @@
 		<key>text_manufacturers</key>
 		<value><![CDATA[Marcas]]></value>
 	</definition>
+	<definition>
+		<key>error_unmap</key>
+		<value><![CDATA[No se puede desvincular de recursos. Objeto no se ha establecido.]]></value>
+	</definition>
+	<definition>
+		<key>text_replace_file</key>
+		<value><![CDATA[Reemplazar archivo]]></value>
+	</definition>
+	<definition>
+		<key>error_not_replaced</key>
+		<value><![CDATA[Error de archivo de reemplazo. Se requiere identificación!]]></value>
+	</definition>
+	<definition>
+		<key>error_not_exists</key>
+		<value><![CDATA[Error de archivo de reemplazo. Recursos no existe!]]></value>
+	</definition>
+	<definition>
+		<key>error_cannot_move</key>
+		<value><![CDATA[Error: No se puede mover el archivo %s al directorio de recursos.]]></value>
+	</definition>
+	<definition>
+		<key>button_save_n_link</key>
+		<value><![CDATA[Guardar y Enlace]]></value>
+	</definition>	
 </definitions>

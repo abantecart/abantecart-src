@@ -136,6 +136,14 @@
     <key>text_unmap</key>
     <value><![CDATA[Открепить]]></value>
   </definition>
+	<definition>
+		<key>text_unmap_from</key>
+		<value><![CDATA[Разорвать связь с %s]]></value>
+	</definition>
+	<definition>
+		<key>text_success_unmap</key>
+		<value><![CDATA[Успех: ресурс был отделен.]]></value>
+	</definition>
   <definition>
     <key>text_file_delete</key>
     <value><![CDATA[Ресурс был удален!]]></value>
@@ -284,4 +292,28 @@
     <key>text_manufacturers</key>
     <value><![CDATA[Производители]]></value>
   </definition>
+	<definition>
+		<key>error_unmap</key>
+		<value><![CDATA[Не возможно отсоединить ресурс. Объект не был установлен.]]></value>
+	</definition>
+	<definition>
+		<key>text_replace_file</key>
+		<value><![CDATA[Заменить файл]]></value>
+	</definition>
+	<definition>
+		<key>error_not_replaced</key>
+		<value><![CDATA[Ошибка замены Файла. Требуется ID!]]></value>
+	</definition>
+	<definition>
+		<key>error_not_exists</key>
+		<value><![CDATA[FОшибка замены Файла. Ресурс не существует!]]></value>
+	</definition>
+	<definition>
+		<key>error_cannot_move</key>
+		<value><![CDATA[Ошибка: Не удается переместить файл %s в каталог ресурсов.]]></value>
+	</definition>
+	<definition>
+		<key>button_save_n_link</key>
+		<value><![CDATA[Сохранить и связать]]></value>
+	</definition>  
 </definitions>

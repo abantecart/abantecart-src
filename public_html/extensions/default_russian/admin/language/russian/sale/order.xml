@@ -324,4 +324,12 @@
 		<key>text_order_status_required</key>
 		<value><![CDATA[Требуется статус заказа "%s"]]></value>
 	</definition>
+	<definition>
+		<key>text_select_product</key>
+		<value><![CDATA[- Выберите продукт -]]></value>
+	</definition>
+	<definition>
+		<key>text_push_download</key>
+		<value><![CDATA[- Нажмите Скачать -]]></value>
+	</definition>	
 </definitions>

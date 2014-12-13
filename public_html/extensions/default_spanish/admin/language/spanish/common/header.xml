@@ -128,6 +128,18 @@
         <key>text_reports</key>
         <value><![CDATA[Informes]]></value>
     </definition>
+	<definition>
+		<key>text_online</key>
+		<value><![CDATA[Online]]></value>
+	</definition>
+	<definition>
+		<key>text_transactions</key>
+		<value><![CDATA[Transacciones]]></value>
+	</definition>
+	<definition>
+		<key>text_tax</key>
+		<value><![CDATA[Impuesto]]></value>
+	</definition>
     <definition>
         <key>text_welcome</key>
         <value><![CDATA[Bienvenida, <b>%s</b>]]></value>
@@ -360,5 +372,45 @@
 		<key>text_settings_newstore</key>
 		<value><![CDATA[Crear nueva tienda]]></value>
 	</definition>	
+	<definition>
+		<key>text_tasks</key>
+		<value><![CDATA[Tareas programadas]]></value>
+	</definition>
+	<definition>
+		<key>text_read_all_messages</key>
+		<value><![CDATA[Leer todos los mensajes]]></value>
+	</definition>
+	<definition>
+		<key>text_short_stats</key>
+		<value><![CDATA[Estadísticas rápidas]]></value>
+	</definition>
+	<definition>
+		<key>text_online_now</key>
+		<value><![CDATA[Clientes en línea]]></value>
+	</definition>
+	<definition>
+		<key>text_online_new</key>
+		<value><![CDATA[Nuevo]]></value>
+	</definition>
+	<definition>
+		<key>text_online_registered</key>
+		<value><![CDATA[Logged In]]></value>
+	</definition>
+	<definition>
+		<key>text_today_orders</key>
+		<value><![CDATA[Entradas de Pedidos en la actualidad]]></value>
+	</definition>
+	<definition>
+		<key>text_today_sales</key>
+		<value><![CDATA[Ventas totales Hoy]]></value>
+	</definition>
+	<definition>
+		<key>text_today_customers</key>
+		<value><![CDATA[Clientes Nuevos Hoy]]></value>
+	</definition>
+	<definition>
+		<key>text_today_reviews</key>
+		<value><![CDATA[Comentarios Nuevo Hoy]]></value>
+	</definition>
 	
 </definitions>

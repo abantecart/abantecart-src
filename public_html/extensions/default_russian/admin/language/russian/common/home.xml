@@ -112,4 +112,21 @@
     <key>entry_range</key>
     <value><![CDATA[Выберите диапазон:]]></value>
   </definition>
+  <definition>
+    <key>orders_text_all</key>
+    <value><![CDATA[Все заказы]]></value>
+  </definition>
+  <definition>
+    <key>text_customer_all</key>
+    <value><![CDATA[Все клиенты]]></value>
+  </definition>
+  <definition>
+    <key>text_latest_10_customers</key>
+    <value><![CDATA[Последние регистрации]]></value>
+  </definition>
+  <definition>
+    <key>column_email</key>
+    <value><![CDATA[Email]]></value>
+  </definition>
+  
 </definitions>

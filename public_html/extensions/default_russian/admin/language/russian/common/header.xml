@@ -144,6 +144,18 @@
     <key>text_reports</key>
     <value><![CDATA[Отчеты]]></value>
   </definition>
+	<definition>
+		<key>text_online</key>
+		<value><![CDATA[Онлайн]]></value>
+	</definition>
+	<definition>
+		<key>text_transactions</key>
+		<value><![CDATA[Операции]]></value>
+	</definition>
+	<definition>
+		<key>text_tax</key>
+		<value><![CDATA[Налог]]></value>
+	</definition>
   <definition>
     <key>text_report_purchased</key>
     <value><![CDATA[Приобретенные товары]]></value>
@@ -388,4 +400,44 @@
     <key>text_voice_not_supported</key>
     <value><![CDATA[Голосовое управление не поддерживается в этом браузере. Обновитесь до <a href="//www.google.com/chrome" target="_new">Chrome</a> версии 25 или более поздней версии.]]></value>
   </definition>
+	<definition>
+		<key>text_tasks</key>
+		<value><![CDATA[Запланированные задачи]]></value>
+	</definition>
+	<definition>
+		<key>text_read_all_messages</key>
+		<value><![CDATA[Все сообщения]]></value>
+	</definition>
+	<definition>
+		<key>text_short_stats</key>
+		<value><![CDATA[Общая статистика]]></value>
+	</definition>
+	<definition>
+		<key>text_online_now</key>
+		<value><![CDATA[Клиенты онлайн]]></value>
+	</definition>
+	<definition>
+		<key>text_online_new</key>
+		<value><![CDATA[Новый]]></value>
+	</definition>
+	<definition>
+		<key>text_online_registered</key>
+		<value><![CDATA[Зарегистрированные]]></value>
+	</definition>
+	<definition>
+		<key>text_today_orders</key>
+		<value><![CDATA[Новые заказы на сегодня]]></value>
+	</definition>
+	<definition>
+		<key>text_today_sales</key>
+		<value><![CDATA[Всего продаж на егодня]]></value>
+	</definition>
+	<definition>
+		<key>text_today_customers</key>
+		<value><![CDATA[Новые клиенты на сегодня]]></value>
+	</definition>
+	<definition>
+		<key>text_today_reviews</key>
+		<value><![CDATA[Новые обзоры на сегодня]]></value>
+	</definition>
 </definitions>

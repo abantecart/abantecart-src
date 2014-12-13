@@ -328,4 +328,12 @@
 		<key>text_order_status_required</key>
 		<value><![CDATA[Estado del pedido "%s" Obligatorio]]></value>
 	</definition>
+	<definition>
+		<key>text_select_product</key>
+		<value><![CDATA[- Seleccionar producto -]]></value>
+	</definition>
+	<definition>
+		<key>text_push_download</key>
+		<value><![CDATA[- Empuje Descargar -]]></value>
+	</definition>	
 </definitions>

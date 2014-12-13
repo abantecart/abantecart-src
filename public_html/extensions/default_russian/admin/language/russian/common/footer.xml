@@ -2,7 +2,7 @@
 <definitions>
   <definition>
     <key>text_footer_left</key>
-    <value><![CDATA[AbanteCart является торговой маркой компании Belavier Commerce LLC <br /> Copyright © 2009 - %s Все права защищены.]]></value>
+    <value><![CDATA[AbanteCart торговая марка компании Belavier Commerce LLC <br /> Copyright © 2009 - %s Все права защищены.]]></value>
   </definition>
   <definition>
     <key>text_footer</key>
