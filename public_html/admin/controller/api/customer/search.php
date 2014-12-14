@@ -49,12 +49,12 @@ class ControllerApiCustomerSearch extends AControllerAPI {
 		if ( !$filter->getFilterParam('loginname') && !$filter->getFilterParam('lastname')) {
 			$this->rest->setResponseData( array('Error' => 'Login name or last name is required for customers search') );
 			$this->rest->sendResponse(200);
-			return;
+			return null;
 		}		
 		if (  !$filter->getFilterParam('loginname') && strlen($filter->getFilterParam('lastname')) < 3 ) {
 			$this->rest->setResponseData( array('Error' => 'Minimum last name length for search is 3 characters') );
 			$this->rest->sendResponse(200);
-			return;
+			return null;
 		}		
 		
 	    $total = $this->model_sale_customer->getTotalCustomers( $filter->getFilterData() );

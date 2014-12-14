@@ -665,7 +665,7 @@ final class ADataEncryption {
 			$db = $this->registry->get('db');
 			$query = $db->query( "SELECT * FROM " . $db->table('encryption_keys') . " WHERE status = 1" );
         	if ( !$query->num_rows ) {
-            	return;
+            	return null;
         	}
         	foreach ($query->rows as $row) {
         		$this->keys[$row['key_id']] = $row['key_name'];
@@ -733,7 +733,6 @@ final class ADataEncryption {
 		        $error = "Error: Can not locate default key in configuration file. Refer to data encryption configuration help!";
 		        $this->log->write($error);
 		        $this->message->saveError('Data decryption error',$error);
-				throw new AException (AC_ERR_LOAD, $error);
 		}
 		
 		return $key_name;

@@ -42,7 +42,7 @@ class ControllerPagesErrorNotFound extends AController {
 		$this->view->assign('heading_title', $this->language->get('heading_title'));
 		$this->view->assign('text_not_found', $this->language->get('text_not_found'));
 		$this->view->assign('button_continue', $this->language->get('button_continue'));
-		$this->view->assign('continue', $this->html->getURL('index/home'));
+		$this->view->assign('continue', $this->html->getSecureURL('index/home'));
 
 		$this->processTemplate('pages/error/not_found.tpl');
 

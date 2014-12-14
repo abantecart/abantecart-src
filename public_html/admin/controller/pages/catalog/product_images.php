@@ -42,7 +42,7 @@ class ControllerPagesCatalogProductImages extends AController {
 			}
     	}
 
-		if (($this->request->server['REQUEST_METHOD'] == 'POST') ) {
+		if ($this->request->is_POST() ) {
 			$this->model_catalog_product->updateProductImages($this->request->get['product_id'], $this->request->post);
 			$this->session->data['success'] = $this->language->get('text_success');
 			$this->redirect($this->html->getSecureURL('catalog/product_images', '&product_id=' . $this->request->get['product_id'] ));
@@ -59,22 +59,19 @@ class ControllerPagesCatalogProductImages extends AController {
     	$this->document->initBreadcrumb( array (
        		'href'      => $this->html->getSecureURL('index/home'),
        		'text'      => $this->language->get('text_home'),
-      		'separator' => FALSE
    		 ));
    		$this->document->addBreadcrumb( array (
        		'href'      => $this->html->getSecureURL('catalog/product'),
        		'text'      => $this->language->get('heading_title'),
-      		'separator' => ' :: '
    		 ));
 		 $this->document->addBreadcrumb( array (
 			'href'      => $this->html->getSecureURL('catalog/product/update', '&product_id=' . $this->request->get['product_id'] ),
 			'text'      => $this->language->get('text_edit') .'&nbsp;'. $this->language->get('text_product') . ' - '. $this->data['product_description'][$this->session->data['content_language_id']]['name'],
-			'separator' => ' :: '
 		 ));
 		 $this->document->addBreadcrumb( array (
 			'href'      => $this->html->getSecureURL('catalog/product_images', '&product_id=' . $this->request->get['product_id'] ),
 			'text'      => $this->language->get('tab_media'),
-			'separator' => ' :: '
+			'current'   => true
 		 ));
 
 		$this->data['no_image'] = $this->model_tool_image->resize('no_image.jpg', 100, 100);

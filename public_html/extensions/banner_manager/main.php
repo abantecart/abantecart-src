@@ -56,7 +56,6 @@ $templates = array(
     ),
     'admin' => array( 'pages/extension/banner_manager.tpl',
                       'pages/extension/banner_manager_form.tpl',
-                      'responses/extension/banner_manager_subform.tpl',
                       'responses/extension/banner_listing.tpl',
                       'pages/extension/banner_manager_stat.tpl',
                       'pages/extension/banner_manager_stat_details.tpl',

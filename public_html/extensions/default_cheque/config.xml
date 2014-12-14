@@ -1,19 +1,21 @@
 <?xml version="1.0"?>
 <extension>
     <id>default_cheque</id>
-    <version>1.0.0</version>
+    <version>1.0.1</version>
 	<type>payment</type>
 	<category>payment</category>
     <cartversions>
-        <item>0.9</item>
-        <item>1.0</item>
-        <item>1.1</item>
+        <item>1.2</item>
     </cartversions>
     <layout></layout>
     <priority>10</priority>
     <settings>
 	    <item id="default_cheque_payable">
             <type required="true">input</type>
+            <default_value></default_value>
+        </item>
+	    <item id="default_cheque_address">
+            <type>input</type>
             <default_value></default_value>
         </item>
         <item id="default_cheque_order_status_id">

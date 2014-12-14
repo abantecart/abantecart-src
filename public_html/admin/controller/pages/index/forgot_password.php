@@ -24,7 +24,7 @@ class ControllerPagesIndexForgotPassword extends AController {
 
 	public $data = array();
 	private $user_data;
-	private $error = array();
+	public $error = array();
 
 	public function main() {
 
@@ -34,7 +34,7 @@ class ControllerPagesIndexForgotPassword extends AController {
 		$this->loadLanguage('common/forgot_password');
 		$this->document->setTitle( $this->language->get('heading_title') );
 
-		if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->_validate()) {
+		if ($this->request->is_POST() && $this->_validate()) {
 
 			//generate hash
 			$hash = AEncryption::getHash(time());
@@ -109,6 +109,7 @@ class ControllerPagesIndexForgotPassword extends AController {
 						'name' => $f,
 						'value' => $this->data[$f],
 						'required' => true,
+						'placeholder' => $this->language->get('entry_'.$f),
 					)
 				);
 			}
@@ -129,13 +130,13 @@ class ControllerPagesIndexForgotPassword extends AController {
 		$this->loadLanguage('common/forgot_password');
 		$this->document->setTitle( $this->language->get('heading_title') );
 
-		if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->_validateCaptcha()) {
+		if ($this->request->is_POST() && $this->_validateCaptcha()) {
 
 			//generate password
 			$password = AUser::generatePassword(8);
 			$this->model_user_user->editUser($this->user_data['user_id'], array('password' => $password));
 
-			$mail = new AMail($this->config,$this->log);
+			$mail = new AMail($this->config);
 			$mail->setTo($this->user_data['email']);
 	  		$mail->setFrom($this->config->get('store_main_email'));
 	  		$mail->setSender($this->config->get('config_owner'));
@@ -207,6 +208,7 @@ class ControllerPagesIndexForgotPassword extends AController {
 						'name' => $f,
 						'value' => $this->data[$f],
 						'required' => true,
+						'placeholder' => $this->language->get('entry_'.$f),
 					)
 				);
 			}
@@ -222,7 +224,7 @@ class ControllerPagesIndexForgotPassword extends AController {
 	}
 
     private function _validate() {
-    	if ((strlen(utf8_decode($this->request->post['username'])) < 1)) {
+    	if ( mb_strlen($this->request->post['username']) < 1 ) {
       		$this->error['username'] = $this->language->get('error_username');
     	}
 
@@ -238,6 +240,8 @@ class ControllerPagesIndexForgotPassword extends AController {
 	    if ( !$this->error && !$this->user->validate($this->request->post['username'], $this->request->post['email']) ) {
 		    $this->error['warning'] = $this->language->get('error_match');
 	    }
+
+	    $this->extensions->hk_ValidateData($this);
 
 		if (!$this->error) {
 	  		return TRUE;
@@ -264,6 +268,8 @@ class ControllerPagesIndexForgotPassword extends AController {
 				$this->user_data = $users[0];
 			}
 		}
+
+		$this->extensions->hk_ValidateData($this);
 
 	    if (!$this->error) {
 	  		return TRUE;

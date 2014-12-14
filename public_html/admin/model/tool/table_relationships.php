@@ -66,7 +66,7 @@ class ModelToolTableRelationships extends Model {
 				),
 				'categories_to_stores' => array(
 					'id' => null,
-					'relation_ids' => array('category_id')
+					'relation_ids' => array('category_id','store_id')
 				),
 				/* Special case, no matching field name */
 				'resource_map' => array(

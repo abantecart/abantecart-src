@@ -36,7 +36,8 @@ class ControllerPagesIndexHome extends AController {
    		$this->document->addBreadcrumb( array ( 
        		'href'      => $this->html->getSecureURL('index/home'),
        		'text'      => $this->language->get('text_home'),
-      		'separator' => FALSE
+      		'separator' => FALSE,
+      		'current' => true,
    		 ));
 		
 		$this->view->assign('token', $this->session->data['token']);
@@ -114,17 +115,35 @@ class ControllerPagesIndexHome extends AController {
 			array(
                 'href' => $this->html->getSecureURL('tool/message_manager'),
                 'text' => $this->language->get('text_messages'),
-				'icon' => 'icon_add1.png',
+				'icon' => 'icon_messages.png',
             ),
 			array(
                 'href' => $this->html->getSecureURL('design/layout'),
                 'text' => $this->language->get('text_layout'),
-				'icon' => 'icon_add4.png',
+				'icon' => 'icon_layouts.png',
             )
 		));
-		
-		$orders = array();
-		
+
+		//10 new orders and customers
+		$filter = array(
+			'sort'  => 'c.date_added',
+			'order' => 'DESC',
+			'start' => 0,
+			'limit' => 10
+		);		
+		$top_customers = $this->model_sale_customer->getCustomers($filter);
+		foreach( $top_customers as $indx => $customer) {
+			$action = array();
+			$action[] = array(
+				'text' => $this->language->get('text_edit'),
+				'href' => $this->html->getSecureURL('sale/customer/update', '&customer_id='.$customer['customer_id'])
+			);
+			$top_customers[$indx]['action'] = $action;
+		}
+		$this->view->assign('customers', $top_customers);
+		$this->view->assign('customers_url', $this->html->getSecureURL('sale/customer'));
+
+		$orders = array();		
 		$filter = array(
 			'sort'  => 'o.date_added',
 			'order' => 'DESC',
@@ -138,7 +157,6 @@ class ControllerPagesIndexHome extends AController {
     	
     	foreach ($results as $result) {
 			$action = array();
-			  
 			$action[] = array(
 				'text' => $this->language->get('text_edit'),
 				'href' => $this->html->getSecureURL('sale/order/update', '&order_id=' . $result['order_id'])

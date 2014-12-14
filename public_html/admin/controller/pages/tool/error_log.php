@@ -29,14 +29,14 @@ class ControllerPagesToolErrorLog extends AController {
 
 		$this->loadLanguage('tool/error_log');
 		$this->document->setTitle( $this->language->get('heading_title') );
-		$data['heading_title'] = $this->language->get('heading_title');
-		$data['button_clear'] = $this->language->get('button_clear');
-		$data['tab_general'] = $this->language->get('tab_general');
+		$this->data['heading_title'] = $this->language->get('heading_title');
+		$this->data['button_clear'] = $this->language->get('button_clear');
+		$this->data['tab_general'] = $this->language->get('tab_general');
 		if (isset($this->session->data['success'])) {
-			$data['success'] = $this->session->data['success'];
+			$this->data['success'] = $this->session->data['success'];
 			unset($this->session->data['success']);
 		} else {
-			$data['success'] = '';
+			$this->data['success'] = '';
 		}
 		
   		$this->document->resetBreadcrumbs();
@@ -48,10 +48,11 @@ class ControllerPagesToolErrorLog extends AController {
    		$this->document->addBreadcrumb( array ( 
        		'href'      => $this->html->getSecureURL('tool/error_log'),
        		'text'      => $this->language->get('heading_title'),
-      		'separator' => ' :: '
+      		'separator' => ' :: ',
+			'current'	=> true
    		 ));
 		
-		$data['clear'] = $this->html->getSecureURL('tool/error_log/clearlog');
+		$this->data['clear_url'] = $this->html->getSecureURL('tool/error_log/clearlog');
 		$file = DIR_LOGS . $this->config->get('config_error_filename');
 
 		if (file_exists($file)) {
@@ -63,7 +64,7 @@ class ControllerPagesToolErrorLog extends AController {
 			$filesize = filesize($file);
 			if($filesize>500000){
 
-				$data['log'] = "\n\n\n\n###############################################################################################\n\n".
+				$this->data['log'] = "\n\n\n\n###############################################################################################\n\n".
 strtoupper($this->language->get('text_file_tail')).DIR_LOGS."
 
 ###############################################################################################\n\n\n\n";
@@ -72,19 +73,35 @@ strtoupper($this->language->get('text_file_tail')).DIR_LOGS."
 			}
 
 			while(!feof($fp)){
-				$data['log'] .= fgets($fp);
+				$log .= fgets($fp);
 			}
 			fclose($fp);
 		} else {
-			$data['log'] = '';
+			$log = '';
 		}
 
-		$this->view->batchAssign( $data );
+		$log = htmlentities(str_replace(array('<br/>','<br />'),"\n",$log), ENT_QUOTES, 'UTF-8');	
+		//filter empty string
+		$lines = array_filter( explode("\n", $log), 'strlen' );
+		unset($log);
+		$k=0;
+		foreach($lines as $line){
+			if( preg_match( '(^\d{4}-\d{2}-\d{2} \d{1,2}:\d{2}:\d{2})', $line, $match) ){
+				$k++;
+				$data[$k] = str_replace($match[0], '<b>'.$match[0].'</b>', $line);
+			}else{
+				$data[$k] .= '<br>'.$line;
+			}
+		}
+
+		$this->data['log'] = $data;
+
+
+		$this->view->batchAssign( $this->data );
         $this->processTemplate('pages/tool/error_log.tpl' );
 
         //update controller data
         $this->extensions->hk_UpdateData($this,__FUNCTION__);
-        
 	}
 
 	public function clearLog() {
@@ -102,4 +119,3 @@ strtoupper($this->language->get('text_file_tail')).DIR_LOGS."
         $this->extensions->hk_UpdateData($this,__FUNCTION__);
 	}
 }
-?>

@@ -138,6 +138,35 @@ class ALanguage {
 		return $return_text;
 	}
 
+
+	/**
+	 * Get language definition for error. Function returns text anyway!
+	 *
+	 * @param string $key
+	 * @return string
+	 */
+	public function get_error($key){
+
+		$result = $this->get($key);
+
+		if( $key == $result || trim($result)=='' ){
+			$backtrace = debug_backtrace();
+			$ts = time();
+			$log_message = $ts . "- Not described error.\n"
+					."File: ".$backtrace[0]['file']."\n"
+					."Line: ".$backtrace[0]['line']."\n"
+					."Args: ".var_export($backtrace[0]['args'], true)."\n";
+			$e = new AError($log_message);
+			$e->toDebug()->toLog()->toMessages();
+			$result = "Not described error happened.";
+			if(IS_ADMIN===true){
+				$result .= "Check log for details. Code [".$ts."]";
+			}
+		}
+
+		return $result;
+	}
+
 	/**
 	 * Get all language definitions
 	 *
@@ -630,7 +659,7 @@ class ALanguage {
 			return array();
 		}
 		$lang_array = array();
-		$sql = "SELECT * FROM `" . DB_PREFIX . "language_definitions`
+		$sql = "SELECT * FROM " . $this->db->table("language_definitions") . " 
                 WHERE language_id = '" . (int)$language_id . "'
                               AND section =" . (int)$section . " AND block='" . $this->db->escape($block_name) . "'";
 		$language_query = $this->db->query($sql);
@@ -652,8 +681,8 @@ class ALanguage {
 
 		ADebug::checkpoint('ALanguage ' . $this->language_details['name'] . ' ' . $block . ' saving to database');
 
-		$sql = "INSERT INTO " . DB_PREFIX . "language_definitions ";
-		$sql .= "(language_id,block,section,language_key,language_value,create_date) VALUES ";
+		$sql = "INSERT INTO " . $this->db->table("language_definitions") . " ";
+		$sql .= "(language_id,block,section,language_key,language_value,date_added) VALUES ";
 		$values = array();
 		foreach ($lang_defns as $k => $v) {
 			//preventing duplication sql-error by unique index

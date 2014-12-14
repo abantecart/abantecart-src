@@ -39,51 +39,50 @@ class ControllerPagesReportViewed extends AController {
 		);
 
 		$grid_settings['colNames'] = array(
+			$this->language->get('column_product_id'),			
 			$this->language->get('column_name'),
 			$this->language->get('column_model'),
-			$this->language->get('column_category'),
 			$this->language->get('column_viewed'),
 			$this->language->get('column_percent'),
 		);
 
 		$grid_settings['colModel'] = array(
 			array(
+				'name' => 'product_id',
+				'index' => 'product_id',
+				'width' => 50,
+                'align' => 'center',
+				'sortable' => false,
+			),
+			array(
 				'name' => 'name',
 				'index' => 'name',
-				'width' => 120,
+				'width' => 300,
 				'align' => 'left',
 				'sortable' => false,
 			),
 			array(
 				'name' => 'model',
 				'index' => 'model',
-				'width' => 100,
-                'align' => 'left',
-				'sortable' => false,
-			),
-			array(
-				'name' => 'category',
-				'index' => 'category',
-				'width' => 100,
-                'align' => 'left',
+				'width' => 80,
+                'align' => 'center',
 				'sortable' => false,
 			),
 			array(
 				'name' => 'viewed',
 				'index' => 'viewed',
-				'width' => 100,
+				'width' => 50,
                 'align' => 'center',
 				'sortable' => false,
 			),
             array(
 				'name' => 'percent',
 				'index' => 'percent',
-				'width' => 90,
-                'align' => 'right',
+				'width' => 50,
+                'align' => 'center',
 	            'sortable' => false,
 			),
 		);
-
 
 		$grid = $this->dispatch('common/listing_grid', array( $grid_settings ) );
 		$this->view->assign('listing_grid', $grid->dispatchGetOutput());
@@ -96,7 +95,8 @@ class ControllerPagesReportViewed extends AController {
    		$this->document->addBreadcrumb( array ( 
        		'href'      => $this->html->getSecureURL('report/viewed'),
        		'text'      => $this->language->get('heading_title'),
-      		'separator' => ' :: '
+      		'separator' => ' :: ',
+			'current'	=> true
    		 ));
 
 
@@ -105,11 +105,6 @@ class ControllerPagesReportViewed extends AController {
 			unset($this->session->data['success']);
 		}
 		$this->view->assign('reset', $this->html->getSecureURL('report/viewed/reset'));
-		$this->view->assign('reset_button', $this->html->buildButton(array(
-		    'name' => 'reset_button',
-		    'text' => $this->language->get('button_reset'),
-		    'style' => 'button1',
-	    )));
 
 		$this->processTemplate('pages/report/viewed.tpl' );
         //update controller data
@@ -133,4 +128,3 @@ class ControllerPagesReportViewed extends AController {
 		$this->redirect($this->html->getSecureURL('report/viewed', $url));
 	}
 }
-?>

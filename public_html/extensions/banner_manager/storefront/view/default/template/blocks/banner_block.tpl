@@ -1,19 +1,14 @@
-
+<section id="banner_<?php echo $block_details['block_txt_id'] . '_' . $block_details['instance_id'] ?>" class="banner container mt20">
+    <div class="container-fluid">
 <?php if ( $block_framed ) { ?>
-<div class="s_block">
-	<div class="block_tl">
-		<div class="block_tr">
-			<div class="block_tc"><?php echo $heading_title; ?></div>
-		</div>
-	</div>
-    <div class="block_cl">
-    	<div class="block_cr">
-        	<div class="block_cc" style="overflow: hidden;">
+		<div class="block_frame block_frame_<?php echo $block_details['block_txt_id']; ?>"
+					 id="block_frame_<?php echo $block_details['block_txt_id'] . '_' . $block_details['instance_id'] ?>">
+      <h1 class="heading2"><span class="maintext"><?php echo $heading_title; ?></span><span class="subtext"><?php echo $heading_subtitle; ?></span></h1>
 <?php } ?>
-<?php if($content){
+<?php if(is_array($content) && $content){
 		foreach($content as $banner){
-			echo '<div class="banner flt_left" data-banner-id="'.$banner['banner_id'].'">';
-			if($banner['banner_type']==1){
+			echo '<div class="pull-left mr10 span3" data-banner-id="'.$banner['banner_id'].'">';
+			if( $banner['banner_type']==1 && is_array($banner['images']) ){
 				foreach($banner['images'] as $img){
 					echo '<a href="'.$banner['target_url'].'" '.($banner['blank'] ? ' target="_blank" ': '').'>';
 					if($img['origin']=='internal'){
@@ -31,13 +26,7 @@
 }?>
 <?php
 if ( $block_framed ) { ?>
-            </div>
-        </div>
-    </div>
-	<div class="block_bl">
-		<div class="block_br">
-			<div class="block_bc">&nbsp;</div>
 		</div>
-	</div>
-</div>
 <?php } ?>
+	</div>
+</section>

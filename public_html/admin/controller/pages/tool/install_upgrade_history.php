@@ -39,7 +39,8 @@ class ControllerPagesToolInstallUpgradeHistory extends AController {
 		$this->document->addBreadcrumb ( array (
 												'href' => $this->html->getSecureURL ( 'tool/install_upgrade_history' ),
 												'text' => $this->language->get ( 'heading_title' ), 
-												'separator' => ' :: ' ) );
+												'separator' => ' :: ',
+												'current' => true) );
 		
 		$grid_settings = array (
 								//id of grid

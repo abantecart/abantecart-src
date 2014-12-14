@@ -1,0 +1,195 @@
+<?xml version="1.0"?>
+<definitions>
+	<definition>
+		<key>forms_manager_name</key>
+		<value><![CDATA[Gerente de Formularios]]></value>
+	</definition>
+	<definition>
+		<key>forms_manager_status</key>
+		<value><![CDATA[Estado:]]></value>
+	</definition>
+	<definition>
+		<key>forms_manager_default_email</key>
+		<value><![CDATA[Email predeterminada de controlador Nombre:]]></value>
+	</definition>
+	<definition>
+		<key>entry_form_name</key>
+		<value><![CDATA[Nombre del Formulario<br/><span class="help">Letras latinas, guión bajo, menos los únicos</span>]]></value>
+	</definition>
+	<definition>
+		<key>forms_manager_note</key>
+		<value><![CDATA[Para gestionar formularios please enable extensión y siga Diseño-><a href="#admin#rt=tool/forms_manager">Gerente de Formularios</a>]]></value>
+	</definition>
+	<definition>
+		<key>custom_forms_block</key>
+		<value><![CDATA[Formularios Bloque Personalizado]]></value>
+	</definition>
+	<definition>
+		<key>entry_form_name</key>
+		<value><![CDATA[Nombre del formulario]]></value>
+	</definition>
+	<definition>
+		<key>entry_controller_path</key>
+		<value><![CDATA[Procesamiento del Controlador]]></value>
+	</definition>
+	<definition>
+		<key>entry_success_page</key>
+		<value><![CDATA[Éxito Página<br/><span class="help">Déjelo vacío si desea redirigir a la misma página como controlador</span>]]></value>
+	</definition>
+	<definition>
+		<key>entry_description</key>
+		<value><![CDATA[Descripción]]></value>
+	</definition>
+	<definition>
+		<key>text_default_email</key>
+		<value><![CDATA[Correo electrónico predeterminada]]></value>
+	</definition>
+	<definition>
+		<key>text_contactus_page</key>
+		<value><![CDATA[Página de contacto]]></value>
+	</definition>
+	<definition>
+		<key>text_form</key>
+		<value><![CDATA[Formulario]]></value>
+	</definition>
+	<definition>
+		<key>column_name</key>
+		<value><![CDATA[Nombre]]></value>
+	</definition>
+	<definition>
+		<key>column_description</key>
+		<value><![CDATA[Descripción]]></value>
+	</definition>
+	<definition>
+		<key>column_status</key>
+		<value><![CDATA[Estado]]></value>
+	</definition>
+	<definition>
+		<key>filter_exact_match</key>
+		<value><![CDATA[La frase exacta]]></value>
+	</definition>
+	<definition>
+		<key>filter_any_word</key>
+		<value><![CDATA[Cualquiera de estas palabras]]></value>
+	</definition>
+	<definition>
+		<key>filter_all_words</key>
+		<value><![CDATA[Todas estas palabras]]></value>
+	</definition>
+	<definition>
+		<key>text_clone</key>
+		<value><![CDATA[Clonar]]></value>
+	</definition>
+	<definition>
+		<key>filter_form</key>
+		<value><![CDATA[Búsqueda de formulario]]></value>
+	</definition>
+	<definition>
+		<key>text_add_new_field</key>
+		<value><![CDATA[-- Agregar nuevo campo --]]></value>
+	</definition>
+	<definition>
+		<key>button_add_field</key>
+		<value><![CDATA[Agregar campo]]></value>
+	</definition>
+	<definition>
+		<key>button_reset</key>
+		<value><![CDATA[Restablecer]]></value>
+	</definition>
+	<definition>
+		<key>text_field_type</key>
+		<value><![CDATA[Campo tipo:]]></value>
+	</definition>
+	<definition>
+		<key>button_remove_field</key>
+		<value><![CDATA[Retire campo]]></value>
+	</definition>
+	<definition>
+		<key>entry_field</key>
+		<value><![CDATA[Campo]]></value>
+	</definition>
+	<definition>
+		<key>entry_field_name</key>
+		<value><![CDATA[Nombre del campo (letras latinas, guión bajo, menos los únicos)]]></value>
+	</definition>
+	<definition>
+		<key>entry_sort_order</key>
+		<value><![CDATA[Ordenar orden]]></value>
+	</definition>
+	<definition>
+		<key>entry_required</key>
+		<value><![CDATA[Obligatorio]]></value>
+	</definition>
+	<definition>
+		<key>entry_edit_fields</key>
+		<value><![CDATA[Editar campos]]></value>
+	</definition>
+	<definition>
+		<key>entry_field_value</key>
+		<value><![CDATA[Campo de valor]]></value>
+	</definition>
+	<definition>
+		<key>error_required</key>
+		<value><![CDATA[Este campo es obligatorio!]]></value>
+	</definition>
+	<definition>
+		<key>error_duplicate_form_name</key>
+		<value><![CDATA[Ya existe formulario con tal Nombre atributo.]]></value>
+	</definition>
+	<definition>
+		<key>error_duplicate_field_name</key>
+		<value><![CDATA[Ya existe campo con el nombre, en la forma actual.]]></value>
+	</definition>
+	<definition>
+		<key>text_field_removed</key>
+		<value><![CDATA[El campo se ha eliminado con éxito.]]></value>
+	</definition>
+	<definition>
+		<key>text_success_form</key>
+		<value><![CDATA[El formulario se ha actualizado correctamente.]]></value>
+	</definition>
+	<definition>
+		<key>text_success_field</key>
+		<value><![CDATA[El campo se ha actualizado correctamente.]]></value>
+	</definition>
+	<definition>
+		<key>text_add_field</key>
+		<value><![CDATA[Agregar nuevo campo]]></value>
+	</definition>
+	<definition>
+		<key>entry_field_description</key>
+		<value><![CDATA[Exhibir nombre]]></value>
+	</definition>
+	<definition>
+		<key>entry_add_new_form</key>
+		<value><![CDATA[Agregar nuevo formulario]]></value>
+	</definition>
+	<definition>
+		<key>note_create_form_block</key>
+		<value><![CDATA[NOTA: Para ver el formulario que aparece en escaparate, crear el bloque forma en Diseño-><a href="%s">Bloques</a> y agregarlo a la página correspondiente en Diseño-><a href="%s">Diseños</a> page.]]></value>
+	</definition>
+	<definition>
+		<key>note_edit_layout</key>
+		<value><![CDATA[NOTA: Para ver este bloque se muestra en la tienda, añadirlo a la página apropiada en Diseño-><a href="%s">Diseños</a>. Para crear nueva forma ir a la Diseño-><a href="%s">Gerente de Formularios</a> page.]]></value>
+	</definition>
+	<definition>
+		<key>text_select_field_type</key>
+		<value><![CDATA[ --- Seleccione --- ]]></value>
+	</definition>
+	<definition>
+		<key>entry_field_note</key>
+		<value><![CDATA[Campo nota]]></value>
+	</definition>
+	<definition>
+        <key>entry_field_placeholder</key>
+        <value><![CDATA[Marcador de posición:]]></value>
+    </definition>
+	<definition>
+        <key>entry_regexp_pattern</key>
+        <value><![CDATA[Patrón de expresión regular:]]></value>
+    </definition>
+	<definition>
+        <key>entry_error_text</key>
+        <value><![CDATA[Mensaje de error sobre el Valor válido:]]></value>
+    </definition>
+</definitions>

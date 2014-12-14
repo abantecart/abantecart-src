@@ -1,56 +1,119 @@
-<b style="margin-bottom: 3px; display: block;"><?php echo $text_credit_card; ?></b>
-<div id="authorizenet" style="background: #F7F7F7; border: 1px solid #DDDDDD; padding: 10px; margin-bottom: 10px;">
-  <table width="100%">
-    <?php echo $this->getHookVar('payment_table_pre'); ?>
-	<tr>
-      <td><?php echo $entry_cc_owner; ?></td>
-      <td><?php echo $cc_owner; ?></td>
-    </tr>
-    <tr>
-      <td><?php echo $entry_cc_number; ?></td>
-      <td><?php echo $cc_number; ?></td>
-    </tr>
-    <tr>
-      <td><?php echo $entry_cc_expire_date; ?></td>
-      <td><?php echo $cc_expire_date_month; ?> / <?php echo $cc_expire_date_year; ?></td>
-    </tr>
-    <tr>
-      <td><?php echo $entry_cc_cvv2; ?> <a class="thickbox"  href="<?php echo $cc_cvv2_help_url; ?>"><?php echo $entry_cc_cvv2_short; ?></a>:</td>
-      <td><?php echo $cc_cvv2; ?></td>
-    </tr>
-	<?php echo $this->getHookVar('payment_table_post'); ?>
-  </table>
+<h4 class="heading4"><?php echo $text_credit_card; ?>:</h4>
+
+<form id="authorizenet" class="form-horizontal validate-creditcard">
+
+<?php echo $this->getHookVar('payment_table_pre'); ?>
+
+	<div class="form-group ">
+	    <label class="col-sm-4 control-label"><?php echo $entry_cc_owner; ?></label>
+	    <div class="col-sm-7 input-group">
+	    	<?php echo $cc_owner; ?>
+	    </div>
+	    <span class="help-block"></span>
+	</div>
+	<div class="form-group form-inline">
+	    <label class="col-sm-4 control-label"><?php echo $entry_cc_number; ?></label>
+	    <div class="col-sm-5 input-group">
+	    	<?php echo $cc_number; ?>
+	    </div>
+	    <div class="col-sm-2 input-group">
+	    	<?php echo $cc_type; ?>
+	    </div>
+	    <span class="help-block"></span>
+	</div>
+	<div class="form-group form-inline">
+	    <label class="col-sm-4 control-label"><?php echo $entry_cc_expire_date; ?></label>
+	    <div class="col-sm-3 input-group">
+	    	<?php echo $cc_expire_date_month; ?>
+	    </div>
+	    <div class="col-sm-2 input-group">
+	    	<?php echo $cc_expire_date_year; ?>
+	    </div>
+	    <span class="help-block"></span>
+	</div>
+	<div class="form-group ">
+	    <label class="col-sm-6 control-label"><?php echo $entry_cc_cvv2; ?> <a onclick="openModalRemote('#ccModal', '<?php echo $cc_cvv2_help_url; ?>')" href="Javascript:void(0);"><?php echo $entry_cc_cvv2_short; ?></a></label>
+	    <div class="input-group col-sm-3">
+	    	<?php echo $cc_cvv2; ?>
+	    </div>
+	    <span class="help-block"></span>
+	</div>
+
+<?php echo $this->getHookVar('payment_table_post'); ?>
+
+	<div class="form-group action-buttons text-center">
+	    <a id="<?php echo $back->name ?>" href="<?php echo $back->href; ?>" class="btn btn-default mr10" title="<?php echo $back->text ?>">
+	    	<i class="fa fa-arrow-left"></i>
+	    	<?php echo $back->text ?>
+	    </a>
+	    <button id="<?php echo $submit->name ?>" class="btn btn-orange" title="<?php echo $submit->text ?>" type="submit">
+	        <i class="fa fa-check"></i>
+	        <?php echo $submit->text; ?>
+	    </button>
+	</div>
+	
+</form>
+
+<!-- Modal -->
+<div id="ccModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="ccModalLabel" aria-hidden="true">
+<div class="modal-dialog">
+<div class="modal-content">
+	<div class="modal-header">
+		<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+		<h3><?php echo $entry_what_cvv2; ?></h3>
+	</div>
+	<div class="modal-body">
+	</div>
+	<div class="modal-footer">
+		<button class="btn" data-dismiss="modal" aria-hidden="true"><?php echo $text_close; ?></button>
+	</div>
 </div>
-<div class="buttons">
-  <table>
-    <tr>
-      <td align="left"><?php echo $back; ?></td>
-      <td align="right"><?php echo $submit; ?></td>
-    </tr>
-  </table>
 </div>
+</div>  
+
 <script type="text/javascript"><!--
-function confirmSubmit() {
+//validate submit
+$('form').submit(function(event) {
+	event.preventDefault();
+	if( !$.aCCValidator.validate($('form.validate-creditcard')) ){
+		return false;
+	} else {
+		confirmSubmit();
+	}
+});
+
+function confirmSubmit() {		
 	$.ajax({
 		type: 'POST',
 		url: 'index.php?rt=extension/default_authorizenet_aim/send',
 		data: $('#authorizenet :input'),
 		dataType: 'json',		
 		beforeSend: function() {
-			$('#authorizenet_button').attr('disabled', 'disabled');
-			$('#authorizenet').before('<div class="wait"><img src="<?php echo $template_dir; ?>image/loading_1.gif" alt="" /> <?php echo $text_wait; ?></div>');
+			$('.alert').remove();
+			$('#authorizenet .action-buttons').hide(); 
+			$('#authorizenet .action-buttons').before('<div class="wait alert alert-info text-center"><i class="fa fa-refresh fa-spin"></i> <?php echo $text_wait; ?></div>');
 		},
 		success: function(data) {
-			if (data.error) {
-				alert(data.error);
-				$('#authorizenet_button').attr('disabled', '');
+			if (!data) {
+				$('.wait').remove();
+				$('#authorizenet .action-buttons').show(); 
+				$('#authorizenet').before('<div class="alert alert-danger"><i class="fa fa-bug"></i> <?php echo $error_unknown; ?></div>');
+			} else {					  			
+				if (data.error) {
+					$('.wait').remove();
+					$('#authorizenet .action-buttons').show(); 
+					$('#authorizenet').before('<div class="alert alert-warning"><i class="fa fa-exclamation"></i> '+data.error+'</div>');
+				}	
+				if (data.success) {			
+					location = data.success;
+				}
 			}
+		},
+		error: function (jqXHR, textStatus, errorThrown) {
 			$('.wait').remove();
-			if (data.success) {
-				location = data.success;
-			}
-		}
+			$('#authorizenet .action-buttons').show(); 
+			$('#authorizenet').before('<div class="alert alert-danger"><i class="fa fa-exclamation"></i> '+textStatus+' '+errorThrown+'</div>');
+		}				
 	});
 }
-$('#authorizenet_button').click ( confirmSubmit );
 //--></script>

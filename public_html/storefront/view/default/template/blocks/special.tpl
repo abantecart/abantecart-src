@@ -1,69 +1,56 @@
+<div class="sidewidt">
 <?php if ( $block_framed ) { ?>
-<div class="s_block">
-	<div class="block_tl">
-		<div class="block_tr">
-			<div class="block_tc"><img src="<?php echo $this->templateResource('/image/special.png'); ?>" alt="" /><?php echo $heading_title; ?></div>
-		</div>
-	</div>
-    <div class="block_cl">
-    	<div class="block_cr">
-        	<div class="block_cc">
-
+	<div class="block_frame block_frame_<?php echo $block_details['block_txt_id']; ?>"
+				 id="block_frame_<?php echo $block_details['block_txt_id'] . '_' . $block_details['instance_id'] ?>">
+	<h2 class="heading2"><span><?php echo $heading_title; ?></span></h2>
+<?php } ?>
+		<ul class="side_prd_list">
 <?php
-}
-
 if ($products) {
-    foreach ($products as $product) {  
-        $item['image'] = "<img src='".$product['thumb']['thumb_url']."' width='50' alt='".$product['name']."' />";
+    foreach ($products as $product) {
+        $item = array();
+		if( $item['thumb']['origin']=='internal'){
+			$item['image'] = '<img style="width:50px;" src="'. $product['thumb']['thumb_url'].'"/>';
+		}else{
+			$item['image'] = $product['thumb']['thumb_html'];
+		}
         $item['title'] = $product['name'];
         $item['description'] = $product['model'];
-        $item['rating'] = ($product['rating']) ? "<img src='".$this->templateResource('/image/stars_'.$product['rating'].'.png')."' alt='".$product['stars']."' />" : '';
-        
-        if (!$product['special']) {
-            $item['price'] = $product['price'];
-        } else {
-            $item['price'] = "<span>".$product['price']."</span> ".$product['special'];
-        }
-        
+        $item['rating'] = ($product['rating']) ? "<img src='". $this->templateResource('/image/stars_'.$product['rating'].'.png') ."' alt='".$product['stars']."' />" : '';
+                
         $item['info_url'] = $product['href'];
         $item['buy_url'] = $product['add'];
 	    if(!$display_price){
 		    $item['price'] = '';
 	    }
-?>
-<div class="list_item">
-    <div class="rightPane">
-        <div class="title"><a href="<?php echo $item['info_url']?>"><?php echo $item['title']?></a></div>
-        <div class="description"><?php echo $item['description']?></div>
-	    <?php if($item['rating']){?>
-        <div class="rating"><?php echo $item['rating']?></div> <?php }?>
-
-		<div class="price-add">
-			<span class="price"><?php echo $item['price']?></span>
-			<a class="info" href="<?php echo $item['info_url']?>"></a>
-			<?php	if(!$product['call_to_order']){ ?>
-				<a class="buy" id="<?php echo $product['product_id']?>" href="<?php echo $item['buy_url']?>"></a>
-			<?php }else{ ?>
-				<a href="#" class="call_to_order"><span class="price"><?php echo $text_call_to_order;?></span></a>
-			<?php }?>
-		</div>
-    </div>
-    <div class="image"><a href="<?php echo $item['info_url']?>"><?php echo $item['image']?></a></div>
-    <div style="clear: both;"></div>
-</div>
+	    
+	    $review = $button_write;
+	    if ($item['rating']) {
+	    	$review = $item['rating'];
+	    }
+	    
+?>      
+              <li>
+              	<a href="<?php echo $item['info_url']?>"><?php echo $item['image']?></a>
+              	<a class="productname" href="<?php echo $item['info_url']?>"><?php echo $item['title']?></a>
+              	<?php if ($review_status) { ?>
+                <span class="procategory"><?php echo $item['rating']?></span>
+                <?php } ?>
+                <span class="price">
+				<?php  if ($product['special']) { ?>
+					<div class="pricenew"><?php echo $product['special']?></div>
+					<div class="priceold"><?php echo $product['price']?></div>
+				<?php } else { ?>
+					<div class="oneprice"><?php echo $product['price']?></div>
+				<?php } ?>
+                </span>
+              </li>
 <?php
-    }
+	}
 }
-if ( $block_framed ) {
 ?>
-
-            </div>
-        </div>
-    </div>
-	<div class="block_bl">
-		<div class="block_br">
-			<div class="block_bc">&nbsp;</div>
-		</div>
-	</div>
+		</ul>
+<?php if ( $block_framed ) { ?>
 </div>
 <?php } ?>
+</div>

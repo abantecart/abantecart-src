@@ -1,11 +1,7 @@
-<span class="text_element" >
-	<div class="aform"><div class="afield mask1"><div class="cl"><div class="cr"><div class="cc">
-		<input type="<?php echo $type ?>" name="<?php echo $name ?>" id="<?php echo $id ?>" value="<?php echo $value; ?>" <?php echo $attr; ?> class="atext <?php echo $style; ?>" />
-	</div></div></div></div></div>
-</span>
-<?php if ( $required == 'Y' ) : ?>
-<span class="required">*</span>
-<?php endif; ?>
+<input type="<?php echo $type ?>" name="<?php echo $name ?>" id="<?php echo $id ?>" value="<?php echo $value; ?>" <?php echo $attr; ?> class="form-control <?php echo $style; ?>" />
+<?php if ( $required == 'Y' ) { ?>
+<span class="input-group-addon"><span class="required">*</span></span>
+<?php } ?>
 <script type="text/javascript">
 	$('#<?php echo $id ?>').datepicker({dateFormat:'<?php echo $dateformat ?>'});
 	<?php if ( $highlight == 'pased' ) : ?>

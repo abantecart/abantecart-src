@@ -40,6 +40,14 @@
     <key>text_edit_store_settings</key>
     <value><![CDATA[Изменить настройки:]]></value>
   </definition>
+	<definition>
+		<key>text_edit_template_settings</key>
+		<value><![CDATA[Изменить настройки шаблона:]]></value>
+	</definition>
+	<definition>
+		<key>text_common_template_settings</key>
+		<value><![CDATA[Выбрать шаблон]]></value>
+	</definition>
   <definition>
     <key>text_edit_store</key>
     <value><![CDATA[Редактировать магазин]]></value>
@@ -742,7 +750,7 @@
   </definition>
   <definition>
     <key>entry_coupon_on_cart_page</key>
-    <value><![CDATA[Купон на странице корзины:<br /><span class="help">Позволить клиентам вводить код купона и получить скидку. (HTML5 Шаблон)</span>]]></value>
+    <value><![CDATA[Купон на странице корзины:<br /><span class="help">Позволить клиентам вводить код купона и получить скидку.</span>]]></value>
   </definition>
   <definition>
     <key>entry_google_analytics</key>
@@ -756,4 +764,13 @@
     <key>error_ssl_url</key>
     <value><![CDATA[Укажите безопасный URL!]]></value>
   </definition>
+	<definition>
+		<key>entry_customer_email_activation</key>
+		<value>
+			<![CDATA[Email Activation for New Customers:<br /><span class="help">Don't allow new customer to login until their account has been confirmed by activation link sent via email. For this to work, make sure "Approve New Customers" is set to OFF.</span>]]></value>
+	</definition>
+	<definition>
+		<key>text_clone_template</key>
+		<value><![CDATA[Clone Template With AbanteCart Developer Tools]]></value>
+	</definition>  
 </definitions>

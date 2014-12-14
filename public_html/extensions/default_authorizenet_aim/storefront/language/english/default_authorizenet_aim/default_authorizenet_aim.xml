@@ -14,7 +14,7 @@
   </definition>
   <definition>
     <key>entry_cc_owner</key>
-    <value><![CDATA[Card Owner:]]></value>
+    <value><![CDATA[Name on the card:]]></value>
   </definition>
   <definition>
     <key>entry_cc_number</key>
@@ -36,4 +36,21 @@
 	<key>entry_what_cvv2</key>
 	<value><![CDATA[What is CVV2?]]></value>
   </definition>
+  <definition>
+	<key>warning_suspicious</key>
+	<value><![CDATA[Suspicious activity has been detected. Your account will be locked and marked for detailed review.]]></value>
+  </definition>
+  <definition>
+	<key>warning_declined</key>
+	<value><![CDATA[Your credit card has been declined. Please try again with different card.]]></value>
+  </definition>
+  <definition>
+	<key>warning_suspicious_to_admin</key>
+	<value><![CDATA[Multiple credit card decline attempts]]></value>
+  </definition>
+  <definition>
+	<key>warning_suspicious_to_admin_body</key>
+	<value><![CDATA[Cuenta de cliente se ha desactivado. Click this <b><a href="%s" target="_new">link to see customer details</a></b>]]></value>
+  </definition>
+
 </definitions>

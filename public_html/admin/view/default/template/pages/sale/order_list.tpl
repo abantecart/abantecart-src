@@ -1,32 +1,44 @@
-<?php if ($error_warning) { ?>
-<div class="warning alert alert-error"><?php echo $error_warning; ?></div>
-<?php } ?>
-<?php if ($success) { ?>
-<div class="success alert alert-success"><?php echo $success; ?></div>
-<?php } ?>
+<?php include($tpl_common_dir . 'action_confirm.tpl'); ?>
 
-<div class="contentBox">
-  <div class="cbox_tl"><div class="cbox_tr"><div class="cbox_tc">
-    <div class="heading icon_title_order"><?php echo $heading_title; ?></div>
-<?php
-if ( !empty($search_form) ) {
-    echo '<div class="filter">';
-    echo $search_form['form_open'];
-    foreach ($search_form['fields'] as $f) echo $f;
-	echo '<button type="submit" class="btn_standard">'.$search_form['submit'].'</button>';
-	echo '<button type="reset" class="btn_standard">'.$search_form['reset'].'</button>';
-    echo '</form>';
-    echo '</div>';
-}
-?>
-	  <div class="toolbar">
-		<?php if ( !empty ($help_url) ) : ?>
-	        <div class="help_element"><a href="<?php echo $help_url; ?>" target="new"><img src="<?php echo $template_dir; ?>image/icons/help.png"/></a></div>
-	    <?php endif; ?>
-    </div>
-  </div></div></div>
-  <div class="cbox_cl"><div class="cbox_cr"><div class="cbox_cc">
-    <?php echo $listing_grid; ?>
-  </div></div></div>
-  <div class="cbox_bl"><div class="cbox_br"><div class="cbox_bc"></div></div></div>
+<div id="content" class="panel panel-default">
+
+	<div class="panel-heading col-xs-12">
+		<div class="primary_content_actions pull-left">
+			<div class="btn-group mr10 toolbar">
+			<?php if (!empty($search_form)) { ?>
+			    <form id="<?php echo $search_form['form_open']->name; ?>"
+			    	  method="<?php echo $search_form['form_open']->method; ?>"
+			    	  name="<?php echo $search_form['form_open']->name; ?>" class="form-inline" role="form">
+
+			    	<?php
+			    	foreach ($search_form['fields'] as $f) {
+			    		?>
+			    		<div class="form-group">
+			    			<div class="input-group input-group-sm">
+			    				<?php echo $f; ?>
+			    			</div>
+			    		</div>
+			    	<?php
+			    	}
+			    	?>
+			    	<div class="form-group">
+			    		<button type="submit" class="btn btn-xs btn-primary tooltips" title="<?php echo $button_filter; ?>">
+			    			<?php echo $search_form['submit']->text ?>
+			    		</button>
+			    		<button type="reset" class="btn btn-xs btn-default tooltips" title="<?php echo $button_reset; ?>">
+			    			<i class="fa fa-refresh"></i>
+			    		</button>
+
+			    	</div>
+			    </form>
+			<?php } ?>
+			</div>
+		</div>
+		<?php include($tpl_common_dir . 'content_buttons.tpl'); ?>	
+	</div>
+
+	<div class="panel-body panel-body-nopadding tab-content col-xs-12">
+		<?php echo $listing_grid; ?>
+	</div>
+
 </div>

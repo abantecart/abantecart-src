@@ -45,7 +45,7 @@ class ControllerPagesContentSitemap extends AController {
 		$this->loadModel('catalog/category');
 		$this->loadModel('tool/seo_url');
 		
-		$this->view->assign('category', $this->_buildCategoriesTree(0));
+		$this->view->assign('categories_html', $this->_buildCategoriesTree(0));
         $this->view->assign('special', $this->html->getSEOURL('product/special'));
         $this->view->assign('account', $this->html->getSEOURL('account/account'));
         $this->view->assign('edit',    $this->html->getSEOURL('account/edit'));
@@ -75,7 +75,7 @@ class ControllerPagesContentSitemap extends AController {
 		$results = $this->model_catalog_category->getCategories($parent_id);
 		
 		if ($results) {
-			$output .= '<ul>';
+			$output .= '<ul class="list-group">';
     	}
 		
 		foreach ($results as $result) {	
@@ -85,7 +85,7 @@ class ControllerPagesContentSitemap extends AController {
 				$new_path = $current_path . '_' . $result['category_id'];
 			}
 			
-			$output .= '<li><a href="' . $this->html->getSEOURL('product/category', '&path=' . $new_path, true)  . '">' . $result['name'] . '</a>';
+			$output .= '<li class="list-group-item"><a href="' . $this->html->getSEOURL('product/category', '&path=' . $new_path, true)  . '">' . $result['name'] . '</a>';
         	$output .= $this->_buildCategoriesTree($result['category_id'], $new_path);
         	$output .= '</li>';
 		}

@@ -27,113 +27,122 @@ class ModelExtensionDefaultUps extends Model {
 		$this->load->language('default_ups/default_ups');
 		
 		if ($this->config->get('default_ups_status')) {
-      		$taxes = $this->tax->getTaxes((int)$address['country_id'], (int)$address['zone_id']);
+
       		if (!$this->config->get('default_ups_location_id')) {
         		$status = TRUE;
-      		} elseif ($taxes) {
-        		$status = TRUE;
-      		} else {
-        		$status = FALSE;
+      		}else {
+		        $query = $this->db->query("SELECT *
+                                            FROM " . $this->db->table('zones_to_locations') . "
+                                            WHERE location_id = '" . (int)$this->config->get('default_ups_location_id') . "'
+                                                AND country_id = '" . (int)$address['country_id'] . "'
+                                                AND (zone_id = '" . (int)$address['zone_id'] . "' OR zone_id = '0')");
+                if ($query->num_rows) {
+                    $status = TRUE;
+                } else {
+                    $status = FALSE;
+                }
       		}
 		} else { 
 			$status = FALSE;
 		}
 
 		$method_data = array();
-		
-		if ($status) {
-            $basic_products = $this->cart->basicShippingProducts();;
-            foreach($basic_products as $product){
-               $product_ids[] = $product['product_id'];
-            }
-
-			$weight = $this->weight->convert($this->cart->getWeight($product_ids), $this->config->get('config_weight_class'), $this->config->get('default_ups_weight_class'));
-			
-			$weight = ($weight < 0.1 ? 0.1 : $weight);
-			
-			$length = $this->length->convert($this->config->get('default_ups_length'), $this->config->get('config_length_class'), $this->config->get('default_ups_length_class'));
-			$width = $this->length->convert($this->config->get('default_ups_width'), $this->config->get('config_length_class'), $this->config->get('default_ups_length_class'));
-			$height = $this->length->convert($this->config->get('default_ups_height'), $this->config->get('config_length_class'), $this->config->get('default_ups_length_class'));
-
-
-
-			$request = $this->_buildRequest($address, $weight, $length, $width, $height);
-
-            $quote_data = $this->_processRequest($request);
-			$error_msg =  $quote_data['error_msg'];
-            $quote_data =  $quote_data['quote_data'];
-
-            $special_ship_products = $this->cart->specialShippingProducts();
-            foreach ($special_ship_products as $product) {
-                $weight = $this->weight->convert($this->cart->getWeight( array($product['product_id']) ), $this->config->get('config_weight_class'), $this->config->get('default_usps_weight_class'));
-                if ( $product['width'] ) {
-                    $length_class_id = $this->length->getClassID($this->config->get('default_ups_length_class'));
-                    $use_width = $this->length->convertByID($product['length'], $product['length_class'], $length_class_id);
-                    $use_length = $this->length->convertByID($product['width'], $product['length_class'], $length_class_id);
-                    $use_height = $this->length->convertByID($product['height'], $product['length_class'], $length_class_id);
-                }
-
-                //check if free or fixed shipping
-                $fixed_cost = -1;
-                $new_quote_data = array();
-                if ($product['free_shipping']) {
-                    $fixed_cost = 0;
-                } else if($product['shipping_price'] > 0) {
-                    $fixed_cost = $product['shipping_price'];
-                    //If ship individually count every quintaty
-                    if ($product['ship_individually']) {
-                        $fixed_cost = $fixed_cost * $product['quantity'];
-                    }
-                    $fixed_cost = $this->currency->convert($fixed_cost, $this->config->get('config_currency'), $this->currency->getCode());
-                } else {
-                    $request = $this->_buildRequest($address, $weight, $use_width, $use_length, $use_height);
-                    if ($request) {
-                        $new_quote_data = $this->_processRequest( $request );
-                        $error_msg =  $new_quote_data['error_msg'];
-                        $new_quote_data =  $new_quote_data['quote_data'];
-                    }
-                }
-
-                //merge data and accumulate shipping cost
-                if ( $quote_data) {
-                    foreach ($quote_data as $key => $value) {
-
-                        if ($fixed_cost >= 0){
-                            $quote_data[$key]['cost'] = (float)$quote_data[$key]['cost'] + $fixed_cost;
-                        } else {
-                            $quote_data[$key]['cost'] =  (float)$quote_data[$key]['cost'] + $new_quote_data[$key]['cost'];
-                        }
-
-                        $quote_data[$key]['text'] = $this->currency->format(
-                                                                            $this->tax->calculate(
-                                                                                                $quote_data[$key]['cost'],
-                                                                                                $this->config->get('default_usps_tax_class_id'),
-                                                                                                $this->config->get('config_tax')
-                                                                                            ) ,
-                                                                            $this->currency->getCode(),
-                                                                            1
-                        );
-                    }
-                } else if ( $new_quote_data ) {
-                    $quote_data = $new_quote_data;
-                }
-            }
-
-
-			$title = $this->language->get('text_title');
-			
-			if ($this->config->get('default_ups_display_weight')) {	  
-				$title .= ' (' . $this->language->get('text_weight') . ' ' . $this->weight->format($weight, $this->config->get('config_weight_class')) . ')';
-			}
-		
-			$method_data = array(
-				'id'         => 'default_ups',
-				'title'      => $title,
-				'quote'      => $quote_data,
-				'sort_order' => $this->config->get('default_ups_sort_order'),
-				'error'      => $error_msg
-			);
+		if (!$status) {
+			return $method_data;
 		}
+
+        $basic_products = $this->cart->basicShippingProducts();
+        foreach($basic_products as $product){
+           $product_ids[] = $product['product_id'];
+        }
+
+		$weight = $this->weight->convert($this->cart->getWeight($product_ids), $this->config->get('config_weight_class'), $this->config->get('default_ups_weight_class'));
+
+		$weight = ($weight < 0.1 ? 0.1 : $weight);
+
+		$length = $this->length->convert($this->config->get('default_ups_length'), $this->config->get('config_length_class'), $this->config->get('default_ups_length_class'));
+		$width = $this->length->convert($this->config->get('default_ups_width'), $this->config->get('config_length_class'), $this->config->get('default_ups_length_class'));
+		$height = $this->length->convert($this->config->get('default_ups_height'), $this->config->get('config_length_class'), $this->config->get('default_ups_length_class'));
+
+
+
+		$request = $this->_buildRequest($address, $weight, $length, $width, $height);
+
+        $quote_data = $this->_processRequest($request);
+		$error_msg =  $quote_data['error_msg'];
+        $quote_data =  $quote_data['quote_data'];
+
+        $special_ship_products = $this->cart->specialShippingProducts();
+        foreach ($special_ship_products as $product) {
+            $weight = $this->weight->convert($this->cart->getWeight( array($product['product_id']) ), $this->config->get('config_weight_class'), $this->config->get('default_usps_weight_class'));
+            if ( $product['width'] ) {
+                $length_class_id = $this->length->getClassID($this->config->get('default_ups_length_class'));
+                $use_width = $this->length->convertByID($product['length'], $product['length_class'], $length_class_id);
+                $use_length = $this->length->convertByID($product['width'], $product['length_class'], $length_class_id);
+                $use_height = $this->length->convertByID($product['height'], $product['length_class'], $length_class_id);
+            }
+
+            //check if free or fixed shipping
+            $fixed_cost = -1;
+            $new_quote_data = array();
+            if ($product['free_shipping']) {
+                $fixed_cost = 0;
+            } else if($product['shipping_price'] > 0) {
+                $fixed_cost = $product['shipping_price'];
+                //If ship individually count every quintaty
+                if ($product['ship_individually']) {
+                    $fixed_cost = $fixed_cost * $product['quantity'];
+                }
+                $fixed_cost = $this->currency->convert($fixed_cost, $this->config->get('config_currency'), $this->currency->getCode());
+            } else {
+                $request = $this->_buildRequest($address, $weight, $use_width, $use_length, $use_height);
+                if ($request) {
+                    $new_quote_data = $this->_processRequest( $request );
+                    $error_msg =  $new_quote_data['error_msg'];
+                    $new_quote_data =  $new_quote_data['quote_data'];
+                }
+            }
+
+            //merge data and accumulate shipping cost
+            if ( $quote_data) {
+                foreach ($quote_data as $key => $value) {
+
+                    if ($fixed_cost >= 0){
+                        $quote_data[$key]['cost'] = (float)$quote_data[$key]['cost'] + $fixed_cost;
+                    } else {
+                        $quote_data[$key]['cost'] =  (float)$quote_data[$key]['cost'] + $new_quote_data[$key]['cost'];
+                    }
+
+                    $quote_data[$key]['text'] = $this->currency->format(
+                                                                        $this->tax->calculate(
+                                                                                            $quote_data[$key]['cost'],
+                                                                                            $this->config->get('default_usps_tax_class_id'),
+                                                                                            $this->config->get('config_tax')
+                                                                                        ) ,
+                                                                        $this->currency->getCode(),
+                                                                        1
+                    );
+                }
+            } else if ( $new_quote_data ) {
+                $quote_data = $new_quote_data;
+            }
+        }
+
+
+		$title = $this->language->get('text_title');
+
+		if ($this->config->get('default_ups_display_weight')) {
+			$title .= ' (' . $this->language->get('text_weight') . ' ' . $this->weight->format($weight, $this->config->get('config_weight_class')) . ')';
+		}
+
+		$method_data = array(
+			'id'         => 'default_ups',
+			'title'      => $title,
+			'quote'      => $quote_data,
+			'sort_order' => $this->config->get('default_ups_sort_order'),
+			'error'      => $error_msg
+		);
+
 		
 		return $method_data;
 	}

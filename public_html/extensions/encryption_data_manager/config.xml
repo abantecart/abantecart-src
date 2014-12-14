@@ -1,11 +1,11 @@
 <?xml version="1.0"?>
 <extension>
     <id>encryption_data_manager</id>
-    <version>1.0.0</version>
+    <version>1.0.1</version>
 	<type>extensions</type>
 	<category>utility</category>
     <cartversions>
-        <item>1.1</item>
+        <item>1.2</item>
     </cartversions>
     <layout></layout>
     <priority>10</priority>

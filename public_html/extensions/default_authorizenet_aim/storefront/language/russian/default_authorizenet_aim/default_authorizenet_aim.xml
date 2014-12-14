@@ -36,4 +36,21 @@
     <key>entry_what_cvv2</key>
     <value><![CDATA[Что такое CVV2?]]></value>
   </definition>
+  <definition>
+	<key>warning_suspicious</key>
+	<value><![CDATA[Подозрительная активность была обнаружена. Ваша учетная запись будет заблокирована для детального рассмотрения.]]></value>
+  </definition>
+  <definition>
+	<key>warning_declined</key>
+	<value><![CDATA[Ваша кредитная карта была отклонена. Пожалуйста, попробуйте еще раз с другой картой.]]></value>
+  </definition>
+  <definition>
+	<key>warning_suspicious_to_admin</key>
+	<value><![CDATA[Множество отклонений кредитных карт]]></value>
+  </definition>
+  <definition>
+	<key>warning_suspicious_to_admin_body</key>
+	<value><![CDATA[Учетная запись будет заблокирована. Кликните <b><a href="%s" target="_new">здесь, чтобы посмотреть информацию о клиенте</a></b>]]></value>
+  </definition>
+  
 </definitions>

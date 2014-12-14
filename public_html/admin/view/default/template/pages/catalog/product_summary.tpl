@@ -1,13 +1,18 @@
-<div class="fieldset">
-    <div class="heading"><?php echo $text_product_summary; ?></div>
-    <div class="top_left"><div class="top_right"><div class="top_mid"></div></div></div>
-    <div class="cont_left"><div class="cont_right"><div class="cont_mid">
-    <table id="summary" class="summary" width="100%" cellpadding="0" cellspacing="0">
+<div class="panel panel-default">
+	<div class="panel-heading">
+		<div class="panel-btns">
+            <a class="panel-close" href="">×</a>
+            <a class="minimize" href="">−</a>
+		</div>
+          <h4 class="panel-title"><?php echo $text_product_summary; ?></h4>
+	</div>
+	<div class="panel-body panel-body-nopadding table-responsive" style="display: block;">
+    <table id="summary" class="table summary">
       <tr>
         <td class="summary_image" rowspan="3" align="center">
             <?php echo $product['image']['thumb_html']; ?>
             <br/>
-            <a href="<?php echo $product['preview']; ?>" target="_blank"><?php echo $text_view; ?></a>
+            <a href="<?php echo $product['preview']; ?>" class="btn btn-small btn-default" target="_new"><i class="fa fa-external-link"></i> <?php echo $text_view; ?></a>
         </td>
         <td class="summary_label"><?php echo $entry_name; ?></td>
         <td class="summary_value"><?php echo $product['name']; ?></td>
@@ -28,10 +33,13 @@
 			}else{
 				echo $text_product_available;
 			} ?></td>
-        <td class="summary_label"></td>
-        <td class="summary_value"></td>
+        <td class="summary_label"><?php echo $text_total_orders; ?></td>
+        <td class="summary_value"> <?php echo $product['orders']; ?>
+        <?php if( $product['orders'] > 0) { ?>
+	        &nbsp;&nbsp;<a href="<?php echo $product['orders_url']; ?>" class="btn btn-small btn-default" target="_new"><i class="fa fa-external-link"></i> <?php echo $text_view; ?></a>
+        <?php } ?>
+        </td>
       </tr>
     </table>
-    </div></div></div>
-    <div class="bottom_left"><div class="bottom_right"><div class="bottom_mid"></div></div></div>
-</div><!-- <div class="fieldset"> -->
+	</div>
+</div>

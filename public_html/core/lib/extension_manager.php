@@ -94,13 +94,13 @@ class AExtensionManager {
 			$key = $data;
 			$type = 'extensions';
 		}
-		$sql = "SELECT extension_id FROM " . DB_PREFIX . "extensions WHERE `key`= '" . $this->db->escape($key) . "'";
+		$sql = "SELECT extension_id FROM " . $this->db->table("extensions") . " WHERE `key`= '" . $this->db->escape($key) . "'";
 		$res = $this->db->query($sql);
 		if ($res->num_rows) {
 			return $res->row['extension_id'];
 		}
 
-		$this->db->query("INSERT INTO " . DB_PREFIX . "extensions
+		$this->db->query("INSERT INTO " . $this->db->table("extensions") . " 
 					 	 SET `type` = '" . $this->db->escape($type) . "',
 							 `key` = '" . $this->db->escape($key) . "',
 							 `category` = '" . $this->db->escape($category) . "',
@@ -108,7 +108,7 @@ class AExtensionManager {
 							 `priority` = '" . $this->db->escape($priority) . "',
 							 `version` = '" . $this->db->escape($version) . "',
 							 `license_key` = '" . $this->db->escape($license_key) . "',
-							 `create_date` = NOW()");
+							 `date_added` = NOW()");
 		return $this->db->getLastId();
 	}
 
@@ -123,8 +123,8 @@ class AExtensionManager {
 		if (!$extension_id) return false;
 
 		$result = $this->db->query("SELECT e.key, ed.extension_parent_id, e.status
-										FROM " . DB_PREFIX . "extension_dependencies ed
-										LEFT JOIN " . DB_PREFIX . "extensions e ON ed.extension_parent_id = e.extension_id
+										FROM " . $this->db->table("extension_dependencies") . " ed
+										LEFT JOIN " . $this->db->table("extensions") . " e ON ed.extension_parent_id = e.extension_id
 										WHERE ed.extension_id = '" . $extension_id . "'");
 		return $result->rows;
 	}
@@ -139,8 +139,8 @@ class AExtensionManager {
 		if (!$extension_id) return array();
 
 		$result = $this->db->query("SELECT e.*
-										FROM " . DB_PREFIX . "extension_dependencies ed
-										LEFT JOIN " . DB_PREFIX . "extensions e ON ed.extension_id = e.extension_id
+										FROM " . $this->db->table("extension_dependencies") . " ed
+										LEFT JOIN " . $this->db->table("extensions") . " e ON ed.extension_id = e.extension_id
 										WHERE ed.extension_parent_id = '" . $extension_id . "'");
 		return $result->rows;
 	}
@@ -160,10 +160,10 @@ class AExtensionManager {
 		if (!$extension_id || !$extension_parent_id) return false;
 
 		$result = $this->db->query("SELECT *
-									FROM " . DB_PREFIX . "extension_dependencies
+									FROM " . $this->db->table("extension_dependencies") . " 
 									WHERE extension_id = '" . $extension_id . "' AND extension_parent_id = '" . $extension_parent_id . "'");
 		if (!$result->num_rows) {
-			$sql = "INSERT INTO " . DB_PREFIX . "extension_dependencies (extension_id, extension_parent_id )
+			$sql = "INSERT INTO " . $this->db->table("extension_dependencies") . " (extension_id, extension_parent_id )
 							VALUES ('" . $extension_id . "', '" . $extension_parent_id . "')";
 			$this->db->query($sql);
 		}
@@ -189,7 +189,7 @@ class AExtensionManager {
 
 		if (!$extension_id && !$extension_parent_id) return false;
 
-		$sql = "DELETE FROM " . DB_PREFIX . "extension_dependencies
+		$sql = "DELETE FROM " . $this->db->table("extension_dependencies") . " 
 				WHERE ";
 		if ($extension_id) {
 			$where[] = "extension_id = '" . $extension_id . "'";
@@ -238,8 +238,8 @@ class AExtensionManager {
 				return false;
 			}
 		}
-
-		$this->db->query("DELETE FROM " . DB_PREFIX . "settings
+		unset($data['one_field']); //remove sign to prevent writing into settings table
+		$this->db->query("DELETE FROM " . $this->db->table("settings") . " 
 						  WHERE `group` = '" . $this->db->escape($extension_txt_id) . "'
 						        AND `key` IN ('" . implode("', '", $keys) . "')
 						        AND `store_id` = '" . (int)$data['store_id'] . "' ");
@@ -310,37 +310,45 @@ class AExtensionManager {
 						}
 						if ($children_keys) {
 							foreach ($children_keys as $child) {
-								$sql = "UPDATE " . DB_PREFIX . "settings
+								$sql = "UPDATE " . $this->db->table("settings") . " 
 									SET `value` = 0
 									WHERE `group` = '" . $child . "'
 									AND `key`= '" . $child . "_status'";
 								$this->db->query($sql);
 							}
-							$sql = "UPDATE " . DB_PREFIX . "extensions
-									SET `" . $setting_name . "` = '" . $this->db->escape($value) . "',
-										`update_date` = NOW()
+							$sql = "UPDATE " . $this->db->table("extensions") . " 
+									SET `" . $setting_name . "` = '" . $this->db->escape($value) . "'
 									WHERE  `key` IN ('" . implode("','", $children_keys) . "')";
 							$this->db->query($sql);
 						}
 					}
 				}
 			}
+			
+			//Special case. 
+			//Check that we have single mode RL with ID 
+			if ( has_value($data[$key."_resource_id"]) && !has_value($value) ) {
+				//save ID if resource path is missing
+				$value = $data[$key."_resource_id"];
+			} 
+			//skip saving ???
+			
 			// now re-insert settings
-			$this->db->query("INSERT INTO " . DB_PREFIX . "settings
+			$this->db->query("INSERT INTO " . $this->db->table("settings") . " 
 							  SET `store_id` = '" . (int)$data['store_id'] . "',
 							      `group` = '" . $this->db->escape($extension_txt_id) . "',
 							      `key` = '" . $this->db->escape($key) . "',
 							      `value` = '" . $this->db->escape($value) . "'");
 			if (in_array($setting_name, $masks)) {
-				$sql = "UPDATE " . DB_PREFIX . "extensions
+				$sql = "UPDATE " . $this->db->table("extensions") . " 
 						SET `" . $setting_name . "` = '" . $this->db->escape($value) . "'
 						WHERE  `key` = '" . $this->db->escape($extension_txt_id) . "'";
 				$this->db->query($sql);
 			}
 		}
 		// update date of changes in extension list
-		$sql = "UPDATE " . DB_PREFIX . "extensions
-						SET `update_date` = NOW()
+		$sql = "UPDATE " . $this->db->table("extensions") . " 
+						SET `date_modified` = NOW()
 						WHERE  `key` = '" . $this->db->escape($extension_txt_id) . "'";
 		$this->db->query($sql);
 		$this->cache->delete('admin_menu');
@@ -354,8 +362,8 @@ class AExtensionManager {
 	 * @param string $group - extension text id
 	 */
 	public function deleteSetting($group) {
-		$this->db->query("DELETE FROM " . DB_PREFIX . "settings WHERE `group` = '" . $this->db->escape($group) . "';");
-		$this->db->query("DELETE FROM " . DB_PREFIX . "language_definitions WHERE `block` = '" . $this->db->escape($group) . "_" . $this->db->escape($group)."';");
+		$this->db->query("DELETE FROM " . $this->db->table("settings") . " WHERE `group` = '" . $this->db->escape($group) . "';");
+		$this->db->query("DELETE FROM " . $this->db->table("language_definitions") . " WHERE `block` = '" . $this->db->escape($group) . "_" . $this->db->escape($group)."';");
 		$this->cache->delete('settings');
 		$this->cache->delete('language_definitions');
 	}
@@ -374,7 +382,7 @@ class AExtensionManager {
 		$extension_info = $this->getExtensionsList(array('search' => $name));
 		$extension_id = $extension_info->row['extension_id'];
 
-		$validate = $this->validateCoreVersion($extension_id, $config);
+		$validate = $this->validateCoreVersion($extension_info->row['key'], $config);
 		$errors = $ext->getError();
 
 		if ($errors) {
@@ -516,7 +524,7 @@ class AExtensionManager {
 			'backup_date' => '',
 			'type' => 'delete',
 			'user' => $this->user->getUsername()));
-		$this->db->query("DELETE FROM " . DB_PREFIX . "extensions WHERE `type` = '" . $info['type'] . "' AND `key` = '" . $this->db->escape($extension_txt_id) . "'");
+		$this->db->query("DELETE FROM " . $this->db->table("extensions") . " WHERE `type` = '" . $info['type'] . "' AND `key` = '" . $this->db->escape($extension_txt_id) . "'");
 		$this->deleteDependant($extension_txt_id);
 
 		$this->session->data['package_info']['ftp'] = false;

@@ -43,12 +43,12 @@ class ControllerResponsesExtensionDefaultUpsSave extends AController {
 
         if (!$this->user->canModify('extension/extensions')) {
             $this->response->setOutput( sprintf($this->language->get('error_permission_modify'), 'extension/extensions') );
-            return;
+            return null;
         }
         foreach($this->required_fields as $fld){
             if( isset( $this->request->post[$fld] ) && trim($this->request->post[$fld])==''){
                 $this->response->setOutput( sprintf($this->language->get('error_required_field'), 'extension/extensions') );
-                return;
+                return null;
             }
         }
 
@@ -59,10 +59,9 @@ class ControllerResponsesExtensionDefaultUpsSave extends AController {
 
         if(isset($this->request->post['default_ups_weight_code']) && !in_array($this->request->post['default_ups_weight_code'], array('lb','kgs'))){
             $this->response->setOutput( 'Error: kgs or lb only!' );
-            return;
+            return null;
         }
         $this->extension_manager->editSetting('default_ups', $this->request->post);
 
     }
 }
-?>

@@ -29,7 +29,7 @@ class ControllerPagesCheckoutCart extends AController {
         //init controller data
         $this->extensions->hk_InitData($this,__FUNCTION__);
 
-		if ($this->request->server['REQUEST_METHOD'] == 'GET' && isset($this->request->get['product_id']) ) {
+		if ($this->request->is_GET() && isset($this->request->get['product_id']) ) {
 
 			if (isset($this->request->get['option'])) {
 				$option = $this->request->get['option'];
@@ -52,7 +52,7 @@ class ControllerPagesCheckoutCart extends AController {
 
 			$this->redirect($this->html->getSecureURL('checkout/cart'));
 			
-		} else if ($this->request->server['REQUEST_METHOD'] == 'POST') {
+		} else if ($this->request->is_POST()) {
 
 			//if this is coupon, validate and apply
 			if ( isset($this->request->post['coupon']) && $this->_validateCoupon() ) {
@@ -66,7 +66,7 @@ class ControllerPagesCheckoutCart extends AController {
 			}
 			
       		if (isset($this->request->post['quantity'])) {
-
+				//we update cart
 				if (!is_array($this->request->post['quantity'])) {
 
 					$this->loadModel('catalog/product');
@@ -165,6 +165,11 @@ class ControllerPagesCheckoutCart extends AController {
           			$this->cart->remove($key);
 				}
       		}
+			
+			//next page is requested after cart update
+			if (isset($this->request->post['next_step'])) {
+				$this->redirect($this->html->getSecureURL($this->request->post['next_step']));
+			}
 			
 			if (isset($this->request->post['redirect'])) {
 				$this->session->data['redirect'] = $this->request->post['redirect'];
@@ -292,6 +297,7 @@ class ControllerPagesCheckoutCart extends AController {
 			);
 			
             $this->data['checkout'] = $this->html->getSecureURL('checkout/shipping');
+            $this->data['checkout_rt'] = 'checkout/shipping';
 
 			#Check if order total max/min is set and met
 			$cf_total_min = $this->config->get('total_order_minimum'); 
@@ -374,7 +380,12 @@ class ControllerPagesCheckoutCart extends AController {
 														'type' => 'submit',
 														'name' => $this->language->get('button_text_estimate') 
 														));
-				
+
+		    if($this->session->data['error']){
+			    $error_msg[] = $this->session->data['error'];
+			    unset($this->session->data['error']);
+		    }
+
 			$this->view->assign('error_warning', $error_msg );
 			$this->view->setTemplate( 'pages/checkout/cart.tpl' );
 

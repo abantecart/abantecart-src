@@ -22,32 +22,32 @@ if (! defined ( 'DIR_CORE' ) || !IS_ADMIN) {
 }
 class ModelSaleCustomerGroup extends Model {
 	public function addCustomerGroup($data) {
-		$this->db->query("INSERT INTO " . DB_PREFIX . "customer_groups SET name = '" . $this->db->escape($data['name']) . "'");
+		$this->db->query("INSERT INTO " . $this->db->table("customer_groups") . " SET name = '" . $this->db->escape($data['name']) . "'");
 		return $this->db->getLastId();
 	}
 	
 	public function editCustomerGroup($customer_group_id, $data) {
 		if ( !empty($data['name']) )
-		$this->db->query("UPDATE " . DB_PREFIX . "customer_groups SET name = '" . $this->db->escape($data['name']) . "' WHERE customer_group_id = '" . (int)$customer_group_id . "'");
+		$this->db->query("UPDATE " . $this->db->table("customer_groups") . " SET name = '" . $this->db->escape($data['name']) . "' WHERE customer_group_id = '" . (int)$customer_group_id . "'");
 	}
 	
 	public function deleteCustomerGroup($customer_group_id) {
-		$this->db->query("DELETE FROM " . DB_PREFIX . "customer_groups WHERE customer_group_id = '" . (int)$customer_group_id . "'");
-		$this->db->query("DELETE FROM " . DB_PREFIX . "product_discounts WHERE customer_group_id = '" . (int)$customer_group_id . "'");
+		$this->db->query("DELETE FROM " . $this->db->table("customer_groups") . " WHERE customer_group_id = '" . (int)$customer_group_id . "'");
+		$this->db->query("DELETE FROM " . $this->db->table("product_discounts") . " WHERE customer_group_id = '" . (int)$customer_group_id . "'");
 	}
 	
 	public function getCustomerGroup($customer_group_id) {
-		$query = $this->db->query("SELECT DISTINCT * FROM " . DB_PREFIX . "customer_groups WHERE customer_group_id = '" . (int)$customer_group_id . "'");
+		$query = $this->db->query("SELECT DISTINCT * FROM " . $this->db->table("customer_groups") . " WHERE customer_group_id = '" . (int)$customer_group_id . "'");
 		
 		return $query->row;
 	}
 	
 	public function getCustomerGroups($data = array(), $mode = 'default') {
 		if ($mode == 'total_only') {
-			$sql = "SELECT count(*) as total FROM " . DB_PREFIX . "customer_groups";
+			$sql = "SELECT count(*) as total FROM " . $this->db->table("customer_groups") . " ";
 		}
 		else {
-			$sql = "SELECT * FROM " . DB_PREFIX . "customer_groups";
+			$sql = "SELECT * FROM " . $this->db->table("customer_groups") . " ";
 		}
 		
 		if ( !empty($data['subsql_filter']) ) {

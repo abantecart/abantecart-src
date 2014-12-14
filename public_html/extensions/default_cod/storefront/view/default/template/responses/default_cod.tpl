@@ -1,25 +1,34 @@
-<div class="buttons">
-  <table>
-    <tr>
-      <td align="left"><?php echo $button_back; ?></td>
-      <td align="right"><?php echo $button_confirm; ?></td>
-    </tr>
-  </table>
+<div class="form-group action-buttons">
+    <div class="col-md-12">
+    	<button id="checkout_btn" onclick="confirmSubmit();" class="btn btn-orange pull-right" title="<?php echo $button_confirm->text ?>">
+    	    <i class="fa fa-check"></i>
+    	    <?php echo $button_confirm->text; ?>
+    	</button>
+    	<a id="<?php echo $button_back->name ?>" href="<?php echo $back; ?>" class="btn btn-default" title="<?php echo $button_back->text ?>">
+    	    <i class="fa fa-arrow-left"></i>
+    	    <?php echo $button_back->text ?>
+    	</a>
+    </div>
 </div>
 <script type="text/javascript"><!--
-$('#back').click(function() {
-	location = '<?php echo $back; ?>';
-});
-$('body').append('<div id="blocker" style="display: none; width: 1667px; height: 1200px; z-index: 1001; background: none repeat scroll 0 0 white; opacity: 0; left: 0; position: absolute; top: 0;"></div>');
-
-$('#checkout').click(function() {
-	$('#blocker').show();
+function confirmSubmit() {
+	$('body').css('cursor','wait');
 	$.ajax({
 		type: 'GET',
 		url: 'index.php?rt=extension/default_cod/confirm',
+		beforeSend: function() {
+			$('.alert').remove();
+			$('.action-buttons').hide(); 
+			$('.action-buttons').before('<div class="wait alert alert-info text-center"><i class="fa fa-refresh fa-spin"></i> <?php echo $text_wait; ?></div>');
+		},		
 		success: function() {
 			location = '<?php echo $continue; ?>';
-		}		
+		},
+		error: function (jqXHR, textStatus, errorThrown) {
+			alert(textStatus + ' ' + errorThrown);
+			$('.wait').remove();
+			$('.action-buttons').show();
+		}				
 	});
-});
+}
 //--></script>

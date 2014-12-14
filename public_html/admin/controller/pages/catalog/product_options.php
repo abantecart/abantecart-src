@@ -35,7 +35,7 @@ class ControllerPagesCatalogProductOptions extends AController {
 		$this->loadModel('catalog/product');
         $this->attribute_manager = new AAttribute_Manager();
 
-        if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->_validateForm() ) {
+        if ($this->request->is_POST() && $this->_validateForm() ) {
             $this->model_catalog_product->addProductOption($this->request->get['product_id'], $this->request->post);
             $this->session->data['success'] = $this->language->get('text_success');
             $this->redirect($this->html->getSecureURL('catalog/product_options', '&product_id=' . $this->request->get['product_id'] ));
@@ -68,11 +68,14 @@ class ControllerPagesCatalogProductOptions extends AController {
 		$this->data['product_description'] = $this->model_catalog_product->getProductDescriptions($this->request->get['product_id']);
 		$product_options = $this->model_catalog_product->getProductOptions($this->request->get['product_id']);
 
+		$content_language_id = $this->language->getContentLanguageID();
+		$default_language_id = $this->language->getDefaultLanguageID();
+
 		foreach ($product_options as &$option) {
-			$option_name = trim($option['language'][$this->session->data['content_language_id']]['name']);
-			$option['language'][$this->session->data['content_language_id']]['name'] = $option_name ? $option_name : 'n/a';
-			$option_name = trim($option['language'][$this->session->data['language_id']]['name']);
-			$option['language'][$this->session->data['language_id']]['name'] = $option_name ? $option_name : 'n/a';
+			$option_name = trim($option['language'][$content_language_id]['name']);
+			$option['language'][$content_language_id]['name'] = $option_name ? $option_name : 'n/a';
+			$option_name = trim($option['language'][$default_language_id]['name']);
+			$option['language'][$default_language_id]['name'] = $option_name ? $option_name : 'n/a';
 		} unset($option);
 
 		$this->data['product_options'] = $product_options;
@@ -90,22 +93,19 @@ class ControllerPagesCatalogProductOptions extends AController {
     	$this->document->initBreadcrumb( array (
        		'href'      => $this->html->getSecureURL('index/home'),
        		'text'      => $this->language->get('text_home'),
-      		'separator' => FALSE
    		));
    		$this->document->addBreadcrumb( array (
        		'href'      => $this->html->getSecureURL('catalog/product'),
        		'text'      => $this->language->get('heading_title'),
-      		'separator' => ' :: '
    		));
 		$this->document->addBreadcrumb( array (
 			'href'      => $this->html->getSecureURL('catalog/product/update', '&product_id=' . $this->request->get['product_id'] ),
 			'text'      => $this->language->get('text_edit')  .'&nbsp;'. $this->language->get('text_product') . ' - '. $this->data['product_description'][$this->session->data['content_language_id']]['name'],
-			'separator' => ' :: '
 		));
 		$this->document->addBreadcrumb( array (
 			'href'      => $this->html->getSecureURL('catalog/product_options', '&product_id=' . $this->request->get['product_id'] ),
 			'text'      => $this->language->get('tab_option'),
-			'separator' => ' :: '
+			'current'   => true
 		));
 
 		$this->data['active'] = 'options';
@@ -140,7 +140,47 @@ class ControllerPagesCatalogProductOptions extends AController {
 			'style' => 'button2',
 		));
 
-        $form = new AForm('HT');
+		$this->data['action'] = $this->html->getSecureURL('catalog/product_options', '&product_id=' . $this->request->get['product_id'] );
+		$this->data['form_title'] = $this->language->get('text_edit')  .'&nbsp;'. $this->language->get('text_product');
+		$this->data['update'] = '';
+		$form = new AForm('HT');
+
+		$product_opt = array();
+		foreach ($product_options as $option) {
+			$product_opt[$option['product_option_id']] = $option['language'][$content_language_id]['name'];
+		}
+
+		$this->data['options'] = $form->getFieldHtml(array(
+						'type' => 'selectbox',
+						'name' => 'option',
+						'value' => $this->data['product_option_id'],
+			            'options' => $product_opt,
+					));
+
+		$form->setForm(array(
+		    'form_name' => 'product_form',
+			'update' => $this->data['update'],
+	    ));
+
+        $this->data['form']['id'] = 'product_form';
+        $this->data['form']['form_open'] = $form->getFieldHtml(array(
+		    'type' => 'form',
+		    'name' => 'product_form',
+		    'action' => $this->data['action'],
+		    'attr' => 'data-confirm-exit="true"  class="form-horizontal"',
+	    ));
+        $this->data['form']['submit'] = $form->getFieldHtml(array(
+		    'type' => 'button',
+		    'name' => 'submit',
+		    'text' => $this->language->get('button_add'),
+		    'style' => 'button1',
+	    ));
+		$this->data['form']['cancel'] = $form->getFieldHtml(array(
+		    'type' => 'button',
+		    'name' => 'cancel',
+		    'text' => $this->language->get('button_cancel'),
+		    'style' => 'button2',
+	    ));
 
 		$form->setForm(array(
 		    'form_name' => 'new_option_form',
@@ -150,7 +190,7 @@ class ControllerPagesCatalogProductOptions extends AController {
 			'type' => 'selectbox',
 			'name' => 'attribute_id',
 			'options' => $this->data['attributes'],
-			'style' => 'large-field',
+			'style' => 'chosen',
 		));
 		$this->data['option_name'] = $form->getFieldHtml(array(
             'type' => 'input',
@@ -171,6 +211,7 @@ class ControllerPagesCatalogProductOptions extends AController {
         $this->data['required'] = $form->getFieldHtml(array(
             'type' => 'checkbox',
             'name' => 'required',
+    		'style' => 'btn_switch',
         ));
         $this->data['element_type'] = $form->getFieldHtml(array(
             'type' => 'selectbox',
@@ -179,59 +220,29 @@ class ControllerPagesCatalogProductOptions extends AController {
             'options' => $element_types
         ));
 
-
-		$this->data['action'] = $this->html->getSecureURL('catalog/product_options', '&product_id=' . $this->request->get['product_id'] );
-		$this->data['form_title'] = $this->language->get('text_edit')  .'&nbsp;'. $this->language->get('text_product');
-		$this->data['update'] = '';
-		$form = new AForm('HT');
-
-		$form->setForm(array(
-		    'form_name' => 'product_form',
-			'update' => $this->data['update'],
-	    ));
-
-        $this->data['form']['id'] = 'product_form';
-        $this->data['form']['form_open'] = $form->getFieldHtml(array(
-		    'type' => 'form',
-		    'name' => 'product_form',
-		    'action' => $this->data['action'],
-		    'attr' => 'confirm-exit="true"',
-	    ));
-        $this->data['form']['submit'] = $form->getFieldHtml(array(
-		    'type' => 'button',
-		    'name' => 'submit',
-		    'text' => $this->language->get('button_add_option'),
-		    'style' => 'button1',
-	    ));
-		$this->data['form']['cancel'] = $form->getFieldHtml(array(
-		    'type' => 'button',
-		    'name' => 'cancel',
-		    'text' => $this->language->get('button_cancel'),
-		    'style' => 'button2',
-	    ));
-
 		$this->addChild('pages/catalog/product_summary', 'summary_form', 'pages/catalog/product_summary.tpl');
 
-		$this->addChild('responses/common/resource_library/get_resources_html', 'resources_html', 'responses/common/resource_library_scripts.tpl');
+		$object_title = $this->language->get('text_product').' '.$this->language->get('text_option_value');
+		$params = '&object_name=product_option_value&object_title=' . $object_title;
+		$this->data['rl_resource_library'] = $this->html->getSecureURL('common/resource_library', $params);
+		$this->data['rl_resources'] = $this->html->getSecureURL('common/resource_library/resources', $params);
+		$this->data['rl_resource_single'] = $this->html->getSecureURL('common/resource_library/get_resource_details', $params);
+		$this->data['rl_delete'] = $this->html->getSecureURL('common/resource_library/delete');
+		$this->data['rl_unmap'] = $this->html->getSecureURL('common/resource_library/unmap', $params);
+		$this->data['rl_map'] = $this->html->getSecureURL('common/resource_library/map', $params);
+		$this->data['rl_download'] = $this->html->getSecureURL('common/resource_library/get_resource_preview');
+		$this->data['rl_upload'] = $this->html->getSecureURL('common/resource_library/upload', $params);
         $resources_scripts = $this->dispatch(
             'responses/common/resource_library/get_resources_scripts',
             array(
                 'object_name' => 'product_option_value',
                 'object_id' => '',
-                'types' => 'image',
+                'types' => array('image'),
+				'onload' => false //sign loading thumbs on oage load. disable it for hidden attribute values info
             )
         );
 
-        $object_title = $this->language->get('text_product').' '.$this->language->get('text_option_value');
-
 		$this->view->assign('resources_scripts', $resources_scripts->dispatchGetOutput());
-		$this->view->assign('rl', $this->html->getSecureURL('common/resource_library', '&object_name=&object_id&type=image&mode=url&object_title='.$object_title));
-		//pathes for js function
-
-		$this->data['rl_unmap_path'] = $this->html->getSecureURL('common/resource_library/unmap', '&object_name=product_option_value&object_title='.$object_title );
-		$this->data['rl_rl_path'] = $this->html->getSecureURL('common/resource_library', '&object_name=product_option_value&object_title='.$object_title );
-        $this->data['rl_resources_path'] = $this->html->getSecureURL('common/resource_library/resources', '&object_name=product_option_value&object_title='.$object_title);
-
 
 		$this->view->assign('help_url', $this->gen_help_url('product_options') );
         $this->view->assign('form_language_switch', $this->html->getContentLanguageSwitcher());
@@ -256,5 +267,4 @@ class ControllerPagesCatalogProductOptions extends AController {
 			return FALSE;
 		}
 	}
-
 }

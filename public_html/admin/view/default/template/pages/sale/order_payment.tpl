@@ -1,144 +1,134 @@
-<?php if (!empty($error['warning'])) { ?>
-	<div class="warning alert alert-error"><?php echo $error['warning']; ?></div>
-<?php } ?>
-<?php if ($success) { ?>
-<div class="success alert alert-success"><?php echo $success; ?></div>
-<?php } ?>
+<?php include($tpl_common_dir . 'action_confirm.tpl'); ?>
 
-<div class="contentBox">
-  <div class="cbox_tl"><div class="cbox_tr"><div class="cbox_tc">
-    <div class="heading icon_title_order"><?php echo $heading_title; ?></div>
-      <div class="heading-tabs">
-             <?php
-             foreach ($tabs as $tab) {
-                 echo '<a href="'.$tab['href'].'" '.($tab['active'] ? 'class="active"' : '').'><span>'.$tab['text'].'</span></a>';
-             }
-             ?>
-     	</div>
-	<div class="toolbar">
-		<?php if ( !empty ($help_url) ) : ?>
-	        <div class="help_element"><a href="<?php echo $help_url; ?>" target="new"><img src="<?php echo $template_dir; ?>image/icons/help.png"/></a></div>
-	    <?php endif; ?>
-	<div class="buttons">
-		<a href="<?php echo $invoice?>" class="btn_standard" target="_invoice"><?php echo $button_invoice?></a>
-	</div>
-	<?php echo $form_language_switch; ?>
-	</div>
-  </div></div></div>
-  <div class="cbox_cl"><div class="cbox_cr"><div class="cbox_cc">
+<?php echo $summary_form; ?>
 
-	<?php echo $summary_form; ?>
+<?php echo $order_tabs ?>
+<div id="content" class="panel panel-default">
+
+	<div class="panel-heading col-xs-12">
+		<div class="primary_content_actions pull-left">
+			<div class="btn-group mr10 toolbar">
+			<a class="btn btn-white tooltips" target="_invoice" href="<?php echo $invoice_url; ?>" data-toggle="tooltip"
+			   title="<?php echo $text_invoice; ?>" data-original-title="<?php echo $text_invoice; ?>">
+				<i class="fa fa-file-text"></i>
+			</a>
+			</div>
+		</div>
+
+		<?php include($tpl_common_dir . 'content_buttons.tpl'); ?>	
+	</div>
+	
 	<?php echo $form['form_open']; ?>
-	<div class="fieldset">
-	  <div class="heading"><?php echo $form_title; ?></div>
-	  <div class="top_left"><div class="top_right"><div class="top_mid"></div></div></div>
-	  <div class="cont_left"><div class="cont_right"><div class="cont_mid">
+	<div class="panel-body panel-body-nopadding tab-content col-xs-12">
 
-        <table class="form">
-          <?php foreach ($form['fields'] as $name => $field) { ?>
-			<tr>
-				<td><?php echo ${'entry_'.$name}; ?></td>
-				<td>
-					<?php echo $field; ?>
-					<?php if (!empty($error[$name])) { ?>
-						<div class="field_err"><?php echo $error[$name]; ?></div>
-					<?php } //if (!empty($error[$name])) { ?>
-				</td>
-			</tr>
-		<?php } //foreach ($form['fields'] as $name => $field)  ?>
-		  <tr>
-            <td><?php echo $entry_country; ?></td>
-            <td>
-              <?php echo $form['country_select']; ?>
-              <input type="hidden" name="payment_country" value="<?php echo $payment_country; ?>" />
-            </td>
-          </tr>
-          <tr>
-            <td><?php echo $entry_zone; ?></td>
-            <td id="payment_zone">
-            	<?php echo $form['zone_select']; ?>
-            </td>
-          </tr>
-        </table>
+		<label class="h4 heading"><?php echo $edit_title_payment; ?></label>
+		<?php foreach ($form['fields'] as $name => $field) { ?>
+		<?php
+		//Logic to calculate fields width
+		$widthcasses = "col-sm-7";
+		if (is_int(stripos($field->style, 'large-field'))) {
+			$widthcasses = "col-sm-7";
+		} else if (is_int(stripos($field->style, 'medium-field')) || is_int(stripos($field->style, 'date'))) {
+			$widthcasses = "col-sm-5";
+		} else if (is_int(stripos($field->style, 'small-field')) || is_int(stripos($field->style, 'btn_switch'))) {
+			$widthcasses = "col-sm-3";
+		} else if (is_int(stripos($field->style, 'tiny-field'))) {
+			$widthcasses = "col-sm-2";
+		}
+		$widthcasses .= " col-xs-12";
+		?>
+		<div class="form-group <?php if (!empty($error[$name])) {
+			echo "has-error";
+		} ?>">
+			<label class="control-label col-sm-3 col-xs-12"
+				   for="<?php echo $field->element_id; ?>"><?php echo ${'entry_' . $name}; ?></label>
 
-    </div></div></div>
-      <div class="bottom_left"><div class="bottom_right"><div class="bottom_mid"></div></div></div>
-	</div><!-- <div class="fieldset"> -->
-	<div class="buttons align_center">
-	  <button type="submit" class="btn_standard"><?php echo $form['submit']; ?></button>
-	  <a class="btn_standard" href="<?php echo $cancel; ?>" ><?php echo $form['cancel']; ?></a>
-    </div>
+			<div class="input-group afield <?php echo $widthcasses; ?> <?php echo($name == 'description' ? 'ml_ckeditor' : '') ?>">
+				<?php echo $field; ?>
+			</div>
+			<?php if (!empty($error[$name])) { ?>
+				<span class="help-block field_err"><?php echo $error[$name]; ?></span>
+			<?php } ?>
+		</div>
+		<?php } ?><!-- <div class="fieldset"> -->
+	</div>
+
+
+	<div class="panel-footer col-xs-12">
+		<div class="text-center">
+			<button class="btn btn-primary lock-on-click">
+			<i class="fa fa-save fa-fw"></i> <?php echo $form['submit']->text; ?>
+			</button>
+			<button class="btn btn-default" type="reset">
+			<i class="fa fa-refresh fa-fw"></i> <?php echo $button_reset; ?>
+			</button>
+			<a class="btn btn-default" href="<?php echo $cancel; ?>">
+			<i class="fa fa-arrow-left fa-fw"></i> <?php echo $form['cancel']->text; ?>
+			</a>
+		</div>
+	</div>
+
 	</form>
+</div><!-- <div class="tab-content"> -->
 
-  </div></div></div>
-  <div class="cbox_bl"><div class="cbox_br"><div class="cbox_bc"></div></div></div>
-</div>
 <script type="text/javascript"><!--
-jQuery(function($){
+	jQuery(function ($) {
 
-	getZones = function(country_id)
-	{
-		if ( !country_id )
-		{
-			country_id = '<?php echo $payment_country_id; ?>';
+		getZones = function (country_id) {
+			if (!country_id) {
+				country_id = '<?php echo $payment_country_id; ?>';
+			}
+
+			$.ajax(
+					{
+						url: '<?php echo $common_zone; ?>&country_id=' + country_id + '&zone_id=<?php echo $payment_zone_id; ?>&type=payment_zone',
+						type: 'GET',
+						dataType: 'json',
+						success: function (data) {
+							result = data;
+							showZones(data);
+						}
+					});
 		}
 
-		$.ajax(
-		{
-			url: '<?php echo $common_zone; ?>&country_id='+ country_id +'&zone_id=<?php echo $payment_zone_id; ?>&type=payment_zone',
-			type: 'GET',
-			dataType: 'json',
-			success: function(data)
-			{
-				result = data;
-				showZones(data);
-			}
+		showZones = function (data) {
+			var options = '';
+
+			$.each(data['options'], function (i, opt) {
+				options += '<option value="' + i + '"';
+				if (opt.selected) {
+					options += 'selected="selected"';
+				}
+				options += '>' + opt.value + '</option>'
+			});
+
+			var selectObj = $('#orderFrm_payment_zone_id');
+
+			selectObj.html(options);
+			var selected_name = $('#orderFrm_payment_zone_id :selected').text();
+			selectObj.parent().find('span').text(selected_name);
+			selectObj.after('<input id="payment_zone_name" name="payment_zone" value="' + selected_name + '" type="hidden" />');
+
+		}
+
+		getZones();
+
+		$('#orderFrm_payment_zone_id').on('change', function () {
+			$('#payment_zone_name').val($('#payment_zone select :selected').text());
 		});
-	}
 
-	showZones = function(data)
-	{
-		var options = '';
+		$('#orderFrm_payment_country_id').change(function () {
+			getZones($(this).val());
+			$('#payment_zone select').aform({triggerChanged: false})
 
-		$.each(data['options'], function(i, opt)
-		{
-			options += '<option value="'+ i +'"';
-			if ( opt.selected )
-			{
-				options += 'selected="selected"';
-			}
-			options += '>'+ opt.value +'</option>'
 		});
 
-		var selectObj = $('#orderFrm_payment_zone_id');
+		$('#orderFrm').submit(function () {
+			$('input[name="payment_country"]', this).val($('#payment_country option:selected').text());
+			$('input[name="payment_zone"]', this).val($('#payment_zone select option:selected').text());
+		});
 
-		selectObj.html(options);
-		var selected_name = $('#orderFrm_payment_zone_id :selected').text();
-		selectObj.parent().find('span').text(selected_name);
-		selectObj.after('<input id="payment_zone_name" name="payment_zone" value="' + selected_name + '" type="hidden" />');
 
-	}
-
-	getZones();
-
-	$('#orderFrm_payment_zone_id').live('change', function() {
-		$('#payment_zone_name').val($('#payment_zone select :selected').text());
 	});
-
-	$('#orderFrm_payment_country_id').change(function()
-	{
-		getZones($(this).val());
-		$('#payment_zone select').aform({triggerChanged: false})
-		
-	});
-
-    $('#orderFrm').submit(function(){
-        $('input[name="payment_country"]', this).val($('#payment_country option:selected').text());
-        $('input[name="payment_zone"]', this).val($('#payment_zone select option:selected').text());
-    });
-
-
-
-});
--->
+	-->
 </script>

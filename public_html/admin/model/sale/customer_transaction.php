@@ -34,7 +34,7 @@ class ModelSaleCustomerTransaction extends Model {
     public function getCustomerTransaction($customer_transaction_id=0){
         if(!(int)$customer_transaction_id) return array();
 
-        $sql = "SELECT *,
+        $sql = "SELECT *, t.date_added, t.date_modified,
 				CASE
 					WHEN t.section=1
 						THEN CONCAT(u.firstname,' ',u.lastname, ' (',u.username,')')
@@ -58,7 +58,7 @@ class ModelSaleCustomerTransaction extends Model {
         // get decrypted customer name first
         $this->load->model('sale/customer');
         $customer_info = $this->model_sale_customer->getCustomer((int)$data['customer_id']);
-        $sql = "SELECT *,
+        $sql = "SELECT *, t.date_added, t.date_modified,
 				CASE
 					WHEN t.section=1
 						THEN CONCAT(u.firstname,' ',u.lastname, ' (',u.username,')')
@@ -72,7 +72,7 @@ class ModelSaleCustomerTransaction extends Model {
         $filter = (isset($data['filter']) ? $data['filter'] : array());
         $implode = array();
         if (has_value($filter['date_start']) && has_value($filter['date_end'])) {
-            $implode[] = "DATE(t.create_date) BETWEEN DATE('" . $this->db->escape($filter['date_start']) . "') AND DATE('" . $this->db->escape($filter['date_end']) . "')";
+            $implode[] = "DATE(t.date_added) BETWEEN DATE('" . $this->db->escape($filter['date_start']) . "') AND DATE('" . $this->db->escape($filter['date_end']) . "')";
         }
 
         if (has_value($filter['debit'])) {
@@ -105,7 +105,7 @@ class ModelSaleCustomerTransaction extends Model {
         }
 
         $sort_data = array(
-            'create_date',
+            't.date_added',
             'user',
             'debit',
             'credit',
@@ -115,7 +115,7 @@ class ModelSaleCustomerTransaction extends Model {
         if (isset($data['sort']) && in_array($data['sort'], $sort_data)) {
             $sql .= " ORDER BY " . $data['sort'];
         } else {
-            $sql .= " ORDER BY create_date";
+            $sql .= " ORDER BY t.date_added";
         }
 
         if (isset($data['order']) && (strtoupper($data['order']) == 'DESC')) {
@@ -137,7 +137,6 @@ class ModelSaleCustomerTransaction extends Model {
         }
 
         $query = $this->db->query( $sql );
-
         return $query->rows;
     }
 
@@ -161,7 +160,7 @@ class ModelSaleCustomerTransaction extends Model {
 
     public function addCustomerTransaction($data=array()){
         if(((float)$data['credit'] || (float)$data['debit']) && (int)$data['customer_id']){
-            $sql = "INSERT INTO " . $this->db->table("customer_transactions") . " (`customer_id`,`order_id`,`created_by`,`credit`,`debit`,`section`, `transaction_type`,`comment`,`description`,`create_date`)
+            $sql = "INSERT INTO " . $this->db->table("customer_transactions") . " (`customer_id`,`order_id`,`created_by`,`credit`,`debit`,`section`, `transaction_type`,`comment`,`description`,`date_added`)
 					VALUES (
 							'".(int)$data['customer_id']."',
 							'".(int)$data['order_id']."',

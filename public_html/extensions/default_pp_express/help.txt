@@ -1,0 +1,32 @@
+<b>PayPal Express Checkout Payment Configuration Manual</b>
+<br/><br/>
+This is extension provides integration to PayPal Express Checkout service. If you do not have PayPal account yet, <a href="https://www.paypal.com/us/webapps/mpp/referral/paypal-express-checkout?partner_id=V5VQZUVNK5RT6" target="_new">register here</a>
+<br/>
+This manual provides instructions how to enable Express Checkout Payment with all settings provided. 
+
+<br/><br/>
+Extension provides 2 main modes Test and Live. To enable live mode set Sandbox (Test) Mode to NO.
+Note, that API credentials for Test and Live are different. Check with PayPal for correct API credentials 
+
+<br/><br/>
+Load your API credentials. You can locate API details in <a href="https://www.paypal.com/us/cgi-bin/webscr?cmd=_get-api-signature&generic-flow=true" target="_	new">here</a> <br />
+Once you provide API details you can press button to test connection.
+
+<br/><br/>
+Optionally, USA merchants can enabled Bill Me Later (BML) feature, that allows customers to purchase product with later payment option. Check PayPal to signup for this service. <a href="https://www.paypal.com/webapps/mpp/billmelater-productoverview?partner_id=V5VQZUVNK5RT6" target="_new">See here</a>
+
+<br/><br/>
+If BML is enabled, you have an option to include promotional PayPal banners on AbanteCart pages. These banners specifically designed to help customers with making quick payment choice and improve shopping cart sales. Banners can be enabled in the layout section   
+
+<br/><br/>
+Now you can provide the rest of the settings. Other settings are self explanatory. 
+
+
+<br/><br/>
+
+What to look for?
+<br/><br/>
+1. Customers on a storefront will see option to checkout at shopping cart page, bypassing normal checkout process <br />
+2. With BML option enabled customers on a storefront will see option to checkout at shopping cart with bill me later option<br/>
+
+It is recommended to have guest checkout enabled. If disabled, main feature of express checkout ( quick checkout without account) will not function.

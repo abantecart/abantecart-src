@@ -73,7 +73,7 @@ class ControllerPagesCheckoutAddress extends AController {
 
 		$this->loadModel('account/address');
 		
-		if (($this->request->server['REQUEST_METHOD'] == 'POST') && isset($this->request->post['address_id'])) {
+		if ($this->request->is_POST() && isset($this->request->post['address_id'])) {
 			$this->session->data['shipping_address_id'] = $this->request->post['address_id'];
 			
 			unset($this->session->data['shipping_methods']);
@@ -90,7 +90,7 @@ class ControllerPagesCheckoutAddress extends AController {
 			$this->redirect($this->html->getSecureURL('checkout/shipping'));
 		}
 		
-		if ( $this->request->server['REQUEST_METHOD'] == 'POST' ) {
+		if ( $this->request->is_POST() ) {
 			$this->error = $this->model_account_address->validateAddressData($this->request->post);
     		if ( !$this->error ) {	
 				$this->session->data['shipping_address_id'] = $this->model_account_address->addAddress($this->request->post);
@@ -164,7 +164,7 @@ class ControllerPagesCheckoutAddress extends AController {
 		
 		$this->loadModel('account/address');
 		 	 
-    	if (($this->request->server['REQUEST_METHOD'] == 'POST') && isset($this->request->post['address_id'])) {
+    	if ($this->request->is_POST() && isset($this->request->post['address_id'])) {
 			$this->session->data['payment_address_id'] = $this->request->post['address_id'];
 	  		
 			unset($this->session->data['payment_methods']);
@@ -173,7 +173,7 @@ class ControllerPagesCheckoutAddress extends AController {
 			$this->redirect($this->html->getSecureURL('checkout/payment'));
 		} 
 	   
-		if ( $this->request->server['REQUEST_METHOD'] == 'POST' ) {
+		if ( $this->request->is_POST() ) {
 			$this->error = $this->model_account_address->validateAddressData($this->request->post);
     		if ( !$this->error ) {			
 				$this->session->data['payment_address_id'] = $this->model_account_address->addAddress($this->request->post);

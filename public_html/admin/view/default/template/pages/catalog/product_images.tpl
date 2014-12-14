@@ -1,30 +1,21 @@
-<?php if ( !empty($error['warning']) ) { ?>
-<div class="warning alert alert-error"><?php echo $error['warning']; ?></div>
-<?php } ?>
-<?php if ($success) { ?>
-<div class="success alert alert-success"><?php echo $success; ?></div>
-<?php } ?>
-<a name="top"></a>
+<?php include($tpl_common_dir . 'action_confirm.tpl'); ?>
 
-<div class="contentBox">
-  <div class="cbox_tl"><div class="cbox_tr"><div class="cbox_tc">
-    <div class="heading icon_title_product"><?php echo $form_title; ?></div>
-	<?php echo $product_tabs ?>
-	<div class="toolbar">
-	    <?php if ( !empty ($help_url) ) : ?>
-	        <div class="help_element"><a href="<?php echo $help_url; ?>" target="new"><img src="<?php echo $template_dir; ?>image/icons/help.png"/></a></div>
-	    <?php endif; ?>
-    </div>
-  </div></div></div>
-  <div class="cbox_cl"><div class="cbox_cr"><div class="cbox_cc">
+<?php echo $summary_form; ?>
 
-	<?php echo $summary_form; ?>
-	<?php echo $form['form_open']; ?>
-    <?php echo $resources_html ?>
-	</form>
+<?php echo $product_tabs ?>
 
-  </div></div></div>
-  <div class="cbox_bl"><div class="cbox_br"><div class="cbox_bc"></div></div></div>
+<div id="content" class="panel panel-default">
+
+	<div class="panel-heading col-xs-12">
+		<div class="primary_content_actions pull-left">
+		</div>
+
+		<?php include($tpl_common_dir . 'content_buttons.tpl'); ?>	
+	</div>
+		
+	<div class="panel-body panel-body-nopadding tab-content col-xs-12">
+    	<?php echo $resources_html ?>
+	</div>
 </div>
 
 <?php echo $resources_scripts ?>

@@ -73,15 +73,14 @@ class ControllerResponsesListingGridCategory extends AController {
             $cnt = $this->model_catalog_category->getCategoriesData(array('parent_id'=>$result['category_id']),'total_only');
 
 			if(!$result['products_count']){
-				$products_count = $result['products_count'];
+				$products_count = 0;
 			}else{
-				$products_count = $this->html->buildButton(array(
+				$products_count = (string)$this->html->buildElement(array(
+																'type' => 'button',
 																'name' => 'view products',
 																'text' => $result[ 'products_count' ],
-																'style' => 'button2',
 																'href'=> $this->html->getSecureURL('catalog/product','&category='.$result['category_id']),
-																'title' => $this->language->get('text_view').' '.$this->language->get('tab_product'),
-																'target' => '_blank'
+																'title' => $this->language->get('text_view').' '.$this->language->get('tab_product')
 															));
 			}
 
@@ -113,7 +112,7 @@ class ControllerResponsesListingGridCategory extends AController {
                 $cnt
                 .($cnt ?
                 '&nbsp;<a class="btn_action btn_grid grid_action_expand" href="#" rel="parent_id='.$result['category_id'].'" title="'. $this->language->get('text_view') . '">'.
-				'<img src="'.RDIR_TEMPLATE.'image/icons/icon_grid_expand.png" alt="'. $this->language->get('text_view') . '" /></a>'
+				'<i class="fa fa-folder-open"></i></a>'
                   :''), 
                  'action',
                  $new_level,
@@ -209,24 +208,30 @@ class ControllerResponsesListingGridCategory extends AController {
 		    foreach ($this->request->post as $field => $value ) {
 				if($field=='keyword'){
 					if($err = $this->html->isSEOkeywordExists('category_id='.$this->request->get['id'], $value)){
-						$dd = new ADispatcher('responses/error/ajaxerror/validation',array('error_text'=>$err));
-						return $dd->dispatch();
+						$error = new AError('');
+						return $error->toJSONResponse('VALIDATION_ERROR_406', array( 'error_text' => $err ));
 					}
+				}
+
+				$err = $this->_validateField($field, $value);
+				if (!empty($err)) {
+					$error = new AError('');
+					return $error->toJSONResponse('VALIDATION_ERROR_406', array( 'error_text' => $err ));
 				}
 
 				$this->model_catalog_category->editCategory($this->request->get['id'], array($field => $value) );
 			}
 		    return null;
 	    }
-		$language_id = $this->session->data['content_language_id'];
+		$language_id = $this->language->getContentLanguageID();
 	    //request sent from jGrid. ID is key of array
         foreach ($this->request->post as $field => $value ) {
             foreach ( $value as $k => $v ) {
 	             if($field=='category_description'){
-				    if ((strlen(utf8_decode($v[$language_id]['name'])) < 2) || (strlen(utf8_decode($v[$language_id]['name'])) > 32)) {
+				    if ( mb_strlen($v[$language_id]['name']) < 2 || mb_strlen($v[$language_id]['name']) > 32 ) {
 						$err = $this->language->get('error_name');
-						$dd = new ADispatcher('responses/error/ajaxerror/validation',array('error_text'=>$err));
-						return $dd->dispatch();
+					    $error = new AError('');
+					    return $error->toJSONResponse('VALIDATION_ERROR_406', array( 'error_text' => $err ));
 					}
 			    }
 				$this->model_catalog_category->editCategory($k, array($field => $v) );
@@ -235,6 +240,72 @@ class ControllerResponsesListingGridCategory extends AController {
 
 		//update controller data
         $this->extensions->hk_UpdateData($this,__FUNCTION__);
+	}
+
+
+	private function _validateField($field, $value) {
+
+		$err = '';
+		switch ($field) {
+			case 'category_description' :
+				$language_id = $this->language->getContentLanguageID();
+
+				if (isset($value[$language_id][ 'name' ]) && ( mb_strlen($value[$language_id][ 'name' ]) < 1 || mb_strlen($value[$language_id][ 'name' ]) > 255 )) {
+					$err = $this->language->get('error_name');
+				}
+				break;
+			case 'model' :
+				if ( mb_strlen($value) > 64 ) {
+					$err = $this->language->get('error_model');
+				}
+				break;
+			case 'keyword' :
+				$err = $this->html->isSEOkeywordExists('product_id='.$this->request->get['id'], $value);
+				break;
+		}
+		return $err;
+	}
+
+
+	public function categories() {
+
+		$output = array();
+		//init controller data
+		$this->extensions->hk_InitData($this, __FUNCTION__);
+		$this->loadModel('catalog/category');
+		if (isset($this->request->post['term'])) {
+			$filter = array('limit' => 20,
+							'language_id' => $this->language->getContentLanguageID(),
+							'subsql_filter' => "cd.name LIKE '%".$this->request->post['term']."%'
+												OR cd.description LIKE '%".$this->request->post['term']."%'
+												OR cd.meta_keywords LIKE '%".$this->request->post['term']."%'"
+							);
+			$results = $this->model_catalog_category->getCategoriesData($filter);
+
+			$resource = new AResource('image');
+			foreach ($results as $item) {
+				$thumbnail = $resource->getMainThumb('categories',
+												$item['category_id'],
+												(int)$this->config->get('config_image_grid_width'),
+												(int)$this->config->get('config_image_grid_height'),
+												true);
+
+				$output[ ] = array(
+					'image' => $icon = $thumbnail['thumb_html'] ? $thumbnail['thumb_html'] : '<i class="fa fa-code fa-4x"></i>&nbsp;',
+					'id' => $item['category_id'],
+					'name' => $item['name'],
+					'meta' => '',
+					'sort_order' => (int)$item['sort_order'],
+				);
+			}
+		}
+
+		//update controller data
+		$this->extensions->hk_UpdateData($this, __FUNCTION__);
+
+		$this->load->library('json');
+		$this->response->addJSONHeader();
+		$this->response->setOutput(AJson::encode($output));
 	}
 
 }

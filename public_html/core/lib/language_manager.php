@@ -291,7 +291,7 @@ class ALanguageManager extends Alanguage {
 		$del_index = array();
 		foreach ($index as $i => $v) {
 			if (has_value($v)) {
-				$del_index[ ] = "$i = '" . $this->db->escape($v) . "'";
+				$del_index[ ] = $i." = '" . $this->db->escape($v) . "'";
 			}
 		}
 		$sql = "DELETE FROM " . DB_PREFIX . $table_name . " ";
@@ -345,14 +345,14 @@ class ALanguageManager extends Alanguage {
 			$update_index = array();
 			foreach ($index as $i => $v) {
 				if (has_value($v)) {
-					$update_index[ ] = "$i = '" . $this->db->escape($v) . "'";
+					$update_index[ ] = $i." = '" . $this->db->escape($v) . "'";
 				}
 			}
 			$update_index[ ] = "language_id = '" . $this->db->escape($lang_id) . "'";
 
 			$update_data = array();
 			foreach ($lang_data as $i => $v) {
-				$update_data[ ] = "$i = '" . $this->db->escape($v) . "'";
+				$update_data[ ] = $i." = '" . $this->db->escape($v) . "'";
 			}
 
 			$sql = "UPDATE " . DB_PREFIX . $table_name . " ";

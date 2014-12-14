@@ -22,16 +22,28 @@ if (! defined ( 'DIR_CORE' )) {
 }
 class ModelCatalogReview extends Model {		
 	public function addReview($product_id, $data) {
-		$this->db->query("INSERT INTO " . DB_PREFIX . "reviews
+		$this->db->query("INSERT INTO " . $this->db->table("reviews") . " 
 						  SET author = '" . $this->db->escape($data['name']) . "',
 						      customer_id = '" . (int)$this->customer->getId() . "',
 						      product_id = '" . (int)$product_id . "',
 						      text = '" . $this->db->escape(strip_tags($data['text'])) . "',
 						      rating = '" . (int)$data['rating'] . "',
 						      date_added = NOW()");
+		
+		$review_id = $this->db->getLastId();
+		//notify administrator of pending review approval
+		$language = new ALanguage($this->registry);
+		$language->load('product/product');
+
+		$msg_text = sprintf($language->get('text_pending_review_approval'), $product_id, $review_id);
+		$msg = new AMessage();
+		$msg->saveNotice($language->get('text_new_review'), $msg_text);
+				
 		$this->cache->delete('product.rating.'.(int)$product_id);
 		$this->cache->delete('product.reviews.totals');
 		$this->cache->delete('product.reviews.totals.'.$product_id);
+
+		return '';
 	}
 		
 	public function getReviewsByProductId($product_id, $start = 0, $limit = 20) {
@@ -43,9 +55,9 @@ class ModelCatalogReview extends Model {
 										  pd.name,
 										  p.price,
 										  r.date_added
-							        FROM " . DB_PREFIX . "reviews r
-							        LEFT JOIN " . DB_PREFIX . "products p ON (r.product_id = p.product_id)
-							        LEFT JOIN " . DB_PREFIX . "product_descriptions pd ON (p.product_id = pd.product_id)
+							        FROM " . $this->db->table("reviews") . " r
+							        LEFT JOIN " . $this->db->table("products") . " p ON (r.product_id = p.product_id)
+							        LEFT JOIN " . $this->db->table("product_descriptions") . " pd ON (p.product_id = pd.product_id)
 							        WHERE p.product_id = '" . (int)$product_id . "'
 							                AND p.date_available <= NOW()
 							                AND p.status = '1'
@@ -61,7 +73,7 @@ class ModelCatalogReview extends Model {
 		$cache = $this->cache->get('product.rating.'.(int)$product_id);
 		if(is_null($cache)){
 			$query = $this->db->query( "SELECT AVG(rating) AS total
-										FROM " . DB_PREFIX . "reviews
+										FROM " . $this->db->table("reviews") . " 
 										WHERE status = '1' AND product_id = '" . (int)$product_id . "'
 										GROUP BY product_id");
 			$cache  = (int)$query->row['total'];
@@ -74,8 +86,8 @@ class ModelCatalogReview extends Model {
 		$cache = $this->cache->get('product.reviews.totals');
 		if(is_null($cache)){
 		$query = $this->db->query( "SELECT COUNT(*) AS total
-									FROM " . DB_PREFIX . "reviews r
-									LEFT JOIN " . DB_PREFIX . "products p ON (r.product_id = p.product_id)
+									FROM " . $this->db->table("reviews") . " r
+									LEFT JOIN " . $this->db->table("products") . " p ON (r.product_id = p.product_id)
 									WHERE p.date_available <= NOW()
 										AND p.status = '1'
 										AND r.status = '1'");
@@ -89,9 +101,9 @@ class ModelCatalogReview extends Model {
 		$cache = $this->cache->get('product.reviews.totals.'.$product_id, (int)$this->config->get('storefront_language_id'));
 		if(is_null($cache)){
 			$query = $this->db->query( "SELECT COUNT(*) AS total
-										FROM " . DB_PREFIX . "reviews r
-										LEFT JOIN " . DB_PREFIX . "products p ON (r.product_id = p.product_id)
-										LEFT JOIN " . DB_PREFIX . "product_descriptions pd ON (p.product_id = pd.product_id)
+										FROM " . $this->db->table("reviews") . " r
+										LEFT JOIN " . $this->db->table("products") . " p ON (r.product_id = p.product_id)
+										LEFT JOIN " . $this->db->table("product_descriptions") . " pd ON (p.product_id = pd.product_id)
 										WHERE p.product_id = '" . (int)$product_id . "'
 											AND p.date_available <= NOW()
 											AND p.status = '1'

@@ -58,17 +58,18 @@ $message = 'This feature or page is not available in the demo mode. We apologize
   <div id="content">
     <div id="content_top"></div>
     <div id="content_middle">
-	<h1 >This is a demo mode for AbanteCart eCommerce application.</h1>
+	<h1 class="error">This is a demo mode for AbanteCart eCommerce application.</h1>
 	<div style="width: 100%; display: inline-block;">
 		<?php echo $message; ?>
 	</div>
+	<br><br>
 	<div>
 		<a href="<?php echo HTTP_ABANTECART; ?>">Go to Demo</a>
 	</div>
     </div>
     <div id="content_bottom"></div>
   </div>
-  <div id="footer"><a onclick="window.open('http://www.abantecart.com');">Project Homepage</a>|<a onclick="window.open('http://docs.abantecart.com');">Documentation</a>|<a onclick="window.open('http://forum.abantecart.com');">Support Forums</a></div>
+  <div id="footer"><a onclick="window.open('http://www.abantecart.com');">Project Homepage</a>|<a onclick="window.open('http://docs.abantecart.com');">Documentation</a>|<a onclick="window.open('http://forum.abantecart.com');">Support Forums</a>|<a onclick="window.open('http://marketplace.abantecart.com');">Marketplace</a></div>
 </div>
 </body>
 </html>

@@ -35,7 +35,7 @@ class ControllerApiCustomerOrders extends AControllerAPI {
 		if ( !has_value($request['customer_id']) ) {
 			$this->rest->setResponseData( array('Error' => 'Customer ID is missing') );
 			$this->rest->sendResponse(200);
-			return;
+			return null;
 		}		
 
 		$filter = array(
@@ -48,7 +48,7 @@ class ControllerApiCustomerOrders extends AControllerAPI {
 		if (!count($orders)) {
 			$this->rest->setResponseData( array('Message' => 'No order records found for the customer') );
 			$this->rest->sendResponse(200);
-			return;			
+			return null;
 		}
 			    
         $this->extensions->hk_UpdateData($this,__FUNCTION__);

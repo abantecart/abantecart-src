@@ -31,11 +31,11 @@ class ModelExtensionBannerManager extends Model {
 		$banner_id = (int)$banner_id;
 		$language_id = (int)$language_id;
 		if (!$language_id) {
-			$language_id = (int)$this->session->data[ 'content_language_id' ];
+			$language_id = (int)$this->config->get('storefront_language_id');
 		}
 		// check is description presents
 		$sql = "SELECT DISTINCT language_id
-				FROM `" . DB_PREFIX . "banner_descriptions`
+				FROM " . $this->db->table("banner_descriptions") . " 
 				WHERE banner_id='" . $banner_id . "'
 				ORDER BY language_id ASC";
 		$result = $this->db->query($sql);
@@ -48,8 +48,8 @@ class ModelExtensionBannerManager extends Model {
 		}
 
 		$sql = "SELECT  *
-				FROM `" . DB_PREFIX . "banners` b
-				LEFT JOIN `" . DB_PREFIX . "banner_descriptions` bd ON bd.banner_id = b.banner_id AND bd.language_id = '" . $language_id . "'
+				FROM " . $this->db->table("banners") . "  b
+				LEFT JOIN " . $this->db->table("banner_descriptions") . " bd ON bd.banner_id = b.banner_id AND bd.language_id = '" . $language_id . "'
 				WHERE b.banner_id='" . $banner_id . "'";
 		$result = $this->db->query($sql);
 		return $result->row;
@@ -64,7 +64,7 @@ class ModelExtensionBannerManager extends Model {
 		if (!$custom_block_id) return array();
 
 		if (!empty($data[ 'content_language_id' ])) {
-			$language_id = ( int )$data[ 'content_language_id' ];
+			$language_id = (int)$data[ 'content_language_id' ];
 		} else {
 			$language_id = (int)$this->config->get('storefront_language_id');
 		}
@@ -86,8 +86,8 @@ class ModelExtensionBannerManager extends Model {
 
 
 		$sql = "SELECT *
-				FROM " . DB_PREFIX . "banners b
-				LEFT JOIN " . DB_PREFIX . "banner_descriptions bd ON (b.banner_id = bd.banner_id)
+				FROM " . $this->db->table("banners") . " b
+				LEFT JOIN " . $this->db->table("banner_descriptions") . " bd ON (b.banner_id = bd.banner_id)
 				WHERE bd.language_id = '" . $language_id . "'
 					AND b.status='1'
 					AND (NOW() BETWEEN CASE WHEN `start_date`= '0000-00-00 00:00:00'
@@ -99,7 +99,7 @@ class ModelExtensionBannerManager extends Model {
 							THEN  NOW() + INTERVAL 1 MONTH ELSE `end_date` END)
 					AND (`banner_group_name` = '" . $this->db->escape($banner_group_name) . "'
 						OR b.banner_id IN (SELECT DISTINCT id
-		                            FROM " . DB_PREFIX . "custom_lists
+		                            FROM " . $this->db->table("custom_lists") . " 
 								    WHERE custom_block_id = '" . $custom_block_id . "' AND data_type='banner_id'))
 				ORDER BY `banner_group_name` ASC, b.sort_order ASC";
 		$result = $this->db->query($sql);
@@ -123,8 +123,11 @@ class ModelExtensionBannerManager extends Model {
 			'rt' => $this->request->get[ 'rt' ]
 		);
 
-		$sql = "INSERT INTO " . DB_PREFIX . "banner_stat (`banner_id`, `type`, `store_id`, `user_info`)
-				VALUES ('" . $banner_id . "', '" . $type . "', '" .(int) $this->config->get('config_store_id') . "', '" . $this->db->escape(serialize($user_info)) . "')";
+		$sql = "INSERT INTO " . $this->db->table("banner_stat") . " (`banner_id`, `type`, `store_id`, `user_info`)
+				VALUES ('" . $banner_id . "',
+						'" . $type . "',
+						'" .(int) $this->config->get('config_store_id') . "',
+						'" . $this->db->escape(serialize($user_info)) . "')";
 		$this->db->query($sql);
 		return true;
 	}

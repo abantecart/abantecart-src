@@ -20,7 +20,7 @@
 	        <div id="info">
 	          <div id="info_speak_now" style="display:none">
 	            <a class="mic_on text-blink" style="display:none" title="<?php echo $text_voice_speak_now; ?>">
-		            <i class="icon-microphone icon-2x"></i>
+		            <i class="fa fa-microphone fa-lg"></i>
 	            </a>
 	            <span><?php echo $text_voice_speak_now; ?></span>
 	          </div>
@@ -30,16 +30,16 @@
 	          <div id="info_no_speech" class="alert" style="display:none">
 	          	<?php echo $text_voice_no_speach_detected; ?>
 	          </div>
-	          <div id="info_no_microphone" class="alert alert-error" style="display:none">
+	          <div id="info_no_microphone" class="alert alert-error alert-danger" style="display:none">
 	          	<?php echo $text_voice_no_mic_detected; ?>
 	          </div>
-	          <div id="info_denied" class="alert alert-error" style="display:none">
+	          <div id="info_denied" class="alert alert-error alert-danger" style="display:none">
 	            <?php echo $text_voice_mic_denied; ?>
 	          </div>
-	          <div id="info_blocked" class="alert alert-error" style="display:none">
+	          <div id="info_blocked" class="alert alert-error alert-danger" style="display:none">
 				<?php echo $text_voice_mic_permission; ?>				
 	          </div>
-	          <div id="info_upgrade" class="alert alert-error" style="display:none">
+	          <div id="info_upgrade" class="alert alert-error alert-danger" style="display:none">
 				<?php echo $text_voice_not_supported; ?>
 	          </div>
 	        </div>
@@ -205,11 +205,11 @@ if (!('webkitSpeechRecognition' in window)) {
 
 $(function () {
 
-	$('#select_dialect').on('change', function () {
+	$('#select_dialect').on('change', function (event) {
 		startButton(event);
 	});
 	
-	$('#voiceModal').on('hide.bs.modal', function () {
+	$('#voiceModal').on('hide.bs.modal', function (event) {
   		if( recognition ) {
    			recognition.stop();
   		}
@@ -219,7 +219,7 @@ $(function () {
    		$('.try_again_now').hide();
 	});
 	
-	$('.mic_on').on('click', function () {
+	$('.mic_on').on('click', function (event) {
 		recognition.stop();
 		startButton(event);
 		$(".try_again_now").show(); 
@@ -248,7 +248,9 @@ function updateDialect( lang_code ) {
 
 function upgrade() {
   $('#start_button i').addClass('grey_out');
-  $('#start_button i').addClass('icon-microphone-off');
+  $('#start_button i').addClass('fa');
+  $('#start_button i').addClass('fa-microphone-slash');
+  $('#start_button i').addClass('fa-lg');
   //start_button.style.visibility = 'hidden';
   showInfo('info_upgrade');
 }

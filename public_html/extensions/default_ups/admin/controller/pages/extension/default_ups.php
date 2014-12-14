@@ -2,7 +2,7 @@
 class ControllerPagesExtensionDefaultUPS extends AController {
 	private $error = array();
 	public $data = array();
-	private $errors = array('key', 'username', 'password', 'city', 'state', 'country');
+	private $errors = array('key', 'username', 'password', 'city', 'state', 'country', 'dimensions');
 	private $fields = array(
 		'default_ups_key',
 		'default_ups_username',
@@ -81,11 +81,12 @@ class ControllerPagesExtensionDefaultUPS extends AController {
 	
 	public function main() {
 
+		$this->request->get['extension'] = 'default_ups';
 		$this->loadLanguage('default_ups/default_ups');
 		$this->document->setTitle( $this->language->get('heading_title') );
 		$this->load->model('setting/setting');
 				
-		if (($this->request->server['REQUEST_METHOD'] == 'POST') && ($this->_validate())) {
+		if ( $this->request->is_POST() && $this->_validate() ) {
 			$this->model_setting_setting->editSetting('default_ups', $this->request->post);
 			$this->session->data['success'] = $this->language->get('text_success');
 			$this->redirect($this->html->getSecureURL('extension/default_ups'));
@@ -127,7 +128,8 @@ class ControllerPagesExtensionDefaultUPS extends AController {
    		$this->document->addBreadcrumb( array ( 
        		'href'      => $this->html->getSecureURL('shipping/default_ups'),
        		'text'      => $this->language->get('heading_title'),
-      		'separator' => ' :: '
+      		'separator' => ' :: ',
+		    'current' => true
    		 ));
 
 		$pickups = array(
@@ -205,18 +207,33 @@ class ControllerPagesExtensionDefaultUPS extends AController {
 			}
 		}
 
-		$this->data ['action'] = $this->html->getSecureURL ( 'extension/default_ups' );
+		$this->data ['action'] = $this->html->getSecureURL ( 'extension/default_ups', '&extension=default_ups' );
 		$this->data['cancel'] = $this->html->getSecureURL('extension/extensions/shipping');
 		$this->data ['heading_title'] = $this->language->get ( 'text_edit' ) . $this->language->get ( 'text_shipping' );
 		$this->data ['form_title'] = $this->language->get ( 'heading_title' );
 		$this->data ['update'] = $this->html->getSecureURL ( 'r/extension/default_ups_save/update' );
 
 		$form = new AForm ( 'HS' );
-		$form->setForm ( array ('form_name' => 'editFrm', 'update' => $this->data ['update'] ) );
+		$form->setForm ( array (
+				'form_name' => 'editFrm',
+				'update' => $this->data ['update'] ) );
 
-		$this->data['form']['form_open'] = $form->getFieldHtml ( array ('type' => 'form', 'name' => 'editFrm', 'action' => $this->data ['action'] ) );
-		$this->data['form']['submit'] = $form->getFieldHtml ( array ('type' => 'button', 'name' => 'submit', 'text' => $this->language->get ( 'button_go' ), 'style' => 'button1' ) );
-		$this->data['form']['cancel'] = $form->getFieldHtml ( array ('type' => 'button', 'name' => 'cancel', 'text' => $this->language->get ( 'button_cancel' ), 'style' => 'button2' ) );
+		$this->data['form']['form_open'] = $form->getFieldHtml ( array (
+				'type' => 'form',
+				'name' => 'editFrm',
+				'action' => $this->data ['action'],
+				'attr' => 'data-confirm-exit="true" class="aform form-horizontal"'
+		) );
+		$this->data['form']['submit'] = $form->getFieldHtml ( array (
+				'type' => 'button',
+				'name' => 'submit',
+				'text' => $this->language->get ( 'button_save' )
+				 ) );
+		$this->data['form']['cancel'] = $form->getFieldHtml ( array (
+				'type' => 'button',
+				'name' => 'cancel',
+				'text' => $this->language->get ( 'button_cancel' )
+				) );
 
 		$this->data['form']['fields']['key'] = $form->getFieldHtml(array(
 		    'type' => 'input',
@@ -299,257 +316,257 @@ class ControllerPagesExtensionDefaultUPS extends AController {
 
 		$this->data['form']['fields']['service'] = array('checkboxes' => true );
 		//US
-		$this->data['form']['fields']['service']['groups']['US']['next_day_air'] = $form->getFieldHtml(array(
+		$this->data['form']['fields']['service']['US']['next_day_air'] = $form->getFieldHtml(array(
 		    'type' => 'checkbox',
 		    'name' => 'default_ups_us_01',
 		    'value' => $this->data['default_ups_us_01'],
 	    ));
-		$this->data['form']['fields']['service']['grodefault_ups']['US']['2nd_day_air'] = $form->getFieldHtml(array(
+		$this->data['form']['fields']['service']['US']['2nd_day_air'] = $form->getFieldHtml(array(
 		    'type' => 'checkbox',
 		    'name' => 'default_ups_us_02',
 		    'value' => $this->data['default_ups_us_02'],
 	    ));
-		$this->data['form']['fields']['service']['grodefault_ups']['US']['ground'] = $form->getFieldHtml(array(
+		$this->data['form']['fields']['service']['US']['ground'] = $form->getFieldHtml(array(
 		    'type' => 'checkbox',
 		    'name' => 'default_ups_us_03',
 		    'value' => $this->data['default_ups_us_03'],
 	    ));
-		$this->data['form']['fields']['service']['groups']['US']['worldwide_express'] = $form->getFieldHtml(array(
+		$this->data['form']['fields']['service']['US']['worldwide_express'] = $form->getFieldHtml(array(
 		    'type' => 'checkbox',
 		    'name' => 'default_ups_us_07',
 		    'value' => $this->data['default_ups_us_07'],
 	    ));
-		$this->data['form']['fields']['service']['groups']['US']['worldwide_expedited'] = $form->getFieldHtml(array(
+		$this->data['form']['fields']['service']['US']['worldwide_expedited'] = $form->getFieldHtml(array(
 		    'type' => 'checkbox',
 		    'name' => 'default_ups_us_08',
 		    'value' => $this->data['default_ups_us_08'],
 	    ));
-		$this->data['form']['fields']['service']['groups']['US']['standard'] = $form->getFieldHtml(array(
+		$this->data['form']['fields']['service']['US']['standard'] = $form->getFieldHtml(array(
 		    'type' => 'checkbox',
 		    'name' => 'default_ups_us_11',
 		    'value' => $this->data['default_ups_us_11'],
 	    ));
-		$this->data['form']['fields']['service']['groups']['US']['3_day_select'] = $form->getFieldHtml(array(
+		$this->data['form']['fields']['service']['US']['3_day_select'] = $form->getFieldHtml(array(
 		    'type' => 'checkbox',
 		    'name' => 'default_ups_us_12',
 		    'value' => $this->data['default_ups_us_12'],
 	    ));
-		$this->data['form']['fields']['service']['groups']['US']['next_day_air_saver'] = $form->getFieldHtml(array(
+		$this->data['form']['fields']['service']['US']['next_day_air_saver'] = $form->getFieldHtml(array(
 		    'type' => 'checkbox',
 		    'name' => 'default_ups_us_13',
 		    'value' => $this->data['default_ups_us_13'],
 	    ));
-		$this->data['form']['fields']['service']['groups']['US']['next_day_air_early_am'] = $form->getFieldHtml(array(
+		$this->data['form']['fields']['service']['US']['next_day_air_early_am'] = $form->getFieldHtml(array(
 		    'type' => 'checkbox',
 		    'name' => 'default_ups_us_14',
 		    'value' => $this->data['default_ups_us_14'],
 	    ));
-		$this->data['form']['fields']['service']['groups']['US']['worldwide_express_plus'] = $form->getFieldHtml(array(
+		$this->data['form']['fields']['service']['US']['worldwide_express_plus'] = $form->getFieldHtml(array(
 		    'type' => 'checkbox',
 		    'name' => 'default_ups_us_54',
 		    'value' => $this->data['default_ups_us_54'],
 	    ));
-		$this->data['form']['fields']['service']['groups']['US']['2nd_day_air_am'] = $form->getFieldHtml(array(
+		$this->data['form']['fields']['service']['US']['2nd_day_air_am'] = $form->getFieldHtml(array(
 		    'type' => 'checkbox',
 		    'name' => 'default_ups_us_59',
 		    'value' => $this->data['default_ups_us_59'],
 	    ));
-		$this->data['form']['fields']['service']['groups']['US']['saver'] = $form->getFieldHtml(array(
+		$this->data['form']['fields']['service']['US']['saver'] = $form->getFieldHtml(array(
 		    'type' => 'checkbox',
 		    'name' => 'default_ups_us_65',
 		    'value' => $this->data['default_ups_us_65'],
 	    ));
 
 		//PR
-		$this->data['form']['fields']['service']['groups']['PR']['next_day_air'] = $form->getFieldHtml(array(
+		$this->data['form']['fields']['service']['PR']['next_day_air'] = $form->getFieldHtml(array(
 		    'type' => 'checkbox',
 		    'name' => 'default_ups_pr_01',
 		    'value' => $this->data['default_ups_pr_01'],
 	    ));
-		$this->data['form']['fields']['service']['groups']['PR']['2nd_day_air'] = $form->getFieldHtml(array(
+		$this->data['form']['fields']['service']['PR']['2nd_day_air'] = $form->getFieldHtml(array(
 		    'type' => 'checkbox',
 		    'name' => 'default_ups_pr_02',
 		    'value' => $this->data['default_ups_pr_02'],
 	    ));
-		$this->data['form']['fields']['service']['groups']['PR']['ground'] = $form->getFieldHtml(array(
+		$this->data['form']['fields']['service']['PR']['ground'] = $form->getFieldHtml(array(
 		    'type' => 'checkbox',
 		    'name' => 'default_ups_pr_03',
 		    'value' => $this->data['default_ups_pr_03'],
 	    ));
-		$this->data['form']['fields']['service']['groups']['PR']['worldwide_express'] = $form->getFieldHtml(array(
+		$this->data['form']['fields']['service']['PR']['worldwide_express'] = $form->getFieldHtml(array(
 		    'type' => 'checkbox',
 		    'name' => 'default_ups_pr_07',
 		    'value' => $this->data['default_ups_pr_07'],
 	    ));
-		$this->data['form']['fields']['service']['groups']['PR']['worldwide_expedited'] = $form->getFieldHtml(array(
+		$this->data['form']['fields']['service']['PR']['worldwide_expedited'] = $form->getFieldHtml(array(
 		    'type' => 'checkbox',
 		    'name' => 'default_ups_pr_08',
 		    'value' => $this->data['default_ups_pr_08'],
 	    ));
-		$this->data['form']['fields']['service']['groups']['PR']['next_day_air_early_am'] = $form->getFieldHtml(array(
+		$this->data['form']['fields']['service']['PR']['next_day_air_early_am'] = $form->getFieldHtml(array(
 		    'type' => 'checkbox',
 		    'name' => 'default_ups_pr_14',
 		    'value' => $this->data['default_ups_pr_14'],
 	    ));
-		$this->data['form']['fields']['service']['groups']['PR']['worldwide_express_plus'] = $form->getFieldHtml(array(
+		$this->data['form']['fields']['service']['PR']['worldwide_express_plus'] = $form->getFieldHtml(array(
 		    'type' => 'checkbox',
 		    'name' => 'default_ups_pr_54',
 		    'value' => $this->data['default_ups_pr_54'],
 	    ));
-		$this->data['form']['fields']['service']['groups']['PR']['saver'] = $form->getFieldHtml(array(
+		$this->data['form']['fields']['service']['PR']['saver'] = $form->getFieldHtml(array(
 		    'type' => 'checkbox',
 		    'name' => 'default_ups_pr_65',
 		    'value' => $this->data['default_ups_pr_65'],
 	    ));
 
 		//CA
-		$this->data['form']['fields']['service']['groups']['CA']['express'] = $form->getFieldHtml(array(
+		$this->data['form']['fields']['service']['CA']['express'] = $form->getFieldHtml(array(
 		    'type' => 'checkbox',
 		    'name' => 'default_ups_ca_01',
 		    'value' => $this->data['default_ups_ca_01'],
 	    ));
-		$this->data['form']['fields']['service']['groups']['CA']['expedited'] = $form->getFieldHtml(array(
+		$this->data['form']['fields']['service']['CA']['expedited'] = $form->getFieldHtml(array(
 		    'type' => 'checkbox',
 		    'name' => 'default_ups_ca_02',
 		    'value' => $this->data['default_ups_ca_02'],
 	    ));
-		$this->data['form']['fields']['service']['groups']['CA']['worldwide_express'] = $form->getFieldHtml(array(
+		$this->data['form']['fields']['service']['CA']['worldwide_express'] = $form->getFieldHtml(array(
 		    'type' => 'checkbox',
 		    'name' => 'default_ups_ca_07',
 		    'value' => $this->data['default_ups_ca_07'],
 	    ));
-		$this->data['form']['fields']['service']['groups']['CA']['worldwide_expedited'] = $form->getFieldHtml(array(
+		$this->data['form']['fields']['service']['CA']['worldwide_expedited'] = $form->getFieldHtml(array(
 		    'type' => 'checkbox',
 		    'name' => 'default_ups_ca_08',
 		    'value' => $this->data['default_ups_ca_08'],
 	    ));
-		$this->data['form']['fields']['service']['groups']['CA']['standard'] = $form->getFieldHtml(array(
+		$this->data['form']['fields']['service']['CA']['standard'] = $form->getFieldHtml(array(
 		    'type' => 'checkbox',
 		    'name' => 'default_ups_ca_11',
 		    'value' => $this->data['default_ups_ca_11'],
 	    ));
-		$this->data['form']['fields']['service']['groups']['CA']['3_day_select'] = $form->getFieldHtml(array(
+		$this->data['form']['fields']['service']['CA']['3_day_select'] = $form->getFieldHtml(array(
 		    'type' => 'checkbox',
 		    'name' => 'default_ups_ca_12',
 		    'value' => $this->data['default_ups_ca_12'],
 	    ));
-		$this->data['form']['fields']['service']['groups']['CA']['saver'] = $form->getFieldHtml(array(
+		$this->data['form']['fields']['service']['CA']['saver'] = $form->getFieldHtml(array(
 		    'type' => 'checkbox',
 		    'name' => 'default_ups_ca_13',
 		    'value' => $this->data['default_ups_ca_13'],
 	    ));
-		$this->data['form']['fields']['service']['groups']['CA']['express_early_am'] = $form->getFieldHtml(array(
+		$this->data['form']['fields']['service']['CA']['express_early_am'] = $form->getFieldHtml(array(
 		    'type' => 'checkbox',
 		    'name' => 'default_ups_ca_14',
 		    'value' => $this->data['default_ups_ca_14'],
 	    ));
-		$this->data['form']['fields']['service']['groups']['CA']['worldwide_express_plus'] = $form->getFieldHtml(array(
+		$this->data['form']['fields']['service']['CA']['worldwide_express_plus'] = $form->getFieldHtml(array(
 		    'type' => 'checkbox',
 		    'name' => 'default_ups_ca_54',
 		    'value' => $this->data['default_ups_ca_54'],
 	    ));
-		$this->data['form']['fields']['service']['groups']['CA']['saver'] = $form->getFieldHtml(array(
+		$this->data['form']['fields']['service']['CA']['saver'] = $form->getFieldHtml(array(
 		    'type' => 'checkbox',
 		    'name' => 'default_ups_ca_65',
 		    'value' => $this->data['default_ups_ca_65'],
 	    ));
 
 		//MX
-		$this->data['form']['fields']['service']['groups']['MX']['worldwide_express'] = $form->getFieldHtml(array(
+		$this->data['form']['fields']['service']['MX']['worldwide_express'] = $form->getFieldHtml(array(
 		    'type' => 'checkbox',
 		    'name' => 'default_ups_mx_07',
 		    'value' => $this->data['default_ups_mx_07'],
 	    ));
-		$this->data['form']['fields']['service']['groups']['MX']['worldwide_expedited'] = $form->getFieldHtml(array(
+		$this->data['form']['fields']['service']['MX']['worldwide_expedited'] = $form->getFieldHtml(array(
 		    'type' => 'checkbox',
 		    'name' => 'default_ups_mx_08',
 		    'value' => $this->data['default_ups_mx_08'],
 	    ));
-		$this->data['form']['fields']['service']['groups']['MX']['worldwide_express_plus'] = $form->getFieldHtml(array(
+		$this->data['form']['fields']['service']['MX']['worldwide_express_plus'] = $form->getFieldHtml(array(
 		    'type' => 'checkbox',
 		    'name' => 'default_ups_mx_54',
 		    'value' => $this->data['default_ups_mx_54'],
 	    ));
-		$this->data['form']['fields']['service']['groups']['MX']['saver'] = $form->getFieldHtml(array(
+		$this->data['form']['fields']['service']['MX']['saver'] = $form->getFieldHtml(array(
 		    'type' => 'checkbox',
 		    'name' => 'default_ups_mx_65',
 		    'value' => $this->data['default_ups_mx_65'],
 	    ));
 
 		//EU
-		$this->data['form']['fields']['service']['groups']['EU']['express'] = $form->getFieldHtml(array(
+		$this->data['form']['fields']['service']['EU']['express'] = $form->getFieldHtml(array(
 		    'type' => 'checkbox',
 		    'name' => 'default_ups_eu_07',
 		    'value' => $this->data['default_ups_eu_07'],
 	    ));
-		$this->data['form']['fields']['service']['groups']['EU']['expedited'] = $form->getFieldHtml(array(
+		$this->data['form']['fields']['service']['EU']['expedited'] = $form->getFieldHtml(array(
 		    'type' => 'checkbox',
 		    'name' => 'default_ups_eu_08',
 		    'value' => $this->data['default_ups_eu_08'],
 	    ));
-		$this->data['form']['fields']['service']['groups']['EU']['standard'] = $form->getFieldHtml(array(
+		$this->data['form']['fields']['service']['EU']['standard'] = $form->getFieldHtml(array(
 		    'type' => 'checkbox',
 		    'name' => 'default_ups_eu_11',
 		    'value' => $this->data['default_ups_eu_11'],
 	    ));
-		$this->data['form']['fields']['service']['groups']['EU']['worldwide_express_plus'] = $form->getFieldHtml(array(
+		$this->data['form']['fields']['service']['EU']['worldwide_express_plus'] = $form->getFieldHtml(array(
 		    'type' => 'checkbox',
 		    'name' => 'default_ups_eu_54',
 		    'value' => $this->data['default_ups_eu_54'],
 	    ));
-		$this->data['form']['fields']['service']['groups']['EU']['saver'] = $form->getFieldHtml(array(
+		$this->data['form']['fields']['service']['EU']['saver'] = $form->getFieldHtml(array(
 		    'type' => 'checkbox',
 		    'name' => 'default_ups_eu_65',
 		    'value' => $this->data['default_ups_eu_65'],
 	    ));
-		$this->data['form']['fields']['service']['groups']['EU']['today_standard'] = $form->getFieldHtml(array(
+		$this->data['form']['fields']['service']['EU']['today_standard'] = $form->getFieldHtml(array(
 		    'type' => 'checkbox',
 		    'name' => 'default_ups_eu_82',
 		    'value' => $this->data['default_ups_eu_82'],
 	    ));
-		$this->data['form']['fields']['service']['groups']['EU']['today_dedicated_courier'] = $form->getFieldHtml(array(
+		$this->data['form']['fields']['service']['EU']['today_dedicated_courier'] = $form->getFieldHtml(array(
 		    'type' => 'checkbox',
 		    'name' => 'default_ups_eu_83',
 		    'value' => $this->data['default_ups_eu_83'],
 	    ));
-		$this->data['form']['fields']['service']['groups']['EU']['today_intercity'] = $form->getFieldHtml(array(
+		$this->data['form']['fields']['service']['EU']['today_intercity'] = $form->getFieldHtml(array(
 		    'type' => 'checkbox',
 		    'name' => 'default_ups_eu_84',
 		    'value' => $this->data['default_ups_eu_84'],
 	    ));
-		$this->data['form']['fields']['service']['groups']['EU']['today_express'] = $form->getFieldHtml(array(
+		$this->data['form']['fields']['service']['EU']['today_express'] = $form->getFieldHtml(array(
 		    'type' => 'checkbox',
 		    'name' => 'default_ups_eu_85',
 		    'value' => $this->data['default_ups_eu_85'],
 	    ));
-		$this->data['form']['fields']['service']['groups']['EU']['today_express_saver'] = $form->getFieldHtml(array(
+		$this->data['form']['fields']['service']['EU']['today_express_saver'] = $form->getFieldHtml(array(
 		    'type' => 'checkbox',
 		    'name' => 'default_ups_eu_86',
 		    'value' => $this->data['default_ups_eu_86'],
 	    ));
 
 		//other
-		$this->data['form']['fields']['service']['groups']['other']['express'] = $form->getFieldHtml(array(
+		$this->data['form']['fields']['service']['other']['express'] = $form->getFieldHtml(array(
 		    'type' => 'checkbox',
 		    'name' => 'default_ups_other_07',
 		    'value' => $this->data['default_ups_other_07'],
 	    ));
-		$this->data['form']['fields']['service']['groups']['other']['expedited'] = $form->getFieldHtml(array(
+		$this->data['form']['fields']['service']['other']['expedited'] = $form->getFieldHtml(array(
 		    'type' => 'checkbox',
 		    'name' => 'default_ups_other_08',
 		    'value' => $this->data['default_ups_other_08'],
 	    ));
-		$this->data['form']['fields']['service']['groups']['other']['standard'] = $form->getFieldHtml(array(
+		$this->data['form']['fields']['service']['other']['standard'] = $form->getFieldHtml(array(
 		    'type' => 'checkbox',
 		    'name' => 'default_ups_other_11',
 		    'value' => $this->data['default_ups_other_11'],
 	    ));
-		$this->data['form']['fields']['service']['groups']['other']['worldwide_express_plus'] = $form->getFieldHtml(array(
+		$this->data['form']['fields']['service']['other']['worldwide_express_plus'] = $form->getFieldHtml(array(
 		    'type' => 'checkbox',
 		    'name' => 'default_ups_other_54',
 		    'value' => $this->data['default_ups_other_54'],
 	    ));
-		$this->data['form']['fields']['service']['groups']['other']['saver'] = $form->getFieldHtml(array(
+		$this->data['form']['fields']['service']['other']['saver'] = $form->getFieldHtml(array(
 		    'type' => 'checkbox',
 		    'name' => 'default_ups_other_65',
 		    'value' => $this->data['default_ups_other_65'],
@@ -581,14 +598,14 @@ class ControllerPagesExtensionDefaultUPS extends AController {
             'required' => true,
 	    ));
 
-        $this->data['form']['fields']['dimensions'] = $form->getFieldHtml(array(
+        $this->data['form']['fields']['dimensions']['length'] = $form->getFieldHtml(array(
             'type' => 'input',
             'name' => 'default_ups_length',
             'value' => $this->data['default_ups_length'],
             'style' => 'small-field',
             'required' => true,
         ));
-        $this->data['form']['fields']['dimensions'] .= 'x'.$form->getFieldHtml(array(
+        $this->data['form']['fields']['dimensions']['width'] = $form->getFieldHtml(array(
             'type' => 'input',
             'name' => 'default_ups_width',
             'value' => $this->data['default_ups_width'],
@@ -596,7 +613,7 @@ class ControllerPagesExtensionDefaultUPS extends AController {
             'required' => true,
         ));
 
-        $this->data['form']['fields']['dimensions'] .= 'x'.$form->getFieldHtml(array(
+        $this->data['form']['fields']['dimensions']['height'] = $form->getFieldHtml(array(
             'type' => 'input',
             'name' => 'default_ups_height',
             'value' => $this->data['default_ups_height'],
@@ -618,6 +635,21 @@ class ControllerPagesExtensionDefaultUPS extends AController {
 	    ));
 
 		$this->view->batchAssign (  $this->language->getASet () );
+
+		//load tabs controller
+
+		$this->data['groups'][] = 'additional_settings';
+		$this->data['link_additional_settings'] = $this->data['add_sett']->href;
+		$this->data['active_group'] = 'additional_settings';
+
+		$tabs_obj = $this->dispatch('pages/extension/extension_tabs', array( $this->data ) );
+		$this->data['tabs'] = $tabs_obj->dispatchGetOutput();
+		unset($tabs_obj);
+
+		$obj = $this->dispatch('pages/extension/extension_summary', array( $this->data ) );
+		$this->data['extension_summary'] = $obj->dispatchGetOutput();
+		unset($obj);
+
 		$this->view->batchAssign( $this->data );
 		$this->processTemplate('pages/extension/default_ups.tpl' );
 
@@ -651,6 +683,10 @@ class ControllerPagesExtensionDefaultUPS extends AController {
 		if (!$this->request->post['default_ups_country']) {
 			$this->error['country'] = $this->language->get('error_country');
 		}
+
+		if (!$this->request->post['default_ups_length'] || !$this->request->post['default_ups_width'] || !$this->request->post['default_ups_height'] ) {
+			$this->error['dimensions'] = $this->language->get('error_dimensions');
+		}
 		
 		if (!$this->error) {
 			return TRUE;
@@ -659,4 +695,3 @@ class ControllerPagesExtensionDefaultUPS extends AController {
 		}	
 	}
 }
-?>

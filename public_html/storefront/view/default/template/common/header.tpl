@@ -1,62 +1,78 @@
-  <div class="h_section1">
-    <?php if ( is_file( DIR_RESOURCE . $logo ) ) {  ?>
-        <div id="logo"><a href="<?php echo $homepage; ?>"><img src="resources/<?php echo $logo; ?>" title="<?php echo $store; ?>" alt="<?php echo $store; ?>" /></a></div>
-    <?php } else if ( !empty($logo) ) { ?>
-        <div id="logo"><a href="<?php echo $homepage; ?>"><?php echo $logo; ?></a></div>
-    <?php } ?>
-    <!-- header blocks placeholder -->
-    <?php foreach ($children_blocks as $k => $block) { ?>
-      <?php if ($k == count($children_blocks)-1 ) { ?>
-      <div class="header_block flt_right"><?php echo ${$block}; ?></div>
-      <?php } else { ?>
-      <div class="header_block flt_left"><?php echo ${$block}; ?></div>
-      <?php } ?>
-    <?php } ?>
-    <!-- header blocks placeholder (EOF) -->
-    <div class="clr_both"></div>
-  </div>
-  <div class="h_section2">
-	<div class="h_section2_left"><div class="h_section2_right"><div class="h_section2_mid"><?php echo  $menu; ?></div></div></div>
-  </div>
-  <div class="h_section3">
-    <div class="h_section3_left"><div class="h_section3_right"><div class="h_section3_mid">
-      <div class="t_block flt_left">
-        <span id="external_links">
-	        <?php
-	        if($external_links){
-		        foreach($external_links as $link){
-			?>
-			      <div><?php echo  $link; ?></div>
-			<?php
-		        }
-	        }
-	        ?>
-        </span>
-      </div>
-      <div class="t_block flt_left">
-        <ul id="info_links">
-          <li><a href="<?php echo $special; ?>" class="special"><?php echo $text_special; ?></a></li>
-          <li class="nav_sep">&nbsp;</li>
-          <li><a onclick="bookmark(document.location, '<?php echo addslashes($title); ?>');" class="bookmark"><?php echo $text_bookmark; ?></a></li>
-          <li class="nav_sep">&nbsp;</li>
-          <li><a href="<?php echo $contact; ?>" class="contact"><?php echo $text_contact; ?></a></li>
-          <li class="nav_sep">&nbsp;</li>
-          <li><a href="<?php echo $sitemap; ?>" class="sitemap"><?php echo $text_sitemap; ?></a></li>
-        </ul>
-      </div>
-      <div class="t_block flt_right">
-        <span id="search"><?php echo $search; ?><a onclick="goSearch();" class="button_search">&nbsp;</a></span>
-      </div>
-    </div></div></div>
-  </div>
+<header>
+<div class="headerstrip navbar navbar-inverse" role="navigation">
+	<div class="container-fluid">
+	  <div class="navbar-header header-logo">
+	    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse">
+	      <span class="sr-only"></span>
+	      <span class="icon-bar"></span>
+	      <span class="icon-bar"></span>
+	      <span class="icon-bar"></span>
+	    </button>
+	    <?php if (is_file(DIR_RESOURCE . $logo)) { ?>
+	    <a class="logo" href="<?php echo $homepage; ?>"><img src="resources/<?php echo $logo; ?>"
+	        														   title="<?php echo $store; ?>"
+	        														   alt="<?php echo $store; ?>"/></a>
+	    <?php } else if (!empty($logo)) { ?>
+	    <a class="logo" href="<?php echo $homepage; ?>"><?php echo $logo; ?></a>
+	    <?php } ?>
+	  </div>
+	  <div class="navbar-collapse collapse">
+	  	<div class="navbar-right headerstrip_blocks">
+	  	    <div class="block_1"><?php echo ${$children_blocks[0]}; ?></div>
+	  	    <div class="block_2"><?php echo ${$children_blocks[1]}; ?></div>
+	  	    <div class="block_3"><?php echo ${$children_blocks[2]}; ?></div>
+	  	    <div class="block_4"><?php echo ${$children_blocks[3]}; ?></div>
+	  	</div>
+	   </div><!--/.navbar-collapse -->
+	</div>         
+</div>
+<div class="container-fluid">
+    <div class="col-md-12 headerdetails">
+    	<!-- header blocks placeholder -->
+    	<div class="block_5"><?php echo ${$children_blocks[4]}; ?></div>			
+    	<div class="block_6"><?php echo ${$children_blocks[5]}; ?></div>
+    	<div class="block_7"><?php echo ${$children_blocks[6]}; ?></div>
+    	<div class="block_8"><?php echo ${$children_blocks[7]}; ?></div>
+    	<!-- header blocks placeholder (EOF) -->
+    </div>
+</div>
 
- <?php if ($breadcrumbs && count($breadcrumbs) > 1) { ?>
-  <div class="breadcrumb">
-    <?php foreach ($breadcrumbs as $breadcrumb) { ?>
-    <?php if ( !empty($breadcrumb['separator']) ) echo '<span class="breadcrumb-separator"><img src="'.$this->templateResource('/image/icon_breadcrumbs_more.gif').'" alt="" /></span>' ?>
-    <span class="breadcrumb-element"><a href="<?php echo $breadcrumb['href']; ?>">
-        <?php echo ( $breadcrumb['text'] == $text_home ? '<img src="'.$this->templateResource('/image/icon_breadcrumbs_home.gif').'" alt="'.$text_home.'" />' : $breadcrumb['text'] ); ?>
-    </a></span>
-    <?php } ?>
-  </div>
-  <?php } ?>
+</header>
+<?php if (1==0) { ?>
+<!-- Header Start -->
+<header>
+	<div class="headerstrip">
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-md-12">
+					<?php if (is_file(DIR_RESOURCE . $logo)) { ?>
+					<a class="logo pull-left" href="<?php echo $homepage; ?>"><img src="resources/<?php echo $logo; ?>"
+																				   title="<?php echo $store; ?>"
+																				   alt="<?php echo $store; ?>"/></a>
+					<?php } else if (!empty($logo)) { ?>
+					<a class="logo pull-left" href="<?php echo $homepage; ?>"><?php echo $logo; ?></a>
+					<?php } ?>
+					<div class="headerstrip_blocks">
+						<div class="pull-left ml10"><?php echo ${$children_blocks[0]}; ?></div>
+						<div class="pull-left"><?php echo ${$children_blocks[1]}; ?></div>
+						<div class="pull-left"><?php echo ${$children_blocks[2]}; ?></div>
+						<div class="pull-right"><?php echo ${$children_blocks[3]}; ?></div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="container-fluid">
+		<div class="headerdetails">
+			<!-- header blocks placeholder -->
+			<div class="pull-left"><?php echo ${$children_blocks[4]}; ?></div>			
+			<div class="pull-left"><?php echo ${$children_blocks[5]}; ?></div>
+			<div class="pull-left"><?php echo ${$children_blocks[6]}; ?></div>
+			<div class="pull-right"><?php echo ${$children_blocks[7]}; ?></div>
+			<!-- header blocks placeholder (EOF) -->
+		</div>
+	</div>
+</header>
+<!-- Header End -->
+<?php } ?>

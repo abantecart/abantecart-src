@@ -52,12 +52,12 @@ class ControllerResponsesExtensionDefaultPPStandart extends AController {
 		$this->data['invoice'] = $this->session->data['order_id'] . ' - ' . html_entity_decode($order_info['payment_firstname'], ENT_QUOTES, 'UTF-8') . ' ' . html_entity_decode($order_info['payment_lastname'], ENT_QUOTES, 'UTF-8');
 		$this->data['lc'] = $this->session->data['language'];
 
-		if ( has_value($this->config->get('default_pp_standart_logoimg')) ) {
+		if ( has_value($this->config->get('default_pp_standart_custom_logo')) ) {
 
-			if (strpos($this->config->get('default_pp_standart_logoimg'), 'http')===0 ) {
-				$this->data['logoimg'] = $this->config->get('default_pp_standart_logoimg');
+			if (strpos($this->config->get('default_pp_standart_custom_logo'), 'http')===0 ) {
+				$this->data['logoimg'] = $this->config->get('default_pp_standart_custom_logo');
 			} else {
-				$this->data['logoimg'] = HTTPS_SERVER . $this->config->get('default_pp_standart_logoimg');
+				$this->data['logoimg'] = HTTPS_SERVER . 'resources/'.$this->config->get('default_pp_standart_custom_logo');
 			}
 		}
 
@@ -103,7 +103,7 @@ class ControllerResponsesExtensionDefaultPPStandart extends AController {
 
 		foreach($totals['total_data'] as $total){
 			if(in_array($total['id'],array('subtotal','total'))){ continue;}
-			if(in_array($total['id'],array('promotion','coupon'))){
+			if(in_array($total['id'],array('promotion','coupon', 'balance'))){
 			 	$total['value'] = $total['value']<0 ? $total['value']*-1 : $total['value'];
 				$this->data['discount_amount_cart'] += $this->currency->format($total['value'], $order_info['currency'], $order_info['value'], FALSE);
 			}else{
@@ -245,7 +245,7 @@ class ControllerResponsesExtensionDefaultPPStandart extends AController {
 			} else {
 				$header  = 'POST /cgi-bin/webscr HTTP/1.0' . "\r\n";
 				$header .= 'Content-Type: application/x-www-form-urlencoded' . "\r\n";
-				$header .= 'Content-Length: ' . strlen(utf8_decode($request)) . "\r\n";
+				$header .= 'Content-Length: ' . mb_strlen($request) . "\r\n";
 				$header .= 'Connection: close'  ."\r\n\r\n";
 				
 				if (!$this->config->get('default_pp_standart_test')) {

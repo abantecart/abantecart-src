@@ -9,6 +9,10 @@
 		<value><![CDATA[borrar un bloque]]></value>
 	</definition>
 	<definition>
+		<key>text_details</key>
+		<value><![CDATA[Detalles]]></value>
+	</definition>
+	<definition>
 		<key>text_edit</key>
 		<value><![CDATA[edición de bloques]]></value>
 	</definition>
@@ -215,6 +219,22 @@
 	<definition>
 		<key>text_layouts</key>
 		<value><![CDATA[ Se utiliza en los Diseños ]]></value>
+	</definition>
+	<definition>
+		<key>text_block_info</key>
+		<value><![CDATA[Información acerca en Bloque]]></value>
+	</definition>
+	<definition>
+		<key>text_add_block</key>
+		<value><![CDATA[Adición de bloque de la sección]]></value>
+	</definition>
+	<definition>
+		<key>text_available_block</key>
+		<value><![CDATA[Bloques disponibles]]></value>
+	</definition>
+	<definition>
+		<key>error_block_not_available</key>
+		<value><![CDATA[Este bloque no se mostrará en la posición seleccionada en una tienda!]]></value>
 	</definition>
 
 </definitions>

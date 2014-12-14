@@ -17,8 +17,16 @@
 		<value><![CDATA[You have approved %s account!]]></value>
 	</definition>
 	<definition>
-		<key>tab_address</key>
+		<key>tab_customer_address</key>
 		<value><![CDATA[Address]]></value>
+	</definition>
+	<definition>
+		<key>text_customer_addresses</key>
+		<value><![CDATA[Customer Addresses]]></value>
+	</definition>
+	<definition>
+		<key>text_add_address</key>
+		<value><![CDATA[Add Address]]></value>
 	</definition>
 	<definition>
 		<key>button_add</key>
@@ -126,6 +134,10 @@
 	</definition>
 	<definition>
 		<key>entry_country</key>
+		<value><![CDATA[Country:]]></value>
+	</definition>
+	<definition>
+		<key>entry_country_id</key>
 		<value><![CDATA[Country:]]></value>
 	</definition>
 	<definition>
@@ -246,19 +258,19 @@
 	</definition>
 
 	<definition>
-		<key>text_option_credit</key>
+		<key>entry_credit</key>
 		<value><![CDATA[Credit (increase balance)]]></value>
 	</definition>
 	<definition>
-		<key>text_option_debit</key>
+		<key>entry_debit</key>
 		<value><![CDATA[Debit (decrease balance)]]></value>
 	</definition>
 	<definition>
-		<key>text_transaction_type</key>
+		<key>entry_transaction_type</key>
 		<value><![CDATA[Transaction Type: ]]></value>
 	</definition>
 	<definition>
-		<key>text_other_type</key>
+		<key>entry_other_type</key>
 		<value><![CDATA[Other Custom Transaction Type: ]]></value>
 	</definition>
 	<definition>
@@ -266,16 +278,20 @@
 		<value><![CDATA[Other... ]]></value>
 	</definition>
 	<definition>
-		<key>text_transaction_description</key>
+		<key>entry_transaction_description</key>
 		<value><![CDATA[Description (for customer):]]></value>
 	</definition>
 	<definition>
-		<key>text_transaction_comment</key>
+		<key>entry_transaction_comment</key>
 		<value><![CDATA[Comment (for internal use):]]></value>
 	</definition>
 	<definition>
-		<key>text_update_date</key>
+		<key>entry_update_date</key>
 		<value><![CDATA[Update Date:]]></value>
+	</definition>
+	<definition>
+		<key>entry_create_date</key>
+		<value><![CDATA[Create Date:]]></value>
 	</definition>
 	<definition>
 		<key>error_transaction_type</key>
@@ -289,4 +305,32 @@
 		<key>text_transaction_success</key>
 		<value><![CDATA[Success: You have modified transaction!]]></value>
 	</definition>
+	<definition>
+		<key>text_add_address</key>
+		<value><![CDATA[Add New Address]]></value>
+	</definition>
+	<definition>
+		<key>text_edit_address</key>
+		<value><![CDATA[Edit Address]]></value>
+	</definition>
+    <definition>
+        <key>entry_default</key>
+        <value><![CDATA[Default Address:]]></value>
+    </definition>
+    <definition>
+        <key>error_delete_default</key>
+        <value><![CDATA[Error: Default address cannot be deleted!]]></value>
+    </definition>
+    <definition>
+        <key>error_delete_last</key>
+        <value><![CDATA[Error: you must have at least one address!]]></value>
+    </definition>
+    <definition>
+        <key>entry_date_added</key>
+        <value><![CDATA[Date Added:]]></value>
+    </definition>
+    <definition>
+        <key>entry_date_modified</key>
+        <value><![CDATA[Date Modified:]]></value>
+    </definition>
 </definitions>

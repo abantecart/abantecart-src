@@ -30,13 +30,13 @@ class ControllerApiProductReview extends AControllerAPI {
 		if ( !$product_id ) {
 			$this->rest->setResponseData( array('Error' => 'Missing product ID as a required parameter') );
 			$this->rest->sendResponse(200);
-			return;
+			return null;
 		}
 
 	    if ( !$this->config->get('enable_reviews')) {
 			$this->rest->setResponseData( array('Error' => 'Reviews for products are disabled') );
 			$this->rest->sendResponse(200);
-			return;	    
+			return null;
 		}
 				
 		$this->loadModel('catalog/review');
@@ -81,7 +81,6 @@ class ControllerApiProductReview extends AControllerAPI {
 											 'total' => $total_pages,
 											 'rows' => $reviews) );
 		$this->rest->sendResponse(200);
-
 	}
 	
 	public function put() {
@@ -89,10 +88,7 @@ class ControllerApiProductReview extends AControllerAPI {
 		if (!$this->customer->isLoggedWithToken( $this->request->get['token'] )) {
 			$this->rest->setResponseData( array( 'error' => 'Login attempt failed!' ) );	
 			$this->rest->sendResponse(401);
-			return;			
-    	} 
-	
-	
-	
+			return null;
+    	}
 	}	
 }

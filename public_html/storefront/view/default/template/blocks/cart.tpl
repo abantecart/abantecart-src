@@ -1,76 +1,49 @@
-<div class="s_block" id="block_cart">
-	<div class="block_tl">
-		<div class="block_tr">
-			<div class="block_tc"><img src="<?php echo $this->templateResource('/image/basket.png'); ?>" alt="" /><?php echo $heading_title; ?></div>
+<div class="sidewidt <?php echo $block_details['block_txt_id'] ?>">
+	<div class="block_frame block_frame_<?php echo $block_details['block_txt_id']; ?>"
+		 id="block_frame_<?php echo $block_details['block_txt_id'] . '_' . $block_details['instance_id'] ?>">
+		<h2 class="heading2"><span><?php echo $heading_title; ?></span></h2>
+			<table>
+				<tbody>
+				<?php if ($products) { ?>
+					<?php foreach ($products as $product) { ?>
+						<tr>
+							<td class="image"><a href="<?php echo $product['href']; ?>">&nbsp;
+									<img src="<?php echo $product['thumb']['thumb_url']; ?>"
+										 alt="product" title="product"></a></td>
+							<td class="name"><a
+										href="<?php echo $product['href']; ?>"><?php echo $product['name']; ?></a>
+
+								<div>
+									<?php foreach ($product['option'] as $option) { ?>
+										-
+										<small><?php echo $option['name']; ?> <?php echo $option['value']; ?></small>
+										<br/>
+									<?php } ?>
+								</div>
+							</td>
+							<td class="quantity">x&nbsp;<?php echo $product['quantity']; ?></td>
+							<td class="total"><?php echo $product['price']; ?></td>
+						</tr>
+					<?php } ?>
+				<?php } ?>
+				</tbody>
+			</table>
+			<table class="totals pull-right">
+				<tbody>
+				<?php foreach ($totals as $total) { ?>
+					<tr>
+						<td><span class="cart_block_total"><b><?php echo $total['title']; ?></b></span></td>
+						<td><span class="cart_block_total"><?php echo $total['text']; ?></span></td>
+					</tr>
+				<?php } ?>
+				</tbody>
+			</table>
+		<div class="well buttonwrap col-md-3">
+			<a class="btn btn-orange btn-xs pull-left" href="<?php echo $view; ?>"><i
+						class="fa fa-shopping-cart fa-fw"></i> <?php echo $text_view;?></a>
+			<a class="btn btn-orange btn-xs pull-right"
+			   href="<?php echo $checkout; ?>"><i class="fa fa-pencil fa-fw"></i>  <?php echo $text_checkout; ?></a>
 		</div>
 	</div>
-    <div class="block_cl">
-    	<div class="block_cr">
-        	<div class="block_cc">
-            	<div class="category_list">
+</div>
 
-    <?php if ($products) { ?>
-    <table cellpadding="2" cellspacing="0" style="width: 100%;">
-      <?php foreach ($products as $product) { ?>
-      <tr>
-        <td align="left" valign="top" width="1"><span class="cart_remove" id="remove_<?php echo $product['key']; ?>">&nbsp;</span></td><td valign="top" align="right" width="1"><?php echo $product['quantity']; ?>&nbsp;x&nbsp;</td>
-        <td align="left" valign="top"><a href="<?php echo $product['href']; ?>"><?php echo $product['name']; ?></a>
-          <div>
-            <?php foreach ($product['option'] as $option) { ?>
-            - <small style="color: #999;"><?php echo $option['name']; ?> <?php echo $option['value']; ?></small><br />
-            <?php } ?>
-          </div></td>
-      </tr>
-      <?php } ?>
-    </table>
-    <br />
-    <table cellpadding="0" cellspacing="0" align="right" style="display:inline-block;">
-      <?php foreach ($totals as $total) { ?>
-      <tr>
-        <td align="right"><span class="cart_block_total"><b><?php echo $total['title']; ?></b></span></td>
-        <td align="right"><span class="cart_block_total"><?php echo $total['text']; ?></span></td>
-      </tr>
-      <?php } ?>
-    </table>
-    <div style="padding-top:5px;text-align:center;clear:both;"><a href="<?php echo $view; ?>"><?php echo $text_view; ?></a> | <a href="<?php echo $checkout; ?>"><?php echo $text_checkout; ?></a></div>
-    <?php } else { ?>
-    <div style="text-align: center;"><?php echo $text_empty; ?></div>
-    <?php } ?>
-                    
-<?php if ($ajax) { ?>
-<script type="text/javascript" src="<?php echo $this->templateResource('/javascript/jquery/ajax_add.js'); ?>"></script>
-<?php } ?>
-
-<script type="text/javascript"><!--
-jQuery(function ($) {
-	$('.cart_remove').live('click', function () {
-		if (!confirm('<?php echo $text_confirm; ?>')) {
-			return false;
-		}
-        var id = this.id.replace('remove_','');
-        var data = {remove:{}} ;
-        data.remove[id] = 1;
-		$(this).removeClass('cart_remove').addClass('cart_remove_loading');
-		$.ajax({
-			type: 'post',
-			url: '<?php echo $remove ?>',
-			data: data,
-			success: function () {
-				window.location.reload();
-			}
-		});
-	});
-});
-//--></script>
-
-
-            	</div>
-            </div>
-        </div>
-    </div>
-	<div class="block_bl">
-		<div class="block_br">
-			<div class="block_bc">&nbsp;</div>
-		</div>
-	</div>
-</div>                    

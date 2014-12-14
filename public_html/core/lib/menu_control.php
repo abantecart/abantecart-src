@@ -71,19 +71,30 @@ class AMenu {
 	}
 
 	protected function _build_menu($values) {
-		$this->dataset_rows = $values;
+
 		// need to resort by sort_order property
 		$offset = 0; // it needs for process repeating sort numbers
 		$tmp = $this->item_ids = array();
 		if (is_array($values)) {
-			foreach ($values as $item) {
+			$rm = new AResourceManager();
+			$rm->setType('image');
+			$language_id = $this->registry->get('language')->getContentLanguageID();
+
+			foreach ($values as &$item) {
+				if($item['item_icon_rl_id']) {
+					$r = $rm->getResource($item['item_icon_rl_id'], $language_id);
+					$item['item_icon_code'] = $r['resource_code'];
+				}
 				if (isset ($tmp [ $item [ 'parent_id' ] ] [ $item [ 'sort_order' ] ])) {
 					$offset++;
 				}
 				$tmp [ $item [ 'parent_id' ] ] [ $item [ 'sort_order' ] + $offset ] = $item;
 				$this->item_ids [ ] = $item [ 'item_id' ];
 			}
-		}
+		} unset($item);
+
+		$this->dataset_rows = $values;
+
 		$menu = array();
 		foreach ($tmp as $key => $item) {
 			ksort($item);
@@ -109,6 +120,21 @@ class AMenu {
 	public function getMenuItem($item_id) {
 		foreach ($this->dataset_rows as $item) {
 			if ($item_id == $item [ 'item_id' ]) {
+				return $item;
+			}
+		}
+		return false;
+	}
+
+	/**
+	 * Method return menu item properties by RT or URL
+	 *
+	 * @param string $tr
+	 * @return boolean|array
+	 */
+	public function getMenuByRT($rt) {
+		foreach ($this->dataset_rows as $item) {
+			if ($rt == $item ['item_url']) {
 				return $item;
 			}
 		}
@@ -178,7 +204,7 @@ class AMenu {
 	 */
 	public function insertMenuItem($item = array()) {
 
-		$check_array = array( "item_id", "item_text", "item_url", "parent_id", "sort_order", "item_type" );
+		$check_array = array( "item_id", "item_text", "item_url", "parent_id", "sort_order", "item_type", "item_icon_rl_id" );
 
 		//clean text id 
 		$item [ "item_id" ] = preformatTextID($item [ "item_id" ]);

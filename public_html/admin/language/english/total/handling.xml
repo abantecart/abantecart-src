@@ -21,8 +21,20 @@
 		<value><![CDATA[Order Total:]]></value>
 	</definition>
 	<definition>
+		<key>entry_total_palceholder</key>
+		<value><![CDATA[Text Value]]></value>
+	</definition>
+	<definition>
 		<key>entry_fee</key>
 		<value><![CDATA[Fee:]]></value>
+	</definition>
+	<definition>
+		<key>entry_payment</key>
+		<value><![CDATA[Payment:]]></value>
+	</definition>
+	<definition>
+		<key>entry_order_subtotal</key>
+		<value><![CDATA[Order Sub-Total:]]></value>
 	</definition>
 	<definition>
 		<key>entry_tax</key>

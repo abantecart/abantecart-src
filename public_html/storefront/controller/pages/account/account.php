@@ -29,7 +29,9 @@ class ControllerPagesAccountAccount extends AController {
 	  		$this->session->data['redirect'] = $this->html->getSecureURL('account/account');
 	  		$this->redirect($this->html->getSecureURL('account/login'));
     	} 
-	
+
+		$this->loadLanguage('account/account');
+
       	$this->document->resetBreadcrumbs();
 
       	$this->document->addBreadcrumb( array ( 

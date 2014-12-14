@@ -12,6 +12,10 @@
     <key>text_edit</key>
     <value><![CDATA[Редактировать блок]]></value>
   </definition>
+	<definition>
+		<key>text_details</key>
+		<value><![CDATA[Подробности]]></value>
+	</definition>
   <definition>
     <key>text_create</key>
     <value><![CDATA[Создать блок]]></value>
@@ -212,4 +216,20 @@
     <key>text_layouts</key>
     <value><![CDATA[Используется в макетах]]></value>
   </definition>
+	<definition>
+		<key>text_block_info</key>
+		<value><![CDATA[Информация о блоке]]></value>
+	</definition>
+	<definition>
+		<key>text_add_block</key>
+		<value><![CDATA[Добавление блока в раздел]]></value>
+	</definition>
+	<definition>
+		<key>text_available_block</key>
+		<value><![CDATA[Доступные блоки]]></value>
+	</definition>
+	<definition>
+		<key>error_block_not_available</key>
+		<value><![CDATA[Этот блок не будет отображаться в выбранном положении на витрине!]]></value>
+	</definition>
 </definitions>

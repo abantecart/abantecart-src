@@ -19,10 +19,10 @@ $.extend($.jgrid,{
 		caption: "Traženje...",
 		Find: "Traži",
 		Reset: "Resetuj",
-		odata : ['jednako', 'nije jednako', 'manje', 'manje ili jednako','veće','veće ili jednako', 'počinje sa','ne počinje sa','je u','nije u','završava sa','ne završava sa','sadrži','ne sadrži'],
+		odata: [{ oper:'eq', text:"jednako"},{ oper:'ne', text:"nije jednako"},{ oper:'lt', text:"manje"},{ oper:'le', text:"manje ili jednako"},{ oper:'gt', text:"veće"},{ oper:'ge', text:"veće ili jednako"},{ oper:'bw', text:"počinje sa"},{ oper:'bn', text:"ne počinje sa"},{ oper:'in', text:"je u"},{ oper:'ni', text:"nije u"},{ oper:'ew', text:"završava sa"},{ oper:'en', text:"ne završava sa"},{ oper:'cn', text:"sadrži"},{ oper:'nc', text:"ne sadrži"},{ oper:'nu', text:'is null'},{ oper:'nn', text:'is not null'}],
 		groupOps: [	{ op: "AND", text: "sva" },	{ op: "OR",  text: "bilo koje" }	],
-		matchText: " primjeni",
-		rulesText: " pravila"
+		operandTitle : "Click to select search operation.",
+		resetTitle : "Reset Search Value"
 	},
 	edit : {
 		addCaption: "Dodaj zapis",
@@ -104,6 +104,7 @@ $.extend($.jgrid,{
 			S: function (j) {return j < 11 || j > 13 ? ['st', 'nd', 'rd', 'th'][Math.min((j - 1) % 10, 3)] : 'th'},
 			srcformat: 'Y-m-d',
 			newformat: 'd/m/Y',
+			parseRe : /[#%\\\/:_;.,\t\s-]/,
 			masks : {
 				ISO8601Long:"Y-m-d H:i:s",
 				ISO8601Short:"Y-m-d",

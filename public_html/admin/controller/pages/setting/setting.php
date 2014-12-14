@@ -25,7 +25,7 @@ if (!defined('DIR_CORE')) {
  * @property AConfigManager $conf_mngr
  */
 class ControllerPagesSettingSetting extends AController {
-	private $error = array();
+	public $error = array();
 	public $groups = array();
 	public $data = array();
 
@@ -47,14 +47,28 @@ class ControllerPagesSettingSetting extends AController {
 		$this->extensions->hk_InitData($this, __FUNCTION__);
 
 		$this->document->setTitle($this->language->get('heading_title'));
-		if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->_validate($this->request->get['active'])) {
-			if (isset ($this->request->post ['config_logo'])) {
+		if ($this->request->is_POST() && $this->_validate($this->request->get['active'])) {
+			if (has_value($this->request->post['config_logo'])) {
 				$this->request->post['config_logo'] = html_entity_decode($this->request->post['config_logo'], ENT_COMPAT, 'UTF-8');
-			}
-			if (isset ($this->request->post ['config_icon'])) {
+			} else if(!$this->request->post['config_logo'] && isset($this->request->post['config_logo_resource_id'])) {
+				//we save resource ID vs resource path
+				$this->request->post['config_logo'] = $this->request->post['config_logo_resource_id'];
+			} 
+			if (has_value($this->request->post['config_icon'])) {
 				$this->request->post['config_icon'] = html_entity_decode($this->request->post['config_icon'], ENT_COMPAT, 'UTF-8');
+			} else if(!$this->request->post['config_icon'] && isset($this->request->post['config_icon_resource_id'])) {
+				//we save resource ID vs resource path
+				$this->request->post['config_icon'] = $this->request->post['config_icon_resource_id'];
 			}
-			$this->model_setting_setting->editSetting($this->request->get['active'], $this->request->post, $this->request->get['store_id']);
+
+			$group = $this->request->get['active'];
+
+			if(has_value($this->request->get['tmpl_id']) && $this->request->get['tmpl_id']!='default' && $group=='appearance'){
+				$group = $this->request->get['tmpl_id'];
+
+			}
+
+			$this->model_setting_setting->editSetting( $group, $this->request->post, $this->request->get['store_id']);
 			if ($this->config->get('config_currency_auto')) {
 				$this->loadModel('localisation/currency');
 				$this->model_localisation_currency->updateCurrencies();
@@ -65,7 +79,9 @@ class ControllerPagesSettingSetting extends AController {
                 //mark storefront session as merchant session
                 startStorefrontSession($this->user->getId());
             }
-			$this->redirect($this->html->getSecureURL('setting/setting', '&active=' . $this->request->get['active'] . '&store_id=' . (int)$this->request->get['store_id']));
+			$redirect_url = $this->html->getSecureURL('setting/setting',
+					'&active=' . $this->request->get['active'] . '&store_id=' . (int)$this->request->get['store_id'].(has_value($this->request->get['tmpl_id']) ? '&tmpl_id='.$this->request->get['tmpl_id']:''));
+			$this->redirect($redirect_url);
 		}
 
 		$this->data['store_id'] = 0;
@@ -79,10 +95,7 @@ class ControllerPagesSettingSetting extends AController {
 		}
 		$this->data['active'] = isset($this->request->get['active']) && in_array($this->request->get['active'], $this->data['groups']) ?
 			$this->request->get['active'] : $this->data['groups'][0];
-		$this->data['link_all'] = $this->html->getSecureURL('setting/setting/all');
-		foreach ($this->data['groups'] as $group) {
-			$this->data['link_' . $group] = $this->html->getSecureURL('setting/setting', '&active=' . $group . '&store_id=' . $this->data['store_id']);
-		}
+
 
 		$this->data['token'] = $this->session->data['token'];
 		$this->data['error'] = $this->error;
@@ -95,7 +108,8 @@ class ControllerPagesSettingSetting extends AController {
 		$this->document->addBreadcrumb(array(
 			'href' => $this->html->getSecureURL('setting/setting'),
 			'text' => $this->language->get('heading_title'),
-			'separator' => ' :: '
+			'separator' => ' :: ',
+			'current'	=> true
 		));
 
 		if (isset($this->session->data['success'])) {
@@ -107,16 +121,17 @@ class ControllerPagesSettingSetting extends AController {
 			unset($this->session->data['error']);
 		}
 
-		$this->data['new_store_button'] = $this->html->buildButton(array(
+		$this->data['new_store_button'] = $this->html->buildElement(array(
+			'type' => 'button',
 			'title' => $this->language->get('button_add_store'),
 			'text' => '&nbsp;',
-			'style' => 'icon_add',
 			'href' => $this->html->getSecureURL('setting/store/insert'),
-			'href_class' => 'btn_toolbar'
 		));
 
 		if ($this->data['store_id'] > 0) {
-			$this->data['edit_store_button'] = $this->html->buildButton(array(
+			$this->data['edit_store_button'] = $this->html->buildElement(array(
+				'type' => 'button',
+				'title' => $this->language->get('text_edit_store'),
 				'text' => $this->language->get('text_edit_store'),
 				'href' => $this->html->getSecureURL('setting/store/update', '&store_id=' . $this->data['store_id']),
 				'style' => 'button2',
@@ -126,37 +141,77 @@ class ControllerPagesSettingSetting extends AController {
 		$this->data['cancel'] = $this->html->getSecureURL('setting/setting');
 		$this->data['action'] = $this->html->getSecureURL('setting/setting');
 
-		$stores = array();
-		$stores[0] = $this->language->get('text_default');
-		$this->loadModel('setting/store');
-		$results = $this->model_setting_store->getStores();
-		foreach ($results as $result) {
-			$stores[$result['store_id']] = $result['alias'];
+		$group = $this->data['active'];
+		require_once(DIR_CORE.'lib/config_manager.php');
+		$this->conf_mngr = new AConfigManager();
+
+		if($this->data['active']=='appearance'){
+			$group = !$this->request->get['tmpl_id'] || $this->request->get['tmpl_id']=='default' ? $group : $this->request->get['tmpl_id'];
+			$tmpls = $this->conf_mngr->getTemplatesLIst('storefront');
+
+			foreach ($tmpls as $tmpl) {
+				$templates[$tmpl] = array(
+										'name' => "&nbsp;&nbsp;&nbsp;".$tmpl,
+										'href' => $this->html->getSecureURL('setting/setting', '&active=' . $this->data['active'].'&tmpl_id='.$tmpl));
+			}
+
+			array_unshift($templates, array(
+											'name' => $this->language->get('text_common_template_settings') ,
+											'href' => $this->html->getSecureURL('setting/setting', '&active=' . $this->data['active'])));
+
+			$this->data['templates'] = $templates;
+			$this->data['current_template'] = $this->request->get['tmpl_id'] ? $this->request->get['tmpl_id'] : $this->language->get('text_common_template_settings');
+
+			//button for template cloning
+			$dev_tools = $this->extensions->getExtensionsList(array('search'=>'developer_tools'))->row;
+			if( is_null($dev_tools['status']) ){
+				$href = "http://www.abantecart.com/extension-developer-tools";
+			}elseif($dev_tools['status']==1){
+				$href = $this->html->getSecureURL('tool/developer_tools/create');
+			}else{
+				$href = $this->html->getSecureURL('extension/extensions/edit','&extension=developer_tools');
+			}
+			//NOTE: need to show dibberent icon and message if dev tools extension is not installed
+			$this->data['clone_button'] = $this->html->buildElement(
+					array(
+							'type' => 'button',
+							'name' => 'clone_button',
+							'href' => $href,
+							'text' => $this->language->get('text_clone_template')));
+
+			$this->data['manage_extensions'] = $this->html->buildElement(
+					array(
+							'type' => 'button',
+							'name' => 'manage_extensions',
+							'href' => $this->html->getSecureURL('extension/extensions/template'),
+							'text' => $this->language->get('button_manage_extensions'),
+							'title' => $this->language->get('button_manage_extensions')
+					));
+
+
+
 		}
 
-		$this->data['store_selector'] = $this->html->buildSelectbox(array(
-			'type' => 'selectbox',
-			'id' => 'store_switcher',
-			'value' => $this->data['store_id'],
-			'options' => $stores,
-			'attr' => 'onchange="location = \'' . $this->html->getSecureURL('setting/setting', '&active=' . $this->data['active']) . '\' + \'&store_id=\' + this.value"',
-		));
-
-		$this->data['settings'] = $this->model_setting_setting->getSetting($this->data['active'], $this->data['store_id']);
+		$this->data['settings'] = $this->model_setting_setting->getSetting($group, $this->data['store_id']);
+		unset($this->data['settings']['one_field']); //remove sign of single form field
 		foreach ($this->data['settings'] as $key => $value) {
 			if (isset($this->request->post[$key])) {
 				$this->data['settings'][$key] = $this->request->post[$key];
 			}
 		}
 
-        require_once(DIR_CORE.'lib/config_manager.php');
-		$this->conf_mngr = new AConfigManager();
 		$this->_getForm();
 
 		$this->data['content_language_id'] = $this->session->data['content_language_id'];
 		$this->data['common_zone'] = $this->html->getSecureURL('common/zone');
 		$this->data['template_image'] = $this->html->getSecureURL('setting/template_image');
 
+		//load tabs controller
+		$tabs_obj = $this->dispatch('pages/setting/setting_tabs', array( $this->data ) );
+		$this->data['setting_tabs'] = $tabs_obj->dispatchGetOutput();
+		unset($tabs_obj);
+
+		$this->view->assign('form_store_switch', $this->html->getStoreSwitcher());
 		$this->view->assign('help_url', $this->gen_help_url($this->data['active']));
 		$this->view->batchAssign($this->data);
 		$this->processTemplate('pages/setting/setting.tpl');
@@ -189,7 +244,8 @@ class ControllerPagesSettingSetting extends AController {
 		$this->document->addBreadcrumb(array(
 			'href' => $this->html->getSecureURL('setting/setting'),
 			'text' => $this->language->get('heading_title'),
-			'separator' => ' :: '
+			'separator' => ' :: ',
+			'current'	=> true
 		));
 
 		$grid_settings = array(
@@ -203,9 +259,11 @@ class ControllerPagesSettingSetting extends AController {
 			'actions' => array(
 				'edit' => array(
 					'text' => $this->language->get('text_edit'),
-					'href' => "Javascript: openEditDiag(\'%ID%\')"
+					'href' => $this->html->getSecureURL('setting/setting_quick_form',
+														'&target=edit_dialog&active=%ID%')
 				),
 			),
+			'grid_ready' => 'grid_ready(data);'
 		);
 
 		$grid_settings['colNames'] = array(
@@ -230,13 +288,13 @@ class ControllerPagesSettingSetting extends AController {
 			array(
 				'name' => 'key',
 				'index' => 'key',
-				'align' => 'center',
+				'align' => 'left',
 				'width' => 260,
 			),
 			array(
 				'name' => 'value',
 				'index' => 'value',
-				'align' => 'left',
+				'align' => 'center',
 				'sortable' => false,
 				'search' => false,
 			),
@@ -249,12 +307,11 @@ class ControllerPagesSettingSetting extends AController {
 
 		$grid_settings['search_form'] = true;
 
-		$this->data['new_store_button'] = $this->html->buildButton(array(
-			'title' => $this->language->get('button_add_store'),
-			'text' => '&nbsp;',
-			'style' => 'icon_add',
-			'href' => $this->html->getSecureURL('setting/store/insert'),
-			'href_class' => 'btn_toolbar'
+		$this->data['insert'] = $this->html->buildElement(
+				array( 'type' => 'button',
+					   'title' => $this->language->get('button_add_store'),
+					   'text' => $this->language->get('button_insert'),
+					   'href' => $this->html->getSecureURL('setting/store/insert')
 		));
 
 		$this->loadModel('setting/store');
@@ -265,30 +322,25 @@ class ControllerPagesSettingSetting extends AController {
 			$stores[$result['store_id']] = $result['alias'];
 		}
 
-		$this->data['store_selector'] = $this->html->buildSelectbox(array(
-			'type' => 'selectbox',
-			'id' => 'store_switcher',
-			'value' => $this->data['store_id'],
-			'options' => $stores,
-			'attr' => 'onchange="location = \'' . $this->html->getSecureURL('setting/store/update') . '\' + \'&store_id=\' + this.value"',
-		));
 
-		$this->data['groups'] = $this->groups;
-		$this->data['link_all'] = $this->html->getSecureURL('setting/setting/all');
-		foreach ($this->data['groups'] as $group) {
-			$this->data['link_' . $group] = $this->html->getSecureURL('setting/setting', '&active=' . $group);
-		}
+		//load tabs controller
+		$this->data['active'] = 'all';
+		$tabs_obj = $this->dispatch('pages/setting/setting_tabs', array( $this->data ) );
+		$this->data['setting_tabs'] = $tabs_obj->dispatchGetOutput();
+		unset($tabs_obj);
 
 		$grid = $this->dispatch('common/listing_grid', array($grid_settings));
 		$this->view->assign('listing_grid', $grid->dispatchGetOutput());
-		// include rl-scripts for quick edit logo and icon of store
+
+		// include rl-scripts for quick edit logo and icon of store from modal
 		$resources_scripts = $this->dispatch(
 			'responses/common/resource_library/get_resources_scripts',
 			array(
 				'object_name' => 'store',
-				'object_id' => '0',
-				'types' => 'image',
-				'mode' => 'url'
+				'object_id' => (int)$this->request->get['store_id'],
+				'types' => array('image'),
+				'onload' => true,
+				'mode' => 'single'
 			)
 		);
 		$this->data['resources_scripts'] = $resources_scripts->dispatchGetOutput();
@@ -296,8 +348,6 @@ class ControllerPagesSettingSetting extends AController {
 
 		$this->view->batchAssign($this->data);
 		$this->view->assign('help_url', $this->gen_help_url('setting_listing'));
-
-		$this->view->assign('dialog_url', $this->html->getSecureURL('setting/setting_quick_form'));
 
 		$this->processTemplate('pages/setting/setting_list.tpl');
 
@@ -342,9 +392,11 @@ class ControllerPagesSettingSetting extends AController {
 
 	private function _getForm() {
 
-		$this->data['action'] = $this->html->getSecureURL('setting/setting', '&active=' . $this->data['active'] . '&store_id=' . $this->data['store_id']);
+		$this->data['action'] = $this->html->getSecureURL('setting/setting',
+				'&active=' . $this->data['active'] . '&store_id=' . $this->data['store_id'].(has_value($this->request->get['tmpl_id']) ? '&tmpl_id='.$this->request->get['tmpl_id']:''));
 		$this->data['form_title'] = $this->language->get('text_edit') . ' ' . $this->language->get('heading_title');
-		$this->data['update'] = $this->html->getSecureURL('listing_grid/setting/update_field', '&group=' . $this->data['active'] . '&store_id=' . $this->data['store_id']);
+		$this->data['update'] = $this->html->getSecureURL('listing_grid/setting/update_field',
+				'&group=' . $this->data['active'] . '&store_id=' . $this->data['store_id'].(has_value($this->request->get['tmpl_id']) ? '&tmpl_id='.$this->request->get['tmpl_id']:''));
 		$this->view->assign('language_code', $this->session->data['language']);
 		$form = new AForm('HS');
 
@@ -357,7 +409,7 @@ class ControllerPagesSettingSetting extends AController {
 		$this->data['form']['form_open'] = $form->getFieldHtml(array(
 			'type' => 'form',
 			'name' => 'settingFrm',
-			'attr' => 'confirm-exit="true"',
+			'attr' => 'data-confirm-exit="true" class="aform form-horizontal"',
 			'action' => $this->data['action'],
 		));
 		$this->data['form']['submit'] = $form->getFieldHtml(array(
@@ -385,7 +437,26 @@ class ControllerPagesSettingSetting extends AController {
 				$this->data = array_merge_recursive($this->data, $this->_build_checkout($form, $this->data['settings']));
 				break;
 			case 'appearance' :
+
+				$this->data['settings']['tmpl_id'] = $this->request->get['tmpl_id'];
+				if($this->data['settings']['tmpl_id']=='default'){
+					$this->data['settings']['tmpl_id'] = 'appearance';
+				}
+
+
 				$this->data = array_merge_recursive($this->data, $this->_build_appearance($form, $this->data['settings']));
+
+				$resources_scripts = $this->dispatch(
+					'responses/common/resource_library/get_resources_scripts',
+					array(
+						'object_name' => 'store',
+						'object_id' => (int)$this->request->get['store_id'],
+						'types' => array($item['resource_type']),
+						'onload' => true,
+						'mode' => 'single'
+					)
+				);
+				$this->data['resources_scripts'] = $resources_scripts->dispatchGetOutput();
 				break;
 			case 'mail' :
 				$this->data = array_merge_recursive($this->data, $this->_build_mail($form, $this->data['settings']));
@@ -440,37 +511,6 @@ class ControllerPagesSettingSetting extends AController {
      */
 	private function _build_appearance($form, $data) {
 		$ret_data = array();
-
-		$ret_data['rl'] = $this->html->getSecureURL('common/resource_library', '&type=image&mode=url');
-
-		$resource = new AResource('image');
-
-		$ret_data['logo'] = $this->dispatch(
-			'responses/common/resource_library/get_resource_html_single',
-			array('type' => 'image',
-				'wrapper_id' => 'config_logo',
-				'resource_id' => $resource->getIdFromHexPath(str_replace('image/', '', $data['config_logo'])),
-				'field' => 'config_logo'));
-		$ret_data['logo'] = $ret_data['logo']->dispatchGetOutput();
-
-		$ret_data['icon'] = $this->dispatch(
-			'responses/common/resource_library/get_resource_html_single',
-			array('type' => 'image',
-				'wrapper_id' => 'config_icon',
-				'resource_id' => $resource->getIdFromHexPath(str_replace('image/', '', $data['config_icon'])),
-				'field' => 'config_icon'));
-		$ret_data['icon'] = $ret_data['icon']->dispatchGetOutput();
-
-		$resources_scripts = $this->dispatch(
-			'responses/common/resource_library/get_resources_scripts',
-			array(
-				'object_name' => 'store',
-				'object_id' => '0',
-				'types' => 'image',
-				'mode' => 'url'
-			)
-		);
-		$ret_data['resources_scripts'] = $resources_scripts->dispatchGetOutput();
 
 		$ret_data['form'] = array('fields' => $this->conf_mngr->getFormFields('appearance', $form, $data));
 
@@ -556,6 +596,7 @@ class ControllerPagesSettingSetting extends AController {
 		$this->error = $result['error'];
 		$this->request->post = $result['validated']; // for changed data saving
 
+		$this->extensions->hk_ValidateData($this);
 
 		if (!$this->error) {
 			return TRUE;

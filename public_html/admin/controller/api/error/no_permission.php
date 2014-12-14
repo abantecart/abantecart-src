@@ -25,6 +25,6 @@ class ControllerApiErrorNoPermission extends AControllerAPI {
 	public function main() {
 		$this->rest->setResponseData( array( 'error' => 'No permission to access this resource!' ) );	
 		$this->rest->sendResponse(401);
-		return;			
+		return null;
 	}	
 }

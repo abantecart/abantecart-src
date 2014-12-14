@@ -29,6 +29,7 @@ class ControllerBlocksOrderSummary extends AController {
         //init controller data
         $this->extensions->hk_InitData($this,__FUNCTION__);
 
+		$this->loadLanguage('/seo_url');
 		$this->loadModel('tool/seo_url');
     	$this->view->assign('heading_title', $this->language->get('heading_title'));
     	

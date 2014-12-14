@@ -1,84 +1,62 @@
-<div id="content">
-	<div class="top">
-		<div class="left"></div>
-		<div class="right"></div>
-		<div class="center">
-			<h1><?php echo $heading_title; ?></h1>
-		</div>
-	</div>
-	<div class="middle">
-		<?php if ($error_warning) { ?>
-		<div class="warning alert alert-error"><?php echo $error_warning; ?></div>
-<?php	}
-		echo $form[ 'form_open' ];?>
-		<b style="margin-bottom: 2px; display: block;"><?php echo $text_your_details; ?></b>
+<h1 class="heading1">
+  <span class="maintext"><i class="fa fa-edit"> </i><?php echo $heading_title; ?></span>
+  <span class="subtext"></span>
+</h1>
 
-		<div style="background: #F7F7F7; border: 1px solid #DDDDDD; padding: 10px; margin-bottom: 10px;">
-			<table>
-				<tr>
-					<td width="150"><?php echo $entry_loginname; ?></td>
-					<td>
-						<?php echo $form[ 'loginname' ]; ?>
-						<?php if ($error_loginname) { ?>
-						<span class="error"><?php echo $error_loginname; ?></span>
-						<?php }?>
-					</td>
-				</tr>
-				<tr>
-					<td width="150"><?php echo $entry_firstname; ?></td>
-					<td><?php echo $form[ 'firstname' ]; ?>
-						<?php if ($error_firstname) { ?>
-							<span class="error"><?php echo $error_firstname; ?></span>
-							<?php } ?></td>
-				</tr>
-				<tr>
-					<td><?php echo $entry_lastname; ?></td>
-					<td><?php echo $form[ 'lastname' ]; ?>
-						<?php if ($error_lastname) { ?>
-							<span class="error"><?php echo $error_lastname; ?></span>
-							<?php } ?></td>
-				</tr>
-				<tr>
-					<td><?php echo $entry_email; ?></td>
-					<td><?php echo $form[ 'email' ]; ?>
-						<?php if ($error_email) { ?>
-							<span class="error"><?php echo $error_email; ?></span>
-							<?php } ?></td>
-				</tr>
-				<tr>
-					<td><?php echo $entry_telephone; ?></td>
-					<td><?php echo $form[ 'telephone' ]; ?>
-						<?php if ($error_telephone) { ?>
-							<span class="error"><?php echo $error_telephone; ?></span>
-							<?php } ?></td>
-				</tr>
-				<tr>
-					<td><?php echo $entry_fax; ?></td>
-					<td><?php echo $form[ 'fax' ]; ?></td>
-				</tr>
-			</table>
-		</div>
-
-		<?php echo $this->getHookVar('customer_attributes'); ?>
-		
-		<div class="buttons">
-			<table>
-				<tr>
-					<td align="left"><?php echo $form[ 'back' ]; ?></td>
-					<td align="right"><?php echo $form[ 'continue' ]; ?></td>
-				</tr>
-			</table>
-		</div>
-		</form>
-	</div>
-	<div class="bottom">
-		<div class="left"></div>
-		<div class="right"></div>
-		<div class="center"></div>
-	</div>
+<?php if ($success) { ?>
+<div class="alert alert-success">
+<button type="button" class="close" data-dismiss="alert">&times;</button>
+<?php echo $success; ?>
 </div>
-<script type="text/javascript">
-	$('#AccountFrm_back').click(function() {
-		location = '<?php echo $back; ?>';
-	});
-</script>
+<?php } ?>
+
+<?php if ($error_warning) { ?>
+<div class="alert alert-error alert-danger">
+<button type="button" class="close" data-dismiss="alert">&times;</button>
+<?php echo $error_warning; ?>
+</div>
+<?php } ?>
+
+<div class="contentpanel">
+	<?php echo $form['form_open'];?>
+
+	<h4 class="heading4"><?php echo $text_your_details; ?></h4>
+	<div class="registerbox form-horizontal">
+		<fieldset>
+		<?php
+			$field_list = array();
+			array_push($field_list, 'loginname', 'firstname', 'lastname', 'email', 'telephone', 'fax');
+			
+			foreach ($field_list as $field_name) {
+		?>
+			<div class="form-group <?php if (${'error_'.$field_name}) echo 'has-error'; ?>">
+				<label class="control-label col-md-4"><?php echo ${'entry_'.$field_name}; ?></label>
+				<div class="input-group col-md-4">
+				    <?php echo $form[$field_name]; ?>
+				</div>
+				<span class="help-block"><?php echo ${'error_'.$field_name}; ?></span>
+			</div>		
+		<?php
+			}
+		?>	
+		
+		<?php echo $this->getHookVar('customer_attributes'); ?>
+	
+		</fieldset>
+	</div>
+
+	<div class="form-group">
+	    <div class="col-md-12">
+	    	<button class="btn btn-orange pull-right" title="<?php echo $form['continue']->name ?>" type="submit">
+	    	    <i class="<?php echo $form['continue']->{'icon'}; ?>"></i>
+	    	    <?php echo $form['continue']->name ?>
+	    	</button>
+			<a href="<?php echo $back; ?>" class="btn btn-default mr10" title="<?php echo $form['back']->text ?>">
+			    <i class="<?php echo $form['back']->{'icon'}; ?>"></i>
+			    <?php echo $form['back']->text ?>
+			</a>
+	    </div>
+	</div>
+	
+</form>
+</div>

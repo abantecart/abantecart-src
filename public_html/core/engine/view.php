@@ -81,6 +81,7 @@ class AView {
 			$this->default_template = IS_ADMIN ? $this->registry->get('config')->get('admin_template') : $this->registry->get('config')->get('config_storefront_template');
 		}
 		$this->data['template_dir'] = RDIR_TEMPLATE;
+		$this->data['tpl_common_dir'] = RDIR_TEMPLATE . '/template/common/';
 		$this->instance_id = $instance_id;
 	}
 
@@ -446,16 +447,7 @@ class AView {
 	            	$ret_path = 'storefront/view/default' . $filename;
 	            	$match = 'default';
 	        	}
-	        } else if (is_file( $path . 'default_html5' . $filename)) {
-	        	$ret_path = $path . 'default_html5' . $filename;
-	        	if ($mode == 'relative') {
-	            	$ret_path = 'storefront/view/default_html5' . $filename;
-	            	$match = 'default';
-	        	}
 	        }
-
-
-
 		}
 		//return path. Empty path indicates, nothing found
 		if ( $ret_path ) {

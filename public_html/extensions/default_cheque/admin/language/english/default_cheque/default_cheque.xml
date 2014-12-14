@@ -18,7 +18,11 @@
 	</definition>
 	<definition>
 		<key>default_cheque_payable</key>
-		<value><![CDATA[Payable To:]]></value>
+		<value><![CDATA[Payable To:<br /><span class="help">Provide name check needs to be written to</span>]]></value>
+	</definition>
+	<definition>
+		<key>default_cheque_address</key>
+		<value><![CDATA[Mail or Send To:<br /><span class="help">Provide address where to send the check. Main store address will be used if blank</span>]]></value>
 	</definition>
 	<definition>
 		<key>default_cheque_order_status_id</key>

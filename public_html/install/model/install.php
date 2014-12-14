@@ -63,14 +63,46 @@ class ModelInstall extends Model {
 			$db->query("INSERT INTO `" . $data['db_prefix'] . "settings` SET `group` = 'config', `key` = 'install_date', value = NOW(); ");
 
 			$db->query("UPDATE `" . $data['db_prefix'] . "products` SET `viewed` = '0';");
+
+			//process triggers
+			//$this->create_triggers($db, $data['db_name']);
+
 			//run descructor and close db-connection
 			unset($db);
 		}
-
+		
         //clear cache dir in case of reinstall
         $cache = new ACache();
         $cache->delete('*');
 
+	}
+
+	private function create_triggers($db, $database_name) {
+		$tables_sql = "
+			SELECT DISTINCT TABLE_NAME 
+		    FROM INFORMATION_SCHEMA.COLUMNS
+		    WHERE COLUMN_NAME IN ('date_added')
+		    AND TABLE_SCHEMA='" . $database_name . "'";
+		
+		$query = $db->query( $tables_sql);
+		foreach ($query->rows as $t) {
+			$table_name = $t['TABLE_NAME'];
+			$triger_name = $table_name . "_date_add_trg";
+		
+			$triger_checker = $db->query("SELECT TRIGGER_NAME
+								FROM information_schema.triggers
+								WHERE TRIGGER_SCHEMA = '" . $database_name . "' AND TRIGGER_NAME = '$triger_name'");
+			if (!$query->row[0]) {
+				//create trigger
+				$sql = "
+				CREATE TRIGGER `$triger_name` BEFORE INSERT ON `$table_name` FOR EACH ROW
+				BEGIN
+		    		SET NEW.date_added = NOW();
+				END;
+				";
+				$db->query($sql);
+			}
+		}	
 	}
 
     public function getLanguages() {

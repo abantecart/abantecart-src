@@ -173,7 +173,7 @@ class ControllerPagesAccountInvoice extends AController {
 			$print = HtmlElementFactory::create( array ('type' => 'button',
 		                                               'name' => 'print_button',
 			                                           'text'=> $this->language->get('button_print'),
-			                                           'icon'=> 'icon-print',
+			                                           'icon'=> 'fa fa-print',
 			                                           'style' => 'button'));
 			$this->data['button_print'] = $print;
 
@@ -186,7 +186,7 @@ class ControllerPagesAccountInvoice extends AController {
 		$continue = HtmlElementFactory::create( array ('type' => 'button',
 		                                               'name' => 'continue_button',
 			                                           'text'=> $this->language->get('button_continue'),
-			                                           'icon'=> 'icon-arrow-right',
+			                                           'icon'=> 'fa fa-arrow-right',
 			                                           'style' => 'button'));
 		$this->data['button_continue'] = $continue;
 		

@@ -22,7 +22,7 @@ if (!defined('DIR_CORE') || !IS_ADMIN) {
 }
 class ControllerPagesTotalHandling extends AController {
 	public $data = array();
-	private $error = array();
+	public $error = array();
 	private $fields = array('handling_total',
 							'handling_prefix',
 							'handling_fee',
@@ -42,7 +42,7 @@ class ControllerPagesTotalHandling extends AController {
 		$this->document->setTitle($this->language->get('heading_title'));
 		$this->loadModel('setting/setting');
 
-		if (($this->request->server['REQUEST_METHOD'] == 'POST') && ($this->_validate())) {
+		if ($this->request->is_POST() && ($this->_validate())) {
 			$settings = $this->request->post;
 			foreach($settings['handling_payment'] as $i=>$payment){
 				if(!trim($payment)){
@@ -91,7 +91,8 @@ class ControllerPagesTotalHandling extends AController {
 		$this->document->addBreadcrumb(array(
 			'href' => $this->html->getSecureURL('total/handling'),
 			'text' => $this->language->get('heading_title'),
-			'separator' => ' :: '
+			'separator' => ' :: ',
+			'current' => true
 		));
 
 		$this->loadModel('localisation/tax_class');
@@ -115,12 +116,27 @@ class ControllerPagesTotalHandling extends AController {
 		$this->data ['update'] = $this->html->getSecureURL('listing_grid/total/update_field', '&id=handling');
 
 		$form = new AForm ('HT');
-		$form->setForm(array('form_name' => 'editFrm', 'update' => $this->data ['update']));
+		$form->setForm(array(
+				'form_name' => 'editFrm',
+				'update' => $this->data ['update']
+		));
 
-		$this->data['form']['form_open'] = $form->getFieldHtml(array('type' => 'form', 'name' => 'editFrm', 'action' => $this->data ['action']));
-		$this->data['form']['submit'] = $form->getFieldHtml(array('type' => 'button', 'name' => 'submit', 'text' => $this->language->get('button_save'), 'style' => 'button1'));
-		$this->data['form']['cancel'] = $form->getFieldHtml(array('type' => 'button', 'name' => 'cancel', 'text' => $this->language->get('button_cancel'), 'style' => 'button2'));
-
+		$this->data['form']['form_open'] = $form->getFieldHtml(array(
+				'type' => 'form',
+				'name' => 'editFrm',
+				'action' => $this->data ['action'],
+				'attr' => 'data-confirm-exit="true" class="aform form-horizontal"'
+		));
+		$this->data['form']['submit'] = $form->getFieldHtml(array(
+				'type' => 'button',
+				'name' => 'submit',
+				'text' => $this->language->get('button_save')
+		));
+		$this->data['form']['cancel'] = $form->getFieldHtml(array(
+				'type' => 'button',
+				'name' => 'cancel',
+				'text' => $this->language->get('button_cancel')
+		));
 
 		$currency_symbol = $this->currency->getCurrency($this->config->get('config_currency'));
 		$currency_symbol = $currency_symbol[ 'symbol_left' ] . $currency_symbol[ 'symbol_right' ];
@@ -135,21 +151,24 @@ class ControllerPagesTotalHandling extends AController {
 			'type' => 'input',
 			'name' => 'handling_total',
 			'value' => $this->data['handling_total'],
+			'placeholder' => $this->language->get('entry_total_palceholder')
 		));
-		$this->data['form']['fields']['fee'] = $form->getFieldHtml(array(
-										'type' => 'selectbox',
-										'name' => 'handling_prefix',
-										'value' => $this->data['handling_prefix'],
-										'options' => array(
-											'$' => $currency_symbol,
-											'%' => '%'),
-										'style' => 'small-field'
-							)). 		$form->getFieldHtml(array(
-																'type' => 'input',
-																'name' => 'handling_fee',
-																'value' => $this->data['handling_fee'],
-		));
-
+		$this->data['form']['fields']['fee'] = array(
+				$form->getFieldHtml(array(
+					'type' => 'selectbox',
+					'name' => 'handling_prefix',
+					'value' => $this->data['handling_prefix'],
+					'options' => array(
+						'$' => $currency_symbol,
+						'%' => '%'),
+					'style' => 'small-field'
+				)),
+				$form->getFieldHtml(array(
+					'type' => 'input',
+					'name' => 'handling_fee',
+					'value' => $this->data['handling_fee'],
+				))
+		);
 
 		$payments = $this->extensions->getExtensionsList(array('filter'=>'payment','sort_order'=>array('name')));
 		$options[] = $this->language->get('text_none');
@@ -167,37 +186,39 @@ class ControllerPagesTotalHandling extends AController {
 		}
 
 		foreach($this->data['handling_per_payment']['handling_payment'] as $i=>$payment){
-			$this->data['form']['fields']['payment_fee'][] = 'Payment: '.
-				$form->getFieldHtml(array(
-								'type' => 'selectbox',
-								'name' => 'handling_payment[]',
-								'options'=>$options,
-								'value' => $payment,
-							)).' Order Sub-Total:'.
-				$form->getFieldHtml(array(
-				'type' => 'input',
-				'name' => 'handling_payment_subtotal[]',
-				'value' => $this->data['handling_per_payment']['handling_payment_subtotal'][$i],
-				'style' => 'small-field'
-							)).' Fee:'.
+			$this->data['form']['fields']['payment_fee'.$i] = array(
+					$this->language->get('entry_payment'),
 					$form->getFieldHtml(array(
-								'type' => 'selectbox',
-								'name' => 'handling_payment_prefix[' . $product_option_value_id . ']',
-								'value' => $this->data['handling_per_payment']['handling_payment_prefix'][$i],
-								'options' => array(
-									'$' => $currency_symbol,
-									'%' => '%'),
-								'style' => 'small-field'
-					)).
-				$form->getFieldHtml(array(
-				'type' => 'input',
-				'name' => 'handling_payment_fee[]',
-				'value' => $this->data['handling_per_payment']['handling_payment_fee'][$i],
-				'style' => 'small-field'
-			));
+							'type' => 'selectbox',
+							'name' => 'handling_payment[]',
+							'options'=>$options,
+							'value' => $payment,
+					)),
+					$this->language->get('entry_order_subtotal'),
+					$form->getFieldHtml(array(
+							'type' => 'input',
+							'name' => 'handling_payment_subtotal[]',
+							'value' => $this->data['handling_per_payment']['handling_payment_subtotal'][$i],
+							'style' => 'small-field'
+					)),
+					$this->language->get('entry_fee'),
+					$form->getFieldHtml(array(
+							'type' => 'selectbox',
+							'name' => 'handling_payment_prefix[' . $product_option_value_id . ']',
+							'value' => $this->data['handling_per_payment']['handling_payment_prefix'][$i],
+							'options' => array(
+								'$' => $currency_symbol,
+								'%' => '%'),
+							'style' => 'small-field'
+					)),
+					$form->getFieldHtml(array(
+					'type' => 'input',
+					'name' => 'handling_payment_fee[]',
+					'value' => $this->data['handling_per_payment']['handling_payment_fee'][$i],
+					'style' => 'small-field'
+					))
+			);
 		}
-
-
 
 		$this->data['form']['fields']['tax'] = $form->getFieldHtml(array(
 			'type' => 'selectbox',

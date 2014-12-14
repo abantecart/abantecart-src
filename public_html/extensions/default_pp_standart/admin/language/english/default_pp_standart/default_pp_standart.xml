@@ -85,7 +85,7 @@
 		<value><![CDATA[Company Logo Preview]]></value>
 	</definition>
 	<definition>
-		<key>default_pp_standart_logoimg</key>
+		<key>text_custom_logo</key>
 		<value><![CDATA[Add Company Logo:<span class="help">Enter local path or URL to your company logo file. The logo may be a JPG, PNG, or GIF up to 190 pixels wide by 60 pixels high. This logo will appear as the header of your PayPal checkout page. </span>]]></value>
 	</definition>
 	<definition>

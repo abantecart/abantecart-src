@@ -27,7 +27,9 @@ class ControllerBlocksLanguage extends AController {
         //init controller data
         $this->extensions->hk_InitData($this,__FUNCTION__);
 
-        if (($this->request->server['REQUEST_METHOD'] == 'POST') && isset($this->request->post['language_code'])) {
+		$this->loadLanguage('blocks/language');
+
+        if ($this->request->is_POST() && isset($this->request->post['language_code'])) {
 			$this->session->data['language'] = $this->request->post['language_code'];
 		
 			if (isset($this->request->post['redirect'])) {
@@ -59,7 +61,7 @@ class ControllerBlocksLanguage extends AController {
 			$URI = $URI=='&' ? '' : $URI;
         }
 		foreach($this->data['languages'] as &$lang){
-			$lang['href'] = $this->html->getURL($rt, $URI.'&language='.$lang['code'],true);
+			$lang['href'] = $this->html->getSEOURL($rt, $URI.'&language='.$lang['code'],true);
 		}
 
 		$this->view->batchAssign($this->data);
@@ -69,4 +71,3 @@ class ControllerBlocksLanguage extends AController {
         $this->extensions->hk_UpdateData($this,__FUNCTION__);
 	}
 }
-?>

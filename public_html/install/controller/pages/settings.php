@@ -23,7 +23,7 @@ class ControllerPagesSettings extends AController {
 
 	public function main() {
 		$template_data = array();
-		if (($this->request->server['REQUEST_METHOD'] == 'POST') && ($this->validate())) {
+		if ($this->request->is_POST() && ($this->validate())) {
 			$this->redirect(HTTP_SERVER . 'index.php?rt=install');
 		}
 
@@ -46,15 +46,11 @@ class ControllerPagesSettings extends AController {
 		$template_data['extensions'] = DIR_ABANTECART . 'extensions';
 		$template_data['resources'] = DIR_ABANTECART . 'resources';
 		$template_data['backup'] = DIR_ABANTECART . 'admin/system/backup';
-		$template_data['button_continue'] = $this->html->buildButton(array(
-				'name' => 'continue',
-				'text' => 'Continue >>',
-				'style' => 'button1')
-		);
 
 		$this->addChild('common/header', 'header', 'common/header.tpl');
-		$this->addChild('common/footer', 'footer', 'common/footer.tpl');
+		$this->addChild('common/footer', 'footer', 'common/footer.tpl');	
 
+		$this->view->assign('back', HTTP_SERVER . 'index.php?rt=license');
 		$this->view->batchAssign($template_data);
 		$this->processTemplate('pages/settings.tpl');
 	}
@@ -132,6 +128,13 @@ class ControllerPagesSettings extends AController {
 
 		if (!is_writable(DIR_ABANTECART . 'resources')) {
 			$this->error['warning'] = 'Warning: Resources directory needs to be writable for AbanteCart to work!';
+		}
+
+		if (ini_get('opcache.enable')) {
+			$this->error['warning'] = 'Warning: Your server have opcache php module enabled. Please disable it before installation!';
+		}
+		if (ini_get('apc.enabled')) {
+			$this->error['warning'] = 'Warning: Your server have APC (Alternative PHP Cache) php module enabled. Please disable it before installation!';
 		}
 
 		if (!is_writable(DIR_ABANTECART . 'admin/system/backup')) {

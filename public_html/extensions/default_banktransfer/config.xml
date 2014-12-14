@@ -1,13 +1,11 @@
 <?xml version="1.0"?>
 <extension>
     <id>default_banktransfer</id>
-    <version>1.0.0</version>
+    <version>1.0.1</version>
 	<type>payment</type>
 	<category>payment</category>
     <cartversions>
-        <item>0.9</item>
-        <item>1.0</item>
-        <item>1.1</item>
+        <item>1.2</item>
     </cartversions>
     <layout></layout>
     <priority>10</priority>
@@ -16,7 +14,7 @@
             <type required="true">textarea</type>
             <default_value></default_value>
         </item>
-	    <item id="default_banktransfer_order_min">
+	    <item id="default_banktransfer_payment_minimum_total">
             <type>input</type>
             <default_value></default_value>
         </item>

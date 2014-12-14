@@ -17,6 +17,18 @@
     <value><![CDATA[Usted ha aprobado %s cuenta!]]></value>
   </definition>
 	<definition>
+		<key>tab_customer_address</key>
+		<value><![CDATA[Dirección]]></value>
+	</definition>
+	<definition>
+		<key>text_customer_addresses</key>
+		<value><![CDATA[Cliente Dirección]]></value>
+	</definition>
+	<definition>
+		<key>text_add_address</key>
+		<value><![CDATA[Añadir Dirección]]></value>
+	</definition>	  
+  <definition>
     <key>tab_address</key>
     <value><![CDATA[Dirección]]></value>
   </definition>
@@ -160,6 +172,10 @@
     <key>entry_country</key>
     <value><![CDATA[País:]]></value>
   </definition>
+	<definition>
+		<key>entry_country_id</key>
+		<value><![CDATA[País:]]></value>
+	</definition>
   <definition>
     <key>entry_zone</key>
     <value><![CDATA[Región / Estado:]]></value>
@@ -248,20 +264,21 @@
   		<key>popup_title_insert</key>
   		<value><![CDATA[Insert New Transaction]]></value>
   	</definition>
+  	
   	<definition>
-  		<key>text_option_credit</key>
+  		<key>entry_credit</key>
   		<value><![CDATA[Crédito (incremento del balance)]]></value>
   	</definition>
   	<definition>
-  		<key>text_option_debit</key>
+  		<key>entry_debit</key>
   		<value><![CDATA[Débito (balance disminución)]]></value>
   	</definition>
   	<definition>
-  		<key>text_transaction_type</key>
+  		<key>entry_transaction_type</key>
   		<value><![CDATA[Tipo de transacción: ]]></value>
   	</definition>
   	<definition>
-  		<key>text_other_type</key>
+  		<key>entry_other_type</key>
   		<value><![CDATA[Otro de un tipo de transacción: ]]></value>
   	</definition>
   	<definition>
@@ -269,15 +286,15 @@
   		<value><![CDATA[Otros ... ]]></value>
   	</definition>
   	<definition>
-  		<key>text_transaction_description</key>
+  		<key>entry_transaction_description</key>
   		<value><![CDATA[Descripción (para el cliente):]]></value>
   	</definition>
   	<definition>
-  		<key>text_transaction_comment</key>
+  		<key>entry_transaction_comment</key>
   		<value><![CDATA[Comentario (para uso interno):]]></value>
   	</definition>
   	<definition>
-  		<key>text_update_date</key>
+  		<key>entry_update_date</key>
   		<value><![CDATA[Actualizado:]]></value>
   	</definition>
   	<definition>
@@ -292,4 +309,33 @@
   		<key>text_transaction_success</key>
   		<value><![CDATA[Exito: Se ha modificado transacción!]]></value>
   	</definition>
+	<definition>
+		<key>text_add_address</key>
+		<value><![CDATA[Añadir nueva dirección]]></value>
+	</definition>
+	<definition>
+		<key>text_edit_address</key>
+		<value><![CDATA[Editar dirección]]></value>
+	</definition>
+    <definition>
+        <key>entry_default</key>
+        <value><![CDATA[Dirección predeterminada:]]></value>
+    </definition>
+    <definition>
+        <key>error_delete_default</key>
+        <value><![CDATA[Error: cannnot suprimirse Dirección por defecto!]]></value>
+    </definition>
+    <definition>
+        <key>error_delete_last</key>
+        <value><![CDATA[Error: debe tener al menos una dirección!]]></value>
+    </definition>
+    <definition>
+        <key>entry_date_added</key>
+        <value><![CDATA[Fecha Alta:]]></value>
+    </definition>
+    <definition>
+        <key>entry_date_modified</key>
+        <value><![CDATA[Fecha de modificación:]]></value>
+    </definition>
+  	
 </definitions>

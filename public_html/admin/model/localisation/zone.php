@@ -22,7 +22,10 @@ if (! defined ( 'DIR_CORE' ) || !IS_ADMIN) {
 }
 class ModelLocalisationZone extends Model {
 	public function addZone($data) {
-		$this->db->query("INSERT INTO " . DB_PREFIX . "zones SET status = '" . (int)$data['status'] . "', code = '" . $this->db->escape($data['code']) . "', country_id = '" . (int)$data['country_id'] . "'");
+		$this->db->query("INSERT INTO " . $this->db->table("zones") . "
+						  SET status = '" . (int)$data['status'] . "',
+						        code = '" . $this->db->escape($data['code']) . "',
+						        country_id = '" . (int)$data['country_id'] . "'");
 			
 		$zone_id = $this->db->getLastId();
 
@@ -43,10 +46,10 @@ class ModelLocalisationZone extends Model {
 		$update = array();
 		foreach ( $fields as $f ) {
 			if ( isset($data[$f]) )
-				$update[] = "$f = '".$this->db->escape($data[$f])."'";
+				$update[] = $f." = '".$this->db->escape($data[$f])."'";
 		}
 		if ( !empty($update) ) {
-			$this->db->query("UPDATE `" . DB_PREFIX . "zones` SET ". implode(',', $update) ." WHERE zone_id = '" . (int)$zone_id . "'");
+			$this->db->query("UPDATE " . $this->db->table("zones") . " SET ". implode(',', $update) ." WHERE zone_id = '" . (int)$zone_id . "'");
 			$this->cache->delete('zone');
 		}
 		
@@ -63,8 +66,8 @@ class ModelLocalisationZone extends Model {
 	}
 	
 	public function deleteZone($zone_id) {
-		$this->db->query("DELETE FROM " . DB_PREFIX . "zones WHERE zone_id = '" . (int)$zone_id . "'");
-		$this->db->query("DELETE FROM " . DB_PREFIX . "zone_descriptions WHERE zone_id = '" . (int)$zone_id . "'");
+		$this->db->query("DELETE FROM " . $this->db->table("zones") . " WHERE zone_id = '" . (int)$zone_id . "'");
+		$this->db->query("DELETE FROM " . $this->db->table("zone_descriptions") . " WHERE zone_id = '" . (int)$zone_id . "'");
 
 		$this->cache->delete('zone');	
 	}
@@ -79,8 +82,8 @@ class ModelLocalisationZone extends Model {
 										  z.sort_order, 
 										  zd.name, 
 										  zd.language_id
-										FROM " . DB_PREFIX . "zones z
-										LEFT JOIN " . DB_PREFIX . "zone_descriptions zd 
+										FROM " . $this->db->table("zones") . " z
+										LEFT JOIN " . $this->db->table("zone_descriptions") . " zd 
 										ON (z.zone_id = zd.zone_id AND zd.language_id = '" . (int)$language_id . "')
 										WHERE z.zone_id = '" . (int)$zone_id . "'");
 		$ret_data = $query->row;
@@ -92,7 +95,7 @@ class ModelLocalisationZone extends Model {
 		$zone_data = array();
 		
 		$query = $this->db->query( "SELECT *
-									FROM " . DB_PREFIX . "zone_descriptions
+									FROM " . $this->db->table("zone_descriptions") . " 
 									WHERE zone_id = '" . (int)$zone_id . "'");
 		
 		foreach ($query->rows as $result) {
@@ -108,7 +111,7 @@ class ModelLocalisationZone extends Model {
 		$default_language_id = $this->language->getDefaultLanguageID();
 		
 		if ($mode == 'total_only') {
-		    $sql = "SELECT count(*) as total FROM " . DB_PREFIX . "zones z ";
+		    $sql = "SELECT count(*) as total FROM " . $this->db->table("zones") . " z ";
 		}
 		else {
 		    $sql = "SELECT	z.zone_id, 
@@ -118,12 +121,12 @@ class ModelLocalisationZone extends Model {
 							zd.name, 
 							zd.language_id, 
 		    				COALESCE( cd1.name,cd2.name) as country 
-		    		FROM " . DB_PREFIX . "zones z ";
+		    		FROM " . $this->db->table("zones") . " z ";
 		}
-		$sql .= "LEFT JOIN " . DB_PREFIX . "zone_descriptions zd ON (z.zone_id = zd.zone_id AND zd.language_id = '" . (int)$language_id . "') ";
-		$sql .= "LEFT JOIN " . DB_PREFIX . "countries c ON (z.country_id = c.country_id)";
-		$sql .= "LEFT JOIN " . DB_PREFIX . "country_descriptions cd1 ON (c.country_id = cd1.country_id AND cd1.language_id = '" . (int)$language_id . "') ";
-		$sql .= "LEFT JOIN " . DB_PREFIX . "country_descriptions cd2 ON (c.country_id = cd2.country_id AND cd2.language_id = '" . (int)$default_language_id . "') ";
+		$sql .= "LEFT JOIN " . $this->db->table("zone_descriptions") . " zd ON (z.zone_id = zd.zone_id AND zd.language_id = '" . (int)$language_id . "') ";
+		$sql .= "LEFT JOIN " . $this->db->table("countries") . " c ON (z.country_id = c.country_id)";
+		$sql .= "LEFT JOIN " . $this->db->table("country_descriptions") . " cd1 ON (c.country_id = cd1.country_id AND cd1.language_id = '" . (int)$language_id . "') ";
+		$sql .= "LEFT JOIN " . $this->db->table("country_descriptions") . " cd2 ON (c.country_id = cd2.country_id AND cd2.language_id = '" . (int)$default_language_id . "') ";
 
 		if ( !empty($data['search']) )
 			$sql .= " WHERE ".$data['search'];
@@ -185,9 +188,9 @@ class ModelLocalisationZone extends Model {
 	
 		if (!$zone_data) {
 			$query = $this->db->query( "SELECT *, COALESCE( zd1.name, zd2.name) as name 
-										FROM " . DB_PREFIX . "zones z
-										LEFT JOIN " . DB_PREFIX . "zone_descriptions zd1 ON (z.zone_id = zd1.zone_id AND zd1.language_id = '" . (int)$language_id . "') 
-										LEFT JOIN " . DB_PREFIX . "zone_descriptions zd2 ON (z.zone_id = zd2.zone_id AND zd2.language_id = '" . (int)$default_language_id . "') 
+										FROM " . $this->db->table("zones") . " z
+										LEFT JOIN " . $this->db->table("zone_descriptions") . " zd1 ON (z.zone_id = zd1.zone_id AND zd1.language_id = '" . (int)$language_id . "') 
+										LEFT JOIN " . $this->db->table("zone_descriptions") . " zd2 ON (z.zone_id = zd2.zone_id AND zd2.language_id = '" . (int)$default_language_id . "') 
 										WHERE z.country_id = '" . (int)$country_id . "'
 										ORDER BY zd1.name, zd2.name");
 			$zone_data = $query->rows;
@@ -205,10 +208,10 @@ class ModelLocalisationZone extends Model {
 
 		if (!$zone_data) {
 			$query = $this->db->query( "SELECT z.*, COALESCE( zd1.name, zd2.name) as name
-										FROM " . DB_PREFIX . "zones z
-										LEFT JOIN " . DB_PREFIX . "zone_descriptions zd1 ON (z.zone_id = zd1.zone_id AND zd1.language_id = '" . (int)$language_id . "') 
-										LEFT JOIN " . DB_PREFIX . "zone_descriptions zd2 ON (z.zone_id = zd2.zone_id AND zd2.language_id = '" . (int)$default_language_id . "') 
-										INNER JOIN " . DB_PREFIX . "zones_to_locations zl
+										FROM " . $this->db->table("zones") . " z
+										LEFT JOIN " . $this->db->table("zone_descriptions") . " zd1 ON (z.zone_id = zd1.zone_id AND zd1.language_id = '" . (int)$language_id . "') 
+										LEFT JOIN " . $this->db->table("zone_descriptions") . " zd2 ON (z.zone_id = zd2.zone_id AND zd2.language_id = '" . (int)$default_language_id . "') 
+										INNER JOIN " . $this->db->table("zones_to_locations") . " zl
 											ON ( zl.zone_id = z.zone_id AND zl.location_id = '".(int)$location_id."' )
 										ORDER BY zd1.name, zd2.name");
 			$zone_data = $query->rows;
@@ -220,7 +223,7 @@ class ModelLocalisationZone extends Model {
 	
 	public function getTotalZonesByCountryId($country_id) {
 		$query = $this->db->query( "SELECT count(*) AS total
-									FROM " . DB_PREFIX . "zones
+									FROM " . $this->db->table("zones") . " 
 									WHERE country_id = '" . (int)$country_id . "'");
 	
 		return $query->row['total'];
@@ -230,9 +233,9 @@ class ModelLocalisationZone extends Model {
 		$language_id = $this->session->data['content_language_id'];
 		$default_language_id = $this->language->getDefaultLanguageID();
 		
-		$query = $this->db->query("SELECT c.country_id FROM " . DB_PREFIX . "countries c
-								   LEFT JOIN " . DB_PREFIX . "country_descriptions cd1 ON (c.country_id = cd1.country_id AND cd1.language_id = '" . (int)$language_id . "')
-								   LEFT JOIN " . DB_PREFIX . "country_descriptions cd2 ON (c.country_id = cd2.country_id AND cd2.language_id = '" . (int)$default_language_id . "')
+		$query = $this->db->query("SELECT c.country_id FROM " . $this->db->table("countries") . " c
+								   LEFT JOIN " . $this->db->table("country_descriptions") . " cd1 ON (c.country_id = cd1.country_id AND cd1.language_id = '" . (int)$language_id . "')
+								   LEFT JOIN " . $this->db->table("country_descriptions") . " cd2 ON (c.country_id = cd2.country_id AND cd2.language_id = '" . (int)$default_language_id . "')
 								   WHERE cd1.name = '" . $this->db->escape($name) . "' OR cd2.name = '" . $this->db->escape($name) . "' AND status = '1' LIMIT 1");
 
 		if ( $query->num_rows > 0 ) {
@@ -241,4 +244,3 @@ class ModelLocalisationZone extends Model {
 		return 0;
 	}
 }
-?>

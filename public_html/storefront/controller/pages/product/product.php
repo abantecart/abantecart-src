@@ -23,6 +23,7 @@ if (! defined ( 'DIR_CORE' )) {
 class ControllerPagesProductProduct extends AController {
 
 	public $data = array();
+
 	public function main() {
 
         //init controller data
@@ -112,7 +113,7 @@ class ControllerPagesProductProduct extends AController {
 		//can not locate product? get out
 		if (!$product_info) { 
 			$this->_product_not_found($product_id);
-			return;
+			return null;
 		}
 
 		$url = $this->_build_url();
@@ -138,7 +139,10 @@ class ControllerPagesProductProduct extends AController {
 		));
 
         $this->data['heading_title'] = $product_info['name'];
+		$this->data['minimum'] = $product_info['minimum'];
 		$this->data['text_minimum'] = sprintf($this->language->get('text_minimum'), $product_info['minimum']);
+		$this->data['maximum'] = $product_info['maximum'];
+		$this->data['text_maximum'] = sprintf($this->language->get('text_maximum'), $product_info['maximum']);
 		
 		$this->loadModel('catalog/review');
 		$this->data['tab_review'] = sprintf($this->language->get('tab_review'), $this->model_catalog_review->getTotalReviewsByProductId($product_id)) ;
@@ -169,14 +173,12 @@ class ControllerPagesProductProduct extends AController {
 		                                               'attr' =>''));
 		$this->data['review_button'] = HtmlElementFactory::create(array( 'type' => 'button',
 		                                               'name' => 'review_submit',
-		                                               'text' => $this->language->get('button_continue'),
-		                                               'style'=> 'button',
-		                                               'icon' => 'icon-comment'
+		                                               'text' => $this->language->get('button_submit'),
+		                                               'style'=> 'btn-primary',
+		                                               'icon' => 'fa fa-comment'
 		                                              ));
 
 		$this->data['product_info'] = $product_info;
-
-
 
 
 		$form = new AForm();
@@ -390,11 +392,14 @@ class ControllerPagesProductProduct extends AController {
 		// if track stock is off. no messages needed. 
 		if ( $this->model_catalog_product->isStockTrackable($product_id) ) {
 		    $total_quantity = $this->model_catalog_product->hasAnyStock($product_id);
-		
-		    if ( $total_quantity <= 0) {
+			$this->data['track_stock'] = true;
+			//out of stock if no quantity and no stick checkout is disabled
+		    if ( $total_quantity <= 0 && !$this->config->get('config_stock_checkout')) {
+		    	$this->data['in_stock'] = false;
 		    	//show out of stock message
 		    	$this->data['stock'] = $product_info['stock_status'];
 		    } else {
+				$this->data['in_stock'] = true;
 		    	if ($this->config->get('config_stock_display')) {
 		    		$this->data['stock'] = $product_info['quantity'];
 		    	} else {
@@ -414,7 +419,7 @@ class ControllerPagesProductProduct extends AController {
 	        	$msg = new AMessage();
 	        	$msg->saveNotice( $message_ttl, $message_txt);
 	        	$this->model_catalog_product->updateStatus($product_id, 0);     	
-	        	$this->redirect($this->html->getSEOURL('product/product','&product_id=' . $product_info['product_id'], '&encode'));			
+	        	$this->redirect($this->html->getSEOURL('product/product','&product_id=' . $product_info['product_id'], '&encode'));
 		    }
 		}
 		
@@ -424,14 +429,15 @@ class ControllerPagesProductProduct extends AController {
 		    		   'thumb'=> array('width'=>$this->config->get('config_image_thumb_width'),
 		    	                       'height' => $this->config->get('config_image_thumb_height')));
 		$this->data['image_main'] = $resource->getResourceAllObjects('products', $product_id, $sizes,1, false);
-		$this->data['image_main']['sizes'] = $sizes;
+		if($this->data['image_main']) {
+			$this->data['image_main']['sizes'] = $sizes;
+		}
 
 		// additional images
 		$sizes = array('main'=> array( 'width'=>$this->config->get('config_image_popup_width'),
 		    	                       'height' => $this->config->get('config_image_popup_height')),
 		    		   'thumb'=> array('width'=>$this->config->get('config_image_additional_width'),
 		    	                       'height' => $this->config->get('config_image_additional_height')));
-
 		$this->data['images'] = $resource->getResourceAllObjects('products', $product_id, $sizes,0,false);
 
 		$products = array();
@@ -519,28 +525,29 @@ class ControllerPagesProductProduct extends AController {
         $this->data['tags'] = $tags;
 
 
-		//downloads before order
-		$dwn = new ADownload();
-		$download_list = $dwn->getDownloadsBeforeOrder($product_id);
-		if($download_list){
+		//downloads before order if allowed
+		if($this->config->get('config_download')){
+			$dwn = new ADownload();
+			$download_list = $dwn->getDownloadsBeforeOrder($product_id);
+			if($download_list){
 
-			foreach($download_list as $download){
-				$href = $this->html->getURL('account/download/startdownload','&download_id='.$download['download_id']);
-				$download['attributes'] = $this->download->getDownloadAttributesValuesForCustomer($download['download_id']);
+				foreach($download_list as $download){
+					$href = $this->html->getURL('account/download/startdownload', '&download_id=' . $download['download_id']);
+					$download['attributes'] = $this->download->getDownloadAttributesValuesForCustomer($download['download_id']);
 
-				$download['href'] = $form->getFieldHtml(
-						array(  'type'=> 'button',
-								'id' => 'download_'. $download['download_id'],
-								'href'=> $href,
-								'title' => $this->language->get('text_start_download'),
-								'text' => $this->language->get('text_start_download'),
-								'style' => 'button1 icon-download-alt'	));
+					$download['button'] = $form->getFieldHtml(
+							array('type'  => 'button',
+							      'id'    => 'download_' . $download['download_id'],
+							      'href'  => $href,
+							      'title' => $this->language->get('text_start_download'),
+							      'text'  => $this->language->get('text_start_download')));
 
-				$downloads[] = $download;
+					$downloads[] = $download;
+				}
+
+
+				$this->data['downloads'] = $downloads;
 			}
-
-
-		$this->data['downloads'] = $downloads;
 		}
 
 

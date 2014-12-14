@@ -1,14 +1,26 @@
-<?php if ($success) { ?>
-<div class="success alert alert-success"><?php echo $success; ?></div>
-<?php } ?>
-<div class="box">
-  <div class="left"></div>
-  <div class="right"></div>
-  <div class="heading">
-    <h1 style="background-image: url('<?php echo $template_dir; ?>image/log.png');"><?php echo $heading_title; ?></h1>
-    <div class="buttons"><a href="<?php echo $clear; ?>" class="button"><span><?php echo $button_clear; ?></span></a></div>
-  </div>
-  <div class="content">
-    <textarea wrap="off" style="width: 99%; height: 300px; padding: 5px; border: 1px solid #CCCCCC; background: #FFFFFF; overflow: scroll;"><?php echo $log; ?></textarea>
-  </div>
-</div>
+<?php include($tpl_common_dir . 'action_confirm.tpl'); ?>
+
+<div class="tab-content">
+	<div class="panel-heading">
+		<div class="pull-left">
+			<a href="<?php echo $clear_url; ?>" class="btn btn-primary lock-on-click" id="clear"><i class="fa fa-trash-o"></i> <?php echo $button_clear;?></a>
+		</div>
+	</div>
+
+	<div class="panel-body panel-body-nopadding">
+		<div class="error-log">
+		<?php if( count($log) ) { ?>
+			<table class="table table-striped">
+			<?php
+				foreach($log as $line){ ?>
+					<tr><td><?php echo $line; ?></td></tr>
+			<?php } ?>
+			</table>
+		<?php } else { ?>
+			<div class="text-center">
+			<h1><i class="fa fa-thumbs-o-up fa-lg"></i></h1>
+			</div>
+		<?php } ?>
+		</div>
+	</div>
+</div><!-- <div class="tab-content"> -->

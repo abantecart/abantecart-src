@@ -1,19 +1,22 @@
-<div class="t_block">
-    <div class="block_cl">
-    	<div class="block_cr">
-        	<div class="block_cc">
-
-<div id="cart_top">  
-  <div id="cartbox_left"><div id="cartbox_right"><div id="cartbox_mid">
-  <a href="<?php echo $view; ?>" title="<?php echo $text_view;?>" class="flt_left"><img src="<?php echo $this->templateResource('/image/cart.png'); ?>" alt="<?php echo $heading_title;?>" /></a>
-  <span class="heading_title"><?php echo $heading_title;?>:</span>
-  <br />
-  <span class="cart_items"><span id="item_count"><?php echo $total_qty;?></span> <?php echo $text_items;?></span>
-  <span class="cart_checkout"><a href="<?php echo $checkout; ?>"><?php echo $text_checkout; ?></a></span>
-  </div></div></div>
-</div>
-
-            </div>
-        </div>
-    </div>
-</div>
+<ul class="nav topcart pull-left">
+    <li class="dropdown hover"> 
+        <a href="<?php echo $view; ?>" class="dropdown-toggle"><i class="fa fa-shopping-cart fa-fw"></i>&nbsp;&nbsp;<span
+            class="label label-orange font14"><?php echo $total_qty;?></span> <?php echo $text_items;?> - <span
+            class="cart_total"><?php echo $subtotal; ?></span> <b class="caret"></b></a>
+        <ul class="dropdown-menu topcartopen ">
+            <li>
+				<div id="top_cart_product_list">
+				<?php include( $this->templateResource('/template/responses/checkout/cart_details.tpl') ) ?>
+				</div>
+					
+				<div class="buttonwrap">
+				    <?php echo $this->getHookVar('cart_top_pre_buttons_hook'); ?>
+				    <a class="btn btn-orange btn-xs pull-left" href="<?php echo $view; ?>"><i class="fa fa-shopping-cart fa-fw"></i> <?php echo $text_view;?></a>&nbsp;&nbsp;
+				    <a class="btn btn-orange btn-xs pull-right"
+				       href="<?php echo $checkout; ?>"><i class="fa fa-pencil fa-fw"></i>  <?php echo $text_checkout; ?></a>
+				    <?php echo $this->getHookVar('cart_top_post_buttons_hook'); ?>
+				</div>
+            </li>
+        </ul>
+    </li>
+</ul>

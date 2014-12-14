@@ -18,10 +18,9 @@ CREATE TABLE `ac_addresses` (
   `city` varchar(128) COLLATE utf8_general_ci NOT NULL,
   `country_id` int(11) NOT NULL DEFAULT '0',
   `zone_id` int(11) NOT NULL DEFAULT '0',
-  PRIMARY KEY (`address_id`),
-  KEY `customer_id` (`customer_id`)
+  PRIMARY KEY (`address_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
-
+CREATE INDEX `ac_addresses_idx` ON `ac_addresses` ( `customer_id`, `country_id`, `zone_id`  );
 
 --
 -- DDL for table `categories`
@@ -31,12 +30,12 @@ CREATE TABLE `ac_categories` (
   `category_id` int(11) NOT NULL AUTO_INCREMENT,
   `parent_id` int(11) NOT NULL DEFAULT '0',
   `sort_order` int(3) NOT NULL DEFAULT '0',
-  `date_added` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `date_modified` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   `status` int(1) NOT NULL DEFAULT '1',
+  `date_added` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `date_modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`category_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
-
+CREATE INDEX `ac_categories_idx` ON `ac_categories` ( `category_id`, `parent_id`, `status`  );
 
 --
 -- DDL for table `category_descriptions`
@@ -77,6 +76,7 @@ CREATE TABLE `ac_countries` (
   `sort_order` int(3) NOT NULL DEFAULT '0',  
   PRIMARY KEY (`country_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
+CREATE INDEX `ac_countries_idx` ON `ac_countries` ( `iso_code_2`, `iso_code_3`, `status`  );
 
 --
 -- Dumping data for table `countries`
@@ -334,7 +334,248 @@ CREATE TABLE `ac_country_descriptions` (
   PRIMARY KEY (`country_id`,`language_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
-INSERT INTO `ac_country_descriptions` (`country_id`, `language_id`, `name`) VALUES (1,1,'Afghanistan'),(2,1,'Albania'),(3,1,'Algeria'),(4,1,'American Samoa'),(5,1,'Andorra'),(6,1,'Angola'),(7,1,'Anguilla'),(8,1,'Antarctica'),(9,1,'Antigua and Barbuda'),(10,1,'Argentina'),(11,1,'Armenia'),(12,1,'Aruba'),(13,1,'Australia'),(14,1,'Austria'),(15,1,'Azerbaijan'),(16,1,'Bahamas'),(17,1,'Bahrain'),(18,1,'Bangladesh'),(19,1,'Barbados'),(20,1,'Belarus'),(21,1,'Belgium'),(22,1,'Belize'),(23,1,'Benin'),(24,1,'Bermuda'),(25,1,'Bhutan'),(26,1,'Bolivia'),(27,1,'Bosnia and Herzegowina'),(28,1,'Botswana'),(29,1,'Bouvet Island'),(30,1,'Brazil'),(31,1,'British Indian Ocean Territory'),(32,1,'Brunei Darussalam'),(33,1,'Bulgaria'),(34,1,'Burkina Faso'),(35,1,'Burundi'),(36,1,'Cambodia'),(37,1,'Cameroon'),(38,1,'Canada'),(39,1,'Cape Verde'),(40,1,'Cayman Islands'),(41,1,'Central African Republic'),(42,1,'Chad'),(43,1,'Chile'),(44,1,'China'),(45,1,'Christmas Island'),(46,1,'Cocos (Keeling) Islands'),(47,1,'Colombia'),(48,1,'Comoros'),(49,1,'Congo'),(50,1,'Cook Islands'),(51,1,'Costa Rica'),(52,1,'Cote D\'Ivoire'),(53,1,'Croatia'),(54,1,'Cuba'),(55,1,'Cyprus'),(56,1,'Czech Republic'),(57,1,'Denmark'),(58,1,'Djibouti'),(59,1,'Dominica'),(60,1,'Dominican Republic'),(61,1,'East Timor'),(62,1,'Ecuador'),(63,1,'Egypt'),(64,1,'El Salvador'),(65,1,'Equatorial Guinea'),(66,1,'Eritrea'),(67,1,'Estonia'),(68,1,'Ethiopia'),(69,1,'Falkland Islands (Malvinas)'),(70,1,'Faroe Islands'),(71,1,'Fiji'),(72,1,'Finland'),(73,1,'France'),(74,1,'France, Metropolitan'),(75,1,'French Guiana'),(76,1,'French Polynesia'),(77,1,'French Southern Territories'),(78,1,'Gabon'),(79,1,'Gambia'),(80,1,'Georgia'),(81,1,'Germany'),(82,1,'Ghana'),(83,1,'Gibraltar'),(84,1,'Greece'),(85,1,'Greenland'),(86,1,'Grenada'),(87,1,'Guadeloupe'),(88,1,'Guam'),(89,1,'Guatemala'),(90,1,'Guinea'),(91,1,'Guinea-bissau'),(92,1,'Guyana'),(93,1,'Haiti'),(94,1,'Heard and Mc Donald Islands'),(95,1,'Honduras'),(96,1,'Hong Kong'),(97,1,'Hungary'),(98,1,'Iceland'),(99,1,'India'),(100,1,'Indonesia'),(101,1,'Iran (Islamic Republic of)'),(102,1,'Iraq'),(103,1,'Ireland'),(104,1,'Israel'),(105,1,'Italy'),(106,1,'Jamaica'),(107,1,'Japan'),(108,1,'Jordan'),(109,1,'Kazakhstan'),(110,1,'Kenya'),(111,1,'Kiribati'),(112,1,'North Korea'),(113,1,'Korea, Republic of'),(114,1,'Kuwait'),(115,1,'Kyrgyzstan'),(116,1,'Lao People\'s Democratic Republic'),(117,1,'Latvia'),(118,1,'Lebanon'),(119,1,'Lesotho'),(120,1,'Liberia'),(121,1,'Libyan Arab Jamahiriya'),(122,1,'Liechtenstein'),(123,1,'Lithuania'),(124,1,'Luxembourg'),(125,1,'Macau'),(126,1,'Macedonia'),(127,1,'Madagascar'),(128,1,'Malawi'),(129,1,'Malaysia'),(130,1,'Maldives'),(131,1,'Mali'),(132,1,'Malta'),(133,1,'Marshall Islands'),(134,1,'Martinique'),(135,1,'Mauritania'),(136,1,'Mauritius'),(137,1,'Mayotte'),(138,1,'Mexico'),(139,1,'Micronesia, Federated States of'),(140,1,'Moldova, Republic of'),(141,1,'Monaco'),(142,1,'Mongolia'),(143,1,'Montserrat'),(144,1,'Morocco'),(145,1,'Mozambique'),(146,1,'Myanmar'),(147,1,'Namibia'),(148,1,'Nauru'),(149,1,'Nepal'),(150,1,'Netherlands'),(151,1,'Netherlands Antilles'),(152,1,'New Caledonia'),(153,1,'New Zealand'),(154,1,'Nicaragua'),(155,1,'Niger'),(156,1,'Nigeria'),(157,1,'Niue'),(158,1,'Norfolk Island'),(159,1,'Northern Mariana Islands'),(160,1,'Norway'),(161,1,'Oman'),(162,1,'Pakistan'),(163,1,'Palau'),(164,1,'Panama'),(165,1,'Papua New Guinea'),(166,1,'Paraguay'),(167,1,'Peru'),(168,1,'Philippines'),(169,1,'Pitcairn'),(170,1,'Poland'),(171,1,'Portugal'),(172,1,'Puerto Rico'),(173,1,'Qatar'),(174,1,'Reunion'),(175,1,'Romania'),(176,1,'Russia'),(177,1,'Rwanda'),(178,1,'Saint Kitts and Nevis'),(179,1,'Saint Lucia'),(180,1,'Saint Vincent and the Grenadines'),(181,1,'Samoa'),(182,1,'San Marino'),(183,1,'Sao Tome and Principe'),(184,1,'Saudi Arabia'),(185,1,'Senegal'),(186,1,'Seychelles'),(187,1,'Sierra Leone'),(188,1,'Singapore'),(189,1,'Slovak Republic'),(190,1,'Slovenia'),(191,1,'Solomon Islands'),(192,1,'Somalia'),(193,1,'South Africa'),(194,1,'South Georgia &amp; South Sandwich Islands'),(195,1,'Spain'),(196,1,'Sri Lanka'),(197,1,'St. Helena'),(198,1,'St. Pierre and Miquelon'),(199,1,'Sudan'),(200,1,'Suriname'),(201,1,'Svalbard and Jan Mayen Islands'),(202,1,'Swaziland'),(203,1,'Sweden'),(204,1,'Switzerland'),(205,1,'Syrian Arab Republic'),(206,1,'Taiwan'),(207,1,'Tajikistan'),(208,1,'Tanzania, United Republic of'),(209,1,'Thailand'),(210,1,'Togo'),(211,1,'Tokelau'),(212,1,'Tonga'),(213,1,'Trinidad and Tobago'),(214,1,'Tunisia'),(215,1,'Turkey'),(216,1,'Turkmenistan'),(217,1,'Turks and Caicos Islands'),(218,1,'Tuvalu'),(219,1,'Uganda'),(220,1,'Ukraine'),(221,1,'United Arab Emirates'),(222,1,'United Kingdom'),(223,1,'United States'),(224,1,'United States Minor Outlying Islands'),(225,1,'Uruguay'),(226,1,'Uzbekistan'),(227,1,'Vanuatu'),(228,1,'Vatican City State (Holy See)'),(229,1,'Venezuela'),(230,1,'Viet Nam'),(231,1,'Virgin Islands (British)'),(232,1,'Virgin Islands (U.S.)'),(233,1,'Wallis and Futuna Islands'),(234,1,'Western Sahara'),(235,1,'Yemen'),(236,1,'Yugoslavia'),(237,1,'Zaire'),(238,1,'Zambia'),(239,1,'Zimbabwe'),(240,1,'Northern Ireland');
+INSERT INTO `ac_country_descriptions` (`country_id`, `language_id`, `name`) 
+VALUES 
+(1,1,'Afghanistan'),
+(2,1,'Albania'),
+(3,1,'Algeria'),
+(4,1,'American Samoa'),
+(5,1,'Andorra'),
+(6,1,'Angola'),
+(7,1,'Anguilla'),
+(8,1,'Antarctica'),
+(9,1,'Antigua and Barbuda'),
+(10,1,'Argentina'),
+(11,1,'Armenia'),
+(12,1,'Aruba'),
+(13,1,'Australia'),
+(14,1,'Austria'),
+(15,1,'Azerbaijan'),
+(16,1,'Bahamas'),
+(17,1,'Bahrain'),
+(18,1,'Bangladesh'),
+(19,1,'Barbados'),
+(20,1,'Belarus'),
+(21,1,'Belgium'),
+(22,1,'Belize'),
+(23,1,'Benin'),
+(24,1,'Bermuda'),
+(25,1,'Bhutan'),
+(26,1,'Bolivia'),
+(27,1,'Bosnia and Herzegowina'),
+(28,1,'Botswana'),
+(29,1,'Bouvet Island'),
+(30,1,'Brazil'),
+(31,1,'British Indian Ocean Territory'),
+(32,1,'Brunei Darussalam'),
+(33,1,'Bulgaria'),
+(34,1,'Burkina Faso'),
+(35,1,'Burundi'),
+(36,1,'Cambodia'),
+(37,1,'Cameroon'),
+(38,1,'Canada'),
+(39,1,'Cape Verde'),
+(40,1,'Cayman Islands'),
+(41,1,'Central African Republic'),
+(42,1,'Chad'),
+(43,1,'Chile'),
+(44,1,'China'),
+(45,1,'Christmas Island'),
+(46,1,'Cocos (Keeling) Islands'),
+(47,1,'Colombia'),
+(48,1,'Comoros'),
+(49,1,'Congo'),
+(50,1,'Cook Islands'),
+(51,1,'Costa Rica'),
+(52,1,'Cote D\'Ivoire'),
+(53,1,'Croatia'),
+(54,1,'Cuba'),
+(55,1,'Cyprus'),
+(56,1,'Czech Republic'),
+(57,1,'Denmark'),
+(58,1,'Djibouti'),
+(59,1,'Dominica'),
+(60,1,'Dominican Republic'),
+(61,1,'East Timor'),
+(62,1,'Ecuador'),
+(63,1,'Egypt'),
+(64,1,'El Salvador'),
+(65,1,'Equatorial Guinea'),
+(66,1,'Eritrea'),
+(67,1,'Estonia'),
+(68,1,'Ethiopia'),
+(69,1,'Falkland Islands (Malvinas)'),
+(70,1,'Faroe Islands'),
+(71,1,'Fiji'),
+(72,1,'Finland'),
+(73,1,'France'),
+(74,1,'France, Metropolitan'),
+(75,1,'French Guiana'),
+(76,1,'French Polynesia'),
+(77,1,'French Southern Territories'),
+(78,1,'Gabon'),
+(79,1,'Gambia'),
+(80,1,'Georgia'),
+(81,1,'Germany'),
+(82,1,'Ghana'),
+(83,1,'Gibraltar'),
+(84,1,'Greece'),
+(85,1,'Greenland'),
+(86,1,'Grenada'),
+(87,1,'Guadeloupe'),
+(88,1,'Guam'),
+(89,1,'Guatemala'),
+(90,1,'Guinea'),
+(91,1,'Guinea-bissau'),
+(92,1,'Guyana'),
+(93,1,'Haiti'),
+(94,1,'Heard and Mc Donald Islands'),
+(95,1,'Honduras'),
+(96,1,'Hong Kong'),
+(97,1,'Hungary'),
+(98,1,'Iceland'),
+(99,1,'India'),
+(100,1,'Indonesia'),
+(101,1,'Iran (Islamic Republic of)'),
+(102,1,'Iraq'),
+(103,1,'Ireland'),
+(104,1,'Israel'),
+(105,1,'Italy'),
+(106,1,'Jamaica'),
+(107,1,'Japan'),
+(108,1,'Jordan'),
+(109,1,'Kazakhstan'),
+(110,1,'Kenya'),
+(111,1,'Kiribati'),
+(112,1,'North Korea'),
+(113,1,'Korea, Republic of'),
+(114,1,'Kuwait'),
+(115,1,'Kyrgyzstan'),
+(116,1,'Lao People\'s Democratic Republic'),
+(117,1,'Latvia'),
+(118,1,'Lebanon'),
+(119,1,'Lesotho'),
+(120,1,'Liberia'),
+(121,1,'Libyan Arab Jamahiriya'),
+(122,1,'Liechtenstein'),
+(123,1,'Lithuania'),
+(124,1,'Luxembourg'),
+(125,1,'Macau'),
+(126,1,'Macedonia'),
+(127,1,'Madagascar'),
+(128,1,'Malawi'),
+(129,1,'Malaysia'),
+(130,1,'Maldives'),
+(131,1,'Mali'),
+(132,1,'Malta'),
+(133,1,'Marshall Islands'),
+(134,1,'Martinique'),
+(135,1,'Mauritania'),
+(136,1,'Mauritius'),
+(137,1,'Mayotte'),
+(138,1,'Mexico'),
+(139,1,'Micronesia, Federated States of'),
+(140,1,'Moldova, Republic of'),
+(141,1,'Monaco'),
+(142,1,'Mongolia'),
+(143,1,'Montserrat'),
+(144,1,'Morocco'),
+(145,1,'Mozambique'),
+(146,1,'Myanmar'),
+(147,1,'Namibia'),
+(148,1,'Nauru'),
+(149,1,'Nepal'),
+(150,1,'Netherlands'),
+(151,1,'Netherlands Antilles'),
+(152,1,'New Caledonia'),
+(153,1,'New Zealand'),
+(154,1,'Nicaragua'),
+(155,1,'Niger'),
+(156,1,'Nigeria'),
+(157,1,'Niue'),
+(158,1,'Norfolk Island'),
+(159,1,'Northern Mariana Islands'),
+(160,1,'Norway'),
+(161,1,'Oman'),
+(162,1,'Pakistan'),
+(163,1,'Palau'),
+(164,1,'Panama'),
+(165,1,'Papua New Guinea'),
+(166,1,'Paraguay'),
+(167,1,'Peru'),
+(168,1,'Philippines'),
+(169,1,'Pitcairn'),
+(170,1,'Poland'),
+(171,1,'Portugal'),
+(172,1,'Puerto Rico'),
+(173,1,'Qatar'),
+(174,1,'Reunion'),
+(175,1,'Romania'),
+(176,1,'Russia'),
+(177,1,'Rwanda'),
+(178,1,'Saint Kitts and Nevis'),
+(179,1,'Saint Lucia'),
+(180,1,'Saint Vincent and the Grenadines'),
+(181,1,'Samoa'),
+(182,1,'San Marino'),
+(183,1,'Sao Tome and Principe'),
+(184,1,'Saudi Arabia'),
+(185,1,'Senegal'),
+(186,1,'Seychelles'),
+(187,1,'Sierra Leone'),
+(188,1,'Singapore'),
+(189,1,'Slovak Republic'),
+(190,1,'Slovenia'),
+(191,1,'Solomon Islands'),
+(192,1,'Somalia'),
+(193,1,'South Africa'),
+(194,1,'South Georgia &amp; South Sandwich Islands'),
+(195,1,'Spain'),
+(196,1,'Sri Lanka'),
+(197,1,'St. Helena'),
+(198,1,'St. Pierre and Miquelon'),
+(199,1,'Sudan'),
+(200,1,'Suriname'),
+(201,1,'Svalbard and Jan Mayen Islands'),
+(202,1,'Swaziland'),
+(203,1,'Sweden'),
+(204,1,'Switzerland'),
+(205,1,'Syrian Arab Republic'),
+(206,1,'Taiwan'),
+(207,1,'Tajikistan'),
+(208,1,'Tanzania, United Republic of'),
+(209,1,'Thailand'),
+(210,1,'Togo'),
+(211,1,'Tokelau'),
+(212,1,'Tonga'),
+(213,1,'Trinidad and Tobago'),
+(214,1,'Tunisia'),
+(215,1,'Turkey'),
+(216,1,'Turkmenistan'),
+(217,1,'Turks and Caicos Islands'),
+(218,1,'Tuvalu'),
+(219,1,'Uganda'),
+(220,1,'Ukraine'),
+(221,1,'United Arab Emirates'),
+(222,1,'United Kingdom'),
+(223,1,'United States'),
+(224,1,'United States Minor Outlying Islands'),
+(225,1,'Uruguay'),
+(226,1,'Uzbekistan'),
+(227,1,'Vanuatu'),
+(228,1,'Vatican City State (Holy See)'),
+(229,1,'Venezuela'),
+(230,1,'Viet Nam'),
+(231,1,'Virgin Islands (British)'),
+(232,1,'Virgin Islands (U.S.)'),
+(233,1,'Wallis and Futuna Islands'),
+(234,1,'Western Sahara'),
+(235,1,'Yemen'),
+(236,1,'Yugoslavia'),
+(237,1,'Zaire'),
+(238,1,'Zambia'),
+(239,1,'Zimbabwe'),
+(240,1,'Northern Ireland');
 
 
 --
@@ -354,7 +595,8 @@ CREATE TABLE `ac_coupons` (
   `uses_total` int(11) NOT NULL,
   `uses_customer` varchar(11) COLLATE utf8_general_ci NOT NULL,
   `status` int(1) NOT NULL,
-  `date_added` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `date_added` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `date_modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`coupon_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
 
@@ -383,6 +625,8 @@ CREATE TABLE `ac_coupons_products` (
   PRIMARY KEY (`coupon_product_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
 
+CREATE INDEX `ac_coupons_products_idx` ON `ac_coupons_products` ( `coupon_id`, `product_id`  );
+
 
 --
 -- DDL for table `currencies`
@@ -397,7 +641,7 @@ CREATE TABLE `ac_currencies` (
   `decimal_place` char(1) COLLATE utf8_general_ci NOT NULL,
   `value` decimal(15,8) NOT NULL,
   `status` int(1) NOT NULL,
-  `date_modified` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `date_modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`currency_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
 
@@ -434,11 +678,13 @@ CREATE TABLE `ac_customers` (
   `approved` int(1) NOT NULL DEFAULT '0',
   `customer_group_id` int(11) NOT NULL,
   `ip` varchar(15) COLLATE utf8_general_ci NOT NULL DEFAULT '0',
-  `date_added` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `date_added` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `date_modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`customer_id`),
   UNIQUE KEY `customers_loginname` (`loginname`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
 
+CREATE INDEX `ac_customers_idx` ON `ac_customers` ( `store_id`, `address_id`, `customer_group_id` );
 
 --
 -- DDL for table `customer_groups`
@@ -475,10 +721,25 @@ CREATE TABLE `ac_customer_transactions` (
   `transaction_type` varchar(255) NOT NULL DEFAULT '' COMMENT 'text type of transaction',
   `comment` text COMMENT 'comment for internal use',
   `description` text COMMENT 'text for customer',
-  `update_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `create_date` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `date_added` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `date_modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`customer_transaction_id`)
-)ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
+CREATE INDEX `ac_customer_transactions_idx` ON `ac_customer_transactions` ( `customer_id`, `order_id` );
+
+--
+-- DDL for table `ac_online_customers`
+--
+
+DROP TABLE IF EXISTS `ac_online_customers`;
+CREATE TABLE `ac_online_customers` (
+  `customer_id` int(11) NOT NULL,
+  `ip` varchar(40) NOT NULL,
+  `url` text NOT NULL,
+  `referer` text NOT NULL,
+  `date_added` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  PRIMARY KEY (`ip`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 --
 -- DDL for table `download`
@@ -495,11 +756,11 @@ CREATE TABLE `ac_downloads` (
   `activate_order_status_id` int(11) NOT NULL DEFAULT '0',
   `shared` int(1) NOT NULL DEFAULT '0', -- if used by other products set to 1
   `status` int(1) NOT NULL DEFAULT '0', -- in migration set to 1
-  `date_added` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `date_added` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `date_modified` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP,
   PRIMARY KEY (`download_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
-
+CREATE INDEX `ac_downloads_idx` ON `ac_downloads` ( `activate_order_status_id`, `shared` );
 --
 -- DDL for table `download_descriptions`
 --
@@ -522,6 +783,8 @@ CREATE TABLE `ac_download_attribute_values` (
   PRIMARY KEY (`download_attribute_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
 
+CREATE INDEX `ac_download_attribute_values_idx` ON `ac_download_attribute_values` ( `attribute_id`, `download_id` );
+
 --
 -- DDL for table `extensions`
 --
@@ -536,8 +799,8 @@ CREATE TABLE `ac_extensions` (
   `version` varchar(32),
   `license_key` varchar(32),
   `date_installed` timestamp NOT NULL default '0000-00-00 00:00:00',
-  `update_date` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP,
-  `create_date` timestamp NOT NULL default '0000-00-00 00:00:00',
+  `date_added` timestamp NOT NULL default '0000-00-00 00:00:00',
+  `date_modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`extension_id`),
   UNIQUE KEY `extension_key` (`key`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
@@ -546,7 +809,7 @@ CREATE TABLE `ac_extensions` (
 -- Dumping data for table `extension`
 --
 
-INSERT INTO `ac_extensions` (`type`, `key`, `category`, `status`, `priority`, `version`, `license_key`, `date_installed`, `update_date`, `create_date`) VALUES
+INSERT INTO `ac_extensions` (`type`, `key`, `category`, `status`, `priority`, `version`, `license_key`, `date_installed`, `date_modified`, `date_added`) VALUES
 ('payment', 'default_cod', 'payment', 1, 1, '1.0', null, now(), now(), now() ),
 ('total', 'coupon', '', 1, 1, '1.0', null, now(), now(), now() ),
 ('total', 'shipping', 'shipping', 1, 1, '1.0', null, now(), now(), now() ),
@@ -567,11 +830,11 @@ INSERT INTO `ac_extensions` (`type`, `key`, `category`, `status`, `priority`, `v
 
 ('shipping', 'default_flat_rate_shipping', 'shipping', 1, 1, '1.0', null, now(), now(), now() ),
 
-('extensions', 'banner_manager', 'extensions', 1, 1, '1.0', null, now(), now(), now() ),
-('payment', 'default_pp_standart', 'payment', 0, 1, '1.0.1', null, now(), now() + INTERVAL 1 HOUR , now() ),
-('payment', 'default_pp_pro', 'payment', 0, 1, '1.0.1', null, now(), now() + INTERVAL 1 HOUR , now() )
+('extensions', 'banner_manager', 'extensions', 1, 1, '1.0.1', null, now(), now(), now() ),
+('extensions', 'forms_manager', 'extensions', 1, 1, '1.0.2', null, now(), now(), now() ),
+('payment', 'default_pp_standart', 'payment', 0, 1, '1.0.2', null, now(), now() + INTERVAL 1 HOUR , now() ),
+('payment', 'default_pp_pro', 'payment', 0, 1, '1.0.2', null, now(), now() + INTERVAL 1 HOUR , now() )
 ;
-
 
 --
 -- DDL for tables of banner manager
@@ -588,7 +851,7 @@ CREATE TABLE `ac_banners` (
 	`target_url` text COLLATE utf8_general_ci DEFAULT '',
 	`sort_order` int(11) NOT NULL,
 	`date_added` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
-	`update_date` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP,
+	`date_modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 	PRIMARY KEY (`banner_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
@@ -600,7 +863,7 @@ CREATE TABLE `ac_banner_descriptions` (
   `description` text COLLATE utf8_general_ci NOT NULL COMMENT 'translatable',
   `meta` text(1500) DEFAULT '' COMMENT 'translatable',
   `date_added` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `update_date` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP,
+  `date_modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`banner_id`,`language_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
@@ -612,8 +875,7 @@ CREATE TABLE `ac_banner_stat` (
   `store_id` int(11) NOT NULL,
   `user_info` text(1500) DEFAULT ''
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
-CREATE INDEX `banner_stat_idx` ON `ac_banner_stat` (`banner_id`, `type`, `time`, `store_id`);
-
+CREATE INDEX `ac_banner_stat_idx` ON `ac_banner_stat` (`banner_id`, `type`, `time`, `store_id`);
 
 --
 -- DDL for table `locations`
@@ -623,8 +885,8 @@ CREATE TABLE `ac_locations` (
   `location_id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(32) COLLATE utf8_general_ci NOT NULL DEFAULT '',
   `description` varchar(255) COLLATE utf8_general_ci NOT NULL DEFAULT '',
-  `date_modified` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `date_added` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `date_added` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `date_modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`location_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
 
@@ -652,7 +914,7 @@ CREATE TABLE `ac_languages` (
   PRIMARY KEY (`language_id`),
   KEY `name` (`name`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
-CREATE UNIQUE INDEX `ac_languages_index`
+CREATE UNIQUE INDEX `ac_languages_idx`
 ON `ac_languages` ( `language_id`,`code` );
 --
 -- Dumping data for table `languages`
@@ -670,13 +932,13 @@ CREATE TABLE `ac_language_definitions` (
   `language_id` int(11) NOT NULL,
   `section` tinyint(1) NOT NULL default '0' COMMENT '0-SF, 1-ADMIN',
   `block` varchar(160) NOT NULL,
-  `language_key` varchar(170) character set utf8 collate utf8_general_ci NOT NULL,
+  `language_key` varchar(170) NOT NULL,
   `language_value` text NOT NULL COMMENT 'translatable',
-  `update_date` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP,
-  `create_date` timestamp NOT NULL default '0000-00-00 00:00:00',
+  `date_added` timestamp NOT NULL default '0000-00-00 00:00:00',
+  `date_modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY  (`language_definition_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
-CREATE UNIQUE INDEX `lang_definition_index`
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
+CREATE UNIQUE INDEX `ac_lang_definition_idx`
 ON `ac_language_definitions` ( `section`,`block`,`language_id`,`language_key` );
 
 --
@@ -697,7 +959,6 @@ INSERT INTO `ac_length_classes` (`length_class_id`, `value`) VALUES
 (1, '1.00000000'),
 (2, '10.00000000'),
 (3, '0.39370000');
-
 
 --
 -- DDL for table `length_class_descriptions`
@@ -797,14 +1058,25 @@ CREATE TABLE `ac_orders` (
   `currency` varchar(3) COLLATE utf8_general_ci NOT NULL,
   `value` decimal(15,8) NOT NULL,
   `coupon_id` int(11) NOT NULL,
-  `date_modified` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `date_added` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `date_added` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `date_modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `ip` varchar(15) COLLATE utf8_general_ci NOT NULL DEFAULT '',
   `payment_method_data` text COLLATE utf8_general_ci NOT NULL,
-  PRIMARY KEY (`order_id`)
+  PRIMARY KEY (`order_id`, `customer_id`, `order_status_id`)
+
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
 
-
+CREATE INDEX `ac_orders_idx`
+ON `ac_orders` (`invoice_id`,
+								`store_id`,
+								`customer_group_id`,
+								`shipping_zone_id`,
+								`shipping_country_id`,
+								`payment_zone_id`,
+								`payment_country_id`,
+								`language_id`,
+								`currency_id`,
+								`coupon_id`);
 --
 -- DDL for table `order_downloads`
 --
@@ -827,9 +1099,11 @@ CREATE TABLE `ac_order_downloads` (
   `attributes_data` text COLLATE utf8_general_ci  DEFAULT NULL,  -- serialized values 
   `date_added` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `date_modified` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP, 
-
   PRIMARY KEY (`order_download_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
+
+CREATE INDEX `ac_order_downloads_idx`
+ON `ac_order_downloads` (`order_id`, `order_product_id`, `download_id`, `status`, `activate_order_status_id`);
 --
 -- DDL for table `order_downloads`
 --
@@ -844,10 +1118,11 @@ CREATE TABLE `ac_order_downloads_history` (
   `download_id` int(11) NOT NULL,
   `download_percent` int(11) DEFAULT '0',
   `time` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP,
-
   PRIMARY KEY (`order_download_history_id`,`order_download_id`, `order_id`,`order_product_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
 
+CREATE INDEX `ac_order_downloads_history_idx`
+ON `ac_order_downloads_history` (`download_id`);
 
 --
 -- DDL for table `ac_order_data`
@@ -884,10 +1159,13 @@ CREATE TABLE `ac_order_history` (
   `order_status_id` int(5) NOT NULL,
   `notify` int(1) NOT NULL DEFAULT '0',
   `comment` text COLLATE utf8_general_ci NOT NULL,
-  `date_added` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `date_added` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `date_modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`order_history_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
 
+CREATE INDEX `ac_order_history_idx`
+ON `ac_order_history` (`order_id`, `order_status_id`, `notify`);
 
 --
 -- DDL for table `order_options`
@@ -904,6 +1182,9 @@ CREATE TABLE `ac_order_options` (
   `prefix` char(1) COLLATE utf8_general_ci NOT NULL DEFAULT '',
   PRIMARY KEY (`order_option_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
+
+CREATE INDEX `ac_order_options_idx`
+ON `ac_order_options` (`order_id`, `order_product_id`, `product_option_value_id`);
 
 
 --
@@ -924,6 +1205,7 @@ CREATE TABLE `ac_order_products` (
   PRIMARY KEY (`order_product_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
 
+CREATE INDEX `ac_order_products_idx` ON `ac_order_products` (`order_id`,  `product_id`);
 
 --
 -- DDL for table `order_statuses`
@@ -941,6 +1223,7 @@ CREATE TABLE `ac_order_statuses` (
 --
 
 INSERT INTO `ac_order_statuses` (`order_status_id`, `language_id`, `name`) VALUES
+(0, 1, 'Incomplete'),
 (1, 1, 'Pending'),
 (2, 1, 'Processing'),
 (3, 1, 'Shipped'),
@@ -996,8 +1279,6 @@ CREATE TABLE `ac_products` (
   `height` decimal(5,2) NOT NULL DEFAULT '0.00',
   `length_class_id` int(11) NOT NULL DEFAULT '0',
   `status` int(1) NOT NULL DEFAULT '0',
-  `date_added` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `date_modified` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   `viewed` int(5) NOT NULL DEFAULT '0',
   `sort_order` int(11) NOT NULL DEFAULT '0',
   `subtract` int(1) NOT NULL DEFAULT '1',
@@ -1005,8 +1286,12 @@ CREATE TABLE `ac_products` (
   `maximum` int(11) NOT NULL DEFAULT '0',
   `cost` DECIMAL(15,4) NOT NULL DEFAULT '0.0000',
   `call_to_order` smallint NOT NULL default '0',
+  `date_added` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `date_modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`product_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
+
+CREATE INDEX `ac_products_idx` ON `ac_products` (`stock_status_id`,  `manufacturer_id`, `weight_class_id`, `length_class_id`);
 
 
 --
@@ -1038,8 +1323,12 @@ CREATE TABLE `ac_product_discounts` (
   `price` decimal(15,4) NOT NULL DEFAULT '0.0000',
   `date_start` date NOT NULL DEFAULT '0000-00-00',
   `date_end` date NOT NULL DEFAULT '0000-00-00',
+  `date_added` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `date_modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`product_discount_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
+
+CREATE INDEX `ac_product_discounts_idx` ON `ac_product_discounts` (`product_id`, `customer_group_id`);
 
 
 --
@@ -1068,6 +1357,7 @@ CREATE TABLE `ac_product_options` (
   PRIMARY KEY (`product_option_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
 
+CREATE INDEX `ac_product_options_idx` ON `ac_product_options` (`attribute_id`, `product_id`, `group_id` );
 
 --
 -- DDL for table `product_option_descriptions`
@@ -1082,7 +1372,7 @@ CREATE TABLE `ac_product_option_descriptions` (
   `error_text` 	varchar(255) COLLATE utf8_general_ci NOT NULL COMMENT 'translatable',
   PRIMARY KEY (`product_option_id`,`language_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
-
+CREATE INDEX `ac_product_option_descriptions_idx` ON `ac_product_option_descriptions` ( `product_id` );
 --
 -- DDL for table `product_option_values`
 --
@@ -1106,6 +1396,8 @@ CREATE TABLE `ac_product_option_values` (
   PRIMARY KEY (`product_option_value_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
 
+CREATE INDEX `ac_product_option_values_idx` ON `ac_product_option_values` ( `product_option_id`, `product_id`, `group_id`, `attribute_value_id` );
+
 
 --
 -- DDL for table `product_option_value_descriptions`
@@ -1119,7 +1411,7 @@ CREATE TABLE `ac_product_option_value_descriptions` (
   `grouped_attribute_names` text COLLATE utf8_general_ci DEFAULT NULL,  
   PRIMARY KEY (`product_option_value_id`,`language_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
-
+CREATE INDEX `ac_product_option_value_descriptions_idx` ON `ac_product_option_value_descriptions` ( `product_id` );
 
 --
 -- DDL for table `product_related`
@@ -1144,9 +1436,12 @@ CREATE TABLE `ac_product_specials` (
   `price` decimal(15,4) NOT NULL DEFAULT '0.0000',
   `date_start` date NOT NULL DEFAULT '0000-00-00',
   `date_end` date NOT NULL DEFAULT '0000-00-00',
+  `date_added` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `date_modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`product_special_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
 
+CREATE INDEX `ac_product_specials_idx` ON `ac_product_specials` ( `product_id`, `customer_group_id` );
 
 --
 -- DDL for table `product_tags`
@@ -1205,10 +1500,12 @@ CREATE TABLE `ac_reviews` (
   `text` text COLLATE utf8_general_ci NOT NULL,
   `rating` int(1) NOT NULL,
   `status` int(1) NOT NULL DEFAULT '0',
-  `date_added` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `date_modified` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `date_added` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `date_modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`review_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
+
+CREATE INDEX `ac_reviews_idx` ON `ac_reviews` ( `product_id`, `customer_id` );
 
 
 --
@@ -1221,6 +1518,8 @@ CREATE TABLE `ac_settings` (
   `group` varchar(32) COLLATE utf8_general_ci NOT NULL,
   `key` varchar(64) COLLATE utf8_general_ci NOT NULL DEFAULT '',
   `value` text COLLATE utf8_general_ci NOT NULL,
+  `date_added` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `date_modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
  PRIMARY KEY (`setting_id`,`store_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
 
@@ -1256,7 +1555,7 @@ INSERT INTO `ac_settings` (`group`, `key`, `value`) VALUES
 ('details','warn_lang_text_missing',0),
 ('details','config_description_9','Welcome to web store!'),
 -- general
-('general','config_admin_limit',10),
+('general','config_admin_limit',20),
 ('general','config_catalog_limit',20),
 ('general','config_bestseller_limit',4),
 ('general','config_featured_limit',4),
@@ -1267,7 +1566,6 @@ INSERT INTO `ac_settings` (`group`, `key`, `value`) VALUES
 ('general','config_stock_status_id',5),
 ('general','enable_reviews',1),
 ('general','config_download',1),
-('general','config_download_status',5),
 ('general','config_help_links',1),
 ('general','config_show_tree_data',1),
 ('general','config_product_default_sort_order','date_modified-ASC'),
@@ -1320,7 +1618,7 @@ INSERT INTO `ac_settings` (`group`, `key`, `value`) VALUES
 ('appearance','config_image_category_width',120),
 ('appearance','admin_template','default'),
 ('appearance','admin_width','100%'),
-('appearance','config_storefront_template','default_html5'),
+('appearance','config_storefront_template','default'),
 
 
 -- mail
@@ -1406,9 +1704,17 @@ INSERT INTO `ac_settings` (`group`, `key`, `value`) VALUES
 
 ('banner_manager','banner_manager_layout',''),
 ('banner_manager','banner_manager_priority',10),
-('banner_manager','banner_manager_date_installed',now()),
+('banner_manager','banner_manager_date_installed', NOW()),
 ('banner_manager','store_id',0),
-('banner_manager','banner_manager_status',1)
+('banner_manager','banner_manager_status',1),
+
+('forms_manager','forms_manager_priority',10),
+('forms_manager','forms_manager_date_installed', NOW()),
+('forms_manager','store_id',0),
+('forms_manager','forms_manager_status',1),
+('forms_manager','forms_manager_default_sender_name', ''),
+('forms_manager','forms_manager_default_sender_email', ''),
+('forms_manager','forms_manager_sort_order', '')
 ;
 
 
@@ -1464,8 +1770,8 @@ CREATE TABLE `ac_store_descriptions` (
 DROP TABLE IF EXISTS `ac_tax_classes`;
 CREATE TABLE `ac_tax_classes` (
   `tax_class_id` int(11) NOT NULL AUTO_INCREMENT,
-  `date_added` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `date_modified` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `date_added` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `date_modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`tax_class_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
 
@@ -1503,11 +1809,12 @@ CREATE TABLE `ac_tax_rates` (
   `rate_prefix` char(1) COLLATE utf8_general_ci NOT NULL DEFAULT '%', -- % or $ 
   `threshold_condition` char(2) COLLATE utf8_general_ci NOT NULL, -- '<=', '>=', '==' or '<'
   `threshold` decimal(15,4) NOT NULL DEFAULT '0.0000',
-  `date_modified` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `date_added` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `date_added` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `date_modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`tax_rate_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
 
+CREATE INDEX `ac_tax_rates_idx` ON `ac_tax_rates` ( `location_id`, `zone_id`, `tax_class_id` );
 --
 -- Dumping data for table `tax_rate`
 --
@@ -1542,9 +1849,9 @@ CREATE TABLE `ac_url_aliases` (
   `language_id` int(11) NOT NULL DEFAULT '1',
   PRIMARY KEY (`url_alias_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
-CREATE UNIQUE INDEX `url_aliases_index`
+CREATE UNIQUE INDEX `ac_url_aliases_idx`
 ON `ac_url_aliases` ( `keyword`, `language_id`);
-CREATE UNIQUE INDEX `url_aliases_index2`
+CREATE UNIQUE INDEX `ac_url_aliases_idx2`
 ON `ac_url_aliases` ( `query`, `language_id` );
 
 
@@ -1562,10 +1869,12 @@ CREATE TABLE `ac_users` (
   `email` varchar(96) COLLATE utf8_general_ci NOT NULL DEFAULT '',
   `status` int(1) NOT NULL,
   `ip` varchar(15) COLLATE utf8_general_ci NOT NULL DEFAULT '',
-  `date_added` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   `last_login` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `date_added` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `date_modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`user_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=2;
+
 
 
 --
@@ -1576,8 +1885,8 @@ CREATE TABLE `ac_user_groups` (
   `user_group_id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(64) COLLATE utf8_general_ci NOT NULL,
   `permission` text COLLATE utf8_general_ci NOT NULL,
-  `created` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `updated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `date_added` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `date_modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`user_group_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
 
@@ -1642,7 +1951,7 @@ CREATE TABLE `ac_zones` (
   `code` varchar(32) COLLATE utf8_general_ci NOT NULL DEFAULT '',
   `status` int(1) NOT NULL DEFAULT '1',
   `sort_order` int(3) NOT NULL DEFAULT '0',  
-  PRIMARY KEY (`zone_id`)
+  PRIMARY KEY (`zone_id`, `country_id` )
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
 
 --
@@ -9541,10 +9850,12 @@ CREATE TABLE `ac_zones_to_locations` (
   `country_id` int(11) NOT NULL,
   `zone_id` int(11) NOT NULL DEFAULT '0',
   `location_id` int(11) NOT NULL,
-  `date_added` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `date_modified` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `date_added` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `date_modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`zone_to_location_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
+
+CREATE INDEX `ac_zones_to_locations_idx` ON `ac_zones_to_locations` ( `country_id`, `zone_id`, `location_id` );
 
 --
 -- Dumping data for table `ac_zones_to_locations`
@@ -9629,18 +9940,18 @@ CREATE TABLE `ac_pages` (
   `controller` varchar(100) NOT NULL,
   `key_param` varchar(40) NOT NULL default '', -- Example product_id=10 identifies uniqe product page  
   `key_value` varchar(40) NOT NULL default '', -- Example product_id=10 identifies uniqe product page
-  `created` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `updated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `date_added` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `date_modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY  (`page_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
-CREATE UNIQUE INDEX `pages_index`
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+CREATE UNIQUE INDEX `ac_pages_idx`
 ON `ac_pages` ( `page_id`, `controller`, `key_param`, `key_value` );
 
 --
 -- Dumping data for table `pages`
 --
 
-INSERT INTO `ac_pages` (`page_id`, `parent_page_id`, `controller`, `key_param`, `key_value`, `created`) VALUES
+INSERT INTO `ac_pages` (`page_id`, `parent_page_id`, `controller`, `key_param`, `key_value`, `date_added`) VALUES
 (1, 0, 'generic', '', '', now() ),
 (2, 0, 'pages/index/home', '', '', now() ),
 (3, 0, 'pages/checkout', '', '', now() ),
@@ -9664,12 +9975,12 @@ CREATE TABLE `ac_page_descriptions` (
   `keywords` varchar(255) NOT NULL DEFAULT '' COMMENT 'translatable',
   `description` varchar(255) NOT NULL DEFAULT '' COMMENT 'translatable',
   `content` text DEFAULT NULL COMMENT 'translatable', -- Contain the page details if custom content
-  `created` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `updated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `date_added` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `date_modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`page_id`,`language_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
-INSERT INTO `ac_page_descriptions` (`page_id`, `language_id`, `name`, `title`, `seo_url`, `keywords`, `description`, `content`, `created`) VALUES
+INSERT INTO `ac_page_descriptions` (`page_id`, `language_id`, `name`, `title`, `seo_url`, `keywords`, `description`, `content`, `date_added`) VALUES
 (1, 1, 'All Other Pages', '', '', '', '', '', now() ),
 (2, 1, 'Home Page', '', '', '', '', '', now() ),
 (3, 1, 'Checkout Pages', '', '', '', '', '', now() ),
@@ -9712,12 +10023,12 @@ CREATE TABLE `ac_content_descriptions` (
   `title` varchar(255) NOT NULL COMMENT 'translatable',
   `description` varchar(255) NOT NULL DEFAULT '' COMMENT 'translatable',
   `content` text NOT NULL COMMENT 'translatable', -- Contain the page details if custom content
-  `created` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `updated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `date_added` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `date_modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`content_id`,`language_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
-INSERT INTO `ac_content_descriptions` (`content_id`, `language_id`, `name`, `title`, `description`, `content`, `created`)
+INSERT INTO `ac_content_descriptions` (`content_id`, `language_id`, `name`, `title`, `description`, `content`, `date_added`)
 VALUES
 (1, 1, 'About Us', 'About Us', 'some description', 'text about your store', now() ),
 (2, 1, 'Privacy Policy', 'Privacy Policy', 'some description', 'some text about privacy policy', now()),
@@ -9748,12 +10059,12 @@ CREATE TABLE `ac_blocks` (
   `block_id` int(10) NOT NULL auto_increment,
   `block_txt_id` varchar(40) NOT NULL,
   `controller` varchar(120) NOT NULL,
-  `created` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `updated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `date_added` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `date_modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY  (`block_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
-INSERT INTO `ac_blocks` (`block_id`, `block_txt_id`, `controller`, `created`) VALUES
+INSERT INTO `ac_blocks` (`block_id`, `block_txt_id`, `controller`, `date_added`) VALUES
 (1, 'header', 'common/header', now() ),
 (2, 'header_bottom', 'common/header_bottom', now() ),
 (3, 'column_left', 'common/column_left', now() ),
@@ -9782,7 +10093,8 @@ INSERT INTO `ac_blocks` (`block_id`, `block_txt_id`, `controller`, `created`) VA
 (26, 'search', 'blocks/search', now() ),
 (27, 'menu', 'blocks/menu', now() ),
 (28, 'breadcrumbs', 'blocks/breadcrumbs', now() ), 
-(29, 'account', 'blocks/account', now());
+(29, 'account', 'blocks/account', now()),
+(30, 'custom_form_block', 'blocks/custom_form_block', now() );
 
 --
 -- DDL for table `ac_custom_blocks`
@@ -9792,10 +10104,10 @@ DROP TABLE IF EXISTS `ac_custom_blocks`;
 CREATE TABLE `ac_custom_blocks` (
   `custom_block_id` int(10) NOT NULL auto_increment,
   `block_id` int(10) NOT NULL,
-  `created` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `updated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `date_added` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `date_modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`custom_block_id`, `block_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 --
 -- DDL for table `ac_custom_lists`
@@ -9807,10 +10119,10 @@ CREATE TABLE `ac_custom_lists` (
   `data_type` varchar(70) NOT NULL,
   `id` int(10) NOT NULL,
   `sort_order` int(10) NOT NULL DEFAULT 0,
-  `created` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `updated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
-CREATE INDEX `custom_block_id_list_index`
+  `date_added` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `date_modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+CREATE INDEX `ac_custom_block_id_list_idx`
 ON `ac_custom_lists` (`custom_block_id` );
 
 --
@@ -9828,10 +10140,10 @@ CREATE TABLE `ac_block_descriptions` (
   `title` varchar(255) NOT NULL COMMENT 'translatable',  
   `description` varchar(255) NOT NULL DEFAULT '' COMMENT 'translatable',
   `content` text NOT NULL DEFAULT '', -- Contain the block details if custom content
-  `created` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `updated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `date_added` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `date_modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`block_description_id`, `custom_block_id`, `language_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 
 --
@@ -9843,12 +10155,12 @@ CREATE TABLE `ac_block_templates` (
   `block_id` int(10) NOT NULL auto_increment,
   `parent_block_id` int(10) NOT NULL DEFAULT 0, -- Placeholder where this block can be placed. 0 - any location
   `template` varchar(100) NOT NULL,
-  `created` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `updated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `date_added` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `date_modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY  (`block_id`, `parent_block_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
-INSERT INTO `ac_block_templates` (`block_id`, `parent_block_id`, `template`, `created`) VALUES
+INSERT INTO `ac_block_templates` (`block_id`, `parent_block_id`, `template`, `date_added`) VALUES
 (15, 1, 'blocks/cart_top.tpl', now() ),
 (15, 6, 'blocks/cart.tpl', now() ),
 (9, 1, 'blocks/category_top.tpl', now()),
@@ -9893,7 +10205,7 @@ INSERT INTO `ac_block_templates` (`block_id`, `parent_block_id`, `template`, `cr
 (20, 6, 'blocks/listing_block_column_right.tpl', now() ),
 (20, 7, 'blocks/listing_block_footer_top.tpl', now() ),
 (20, 8, 'blocks/listing_block_footer.tpl', now() ),
-(21, 8, 'blocks/donate.tpl', now() ),
+(21, 0, 'blocks/donate.tpl', now() ),
 (22, 3, 'blocks/special.tpl', now() ),
 (22, 5, 'blocks/special_home.tpl', now() ),
 (22, 6, 'blocks/special.tpl', now() ),
@@ -9922,9 +10234,16 @@ INSERT INTO `ac_block_templates` (`block_id`, `parent_block_id`, `template`, `cr
 (27, 8, 'blocks/menu_bottom.tpl', now() ),
 (27, 3, 'blocks/menu.tpl', now() ),
 (27, 6, 'blocks/menu.tpl', now() ),
-(28, 2, 'blocks/breadcrumbs.tpl', now() ),
-(29, 3, 'blocks/account.tpl', now() ),
-(29, 6, 'blocks/account.tpl', now() )
+(28, 0, 'blocks/breadcrumbs.tpl', now() ),
+(29, 0, 'blocks/account.tpl', now() ),
+(30, 1, 'blocks/custom_form_block_header.tpl', NOW() ),
+(30, 2, 'blocks/custom_form_block_content.tpl', NOW() ),
+(30, 3, 'blocks/custom_form_block.tpl', NOW() ),
+(30, 4, 'blocks/custom_form_block_content.tpl', NOW() ),
+(30, 5, 'blocks/custom_form_block_content.tpl', NOW() ),
+(30, 6, 'blocks/custom_form_block.tpl', NOW() ),
+(30, 7, 'blocks/custom_form_block_content.tpl', NOW() ),
+(30, 8, 'blocks/custom_form_block_header.tpl', NOW() )
 ;
 
 --
@@ -9935,30 +10254,22 @@ DROP TABLE IF EXISTS `ac_layouts`;
 CREATE TABLE `ac_layouts` (
   `layout_id` int(10) NOT NULL auto_increment,
   `template_id` varchar(100) NOT NULL,
-  `store_id` int(11) NOT NULL default 0,
   `layout_name` varchar(255) NOT NULL default '',
   `layout_type` smallint(1) NOT NULL default '0', -- 0 Default, 1 Active layout, 2 draft layout, 3 template layout
-  `created` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `updated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `date_added` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `date_modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY  (`layout_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
-INSERT INTO `ac_layouts` (`layout_id`, `template_id`, `layout_type`, `layout_name`, `created`) VALUES
-(1, 'default', 0, 'Default Page Layout', now() ),
-(2, 'default', 1, 'Home Page', now() ),
-(4, 'default', 1, 'Product Listing Page', now() ),
-(5, 'default', 1, 'Login Page', now() ),
-(6, 'default', 1, 'Default Product Page', now() ),
-(7, 'default', 1, 'Checkout Pages', now() ),
-
-(11, 'default_html5', 0, 'Default Page Layout',  now()),
-(12, 'default_html5', 1, 'Home Page',  now()),
-(13, 'default_html5', 1, 'Login Page',  now()),
-(14, 'default_html5', 1, 'Default Product Page',  now()),
-(15, 'default_html5', 1, 'Checkout Pages', now()),
-(16, 'default_html5', 1, 'Product Listing Page', now()),
-(17, 'default_html5', 1, 'Maintanance Page', now()),
-(18, 'default_html5', 1, 'Customer Account Pages', now())
+INSERT INTO `ac_layouts` (`layout_id`, `template_id`, `layout_type`, `layout_name`, `date_added`) VALUES 
+(11, 'default', 0, 'Default Page Layout',  now()),
+(12, 'default', 1, 'Home Page',  now()),
+(13, 'default', 1, 'Login Page',  now()),
+(14, 'default', 1, 'Default Product Page',  now()),
+(15, 'default', 1, 'Checkout Pages', now()),
+(16, 'default', 1, 'Product Listing Page', now()),
+(17, 'default', 1, 'Maintanance Page', now()),
+(18, 'default', 1, 'Customer Account Pages', now())
 ;
 
 --
@@ -9969,7 +10280,7 @@ CREATE TABLE `ac_pages_layouts` (
   `layout_id` int(10) NOT NULL,
   `page_id` int(10) NOT NULL,
   PRIMARY KEY  (`layout_id`,`page_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 INSERT INTO `ac_pages_layouts` (`layout_id`, `page_id`) VALUES
 (1, 1 ),
@@ -9986,7 +10297,6 @@ INSERT INTO `ac_pages_layouts` (`layout_id`, `page_id`) VALUES
 (18, 11)
 ;
 
-
 --
 -- DDL for table `block_layouts`
 --
@@ -9999,14 +10309,14 @@ CREATE TABLE `ac_block_layouts` (
   `parent_instance_id` int(10) NOT NULL default '0', -- 0 for main level block 
   `position` smallint(5) NOT NULL default '0',
   `status` smallint(1) NOT NULL default '0',
-  `created` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `updated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `date_added` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `date_modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY  (`instance_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
-CREATE UNIQUE INDEX `block_layouts_index`
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+CREATE UNIQUE INDEX `ac_block_layouts_idx`
 ON `ac_block_layouts` ( `instance_id`, `layout_id`, `block_id`, `parent_instance_id`,`custom_block_id` );
 
-INSERT INTO `ac_block_layouts` (`instance_id`, `layout_id`, `block_id`, `custom_block_id`, `parent_instance_id`, `position`, `status`, `created`) VALUES
+INSERT INTO `ac_block_layouts` (`instance_id`, `layout_id`, `block_id`, `custom_block_id`, `parent_instance_id`, `position`, `status`, `date_added`) VALUES
 (1, 1, 1, 0, 0, 10, 1, now() ),
 (2, 1, 2, 0, 0, 20, 1, now() ),
 (3, 1, 3, 0, 0, 30, 1, now() ),
@@ -10028,7 +10338,7 @@ INSERT INTO `ac_block_layouts` (`instance_id`, `layout_id`, `block_id`, `custom_
 (172, 1, 24, 0, 8, 20, 1, now() );
 
 -- Home page
-INSERT INTO `ac_block_layouts` (`instance_id`, `layout_id`, `block_id`, `custom_block_id`, `parent_instance_id`, `position`, `status`, `created`) VALUES
+INSERT INTO `ac_block_layouts` (`instance_id`, `layout_id`, `block_id`, `custom_block_id`, `parent_instance_id`, `position`, `status`, `date_added`) VALUES
 (16, 2, 1, 0, 0, 10, 1, now() ),
 (17, 2, 2, 0, 0, 20, 1, now() ),
 (18, 2, 3, 0, 0, 30, 1, now() ),
@@ -10051,7 +10361,7 @@ INSERT INTO `ac_block_layouts` (`instance_id`, `layout_id`, `block_id`, `custom_
 (40, 2, 24, 0, 23, 20, 1, now() );
 
 -- Login page
-INSERT INTO `ac_block_layouts` (`instance_id`, `layout_id`, `block_id`, `custom_block_id`, `parent_instance_id`, `position`, `status`, `created`) VALUES
+INSERT INTO `ac_block_layouts` (`instance_id`, `layout_id`, `block_id`, `custom_block_id`, `parent_instance_id`, `position`, `status`, `date_added`) VALUES
 (56, 5, 13, 0, 55, 10, 1, now() ),
 (64, 5, 7, 0, 0, 70, 1, now() ),
 (63, 5, 6, 0, 0, 60, 0, now() ),
@@ -10066,7 +10376,7 @@ INSERT INTO `ac_block_layouts` (`instance_id`, `layout_id`, `block_id`, `custom_
 (98, 5, 21, 0, 65, 10, 1, now() ),
 (99, 5, 24, 0, 65, 20, 1, now() );
 -- Default Product page
-INSERT INTO `ac_block_layouts` (`instance_id`, `layout_id`, `block_id`, `custom_block_id`, `parent_instance_id`, `position`, `status`, `created`) VALUES
+INSERT INTO `ac_block_layouts` (`instance_id`, `layout_id`, `block_id`, `custom_block_id`, `parent_instance_id`, `position`, `status`, `date_added`) VALUES
 (66, 6, 13, 0, 75, 10, 1, now() ),
 (67, 6, 7, 0, 0, 70, 1, now() ),
 (68, 6, 6, 0, 0, 60, 0, now() ),
@@ -10081,7 +10391,7 @@ INSERT INTO `ac_block_layouts` (`instance_id`, `layout_id`, `block_id`, `custom_
 (95, 6, 21, 0, 76, 10, 1, now() ),
 (170, 6, 24, 0, 76, 20, 1, now() );
 -- Checkout pages
-INSERT INTO `ac_block_layouts` (`instance_id`, `layout_id`, `block_id`, `custom_block_id`, `parent_instance_id`, `position`, `status`, `created`) VALUES
+INSERT INTO `ac_block_layouts` (`instance_id`, `layout_id`, `block_id`, `custom_block_id`, `parent_instance_id`, `position`, `status`, `date_added`) VALUES
 (77, 7, 1, 0, 0, 10, 1, now() ),
 (78, 7, 7, 0, 0, 70, 1, now() ),
 (79, 7, 6, 0, 0, 60, 1, now() ),
@@ -10099,7 +10409,7 @@ INSERT INTO `ac_block_layouts` (`instance_id`, `layout_id`, `block_id`, `custom_
 
 
 -- DEFAULT HTML5 template's layouts
-INSERT INTO `ac_block_layouts` (`instance_id`, `layout_id`, `block_id`, `custom_block_id`, `parent_instance_id`, `position`, `status`, `created`,`updated`) VALUES
+INSERT INTO `ac_block_layouts` (`instance_id`, `layout_id`, `block_id`, `custom_block_id`, `parent_instance_id`, `position`, `status`, `date_added`,`date_modified`) VALUES
 (1839,11,25,0,337,40,1,NOW(),NOW()),
 (338,11,9,0,3,10,1,NOW(),NOW()),
 (337,11,8,0,0,80,1,NOW(),NOW()),
@@ -10274,7 +10584,7 @@ INSERT INTO `ac_block_layouts` (`instance_id`, `layout_id`, `block_id`, `custom_
 (941,17,4,0,0,40,1,NOW(),NOW());
 
 -- DEFAULT HTML5 template's layouts
-INSERT INTO `ac_block_layouts` (`instance_id`, `layout_id`, `block_id`, `custom_block_id`, `parent_instance_id`, `position`, `status`, `created`,`updated`) VALUES
+INSERT INTO `ac_block_layouts` (`instance_id`, `layout_id`, `block_id`, `custom_block_id`, `parent_instance_id`, `position`, `status`, `date_added`,`date_modified`) VALUES
 (1900,18,5,0,0,50,1,NOW(),NOW()),
 (1901,18,4,0,0,40,1,NOW(),NOW()),
 (1902,18,3,0,0,30,0,NOW(),NOW()),
@@ -10309,7 +10619,7 @@ INSERT INTO `ac_block_layouts` (`instance_id`, `layout_id`, `block_id`, `custom_
 
 -- add breadcrumbs 
 
-INSERT INTO `ac_block_layouts` (`instance_id`, `layout_id`, `block_id`, `custom_block_id`, `parent_instance_id`, `position`, `status`, `created`,`updated`) VALUES
+INSERT INTO `ac_block_layouts` (`instance_id`, `layout_id`, `block_id`, `custom_block_id`, `parent_instance_id`, `position`, `status`, `date_added`,`date_modified`) VALUES
 (1950,11,28,0,331,20,1,NOW(),NOW()),
 (1951,13,28,0,375,20,1,NOW(),NOW()),
 (1952,14,28,0,388,20,1,NOW(),NOW()),
@@ -10325,7 +10635,7 @@ CREATE TABLE `ac_pages_forms` (
   `page_id` int(10) NOT NULL,
   `form_id` int(10) NOT NULL,
   PRIMARY KEY  (`form_id`,`page_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 
 --
@@ -10341,7 +10651,7 @@ CREATE TABLE `ac_forms` (
   `status` smallint(1) NOT NULL default '0',
   PRIMARY KEY  (`form_id`),
   UNIQUE KEY `form_name` (`form_name`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
 
 INSERT INTO `ac_forms` VALUES (2,'ContactUsFrm','content/contact','content/contact/success',1);
 
@@ -10354,7 +10664,7 @@ CREATE TABLE `ac_form_descriptions` (
   `language_id` int(11) NOT NULL,
   `description` varchar(255) NOT NULL DEFAULT '' COMMENT 'translatable',
   PRIMARY KEY (`form_id`,`language_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 INSERT INTO `ac_form_descriptions` VALUES (2,1,'Contact Us Form');
 
@@ -10378,14 +10688,14 @@ CREATE TABLE `ac_fields` (
   `regexp_pattern` varchar(255) NOT NULL DEFAULT '',
   PRIMARY KEY (`field_id`),
   KEY `field_id` (`field_id`, `form_id`, `status`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 INSERT INTO `ac_fields`
 (field_id, form_id, field_name, element_type, sort_order, attributes,settings, required, regexp_pattern, status)
 VALUES
 (11,2,'first_name','I',1,'','','Y','/^.{3,100}$/u',1),
 (12,2,'email','I',2,'','','Y','/^[A-Z0-9._%-]+@[A-Z0-9][A-Z0-9.-]{0,61}[A-Z0-9]\.[A-Z]{2,6}$/i',1),
-(13,2,'enquiry','T',3,'','','Y','/^.{3,1000}$/u',1),
+(13,2,'enquiry','T',3,'cols="50" rows="8"','','Y','/^.{3,1000}$/u',1),
 (14,2,'captcha','K',4,'','','Y','',1);
 
 --
@@ -10399,7 +10709,7 @@ CREATE TABLE `ac_field_descriptions` (
   `language_id` int(11) NOT NULL,
   `error_text` varchar(255) NOT NULL DEFAULT '' COMMENT 'translatable',
   PRIMARY KEY (`field_id`,`language_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 INSERT INTO `ac_field_descriptions` (`field_id`, `name`, `error_text`, `language_id`)
 VALUES
@@ -10418,7 +10728,7 @@ CREATE TABLE `ac_field_values` (
   `value` text COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT 'translatable',
   `language_id` int(11) NOT NULL,
   PRIMARY KEY (`value_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 --
 -- DDL for table `fields_groups`
@@ -10432,7 +10742,7 @@ CREATE TABLE `ac_form_groups` (
   `status` smallint(1) NOT NULL default '0',
   PRIMARY KEY (`group_id`),
   KEY `group_id` (`group_id`, `form_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 --
 -- DDL for table `fields_groups`
@@ -10444,7 +10754,7 @@ CREATE TABLE `ac_fields_groups` (
   `sort_order` int(3) NOT NULL,
   PRIMARY KEY (`field_id`),
   KEY `field_id` (`field_id`, `group_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 --
 -- DDL for table `fields_group_descriptions`
@@ -10456,7 +10766,7 @@ CREATE TABLE `ac_fields_group_descriptions` (
   `description` varchar(255) NOT NULL DEFAULT '' COMMENT 'translatable',
   `language_id` int(11) NOT NULL,
   PRIMARY KEY (`group_id`,`language_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 
 --
@@ -10468,10 +10778,10 @@ CREATE TABLE `ac_messages` (
   `title` varchar(128) NOT NULL default '',
   `message` text NOT NULL,
   `status` char(1) NOT NULL default '',
-  `update_date` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP,
-  `create_date` timestamp NOT NULL default '0000-00-00 00:00:00',
   `viewed` int(11) NOT NULL default '0',
   `repeated` int(11) NOT NULL default '0',
+  `date_added` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `date_modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY  (`msg_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
 
@@ -10491,7 +10801,7 @@ CREATE TABLE `ac_ant_messages` (
   `html` text,
   `url` text,
   `language_code` varchar(2) NOT NULL DEFAULT 'en',
-  `update_date` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP,
+  `date_modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`, `language_code`),
   KEY `daterange_idx` (`start_date`,`end_date`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
@@ -10560,7 +10870,7 @@ CREATE TABLE `ac_dataset_values` (
   `value_sort_order` int(11) NOT NULL AUTO_INCREMENT,
   `row_id` int(10) unsigned NOT NULL DEFAULT '0',
   PRIMARY KEY (`value_sort_order`),
-  KEY `dataset_values_index` (`value_integer`,`value_float`,`value_varchar`,`value_boolean`,`row_id`)
+  KEY `dataset_values_idx` (`value_integer`,`value_float`,`value_varchar`,`value_boolean`,`row_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 --
 -- Storefront menu inserts
@@ -10589,13 +10899,13 @@ VALUES  (1,'home',1),
 
 -- ITEM_ICON
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
-VALUES  (2,'<i class="icon-home"></i>&nbsp;',1),
-        (2,'<i class="icon-lock"></i>&nbsp;&nbsp;',2),
-        (2,'<i class="icon-lock"></i>&nbsp;&nbsp;',3),
-        (2,'<i class="icon-user"></i>&nbsp;',4),
-        (2,'<i class="icon-shopping-cart"></i>&nbsp;',5),
-        (2,'<i class="icon-barcode"></i>&nbsp;&nbsp;',6),
-        (2,'<i class="icon-star"></i>&nbsp;&nbsp;',7);
+VALUES  (2,'',1),
+        (2,'',2),
+        (2,'',3),
+        (2,'',4),
+        (2,'',5),
+        (2,'',6),
+        (2,'',7);
 -- ITEM_URL
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
 VALUES  (3,'index/home',1),
@@ -10634,13 +10944,13 @@ VALUES  (6,'core',1),
         (6,'core',7);
 -- item_icon_rl_id
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_integer`,`row_id`)
-VALUES  (7,2,1),
-        (7,3,2),
-        (7,3,3),
-        (7,4,4),
-        (7,5,5),
-        (7,6,6),
-		    (7,1,7);
+VALUES  (7,null,1),
+        (7,null,2),
+        (7,null,3),
+        (7,null,4),
+        (7,null,5),
+        (7,null,6),
+		    (7,null,7);
 
 --
 -- ADMIN MENU SECTION
@@ -10652,7 +10962,8 @@ VALUES  (2,10, 'item_id','varchar',1),
         (2,12, 'item_url','varchar',3),
         (2,13, 'parent_id','varchar',4),
         (2,14, 'sort_order','integer',5),
-        (2,15, 'item_type','varchar',6);
+        (2,15, 'item_type','varchar',6),
+        (2,40, 'item_icon_rl_id','varchar',7);
 --		
 -- MAIN (PARENT) MENU
 --
@@ -10711,6 +11022,16 @@ VALUES  (15,'core',1),
         (15,'core',5),
         (15,'core',6),
         (15,'core',7);
+-- ITEM_RL_ID
+INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
+VALUES  (40,'200',1),
+        (40,'201',2),
+        (40,'202',3),
+        (40,'203',4),
+        (40,'204',5),
+        (40,'205',6),
+        (40,'206',7);
+
 --		
 -- SUBMENU CATEGORY
 -- ITEM_ID
@@ -10761,6 +11082,15 @@ VALUES  (15,'core',11),
         (15,'core',14),
         (15,'core',15),
         (15,'core',16);
+-- ITEM_RL_ID
+INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
+VALUES  (40,'207',11),
+        (40,'208',12),
+        (40,'209',13),
+        (40,'210',14),
+        (40,'211',15),
+        (40,'212',16);
+
 --
 -- SUBMENU EXTENSION
 -- ITEM_ID
@@ -10782,7 +11112,7 @@ VALUES  (11,'text_extensions',31),
         (11,'text_language',35),
         (11,'text_total',36),
         (11,'text_add_extension',37),
-        (11,'text_extensions_stores',38);
+        (11,'text_extensions_store',38);
 -- ITEM_URL
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`) 
 VALUES  (12,'extension/extensions/extensions',31),
@@ -10821,6 +11151,18 @@ VALUES  (15,'core',31),
         (15,'core',34),
         (15,'core',35),
         (15,'core',36);
+-- ITEM_RL_ID
+INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
+VALUES  (40,'213',31),
+        (40,'214',32),
+        (40,'215',33),
+        (40,'216',34),
+        (40,'217',35),
+        (40,'218',36),
+        (40,'219',37),
+        (40,'220',38);
+
+
 --
 -- SUBMENU SALE
 -- ITEM_ID
@@ -10865,6 +11207,14 @@ VALUES  (15,'core',51),
         (15,'core',53),
         (15,'core',54),
         (15,'core',55);
+-- ITEM_RL_ID
+INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
+VALUES  (40,'221',51),
+        (40,'222',52),
+        (40,'223',53),
+        (40,'224',54),
+        (40,'225',55);
+
 --		
 -- SUBMENU SYSTEM
 -- ITEM_ID
@@ -10927,25 +11277,37 @@ VALUES  (15,'core',71),
         (15,'core',78),
         (15,'core',79),
         (15,'core',80);
+-- ITEM_RL_ID
+INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
+VALUES  (40,'226',71),
+        (40,'227',72),
+        (40,'228',73),
+        (40,'229',74),
+        (40,'230',77),
+        (40,'231',78),
+        (40,'232',79),
+        (40,'233',80);
+
+
 --
 -- SUBMENU REPORTS
 -- ITEM_ID
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`) 
 VALUES  (10,'report_sale',91),
-        (10,'viewed',92),
-        (10,'purchased',93),
+        (10,'report_customer',92),
+        (10,'report_product',93),
         (10,'banner_manager_stat',94 );
 -- ITEM_TEXT
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`) 
 VALUES  (11,'text_report_sale',91),
-        (11,'text_report_viewed',92),
-        (11,'text_report_purchased',93),
+        (11,'text_customer',92),
+        (11,'text_product',93),
         (11,'banner_manager_name_stat',94);
 -- ITEM_URL
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`) 
-VALUES  (12,'report/sale',91),
-        (12,'report/viewed',92),
-        (12,'report/purchased',93),
+VALUES  (12,'',91),
+        (12,'',92),
+        (12,'',93),
         (12,'extension/banner_manager_stat',94);
 -- PARENT_ID
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`) 
@@ -10965,38 +11327,59 @@ VALUES  (15,'core',91),
         (15,'core',92),
         (15,'core',93),
         (15,'extension',94);
+
+-- ITEM_RL_ID
+INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
+VALUES  (40,'234',91),
+        (40,'222',92),
+        (40,'208',93),
+        (40,'237',94);
+
 --
 -- SUBMENU HELP
 -- ITEM_ID
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`) 
 VALUES  (10,'abantecart',111),
         (10,'documentation',112),
-        (10,'support',113);
+        (10,'support',113),
+        (10,'marketplace',114);
 -- ITEM_TEXT
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`) 
 VALUES  (11,'text_abantecart',111),
         (11,'text_documentation',112),
-        (11,'text_support',113);
+        (11,'text_support',113),
+        (11,'text_extensions_store',114);
 -- ITEM_URL
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`) 
 VALUES  (12,'window.open(\'http://www.abantecart.com\');',111),
         (12,'window.open(\'http://www.abantecart.com/ecommerce-documentation\');',112),
-        (12,'window.open(\'http://forum.abantecart.com\');',113);
+        (12,'window.open(\'http://forum.abantecart.com\');',113),
+        (12,'window.open(\'http://marketplace.abantecart.com\');',114);
 -- PARENT_ID
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`) 
 VALUES  (13,'help',111),
         (13,'help',112),
-        (13,'help',113);
+        (13,'help',113),
+        (13,'help',114);
 -- SORT_ORDER
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_integer`,`row_id`) 
 VALUES  (14,1,111),
         (14,2,112),
-        (14,3,113);
+        (14,3,113),
+        (14,4,114);
 -- ITEM_TYPE
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`) 
 VALUES  (15,'core',111),
         (15,'core',112),
-        (15,'core',113);
+        (15,'core',113),
+        (15,'core',114);
+-- ITEM_RL_ID
+INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
+VALUES  (40,'238',111),
+        (40,'239',112),
+        (40,'240',113),
+        (40,'203',114);
+
 --		
 -- SUBMENU DESIGN
 -- ITEM_ID
@@ -11006,7 +11389,8 @@ VALUES  (10,'template',131),
         (10,'blocks',133),
         (10,'menu',134),
         (10,'content',135),
-		    (10,'banner_manager',136);
+		    (10,'banner_manager',136),
+		    (10,'forms_manager',200);
 -- ITEM_TEXT
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`) 
 VALUES  (11,'text_templates',131),
@@ -11014,7 +11398,8 @@ VALUES  (11,'text_templates',131),
         (11,'text_blocks',133),
         (11,'text_menu',134),
         (11,'text_content',135),
-        (11,'banner_manager_name',136);
+        (11,'banner_manager_name',136),
+        (11,'forms_manager_name',200);
 -- ITEM_URL
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`) 
 VALUES  (12,'extension/extensions/template',131),
@@ -11022,7 +11407,8 @@ VALUES  (12,'extension/extensions/template',131),
         (12,'design/blocks',133),
         (12,'design/menu',134),
         (12,'design/content',135),
-        (12,'extension/banner_manager',136);
+        (12,'extension/banner_manager',136),
+        (12,'tool/forms_manager',200);
 -- PARENT_ID
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`) 
 VALUES  (13,'design',131),
@@ -11030,7 +11416,8 @@ VALUES  (13,'design',131),
         (13,'design',133),
         (13,'design',134),
         (13,'design',135),
-        (13,'design',136);
+        (13,'design',136),
+        (13,'design',200);
 -- SORT_ORDER
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_integer`,`row_id`) 
 VALUES  (14,1,131),
@@ -11038,7 +11425,8 @@ VALUES  (14,1,131),
         (14,3,133),
         (14,4,134),
         (14,5,135),
-        (14,6,136);
+        (14,6,136),
+        (14,7,200);
 -- ITEM_TYPE
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`) 
 VALUES  (15,'core',131),
@@ -11046,9 +11434,20 @@ VALUES  (15,'core',131),
         (15,'core',133),
         (15,'core',134),
         (15,'core',135),
-        (15,'extension',136);
-		
---		
+        (15,'extension',136),
+        (15,'extension',200);
+-- ITEM_RL_ID
+INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
+VALUES  (40,'241',131),
+        (40,'242',132),
+        (40,'243',133),
+        (40,'244',134),
+        (40,'245',135),
+        (40,'246',136),
+        (40,'248',200);
+
+
+--
 -- SUBMENU SYSTEM->SETTINGS
 -- ITEM_ID
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`) 
@@ -11125,44 +11524,17 @@ VALUES
 (15,'core',198),
 (15,'core',199);
 
-
-
-
-
-
---
--- SUBMENU EXTENSIONS STORE
--- ITEM_ID
-INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`) 
-VALUES  (10,'extension_store',251),
-		    (10,'extension_store_prev',252);
--- ITEM_TEXT
-INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`) 
-VALUES  (11,'text_extension_store_new',251),
-		    (11,'text_extension_store_prev',252);
--- ITEM_URL
-INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`) 
-VALUES  (12,'extension/extensions_store',251),
-		    (12,'extension/extensions_store_prev',252);
--- PARENT_ID	(submenu SYSTEM)
-INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`) 
-VALUES  (13,'extensions_stores',251),
-		    (13,'extensions_stores',252);
--- SORT_ORDER
-INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_integer`,`row_id`) 
-VALUES  (14,1,251),
-		    (14,2,252);
--- ITEM_TYPE
-INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`) 
-VALUES  (15,'core',251),
-		    (15,'core',252);
-
-
-
-
-
-
-
+-- ITEM_RL_ID
+INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
+VALUES  (40,'247',191),
+        (40,'248',192),
+        (40,'249',193),
+        (40,'250',194),
+        (40,'251',195),
+        (40,'252',196),
+        (40,'253',197),
+        (40,'254',198),
+        (40,'255',199);
 
 
 --
@@ -11191,6 +11563,12 @@ VALUES  (14,1,151),
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
 VALUES  (15,'core',151),
 		    (15,'core',152);
+
+-- ITEM_RL_ID
+INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
+VALUES  (40,'256',151),
+        (40,'257',152);
+
 --		
 -- SUBMENU SYSTEM->LOCALIZATION
 -- ITEM_ID
@@ -11272,6 +11650,19 @@ VALUES  (15,'core',171),
         (15,'core',180),
         (15,'core',181);
 
+-- ITEM_RL_ID
+INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
+VALUES  (40,'258',171),
+        (40,'259',172),
+        (40,'260',173),
+        (40,'261',174),
+        (40,'262',175),
+        (40,'263',176),
+        (40,'264',177),
+        (40,'265',178),
+        (40,'266',179),
+        (40,'267',180),
+        (40,'268',181);
 --
 -- SUBMENU SYSTEM->DATA
 -- ITEM_ID
@@ -11317,34 +11708,186 @@ VALUES  (15,'core',183),
         (15,'core',182),
         (15,'core',188);
 
+-- ITEM_RL_ID
+INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
+VALUES  (40,'269',183),
+        (40,'270',184),
+        (40,'271',185),
+        (40,'272',182),
+        (40,'273',188);
+
 --
 -- SUBMENU SYSTEM->LOGS
 -- ITEM_ID
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
 VALUES  (10,'installlog',186),
-		    (10,'error_log',187);
+		    (10,'error_log',187),
+		    (10,'task',189);
 -- ITEM_TEXT
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
 VALUES  (11,'text_install_upgrade_history',186),
-		      (11,'text_error_log',187);
+		    (11,'text_error_log',187),
+		    (11,'text_tasks',189);
 -- ITEM_URL
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
 VALUES  (12,'tool/install_upgrade_history',186),
-		    (12,'tool/error_log',187);
+		    (12,'tool/error_log',187),
+		    (12,'tool/task',189);
 -- PARENT_ID
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
 VALUES  (13,'logs',186),
-		    (13,'logs',187);
+		    (13,'logs',187),
+		    (13,'logs',189);
 -- SORT_ORDER
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_integer`,`row_id`)
 VALUES  (14,1,186),
-	    	(14,2,187);
+	    	(14,2,187),
+	    	(14,3,189);
 -- ITEM_TYPE
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
 VALUES  (15,'core',186),
-		    (15,'core',187);
+		    (15,'core',187),
+		    (15,'core',189);
+
+-- ITEM_RL_ID
+INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
+VALUES  (40,'274',186),
+        (40,'275',187),
+        (40,'254',189);
 
 
+--
+-- SUBMENU REPORTS->SALES
+-- ITEM_ID
+INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`) 
+VALUES
+(10,'report_sale_orders',210),
+(10,'report_sale_tax',211),
+(10,'report_sale_shipping',212),
+(10,'report_sale_coupon',213);
+-- ITEM_TEXT
+INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`) 
+VALUES
+(11,'text_order',210),
+(11,'text_tax',211),
+(11,'text_shipping',212),
+(11,'text_discount',213);
+-- ITEM_URL
+INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`) 
+VALUES
+(12,'report/sale/orders',210),
+(12,'report/sale/taxes',211),
+(12,'report/sale/shipping',212),
+(12,'report/sale/coupons',213);
+-- PARENT_ID	
+INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`) 
+VALUES
+(13,'report_sale',210),
+(13,'report_sale',211),
+(13,'report_sale',212),
+(13,'report_sale',213);
+-- SORT_ORDER
+INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_integer`,`row_id`) 
+VALUES
+(14,1,210),
+(14,2,211),
+(14,3,212),
+(14,4,213);
+-- ITEM_TYPE
+INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`) 
+VALUES
+(15,'core',210),
+(15,'core',211),
+(15,'core',212),
+(15,'core',213);
+-- ITEM_RL_ID
+INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
+VALUES  (40,'221',210),
+        (40,'266',211),
+        (40,'214',212),
+        (40,'224',213);
+
+--
+-- SUBMENU REPORTS->CUSTOMERS
+-- ITEM_ID
+INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`) 
+VALUES
+(10,'report_customer_online',214),
+(10,'report_customer_order',215),
+(10,'report_customer_transactions',216);
+-- ITEM_TEXT
+INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`) 
+VALUES
+(11,'text_online',214),
+(11,'text_order',215),
+(11,'text_transactions',216);
+-- ITEM_URL
+INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`) 
+VALUES
+(12,'report/customer/online',214),
+(12,'report/customer/orders',215),
+(12,'report/customer/transactions',216);
+-- PARENT_ID	
+INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`) 
+VALUES
+(13,'report_customer',214),
+(13,'report_customer',215),
+(13,'report_customer',216);
+-- SORT_ORDER
+INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_integer`,`row_id`) 
+VALUES
+(14,1,214),
+(14,2,215),
+(14,3,216);
+-- ITEM_TYPE
+INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`) 
+VALUES
+(15,'core',214),
+(15,'core',215),
+(15,'core',216);
+-- ITEM_RL_ID
+INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
+VALUES  (40,'222',214),
+        (40,'221',215),
+        (40,'260',216);
+        
+--
+-- SUBMENU REPORTS->PRODUCTS
+-- ITEM_ID
+INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`) 
+VALUES
+(10,'report_product_viewed',217),
+(10,'report_product_purchased',218);
+-- ITEM_TEXT
+INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`) 
+VALUES
+(11,'text_report_viewed',217),
+(11,'text_report_purchased',218);
+-- ITEM_URL
+INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`) 
+VALUES
+(12,'report/viewed',217),
+(12,'report/purchased',218);
+-- PARENT_ID	
+INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`) 
+VALUES
+(13,'report_product',217),
+(13,'report_product',218);
+-- SORT_ORDER
+INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_integer`,`row_id`) 
+VALUES
+(14,1,217),
+(14,2,218);
+-- ITEM_TYPE
+INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`) 
+VALUES
+(15,'core',217),
+(15,'core',218);
+-- ITEM_RL_ID
+INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
+VALUES  (40,'235',217),
+        (40,'236',218);
+                
 --
 -- Storefront menu names inserts
 --
@@ -11424,6 +11967,26 @@ VALUES  (4,20,'date_added','timestamp',1),
         (4,25,'type','varchar',6),
         (4,26,'user','varchar',7);
 
+
+-- insert info about initial installation
+INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_timestamp`,`row_id`)
+VALUES  (20, NOW(),'1');
+INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
+VALUES  (21,'AbanteCart','1');
+INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
+VALUES  (22,'1.2.0','1');
+INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
+VALUES  (23,'','1');
+INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
+VALUES  (24,'','1');
+INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
+VALUES  (25,'install','1');
+INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
+VALUES  (26,'admin','1');
+
+
+
+
 -- ## ADD FILE UPLOADS DATASET
 INSERT INTO `ac_datasets` (`dataset_id`,`dataset_name`,`dataset_key`) VALUES (5,'file_uploads','admin');
 INSERT INTO `ac_dataset_properties` (`dataset_id`,`dataset_property_name`,`dataset_property_value`) VALUES (5,'controller','tool/files');
@@ -11436,20 +11999,6 @@ VALUES  (5,30,'date_added','timestamp',1),
         (5,34,'section_id','integer',5),
         (5,35,'path','varchar',6);
 
--- insert info about initial installation
-INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_timestamp`,`row_id`)
-VALUES  (30, NOW(),'1');
-INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
-VALUES  (31,'AbanteCart','1');
-INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
-VALUES  (32,'1.1.9','1');
-INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
-VALUES  (33,'','1');
-INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
-VALUES  (34,'install','1');
-INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
-VALUES  (35,'admin','1');
-
 --
 -- DDL for table `ac_resource_library`
 --
@@ -11457,20 +12006,10 @@ DROP TABLE IF EXISTS `ac_resource_library`;
 CREATE TABLE `ac_resource_library` (
   `resource_id` int(11) NOT NULL NULL auto_increment,
   `type_id` int(11) NOT NULL,
-  `created` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `updated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `date_added` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `date_modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`resource_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=100000;
-
-#storefront menu icons
-INSERT INTO `ac_resource_library` ( `resource_id`, `type_id`, `created`)
-VALUES
-(1,1,now()),
-(2,1,now()),
-(3,1,now()),
-(4,1,now()),
-(5,1,now()),
-(6,1,now());
 
 --
 -- DDL for table `ac_resource_descriptions`
@@ -11483,23 +12022,195 @@ CREATE TABLE `ac_resource_descriptions` (
   `name` varchar(255) NOT NULL DEFAULT '' NULL COMMENT 'translatable',
   `title` varchar(255) NOT NULL DEFAULT '' NULL COMMENT 'translatable',
   `description` text DEFAULT NULL NULL COMMENT 'translatable',
-  `resource_path` varchar(255) COLLATE utf8_general_ci DEFAULT NULL,
+  `resource_path` varchar(255) DEFAULT NULL,
   `resource_code` text DEFAULT NULL,
-  `created` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `updated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `date_added` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `date_modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`resource_id`,`language_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci ;
 
+
+
+#storefront menu icons
+INSERT INTO `ac_resource_library` ( `resource_id`, `type_id`, `date_added`)
+VALUES
+(1,1,now()),
+(2,1,now()),
+(3,1,now()),
+(4,1,now()),
+(5,1,now()),
+(6,1,now());
 
 INSERT INTO `ac_resource_descriptions`
-(`resource_id`, `language_id`, `name`, `title`, `description`, `resource_path`, `resource_code`, `created`)
+(`resource_id`, `language_id`, `name`, `title`, `description`, `resource_path`, `resource_code`, `date_added`)
 VALUES
-(1,1,'Star Icon','','','','<i class="icon-star"></i>&nbsp;&nbsp;',now()),
-(2,1,'Icon Home','','','','<i class="icon-home"></i>&nbsp;',now()),
-(3,1,'Login Icon','','','','<i class="icon-lock"></i>&nbsp;&nbsp;',now()),
-(4,1,'Account Icon','','','','<i class="icon-user"></i>&nbsp;',now()),
-(5,1,'Cart Icon','','','','<i class="icon-shopping-cart"></i>&nbsp;',now()),
-(6,1,'Checkout Icon','','','','<i class="icon-barcode"></i>&nbsp;&nbsp;',now());
+(1,1,'Star Icon','','','','<i class="fa fa-star"></i>&nbsp;&nbsp;',now()),
+(2,1,'Icon Home','','','','<i class="fa fa-home"></i>&nbsp;',now()),
+(3,1,'Login Icon','','','','<i class="fa fa-lock"></i>&nbsp;&nbsp;',now()),
+(4,1,'Account Icon','','','','<i class="fa fa-user"></i>&nbsp;',now()),
+(5,1,'Cart Icon','','','','<i class="fa fa-shopping-cart"></i>&nbsp;',now()),
+(6,1,'Checkout Icon','','','','<i class="fa fa-barcode"></i>&nbsp;&nbsp;',now());
+
+#Admin Menu Icons
+INSERT INTO `ac_resource_library` ( `resource_id`, `type_id`, `date_added`)
+VALUES
+  ( 200, 1, NOW() ),
+  ( 201, 1, NOW() ),
+  ( 202, 1, NOW() ),
+  ( 203, 1, NOW() ),
+  ( 204, 1, NOW() ),
+  ( 205, 1, NOW() ),
+  ( 206, 1, NOW() ),
+  ( 207, 1, NOW() ),
+  ( 208, 1, NOW() ),
+  ( 209, 1, NOW() ),
+  ( 210, 1, NOW() ),
+  ( 211, 1, NOW() ),
+  ( 212, 1, NOW() ),
+  ( 213, 1, NOW() ),
+  ( 214, 1, NOW() ),
+  ( 215, 1, NOW() ),
+  ( 216, 1, NOW() ),
+  ( 217, 1, NOW() ),
+  ( 218, 1, NOW() ),
+  ( 219, 1, NOW() ),
+  ( 220, 1, NOW() ),
+  ( 221, 1, NOW() ),
+  ( 222, 1, NOW() ),
+  ( 223, 1, NOW() ),
+  ( 224, 1, NOW() ),
+  ( 225, 1, NOW() ),
+  ( 226, 1, NOW() ),
+  ( 227, 1, NOW() ),
+  ( 228, 1, NOW() ),
+  ( 229, 1, NOW() ),
+  ( 230, 1, NOW() ),
+  ( 231, 1, NOW() ),
+  ( 232, 1, NOW() ),
+  ( 233, 1, NOW() ),
+  ( 234, 1, NOW() ),
+  ( 235, 1, NOW() ),
+  ( 236, 1, NOW() ),
+  ( 237, 1, NOW() ),
+  ( 238, 1, NOW() ),
+  ( 239, 1, NOW() ),
+  ( 240, 1, NOW() ),
+  ( 241, 1, NOW() ),
+  ( 242, 1, NOW() ),
+  ( 243, 1, NOW() ),
+  ( 244, 1, NOW() ),
+  ( 245, 1, NOW() ),
+  ( 246, 1, NOW() ),
+  ( 247, 1, NOW() ),
+  ( 248, 1, NOW() ),
+  ( 249, 1, NOW() ),
+  ( 250, 1, NOW() ),
+  ( 251, 1, NOW() ),
+  ( 252, 1, NOW() ),
+  ( 253, 1, NOW() ),
+  ( 254, 1, NOW() ),
+  ( 255, 1, NOW() ),
+  ( 256, 1, NOW() ),
+  ( 257, 1, NOW() ),
+  ( 258, 1, NOW() ),
+  ( 259, 1, NOW() ),
+  ( 260, 1, NOW() ),
+  ( 261, 1, NOW() ),
+  ( 262, 1, NOW() ),
+  ( 263, 1, NOW() ),
+  ( 264, 1, NOW() ),
+  ( 265, 1, NOW() ),
+  ( 266, 1, NOW() ),
+  ( 267, 1, NOW() ),
+  ( 268, 1, NOW() ),
+  ( 269, 1, NOW() ),
+  ( 270, 1, NOW() ),
+  ( 271, 1, NOW() ),
+  ( 272, 1, NOW() ),
+  ( 273, 1, NOW() ),
+  ( 274, 1, NOW() ),
+  ( 275, 1, NOW() );
+
+INSERT INTO `ac_resource_descriptions`
+(`resource_id`, `language_id`, `name`, `title`, `description`, `resource_path`, `resource_code`, `date_added`)
+VALUES
+  ( 200,1,'Icon Catalog', '', '', '', '<i class="fa fa-folder-open"></i>&nbsp;', NOW() ),
+  ( 201,1,'Icon Sale', '', '', '', '<i class="fa fa-flag-o"></i>&nbsp;', NOW() ),
+  ( 202,1,'Icon Design', '', '', '', '<i class="fa fa-file-text"></i>&nbsp;', NOW() ),
+  ( 203,1,'Icon Extension', '', '', '', '<i class="fa fa-puzzle-piece"></i>&nbsp;', NOW() ),
+  ( 204,1,'Icon System', '', '', '', '<i class="fa fa-wrench"></i>&nbsp;', NOW() ),
+  ( 205,1,'Icon Reports', '', '', '', '<i class="fa fa-bar-chart-o"></i>&nbsp;', NOW() ),
+  ( 206,1,'Icon Help', '', '', '', '<i class="fa fa-life-ring"></i>&nbsp;', NOW() ),
+  ( 207,1,'Icon Category', '', '', '', '<i class="fa fa-folder-open"></i>&nbsp;', NOW() ),
+  ( 208,1,'Icon Product', '', '', '', '<i class="fa fa-cubes"></i>&nbsp;', NOW() ),
+  ( 209,1,'Icon Manufacturer', '', '', '', '<i class="fa fa-bookmark-o"></i>&nbsp;', NOW() ),
+  ( 210,1,'Icon Download', '', '', '', '<i class="fa fa-upload"></i>&nbsp;', NOW() ),
+  ( 211,1,'Icon Review', '', '', '', '<i class="fa fa-comment-o"></i>&nbsp;', NOW() ),
+  ( 212,1,'Icon Attributes', '', '', '', '<i class="fa fa-ticket"></i>&nbsp;', NOW() ),
+  ( 213,1,'Icon Extensions', '', '', '', '<i class="fa fa-th"></i>&nbsp;', NOW() ),
+  ( 214,1,'Icon Shipping', '', '', '', '<i class="fa fa-truck"></i>&nbsp;', NOW() ),
+  ( 215,1,'Icon Payment', '', '', '', '<i class="fa fa-university"></i>&nbsp;', NOW() ),
+  ( 216,1,'Icon Templates', '', '', '', '<i class="fa fa-outdent"></i>&nbsp;', NOW() ),
+  ( 217,1,'Icon Languages', '', '', '', '<i class="fa fa-language"></i>&nbsp;', NOW() ),
+  ( 218,1,'Icon Total', '', '', '', '<i class="fa fa-sign-in"></i>&nbsp;', NOW() ),
+  ( 219,1,'Icon Add extension', '', '', '', '<i class="fa fa-paperclip"></i>&nbsp;', NOW() ),
+  ( 220,1,'Icon Extensions stores', '', '', '', '<i class="fa fa-arrows-alt"></i>&nbsp;', NOW() ),
+  ( 221,1,'Icon Order', '', '', '', '<i class="fa fa-flag-checkered"></i>&nbsp;', NOW() ),
+  ( 222,1,'Icon Customer', '', '', '', '<i class="fa fa-users"></i>&nbsp;', NOW() ),
+  ( 223,1,'Icon Customer group', '', '', '', '<i class="fa fa-book"></i>&nbsp;', NOW() ),
+  ( 224,1,'Icon Coupon', '', '', '', '<i class="fa fa-tags"></i>&nbsp;', NOW() ),
+  ( 225,1,'Icon Contact', '', '', '', '<i class="fa fa-envelope-o"></i>&nbsp;', NOW() ),
+  ( 226,1,'Icon Setting', '', '', '', '<i class="fa fa-cogs"></i>&nbsp;', NOW() ),
+  ( 227,1,'Icon Users', '', '', '', '<i class="fa fa-users"></i>&nbsp;', NOW() ),
+  ( 228,1,'Icon Localisation', '', '', '', '<i class="fa fa-random"></i>&nbsp;', NOW() ),
+  ( 229,1,'Icon Data', '', '', '', '<i class="fa fa-cubes"></i>&nbsp;', NOW() ),
+  ( 230,1,'Icon Updater', '', '', '', '<i class="fa fa-refresh"></i>&nbsp;', NOW() ),
+  ( 231,1,'Icon Cache', '', '', '', '<i class="fa fa-recycle"></i>&nbsp;', NOW() ),
+  ( 232,1,'Icon Messages', '', '', '', '<i class="fa fa-weixin"></i>&nbsp;', NOW() ),
+  ( 233,1,'Icon Logs', '', '', '', '<i class="fa fa-floppy-o"></i>&nbsp;', NOW() ),
+  ( 234,1,'Icon Report sale', '', '', '', '<i class="fa fa-signal"></i>&nbsp;', NOW() ),
+  ( 235,1,'Icon Viewed', '', '', '', '<i class="fa fa-sort-amount-desc"></i>&nbsp;', NOW() ),
+  ( 236,1,'Icon Purchased', '', '', '', '<i class="fa fa-file-text-o"></i>&nbsp;', NOW() ),
+  ( 237,1,'Icon Banner manager stat', '', '', '', '<i class="fa fa-reply-all"></i>&nbsp;', NOW() ),
+  ( 238,1,'Icon Abantecart', '', '', '', '<i class="fa fa-external-link"></i>&nbsp;', NOW() ),
+  ( 239,1,'Icon Documentation', '', '', '', '<i class="fa fa-graduation-cap"></i>&nbsp;', NOW() ),
+  ( 240,1,'Icon Support', '', '', '', '<i class="fa fa-info"></i>&nbsp;', NOW() ),
+  ( 241,1,'Icon Template', '', '', '', '<i class="fa fa-files-o"></i>&nbsp;', NOW() ),
+  ( 242,1,'Icon Layout', '', '', '', '<i class="fa fa-bars"></i>&nbsp;', NOW() ),
+  ( 243,1,'Icon Blocks', '', '', '', '<i class="fa fa-qrcode"></i>&nbsp;', NOW() ),
+  ( 244,1,'Icon Menu', '', '', '', '<i class="fa fa-tag"></i>&nbsp;', NOW() ),
+  ( 245,1,'Icon Content', '', '', '', '<i class="fa fa-clipboard"></i>&nbsp;', NOW() ),
+  ( 246,1,'Icon Banner manager', '', '', '', '<i class="fa fa-picture-o"></i>&nbsp;', NOW() ),
+  ( 247,1,'Icon All settings', '', '', '', '<i class="fa fa-sliders"></i>&nbsp;', NOW() ),
+  ( 248,1,'Icon Settings details', '', '', '', '<i class="fa fa-list"></i>&nbsp;', NOW() ),
+  ( 249,1,'Icon Settings general', '', '', '', '<i class="fa fa-folder-o"></i>&nbsp;', NOW() ),
+  ( 250,1,'Icon Settings checkout', '', '', '', '<i class="fa fa-shopping-cart"></i>&nbsp;', NOW() ),
+  ( 251,1,'Icon Settings appearance', '', '', '', '<i class="fa fa-pencil-square-o"></i>&nbsp;', NOW() ),
+  ( 252,1,'Icon Settings mail', '', '', '', '<i class="fa fa-envelope-square"></i>&nbsp;', NOW() ),
+  ( 253,1,'Icon Settings api', '', '', '', '<i class="fa fa-slack"></i>&nbsp;', NOW() ),
+  ( 254,1,'Icon Settings system', '', '', '', '<i class="fa fa-tasks"></i>&nbsp;', NOW() ),
+  ( 255,1,'Icon Settings newstore', '', '', '', '<i class="fa fa-sitemap"></i>&nbsp;', NOW() ),
+  ( 256,1,'Icon User', '', '', '', '<i class="fa fa-male"></i>&nbsp;', NOW() ),
+  ( 257,1,'Icon Permission', '', '', '', '<i class="fa fa-code-fork"></i>&nbsp;', NOW() ),
+  ( 258,1,'Icon Language', '', '', '', '<i class="fa fa-language"></i>&nbsp;', NOW() ),
+  ( 259,1,'Icon Language definitions', '', '', '', '<i class="fa fa-sort-alpha-asc"></i>&nbsp;', NOW() ),
+  ( 260,1,'Icon Currency', '', '', '', '<i class="fa fa-money"></i>&nbsp;', NOW() ),
+  ( 261,1,'Icon Stockstatus', '', '', '', '<i class="fa fa-list-alt"></i>&nbsp;', NOW() ),
+  ( 262,1,'Icon Orderstatus', '', '', '', '<i class="fa fa-sort-amount-asc"></i>&nbsp;', NOW() ),
+  ( 263,1,'Icon Country', '', '', '', '<i class="fa fa-globe"></i>&nbsp;', NOW() ),
+  ( 264,1,'Icon Zone', '', '', '', '<i class="fa fa-thumb-tack"></i>&nbsp;', NOW() ),
+  ( 265,1,'Icon Location', '', '', '', '<i class="fa fa-flag-checkered"></i>&nbsp;', NOW() ),
+  ( 266,1,'Icon Taxclass', '', '', '', '<i class="fa fa-briefcase"></i>&nbsp;', NOW() ),
+  ( 267,1,'Icon Lengthclass', '', '', '', '<i class="fa fa-arrows-h"></i>&nbsp;', NOW() ),
+  ( 268,1,'Icon Weightclass', '', '', '', '<i class="fa fa-angle-double-down"></i>&nbsp;', NOW() ),
+  ( 269,1,'Icon Backup', '', '', '', '<i class="fa fa-jsfiddle"></i>&nbsp;', NOW() ),
+  ( 270,1,'Icon Migrate', '', '', '', '<i class="fa fa-share-alt-square"></i>&nbsp;', NOW() ),
+  ( 271,1,'Icon Datasets', '', '', '', '<i class="fa fa-database"></i>&nbsp;', NOW() ),
+  ( 272,1,'Icon Import export', '', '', '', '<i class="fa fa-exchange"></i>&nbsp;', NOW() ),
+  ( 273,1,'Icon File uploads', '', '', '', '<i class="fa fa-download"></i>&nbsp;', NOW() ),
+  ( 274,1,'Icon Installlog', '', '', '', '<i class="fa fa-history"></i>&nbsp;', NOW() ),
+  ( 275,1,'Icon Error log', '', '', '', '<i class="fa fa-exclamation-triangle"></i>&nbsp;', NOW() );
+
 
 --
 -- DDL for table `ac_resource_types`
@@ -11534,14 +12245,14 @@ CREATE TABLE `ac_resource_map` (
   `object_id` int(11) NOT NULL,  
   `default`tinyint(1) NOT NULL DEFAULT '0' COMMENT '0-no, 1-Yes', 
   `sort_order` int(3) NOT NULL DEFAULT '0',  
-  `created` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `updated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `date_added` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `date_modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   KEY `group_id` (`resource_id`, `object_name`, `object_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
-CREATE UNIQUE INDEX `resource_map_index`
+CREATE UNIQUE INDEX `ac_resource_map_idx`
 ON `ac_resource_map` ( `resource_id`, `object_name`, `object_id` );
 
-INSERT INTO `ac_resource_map` ( `resource_id`, `object_name`, `object_id`, `default`, `sort_order`, `created`)
+INSERT INTO `ac_resource_map` ( `resource_id`, `object_name`, `object_id`, `default`, `sort_order`, `date_added`)
 VALUES
 (1,'storefront_menu_item',0,0,0, now()),
 (2,'storefront_menu_item',0,0,0, now()),
@@ -11569,7 +12280,9 @@ CREATE TABLE `ac_global_attributes` (
   `status` 				smallint(1) NOT NULL default '0',
   `regexp_pattern` varchar(255),
   PRIMARY KEY (`attribute_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;	
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
+
+CREATE INDEX `ac_global_attributes_idx` ON `ac_global_attributes` ( `attribute_parent_id`, `attribute_group_id`, `attribute_type_id` );
 
 
 DROP TABLE IF EXISTS `ac_global_attributes_descriptions`;
@@ -11588,7 +12301,8 @@ CREATE TABLE `ac_global_attributes_values` (
   `attribute_id` 		int(11) NOT NULL,
   `sort_order` 			int(3) NOT NULL DEFAULT '0',
   PRIMARY KEY (`attribute_value_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;	
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
+CREATE INDEX `ac_global_attributes_values_idx` ON `ac_global_attributes_values` ( `attribute_id` );
 
 DROP TABLE IF EXISTS `ac_global_attributes_value_descriptions`;
 CREATE TABLE `ac_global_attributes_value_descriptions` (
@@ -11635,15 +12349,15 @@ INSERT INTO `ac_global_attributes_types` (`attribute_type_id`, `type_key`, `cont
 
 DROP TABLE IF EXISTS `ac_global_attributes_type_descriptions`;
 CREATE TABLE `ac_global_attributes_type_descriptions` (
-`attribute_type_id` int(11) NOT NULL,
-`language_id` int(11) NOT NULL,
-`type_name` varchar(64) COLLATE utf8_general_ci NOT NULL COMMENT 'translatable',
-`update_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-`create_date` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
-PRIMARY KEY (`attribute_type_id`,`language_id`)
+  `attribute_type_id` int(11) NOT NULL,
+  `language_id` int(11) NOT NULL,
+  `type_name` varchar(64) COLLATE utf8_general_ci NOT NULL COMMENT 'translatable',
+  `date_added` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `date_modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`attribute_type_id`,`language_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci COMMENT='utf8_general_ci';
 
-INSERT INTO `ac_global_attributes_type_descriptions` (`attribute_type_id`, `language_id`, `type_name`, `create_date`)
+INSERT INTO `ac_global_attributes_type_descriptions` (`attribute_type_id`, `language_id`, `type_name`, `date_added`)
 VALUES
 (1, 1, 'Product Option', NOW()),
 (2, 1, 'Download Attribute', NOW())
@@ -11663,7 +12377,7 @@ CREATE TABLE `ac_product_filters` (
   `status` smallint(1) NOT NULL default '0',
   PRIMARY KEY (`filter_id`),
   KEY `feature_id` (`feature_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 
 DROP TABLE IF EXISTS `ac_product_filter_descriptions`;
@@ -11672,7 +12386,7 @@ CREATE TABLE `ac_product_filter_descriptions` (
   `value` varchar(255) NOT NULL DEFAULT '' COMMENT 'translatable',
   `language_id` int(11) NOT NULL,
   PRIMARY KEY (`filter_id`,`language_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 
 DROP TABLE IF EXISTS `ac_product_filter_ranges`;
@@ -11687,7 +12401,7 @@ CREATE TABLE `ac_product_filter_ranges` (
   KEY `from` (`from`,`to`),
   KEY `filter_id` (`filter_id`),
   KEY `feature_id` (`feature_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 DROP TABLE IF EXISTS `ac_product_filter_ranges_descriptions`;
 CREATE TABLE `ac_product_filter_ranges_descriptions` (
@@ -11695,14 +12409,14 @@ CREATE TABLE `ac_product_filter_ranges_descriptions` (
   `name` varchar(255) NOT NULL DEFAULT '' COMMENT 'translatable',
   `language_id` int(11) NOT NULL,
   PRIMARY KEY (`range_id`,`language_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 DROP TABLE IF EXISTS `ac_extension_dependencies`;
 CREATE TABLE `ac_extension_dependencies` (
   `extension_id` int(11) NOT NULL,
   `extension_parent_id` int(11) NOT NULL,
   PRIMARY KEY (`extension_id`,`extension_parent_id`)
-) ENGINE=MyISAM;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 DROP TABLE IF EXISTS `ac_encryption_keys`;
 CREATE TABLE `ac_encryption_keys` (
@@ -11712,4 +12426,48 @@ CREATE TABLE `ac_encryption_keys` (
   `comment` text COLLATE utf8_general_ci NOT NULL,  
   PRIMARY KEY (`key_id`),
   UNIQUE KEY `encryption_keys_key_name` (`key_name`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
+
+DROP TABLE IF EXISTS `ac_tasks`;
+CREATE TABLE `ac_tasks` (
+  `task_id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) NOT NULL DEFAULT '',
+  `starter` int(11) DEFAULT NULL, -- 0 - storefront, 1 - admin side, 2 - any
+  `status` int(11) DEFAULT '0', -- 0 - disabled, 1 - scheduled, 2 - active
+  `start_time` datetime DEFAULT NULL,
+  `last_time_run` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `progress` int(11) NOT NULL DEFAULT '0', -- percentage of progress
+  `last_result` int(11) NOT NULL DEFAULT '0', -- 0 - success, 1 - failed, 2 - interrupted
+  `run_interval` INT(11) NOT NULL DEFAULT '0', -- interval in seconds since last run, 0 - without interval
+  `max_execution_time` int(11) DEFAULT '0', -- maximum execution time for this task
+  `date_added` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `date_modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`task_id`),
+  UNIQUE KEY `task_name_idx` (`name`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
+
+DROP TABLE IF EXISTS `ac_task_details`;
+CREATE TABLE `ac_task_details` (
+  `task_id` int(11) NOT NULL AUTO_INCREMENT,
+  `created_by` varchar(255) DEFAULT '', -- task owner name
+  `settings` text DEFAULT '', -- serialized array with paramenters
+  `date_added` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `date_modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`task_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
+
+DROP TABLE IF EXISTS `ac_task_steps`;
+CREATE TABLE `ac_task_steps` (
+  `step_id` int(11) NOT NULL AUTO_INCREMENT,
+  `task_id` int(11) NOT NULL,
+  `sort_order` int(11) DEFAULT '0',
+  `status` int(11) DEFAULT '0', -- 0 - disabled, 1 - scheduled, 2 - active
+  `last_time_run` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `last_result` int(11) NOT NULL DEFAULT '0', -- 0 - success, 1 - failed, 2 - interrupted
+  `max_execution_time` int(11) DEFAULT '0', -- maximum execution time for this task
+  `controller` varchar(255) DEFAULT '',
+  `settings` text DEFAULT '', -- serialized array with paramenters
+  `date_added` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `date_modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`task_id`, `step_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;

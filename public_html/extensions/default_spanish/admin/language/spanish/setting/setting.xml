@@ -33,6 +33,18 @@
 		<value><![CDATA[Defecto]]></value>
 	</definition>
 	<definition>
+		<key>text_edit_store_settings</key>
+		<value><![CDATA[Edit Settings:]]></value>
+	</definition>
+	<definition>
+		<key>text_edit_template_settings</key>
+		<value><![CDATA[Edit Template Settings:]]></value>
+	</definition>
+	<definition>
+		<key>text_common_template_settings</key>
+		<value><![CDATA[Template Selection]]></value>
+	</definition>
+	<definition>
 		<key>text_select_group</key>
 		<value><![CDATA[- Seleccione el Grupo -]]></value>
 	</definition>
@@ -791,11 +803,11 @@
 	</definition>
 	<definition>
 		<key>entry_shipping_tax_estimate</key>
-		<value><![CDATA[Envíos y Estimar Impuestos:<br /><span class="help">Permite a los clientes obtener el envío rápido y el cálculo de impuestos en el carrito de compras. (HTML5 plantilla)</span>]]></value>
+		<value><![CDATA[Envíos y Estimar Impuestos:<br /><span class="help">Permite a los clientes obtener el envío rápido y el cálculo de impuestos en el carrito de compras.</span>]]></value>
 	</definition>
 	<definition>
 		<key>entry_coupon_on_cart_page</key>
-		<value><![CDATA[Promocional en la página cesta de compras:<br /><span class="help">Permite a los clientes a entrar en el código de cupón de descuento y ver en el carrito de compras. (HTML5 plantilla)</span>]]></value>
+		<value><![CDATA[Promocional en la página cesta de compras:<br /><span class="help">Permite a los clientes a entrar en el código de cupón de descuento y ver en el carrito de compras.</span>]]></value>
 	</definition>
 	<definition>
 		<key>entry_google_analytics</key>
@@ -809,4 +821,13 @@
 		<key>error_ssl_url</key>
 		<value><![CDATA[URL Segura necesario!]]></value>
 	</definition>
+	<definition>
+		<key>entry_customer_email_activation</key>
+		<value>
+			<![CDATA[Email Activation for New Customers:<br /><span class="help">Don't allow new customer to login until their account has been confirmed by activation link sent via email. For this to work, make sure "Approve New Customers" is set to OFF.</span>]]></value>
+	</definition>
+	<definition>
+		<key>text_clone_template</key>
+		<value><![CDATA[Clone Template With AbanteCart Developer Tools]]></value>
+	</definition>	
 </definitions>

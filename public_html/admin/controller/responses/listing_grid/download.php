@@ -169,8 +169,8 @@ class ControllerResponsesListingGridDownload extends AController {
 					$data = array( $key => $value );
 					$this->model_catalog_download->editDownload($download_id, $data);
 				}else{
-					$dd = new ADispatcher('responses/error/ajaxerror/validation', array( 'error_text'=>$error ));
-					return $dd->dispatch();
+					$e = new AError('');
+					return $e->toJSONResponse('VALIDATION_ERROR_406', array( 'error_text' => $error ));
 				}
 			}
 			return null;
@@ -181,8 +181,8 @@ class ControllerResponsesListingGridDownload extends AController {
 					 if($field=='name'){
 						if (mb_strlen($v) < 2 || mb_strlen($v) >64 ) {
 							$err = $this->language->get('error_name');
-							$dd = new ADispatcher('responses/error/ajaxerror/validation',array('error_text'=>$err));
-							return $dd->dispatch();
+							$error = new AError('');
+							return $error->toJSONResponse('VALIDATION_ERROR_406', array( 'error_text' => $err ));
 						}
 					}
 					$this->model_catalog_download->editDownload($k, array($field => $v) );

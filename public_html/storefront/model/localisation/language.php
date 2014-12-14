@@ -25,7 +25,7 @@ class ModelLocalisationLanguage extends Model {
 		$language_data = $this->cache->get('language');
 
 		if (is_null($language_data)) {
-			$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "languages WHERE status = 1 ORDER BY sort_order, name");
+			$query = $this->db->query("SELECT * FROM " . $this->db->table("languages") . " WHERE status = 1 ORDER BY sort_order, name");
 
     		foreach ($query->rows as $result) {
 				if(empty($result['image'])){

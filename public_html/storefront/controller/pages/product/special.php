@@ -29,6 +29,8 @@ class ControllerPagesProductSpecial extends AController {
         //init controller data
         $this->extensions->hk_InitData($this,__FUNCTION__);
 
+		$this->loadLanguage('product/special');
+
     	$this->document->setTitle( $this->language->get('heading_title') );
 
 		$this->document->resetBreadcrumbs();
@@ -182,13 +184,13 @@ class ControllerPagesProductSpecial extends AController {
 
 			$sorts[] = array(
 				'text'  => $this->language->get('text_sorting_price_asc'),
-				'value' => 'p.price-ASC',
+				'value' => 'ps.price-ASC',
 				'href'  => $this->html->getURL('product/special', $url . '&sort=special&order=ASC', '&encode')
 			); 
 
 			$sorts[] = array(
 				'text'  => $this->language->get('text_sorting_price_desc'),
-				'value' => 'p.price-DESC',
+				'value' => 'ps.price-DESC',
 				'href'  => $this->html->getURL('product/special', $url . '&sort=special&order=DESC', '&encode')
 			); 
 				

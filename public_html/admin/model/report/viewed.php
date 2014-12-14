@@ -26,7 +26,7 @@ class ModelReportViewed extends Model {
 
 		$product_data = array();
 		
-		$query = $this->db->query("SELECT SUM(viewed) AS total FROM " . DB_PREFIX . "products");
+		$query = $this->db->query("SELECT SUM(viewed) AS total FROM " . $this->db->table("products") . " ");
 
 		$total = $query->row['total'];
 
@@ -38,11 +38,9 @@ class ModelReportViewed extends Model {
 			$limit = 20;
 		}
 
-		$sql = "SELECT p.model, p.viewed, pd.name,  cd.name as category
-				FROM " . DB_PREFIX . "products p
-				LEFT JOIN " . DB_PREFIX . "product_descriptions pd ON (p.product_id = pd.product_id AND pd.language_id = '" . (int)$this->config->get('storefront_language_id') . "')
-				LEFT JOIN " . DB_PREFIX . "products_to_categories p2c ON (p.product_id = p2c.product_id)
-				LEFT JOIN " . DB_PREFIX . "category_descriptions cd ON (cd.category_id = p2c.category_id AND cd.language_id = '" . (int)$this->config->get('storefront_language_id') . "')
+		$sql = "SELECT p.product_id, p.model, p.viewed, pd.name
+				FROM " . $this->db->table("products") . " p
+				LEFT JOIN " . $this->db->table("product_descriptions") . " pd ON (p.product_id = pd.product_id AND pd.language_id = '" . (int)$this->config->get('storefront_language_id') . "')
 				ORDER BY viewed DESC LIMIT " . (int)$start . "," . (int)$limit;
 
 		$query = $this->db->query($sql);
@@ -55,9 +53,9 @@ class ModelReportViewed extends Model {
 			}
 			
 			$product_data[] = array(
+				'product_id'   => $result['product_id'],
 				'name'    => $result['name'],
 				'model'   => $result['model'],
-				'category'   => $result['category'],
 				'viewed'  => $result['viewed'],
 				'percent' => $percent
 			);
@@ -67,7 +65,7 @@ class ModelReportViewed extends Model {
 	}	
 	
 	public function reset($start = 0, $limit = 20) {
-		$this->db->query("UPDATE " . DB_PREFIX . "products SET viewed = '0'");
+		$this->db->query("UPDATE " . $this->db->table("products") . " SET viewed = '0'");
 	}
 }
 ?>

@@ -1,76 +1,106 @@
-<table class="form">
-	<?php foreach ($form['fields'] as $name => $field) { ?>
-		<tr>
-			<td><?php echo ${'entry_' . $name}; ?></td>
-			<td>
-				<?php if (!is_array($field)) echo $field; ?>
-				<?php if (!empty($error[$name])) { ?>
-					<div class="field_err"><?php echo $error[$name]; ?></div>
-				<?php } ?>
-				<?php if ($name == 'element_type') { ?>
+<?php foreach ($form['fields'] as $name => $field) {
+	//Logic to calculate fields width
+	$widthcasses = "col-sm-7";
+	if (is_int(stripos($field->style, 'large-field'))) {
+		$widthcasses = "col-sm-7";
+	} else if (is_int(stripos($field->style, 'medium-field')) || is_int(stripos($field->style, 'date'))) {
+		$widthcasses = "col-sm-5";
+	} else if (is_int(stripos($field->style, 'small-field')) || is_int(stripos($field->style, 'btn_switch'))) {
+		$widthcasses = "col-sm-3";
+	} else if (is_int(stripos($field->style, 'tiny-field'))) {
+		$widthcasses = "col-sm-2";
+	}
+	$widthcasses .= " col-xs-12";
+	?>
+	<div class="form-group <?php echo !empty($error[$name]) ? "has-error" :''; ?>">
+		<label class="control-label col-sm-3 col-xs-12" for="<?php echo $field->element_id; ?>"><?php echo ${'entry_' . $name}; ?></label>
+		<div class="input-group afield <?php echo $widthcasses; ?> <?php echo($name == 'description' ? 'ml_ckeditor' : '') ?>"><?php echo $field; ?></div>
+		<?php if (!empty($error[$name])) { ?>
+			<span class="help-block field_err"><?php echo $error[$name]; ?></span>
+		<?php } ?>
+	</div>
 
-					<div id="values">
-						<?php if ($child_count == 0): ?>
-							<div style="padding-left: 40px;">
-								<span style="padding-right: 35px;"><b><?php echo $entry_element_values; ?></b></span>
-								<span><b><?php echo $column_sort_order; ?></b></span>
-							</div>
-							<?php foreach ($form['fields']['attribute_values'] as $atr_val_id => $atr_field): ?>
-								<div class="value">
-									<?php echo $atr_field['attribute_value_ids']; ?>
-									<?php echo $atr_field['values']; ?>&nbsp;
-									<?php echo $atr_field['sort_order']; ?>
-									<a class="remove"></a>
-								</div>
-							<?php endforeach; ?>
-							<a class="add"></a>
-						<?php else: ?>
-							<div style="padding-left: 10px;">
-
-								<span><b><?php echo $entry_children_attributes; ?></b></span>
-
-								<?php foreach ($children as $child): ?>
-									<div class="value">
-										<a href="<?php echo $child['link']; ?>"><?php echo $child['name']; ?></a>
-									</div>
-								<?php endforeach; ?>
-
-							</div>
-						<?php endif; ?>
-					</div>
-
-					<div id="file_settings">
-						<div class="value">
-							<span style="padding-right: 20px;"><?php echo $entry_allowed_extensions; ?></span>
-							<?php echo $form['settings_fields']['extensions']; ?>
-						</div>
-						<div class="value">
-							<span style="padding-right: 20px;"><?php echo $entry_min_size; ?></span>
-							<?php echo $form['settings_fields']['min_size']; ?>
-						</div>
-						<div class="value">
-							<span style="padding-right: 20px;"><?php echo $entry_max_size; ?></span>
-							<?php echo $form['settings_fields']['max_size']; ?>
-						</div>
-						<div class="value">
-							<span style="padding-right: 20px;"><?php echo $entry_upload_dir; ?></span>
-							<?php echo $form['settings_fields']['directory']; ?>
-						</div>
-					</div>
-					</div>
-
-
-				<?php } ?>
-			</td>
-		</tr>
-		<?php if ($name == 'attribute_parent') { ?>
-			<tr>
-				<td colspan="2"><?php echo $text_parent_note; ?></td>
-			</tr>
+	<?php if ($name == 'element_type') { ?>
+	<?php
+		if ($child_count == 0) { ?>
+			<div id="values" style="display: none;">
+				<label class="control-label col-sm-3 col-xs-12"></label>
+				<div class="input-group afield cl-sm-7">
+				<table class="table table-narrow">
+					<thead>
+						<tr>
+							<th><?php echo $entry_element_values; ?></th>
+							<th><?php echo $column_sort_order; ?></th>
+							<th></th>
+						</tr>
+					</thead>
+					<tbody>
+					<?php foreach ($form['attribute_values'] as $atr_val_id => $atr_field) { ?>
+						<tr class="value">
+							<td><?php echo $atr_field['attribute_value_ids']; ?><?php echo $atr_field['values']; ?></td>
+							<td><?php $atr_field['sort_order']->style = 'col-sm-2';
+								echo $atr_field['sort_order']; ?></td>
+							<td><a class="remove btn btn-danger-alt" title="<?php echo $button_remove; ?>"><i
+											class="fa fa-minus-circle"></i></a></td>
+						</tr>
+					<?php } ?>
+					<tr>
+						<td></td>
+						<td></td>
+						<td>
+							<a href="#" title="<?php echo $button_add ?>" id="add_option_value" class="btn btn-success"><i
+										class="fa fa-plus-circle fa-lg"></i></a>
+						</td>
+					</tr>
+					</tbody>
+				</table>
+				</div>
+			</div>
+		<?php } else { ?>
+			<div id="values">
+				<label class="control-label col-sm-3 col-xs-12"><?php echo $entry_children_attributes; ?></label>
+				<div class="input-group afield cl-sm-7">
+					<ul class="list-group">
+						<?php foreach ($children as $child) { ?>
+							<li class="list-group-item"><a href="<?php echo $child['link']; ?>"><?php echo $child['name']; ?></a></li>
+						<?php } ?>
+					</ul>
+				</div>
+			</div>
 		<?php } ?>
 
-	<?php } //foreach ?>
-</table>
+		<div id="file_settings" class="padding10"  style="display: none;">
+			<label class="control-label col-sm-3 col-xs-12"></label>
+			<div class="input-group afield cl-sm-7">
+				<ul class="list-group">
+				<?php if (is_array($children)) { ?>
+					<?php foreach ($children as $child) { ?>
+						<li class="list-group-item"><a
+									href="<?php echo $child['link']; ?>"><?php echo $child['name']; ?></a></li>
+					<?php } ?>
+				<?php } ?>
+				</ul>
+				<dl class="dl-horizontal">
+					<dt><?php echo $entry_allowed_extensions; ?></dt>
+					<dd><?php echo $form['settings_fields']['extensions']; ?></dd>
+					<dt><?php echo $entry_min_size; ?></dt>
+					<dd><?php echo $form['settings_fields']['min_size']; ?></dd>
+					<dt><?php echo $entry_max_size; ?></dt>
+					<dd><?php echo $form['settings_fields']['max_size']; ?></dd>
+					<dt><?php echo $entry_upload_dir; ?></dt>
+					<dd><?php echo $form['settings_fields']['directory']; ?></dd>
+				</dl>
+			</div>
+		</div>
+
+
+	<?php } ?>
+
+	<?php if ($name == 'attribute_parent') { ?>
+		<div class="input-group afield cl-sm-7"><?php echo $text_parent_note; ?></div>
+	<?php } ?>
+
+<?php } //foreach ?>
 
 <script type="text/javascript">
 	jQuery(function ($) {
@@ -79,8 +109,7 @@
 		<?php
 		foreach ($elements_with_options as $el) {
 			echo "elements_with_options.push('$el');\r\n";
-		}
-		?>
+		} ?>
 
 		function addValue(val) {
 			var add = $('#values a.add');
@@ -89,25 +118,30 @@
 		}
 
 		$('#values .aform').show();
-		$('#values a.remove').live('click', function () {
-			var current = $(this);
-			if ($('#values div.value').length > 1) {
-				if ($(current).parent().find('input[name^=attribute_value_ids]').val() == 'new') {
-					$(current).parent().remove();
-				}
-				else {
-					$(current).parent().toggleClass('toDelete');
+		$(document).on('click', '#values a.remove', function () {
+			var row = $(this).parents('tr');
+			if ($('#values tr.value').length > 1) {
+				if (row.find('input[name^=attribute_value_ids]').val() == 'new') {
+					row.remove();
+				} else {
+					row.addClass('danger');
 				}
 			}
+			return false;
 		});
-		$('#values a.add').live('click', function () {
-			$(this).before($(this).prev().clone());
-			$('input', $(this).prev()).val('');
-			$('input[name^=attribute_value_ids]', $(this).prev()).val('new');
-			$('input[name^=attribute_value_ids]', $(this).prev()).attr("name", "attribute_value_ids[]");
-			$('input[name^=values]', $(this).prev()).attr("name", "values[]");
-			$('input[name^=sort_orders]', $(this).prev()).attr("name", "sort_orders[]");
-			$('#values .value').last().removeClass('toDelete');
+
+		$('#add_option_value').on('click', function () {
+			var row = $('#values tr.value').last().clone();
+			$('#values tr.value').last().after(row);
+
+			var last = $('#values tr.value').last();
+			last.find('input[name^=attribute_value_ids]').val('new').removeAttr('id');
+			last.find('input[name^=attribute_value_ids]').attr("name", "attribute_value_ids[]").removeAttr('id');
+			last.find('input[name^=values]').attr("name", "values[]").removeAttr('id');
+			last.find('input[name^=sort_orders]').attr("name", "sort_orders[]").removeAttr('id');
+
+			last.removeClass('danger');
+			return false;
 		});
 
 		if ($.inArray($('#editFrm_element_type').val(), elements_with_options) > -1) {
@@ -164,7 +198,7 @@
 		}
 
 		$('#editFrm').submit(function () {
-			$('#values .toDelete input[name^=attribute_value_ids]').val('delete');
+			$('#values .danger input[name^=attribute_value_ids]').val('delete');
 			$(":disabled", this).removeAttr('disabled');
 		});
 

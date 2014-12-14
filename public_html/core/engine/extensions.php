@@ -100,7 +100,8 @@ class ExtensionCollection {
 	protected $extensions = array();
 
 	/**
-	 * @throws Exception when encounters extension not of class extension.
+	 * @param array $extensions
+	 * @throws Exception {when encounters extension not of class extension.}
 	 */
 	public function __construct(array $extensions) {
 		foreach ($extensions as $extension) {
@@ -192,6 +193,7 @@ class ExtensionCollection {
  * @method hk_confirm(object $baseObject, int $order_id, int $order_status_id, string $comment)
  * @method hk_query(object $baseObject, string $sql, bool $noexcept)
  * @method hk_load(object $baseObject, string $block, string $mode)
+ * @method hk_apply_promotions(object $baseObject, array $total_data, array $total)
  * @package MyExtensionsApi
  */
 class ExtensionsApi {
@@ -304,21 +306,21 @@ class ExtensionsApi {
 		$extension_data = array();
 		if (in_array($type, $this->extension_types)) {
 			$sql = "SELECT DISTINCT e.key
-					FROM " . DB_PREFIX . "extensions e
-					RIGHT JOIN " . DB_PREFIX . "settings s ON s.group = e.key
+					FROM " . $this->db->table("extensions") . " e
+					RIGHT JOIN " . $this->db->table("settings") . " s ON s.group = e.key
 					WHERE e.type = '" . $this->db->escape($type) . "'";
 		} elseif ($type == 'exts') {
 			$sql = "SELECT DISTINCT e.key
-					FROM " . DB_PREFIX . "extensions e
-					RIGHT JOIN " . DB_PREFIX . "settings s ON s.group = e.key
+					FROM " . $this->db->table("extensions") . " e
+					RIGHT JOIN " . $this->db->table("settings") . " s ON s.group = e.key
 					WHERE e.type IN ('" . implode("', '", $this->extension_types) . "')";
 		} elseif ($type == '') {
 			$sql = "SELECT DISTINCT e.key
-					FROM " . DB_PREFIX . "extensions e
-					RIGHT JOIN " . DB_PREFIX . "settings s ON s.group = e.key";
+					FROM " . $this->db->table("extensions") . " e
+					RIGHT JOIN " . $this->db->table("settings") . " s ON s.group = e.key";
 		} else {
 			$sql = "SELECT DISTINCT e.key
-					FROM " . DB_PREFIX . "extensions e";
+					FROM " . $this->db->table("extensions") . " e";
 		}
 
 		$query = $this->db->query($sql);
@@ -362,6 +364,10 @@ class ExtensionsApi {
 	 */
 	public function getExtensionsList($data = array()) {
 
+		//Improvment! 
+		//Add cache for this static select if $data is not provided 
+		//Need to add clear cache every place ext added/updated
+		$registry = Registry::getInstance();
 		$sql = "SELECT DISTINCT
 		              e.extension_id,
                       e.type,
@@ -371,14 +377,14 @@ class ExtensionsApi {
                       e.version,
                       e.license_key,
                       e.date_installed,
-                      e.update_date,
-                      e.create_date,
+                      e.date_modified,
+                      e.date_added,
 		              s.store_id,
 		              st.alias as store_name,
 		              s.value as status
-				FROM " . DB_PREFIX . "extensions e
-				LEFT JOIN " . DB_PREFIX . "settings s ON ( TRIM(s.`group`) = TRIM(e.`key`) AND TRIM(s.`key`) = CONCAT(TRIM(e.`key`),'_status') )
-				LEFT JOIN " . DB_PREFIX . "stores st ON st.store_id = s.store_id
+				FROM " . $this->db->table("extensions") . " e
+				LEFT JOIN " . $this->db->table("settings") . " s ON ( TRIM(s.`group`) = TRIM(e.`key`) AND TRIM(s.`key`) = CONCAT(TRIM(e.`key`),'_status') )
+				LEFT JOIN " . $this->db->table("stores") . " st ON st.store_id = s.store_id
 				WHERE e.`type` ";
 
 		if (has_value($data['filter']) && $data['filter'] != 'extensions') {
@@ -413,8 +419,11 @@ class ExtensionsApi {
 		if (has_value($data['status'])) {
 			$sql .= "AND s.value = '" . (int)$data['status'] . "' ";
 		}
+
 		if (has_value($data['store_id'])) {
 			$sql .= "AND COALESCE(s.`store_id`,0) = '" . (int)$data['store_id'] . "' ";
+		} else {
+			$sql .= "AND COALESCE(s.`store_id`,0) = '" . (int)$registry->get('config')->get('config_store_id') . "' ";		
 		}
 
 		if (has_value($data['sort_order']) && $data['sort_order'][0] != 'name') {
@@ -528,7 +537,25 @@ class ExtensionsApi {
 		$this->extension_models = $value;
 	}
 
-	public function loadEnabledExtensions() {
+	
+	/**
+	 * load all available (installed) extenions (for admin)
+	 *
+	 * @param none
+	 * @return none
+	 */   
+	public function loadAvailableExtensions() {
+		$this->loadEnabledExtensions(true);
+	}
+
+	/**
+	 * load all enabled extensions. 
+	 * If force parameter provided,load all installed (for admin)
+	 *
+	 * @param bool $force_enabled_off
+	 * @return none
+	 */
+	public function loadEnabledExtensions($force_enabled_off = false) {
 		/**
 		 * @var Registry
 		 */
@@ -537,7 +564,15 @@ class ExtensionsApi {
 		$enabled_extensions = $extensions = array();
 
 		foreach ($this->db_extensions as $ext) {
-			if ($registry->get('config')->get($ext . '_status') && !in_array($ext, $enabled_extensions)) {
+			//check if extension is enabled and not already in the picked list
+			if (
+				 //check if we need only available extensions with status 0
+				 ( ($force_enabled_off && has_value($registry->get('config')->get($ext . '_status')) )
+				 		|| $registry->get('config')->get($ext . '_status')
+				 )
+				  && !in_array($ext, $enabled_extensions)
+				  && has_value($ext)
+				) {
 
 				$priority = (int)$registry->get('config')->get($ext . '_priority');
 				$enabled_extensions[$priority][] = $ext;
@@ -587,6 +622,10 @@ class ExtensionsApi {
 	/**
 	 * check if language file exists in extension resource
 	 *
+	 * @param string $route
+	 * @param string $language_name
+	 * @param int|bool $section
+	 * @return array|bool
 	 */
 	public function isExtensionLanguageFile($route, $language_name, $section) {
 		$registry = Registry::getInstance();
@@ -630,7 +669,7 @@ class ExtensionsApi {
 				$source = $this->extension_models;
 				break;
 			case 'L' :
-				$query = $registry->get('db')->query("SELECT directory FROM " . DB_PREFIX . "languages
+				$query = $registry->get('db')->query("SELECT directory FROM " . $this->db->table("languages") . " 
                     WHERE code='" . $registry->get('session')->data['language'] . "'");
 				$file = (IS_ADMIN ? DIR_EXT_ADMIN : DIR_EXT_STORE) . 'language/' .
 						$query->row['directory'] . '/' . $route . '.xml';
@@ -974,8 +1013,10 @@ class ExtensionUtils {
 					'method' => (string)$item->variants->data_source->method,
 					'field1' => (string)$item->variants->fields->field[0],
 					'field2' => (string)$item->variants->fields->field[1],
+					'template' => (string)$item->template,
 				);
-				if ($item->variants->item) { // if just hardcoded selectbox options
+				// if just static option values are used 
+				if ($item->variants->item) {
 					foreach ($item->variants->item as $k) {
 						$k = (string)$k;
 						$result[$i]['options'][$k] = $this->registry->get('language')->get((string)$item['id'] . '_' . $k);
@@ -1029,10 +1070,12 @@ class ExtensionUtils {
 					continue;//if data for check not given - do nothing
 				}
 				$value = $data[(string)$item['id']];
-				if (is_array($value)) {
-					$value = array_map('trim',$value);
-				}else{
-					$value = trim($value);
+				if(!is_multi($value)) {
+					if (is_array($value)) {
+						$value = array_map('trim',$value);
+					} else {
+						$value = trim($value);
+					}
 				}
 				if((string)$item->pattern_validate){
 					$matches = array();
@@ -1080,13 +1123,16 @@ class ExtensionUtils {
 			$items = $this->config->settings->item;
 			foreach ($items as $item) {
 				if(!isset($data[(string)$item['id']])){
-					continue;//if data for check not given - do nothing
+					//if data for check not given - do nothing
+					continue;
 				}
 				$value = $data[(string)$item['id']];
-				if (is_array($value)) {
-					$value = array_map('trim',$value);
-				}else{
-					$value = trim($value);
+				if(!is_multi($value)) {
+					if (is_array($value)) {
+						$value = array_map('trim',$value);
+					} else {
+						$value = trim($value);
+					}
 				}
 
 				/** @noinspection PhpUndefinedMethodInspection */

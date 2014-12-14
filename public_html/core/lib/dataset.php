@@ -70,7 +70,7 @@ final class ADataset {
 		// if dataset_name given - let's get dataset_id
 		if ($dataset_name) {
 			$result = $this->db->query ( "SELECT dataset_id 
-										  FROM " . DB_PREFIX . "datasets
+										  FROM " . $this->db->table("datasets") . " 
 										  WHERE dataset_name = '" . $this->db->escape ( $dataset_name ) . "'
 												" . ($dataset_key ? "AND dataset_key='" . $this->db->escape ( $dataset_key ) . "'" : "") . " LIMIT 1" );
 			
@@ -95,14 +95,14 @@ final class ADataset {
 	public function createDataset($dataset_name, $dataset_key = '') {
 		
 		$result = $this->db->query ( "SELECT * 
-										FROM " . DB_PREFIX . "datasets 
+										FROM " . $this->db->table("datasets") . " 
 										WHERE dataset_name = '" . $this->db->escape ( $dataset_name ) . "'
 										AND dataset_key = '" . $this->db->escape ( $dataset_key ) . "';" );
 		if ($result->num_rows) {
 			throw new AException ( AC_ERR_LOAD, 'Error: Could not create dataset because dataset with name ' . $dataset_name . ' and key ' . $dataset_key . ' is already exists.' );
 		}
 		
-		$this->db->query ( "INSERT INTO " . DB_PREFIX . "datasets (dataset_name,dataset_key) 
+		$this->db->query ( "INSERT INTO " . $this->db->table("datasets") . " (dataset_name,dataset_key) 
 							VALUES ('" . $this->db->escape ( $dataset_name ) . "'
 							" . ($dataset_key ? ", '" . $this->db->escape ( $dataset_key ) : "") . "')" );
 		
@@ -154,7 +154,7 @@ final class ADataset {
 				// insert new column
 				if (! in_array ( $column_definition ['name'], $existing_column_names ) && empty ( $column_definition ['old_name'] )) {
 					unset ( $column_definition ['old_name'] );
-					$sql_query = "INSERT INTO " . DB_PREFIX . "dataset_definition (dataset_id, dataset_column_name, dataset_column_type, dataset_column_sort_order)
+					$sql_query = "INSERT INTO " . $this->db->table("dataset_definition") . " (dataset_id, dataset_column_name, dataset_column_type, dataset_column_sort_order)
 	  									VALUES ('" . $this->dataset_id . "',
 	  									        '" . $column_definition['name']  . "',
 	  									        '" . $column_definition['type']  . "',
@@ -187,7 +187,7 @@ final class ADataset {
 					//if column type will change - just change it, old values will not move to another column of dataset_values. User need update it by himself.
 					if (! empty ( $column_definition ['old_name'] ) && ! empty ( $column_definition ['name'] )) {
 						$column_id = ( int ) array_search ( (! isset ( $column_definition ['old_name'] ) ? $column_definition ['name'] : $column_definition ['old_name']), $existing_column_names );
-						$sql_query = "UPDATE " . DB_PREFIX . "dataset_definition ";
+						$sql_query = "UPDATE " . $this->db->table("dataset_definition") . " ";
 						$sql_query .= "SET dataset_column_name= '" . $column_definition ['name'] . "', ";
 						$sql_query .= "dataset_column_type= '" . $column_definition ['type'] . "', ";
 						$sql_query .= "dataset_column_sort_order= '" . $column_definition ['sort_order'] . "'";
@@ -215,9 +215,10 @@ final class ADataset {
 		$this->columnset = array ();
 
 		$result = $this->db->query ( "SELECT *
-										FROM " . DB_PREFIX . "dataset_definition
+										FROM " . $this->db->table("dataset_definition") . " 
 										WHERE dataset_id = '" . $this->dataset_id . "'
 										ORDER BY dataset_column_sort_order, dataset_column_id" );
+
 		if ($result->num_rows) {
 			foreach ( $result->rows as $row ) {
 				$this->columnset [$row ['dataset_column_id']] = $row;
@@ -267,14 +268,14 @@ final class ADataset {
 		}
 		
 		//get last row number of dataset
-		$result = $this->db->query ( "SELECT MAX(row_id) as rownum FROM " . DB_PREFIX . "dataset_values WHERE dataset_column_id IN (" . implode ( ",", array_keys ( $this->columnset ) ) . ")" );
+		$result = $this->db->query ( "SELECT MAX(row_id) as rownum FROM " . $this->db->table("dataset_values") . " WHERE dataset_column_id IN (" . implode ( ",", array_keys ( $this->columnset ) ) . ")" );
 		$row_id = ( int ) $result->row ['rownum'] + 1;
 		// let's write
 		foreach ( $row_values as $dataset_row ) {
 			
 			foreach ( $dataset_row as $col_name => $value ) {
 				
-				$query = "INSERT INTO " . DB_PREFIX . "dataset_values (dataset_column_id, 
+				$query = "INSERT INTO " . $this->db->table("dataset_values") . " (dataset_column_id, 
 																		value_" . $this->columnset [$this->check_columnset [$col_name] ['dataset_column_id']] ['dataset_column_type'] . ",
 																		row_id)
 		    						VALUES ('" . ( int ) $this->check_columnset [$col_name] ['dataset_column_id'] . "', 
@@ -305,9 +306,9 @@ final class ADataset {
 			if (strlen ( $name ) > 255 || strlen ( $value ) > 255) {
 				continue;
 			}
-			$query = "DELETE FROM " . DB_PREFIX . "dataset_properties WHERE dataset_id=" . $this->dataset_id . " AND dataset_property_name = '" . $this->db->escape ( $name ) . "' ;";
+			$query = "DELETE FROM " . $this->db->table("dataset_properties") . " WHERE dataset_id=" . $this->dataset_id . " AND dataset_property_name = '" . $this->db->escape ( $name ) . "' ;";
 			$this->db->query ( $query );
-			$query = "INSERT INTO " . DB_PREFIX . "dataset_properties VALUES (" . $this->dataset_id . ",'" . $this->db->escape ( $name ) . "','" . $this->db->escape ( $value ) . "');";
+			$query = "INSERT INTO " . $this->db->table("dataset_properties") . " VALUES (" . $this->dataset_id . ",'" . $this->db->escape ( $name ) . "','" . $this->db->escape ( $value ) . "');";
 			$this->db->query ( $query );
 		}
 		return true;
@@ -325,7 +326,7 @@ final class ADataset {
 		
 		$output = array ();
 		$query = "SELECT dataset_property_name, dataset_property_value 
-				  FROM " . DB_PREFIX . "dataset_properties 
+				  FROM " . $this->db->table("dataset_properties") . " 
 				  WHERE dataset_id = " . (int)$this->dataset_id . " 
 				  ".($property_name ? " AND dataset_property_name = '".$this->db->escape($property_name)."'":"");
 		$result = $this->db->query ( $query );
@@ -357,7 +358,7 @@ final class ADataset {
 			throw new AException ( AC_ERR_LOAD, 'Error: Could not set property for column! Column definitions is empty.' );
 		}
 		
-		foreach ( $this->columnset as $id => $cols ) {
+		foreach ( $this->columnset as $cols ) {
 			if ($cols ['dataset_column_name'] == $column_name) {
 				$column_id = $cols ['dataset_column_id'];
 			}
@@ -372,10 +373,10 @@ final class ADataset {
 				continue;
 			}
 			
-			$query = "DELETE FROM " . DB_PREFIX . "dataset_column_properties WHERE dataset_column_id=" . ( int ) $column_id . " AND dataset_column_property_name='" . $this->db->escape ( $name ) . "';";
+			$query = "DELETE FROM " . $this->db->table("dataset_column_properties") . " WHERE dataset_column_id=" . ( int ) $column_id . " AND dataset_column_property_name='" . $this->db->escape ( $name ) . "';";
 			$this->db->query ( $query );
 			
-			$query = "INSERT INTO " . DB_PREFIX . "dataset_column_properties VALUES (" . ( int ) $column_id . ",'" . $this->db->escape ( $name ) . "','" . $this->db->escape ( $value ) . "');";
+			$query = "INSERT INTO " . $this->db->table("dataset_column_properties") . " VALUES (" . ( int ) $column_id . ",'" . $this->db->escape ( $name ) . "','" . $this->db->escape ( $value ) . "');";
 			$this->db->query ( $query );
 		}
 		return true;
@@ -391,8 +392,8 @@ final class ADataset {
 		
 		$output = null;
 		$query = "SELECT dd.dataset_id, dd.dataset_column_name, dcp.dataset_column_property_name, dcp.dataset_column_property_value 
-				  FROM " . DB_PREFIX . "dataset_definition dd
-				  LEFT JOIN " . DB_PREFIX . "dataset_column_properties dcp ON dcp.dataset_column_id = dd.dataset_column_id
+				  FROM " . $this->db->table("dataset_definition") . " dd
+				  LEFT JOIN " . $this->db->table("dataset_column_properties") . " dcp ON dcp.dataset_column_id = dd.dataset_column_id
 				  WHERE dd.dataset_id = " . $this->dataset_id . ";";
 		$result = $this->db->query ( $query );
 		$rows = $result->rows;
@@ -462,8 +463,8 @@ final class ADataset {
 		
 		// first of all we need to know whats row number needed 
 		$query = "SELECT DISTINCT dv.row_id " . $sort_value_column . "
-  					FROM " . DB_PREFIX . "dataset_values dv
-  					LEFT JOIN  " . DB_PREFIX . "dataset_definition dd ON dd.dataset_column_id = dv.dataset_column_id
+  					FROM " . $this->db->table("dataset_values") . " dv
+  					LEFT JOIN  " . $this->db->table("dataset_definition") . " dd ON dd.dataset_column_id = dv.dataset_column_id
   					WHERE dd.dataset_id = '" . $this->dataset_id . "' " . ($sort_column_id ? "AND dv.dataset_column_id = '" . $sort_column_id . "'" : '') . " 
   					" . ($this->search_condition ? " AND " . $this->search_condition : '');
 		
@@ -481,8 +482,8 @@ final class ADataset {
 								dv.value_float, dv.value_varchar, dv.value_boolean,
 								CASE WHEN dv.value_timestamp='0000-00-00 00:00:00' THEN '' ELSE dv.value_timestamp END as value_timestamp,
 								dv.value_text, dv.row_id
-	  				  FROM " . DB_PREFIX . "dataset_values dv
-	  				  LEFT JOIN  " . DB_PREFIX . "dataset_definition dd ON dd.dataset_column_id = dv.dataset_column_id
+	  				  FROM " . $this->db->table("dataset_values") . " dv
+	  				  LEFT JOIN  " . $this->db->table("dataset_definition") . " dd ON dd.dataset_column_id = dv.dataset_column_id
 	  				  WHERE dd.dataset_id = '" . $this->dataset_id . "' 
 	  				  " . ($column_list_id ? "AND dv.dataset_column_id in ('" . implode ( ",", $column_list_id ) . "'" : '') . "
 	  				  AND dv.row_id in (" . implode ( ",", $row_ids ) . ")
@@ -513,8 +514,8 @@ final class ADataset {
 		}
 		if(!$filter){
 		$query = "SELECT COUNT(DISTINCT dv.row_id) as cnt
-  					FROM " . DB_PREFIX . "dataset_values dv
-  					LEFT JOIN  " . DB_PREFIX . "dataset_definition dd ON dd.dataset_column_id = dv.dataset_column_id
+  					FROM " . $this->db->table("dataset_values") . " dv
+  					LEFT JOIN  " . $this->db->table("dataset_definition") . " dd ON dd.dataset_column_id = dv.dataset_column_id
   					WHERE dd.dataset_id = '" . $this->dataset_id . "'";
 
 		$sql = $this->db->query ( $query );
@@ -543,13 +544,17 @@ final class ADataset {
 		$output = array ();
 		
 		if (is_array ( $dataset_values )) {
-			foreach ( $dataset_values as $k=>$row ) {
+			foreach ( $dataset_values as $row ) {
 				// then build order for resorting
 				if($order_name && $row['dataset_column_name']==$order_name){
 					$index[$row ['row_id']] = $row ["value_" . $this->columnset [$row ['dataset_column_id']] ['dataset_column_type']];
 				}
 
 				if(in_array($row ['dataset_column_name'],$column_names) || !$column_names){
+					if(!isset($row ["value_" . $this->columnset [$row ['dataset_column_id']] ['dataset_column_type']])){
+						$warning = new AWarning('Dataset inconsistency data issue detected. Dataset ID: '.$this->dataset_id.'. Column_name: '.$row ['dataset_column_name'].' Column data type: '.$this->columnset [$row ['dataset_column_id']] ['dataset_column_type']);
+						$warning->toDebug();
+					}
 					$output [$row ['row_id']] [$row ['dataset_column_name']] = $row ["value_" . $this->columnset [$row ['dataset_column_id']] ['dataset_column_type']];
 				}
 			}
@@ -597,7 +602,7 @@ final class ADataset {
 		
 		// first of all we need to know whats row number needed 
 		$query = "SELECT DISTINCT dv.row_id 
-  				  	FROM " . DB_PREFIX . "dataset_values dv
+  				  	FROM " . $this->db->table("dataset_values") . " dv
   				  	WHERE " . $this->search_condition;
 		
 		$sql = $this->db->query ( $query );
@@ -609,9 +614,9 @@ final class ADataset {
 			}
 		}
 		if ($row_ids) {
-			$query = "DELETE FROM " . DB_PREFIX . "dataset_values 
+			$query = "DELETE FROM " . $this->db->table("dataset_values") . " 
 			 			WHERE row_id in (" . implode ( ",", $row_ids ) . ") AND dataset_column_id in (" . implode ( ",", array_keys ( $this->columnset ) ) . ")";
-			$sql = $this->db->query ( $query );
+			$this->db->query ( $query );
 		}
 		// return deleted rows count
 		return sizeof($row_ids);
@@ -632,7 +637,7 @@ final class ADataset {
 		
 		// first of all we need to know whats row number needed 
 		$query = "SELECT DISTINCT dv.row_id 
-  				  	FROM " . DB_PREFIX . "dataset_values dv
+  				  	FROM " . $this->db->table("dataset_values") . " dv
   				  	WHERE " . $this->search_condition;
 		
 		$sql = $this->db->query ( $query );
@@ -680,11 +685,11 @@ final class ADataset {
 					$column_value = '';
 			
 			}
-			
-			$sql = "UPDATE " . DB_PREFIX . "dataset_values 
+
+			$sql = "UPDATE " . $this->db->table("dataset_values") . " 
 					SET value_" . $this->columnset [$column_id] ['dataset_column_type'] . " = '" . $column_value . "'
 					WHERE dataset_column_id = " . $column_id . " AND  row_id in (" . implode ( ", ", $row_ids ) . ")";
-			
+
 			$this->db->query ( $sql );
 		
 		}
@@ -772,13 +777,13 @@ final class ADataset {
 		}
 		
 		if ($this->columnset) {
-			$this->db->query ( "DELETE FROM " . DB_PREFIX . "dataset_values WHERE dataset_column_id in (" . implode ( ", ", array_keys ( $this->columnset ) ) . ");" );
-			$this->db->query ( "DELETE FROM " . DB_PREFIX . "dataset_column_properties WHERE dataset_column_id in (" . implode ( ", ", array_keys ( $this->columnset ) ) . ");" );
+			$this->db->query ( "DELETE FROM " . $this->db->table("dataset_values") . " WHERE dataset_column_id in (" . implode ( ", ", array_keys ( $this->columnset ) ) . ");" );
+			$this->db->query ( "DELETE FROM " . $this->db->table("dataset_column_properties") . " WHERE dataset_column_id in (" . implode ( ", ", array_keys ( $this->columnset ) ) . ");" );
 		}
 		
-		$this->db->query ( "DELETE FROM " . DB_PREFIX . "dataset_properties WHERE dataset_id = " . $this->dataset_id . ";" );
-		$this->db->query ( "DELETE FROM " . DB_PREFIX . "dataset_definition WHERE dataset_id = " . $this->dataset_id . ";" );
-		$this->db->query ( "DELETE FROM " . DB_PREFIX . "datasets WHERE dataset_id = " . $this->dataset_id . ";" );
+		$this->db->query ( "DELETE FROM " . $this->db->table("dataset_properties") . " WHERE dataset_id = " . $this->dataset_id . ";" );
+		$this->db->query ( "DELETE FROM " . $this->db->table("dataset_definition") . " WHERE dataset_id = " . $this->dataset_id . ";" );
+		$this->db->query ( "DELETE FROM " . $this->db->table("datasets") . " WHERE dataset_id = " . $this->dataset_id . ";" );
 		
 		$this->dataset_id = 0;
 		$this->columnset = array ();
@@ -857,10 +862,12 @@ final class ADataset {
 			}
 		}
 	}
-	
+
+	/**
+	 * @param simplexmlElement $xml_obj
+	 */
 	private function _processXML($xml_obj) {
-		
-		$error = '';
+
 		$xml = $xml_obj->xpath ( '/datasets' );
 		$datasets = $xml;
 		//process each layout 
@@ -941,8 +948,8 @@ final class ADataset {
 			if ($dataset->dataset_rows && $dataset->dataset_rows->dataset_row) {
 				$row_values = array ();
 				foreach ( $dataset->dataset_rows->dataset_row as $row ) {
-					if ($dataset->dataset_rows->dataset_row->cell) {
-						foreach ( $dataset->dataset_rows->dataset_row->cell as $cell ) {
+					if ($row->cell) {
+						foreach ( $row->cell as $cell ) {
 							$row_values [] [( string ) $cell->column_name] = ( string ) $cell->value;
 						}
 					}

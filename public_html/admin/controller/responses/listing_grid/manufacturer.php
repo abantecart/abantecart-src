@@ -161,8 +161,8 @@ class ControllerResponsesListingGridManufacturer extends AController {
 			foreach ($this->request->post as $field => $value) {
 				if($field=='keyword'){
 					if($err = $this->html->isSEOkeywordExists('manufacturer_id='.$this->request->get['id'], $value)){
-						$dd = new ADispatcher('responses/error/ajaxerror/validation',array('error_text'=>$err));
-						return $dd->dispatch();
+						$error = new AError('');
+						return $error->toJSONResponse('VALIDATION_ERROR_406', array( 'error_text' => $err ));
 					}
 				}
 
@@ -180,6 +180,46 @@ class ControllerResponsesListingGridManufacturer extends AController {
 
 		//update controller data
 		$this->extensions->hk_UpdateData($this, __FUNCTION__);
+	}
+
+
+	public function manufacturers() {
+
+		$output = array();
+		//init controller data
+		$this->extensions->hk_InitData($this, __FUNCTION__);
+		$this->loadModel('catalog/manufacturer');
+		if (isset($this->request->post['term'])) {
+			$filter = array('limit' => 20,
+							'language_id' => $this->language->getContentLanguageID(),
+							'subsql_filter' => "m.name LIKE '%".$this->request->post['term']."%'"
+							);
+			$results = $this->model_catalog_manufacturer->getManufacturers($filter);
+
+			$resource = new AResource('image');
+			foreach ($results as $item) {
+				$thumbnail = $resource->getMainThumb('manufacturers',
+												$item['manufacturer_id'],
+												(int)$this->config->get('config_image_grid_width'),
+												(int)$this->config->get('config_image_grid_height'),
+												true);
+
+				$output[ ] = array(
+					'image' => $icon = $thumbnail['thumb_html'] ? $thumbnail['thumb_html'] : '<i class="fa fa-code fa-4x"></i>&nbsp;',
+					'id' => $item['manufacturer_id'],
+					'name' => $item['name'],
+					'meta' => '',
+					'sort_order' => (int)$item['sort_order'],
+				);
+			}
+		}
+
+		//update controller data
+		$this->extensions->hk_UpdateData($this, __FUNCTION__);
+
+		$this->load->library('json');
+		$this->response->addJSONHeader();
+		$this->response->setOutput(AJson::encode($output));
 	}
 
 }

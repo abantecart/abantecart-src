@@ -21,7 +21,6 @@ if (! defined ( 'DIR_CORE' ) || !IS_ADMIN) {
 	header ( 'Location: static_pages/' );
 }
 class ControllerResponsesListingGridCoupon extends AController {
-	private $error = array();
 
     public function main() {
 
@@ -74,6 +73,7 @@ class ControllerResponsesListingGridCoupon extends AController {
         $this->extensions->hk_UpdateData($this,__FUNCTION__);
 
 		$this->load->library('json');
+		$this->response->addJSONHeader();
 		$this->response->setOutput(AJson::encode($response));
 	}
 
@@ -88,7 +88,7 @@ class ControllerResponsesListingGridCoupon extends AController {
 			$error = new AError('');
 			return $error->toJSONResponse('NO_PERMISSIONS_402',
 				array( 'error_text' => sprintf($this->language->get('error_permission_modify'), 'listing_grid/coupon'),
-					'reset_value' => true
+					   'reset_value' => true
 				));
 		}
 
@@ -152,11 +152,15 @@ class ControllerResponsesListingGridCoupon extends AController {
 			    if ( !$err ) {
 			        $this->model_sale_coupon->editCoupon($this->request->get['id'], array( $field => $value) );
 			    } else {
-					$dd = new ADispatcher('responses/error/ajaxerror/validation',array('error_text'=>$err));
-					return $dd->dispatch();
+				    $error = new AError('');
+				    return $error->toJSONResponse('VALIDATION_ERROR_406', array( 'error_text' => $err ));
+			    }
+			    //save products to coupon
+			    if ($this->request->post['coupon_product']) {
+					$this->model_sale_coupon->editCouponProducts($this->request->get['id'], $this->request->post);
 			    }
 		    }
-		    return;
+		    return null;
 	    }
 
 	    //request sent from jGrid. ID is key of array
@@ -166,12 +170,11 @@ class ControllerResponsesListingGridCoupon extends AController {
 			    if ( !$err ) {
 			        $this->model_sale_coupon->editCoupon($k, array($field => $v) );
 			    } else {
-					$dd = new ADispatcher('responses/error/ajaxerror/validation',array('error_text'=>$err));
-					return $dd->dispatch();
+				    $error = new AError('');
+				    return $error->toJSONResponse('VALIDATION_ERROR_406', array( 'error_text' => $err ));
 			    }
             }
         }
-
 
 		//update controller data
         $this->extensions->hk_UpdateData($this,__FUNCTION__);
@@ -184,18 +187,18 @@ class ControllerResponsesListingGridCoupon extends AController {
 			case 'coupon_description' :
 				foreach ($value as $language_id => $v) {
 					if ( isset($v['name']) )
-					if ((strlen(utf8_decode($v['name'])) < 2) || (strlen(utf8_decode($v['name'])) > 64)) {
+					if ( mb_strlen($v['name']) < 2 || mb_strlen( $v['name'] ) > 64 ) {
 						$err = $this->language->get('error_name');
 					}
 
 					if ( isset($v['description']) )
-					if (strlen(utf8_decode($v['description'])) < 2) {
+					if ( mb_strlen($v['description']) < 2) {
 						$err = $this->language->get('error_description');
 					}
 				}
 				break;
 			case 'code':
-				if ((strlen(utf8_decode($value)) < 2) || (strlen(utf8_decode($value)) > 10)) {
+				if ( mb_strlen($value) < 2 || mb_strlen($value) > 10) {
 					$err = $this->language->get('error_code');
 				}
 				break;
@@ -242,6 +245,7 @@ class ControllerResponsesListingGridCoupon extends AController {
         $this->extensions->hk_UpdateData($this,__FUNCTION__);
 
 		$this->load->library('json');
+		$this->response->addJSONHeader();
 		$this->response->setOutput(AJson::encode($product_data));
 	}
 }

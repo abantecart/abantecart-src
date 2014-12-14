@@ -35,14 +35,14 @@ class ControllerApiOrderDetails extends AControllerAPI {
 		if ( !has_value($request['order_id']) ) {
 			$this->rest->setResponseData( array('Error' => 'Order ID is missing') );
 			$this->rest->sendResponse(200);
-			return;
+			return null;
 		}		
 
 		$order_details =  $this->model_sale_order->getOrder($request['order_id']);
 		if (!count($order_details)) {
 			$this->rest->setResponseData( array('Error' => 'Incorrect order ID or missing order data') );
 			$this->rest->sendResponse(200);
-			return;			
+			return null;
 		}
 			    
         $this->extensions->hk_UpdateData($this,__FUNCTION__);

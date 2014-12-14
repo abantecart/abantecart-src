@@ -21,7 +21,10 @@ if (!defined('DIR_CORE')) {
 	header('Location: static_pages/');
 }
 
-
+/**
+ * Class ControllerResponsesListingGridBannerManager
+ * @property ModelExtensionBannerManager model_extension_banner_manager
+ */
 class ControllerResponsesListingGridBannerManager extends AController {
 	public $data;
 
@@ -37,7 +40,7 @@ class ControllerResponsesListingGridBannerManager extends AController {
 		$limit = $this->request->post['rows']; // get how many rows we want to have into the grid
 
 		//sort
-		$filter_params = array('name', 'banner_group_name', 'banner_type', 'status', 'update_date');
+		$filter_params = array('name', 'banner_group_name', 'banner_type', 'status', 'date_modified');
 		$filter_grid = new AFilter(array('method' => 'post',
 			'grid_filter_params' => $filter_params,
 			'additional_filter_string' => ''));
@@ -60,17 +63,6 @@ class ControllerResponsesListingGridBannerManager extends AController {
 		$resource = new AResource('image');
 		$i = 0;
 		foreach ($results as $result) {
-
-
-			$action = '<a id="action_edit_' . $result['banner_id'] . '" class="btn_action" href="' . $this->html->getSecureURL('extension/banner_manager/edit', '&banner_id=' . $result['banner_id']) . '"
-								title="' . $this->language->get('text_edit') . '">' .
-					'<img src="' . RDIR_TEMPLATE . 'image/icons/icon_grid_edit.png" alt="' . $this->language->get('text_edit') . '" />' .
-					'</a>
-				<a class="btn_action" href="' . $this->html->getSecureURL('extension/banner_manager/delete', '&banner_id=' . $result['banner_id']) . '"
-			 	onclick="return confirm(\'' . $this->language->get('text_delete_confirm') . '\')" title="' . $this->language->get('text_delete') . '">' .
-					'<img src="' . RDIR_TEMPLATE . 'image/icons/icon_grid_delete.png" alt="' . $this->language->get('text_delete') . '" />' .
-					'</a>';
-
 
 			$response->rows[$i]['id'] = $result['banner_id'];
 
@@ -98,8 +90,7 @@ class ControllerResponsesListingGridBannerManager extends AController {
 					'value' => $result['status'],
 					'style' => 'btn_switch'
 				)),
-				$result['update_date'],
-				$action,
+				$result['date_modified']
 			);
 			$i++;
 		}
@@ -116,7 +107,7 @@ class ControllerResponsesListingGridBannerManager extends AController {
 		//init controller data
 		$this->extensions->hk_InitData($this, __FUNCTION__);
 
-		if (($this->request->server ['REQUEST_METHOD'] == 'POST')) {
+		if ($this->request->is_POST()) {
 			$this->loadModel('extension/banner_manager');
 
 			if (isset($this->request->post['start_date']) && $this->request->post['start_date']) {
@@ -166,7 +157,7 @@ class ControllerResponsesListingGridBannerManager extends AController {
 		$this->loadLanguage('banner_manager/banner_manager');
 		if (!$this->user->canModify('extension/banner_manager')) {
 			$this->response->setOutput(sprintf($this->language->get('error_permission_modify'), 'extension/banner_manager'));
-			return;
+			return null;
 		}
 
 		switch ($this->request->post['oper']) {
@@ -196,90 +187,6 @@ class ControllerResponsesListingGridBannerManager extends AController {
 
 		//update controller data
 		$this->extensions->hk_UpdateData($this, __FUNCTION__);
-	}
-
-	public function getSubForm() {
-
-		$this->loadLanguage('banner_manager/banner_manager');
-		$this->loadModel('extension/banner_manager');
-
-		$banner_id = (int)$this->request->get['banner_id'];
-		if ($banner_id) {
-			$info = $this->model_extension_banner_manager->getBanner($banner_id);
-			foreach ($info as $k => $v) {
-				$this->data[$k] = $v;
-			}
-		}
-		$banner_type = $this->request->post_or_get('type');
-		if ($banner_type == '2') {
-			$this->getTextSubForm();
-		} else {
-			$this->getGraphicSubForm();
-		}
-
-	}
-
-	public function getGraphicSubForm() {
-		//init controller data
-		$this->extensions->hk_InitData($this, __FUNCTION__);
-
-
-		if (!isset ($this->request->get ['banner_id'])) {
-			$form = new AForm ('ST');
-		} else {
-			$form = new AForm ('HS');
-		}
-		$form->setForm(array('form_name' => 'BannerFrm', 'update' => $this->data ['update']));
-
-
-		$this->data['form']['fields']['rl'] = '';
-		$this->data['form']['text']['rl'] = $this->language->get('entry_banner_rl');
-
-		$this->data['form']['fields']['meta'] = $form->getFieldHtml(
-			array(  'type' => 'textarea',
-					'name' => 'meta',
-					'value' => $this->data ['meta'],
-					'attr' => ' style="height: 50px;"'  ));
-		$this->data['form']['text']['meta'] = $this->language->get('entry_banner_meta');
-
-		$this->data['banner_id'] = $this->request->get['banner_id'] ? $this->request->get['banner_id'] : '-1';
-
-		$this->view->batchAssign($this->data);
-		$this->processTemplate('responses/extension/banner_manager_subform.tpl');
-
-		//update controller data
-		$this->extensions->hk_UpdateData($this, __FUNCTION__);
-		$this->response->setOutput($this->view->getOutput());
-	}
-
-	public function getTextSubForm() {
-		//init controller data
-		$this->extensions->hk_InitData($this, __FUNCTION__);
-		$this->loadLanguage('banner_manager/banner_manager');
-
-
-		if (!isset ($this->request->get ['banner_id'])) {
-			$form = new AForm ('ST');
-		} else {
-			$form = new AForm ('HS');
-		}
-		$form->setForm(array('form_name' => 'BannerFrm', 'update' => $this->data ['update']));
-
-
-		$this->data['form']['fields']['description'] = $form->getFieldHtml(array('type' => 'textarea',
-			'name' => 'description',
-			'value' => $this->data ['description'],
-			'attr' => ' style="height: 50px;"'));
-		$this->data['form']['text']['description'] = $this->language->get('entry_banner_html');
-
-		$this->data['banner_id'] = $this->request->get['banner_id'] ? $this->request->get['banner_id'] : '-1';
-
-		$this->view->batchAssign($this->data);
-		$this->processTemplate('responses/extension/banner_manager_subform.tpl');
-
-		//update controller data
-		$this->extensions->hk_UpdateData($this, __FUNCTION__);
-		$this->response->setOutput($this->view->getOutput());
 	}
 
 	/*
@@ -472,6 +379,52 @@ class ControllerResponsesListingGridBannerManager extends AController {
 
 		$this->response->addJSONHeader();
 		$this->response->setOutput(AJson::encode($this->data['response']));
+	}
+
+	public function banners() {
+
+		//$products = array();
+		$banners_data = array();
+
+		//init controller data
+		$this->extensions->hk_InitData($this, __FUNCTION__);
+		$this->loadModel('extension/banner_manager');
+		if (isset($this->request->post['term'])) {
+
+			$rm = new AResourceManager();
+			$rm->setType('image');
+
+			$filter = array( 'subsql_filter' => "b.target_url LIKE '%".$this->db->escape($this->request->post['term'])."%'
+												OR bd.name LIKE '%".$this->db->escape($this->request->post['term'])."%'
+												OR bd.description LIKE '%".$this->db->escape($this->request->post['term'])."%'
+												OR bd.meta LIKE '%".$this->db->escape($this->request->post['term'])."%'",
+							'limit' => 20 );
+			$banners = $this->model_extension_banner_manager->getBanners($filter);
+
+
+			foreach ($banners as $banner) {
+				$thumbnail = $rm->getMainThumb('banners',
+												$banner['banner_id'],
+												(int)$this->config->get('config_image_grid_width'),
+												(int)$this->config->get('config_image_grid_height'),
+												false);
+				$icon = $thumbnail['thumb_html'] ? $thumbnail['thumb_html'] : '<i class="fa fa-code fa-4x"></i>&nbsp;';
+
+				$banners_data[ ] = array(
+					'image' => $icon,
+					'id' => $banner['banner_id'],
+					'name' => $banner['name'],
+					'sort_order' => (int)$banner['sort_order'],
+				);
+			}
+		}
+
+		//update controller data
+		$this->extensions->hk_UpdateData($this, __FUNCTION__);
+
+		$this->load->library('json');
+		$this->response->addJSONHeader();
+		$this->response->setOutput(AJson::encode($banners_data));
 	}
 
 }

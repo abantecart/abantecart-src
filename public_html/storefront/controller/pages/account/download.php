@@ -101,18 +101,18 @@ class ControllerPagesAccountDownload extends AController {
 					$i++;
 				}
 				if(!$text_status){
-					$link = HtmlElementFactory::create(
+					$download_button = HtmlElementFactory::create(
 							array ( 'type' => 'button',
 									'name' => 'download_button_'.$download_info['order_download_id'],
 									'title'=> $this->language->get('text_download'),
 									'text' => $this->language->get('text_download'),
 									'style' => 'button',
 									'href' => $this->html->getSecureURL('account/download/startdownload','&order_download_id='. $download_info['order_download_id']),
-									'icon' => 'icon-download-alt'
+									'icon' => 'fa fa-download-alt'
 									)
 					);
 				}else{
-					$link = $text_status;
+					$download_text = $text_status;
 				}
 
 				$thumbnail = $resource->getMainThumb( 'products',
@@ -130,7 +130,8 @@ class ControllerPagesAccountDownload extends AController {
 					'name'       => $download_info['name'],
 					'remaining'  => $download_info['remaining_count'],
 					'size'       => round(substr($size, 0, strpos($size, '.') + 4), 2) . $suffix[$i],
-					'link'       => $link,
+					'button'	=> $download_button,
+					'text'	=> $download_text,
 					'expire_date'=> dateISO2Display($download_info['expire_date'], $this->language->get('date_format_short').' '.$this->language->get('time_format_short'))
 				);
 
@@ -164,7 +165,7 @@ class ControllerPagesAccountDownload extends AController {
 		                                               'name' => 'continue_button',
 			                                           'text'=> $this->language->get('button_continue'),
 			                                           'style' => 'button',
-														'icon' => 'icon-arrow-right',
+														'icon' => 'fa fa-arrow-right',
 			                                           'href' => $this->html->getSecureURL('account/account')));
 		$this->data['button_continue'] = $continue;
 		$this->view->batchAssign($this->data);

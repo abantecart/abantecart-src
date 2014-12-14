@@ -84,13 +84,13 @@ class ControllerPagesExtensionDefaultUsps extends AController {
 
         //init controller data
         $this->extensions->hk_InitData($this,__FUNCTION__);
-
+		$this->request->get['extension'] = 'default_usps';
 		$this->loadLanguage('extension/extensions');
 		$this->loadLanguage('default_usps/default_usps');
 		$this->document->setTitle( $this->language->get('text_additional_settings') );
 		$this->load->model('setting/setting');
 
-		if (($this->request->server['REQUEST_METHOD'] == 'POST') && ($this->_validate())) {
+		if ( $this->request->is_POST() && $this->_validate() ) {
 			$this->model_setting_setting->editSetting('default_usps', $this->request->post);
 			$this->session->data['success'] = $this->language->get('text_success');
 			$this->redirect($this->html->getSecureURL('extension/default_usps'));
@@ -125,7 +125,8 @@ class ControllerPagesExtensionDefaultUsps extends AController {
    		$this->document->addBreadcrumb( array (
        		'href'      => $this->html->getSecureURL('extension/default_usps'),
        		'text'      => $this->language->get('default_usps_name'),
-      		'separator' => ' :: '
+      		'separator' => ' :: ',
+		    'current'   => true
    		 ));
 
 		$sizes = array(
@@ -170,7 +171,7 @@ class ControllerPagesExtensionDefaultUsps extends AController {
 			}
 		}
 
-		$this->data ['action'] = $this->html->getSecureURL ( 'extension/default_usps' );
+		$this->data ['action'] = $this->html->getSecureURL ( 'extension/default_usps', '&extension=default_usps' );
 		$this->data['cancel'] = $this->html->getSecureURL('extension/shipping');
 		$this->data ['heading_title'] = $this->language->get ( 'text_additional_settings' );
 		$this->data ['form_title'] = $this->language->get ( 'default_usps_name' );
@@ -179,9 +180,22 @@ class ControllerPagesExtensionDefaultUsps extends AController {
 		$form = new AForm ( 'HS' );
 		$form->setForm ( array ('form_name' => 'editFrm', 'update' => $this->data ['update'] ) );
 
-		$this->data['form']['form_open'] = $form->getFieldHtml ( array ('type' => 'form', 'name' => 'editFrm', 'action' => $this->data ['action'] ) );
-		$this->data['form']['submit'] = $form->getFieldHtml ( array ('type' => 'button', 'name' => 'submit', 'text' => $this->language->get ( 'button_go' ), 'style' => 'button1' ) );
-		$this->data['form']['cancel'] = $form->getFieldHtml ( array ('type' => 'button', 'name' => 'cancel', 'text' => $this->language->get ( 'button_cancel' ), 'style' => 'button2' ) );
+		$this->data['form']['form_open'] = $form->getFieldHtml ( array (
+				'type' => 'form',
+				'name' => 'editFrm',
+				'action' => $this->data ['action'],
+				'attr' => 'data-confirm-exit="true" class="aform form-horizontal"'
+		) );
+		$this->data['form']['submit'] = $form->getFieldHtml ( array (
+				'type' => 'button',
+				'name' => 'submit',
+				'text' => $this->language->get ( 'button_go' )
+				) );
+		$this->data['form']['cancel'] = $form->getFieldHtml ( array (
+				'type' => 'button',
+				'name' => 'cancel',
+				'text' => $this->language->get ( 'button_cancel' )
+		) );
 
 		$this->data['form']['fields']['user_id'] = $form->getFieldHtml(array(
 		    'type' => 'input',
@@ -202,25 +216,27 @@ class ControllerPagesExtensionDefaultUsps extends AController {
 	    ));
 
 		$domestic = array(0,1,2,3,4,5,6,7,12,13,16,17,18,19,22,23,25,27,28);
-		$this->data['form']['fields']['domestic'] = array('checkboxes' => true);
+		$this->data['form']['fields']['domestic'] = array();
 		foreach ( $domestic as $i ) {
 			$title = 'domestic_'.$i;
 			$name = 'default_usps_domestic_'.$i;
-			$this->data['form']['fields']['domestic']['groups']['domestic'][$title] = $form->getFieldHtml(array(
+			$this->data['form']['fields']['domestic'][$title] = $form->getFieldHtml(array(
 				'type' => 'checkbox',
 				'name' => $name,
+				'style' => 'btn_switch',
 				'value' => $this->data[$name],
 			));
 		}
 
 		$international = array(1,2,4,5,6,7,8,9,10,11,12,13,14,15,16,21);
-		$this->data['form']['fields']['international'] = array('checkboxes' => true);
+		$this->data['form']['fields']['international'] = array();
 		foreach ( $international as $i ) {
 			$title = 'international_'.$i;
 			$name = 'default_usps_international_'.$i;
-			$this->data['form']['fields']['international']['groups']['international'][$title] = $form->getFieldHtml(array(
+			$this->data['form']['fields']['international'][$title] = $form->getFieldHtml(array(
 				'type' => 'checkbox',
 				'name' => $name,
+				'style' => 'btn_switch',
 				'value' => $this->data[$name],
 			));
 		}
@@ -323,7 +339,21 @@ class ControllerPagesExtensionDefaultUsps extends AController {
 		    'value' => $this->data['default_usps_sort_order'],
 	    ));
 
-		$this->view->batchAssign(  $this->language->getASet () );
+
+				//load tabs controller
+
+		$this->data['groups'][] = 'additional_settings';
+		$this->data['link_additional_settings'] = '';
+		$this->data['active_group'] = 'additional_settings';
+
+		$tabs_obj = $this->dispatch('pages/extension/extension_tabs', array( $this->data ) );
+		$this->data['tabs'] = $tabs_obj->dispatchGetOutput();
+		unset($tabs_obj);
+
+		$obj = $this->dispatch('pages/extension/extension_summary', array( $this->data ) );
+		$this->data['extension_summary'] = $obj->dispatchGetOutput();
+		unset($obj);
+
 		$this->view->batchAssign( $this->data );
 		$this->processTemplate('pages/extension/default_usps.tpl' );
 
@@ -351,4 +381,3 @@ class ControllerPagesExtensionDefaultUsps extends AController {
 		}
 	}
 }
-?>

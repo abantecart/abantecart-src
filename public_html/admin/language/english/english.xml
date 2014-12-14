@@ -125,6 +125,10 @@
 		<value><![CDATA[Save]]></value>
 	</definition>
 	<definition>
+		<key>button_save_and_close</key>
+		<value><![CDATA[Save & Close]]></value>
+	</definition>
+	<definition>
 		<key>button_cancel</key>
 		<value><![CDATA[Cancel]]></value>
 	</definition>
@@ -167,6 +171,10 @@
 	<definition>
 		<key>button_back</key>
 		<value><![CDATA[Back]]></value>
+	</definition>
+	<definition>
+	    <key>button_continue</key>
+	    <value><![CDATA[Continue]]></value>
 	</definition>
 	<definition>
 		<key>button_remove</key>
@@ -378,6 +386,10 @@
 		<value><![CDATA[- Select Status -]]></value>
 	</definition>
 	<definition>
+		<key>text_all_orders</key>
+		<value><![CDATA[All Orders]]></value>
+	</definition>
+	<definition>
 		<key>text_confirm_password</key>
 		<value><![CDATA[confirm password]]></value>
 	</definition>
@@ -399,7 +411,7 @@
 	</definition>
 	<definition>
 		<key>search_everywhere</key>
-		<value><![CDATA[Search Everywhere]]></value>
+		<value><![CDATA[Search Entire Site]]></value>
 	</definition>
 	<definition>
 		<key>column_action</key>
@@ -431,11 +443,11 @@
 	</definition>
 	<definition>
 		<key>confirm_unmap_title</key>
-		<value><![CDATA[Confirm resource(s) Unmap]]></value>
+		<value><![CDATA[Confirm resource(s) Unlink]]></value>
 	</definition>
 	<definition>
 		<key>text_confirm_unmap</key>
-		<value><![CDATA[Are you sure you want to unmap resource(s)?]]></value>
+		<value><![CDATA[Are you sure you want to unlink resource(s)?]]></value>
 	</definition>
 	<definition>
 		<key>confirm_del_title</key>
@@ -467,7 +479,7 @@
 	</definition>
 	<definition>
 		<key>button_unmap</key>
-		<value><![CDATA[Unmap]]></value>
+		<value><![CDATA[Unlink]]></value>
 	</definition>
 	<definition>
 		<key>button_select_resource</key>
@@ -563,7 +575,7 @@
 	</definition>
 	<definition>
 		<key>text_select_copy_layout</key>
-		<value><![CDATA[Apply different layout for this page]]></value>
+		<value><![CDATA[Select to copy layout from]]></value>
 	</definition>
 	<definition>
 		<key>text_apply_layout</key>
@@ -577,4 +589,81 @@
 		<key>text_free</key>
 		<value><![CDATA[Free]]></value>
 	</definition>
+	<definition>
+		<key>text_sure</key>
+		<value><![CDATA[Are you sure?]]></value>
+	</definition>
+	<definition>
+		<key>button_add</key>
+		<value><![CDATA[Add]]></value>
+	</definition>
+	<definition>
+		<key>text_please_confirm</key>
+		<value><![CDATA[Please Confirm]]></value>
+	</definition>
+	<definition>
+		<key>button_confirm</key>
+		<value><![CDATA[Confirm]]></value>
+	</definition>
+	<definition>
+		<key>button_download</key>
+		<value><![CDATA[Download]]></value>
+	</definition>
+	<definition>
+		<key>recent_customers</key>
+		<value><![CDATA[Recently Registered Customers]]></value>
+	</definition>
+	<definition>
+		<key>new_orders</key>
+		<value><![CDATA[New Orders]]></value>
+	</definition>
+	<definition>
+		<key>text_saved</key>
+		<value><![CDATA[Saved Successfully]]></value>
+	</definition>
+	<definition>
+		<key>text_processing</key>
+		<value><![CDATA[Processing ...]]></value>
+	</definition>
+	<definition>
+		<key>text_next</key>
+		<value><![CDATA[Next]]></value>
+	</definition>
+	<definition>
+		<key>text_previous</key>
+		<value><![CDATA[Previous]]></value>
+	</definition>
+	<definition>
+		<key>text_on</key>
+		<value><![CDATA[ON]]></value>
+	</definition>
+	<definition>
+		<key>text_off</key>
+		<value><![CDATA[OFF]]></value>
+	</definition>
+	<definition>
+		<key>text_external_help</key>
+		<value><![CDATA[External Help]]></value>
+	</definition>
+	<definition>
+		<key>text_select_from_lookup</key>
+		<value><![CDATA[Type beginning of the name to look up and select]]></value>
+	</definition>	
+	<definition>
+		<key>text_continue_typing</key>
+		<value><![CDATA[Continue typing ...]]></value>
+	</definition>
+	<definition>
+		<key>text_looking_for</key>
+		<value><![CDATA[Looking for]]></value>
+	</definition>
+	<definition>
+		<key>button_manage_extensions</key>
+		<value><![CDATA[Manage Extensions]]></value>
+	</definition>
+	<definition>
+		<key>text_abc_notification</key>
+		<value><![CDATA[Software Updates & Notifications]]></value>
+	</definition>
+	
 </definitions>

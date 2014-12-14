@@ -22,7 +22,7 @@ if (! defined ( 'DIR_CORE' ) || !IS_ADMIN) {
 }
 class ControllerPagesCatalogAttributeGroups extends AController {
 	public $data = array();
-	private $error = array();
+	public $error = array();
     private $attribute_manager;
 
     public function __construct($registry, $instance_id, $controller, $parent_controller = '') {
@@ -119,7 +119,7 @@ class ControllerPagesCatalogAttributeGroups extends AController {
 
     	$this->document->setTitle( $this->language->get('heading_title') );
 
-		if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->_validateForm()) {
+		if ($this->request->is_POST() && $this->_validateForm()) {
 			$attribute_groups_id = $this->attribute_manager->addAttributeGroup($this->request->post);
 			$this->session->data['success'] = $this->language->get('text_success');
       		$this->redirect($this->html->getSecureURL('catalog/attribute_groups/update', '&attribute_groups_id=' . $attribute_groups_id ));
@@ -142,7 +142,7 @@ class ControllerPagesCatalogAttributeGroups extends AController {
 
     	$this->document->setTitle( $this->language->get('heading_title') );
 
-    	if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->_validateForm()) {
+    	if ($this->request->is_POST() && $this->_validateForm()) {
 	  		$this->attribute_manager->updateAttributeGroup($this->request->get['attribute_groups_id'], $this->request->post);
 			$this->session->data['success'] = $this->language->get('text_success');
 			$this->redirect($this->html->getSecureURL('catalog/attribute_groups/update', '&attribute_groups_id=' . $this->request->get['attribute_groups_id'] ));
@@ -170,7 +170,7 @@ class ControllerPagesCatalogAttributeGroups extends AController {
       		'separator' => ' :: '
    		 ));
 
-		if (isset($this->request->get['attribute_groups_id']) && ($this->request->server['REQUEST_METHOD'] != 'POST')) {
+		if (isset($this->request->get['attribute_groups_id']) && $this->request->is_GET()) {
       		$attribute_groups_info = $this->attribute_manager->getAttributeGroup(
                   $this->request->get['attribute_groups_id'],
                   $this->session->data['content_language_id']
@@ -215,7 +215,7 @@ class ControllerPagesCatalogAttributeGroups extends AController {
         $this->data['form']['form_open'] = $form->getFieldHtml(array(
 		    'type' => 'form',
 		    'name' => 'editFrm',
-		    'attr' => 'confirm-exit="true"',
+		    'attr' => 'data-confirm-exit="true"',
 		    'action' => $this->data['action'],
 	    ));
         $this->data['form']['submit'] = $form->getFieldHtml(array(
@@ -263,9 +263,11 @@ class ControllerPagesCatalogAttributeGroups extends AController {
 			$this->error['warning'] = $this->language->get('error_permission');
 		}
 
-		if ((strlen(utf8_decode($this->request->post['name'])) < 2) || (strlen(utf8_decode($this->request->post['name'])) > 32)) {
+		if ( mb_strlen($this->request->post['name']) < 2 || mb_strlen($this->request->post['name']) > 32 ) {
 		    $this->error['name'] = $this->language->get('error_name');
 		}
+
+		$this->extensions->hk_ValidateData($this);
 
 		if (!$this->error) {
 			return TRUE;
@@ -275,4 +277,3 @@ class ControllerPagesCatalogAttributeGroups extends AController {
 	}
 	
 }
-?>

@@ -106,7 +106,6 @@ class ALayout {
 			$unique_page = $pages[0];
 		}
 		// look for key_param and key_value in the request
-		//!!!!! NEW Discovery 
 		/*
 		Steps to perform
 		1. Based on rt (controller) select all rows from pages table where controller = "$controller"  
@@ -117,7 +116,6 @@ class ALayout {
 		 where controller = "$controller" and key_param = $key_param and key_value = $this->request->get[$key_param];
 		NOTE: Do select only if value present.
 		4. If locate page id use the layout.
-		
 		*/
 
 		$this->page = !empty($unique_page) ? $unique_page : $pages[0];
@@ -154,12 +152,13 @@ class ALayout {
 	 * @return array|null
 	 */
 	public function getPages($controller = '', $key_param = '', $key_value = '') {
+		$store_id = (int)$this->config->get('config_store_id');
 		$cache_name = 'layout.pages'
 				. (!empty($controller) ? '.' . $controller : '')
 				. (!empty($key_param) ? '.' . $key_param : '')
 				. (!empty($key_value) ? '.' . $key_value : '');
 		$cache_name = preg_replace('/[^a-zA-Z0-9\.]/', '', $cache_name);
-		$pages = $this->cache->get($cache_name, '', (int)$this->config->get('config_store_id'));
+		$pages = $this->cache->get($cache_name, '', $store_id);
 		if (!is_null($pages)) {
 			// return cached pages
 			return $pages;
@@ -167,7 +166,7 @@ class ALayout {
 
 		$where = '';
 		if (!empty ($controller)) {
-			$where = "WHERE controller = '" . $this->db->escape($controller) . "' ";
+			$where .= "WHERE controller = '" . $this->db->escape($controller) . "' ";
 			if (!empty ($key_param)) {
 				if (!empty ($key_value)) {
 					// so if we have key_param key_value pair we select pages with controller and with or without key_param
@@ -185,16 +184,16 @@ class ALayout {
 				}
 			}
 		}
-
-		$sql = "SELECT p.page_id, controller, key_param, key_value, p.created, p.updated "
-				. "FROM " . DB_PREFIX . "pages p "
-				."LEFT JOIN " . DB_PREFIX . "pages_layouts pl ON pl.page_id = p.page_id "
-				."LEFT JOIN " . DB_PREFIX . "layouts l ON l.layout_id = pl.layout_id "
+		
+		$sql = "SELECT p.page_id, controller, key_param, key_value, p.date_added, p.date_modified "
+				. "FROM " . $this->db->table("pages") . " p "
+				."LEFT JOIN " . $this->db->table("pages_layouts") . " pl ON pl.page_id = p.page_id "
+				."LEFT JOIN " . $this->db->table("layouts") . " l ON l.layout_id = pl.layout_id "
 				. $where
 				. "ORDER BY key_param DESC, key_value DESC, p.page_id ASC";
 		$query = $this->db->query($sql);
 		$pages = $query->rows;
-		$this->cache->set($cache_name, $pages, '', (int)$this->config->get('config_store_id'));
+		$this->cache->set($cache_name, $pages, '', $store_id);
 		return $pages;
 	}
 
@@ -226,25 +225,27 @@ class ALayout {
 	}
 
 	public function getDefaultLayout() {
+		$store_id = (int)$this->config->get('config_store_id');
+		
 		$cache_name = 'layout.default.' . $this->tmpl_id;
 		$cache_name = preg_replace('/[^a-zA-Z0-9\.]/', '', $cache_name);
-		$layouts = $this->cache->get($cache_name, '', (int)$this->config->get('config_store_id'));
+		$layouts = $this->cache->get($cache_name, '', $store_id);
 		if (isset($layouts)) {
 			// return cached layouts
 			return $layouts;
 		}
 
 		$where = 'WHERE template_id = "' . $this->db->escape($this->tmpl_id) . '" ';
-		$where .= "AND layout_type = '0'";
+		$where .= " AND layout_type = '0' ";
 
 		$sql = "SELECT "
 				. "layout_id, "
 				. "layout_type, "
 				. "layout_name, "
-				. "created, "
-				. "updated "
+				. "date_added, "
+				. "date_modified "
 				. "FROM "
-				. DB_PREFIX . "layouts "
+				. $this->db->table("layouts") . " "
 				. $where
 				. " ORDER BY "
 				. "layout_id Asc";
@@ -253,7 +254,7 @@ class ALayout {
 
 		$layouts = $query->rows;
 
-		$this->cache->set($cache_name, $layouts, '', (int)$this->config->get('config_store_id'));
+		$this->cache->set($cache_name, $layouts, '', $store_id);
 
 		return $layouts;
 	}
@@ -267,18 +268,19 @@ class ALayout {
 		if (empty($this->page_id)) {
 			return null;
 		}
+		$store_id = (int)$this->config->get('config_store_id');		
 		$cache_name = 'layout.layouts.' . $this->tmpl_id . '.' . $this->page_id
 				. (!empty($layout_type) ? '.' . $layout_type : '');
 		$cache_name = preg_replace('/[^a-zA-Z0-9\.]/', '', $cache_name);
-		$layouts = $this->cache->get($cache_name, '', (int)$this->config->get('config_store_id'));
+		$layouts = $this->cache->get($cache_name, '', $store_id);
 		if (!is_null($layouts)) {
 			// return cached layouts
 			return $layouts;
 		}
 
 		$where = 'WHERE template_id = "' . $this->db->escape($this->tmpl_id) . '" ';
-		$join = ", " . DB_PREFIX . "pages_layouts as pl ";
-		$where .= "AND pl.page_id = '" . (int)$this->page_id . "' AND l.layout_id = pl.layout_id ";
+		$join = ", " . $this->db->table("pages_layouts") . " as pl ";
+		$where .= " AND pl.page_id = '" . (int)$this->page_id . "' AND l.layout_id = pl.layout_id ";
 
 		if (!empty($layout_type)) {
 			$where .= empty($layout_type) ? "" : "AND layout_type = '" . (int)$layout_type . "' ";
@@ -288,10 +290,10 @@ class ALayout {
 				. "l.layout_id as layout_id, "
 				. "l.layout_type as layout_type, "
 				. "l.layout_name as layout_name, "
-				. "l.created as created, "
-				. "l.updated as updated "
+				. "l.date_added as date_added, "
+				. "l.date_modified as date_modified "
 				. "FROM "
-				. DB_PREFIX . "layouts as l "
+				. $this->db->table("layouts") . " as l "
 				. $join
 				. $where
 				. " ORDER BY "
@@ -299,7 +301,7 @@ class ALayout {
 
 		$query = $this->db->query($sql);
 		$layouts = $query->rows;
-		$this->cache->set($cache_name, $layouts, '', (int)$this->config->get('config_store_id'));
+		$this->cache->set($cache_name, $layouts, '', $store_id);
 
 		return $layouts;
 	}
@@ -313,10 +315,10 @@ class ALayout {
 		if (empty($layout_id)) {
 			throw new AException(AC_ERR_LOAD_LAYOUT, 'No layout specified for getlayoutBlocks!');
 		}
-
+		$store_id = (int)$this->config->get('config_store_id');
 		$cache_name = 'layout.blocks.' . $layout_id;
 		$cache_name = preg_replace('/[^a-zA-Z0-9\.]/', '', $cache_name);
-		$blocks = $this->cache->get($cache_name, '', (int)$this->config->get('config_store_id'));
+		$blocks = $this->cache->get($cache_name, '', $store_id);
 		if (!is_null($blocks)) {
 			// return cached blocks
 			return $blocks;
@@ -334,8 +336,8 @@ class ALayout {
 				. "b.block_txt_id as block_txt_id, "
 				. "b.controller as controller "
 				. "FROM "
-				. DB_PREFIX . "blocks as b, "
-				. DB_PREFIX . "block_layouts as bl "
+				. $this->db->table("blocks") . " as b, "
+				. $this->db->table("block_layouts") . " as bl "
 				. $where
 				. "ORDER BY "
 				. "bl.parent_instance_id Asc, bl.position Asc";
@@ -343,7 +345,7 @@ class ALayout {
 		$query = $this->db->query($sql);
 		$blocks = $query->rows;
 
-		$this->cache->set($cache_name, $blocks, '', (int)$this->config->get('config_store_id'));
+		$this->cache->set($cache_name, $blocks, '', $store_id);
 
 		return $blocks;
 	}
@@ -421,8 +423,9 @@ class ALayout {
 		$parent_block_id = '';
 		$parent_instance_id = '';
 		$template = '';
+		$store_id = (int)$this->config->get('config_store_id');
+		
 		//locate block id
-
 		foreach ($this->blocks as $block) {
 			if ($block['instance_id'] == $instance_id) {
 				$block_id = $block['block_id'];
@@ -447,28 +450,29 @@ class ALayout {
 
 			$cache_name = 'layout.block.template.' . $block_id . '.' . $parent_block_id;
 			$cache_name = preg_replace('/[^a-zA-Z0-9\.]/', '', $cache_name);
-			$template = $this->cache->get($cache_name, '', (int)$this->config->get('config_store_id'));
+			$template = $this->cache->get($cache_name, '', $store_id);
 			if (isset($template)) {
 				// return cached $template
 				return $template;
 			}
 
 			$where = 'WHERE bt.block_id = "' . (int)($block_id) . '" ';
-			$where .= 'AND bt.parent_block_id = "' . (int)$parent_block_id . '" ';
+			//locate template based on block parent ID or 0 if generic template is set 
+			$where .= 'AND bt.parent_block_id in (' . (int)$parent_block_id . ', 0) ';
 
 			$sql = "SELECT "
 					. "bt.template as template, "
-					. "bt.created as created, "
-					. "bt.updated as updated "
+					. "bt.date_added as date_added, "
+					. "bt.date_modified as date_modified "
 					. "FROM "
-					. DB_PREFIX . "block_templates as bt "
+					. $this->db->table("block_templates") . " as bt "
 					. $where
 					. "ORDER BY "
-					. "bt.block_id Asc";
+					. "bt.parent_block_id Desc";
 
 			$query = $this->db->query($sql);
 			if ($query->num_rows) {
-				$this->cache->set($cache_name, $query->rows[0]['template'], '', (int)$this->config->get('config_store_id'));
+				$this->cache->set($cache_name, $query->rows[0]['template'], '', $store_id);
 				return $query->rows[0]['template'];
 			} else {
 				return '';
@@ -494,8 +498,8 @@ class ALayout {
 
 		$output = array();
 		$result = $this->db->query("SELECT bd.*, COALESCE(bl.status,0) as status
-										FROM " . DB_PREFIX . "block_descriptions bd
-										LEFT JOIN " . DB_PREFIX . "block_layouts bl ON bl.custom_block_id = bd.custom_block_id
+										FROM " . $this->db->table("block_descriptions") . " bd
+										LEFT JOIN " . $this->db->table("block_layouts") . " bl ON bl.custom_block_id = bd.custom_block_id
 										WHERE bd.custom_block_id = '" . ( int )$custom_block_id . "'");
 		if ($result->num_rows) {
 			foreach ($result->rows as $row) {

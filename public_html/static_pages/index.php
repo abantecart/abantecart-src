@@ -43,7 +43,7 @@ if (!defined('DB_DATABASE')) {
 	exit;
 }
 session_start();
-$error = 'Please check error log for more info. You can check error log in the control panel if it is functional. Otherwise, refer to error log located in your web server';
+$error = 'Please check AbanteCart and webserver error logs for more details. You can check error log in the control panel if it is functional. Otherwise, refer to error log located on your web server';
 if ( !empty($_SESSION['exception_msg']) ) {
 	$error =  $_SESSION['exception_msg'];
 	unset($_SESSION['exception_msg']);
@@ -62,17 +62,18 @@ if ( !empty($_SESSION['exception_msg']) ) {
   <div id="content">
     <div id="content_top"></div>
     <div id="content_middle">
-	<h1 >There has been an error processing your request</h1>
+	<h1 class="error">There has been a critical error processing your request</h1>
 	<div style="width: 100%; display: inline-block;">
 		<?php echo $error; ?>
 	</div>
+	<br><br>
 	<div>
 		<a href="<?php echo HTTP_ABANTECART; ?>">Go to main page</a>
 	</div>
     </div>
     <div id="content_bottom"></div>
   </div>
-  <div id="footer"><a onclick="window.open('http://www.abantecart.com');">Project Homepage</a>|<a onclick="window.open('http://docs.abantecart.com');">Documentation</a>|<a onclick="window.open('http://forum.abantecart.com');">Support Forums</a></div>
+  <div id="footer"><a onclick="window.open('http://www.abantecart.com');">Project Homepage</a>|<a onclick="window.open('http://docs.abantecart.com');">Documentation</a>|<a onclick="window.open('http://forum.abantecart.com');">Support Forums</a>|<a onclick="window.open('http://marketplace.abantecart.com');">Marketplace</a></div>
 </div>
 </body>
 </html>

@@ -38,7 +38,8 @@ class ControllerPagesToolCache extends AController {
    		$this->document->addBreadcrumb( array ( 
        		'href'      => $this->html->getSecureURL('tool/cache'),
        		'text'      => $this->language->get('heading_title'),
-      		'separator' => ' :: '
+      		'separator' => ' :: ',
+			'current'	=> true
    		 ));
 		
 		$this->data['sections'] = array(

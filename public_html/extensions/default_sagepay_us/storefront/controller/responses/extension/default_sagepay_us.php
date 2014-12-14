@@ -21,34 +21,77 @@
 class ControllerResponsesExtensionDefaultSagepayUS extends AController {
 	public function main() {
     	$this->loadLanguage('default_sagepay_us/default_sagepay_us');
-				
-		$template_data['months'] = array();
-		
+
+		$this->load->model('checkout/order');
+		$order_info = $this->model_checkout_order->getOrder($this->session->data['order_id']);
+
+		$data[ 'cc_owner' ] = HtmlElementFactory::create(array(
+					'type' => 'input',
+					'name' => 'cc_owner',
+					'value' => $order_info['payment_firstname'] . ' ' . $order_info['payment_lastname'],
+					'style' => 'input-medium'
+				));
+
+        $data[ 'cc_number' ] = HtmlElementFactory::create(array(
+			'type' => 'input',
+			'name' => 'cc_number',
+			'value' => '',
+			'style' => 'input-medium'
+		));
+
+
+		$months = array();
 		for ($i = 1; $i <= 12; $i++) {
-			$template_data['months'][] = array(
-				'text'  => strftime('%B', mktime(0, 0, 0, $i, 1, 2000)), 
-				'value' => sprintf('%02d', $i)
-			);
+			$months[ sprintf('%02d', $i) ] = strftime('%B', mktime(0, 0, 0, $i, 1, 2000));
 		}
-		
-		$today = getdate();
+		$data[ 'cc_expire_date_month' ] = HtmlElementFactory::create(
+			array( 'type' => 'selectbox',
+			     'name' => 'cc_expire_date_month',
+			     'value' => sprintf('%02d', date('m')),
+			     'options' => $months,
+			     'style' => 'short input-small'
+			));
 
-		$template_data['year_expire'] = array();
+        $today = getdate();
+		$years = array();
+		for ($i = $today[ 'year' ]; $i < $today[ 'year' ] + 11; $i++) {
+			$years[ strftime('%Y', mktime(0, 0, 0, 1, 1, $i)) ] = strftime('%Y', mktime(0, 0, 0, 1, 1, $i));
+		}
+		$data[ 'cc_expire_date_year' ] = HtmlElementFactory::create(array( 'type' => 'selectbox',
+		                                                                 'name' => 'cc_expire_date_year',
+		                                                                 'value' => sprintf('%02d', date('Y') + 1),
+		                                                                 'options' => $years,
+		                                                                 'style' => 'short input-small' ));
 
-		for ($i = $today['year']; $i < $today['year'] + 11; $i++) {
-			$template_data['year_expire'][] = array(
-				'text'  => strftime('%Y', mktime(0, 0, 0, 1, 1, $i)),
-				'value' => strftime('%Y', mktime(0, 0, 0, 1, 1, $i)) 
-			);
-		}
-		
-		if ($this->request->get['rt'] != 'checkout/guest_step_3') {
-			$template_data['back'] = $this->html->getSecureURL('checkout/payment');
-		} else {
-			$template_data['back'] = $this->html->getSecureURL('checkout/guest_step_2');
-		}
-		
-		$this->view->batchAssign( $template_data );
+
+
+        $data[ 'cc_cvv2' ] = HtmlElementFactory::create(array( 'type' => 'input',
+		                                                     'name' => 'cc_cvv2',
+		                                                     'value' => '',
+		                                                     'style' => 'short',
+		                                                     'attr' => ' size="3" '
+		                                                ));
+
+
+		$back = $this->request->get[ 'rt' ] != 'checkout/guest_step_3' ? $this->html->getSecureURL('checkout/payment')
+				: $this->html->getSecureURL('checkout/guest_step_2');
+		$data[ 'back' ] = HtmlElementFactory::create(array( 'type' => 'button',
+		                                                  'name' => 'back',
+		                                                  'text' => $this->language->get('button_back'),
+		                                                  'style' => 'button',
+		                                                  'href' => $back ));
+
+		$data[ 'submit' ] = HtmlElementFactory::create(array( 'type' => 'button',
+			                                                  'name' => 'sp_button',
+		                                                      'text' => $this->language->get('button_confirm'),
+			                                                  'style' => 'button btn-orange',
+		                                               ));
+
+
+		$this->view->batchAssign( $data );
+		//load creditcard input validation
+		$this->document->addScriptBottom($this->view->templateResource('/javascript/credit_card_validation.js'));
+
 		$this->processTemplate('responses/default_sagepay_us.tpl' );
 	}
 	
@@ -111,4 +154,3 @@ class ControllerResponsesExtensionDefaultSagepayUS extends AController {
 		$this->response->setOutput(AJson::encode($json));
 	}	
 }
-?>

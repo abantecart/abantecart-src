@@ -22,7 +22,7 @@ if (! defined ( 'DIR_CORE' ) || !IS_ADMIN) {
 }
 class ControllerPagesSaleCustomerGroup extends AController {
 	public $data = array();
-	private $error = array();
+	public $error = array();
 	private $errors = array('warning', 'name',);
  
 	public function main() {
@@ -46,7 +46,8 @@ class ControllerPagesSaleCustomerGroup extends AController {
    		$this->document->addBreadcrumb( array (
        		'href'      => $this->html->getSecureURL('sale/customer_group'),
        		'text'      => $this->language->get('breadcrumb_title'),
-      		'separator' => ' :: '
+      		'separator' => ' :: ',
+			'current'   => true
    		 ));
 
 		$grid_settings = array(
@@ -102,7 +103,7 @@ class ControllerPagesSaleCustomerGroup extends AController {
 
 		$this->document->setTitle( $this->language->get('heading_title') );
 		
-		if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->_validateForm()) {
+		if ( $this->request->is_POST() && $this->_validateForm()) {
 			$customer_group_id = $this->model_sale_customer_group->addCustomerGroup($this->request->post);
 			$this->session->data['success'] = $this->language->get('text_success');
 			$this->redirect( $this->html->getSecureURL('sale/customer_group', '&customer_group_id=' . $customer_group_id ) );
@@ -127,7 +128,7 @@ class ControllerPagesSaleCustomerGroup extends AController {
 			unset($this->session->data['success']);
 		}
 		
-		if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->_validateForm()) {
+		if ( $this->request->is_POST() && $this->_validateForm()) {
 			$this->model_sale_customer_group->editCustomerGroup($this->request->get['customer_group_id'], $this->request->post);
 			$this->session->data['success'] = $this->language->get('text_success');
 			$this->redirect( $this->html->getSecureURL('sale/customer_group', '&customer_group_id=' . $this->request->get['customer_group_id'] ) );
@@ -160,7 +161,7 @@ class ControllerPagesSaleCustomerGroup extends AController {
 			
     	$this->data['cancel'] = $this->html->getSecureURL('sale/customer_group');
 
-		if (isset($this->request->get['customer_group_id']) && ($this->request->server['REQUEST_METHOD'] != 'POST')) {
+		if (isset($this->request->get['customer_group_id']) &&  $this->request->is_GET() ) {
 			$customer_group_info = $this->model_sale_customer_group->getCustomerGroup($this->request->get['customer_group_id']);
 		}
 
@@ -187,7 +188,8 @@ class ControllerPagesSaleCustomerGroup extends AController {
 		$this->document->addBreadcrumb( array (
        		'href'      => $this->data['action'],
        		'text'      => $this->data['heading_title'],
-      		'separator' => ' :: '
+      		'separator' => ' :: ',
+			'current'   => true
    		 ));
 
 		$form->setForm(array(
@@ -231,9 +233,11 @@ class ControllerPagesSaleCustomerGroup extends AController {
 			$this->error['warning'] = $this->language->get('error_permission');
 		}
 
-		if ((strlen(utf8_decode($this->request->post['name'])) < 2) || (strlen(utf8_decode($this->request->post['name'])) > 64)) {
+		if ( mb_strlen($this->request->post['name']) < 2 || mb_strlen($this->request->post['name']) > 64 ) {
 			$this->error['name'] = $this->language->get('error_name');
 		}
+
+		$this->extensions->hk_ValidateData($this);
 
 		if (!$this->error) {
 			return TRUE;

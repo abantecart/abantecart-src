@@ -11,12 +11,18 @@
   <input type="hidden" name="tel" value="<?php echo $telephone; ?>" />
   <input type="hidden" name="email" value="<?php echo $email; ?>" />
   <input type="hidden" name="testMode" value="<?php echo $test; ?>" />
+
+	<div class="form-group action-buttons">
+    	<div class="col-md-12">
+	   	<button class="btn btn-orange pull-right" onclick="$('#checkout').submit();" title="<?php echo $button_confirm; ?>" type="submit">
+	   	    <i class="fa fa-check"></i>
+	   	    <?php echo $button_confirm; ?>
+	   	</button>
+	   	<a href="<?php echo str_replace('&', '&amp;', $back); ?>" class="btn btn-default mr10" title="<?php echo $button_back; ?>">
+	   	    <i class="fa fa-arrow-left"></i>
+	   	    <?php echo $button_back; ?>
+	   	</a>
+	    </div>
+	</div>
+
 </form>
-<div class="buttons">
-  <table>
-    <tr>
-      <td align="left"><a onclick="location = '<?php echo str_replace('&', '&amp;', $back); ?>'" class="button"><span><?php echo $button_back; ?></span></a></td>
-      <td align="right"><a onclick="$('#checkout').submit();" class="button"><span><?php echo $button_confirm; ?></span></a></td>
-    </tr>
-  </table>
-</div>

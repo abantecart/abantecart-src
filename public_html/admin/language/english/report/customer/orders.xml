@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Customer Orders]]></value>
+  </definition>
+  <definition>
+    <key>column_customer_id</key>
+    <value><![CDATA[Customer ID]]></value>
+  </definition>
+  <definition>
+    <key>column_customer</key>
+    <value><![CDATA[Customer Name]]></value>
+  </definition>
+  <definition>
+    <key>column_group</key>
+    <value><![CDATA[Customer Group]]></value>
+  </definition>
+  <definition>
+    <key>column_order_count</key>
+    <value><![CDATA[Orders Count]]></value>
+  </definition>
+  <definition>
+    <key>column_total</key>
+    <value><![CDATA[Total]]></value>
+  </definition>
+</definitions>

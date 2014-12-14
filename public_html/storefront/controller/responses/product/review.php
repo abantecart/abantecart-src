@@ -21,7 +21,7 @@ if (! defined ( 'DIR_CORE' )) {
 	header ( 'Location: static_pages/' );
 }
 class ControllerResponsesProductReview extends AController {
-	private $error = array();
+	public $error = array();
 	public $data = array();
 	
 	public function review() {
@@ -62,6 +62,7 @@ class ControllerResponsesProductReview extends AController {
 									'total'	=> $review_total,
 									'page'	=> $page,
 									'limit'	=> 5,
+									'no_perpage' => true,
 									'url' => $this->html->getURL('product/review/review','&product_id=' . $this->request->get['product_id'] . '&page={page}'),
 									'style' => 'pagination'));
 
@@ -80,7 +81,7 @@ class ControllerResponsesProductReview extends AController {
 		$this->loadLanguage('product/product');
 		$this->loadModel('catalog/review');
 		$json = array();
-		if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->_validate()) {
+		if ($this->request->is_POST() && $this->_validate()) {
 			$this->model_catalog_review->addReview($this->request->get['product_id'], $this->request->post);
 			unset($this->session->data['captcha']);
 			$json['success'] = $this->language->get('text_success');
@@ -96,11 +97,11 @@ class ControllerResponsesProductReview extends AController {
 	}
 	
 	private function _validate() {
-		if ((strlen(utf8_decode($this->request->post['name'])) < 3) || (strlen(utf8_decode($this->request->post['name'])) > 25)) {
+		if ( mb_strlen($this->request->post['name']) < 3 || mb_strlen($this->request->post['name']) > 25 ) {
 			$this->error['message'] = $this->language->get('error_name');
 		}
 		
-		if ((strlen(utf8_decode($this->request->post['text'])) < 25) || (strlen(utf8_decode($this->request->post['text'])) > 1000)) {
+		if ( mb_strlen($this->request->post['text']) < 25 || mb_strlen($this->request->post['text']) > 1000 ) {
 			$this->error['message'] = $this->language->get('error_text');
 		}
 
@@ -111,6 +112,8 @@ class ControllerResponsesProductReview extends AController {
 		if (!isset($this->session->data['captcha']) || ($this->session->data['captcha'] != $this->request->post['captcha'])) {
 			$this->error['message'] = $this->language->get('error_captcha');
 		}
+
+		$this->extensions->hk_ValidateData($this);
 
 		if (!$this->error) {
 			return TRUE;

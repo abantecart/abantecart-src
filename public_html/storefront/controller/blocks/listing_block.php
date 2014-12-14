@@ -270,7 +270,7 @@ class ControllerBlocksListingBlock extends AController {
 							$title = $resource['title'];
 						}
 
-						$result[$k]['image'] = array('main_url'=>$resource['main_url'],
+						$result[$k]['thumb'] = array('main_url'=>$resource['main_url'],
 													 'main_html'=>$resource['main_html'],
 						                             'thumb_url'=>$resource['thumb_url'],
 						                             'thumb_html'=>$resource['thumb_html'],
@@ -317,11 +317,11 @@ class ControllerBlocksListingBlock extends AController {
 												   $data_source['storefront_method']),
 												   array($item['id']));
 			}
+
+			// Skip if data source is vanished but still set in the listing. 
+			$result = array_filter($result);
 		}
 
-		/*if($data_source['rl_object_name'] ){
-			$resource = new AResource('image');
-		}*/
 		if($result){
 			//add thumbnails to custom list of items. 1 thumbnail per item
 			$result = $this->_prepareCustomItems($data_source, $result);
@@ -354,8 +354,6 @@ class ControllerBlocksListingBlock extends AController {
 				if(isset($item['price']) && preg_match('/^[0-9\.]/',$item['price'])){
 					$result[$k]['price'] = $this->currency->format($this->tax->calculate($item['price'], $result['tax_class_id'], $this->config->get('config_tax')));
 				}
-				//TODO: remove it in the future. Deprecated ['url'] in v2.0, it is only used in default template and replaced with ['href'] set in caller function
-				$result[$k]['url'] = $this->html->getSEOURL($data_source['storefront_view_path'],'&'.$data_source['data_type'].'='.$item[$data_source['data_type']],true);
 			}
 		}
 	return $result;

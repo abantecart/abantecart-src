@@ -33,13 +33,13 @@ class ControllerApiProductQuantity extends AControllerAPI {
 		if (empty($product_id) || !is_numeric($product_id)) {
 			$this->rest->setResponseData( array('Error' => 'Missing or incorrect format product ID') );
 			$this->rest->sendResponse(200);
-			return;
+			return null;
 		}
 
 		if ( !$this->config->get('config_storefront_api_stock_check') ) {
 			$this->rest->setResponseData( array('Error' => 'Restricted access to stock check ') );
 			$this->rest->sendResponse(200);
-			return;
+			return null;
 		}
 
 		//Load all the data from the model
@@ -48,7 +48,7 @@ class ControllerApiProductQuantity extends AControllerAPI {
 		if ( count ($product_info) <= 0 ) {
 			$this->rest->setResponseData( array('Error' => 'No product found') );
 			$this->rest->sendResponse(200);	
-			return;
+			return null;
 		}
 		//filter data and return only QTY for product and option values
 		

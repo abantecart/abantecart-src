@@ -21,7 +21,6 @@ if (!defined('DIR_CORE') || !IS_ADMIN) {
 	header('Location: static_pages/');
 }
 class ControllerResponsesListingGridCountry extends AController {
-	private $error = array();
 
 	public function main() {
 
@@ -43,12 +42,14 @@ class ControllerResponsesListingGridCountry extends AController {
 		$results = $this->model_localisation_country->getCountries($filter->getFilterData());
 
 		$i = 0;
+		$language_id = $this->language->getContentLanguageID();
+
 		foreach ($results as $result) {
 
 			$response->rows[ $i ][ 'id' ] = $result[ 'country_id' ];
 			$response->rows[ $i ][ 'cell' ] = array(
 				$this->html->buildInput(array(
-					'name' => 'country_name[' . $result[ 'country_id' ] . '][' . $this->session->data[ 'content_language_id' ] . '][name]',
+					'name' => 'country_name[' . $result[ 'country_id' ] . '][' . $language_id . '][name]',
 					'value' => $result[ 'name' ],
 				)),
 				$this->html->buildInput(array(
@@ -100,8 +101,8 @@ class ControllerResponsesListingGridCountry extends AController {
 					foreach ($ids as $id) {
 						$err = $this->_validateDelete($id);
 						if (!empty($err)) {
-							$dd = new ADispatcher('responses/error/ajaxerror/validation', array( 'error_text' => $err ));
-							return $dd->dispatch();
+							$error = new AError('');
+							return $error->toJSONResponse('VALIDATION_ERROR_406', array( 'error_text' => $err ));
 						}
 
 						$this->model_localisation_country->deleteCountry($id);
@@ -122,7 +123,7 @@ class ControllerResponsesListingGridCountry extends AController {
 								$err = $this->_validateField($f, $this->request->post[ $f ][ $id ]);
 								if (!empty($err)) {
 									$this->response->setOutput($err);
-									return;								}
+									return null;								}
 								$this->model_localisation_country->editCountry($id, array( $f => $this->request->post[ $f ][ $id ] ));
 							}
 							
@@ -133,7 +134,7 @@ class ControllerResponsesListingGridCountry extends AController {
 		    					$err = $this->_validateField('name', $value['name']);
 		    					if (!empty($err)) {							
 									$this->response->setOutput($err);
-									return;
+									return null;
 								}
 							}
 							$this->model_localisation_country->editCountry($id, array( 'country_name' => $this->request->post['country_name'][ $id ] ));
@@ -189,7 +190,7 @@ class ControllerResponsesListingGridCountry extends AController {
 				$data = array( $key => $value );
 				$this->model_localisation_country->editCountry($this->request->get[ 'id' ], $data);
 			}
-			return;
+			return null;
 		}
 
 		//request sent from jGrid. ID is key of array
@@ -210,8 +211,8 @@ class ControllerResponsesListingGridCountry extends AController {
 				foreach ($v as $lang => $value) {
 		    		$err = $this->_validateField('name', $value['name']);
 		    		if (!empty($err)) {
-						$error = new AError('');
-						return $error->toJSONResponse('VALIDATION_ERROR_406', array( 'error_text' => $err ));
+					    $error = new AError('');
+					    return $error->toJSONResponse('VALIDATION_ERROR_406', array( 'error_text' => $err ));
 					}
 				}
 				$this->model_localisation_country->editCountry($id, array( 'country_name' => $v ));
@@ -226,7 +227,7 @@ class ControllerResponsesListingGridCountry extends AController {
 		$err = '';
 		switch ($field) {
 			case 'name' :
-				if ((strlen(utf8_decode($value)) < 2) || (strlen(utf8_decode($value)) > 128)) {
+				if ( mb_strlen($value) < 2 || mb_strlen($value) > 128 ) {
 					$err = $this->language->get('error_name');
 				}
 				break;
@@ -268,5 +269,3 @@ class ControllerResponsesListingGridCountry extends AController {
 	}
 
 }
-
-?>

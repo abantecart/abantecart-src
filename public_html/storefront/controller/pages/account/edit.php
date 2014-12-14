@@ -39,7 +39,7 @@ class ControllerPagesAccountEdit extends AController {
 		$this->loadModel('account/customer');
 
 		$request_data = $this->request->post;
-		if ( $this->request->server['REQUEST_METHOD'] == 'POST') {		
+		if ( $this->request->is_POST()) {
 			$this->error = $this->model_account_customer->validateEditData($request_data);
 			//if no update for loginname do not allow edit of username/loginname
 			if ( !$this->customer->isLoginnameAsEmail() ) {
@@ -93,7 +93,7 @@ class ControllerPagesAccountEdit extends AController {
 		$this->view->assign('error_telephone', $this->error['telephone'] );
 
 	
-		if ($this->request->server['REQUEST_METHOD'] != 'POST') {
+		if ($this->request->is_GET()) {
 			$customer_info = $this->model_account_customer->getCustomer($this->customer->getId());
 		}
 
@@ -171,8 +171,8 @@ class ControllerPagesAccountEdit extends AController {
 		$this->data['form'][ 'telephone' ] = $form->getFieldHtml( array(
                                                                        'type' => 'input',
 		                                                               'name' => 'telephone',
-		                                                               'value' => $telephone,
-		                                                               'required' => true ));
+		                                                               'value' => $telephone
+		                                                                ));
 		$this->data['form'][ 'fax' ] = $form->getFieldHtml( array(
                                                                        'type' => 'input',
 		                                                               'name' => 'fax',
@@ -180,13 +180,13 @@ class ControllerPagesAccountEdit extends AController {
 		                                                               'required' => false ));
 		$this->data['form'][ 'continue' ] = $form->getFieldHtml( array(
                                                                        'type' => 'submit',
-                                                                       'icon' => 'icon-check',
+                                                                       'icon' => 'fa fa-check',
 		                                                               'name' => $this->language->get('button_continue') ));
 		$this->data['form'][ 'back' ] = $form->getFieldHtml( array(
                                                                     'type' => 'button',
 		                                                            'name' => 'back',
 			                                                        'style' => 'button',
-			                                                        'icon' => 'icon-arrow-left',
+			                                                        'icon' => 'fa fa-arrow-left',
 		                                                            'text' => $this->language->get('button_back') ));
 		$this->data['back'] = $this->html->getSecureURL('account/account');
 		$this->view->batchAssign($this->data);
@@ -196,4 +196,3 @@ class ControllerPagesAccountEdit extends AController {
         $this->extensions->hk_UpdateData($this,__FUNCTION__);
 	}
 }
-?>

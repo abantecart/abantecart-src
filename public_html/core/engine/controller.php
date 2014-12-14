@@ -176,7 +176,7 @@ abstract class AController {
 
 	//Load language and store to veiw
 	public function loadLanguage($rt, $mode = '') {
-		if (empty ($rt) || !method_exists($this->language, 'load')) return;
+		if (empty ($rt) || !method_exists($this->language, 'load')) return null;
 		// strip off pages or responce
 		$rt = preg_replace('/^(api|pages|responses)\//', '', $rt);
 		$this->languages[ ] = $rt;
@@ -185,7 +185,7 @@ abstract class AController {
 	}
 
 	public function loadModel($rt, $mode = '') {
-		if (empty ($rt) || !method_exists($this->load, 'model')) return;
+		if (empty ($rt) || !method_exists($this->load, 'model')) return null;
 		// strip off pages or responce
 		$rt = preg_replace('/^(pages|responses)\//', '', $rt);
 		$this->load->model($rt, $mode);
@@ -300,7 +300,7 @@ abstract class AController {
 							$debug_wrapper = $this->dispatch('common/template_debug', array( 'instance_id' => $this->instance_id, 'details' => $args ));
 							$debug_output = $debug_wrapper->dispatchGetOutput();
 							$output = trim($this->view->getOutput());
-							if (!empty($output)) $output = '<div class="block_tmpl_wrapper">' . $output . $debug_output . '</div>';
+							if (!empty($output)) $output = '<span class="block_tmpl_wrapper">' . $output . $debug_output . '</span>';
 							$this->view->setOutput($output);
 						}
 					}
@@ -338,7 +338,7 @@ abstract class AController {
 
 	public function can_access() {
 		if (!defined('IS_ADMIN') || !IS_ADMIN) {
-			return;
+			return null;
 		}
 
 		//Future stronger security permissions validation

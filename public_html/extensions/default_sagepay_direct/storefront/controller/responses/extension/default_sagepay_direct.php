@@ -28,95 +28,121 @@ class ControllerResponsesExtensionDefaultSagepayDirect extends AController {
 		$this->extensions->hk_InitData($this, __FUNCTION__);
 
 		$this->loadLanguage('default_sagepay_direct/default_sagepay_direct');
-		
-		$template_data['cc_cvv2_help_url'] = $this->html->getURL('r/extension/default_sagepay_direct/cvv2_help');
 
-		$template_data['cards'] = array();
+		$this->load->model('checkout/order');
+		$order_info = $this->model_checkout_order->getOrder($this->session->data['order_id']);
+		
+		$data['cc_cvv2_help_url'] = $this->html->getURL('r/extension/default_sagepay_direct/cvv2_help');
 
-		$template_data['cards'][] = array(
-			'text'  => 'Visa', 
-			'value' => 'VISA'
+		$data[ 'cc_owner' ] = HtmlElementFactory::create(array(
+					'type' => 'input',
+					'name' => 'cc_owner',
+					'value' => $order_info['payment_firstname'] . ' ' . $order_info['payment_lastname'],
+					'style' => 'input-medium'
+				));
+
+		$cards = array(
+				'VISA' => 'Visa',
+				'MC' => 'MasterCard',
+				'DELTA' => 'Visa Delta/Debit',
+				'SOLO' => 'Solo',
+				'MAESTRO' => 'Maestro',
+				'UKE' => 'Visa Electron UK Debit',
+				'AMEX' => 'American Express',
+				'DC' => 'Diners Club',
+				'JCB' => 'Japan Credit Bureau'
 		);
 
-		$template_data['cards'][] = array(
-			'text'  => 'MasterCard', 
-			'value' => 'MC'
-		);
+		$data[ 'cc_type' ] = HtmlElementFactory::create(
+					array( 'type' => 'selectbox',
+					     'name' => 'cc_type',
+					     'value' => 0,
+					     'options' => $cards,
+					     'style' => 'short input-small'
+					));
 
-		$template_data['cards'][] = array(
-			'text'  => 'Visa Delta/Debit', 
-			'value' => 'DELTA'
-		);
-		
-		$template_data['cards'][] = array(
-			'text'  => 'Solo', 
-			'value' => 'SOLO'
-		);	
-		
-		$template_data['cards'][] = array(
-			'text'  => 'Maestro', 
-			'value' => 'MAESTRO'
-		);
-		
-		$template_data['cards'][] = array(
-			'text'  => 'Visa Electron UK Debit', 
-			'value' => 'UKE'
-		);
-		
-		$template_data['cards'][] = array(
-			'text'  => 'American Express', 
-			'value' => 'AMEX'
-		);
-		
-		$template_data['cards'][] = array(
-			'text'  => 'Diners Club', 
-			'value' => 'DC'
-		);
-		
-		$template_data['cards'][] = array(
-			'text'  => 'Japan Credit Bureau', 
-			'value' => 'JCB'
-		);
-		
-		$template_data['months'] = array();
-		
+        $data[ 'cc_number' ] = HtmlElementFactory::create(array(
+			'type' => 'input',
+			'name' => 'cc_number',
+			'value' => '',
+			'style' => 'input-medium'
+		));
+
+		$months = array();
 		for ($i = 1; $i <= 12; $i++) {
-			$template_data['months'][] = array(
-				'text'  => strftime('%B', mktime(0, 0, 0, $i, 1, 2000)), 
-				'value' => sprintf('%02d', $i)
-			);
+			$months[ sprintf('%02d', $i) ] = strftime('%B', mktime(0, 0, 0, $i, 1, 2000));
 		}
-		
-		$today = getdate();
-		
-		$template_data['year_valid'] = array();
-		
-		for ($i = $today['year'] - 10; $i < $today['year'] + 1; $i++) {	
-			$template_data['year_valid'][] = array(
-				'text'  => strftime('%Y', mktime(0, 0, 0, 1, 1, $i)), 
-				'value' => strftime('%Y', mktime(0, 0, 0, 1, 1, $i))
-			);
-		}
+		$data[ 'cc_expire_date_month' ] = HtmlElementFactory::create(
+			array( 'type' => 'selectbox',
+			     'name' => 'cc_expire_date_month',
+			     'value' => sprintf('%02d', date('m')),
+			     'options' => $months,
+			     'style' => 'short input-small'
+			));
 
-		$template_data['year_expire'] = array();
+        $today = getdate();
+		$years = array();
+		for ($i = $today[ 'year' ]; $i < $today[ 'year' ] + 11; $i++) {
+			$years[ strftime('%Y', mktime(0, 0, 0, 1, 1, $i)) ] = strftime('%Y', mktime(0, 0, 0, 1, 1, $i));
+		}
+		$data[ 'cc_expire_date_year' ] = HtmlElementFactory::create(array( 'type' => 'selectbox',
+		                                                                 'name' => 'cc_expire_date_year',
+		                                                                 'value' => sprintf('%02d', date('Y') + 1),
+		                                                                 'options' => $years,
+		                                                                 'style' => 'short input-small' ));
 
-		for ($i = $today['year']; $i < $today['year'] + 11; $i++) {
-			$template_data['year_expire'][] = array(
-				'text'  => strftime('%Y', mktime(0, 0, 0, 1, 1, $i)),
-				'value' => strftime('%Y', mktime(0, 0, 0, 1, 1, $i)) 
-			);
+        $data[ 'cc_start_date_month' ] = HtmlElementFactory::create(
+			array( 'type' => 'selectbox',
+			     'name' => 'cc_start_date_month',
+			     'value' => sprintf('%02d', date('m')),
+			     'options' => $months,
+			     'style' => 'short input-small'
+			));
+
+		$years = array();
+		for ($i = $today[ 'year' ]-10; $i < $today[ 'year' ] + 2; $i++) {
+			$years[ strftime('%Y', mktime(0, 0, 0, 1, 1, $i)) ] = strftime('%Y', mktime(0, 0, 0, 1, 1, $i));
 		}
+        $data[ 'cc_start_date_year' ] = HtmlElementFactory::create(array( 'type' => 'selectbox',
+		                                                                 'name' => 'cc_start_date_year',
+		                                                                 'value' => sprintf('%02d', date('Y') ),
+		                                                                 'options' => $years,
+		                                                                 'style' => 'short input-small' ));
+
+        $data[ 'cc_cvv2' ] = HtmlElementFactory::create(array( 'type' => 'input',
+		                                                     'name' => 'cc_cvv2',
+		                                                     'value' => '',
+		                                                     'style' => 'short',
+		                                                     'attr' => ' size="3" '
+		                                                ));
+        $data[ 'cc_issue' ] = HtmlElementFactory::create(array( 'type' => 'input',
+		                                                     'name' => 'cc_issue',
+		                                                     'value' => '',
+		                                                     'style' => 'short',
+		                                                     'attr' => ' size="1" '
+		                                                ));
+
+		$back = $this->request->get[ 'rt' ] != 'checkout/guest_step_3' ? $this->html->getSecureURL('checkout/payment')
+				: $this->html->getSecureURL('checkout/guest_step_2');
+		$data[ 'back' ] = HtmlElementFactory::create(array( 'type' => 'button',
+		                                                  'name' => 'back',
+		                                                  'text' => $this->language->get('button_back'),
+		                                                  'style' => 'button',
+		                                                  'href' => $back ));
+
+		$data[ 'submit' ] = HtmlElementFactory::create(array( 'type' => 'button',
+			                                                  'name' => 'sp_button',
+		                                                      'text' => $this->language->get('button_confirm'),
+			                                                  'style' => 'button btn-orange',
+		                                               ));
 		
-		if ($this->request->get['rt'] != 'checkout/guest_step_3') {
-			$template_data['back'] = $this->html->getSecureURL('checkout/payment');
-		} else {
-			$template_data['back'] = $this->html->getSecureURL('checkout/guest_step_2');
-		}
-		
-		$this->view->batchAssign( $template_data );
+		$this->view->batchAssign( $data );
 
 		//init controller data
 		$this->extensions->hk_UpdateData($this, __FUNCTION__);
+
+		//load creditcard input validation
+		$this->document->addScriptBottom($this->view->templateResource('/javascript/credit_card_validation.js'));
 
 		$this->processTemplate('responses/default_sagepay_direct.tpl' );
 
@@ -415,7 +441,6 @@ class ControllerResponsesExtensionDefaultSagepayDirect extends AController {
 
 		$image = '<img src="' . $this->view->templateResource('/image/securitycode.jpg') . '" alt="' . $this->language->get('entry_what_cvv2') . '" />';
 
-		$this->view->assign('title', $this->language->get('entry_what_cvv2') );
 		$this->view->assign('description', $image );
 
 		//init controller data

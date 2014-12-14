@@ -36,14 +36,7 @@ class ControllerPagesToolGlobalSearch extends AController {
 		$this->request->post ['search'] = $this->request->post ['search'] ? $this->request->post ['search'] : $this->request->get ['search'];
 
 		$this->data ['heading_title'] = $this->language->get ( 'heading_title').':&nbsp;&nbsp;&nbsp;&nbsp;'. htmlentities($this->request->post ['search'],ENT_QUOTES,'UTF-8');
-		
-		$this->data ['text_select_all'] = $this->language->get ( 'text_select_all' );
-		$this->data ['text_unselect_all'] = $this->language->get ( 'text_unselect_all' );
-		$this->data ['button_backup'] = $this->language->get ( 'button_backup' );
-		$this->data ['button_restore'] = $this->language->get ( 'button_restore' );
-		
-		$this->data ['tab_general'] = $this->language->get ( 'tab_general' );
-		
+	
 		if (isset ( $this->error ['warning'] )) {
 			$this->data ['error_warning'] = $this->error ['warning'];
 		} else {
@@ -66,35 +59,50 @@ class ControllerPagesToolGlobalSearch extends AController {
 		$this->document->addBreadcrumb ( array (
 												'href' => $this->html->getSecureURL ( 'tool/global_search', '&search='. $this->request->post ['search'] ),
 												'text' => $this->language->get ( 'heading_title' ), 
-												'separator' => ' :: ' ) );
+												'separator' => ' :: ',
+												'current'  => true) );
 		
 		$this->view->assign ( 'search_url', $this->html->getSecureURL ( 'listing_grid/global_search_result' ) );
 		$this->view->assign ( 'search_keyword', $this->request->post ['search'] );
 
-		$form = new AForm ();
-		$search_form = $form->getFieldHtml ( array (
-			'type' => 'form',
-			'name' => 'search_form',
-			'action' => $this->html->getSecureURL ( 'tool/global_search' ) ) );
-		$this->view->assign ( 'search_form', $search_form );
-		$search_form_input = $this->request->post ['search'];
+		$form = new AForm();
+		$form->setForm(array(
+		                    'form_name' => 'global_search'
+		               ));
 
-		$search_form_button = $form->getFieldHtml ( array (
-			'type' => 'button',
-			'name' => 'submit',
-			'style' => 'button1',
-			'text' => $this->language->get ( 'button_go' )
-		) );
-		$this->view->assign ( 'search_form_input', $search_form_input );
-		$this->view->assign ( 'search_form_button',  $search_form_button);
+		$search_form = array();
+		$search_form[ 'id' ] = 'global_search';
+		$search_form[ 'form_open' ] = $form->getFieldHtml(array(
+		                                                            'type' => 'form',
+		                                                            'name' => 'global_search',
+																	'method'=>'post',
+		                                                            'action' => $this->html->getSecureURL ( 'tool/global_search' ),
+		                                                       ));
+		$search_form[ 'submit' ] = $form->getFieldHtml(array(
+		                                                         'type' => 'button',
+		                                                         'name' => 'submit',
+		                                                         'text' => $this->language->get('button_go'),
+		                                                         'style' => 'button1',
+		                                                    ));
+		$search_form[ 'reset' ] = $form->getFieldHtml(array(
+		                                                        'type' => 'button',
+		                                                        'name' => 'reset',
+		                                                        'text' => $this->language->get('button_reset'),
+		                                                        'style' => 'button2',
+		                                                   ));
+		$search_form[ 'fields' ][ 'search' ] = $form->getFieldHtml(array(
+		                                                                        'type' => 'input',
+		                                                                        'name' => 'search',
+		                                                                        'value' => $this->request->post['search'],
+																				'placeholder' => $this->language->get('search_everywhere')
+		                                                                   ));
+		$this->data['search_form'] = $search_form;
 
 		$this->data['grid_inits'] = array(); // list of js-functions names for initialization all jqgrids
 		if ($this->_validate ()) {
 			$search_categories_icons = $this->model_tool_global_search->getSearchSources ( $this->request->post ['search'] );
 			$search_categories  = array_keys($search_categories_icons);
 			if ($search_categories) {
-				
-
 
 				$this->view->assign ( 'no_results_message', '' );
 
@@ -117,7 +125,8 @@ class ControllerPagesToolGlobalSearch extends AController {
 											'editurl' => null,
 											'columns_search' => false,
 											'sortable' => false,
-											'hidden_head' => true);
+											'hidden_head' => true,
+											'grid_ready' => "grid_ready('".$search_category . '_grid'."');");
 					
 					$grid_settings ['colNames'] = array (	'#',
 															$this->language->get ( "text_".$search_category ) );

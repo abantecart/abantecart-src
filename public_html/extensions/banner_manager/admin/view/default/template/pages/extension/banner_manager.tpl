@@ -1,22 +1,25 @@
-<?php if ($error_warning) { ?>
-<div class="warning alert alert-error"><?php echo $error_warning; ?></div>
-<?php } ?>
-<?php if ($success) { ?>
-<div class="success alert alert-success"><?php echo $success; ?></div>
-<?php } ?>
-<div class="contentBox">
-  <div class="cbox_tl"><div class="cbox_tr"><div class="cbox_tc">
-    <div class="heading icon_information"><?php echo $heading_title; ?></div>
-    <div class="toolbar">
-		<div class="buttons">
-		  <a class="btn_toolbar" title="<?php echo $button_insert; ?>" href="<?php echo $insert; ?>">
-			<span class="icon_add">&nbsp;</span>
-		  </a>
+<?php include($tpl_common_dir . 'action_confirm.tpl'); ?>
+
+<div id="content" class="panel panel-default">
+
+	<div class="panel-heading col-xs-12">
+		<div class="primary_content_actions pull-left">
+			<div class="dropdown dropdown-toggle">
+			    <a data-toggle="dropdown" href="#" class="btn btn-primary dropdown-toggle tooltips" title="<?php echo $button_add.$text_type; ?>" >
+			    <i class="fa fa-plus fa-fw"></i>  
+			    <span class="caret"></span></a>
+			    <ul class="dropdown-menu " role="menu">
+			    	<?php foreach($banner_types as $in){ ?>
+			    		<li><a href="<?php echo $in['href'] ?>" ><?php echo $in['icon']; ?><?php echo $in['text']; ?></a></li>
+			    	<?php } ?>
+			    </ul>
+			</div>
 		</div>
-    </div>
-  </div></div></div>
-  <div class="cbox_cl"><div class="cbox_cr"><div class="cbox_cc">
-    <?php echo $listing_grid; ?>
-  </div></div></div>
-  <div class="cbox_bl"><div class="cbox_br"><div class="cbox_bc"></div></div></div>
+		<?php include($tpl_common_dir . 'content_buttons.tpl'); ?>	
+	</div>
+
+	<div class="panel-body panel-body-nopadding tab-content col-xs-12">
+		<?php echo $listing_grid; ?>
+	</div>
+
 </div>

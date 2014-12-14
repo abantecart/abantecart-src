@@ -1,70 +1,163 @@
-input, select, textarea {
-	font:normal 12px Arial, Helvetica, sans-serif;
-	color:#565656;
-	outline:none;
+/***** Form Fields *****/
+.form-horizontal .form-group {
+	margin-left: 0;
+	margin-right: 0;
 }
-textarea {resize:none;}
-form {
-	margin: 0;
-	padding: 0;
+.form-control .input-group, .input-group .btn {
+	border-radius: 2px !important;
 }
-
-
+.input-group-sm .pagination{
+	margin: 0px;
+}
+.help_element {
+	padding-left: 5px;
+}
+label span.help {
+	font-size: 11px;
+}
+span.required {
+	color: red;
+}
+/* Fiels changed highlite */
+.chosen-choices .search-field {
+/*	background-color: #fff; */
+	width: 100%;
+}
+.afield .changed, 
+.changed .chosen-container .chosen-choices,
+.changed .chosen-container .chosen-single
+{
+	background: #ffad5e !important;
+}
+.chosen-choices .hide_text {
+	display: none;
+}
+.btn-primary.changed {
+	background: #ffad5e;
+}
 .abuttons_grp {
-	display:none;
-	margin-left:15px;
-	vertical-align:middle;
+	display: none;
+	margin-left: 5px;
+	vertical-align: middle;
+}
+.quicksave {
+	background: #fceedc;
+}
+.abuttons_grp .icon_save {
+	display:inline-block;
+	padding: 0 5px 0 0;
+	cursor: pointer;
+}
+.abuttons_grp .icon_reset {
+	display:inline-block;
+	padding: 0 5px 0 5px;
+	color: #636E7B;
+	cursor: pointer;
+}
+/* custom for short elements such as aswitcher */
+.input-group-addon.aswitcher:last-child {
+	border: 1px solid #CCCCCC;	
+}
+/* border for quick save buttons */
+.changed .input-group-addon:last-child {
+	border: 1px solid #ffad5e;	
+}
+label > i, thead td > i {
+	color: #F19013;
+	cursor: pointer;
+}
+/* fix for calendar low z-index */
+.ui-datepicker {
+	z-index: 1051 !important;
 }
 
-.abuttons_grp .icon_s_save, .abuttons_grp .ui-icon {
-	display:inline-block;
-    width:16px;
-	height:16px;
-	padding:0;
-}
-.abuttons_grp a:first-child {
-	margin-right:5px;
-}
-#product_related .abuttons_grp {
-	margin:5px 0 0 5px;
-}
-.ui-jqgrid-wrapper .abuttons_grp,
-.ui-jqgrid-wrapper .abuttons_grp a:first-child {
-    margin:3px;
-}
-.abuttons_grp .btn_text {
-	padding:0 10px;
+#product_grid_search .small-field {
+	width: 60px;
 }
 
-.ajax_result {
-	display:inline-block;
-	margin-left:15px;
-	vertical-align:top;
-	display:none;
-}
-.ajax_loading {
-	background: url(../image/ajax-loader.gif) 0 50% no-repeat;
-	display:inline-block;
-	padding-left:20px;
-	height:20px;
-	line-height:20px;
-	color:#91b118;
-}
-.ajax_success {
-	line-height:20px;
-	color:#91b118;
-}
-.ajax_error {
-	line-height:20px;
-	color:#F00;
+/* Field help and errors*/
+form .help-block {
+	text-align: center;	
 }
 .field_err {
-	color:#F00;
-	margin-top:4px;
 	font-style:italic;
-	font-size:11px;
+	font-size:12px;
 }
 
+.passwordset_element { 
+	float:left; 
+}
+.password_strength {
+	display:block; width: 50px;
+}
+.password_strength span { 
+	display:block; width: 50px; 
+	height: 4px;
+	margin-top: 5px; 
+}
+.password_strength span.strength1 {
+	background-color: gray 
+}
+.password_strength span.strength2 { 
+	background-color: red 
+}
+.password_strength span.strength3 {	
+	background-color: orange 
+}
+.password_strength span.strength4 {
+	background-color: green 
+}
+
+pre {
+	font-size: 12px;
+	color: #C7254E;
+	border: 1px solid #ddd;
+	padding: 8px;
+	-moz-border-radius: 2px;
+	-webkit-border-radius: 2px;
+	border-radius: 2px;
+	background: #fff;
+}
+
+label.error {
+	color: #B94A48;
+	margin-top: 2px;
+}
+
+.asterisk {
+	color: #D9534F;
+}
+
+div.error {
+	margin-bottom: 20px;
+	display: none;
+	position: relative;
+}
+
+div.error label.error {
+	display: block;
+	padding-left: 25px;
+	position: relative;
+}
+
+div.error label.error:before {
+	font-family: 'Glyphicons Halflings';
+	content: '\e101';
+	position: absolute;
+	top: -2px;
+	left: 0;
+	font-size: 16px;
+	color: #D9534F;
+	display: inline-block;
+}
+
+
+/***
+
+Older fields CSS
+Candidate for review
+
+***/
 .ml_field input, .ml_field textarea {
 	width:350px;
 	resize:none;
@@ -92,116 +185,27 @@ form {
 	background-image: none;
 }
 
-
-/* GLOBAL */
-div.aform_noaction, div.afield_noaction {
-	display:inline-block;
-	margin:0;
-	padding:0;
-    vertical-align:middle;
-}
-
-div.aform, div.afield {
-	display:inline-block;
-	margin:0;
-	padding:0;
-    vertical-align:middle;
-}
-.ml_field div.afield {
-    vertical-align:top;
-}
-div.mask1 div {
-	background-image: url(../image/form/field_mask1.png);
-	background-repeat:no-repeat;
-}
-div.mask2 div {
-	background-image: url(../image/form/field_mask2.png);
-	background-repeat:no-repeat;
-}
-div.afield span {
-  background-image: url(../image/form/form.png);
-  background-repeat: no-repeat;
-}
- 
-.acheckbox *,
-.aswitcher *{
-	margin: 0;
-	padding: 0;
-}
-.aselect, .acheckbox {
-	vertical-align:middle;
-}
-
-
-/* Input, Textarea */
-.mask1 .atext {
-	color:#09487d;
-	background:none;
-	height:20px;
-	line-height:20px;
-	border:0;
-	outline:none;
-}
-.mask2 .atext {
-	color:#09487d;
-	background:none;
-	border:0;
-	outline:none;
-}
-
-/* Multi Select */
-.mask2 select.atext {}
-
 /* Checkbox */
-div.acheckbox {
+.input-group > .acheckbox {
 	width:15px;
 	height:15px;
-	margin:2px;
+	margin: 8px 2px 0 2px;
 	display:inline-block;
 }
-div.acheckbox span {
-	display: inline-block;
-	width:15px;
-	height:15px;
-	text-align: center;
-}
-div.acheckbox input {
-	opacity: 0;
-	filter: alpha(opacity:0);
-	display: inline-block;
-	background: none;
-	width:15px;
-	height:15px;
-}
-
-/* Switcher */
-div.aswitcher {
-	width:88px;
-	height:20px;
-	margin:2px;
-	display:inline-block;
-}
-div.aswitcher span {
-	display: inline-block;
-	width:88px;
-	height:20px;
-	background-position: 0 -110px;
-	cursor:pointer;
-}
-div.aswitcher input {
-	display: none;
+.acheckboxgroup {
+	height: auto;
 }
 
 /* Scrollbox */
 div.aform div.scrollbox {
 	background:none;
-	border:0;
-	height: 100px;
+	height: 150px;
     overflow-y: scroll;
     width: 350px;
 }
-div.aform div.small-scrollbox {width:300px; height:60px;}
-div.aform div.scrollbox div{ background:none;}
+div.aform div.small-scrollbox {
+	width:300px; height:60px;
+}
 div.aform div.scrollbox .acheckbox {
 	position:relative;
 	float:left;
@@ -258,153 +262,15 @@ div.aselect select .disabled {
 	color: grey;
 }
 
-
 .small-field, .ml_field input.small-field {width:40px}
 .medium-field, .ml_field input.medium-field {width:150px}
 .large-field, .ml_field input.large-field {width:300px}
 .xl-field, .ml_field input.xl-field {width:610px}
 textarea.large-field, textarea.xl-field {height:100px}
 
-.passwordset_element { float:left; }
-.confirm_default { position:absolute; color:#ccc; margin: 4px 8px}
-.password_strength{ display:block; width:90%; height:3px; line-height: 3px; margin: 3px 0;}
-.password_strength span{ display:block; width: 0; height: 3px; }
-.password_strength span.strength0{ width: 0; }
-.password_strength span.strength1{ width: 25%; background-color: gray }
-.password_strength span.strength2{ width: 50%; background-color: red }
-.password_strength span.strength3{ width: 75%; background-color: orange }
-.password_strength span.strength4{ width: 100%; background-color: green }
-
-
-/* PRESENTATION */
-.mask1 { display:inline-block; }
-.mask1 .cl {
-	background-position:0 0;
-}
-.mask1 .cr {
-	background-position:100% -138px;
-	padding:0 6px;
-}
-.mask1 .cc {
-	background-position:0 -69px;
-	background-repeat:repeat-x;
-	height:23px;
-}
-
-
-.mask2 { display:inline-block; }
-.mask2 .tl {
-	background-position:0 0;
-}
-.mask2 .tr {
-	background-position:100% -18px;
-	padding:0 6px;
-}
-.mask2 .tc {
-	border-top:1px solid #caccd2;
-	background:#fff;
-	height:5px;
-}
-.mask2 .cl {}
-.mask2 .cr {}
-.mask2 .cc {
-	border-left:1px solid #caccd2;
-	border-right:1px solid #caccd2;
-	padding:0 5px;
-	background:#fff;
-}
-.mask2 .bl {
-	background-position:0 -36px;
-}
-.mask2 .br {
-	background-position:100% -54px;
-	padding:0 6px;
-}
-.mask2 .bc {
-	border-bottom:1px solid #caccd2;
-	background:#fff;
-	height:5px;
-}
-
-
-/* FUNCTIONALITY */
-
-/* Focus */
-.mask1.focus .cl {
-	background-position:0 -23px;
-}
-.mask1.focus .cr {
-	background-position:100% -161px;
-}
-.mask1.focus .cc {
-	background-position:0 -92px;
-}
-
-
-.mask2.focus .tl {
-	background-position:0 -6px;
-}
-.mask2.focus .tr {
-	background-position:100% -24px;
-}
-.mask2.focus .tc {
-	background:#fceedc;
-}
-.mask2.focus .cc {
-	background:#fceedc;
-}
-.mask2.focus .bl {
-	background-position:0 -42px;
-}
-.mask2.focus .br {
-	background-position:100% -60px;
-}
-.mask2.focus .bc {
-	background:#fceedc;
-}
-
 /* Checkbox */
 div.acheckbox.checked span {
 	background-position: 0 -15px;
-}
-
-/* Switcher */
-div.aswitcher.checked span {
-	background-position: 0 -90px;
-}
-
-
-/* Changed */
-.mask1.changed .cl {
-	background-position:0 -46px;
-}
-.mask1.changed .cr {
-	background-position:100% -184px;
-}
-.mask1.changed .cc {
-	background-position:0 -115px;
-}
-
-.mask2.changed .tl {
-	background-position:0 -12px;
-}
-.mask2.changed .tr {
-	background-position:100% -30px;
-}
-.mask2.changed .tc {
-	background:#ffad5e;
-}
-.mask2.changed .cc {
-	background:#ffad5e;
-}
-.mask2.changed .bl {
-	background-position:0 -48px;
-}
-.mask2.changed .br {
-	background-position:100% -66px;
-}
-.mask2.changed .bc {
-	background:#ffad5e;
 }
 
 .multivalue_hidden_data{
@@ -461,19 +327,6 @@ div.aswitcher.checked span {
     padding: 0;
     vertical-align: middle;
 }
-
-.progressbar{
-	background: url('../image/progressbar.gif') 50% 65% no-repeat;
-	height:60px;
-	width:230px;
-	margin: 30% auto;
-	padding-left:  28px;
-	padding-top:  7px;
-	border:1px solid #caccd2;
-	background-color:#fbeddc;
-	vertical-align: bottom;
-}
-
 
 .fileupload {
     width: 395px;

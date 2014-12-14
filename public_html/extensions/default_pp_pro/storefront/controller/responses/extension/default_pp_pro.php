@@ -43,7 +43,7 @@ class ControllerResponsesExtensionDefaultPPPro extends AController {
 		//load accepted card types
 		$cardtypes = $this->model_extension_default_pp_pro->getCreditCardTypes();
 		$cards = unserialize($this->config->get('default_pp_pro_creditcard_types'));
-		$options = array();
+		$options = array('');
 		foreach ( $cards as $card) {
 			if ($card && isset($cardtypes[$card])) {
 				$options[$card] = $cardtypes[$card];
@@ -63,7 +63,8 @@ class ControllerResponsesExtensionDefaultPPPro extends AController {
 			'type' => 'input',
 			'name' => 'cc_number',
 			'value' => '',
-			'style' => 'input-medium'
+			'style' => 'input-medium',
+			'attr' => 'autocomplete="off"'
 		));
 
 		$months = array();
@@ -110,13 +111,13 @@ class ControllerResponsesExtensionDefaultPPPro extends AController {
 		                                                     'name' => 'cc_cvv2',
 		                                                     'value' => '',
 		                                                     'style' => 'short',
-		                                                     'attr' => ' size="3" maxlength="4" '
+		                                                     'attr' => ' size="3" maxlength="4" autocomplete="off"'
 		                                                ));
         $data[ 'cc_issue' ] = HtmlElementFactory::create(array( 'type' => 'input',
 		                                                     'name' => 'cc_issue',
 		                                                     'value' => '',
 		                                                     'style' => 'short',
-		                                                     'attr' => ' size="1" maxlength="2" '
+		                                                     'attr' => ' size="1" maxlength="2" autocomplete="off"'
 		                                                ));
 
 		$back = $this->request->get[ 'rt' ] != 'checkout/guest_step_3' ? $this->html->getSecureURL('checkout/payment')
@@ -133,6 +134,9 @@ class ControllerResponsesExtensionDefaultPPPro extends AController {
 		                                                      'text' => $this->language->get('button_confirm'),
 			                                                  'style' => 'button btn-orange',
 		                                               ));
+
+		//load creditcard input validation
+		$this->document->addScriptBottom($this->view->templateResource('/javascript/credit_card_validation.js'));
 
 		$this->view->batchAssign( $data );
 		$this->processTemplate('responses/default_pp_pro.tpl' );
@@ -171,7 +175,7 @@ class ControllerResponsesExtensionDefaultPPPro extends AController {
 			'SIGNATURE'      => html_entity_decode($this->config->get('default_pp_pro_signature'), ENT_QUOTES, 'UTF-8'),
 			'CUSTREF'        => $order_info['order_id'],
 			'CUSTOM'         => $order_info['order_id'],
-			'INVNUM'         => $order_info['order_id'],
+			'INVNUM'         => '#'.$order_info['order_id'],
 			'PAYMENTACTION'  => $payment_type,
 			'AMT'            => $this->currency->format($order_info['total'], $order_info['currency'], $order_info['value'], FALSE),
 			'ITEMAMT'        => (float)$this->data['items_total'],
@@ -199,6 +203,26 @@ class ControllerResponsesExtensionDefaultPPPro extends AController {
 			'NOTIFYURL'		 => $this->html->getSecureURL('extension/default_pp_pro/callback')
 		);
 
+		if ($this->cart->hasShipping()) {
+			$payment_data = array_merge($payment_data, array(
+				'SHIPTONAME' 		=> $order_info['shipping_firstname'] . ' ' . $order_info['shipping_lastname'],
+				'SHIPTOSTREET' 		=> $order_info['shipping_address_1'],
+				'SHIPTOCITY' 		=> $order_info['shipping_city'],
+				'SHIPTOSTATE'		=> ($order_info['shipping_iso_code_2'] != 'US') ? $order_info['shipping_zone'] : $order_info['shipping_zone_code'],
+				'SHIPTOCOUNTRYCODE'	=> $order_info['shipping_iso_code_2'],
+				'SHIPTOZIP'			=> $order_info['shipping_postcode']
+			));
+		} else {
+			$payment_data = array_merge($payment_data, array(
+				'SHIPTONAME' 		=> $order_info['payment_firstname'] . ' ' . $order_info['payment_lastname'],
+				'SHIPTOSTREET' 		=> $order_info['payment_address_1'],
+				'SHIPTOCITY' 		=> $order_info['payment_city'],
+				'SHIPTOSTATE'		=> ($order_info['payment_iso_code_2'] != 'US') ? $order_info['payment_zone'] : $order_info['payment_zone_code'],
+				'SHIPTOCOUNTRYCODE'	=> $order_info['payment_iso_code_2'],
+				'SHIPTOZIP'			=> $order_info['payment_postcode']
+			));
+		}
+
 		//items list
 		//check amounts
 		$calc_total = $this->data['items_total']
@@ -222,7 +246,6 @@ class ControllerResponsesExtensionDefaultPPPro extends AController {
 			}
 		}
 
-//$this->log->write(var_export($payment_data, true));
 		$curl = curl_init($api_endpoint);
 		
 		curl_setopt($curl, CURLOPT_PORT, 443);
@@ -369,10 +392,6 @@ class ControllerResponsesExtensionDefaultPPPro extends AController {
 				);
 			}
 		}
-
-
-
-
 
 		if($this->data['discount_amount_cart']>0){
 			$price = -1*$this->currency->format($this->data['discount_amount_cart'], $order_info['currency'], $order_info['value'], FALSE);

@@ -20,8 +20,14 @@
 if (! defined ( 'DIR_CORE' ) || !IS_ADMIN) {
 	header ( 'Location: static_pages/' );
 }
+
+/**
+ * Class ModelSaleOrder
+ */
 class ModelSaleOrder extends Model {
-	
+	/**
+	 * @param array $data
+	 */
 	public function addOrder($data) {
 		//encrypt order data
 		$key_sql = '';
@@ -64,11 +70,16 @@ class ModelSaleOrder extends Model {
 			}
 		}
 	}
-	
+
+	/**
+	 * @param int $order_id
+	 * @param array $data
+	 */
 	public function editOrder($order_id, $data) {
 		$fields = array(
 			'telephone',
 			'email',
+			'fax',
 			'shipping_firstname',
 			'shipping_lastname',
 			'shipping_company',
@@ -109,8 +120,9 @@ class ModelSaleOrder extends Model {
 		}
 			
 		foreach ( $fields as $f ) {
-			if ( isset($data[$f]) )
-				$update[] = "$f = '".$this->db->escape($data[$f])."'";
+			if ( isset($data[$f]) ) {
+				$update[] = $f . " = '" . $this->db->escape($data[$f]) . "'";
+			}
 		}
 		$this->db->query("UPDATE `" . $this->db->table("orders") . "`
 						  SET ". implode(',', $update) ."
@@ -179,7 +191,10 @@ class ModelSaleOrder extends Model {
 
 		}
 	}
-	
+
+	/**
+	 * @param int $order_id
+	 */
 	public function deleteOrder($order_id) {
 		if ($this->config->get('config_stock_subtract')) {
 			$order_query = $this->db->query("SELECT *
@@ -216,7 +231,12 @@ class ModelSaleOrder extends Model {
 	  	$this->db->query("DELETE FROM " . $this->db->table("order_downloads") . " WHERE order_id = '" . (int)$order_id . "'");
       	$this->db->query("DELETE FROM " . $this->db->table("order_totals") . " WHERE order_id = '" . (int)$order_id . "'");
 	}
-	
+
+	/**
+	 * @param int $order_id
+	 * @param array $data
+	 * @throws AException
+	 */
 	public function addOrderHistory($order_id, $data) {
 		$this->db->query(  "UPDATE `" . $this->db->table("orders") . "`
 							SET order_status_id = '" . (int)$data['order_status_id'] . "',
@@ -280,6 +300,11 @@ class ModelSaleOrder extends Model {
 		}
 	}
 
+	/**
+	 * @param $order_id
+	 * @return array|bool
+	 * @throws AException
+	 */
 	public function getOrder($order_id) {
 		$order_query = $this->db->query("SELECT *
 										 FROM `" . $this->db->table("orders") . "`
@@ -391,26 +416,58 @@ class ModelSaleOrder extends Model {
 			return FALSE;	
 		}
 	}
-	
-	public function getOrders($data = array()) {
+
+	/**
+	 * @param array $data
+	 * @param string $mode
+	 * @return array
+	 */
+	public function getOrders($data = array(), $mode = 'default') {
 		$language_id = $this->language->getLanguageID();
-				
-		$sql = "SELECT o.order_id,
+
+		if ( $data['store_id'] ) {
+			$store_id = (int)$data['store_id'];
+		} else {
+			$store_id = (int)$this->config->get('config_store_id');
+		}
+
+		if ($mode == 'total_only') {
+			$total_sql = 'count(*) as total';
+		}
+		else {
+			$total_sql = "o.order_id,
 						CONCAT(o.firstname, ' ', o.lastname) AS name,
 						(SELECT os.name
 						 FROM " . $this->db->table("order_statuses") . " os
 						 WHERE os.order_status_id = o.order_status_id
 						    AND os.language_id = '" . (int)$language_id . "') AS status,
+						 o.order_status_id,
 						 o.date_added,
 						 o.total,
 						 o.currency,
-						 o.value
+						 o.value";
+		}
+
+		$sql = "SELECT ". $total_sql ."
 			    FROM `" . $this->db->table("orders") . "` o";
 		
-		if ( has_value($data['filter_order_status_id']) ) {
+		if ( has_value($data['filter_product_id']) ) {
+			$sql .= " LEFT JOIN  `" . $this->db->table("order_products") . "` op ON o.order_id = op.order_id ";
+		}
+		
+		if ( $data['filter_order_status_id'] == 'all' ) {
+			$sql .= " WHERE o.order_status_id >= 0";
+		} else if( has_value($data['filter_order_status_id']) ) {
 			$sql .= " WHERE o.order_status_id = '" . (int)$data['filter_order_status_id'] . "'";
 		} else {
 			$sql .= " WHERE o.order_status_id > '0'";
+		}
+
+		if ( has_value($data['filter_product_id'])  ) {
+			$sql .= " AND op.product_id = '" . (int)$data['filter_product_id'] . "'";
+		}
+		if ( has_value($data['filter_coupon_id'])  ) {
+			$sql .= " AND o.coupon_id = '" . (int)$data['filter_coupon_id'] . "'";
 		}
 
 		if ( has_value($data['filter_customer_id']) ) {
@@ -429,22 +486,50 @@ class ModelSaleOrder extends Model {
 			$sql .= " AND DATE(o.date_added) = DATE('" . $this->db->escape($data['filter_date_added']) . "')";
 		}
 
+		if ( has_value($store_id) ) {
+			$sql .= " AND o.store_id = '" . $store_id . "'";
+		}
+
 		if ( has_value($data['filter_total']) ) {
+			$data['filter_total'] = trim($data['filter_total']);	
+			//check if compare signs are used in the request 
+			$compare = '';
+			if ( in_array( substr($data['filter_total'], 0, 2), array('>=', '<=')) ){
+				$compare = substr($data['filter_total'], 0, 2);
+				$data['filter_total'] = substr($data['filter_total'], 2, strlen($data['filter_total']));
+				$data['filter_total'] = trim($data['filter_total']);
+			} else if ( in_array( substr($data['filter_total'], 0, 1), array('>', '<', '=')) ){
+				$compare = substr($data['filter_total'], 0, 1);
+				$data['filter_total'] = substr($data['filter_total'], 1, strlen($data['filter_total']));
+				$data['filter_total'] = trim($data['filter_total']);			
+			} 
+			 
 			$data['filter_total'] = (float)$data['filter_total'];
-			$currencies = $this->currency->getCurrencies();
-			$temp = $temp2 = array($data['filter_total']);
-			foreach( $currencies  as $currency1){
-				foreach( $currencies  as $currency2){
-					if($currency1['code']!=$currency2['code']){
-						$temp[] = floor($this->currency->convert($data['filter_total'], $currency1['code'],$currency2['code']));
-						$temp2[] = ceil($this->currency->convert($data['filter_total'], $currency1['code'],$currency2['code']));
+			//if we compare, easier select
+			if ($compare) {
+				$sql .= " AND FLOOR(CAST(o.total as DECIMAL(15,4))) " . $compare . "  FLOOR(CAST(" . $data['filter_total'] . " as DECIMAL(15,4)))";
+			} else {
+				$currencies = $this->currency->getCurrencies();
+				$temp = $temp2 = array($data['filter_total'], ceil($data['filter_total']), floor($data['filter_total']));
+				foreach( $currencies  as $currency1){
+					foreach( $currencies  as $currency2){
+						if($currency1['code']!=$currency2['code']){
+							$temp[] = floor($this->currency->convert($data['filter_total'], $currency1['code'],$currency2['code']));
+							$temp2[] = ceil($this->currency->convert($data['filter_total'], $currency1['code'],$currency2['code']));
+						}
 					}
 				}
+				$sql .= " AND ( FLOOR(o.total) IN  (" . implode(",",$temp) . ")
+								OR FLOOR(CAST(o.total as DECIMAL(15,4)) * CAST(o.value as DECIMAL(15,4))) IN  (" . implode(",",$temp) . ")
+								OR CEIL(o.total) IN  (" . implode(",",$temp2) . ")
+								OR CEIL(CAST(o.total as DECIMAL(15,4)) * CAST(o.value as DECIMAL(15,4))) IN  (" . implode(",",$temp2) . ") )";
 			}
-			$sql .= " AND ( FLOOR(o.total) IN  (" . implode(",",$temp) . ")
-							OR FLOOR(CAST(o.total as DECIMAL(15,4)) * CAST(o.value as DECIMAL(15,4))) IN  (" . implode(",",$temp) . ")
-							OR CEIL(o.total) IN  (" . implode(",",$temp2) . ")
-							OR CEIL(CAST(o.total as DECIMAL(15,4)) * CAST(o.value as DECIMAL(15,4))) IN  (" . implode(",",$temp2) . ") )";
+		}
+
+		//If for total, we done bulding the query
+		if ($mode == 'total_only') {
+		    $query = $this->db->query($sql);
+		    return $query->row['total'];
 		}
 
 		$sort_data = array( 'o.order_id',
@@ -476,14 +561,41 @@ class ModelSaleOrder extends Model {
 			
 			$sql .= " LIMIT " . (int)$data['start'] . "," . (int)$data['limit'];
 		}
+
 		$query = $this->db->query($sql);
 		$result_rows = array();
 		foreach ($query->rows as $row) {
 			$result_rows[] = $this->dcrypt->decrypt_data($row, 'orders');	
 		}		
 		return $result_rows;
-	}	
-	
+	}
+
+	/**
+	 * @param array $data
+	 * @return array
+	 */
+	public function getTotalOrders($data = array()) {
+		return $this->getOrders($data, 'total_only');
+	} 
+
+	/**
+	 * @param int $product_id
+	 * @return int
+	 */
+	public function getOrderTotalWithProduct($product_id){
+		if( !(int)$product_id ){ return array(); }
+		$sql = "SELECT count(DISTINCT op.order_id, op.order_product_id) as total
+				FROM ".$this->db->table('order_products')." op 
+				WHERE  op.product_id = '" . (int)$product_id."'";
+
+		$query = $this->db->query($sql);
+		return $query->row['total'];
+	}
+
+	/**
+	 * @param int $order_id
+	 * @return string
+	 */
 	public function generateInvoiceId($order_id) {
 		$query = $this->db->query("SELECT MAX(invoice_id) AS invoice_id FROM `" . $this->db->table("orders") . "`");
 		
@@ -503,7 +615,11 @@ class ModelSaleOrder extends Model {
 		
 		return $this->config->get('invoice_prefix') . $invoice_id;
 	}
-	
+
+	/**
+	 * @param int $order_id
+	 * @return array
+	 */
 	public function getOrderProducts($order_id) {
 		$query = $this->db->query( "SELECT *
 									FROM " . $this->db->table("order_products") . "
@@ -512,6 +628,11 @@ class ModelSaleOrder extends Model {
 		return $query->rows;
 	}
 
+	/**
+	 * @param int $order_id
+	 * @param int $order_product_id
+	 * @return array
+	 */
 	public function getOrderOptions($order_id, $order_product_id) {
 		$query = $this->db->query("SELECT op.*, po.element_type, po.attribute_id
 									FROM " . $this->db->table("order_options") . " op
@@ -521,7 +642,11 @@ class ModelSaleOrder extends Model {
 	
 		return $query->rows;
 	}
-	
+
+	/**
+	 * @param int $order_id
+	 * @return array
+	 */
 	public function getOrderTotals($order_id) {
 		$query = $this->db->query("SELECT *
 									FROM " . $this->db->table("order_totals") . "
@@ -529,8 +654,12 @@ class ModelSaleOrder extends Model {
 									ORDER BY sort_order");
 	
 		return $query->rows;
-	}	
+	}
 
+	/**
+	 * @param int $order_id
+	 * @return array
+	 */
 	public function getOrderHistory($order_id) { 
 		$language_id = $this->language->getContentLanguageID();
 		$default_language_id = $this->language->getDefaultLanguageID();
@@ -548,8 +677,12 @@ class ModelSaleOrder extends Model {
 									ORDER BY oh.date_added");
 	
 		return $query->rows;
-	}	
+	}
 
+	/**
+	 * @param int $order_id
+	 * @return array
+	 */
 	public function getOrderDownloads($order_id) {
 		$query = $this->db->query("SELECT op.product_id, op.name as product_name, od.*
 								   FROM " . $this->db->table("order_downloads") . " od
@@ -572,6 +705,10 @@ class ModelSaleOrder extends Model {
 		return $output;
 	}
 
+	/**
+	 * @param int $order_id
+	 * @return int
+	 */
 	public function getTotalOrderDownloads($order_id) {
 		$query = $this->db->query("SELECT COUNT(*) as total
 								   FROM " . $this->db->table("order_downloads") . " od
@@ -579,57 +716,11 @@ class ModelSaleOrder extends Model {
 
 		return $query->row['total'];
 	}
-				
-	public function getTotalOrders($data = array()) {
-      	$sql = "SELECT COUNT(*) AS total FROM `" . $this->db->table("orders") . "`";
 
-		if (isset($data['filter_order_status_id']) && !is_null($data['filter_order_status_id'])) {
-			$sql .= " WHERE order_status_id = '" . (int)$data['filter_order_status_id'] . "'";
-		} else {
-			$sql .= " WHERE order_status_id > '0'";
-		}
-		
-		if (isset($data['filter_order_id']) && !is_null($data['filter_order_id'])) {
-			$sql .= " AND order_id = '" . (int)$data['filter_order_id'] . "'";
-		}
-
-		if (isset($data['filter_name']) && !is_null($data['filter_name'])) {
-			$sql .= " AND CONCAT(firstname, ' ', lastname) LIKE '%" . $this->db->escape($data['filter_name']) . "%'";
-		}
-		
-		if (isset($data['filter_date_added']) && !is_null($data['filter_date_added'])) {
-			$sql .= " AND DATE(date_added) = DATE('" . $this->db->escape($data['filter_date_added']) . "')";
-		}
-		
-		if (isset($data['filter_total']) && !is_null($data['filter_total'])) {
-			$sql .= " AND total >= " . (float)$data['filter_total'] . " ";
-		}
-
-		if (isset($data['filter_coupon_id']) && (int)$data['filter_coupon_id']) {
-			$sql .= " AND coupon_id = " . (int)$data['filter_coupon_id'] . " ";
-		}
-		if (isset($data['filter_total']) && !is_null($data['filter_total'])) {
-			$data['filter_total'] = (float)$data['filter_total'];
-			$currencies = $this->currency->getCurrencies();
-			$temp = $temp2 = array($data['filter_total']);
-			foreach( $currencies  as $currency1){
-				foreach( $currencies  as $currency2){
-					if($currency1['code']!=$currency2['code']){
-						$temp[] = floor($this->currency->convert($data['filter_total'], $currency1['code'],$currency2['code']));
-						$temp2[] = ceil($this->currency->convert($data['filter_total'], $currency1['code'],$currency2['code']));
-					}
-				}
-			}
-			$sql .= " AND ( FLOOR(total) IN  (" . implode(",",$temp) . ")
-							OR FLOOR(CAST(total as DECIMAL(15,4)) * CAST(value as DECIMAL(15,4))) IN  (" . implode(",",$temp) . ")
-							OR CEIL(total) IN  (" . implode(",",$temp2) . ")
-							OR CEIL(CAST(total as DECIMAL(15,4)) * CAST(value as DECIMAL(15,4))) IN  (" . implode(",",$temp2) . ") )";
-		}
-
-		$query = $this->db->query($sql);
-		return $query->row['total'];
-	} 
-
+	/**
+	 * @param int $store_id
+	 * @return int
+	 */
 	public function getTotalOrdersByStoreId($store_id) {
       	$query = $this->db->query("SELECT COUNT(*) AS total
       	                            FROM `" . $this->db->table("orders") . "`
@@ -637,7 +728,11 @@ class ModelSaleOrder extends Model {
 		
 		return $query->row['total'];
 	}
-	
+
+	/**
+	 * @param int $order_status_id
+	 * @return int
+	 */
 	public function getOrderHistoryTotalByOrderStatusId($order_status_id) {
 	  	$query = $this->db->query("SELECT oh.order_id
 	  	                            FROM " . $this->db->table("order_history") . " oh
@@ -648,38 +743,53 @@ class ModelSaleOrder extends Model {
 		return $query->num_rows;
 	}
 
+	/**
+	 * @param int $order_status_id
+	 * @return int
+	 */
 	public function getTotalOrdersByOrderStatusId($order_status_id) {
       	$query = $this->db->query("SELECT COUNT(*) AS total
       	                            FROM `" . $this->db->table("orders") . "`
       	                            WHERE order_status_id = '" . (int)$order_status_id . "' AND order_status_id > '0'");
-		
 		return $query->row['total'];
 	}
-	
+
+	/**
+	 * @param int $language_id
+	 * @return int
+	 */
 	public function getTotalOrdersByLanguageId($language_id) {
       	$query = $this->db->query("SELECT COUNT(*) AS total
       	                            FROM `" . $this->db->table("orders") . "`
       	                            WHERE language_id = '" . (int)$language_id . "' AND order_status_id > '0'");
-		
 		return $query->row['total'];
-	}	
-	
+	}
+
+	/**
+	 * @param int $currency_id
+	 * @return int
+	 */
 	public function getTotalOrdersByCurrencyId($currency_id) {
       	$query = $this->db->query("SELECT COUNT(*) AS total
       	                            FROM `" . $this->db->table("orders") . "`
       	                            WHERE currency_id = '" . (int)$currency_id . "' AND order_status_id > '0'");
-		
 		return $query->row['total'];
-	}	
-	
+	}
+
+	/**
+	 * @return int
+	 */
 	public function getTotalSales() {
       	$query = $this->db->query("SELECT SUM(total) AS total
       	                            FROM `" . $this->db->table("orders") . "`
       	                            WHERE order_status_id > '0'");
-		
 		return $query->row['total'];
 	}
-	
+
+	/**
+	 * @param int $year
+	 * @return int
+	 */
 	public function getTotalSalesByYear($year) {
       	$query = $this->db->query("SELECT SUM(total) AS total
       	                            FROM `" . $this->db->table("orders") . "`

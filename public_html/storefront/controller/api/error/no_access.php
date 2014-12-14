@@ -25,6 +25,6 @@ class ControllerApiErrorNoAccess extends AControllerAPI {
 	public function main() {
 		$this->rest->setResponseData( array( 'error' => 'Access to API is disabled!' ) );	
 		$this->rest->sendResponse(401);
-		return;			
+		return null;
 	}	
 }

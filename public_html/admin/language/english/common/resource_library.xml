@@ -34,7 +34,7 @@
 	</definition>
 	<definition>
 		<key>text_mapped_to</key>
-		<value><![CDATA[Mapped To]]></value>
+		<value><![CDATA[Linked To]]></value>
 	</definition>
 	<definition>
 		<key>text_products</key>
@@ -46,7 +46,7 @@
 	</definition>
 	<definition>
 		<key>text_add_code</key>
-		<value><![CDATA[Add Image URL or Resource HTML]]></value>
+		<value><![CDATA[Add Resource HTML]]></value>
 	</definition>
 	<definition>
 		<key>text_add_files</key>
@@ -102,7 +102,7 @@
 	</definition>
 	<definition>
 		<key>text_resource_code</key>
-		<value><![CDATA[Image URL or Resource HTML]]></value>
+		<value><![CDATA[Resource HTML]]></value>
 	</definition>
 	<definition>
 		<key>text_name</key>
@@ -130,11 +130,23 @@
 	</definition>
 	<definition>
 		<key>text_map</key>
-		<value><![CDATA[Map to Object]]></value>
+		<value><![CDATA[Link to Object]]></value>
+	</definition>
+	<definition>
+		<key>text_map_to</key>
+		<value><![CDATA[Link to %s]]></value>
 	</definition>
 	<definition>
 		<key>text_unmap</key>
-		<value><![CDATA[Unmap from Object]]></value>
+		<value><![CDATA[Unlink from Object]]></value>
+	</definition>
+	<definition>
+		<key>text_unmap_from</key>
+		<value><![CDATA[Unlink from %s]]></value>
+	</definition>
+	<definition>
+		<key>text_success_unmap</key>
+		<value><![CDATA[Success: Resource has been unlinked.]]></value>
 	</definition>
 	<definition>
 		<key>text_file_delete</key>
@@ -230,8 +242,8 @@
 		<value><![CDATA[Warning: Permission Denied!]]></value>
 	</definition>
 	<definition>
-		<key>error_permission</key>
-		<value><![CDATA[Warning: Permission Denied!]]></value>
+		<key>error_name</key>
+		<value><![CDATA[Error: Name field is required!]]></value>
 	</definition>
 	<definition>
 		<key>button_delete</key>
@@ -256,6 +268,10 @@
 	<definition>
 		<key>text_success</key>
 		<value><![CDATA[Resource successfully updated]]></value>
+	</definition>
+	<definition>
+		<key>text_map_success</key>
+		<value><![CDATA[Resource successfully linked]]></value>
 	</definition>
 	<definition>
 		<key>text_no_resources</key>
@@ -284,5 +300,29 @@
 	<definition>
 		<key>text_manufacturers</key>
 		<value><![CDATA[Manufacturers]]></value>
+	</definition>
+	<definition>
+		<key>error_unmap</key>
+		<value><![CDATA[Cannot unlink resource. Object wasn't set.]]></value>
+	</definition>
+	<definition>
+		<key>text_replace_file</key>
+		<value><![CDATA[Replace File]]></value>
+	</definition>
+	<definition>
+		<key>error_not_replaced</key>
+		<value><![CDATA[File Replacement Error. ID required!]]></value>
+	</definition>
+	<definition>
+		<key>error_not_exists</key>
+		<value><![CDATA[File Replacement Error. Resource does not exists!]]></value>
+	</definition>
+	<definition>
+		<key>error_cannot_move</key>
+		<value><![CDATA[Error: Cannot move file %s to resources directory.]]></value>
+	</definition>
+	<definition>
+		<key>button_save_n_link</key>
+		<value><![CDATA[Save and Link]]></value>
 	</definition>
 </definitions>

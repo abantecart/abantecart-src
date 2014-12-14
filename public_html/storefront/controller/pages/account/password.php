@@ -21,7 +21,7 @@ if (! defined ( 'DIR_CORE' )) {
 	header ( 'Location: static_pages/' );
 }
 class ControllerPagesAccountPassword extends AController {
-	private $error = array();
+	public $error = array();
 	     
   	public function main() {
 
@@ -35,7 +35,7 @@ class ControllerPagesAccountPassword extends AController {
 
     	$this->document->setTitle( $this->language->get('heading_title') );
 			  
-    	if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->_validate()) {
+    	if ($this->request->is_POST() && $this->_validate()) {
 			$this->loadModel('account/customer');
 			
 			$this->model_account_customer->editPassword($this->customer->getLoginName(), $this->request->post['password']);
@@ -97,7 +97,7 @@ class ControllerPagesAccountPassword extends AController {
 		$submit = $form->getFieldHtml( array(
                                                'type' => 'submit',
 		                                       'name' => $this->language->get('button_continue'),
-		                                       'icon' => 'icon-check',
+		                                       'icon' => 'fa fa-check',
 		                                        ));
 
 		$this->view->assign('current_password', $current_password );
@@ -109,7 +109,7 @@ class ControllerPagesAccountPassword extends AController {
 		$back = HtmlElementFactory::create( array ('type' => 'button',
 		                                           'name' => 'back',
 			                                       'text'=> $this->language->get('button_back'),
-			                                       'icon' => 'icon-arrow-left',
+			                                       'icon' => 'fa fa-arrow-left',
 			                                       'style' => 'button'));
 		$this->view->assign('button_back', $back);
 
@@ -125,13 +125,15 @@ class ControllerPagesAccountPassword extends AController {
       		$this->error['current_password'] = $this->language->get('error_current_password');
 		}
 
-    	if ((strlen(utf8_decode($this->request->post['password'])) < 4) || (strlen(utf8_decode($this->request->post['password'])) > 20)) {
+    	if ( mb_strlen($this->request->post['password']) < 4 || mb_strlen($this->request->post['password']) > 20 ) {
       		$this->error['password'] = $this->language->get('error_password');
     	}
 
     	if ($this->request->post['confirm'] != $this->request->post['password']) {
       		$this->error['confirm'] = $this->language->get('error_confirm');
-    	}  
+    	}
+
+	    $this->extensions->hk_ValidateData($this);
 	
 		if (!$this->error) {
 	  		return TRUE;
@@ -141,4 +143,3 @@ class ControllerPagesAccountPassword extends AController {
 		}
   	}
 }
-?>

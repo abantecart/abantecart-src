@@ -1,66 +1,131 @@
 
-<div id="notify" class="align_center success" style="display: none;"></div>
-<?php if ($success) { ?>
-<script type="text/javascript">
-	$('#notify').html('<?php echo $success?>').fadeIn(500).delay(2000).fadeOut(500);
-</script>
-<?php } ?>
+<div class="row">
 
-<div class="flt_right">&nbsp;&nbsp;&nbsp;&nbsp;<a id="button_remove_option" href="<?php echo $remove_option; ?>" class="btn_standard"><?php echo $button_remove_option; ?></a></div>
-<h2 id="option_name"><?php echo $option_data['language'][$language_id]['name']; ?></h2>
-<b><?php echo $text_option_type; ?></b>: <?php echo $option_type; ?>
-<table cellpadding="4" cellspacing="0" class="editOption" >
-	<tr>
-		<td>
-            <div class="option_form_div"><?php echo $entry_status; ?><?php echo $status; ?></div>
-            <div class="option_form_div"><?php echo $entry_option_name; ?><?php echo $option_name; ?></div>
-			<?php if((string)$option_placeholder){
-					echo '<div class="option_form_div">'.$entry_option_placeholder. $option_placeholder.'</div>';
-			}?>
-			<div class="option_form_div"><?php echo $entry_sort_order; ?><?php echo $option_sort_order; ?></div>
-		</td>
-	</tr>
-	<tr>
-		<td><div class="option_form_div"><label for="required"><?php echo $entry_required; ?></label><?php echo $required; ?>&nbsp;&nbsp;</div></br>
-            <div class="option_form_div"><?php echo $entry_regexp_pattern; ?><?php echo $option_regexp_pattern; ?></div></br>
-            <div class="option_form_div"><?php echo $entry_error_text; ?><?php echo $option_error_text; ?></div>
+<div class="col-md-4"> 
+	<div class="panel panel-default">
+	<div class="panel-heading">
+		<h3 class="panel-title"><?php echo $option_data['language'][$language_id]['name']; ?></h3>
+	</div>
+	<div id="option_edit_form" class="panel-body panel-body-nopadding table-responsive">
+		<h4 class="mb20"><?php echo $text_option_type; ?>: <?php echo $option_type; ?>
+			<a class="pull-right btn btn-default tooltips" onclick="optionDelete('<?php echo $button_remove_option->href; ?>')" data-original-title="<?php echo $button_remove_option->text; ?>" data-confirmation="delete">
+			 <i class="fa fa-trash-o"></i>
+			 </a>
+		</h4>
 
-		<div class="option_form_div flt_right" style="margin-right: 10px;"><a id="update_option" href="#" class="btn_standard"><?php echo $button_save; ?></a></div></td>
-	</tr>
-</table>
+		<?php
+		$fields = array('entry_status'=>'status',
+						'entry_option_name'=>'option_name',
+						'entry_option_placeholder' => 'option_placeholder',
+						'entry_sort_order' => 'option_sort_order',
+						'entry_required' => 'required',
+						'entry_regexp_pattern' => 'option_regexp_pattern',
+						'entry_error_text'=>'option_error_text'
 
-<h3><?php echo $text_option_values; ?></h3>
+		);
+		foreach ($fields as $e=>$name) { ?>
+				<?php
+					$entry = $$e;
+					$field = $$name;
+
+					if($name == 'option_placeholder' && !(string)$option_placeholder){
+						continue;
+					}
+					//Logic to calculate fields width
+					$widthcasses = "col-sm-7";
+					if ( is_int(stripos($field->style, 'large-field')) ) {
+						$widthcasses = "col-sm-7";
+					} else if ( is_int(stripos($field->style, 'medium-field')) || is_int(stripos($field->style, 'date')) ) {
+						$widthcasses = "col-sm-6";
+					} else if ( is_int(stripos($field->style, 'small-field')) || is_int(stripos($field->style, 'btn_switch')) ) {
+						$widthcasses = "col-sm-3";
+					} else if ( is_int(stripos($field->style, 'tiny-field')) ) {
+						$widthcasses = "col-sm-2";
+					}
+					$widthcasses .= " col-xs-12";
+				?>
+			<div class="form-group <?php if (!empty($error[$name])) { echo "has-error"; } ?>">
+				<label class="control-label col-md-6" for="<?php echo $field->element_id; ?>"><?php echo $entry; ?></label>
+				<div class="input-group input-group-sm afield <?php echo $widthcasses; ?> <?php echo ($name == 'description' ? 'ml_ckeditor' : '')?>">
+					<?php echo $field;?>
+				</div>
+			    <?php if (!empty($error[$name])) { ?>
+			    <span class="help-block field_err"><?php echo $error[$name]; ?></span>
+			    <?php } ?>
+			</div>
+		<?php } ?>
+	</div>
+	<div class="panel-footer">
+		<div class="center">
+			 <button id="update_option" class="btn btn-primary">
+			 <i class="fa fa-save"></i> <?php echo $button_save->text; ?>
+			 </button>
+			 &nbsp;
+			 <a id="reset_option" class="btn btn-default" href="<?php echo $button_reset->href; ?>">
+			     <i class="fa fa-refresh"></i> <?php echo $button_reset->text; ?>
+			 </a>
+		</div>
+	</div>
+</div>
+</div>
+
 <?php echo $update_option_values_form['open']; ?>
-<table id="option_values_tbl" class="list option ">
-    <tr>
-		<?php if($with_default){?>
-        <td class="left"><?php echo $text_default; ?>&nbsp;&nbsp;<span class="default_uncheck">[x]</span></td>
-		<?php }?>
-        <td class="left"><?php echo $entry_option_value; ?></td>
-        <td class="left"><?php echo $entry_option_quantity; ?></td>
-        <td class="left"><?php echo $entry_track_option_stock; ?></td>
-        <td class="left"><?php echo $entry_option_price; ?></td>
-        <td class="left"><?php echo $entry_option_prefix; ?></td>
-        <td class="left"><?php echo $entry_sort_order; ?></td>
-        <td class="left"></td>
-<?php if ($selectable){?>
-        <td class="left"><?php echo $column_action; ?></td>
-<?php }?>
-    </tr>
-    <?php foreach ($option_values as $item) { ?>
-        <?php echo $item['row']; ?>
-    <?php } ?>
+<div class="col-md-8"> 
+<div class="panel panel-default">
+	<div class="panel-heading">
+		<h3 class="panel-title"><?php echo $text_option_values; ?></h3>
+	</div>
+	<div class="panel-body panel-body-nopadding">
+		<table id="option_values_tbl" class="table table_narrow">
+			<thead>
+				<tr>
+					<?php if($with_default){?>
+					<th class="left">
+						<span title="click to uncheck default value" class="uncheck">
+							<?php echo $text_default; ?>
+						</span>
+					</th>
+					<?php }?>
+					<th class="left"><?php echo $entry_option_value; ?></th>
+					<th class="left"><?php echo $entry_option_quantity; ?></th>
+					<th class="left"><?php echo $entry_track_option_stock; ?></th>
+					<th class="left"><?php echo $entry_option_price; ?></th>
+					<th class="left"><?php echo $entry_option_prefix; ?></th>
+					<th class="left"><?php echo $entry_sort_order; ?></th>
+					<th class="left"></th>
+					<?php if ($selectable){?>
+						<th class="left"></th>
+					<?php }?>
+				</tr>
+			</thead>
+		    <?php foreach ($option_values as $item) { ?>
+		        <?php echo $item['row']; ?>
+		    <?php } ?>
 
-</table>
-<div style="margin-top: 13px;" align="center" style="width: 80%; float:right;">
-	<button type="submit" class="btn_standard"><?php echo $button_save; ?></button>
-	<a href="#" id="reset_option" class="btn_standard"><?php echo $button_reset; ?></a>
-<?php if (in_array($option_data['element_type'], $elements_with_options)) { ?>
-	<a href="#" id="add_option_value" class="flt_right add"></a>
-<?php } ?>
+		</table>
+	</div>
+	<div class="panel-footer">
+		<div class="center">
+			<?php if (in_array($option_data['element_type'], $elements_with_options)) { ?>
+			<a href="#" title="<?php echo $button_add?>" id="add_option_value" class="btn btn-success"><i class="fa fa-plus-circle fa-lg"></i></a>&nbsp;&nbsp;
+			<?php } ?>
+			<button type="submit" class="btn btn-primary">
+			    <i class="fa fa-save"></i> <?php echo $button_save->text; ?>
+			</button>
+			&nbsp;
+			<a id="reset_option" class="btn btn-default" href="<?php echo $button_reset->href; ?>">
+			    <i class="fa fa-refresh"></i> <?php echo $button_reset->text; ?>
+			</a>
+		</div>
+	</div>
+</div>
 </div>
 </form>
+
 
 <table style="display:none;" id="new_row_table">
 	<?php echo $new_option_row ?>
 </table>
+
+
+</div>

@@ -17,6 +17,10 @@
    versions in the future. If you wish to customize AbanteCart for your
    needs please refer to http://www.AbanteCart.com for more information.  
 ------------------------------------------------------------------------------*/
+// set default encoding for multibyte php mod
+mb_internal_encoding('UTF-8');
+ini_set('default_charset', 'utf-8');
+
 // AbanteCart Version
 include('version.php');
 define('VERSION', MASTER_VERSION . '.' . MINOR_VERSION . '.' . VERSION_BUILT);
@@ -184,6 +188,7 @@ try {
 	require_once(DIR_CORE . 'engine/page.php');
 	require_once(DIR_CORE . 'engine/response.php');
 	require_once(DIR_CORE . 'engine/api.php');
+	require_once(DIR_CORE . 'engine/task.php');
 	require_once(DIR_CORE . 'engine/dispatcher.php');
 	require_once(DIR_CORE . 'engine/controller.php');
 	require_once(DIR_CORE . 'engine/controller_api.php');
@@ -240,6 +245,7 @@ try {
 	require_once(DIR_CORE . 'lib/rest.php');
 	require_once(DIR_CORE . 'lib/filter.php');
 	require_once(DIR_CORE . 'lib/listing.php');
+	require_once(DIR_CORE . 'lib/task_manager.php');
 
 //Admin manager classes
 	if (IS_ADMIN) {
@@ -289,6 +295,9 @@ try {
 	$config = new AConfig($registry);
 	$registry->set('config', $config);
 
+// Session
+	$registry->set('session', new ASession(SESSION_ID) );
+
 // Set up HTTP and HTTPS based automatic and based on config
 	if (IS_ADMIN) {
 		define('HTTP_DIR_NAME', rtrim(dirname($_SERVER[ 'PHP_SELF' ]), '/.\\') );
@@ -312,7 +321,13 @@ try {
 	
 		//Admin specific loads
 		$registry->set('extension_manager', new AExtensionManager());
-		
+
+		//Now we have session, reload config for store if provided or set in session 
+	    $session = $registry->get('session');
+	    if (has_value($request->get['store_id']) || has_value($session->data['current_store_id']) ) {
+			$config = new AConfig($registry);
+			$registry->set('config', $config);
+	    }
 	} else {
 		// Storefront HTTP
 		define('HTTP_SERVER', $config->get('config_url'));
@@ -348,10 +363,6 @@ try {
 // Log
 	$registry->set('log', new ALog(DIR_LOGS . $config->get('config_error_filename')) );
 
-// Session
-	$registry->set('session', new ASession(SESSION_ID) );
-
-
 // Document
 	$registry->set('document', new ADocument());
 
@@ -371,7 +382,14 @@ try {
 
 // Extensions api
 	$extensions = new ExtensionsApi();
-	$extensions->loadEnabledExtensions();
+	if (IS_ADMIN) {
+		//for admin we load all available(installed) extensions. 
+		//This is a solution to make controllers and hooks available for extensions that are in the status off. 
+		$extensions->loadAvailableExtensions();
+	} else {
+		$extensions->loadEnabledExtensions();
+	
+	}
 	$registry->set('extensions', $extensions);
 
 //validate template
@@ -380,8 +398,8 @@ try {
 	unset($extensions);
 
 //check if we specify template directly
-	if (!IS_ADMIN && !empty($request->get[ 'sf' ])) {
-		$template = preg_replace('/[^A-Za-z0-9_]+/', '', $request->get[ 'sf' ]);
+	if (!IS_ADMIN && !empty($request->get['sf'])) {
+		$template = preg_replace('/[^A-Za-z0-9_]+/', '', $request->get['sf']);
 		$dir = $template . DIR_EXT_STORE . DIR_EXT_TEMPLATE . $template;
 		if (in_array($template, $enabled_extensions) && is_dir(DIR_EXT . $dir)) {
 			$is_valid = true;

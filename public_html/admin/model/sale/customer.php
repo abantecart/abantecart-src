@@ -50,33 +50,40 @@ class ModelSaleCustomer extends Model {
       	                    .$key_sql . ",
       	                    date_added = NOW()");
       	
-      	$customer_id = $this->db->getLastId();
-      	
-      	if (isset($data['addresses'])) {		
-      		foreach ($data['addresses'] as $address) {
-      			//encrypt address data
-				$key_sql = '';
-				if ( $this->dcrypt->active ) {
-					$address = $this->dcrypt->encrypt_data($address, 'addresses');
-					$key_sql = ", key_id = '" . (int)$address['key_id'] . "'";
-				}
-      			$this->db->query("INSERT INTO " . $this->db->table("addresses") . "
-      			                  SET customer_id = '" . (int)$customer_id . "',
-      			                        firstname = '" . $this->db->escape($address['firstname']) . "',
-      			                        lastname = '" . $this->db->escape($address['lastname']) . "',
-      			                        company = '" . $this->db->escape($address['company']) . "',
-      			                        address_1 = '" . $this->db->escape($address['address_1']) . "',
-      			                        address_2 = '" . $this->db->escape($address['address_2']) . "',
-      			                        city = '" . $this->db->escape($address['city']) . "',
-      			                        postcode = '" . $this->db->escape($address['postcode']) . "',
-      			                        country_id = '" . (int)$address['country_id'] . "'"
-      			                        .$key_sql . ", 
-      			                        zone_id = '" . (int)$address['zone_id'] . "'");
-			}
-		}
-
-		return $customer_id;
+      	return $this->db->getLastId();
 	}
+
+	/**
+	 * @param int $customer_id
+	 * @param array $address
+	 * @return int
+	 */
+	public function addAddress($customer_id, $address=array()){
+		if(!(int)$customer_id || !$address || !is_array($address)){
+			return false;
+		}
+		//encrypt address data
+		$key_sql = '';
+		if ( $this->dcrypt->active ) {
+			$address = $this->dcrypt->encrypt_data($address, 'addresses');
+			$key_sql = ", key_id = '" . (int)$address['key_id'] . "'";
+		}
+		$this->db->query("INSERT INTO " . $this->db->table("addresses") . "
+						  SET customer_id = '" . (int)$customer_id . "',
+								firstname = '" . $this->db->escape($address['firstname']) . "',
+								lastname = '" . $this->db->escape($address['lastname']) . "',
+								company = '" . $this->db->escape($address['company']) . "',
+								address_1 = '" . $this->db->escape($address['address_1']) . "',
+								address_2 = '" . $this->db->escape($address['address_2']) . "',
+								city = '" . $this->db->escape($address['city']) . "',
+								postcode = '" . $this->db->escape($address['postcode']) . "',
+								country_id = '" . (int)$address['country_id'] . "'"
+								.$key_sql . ",
+								zone_id = '" . (int)$address['zone_id'] . "'");
+
+		return (int)$this->db->getLastId();
+	}
+
 
 	/**
 	 * @param int $customer_id
@@ -108,31 +115,52 @@ class ModelSaleCustomer extends Model {
         	                  SET password = '" . $this->db->escape(AEncryption::getHash($data['password'])) . "'
         	                  WHERE customer_id = '" . (int)$customer_id . "'");
       	}
-      	
-      	$this->db->query("DELETE FROM " . $this->db->table("addresses") . " WHERE customer_id = '" . (int)$customer_id . "'");
-      	
-      	if (isset($data['addresses'])) {
-      		foreach ($data['addresses'] as $address) {	
-      			//encrypt address data
-				$key_sql = '';
-				if ( $this->dcrypt->active ) {
-					$address = $this->dcrypt->encrypt_data($address, 'addresses');
-					$key_sql = ", key_id = '" . (int)$address['key_id'] . "'";
-				}
-				$this->db->query("INSERT INTO " . $this->db->table("addresses"). "
-								  SET customer_id = '" . (int)$customer_id . "',
-								        firstname = '" . $this->db->escape($address['firstname']) . "',
-								        lastname = '" . $this->db->escape($address['lastname']) . "',
-								        company = '" . $this->db->escape($address['company']) . "',
-								        address_1 = '" . $this->db->escape($address['address_1']) . "',
-								        address_2 = '" . $this->db->escape($address['address_2']) . "',
-								        city = '" . $this->db->escape($address['city']) . "',
-								        postcode = '" . $this->db->escape($address['postcode']) . "',
-								        country_id = '" . (int)$address['country_id'] . "'"
-								        .$key_sql . ",
-								        zone_id = '" . (int)$address['zone_id'] . "'");
-			}
+
+	}
+
+	/**
+	 * @param int $customer_id
+	 * @param int $address_id
+	 * @param array $address
+	 */
+	public function editAddress($customer_id, $address_id, $address){
+
+		if(!(int)$customer_id || !(int)$address_id || !$address || !is_array($address)){
+			return false;
 		}
+
+		$this->deleteAddress($customer_id, $address_id);
+		//encrypt address data
+		$key_sql = '';
+		if ( $this->dcrypt->active ) {
+			$address = $this->dcrypt->encrypt_data($address, 'addresses');
+			$key_sql = ", key_id = '" . (int)$address['key_id'] . "'";
+		}
+		$this->db->query("INSERT INTO " . $this->db->table("addresses"). "
+						  SET   address_id = '" . (int)$address_id . "',
+						  		customer_id = '" . (int)$customer_id . "',
+								firstname = '" . $this->db->escape($address['firstname']) . "',
+								lastname = '" . $this->db->escape($address['lastname']) . "',
+								company = '" . $this->db->escape($address['company']) . "',
+								address_1 = '" . $this->db->escape($address['address_1']) . "',
+								address_2 = '" . $this->db->escape($address['address_2']) . "',
+								city = '" . $this->db->escape($address['city']) . "',
+								postcode = '" . $this->db->escape($address['postcode']) . "',
+								country_id = '" . (int)$address['country_id'] . "'"
+								.$key_sql . ",
+								zone_id = '" . (int)$address['zone_id'] . "'");
+	}
+
+	/**
+	 * @param int $customer_id
+	 * @param int $address_id
+	 */
+	public function deleteAddress($customer_id, $address_id){
+		if(!(int)$customer_id || !(int)$address_id ){
+			return false;
+		}
+
+		$this->db->query("DELETE FROM " . $this->db->table("addresses") . " WHERE customer_id = '" . (int)$customer_id . "' AND address_id = '".(int)$address_id."'");
 	}
 
 	/**
@@ -165,11 +193,44 @@ class ModelSaleCustomer extends Model {
 
 	/**
 	 * @param int $customer_id
+	 * @param string $default_address_id
+	 */
+	public function setDefaultAddress($customer_id, $default_address_id) {
+      	if ($customer_id && $default_address_id) {
+        	$this->db->query("UPDATE " . $this->db->table("customers") . "
+        	                  SET address_id = '" . (int)$default_address_id . "'
+        	                  WHERE customer_id = '" . (int)$customer_id . "'");
+      	}
+	}
+
+	/**
+	 * @param int $address_id
+	 * @param string $field_name
+	 * @param mixed $value
+	 */
+	public function editAddressField($address_id, $field_name, $value) {
+
+		$data = array('firstname', 'lastname', 'company', 'address_1', 'address_2', 'city', 'postcode', 'country_id', 'zone_id' );
+		if ( in_array($field_name, $data) )
+			if ( $this->dcrypt->active && in_array($field_name, $this->dcrypt->getEcryptedFields("addresses")) ) {
+				//check key_id to use
+				$query_key = $this->db->query( "SELECT key_id
+												FROM " . $this->db->table("addresses") . "
+							  					WHERE customer_id = '" . (int)$address_id . "'");
+				$key_id = $query_key->rows[0]['key_id'];
+				$value = $this->dcrypt->encrypt_field($value, $key_id);
+			}
+			$this->db->query("UPDATE " . $this->db->table("addresses") . "
+							  SET ".$field_name." = '" . $this->db->escape($value) . "'
+							  WHERE address_id = '" . (int)$address_id . "'");
+	}
+
+	/**
+	 * @param int $customer_id
 	 * @return array
 	 */
 	public function getAddressesByCustomerId($customer_id) {
 		$address_data = array();
-		
 		$query = $this->db->query("SELECT *
 									FROM " . $this->db->table("addresses") . "
 									WHERE customer_id = '" . (int)$customer_id . "'");
@@ -202,7 +263,7 @@ class ModelSaleCustomer extends Model {
 				$code = '';
 			}		
 		
-			$address_data[] = array(
+			$address_data[$result['address_id']] = array(
 				'address_id'     => $result['address_id'],
 				'firstname'      => $result['firstname'],
 				'lastname'       => $result['lastname'],
@@ -300,6 +361,10 @@ class ModelSaleCustomer extends Model {
 		if (has_value($filter['name'])) {
 			$implode[] = "CONCAT(c.firstname, ' ', c.lastname) LIKE '%" . $this->db->escape($filter['name']) . "%' collate utf8_general_ci";
 		}
+
+		if (has_value($filter['name_email'])) {
+			$implode[] = "CONCAT(c.firstname, ' ', c.lastname, ' ', c.email) LIKE '%" . $this->db->escape($filter['name_email']) . "%' collate utf8_general_ci";
+		}
 	    //more specific login, last and first name search
 		if (has_value($filter['loginname'])) {
 			$implode[] = "LOWER(c.loginname) = LOWER('" .$this->db->escape($filter['loginname']) . "') collate utf8_general_ci";
@@ -345,6 +410,9 @@ class ModelSaleCustomer extends Model {
 		if (has_value($filter['date_added'])) {
 			$implode[] = "DATE(c.date_added) = DATE('" . $this->db->escape($filter['date_added']) . "')";
 		}
+		if( has_value($this->session->data['current_store_id']) ) {
+			$implode[] =  "c.store_id = " . (int)$this->session->data['current_store_id'];
+		}
 		
 		if ($implode) {
 			$sql .= " WHERE " . implode(" AND ", $implode);
@@ -357,39 +425,27 @@ class ModelSaleCustomer extends Model {
 		}
 					
 		$sort_data = array(
-			'name',
-			'c.loginname',
-			'c.lastname',
-			'c.email',
-			'customer_group',
-			'c.status',
-			'c.approved',
-			'c.date_added',
-			'orders_count'
+				'name'              => 'name',
+				'loginname'         => 'c.loginname',
+				'lastname'          => 'c.lastname',
+				'email'             => 'c.email',
+				'customer_group'    => 'customer_group',
+				'status'            => 'c.status',
+				'approved'          => 'c.approved',
+				'date_added'        => 'c.date_added',
+				'orders_count'      => 'orders_count'
 		);	
 
 		if ( $mode != 'total_only'){
-			$sql .= " GROUP BY c.customer_id,
-						  	c.firstname,
-			  				c.lastname,
-			  				c.loginname,
-			  				c.email,
-			  				c.status,
-			  				c.approved,
-			  				c.customer_group_id,
-							CONCAT(c.firstname, ' ', c.lastname),
-							cg.name ";
+			$sql .= " GROUP BY c.customer_id ";
 		}
 
 		//Total culculation for encrypted mode 
 		// NOTE: Performance slowdown might be noticed or larger search results	
 		if ( $mode != 'total_only' ) {
-			if (isset($data['sort']) && in_array($data['sort'], $sort_data)) {
-				$sql .= " ORDER BY " . $data['sort'];	
-			} else {
-				$sql .= " ORDER BY name";	
-			}
-				
+
+			$sql .= " ORDER BY ".($sort_data[ $data['sort'] ] ? $sort_data[ $data['sort'] ] : 'name');
+
 			if (isset($data['order']) && (strtoupper($data['order']) == 'DESC')) {
 				$sql .= " DESC";
 			} else {
@@ -467,11 +523,19 @@ class ModelSaleCustomer extends Model {
 						  SET approved = '1'
 						        WHERE customer_id = '" . (int)$customer_id . "'");
 	}
-	
+
+	/**
+	 * @return array
+	 */
 	public function getCustomersByNewsletter() {
+		$store_based = '';
+		if( has_value($this->session->data['current_store_id']) ) {
+			$store_based = " AND store_id = " . (int)$this->session->data['current_store_id'];
+		}
+
 		$query = $this->db->query("SELECT *
 									FROM " . $this->db->table("customers") . "
-									WHERE newsletter = '1'
+									WHERE newsletter = '1' " . $store_based . "
 									ORDER BY firstname, lastname, email");
 	
 		$result_rows = array();
@@ -486,11 +550,16 @@ class ModelSaleCustomer extends Model {
 	 * @return array
 	 */
 	public function getCustomersByKeyword($keyword) {
+		$store_based = '';
+		if( has_value($this->session->data['current_store_id']) ) {
+			$store_based = " AND store_id = " . (int)$this->session->data['current_store_id'];
+		}
+
 		if ($keyword) {
 			$query = $this->db->query("SELECT *
 									   FROM " . $this->db->table("customers") . "
 									   WHERE LCASE(CONCAT(firstname, ' ', lastname)) LIKE '%" . $this->db->escape(strtolower($keyword)) . "%'
-									        OR LCASE(email) LIKE '%" . $this->db->escape(strtolower($keyword)) . "%'
+									        OR LCASE(email) LIKE '%" . $this->db->escape(strtolower($keyword)) . "%' " . $store_based . "
 									   ORDER BY firstname, lastname, email");
 	
 			$result_rows = array();
@@ -507,6 +576,11 @@ class ModelSaleCustomer extends Model {
 	 * @return array
 	 */
 	public function getCustomersByEmails($emails) {
+		$store_based = '';
+		if( has_value($this->session->data['current_store_id']) ) {
+			$store_based = " and store_id = " . (int)$this->session->data['current_store_id'];
+		}
+
 		$emails = (array)$emails;
 		if ($emails) {
 			$sql = "SELECT *
@@ -515,7 +589,7 @@ class ModelSaleCustomer extends Model {
 			foreach($emails as $email){
 				$where[] = "LCASE(email) LIKE '%" . $this->db->escape(strtolower($email)) . "%'";
 			}
-			$sql .= implode(' OR ', $where);
+			$sql .= implode(' OR ', $where) . $store_based;
 			$sql .= "ORDER BY firstname, lastname, email";
 
 			$query = $this->db->query($sql);
@@ -589,7 +663,10 @@ class ModelSaleCustomer extends Model {
       		return true;
       	}                           
 	}
-		
+
+	/**
+	 * @return int
+	 */
 	public function getTotalCustomersAwaitingApproval() {
       	$query = $this->db->query("SELECT COUNT(*) AS total
       	                           FROM " . $this->db->table("customers") . "
@@ -600,7 +677,7 @@ class ModelSaleCustomer extends Model {
 
 	/**
 	 * @param int $customer_id
-	 * @return mixed
+	 * @return int
 	 */
 	public function getTotalAddressesByCustomerId($customer_id) {
       	$query = $this->db->query("SELECT COUNT(*) AS total
@@ -646,24 +723,44 @@ class ModelSaleCustomer extends Model {
 		return (int)$query->row['total'];
 	}
 
+	/**
+	 * @param array $data
+	 * @param string $mode
+	 * @return array|int
+	 */
 	public function getAllSubscribers($data=array(), $mode = 'default'){
 		$data['filter']['all_subscribers'] = 1;
 		return $this->getCustomers($data, $mode);
 	}
 
+	/**
+	 * @param array $data
+	 * @param string $mode
+	 * @return array|int
+	 */
 	public function getOnlyNewsletterSubscribers($data=array(), $mode = 'default'){
 		$data['filter']['customer_group_id'] = $this->getSubscribersCustomerGroupId();
 		return $this->getCustomers($data, $mode);
 	}
 
+	/**
+	 * @param array $data
+	 * @param string $mode
+	 * @return array|int
+	 */
 	public function getOnlyCustomers($data=array(), $mode = 'default'){
 		$data['filter']['only_customers'] = 1;
 		return $this->getCustomers($data, $mode);
 	}
 
-
+	/**
+	 * @return int
+	 */
 	public function getSubscribersCustomerGroupId() {
-		$query = $this->db->query("SELECT customer_group_id	FROM `" . $this->db->table("customer_groups") . "` WHERE `name` = 'Newsletter Subscribers' LIMIT 0,1");
+		$query = $this->db->query("SELECT customer_group_id
+									FROM `" . $this->db->table("customer_groups") . "`
+									WHERE `name` = 'Newsletter Subscribers'
+									LIMIT 0,1");
 		$result = !$query->row['customer_group_id'] ? (int)$this->config->get('config_customer_group_id') :  $query->row['customer_group_id'];
 		return $result;
 	}

@@ -1,3 +1,5 @@
-<div id="content">
-	<?php echo $welcome; ?>
-</div>
+<section class="contentpanel">
+	<div class="welcome_msg">
+		<?php echo $welcome; ?>
+	</div>
+</section>

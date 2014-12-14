@@ -1,23 +1,13 @@
-<?php if ( $block_framed ) { ?>
-<div class="c_block">
-	<div class="block_tl">
-		<div class="block_tr">
-			<div class="block_tc"><?php echo $heading_title; ?></div>
+<section class="row mt40">
+	<div class="container-fluid">
+		<?php if ( $block_framed ) { ?>
+		<div class="block_frame block_frame_<?php echo $block_details['block_txt_id']; ?>"
+			 id="block_frame_<?php echo $block_details['block_txt_id'] . '_' . $block_details['instance_id'] ?>">
+			<h2><?php echo $heading_title; ?></h2>
+			<?php }
+			echo $content; ?>
+		<?php if ( $block_framed ) { ?>
 		</div>
+	<?php } ?>
 	</div>
-    <div class="block_cl">
-    	<div class="block_cr">
-        	<div class="block_cc">
-<?php } ?>
-<?php echo  $content; ?>
-<?php if ( $block_framed ) { ?>
-            </div>
-        </div>
-    </div>
-	<div class="block_bl">
-		<div class="block_br">
-			<div class="block_bc">&nbsp;</div>
-		</div>
-	</div>
-</div>
-<?php } ?>
+</section>

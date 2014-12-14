@@ -1,27 +1,28 @@
-<?php if ($error_warning) { ?>
-<div class="warning alert alert-error"><?php echo $error_warning; ?></div>
-<?php } ?>
-<?php if ($success) { ?>
-<div class="success alert alert-success"><?php echo $success; ?></div>
-<?php } ?>
+<?php include($tpl_common_dir . 'action_confirm.tpl'); ?>
 
-<div class="contentBox">
-  <div class="cbox_tl"><div class="cbox_tr"><div class="cbox_tc">
-    <div class="heading icon_title_report"><?php echo $heading_title; ?></div>
-  </div></div></div>
-  <div class="cbox_cl"><div class="cbox_cr"><div class="cbox_cc">
-	<div style="width: 600px; margin: auto; text-align: right;">
-	<?php echo $select_range;?>
+<div id="content" class="panel panel-default">
+
+	<div class="panel-heading col-xs-12">
+		<div class="primary_content_actions pull-left">
+			<div class="btn-group mr10 toolbar">
+				<?php echo $select_range;?>
+			</div>
+		</div>
+		<?php include($tpl_common_dir . 'content_buttons.tpl'); ?>	
 	</div>
-    <div id="report" style="width: 600px; height: 380px; margin: auto;"></div>
-  </div></div></div>
-  <div class="cbox_bl"><div class="cbox_br"><div class="cbox_bc"></div></div></div>
+
+	<div class="panel-body panel-body-nopadding tab-content col-xs-12">
+		<div id="report" style="width: 700px; height: 480px; margin: auto;"></div>
+	</div>
+
 </div>
+
+<?php include($tpl_common_dir . 'action_confirm.tpl'); ?>
+
 <!--[if IE]>
 <script type="text/javascript" src="<?php echo RDIR_TEMPLATE; ?>javascript/jquery/flot/excanvas.js"></script>
 <![endif]-->
 <script type="text/javascript" src="<?php echo RDIR_TEMPLATE; ?>javascript/jquery/flot/jquery.flot.js"></script>
-<script type="text/javascript" src="<?php echo RDIR_TEMPLATE; ?>javascript/jquery/flot/jquery.flot.axislabels.js"></script>
 <script type="text/javascript"><!--
 function getSalesChart(range) {
 	$.ajax({
@@ -50,7 +51,7 @@ function getSalesChart(range) {
 			}
 
 			$.plot($('#report'), [json.viewed, json.clicked], option);
-			$('#range').prev().html( $('#range').find(":selected").text());
+
 		}
 	});
 }

@@ -20,7 +20,7 @@
 
 class ControllerPagesLocalisationCountry extends AController {
 	public $data = array();
-	private $error = array();
+	public $error = array();
 	private $fields = array('status', 'iso_code_2', 'iso_code_3', 'address_format');
  
 	public function main() {
@@ -44,7 +44,8 @@ class ControllerPagesLocalisationCountry extends AController {
    		$this->document->addBreadcrumb( array (
        		'href'      => $this->html->getSecureURL('localisation/country'),
        		'text'      => $this->language->get('heading_title'),
-      		'separator' => ' :: '
+      		'separator' => ' :: ',
+			'current'	=> true
    		 ));
 
 		$grid_settings = array(
@@ -79,7 +80,7 @@ class ControllerPagesLocalisationCountry extends AController {
 				'name' => 'name',
 				'index' => 'name',
 				'width' => 250,
-                'align' => 'center',
+                'align' => 'left',
 			),
 			array(
 				'name' => 'iso_code_2',
@@ -99,7 +100,7 @@ class ControllerPagesLocalisationCountry extends AController {
 				'width' => 130,
                 'align' => 'center',
 				'search' => false,
-			),
+			)
 		);
 
 		$grid = $this->dispatch('common/listing_grid', array( $grid_settings ) );
@@ -120,7 +121,7 @@ class ControllerPagesLocalisationCountry extends AController {
         $this->extensions->hk_InitData($this,__FUNCTION__);
 
 		$this->document->setTitle( $this->language->get('heading_title') );
-		if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->_validateForm()) {
+		if ( $this->request->is_POST() && $this->_validateForm()) {
 			$country_id = $this->model_localisation_country->addCountry($this->request->post);
 			$this->session->data['success'] = $this->language->get('text_success');
 			$this->redirect( $this->html->getSecureURL('localisation/country/update', '&country_id=' . $country_id ) );
@@ -142,7 +143,7 @@ class ControllerPagesLocalisationCountry extends AController {
 		}
 
 		$this->document->setTitle( $this->language->get('heading_title') );
-		if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->_validateForm()) {
+		if ( $this->request->is_POST() && $this->_validateForm() ) {
 			$this->model_localisation_country->editCountry($this->request->get['country_id'], $this->request->post);
 			$this->session->data['success'] = $this->language->get('text_success');
 			$this->redirect( $this->html->getSecureURL('localisation/country/update', '&country_id=' . $this->request->get['country_id'] ) );
@@ -170,7 +171,7 @@ class ControllerPagesLocalisationCountry extends AController {
    		 ));
 
 
-		if (isset($this->request->get['country_id']) && ($this->request->server['REQUEST_METHOD'] != 'POST')) {
+		if (isset($this->request->get['country_id']) && $this->request->is_GET() ) {
 			$country_info = $this->model_localisation_country->getCountry($this->request->get['country_id']);
 		}
 
@@ -207,7 +208,8 @@ class ControllerPagesLocalisationCountry extends AController {
 		$this->document->addBreadcrumb( array (
        		'href'      => $this->data['action'],
        		'text'      => $this->data['heading_title'],
-      		'separator' => ' :: '
+      		'separator' => ' :: ',
+			'current'	=> true
    		 ));
 
 		$form->setForm(array(
@@ -220,6 +222,7 @@ class ControllerPagesLocalisationCountry extends AController {
 		    'type' => 'form',
 		    'name' => 'cgFrm',
 		    'action' => $this->data['action'],
+			'attr' => 'data-confirm-exit="true" class="aform form-horizontal"'
 	    ));
         $this->data['form']['submit'] = $form->getFieldHtml(array(
 		    'type' => 'button',
@@ -232,6 +235,13 @@ class ControllerPagesLocalisationCountry extends AController {
 		    'name' => 'cancel',
 		    'text' => $this->language->get('button_cancel'),
 		    'style' => 'button2',
+	    ));
+
+		$this->data['form']['fields']['status'] = $form->getFieldHtml(array(
+		    'type' => 'checkbox',
+		    'name' => 'status',
+		    'value' => $this->data['status'],
+			'style'  => 'btn_switch',
 	    ));
 
 		$this->data['form']['fields']['name'] = $form->getFieldHtml(array(
@@ -256,12 +266,6 @@ class ControllerPagesLocalisationCountry extends AController {
 			'value' => $this->data['address_format'],
 			'style' => 'large-field',
 		));
-		$this->data['form']['fields']['status'] = $form->getFieldHtml(array(
-		    'type' => 'checkbox',
-		    'name' => 'status',
-		    'value' => $this->data['status'],
-			'style'  => 'btn_switch',
-	    ));
 		$this->view->assign('form_language_switch', $this->html->getContentLanguageSwitcher());
 		$this->view->assign('language_id', $this->session->data['content_language_id']);
 		$this->view->assign('help_url', $this->gen_help_url('country_edit') );
@@ -276,10 +280,12 @@ class ControllerPagesLocalisationCountry extends AController {
 		}
 
     	foreach ($this->request->post['country_name'] as $language_id => $value) {
-      		if ((strlen(utf8_decode($value['name'])) < 2) || (strlen(utf8_decode($value['name'])) > 128)) {
-        		$this->error['warning'] = $this->language->get('error_name');
+      		if ( mb_strlen($value['name']) < 2 || mb_strlen($value['name']) > 128 ) {
+        		$this->error['name'] = $this->language->get('error_name');
       		}
     	}
+
+		$this->extensions->hk_ValidateData($this);
     	
 		if (!$this->error) {
 			return TRUE;
@@ -327,12 +333,14 @@ class ControllerPagesLocalisationCountry extends AController {
 				$this->error['warning'] = sprintf($this->language->get('error_zone_to_location'), $zone_to_location_total);
 			}
 		}
-	
+		$this->extensions->hk_ValidateData($this);
+
 		if (!$this->error) {
 			return TRUE;
 		} else {
 			return FALSE;
 		}
+
+
 	}
 }
-?>

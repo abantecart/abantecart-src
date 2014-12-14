@@ -44,25 +44,25 @@ class AListingManager extends AListing {
 		}
 
 		$result = $this->db->query("SELECT *
-									FROM  " . DB_PREFIX . "custom_lists
+									FROM  " . $this->db->table("custom_lists") . " 
 									WHERE custom_block_id = '".$custom_block_id."'
 											AND id='".$data['id']."'
 											AND data_type='".$data['data_type']."'");
 
 		if($result->num_rows && $custom_block_id){
-			$this->db->query(  "UPDATE " . DB_PREFIX . "custom_lists
+			$this->db->query(  "UPDATE " . $this->db->table("custom_lists") . " 
 								SET custom_block_id = '".$custom_block_id."'
 								".( !is_null($data['sort_order']) ? ", sort_order = '".(int)$data['sort_order']."'" : "")."
 								WHERE custom_block_id = '".$custom_block_id."'
 									  AND id='".$data['id']."'
 										AND data_type='".$data['data_type']."'");
 		}else{
-			$this->db->query("INSERT INTO " . DB_PREFIX . "custom_lists
+			$this->db->query("INSERT INTO " . $this->db->table("custom_lists") . " 
 								( custom_block_id,
 								  data_type,
 								  id,
 								  sort_order,
-								  created )
+								  date_added )
 							  VALUES ('".$custom_block_id."',
 							          '".$data['data_type']."',
 							          '".(int)$data['id']."',
@@ -80,7 +80,7 @@ class AListingManager extends AListing {
 			$data['data_type'] = $listing_properties[$data['listing_datasource']]['data_type'];
 		}
 
-		$sql = "DELETE FROM  " . DB_PREFIX . "custom_lists
+		$sql = "DELETE FROM  " . $this->db->table("custom_lists") . " 
 									WHERE custom_block_id = '".(int)$this->custom_block_id."'
 											AND id='".$data['id']."'
 											AND data_type='".$data['data_type']."'";
@@ -89,7 +89,7 @@ class AListingManager extends AListing {
 
 	// delete all custom list of custom listing block
 	public function deleteCustomListing() {
-		$sql = "DELETE FROM  " . DB_PREFIX . "custom_lists WHERE custom_block_id = '".(int)$this->custom_block_id."'";
+		$sql = "DELETE FROM  " . $this->db->table("custom_lists") . " WHERE custom_block_id = '".(int)$this->custom_block_id."'";
 		$this->db->query( $sql );
 	}
 }

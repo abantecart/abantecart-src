@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<definitions>
+	<definition>
+		<key>default_subject</key>
+		<value><![CDATA[No subject]]></value>
+	</definition>
+	<definition>
+		<key>text_default_email_title</key>
+		<value><![CDATA[Form has been submited]]></value>
+	</definition>
+	<definition>
+		<key>text_error_message</key>
+		<value><![CDATA[There were some errors in the process.]]></value>
+	</definition>
+	<definition>
+		<key>text_success_message</key>
+		<value><![CDATA[Form was submited successfully!]]></value>
+	</definition>
+	<definition>
+		<key>error_required</key>
+		<value><![CDATA[This field is required!]]></value>
+	</definition>
+</definitions>

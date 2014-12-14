@@ -1,465 +1,521 @@
 <?php if ($error) { ?>
-<div class="warning alert alert-error"><?php echo $error; ?></div>
+	<div class="alert alert-error alert-danger">
+		<button type="button" class="close" data-dismiss="alert">&times;</button>
+		<strong><?php echo is_array($error) ? implode('<br>', $error) : $error; ?></strong>
+	</div>
 <?php } ?>
 
-<div id="content">
-<div class="product_info">
-
-<div class="content_block">
-	<div class="top">
-		<div class="left"></div>
-		<div class="right"></div>
-		<div class="center"></div>
-	</div>
-	<div class="middle">
-		<div class="product_options">
-			<div class="top">
-				<div class="left"></div>
-				<div class="right"></div>
-				<div class="center"></div>
-			</div>
-			<div class="middle">
-				<div class="price-wrapper">
-					<?php if ($display_price) { ?>
-					<?php if (!$special) { ?>
-						<span class="price"><?php echo $price; ?></span>
-						<?php } else { ?>
-						<span class="old_price"><?php echo $price; ?></span>
-						<span class="special_price"><?php echo $special; ?></span>
-						<?php }
-					}?>
-
-					<?php echo $this->getHookVar('extended_product_options'); ?>
-
-				</div>
-				<div class="flt_right">
-				<?php if (!$product_info['call_to_order']){ ?>
-					<a class="btn_standard" href="javascript:window.print();"><span
-							class="button2"><span><img src="<?php echo $this->templateResource('/image/icon_print.png'); ?>"
-													   alt="print" /><?php echo $button_print; ?></span></span></a>
-
-				<?php }else{?>
-					<a href="#" class="btn_standard call_to_order"><span class="button2"><span><?php echo $text_call_to_order; ?></span></span></a>
-				<?php }?>
-				</div>
-				<br class="clr_both"/>
-				<div class="separator"></div>
-				<?php if ($display_price) { ?>
-					<?php echo $form['form_open'];
-
-				  if ($options) { ?>
-					<table style="width: 100%;">
-						<?php foreach ($options as $option) { ?>
-						<tr>
-							<td>
-								<div class="option_title"><?php echo $option[ 'name' ]; ?>:</div>
-								<?php echo $option[ 'html' ]; ?>
-							</td>
-						</tr>
-						<tr>
-							<td>
-								<div class="separator"></div>
-							</td>
-						</tr>
-						<?php } ?>
-					</table>
-					<?php } ?>
-
-					<?php if ($display_price) { ?>
-					<?php if ($discounts) { ?>
-						<b><?php echo $text_discount; ?></b><br/>
-						<table style="width: 100%;">
-							<tr>
-								<td style="text-align: right;"><b><?php echo $text_order_quantity; ?></b></td>
-								<td style="text-align: right;"><b><?php echo $text_price_per_item; ?></b></td>
-							</tr>
-							<?php foreach ($discounts as $discount) { ?>
-							<tr>
-								<td style="text-align: right;"><?php echo $discount[ 'quantity' ]; ?></td>
-								<td style="text-align: right;"><?php echo $discount[ 'price' ]; ?></td>
-							</tr>
-							<?php } ?>
-						</table>
-						<div class="separator"></div>
-						<?php } ?>
-					<?php } ?>
-
-					<table cellspacing="0" cellpadding="0" width="100%">
-						<?php if($form['minimum']){ ?>
-						<tr><td><span style="float: left; margin-top: 3px;"><?php echo $text_qty;?></span><?php echo $form['minimum']; ?></td>
-							<td align="right"><?php echo $form['add_to_cart'];?></td>
-						</tr>
-						<?php  if ($minimum > 1) { ?>
-						<tr>
-							<td colspan="2">
-								<small><?php echo $text_minimum; ?></small>
-							</td>
-						</tr>
-						<?php } ?>
-						<?php if ($maximum > 0) { ?>
-						<tr>
-							<td colspan="2">
-								<small><?php echo $text_maximum; ?></small>
-							</td>
-						</tr><?php }
-						} ?>
-						<?php echo $this->getHookVar('buttons'); ?>
-					</table>
-
-					<div>
-						<?php echo $form['product_id'].$form['redirect']; ?>
-					</div>
-				</form>
-				<?php } ?>
-
-			</div>
-			<div class="bottom">
-				<div class="left"></div>
-				<div class="right"></div>
-				<div class="center"></div>
-			</div>
-		</div>
-		<div class="middle_content">
-			<h1 class="product_title"><?php echo $heading_title; ?></h1>
-
-			<div class="product_images">
-				<div class="main_image">
-					<?php if($image_main['origin']=='internal'){ ?>
-						  <a href="<?php echo $image_main[ 'main_url' ]; ?>" title="<?php echo $image_main[ 'title' ]; ?>" class="thickbox" rel="gallery">
-					<?php }
-						echo $image_main[ 'thumb_html'];
-						if($image_main['origin']=='internal'){ ?>
-						</a>
-					<?php }?>
-					
-				</div>
-			<?php if ($images) { ?>
-				<div class="additional_images">
-			<?php	if (sizeof($images) > 1) {
+<div id="product_details">
+		<!-- Product Details-->
+		<div class="row">
+			<!-- Left Image-->
+			<div class="col-md-6">
+				<ul class="thumbnails mainimage bigimage">
+					<?php if (sizeof($images) > 0) {
 						foreach ($images as $image) {
 							?>
-							<div>
-								<?php if($image['origin']=='internal'){ ?>
-								<a href="<?php echo $image[ 'main_url' ]; ?>" title="<?php echo $image[ 'title' ]; ?>" class="thickbox" rel="gallery">
-								<?php }
-								echo $image[ 'thumb_html'];
-								if($image['origin']=='internal'){ ?>
-								</a>
-								<?php }?>
-							</div>
-							<?php }
+							<li>
+								<?php
+								$im_width = $image_main['sizes']['thumb']['width'];
+								$im_height = $image_main['sizes']['thumb']['height'];
+								if (!has_value($im_width)) {
+									$im_width = 380;
+								}
+								if (!has_value($im_height)) {
+									$im_height = 380;
+								}
+								//NOTE: ZOOM is not supported for embeded image tags
+								if ($image['origin'] == 'external') {
+								?>
+									<a class="thumbnail">
+									<?php echo $image['main_html'];	?>								
+									</a>
+								<?php
+								} else {
+									$image_url = $image['main_url'];?>
+									<a rel="position: 'inside', showTitle: false, adjustX:-4, adjustY:-4"
+									   class="thumbnail cloud-zoom"
+									   href="<?php echo $image['main_url']; ?>"
+									   title="<?php echo $image['title']; ?>"
+									   style="height:1%; width: 1%;">
+										<img src="<?php echo $image_url; ?>" alt="<?php echo $image['title']; ?>"
+											 title="<?php echo $image['title']; ?>"
+											 style="max-height:<?php echo $im_height ?>px; max-width: <?php echo $im_width ?>px;">
+									</a>
+								<?php } ?>
+							</li>
+						<?php
+						}
 					} ?>
-				</div>
+				</ul>
+				<?php if ($image_main) { ?>
+					<span><?php echo $text_zoom; ?></span>
 				<?php } ?>
-				<br class="clr_both"/>
-				<?php if($image_main){ ?>
-				<div class="enlarge"><span><?php echo $text_enlarge; ?></span></div>
-				<?php } ?>
-			</div>
-			<div class="product_overview">
-				<table cellpadding="3">
-					<?php if($stock){ ?>
-					<tr>
-						<td><b><?php echo $text_availability; ?></b></td>
-						<td><?php echo $stock; ?></td>
-					</tr>
-					<?php } ?>
-					<?php if($model){ ?>
-					<tr>
-						<td><b><?php echo $text_model; ?></b></td>
-						<td><?php echo $model; ?></td>
-					</tr>
-					<?php } ?>
-					<?php if ($manufacturer) { ?>
-					<tr>
-						<td><b><?php echo $text_manufacturer; ?></b></td>
-						<td>
-							<a href="<?php echo $manufacturers; ?>">
-		                    <?php if ( $manufacturer_icon ) { ?>  
-		                    <img src="<?php echo $manufacturer_icon; ?>" title="<?php echo $manufacturer; ?>" border="0"/>
-	    	                <?php } else { echo $manufacturer; }  ?> 
-							</a>
-						</td>
-					</tr>
-					<?php } ?>
-					<?php if ($review_status) { ?>
-					<tr>
-						<td><b><?php echo $text_average; ?></b></td>
-						<td><?php if ($average) { ?>
-							<img src="<?php echo $this->templateResource('/image/stars_' . $average . '.png'); ?>"
-							     alt="<?php echo $text_stars; ?>" style="margin-top: 2px;"/>
-							<?php } else { ?>
-							<?php echo $text_no_rating; ?>
-							<?php } ?></td>
-					</tr>
-					<?php } ?>
-					<?php if ($tags) { ?>
-					<tr>
-						<td><b><?php echo $text_tags; ?></b></td>
-						<td>
-							<div class="tags">
-								<?php foreach ($tags as $tag) { ?>
-								<a href="<?php echo $tag[ 'href' ]; ?>"><?php echo $tag[ 'tag' ]; ?></a>&nbsp;
-								<?php } ?>
-							</div>
-						</td>
-					</tr>
-					<?php } ?>
-				</table>
-			</div>
-			<br class="clr_both"/>
-		</div>
-		<br class="clr_both"/>
-	</div>
-	<div class="bottom">
-		<div class="left"></div>
-		<div class="right"></div>
-		<div class="center"></div>
-	</div>
-</div>
 
-<div class="tabs">
-	<a rel="#tab_description">
-		<span class="tab_right"></span>
-		<span class="tab_left"></span>
-		<span class="tab_text">
-			<?php echo $tab_description; ?>
-		</span>
-	</a>
-	<?php if ($review_status) { ?>
-		<a rel="#tab_review">
-			<span class="tab_right"></span>
-			<span class="tab_left"></span>
-			<span class="tab_text">
-				<?php echo $tab_review; ?>
-			</span>
-		</a>
-	<?php } ?>
-	<a rel="#tab_related">
-		<span class="tab_right"></span>
-		<span class="tab_left"></span>
-		<span class="tab_text">
-			<?php echo $tab_related; ?>
-			(<?php echo count($related_products); ?>)
-		</span>
-
-	</a>
-	<?php if ($downloads) { ?>
-			<a rel="#tab_download">
-				<span class="tab_right"></span>
-				<span class="tab_left"></span>
-				<span class="tab_text">
-					<?php echo $tab_downloads; ?>
-				</span>
-			</a>
-		<?php } ?>
-
-	<?php echo $this->getHookVar('product_features_tab'); ?>
-
-</div>
-<div class="content_block tab_block">
-	<div class="top">
-		<div class="left"></div>
-		<div class="right"></div>
-		<div class="center"></div>
-	</div>
-	<div class="middle">
-		<div class="middle_content">
-
-			<div id="tab_description" class="tab_page"><?php echo $description; ?></div>
-			<?php if ($review_status) { ?>
-			<div id="tab_review" class="tab_page">
-				<div id="review"></div>
-				<div class="heading" id="review_title"><?php echo $text_write; ?></div>
-				<div class="content"><b><?php echo $entry_name; ?></b><br/>
-					<?php echo $review_name; ?>
-					<br/>
-					<br/>
-					<b><?php echo $entry_review; ?></b><br/>
-					<?php echo $review_text; ?>
-					<div style="font-size: 11px; clear:both;"><?php echo $text_note; ?></div><br/>
-					<br/>
-					<b class="flt_left" style="margin-right: 10px;"><?php echo $entry_rating; ?></b><?php echo $rating_element; ?><br class="clr_both"/>
-					<br/>
-					<b><?php echo $entry_captcha; ?></b><br/>
-					<?php echo $review_captcha; ?>
-					<br/><br/>
-					<img src="index.php?rt=common/captcha" id="captcha_img" alt="" /></div>
-				<div class="buttons">
-					<table>
-						<tr>
-							<td align="right"><?php echo $review_button; ?></td>
-						</tr>
-					</table>
-				</div>
-			</div>
-			<?php } ?>
-			<div id="tab_related" class="tab_page">
-			<?php if ($related_products) {
-				foreach ($related_products as $related_product){ ?>
-
-					<div class="related_product">
-						<a href="<?php echo $related_product[ 'href' ]; ?>"><?php echo $related_product['image'][ 'thumb_html' ] ?></a><br/>
-						<a href="<?php echo $related_product[ 'href' ]; ?>"><?php echo $related_product[ 'name' ]; ?></a><br/>
-						<span style="color: #999; font-size: 11px;"><?php echo $related_product[ 'model' ]; ?></span><br/>
-
-							<div class="price-add">
-							<?php if ($display_price) { ?>
-							<?php if (!$related_product[ 'special' ]) { ?>
-								<span style="color: #900; font-weight: bold;"><?php echo $related_product[ 'price' ]; ?></span>
-								<?php } else { ?>
-								<span style="color: #900; font-weight: bold; text-decoration: line-through;"><?php echo $related_product[ 'price' ]; ?></span>
-								<span style="color: #F00;"><?php echo $related_product[ 'special' ]; ?></span>
-								<?php } ?>
-							<?php } ?>
-
-							<?php if(!$related_product['call_to_order']){ ?>
-								<a class="buy" id="<?php echo $related_product['product_id']?>" href="<?php echo $related_product[ 'add' ]?>" title="<?php echo $button_add_to_cart; ?>"></a>
-							<?php }else{ ?>
-								<a href="#" class="call_to_order"><span class="price"><?php echo $text_call_to_order;?></span></a>
-							</div>
-							<?php }?>
-
-
-						<br/>
-						<?php if ($related_product[ 'rating' ]) { ?>
-						<img src="<?php echo $this->templateResource('/image/stars_' . $related_product[ 'rating' ] . '.png'); ?>"
-						     alt="<?php echo $related_product[ 'stars' ]; ?>"/>
+				<?php if (sizeof($images) > 0) { ?>
+					<ul class="thumbnails mainimage smallimage">
+						<?php foreach ($images as $image) { ?>
+							<li class="producthtumb">
+								<?php
+								if ($image['origin'] != 'external') {
+								?>
+								<a class="thumbnail">
+									<img src="<?php echo $image['thumb_url']; ?>" alt="<?php echo $image['title']; ?>"
+										 title="<?php echo $image['title']; ?>">
+								</a>
+								<?php
+								}
+								?>
+							</li>
 						<?php } ?>
-					</div>
-
-					<?php } ?>
-				<br class="clr_both"/>
-
-				<?php } else { ?>
-				<div style="background: #F7F7F7; border: 1px solid #DDDDDD; padding: 10px; margin-bottom: 10px;"><?php echo $text_no_related; ?></div>
+					</ul>
 				<?php } ?>
 			</div>
+			<!-- Right Details-->
+			<div class="col-md-6">
+				<div class="row">
+					<div class="col-md-12">
+						<h1 class="productname"><span class="bgnone"><?php echo $heading_title; ?></span></h1>
 
-			<?php if ($downloads) { ?>
-				<div id="tab_download" class="tab_page">
-				<div class="tab-pane" id="productdownloads">
-					<ul class="downloads">
-						<?php foreach ($downloads as $download) { ?>
-						<li class="row">
-							<div class="pull-left"><?php echo $download['name']; ?><div class="download-list-attributes">
-							<?php foreach($download['attributes'] as $name=>$value){
-								echo '<small>- '.$name.': '.(is_array($value) ? implode(' ',$value) : $value).'</small>';
-								}?></div>
-							</div>
-							<div style="float:right;"><?php echo $download['href']; ?></div>
-						</li>
+						<div class="productprice">
+							<?php
+
+							if ($display_price) { ?>
+								<div class="productpageprice jumbotron">
+									<?php if ($special) { ?>
+										<div class="productfilneprice">
+											<span class="spiral"></span><?php echo $special; ?></div>
+										<span class="productpageoldprice"><?php echo $price; ?></span>
+									<?php } else { ?>
+										<span class="productfilneprice"></span><span
+												class="spiral"></span><?php echo $price; ?>
+									<?php } ?>
+								</div>
+							<?php }
+
+							if ($average) { ?>
+								<ul class="rate">
+									<?php
+									#Show stars based on avarage rating
+									for ($i = 1; $i <= 5; $i++) {
+										if ($i <= $average) {
+											echo '<li class="on"></li>';
+										} else {
+											echo '<li class="off"></li>';
+										}
+									}
+									?>
+								</ul>
 							<?php } ?>
-					</ul>
+						</div>
+
+						<div class="quantitybox">
+							<?php if ($display_price) { ?>
+								<?php echo $form['form_open']; ?>
+								<fieldset>
+									<?php if ($options) { ?>
+										<?php foreach ($options as $option) { ?>
+											<div class="form-group">
+												<?php if ($option['html']->type != 'hidden') { ?>
+												<label class="control-label"><?php echo $option['name']; ?></label>
+												<?php } ?>
+												<div class="input-group col-sm-4">
+													<?php echo $option['html']; ?>
+												</div>
+											</div>
+										<?php } ?>
+									<?php } ?>
+
+									<?php echo $this->getHookVar('extended_product_options'); ?>
+
+									<?php if ($discounts) { ?>
+										<div class="form-group">
+											<label class="control-label"><?php echo $text_discount; ?></label>
+											<table class="table table-striped">
+												<thead>
+													<th><?php echo $text_order_quantity; ?></th>
+													<th><?php echo $text_price_per_item; ?></th>
+												</thead>
+											<?php foreach ($discounts as $discount) { ?>
+												<tr>
+													<td><?php echo $discount['quantity']; ?></td>
+													<td><?php echo $discount['price']; ?></td>
+												</tr>
+											<?php } ?>
+											</table>
+										</div>
+									<?php } ?>
+									<?php if(!$product_info['call_to_order']){ ?>
+									<div class="form-group mt20">
+										<div class="input-group col-sm-4">
+											<span class="input-group-addon"><?php echo $text_qty; ?></span>
+											<?php echo $form['minimum']; ?>
+										</div>
+										<?php if ($minimum > 1) { ?>
+											<div class="input-group col-sm-3"><?php echo $text_minimum; ?></div>
+										<?php } ?>
+										<?php if ($maximum > 0) { ?>
+											<div class="input-group col-sm-3"><?php echo $text_maximum; ?></div>
+										<?php } ?>
+									</div>
+
+									<div class="form-group mt20 mb10 total-price-holder">
+										<label class="control-label"><?php echo $text_total_price; ?>
+											<span class="total-price"></span>
+										</label>
+									</div>
+									<?php }?>
+
+									<div>
+										<?php echo $form['product_id'] . $form['redirect']; ?>
+									</div>
+
+									<div class="mt20 ">
+										<?php if(!$product_info['call_to_order']){ ?>
+										<?php if ($track_stock && !$in_stock) { ?>
+										<ul class="productpagecart">
+											<li><span class="nostock"><?php echo $stock; ?></span></li>
+										</ul>
+										<?php } else { ?>
+										<ul class="productpagecart">
+											<li><a href="#" onclick="$(this).closest('form').submit(); return false;"
+												   class="cart"><?php echo $button_add_to_cart; ?></a></li>
+										</ul>
+										<?php } ?>
+										<a class="productprint btn btn-large" href="javascript:window.print();"><i
+													class="fa fa-print"></i> <?php echo $button_print; ?></a>
+										<?php }else{?>
+											<ul class="productpagecart call_to_order">
+												<li><a href="#" class="call_to_order"><i class="fa fa-phone-sign"></i>&nbsp;&nbsp;<?php echo $text_call_to_order; ?></a></li>
+											</ul>
+										<?php } ?>
+										<?php echo $this->getHookVar('buttons'); ?>
+									</div>
+								</fieldset>
+								</form>
+							<?php } elseif(!$product_info['call_to_order']) { ?>
+								<div class="form-group">
+									<label class="control-label">
+										<?php echo $text_login_view_price; ?>
+									</label>
+								</div>
+							<?php } ?>
+
+						</div>
+					</div>
 				</div>
-			<?php } ?>
+			</div>
+		</div>
+</div>
 
-			<?php echo $this->getHookVar('product_features'); ?>
+<!-- Product Description tab & comments-->
+<div id="productdesc">
+	<div class="row">
+		<div class="col-md-12 productdesc">
+			<ul class="nav nav-tabs" id="myTab">
+				<li class="active"><a href="#description"><?php echo $tab_description; ?></a></li>
+				<?php if ($review_status) { ?>
+					<li><a href="#review"><?php echo $tab_review; ?></a></li>
+				<?php } ?>
+				<?php if ($tags) { ?>
+					<li><a href="#producttag"><?php echo $text_tags; ?></a></li>
+				<?php } ?>
+				<?php if ($related_products) { ?>
+					<li><a href="#relatedproducts"><?php echo $tab_related; ?> (<?php echo count($related_products); ?>)</a></li>
+				<?php } ?>
+				<?php if ($downloads) { ?>
+					<li><a href="#productdownloads"><?php echo $tab_downloads; ?></a></li>
+				<?php } ?>
+				<?php echo $this->getHookVar('product_features_tab'); ?>
+			</ul>
+			<div class="tab-content">
 
+				<div class="tab-pane active" id="description">
+					<?php echo $description; ?>
+
+					<ul class="productinfo">
+						<?php if ($stock) { ?>
+							<li>
+								<span class="productinfoleft"><?php echo $text_availability; ?></span> <?php echo $stock; ?>
+							</li>
+						<?php } ?>
+						<?php if ($model) { ?>
+							<li><span class="productinfoleft"><?php echo $text_model; ?></span> <?php echo $model; ?>
+							</li>
+						<?php } ?>
+						<?php if ($manufacturer) { ?>
+							<li>
+								<span class="productinfoleft"><?php echo $text_manufacturer; ?></span>
+								<a href="<?php echo $manufacturers; ?>">
+									<?php if ($manufacturer_icon) { ?>
+										<img alt="<?php echo $manufacturer; ?>" src="<?php echo $manufacturer_icon; ?>"
+											 title="<?php echo $manufacturer; ?>"/>
+									<?php
+									} else {
+										echo $manufacturer;
+									}  ?>
+								</a>
+							</li>
+						<?php } ?>
+					</ul>
+
+				</div>
+
+				<?php if ($review_status) { ?>
+					<div class="tab-pane" id="review">
+						<div id="current_reviews" class="mb20"></div>
+						<div class="heading" id="review_title"><h4><?php echo $text_write; ?></h4></div>
+						<div class="content">
+							<fieldset>
+								<div class="form-group">
+									<div class="form-inline">
+										<label class="control-label col-md-3 pull-left"><?php echo $entry_rating; ?> <span
+													class="red">*</span></label>
+										<?php echo $rating_element; ?>
+									</div>
+								</div>
+								<div class="form-group mt40">
+									<div class="form-inline">
+										<label class="control-label col-md-3"><?php echo $entry_name; ?> <span class="red">*</span></label>
+										<?php echo $review_name; ?>
+									</div>
+								</div>
+								<div class="form-group">
+									<div class="form-inline">
+										<label class="control-label col-md-3"><?php echo $entry_review; ?> <span
+													class="red">*</span></label>
+										<?php echo $review_text; ?>
+									</div>
+									<div class="input-group"><?php echo $text_note; ?></div>
+								</div>
+								<div class="clear form-group">
+									<label class="control-label"><?php echo $entry_captcha; ?> <span
+												class="red">*</span></label>
+
+									<div class="form-inline">
+										<label class="control-label col-md-3">
+											<img src="index.php?rt=common/captcha" id="captcha_img" alt=""/>
+										</label>
+										<?php echo $review_captcha; ?>
+										&nbsp;&nbsp;<?php echo $review_button; ?>
+									</div>
+								</div>
+							</fieldset>
+						</div>
+					</div>
+				<?php } ?>
+
+				<?php if ($tags) { ?>
+					<div class="tab-pane" id="producttag">
+						<ul class="tags">
+							<?php foreach ($tags as $tag) { ?>
+							<li><a href="<?php echo $tag['href']; ?>"><i class="fa fa-tag"></i><?php echo $tag['tag']; ?></a></li>
+								<?php } ?>
+						</ul>
+					</div>
+				<?php } ?>
+
+				<?php if ($related_products) { ?>
+					<div class="tab-pane" id="relatedproducts">
+						<ul class="row side_prd_list">
+						<?php foreach ($related_products as $related_product) {
+								$item['rating'] = ($related_product['rating']) ? "<img src='" . $this->templateResource('/image/stars_' . $related_product['rating'] . '.png') . "' alt='" . $related_product['stars'] . "' />" : '';
+								if (!$display_price) {
+									$related_product['price'] = $related_product['special'] = '';
+								}
+							?>
+								<li class="col-md-4 col-sm-6 col-xs-12 related_product">
+									<a href="<?php echo $related_product['href']; ?>"><?php echo $related_product['image']['thumb_html'] ?></a>
+									<a class="productname"
+									   href="<?php echo $related_product['href']; ?>"><?php echo $related_product['name']; ?></a>
+									<span class="procategory"><?php echo $item['rating'] ?></span>
+
+									<div class="price">
+										<?php if ($related_product['special']) { ?>
+											<span class="pricenew"><?php echo $related_product['special'] ?></span>
+											<span class="priceold"><?php echo $related_product['price'] ?></span>
+										<?php } else { ?>
+											<span class="oneprice"><?php echo $related_product['price'] ?></span>
+										<?php } ?>
+									</div>
+								</li>
+						<?php } ?>
+						</ul>
+					</div>
+				<?php } ?>
+
+				<?php if ($downloads) { ?>
+					<div class="tab-pane" id="productdownloads">
+						<ul class="list-group">
+							<?php foreach ($downloads as $download) { ?>
+							<li class="list-group-item">
+								<a class="pull-right btn btn-default" href="<?php echo $download['button']->href; ?>"><i class="fa fa-download"></i> <?php echo $download['button']->text; ?></a>
+								<div><?php echo $download['name']; ?><div class="download-list-attributes">
+								<?php foreach($download['attributes'] as $name=>$value){
+									echo '<small>- '.$name.': '.(is_array($value) ? implode(' ',$value) : $value).'</small>';
+									}?></div>
+								</div>
+							</li>
+							<?php } ?>
+						</ul>
+					</div>
+				<?php } ?>
+
+				<?php echo $this->getHookVar('product_features'); ?>
+
+			</div>
 		</div>
 	</div>
-	<div class="bottom">
-		<div class="left"></div>
-		<div class="right"></div>
-		<div class="center"></div>
-	</div>
-</div>
-
-</div>
 </div>
 
 <script type="text/javascript"><!--
 
-jQuery(function($) {
-	$.tabs('.tabs a');
-	$('#review .pagination a').live('click', function() {
-		$('#review').slideUp('slow');
-		$('#review').load(this.href);
-		$('#review').slideDown('slow');
-		return false;
-	});
-	$('div.main_image a').click(function() {
-		$('div.additional_images a').first().click();
-		return false;
-	});
+	var orig_imgs = $('ul.bigimage').html();
+	var orig_thumbs = $('ul.smallimage').html();
 
-	$('#review').load('index.php?rt=product/review/review&product_id=<?php echo $product_id; ?>');
-
-});
-
-function review() {
-	$.ajax({
-		type: 'POST',
-		url: 'index.php?rt=product/review/write&product_id=<?php echo $product_id; ?>',
-		dataType: 'json',
-		data: 'name=' + encodeURIComponent($('input[name=\'name\']').val()) + '&text=' + encodeURIComponent($('textarea[name=\'text\']').val()) + '&rating=' + encodeURIComponent($('input[name=\'rating\']:checked').val() ? $('input[name=\'rating\']:checked').val() : '') + '&captcha=' + encodeURIComponent($('input[name=\'captcha\']').val()),
-		beforeSend: function() {
-			$('.success, .warning').remove();
-			$('#review_button').attr('disabled', 'disabled');
-			$('#review_title').after('<div class="wait"><img src="<?php echo $this->templateResource('/image/loading_1.gif'); ?>" alt="" /> <?php echo $text_wait; ?></div>');
-		},
-		complete: function() {
-			$('#review_button').attr('disabled', '');
-			$('.wait').remove();
-		},
-		success: function(data) {
-			if (data.error) {
-				$('#review_title').after('<div class="warning alert alert-error">' + data.error + '</div>');
-			}
-			if (data.success) {
-				$('#review_title').after('<div class="success alert alert-success">' + data.success + '</div>');
-
-				$('input[name=\'name\']').val('');
-				$('textarea[name=\'text\']').val('');
-				$('input[name=\'rating\']:checked').attr('checked', '');
-				$('input[name=\'captcha\']').val('');
-			}
-			$('img#captcha_img').attr('src',$('img#captcha_img').attr('src')+'&'+Math.random());
+	jQuery(function ($) {
+		//if have product options, load select option images 
+		var $select = $('input[name^=\'option\'], select[name^=\'option\']'); 
+		if ($select.length) {
+			//if no images for options are present, main product images will be used. 
+			//if atleast one image is present in the option, main images will be replaced.
+			load_option_images($select.val());
 		}
+
+		display_total_price();
+
+		$('#current_reviews .pagination a').on('click', function () {
+			$('#current_reviews').slideUp('slow');
+			$('#current_reviews').load(this.href);
+			$('#current_reviews').slideDown('slow');
+			return false;
+		});
+
+		reload_review('index.php?rt=product/review/review&product_id=<?php echo $product_id; ?>');
 	});
-}
-$('#product_add_to_cart').click(function(){ $('#product').submit();});
-$('#review_submit').click(function(){ review();})
 
-var base_img = $('div.main_image').html();
-var base_imgs = $('div.additional_images').html();
+	$('#product_add_to_cart').click(function () {
+		$('#product').submit();
+	});
+	$('#review_submit').click(function () {
+		review();
+	})
+	
+	//process clicks in review pagination
+	$('#current_reviews').on('click', '.pagination a', function () {
+		reload_review($(this).attr('href'));
+		return false;
+	})
 
-$('input[name^=\'option\'], select[name^=\'option\']').click(function(){
+	/* Process images for product options */
+	$('input[name^=\'option\'], select[name^=\'option\']').change(function () {
+		load_option_images($(this).val());
+		display_total_price();
+	});
+
+	$('input[name=quantity]').keyup(function () {
+		display_total_price();
+	});
+
+	function load_option_images( attribute_value_id ) {
 		$.ajax({
-		type: 'POST',
-		url: 'index.php?rt=r/product/product/get_option_resources&attribute_value_id='+$(this).val(),
-		dataType: 'json',
+			type: 'POST',
+			url: 'index.php?rt=r/product/product/get_option_resources&attribute_value_id=' + attribute_value_id,
+			dataType: 'json',
+			success: function (data) {
+				var html1 = '';
+				var html2 = '';
+				if (data.images) {
+					for (img in data.images) {
+						html1 += '<li>';
+						html2 += '<li class="producthtumb">';
 
-		success: function(data) {
-			var html='';
-			if (data.main) {
-				if(data.main.origin=='internal'){
-					html = '<a href="'+data.main.main_url+'" class="thickbox"  rel="gallery" id="image">'+data.main.thumb_html+'</a>';
-				}else{
-					html = data.main.thumb_html;
-				}
-			}else{
-				html = base_img;
-			}
-			$('div.main_image').html(html);
-			tb_init('div.main_image a.thickbox');
-
-			if(data.images){
-				html = '';
-				for(img in data.images){
-					if(data.images[img].origin=='internal'){
-						//var src = data.images[img].main_url ? data.images[img].main_url : data.images[img].thumb_url
-						html += '<div><a href="'+data.images[img].main_url+'" class="thickbox" rel="gallery">'+data.images[img].thumb_html+'</a></div>';
-					}else{
-						html = data.images[img].thumb_html;
+						var img_url = data.images[img].main_url;
+						var tmb_url = data.images[img].thumb_url;
+						if (data.images[img].origin == 'external') {
+							img_url = data.images[img].main_html;
+							tmb_url = data.images[img].thumb_html;
+							html1 += '<a class="thumbnail">'+ img_url +'</a>';
+						} else {
+							html1 += '<a href="' + img_url + '" rel="position: \'inside\' , showTitle: false, adjustX:-4, adjustY:-4" class="thumbnail cloud-zoom"  title="' + data.images[img].title + '"><img src="' + img_url + '" alt="' + data.images[img].title + '" title="' + data.images[img].title + '"></a>';
+							html2 += '<a class="thumbnail"><img src="' + tmb_url + '" alt="' + data.images[img].title + '" title="' + data.images[img].title + '"></a>';
+						}
+						html1 += '</li>';
+						html2 += '</li>';
 					}
+				} else {
+					html1 = orig_imgs;
+					html2 = orig_thumbs;
 				}
-			}else{			
-				html = base_imgs;
+				$('ul.bigimage').html(html1);
+				$('ul.smallimage').html(html2);
+				$('.cloud-zoom, .cloud-zoom-gallery').CloudZoom();
+				process_thumbnails();
 			}
-			$('div.additional_images').html(html);
-			tb_init('div.additional_images a.thickbox');
-		}
-	});
-});
-//--></script>
+		});
+	}
+
+	function display_total_price() {
+
+		$.ajax({
+			type: 'POST',
+			url: 'index.php?rt=r/product/product/calculateTotal',
+			dataType: 'json',
+			data: $("#product").serialize(),
+
+			success: function (data) {
+				if (data.total) {
+					$('.total-price-holder').show();
+					$('.total-price-holder').css('visibility', 'visible');
+					$('.total-price').html(data.total);
+				}
+			}
+		});
+
+	}
+
+	function reload_review( url) {
+		$('#current_reviews').load(url);
+	}
+
+	function review() {
+		var dismiss = '<button type="button" class="close" data-dismiss="alert">&times;</button>';
+
+		$.ajax({
+			type: 'POST',
+			url: 'index.php?rt=product/review/write&product_id=<?php echo $product_id; ?>',
+			dataType: 'json',
+			data: 'name=' + encodeURIComponent($('input[name=\'name\']').val()) + '&text=' + encodeURIComponent($('textarea[name=\'text\']').val()) + '&rating=' + encodeURIComponent($('input[name=\'rating\']:checked').val() ? $('input[name=\'rating\']:checked').val() : '') + '&captcha=' + encodeURIComponent($('input[name=\'captcha\']').val()),
+			beforeSend: function () {
+				$('.success, .warning').remove();
+				$('#review_button').attr('disabled', 'disabled');
+				$('#review_title').after('<div class="wait"><img src="<?php echo $this->templateResource('/image/loading_1.gif'); ?>" alt="" /> <?php echo $text_wait; ?></div>');
+			},
+			complete: function () {
+				$('#review_button').attr('disabled', '');
+				$('.wait').remove();
+			},
+            error: function (jqXHR, exception) {
+            	var text = jqXHR.statusText + ": " + jqXHR.responseText;
+				$('#review .alert').remove();
+				$('#review_title').after('<div class="alert alert-error alert-danger">' + dismiss + text + '</div>');
+			},
+			success: function (data) {
+				if (data.error) {
+					$('#review .alert').remove();
+					$('#review_title').after('<div class="alert alert-error alert-danger">' + dismiss + data.error + '</div>');
+				} else {
+					$('#review .alert').remove();
+					$('#review_title').after('<div class="alert alert-success">' + dismiss + data.success + '</div>');
+
+					$('input[name=\'name\']').val('');
+					$('textarea[name=\'text\']').val('');
+					$('input[name=\'rating\']:checked').attr('checked', '');
+					$('input[name=\'captcha\']').val('');
+				}
+				$('img#captcha_img').attr('src', $('img#captcha_img').attr('src') + '&' + Math.random());
+			}
+		});
+	}
+
+	//--></script>

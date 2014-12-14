@@ -17,38 +17,42 @@
    versions in the future. If you wish to customize AbanteCart for your
    needs please refer to http://www.AbanteCart.com for more information.
 ------------------------------------------------------------------------------*/
-if ( !defined ( 'DIR_CORE' )) {
-	header ( 'Location: static_pages/' );
+if (!defined('DIR_CORE')) {
+	header('Location: static_pages/');
 }
 
 class ModelExtensionDefaultSagePayDirect extends Model {
-  	public function getMethod($address) {
+	public function getMethod($address) {
 		$this->load->language('default_sagepay_direct/default_sagepay_direct');
-		
+
 		if ($this->config->get('default_sagepay_direct_status')) {
-      		$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "zones_to_locations WHERE location_id = '" . (int)$this->config->get('default_sagepay_direct_location_id') . "' AND country_id = '" . (int)$address['country_id'] . "' AND (zone_id = '" . (int)$address['zone_id'] . "' OR zone_id = '0')");
-			
+			$query = $this->db->query("SELECT *
+										FROM " . $this->db->table("zones_to_locations") . "
+										WHERE location_id = '" . (int)$this->config->get('default_sagepay_direct_location_id') . "'
+											AND country_id = '" . (int)$address['country_id'] . "'
+											AND (zone_id = '" . (int)$address['zone_id'] . "' OR zone_id = '0')");
+
 			if (!$this->config->get('default_sagepay_direct_location_id')) {
-        		$status = TRUE;
-      		} elseif ($query->num_rows) {
-      		  	$status = TRUE;
-      		} else {
-     	  		$status = FALSE;
-			}	
-      	} else {
+				$status = TRUE;
+			} elseif ($query->num_rows) {
+				$status = TRUE;
+			} else {
+				$status = FALSE;
+			}
+		} else {
 			$status = FALSE;
 		}
-		
+
 		$method_data = array();
-	
-		if ($status) {  
-      		$method_data = array( 
-        		'id'         => 'default_sagepay_direct',
-        		'title'      => $this->language->get('text_title'),
-				'sort_order' => $this->config->get('default_sagepay_direct_sort_order')
-      		);
-    	}
-   
-    	return $method_data;
-  	}
+
+		if ($status) {
+			$method_data = array(
+					'id' => 'default_sagepay_direct',
+					'title' => $this->language->get('text_title'),
+					'sort_order' => $this->config->get('default_sagepay_direct_sort_order')
+			);
+		}
+
+		return $method_data;
+	}
 }

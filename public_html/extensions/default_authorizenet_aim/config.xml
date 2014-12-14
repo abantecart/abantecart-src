@@ -1,13 +1,11 @@
 <?xml version="1.0"?>
 <extension>
     <id>default_authorizenet_aim</id>
-    <version>1.0.0</version>
+    <version>1.0.1</version>
 	<type>payment</type>
 	<category>payment</category>
     <cartversions>
-        <item>0.9</item>
-        <item>1.0</item>
-        <item>1.1</item>
+        <item>1.2</item>
     </cartversions>
     <layout></layout>
     <priority>10</priority>
@@ -51,6 +49,10 @@
 				</fields>
 			</variants>
 			<default_value>2</default_value>
+        </item>
+	    <item id="default_authorizenet_aim_decline_limit">
+            <type>input</type>
+            <default_value>5</default_value>
         </item>
 	    <item id="default_authorizenet_aim_location_id">
             <type>selectbox</type>

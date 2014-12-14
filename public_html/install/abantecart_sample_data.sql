@@ -7,114 +7,55 @@ SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 
 INSERT INTO `ac_addresses` 
 VALUES 
-(1,2,'','Juliana','Davis','Highlands and Islands PA75 6QE','','','Isle of Mull',222,3559),
-(2,3,'','Keely','Mccoy','4842 Amet','','','Grangemouth',222,3552),
-(3,4,'BelfastCo','Zelda','Weiss','Great Victoria Street','','','Belfast',222,3518),
-(4,5,'','Gloria','Macias','Camille Marcoux 15','','1569','Blanc-Sablon',38,609),
-(5,6,'','Bernard','Horne','3E rue','','','Paspébiac',38,613),
+(1,2,'','Juliana','Davis','9778 Golden Crescent','Apt 10','85804-7365','Humansville',223,3616),
+(2,3,'','Keely','Mccoy','5071 Misty Pond Farm','Suite #101','63406-9081','Bumble Bee',223,3648),
+(3,4,'BelfastCo','Zelda','Weiss','6944 Sleepy Fawn Abbey','Suite #31','86014-8121','Lawyers',223,3616),
+(4,5,'','Gloria','Macias','7590 Easy Robin Hollow','','73477-3842','Sandymush',223,3660),
+(5,6,'','Bernard','Horne','5607 Umber Branch Via','','86301-9785','Spook City',223,3616),
 (6,7,'','James','Curtis','6500 Arapahoe Road','','80303','Boulder',223,3634),
-(7,8,'','Bruce','Rosarini','61 Cumberland ST','','','Thunder Bay',223,3646),
-(8,9,'','Carlos','Compton','31 Capital Drive','','','Hay River',38,608),
-(9,10,'','Garrison','Baxter','Eddie Hoffman Highway','','','Bethel',223,3614),
-(10,11,'','Anthony','Blair','104 Main Street','','','Dillingham',223,3657),
-(11,12,'','Allen','Waters','110 Shenandoah Avenue','','','Roanoke',223,3673),
-(12,13,'','qqqqqq','qqqqqq','qqqqqq','','','qqqqqq',222,3529);
+(7,8,'','Bruce','Rosarini','61 Cumberland ST','','68624-2273','Skokie',223,3650),
+(8,9,'','Carlos','Compton','31 Capital Drive','','63142-0892','Fort Misery',223,3648),
+(9,10,'','Garrison','Baxter','Eddie Hoffman Highway','','64034-2948','Shell Pile',223,3648),
+(10,11,'','Anthony','Blair','104 Main Street','','29181-8284','Gassaway',223,3666),
+(11,12,'','Allen','Waters','110 Shenandoah Avenue','','86565-1710','Honohina',223,3616),
+(12,13,'','Tom','Kipling','100 Main Str','','64034-2948','Shell Pile',223,3648);
 
 
---
--- Dumping data for table `block_layouts`
---
-
-
-
-INSERT INTO `ac_block_layouts` VALUES
-(97,8,1,0,0,10,1,now(), now()),
-(123,8,15,0,97,30,1,now(), now()),
-(122,8,14,0,97,20,1,now(), now()),
-(121,8,13,0,97,10,1,now(), now()),
-(101,8,2,0,0,20,1,now(), now()),
-(102,8,3,0,0,30,0,now(), now()),
-(124,8,20,2,102,10,1,now(), now()),
-(104,8,4,0,0,40,1,now(), now()),
-(105,8,5,0,0,50,1,now(), now()),
-(106,8,6,0,0,60,0,now(), now()),
-(107,8,7,0,0,70,1,now(), now()),
-(108,8,8,0,0,80,1,now(), now()),
-(126,8,21,0,108,10,1,now(), now()),
-(174,8,24,0,108,10,1,now(), now()),
-(127,9,1,0,0,10,1,now(), now()),
-(125,8,20,2,105,10,1,now(), now()),
-(128,9,13,0,127,10,1,now(), now()),
-(129,9,14,0,127,20,1,now(), now()),
-(130,9,15,0,127,30,1,now(), now()),
-(131,9,2,0,0,20,1,now(), now()),
-(132,9,3,0,0,30,1,now(), now()),
-(133,9,20,3,132,10,1,now(), now()),
-(134,9,4,0,0,40,1,now(), now()),
-(135,9,5,0,0,50,1,now(), now()),
-(136,9,6,0,0,60,0,now(), now()),
-(137,9,7,0,0,70,1,now(), now()),
-(138,9,8,0,0,80,1,now(), now()),
-(139,9,21,0,138,10,1,now(), now()),
-(175,9,24,0,138,10,1,now(), now()),
-(140,10,1,0,0,10,1,now(), now()),
-(160,10,15,0,140,30,1,now(), now()),
-(159,10,14,0,140,20,1,now(), now()),
-(158,10,13,0,140,10,1,now(), now()),
-(144,10,2,0,0,20,1,now(), now()),
-(145,10,3,0,0,30,0,now(), now()),
-(146,10,4,0,0,40,1,now(), now()),
-(147,10,5,0,0,50,1,now(), now()),
-(148,10,6,0,0,60,0,now(), now()),
-(149,10,7,0,0,70,1,now(), now()),
-(151,10,8,0,0,80,1,now(), now()),
-(161,10,21,0,151,10,1,now(), now()),
-(173,10,24,0,151,10,1,now(), now());
-
-
-
---
 -- Dumping data for table `categories`
 --
 
-
-
 INSERT INTO `ac_categories` 
 VALUES 
-(46,43,0,now(), now(),1),
-(47,43,0,now(), now(),1),
-(38,36,0,now(), now(),1),
-(40,36,0,now(), now(),1),
-(41,36,0,now(), now(),1),
-(42,36,0,now(), now(),1),
-(43,0,2,now(), now(),1),
-(44,43,0,now(), now(),1),
-(45,43,0,now(), now(),1),
-(39,36,0,now(), now(),1),
-(36,0,1,now(), now(),1),
-(37,36,0,now(), now(),1),
-(48,43,0,now(), now(),1),
-(49,0,3,now(), now(),1),
-(50,49,0,now(), now(),1),
-(51,49,0,now(), now(),1),
-(52,0,98,now(), now(),1),
-(53,52,0,now(), now(),1),
-(54,52,0,now(), now(),1),
-(58,0,4,now(), now(),1),
-(59,58,0,now(), now(),1),
-(60,58,0,now(), now(),1),
-(61,58,0,now(), now(),1),
-(62,58,0,now(), now(),0),
-(63,58,0,now(), now(),1),
-(64,0,99,now(), now(),0);
-
-
+(46,43,0,1,now(), now()),
+(47,43,0,1,now(), now()),
+(38,36,0,1,now(), now()),
+(40,36,0,1,now(), now()),
+(41,36,0,1,now(), now()),
+(42,36,0,1,now(), now()),
+(43,0,2,1,now(), now()),
+(44,43,0,1,now(), now()),
+(45,43,0,1,now(), now()),
+(39,36,0,1,now(), now()),
+(36,0,1,1,now(), now()),
+(37,36,0,1,now(), now()),
+(48,43,0,1,now(), now()),
+(49,0,3,1,now(), now()),
+(50,49,0,1,now(), now()),
+(51,49,0,1,now(), now()),
+(52,0,98,1,now(), now()),
+(53,52,0,1,now(), now()),
+(54,52,0,1,now(), now()),
+(58,0,4,1,now(), now()),
+(59,58,0,1,now(), now()),
+(60,58,0,1,now(), now()),
+(61,58,0,1,now(), now()),
+(62,58,0,0,now(), now()),
+(63,58,0,1,now(), now()),
+(64,0,99,0,now(), now());
 
 --
 -- Dumping data for table `categories_to_stores`
 --
-
-
 
 INSERT INTO `ac_categories_to_stores` 
 VALUES 
@@ -145,13 +86,9 @@ VALUES
 (63,0),
 (64,0);
 
-
-
 --
 -- Dumping data for table `category_descriptions`
 --
-
-
 
 INSERT INTO `ac_category_descriptions` 
 VALUES 
@@ -201,14 +138,32 @@ VALUES
 -- Dumping data for table `coupons`
 --
 
+DROP TABLE IF EXISTS `ac_coupons`;
+CREATE TABLE `ac_coupons` (
+  `coupon_id` int(11) NOT NULL AUTO_INCREMENT,
+  `code` varchar(10) COLLATE utf8_general_ci NOT NULL,
+  `type` char(1) COLLATE utf8_general_ci NOT NULL,
+  `discount` decimal(15,4) NOT NULL,
+  `logged` int(1) NOT NULL,
+  `shipping` int(1) NOT NULL,
+  `total` decimal(15,4) NOT NULL,
+  `date_start` date NOT NULL DEFAULT '0000-00-00',
+  `date_end` date NOT NULL DEFAULT '0000-00-00',
+  `uses_total` int(11) NOT NULL,
+  `uses_customer` varchar(11) COLLATE utf8_general_ci NOT NULL,
+  `status` int(1) NOT NULL,
+  `date_added` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `date_modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`coupon_id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
+
 
 
 INSERT INTO `ac_coupons` 
 VALUES 
-(4,'2222','P','10.0000',0,0,'0.0000','2012-01-27','2010-03-06',10,'10',1,'2012-01-27 13:55:03'),
-(5,'3333','P','0.0000',0,1,'100.0000','2012-03-01','2012-08-31',10,'10',1,'2012-03-14 21:13:53'),
-(6,'1111','F','10.0000',0,0,'10.0000','2012-01-01','2013-03-01',10,'10',1,'2012-03-14 21:15:18');
-
+(4,'2222','P','10.0000',0,0,'0.0000','2012-01-27','2010-03-06',10,'10',1,now(), now()),
+(5,'3333','P','0.0000',0,1,'100.0000','2012-03-01','2015-08-31',10,'10',1,now(), now()),
+(6,'1111','F','10.0000',0,0,'10.0000','2012-01-01','2015-03-01',10,'10',1,now(), now());
 
 
 --
@@ -216,10 +171,8 @@ VALUES
 --
 
 
-
 INSERT INTO `ac_coupons_products` 
 VALUES (8,6,68);
-
 
 
 --
@@ -241,12 +194,9 @@ VALUES
 (16, 17, now(), now())
 ;
 
-
 --
 -- Dumping data for table `block_descriptions`
 --
-
-
 
 INSERT INTO `ac_block_descriptions`
 VALUES
@@ -263,7 +213,7 @@ VALUES
 (16,9,1,'blocks/banner_block/one_by_one_slider_banner_block.tpl',0,'Main Page Banner Slider','Main Page Banner Slider','','a:1:{s:17:\"banner_group_name\";s:17:\"Main Page Banners\";}',now(),now())
 ;
 
-INSERT INTO `ac_custom_lists` (`custom_block_id`, `data_type`, `id`, `sort_order`, `created`, `updated`) VALUES
+INSERT INTO `ac_custom_lists` (`custom_block_id`, `data_type`, `id`, `sort_order`, `date_added`, `date_modified`) VALUES
 (12, 'manufacturer_id', 12, 0, now(), now()),
 (12, 'manufacturer_id', 14, 0, now(), now()),
 (12, 'manufacturer_id', 13, 0, now(), now()),
@@ -275,9 +225,6 @@ INSERT INTO `ac_custom_lists` (`custom_block_id`, `data_type`, `id`, `sort_order
 (12, 'manufacturer_id', 17, 0, now(), now()),
 (12, 'manufacturer_id', 16, 0, now(), now());
 
-
-
-
 --
 -- Dumping data for table `customers`
 --
@@ -285,24 +232,22 @@ INSERT INTO `ac_customers`
 (`customer_id`, `store_id`, `firstname`, `lastname`, `loginname`, `email`, `telephone`, `fax`, `password`, `cart`, `newsletter`, `address_id`,
  `status`, `approved`, `customer_group_id`, `ip`,  `date_added`)
 VALUES 
-(2,0,'Juliana','Davis', 'julidavis@abantecart.com', 'julidavis@abantecart.com','+44 1688 308321','','6b006ba67f3c172e146991a2ad46d865','a:0:{}',0,1,1,1,1,'109.104.166.98','2013-08-31 10:25:37'),
-(3,0,'Keely','Mccoy','keelymccoy@abantecart.com','keelymccoy@abantecart.com','+44 1324 483784 ','','6b006ba67f3c172e146991a2ad46d865','a:0:{}',0,2,1,1,1,'109.104.166.98','2013-08-31 10:39:08'),
-(4,0,'Zelda','Weiss','zeldaweiss@abantecart.com','zeldaweiss@abantecart.com','+44 28 9027 1066 ','','6b006ba67f3c172e146991a2ad46d865','a:0:{}',0,3,1,1,1,'109.104.166.138','2013-08-31 10:42:58'),
-(5,0,'Gloria','Macias','gloriamacias@abantecart.com','gloriamacias@abantecart.com','+1 418-461-2440','','6b006ba67f3c172e146991a2ad46d865','a:0:{}',0,4,1,1,1,'109.104.166.98','2013-08-31 10:46:58'),
-(6,0,'Bernard','Horne','bernardhorne@abantecart.com','bernardhorne@abantecart.com','+1 418-752-3369 ','','6b006ba67f3c172e146991a2ad46d865','a:0:{}',0,5,1,1,1,'109.104.166.138','2013-08-31 10:50:27'),
-(7,0,'James','Curtis','jamescurtis@abantecart.com','jamescurtis@abantecart.com','+1 303-497-1010','','6b006ba67f3c172e146991a2ad46d865','a:0:{}',0,6,1,1,1,'109.104.166.138','2013-08-31 11:00:03'),
-(8,0,'Bruce','Rosarini','brucerosarini@abantecart.com','brucerosarini@abantecart.com','+1 807-346-10763','','6b006ba67f3c172e146991a2ad46d865','a:0:{}',0,7,1,1,1,'109.104.166.98','2013-08-31 11:08:23'),
-(9,0,'Carlos','Compton','carloscmpton@abantecart.com','carloscmpton@abantecart.com','+1 867-874-22391','','6b006ba67f3c172e146991a2ad46d865','a:0:{}',0,8,1,1,1,'109.104.166.98','2013-08-31 11:13:14'),
-(10,0,'Garrison','Baxter','garrisonbaxter@abantecart.com','garrisonbaxter@abantecart.com','+1 907-543-43088','','6b006ba67f3c172e146991a2ad46d865','a:0:{}',0,9,1,1,1,'109.104.166.138','2013-09-01 08:51:47'),
-(11,0,'Anthony','Blair','anthonyblair@abantecart.com','anthonyblair@abantecart.com','+1 907-842-2240','','05ec6352a8b997363e5c6483aeffeb50','a:0:{}',0,10,1,1,1,'171.98.12.12','2013-09-01 08:54:26'),
-(12,0,'Allen','Waters','allenwaters@abantecart.com','allenwaters@abantecart.com','+1 540-985-59700','','6b006ba67f3c172e146991a2ad46d865','a:0:{}',0,11,1,1,1,'109.104.166.98','2013-09-01 09:12:56'),
+(2,0,'Juliana','Davis', 'julidavis@abantecart.com', 'julidavis@abantecart.com','(602) 141-7191','','6b006ba67f3c172e146991a2ad46d865','a:0:{}',0,1,1,1,1,'109.104.166.98','2013-08-31 10:25:37'),
+(3,0,'Keely','Mccoy','keelymccoy@abantecart.com','keelymccoy@abantecart.com','(602) 916-1822','','6b006ba67f3c172e146991a2ad46d865','a:0:{}',0,2,1,1,1,'109.104.166.98','2013-08-31 10:39:08'),
+(4,0,'Zelda','Weiss','zeldaweiss@abantecart.com','zeldaweiss@abantecart.com','(539) 838-9210','','6b006ba67f3c172e146991a2ad46d865','a:0:{}',0,3,1,1,1,'109.104.166.138','2013-08-31 10:42:58'),
+(5,0,'Gloria','Macias','gloriamacias@abantecart.com','gloriamacias@abantecart.com','(573) 500-2105','','6b006ba67f3c172e146991a2ad46d865','a:0:{}',0,4,1,1,1,'109.104.166.98','2013-08-31 10:46:58'),
+(6,0,'Bernard','Horne','bernardhorne@abantecart.com','bernardhorne@abantecart.com','(573) 500-2105','','6b006ba67f3c172e146991a2ad46d865','a:0:{}',0,5,1,1,1,'109.104.166.138','2013-08-31 10:50:27'),
+(7,0,'James','Curtis','jamescurtis@abantecart.com','jamescurtis@abantecart.com','(602) 916-1822','','6b006ba67f3c172e146991a2ad46d865','a:0:{}',0,6,1,1,1,'109.104.166.138','2013-08-31 11:00:03'),
+(8,0,'Bruce','Rosarini','brucerosarini@abantecart.com','brucerosarini@abantecart.com','(539) 838-9210','','6b006ba67f3c172e146991a2ad46d865','a:0:{}',0,7,1,1,1,'109.104.166.98','2013-08-31 11:08:23'),
+(9,0,'Carlos','Compton','carloscmpton@abantecart.com','carloscmpton@abantecart.com','(928) 205-0511','','6b006ba67f3c172e146991a2ad46d865','a:0:{}',0,8,1,1,1,'109.104.166.98','2013-08-31 11:13:14'),
+(10,0,'Garrison','Baxter','garrisonbaxter@abantecart.com','garrisonbaxter@abantecart.com','(803) 189-5001','','6b006ba67f3c172e146991a2ad46d865','a:0:{}',0,9,1,1,1,'109.104.166.138','2013-09-01 08:51:47'),
+(11,0,'Anthony','Blair','anthonyblair@abantecart.com','anthonyblair@abantecart.com','(402) 456-6398','','05ec6352a8b997363e5c6483aeffeb50','a:0:{}',0,10,1,1,1,'171.98.12.12','2013-09-01 08:54:26'),
+(12,0,'Allen','Waters','allenwaters@abantecart.com','allenwaters@abantecart.com','(417) 280-7406','','6b006ba67f3c172e146991a2ad46d865','a:0:{}',0,11,1,1,1,'109.104.166.98','2013-09-01 09:12:56'),
 (13,0,'qqqqqq','qqqqqq','1@abantecart','1@abantecart','55 555 5555 5555','','f73469b693cecf7fa70c3e39b6fde1f4','a:1:{s:3:\"97.\";i:1;}',0,12,1,1,1,'109.104.166.98','2013-09-08 11:28:20');
 
 --
 -- Dumping data for table `global_attributes`
 --
-
-
 
 INSERT INTO `ac_global_attributes`
 ( `attribute_id`,
@@ -374,17 +319,6 @@ INSERT INTO `ac_global_attributes_value_descriptions` VALUES
 (77,5,1,'Eau de Cologne'),
 (75,5,1,'Eau de Parfum');
 
---
--- Dumping data for table `layouts`
---
-
-
-INSERT INTO `ac_layouts` 
-VALUES 
-(8,'default',0,'Product: Pro-V Color Hair Solutions Color Preserve Shine Conditioner (product_id=101)',1,now(), now()),
-(9,'default',0,'Product: Flora By Gucci Eau Fraiche (product_id=110)',1,now(), now()),
-(10,'default',0,'Product: Lancome Slimissime 360 Slimming Activating Concentrate Unisex Treatment (product_id=107)',1,now(), now());
-
 
 
 --
@@ -437,19 +371,19 @@ VALUES
 
 INSERT INTO `ac_order_history` 
 VALUES 
-(1,1,1,1,'','0000-00-00 00:00:00'),
-(2,2,1,1,'','2013-09-07 04:02:31'),
-(3,3,1,1,'','2013-09-07 04:41:25'),
-(4,4,1,1,'','2013-09-07 04:51:07'),
-(5,5,1,1,'','2013-09-07 05:20:22'),
-(6,6,1,1,'','2013-09-07 05:21:56'),
-(7,7,1,1,'','2013-09-07 05:24:11'),
-(8,8,1,1,'','2013-09-07 05:36:21'),
-(9,9,1,1,'','2013-09-07 05:37:20'),
-(10,10,1,1,'','2013-09-07 05:39:30'),
-(11,11,1,1,'','2013-09-07 05:40:03'),
-(12,12,1,1,'','2012-03-15 10:04:06'),
-(13,13,1,1,'','2012-03-15 10:05:40');
+(1,1,1,1,'','0000-00-00 00:00:00', now()),
+(2,2,1,1,'','2013-09-07 04:02:31', now()),
+(3,3,1,1,'','2013-09-07 04:41:25', now()),
+(4,4,1,1,'','2013-09-07 04:51:07', now()),
+(5,5,1,1,'','2013-09-07 05:20:22', now()),
+(6,6,1,1,'','2013-09-07 05:21:56', now()),
+(7,7,1,1,'','2013-09-07 05:24:11', now()),
+(8,8,1,1,'','2013-09-07 05:36:21', now()),
+(9,9,1,1,'','2013-09-07 05:37:20', now()),
+(10,10,1,1,'','2013-09-07 05:39:30', now()),
+(11,11,1,1,'','2013-09-07 05:40:03', now()),
+(12,12,1,1,'','2012-03-15 10:04:06', now()),
+(13,13,1,1,'','2012-03-15 10:05:40', now());
 
 
 
@@ -600,60 +534,19 @@ VALUES
 
 INSERT INTO `ac_orders` 
 VALUES 
-(1,0,'',0,'Your Store','http://localhost/',1,8,'fdsfdsf','czx','(092) 222-2222','','demo@abantecart.com','fdsfdsf','czx','','addresss','','testing','55555','Maryland',3643,'United States',223,'{firstname} {lastname} {company} {address_1} {address_2} {city}, {zone} {postcode} {country}','Flat Shipping Rate','fdsfdsf','czx','','addresss','','testing','55555','Maryland',3643,'United States',223,'{firstname} {lastname} {company} {address_1} {address_2} {city}, {zone} {postcode} {country}','Cash On Delivery','','1585.4400',1,1,1,'GBP','1.00000000',0,'0000-00-00 00:00:00','0000-00-00 00:00:00','127.0.0.1',''),
-(2,0,'',0,'Web Store Name','http://abantecart/public_html/',11,8,'Anthony','Blair','+1 907-842-2240','','anthonyblair@abantecart.com','','','','','','','','',0,'',0,'','','Anthony','Blair','','104 Main Street','','Dillingham','','North Dakota',3657,'United States',223,'{firstname} {lastname}\r\n{company}\r\n{address_1}\r\n{address_2}\r\n{city}, {zone} {postcode}\r\n{country}','Cash On Delivery','','418.8100',1,1,1,'USD','1.00000000',0,now(), now(),'109.104.166.98',''),
-(3,0,'',0,'Web Store Name','http://abantecart/public_html/',5,8,'Gloria','Macias','+1 418-461-2440','','gloriamacias@abantecart.com','Gloria','Macias','','Camille Marcoux 15','','Blanc-Sablon','1569','Nunavut',609,'Canada',38,'','Flat Shipping Rate','Gloria','Macias','','Camille Marcoux 15','','Blanc-Sablon','1569','Nunavut',609,'Canada',38,'','Cash On Delivery','Please ASAP','246.0000',1,1,1,'USD','1.00000000',0,now(), now(),'109.104.166.98',''),
-(4,0,'',0,'Web Store Name','http://abantecart/public_html/',5,8,'Gloria','Macias','+1 418-461-2440','','gloriamacias@abantecart.com','','','','','','','','',0,'',0,'','','Gloria','Macias','','Camille Marcoux 15','','Blanc-Sablon','1569','Nunavut',609,'Canada',38,'','Cash On Delivery','','310.5270',1,1,1,'USD','1.00000000',0,now(), now(),'109.104.166.98',''),
-(5,0,'',0,'Web Store Name','http://abantecart/public_html/',3,8,'Keely','Mccoy','+44 1324 483784 ','','keelymccoy@abantecart.com','Keely','Mccoy','','4842 Amet','','Grangemouth','','Gloucestershire',3552,'United Kingdom',222,'','Flat Shipping Rate','Keely','Mccoy','','4842 Amet','','Grangemouth','','Gloucestershire',3552,'United Kingdom',222,'','Cash On Delivery','','686.0925',1,1,1,'USD','1.00000000',0,now(), now(),'109.104.166.98',''),
-(6,0,'',0,'Web Store Name','http://abantecart/public_html/',2,8,'Juliana','Davis','+44 1688 308321','','julidavis@abantecart.com','','','','','','','','',0,'',0,'','','Juliana','Davis','','Highlands and Islands PA75 6QE','','Isle of Mull','','Highlands',3559,'United Kingdom',222,'','Cash On Delivery','Bulgari','218.0850',1,1,1,'USD','1.00000000',0,now(), now(),'109.104.166.98',''),
-(7,0,'',0,'Web Store Name','http://abantecart/public_html/',9,8,'Carlos','Compton','+1 867-874-22391','','carloscmpton@abantecart.com','','','','','','','','',0,'',0,'','','Carlos','Compton','','31 Capital Drive','','Hay River','','Nova Scotia',608,'Canada',38,'','Cash On Delivery','','175.7700',1,1,1,'USD','1.00000000',0,now(), now(),'109.104.166.98',''),
-(8,0,'',0,'Web Store Name','http://abantecart/public_html/',8,8,'Bruce','Rosarini','+1 807-346-10763','','brucerosarini@abantecart.com','Bruce','Rosarini','','61 Cumberland ST','','Thunder Bay','','Minnesota',3646,'United States',223,'{firstname} {lastname}\r\n{company}\r\n{address_1}\r\n{address_2}\r\n{city}, {zone} {postcode}\r\n{country}','Flat Shipping Rate','Bruce','Rosarini','','61 Cumberland ST','','Thunder Bay','','Minnesota',3646,'United States',223,'{firstname} {lastname}\r\n{company}\r\n{address_1}\r\n{address_2}\r\n{city}, {zone} {postcode}\r\n{country}','Cash On Delivery','','62.0000',1,1,1,'USD','1.00000000',0,now(), now(),'109.104.166.98',''),
-(9,0,'',0,'Web Store Name','http://abantecart/public_html/',8,8,'Bruce','Rosarini','+1 807-346-10763','','brucerosarini@abantecart.com','Bruce','Rosarini','','61 Cumberland ST','','Thunder Bay','','Minnesota',3646,'United States',223,'{firstname} {lastname}\r\n{company}\r\n{address_1}\r\n{address_2}\r\n{city}, {zone} {postcode}\r\n{country}','Flat Shipping Rate','Bruce','Rosarini','','61 Cumberland ST','','Thunder Bay','','Minnesota',3646,'United States',223,'{firstname} {lastname}\r\n{company}\r\n{address_1}\r\n{address_2}\r\n{city}, {zone} {postcode}\r\n{country}','Cash On Delivery','','352.0000',1,1,1,'USD','1.00000000',0,now(), now(),'109.104.166.98',''),
-(10,0,'',0,'Web Store Name','http://abantecart/public_html/',12,8,'Allen','Waters','+1 540-985-59700','','allenwaters@abantecart.com','','','','','','','','',0,'',0,'','','Allen','Waters','','110 Shenandoah Avenue','','Roanoke','','Virginia',3673,'United States',223,'{firstname} {lastname}\r\n{company}\r\n{address_1}\r\n{address_2}\r\n{city}, {zone} {postcode}\r\n{country}','Cash On Delivery','','155.1550',1,1,1,'USD','1.00000000',0,now(), now(),'109.104.166.98',''),
-(11,0,'',0,'Web Store Name','http://abantecart/public_html/',12,8,'Allen','Waters','+1 540-985-59700','','allenwaters@abantecart.com','Allen','Waters','','110 Shenandoah Avenue','','Roanoke','','Virginia',3673,'United States',223,'{firstname} {lastname}\r\n{company}\r\n{address_1}\r\n{address_2}\r\n{city}, {zone} {postcode}\r\n{country}','Flat Shipping Rate','Allen','Waters','','110 Shenandoah Avenue','','Roanoke','','Virginia',3673,'United States',223,'{firstname} {lastname}\r\n{company}\r\n{address_1}\r\n{address_2}\r\n{city}, {zone} {postcode}\r\n{country}','Cash On Delivery','','21.0000',1,1,1,'USD','1.00000000',0,now(), now(),'109.104.166.98',''),
-(12,0,'',0,'Web Store Name','http://abantecart/public_html/',11,8,'Anthony','Blair','+1 907-842-2240','','anthonyblair@abantecart.com','Anthony','Blair','','104 Main Street','','Dillingham','','North Dakota',3657,'United States',223,'{firstname} {lastname}\r\n{company}\r\n{address_1}\r\n{address_2}\r\n{city}, {zone} {postcode}\r\n{country}','Flat Shipping Rate','Anthony','Blair','','104 Main Street','','Dillingham','','North Dakota',3657,'United States',223,'{firstname} {lastname}\r\n{company}\r\n{address_1}\r\n{address_2}\r\n{city}, {zone} {postcode}\r\n{country}','Cash On Delivery','','487.3750',2,1,3,'GBP','0.63820000',0,now(), now(),'171.98.12.12',''),
-(13,0,'',0,'Web Store Name','http://abantecart/public_html/',11,8,'Anthony','Blair','+1 907-842-2240','','anthonyblair@abantecart.com','Anthony','Blair','','104 Main Street','','Dillingham','','North Dakota',3657,'United States',223,'{firstname} {lastname}\r\n{company}\r\n{address_1}\r\n{address_2}\r\n{city}, {zone} {postcode}\r\n{country}','Flat Shipping Rate','Anthony','Blair','','104 Main Street','','Dillingham','','North Dakota',3657,'United States',223,'{firstname} {lastname}\r\n{company}\r\n{address_1}\r\n{address_2}\r\n{city}, {zone} {postcode}\r\n{country}','Cash On Delivery','','626.9600',1,1,3,'GBP','0.63820000',0,now(), now(),'171.98.12.12','');
-
-
-
---
--- Dumping data for table `page_descriptions`
---
-
-
-
-INSERT INTO `ac_page_descriptions` 
-VALUES 
-(6,1,'Pro-V Color Hair Solutions Color Preserve Shine Conditioner','','','','','',now(), now()),
-(7,1,'Flora By Gucci Eau Fraiche','','','','','',now(), now()),
-(8,1,'Lancome Slimissime 360 Slimming Activating Concentrate Unisex Treatment','','','','','',now(), now());
-
-
---
--- Dumping data for table `pages`
---
-
-
-
-INSERT INTO `ac_pages` 
-VALUES 
-(6,0,'pages/product/product','product_id','101',now(), now()),
-(7,0,'pages/product/product','product_id','110',now(), now()),
-(8,0,'pages/product/product','product_id','107',now(), now());
-
-
-
---
--- Dumping data for table `pages_layouts`
---
-
-
-
-INSERT INTO `ac_pages_layouts` 
-VALUES 
-(8,6),
-(9,7),
-(10,8);
+(1,0,'',0,'Your Store','http://localhost/',1,1,'fdsfdsf','czx','(092) 222-2222','','demo@abantecart.com','fdsfdsf','czx','','addresss','','testing','55555','Maryland',3643,'United States',223,'{firstname} {lastname} {company} {address_1} {address_2} {city}, {zone} {postcode} {country}','Flat Shipping Rate','fdsfdsf','czx','','addresss','','testing','55555','Maryland',3643,'United States',223,'{firstname} {lastname} {company} {address_1} {address_2} {city}, {zone} {postcode} {country}','Cash On Delivery','','1585.4400',1,1,1,'GBP','1.00000000',0,'0000-00-00 00:00:00','0000-00-00 00:00:00','127.0.0.1',''),
+(2,0,'',0,'Web Store Name','http://abantecart/public_html/',11,1,'Anthony','Blair','+1 907-842-2240','','anthonyblair@abantecart.com','','','','','','','','',0,'',0,'','','Anthony','Blair','','104 Main Street','','Dillingham','','North Dakota',3657,'United States',223,'{firstname} {lastname}\r\n{company}\r\n{address_1}\r\n{address_2}\r\n{city}, {zone} {postcode}\r\n{country}','Cash On Delivery','','418.8100',1,1,1,'USD','1.00000000',0,now(), now(),'109.104.166.98',''),
+(3,0,'',0,'Web Store Name','http://abantecart/public_html/',5,1,'Gloria','Macias','+1 418-461-2440','','gloriamacias@abantecart.com','Gloria','Macias','','Camille Marcoux 15','','Blanc-Sablon','1569','Nunavut',609,'Canada',38,'','Flat Shipping Rate','Gloria','Macias','','Camille Marcoux 15','','Blanc-Sablon','1569','Nunavut',609,'Canada',38,'','Cash On Delivery','Please ASAP','246.0000',1,1,1,'USD','1.00000000',0,now(), now(),'109.104.166.98',''),
+(4,0,'',0,'Web Store Name','http://abantecart/public_html/',5,1,'Gloria','Macias','+1 418-461-2440','','gloriamacias@abantecart.com','','','','','','','','',0,'',0,'','','Gloria','Macias','','Camille Marcoux 15','','Blanc-Sablon','1569','Nunavut',609,'Canada',38,'','Cash On Delivery','','310.5270',1,1,1,'USD','1.00000000',0,now(), now(),'109.104.166.98',''),
+(5,0,'',0,'Web Store Name','http://abantecart/public_html/',3,1,'Keely','Mccoy','+44 1324 483784 ','','keelymccoy@abantecart.com','Keely','Mccoy','','4842 Amet','','Grangemouth','','Gloucestershire',3552,'United Kingdom',222,'','Flat Shipping Rate','Keely','Mccoy','','4842 Amet','','Grangemouth','','Gloucestershire',3552,'United Kingdom',222,'','Cash On Delivery','','686.0925',1,1,1,'USD','1.00000000',0,now(), now(),'109.104.166.98',''),
+(6,0,'',0,'Web Store Name','http://abantecart/public_html/',2,1,'Juliana','Davis','+44 1688 308321','','julidavis@abantecart.com','','','','','','','','',0,'',0,'','','Juliana','Davis','','Highlands and Islands PA75 6QE','','Isle of Mull','','Highlands',3559,'United Kingdom',222,'','Cash On Delivery','Bulgari','218.0850',1,1,1,'USD','1.00000000',0,now(), now(),'109.104.166.98',''),
+(7,0,'',0,'Web Store Name','http://abantecart/public_html/',9,1,'Carlos','Compton','+1 867-874-22391','','carloscmpton@abantecart.com','','','','','','','','',0,'',0,'','','Carlos','Compton','','31 Capital Drive','','Hay River','','Nova Scotia',608,'Canada',38,'','Cash On Delivery','','175.7700',1,1,1,'USD','1.00000000',0,now(), now(),'109.104.166.98',''),
+(8,0,'',0,'Web Store Name','http://abantecart/public_html/',8,1,'Bruce','Rosarini','+1 807-346-10763','','brucerosarini@abantecart.com','Bruce','Rosarini','','61 Cumberland ST','','Thunder Bay','','Minnesota',3646,'United States',223,'{firstname} {lastname}\r\n{company}\r\n{address_1}\r\n{address_2}\r\n{city}, {zone} {postcode}\r\n{country}','Flat Shipping Rate','Bruce','Rosarini','','61 Cumberland ST','','Thunder Bay','','Minnesota',3646,'United States',223,'{firstname} {lastname}\r\n{company}\r\n{address_1}\r\n{address_2}\r\n{city}, {zone} {postcode}\r\n{country}','Cash On Delivery','','62.0000',1,1,1,'USD','1.00000000',0,now(), now(),'109.104.166.98',''),
+(9,0,'',0,'Web Store Name','http://abantecart/public_html/',8,1,'Bruce','Rosarini','+1 807-346-10763','','brucerosarini@abantecart.com','Bruce','Rosarini','','61 Cumberland ST','','Thunder Bay','','Minnesota',3646,'United States',223,'{firstname} {lastname}\r\n{company}\r\n{address_1}\r\n{address_2}\r\n{city}, {zone} {postcode}\r\n{country}','Flat Shipping Rate','Bruce','Rosarini','','61 Cumberland ST','','Thunder Bay','','Minnesota',3646,'United States',223,'{firstname} {lastname}\r\n{company}\r\n{address_1}\r\n{address_2}\r\n{city}, {zone} {postcode}\r\n{country}','Cash On Delivery','','352.0000',1,1,1,'USD','1.00000000',0,now(), now(),'109.104.166.98',''),
+(10,0,'',0,'Web Store Name','http://abantecart/public_html/',12,1,'Allen','Waters','+1 540-985-59700','','allenwaters@abantecart.com','','','','','','','','',0,'',0,'','','Allen','Waters','','110 Shenandoah Avenue','','Roanoke','','Virginia',3673,'United States',223,'{firstname} {lastname}\r\n{company}\r\n{address_1}\r\n{address_2}\r\n{city}, {zone} {postcode}\r\n{country}','Cash On Delivery','','155.1550',1,1,1,'USD','1.00000000',0,now(), now(),'109.104.166.98',''),
+(11,0,'',0,'Web Store Name','http://abantecart/public_html/',12,1,'Allen','Waters','+1 540-985-59700','','allenwaters@abantecart.com','Allen','Waters','','110 Shenandoah Avenue','','Roanoke','','Virginia',3673,'United States',223,'{firstname} {lastname}\r\n{company}\r\n{address_1}\r\n{address_2}\r\n{city}, {zone} {postcode}\r\n{country}','Flat Shipping Rate','Allen','Waters','','110 Shenandoah Avenue','','Roanoke','','Virginia',3673,'United States',223,'{firstname} {lastname}\r\n{company}\r\n{address_1}\r\n{address_2}\r\n{city}, {zone} {postcode}\r\n{country}','Cash On Delivery','','21.0000',1,1,1,'USD','1.00000000',0,now(), now(),'109.104.166.98',''),
+(12,0,'',0,'Web Store Name','http://abantecart/public_html/',11,1,'Anthony','Blair','+1 907-842-2240','','anthonyblair@abantecart.com','Anthony','Blair','','104 Main Street','','Dillingham','','North Dakota',3657,'United States',223,'{firstname} {lastname}\r\n{company}\r\n{address_1}\r\n{address_2}\r\n{city}, {zone} {postcode}\r\n{country}','Flat Shipping Rate','Anthony','Blair','','104 Main Street','','Dillingham','','North Dakota',3657,'United States',223,'{firstname} {lastname}\r\n{company}\r\n{address_1}\r\n{address_2}\r\n{city}, {zone} {postcode}\r\n{country}','Cash On Delivery','','487.3750',2,1,3,'GBP','0.63820000',0,now(), now(),'171.98.12.12',''),
+(13,0,'',0,'Web Store Name','http://abantecart/public_html/',11,1,'Anthony','Blair','+1 907-842-2240','','anthonyblair@abantecart.com','Anthony','Blair','','104 Main Street','','Dillingham','','North Dakota',3657,'United States',223,'{firstname} {lastname}\r\n{company}\r\n{address_1}\r\n{address_2}\r\n{city}, {zone} {postcode}\r\n{country}','Flat Shipping Rate','Anthony','Blair','','104 Main Street','','Dillingham','','North Dakota',3657,'United States',223,'{firstname} {lastname}\r\n{company}\r\n{address_1}\r\n{address_2}\r\n{city}, {zone} {postcode}\r\n{country}','Cash On Delivery','','626.9600',1,1,3,'GBP','0.63820000',0,now(), now(),'171.98.12.12','');
 
 
 
@@ -1009,31 +902,26 @@ VALUES
 (340,2,109,0,0,1,'C',0),
 (341,1,110,0,0,1,'S',1);
 
-
-
 --
 -- Dumping data for table `product_specials`
 --
 
-
 INSERT INTO `ac_product_specials` 
 VALUES 
-(252,51,1,0,'19.0000','0000-00-00','0000-00-00'),
-(253,55,1,0,'27.0000','0000-00-00','0000-00-00'),
-(254,67,1,0,'29.0000','0000-00-00','0000-00-00'),
-(255,72,1,0,'24.0000','0000-00-00','0000-00-00'),
-(256,88,1,0,'27.0000','0000-00-00','0000-00-00'),
-(257,93,1,0,'220.0000','0000-00-00','0000-00-00'),
-(258,65,1,1,'89.0000','0000-00-00','0000-00-00'),
-(259,68,1,1,'35.0000','0000-00-00','0000-00-00'),
-(260,80,1,1,'45.0000','0000-00-00','0000-00-00'),
-(261,81,1,1,'49.0000','0000-00-00','0000-00-00');
-
+(252,51,1,0,'19.0000','0000-00-00','0000-00-00',now(),now()),
+(253,55,1,0,'27.0000','0000-00-00','0000-00-00',now(),now()),
+(254,67,1,0,'29.0000','0000-00-00','0000-00-00',now(),now()),
+(255,72,1,0,'24.0000','0000-00-00','0000-00-00',now(),now()),
+(256,88,1,0,'27.0000','0000-00-00','0000-00-00',now(),now()),
+(257,93,1,0,'220.0000','0000-00-00','0000-00-00',now(),now()),
+(258,65,1,1,'89.0000','0000-00-00','0000-00-00',now(),now()),
+(259,68,1,1,'35.0000','0000-00-00','0000-00-00',now(),now()),
+(260,80,1,1,'45.0000','0000-00-00','0000-00-00',now(),now()),
+(261,81,1,1,'49.0000','0000-00-00','0000-00-00',now(),now());
 
 --
 -- Dumping data for table `product_tags`
 --
-
 
 INSERT INTO `ac_product_tags` 
 VALUES 
@@ -1141,13 +1029,9 @@ VALUES
 (109,'PRF00279','','',1,1,15,1,'84.0000',1,'2012-03-14','50.00',6,'3.00','2.00','10.00',1,1,now(), now(),6,1,1,1,'0.0000'),
 (110,'PRF00278','','',1000,1,20,1,'90.0000',1,'2012-03-14','0.00',6,'0.00','0.00','0.00',3,1,now(), now(),21,1,0,1,'0.0000');
 
-
-
 --
 -- Dumping data for table `products_featured`
 --
-
-
 
 INSERT INTO `ac_products_featured` 
 VALUES 
@@ -1160,13 +1044,9 @@ VALUES
 (56),
 (57);
 
-
-
 --
 -- Dumping data for table `products_related`
 --
-
-
 
 INSERT INTO `ac_products_related` 
 VALUES 
@@ -1175,13 +1055,9 @@ VALUES
 (101,71),
 (108,100);
 
-
-
 --
 -- Dumping data for table `products_to_categories`
 --
-
-
 
 INSERT INTO `ac_products_to_categories` 
 VALUES 
@@ -1289,12 +1165,9 @@ VALUES
 (109,46),
 (110,50);
 
-
 --
 -- Dumping data for table `products_to_stores`
 --
-
-
 
 INSERT INTO `ac_products_to_stores` 
 VALUES 
@@ -1360,13 +1233,9 @@ VALUES
 (109,0),
 (110,0);
 
-
-
 --
 -- Dumping data for table `resource_descriptions`
 --
-
-
 
 INSERT INTO `ac_resource_descriptions` 
 VALUES 
@@ -1717,9 +1586,7 @@ VALUES
 (100174,1,now(), now()),
 (100175,1,now(), now()),
 (100176,1,now(), now()),
-
 (100188,1,now(), now()),
-
 (100190,1,now(), now()),
 (100191,1,now(), now()),
 (100192,1,now(), now()),
@@ -1727,13 +1594,9 @@ VALUES
 (100194,1,now(), now())
 ;
 
-
-
 --
 -- Dumping data for table `resource_map`
 --
-
-
 
 INSERT INTO `ac_resource_map` 
 VALUES 
@@ -1897,7 +1760,6 @@ VALUES
 (100174,'products',110,0,0,now(), now()),
 (100175,'products',110,0,0,now(), now()),
 (100176,'products',110,0,0,now(), now()),
-
 (100188,'banners',13,0,0,now(), now()),
 (100188,'banners',14,0,0,now(), now()),
 (100188,'banners',15,0,0,now(), now()),
@@ -1905,13 +1767,9 @@ VALUES
 (100194,'banners',18,0,1,now(), now())
 ;
 
-
-
 --
 -- Dumping data for table `reviews`
 --
-
-
 
 INSERT INTO `ac_reviews` 
 VALUES 
@@ -1972,12 +1830,12 @@ INSERT INTO `ac_banners` VALUES
 
 INSERT INTO `ac_banner_descriptions` VALUES
 	(18,1,'fallback','','',now(), now()),
-	(17,1,'Main Banner 5','&lt;p&gt;\r\n	&lt;img alt=&quot;&quot; class=&quot;wp1_3 slide2_bot&quot; src=&quot;storefront/view/default_html5/image/banner_image_5.png&quot; /&gt; &lt;span class=&quot;txt1&quot;&gt;Application and data security&lt;/span&gt; &lt;span class=&quot;txt2&quot;&gt;Secure Solution&lt;/span&gt; &lt;span class=&quot;txt3&quot;&gt;Very secure solution with up to date industry security practices and inline with PCI compliance. Customer information protection with data encryption&lt;/span&gt; &lt;span class=&quot;txt4&quot;&gt;&lt;a class=&quot;btn btn-wht&quot; href=&quot;#&quot;&gt;Install Now!&lt;/a&gt;&lt;/span&gt;&lt;/p&gt;\r\n','',now(), now()),
+	(17,1,'Main Banner 5','&lt;p&gt;\r\n	&lt;img alt=&quot;&quot; class=&quot;wp1_3 slide2_bot&quot; src=&quot;storefront/view/default/image/banner_image_5.png&quot; /&gt; &lt;span class=&quot;txt1&quot;&gt;Application and data security&lt;/span&gt; &lt;span class=&quot;txt2&quot;&gt;Secure Solution&lt;/span&gt; &lt;span class=&quot;txt3&quot;&gt;Very secure solution with up to date industry security practices and inline with PCI compliance. Customer information protection with data encryption&lt;/span&gt; &lt;span class=&quot;txt4&quot;&gt;&lt;a class=&quot;btn btn-wht&quot; href=&quot;#&quot;&gt;Install Now!&lt;/a&gt;&lt;/span&gt;&lt;/p&gt;\r\n','',now(), now()),
 	(16,1,'banner4','','',now(), now()),
 	(15,1,'banner3','','',now(), now()),
 	(14,1,'banner2','','',now(), now()),
 	(13,1,'banner1','','',now(), now()),
-	(11,1,'Main Banner 4','&lt;p&gt;\r\n	&lt;img alt=&quot;&quot; class=&quot;wp1_3 slide3_bot&quot; src=&quot;storefront/view/default_html5/image/banner_image_4.png&quot; /&gt; &lt;span class=&quot;txt1 blue&quot;&gt;Stay in control&lt;/span&gt; &lt;span class=&quot;txt2 blue&quot;&gt;Easy updates&lt;/span&gt; &lt;span class=&quot;txt3 short&quot;&gt;Upgrade right from admin. Backward supportability in upgrades and automatic backups. Easy extension download with one step installation.&lt;/span&gt; &lt;span class=&quot;txt4 txt4up&quot;&gt;&lt;a class=&quot;btn btn-wht&quot; href=&quot;#&quot;&gt;Get Yours!&lt;/a&gt;&lt;/span&gt;&lt;/p&gt;\r\n','',now(), now()),
-	(10,1,'Main Banner 3','&lt;p&gt;\r\n	&lt;img alt=&quot;&quot; class=&quot;wp1_3 slide2_bot&quot; src=&quot;storefront/view/default_html5/image/banner_image_3.png&quot; /&gt; &lt;span class=&quot;txt1&quot;&gt;Feature rich with smart UI&lt;/span&gt; &lt;span class=&quot;txt2&quot;&gt;Easy &amp;amp; fun to manage&lt;/span&gt; &lt;span class=&quot;txt3&quot;&gt;Feature reach shopping cart application right out of the box. Standard features allow to set up complete eCommerce site with all the tools needed to sell products online.&lt;/span&gt; &lt;span class=&quot;txt4&quot;&gt;&lt;a class=&quot;btn btn-wht&quot; href=&quot;#&quot;&gt;Install Now!&lt;/a&gt;&lt;/span&gt;&lt;/p&gt;\r\n','',now(), now()),
-	(9,1,'Main Banner 2','&lt;p&gt;\r\n	&lt;img alt=&quot;&quot; class=&quot;wp1_3 wp1_left slide2_bot&quot; src=&quot;storefront/view/default_html5/image/banner_image_2.png&quot; /&gt; &lt;span class=&quot;txt1 blue txt_right2&quot;&gt;Highly flexible layout on any page&lt;/span&gt; &lt;span class=&quot;txt2 blue txt_right2&quot;&gt;SEO Friendly&lt;/span&gt; &lt;span class=&quot;txt2 blue txt_right2&quot;&gt;Fast Loading&lt;/span&gt; &lt;span class=&quot;txt4 txt_right2 txt4up&quot;&gt;&lt;a class=&quot;btn btn-wht&quot; href=&quot;#&quot;&gt;Try Now!&lt;/a&gt;&lt;/span&gt;&lt;/p&gt;\r\n','',now(), now()),
-	(8,1,'Main Banner 1','&lt;p&gt;\r\n	&lt;img alt=&quot;&quot; class=&quot;wp1_3 slide1_bot&quot; src=&quot;storefront/view/default_html5/image/banner_image_1.png&quot; /&gt; &lt;span class=&quot;txt1&quot;&gt;HTML5 Responsive Storefront to look great on&lt;/span&gt; &lt;span class=&quot;txt2&quot;&gt;ALL Screen Sizes&lt;/span&gt; &lt;span class=&quot;txt3 short&quot;&gt;Natively responsive template implemented with bootstrap library and HTML5. Will look good on most mobile devices and tablets.&lt;/span&gt; &lt;span class=&quot;txt4 txt4up&quot;&gt;&lt;a class=&quot;btn btn-wht&quot; href=&quot;&quot;&gt;Try on your device!&lt;/a&gt;&lt;/span&gt;&lt;/p&gt;\r\n','',now(), now());
+	(11,1,'Main Banner 4','&lt;p&gt;\r\n	&lt;img alt=&quot;&quot; class=&quot;wp1_3 slide3_bot&quot; src=&quot;storefront/view/default/image/banner_image_4.png&quot; /&gt; &lt;span class=&quot;txt1 blue&quot;&gt;Stay in control&lt;/span&gt; &lt;span class=&quot;txt2 blue&quot;&gt;Easy updates&lt;/span&gt; &lt;span class=&quot;txt3 short&quot;&gt;Upgrade right from admin. Backward supportability in upgrades and automatic backups. Easy extension download with one step installation.&lt;/span&gt; &lt;span class=&quot;txt4 txt4up&quot;&gt;&lt;a class=&quot;btn btn-wht&quot; href=&quot;#&quot;&gt;Get Yours!&lt;/a&gt;&lt;/span&gt;&lt;/p&gt;\r\n','',now(), now()),
+	(10,1,'Main Banner 3','&lt;p&gt;\r\n	&lt;img alt=&quot;&quot; class=&quot;wp1_3 slide2_bot&quot; src=&quot;storefront/view/default/image/banner_image_3.png&quot; /&gt; &lt;span class=&quot;txt1&quot;&gt;Feature rich with smart UI&lt;/span&gt; &lt;span class=&quot;txt2&quot;&gt;Easy &amp;amp; fun to manage&lt;/span&gt; &lt;span class=&quot;txt3&quot;&gt;Feature reach shopping cart application right out of the box. Standard features allow to set up complete eCommerce site with all the tools needed to sell products online.&lt;/span&gt; &lt;span class=&quot;txt4&quot;&gt;&lt;a class=&quot;btn btn-wht&quot; href=&quot;#&quot;&gt;Install Now!&lt;/a&gt;&lt;/span&gt;&lt;/p&gt;\r\n','',now(), now()),
+	(9,1,'Main Banner 2','&lt;p&gt;\r\n	&lt;img alt=&quot;&quot; class=&quot;wp1_3 wp1_left slide2_bot&quot; src=&quot;storefront/view/default/image/banner_image_2.png&quot; /&gt; &lt;span class=&quot;txt1 blue txt_right2&quot;&gt;Highly flexible layout on any page&lt;/span&gt; &lt;span class=&quot;txt2 blue txt_right2&quot;&gt;SEO Friendly&lt;/span&gt; &lt;span class=&quot;txt2 blue txt_right2&quot;&gt;Fast Loading&lt;/span&gt; &lt;span class=&quot;txt4 txt_right2 txt4up&quot;&gt;&lt;a class=&quot;btn btn-wht&quot; href=&quot;#&quot;&gt;Try Now!&lt;/a&gt;&lt;/span&gt;&lt;/p&gt;\r\n','',now(), now()),
+	(8,1,'Main Banner 1','&lt;p&gt;\r\n	&lt;img alt=&quot;&quot; class=&quot;wp1_3 slide1_bot&quot; src=&quot;storefront/view/default/image/banner_image_1.png&quot; /&gt; &lt;span class=&quot;txt1&quot;&gt;HTML5 Responsive Storefront to look great on&lt;/span&gt; &lt;span class=&quot;txt2&quot;&gt;ALL Screen Sizes&lt;/span&gt; &lt;span class=&quot;txt3 short&quot;&gt;Natively responsive template implemented with bootstrap library and HTML5. Will look good on most mobile devices and tablets.&lt;/span&gt; &lt;span class=&quot;txt4 txt4up&quot;&gt;&lt;a class=&quot;btn btn-wht&quot; href=&quot;&quot;&gt;Try on your device!&lt;/a&gt;&lt;/span&gt;&lt;/p&gt;\r\n','',now(), now());

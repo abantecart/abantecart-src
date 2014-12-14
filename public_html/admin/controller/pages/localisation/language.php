@@ -22,7 +22,7 @@ if (! defined ( 'DIR_CORE' ) || !IS_ADMIN) {
 }
 class ControllerPagesLocalisationLanguage extends AController {
 	public $data = array();
-	private $error = array();
+	public $error = array();
 	private $fields = array('name', 'code', 'locale', 'image', 'directory', 'sort_order', 'status' );
   
 	public function main() {
@@ -43,7 +43,8 @@ class ControllerPagesLocalisationLanguage extends AController {
    		$this->document->addBreadcrumb( array (
        		'href'      => $this->html->getSecureURL('localisation/language'),
        		'text'      => $this->language->get('heading_title'),
-      		'separator' => ' :: '
+      		'separator' => ' :: ',
+			'current'	=> true
    		 ));
 
 		$grid_settings = array(
@@ -158,6 +159,16 @@ class ControllerPagesLocalisationLanguage extends AController {
 		$this->document->setTitle( $this->language->get('heading_title') );
 		$this->view->assign( 'insert', $this->html->getSecureURL('localisation/language/insert') );
 		$this->view->assign('help_url', $this->gen_help_url('language_listing') );
+
+		$this->view->assign('manage_extensions', $this->html->buildElement(
+				array(
+						'type' => 'button',
+						'name' => 'manage_extensions',
+						'href' => $this->html->getSecureURL('extension/extensions/language'),
+						'text' => $this->language->get('button_manage_extensions'),
+						'title' => $this->language->get('button_manage_extensions')
+				)));
+
 		$this->processTemplate('pages/localisation/language_list.tpl' );
 
         //update controller data
@@ -170,7 +181,7 @@ class ControllerPagesLocalisationLanguage extends AController {
         $this->extensions->hk_InitData($this,__FUNCTION__);
 
 		$this->document->setTitle( $this->language->get('heading_title') );
-		if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->_validateForm()) {
+		if ($this->request->is_POST() && $this->_validateForm()) {
 
 			$language_id = $this->model_localisation_language->addLanguage($this->request->post);
 			$this->session->data['success'] = $this->language->get('text_success');
@@ -194,7 +205,7 @@ class ControllerPagesLocalisationLanguage extends AController {
 		}
 
 		$this->document->setTitle( $this->language->get('heading_title') );
-		if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->_validateForm()) {
+		if ($this->request->is_POST() && $this->_validateForm()) {
 			$this->model_localisation_language->editLanguage($this->request->get['language_id'], $this->request->post);
 			$this->session->data['success'] = $this->language->get('text_success');			
 			$this->redirect($this->html->getSecureURL('localisation/language/update', '&language_id=' . $this->request->get['language_id'] ));
@@ -238,7 +249,7 @@ class ControllerPagesLocalisationLanguage extends AController {
 
 		$this->data['cancel'] = $this->html->getSecureURL('localisation/language');
 
-		if (isset($this->request->get['language_id']) && ($this->request->server['REQUEST_METHOD'] != 'POST')) {
+		if (isset($this->request->get['language_id']) && $this->request->is_GET()) {
 			$language_info = $this->model_localisation_language->getLanguage($this->request->get['language_id']);
 		}
 
@@ -267,7 +278,8 @@ class ControllerPagesLocalisationLanguage extends AController {
 		$this->document->addBreadcrumb( array (
        		'href'      => $this->data['action'],
        		'text'      => $this->data['heading_title'],
-      		'separator' => ' :: '
+      		'separator' => ' :: ',
+			'current'	=> true
    		 ));
 
 		$form->setForm(array(
@@ -280,6 +292,7 @@ class ControllerPagesLocalisationLanguage extends AController {
 		    'type' => 'form',
 		    'name' => 'languageFrm',
 		    'action' => $this->data['action'],
+			'attr' => 'data-confirm-exit="true" class="aform form-horizontal"',
 	    ));
         $this->data['form']['submit'] = $form->getFieldHtml(array(
 		    'type' => 'button',
@@ -351,6 +364,7 @@ class ControllerPagesLocalisationLanguage extends AController {
 				'type' => 'form',
 				'name' => 'languageLoadFrm',
 				'action' => $this->html->getSecureURL('localisation/language/loadlanguageData', '&language_id=' . $this->request->get['language_id'] ),
+				'attr' => 'class="aform form-horizontal"',
 			));
 			$this->data['form2']['load_data'] = $form2->getFieldHtml(array(
 				'type' => 'button',
@@ -364,7 +378,7 @@ class ControllerPagesLocalisationLanguage extends AController {
 			foreach ($this->language->getAvailableLanguages() as $result) {
 				$all_languages[$result['language_id']] = $result['name'];
 			}
-			$this->data['form2']['language_selector'] = $form2->getFieldHtml(array(
+			$this->data['form2']['fields']['language_selector'] = $form2->getFieldHtml(array(
 				'type' => 'selectbox',
 				'name' => 'source_language',
 				'value' => '',
@@ -372,7 +386,7 @@ class ControllerPagesLocalisationLanguage extends AController {
 			));
 
 			$translate_methods = $this->language->getTranslationMethods();
-			$this->data['form2']['translate_method_selector'] = $form2->getFieldHtml(array(
+			$this->data['form2']['fields']['translate_method_selector'] = $form2->getFieldHtml(array(
 				'type' => 'selectbox',
 				'name' => 'translate_method',
 				'value' => '',
@@ -392,11 +406,11 @@ class ControllerPagesLocalisationLanguage extends AController {
 			$this->error['warning'] = $this->language->get('error_permission');
 		}
 
-		if ((strlen(utf8_decode($this->request->post['name'])) < 2) || (strlen(utf8_decode($this->request->post['name'])) > 32)) {
+		if ( mb_strlen($this->request->post['name']) < 2 || mb_strlen($this->request->post['name']) > 32 ) {
 			$this->error['name'] = $this->language->get('error_name');
 		}
 
-		if (strlen(utf8_decode($this->request->post['code'])) < 2) {
+		if (mb_strlen($this->request->post['code']) < 2) {
 			$this->error['code'] = $this->language->get('error_code');
 		}
 
@@ -408,6 +422,7 @@ class ControllerPagesLocalisationLanguage extends AController {
 			$this->error['directory'] = $this->language->get('error_directory');
 		}
 
+		$this->extensions->hk_ValidateData($this);
 
 		if (!$this->error) {
 			return TRUE;

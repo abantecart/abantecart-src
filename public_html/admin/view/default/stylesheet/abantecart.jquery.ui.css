@@ -8,6 +8,14 @@
 	float: none; 
 }
 
+.btn_grid {
+	padding: 3px;
+}
+
+.ui-widget input, .ui-widget select, .ui-widget textarea, .ui-widget button {
+	font-size: 12px;
+}
+
 /* autocomplete css*/
 .ui-autocomplete-category {
     font-weight: bold;
@@ -30,10 +38,10 @@
     /* prevent horizontal scrollbar */
     overflow-x: auto;
     /* add padding to account for vertical scrollbar */
-    padding: 0 10px 10px 10px;
-    margin: 5px;
-    width: 290px;
+    padding: 5px 10px 10px 10px;
+    width: 250px;
     position: absolute;
+    top: 35px !important;
     list-style-type: none;
 }
 
@@ -48,21 +56,18 @@
 
 .ui-autocomplete.ui-menu {
     margin: 10px 5px 5px 5px;
-    padding-left: 10px;
-    padding-bottom: 8px;
+    padding: 5px 5px 8px 10px;
 }
 
 .ui-autocomplete.ui-widget-content {
     background: none repeat scroll 0 0 #F7F7F7;
     border: 1px solid #C9C9D1;
-    border-radius: 7px;
-    -moz-border-radius: 7px;
-    -webkit-border-radius: 7px;
     color: #277FA7;
 }
 
 /*Grid*/
 .ui-jqgrid-wrapper {
+	min-width: 750px;
 }
 
 .ui-jqgrid-wrapper .ui-widget-content {
@@ -161,11 +166,9 @@
 }
 
 .ui-jqgrid .ui-jqgrid-htable th {
-    height: 40px;
+    height: 30px;
     padding: 0 2px;
-    font: 14px Arial, Helvetica, sans-serif;
-    text-align: center;
-    text-shadow: 0 1px 0 rgba(127, 144, 158, 0.5);
+    text-align: center !important;
 }
 
 .ui-jqgrid .ui-jqgrid-htable th.ui-state-default {
@@ -200,10 +203,13 @@
     position: relative;
 }
 
+.ui-jqgrid .ui-jqgrid-htable table {
+	width: 100%;
+}
 .ui-jqgrid .ui-jqgrid-htable th.ui-th-column {
     overflow: hidden;
     white-space: nowrap;
-    text-align: center;
+    text-align: center !important;
     background: none;
 }
 
@@ -266,14 +272,6 @@
 .ui-jqgrid tr.ui-search-toolbar th {
 }
 
-tr.ui-search-toolbar input {
-    margin: 1px 0px 0px 0px
-}
-
-tr.ui-search-toolbar select {
-    margin: 1px 0px 0px 0px
-}
-
 /* body */
 .ui-jqgrid .ui-jqgrid-bdiv {
     position: relative;
@@ -311,10 +309,14 @@ tr.ui-search-toolbar select {
 
 .ui-jqgrid tr.jqgrow td {
     font-weight: normal;
-    overflow: hidden;
+    font-size: 12px;
     height: 40px;
     padding: 2px 2px 2px 10px;
     border-bottom: 1px solid #CACCD2;
+}
+
+.ui-jqgrid tr.jqgrow td .btn_grid{
+    font-size: 14px;
 }
 
 .ui-jqgrid tr.jqgfirstrow td {
@@ -382,7 +384,7 @@ tr.ui-search-toolbar select {
 
 .ui-jqgrid .ui-jqgrid-ftable {
     table-layout: fixed;
-    margin-bottom: 0em;
+    margin-bottom: 0em;  
 }
 
 .ui-jqgrid tr.footrow td {
@@ -425,11 +427,6 @@ tr.ui-search-toolbar select {
     position: relative;
 }
 
-.ui-jqgrid .ui-pager-control .ui-pg-input{
-    margin-top: 4px;
-    text-align: center;
-}
-
 .ui-jqgrid .ui-pg-table {
     position: relative;
     padding-bottom: 2px;
@@ -448,6 +445,27 @@ tr.ui-search-toolbar select {
     font-weight: normal;
     vertical-align: middle;
     padding: 2px;
+    white-space: normal;
+}
+.ui-jqgrid .input-sm {
+	padding: 1px 5px;
+}
+.ui-jqgrid .input-group-addon.quicksave {
+	padding: 1px 1px;	
+}
+.ui-jqgrid .abuttons_grp .icon_save {
+	padding: 0;
+}
+
+.ui-jqgrid select.input-sm {
+	height: auto;
+}
+
+.ui-jqgrid .ui-pg-table td .form-group {
+	margin-right: 5px;
+}
+.ui-jqgrid-btable .form-inline .form-group {
+	margin-right: 0px;
 }
 
 .ui-jqgrid .ui-pg-button {
@@ -468,19 +486,7 @@ tr.ui-search-toolbar select {
     padding: 2px;
 }
 
-.ui-jqgrid .ui-pg-input {
-    height: 13px;
-    font-size: 12px;
-    margin: 0em;
-}
-
 .ui-jqgrid .ui-pg-selbox {
-    font-size: .8em;
-    line-height: 18px;
-    display: block;
-    width: 45px;
-    height: 18px;
-    margin: 0em;
 }
 
 .ui-jqgrid .ui-separator {
@@ -515,9 +521,6 @@ tr.ui-search-toolbar select {
     margin: 0 2px;
 }
 
-.ui-jqgrid td input, .ui-jqgrid td select .ui-jqgrid td textarea {
-    margin: 0em;
-}
 
 .ui-jqgrid td textarea {
     width: auto;
@@ -690,10 +693,6 @@ tr.ui-search-toolbar select {
     margin-bottom: 0em;
 }
 
-.EditTable td input, .EditTable td select, .EditTable td textarea {
-    margin: 0em;
-}
-
 .EditTable td textarea {
     width: auto;
     height: auto;
@@ -715,10 +714,6 @@ tr.ui-search-toolbar select {
     border-right: 0px none;
     padding-bottom: 5px;
     padding-top: 5px;
-}
-
-.ui-jqdialog-content input.FormElement {
-    padding: .3em
 }
 
 .ui-jqdialog-content .data-line {
@@ -923,10 +918,6 @@ tr.ui-search-toolbar select {
     padding: 1px;
 }
 
-.ui-searchFilter table td input, .ui-searchFilter table td select {
-    margin: 0.1em;
-}
-
 .ui-searchFilter .ui-state-default {
     cursor: pointer;
 }
@@ -944,4 +935,50 @@ tr.ui-search-toolbar select {
 
 .drag_row td{
 	-webkit-box-shadow: 13px 14px 28px rgba(50, 50, 50, 0.7);
+}
+
+
+/*for jqgrid customization of action button set via userdata->classes property from response controller*/
+
+.disable-delete .grid_action_delete,
+.disable-edit .grid_action_edit,
+.disable-view .grid_action_view,
+.disable-restart .grid_action_restart,
+.disable-save .grid_action_save,
+.disable-run .grid_action_run,
+.disable-install .grid_action_install,
+.disable-remote-install .grid_action_remote_install,
+.disable-uninstall .grid_action_uninstall,
+.disable-clone .grid_action_clone,
+.disable-approve .grid_action_approve
+{
+	display: none;
+}
+/* bold font for new messages in grid of message-manager*/
+
+.jqgrow.new_message>td{
+	font-weight: bold !important;
+}
+
+/* Grid Row Messages */
+.ui-jqgrid-btable .success {
+	padding: 10px 10px 10px 20px;
+	margin-bottom: 15px;
+	background: #E4F1C9 !important;
+	border: 1px solid #A5BD71;
+	font-size: 12px;
+}
+.ui-jqgrid-btable .warning {
+	padding: 10px 10px 10px 20px;
+	margin-bottom: 15px;
+	background: #FFDFE0 !important;
+	border: 1px solid #FF9999;
+	font-size: 12px;
+}
+.ui-jqgrid-btable .attention {
+	padding: 10px 10px 10px 20px;
+	margin-bottom: 15px;
+	background: #FEFBCC !important;
+	border: 1px solid #E6DB55;
+	font-size: 12px;
 }

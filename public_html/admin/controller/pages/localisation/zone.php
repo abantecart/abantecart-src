@@ -22,7 +22,7 @@ if (! defined ( 'DIR_CORE' ) || !IS_ADMIN) {
 }
 class ControllerPagesLocalisationZone extends AController {
 	public $data = array();
-	private $error = array(); 
+	public $error = array();
 	private $fields = array('status', 'code', 'country_id');
  
 	public function main() {
@@ -46,7 +46,8 @@ class ControllerPagesLocalisationZone extends AController {
    		$this->document->addBreadcrumb( array (
        		'href'      => $this->html->getSecureURL('localisation/zone'),
        		'text'      => $this->language->get('heading_title'),
-      		'separator' => ' :: '
+      		'separator' => ' :: ',
+			'current'	=> true
    		 ));
 
 		$grid_settings = array(
@@ -88,7 +89,7 @@ class ControllerPagesLocalisationZone extends AController {
 				'name' => 'name',
 				'index' => 'name',
 				'width' => 250,
-                'align' => 'center',
+                'align' => 'left',
 			),
 			array(
 				'name' => 'code',
@@ -166,7 +167,7 @@ class ControllerPagesLocalisationZone extends AController {
 		
 		$this->document->setTitle( $this->language->get('heading_title') );
 
-		if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->_validateForm()) {
+		if ( $this->request->is_POST() && $this->_validateForm()) {
 			$zone_id = $this->model_localisation_zone->addZone($this->request->post);
 			$this->session->data['success'] = $this->language->get('text_success');
 			$this->redirect($this->html->getSecureURL('localisation/zone/update', '&zone_id=' . $zone_id ));
@@ -189,7 +190,7 @@ class ControllerPagesLocalisationZone extends AController {
 
 		$this->document->setTitle( $this->language->get('heading_title') );
 
-		if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->_validateForm()) {
+		if ( $this->request->is_POST() && $this->_validateForm()) {
 			$this->model_localisation_zone->editZone($this->request->get['zone_id'], $this->request->post);
 			$this->session->data['success'] = $this->language->get('text_success');
 			$this->redirect($this->html->getSecureURL('localisation/zone/update', '&zone_id=' . $this->request->get['zone_id'] ));
@@ -257,7 +258,8 @@ class ControllerPagesLocalisationZone extends AController {
 		$this->document->addBreadcrumb( array (
        		'href'      => $this->data['action'],
        		'text'      => $this->data['heading_title'],
-      		'separator' => ' :: '
+      		'separator' => ' :: ',
+			'current'	=> true
    		 ));  
 
 		$form->setForm(array(
@@ -269,7 +271,7 @@ class ControllerPagesLocalisationZone extends AController {
         $this->data['form']['form_open'] = $form->getFieldHtml(array(
 		    'type' => 'form',
 		    'name' => 'cgFrm',
-		    'attr' => 'confirm-exit="true"',
+		    'attr' => 'data-confirm-exit="true"',
 		    'action' => $this->data['action'],
 	    ));
         $this->data['form']['submit'] = $form->getFieldHtml(array(
@@ -285,6 +287,13 @@ class ControllerPagesLocalisationZone extends AController {
 		    'style' => 'button2',
 	    ));
 
+		$this->data['form']['fields']['status'] = $form->getFieldHtml(array(
+		    'type' => 'checkbox',
+		    'name' => 'status',
+		    'value' => $this->data['status'],
+			'style'  => 'btn_switch',
+	    ));
+
 		$this->data['form']['fields']['name'] = $form->getFieldHtml(array(
 			'type' => 'input',
 			'name' => 'zone_name['.$this->session->data['content_language_id'].'][name]',
@@ -297,6 +306,7 @@ class ControllerPagesLocalisationZone extends AController {
 			'name' => 'code',
 			'value' => $this->data['code'],
 			'help_url' => $this->gen_help_url('code'),
+			'style' => 'tiny-field'
 		));
 		$this->data['form']['fields']['country'] = $form->getFieldHtml(array(
 			'type' => 'selectbox',
@@ -304,12 +314,6 @@ class ControllerPagesLocalisationZone extends AController {
 			'value' => $this->data['country_id'],
 			'options' => $countries,
 		));
-		$this->data['form']['fields']['status'] = $form->getFieldHtml(array(
-		    'type' => 'checkbox',
-		    'name' => 'status',
-		    'value' => $this->data['status'],
-			'style'  => 'btn_switch',
-	    ));
 
 		$this->view->batchAssign( $this->data );
 		$this->view->assign('form_language_switch', $this->html->getContentLanguageSwitcher());		
@@ -327,10 +331,12 @@ class ControllerPagesLocalisationZone extends AController {
 		}
 
     	foreach ($this->request->post['zone_name'] as $language_id => $value) {
-      		if ((strlen(utf8_decode($value['name'])) < 2) || (strlen(utf8_decode($value['name'])) > 128)) {
-        		$this->error['warning'] = $this->language->get('error_name');
+      		if ( mb_strlen($value['name']) < 2 || mb_strlen($value['name']) > 128 ) {
+        		$this->error['name'] = $this->language->get('error_name');
       		}
     	}
+
+		$this->extensions->hk_ValidateData( $this );
 
 		if (!$this->error) {
 			return TRUE;
@@ -339,4 +345,3 @@ class ControllerPagesLocalisationZone extends AController {
 		}
 	}
 }
-?>

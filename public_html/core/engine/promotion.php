@@ -26,11 +26,20 @@ if (! defined ( 'DIR_CORE' )) {
  * @property ACart $cart
  */
 class APromotion {
+	/**
+	 * @var Registry
+	 */
 	protected $registry;
+	/**
+	 * @var int
+	 */
 	protected $customer_group_id;
     public $condition_objects = array();
     public $bonus_objects = array();
 
+	/**
+	 * @param null|int $customer_id
+	 */
 	public function __construct( $customer_id = null ) {
 		$this->registry = Registry::getInstance();
 
@@ -79,8 +88,6 @@ class APromotion {
 		$this->registry->set($key, $value);
 	}
 
-
-
     public function getConditionObjects(){
         return $this->condition_objects;
     }
@@ -89,6 +96,11 @@ class APromotion {
        return $this->bonus_objects;
     }
 
+	/**
+	 * @param int $product_id
+	 * @param int $discount_quantity
+	 * @return float
+	 */
 	public function getProductQtyDiscount ( $product_id, $discount_quantity ) {
 		if ( empty($product_id) && empty($discount_quantity) ) {
 			return 0.00;
@@ -111,6 +123,10 @@ class APromotion {
 		return 0.00;
 	}
 
+	/**
+	 * @param int $product_id
+	 * @return bool|float
+	 */
 	public function getProductDiscount($product_id) {
 		$cache = $this->cache->get('product.discount.'.$product_id.'.'.$this->customer_group_id);
 		if(is_null($cache)){
@@ -133,6 +149,10 @@ class APromotion {
 		return $cache;
 	}
 
+	/**
+	 * @param int $product_id
+	 * @return array
+	 */
 	public function getProductDiscounts($product_id) {
 		$cache = $this->cache->get('product.discounts.'.$product_id.'.'.$this->customer_group_id);
 		if(is_null($cache)){
@@ -150,6 +170,10 @@ class APromotion {
 		return $cache;
 	}
 
+	/**
+	 * @param int $product_id
+	 * @return bool|float
+	 */
 	public function getProductSpecial($product_id) {
 		$cache = $this->cache->get('product.special.'.$product_id.'.'.$this->customer_group_id);
 		if(is_null($cache)){
@@ -170,6 +194,13 @@ class APromotion {
 		return $cache;
 	}
 
+	/**
+	 * @param string $sort
+	 * @param string $order
+	 * @param int $start
+	 * @param int $limit
+	 * @return mixed
+	 */
 	public function getProductSpecials($sort = 'p.sort_order', $order = 'ASC', $start = 0, $limit = 20) {
 
         $sql = "SELECT DISTINCT ps.product_id, p.*, pd.name, pd.description,
@@ -193,7 +224,7 @@ class APromotion {
 		$sort_data = array(
 			'pd.name',
 			'p.sort_order',
-			'p.price',
+			'ps.price',
 			'rating',
 			'date_modified'
 		);
@@ -223,8 +254,11 @@ class APromotion {
 		$query = $this->db->query($sql);
 		
 		return $query->rows;
-	}	
+	}
 
+	/**
+	 * @return int
+	 */
     public function getTotalProductSpecials() {
 
    		$query = $this->db->query( "SELECT COUNT(DISTINCT ps.product_id) AS total
@@ -243,8 +277,12 @@ class APromotion {
    		} else {
    			return 0;
    		}
-   	}	
+   	}
 
+	/**
+	 * @param string $coupon_code
+	 * @return array
+	 */
 	public function getCouponData($coupon_code) {
 		if ( empty ($coupon_code) ) {
 			return array();
@@ -334,10 +372,15 @@ class APromotion {
 			
 			return $coupon_data;
 		}
+		return array();
 	}
 
 
-
+	/**
+	 * @param array $total_data
+	 * @param array $total
+	 * @return array
+	 */
 	public function apply_promotions($total_data, $total){
 		$registry = Registry::getInstance();
 		if ( $registry->has('extensions') ) {

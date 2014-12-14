@@ -1,154 +1,78 @@
-<?php if (!empty($error['warning'])) { ?>
-	<div class="warning alert alert-error"><?php echo $error['warning']; ?></div>
-<?php } ?>
-<?php if ($success) { ?>
-	<div class="success alert alert-success"><?php echo $success; ?></div>
-<?php } ?>
+<?php include($tpl_common_dir . 'action_confirm.tpl'); ?>
 
+<ul class="nav nav-tabs nav-justified nav-profile">
+	<?php
+		foreach ($tabs as $tab) {
+			if($tab['active'] ){
+				$classname = 'active';
+			}elseif(!$tab['active'] && $attribute_id){
+				$classname = 'inactive';
+				$tab['href'] = '';
+			}else{
+				$classname = '';
+			}
+	?>		<li class="<?php echo $classname; ?>"><a <?php echo ($tab['href'] ? 'href="' . $tab['href'] . '" ' : ''); ?>><strong><?php echo $tab['text']; ?></strong></a></li>
+	<?php } ?>
 
-<div class="contentBox">
-	<div class="cbox_tl">
-		<div class="cbox_tr">
-			<div class="cbox_tc">
-				<div class="heading icon_title_length"><?php echo $heading_title; ?></div>
-				<div class="heading-tabs">
-					<?php
-					foreach ($tabs as $tab) {
-						$css_class = $tab['active'] ? 'active' : '';
-						if ($attribute_id && !$tab['active']) {
-							$css_class = 'inactive';
-						}
-						echo '<a ' . ($tab['href'] ? 'href="' . $tab['href'] . '" ' : '') . ' class="' . $css_class . '" ' . '><span>' . $tab['text'] . '</span></a>';
-					} ?>
-				</div>
-				<div class="toolbar">
-					<?php if (!empty ($help_url)) { ?>
-						<div class="help_element"><a href="<?php echo $help_url; ?>" target="new"><img
-										src="<?php echo $template_dir; ?>image/icons/help.png"/></a></div>
-					<?php }
-					echo $form_language_switch; ?>
-					<div class="buttons">
-						<a class="btn_toolbar" title="<?php echo $button_insert; ?>" href="<?php echo $insert; ?>">
-							<span class="icon_add">&nbsp;</span>
-						</a>
-					</div>
-				</div>
+	<?php echo $this->getHookVar('extension_tabs'); ?>
+</ul>
+<div id="content" class="panel panel-default">
+
+	<div class="panel-heading col-xs-12">
+
+		<?php include($tpl_common_dir . 'content_buttons.tpl'); ?>	
+	</div>
+
+	<?php echo $form['form_open']; ?>
+	<div class="panel-body panel-body-nopadding tab-content col-xs-12">
+			<?php
+				foreach ($form['fields'] as $name => $field) {
+
+				//Logic to calculate fields width
+				$widthcasses = "col-sm-7";
+				if ( is_int(stripos($field->style, 'large-field')) ) {
+					$widthcasses = "col-sm-7";
+				} else if ( is_int(stripos($field->style, 'medium-field')) || is_int(stripos($field->style, 'date')) ) {
+					$widthcasses = "col-sm-5";
+				} else if ( is_int(stripos($field->style, 'small-field')) || is_int(stripos($field->style, 'btn_switch')) ) {
+					$widthcasses = "col-sm-3";
+				} else if ( is_int(stripos($field->style, 'tiny-field')) ) {
+					$widthcasses = "col-sm-2";
+				}
+				$widthcasses .= " col-xs-12";
+			?>
+		<div class="form-group <?php if (!empty($error[$name])) { echo "has-error"; } ?>">
+			<label class="control-label col-sm-3 col-xs-12" for="<?php echo $field->element_id; ?>"><?php echo ${'entry_' . $name}; ?></label>
+			<div class="input-group afield <?php echo $widthcasses; ?> <?php echo ($name == 'description' ? 'ml_ckeditor' : '')?>">
+				<?php echo $field; ?>
 			</div>
+		    <?php if (!empty($error[$name])) { ?>
+		    <span class="help-block field_err"><?php echo $error[$name]; ?></span>
+		    <?php } ?>
 		</div>
+
+			<?php }  ?><!-- <div class="fieldset"> -->
+
+		<?php
+		// extension related piece of form
+		echo $subform; ?>
+
 	</div>
 
-	<div class="cbox_cl">
-		<div class="cbox_cr">
-			<div class="cbox_cc">
-
-				<?php echo $form['form_open']; ?>
-				<div class="fieldset">
-					<div class="heading"><?php echo $form_title; ?></div>
-					<div class="top_left">
-						<div class="top_right">
-							<div class="top_mid"></div>
-						</div>
-					</div>
-					<div class="cont_left">
-						<div class="cont_right">
-							<div class="cont_mid">
-								<table class="form">
-									<?php foreach ($form['fields'] as $name => $field) { ?>
-									<tr>
-										<td><?php echo ${'entry_' . $name}; ?></td>
-										<td>
-											<?php if (!is_array($field)) echo $field; ?>
-											<?php if (!empty($error[$name])) { ?>
-												<div class="field_err"><?php echo $error[$name]; ?></div>
-											<?php } ?>
-											<?php if ($name == 'element_type') { ?>
-
-											<div id="values">
-												<?php if ($child_count == 0): ?>
-													<div style="padding-left: 40px;">
-														<span style="padding-right: 35px;"><b><?php echo $entry_element_values; ?></b></span>
-														<span><b><?php echo $column_sort_order; ?></b></span>
-													</div>
-													<?php foreach ($form['fields']['attribute_values'] as $atr_val_id => $atr_field): ?>
-														<div class="value">
-															<?php echo $atr_field['attribute_value_ids']; ?>
-															<?php echo $atr_field['values']; ?>&nbsp;
-															<?php echo $atr_field['sort_order']; ?>
-															<a class="remove"></a>
-														</div>
-													<?php endforeach; ?>
-													<a class="add"></a>
-												<?php else: ?>
-													<div style="padding-left: 10px;">
-
-														<span><b><?php echo $entry_children_attributes; ?></b></span>
-
-														<?php foreach ($children as $child): ?>
-															<div class="value">
-																<a href="<?php echo $child['link']; ?>"><?php echo $child['name']; ?></a>
-															</div>
-														<?php endforeach; ?>
-
-													</div>
-												<?php endif; ?>
-											</div>
-
-											<div id="file_settings">
-												<div class="value">
-													<span style="padding-right: 20px;"><?php echo $entry_allowed_extensions; ?></span>
-													<?php echo $form['settings_fields']['extensions']; ?>
-												</div>
-												<div class="value">
-													<span style="padding-right: 20px;"><?php echo $entry_min_size; ?></span>
-													<?php echo $form['settings_fields']['min_size']; ?>
-												</div>
-												<div class="value">
-													<span style="padding-right: 20px;"><?php echo $entry_max_size; ?></span>
-													<?php echo $form['settings_fields']['max_size']; ?>
-												</div>
-												<div class="value">
-													<span style="padding-right: 20px;"><?php echo $entry_upload_dir; ?></span>
-													<?php echo $form['settings_fields']['directory']; ?>
-												</div>
-											</div>
-							</div>
-
-							<?php } ?>
-							</td>
-							</tr>
-							<?php if ($name == 'attribute_parent' && $text_parent_note) { ?>
-								<tr>
-									<td colspan="2"><?php echo $text_parent_note; ?></td>
-								</tr>
-							<?php } ?>
-
-							<?php } //foreach ?>
-
-
-							</table>
-							<?php echo $subform; ?>
-						</div>
-					</div>
-				</div>
-				<div class="bottom_left">
-					<div class="bottom_right">
-						<div class="bottom_mid"></div>
-					</div>
-				</div>
-			</div>
-			<!-- <div class="fieldset"> -->
-			<div class="buttons align_center">
-				<a class="btn_standard" href="<?php echo $cancel; ?>"><?php echo $form['cancel']; ?></a>
-				<button type="submit" class="btn_standard"><?php echo $form['submit']; ?></button>
-			</div>
-			</form>
-
+	<div class="panel-footer col-xs-12">
+		<div class="text-center">
+			<button class="btn btn-primary lock-on-click">
+			<i class="fa fa-save fa-fw"></i> <?php echo $form['submit']->text; ?>
+			</button>
+			<button class="btn btn-default" type="reset">
+			<i class="fa fa-refresh fa-fw"></i> <?php echo $button_reset; ?>
+			</button>
+			<a class="btn btn-default" href="<?php echo $cancel; ?>">
+			<i class="fa fa-arrow-left fa-fw"></i> <?php echo $form['cancel']->text; ?>
+			</a>
 		</div>
-	</div>
-</div>
-<div class="cbox_bl">
-	<div class="cbox_br">
-		<div class="cbox_bc"></div>
-	</div>
-</div>
-</div>
+	</div>	
+	
+	</form>
+
+</div><!-- <div class="tab-content"> -->

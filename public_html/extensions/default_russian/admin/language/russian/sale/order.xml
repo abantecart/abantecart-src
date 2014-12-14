@@ -17,6 +17,10 @@
 		<value><![CDATA[Изменить платежный адрес]]></value>
 	</definition>
 	<definition>
+		<key>title_payment_details</key>
+		<value><![CDATA[Платеж]]></value>
+	</definition>
+	<definition>
 		<key>text_success</key>
 		<value><![CDATA[Успешно: Вы изменили заказ!]]></value>
 	</definition>
@@ -277,6 +281,10 @@
 		<value><![CDATA[Файлы]]></value>
 	</definition>
 	<definition>
+		<key>tab_payment_details</key>
+		<value><![CDATA[Платеж]]></value>
+	</definition>
+	<definition>
 		<key>edit_title_files</key>
 		<value><![CDATA[Редактировать Файлы Заказа]]></value>
 	</definition>
@@ -316,4 +324,12 @@
 		<key>text_order_status_required</key>
 		<value><![CDATA[Требуется статус заказа "%s"]]></value>
 	</definition>
+	<definition>
+		<key>text_select_product</key>
+		<value><![CDATA[- Выберите продукт -]]></value>
+	</definition>
+	<definition>
+		<key>text_push_download</key>
+		<value><![CDATA[- Нажмите Скачать -]]></value>
+	</definition>	
 </definitions>

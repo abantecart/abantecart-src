@@ -1,93 +1,71 @@
-<?php if (!empty($error['warning'])) { ?>
-<div class="warning alert alert-error"><?php echo $error['warning']; ?></div>
-<?php } ?>
-<?php if ($success) { ?>
-<div class="success alert alert-success"><?php echo $success; ?></div>
-<?php } ?>
-<a name="top"></a>
+<?php include($tpl_common_dir . 'action_confirm.tpl'); ?>
 
-<div class="contentBox">
-    <div class="cbox_tl">
-        <div class="cbox_tr">
-            <div class="cbox_tc">
-                <div class="heading icon_title_product"><?php echo $form_title; ?></div>
-                <?php echo $product_tabs ?>
-                <div class="toolbar">
-                    <?php if (!empty ($help_url)) : ?>
-                    <div class="help_element"><a href="<?php echo $help_url; ?>" target="new"><img
-                        src="<?php echo $template_dir; ?>image/icons/help.png"/></a></div>
-                    <?php endif; ?>
-                    <?php echo $form_language_switch; ?>
-					<div class="buttons">
-						<a class="btn_toolbar" title="<?php echo $text_clone; ?>" href="<?php echo $clone_url; ?>">
-							<span class="icon_grid_clone">&nbsp;</span>
-						</a>
-					</div>                    
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="cbox_cl">
-        <div class="cbox_cr">
-            <div class="cbox_cc">
+<?php echo $summary_form; ?>
 
-                <?php echo $summary_form; ?>
-                <?php echo $form['form_open']; ?>
-                <?php foreach ($form['fields'] as $section => $fields) { ?>
-                <div class="fieldset">
-                    <div class="heading"><?php echo ${'tab_' . $section}; ?></div>
-                    <div class="top_left">
-                        <div class="top_right">
-                            <div class="top_mid"></div>
-                        </div>
-                    </div>
-                    <div class="cont_left">
-                        <div class="cont_right">
-                            <div class="cont_mid">
-                                <table class="form">
-                                    <?php foreach ($fields as $name => $field) { ?>
-                                    <tr>
-                                        <td><?php echo ${'entry_' . $name}; ?></td>
-                                        <td <?php echo ($name == 'description' ? 'class="ml_ckeditor"' : '')?> >
-                                            <?php echo $field; ?>
-                                            <?php if (is_array($error[$name]) && !empty($error[$name][$language_id])) { ?>
-                                            <div class="field_err"><?php echo $error[$name][$language_id]; ?></div>
-                                            <?php } else if (!empty($error[$name])) { ?>
-                                            <div class="field_err"><?php echo $error[$name]; ?></div>
-                                            <?php } ?>
-                                        </td>
-                                    </tr>
-                                    <?php }  ?>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="bottom_left">
-                        <div class="bottom_right">
-                            <div class="bottom_mid"></div>
-                        </div>
-                    </div>
-                </div><!-- <div class="fieldset"> -->
-                <?php }  ?>
+<?php echo $product_tabs ?>
+<div id="content" class="panel panel-default">
 
-                <div class="buttons align_center">
-                    <button type="submit" class="btn_standard"><?php echo $form['submit']; ?></button>
-                    <a class="btn_standard" href="<?php echo $cancel; ?>"><?php echo $form['cancel']; ?></a>
-                </div>
-                </form>
+	<div class="panel-heading col-xs-12">
+		<div class="primary_content_actions pull-left">
+			<?php if ($product_id) { ?>
+		    <div class="btn-group mr10 toolbar">
+    	        <a class="btn btn-white lock-on-click tooltips" href="<?php echo $clone_url; ?>" data-toggle="tooltip" title="<?php echo $text_clone; ?>" data-original-title="<?php echo $text_clone; ?>">
+    	        <i class="fa fa-tags"></i>
+    	        </a>
+		    </div>	
+		    <?php } ?>
+		</div>
+		<?php include($tpl_common_dir . 'content_buttons.tpl'); ?>
+	</div>
 
-            </div>
-        </div>
-    </div>
-    <div class="cbox_bl">
-        <div class="cbox_br">
-            <div class="cbox_bc"></div>
-        </div>
-    </div>
+	<?php echo $form['form_open']; ?>
+	<div class="panel-body panel-body-nopadding tab-content col-xs-12">
+		
+		<?php foreach ($form['fields'] as $section => $fields) { ?>
+		<label class="h4 heading"><?php echo ${'tab_' . $section}; ?></label>         
+			<?php foreach ($fields as $name => $field) { ?>
+			<?php 
+				//Logic to calculate fields width
+				$widthcasses = "col-sm-7";
+				if ( is_int(stripos($field->style, 'large-field')) ) {
+					$widthcasses = "col-sm-7";
+				} else if ( is_int(stripos($field->style, 'medium-field')) || is_int(stripos($field->style, 'date')) ) {
+					$widthcasses = "col-sm-5";				
+				} else if ( is_int(stripos($field->style, 'small-field')) || is_int(stripos($field->style, 'btn_switch')) ) {
+					$widthcasses = "col-sm-3";				
+				} else if ( is_int(stripos($field->style, 'tiny-field')) ) {
+					$widthcasses = "col-sm-2";				
+				}
+				$widthcasses .= " col-xs-12";				
+			?>
+		<div class="form-group <?php if (!empty($error[$name])) { echo "has-error"; } ?>">
+			<label class="control-label col-sm-3 col-xs-12" for="<?php echo $field->element_id; ?>"><?php echo ${'entry_' . $name}; ?></label>
+			<div class="input-group afield <?php echo $widthcasses; ?> <?php echo ($name == 'description' ? 'ml_ckeditor' : '')?>">
+				<?php echo $field; ?>
+			</div>
+		    <?php if (!empty($error[$name])) { ?>
+		    <span class="help-block field_err"><?php echo $error[$name]; ?></span>
+		    <?php } ?>
+		</div>
+			<?php }  ?><!-- <div class="fieldset"> -->
+		<?php }  ?>
+ 		
+	</div>
+	
+	<div class="panel-footer col-xs-12">
+		<div class="text-center">
+			<button class="btn btn-primary lock-on-click">
+			<i class="fa fa-save fa-fw"></i> <?php echo $form['submit']->text; ?>
+			</button>
+			<a class="btn btn-default" href="<?php echo $cancel; ?>">
+			<i class="fa fa-arrow-left fa-fw"></i> <?php echo $form['cancel']->text; ?>
+			</a>
+		</div>
+	</div>
+	</form>
+	
 </div>
 
-<script type="text/javascript" src="<?php echo $template_dir; ?>javascript/ckeditor/ckeditor.js"></script>
-<script type="text/javascript" src="<?php echo $template_dir; ?>javascript/ckeditor/adapters/jquery.js"></script>
 <script type="text/javascript"><!--
 
 $(document).ready(function () {
@@ -98,25 +76,18 @@ $(document).ready(function () {
         '#productFrm_width',
         '#productFrm_height',
         '#productFrm_weight'];
-
 });
 
 $('#productFrm_generate_seo_keyword').click(function(){
-	var seo_name = $('#productFrm_product_description\\[name\\]').val().replace('%','');
+	var seo_name = $('#productFrm_product_descriptionname').val().replace('%','');
 	$.get('<?php echo $generate_seo_url;?>&seo_name='+seo_name, function(data){
 		$('#productFrm_keyword').val(data).change();
 	});
 });
 
-if (document.getElementById('productFrm_product_description[description]'))
-    $('#productFrm_product_description\\[description\\]').parents('.afield').removeClass('mask2');
-CKEDITOR.replace('productFrm_product_description[description]',
-    {
-        filebrowserBrowseUrl:false,
-        filebrowserImageBrowseUrl:'<?php echo $rl; ?>',
-        filebrowserWindowWidth:'920',
-        filebrowserWindowHeight:'520',
+if (document.getElementById('productFrm_product_descriptiondescription')){
+	CKEDITOR.replace('productFrm_product_descriptiondescription',{
         language:'<?php echo $language_code; ?>'
-    }
-);
+    });
+}
 //--></script>

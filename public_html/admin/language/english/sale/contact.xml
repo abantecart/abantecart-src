@@ -2,7 +2,7 @@
 <definitions>
 	<definition>
 		<key>heading_title</key>
-		<value><![CDATA[Mail]]></value>
+		<value><![CDATA[Send Mail]]></value>
 	</definition>
 	<definition>
 		<key>text_success</key>
@@ -22,15 +22,11 @@
 	</definition>
 	<definition>
 		<key>text_subscribers_only</key>
-		<value><![CDATA[Only Newsletter Subscribers]]></value>
+		<value><![CDATA[Newsletter Subscribers Only (non-customers)]]></value>
 	</definition>
 	<definition>
 		<key>text_customers_only</key>
 		<value><![CDATA[Only Customers]]></value>
-	</definition>
-	<definition>
-		<key>text_search</key>
-		<value><![CDATA[Search]]></value>
 	</definition>
 	<definition>
 		<key>entry_store</key>
@@ -81,11 +77,11 @@
 		<value><![CDATA[(Total to be sent to: %s )]]></value>
 	</definition>
 	<definition>
-		<key>text_search_placeholder</key>
-		<value><![CDATA[Search Customer]]></value>
+		<key>text_select_product</key>
+		<value><![CDATA[- Select Products -]]></value>
 	</definition>
 	<definition>
-		<key>text_select_category</key>
-		<value><![CDATA[- Select Category -]]></value>
+		<key>text_select_customer</key>
+		<value><![CDATA[- Select Customers -]]></value>
 	</definition>
 </definitions>

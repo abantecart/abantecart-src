@@ -1,90 +1,89 @@
-<?php if (!empty($error['warning'])) { ?>
-<div class="warning alert alert-error"><?php echo $error['warning']; ?></div>
+<?php include($tpl_common_dir . 'action_confirm.tpl'); ?>
+
+<?php if($location_id){?>
+	<ul class="nav nav-tabs nav-justified nav-profile">
+		<?php
+			foreach ($tabs as $tab) {
+				if($tab['active'] ){
+					$classname = 'active';
+				}else{
+					$classname = '';
+				}
+		?>		<li class="<?php echo $classname; ?>"><a <?php echo ($tab['href'] ? 'href="' . $tab['href'] . '" ' : ''); ?>><strong><?php echo $tab['text']; ?></strong></a></li>
+		<?php } ?>
+
+		<?php echo $this->getHookVar('extension_tabs'); ?>
+	</ul>
 <?php } ?>
-<?php if ($success) { ?>
-<div class="success alert alert-success"><?php echo $success; ?></div>
-<?php } ?>
 
-<div class="contentBox">
-    <div class="cbox_tl">
-        <div class="cbox_tr">
-            <div class="cbox_tc">
-                <div class="heading icon_title_country"><?php echo $heading_title; ?></div>
-                <div class="heading-tabs">
-                    <a href="<?php echo $details ?>" <?php echo ($active == 'details' ? 'class="active"' : '') ?> ><span><?php echo $tab_details ?></span></a>
-                    <?php if (!empty($locations)) { ?>
-                    <a href="<?php echo $locations ?>" <?php echo ($active == 'locations' ? 'class="active"' : '') ?> ><span><?php echo $tab_locations ?></span></a>
-                    <?php } ?>
-                </div>
-                <div class="toolbar">
-                    <?php if (!empty ($help_url)) : ?>
-                    <div class="help_element"><a href="<?php echo $help_url; ?>" target="new"><img
-                        src="<?php echo $template_dir; ?>image/icons/help.png"/></a></div>
-                    <?php endif; ?>
-                    <?php echo $form_language_switch; ?>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="cbox_cl">
-        <div class="cbox_cr">
-            <div class="cbox_cc">
+<div id="content" class="panel panel-default">
 
-                <?php echo $form['form_open']; ?>
-                <div class="fieldset">
-                    <div class="heading"><?php echo $form_title; ?></div>
-                    <div class="top_left">
-                        <div class="top_right">
-                            <div class="top_mid"></div>
-                        </div>
-                    </div>
-                    <div class="cont_left">
-                        <div class="cont_right">
-                            <div class="cont_mid">
-                                <table class="form">
-                                    <?php foreach ($form['fields'] as $name => $field) { ?>
-                                    <tr>
-                                        <td><?php echo ${'entry_' . $name}; ?></td>
-                                        <td>
-                                            <?php echo $field; ?>
-                                            <?php if (!empty($error[$name])) { ?>
-                                            <div class="field_err"><?php echo $error[$name]; ?></div>
-                                            <?php } ?>
-											<?php if($name=='zone'){?>
-												<br/><br/>
-												<a onclick="selectAll();"><?php echo $text_select_all; ?></a> /
-												<a onclick="unselectAll();"><?php echo $text_unselect_all; ?></a>
-												<br/>
-											<?php } ?>
-                                        </td>
-                                    </tr>
-                                    <?php }  ?>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="bottom_left">
-                        <div class="bottom_right">
-                            <div class="bottom_mid"></div>
-                        </div>
-                    </div>
-                </div>
-                <!-- <div class="fieldset"> -->
-                <div class="buttons align_center">
-                    <button type="submit" class="btn_standard"><?php echo $form['submit']; ?></button>
-                    <a class="btn_standard" href="<?php echo $cancel; ?>"><?php echo $form['cancel']; ?></a>
-                </div>
-                </form>
+	<div class="panel-heading col-xs-12">
+		<div class="primary_content_actions pull-left">
+		</div>
 
-            </div>
-        </div>
-    </div>
-    <div class="cbox_bl">
-        <div class="cbox_br">
-            <div class="cbox_bc"></div>
-        </div>
-    </div>
-</div>
+		<?php include($tpl_common_dir . 'content_buttons.tpl'); ?>	
+	</div>
+
+	<?php echo $form['form_open']; ?>
+	<div class="panel-body panel-body-nopadding tab-content col-xs-12">
+			<?php foreach ($form['fields'] as $name => $field) { ?>
+			<?php
+				//Logic to calculate fields width
+				$widthcasses = "col-sm-7";
+				if ( is_int(stripos($field->style, 'large-field')) ) {
+					$widthcasses = "col-sm-7";
+				} else if ( is_int(stripos($field->style, 'medium-field')) || is_int(stripos($field->style, 'date')) ) {
+					$widthcasses = "col-sm-5";
+				} else if ( is_int(stripos($field->style, 'small-field')) || is_int(stripos($field->style, 'btn_switch')) ) {
+					$widthcasses = "col-sm-3";
+				} else if ( is_int(stripos($field->style, 'tiny-field')) ) {
+					$widthcasses = "col-sm-2";
+				}
+				$widthcasses .= " col-xs-12";
+			?>
+		<div class="form-group <?php if (!empty($error[$name])) { echo "has-error"; } ?>">
+			<label class="control-label col-sm-3 col-xs-12" for="<?php echo $field->element_id; ?>"><?php echo ${'entry_' . $name}; ?></label>
+			<div class="input-group"><?php echo $field; ?></div>
+			<?php
+				if($name=='zone'){ ?>
+					<div class="form-group">
+						<div class="input-group col-sm-offset-3">
+								<a class="btn btn-info btn-xs" onclick="selectAll();">
+									<i class="fa fa-check-square-o fa-fw"></i>	<?php echo $text_select_all; ?>
+								</a>
+								<a class="btn btn-default btn-xs" onclick="unselectAll();">
+									<i class="fa fa-square-o fa-fw"></i> <?php echo $text_unselect_all; ?>
+								</a>
+						</div>
+					</div>
+
+				<?php } ?>
+
+
+		    <?php if (!empty($error[$name])) { ?>
+		    <span class="help-block field_err"><?php echo $error[$name]; ?></span>
+		    <?php } ?>
+		</div>
+			<?php }  ?><!-- <div class="fieldset"> -->
+	</div>
+	
+	<div class="panel-footer col-xs-12">
+		<div class="text-center">
+			<button class="btn btn-primary lock-on-click">
+			<i class="fa fa-save fa-fw"></i> <?php echo $form['submit']->text; ?>
+			</button>
+			<button class="btn btn-default" type="reset">
+			<i class="fa fa-refresh fa-fw"></i> <?php echo $button_reset; ?>
+			</button>
+			<a class="btn btn-default" href="<?php echo $cancel; ?>">
+			<i class="fa fa-arrow-left fa-fw"></i> <?php echo $form['cancel']->text; ?>
+			</a>
+		</div>
+	</div>
+	</form>
+</div><!-- <div class="tab-content"> -->
+
 <script type="text/javascript"><!--
 var zone_id = '<?php echo $zone_id; ?>';
 jQuery(function ($) {
@@ -115,7 +114,7 @@ jQuery(function ($) {
 			if(i!=0){
             options += '<label for="check_' + i + '">'
 				+'<div class="afield acheckbox"><span>'
-				+'<input id="check_'+i+'" type="checkbox" value="'+i+'" name="zone_id[]" style="opacity: 0;" />'
+				+'<input class="scrollbox" id="check_'+i+'" type="checkbox" value="'+i+'" name="zone_id[]" />'
 				+'</span></div>' + opt.value + '</label>';
 			}
 
@@ -126,25 +125,24 @@ jQuery(function ($) {
 		});
 
     }
-    if(!$('#cgFrm_zone_id\\\[\\\]').val()){
+    if(!$('#cgFrm_zone_id').val()){
         getZones($('#cgFrm_country_id').val());
     }
     $('#cgFrm_country_id').change(function () {
         getZones($(this).val());
-        $('#cgFrm_zone_id\\\[\\\]').val('').change();
+        $('#cgFrm_zone_id').val('').change();
 
     });
 });
 
-function selectAll()
-{
-	$('input[name*=\'zone_id\[\]\']').attr('checked', 'checked');
-	$('div.scrollbox').find('.afield').addClass('checked');
-}
 
-function unselectAll()
-{
-	$('input[name*=\'zone_id\[\]\']').removeAttr('checked');
-	$('div.scrollbox').find('.afield').removeClass('checked');
-}
+	function selectAll() {
+		$('input[name*=\'zone_id\[\]\']').attr('checked', 'checked');
+		//$('#tables').find('.afield').addClass('checked');
+	}
+	function unselectAll() {
+		$('input[name*=\'zone_id\[\]\']').removeAttr('checked');
+		//$('#tables').find('.afield').removeClass('checked');
+	}
+
 //--></script>

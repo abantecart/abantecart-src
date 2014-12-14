@@ -29,7 +29,8 @@ class ControllerCommonPage extends AController {
 		
 		$this->view->assign('lang', $this->language->get('code'));
 		$this->view->assign('direction', $this->language->get('direction'));
-
+		$this->view->assign('scripts', $this->document->getScripts());
+		
         $children = $this->getChildren();
         //save only first child - page content controller
         $this->setChildren( array($children[0]) );

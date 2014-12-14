@@ -47,11 +47,14 @@ class ControllerResponsesListingGridSetting extends AController {
 		$response->page = $filter_grid->getParam('page');
 		$response->total = $filter_grid->calcTotalPages($total);
 		$response->records = $total;
+		$response->userdata = new stdClass();
+		$response->userdata->href = array();
 
 		$results = $this->model_setting_setting->getAllSettings($filter_grid->getFilterData());
 
 		$i = 0;
 		foreach ($results as $result) {
+
 
 			if (($result[ 'value' ] == '1' || $result[ 'value' ] == '0')
 					&& !is_int(strpos($result[ 'key' ], '_id'))
@@ -60,7 +63,7 @@ class ControllerResponsesListingGridSetting extends AController {
 				$value = $this->html->buildCheckbox(array(
 					'name' => '',
 					'value' => $result[ 'value' ],
-					'style' => 'btn_switch',
+					'style' => 'btn_switch disabled',
 					'attr' => 'readonly="true"'
 				));
 			} else {
@@ -68,6 +71,9 @@ class ControllerResponsesListingGridSetting extends AController {
 			}
 
 			$response->rows[ $i ][ 'id' ] = $result[ 'group' ] . '-' . $result[ 'key' ] . '-' . $result[ 'store_id' ];
+			if($result['group']=='appearance'){
+				$response->userdata->href[$response->rows[ $i ][ 'id' ]] = $this->html->getSecureURL('setting/setting/appearance');
+			}
 			$response->rows[ $i ][ 'cell' ] = array(
 				$result[ 'alias' ],
 				$result[ 'group' ],
@@ -105,16 +111,22 @@ class ControllerResponsesListingGridSetting extends AController {
 		$this->loadLanguage('setting/setting');
 		$this->loadModel('setting/setting');
 		if (isset($this->request->get[ 'group' ])) {
+			$group = $this->request->get[ 'group' ];
+			//for appearance settings per template
+			if( $this->request->get['group']=='appearance' && has_value($this->request->get['tmpl_id']) && $this->request->get['tmpl_id'] != 'default'){
+				$group = $this->request->get['tmpl_id'];
+			}
+
 			//request sent from edit form. ID in url
 			foreach ($this->request->post as $key => $value) {
-				$err = $this->_validateField($this->request->get[ 'group' ], $key, $value);
+				$err = $this->_validateField($group, $key, $value);
 				if (!empty($err)) {
-					$dd = new ADispatcher('responses/error/ajaxerror/validation', array( 'error_text' => $err ));
-					return $dd->dispatch();
+					$error = new AError('');
+					return $error->toJSONResponse('VALIDATION_ERROR_406', array( 'error_text' => $err ));
 				}
-				$data = array( $key => $value );
+				$data = array($key => $value);
 
-				$this->model_setting_setting->editSetting($this->request->get[ 'group' ], $data, $this->request->get[ 'store_id' ]);
+				$this->model_setting_setting->editSetting($group, $data, $this->request->get[ 'store_id' ]);
                 startStorefrontSession($this->user->getId());
 			}
 			return null;

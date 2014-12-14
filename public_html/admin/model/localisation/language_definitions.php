@@ -147,10 +147,10 @@ class ModelLocalisationLanguageDefinitions extends Model {
      */
     public function deleteLanguageDefinition($id) {
 		$result = $this->db->query("SELECT language_id, `section`, `language_key`, `block`
-						FROM " . DB_PREFIX . "language_definitions
+						FROM " . $this->db->table("language_definitions") . " 
 						WHERE language_definition_id = '" . (int)$id . "'");
 		foreach ($result->rows as $row) {
-			$this->db->query("DELETE FROM " . DB_PREFIX . "language_definitions
+			$this->db->query("DELETE FROM " . $this->db->table("language_definitions") . " 
 							  WHERE `section` = '" . $row['section'] . "'
 							  		AND `block` = '" . $row['block'] . "'
 							  		AND `language_key` = '" . $row['language_key'] . "'");
@@ -166,7 +166,7 @@ class ModelLocalisationLanguageDefinitions extends Model {
      */
     public function getLanguageDefinition($id) {
 		$query = $this->db->query("SELECT DISTINCT *
-									FROM " . DB_PREFIX . "language_definitions
+									FROM " . $this->db->table("language_definitions") . " 
 									WHERE language_definition_id = '" . (int)$id . "'");
 		return $query->row;
 	}
@@ -180,7 +180,7 @@ class ModelLocalisationLanguageDefinitions extends Model {
      */
     public function getLanguageDefinitionIdByKey($key, $language_id, $block, $section) {
 		$query = $this->db->query("SELECT language_definition_id
-									FROM " . DB_PREFIX . "language_definitions
+									FROM " . $this->db->table("language_definitions") . " 
 									WHERE language_key = '" . $this->db->escape($key) . "'
 										AND block='" . $this->db->escape($block) . "'
 										AND language_id='" . $this->db->escape($language_id) . "'
@@ -196,7 +196,7 @@ class ModelLocalisationLanguageDefinitions extends Model {
      */
     public function getAllLanguageDefinitionsIdByKey($key, $block, $section) {
 		$query = $this->db->query("SELECT language_definition_id
-									FROM " . DB_PREFIX . "language_definitions
+									FROM " . $this->db->table("language_definitions") . " 
 									WHERE language_key = '" . $this->db->escape($key) . "'
 										AND block='" . $this->db->escape($block) . "'
 										AND section='" . (int)$section . "'");
@@ -216,12 +216,12 @@ class ModelLocalisationLanguageDefinitions extends Model {
 
 			if ($mode == 'total_only') {
 				$sql = "SELECT count(*) as total
-						FROM " . DB_PREFIX . "language_definitions ld
-						LEFT JOIN " . DB_PREFIX . "languages l ON l.language_id = ld.language_id";
+						FROM " . $this->db->table("language_definitions") . " ld
+						LEFT JOIN " . $this->db->table("languages") . " l ON l.language_id = ld.language_id";
 			} else {
 				$sql = "SELECT ld.*, l.name as language_name, l.code as language_code
-						FROM " . DB_PREFIX . "language_definitions ld
-						LEFT JOIN " . DB_PREFIX . "languages l ON l.language_id = ld.language_id";
+						FROM " . $this->db->table("language_definitions") . " ld
+						LEFT JOIN " . $this->db->table("languages") . " l ON l.language_id = ld.language_id";
 			}
 
 			if (has_value($filter['section'])) {
@@ -256,7 +256,7 @@ class ModelLocalisationLanguageDefinitions extends Model {
 			}
 
 			$sort_data = array(
-				'update_date',
+				'date_modified',
 				'language_key',
 				'language_value',
 				'block'
@@ -265,7 +265,7 @@ class ModelLocalisationLanguageDefinitions extends Model {
 			if (isset($data['sort']) && in_array($data['sort'], $sort_data)) {
 				$sql .= " ORDER BY " . $data['sort'];
 			} else {
-				$sql .= " ORDER BY update_date DESC, language_key, block";
+				$sql .= " ORDER BY date_modified DESC, language_key, block";
 			}
 
 			if (isset($data['order']) && (strtoupper($data['order']) == 'DESC')) {
@@ -314,9 +314,9 @@ class ModelLocalisationLanguageDefinitions extends Model {
 
 			if (!$language_data) {
 				$query = $this->db->query("SELECT *
-				                           FROM " . DB_PREFIX . "language_definitions
+				                           FROM " . $this->db->table("language_definitions") . " 
 				                           WHERE language_id=" . (int)$this->config->get('admin_language_id') . "
-				                           ORDER BY update_date DESC, language_key, block");
+				                           ORDER BY date_modified DESC, language_key, block");
 
 				foreach ($query->rows as $result) {
 					$language_data[$result['code']] = array(
@@ -326,7 +326,7 @@ class ModelLocalisationLanguageDefinitions extends Model {
 						'block' => $result['block'],
 						'language_key' => $result['language_key'],
 						'language_value' => $result['language_value'],
-						'update_date' => $result['update_date'],
+						'date_modified' => $result['date_modified'],
 					);
 				}
 				$this->cache->set('language_definitions', $language_data);
@@ -347,7 +347,7 @@ class ModelLocalisationLanguageDefinitions extends Model {
 
 	/**
 	 * Load needed data and build form for definitions add or edit
-	 * @param array $request - Data from request object
+	 * @param ARequest $request - Data from request object
 	 * @param array $data  - from requester
 	 * @param AForm $form  - form object
 	 * @return array ($data imputed processed and returned back)
@@ -356,7 +356,7 @@ class ModelLocalisationLanguageDefinitions extends Model {
 		
 		$fields = array( 'language_key', 'language_value', 'block', 'section' );
 		$language_definition_id = $request->get['language_definition_id'];
-		$view_mode = $request->get['view_mode'];		
+		$view_mode = 'all';
 		//if existing definition disable edit for some fields
 		$disable_attr = '';
 		if (has_value($language_definition_id)) {
@@ -364,6 +364,7 @@ class ModelLocalisationLanguageDefinitions extends Model {
 		}
 		
 		$languages = $this->language->getAvailableLanguages();
+
 		$content_lang_id = $this->language->getContentLanguageID();
 		//load current content language to data
 		foreach ($languages as $lang) {
@@ -509,6 +510,8 @@ class ModelLocalisationLanguageDefinitions extends Model {
 				));			
 		}
 
+
+
 		//load all language fields for this definition to be awailable in the template
 		foreach ($data['languages'] as $i) {
 			$value = '';
@@ -524,6 +527,7 @@ class ModelLocalisationLanguageDefinitions extends Model {
 			} else if (!empty($all_defs)) {
 				foreach ($all_defs as $ii) {
 					if ($ii['language_id'] == $i['language_id']) {
+
 						$value = $ii['language_value'];
 						$id = $ii['language_definition_id'];
 						break;
@@ -536,9 +540,7 @@ class ModelLocalisationLanguageDefinitions extends Model {
 				'value' => $value,
 				'required' => true,
 				'style' => 'large-field',
-			));
-
-			$data['form']['fields']['language_definition_id'][$i['language_id']] = $form->getFieldHtml(array(
+			)). $form->getFieldHtml(array(
 				'type' => 'hidden',
 				'name' => 'language_definition_id[' . $i['language_id'] . ']',
 				'value' => $id,

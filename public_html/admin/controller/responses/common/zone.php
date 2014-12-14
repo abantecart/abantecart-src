@@ -83,6 +83,7 @@ class ControllerResponsesCommonZone extends AController {
 		    $json['selected_name'] = $selected_name;
         }
 		$this->load->library('json');
+		$this->response->addJSONHeader();
 		$this->response->setOutput(AJson::encode($json), $this->config->get('config_compression'));
 
         //update controller data

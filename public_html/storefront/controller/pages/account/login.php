@@ -157,7 +157,7 @@ class ControllerPagesAccountLogin extends AController {
 		$this->data['form1'][ 'continue' ] = $form->getFieldHtml( array(
                                                                        'type' => 'submit',
 		                                                               'name' => $this->language->get('button_continue'), 
-		                                                               'icon' => 'icon-ok'
+		                                                               'icon' => 'fa fa-check'
 		                                                               ));
 
 
@@ -188,7 +188,7 @@ class ControllerPagesAccountLogin extends AController {
 		$this->data['form2'][ 'login_submit' ] = $form->getFieldHtml(array(
 																		'type' => 'submit',
 																		'name' => $this->language->get('button_login'),
-																		'icon' => 'icon-lock'
+																		'icon' => 'fa fa-lock'
 																		));
 
 		$this->view->assign('success', '' );

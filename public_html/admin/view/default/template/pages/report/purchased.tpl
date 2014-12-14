@@ -1,9 +1,21 @@
-<div class="contentBox">
-  <div class="cbox_tl"><div class="cbox_tr"><div class="cbox_tc">
-    <div class="heading icon_title_report"><?php echo $heading_title; ?></div>
-  </div></div></div>
-  <div class="cbox_cl"><div class="cbox_cr"><div class="cbox_cc">
-    <?php echo $listing_grid; ?>
-  </div></div></div>
-  <div class="cbox_bl"><div class="cbox_br"><div class="cbox_bc"></div></div></div>
+<?php include($tpl_common_dir . 'action_confirm.tpl'); ?>
+
+<div id="content" class="panel panel-default">
+
+	<div class="panel-heading col-xs-12">
+		<div class="primary_content_actions pull-left">
+			<div class="btn-group mr10 toolbar">
+				<a href="<?php echo $reset; ?>" class="btn btn-xs btn-default tooltips" title="<?php echo $button_reset; ?>">
+				    <i class="fa fa-refresh"></i>
+				</a>
+			</div>
+		</div>
+
+		<?php include($tpl_common_dir . 'content_buttons.tpl'); ?>	
+	</div>
+
+	<div class="panel-body panel-body-nopadding tab-content col-xs-12">
+		<?php echo $listing_grid; ?>
+	</div>
+
 </div>

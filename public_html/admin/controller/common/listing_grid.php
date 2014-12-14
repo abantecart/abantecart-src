@@ -25,7 +25,6 @@ class ControllerCommonListingGrid extends AController {
     public $data; // array for template
 
     public function main() {
-
         //Load input argumets for gid settings
         $this->data = func_get_arg(0);
         if (!is_array($this->data)) {
@@ -41,10 +40,10 @@ class ControllerCommonListingGrid extends AController {
             }
             $this->document->addScript(RDIR_TEMPLATE . 'javascript/jqgrid/js/i18n/grid.locale-' . $locale . '.js');
 
-            $this->document->addScript(RDIR_TEMPLATE . 'javascript/jqgrid/js/jquery.jqGrid.min.js');
+            $this->document->addScript(RDIR_TEMPLATE . 'javascript/jqgrid/js/minified/jquery.jqGrid.min.js');
             $this->document->addScript(RDIR_TEMPLATE . 'javascript/jqgrid/plugins/jquery.grid.fluid.js');
-            $this->document->addScript(RDIR_TEMPLATE . 'javascript/jqgrid/js/jquery.ba-bbq.min.js');
-            $this->document->addScript(RDIR_TEMPLATE . 'javascript/jqgrid/js/grid.history.js');
+            $this->document->addScript(RDIR_TEMPLATE . 'javascript/jqgrid/plugins/jquery.ba-bbq.min.js');
+            $this->document->addScript(RDIR_TEMPLATE . 'javascript/jqgrid/plugins/grid.history.js');
 
             //set flag to not include scripts/css twice
             $this->registry->set('jqgrid_script', true);
@@ -113,11 +112,7 @@ class ControllerCommonListingGrid extends AController {
             $multiaction_options = $this->data['multiaction_options'];
         }
 
-        $btn_go = $this->html->buildButton(array('text' => !$this->data['button_go'] ? $this->language->get('button_go') : $this->data['button_go'],
-            'id' => 'btn_go',
-            'style' => 'button6',
-            'form' => 'form'));
-        $this->view->assign('btn_go', $btn_go);
+        $this->view->assign('text_go', $this->language->get('button_go'));
 
         $this->view->assign('multiaction_options', $multiaction_options);
 

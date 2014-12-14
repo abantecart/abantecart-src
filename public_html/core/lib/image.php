@@ -75,16 +75,16 @@ final class AImage {
 	
     public function resize($width = 0, $height = 0, $nofill=false) {
     	if (!$this->info['width'] || !$this->info['height']) {
-			return;
+			return null;
 		}
         if ($width == 0 && $height == 0) {
-			return;
+			return null;
 		}
 
 		$scale = min($width / $this->info['width'], $height / $this->info['height']);
 		
 		if ($scale == 1 && $this->info['mime'] != 'image/png') {
-			return;
+			return null;
 		}
 		
 		$new_width = (int)round($this->info['width'] * $scale,0);

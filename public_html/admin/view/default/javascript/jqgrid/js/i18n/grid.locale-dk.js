@@ -18,10 +18,10 @@ $.jgrid = {
 	    caption: "Søg...",
 	    Find: "Find",
 	    Reset: "Nulstil",
-	    odata : ['equal', 'not equal', 'less', 'less or equal','greater','greater or equal', 'begins with','does not begin with','is in','is not in','ends with','does not end with','contains','does not contain'],
+	    odata: [{ oper:'eq', text:'equal'},{ oper:'ne', text:'not equal'},{ oper:'lt', text:'less'},{ oper:'le', text:'less or equal'},{ oper:'gt', text:'greater'},{ oper:'ge', text:'greater or equal'},{ oper:'bw', text:'begins with'},{ oper:'bn', text:'does not begin with'},{ oper:'in', text:'is in'},{ oper:'ni', text:'is not in'},{ oper:'ew', text:'ends with'},{ oper:'en', text:'does not end with'},{ oper:'cn', text:'contains'},{ oper:'nc', text:'does not contain'},{ oper:'nu', text:'is null'},{ oper:'nn', text:'is not null'}],
 	    groupOps: [	{ op: "AND", text: "all" },	{ op: "OR",  text: "any" }	],
-		matchText: " match",
-		rulesText: " rules"
+		operandTitle : "Click to select search operation.",
+		resetTitle : "Reset Search Value"
 	},
 	edit : {
 	    addCaption: "Tilføj",
@@ -102,6 +102,7 @@ $.jgrid = {
 			S: function (j) {return '.'},
 			srcformat: 'Y-m-d',
 			newformat: 'd/m/Y',
+			parseRe : /[#%\\\/:_;.,\t\s-]/,
 			masks : {
 	            ISO8601Long:"Y-m-d H:i:s",
 	            ISO8601Short:"Y-m-d",

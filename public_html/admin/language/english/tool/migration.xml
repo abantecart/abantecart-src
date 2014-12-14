@@ -26,6 +26,11 @@
         <value><![CDATA[Success: You data successfully transfeerd to Abantecart!]]></value>
     </definition>
     <definition>
+        <key>text_cart_info</key>
+        <value>
+            <![CDATA[Source Cart Info<span class="help">Source shopping cart application details.</span>]]></value>
+    </definition>
+    <definition>
         <key>text_db_info</key>
         <value>
             <![CDATA[Database Info<span class="help">Note: AbanteCart support import for mysql only for now.</span>]]></value>

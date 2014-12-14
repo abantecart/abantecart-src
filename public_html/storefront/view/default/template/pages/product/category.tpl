@@ -1,87 +1,60 @@
-<div id="content">
-	<div class="top">
-		<div class="left"></div>
-		<div class="right"></div>
-		<div class="center">
-			<h1><?php echo $heading_title; ?></h1>
+<h1 class="heading1">
+  <span class="maintext"><?php echo $heading_title; ?></span>
+  <span class="subtext"></span>
+</h1>
+
+<div class="contentpanel">
+
+	<?php if ($description) { ?>
+	<div style="margin-bottom: 15px;"><?php echo $description; ?></div>
+	<?php } ?>
+	<?php if (!$categories && !$products) { ?>
+	<div class="content"><?php echo $text_error; ?></div>
+	<?php } ?>
+	<?php if ($categories) { ?>
+	<ul class="thumbnails row">
+	    <?php for ($i = 0; $i < sizeof($categories); $i++) { ?>
+	     <li class="col-md-2 col-sm-2 col-xs-6 align_center">
+	    	<a href="<?php echo $categories[ $i ][ 'href' ]; ?>">
+	    		<?php echo $categories[ $i ][ 'thumb' ][ 'thumb_html' ]; ?>
+	    	</a>
+	    	<div class="mt10 align_center">
+	    	<a href="<?php echo $categories[ $i ][ 'href' ]; ?>"><?php echo $categories[ $i ][ 'name' ]; ?></a>
+	    	</div>
+	    </li>
+	    <?php } ?>
+	</ul>
+	<?php } ?>
+
+	<?php if ($products) { ?>
+	<!-- Sorting + pagination-->
+	<div class="sorting well">
+	  <form class=" form-inline pull-left">
+	    <?php echo $text_sort; ?>&nbsp;&nbsp;<?php echo $sorting; ?>
+	  </form>
+	  <div class="btn-group pull-right">
+	    <button class="btn" id="list"><i class="fa fa-th-list"></i>
+	    </button>
+	    <button class="btn btn-orange" id="grid"><i class="fa fa-th"></i></button>
+	  </div>
+	</div>
+	<!-- end sorting-->
+
+	<?php include( $this->templateResource('/template/pages/product/product_listing.tpl') ) ?>
+		
+	<!-- Sorting + pagination-->
+	<div class="sorting well">
+		<?php echo $pagination_bootstrap; ?>
+		<div class="btn-group pull-right">
 		</div>
 	</div>
-	<div class="middle">
-		<?php if ($description) { ?>
-		<div style="margin-bottom: 15px;"><?php echo $description; ?></div>
-		<?php } ?>
-		<?php if (!$categories && !$products) { ?>
-		<div class="content"><?php echo $text_error; ?></div>
-		<?php } ?>
-		<?php if ($categories) { ?>
-		<div class="list">
-			<?php for ($i = 0; $i < sizeof($categories); $i++) { ?>
-			<div class="list_category">
-				<a href="<?php echo $categories[ $i ][ 'href' ]; ?>">
-					<?php echo $categories[ $i ][ 'thumb' ][ 'thumb_html' ]; ?>
-				</a>
+	<!-- end sorting-->
+	
+<?php } ?>		
 
-				<div><a href="<?php echo $categories[ $i ][ 'href' ]; ?>"><?php echo $categories[ $i ][ 'name' ]; ?></a>
-				</div>
-			</div>
-			<?php } ?>
-			<br class="clr_both"/>
-		</div>
-		<?php } ?>
-		<?php if ($products) { ?>
-		<div class="sort">
-			<div class="div1"><?php echo $sorting; ?></div>
-			<div class="div2"><?php echo $text_sort; ?></div>
-		</div>
-		<table class="list">
-			<?php for ($i = 0; $i < sizeof($products); $i = $i + 4) { ?>
-			<tr>
-				<?php for ($j = $i; $j < ($i + 4); $j++) { ?>
-				<td class="list_product"><?php if (isset($products[ $j ])) { ?>
-					<a href="<?php echo $products[ $j ][ 'href' ]; ?>"><?php echo $products[ $j ][ 'thumb' ][ 'thumb_html' ]; ?></a>
-					<br/>
-					<a href="<?php echo $products[ $j ][ 'href' ]; ?>"><?php echo $products[ $j ][ 'name' ]; ?></a><br/>
-					<span class="model"><?php echo $products[ $j ][ 'model' ]; ?></span><br/>
-					<?php if ($products[ $j ][ 'rating' ]) { ?>
-						<div>
-							<img src="<?php echo $this->templateResource('/image/stars_' . $products[ $j ][ 'rating' ] . '.png'); ?>"
-							     alt="<?php echo $products[ $j ][ 'stars' ]; ?>"/>
-						</div>
-						<?php } ?>
-
-							<div class="price-add">
-								<?php if ($display_price) { ?>
-								<?php if (!$products[ $j ][ 'special' ]) { ?>
-									<span class="price"><?php echo $products[ $j ][ 'price' ]; ?></span>
-									<?php } else { ?>
-									<span class="regular-price"><?php echo $products[ $j ][ 'price' ]; ?></span> <span
-											class="special-price"><?php echo $products[ $j ][ 'special' ]; ?></span>
-									<?php } ?>
-								<?php } ?>
-								<a class="info" href="<?php echo $products[ $j ][ 'href' ]; ?>"></a>
-
-							<?php if(!$products[ $j ]['call_to_order']){ ?>
-								<a class="buy" id="<?php echo $products[ $j ][ 'product_id' ]; ?>" href="<?php echo $products[ $j ][ 'add' ]; ?>" title="<?php echo $button_add_to_cart; ?>"></a>
-							<?php }else{ ?>
-								<a href="#" class="call_to_order"><span class="price"><?php echo $text_call_to_order;?></span></a>
-							<?php }?>
-							</div>
-					<br/>
-					<?php echo $products[ $j ][ 'buttons' ]; ?>
-					<?php } ?></td>
-				<?php } ?>
-			</tr>
-			<?php } ?>
-		</table>
-		<div class="pagination"><?php echo $pagination_bootstrap; ?></div>
-		<?php } ?>
-	</div>
-	<div class="bottom">
-		<div class="left"></div>
-		<div class="right"></div>
-		<div class="center"></div>
-	</div>
+		
 </div>
+
 <script type="text/javascript"><!--
 
 $('#sort').change(function () {

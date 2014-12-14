@@ -1,129 +1,76 @@
-<?php if ($error_warning) { ?>
-<div class="warning alert alert-error"><?php echo $error_warning; ?></div>
-<?php } ?>
-<?php if ($success) { ?>
-<div class="success alert alert-success"><?php echo $success; ?></div>
-<?php } ?>
+<?php include($tpl_common_dir . 'action_confirm.tpl'); ?>
 
-<div class="contentBox">
-  <div class="cbox_tl"><div class="cbox_tr"><div class="cbox_tc">
-    <div class="heading icon_title_setting"><?php echo $heading_title; ?></div>
-	<div class="heading-tabs">
-        <a href="<?php echo $link_all; ?>" class="active"><span><?php echo $tab_all; ?></span></a>
-        <a href="<?php echo $link_details; ?>" ><span><?php echo $tab_details; ?></span></a>        
-        <a href="<?php echo $link_general; ?>" ><span><?php echo $tab_general; ?></span></a>
-        <a href="<?php echo $link_checkout; ?>" ><span><?php echo $tab_checkout; ?></span></a>
-        <a href="<?php echo $link_appearance; ?>" ><span><?php echo $tab_appearance; ?></span></a>
-        <a href="<?php echo $link_mail; ?>" ><span><?php echo $tab_mail; ?></span></a>
-        <a href="<?php echo $link_api; ?>" ><span><?php echo $tab_api; ?></span></a>
-        <a href="<?php echo $link_system; ?>" ><span><?php echo $tab_system; ?></span></a>
-	</div>
-	<div class="toolbar">
-		<?php if ( !empty ($help_url) ) : ?>
-	        <div class="help_element"><a href="<?php echo $help_url; ?>" target="new"><img src="<?php echo $template_dir; ?>image/icons/help.png"/></a></div>
-	    <?php endif; ?>
-		<div class="buttons">
-			<div class="flt_left align_left"><?php echo $text_edit_store_settings; ?> <?php echo $store_selector; ?></div>
-			<div class="flt_left">&nbsp;&nbsp;<?php echo $new_store_button; ?></div>	
+<?php echo $setting_tabs ?>
+
+<div id="content" class="panel panel-default">
+
+	<div class="panel-heading col-xs-12">
+		<div class="primary_content_actions pull-left">
+			<div class="btn-group mr10 toolbar">
+				<a class="btn btn-primary lock-on-click tooltips" title="<?php echo $insert->title; ?>" href="<?php echo $insert->href; ?>">
+				<i class="fa fa-plus"></i>
+				</a>
+			</div>
+			<div class="btn-group mr10 toolbar">
+			<?php if (!empty($search_form)) {
+					?>
+					<form id="<?php echo $search_form['form_open']->name; ?>"
+						  method="<?php echo $search_form['form_open']->method; ?>"
+						  name="<?php echo $search_form['form_open']->name; ?>" class="form-inline" role="form">
+
+							<div class="form-group">
+								<label class="control-label"><?php echo $text_edit_store_settings; ?></label>
+								<div class="input-group input-group-sm">
+									<?php echo $search_form['fields']['store_selector']; ?>
+								</div>
+							</div>
+					</form>
+			<?php } ?>
+			</div>
 		</div>
+		<?php include($tpl_common_dir . 'content_buttons.tpl'); ?>	
 	</div>
-  </div></div></div>
-  <div class="cbox_cl"><div class="cbox_cr"><div class="cbox_cc">
-    <?php echo $listing_grid; ?>
-  </div></div></div>
-  <div class="cbox_bl"><div class="cbox_br"><div class="cbox_bc"></div></div></div>
+
+	<div class="panel-body panel-body-nopadding tab-content col-xs-12">
+		<?php echo $listing_grid; ?>
+	</div>
+
 </div>
-<div id="edit_dialog" style="overflow:hidden;"></div>
-<script type="text/javascript"><!--
 
-$(".toolbar select").aform({
-    triggerChanged: false
-});
-
-function openEditDiag(id) {
-    var $Popup = $('#edit_dialog').dialog({
-        autoOpen:true,
-        modal:true,
-        bgiframe:false,
-        width: 650,
-        height:'auto',
-        maxHeight: 700,
-        draggable:true,
-        modal:true,
-        close:function (event) {
-            $(this).dialog('destroy');
-			CKEditor('destroy');
-			$('#setting_grid').trigger("reloadGrid");;
-
-		}
-    });
-
-
-    // spinner
-    $("#edit_dialog").html('<div class="progressbar">Loading ...</div>');
-
-    $.ajax({
-        url:'<?php echo $dialog_url; ?>&target=edit_dialog',
-        type:'GET',
-        dataType:'json',
-        data:{active:id},
-        success:function (data) {
-            if(data.html==''){
-                $('#edit_dialog').dialog("close");
-                return;
-            }
-            $("#edit_dialog").html(data.html).dialog('option', 'title', data.title);
-
-            $('#store_switcher').aform({ triggerChanged: false })
-            .live('change',function () {
-                $.getJSON('<?php echo $dialog_url; ?>'+'&active='+ id +'&target=edit_dialog&store_id=' + $(this).val(),
-                    function (response) {
-                        $('#edit_dialog').html(response.html);
-						CKEditor('add');
-                    });
-            });
-
-			CKEditor('add');
-
-            $('#cgFrm_cancel').live('click',function(){
-                $('#edit_dialog').dialog("close");
-            });
-        }
-    });
-
-	function CKEditor(mode){
-		var settings = [];
-		settings[0] = 'cgFrm_config_description_<?php echo $content_language_id; ?>';
-		settings[1] = 'cgFrm_config_meta_description';
-
-		for( var k in settings ){
-
-			if($('#'+settings[k]).length>0){
-				if(mode=='add'){
-					$('#'+settings[k]).parents('.afield').removeClass('mask2');
-					$('#'+settings[k]).parents('td').removeClass('ml_field').addClass('ml_ckeditor');
-
-					CKEDITOR.replace(settings[k], {
-						filebrowserBrowseUrl:false,
-						filebrowserImageBrowseUrl:'<?php echo $rl; ?>',
-						filebrowserWindowWidth:'920',
-						filebrowserWindowHeight:'520',
-						language:'<?php echo $language_code; ?>'
-					});
-					$("#edit_dialog").dialog('option', 'width', '800');
-				}else{
-					var editor = CKEDITOR.instances[settings[k]];
-					if (editor) { editor.destroy(true); }
-				}
-			}
-		}
-	}
-}
-
-
-//--></script>
-
-<?php if($resources_scripts){
-    echo $resources_scripts;
-}
+<?php
+echo $this->html->buildElement(
+		array('type' => 'modal',
+				'id' => 'setting_modal',
+				'name' => 'setting_modal',
+				'modal_type' => 'lg',
+				'data_source' => 'ajax'
+		));
 ?>
+
+<script type="text/javascript">
+	var grid_ready = function(data){
+		$('.grid_action_edit').each( function () {
+			if($(this).is('[href*=appearance]')){
+				var id = $(this).parents('tr').attr('id');
+				$(this).attr('href', data.userdata.href[id]).attr('target', '_blank');
+			}else {
+				$(this).attr('data-toggle', 'modal').attr('data-target', '#setting_modal');
+			}
+		});
+
+		$('td[aria-describedby="setting_grid_value"], td[aria-describedby="setting_grid_value"] button').click(function(){
+			$(this).parents('tr').find('.grid_action_edit').click();
+		});
+
+	}
+
+	$('#setting_modal').on('loaded.bs.modal', function (e) {
+		wrapCKEditor('add');
+	});
+
+	$('#store_switcher').change(function(){
+		goTo('<?php echo $store_edit_url;?>','store_id='+$(this).val());
+	});
+
+</script>
+<?php if($resources_scripts){ echo $resources_scripts; } ?>

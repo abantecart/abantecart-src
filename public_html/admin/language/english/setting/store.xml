@@ -64,16 +64,16 @@
     <definition>
         <key>entry_status</key>
         <value>
-            <![CDATA[Store Status<br /><span class="help">Store status in a storefront. Status OFF will direct to default store. Use Maintenance Mode setting to set temporary store maintenance message</span]]></value>
+            <![CDATA[Store Status<br /><span class="help">Store status in a storefront. Status OFF will direct to default store. Use Maintenance Mode setting to set temporary store maintenance message</span>]]></value>
     </definition>
     <definition>
         <key>entry_alias</key>
-        <value><![CDATA[Name Alias<br /><span class="help">Store Name Alias. If left blank, will be based on shortened name</span]]></value>
+        <value><![CDATA[Name Alias<br /><span class="help">Store Name Alias. If left blank, will be based on shortened name</span>]]></value>
     </definition>
     <definition>
         <key>entry_status</key>
         <value>
-            <![CDATA[Store Status<br /><span class="help">Store status in a storefront. Status OFF will direct to default store. Use Maintenance Mode setting to set temporary store maintenance message</span]]></value>
+            <![CDATA[Store Status<br /><span class="help">Store status in a storefront. Status OFF will direct to default store. Use Maintenance Mode setting to set temporary store maintenance message</span>]]></value>
     </definition>
     <definition>
         <key>button_add_store</key>

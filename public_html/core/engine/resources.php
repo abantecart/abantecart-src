@@ -21,81 +21,6 @@ if (!defined('DIR_CORE')) {
 	header('Location: static_pages/');
 }
 
-if(!function_exists('mime_content_type')) {
-
-    function mime_content_type($filename) {
-		$filename = (string)$filename;
-        $mime_types = array(
-
-            'txt' => 'text/plain',
-            'htm' => 'text/html',
-            'html' => 'text/html',
-            'php' => 'text/html',
-            'css' => 'text/css',
-            'js' => 'application/javascript',
-            'json' => 'application/json',
-            'xml' => 'application/xml',
-            'swf' => 'application/x-shockwave-flash',
-            'flv' => 'video/x-flv',
-
-            // images
-            'png' => 'image/png',
-            'jpe' => 'image/jpeg',
-            'jpeg' => 'image/jpeg',
-            'jpg' => 'image/jpeg',
-            'gif' => 'image/gif',
-            'bmp' => 'image/bmp',
-            'ico' => 'image/vnd.microsoft.icon',
-            'tiff' => 'image/tiff',
-            'tif' => 'image/tiff',
-            'svg' => 'image/svg+xml',
-            'svgz' => 'image/svg+xml',
-
-            // archives
-            'zip' => 'application/zip',
-            'rar' => 'application/x-rar-compressed',
-            'exe' => 'application/x-msdownload',
-            'msi' => 'application/x-msdownload',
-            'cab' => 'application/vnd.ms-cab-compressed',
-
-            // audio/video
-            'mp3' => 'audio/mpeg',
-            'qt' => 'video/quicktime',
-            'mov' => 'video/quicktime',
-
-            // adobe
-            'pdf' => 'application/pdf',
-            'psd' => 'image/vnd.adobe.photoshop',
-            'ai' => 'application/postscript',
-            'eps' => 'application/postscript',
-            'ps' => 'application/postscript',
-
-            // ms office
-            'doc' => 'application/msword',
-            'rtf' => 'application/rtf',
-            'xls' => 'application/vnd.ms-excel',
-            'ppt' => 'application/vnd.ms-powerpoint',
-
-            // open office
-            'odt' => 'application/vnd.oasis.opendocument.text',
-            'ods' => 'application/vnd.oasis.opendocument.spreadsheet',
-        );
-
-        $ext = strtolower(array_pop(explode('.',$filename)));
-        if (array_key_exists($ext, $mime_types)) {
-            return $mime_types[$ext];
-        }
-        elseif (function_exists('finfo_open')) {
-            $finfo = finfo_open(FILEINFO_MIME);
-            $mimetype = finfo_file($finfo, $filename);
-            finfo_close($finfo);
-            return $mimetype;
-        }
-        else {
-            return 'application/octet-stream';
-        }
-    }
-}
 
 /** @noinspection PhpUndefinedClassInspection
  * @property ModelToolImage $model_tool_image
@@ -143,7 +68,7 @@ class AResource {
         $type_data = $this->cache->get($cache_name,'', (int)$this->config->get('config_store_id'));
         if (empty($type_data['type_id'])) {
             $sql = "SELECT * "
-                 . "FROM ".DB_PREFIX . "resource_types "
+                 . "FROM ".$this->db->table("resource_types") . " "
                  . "WHERE type_name = '" . $this->db->escape($this->type) . "'";
             $query = $this->db->query($sql);
             $type_data = $query->row;
@@ -211,7 +136,7 @@ class AResource {
 	 */
 	private function _getIdByName($filename){
 		$sql = "SELECT resource_id
-                FROM " . DB_PREFIX . "resource_descriptions
+                FROM " . $this->db->table("resource_descriptions") . " 
                 WHERE name like '%".$this->db->escape($filename)."%'
                 ORDER BY language_id";
         $query = $this->db->query($sql);
@@ -244,11 +169,14 @@ class AResource {
 
             $sql = "SELECT
                         rd.*,
+                        COALESCE(rd.resource_path,rdd.resource_path) as resource_path,
+				        COALESCE(rd.resource_code,rdd.resource_code) as resource_code,
                         rt.type_name,
                         rt.default_icon
-                    FROM " . DB_PREFIX . "resource_library rl " . "
-                    LEFT JOIN " . DB_PREFIX . "resource_descriptions rd ON (rl.resource_id = rd.resource_id)
-                    LEFT JOIN " . DB_PREFIX . "resource_types rt ON (rl.type_id = rt.type_id )
+                    FROM " . $this->db->table("resource_library") . " rl " . "
+                    LEFT JOIN " . $this->db->table("resource_descriptions") . " rd ON (rl.resource_id = rd.resource_id)
+                    LEFT JOIN " . $this->db->table("resource_descriptions") . " rdd ON (rl.resource_id = rdd.resource_id AND rdd.language_id = '".$this->language->getDefaultLanguageID()."')
+                    LEFT JOIN " . $this->db->table("resource_types") . " rt ON (rl.type_id = rt.type_id )
                     " . $where;
 
             $query = $this->db->query($sql);
@@ -308,7 +236,7 @@ class AResource {
                 return $this->model_tool_image->resize($resource['default_icon'], $width, $height);
 			}
 
-			$name = preg_replace('/[^a-zA-Z0-9]/', '', $resource['name']);
+			$name = preg_replace('/[^a-zA-Z0-9]/', '_', $resource['name']);
 			//Build thumbnails path similar to resource library path
 			$new_image = 'thumbnails/' . dirname($resource['resource_path']) . '/' . $name . '-' . $resource['resource_id'] . '-' . $width . 'x' . $height . '.' . $extension;
 
@@ -400,9 +328,9 @@ class AResource {
 					rd.resource_code,
 					rm.default,
 					rm.sort_order	  
-				FROM " . DB_PREFIX . "resource_library rl " . "
-				LEFT JOIN " . DB_PREFIX . "resource_map rm ON rm.resource_id = rl.resource_id " . "
-				LEFT JOIN " . DB_PREFIX . "resource_descriptions rd ON (rl.resource_id = rd.resource_id AND rd.language_id = '".$language_id."')
+				FROM " . $this->db->table("resource_library") . " rl " . "
+				LEFT JOIN " . $this->db->table("resource_map") . " rm ON rm.resource_id = rl.resource_id " . "
+				LEFT JOIN " . $this->db->table("resource_descriptions") . " rd ON (rl.resource_id = rd.resource_id AND rd.language_id = '".$language_id."')
 				" . $where . "
 				ORDER BY rm.sort_order ASC";		
 				
@@ -421,7 +349,7 @@ class AResource {
             return $types;
         }
 
-		$sql = "SELECT * FROM " . DB_PREFIX . "resource_types";
+		$sql = "SELECT * FROM " . $this->db->table("resource_types") . " ";
 		$query = $this->db->query($sql);
 		$types = $query->rows;
         $this->cache->set($cache_name, $types, '', (int)$this->config->get('config_store_id'));

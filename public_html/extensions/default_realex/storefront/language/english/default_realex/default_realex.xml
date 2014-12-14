@@ -1,0 +1,91 @@
+<?xml version="1.0"?>
+<definitions>
+	<definition>
+		<key>text_title</key>
+		<value><![CDATA[Credit Card / Debit Card (Realex Payment)]]></value>
+	</definition>
+	<definition>
+		<key>text_credit_card</key>
+		<value><![CDATA[Credit Card Details]]></value>
+	</definition>
+	<definition>
+		<key>text_wait</key>
+		<value><![CDATA[Please wait!]]></value>
+	</definition>
+	<definition>
+		<key>entry_cc_owner</key>
+		<value><![CDATA[Name on the card:]]></value>
+	</definition>
+	<definition>
+		<key>entry_cc_number</key>
+		<value><![CDATA[Card Number:]]></value>
+	</definition>
+	<definition>
+		<key>entry_cc_expire_date</key>
+		<value><![CDATA[Card Expiry Date:]]></value>
+	</definition>
+	<definition>
+		<key>entry_cc_cvv2</key>
+		<value><![CDATA[Card Security Code]]></value>
+	</definition>
+	<definition>
+		<key>entry_cc_cvv2_short</key>
+		<value><![CDATA[(CVV2 ?)]]></value>
+	</definition>
+	<definition>
+		<key>entry_what_cvv2</key>
+		<value><![CDATA[What is CVV2?]]></value>
+	</definition>
+	<definition>
+		<key>entry_cc_type</key>
+		<value><![CDATA[Card Type]]></value>
+	</definition>
+
+	<definition>
+		<key>default_realex_creditcard_selection_visa</key>
+		<value><![CDATA[Visa]]></value>
+	</definition>
+	<definition>
+		<key>default_realex_creditcard_selection_mc</key>
+		<value><![CDATA[Mastercard]]></value>
+	</definition>
+	<definition>
+		<key>default_realex_creditcard_selection_amex</key>
+		<value><![CDATA[American Express]]></value>
+	</definition>
+	<definition>
+		<key>default_realex_creditcard_selection_switch</key>
+		<value><![CDATA[Switch/Maestro]]></value>
+	</definition>
+	<definition>
+		<key>default_realex_creditcard_selection_laser</key>
+		<value><![CDATA[Laser]]></value>
+	</definition>
+	<definition>
+		<key>default_realex_creditcard_selection_diners</key>
+		<value><![CDATA[Diners]]></value>
+	</definition>
+	
+	<definition>
+		<key>error_incorrect_number</key>
+		<value><![CDATA[Invalid Credit Card Number]]></value>
+	</definition>
+	<definition>
+		<key>error_incorrect_name</key>
+		<value><![CDATA[Invalid Card Owner Name]]></value>
+	</definition>
+	<definition>
+		<key>error_incorrect_expiration</key>
+		<value><![CDATA[Invalid Card Expiration Date]]></value>
+	</definition>
+	<definition>
+		<key>error_incorrect_cvv</key>
+		<value><![CDATA[Invalid Card CVV]]></value>
+	</definition>
+	<definition>
+		<key>error_3d_enroll</key>
+		<value><![CDATA[Merchant requires 3D secure for this transaction. We are unable to establish 3D secure with your bank. Please try again later]]></value>
+	</definition>
+	
+	
+</definitions>

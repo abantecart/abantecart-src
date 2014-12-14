@@ -22,7 +22,7 @@ if (! defined ( 'DIR_CORE' ) || !IS_ADMIN) {
 }
 class ControllerPagesUserUser extends AController {
 	public $data = array();
-	private $error = array();
+	public $error = array();
 	private $fields = array('username', 'firstname', 'lastname', 'email', 'user_group_id', 'status');
    
   	public function main() {
@@ -46,7 +46,8 @@ class ControllerPagesUserUser extends AController {
    		$this->document->addBreadcrumb( array (
        		'href'      => $this->html->getSecureURL('user/user'),
        		'text'      => $this->language->get('heading_title'),
-      		'separator' => ' :: '
+      		'separator' => ' :: ',
+			'current'	=> true
    		 ));
 
 		$grid_settings = array(
@@ -178,7 +179,7 @@ class ControllerPagesUserUser extends AController {
     	$this->loadLanguage('user/user');
     	$this->document->setTitle( $this->language->get('heading_title') );
 		$this->loadModel('user/user');
-    	if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->_validateForm()) {
+    	if ( $this->request->is_POST() && $this->_validateForm()) {
 			$user_id = $this->model_user_user->addUser($this->request->post);
 			$this->session->data['success'] = $this->language->get('text_success');
 			$this->redirect( $this->html->getSecureURL('user/user/update', '&user_id=' . $user_id ) );
@@ -203,7 +204,7 @@ class ControllerPagesUserUser extends AController {
 			unset($this->session->data['success']);
 		}
 		  
-    	if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->_validateForm()) {
+    	if ( $this->request->is_POST() && $this->_validateForm()) {
 			$this->model_user_user->editUser($this->request->get['user_id'], $this->request->post);
 			$this->session->data['success'] = $this->language->get('text_success');
 			$this->redirect( $this->html->getSecureURL('user/user/update', '&user_id=' . $this->request->get['user_id'] ) );
@@ -268,7 +269,8 @@ class ControllerPagesUserUser extends AController {
 		$this->document->addBreadcrumb( array (
        		'href'      => $this->data['action'],
        		'text'      => $this->data['heading_title'],
-      		'separator' => ' :: '
+      		'separator' => ' :: ',
+      		'current'	=> true
    		 ));
 
 		$form->setForm(array(
@@ -281,6 +283,7 @@ class ControllerPagesUserUser extends AController {
 		    'type' => 'form',
 		    'name' => 'cgFrm',
 		    'action' => $this->data['action'],
+			'attr' => 'data-confirm-exit="true" class="aform form-horizontal"',
 	    ));
         $this->data['form']['submit'] = $form->getFieldHtml(array(
 		    'type' => 'button',
@@ -295,14 +298,22 @@ class ControllerPagesUserUser extends AController {
 		    'style' => 'button2',
 	    ));
 
+		$this->data['form']['fields']['status'] = $form->getFieldHtml(array(
+		    'type' => 'checkbox',
+		    'name' => 'status',
+		    'value' => $this->data['status'],
+			'style'  => 'btn_switch',
+	    ));
+
 		$input = array('username', 'firstname', 'lastname', 'email', 'password');
 		foreach ( $input as $f ) {
 			$this->data['form']['fields'][$f] = $form->getFieldHtml(array(
 				'type' => ( $f == 'password' ? 'passwordset' : 'input' ),
 				'name' => $f,
 				'value' => $this->data[$f],
-				'required' => ( !in_array($f, array('username','firstname','lastname','password')) ? false: true),
+				'required' => true,
 				'attr' => ( in_array($f, array('password', 'password_confirm')) ? 'class="no-save"' : '' ),
+				'style' => ($f == 'password' ? 'medium-field' : '')
 			));
 		}
 
@@ -312,12 +323,7 @@ class ControllerPagesUserUser extends AController {
 			'value' => $this->data['user_group_id'],
             'options' => $user_groups,
 	    ));
-		$this->data['form']['fields']['status'] = $form->getFieldHtml(array(
-		    'type' => 'checkbox',
-		    'name' => 'status',
-		    'value' => $this->data['status'],
-			'style'  => 'btn_switch',
-	    ));
+
 		$this->view->assign('help_url', $this->gen_help_url('user_edit') );
 		$this->view->batchAssign( $this->data );
 
@@ -329,20 +335,26 @@ class ControllerPagesUserUser extends AController {
       		$this->error['warning'] = $this->language->get('error_permission');
     	}
     
-    	if ((strlen(utf8_decode($this->request->post['username'])) < 2) || (strlen(utf8_decode($this->request->post['username'])) > 20)) {
+    	if (mb_strlen($this->request->post['username']) < 2 || mb_strlen($this->request->post['username']) > 20) {
       		$this->error['username'] = $this->language->get('error_username');
     	}
 
-    	if ((strlen(utf8_decode($this->request->post['firstname'])) < 2) || (strlen(utf8_decode($this->request->post['firstname'])) > 32)) {
+    	if (mb_strlen($this->request->post['firstname']) < 2 || mb_strlen($this->request->post['firstname']) > 32) {
       		$this->error['firstname'] = $this->language->get('error_firstname');
     	}
 
-    	if ((strlen(utf8_decode($this->request->post['lastname'])) < 2) || (strlen(utf8_decode($this->request->post['lastname'])) > 32)) {
+    	if (mb_strlen($this->request->post['lastname']) < 2 || mb_strlen($this->request->post['lastname']) > 32) {
       		$this->error['lastname'] = $this->language->get('error_lastname');
     	}
 
+	    $email_pattern = '/^[A-Z0-9._%-]+@[A-Z0-9][A-Z0-9.-]{0,61}\.[A-Z]{2,6}$/i';
+
+        if (mb_strlen($this->request->post['email']) > 96 || !preg_match($email_pattern, $this->request->post['email'])) {
+            $this->error['email'] = $this->language->get('error_email');
+        }
+
     	if (($this->request->post['password']) || (!isset($this->request->get['user_id']))) {
-      		if ((strlen(utf8_decode($this->request->post['password'])) < 4) ) {
+      		if (mb_strlen($this->request->post['password']) < 4 ) {
         		$this->error['password'] = $this->language->get('error_password');
       		}
 	
@@ -350,6 +362,8 @@ class ControllerPagesUserUser extends AController {
 	    		$this->error['password_confirm'] = $this->language->get('error_confirm');
 	  		}
     	}
+
+		$this->extensions->hk_ValidateData( $this );
 	
     	if (!$this->error) {
       		return TRUE;
@@ -358,4 +372,3 @@ class ControllerPagesUserUser extends AController {
     	}
   	}
 }
-?>

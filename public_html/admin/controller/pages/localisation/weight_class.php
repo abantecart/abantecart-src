@@ -22,7 +22,7 @@ if (! defined ( 'DIR_CORE' ) || !IS_ADMIN) {
 }
 class ControllerPagesLocalisationWeightClass extends AController {
 	public $data = array();
-	private $error = array();
+	public $error = array();
 
 	public function main() {
 
@@ -45,7 +45,8 @@ class ControllerPagesLocalisationWeightClass extends AController {
    		$this->document->addBreadcrumb( array (
        		'href'      => $this->html->getSecureURL('localisation/weight_class'),
        		'text'      => $this->language->get('heading_title'),
-      		'separator' => ' :: '
+      		'separator' => ' :: ',
+			'current'	=> true
    		));
 
 		$grid_settings = array(
@@ -79,7 +80,7 @@ class ControllerPagesLocalisationWeightClass extends AController {
 			array(
 				'name' => 'title',
 				'index' => 'title',
-                'align' => 'center',
+                'align' => 'left',
 			),
 			array(
 				'name' => 'unit',
@@ -113,7 +114,7 @@ class ControllerPagesLocalisationWeightClass extends AController {
 
     	$this->document->setTitle( $this->language->get('heading_title') );
 
-		if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->_validateForm()) {
+		if ( $this->request->is_POST() && $this->_validateForm()) {
 
 			$weight_class_id = $this->model_localisation_weight_class->addWeightClass($this->request->post);
 			$this->session->data['success'] = $this->language->get('text_success');
@@ -137,7 +138,7 @@ class ControllerPagesLocalisationWeightClass extends AController {
 
     	$this->document->setTitle( $this->language->get('heading_title') );
 
-    	if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->_validateForm()) {
+    	if ( $this->request->is_POST() && $this->_validateForm() ) {
 	  		$this->model_localisation_weight_class->editWeightClass($this->request->get['weight_class_id'], $this->request->post);
 			$this->session->data['success'] = $this->language->get('text_success');
 			$this->redirect($this->html->getSecureURL('localisation/weight_class/update', '&weight_class_id=' . $this->request->get['weight_class_id'] ));
@@ -165,7 +166,7 @@ class ControllerPagesLocalisationWeightClass extends AController {
       		'separator' => ' :: '
    		 ));
 
-		if (isset($this->request->get['weight_class_id']) && ($this->request->server['REQUEST_METHOD'] != 'POST')) {
+		if (isset($this->request->get['weight_class_id']) && $this->request->is_GET() ) {
       		$weight_class_info = $this->model_localisation_weight_class->getWeightClass($this->request->get['weight_class_id']);
     	}
 
@@ -200,7 +201,8 @@ class ControllerPagesLocalisationWeightClass extends AController {
 		$this->document->addBreadcrumb( array (
        		'href'      => $this->data['action'],
        		'text'      => $this->data['heading_title'],
-      		'separator' => ' :: '
+      		'separator' => ' :: ',
+			'current'	=> true
    		 ));
 
 		$form->setForm(array(
@@ -213,6 +215,7 @@ class ControllerPagesLocalisationWeightClass extends AController {
 		    'type' => 'form',
 		    'name' => 'editFrm',
 		    'action' => $this->data['action'],
+			'attr' => 'data-confirm-exit="true" class="aform form-horizontal"',
 	    ));
         $this->data['form']['submit'] = $form->getFieldHtml(array(
 		    'type' => 'button',
@@ -227,17 +230,19 @@ class ControllerPagesLocalisationWeightClass extends AController {
 		    'style' => 'button2',
 	    ));
 
+		$content_language_id = $this->language->getContentLanguageID();
+
 		$this->data['form']['fields']['title'] = $form->getFieldHtml(array(
 			'type' => 'input',
-			'name' => 'weight_class_description['.$this->session->data['content_language_id'].'][title]',
-			'value' => $this->data['weight_class_description'][$this->session->data['content_language_id']]['title'],
+			'name' => 'weight_class_description['.$content_language_id.'][title]',
+			'value' => $this->data['weight_class_description'][$content_language_id]['title'],
 			'required' => true,
 			'style' => 'large-field',
 		));
 		$this->data['form']['fields']['unit'] = $form->getFieldHtml(array(
 			'type' => 'input',
-			'name' => 'weight_class_description['.$this->session->data['content_language_id'].'][unit]',
-			'value' => $this->data['weight_class_description'][$this->session->data['content_language_id']]['unit'],
+			'name' => 'weight_class_description['.$content_language_id.'][unit]',
+			'value' => $this->data['weight_class_description'][$content_language_id]['unit'],
 			'required' => true,
 			'style' => 'large-field',
 		));
@@ -249,7 +254,7 @@ class ControllerPagesLocalisationWeightClass extends AController {
 
 		$this->view->batchAssign( $this->data );
 		$this->view->assign('form_language_switch', $this->html->getContentLanguageSwitcher());
-		$this->view->assign('language_id', $this->session->data['content_language_id']);
+		$this->view->assign('language_id', $content_language_id );
 		$this->view->assign('help_url', $this->gen_help_url('weight_class_edit') );
 
         $this->processTemplate('pages/localisation/weight_class_form.tpl' );
@@ -261,14 +266,15 @@ class ControllerPagesLocalisationWeightClass extends AController {
 		}
 
 		foreach ($this->request->post['weight_class_description'] as $language_id => $value) {
-			if ((strlen(utf8_decode($value['title'])) < 2) || (strlen(utf8_decode($value['title'])) > 32)) {
-				$this->error['title'][$language_id] = $this->language->get('error_title');
+			if ( mb_strlen($value['title']) < 2 || mb_strlen($value['title']) > 32 ) {
+				$this->error['title'] = $this->language->get('error_title');
 			}
-
-			if ((!$value['unit']) || (strlen(utf8_decode($value['unit'])) > 4)) {
-				$this->error['unit'][$language_id] = $this->language->get('error_unit');
+			if ((!$value['unit']) || mb_strlen($value['unit']) > 4 ) {
+				$this->error['unit'] = $this->language->get('error_unit');
 			}
 		}
+
+		$this->extensions->hk_ValidateData( $this );
 
 		if (!$this->error) {
 			return TRUE;
@@ -278,4 +284,3 @@ class ControllerPagesLocalisationWeightClass extends AController {
 	}
 
 }
-?>

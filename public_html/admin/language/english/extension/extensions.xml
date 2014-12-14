@@ -19,7 +19,7 @@
 	<definition>
 		<key>text_uninstall_confirm</key>
 		<value>
-			<![CDATA[ Please confirm you want to uninstall extension [ %extension% ]. All extension settings and related data might be deleted and lost. ]]></value>
+			<![CDATA[ Please confirm you want to uninstall extension. All extension settings and related data might be deleted and lost. ]]></value>
 	</definition>
 	<definition>
 		<key>text_delete</key>
@@ -106,7 +106,7 @@
 		<value><![CDATA[Warning: Uninstall extension before delete!]]></value>
 	</definition>
 	<definition>
-		<key>text_success</key>
+		<key>text_save_success</key>
 		<value><![CDATA[Success: You have modified extension settings!]]></value>
 	</definition>
 	<definition>
@@ -140,12 +140,12 @@
 	<definition>
 		<key>text_missing_extension</key>
 		<value>
-			<![CDATA["Extension %EXT%:  Source can not be located! Please delete it and visit extention provider to get complete source and intall it again  "]]></value>
+			<![CDATA["Extension %s:  Source can not be located! Please delete it and visit extention provider to get complete source and install it again  "]]></value>
 	</definition>
 	<definition>
 		<key>text_broken_extension</key>
 		<value>
-			<![CDATA["Extension %EXT%:  Source probably broken! Can't find config.xml or main.php files. Please delete it and visit extention provider to get complete source and intall it again  "]]></value>
+			<![CDATA["Extension %s:  Source probably broken! Can't find config.xml or main.php files. Please delete it and visit extention provider to get complete source and install it again  "]]></value>
 	</definition>
 	<definition>
 		<key>text_extension_pagination</key>
@@ -201,7 +201,7 @@
 	</definition>
 	<definition>
 		<key>text_visit_repository</key>
-		<value><![CDATA[Please visit %extensions_store% extension repository</a> to download extension]]></value>
+		<value><![CDATA[Please visit extension repository</a> to download extension]]></value>
 	</definition>
 	<definition>
 		<key>text_license</key>
@@ -228,8 +228,8 @@
 		<value><![CDATA[Dependencies]]></value>
 	</definition>
 	<definition>
-		<key>text_update_it</key>
-		<value><![CDATA[New version (%NEWVERSION%) is available]]></value>
+		<key>text_update_available</key>
+		<value><![CDATA[New version (%s) is available. <a href="%s">Click to update now.</a>]]></value>
 	</definition>
 	<definition>
 		<key>text_delete_confirm</key>
@@ -333,4 +333,61 @@
 	    <key>text_accept_payments_shipping</key>
 	    <value><![CDATA[Accept these payments:<br /><span class="help">If only specific payment methods are needed for this shipping method, select them here. If nothing selected, all available payment methods will be shown</span>]]></value>
 	</definition>
+	<definition>
+	    <key>text_ready_to_install</key>
+	    <value><![CDATA[Ready to install]]></value>
+	</definition>
+	<definition>
+	    <key>button_install</key>
+	    <value><![CDATA[Install]]></value>
+	</definition>
+	<definition>
+	    <key>error_dependencies</key>
+	    <value><![CDATA[This extension cannot be enabled because required dependency missing or not enabled.]]></value>
+	</definition>
+	<definition>
+	    <key>button_howto</key>
+	    <value><![CDATA[How To]]></value>
+	</definition>
+	<definition>
+	    <key>text_developer_site</key>
+	    <value><![CDATA[External support site]]></value>
+	</definition>
+	<definition>
+	    <key>text_preview</key>
+	    <value><![CDATA[Preview]]></value>
+	</definition>
+	<definition>
+	    <key>text_confirmation</key>
+	    <value><![CDATA[Confirmation]]></value>
+	</definition>
+	<definition>
+	    <key>button_confirm</key>
+	    <value><![CDATA[Confirm]]></value>
+	</definition>
+	<definition>
+	    <key>button_continue</key>
+	    <value><![CDATA[Continue]]></value>
+	</definition>
+	<definition>
+	    <key>button_cancel</key>
+	    <value><![CDATA[Cancel]]></value>
+	</definition>
+	<definition>
+	    <key>error_could_not_load_config</key>
+	    <value><![CDATA[Error: Could not load config for <b>%s</b> (%s)!]]></value>
+	</definition>
+	<definition>
+	    <key>error_could_not_load_override</key>
+	    <value><![CDATA[Error: Cannot load override template %s in extension %s!]]></value>
+	</definition>
+	<definition>
+	    <key>tab_general</key>
+	    <value><![CDATA[General]]></value>
+	</definition>
+	<definition>
+	    <key>tab_additional_settings</key>
+	    <value><![CDATA[Additional Settings]]></value>
+	</definition>
+
 </definitions>

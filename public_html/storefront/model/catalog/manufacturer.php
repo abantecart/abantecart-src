@@ -23,8 +23,8 @@ if (! defined ( 'DIR_CORE' )) {
 class ModelCatalogManufacturer extends Model {
 	public function getManufacturer($manufacturer_id) {
 		$query = $this->db->query("SELECT *
-									FROM " . DB_PREFIX . "manufacturers m
-									LEFT JOIN " . DB_PREFIX . "manufacturers_to_stores m2s ON (m.manufacturer_id = m2s.manufacturer_id)
+									FROM " . $this->db->table("manufacturers") . " m
+									LEFT JOIN " . $this->db->table("manufacturers_to_stores") . " m2s ON (m.manufacturer_id = m2s.manufacturer_id)
 									WHERE m.manufacturer_id = '" . (int)$manufacturer_id . "'
 										AND m2s.store_id = '" . (int)$this->config->get('config_store_id') . "'");
 	
@@ -35,8 +35,8 @@ class ModelCatalogManufacturer extends Model {
 		$manufacturer = $this->cache->get( 'manufacturer','', (int)$this->config->get('config_store_id') );
 		if (!$manufacturer) {
 			$query = $this->db->query( "SELECT *
-										FROM " . DB_PREFIX . "manufacturers m
-										LEFT JOIN " . DB_PREFIX . "manufacturers_to_stores m2s ON (m.manufacturer_id = m2s.manufacturer_id)
+										FROM " . $this->db->table("manufacturers") . " m
+										LEFT JOIN " . $this->db->table("manufacturers_to_stores") . " m2s ON (m.manufacturer_id = m2s.manufacturer_id)
 										WHERE m2s.store_id = '" . (int)$this->config->get('config_store_id') . "'
 										ORDER BY sort_order, LCASE(m.name) ASC");
 			$manufacturer = $query->rows;
@@ -46,8 +46,8 @@ class ModelCatalogManufacturer extends Model {
 	}
 	public function getManufacturerByProductId($product_id) {
 			$query = $this->db->query( "SELECT *
-										FROM " . DB_PREFIX . "manufacturers m
-										RIGHT JOIN " . DB_PREFIX . "products p ON (m.manufacturer_id = p.manufacturer_id)
+										FROM " . $this->db->table("manufacturers") . " m
+										RIGHT JOIN " . $this->db->table("products") . " p ON (m.manufacturer_id = p.manufacturer_id)
 										WHERE p.product_id = '" . (int)$product_id . "'");
 		return $query->rows;
 	}

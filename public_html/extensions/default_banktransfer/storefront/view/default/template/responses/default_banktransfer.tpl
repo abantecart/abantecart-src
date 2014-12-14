@@ -1,21 +1,27 @@
 <?php if ($minimum_notmet) { ?>
-<div class="warning alert alert-error"><?php echo $minimum_notmet; ?></div>
+<div class="alert alert-error alert-danger">
+  <strong><?php echo $minimum_notmet; ?></strong>
+</div>
 <?php } ?>
 
-<div style="background: #F7F7F7; border: 1px solid #DDDDDD; padding: 10px; margin-bottom: 10px;"><?php echo $text_instructions; ?><br />
-  <?php echo $instructions; ?><br />
+<div class="checkout_details"><?php echo $text_instructions; ?><br />
+  <?php echo $instructions; ?>
   <br />
-  <?php echo $text_payment; ?></div>
-<div class="buttons">
-  <table>
-    <tr>
-      <td align="left"><a onclick="location = '<?php echo str_replace('&', '&amp;', $back); ?>'" class="button"><span><?php echo $button_back; ?></span></a></td>
-<?php if (!$minimum_notmet) { ?>
-      <td align="right"><a id="checkout" class="button"><span><?php echo $button_confirm; ?></span></a></td>
-<?php } ?>
-    </tr>
-  </table>
+  <br />
+  <?php echo $text_payment; ?>
 </div>
+
+<a class="btn btn-default pull-left" href="<?php echo $back; ?>">
+     <i class="icon-arrow-left"></i>
+    <?php echo $button_back; ?>
+</a>
+<?php if (!$minimum_notmet) { ?>	
+<a id="checkout" class="btn ml10 pull-right btn-orange">
+    <i class="icon-ok icon-white"></i>
+    <?php echo $button_confirm; ?>
+</a>
+<?php } ?>
+
 <script type="text/javascript"><!--
 $('#checkout').click(function() {
 	$('body').css('cursor','wait');
@@ -23,7 +29,7 @@ $('#checkout').click(function() {
 		type: 'GET',
 		url: 'index.php?rt=extension/default_banktransfer/confirm',
 		success: function() {
-			location = '<?php echo $continue; ?>';
+			goTo('<?php echo $continue; ?>');
 		}		
 	});
 });

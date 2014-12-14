@@ -1,8 +1,12 @@
-<!-- content left blocks placeholder -->  
-  <?php foreach ($children_blocks as $k => $block) { ?>
-    <?php echo ${$block}; ?>
-    <?php if ( $k < count($children_blocks) ) { ?>
-  	<div class="sep"></div>
-  <?php 	} ?>  
-  <?php } ?>
-<!-- content left blocks placeholder (EOF) -->  
+<?php
+	$nonempty = false;
+	foreach ($children_blocks as $k => $block) {
+		echo ${$block};
+		if(!$nonempty){
+			if(strlen(${$block})){
+				$nonempty = true;
+			}
+		}
+		if ($nonempty && $k < count($children_blocks) ) { ?>
+			<div class="sep"></div>
+<?php }} ?>

@@ -35,7 +35,7 @@ class ControllerPagesAccountNewsletter extends AController {
 		
 		$this->document->setTitle( $this->language->get('heading_title') );
 				
-		if ($this->request->server['REQUEST_METHOD'] == 'POST') {
+		if ($this->request->is_POST()) {
 			$this->loadModel('account/customer');
 			
 			$this->model_account_customer->editNewsletter($this->request->post['newsletter']);
@@ -80,14 +80,14 @@ class ControllerPagesAccountNewsletter extends AController {
                                                                       ) ));
 		$this->data['form'][ 'continue' ] = $form->getFieldHtml( array(
                                                                        'type' => 'submit',
-                                                                       'icon' => 'icon-check',
+                                                                       'icon' => 'fa fa-check',
 		                                                               'name' => $this->language->get('button_continue') ));
 
        	$this->data['back'] = $this->html->getURL('account/account');
 		$back = HtmlElementFactory::create( array ('type' => 'button',
 		                                           'name' => 'back',
 			                                       'text'=> $this->language->get('button_back'),
-			                                       'icon' => 'icon-arrow-left',
+			                                       'icon' => 'fa fa-arrow-left',
 			                                       'style' => 'button'));
 		$this->data['form']['back'] = $back;
 
@@ -99,4 +99,3 @@ class ControllerPagesAccountNewsletter extends AController {
         $this->extensions->hk_UpdateData($this,__FUNCTION__);
   	}
 }
-?>

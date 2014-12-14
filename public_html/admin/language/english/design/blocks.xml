@@ -13,6 +13,14 @@
 		<value><![CDATA[edit block]]></value>
 	</definition>
 	<definition>
+		<key>text_enable</key>
+		<value><![CDATA[Enable/Disable]]></value>
+	</definition>
+	<definition>
+		<key>text_details</key>
+		<value><![CDATA[Details]]></value>
+	</definition>
+	<definition>
 		<key>text_create</key>
 		<value><![CDATA[Create block]]></value>
 	</definition>
@@ -211,5 +219,21 @@
 	<definition>
 		<key>text_layouts</key>
 		<value><![CDATA[ Used in layouts ]]></value>
+	</definition>
+	<definition>
+		<key>text_block_info</key>
+		<value><![CDATA[ Information About Custom Block ]]></value>
+	</definition>
+	<definition>
+		<key>text_add_block</key>
+		<value><![CDATA[Adding block to section]]></value>
+	</definition>
+	<definition>
+		<key>text_available_block</key>
+		<value><![CDATA[Available Blocks]]></value>
+	</definition>
+	<definition>
+		<key>error_block_not_available</key>
+		<value><![CDATA[This block will not be displayed in selected position on a storefront!]]></value>
 	</definition>
 </definitions>

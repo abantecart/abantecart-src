@@ -1,9 +1,13 @@
 <?php if ($total > 0 ) { ?>
 
+<form class="form-inline pull-left">
+<?php echo $text_limit ?>&nbsp;&nbsp;
+<?php echo $limit_select ?>&nbsp;&nbsp;
+<?php echo $text ?>
+</form>
 
-<div class="limits"><?php echo $limit_select ?>&nbsp;&nbsp;<?php echo $text_limit ?></div>
-<div class="links">
-  <ul>  
+<div class="pull-right">
+  <ul class="pagination">  
   	<?php if ($page > 1) { ?>
     	<li><a href="<?php echo $first_url; ?>"><?php echo $text_first; ?></a></li>  	
     	<li><a href="<?php echo $prev_url; ?>"><?php echo $text_prev; ?></a></li>  	
@@ -23,6 +27,5 @@
   	<?php } ?>
   </ul>	
 </div>
-<div class="results"><?php echo $text ?></div>
 
 <?php } ?>

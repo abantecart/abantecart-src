@@ -44,6 +44,10 @@
 		<key>text_success_copy</key>
 		<value><![CDATA[Success: You have successfully clone product <b>%s</b>!]]></value>
 	</definition>
+    <definition>
+		<key>text_error_copy</key>
+		<value><![CDATA[Cloning has failed! Original product is not available]]></value>
+	</definition>
 	<definition>
 		<key>text_plus</key>
 		<value><![CDATA[+]]></value>
@@ -385,6 +389,10 @@
 		<key>text_select_category</key>
 		<value><![CDATA[- Select Category -]]></value>
 	</definition>
+	<definition>
+		<key>text_select_product</key>
+		<value><![CDATA[- Select Product -]]></value>
+	</definition>
     <definition>
 		<key>text_option_name</key>
 		<value><![CDATA[Option Name]]></value>
@@ -455,7 +463,7 @@
 	</definition>
 	<definition>
 		<key>text_success_layout</key>
-		<value><![CDATA[Success: You have modified category page layout.]]></value>
+		<value><![CDATA[Success: You have modified product page layout.]]></value>
 	</definition>
 	<definition>
 		<key>text_success_option</key>
@@ -529,4 +537,16 @@
         <key>entry_call_to_order</key>
         <value><![CDATA[Block Product From Ordering:<br /><span class="help">This will put product to display mode only with no ability to order. Contact us for order message will be displayed.</span>]]></value>
     </definition>
+	<definition>
+		<key>text_new_option</key>
+		<value><![CDATA[New Option]]></value>
+	</definition>
+	<definition>
+		<key>text_total_orders</key>
+		<value><![CDATA[Total Orders]]></value>
+	</definition>
+	<definition>
+		<key>error_measure_value</key>
+		<value><![CDATA[The limit of 999.99 has been reached. Provide smaller number.]]></value>
+	</definition>
 </definitions>

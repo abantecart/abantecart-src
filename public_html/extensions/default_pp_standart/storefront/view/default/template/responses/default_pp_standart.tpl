@@ -49,13 +49,15 @@
 		<input type="hidden" name="cpp_cart_border_color" value="<?php echo $cartbordercolor; ?>"/>
 	<?php endif; ?>
 
+	<div class="form-group action-buttons text-center">
+	    <a id="<?php echo $back->name ?>" href="<?php echo $back->href; ?>" class="btn btn-default mr10" title="<?php echo $back->text ?>">
+	    	<i class="fa fa-arrow-left"></i>
+	    	<?php echo $back->text ?>
+	    </a>
+	    <button id="<?php echo $button_confirm->name ?>" class="btn btn-orange lock-on-click" title="<?php echo $button_confirm->name ?>" type="submit">
+	        <i class="fa fa-check"></i>
+	        <?php echo $button_confirm->name; ?>
+	    </button>
+	</div>
 
-<div class="buttons">
-	<table>
-		<tr>
-			<td align="left"><?php echo $back; ?></td>
-			<td align="right"><?php echo $button_confirm; ?></td>
-		</tr>
-	</table>
-</div>
 </form>

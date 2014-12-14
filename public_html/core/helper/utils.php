@@ -115,6 +115,17 @@ function is_serialized ($value) {
 }
 
 /*
+ * check that argument array is multidimensional  
+ * */
+function is_multi ($array) {
+	if (is_array($array) && count($array) != count($array, COUNT_RECURSIVE)) {
+	    return true;
+	} else {
+	    return false;
+	}
+}
+ 
+/*
 *
 */
 /**
@@ -180,9 +191,12 @@ function getUniqueSeoKeyword($seo_key, $object_key_name='', $object_id=0){
 * Echo array with readable formal. Useful in debugging of array data. 
 */
 function echo_array($array_data) {
+	$wrapper = '<div class="debug_alert salert alert-info alert-dismissible" role="alert"><button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span></button>';	
+	echo $wrapper;
 	echo "<pre>";// $sub_table_name: ";
 	print_r($array_data);
 	echo'</pre>';
+	echo'</div>';	
 }
 
 
@@ -508,7 +522,7 @@ function getExtensionConfigXml($extension_txt_id) {
 	$filename = DIR_EXT . $extension_txt_id . '/config.xml';
 	$ext_configs = simplexml_load_file($filename);
 
-	if($ext_configs===false){
+	if($ext_configs === false){
 		$err_text = 'Error: cannot to load config.xml of extension '.$extension_txt_id.'.';
 		$error = new AError($err_text);
 		$error->toLog()->toDebug()->toMessages();
@@ -721,4 +735,152 @@ function is_html($test_string) {
 		return true;
 	}
 	return false;
+}
+
+/**
+ * Get either a Gravatar URL or complete image tag for a specified email address.
+ *
+ * @param string $email The email address
+ * @param int|string $s Size in pixels, defaults to 80px [ 1 - 2048 ]
+ * @param string $d Default imageset to use [ 404 | mm | identicon | monsterid | wavatar ]
+ * @param string $r Maximum rating (inclusive) [ g | pg | r | x ]
+ * @return String containing either just a URL or a complete image tag
+ */
+function getGravatar( $email = '', $s = 80, $d = 'mm', $r = 'g') {
+    if ( empty($email) ) {
+    	return null;
+    }
+    $url = 'http://www.gravatar.com/avatar/';
+    $url .= md5( strtolower( trim( $email ) ) );
+    $url .= "?s=".$s."&d=".$d."&r=".$r;
+    return $url;
+}
+
+function compressTarGZ($tar_filename, $tar_dir){
+
+	$exit_code = 0;
+	if(pathinfo($tar_filename,PATHINFO_EXTENSION)=='gz'){
+		$filename = rtrim($tar_filename,'.gz');
+	}else{
+		$filename = $tar_filename.'.tar.gz';
+	}
+	$tar = rtrim($tar_filename,'.gz');
+	//remove archive if exists
+	if(is_file($tar_filename)){
+		unlink($tar_filename);
+	}
+	if(is_file($filename)){
+		unlink($filename);
+	}
+	if(is_file($tar)){
+		unlink($tar);
+	}
+
+	if(class_exists('PharData') ){
+		try{
+			$a = new PharData($filename );
+			$a->buildFromDirectory($tar_dir); // this code creates tar-file
+			$a->compress(Phar::GZ);
+			if(file_exists($tar)){ // remove tar-file after zipping
+				unlink($tar);
+			}
+		}catch (Exception $e){
+			$error = new AError( $e->getMessage() );
+			$error->toLog()->toDebug();
+			$exit_code =1;
+		}
+	}else{
+		$exit_code =1;
+	}
+
+	if ( $exit_code ) {
+		$registry = Registry::getInstance();
+		$registry->get('load')->library('targz');
+		$targz = new Atargz();
+		return $targz->makeTar($tar_dir.$tar_filename, $filename);
+	}else{
+		return true;
+	}
+}
+
+/**
+ * TODO: in the future
+ * @param $zip_filename
+ * @param $zip_dir
+ */
+function compressZIP($zip_filename, $zip_dir){
+
+}
+
+function getMimeType($filename) {
+$filename = (string)$filename;
+    $mime_types = array(
+
+        'txt' => 'text/plain',
+        'htm' => 'text/html',
+        'html' => 'text/html',
+        'php' => 'text/html',
+        'css' => 'text/css',
+        'js' => 'application/javascript',
+        'json' => 'application/json',
+        'xml' => 'application/xml',
+        'swf' => 'application/x-shockwave-flash',
+        'flv' => 'video/x-flv',
+
+        // images
+        'png' => 'image/png',
+        'jpe' => 'image/jpeg',
+        'jpeg' => 'image/jpeg',
+        'jpg' => 'image/jpeg',
+        'gif' => 'image/gif',
+        'bmp' => 'image/bmp',
+        'ico' => 'image/vnd.microsoft.icon',
+        'tiff' => 'image/tiff',
+        'tif' => 'image/tiff',
+        'svg' => 'image/svg+xml',
+        'svgz' => 'image/svg+xml',
+
+        // archives
+        'zip' => 'application/zip',
+        'rar' => 'application/x-rar-compressed',
+        'exe' => 'application/x-msdownload',
+        'msi' => 'application/x-msdownload',
+        'cab' => 'application/vnd.ms-cab-compressed',
+
+        // audio/video
+        'mp3' => 'audio/mpeg',
+        'qt' => 'video/quicktime',
+        'mov' => 'video/quicktime',
+
+        // adobe
+        'pdf' => 'application/pdf',
+        'psd' => 'image/vnd.adobe.photoshop',
+        'ai' => 'application/postscript',
+        'eps' => 'application/postscript',
+        'ps' => 'application/postscript',
+
+        // ms office
+        'doc' => 'application/msword',
+        'rtf' => 'application/rtf',
+        'xls' => 'application/vnd.ms-excel',
+        'ppt' => 'application/vnd.ms-powerpoint',
+
+        // open office
+        'odt' => 'application/vnd.oasis.opendocument.text',
+        'ods' => 'application/vnd.oasis.opendocument.spreadsheet',
+    );
+
+    $ext = strtolower(array_pop(explode('.',$filename)));
+    if (has_value($mime_types[$ext])) {
+        return $mime_types[$ext];
+    }elseif (function_exists('finfo_open')) {
+        $finfo = finfo_open(FILEINFO_MIME);
+        $mimetype = finfo_file($finfo, $filename);
+        finfo_close($finfo);
+	    $mimetype = !$mimetype ? 'application/octet-stream' : $mimetype;
+        return $mimetype;
+    }
+    else {
+        return 'application/octet-stream';
+    }
 }

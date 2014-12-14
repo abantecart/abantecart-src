@@ -39,7 +39,7 @@ class ControllerPagesAccountCreate extends AController {
 		$request_data = $this->request->post;
 
 
-		if ( $this->request->server['REQUEST_METHOD'] == 'POST') {
+		if ( $this->request->is_POST()) {
 			$this->errors = array_merge($this->errors,$this->model_account_customer->validateRegistrationData($request_data));
     		if ( !$this->errors ) {
 				//if allow login as email, need to set loginname = email
@@ -93,7 +93,12 @@ class ControllerPagesAccountCreate extends AController {
 				$mail->send();
 
 				$this->extensions->hk_UpdateData($this,__FUNCTION__);
-		  		$this->redirect($this->html->getSecureURL('account/success'));
+				if(has_value( $this->session->data['redirect'] )){
+					$redirect_url =  $this->session->data['redirect'];
+				}else{
+					$redirect_url =  $this->html->getSecureURL('account/success');
+				}
+				$this->redirect($redirect_url);
 	  		}
     	} 
 
@@ -150,8 +155,8 @@ class ControllerPagesAccountCreate extends AController {
 		$this->data['form'][ 'telephone' ] = $form->getFieldHtml( array(
                                                                        'type' => 'input',
 		                                                               'name' => 'telephone',
-		                                                               'value' => $this->request->post['telephone'],
-		                                                               'required' => true ));
+		                                                               'value' => $this->request->post['telephone']
+		                                                               ));
 		$this->data['form'][ 'fax' ] = $form->getFieldHtml( array(
                                                                        'type' => 'input',
 		                                                               'name' => 'fax',

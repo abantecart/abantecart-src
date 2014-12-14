@@ -20,9 +20,17 @@
 if (! defined ( 'DIR_CORE' ) || !IS_ADMIN) {
 	header ( 'Location: static_pages/' );
 }
+
+/**
+ * Class ModelLocalisationTaxClass
+ */
 class ModelLocalisationTaxClass extends Model {
+	/**
+	 * @param array $data
+	 * @return int
+	 */
 	public function addTaxClass($data) {
-		$this->db->query( "INSERT INTO " . DB_PREFIX . "tax_classes
+		$this->db->query( "INSERT INTO " . $this->db->table("tax_classes") . " 
 				SET date_added = NOW() ");
 				
 		$tax_class_id = $this->db->getLastId();
@@ -40,9 +48,14 @@ class ModelLocalisationTaxClass extends Model {
 		return $tax_class_id;
 	}
 
+	/**
+	 * @param int $tax_class_id
+	 * @param array $data
+	 * @return int
+	 */
 	public function addTaxRate($tax_class_id, $data) {
 		$this->db->query(
-			"INSERT INTO " . DB_PREFIX . "tax_rates
+			"INSERT INTO " . $this->db->table("tax_rates") . " 
 			SET location_id = '"  . (int)$data['location_id'] . "',
 			    zone_id = '"  . (int)$data['zone_id'] . "',
 				priority = '"  . (int)$data['priority'] . "',
@@ -66,12 +79,16 @@ class ModelLocalisationTaxClass extends Model {
 		$this->cache->delete('tax_class');
 		return $tax_rate_id;
 	}
-	
+
+	/**
+	 * @param int $tax_class_id
+	 * @param array $data
+	 */
 	public function editTaxClass($tax_class_id, $data) {
 
 		if ( count($data['tax_class']) ) {
 			$update = array('date_modified = NOW()');
-			$this->db->query("UPDATE `" . DB_PREFIX . "tax_classes`
+			$this->db->query("UPDATE " . $this->db->table("tax_classes") . " 
 							  SET ". implode(',', $update) ."
 							  WHERE tax_class_id = '" . (int)$tax_class_id . "'");
 							  
@@ -97,18 +114,22 @@ class ModelLocalisationTaxClass extends Model {
 		}
 	}
 
+	/**
+	 * @param int $tax_rate_id
+	 * @param array $data
+	 */
 	public function editTaxRate($tax_rate_id, $data) {
 		$fields = array('location_id', 'zone_id', 'priority','rate_prefix', 'threshold_condition' );
 		$update = array('date_modified = NOW()');
 		foreach ( $fields as $f ) {
 			if ( isset($data[$f]) )
-				$update[] = "$f = '".$this->db->escape($data[$f])."'";
+				$update[] = $f." = '".$this->db->escape($data[$f])."'";
 		}
 		$update[] = "rate = '" . preformatFloat($data['rate'], $this->language->get('decimal_point'))."'";
 		$update[] = "threshold = '" . preformatFloat($data['threshold'], $this->language->get('decimal_point'))."'";
 		
 		if ( !empty($update) ) {
-			$this->db->query("UPDATE `" . DB_PREFIX . "tax_rates`
+			$this->db->query("UPDATE " . $this->db->table("tax_rates") . " 
 								SET ". implode(',', $update) ."
 								WHERE tax_rate_id = '" . (int)$tax_rate_id . "'");
 
@@ -127,31 +148,41 @@ class ModelLocalisationTaxClass extends Model {
 			$this->cache->delete('location');
 		}
 	}
-	
+
+	/**
+	 * @param int $tax_class_id
+	 */
 	public function deleteTaxClass($tax_class_id) {
-		$this->db->query("DELETE FROM " . DB_PREFIX . "tax_classes
+		$this->db->query("DELETE FROM " . $this->db->table("tax_classes") . " 
 							WHERE tax_class_id = '" . (int)$tax_class_id . "'");
-		$this->db->query("DELETE FROM " . DB_PREFIX . "tax_class_descriptions
+		$this->db->query("DELETE FROM " . $this->db->table("tax_class_descriptions") . " 
 							WHERE tax_class_id = '" . (int)$tax_class_id . "'");
-		$this->db->query("DELETE FROM " . DB_PREFIX . "tax_rates
+		$this->db->query("DELETE FROM " . $this->db->table("tax_rates") . " 
 							WHERE tax_class_id = '" . (int)$tax_class_id . "'");
 		$this->cache->delete('tax_class');
 	}
 
+	/**
+	 * @param int $tax_rate_id
+	 */
 	public function deleteTaxRate($tax_rate_id) {
-		$this->db->query("DELETE FROM " . DB_PREFIX . "tax_rates
+		$this->db->query("DELETE FROM " . $this->db->table("tax_rates") . " 
 							WHERE tax_rate_id = '" . (int)$tax_rate_id . "'");
-		$this->db->query("DELETE FROM " . DB_PREFIX . "tax_rate_descriptions
+		$this->db->query("DELETE FROM " . $this->db->table("tax_rate_descriptions") . " 
 							WHERE tax_rate_id = '" . (int)$tax_rate_id . "'");
 		$this->cache->delete('tax_class');
 	}
-	
+
+	/**
+	 * @param int $tax_class_id
+	 * @return array
+	 */
 	public function getTaxClass($tax_class_id) {
 		$language_id = $this->session->data['content_language_id'];
 
 		$query = $this->db->query("SELECT t.tax_class_id, td1.title, td1.description
-									FROM " . DB_PREFIX . "tax_classes t
-									LEFT JOIN " . DB_PREFIX . "tax_class_descriptions td1 ON 
+									FROM " . $this->db->table("tax_classes") . " t
+									LEFT JOIN " . $this->db->table("tax_class_descriptions") . " td1 ON 
 									(t.tax_class_id = td1.tax_class_id AND td1.language_id = '" . (int)$language_id . "')
 									WHERE t.tax_class_id = '" . (int)$tax_class_id . "'");
 		$ret_data = $query->row;
@@ -159,10 +190,14 @@ class ModelLocalisationTaxClass extends Model {
 		return $ret_data;
 	}
 
+	/**
+	 * @param int $tax_class_id
+	 * @return array
+	 */
 	public function getTaxClassDescriptions($tax_class_id) {
 		$tax_data = array();
 		$query = $this->db->query( "SELECT *
-									FROM " . DB_PREFIX . "tax_class_descriptions
+									FROM " . $this->db->table("tax_class_descriptions") . " 
 									WHERE tax_class_id = '" . (int)$tax_class_id . "'");
 		foreach ($query->rows as $result) {
 			$tax_data[$result['language_id']] = array('title' => $result['title'], 'description' => $result['description'] );
@@ -170,13 +205,16 @@ class ModelLocalisationTaxClass extends Model {
 		return $tax_data;
 	}
 
-
+	/**
+	 * @param int $tax_rate_id
+	 * @return array
+	 */
 	public function getTaxRate($tax_rate_id) {
 		$language_id = $this->session->data['content_language_id'];
 
 		$query = $this->db->query("SELECT td1.*, t.*
-									FROM " . DB_PREFIX . "tax_rates t
-									LEFT JOIN " . DB_PREFIX . "tax_rate_descriptions td1 ON 
+									FROM " . $this->db->table("tax_rates") . " t
+									LEFT JOIN " . $this->db->table("tax_rate_descriptions") . " td1 ON 
 									(t.tax_rate_id = td1.tax_rate_id AND td1.language_id = '" . (int)$language_id . "')
 									WHERE t.tax_rate_id = '" . (int)$tax_rate_id . "'");
 		$ret_data = $query->row;
@@ -184,10 +222,14 @@ class ModelLocalisationTaxClass extends Model {
 		return $ret_data;
 	}
 
+	/**
+	 * @param int $tax_rate_id
+	 * @return array
+	 */
 	public function getTaxRateDescriptions($tax_rate_id) {
 		$tax_data = array();
 		$query = $this->db->query( "SELECT *
-									FROM " . DB_PREFIX . "tax_rate_descriptions
+									FROM " . $this->db->table("tax_rate_descriptions") . " 
 									WHERE tax_rate_id = '" . (int)$tax_rate_id . "'");
 		foreach ($query->rows as $result) {
 			$tax_data[$result['language_id']] = array('description' => $result['description']);
@@ -195,21 +237,26 @@ class ModelLocalisationTaxClass extends Model {
 		return $tax_data;
 	}
 
+	/**
+	 * @param array $data
+	 * @param string $mode
+	 * @return array
+	 */
 	public function getTaxClasses($data = array(), $mode = 'default') {
 		$language_id = $this->session->data['content_language_id'];
 		$default_language_id = $this->language->getDefaultLanguageID();
 
     	if ($data || $mode == 'total_only') {
 			if ($mode == 'total_only') {
-				$sql = "SELECT count(*) as total FROM " . DB_PREFIX . "tax_classes t ";
+				$sql = "SELECT count(*) as total FROM " . $this->db->table("tax_classes") . " t ";
 			}
 			else {
 				$sql = "SELECT t.tax_class_id, 
 							   td.title,
 							   td.description  
-						FROM " . DB_PREFIX . "tax_classes t ";
+						FROM " . $this->db->table("tax_classes") . " t ";
 			}
-			$sql .= "LEFT JOIN " . DB_PREFIX . "tax_class_descriptions td ON (t.tax_class_id = td.tax_class_id AND td.language_id = '" . (int)$language_id . "') ";
+			$sql .= "LEFT JOIN " . $this->db->table("tax_class_descriptions") . " td ON (t.tax_class_id = td.tax_class_id AND td.language_id = '" . (int)$language_id . "') ";
 				
 		    if ( !empty($data['subsql_filter']) )
 				$sql .= " WHERE ".$data['subsql_filter'];
@@ -249,8 +296,8 @@ class ModelLocalisationTaxClass extends Model {
 			if (is_null($tax_class_data)) {
 				if ($language_id == $default_language_id) {
 					$query = $this->db->query( "SELECT *
-											FROM " . DB_PREFIX . "tax_classes t
-											LEFT JOIN " . DB_PREFIX . "tax_class_descriptions td 
+											FROM " . $this->db->table("tax_classes") . " t
+											LEFT JOIN " . $this->db->table("tax_class_descriptions") . " td 
 												ON (t.tax_class_id = td.tax_class_id AND td.language_id = '" . (int)$language_id . "') 
 											");
 							
@@ -259,10 +306,10 @@ class ModelLocalisationTaxClass extends Model {
 					$query = $this->db->query("SELECT t.tax_class_id, 
 												COALESCE( td1.title,td2.title) as title, 
 												COALESCE( td1.description,td2.description) as description
-									FROM " . DB_PREFIX . "tax_classes t
-									LEFT JOIN " . DB_PREFIX . "tax_class_descriptions td1 ON 
+									FROM " . $this->db->table("tax_classes") . " t
+									LEFT JOIN " . $this->db->table("tax_class_descriptions") . " td1 ON 
 									(t.tax_class_id = td1.tax_class_id AND td1.language_id = '" . (int)$language_id . "')
-									LEFT JOIN " . DB_PREFIX . "tax_class_descriptions td2 ON 
+									LEFT JOIN " . $this->db->table("tax_class_descriptions") . " td2 ON 
 									(t.tax_class_id = td2.tax_class_id AND td2.language_id = '" . (int)$default_lang_id . "')
 								");	
 				}								
@@ -273,28 +320,39 @@ class ModelLocalisationTaxClass extends Model {
 			return $tax_class_data;			
 		}
 	}
-	
+
+	/**
+	 * @param int $tax_class_id
+	 * @return array
+	 */
 	public function getTaxRates($tax_class_id) {
 		$language_id = $this->session->data['content_language_id'];
       	$query = $this->db->query("SELECT td.*, t.*
-      	                            FROM " . DB_PREFIX . "tax_rates t
-									LEFT JOIN " . DB_PREFIX . "tax_rate_descriptions td 
+      	                            FROM " . $this->db->table("tax_rates") . " t
+									LEFT JOIN " . $this->db->table("tax_rate_descriptions") . " td 
 										ON (t.tax_rate_id = td.tax_rate_id AND td.language_id = '" . (int)$language_id . "') 
       	                            WHERE tax_class_id = '" . (int)$tax_class_id . "'");
 		
 		return $query->rows;
 	}
 
+	/**
+	 * @param array $data
+	 * @return array
+	 */
 	public function getTotalTaxClasses($data = array()) {
 		return $this->getTaxClasses($data, 'total_only');
-	}	
-	
+	}
+
+	/**
+	 * @param int $location_id
+	 * @return int
+	 */
 	public function getTotalTaxRatesByLocationID($location_id) {
       	$query = $this->db->query("SELECT COUNT(*) AS total
-      	                           FROM " . DB_PREFIX . "tax_rates
+      	                           FROM " . $this->db->table("tax_rates") . " 
       	                           WHERE location_id = '" . (int)$location_id . "'");
 		
 		return $query->row['total'];
 	}		
 }
-?>

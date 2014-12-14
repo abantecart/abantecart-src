@@ -24,45 +24,22 @@ class ControllerResponsesListingGridReportSale extends AController {
 	private $error = array();
 
     public function main() {
-
 	    //init controller data
         $this->extensions->hk_InitData($this,__FUNCTION__);
 
-		$this->loadLanguage('report/sale');
+		$this->loadLanguage('report/sale/orders');
 		$this->loadModel('report/sale');
 
-		$page = $this->request->post['page']; // get the requested page
-		$limit = $this->request->post['rows']; // get how many rows we want to have into the grid
-		$sidx = $this->request->post['sidx']; // get index row - i.e. user click to sort
-		$sord = $this->request->post['sord']; // get the direction
-
-
-
-	    $data = array(
-			'sort'  => $sidx,
-			'order' => $sord,
-			'start' => ($page - 1) * $limit,
-			'limit' => $limit
-		);
-
-	            //process custom search form
-	    $allowedSearchFilter = array('date_start', 'date_end', 'group');
-        foreach ( $allowedSearchFilter as $filter) {
-            if ( isset($this->request->get[$filter]) && $this->request->get[$filter] != '' ) {
-                $data[$filter] = $this->request->get[$filter];
-            }
-        }
+		//Prepare filter config
+		$filter_params =  array('date_start', 'date_end', 'group', 'order_status');
+		$filter_form = new AFilter(array( 'method' => 'get', 'filter_params' => $filter_params ));
+		$filter_grid = new AFilter(array( 'method' => 'post' ));
+		$data = array_merge($filter_form->getFilterData(), $filter_grid->getFilterData());
 
 		$total = $this->model_report_sale->getSaleReportTotal($data);
-	    if( $total > 0 ) {
-			$total_pages = ceil($total/$limit);
-		} else {
-			$total_pages = 0;
-		}
-
-	    $response = new stdClass();
-		$response->page = $page;
-		$response->total = $total_pages;
+		$response = new stdClass();
+		$response->page = $filter_grid->getParam('page');
+		$response->total = $filter_grid->calcTotalPages($total);
 		$response->records = $total;
 
 	    $results = $this->model_report_sale->getSaleReport($data);
@@ -85,5 +62,127 @@ class ControllerResponsesListingGridReportSale extends AController {
 		$this->load->library('json');
 		$this->response->setOutput(AJson::encode($response));
 	}
+
+    public function taxes() {
+	    //init controller data
+        $this->extensions->hk_InitData($this,__FUNCTION__);
+
+		$this->loadLanguage('report/sale/taxes');
+		$this->loadModel('report/sale');
+
+		//Prepare filter config
+		$filter_params =  array('date_start', 'date_end', 'group', 'order_status');
+		$filter_form = new AFilter(array( 'method' => 'get', 'filter_params' => $filter_params ));
+		$filter_grid = new AFilter(array( 'method' => 'post' ));
+		$data = array_merge($filter_form->getFilterData(), $filter_grid->getFilterData());
+
+		$total = $this->model_report_sale->getTaxesReportTotal($data);
+		$response = new stdClass();
+		$response->page = $filter_grid->getParam('page');
+		$response->total = $filter_grid->calcTotalPages($total);
+		$response->records = $total;
+
+	    $results = $this->model_report_sale->getTaxesReport($data);
+	    $i = 0;
+		foreach ($results as $result) {
+
+            $response->rows[$i]['id'] = $i;
+			$response->rows[$i]['cell'] = array(
+				dateISO2Display($result['date_start'], $this->language->get('date_format_short')),
+				dateISO2Display($result['date_end'], $this->language->get('date_format_short')),
+				$result['orders'],
+                $this->currency->format($result['total'], $this->config->get('config_currency')),
+			);
+			$i++;
+		}
+
+		//update controller data
+        $this->extensions->hk_UpdateData($this,__FUNCTION__);
+
+		$this->load->library('json');
+		$this->response->setOutput(AJson::encode($response));
+	}
+
+    public function shipping() {
+	    //init controller data
+        $this->extensions->hk_InitData($this,__FUNCTION__);
+
+		$this->loadLanguage('report/sale/shipping');
+		$this->loadModel('report/sale');
+
+		//Prepare filter config
+		$filter_params =  array('date_start', 'date_end', 'group', 'order_status');
+		$filter_form = new AFilter(array( 'method' => 'get', 'filter_params' => $filter_params ));
+		$filter_grid = new AFilter(array( 'method' => 'post' ));
+		$data = array_merge($filter_form->getFilterData(), $filter_grid->getFilterData());
+
+		$total = $this->model_report_sale->getShippingReportTotal($data);
+		$response = new stdClass();
+		$response->page = $filter_grid->getParam('page');
+		$response->total = $filter_grid->calcTotalPages($total);
+		$response->records = $total;
+
+	    $results = $this->model_report_sale->getShippingReport($data);
+	    $i = 0;
+		foreach ($results as $result) {
+
+            $response->rows[$i]['id'] = $i;
+			$response->rows[$i]['cell'] = array(
+				dateISO2Display($result['date_start'], $this->language->get('date_format_short')),
+				dateISO2Display($result['date_end'], $this->language->get('date_format_short')),
+				$result['orders'],
+                $this->currency->format($result['total'], $this->config->get('config_currency')),
+			);
+			$i++;
+		}
+
+		//update controller data
+        $this->extensions->hk_UpdateData($this,__FUNCTION__);
+
+		$this->load->library('json');
+		$this->response->setOutput(AJson::encode($response));
+	}
+
+    public function coupons() {
+	    //init controller data
+        $this->extensions->hk_InitData($this,__FUNCTION__);
+
+		$this->loadLanguage('report/sale/coupons');
+		$this->loadModel('report/sale');
+
+		//Prepare filter config
+		$filter_params =  array('date_start', 'date_end');
+		$filter_form = new AFilter(array( 'method' => 'get', 'filter_params' => $filter_params ));
+		$filter_grid = new AFilter(array( 'method' => 'post' ));
+		$data = array_merge($filter_form->getFilterData(), $filter_grid->getFilterData());
+
+		$total = $this->model_report_sale->getCouponsReportTotal($data);
+		$response = new stdClass();
+		$response->page = $filter_grid->getParam('page');
+		$response->total = $filter_grid->calcTotalPages($total);
+		$response->records = $total;
+
+	    $results = $this->model_report_sale->getCouponsReport($data);
+	    $i = 0;
+		foreach ($results as $result) {
+
+            $response->rows[$i]['id'] = $i;
+			$response->rows[$i]['cell'] = array(
+				$result['coupon_name'],
+				$result['code'],
+				$result['orders'],
+                $this->currency->format($result['total'], $this->config->get('config_currency')),
+                $this->currency->format($result['discount_total'], $this->config->get('config_currency')),
+			);
+			$i++;
+		}
+
+		//update controller data
+        $this->extensions->hk_UpdateData($this,__FUNCTION__);
+
+		$this->load->library('json');
+		$this->response->setOutput(AJson::encode($response));
+	}
+
 
 }

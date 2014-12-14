@@ -71,7 +71,7 @@ final class AFilter {
 
         //Validate fileds that are allowed and build expected filter parameters
         if (sizeof($filter_conf['filter_params'])) {
-        	$fl_str = '';
+
         	//support table name extension in fields 
         	//check if we have associative array
         	if ( is_assoc($filter_conf['filter_params']) ) {
@@ -80,8 +80,8 @@ final class AFilter {
         	else{
         		$keys_arr = $filter_conf['filter_params'];
         	}
-        	
-            foreach ($keys_arr as $filter) {
+	        $fl_str = array();
+            foreach ($keys_arr as $kk=>$filter) {
                 $value = isset($this->request->{$this->method}[$filter]) ? $this->request->{$this->method}[$filter] : FALSE;
                 if ($value == '') {
                     $value = NULL;
@@ -94,17 +94,17 @@ final class AFilter {
                     	$field_name = $filter_conf['filter_params'][$filter];
                     	if (strpos($field_name, '.')) {
                         	$parts = explode('.', $field_name);
-                        	$fl_str = ' ' . $parts[0] . '.`' . $parts[1] . '`';
+                        	$fl_str[$kk] = ' ' . $parts[0] . '.`' . $parts[1] . '`';
                     	} else {
-                        	$fl_str = ' `' . $field_name . '`';
+                        	$fl_str[$kk] = ' `' . $field_name . '`';
                     	}
                     } else {
-                    	$fl_str .= " `" . $filter . "`";                    
+                    	$fl_str[$kk] .= " `" . $filter . "`";
                     }
-                    $fl_str .= " = '" . $this->db->escape($value) . "' ";
+                    $fl_str[$kk] .= " = '" . $this->db->escape($value) . "' ";
                 }
             }
-            $this->data['filter_string'] = $fl_str;   
+            $this->data['filter_string'] = implode(' AND ',$fl_str);
         }
         
         $allowedSortDirection = array('ASC', 'DESC');

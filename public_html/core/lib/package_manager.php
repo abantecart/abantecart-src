@@ -129,28 +129,27 @@ class APackageManager {
 			$error->toLog()->toDebug();
 			return false;
 		}
-
-
-		$command = 'tar -C ' . $dst_dir . ' -xzvf ' . $tar_filename . ' > /dev/null';
-		if (isFunctionAvailable('system')) {
-			system($command, $exit_code);
-		} else {
+		$exit_code = 0;
+		if(class_exists('PharData') ){
+			//remove destination folder first
+			$this->removeDir($dst_dir . pathinfo(pathinfo($tar_filename,PATHINFO_FILENAME),PATHINFO_FILENAME) ); //run pathinfo twice for tar.gz. files
+			try {
+				$phar = new PharData($tar_filename);
+				$phar->extractTo($dst_dir, null, true);
+			} catch (Exception $e){
+				$error = new AError( $e->getMessage() );
+				$error->toLog()->toDebug();
+				$this->error = 'Error: Cannot to unpack file "' . $tar_filename . '". Please, see error log for details. ';
+				return false;
+			}
+		}else{
 			$exit_code = 1;
 		}
 
-		if ($exit_code) {
-			if(class_exists('PharData') ){
-				//remove destination folder first
-				$this->removeDir($dst_dir . $this->session->data['package_info']['tmp_dir']);
-				try {
-					$phar = new PharData($tar_filename);
-					$phar->extractTo($dst_dir);
-				} catch (Exception $e){}
-			}else{
-				$this->load->library('targz');
-				$targz = new Atargz();
-				$targz->extractTar($tar_filename, $dst_dir);
-			}
+		if($exit_code){
+			$this->load->library('targz');
+			$targz = new Atargz();
+			$targz->extractTar($tar_filename, $dst_dir);
 		}
 
 		$this->chmod_R($dst_dir . $this->session->data['package_info']['tmp_dir'], 0777, 0777);
@@ -170,11 +169,11 @@ class APackageManager {
 			return false;
 		}
 		if (file_exists($old_path . $package_id)) {
-			$backup = new ABackup($extension_id);
+			$backup = new ABackup($extension_id .'_'. date('Y-m-d-H-i-s'));
 			$backup_dirname = $backup->getBackupName();
 			if ($backup_dirname) {
 
-				if (!$backup->backupDirectory($old_path . $package_id)) {
+				if (!$backup->backupDirectory($old_path . $package_id, true)) {
 					$this->error = $backup->error;
 					return false;
 				}
@@ -604,18 +603,21 @@ class APackageManager {
 						return false;
 					}
 
-				} elseif ($install_mode == 'upgrade') {
+				} elseif ($install_mode == 'upgrade'){
 					$install_upgrade_history = new ADataset('install_upgrade_history', 'admin');
-					$install_upgrade_history->addRows(array('date_added' => date("Y-m-d H:i:s", time()),
-						'name' => $extension_id,
-						'version' => $version,
-						'backup_file' => '',
-						'backup_date' => '',
-						'type' => 'upgrade',
-						'user' => $this->user->getUsername()));
+					$install_upgrade_history->addRows(array('date_added'  => date("Y-m-d H:i:s", time()),
+					                                        'name'        => $extension_id,
+					                                        'version'     => $version,
+					                                        'backup_file' => '',
+					                                        'backup_date' => '',
+					                                        'type'        => 'upgrade',
+					                                        'user'        => $this->user->getUsername()));
 
-
-					$config = simplexml_load_string(file_get_contents($this->session->data['package_info']['tmp_dir'] . $package_dirname . '/code/extensions/' . $extension_id . '/config.xml'));
+					$config = '';
+					$ext_conf_filename = $this->session->data['package_info']['tmp_dir'] . $package_dirname . '/code/extensions/' . $extension_id . '/config.xml';
+					if(is_file($ext_conf_filename)){
+						$config = simplexml_load_file($ext_conf_filename);
+					}
 					$config = !$config ? getExtensionConfigXml($extension_id) : $config;
 					// running sql upgrade script if it exists
 					if (isset($config->upgrade->sql)) {
@@ -635,7 +637,7 @@ class APackageManager {
 						}
 					}
 
-					$this->extension_manager->editSetting($extension_id, array('license_key' => $this->session->data['package_info']['installation_key'],
+					$this->extension_manager->editSetting($extension_id, array('license_key' => $this->session->data['package_info']['extension_key'],
 						'version' => $version));
 				}
 				break;

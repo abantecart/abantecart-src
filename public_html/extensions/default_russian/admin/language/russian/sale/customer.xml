@@ -16,6 +16,18 @@
     <key>text_approved</key>
     <value><![CDATA[Вы одобрили %s заказ!]]></value>
   </definition>
+	<definition>
+		<key>tab_customer_address</key>
+		<value><![CDATA[Адрес]]></value>
+	</definition>
+	<definition>
+		<key>text_customer_addresses</key>
+		<value><![CDATA[Адрес клиента]]></value>
+	</definition>
+	<definition>
+		<key>text_add_address</key>
+		<value><![CDATA[Добавить Адрес]]></value>
+	</definition>
   <definition>
     <key>tab_address</key>
     <value><![CDATA[Адрес]]></value>
@@ -128,6 +140,10 @@
     <key>entry_country</key>
     <value><![CDATA[Страна:]]></value>
   </definition>
+	<definition>
+		<key>entry_country_id</key>
+		<value><![CDATA[Страна:]]></value>
+	</definition>
   <definition>
     <key>entry_zone</key>
     <value><![CDATA[Регион / Область:]]></value>
@@ -244,20 +260,21 @@
     <key>popup_title_insert</key>
     <value><![CDATA[Вставить новую транзакцию]]></value>
   </definition>
+  
   <definition>
-    <key>text_option_credit</key>
+    <key>entry_credit</key>
     <value><![CDATA[Кредит (увеличение баланса)]]></value>
   </definition>
   <definition>
-    <key>text_option_debit</key>
+    <key>entry_debit</key>
     <value><![CDATA[Дебет (уменьшение баланса)]]></value>
   </definition>
   <definition>
-    <key>text_transaction_type</key>
+    <key>entry_transaction_type</key>
     <value><![CDATA[Тип сделки:]]></value>
   </definition>
   <definition>
-    <key>text_other_type</key>
+    <key>entry_other_type</key>
     <value><![CDATA[Другой Пользовательский тип сделки:]]></value>
   </definition>
   <definition>
@@ -265,15 +282,15 @@
     <value><![CDATA[Другое ...]]></value>
   </definition>
   <definition>
-    <key>text_transaction_description</key>
+    <key>entry_transaction_description</key>
     <value><![CDATA[Описание (для заказчика):]]></value>
   </definition>
   <definition>
-    <key>text_transaction_comment</key>
+    <key>entry_transaction_comment</key>
     <value><![CDATA[Комментарий (для внутреннего использования):]]></value>
   </definition>
   <definition>
-    <key>text_update_date</key>
+    <key>entry_create_date</key>
     <value><![CDATA[Дата обновления:]]></value>
   </definition>
   <definition>
@@ -288,4 +305,32 @@
     <key>text_transaction_success</key>
     <value><![CDATA[Успешно: Вы изменили сделку!]]></value>
   </definition>
+	<definition>
+		<key>text_add_address</key>
+		<value><![CDATA[Добавить новый адрес]]></value>
+	</definition>
+	<definition>
+		<key>text_edit_address</key>
+		<value><![CDATA[Редактировать адрес]]></value>
+	</definition>
+    <definition>
+        <key>entry_default</key>
+        <value><![CDATA[По адрес умолчанию:]]></value>
+    </definition>
+    <definition>
+        <key>error_delete_default</key>
+        <value><![CDATA[Ошибка: Адрес по умолчанию не может быть удален!]]></value>
+    </definition>
+    <definition>
+        <key>error_delete_last</key>
+        <value><![CDATA[Ошибка: вы должны иметь по крайней мере один адрес!]]></value>
+    </definition>
+    <definition>
+        <key>entry_date_added</key>
+        <value><![CDATA[Дата добавления:]]></value>
+    </definition>
+    <definition>
+        <key>entry_date_modified</key>
+        <value><![CDATA[Дата изменения:]]></value>
+    </definition>  
 </definitions>

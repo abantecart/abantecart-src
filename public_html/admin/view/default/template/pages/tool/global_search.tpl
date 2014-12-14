@@ -1,63 +1,122 @@
-<?php if ($error_warning) { ?>
-<div class="warning alert alert-error"><?php echo $error_warning; ?></div>
-<?php } ?>
-<?php if ($success) { ?>
-<div class="success alert alert-success"><?php echo $success; ?></div>
-<?php } ?>
-<div class="contentBox">
-	<div class="cbox_tl">
-		<div class="cbox_tr">
-			<div class="cbox_tc">
-				<div class="heading icon_title_search"><?php echo $heading_title; ?></div>
+<?php include($tpl_common_dir . 'action_confirm.tpl'); ?>
+
+<div id="content" class="panel panel-default">
+
+	<div class="panel-heading col-xs-12">
+		<div class="primary_content_actions pull-left">
+			<div class="btn-group mr10 toolbar">
+			<?php if (!empty($search_form)) { ?>
+			    <form id="<?php echo $search_form['form_open']->name; ?>"
+			    	  method="<?php echo $search_form['form_open']->method; ?>"
+			    	  name="<?php echo $search_form['form_open']->name; ?>" class="form-inline" role="form">
+
+			    	<?php
+			    	foreach ($search_form['fields'] as $f) {
+			    		?>
+			    		<div class="form-group">
+			    			<div class="input-group input-group-sm">
+			    				<?php echo $f; ?>
+			    			</div>
+			    		</div>
+			    	<?php
+			    	}
+			    	?>
+			    	<div class="form-group">
+			    		<button type="submit" class="btn btn-xs btn-primary tooltips" title="<?php echo $button_filter; ?>">
+			    			<?php echo $search_form['submit']->text ?>
+			    		</button>
+			    	</div>
+			    </form>
+			<?php } ?>
 			</div>
 		</div>
+		<?php include($tpl_common_dir . 'content_buttons.tpl'); ?>	
 	</div>
-	<div class="cbox_cl">
-		<div class="cbox_cr">
-			<div class="cbox_cc">
-				<div class="search_box">
-					<?php echo $search_form; ?>
-					<div class="flt_left cl" style="margin-right: 5px;">
-						<div class="cr">
-							<div class="cc"><span style="margin-top: 3px;" class="icon_search">&nbsp;</span>
-								<input type="text" style="font-size: 14px; height: 21px; line-height: 21px;"
-								       value="<?php echo $search_form_input ?>" class="atext " id="search"
-								       name="search">
+
+<?php if ($search_categories) {?>
+	<div class="panel-body-nopadding tab-content col-xs-12">
+
+	<ul class="nav nav-tabs nav-justified nav-profile" role="tablist">
+	<?php
+	$i=0;
+	foreach ($search_categories as $scat) {	?>
+	<!-- Nav tabs -->
+	  <li <?php echo $i==0 ? 'class="active"' : ''; ?>><a href="#<?php echo $scat;?>" role="tab" data-toggle="tab"><?php echo $search_categories_names[ $scat ];?></a></li>
+	<?php
+		$i++;
+	} ?>
+	</ul>
+
+	<div class="tab-content">
+		<?php
+		$i=0;
+		foreach ($search_categories as $scat) {	?>
+			<div class="tab-pane <?php echo $i==0 ? 'active' : ''; ?>" id="<?php echo $scat; ?>">
+				<div class="row">
+					<div class="col-sm-12 col-lg-12">
+						<div class="panel panel-default">
+							<div class="panel-body">
+						<?php echo ${"listing_grid_" . $scat}; ?>
 							</div>
 						</div>
 					</div>
-					<button class="flt_left btn_standard " type="submit"><?php echo $search_form_button; ?></button>
-					</form>
 				</div>
-				<?php
-
-				if ($search_categories) {
-					foreach ($search_categories as $scat) {
-						?>
-						<div class="search_category_heading icon_title_<?php echo $search_categories_icons[ $scat ];?>"><?php echo $search_categories_names[ $scat ];?></div>
-						<?php
-	  				echo ${"listing_grid_" . $scat}; ?>
-						<?php
-					}
-				} else {
-					?>
-					<div class="flt_none clr_both heading"><?php echo $scat;?></div>
-					<table class="table_list">
-						<tr>
-							<td class="left" id="no results"><?php echo $no_results_message; ?></td>
-						</tr>
-					</table>
-
-					<?php } ?>
 			</div>
-		</div>
-		<div class="cbox_bl">
-			<div class="cbox_br">
-				<div class="cbox_bc"></div>
-			</div>
-		</div>
+		<?php $i++; } ?>
 	</div>
+
+	</div>
+<?php } else { ?>
+	<div class="panel-body panel-body-nopadding tab-content col-xs-12">
+		<div class="flt_none clr_both heading"><?php echo $scat;?></div>
+		<table class="table_list">
+		<tr>
+			<td class="left" id="no results"><?php echo $no_results_message; ?></td>
+		</tr>
+		</table>
+	</div>
+<?php } ?>
+
+</div>
+
+
+<?php
+echo $this->html->buildElement(
+		array('type' => 'modal',
+				'id' => 'gs_modal',
+				'modal_type' => 'lg',
+				'data_source' => 'ajax'
+		));
+?>
+
 <script type="text/javascript">
+	$('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+		var target = $(e.target).attr("href");
+		$(target+'_grid').trigger( 'resize' );
+
+	});
+
+	// Javascript to enable link to tab
+	var url = document.location.toString();
+	if (url.match('#')) {
+	    $('.nav-tabs a[href=#'+url.split('#')[1]+']').tab('show') ;
+	}
+
+	// Change hash for page-reload
+	$('.nav-tabs a').on('shown', function (e) {
+	    window.location.hash = e.target.hash;
+	})
+
+	function grid_ready(grid_id){
+
+		if( grid_id == 'languages_grid' || grid_id == 'settings_grid'){
+			$('#'+grid_id).find('td[aria-describedby$="_grid_search_result"]>a').each(
+					function () {
+						$(this).attr('data-toggle','modal').attr('data-target','#gs_modal');
+					});
+		}
+	}
+
 	$('span.icon_search').click(function(){
 		$('#search_form').submit();
 	});

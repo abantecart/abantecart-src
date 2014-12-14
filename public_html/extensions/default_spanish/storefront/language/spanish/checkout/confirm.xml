@@ -121,4 +121,8 @@
 		<key>error_coupon</key>
 		<value><![CDATA[Error: Este cupón no es valido, o este producto no admite descuentos!]]></value>
 	</definition>
+	<definition>
+		<key>text_add_coupon</key>
+		<value><![CDATA[Añadir Cupón]]></value>
+	</definition>
 </definitions>

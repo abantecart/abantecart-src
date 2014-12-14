@@ -1,57 +1,60 @@
-<div id="content">
-  <div class="top">
-    <div class="left"></div>
-    <div class="right"></div>
-    <div class="center">
-      <h1><?php echo $heading_title; ?></h1>
-    </div>
-  </div>
-  <div class="middle">
-      <?php echo $form_open; ?>
-      <b style="margin-bottom: 2px; display: block;"><?php echo $text_password; ?></b>
-      <div class="content">
-        <table>
-          <tr>
-            <td width="150"><?php echo $entry_current_password; ?></td>
-            <td><?php echo $current_password; ?>
-              <?php if ($error_current_password) { ?>
-              <span class="error"><?php echo $error_current_password; ?></span>
-              <?php } ?></td>
-          </tr>
-          <tr>
-            <td width="150"><?php echo $entry_password; ?></td>
-            <td><?php echo $password; ?>
-              <?php if ($error_password) { ?>
-              <span class="error"><?php echo $error_password; ?></span>
-              <?php } ?></td>
-          </tr>
-          <tr>
-            <td><?php echo $entry_confirm; ?></td>
-            <td><?php echo $confirm; ?>
-              <?php if ($error_confirm) { ?>
-              <span class="error"><?php echo $error_confirm; ?></span>
-              <?php } ?></td>
-          </tr>
-        </table>
-      </div>
-      <div class="buttons">
-        <table>
-          <tr>
-            <td align="left"><?php echo $button_back;?></td>
-            <td align="right"><?php echo $submit; ?></td>
-          </tr>
-        </table>
-      </div>
-    </form>
-  </div>
-  <div class="bottom">
-    <div class="left"></div>
-    <div class="right"></div>
-    <div class="center"></div>
-  </div>
+<h1 class="heading1">
+  <span class="maintext"><i class="fa fa-key"></i> <?php echo $heading_title; ?></span>
+  <span class="subtext"></span>
+</h1>
+
+<?php if ($success) { ?>
+<div class="alert alert-success">
+<button type="button" class="close" data-dismiss="alert">&times;</button>
+<?php echo $success; ?>
 </div>
-<script type="text/javascript">
-	$('#back').click(function() {
-		location = '<?php echo $back; ?>';
-	});
-</script>
+<?php } ?>
+
+<?php if ($error_warning) { ?>
+<div class="alert alert-error alert-danger">
+<button type="button" class="close" data-dismiss="alert">&times;</button>
+<?php echo $error_warning; ?>
+</div>
+<?php } ?>
+
+<div class="contentpanel">
+	<?php echo $form_open; ?>
+	
+	<h4 class="heading4"><?php echo $text_password; ?></h4>
+	<div class="registerbox form-horizontal">
+		<fieldset>
+		<?php
+			$field_list = array();
+			array_push($field_list, 'current_password', 'password', 'confirm');
+			
+			foreach ($field_list as $field_name) {
+		?>
+			<div class="form-group <?php if (${'error_'.$field_name}) echo 'has-error'; ?>">
+				<label class="control-label col-md-4"><?php echo ${'entry_'.$field_name}; ?></label>
+				<div class="input-group col-md-4">
+				    <?php echo ${$field_name}; ?>
+				</div>
+				<span class="help-block"><?php echo ${'error_'.$field_name}; ?></span>
+			</div>		
+		<?php
+			}
+		?>	
+		</fieldset>
+	</div>
+
+	<?php echo $this->getHookVar('password_edit_sections'); ?>
+	
+	<div class="form-group">
+	    <div class="col-md-12">
+	    	<button class="btn btn-orange pull-right" title="<?php echo $submit->name ?>" type="submit">
+	    	    <i class="<?php echo $submit->{'icon'}; ?> fa"></i>
+	    	    <?php echo $submit->name ?>
+	    	</button>
+	    	<a href="<?php echo $back; ?>" class="btn btn-default mr10" title="<?php echo $button_back->text ?>">
+	    	    <i class="<?php echo $button_back->{'icon'}; ?>"></i>
+	    	    <?php echo $button_back->text ?>
+	    	</a>
+	    </div>
+	</div>
+	</form>
+</div>

@@ -26,7 +26,7 @@ class ControllerPagesToolExportUpload extends AController {
 	{
 		$this->extensions->hk_InitData($this,__FUNCTION__);
 
-		if ( $this->request->server['REQUEST_METHOD'] == 'POST' && $this->user->canModify('tool/import_export') )
+		if ( $this->request->is_POST() && $this->user->canModify('tool/import_export') )
 		{
 			if ( empty($this->request->post['data']) )
 			{
@@ -68,7 +68,7 @@ class ControllerPagesToolExportUpload extends AController {
 						break;
 						
 					default:
-						return;
+						return null;
 				}
 
 				if (!headers_sent()) {
@@ -89,14 +89,14 @@ class ControllerPagesToolExportUpload extends AController {
 					//update controller data
 					$this->extensions->hk_UpdateData($this,__FUNCTION__);
 					$this->redirect($this->html->getSecureURL('tool/import_export', '&active=export'));
-					return;
+					return null;
 				} else {
 					exit('Error: Headers already sent out!');
 				}
 			} else {
 				$this->session->data['error'] = 'Request for export is empty!';
 				$this->redirect($this->html->getSecureURL('tool/import_export', '&active=export'));
-				return;
+				return null;
 			}
 
 		} else {

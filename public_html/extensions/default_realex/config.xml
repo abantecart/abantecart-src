@@ -1,0 +1,203 @@
+<?xml version="1.0"?>
+<extension>
+    <id>default_realex</id>
+    <version>1.0.0</version>
+	<type>payment</type>
+	<category>payment</category>
+    <cartversions>
+        <item>1.2</item>
+    </cartversions>
+    <layout></layout>
+    <priority>10</priority>
+    <settings>
+		<item id="default_realex_status">
+			<type>checkbox</type>
+			<default_value>0</default_value>
+		</item>
+		<item id="default_realex_autoselect">
+			<type>checkbox</type>
+			<default_value>0</default_value>
+		</item>
+		<item id="default_realex_merchant_id">
+			<type required="true">input</type>
+			<default_value></default_value>
+		</item>
+		<item id="default_realex_secret">
+			<type required="true">password</type>
+			<default_value></default_value>
+		</item>
+		<item id="default_realex_rebate_password">
+			<type>password</type>
+			<default_value></default_value>
+		</item>
+		<item id="default_realex_settlement">
+			<type>selectbox</type>
+			<variants>
+			    <item>auto</item>
+			    <item>delayed</item>
+			    <item>multi</item>
+			</variants>
+			<default_value>auto</default_value>
+		</item>
+		<item id="default_realex_tss_check">
+			<type>checkbox</type>
+			<default_value>0</default_value>
+		</item>
+		<item id="default_realex_3d">
+			<type>checkbox</type>
+			<default_value>0</default_value>
+		</item>
+		<item id="default_realex_liability_shift">
+			<type>checkbox</type>
+			<default_value>0</default_value>
+		</item>
+		<item id="default_realex_creditcard_selection">
+			<type>html_template</type>
+			<template>pages/extension/default_realex_creditcard_selection.tpl</template>
+			<default_value></default_value>
+			<variants>
+			    <item>visa</item>
+			    <item>mc</item>
+			    <item>amex</item>
+			    <item>switch</item>
+			    <item>laser</item>
+			    <item>diners</item>
+			</variants>
+		</item>         
+	    <item id="default_realex_status_success_settled">
+            <type>selectbox</type>
+			<variants>
+				<data_source>
+					<model_rt>localisation/order_status</model_rt>
+					<method>getOrderStatuses</method>
+				</data_source>
+				<fields>
+					<field>order_status_id</field>
+					<field>name</field>
+				</fields>
+			</variants>
+			<default_value>2</default_value>
+        </item>
+	    <item id="default_realex_status_success_unsettled">
+            <type>selectbox</type>
+			<variants>
+				<data_source>
+					<model_rt>localisation/order_status</model_rt>
+					<method>getOrderStatuses</method>
+				</data_source>
+				<fields>
+					<field>order_status_id</field>
+					<field>name</field>
+				</fields>
+			</variants>
+			<default_value>2</default_value>
+        </item>
+	    <item id="default_realex_status_decline">
+            <type>selectbox</type>
+			<variants>
+				<data_source>
+					<model_rt>localisation/order_status</model_rt>
+					<method>getOrderStatuses</method>
+				</data_source>
+				<fields>
+					<field>order_status_id</field>
+					<field>name</field>
+				</fields>
+			</variants>
+			<default_value>8</default_value>
+        </item>
+	    <item id="default_realex_status_decline_pending">
+            <type>selectbox</type>
+			<variants>
+				<data_source>
+					<model_rt>localisation/order_status</model_rt>
+					<method>getOrderStatuses</method>
+				</data_source>
+				<fields>
+					<field>order_status_id</field>
+					<field>name</field>
+				</fields>
+			</variants>
+			<default_value>8</default_value>
+        </item>
+	    <item id="default_realex_status_decline_stolen">
+            <type>selectbox</type>
+			<variants>
+				<data_source>
+					<model_rt>localisation/order_status</model_rt>
+					<method>getOrderStatuses</method>
+				</data_source>
+				<fields>
+					<field>order_status_id</field>
+					<field>name</field>
+				</fields>
+			</variants>
+			<default_value>8</default_value>
+        </item>
+	    <item id="default_realex_status_decline_bank">
+            <type>selectbox</type>
+			<variants>
+				<data_source>
+					<model_rt>localisation/order_status</model_rt>
+					<method>getOrderStatuses</method>
+				</data_source>
+				<fields>
+					<field>order_status_id</field>
+					<field>name</field>
+				</fields>
+			</variants>
+			<default_value>10</default_value>
+        </item>
+	    <item id="default_realex_status_void">
+            <type>selectbox</type>
+			<variants>
+				<data_source>
+					<model_rt>localisation/order_status</model_rt>
+					<method>getOrderStatuses</method>
+				</data_source>
+				<fields>
+					<field>order_status_id</field>
+					<field>name</field>
+				</fields>
+			</variants>
+			<default_value>11</default_value>
+        </item>
+	    <item id="default_realex_status_rebate">
+            <type>selectbox</type>
+			<variants>
+				<data_source>
+					<model_rt>localisation/order_status</model_rt>
+					<method>getOrderStatuses</method>
+				</data_source>
+				<fields>
+					<field>order_status_id</field>
+					<field>name</field>
+				</fields>
+			</variants>
+			<default_value>11</default_value>
+        </item>
+        
+	    <item id="default_realex_location_id">
+            <type>selectbox</type>
+			<variants>
+				<item>0</item>
+				<data_source>
+					<model_rt>localisation/location</model_rt>
+					<method>getLocations</method>
+				</data_source>
+				<fields>
+					<field>location_id</field>
+					<field>name</field>
+				</fields>
+			</variants>
+        </item>
+    </settings>
+	<help_file><![CDATA[help.txt]]></help_file>
+	<help_link><![CDATA[http://www.realexpayments.com/partner-referral?id=abantecart]]></help_link>
+    <install>
+	    <sql>install.sql</sql>
+	</install>
+	<uninstall>
+	    <sql>uninstall.sql</sql>
+	</uninstall>
+</extension>

@@ -177,4 +177,12 @@
 		<key>text_start_download</key>
 		<value><![CDATA[Скачать]]></value>
 	</definition>
+	<definition>
+		<key>text_new_review</key>
+		<value><![CDATA[Product review approval is pending]]></value>
+	</definition>	
+	<definition>
+		<key>text_pending_review_approval</key>
+		<value><![CDATA[Review for product id %s is posted. Action of approval is required! Click to view #admin#rt=catalog/review/update&review_id=%s]]></value>
+	</definition>	
 </definitions>

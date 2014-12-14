@@ -1,51 +1,79 @@
-<?php if ($error_warning) { ?>
-<div class="warning alert alert-error"><?php echo $error_warning; ?></div>
-<?php } ?>
-<?php if ($success) { ?>
-<div class="success alert alert-success"><?php echo $success; ?></div>
-<?php } ?>
+<?php include($tpl_common_dir . 'action_confirm.tpl'); ?>
+<div id="content" class="panel panel-default">
 
-<div class="contentBox">
-  <div class="cbox_tl"><div class="cbox_tr"><div class="cbox_tc">
-    <div class="heading"><?php echo $heading_title; ?></div>
-	<div class="toolbar">
-		<?php if ( !empty ($help_url) ) : ?>
-	        <div class="help_element"><a href="<?php echo $help_url; ?>" target="new"><img src="<?php echo $template_dir; ?>image/icons/help.png"/></a></div>
-	    <?php endif; ?>
-    </div>
-  </div></div></div>
-  <div class="cbox_cl"><div class="cbox_cr"><div class="cbox_cc">
-    <?php echo $form['form_open']; ?>
-      <table class="list">
-        <thead>
-          <tr>
-            <td><div class="center checkbox all">
-	            <input type='checkbox' onclick="checkAll('selected', $(this).prop('checked'))" />
-            </div></td>
-            <td><?php echo $column_type; ?></td>
-            <td class="left"><?php echo $column_description; ?></td>
-          </tr>
-        </thead>
-        <tbody>
-          <?php if ($sections) { ?>
-          <?php foreach ($sections as $section) { ?>
-          <tr>
-            <td class="center"><div class="checkbox"><input type='checkbox' name="selected[]" value="<?php echo $section['keywords']; ?>" /></div></td>
-            <td class="left"><?php echo $section['text']; ?></td>
-            <td class="left"><?php echo $section['description']; ?></td>
-          </tr>
-          <?php } ?>
-          <?php } else { ?>
-          <tr>
-            <td class="center" colspan="3"><?php echo $text_no_results; ?></td>
-          </tr>
-          <?php } ?>
-        </tbody>
-      </table>
-	  <div class="align_center" style="margin-top: 10px;">
-		  <button class="btn_standard button_loader" type="submit"><?php echo $form['submit']; ?></button>
-	  </div>
-    </form>
-  </div></div></div>
-  <div class="cbox_bl"><div class="cbox_br"><div class="cbox_bc"></div></div></div>
-</div>
+	<div class="panel-heading col-xs-12">
+		<div class="primary_content_actions pull-left">
+			<button class="btn btn-primary lock-on-click" id="clearall" type="button"><i class="fa fa-trash-o"></i> <?php echo $text_clear_all_cache;?></button>
+		</div>
+
+		<?php include($tpl_common_dir . 'content_buttons.tpl'); ?>	
+	</div>
+
+	<?php echo $form['form_open']; ?>
+	<div class="panel-body panel-body-nopadding tab-content col-xs-12">
+
+		<label class="h4 heading"><?php echo ${'tab_' . $section}; ?></label>
+
+		<table class="table table-striped">
+			<thead>
+			<tr>
+				<th class="center"><input id="checkall" type='checkbox'/></th>
+				<th><?php echo $column_type; ?></th>
+				<th class="left"><?php echo $column_description; ?></th>
+			</tr>
+			</thead>
+			<tbody>
+			<?php if ($sections) { ?>
+				<?php foreach ($sections as $k=>$section) { ?>
+					<tr>
+						<td class="center"><input id="chk_<?php echo $k;?>" type='checkbox' name="selected[]" value="<?php echo $section['keywords']; ?>"/></td>
+						<td class="left"><label for="chk_<?php echo $k;?>"><?php echo $section['text']; ?></label></td>
+						<td class="left"><label for="chk_<?php echo $k;?>"><?php echo $section['description']; ?></label></td>
+					</tr>
+				<?php } ?>
+			<?php } else { ?>
+				<tr>
+					<td class="center" colspan="3"><?php echo $text_no_results; ?></td>
+				</tr>
+			<?php } ?>
+			</tbody>
+		</table>
+
+	</div>
+
+	<div class="panel-footer col-xs-12">
+		<div class="text-center">
+				<button class="btn btn-primary lock-on-click">
+					<i class="fa fa-trash-o"></i> <?php echo $form['submit']->text; ?>
+				</button>
+		</div>
+	</div>
+	</form>
+</div><!-- <div class="tab-content"> -->
+
+<script type="text/javascript">
+	$('#checkall').click(function(){
+		checkAll('selected', $(this).prop('checked'));
+	});
+	$('#clearall').click(function(){
+		$('#checkall').prop('checked','checked');
+		checkAll('selected', true);
+		$('#cacheFrm').submit();
+	});
+
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -22,7 +22,7 @@ if (! defined ( 'DIR_CORE' ) || !IS_ADMIN) {
 }
 class ModelLocalisationLanguage extends Model {
 	public function addLanguage($data) {
-		$this->db->query("INSERT INTO " . DB_PREFIX . "languages
+		$this->db->query("INSERT INTO " . $this->db->table("languages") . " 
 							SET name = '" . $this->db->escape($data['name']) . "',
 								code = '" . $this->db->escape($data['code']) . "',
 								locale = '" . $this->db->escape($data['locale']) . "',
@@ -48,13 +48,13 @@ class ModelLocalisationLanguage extends Model {
 		foreach ( $data as $key => $val ) {
 			$update_data[] = "`$key` = '" . $this->db->escape($val) . "' ";
 		}
-		$this->db->query("UPDATE " . DB_PREFIX . "languages SET ".implode(',', $update_data)." WHERE language_id = '" . (int)$language_id . "'");
+		$this->db->query("UPDATE " . $this->db->table("languages") . " SET ".implode(',', $update_data)." WHERE language_id = '" . (int)$language_id . "'");
 				
 		$this->cache->delete('language');
 	}
 	
 	public function deleteLanguage($language_id) {
-		$this->db->query("DELETE FROM " . DB_PREFIX . "languages WHERE language_id = '" . (int)$language_id . "'");
+		$this->db->query("DELETE FROM " . $this->db->table("languages") . " WHERE language_id = '" . (int)$language_id . "'");
 		
 		$this->language->deleteAllLanguageEntries($language_id);
 
@@ -67,7 +67,7 @@ class ModelLocalisationLanguage extends Model {
 	}
 	
 	public function getLanguage($language_id) {
-		$query = $this->db->query("SELECT DISTINCT * FROM " . DB_PREFIX . "languages WHERE language_id = '" . (int)$language_id . "'");
+		$query = $this->db->query("SELECT DISTINCT * FROM " . $this->db->table("languages") . " WHERE language_id = '" . (int)$language_id . "'");
 		$result = $query->row;
 		if(!$result['image']){
 			if(file_exists(DIR_ROOT.'/admin/language/'.$result['directory'].'/flag.png')){
@@ -83,10 +83,10 @@ class ModelLocalisationLanguage extends Model {
         if ($data || $mode == 'total_only') {
         	$filter = (isset($data['filter']) ? $data['filter'] : array());
 			if ($mode == 'total_only') {
-				$sql = "SELECT count(*) as total FROM " . DB_PREFIX . "languages";
+				$sql = "SELECT count(*) as total FROM " . $this->db->table("languages") . " ";
 			}
 			else {
-				$sql = "SELECT * FROM " . DB_PREFIX . "languages";
+				$sql = "SELECT * FROM " . $this->db->table("languages") . " ";
 			}
 			
 			if (isset($filter['status']) && !is_null($filter['status'])) { 
@@ -156,7 +156,7 @@ class ModelLocalisationLanguage extends Model {
 		
 			if (!$language_data) {
 				$query = $this->db->query( "SELECT *
-											FROM " . DB_PREFIX . "languages
+											FROM " . $this->db->table("languages") . " 
 											ORDER BY sort_order, name");
 	
     			foreach ($query->rows as $result) {

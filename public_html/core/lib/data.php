@@ -281,24 +281,15 @@ final class AData {
 		//generate errors: No space on device (log to message as error too), No permissons, Others
 		//return Success or failed.
 
-		$command = 'tar -C ' . $tar_dir . ' -czvf ' . $tar_filename . ' ' . $filename. ' > /dev/null';
-		if(isFunctionAvailable('system')){
-			system($command,$exit_code);
-		}else{
-			$exit_code = 1;
-		}
 
-		if ( $exit_code ) {
-			$this->load->library('targz');
-			$targz = new Atargz();
-		    $targz->makeTar($tar_dir . $filename, $tar_filename);
-		}
+		compressTarGZ($tar_filename, $tar_dir.$filename);
 
 		if(!file_exists($tar_filename)){
-			$this->processError('Archive error', 'Error: cannot to pack ' . $tar_filename."\n Exit code:". $exit_code);
+			$this->processError('Archive error', 'Error: cannot to pack ' . $tar_filename);
 			return false;
 		}
 		@chmod($tar_filename,0777);
+
 		$this->_removeDir( $tar_dir.$filename );
 		return true;
 	}
@@ -1514,10 +1505,10 @@ final class AData {
 	 */
 	private function _get_layout_ids($key_param, $key_value) {
 		$result = $this->db->query(
-			'SELECT p.page_id, pl.layout_id FROM ' . DB_PREFIX . 'pages p
-			INNER JOIN ' . DB_PREFIX . 'pages_layouts pl ON p.page_id = pl.page_id
-			WHERE p.key_param = "' . $this->db->escape($key_param) . '"
-			AND p.key_value = "' . (int) $key_value . '"'
+			"SELECT p.page_id, pl.layout_id FROM " . $this->db->table("pages") . " p
+			INNER JOIN " . $this->db->table("pages_layouts") . " pl ON p.page_id = pl.page_id
+			WHERE p.key_param = '" . $this->db->escape($key_param) . "'
+			AND p.key_value = '" . (int)$key_value . "'"
 		);
 
 		if ( $result->num_rows ) {
@@ -1531,12 +1522,12 @@ final class AData {
 	 */
 	private function _clear_pages($page_id) {
 		$this->db->query(
-			'DELETE FROM ' . DB_PREFIX . 'pages
-			WHERE page_id = "' . (int) $page_id . '"'
+			"DELETE FROM " . $this->db->table("pages") . " 
+			WHERE page_id = '" . (int)$page_id . "'"
 		);
 		$this->db->query(
-			'DELETE FROM ' . DB_PREFIX . 'page_descriptions
-			WHERE page_id = "' . (int) $page_id . '"'
+			"DELETE FROM " . $this->db->table("page_descriptions") . " 
+			WHERE page_id = '" . (int)$page_id . "'"
 		);
 	}
 
@@ -1546,8 +1537,8 @@ final class AData {
 	 */
 	private function _clear_pages_layouts($page_id) {
 		$this->db->query(
-			'DELETE FROM ' . DB_PREFIX . 'pages_layouts
-			WHERE page_id = "' . (int) $page_id . '"'
+			"DELETE FROM " . $this->db->table("pages_layouts") . " 
+			WHERE page_id = '" . (int)$page_id . "'"
 		);
 		return true;
 	}
@@ -1558,8 +1549,8 @@ final class AData {
 	 */
 	private function _clear_layouts($layout_id) {
 		$this->db->query(
-			'DELETE FROM ' . DB_PREFIX . 'layouts
-			WHERE layout_id = "' . (int) $layout_id . '"'
+			"DELETE FROM " . $this->db->table("layouts") . " 
+			WHERE layout_id = '" . (int)$layout_id . "'"
 		);
 		return true;
 	}

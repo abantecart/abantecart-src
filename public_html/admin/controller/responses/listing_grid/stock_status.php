@@ -103,8 +103,8 @@ class ControllerResponsesListingGridStockStatus extends AController {
 				foreach( $ids as $id ) {
 					$err = $this->_validateDelete($id);
 					if (!empty($err)) {
-						$dd = new ADispatcher('responses/error/ajaxerror/validation',array('error_text'=>$err));
-						return $dd->dispatch();
+						$error = new AError('');
+						return $error->toJSONResponse('VALIDATION_ERROR_406', array( 'error_text' => $err ));
 					}
 					$this->model_localisation_stock_status->deleteStockStatus($id);
 				}
@@ -115,9 +115,9 @@ class ControllerResponsesListingGridStockStatus extends AController {
 				foreach( $ids as $id ) {
 					if ( isset($this->request->post['stock_status'][$id]) ) {
 						foreach ($this->request->post['stock_status'][$id] as $value) {
-							if ((strlen(utf8_decode($value['name'])) < 2) || (strlen(utf8_decode($value['name'])) > 32)) {
+							if ( mb_strlen($value['name']) < 2 || mb_strlen($value['name']) > 32 ) {
 								$this->response->setOutput( $this->language->get('error_name') );
-								return;
+								return null;
 							}
 						}
 						$this->model_localisation_stock_status->editStockStatus($id, array( 'stock_status' => $this->request->post['stock_status'][$id]) );
@@ -157,23 +157,23 @@ class ControllerResponsesListingGridStockStatus extends AController {
 		    //request sent from edit form. ID in url
 
 			foreach ($this->request->post['stock_status'] as $value) {
-				if ((strlen(utf8_decode($value['name'])) < 2) || (strlen(utf8_decode($value['name'])) > 32)) {
+				if ( mb_strlen($value['name']) < 2 || mb_strlen($value['name']) > 32 ) {
 					$this->response->setOutput( $this->language->get('error_name') );
-					return;
+					return null;
 				}
 			}
 
 		    $this->model_localisation_stock_status->editStockStatus($this->request->get['id'], $this->request->post);
-			return;
+			return null;
 	    }
 
 	    //request sent from jGrid. ID is key of array
 	    if ( isset($this->request->post['stock_status']) ) {
 			foreach ( $this->request->post['stock_status'] as $id => $v ) {
 				foreach ($v as $value) {
-					if ((strlen(utf8_decode($value['name'])) < 2) || (strlen(utf8_decode($value['name'])) > 32)) {
+					if ( mb_strlen($value['name']) < 2 || mb_strlen($value['name']) > 32 ) {
 						$this->response->setOutput( $this->language->get('error_name') );
-						return;
+						return null;
 					}
 				}
 				$this->model_localisation_stock_status->editStockStatus($id, array('stock_status' => $v) );
@@ -193,6 +193,4 @@ class ControllerResponsesListingGridStockStatus extends AController {
 			return sprintf($this->language->get('error_product'), $product_total);
 		}
 	}
-
 }
-?>

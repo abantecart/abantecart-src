@@ -41,20 +41,20 @@ class AFormManager {
 		$this->registry = Registry::getInstance ();
 		
 		//check if form with same name exists
-		$sql = "SELECT form_id FROM " . DB_PREFIX . "forms WHERE form_name='" . $this->db->escape ( $form_name ) . "'";
+		$sql = "SELECT form_id FROM " . $this->db->table("forms") . " WHERE form_name='" . $this->db->escape ( $form_name ) . "'";
 		$result = $this->db->query ( $sql );
 		$this->form_id = ( int ) $result->row ['form_id'];
 		
 		if ($this->form_id) {
 			// field groups of form
-			$sql = "SELECT group_id FROM " . DB_PREFIX . "form_groups WHERE form_id='" . $this->form_id . "'";
+			$sql = "SELECT group_id FROM " . $this->db->table("form_groups") . " WHERE form_id='" . $this->form_id . "'";
 			$result = $this->db->query ( $sql );
 			if ($result->num_rows) {
 				$this->form_field_groups [] = ( int ) $result->row ['group_id'];
 			}
 			
 			// fields of form
-			$sql = "SELECT field_id FROM " . DB_PREFIX . "fields WHERE form_id='" . $this->form_id . "'";
+			$sql = "SELECT field_id FROM " . $this->db->table("fields") . " WHERE form_id='" . $this->form_id . "'";
 			$result = $this->db->query ( $sql );
 			if ($result->num_rows) {
 				$this->form_fields [] = ( int ) $result->row ['field_id'];
@@ -76,7 +76,7 @@ class AFormManager {
 		if (! $group_name || ! $this->form_id) {
 			return null;
 		}
-		$sql = "SELECT group_id FROM " . DB_PREFIX . "form_groups WHERE group_name = '" . $this->db->escape ( $group_name ) . "' AND form_id = '" . $this->form_id . "'";
+		$sql = "SELECT group_id FROM " . $this->db->table("form_groups") . " WHERE group_name = '" . $this->db->escape ( $group_name ) . "' AND form_id = '" . $this->form_id . "'";
 		$result = $this->db->query ( $sql );
 		return ( int ) $result->row ['group_id'];
 	}
@@ -88,7 +88,7 @@ class AFormManager {
 		if (! $field_group_id || ! $language_id) {
 			return null;
 		}
-		$sql = "SELECT * FROM " . DB_PREFIX . "fields_group_descriptions WHERE group_id = '" . $field_group_id . "' AND language_id = '" . $language_id . "'";
+		$sql = "SELECT * FROM " . $this->db->table("fields_group_descriptions") . " WHERE group_id = '" . $field_group_id . "' AND language_id = '" . $language_id . "'";
 		$result = $this->db->query ( $sql );
 		return $result->row;
 	}
@@ -97,7 +97,7 @@ class AFormManager {
 		if (! $field_name || ! $this->form_id) {
 			return null;
 		}
-		$sql = "SELECT field_id FROM " . DB_PREFIX . "fields WHERE field_name = '" . $this->db->escape ( $field_name ) . "' AND form_id= '" . $this->form_id . "'";
+		$sql = "SELECT field_id FROM " . $this->db->table("fields") . " WHERE field_name = '" . $this->db->escape ( $field_name ) . "' AND form_id= '" . $this->form_id . "'";
 		$result = $this->db->query ( $sql );
 		return ( int ) $result->row ['field_id'];
 	}
@@ -108,7 +108,7 @@ class AFormManager {
 		if (! $field_id || ! $this->form_id || ! $language_id) {
 			return null;
 		}
-		$sql = "SELECT * FROM " . DB_PREFIX . "field_descriptions WHERE field_id = '" . $field_id . "' AND language_id = '" . $language_id . "'";
+		$sql = "SELECT * FROM " . $this->db->table("field_descriptions") . " WHERE field_id = '" . $field_id . "' AND language_id = '" . $language_id . "'";
 		$result = $this->db->query ( $sql );
 		return $result->row;
 	}
@@ -118,7 +118,7 @@ class AFormManager {
 		if (! $this->form_id || ! $language_id) {
 			return null;
 		}
-		$sql = "SELECT * FROM " . DB_PREFIX . "form_descriptions WHERE form_id = '" . $this->form_id . "' AND language_id = '" . $language_id . "'";
+		$sql = "SELECT * FROM " . $this->db->table("form_descriptions") . " WHERE form_id = '" . $this->form_id . "' AND language_id = '" . $language_id . "'";
 		$result = $this->db->query ( $sql );
 		return $result->row;
 	}
@@ -130,14 +130,14 @@ class AFormManager {
 			return null;
 		}
 		
-		$sql = "SELECT * FROM " . DB_PREFIX . "field_values WHERE field_id = '" . ( int ) $field_id . "' AND language_id = '" . $language_id . "'";
+		$sql = "SELECT * FROM " . $this->db->table("field_values") . " WHERE field_id = '" . ( int ) $field_id . "' AND language_id = '" . $language_id . "'";
 		$result = $this->db->query ( $sql );
 		return $result->row;
 	}
 	
 	private function _getLanguageIdByName($language_name = '') {
 		$language_name = mb_strtolower ( $language_name, 'UTF-8' );
-		$query = "SELECT language_id FROM " . DB_PREFIX . "languages 
+		$query = "SELECT language_id FROM " . $this->db->table("languages") . " 
 					WHERE LOWER(name) = '" . $this->db->escape ( $language_name ) . "'";
 		$result = $this->db->query ( $query );
 		return $result->row ? $result->row ['language_id'] : 0;
@@ -214,15 +214,15 @@ class AFormManager {
 			if ($form->action == "delete") {
 				if ($this->form_id) {
 					$sql = array ();
-					$sql [] = "DELETE FROM " . DB_PREFIX . "field_values WHERE field_id IN ( SELECT field_id FROM " . DB_PREFIX . "fields WHERE form_id = '" . $this->form_id . "')";
-					$sql [] = "DELETE FROM " . DB_PREFIX . "field_descriptions WHERE field_id IN ( SELECT field_id FROM " . DB_PREFIX . "fields WHERE form_id = '" . $this->form_id . "')";
-					$sql [] = "DELETE FROM " . DB_PREFIX . "fields_group_descriptions WHERE group_id IN ( SELECT group_id FROM " . DB_PREFIX . "form_groups WHERE form_id = '" . $this->form_id . "')";
-					$sql [] = "DELETE FROM " . DB_PREFIX . "fields_groups WHERE group_id IN ( SELECT group_id FROM " . DB_PREFIX . "form_groups WHERE form_id = '" . $this->form_id . "')";
-					$sql [] = "DELETE FROM " . DB_PREFIX . "form_groups WHERE form_id  = '" . $this->form_id . "'";
-					$sql [] = "DELETE FROM " . DB_PREFIX . "fields WHERE form_id = '" . $this->form_id . "'";
-					$sql [] = "DELETE FROM " . DB_PREFIX . "pages_forms WHERE form_id = '" . $this->form_id . "'";
-					$sql [] = "DELETE FROM " . DB_PREFIX . "form_descriptions WHERE form_id = '" . $this->form_id . "'";
-					$sql [] = "DELETE FROM " . DB_PREFIX . "forms WHERE form_id = '" . $this->form_id . "'";
+					$sql [] = "DELETE FROM " . $this->db->table("field_values") . " WHERE field_id IN ( SELECT field_id FROM " . $this->db->table("fields") . " WHERE form_id = '" . $this->form_id . "')";
+					$sql [] = "DELETE FROM " . $this->db->table("field_descriptions") . " WHERE field_id IN ( SELECT field_id FROM " . $this->db->table("fields") . " WHERE form_id = '" . $this->form_id . "')";
+					$sql [] = "DELETE FROM " . $this->db->table("fields_group_descriptions") . " WHERE group_id IN ( SELECT group_id FROM " . $this->db->table("form_groups") . " WHERE form_id = '" . $this->form_id . "')";
+					$sql [] = "DELETE FROM " . $this->db->table("fields_groups") . " WHERE group_id IN ( SELECT group_id FROM " . $this->db->table("form_groups") . " WHERE form_id = '" . $this->form_id . "')";
+					$sql [] = "DELETE FROM " . $this->db->table("form_groups") . " WHERE form_id  = '" . $this->form_id . "'";
+					$sql [] = "DELETE FROM " . $this->db->table("fields") . " WHERE form_id = '" . $this->form_id . "'";
+					$sql [] = "DELETE FROM " . $this->db->table("pages_forms") . " WHERE form_id = '" . $this->form_id . "'";
+					$sql [] = "DELETE FROM " . $this->db->table("form_descriptions") . " WHERE form_id = '" . $this->form_id . "'";
+					$sql [] = "DELETE FROM " . $this->db->table("forms") . " WHERE form_id = '" . $this->form_id . "'";
 					
 					foreach ( $sql as $query ) {
 						$this->db->query ( $query );
@@ -241,7 +241,7 @@ class AFormManager {
 					continue;
 				}
 				
-				$query = "INSERT INTO " . DB_PREFIX . "forms (`form_name`, `controller`, `success_page`, `status`) 
+				$query = "INSERT INTO " . $this->db->table("forms") . " (`form_name`, `controller`, `success_page`, `status`) 
 							VALUES ('" . $this->db->escape ( $form->form_name ) . "','" . $this->db->escape ( $form->controller ) . "','" . $this->db->escape ( $form->success_page ) . "','" . $this->db->escape ( $form->status ) . "')";
 				$this->db->query ( $query );
 				$this->form_id = $this->db->getLastId ();
@@ -262,7 +262,7 @@ class AFormManager {
 																					'description' => (string)$form_description->description
 														 )) );
 						/*
-						$query = "INSERT INTO " . DB_PREFIX . "form_descriptions(form_id, language_id,description) 
+						$query = "INSERT INTO " . $this->db->table("form_descriptions") . " (form_id, language_id,description) 
 									VALUES ('" . $this->form_id . "','" . $language_id . "','" . $this->db->escape ( $form_description->description ) . "')";
 						$this->db->query ( $query );*/
 					}
@@ -282,7 +282,7 @@ class AFormManager {
 			} else { // update form info
 				
 
-				$query = "UPDATE " . DB_PREFIX . "forms 
+				$query = "UPDATE " . $this->db->table("forms") . " 
 							SET `form_name` = '" . $this->db->escape ( $form->form_name ) . "',
 								 `controller`='" . $this->db->escape ( $form->controller ) . "',
 								 `success_page` = '" . $this->db->escape ( $form->success_page ) . "',
@@ -323,12 +323,12 @@ class AFormManager {
 			}
 		
 		} //end of form manipulation
-		return;
+		return null;
 	}
 	
 	private function _processFieldXML($field, $field_group_id = '', $field_group_sort_order = 0) {
 		if (! $this->form_id) {
-			return;
+			return null;
 		}
 		$field_group_id = ( int ) $field_group_id;
 		
@@ -338,23 +338,23 @@ class AFormManager {
 			$error = new AError ( $errmessage );
 			$error->toLog ()->toDebug ();
 			$this->errors = 1;
-			return;
+			return null;
 		}
 		
 		if ($field->action == "delete") {
 			if (! $field_id) {
-				return;
+				return null;
 			}
 			
 			$sql = array ();
-			$sql [] = "DELETE FROM " . DB_PREFIX . "field_values WHERE field_id = '" . $field_id . "'";
-			$sql [] = "DELETE FROM " . DB_PREFIX . "field_descriptions WHERE field_id = '" . $field_id . "'";
-			$sql [] = "DELETE FROM " . DB_PREFIX . "fields_groups WHERE field_id = '" . $field_id . "'";
-			$sql [] = "DELETE FROM " . DB_PREFIX . "fields WHERE field_id = '" . $field_id . "'";
+			$sql [] = "DELETE FROM " . $this->db->table("field_values") . " WHERE field_id = '" . $field_id . "'";
+			$sql [] = "DELETE FROM " . $this->db->table("field_descriptions") . " WHERE field_id = '" . $field_id . "'";
+			$sql [] = "DELETE FROM " . $this->db->table("fields_groups") . " WHERE field_id = '" . $field_id . "'";
+			$sql [] = "DELETE FROM " . $this->db->table("fields") . " WHERE field_id = '" . $field_id . "'";
 			foreach ( $sql as $query ) {
 				$this->db->query ( $query );
 			}
-			return;
+			return null;
 		}
 		// checks
 		if (! in_array ( $field->element_type, $this->field_types )) {
@@ -362,12 +362,12 @@ class AFormManager {
 			$error = new AError ( $errmessage );
 			$error->toLog ()->toDebug ();
 			$this->errors = 1;
-			return;
+			return null;
 		}
 
 		if (! $field_id) { // if new field
 			$sql = array ();
-			$query = "INSERT INTO " . DB_PREFIX . "fields (form_id, field_name, element_type, sort_order, attributes, required, status) 
+			$query = "INSERT INTO " . $this->db->table("fields") . " (form_id, field_name, element_type, sort_order, attributes, required, status) 
 						VALUES ('" . $this->form_id . "', 
 								'" . $this->db->escape ( $field->field_name ) . "',
 								'" . $this->db->escape ( $field->element_type ) . "',
@@ -379,7 +379,7 @@ class AFormManager {
 			$field_id = $this->db->getLastId ();
 			
 			if ($field_group_id) {
-				$sql [] = "INSERT INTO " . DB_PREFIX . "fields_groups (field_id, group_id, sort_order) 
+				$sql [] = "INSERT INTO " . $this->db->table("fields_groups") . " (field_id, group_id, sort_order) 
 						VALUES ('" . $field_id . "', '" . $field_group_id . "',	'" . $field_group_sort_order . "')";
 			
 			}
@@ -394,7 +394,7 @@ class AFormManager {
 						$this->errors = 1;
 						continue;
 					}
-					$sql [] = "INSERT INTO " . DB_PREFIX . "field_descriptions(field_id,language_id,name,description) 
+					$sql [] = "INSERT INTO " . $this->db->table("field_descriptions") . " (field_id,language_id,name,description) 
 								VALUES ('" . $field_id . "',
 										'" . $language_id . "',
 										'" . $this->db->escape ( $field_description->name ) . "',
@@ -412,7 +412,7 @@ class AFormManager {
 						$this->errors = 1;
 						continue;
 					}
-					$sql [] = "INSERT INTO " . DB_PREFIX . "field_values (`field_id`, `opt_value`, `value`, `default`, `sort_order`, `language_id`) 
+					$sql [] = "INSERT INTO " . $this->db->table("field_values") . " (`field_id`, `opt_value`, `value`, `default`, `sort_order`, `language_id`) 
 								VALUES ('" . $field_id . "',
 										'" . $this->db->escape ( $field_value->opt_value ) . "',
 										'" . $this->db->escape ( $field_value->value ) . "',
@@ -429,7 +429,7 @@ class AFormManager {
 		
 		} else { //if need to update field
 			$sql = array ();
-			$sql [] = "UPDATE " . DB_PREFIX . "fields SET    
+			$sql [] = "UPDATE " . $this->db->table("fields") . " SET    
 						 		element_type = '" . $this->db->escape ( $field->element_type ) . "',
 								sort_order = '" . ( int ) $field->sort_order . "',
 								attributes = '" . $this->db->escape ( $field->attributes ) . "',
@@ -439,15 +439,15 @@ class AFormManager {
 			
 			if ($field_group_id) {
 				// check is field in group
-				$query = "SELECT field_id FROM " . DB_PREFIX . "fields_groups WHERE field_id = '" . $field_id . "'";
+				$query = "SELECT field_id FROM " . $this->db->table("fields_groups") . " WHERE field_id = '" . $field_id . "'";
 				$result = $this->db->query ( $query );
 				$exists = $result->num_rows;
 				
 				if ($exists) {
-					$sql [] = "UPDATE " . DB_PREFIX . "fields_groups SET group_id = '" . $field_group_id . "', sort_order = '" . $field_group_sort_order . "'
+					$sql [] = "UPDATE " . $this->db->table("fields_groups") . " SET group_id = '" . $field_group_id . "', sort_order = '" . $field_group_sort_order . "'
 								WHERE field_id = '" . $field_id . "'";
 				} else {
-					$sql [] = "INSERT INTO " . DB_PREFIX . "fields_groups (field_id, group_id, sort_order) 
+					$sql [] = "INSERT INTO " . $this->db->table("fields_groups") . " (field_id, group_id, sort_order) 
 								VALUES ('" . $field_id . "', '" . $field_group_id . "',	'" . $field_group_sort_order . "')";
 				}
 			}
@@ -465,13 +465,13 @@ class AFormManager {
 					
 					$exists = $this->_getFieldDescription ( $field_id, $language_id );
 					if (! $exists) {
-						$sql [] = "INSERT INTO " . DB_PREFIX . "field_descriptions (field_id, language_id, name, description) 
+						$sql [] = "INSERT INTO " . $this->db->table("field_descriptions") . " (field_id, language_id, name, description) 
 									VALUES ('" . $field_id . "',
 											'" . $language_id . "',
 											'" . $this->db->escape ( $field_description->name ) . "',
 											'" . $this->db->escape ( $field_description->description ) . "')";
 					} else {
-						$sql [] = "UPDATE " . DB_PREFIX . "field_descriptions
+						$sql [] = "UPDATE " . $this->db->table("field_descriptions") . " 
 										SET name = '" . $this->db->escape ( $field_description->name ) . "',
 											description = '" . $this->db->escape ( $field_description->description ) . "'
 										WHERE language_id = '" . $language_id . "'AND field_id = '" . $field_id . "'";
@@ -480,7 +480,7 @@ class AFormManager {
 			}
 			
 			if ($field->field_values->field_value) {
-				$sql [] = "DELETE FROM " . DB_PREFIX . "field_values WHERE field_id = '" . $field_id . "'";
+				$sql [] = "DELETE FROM " . $this->db->table("field_values") . " WHERE field_id = '" . $field_id . "'";
 				foreach ( $field->field_values->field_value as $field_value ) {
 					$language_id = $this->_getLanguageIdByName ( $field_value->language );
 					if (! $language_id) {
@@ -490,7 +490,7 @@ class AFormManager {
 						$this->errors = 1;
 						continue;
 					}
-					$sql [] = "INSERT INTO " . DB_PREFIX . "field_values (`field_id`, `opt_value`, `value`, `default`, `sort_order`, `language_id`) 
+					$sql [] = "INSERT INTO " . $this->db->table("field_values") . " (`field_id`, `opt_value`, `value`, `default`, `sort_order`, `language_id`) 
 								VALUES ('" . $field_id . "',
 										'" . $this->db->escape ( $field_value->opt_value ) . "',
 										'" . $this->db->escape ( $field_value->value ) . "',
@@ -519,10 +519,10 @@ class AFormManager {
 		if ($field_group->action == 'delete') {
 			if ($field_group_id) {
 				$sql = array ();
-				$sql [] = "DELETE FROM " . DB_PREFIX . "fields_group_descriptions WHERE group_id  = '" . $field_group_id . "'";
-				$sql [] = "DELETE FROM " . DB_PREFIX . "fields WHERE field_id IN ( SELECT field_id FROM " . DB_PREFIX . "fields_groups WHERE group_id = '" . $field_group_id . "')";
-				$sql [] = "DELETE FROM " . DB_PREFIX . "fields_groups WHERE group_id = '" . $field_group_id . "'";
-				$sql [] = "DELETE FROM " . DB_PREFIX . "form_groups WHERE form_id  = '" . $this->form_id . "'";
+				$sql [] = "DELETE FROM " . $this->db->table("fields_group_descriptions") . " WHERE group_id  = '" . $field_group_id . "'";
+				$sql [] = "DELETE FROM " . $this->db->table("fields") . " WHERE field_id IN ( SELECT field_id FROM " . $this->db->table("fields_groups") . " WHERE group_id = '" . $field_group_id . "')";
+				$sql [] = "DELETE FROM " . $this->db->table("fields_groups") . " WHERE group_id = '" . $field_group_id . "'";
+				$sql [] = "DELETE FROM " . $this->db->table("form_groups") . " WHERE form_id  = '" . $this->form_id . "'";
 				foreach ( $sql as $query ) {
 					$this->db->query ( $query );
 				}
@@ -532,7 +532,7 @@ class AFormManager {
 				$error->toLog ()->toDebug ();
 				$this->errors = 1;
 			}
-			return;
+			return null;
 		}
 		
 		if ($field_group->action == 'insert' && $field_group_id) {
@@ -540,11 +540,11 @@ class AFormManager {
 			$error = new AError ( $errmessage );
 			$error->toLog ()->toDebug ();
 			$this->errors = 1;
-			return;
+			return null;
 		}
 		
 		if ($field_group->action == 'insert') {
-			$query = "INSERT INTO " . DB_PREFIX . "form_groups (`form_id`, `group_name`, `sort_order`, `status`)
+			$query = "INSERT INTO " . $this->db->table("form_groups") . " (`form_id`, `group_name`, `sort_order`, `status`)
 					    VALUES ('" . $this->form_id . "',
 					  			'" . $this->db->escape ( $field_group->name ) . "',
 					  			'" . ( int ) $field_group->sort_order . "',
@@ -552,7 +552,7 @@ class AFormManager {
 			$this->db->query ( $query );
 			$field_group_id = $this->db->getLastId ();
 		} else {
-			$query = "UPDATE " . DB_PREFIX . "form_groups
+			$query = "UPDATE " . $this->db->table("form_groups") . " 
 						SET `sort_order`='" . ( int ) $field_group->sort_order . "',
 							`status`='" . ( int ) $field_group->status . "'
 							WHERE group_id = '" . ( int ) $field_group_id . "'";
@@ -581,13 +581,13 @@ class AFormManager {
 								)
 				);
 				/*if (! $exists) {
-					$sql [] = "INSERT INTO " . DB_PREFIX . "fields_group_descriptions (group_id, language_id, name, description) 
+					$sql [] = "INSERT INTO " . $this->db->table("fields_group_descriptions") . " (group_id, language_id, name, description) 
 							VALUES ('" . $field_group_id . "',
 									'" . $language_id . "',
 									'" . $this->db->escape ( $field_group_description->name ) . "',
 									'" . $this->db->escape ( $field_group_description->description ) . "')";
 				} else {
-					$sql [] = "UPDATE " . DB_PREFIX . "fields_group_descriptions
+					$sql [] = "UPDATE " . $this->db->table("fields_group_descriptions") . " 
 								SET name = '" . $this->db->escape ( $field_group_description->name ) . "',
 									description = '" . $this->db->escape ( $field_group_description->description ) . "'
 								WHERE language_id = '" . $language_id . "'AND group_id = '" . $field_group_id . "'";

@@ -254,6 +254,14 @@
 		<value><![CDATA[Reset]]></value>
 	</definition>
 	<definition>
+		<key>button_submit</key>
+		<value><![CDATA[Submit]]></value>
+	</definition>
+	<definition>
+		<key>button_save</key>
+		<value><![CDATA[Save]]></value>
+	</definition>
+	<definition>
 		<key>text_field_required</key>
 		<value><![CDATA[is required field!]]></value>
 	</definition>
@@ -272,5 +280,9 @@
 	<definition>
 		<key>text_discount</key>
 		<value><![CDATA[Discount]]></value>
+    </definition>
+	<definition>
+		<key>error_unknown</key>
+		<value><![CDATA[Unknown error encountered. Please try again!]]></value>
     </definition>
 </definitions>

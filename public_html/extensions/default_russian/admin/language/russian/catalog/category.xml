@@ -68,6 +68,10 @@
     <key>entry_status</key>
     <value><![CDATA[Статус Категории:]]></value>
   </definition>
+	<definition>
+		<key>entry_parent_category</key>
+		<value><![CDATA[Родительская категория:]]></value>
+	</definition>
   <definition>
     <key>entry_category</key>
     <value><![CDATA[Родительская категория:]]></value>

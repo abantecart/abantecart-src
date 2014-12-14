@@ -48,4 +48,38 @@ class ControllerResponsesCommonCommon extends AController {
 		$this->response->setOutput($seo_key);
 	}
 
+	/**
+	 * function to mark ANT message read
+	 */
+	public function antMessageRead(){
+		//init controller data
+		$this->extensions->hk_InitData($this, __FUNCTION__);
+
+		$message_id = $this->request->get['message_id'];
+
+		$result = array();
+		if( has_value($message_id) && $this->messages->markViewedANT($message_id, '*')) {
+			$result['success'] = true;
+		}
+
+		//update controller data
+		$this->extensions->hk_UpdateData($this, __FUNCTION__);
+
+		$this->load->library('json');
+		$this->response->setOutput(AJson::encode($result));		
+	}
+	/**
+	 * void function run server-server update check procedure
+	 */
+	public function checkUpdates(){
+		//init controller data
+		$this->extensions->hk_InitData($this, __FUNCTION__);
+
+		$this->loadModel('tool/updater');
+		$this->model_tool_updater->check4Updates();
+		unset($this->session->data['checkupdates']); // was set in index/login
+
+		//update controller data
+		$this->extensions->hk_UpdateData($this, __FUNCTION__);
+	}
 }

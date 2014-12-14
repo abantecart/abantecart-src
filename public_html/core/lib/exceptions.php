@@ -27,12 +27,17 @@ require_once(DIR_CORE . '/lib/exceptions/php_exception.php');
 
 /**
  * called for php errors
+ *
+ * @param int $errno
+ * @param string $errstr
+ * @param string $errfile
+ * @param string $errline
  */
 function ac_error_handler($errno, $errstr, $errfile, $errline) {
 
 	//skip notice
 	if ( $errno == E_NOTICE )
-		return;
+		return null;
 
     try {
         throw new APhpException($errno, $errstr, $errfile, $errline);
@@ -44,6 +49,7 @@ function ac_error_handler($errno, $errstr, $errfile, $errline) {
 
 /**
  * called for caught exceptions
+ * @param  AException $e
  */
 function ac_exception_handler($e)
 {
@@ -61,7 +67,7 @@ function ac_exception_handler($e)
                 $e->displayError();
             }
         }
-        return;
+        return null;
     }
 
     $e->logError();
@@ -77,7 +83,7 @@ function ac_shutdown_handler()
 {
     $error = error_get_last();
     if ( !is_array($error) || !in_array($error['type'], array(E_ERROR, E_PARSE, E_CORE_ERROR, E_COMPILE_ERROR))) {
-        return;
+        return null;
     }
     $exception = new APhpException($error['type'], $error['message'], $error['file'], $error['line']);
     $exception->logError();

@@ -69,7 +69,9 @@ class ControllerBlocksMenu extends AController {
 
 			$menu[] = array(
 				'id' => $item['item_id'],
+				'current' => $item['current'],
 				'icon' => $item['item_icon'],
+				'icon_rl_id' => $item['item_icon_rl_id'],
 				'href' =>  $href,
 				'text' => $item['item_text'][$lang_id],
 				'children' => $this->_buildMenu( $item['item_id'] ),

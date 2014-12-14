@@ -1,160 +1,134 @@
-<?php if ($error_warning) { ?>
-<div class="warning alert alert-error"><?php echo $error_warning; ?></div>
-<?php } ?>
-<?php if ($success) { ?>
-<div class="success alert alert-success"><?php echo $success; ?></div>
+<?php include($tpl_common_dir . 'action_confirm.tpl'); ?>
+
+<?php if ($tabs) { ?>
+	<ul class="nav nav-tabs nav-justified nav-profile">
+		<?php foreach($tabs as $tab){?>
+		<li <?php echo ($tab['active'] ? 'class="active"' : '') ?>>
+		<a href="<?php echo $tab['href'] ? $tab['href'] : 'Javascript:void(0);'; ?>"><span><?php echo $tab['text']; ?></span></a></li>
+		<li>
+		<?php } ?>
+		<?php echo $this->getHookVar('extension_tabs'); ?>
+	</ul>
 <?php } ?>
 
-<div class="contentBox">
-  <div class="cbox_tl"><div class="cbox_tr"><div class="cbox_tc">
-    <div class="heading icon_title_blocks"><?php echo $heading_title; ?></div>
-	<div class="toolbar">
-		<?php echo $form_language_switch; ?>
-	<?php if($button_details){	?>
-	<div class="tools">
-		<a class="btn_standard" href="<?php echo $detail_link; ?>"><?php echo $button_details; ?></a>
+<div id="content" class="panel panel-default">
+	<div class="panel-heading col-xs-12">
+		<div class="primary_content_actions pull-left">
+			<div class="btn-group mr10 toolbar">
+			<?php if($button_details){	?>
+				<a class="btn btn-white tooltips"
+					href="<?php echo $button_details->href; ?>"
+					target="new" data-toggle="tooltip" title="<?php echo $button_details->text; ?>">
+					<i class="fa fa-bar-chart-o fa-lg"></i>
+				</a>
+			<?php } ?>
+			</div>
+		</div>
+		<?php include($tpl_common_dir . 'content_buttons.tpl'); ?>
 	</div>
-	<?php } ?>
-	</div>
-  </div></div></div>
-  <div class="cbox_cl"><div class="cbox_cr"><div class="cbox_cc">
 
 	<?php echo $form['form_open']; ?>
-	<div class="fieldset">
-	  <div class="heading"><?php echo $form_title; ?></div>
-	  <div class="top_left"><div class="top_right"><div class="top_mid"></div></div></div>
-	  <div class="cont_left"><div class="cont_right"><div class="cont_mid">
+	<?php 
+		foreach ($form['hidden_fields'] as $name => $field) {
+			echo $field;
+		}
+	?>
+	<div class="panel-body panel-body-nopadding tab-content col-xs-12">
 
-          <table class="form">
-            <?php foreach ($form['fields'] as $name => $field) { ?>
-				<tr>
-					<td><?php echo $form[ 'text' ][$name]; ?></td>
-					<td class="<?php echo ($name=='description'? 'ml_ckeditor': (in_array($name,array('status','daterange')) ? '' : 'ml_field')); ?>">
-						<?php echo $field; ?>
-						<?php if (!empty($error[$name])) { ?>
-							<div class="field_err"><?php echo $error[$name]; ?></div>
-						<?php } ?>
-					</td>
-				</tr>
-			<?php }   ?>
-          </table>
+		<?php if($banner_type == 1) { ?>
+		<div class="col-md-9 mb10">
+		<?php } ?>
+		<label class="h4 heading"><?php echo $form_title; ?></label>
+		<div class="form-group">
+			<label class="control-label col-sm-3 col-xs-12"></label>
+			<div class="btn-group mr10 toolbar">
+				<a class="btn btn-white disabled">
+					<?php echo $banner_types['icon']; ?> <?php echo $banner_types['text']; ?>
+				</a>
+			</div>
+		</div>
+			<?php foreach ($form['fields'] as $name => $field) {
+				if($name == 'new_banner_group'){ continue;}
+				//Logic to cululate fileds width
+				$widthcasses = "col-sm-7";
+				if ( is_int(stripos($field->style, 'large-field')) ) {
+					$widthcasses = "col-sm-7";
+				} else if ( is_int(stripos($field->style, 'medium-field')) || is_int(stripos($field->style, 'date')) ) {
+					$widthcasses = "col-sm-5";
+				} else if ( is_int(stripos($field->style, 'small-field')) || is_int(stripos($field->style, 'btn_switch')) ) {
+					$widthcasses = "col-sm-3";
+				} else if ( is_int(stripos($field->style, 'tiny-field')) ) {
+					$widthcasses = "col-sm-2";
+				}
+				$widthcasses .= " col-xs-12";
+			?>
+		<div class="form-group <?php if (!empty($error[$name])) { echo "has-error"; } ?>">
+			<label class="control-label col-sm-3 col-xs-12" for="<?php echo $field->element_id; ?>"><?php echo $form[ 'text' ][$name]; ?></label>
+			<div class="input-group afield <?php echo $widthcasses; ?> <?php echo ($name == 'description' ? 'ml_ckeditor' : '')?>">
+				<?php echo $field;
+				if($name=='banner_group_name'){
+					echo $form['fields']['new_banner_group'];
+				}
+				?>
 
-  </div></div></div>
-      <div class="bottom_left"><div class="bottom_right"><div class="bottom_mid"></div></div></div>
+			</div>
+		    <?php if (!empty($error[$name])) { ?>
+		    <span class="help-block field_err"><?php echo $error[$name]; ?></span>
+		    <?php } ?>
+		</div>
+			<?php }  ?><!-- <div class="fieldset"> -->
+		
+		<?php if($banner_type == 1) { ?>
+		</div>
+		<div class="col-md-3 mb10">
+			<div id="image">
+			<?php echo $resources_html; ?>
+			<?php echo $resources_scripts ?>
+			</div>
+		</div>
+		<?php } ?>
 	</div>
-	<div class="buttons align_center">
-	  <button type="submit" class="btn_standard"><?php echo $form['submit']; ?></button>
-	  <a class="btn_standard" href="<?php echo $cancel; ?>" ><?php echo $form['cancel']; ?></a>
-    </div>
+
+	<div class="panel-footer col-xs-12">
+		<div class="text-center">
+			<button class="btn btn-primary lock-on-click">
+			<i class="fa fa-save fa-fw"></i> <?php echo $form['submit']->text; ?>
+			</button>
+			<button class="btn btn-default" type="reset">
+			<i class="fa fa-refresh fa-fw"></i> <?php echo $button_reset; ?>
+			</button>
+			<a class="btn btn-default" href="<?php echo $cancel; ?>">
+			<i class="fa fa-arrow-left fa-fw"></i> <?php echo $form['cancel']->text; ?>
+			</a>
+		</div>
+	</div>
 	</form>
 
-  </div></div></div>
-  <div class="cbox_bl"><div class="cbox_br"><div class="cbox_bc"></div></div></div>
-</div>
-<div id="confirm_unmap_dialog" title="Confirm resource(s) Unmap" style="display:none"><?php echo $text_confirm_unmap ?></div>
-<div id="confirm_del_dialog" title="Confirm resource(s) Delete" style="display:none"><?php echo $text_confirm ?></div>
-<?php echo $resources_scripts; ?>
+</div><!-- <div class="tab-content"> -->
+
 <script type="text/javascript">
 $(document).ready(function() {
-	setRLparams();
-	loadSubform();
+	$('#BannerFrm_banner_group_name0').change();
 });
 
-
-function setRLparams(){
-	var banner_id = '<?php echo $banner_id ?>';
-	urls.resource_library = '<?php echo $rl_rl_path; ?>&object_id='+banner_id;
-	urls.resources = '<?php echo $rl_resources_path; ?>&object_id='+banner_id;
-	urls.unmap = '<?php echo $rl_unmap_path; ?>&object_id='+banner_id;
-	urls.banner_id = banner_id;
+if($('#BannerFrm_description').length){
+    CKEDITOR.replace('BannerFrm_description',{
+    		height: '300px',
+    		filebrowserBrowseUrl : false,
+    		filebrowserImageBrowseUrl : '<?php echo $rl; ?>',
+    		filebrowserWindowWidth : '920',
+    		filebrowserWindowHeight : '520',
+    		language: '<?php echo $language_code; ?>',
+    	});
 }
 
-// override rl js-script function
-var loadMedia = function() {
-	var type="image";
-    $.ajax({
-        url: urls.resources,
-        type: 'GET',
-        data: { type : type },
-        dataType: 'json',
-        success: function(json) {
-
-	        var html = '';
-            $(json.items).each(function(index, item){
-                var src = '<img src="' + item['thumbnail_url'] + '" title="' + item['name'] + '" />';
-                if ( type == 'image' && item['resource_code']  ) {
-                    src = item['thumbnail_url'];
-                }
-                html += '<span id="image_row' + item['resource_id'] + '" class="image_block" style="text-align:center;">\
-                <a class="resource_edit" type="' + type + '" id="' + item['resource_id'] + '">' + src + '</a><br />\
-                '+( item['mapped'] > 1 ? '' : '<a class="btn_action resource_delete" id="' + item['resource_id'] + '"><span class="icon_s_delete"><span class="btn_text"><?php echo $button_delete ?></span></span></a>')+'\
-                <a class="btn_action resource_unmap" id="' + item['resource_id'] + '"><span class="icon_s_unmap"><span class="btn_text"><?php echo $button_unmap ?></span></span></a>\
-                <a class="btn_action resource_edit" type="' + type + '" id="' + item['resource_id'] + '"><span class="icon_s_edit"><span class="btn_text"><?php echo $button_edit ?></span></span></a>\
-                </span>';
-            });
-            html += '<span class="image_block"><a class="resource_add" type="' + type + '"><img src="<?php echo $template_dir.'/image/icons/icon_add_media.png'; ?>" alt="<?php echo $text_add_media; ?>"/></a></span>';
-
-	        $('#rl_'+urls.banner_id).html(html);
-	        if($(json.items).length){
-		       $('a.resource_edit').unbind('click');
-				$('a.resource_edit').click( function(){
-					mediaDialog( $(this).prop('type'), 'update', $(this).prop('id'));
-				return false;
-			})
-	        }
-	        $('a.resource_add').unbind('click');
-			$('a.resource_add').click( function(){
-				mediaDialog( $(this).prop('type'), 'add', $(this).prop('id'));
-				return false;
-			});
-        },
-        error: function(jqXHR, textStatus, errorThrown){
-            $('#type_'+type).show();
-            $('#rl_'+urls.banner_id).html('<div class="error" align="center"><b>'+textStatus+'</b>  '+errorThrown+'</div>');
-        }
-    });
-
-}
-
-var loadSubform = function (){
-	if($('#BannerFrm_banner_type').val()=='2'){
-		$('#BannerFrm_target_url, #BannerFrm_blank').attr("disabled","disabled").parents('tr').hide();
-	}else{
-		$('#BannerFrm_target_url, #BannerFrm_blank').removeAttr("disabled").parents('tr').show();
-	}
-	$.ajax({
-        url: '<?php echo $subform_url ?>',
-        type: 'GET',
-        data: { 'type' : $('#BannerFrm_banner_type').val() },
-        success: function(html) {
-	        $('table.form tr.subform').each( function (){
-		        $(this).remove();
-	        })
-	        $('table.form').append(html);
-	        if($('#rl_<?php echo $banner_id ?>')){
-				loadMedia( 'image' );
-			}
-
-	        if($('#BannerFrm_description').length){
-				$('#BannerFrm_description').parents('.afield').removeClass('mask2');
-		        if(CKEDITOR.instances['BannerFrm_description']){
-		            CKEDITOR.remove( CKEDITOR.instances['BannerFrm_description'] );
-		        }
-				CKEDITOR.replace('BannerFrm_description',{
-						height: '400px',
-						filebrowserBrowseUrl : false,
-						filebrowserImageBrowseUrl : '<?php echo $rl; ?>',
-						filebrowserWindowWidth : '920',
-						filebrowserWindowHeight : '520',
-						language: '<?php echo $language_code; ?>',
-						startupMode: 'source'
-					});
-			}
-        }
-	});
-}
-
-$('#BannerFrm_banner_type').change(loadSubform);
+$('#BannerFrm_banner_group_name0').on('change',function(){
+    if($(this).val()=='new'){
+    	$('#BannerFrm_banner_group_name1').fadeIn().focus();
+    }else{
+    	$('#BannerFrm_banner_group_name1').fadeOut();
+    }
+});
 
 $('#BannerFrm_banner_group_name\\\[0\\\]').change( function(){
 	$(this).val() == 'new' ? $('#BannerFrm_banner_group_name\\\[1\\\]').show().parents('.aform').show() : $('#BannerFrm_banner_group_name\\\[1\\\]').hide().parents('.aform').hide();
@@ -163,5 +137,4 @@ $('#BannerFrm_banner_group_name\\\[0\\\]').change( function(){
 $('#BannerFrm_banner_group_name\\\[1\\\]').click( function(){
 	$(this).val() == '<?php echo $new_group_hint; ?>' ? $(this).val('') : null;
 });
-
 </script>

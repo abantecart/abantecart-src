@@ -6,7 +6,7 @@
   </definition>
   <definition>
     <key>insert_title</key>
-    <value><![CDATA[Insert Content]]></value>
+    <value><![CDATA[Add New Content]]></value>
   </definition>
   <definition>
     <key>update_title</key>

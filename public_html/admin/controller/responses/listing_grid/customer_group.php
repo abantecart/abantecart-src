@@ -86,19 +86,19 @@ class ControllerResponsesListingGridCustomerGroup extends AController {
 
 						if ($this->config->get('config_customer_group_id') == $id) {
 							$this->response->setOutput($this->language->get('error_default'));
-							return;
+							return null;
 						}
 
 						$store_total = $this->model_setting_store->getTotalStoresByCustomerGroupId($id);
 						if ($store_total) {
 							$this->response->setOutput(sprintf($this->language->get('error_store'), $store_total));
-							return;
+							return null;
 						}
 
 						$customer_total = $this->model_sale_customer->getTotalCustomersByCustomerGroupId($id);
 						if ($customer_total) {
 							$this->response->setOutput(sprintf($this->language->get('error_customer'), $customer_total));
-							return;
+							return null;
 						}
 
 						$this->model_sale_customer_group->deleteCustomerGroup($id);

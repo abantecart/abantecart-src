@@ -17,6 +17,10 @@
 		<value><![CDATA[Editar Dirección de Pago]]></value>
 	</definition>
 	<definition>
+		<key>title_payment_details</key>
+		<value><![CDATA[Detalles de pago]]></value>
+	</definition>
+	<definition>
 		<key>text_success</key>
 		<value><![CDATA[Se han modificado los pedidos de!]]></value>
 	</definition>
@@ -281,6 +285,10 @@
 		<value><![CDATA[Archivos]]></value>
 	</definition>
 	<definition>
+		<key>tab_payment_details</key>
+		<value><![CDATA[Detalles de pago]]></value>
+	</definition>
+	<definition>
 		<key>edit_title_files</key>
 		<value><![CDATA[Editar Archivos de Orden]]></value>
 	</definition>
@@ -320,4 +328,12 @@
 		<key>text_order_status_required</key>
 		<value><![CDATA[Estado del pedido "%s" Obligatorio]]></value>
 	</definition>
+	<definition>
+		<key>text_select_product</key>
+		<value><![CDATA[- Seleccionar producto -]]></value>
+	</definition>
+	<definition>
+		<key>text_push_download</key>
+		<value><![CDATA[- Empuje Descargar -]]></value>
+	</definition>	
 </definitions>

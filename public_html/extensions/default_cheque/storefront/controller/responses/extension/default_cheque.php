@@ -27,7 +27,12 @@ class ControllerResponsesExtensionDefaultCheque extends AController {
 		
     	$this->view->batchAssign(  $this->language->getASet() );
 		$this->view->assign('payable', $this->config->get('default_cheque_payable'));
-		$this->view->assign('address', $this->config->get('config_address'));
+		if ($this->config->get('default_cheque_address')) {
+			$this->view->assign('address', $this->config->get('default_cheque_address'));
+		} else {
+			$this->view->assign('address', $this->config->get('config_address'));
+		}
+	
 		$this->view->assign('continue', $this->html->getSecureURL('checkout/success'));
 
 		$item = HtmlElementFactory::create( array( 'type' => 'button',

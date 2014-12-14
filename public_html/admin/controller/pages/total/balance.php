@@ -22,7 +22,7 @@ if (!defined('DIR_CORE') || !IS_ADMIN) {
 }
 class ControllerPagesTotalBalance extends AController {
 	public $data = array();
-	private $error = array();
+	public $error = array();
 	private $fields = array('balance_status', 'balance_sort_order', 'balance_calculation_order');
 
 	public function main() {
@@ -33,7 +33,7 @@ class ControllerPagesTotalBalance extends AController {
 		$this->document->setTitle($this->language->get('heading_title'));
 		$this->loadModel('setting/setting');
 
-		if (($this->request->server['REQUEST_METHOD'] == 'POST') && ($this->_validate())) {
+		if ($this->request->is_POST() && ($this->_validate())) {
 			$this->model_setting_setting->editSetting('balance', $this->request->post);
 			$this->session->data['success'] = $this->language->get('text_success');
 			$this->redirect($this->html->getSecureURL('total/balance'));
@@ -62,7 +62,8 @@ class ControllerPagesTotalBalance extends AController {
 		$this->document->addBreadcrumb(array(
 			'href' => $this->html->getSecureURL('total/balance'),
 			'text' => $this->language->get('heading_title'),
-			'separator' => ' :: '
+			'separator' => ' :: ',
+			'current'   => true
 		));
 
 		foreach ($this->fields as $f) {
@@ -80,11 +81,25 @@ class ControllerPagesTotalBalance extends AController {
 		$this->data ['update'] = $this->html->getSecureURL('listing_grid/total/update_field', '&id=balance');
 
 		$form = new AForm ('HS');
-		$form->setForm(array('form_name' => 'editFrm', 'update' => $this->data ['update']));
+		$form->setForm(array(
+				'form_name' => 'editFrm',
+				'update' => $this->data ['update']));
 
-		$this->data['form']['form_open'] = $form->getFieldHtml(array('type' => 'form', 'name' => 'editFrm', 'action' => $this->data ['action']));
-		$this->data['form']['submit'] = $form->getFieldHtml(array('type' => 'button', 'name' => 'submit', 'text' => $this->language->get('button_save'), 'style' => 'button1'));
-		$this->data['form']['cancel'] = $form->getFieldHtml(array('type' => 'button', 'name' => 'cancel', 'text' => $this->language->get('button_cancel'), 'style' => 'button2'));
+		$this->data['form']['form_open'] = $form->getFieldHtml(array(
+				'type' => 'form',
+				'name' => 'editFrm',
+				'action' => $this->data ['action'],
+				'attr' => 'data-confirm-exit="true" class="aform form-horizontal"'
+		));
+		$this->data['form']['submit'] = $form->getFieldHtml(array(
+				'type' => 'button',
+				'name' => 'submit',
+				'text' => $this->language->get('button_save')));
+		$this->data['form']['cancel'] = $form->getFieldHtml(array(
+				'type' => 'button',
+				'name' => 'cancel',
+				'text' => $this->language->get('button_cancel')
+		));
 
 		$this->data['form']['fields']['status'] = $form->getFieldHtml(array(
 			'type' => 'checkbox',
@@ -114,7 +129,7 @@ class ControllerPagesTotalBalance extends AController {
 		if (!$this->user->canModify('total/balance')) {
 			$this->error['warning'] = $this->language->get('error_permission');
 		}
-
+		$this->extensions->hk_ValidateData($this);
 		if (!$this->error) {
 			return TRUE;
 		} else {

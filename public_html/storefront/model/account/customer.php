@@ -53,6 +53,7 @@ class ModelAccountCustomer extends Model {
 				$data['approved'] = 1;
 			}
 		}
+				
 		// delete subscription accounts for given email
 		$subscriber = $this->db->query("SELECT customer_id
 										FROM " . $this->db->table("customers") . "
@@ -104,6 +105,17 @@ class ModelAccountCustomer extends Model {
 		
 		$address_id = $this->db->getLastId();
       	$this->db->query("UPDATE " . $this->db->table("customers") . " SET address_id = '" . (int)$address_id . "' WHERE customer_id = '" . (int)$customer_id . "'");
+
+		if(!$data['approved']){
+			$language = new ALanguage($this->registry);
+			$language->load('account/create');
+
+			//notify administrator of pending customer approval
+			$msg_text = sprintf($language->get('text_pending_customer_approval'), $data['firstname'].' '.$data['lastname'],$customer_id);
+			$msg = new AMessage();
+			$msg->saveNotice($language->get('text_new_customer'), $msg_text);
+		}
+
 		return $customer_id;
 	}
 
@@ -300,7 +312,7 @@ class ModelAccountCustomer extends Model {
       		$error['warning'] = $this->language->get('error_exists');
     	}
 
-		if ((mb_strlen($data['telephone']) < 3) || (mb_strlen($data['telephone']) > 32)) {
+		if ( mb_strlen($data['telephone']) > 32 ) {
 			$error['telephone'] = $this->language->get('error_telephone');
 		}
 
@@ -446,10 +458,10 @@ class ModelAccountCustomer extends Model {
 			t.debit, 
 			t.transaction_type, 
 			t.description, 
-			t.create_date 
+			t.date_added 
 			FROM `" . $this->db->table("customer_transactions") . "` t 
 			WHERE customer_id = '" . (int)$this->customer->getId() . "' 
-			ORDER BY t.create_date DESC LIMIT " . (int)$start . "," . (int)$limit);
+			ORDER BY t.date_added DESC LIMIT " . (int)$start . "," . (int)$limit);
 	
 		return $query->rows;
 	}

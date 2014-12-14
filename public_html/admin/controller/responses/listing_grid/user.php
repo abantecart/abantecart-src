@@ -102,7 +102,7 @@ class ControllerResponsesListingGridUser extends AController {
 				foreach( $ids as $id ) {
 					if ($this->user->getId() == $id) {
 						$this->response->setOutput( $this->language->get('error_account'));
-						return;
+						return null;
 					}
 					$this->model_user_user->deleteUser($id);
 				}
@@ -151,7 +151,7 @@ class ControllerResponsesListingGridUser extends AController {
 				$data = array( $key => $value );
 				$this->model_user_user->editUser($this->request->get['id'], $data);
 			}
-		    return;
+		    return null;
 	    }
 
 	    //request sent from jGrid. ID is key of array
@@ -166,4 +166,3 @@ class ControllerResponsesListingGridUser extends AController {
 	}
 
 }
-?>

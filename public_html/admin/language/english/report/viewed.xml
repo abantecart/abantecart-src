@@ -9,6 +9,10 @@
     <value><![CDATA[Success: You have reset the product viewed report!]]></value>
   </definition>
   <definition>
+    <key>column_product_id</key>
+    <value><![CDATA[Product ID]]></value>
+  </definition>
+  <definition>
     <key>column_name</key>
     <value><![CDATA[Product Name]]></value>
   </definition>

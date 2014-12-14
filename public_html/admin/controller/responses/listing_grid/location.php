@@ -21,7 +21,6 @@ if (! defined ( 'DIR_CORE' ) || !IS_ADMIN) {
 	header ( 'Location: static_pages/' );
 }
 class ControllerResponsesListingGridLocation extends AController {
-	private $error = array();
 
     public function main() {
 
@@ -84,8 +83,8 @@ class ControllerResponsesListingGridLocation extends AController {
 				foreach( $ids as $id ) {
 					$err = $this->_validateDelete($id);
 					if (!empty($err)) {
-						$dd = new ADispatcher('responses/error/ajaxerror/validation',array('error_text'=>$err));
-						return $dd->dispatch();
+						$error = new AError('');
+						return $error->toJSONResponse('VALIDATION_ERROR_406', array( 'error_text' => $err ));
 					}
 					$this->model_localisation_location->deleteLocation($id);
 				}
@@ -99,8 +98,8 @@ class ControllerResponsesListingGridLocation extends AController {
 						if ( isset($this->request->post[$f][$id]) ) {
 							$err = $this->_validateField($f, $this->request->post[$f][$id]);
 							if ( !empty($err) ) {
-								$dd = new ADispatcher('responses/error/ajaxerror/validation',array('error_text'=>$err));
-								return $dd->dispatch();
+								$error = new AError('');
+								return $error->toJSONResponse('VALIDATION_ERROR_406', array( 'error_text' => $err ));
 							}
 							$this->model_localisation_location->editLocation($id, array($f => $this->request->post[$f][$id]) );
 						}
@@ -143,13 +142,13 @@ class ControllerResponsesListingGridLocation extends AController {
 		    foreach ($this->request->post as $key => $value ) {
 				$err = $this->_validateField($key, $value);
 			    if ( !empty($err) ) {
-					$dd = new ADispatcher('responses/error/ajaxerror/validation',array('error_text'=>$err));
-					return $dd->dispatch();
+				    $error = new AError('');
+				    return $error->toJSONResponse('VALIDATION_ERROR_406', array( 'error_text' => $err ));
 			    }
 			    $data = array( $key => $value );
 				$this->model_localisation_location->editLocation($this->request->get['id'], $data);
 			}
-		    return;
+		    return null;
 	    }
 
 	    //request sent from jGrid. ID is key of array
@@ -159,8 +158,8 @@ class ControllerResponsesListingGridLocation extends AController {
 			foreach ( $this->request->post[$f] as $k => $v ) {
 				$err = $this->_validateField($f, $v);
 				if ( !empty($err) ) {
-					$dd = new ADispatcher('responses/error/ajaxerror/validation',array('error_text'=>$err));
-					return $dd->dispatch();
+					$error = new AError('');
+					return $error->toJSONResponse('VALIDATION_ERROR_406', array( 'error_text' => $err ));
 				}
 				$this->model_localisation_location->editLocation($k, array($f => $v) );
 			}
@@ -195,13 +194,13 @@ class ControllerResponsesListingGridLocation extends AController {
 		    foreach ($this->request->post as $key => $value ) {
 				$err = $this->_validateField($key, $value);
 			    if ( !empty($err) ) {
-					$dd = new ADispatcher('responses/error/ajaxerror/validation',array('error_text'=>$err));
-					return $dd->dispatch();
+				    $error = new AError('');
+				    return $error->toJSONResponse('VALIDATION_ERROR_406', array( 'error_text' => $err ));
 			    }
 			    $data = array( $key => $value );
 				$this->model_localisation_location->editLocationZone($this->request->get['id'], $data);
 			}
-		    return;
+		    return null;
 	    }
 
 	    //update controller data
@@ -212,12 +211,12 @@ class ControllerResponsesListingGridLocation extends AController {
 		$err = '';
 		switch( $field ) {
 			case 'name' :
-				if ((strlen(utf8_decode($value)) < 2) || (strlen(utf8_decode($value)) > 32))  {
+				if ( mb_strlen($value) < 2 || mb_strlen($value) > 32 )  {
 					$err = $this->language->get('error_name');
 				}
 				break;
 			case 'description' :
-				if ((strlen(utf8_decode($value)) < 2) || (strlen(utf8_decode($value)) > 32))  {
+				if ( mb_strlen($value) < 2 || mb_strlen($value) > 32 )  {
 					$err = $this->language->get('error_description');
 				}
 				break;
@@ -236,4 +235,3 @@ class ControllerResponsesListingGridLocation extends AController {
 	}
 
 }
-?>

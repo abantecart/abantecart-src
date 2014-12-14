@@ -30,7 +30,7 @@ class ControllerApiProductRelated extends AControllerAPI {
 		if ( !$product_id ) {
 			$this->rest->setResponseData( array('Error' => 'Missing product ID as a required parameter') );
 			$this->rest->sendResponse( 200);
-			return;
+			return null;
 		}
 
 		$products = array();

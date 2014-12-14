@@ -24,8 +24,8 @@ class ModelCheckoutExtension extends Model {
 	public function getExtensions($type, $sort_order = '') {
 		$output = array();
 		$query = $this->db->query("SELECT e.*, s.value as status
-									FROM " . DB_PREFIX . "extensions e
-									LEFT JOIN " . DB_PREFIX . "settings s ON ( TRIM(s.`group`) = TRIM(e.`key`) AND TRIM(s.`key`) = CONCAT(TRIM(e.`key`),'_status') )
+									FROM " . $this->db->table("extensions") . " e
+									LEFT JOIN " . $this->db->table("settings") . " s ON ( TRIM(s.`group`) = TRIM(e.`key`) AND TRIM(s.`key`) = CONCAT(TRIM(e.`key`),'_status') )
 									WHERE e.`type` = '" . $this->db->escape($type) . "'
 										AND s.`value`='1' AND s.store_id = '".$this->config->get('config_store_id')."'");
 		if($query->rows){
@@ -49,8 +49,8 @@ class ModelCheckoutExtension extends Model {
 		$extension_data = array();
 		
 		$query = $this->db->query("SELECT e.*, s.value as status
-									FROM " . DB_PREFIX . "extensions e
-									LEFT JOIN " . DB_PREFIX . "settings s ON ( TRIM(s.`group`) = TRIM(e.`key`) AND TRIM(s.`key`) = CONCAT(TRIM(e.`key`),'_status') )
+									FROM " . $this->db->table("extensions") . " e
+									LEFT JOIN " . $this->db->table("settings") . " s ON ( TRIM(s.`group`) = TRIM(e.`key`) AND TRIM(s.`key`) = CONCAT(TRIM(e.`key`),'_status') )
 									WHERE e.`type` = '" . $this->db->escape($type) . "'
 										AND s.`value`='1' AND s.store_id = '".$this->config->get('config_store_id')."'");
 		
@@ -83,7 +83,7 @@ class ModelCheckoutExtension extends Model {
 
 		$query = $this->db->query(
 			"SELECT *
-			FROM " . DB_PREFIX . "settings
+			FROM " . $this->db->table("settings") . " 
 			WHERE `group` = '" . $this->db->escape($extension_name) . "'
 					AND store_id = '".(int)$store_id."'" );
 		foreach ($query->rows as $result) {
@@ -106,7 +106,7 @@ class ModelCheckoutExtension extends Model {
 		} 
 		
 		$resource = new AResource('image');
-		if (is_integer($rl_image)) {
+		if (is_numeric($rl_image)) {
 		    // consider this is a pure image resource ID 
 		    $image_data = $resource->getResource( $rl_image );
 		} else {

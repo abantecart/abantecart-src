@@ -131,8 +131,8 @@ class ControllerResponsesListingGridCurrency extends AController {
 						}
 
 						if (!empty($err)) {
-							$dd = new ADispatcher('responses/error/ajaxerror/validation', array( 'error_text' => $err ));
-							return $dd->dispatch();
+							$error = new AError('');
+							return $error->toJSONResponse('VALIDATION_ERROR_406', array( 'error_text' => $err ));
 						}
 
 						$this->model_localisation_currency->deleteCurrency($id);
@@ -151,8 +151,8 @@ class ControllerResponsesListingGridCurrency extends AController {
 							if (isset($this->request->post[ $f ][ $id ])) {
 								$err = $this->_validateField($f, $this->request->post[ $f ][ $id ]);
 								if (!empty($err)) {
-									$dd = new ADispatcher('responses/error/ajaxerror/validation', array( 'error_text' => $err ));
-									return $dd->dispatch();
+									$error = new AError('');
+									return $error->toJSONResponse('VALIDATION_ERROR_406', array( 'error_text' => $err ));
 								}
 								$this->model_localisation_currency->editCurrency($id, array( $f => $this->request->post[ $f ][ $id ] ));
 							}
@@ -195,13 +195,13 @@ class ControllerResponsesListingGridCurrency extends AController {
 			foreach ($this->request->post as $key => $value) {
 				$err = $this->_validateField($key, $value);
 				if (!empty($err)) {
-					$dd = new ADispatcher('responses/error/ajaxerror/validation', array( 'error_text' => $err ));
-					return $dd->dispatch();
+					$error = new AError('');
+					return $error->toJSONResponse('VALIDATION_ERROR_406', array( 'error_text' => $err ));
 				}
 				$data = array( $key => $value );
 				$this->model_localisation_currency->editCurrency($this->request->get[ 'id' ], $data);
 			}
-			return;
+			return null;
 		}
 
 		//request sent from jGrid. ID is key of array
@@ -211,8 +211,8 @@ class ControllerResponsesListingGridCurrency extends AController {
 				foreach ($this->request->post[ $f ] as $k => $v) {
 					$err = $this->_validateField($f, $v);
 					if (!empty($err)) {
-						$dd = new ADispatcher('responses/error/ajaxerror/validation', array( 'error_text' => $err ));
-						return $dd->dispatch();
+						$error = new AError('');
+						return $error->toJSONResponse('VALIDATION_ERROR_406', array( 'error_text' => $err ));
 					}
 					$result = $this->model_localisation_currency->editCurrency($k, array( $f => $v ));
 					if (!$result) {
@@ -220,7 +220,7 @@ class ControllerResponsesListingGridCurrency extends AController {
 							$this->messages->saveNotice('Currency warning', 'Warning: You tried to disable the only enabled currency of cart!');
 						}
 						$this->response->setOutput('error!');
-						return;
+						return null;
 					}
 				}
 		}
@@ -233,12 +233,12 @@ class ControllerResponsesListingGridCurrency extends AController {
 		$err = '';
 		switch ($field) {
 			case 'title':
-				if ((strlen(utf8_decode($value)) < 2) || (strlen(utf8_decode($value)) > 32)) {
+				if ( mb_strlen($value) < 2  || mb_strlen($value) > 32 ) {
 					$err = $this->language->get('error_title');
 				}
 				break;
 			case 'code':
-				if (strlen(utf8_decode($value)) != 3) {
+				if ( mb_strlen($value) != 3 ) {
 					$err = $this->language->get('error_code');
 				}
 				break;

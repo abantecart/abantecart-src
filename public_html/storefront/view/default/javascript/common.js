@@ -1,6 +1,32 @@
 $(document).ready(function() {
 	route = getURLVar('rt');
 
+	//submit search
+	$('#search_form').submit(function() {
+		return search_submit();
+	});
+	$('.icon-search').click(function() {
+		return search_submit();
+	});
+		
+    $('#search-category li').click(function(e){
+        var cat_id = $(this).find('a').attr('id').replace('category_','0,');
+        $('#filter_category_id').val(cat_id);
+        $('#category_selected').hide().fadeIn('slow');
+        $('#category_selected').html($(this).find('a').html());
+        e.stopPropagation();
+        $('#filter_keyword').focus();
+    });
+
+    //put submited or clicked button to loading state   
+    $('.lock-on-click').each(function () {
+    	$btn = $(this);
+    	$btn.attr('data-loading-text',"<i class='fa fa-refresh fa-spin fa-fw'></i>");
+    	$btn.bind('click', function () {
+    		$(this).button('loading');  
+    	});
+    });
+    
 	if (!route) {
 		$('#tab_home').addClass('selected');
 	} else {
@@ -28,13 +54,7 @@ $(document).ready(function() {
         $(this).find('.option').slideUp('fast');
     });
 
-    $('#search input').keydown(function(e) {
-        if (e.keyCode == 13) {
-            goSearch();
-        }
-    });
-
-	$docW = parseInt($(document).width());
+ 	$docW = parseInt($(document).width());
 	$('.postit_icon').click(function(){
 		pos = $(this).siblings('.postit_notes').offset();
 		width = $(this).siblings('.postit_notes').width();
@@ -42,26 +62,64 @@ $(document).ready(function() {
 			$(this).siblings('.postit_notes').css('right', '30px');
 		}
 	});
+	
+	$('.nav-dash a').hover(function() {
+		$(this).tooltip('show');
+	});
+
+    $('#footer').ajaxError(function(e, jqXHR, settings, exception){
+        try{
+            var error_msg = $.parseJSON(jqXHR.responseText);
+            var error_text = 'Unknown AJAX Error!'
+            if (error_msg) {
+                error_text = error_msg.error;
+            }
+
+            error_text = '<div class="alert alert-error alert-danger">' + error_text + '</div>';
+            //show error message
+            if(error_text.length>0){
+                showMsg( 'AJAX Error', error_text, function () { } );
+            }
+        }catch(e){}
+
+    });	
 });
 
-
-function goSearch() {
+//function to load modal for messages #msgModal
+// 1. header 2. Message body, 3. on close callback function 
+showMsg = function (header, body, callback) {
+  $('#msgModal').modal({
+	    backdrop: false,
+	    show: false,
+	    keyboard: false
+	})
+    .find('.modal-header > h3').text(header).end()
+    .find('.modal-body').html(body).end()
+    .find('.callback-btn').off('click.callback')
+      .on('click.callback', callback).end()
+    .modal('show');
+};   
+	
+function search_submit () {
 	url = 'index.php?rt=product/search';
-
-	var filter_keyword = $('#filter_keyword').attr('value')
-
+	
+	var filter_keyword = $('#filter_keyword').val();
+	
 	if (filter_keyword) {
-		url += '&keyword=' + encodeURIComponent(filter_keyword);
+	    url += '&keyword=' + encodeURIComponent(filter_keyword);
 	}
-
+	
 	var filter_category_id = $('#filter_category_id').attr('value');
-
+	
 	if (filter_category_id) {
-		url += '&category_id=' + filter_category_id;
+	    url += '&category_id=' + filter_category_id;
 	}
-
+	
 	location = url;
+	
+	return false;
 }
+
 
 function bookmark(url, title) {
     if(window.sidebar){
@@ -96,25 +154,6 @@ function getURLVar(urlVarName) {
 	return urlVarValue;
 }
 
-jQuery(function($){
-    $('#footer').ajaxError(function(e, jqXHR, settings, exception){
-        var error_msg = $.parseJSON(jqXHR.responseText);
-        var error_text = 'Unknown Error!'
-        if (error_msg) {
-        	error_text = error_msg.error;
-        } 
-        $('#ajax_error').remove();
-        var error_box = $('<div id="ajax_error"><a href="#TB_inline?height=115&width=300&inlineId=hiddenModalContent&modal=true" class="thickbox"></a></div>')
-            .css('display','none');
-        $('#footer').after(error_box);
-        var $dialog = $('<div id="hiddenModalContent"></div>')
-            .html('<div style="text-align: center;"><b>' + exception + '</b><br/><br/>' + error_text + '<p><input type="button" onclick="tb_remove()" value="  Ok  "></p></div>')
-            .css({'display':'none'});
-        $('#ajax_error a').after($dialog);
-        tb_init('#ajax_error a.thickbox');
-        $('#ajax_error a').click();
-
-
-
-    });
-});
+function goTo(url, params) {
+    location = url + '&' + params;
+}

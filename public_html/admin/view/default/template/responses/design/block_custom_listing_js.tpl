@@ -1,7 +1,7 @@
 <script type="text/javascript">
 	jQuery('#<?php echo $table_id;?>').setGridParam({
 			'onSelectRow':function(id, status){
-							var inputname = '#sort_order\\\['+id+'\\\]';
+							var inputname = '#sort_order'+id;
 							if(status){
 								$('#jqg_<?php echo $table_id;?>_'+id).parents('.afield').addClass($.aform.defaults.checkedClass);
 								$(inputname).removeProp('disabled');
@@ -35,7 +35,7 @@
 	});
 
 	function write_sorting(id){
-		var inputname = '#sort_order\\\['+id+'\\\]';
+		var inputname = '#sort_order'+id';
 		var sorting = $(inputname).val() ? $(inputname).val() : 0;
 		var tmp = jQuery.parseJSON($('#<?php echo $form_name; ?>_popup_buffer').html());
 		if(!tmp[id]){

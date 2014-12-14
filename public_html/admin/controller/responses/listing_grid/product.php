@@ -44,19 +44,20 @@ class ControllerResponsesListingGridProduct extends AController {
 
 		//Prepare filter config
 		$filter_params = array( 'category', 'status', 'keyword', 'match', 'pfrom', 'pto' );
-		$grid_filter_params = array( 'name', 'sort_order', 'model', 'quantity' );
+		$grid_filter_params = array( 'name', 'sort_order', 'model' );
 
 		$filter_form = new AFilter(array( 'method' => 'get', 'filter_params' => $filter_params ));
 		$filter_grid = new AFilter(array( 'method' => 'post', 'grid_filter_params' => $grid_filter_params ));
+		$data = array_merge($filter_form->getFilterData(), $filter_grid->getFilterData());
 
-		$total = $this->model_catalog_product->getTotalProducts(array_merge($filter_form->getFilterData(), $filter_grid->getFilterData()));
+		$total = $this->model_catalog_product->getTotalProducts($data);
 		$response = new stdClass();
 		$response->page = $filter_grid->getParam('page');
 		$response->total = $filter_grid->calcTotalPages($total);
 		$response->records = $total;
 		$response->userdata = new stdClass();
 		$response->userdata->classes = array();
-		$results = $this->model_catalog_product->getProducts(array_merge($filter_form->getFilterData(), $filter_grid->getFilterData()));
+		$results = $this->model_catalog_product->getProducts($data);
 
 		$resource = new AResource('image');
 		$i = 0;
@@ -137,8 +138,8 @@ class ControllerResponsesListingGridProduct extends AController {
 					foreach ($ids as $id) {
 						$err = $this->_validateDelete($id);
 						if (!empty($err)) {
-							$dd = new ADispatcher('responses/error/ajaxerror/validation', array( 'error_text' => $err ));
-							return $dd->dispatch();
+							$error = new AError('');
+							return $error->toJSONResponse('VALIDATION_ERROR_406', array( 'error_text' => $err ));
 						}
 
 						$this->model_catalog_product->deleteProduct($id);
@@ -157,8 +158,8 @@ class ControllerResponsesListingGridProduct extends AController {
 							if (isset($this->request->post[ $f ][ $id ])) {
 								$err = $this->_validateField($f, $this->request->post[ $f ][ $id ]);
 								if (!empty($err)) {
-									$dd = new ADispatcher('responses/error/ajaxerror/validation', array( 'error_text' => $err ));
-									return $dd->dispatch();
+									$error = new AError('');
+									return $error->toJSONResponse('VALIDATION_ERROR_406', array( 'error_text' => $err ));
 								}
 								$this->model_catalog_product->updateProduct($id, array( $f => $this->request->post[ $f ][ $id ] ));
 							}
@@ -202,8 +203,8 @@ class ControllerResponsesListingGridProduct extends AController {
 			foreach ($this->request->post as $key => $value) {
 				$err = $this->_validateField($key, $value);
 				if (!empty($err)) {
-					$dd = new ADispatcher('responses/error/ajaxerror/validation', array( 'error_text' => $err ));
-					return $dd->dispatch();
+					$error = new AError('');
+					return $error->toJSONResponse('VALIDATION_ERROR_406', array( 'error_text' => $err ));
 				}
                 if($key=='date_available'){
                     $value = dateDisplay2ISO($value);
@@ -222,8 +223,8 @@ class ControllerResponsesListingGridProduct extends AController {
 				foreach ($this->request->post[ $f ] as $k => $v) {
 					$err = $this->_validateField($f, $v);
 					if (!empty($err)) {
-						$dd = new ADispatcher('responses/error/ajaxerror/validation', array( 'error_text' => $err ));
-						return $dd->dispatch();
+						$error = new AError('');
+						return $error->toJSONResponse('VALIDATION_ERROR_406', array( 'error_text' => $err ));
 					}
 					$this->model_catalog_product->updateProduct($k, array( $f => $v ));
 				}
@@ -324,14 +325,23 @@ class ControllerResponsesListingGridProduct extends AController {
 				if (isset($value[ 'name' ]) && ((mb_strlen($value[ 'name' ]) < 1) || (mb_strlen($value[ 'name' ]) > 255))) {
 					$err = $this->language->get('error_name');
 				}
-				break;
+				break;				
 			case 'model' :
-				if ((mb_strlen($value) < 1) || (mb_strlen($value) > 64)) {
+				if (mb_strlen($value) > 64) {
 					$err = $this->language->get('error_model');
 				}
 				break;
 			case 'keyword' :
 				$err = $this->html->isSEOkeywordExists('product_id='.$this->request->get['id'], $value);
+				break;
+			case 'length' :
+			case 'width'  :
+			case 'height' :
+			case 'weight' :
+				$v =  preformatFloat(abs($value), $this->language->get('decimal_point'));
+				if($v>=1000){
+					$err = $this->language->get('error_measure_value');
+				}
 				break;
 		}
 		return $err;

@@ -68,7 +68,7 @@
   </definition>
   <definition>
     <key>error_required_data_missing</key>
-    <value><![CDATA[Missing required data field(s). Please check provided vaules]]></value>
+    <value><![CDATA[Missing required data field(s). Please check provided values]]></value>
   </definition>
   <definition>
     <key>entry_key_name</key>

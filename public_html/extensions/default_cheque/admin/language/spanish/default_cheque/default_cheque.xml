@@ -14,7 +14,11 @@
 	</definition>
 	<definition>
 		<key>default_cheque_payable</key>
-		<value><![CDATA[Pagable a:]]></value>
+		<value><![CDATA[Pagable a:<span class="help">Proporcionar verificación del nombre debe ser escrito a</span>]]></value>
+	</definition>
+	<definition>
+		<key>default_cheque_address</key>
+		<value><![CDATA[Correo o Enviar a:<br /><span class="help">Proporcionar dirección donde enviar el cheque. Dirección de la tienda principal será usada en blanco</span>]]></value>
 	</definition>
 	<definition>
 		<key>default_cheque_order_status_id</key>

@@ -22,7 +22,7 @@ if (!defined('DIR_CORE') || !IS_ADMIN) {
 }
 class ControllerPagesLocalisationTaxClass extends AController {
     public $data = array();
-    private $error = array();
+    public $error = array();
 
     public function main() {
 
@@ -45,7 +45,8 @@ class ControllerPagesLocalisationTaxClass extends AController {
         $this->document->addBreadcrumb(array(
             'href' => $this->html->getSecureURL('localisation/tax_class'),
             'text' => $this->language->get('heading_title'),
-            'separator' => ' :: '
+            'separator' => ' :: ',
+			'current'	=> true
         ));
 
         $grid_settings = array(
@@ -77,7 +78,7 @@ class ControllerPagesLocalisationTaxClass extends AController {
                 'name' => 'title',
                 'index' => 'title',
                 'width' => 600,
-                'align' => 'center',
+                'align' => 'left',
             ),
         );
 
@@ -101,7 +102,7 @@ class ControllerPagesLocalisationTaxClass extends AController {
 
         $this->document->setTitle($this->language->get('heading_title'));
 
-        if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->_validateForm()) {
+        if ( $this->request->is_POST() && $this->_validateForm()) {
             $tax_class_id = $this->model_localisation_tax_class->addTaxClass($this->request->post);
             $this->session->data['success'] = $this->language->get('text_success');
             $this->redirect($this->html->getSecureURL('localisation/tax_class/insert_rates', '&tax_class_id=' . $tax_class_id));
@@ -124,7 +125,7 @@ class ControllerPagesLocalisationTaxClass extends AController {
 
         $this->document->setTitle($this->language->get('heading_title'));
 
-        if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->_validateForm()) {
+        if ( $this->request->is_POST() && $this->_validateForm()) {
             $this->model_localisation_tax_class->editTaxClass($this->request->get['tax_class_id'], $this->request->post);
             $this->session->data['success'] = $this->language->get('text_success');
             $this->redirect($this->html->getSecureURL('localisation/tax_class/update', '&tax_class_id=' . $this->request->get['tax_class_id']));
@@ -140,7 +141,6 @@ class ControllerPagesLocalisationTaxClass extends AController {
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
 
-        $this->document->setTitle($this->language->get('heading_title'));
 
         $tax_class_info = $this->model_localisation_tax_class->getTaxClass($this->request->get['tax_class_id']);
 
@@ -162,6 +162,8 @@ class ControllerPagesLocalisationTaxClass extends AController {
         ));
         
         $tax_title = $tax_class_info['tax_class'][$this->session->data['content_language_id']]['title'];
+		$this->document->setTitle( $this->language->get('text_edit') . $this->language->get('text_class') . ' - ' . $tax_title );
+
         $this->document->addBreadcrumb(array(
             'href' => $this->html->getSecureURL('localisation/tax_class/update', '&tax_class_id=' . $this->request->get['tax_class_id']),
             'text' => $this->language->get('text_edit') . $this->language->get('text_class') . ' - ' . $tax_title,
@@ -170,42 +172,85 @@ class ControllerPagesLocalisationTaxClass extends AController {
         $this->document->addBreadcrumb(array(
             'href' => $this->html->getSecureURL('localisation/tax_class/rates', '&tax_class_id=' . $this->request->get['tax_class_id']),
             'text' => $this->language->get('tab_rates'),
-            'separator' => ' :: '
+            'separator' => ' :: ',
+            'current'	=> true
         ));
 
 
-        $this->data = array();
-        $this->data['heading_title'] = $this->language->get('text_edit') . $this->language->get('text_class') . ' - ' . $tax_title;
-        $this->data['error'] = $this->error;
-        $this->data['tax_rates'] = $this->model_localisation_tax_class->getTaxRates($this->request->get['tax_class_id']);
-        $this->data['insert_rate'] = $this->html->getSecureURL('localisation/tax_class/insert_rates', '&tax_class_id=' . $this->request->get['tax_class_id']);
-        $this->data['delete_rate'] = $this->html->getSecureURL('localisation/tax_class/delete_rates', '&tax_class_id=' . $this->request->get['tax_class_id'] . '&tax_rate_id=%ID%');
-        $this->data['update_rate'] = $this->html->getSecureURL('localisation/tax_class/update_rates', '&tax_class_id=' . $this->request->get['tax_class_id'] . '&tax_rate_id=%ID%');
+        $this->data['insert'] = $this->html->getSecureURL('localisation/tax_class/insert_rates', '&tax_class_id=' . $this->request->get['tax_class_id']);
 
-        $this->data['rates'] = $this->html->getSecureURL('localisation/tax_class/rates', '&tax_class_id=' . $this->request->get['tax_class_id']);
-        $this->data['action'] = $this->html->getSecureURL('localisation/tax_class/update', '&tax_class_id=' . $this->request->get['tax_class_id']);
-        $this->data['active'] = 'rates';
+		$grid_settings = array(
+					//id of grid
+		            'table_id' => 'tax_rates_grid',
+		            // url to load data from
+					'url' => $this->html->getSecureURL('listing_grid/tax_class/tax_rates','&tax_class_id=' . $this->request->get['tax_class_id']),
+		            // default sort column
+					'sortname' => 'entry_location',
+					'columns_search' => false,
+					'multiselect' => 'false',
+					'actions' => array(
+						'edit' => array(
+							'text' => $this->language->get('text_edit'),
+							'href' => $this->html->getSecureURL('localisation/tax_class/update_rates',
+																'&tax_class_id=' . $this->request->get['tax_class_id'] . '&tax_rate_id=%ID%')
+						),
+						'delete' => array(
+							'text' => $this->language->get('button_delete'),
+							'href' => $this->html->getSecureURL('localisation/tax_class/delete_rates',
+																'&tax_class_id=' . $this->request->get['tax_class_id'] . '&tax_rate_id=%ID%')
 
-        $this->loadModel('localisation/location');
-        $this->loadModel('localisation/zone');
-        $results = $this->model_localisation_location->getLocations();
+						),
+					),
+				);
 
-        $rates = $this->data['zones'] = $this->data['locations'] = array();
-        $this->data['zones'][0] = $this->language->get('text_tax_all_zones');
-        foreach ($this->data['tax_rates'] as $rate) {
-            $rates[] = $rate['location_id'];
-        }
+		$grid_settings['colNames'] = array(
+			$this->language->get('entry_location'),
+			$this->language->get('entry_zone'),
+			$this->language->get('entry_description'),
+			$this->language->get('entry_rate'),
+			$this->language->get('entry_priority'),
+		);
 
-        foreach ($results as $c) {
-            if (in_array($c['location_id'], $rates)) {
-                $this->data['locations'][$c['location_id']] = $c['name'];
-                $tmp = $this->model_localisation_zone->getZonesByLocationId($c['location_id']);
-                foreach ($tmp as $zone) {
-                    $this->data['zones'][$zone['zone_id']] = $zone['name'];
-                }
-            }
-        }
-        unset($results, $tmp);
+		$grid_settings['colModel'] = array(
+			array(
+				'name' => 'location',
+				'index' => 'location',
+				'width' => 150,
+				'align' => 'left',
+				'sortable' => false,
+			),
+			array(
+				'name' => 'zone',
+				'index' => 'zone',
+				'width' => 150,
+				'align' => 'left',
+				'sortable' => false,
+			),
+			array(
+				'name' => 'description',
+				'index' => 'description',
+				'width' => 200,
+				'align' => 'left',
+				'sortable' => false,
+			),
+			array(
+				'name' => 'rate',
+				'index' => 'rate',
+				'width' => 60,
+				'align' => 'center',
+				'sortable' => false,
+			),
+			array(
+				'name' => 'priority',
+				'index' => 'priority',
+				'width' => 50,
+				'align' => 'center',
+				'sortable' => false,
+			),
+		);
+
+		$grid = $this->dispatch('common/listing_grid', array( $grid_settings ) );
+		$this->view->assign('listing_grid', $grid->dispatchGetOutput());
 
 		$this->view->assign('form_language_switch', $this->html->getContentLanguageSwitcher());
         $this->view->assign('help_url', $this->gen_help_url('rates_listing'));
@@ -223,7 +268,7 @@ class ControllerPagesLocalisationTaxClass extends AController {
 
         $this->document->setTitle($this->language->get('heading_title'));
 
-        if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->_validateRateForm()) {
+        if ( $this->request->is_POST() && $this->_validateRateForm() ) {
             $tax_rate_id = $this->model_localisation_tax_class->addTaxRate($this->request->get['tax_class_id'], $this->request->post);
             $this->session->data['success'] = $this->language->get('text_success');
             $this->redirect($this->html->getSecureURL('localisation/tax_class/rates', '&tax_class_id=' . $this->request->get['tax_class_id'] . '&tax_rate_id=' . $tax_rate_id));
@@ -246,7 +291,7 @@ class ControllerPagesLocalisationTaxClass extends AController {
 
         $this->document->setTitle($this->language->get('heading_title'));
 
-        if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->_validateRateForm()) {
+        if ( $this->request->is_POST() && $this->_validateRateForm() ) {
             $this->model_localisation_tax_class->editTaxRate($this->request->get['tax_rate_id'], $this->request->post);
             $this->session->data['success'] = $this->language->get('text_success');
             $this->redirect($this->html->getSecureURL('localisation/tax_class/rates', '&tax_class_id=' . $this->request->get['tax_class_id'] . '&tax_rate_id=' . $this->request->get['tax_rate_id']));
@@ -272,11 +317,19 @@ class ControllerPagesLocalisationTaxClass extends AController {
 
     private function _getRatesForm() {
 
-        $tax_class_info = $this->model_localisation_tax_class->getTaxClass($this->request->get['tax_class_id']);
+		$tax_class_id = (int)$this->request->get['tax_class_id'];
+
+		if(!$tax_class_id){
+			$this->redirect($this->html->getSecureURL('localisation/tax_class'));
+		}
+
+		$tax_rate_id = (int)$this->request->get['tax_rate_id'];
+
+        $tax_class_info = $this->model_localisation_tax_class->getTaxClass($tax_class_id);
 
         $this->data = array();
         $this->data['error'] = $this->error;
-        $this->data['cancel'] = $this->html->getSecureURL('localisation/tax_class/rates', '&tax_class_id=' . $this->request->get['tax_class_id']);
+        $this->data['cancel'] = $this->html->getSecureURL('localisation/tax_class/rates', '&tax_class_id=' . $tax_class_id);
 
 
 	    if (isset($this->session->data['success'])) {
@@ -296,19 +349,19 @@ class ControllerPagesLocalisationTaxClass extends AController {
         ));
         $tax_title = $tax_class_info['tax_class'][$this->session->data['content_language_id']]['title'];
         $this->document->addBreadcrumb(array(
-            'href' => $this->html->getSecureURL('localisation/tax_class/update', '&tax_class_id=' . $this->request->get['tax_class_id']),
+            'href' => $this->html->getSecureURL('localisation/tax_class/update', '&tax_class_id=' . $tax_class_id),
             'text' => $this->language->get('text_edit') . $this->language->get('text_class') . ' - ' . $tax_title,
             'separator' => ' :: '
         ));
         $this->document->addBreadcrumb(array(
-            'href' => $this->html->getSecureURL('localisation/tax_class/rates', '&tax_class_id=' . $this->request->get['tax_class_id']),
+            'href' => $this->html->getSecureURL('localisation/tax_class/rates', '&tax_class_id=' . $tax_class_id),
             'text' => $this->language->get('tab_rates'),
             'separator' => ' :: '
         ));
 
 
-        if (isset($this->request->get['tax_rate_id']) && ($this->request->server['REQUEST_METHOD'] != 'POST')) {
-            $rate_info = $this->model_localisation_tax_class->getTaxRate($this->request->get['tax_rate_id']);
+        if ($tax_rate_id && $this->request->is_GET() ) {
+            $rate_info = $this->model_localisation_tax_class->getTaxRate($tax_rate_id);
         }
 
         $fields = array('location_id', 'zone_id', 'rate', 'priority', 'rate_prefix', 'threshold_condition', 'threshold');
@@ -350,27 +403,29 @@ class ControllerPagesLocalisationTaxClass extends AController {
             }
         }
         $this->loadLanguage('localisation/zone');
-        $this->data['active'] = 'rates';
-        $this->data['rates'] = $this->html->getSecureURL('localisation/tax_class/rates', '&tax_class_id=' . $this->request->get['tax_class_id']);
+		$this->_initTabs('rates');
 
-        if (!isset($this->request->get['tax_rate_id'])) {
-            $form_action = $this->html->getSecureURL('localisation/tax_class/insert_rates', '&tax_class_id=' . $this->request->get['tax_class_id']);
+        $this->data['rates'] = $this->html->getSecureURL('localisation/tax_class/rates', '&tax_class_id=' . $tax_class_id);
+
+        if (!$tax_rate_id) {
+            $form_action = $this->html->getSecureURL('localisation/tax_class/insert_rates', '&tax_class_id=' . $tax_class_id);
             $this->data['heading_title'] = $this->language->get('text_edit') . $this->language->get('text_class') . ' - ' . $tax_title;
             $this->data['form_title'] = $this->language->get('text_insert') . $this->language->get('text_rate');
             $this->data['update'] = '';
             $form = new AForm('ST');
         } else {
-            $form_action = $this->html->getSecureURL('localisation/tax_class/update_rates', '&tax_class_id=' . $this->request->get['tax_class_id'] . '&tax_rate_id=' . $this->request->get['tax_rate_id']);
+            $form_action = $this->html->getSecureURL('localisation/tax_class/update_rates', '&tax_class_id=' . $tax_class_id . '&tax_rate_id=' . $tax_rate_id);
             $this->data['heading_title'] = $this->language->get('text_edit') . $this->language->get('text_class') . ' - ' . $tax_title;
             $this->data['form_title'] = $this->language->get('text_edit') . $this->language->get('text_rate');
-            $this->data['update'] = $this->html->getSecureURL('listing_grid/tax_class/update_rate_field', '&id=' . $this->request->get['tax_rate_id']);
+            $this->data['update'] = $this->html->getSecureURL('listing_grid/tax_class/update_rate_field', '&id=' . $tax_rate_id);
             $form = new AForm('ST');
         }
-        $this->data['action'] = $this->html->getSecureURL('localisation/tax_class/update', '&tax_class_id=' . $this->request->get['tax_class_id']);
+        $this->data['action'] = $this->html->getSecureURL('localisation/tax_class/update', '&tax_class_id=' . $tax_class_id);
         $this->document->addBreadcrumb(array(
             'href' => $this->data['action'],
             'text' => $this->data['form_title'],
-            'separator' => ' :: '
+            'separator' => ' :: ',
+			'current'	=> true
         ));
         $this->data['common_zone'] = $this->html->getSecureURL('common/zone');
         $form->setForm(array(
@@ -383,7 +438,9 @@ class ControllerPagesLocalisationTaxClass extends AController {
             'type' => 'form',
             'name' => 'cgFrm',
             'action' => $form_action,
+			'attr' => 'data-confirm-exit="true" class="aform form-horizontal"',
         ));
+
         $this->data['form']['submit'] = $form->getFieldHtml(array(
             'type' => 'button',
             'name' => 'submit',
@@ -403,21 +460,21 @@ class ControllerPagesLocalisationTaxClass extends AController {
             'value' => $this->data['location_id'],
             'options' => $this->data['locations'],
         ));
-        $this->data['form']['fields']['zone'] = $form->getFieldHtml(array(
+        $this->data['form']['fields']['all_zones'] = $form->getFieldHtml(array(
             'name' => 'all_zones',
             'type' => 'checkbox',
             'checked' => ($this->data['zone_id'] ? 0 : 1),
             'value' => 1,
-            'label_text' => $this->language->get('text_tax_all_zones'),
             'style' => 'no-save',
-        )) . '<br>';
+        ));
 
-        $this->data['form']['fields']['zone'] .= $form->getFieldHtml(array(
+        $this->data['form']['fields']['zone'] = $form->getFieldHtml(array(
             'type' => 'selectbox',
             'name' => 'zone_id',
             'value' => '',
             'options' => $this->data['zones'],
-            'attr' => ' style=" display: ' . ($this->data['zone_id'] ? 'block' : 'none') . '; min-width: 130px !important;" ',
+			'style' => 'chosen'
+
         ));
 
         $this->data['form']['fields']['description'] = $form->getFieldHtml(array(
@@ -426,12 +483,8 @@ class ControllerPagesLocalisationTaxClass extends AController {
 			'value' => $this->data['tax_rate'][$this->session->data['content_language_id']]['description'],
             'style' => 'large-field',
         ));
-        $this->data['form']['fields']['rate'] = $form->getFieldHtml(array(
-            'type' => 'input',
-            'name' => 'rate',
-            'value' => $this->data['rate'],
-            'required' => true,
-        ));
+
+
         
 		$this->data[ 'rate_prefix' ] = trim($this->data[ 'rate_prefix' ]);
 		$currency_symbol = $this->currency->getCurrency($this->config->get('config_currency'));
@@ -440,7 +493,7 @@ class ControllerPagesLocalisationTaxClass extends AController {
 			$this->data[ 'rate_prefix' ] = $currency_symbol;
 		}
 
-        $this->data['form']['fields']['rate_prefix'] = $form->getFieldHtml(array(
+		$this->data['form']['fields']['rate'][] = $form->getFieldHtml(array(
 			'type' => 'selectbox',
             'name' => 'rate_prefix',
             'value' => $this->data['rate_prefix'],
@@ -448,9 +501,19 @@ class ControllerPagesLocalisationTaxClass extends AController {
 				'%' => $this->language->get('text_percent') . " (%)",
 				'$' => $this->language->get('text_absolute') . " (". $currency_symbol . ")",
 			),
+			'style' => 'tiny-field'
         ));
 
-        $this->data['form']['fields']['threshold_condition'] = $form->getFieldHtml(array(
+		$this->data['form']['fields']['rate'][] = $form->getFieldHtml(array(
+		            'type' => 'input',
+		            'name' => 'rate',
+		            'value' => (float)$this->data['rate'],
+		            'required' => true,
+		            'style' => 'tiny-field'
+		));
+
+
+        $this->data['form']['fields']['tax_rate_threshold'][] = $form->getFieldHtml(array(
 			'type' => 'selectbox',
             'name' => 'threshold_condition',
             'value' => $this->data['threshold_condition'],
@@ -463,20 +526,22 @@ class ControllerPagesLocalisationTaxClass extends AController {
 				'ne' => '<>',
 				'eq' => '=',
 			),
+			'style' => 'tiny-field'
         ));
 
-        $this->data['form']['fields']['threshold'] = $form->getFieldHtml(array(
+        $this->data['form']['fields']['tax_rate_threshold'][] = $form->getFieldHtml(array(
             'type' => 'input',
             'name' => 'threshold',
-            'value' => $this->data['threshold'],
+            'value' => (float)$this->data['threshold'],
             'required' => false,
+			'style' => 'tiny-field'
         ));
-
 
         $this->data['form']['fields']['priority'] = $form->getFieldHtml(array(
             'type' => 'input',
             'name' => 'priority',
-            'value' => (int)$this->data['priority']
+            'value' => (int)$this->data['priority'],
+            'style' => 'tiny-field'
         ));
 		$this->view->assign('form_language_switch', $this->html->getContentLanguageSwitcher());
         $this->view->assign('help_url', $this->gen_help_url('rate_edit'));
@@ -501,8 +566,10 @@ class ControllerPagesLocalisationTaxClass extends AController {
             'separator' => ' :: '
         ));
 
-        if (isset($this->request->get['tax_class_id'])) {
-            $tax_class_info = $this->model_localisation_tax_class->getTaxClass($this->request->get['tax_class_id']);
+		$tax_class_id = (int)$this->request->get['tax_class_id'];
+
+        if ( $tax_class_id ) {
+            $tax_class_info = $this->model_localisation_tax_class->getTaxClass( $tax_class_id );
         }
 		//set multilingual fields
 		$this->data['tax_class'] = array();
@@ -512,24 +579,26 @@ class ControllerPagesLocalisationTaxClass extends AController {
 
 		$tax_title = $tax_class_info['tax_class'][$this->session->data['content_language_id']]['title'];
 		$tax_desc  = $tax_class_info['tax_class'][$this->session->data['content_language_id']]['description'];
-        $this->data['active'] = 'details';
-        if (!isset($this->request->get['tax_class_id'])) {
+        $this->_initTabs('details');
+
+        if (!$tax_class_id) {
             $this->data['action'] = $this->html->getSecureURL('localisation/tax_class/insert');
             $this->data['heading_title'] = $this->language->get('text_insert') . $this->language->get('text_class');
             $this->data['update'] = '';
             $form = new AForm('ST');
         } else {
-            $this->data['rates'] = $this->html->getSecureURL('localisation/tax_class/rates', '&tax_class_id=' . $this->request->get['tax_class_id']);
-            $this->data['action'] = $this->html->getSecureURL('localisation/tax_class/update', '&tax_class_id=' . $this->request->get['tax_class_id']);
+            $this->data['rates'] = $this->html->getSecureURL('localisation/tax_class/rates', '&tax_class_id=' . $tax_class_id);
+            $this->data['action'] = $this->html->getSecureURL('localisation/tax_class/update', '&tax_class_id=' . $tax_class_id);
             $this->data['heading_title'] = $this->language->get('text_edit') . $this->language->get('text_class') . ' - ' . $tax_title;
-            $this->data['update'] = $this->html->getSecureURL('listing_grid/tax_class/update_field', '&id=' . $this->request->get['tax_class_id']);
+            $this->data['update'] = $this->html->getSecureURL('listing_grid/tax_class/update_field', '&id=' . $tax_class_id);
             $form = new AForm('HS');
         }
 
         $this->document->addBreadcrumb(array(
             'href' => $this->data['action'],
             'text' => $this->data['heading_title'],
-            'separator' => ' :: '
+            'separator' => ' :: ',
+			'current' => true
         ));
 
         $form->setForm(array(
@@ -541,7 +610,7 @@ class ControllerPagesLocalisationTaxClass extends AController {
         $this->data['form']['form_open'] = $form->getFieldHtml(array(
 		    'type' => 'form',
 		    'name' => 'cgFrm',
-		    'attr' => 'confirm-exit="true"',
+		    'attr' => 'data-confirm-exit="true"',
 		    'action' => $this->data['action'],
 	    ));
         $this->data['form']['submit'] = $form->getFieldHtml(array(
@@ -571,6 +640,7 @@ class ControllerPagesLocalisationTaxClass extends AController {
         ));
 		$this->view->assign('form_language_switch', $this->html->getContentLanguageSwitcher());
         $this->view->assign('help_url', $this->gen_help_url('tax_class_edit'));
+
         $this->view->batchAssign($this->data);
         $this->processTemplate('pages/localisation/tax_class_form.tpl');
     }
@@ -582,7 +652,7 @@ class ControllerPagesLocalisationTaxClass extends AController {
 
 		if ( count($this->request->post['tax_class']) ) {
 	    	foreach ($this->request->post['tax_class'] as $language_id => $value) {
-	      		if ((strlen(utf8_decode($value['title'])) < 2) || (strlen(utf8_decode($value['title'])) > 32)) {
+	      		if ( mb_strlen($value['title']) < 2 || mb_strlen($value['title']) > 32 ) {
 	        		$this->error['title'] = $this->language->get('error_tax_title');
 	      		}
 	    	}
@@ -597,6 +667,8 @@ class ControllerPagesLocalisationTaxClass extends AController {
                 }
             }
         }
+
+		$this->extensions->hk_ValidateData($this);
 
         if (!$this->error) {
             return TRUE;
@@ -619,13 +691,42 @@ class ControllerPagesLocalisationTaxClass extends AController {
             $this->request->post['zone_id'] = 0;
         }
 
-        if (!$this->error) {
+		$this->extensions->hk_ValidateData($this);
+
+		if (!$this->error) {
             return TRUE;
         } else {
             return FALSE;
         }
     }
 
+	private function _initTabs($active = null) {
+
+
+		if( !has_value($this->request->get['tax_class_id']) ) {
+			$this->data['tabs'] = array();
+		}else{
+			$tax_class_id = (int)$this->request->get['tax_class_id'];
+			$this->data['tax_class_id'] = $tax_class_id;
+
+		}
+
+
+		$this->data['tabs'] = array(
+								'details' => array(
+													'href' => $this->html->getSecureURL('localisation/tax_class/update', '&tax_class_id=' . $tax_class_id),
+													'text' => $this->language->get('tab_details')),
+
+								'rates' => array(
+													'href' => $this->html->getSecureURL('localisation/tax_class/rates', '&tax_class_id=' . $tax_class_id),
+													'text' => $this->language->get('tab_rates')));
+
+
+        if ( in_array($active, array_keys($this->data['tabs'])) ) {
+            $this->data['tabs'][$active]['active'] = 1;
+        } else {
+            $this->data['tabs']['details']['active'] = 1;
+        }
+    }
 }
 
-?>

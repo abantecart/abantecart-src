@@ -22,7 +22,7 @@ if (! defined ( 'DIR_CORE' ) || !IS_ADMIN) {
 }
 class ControllerPagesLocalisationCurrency extends AController {
 	public $data = array();
-	private $error = array();
+	public $error = array();
 	private $fields = array('title', 'code', 'symbol_left', 'symbol_right', 'decimal_place', 'value', 'status');
  
 	public function main() {
@@ -46,7 +46,8 @@ class ControllerPagesLocalisationCurrency extends AController {
    		$this->document->addBreadcrumb( array (
        		'href'      => $this->html->getSecureURL('localisation/currency'),
        		'text'      => $this->language->get('heading_title'),
-      		'separator' => ' :: '
+      		'separator' => ' :: ',
+			'current'   => true
    		 ));
 
 		$grid_settings = array(
@@ -130,7 +131,7 @@ class ControllerPagesLocalisationCurrency extends AController {
 
 		$this->document->setTitle( $this->language->get('heading_title') );
 
-		if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->_validateForm()) {
+		if ( $this->request->is_POST() && $this->_validateForm() ) {
 			$currency_id = $this->model_localisation_currency->addCurrency($this->request->post);
 			$this->session->data['success'] = $this->language->get('text_success');
 			$this->redirect( $this->html->getSecureURL('localisation/currency/update', '&currency_id=' . $currency_id ) );
@@ -153,7 +154,7 @@ class ControllerPagesLocalisationCurrency extends AController {
 
 		$this->document->setTitle( $this->language->get('heading_title') );
 
-		if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->_validateForm()) {
+		if ( $this->request->is_POST() && $this->_validateForm() ) {
 			$this->model_localisation_currency->editCurrency($this->request->get['currency_id'], $this->request->post);
 			$this->session->data['success'] = $this->language->get('text_success');
 			$this->redirect( $this->html->getSecureURL('localisation/currency/update', '&currency_id=' . $this->request->get['currency_id'] ) );
@@ -181,7 +182,7 @@ class ControllerPagesLocalisationCurrency extends AController {
    		 ));
 
 
-		if (isset($this->request->get['currency_id']) && ($this->request->server['REQUEST_METHOD'] != 'POST')) {
+		if (isset($this->request->get['currency_id']) && $this->request->is_GET() ) {
 			$currency_info = $this->model_localisation_currency->getCurrency($this->request->get['currency_id']);
 		}
 
@@ -210,7 +211,8 @@ class ControllerPagesLocalisationCurrency extends AController {
 		$this->document->addBreadcrumb( array (
        		'href'      => $this->data['action'],
        		'text'      => $this->data['heading_title'],
-      		'separator' => ' :: '
+      		'separator' => ' :: ',
+			'current'	=> true
    		 ));
 
 		$form->setForm(array(
@@ -223,6 +225,7 @@ class ControllerPagesLocalisationCurrency extends AController {
 		    'type' => 'form',
 		    'name' => 'cgFrm',
 		    'action' => $this->data['action'],
+			'attr' => 'data-confirm-exit="true" class="aform form-horizontal"'
 	    ));
         $this->data['form']['submit'] = $form->getFieldHtml(array(
 		    'type' => 'button',
@@ -237,6 +240,12 @@ class ControllerPagesLocalisationCurrency extends AController {
 		    'style' => 'button2',
 	    ));
 
+		$this->data['form']['fields']['status'] = $form->getFieldHtml(array(
+				    'type' => 'checkbox',
+				    'name' => 'status',
+				    'value' => $this->data['status'],
+					'style'  => 'btn_switch',
+			    ));
 
 		foreach ( $this->fields as $f ) {
 			if ( $f == 'status' ) break;
@@ -247,12 +256,6 @@ class ControllerPagesLocalisationCurrency extends AController {
 				'required' => ( !in_array($f, array('title','code')) ? false: true),
 			));
 		}
-		$this->data['form']['fields']['status'] = $form->getFieldHtml(array(
-		    'type' => 'checkbox',
-		    'name' => 'status',
-		    'value' => $this->data['status'],
-			'style'  => 'btn_switch',
-	    ));
 
 		$this->view->assign('help_url', $this->gen_help_url('currency_edit') );
 		$this->view->batchAssign( $this->data );
@@ -264,13 +267,15 @@ class ControllerPagesLocalisationCurrency extends AController {
 			$this->error['warning'] = $this->language->get('error_permission');
 		} 
 
-		if ((strlen(utf8_decode($this->request->post['title'])) < 2) || (strlen(utf8_decode($this->request->post['title'])) > 32)) {
+		if ( mb_strlen($this->request->post['title']) < 2 || mb_strlen($this->request->post['title']) > 32 ) {
 			$this->error['title'] = $this->language->get('error_title');
 		}
 
-		if (strlen(utf8_decode($this->request->post['code'])) != 3) {
+		if ( mb_strlen($this->request->post['code']) != 3) {
 			$this->error['code'] = $this->language->get('error_code');
 		}
+
+		$this->extensions->hk_ValidateData($this);
 
 		if (!$this->error) { 
 			return TRUE;

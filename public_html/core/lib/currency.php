@@ -53,7 +53,7 @@ final class ACurrency {
          */
         $this->message = $registry->get('messages');
 
-		$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "currencies");
+		$query = $this->db->query("SELECT * FROM " . $this->db->table("currencies"));
 
     	foreach ($query->rows as $result) {
       		$this->currencies[$result['code']] = array(

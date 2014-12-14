@@ -35,18 +35,31 @@ class ControllerPagesIndexEditDetails extends AController {
 
 		$this->document->setTitle( $this->language->get('text_edit_details') );
 
+   		$this->document->addBreadcrumb( array ( 
+       		'href'      => $this->html->getSecureURL('index/home'),
+       		'text'      => $this->language->get('text_home'),
+      		'separator' => FALSE
+   		 ));
+
+        $this->document->addBreadcrumb( array (
+            'href'      => $this->html->getSecureURL('index/edit_details'),
+            'text'      => $this->language->get('text_edit_details'),
+            'separator' => ' :: ',
+            'current' => true,
+        ));
+		
 		$this->view->assign('success', $this->session->data['success']);
 		if (isset($this->session->data['success'])) {
 			unset($this->session->data['success']);
 		}
 
-		if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->_validate()) {
+		if ($this->request->is_POST() && $this->_validate()) {
 			$this->model_user_user->editUser($this->user->getId(), $this->request->post);
 			$this->session->data['success'] = $this->language->get('text_success_details');
 			$this->redirect( $this->html->getSecureURL('index/edit_details') );
     	}
 
-		if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->_validate()) {
+		if ($this->request->is_POST() && $this->_validate()) {
 			$this->redirect($this->html->getSecureURL('index/edit_details'));
 		}
 
@@ -82,7 +95,7 @@ class ControllerPagesIndexEditDetails extends AController {
 			array(
 				'type' => 'form',
 				'name' => 'editFrm',
-				'attr' => 'confirm-exit="true"',
+				'attr' => 'data-confirm-exit="true"',
 				'action' => $this->data['action'],
 			)
 		);
@@ -123,16 +136,16 @@ class ControllerPagesIndexEditDetails extends AController {
   	}
 
 	private function _validate() {
-    	if ((strlen(utf8_decode($this->request->post['firstname'])) < 2) || (strlen(utf8_decode($this->request->post['firstname'])) > 32)) {
+    	if ( mb_strlen($this->request->post['firstname']) < 2 || mb_strlen($this->request->post['firstname']) > 32 ) {
       		$this->error['firstname'] = $this->language->get('error_firstname');
     	}
 
-    	if ((strlen(utf8_decode($this->request->post['lastname'])) < 2) || (strlen(utf8_decode($this->request->post['lastname'])) > 32)) {
+    	if ( mb_strlen($this->request->post['lastname']) < 2 || mb_strlen($this->request->post['lastname']) > 32 ) {
       		$this->error['lastname'] = $this->language->get('error_lastname');
     	}
 
     	if ( !empty($this->request->post['password']) ) {
-      		if ((strlen(utf8_decode($this->request->post['password'])) < 4)) {
+      		if ( mb_strlen($this->request->post['password']) < 4 ) {
         		$this->error['password'] = $this->language->get('error_password');
       		}
 
@@ -145,6 +158,8 @@ class ControllerPagesIndexEditDetails extends AController {
     	if (!preg_match($pattern, $this->request->post['email'])) {
       		$this->error['email'] = $this->language->get('error_email');
     	}
+
+		$this->extensions->hk_ValidateData($this);
 
 	    if (!$this->error) {
 	  		return TRUE;

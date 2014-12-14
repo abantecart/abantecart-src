@@ -107,10 +107,14 @@ final class ACache {
 			return null;
 		}else{ // if all good
 			if(file_exists($cache_file_full_name)){
-				$handle = fopen($cache_file_full_name, 'r');
-				$cache = fread($handle, filesize($cache_file_full_name));
-				fclose($handle);
-				$output = unserialize($cache);
+				if(filesize($cache_file_full_name)>0){
+					$handle = fopen($cache_file_full_name, 'r');
+					$cache = fread($handle, filesize($cache_file_full_name));
+					fclose($handle);
+					$output = unserialize($cache);
+				}else{
+					$output = '';
+				}
 				$this->empties[$key.'_'.$language_id.'_'.$store_id] = !empty($output); // if not empty
 				$this->exists[$key.'_'.$language_id.'_'.$store_id] = true;
 				return $output;
@@ -231,7 +235,7 @@ final class ACache {
 		}
 		if (!is_file(DIR_CACHE . $section) && !is_dir(DIR_CACHE . $section)) {
 			mkdir(DIR_CACHE . $section, 0777, true);
-			chmod(DIR_CACHE . $section, 0777); //change mode for nested directories
+			$this->_chmod_dir(DIR_CACHE . $section, 0777); //change mode for nested directories
 		}
 	}
 
@@ -290,5 +294,26 @@ final class ACache {
 			$error->toLog()->toDebug();
 		}
 		return null;
+	}
+
+	/**
+	 * Change mode recursive
+	 *
+	 * @param string $path
+	 * @param int $dirmode
+	 * @return bool
+	 */
+	private function _chmod_dir($path, $dirmode) {
+	    if (is_dir($path) ) {
+	        if (!chmod($path, $dirmode)) {
+	            $dirmode_str=decoct($dirmode);
+				$this->registry->get('log')->write("Failed applying filemode '".$dirmode_str."' on directory '".$path."'\n  -> the directory '".$path."' will be skipped from recursive chmod\n");
+	            return false;
+	        }
+	    } elseif (is_link($path)) {
+			$this->registry->get('log')->write("link '".$path."' is skipped\n");
+			return false;
+	    }
+		return true;
 	}
 }

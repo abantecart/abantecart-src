@@ -335,7 +335,6 @@ img {
 .resource-details {
 	float: left;
 }
-
 .resource_image {
 	width: 130px;
 	max-height: 148px;
@@ -460,13 +459,4 @@ img {
 
 #confirm_dialog {
 	display: none;
-}
-
-.rl_loading {
-	position: absolute;
-	background: url('../image/loading.gif') no-repeat;
-	width: 16px;
-	height: 16px;
-	right: 10px;
-	top: 10px;
 }

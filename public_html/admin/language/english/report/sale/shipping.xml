@@ -1,0 +1,59 @@
+<?xml version="1.0"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Shipping Report]]></value>
+  </definition>
+  <definition>
+    <key>text_year</key>
+    <value><![CDATA[Years]]></value>
+  </definition>
+  <definition>
+    <key>text_month</key>
+    <value><![CDATA[Months]]></value>
+  </definition>
+  <definition>
+    <key>text_week</key>
+    <value><![CDATA[Weeks]]></value>
+  </definition>
+  <definition>
+    <key>text_day</key>
+    <value><![CDATA[Days]]></value>
+  </definition>
+  <definition>
+    <key>text_all_status</key>
+    <value><![CDATA[All Statuses]]></value>
+  </definition>
+  <definition>
+    <key>column_date_start</key>
+    <value><![CDATA[Date Start]]></value>
+  </definition>
+  <definition>
+    <key>column_date_end</key>
+    <value><![CDATA[Date End]]></value>
+  </definition>
+  <definition>
+    <key>column_orders</key>
+    <value><![CDATA[No. Orders]]></value>
+  </definition>
+  <definition>
+    <key>column_total</key>
+    <value><![CDATA[Total]]></value>
+  </definition>
+  <definition>
+    <key>entry_status</key>
+    <value><![CDATA[Status:]]></value>
+  </definition>
+  <definition>
+    <key>entry_date_start</key>
+    <value><![CDATA[Date Start:]]></value>
+  </definition>
+  <definition>
+    <key>entry_date_end</key>
+    <value><![CDATA[Date End:]]></value>
+  </definition>
+  <definition>
+    <key>entry_group</key>
+    <value><![CDATA[Group By:]]></value>
+  </definition>
+</definitions>

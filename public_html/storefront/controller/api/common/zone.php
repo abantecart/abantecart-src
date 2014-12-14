@@ -31,7 +31,7 @@ class ControllerApiCommonZone extends AControllerAPI {
 		if ( !isset($request_data['country_id']) && !is_int($request_data['country_id']) ) {
 			$this->rest->setResponseData( array('Error' => 'Missing on incorrect one of required parameters') );
 			$this->rest->sendResponse(200);
-			return;
+			return null;
 		}
 		
 		$this->loadModel('localisation/zone');

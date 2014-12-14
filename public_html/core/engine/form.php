@@ -147,12 +147,12 @@ class AForm {
 		$form = $this->cache->get($cache_name, (int)$this->config->get('storefront_language_id'), (int)$this->config->get('config_store_id'));
 		if (isset($form)) {
 			$this->form = $form;
-			return;
+			return null;
 		}
 
 		$query = $this->db->query("SELECT f.*, fd.description
-                                    FROM `" . DB_PREFIX . "forms` f
-                                    LEFT JOIN `" . DB_PREFIX . "form_descriptions` fd
+                                    FROM " . $this->db->table("forms") . " f
+                                    LEFT JOIN " . $this->db->table("form_descriptions") . " fd
                                         ON ( f.form_id = fd.form_id AND fd.language_id = '" . (int)$this->config->get('storefront_language_id') . "' )
                                     WHERE f.form_name = '" . $this->db->escape($name) . "'
                                             AND f.status = 1 "
@@ -184,8 +184,8 @@ class AForm {
 
 		$query = $this->db->query("
             SELECT f.*, fd.name, fd.description, fd.error_text
-            FROM `" . DB_PREFIX . "fields` f
-            LEFT JOIN `" . DB_PREFIX . "field_descriptions` fd
+            FROM " . $this->db->table("fields") . " f
+            LEFT JOIN " . $this->db->table("field_descriptions") . " fd
                 ON ( f.field_id = fd.field_id AND fd.language_id = '" . (int)$this->config->get('storefront_language_id') . "' )
             WHERE f.form_id = '" . $this->form[ 'form_id' ] . "'
                 AND f.status = 1
@@ -200,7 +200,7 @@ class AForm {
 				$this->fields[ $row[ 'field_id' ] ] = $row;
 				$query = $this->db->query("
 					SELECT *
-					FROM `" . DB_PREFIX . "field_values`
+					FROM " . $this->db->table("field_values") . " 
 					WHERE field_id = '" . $row[ 'field_id' ] . "'
 					AND language_id = '" . (int)$this->config->get('storefront_language_id') . "'"
 				);
@@ -243,14 +243,14 @@ class AForm {
 		$groups = $this->cache->get($cache_name, (int)$this->config->get('storefront_language_id'), (int)$this->config->get('config_store_id'));
 		if (isset($groups)) {
 			$this->groups = $groups;
-			return;
+			return null;
 		}
 
 		$query = $this->db->query("
             SELECT fg.*, fgd.name, fgd.description
-            FROM `" . DB_PREFIX . "form_groups` g
-                LEFT JOIN `" . DB_PREFIX . "fields_groups` fg ON ( g.group_id = fg.group_id)
-                LEFT JOIN `" . DB_PREFIX . "fields_group_descriptions` fgd ON ( fg.group_id = fgd.group_id AND fgd.language_id = '" . (int)$this->config->get('storefront_language_id') . "' )
+            FROM " . $this->db->table("form_groups") . " g
+                LEFT JOIN " . $this->db->table("fields_groups") . " fg ON ( g.group_id = fg.group_id)
+                LEFT JOIN " . $this->db->table("fields_group_descriptions") . " fgd ON ( fg.group_id = fgd.group_id AND fgd.language_id = '" . (int)$this->config->get('storefront_language_id') . "' )
             WHERE g.form_id = '" . $this->form[ 'form_id' ] . "'
                 AND g.status = 1
             ORDER BY g.sort_order, fg.sort_order"
@@ -428,9 +428,11 @@ class AForm {
 				$view->batchAssign(
 					array(
 						'id' => $this->form[ 'form_name' ],
-						'button_save' => str_replace("\r\n", "", $html->buildButton(array( 'name' => 'btn_save', 'text' => $language->get('button_save'), 'style' => 'button3' ))),
-						'button_reset' => str_replace("\r\n", "", $html->buildButton(array( 'name' => 'btn_reset', 'text' => $language->get('button_reset'), 'style' => 'button2' ))),
+						'button_save' => $language->get('button_save'),
+						'button_reset' => $language->get('button_reset'),
 						'update' => $this->form[ 'update' ],
+						'text_processing' => $language->get('text_processing'),
+						'text_saved' => $language->get('text_saved'),
 					)
 				);
 				$output = $view->fetch('form/form_js_hs.tpl');
@@ -529,8 +531,7 @@ class AForm {
 			$data = array(
 				'type' => 'submit',
 				'form' => $this->form[ 'form_name' ],
-				'name' => $this->language->get('button_continue'),
-				'icon' => 'icon-arrow-right'
+				'name' => $this->language->get('button_submit'),
 			);
 			$submit = HtmlElementFactory::create($data);
 
@@ -551,7 +552,7 @@ class AForm {
 					'form' => $output,
 					'form_open' => $js . $form_open->getHtml(),
 					'form_close' => $form_close,
-					'submit' => $submit->getHtml(),
+					'submit' => $submit,
 				)
 			);
 			$output = $view->fetch('form/form.tpl');

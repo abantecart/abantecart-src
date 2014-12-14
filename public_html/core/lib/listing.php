@@ -17,42 +17,42 @@
    versions in the future. If you wish to customize AbanteCart for your
    needs please refer to http://www.AbanteCart.com for more information.
 ------------------------------------------------------------------------------*/
-if (! defined ( 'DIR_CORE' )) {
-    header ( 'Location: static_pages/' );
+if (!defined('DIR_CORE')) {
+	header('Location: static_pages/');
 }
 
 class AListing {
 	protected $registry;
-	public    $errors = 0;
-	protected   $custom_block_id;
-	public    $data_sources = array();
+	public $errors = 0;
+	protected $custom_block_id;
+	public $data_sources = array();
 
 	public function __construct($custom_block_id) {
 		$this->registry = Registry::getInstance();
 		$this->custom_block_id = (int)$custom_block_id;
 		// datasources hardcode
 		$this->data_sources = Array(
-						'catalog_product_getPopularProducts' => array( 'text'=>'text_products_popular',
-																		'rl_object_name' => 'products',
-																		'data_type'=>'product_id',
-																		'storefront_model' => 'catalog/product',
-																        'storefront_method' => 'getPopularProducts',
-																		'storefront_view_path' => 'product/product',
-																	),
-						'catalog_product_getSpecialProducts' => array( 'text'=>'text_products_special',
-																		'rl_object_name' => 'products',
-																		'data_type'=>'product_id',
-																		'storefront_model' => 'catalog/product',
-																        'storefront_method' => 'getProductSpecials',
-																		'storefront_view_path' => 'product/product',
-																	),
-						'catalog_category_getcategories' => array('text'=>'text_categories',
-																  'rl_object_name' => 'categories',
-																  'data_type'=>'category_id',
-																  'storefront_model' => 'catalog/category',
-																  'storefront_method' => 'getCategories',
-																  'storefront_view_path' => 'product/category',
-																	),
+				'catalog_product_getPopularProducts' => array('text' => 'text_products_popular',
+						'rl_object_name' => 'products',
+						'data_type' => 'product_id',
+						'storefront_model' => 'catalog/product',
+						'storefront_method' => 'getPopularProducts',
+						'storefront_view_path' => 'product/product',
+				),
+				'catalog_product_getSpecialProducts' => array('text' => 'text_products_special',
+						'rl_object_name' => 'products',
+						'data_type' => 'product_id',
+						'storefront_model' => 'catalog/product',
+						'storefront_method' => 'getProductSpecials',
+						'storefront_view_path' => 'product/product',
+				),
+				'catalog_category_getcategories' => array('text' => 'text_categories',
+						'rl_object_name' => 'categories',
+						'data_type' => 'category_id',
+						'storefront_model' => 'catalog/category',
+						'storefront_method' => 'getCategories',
+						'storefront_view_path' => 'product/category',
+				),
 						'media' => array( 'text'=>'text_media'),
 						'custom_products' => array(
 												'model'=>'catalog/product',
@@ -101,7 +101,6 @@ class AListing {
 	}
 
 
-
 	public function __get($key) {
 		return $this->registry->get($key);
 	}
@@ -114,43 +113,61 @@ class AListing {
 	/**
 	 * @return array
 	 */
-	public function getCustomList(){
-		if(!$this->custom_block_id){
+	public function getCustomList() {
+		if (!$this->custom_block_id) {
 			return array();
 		}
 		$result = $this->db->query("SELECT *
-		                            FROM ".DB_PREFIX."custom_lists
-								    WHERE custom_block_id = '".$this->custom_block_id."'
-								    ORDER BY sort_order");
+									FROM `" . $this->db->table('custom_lists') . "`
+									WHERE custom_block_id = '" . $this->custom_block_id . "'
+									ORDER BY sort_order");
 		return $result->rows;
 	}
 
-
-
-	public function getListingDataSources(){
+	/**
+	 * @return array
+	 */
+	public function getListingDataSources() {
 		return $this->data_sources;
 	}
-	public function addListingDataSource($key, $data){
+
+	/**
+	 * @param string $key
+	 * @param array $data
+	 */
+	public function addListingDataSource($key, $data) {
 		$this->data_sources[$key] = $data;
 	}
-	public function deleteListingDataSource($key){
+
+	/**
+	 * @param string $key
+	 */
+	public function deleteListingDataSource($key) {
 		unset($this->data_sources[$key]);
 	}
 
 	//method returns argument fors call_user_func function usage when call storefront model to get list
-	public function getlistingArguments($model,$method,$args=array()){
-		if(!$method || !$model || !$args){ return false;}
+	/**
+	 * @param string $model
+	 * @param string $method
+	 * @param array $args
+	 * @return array
+	 */
+	public function getlistingArguments($model, $method, $args = array()) {
+		if (!$method || !$model || !$args) {
+			return false;
+		}
 		$output = array();
-		if($model=='catalog/category' && $method=='getCategories'){
-			$args['parent_id'] =  is_null($args['parent_id']) ? 0 : $args['parent_id'];
-			$output = array($args['parent_id'],$args['limit']);
-		}elseif($model=='catalog/product' && $method=='getPopularProducts'){
+		if ($model == 'catalog/category' && $method == 'getCategories') {
+			$args['parent_id'] = is_null($args['parent_id']) ? 0 : $args['parent_id'];
+			$output = array($args['parent_id'], $args['limit']);
+		} elseif ($model == 'catalog/product' && $method == 'getPopularProducts') {
 			$output = array('limit' => $args['limit']);
-		}elseif($model=='catalog/product' && $method=='getProductSpecials'){
-			$output = array('p.sort_order','ASC',0,'limit' => $args['limit']);
+		} elseif ($model == 'catalog/product' && $method == 'getProductSpecials') {
+			$output = array('p.sort_order', 'ASC', 0, 'limit' => $args['limit']);
 		}
 
-	return $output;
+		return $output;
 	}
 
 }

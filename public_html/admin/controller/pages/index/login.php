@@ -36,9 +36,23 @@ class ControllerPagesIndexLogin extends AController {
 
 		$this->document->setTitle( $this->language->get('heading_title') );
 
-		if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->_validate()) {
+   		$this->document->addBreadcrumb( array ( 
+       		'href'      => '',
+       		'text'      => $this->language->get('text_home'),
+      		'separator' => FALSE
+   		 ));
+   		$this->document->addBreadcrumb( array ( 
+            'href'      => $this->html->getSecureURL('index/login'),
+            'text'      => $this->language->get('heading_title'),
+            'current' => true,
+            'sub_text' => '',
+            'icon' => '' //need getMenuIconByRT method 
+        ));
+
+		if ($this->request->is_POST() && $this->_validate()) {
 			$this->session->data['token'] = AEncryption::getHash(mt_rand());
-			//login is sussessful redirect to otiginaly requested page 
+			$this->session->data['checkupdates'] = true; // sign to run ajax-request to check for updates. see common/head for details
+			//login is sussessful redirect to originaly requested page
 			if (isset($this->request->post['redirect']) && !preg_match("/rt=index\/login/i", $this->request->post['redirect'])) {
                 $redirect = $this->html->filterQueryParams( $this->request->post['redirect'], array('token')  );
                 $redirect .=  "&token=".$this->session->data['token'];
@@ -58,7 +72,7 @@ class ControllerPagesIndexLogin extends AController {
 		//There was no login done, so clear the session for new login screen 
 		$this->session->clear();
 		
-		if($_COOKIE['new_cart']==1 && $this->error['warning'] && $this->request->server['REQUEST_METHOD'] == 'GET'){
+		if($this->request->cookie['new_cart']==1 && $this->error['warning'] && $this->request->server['REQUEST_METHOD'] == 'GET'){
 			$this->error['warning'] = '';
 		}
 
@@ -97,6 +111,7 @@ class ControllerPagesIndexLogin extends AController {
 					'type' => ($f == 'password' ? 'password' : 'input'),
 					'name' => $f,
 					'value' => $this->data[$f],
+					'placeholder' => $this->language->get('entry_'.$f),
 				)
 			);
 		}
@@ -114,7 +129,7 @@ class ControllerPagesIndexLogin extends AController {
 			if ($this->request->get) {
 				$url = '&' . http_build_query($this->request->get);
 			}
-			if($this->request->server['REQUEST_METHOD'] == 'POST'){
+			if($this->request->is_POST()){
 				$this->view->assign('redirect', $this->request->post['redirect'] ); // if login attempt failed - save path for redirect
 			}else{
 				$this->view->assign('redirect', $this->html->getSecureURL( $route , $url));
@@ -145,4 +160,3 @@ class ControllerPagesIndexLogin extends AController {
 		}
 	}
 }  
-?>

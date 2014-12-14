@@ -34,7 +34,7 @@ class ControllerResponsesListingGridFileUploads extends AController {
 			$response->userdata->error = sprintf( $this->language->get( 'error_permission_access' ), 'tool/file_uploads' );
 			$this->load->library('json');
 			$this->response->setOutput(AJson::encode($response));
-			return;
+			return null;
 		}
 
 		$this->loadModel ( 'tool/file_uploads' );

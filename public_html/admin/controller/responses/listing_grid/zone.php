@@ -154,7 +154,7 @@ class ControllerResponsesListingGridZone extends AController {
 								$err = $this->_validateField($f, $this->request->post[ $f ][ $id ]);
 								if (!empty($err)) {
 									$this->response->setOutput($err);
-									return;
+									return null;
 								}
 								$this->model_localisation_zone->editZone($id, array( $f => $this->request->post[ $f ][ $id ] ));
 							}
@@ -166,7 +166,7 @@ class ControllerResponsesListingGridZone extends AController {
 		    					$err = $this->_validateField('name', $value['name']);
 		    					if (!empty($err)) {
 									$this->response->setOutput($err);
-									return;
+									return null;
 								}
 							}
 							$this->model_localisation_zone->editZone($id, array( 'zone_name' => $this->request->post['zone_name'][ $id ] ));
@@ -221,7 +221,7 @@ class ControllerResponsesListingGridZone extends AController {
 				$data = array( $key => $value );
 				$this->model_localisation_zone->editZone($this->request->get[ 'id' ], $data);
 			}
-			return;
+			return null;
 		}
 
 		//request sent from jGrid. ID is key of array
@@ -259,7 +259,7 @@ class ControllerResponsesListingGridZone extends AController {
 		$err = '';
 		switch ($field) {
 			case 'name' :
-				if ((strlen(utf8_decode($value)) < 2) || (strlen(utf8_decode($value)) > 128)) {
+				if (mb_strlen($value) < 2 || mb_strlen($value) > 128) {
 					$err = $this->language->get('error_name');
 				}
 				break;
@@ -291,5 +291,3 @@ class ControllerResponsesListingGridZone extends AController {
 	}
 
 }
-
-?>
