@@ -30,12 +30,33 @@ final class ALog {
 
 	/**
 	 * @param string $filename
+	 * @throws AException
 	 */
 	public function __construct($filename) {
 		if(is_dir($filename)){
 			$filename .= (substr($filename,-1)!='/' ? '/' : '').'error.txt';
 		}
 		$this->filename = $filename;
+
+		if(!is_writable(pathinfo($filename, PATHINFO_DIRNAME))){
+			// if it happens see errors in httpd error log!
+			throw new AException (AC_ERR_LOAD, 'Error: Log directory '.DIR_LOGS.' is non-writable. Please change permissions.');
+		}
+
+		//check is log-file writable
+		//1.create file if it not exists
+		$handle = @fopen($filename, 'a+');
+		@fclose($handle);
+		//2. then change mode to 777
+		if(is_file($filename) && decoct(fileperms($filename) & 0777) != 777){
+			chmod($filename,0777);
+			//3.if log-file non-writable create new one
+			if(!is_writable($filename)){
+				$this->filename = DIR_LOGS.'error_0.txt';
+				$handle = @fopen($this->filename, 'a+');
+				@fclose($handle);
+			}
+		}
 		if(class_exists('Registry')){// for disabling via settings
 			$registry = Registry::getInstance();
 			if(is_object($registry->get('config'))){
