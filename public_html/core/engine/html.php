@@ -635,16 +635,12 @@ class AHtml extends AController {
 	/**
 	 * @param $html - text that might contain internal links #admin# or #storefront#
 	 *           $mode  - 'href' create complete a tag or default just replace URL
-	 * @param string $type
+	 * @param string $type - can be 'message' to convert url into <a> tag or empty
 	 * @return string - html code with parsed internal URLs
 	 */
 	public function convertLinks($html, $type = '') {
-
-		$new_href = str_replace('#admin#', $this->getSecureURL('') . '&', $html);
-
-		return $new_href;
-
-		$route_sections = array( "admin", "storefront" );
+		$is_admin = IS_ADMIN===true ? true : false;
+		$route_sections = $is_admin ? array( "admin", "storefront" ) : array( "storefront" );
 		foreach ($route_sections as $rt_type) {
 			preg_match_all('/(#' . $rt_type . '#rt=){1}[a-z0-9\/_\-\?\&=\%#]{1,255}(\b|\")/', $html, $matches, PREG_OFFSET_CAPTURE);
 			if ($matches) {
@@ -656,12 +652,9 @@ class AHtml extends AController {
 					} else {
 						$new_href = str_replace('#storefront#', $this->getCatalogURL('') . '&', $href);
 					}
-					$new_href = str_replace('&amp;', '&', $new_href);
-					$new_href = str_replace('&&', '&', $new_href);
+					$new_href = str_replace(array('&amp;','&&','&?'), '&', $new_href);
 					$new_href = str_replace('?&', '?', $new_href);
-					$new_href = str_replace('&?', '&', $new_href);
 					$new_href = str_replace('&', '&amp;', $new_href);
-
 
 					switch ($type) {
 						case 'message':
