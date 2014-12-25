@@ -10993,7 +10993,7 @@ VALUES  (12,'catalog/category',1),
         (12,'extension/extensions/template',3),
         (12,'extension/extensions/extensions',4),
         (12,'setting/setting',5),
-        (12,'report/sale',6),
+        (12,'report/sale/orders',6),
         (12,'',7);
 -- PARENT_ID
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`) 
