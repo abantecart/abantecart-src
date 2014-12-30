@@ -50,21 +50,6 @@ echo $tabs;?>
 			$status = 'default_weight_' . $location['location_id'] . '_status';
 			?>
 			<label class="h4 heading"><?php echo $location['name']; ?></label>
-				<?php
-					//Logic to calculate fields width
-					$widthcasses = "col-sm-7";
-					if ( is_int(stripos($field->style, 'large-field')) ) {
-						$widthcasses = "col-sm-7";
-					} else if ( is_int(stripos($field->style, 'medium-field')) || is_int(stripos($field->style, 'date')) ) {
-						$widthcasses = "col-sm-5";
-					} else if ( is_int(stripos($field->style, 'small-field')) || is_int(stripos($field->style, 'btn_switch')) ) {
-						$widthcasses = "col-sm-3";
-					} else if ( is_int(stripos($field->style, 'tiny-field')) ) {
-						$widthcasses = "col-sm-2";
-					}
-					$widthcasses .= " col-xs-12";
-			 ?>
-
 			<div class="form-group">
 				<label class="control-label col-sm-3 col-xs-12" for="editFrm_<?php echo $status; ?>"><?php echo $entry_status; ?></label>
 				<div class="input-group afield col-sm-3 col-xs-12">
@@ -85,13 +70,13 @@ echo $tabs;?>
 	<div class="panel-footer col-xs-12">
 		<div class="text-center">
 			<button class="btn btn-primary">
-			<i class="fa fa-save fa-fw"></i> <?php echo $form['submit']->text; ?>
+			<i class="fa fa-save fa-fw"></i> <?php echo $button_save; ?>
 			</button>
 			<button class="btn btn-default" type="reset">
 			<i class="fa fa-refresh fa-fw"></i> <?php echo $button_reset; ?>
 			</button>
 			<a class="btn btn-default" href="<?php echo $cancel; ?>">
-			<i class="fa fa-arrow-left fa-fw"></i> <?php echo $form['cancel']->text; ?>
+			<i class="fa fa-arrow-left fa-fw"></i> <?php echo $button_cancel; ?>
 			</a>
 		</div>
 	</div>
