@@ -43,7 +43,7 @@ function ac_error_handler($errno, $errstr, $errfile, $errline) {
         throw new APhpException($errno, $errstr, $errfile, $errline);
     }
     catch (APhpException $e) {
-        ac_exception_handler($e);
+   		ac_exception_handler($e);
     }
 }
 
@@ -53,6 +53,11 @@ function ac_error_handler($errno, $errstr, $errfile, $errline) {
  */
 function ac_exception_handler($e)
 {
+	//fix for default PHP handler call in third party PHP libraries
+	if (!method_exists($e,'logError')) {
+		$e = new AException($e->getCode(), $e->getMessage());
+	}	
+
     if (class_exists('Registry') ) {
         $registry = Registry::getInstance();
         $config = $registry->get('config');
