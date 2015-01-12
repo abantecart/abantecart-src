@@ -189,6 +189,12 @@ class ControllerPagesExtensionExtensions extends AController {
 
 		$this->data['license_url'] = $this->html->getSecureURL('listing_grid/extension/license');
 		$this->data['dependants_url'] = $this->html->getSecureURL('listing_grid/extension/dependants');
+		$this->data['extension_type'] = $this->session->data['extension_filter'];
+		if( $this->session->data['extension_filter'] == 'template') {
+			$this->data['setting_url'] = $this->html->getSecureURL('setting/setting/appearance');
+		} else if( $this->session->data['extension_filter'] == 'language') {
+			$this->data['setting_url'] = $this->html->getSecureURL('localisation/language');
+		}
 
 		$this->view->assign('form_store_switch', $this->html->getStoreSwitcher());
 		$this->view->assign('extension_edit_url', $this->html->getSecureURL('listing_grid/extension/license')) ;

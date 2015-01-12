@@ -14,6 +14,13 @@
 			    	<i class="fa fa-step-forward fa-fw"></i> <?php echo $btn_add_new->text ?>
 			    </a>
 			</div>
+			<?php if($setting_url) { ?>
+			<div class="btn-group">
+			    <a class="btn btn-default tooltips" href="<?php echo $setting_url;?>" title="<?php echo $text_configuration_settings; ?>">
+			    	<i class="fa fa-gears fa-fw"></i>
+			    </a>
+			</div>			
+			<?php } ?>
 		</div>
 		<?php include($tpl_common_dir . 'content_buttons.tpl'); ?>		
 	</div>

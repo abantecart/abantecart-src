@@ -2,7 +2,7 @@
 <br/><br/>
 
 1. To use this extension, you need to have active Realex Payments account. <br/>
-If you do not have Realex account, please follow <a href="http://www.realexpayments.com" target="_blank">this link</a> to create an account <br/><br/>
+If you do not have Realex account, please follow <a href="http://www.realexpayments.com/partner-referral?id=abantecart" target="_blank">this link</a> to create an account <br/><br/>
 2. Fill in required fields with information provided by Realex Payments.<br/>
 	
 <b>Merchant ID</b> - Where merchantid represents Realex Payments assigned merchant id.	
