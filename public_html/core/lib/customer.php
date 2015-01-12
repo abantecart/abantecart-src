@@ -90,6 +90,11 @@ final class ACustomer {
 	private $dcrypt;
 
 	/**
+	 * @var Array (unauthenticated custmer details)
+	 */
+	private $unauth_customer = array();
+
+	/**
 	 * @param  Registry $registry
 	 */
 	public function __construct($registry) {
@@ -122,10 +127,16 @@ final class ACustomer {
 				$this->customer_group_id = $customer_query->row['customer_group_id'];
 				$this->address_id = $customer_query->row['address_id'];
 							
-      			$this->db->query("UPDATE " . $this->db->table("customers") . " SET cart = '" . $this->db->escape(serialize($this->session->data['cart'])) . "', ip = '" . $this->db->escape($this->request->server['REMOTE_ADDR']) . "' WHERE customer_id = '" . (int)$this->session->data['customer_id'] . "'");
 			} else {
 				$this->logout();
 			}
+  		} elseif (isset($this->request->cookie['customer'])) {
+  			//we have unauthenticated customer
+ 			$encryption = new AEncryption($this->config->get('encryption_key'));
+  			$this->unauth_customer = unserialize($encryption->decrypt($this->request->cookie['customer']));
+  			//no need to merge with session as it shoud be always in sync 
+  			$this->session->data['cart'] = array();
+    		$this->session->data['cart'] = $this->getCustomerCart();	
   		}
 	}
 
@@ -149,17 +160,16 @@ final class ACustomer {
 
 		if ($customer_query->num_rows) {
 			$this->session->data['customer_id'] = $customer_query->row['customer_id'];	
-		    
+		    //load customer saved cart and merge with session cart before login
 			if (($customer_query->row['cart']) && (is_string($customer_query->row['cart']))) {
 				$cart = unserialize($customer_query->row['cart']);
-				
 				foreach ($cart as $key => $value) {
 					if (!array_key_exists($key, $this->session->data['cart'])) {
 						$this->session->data['cart'][$key] = $value;
-					} else {
-						$this->session->data['cart'][$key]['qty'] += $value['qty'];
 					}
-				}			
+				}		
+				//save merged cart 
+				$this->saveCustomerCart();	
 			}
 
 			$this->loginname = $loginname;			
@@ -179,6 +189,12 @@ final class ACustomer {
 			$this->customer_group_id = $customer_query->row['customer_group_id'];
 			$this->address_id = $customer_query->row['address_id'];
             $this->cache->delete('storefront_menu');
+            
+            //set cookie for unauthenticated user (expire in 1 year) 
+			$encryption = new AEncryption($this->config->get('encryption_key'));
+            $cutomer_data = $encryption->encrypt(serialize(array('first_name' => $this->firstname, 'customer_id' => $this->customer_id )));
+	  		setcookie('customer', $cutomer_data, time() + 60 * 60 * 24 * 365, '/', $this->request->server['HTTP_HOST']);
+            
 	  		return TRUE;
     	} else {
       		return FALSE;
@@ -216,6 +232,21 @@ final class ACustomer {
 			return $this->customer_id;
 		}
 	}
+
+	/**
+	 * @return int
+	 */
+	public function isUnauthCustomer() {
+    	return $this->unauth_customer['customer_id'];
+  	}
+
+	/**
+	 * @return string
+	 */
+	public function getUnauthName() {
+		return $this->unauth_customer['first_name'];
+  	}
+
 
 	/**
 	 * @return int
@@ -373,6 +404,45 @@ final class ACustomer {
   	}
 
 	/**
+	* Record cart content 
+	* @param none
+	* @return none
+	*/ 	
+  	public function saveCustomerCart() {
+  		$customer_id = $this->customer_id;
+  		if(!$customer_id) {
+  			$customer_id = $this->unauth_customer['customer_id'];
+  		} 
+  		if(!$customer_id){
+  			return null;  		
+  		}
+       	$this->db->query("UPDATE " . $this->db->table("customers") . " SET cart = '" . $this->db->escape(serialize($this->session->data['cart'])) . "', ip = '" . $this->db->escape($this->request->server['REMOTE_ADDR']) . "' WHERE customer_id = '" . (int)$customer_id . "'"); 	
+  	}
+
+	/**
+	* Get cart content 
+	* @param none
+	* @return array()
+	*/ 	
+  	public function getCustomerCart() {
+  		$customer_id = $this->customer_id;
+  		if(!$customer_id) {
+  			$customer_id = $this->unauth_customer['customer_id'];
+  		} 
+  		if(!$customer_id){
+  			return array();  		
+  		}
+		$customer_query = $this->db->query("SELECT cart FROM " . $this->db->table("customers") . " WHERE customer_id = '" . (int)$customer_id . "' AND status = '1'");
+		if ($customer_query->num_rows) {
+		    //load customer saved cart
+			if (($customer_query->row['cart']) && (is_string($customer_query->row['cart']))) {
+				return unserialize($customer_query->row['cart']);
+			}
+		}
+		return array();
+	}
+
+	/**
 	 * @param string $type
 	 * @param array $tr_details - amount, order_id, transaction_type, description, comments, creator
 	 * @return bool
@@ -410,5 +480,6 @@ final class ACustomer {
   		}
   		return false;
   	}
+  	
   		
 }

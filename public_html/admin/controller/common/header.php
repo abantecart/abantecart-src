@@ -121,6 +121,12 @@ class ControllerCommonHeader extends AController {
 		if (file_exists(DIR_ROOT . '/install')) {
 			$this->messages->saveWarning($this->language->get('text_install_warning_subject'), $this->language->get('text_install_warning'));
 		}
+		//backwards compatability from 1.2.1. Can remove this check in the future. 
+		if (!defined('ENCRYPTION_KEY')) {
+			$cmbody = "To be compatible with v".VERSION." add below line to configuration file: <br>\n" . DIR_ROOT . '/system/config.php';
+			$cmbody .= "<br>\n"."define('ENCRYPTION_KEY', '" . $this->config->get('encryption_key') . "');\n"; ;
+			$this->messages->saveWarning('Compatibility warning for v'.VERSION, $cmbody);
+		}		
 		
 		//prepare quick stats 
 		$this->loadModel('tool/online_now');

@@ -16,4 +16,3 @@
 	    <?php echo buildStoreFrontMenuTree( $storemenu ); ?>
 	</ul>
 </div>
-

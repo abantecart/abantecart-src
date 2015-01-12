@@ -804,6 +804,38 @@ function compressTarGZ($tar_filename, $tar_dir){
 }
 
 /**
+ * Generate random word
+ *
+ * @param int word length
+ * @return string
+ */
+function randomWord($length = 4){
+    $newcode_length=0;
+    $newcode='';
+    while($newcode_length < $length) {
+        $x=1;
+        $y=3;
+        $part = rand($x,$y);
+        if($part==1){// Numbers
+        	$a=48;
+        	$b=57;
+        }  
+        if($part==2){// UpperCase
+        	$a=65;
+        	$b=90;
+        }  
+        if($part==3){// LowerCase
+        	$a=97;
+        	$b=122;
+        } 
+        $code_part=chr(rand($a,$b));
+        $newcode_length = $newcode_length + 1;
+        $newcode = $newcode.$code_part;
+    }
+    return $newcode;
+}
+
+/**
  * TODO: in the future
  * @param $zip_filename
  * @param $zip_dir

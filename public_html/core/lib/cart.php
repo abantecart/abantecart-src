@@ -33,7 +33,7 @@ if (! defined ( 'DIR_CORE' )) {
  * @property ALanguage $language
  * @property ModelCheckoutExtension $model_checkout_extension
  */
-final class ACart {
+class ACart {
   	private $registry;
   	private $cart_data = array();
   	private $sub_total;
@@ -47,13 +47,14 @@ final class ACart {
 	 */
 	public function __construct($registry) {
   		$this->registry = $registry;
-
 		$this->attribute = new AAttribute('product_option');
 		$this->promotion = new APromotion();
+$this->customer = $registry->get('customer');
 	
 		if (!isset($this->session->data['cart']) || !is_array($this->session->data['cart'])) {
       		$this->session->data['cart'] = array();
     	}
+    	
 	}
 
 	public function __get($key) {
@@ -302,6 +303,12 @@ final class ACart {
     		//TODO Add validation for correct options for the product and add error return or more stable behaviour
 			$this->session->data['cart'][$key]['options'] = $options;
 		}
+
+		//if logged in customer, save cart content
+    	if ($this->customer->isLogged() || $this->customer->isUnauthCustomer()) {
+    		$this->customer->saveCustomerCart();
+    	}
+		
 		$this->setMinQty();
 		$this->setMaxQty();
 		#reload data for the cart
@@ -352,6 +359,12 @@ final class ACart {
     	} else {
 	  		$this->remove($key);
 		}
+		
+		//save if logged in customer
+    	if ($this->customer->isLogged() || $this->customer->isUnauthCustomer()) {
+    		$this->customer->saveCustomerCart();
+    	}
+		
 		$this->setMinQty();
 		$this->setMaxQty();
 		#reload data for the cart
@@ -366,12 +379,23 @@ final class ACart {
      		unset($this->session->data['cart'][$key]);
 			// remove balance credit from session when any products removed from cart
 			unset($this->session->data['used_balance']);
+
+			//if logged in customer, save cart content
+     		if ($this->customer->isLogged() || $this->customer->isUnauthCustomer()) {
+    			$this->customer->saveCustomerCart();
+    		}
+
   		}
 	}
 
   	public function clear() {
 		$this->session->data['cart'] = array();
-  	}
+		
+		//if logged in customer save cart
+     	if ($this->customer->isLogged() || $this->customer->isUnauthCustomer()) {
+    		$this->customer->saveCustomerCart();
+    	}
+ 	}
 
 	/**
 	 * Accumulative weight for all or requested products

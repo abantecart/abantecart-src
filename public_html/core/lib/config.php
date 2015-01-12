@@ -215,6 +215,11 @@ final class AConfig {
 			$cache->force_set('settings.extension.' . $cache_suffix, $settings);
 		}
 
+		//add encryption key to settings, overwise use from database (backwards compatability) 
+		if (defined('ENCRYPTION_KEY')) {
+			$setting['encryption_key'] = ENCRYPTION_KEY;
+		}
+
 		foreach ($settings as $setting) {
 			$this->cnfg[ $setting['key']] = $setting['value'];
 		}

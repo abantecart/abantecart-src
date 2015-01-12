@@ -23,6 +23,7 @@ if (! defined ( 'DIR_CORE' )) {
 class ControllerPagesCheckoutCart extends AController {
 	private $error = array();
 	public $data = array();
+
 	public function main() {
 		$error_msg = array();
 		

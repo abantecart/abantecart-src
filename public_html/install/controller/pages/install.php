@@ -274,9 +274,13 @@ class ControllerPagesInstall extends AController {
 		$content .= "define('DB_USERNAME', '" . $this->session->data['install_step_data']['db_user'] . "');\n";
 		$content .= "define('DB_PASSWORD', '" . $this->session->data['install_step_data']['db_password'] . "');\n";
 		$content .= "define('DB_DATABASE', '" . $this->session->data['install_step_data']['db_name'] . "');\n";
-		$content .= "define('DB_PREFIX', '" . DB_PREFIX . "');\n";
-		$content .= "define('SALT', '" . SALT . "');\n";
+		$content .= "define('DB_PREFIX', '" . DB_PREFIX . "');\n";		
+		$content .= "// Unique AbanteCart store ID\n";
 		$content .= "define('UNIQUE_ID', '" . md5(time()) . "');\n";
+		$content .= "// Salt key for oneway encryption of passwords. NOTE: Change of SALT key will cause a loss of all existing users' and customers' passwords!\n";
+		$content .= "define('SALT', '" . SALT . "');\n";
+		$content .= "// Encryption key for protecting sensitive information. NOTE: Change of this key will cause a loss of all existing encrypted information!\n";
+		$content .= "define('ENCRYPTION_KEY', '" . randomWord(6) . "');\n";
 
 		$file = fopen(DIR_ABANTECART . 'system/config.php', 'w');
 		fwrite($file, $content);

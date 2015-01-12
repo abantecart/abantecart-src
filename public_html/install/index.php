@@ -59,33 +59,7 @@ if(isset($_SESSION['SALT']) && strlen($_SESSION['SALT'])==4){
 
 //generate salt
 if(!defined('SALT')){
-	function randomWord(){
-			$codelenght = 4;
-			$newcode_length=0;
-			$newcode='';
-			while($newcode_length < $codelenght) {
-				$x=1;
-				$y=3;
-				$part = rand($x,$y);
-				if($part==1){// Numbers
-					$a=48;
-					$b=57;
-				}  
-				if($part==2){// UpperCase
-					$a=65;
-					$b=90;
-				}  
-				if($part==3){// LowerCase
-					$a=97;
-					$b=122;
-				} 
-				$code_part=chr(rand($a,$b));
-				$newcode_length = $newcode_length + 1;
-				$newcode = $newcode.$code_part;
-			}
-			return $newcode;
-	}
-	DEFINE('SALT',randomWord());
+	DEFINE('SALT',randomWord(4));
 	$_SESSION['SALT'] = SALT;
 }
 

@@ -1021,11 +1021,15 @@ class AConfigManager {
 			'value' => $data['config_voicecontrol'],
 			'style' => 'btn_switch',
 		));
-		$fields['encryption'] = $form->getFieldHtml($props[] = array(
-			'type' => 'input',
-			'name' => 'encryption_key',
-			'value' => $data['encryption_key'],
-		));
+		//backwards compatability. Can remove in the future. 
+		if (!defined('ENCRYPTION_KEY')) {
+			$fields['encryption'] = $form->getFieldHtml($props[] = array(
+				'type' => 'input',
+				'name' => 'encryption_key',
+				'value' => $data['encryption_key'],
+				'attr' => 'readonly',
+			));		
+		}
 		$fields['seo_url'] = $form->getFieldHtml($props[] = array(
 			'type' => 'checkbox',
 			'name' => 'enable_seo_url',

@@ -418,7 +418,7 @@
   </definition>
   <definition>
     <key>entry_encryption</key>
-    <value><![CDATA[Ключ шифрования:<br /><span class="help">Ключ, который будет использоваться для шифрования конфиденциальной информации при обработке заказов.</span>]]></value>
+    <value><![CDATA[Ключ шифрования:<br /><span class="help">Setting migrated to config file starting in v1.2.1.</span>]]></value>
   </definition>
   <definition>
     <key>entry_seo_url</key>

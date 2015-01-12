@@ -85,6 +85,7 @@ CREATE TABLE `ac_customers_enc` (
   `fax` text COLLATE utf8_bin NOT NULL DEFAULT '',
   `password` varchar(40) COLLATE utf8_bin NOT NULL DEFAULT '',
   `cart` text COLLATE utf8_bin,
+  `wishlist` text COLLATE utf8_general_ci,
   `newsletter` int(1) NOT NULL DEFAULT '0',
   `address_id` int(11) NOT NULL DEFAULT '0',
   `status` int(1) NOT NULL,

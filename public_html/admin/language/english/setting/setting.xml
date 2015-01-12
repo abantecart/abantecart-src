@@ -451,7 +451,7 @@
 	<definition>
 		<key>entry_encryption</key>
 		<value>
-			<![CDATA[Encryption Key:<br /><span class="help">Please provide a secret key that will be used to encrypt private information when processing orders.</span>]]></value>
+			<![CDATA[Encryption Key:<br /><span class="help">Setting migrated to config file starting in v1.2.1.</span>]]></value>
 	</definition>
 	<definition>
 		<key>entry_seo_url</key>
