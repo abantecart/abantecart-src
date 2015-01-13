@@ -15,5 +15,3 @@
 
 //clear cache after upgrade       					
 $this->cache->delete('*');
-
-

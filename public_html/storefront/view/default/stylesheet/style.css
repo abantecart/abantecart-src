@@ -211,7 +211,7 @@ form {
 }
 
 
-.footerlinks ul li a, .footerlinks ul li a:hover, .thumbnail .shortlinks a, .thumbnail .shortlinks a:hover, .flex-control-paging li a, .flex-control-paging li a:hover, ul.categorymenu > li > a, ul.categorymenu > li > a:hover, .dropdown-menu li > a, .dropdown-menu li > a:hover, ul.categorymenu > li > div > ul > li > a, ul.categorymenu > li > div > ul > li > a:hover, #topnav ul li a, #topnav ul li a:hover, .thumbnail a.productcart, .thumbnail a:hover.productcart, input, input:focus, select, select:focus, textarea, textarea:focus {
+.footerlinks ul li a, .footerlinks ul li a:hover, .thumbnail .shortlinks a, .thumbnail .shortlinks a:hover, .flex-control-paging li a, .flex-control-paging li a:hover, ul.categorymenu > li > a, ul.categorymenu > li > a:hover, .dropdown-menu li > a, .dropdown-menu li > a:hover, ul.categorymenu > li > div > ul > li > a, ul.categorymenu > li > div > ul > li > a:hover, #topnav ul li a, #topnav ul li a:hover, #customernav ul li a, #customernav ul li a:hover, .thumbnail a.productcart, .thumbnail a:hover.productcart, input, input:focus, select, select:focus, textarea, textarea:focus {
 	-moz-transition: all .2s ease;
 	-webkit-transition: all .2s ease;
 	-o-transition: all .2s ease
@@ -277,18 +277,18 @@ section.row {
 	display: none
 }
 
-#topnav .navbar-inner {
+#topnav .navbar-inner, #customernav .navbar-inner  {
 	background: none;
 	border: none;
 	box-shadow: none;
 	filter: none;
 }
 
-#topnav ul {
+#topnav ul, #customernav ul {
 	padding: 6px 10px 0 10px;
 }
 
-#topnav ul li {
+#topnav ul li, #customernav ul li {
 	padding: 5px 0;
 }
 
@@ -308,7 +308,25 @@ section.row {
 	white-space: nowrap;
 }
 
-#topnav ul.dropdown-menu li a span {
+#customernav .dropdown-menu {
+	min-width: 225px;
+}
+
+#customernav ul li a {
+	box-shadow: none;
+	text-shadow: none;
+	color: #fff;
+	font-size: 14px;
+	padding: 0 0 0 10px;
+	margin-right: 10px;
+	background: none;
+}
+
+#customernav ul.dropdown-menu li a {
+	color: #999999;
+}
+
+#topnav ul.dropdown-menu li a span, #customernav ul.dropdown-menu li a span {
 	padding: 0 10px 0 10px;
 }
 
@@ -706,7 +724,7 @@ ul.categorymenu > li > div {
 	z-index: 99999;
 	display: none;
 	float: left;
-	min-width: 200px;
+	min-width: 210px;
 	margin: 1px 0 0;
 	list-style: none;
 	background-color: #ffffff;

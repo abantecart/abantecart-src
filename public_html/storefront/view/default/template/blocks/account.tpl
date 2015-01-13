@@ -39,7 +39,7 @@
           <?php echo $this->getHookVar('account_newsletter_links'); ?>	      
 
 		  <li <?php if ( $logout == $current) echo 'class="selected"'; ?>>
-		  	<a href="<?php echo $logout; ?>"><i class="fa fa-unlock fa-fw"></i>&nbsp; <?php echo $text_logout; ?></a>
+		  	<a href="<?php echo $logout; ?>"><i class="fa fa-lock fa-fw"></i>&nbsp; <?php echo $text_logout; ?></a>
 		  </li>	  		
 
 		</ul>

@@ -218,6 +218,9 @@ final class ACustomer {
 		$this->customer_group_id = '';
 		$this->address_id = '';
 		$this->cache->delete('storefront_menu');
+		
+		//remove unauth cookie
+		setcookie("customer", "", time()-3600, '/', $this->request->server['HTTP_HOST']);
   	}
 
 	/**

@@ -389,12 +389,7 @@ $this->customer = $registry->get('customer');
 	}
 
   	public function clear() {
-		$this->session->data['cart'] = array();
-		
-		//if logged in customer save cart
-     	if ($this->customer->isLogged() || $this->customer->isUnauthCustomer()) {
-    		$this->customer->saveCustomerCart();
-    	}
+		$this->session->data['cart'] = array();		
  	}
 
 	/**

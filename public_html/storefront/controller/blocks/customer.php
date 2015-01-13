@@ -26,22 +26,22 @@ class ControllerBlocksCustomer extends AController {
 
         //init controller data
         $this->extensions->hk_InitData($this,__FUNCTION__);
-		if($this->customer->isLogged()){
-			$this->loadLanguage('account/account');
-			$this->view->assign('heading_title', $this->language->get('heading_title') );
 
-			$this->loadLanguage('common/header');
-			$this->data['logout'] = $this->html->getSecureURL('account/logout');
+		$this->loadLanguage('account/account');
+		$this->loadLanguage('common/header');
 
-			$this->data['customer_name'] = $this->customer->getFirstName();
-
-			if($balance!=0 || ($balance==0 && $this->config->get('config_zero_customer_balance'))){
-				$this->data['balance'] = $this->language->get('text_balance_checkout').' '.$this->currency->format($balance);
+		if ($this->customer->isLogged() || $this->customer->isUnauthCustomer()) {
+			$this->data['active'] = true;
+			if($this->customer->isLogged()) {
+				$this->data['name'] = $this->customer->getFirstName();
+				
+			} else {
+				$this->data['name'] = $this->customer->getUnauthName();			
+				$this->data['login'] = $this->html->getSecureURL('account/login');
 			}
-			$this->data['login'] = $this->html->getSecureURL('account/login');
-			$this->data['register'] = $this->html->getSecureURL('account/create');
-			$this->data['forgotten'] = $this->html->getSecureURL('account/forgotten');
+			
 			$this->data['account'] = $this->html->getSecureURL('account/account');
+			$this->data['logout'] = $this->html->getSecureURL('account/logout');
 			$this->data['information'] = $this->html->getSecureURL('account/edit');
 			$this->data['password'] = $this->html->getSecureURL('account/password');
 			$this->data['address'] = $this->html->getSecureURL('account/address');
@@ -51,10 +51,14 @@ class ControllerBlocksCustomer extends AController {
 			$this->data['newsletter'] = $this->html->getSecureURL('account/newsletter');
 			$this->data['current'] = $this->html->getSecureURL($this->request->get['rt']);
 
-			$this->view->batchAssign($this->data);
+		} else {
+			$this->data['login'] = $this->html->getSecureURL('account/login');
+			$this->data['register'] = $this->html->getSecureURL('account/create');		
+		} 
 
-			$this->processTemplate();
-		}
+		$this->view->batchAssign($this->data);
+		$this->processTemplate();
+
         //init controller data
         $this->extensions->hk_UpdateData($this,__FUNCTION__);
 

@@ -26,11 +26,11 @@
   </definition>
   <definition>
     <key>text_login</key>
-    <value><![CDATA[Log In]]></value>
+    <value><![CDATA[Login]]></value>
   </definition>
   <definition>
     <key>text_logout</key>
-    <value><![CDATA[Log Off]]></value>
+    <value><![CDATA[Logoff]]></value>
   </definition>
   <definition>
     <key>text_cart</key>
@@ -56,4 +56,16 @@
     <key>entry_search</key>
     <value><![CDATA[Search:]]></value>
   </definition>
+  <definition>
+	<key>text_welcome</key>
+	<value><![CDATA[Welcome back]]></value>
+  </definition>  
+  <definition>
+    <key>text_not</key>
+    <value><![CDATA[Not]]></value>
+  </definition>  
+  <definition>
+    <key>text_login_or_register</key>
+    <value><![CDATA[Login or register]]></value>
+  </definition>  
 </definitions>

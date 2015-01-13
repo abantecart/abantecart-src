@@ -26,7 +26,7 @@ class ControllerPagesAccountLogout extends AController {
         //init controller data
         $this->extensions->hk_InitData($this,__FUNCTION__);
 
-    	if ($this->customer->isLogged()) {
+    	if ($this->customer->isLogged() || $this->customer->isUnauthCustomer()) {
       		$this->customer->logout();
 	  		$this->cart->clear();
 			
