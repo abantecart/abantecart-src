@@ -61,6 +61,7 @@ class ControllerPagesAccountAccount extends AController {
         $this->data['download'] = $this->html->getSecureURL('account/download');
         $this->data['newsletter'] = $this->html->getSecureURL('account/newsletter');
         $this->data['transactions'] = $this->html->getSecureURL('account/transactions');
+        $this->data['wishlist'] = $this->html->getSecureURL('account/wishlist');
         
 		$this->loadLanguage('common/header');
         $this->data['logout'] = $this->html->getSecureURL('account/logout');

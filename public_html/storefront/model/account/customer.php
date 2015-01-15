@@ -471,4 +471,5 @@ class ModelAccountCustomer extends Model {
 		$result = !$query->row['customer_group_id'] ? (int)$this->config->get('config_customer_group_id') :  $query->row['customer_group_id'];
 		return $result;
 	}
+
 }

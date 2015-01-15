@@ -182,15 +182,36 @@
 												   class="cart"><?php echo $button_add_to_cart; ?></a></li>
 										</ul>
 										<?php } ?>
-										<a class="productprint btn btn-large" href="javascript:window.print();"><i
-													class="fa fa-print"></i> <?php echo $button_print; ?></a>
-										<?php }else{?>
+										<?php } else { ?>
 											<ul class="productpagecart call_to_order">
 												<li><a href="#" class="call_to_order"><i class="fa fa-phone-sign"></i>&nbsp;&nbsp;<?php echo $text_call_to_order; ?></a></li>
 											</ul>
-										<?php } ?>
+										<?php } ?>										
+										<a class="productprint btn btn-large" href="javascript:window.print();">
+											<i class="fa fa-print"></i> <?php echo $button_print; ?>
+										</a>
 										<?php echo $this->getHookVar('buttons'); ?>
 									</div>
+
+									<?php 
+										if ($in_wishlist) { 
+											$whislist = ' style="display: none;" ';
+											$nowhislist = '';
+										} else {
+											$nowhislist = ' style="display: none;" ';
+											$whislist = '';
+										} 
+									?>
+									<?php if ($is_customer) { ?>
+									<div class="wishlist">
+										<a class="wishlist_remove btn btn-large" href="#" onclick="wishlist_remove(); return false;" <?php echo $nowhislist; ?>>
+											<i class="fa fa-trash-o"></i> <?php echo $button_remove_wishlist; ?>
+										</a>
+										<a class="wishlist_add btn btn-large" href="#" onclick="wishlist_add(); return false;" <?php echo $whislist; ?>>
+											<i class="fa fa-plus-square"></i> <?php echo $button_add_wishlist; ?>
+										</a>
+									</div>
+									<?php } ?>
 								</fieldset>
 								</form>
 							<?php } elseif(!$product_info['call_to_order']) { ?>
@@ -489,7 +510,7 @@
 			beforeSend: function () {
 				$('.success, .warning').remove();
 				$('#review_button').attr('disabled', 'disabled');
-				$('#review_title').after('<div class="wait"><img src="<?php echo $this->templateResource('/image/loading_1.gif'); ?>" alt="" /> <?php echo $text_wait; ?></div>');
+				$('#review_title').after('<div class="wait"><i class="fa fa-spinner fa-spin"></i> <?php echo $text_wait; ?></div>');
 			},
 			complete: function () {
 				$('#review_button').attr('disabled', '');
@@ -514,6 +535,74 @@
 					$('input[name=\'captcha\']').val('');
 				}
 				$('img#captcha_img').attr('src', $('img#captcha_img').attr('src') + '&' + Math.random());
+			}
+		});
+	}
+
+	function wishlist_add() {
+		var dismiss = '<button type="button" class="close" data-dismiss="alert">&times;</button>';
+		$.ajax({
+			type: 'POST',
+			url: 'index.php?rt=product/wishlist/add&product_id=<?php echo $product_id; ?>',
+			dataType: 'json',
+			beforeSend: function () {
+				$('.success, .warning').remove();
+				$('.wishlist_add').hide();
+				$('.wishlist').after('<div class="wait"><i class="fa fa-spinner fa-spin"></i> <?php echo $text_wait; ?></div>');
+			},
+			complete: function () {
+				$('.wait').remove();
+			},
+            error: function (jqXHR, exception) {
+            	var text = jqXHR.statusText + ": " + jqXHR.responseText;
+				$('.wishlist .alert').remove();
+				$('.wishlist').after('<div class="alert alert-error alert-danger">' + dismiss + text + '</div>');
+				$('.wishlist_add').show();
+			},
+			success: function (data) {
+				if (data.error) {
+					$('.wishlist .alert').remove();
+					$('.wishlist').after('<div class="alert alert-error alert-danger">' + dismiss + data.error + '</div>');
+					$('.wishlist_add').show();
+				} else {
+					$('.wishlist .alert').remove();
+					//$('.wishlist').after('<div class="alert alert-success">' + dismiss + data.success + '</div>');
+					$('.wishlist_remove').show();
+				}
+			}
+		});
+	}
+
+	function wishlist_remove() {
+		var dismiss = '<button type="button" class="close" data-dismiss="alert">&times;</button>';
+		$.ajax({
+			type: 'POST',
+			url: 'index.php?rt=product/wishlist/remove&product_id=<?php echo $product_id; ?>',
+			dataType: 'json',
+			beforeSend: function () {
+				$('.success, .warning').remove();
+				$('.wishlist_remove').hide();
+				$('.wishlist').after('<div class="wait"><i class="fa fa-spinner fa-spin"></i> <?php echo $text_wait; ?></div>');
+			},
+			complete: function () {
+				$('.wait').remove();
+			},
+            error: function (jqXHR, exception) {
+            	var text = jqXHR.statusText + ": " + jqXHR.responseText;
+				$('.wishlist .alert').remove();
+				$('.wishlist').after('<div class="alert alert-error alert-danger">' + dismiss + text + '</div>');
+				$('.wishlist_remove').show();
+			},
+			success: function (data) {
+				if (data.error) {
+					$('.wishlist .alert').remove();
+					$('.wishlist').after('<div class="alert alert-error alert-danger">' + dismiss + data.error + '</div>');
+					$('.wishlist_remove').show();
+				} else {
+					$('.wishlist .alert').remove();
+					//$('.wishlist').after('<div class="alert alert-success">' + dismiss + data.success + '</div>');
+					$('.wishlist_add').show();
+				}
 			}
 		});
 	}

@@ -524,7 +524,6 @@ class ControllerPagesProductProduct extends AController {
 		}
         $this->data['tags'] = $tags;
 
-
 		//downloads before order if allowed
 		if($this->config->get('config_download')){
 			$dwn = new ADownload();
@@ -550,6 +549,15 @@ class ControllerPagesProductProduct extends AController {
 			}
 		}
 
+		#check if product is in a wishlist 
+		$this->data['is_customer'] = false;
+		if ($this->customer->isLogged() || $this->customer->isUnauthCustomer()) {
+			$this->data['is_customer'] = true;
+			$whishlist = $this->customer->getWishList();
+			if ($whishlist[$product_id]) {
+				$this->data['in_wishlist'] = true;
+			}
+		}
 
 		$this->view->setTemplate( 'pages/product/product.tpl' );
 

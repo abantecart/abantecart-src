@@ -299,8 +299,8 @@ section.row {
 	font-size: 14px;
 	text-transform: uppercase;
 	background: transparent url(../image/sprite.png) no-repeat;
-	padding: 0 0 0 25px;
-	margin-right: 20px
+	padding: 0 0 0 20px;
+	margin-right: 15px
 }
 
 #topnav ul.dropdown-menu li a {
@@ -1513,7 +1513,7 @@ ul.productpagecart li {
 	display: inline-block;
 	background: url(../image/productpageicon.png) no-repeat 0 0;
 	margin-right: 10px;
-	height: 66px
+	height: 45px
 }
 
 .productpagecart a {
@@ -1767,6 +1767,7 @@ ul.reveiw ul.rate {
 
 .cart-info td, .cart-info th {
 	padding: 15px;
+	vertical-align: middle;
 }
 
 .cart-info th {
@@ -1792,7 +1793,7 @@ ul.reveiw ul.rate {
 }
 
 .cart-info tbody td {
-	vertical-align: top;
+	vertical-align: middle !important;
 	border-bottom: 1px solid #E7E7E7;
 }
 

@@ -52,7 +52,13 @@ class ControllerPagesCheckoutCart extends AController {
 			$this->cart->add($this->request->get['product_id'], $quantity, $option);
 
 			$this->redirect($this->html->getSecureURL('checkout/cart'));
-			
+
+		} else if ($this->request->is_GET() && isset($this->request->get['remove']) ) {
+		
+			//remove product with button claick.
+          	$this->cart->remove($this->request->get['remove']);
+			$this->redirect($this->html->getSecureURL('checkout/cart'));
+			          	
 		} else if ($this->request->is_POST()) {
 
 			//if this is coupon, validate and apply
@@ -242,6 +248,7 @@ class ControllerPagesCheckoutCart extends AController {
 			        'remove' => $form->getFieldHtml( array( 'type' => 'checkbox',
 				                                            'name' => 'remove['.$result['key'].']',
 			                                                )),
+			        'remove_url' => $this->html->getSecureURL('checkout/cart', '&remove='.$result['key']),                                        
           			'key'      => $result['key'],
           			'name'     => $result['name'],
           			'model'    => $result['model'],

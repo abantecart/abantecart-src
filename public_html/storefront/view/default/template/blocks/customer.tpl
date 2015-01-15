@@ -9,6 +9,9 @@
 			<li class="dropdown hover <?php if ( $account == $current) echo 'selected'; ?>">
 			  <a href="<?php echo $account; ?>"><i class="fa fa-user fa-fw"></i>&nbsp; <?php echo $text_account_dashboard; ?></a>
 			</li>	
+			<li class="dropdown hover <?php if ( $wishlist == $current) echo 'selected'; ?>">
+			  <a href="<?php echo $wishlist; ?>"><i class="fa fa-star fa-fw"></i>&nbsp; <?php echo $text_account_wishlist; ?></a>
+			</li>
 			<li class="dropdown hover <?php if ( $information == $current) echo 'selected'; ?>">
 			  <a href="<?php echo $information; ?>"><i class="fa fa-edit fa-fw"></i>&nbsp; <?php echo $text_information; ?></a>
 			</li>	

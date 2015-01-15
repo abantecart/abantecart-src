@@ -81,6 +81,22 @@
 		<value><![CDATA[Add to Cart]]></value>
 	</definition>
 	<definition>
+		<key>button_add_wishlist</key>
+		<value><![CDATA[Add to wish list]]></value>
+	</definition>
+	<definition>
+		<key>button_remove_wishlist</key>
+		<value><![CDATA[Remove from wish list]]></value>
+	</definition>
+	<definition>
+		<key>text_wishlist_add_success</key>
+		<value><![CDATA[Added to wish list]]></value>
+	</definition>
+	<definition>
+		<key>text_wishlist_remove_success</key>
+		<value><![CDATA[Removed from wish list]]></value>
+	</definition>
+	<definition>
 		<key>button_add_address</key>
 		<value><![CDATA[Add Address]]></value>
 	</definition>

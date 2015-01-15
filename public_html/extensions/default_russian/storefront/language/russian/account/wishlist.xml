@@ -1,0 +1,50 @@
+<?xml version="1.0"?>
+<definitions>
+	<definition>
+		<key>heading_title</key>
+		<value><![CDATA[Мой список пожеланий]]></value>
+	</definition>
+    <definition>
+        <key>text_account</key>
+        <value><![CDATA[Личный Кабинет]]></value>
+    </definition>
+
+	<definition>
+		<key>text_empty_wishlist</key>
+		<value><![CDATA[Список пожеланий пуст]]></value>
+	</definition>
+	<definition>
+		<key>button_cart</key>
+		<value><![CDATA[В Карзину]]></value>
+	</definition>
+	<definition>
+		<key>button_continue</key>
+		<value><![CDATA[Продолжить покупки]]></value>
+	</definition>
+	
+	<definition>
+		<key>column_image</key>
+		<value><![CDATA[Картинка]]></value>
+	</definition>
+	<definition>
+		<key>column_name</key>
+		<value><![CDATA[Название]]></value>
+	</definition>
+	<definition>
+		<key>column_model</key>
+		<value><![CDATA[Модель]]></value>
+	</definition>
+	<definition>
+		<key>column_added</key>
+		<value><![CDATA[Добавлено в список]]></value>
+	</definition>
+	<definition>
+		<key>column_price</key>
+		<value><![CDATA[Цена]]></value>
+	</definition>
+	<definition>
+		<key>column_actions</key>
+		<value><![CDATA[Управление]]></value>
+	</definition>
+
+</definitions>

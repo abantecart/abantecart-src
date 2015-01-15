@@ -85,6 +85,22 @@
 		<value><![CDATA[В корзину]]></value>
 	</definition>
 	<definition>
+		<key>button_add_wishlist</key>
+		<value><![CDATA[Добавить в список пожеланий]]></value>
+	</definition>
+	<definition>
+		<key>button_remove_wishlist</key>
+		<value><![CDATA[Удалить из списка пожеланий]]></value>
+	</definition>
+	<definition>
+		<key>text_wishlist_add_success</key>
+		<value><![CDATA[Добавлено в список пожеланий]]></value>
+	</definition>
+	<definition>
+		<key>text_wishlist_remove_success</key>
+		<value><![CDATA[Удалено из списка пожеланий]]></value>
+	</definition>
+	<definition>
 		<key>button_add_address</key>
 		<value><![CDATA[Добавить адрес]]></value>
 	</definition>

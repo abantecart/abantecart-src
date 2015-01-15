@@ -445,6 +445,76 @@ final class ACustomer {
 		return array();
 	}
 
+
+	/**
+	* Add item to wisth list 
+	* @param product id 
+	* @return none
+	*/ 	
+	public function addToWishList($product_id) {
+		if(!has_value($product_id) || !is_numeric($product_id)){
+			return;
+		}
+		$whishlist = $this->getWishList();
+		$whishlist[$product_id] = time();
+		$this->saveWishList($whishlist);
+		return;
+	}
+
+	/**
+	* Remove item from wisth list 
+	* @param product id 
+	* @return none
+	*/ 	
+	public function removeFromWishList($product_id) {
+		if(!has_value($product_id) || !is_numeric($product_id)){
+			return;
+		}
+		$whishlist = $this->getWishList();
+		unset($whishlist[$product_id]);
+		$this->saveWishList($whishlist);
+		return;	
+	}
+
+	/**
+	* Record wisth list content 
+	* @param none
+	* @return none
+	*/ 	
+  	public function saveWishList($whishlist = array()) {
+  		$customer_id = $this->customer_id;
+  		if(!$customer_id) {
+  			$customer_id = $this->unauth_customer['customer_id'];
+  		} 
+  		if(!$customer_id){
+  			return null;  		
+  		}
+       	$this->db->query("UPDATE " . $this->db->table("customers") . " SET wishlist = '" . $this->db->escape(serialize($whishlist)) . "', ip = '" . $this->db->escape($this->request->server['REMOTE_ADDR']) . "' WHERE customer_id = '" . (int)$customer_id . "'"); 	
+  	}
+
+	/**
+	* Get cart content 
+	* @param none
+	* @return array()
+	*/ 	
+  	public function getWishList() {
+  		$customer_id = $this->customer_id;
+  		if(!$customer_id) {
+  			$customer_id = $this->unauth_customer['customer_id'];
+  		} 
+  		if(!$customer_id){
+  			return array();  		
+  		}
+		$customer_query = $this->db->query("SELECT wishlist FROM " . $this->db->table("customers") . " WHERE customer_id = '" . (int)$customer_id . "' AND status = '1'");
+		if ($customer_query->num_rows) {
+		    //load customer saved cart
+			if (($customer_query->row['wishlist']) && (is_string($customer_query->row['wishlist']))) {
+				return unserialize($customer_query->row['wishlist']);
+			}
+		}
+		return array();
+	}
+
 	/**
 	 * @param string $type
 	 * @param array $tr_details - amount, order_id, transaction_type, description, comments, creator
