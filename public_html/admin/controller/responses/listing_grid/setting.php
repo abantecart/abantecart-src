@@ -126,6 +126,11 @@ class ControllerResponsesListingGridSetting extends AController {
 				}
 				$data = array($key => $value);
 
+				//html decode store name
+				if (has_value($data['store_name'])) {
+					$data['store_name'] = html_entity_decode($data['store_name'], ENT_COMPAT, 'UTF-8');
+				}
+
 				$this->model_setting_setting->editSetting($group, $data, $this->request->get[ 'store_id' ]);
                 startStorefrontSession($this->user->getId());
 			}

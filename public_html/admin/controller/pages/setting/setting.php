@@ -60,6 +60,10 @@ class ControllerPagesSettingSetting extends AController {
 				//we save resource ID vs resource path
 				$this->request->post['config_icon'] = $this->request->post['config_icon_resource_id'];
 			}
+			//html decode store name
+			if (has_value($this->request->post['store_name'])) {
+				$this->request->post['store_name'] = html_entity_decode($this->request->post['store_name'], ENT_COMPAT, 'UTF-8');
+			}
 
 			$group = $this->request->get['active'];
 
