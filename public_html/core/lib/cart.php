@@ -96,7 +96,20 @@ $this->customer = $registry->get('customer');
 			$product_result = $this->buildProductDetails($product_id, $quantity, $options);
 			if ( count($product_result) ) {
 				$product_data[$key] = $product_result;
-				$product_data[$key]['key'] = $key;
+				$product_data[$key]['key'] = $key;						
+
+				//apply min and max for quantity once we have product details. 
+				if ($quantity < $product_result['minimum']) {	
+					$this->session->data['error'] = $this->language->get('error_quantity_minimum');
+					$this->update($key, $product_result['minimum']);
+				}
+				if ($product_query['maximum'] > 0) {
+					if ($quantity > $product_result['maximum']) {
+						$this->session->data['error'] = $this->language->get('error_quantity_maximum');
+						$this->update($key, $product_result['maximum']);
+					}
+				}
+
 			} else {
 				$this->remove($key);
 			}
@@ -115,7 +128,7 @@ $this->customer = $registry->get('customer');
 	 * @param array $options
 	 * @return array
 	 */
-	public function buildProductDetails( $product_id, $quantity = 0, $options = array()  ) {
+	public function buildProductDetails( $product_id, $quantity = 0, $options = array()) {
 		if (!has_value($product_id) || !is_numeric($product_id) || $quantity == 0) {
 			return array();
 		}	
@@ -309,8 +322,6 @@ $this->customer = $registry->get('customer');
     		$this->customer->saveCustomerCart();
     	}
 		
-		$this->setMinQty();
-		$this->setMaxQty();
 		#reload data for the cart
 		$this->getProducts(TRUE);
   	}
@@ -365,8 +376,6 @@ $this->customer = $registry->get('customer');
     		$this->customer->saveCustomerCart();
     	}
 		
-		$this->setMinQty();
-		$this->setMaxQty();
 		#reload data for the cart
 		$this->getProducts(TRUE);
   	}
@@ -461,6 +470,11 @@ $this->customer = $registry->get('customer');
 		return $special_ship_products;
 	}
 
+		
+	/**
+	 * Set mim quantity on whole cart
+	 * @return none
+	 */
 	public function setMinQty() {
 		foreach ($this->getProducts() as $product) {
 			if ($product['quantity'] < $product['minimum']) {
@@ -469,6 +483,10 @@ $this->customer = $registry->get('customer');
 		}
   	}
 
+	/**
+	 * Set max quantity on whole cart
+	 * @return none
+	 */
 	public function setMaxQty() {
 		# If set 0 there is no minimum
 		foreach ($this->getProducts() as $product) {

@@ -30,6 +30,7 @@ class ControllerPagesCheckoutCart extends AController {
         //init controller data
         $this->extensions->hk_InitData($this,__FUNCTION__);
 
+		//process all possible requests first
 		if ($this->request->is_GET() && isset($this->request->get['product_id']) ) {
 
 			if (isset($this->request->get['option'])) {
@@ -65,6 +66,7 @@ class ControllerPagesCheckoutCart extends AController {
 			if ( isset($this->request->post['coupon']) && $this->_validateCoupon() ) {
 				$this->session->data[ 'coupon' ] = $this->request->post[ 'coupon' ];
 				$this->data['success'] = $this->session->data[ 'success' ] = $this->language->get('text_coupon_success');
+				unset($this->session->data['success']);
 				//process data
 				$this->extensions->hk_ProcessData($this);
 			}
@@ -162,9 +164,6 @@ class ControllerPagesCheckoutCart extends AController {
 				unset($this->session->data['payment_methods']);
 				unset($this->session->data['payment_method']);
 	
-				#upate min and max
-				$this->cart->setMinQty();
-				$this->cart->setMaxQty();
       		}
 
       		if (isset($this->request->post['remove'])) {
