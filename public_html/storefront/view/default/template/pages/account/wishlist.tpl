@@ -3,22 +3,19 @@
 </h1>
 
 <?php if ($success) { ?>
-	<div class="alert alert-success">
-		<button type="button" class="close" data-dismiss="alert">&times;</button>
-		<?php echo $success; ?>
-	</div>
+<div class="alert alert-success">
+<button type="button" class="close" data-dismiss="alert">&times;</button>
+<?php echo $success; ?>
+</div>
 <?php } ?>
 
-<?php if (count($error_warning) > 0) {
-	foreach ($error_warning as $error) {
-		?>
-		<div class="alert alert-error alert-danger">
-			<strong><?php echo $error; ?></strong>
-		</div>
-	<?php
-	}
-}
-?>
+<?php if ($error) { ?>
+<div class="alert alert-error alert-danger">
+<button type="button" class="close" data-dismiss="alert">&times;</button>
+<?php echo $error; ?>
+</div>
+<?php } ?>
+
 <div class="contentpanel">
 	<div class="container-fluid wishlist product-list">
 		<table class="table table-striped table-bordered">

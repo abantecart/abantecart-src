@@ -112,8 +112,9 @@ class ControllerPagesAccountWishlist extends AController {
                 $this->data['continue'] = $this->html->getURL('index/home');
 			}
 			
+			$this->view->assign('error', '' );
 		    if($this->session->data['error']){
-			    $error_msg[] = $this->session->data['error'];
+		    	$this->view->assign('error', $this->session->data['error'] );
 			    unset($this->session->data['error']);
 		    }
 
@@ -126,7 +127,7 @@ class ControllerPagesAccountWishlist extends AController {
 			}
 	        $this->data['display_price'] = $display_price;
 
-			$this->view->assign('error_warning', $error_msg );
+			
 			$this->view->setTemplate('pages/account/wishlist.tpl');
 
     	} else {            
