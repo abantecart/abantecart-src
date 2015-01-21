@@ -23,7 +23,7 @@ if ($products) {
 	    
 ?>      
               <li>
-              	<a href="<?php echo $item['info_url']?>"><img style="width:50px;" src="<?php echo $item['image']?>" alt=""/></a>
+              	<a href="<?php echo $item['info_url']?>"><img class="thumbnail_small" src="<?php echo $item['image']?>" alt=""/></a>
               	<a class="productname" href="<?php echo $item['info_url']?>"><?php echo $item['title']?></a>
               	<?php if ($review_status) { ?>
                 <span class="procategory"><?php echo $item['rating']?></span>

@@ -1155,6 +1155,9 @@ a.compare>img{
 	overflow: hidden !important;
 	font-size: 12px;
 }
+.thumbnail_small {
+	width: 60px;
+}
 
 #featured .thumbnails li:hover .thumbnail img,
 #latest .thumbnails li:hover .thumbnail img,

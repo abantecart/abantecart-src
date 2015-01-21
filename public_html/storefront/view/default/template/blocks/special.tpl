@@ -9,8 +9,8 @@
 if ($products) {
     foreach ($products as $product) {
         $item = array();
-		if( $item['thumb']['origin']=='internal'){
-			$item['image'] = '<img style="width:50px;" src="'. $product['thumb']['thumb_url'].'"/>';
+		if( $product['thumb']['origin']=='internal'){
+			$item['image'] = '<img class="thumbnail_small" src="'. $product['thumb']['thumb_url'].'"/>';
 		}else{
 			$item['image'] = $product['thumb']['thumb_html'];
 		}
