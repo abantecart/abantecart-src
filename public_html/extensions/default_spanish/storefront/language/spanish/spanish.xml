@@ -288,4 +288,8 @@
 		<key>text_discount</key>
 		<value><![CDATA[Descuento]]></value>
     </definition>
+	<definition>
+		<key>text_download</key>
+		<value><![CDATA[Descargar]]></value>
+    </definition>
 </definitions>

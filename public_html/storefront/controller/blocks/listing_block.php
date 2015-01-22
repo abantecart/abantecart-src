@@ -284,7 +284,7 @@ class ControllerBlocksListingBlock extends AController {
 						$result[$k]['resource_code'] = $resource['thumb_html'];
 					}else{
 						if($content['resource_type']!='image'){
-							$title = $resource['title'] ? $resource['title'] : 'dowload';
+							$title = $resource['title'] .'<br>dowload';
 						}else{
 							$title = $resource['title'];
 						}
@@ -294,7 +294,8 @@ class ControllerBlocksListingBlock extends AController {
 						                             'thumb_url'=>$resource['thumb_url'],
 						                             'thumb_html'=>$resource['thumb_html'],
 						                             'title' => $title,
-													 'resource_type' => $content['resource_type'] );
+													 'resource_type' => $content['resource_type'],
+													 'origin' => 'internal');
 					}
 				}
 
