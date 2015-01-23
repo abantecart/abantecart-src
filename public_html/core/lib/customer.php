@@ -154,10 +154,9 @@ final class ACustomer {
 		
 		$customer_query = $this->db->query("SELECT *
 											FROM " . $this->db->table("customers") . "
-											WHERE loginname = '" . $this->db->escape($loginname) . "'
+											WHERE LOWER(loginname)  = LOWER('" . $this->db->escape($loginname) . "')
 											AND password = '" . $this->db->escape(AEncryption::getHash($password)) . "'
 											AND status = '1'" . $approved_only);
-
 		if ($customer_query->num_rows) {
 			$this->session->data['customer_id'] = $customer_query->row['customer_id'];	
 		    //load customer saved cart and merge with session cart before login
