@@ -34,13 +34,46 @@ if (! defined ( 'DIR_CORE' )) {
  * @property ModelCheckoutExtension $model_checkout_extension
  */
 class ACart {
+	/**
+	 * @var Registry
+	 */
   	private $registry;
+	/**
+	 * @var array
+	 */
   	private $cart_data = array();
+	/**
+	 * @var float
+	 */
   	private $sub_total;
+	/**
+	 * @var array
+	 */
   	private $taxes = array();
+	/**
+	 * @var float
+	 */
   	private $total_value;
+	/**
+	 * @var array
+	 */
   	private $final_total;
+	/**
+	 * @var array
+	 */
   	private $total_data;
+	/**
+	 * @var ACustomer
+	 */
+  	private $customer;
+	/**
+	 * @var AAttribute
+	 */
+	private $attribute;
+	/**
+	 * @var APromotion
+	 */
+	private $promotion;
 
 	/**
 	 * @param $registry Registry
@@ -49,12 +82,10 @@ class ACart {
   		$this->registry = $registry;
 		$this->attribute = new AAttribute('product_option');
 		$this->promotion = new APromotion();
-$this->customer = $registry->get('customer');
-	
+		$this->customer = $registry->get('customer');
 		if (!isset($this->session->data['cart']) || !is_array($this->session->data['cart'])) {
       		$this->session->data['cart'] = array();
     	}
-    	
 	}
 
 	public function __get($key) {
@@ -103,13 +134,12 @@ $this->customer = $registry->get('customer');
 					$this->session->data['error'] = $this->language->get('error_quantity_minimum');
 					$this->update($key, $product_result['minimum']);
 				}
-				if ($product_query['maximum'] > 0) {
+				if ($product_result['maximum'] > 0) {
 					if ($quantity > $product_result['maximum']) {
 						$this->session->data['error'] = $this->language->get('error_quantity_maximum');
 						$this->update($key, $product_result['maximum']);
 					}
 				}
-
 			} else {
 				$this->remove($key);
 			}
@@ -375,7 +405,7 @@ $this->customer = $registry->get('customer');
     	if ($this->customer->isLogged() || $this->customer->isUnauthCustomer()) {
     		$this->customer->saveCustomerCart();
     	}
-		
+
 		#reload data for the cart
 		$this->getProducts(TRUE);
   	}
@@ -473,7 +503,7 @@ $this->customer = $registry->get('customer');
 		
 	/**
 	 * Set mim quantity on whole cart
-	 * @return none
+	 * @void
 	 */
 	public function setMinQty() {
 		foreach ($this->getProducts() as $product) {
@@ -485,7 +515,7 @@ $this->customer = $registry->get('customer');
 
 	/**
 	 * Set max quantity on whole cart
-	 * @return none
+	 * @void
 	 */
 	public function setMaxQty() {
 		# If set 0 there is no minimum
