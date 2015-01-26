@@ -34,8 +34,7 @@ class ControllerPagesAccountInvoice extends AController {
 				$order_id = 0;
 			}	
 			
-			$this->session->data['redirect'] = $this->html->getSecureURL('account/invoice', 'order_id=' . $order_id);
-			
+			$this->session->data['redirect'] = $this->html->getSecureURL('account/invoice', '&order_id=' . $order_id);
 			$this->redirect($this->html->getSecureURL('account/login'));
     	}
 	  
