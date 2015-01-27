@@ -124,7 +124,7 @@ class ModelCatalogProduct extends Model {
 				if ($tag) {
 					$this->language->addDescriptions('product_tags',
 						array('product_id' => (int)$product_id,
-							'tag' => $tag),
+							'tag' => $this->db->escape($tag)),
 						array((int)$this->language->getContentLanguageID() => array('tag' => $tag)));
 				}
 			}
@@ -282,7 +282,7 @@ class ModelCatalogProduct extends Model {
 			$tags = explode(',', $data['product_tags']);
 
 			foreach ($tags as &$tag) {
-				$tag = trim($tag);
+				$tag = $this->db->escape(trim($tag));
 			}
 
 			$this->language->replaceMultipleDescriptions('product_tags',
