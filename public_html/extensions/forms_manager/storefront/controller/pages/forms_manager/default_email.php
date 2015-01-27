@@ -62,14 +62,19 @@ class ControllerPagesFormsManagerDefaultEmail extends AController {
 					$mail->setFrom($this->request->post['email']);
 					unset($this->request->post['email']);
 				} else {
-					$mail->setFrom($this->config->get('forms_manager_default_sender_email'));
+					$sender_email = $this->config->get('forms_manager_default_sender_email');
+					$sender_email = !$sender_email ? $this->config->get('store_main_email') : $sender_email;
+					$mail->setFrom($sender_email);
 				}
 
 				if ( isset($this->request->post['first_name']) ) {
 					$mail->setSender($this->request->post['first_name']);
 					unset($this->request->post['first_name']);
 				} else {
-					$mail->setSender($this->config->get('forms_manager_default_sender_name'));
+
+					$sender_name = $this->config->get('forms_manager_default_sender_name');
+					$sender_name = !$sender_name ? $this->config->get('store_name') : $sender_name;
+					$mail->setSender($sender_name);
 				}
 
 				if ( isset($this->request->post['email_subject']) ) {
@@ -165,7 +170,7 @@ class ControllerPagesFormsManagerDefaultEmail extends AController {
 				'icon' => 'icon-arrow-right'
 			)
 		);
-		$this->data['continue_button'] = $continue->getHtml();
+		$this->data['continue_button'] = $continue;
 
 		$this->view->batchAssign($this->data);
 		$this->processTemplate('pages/default_email.tpl');
@@ -219,7 +224,7 @@ class ControllerPagesFormsManagerDefaultEmail extends AController {
 				'icon' => 'icon-arrow-right'
 			)
 		);
-		$this->data['continue_button'] = $continue->getHtml();
+		$this->data['continue_button'] = $continue;
 
 		$this->view->batchAssign($this->data);
 		$this->processTemplate('pages/default_email_success.tpl');

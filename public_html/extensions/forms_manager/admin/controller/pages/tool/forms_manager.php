@@ -201,6 +201,12 @@ class ControllerPagesToolFormsManager extends AController {
 
 	private function _getForm() {
 
+		//check is set sender anme and email for settings
+		if(!$this->config->get('forms_manager_default_sender_name') || !$this->config->get('forms_manager_default_sender_email')){
+			$this->data['error_warning'] = $this->html->convertLinks($this->language->get('forms_manager_error_empty_sender'));
+		}
+
+
 		$this->data['form_data'] = $this->model_tool_forms_manager->getFormById($this->request->get['form_id']);
 
 		$this->data['form_edit_title'] = isset($this->data['form_data']['description']) ? $this->data['form_data']['description'] : $this->language->get('entry_add_new_form');

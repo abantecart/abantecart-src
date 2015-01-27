@@ -7,13 +7,16 @@
 
 <section class="mb40">
 	<?php if( !empty($warning) ){ ?>
-				<?php echo $text_error_message; ?>
-				<?php foreach ( $warning as $message ): ?>
-					<p></div><?php echo $message; ?></p>
-				<?php endforeach; ?>
-			<?php }else{ ?>
-	<p><?php echo $text_success_message; ?></p>
-	<?php } echo $continue_button;?>
+	<div class="alert alert-danger">
+				<?php echo $text_error_message; ?><br>
+				<?php foreach ( $warning as $message ){ ?>
+					<p><?php echo $message; ?></p><br>
+				<?php } ?>
+	</div>
+	<?php }else{ ?>
+		<div class="alert alert-success"><?php echo $text_success_message; ?></div>
+	<?php } ?>
+<a class="btn btn-default " href="<?php echo $continue_button->href?>" ><i class="fa fa-arrow-right"></i> <?php echo $continue_button->text; ?></a>
 </section>
 </div>
 
