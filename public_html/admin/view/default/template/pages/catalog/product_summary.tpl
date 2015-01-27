@@ -29,7 +29,7 @@
         <td class="summary_label"><?php echo $text_product_condition; ?></td>
         <td class="summary_value"><?php
 			if($product['condition']){
-				echo  '<p class="warning">'.implode('</p><br><p class="error">',$product['condition']).'</p>';
+				echo  '<div class="alert-danger col-sm-4">'.implode('</p><br><p class="error">',$product['condition']).'</div>';
 			}else{
 				echo $text_product_available;
 			} ?></td>
