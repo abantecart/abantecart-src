@@ -278,7 +278,7 @@
 		});
 
 
-		$('#products a.remove').click(function () {
+		$(document).on('click', '#products a.remove', function () {
 			var id = $(this).attr('data-order-product-row');
 			$('#product_' + id).remove();
 			recalculate();
@@ -372,36 +372,42 @@
 	var order_product_row = <?php echo $order_product_row; ?>;
 
 	function addProduct() {
-		$("#add_product option").each(function(){
-			var product = $(this);
-			var html = '<tbody id="product_' + order_product_row + '"><tr>';
-			html += '<td><a class="remove btn btn-xs btn-danger-alt tooltips" data-original-title="<?php echo $text_remove;?>"  "data-order-product-row="' + order_product_row + '"><i class="fa fa-minus-circle"></i></a></td>';
-			html += '<td class="left">';
-			html += '<input type="hidden" name="product[' + order_product_row + '][product_id]" value="' + product.attr('value') + '">';
-			html += '<a href="<?php echo $product_update . '&product_id='; ?>' + product.attr('value') + '&token=<?php echo $token; ?>">' + product.html() + '</a>';
-			html += '</td>';
-			html += '<td class="right"><input type="text" name="product[' + order_product_row + '][quantity]" value="1" size="4" /></td>';
+		var vals = $("#add_product").chosen().val();
 
-			var price;
-			if (currency_location == 'left') {
-				price = currency_symbol + product.attr('data-price');
-			} else {
-				price = product.attr('data-price') + currency_symbol;
+		if(vals.length>0) {
+			var product_id, price, product, html;
+
+			for(var k in vals){
+				product_id = vals[k];
+				product = $('#add_product option[value="' + product_id + '"]');
+				if (currency_location == 'left') {
+					price = currency_symbol + product.attr('data-price');
+				} else {
+					price = product.attr('data-price') + currency_symbol;
+				}
+
+				html = '<tbody id="product_' + order_product_row + '"><tr>';
+				html += '<td><a class="remove btn btn-xs btn-danger-alt tooltips" data-original-title="<?php echo $text_remove;?>"  data-order-product-row="' + order_product_row + '"><i class="fa fa-minus-circle"></i></a></td>';
+				html += '<td class="left">';
+				html += '<input type="hidden" name="product[' + order_product_row + '][product_id]" value="' + product_id + '">';
+				html += '<a href="<?php echo $product_update . '&product_id='; ?>' + product_id + '&token=<?php echo $token; ?>">' + product.html() + '</a>';
+				html += '</td>';
+				html += '<td class="right"><input type="text" name="product[' + order_product_row + '][quantity]" value="1" size="4" /></td>';
+				html += '<td class="right"><input type="text" name="product[' + order_product_row + '][price]" value="' + price + '" /></td>';
+				html += '<td class="right"><input type="text" name="product[' + order_product_row + '][total]" value="' + price + '" readonly /></td>';
+				html += '</tr></tbody>';
+
+				$('#totals').before(html);
+
+				$("input, textarea, select, .scrollbox", '#product_' + order_product_row).aform({triggerChanged: false});
+				$('#product_' + order_product_row + ' input[type*="text"]').each(function () {
+					$.aform.styleGridForm(this);
+				});
+
+				order_product_row++;
+
 			}
-
-			html += '<td class="right"><input type="text" name="product[' + order_product_row + '][price]" value="' + price + '" /></td>';
-			html += '<td class="right"><input type="text" name="product[' + order_product_row + '][total]" value="' + price + '" readonly /></td>';
-			html += '</tr></tbody>';
-
-			$('#totals').before(html);
-
-			$("input, textarea, select, .scrollbox", '#product_' + order_product_row).aform({        triggerChanged: false        });
-			$('#product_' + order_product_row + ' input[type*="text"]').each(function () {
-				$.aform.styleGridForm(this);
-			});
-
-			order_product_row++;
-		});
+		}
 		recalculate();
 		$("#add_product").chosen().val('').trigger("chosen:updated");
 	}

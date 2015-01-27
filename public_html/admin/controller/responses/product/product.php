@@ -74,7 +74,9 @@ class ControllerResponsesProductProduct extends AController {
 					$price = $pdata['price'];
 				}
 
-				$frmt_price = $this->currency->format($price,($this->request->get['currency_code'] ? $this->request->get['currency_code'] : $this->config->get('config_currency')));
+				$frmt_price = $this->currency->format($pdata['price'], ($this->request->get['currency_code']
+															   ? $this->request->get['currency_code']
+															   : $this->config->get('config_currency')));
 
 					$products_data[ ] = array(
 						'image' => $thumbnail['thumb_html'],
