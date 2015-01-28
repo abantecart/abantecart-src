@@ -207,7 +207,7 @@ jQuery(function ($) {
 				option_placeholder: ($('#option_placeholder') ? $('#option_placeholder').val() : ''),
 				regexp_pattern: ($('#regexp_pattern') ? $('#regexp_pattern').val() : ''),
 				error_text: ($('#error_text') ? $('#error_text').val() : ''),
-				required: ($('#required').is(':checked') ? 1 : 0)
+				required: $('#required').val()
 			},
 			type: 'GET',
 			success: function (html) {
