@@ -606,6 +606,17 @@ var run_task_url, complete_task_url;
 var task_fail = false;
 var task_complete_text = task_fail_text = ''; // You can set you own value inside tpl who runs interactive task. see admin/view/default/template/pages/tool/backup.tpl
 
+var defaultTaskMessages = {
+    task_failed: 'Task Failed',
+    task_success: 'Task Success',
+    complete: 'Complete',
+    step: 'Step',
+    failed: 'failed',
+    success: 'success',
+    processing_step: 'processing_step'
+};
+
+
 $(document).on('click', ".task_run", function () {
     var modal =
         '<div id="task_modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">' +
@@ -676,7 +687,7 @@ var runTaskStepsUI = function (task_details) {
 
             var step = task_details.steps[k];
 
-            $('div.progress-info').html('processing step #' + step_num);
+            $('div.progress-info').html(defaultTaskMessages.processing_step +' #' + step_num);
 
             var attempts = 3;// set attempts count for fail ajax call (for repeating request)
 
@@ -694,14 +705,14 @@ var runTaskStepsUI = function (task_details) {
                         //TODO: add check for php-syntax errors (if php-crashed we got HTTP200 and error handler fired)
                         var prc = Math.round(step_num * 100 / steps_cnt);
                         $('div.progress-bar').css('width', prc + '%').html(prc + '%');
-                        task_complete_text += '<div class="alert-success">Step ' + step_num + ': success</div>';
+                        task_complete_text += '<div class="alert-success">'+defaultTaskMessages.step+' ' + step_num + ': '+defaultTaskMessages.success+'</div>';
                         step_num++;
                         if (step_num > steps_cnt) { //after last step start post-trigger of task
                             $('div.progress-bar')
                                 .removeClass('active, progress-bar-striped')
                                 .css('width', '100%')
                                 .html('100%');
-                            $('div.progress-info').html('Complete');
+                            $('div.progress-info').html(defaultTaskMessages.complete);
                             runTaskComplete(task_details.task_id);
                         }
                         attempts = 0; //stop attempts of this task
@@ -733,7 +744,7 @@ var runTaskStepsUI = function (task_details) {
 
                         //so.. if all attempts of this step are failed
                         if (attempts == 1) {
-                            task_complete_text += '<div class="alert-danger">Step ' + step_num + ' - failed. ('+ error_txt +')</div>';
+                            task_complete_text += '<div class="alert-danger">' + defaultTaskMessages.step + ' ' + step_num + ' - '+defaultTaskMessages.failed+'. ('+ error_txt +')</div>';
                             //check interruption of task on step failure
                             if (step.hasOwnProperty("settings") && step.settings!=null){
                                 if (step.settings.hasOwnProperty("interrupt_on_step_fault")) {
@@ -762,9 +773,10 @@ var runTaskStepsUI = function (task_details) {
 }
 
 /* run post-trigger */
+
 var runTaskComplete = function (task_id) {
     if(task_fail){
-        task_complete_text += '<div class="alert-danger">Task Failed</div>';
+        task_complete_text += '<div class="alert-danger">' + defaultTaskMessages.task_failed + '</div>';
         // replace progressbar by result message
         $('#task_modal .modal-body').html(task_fail_text + task_complete_text);
         task_fail_text = task_complete_text = '';
@@ -777,7 +789,14 @@ var runTaskComplete = function (task_id) {
             datatype: 'json',
             global: false,
             success: function (data) {
-                task_complete_text += '<div class="alert-success">Task Success</div>';
+                var mess = '';
+                if(data.result_text){
+                    mess = defaultTaskMessages.task_success + '<br>'+data.result_text
+                }else{
+                    mess = defaultTaskMessages.task_success;
+                }
+
+                task_complete_text += '<div class="alert-success">' + mess + '</div>';
                 // replace progressbar by result message
                 $('#task_modal .modal-body').html(task_complete_text);
                 task_complete_text = '';

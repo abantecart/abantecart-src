@@ -75,4 +75,8 @@
 		<value>
 			<![CDATA[Config.php. Nota: mantener copia de seguridad de archivos de forma segura. Archivo contendrá la "sal" para cifrar.]]></value>
 	</definition>
+	<definition>
+		<key>backup_complete_text</key>
+		<value><![CDATA[Para descargar la copia de seguridad de archivos, visita <a href="#admin#rt=tool/install_upgrade_history">Instalar/Historia Actualiza</a> ]]></value>
+	</definition>
 </definitions>

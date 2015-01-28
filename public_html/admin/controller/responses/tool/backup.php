@@ -73,6 +73,7 @@ class ControllerResponsesToolBackup extends AController {
 										'backup_date' => date("Y-m-d H:i:s",time()),
 										'type' => 'backup',
 										'user' => $this->user->getUsername() ));
+			$result_text = $this->html->convertLinks($this->language->get('backup_complete_text'));
 
 		}
 		//update controller data
@@ -80,7 +81,7 @@ class ControllerResponsesToolBackup extends AController {
 
 		$this->load->library('json');
 		$this->response->addJSONHeader();
-		$this->response->setOutput( AJson::encode(array('result' => true)) );
+		$this->response->setOutput( AJson::encode(array('result' => true, 'result_text' => $result_text )) );
 	}
 
 
