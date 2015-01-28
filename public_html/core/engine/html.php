@@ -1513,12 +1513,19 @@ class DateHtmlElement extends HtmlElement {
 			$doc = $this->data['registry']->get('document');
 			$doc->addScript($this->view->templateResource('/javascript/jquery-ui/js/jquery-ui-1.10.4.custom.min.js'));
 			$doc->addScript($this->view->templateResource('/javascript/jquery-ui/js/jquery.ui.datepicker.js'));
-
-			$doc->addStyle(array(
-				'href' => $this->view->templateResource('/javascript/jquery-ui/js/css/ui-lightness/ui.all.css'),
-				'rel' => 'stylesheet',
-				'media' => 'screen',
-			));
+			if(IS_ADMIN===true){
+				$doc->addStyle(array(
+					'href' => $this->view->templateResource('/javascript/jquery-ui/js/css/ui-lightness/ui.all.css'),
+					'rel' => 'stylesheet',
+					'media' => 'screen',
+				));
+			}else{
+				$doc->addStyle(array(
+						'href'  => $this->view->templateResource('/javascript/jquery-ui/css/ui-lightness/jquery-ui-1.10.4.custom.min.css'),
+						'rel'   => 'stylesheet',
+						'media' => 'screen',
+				));
+			}
 
 			$this->data['registry']->set('date-field', 1);
 		}
