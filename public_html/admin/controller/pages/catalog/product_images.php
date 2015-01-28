@@ -126,7 +126,7 @@ class ControllerPagesCatalogProductImages extends AController {
             array(
                 'object_name' => 'products',
                 'object_id' => $this->request->get['product_id'],
-	            'types' => array('image','audio','video','pdf')
+	            'types' => array('image','audio','video','pdf', 'archive')
             )
         );
 		$this->view->assign('resources_scripts', $resources_scripts->dispatchGetOutput());
