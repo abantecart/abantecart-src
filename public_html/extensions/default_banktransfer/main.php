@@ -40,4 +40,4 @@ $languages = array(
 $templates = array(
     'storefront' => array(
 	    'responses/default_banktransfer.tpl' ),
-    'admin' => array());
+    'admin' => array('responses/extension/default_banktransfer_instructions.tpl'));

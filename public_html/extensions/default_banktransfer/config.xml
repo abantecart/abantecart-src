@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <extension>
     <id>default_banktransfer</id>
-    <version>1.0.1</version>
+    <version>1.0.2</version>
 	<type>payment</type>
 	<category>payment</category>
     <cartversions>
@@ -11,8 +11,9 @@
     <priority>10</priority>
     <settings>
 	    <item id="default_banktransfer_instructions">
-            <type required="true">textarea</type>
-            <default_value></default_value>
+            <type>html_template</type>
+		    <default_value></default_value>
+            <template>responses/extension/default_banktransfer_instructions.tpl</template>
         </item>
 	    <item id="default_banktransfer_payment_minimum_total">
             <type>input</type>
