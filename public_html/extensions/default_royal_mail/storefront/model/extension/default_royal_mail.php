@@ -309,240 +309,241 @@ class ModelExtensionDefaultRoyalMail extends Model {
 					);
 				}
 			}
-			
-			if ($this->config->get('default_royal_mail_airmail')) {
-				$cost = 0;
-				
-				$countries = unserialize($this->config->get('default_royal_mail_airmail_countries'));
+			if ($address['iso_code_2'] != 'GB'){
+				if($this->config->get('default_royal_mail_airmail')){
+					$cost = 0;
 
-				if (in_array($address['iso_code_2'], $countries)) {
-					$rates = explode(',', $this->config->get('default_royal_mail_airmail_in_countries_rates'));
-				} else {
-					$rates = explode(',', $this->config->get('default_royal_mail_airmail_not_in_countries_rates'));
-				}
+					$countries = unserialize($this->config->get('default_royal_mail_airmail_countries'));
 
-				foreach ($rates as $rate) {
-					$data = explode(':', $rate);
-				
-					if ($data[0] >= $weight) {
-						if (isset($data[1])) {
-							$cost = $data[1];
+					if(in_array($address['iso_code_2'], $countries)){
+						$rates = explode(',', $this->config->get('default_royal_mail_airmail_in_countries_rates'));
+					} else{
+						$rates = explode(',', $this->config->get('default_royal_mail_airmail_not_in_countries_rates'));
+					}
+
+					foreach($rates as $rate){
+						$data = explode(':', $rate);
+
+						if($data[0] >= $weight){
+							if(isset($data[1])){
+								$cost = $data[1];
+							}
+
+							break;
 						}
-				
-						break;
 					}
-				}	
-				
-				if ((float)$cost) {
-					$title = $this->language->get('text_airmail');
-					
-					if ($this->config->get('default_royal_mail_display_weight')) {
-						$title .= ' (' . $this->language->get('text_weight') . ' ' . $this->weight->format($weight, $this->config->get('config_weight_class')) . ')';
-					}
-		
-					if ($this->config->get('default_royal_mail_display_time')) {
-						$title .= ' (' . $this->language->get('text_eta') . ')';
-					}
-					
-					$quote_data['default_royal_mail_airmail'] = array(
-						'id'           => 'default_royal_mail.default_royal_mail_airmail',
-						'title'        => $title,
-						'cost'         => $cost,
-						'tax_class_id' => $this->config->get('default_royal_mail_tax'),
-						'text'         => $this->currency->format($this->tax->calculate($cost, $this->config->get('default_royal_mail_tax'), $this->config->get('config_tax')))
-					);
-				}
-			}
-			
-			if ($this->config->get('default_royal_mail_international_signed')) {
-				$cost = 0;
-				$compensation = 0;
-				
-				$countries = unserialize($this->config->get('default_royal_mail_international_signed_countries'));
 
-				if (in_array($address['iso_code_2'], $countries)) {
-					$rates = explode(',', $this->config->get('default_royal_mail_international_signed_in_countries_rates'));
-				} else {
-					$rates = explode(',', $this->config->get('default_royal_mail_international_signed_not_in_countries_rates'));
+					if((float)$cost){
+						$title = $this->language->get('text_airmail');
+
+						if($this->config->get('default_royal_mail_display_weight')){
+							$title .= ' (' . $this->language->get('text_weight') . ' ' . $this->weight->format($weight, $this->config->get('config_weight_class')) . ')';
+						}
+
+						if($this->config->get('default_royal_mail_display_time')){
+							$title .= ' (' . $this->language->get('text_eta') . ')';
+						}
+
+						$quote_data['default_royal_mail_airmail'] = array(
+								'id'           => 'default_royal_mail.default_royal_mail_airmail',
+								'title'        => $title,
+								'cost'         => $cost,
+								'tax_class_id' => $this->config->get('default_royal_mail_tax'),
+								'text'         => $this->currency->format($this->tax->calculate($cost, $this->config->get('default_royal_mail_tax'), $this->config->get('config_tax')))
+						);
+					}
 				}
 
-				foreach ($rates as $rate) {
-					$data = explode(':', $rate);
-				
-					if ($data[0] >= $weight) {
-						if (isset($data[1])) {
-							$cost = $data[1];
-						}
-				
-						break;
-					}
-				}
-				
-				if (in_array($address['iso_code_2'], $countries)) {
-					$rates = explode(',', $this->config->get('default_royal_mail_international_signed_in_countries_c_rates'));
-				} else {
-					$rates = explode(',', $this->config->get('default_royal_mail_international_signed_not_in_countries_c_rates'));
-				}
-				
-				foreach ($rates as $rate) {
-					$data = explode(':', $rate);
-				
-					if ($data[0] >= $sub_total) {
-						if (isset($data[1])) {
-							$compensation = $data[1];
-						}
-				
-						break;
-					}
-				}				
-				
-				if ((float)$cost) {
-					$title = $this->language->get('text_international_signed');
-					
-					if ($this->config->get('default_royal_mail_display_weight')) {
-						$title .= ' (' . $this->language->get('text_weight') . ' ' . $this->weight->format($weight, $this->config->get('config_weight_class')) . ')';
-					}
-				
-					if ($this->config->get('default_royal_mail_display_insurance') && (float)$compensation) {
-						$title .= ' (' . $this->language->get('text_insurance') . ' ' . $this->currency->format($compensation) . ')';
-					}		
-		
-					if ($this->config->get('default_royal_mail_display_time')) {
-						$title .= ' (' . $this->language->get('text_eta') . ')';
-					}	
-					
-					$quote_data['default_royal_mail_international_signed'] = array(
-						'id'           => 'default_royal_mail.default_royal_mail_international_signed',
-						'title'        => $title,
-						'cost'         => $cost,
-						'tax_class_id' => $this->config->get('default_royal_mail_tax'),
-						'text'         => $this->currency->format($this->tax->calculate($cost, $this->config->get('default_royal_mail_tax'), $this->config->get('config_tax')))
-					);
-				}
-			}
-			
-			if ($this->config->get('default_royal_mail_airsure')) {
-				$cost = 0;
-				$compensation = 0;
-				
-				$rates = array();
-				
-				$countries = (array)unserialize($this->config->get('default_royal_mail_airsure_countries'));
-				
-				if (in_array($address['iso_code_2'], $countries)) {
-					$rates = explode(',',$this->config->get('default_royal_mail_airsure_in_countries_rates'));
-				} 
-				
-				$countries = (array)unserialize($this->config->get('default_royal_mail_airsure_countries_2'));
-				
-				if (in_array($address['iso_code_2'], $countries)) {
-					$rates = explode(',', $this->config->get('default_royal_mail_airsure_in_countries_2_rates'));
-				}
-				
+				if($this->config->get('default_royal_mail_international_signed')){
+					$cost = 0;
+					$compensation = 0;
 
-				foreach ($rates as $rate) {
-					$data = explode(':', $rate);
-				
-					if ($data[0] >= $weight) {
-						if (isset($data[1])) {
-							$cost = $data[1];
-						}
-				
-						break;
-					}
-				}
-				
-				$rates = array();
-				
-				$countries = (array)unserialize($this->config->get('default_royal_mail_airsure_countries_3'));
-				
-				if (in_array($address['iso_code_2'], $countries)) {
-					$rates = explode(',', $this->config->get('default_royal_mail_airsure_in_countries_3_rates'));
-				} 
-				
-				$countries = (array)unserialize($this->config->get('default_royal_mail_airsure_countries_4'));
-				
-				if (in_array($address['iso_code_2'], $countries)) {
-					$rates = explode(',', $this->config->get('default_royal_mail_airsure_in_countries_4_rates'));
-				}				
-				
-				foreach ($rates as $rate) {
-					$data = explode(':', $rate);
-				
-					if ($data[0] >= $sub_total) {
-						if (isset($data[1])) {
-							$compensation = $data[1];
-						}
-				
-						break;
-					}
-				}					
-				
-				if ((float)$cost) {
-					$title = $this->language->get('text_airsure');
-					
-					if ($this->config->get('default_royal_mail_display_weight')) {
-						$title .= ' (' . $this->language->get('text_weight') . ' ' . $this->weight->format($weight, $this->config->get('config_weight_class')) . ')';
-					}
-				
-					if ($this->config->get('default_royal_mail_display_insurance') && (float)$compensation) {
-						$title .= ' (' . $this->language->get('text_insurance') . ' ' . $this->currency->format($compensation) . ')';
-					}		
-		
-					if ($this->config->get('default_royal_mail_display_time')) {
-						$title .= ' (' . $this->language->get('text_eta') . ')';
-					}	
-					
-					$quote_data['default_royal_mail_airsure'] = array(
-						'id'           => 'default_royal_mail.default_royal_mail_airsure',
-						'title'        => $title,
-						'cost'         => $cost,
-						'tax_class_id' => $this->config->get('default_royal_mail_tax'),
-						'text'         => $this->currency->format($this->tax->calculate($cost, $this->config->get('default_royal_mail_tax'), $this->config->get('config_tax')))
-					);
-				}
-			}
-			
-			if ($this->config->get('default_royal_mail_surface')) {
-				$cost = 0;
-				$compensation = 0;
-				
-				$rates = explode(',', $this->config->get('default_royal_mail_surface_rates'));
+					$countries = unserialize($this->config->get('default_royal_mail_international_signed_countries'));
 
-				foreach ($rates as $rate) {
-					$data = explode(':', $rate);
-				
-					if ($data[0] >= $weight) {
-						if (isset($data[1])) {
-							$cost = $data[1];
+					if(in_array($address['iso_code_2'], $countries)){
+						$rates = explode(',', $this->config->get('default_royal_mail_international_signed_in_countries_rates'));
+					} else{
+						$rates = explode(',', $this->config->get('default_royal_mail_international_signed_not_in_countries_rates'));
+					}
+
+					foreach($rates as $rate){
+						$data = explode(':', $rate);
+
+						if($data[0] >= $weight){
+							if(isset($data[1])){
+								$cost = $data[1];
+							}
+
+							break;
 						}
-				
-						break;
+					}
+
+					if(in_array($address['iso_code_2'], $countries)){
+						$rates = explode(',', $this->config->get('default_royal_mail_international_signed_in_countries_c_rates'));
+					} else{
+						$rates = explode(',', $this->config->get('default_royal_mail_international_signed_not_in_countries_c_rates'));
+					}
+
+					foreach($rates as $rate){
+						$data = explode(':', $rate);
+
+						if($data[0] >= $sub_total){
+							if(isset($data[1])){
+								$compensation = $data[1];
+							}
+
+							break;
+						}
+					}
+
+					if((float)$cost){
+						$title = $this->language->get('text_international_signed');
+
+						if($this->config->get('default_royal_mail_display_weight')){
+							$title .= ' (' . $this->language->get('text_weight') . ' ' . $this->weight->format($weight, $this->config->get('config_weight_class')) . ')';
+						}
+
+						if($this->config->get('default_royal_mail_display_insurance') && (float)$compensation){
+							$title .= ' (' . $this->language->get('text_insurance') . ' ' . $this->currency->format($compensation) . ')';
+						}
+
+						if($this->config->get('default_royal_mail_display_time')){
+							$title .= ' (' . $this->language->get('text_eta') . ')';
+						}
+
+						$quote_data['default_royal_mail_international_signed'] = array(
+								'id'           => 'default_royal_mail.default_royal_mail_international_signed',
+								'title'        => $title,
+								'cost'         => $cost,
+								'tax_class_id' => $this->config->get('default_royal_mail_tax'),
+								'text'         => $this->currency->format($this->tax->calculate($cost, $this->config->get('default_royal_mail_tax'), $this->config->get('config_tax')))
+						);
 					}
 				}
-				
-				if ((float)$cost) {
-					$title = $this->language->get('text_surface');
-					
-					if ($this->config->get('default_royal_mail_display_weight')) {
-						$title .= ' (' . $this->language->get('text_weight') . ' ' . $this->weight->format($weight, $this->config->get('config_weight_class')) . ')';
+
+				if($this->config->get('default_royal_mail_airsure')){
+					$cost = 0;
+					$compensation = 0;
+
+					$rates = array();
+
+					$countries = (array)unserialize($this->config->get('default_royal_mail_airsure_countries'));
+
+					if(in_array($address['iso_code_2'], $countries)){
+						$rates = explode(',', $this->config->get('default_royal_mail_airsure_in_countries_rates'));
 					}
-				
-					if ($this->config->get('default_royal_mail_display_insurance') && (float)$compensation) {
-						$title .= ' (' . $this->language->get('text_insurance') . ' ' . $this->currency->format($compensation) . ')';
-					}		
-		
-					if ($this->config->get('default_royal_mail_display_time')) {
-						$title .= ' (' . $this->language->get('text_eta') . ')';
-					}	
-					
-					$quote_data['default_royal_mail_surface'] = array(
-						'id'           => 'default_royal_mail.default_royal_mail_surface',
-						'title'        => $title,
-						'cost'         => $cost,
-						'tax_class_id' => $this->config->get('default_royal_mail_tax'),
-						'text'         => $this->currency->format($this->tax->calculate($cost, $this->config->get('default_royal_mail_tax'), $this->config->get('config_tax')))
-					);
+
+					$countries = (array)unserialize($this->config->get('default_royal_mail_airsure_countries_2'));
+
+					if(in_array($address['iso_code_2'], $countries)){
+						$rates = explode(',', $this->config->get('default_royal_mail_airsure_in_countries_2_rates'));
+					}
+
+
+					foreach($rates as $rate){
+						$data = explode(':', $rate);
+
+						if($data[0] >= $weight){
+							if(isset($data[1])){
+								$cost = $data[1];
+							}
+
+							break;
+						}
+					}
+
+					$rates = array();
+
+					$countries = (array)unserialize($this->config->get('default_royal_mail_airsure_countries_3'));
+
+					if(in_array($address['iso_code_2'], $countries)){
+						$rates = explode(',', $this->config->get('default_royal_mail_airsure_in_countries_3_rates'));
+					}
+
+					$countries = (array)unserialize($this->config->get('default_royal_mail_airsure_countries_4'));
+
+					if(in_array($address['iso_code_2'], $countries)){
+						$rates = explode(',', $this->config->get('default_royal_mail_airsure_in_countries_4_rates'));
+					}
+
+					foreach($rates as $rate){
+						$data = explode(':', $rate);
+
+						if($data[0] >= $sub_total){
+							if(isset($data[1])){
+								$compensation = $data[1];
+							}
+
+							break;
+						}
+					}
+
+					if((float)$cost){
+						$title = $this->language->get('text_airsure');
+
+						if($this->config->get('default_royal_mail_display_weight')){
+							$title .= ' (' . $this->language->get('text_weight') . ' ' . $this->weight->format($weight, $this->config->get('config_weight_class')) . ')';
+						}
+
+						if($this->config->get('default_royal_mail_display_insurance') && (float)$compensation){
+							$title .= ' (' . $this->language->get('text_insurance') . ' ' . $this->currency->format($compensation) . ')';
+						}
+
+						if($this->config->get('default_royal_mail_display_time')){
+							$title .= ' (' . $this->language->get('text_eta') . ')';
+						}
+
+						$quote_data['default_royal_mail_airsure'] = array(
+								'id'           => 'default_royal_mail.default_royal_mail_airsure',
+								'title'        => $title,
+								'cost'         => $cost,
+								'tax_class_id' => $this->config->get('default_royal_mail_tax'),
+								'text'         => $this->currency->format($this->tax->calculate($cost, $this->config->get('default_royal_mail_tax'), $this->config->get('config_tax')))
+						);
+					}
+				}
+
+				if($this->config->get('default_royal_mail_surface')){
+					$cost = 0;
+					$compensation = 0;
+
+					$rates = explode(',', $this->config->get('default_royal_mail_surface_rates'));
+
+					foreach($rates as $rate){
+						$data = explode(':', $rate);
+
+						if($data[0] >= $weight){
+							if(isset($data[1])){
+								$cost = $data[1];
+							}
+
+							break;
+						}
+					}
+
+					if((float)$cost){
+						$title = $this->language->get('text_surface');
+
+						if($this->config->get('default_royal_mail_display_weight')){
+							$title .= ' (' . $this->language->get('text_weight') . ' ' . $this->weight->format($weight, $this->config->get('config_weight_class')) . ')';
+						}
+
+						if($this->config->get('default_royal_mail_display_insurance') && (float)$compensation){
+							$title .= ' (' . $this->language->get('text_insurance') . ' ' . $this->currency->format($compensation) . ')';
+						}
+
+						if($this->config->get('default_royal_mail_display_time')){
+							$title .= ' (' . $this->language->get('text_eta') . ')';
+						}
+
+						$quote_data['default_royal_mail_surface'] = array(
+								'id'           => 'default_royal_mail.default_royal_mail_surface',
+								'title'        => $title,
+								'cost'         => $cost,
+								'tax_class_id' => $this->config->get('default_royal_mail_tax'),
+								'text'         => $this->currency->format($this->tax->calculate($cost, $this->config->get('default_royal_mail_tax'), $this->config->get('config_tax')))
+						);
+					}
 				}
 			}
 		}
