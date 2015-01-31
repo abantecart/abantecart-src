@@ -1486,10 +1486,9 @@ ul.rate li.off {
 }
 
 .productpageprice {
-	width: 250px;
 	position: relative;
 	padding: 9px 0 9px 20px;
-	margin: 40px 0 10px -15px;
+	margin: 40px 0 10px 0;
 	font-size: 26px;
 	text-align: center;
 	line-height: 44px;

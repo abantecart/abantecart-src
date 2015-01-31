@@ -292,4 +292,16 @@
 		<key>text_download</key>
 		<value><![CDATA[Descargar]]></value>
     </definition>
+	<definition>
+		<key>text_free</key>
+		<value><![CDATA[Libre]]></value>
+	</definition>
+	<definition>
+		<key>text_free_shipping</key>
+		<value><![CDATA[Envío Gratisg]]></value>
+	</definition>
+	<definition>
+		<key>error_unknown</key>
+		<value><![CDATA[Error desconocido. Por favor, vuelve a intentarlo!]]></value>
+    </definition>    
 </definitions>

@@ -79,17 +79,23 @@ class ModelExtensionDefaultFlatRateShipping extends Model {
 			        $fixed_cost = $fixed_cost * $product['quantity'];
 			    }
 
-
 			} else {
 			    $fixed_cost = $this->config->get('default_flat_rate_shipping_cost');
 			}
 			//merge data and accumulate shipping cost
 			if ( isset( $quote_data['default_flat_rate_shipping'] ) ) {
 		            $quote_data['default_flat_rate_shipping']['cost'] = $quote_data['default_flat_rate_shipping']['cost'] + $fixed_cost;
-		            $quote_data['default_flat_rate_shipping']['text'] =
-		                        $this->currency->format($this->tax->calculate($quote_data['default_flat_rate_shipping']['cost'],
-					                                                          $this->config->get('default_flat_rate_shipping_tax_class_id'),
-																				(bool)$this->config->get('config_tax')));
+		            if ($quote_data['default_flat_rate_shipping']['cost'] > 0) {
+			            $quote_data['default_flat_rate_shipping']['text'] = $this->currency->format(
+		                        	$this->tax->calculate(
+		                        		$quote_data['default_flat_rate_shipping']['cost'],
+					                    $this->config->get('default_flat_rate_shipping_tax_class_id'),
+					                    (bool)$this->config->get('config_tax')
+					                )
+					                );
+		            } else {
+			            $quote_data['default_flat_rate_shipping']['text'] = $this->language->get('text_free');	            
+		            }
 		    } else {
 	            $quote_data['default_flat_rate_shipping'] = array(
 	                'id'           => 'default_flat_rate_shipping.default_flat_rate_shipping',

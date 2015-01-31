@@ -85,10 +85,10 @@ class ModelExtensionDefaultFedex extends Model {
             if ( $quote_data) {
                 foreach ($quote_data as $key => $value) {
                     if ($fixed_cost >= 0){
-                            $quote_data[$key]['cost'] = (float)$quote_data[$key]['cost'] + $fixed_cost;
-                        } else {
-                            $quote_data[$key]['cost'] =  (float)$quote_data[$key]['cost'] + $new_quote_data[$key]['cost'];
-                        }
+                    	$quote_data[$key]['cost'] = (float)$quote_data[$key]['cost'] + $fixed_cost;
+                    } else {
+                    	$quote_data[$key]['cost'] =  (float)$quote_data[$key]['cost'] + $new_quote_data[$key]['cost'];
+                    }
 
                     $quote_data[$key]['text'] = $this->currency->format($quote_data[$key]['cost'], $this->currency->getCode(),1 );
                 }

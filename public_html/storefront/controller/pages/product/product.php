@@ -109,7 +109,6 @@ class ControllerPagesProductProduct extends AController {
 		$promoton = new APromotion();
 				
 		$product_info = $this->model_catalog_product->getProduct($product_id);
-
 		//can not locate product? get out
 		if (!$product_info) { 
 			$this->_product_not_found($product_id);

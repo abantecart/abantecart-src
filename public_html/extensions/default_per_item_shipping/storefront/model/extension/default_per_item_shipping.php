@@ -74,12 +74,22 @@ class ModelExtensionDefaultPerItemShipping extends Model {
 
 		$quote_data = array();
 
+		$cost_text = $this->language->get('text_free');
+		if ($cost) {
+			$cost_text = $this->currency->format(
+				$this->tax->calculate(	$cost, 
+										$this->config->get('default_per_item_shipping_tax'), 
+										$this->config->get('config_tax')
+										)
+				);
+		}
+
 		$quote_data['default_per_item_shipping'] = array(
 				'id' => 'default_per_item_shipping.default_per_item_shipping',
 				'title' => $this->language->get('text_description'),
 				'cost' => $cost,
 				'tax_class_id' => $this->config->get('default_per_item_shipping_tax'),
-				'text' => $this->currency->format($this->tax->calculate($cost, $this->config->get('default_per_item_shipping_tax'), $this->config->get('config_tax')))
+				'text' => $cost_text
 		);
 
 		$method_data = array(

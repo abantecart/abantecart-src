@@ -166,6 +166,12 @@
 									</div>
 									<?php }?>
 
+									<?php if($product_info['free_shipping'] && $product_info['shipping_price'] <= 0 ) { ?>
+									<div class="alert alert-info mt10 mb10 free-shipping-holder">
+										<label class="control-label"><?php echo $text_free_shipping; ?></label>
+									</div>
+									<?php } ?>
+
 									<div>
 										<?php echo $form['product_id'] . $form['redirect']; ?>
 									</div>

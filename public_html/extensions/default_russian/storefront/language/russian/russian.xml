@@ -297,4 +297,16 @@
 		<key>text_download</key>
 		<value><![CDATA[Скачать]]></value>
     </definition>
+	<definition>
+		<key>text_free</key>
+		<value><![CDATA[Бесплатно]]></value>
+	</definition>
+	<definition>
+		<key>text_free_shipping</key>
+		<value><![CDATA[Бесплатная Доставка]]></value>
+	</definition>
+	<definition>
+		<key>error_unknown</key>
+		<value><![CDATA[Неизвестная ошибка. Пожалуйста, попробуйте еще раз!]]></value>
+    </definition>
 </definitions>

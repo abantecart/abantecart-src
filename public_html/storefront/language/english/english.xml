@@ -302,8 +302,15 @@
 		<value><![CDATA[Download]]></value>
     </definition>
 	<definition>
+		<key>text_free</key>
+		<value><![CDATA[Free]]></value>
+	</definition>
+	<definition>
+		<key>text_free_shipping</key>
+		<value><![CDATA[Free Shipping]]></value>
+	</definition>
+	<definition>
 		<key>error_unknown</key>
 		<value><![CDATA[Unknown error encountered. Please try again!]]></value>
-    </definition>
-    
+    </definition>    
 </definitions>

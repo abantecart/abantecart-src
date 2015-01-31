@@ -91,12 +91,16 @@ class ModelExtensionDefaultParcelforce48 extends Model {
 					$quote_data[$key]['cost'] = (float)$quote_data[$key]['cost'] + $new_quote_data[$key]['cost'];
 				}
 
-				$quote_data[$key]['text'] = $this->currency->format(
+				if ($quote_data[$key]['cost'] > 0) {
+				    $quote_data[$key]['text'] = $this->currency->format(
 						$this->tax->calculate(
 								$this->currency->convert($quote_data[$key]['cost'], $this->config->get('config_currency'), $this->currency->getCode()),
 								$this->config->get('default_parcelforce_48_tax'), $this->config->get('config_tax')
-						)
-				);
+								)
+				                );
+				} else {
+				    $quote_data[$key]['text'] = $this->language->get('text_free');	            
+				}
 			}
 		} else if ($new_quote_data) {
 			$quote_data = $new_quote_data;
