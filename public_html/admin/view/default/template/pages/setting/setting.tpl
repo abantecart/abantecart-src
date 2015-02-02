@@ -60,7 +60,7 @@
 	</div>
 
 	<?php echo $form['form_open']; ?>
-	<div class="panel-body panel-body-nopadding tab-content col-xs-12">
+	<div class="panel-body panel-body-nopadding tab-content col-xs-12 <?php echo $status_off; ?>">
 
 		<label class="h4 heading"><?php echo $form_title; ?></label>
 			<?php foreach ($form['fields'] as $name => $field) { ?>
@@ -137,10 +137,10 @@
 
 echo $resources_scripts ?>
 
-
 <script type="text/javascript"><!--
 jQuery(function ($) {
     $('#template').load('<?php echo $template_image; ?>&template=' + encodeURIComponent($('select[name=\'config_storefront_template\']').attr('value')));
+    
     $('#settingFrm_config_storefront_template').change(function () {
         $('#template').load('<?php echo $template_image; ?>&template=' + encodeURIComponent(this.value))
     });

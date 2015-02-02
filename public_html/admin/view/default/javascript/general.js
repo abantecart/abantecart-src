@@ -348,6 +348,14 @@ jQuery(document).ready(function() {
     	}
 	});
 
+	//set visual status
+	var $input = $('.tab-content input[name=status]');
+    if($input.length > 0){
+        if ($input.val() == 0) {
+        	$input.closest('.tab-content').addClass('status_off');
+        }
+    }	 
+
 });
 
 //-----------------------------------------------

@@ -91,6 +91,8 @@ class ControllerPagesSettingSetting extends AController {
 		$this->data['store_id'] = 0;
 		if ($this->request->get['store_id']) {
 			$this->data['store_id'] = $this->request->get['store_id'];
+		} else {
+			$this->data['store_id'] = $this->config->get('config_store_id');
 		}
 
 		$this->data['groups'] = $this->groups;
@@ -202,6 +204,12 @@ class ControllerPagesSettingSetting extends AController {
 			if (isset($this->request->post[$key])) {
 				$this->data['settings'][$key] = $this->request->post[$key];
 			}
+		}
+		$this->loadModel('setting/store');
+		$store_info = $this->model_setting_store->getStore($this->data['store_id']);
+		$this->data['status_off'] = '';
+		if(!$store_info['status']) {
+			$this->data['status_off'] = 'status_off';
 		}
 
 		$this->_getForm();
