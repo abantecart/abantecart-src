@@ -96,16 +96,24 @@ class ModelExtensionDefaultFlatRateShipping extends Model {
 		            } else {
 			            $quote_data['default_flat_rate_shipping']['text'] = $this->language->get('text_free');	            
 		            }
-		    } else {
+		    } else {		    
 	            $quote_data['default_flat_rate_shipping'] = array(
 	                'id'           => 'default_flat_rate_shipping.default_flat_rate_shipping',
 	                'title'        => $this->language->get('text_description'),
 	                'cost'         => $fixed_cost,
 	                'tax_class_id' => $this->config->get('default_flat_rate_shipping_tax_class_id'),
-					'text'         => $this->currency->format($this->tax->calculate($fixed_cost,
-					                                                                $this->config->get('default_flat_rate_shipping_tax_class_id'),
-																					(bool)$this->config->get('config_tax')))
+					'text'         => '',
 	            );
+		    	if ($fixed_cost > 0) {
+		    			$quote_data['default_flat_rate_shipping']['text'] = $this->currency->format(
+		    																	$this->tax->calculate($fixed_cost,
+		    																	$this->config->get('default_flat_rate_shipping_tax_class_id'),
+		    																	(bool)$this->config->get('config_tax')
+		    																	)
+		    																);
+		    	} else {
+		    		$quote_data['default_flat_rate_shipping']['text'] = $this->language->get('text_free');
+		    	}	            
 		    }
 		}
 

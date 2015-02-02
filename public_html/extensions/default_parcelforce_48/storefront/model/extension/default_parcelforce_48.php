@@ -58,24 +58,23 @@ class ModelExtensionDefaultParcelforce48 extends Model {
 		}
 		$weight = $this->weight->convert($this->cart->getWeight($product_ids), $this->config->get('config_weight_class'), 'kgs');
 		$sub_total = $this->cart->getSubTotal();
+		$all_free_shipping = $this->cart->areAllFreeShipping();
 		$quote_data = $this->_processRate($weight, $sub_total);
 
+		//check if free or fixed shipping
+		$total_fixed_cost = 0;
+		$new_quote_data = array();
 		$special_ship_products = $this->cart->specialShippingProducts();
 		foreach ($special_ship_products as $product) {
 			$weight = $this->weight->convert($this->cart->getWeight(array($product['product_id'])), $this->config->get('config_weight_class'), 'kgs');
-
-			//check if free or fixed shipping
-			$fixed_cost = -1;
-			$new_quote_data = array();
-			if ($product['free_shipping']) {
-				$fixed_cost = 0;
-			} else if ($product['shipping_price'] > 0) {
+			if ($product['shipping_price'] > 0) {
 				$fixed_cost = $product['shipping_price'];
 				//If ship individually count every quintaty
 				if ($product['ship_individually']) {
 					$fixed_cost = $fixed_cost * $product['quantity'];
 				}
 				$fixed_cost = $this->currency->convert($fixed_cost, $this->config->get('config_currency'), $this->currency->getCode());
+				$total_fixed_cost += $fixed_cost;
 			} else {
 				$new_quote_data = $this->_processRate($weight, $sub_total);
 			}
@@ -85,13 +84,13 @@ class ModelExtensionDefaultParcelforce48 extends Model {
 		if ($quote_data) {
 			foreach ($quote_data as $key => $value) {
 
-				if ($fixed_cost >= 0) {
-					$quote_data[$key]['cost'] = (float)$quote_data[$key]['cost'] + $fixed_cost;
+				if ($total_fixed_cost >= 0) {
+					$quote_data[$key]['cost'] = (float)$quote_data[$key]['cost'] + $total_fixed_cost;
 				} else {
 					$quote_data[$key]['cost'] = (float)$quote_data[$key]['cost'] + $new_quote_data[$key]['cost'];
 				}
 
-				if ($quote_data[$key]['cost'] > 0) {
+				if (!$all_free_shipping) {
 				    $quote_data[$key]['text'] = $this->currency->format(
 						$this->tax->calculate(
 								$this->currency->convert($quote_data[$key]['cost'], $this->config->get('config_currency'), $this->currency->getCode()),
