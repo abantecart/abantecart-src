@@ -365,6 +365,9 @@
 		    	$field.find('.btn').toggleClass('btn-info');
 		    }
 		    $field.find('.btn').toggleClass('btn-default');
+
+			//do custom action for status field
+			statusMarker($el.parent('.input-group'));
 	     	    
 		   	return false;    
 		}
@@ -872,15 +875,7 @@ var formOnExit = function(){
     $('form[data-confirm-exit="true"]').find('.btn').bind('click', function () {
     	//skip switches 
     	if ($(this).parent().hasClass("btn_switch")) {
-    		var $input = $(this).closest('.input-group').find('input[name=status]');
-    		if($input.length > 0){
-    			if ($input.val() == 0) {
-    				$(this).closest('.tab-content').removeClass('status_off');
-    			} else {
-    				$(this).closest('.tab-content').addClass('status_off');    			
-    			}
-    		}
-    		return;
+     		return;
     	}
 		var $form = $(this).parents('form');
         //reset elements to not changed status

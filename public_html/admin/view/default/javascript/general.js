@@ -348,14 +348,6 @@ jQuery(document).ready(function() {
     	}
 	});
 
-	//set visual status
-	var $input = $('.tab-content input[name=status]');
-    if($input.length > 0){
-        if ($input.val() == 0) {
-        	$input.closest('.tab-content').addClass('status_off');
-        }
-    }	 
-
 });
 
 //-----------------------------------------------
@@ -385,6 +377,26 @@ var bindCustomEvents  = function(elm){
       $(this).closest('.panel').fadeOut(200);
       return false;
 	});
+	
+	//set visual status
+	statusMarker($obj);
+}
+
+//mark page with status off
+var statusMarker = function($obj) {			
+	//check for specific marker with status_switch css class
+	var $input = $obj.find('input.status_switch');
+    if(!$input.length){
+    	//check generic marker based on input name status
+	    $input = $obj.find('input[name=status]');
+    }	 
+    if($input.length > 0){
+        if ($input.val() == 0) {
+        	$input.closest('.panel-body').addClass('status_off');
+        } else {
+        	$input.closest('.panel-body').removeClass('status_off');
+        }
+    }
 }
 
 // Add tooltips to all elements in the selector. In case text does not fit
