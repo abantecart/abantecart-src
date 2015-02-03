@@ -104,7 +104,7 @@ class ControllerPagesTotalShipping extends AController {
 			'type' => 'checkbox',
 			'name' => 'shipping_status',
 			'value' => $this->data['shipping_status'],
-			'style' => 'btn_switch',
+			'style' => 'btn_switch status_switch',
 		));
 		$this->loadLanguage('extension/extensions');
 		$options = array('shipping' => $this->language->get('text_shipping'),

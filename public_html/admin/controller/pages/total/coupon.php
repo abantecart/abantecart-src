@@ -104,7 +104,7 @@ class ControllerPagesTotalCoupon extends AController {
 			'type' => 'checkbox',
 			'name' => 'coupon_status',
 			'value' => $this->data['coupon_status'],
-			'style' => 'btn_switch',
+			'style' => 'btn_switch status_switch',
 		));
 		$this->loadLanguage('extension/extensions');
 		$options = array('discount' => $this->language->get('text_discount'),

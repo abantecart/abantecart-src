@@ -105,7 +105,7 @@ class ControllerPagesTotalBalance extends AController {
 			'type' => 'checkbox',
 			'name' => 'balance_status',
 			'value' => $this->data['balance_status'],
-			'style' => 'btn_switch',
+			'style' => 'btn_switch status_switch',
 		));
 		$this->data['form']['fields']['sort_order'] = $form->getFieldHtml(array(
 			'type' => 'input',
