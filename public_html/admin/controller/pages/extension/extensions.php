@@ -392,6 +392,9 @@ class ControllerPagesExtensionExtensions extends AController {
 				    break;				    
 				case 'checkbox':
 					$data['style'] = "btn_switch";
+					if ($item['name'] == $extension . '_status') {
+						$data['style'] .= " status_switch";
+					}
 					break;
 
 				case 'resource':

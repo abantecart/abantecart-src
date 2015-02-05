@@ -104,7 +104,7 @@ class ControllerPagesTotalSubtotal extends AController {
 			'type' => 'checkbox',
 			'name' => 'sub_total_status',
 			'value' => $this->data['sub_total_status'],
-			'style' => 'btn_switch',
+			'style' => 'btn_switch status_switch',
 		));
 		$this->loadLanguage('extension/extensions');
 		$options = array('subtotal' => $this->language->get('text_subtotal'),

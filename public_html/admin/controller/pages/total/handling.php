@@ -145,7 +145,7 @@ class ControllerPagesTotalHandling extends AController {
 			'type' => 'checkbox',
 			'name' => 'handling_status',
 			'value' => $this->data['handling_status'],
-			'style' => 'btn_switch',
+			'style' => 'btn_switch status_switch',
 		));
 		$this->data['form']['fields']['total'] = $form->getFieldHtml(array(
 			'type' => 'input',

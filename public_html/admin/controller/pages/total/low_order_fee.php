@@ -113,7 +113,7 @@ class ControllerPagesTotalLowOrderFee extends AController {
 			'type' => 'checkbox',
 			'name' => 'low_order_fee_status',
 			'value' => $this->data['low_order_fee_status'],
-			'style' => 'btn_switch',
+			'style' => 'btn_switch status_switch',
 		));
 		$this->data['form']['fields']['total'] = $form->getFieldHtml(array(
 			'type' => 'input',

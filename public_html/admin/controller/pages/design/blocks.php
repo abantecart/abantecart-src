@@ -489,7 +489,7 @@ class ControllerPagesDesignBlocks extends AController {
 			$this->data['form']['fields']['block_status'] = $form->getFieldHtml(array('type' => 'checkbox',
 					'name' => 'block_status',
 					'value' => $this->data['status'],
-					'style' => 'btn_switch'));
+					'style' => 'btn_switch status_switch'));
 			$this->data['entry_block_status'] = $this->html->convertLinks($this->language->get('entry_block_status'));
 			$this->data['form']['fields']['block_status_note'] = '';
 			$this->data['entry_block_status_note'] = $this->html->convertLinks($this->language->get('entry_block_status_note'));
@@ -674,7 +674,7 @@ class ControllerPagesDesignBlocks extends AController {
 			$this->data['form']['fields']['block_status'] = $form->getFieldHtml(array('type' => 'checkbox',
 					'name' => 'block_status',
 					'value' => $this->data['status'],
-					'style' => 'btn_switch'
+					'style' => 'btn_switch status_switch'
 			));
 			$this->data['form']['text']['block_status'] = $this->html->convertLinks($this->language->get('entry_block_status'));
 			$this->data['form']['fields']['block_status_note'] = '';

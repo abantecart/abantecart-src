@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2014 Belavier Commerce LLC
+  Copyright © 2011-2015 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -500,6 +500,21 @@ class ACart {
 		return $special_ship_products;
 	}
 
+	/**
+	 * Check if all products are free shipping 
+	 * @return bool
+	 */
+	public function areAllFreeShipping() {
+		$all_free_shipping = false;
+    	foreach ($this->getProducts() as $product) {
+			if ( !$product['shipping'] || ($product['shipping'] && $product['free_shipping']) ) {
+				$all_free_shipping = true;
+			} else {
+				$all_free_shipping = false;
+			}
+		}
+		return $all_free_shipping;
+	}
 		
 	/**
 	 * Set mim quantity on whole cart

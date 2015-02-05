@@ -288,7 +288,7 @@ class ControllerPagesToolFormsManager extends AController {
 				'name' => 'form_status',
 				'value' => isset($this->data['form_data']['status']) ? $this->data['form_data']['status'] : '',
 				'required' => true,
-				'style' => 'btn_switch'
+				'style' => 'btn_switch status_switch'
 		));
 		$this->data['entry_form_status'] = $this->language->get('forms_manager_status');
 

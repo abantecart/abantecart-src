@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2014 Belavier Commerce LLC
+  Copyright © 2011-2015 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   Lincence details is bundled with this package in the file LICENSE.txt.
@@ -101,6 +101,15 @@ class ModelExtensionDefaultWeight extends Model {
 							'tax_class_id' => $this->config->get('default_weight_tax_class_id'),
         					'text'         => $this->currency->format($this->tax->calculate($cost, $this->config->get('default_weight_tax_class_id'), $this->config->get('config_tax')))
       					);	
+					}
+					if ($this->cart->areAllFreeShipping()) { 
+      					$quote_data['default_weight_' . $result['location_id']] = array(
+        					'id'           => 'default_weight.default_weight_' . $result['location_id'],
+        					'title'        => $result['name'] . '  (' . $this->language->get('text_weight') . ' ' . $this->weight->format($this->cart->getWeight(), $this->config->get('config_weight_class')) . ')',
+        					'cost'         => $this->tax->calculate($cost, $this->config->get('default_weight_tax_class_id'), $this->config->get('config_tax')),
+							'tax_class_id' => $this->config->get('default_weight_tax_class_id'),
+        					'text'         => $this->language->get('text_free')
+      					);					
 					}
 				}
 			}

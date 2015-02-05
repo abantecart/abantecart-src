@@ -53,7 +53,7 @@
 				'id' => 'download_modal',
 				'modal_type' => 'lg',
 				'data_source' => 'ajax',
-				'js_onload' => "$('#downloadFrm_activate').change(); "
+				'js_onload' => "$('#downloadFrm_activate').change(); bindCustomEvents('#downloadFrm');"
 		));
 ?>
 

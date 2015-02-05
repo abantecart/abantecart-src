@@ -106,7 +106,7 @@ class ControllerPagesTotalTotal extends AController {
 			'type' => 'checkbox',
 			'name' => 'total_status',
 			'value' => $this->data['total_status'],
-			'style' => 'btn_switch',
+			'style' => 'btn_switch status_switch',
 		));
 
 		$this->loadLanguage('extension/extensions');
