@@ -42,12 +42,21 @@ class ModelSettingStore extends Model {
 		$store_id = $this->db->getLastId();
 		
 		//Clone from selected store
-		if ( isset($data['clone_store'])) {
+		if ( $data['clone_store']!='') {
 			 $sql = "INSERT INTO " . $this->db->table("settings") . " (store_id, `group`, `key`, `value`)
                 SELECT '".$store_id."' as store_id, `group`, `key`, `value`
                 FROM " . $this->db->table("settings") . " 
                 WHERE `store_id` = '" . $this->db->escape($data['clone_store']) . "'";
 			$this->db->query( $sql );		
+		}else{
+			// add settings of extension of default store to new store settings
+			// NOTE: we do this because of extension status in settings table. It used to recognize is extension installed or not
+	        $extension_list = $this->extensions->getEnabledExtensions();
+	        $sql = "INSERT INTO " . $this->db->table("settings") . " (store_id, `group`, `key`, `value`)
+	                SELECT '".$store_id."' as store_id, `group`, `key`, `value`
+	                FROM " . $this->db->table("settings") . "
+	                WHERE `group` in ('".implode("' ,'",$extension_list)."') AND store_id='0';";
+			$this->db->query( $sql );
 		}
 		
 		$this->load->model('setting/setting');
@@ -71,13 +80,7 @@ class ModelSettingStore extends Model {
 		
 		$this->cache->delete('settings.store');
 		$this->cache->delete('stores');
-        // add settings of extension of default store to new store settings
-        $extension_list = $this->extensions->getEnabledExtensions();
-        $sql = "INSERT INTO " . $this->db->table("settings") . " (store_id, `group`, `key`, `value`)
-                SELECT '".$store_id."' as store_id, `group`, `key`, `value`
-                FROM " . $this->db->table("settings") . " 
-                WHERE `group` in ('".implode("' ,'",$extension_list)."') AND store_id='0';";
-		$this->db->query( $sql );
+
 				
 		
 		return $store_id;
@@ -190,15 +193,13 @@ class ModelSettingStore extends Model {
 	 * @param array $data
 	 * @return array
 	 */
-	public function getStores($data = array()) {
+	public function getStores() {
 		$store_data = $this->cache->get('stores');
 		if (is_null($store_data)) {
 			$query = $this->db->query("SELECT *
 										FROM " . $this->db->table("stores") . " 
 										ORDER BY store_id");
-
 			$store_data = $query->rows;
-		
 			$this->cache->set('stores', $store_data);
 		}
 		return (array)$store_data;
