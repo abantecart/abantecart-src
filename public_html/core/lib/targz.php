@@ -39,12 +39,12 @@ final class Atargz {
 		return $result;
 	}
 
-	public function makeTar($src, $dest = false) {
+	public function makeTar($src, $dest = false, $compress_level = 5) {
 		$src = is_array($src) ? $src : array( $src );
 		$src = array_map('realpath', $src);
 		$Tar = '';
+		$compress_level = ($compress_level<1 || $compress_level>9) ? 5 : $compress_level;
 		foreach ($src as $item)
-
 			$item = str_replace('\\', '/', $item);
 			$Tar .= $this->addTarItem($item . ((is_dir($item) && substr($item, -1) != '/') ? '/'
 		     : ''), dirname($item) . '/');
@@ -54,7 +54,7 @@ final class Atargz {
 			return $Tar;
 		}
 
-		$gz = gzopen($dest, 'w9');
+		$gz = gzopen($dest, 'w'.(int)$compress_level);
 		if ($gz) {
 			gzwrite($gz, $Tar);
 			gzclose($gz);

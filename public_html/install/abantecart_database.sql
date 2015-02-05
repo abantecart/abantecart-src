@@ -870,13 +870,15 @@ CREATE TABLE `ac_banner_descriptions` (
 
 DROP TABLE IF EXISTS `ac_banner_stat`;
 CREATE TABLE `ac_banner_stat` (
+	`rowid` INT NOT NULL AUTO_INCREMENT,
   `banner_id` int(11) NOT NULL,
   `type` int(11) NOT NULL, -- 1 = view, 2 = click
   `time` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP,
   `store_id` int(11) NOT NULL,
-  `user_info` text(1500) DEFAULT ''
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
-CREATE INDEX `ac_banner_stat_idx` ON `ac_banner_stat` (`banner_id`, `type`, `time`, `store_id`);
+  `user_info` text(1500) DEFAULT '',
+PRIMARY KEY (`rowid`),
+INDEX `ac_banner_stat_idx` (`banner_id`, `type`, `time`, `store_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
 
 --
 -- DDL for table `locations`
@@ -1337,7 +1339,8 @@ CREATE INDEX `ac_product_discounts_idx` ON `ac_product_discounts` (`product_id`,
 --
 DROP TABLE IF EXISTS `ac_products_featured`;
 CREATE TABLE `ac_products_featured` (
-  `product_id` int(11) NOT NULL DEFAULT '0'
+  `product_id` int(11) NOT NULL DEFAULT '0',
+	PRIMARY KEY (`product_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 
@@ -10117,15 +10120,16 @@ CREATE TABLE `ac_custom_blocks` (
 
 DROP TABLE IF EXISTS `ac_custom_lists`;
 CREATE TABLE `ac_custom_lists` (
+	`rowid` INT(11) NOT NULL AUTO_INCREMENT,
   `custom_block_id` int(10) NOT NULL,
   `data_type` varchar(70) NOT NULL,
   `id` int(10) NOT NULL,
   `sort_order` int(10) NOT NULL DEFAULT 0,
   `date_added` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `date_modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+  `date_modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+	PRIMARY KEY (`rowid`),
+	INDEX `ac_custom_block_id_list_idx` (`custom_block_id` )
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
-CREATE INDEX `ac_custom_block_id_list_idx`
-ON `ac_custom_lists` (`custom_block_id` );
 
 --
 -- DDL for table `block_descriptions`
@@ -10833,11 +10837,13 @@ CREATE TABLE `ac_datasets` (
 --
 DROP TABLE IF EXISTS `ac_dataset_properties`;
 CREATE TABLE `ac_dataset_properties` (
+	`rowid` int(11) NOT NULL AUTO_INCREMENT,
   `dataset_id` int(11) NOT NULL,
   `dataset_property_name` varchar(255) NOT NULL,
   `dataset_property_value` varchar(255),
+	PRIMARY KEY (`rowid`),
   KEY `dataset_property_idx` (`dataset_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci  AUTO_INCREMENT=1;
 
 --
 -- DDL for table `ac_dataset_definition`
@@ -10858,11 +10864,13 @@ CREATE TABLE `ac_dataset_definition` (
 --
 DROP TABLE IF EXISTS `ac_dataset_column_properties`;
 CREATE TABLE `ac_dataset_column_properties` (
+	`rowid` INT(11) NOT NULL AUTO_INCREMENT,
   `dataset_column_id` int(11) NOT NULL,
   `dataset_column_property_name` varchar(255) NOT NULL,
   `dataset_column_property_value` varchar(255) DEFAULT NULL,
+	PRIMARY KEY (`rowid`),
   KEY `dataset_column_properties_idx` (`dataset_column_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci  AUTO_INCREMENT=1;
 
 --
 -- DDL for table `ac_dataset_values`
@@ -12256,10 +12264,9 @@ CREATE TABLE `ac_resource_map` (
   `sort_order` int(3) NOT NULL DEFAULT '0',  
   `date_added` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `date_modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  KEY `group_id` (`resource_id`, `object_name`, `object_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
-CREATE UNIQUE INDEX `ac_resource_map_idx`
-ON `ac_resource_map` ( `resource_id`, `object_name`, `object_id` );
+	PRIMARY KEY ( `resource_id`, `object_name`, `object_id` )
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
 
 INSERT INTO `ac_resource_map` ( `resource_id`, `object_name`, `object_id`, `default`, `sort_order`, `date_added`)
 VALUES

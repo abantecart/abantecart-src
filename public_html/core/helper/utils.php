@@ -756,7 +756,9 @@ function getGravatar( $email = '', $s = 80, $d = 'mm', $r = 'g') {
     return $url;
 }
 
-function compressTarGZ($tar_filename, $tar_dir){
+function compressTarGZ($tar_filename, $tar_dir, $compress_level = 5){
+
+	$compress_level = ($compress_level<1 || $compress_level>9) ? 5 : $compress_level;
 
 	$exit_code = 0;
 	if(pathinfo($tar_filename,PATHINFO_EXTENSION)=='gz'){
@@ -778,10 +780,10 @@ function compressTarGZ($tar_filename, $tar_dir){
 
 	if(class_exists('PharData') ){
 		try{
-			$a = new PharData($filename );
+			$a = new PharData($tar );
 			$a->buildFromDirectory($tar_dir); // this code creates tar-file
-			$a->compress(Phar::GZ);
 			if(file_exists($tar)){ // remove tar-file after zipping
+				gzip($tar, $compress_level);
 				unlink($tar);
 			}
 		}catch (Exception $e){
@@ -797,11 +799,37 @@ function compressTarGZ($tar_filename, $tar_dir){
 		$registry = Registry::getInstance();
 		$registry->get('load')->library('targz');
 		$targz = new Atargz();
-		return $targz->makeTar($tar_dir.$tar_filename, $filename);
+		return $targz->makeTar($tar_dir.$tar_filename, $filename, $compress_level);
 	}else{
 		return true;
 	}
 }
+
+function gzip($src, $level = 5, $dst = false){
+    if($dst == false){
+        $dst = $src.".gz";
+    }
+    if(file_exists($src)){
+        $filesize = filesize($src);
+        $src_handle = fopen($src, "r");
+        if(!file_exists($dst)){
+            $dst_handle = gzopen($dst, "w$level");
+            while(!feof($src_handle)){
+                $chunk = fread($src_handle, 2048);
+                gzwrite($dst_handle, $chunk);
+            }
+            fclose($src_handle);
+            gzclose($dst_handle);
+            return true;
+        } else {
+            error_log("$dst already exists");
+        }
+    } else {
+        error_log("$src doesn't exist");
+    }
+    return false;
+}
+
 
 /**
  * Generate random word
@@ -914,5 +942,27 @@ $filename = (string)$filename;
     }
     else {
         return 'application/octet-stream';
+    }
+}
+
+// function detect is maximum execution time can be changed
+function canChangeExecTime(){
+	$old_set = ini_get('max_execution_time');
+	set_time_limit('1234');
+	if(ini_get('max_execution_time')==1234){
+		return false;
+	}else{
+		set_time_limit($old_set);
+		return true;
+	}
+}
+
+function getMemoryLimitInBytes (){
+	$size_str = ini_get('memory_limit');
+    switch (substr ($size_str, -1)){
+        case 'M': case 'm': return (int)$size_str * 1048576;
+        case 'K': case 'k': return (int)$size_str * 1024;
+        case 'G': case 'g': return (int)$size_str * 1073741824;
+        default: return $size_str;
     }
 }

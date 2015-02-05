@@ -17,7 +17,14 @@
 				echo "has-error";
 			} ?>">
 				<label class="control-label col-sm-3 col-xs-12"
-					   for="<?php echo $field->element_id; ?>"><?php echo ${'entry_' . $name}; ?></label>
+					   for="<?php echo $field->element_id; ?>">
+					<?php
+					echo ${'entry_' . $name};
+					if(${'entry_' . $name.'_size'}){
+						echo '&nbsp;('.${'entry_' . $name.'_size'}.')';
+					}
+					?>
+				</label>
 
 				<div class="input-group">
 					<?php echo $field; ?>
@@ -118,11 +125,11 @@
 	});
 
 	function selectAll() {
-		$('input[name*=\'backup\[\]\']').attr('checked', 'checked');
+		$('input[name*=\'table_list\[\]\']').attr('checked', 'checked');
 		$('#tables').find('.afield').addClass('checked');
 	}
 	function unselectAll() {
-		$('input[name*=\'backup\[\]\']').removeAttr('checked');
+		$('input[name*=\'table_list\[\]\']').removeAttr('checked');
 		$('#tables').find('.afield').removeClass('checked');
 	}
 

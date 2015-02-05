@@ -642,7 +642,7 @@ $(document).on('click', ".task_run", function () {
         '<div id="task_modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">' +
         '<div class="modal-dialog">' +
         '<div class="modal-content">' +
-        '<div class="modal-header">' +
+        '<div class="modal-header">Task Run' +
         '<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>' +
         '<h4 class="modal-title" id="myModalLabel">&nbsp;</h4>' +
         '</div>' +
@@ -695,7 +695,7 @@ var runTaskStepsUI = function (task_details) {
     } else {
         $('#task_modal .modal-body').html('<div class="progress-info"></div><div class="progress"><div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="2" aria-valuemin="0" aria-valuemax="100" style="width: 1%;">1%</div></div>');
 
-        var steps_cnt = task_details.steps.length;
+        var steps_cnt = Object.keys(task_details.steps).length;
         var step_num = 1;
         var def_timeout = $.ajaxSetup()['timemout'];
         var stop_task = false;
@@ -711,14 +711,26 @@ var runTaskStepsUI = function (task_details) {
 
             var attempts = 3;// set attempts count for fail ajax call (for repeating request)
 
-            while (attempts > 0) { // run each ajax call few times in case when we have unstable commention etc
+            while (attempts >= 0) { // run each ajax call few times in case when we have unstable commention etc
+
+                var senddata = { rt: decodeURIComponent(step.controller),
+                                 token: getUrlParameter('token'),
+                                 s: getUrlParameter('s') };
+                for(var s in step.settings){
+                    senddata[s] = step.settings[s];
+                }
+                var timeout = 500;
+                if(step.hasOwnProperty('eta')){
+                    senddata['eta'] = step.eta;
+                    timeout = (step.eta + 10)*1000;
+                }
+
                 var step_ajax = $.ajax({
                     type: "GET",
                     async: false,
-                    url: window.location,
-                    data: { rt: step.controller,
-                        token: getUrlParameter('token'),
-                        s: getUrlParameter('s') },
+                    timeout: timeout,
+                    url: window.location.protocol+'//'+window.location.host+window.location.pathname,
+                    data: senddata,
                     dataType: 'json',
                     global: false,
                     success: function (data, textStatus, xhr) {
@@ -735,16 +747,15 @@ var runTaskStepsUI = function (task_details) {
                             $('div.progress-info').html(defaultTaskMessages.complete);
                             runTaskComplete(task_details.task_id);
                         }
-                        attempts = 0; //stop attempts of this task
+                        attempts = -1; //stop attempts of this task
                     },
                     error: function (xhr, status, error) {
-                        //console.log(xhr, status, error);
                         var error_txt;
                         try { //when server response is json formatted string
                             var err = $.parseJSON(xhr.responseText);
                             if (err.hasOwnProperty("error_text")) {
                                 error_txt = err.error_text;
-                                attempts = 1; //if we got error from task-controller  - interrupt attemps
+                                attempts = 0; //if we got error from task-controller  - interrupt attemps
                             } else {
                                 if(xhr.status==200){
                                     error_txt = '('+xhr.responseText+')';
@@ -763,7 +774,7 @@ var runTaskStepsUI = function (task_details) {
                         }
 
                         //so.. if all attempts of this step are failed
-                        if (attempts == 1) {
+                        if (attempts == 0) {
                             task_complete_text += '<div class="alert-danger">' + defaultTaskMessages.step + ' ' + step_num + ' - '+defaultTaskMessages.failed+'. ('+ error_txt +')</div>';
                             //check interruption of task on step failure
                             if (step.hasOwnProperty("settings") && step.settings!=null){
