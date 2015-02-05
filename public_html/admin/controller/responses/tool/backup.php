@@ -27,6 +27,7 @@ class ControllerResponsesToolBackup extends AController {
 	public function buildTask(){
 		//init controller data
 		$this->extensions->hk_InitData($this,__FUNCTION__);
+		$this->data['output'] = array();
 
 		if ($this->request->is_POST() && $this->_validate()) {
 			$this->loadModel('tool/backup');
@@ -66,10 +67,13 @@ class ControllerResponsesToolBackup extends AController {
 			$tm = new ATaskManager();
 			$tm->deleteTask($task_id);
 			$install_upgrade_history = new ADataset('install_upgrade_history','admin');
+			$backup_name = is_file(DIR_BACKUP.'manual_backup.tar.gz') ? 'manual_backup.tar.gz' : '';
+			$backup_name = !$backup_name && is_dir(DIR_BACKUP.'manual_backup') ? 'manual_backup' : '';
+
 			$install_upgrade_history->addRows(array('date_added'=> date("Y-m-d H:i:s",time()),
 										'name' => 'Manual Backup',
 										'version' => VERSION,
-										'backup_file' => 'manual_backup.tar.gz',
+										'backup_file' => $backup_name,
 										'backup_date' => date("Y-m-d H:i:s",time()),
 										'type' => 'backup',
 										'user' => $this->user->getUsername() ));
@@ -81,7 +85,10 @@ class ControllerResponsesToolBackup extends AController {
 
 		$this->load->library('json');
 		$this->response->addJSONHeader();
-		$this->response->setOutput( AJson::encode(array('result' => true, 'result_text' => $result_text )) );
+		$this->response->setOutput( AJson::encode(array(
+													'result' => true,
+													'result_text' => $result_text ))
+		);
 	}
 
 
@@ -125,10 +132,11 @@ class ControllerResponsesToolBackup extends AController {
 			$this->errors['warning'] = $this->language->get('error_permission');
 		}
 
-	    $this->request->post['backup_files'] = $this->request->post['backup_files'] ? true : false;
-	    $this->request->post['backup_config'] = $this->request->post['backup_config'] ? true : false;
+	    $this->request->post['backup_code'] = $this->request->post['backup_code'] ? true : false;
+	    $this->request->post['backup_content'] = $this->request->post['backup_content'] ? true : false;
+	    $this->request->post['compress_backup'] = $this->request->post['compress_backup'] ? true : false;
 
-		if(!$this->request->post['backup'] &&  !$this->request->post['backup_files'] && !$this->request->post['backup_config']){
+		if(!$this->request->post['table_list'] &&  !$this->request->post['backup_code'] && !$this->request->post['backup_content']){
 			$this->errors['warning'] = $this->language->get('error_nothing_to_backup');
 		}
 

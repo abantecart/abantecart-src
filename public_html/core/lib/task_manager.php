@@ -449,7 +449,7 @@ class ATaskManager {
 			if($step['status']!=1){ //skip all steps that not scheduled
 				continue;
 			}
-			$steps[] = $step;
+			$steps[$step['step_id']] = $step;
 		}
 		return $steps;
 	}

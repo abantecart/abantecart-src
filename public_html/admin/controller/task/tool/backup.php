@@ -24,7 +24,9 @@ class ControllerTaskToolBackup extends AController {
 	private $error = array();
 
 	public function dumpTables(){
-
+		if($this->request->get['eta']>30){
+			set_time_limit((int)$this->request->get['eta']*2);
+		}
 		$bkp = new ABackup('manual_backup');
 
 		if(has_value($this->request->get['sql_dump_mode'])){
@@ -57,10 +59,68 @@ class ControllerTaskToolBackup extends AController {
 
 	}
 
-	public function backupFiles(){
-
+	public function backupContentFiles(){
+		if($this->request->get['eta']>30){
+			set_time_limit((int)$this->request->get['eta']+30);
+		}
 		$bkp = new ABackup('manual_backup');
-		$result = $bkp->backupDirectory(DIR_ROOT, false);
+		$content_dirs = array( // white list
+					'resources',
+					'image',
+					'download'
+				);
+
+		$result = true;
+		$files = glob(DIR_ROOT.'/*', GLOB_ONLYDIR);
+		foreach($files as $file){
+			$res = true;
+			if(is_dir($file) && in_array(basename($file),$content_dirs)){ //only dirs from white list
+				$res = $bkp->backupDirectory($file, false);
+			}
+			$result = !$res ? $res : $result;
+		}
+
+		if($result){
+			$this->load->library('json');
+			$this->response->addJSONHeader();
+			$output = array('result' => true);
+			$this->response->setOutput( AJson::encode($output) );
+		}else{
+			$error = new AError('files backup error');
+			return $error->toJSONResponse('APP_ERROR_402',
+									array( 'error_text' => $bkp->error,
+										'reset_value' => true
+									));
+		}
+
+	}
+
+	public function backupCodeFiles(){
+		if($this->request->get['eta']>30){
+			set_time_limit((int)$this->request->get['eta']+30);
+		}
+		$bkp = new ABackup('manual_backup');
+		$code_dirs = array( // white list
+			'admin',
+			'core',
+			'storefront',
+			'extensions',
+			'system',
+			'static_pages'
+		);
+
+		$result = true;
+		$files = glob(DIR_ROOT.'/*');
+
+		foreach($files as $file){
+			$res = true;
+			if(is_file($file)){
+				$res = $bkp->backupFile($file, false);
+			}else if(is_dir($file) && in_array(basename($file),$code_dirs)){ //only dirs from white list
+				$res = $bkp->backupDirectory($file, false);
+			}
+			$result = !$res ? $res : $result;
+		}
 
 		if($result){
 			$this->load->library('json');
@@ -91,7 +151,9 @@ class ControllerTaskToolBackup extends AController {
 	}
 
 	public function CompressBackup(){
-
+		if($this->request->get['eta']>30){
+			set_time_limit((int)$this->request->get['eta']+30);
+		}
 		$bkp = new ABackup('manual_backup');
 		$arc_basename =  DIR_BACKUP . $bkp->getBackupName();
 		if(is_file($arc_basename.'.tar')){

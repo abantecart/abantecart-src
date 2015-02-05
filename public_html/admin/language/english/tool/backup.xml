@@ -71,12 +71,16 @@
 			<![CDATA[Warning: The file you uploaded does not loaded as XML! Please, see log-file for details]]></value>
 	</definition>
 	<definition>
-		<key>entry_backup_files</key>
-		<value><![CDATA[Backup Files:]]></value>
+		<key>entry_backup_code</key>
+		<value><![CDATA[Backup Code:<br/><span class="help">Sub-directories with code files excluding dynamic files such as cache, log files, images, resources etc </span>]]></value>
 	</definition>
 	<definition>
-		<key>entry_config</key>
-		<value><![CDATA[Config.php file:<br><br /><span class="help">Note: keep backup-archive securely. File will contain "salt" for encrypting.</span>]]></value>
+		<key>entry_backup_content</key>
+		<value><![CDATA[Backup Content:<br/><span class="help">Sub-directories with dynamic files such as images, downloads, resources etc </span>]]></value>
+	</definition>
+	<definition>
+		<key>entry_compress_backup</key>
+		<value><![CDATA[Compress Backup Directory  %s ?<br/><span class="help">Archive *.tar.gz will be created.<br/> Note: it could to take a long time. Otherwise you can disable compression and find your backup in folder %s</span>]]></value>
 	</definition>
 	<definition>
 		<key>button_backup_now</key>
