@@ -136,7 +136,7 @@ class ModelToolMPAPI extends Model {
 				$info['rating'] = (int)$info['rating'];
 				$info['description'] = substr(strip_tags(html_entity_decode(str_replace('&nbsp;','',$info['description']),ENT_QUOTES)),0,344).'...';
 
-				$info['price'] = $info['price']>0 ? $this->currency->format($info['price'],$info['currency_code']) : $this->language->get('text_free');
+				$info['price'] = $info['price']>0 ? $this->currency->format($info['price'],'USD',1) : $this->language->get('text_free');
 
 				$info['addtocart'] = $this->html->buildElement(array(
 																	'type' => 'button',
