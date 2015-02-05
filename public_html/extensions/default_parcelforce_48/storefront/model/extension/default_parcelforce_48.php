@@ -98,6 +98,8 @@ class ModelExtensionDefaultParcelforce48 extends Model {
 								)
 				                );
 				} else {
+					//all products are marked free for shipping
+					$quote_data[$key]['cost'] = 0.0;
 				    $quote_data[$key]['text'] = $this->language->get('text_free');	            
 				}
 			}
