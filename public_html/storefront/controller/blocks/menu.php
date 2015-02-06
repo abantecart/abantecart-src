@@ -30,8 +30,7 @@ class ControllerBlocksMenu extends AController {
 
 		$this->data['heading_title'] = $this->language->get('heading_title');
 
-
-		$cache_name = 'storefront_menu';
+		$cache_name = 'storefront_menu'.$this->config->get('config_store_id');
 		$this->menu_items = $this->cache->get($cache_name, $this->config->get('storefront_language_id'));
 		if(!$this->menu_items){
 			$menu = new AMenu_Storefront();
@@ -40,9 +39,7 @@ class ControllerBlocksMenu extends AController {
 			//writes into cache result of calling _buildMenu func!
 			$this->cache->set($cache_name, $this->menu_items, $this->config->get('storefront_language_id'));
 		}
-
 		$storefront_menu = $this->menu_items;
-
 		$this->session->data['storefront_menu'] = $storefront_menu;
 		$this->data['storemenu'] = $storefront_menu;
 
@@ -54,19 +51,14 @@ class ControllerBlocksMenu extends AController {
 	private function _buildMenu( $parent = '' ) {
 		$menu = array();
 		if ( empty($this->menu_items[$parent]) ) return $menu;
-
 		$lang_id = (int)$this->config->get('storefront_language_id');
 
-
 		foreach ( $this->menu_items[$parent] as $item ) {
-
-
 			if( preg_match ( "/^http/i", $item ['item_url'] ) ){
 				$href = $item ['item_url'];
 			} else {
 				$href = $this->html->getURL ( $item ['item_url'] );
 			}
-
 			$menu[] = array(
 				'id' => $item['item_id'],
 				'current' => $item['current'],
@@ -77,7 +69,6 @@ class ControllerBlocksMenu extends AController {
 				'children' => $this->_buildMenu( $item['item_id'] ),
 			);
 		}
-
 		return $menu;
 	}
 }
