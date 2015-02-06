@@ -54,7 +54,7 @@ class ControllerPagesCatalogProduct extends AController {
 
 		$this->loadModel('catalog/category');
 		$this->data['categories'] = array( '' => $this->language->get('text_select_category') );
-        $results = $this->model_catalog_category->getCategories(0);
+        $results = $this->model_catalog_category->getCategories(0,$this->session->data['current_store_id']);
         foreach( $results as $r ) {
             $this->data['categories'][ $r['category_id'] ] = $r['name'];
         }
@@ -320,7 +320,7 @@ class ControllerPagesCatalogProduct extends AController {
 
         $this->loadModel('catalog/category');
 		$this->data['categories'] = array();
-        $results = $this->model_catalog_category->getCategories(0);
+        $results = $this->model_catalog_category->getCategories(0, $this->session->data['current_store_id']);
         foreach( $results as $r ) {
             $this->data['categories'][ $r['category_id'] ] = $r['name'];
         }
