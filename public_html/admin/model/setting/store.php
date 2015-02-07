@@ -173,6 +173,15 @@ class ModelSettingStore extends Model {
 		return $output;
 	}
 
+	public function isDefaultStore(){
+		$store_settings = $this->getStore(0);
+		return ($this->config->get('config_url') == $store_settings['config_url']);
+	}
+
+	public function getStoreURL($store_id){
+		$store_settings = $this->getStore($store_id);
+		return $store_settings['config_url'];
+	}
 	/**
 	 * @param int $store_id
 	 * @return array
@@ -190,7 +199,6 @@ class ModelSettingStore extends Model {
 	}
 
 	/**
-	 * @param array $data
 	 * @return array
 	 */
 	public function getStores() {

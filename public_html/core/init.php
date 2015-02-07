@@ -297,6 +297,9 @@ try {
 
 // Session
 	$registry->set('session', new ASession(SESSION_ID) );
+	if($config->has('current_store_id')){
+		$registry->get('session')->data['current_store_id'] = $config->get('current_store_id');
+	}
 
 // Set up HTTP and HTTPS based automatic and based on config
 	if (IS_ADMIN) {
