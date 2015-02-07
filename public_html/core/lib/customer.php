@@ -134,6 +134,12 @@ final class ACustomer {
   			//we have unauthenticated customer
  			$encryption = new AEncryption($this->config->get('encryption_key'));
   			$this->unauth_customer = unserialize($encryption->decrypt($this->request->cookie['customer']));
+  			//customer is not from the same store (under the same domain) 
+  			if ($this->unauth_customer['script_name'] != $this->request->server['SCRIPT_NAME']) {
+  				//clean up
+  				$this->unauth_customer = array();
+  				setcookie("customer", "", time()-3600);
+  			}
   			//no need to merge with session as it shoud be always in sync 
   			$this->session->data['cart'] = array();
     		$this->session->data['cart'] = $this->getCustomerCart();	
@@ -191,9 +197,12 @@ final class ACustomer {
             
             //set cookie for unauthenticated user (expire in 1 year) 
 			$encryption = new AEncryption($this->config->get('encryption_key'));
-            $cutomer_data = $encryption->encrypt(serialize(array('first_name' => $this->firstname, 'customer_id' => $this->customer_id )));
+            $cutomer_data = $encryption->encrypt(serialize(array(
+            											'first_name' => $this->firstname, 
+            											'customer_id' => $this->customer_id, 
+            											'script_name'	=> $this->request->server['SCRIPT_NAME']
+            											)));
 	  		setcookie('customer', $cutomer_data, time() + 60 * 60 * 24 * 365, '/', $this->request->server['HTTP_HOST']);
-            
 	  		return TRUE;
     	} else {
       		return FALSE;
