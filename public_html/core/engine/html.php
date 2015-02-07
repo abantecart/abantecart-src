@@ -551,6 +551,10 @@ class AHtml extends AController {
 		$hidden = array();
 		$stores[0] = array('name' => $registry->get('language')->get('text_default'));
 		$registry->get('load')->model('setting/store');
+		//if loaded not default store - hide store switcher
+		if(!$registry->get('model_setting_store')->isDefaultStore()){
+			return '';
+		}
 		$result_stores = $registry->get('model_setting_store')->getStores();
 		if (sizeof($result_stores) > 0) {
 			foreach ($result_stores as $rs) {

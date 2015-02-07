@@ -175,7 +175,7 @@ final class AConfig {
 			}
 
 		}
-		
+
 		//still no store? load default store or session based
 		if (is_null($this->cnfg['config_store_id'])) {
 			$this->cnfg['config_store_id'] = 0;			
@@ -184,12 +184,14 @@ final class AConfig {
 				$session = $this->registry->get('session');
 				$store_id = $this->registry->get('request')->get['store_id'];
 				if (has_value($store_id)) {
-					$session->data['current_store_id'] = $this->cnfg['config_store_id'] = (int)$store_id;				
+					$this->cnfg['current_store_id'] = $this->cnfg['config_store_id'] = (int)$store_id;
 				} else if(has_value($session->data['current_store_id'])) {
 					$this->cnfg['config_store_id'] = $session->data['current_store_id'];	
 				}
 			}
 			$this->_reload_settings($this->cnfg['config_store_id']);
+		}else{
+			$this->cnfg['current_store_id'] = $this->cnfg['config_store_id'];
 		}
 		
 		//get template for storefront

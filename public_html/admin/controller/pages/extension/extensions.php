@@ -462,13 +462,15 @@ class ControllerPagesExtensionExtensions extends AController {
 
 		//check if we save settings with the post
 		if ($this->request->is_POST() && $this->_validateSettings($extension,$store_id)) {
+			$save_data = $this->request->post;
 			foreach ($settings as $item) {
 				if (!isset($this->request->post[$item['name']])) {
-					$this->request->post[$item['name']] = 0;
+					$save_data[$item['name']] = 0;
 				}
 			}
-			
-			$this->extension_manager->editSetting($extension, $this->request->post);
+
+			$save_data['store_id'] = $store_id;
+			$this->extension_manager->editSetting($extension, $save_data);
 			$this->cache->delete('settings.extension');
 			$this->session->data['success'] = $this->language->get('text_save_success');
 			$this->redirect($this->data['target_url']);
@@ -572,9 +574,8 @@ class ControllerPagesExtensionExtensions extends AController {
 		$missing_extensions = $this->extensions->getMissingExtensions();
 		//if extension is missing - do redirect on extensions list with alert!
 		if (in_array($extension, $missing_extensions)) {
-
 			$this->session->data['error'] = sprintf($this->language->get('text_missing_extension'),$extension);
-			$this->redirect($this->redirect($this->html->getSecureURL('extension/extensions')));
+			$this->redirect($this->html->getSecureURL('extension/extensions'));
 		}
 
 		$this->data['extension_info']['note'] = $ext->getConfig('note') ? $this->html->convertLinks($this->language->get($extension . '_note')) : '';
