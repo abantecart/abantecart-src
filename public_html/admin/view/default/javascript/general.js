@@ -652,6 +652,8 @@ $(document).on('click', ".task_run", function () {
     var options = {"backdrop": "static", 'show': true};
     $('#task_modal').modal(options);
 
+    $('#task_modal .modal-body').html('Building Task...');
+
     run_task_url = $(this).attr('data-run-task-url');
     complete_task_url = $(this).attr('data-complete-task-url');
     var send_data = $(this).parents('form').serialize();

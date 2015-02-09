@@ -116,7 +116,6 @@ final class ABackup {
 		 * @var $db AMySQLi
 		 */
 		$db = new $driver(DB_HOSTNAME, DB_USERNAME, DB_PASSWORD, DB_DATABASE); // use driver directly to exclude hooks calls
-
 		$prefix_len = strlen(DB_PREFIX);
 		// get sizes of tables
 
@@ -130,26 +129,27 @@ final class ABackup {
 		}
 
 		$result = $this->db->query($sql);
+		$memory_limit = getMemoryLimitInBytes()/100;
+
+		// sql-file for small tables
+		$dump_file = $this->backup_dir.'data/dump_' .DB_DATABASE.'_'. date('Y-m-d-His') . '.sql';
+		$file = fopen($dump_file,'w');
+		if(!$file){
+			$error_text = 'Error: Cannot create file as "'.$dump_file.'" during sql-dumping. Check is it writable.';
+			$error = new AError($error_text);
+			$error->toLog()->toDebug();
+			return false;
+		}
 
 		foreach($result->rows as $table_info){
-			//create separate dump-files for each tables
-			$dump_file = $this->backup_dir.'data/dump_' .DB_DATABASE.'_'. $table_info['table_name'] . '.sql';
-			$file = fopen($dump_file,'w');
-			if(!$file){
-				$error_text = 'Error: Cannot create file as "'.$dump_file.'" during sql-dumping. Check is it writable.';
-				$error = new AError($error_text);
-				$error->toLog()->toDebug();
-				return false;
-			}
-
+			$table_name = $table_info['table_name'];
 			if($this->sql_dump_mode == 'data_only'){
-				fwrite($file,"TRUNCATE TABLE `" . $table_info['table_name'] . "`;\n\n");
+				fwrite($file,"TRUNCATE TABLE `" . $table_name . "`;\n\n");
 			}elseif($this->sql_dump_mode == 'recreate'){
-				$sql = "SHOW CREATE TABLE `" . $table_info['table_name'] . "`;";
-				$result = $this->db->query($sql);
-				$ddl = $result->row['Create Table'];
-
-				fwrite($file,"DROP TABLE IF EXISTS `" . $table_info['table_name'] . "`;\n\n");
+				$sql = "SHOW CREATE TABLE `" . $table_name . "`;";
+				$r = $this->db->query($sql);
+				$ddl = $r->row['Create Table'];
+				fwrite($file,"DROP TABLE IF EXISTS `" . $table_name . "`;\n\n");
 				fwrite($file, $ddl . "\n\n");
 			}
 
@@ -159,7 +159,7 @@ final class ABackup {
 			$sql = "SELECT COLUMN_NAME
 					FROM information_schema.COLUMNS c
 					WHERE c.`TABLE_SCHEMA` = '".DB_DATABASE."'
-						AND c.`TABLE_NAME` = '".$table_info['table_name']."'
+						AND c.`TABLE_NAME` = '".$table_name."'
 						AND c.`COLUMN_KEY` = 'PRI'
 					    AND c.`DATA_TYPE`='int'
 					LIMIT 0,1;";
@@ -170,49 +170,48 @@ final class ABackup {
 
 			if($column_name){
 				$sql = "SELECT MAX(`".$column_name."`) as max, MIN(`".$column_name."`) as min
-						FROM `".$table_info['table_name']."`";
+						FROM `".$table_name."`";
 				$r = $this->db->query($sql);
 				$column_max = $r->row['max'];
 				$column_min = $r->row['min'];
 			}else{ // if table have no PRIMARY KEY - try to dump it by one pass
 				$column_max = $table_info['num_rows'];
-				$stop = $column_min = 0;
+				$start = $stop = $column_min = 0;
 				$small_table = true;
 			}
-
-			$memory_limit = getMemoryLimitInBytes()/6.4;
-
-			// for tables greater than $memory_limit (for ex. if php memory limit 64mb $memor_limit equal 10mb)
+			unset($r);
+			// for tables greater than $memory_limit (for ex. if php memory limit 64mb $memory_limit equal 10mb)
 			if($table_info['size'] > $memory_limit && !$small_table){// for tables greater than 20 MB
 				$bytes_per_id = ceil($table_info['size'] / ($column_max-$column_min));
-				$limit = ceil( $memory_limit  /$bytes_per_id);
+				$limit = ceil( $memory_limit / $bytes_per_id );
 				//break export aparts to prevent memory overflow
 				$start = $column_min;
 				$stop = $column_min + $limit;
 				$small_table = false;
 			}else{ // for small table get data by one pass
 				$column_max = $limit = $table_info['num_rows'];
-				$stop = $column_min = 0;
+				$start = $stop = $column_min = 0;
 				$small_table = true;
 			}
 
-			while( $stop < $column_max ){
+			while( $start < $column_max ){
+
 				if(!$small_table){
 					$sql = "SELECT *
-						 FROM `" . $table_info['table_name'] . "`
+						 FROM `" . $table_name . "`
 						 WHERE `" . $column_name . "` >= '" . $start . "' AND `" . $column_name . "`< '" . $stop . "'";
 				}else{
-					$sql = "SELECT * FROM `" . $table_info['table_name'] . "`";
+					$sql = "SELECT * FROM `" . $table_name . "`";
 				}
 				// dump data with using "INSERT"
-				$result = $db->query( $sql, true );
-				foreach ($result->rows as $result) {
+				$r = $db->query( $sql, true );
+				foreach ($r->rows as $row) {
 					$fields = '';
-					foreach (array_keys($result) as $value) {
+					foreach (array_keys($row) as $value) {
 						$fields .= '`' . $value . '`, ';
 					}
 					$values = '';
-					foreach (array_values($result) as $value) {
+					foreach (array_values($row) as $value) {
 						$value = str_replace(array("\x00", "\x0a", "\x0d", "\x1a"), array('\0', '\n', '\r', '\Z'), $value);
 						$value = str_replace(array("\n", "\r", "\t"), array('\n', '\r', '\t'), $value);
 						$value = str_replace('\\', '\\\\', $value);
@@ -222,20 +221,20 @@ final class ABackup {
 						$value = str_replace('\\\t', '\t', $value);
 						$values .= '\'' . $value . '\', ';
 					}
-					fwrite($file, 'INSERT INTO `' . $table_info['table_name'] . '` (' . preg_replace('/, $/', '', $fields) . ') VALUES (' . preg_replace('/, $/', '', $values) . ');' . "\n");
+					fwrite($file, 'INSERT INTO `' . $table_name . '` (' . preg_replace('/, $/', '', $fields) . ') VALUES (' . preg_replace('/, $/', '', $values) . ');' . "\n");
 				}
+				unset($r, $sql);
 				$start+=$limit;
 				$stop+=$limit;
 				if($small_table){
 					break;
 				}
 			}
-
-			fwrite($file,"\n\n");
-			fclose($file);
-			chmod($dump_file,0644);
 		}
 
+		fwrite($file,"\n\n");
+		fclose($file);
+		chmod($dump_file,0644);
 
 		return $dump_file;
 	}

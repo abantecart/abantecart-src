@@ -197,20 +197,9 @@ class ModelToolBackup extends Model {
 
 		//create step for content-files backup
 		if($data['backup_code']){
-			//calculate estimate time for dumping of tables
-			$code_dirs = array(
-						'admin',
-						'core',
-						'storefront',
-						'extensions',
-						'system',
-						'static_pages'
-					);
-			$dirs_size = 0;
-			foreach($code_dirs as $d){
-				$dirs_size += $this->_get_directory_size(DIR_ROOT.'/'.$d);
-			}
+			//calculate estimate time for copying of code
 
+			$dirs_size = $this->getCodeSize();
 			$step_id = $tm->addStep( array(
 										'task_id' => $task_id,
 										'sort_order' => 2,
@@ -234,17 +223,9 @@ class ModelToolBackup extends Model {
 		}
 		//create step for content-files backup
 		if($data['backup_content']){
-			//calculate estimate time for dumping of tables
-			$content_dirs = array( // white list
-								'resources',
-								'image',
-								'download'
-							);
-			$dirs_size = 0;
-			foreach($content_dirs as $d){
-				$dirs_size += $this->_get_directory_size(DIR_ROOT.'/'.$d);
-			}
+			//calculate estimate time for copying of content files
 
+			$dirs_size = $this->getContentSize();
 			$step_id = $tm->addStep( array(
 										'task_id' => $task_id,
 										'sort_order' => 3,
@@ -332,6 +313,36 @@ class ModelToolBackup extends Model {
 		}
 
 		return $output;
+	}
+
+	public function getCodeSize(){
+
+		$code_dirs = array(
+					'admin',
+					'core',
+					'storefront',
+					'extensions',
+					'system',
+					'static_pages'
+				);
+		$dirs_size = 0;
+		foreach($code_dirs as $d){
+			$dirs_size += $this->_get_directory_size(DIR_ROOT.'/'.$d);
+		}
+		return $dirs_size;
+	}
+
+	public function getContentSize(){
+		$content_dirs = array( // white list
+							'resources',
+							'image',
+							'download'
+						);
+		$dirs_size = 0;
+		foreach($content_dirs as $d){
+			$dirs_size += $this->_get_directory_size(DIR_ROOT.'/'.$d);
+		}
+		return $dirs_size;
 	}
 
 	private function _get_directory_size($dir){
