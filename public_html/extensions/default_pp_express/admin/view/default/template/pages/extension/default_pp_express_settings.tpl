@@ -85,10 +85,8 @@ echo $tabs;
 
 </div>
 
-<div class="tab-content">
+<div class="panel-body panel-body-nopadding tab-content <?php if ( $this->config->get('default_pp_express_test') ) { echo 'status_test'; } ?>">
 	<?php  echo $form['form_open']; ?>
-	<div class="panel-body panel-body-nopadding">
-
 		<label class="h4 heading"><?php echo $this->config->get('default_pp_express_test') ? $text_api_credentials_sandbox : $text_api_credentials; ?></label>
 		<?php foreach ($settings as $name => $field) {
 			if ( !in_array($name, $settings_order['api']) ) {
@@ -188,9 +186,6 @@ echo $tabs;
 
 		<?php }?>
 
-	</div>
-
-	<div class="panel-body panel-body-nopadding">
 			<label class="h4 heading"><?php echo $text_optional_settings; ?></label>
 			<?php foreach ($settings as $name=> $field) {
 					if ( !in_array($name, $settings_order['optional']) ) {
@@ -208,7 +203,7 @@ echo $tabs;
 					}
 					$widthcasses .= " col-xs-12";
 					?>
-					<div class="form-group <?php if (!empty($error[$name])) {echo "has-error";} ?> <?php if ( $this->config->get('default_pp_standart_test') ) { echo 'paypal_sandbox_bg'; } ?>">
+					<div class="form-group <?php if (!empty($error[$name])) {echo "has-error";} ?>">
 						<label class="control-label col-sm-4 col-xs-12" for="<?php echo $field['value']->element_id; ?>"><?php echo $field['note']; ?></label>
 						<div class="input-group afield <?php echo $widthcasses; ?>">
 						<?php
@@ -223,10 +218,8 @@ echo $tabs;
 		unset($settings[$name]);
 		} ?><!-- <div class="fieldset"> -->
 
-	</div>
-
-	<div class="panel-body panel-body-nopadding">
-			<label class="h4 heading"><?php echo $text_customize_checkout_page; ?></label>
+		<label class="col-md-12 h4 heading"><?php echo $text_customize_checkout_page; ?></label>
+		<div class="col-md-8 col-xs-12">
 			<?php foreach ($settings as $name=> $field) {
 					if ( !in_array($name, $settings_order['custom']) ) {
 						continue;
@@ -242,7 +235,7 @@ echo $tabs;
 					}
 					$widthcasses .= " col-xs-12";
 					?>
-					<div class="form-group <?php if (!empty($error[$name])) {echo "has-error";} ?> <?php if ( $this->config->get('default_pp_standart_test') ) { echo 'paypal_sandbox_bg'; } ?>">
+					<div class="form-group <?php if (!empty($error[$name])) {echo "has-error";} ?>">
 						<label class="control-label col-sm-4 col-xs-12" for="<?php echo $field['value']->element_id; ?>"><?php echo $field['note']; ?></label>
 						<div class="input-group afield <?php echo $widthcasses; ?>">
 						<?php
@@ -253,7 +246,8 @@ echo $tabs;
 						<?php } ?>
 					</div>
 
-		<?php } ?><!-- <div class="fieldset"> -->
+		<?php } ?>
+		</div>
 		<div class="col-md-4 col-xs-12">
 			<img src="<?php echo HTTP_EXT . 'default_pp_standart/image/customize_help.png'; ?>" width="250" />
 		</div>

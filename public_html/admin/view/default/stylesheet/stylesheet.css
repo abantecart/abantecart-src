@@ -1772,23 +1772,38 @@ p {
    font-size: 13px;
 }
 
-
-.panel-body.status_off{
+.status_test{
     position:relative;
 }
-.panel-body.status_off:before {
+.status_test:before {
 	content: ' ';
 	position: absolute;
 	display: block;
     width: 98%;
     height: 98%;
-	background: transparent url(../image/icon-ban.png);    
+	background: transparent url(../image/icon-gears.png);    
 	filter: alpha(opacity=5);
 	-moz-opacity: 0.05;
 	-khtml-opacity: 0.05;
 	opacity: 0.05;
 }
 
+.status_off{
+    position:relative;
+}
+.status_off:before {
+	content: ' ';
+	position: absolute;
+	display: block;
+    width: 98%;
+    height: 98%;
+    bakground:none !important;
+	background: transparent url(../image/icon-ban.png);    
+	filter: alpha(opacity=5);
+	-moz-opacity: 0.05;
+	-khtml-opacity: 0.05;
+	opacity: 0.05;
+}
 
 /***** header *****/
 
