@@ -1,0 +1,71 @@
+<?xml version="1.0"?>
+<definitions>
+  <definition>
+    <key>default_skrill_name</key>
+    <value><![CDATA[Skrill]]></value>
+  </definition>
+  <definition>
+    <key>text_payment</key>
+    <value><![CDATA[Pago]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Enhorabuena: Ha modificado los detalles de su cuenta Skrill!]]></value>
+  </definition>
+  <definition>
+    <key>text_skrill</key>
+    <value><![CDATA[<a onclick="window.open('https://www.moneybookers.com/app/?rid=10111486');"><img src="extensions/default_skrill/image/icon.png" alt="Skrill" title="Skrill" style="border: 1px solid #EEEEEE;" /></a>]]></value>
+  </definition>
+  <definition>
+    <key>default_skrill_email</key>
+    <value><![CDATA[Correo electrónico:]]></value>
+  </definition>
+  <definition>
+    <key>default_skrill_order_status_id</key>
+    <value><![CDATA[Estado del pedido:]]></value>
+  </definition>
+  <definition>
+    <key>default_skrill_order_status_pending_id</key>
+    <value><![CDATA[Estado del pedido pendiente:]]></value>
+  </definition>
+  <definition>
+    <key>default_skrill_order_status_canceled_id</key>
+    <value><![CDATA[Estado del pedido cancelado:]]></value>
+  </definition>
+  <definition>
+    <key>default_skrill_order_status_failed_id</key>
+    <value><![CDATA[Estado del pedido erróneo:]]></value>
+  </definition>
+  <definition>
+    <key>default_skrill_order_status_chargeback_id</key>
+    <value><![CDATA[Estado del pedido devuelto:]]></value>
+  </definition>
+  <definition>
+    <key>default_skrill_location_id</key>
+    <value><![CDATA[Location:]]></value>
+  </definition>
+  <definition>
+    <key>default_skrill_location_id_0</key>
+    <value><![CDATA[All Locations]]></value>
+  </definition>
+  <definition>
+    <key>default_skrill_status</key>
+    <value><![CDATA[Estado:]]></value>
+  </definition>
+  <definition>
+    <key>default_skrill_sort_order</key>
+    <value><![CDATA[Orden:]]></value>
+  </definition>
+  	<definition>
+    	<key>default_skrill_autoselect</key>
+    	<value><![CDATA[Selección automática:<br /><span class="help">Se puede configurar para que omita la página de pago selección si sólo hay una opción de pago. Esta forma de pago se seleccionará automáticamente</span>]]></value>
+  	</definition>		
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Atención: No tiene permisos para modificar su cuenta Skrill!]]></value>
+  </definition>
+  <definition>
+    <key>error_email</key>
+    <value><![CDATA[Correo electrónico obligatorio!]]></value>
+  </definition>
+</definitions>
