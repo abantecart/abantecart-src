@@ -14,6 +14,10 @@
             <type required="true">input</type>
             <default_value></default_value>
         </item>
+	    <item id="default_skrill_secret">
+            <type required="true">input</type>
+            <default_value></default_value>
+        </item>
         <item id="default_skrill_order_status_id">
             <type>selectbox</type>
 			<variants>
@@ -99,12 +103,5 @@
 			</variants>
         </item>
     </settings>
-    <install>
-	    <sql></sql>
-	    <trigger></trigger>
-	</install>
-	<uninstall>
-	    <sql></sql>
-	    <trigger></trigger>
-	</uninstall>
+    <help_link><![CDATA[https://account.skrill.com/signup?rid=53571612]]></help_link>
 </extension>

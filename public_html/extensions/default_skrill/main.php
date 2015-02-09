@@ -21,6 +21,10 @@ if ( !defined ( 'DIR_CORE' )) {
 	header ( 'Location: static_pages/' );
 }
 
+if(!class_exists('ExtensionSkrill')){
+	include('core/skrill.php');
+}
+
 $controllers = array(
     'storefront' => array('responses/extension/default_skrill'),
     'admin' => array( ),

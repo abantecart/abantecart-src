@@ -1772,7 +1772,7 @@ p {
    font-size: 13px;
 }
 
-.status_test{
+.status_test, .status_test a{
     position:relative;
 }
 .status_test:before {
@@ -1788,7 +1788,7 @@ p {
 	opacity: 0.05;
 }
 
-.status_off{
+.status_off, .status_off a{
     position:relative;
 }
 .status_off:before {
@@ -1797,7 +1797,6 @@ p {
 	display: block;
     width: 98%;
     height: 98%;
-    bakground:none !important;
 	background: transparent url(../image/icon-ban.png);    
 	filter: alpha(opacity=5);
 	-moz-opacity: 0.05;

@@ -2,7 +2,7 @@
 <definitions>
   <definition>
     <key>default_skrill_name</key>
-    <value><![CDATA[Skrill]]></value>
+    <value><![CDATA[Skrill Quick Checkout]]></value>
   </definition>
   <definition>
     <key>text_payment</key>
@@ -14,11 +14,15 @@
   </definition>
   <definition>
     <key>text_skrill</key>
-    <value><![CDATA[<a onclick="window.open('https://www.moneybookers.com/app/?p=abantecart');"><img src="extensions/default_skrill/image/icon.png" alt="Skrill" title="Skrill" style="border: 1px solid #EEEEEE;" /></a>]]></value>
+    <value><![CDATA[<a onclick="window.open('https://account.skrill.com/signup?rid=53571612');"><img src="extensions/default_skrill/image/icon.png" alt="Skrill" title="Skrill" /></a>]]></value>
   </definition>
   <definition>
     <key>default_skrill_email</key>
-    <value><![CDATA[E-Mail:]]></value>
+    <value><![CDATA[Email: <br /><span class="help">Email address of your Skrill account.</span>]]></value>
+  </definition>
+  <definition>
+    <key>default_skrill_secret</key>
+    <value><![CDATA[Secret Word (Passphrase): <br /><span class="help">This value is entered in the Settings > Integration Settings section in your Skrill account.</span>]]></value>
   </definition>
   <definition>
     <key>default_skrill_order_status_id</key>
@@ -66,6 +70,6 @@
   </definition>
   <definition>
     <key>error_email</key>
-    <value><![CDATA[E-Mail Required!]]></value>
+    <value><![CDATA[Email Required!]]></value>
   </definition>
 </definitions>
