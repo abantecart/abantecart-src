@@ -208,6 +208,10 @@ class ControllerPagesSaleCustomerTransaction extends AController {
 		$currency = $this->currency->getCurrency($this->config->get('config_currency'));		
 		$this->data['balance'] = $this->language->get('text_balance').' '.$currency['symbol_left'].round($balance,2).$currency['symbol_right'];
 
+	    $this->load->model('setting/store');
+        if(!$this->model_setting_store->isDefaultStore()){
+            $this->data['warning_actonbehalf'] = htmlspecialchars($this->language->get('warning_actonbehalf_additional_store'), ENT_QUOTES,'UTF-8');
+        }
 		$this->data['actas'] = $form->getFieldHtml(array(
 					'type' => 'button',
 				    'text' => $this->language->get('button_actas'),
@@ -237,20 +241,5 @@ class ControllerPagesSaleCustomerTransaction extends AController {
         //update controller data
         $this->extensions->hk_UpdateData($this,__FUNCTION__);
 	}
-  
-
-	public function actonbehalf() {
-
-        $this->extensions->hk_InitData($this,__FUNCTION__);
-    	
-		if (isset($this->request->get['customer_id'])) {
-			startStorefrontSession($this->user->getId(), array('customer_id' => $this->request->get['customer_id']));
-			$this->redirect($this->html->getCatalogURL('account/account'));
-		}
-
-        $this->extensions->hk_UpdateData($this,__FUNCTION__);
-
-		$this->redirect($this->html->getSecureURL('sale/customer'));
-	} 
 
 }

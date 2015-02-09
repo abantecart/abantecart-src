@@ -173,11 +173,19 @@ class ModelSettingStore extends Model {
 		return $output;
 	}
 
+	/**
+	 * checks if current selected store from store switcher is default. Note: this check needed only for default store admin side.
+	 * @return bool
+	 */
 	public function isDefaultStore(){
-		$store_settings = $this->getStore(0);
+		$store_settings = $this->getStore((int)$this->session->data['current_store_id']);
 		return ($this->config->get('config_url') == $store_settings['config_url']);
 	}
 
+	/**
+	 * @param int $store_id
+	 * @return string mixed
+	 */
 	public function getStoreURL($store_id){
 		$store_settings = $this->getStore($store_id);
 		return $store_settings['config_url'];

@@ -145,7 +145,13 @@ class ControllerPagesSaleCustomer extends AController {
 								'text' => $this->language->get('button_delete'),
 						),
 				),
+			'grid_ready' => 'grid_ready();'
 		);
+
+		$this->load->model('setting/store');
+		if(!$this->model_setting_store->isDefaultStore()){
+			$this->view->assign('warning_actonbehalf', htmlspecialchars($this->language->get('warning_actonbehalf_additional_store'), ENT_QUOTES,'UTF-8'));
+		}
 
 		$grid_settings['colNames'] = array(
 				$this->language->get('column_name'),
@@ -418,6 +424,11 @@ class ControllerPagesSaleCustomer extends AController {
 					'href' => $this->html->getSecureURL('sale/customer_transaction', '&customer_id=' . $customer_id),
 					'text' => $this->language->get('tab_transactions')
 			);
+		}
+
+		$this->load->model('setting/store');
+		if(!$this->model_setting_store->isDefaultStore()){
+			$this->data['warning_actonbehalf'] = htmlspecialchars($this->language->get('warning_actonbehalf_additional_store'), ENT_QUOTES,'UTF-8');
 		}
 
 		$this->data['actas'] = $this->html->buildElement(array(

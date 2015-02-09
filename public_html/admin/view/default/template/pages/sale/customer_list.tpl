@@ -14,7 +14,6 @@
 			    <form id="<?php echo $search_form['form_open']->name; ?>"
 			    	  method="<?php echo $search_form['form_open']->method; ?>"
 			    	  name="<?php echo $search_form['form_open']->name; ?>" class="form-inline" role="form">
-
 			    	<?php
 			    	foreach ($search_form['fields'] as $f) {
 			    		?>
@@ -47,3 +46,16 @@
 	</div>
 
 </div>
+
+<script type="application/javascript">
+	/* run after grid load */
+	var grid_ready = function() {
+	<?php if($warning_actonbehalf){?>
+		$('.grid_action_actonbehalfof').each(function(){
+
+			$(this).attr('data-confirmation', 'delete');
+			$(this).attr('data-confirmation-text', '<?php echo $warning_actonbehalf;?>');
+		});
+		<?php } ?>
+	}
+</script>

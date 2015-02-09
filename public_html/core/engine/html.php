@@ -552,7 +552,8 @@ class AHtml extends AController {
 		$stores[0] = array('name' => $registry->get('language')->get('text_default'));
 		$registry->get('load')->model('setting/store');
 		//if loaded not default store - hide store switcher
-		if(!$registry->get('model_setting_store')->isDefaultStore()){
+		$default_store_settings = $registry->get('model_setting_store')->getStore(0);
+		if($this->registry->get('config')->get('config_url') != $default_store_settings['config_url']){
 			return '';
 		}
 		$result_stores = $registry->get('model_setting_store')->getStores();

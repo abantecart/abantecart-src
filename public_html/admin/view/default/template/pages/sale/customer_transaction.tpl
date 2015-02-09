@@ -36,6 +36,12 @@
 			       href="<?php echo $actas->href; ?>"
 			       data-toggle="tooltip"
 			       title="<?php echo $actas->text; ?>"
+			    <?php
+                //for additional store show warning about login in that store's admin (because of crossdomain restriction)
+                if($warning_actonbehalf){ ?>
+                    data-confirmation="delete"
+                    data-confirmation-text="<?php echo $warning_actonbehalf;?>"
+                <?php } ?>
 			       data-original-title="<?php echo $actas->text; ?>"><i class="fa fa-male"></i></a>
 			</div>
 
