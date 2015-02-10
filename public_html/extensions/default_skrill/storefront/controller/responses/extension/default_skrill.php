@@ -23,160 +23,117 @@ if ( !defined ( 'DIR_CORE' )) {
 
 class ControllerResponsesExtensionDefaultSkrill extends AController {
 	public function main() {
+		$fields = array();
+		
 		$this->load->model('checkout/order');
 		$this->loadLanguage('default_skrill/default_skrill');
 
-		$form = new AForm();
-		$form->setForm(array( 'form_name' => 'checkout' ));
-		$data[ 'form' ][ 'form_open' ] = $form->getFieldHtml(array( 'type' => 'form',
-		                                                            'name' => 'checkout',
-		                                                            'action' => 'https://www.moneybookers.com/app/payment.pl?p=abantecart' ));
 
-		$data[ 'form' ][ 'pay_to_email' ] = $form->getFieldHtml(array( 'type' => 'hidden',
-		                                                            'name' => 'pay_to_email',
-		                                                            'value' => $this->config->get('default_skrill_email'),
-		                                                       ));
-		$data[ 'form' ][ 'recipient_description' ] = $form->getFieldHtml(array( 'type' => 'hidden',
-		                                                            'name' => 'recipient_description',
-		                                                            'value' => $this->config->get('store_name'),
-		                                                       ));
-		$data[ 'form' ][ 'transaction_id' ] = $form->getFieldHtml(array( 'type' => 'hidden',
-		                                                            'name' => 'transaction_id',
-		                                                            'value' => $this->session->data['order_id'],
-		                                                       ));
-		$data[ 'form' ][ 'return_url' ] = $form->getFieldHtml(array( 'type' => 'hidden',
-		                                                            'name' => 'return_url',
-		                                                            'value' => $this->html->getSecureURL('checkout/success'),
-		                                                       ));
-
-		$back = $this->request->get[ 'rt' ] != 'checkout/guest_step_3' ? $this->html->getSecureURL('checkout/payment')
+		$cancel_url = $this->request->get['rt'] != 'checkout/guest_step_3' ? $this->html->getSecureURL('checkout/payment')
 				: $this->html->getSecureURL('checkout/guest_step_2');
-		$data[ 'form' ][ 'cancel_url' ] = $form->getFieldHtml(array( 'type' => 'hidden',
-				                                                     'name' => 'cancel_url',
-				                                                     'value' => $back,
-				                                                    ));
-		$data[ 'form' ][ 'status_url' ] = $form->getFieldHtml(array( 'type' => 'hidden',
-				                                                     'name' => 'status_url',
-				                                                     'value' => $this->html->getSecureURL('extension/default_skrill/callback'),
-				                                                    ));
-		$data[ 'form' ][ 'language' ] = $form->getFieldHtml(array( 'type' => 'hidden',
-				                                                   'name' => 'language',
-				                                                   'value' => $this->session->data['language'],
-				                                                    ));
 
 		if ( is_file( DIR_RESOURCE . $this->config->get('config_logo')) ) {
             $logo = HTTP_DIR_RESOURCE. $this->config->get('config_logo');
         } else {
             $logo = $this->config->get('config_logo');
         }
-		$data[ 'form' ][ 'logo_url' ] = $form->getFieldHtml(array( 'type' => 'hidden',
-				                                                   'name' => 'logo_url',
-				                                                   'value' => $logo,
-				                                                    ));
-		/* * */
+
         $order_info = $this->model_checkout_order->getOrder($this->session->data['order_id']);
-
-        $data[ 'form' ][ 'pay_from_email' ] = $form->getFieldHtml(array( 'type' => 'hidden',
-                                                                       'name' => 'pay_from_email',
-                                                                       'value' => $order_info[ 'email' ],
-                                                                  ));
-		$data[ 'form' ][ 'firstname' ] = $form->getFieldHtml(array( 'type' => 'hidden',
-                                                                       'name' => 'firstname',
-                                                                       'value' => $order_info['payment_firstname'],
-                                                                  ));
-		$data[ 'form' ][ 'lastname' ] = $form->getFieldHtml(array( 'type' => 'hidden',
-                                                                       'name' => 'lastname',
-                                                                       'value' => $order_info['payment_lastname'],
-                                                                  ));
-		$data[ 'form' ][ 'address' ] = $form->getFieldHtml(array( 'type' => 'hidden',
-                                                                       'name' => 'address',
-                                                                       'value' => $order_info['payment_address_1'],
-                                                                  ));
-		$data[ 'form' ][ 'address2' ] = $form->getFieldHtml(array( 'type' => 'hidden',
-                                                                       'name' => 'address2',
-                                                                       'value' => $order_info['payment_address_2'],
-                                                                  ));
-		$data[ 'form' ][ 'phone_number' ] = $form->getFieldHtml(array( 'type' => 'hidden',
-                                                                       'name' => 'phone_number',
-                                                                       'value' => $order_info['telephone'],
-                                                                  ));
-		$data[ 'form' ][ 'postal_code' ] = $form->getFieldHtml(array( 'type' => 'hidden',
-                                                                       'name' => 'postal_code',
-                                                                       'value' => $order_info['payment_postcode'],
-                                                                  ));
-		$data[ 'form' ][ 'city' ] = $form->getFieldHtml(array( 'type' => 'hidden',
-                                                                       'name' => 'city',
-                                                                       'value' => $order_info['payment_city'],
-                                                                  ));
-		$data[ 'form' ][ 'state' ] = $form->getFieldHtml(array( 'type' => 'hidden',
-                                                                       'name' => 'state',
-                                                                       'value' => $order_info['payment_zone'],
-                                                                  ));
-		$data[ 'form' ][ 'country' ] = $form->getFieldHtml(array( 'type' => 'hidden',
-                                                                       'name' => 'country',
-                                                                       'value' => $order_info['payment_iso_code_3'],
-                                                                  ));
-
-        $data[ 'form' ][ 'amount' ] = $form->getFieldHtml(array( 'type' => 'hidden',
-                                                                       'name' => 'amount',
-                                                                       'value' => $this->currency->format($order_info['total'], $order_info['currency'], $order_info['value'], FALSE),
-                                                                  ));
-
-        $data[ 'form' ][ 'currency' ] = $form->getFieldHtml(array( 'type' => 'hidden',
-                                                                   'name' => 'currency',
-                                                                   'value' => $order_info['currency'],
-                                                                  ));
 		$products = '';
 		foreach ($this->cart->getProducts() as $product) {
     		$products .= $product['quantity'] . ' x ' . $product['name'] . ', ';
     	}
-		$data[ 'form' ][ 'detail1_text' ] = $form->getFieldHtml(array( 'type' => 'hidden',
-                                                                   'name' => 'detail1_text',
-                                                                   'value' => $products,
-                                                                  ));
-		$data[ 'form' ][ 'merchant_fields' ] = $form->getFieldHtml(array( 'type' => 'hidden',
-                                                                   'name' => 'merchant_fields',
-                                                                   'value' => 'order_id',
-                                                                  ));
-
 
 		$this->load->library('encryption');
 		$encryption = new AEncryption($this->config->get('encryption_key'));
-		$data[ 'form' ][ 'order_id' ] = $form->getFieldHtml(array( 'type' => 'hidden',
-                                                                   'name' => 'order_id',
-                                                                   'value' => $encryption->encrypt($this->session->data['order_id']),
-                                                                  ));
 
-		$data[ 'form' ][ 'back' ] = $form->getFieldHtml(array( 'type' => 'button',
+		$skrill_url = 'https://pay.skrill.com';
+		//$skrill_url = 'https://sandbox.dev.skrillws.net/pay';
+		$fields = array (
+			'rid' => '53571612',
+			'ext_ref_id' 			=>	'abantecart',
+			'pay_to_email'			=>	$this->config->get('default_skrill_email'),
+			'recipient_description'	=>	$this->config->get('store_name'),
+			'transaction_id'		=>	$this->session->data['order_id'],
+			'return_url'			=>	$this->html->getSecureURL('checkout/success'),
+			'cancel_url'			=> 	$cancel_url,
+			'status_url'			=>	$this->html->getSecureURL('extension/default_skrill/callback'),
+			'language'				=>	$this->session->data['language'],
+			'logo_url'				=>	$logo,
+			'pay_from_email'		=>	$order_info['email'],
+			'firstname'				=>	$order_info['payment_firstname'],
+			'lastname'				=>	$order_info['payment_lastname'],
+			'address'				=>	$order_info['payment_address_1'],
+			'address2'				=>	$order_info['payment_address_2'],
+			'phone_number'			=>	$order_info['telephone'],
+			'postal_code'			=>	substr($order_info['payment_postcode'], 0,9),
+			'city'					=>	$order_info['payment_city'],
+			'state'					=>	$order_info['payment_zone'],
+			'country'				=>	$order_info['payment_iso_code_3'],
+			'amount'				=>	$this->currency->format($order_info['total'], $order_info['currency'], $order_info['value'], FALSE),
+			'currency'				=>	$order_info['currency'],
+			'detail1_text'			=>	$products,
+			'merchant_fields'		=> 	'order_id',
+			'order_id'				=>	$encryption->encrypt($this->session->data['order_id']),
+		);
+		
+		$form = new AForm();
+		$form->setForm(array( 'form_name' => 'checkout' ));
+		$data['form']['form_open'] = $form->getFieldHtml(array( 'type' => 'form',
+		                                                            'name' => 'checkout',
+		                                                            'action' => $skrill_url ));
+	
+		foreach($fields as $key => $value) {
+			$data['form'][$key] = $form->getFieldHtml(array('type' => 'hidden',
+															'name' => $key,
+															'value' => $value
+															));	
+		}
+
+		$data['form']['back'] = $form->getFieldHtml(array( 'type' => 'button',
 		                                                     'name' => 'back',
 		                                                     'text' => $this->language->get('button_back'),
 		                                                     'style' => 'button',
 		                                                     'href' => $back ));
-		$data[ 'form' ][ 'submit' ] = $form->getFieldHtml(array( 'type' => 'submit',
+		$data['form']['submit'] = $form->getFieldHtml(array( 'type' => 'submit',
 		                                                       'name' => $this->language->get('button_confirm')
 		                                                  ));
 		$this->view->batchAssign( $data );
 		$this->processTemplate('responses/default_skrill.tpl' );
 	}
-	
+				
 	public function callback() {
 		$this->load->library('encryption');
-		
 		$encryption = new AEncryption($this->config->get('encryption_key'));
-		
 		if (isset($this->request->post['order_id'])) {
 			$order_id = $encryption->decrypt($this->request->post['order_id']);
 		} else {
-			$order_id = 0;
+			$this->redirect($this->html->getSecureURL('checkout/checkout'));
 		}
 		
 		$this->load->model('checkout/order');
-		
 		$order_info = $this->model_checkout_order->getOrder($order_id);
+		if (!$order_info) {
+			$this->redirect($this->html->getSecureURL('checkout/checkout'));
+		}
 		
-		if ($order_info) {
-			$this->model_checkout_order->confirm($order_id, $this->config->get('config_order_status_id'));
-			
+		$md5_ok = false;
+		if ($this->config->get('default_skrill_email')) {
+		    $ourhash  = $this->request->post['merchant_id'];
+		    $ourhash .= $this->request->post['transaction_id'];
+		    $ourhash .= strtoupper(md5($this->config->get('default_skrill_email')));
+		    $ourhash .= $this->request->post['mb_amount'];
+		    $ourhash .= $this->request->post['mb_currency'];
+		    $ourhash .= $this->request->post['status'];
+		    $ourmd5hash = strtoupper(md5($ourhash));
+		    $thiermd5sig = $this->request->post['md5sig'];
+		    if ($ourmd5hash == $thiermd5sig) {
+		    	$md5_ok = true;
+		    }
+		}
+		
+		$this->model_checkout_order->confirm($order_id, $this->config->get('config_order_status_id'));
+		if ($md5_ok) {
 			switch($this->request->post['status']) {
 				case '2':
 					$this->model_checkout_order->update($order_id, $this->config->get('default_skrill_order_status_id'), '', TRUE);
@@ -188,13 +145,25 @@ class ControllerResponsesExtensionDefaultSkrill extends AController {
 					$this->model_checkout_order->update($order_id, $this->config->get('default_skrill_order_status_canceled_id'), '', TRUE);
 					break;
 				case '-2':
-					$this->model_checkout_order->update($order_id, $this->config->get('default_skrill_order_status_failed_id'), '', TRUE);
+					$this->model_checkout_order->update(
+						$order_id, 
+						$this->config->get('default_skrill_order_status_failed_id'),
+						'Reason code: ' . $this->request->post['failed_reason_code'],
+						TRUE);
 					break;					
 				case '-3':
 					$this->model_checkout_order->update($order_id, $this->config->get('default_skrill_order_status_chargeback_id'), '', TRUE);
 					break;
 			}
+		} else {
+			//Security HASH verification failed
+			$this->model_checkout_order->addHistory(
+				$order_id, 
+				$this->config->get('default_skrill_order_status_pending_id'), 
+				'Manual order verification is required! MD5 hash returned (' + $thiermd5sig + ') does not match generated (' + $ourmd5hash + ').'
+			);		
 		}
-	}
+		$this->redirect($this->html->getSecureURL('checkout/success'));	
+	}	
 }
 ?>

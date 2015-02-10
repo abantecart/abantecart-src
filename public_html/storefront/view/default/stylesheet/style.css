@@ -298,9 +298,12 @@ section.row {
 	color: #fff;
 	font-size: 14px;
 	text-transform: uppercase;
-	background: transparent url(../image/sprite.png) no-repeat;
-	padding: 0 0 0 20px;
-	margin-right: 15px
+	padding: 0 0 0 5px;
+	margin-right: 10px;
+	background: none;
+}
+#topnav ul li a:hover {
+	background: none;
 }
 
 #topnav ul.dropdown-menu li a {
@@ -345,54 +348,6 @@ section.row {
 
 #topnav ul li a:hover.menu_home, #topnav ul li a.active.menu_home {
 	background-position: 0 -31px
-}
-
-#topnav ul li a.menu_account {
-	background-position: 0 -62px
-}
-
-#topnav ul li a:hover.menu_account, #topnav ul li a.active.menu_account {
-	background-position: 0 -93px
-}
-
-#topnav ul li a.menu_logout {
-	background-position: 0 -62px
-}
-
-#topnav ul li a:hover.menu_logout, #topnav ul li a.active.menu_logout {
-	background-position: 0 -93px
-}
-
-#topnav ul li a.menu_login {
-	background-position: 0 -62px
-}
-
-#topnav ul li a:hover.menu_login, #topnav ul li a.active.menu_login {
-	background-position: 0 -93px
-}
-
-#topnav ul li a.menu_cart {
-	background-position: 0 -121px
-}
-
-#topnav ul li a:hover.menu_cart, #topnav ul li a.active.menu_cart {
-	background-position: 0 -152px
-}
-
-#topnav ul li a.menu_checkout {
-	background-position: 0 -183px
-}
-
-#topnav ul li a:hover.menu_checkout, #topnav ul li a.active.menu_checkout {
-	background-position: 0 -213px
-}
-
-#topnav ul li a.menu_specials {
-	background-position: 0 -725px
-}
-
-#topnav ul li a:hover.menu_specials, #topnav ul li a.active.menu_specials {
-	background-position: 0 -780px
 }
 
 .top-search input {
@@ -611,10 +566,12 @@ li.dropdown {
 
 /* ------------ Main Menu ------------ */
 .main_menu .dropdown .menu_text {
-	padding-left: 10px;
+	padding-left: 5px;
 }
-.main_menu .dropdown.open a, .main_menu .dropdown.current a {
-	background-color: #00A1CB;
+.main_menu .dropdown.open a, .main_menu .dropdown.current a,
+#main_menu .dropdown a:hover, #main_menu .dropdown.current a, 
+#customernav .dropdown a:hover, #customernav .dropdown.current a {
+	background: #00A1CB;
 	color: #fff;
 }
 
@@ -688,8 +645,8 @@ ul.categorymenu > li > div {
 	min-width: 180px;
 	margin: 1px 0 0;
 	list-style: none;
-	background-color: #ffffff;
-	border: 1px solid #DDDDDD;
+	background-color: #fff;
+	border: 1px solid #ddd;
 	border-bottom: 4px solid #00A1CB;
 	box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
 	-moz-box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
@@ -727,12 +684,12 @@ ul.categorymenu > li > div {
 	min-width: 210px;
 	margin: 1px 0 0;
 	list-style: none;
-	background-color: #ffffff;
-	border: 1px solid #DDDDDD;
+	background-color: #fff;
+	border: 1px solid #ddd;
 	border-bottom: 4px solid #00A1CB;
 	border-radius: 0;
 	-moz-border-radius: 0;
-	-webkit-border-radius: 0
+	-webkit-border-radius: 0;
 }
 
 .dropdown-menu > li > a {
@@ -742,7 +699,7 @@ ul.categorymenu > li > div {
 ul.categorymenu > li:hover > div {
 	display: table;
 	width: 100%;
-	vertical-align: top
+	vertical-align: top;
 }
 
 ul.categorymenu > li > div > ul {
@@ -758,7 +715,7 @@ ul.categorymenu > li ul > li {
 	display: block;
 	float: left;
 	width: 100%;
-	border-bottom: 1px dashed #dddddd
+	border-bottom: 1px dashed #ddd;
 }
 
 ul.categorymenu > li > div > ul.arrow li a {
@@ -771,7 +728,7 @@ ul.categorymenu > li ul > li > a {
 	display: block;
 	white-space: normal;
 	min-width: 180px;
-	padding: 8px 8px 8px 0;
+	padding: 8px 8px 8px 5px;
 }
 
 ul.categorymenu > li > div > ul li:hover a,
@@ -800,7 +757,7 @@ ul.categorymenu > li ul > li img {
 
 /* ------------ otherddetails ------------ */
 .otherddetails {
-	border: 1px solid #dddddd;
+	border: 1px solid #ddd;
 	margin: 0 auto 10px auto;
 	width: auto;
 }

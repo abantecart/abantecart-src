@@ -176,13 +176,11 @@ echo $tabs;
 			</p>
 			<div>
                 <p style="text-align:left;">
-                    <a target="_blank" href="https://www.paypal.com/webapps/mpp/promotional-financing"
+                    <a target="_blank" href="https://www.paypal.com/webapps/mpp/merchant"
                        style="font-family:Arial;font-size:12px;font-weight:normal;font-style:normal;text-decoration:underline;color:#0000FF;"
                         >Learn More</a>
 				</p></div>
 		</div>
-
-
 
 		<?php }?>
 
