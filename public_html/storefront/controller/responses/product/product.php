@@ -99,7 +99,11 @@ class ControllerResponsesProductProduct extends AController {
 		//init controller data
 		$this->extensions->hk_InitData($this, __FUNCTION__);
 
-		$this->cart->add($this->request->get['product_id'], 1);
+		$this->loadModel('catalog/product');
+		$product_info = $this->model_catalog_product->getProduct($this->request->get['product_id']);
+		if($product_info){
+			$this->cart->add($this->request->get['product_id'], ($product_info['minimum'] ? $product_info['minimum'] : 1));
+		}
 
 		$this->extensions->hk_UpdateData($this, __FUNCTION__);
 		return $this->getCartContent();
