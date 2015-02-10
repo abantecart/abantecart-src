@@ -37,13 +37,9 @@ class ModelCatalogContent extends Model {
 					LEFT JOIN " . $this->db->table("content_descriptions") . " id
 						ON (i.content_id = id.content_id
 							AND id.language_id = '" . (int)$this->config->get('storefront_language_id') . "')";
-			if((int)$this->config->get('config_store_id')){
-				$sql .=	" LEFT JOIN " . $this->db->table("contents_to_stores") . " i2s ON (i.content_id = i2s.content_id)";
-			}
+			$sql .=	" LEFT JOIN " . $this->db->table("contents_to_stores") . " i2s ON (i.content_id = i2s.content_id)";
 			$sql .=	" WHERE i.content_id = '" . (int)$content_id . "' ";
-			if((int)$this->config->get('config_store_id')){
-				$sql .= " AND i2s.store_id = '" . (int)$this->config->get('config_store_id') . "'";
-			}
+			$sql .= " AND COALESCE(i2s.store_id,0) = '" . (int)$this->config->get('config_store_id') . "'";
 			$sql .= " AND i.status = '1'";
 			$query = $this->db->query($sql);
 
@@ -68,15 +64,9 @@ class ModelCatalogContent extends Model {
 							ON (i.content_id = id.content_id
 									AND id.language_id = '" . (int)$this->config->get('storefront_language_id') . "')";
 
-			if((int)$this->config->get('config_store_id')){
-				$sql .=	"LEFT JOIN " . $this->db->table("contents_to_stores") . " i2s ON (i.content_id = i2s.content_id)";
-			}
-
+			$sql .=	"LEFT JOIN " . $this->db->table("contents_to_stores") . " i2s ON (i.content_id = i2s.content_id)";
 			$sql .=	"WHERE i.status = '1' ";
-
-			if((int)$this->config->get('config_store_id')){
-				$sql .= " AND i2s.store_id = '" . (int)$this->config->get('config_store_id') . "'";
-			}
+			$sql .= " AND COALESCE(i2s.store_id,0) = '" . (int)$this->config->get('config_store_id') . "'";
 
 			$sql .= "ORDER BY i.parent_content_id, i.sort_order, LCASE(id.title) ASC";
 			$query = $this->db->query($sql);
