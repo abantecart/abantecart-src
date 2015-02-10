@@ -49,7 +49,7 @@ function renderStoreMenu( $menu, $level = 0 ){
 
 		$href = empty($item['href']) ? '' : ' href="'.$item['href'].'" '; //a href
 
-        $result .= '<li' . $id . ' class="dropdown hover">';
+        $result .= '<li' . $id . ' class="dropdown">';
         $result .= '<a' . $class . $href . '>';
 	    $result .= $item['icon'] ? '<img src="'. HTTP_DIR_RESOURCE . $item['icon'].'" alt="" />' : '';
 		$result .= '<span>' . $item['text'] . '</span></a>';
@@ -98,7 +98,7 @@ function buildStoreFrontMenuTree( $menu_array, $level = 0 ){
     	if ($item['current']) {
     		$current = 'current'; 
     	}
-    	$result .= '<li ' . $id . ' class="dropdown hover '.$current.'">';
+    	$result .= '<li ' . $id . ' class="dropdown '.$current.'">';
     	$result .= '<a ' . $class . $href . '>';
     	
     	//check icon rl type html, image or none.

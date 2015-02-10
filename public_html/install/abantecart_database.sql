@@ -10961,13 +10961,13 @@ VALUES  (6,'core',1),
         (6,'core',7);
 -- item_icon_rl_id
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_integer`,`row_id`)
-VALUES  (7,null,1),
-        (7,null,2),
-        (7,null,3),
-        (7,null,4),
-        (7,null,5),
-        (7,null,6),
-		    (7,null,7);
+VALUES  (7,'2',1),
+        (7,'4',2),
+        (7,'3',3),
+        (7,'4',4),
+        (7,'250',5),
+       	(7,'260',6),
+       	(7,'244',7);
 
 --
 -- ADMIN MENU SECTION
