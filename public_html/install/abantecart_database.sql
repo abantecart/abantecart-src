@@ -1536,6 +1536,8 @@ INSERT INTO `ac_settings` (`group`, `key`, `value`) VALUES
 -- details of store
 ('details','store_name','Web Store Name'),
 ('details','config_url',''),
+('details','config_ssl',0),
+('details','config_ssl_url',''),
 ('details','config_owner','Your Name'),
 ('details','config_address','Address 1'),
 ('details','store_main_email','admin@abantecart.com'),
@@ -1638,7 +1640,6 @@ INSERT INTO `ac_settings` (`group`, `key`, `value`) VALUES
 
 -- system
 	('system','config_session_ttl',120),
-	('system','config_ssl',0),
 	('system','config_maintenance',0),
 	('system','encryption_key',12345),
 	('system','enable_seo_url',0),
