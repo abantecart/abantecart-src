@@ -1081,6 +1081,11 @@ class ControllerPagesToolPackageInstaller extends AController {
 				mkdir(sys_get_temp_dir() . '/install/',0777);
 			}
 			$dir = sys_get_temp_dir() . '/install/';
+
+			if(!is_writable($dir)){
+				$this->log->write('Error: php tried to use directory '.DIR_APP_SECTION . "system/temp/install".' but it is non-writable. Temporary php-directory '.$dir.' is non-writable too! Please change permissions one of them.');
+			}
+
 		}
 		return $dir;
 	}
