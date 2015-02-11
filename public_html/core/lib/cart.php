@@ -129,12 +129,14 @@ class ACart {
 				$product_data[$key] = $product_result;
 				$product_data[$key]['key'] = $key;						
 
-				//apply min and max for quantity once we have product details. 
-				if ($quantity < $product_result['minimum']) {	
+				//apply min and max for quantity once we have product details.
+				if ($quantity < $product_result['minimum']) {
+					$this->language->load('checkout/cart');
 					$this->session->data['error'] = $this->language->get('error_quantity_minimum');
 					$this->update($key, $product_result['minimum']);
 				}
 				if ($product_result['maximum'] > 0) {
+					$this->language->load('checkout/cart');
 					if ($quantity > $product_result['maximum']) {
 						$this->session->data['error'] = $this->language->get('error_quantity_maximum');
 						$this->update($key, $product_result['maximum']);

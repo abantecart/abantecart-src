@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2014 Belavier Commerce LLC
+  Copyright © 2011-2015 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   Lincence details is bundled with this package in the file LICENSE.txt.
@@ -133,23 +133,15 @@ class ModelExtensionDefaultUsps extends Model {
 
 		// FOR CASE WHEN ONLY FREE SHIPPING PRODUCTS IN BASKET
 		if(!$api_weight_product_ids && $free_shipping_ids){
-			$cost = 0.0;
 
 			$quote_data[$classid] = array(
 										'id' => 'default_usps.0',
 										'title' => $this->language->get('text_'.($address['iso_code_2'] == 'US'
 																				? $this->config->get('default_usps_free_domestic_method')
 																				: $this->config->get('default_usps_free_international_method'))),
-										'cost' => $this->currency->convert($cost, 'USD', $this->config->get('config_currency')),
+										'cost' => 0.0,
 										'tax_class_id' => $this->config->get('default_usps_tax_class_id'),
-										'text' => $this->currency->format(
-																		$this->tax->calculate($this->currency->convert( $cost,
-																														'USD',
-																														$this->currency->getCode()),
-																							  $this->config->get('default_usps_tax_class_id'),
-																							  $this->config->get('config_tax')),
-																		$this->currency->getCode(),
-																		1.0000000)
+										'text' => $this->language->get('text_free')
 			);
 
 
@@ -249,8 +241,13 @@ class ModelExtensionDefaultUsps extends Model {
 
 			$dom = new DOMDocument('1.0', 'UTF-8');
 			$dom->loadXml($result);
-
+			/**
+			 * @var $rate_response DOMElement
+			 */
 			$rate_response = $dom->getElementsByTagName('RateV4Response')->item(0);
+			/**
+			 * @var $intl_rate_response DOMElement
+			 */
 			$intl_rate_response = $dom->getElementsByTagName('IntlRateV2Response')->item(0);
 			$error = $dom->getElementsByTagName('Error')->item(0);
 
@@ -264,11 +261,21 @@ class ModelExtensionDefaultUsps extends Model {
 			if ($rate_response || $intl_rate_response) {
 				if ($address['iso_code_2'] == 'US') {
 					$allowed = array(0, 1, 2, 3, 4, 5, 6, 7, 12, 13, 16, 17, 18, 19, 22, 23, 25, 27, 28);
+					/**
+					 * @var $package DOMElement
+					 */
 					$package = $rate_response->getElementsByTagName('Package')->item(0);
+					/**
+					 * @var $postages DOMElement
+					 */
 					$postages = $package->getElementsByTagName('Postage');
 
 					if ($postages->length) {
+						/**
+						 * @var $postage DOMElement
+						 */
 						foreach ($postages as $postage) {
+
 							$classid = $postage->getAttribute('CLASSID');
 
 							if (in_array($classid, $allowed)) {
@@ -314,6 +321,9 @@ class ModelExtensionDefaultUsps extends Model {
 							}
 						}
 					} else {
+						/**
+						 * @var $error DOMElement
+						 */
 						$error = $package->getElementsByTagName('Error')->item(0);
 						$method_data = array(
 							'id' => 'default_usps',
@@ -325,9 +335,17 @@ class ModelExtensionDefaultUsps extends Model {
 					}
 				} else {
 					$allowed = array(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 21);
+					/**
+					 * @var $package DOMElement
+					 */
 					$package = $intl_rate_response->getElementsByTagName('Package')->item(0);
+					/**
+					 * @var $services DOMElement
+					 */
 					$services = $package->getElementsByTagName('Service');
-
+					/**
+					 * @var $service DOMElement
+					 */
 					foreach ($services as $service) {
 						$id = $service->getAttribute('ID');
 
@@ -355,6 +373,9 @@ class ModelExtensionDefaultUsps extends Model {
 					}
 				}
 			} elseif ($error) {
+				/**
+				 * @var $error DOMElement
+				 */
 				$method_data = array(
 					'id' => 'default_usps',
 					'title' => $this->language->get('text_title'),

@@ -72,11 +72,11 @@
 	</definition>
 	<definition>
 		<key>entry_backup_code</key>
-		<value><![CDATA[Backup Code:<br/><span class="help">Sub-directories with code files excluding dynamic files such as cache, log files, images, resources etc </span>]]></value>
+		<value><![CDATA[Backup Code (%s)<br/><span class="help">Sub-directories with code files excluding dynamic files such as cache, log files, images, resources etc </span>]]></value>
 	</definition>
 	<definition>
 		<key>entry_backup_content</key>
-		<value><![CDATA[Backup Content:<br/><span class="help">Sub-directories with dynamic files such as images, downloads, resources etc </span>]]></value>
+		<value><![CDATA[Backup Content (%s)<br/><span class="help">Sub-directories with dynamic files such as images, downloads, resources etc </span>]]></value>
 	</definition>
 	<definition>
 		<key>entry_compress_backup</key>

@@ -183,6 +183,14 @@ class ControllerPagesToolBackup extends AController {
 						'style' => 'checkboxgroup'
 				));
 
+		$c_size = $this->model_tool_backup->getCodeSize();
+		if($c_size>1048576){
+			$code_size = round(($c_size/1048576),1) .'Mb';
+		}else{
+			$code_size = round(($c_size/1024),1) .'Kb';
+		}
+		$this->data['entry_backup_code'] = sprintf($this->language->get('entry_backup_code'), $code_size);
+
 		$this->data['form']['fields']['backup_code'] = $form->getFieldHtml(
 				array(
 						'type' => 'checkbox',
@@ -190,6 +198,14 @@ class ControllerPagesToolBackup extends AController {
 						'value' => '1',
 						'checked' => true
 				));
+
+		$c_size = $this->model_tool_backup->getContentSize();
+		if($c_size>1048576){
+			$content_size = round(($c_size/1048576),1) .'Mb';
+		}else{
+			$content_size = round(($c_size/1024),1) .'Kb';
+		}
+		$this->data['entry_backup_content'] = sprintf($this->language->get('entry_backup_content'), $content_size);
 
 		$this->data['form']['fields']['backup_content'] = $form->getFieldHtml(
 				array(
@@ -203,7 +219,7 @@ class ControllerPagesToolBackup extends AController {
 				array(
 						'type' => 'checkbox',
 						'name' => 'compress_backup',
-						'value' => '1'
+						'value' => 1
 				));
 
 		$this->data['entry_compress_backup'] = sprintf($this->language->get('entry_compress_backup'), str_replace(DIR_ROOT,'',DIR_BACKUP) ,DIR_BACKUP);
