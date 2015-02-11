@@ -391,13 +391,10 @@ class AContentManager {
 					ON (cd.content_id = i.parent_content_id
 						AND cd.language_id = '" . ( int )$this->language->getContentLanguageID() . "')
 				LEFT JOIN " . $this->db->table('contents_to_stores')." cs				
-					ON (i.content_id = cs.content_id AND cs.store_id = '" . $store_id . "')
+					ON i.content_id = cs.content_id
 				";
-		if((int)$store_id){
-			$sql .= " RIGHT JOIN " . $this->db->table("contents_to_stores") . " cts ON (i.content_id = cts.content_id AND cts.store_id = '".(int)$store_id."')";
-		}
 
-		$sql .= "WHERE 1=1 ";
+		$sql .= "WHERE COALESCE(cs.store_id, 0) = '" . $store_id . "' ";
 
 		if (!empty ($data [ 'subsql_filter' ])) {
 			$sql .= " AND " . str_replace('`name`','id.name',$data [ 'subsql_filter' ]);
