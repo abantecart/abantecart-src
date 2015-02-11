@@ -1,0 +1,87 @@
+<?xml version="1.0"?>
+<extension>
+    <id>default_stripe</id>
+    <version>1.0.0</version>
+	<type>payment</type>
+	<category>payment</category>
+    <cartversions>
+        <item>1.2</item>
+    </cartversions>
+    <layout></layout>
+    <priority>10</priority>
+    <settings>
+		<item id="default_stripe_settlement">
+			<type>hidden</type>
+			<default_value>auto</default_value>
+		</item>
+		<item id="default_stripe_status">
+			<type>checkbox</type>
+			<default_value>0</default_value>
+		</item>
+		<item id="default_stripe_autoselect">
+			<type>checkbox</type>
+			<default_value>0</default_value>
+		</item>
+	    <item id="default_stripe_status_success_settled">
+            <type>selectbox</type>
+			<variants>
+				<data_source>
+					<model_rt>localisation/order_status</model_rt>
+					<method>getOrderStatuses</method>
+				</data_source>
+				<fields>
+					<field>order_status_id</field>
+					<field>name</field>
+				</fields>
+			</variants>
+			<default_value>2</default_value>
+        </item>
+	    <item id="default_stripe_status_success_unsettled">
+            <type>selectbox</type>
+			<variants>
+				<data_source>
+					<model_rt>localisation/order_status</model_rt>
+					<method>getOrderStatuses</method>
+				</data_source>
+				<fields>
+					<field>order_status_id</field>
+					<field>name</field>
+				</fields>
+			</variants>
+			<default_value>2</default_value>
+        </item>
+	    <item id="default_stripe_status_decline">
+            <type>selectbox</type>
+			<variants>
+				<data_source>
+					<model_rt>localisation/order_status</model_rt>
+					<method>getOrderStatuses</method>
+				</data_source>
+				<fields>
+					<field>order_status_id</field>
+					<field>name</field>
+				</fields>
+			</variants>
+			<default_value>8</default_value>
+        </item>
+        
+	    <item id="default_stripe_location_id">
+            <type>selectbox</type>
+			<variants>
+				<item>0</item>
+				<data_source>
+					<model_rt>localisation/location</model_rt>
+					<method>getLocations</method>
+				</data_source>
+				<fields>
+					<field>location_id</field>
+					<field>name</field>
+				</fields>
+			</variants>
+        </item>
+    </settings>
+    <note>true</note>
+    <additional_settings>extension/default_stripe_settings</additional_settings>
+	<help_file><![CDATA[help.txt]]></help_file>
+	<help_link><![CDATA[https://stripe.com/docs]]></help_link>
+</extension>
