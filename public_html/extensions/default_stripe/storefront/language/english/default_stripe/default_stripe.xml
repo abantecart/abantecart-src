@@ -1,0 +1,94 @@
+<?xml version="1.0"?>
+<definitions>
+	<definition>
+		<key>text_title</key>
+		<value><![CDATA[Credit Card / Debit Card (Via Stripe)]]></value>
+	</definition>
+	<definition>
+		<key>text_credit_card</key>
+		<value><![CDATA[Credit Card Details]]></value>
+	</definition>
+	<definition>
+		<key>text_wait</key>
+		<value><![CDATA[Please wait!]]></value>
+	</definition>
+	<definition>
+		<key>entry_cc_owner</key>
+		<value><![CDATA[Name on the card:]]></value>
+	</definition>
+	<definition>
+		<key>entry_cc_number</key>
+		<value><![CDATA[Card Number:]]></value>
+	</definition>
+	<definition>
+		<key>entry_cc_expire_date</key>
+		<value><![CDATA[Card Expiry Date:]]></value>
+	</definition>
+	<definition>
+		<key>entry_cc_cvv2</key>
+		<value><![CDATA[Card Security Code]]></value>
+	</definition>
+	<definition>
+		<key>entry_cc_cvv2_short</key>
+		<value><![CDATA[(CVV2 ?)]]></value>
+	</definition>
+	<definition>
+		<key>entry_what_cvv2</key>
+		<value><![CDATA[What is CVV2?]]></value>
+	</definition>
+	<definition>
+		<key>entry_cc_type</key>
+		<value><![CDATA[Card Type]]></value>
+	</definition>
+	<definition>
+		<key>entry_cc_save</key>
+		<value><![CDATA[Save]]></value>
+	</definition>
+	<definition>
+		<key>entry_cc_save_details</key>
+		<value><![CDATA[Credit Card details will be securely saved by Stipe]]></value>
+	</definition>
+
+	<definition>
+		<key>entry_billing_address</key>
+		<value><![CDATA[for billing Address]]></value>
+	</definition>
+	<definition>
+		<key>entry_edit</key>
+		<value><![CDATA[Edit]]></value>
+	</definition>
+	<definition>
+		<key>text_saved_credit_card</key>
+		<value><![CDATA[Select saved credit card]]></value>
+	</definition>
+	<definition>
+		<key>text_delete_saved_credit_card</key>
+		<value><![CDATA[Delete card]]></value>
+	</definition>
+	<definition>
+		<key>text_new_credit_card</key>
+		<value><![CDATA[New card]]></value>
+	</definition>
+
+	<definition>
+		<key>error_incorrect_number</key>
+		<value><![CDATA[Invalid Credit Card Number]]></value>
+	</definition>
+	<definition>
+		<key>error_incorrect_name</key>
+		<value><![CDATA[Invalid Card Owner Name]]></value>
+	</definition>
+	<definition>
+		<key>error_incorrect_expiration</key>
+		<value><![CDATA[Invalid Card Expiration Date]]></value>
+	</definition>
+	<definition>
+		<key>error_incorrect_cvv</key>
+		<value><![CDATA[Invalid Card CVV]]></value>
+	</definition>
+	<definition>
+		<key>error_system</key>
+		<value><![CDATA[Apologies, we have encounter system error. Please try again or contact site administrator!]]></value>
+	</definition>
+	
+</definitions>
