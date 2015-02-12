@@ -110,9 +110,10 @@ class ControllerTaskToolBackup extends AController {
 		);
 
 		$result = true;
-		$files = glob(DIR_ROOT.'/*');
+		$files = array_merge(glob(DIR_ROOT.'/.*'), glob(DIR_ROOT.'/*'));
 
 		foreach($files as $file){
+			if(in_array(basename($file), array('.','..'))){ continue; } //those filenames give glob for hidden files (see above)
 			$res = true;
 			if(is_file($file)){
 				$res = $bkp->backupFile($file, false);
