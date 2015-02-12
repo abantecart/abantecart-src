@@ -55,11 +55,13 @@ class ControllerCommonHeader extends AController {
 
 		$this->view->assign('action', $this->html->getSecureURL('index/home'));
 		$this->view->assign('search_action', $this->html->getSecureURL('tool/global_search'));
+	
 		//redirect after language change
-		if (!isset($this->request->get['rt'])) {
+		if (!isset($this->request->get['rt']) || $this->request->get['rt'] == 'index/home') {
 			$this->view->assign('redirect', $this->html->getSecureURL('index/home'));
+			$this->view->assign('home_page', true);
 		} else {
-			$this->view->assign('redirect', $this->html->currentURL());
+			$this->view->assign('home_page', false);
 		}
 
 		if (!$this->user->isLogged() || !isset($this->request->get['token']) || !isset($this->session->data['token']) || ($this->request->get['token'] != $this->session->data['token'])) {
