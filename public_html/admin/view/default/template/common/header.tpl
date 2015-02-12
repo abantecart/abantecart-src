@@ -325,6 +325,9 @@ $(document).ready(function () {
 		return results;
 	});
 	
+	<?php if(!$home_page) { ?>
+	$('.ant_window .dropdown-menu').dropdown('toggle').delay(6000).fadeOut();
+	<?php } ?>
 	//update ANT Viewed message
 	$('.ant_window button').click(function (event) {
 		updateANT('<?php echo $mark_read_url; ?>');

@@ -335,11 +335,6 @@ h1,h2,h3,h4,h5 {
    min-width: 180px;
 }
 
-.headermenu .ant-menu-head {
-   padding: 0;
-   min-width: 350px;
-}
-
 .headermenu .tp-icon {
    padding: 12px 15px;
 	height: 50px;
@@ -885,10 +880,29 @@ h1,h2,h3,h4,h5 {
    	text-align: justify;
 }
 
+/* custom ant view */
 .ant_window ul > li{
 	font-size: 12px !important;
 	line-height: 16px !important;
    	text-align: justify;
+}
+.ant_window .dropdown-menu-head .title {
+	padding: 10px;
+}
+.ant_window .dropdown-menu {
+	top: 40px;
+}
+.ant_window .dropdown-menu li {
+	padding: 5px;
+}
+.ant_window .dropdown-menu-head ul {
+	padding: 0 5px;
+}
+/* end: custom ant view */
+
+.headermenu .ant-menu-head {
+   padding: 0;
+   min-width: 400px;
 }
 
 .pageheader .breadcrumb-wrapper {
