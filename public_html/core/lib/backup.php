@@ -456,13 +456,18 @@ final class ABackup {
 		// Open the source directory to read in files
 		$i = new DirectoryIterator($src);
 		foreach ($i as $f) {
+			$real_path = $f->getRealPath();
+			//skip cache and logs
+			if(is_int(strpos($real_path,'/cache')) || is_int(strpos($real_path,'/logs'))){
+				continue;
+			}
 			/**
 			 * @var $f DirectoryIterator
 			 */
 			if ($f->isFile()) {
-				copy($f->getRealPath(), "$dest/" . $f->getFilename());
+				copy($real_path, "$dest/" . $f->getFilename());
 			} else if (!$f->isDot() && $f->isDir()) {
-				$this->_copyDir($f->getRealPath(), "$dest/$f");
+				$this->_copyDir($real_path, "$dest/$f");
 			}
 		}
 		return true;
