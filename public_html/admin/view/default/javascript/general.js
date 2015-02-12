@@ -638,6 +638,7 @@ var defaultTaskMessages = {
 
 
 $(document).on('click', ".task_run", function () {
+    task_fail = false;
     var modal =
         '<div id="task_modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">' +
         '<div class="modal-dialog">' +

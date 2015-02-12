@@ -103,7 +103,11 @@
 		<value><![CDATA[NOTE: This process execution depends on your AbanteCart data size as well as your server virtual memory size. If process terminates with errors, check directory %s permissions to be set to -rw-rw-rw and <a href="http://php.net/manual/en/ini.core.php#ini.memory-limit" target="_blank">[PHP memory setting]</a>. Increase memory setting or run backup manually if process still fail.]]></value>
 	</definition>
 	<definition>
-		<key>backup_complete_text</key>
+		<key>backup_complete_text_file</key>
 		<value><![CDATA[To download backup-file please visit <a href="#admin#rt=tool/install_upgrade_history">Install/Upgrade History</a> ]]></value>
+	</definition>
+	<definition>
+		<key>backup_complete_text_dir</key>
+		<value><![CDATA[Directory with backup-files is %s</a> ]]></value>
 	</definition>
 </definitions>

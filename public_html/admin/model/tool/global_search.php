@@ -545,24 +545,26 @@ class ModelToolGlobalSearch extends Model {
 
 			case "settings" :
 				$sql = "SELECT setting_id,
-								CONCAT(`group`,'-',s.`key`,'-',store_id) as active,
-								COALESCE(l.language_value,s.`key`) as title,
+								CONCAT(`group`,'-',s.`key`,'-',s.store_id) as active,
+								CONCAT( COALESCE(l.language_value,s.`key`), ' - ', COALESCE(st.`alias`,'Default' )) as title,
 								COALESCE(l.language_value,s.`key`) as text,
 								e.`key` as extension
 						FROM " . $this->db->table("settings") . " s
 						LEFT JOIN " . $this->db->table("extensions") . " e ON s.`group` = e.`key`
 						LEFT JOIN " . $this->db->table("language_definitions") . " l
 										ON l.language_key = CONCAT('entry_',REPLACE(s.`key`,'config_',''))
+						LEFT JOIN " . $this->db->table("stores") . " st ON st.`store_id` = s.`store_id`
 						WHERE (LOWER(`value`) like '%" . $needle . "%'
 								OR LOWER(`value`) like '%" . $needle2 . "%'
 								OR LOWER(s.`key`) like '%" . $needle . "%')
 						UNION
 						SELECT s.setting_id,
 								CONCAT(s.`group`,'-',s.`key`,'-',s.store_id) as active,
-								CONCAT(`group`,' -> ',COALESCE(l.language_value,s.`key`)) as title,
+								CONCAT(`group`,' -> ',COALESCE(l.language_value,s.`key`), ' - ', COALESCE(st.`alias`,'Default' ) ) as title,
 						CONCAT_WS(' >> ',l.language_value) as text, ''
 						FROM " . $this->db->table("language_definitions") . " l
 						LEFT JOIN " . $this->db->table("settings") . " s ON l.language_key = CONCAT('entry_',REPLACE(s.`key`,'config_',''))
+						LEFT JOIN " . $this->db->table("stores") . " st ON st.`store_id` = s.`store_id`
 						WHERE (LOWER(l.language_value) like '%" . $needle . "%'
 								OR LOWER(l.language_value) like '%" . $needle . "%'
 								OR LOWER(l.language_key) like '%" . $needle . "%' )
