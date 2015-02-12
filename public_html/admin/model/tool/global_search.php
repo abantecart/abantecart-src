@@ -75,7 +75,7 @@ class ModelToolGlobalSearch extends Model {
 			'response' => ''),
 		"settings" => array(
 			'alias' => 'setting',
-			'id' => array('setting_id', 'active'),
+			'id' => array('setting_id', 'active', 'store_id'),
 			'page' => 'setting/setting',
 			'response' => 'setting/setting_quick_form'),
 		"messages" => array(
@@ -546,6 +546,7 @@ class ModelToolGlobalSearch extends Model {
 			case "settings" :
 				$sql = "SELECT setting_id,
 								CONCAT(`group`,'-',s.`key`,'-',s.store_id) as active,
+								s.store_id,
 								CONCAT( COALESCE(l.language_value,s.`key`), ' - ', COALESCE(st.`alias`,'Default' )) as title,
 								COALESCE(l.language_value,s.`key`) as text,
 								e.`key` as extension
@@ -560,6 +561,7 @@ class ModelToolGlobalSearch extends Model {
 						UNION
 						SELECT s.setting_id,
 								CONCAT(s.`group`,'-',s.`key`,'-',s.store_id) as active,
+								s.store_id,
 								CONCAT(`group`,' -> ',COALESCE(l.language_value,s.`key`), ' - ', COALESCE(st.`alias`,'Default' ) ) as title,
 						CONCAT_WS(' >> ',l.language_value) as text, ''
 						FROM " . $this->db->table("language_definitions") . " l
