@@ -77,7 +77,11 @@
     <value><![CDATA[Файл сonfig.php. Примечание: Храните резервную копию в безопасном месте. Файл будет содержать &quot;salt&quot; для шифрования.]]></value>
   </definition>
 	<definition>
-		<key>backup_complete_text</key>
+		<key>backup_complete_text_file</key>
 		<value><![CDATA[Чтобы скачать резервную копию посетите страницу <a href="#admin#rt=tool/install_upgrade_history">Истории установок/обновлений</a> ]]></value>
+	</definition>
+	<definition>
+		<key>backup_complete_text_dir</key>
+		<value><![CDATA[Все резервные файлы сохранены в директории %s</a> ]]></value>
 	</definition>
 </definitions>

@@ -67,8 +67,15 @@ class ControllerResponsesToolBackup extends AController {
 			$tm = new ATaskManager();
 			$tm->deleteTask($task_id);
 			$install_upgrade_history = new ADataset('install_upgrade_history','admin');
-			$backup_name = is_file(DIR_BACKUP.'manual_backup.tar.gz') ? 'manual_backup.tar.gz' : '';
-			$backup_name = !$backup_name && is_dir(DIR_BACKUP.'manual_backup') ? 'manual_backup' : '';
+
+			if(is_file(DIR_BACKUP.'manual_backup.tar.gz')){
+				$backup_name = 'manual_backup.tar.gz';
+				$result_text = $this->html->convertLinks($this->language->get('backup_complete_text_file'));
+			}elseif(is_dir(DIR_BACKUP.'manual_backup')){
+				$backup_name = 'admin/system/backup/manual_backup';
+				$result_text = sprintf($this->language->get('backup_complete_text_dir'),DIR_BACKUP.'manual_backup');
+			}
+
 
 			$install_upgrade_history->addRows(array('date_added'=> date("Y-m-d H:i:s",time()),
 										'name' => 'Manual Backup',
@@ -77,7 +84,7 @@ class ControllerResponsesToolBackup extends AController {
 										'backup_date' => date("Y-m-d H:i:s",time()),
 										'type' => 'backup',
 										'user' => $this->user->getUsername() ));
-			$result_text = $this->html->convertLinks($this->language->get('backup_complete_text'));
+
 
 		}
 		//update controller data

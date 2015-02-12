@@ -129,7 +129,7 @@ final class ABackup {
 		}
 
 		$result = $this->db->query($sql);
-		$memory_limit = getMemoryLimitInBytes()/100;
+		$memory_limit = (getMemoryLimitInBytes()-memory_get_usage())/4;
 
 		// sql-file for small tables
 		$dump_file = $this->backup_dir.'data/dump_' .DB_DATABASE.'_'. date('Y-m-d-His') . '.sql';
@@ -147,7 +147,7 @@ final class ABackup {
 				fwrite($file,"TRUNCATE TABLE `" . $table_name . "`;\n\n");
 			}elseif($this->sql_dump_mode == 'recreate'){
 				$sql = "SHOW CREATE TABLE `" . $table_name . "`;";
-				$r = $this->db->query($sql);
+				$r = $db->query($sql);
 				$ddl = $r->row['Create Table'];
 				fwrite($file,"DROP TABLE IF EXISTS `" . $table_name . "`;\n\n");
 				fwrite($file, $ddl . "\n\n");
@@ -163,7 +163,7 @@ final class ABackup {
 						AND c.`COLUMN_KEY` = 'PRI'
 					    AND c.`DATA_TYPE`='int'
 					LIMIT 0,1;";
-			$r = $this->db->query($sql);
+			$r = $db->query($sql);
 			$column_name = $r->row['COLUMN_NAME'];
 
 			$small_table = false;
@@ -171,7 +171,7 @@ final class ABackup {
 			if($column_name){
 				$sql = "SELECT MAX(`".$column_name."`) as max, MIN(`".$column_name."`) as min
 						FROM `".$table_name."`";
-				$r = $this->db->query($sql);
+				$r = $db->query($sql);
 				$column_max = $r->row['max'];
 				$column_min = $r->row['min'];
 			}else{ // if table have no PRIMARY KEY - try to dump it by one pass
@@ -182,8 +182,8 @@ final class ABackup {
 			unset($r);
 			// for tables greater than $memory_limit (for ex. if php memory limit 64mb $memory_limit equal 10mb)
 			if($table_info['size'] > $memory_limit && !$small_table){// for tables greater than 20 MB
-				$bytes_per_id = ceil($table_info['size'] / ($column_max-$column_min));
-				$limit = ceil( $memory_limit / $bytes_per_id );
+				//max allowed rows count for safe fetching
+				$limit = 10000;
 				//break export aparts to prevent memory overflow
 				$start = $column_min;
 				$stop = $column_min + $limit;
@@ -207,11 +207,12 @@ final class ABackup {
 				$r = $db->query( $sql, true );
 				foreach ($r->rows as $row) {
 					$fields = '';
-					foreach (array_keys($row) as $value) {
+					$arr_keys = array_keys($row);
+					foreach ($arr_keys as $value) {
 						$fields .= '`' . $value . '`, ';
 					}
 					$values = '';
-					foreach (array_values($row) as $value) {
+					foreach ($row as $value) {
 						$value = str_replace(array("\x00", "\x0a", "\x0d", "\x1a"), array('\0', '\n', '\r', '\Z'), $value);
 						$value = str_replace(array("\n", "\r", "\t"), array('\n', '\r', '\t'), $value);
 						$value = str_replace('\\', '\\\\', $value);
