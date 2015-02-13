@@ -324,7 +324,8 @@ class ModelCatalogDownload extends Model {
 		}
 
 		$sort_data = array(
-			'name' => 'dd.name'
+			'name' => 'dd.name',
+			'product_count' => 'product_count'
 		);
 
 		if (isset($data[ 'sort' ]) && in_array($data[ 'sort' ], array_keys($sort_data))) {
@@ -350,6 +351,7 @@ class ModelCatalogDownload extends Model {
 
 			$sql .= " LIMIT " . (int)$data[ 'start' ] . "," . (int)$data[ 'limit' ];
 		}
+		$this->log->write($sql);
 		$query = $this->db->query($sql);
 		return $query->rows;
 	}
