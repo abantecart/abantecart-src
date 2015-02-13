@@ -771,6 +771,11 @@ class ControllerPagesCatalogProduct extends AController {
 	        'attr' => ' autocomplete="false"',
             'style' => 'tiny-field',
 		));
+
+	    if($product_id && !$this->data['length_class_id']){
+			$this->data['length_classes'][0] = $this->language->get('text_none');
+	    }
+
         $this->data['form']['fields']['data']['length_class'] = $form->getFieldHtml(array(
 			'type' => 'selectbox',
 			'name' => 'length_class_id',
@@ -778,6 +783,21 @@ class ControllerPagesCatalogProduct extends AController {
             'options' => $this->data['length_classes'],
             'style' => 'small-field',
 		));
+
+	    if($product_id && $this->data['shipping'] && (!(float)$this->data['weight'] || !$this->data['weight_class_id'])){
+			if(!$this->data['weight_class_id']){
+				$this->data['error']['weight_class']  = $this->language->get('error_weight_class');
+		    }
+		    if(!(float)$this->data['weight']){
+			    $this->data['error']['weight']  = $this->language->get('error_weight_value');
+		    }
+	    }
+
+	    if($product_id && !$this->data['weight_class_id']){
+		    $this->data['weight_classes'][0] = $this->language->get('text_none');
+	    }
+
+
 		$this->data['form']['fields']['data']['weight'] = $form->getFieldHtml(array(
 			'type' => 'input',
 			'name' => 'weight',

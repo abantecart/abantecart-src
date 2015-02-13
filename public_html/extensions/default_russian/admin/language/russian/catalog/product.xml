@@ -547,5 +547,13 @@
 	<definition>
 		<key>error_measure_value</key>
 		<value><![CDATA[Ограничение 999,99 было достигнуто. Задайте меньшее количество.]]></value>
-	</definition>  
+	</definition>
+	<definition>
+		<key>error_weight_value</key>
+		<value><![CDATA[Этот продукт требует доставки. Пожалуйста, укажите вес.]]></value>
+	</definition>
+	<definition>
+		<key>error_weight_class</key>
+		<value><![CDATA[Пожалуйста, укажите единицу измерения веса.]]></value>
+	</definition>
 </definitions>

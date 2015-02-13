@@ -588,5 +588,12 @@
 		<key>error_measure_value</key>
 		<value><![CDATA[Se ha alcanzado el límite de 999.99. Proporcione el número más pequeño.]]></value>
 	</definition>
-    
+	<definition>
+		<key>error_weight_value</key>
+		<value><![CDATA[Este producto requiere el envío. Por favor, establece el valor del peso.]]></value>
+	</definition>
+	<definition>
+		<key>error_weight_class</key>
+		<value><![CDATA[Please set weight class.]]></value>
+	</definition>
 </definitions>
