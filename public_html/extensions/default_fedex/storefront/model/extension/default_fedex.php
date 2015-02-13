@@ -60,6 +60,7 @@ class ModelExtensionDefaultFedex extends Model {
             $quote_data =  $quote_data['quote_data'];
         }
         $special_ship_products = $this->cart->specialShippingProducts();
+		$total_fixed_cost = 0;
         foreach ($special_ship_products as $product) {
             //check if free or fixed shipping
             $fixed_cost = -1;
@@ -73,7 +74,7 @@ class ModelExtensionDefaultFedex extends Model {
                     $fixed_cost = $fixed_cost * $product['quantity'];
                 }
                 $fixed_cost = $this->currency->convert($fixed_cost, $this->config->get('config_currency'), $this->currency->getCode());
-
+	            $total_fixed_cost +=$fixed_cost;
             } else {
                 $new_quote_data = $this->_processRequest( $address,  array($product));
                 $error_msg .=  $new_quote_data['error_msg'];
@@ -98,7 +99,16 @@ class ModelExtensionDefaultFedex extends Model {
             }
         }
 
-
+		//for case when only products with fixed shippig price are in the cart
+		if(!$products && $special_ship_products){
+			$quote_data['default_fedex'] = array(
+			                    'id'           => 'default_fedex.default_fedex',
+			                    'title'        => 'Fedex',
+			                    'cost'         => $total_fixed_cost,
+			                    'tax_class_id' => 0,
+			                    'text'         => $this->currency->format( $total_fixed_cost )
+			);
+		}
 
         if($quote_data || $error_msg){
             $title = $this->language->get('text_title');
@@ -187,8 +197,11 @@ class ModelExtensionDefaultFedex extends Model {
                     $product_total	  = $result['total'];
 
                     //BUILD REQUEST START
-                    $request['WebAuthenticationDetail'] = array('UserCredential' =>
-                    array('Key' => $fedex_key, 'Password' => $fedex_password));
+                    $request['WebAuthenticationDetail'] = array(
+		                    'UserCredential' => array(
+				                                    'Key' => $fedex_key,
+				                                    'Password' => $fedex_password)
+                    );
                     $request['ClientDetail'] = array('AccountNumber' => $fedex_account, 'MeterNumber' => $fedex_meter_id);
                     $request['TransactionDetail'] = array('CustomerTransactionId' => ' *** Rate Request v9 using PHP ***');
                     $request['Version'] = array('ServiceId' => 'crs', 'Major' => '9', 'Intermediate' => '0', 'Minor' => '0');
