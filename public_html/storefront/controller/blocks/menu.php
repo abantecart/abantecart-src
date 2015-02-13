@@ -30,7 +30,7 @@ class ControllerBlocksMenu extends AController {
 
 		$this->data['heading_title'] = $this->language->get('heading_title');
 
-		$cache_name = 'storefront_menu'.$this->config->get('config_store_id');
+		$cache_name = 'storefront_menu.'.(int)$this->config->get('config_store_id');
 		$this->menu_items = $this->cache->get($cache_name, $this->config->get('storefront_language_id'));
 		if(!$this->menu_items){
 			$menu = new AMenu_Storefront();
