@@ -27,7 +27,9 @@ class ControllerTaskToolBackup extends AController {
 		if($this->request->get['eta']>30){
 			set_time_limit((int)$this->request->get['eta']*2);
 		}
-		$bkp = new ABackup('manual_backup');
+		$backup_name = preg_replace('[^0-9A-z_\.]','', $this->request->get['backup_name']);
+		$backup_name = !$backup_name ? 'manual_backup' : $backup_name;
+		$bkp = new ABackup($backup_name);
 
 		if(has_value($this->request->get['sql_dump_mode'])){
 			$bkp->sql_dump_mode = $this->request->get['sql_dump_mode'];
@@ -63,7 +65,9 @@ class ControllerTaskToolBackup extends AController {
 		if($this->request->get['eta']>30){
 			set_time_limit((int)$this->request->get['eta']+30);
 		}
-		$bkp = new ABackup('manual_backup');
+		$backup_name = preg_replace('[^0-9A-z_\.]','', $this->request->get['backup_name']);
+		$backup_name = !$backup_name ? 'manual_backup' : $backup_name;
+		$bkp = new ABackup($backup_name);
 		$content_dirs = array( // white list
 					'resources',
 					'image',
@@ -99,7 +103,9 @@ class ControllerTaskToolBackup extends AController {
 		if($this->request->get['eta']>30){
 			set_time_limit((int)$this->request->get['eta']+30);
 		}
-		$bkp = new ABackup('manual_backup');
+		$backup_name = preg_replace('[^0-9A-z_\.]','', $this->request->get['backup_name']);
+		$backup_name = !$backup_name ? 'manual_backup' : $backup_name;
+		$bkp = new ABackup($backup_name);
 		$code_dirs = array( // white list
 			'admin',
 			'core',
@@ -141,7 +147,9 @@ class ControllerTaskToolBackup extends AController {
 
 	public function backupConfig(){
 
-		$bkp = new ABackup('manual_backup');
+		$backup_name = preg_replace('[^0-9A-z_\.]','', $this->request->get['backup_name']);
+		$backup_name = !$backup_name ? 'manual_backup' : $backup_name;
+		$bkp = new ABackup($backup_name);
 		$result = $bkp->backupFile(DIR_ROOT . '/system/config.php', false);
 
 		$output = array('result' => $result ? true : false);
@@ -155,7 +163,10 @@ class ControllerTaskToolBackup extends AController {
 		if($this->request->get['eta']>30){
 			set_time_limit((int)$this->request->get['eta']+30);
 		}
-		$bkp = new ABackup('manual_backup');
+		$backup_name = preg_replace('[^0-9A-z_\.]','', $this->request->get['backup_name']);
+		$backup_name = !$backup_name ? 'manual_backup' : $backup_name;
+		$bkp = new ABackup($backup_name);
+
 		$arc_basename =  DIR_BACKUP . $bkp->getBackupName();
 		if(is_file($arc_basename.'.tar')){
 			unlink($arc_basename.'.tar');

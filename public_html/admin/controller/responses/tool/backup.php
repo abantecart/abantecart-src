@@ -42,6 +42,7 @@ class ControllerResponsesToolBackup extends AController {
 										));
 			}else{
 				$this->data['output']['task_details'] = $task_details;
+				$this->data['output']['task_details']['backup_name'] = "manual_backup_".date('Ymd_His');
 			}
 
 		}

@@ -727,6 +727,9 @@ var runTaskStepsUI = function (task_details) {
                     senddata['eta'] = step.eta;
                     timeout = (step.eta + 10)*1000;
                 }
+                if(task_details.hasOwnProperty('backup_name')){
+                    senddata['backup_name'] = task_details.backup_name;
+                }
 
                 var step_ajax = $.ajax({
                     type: "GET",

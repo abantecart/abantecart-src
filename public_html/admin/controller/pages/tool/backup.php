@@ -337,7 +337,8 @@ class ControllerPagesToolBackup extends AController {
 				readfile($file);
 				exit;
 			} else {
-				echo 'file does not exists!';
+				$this->session->data['error'] = 'Error: You Cannot to Download File '.$file.' Because of Absent on Hard Drive.';
+				$this->redirect($this->html->getSecureURL('tool/install_upgrade_history'));
 			}
 		} else {
 			return $this->dispatch('error/permission');
