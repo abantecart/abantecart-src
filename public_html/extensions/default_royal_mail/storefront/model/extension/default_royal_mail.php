@@ -66,16 +66,14 @@ class ModelExtensionDefaultRoyalMail extends Model {
 			}
 			$generic_product_ids[] = $product['product_id'];
 		}
-		//convert fixed prices to USD
-		$shipping_price_cost = $this->currency->convert($shipping_price_cost, $this->config->get('config_currency'), 'USD');
 
 		if($generic_product_ids){
 			$api_weight_product_ids = array_diff($generic_product_ids,$shipping_price_ids);
 			//WHEN ONLY PRODUCTS WITH FIXED SHIPPING PRICES ARE IN BASKET
 			if(!$api_weight_product_ids){
 				$cost = $shipping_price_cost;
-				$quote_data[$classid] = array(
-											'id' => 'default_royal_mail.0',
+				$quote_data['default_royal_mail'] = array(
+											'id' => 'default_royal_mail.default_royal_mail',
 											'title' => $this->language->get('text_title'),
 											'cost' => $cost,
 											'tax_class_id' => $this->config->get('default_royal_mail_tax_class_id'),
@@ -93,7 +91,7 @@ class ModelExtensionDefaultRoyalMail extends Model {
 									'id' => 'default_royal_mail',
 									'title' => $this->language->get('text_title'),
 									'quote' => $quote_data,
-									'sort_order' => $this->config->get('default_usps_sort_order'),
+									'sort_order' => $this->config->get('default_royal_mail_sort_order'),
 									'error' => ''
 								);
 				return $method_data;
@@ -114,6 +112,7 @@ class ModelExtensionDefaultRoyalMail extends Model {
 
 
 		// FOR CASE WHEN ONLY FREE SHIPPING PRODUCTS IN BASKET
+
 		if(!$api_weight_product_ids && $free_shipping_ids){
 			if($address['iso_code_2'] == 'GB'){
 				$method_name = 'default_royal_mail_'.  $this->config->get('default_royal_mail_free_gb');
@@ -123,11 +122,11 @@ class ModelExtensionDefaultRoyalMail extends Model {
 				$text = $this->language->get( $method_name );
 			}
 			//check is that method enabled
-			if(!$this->config->get($method_name)){
+			/*if(!$this->config->get($method_name)){
 				return array();
-			}
+			}*/
 
-			$quote_data[$classid] = array(
+			$quote_data[$method_name] = array(
 										'id' => 'default_royal_mail.'.$method_name,
 										'title' => $text,
 										'cost' => 0.0,
@@ -143,6 +142,7 @@ class ModelExtensionDefaultRoyalMail extends Model {
 								'sort_order' => $this->config->get('default_royal_mail_sort_order'),
 								'error' => ''
 							);
+
 			return $method_data;
 		}
 
@@ -179,18 +179,18 @@ class ModelExtensionDefaultRoyalMail extends Model {
 			}
 
 			if ((float)$cost) {
-				$title = $this->language->get('text_1st_class_standard');
+				$title = $this->language->get('default_royal_mail_1st_class_standard');
 
 				if ($this->config->get('default_royal_mail_display_weight')) {
-					$title .= ' (' . $this->language->get('text_weight') . ' ' . $this->weight->format($weight, $this->config->get('config_weight_class')) . ')';
+					$title .= ' (' . $this->language->get('default_royal_mail_weight') . ' ' . $this->weight->format($weight, $this->config->get('config_weight_class')) . ')';
 				}
 
 				if ($this->config->get('default_royal_mail_display_insurance') && (float)$compensation) {
-					$title .= ' (' . $this->language->get('text_insurance') . ' ' . $this->currency->format($compensation) . ')';
+					$title .= ' (' . $this->language->get('default_royal_mail_insurance') . ' ' . $this->currency->format($compensation) . ')';
 				}
 
 				if ($this->config->get('default_royal_mail_display_time')) {
-					$title .= ' (' . $this->language->get('text_eta') . ')';
+					$title .= ' (' . $this->language->get('default_royal_mail_eta') . ')';
 				}
 
 				if($generic_product_ids){
@@ -238,18 +238,18 @@ class ModelExtensionDefaultRoyalMail extends Model {
 			}
 
 			if ((float)$cost) {
-				$title = $this->language->get('text_1st_class_recorded');
+				$title = $this->language->get('default_royal_mail_1st_class_recorded');
 
 				if ($this->config->get('default_royal_mail_display_weight')) {
-					$title .= ' (' . $this->language->get('text_weight') . ' ' . $this->weight->format($weight, $this->config->get('config_weight_class')) . ')';
+					$title .= ' (' . $this->language->get('default_royal_mail_weight') . ' ' . $this->weight->format($weight, $this->config->get('config_weight_class')) . ')';
 				}
 
 				if ($this->config->get('default_royal_mail_display_insurance') && (float)$compensation) {
-					$title .= ' (' . $this->language->get('text_insurance') . ' ' . $this->currency->format($compensation) . ')';
+					$title .= ' (' . $this->language->get('default_royal_mail_insurance') . ' ' . $this->currency->format($compensation) . ')';
 				}
 
 				if ($this->config->get('default_royal_mail_display_time')) {
-					$title .= ' (' . $this->language->get('text_eta') . ')';
+					$title .= ' (' . $this->language->get('default_royal_mail_eta') . ')';
 				}
 
 				if($generic_product_ids){
@@ -283,14 +283,14 @@ class ModelExtensionDefaultRoyalMail extends Model {
 			}
 
 			if ((float)$cost) {
-				$title = $this->language->get('text_2nd_class_standard');
+				$title = $this->language->get('default_royal_mail_2nd_class_standard');
 
 				if ($this->config->get('default_royal_mail_display_weight')) {
-					$title .= ' (' . $this->language->get('text_weight') . ' ' . $this->weight->format($weight, $this->config->get('config_weight_class')) . ')';
+					$title .= ' (' . $this->language->get('default_royal_mail_weight') . ' ' . $this->weight->format($weight, $this->config->get('config_weight_class')) . ')';
 				}
 
 				if ($this->config->get('default_royal_mail_display_time')) {
-					$title .= ' (' . $this->language->get('text_eta') . ')';
+					$title .= ' (' . $this->language->get('default_royal_mail_eta') . ')';
 				}
 
 				if($generic_product_ids){
@@ -339,18 +339,18 @@ class ModelExtensionDefaultRoyalMail extends Model {
 			}
 
 			if ((float)$cost) {
-				$title = $this->language->get('text_2nd_class_recorded');
+				$title = $this->language->get('default_royal_mail_2nd_class_recorded');
 
 				if ($this->config->get('default_royal_mail_display_weight')) {
-					$title .= ' (' . $this->language->get('text_weight') . ' ' . $this->weight->format($weight, $this->config->get('config_weight_class')) . ')';
+					$title .= ' (' . $this->language->get('default_royal_mail_weight') . ' ' . $this->weight->format($weight, $this->config->get('config_weight_class')) . ')';
 				}
 
 				if ($this->config->get('default_royal_mail_display_insurance') && (float)$compensation) {
-					$title .= ' (' . $this->language->get('text_insurance') . ' ' . $this->currency->format($compensation) . ')';
+					$title .= ' (' . $this->language->get('default_royal_mail_insurance') . ' ' . $this->currency->format($compensation) . ')';
 				}
 
 				if ($this->config->get('default_royal_mail_display_time')) {
-					$title .= ' (' . $this->language->get('text_eta') . ')';
+					$title .= ' (' . $this->language->get('default_royal_mail_eta') . ')';
 				}
 
 				if($generic_product_ids){
@@ -400,18 +400,18 @@ class ModelExtensionDefaultRoyalMail extends Model {
 			}
 
 			if ((float)$cost) {
-				$title = $this->language->get('text_standard_parcels');
+				$title = $this->language->get('default_royal_mail_standard_parcels');
 
 				if ($this->config->get('default_royal_mail_display_weight')) {
-					$title .= ' (' . $this->language->get('text_weight') . ' ' . $this->weight->format($weight, $this->config->get('config_weight_class')) . ')';
+					$title .= ' (' . $this->language->get('default_royal_mail_weight') . ' ' . $this->weight->format($weight, $this->config->get('config_weight_class')) . ')';
 				}
 
 				if ($this->config->get('default_royal_mail_display_insurance') && (float)$compensation) {
-					$title .= ' (' . $this->language->get('text_insurance') . ' ' . $this->currency->format($compensation) . ')';
+					$title .= ' (' . $this->language->get('default_royal_mail_insurance') . ' ' . $this->currency->format($compensation) . ')';
 				}
 
 				if ($this->config->get('default_royal_mail_display_time')) {
-					$title .= ' (' . $this->language->get('text_eta') . ')';
+					$title .= ' (' . $this->language->get('default_royal_mail_eta') . ')';
 				}
 
 				if($generic_product_ids){
@@ -452,14 +452,14 @@ class ModelExtensionDefaultRoyalMail extends Model {
 				}
 
 				if((float)$cost){
-					$title = $this->language->get('text_airmail');
+					$title = $this->language->get('default_royal_mail_airmail');
 
 					if($this->config->get('default_royal_mail_display_weight')){
-						$title .= ' (' . $this->language->get('text_weight') . ' ' . $this->weight->format($weight, $this->config->get('config_weight_class')) . ')';
+						$title .= ' (' . $this->language->get('default_royal_mail_weight') . ' ' . $this->weight->format($weight, $this->config->get('config_weight_class')) . ')';
 					}
 
 					if($this->config->get('default_royal_mail_display_time')){
-						$title .= ' (' . $this->language->get('text_eta') . ')';
+						$title .= ' (' . $this->language->get('default_royal_mail_eta') . ')';
 					}
 
 					if($generic_product_ids){
@@ -519,18 +519,18 @@ class ModelExtensionDefaultRoyalMail extends Model {
 				}
 
 				if((float)$cost){
-					$title = $this->language->get('text_international_signed');
+					$title = $this->language->get('default_royal_mail_international_signed');
 
 					if($this->config->get('default_royal_mail_display_weight')){
-						$title .= ' (' . $this->language->get('text_weight') . ' ' . $this->weight->format($weight, $this->config->get('config_weight_class')) . ')';
+						$title .= ' (' . $this->language->get('default_royal_mail_weight') . ' ' . $this->weight->format($weight, $this->config->get('config_weight_class')) . ')';
 					}
 
 					if($this->config->get('default_royal_mail_display_insurance') && (float)$compensation){
-						$title .= ' (' . $this->language->get('text_insurance') . ' ' . $this->currency->format($compensation) . ')';
+						$title .= ' (' . $this->language->get('default_royal_mail_insurance') . ' ' . $this->currency->format($compensation) . ')';
 					}
 
 					if($this->config->get('default_royal_mail_display_time')){
-						$title .= ' (' . $this->language->get('text_eta') . ')';
+						$title .= ' (' . $this->language->get('default_royal_mail_eta') . ')';
 					}
 
 					if($generic_product_ids){
@@ -605,18 +605,18 @@ class ModelExtensionDefaultRoyalMail extends Model {
 				}
 
 				if((float)$cost){
-					$title = $this->language->get('text_airsure');
+					$title = $this->language->get('default_royal_mail_airsure');
 
 					if($this->config->get('default_royal_mail_display_weight')){
-						$title .= ' (' . $this->language->get('text_weight') . ' ' . $this->weight->format($weight, $this->config->get('config_weight_class')) . ')';
+						$title .= ' (' . $this->language->get('default_royal_mail_weight') . ' ' . $this->weight->format($weight, $this->config->get('config_weight_class')) . ')';
 					}
 
 					if($this->config->get('default_royal_mail_display_insurance') && (float)$compensation){
-						$title .= ' (' . $this->language->get('text_insurance') . ' ' . $this->currency->format($compensation) . ')';
+						$title .= ' (' . $this->language->get('default_royal_mail_insurance') . ' ' . $this->currency->format($compensation) . ')';
 					}
 
 					if($this->config->get('default_royal_mail_display_time')){
-						$title .= ' (' . $this->language->get('text_eta') . ')';
+						$title .= ' (' . $this->language->get('default_royal_mail_eta') . ')';
 					}
 
 					if($generic_product_ids){
@@ -652,18 +652,18 @@ class ModelExtensionDefaultRoyalMail extends Model {
 				}
 
 				if((float)$cost){
-					$title = $this->language->get('text_surface');
+					$title = $this->language->get('default_royal_mail_surface');
 
 					if($this->config->get('default_royal_mail_display_weight')){
-						$title .= ' (' . $this->language->get('text_weight') . ' ' . $this->weight->format($weight, $this->config->get('config_weight_class')) . ')';
+						$title .= ' (' . $this->language->get('default_royal_mail_weight') . ' ' . $this->weight->format($weight, $this->config->get('config_weight_class')) . ')';
 					}
 
 					if($this->config->get('default_royal_mail_display_insurance') && (float)$compensation){
-						$title .= ' (' . $this->language->get('text_insurance') . ' ' . $this->currency->format($compensation) . ')';
+						$title .= ' (' . $this->language->get('default_royal_mail_insurance') . ' ' . $this->currency->format($compensation) . ')';
 					}
 
 					if($this->config->get('default_royal_mail_display_time')){
-						$title .= ' (' . $this->language->get('text_eta') . ')';
+						$title .= ' (' . $this->language->get('default_royal_mail_eta') . ')';
 					}
 
 					if($generic_product_ids){
