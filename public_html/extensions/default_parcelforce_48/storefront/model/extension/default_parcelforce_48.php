@@ -52,11 +52,16 @@ class ModelExtensionDefaultParcelforce48 extends Model {
 		}
 
 
-		$basic_products = $this->cart->basicShippingProducts();;
+		$basic_products = $this->cart->basicShippingProducts();
+		$product_ids = array();
 		foreach ($basic_products as $product) {
 			$product_ids[] = $product['product_id'];
 		}
-		$weight = $this->weight->convert($this->cart->getWeight($product_ids), $this->config->get('config_weight_class'), 'kgs');
+
+		if($product_ids){
+			$weight = $this->weight->convert($this->cart->getWeight($product_ids), $this->config->get('config_weight_class'), 'kgs');
+		}
+
 		$sub_total = $this->cart->getSubTotal();
 		$all_free_shipping = $this->cart->areAllFreeShipping();
 		$quote_data = $this->_processRate($weight, $sub_total);
