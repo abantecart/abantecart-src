@@ -326,12 +326,16 @@ $(document).ready(function () {
 	});
 	
 	<?php if(!$home_page) { ?>
-	$('.ant_window .dropdown-menu').dropdown('toggle');
-	setTimeout(
-		function() {
-			$('.ant_window').removeClass('open')
-		}, 6000
-	);
+	$(window).on('load',function(){
+		setTimeout(
+			function() {
+				$('.ant_window .dropdown-menu').dropdown('toggle'); //show with delay
+				setTimeout(	function() {$('.ant_window').removeClass('open')}, 6000); //hide
+			}, 1500
+		);
+	});
+
+
 	<?php } ?>
 	//update ANT Viewed message only on click
 	$('.ant_window button').click(function (event) {
@@ -347,7 +351,7 @@ var updateANT = function (url) {
     	dataType: 'json',		
     	success: function(data) {
     		$('.ant_window').find('span.badge').remove();
-    	},
+    	}
     });
 }
 </script>
