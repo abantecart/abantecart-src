@@ -278,11 +278,11 @@
   </definition>
   <definition>
     <key>entry_weight_code</key>
-    <value><![CDATA[Вес Код: <br /> <span class="help">Разрешены кг или фунтов. Убедитесь, что вы соответствовать весовой категории с ИБП принято веса код.</span>]]></value>
+    <value><![CDATA[Вес Код: <br /> <span class="help">Разрешены gks или lbp.</span>]]></value>
   </definition>
   <definition>
     <key>entry_weight_class</key>
-    <value><![CDATA[Вес Класс: <span class="help">указан в килограммах или фунтах.</span>]]></value>
+    <value><![CDATA[Мера Веса: <span class="help"> в килограммах или фунтах.</span>]]></value>
   </definition>
   <definition>
     <key>entry_length_class</key>
@@ -290,7 +290,7 @@
   </definition>
   <definition>
     <key>entry_dimensions</key>
-    <value><![CDATA[Размеры (Д х Ш х В): <span class="help">Это считается ваш средний размер упаковки коробки. Индивидуальные размеры товаром не поддерживаются в это время, так что вы должны ввести средние размеры, как 5x5x5.</span>]]></value>
+    <value><![CDATA[Размеры (Д х Ш х В) в дюймах: <span class="help">Это считается ваш средний размер упаковки коробки. Индивидуальные размеры товаром не поддерживаются в это время, так что вы должны ввести средние размеры, как 5x5x5.</span>]]></value>
   </definition>
   <definition>
     <key>entry_tax</key>

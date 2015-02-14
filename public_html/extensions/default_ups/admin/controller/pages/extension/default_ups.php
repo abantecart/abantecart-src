@@ -69,7 +69,7 @@ class ControllerPagesExtensionDefaultUPS extends AController {
 		'default_ups_display_weight',
 		'default_ups_weight_code',
 		'default_ups_weight_class',
-		'default_ups_length_class',
+		//'default_ups_length_class',
 		'default_ups_length',
 		'default_ups_height',
 		'default_ups_width',
@@ -178,12 +178,12 @@ class ControllerPagesExtensionDefaultUPS extends AController {
 		foreach ( $results as $k => $v ) {
 			$weight_classes[ $v['unit'] ] = $v['title'];
 		}
-		$this->load->model('localisation/length_class');
+		/*$this->load->model('localisation/length_class');
 		$results = $this->model_localisation_length_class->getLengthClasses();
 		$length_classes = array();
 		foreach ( $results as $k => $v ) {
 			$length_classes[ $v['unit'] ] = $v['title'];
-		}
+		}*/
 
 		$this->load->model('localisation/tax_class');
 		$results = $this->model_localisation_tax_class->getTaxClasses();
@@ -590,13 +590,13 @@ class ControllerPagesExtensionDefaultUPS extends AController {
 		    'value' => $this->data['default_ups_weight_class'],
             'required' => true,
 	    )) ;
-		$this->data['form']['fields']['length_class'] = $form->getFieldHtml(array(
+		/*$this->data['form']['fields']['length_class'] = $form->getFieldHtml(array(
 		    'type' => 'selectbox',
 		    'name' => 'default_ups_length_class',
 			'options' => $length_classes,
 		    'value' => $this->data['default_ups_length_class'],
             'required' => true,
-	    ));
+	    ));*/
 
         $this->data['form']['fields']['dimensions']['length'] = $form->getFieldHtml(array(
             'type' => 'input',

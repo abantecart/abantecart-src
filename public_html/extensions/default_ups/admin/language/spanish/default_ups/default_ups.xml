@@ -296,7 +296,7 @@
     </definition>
     <definition>
         <key>entry_dimensions</key>
-        <value><![CDATA[Dimensiones (duration x ancho x altura):<span class="help">Esto se supone que es el tamaño promedio de caja de embalaje. Las dimensiones individuales de elementos no son compatibles en este momento por lo que debe entrar en dimensiones medias como 5x5x5.</span>]]></value>
+        <value><![CDATA[Dimensiones (duration x ancho x altura), pulgadas:<span class="help">Esto se supone que es el tamaño promedio de caja de embalaje. Las dimensiones individuales de elementos no son compatibles en este momento por lo que debe entrar en dimensiones medias como 5x5x5.</span>]]></value>
     </definition>
 	<definition>
 		<key>entry_tax</key>
