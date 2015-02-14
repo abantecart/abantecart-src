@@ -110,6 +110,17 @@ class ModelExtensionDefaultFedex extends Model {
 			);
 		}
 
+		//when only products with free shipping are in the cart
+		if(!$products && $special_ship_products && !$total_fixed_cost){
+			$quote_data = array('default_fedex' => array(
+								                    'id'           => 'default_fedex.default_fedex',
+								                    'title'        => 'Fedex',
+								                    'cost'         => 0,
+								                    'tax_class_id' => 0,
+								                    'text'         => $this->language->get('text_free')
+			));
+		}
+
         if($quote_data || $error_msg){
             $title = $this->language->get('text_title');
             $method_data = array(
