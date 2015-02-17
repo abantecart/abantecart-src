@@ -97,8 +97,8 @@
     return false;
 });
 <?php }?>
-$('a.call_to_order').on('click',function(){
-	location='<?php echo $call_to_order_url;?>';
+$(document).on('click','a.call_to_order',function(){
+	goTo('<?php echo $call_to_order_url;?>');
 	return false;
 });
 </script>

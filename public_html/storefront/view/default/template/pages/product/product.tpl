@@ -190,7 +190,7 @@
 										<?php } ?>
 										<?php } else { ?>
 											<ul class="productpagecart call_to_order">
-												<li><a href="#" class="call_to_order"><i class="fa fa-phone-sign"></i>&nbsp;&nbsp;<?php echo $text_call_to_order; ?></a></li>
+												<li><a href="#" class="call_to_order"><i class="fa fa-phone"></i>&nbsp;&nbsp;<?php echo $text_call_to_order; ?></a></li>
 											</ul>
 										<?php } ?>										
 										<a class="productprint btn btn-large" href="javascript:window.print();">
