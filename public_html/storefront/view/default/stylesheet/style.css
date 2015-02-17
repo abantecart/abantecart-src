@@ -3337,6 +3337,10 @@ paypal pro styles
 	min-height: 54px;
 }
 
+.payment_icon img{
+	max-width: 100%;
+}
+
 /* Responsive Section */
 @media (min-width: 1200px) {
 	.cart-info .estimate{
@@ -4004,6 +4008,11 @@ paypal pro styles
 /* END @media (max-width: 760px) */
 
 @media only screen and (min-width: 480px) and (max-width: 767px) {
+
+	.payment_icon img{
+		max-width: 350px;
+	}
+
 	.container-fluid.otherddetails {
 		width: auto;
 	}
@@ -4102,6 +4111,10 @@ paypal pro styles
 		margin-bottom: 10px;
 	}
 
+	#apply_coupon_btn{
+		margin-top: 10px;
+	}
+
 }
 
 @media only screen and (max-width: 480px) {
@@ -4112,6 +4125,11 @@ paypal pro styles
 		line-height: normal;
 		text-align: left;
 	}
+
+	.payment_icon img{
+		max-width: 300px;
+	}
+
 	.logo img {
 		background: white;
 		padding: 5px;
@@ -4390,6 +4408,10 @@ paypal pro styles
 
 	.block_frame_cart  .btn-orange:last-child {
 		margin-top: 0;
+	}
+
+	#apply_coupon_btn{
+		margin-top: 10px;
 	}
 	
 	/* Hide some columns in tables for small screen */
