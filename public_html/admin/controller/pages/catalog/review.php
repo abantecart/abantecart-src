@@ -268,6 +268,7 @@ class ControllerPagesCatalogReview extends AController {
 		$product_info = $this->model_catalog_product->getProduct($this->data['product_id']);
 		if ($product_info) {
 			$this->data['product'] =  $product_info['name'];
+			$this->data['preview'] = $this->html->getCatalogURL('product/product', '&product_id='.$this->data['product_id']);
 		} else {
 			$this->data['product'] = $this->language->get('text_none');
 		}
