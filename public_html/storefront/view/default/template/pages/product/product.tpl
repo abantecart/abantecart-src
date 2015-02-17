@@ -152,10 +152,10 @@
 											<?php echo $form['minimum']; ?>
 										</div>
 										<?php if ($minimum > 1) { ?>
-											<div class="input-group col-sm-3"><?php echo $text_minimum; ?></div>
+											<div class="input-group "><?php echo $text_minimum; ?></div>
 										<?php } ?>
 										<?php if ($maximum > 0) { ?>
-											<div class="input-group col-sm-3"><?php echo $text_maximum; ?></div>
+											<div class="input-group "><?php echo $text_maximum; ?></div>
 										<?php } ?>
 									</div>
 
