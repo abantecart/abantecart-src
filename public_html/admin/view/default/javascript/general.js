@@ -751,7 +751,7 @@ var runTaskStepsUI = function (task_details) {
                                 .css('width', '100%')
                                 .html('100%');
                             $('div.progress-info').html(defaultTaskMessages.complete);
-                            runTaskComplete(task_details.task_id);
+                            runTaskComplete(task_details.task_id, senddata['backup_name']);
                         }
                         attempts = -1; //stop attempts of this task
                     },
@@ -787,7 +787,7 @@ var runTaskStepsUI = function (task_details) {
                                 if (step.settings.hasOwnProperty("interrupt_on_step_fault")) {
                                     if (step.settings.interrupt_on_step_fault == true) {
                                         stop_task = true;
-                                        runTaskComplete(task_details.task_id);
+                                        runTaskComplete(task_details.task_id, senddata['backup_name']);
                                     }
                                 }
                             }
@@ -795,7 +795,7 @@ var runTaskStepsUI = function (task_details) {
                             step_num++;
                             //if last step failed
                             if(step_num>steps_cnt){
-                                runTaskComplete(task_details.task_id);
+                                runTaskComplete(task_details.task_id, senddata['backup_name']);
                             }
                         }
 
@@ -811,7 +811,7 @@ var runTaskStepsUI = function (task_details) {
 
 /* run post-trigger */
 
-var runTaskComplete = function (task_id) {
+var runTaskComplete = function (task_id, bkp_name) {
     if(task_fail){
         task_complete_text += '<div class="alert-danger">' + defaultTaskMessages.task_failed + '</div>';
         // replace progressbar by result message
@@ -822,7 +822,7 @@ var runTaskComplete = function (task_id) {
             type: "POST",
             async: false,
             url: complete_task_url,
-            data: {task_id: task_id },
+            data: {task_id: task_id, backup_name: bkp_name },
             datatype: 'json',
             global: false,
             success: function (data) {

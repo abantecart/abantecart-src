@@ -350,6 +350,13 @@ class ModelToolBackup extends Model {
 		$count = 0;
 		$dir_array = scandir($dir);
 		foreach($dir_array as $key => $filename){
+			//skip backup, cache and logs
+			if(is_int(strpos($dir . "/" . $filename,'/backup'))
+					|| is_int(strpos($dir . "/" . $filename,'/cache'))
+					|| is_int(strpos($dir . "/" . $filename,'/logs'))){
+				continue;
+			}
+
 			if($filename != ".." && $filename != "."){
 				if(is_dir($dir . "/" . $filename)){
 					$new_dirsize = $this->_get_directory_size($dir . "/" . $filename);

@@ -457,8 +457,8 @@ final class ABackup {
 		$i = new DirectoryIterator($src);
 		foreach ($i as $f) {
 			$real_path = $f->getRealPath();
-			//skip cache and logs
-			if(is_int(strpos($real_path,'/cache')) || is_int(strpos($real_path,'/logs'))){
+			//skip backup, cache and logs
+			if(is_int(strpos($real_path,'/backup')) || is_int(strpos($real_path,'/cache')) || is_int(strpos($real_path,'/logs'))){
 				continue;
 			}
 			/**
