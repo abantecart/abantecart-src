@@ -112,6 +112,29 @@ class ModelExtensionDefaultParcelforce48 extends Model {
 			$quote_data = $new_quote_data;
 		}
 
+		//for case when only products with fixed shippig price are in the cart
+		$title = $this->language->get('text_title');
+		if(!$basic_products && $special_ship_products){
+			$quote_data = array('default_parcelforce_48' => array(
+			                    'id'           => 'default_parcelforce_48.default_parcelforce_48',
+			                    'title'        => $title,
+			                    'cost'         => $total_fixed_cost,
+			                    'tax_class_id' => 0,
+			                    'text'         => $this->currency->format( $total_fixed_cost )
+			));
+		}
+		//when only products with free shipping are in the cart
+		if(!$basic_products && $special_ship_products && !$total_fixed_cost){
+			$quote_data = array('default_parcelforce_48' => array(
+								                    'id'           => 'default_parcelforce_48.default_parcelforce_48',
+								                    'title'        => $title,
+								                    'cost'         => 0,
+								                    'tax_class_id' => 0,
+								                    'text'         => $this->language->get('text_free')
+			));
+		}
+
+
 		if ($quote_data) {
 			$method_data = array(
 					'id' => 'default_parcelforce_48',

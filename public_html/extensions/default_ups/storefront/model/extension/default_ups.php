@@ -136,13 +136,13 @@ class ModelExtensionDefaultUps extends Model {
 		//for case when only products with fixed shippig price are in the cart
 
 		if(!$basic_products && $special_ship_products){
-			$quote_data['default_ups'] = array(
+			$quote_data = array('default_ups' => array(
 			                    'id'           => 'default_ups.default_ups',
 			                    'title'        => $title,
 			                    'cost'         => $total_fixed_cost,
 			                    'tax_class_id' => 0,
 			                    'text'         => $this->currency->format( $total_fixed_cost )
-			);
+			));
 		}
 		//when only products with free shipping are in the cart
 		if(!$basic_products && $special_ship_products && !$total_fixed_cost){
@@ -170,7 +170,6 @@ class ModelExtensionDefaultUps extends Model {
 			'error'      => $error_msg
 		);
 
-		
 		return $method_data;
 	}
 
