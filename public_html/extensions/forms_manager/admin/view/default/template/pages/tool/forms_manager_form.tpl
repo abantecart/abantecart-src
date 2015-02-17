@@ -373,7 +373,7 @@ jQuery(function ($) {
 				updateFieldsList();
 				$('#new_fieldFrm_field_id').delay(1000).change();
 				$('#field_modal').modal('hide');
-				success_alert('<?php echo $text_success_added_field; ?>');
+				success_alert('<?php echo $text_success_added_field; ?>', true);
 			},
 			complete: function () {
 				bindAform($("input, checkbox, select", '#field_edit_form'));
