@@ -122,8 +122,12 @@
 		</table>
 	<?php } ?>
 
-	<h4 class="heading4"><?php echo $text_cart_items; ?></h4>
-
+	<h4 class="heading4"><?php echo $text_cart_items; ?>
+		<a class="pull-right mr10 btn btn-default btn-xs" href="<?php echo $cart; ?>">
+			<i class="fa fa-shopping-cart"></i>
+			<?php echo $text_edit_basket; ?>
+		</a>
+	</h4>
 	<table class="table confirm_products">
 		<?php foreach ($products as $product) { ?>
 			<tr>
@@ -141,15 +145,6 @@
 			</tr>
 		<?php } ?>
 		<?php echo $this->getHookVar('list_more_product_last'); ?>
-		<tr>
-			<td colspan="4"></td>
-			<td>
-				<a class="btn btn-default btn-xs" href="<?php echo $cart; ?>">
-					<i class="fa fa-shopping-cart"></i>
-					<?php echo $text_edit_basket; ?>
-				</a>
-			</td>
-		</tr>
 	</table>
 
 	<?php if ($comment) { ?>
