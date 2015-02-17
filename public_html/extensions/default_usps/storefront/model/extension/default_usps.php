@@ -88,7 +88,7 @@ class ModelExtensionDefaultUsps extends Model {
 			//WHEN ONLY PRODUCTS WITH FIXED SHIPPING PRICES ARE IN BASKET
 			if(!$api_weight_product_ids){
 				$cost = $shipping_price_cost;
-				$quote_data['default_usps'] = array(
+				$quote_data = array('default_usps' => array(
 											'id' => 'default_usps.default_usps',
 											'title' => $this->language->get('text_title'),
 											'cost' => $this->currency->convert($cost, 'USD', $this->config->get('config_currency')),
@@ -101,7 +101,7 @@ class ModelExtensionDefaultUsps extends Model {
 																								  $this->config->get('config_tax')),
 																			$this->currency->getCode(),
 																			1.0000000)
-				);
+				));
 
 				$method_data = array(
 									'id' => 'default_usps',
@@ -134,7 +134,7 @@ class ModelExtensionDefaultUsps extends Model {
 		// FOR CASE WHEN ONLY FREE SHIPPING PRODUCTS IN BASKET
 		if(!$api_weight_product_ids && $free_shipping_ids){
 
-			$quote_data['default_usps'] = array(
+			$quote_data = array('default_usps' => array(
 										'id' => 'default_usps.default_usps',
 										'title' => $this->language->get('text_'.($address['iso_code_2'] == 'US'
 																				? $this->config->get('default_usps_free_domestic_method')
@@ -142,7 +142,7 @@ class ModelExtensionDefaultUsps extends Model {
 										'cost' => 0.0,
 										'tax_class_id' => $this->config->get('default_usps_tax_class_id'),
 										'text' => $this->language->get('text_free')
-			);
+			));
 
 
 			$method_data = array(

@@ -101,13 +101,13 @@ class ModelExtensionDefaultFedex extends Model {
 
 		//for case when only products with fixed shippig price are in the cart
 		if(!$products && $special_ship_products){
-			$quote_data['default_fedex'] = array(
+			$quote_data = array('default_fedex' => array(
 			                    'id'           => 'default_fedex.default_fedex',
 			                    'title'        => 'Fedex',
 			                    'cost'         => $total_fixed_cost,
 			                    'tax_class_id' => 0,
 			                    'text'         => $this->currency->format( $total_fixed_cost )
-			);
+			));
 		}
 
 		//when only products with free shipping are in the cart
