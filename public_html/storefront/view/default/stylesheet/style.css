@@ -1612,6 +1612,12 @@ h1.productname {
 	width: auto;
 }
 
+
+#product_details fieldset .checkbox>input {
+	margin-left: 0;
+	position: relative;
+}
+
 .tab-content {
 	background-color: #FFFFFF;
 	border: 1px solid #E7E7E7;

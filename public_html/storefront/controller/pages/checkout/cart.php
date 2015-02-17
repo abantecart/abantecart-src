@@ -237,9 +237,14 @@ class ControllerPagesCheckoutCart extends AController {
 
 
         		foreach ($result['option'] as $option) {
+			        $value = $option['value'];
+			        // hide binary value for checkbox
+			        if($option['element_type']=='C' && in_array($value, array(0,1))){
+				        $value = '';
+			        }
           			$option_data[] = array(
             			'name'  => $option['name'],
-            			'value' => $option['value']
+            			'value' => $value
           			);
         		}
 

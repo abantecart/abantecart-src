@@ -1199,20 +1199,24 @@ class CheckboxHtmlElement extends HtmlElement {
 
 	public function getHtml() {
 
-		$checked = false;
-		if ($this->value == 1 && is_null($this->checked)) {
-			$checked = true;
-		} else {
-			//checked has priority if provided
-			$checked = $this->checked;
-			if ( $this->checked ) { 
+		if( strpos($this->style,'btn_switch') !== false ) { //for switch button NOTE: value is binary (1 or 0)!!!
+			$checked = is_null($this->checked) && $this->value ? true : (bool)$this->checked;
+			if ( $checked ) {
 				$this->value = 1;
 			} else {
 				$this->value = 0;
 			}
-		}
-		$registry = $this->data['registry'];
 
+			$tpl = 'form/switch.tpl';
+		} else {//for generic checkbox NOTE: in this case value must be any and goes to tpl as-is
+			$checked = !is_null($this->checked) ? $this->checked : false;
+			if(in_array($this->value, array(0,1))){
+				$this->label_text = '';
+			}
+			$tpl = 'form/checkbox.tpl';
+		}
+
+		$registry = $this->data['registry'];
 		if(is_object($registry->get('language'))){
 			$text_on = $registry->get('language')->get('text_on');
 			$text_off = $registry->get('language')->get('text_off');
@@ -1238,13 +1242,7 @@ class CheckboxHtmlElement extends HtmlElement {
 			$this->view->assign('help_url', $this->help_url);
 		}
 		
-		if( strpos($this->style,'btn_switch') !== false ) {
-			$return = $this->view->fetch('form/switch.tpl');
-		} else {
-			$return = $this->view->fetch('form/checkbox.tpl');
-		}
-		
-		return $return;
+		return $this->view->fetch($tpl);
 	}
 }
 

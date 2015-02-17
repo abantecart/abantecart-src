@@ -223,7 +223,9 @@ class ACart {
             		$groups[] = $option_value_query['group_id'];
             	}
             	$option_data[] = array( 'product_option_value_id' => $option_value_query['product_option_value_id'],
-            							'name'                    => $option_query['name'],
+			                            'product_option_id'       => $product_option_id,
+	                                    'name'                    => $option_query['name'],
+		                                'element_type'            => $element_type,
             							'value'                   => $option_value_query['name'],
             							'prefix'                  => $option_value_query['prefix'],
             							'price'                   => $option_value_query['price'],
