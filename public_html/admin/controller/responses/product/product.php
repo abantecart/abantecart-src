@@ -609,11 +609,19 @@ class ControllerResponsesProductProduct extends AController {
 				$edit_url = $this->html->getSecureURL('catalog/attribute/update', '&attribute_id=' . $attribute_id);
 				$this->data['form']['fields']['option_value'] = '<span link="'.$edit_url.'" class="open_newtab pointer">'.$this->language->get('text_edit').'</span>';
 			} else {
-				$this->data['form']['fields']['option_value'] = $form->getFieldHtml(array(
-					'type' => 'input',
-					'name' => 'name[' . $product_option_value_id . ']',
-					'value' => $this->data['name'],
-				));
+
+				$arr = array(
+							'type' => 'input',
+							'name' => 'name[' . $product_option_value_id . ']',
+							'value' => $this->data['name']
+				);
+				// for checkbox show error when value is empty
+				if($this->data['option_data']['element_type'] == 'C' && $this->data['name']==''){
+					$arr['style'] = 'alert-danger';
+				}
+
+				$this->data['form']['fields']['option_value'] = $form->getFieldHtml($arr);
+
 			}
 		}
 
