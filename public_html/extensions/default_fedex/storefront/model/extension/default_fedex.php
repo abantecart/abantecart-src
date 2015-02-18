@@ -52,6 +52,15 @@ class ModelExtensionDefaultFedex extends Model {
 		if (!$status) {
 			return $method_data;
 		}
+		if(!$address['postcode']){
+			return array(
+			                'id'         => 'default_fedex',
+			                'title'      => 'Fedex',
+			                'quote'      => $quote_data,
+			                'sort_order' => $this->config->get('default_fedex_sort_order'),
+			                'error'      => $this->language->get('fedex_error_empty_postcode')
+			            );
+		}
 
         $products = $this->cart->basicShippingProducts();
         if($products){
