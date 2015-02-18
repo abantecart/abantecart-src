@@ -3159,13 +3159,14 @@ paypal pro styles
     color: #777777;
     display: block;
     font-size: 32px;
-    height: 45px;
+    min-height: 45px;
+	min-width: 45px;
     line-height: 32px;
     margin: 0 0 5px;
     padding: 27px 20px 13px;
     position: relative;
     text-align: center;
-    width: 45px;
+
 }
 .nav-dash > li > a:hover, .nav-dash > li.active > a {
     background-color: #F25C27;
