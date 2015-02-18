@@ -313,8 +313,6 @@ class AResourceManager extends AResource {
 			}
 		}
 
-		$this->log->write(var_export($result, true).'   '.var_export($this->error, true));
-
 		if(!$ids){
 			return $result;
 		}

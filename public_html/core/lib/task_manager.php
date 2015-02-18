@@ -115,10 +115,8 @@ class ATaskManager {
 												'status' => 2) ); //change status of step to active while it run
 
 			try{
-
 				$dd = new ADispatcher($step['controller'],$step_settings['params']);
 				$response = $dd->dispatchGetOutput($step['controller']);
-				//$this->toLog(var_export($response, true));
 			}catch(AException $e){	}
 
 
