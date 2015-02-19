@@ -730,18 +730,18 @@ class ControllerPagesCatalogProduct extends AController {
 			'value' => isset( $this->data['shipping'] ) ? $this->data['shipping'] : 1,
 		));
 
+	    $this->data['form']['fields']['data']['free_shipping'] = $form->getFieldHtml(array(
+			'type' => 'checkbox',
+			'name' => 'free_shipping',
+			'style'  => 'btn_switch btn-group-sm',
+			'value' => isset( $this->data['free_shipping'] ) ? $this->data['free_shipping'] : 0,
+		));
+
         $this->data['form']['fields']['data']['ship_individually'] = $form->getFieldHtml(array(
 			'type' => 'checkbox',
 			'name' => 'ship_individually',
 			'style'  => 'btn_switch btn-group-sm',
 			'value' => isset( $this->data['ship_individually'] ) ? $this->data['ship_individually'] : 0,
-		));
-
-        $this->data['form']['fields']['data']['free_shipping'] = $form->getFieldHtml(array(
-			'type' => 'checkbox',
-			'name' => 'free_shipping',
-			'style'  => 'btn_switch btn-group-sm',
-			'value' => isset( $this->data['free_shipping'] ) ? $this->data['free_shipping'] : 0,
 		));
 
         $this->data['form']['fields']['data']['shipping_price'] = $form->getFieldHtml(array(
