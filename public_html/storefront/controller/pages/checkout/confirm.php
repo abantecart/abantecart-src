@@ -182,6 +182,23 @@ class ControllerPagesCheckoutConfirm extends AController {
         $resource = new AResource('image');
         for($i = 0; $i < sizeof( $this->data['products'] ); $i++){
         	$product_id = $this->data['products'][$i]['product_id'];
+			$opts = $this->data['products'][$i]['option'];
+	        $options = array();
+	        foreach ($opts as $option) {
+                if($option['element_type']=='H'){ continue;} //hide hidden options
+
+                $value = $option['value'];
+                // hide binary value for checkbox
+                if($option['element_type']=='C' && in_array($value, array(0,1))){
+                    $value = '';
+                }
+                $options[] = array(
+                    'name'  => $option['name'],
+                    'value' => $value
+                );
+            }
+
+	        $this->data['products'][$i]['option'] = $options;
 
 	        $thumbnail = $resource->getMainThumb('products',
 			                                    $product_id,

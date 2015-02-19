@@ -271,22 +271,12 @@ final class AOrder {
 		$product_data = array();
 	
 		foreach ($this->cart->getProducts() as $product) {
-      		$option_data = array();
 
-      		foreach ($product['option'] as $option) {
-        		$option_data[] = array(
-					'product_option_value_id' => $option['product_option_value_id'],			   
-          			'name'                    => $option['name'],
-          			'value'                   => $option['value'],
-		  			'prefix'                  => $option['prefix']
-        		);
-      		}
- 
       		$product_data[] = array(
         		'product_id' => $product['product_id'],
 				'name'       => $product['name'],
         		'model'      => $product['model'],
-        		'option'     => $option_data,
+        		'option'     => $product['option'],
 				'download'   => $product['download'],
 				'quantity'   => $product['quantity'], 
 				'price'      => $product['price'],

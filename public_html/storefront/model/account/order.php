@@ -191,9 +191,11 @@ class ModelAccountOrder extends Model {
 	 * @return array
 	 */
 	public function getOrderOptions($order_id, $order_product_id) {
-		$query = $this->db->query("SELECT *
-									FROM " . $this->db->table("order_options") . "
-									WHERE order_id = '" . (int)$order_id . "' AND order_product_id = '" . (int)$order_product_id . "'");
+		$query = $this->db->query("SELECT oo.*, po.element_type
+									FROM " . $this->db->table("order_options") . " oo
+									LEFT JOIN ".$this->db->table('product_option_values')." pov ON pov.product_option_value_id = oo.product_option_value_id
+									LEFT JOIN ".$this->db->table('product_options')." po ON po.product_option_id = pov.product_option_id
+									WHERE oo.order_id = '" . (int)$order_id . "' AND oo.order_product_id = '" . (int)$order_product_id . "'");
 	
 		return $query->rows;
 	}
