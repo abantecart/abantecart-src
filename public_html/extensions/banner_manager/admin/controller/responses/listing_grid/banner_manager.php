@@ -75,7 +75,11 @@ class ControllerResponsesListingGridBannerManager extends AController {
 
 			//check if banner is active based on dates and update status
 			$now = time();
-			if (dateISO2Int($result['start_date']) > $now || dateISO2Int($result['end_date']) < $now) {
+			if (dateISO2Int($result['start_date']) > $now ) {
+				$result['status'] = 0;
+			}
+			$stop =  dateISO2Int($result['end_date']);
+			if($stop>0 && $stop<$now){
 				$result['status'] = 0;
 			}
 
