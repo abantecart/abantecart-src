@@ -2276,6 +2276,9 @@ ul.side_prd_list li.related_product a {
 
 ul.side_prd_list li.related_product .productname {
 	white-space: pre-wrap;
+	height: 21px;
+	overflow: hidden;
+	text-overflow: ellipsis;
 }
 
 ul.side_prd_list li img {
