@@ -291,7 +291,7 @@ class ModelCheckoutOrder extends Model {
 
 			}
 
-			$language = new ALanguage($this->registry);
+			$language = new ALanguage($this->registry, $order_row['code']);
 			$language->load($order_row['filename']);
 			$language->load('mail/order_confirm');
 
@@ -567,7 +567,7 @@ class ModelCheckoutOrder extends Model {
 									date_added = NOW()");
 
 			if ($notify) {
-				$language = new ALanguage($order_row['directory']);
+				$language = new ALanguage($this->registry, $order_row['code']);
 				$language->load($order_row['filename']);
 				$language->load('mail/order_update');
 

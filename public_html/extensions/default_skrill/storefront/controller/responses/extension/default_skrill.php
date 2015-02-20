@@ -108,15 +108,15 @@ class ControllerResponsesExtensionDefaultSkrill extends AController {
 		if (isset($this->request->post['order_id'])) {
 			$order_id = $encryption->decrypt($this->request->post['order_id']);
 		} else {
-			$this->redirect($this->html->getSecureURL('checkout/checkout'));
+			return null;
 		}
-		
+
 		$this->load->model('checkout/order');
 		$order_info = $this->model_checkout_order->getOrder($order_id);
 		if (!$order_info) {
-			$this->redirect($this->html->getSecureURL('checkout/checkout'));
+			return null;
 		}
-		
+
 		$md5_ok = false;
 		if ($this->config->get('default_skrill_email')) {
 		    $ourhash  = $this->request->post['merchant_id'];
@@ -138,7 +138,7 @@ class ControllerResponsesExtensionDefaultSkrill extends AController {
 				case '2':
 					$this->model_checkout_order->update($order_id, $this->config->get('default_skrill_order_status_id'), '', TRUE);
 					break;
-				case '0':	
+				case '0':
 					$this->model_checkout_order->update($order_id, $this->config->get('default_skrill_order_status_pending_id'), '', TRUE);
 					break;
 				case '-1':
@@ -163,6 +163,6 @@ class ControllerResponsesExtensionDefaultSkrill extends AController {
 				'Manual order verification is required! MD5 hash returned (' + $thiermd5sig + ') does not match generated (' + $ourmd5hash + ').'
 			);		
 		}
-		$this->redirect($this->html->getSecureURL('checkout/success'));	
+		return null;
 	}	
 }
