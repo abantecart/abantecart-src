@@ -87,19 +87,13 @@
 		<div class="content">
 			<?php echo $form['comment']; ?>
      	</div>
-		
 		<div class="form-group">
-			<div class="input-group">
-    			<div class="mt20 mb20">
+    		<div class="col-md-12 mt20 mb20">
     			<?php echo $this->getHookVar('buttons_pre'); ?>
 				<?php echo $buttons; ?>
 				<?php echo $this->getHookVar('buttons_post'); ?>
-    			</div>	
     		</div>
-		</div>			
-      	
+		</div>
 	</div>
-	
 	</form>
-		
 </div>
