@@ -817,7 +817,6 @@ class ControllerPagesExtensionBannerManager extends AController {
 
 		$this->data['form']['form_open'] = $form->getFieldHtml(array('type' => 'form',
 				'name' => 'BannerBlockFrm',
-				'attr' => 'data-confirm-exit="true"',
 				'action' => $this->data ['action'],
 				'attr' => 'data-confirm-exit="true" class="aform form-horizontal"'
 				));

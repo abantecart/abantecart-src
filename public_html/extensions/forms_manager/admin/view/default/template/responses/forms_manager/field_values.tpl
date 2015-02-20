@@ -22,7 +22,6 @@
 					'entry_sort_order' => 'field_sort_order',
 					'entry_required' => 'required',
 					'entry_regexp_pattern' => 'field_regexp_pattern',
-					'entry_error_text' => 'field_error_text',
 					'entry_error_text' => 'field_error_text'
 			);
 
