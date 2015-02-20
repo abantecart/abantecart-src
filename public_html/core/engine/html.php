@@ -1210,9 +1210,6 @@ class CheckboxHtmlElement extends HtmlElement {
 			$tpl = 'form/switch.tpl';
 		} else {//for generic checkbox NOTE: in this case value must be any and goes to tpl as-is
 			$checked = !is_null($this->checked) ? $this->checked : false;
-			if(in_array($this->value, array(0,1))){
-				$this->label_text = '';
-			}
 			$tpl = 'form/checkbox.tpl';
 		}
 
