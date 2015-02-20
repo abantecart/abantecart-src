@@ -121,7 +121,7 @@ class ControllerResponsesExtensionDefaultSkrill extends AController {
 		if ($this->config->get('default_skrill_email')) {
 		    $ourhash  = $this->request->post['merchant_id'];
 		    $ourhash .= $this->request->post['transaction_id'];
-		    $ourhash .= strtoupper(md5($this->config->get('default_skrill_email')));
+		    $ourhash .= strtoupper(md5($this->config->get('default_skrill_secret')));
 		    $ourhash .= $this->request->post['mb_amount'];
 		    $ourhash .= $this->request->post['mb_currency'];
 		    $ourhash .= $this->request->post['status'];
@@ -131,7 +131,7 @@ class ControllerResponsesExtensionDefaultSkrill extends AController {
 		    	$md5_ok = true;
 		    }
 		}
-		
+
 		$this->model_checkout_order->confirm($order_id, $this->config->get('config_order_status_id'));
 		if ($md5_ok) {
 			switch($this->request->post['status']) {
@@ -139,7 +139,7 @@ class ControllerResponsesExtensionDefaultSkrill extends AController {
 					$this->model_checkout_order->update($order_id, $this->config->get('default_skrill_order_status_id'), '', TRUE);
 					break;
 				case '0':	
-					$this->model_checkout_order->update($order_id, $this->config->get('default_skrill_order_status_pending_id'), '', TRUE);		
+					$this->model_checkout_order->update($order_id, $this->config->get('default_skrill_order_status_pending_id'), '', TRUE);
 					break;
 				case '-1':
 					$this->model_checkout_order->update($order_id, $this->config->get('default_skrill_order_status_canceled_id'), '', TRUE);
@@ -150,7 +150,7 @@ class ControllerResponsesExtensionDefaultSkrill extends AController {
 						$this->config->get('default_skrill_order_status_failed_id'),
 						'Reason code: ' . $this->request->post['failed_reason_code'],
 						TRUE);
-					break;					
+					break;
 				case '-3':
 					$this->model_checkout_order->update($order_id, $this->config->get('default_skrill_order_status_chargeback_id'), '', TRUE);
 					break;
@@ -166,4 +166,3 @@ class ControllerResponsesExtensionDefaultSkrill extends AController {
 		$this->redirect($this->html->getSecureURL('checkout/success'));	
 	}	
 }
-?>
