@@ -58,7 +58,7 @@ class ControllerResponsesCatalogAttribute extends AController {
 		$element_types = array( '' => $this->language->get('text_select') );
 		foreach ($results as $key => $type) {
 			// allowed field types
-			if ( in_array($key,array('I','T','S','M','R','C','G','H','U')) ) {
+			if ( in_array($key,array('I','T','S','M','R','C','G','H')) ) {
 				$element_types[$key] = $type['type'];
 			}
 		}

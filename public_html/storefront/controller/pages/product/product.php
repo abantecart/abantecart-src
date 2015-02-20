@@ -364,7 +364,12 @@ class ControllerPagesProductProduct extends AController {
 						}
 					}
 				}
-					            
+
+				//for checkbox with empty value
+			    if($value=='' && $option['element_type']=='C'){
+				    $value = 1;
+			    }
+
 		    	$option_data = array(
 		    			'type' => $option['html_type'],
 		    			'name' => !in_array($option['element_type'], HtmlElementFactory::getMultivalueElements()) ? 'option['.$option['product_option_id'].']' : 'option['.$option['product_option_id'].'][]',
