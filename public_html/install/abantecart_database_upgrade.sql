@@ -20,7 +20,7 @@ ADD PRIMARY KEY (`rowid`);
 ALTER TABLE `ac_products_featured` ADD PRIMARY KEY (`product_id`);
 
 ALTER TABLE `ac_resource_map`
-DROP INDEX 'group_id' ,
+DROP INDEX `group_id` ,
 DROP INDEX ac_resource_map_idx,
 ADD PRIMARY KEY (`resource_id`, `object_name`, `object_id`);
 
