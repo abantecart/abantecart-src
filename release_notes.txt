@@ -1,9 +1,55 @@
+AbanteCart version 1.2.1
+
+This is a release with few new features and many fixes and improvements 
+
+New Features and improvements highlight:
+- Unauthenticated customer support (Handling after login session expired)
+- Adding Wish list and cart page improvement
+- Stripe payment
+- Skrill Payment
+
+Updates and Improvements in more details:
+
+Core:
+- added disabling of apc inside php.ini of public_html directory (related to installation process)
+- AHtml changes. method convertLinks fix
+- added process of handling non-writable log-file in ALog class
+- Improved handling for store and settings (visual status)
+- Better handling for Free shipping set in the product
+- Fix for default PHP Exception handler (if third party lib used)
+
+Control Panel (admin):
+- Shared downloads listing grid sorting by product count fix (fogbugz #28)
+- product edit form ui-improvement related to weight value
+- minor change of package installer page controller
+- menu grid fix. Now use icon instead html-code of icon resource-code to prevent grid breaking by non-valid html
+- backup process improvement
+- Highlight pages with disabled status. 
+- Backup fixes.
+
+Storefront:
+- checkout/shipping minor change of button placement
+- menu cache name fix
+- menu icon url fix related to https mode
+- minor URL fix in invoice.php
+- Login now remembers user name if login failed.
+- Case insensitive login name
+- Wish list and cart page improvement
+
+Extensions:
+- Stripe and Skrill payment
+
+Various bus fixes and UI improvments
+
+------------------------------------------------------------
+
+
 AbanteCart version 1.2.0 with new administrator and improved storefront designs.
 
 This is one of the biggest updates and improvement in AbanteCart ecommerce since project has started 3 years ago.
 New mobile user and customer interfaces as well as new features set AbanteCart to be one of the best and leading open source ecommerce solutions. 
 
-New Features and improvements highlite:
+New Features and improvements highlight:
 - AbanteCart is now 100% mobile for storefront and admin
 - New responsive administrator design. Powered by Bootstrap v3.2
 - New features in admin to improve ecommerce platform management. 
@@ -37,8 +83,8 @@ Control Panel (admin):
 - New improved Resource Library
 - Store switcher to filter data selection by store selected
 - Backup improvement with task implementation
-- Template settings are now managed per template individualyß
-- New drag/drop layout mangement 
+- Template settings are now managed per template individualy
+- New drag/drop layout management 
 - Added gritter notifications
 - Added form manager 
 - Improved product lookup and select with chosen element 
