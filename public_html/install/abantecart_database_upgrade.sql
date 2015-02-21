@@ -20,9 +20,9 @@ ADD PRIMARY KEY (`rowid`);
 ALTER TABLE `ac_products_featured` ADD PRIMARY KEY (`product_id`);
 
 ALTER TABLE `ac_resource_map`
-ADD PRIMARY KEY (`resource_id`, `object_name`, `object_id`),
-DROP INDEX IF EXISTS `group_id` ,
-DROP INDEX IF EXISTS `ac_resource_map_idx` ;
+DROP INDEX 'group_id' ,
+DROP INDEX ac_resource_map_idx,
+ADD PRIMARY KEY (`resource_id`, `object_name`, `object_id`);
 
 UPDATE `ac_settings`
 SET `group` = 'details'
