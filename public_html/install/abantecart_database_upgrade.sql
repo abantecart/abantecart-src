@@ -1,9 +1,6 @@
 ALTER TABLE `ac_customers`
   ADD `wishlist` text COLLATE utf8_general_ci;
 
-ALTER TABLE IF EXISTS `ac_customers_enc`
-  ADD `wishlist` text COLLATE utf8_general_ci;
-  
 ALTER TABLE `ac_banner_stat`
 ADD COLUMN `rowid` INT(11) NOT NULL AUTO_INCREMENT FIRST,
 ADD PRIMARY KEY (`rowid`);
