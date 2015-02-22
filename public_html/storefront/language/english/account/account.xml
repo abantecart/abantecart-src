@@ -52,4 +52,8 @@
 		<key>text_newsletter</key>
 		<value><![CDATA[Newsletter Subscription]]></value>
 	</definition>
+	<definition>
+		<key>text_account_wishlist</key>
+		<value><![CDATA[My wish list]]></value>
+	</definition>
 </definitions>

@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2014 Belavier Commerce LLC
+  Copyright © 2011-2015 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -55,11 +55,13 @@ class ControllerCommonHeader extends AController {
 
 		$this->view->assign('action', $this->html->getSecureURL('index/home'));
 		$this->view->assign('search_action', $this->html->getSecureURL('tool/global_search'));
+	
 		//redirect after language change
-		if (!isset($this->request->get['rt'])) {
+		if (!isset($this->request->get['rt']) || $this->request->get['rt'] == 'index/home') {
 			$this->view->assign('redirect', $this->html->getSecureURL('index/home'));
+			$this->view->assign('home_page', true);
 		} else {
-			$this->view->assign('redirect', $this->html->currentURL());
+			$this->view->assign('home_page', false);
 		}
 
 		if (!$this->user->isLogged() || !isset($this->request->get['token']) || !isset($this->session->data['token']) || ($this->request->get['token'] != $this->session->data['token'])) {
@@ -121,6 +123,12 @@ class ControllerCommonHeader extends AController {
 		if (file_exists(DIR_ROOT . '/install')) {
 			$this->messages->saveWarning($this->language->get('text_install_warning_subject'), $this->language->get('text_install_warning'));
 		}
+		//backwards compatability from 1.2.1. Can remove this check in the future. 
+		if (!defined('ENCRYPTION_KEY')) {
+			$cmbody = "To be compatible with v".VERSION." add below line to configuration file: <br>\n" . DIR_ROOT . '/system/config.php';
+			$cmbody .= "<br>\n"."define('ENCRYPTION_KEY', '" . $this->config->get('encryption_key') . "');\n"; ;
+			$this->messages->saveWarning('Compatibility warning for v'.VERSION, $cmbody);
+		}		
 		
 		//prepare quick stats 
 		$this->loadModel('tool/online_now');

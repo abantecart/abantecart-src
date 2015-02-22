@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2014 Belavier Commerce LLC
+  Copyright © 2011-2015 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -551,6 +551,11 @@ class AHtml extends AController {
 		$hidden = array();
 		$stores[0] = array('name' => $registry->get('language')->get('text_default'));
 		$registry->get('load')->model('setting/store');
+		//if loaded not default store - hide store switcher
+		$default_store_settings = $registry->get('model_setting_store')->getStore(0);
+		if($this->registry->get('config')->get('config_url') != $default_store_settings['config_url']){
+			return '';
+		}
 		$result_stores = $registry->get('model_setting_store')->getStores();
 		if (sizeof($result_stores) > 0) {
 			foreach ($result_stores as $rs) {
@@ -635,16 +640,12 @@ class AHtml extends AController {
 	/**
 	 * @param $html - text that might contain internal links #admin# or #storefront#
 	 *           $mode  - 'href' create complete a tag or default just replace URL
-	 * @param string $type
+	 * @param string $type - can be 'message' to convert url into <a> tag or empty
 	 * @return string - html code with parsed internal URLs
 	 */
 	public function convertLinks($html, $type = '') {
-
-		$new_href = str_replace('#admin#', $this->getSecureURL('') . '&', $html);
-
-		return $new_href;
-
-		$route_sections = array( "admin", "storefront" );
+		$is_admin = IS_ADMIN===true ? true : false;
+		$route_sections = $is_admin ? array( "admin", "storefront" ) : array( "storefront" );
 		foreach ($route_sections as $rt_type) {
 			preg_match_all('/(#' . $rt_type . '#rt=){1}[a-z0-9\/_\-\?\&=\%#]{1,255}(\b|\")/', $html, $matches, PREG_OFFSET_CAPTURE);
 			if ($matches) {
@@ -656,12 +657,9 @@ class AHtml extends AController {
 					} else {
 						$new_href = str_replace('#storefront#', $this->getCatalogURL('') . '&', $href);
 					}
-					$new_href = str_replace('&amp;', '&', $new_href);
-					$new_href = str_replace('&&', '&', $new_href);
+					$new_href = str_replace(array('&amp;','&&','&?'), '&', $new_href);
 					$new_href = str_replace('?&', '?', $new_href);
-					$new_href = str_replace('&?', '&', $new_href);
 					$new_href = str_replace('&', '&amp;', $new_href);
-
 
 					switch ($type) {
 						case 'message':
@@ -1201,20 +1199,21 @@ class CheckboxHtmlElement extends HtmlElement {
 
 	public function getHtml() {
 
-		$checked = false;
-		if ($this->value == 1 && is_null($this->checked)) {
-			$checked = true;
-		} else {
-			//checked has priority if provided
-			$checked = $this->checked;
-			if ( $this->checked ) { 
+		if( strpos($this->style,'btn_switch') !== false ) { //for switch button NOTE: value is binary (1 or 0)!!!
+			$checked = is_null($this->checked) && $this->value ? true : (bool)$this->checked;
+			if ( $checked ) {
 				$this->value = 1;
 			} else {
 				$this->value = 0;
 			}
-		}
-		$registry = $this->data['registry'];
 
+			$tpl = 'form/switch.tpl';
+		} else {//for generic checkbox NOTE: in this case value must be any and goes to tpl as-is
+			$checked = !is_null($this->checked) ? $this->checked : false;
+			$tpl = 'form/checkbox.tpl';
+		}
+
+		$registry = $this->data['registry'];
 		if(is_object($registry->get('language'))){
 			$text_on = $registry->get('language')->get('text_on');
 			$text_off = $registry->get('language')->get('text_off');
@@ -1240,13 +1239,7 @@ class CheckboxHtmlElement extends HtmlElement {
 			$this->view->assign('help_url', $this->help_url);
 		}
 		
-		if( strpos($this->style,'btn_switch') !== false ) {
-			$return = $this->view->fetch('form/switch.tpl');
-		} else {
-			$return = $this->view->fetch('form/checkbox.tpl');
-		}
-		
-		return $return;
+		return $this->view->fetch($tpl);
 	}
 }
 
@@ -1520,12 +1513,19 @@ class DateHtmlElement extends HtmlElement {
 			$doc = $this->data['registry']->get('document');
 			$doc->addScript($this->view->templateResource('/javascript/jquery-ui/js/jquery-ui-1.10.4.custom.min.js'));
 			$doc->addScript($this->view->templateResource('/javascript/jquery-ui/js/jquery.ui.datepicker.js'));
-
-			$doc->addStyle(array(
-				'href' => $this->view->templateResource('/javascript/jquery-ui/js/css/ui-lightness/ui.all.css'),
-				'rel' => 'stylesheet',
-				'media' => 'screen',
-			));
+			if(IS_ADMIN===true){
+				$doc->addStyle(array(
+					'href' => $this->view->templateResource('/javascript/jquery-ui/js/css/ui-lightness/ui.all.css'),
+					'rel' => 'stylesheet',
+					'media' => 'screen',
+				));
+			}else{
+				$doc->addStyle(array(
+						'href'  => $this->view->templateResource('/javascript/jquery-ui/css/ui-lightness/jquery-ui-1.10.4.custom.min.css'),
+						'rel'   => 'stylesheet',
+						'media' => 'screen',
+				));
+			}
 
 			$this->data['registry']->set('date-field', 1);
 		}

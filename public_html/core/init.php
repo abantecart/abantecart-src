@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2014 Belavier Commerce LLC
+  Copyright © 2011-2015 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -297,6 +297,9 @@ try {
 
 // Session
 	$registry->set('session', new ASession(SESSION_ID) );
+	if($config->has('current_store_id')){
+		$registry->get('session')->data['current_store_id'] = $config->get('current_store_id');
+	}
 
 // Set up HTTP and HTTPS based automatic and based on config
 	if (IS_ADMIN) {

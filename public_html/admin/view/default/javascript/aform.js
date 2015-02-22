@@ -365,6 +365,9 @@
 		    	$field.find('.btn').toggleClass('btn-info');
 		    }
 		    $field.find('.btn').toggleClass('btn-default');
+
+			//do custom action for status field
+			statusMarker($el.parent('.input-group'));
 	     	    
 		   	return false;    
 		}
@@ -872,7 +875,7 @@ var formOnExit = function(){
     $('form[data-confirm-exit="true"]').find('.btn').bind('click', function () {
     	//skip switches 
     	if ($(this).parent().hasClass("btn_switch")) {
-    		return;
+     		return;
     	}
 		var $form = $(this).parents('form');
         //reset elements to not changed status

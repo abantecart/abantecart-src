@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2014 Belavier Commerce LLC
+  Copyright © 2011-2015 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -189,6 +189,12 @@ class ControllerPagesExtensionExtensions extends AController {
 
 		$this->data['license_url'] = $this->html->getSecureURL('listing_grid/extension/license');
 		$this->data['dependants_url'] = $this->html->getSecureURL('listing_grid/extension/dependants');
+		$this->data['extension_type'] = $this->session->data['extension_filter'];
+		if( $this->session->data['extension_filter'] == 'template') {
+			$this->data['setting_url'] = $this->html->getSecureURL('setting/setting/appearance');
+		} else if( $this->session->data['extension_filter'] == 'language') {
+			$this->data['setting_url'] = $this->html->getSecureURL('localisation/language');
+		}
 
 		$this->view->assign('form_store_switch', $this->html->getStoreSwitcher());
 		$this->view->assign('extension_edit_url', $this->html->getSecureURL('listing_grid/extension/license')) ;
@@ -386,6 +392,9 @@ class ControllerPagesExtensionExtensions extends AController {
 				    break;				    
 				case 'checkbox':
 					$data['style'] = "btn_switch";
+					if ($item['name'] == $extension . '_status') {
+						$data['style'] .= " status_switch";
+					}
 					break;
 
 				case 'resource':
@@ -453,13 +462,15 @@ class ControllerPagesExtensionExtensions extends AController {
 
 		//check if we save settings with the post
 		if ($this->request->is_POST() && $this->_validateSettings($extension,$store_id)) {
+			$save_data = $this->request->post;
 			foreach ($settings as $item) {
 				if (!isset($this->request->post[$item['name']])) {
-					$this->request->post[$item['name']] = 0;
+					$save_data[$item['name']] = 0;
 				}
 			}
-			
-			$this->extension_manager->editSetting($extension, $this->request->post);
+
+			$save_data['store_id'] = $store_id;
+			$this->extension_manager->editSetting($extension, $save_data);
 			$this->cache->delete('settings.extension');
 			$this->session->data['success'] = $this->language->get('text_save_success');
 			$this->redirect($this->data['target_url']);
@@ -563,9 +574,8 @@ class ControllerPagesExtensionExtensions extends AController {
 		$missing_extensions = $this->extensions->getMissingExtensions();
 		//if extension is missing - do redirect on extensions list with alert!
 		if (in_array($extension, $missing_extensions)) {
-
 			$this->session->data['error'] = sprintf($this->language->get('text_missing_extension'),$extension);
-			$this->redirect($this->redirect($this->html->getSecureURL('extension/extensions')));
+			$this->redirect($this->html->getSecureURL('extension/extensions'));
 		}
 
 		$this->data['extension_info']['note'] = $ext->getConfig('note') ? $this->html->convertLinks($this->language->get($extension . '_note')) : '';

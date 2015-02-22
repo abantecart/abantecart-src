@@ -1,4 +1,4 @@
-<div class="navbar" id="topnav">
+<div class="topnavbar navbar" id="topnav">
 	<span class="sr-only"><?php echo $heading_title; ?></span>
  	<ul id="main_menu_top" class="nav navbar-nav main_menu">
 	<?php
@@ -16,4 +16,3 @@
 	    <?php echo buildStoreFrontMenuTree( $storemenu ); ?>
 	</ul>
 </div>
-

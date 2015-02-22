@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2014 Belavier Commerce LLC
+  Copyright © 2011-2015 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -26,7 +26,7 @@ class ControllerPagesAccountLogout extends AController {
         //init controller data
         $this->extensions->hk_InitData($this,__FUNCTION__);
 
-    	if ($this->customer->isLogged()) {
+    	if ($this->customer->isLogged() || $this->customer->isUnauthCustomer()) {
       		$this->customer->logout();
 	  		$this->cart->clear();
 			

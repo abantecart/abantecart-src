@@ -123,10 +123,6 @@
 	    
 	        				<div class="ext_more">
 	        					<div class="ext_review"><a class="compare"><?php echo $review ?></a></div>
-	        					<div class="ext_price">
-	        					    <div class="oneprice"><?php echo $item['price'] ?></div>
-	        					</div>
-
 	    						<?php if ( !$item['version_supported'] ) { ?>
 	        					<div class="tooltips pull-left ml10" data-toggle="tooltip" data-original-title="<?php echo $text_compatibility; ?>">
 	        						<i class="fa fa-exclamation-triangle text-danger"></i>
@@ -138,6 +134,9 @@
 	        						<i class="fa fa-shopping-cart"></i>
 	        						</a>
 	        					</div>
+						        <div class="pull-right ext_price">
+                                    <div class="oneprice"><?php echo $item['price'] ?></div>
+                                </div>
 	        				</div>
 	        			</div>				
 	        		</li>

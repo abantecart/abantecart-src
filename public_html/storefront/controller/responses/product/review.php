@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2014 Belavier Commerce LLC
+  Copyright © 2011-2015 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -45,7 +45,7 @@ class ControllerResponsesProductReview extends AController {
         	$reviews[] = array(
         		'author'     => $result['author'],
 				'rating'     => $result['rating'],
-				'text'       => strip_tags($result['text']),
+				'text'       => str_replace("\n", '<br />', strip_tags($result['text'])),
         		'stars'      => sprintf($this->language->get('text_stars'), $result['rating']),
         		'date_added' => dateISO2Display($result['date_added'],$this->language->get('date_format_short'))
         	);

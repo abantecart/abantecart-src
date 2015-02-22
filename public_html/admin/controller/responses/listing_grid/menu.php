@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2014 Belavier Commerce LLC
+  Copyright © 2011-2015 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -101,7 +101,7 @@ class ControllerResponsesListingGridMenu extends AController {
 							(int)$this->config->get('config_image_grid_height'));
 					$icon = '<img src="' . $thumb . '" alt="" />';
 				}elseif($resource['resource_code']){
-					$icon = $resource['resource_code'];
+					$icon = '<i class="fa fa-code fa-2x"></i>';
 				}
 				$response->rows[ $i ][ 'id' ] = $result[ 'item_id' ];
 				$response->rows[ $i ][ 'cell' ] = array(

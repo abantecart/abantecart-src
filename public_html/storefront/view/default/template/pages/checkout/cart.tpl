@@ -27,21 +27,18 @@ echo $form['form_open'];
 	<div class="container-fluid cart-info product-list">
 		<table class="table table-striped table-bordered">
 			<tr>
-				<th class="align_center"><?php echo $column_remove; ?></th>
 				<th class="align_center"><?php echo $column_image; ?></th>
 				<th class="align_left"><?php echo $column_name; ?></th>
 				<th class="align_left"><?php echo $column_model; ?></th>
-				<th class="align_center"><?php echo $column_quantity; ?></th>
 				<th class="align_right"><?php echo $column_price; ?></th>
+				<th class="align_center"><?php echo $column_quantity; ?></th>
 				<th class="align_right"><?php echo $column_total; ?></th>
+				<th class="align_center"><?php echo $column_remove; ?></th>
 			</tr>
-			<?php $class = 'odd'; ?>
 			<?php foreach ($products as $product) { ?>
-				<?php $class = ($class == 'even' ? 'odd' : 'even'); ?>
-				<tr class="<?php echo $class; ?>">
-					<td class="align_center"><?php echo $product['remove']; ?></td>
-					<td class="align_center"><a
-								href="<?php echo $product['href']; ?>"><?php echo $product['thumb']['thumb_html']; ?></a>
+				<tr>
+					<td class="align_center">
+						<a href="<?php echo $product['href']; ?>"><?php echo $product['thumb']['thumb_html']; ?></a>
 					</td>
 					<td class="align_left"><a href="<?php echo $product['href']; ?>"><?php echo $product['name']; ?></a>
 						<?php if (!$product['stock']) { ?>
@@ -55,15 +52,20 @@ echo $form['form_open'];
 						</div>
 					</td>
 					<td class="align_left"><?php echo $product['model']; ?></td>
-					<td class="align_center"><?php echo $product['quantity']; ?></td>
 					<td class="align_right"><?php echo $product['price']; ?></td>
+					<td class="align_center">
+						<div class="input-group input-group-sm"><?php echo $product['quantity']; ?></div>
+					</td>
 					<td class="align_right"><?php echo $product['total']; ?></td>
+					<td class="align_center">
+						<a href="<?php echo $product['remove_url']; ?>" class="btn btn-sm btn-default"><i class="fa fa-trash-o fa-fw"></i></a>
+					</td>
 				</tr>
 			<?php } ?>
 			<?php echo $this->getHookVar('list_more_product_last'); ?>
 		</table>
 
-		<div class=" pull-right mb20">
+		<div class="pull-right mb20">
 			<?php echo $this->getHookVar('pre_top_cart_buttons'); ?>
 			<?php if ($form['checkout']) { ?>
 				<a href="#" onclick="save_and_checkout('<?php echo $checkout_rt; ?>'); return false;" id="cart_checkout1" class="btn btn-orange pull-right" title="<?php echo $button_checkout; ?>">

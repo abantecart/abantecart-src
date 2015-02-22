@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2014 Belavier Commerce LLC
+  Copyright © 2011-2015 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -67,7 +67,7 @@ class ControllerPagesAccountLogin extends AController {
 				} 
 			}
 		// activation of account via email-code
-    	}elseif( has_value($this->request->get['activation']) ){
+    	} elseif ( has_value($this->request->get['activation']) ){
 			if( $this->session->data['activation'] ){
 				$customer_id = (int)$this->session->data['activation']['customer_id'];
 				//if activation code presents in session
@@ -130,13 +130,13 @@ class ControllerPagesAccountLogin extends AController {
 
 		$form = new AForm();
         $form->setForm(array( 'form_name' => 'accountFrm' ));
-        $this->data['form1'][ 'form_open' ] = $form->getFieldHtml(
+        $this->data['form1']['form_open'] = $form->getFieldHtml(
                                                                 array(
                                                                        'type' => 'form',
                                                                        'name' => 'accountFrm',
                                                                        'action' => $this->html->getSecureURL('account/login')));
 		
-		$this->data['form1'][ 'register' ] = $form->getFieldHtml( array(
+		$this->data['form1']['register'] = $form->getFieldHtml( array(
                                                                        'type' => 'radio',
                                                                        'id' => 'account',
 		                                                               'name' => 'account',
@@ -145,7 +145,7 @@ class ControllerPagesAccountLogin extends AController {
 			                                                           'value' => ( isset($this->session->data['account']) ? $this->session->data['account'] : 'register'),
 		                                                               )
 		                                                        );
-		$this->data['form1'][ 'guest' ] = $form->getFieldHtml( array(
+		$this->data['form1']['guest'] = $form->getFieldHtml( array(
                                                                        'type' => 'radio',
                                                                        'id' => 'account',
 		                                                               'name' => 'account',
@@ -154,7 +154,7 @@ class ControllerPagesAccountLogin extends AController {
 			                                                           'value' => ( $this->session->data['account']=='guest' ? 'guest' : ''),
 		                                                               )
 		                                                        );
-		$this->data['form1'][ 'continue' ] = $form->getFieldHtml( array(
+		$this->data['form1']['continue'] = $form->getFieldHtml( array(
                                                                        'type' => 'submit',
 		                                                               'name' => $this->language->get('button_continue'), 
 		                                                               'icon' => 'fa fa-check'
@@ -165,7 +165,7 @@ class ControllerPagesAccountLogin extends AController {
 		//second form
 		$form = new AForm();
         $form->setForm(array( 'form_name' => 'loginFrm' ));
-        $this->data['form2'][ 'form_open' ] = $form->getFieldHtml(
+        $this->data['form2']['form_open'] = $form->getFieldHtml(
                                                                 array(
                                                                        'type' => 'form',
                                                                        'name' => 'loginFrm',
@@ -175,17 +175,21 @@ class ControllerPagesAccountLogin extends AController {
 			$this->data['noemaillogin'] = true;
 		}
 
-		$this->data['form2'][ 'loginname' ] = $form->getFieldHtml( array(
+		$this->data['form2']['loginname'] = $form->getFieldHtml( array(
                                                                        'type' => 'input',
-		                                                               'name' => 'loginname'));
+		                                                               'name' => 'loginname',
+		                                                               'value' => $loginname
+		                                                               ));
 		//support old email based loging. Remove in the future
-		$this->data['form2'][ 'email' ] = $form->getFieldHtml( array(
+		$this->data['form2']['email'] = $form->getFieldHtml( array(
                                                                        'type' => 'input',
-		                                                               'name' => 'email'));
-		$this->data['form2'][ 'password' ] = $form->getFieldHtml( array(
+		                                                               'name' => 'email',
+		                                                               'value' => $loginname
+		                                                               ));
+		$this->data['form2']['password'] = $form->getFieldHtml( array(
                                                                        'type' => 'password',
 		                                                               'name' => 'password'));
-		$this->data['form2'][ 'login_submit' ] = $form->getFieldHtml(array(
+		$this->data['form2']['login_submit'] = $form->getFieldHtml(array(
 																		'type' => 'submit',
 																		'name' => $this->language->get('button_login'),
 																		'icon' => 'fa fa-lock'

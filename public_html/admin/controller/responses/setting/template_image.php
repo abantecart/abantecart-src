@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2014 Belavier Commerce LLC
+  Copyright © 2011-2015 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -41,9 +41,13 @@ class ControllerResponsesSettingTemplateImage extends AController {
 			$img = HTTPS_IMAGE . 'no_image.jpg';
 		}
 
+		$edit = $this->html->getSecureURL('setting/setting', '&active=appearance&tmpl_id='.$template);
+		$html = '<img src="' . $img . '" alt="" title="" />';
+		$html .= '<a class="btn btn-default" href='.$edit.'><i class="template_edit fa fa-gear fa-fw fa-lg"></i> '.$this->language->get('text_edit').'</a>';  		
+
         //update controller data
         $this->extensions->hk_UpdateData($this,__FUNCTION__);
-		$this->response->setOutput('<img src="' . $img . '" alt="" title="" />');
+		$this->response->setOutput($html);
 
 	}		
 }

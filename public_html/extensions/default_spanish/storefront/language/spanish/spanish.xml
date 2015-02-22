@@ -85,6 +85,22 @@
 		<value><![CDATA[Añadir al carro]]></value>
 	</definition>
 	<definition>
+		<key>button_add_wishlist</key>
+		<value><![CDATA[Añadir a la lista de deseos]]></value>
+	</definition>
+	<definition>
+		<key>button_remove_wishlist</key>
+		<value><![CDATA[Eliminar de la lista de deseos]]></value>
+	</definition>
+	<definition>
+		<key>text_wishlist_add_success</key>
+		<value><![CDATA[Añadido a la lista de deseos]]></value>
+	</definition>
+	<definition>
+		<key>text_wishlist_remove_success</key>
+		<value><![CDATA[Fuera lista de deseos]]></value>
+	</definition>
+	<definition>
 		<key>button_add_address</key>
 		<value><![CDATA[Añadir Dirección]]></value>
 	</definition>
@@ -272,4 +288,20 @@
 		<key>text_discount</key>
 		<value><![CDATA[Descuento]]></value>
     </definition>
+	<definition>
+		<key>text_download</key>
+		<value><![CDATA[Descargar]]></value>
+    </definition>
+	<definition>
+		<key>text_free</key>
+		<value><![CDATA[Libre]]></value>
+	</definition>
+	<definition>
+		<key>text_free_shipping</key>
+		<value><![CDATA[Envío Gratisg]]></value>
+	</definition>
+	<definition>
+		<key>error_unknown</key>
+		<value><![CDATA[Error desconocido. Por favor, vuelve a intentarlo!]]></value>
+    </definition>    
 </definitions>

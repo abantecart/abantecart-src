@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2014 Belavier Commerce LLC
+  Copyright © 2011-2015 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   Lincence details is bundled with this package in the file LICENSE.txt.
@@ -52,30 +52,34 @@ class ModelExtensionDefaultParcelforce48 extends Model {
 		}
 
 
-		$basic_products = $this->cart->basicShippingProducts();;
+		$basic_products = $this->cart->basicShippingProducts();
+		$product_ids = array();
 		foreach ($basic_products as $product) {
 			$product_ids[] = $product['product_id'];
 		}
-		$weight = $this->weight->convert($this->cart->getWeight($product_ids), $this->config->get('config_weight_class'), 'kgs');
+
+		if($product_ids){
+			$weight = $this->weight->convert($this->cart->getWeight($product_ids), $this->config->get('config_weight_class'), 'kgs');
+		}
+
 		$sub_total = $this->cart->getSubTotal();
+		$all_free_shipping = $this->cart->areAllFreeShipping();
 		$quote_data = $this->_processRate($weight, $sub_total);
 
+		//check if free or fixed shipping
+		$total_fixed_cost = 0;
+		$new_quote_data = array();
 		$special_ship_products = $this->cart->specialShippingProducts();
 		foreach ($special_ship_products as $product) {
 			$weight = $this->weight->convert($this->cart->getWeight(array($product['product_id'])), $this->config->get('config_weight_class'), 'kgs');
-
-			//check if free or fixed shipping
-			$fixed_cost = -1;
-			$new_quote_data = array();
-			if ($product['free_shipping']) {
-				$fixed_cost = 0;
-			} else if ($product['shipping_price'] > 0) {
+			if ($product['shipping_price'] > 0) {
 				$fixed_cost = $product['shipping_price'];
 				//If ship individually count every quintaty
 				if ($product['ship_individually']) {
 					$fixed_cost = $fixed_cost * $product['quantity'];
 				}
 				$fixed_cost = $this->currency->convert($fixed_cost, $this->config->get('config_currency'), $this->currency->getCode());
+				$total_fixed_cost += $fixed_cost;
 			} else {
 				$new_quote_data = $this->_processRate($weight, $sub_total);
 			}
@@ -85,22 +89,51 @@ class ModelExtensionDefaultParcelforce48 extends Model {
 		if ($quote_data) {
 			foreach ($quote_data as $key => $value) {
 
-				if ($fixed_cost >= 0) {
-					$quote_data[$key]['cost'] = (float)$quote_data[$key]['cost'] + $fixed_cost;
+				if ($total_fixed_cost >= 0) {
+					$quote_data[$key]['cost'] = (float)$quote_data[$key]['cost'] + $total_fixed_cost;
 				} else {
 					$quote_data[$key]['cost'] = (float)$quote_data[$key]['cost'] + $new_quote_data[$key]['cost'];
 				}
 
-				$quote_data[$key]['text'] = $this->currency->format(
+				if (!$all_free_shipping) {
+				    $quote_data[$key]['text'] = $this->currency->format(
 						$this->tax->calculate(
 								$this->currency->convert($quote_data[$key]['cost'], $this->config->get('config_currency'), $this->currency->getCode()),
 								$this->config->get('default_parcelforce_48_tax'), $this->config->get('config_tax')
-						)
-				);
+								)
+				                );
+				} else {
+					//all products are marked free for shipping
+					$quote_data[$key]['cost'] = 0.0;
+				    $quote_data[$key]['text'] = $this->language->get('text_free');	            
+				}
 			}
 		} else if ($new_quote_data) {
 			$quote_data = $new_quote_data;
 		}
+
+		//for case when only products with fixed shippig price are in the cart
+		$title = $this->language->get('text_title');
+		if(!$basic_products && $special_ship_products){
+			$quote_data = array('default_parcelforce_48' => array(
+			                    'id'           => 'default_parcelforce_48.default_parcelforce_48',
+			                    'title'        => $title,
+			                    'cost'         => $total_fixed_cost,
+			                    'tax_class_id' => 0,
+			                    'text'         => $this->currency->format( $total_fixed_cost )
+			));
+		}
+		//when only products with free shipping are in the cart
+		if(!$basic_products && $special_ship_products && !$total_fixed_cost){
+			$quote_data = array('default_parcelforce_48' => array(
+								                    'id'           => 'default_parcelforce_48.default_parcelforce_48',
+								                    'title'        => $title,
+								                    'cost'         => 0,
+								                    'tax_class_id' => 0,
+								                    'text'         => $this->language->get('text_free')
+			));
+		}
+
 
 		if ($quote_data) {
 			$method_data = array(

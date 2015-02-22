@@ -182,7 +182,7 @@
 	</definition>
 	<definition>
 		<key>entry_ship_individually</key>
-		<value><![CDATA[Envíe el producto individual:<br/><span class="help">El producto será enviado en un paquete separado y el costo de envío adicional se añadirá a la orden con varios elementos</span>]]></value>
+		<value><![CDATA[Envíe el producto individual:<br/><span class="help">El producto será enviado en un paquete separado y el costo de envío adicional se añadirá a la orden con varios elementos. Si se activa, fija el Precio de Envío necesita configurarse</span>]]></value>
 	</definition>
 	<definition>
 		<key>entry_shipping_price</key>
@@ -588,5 +588,12 @@
 		<key>error_measure_value</key>
 		<value><![CDATA[Se ha alcanzado el límite de 999.99. Proporcione el número más pequeño.]]></value>
 	</definition>
-    
+	<definition>
+		<key>error_weight_value</key>
+		<value><![CDATA[Este producto requiere el envío. Por favor, establece el valor del peso.]]></value>
+	</definition>
+	<definition>
+		<key>error_weight_class</key>
+		<value><![CDATA[Please set weight class.]]></value>
+	</definition>
 </definitions>

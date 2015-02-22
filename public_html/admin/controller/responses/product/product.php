@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2014 Belavier Commerce LLC
+  Copyright © 2011-2015 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -74,7 +74,9 @@ class ControllerResponsesProductProduct extends AController {
 					$price = $pdata['price'];
 				}
 
-				$frmt_price = $this->currency->format($price,($this->request->get['currency_code'] ? $this->request->get['currency_code'] : $this->config->get('config_currency')));
+				$frmt_price = $this->currency->format($pdata['price'], ($this->request->get['currency_code']
+															   ? $this->request->get['currency_code']
+															   : $this->config->get('config_currency')));
 
 					$products_data[ ] = array(
 						'image' => $thumbnail['thumb_html'],
@@ -607,11 +609,19 @@ class ControllerResponsesProductProduct extends AController {
 				$edit_url = $this->html->getSecureURL('catalog/attribute/update', '&attribute_id=' . $attribute_id);
 				$this->data['form']['fields']['option_value'] = '<span link="'.$edit_url.'" class="open_newtab pointer">'.$this->language->get('text_edit').'</span>';
 			} else {
-				$this->data['form']['fields']['option_value'] = $form->getFieldHtml(array(
-					'type' => 'input',
-					'name' => 'name[' . $product_option_value_id . ']',
-					'value' => $this->data['name'],
-				));
+
+				$arr = array(
+							'type' => 'input',
+							'name' => 'name[' . $product_option_value_id . ']',
+							'value' => $this->data['name']
+				);
+				// for checkbox show error when value is empty
+				if($this->data['option_data']['element_type'] == 'C' && $this->data['name']==''){
+					$arr['style'] = 'alert-danger';
+				}
+
+				$this->data['form']['fields']['option_value'] = $form->getFieldHtml($arr);
+
 			}
 		}
 

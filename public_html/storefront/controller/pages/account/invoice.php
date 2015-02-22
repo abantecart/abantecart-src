@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2014 Belavier Commerce LLC
+  Copyright © 2011-2015 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -34,8 +34,7 @@ class ControllerPagesAccountInvoice extends AController {
 				$order_id = 0;
 			}	
 			
-			$this->session->data['redirect'] = $this->html->getSecureURL('account/invoice', 'order_id=' . $order_id);
-			
+			$this->session->data['redirect'] = $this->html->getSecureURL('account/invoice', '&order_id=' . $order_id);
 			$this->redirect($this->html->getSecureURL('account/login'));
     	}
 	  
@@ -134,12 +133,18 @@ class ControllerPagesAccountInvoice extends AController {
 
         		$option_data = array();
 
-        		foreach ($options as $option) {
-          			$option_data[] = array(
-            			'name'  => $option['name'],
-            			'value' => $option['value'],
-          			);
-        		}
+		        foreach ($options as $option) {
+                    if($option['element_type']=='H'){ continue;} //hide hidden options
+                    $value = $option['value'];
+                    // hide binary value for checkbox
+                    if($option['element_type']=='C' && in_array($value, array(0,1))){
+                        $value = '';
+                    }
+                    $option_data[] = array(
+                        'name'  => $option['name'],
+                        'value' => $value
+                    );
+                }
 
         		$products[] = array(
           			'id'       => $product['product_id'],

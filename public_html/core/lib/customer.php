@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2014 Belavier Commerce LLC
+  Copyright © 2011-2015 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -90,6 +90,11 @@ final class ACustomer {
 	private $dcrypt;
 
 	/**
+	 * @var Array (unauthenticated custmer details)
+	 */
+	private $unauth_customer = array();
+
+	/**
 	 * @param  Registry $registry
 	 */
 	public function __construct($registry) {
@@ -122,10 +127,22 @@ final class ACustomer {
 				$this->customer_group_id = $customer_query->row['customer_group_id'];
 				$this->address_id = $customer_query->row['address_id'];
 							
-      			$this->db->query("UPDATE " . $this->db->table("customers") . " SET cart = '" . $this->db->escape(serialize($this->session->data['cart'])) . "', ip = '" . $this->db->escape($this->request->server['REMOTE_ADDR']) . "' WHERE customer_id = '" . (int)$this->session->data['customer_id'] . "'");
 			} else {
 				$this->logout();
 			}
+  		} elseif (isset($this->request->cookie['customer'])) {
+  			//we have unauthenticated customer
+ 			$encryption = new AEncryption($this->config->get('encryption_key'));
+  			$this->unauth_customer = unserialize($encryption->decrypt($this->request->cookie['customer']));
+  			//customer is not from the same store (under the same domain) 
+  			if ($this->unauth_customer['script_name'] != $this->request->server['SCRIPT_NAME']) {
+  				//clean up
+  				$this->unauth_customer = array();
+  				setcookie("customer", "", time()-3600);
+  			}
+  			//no need to merge with session as it shoud be always in sync 
+  			$this->session->data['cart'] = array();
+    		$this->session->data['cart'] = $this->getCustomerCart();	
   		}
 	}
 
@@ -143,23 +160,21 @@ final class ACustomer {
 		
 		$customer_query = $this->db->query("SELECT *
 											FROM " . $this->db->table("customers") . "
-											WHERE loginname = '" . $this->db->escape($loginname) . "'
+											WHERE LOWER(loginname)  = LOWER('" . $this->db->escape($loginname) . "')
 											AND password = '" . $this->db->escape(AEncryption::getHash($password)) . "'
 											AND status = '1'" . $approved_only);
-
 		if ($customer_query->num_rows) {
 			$this->session->data['customer_id'] = $customer_query->row['customer_id'];	
-		    
+		    //load customer saved cart and merge with session cart before login
 			if (($customer_query->row['cart']) && (is_string($customer_query->row['cart']))) {
 				$cart = unserialize($customer_query->row['cart']);
-				
 				foreach ($cart as $key => $value) {
 					if (!array_key_exists($key, $this->session->data['cart'])) {
 						$this->session->data['cart'][$key] = $value;
-					} else {
-						$this->session->data['cart'][$key]['qty'] += $value['qty'];
 					}
-				}			
+				}		
+				//save merged cart 
+				$this->saveCustomerCart();	
 			}
 
 			$this->loginname = $loginname;			
@@ -179,6 +194,15 @@ final class ACustomer {
 			$this->customer_group_id = $customer_query->row['customer_group_id'];
 			$this->address_id = $customer_query->row['address_id'];
             $this->cache->delete('storefront_menu');
+            
+            //set cookie for unauthenticated user (expire in 1 year) 
+			$encryption = new AEncryption($this->config->get('encryption_key'));
+            $cutomer_data = $encryption->encrypt(serialize(array(
+            											'first_name' => $this->firstname, 
+            											'customer_id' => $this->customer_id, 
+            											'script_name'	=> $this->request->server['SCRIPT_NAME']
+            											)));
+	  		setcookie('customer', $cutomer_data, time() + 60 * 60 * 24 * 365, '/', $this->request->server['HTTP_HOST']);
 	  		return TRUE;
     	} else {
       		return FALSE;
@@ -202,6 +226,9 @@ final class ACustomer {
 		$this->customer_group_id = '';
 		$this->address_id = '';
 		$this->cache->delete('storefront_menu');
+		
+		//remove unauth cookie
+		setcookie("customer", "", time()-3600, '/', $this->request->server['HTTP_HOST']);
   	}
 
 	/**
@@ -216,6 +243,21 @@ final class ACustomer {
 			return $this->customer_id;
 		}
 	}
+
+	/**
+	 * @return int
+	 */
+	public function isUnauthCustomer() {
+    	return $this->unauth_customer['customer_id'];
+  	}
+
+	/**
+	 * @return string
+	 */
+	public function getUnauthName() {
+		return $this->unauth_customer['first_name'];
+  	}
+
 
 	/**
 	 * @return int
@@ -373,6 +415,115 @@ final class ACustomer {
   	}
 
 	/**
+	* Record cart content 
+	* @param none
+	* @return none
+	*/ 	
+  	public function saveCustomerCart() {
+  		$customer_id = $this->customer_id;
+  		if(!$customer_id) {
+  			$customer_id = $this->unauth_customer['customer_id'];
+  		} 
+  		if(!$customer_id){
+  			return null;  		
+  		}
+       	$this->db->query("UPDATE " . $this->db->table("customers") . " SET cart = '" . $this->db->escape(serialize($this->session->data['cart'])) . "', ip = '" . $this->db->escape($this->request->server['REMOTE_ADDR']) . "' WHERE customer_id = '" . (int)$customer_id . "'"); 	
+  	}
+
+	/**
+	* Get cart content 
+	* @param none
+	* @return array()
+	*/ 	
+  	public function getCustomerCart() {
+  		$customer_id = $this->customer_id;
+  		if(!$customer_id) {
+  			$customer_id = $this->unauth_customer['customer_id'];
+  		} 
+  		if(!$customer_id){
+  			return array();  		
+  		}
+		$customer_query = $this->db->query("SELECT cart FROM " . $this->db->table("customers") . " WHERE customer_id = '" . (int)$customer_id . "' AND status = '1'");
+		if ($customer_query->num_rows) {
+		    //load customer saved cart
+			if (($customer_query->row['cart']) && (is_string($customer_query->row['cart']))) {
+				return unserialize($customer_query->row['cart']);
+			}
+		}
+		return array();
+	}
+
+
+	/**
+	* Add item to wisth list 
+	* @param product id 
+	* @return none
+	*/ 	
+	public function addToWishList($product_id) {
+		if(!has_value($product_id) || !is_numeric($product_id)){
+			return;
+		}
+		$whishlist = $this->getWishList();
+		$whishlist[$product_id] = time();
+		$this->saveWishList($whishlist);
+		return;
+	}
+
+	/**
+	* Remove item from wisth list 
+	* @param product id 
+	* @return none
+	*/ 	
+	public function removeFromWishList($product_id) {
+		if(!has_value($product_id) || !is_numeric($product_id)){
+			return;
+		}
+		$whishlist = $this->getWishList();
+		unset($whishlist[$product_id]);
+		$this->saveWishList($whishlist);
+		return;	
+	}
+
+	/**
+	* Record wisth list content 
+	* @param none
+	* @return none
+	*/ 	
+  	public function saveWishList($whishlist = array()) {
+  		$customer_id = $this->customer_id;
+  		if(!$customer_id) {
+  			$customer_id = $this->unauth_customer['customer_id'];
+  		} 
+  		if(!$customer_id){
+  			return null;  		
+  		}
+       	$this->db->query("UPDATE " . $this->db->table("customers") . " SET wishlist = '" . $this->db->escape(serialize($whishlist)) . "', ip = '" . $this->db->escape($this->request->server['REMOTE_ADDR']) . "' WHERE customer_id = '" . (int)$customer_id . "'"); 	
+  	}
+
+	/**
+	* Get cart content 
+	* @param none
+	* @return array()
+	*/ 	
+  	public function getWishList() {
+  		$customer_id = $this->customer_id;
+  		if(!$customer_id) {
+  			$customer_id = $this->unauth_customer['customer_id'];
+  		} 
+  		if(!$customer_id){
+  			return array();  		
+  		}
+		$customer_query = $this->db->query("SELECT wishlist FROM " . $this->db->table("customers") . " WHERE customer_id = '" . (int)$customer_id . "' AND status = '1'");
+		if ($customer_query->num_rows) {
+		    //load customer saved cart
+			if (($customer_query->row['wishlist']) && (is_string($customer_query->row['wishlist']))) {
+				return unserialize($customer_query->row['wishlist']);
+			}
+		}
+		return array();
+	}
+
+	/**
 	 * @param string $type
 	 * @param array $tr_details - amount, order_id, transaction_type, description, comments, creator
 	 * @return bool
@@ -410,5 +561,6 @@ final class ACustomer {
   		}
   		return false;
   	}
+  	
   		
 }

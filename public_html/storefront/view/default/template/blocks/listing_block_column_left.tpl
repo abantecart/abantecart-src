@@ -10,8 +10,8 @@
 		if ($content) {
 			foreach ($content as $item) {
 
-				if(($item['item_name']=='product' || $item['item_name']=='category') && $item['thumb']['origin']=='internal'){
-					$item['image'] = '<img style="width:50px;" src="'. $item['thumb']['thumb_url'].'"/>';
+				if( $item['thumb']['origin']=='internal'){
+					$item['image'] = '<img  class="thumbnail_small" src="'. $item['thumb']['thumb_url'].'"/>';
 				}else{
 					$item['image'] = $item['thumb']['thumb_html'];
 				}
@@ -29,8 +29,7 @@
 				if ($item['rating']) {
 					$review = $item['rating'];
 				}
-
-				?>
+?>
 
 				<li class="">
 					<?php if ($item[ 'resource_code' ]) {

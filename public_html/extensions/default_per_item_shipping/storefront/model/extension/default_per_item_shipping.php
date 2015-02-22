@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2014 Belavier Commerce LLC
+  Copyright © 2011-2015 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   Lincence details is bundled with this package in the file LICENSE.txt.
@@ -74,12 +74,22 @@ class ModelExtensionDefaultPerItemShipping extends Model {
 
 		$quote_data = array();
 
+		$cost_text = $this->language->get('text_free');
+		if ($cost) {
+			$cost_text = $this->currency->format(
+				$this->tax->calculate(	$cost, 
+										$this->config->get('default_per_item_shipping_tax'), 
+										$this->config->get('config_tax')
+										)
+				);
+		}
+
 		$quote_data['default_per_item_shipping'] = array(
 				'id' => 'default_per_item_shipping.default_per_item_shipping',
 				'title' => $this->language->get('text_description'),
 				'cost' => $cost,
 				'tax_class_id' => $this->config->get('default_per_item_shipping_tax'),
-				'text' => $this->currency->format($this->tax->calculate($cost, $this->config->get('default_per_item_shipping_tax'), $this->config->get('config_tax')))
+				'text' => $cost_text
 		);
 
 		$method_data = array(

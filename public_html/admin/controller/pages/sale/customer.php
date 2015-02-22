@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2014 Belavier Commerce LLC
+  Copyright © 2011-2015 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -145,7 +145,13 @@ class ControllerPagesSaleCustomer extends AController {
 								'text' => $this->language->get('button_delete'),
 						),
 				),
+			'grid_ready' => 'grid_ready();'
 		);
+
+		$this->load->model('setting/store');
+		if(!$this->model_setting_store->isDefaultStore()){
+			$this->view->assign('warning_actonbehalf', htmlspecialchars($this->language->get('warning_actonbehalf_additional_store'), ENT_QUOTES,'UTF-8'));
+		}
 
 		$grid_settings['colNames'] = array(
 				$this->language->get('column_name'),
@@ -352,18 +358,18 @@ class ControllerPagesSaleCustomer extends AController {
 							'title' => $this->language->get('text_view') . ' ' . $this->language->get('tab_history')
 					)
 			);
-			$this->data['addresses'] = $this->model_sale_customer->getAddressesByCustomerId($customer_id);	
+			$this->data['addresses'] = $this->model_sale_customer->getAddressesByCustomerId($customer_id);
 		}
 
 		foreach ($this->data['addresses'] as &$a) {
 		    $a['href'] = $this->html->getSecureURL('sale/customer/update_address', '&customer_id=' . $customer_id . '&address_id=' . $a['address_id']);
 		    $a['title'] = $a['address_1'] . ' ' . $a['address_2'];
-			//mark default address 
+			//mark default address
 			if ($customer_info['address_id'] == $a['address_id']) {
 				$a['default'] = 1;
-			}				
+			}
 		}
-		$this->data['add_address_url'] = $this->html->getSecureURL('sale/customer/update_address', '&customer_id=' . $customer_id); 
+		$this->data['add_address_url'] = $this->html->getSecureURL('sale/customer/update_address', '&customer_id=' . $customer_id);
 
 		foreach ($this->fields as $f) {
 			if (isset ($this->request->post [$f])) {
@@ -418,6 +424,11 @@ class ControllerPagesSaleCustomer extends AController {
 					'href' => $this->html->getSecureURL('sale/customer_transaction', '&customer_id=' . $customer_id),
 					'text' => $this->language->get('tab_transactions')
 			);
+		}
+
+		$this->load->model('setting/store');
+		if(!$this->model_setting_store->isDefaultStore()){
+			$this->data['warning_actonbehalf'] = htmlspecialchars($this->language->get('warning_actonbehalf_additional_store'), ENT_QUOTES,'UTF-8');
 		}
 
 		$this->data['actas'] = $this->html->buildElement(array(
@@ -533,7 +544,7 @@ class ControllerPagesSaleCustomer extends AController {
 			$this->session->data['success'] = $this->language->get('text_success');
 			$this->redirect($redirect_url);
 		}
-		
+
 		$this->_getAdressForm();
 
 		//update controller data
@@ -576,9 +587,6 @@ class ControllerPagesSaleCustomer extends AController {
 		$this->extensions->hk_UpdateData($this, __FUNCTION__);
 	}
 
-	/**
-	 * @param AForm $form
-	 */
 	private function _getAdressForm() {
 
 		$address_id = $this->request->get['address_id'];
@@ -612,7 +620,7 @@ class ControllerPagesSaleCustomer extends AController {
 							'title' => $this->language->get('text_view') . ' ' . $this->language->get('tab_history')
 					)
 			);
-			$this->data['addresses'] = $this->model_sale_customer->getAddressesByCustomerId($customer_id);			
+			$this->data['addresses'] = $this->model_sale_customer->getAddressesByCustomerId($customer_id);
 		}
 
 		//current edited address
@@ -621,19 +629,19 @@ class ControllerPagesSaleCustomer extends AController {
 			foreach ($this->data['addresses'] as &$a) {
 				$a['href'] = $this->html->getSecureURL('sale/customer/update_address', '&customer_id=' . $customer_id . '&address_id=' . $a['address_id']);
 				$a['title'] = $a['address_1'] . ' ' . $a['address_2'];
-				//mark default address 
+				//mark default address
 				if ($customer_info['address_id'] == $a['address_id']) {
 					$a['default'] = 1;
-				}				
+				}
 				if ($address_id == $a['address_id']) {
 					$current_address = $a;
 					$this->data['current_address'] = $a['title'];
-				}	
+				}
 			}
 		}
-		if ($this->request->is_POST()) {  
+		if ($this->request->is_POST()) {
 			$current_address = $this->request->post;
-		} 
+		}
 
 		$this->loadModel('localisation/country');
 		$this->data['countries'] = $this->model_localisation_country->getCountries();
@@ -670,7 +678,7 @@ class ControllerPagesSaleCustomer extends AController {
 				'text' => $this->language->get('tab_customer_details'),
 				'active' => true
 		);
-		
+
 		if (has_value($customer_id)) {
 			$this->data['tabs'][] = array(
 					'href' => $this->html->getSecureURL('sale/customer_transaction', '&customer_id=' . $customer_id),
@@ -707,7 +715,7 @@ class ControllerPagesSaleCustomer extends AController {
 				'name' => 'reset',
 				'text' => $this->language->get('button_reset')
 		));
-		
+
 		foreach( $current_address as $name => $value){
 			$this->data['address'][$name] = $value;
 		}
@@ -720,7 +728,7 @@ class ControllerPagesSaleCustomer extends AController {
 		$currency = $this->currency->getCurrency($this->config->get('config_currency'));
 
 		$this->data['balance'] = $this->language->get('text_balance') . ' ' . $currency['symbol_left'] . round($balance, 2) . $currency['symbol_right'];
-		
+
 		//note: Only allow to delete or change if not default
 		if (!$current_address['default']) {
 			if( has_value($address_id) ){
@@ -736,7 +744,7 @@ class ControllerPagesSaleCustomer extends AController {
 			$this->data['form']['fields']['address']['default'] = $form->getFieldHtml( array('type' => 'checkbox',
 		                                                                         'name' => 'default',
 		                                                                         'value' => $current_address['default'],
-		                                                                         'style' => 'btn_switch'));		
+		                                                                         'style' => 'btn_switch'));
 		}
 		foreach ($this->address_fields as $name => $desc ) {
 			$fld_array = array(
@@ -785,10 +793,24 @@ class ControllerPagesSaleCustomer extends AController {
 	public function actonbehalf() {
 
 		$this->extensions->hk_InitData($this, __FUNCTION__);
-
 		if (isset($this->request->get['customer_id'])) {
-			startStorefrontSession($this->user->getId(), array('customer_id' => $this->request->get['customer_id']));
-			$this->redirect($this->html->getCatalogURL('account/account'));
+			//NOTE: if need to act on additional store - redirect to it's admin side.
+			// and then to storefront because crossdomain restriction for session cookie
+			$this->loadModel('setting/store');
+			if($this->config->get('config_url') != $this->model_setting_store->getStoreURL($this->session->data['current_store_id'])){
+				$store_settings = $this->model_setting_store->getStore($this->session->data['current_store_id']);
+				if($store_settings){
+					if($store_settings['config_ssl']){
+						$add_store_url = $store_settings['config_ssl_url'].'?s='.ADMIN_PATH.'&rt=sale/customer/actonbehalf&customer_id='.$this->request->get['customer_id'];
+					}else{
+						$add_store_url = $store_settings['config_url'].'?s='.ADMIN_PATH.'&rt=sale/customer/actonbehalf&customer_id='.$this->request->get['customer_id'];
+					}
+					$this->redirect($add_store_url);
+				}
+			}else{
+				startStorefrontSession($this->user->getId(), array('customer_id' => $this->request->get['customer_id']));
+				$this->redirect($this->html->getCatalogURL('account/account'));
+			}
 		}
 
 		$this->extensions->hk_UpdateData($this, __FUNCTION__);
@@ -820,7 +842,7 @@ class ControllerPagesSaleCustomer extends AController {
 				$this->loadModel('sale/customer_group');
 				$this->model_sale_customer->deleteAddress($customer_id,$address_id);
 				$this->session->data['success'] = $this->language->get('text_success');
-				$this->redirect($this->html->getSecureURL('sale/customer/update', '&customer_id='.$customer_id));			
+				$this->redirect($this->html->getSecureURL('sale/customer/update', '&customer_id='.$customer_id));
 			}
 		}
 

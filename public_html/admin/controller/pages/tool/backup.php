@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2014 Belavier Commerce LLC
+  Copyright © 2011-2015 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -138,9 +138,18 @@ class ControllerPagesToolBackup extends AController {
 		$this->loadModel('tool/backup');
 
 		$this->data['tables'] = $this->model_tool_backup->getTables();
+		$table_sizes = $this->model_tool_backup->getTableSizes($this->data['tables']);
 		$tables = array();
+		$db_size = 0;
 		foreach ($this->data['tables'] as $table) {
-			$tables[$table] = $table;
+			$tables[$table] = $table .' ('.$table_sizes[$table]['text'].')';
+			$db_size += $table_sizes[$table]['bytes'];
+		}
+		//size of data of database (sql-file will be greater)
+		if($db_size>1048576){
+			$this->data['entry_tables_size'] = round(($db_size/1048576),1) .'Mb';
+		}else{
+			$this->data['entry_tables_size'] = round($db_size/1024,1) .'Kb';
 		}
 
 		$this->data['note_rl'] = $this->language->get('note_rl');
@@ -167,28 +176,53 @@ class ControllerPagesToolBackup extends AController {
 		$this->data['form']['fields']['tables'] = $form->getFieldHtml(
 				array(
 						'type' => 'checkboxgroup',
-						'name' => 'backup[]',
+						'name' => 'table_list[]',
 						'value' => $this->data['tables'],
 						'options' => $tables,
 						'scrollbox' => true,
 						'style' => 'checkboxgroup'
 				));
 
-		$this->data['form']['fields']['backup_files'] = $form->getFieldHtml(
+		$c_size = $this->model_tool_backup->getCodeSize();
+		if($c_size>1048576){
+			$code_size = round(($c_size/1048576),1) .'Mb';
+		}else{
+			$code_size = round(($c_size/1024),1) .'Kb';
+		}
+		$this->data['entry_backup_code'] = sprintf($this->language->get('entry_backup_code'), $code_size);
+
+		$this->data['form']['fields']['backup_code'] = $form->getFieldHtml(
 				array(
 						'type' => 'checkbox',
-						'name' => 'backup_files',
+						'name' => 'backup_code',
 						'value' => '1',
 						'checked' => true
 				));
 
-		$this->data['form']['fields']['config'] = $form->getFieldHtml(
+		$c_size = $this->model_tool_backup->getContentSize();
+		if($c_size>1048576){
+			$content_size = round(($c_size/1048576),1) .'Mb';
+		}else{
+			$content_size = round(($c_size/1024),1) .'Kb';
+		}
+		$this->data['entry_backup_content'] = sprintf($this->language->get('entry_backup_content'), $content_size);
+
+		$this->data['form']['fields']['backup_content'] = $form->getFieldHtml(
 				array(
 						'type' => 'checkbox',
-						'name' => 'backup_config',
+						'name' => 'backup_content',
 						'value' => '1',
 						'checked' => true
 				));
+
+		$this->data['form']['fields']['compress_backup'] = $form->getFieldHtml(
+				array(
+						'type' => 'checkbox',
+						'name' => 'compress_backup',
+						'value' => 1
+				));
+
+		$this->data['entry_compress_backup'] = sprintf($this->language->get('entry_compress_backup'), str_replace(DIR_ROOT,'',DIR_BACKUP) ,DIR_BACKUP);
 
 		$this->data['form']['build_task_url'] = $this->html->getSecureURL('r/tool/backup/buildTask');
 		$this->data['form']['complete_task_url'] = $this->html->getSecureURL('r/tool/backup/complete');
@@ -303,7 +337,8 @@ class ControllerPagesToolBackup extends AController {
 				readfile($file);
 				exit;
 			} else {
-				echo 'file does not exists!';
+				$this->session->data['error'] = 'Error: You Cannot to Download File '.$file.' Because of Absent on Hard Drive.';
+				$this->redirect($this->html->getSecureURL('tool/install_upgrade_history'));
 			}
 		} else {
 			return $this->dispatch('error/permission');

@@ -49,7 +49,7 @@
 	<h2 class="heading2"><?php echo $text_returning_customer; ?></h2>
 	<div class="loginbox form-horizontal">
 		<h4 class="heading4"><?php echo $text_i_am_returning_customer; ?></h4>
-		<?php echo $form2[ 'form_open' ]; ?>
+		<?php echo $form2['form_open']; ?>
 			<fieldset>
 				<div class="form-group">
 				  <label class="control-label col-sm-4">
@@ -62,13 +62,13 @@
 				  ?>
 				  </label>
 				  <div class="input-group col-sm-5">
-					<?php echo $form2[ 'loginname' ]?>
+					<?php echo $form2['loginname']?>
 				  </div>
 				</div>
 				<div class="form-group">
 				  <label class="control-label col-sm-4"><?php echo $entry_password; ?></label>
 				  <div class="input-group col-sm-5">
-					<?php echo $form2[ 'password' ]?>
+					<?php echo $form2['password']?>
 				  </div>
 				</div>
 				<a href="<?php echo $forgotten_pass; ?>"><?php echo $text_forgotten_password; ?></a>

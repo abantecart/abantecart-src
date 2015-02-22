@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2014 Belavier Commerce LLC
+  Copyright © 2011-2015 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -54,7 +54,7 @@ class ControllerPagesCatalogProduct extends AController {
 
 		$this->loadModel('catalog/category');
 		$this->data['categories'] = array( '' => $this->language->get('text_select_category') );
-        $results = $this->model_catalog_category->getCategories(0);
+        $results = $this->model_catalog_category->getCategories(0,$this->session->data['current_store_id']);
         foreach( $results as $r ) {
             $this->data['categories'][ $r['category_id'] ] = $r['name'];
         }
@@ -320,7 +320,7 @@ class ControllerPagesCatalogProduct extends AController {
 
         $this->loadModel('catalog/category');
 		$this->data['categories'] = array();
-        $results = $this->model_catalog_category->getCategories(0);
+        $results = $this->model_catalog_category->getCategories(0, $this->session->data['current_store_id']);
         foreach( $results as $r ) {
             $this->data['categories'][ $r['category_id'] ] = $r['name'];
         }
@@ -730,18 +730,18 @@ class ControllerPagesCatalogProduct extends AController {
 			'value' => isset( $this->data['shipping'] ) ? $this->data['shipping'] : 1,
 		));
 
+	    $this->data['form']['fields']['data']['free_shipping'] = $form->getFieldHtml(array(
+			'type' => 'checkbox',
+			'name' => 'free_shipping',
+			'style'  => 'btn_switch btn-group-sm',
+			'value' => isset( $this->data['free_shipping'] ) ? $this->data['free_shipping'] : 0,
+		));
+
         $this->data['form']['fields']['data']['ship_individually'] = $form->getFieldHtml(array(
 			'type' => 'checkbox',
 			'name' => 'ship_individually',
 			'style'  => 'btn_switch btn-group-sm',
 			'value' => isset( $this->data['ship_individually'] ) ? $this->data['ship_individually'] : 0,
-		));
-
-        $this->data['form']['fields']['data']['free_shipping'] = $form->getFieldHtml(array(
-			'type' => 'checkbox',
-			'name' => 'free_shipping',
-			'style'  => 'btn_switch btn-group-sm',
-			'value' => isset( $this->data['free_shipping'] ) ? $this->data['free_shipping'] : 0,
 		));
 
         $this->data['form']['fields']['data']['shipping_price'] = $form->getFieldHtml(array(
@@ -771,6 +771,11 @@ class ControllerPagesCatalogProduct extends AController {
 	        'attr' => ' autocomplete="false"',
             'style' => 'tiny-field',
 		));
+
+	    if($product_id && !$this->data['length_class_id']){
+			$this->data['length_classes'][0] = $this->language->get('text_none');
+	    }
+
         $this->data['form']['fields']['data']['length_class'] = $form->getFieldHtml(array(
 			'type' => 'selectbox',
 			'name' => 'length_class_id',
@@ -778,6 +783,21 @@ class ControllerPagesCatalogProduct extends AController {
             'options' => $this->data['length_classes'],
             'style' => 'small-field',
 		));
+
+	    if($product_id && $this->data['shipping'] && (!(float)$this->data['weight'] || !$this->data['weight_class_id'])){
+			if(!$this->data['weight_class_id']){
+				$this->data['error']['weight_class']  = $this->language->get('error_weight_class');
+		    }
+		    if(!(float)$this->data['weight']){
+			    $this->data['error']['weight']  = $this->language->get('error_weight_value');
+		    }
+	    }
+
+	    if($product_id && !$this->data['weight_class_id']){
+		    $this->data['weight_classes'][0] = $this->language->get('text_none');
+	    }
+
+
 		$this->data['form']['fields']['data']['weight'] = $form->getFieldHtml(array(
 			'type' => 'input',
 			'name' => 'weight',

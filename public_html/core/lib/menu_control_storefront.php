@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2014 Belavier Commerce LLC
+  Copyright © 2011-2015 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -139,11 +139,11 @@ class AMenu_Storefront extends AMenu {
 		$check_array = array( "item_id", "item_icon", "item_text", "item_url", "parent_id", "sort_order", "item_type", "item_icon_rl_id" );
 
 		if (!$item [ "item_id" ] || !$item [ "item_text" ] || sizeof(array_intersect($check_array, array_keys($item))) < 7) {
-			return 'Error: Cannot to add menu item because item array is wrong.';
+			return 'Error: Cannot add menu item because item array is wrong.';
 		}
 
 		if ($item ['parent_id'] && !in_array($item ['parent_id'], $this->item_ids)) {
-			return 'Error: Cannot to add menu item because parent "' . $item ['parent_id'] . '" is not exists';
+			return 'Error: Cannot add menu item because parent "' . $item ['parent_id'] . '" is not exists';
 		}
 
 		if (!$item [ "sort_order" ]) {

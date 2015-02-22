@@ -1,21 +1,21 @@
 <?php
 /*------------------------------------------------------------------------------
-$Id$
+  $Id$
 
-AbanteCart, Ideal OpenSource Ecommerce Solution
-http://www.AbanteCart.com
+  AbanteCart, Ideal OpenSource Ecommerce Solution
+  http://www.AbanteCart.com
 
-Copyright © 2011 Belavier Commerce LLC
+  Copyright © 2011-2015 Belavier Commerce LLC
 
-This source file is subject to Open Software License (OSL 3.0)
-License details is bundled with this package in the file LICENSE.txt.
-It is also available at this URL:
-<http://www.opensource.org/licenses/OSL-3.0>
+  This source file is subject to Open Software License (OSL 3.0)
+  Lincence details is bundled with this package in the file LICENSE.txt.
+  It is also available at this URL:
+  <http://www.opensource.org/licenses/OSL-3.0>
 
-UPGRADE NOTE:
-Do not edit or add to this file if you wish to upgrade AbanteCart to newer
-versions in the future. If you wish to customize AbanteCart for your
-needs please refer to http://www.AbanteCart.com for more information.
+ UPGRADE NOTE:
+   Do not edit or add to this file if you wish to upgrade AbanteCart to newer
+   versions in the future. If you wish to customize AbanteCart for your
+   needs please refer to http://www.AbanteCart.com for more information.
 ------------------------------------------------------------------------------*/
 if (!defined('DIR_CORE')) {
 	header('Location: static_pages/');
@@ -201,6 +201,12 @@ class ControllerPagesToolFormsManager extends AController {
 
 	private function _getForm() {
 
+		//check is set sender anme and email for settings
+		if(!$this->config->get('forms_manager_default_sender_name') || !$this->config->get('forms_manager_default_sender_email')){
+			$this->data['error_warning'] = $this->html->convertLinks($this->language->get('forms_manager_error_empty_sender'));
+		}
+
+
 		$this->data['form_data'] = $this->model_tool_forms_manager->getFormById($this->request->get['form_id']);
 
 		$this->data['form_edit_title'] = isset($this->data['form_data']['description']) ? $this->data['form_data']['description'] : $this->language->get('entry_add_new_form');
@@ -282,7 +288,7 @@ class ControllerPagesToolFormsManager extends AController {
 				'name' => 'form_status',
 				'value' => isset($this->data['form_data']['status']) ? $this->data['form_data']['status'] : '',
 				'required' => true,
-				'style' => 'btn_switch'
+				'style' => 'btn_switch status_switch'
 		));
 		$this->data['entry_form_status'] = $this->language->get('forms_manager_status');
 

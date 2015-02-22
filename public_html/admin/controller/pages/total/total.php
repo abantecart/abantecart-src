@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2014 Belavier Commerce LLC
+  Copyright © 2011-2015 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -106,7 +106,7 @@ class ControllerPagesTotalTotal extends AController {
 			'type' => 'checkbox',
 			'name' => 'total_status',
 			'value' => $this->data['total_status'],
-			'style' => 'btn_switch',
+			'style' => 'btn_switch status_switch',
 		));
 
 		$this->loadLanguage('extension/extensions');

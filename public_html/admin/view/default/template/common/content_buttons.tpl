@@ -1,7 +1,13 @@
-	<div class="common_content_actions pull-right">	
-	
+	<div class="common_content_actions pull-right">
+		<?php
+		if($common_content_buttons){
+		$common_content_buttons = !is_array($common_content_buttons) ? array($common_content_buttons): $common_content_buttons;
+			foreach($common_content_buttons as $cbb){ ?>
+				<div class="btn-group"><?php echo  $cbb; ?></div>
+			<?php } ?>
+		<?php } ?>
 		<?php echo $this->getHookVar('common_content_buttons'); ?>
-		
+
 		<?php if(!empty($form_store_switch)) { ?>
 		<div class="btn-group">
 			<?php echo $form_store_switch; ?>

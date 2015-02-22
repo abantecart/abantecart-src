@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2014 Belavier Commerce LLC
+  Copyright © 2011-2015 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -331,14 +331,18 @@ class ControllerPagesExtensionBannerManager extends AController {
 
 		//check if banner is active based on dates and update status
 		$now = time();
-		if (dateISO2Int($this->data['start_date']) > $now || dateISO2Int($this->data['end_date']) < $now) {
+		if (dateISO2Int($this->data['start_date']) > $now ) {
+			$this->data['status'] = 0;
+		}
+		$stop =  dateISO2Int($this->data['end_date']);
+
+		if($stop>0 && $stop<$now){
 			$this->data['status'] = 0;
 		}
 
 		$this->data['form']['fields']['status'] = $form->getFieldHtml(array('type' => 'checkbox',
 				'name' => 'status',
-				'value' => 1,
-				'checked' => ($this->data['status'] ? true : false),
+				'value' => $this->data['status'],
 				'style' => 'btn_switch'));
 		$this->data['form']['text']['status'] = $this->language->get('banner_manager_status');
 
@@ -813,7 +817,6 @@ class ControllerPagesExtensionBannerManager extends AController {
 
 		$this->data['form']['form_open'] = $form->getFieldHtml(array('type' => 'form',
 				'name' => 'BannerBlockFrm',
-				'attr' => 'data-confirm-exit="true"',
 				'action' => $this->data ['action'],
 				'attr' => 'data-confirm-exit="true" class="aform form-horizontal"'
 				));

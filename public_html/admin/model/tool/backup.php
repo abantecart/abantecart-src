@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2014 Belavier Commerce LLC
+  Copyright © 2011-2015 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -24,6 +24,12 @@ if (!defined('DIR_CORE') || !IS_ADMIN) {
 class ModelToolBackup extends Model {
 	public $errors = array();
 	public $backup_filename;
+	private $eta = array();
+	/**
+	 * @var int raw size of backup directory/ needed for calculation of eta of compression
+	 */
+	private $est_backup_size = 0;
+
 	public function restore($sql) {
 		$this->db->query("SET SQL_MODE = 'NO_AUTO_VALUE_ON_ZERO'"); // to prevent auto increment for 0 value of id
 		$qr = explode(";\n", $sql);
@@ -144,17 +150,37 @@ class ModelToolBackup extends Model {
 		}
 
 		//create step for table backup
-		if($data['backup'] ){
+		if($data['table_list'] ){
+
+			//calculate estimate time for dumping of tables
+			// get sizes of tables
+			$table_list = array();
+			foreach($data['table_list'] as $table){
+				if(!is_string($table)){ continue; } // clean
+				$table_list[] = $this->db->escape($table);
+			}
+			$sql = "SELECT SUM(data_length + index_length - data_free) AS 'db_size'
+					FROM information_schema.TABLES
+					WHERE information_schema.TABLES.table_schema = '".DB_DATABASE."'
+						AND TABLE_NAME IN ('".implode("','",$data['table_list'])."')	";
+			if($prefix_len){
+				$sql .= " AND TABLE_NAME like '".DB_PREFIX."%'";
+			}
+
+			$result = $this->db->query($sql);
+			$db_size = $result->row['db_size']; //size in bytes
+
+
 			$step_id = $tm->addStep( array(
 				'task_id' => $task_id,
 				'sort_order' => 1,
 				'status' => 1,
 				'last_time_run' => '0000-00-00 00:00:00',
 				'last_result' => '0',
-				'max_execution_time' => '0',
+				'max_execution_time' => ceil($db_size/2794843)*4,
 				'controller' => 'task/tool/backup/dumptables',
 				'settings' => array(
-								'tables' => $data['backup'],
+								'table_list' => $data['table_list'],
 								'sql_dump_mode'=> $data['sql_dump_mode']
 								)
 			));
@@ -162,69 +188,186 @@ class ModelToolBackup extends Model {
 			if(!$step_id){
 				$this->errors = array_merge($this->errors,$tm->errors);
 				return false;
+			}else{
+				// get eta in seconds. 2794843 - "bytes per seconds" of dumping for Pentium(R) Dual-Core CPU E5200 @ 2.50GHz × 2
+				$this->eta[$step_id] = ceil($db_size/2794843)*4;
+				$this->est_backup_size += ceil($db_size*1.61); // size of sql-file of output
 			}
 		}
 
-		//create step for files backup
-		if($data['backup_files']){
+		//create step for content-files backup
+		if($data['backup_code']){
+			//calculate estimate time for copying of code
+
+			$dirs_size = $this->getCodeSize();
 			$step_id = $tm->addStep( array(
 										'task_id' => $task_id,
 										'sort_order' => 2,
 										'status' => 1,
 										'last_time_run' => '0000-00-00 00:00:00',
 										'last_result' => '0',
-										'max_execution_time' => '0',
-										'controller' => 'task/tool/backup/backupfiles',
+										'max_execution_time' => ceil($dirs_size/28468838),
+										'controller' => 'task/tool/backup/backupCodeFiles',
 										'settings' => array('interrupt_on_step_fault' =>false)
 			));
 
 			if(!$step_id){
 				$this->errors = array_merge($this->errors,$tm->errors);
 				return false;
+			}else{
+				//// get eta in seconds. 28468838 - "bytes per seconds" of copiing of files for SATA III hdd
+				$this->eta[$step_id] = ceil($dirs_size/28468838);
+				$this->est_backup_size += $dirs_size;
 			}
 
 		}
-		//create step for backup config-file
-		if($data['backup_config']){
+		//create step for content-files backup
+		if($data['backup_content']){
+			//calculate estimate time for copying of content files
+
+			$dirs_size = $this->getContentSize();
 			$step_id = $tm->addStep( array(
-				'task_id' => $task_id,
-				'sort_order' => 3,
-				'status' => 1,
-				'last_time_run' => '0000-00-00 00:00:00',
-				'last_result' => '0',
-				'max_execution_time' => '0',
-				'controller' => 'task/tool/backup/backupconfig'
+										'task_id' => $task_id,
+										'sort_order' => 3,
+										'status' => 1,
+										'last_time_run' => '0000-00-00 00:00:00',
+										'last_result' => '0',
+										'max_execution_time' => ceil($dirs_size/28468838),
+										'controller' => 'task/tool/backup/backupContentFiles',
+										'settings' => array('interrupt_on_step_fault' =>false)
 			));
+
 			if(!$step_id){
 				$this->errors = array_merge($this->errors,$tm->errors);
 				return false;
+			}else{
+
+				//// get eta in seconds. 28468838 - "bytes per seconds" of copiing of files for SATA III hdd
+				$this->eta[$step_id] = ceil($dirs_size/28468838);
+				$this->est_backup_size += $dirs_size;
+			}
+
+		}
+
+
+		//create last step for compressing backup
+		if($data['compress_backup']){
+			$step_id = $tm->addStep(array(
+					'task_id'            => $task_id,
+					'sort_order'         => 4,
+					'status'             => 1,
+					'last_time_run'      => '0000-00-00 00:00:00',
+					'last_result'        => '0',
+					'max_execution_time' => ceil($this->est_backup_size/18874368),
+					'controller'         => 'task/tool/backup/compressbackup'
+			));
+			if(!$step_id){
+				$this->errors = array_merge($this->errors, $tm->errors);
+				return false;
+			}else{
+				//// get eta in seconds. 18874368 - "bytes per seconds" of gz-compression, level 1 on
+				// AMD mobile Athlon XP2400+ 512 MB RAM Linux 2.6.12-rc4 gzip 1.3.3
+				$this->eta[$step_id] = ceil($this->est_backup_size/18874368);
 			}
 		}
 
-		//create last step for compressing backup
-
-		$step_id = $tm->addStep( array(
-			'task_id' => $task_id,
-			'sort_order' => 4,
-			'status' => 1,
-			'last_time_run' => '0000-00-00 00:00:00',
-			'last_result' => '0',
-			'max_execution_time' => '0',
-			'controller' => 'task/tool/backup/compressbackup'
-		));
-		if(!$step_id){
+		$task_details = $tm->getTaskById($task_id);
+		if($task_details){
+			foreach($this->eta as $step_id => $eta){
+				$task_details['steps'][$step_id]['eta'] = $eta;
+			}
+			return $task_details;
+		}else{
+			$this->errors[] = 'Can not to get task details for execution';
 			$this->errors = array_merge($this->errors,$tm->errors);
 			return false;
-		}else{
-			$task_details = $tm->getTaskById($task_id);
-			if($task_details){
-				return $task_details;
-			}else{
-				$this->errors[] = 'Can not to get task details for execution';
-				$this->errors = array_merge($this->errors,$tm->errors);
-				return false;
-			}
 		}
 
 	}
+
+	public function getTableSizes($table_list=array()){
+		$tables = array();
+		foreach($table_list as $table){
+			if(!is_string($table)){ continue; } // clean
+			$tables[] = $this->db->escape($table);
+		}
+
+		$sql = "SELECT TABLE_NAME AS 'table_name',
+					table_rows AS 'num_rows', (data_length + index_length - data_free) AS 'size'
+				FROM information_schema.TABLES
+				WHERE information_schema.TABLES.table_schema = '".DB_DATABASE."'
+					AND TABLE_NAME IN ('".implode("','",$tables)."')	";
+		$result = $this->db->query($sql);
+		$output = array();
+		foreach($result->rows as $row){
+			if($row['size']>1048576){
+				$text = round(($row['size']/1048576),1) .'Mb';
+			}else{
+				$text = round($row['size']/1024,1) .'Kb';
+			}
+
+			$output[ $row['table_name'] ] = array(
+					'bytes' => $row['size'],
+					'text'  => $text
+				);
+		}
+
+		return $output;
+	}
+
+	public function getCodeSize(){
+
+		$code_dirs = array(
+					'admin',
+					'core',
+					'storefront',
+					'extensions',
+					'system',
+					'static_pages'
+				);
+		$dirs_size = 0;
+		foreach($code_dirs as $d){
+			$dirs_size += $this->_get_directory_size(DIR_ROOT.'/'.$d);
+		}
+		return $dirs_size;
+	}
+
+	public function getContentSize(){
+		$content_dirs = array( // white list
+							'resources',
+							'image',
+							'download'
+						);
+		$dirs_size = 0;
+		foreach($content_dirs as $d){
+			$dirs_size += $this->_get_directory_size(DIR_ROOT.'/'.$d);
+		}
+		return $dirs_size;
+	}
+
+	private function _get_directory_size($dir){
+		$count_size = 0;
+		$count = 0;
+		$dir_array = scandir($dir);
+		foreach($dir_array as $key => $filename){
+			//skip backup, cache and logs
+			if(is_int(strpos($dir . "/" . $filename,'/backup'))
+					|| is_int(strpos($dir . "/" . $filename,'/cache'))
+					|| is_int(strpos($dir . "/" . $filename,'/logs'))){
+				continue;
+			}
+
+			if($filename != ".." && $filename != "."){
+				if(is_dir($dir . "/" . $filename)){
+					$new_dirsize = $this->_get_directory_size($dir . "/" . $filename);
+					$count_size = $count_size + $new_dirsize;
+				} else if(is_file($dir . "/" . $filename)){
+					$count_size = $count_size + filesize($dir . "/" . $filename);
+					$count++;
+				}
+			}
+		}
+		return $count_size;
+	}
+
 }

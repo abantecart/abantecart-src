@@ -232,4 +232,8 @@
 		<key>error_field_name_exists</key>
 		<value><![CDATA[Field With Name %s already present in the Form!]]></value>
 	</definition>
+	<definition>
+		<key>forms_manager_error_empty_sender</key>
+		<value><![CDATA[Warning! Please set default sender name and default sender email in <a href="#admin#rt=extension/extensions/edit&extension=forms_manager" target="_blank">forms manager settings</a>]]></value>
+	</definition>
 </definitions>

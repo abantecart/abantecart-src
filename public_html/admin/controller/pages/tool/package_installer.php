@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2014 Belavier Commerce LLC
+  Copyright © 2011-2015 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -1081,6 +1081,11 @@ class ControllerPagesToolPackageInstaller extends AController {
 				mkdir(sys_get_temp_dir() . '/install/',0777);
 			}
 			$dir = sys_get_temp_dir() . '/install/';
+
+			if(!is_writable($dir)){
+				$this->log->write('Error: php tried to use directory '.DIR_APP_SECTION . "system/temp/install".' but it is non-writable. Temporary php-directory '.$dir.' is non-writable too! Please change permissions one of them.');
+			}
+
 		}
 		return $dir;
 	}

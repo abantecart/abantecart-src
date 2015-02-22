@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2014 Belavier Commerce LLC
+  Copyright © 2011-2015 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -34,7 +34,13 @@ class APromotion {
 	 * @var int
 	 */
 	protected $customer_group_id;
+	/**
+	 * @var array
+	 */
     public $condition_objects = array();
+	/**
+	 * @var array
+	 */
     public $bonus_objects = array();
 
 	/**
@@ -84,14 +90,24 @@ class APromotion {
 		return $this->registry->get($key);
 	}
 
+	/**
+	 * @param $key
+	 * @param $value
+	 */
 	public function __set($key, $value) {
 		$this->registry->set($key, $value);
 	}
 
+	/**
+	 * @return array
+	 */
     public function getConditionObjects(){
         return $this->condition_objects;
     }
 
+	/**
+	 * @return array
+	 */
     public function getBonusObjects(){
        return $this->bonus_objects;
     }
@@ -199,7 +215,7 @@ class APromotion {
 	 * @param string $order
 	 * @param int $start
 	 * @param int $limit
-	 * @return mixed
+	 * @return array
 	 */
 	public function getProductSpecials($sort = 'p.sort_order', $order = 'ASC', $start = 0, $limit = 20) {
 
@@ -390,7 +406,13 @@ class APromotion {
 		}
 		return $result;
 	}
+
 	//adding native promotions
+	/**
+	 * @param array $total_data
+	 * @param array $total
+	 * @return array
+	 */
 	public function _apply_promotions($total_data,$total){
 		return array();
 	}

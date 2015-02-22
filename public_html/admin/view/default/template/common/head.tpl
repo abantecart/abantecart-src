@@ -106,8 +106,6 @@ var wrapCKEditor = function(mode){
 	});
 }
 
-
-
 //periodical updater of new message notifier
 var notifier_updater = function () {
   $.ajax({

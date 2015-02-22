@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2014 Belavier Commerce LLC
+  Copyright © 2011-2015 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -24,8 +24,12 @@ class ControllerTaskToolBackup extends AController {
 	private $error = array();
 
 	public function dumpTables(){
-
-		$bkp = new ABackup('manual_backup');
+		if($this->request->get['eta']>30){
+			set_time_limit((int)$this->request->get['eta']*2);
+		}
+		$backup_name = preg_replace('[^0-9A-z_\.]','', $this->request->get['backup_name']);
+		$backup_name = !$backup_name ? 'manual_backup' : $backup_name;
+		$bkp = new ABackup($backup_name);
 
 		if(has_value($this->request->get['sql_dump_mode'])){
 			$bkp->sql_dump_mode = $this->request->get['sql_dump_mode'];
@@ -57,10 +61,73 @@ class ControllerTaskToolBackup extends AController {
 
 	}
 
-	public function backupFiles(){
+	public function backupContentFiles(){
+		if($this->request->get['eta']>30){
+			set_time_limit((int)$this->request->get['eta']+30);
+		}
+		$backup_name = preg_replace('[^0-9A-z_\.]','', $this->request->get['backup_name']);
+		$backup_name = !$backup_name ? 'manual_backup' : $backup_name;
+		$bkp = new ABackup($backup_name);
+		$content_dirs = array( // white list
+					'resources',
+					'image',
+					'download'
+				);
 
-		$bkp = new ABackup('manual_backup');
-		$result = $bkp->backupDirectory(DIR_ROOT, false);
+		$result = true;
+		$files = glob(DIR_ROOT.'/*', GLOB_ONLYDIR);
+		foreach($files as $file){
+			$res = true;
+			if(is_dir($file) && in_array(basename($file),$content_dirs)){ //only dirs from white list
+				$res = $bkp->backupDirectory($file, false);
+			}
+			$result = !$res ? $res : $result;
+		}
+
+		if($result){
+			$this->load->library('json');
+			$this->response->addJSONHeader();
+			$output = array('result' => true);
+			$this->response->setOutput( AJson::encode($output) );
+		}else{
+			$error = new AError('files backup error');
+			return $error->toJSONResponse('APP_ERROR_402',
+									array( 'error_text' => $bkp->error,
+										'reset_value' => true
+									));
+		}
+
+	}
+
+	public function backupCodeFiles(){
+		if($this->request->get['eta']>30){
+			set_time_limit((int)$this->request->get['eta']+30);
+		}
+		$backup_name = preg_replace('[^0-9A-z_\.]','', $this->request->get['backup_name']);
+		$backup_name = !$backup_name ? 'manual_backup' : $backup_name;
+		$bkp = new ABackup($backup_name);
+		$code_dirs = array( // white list
+			'admin',
+			'core',
+			'storefront',
+			'extensions',
+			'system',
+			'static_pages'
+		);
+
+		$result = true;
+		$files = array_merge(glob(DIR_ROOT.'/.*'), glob(DIR_ROOT.'/*'));
+
+		foreach($files as $file){
+			if(in_array(basename($file), array('.','..'))){ continue; } //those filenames give glob for hidden files (see above)
+			$res = true;
+			if(is_file($file)){
+				$res = $bkp->backupFile($file, false);
+			}else if(is_dir($file) && in_array(basename($file),$code_dirs)){ //only dirs from white list
+				$res = $bkp->backupDirectory($file, false);
+			}
+			$result = !$res ? $res : $result;
+		}
 
 		if($result){
 			$this->load->library('json');
@@ -80,7 +147,9 @@ class ControllerTaskToolBackup extends AController {
 
 	public function backupConfig(){
 
-		$bkp = new ABackup('manual_backup');
+		$backup_name = preg_replace('[^0-9A-z_\.]','', $this->request->get['backup_name']);
+		$backup_name = !$backup_name ? 'manual_backup' : $backup_name;
+		$bkp = new ABackup($backup_name);
 		$result = $bkp->backupFile(DIR_ROOT . '/system/config.php', false);
 
 		$output = array('result' => $result ? true : false);
@@ -91,8 +160,13 @@ class ControllerTaskToolBackup extends AController {
 	}
 
 	public function CompressBackup(){
+		if($this->request->get['eta']>30){
+			set_time_limit((int)$this->request->get['eta']+30);
+		}
+		$backup_name = preg_replace('[^0-9A-z_\.]','', $this->request->get['backup_name']);
+		$backup_name = !$backup_name ? 'manual_backup' : $backup_name;
+		$bkp = new ABackup($backup_name);
 
-		$bkp = new ABackup('manual_backup');
 		$arc_basename =  DIR_BACKUP . $bkp->getBackupName();
 		if(is_file($arc_basename.'.tar')){
 			unlink($arc_basename.'.tar');

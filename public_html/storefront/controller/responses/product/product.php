@@ -5,10 +5,10 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright 2011 Belavier Commerce LLC
+  Copyright © 2011-2015 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
-  License details is bundled with this package in the file LICENSE.txt.
+  Lincence details is bundled with this package in the file LICENSE.txt.
   It is also available at this URL:
   <http://www.opensource.org/licenses/OSL-3.0>
 
@@ -99,7 +99,11 @@ class ControllerResponsesProductProduct extends AController {
 		//init controller data
 		$this->extensions->hk_InitData($this, __FUNCTION__);
 
-		$this->cart->add($this->request->get['product_id'], 1);
+		$this->loadModel('catalog/product');
+		$product_info = $this->model_catalog_product->getProduct($this->request->get['product_id']);
+		if($product_info){
+			$this->cart->add($this->request->get['product_id'], ($product_info['minimum'] ? $product_info['minimum'] : 1));
+		}
 
 		$this->extensions->hk_UpdateData($this, __FUNCTION__);
 		return $this->getCartContent();

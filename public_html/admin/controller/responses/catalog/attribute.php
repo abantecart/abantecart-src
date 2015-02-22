@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2014 Belavier Commerce LLC
+  Copyright © 2011-2015 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -58,7 +58,7 @@ class ControllerResponsesCatalogAttribute extends AController {
 		$element_types = array( '' => $this->language->get('text_select') );
 		foreach ($results as $key => $type) {
 			// allowed field types
-			if ( in_array($key,array('I','T','S','M','R','C','G','H','U')) ) {
+			if ( in_array($key,array('I','T','S','M','R','C','G','H')) ) {
 				$element_types[$key] = $type['type'];
 			}
 		}

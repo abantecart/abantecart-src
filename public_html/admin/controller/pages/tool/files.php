@@ -5,7 +5,7 @@ $Id$
 AbanteCart, Ideal OpenSource Ecommerce Solution
 http://www.AbanteCart.com
 
-Copyright © 2011-2014 Belavier Commerce LLC
+Copyright © 2011-2015 Belavier Commerce LLC
 
 This source file is subject to Open Software License (OSL 3.0)
 License details is bundled with this package in the file LICENSE.txt.
@@ -129,7 +129,7 @@ class ControllerPagesToolFiles extends AController {
 		$this->extensions->hk_InitData($this, __FUNCTION__);
 
 		if ($this->user->canAccess('tool/files')) {
-			$filename = str_replace(array('../', '..\\', '\\', '/', ' '), '', $this->request->get['filename']);
+			$filename = str_replace(array('../', '..\\', '\\', '/'), '', $this->request->get['filename']);
 
 			if ($this->request->get['attribute_type'] == 'field') {
 				$this->loadModel('tool/file_uploads');
@@ -165,11 +165,11 @@ class ControllerPagesToolFiles extends AController {
 				readfile($file);
 				exit;
 			} else {
-				echo 'file does not exists!';
+				echo 'File '.$file.' does not exists!';
+				exit;
 			}
 		} else {
 			return $this->dispatch('error/permission');
 		}
 	}
-
 }

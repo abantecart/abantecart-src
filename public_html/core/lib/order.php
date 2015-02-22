@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2014 Belavier Commerce LLC
+  Copyright © 2011-2015 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -271,22 +271,12 @@ final class AOrder {
 		$product_data = array();
 	
 		foreach ($this->cart->getProducts() as $product) {
-      		$option_data = array();
 
-      		foreach ($product['option'] as $option) {
-        		$option_data[] = array(
-					'product_option_value_id' => $option['product_option_value_id'],			   
-          			'name'                    => $option['name'],
-          			'value'                   => $option['value'],
-		  			'prefix'                  => $option['prefix']
-        		);
-      		}
- 
       		$product_data[] = array(
         		'product_id' => $product['product_id'],
 				'name'       => $product['name'],
         		'model'      => $product['model'],
-        		'option'     => $option_data,
+        		'option'     => $product['option'],
 				'download'   => $product['download'],
 				'quantity'   => $product['quantity'], 
 				'price'      => $product['price'],

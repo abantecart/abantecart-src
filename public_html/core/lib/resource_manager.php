@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2014 Belavier Commerce LLC
+  Copyright © 2011-2015 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -312,8 +312,6 @@ class AResourceManager extends AResource {
 				unlink( DIR_RESOURCE.$resource['type_name'].'/'.$resource['resource_path'] );
 			}
 		}
-
-		$this->log->write(var_export($result, true).'   '.var_export($this->error, true));
 
 		if(!$ids){
 			return $result;

@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2014 Belavier Commerce LLC
+  Copyright © 2011-2015 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -24,11 +24,13 @@ class AException extends Exception {
 
     protected $error;
 
-    public function __construct($errno = 0, $errstr = '')
+    public function __construct($errno = 0, $errstr = '', $file = '', $line = '')
     {
         parent::__construct();
-        $this->code = $errno;
-        $this->message = $errstr;
+        $this->code = $errno ? $errno : $this->code;
+        $this->message = $errstr ? $errstr : $this->message;
+        $this->file = $file ? $file : $this->file;
+        $this->line = $line ? $line : $this->line;
 
         $this->error = new AError( $this->message, $this->code );
         //update message

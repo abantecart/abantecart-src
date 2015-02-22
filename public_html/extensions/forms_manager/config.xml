@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <extension>
     <id>forms_manager</id>
-    <version>1.0.2</version>
+    <version>1.0.3</version>
 	<type>extension</type>
 	<category>utility</category>
     <cartversions>

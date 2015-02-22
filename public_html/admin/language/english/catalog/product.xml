@@ -154,7 +154,7 @@
 	</definition>
 	<definition>
 		<key>entry_ship_individually</key>
-		<value><![CDATA[Ship Product Individually:<br/><span class="help">Product will be shipped in a separate package and additional shipping cost will be added to the order with multiple items</span>]]></value>
+		<value><![CDATA[Ship Product Individually:<br/><span class="help">Product will be shipped in a separate package and additional shipping cost will be added to the order with multiple items. If enabled, Fixed Shipping Price needs to be set.</span>]]></value>
 	</definition>
 	<definition>
 		<key>entry_shipping_price</key>
@@ -548,5 +548,13 @@
 	<definition>
 		<key>error_measure_value</key>
 		<value><![CDATA[The limit of 999.99 has been reached. Provide smaller number.]]></value>
+	</definition>
+	<definition>
+		<key>error_weight_value</key>
+		<value><![CDATA[This product requires shipping. Please set weight value.]]></value>
+	</definition>
+	<definition>
+		<key>error_weight_class</key>
+		<value><![CDATA[Please set weight class.]]></value>
 	</definition>
 </definitions>

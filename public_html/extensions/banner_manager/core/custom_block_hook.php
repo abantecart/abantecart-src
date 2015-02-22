@@ -5,12 +5,12 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright (c) 2011 Belavier Commerce LLC
+  Copyright © 2011-2015 Belavier Commerce LLC
 
-  Released under the GNU General Public License
+  This source file is subject to Open Software License (OSL 3.0)
   Lincence details is bundled with this package in the file LICENSE.txt.
   It is also available at this URL:
-  <http://www.gnu.org/licenses/>
+  <http://www.opensource.org/licenses/OSL-3.0>
 
  UPGRADE NOTE:
    Do not edit or add to this file if you wish to upgrade AbanteCart to newer

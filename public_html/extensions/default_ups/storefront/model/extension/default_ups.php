@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2014 Belavier Commerce LLC
+  Copyright © 2011-2015 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   Lincence details is bundled with this package in the file LICENSE.txt.
@@ -60,9 +60,9 @@ class ModelExtensionDefaultUps extends Model {
 
 		$weight = ($weight < 0.1 ? 0.1 : $weight);
 
-		$length = $this->length->convert($this->config->get('default_ups_length'), $this->config->get('config_length_class'), $this->config->get('default_ups_length_class'));
-		$width = $this->length->convert($this->config->get('default_ups_width'), $this->config->get('config_length_class'), $this->config->get('default_ups_length_class'));
-		$height = $this->length->convert($this->config->get('default_ups_height'), $this->config->get('config_length_class'), $this->config->get('default_ups_length_class'));
+		$length = $this->length->convert($this->config->get('default_ups_length'), $this->config->get('config_length_class'), 'in');
+		$width = $this->length->convert($this->config->get('default_ups_width'), $this->config->get('config_length_class'), 'in');
+		$height = $this->length->convert($this->config->get('default_ups_height'), $this->config->get('config_length_class'), 'in');
 
 
 
@@ -73,10 +73,11 @@ class ModelExtensionDefaultUps extends Model {
         $quote_data =  $quote_data['quote_data'];
 
         $special_ship_products = $this->cart->specialShippingProducts();
+		$total_fixed_cost = 0;
         foreach ($special_ship_products as $product) {
             $weight = $this->weight->convert($this->cart->getWeight( array($product['product_id']) ), $this->config->get('config_weight_class'), $this->config->get('default_usps_weight_class'));
             if ( $product['width'] ) {
-                $length_class_id = $this->length->getClassID($this->config->get('default_ups_length_class'));
+                $length_class_id = $this->length->getClassID('in');
                 $use_width = $this->length->convertByID($product['length'], $product['length_class'], $length_class_id);
                 $use_length = $this->length->convertByID($product['width'], $product['length_class'], $length_class_id);
                 $use_height = $this->length->convertByID($product['height'], $product['length_class'], $length_class_id);
@@ -94,6 +95,7 @@ class ModelExtensionDefaultUps extends Model {
                     $fixed_cost = $fixed_cost * $product['quantity'];
                 }
                 $fixed_cost = $this->currency->convert($fixed_cost, $this->config->get('config_currency'), $this->currency->getCode());
+	            $total_fixed_cost +=$fixed_cost;
             } else {
                 $request = $this->_buildRequest($address, $weight, $use_width, $use_length, $use_height);
                 if ($request) {
@@ -131,6 +133,31 @@ class ModelExtensionDefaultUps extends Model {
 
 		$title = $this->language->get('text_title');
 
+		//for case when only products with fixed shippig price are in the cart
+
+		if(!$basic_products && $special_ship_products){
+			$quote_data = array('default_ups' => array(
+			                    'id'           => 'default_ups.default_ups',
+			                    'title'        => $title,
+			                    'cost'         => $total_fixed_cost,
+			                    'tax_class_id' => 0,
+			                    'text'         => $this->currency->format( $total_fixed_cost )
+			));
+		}
+		//when only products with free shipping are in the cart
+		if(!$basic_products && $special_ship_products && !$total_fixed_cost){
+			$quote_data = array('default_ups' => array(
+								                    'id'           => 'default_ups.default_ups',
+								                    'title'        => $title,
+								                    'cost'         => 0,
+								                    'tax_class_id' => 0,
+								                    'text'         => $this->language->get('text_free')
+			));
+		}
+
+
+
+
 		if ($this->config->get('default_ups_display_weight')) {
 			$title .= ' (' . $this->language->get('text_weight') . ' ' . $this->weight->format($weight, $this->config->get('config_weight_class')) . ')';
 		}
@@ -143,13 +170,23 @@ class ModelExtensionDefaultUps extends Model {
 			'error'      => $error_msg
 		);
 
-		
 		return $method_data;
 	}
 
     private function _buildRequest($address, $weight,$length,$width,$height){
-        $length_code = strtoupper( $this->length->getUnit($this->config->get('default_ups_length_class') ) );
+	    //set hardcoded inches beause of API error
+        $length_code = 'IN';//strtoupper( $this->length->getUnit($this->config->get('default_ups_length_class') ) );
         $weight_code = strtoupper( $this->length->getUnit($this->config->get('default_ups_weight') ) );
+
+	    if(strlen($this->config->get('default_ups_country'))!=2){
+		    $error = new AError('UPS error: Wrong Country Code!');
+		    $error->toLog()->toMessages();
+	    }
+	    if(strlen($this->config->get('default_ups_state'))!=2){
+		    $error = new AError('UPS error: Wrong State Code!');
+		    $error->toLog()->toMessages();
+	    }
+
 
         $xml  = '<?xml version="1.0"?>';
         $xml .= '<AccessRequest xml:lang="en-US">';
@@ -337,11 +374,10 @@ class ModelExtensionDefaultUps extends Model {
         curl_setopt($ch, CURLOPT_POSTFIELDS, $request);
 
         $result = curl_exec($ch);
-
+	    if(!$result){
+	        $this->log->write('UPS Curl Error: '.curl_error($ch));
+	    }
         curl_close($ch);
-
-
-
         $quote_data = array();
 
         if ($result) {
@@ -373,7 +409,7 @@ class ModelExtensionDefaultUps extends Model {
                         continue;
                     }
 
-                    if (!$this->config->get('default_ups_' . strtolower($this->config->get('default_ups_origin')) . '_' . $code)) {
+                    if ($this->config->get('default_ups_' . strtolower($this->config->get('default_ups_origin')) . '_' . $code)) {
                         $quote_data[$code] = array(
                             'id'           => 'default_ups.' . $code,
                             'title'        => $service_code[$this->config->get('default_ups_origin')][$code],

@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2014 Belavier Commerce LLC
+  Copyright © 2011-2015 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -49,9 +49,9 @@ function renderStoreMenu( $menu, $level = 0 ){
 
 		$href = empty($item['href']) ? '' : ' href="'.$item['href'].'" '; //a href
 
-        $result .= '<li' . $id . ' class="dropdown hover">';
+        $result .= '<li' . $id . ' class="dropdown">';
         $result .= '<a' . $class . $href . '>';
-	    $result .= $item['icon'] ? '<img src="'. HTTP_DIR_RESOURCE . $item['icon'].'" alt="" />' : '';
+	    $result .= $item['icon'] ? '<img src="'. HTTPS_DIR_RESOURCE . $item['icon'].'" alt="" />' : '';
 		$result .= '<span>' . $item['text'] . '</span></a>';
 
         if ( !empty($item['children']) ) $result .= "\r\n" . renderStoreMenu($item['children'], $level+1) ;
@@ -98,7 +98,7 @@ function buildStoreFrontMenuTree( $menu_array, $level = 0 ){
     	if ($item['current']) {
     		$current = 'current'; 
     	}
-    	$result .= '<li ' . $id . ' class="dropdown hover '.$current.'">';
+    	$result .= '<li ' . $id . ' class="dropdown '.$current.'">';
     	$result .= '<a ' . $class . $href . '>';
     	
     	//check icon rl type html, image or none.
@@ -106,7 +106,7 @@ function buildStoreFrontMenuTree( $menu_array, $level = 0 ){
 		if($rl_id){
 			$resource = $ar->getResource($rl_id);
 			if($resource['resource_path'] && is_file(DIR_RESOURCE . 'image/'.$resource['resource_path'])){
-				$result .= '<img class="menu_image" src="'. HTTP_DIR_RESOURCE . 'image/'.$resource['resource_path'].'" alt="" />';
+				$result .= '<img class="menu_image" src="'. HTTPS_DIR_RESOURCE . 'image/'.$resource['resource_path'].'" alt="" />';
 			}elseif($resource['resource_code']){
 				$result .= $resource['resource_code'];
 			}
@@ -146,7 +146,7 @@ function renderAdminMenu( $menu, $level = 0, $current_rt = ''){
     	if ( is_html( $item['icon'] ) ) {
     		$result .= $item['icon'];
     	} else if ($item['icon']) {
-    		$result .= '<img class="menu_image" src="'. HTTP_DIR_RESOURCE . $item['icon'].'" alt="" />';
+    		$result .= '<img class="menu_image" src="'. HTTPS_DIR_RESOURCE . $item['icon'].'" alt="" />';
     	} else {
     		$result .= '<i class="fa fa-caret-right"></i> ';
     	}

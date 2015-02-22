@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2014 Belavier Commerce LLC
+  Copyright © 2011-2015 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   Lincence details is bundled with this package in the file LICENSE.txt.
@@ -52,6 +52,15 @@ class ModelExtensionDefaultFedex extends Model {
 		if (!$status) {
 			return $method_data;
 		}
+		if(!$address['postcode']){
+			return array(
+			                'id'         => 'default_fedex',
+			                'title'      => 'Fedex',
+			                'quote'      => $quote_data,
+			                'sort_order' => $this->config->get('default_fedex_sort_order'),
+			                'error'      => $this->language->get('fedex_error_empty_postcode')
+			            );
+		}
 
         $products = $this->cart->basicShippingProducts();
         if($products){
@@ -60,6 +69,7 @@ class ModelExtensionDefaultFedex extends Model {
             $quote_data =  $quote_data['quote_data'];
         }
         $special_ship_products = $this->cart->specialShippingProducts();
+		$total_fixed_cost = 0;
         foreach ($special_ship_products as $product) {
             //check if free or fixed shipping
             $fixed_cost = -1;
@@ -73,7 +83,7 @@ class ModelExtensionDefaultFedex extends Model {
                     $fixed_cost = $fixed_cost * $product['quantity'];
                 }
                 $fixed_cost = $this->currency->convert($fixed_cost, $this->config->get('config_currency'), $this->currency->getCode());
-
+	            $total_fixed_cost +=$fixed_cost;
             } else {
                 $new_quote_data = $this->_processRequest( $address,  array($product));
                 $error_msg .=  $new_quote_data['error_msg'];
@@ -85,10 +95,10 @@ class ModelExtensionDefaultFedex extends Model {
             if ( $quote_data) {
                 foreach ($quote_data as $key => $value) {
                     if ($fixed_cost >= 0){
-                            $quote_data[$key]['cost'] = (float)$quote_data[$key]['cost'] + $fixed_cost;
-                        } else {
-                            $quote_data[$key]['cost'] =  (float)$quote_data[$key]['cost'] + $new_quote_data[$key]['cost'];
-                        }
+                    	$quote_data[$key]['cost'] = (float)$quote_data[$key]['cost'] + $fixed_cost;
+                    } else {
+                    	$quote_data[$key]['cost'] =  (float)$quote_data[$key]['cost'] + $new_quote_data[$key]['cost'];
+                    }
 
                     $quote_data[$key]['text'] = $this->currency->format($quote_data[$key]['cost'], $this->currency->getCode(),1 );
                 }
@@ -98,7 +108,27 @@ class ModelExtensionDefaultFedex extends Model {
             }
         }
 
+		//for case when only products with fixed shippig price are in the cart
+		if(!$products && $special_ship_products){
+			$quote_data = array('default_fedex' => array(
+			                    'id'           => 'default_fedex.default_fedex',
+			                    'title'        => 'Fedex',
+			                    'cost'         => $total_fixed_cost,
+			                    'tax_class_id' => 0,
+			                    'text'         => $this->currency->format( $total_fixed_cost )
+			));
+		}
 
+		//when only products with free shipping are in the cart
+		if(!$products && $special_ship_products && !$total_fixed_cost){
+			$quote_data = array('default_fedex' => array(
+								                    'id'           => 'default_fedex.default_fedex',
+								                    'title'        => 'Fedex',
+								                    'cost'         => 0,
+								                    'tax_class_id' => 0,
+								                    'text'         => $this->language->get('text_free')
+			));
+		}
 
         if($quote_data || $error_msg){
             $title = $this->language->get('text_title');
@@ -187,8 +217,11 @@ class ModelExtensionDefaultFedex extends Model {
                     $product_total	  = $result['total'];
 
                     //BUILD REQUEST START
-                    $request['WebAuthenticationDetail'] = array('UserCredential' =>
-                    array('Key' => $fedex_key, 'Password' => $fedex_password));
+                    $request['WebAuthenticationDetail'] = array(
+		                    'UserCredential' => array(
+				                                    'Key' => $fedex_key,
+				                                    'Password' => $fedex_password)
+                    );
                     $request['ClientDetail'] = array('AccountNumber' => $fedex_account, 'MeterNumber' => $fedex_meter_id);
                     $request['TransactionDetail'] = array('CustomerTransactionId' => ' *** Rate Request v9 using PHP ***');
                     $request['Version'] = array('ServiceId' => 'crs', 'Major' => '9', 'Intermediate' => '0', 'Minor' => '0');

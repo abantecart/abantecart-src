@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2014 Belavier Commerce LLC
+  Copyright © 2011-2015 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -60,6 +60,10 @@ class ControllerPagesSettingSetting extends AController {
 				//we save resource ID vs resource path
 				$this->request->post['config_icon'] = $this->request->post['config_icon_resource_id'];
 			}
+			//html decode store name
+			if (has_value($this->request->post['store_name'])) {
+				$this->request->post['store_name'] = html_entity_decode($this->request->post['store_name'], ENT_COMPAT, 'UTF-8');
+			}
 
 			$group = $this->request->get['active'];
 
@@ -87,6 +91,8 @@ class ControllerPagesSettingSetting extends AController {
 		$this->data['store_id'] = 0;
 		if ($this->request->get['store_id']) {
 			$this->data['store_id'] = $this->request->get['store_id'];
+		} else {
+			$this->data['store_id'] = $this->config->get('config_store_id');
 		}
 
 		$this->data['groups'] = $this->groups;
@@ -198,6 +204,12 @@ class ControllerPagesSettingSetting extends AController {
 			if (isset($this->request->post[$key])) {
 				$this->data['settings'][$key] = $this->request->post[$key];
 			}
+		}
+		$this->loadModel('setting/store');
+		$store_info = $this->model_setting_store->getStore($this->data['store_id']);
+		$this->data['status_off'] = '';
+		if(!$store_info['status']) {
+			$this->data['status_off'] = 'status_off';
 		}
 
 		$this->_getForm();

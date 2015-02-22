@@ -247,12 +247,13 @@
 	</definition>
 	<definition>
 		<key>entry_display_weight</key>
-		<value><![CDATA[Display Delivery Weight:<br /><span class="help">Do you want to display the shipping weight? (e.g. Delivery Weight : 2.7674 Kg's)</span>]]></value>
+		<value>
+			<![CDATA[Display Delivery Weight:<br /><span class="help">Do you want to display the shipping weight? (e.g. Delivery Weight : 2.7674 Kg's)</span>]]></value>
 	</definition>
-    <definition>
-        <key>entry_length_class</key>
-        <value><![CDATA[Length Class:<br /><span class="help"></span>]]></value>
-    </definition>
+	<definition>
+		<key>entry_length_class</key>
+		<value><![CDATA[Length Class:<br /><span class="help"></span>]]></value>
+	</definition>
 	<definition>
 		<key>entry_tax</key>
 		<value><![CDATA[Tax Class:]]></value>
@@ -276,5 +277,15 @@
 	<definition>
 		<key>error_postcode</key>
 		<value><![CDATA[Zip Code Required!]]></value>
+	</definition>
+	<definition>
+		<key>entry_free_domestic_method</key>
+		<value>
+			<![CDATA[Opción para el envío libre <span class="help"> Por favor, seleccione qué método será elegido por caso cuando la compra contiene solamente productos con el envío libre </span>]]></value>
+	</definition>
+	<definition>
+		<key>entry_free_international_method</key>
+		<value>
+			<![CDATA[Opción para el envío libre de los paquetes internacionales <span class="help"> Por favor, seleccione qué método será elegido por caso cuando la compra contiene solamente productos con el envío libre </span>]]></value>
 	</definition>
 </definitions>

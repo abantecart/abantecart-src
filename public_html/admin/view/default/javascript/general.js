@@ -377,6 +377,26 @@ var bindCustomEvents  = function(elm){
       $(this).closest('.panel').fadeOut(200);
       return false;
 	});
+	
+	//set visual status
+	statusMarker($obj);
+}
+
+//mark page with status off
+var statusMarker = function($obj) {			
+	//check for specific marker with status_switch css class
+	var $input = $obj.find('input.status_switch');
+    if(!$input.length){
+    	//check generic marker based on input name status
+	    $input = $obj.find('input[name=status]');
+    }	 
+    if($input.length > 0){
+        if ($input.val() == 0) {
+        	$input.closest('.panel-body').addClass('status_off');
+        } else {
+        	$input.closest('.panel-body').removeClass('status_off');
+        }
+    }
 }
 
 // Add tooltips to all elements in the selector. In case text does not fit
@@ -606,12 +626,24 @@ var run_task_url, complete_task_url;
 var task_fail = false;
 var task_complete_text = task_fail_text = ''; // You can set you own value inside tpl who runs interactive task. see admin/view/default/template/pages/tool/backup.tpl
 
+var defaultTaskMessages = {
+    task_failed: 'Task Failed',
+    task_success: 'Task Success',
+    complete: 'Complete',
+    step: 'Step',
+    failed: 'failed',
+    success: 'success',
+    processing_step: 'processing_step'
+};
+
+
 $(document).on('click', ".task_run", function () {
+    task_fail = false;
     var modal =
         '<div id="task_modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">' +
         '<div class="modal-dialog">' +
         '<div class="modal-content">' +
-        '<div class="modal-header">' +
+        '<div class="modal-header">Task Run' +
         '<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>' +
         '<h4 class="modal-title" id="myModalLabel">&nbsp;</h4>' +
         '</div>' +
@@ -620,6 +652,8 @@ $(document).on('click', ".task_run", function () {
     $("body").first().after(modal);
     var options = {"backdrop": "static", 'show': true};
     $('#task_modal').modal(options);
+
+    $('#task_modal .modal-body').html('Building Task...');
 
     run_task_url = $(this).attr('data-run-task-url');
     complete_task_url = $(this).attr('data-complete-task-url');
@@ -664,7 +698,7 @@ var runTaskStepsUI = function (task_details) {
     } else {
         $('#task_modal .modal-body').html('<div class="progress-info"></div><div class="progress"><div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="2" aria-valuemin="0" aria-valuemax="100" style="width: 1%;">1%</div></div>');
 
-        var steps_cnt = task_details.steps.length;
+        var steps_cnt = Object.keys(task_details.steps).length;
         var step_num = 1;
         var def_timeout = $.ajaxSetup()['timemout'];
         var stop_task = false;
@@ -676,44 +710,58 @@ var runTaskStepsUI = function (task_details) {
 
             var step = task_details.steps[k];
 
-            $('div.progress-info').html('processing step #' + step_num);
+            $('div.progress-info').html(defaultTaskMessages.processing_step +' #' + step_num);
 
             var attempts = 3;// set attempts count for fail ajax call (for repeating request)
 
-            while (attempts > 0) { // run each ajax call few times in case when we have unstable commention etc
+            while (attempts >= 0) { // run each ajax call few times in case when we have unstable commention etc
+
+                var senddata = { rt: decodeURIComponent(step.controller),
+                                 token: getUrlParameter('token'),
+                                 s: getUrlParameter('s') };
+                for(var s in step.settings){
+                    senddata[s] = step.settings[s];
+                }
+                var timeout = 500;
+                if(step.hasOwnProperty('eta')){
+                    senddata['eta'] = step.eta;
+                    timeout = (step.eta + 10)*1000;
+                }
+                if(task_details.hasOwnProperty('backup_name')){
+                    senddata['backup_name'] = task_details.backup_name;
+                }
+
                 var step_ajax = $.ajax({
                     type: "GET",
                     async: false,
-                    url: window.location,
-                    data: { rt: step.controller,
-                        token: getUrlParameter('token'),
-                        s: getUrlParameter('s') },
+                    timeout: timeout,
+                    url: window.location.protocol+'//'+window.location.host+window.location.pathname,
+                    data: senddata,
                     dataType: 'json',
                     global: false,
                     success: function (data, textStatus, xhr) {
                         //TODO: add check for php-syntax errors (if php-crashed we got HTTP200 and error handler fired)
                         var prc = Math.round(step_num * 100 / steps_cnt);
                         $('div.progress-bar').css('width', prc + '%').html(prc + '%');
-                        task_complete_text += '<div class="alert-success">Step ' + step_num + ': success</div>';
+                        task_complete_text += '<div class="alert-success">'+defaultTaskMessages.step+' ' + step_num + ': '+defaultTaskMessages.success+'</div>';
                         step_num++;
                         if (step_num > steps_cnt) { //after last step start post-trigger of task
                             $('div.progress-bar')
                                 .removeClass('active, progress-bar-striped')
                                 .css('width', '100%')
                                 .html('100%');
-                            $('div.progress-info').html('Complete');
-                            runTaskComplete(task_details.task_id);
+                            $('div.progress-info').html(defaultTaskMessages.complete);
+                            runTaskComplete(task_details.task_id, senddata['backup_name']);
                         }
-                        attempts = 0; //stop attempts of this task
+                        attempts = -1; //stop attempts of this task
                     },
                     error: function (xhr, status, error) {
-                        //console.log(xhr, status, error);
                         var error_txt;
                         try { //when server response is json formatted string
                             var err = $.parseJSON(xhr.responseText);
                             if (err.hasOwnProperty("error_text")) {
                                 error_txt = err.error_text;
-                                attempts = 1; //if we got error from task-controller  - interrupt attemps
+                                attempts = 0; //if we got error from task-controller  - interrupt attemps
                             } else {
                                 if(xhr.status==200){
                                     error_txt = '('+xhr.responseText+')';
@@ -732,14 +780,14 @@ var runTaskStepsUI = function (task_details) {
                         }
 
                         //so.. if all attempts of this step are failed
-                        if (attempts == 1) {
-                            task_complete_text += '<div class="alert-danger">Step ' + step_num + ' - failed. ('+ error_txt +')</div>';
+                        if (attempts == 0) {
+                            task_complete_text += '<div class="alert-danger">' + defaultTaskMessages.step + ' ' + step_num + ' - '+defaultTaskMessages.failed+'. ('+ error_txt +')</div>';
                             //check interruption of task on step failure
                             if (step.hasOwnProperty("settings") && step.settings!=null){
                                 if (step.settings.hasOwnProperty("interrupt_on_step_fault")) {
                                     if (step.settings.interrupt_on_step_fault == true) {
                                         stop_task = true;
-                                        runTaskComplete(task_details.task_id);
+                                        runTaskComplete(task_details.task_id, senddata['backup_name']);
                                     }
                                 }
                             }
@@ -747,7 +795,7 @@ var runTaskStepsUI = function (task_details) {
                             step_num++;
                             //if last step failed
                             if(step_num>steps_cnt){
-                                runTaskComplete(task_details.task_id);
+                                runTaskComplete(task_details.task_id, senddata['backup_name']);
                             }
                         }
 
@@ -762,9 +810,10 @@ var runTaskStepsUI = function (task_details) {
 }
 
 /* run post-trigger */
-var runTaskComplete = function (task_id) {
+
+var runTaskComplete = function (task_id, bkp_name) {
     if(task_fail){
-        task_complete_text += '<div class="alert-danger">Task Failed</div>';
+        task_complete_text += '<div class="alert-danger">' + defaultTaskMessages.task_failed + '</div>';
         // replace progressbar by result message
         $('#task_modal .modal-body').html(task_fail_text + task_complete_text);
         task_fail_text = task_complete_text = '';
@@ -773,11 +822,18 @@ var runTaskComplete = function (task_id) {
             type: "POST",
             async: false,
             url: complete_task_url,
-            data: {task_id: task_id },
+            data: {task_id: task_id, backup_name: bkp_name },
             datatype: 'json',
             global: false,
             success: function (data) {
-                task_complete_text += '<div class="alert-success">Task Success</div>';
+                var mess = '';
+                if(data.result_text){
+                    mess = defaultTaskMessages.task_success + '<br>'+data.result_text
+                }else{
+                    mess = defaultTaskMessages.task_success;
+                }
+
+                task_complete_text += '<div class="alert-success">' + mess + '</div>';
                 // replace progressbar by result message
                 $('#task_modal .modal-body').html(task_complete_text);
                 task_complete_text = '';

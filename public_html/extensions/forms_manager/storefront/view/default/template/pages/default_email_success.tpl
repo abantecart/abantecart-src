@@ -6,7 +6,7 @@
 <div class="container-fluid">
 
 <section class="mb40">
-	<p><?php echo $text_success_message; ?></p>
-	<?php echo $continue_button;?>
+	<div class="alert alert-success"><?php echo $text_success_message; ?></div>
+	<a class="btn btn-default " href="<?php echo $continue_button->href?>" ><i class="fa fa-arrow-right"></i> <?php echo $continue_button->text; ?></a>
 </section>
 </div>

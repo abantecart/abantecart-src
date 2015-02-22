@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2014 Belavier Commerce LLC
+  Copyright © 2011-2015 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -174,7 +174,7 @@ class AForm {
 	 */
 	private function _loadFields() {
 
-		$cache_name = 'forms.' . $this->form[ 'form_name' ] . '.fields';
+		$cache_name = 'forms.' . $this->form['form_name'] . '.fields';
 		$cache_name = preg_replace('/[^a-zA-Z0-9\.]/', '', $cache_name);
 		$fields = $this->cache->get($cache_name, (int)$this->config->get('storefront_language_id'), (int)$this->config->get('config_store_id'));
 		if (!is_null($fields)) {
@@ -187,7 +187,7 @@ class AForm {
             FROM " . $this->db->table("fields") . " f
             LEFT JOIN " . $this->db->table("field_descriptions") . " fd
                 ON ( f.field_id = fd.field_id AND fd.language_id = '" . (int)$this->config->get('storefront_language_id') . "' )
-            WHERE f.form_id = '" . $this->form[ 'form_id' ] . "'
+            WHERE f.form_id = '" . $this->form['form_id'] . "'
                 AND f.status = 1
             ORDER BY f.sort_order"
 		);
@@ -197,21 +197,21 @@ class AForm {
 				if ( has_value($row['settings']) ) {
 					$row['settings'] = unserialize($row['settings']);
 				}
-				$this->fields[ $row[ 'field_id' ] ] = $row;
+				$this->fields[ $row['field_id'] ] = $row;
 				$query = $this->db->query("
 					SELECT *
 					FROM " . $this->db->table("field_values") . " 
-					WHERE field_id = '" . $row[ 'field_id' ] . "'
+					WHERE field_id = '" . $row['field_id'] . "'
 					AND language_id = '" . (int)$this->config->get('storefront_language_id') . "'"
 				);
 				if ($query->num_rows) {
 
-					$values = unserialize($query->row[ 'value' ]);
+					$values = unserialize($query->row['value']);
 					usort($values, array( 'self', '_sort_by_sort_order' ));
 					foreach ($values as $value) {
-						$this->fields[ $row[ 'field_id' ] ][ 'options' ][ $value[ 'name' ] ] = $value[ 'name' ];
+						$this->fields[ $row['field_id'] ]['options'][ $value['name'] ] = $value['name'];
 					}
-					$this->fields[ $row[ 'field_id' ] ][ 'value' ] = $values[ 0 ][ 'name' ];
+					$this->fields[ $row['field_id'] ]['value'] = $values[ 0 ]['name'];
 
 				}
 			}
@@ -225,10 +225,10 @@ class AForm {
 	 * @return int
 	 */
 	private function _sort_by_sort_order($a, $b) {
-		if ($a[ 'sort_order' ] == $b[ 'sort_order' ]) {
+		if ($a['sort_order'] == $b['sort_order']) {
 			return 0;
 		}
-		return ($a[ 'sort_order' ] < $b[ 'sort_order' ]) ? -1 : 1;
+		return ($a['sort_order'] < $b['sort_order']) ? -1 : 1;
 	}
 
 	/**
@@ -238,7 +238,7 @@ class AForm {
 	 */
 	private function _loadGroups() {
 
-		$cache_name = 'forms.' . $this->form[ 'form_name' ] . '.groups';
+		$cache_name = 'forms.' . $this->form['form_name'] . '.groups';
 		$cache_name = preg_replace('/[^a-zA-Z0-9\.]/', '', $cache_name);
 		$groups = $this->cache->get($cache_name, (int)$this->config->get('storefront_language_id'), (int)$this->config->get('config_store_id'));
 		if (isset($groups)) {
@@ -251,17 +251,17 @@ class AForm {
             FROM " . $this->db->table("form_groups") . " g
                 LEFT JOIN " . $this->db->table("fields_groups") . " fg ON ( g.group_id = fg.group_id)
                 LEFT JOIN " . $this->db->table("fields_group_descriptions") . " fgd ON ( fg.group_id = fgd.group_id AND fgd.language_id = '" . (int)$this->config->get('storefront_language_id') . "' )
-            WHERE g.form_id = '" . $this->form[ 'form_id' ] . "'
+            WHERE g.form_id = '" . $this->form['form_id'] . "'
                 AND g.status = 1
             ORDER BY g.sort_order, fg.sort_order"
 		);
 		$this->groups = array();
 		if ($query->num_rows)
 			foreach ($query->rows as $row) {
-				if (empty($this->groups[ $row[ 'group_id' ] ])) {
-					$this->groups[ $row[ 'group_id' ] ] = $row;
+				if (empty($this->groups[ $row['group_id'] ])) {
+					$this->groups[ $row['group_id'] ] = $row;
 				}
-				$this->groups[ $row[ 'group_id' ] ][ 'fields' ][ ] = $row[ 'field_id' ];
+				$this->groups[ $row['group_id'] ]['fields'][ ] = $row['field_id'];
 			}
 
 		$this->cache->set($cache_name, $this->groups, (int)$this->config->get('storefront_language_id'), (int)$this->config->get('config_store_id'));
@@ -296,9 +296,9 @@ class AForm {
 		$fields = array();
 
 		foreach ($this->fields as $field) {
-			$fields[ $field[ 'field_name' ] ] = array(
-				'value' => $field[ 'value' ],
-				'required' => $field[ 'required' ],
+			$fields[ $field['field_name'] ] = array(
+				'value' => $field['value'],
+				'required' => $field['required'],
 			);
 		}
 
@@ -313,15 +313,15 @@ class AForm {
 	 */
 	public function getField($fname) {
 		foreach ($this->fields as $field) {
-			if ($field[ 'field_name' ] == $fname) {
+			if ($field['field_name'] == $fname) {
 				return array(
-					'field_name' => $field[ 'field_name' ],
-					'element_type' => $field[ 'element_type' ],
-					'required' => $field[ 'required' ],
-					'name' => $field[ 'name' ],
-					'value' => $field[ 'value' ],
+					'field_name' => $field['field_name'],
+					'element_type' => $field['element_type'],
+					'required' => $field['required'],
+					'name' => $field['name'],
+					'value' => $field['value'],
 					'settings' => $field['settings'],
-					'description' => $field[ 'description' ],
+					'description' => $field['description'],
 				);
 			}
 		}
@@ -340,8 +340,8 @@ class AForm {
 	 */
 	public function assign($fname, $value = '') {
 		foreach ($this->fields as $key => $field) {
-			if ($field[ 'field_name' ] == $fname) {
-				$this->fields[ $key ][ 'value' ] = $value;
+			if ($field['field_name'] == $fname) {
+				$this->fields[ $key ]['value'] = $value;
 				break;
 			}
 		}
@@ -367,8 +367,8 @@ class AForm {
 	 */
 	public function loadFieldOptions($fname, $values) {
 		foreach ($this->fields as $key => $field) {
-			if ($field[ 'field_name' ] == $fname) {
-				$this->fields[ $key ][ 'options' ] = $values;
+			if ($field['field_name'] == $fname) {
+				$this->fields[ $key ]['options'] = $values;
 				break;
 			}
 		}
@@ -381,9 +381,9 @@ class AForm {
 	 * @return object  - AHtml form element
 	 */
 	public function getFieldHtml($data) {
-		$data[ 'form' ] = $this->form[ 'form_name' ];
+		$data['form'] = $this->form['form_name'];
 		
-		if ($data[ 'type' ] == 'form') {
+		if ($data['type'] == 'form') {
 			$data['javascript'] = $this->addFormJs();
 		}
 		
@@ -419,7 +419,7 @@ class AForm {
 			case 'ST': //standards
 				$view->batchAssign(
 					array(
-						'id' => $this->form[ 'form_name' ],
+						'id' => $this->form['form_name'],
 					)
 				);
 				$output = $view->fetch('form/form_js_st.tpl');
@@ -427,10 +427,10 @@ class AForm {
 			case 'HS': //highlight on change and show save button
 				$view->batchAssign(
 					array(
-						'id' => $this->form[ 'form_name' ],
+						'id' => $this->form['form_name'],
 						'button_save' => $language->get('button_save'),
 						'button_reset' => $language->get('button_reset'),
-						'update' => $this->form[ 'update' ],
+						'update' => $this->form['update'],
 						'text_processing' => $language->get('text_processing'),
 						'text_saved' => $language->get('text_saved'),
 					)
@@ -440,7 +440,7 @@ class AForm {
 			case 'HT': //highlight on change
 				$view->batchAssign(
 					array(
-						'id' => $this->form[ 'form_name' ],
+						'id' => $this->form['form_name'],
 					)
 				);
 				$output = $view->fetch('form/form_js_ht.tpl');
@@ -469,44 +469,44 @@ class AForm {
 		foreach ($this->fields as $field) {
 
 			$data = array(
-				'type' => HtmlElementFactory::getElementType($field[ 'element_type' ]),
-				'name' => $field[ 'field_name' ],
-				'form' => $this->form[ 'form_name' ],
-				'attr' => $field[ 'attributes' ],
-				'required' => $field[ 'required' ],
-				'value' => $field[ 'value' ],
-				'options' => $field[ 'options' ],
+				'type' => HtmlElementFactory::getElementType($field['element_type']),
+				'name' => $field['field_name'],
+				'form' => $this->form['form_name'],
+				'attr' => $field['attributes'],
+				'required' => $field['required'],
+				'value' => $field['value'],
+				'options' => $field['options'],
 			);
 
-			switch ($data[ 'type' ]) {
+			switch ($data['type']) {
 				case 'multiselectbox' :
-					$data[ 'name' ] .= '[]';
+					$data['name'] .= '[]';
 					break;
 				case 'checkboxgroup' :
-					$data[ 'name' ] .= '[]';
+					$data['name'] .= '[]';
 					break;
 				case 'captcha' :
-					$data[ 'captcha_url' ] = $this->html->getURL('common/captcha');
+					$data['captcha_url'] = $this->html->getURL('common/captcha');
 					break;
 			}
 			$item = HtmlElementFactory::create($data);
 
-			switch ($data[ 'type' ]) {
+			switch ($data['type']) {
 				case 'IPaddress' :
 				case 'hidden' :
-					$fields_html[ $field[ 'field_id' ] ] = $item->getHtml();
+					$fields_html[ $field['field_id'] ] = $item->getHtml();
 					break;
 				default:
 					$view->batchAssign(
 						array(
 							'element_id' => $item->element_id,
-							'title' => $field[ 'name' ],
-							'description' => (!empty($this->form[ 'description' ]) ? $field[ 'description' ] : ''),
-							'error' => (!empty($this->errors[ $field[ 'field_name' ] ]) ? $this->errors[ $field[ 'field_name' ] ] : ''),
+							'title' => $field['name'],
+							'description' => (!empty($field['description']) ? $field['description'] : ''),
+							'error' => (!empty($this->errors[ $field['field_name'] ]) ? $this->errors[ $field['field_name'] ] : ''),
 							'item_html' => $item->getHtml(),
 						)
 					);
-					$fields_html[ $field[ 'field_id' ] ] = $view->fetch('form/form_field.tpl');
+					$fields_html[ $field['field_id'] ] = $view->fetch('form/form_field.tpl');
 			}
 		}
 
@@ -530,16 +530,16 @@ class AForm {
 		if (!$fieldsOnly) {
 			$data = array(
 				'type' => 'submit',
-				'form' => $this->form[ 'form_name' ],
+				'form' => $this->form['form_name'],
 				'name' => $this->language->get('button_submit'),
 			);
 			$submit = HtmlElementFactory::create($data);
 
 			$data = array(
 				'type' => 'form',
-				'name' => $this->form[ 'form_name' ],
+				'name' => $this->form['form_name'],
 				'attr' => ' class="form" ',
-				'action' => $this->html->getSecureURL($this->form[ 'controller' ],'&form_id='.$this->form['form_id'],true),
+				'action' => $this->html->getSecureURL($this->form['controller'],'&form_id='.$this->form['form_id'],true),
 			);
 			$form_open = HtmlElementFactory::create($data);
 			$form_close = $view->fetch('form/form_close.tpl');
@@ -548,7 +548,7 @@ class AForm {
 
 			$view->batchAssign(
 				array(
-					'description' => $this->form[ 'description' ],
+					'description' => $this->form['description'],
 					'form' => $output,
 					'form_open' => $js . $form_open->getHtml(),
 					'form_close' => $form_close,
@@ -676,7 +676,7 @@ class AForm {
 					'date_added' => date("Y-m-d H:i:s", time()),
 					'name' => $file_path_info['name'],
 					'type' => $files[$field['field_name']]['type'],
-					'section' => 'AForm:'.$this->form[ 'form_name' ].":".$field['field_name'],
+					'section' => 'AForm:'.$this->form['form_name'].":".$field['field_name'],
 					'section_id' => '',
 					'path' => $file_path_info['path'],
 				)

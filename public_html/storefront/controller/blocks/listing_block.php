@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2014 Belavier Commerce LLC
+  Copyright © 2011-2015 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -56,9 +56,7 @@ class ControllerBlocksListingBlock extends AController {
 					$template_overrided = true;
 				}else{
 					$block_data['content'] = $this->_prepareItems($block_data['content']);
-
 				}
-
 
 				$this->view->assign('block_framed',(int)$block_data['block_framed']);
 				$this->view->assign('content',$block_data['content']);
@@ -78,6 +76,10 @@ class ControllerBlocksListingBlock extends AController {
 		$this->extensions->hk_UpdateData($this,__FUNCTION__);
   	}
 
+	/**
+	 * @param array $data
+	 * @param string $block_wrapper
+	 */
 	protected function _prepareProducts($data, $block_wrapper=''){
 		$this->loadModel('catalog/product');
 		$this->loadModel('catalog/review');
@@ -103,6 +105,12 @@ class ControllerBlocksListingBlock extends AController {
                 }
 			}
 
+			if($products_info[$result['product_id']]['special']){
+				$special_price = $this->currency->format($this->tax->calculate($products_info[$result['product_id']]['special'], $result['tax_class_id'], $this->config->get('config_tax')));
+			}else{
+				$special_price = null;
+			}
+
 			$products[] = array(
 								'product_id'    => $result['product_id'],
 								'name'    		=> $result['name'],
@@ -111,7 +119,7 @@ class ControllerBlocksListingBlock extends AController {
 								'stars'   		=> sprintf($this->language->get('text_stars'), $rating),
 								'price'   		=> $result['price'],
 								'options'   	=> $result['options'],
-								'special' 		=> $result['special'],
+								'special' 		=> $special_price,
 								'thumb'   		=> $result['image'],
 								'image'   		=> $result['image'],
 								'href'    		=> $this->html->getSEOURL('product/product', '&product_id=' . $result['product_id'], '&encode'),
@@ -119,7 +127,10 @@ class ControllerBlocksListingBlock extends AController {
 								'item_name'		=> 'product'
 			);
 		}
-		$data_source= array('rl_object_name'=>'products','data_type'=>'product_id');
+		$data_source= array(
+				'rl_object_name'=>'products',
+				'data_type'=>'product_id'
+		);
 		//add thumbnails to list of products. 1 thumbnail per product
 		$products = $this->_prepareCustomItems($data_source, $products);
 
@@ -146,6 +157,10 @@ class ControllerBlocksListingBlock extends AController {
 		$this->view->setTemplate( $template );
 	}
 
+	/**
+	 * @param array $content
+	 * @return array
+	 */
 	protected function _prepareItems($content=array()){
 		if(isset($content[0]['category_id'])){
 				$item_name = 'category';
@@ -171,6 +186,10 @@ class ControllerBlocksListingBlock extends AController {
 		return $content;
 	}
 
+	/**
+	 * @param int $instance_id
+	 * @return array
+	 */
 	protected function _getBlockContent($instance_id) {
 		$this->data['block_info'] = $this->layout->getBlockDetails($instance_id);
 		$this->data['custom_block_id'] = $this->data['block_info']['custom_block_id'];
@@ -265,7 +284,7 @@ class ControllerBlocksListingBlock extends AController {
 						$result[$k]['resource_code'] = $resource['thumb_html'];
 					}else{
 						if($content['resource_type']!='image'){
-							$title = $resource['title'] ? $resource['title'] : 'dowload';
+							$title = $resource['title'] .'<br>dowload';
 						}else{
 							$title = $resource['title'];
 						}
@@ -275,7 +294,8 @@ class ControllerBlocksListingBlock extends AController {
 						                             'thumb_url'=>$resource['thumb_url'],
 						                             'thumb_html'=>$resource['thumb_html'],
 						                             'title' => $title,
-													 'resource_type' => $content['resource_type'] );
+													 'resource_type' => $content['resource_type'],
+													 'origin' => 'internal');
 					}
 				}
 
@@ -289,7 +309,6 @@ class ControllerBlocksListingBlock extends AController {
                                                    $listing->getlistingArguments( $data_source['storefront_model'],
                                                                                           $data_source['storefront_method'],
                                                                                           array('limit'=>$limit)) );
-
 					if($result){
 						$desc = $listing->getListingDataSources();
 						foreach($desc as $d){

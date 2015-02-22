@@ -13,7 +13,7 @@ if ($categories) {	?>
 				<?php
 				foreach ($categories as $category) {
 					$item = $category;
-					$item['image'] = !is_array($category['thumb']) ? '<img alt="'.$category['name'].'" style="width:50px;" src="' . $category['thumb'] . '"/>' : $category['thumb']['thumb_html'];
+					$item['image'] = !is_array($category['thumb']) ? '<img alt="'.$category['name'].'" class="thumbnail_small" src="' . $category['thumb'] . '"/>' : $category['thumb']['thumb_html'];
 					$item['info_url'] = $category['href'];
 					?>
 					<li>

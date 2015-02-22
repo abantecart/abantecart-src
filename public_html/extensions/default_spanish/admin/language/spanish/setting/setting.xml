@@ -589,7 +589,7 @@
 	<definition>
 		<key>entry_encryption</key>
 		<value>
-			<![CDATA[Clave encriptacion:<br /><span class="help">Por favor ingrese su clave secreta que se utilizara para cifrar la informacion en las compras.</span>]]></value>
+			<![CDATA[Clave encriptacion:<br /><span class="help">Setting migrated to config file starting in v1.2.1.</span>]]></value>
 	</definition>
 	<definition>
 		<key>entry_seo_url</key>

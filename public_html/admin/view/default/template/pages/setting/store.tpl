@@ -10,7 +10,13 @@
 			</div>
 			<?php if($delete_store_button){ ?>
 			<div class="btn-group mr10 toolbar">
-				<a class="btn btn-default actionitem  tooltips"
+				<a class="btn btn-default actionitem tooltips"
+				   title="<?php echo $edit_settings_button->title; ?>"
+				   href="<?php echo $edit_settings_button->href; ?>"
+					><i class="fa fa-gear fa-fw"></i></a>
+			</div>
+			<div class="btn-group mr10 toolbar">
+				<a class="btn btn-default actionitem tooltips"
 				   title="<?php echo $delete_store_button->title; ?>"
 				   href="<?php echo $delete_store_button->href; ?>"
 				   data-confirmation="delete"

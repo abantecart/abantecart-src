@@ -1,25 +1,25 @@
 <?php
-	/*------------------------------------------------------------------------------
-   $Id$
+/*------------------------------------------------------------------------------
+  $Id$
 
-   AbanteCart, Ideal OpenSource Ecommerce Solution
-   http://www.AbanteCart.com
+  AbanteCart, Ideal OpenSource Ecommerce Solution
+  http://www.AbanteCart.com
 
-   Copyright © 2011 Belavier Commerce LLC
+  Copyright © 2011-2015 Belavier Commerce LLC
 
-   This source file is subject to Open Software License (OSL 3.0)
-   License details is bundled with this package in the file LICENSE.txt.
-   It is also available at this URL:
-   <http://www.opensource.org/licenses/OSL-3.0>
+  This source file is subject to Open Software License (OSL 3.0)
+  Lincence details is bundled with this package in the file LICENSE.txt.
+  It is also available at this URL:
+  <http://www.opensource.org/licenses/OSL-3.0>
 
-  UPGRADE NOTE:
-	Do not edit or add to this file if you wish to upgrade AbanteCart to newer
-	versions in the future. If you wish to customize AbanteCart for your
-	needs please refer to http://www.AbanteCart.com for more information.
- ------------------------------------------------------------------------------*/
-	if (! defined ( 'DIR_CORE' )) {
-		header ( 'Location: static_pages/' );
-	}
+ UPGRADE NOTE:
+   Do not edit or add to this file if you wish to upgrade AbanteCart to newer
+   versions in the future. If you wish to customize AbanteCart for your
+   needs please refer to http://www.AbanteCart.com for more information.
+------------------------------------------------------------------------------*/
+if (! defined ( 'DIR_CORE' )) {
+	header ( 'Location: static_pages/' );
+}
 /** @noinspection PhpUndefinedClassInspection */
 /**
  * Class ControllerPagesFormsManagerDefaultEmail
@@ -62,14 +62,19 @@ class ControllerPagesFormsManagerDefaultEmail extends AController {
 					$mail->setFrom($this->request->post['email']);
 					unset($this->request->post['email']);
 				} else {
-					$mail->setFrom($this->config->get('forms_manager_default_sender_email'));
+					$sender_email = $this->config->get('forms_manager_default_sender_email');
+					$sender_email = !$sender_email ? $this->config->get('store_main_email') : $sender_email;
+					$mail->setFrom($sender_email);
 				}
 
 				if ( isset($this->request->post['first_name']) ) {
 					$mail->setSender($this->request->post['first_name']);
 					unset($this->request->post['first_name']);
 				} else {
-					$mail->setSender($this->config->get('forms_manager_default_sender_name'));
+
+					$sender_name = $this->config->get('forms_manager_default_sender_name');
+					$sender_name = !$sender_name ? $this->config->get('store_name') : $sender_name;
+					$mail->setSender($sender_name);
 				}
 
 				if ( isset($this->request->post['email_subject']) ) {
@@ -165,7 +170,7 @@ class ControllerPagesFormsManagerDefaultEmail extends AController {
 				'icon' => 'icon-arrow-right'
 			)
 		);
-		$this->data['continue_button'] = $continue->getHtml();
+		$this->data['continue_button'] = $continue;
 
 		$this->view->batchAssign($this->data);
 		$this->processTemplate('pages/default_email.tpl');
@@ -219,7 +224,7 @@ class ControllerPagesFormsManagerDefaultEmail extends AController {
 				'icon' => 'icon-arrow-right'
 			)
 		);
-		$this->data['continue_button'] = $continue->getHtml();
+		$this->data['continue_button'] = $continue;
 
 		$this->view->batchAssign($this->data);
 		$this->processTemplate('pages/default_email_success.tpl');

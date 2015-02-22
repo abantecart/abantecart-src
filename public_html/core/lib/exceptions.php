@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2014 Belavier Commerce LLC
+  Copyright © 2011-2015 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -23,7 +23,6 @@ if (! defined ( 'DIR_CORE' )) {
 
 require_once(DIR_CORE . '/lib/exceptions/exception_codes.php');
 require_once(DIR_CORE . '/lib/exceptions/exception.php');
-require_once(DIR_CORE . '/lib/exceptions/php_exception.php');
 
 /**
  * called for php errors
@@ -40,10 +39,10 @@ function ac_error_handler($errno, $errstr, $errfile, $errline) {
 		return null;
 
     try {
-        throw new APhpException($errno, $errstr, $errfile, $errline);
+        throw new AException($errno, $errstr, $errfile, $errline);
     }
-    catch (APhpException $e) {
-        ac_exception_handler($e);
+    catch (AException $e) {
+   		ac_exception_handler($e);
     }
 }
 
@@ -53,6 +52,11 @@ function ac_error_handler($errno, $errstr, $errfile, $errline) {
  */
 function ac_exception_handler($e)
 {
+	//fix for default PHP handler call in third party PHP libraries
+	if (!method_exists($e,'logError')) {
+		$e = new AException($e->getCode(), $e->getMessage(), $e->getFile(), $e->getLine());
+	}	
+
     if (class_exists('Registry') ) {
         $registry = Registry::getInstance();
         $config = $registry->get('config');
@@ -85,7 +89,7 @@ function ac_shutdown_handler()
     if ( !is_array($error) || !in_array($error['type'], array(E_ERROR, E_PARSE, E_CORE_ERROR, E_COMPILE_ERROR))) {
         return null;
     }
-    $exception = new APhpException($error['type'], $error['message'], $error['file'], $error['line']);
+    $exception = new AException($error['type'], $error['message'], $error['file'], $error['line']);
     $exception->logError();
 } 
 

@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2014 Belavier Commerce LLC
+  Copyright © 2011-2015 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -115,10 +115,8 @@ class ATaskManager {
 												'status' => 2) ); //change status of step to active while it run
 
 			try{
-
 				$dd = new ADispatcher($step['controller'],$step_settings['params']);
 				$response = $dd->dispatchGetOutput($step['controller']);
-				//$this->toLog(var_export($response, true));
 			}catch(AException $e){	}
 
 
@@ -449,7 +447,7 @@ class ATaskManager {
 			if($step['status']!=1){ //skip all steps that not scheduled
 				continue;
 			}
-			$steps[] = $step;
+			$steps[$step['step_id']] = $step;
 		}
 		return $steps;
 	}

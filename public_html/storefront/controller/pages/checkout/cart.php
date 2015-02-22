@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2014 Belavier Commerce LLC
+  Copyright © 2011-2015 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -23,12 +23,14 @@ if (! defined ( 'DIR_CORE' )) {
 class ControllerPagesCheckoutCart extends AController {
 	private $error = array();
 	public $data = array();
+
 	public function main() {
 		$error_msg = array();
 		
         //init controller data
         $this->extensions->hk_InitData($this,__FUNCTION__);
 
+		//process all possible requests first
 		if ($this->request->is_GET() && isset($this->request->get['product_id']) ) {
 
 			if (isset($this->request->get['option'])) {
@@ -51,13 +53,20 @@ class ControllerPagesCheckoutCart extends AController {
 			$this->cart->add($this->request->get['product_id'], $quantity, $option);
 
 			$this->redirect($this->html->getSecureURL('checkout/cart'));
-			
+
+		} else if ($this->request->is_GET() && isset($this->request->get['remove']) ) {
+		
+			//remove product with button claick.
+          	$this->cart->remove($this->request->get['remove']);
+			$this->redirect($this->html->getSecureURL('checkout/cart'));
+			          	
 		} else if ($this->request->is_POST()) {
 
 			//if this is coupon, validate and apply
 			if ( isset($this->request->post['coupon']) && $this->_validateCoupon() ) {
 				$this->session->data[ 'coupon' ] = $this->request->post[ 'coupon' ];
 				$this->data['success'] = $this->session->data[ 'success' ] = $this->language->get('text_coupon_success');
+				unset($this->session->data['success']);
 				//process data
 				$this->extensions->hk_ProcessData($this);
 			}
@@ -155,9 +164,6 @@ class ControllerPagesCheckoutCart extends AController {
 				unset($this->session->data['payment_methods']);
 				unset($this->session->data['payment_method']);
 	
-				#upate min and max
-				$this->cart->setMinQty();
-				$this->cart->setMaxQty();
       		}
 
       		if (isset($this->request->post['remove'])) {
@@ -231,9 +237,16 @@ class ControllerPagesCheckoutCart extends AController {
 
 
         		foreach ($result['option'] as $option) {
+			        if($option['element_type']=='H'){ continue;} //hide hidden options
+
+			        $value = $option['value'];
+			        // hide binary value for checkbox
+			        if($option['element_type']=='C' && in_array($value, array(0,1))){
+				        $value = '';
+			        }
           			$option_data[] = array(
             			'name'  => $option['name'],
-            			'value' => $option['value']
+            			'value' => $value
           			);
         		}
 
@@ -241,6 +254,7 @@ class ControllerPagesCheckoutCart extends AController {
 			        'remove' => $form->getFieldHtml( array( 'type' => 'checkbox',
 				                                            'name' => 'remove['.$result['key'].']',
 			                                                )),
+			        'remove_url' => $this->html->getSecureURL('checkout/cart', '&remove='.$result['key']),                                        
           			'key'      => $result['key'],
           			'name'     => $result['name'],
           			'model'    => $result['model'],

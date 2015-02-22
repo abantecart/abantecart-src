@@ -1,5 +1,5 @@
-<label class="control-label col-md-4" for="<?php echo $element_id ?>"><?php echo $title ?></label>
-<div class="input-group col-md-4">
+<label class="control-label col-md-4 <?php if (!empty($error)) { ?>has-error<?php } ?>" for="<?php echo $element_id ?>"><?php echo $title ?></label>
+<div class="input-group col-md-4 <?php if (!empty($error)) { ?>has-error<?php } ?>">
 	<?php echo $item_html ?>
 </div>	
 <span class="help-block">

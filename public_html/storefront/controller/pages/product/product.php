@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2014 Belavier Commerce LLC
+  Copyright © 2011-2015 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -109,7 +109,6 @@ class ControllerPagesProductProduct extends AController {
 		$promoton = new APromotion();
 				
 		$product_info = $this->model_catalog_product->getProduct($product_id);
-
 		//can not locate product? get out
 		if (!$product_info) { 
 			$this->_product_not_found($product_id);
@@ -365,7 +364,12 @@ class ControllerPagesProductProduct extends AController {
 						}
 					}
 				}
-					            
+
+				//for checkbox with empty value
+			    if($value=='' && $option['element_type']=='C'){
+				    $value = 1;
+			    }
+
 		    	$option_data = array(
 		    			'type' => $option['html_type'],
 		    			'name' => !in_array($option['element_type'], HtmlElementFactory::getMultivalueElements()) ? 'option['.$option['product_option_id'].']' : 'option['.$option['product_option_id'].'][]',
@@ -524,7 +528,6 @@ class ControllerPagesProductProduct extends AController {
 		}
         $this->data['tags'] = $tags;
 
-
 		//downloads before order if allowed
 		if($this->config->get('config_download')){
 			$dwn = new ADownload();
@@ -550,6 +553,15 @@ class ControllerPagesProductProduct extends AController {
 			}
 		}
 
+		#check if product is in a wishlist 
+		$this->data['is_customer'] = false;
+		if ($this->customer->isLogged() || $this->customer->isUnauthCustomer()) {
+			$this->data['is_customer'] = true;
+			$whishlist = $this->customer->getWishList();
+			if ($whishlist[$product_id]) {
+				$this->data['in_wishlist'] = true;
+			}
+		}
 
 		$this->view->setTemplate( 'pages/product/product.tpl' );
 

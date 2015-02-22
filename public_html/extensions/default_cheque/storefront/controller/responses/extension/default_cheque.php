@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2014 Belavier Commerce LLC
+  Copyright © 2011-2015 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   Lincence details is bundled with this package in the file LICENSE.txt.
@@ -60,10 +60,10 @@ class ControllerResponsesExtensionDefaultCheque extends AController {
 		$this->loadLanguage('default_cheque/default_cheque');
 		$this->load->model('checkout/order');
 		
-		$comment  = $this->language->get('text_payable') . "\n";
+		$comment  = "\n\n".$this->language->get('text_payable') . "\n";
 		$comment .= $this->config->get('default_cheque_payable') . "\n\n";
 		$comment .= $this->language->get('text_address') . "\n";
-		$comment .= $this->config->get('config_address') . "\n\n";
+		$comment .= ($this->config->get('default_cheque_address') ? $this->config->get('default_cheque_address') : $this->config->get('config_address')) . "\n\n";
 		$comment .= $this->language->get('text_payment') . "\n";
 		
 		$this->model_checkout_order->confirm($this->session->data['order_id'], $this->config->get('default_cheque_order_status_id'), $comment);

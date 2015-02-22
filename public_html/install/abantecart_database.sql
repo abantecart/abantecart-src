@@ -672,6 +672,7 @@ CREATE TABLE `ac_customers` (
   `fax` varchar(32) COLLATE utf8_general_ci NOT NULL DEFAULT '',
   `password` varchar(40) COLLATE utf8_general_ci NOT NULL DEFAULT '',
   `cart` text COLLATE utf8_general_ci,
+  `wishlist` text COLLATE utf8_general_ci,
   `newsletter` int(1) NOT NULL DEFAULT '0',
   `address_id` int(11) NOT NULL DEFAULT '0',
   `status` int(1) NOT NULL,
@@ -869,13 +870,15 @@ CREATE TABLE `ac_banner_descriptions` (
 
 DROP TABLE IF EXISTS `ac_banner_stat`;
 CREATE TABLE `ac_banner_stat` (
+	`rowid` INT NOT NULL AUTO_INCREMENT,
   `banner_id` int(11) NOT NULL,
   `type` int(11) NOT NULL, -- 1 = view, 2 = click
   `time` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP,
   `store_id` int(11) NOT NULL,
-  `user_info` text(1500) DEFAULT ''
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
-CREATE INDEX `ac_banner_stat_idx` ON `ac_banner_stat` (`banner_id`, `type`, `time`, `store_id`);
+  `user_info` text(1500) DEFAULT '',
+PRIMARY KEY (`rowid`),
+INDEX `ac_banner_stat_idx` (`banner_id`, `type`, `time`, `store_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
 
 --
 -- DDL for table `locations`
@@ -1336,7 +1339,8 @@ CREATE INDEX `ac_product_discounts_idx` ON `ac_product_discounts` (`product_id`,
 --
 DROP TABLE IF EXISTS `ac_products_featured`;
 CREATE TABLE `ac_products_featured` (
-  `product_id` int(11) NOT NULL DEFAULT '0'
+  `product_id` int(11) NOT NULL DEFAULT '0',
+	PRIMARY KEY (`product_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 
@@ -1532,6 +1536,8 @@ INSERT INTO `ac_settings` (`group`, `key`, `value`) VALUES
 -- details of store
 ('details','store_name','Web Store Name'),
 ('details','config_url',''),
+('details','config_ssl',0),
+('details','config_ssl_url',''),
 ('details','config_owner','Your Name'),
 ('details','config_address','Address 1'),
 ('details','store_main_email','admin@abantecart.com'),
@@ -1634,7 +1640,6 @@ INSERT INTO `ac_settings` (`group`, `key`, `value`) VALUES
 
 -- system
 	('system','config_session_ttl',120),
-	('system','config_ssl',0),
 	('system','config_maintenance',0),
 	('system','encryption_key',12345),
 	('system','enable_seo_url',0),
@@ -10094,7 +10099,8 @@ INSERT INTO `ac_blocks` (`block_id`, `block_txt_id`, `controller`, `date_added`)
 (27, 'menu', 'blocks/menu', now() ),
 (28, 'breadcrumbs', 'blocks/breadcrumbs', now() ), 
 (29, 'account', 'blocks/account', now()),
-(30, 'custom_form_block', 'blocks/custom_form_block', now() );
+(30, 'custom_form_block', 'blocks/custom_form_block', now() ),
+(31, 'customer', 'blocks/customer', now() );
 
 --
 -- DDL for table `ac_custom_blocks`
@@ -10115,15 +10121,16 @@ CREATE TABLE `ac_custom_blocks` (
 
 DROP TABLE IF EXISTS `ac_custom_lists`;
 CREATE TABLE `ac_custom_lists` (
+	`rowid` INT(11) NOT NULL AUTO_INCREMENT,
   `custom_block_id` int(10) NOT NULL,
   `data_type` varchar(70) NOT NULL,
   `id` int(10) NOT NULL,
   `sort_order` int(10) NOT NULL DEFAULT 0,
   `date_added` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `date_modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+  `date_modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+	PRIMARY KEY (`rowid`),
+	INDEX `ac_custom_block_id_list_idx` (`custom_block_id` )
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
-CREATE INDEX `ac_custom_block_id_list_idx`
-ON `ac_custom_lists` (`custom_block_id` );
 
 --
 -- DDL for table `block_descriptions`
@@ -10243,7 +10250,8 @@ INSERT INTO `ac_block_templates` (`block_id`, `parent_block_id`, `template`, `da
 (30, 5, 'blocks/custom_form_block_content.tpl', NOW() ),
 (30, 6, 'blocks/custom_form_block.tpl', NOW() ),
 (30, 7, 'blocks/custom_form_block_content.tpl', NOW() ),
-(30, 8, 'blocks/custom_form_block_header.tpl', NOW() )
+(30, 8, 'blocks/custom_form_block_header.tpl', NOW() ),
+(31, 0, 'blocks/customer.tpl', now() )
 ;
 
 --
@@ -10408,224 +10416,230 @@ INSERT INTO `ac_block_layouts` (`instance_id`, `layout_id`, `block_id`, `custom_
 (171, 7, 24, 0, 87, 20, 1, now() );
 
 
--- DEFAULT HTML5 template's layouts
-INSERT INTO `ac_block_layouts` (`instance_id`, `layout_id`, `block_id`, `custom_block_id`, `parent_instance_id`, `position`, `status`, `date_added`,`date_modified`) VALUES
-(1839,11,25,0,337,40,1,NOW(),NOW()),
-(338,11,9,0,3,10,1,NOW(),NOW()),
-(337,11,8,0,0,80,1,NOW(),NOW()),
-(336,11,7,0,0,70,1,NOW(),NOW()),
-(335,11,6,0,0,60,1,NOW(),NOW()),
-(334,11,5,0,0,50,1,NOW(),NOW()),
-(333,11,4,0,0,40,1,NOW(),NOW()),
-(332,11,3,0,0,30,1,NOW(),NOW()),
-(331,11,2,0,0,20,1,NOW(),NOW()),
-(1836,11,17,13,337,10,1,NOW(),NOW()),
-(1831,11,14,0,330,50,1,NOW(),NOW()),
-(1833,11,15,0,330,70,1,NOW(),NOW()),
-(339,11,10,0,3,20,1,NOW(),NOW()),
-(340,11,11,0,3,30,1,NOW(),NOW()),
-(341,11,9,0,6,30,1,NOW(),NOW()),
-(1841,11,17,15,337,60,1,NOW(),NOW()),
-(1840,11,11,0,337,50,1,NOW(),NOW()),
-(1838,11,17,16,337,30,1,NOW(),NOW()),
-(1837,11,17,14,337,20,1,NOW(),NOW()),
-(1832,11,13,0,330,60,1,NOW(),NOW()),
-(348,11,24,0,8,20,1,NOW(),NOW()),
-(347,11,21,0,8,10,1,NOW(),NOW()),
-(346,11,15,0,1,30,1,NOW(),NOW()),
-(345,11,14,0,1,20,1,NOW(),NOW()),
-(344,11,13,0,1,10,1,NOW(),NOW()),
-(343,11,11,0,6,20,1,NOW(),NOW()),
-(342,11,10,0,6,10,1,NOW(),NOW()),
-(330,11,1,0,0,10,1,NOW(),NOW()),
-(1835,11,9,0,331,10,1,NOW(),NOW()),
-(1842,11,24,0,337,70,1,NOW(),NOW()),
-(1843,11,21,0,337,80,1,NOW(),NOW()),
-(1830,11,26,0,330,40,1,NOW(),NOW()),
-(1829,11,27,0,330,30,1,NOW(),NOW()),
-(1834,11,17,15,330,80,1,NOW(),NOW()),
-(1782,12,21,0,356,80,1,NOW(),NOW()),
-(354,12,6,0,0,60,0,NOW(),NOW()),
-(352,12,4,0,0,40,1,NOW(),NOW()),
-(351,12,3,0,0,30,0,NOW(),NOW()),
-(350,12,2,0,0,20,1,NOW(),NOW()),
-(353,12,5,0,0,50,1,NOW(),NOW()),
-(1780,12,17,15,356,60,1,NOW(),NOW()),
-(1781,12,24,0,356,70,1,NOW(),NOW()),
-(355,12,7,0,0,70,1,NOW(),NOW()),
-(356,12,8,0,0,80,1,NOW(),NOW()),
-(368,12,24,0,23,20,1,NOW(),NOW()),
-(367,12,21,0,23,10,1,NOW(),NOW()),
-(366,12,17,1,19,10,1,NOW(),NOW()),
-(365,12,14,0,16,20,1,NOW(),NOW()),
-(364,12,13,0,16,10,1,NOW(),NOW()),
-(363,12,15,0,16,30,1,NOW(),NOW()),
-(362,12,19,0,21,20,1,NOW(),NOW()),
-(361,12,18,0,21,10,1,NOW(),NOW()),
-(360,12,12,0,20,10,1,NOW(),NOW()),
-(359,12,11,0,18,30,1,NOW(),NOW()),
-(358,12,10,0,18,20,1,NOW(),NOW()),
-(357,12,9,0,18,10,1,NOW(),NOW()),
-(349,12,1,0,0,10,1,NOW(),NOW()),
-(1774,12,20,12,353,60,1,NOW(),NOW()),
-(1775,12,17,13,356,10,1,NOW(),NOW()),
-(1763,12,14,0,349,60,1,NOW(),NOW()),
-(1764,12,15,0,349,70,1,NOW(),NOW()),
-(1765,12,17,15,349,80,1,NOW(),NOW()),
-(1761,12,26,0,349,40,1,NOW(),NOW()),
-(1776,12,17,14,356,20,1,NOW(),NOW()),
-(1767,12,23,9,350,20,1,NOW(),NOW()),
-(1768,12,17,10,352,10,1,NOW(),NOW()),
-(1762,12,13,0,349,50,1,NOW(),NOW()),
-(1770,12,12,0,353,20,1,NOW(),NOW()),
-(1771,12,18,0,353,30,1,NOW(),NOW()),
-(1772,12,22,0,353,40,1,NOW(),NOW()),
-(1773,12,23,11,353,50,1,NOW(),NOW()),
-(1766,12,9,0,350,10,1,NOW(),NOW()),
-(1779,12,11,0,356,50,1,NOW(),NOW()),
-(1777,12,17,16,356,30,1,NOW(),NOW()),
-(1769,12,19,0,353,10,1,NOW(),NOW()),
-(1778,12,25,0,356,40,1,NOW(),NOW()),
-(1760,12,27,0,349,30,1,NOW(),NOW()),
-(1799,13,27,0,378,30,1,NOW(),NOW()),
-(1810,13,11,0,379,50,1,NOW(),NOW()),
-(1805,13,9,0,375,10,1,NOW(),NOW()),
-(1801,13,13,0,378,50,1,NOW(),NOW()),
-(1813,13,21,0,379,80,1,NOW(),NOW()),
-(1809,13,25,0,379,40,1,NOW(),NOW()),
-(1808,13,17,16,379,30,1,NOW(),NOW()),
-(1811,13,17,15,379,60,1,NOW(),NOW()),
-(1807,13,17,14,379,20,1,NOW(),NOW()),
-(1806,13,17,13,379,10,1,NOW(),NOW()),
-(1800,13,26,0,378,40,1,NOW(),NOW()),
-(1812,13,24,0,379,70,1,NOW(),NOW()),
-(369,13,13,0,55,10,1,NOW(),NOW()),
-(1802,13,14,0,378,60,1,NOW(),NOW()),
-(1803,13,15,0,378,70,1,NOW(),NOW()),
-(1804,13,17,15,378,80,1,NOW(),NOW()),
-(381,13,24,0,65,20,1,NOW(),NOW()),
-(380,13,21,0,65,10,1,NOW(),NOW()),
-(379,13,8,0,0,80,1,NOW(),NOW()),
-(378,13,1,0,0,10,1,NOW(),NOW()),
-(377,13,14,0,55,20,1,NOW(),NOW()),
-(376,13,15,0,55,30,1,NOW(),NOW()),
-(370,13,7,0,0,70,1,NOW(),NOW()),
-(371,13,6,0,0,60,0,NOW(),NOW()),
-(372,13,5,0,0,50,1,NOW(),NOW()),
-(373,13,4,0,0,40,1,NOW(),NOW()),
-(374,13,3,0,0,30,0,NOW(),NOW()),
-(375,13,2,0,0,20,1,NOW(),NOW()),
-(1795,14,11,0,392,50,1,NOW(),NOW()),
-(1794,14,25,0,392,40,1,NOW(),NOW()),
-(1793,14,17,16,392,30,1,NOW(),NOW()),
-(1790,14,12,0,387,10,1,NOW(),NOW()),
-(1792,14,17,14,392,20,1,NOW(),NOW()),
-(1796,14,17,15,392,60,1,NOW(),NOW()),
-(1783,14,27,0,391,30,1,NOW(),NOW()),
-(1784,14,26,0,391,40,1,NOW(),NOW()),
-(1791,14,17,13,392,10,1,NOW(),NOW()),
-(1785,14,13,0,391,50,1,NOW(),NOW()),
-(1786,14,14,0,391,60,1,NOW(),NOW()),
-(1789,14,9,0,388,10,1,NOW(),NOW()),
-(1788,14,17,15,391,80,1,NOW(),NOW()),
-(1787,14,15,0,391,70,1,NOW(),NOW()),
-(1797,14,24,0,392,70,1,NOW(),NOW()),
-(1798,14,21,0,392,80,1,NOW(),NOW()),
-(388,14,2,0,0,20,1,NOW(),NOW()),
-(386,14,4,0,0,40,1,NOW(),NOW()),
-(387,14,3,0,0,30,1,NOW(),NOW()),
-(384,14,6,0,0,60,0,NOW(),NOW()),
-(383,14,7,0,0,70,1,NOW(),NOW()),
-(389,14,15,0,75,30,1,NOW(),NOW()),
-(390,14,14,0,75,20,1,NOW(),NOW()),
-(382,14,13,0,75,10,1,NOW(),NOW()),
-(391,14,1,0,0,10,1,NOW(),NOW()),
-(392,14,8,0,0,80,1,NOW(),NOW()),
-(393,14,21,0,76,10,1,NOW(),NOW()),
-(394,14,24,0,76,20,1,NOW(),NOW()),
-(385,14,5,0,0,50,1,NOW(),NOW()),
-(1827,15,24,0,403,70,1,NOW(),NOW()),
-(1818,15,15,0,395,70,1,NOW(),NOW()),
-(1817,15,14,0,395,60,1,NOW(),NOW()),
-(1816,15,13,0,395,50,1,NOW(),NOW()),
-(1828,15,21,0,403,80,1,NOW(),NOW()),
-(1815,15,26,0,395,40,1,NOW(),NOW()),
-(1814,15,27,0,395,30,1,NOW(),NOW()),
-(1820,15,9,0,399,10,1,NOW(),NOW()),
-(1819,15,17,15,395,80,1,NOW(),NOW()),
-(1822,15,17,14,403,20,1,NOW(),NOW()),
-(1825,15,11,0,403,50,1,NOW(),NOW()),
-(402,15,5,0,0,50,1,NOW(),NOW()),
-(401,15,4,0,0,40,1,NOW(),NOW()),
-(400,15,3,0,0,30,0,NOW(),NOW()),
-(399,15,2,0,0,20,1,NOW(),NOW()),
-(398,15,5,0,0,50,1,NOW(),NOW()),
-(397,15,6,0,0,60,1,NOW(),NOW()),
-(396,15,7,0,0,70,1,NOW(),NOW()),
-(1821,15,17,13,403,10,1,NOW(),NOW()),
-(395,15,1,0,0,10,1,NOW(),NOW()),
-(1824,15,25,0,403,40,1,NOW(),NOW()),
-(1823,15,17,16,403,30,1,NOW(),NOW()),
-(403,15,8,0,0,80,1,NOW(),NOW()),
-(404,15,13,0,77,10,1,NOW(),NOW()),
-(405,15,14,0,77,20,1,NOW(),NOW()),
-(406,15,15,0,77,30,1,NOW(),NOW()),
-(409,15,24,0,87,20,1,NOW(),NOW()),
-(1826,15,17,15,403,60,1,NOW(),NOW()),
-(408,15,21,0,87,10,1,NOW(),NOW()),
-(407,15,16,0,79,10,1,NOW(),NOW()),
-(942,17,5,0,0,50,1,NOW(),NOW()),
-(943,17,6,0,0,60,1,NOW(),NOW()),
-(944,17,7,0,0,70,1,NOW(),NOW()),
-(945,17,8,0,0,80,1,NOW(),NOW()),
-(940,17,3,0,0,30,1,NOW(),NOW()),
-(939,17,2,0,0,20,1,NOW(),NOW()),
-(938,17,1,0,0,10,1,NOW(),NOW()),
-(941,17,4,0,0,40,1,NOW(),NOW());
+-- DEFAULT template's layouts
+INSERT INTO `ac_block_layouts` (`instance_id`,`layout_id`,`block_id`,`custom_block_id`,`parent_instance_id`,`position`,`status`,`date_added`,`date_modified`) VALUES
+(1839,	11,	25,	0,	337,	40,	1,	NOW(),	NOW()),	
+(338,	11,	9,	0,	3,		10,	1,	NOW(),	NOW()),	
+(337,	11,	8,	0,	0,		80,	1,	NOW(),	NOW()),	
+(336,	11,	7,	0,	0,		70,	1,	NOW(),	NOW()),	
+(335,	11,	6,	0,	0,		60,	1,	NOW(),	NOW()),	
+(334,	11,	5,	0,	0,		50,	1,	NOW(),	NOW()),	
+(333,	11,	4,	0,	0,		40,	1,	NOW(),	NOW()),	
+(332,	11,	3,	0,	0,		30,	1,	NOW(),	NOW()),	
+(331,	11,	2,	0,	0,		20,	1,	NOW(),	NOW()),	
+(1836,	11,	17,	13,	337,	10,	1,	NOW(),	NOW()),	
+(339,	11,	10,	0,	3,		20,	1,	NOW(),	NOW()),	
+(340,	11,	11,	0,	3,		30,	1,	NOW(),	NOW()),	
+(341,	11,	9,	0,	6,		30,	1,	NOW(),	NOW()),	
+(1841,	11,	17,	15,	337,	60,	1,	NOW(),	NOW()),	
+(1840,	11,	11,	0,	337,	50,	1,	NOW(),	NOW()),	
+(1838,	11,	17,	16,	337,	30,	1,	NOW(),	NOW()),	
+(1837,	11,	17,	14,	337,	20,	1,	NOW(),	NOW()),	
+(348,	11,	24,	0,	8,		20,	1,	NOW(),	NOW()),	
+(347,	11,	21,	0,	8,		10,	1,	NOW(),	NOW()),	
+(346,	11,	15,	0,	1,		30,	1,	NOW(),	NOW()),	
+(345,	11,	14,	0,	1,		20,	1,	NOW(),	NOW()),	
+(344,	11,	13,	0,	1,		10,	1,	NOW(),	NOW()),	
+(343,	11,	11,	0,	6,		20,	1,	NOW(),	NOW()),	
+(342,	11,	10,	0,	6,		10,	1,	NOW(),	NOW()),	
+(330,	11,	1,	0,	0,		10,	1,	NOW(),	NOW()),	
+(1835,	11,	9,	0,	331,	10,	1,	NOW(),	NOW()),	
+(1842,	11,	24,	0,	337,	70,	1,	NOW(),	NOW()),	
+(1843,	11,	21,	0,	337,	80,	1,	NOW(),	NOW()),	
+(1844,	11,	31,	0,	330,	20,	1,	NOW(),	NOW()),	
+(1829,	11,	27,	0,	330,	30,	1,	NOW(),	NOW()),	
+(1830,	11,	26,	0,	330,	40,	1,	NOW(),	NOW()),	
+(1831,	11,	14,	0,	330,	60,	1,	NOW(),	NOW()),
+(1832,	11,	13,	0,	330,	50,	1,	NOW(),	NOW()),
+(1833,	11,	15,	0,	330,	70,	1,	NOW(),	NOW()),	
+(1834,	11,	17,	15,	330,	80,	1,	NOW(),	NOW()),	
+(1782,	12,	21,	0,	356,	80,	1,	NOW(),	NOW()),	
+(354,	12,	6,	0,	0,		60,	0,	NOW(),	NOW()),	
+(352,	12,	4,	0,	0,		40,	1,	NOW(),	NOW()),	
+(351,	12,	3,	0,	0,		30,	0,	NOW(),	NOW()),	
+(350,	12,	2,	0,	0,		20,	1,	NOW(),	NOW()),	
+(353,	12,	5,	0,	0,		50,	1,	NOW(),	NOW()),	
+(1780,	12,	17,	15,	356,	60,	1,	NOW(),	NOW()),	
+(1781,	12,	24,	0,	356,	70,	1,	NOW(),	NOW()),	
+(355,	12,	7,	0,	0,		70,	1,	NOW(),	NOW()),	
+(356,	12,	8,	0,	0,		80,	1,	NOW(),	NOW()),	
+(368,	12,	24,	0,	23,		20,	1,	NOW(),	NOW()),	
+(367,	12,	21,	0,	23,		10,	1,	NOW(),	NOW()),	
+(366,	12,	17,	1,	19,		10,	1,	NOW(),	NOW()),	
+(365,	12,	14,	0,	16,		20,	1,	NOW(),	NOW()),	
+(364,	12,	13,	0,	16,		10,	1,	NOW(),	NOW()),	
+(363,	12,	15,	0,	16,		30,	1,	NOW(),	NOW()),	
+(362,	12,	19,	0,	21,		20,	1,	NOW(),	NOW()),	
+(361,	12,	18,	0,	21,		10,	1,	NOW(),	NOW()),	
+(360,	12,	12,	0,	20,		10,	1,	NOW(),	NOW()),	
+(359,	12,	11,	0,	18,		30,	1,	NOW(),	NOW()),	
+(358,	12,	10,	0,	18,		20,	1,	NOW(),	NOW()),	
+(357,	12,	9,	0,	18,		10,	1,	NOW(),	NOW()),	
+(349,	12,	1,	0,	0,		10,	1,	NOW(),	NOW()),	
+(1774,	12,	20,	12,	353,	60,	1,	NOW(),	NOW()),	
+(1775,	12,	17,	13,	356,	10,	1,	NOW(),	NOW()),	
+(1763,	12,	14,	0,	349,	60,	1,	NOW(),	NOW()),	
+(1764,	12,	15,	0,	349,	70,	1,	NOW(),	NOW()),	
+(1765,	12,	17,	15,	349,	80,	1,	NOW(),	NOW()),	
+(1761,	12,	26,	0,	349,	40,	1,	NOW(),	NOW()),	
+(1776,	12,	17,	14,	356,	20,	1,	NOW(),	NOW()),	
+(1767,	12,	23,	9,	350,	20,	1,	NOW(),	NOW()),	
+(1768,	12,	17,	10,	352,	10,	1,	NOW(),	NOW()),	
+(1762,	12,	13,	0,	349,	50,	1,	NOW(),	NOW()),	
+(1770,	12,	12,	0,	353,	20,	1,	NOW(),	NOW()),	
+(1771,	12,	18,	0,	353,	30,	1,	NOW(),	NOW()),	
+(1772,	12,	22,	0,	353,	40,	1,	NOW(),	NOW()),	
+(1773,	12,	23,	11,	353,	50,	1,	NOW(),	NOW()),	
+(1766,	12,	9,	0,	350,	10,	1,	NOW(),	NOW()),	
+(1779,	12,	11,	0,	356,	50,	1,	NOW(),	NOW()),	
+(1777,	12,	17,	16,	356,	30,	1,	NOW(),	NOW()),	
+(1769,	12,	19,	0,	353,	10,	1,	NOW(),	NOW()),	
+(1778,	12,	25,	0,	356,	40,	1,	NOW(),	NOW()),	
+(1845,	12,	31,	0,	349,	20,	1,	NOW(),	NOW()),	
+(1760,	12,	27,	0,	349,	30,	1,	NOW(),	NOW()),	
+(1846,	13,	31,	0,	378,	20,	1,	NOW(),	NOW()),	
+(1799,	13,	27,	0,	378,	30,	1,	NOW(),	NOW()),	
+(1810,	13,	11,	0,	379,	50,	1,	NOW(),	NOW()),	
+(1805,	13,	9,	0,	375,	10,	1,	NOW(),	NOW()),	
+(1801,	13,	13,	0,	378,	50,	1,	NOW(),	NOW()),	
+(1813,	13,	21,	0,	379,	80,	1,	NOW(),	NOW()),	
+(1809,	13,	25,	0,	379,	40,	1,	NOW(),	NOW()),	
+(1808,	13,	17,	16,	379,	30,	1,	NOW(),	NOW()),	
+(1811,	13,	17,	15,	379,	60,	1,	NOW(),	NOW()),	
+(1807,	13,	17,	14,	379,	20,	1,	NOW(),	NOW()),	
+(1806,	13,	17,	13,	379,	10,	1,	NOW(),	NOW()),	
+(1800,	13,	26,	0,	378,	40,	1,	NOW(),	NOW()),	
+(1812,	13,	24,	0,	379,	70,	1,	NOW(),	NOW()),	
+(369,	13,	13,	0,	55,		10,	1,	NOW(),	NOW()),	
+(1802,	13,	14,	0,	378,	60,	1,	NOW(),	NOW()),	
+(1803,	13,	15,	0,	378,	70,	1,	NOW(),	NOW()),	
+(1804,	13,	17,	15,	378,	80,	1,	NOW(),	NOW()),	
+(381,	13,	24,	0,	65,		20,	1,	NOW(),	NOW()),	
+(380,	13,	21,	0,	65,		10,	1,	NOW(),	NOW()),	
+(379,	13,	8,	0,	0,		80,	1,	NOW(),	NOW()),	
+(378,	13,	1,	0,	0,		10,	1,	NOW(),	NOW()),	
+(377,	13,	14,	0,	55,		20,	1,	NOW(),	NOW()),	
+(376,	13,	15,	0,	55,		30,	1,	NOW(),	NOW()),	
+(370,	13,	7,	0,	0,		70,	1,	NOW(),	NOW()),	
+(371,	13,	6,	0,	0,		60,	0,	NOW(),	NOW()),	
+(372,	13,	5,	0,	0,		50,	1,	NOW(),	NOW()),	
+(373,	13,	4,	0,	0,		40,	1,	NOW(),	NOW()),	
+(374,	13,	3,	0,	0,		30,	0,	NOW(),	NOW()),	
+(375,	13,	2,	0,	0,		20,	1,	NOW(),	NOW()),	
+(1795,	14,	11,	0,	392,	50,	1,	NOW(),	NOW()),	
+(1794,	14,	25,	0,	392,	40,	1,	NOW(),	NOW()),	
+(1793,	14,	17,	16,	392,	30,	1,	NOW(),	NOW()),	
+(1790,	14,	12,	0,	387,	10,	1,	NOW(),	NOW()),	
+(1792,	14,	17,	14,	392,	20,	1,	NOW(),	NOW()),	
+(1796,	14,	17,	15,	392,	60,	1,	NOW(),	NOW()),	
+(1847,	14,	31,	0,	391,	20,	1,	NOW(),	NOW()),	
+(1783,	14,	27,	0,	391,	30,	1,	NOW(),	NOW()),	
+(1784,	14,	26,	0,	391,	40,	1,	NOW(),	NOW()),	
+(1791,	14,	17,	13,	392,	10,	1,	NOW(),	NOW()),	
+(1785,	14,	13,	0,	391,	50,	1,	NOW(),	NOW()),	
+(1786,	14,	14,	0,	391,	60,	1,	NOW(),	NOW()),	
+(1789,	14,	9,	0,	388,	10,	1,	NOW(),	NOW()),	
+(1788,	14,	17,	15,	391,	80,	1,	NOW(),	NOW()),	
+(1787,	14,	15,	0,	391,	70,	1,	NOW(),	NOW()),	
+(1797,	14,	24,	0,	392,	70,	1,	NOW(),	NOW()),	
+(1798,	14,	21,	0,	392,	80,	1,	NOW(),	NOW()),	
+(388,	14,	2,	0,	0,		20,	1,	NOW(),	NOW()),	
+(386,	14,	4,	0,	0,		40,	1,	NOW(),	NOW()),	
+(387,	14,	3,	0,	0,		30,	1,	NOW(),	NOW()),	
+(384,	14,	6,	0,	0,		60,	0,	NOW(),	NOW()),	
+(383,	14,	7,	0,	0,		70,	1,	NOW(),	NOW()),	
+(389,	14,	15,	0,	75,		30,	1,	NOW(),	NOW()),	
+(390,	14,	14,	0,	75,		20,	1,	NOW(),	NOW()),	
+(382,	14,	13,	0,	75,		10,	1,	NOW(),	NOW()),	
+(391,	14,	1,	0,	0,		10,	1,	NOW(),	NOW()),	
+(392,	14,	8,	0,	0,		80,	1,	NOW(),	NOW()),	
+(393,	14,	21,	0,	76,		10,	1,	NOW(),	NOW()),	
+(394,	14,	24,	0,	76,		20,	1,	NOW(),	NOW()),	
+(385,	14,	5,	0,	0,		50,	1,	NOW(),	NOW()),	
+(1827,	15,	24,	0,	403,	70,	1,	NOW(),	NOW()),	
+(1818,	15,	15,	0,	395,	70,	1,	NOW(),	NOW()),	
+(1817,	15,	14,	0,	395,	60,	1,	NOW(),	NOW()),	
+(1816,	15,	13,	0,	395,	50,	1,	NOW(),	NOW()),	
+(1828,	15,	21,	0,	403,	80,	1,	NOW(),	NOW()),	
+(1815,	15,	26,	0,	395,	40,	1,	NOW(),	NOW()),	
+(1848,	15,	31,	0,	395,	20,	1,	NOW(),	NOW()),	
+(1814,	15,	27,	0,	395,	30,	1,	NOW(),	NOW()),	
+(1820,	15,	9,	0,	399,	10,	1,	NOW(),	NOW()),	
+(1819,	15,	17,	15,	395,	80,	1,	NOW(),	NOW()),	
+(1822,	15,	17,	14,	403,	20,	1,	NOW(),	NOW()),	
+(1825,	15,	11,	0,	403,	50,	1,	NOW(),	NOW()),	
+(402,	15,	5,	0,	0,		50,	1,	NOW(),	NOW()),	
+(401,	15,	4,	0,	0,		40,	1,	NOW(),	NOW()),	
+(400,	15,	3,	0,	0,		30,	0,	NOW(),	NOW()),	
+(399,	15,	2,	0,	0,		20,	1,	NOW(),	NOW()),	
+(398,	15,	5,	0,	0,		50,	1,	NOW(),	NOW()),	
+(397,	15,	6,	0,	0,		60,	1,	NOW(),	NOW()),	
+(396,	15,	7,	0,	0,		70,	1,	NOW(),	NOW()),	
+(1821,	15,	17,	13,	403,	10,	1,	NOW(),	NOW()),	
+(395,	15,	1,	0,	0,		10,	1,	NOW(),	NOW()),	
+(1824,	15,	25,	0,	403,	40,	1,	NOW(),	NOW()),	
+(1823,	15,	17,	16,	403,	30,	1,	NOW(),	NOW()),	
+(403,	15,	8,	0,	0,		80,	1,	NOW(),	NOW()),	
+(404,	15,	13,	0,	77,		10,	1,	NOW(),	NOW()),	
+(405,	15,	14,	0,	77,		20,	1,	NOW(),	NOW()),	
+(406,	15,	15,	0,	77,		30,	1,	NOW(),	NOW()),	
+(409,	15,	24,	0,	87,		20,	1,	NOW(),	NOW()),	
+(1826,	15,	17,	15,	403,	60,	1,	NOW(),	NOW()),	
+(408,	15,	21,	0,	87,		10,	1,	NOW(),	NOW()),	
+(407,	15,	16,	0,	79,		10,	1,	NOW(),	NOW()),	
+(942,	17,	5,	0,	0,		50,	1,	NOW(),	NOW()),	
+(943,	17,	6,	0,	0,		60,	1,	NOW(),	NOW()),	
+(944,	17,	7,	0,	0,		70,	1,	NOW(),	NOW()),	
+(945,	17,	8,	0,	0,		80,	1,	NOW(),	NOW()),	
+(940,	17,	3,	0,	0,		30,	1,	NOW(),	NOW()),	
+(939,	17,	2,	0,	0,		20,	1,	NOW(),	NOW()),	
+(938,	17,	1,	0,	0,		10,	1,	NOW(),	NOW()),	
+(941,	17,	4,	0,	0,		40,	1,	NOW(),	NOW());
 
--- DEFAULT HTML5 template's layouts
-INSERT INTO `ac_block_layouts` (`instance_id`, `layout_id`, `block_id`, `custom_block_id`, `parent_instance_id`, `position`, `status`, `date_added`,`date_modified`) VALUES
-(1900,18,5,0,0,50,1,NOW(),NOW()),
-(1901,18,4,0,0,40,1,NOW(),NOW()),
-(1902,18,3,0,0,30,0,NOW(),NOW()),
-(1903,18,2,0,0,20,1,NOW(),NOW()),
-(1904,18,5,0,0,50,1,NOW(),NOW()),
-(1905,18,6,0,0,60,1,NOW(),NOW()),
-(1906,18,7,0,0,70,1,NOW(),NOW()),
-(1907,18,1,0,0,10,1,NOW(),NOW()),
-(1908,18,8,0,0,80,1,NOW(),NOW()),
-(1909,18,13,0,77,10,1,NOW(),NOW()),
-(1910,18,14,0,77,20,1,NOW(),NOW()),
-(1911,18,15,0,77,30,1,NOW(),NOW()),
-(1912,18,24,0,87,20,1,NOW(),NOW()),
-(1913,18,21,0,87,10,1,NOW(),NOW()),
-(1914,18,16,0,79,10,1,NOW(),NOW()),
-(1920,18,24,0,1908,70,1,NOW(),NOW()),
-(1921,18,15,0,1907,70,1,NOW(),NOW()),
-(1922,18,14,0,1907,60,1,NOW(),NOW()),
-(1923,18,13,0,1907,50,1,NOW(),NOW()),
-(1924,18,21,0,1908,80,1,NOW(),NOW()),
-(1925,18,26,0,1907,40,1,NOW(),NOW()),
-(1926,18,27,0,1907,30,1,NOW(),NOW()),
-(1927,18,9,0,1903,10,1,NOW(),NOW()),
-(1928,18,17,15,1907,80,1,NOW(),NOW()),
-(1929,18,17,14,1908,20,1,NOW(),NOW()),
-(1930,18,11,0,1908,50,1,NOW(),NOW()),
-(1931,18,17,13,1908,10,1,NOW(),NOW()),
-(1932,18,25,0,1908,40,1,NOW(),NOW()),
-(1933,18,17,16,1908,30,1,NOW(),NOW()),
-(1934,18,17,15,1908,60,1,NOW(),NOW()),
-(1935,18,29,0,1905,10,1,NOW(),NOW());
+-- DEFAULT template's layouts
+INSERT INTO `ac_block_layouts` (`instance_id`,	 `layout_id`,	 `block_id`,	 `custom_block_id`,	 `parent_instance_id`,	 `position`,	 `status`,	 `date_added`,	`date_modified`) VALUES
+(1900,	18,	5,	0,	0,		50,	1,	NOW(),	NOW()),	
+(1901,	18,	4,	0,	0,		40,	1,	NOW(),	NOW()),	
+(1902,	18,	3,	0,	0,		30,	0,	NOW(),	NOW()),	
+(1903,	18,	2,	0,	0,		20,	1,	NOW(),	NOW()),	
+(1904,	18,	5,	0,	0,		50,	1,	NOW(),	NOW()),	
+(1905,	18,	6,	0,	0,		60,	1,	NOW(),	NOW()),	
+(1906,	18,	7,	0,	0,		70,	1,	NOW(),	NOW()),	
+(1907,	18,	1,	0,	0,		10,	1,	NOW(),	NOW()),	
+(1908,	18,	8,	0,	0,		80,	1,	NOW(),	NOW()),	
+(1909,	18,	13,	0,	77,		10,	1,	NOW(),	NOW()),	
+(1910,	18,	14,	0,	77,		20,	1,	NOW(),	NOW()),	
+(1911,	18,	15,	0,	77,		30,	1,	NOW(),	NOW()),	
+(1912,	18,	24,	0,	87,		20,	1,	NOW(),	NOW()),	
+(1913,	18,	21,	0,	87,		10,	1,	NOW(),	NOW()),	
+(1914,	18,	16,	0,	79,		10,	1,	NOW(),	NOW()),	
+(1920,	18,	24,	0,	1908,	70,	1,	NOW(),	NOW()),	
+(1921,	18,	15,	0,	1907,	70,	1,	NOW(),	NOW()),	
+(1922,	18,	14,	0,	1907,	60,	1,	NOW(),	NOW()),	
+(1923,	18,	13,	0,	1907,	50,	1,	NOW(),	NOW()),	
+(1924,	18,	21,	0,	1908,	80,	1,	NOW(),	NOW()),	
+(1925,	18,	26,	0,	1907,	40,	1,	NOW(),	NOW()),	
+(1849,	18,	31,	0,	1907,	20,	1,	NOW(),	NOW()),	
+(1926,	18,	27,	0,	1907,	30,	1,	NOW(),	NOW()),	
+(1927,	18,	9,	0,	1903,	10,	1,	NOW(),	NOW()),	
+(1928,	18,	17,	15,	1907,	80,	1,	NOW(),	NOW()),	
+(1929,	18,	17,	14,	1908,	20,	1,	NOW(),	NOW()),	
+(1930,	18,	11,	0,	1908,	50,	1,	NOW(),	NOW()),	
+(1931,	18,	17,	13,	1908,	10,	1,	NOW(),	NOW()),	
+(1932,	18,	25,	0,	1908,	40,	1,	NOW(),	NOW()),	
+(1933,	18,	17,	16,	1908,	30,	1,	NOW(),	NOW()),	
+(1934,	18,	17,	15,	1908,	60,	1,	NOW(),	NOW()),	
+(1935,	18,	29,	0,	1905,	10,	1,	NOW(),	NOW());
 
 -- add breadcrumbs 
+INSERT INTO `ac_block_layouts` (`instance_id`,	 `layout_id`,	 `block_id`,	 `custom_block_id`,	 `parent_instance_id`,	 `position`,	 `status`,	 `date_added`,	`date_modified`) VALUES
+(1950,	11,	28,	0,	331,	20,	1,	NOW(),	NOW()),	
+(1951,	13,	28,	0,	375,	20,	1,	NOW(),	NOW()),	
+(1952,	14,	28,	0,	388,	20,	1,	NOW(),	NOW()),	
+(1953,	15,	28,	0,	399,	20,	1,	NOW(),	NOW()),	
+(1954,	17,	28,	0,	939,	20,	1,	NOW(),	NOW()),	
+(1955,	18,	28,	0,	1903,	20,	1,	NOW(),	NOW());
 
-INSERT INTO `ac_block_layouts` (`instance_id`, `layout_id`, `block_id`, `custom_block_id`, `parent_instance_id`, `position`, `status`, `date_added`,`date_modified`) VALUES
-(1950,11,28,0,331,20,1,NOW(),NOW()),
-(1951,13,28,0,375,20,1,NOW(),NOW()),
-(1952,14,28,0,388,20,1,NOW(),NOW()),
-(1953,15,28,0,399,20,1,NOW(),NOW()),
-(1954,17,28,0,939,20,1,NOW(),NOW()),
-(1955,18,28,0,1903,20,1,NOW(),NOW());
 
 --
 -- DDL for table `forms_pages`
@@ -10695,7 +10709,7 @@ INSERT INTO `ac_fields`
 VALUES
 (11,2,'first_name','I',1,'','','Y','/^.{3,100}$/u',1),
 (12,2,'email','I',2,'','','Y','/^[A-Z0-9._%-]+@[A-Z0-9][A-Z0-9.-]{0,61}[A-Z0-9]\.[A-Z]{2,6}$/i',1),
-(13,2,'enquiry','T',3,'cols="50" rows="8"','','Y','/^.{3,1000}$/u',1),
+(13,2,'enquiry','T',3,'cols="50" rows="8"','','Y','/^.{3,1000}$/su',1),
 (14,2,'captcha','K',4,'','','Y','',1);
 
 --
@@ -10824,11 +10838,13 @@ CREATE TABLE `ac_datasets` (
 --
 DROP TABLE IF EXISTS `ac_dataset_properties`;
 CREATE TABLE `ac_dataset_properties` (
+	`rowid` int(11) NOT NULL AUTO_INCREMENT,
   `dataset_id` int(11) NOT NULL,
   `dataset_property_name` varchar(255) NOT NULL,
   `dataset_property_value` varchar(255),
+	PRIMARY KEY (`rowid`),
   KEY `dataset_property_idx` (`dataset_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci  AUTO_INCREMENT=1;
 
 --
 -- DDL for table `ac_dataset_definition`
@@ -10849,11 +10865,13 @@ CREATE TABLE `ac_dataset_definition` (
 --
 DROP TABLE IF EXISTS `ac_dataset_column_properties`;
 CREATE TABLE `ac_dataset_column_properties` (
+	`rowid` INT(11) NOT NULL AUTO_INCREMENT,
   `dataset_column_id` int(11) NOT NULL,
   `dataset_column_property_name` varchar(255) NOT NULL,
   `dataset_column_property_value` varchar(255) DEFAULT NULL,
+	PRIMARY KEY (`rowid`),
   KEY `dataset_column_properties_idx` (`dataset_column_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci  AUTO_INCREMENT=1;
 
 --
 -- DDL for table `ac_dataset_values`
@@ -10918,8 +10936,8 @@ VALUES  (3,'index/home',1),
 -- PARENT_ID
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
 VALUES  (4,'',1),
-        (4,'',2),
-        (4,'',3),
+        (4,'account',2),
+        (4,'account',3),
         (4,'',4),
         (4,'',5),
         (4,'',6),
@@ -10944,13 +10962,13 @@ VALUES  (6,'core',1),
         (6,'core',7);
 -- item_icon_rl_id
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_integer`,`row_id`)
-VALUES  (7,null,1),
-        (7,null,2),
-        (7,null,3),
-        (7,null,4),
-        (7,null,5),
-        (7,null,6),
-		    (7,null,7);
+VALUES  (7,'2',1),
+        (7,'4',2),
+        (7,'3',3),
+        (7,'4',4),
+        (7,'250',5),
+       	(7,'260',6),
+       	(7,'244',7);
 
 --
 -- ADMIN MENU SECTION
@@ -10993,7 +11011,7 @@ VALUES  (12,'catalog/category',1),
         (12,'extension/extensions/template',3),
         (12,'extension/extensions/extensions',4),
         (12,'setting/setting',5),
-        (12,'report/sale',6),
+        (12,'report/sale/orders',6),
         (12,'',7);
 -- PARENT_ID
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`) 
@@ -11974,7 +11992,7 @@ VALUES  (20, NOW(),'1');
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
 VALUES  (21,'AbanteCart','1');
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
-VALUES  (22,'1.2.0','1');
+VALUES  (22,'1.2.1','1');
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
 VALUES  (23,'','1');
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
@@ -12247,10 +12265,9 @@ CREATE TABLE `ac_resource_map` (
   `sort_order` int(3) NOT NULL DEFAULT '0',  
   `date_added` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `date_modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  KEY `group_id` (`resource_id`, `object_name`, `object_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
-CREATE UNIQUE INDEX `ac_resource_map_idx`
-ON `ac_resource_map` ( `resource_id`, `object_name`, `object_id` );
+	PRIMARY KEY ( `resource_id`, `object_name`, `object_id` )
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
 
 INSERT INTO `ac_resource_map` ( `resource_id`, `object_name`, `object_id`, `default`, `sort_order`, `date_added`)
 VALUES

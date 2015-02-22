@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2014 Belavier Commerce LLC
+  Copyright © 2011-2015 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -136,7 +136,7 @@ class ModelToolMPAPI extends Model {
 				$info['rating'] = (int)$info['rating'];
 				$info['description'] = substr(strip_tags(html_entity_decode(str_replace('&nbsp;','',$info['description']),ENT_QUOTES)),0,344).'...';
 
-				$info['price'] = $info['price']>0 ? $this->currency->format($info['price'],$info['currency_code']) : $this->language->get('text_free');
+				$info['price'] = $info['price']>0 ? $this->currency->format($info['price'],'USD',1) : $this->language->get('text_free');
 
 				$info['addtocart'] = $this->html->buildElement(array(
 																	'type' => 'button',

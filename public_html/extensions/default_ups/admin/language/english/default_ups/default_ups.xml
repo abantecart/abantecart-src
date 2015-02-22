@@ -291,7 +291,7 @@
 	</definition>
 	<definition>
 		<key>entry_dimensions</key>
-		<value><![CDATA[Dimensions (L x W x H):<span class="help">This is assumed to be your average packing box size. Individual item dimensions are not supported at this time so you must enter average dimensions like 5x5x5.</span>]]></value>
+		<value><![CDATA[Dimensions (L x W x H), inches:<span class="help">This is assumed to be your average packing box size. Individual item dimensions are not supported at this time so you must enter average dimensions like 5x5x5.</span>]]></value>
 	</definition>
 	<definition>
 		<key>entry_tax</key>

@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2014 Belavier Commerce LLC
+  Copyright © 2011-2015 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -33,7 +33,7 @@ class ControllerPagesFinish extends AController {
 		$this->view->assign('admin_path', 'index.php?s=' . ADMIN_PATH);
 		setcookie("new_cart", 1, 0, '/', $this->request->server['HTTP_HOST']);
 
-		$message = "Keep your ecommmerce secure! <br /> Delete directory " . DIR_ABANTECART . "/install from your AbanteCart installation!";
+		$message = "Keep your ecommmerce secure! <br /> Delete directory " . DIR_ABANTECART . "install from your AbanteCart installation!";
 		$this->view->assign('message', $message);
 		$this->view->assign('salt', SALT);
 

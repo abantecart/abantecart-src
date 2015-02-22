@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2014 Belavier Commerce LLC
+  Copyright © 2011-2015 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -291,7 +291,7 @@ class ModelCheckoutOrder extends Model {
 
 			}
 
-			$language = new ALanguage($this->registry);
+			$language = new ALanguage($this->registry, $order_row['code']);
 			$language->load($order_row['filename']);
 			$language->load('mail/order_confirm');
 
@@ -567,7 +567,7 @@ class ModelCheckoutOrder extends Model {
 									date_added = NOW()");
 
 			if ($notify) {
-				$language = new ALanguage($order_row['directory']);
+				$language = new ALanguage($this->registry, $order_row['code']);
 				$language->load($order_row['filename']);
 				$language->load('mail/order_update');
 

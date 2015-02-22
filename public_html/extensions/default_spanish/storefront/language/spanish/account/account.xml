@@ -52,4 +52,8 @@
 		<key>text_newsletter</key>
 		<value><![CDATA[Subscribir / Des-suscribirse al boletín]]></value>
 	</definition>
+	<definition>
+		<key>text_account_wishlist</key>
+		<value><![CDATA[Su lista de deseos]]></value>
+	</definition>	
 </definitions>

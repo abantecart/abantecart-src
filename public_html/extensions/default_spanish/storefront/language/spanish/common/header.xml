@@ -56,4 +56,16 @@
     <key>entry_search</key>
     <value><![CDATA[Buscar:]]></value>
   </definition>
+  <definition>
+	<key>text_welcome</key>
+	<value><![CDATA[Bienvenida]]></value>
+  </definition>  
+  <definition>
+    <key>text_not</key>
+    <value><![CDATA[No]]></value>
+  </definition>  
+  <definition>
+    <key>text_login_or_register</key>
+    <value><![CDATA[Registrase or register]]></value>
+  </definition>  
 </definitions>

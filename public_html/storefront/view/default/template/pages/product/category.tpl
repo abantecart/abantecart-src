@@ -18,7 +18,7 @@
 	    	<a href="<?php echo $categories[ $i ][ 'href' ]; ?>">
 	    		<?php echo $categories[ $i ][ 'thumb' ][ 'thumb_html' ]; ?>
 	    	</a>
-	    	<div class="mt10 align_center">
+	    	<div class="mt10 align_center" style="height: 40px;">
 	    	<a href="<?php echo $categories[ $i ][ 'href' ]; ?>"><?php echo $categories[ $i ][ 'name' ]; ?></a>
 	    	</div>
 	    </li>

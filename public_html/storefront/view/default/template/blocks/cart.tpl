@@ -38,7 +38,7 @@
 				<?php } ?>
 				</tbody>
 			</table>
-		<div class="well buttonwrap col-md-3">
+		<div class="well buttonwrap col-sm-12 col-md-12">
 			<a class="btn btn-orange btn-xs pull-left" href="<?php echo $view; ?>"><i
 						class="fa fa-shopping-cart fa-fw"></i> <?php echo $text_view;?></a>
 			<a class="btn btn-orange btn-xs pull-right"

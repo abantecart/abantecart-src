@@ -333,4 +333,9 @@
         <key>entry_date_modified</key>
         <value><![CDATA[Date Modified:]]></value>
     </definition>
+    <definition>
+        <key>warning_actonbehalf_additional_store</key>
+        <value><![CDATA[To act on behalf of customer in additional store you should to login into another store's admin side. Continue?]]></value>
+    </definition>
+
 </definitions>

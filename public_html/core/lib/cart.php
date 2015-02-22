@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2014 Belavier Commerce LLC
+  Copyright © 2011-2015 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -33,24 +33,56 @@ if (! defined ( 'DIR_CORE' )) {
  * @property ALanguage $language
  * @property ModelCheckoutExtension $model_checkout_extension
  */
-final class ACart {
+class ACart {
+	/**
+	 * @var Registry
+	 */
   	private $registry;
+	/**
+	 * @var array
+	 */
   	private $cart_data = array();
+	/**
+	 * @var float
+	 */
   	private $sub_total;
+	/**
+	 * @var array
+	 */
   	private $taxes = array();
+	/**
+	 * @var float
+	 */
   	private $total_value;
+	/**
+	 * @var array
+	 */
   	private $final_total;
+	/**
+	 * @var array
+	 */
   	private $total_data;
+	/**
+	 * @var ACustomer
+	 */
+  	private $customer;
+	/**
+	 * @var AAttribute
+	 */
+	private $attribute;
+	/**
+	 * @var APromotion
+	 */
+	private $promotion;
 
 	/**
 	 * @param $registry Registry
 	 */
 	public function __construct($registry) {
   		$this->registry = $registry;
-
 		$this->attribute = new AAttribute('product_option');
 		$this->promotion = new APromotion();
-	
+		$this->customer = $registry->get('customer');
 		if (!isset($this->session->data['cart']) || !is_array($this->session->data['cart'])) {
       		$this->session->data['cart'] = array();
     	}
@@ -95,7 +127,21 @@ final class ACart {
 			$product_result = $this->buildProductDetails($product_id, $quantity, $options);
 			if ( count($product_result) ) {
 				$product_data[$key] = $product_result;
-				$product_data[$key]['key'] = $key;
+				$product_data[$key]['key'] = $key;						
+
+				//apply min and max for quantity once we have product details.
+				if ($quantity < $product_result['minimum']) {
+					$this->language->load('checkout/cart');
+					$this->session->data['error'] = $this->language->get('error_quantity_minimum');
+					$this->update($key, $product_result['minimum']);
+				}
+				if ($product_result['maximum'] > 0) {
+					$this->language->load('checkout/cart');
+					if ($quantity > $product_result['maximum']) {
+						$this->session->data['error'] = $this->language->get('error_quantity_maximum');
+						$this->update($key, $product_result['maximum']);
+					}
+				}
 			} else {
 				$this->remove($key);
 			}
@@ -114,7 +160,7 @@ final class ACart {
 	 * @param array $options
 	 * @return array
 	 */
-	public function buildProductDetails( $product_id, $quantity = 0, $options = array()  ) {
+	public function buildProductDetails( $product_id, $quantity = 0, $options = array()) {
 		if (!has_value($product_id) || !is_numeric($product_id) || $quantity == 0) {
 			return array();
 		}	
@@ -177,7 +223,9 @@ final class ACart {
             		$groups[] = $option_value_query['group_id'];
             	}
             	$option_data[] = array( 'product_option_value_id' => $option_value_query['product_option_value_id'],
-            							'name'                    => $option_query['name'],
+			                            'product_option_id'       => $product_option_id,
+	                                    'name'                    => $option_query['name'],
+		                                'element_type'            => $element_type,
             							'value'                   => $option_value_query['name'],
             							'prefix'                  => $option_value_query['prefix'],
             							'price'                   => $option_value_query['price'],
@@ -302,8 +350,12 @@ final class ACart {
     		//TODO Add validation for correct options for the product and add error return or more stable behaviour
 			$this->session->data['cart'][$key]['options'] = $options;
 		}
-		$this->setMinQty();
-		$this->setMaxQty();
+
+		//if logged in customer, save cart content
+    	if ($this->customer->isLogged() || $this->customer->isUnauthCustomer()) {
+    		$this->customer->saveCustomerCart();
+    	}
+		
 		#reload data for the cart
 		$this->getProducts(TRUE);
   	}
@@ -352,8 +404,12 @@ final class ACart {
     	} else {
 	  		$this->remove($key);
 		}
-		$this->setMinQty();
-		$this->setMaxQty();
+		
+		//save if logged in customer
+    	if ($this->customer->isLogged() || $this->customer->isUnauthCustomer()) {
+    		$this->customer->saveCustomerCart();
+    	}
+
 		#reload data for the cart
 		$this->getProducts(TRUE);
   	}
@@ -366,12 +422,18 @@ final class ACart {
      		unset($this->session->data['cart'][$key]);
 			// remove balance credit from session when any products removed from cart
 			unset($this->session->data['used_balance']);
+
+			//if logged in customer, save cart content
+     		if ($this->customer->isLogged() || $this->customer->isUnauthCustomer()) {
+    			$this->customer->saveCustomerCart();
+    		}
+
   		}
 	}
 
   	public function clear() {
-		$this->session->data['cart'] = array();
-  	}
+		$this->session->data['cart'] = array();		
+ 	}
 
 	/**
 	 * Accumulative weight for all or requested products
@@ -442,6 +504,26 @@ final class ACart {
 		return $special_ship_products;
 	}
 
+	/**
+	 * Check if all products are free shipping 
+	 * @return bool
+	 */
+	public function areAllFreeShipping() {
+		$all_free_shipping = false;
+    	foreach ($this->getProducts() as $product) {
+			if ( !$product['shipping'] || ($product['shipping'] && $product['free_shipping']) ) {
+				$all_free_shipping = true;
+			} else {
+				$all_free_shipping = false;
+			}
+		}
+		return $all_free_shipping;
+	}
+		
+	/**
+	 * Set mim quantity on whole cart
+	 * @void
+	 */
 	public function setMinQty() {
 		foreach ($this->getProducts() as $product) {
 			if ($product['quantity'] < $product['minimum']) {
@@ -450,6 +532,10 @@ final class ACart {
 		}
   	}
 
+	/**
+	 * Set max quantity on whole cart
+	 * @void
+	 */
 	public function setMaxQty() {
 		# If set 0 there is no minimum
 		foreach ($this->getProducts() as $product) {

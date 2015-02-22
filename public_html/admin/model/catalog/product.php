@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2014 Belavier Commerce LLC
+  Copyright © 2011-2015 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -124,7 +124,7 @@ class ModelCatalogProduct extends Model {
 				if ($tag) {
 					$this->language->addDescriptions('product_tags',
 						array('product_id' => (int)$product_id,
-							'tag' => $tag),
+							'tag' => $this->db->escape($tag)),
 						array((int)$this->language->getContentLanguageID() => array('tag' => $tag)));
 				}
 			}
@@ -282,7 +282,7 @@ class ModelCatalogProduct extends Model {
 			$tags = explode(',', $data['product_tags']);
 
 			foreach ($tags as &$tag) {
-				$tag = trim($tag);
+				$tag = $this->db->escape(trim($tag));
 			}
 
 			$this->language->replaceMultipleDescriptions('product_tags',
