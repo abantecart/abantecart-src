@@ -184,17 +184,9 @@ class ACart {
     	    if ($product_option_value_id == '' || (is_array($product_option_value_id) && !$product_option_value_id)) {
     	        continue;
     	    }
-    	    
-    	    //Detect option element type. If single value (text, input) process diferently. 
-            $option_attribute = $this->attribute->getAttributeByProductOptionId($product_option_id);
-            if ( $option_attribute ) {
-            	$element_type = $option_attribute['element_type'];
-            	$option_query['name'] = $option_attribute['name'];
-            } else {
-            	//Not global attribute based option, select element type from options table
-            	$option_query = $this->model_catalog_product->getProductOption($product_id, $product_option_id);
-            	$element_type = $option_query['element_type'];
-            }
+
+            $option_query = $this->model_catalog_product->getProductOption($product_id, $product_option_id);
+            $element_type = $option_query['element_type'];
 
     	    if (!in_array($element_type, $elements_with_options)) {
     	    	//This is single value element, get all values and expect only one	
@@ -226,6 +218,7 @@ class ACart {
 			                            'product_option_id'       => $product_option_id,
 	                                    'name'                    => $option_query['name'],
 		                                'element_type'            => $element_type,
+		                                'settings'                => $option_query['settings'],
             							'value'                   => $option_value_query['name'],
             							'prefix'                  => $option_value_query['prefix'],
             							'price'                   => $option_value_query['price'],

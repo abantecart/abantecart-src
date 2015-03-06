@@ -87,23 +87,25 @@ class ControllerPagesCheckoutCart extends AController {
 						$options = array();
 					}
 
+					//for FILE-attributes
 					if ( has_value($this->request->files['option']['name']) ) {
 
-						$am = new AAttribute('product_option');
 						$fm = new AFile();
 						foreach ( $this->request->files['option']['name'] as $id => $name ) {
 
-							$attribute_data = $am->getAttributeByProductOptionId($id);
-
+							$attribute_data = $this->model_catalog_product->getProductOption($product_id,$id);
+							$attribute_data['settings'] = unserialize($attribute_data['settings']);
 							$file_path_info = $fm->getUploadFilePath($attribute_data['settings']['directory'], $name);
 
 							$options[$id] = $file_path_info['name'];
 
-							if ( $text_errors =  $this->model_catalog_product->validateProductOptions($product_id, $options) ) {
-								$this->session->data['error'] = implode('<br>',$text_errors);
-								$this->redirect($_SERVER['HTTP_REFERER']);
-							} elseif ( !has_value($name) ) {
+							if ( !has_value($name) ) {
 								continue;
+							}
+
+							if($attribute_data['required'] && !$this->request->files['option']['size'][$id]){
+								$this->session->data['error'] = $this->language->get('error_required_options');
+								$this->redirect($_SERVER['HTTP_REFERER']);
 							}
 
 							$file_data = array(
@@ -116,7 +118,7 @@ class ControllerPagesCheckoutCart extends AController {
 								'size' => $this->request->files['option']['size'][$id],
 							);
 
-							$file_errors = $fm->validateFileOption($attribute_data['settings'], $file_data);
+							$file_errors = $fm->validateFileOption($attribute_data['settings'], $file_data, $attribute_data['required']);
 
 							if ( has_value($file_errors) ) {
 								$this->session->data['error'] = implode('<br/>', $file_errors);

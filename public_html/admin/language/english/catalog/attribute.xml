@@ -110,7 +110,7 @@
 	</definition>
 	<definition>
 		<key>entry_upload_dir</key>
-		<value><![CDATA[Upload directory name]]></value>
+		<value><![CDATA[Upload directory name<br>%s]]></value>
 	</definition>
 	<definition>
 		<key>entry_regexp_pattern</key>

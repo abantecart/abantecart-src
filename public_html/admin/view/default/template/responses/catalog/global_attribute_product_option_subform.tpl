@@ -25,7 +25,7 @@
 		if ($child_count == 0) { ?>
 			<div id="values" style="display: none;">
 				<label class="control-label col-sm-3 col-xs-12"></label>
-				<div class="input-group afield cl-sm-7">
+				<div class="input-group afield col-sm-7">
 				<table class="table table-narrow">
 					<thead>
 						<tr>
@@ -59,7 +59,7 @@
 		<?php } else { ?>
 			<div id="values">
 				<label class="control-label col-sm-3 col-xs-12"><?php echo $entry_children_attributes; ?></label>
-				<div class="input-group afield cl-sm-7">
+				<div class="input-group afield col-sm-7">
 					<ul class="list-group">
 						<?php foreach ($children as $child) { ?>
 							<li class="list-group-item"><a href="<?php echo $child['link']; ?>"><?php echo $child['name']; ?></a></li>
@@ -69,35 +69,41 @@
 			</div>
 		<?php } ?>
 
-		<div id="file_settings" class="padding10"  style="display: none;">
-			<label class="control-label col-sm-3 col-xs-12"></label>
-			<div class="input-group afield cl-sm-7">
-				<ul class="list-group">
-				<?php if (is_array($children)) { ?>
-					<?php foreach ($children as $child) { ?>
-						<li class="list-group-item"><a
-									href="<?php echo $child['link']; ?>"><?php echo $child['name']; ?></a></li>
+		<div id="file_settings" class="form-group" style="display: none;">
+			<div class="form-group">
+				<label class="control-label col-sm-3 col-xs-12"></label>
+				<div class="input-group afield col-sm-7">
+					<ul class="list-group">
+					<?php if (is_array($children)) { ?>
+						<?php foreach ($children as $child) { ?>
+							<li class="list-group-item"><a
+										href="<?php echo $child['link']; ?>"><?php echo $child['name']; ?></a></li>
+						<?php } ?>
 					<?php } ?>
-				<?php } ?>
-				</ul>
-				<dl class="dl-horizontal">
-					<dt><?php echo $entry_allowed_extensions; ?></dt>
-					<dd><?php echo $form['settings_fields']['extensions']; ?></dd>
-					<dt><?php echo $entry_min_size; ?></dt>
-					<dd><?php echo $form['settings_fields']['min_size']; ?></dd>
-					<dt><?php echo $entry_max_size; ?></dt>
-					<dd><?php echo $form['settings_fields']['max_size']; ?></dd>
-					<dt><?php echo $entry_upload_dir; ?></dt>
-					<dd><?php echo $form['settings_fields']['directory']; ?></dd>
-				</dl>
+					</ul>
+				</div>
 			</div>
-		</div>
+			<?php
+			$arr = array(
+					'entry_allowed_extensions' => 'extensions',
+					'entry_min_size'=>'min_size',
+					'entry_max_size'=>'max_size',
+					'entry_upload_dir'=>'directory');
+			foreach($arr as $entry=>$name){
+				$fld = $form['settings_fields'][$name];
+				?>
+			<div class="form-group ">
+				<label class="control-label col-sm-3 col-xs-12" for="<?php echo $fld->name;?>"><?php echo $$entry; ?></label>
+				<div class="input-group afield col-sm-7"><?php echo $form['settings_fields'][$name]; ?></div>
+			</div>
+			<?php }?>
 
+		</div>
 
 	<?php } ?>
 
 	<?php if ($name == 'attribute_parent') { ?>
-		<div class="input-group afield cl-sm-7"><?php echo $text_parent_note; ?></div>
+		<div class="input-group afield col-sm-7"><?php echo $text_parent_note; ?></div>
 	<?php } ?>
 
 <?php } //foreach ?>

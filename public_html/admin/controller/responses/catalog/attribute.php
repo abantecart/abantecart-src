@@ -58,7 +58,7 @@ class ControllerResponsesCatalogAttribute extends AController {
 		$element_types = array( '' => $this->language->get('text_select') );
 		foreach ($results as $key => $type) {
 			// allowed field types
-			if ( in_array($key,array('I','T','S','M','R','C','G','H')) ) {
+			if ( in_array($key,array('I','T','S','M','R','C','G','H','U')) ) {
 				$element_types[$key] = $type['type'];
 			}
 		}
@@ -182,6 +182,7 @@ class ControllerResponsesCatalogAttribute extends AController {
 				'style' => 'no-save'
 			)),
 		);
+		$this->data['entry_upload_dir'] = sprintf($this->language->get('entry_upload_dir'),'admin/system/upload/');
 
 		$this->data['form']['attribute_values'] = $attributes_fields;
 

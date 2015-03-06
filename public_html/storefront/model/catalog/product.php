@@ -882,6 +882,7 @@ class ModelCatalogProduct extends Model {
                                 'option_placeholder'      => $product_option['option_placeholder'],
                                 'regexp_pattern'          => $product_option['regexp_pattern'],
                                 'error_text'	          => $product_option['error_text'],
+                                'settings'	              => $product_option['settings'],
                                 'children_options_names'  => $pd_opt_val_description_qr->row['children_options_names'],
                                 'sku'                     => $product_option_value['sku'],
                                 'price'                   => $product_option_value['price'],
@@ -915,6 +916,7 @@ class ModelCatalogProduct extends Model {
 		                'required'          => $product_option['required'],
 						'regexp_pattern'    => $product_option['regexp_pattern'],
 						'error_text'	    => $product_option['error_text'],
+						'settings'	        => $product_option['settings'],
                     );
 				}
 			}
