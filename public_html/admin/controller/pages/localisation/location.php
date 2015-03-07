@@ -59,7 +59,17 @@ class ControllerPagesLocalisationLocation extends AController {
             'actions' => array(
                 'edit' => array(
                     'text' => $this->language->get('text_edit'),
-                    'href' => $this->html->getSecureURL('localisation/location/update', '&location_id=%ID%')
+                    'href' => $this->html->getSecureURL('localisation/location/update', '&location_id=%ID%'),
+                    'children' => array_merge(array(
+                            'details' => array(
+                                            'text' => $this->language->get('tab_details'),
+                                            'href' => $this->html->getSecureURL('localisation/location/update', '&location_id=%ID%'),
+                                            ),
+                            'locations' => array(
+                                            'text' => $this->language->get('tab_locations'),
+                                            'href' => $this->html->getSecureURL('localisation/location/locations', '&location_id=%ID%'),
+                                            )
+                    ),(array)$this->data['grid_edit_expand'])
                 ),
                 'save' => array(
                     'text' => $this->language->get('button_save'),
@@ -169,16 +179,11 @@ class ControllerPagesLocalisationLocation extends AController {
         $this->document->addBreadcrumb(array(
             'href' => $this->html->getSecureURL('localisation/location/update', '&location_id=' . $location_id),
             'text' => $this->language->get('text_edit') . ' ' . $this->language->get('text_location') . ' - ' . $location_info['name'],
-            'separator' => ' :: '
-        ));
-        $this->document->addBreadcrumb(array(
-            'href' => $this->html->getSecureURL('localisation/location/locations', '&location_id=' . $location_id),
-            'text' => $this->language->get('tab_locations'),
             'separator' => ' :: ',
-			'current' 	=> true
+	        'current' => true
         ));
 
-        $this->data = array();
+
         $this->data['heading_title'] = $this->language->get('text_edit') . ' ' . $this->language->get('text_location') . ' - ' . $location_info['name'];
         $this->data['error'] = $this->error;
         $this->data['insert_location'] = $this->html->getSecureURL('localisation/location/insert_locations', '&location_id=' . $location_id);

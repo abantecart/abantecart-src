@@ -1,6 +1,6 @@
 <?php include($tpl_common_dir . 'action_confirm.tpl'); ?>
 
-<?php if ($location_id) { ?>
+<?php if ($tax_class_id) { ?>
 	<ul class="nav nav-tabs nav-justified nav-profile">
 		<?php
 		foreach ($tabs as $tab) {
