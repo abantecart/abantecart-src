@@ -406,6 +406,7 @@ class ModelCatalogProduct extends Model {
 			$data['required'] = $attribute['required'];
 			$data['regexp_pattern'] = $attribute['regexp_pattern'];
 			$data['sort_order'] = $attribute['sort_order'];
+			$data['settings'] = $attribute['settings'];
 		}
 
 		$this->db->query(
@@ -417,7 +418,8 @@ class ModelCatalogProduct extends Model {
 							 sort_order,
 							 group_id,
 							 status,
-							 regexp_pattern)
+							 regexp_pattern,
+							 settings)
 						VALUES ('" . (int)$product_id . "',
 							'" . (int)$data['attribute_id'] . "',
 							'" . $this->db->escape($data['element_type']) . "',
@@ -425,7 +427,8 @@ class ModelCatalogProduct extends Model {
 							'" . (int)$data['sort_order'] . "',
 							'" . (int)$data['group_id'] . "',
 							'" . (int)$data['status'] . "',
-							'" . $this->db->escape($data['regexp_pattern']) . "'
+							'" . $this->db->escape($data['regexp_pattern']) . "',
+							'" . $this->db->escape($data['settings']) . "'
 							)");
 		$product_option_id = $this->db->getLastId();
 
@@ -1365,11 +1368,15 @@ class ModelCatalogProduct extends Model {
 	 * @param array $data
 	 */
 	public function updateProductOption($product_option_id, $data) {
-		$fields = array("sort_order", "status", "required", "regexp_pattern");
+		$fields = array("sort_order", "status", "required", "regexp_pattern", "settings");
 		$update = array();
 		foreach ($fields as $f) {
-			if (isset($data[$f]))
-				$update[] = $f." = '" . $this->db->escape($data[$f]) . "'";
+			if (isset($data[$f])){
+				if($f=='settings'){
+					$data[$f] = serialize($data[$f]);
+				}
+				$update[] = $f . " = '" . $this->db->escape($data[$f]) . "'";
+			}
 		}
 		if (!empty($update)) {
 			$this->db->query("UPDATE " . $this->db->table("product_options") . " 

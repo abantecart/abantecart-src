@@ -197,24 +197,16 @@ jQuery(function ($) {
 	//save option form details. 
 	var editOption = function (id) {
 		$('#notify_error').remove();
+		var senddata = $('#option_edit_form input,select,textarea').serialize()+'&option_id='+current_option_id;
 		$.ajax({
 			url: opt_urls.update_option,
-			data: {
-				option_id: current_option_id,
-				status: ( $('#status').val() ),
-				sort_order: $('#sort_order').val(),
-				name: $('#name').val(),
-				option_placeholder: ($('#option_placeholder') ? $('#option_placeholder').val() : ''),
-				regexp_pattern: ($('#regexp_pattern') ? $('#regexp_pattern').val() : ''),
-				error_text: ($('#error_text') ? $('#error_text').val() : ''),
-				required: $('#required').val()
-			},
+			data: senddata,
 			type: 'GET',
 			success: function (html) {
 				$('#option_name').html($('#name').val());
 				updateOptions();
 				//Reset changed values marks
-				resetAForm($("input, checkbox, select", '#option_edit_form'));
+				resetAForm($("input,select,textarea", '#option_edit_form'));
 				success_alert('<?php echo $text_success_option?>',true);
 			},
 			global: false,

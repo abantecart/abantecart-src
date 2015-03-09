@@ -63,7 +63,22 @@ class ControllerPagesCatalogCategory extends AController {
 				'actions' => array(
 						'edit' => array(
 								'text' => $this->language->get('text_edit'),
-								'href' => $this->html->getSecureURL('catalog/category/update', '&category_id=%ID%')
+								'href' => $this->html->getSecureURL('catalog/category/update', '&category_id=%ID%'),
+								'children' => array_merge(array(
+							                'general' => array(
+										                'text' => $this->language->get('tab_general'),
+										                'href' => $this->html->getSecureURL('catalog/category/update', '&category_id=%ID%'),
+						                                ),
+							                'data' => array(
+										                'text' => $this->language->get('tab_data'),
+										                'href' => $this->html->getSecureURL('catalog/category/update', '&category_id=%ID%').'#data',
+						                                ),
+							                'layout' => array(
+										                'text' => $this->language->get('tab_layout'),
+										                'href' => $this->html->getSecureURL('catalog/category/edit_layout', '&category_id=%ID%'),
+						                                ),
+								),(array)$this->data['grid_edit_expand'])
+
 						),
 						'save' => array(
 								'text' => $this->language->get('button_save'),

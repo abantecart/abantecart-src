@@ -197,7 +197,8 @@ class ModelCheckoutOrder extends Model {
 										name = '" . $this->db->escape($option['name']) . "',
 										`value` = '" . $this->db->escape($option['value']) . "',
 										price = '" . (float)$product['price'] . "',
-										prefix = '" . $this->db->escape($option['prefix']) . "'");
+										prefix = '" . $this->db->escape($option['prefix']) . "',
+										settings = '" . $this->db->escape($option['settings']) . "'");
 			}
 
 			foreach ($product['download'] as $download) {

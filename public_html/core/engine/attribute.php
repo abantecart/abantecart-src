@@ -276,10 +276,9 @@ class AAttribute {
      * @return null
      */
     public function getAttributeByProductOptionId( $option_id ) {
-	    $sql = "SELECT attribute_id FROM " . DB_PREFIX . "product_options
-            WHERE product_option_id = '" . (int)$option_id . "'
-                AND attribute_id != 0
-                ";
+	    $sql = "SELECT attribute_id
+				FROM " . $this->db->table("product_options")."
+                WHERE product_option_id = '" . (int)$option_id . "' AND attribute_id != 0";
         $attribute_id = $this->db->query( $sql );
         if ( $attribute_id->num_rows ) {
             return $this->getAttribute($attribute_id->row['attribute_id']);

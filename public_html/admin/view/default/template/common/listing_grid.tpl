@@ -18,7 +18,7 @@
                 <?php 
                 } ?>
             </select>
-            <a id="<?php echo $data['table_id'] ?>_go" class="btn btn-xs btn-default"><?php echo $text_go; ?></a>            
+            <a id="<?php echo $data['table_id'] ?>_go" class="btn btn-xs btn-default"><?php echo $text_go; ?></a>
         </div>
         <?php } ?>
 
@@ -227,57 +227,83 @@ var initGrid_<?php echo $data['table_id'] ?> = function ($) {
         <?php
         if (!empty($data['actions'])) {
             foreach ($data['actions'] as $type => $action) {
+                $html_string = '';
             	$href = has_value($action['href']) ? $action['href'] : '#';
-            	echo "actions_urls['".$type."'] = '".$href."';\n";
-            	$ec_str = ' actions += \'<a class="btn_action btn_grid tooltips grid_action_' . $type . '" title="' . $action['text'] . '" data-action-type="'.$type.'"';
+            	$html_string .= "actions_urls['".$type."'] = '".$href."';\n";
+            	$html_string .= ' actions += \'';
+            	$has_children = sizeof($action['children']);
+            	$html_btn = '<a class="btn btn-xs btn_grid tooltips grid_action_' . $type . '" title="' . $action['text'] . '" data-action-type="'.$type.'"';
+            	if($has_children){
+            	    $html_btn .= ' data-toggle="dropdown" aria-expanded="false"';
+            	}
                 switch ($type) {
                     case 'edit':
-                        echo $ec_str.' href="'.$href.'" rel="%ID%"><i class="fa fa-edit fa-lg"></i></a>\'; ';
+                        $html_btn .= ' href="'.$href.'" rel="%ID%"><i class="fa fa-edit fa-lg"></i>';
                         break;
                     case 'delete':
                     	if($href!='#'){
-                        	echo $ec_str.' href="'.$href.'" rel="%ID%" data-confirmation="delete"><i class="fa fa-trash-o fa-lg"></i></a>\'; ';
+                        	$html_btn .= ' href="'.$href.'" rel="%ID%" data-confirmation="delete"><i class="fa fa-trash-o fa-lg"></i>';
                         }else{
-                        	echo $ec_str.' href="#" rel="%ID%"><i class="fa fa-trash-o fa-lg"></i></a>\'; ';
+                        	$html_btn .= ' href="#" rel="%ID%"><i class="fa fa-trash-o fa-lg"></i>';
                         }
                         break;
                     case 'save':
-                        echo $ec_str.' href="'.$href.'" rel="%ID%"><i class="fa fa-save fa-lg"></i></a>\'; ';
+                        $html_btn .= ' href="'.$href.'" rel="%ID%"><i class="fa fa-save fa-lg"></i>';
                         break;
                     case 'expand':
-                        echo $ec_str.' href="'.$href.'" rel="%ID%"><i class="fa fa-plus-square-o fa-lg"></i></a>\'; ';
+                        $html_btn .= ' href="'.$href.'" rel="%ID%"><i class="fa fa-plus-square-o fa-lg"></i>';
                         break;
                     case 'restart':
-                        echo $ec_str.' href="'.$href.'" rel="%ID%"><i class="fa fa-repeat fa-lg"></i></a>\'; ';
+                        $html_btn .= ' href="'.$href.'" rel="%ID%"><i class="fa fa-repeat fa-lg"></i>';
                         break;
                     case 'run':
-                        echo $ec_str.' href="'.$href.'" rel="%ID%"><i class="fa fa-play fa-lg"></i></a>\'; ';
+                        $html_btn .= ' href="'.$href.'" rel="%ID%"><i class="fa fa-play fa-lg"></i>';
                         break;
                     case 'approve':
-                        echo $ec_str.' href="'.$href.'" rel="%ID%"><i class="fa fa-check-square-o fa-lg"></i></a>\'; ';
+                        $html_btn .= ' href="'.$href.'" rel="%ID%"><i class="fa fa-check-square-o fa-lg"></i>';
                         break;
                     case 'actonbehalfof':
-                        echo $ec_str.' href="'.$href.'" target="_blank" rel="%ID%"><i class="fa fa-male fa-lg"></i></a>\'; ';
+                        $html_btn .= ' href="'.$href.'" target="_blank" rel="%ID%"><i class="fa fa-male fa-lg"></i>';
                         break;
                     case 'clone':
-                        echo $ec_str.' href="'.$href.'" rel="%ID%"><i class="fa fa-copy fa-lg"></i></a>\'; ';
+                        $html_btn .= ' href="'.$href.'" rel="%ID%"><i class="fa fa-copy fa-lg"></i>';
                         break;
                     case 'remote_install':
-                        echo $ec_str.' href="'.$href.'" rel="%ID%"><i class="fa fa-play fa-lg"></i></a>\'; ';
+                        $html_btn .= ' href="'.$href.'" rel="%ID%"><i class="fa fa-play fa-lg"></i>';
                         break;
                     case 'install':
-                        echo $ec_str.' href="'.$href.'" rel="%ID%"><i class="fa fa-play fa-lg"></i></a>\'; ';
+                        $html_btn .= ' href="'.$href.'" rel="%ID%"><i class="fa fa-play fa-lg"></i>';
                         break;
                     case 'uninstall':
-                        echo $ec_str.' href="'.$href.'" rel="%ID%" data-confirmation="delete"><i class="fa fa-times fa-lg"></i></a>\'; ';
+                        $html_btn .= ' href="'.$href.'" rel="%ID%" data-confirmation="delete"><i class="fa fa-times fa-lg"></i>';
                         break;
                     case 'view':
-                        echo $ec_str.' href="'.$href.'" rel="%ID%"><i class="fa fa-eye fa-lg"></i></a>\'; ';
+                        $html_btn .= ' href="'.$href.'" rel="%ID%"><i class="fa fa-eye fa-lg"></i>';
                         break;
                     default:
-                        echo $ec_str.' href="' . $action['href'] . '" id="action_' . $type . '_%ID%"  ' . (!empty($action['target']) ? 'target="' . $action['target'] . '"' : '') . '><i class="fa fa-' . $type . ' fa-lg"></i></a>\'; ';
+                        $html_btn .= ' href="' . $action['href'] . '" id="action_' . $type . '_%ID%"  ' . (!empty($action['target']) ? 'target="' . $action['target'] . '"' : '') . '><i class="fa fa-' . $type . ' fa-lg"></i>';
                 }
-                echo "\r\n";
+
+                if($has_children){
+                    $html_btn .= '<span class="caret"></span>';
+                }
+                $html_btn .= '</a>';
+
+                //for dropdown
+                if($action['children']){
+                    $html_children = '<ul class="dropdown-menu dropdown-menu-right" role="menu">';
+                    foreach($action['children'] as $child){
+                        $href = has_value($child['href']) ? $child['href'] : '#';
+						$html_children .= '<li><a href="'.$href.'" rel="%ID%">'.$child['text'].'</a></li>';
+
+                    }
+                    $html_children .= '</ul>';
+                    $html_btn = '<div class="btn-group">'.$html_btn.''.$html_children.'</div>';
+
+                }
+
+
+                echo $html_string.$html_btn."'; \r\n";
             }
         }
         ?>

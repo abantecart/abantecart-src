@@ -61,7 +61,17 @@ class ControllerPagesCatalogManufacturer extends AController {
             'actions' => array(
                 'edit' => array(
                     'text' => $this->language->get('text_edit'),
-				    'href' => $this->html->getSecureURL('catalog/manufacturer/update', '&manufacturer_id=%ID%')
+				    'href' => $this->html->getSecureURL('catalog/manufacturer/update', '&manufacturer_id=%ID%'),
+				    'children' => array_merge(array(
+                                'general' => array(
+                                            'text' => $this->language->get('entry_edit'),
+                                            'href' => $this->html->getSecureURL('catalog/manufacturer/update', '&manufacturer_id=%ID%'),
+                                            ),
+                                'layout' => array(
+                                            'text' => $this->language->get('entry_layout'),
+                                            'href' => $this->html->getSecureURL('catalog/manufacturer_layout', '&manufacturer_id=%ID%'),
+                                            ),
+                    ),(array)$this->data['grid_edit_expand'])
                 ),
 	            'save' => array(
                     'text' => $this->language->get('button_save'),

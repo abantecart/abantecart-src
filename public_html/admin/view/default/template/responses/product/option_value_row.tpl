@@ -1,4 +1,4 @@
-<?php $colspan = 7; ?>
+<?php $colspan = $form['fields']['option_value'] ? 7 : 4; ?>
 <tr id="<?php echo $row_id; ?>" class="optionRow">
 
 	<?php
@@ -6,11 +6,13 @@
 			echo '<td>'.$form['fields']['default'].'</td>';
 			$colspan++;
 	 	}
-	?>
-    <td><?php echo $form['fields']['product_option_value_id']; ?>
-	    <div class="input-group input-group-sm afield"><?php echo $form['fields']['option_value']; ?></div></td>
-    <td class="small-td"><div class="input-group input-group-sm afield"><?php echo $form['fields']['quantity']; ?></div></td>
-    <td><div class="input-group input-group-sm afield"><?php echo $form['fields']['subtract']; ?></div></td>
+	if($form['fields']['option_value']){ ?>
+	    <td><?php echo $form['fields']['product_option_value_id']; ?>
+		    <div class="input-group input-group-sm afield"><?php echo $form['fields']['option_value']; ?></div>
+	    </td>
+	    <td class="small-td"><div class="input-group input-group-sm afield"><?php echo $form['fields']['quantity']; ?></div></td>
+	    <td><div class="input-group input-group-sm afield"><?php echo $form['fields']['subtract']; ?></div></td>
+	<?php } ?>
     <td class="small-td"><div class="input-group input-group-sm afield"><?php echo $form['fields']['price']; ?></div></td>
     <td><div class="input-group input-group-sm afield"><?php echo $form['fields']['prefix']; ?></div></td>
     <td class="small-td"><div class="input-group input-group-sm afield"><?php echo $form['fields']['sort_order']; ?></div></td>

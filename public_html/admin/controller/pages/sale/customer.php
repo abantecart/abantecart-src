@@ -136,7 +136,17 @@ class ControllerPagesSaleCustomer extends AController {
 						),
 						'edit' => array(
 								'text' => $this->language->get('text_edit'),
-								'href' => $this->html->getSecureURL('sale/customer/update', '&customer_id=%ID%')
+								'href' => $this->html->getSecureURL('sale/customer/update', '&customer_id=%ID%'),
+								'children' => array_merge(array(
+						                'details' => array(
+										                'text' => $this->language->get('tab_details'),
+										                'href' => $this->html->getSecureURL('sale/customer/update', '&customer_id=%ID%'),
+						                                ),
+						                'transaction' => array(
+										                'text' => $this->language->get('tab_transactions'),
+										                'href' => $this->html->getSecureURL('sale/customer_transaction', '&customer_id=%ID%'),
+						                                )
+				                ),(array)$this->data['grid_edit_expand'])
 						),
 						'save' => array(
 								'text' => $this->language->get('button_save'),

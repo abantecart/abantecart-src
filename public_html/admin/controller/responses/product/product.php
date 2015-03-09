@@ -374,20 +374,54 @@ class ControllerResponsesProductProduct extends AController {
 			'value' => $this->data['option_data']['required'],
 			'style' => 'btn_switch btn-group-xs',
 		));
+//for file-option
+		if( $this->data['option_data']['element_type']=='U' ){
+			$option_settings = unserialize($this->data['option_data']['settings']);
 
-		$this->data['option_regexp_pattern'] = $this->html->buildElement(array(
-			'type' => 'input',
-			'name' => 'regexp_pattern',
-			'value' => $this->data['option_data']['regexp_pattern'],
-			'style' => 'medium-field'
-		));
+			$this->data['extensions'] = $this->html->buildElement(array(
+					'type' => 'input',
+					'name' => 'settings[extensions]',
+					'value' => $option_settings['extensions'],
+					'style' => 'no-save'
+			));
 
-		$this->data['option_error_text'] = $this->html->buildElement(array(
-			'type' => 'input',
-			'name' => 'error_text',
-			'value' => $this->data['option_data']['language'][ $this->data['language_id'] ]['error_text'],
-			'style' => 'medium-field'
-		));
+			$this->data['min_size'] = $this->html->buildElement(array(
+					'type' => 'input',
+					'name' => 'settings[min_size]',
+					'value' => $option_settings['min_size'],
+					'style' => 'small-field no-save'
+			));
+			$this->data['max_size'] = $this->html->buildElement(array(
+					'type' => 'input',
+					'name' => 'settings[max_size]',
+					'value' => $option_settings['max_size'],
+					'style' => 'small-field no-save'
+			));
+			$this->data['directory'] = $this->html->buildElement(array(
+					'type' => 'input',
+					'name' => 'settings[directory]',
+					'value' => $option_settings['directory'],
+					'style' => 'no-save'
+			));
+
+			$this->data['entry_upload_dir'] = sprintf($this->language->get('entry_upload_dir'),'admin/system/upload/');
+
+		}else{
+
+			$this->data['option_regexp_pattern'] = $this->html->buildElement(array(
+					'type'  => 'input',
+					'name'  => 'regexp_pattern',
+					'value' => $this->data['option_data']['regexp_pattern'],
+					'style' => 'medium-field'
+			));
+
+			$this->data['option_error_text'] = $this->html->buildElement(array(
+					'type'  => 'input',
+					'name'  => 'error_text',
+					'value' => $this->data['option_data']['language'][$this->data['language_id']]['error_text'],
+					'style' => 'medium-field'
+			));
+		}
 
 		$this->data['remove_option'] = $this->html->getSecureURL('product/product/del_option', '&product_id=' . $this->request->get['product_id'] . '&option_id=' . $this->request->get['option_id']);
 
@@ -605,9 +639,7 @@ class ControllerResponsesProductProduct extends AController {
 				));
 			} else if ( $this->data['option_attribute']['element_type'] == 'U') {
 				//for file there is no option value 	
-				$attribute_id = $this->data['option_attribute']['attribute_id'];
-				$edit_url = $this->html->getSecureURL('catalog/attribute/update', '&attribute_id=' . $attribute_id);
-				$this->data['form']['fields']['option_value'] = '<span link="'.$edit_url.'" class="open_newtab pointer">'.$this->language->get('text_edit').'</span>';
+				$this->data['form']['fields']['option_value'] = '';
 			} else {
 
 				$arr = array(

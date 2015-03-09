@@ -88,7 +88,30 @@ class ControllerPagesSaleOrder extends AController {
 				),
 				'edit' => array(
 					'text' => $this->language->get('text_edit'),
-					'href' => $this->html->getSecureURL('sale/order/update', '&order_id=%ID%')
+					'href' => $this->html->getSecureURL('sale/order/update', '&order_id=%ID%'),
+					'children' => array_merge(array(
+			                'details' => array(
+							                'text' => $this->language->get('tab_details'),
+							                'href' => $this->html->getSecureURL('sale/order/details', '&order_id=%ID%'),
+			                                ),
+			                'shipping' => array(
+							                'text' => $this->language->get('tab_shipping'),
+							                'href' => $this->html->getSecureURL('sale/order/shipping', '&order_id=%ID%'),
+			                                ),
+			                'payment' => array(
+							                'text' => $this->language->get('tab_payment'),
+							                'href' => $this->html->getSecureURL('sale/order/payment', '&order_id=%ID%'),
+			                                ),
+			                'files' => array(
+							                'text' => $this->language->get('tab_files'),
+							                'href' => $this->html->getSecureURL('sale/order/files', '&order_id=%ID%'),
+			                                ),
+			                'history' => array(
+							                'text' => $this->language->get('tab_history'),
+							                'href' => $this->html->getSecureURL('sale/order/history', '&order_id=%ID%'),
+			                                )
+
+	                ),(array)$this->data['grid_edit_expand'])
 				),
 				'save' => array(
 					'text' => $this->language->get('button_save'),
@@ -1273,8 +1296,9 @@ class ControllerPagesSaleOrder extends AController {
 											'placeholder' => $this->language->get('text_push_download')
 					));
 				}
-
 			}
+		}else{
+			$this->redirect($this->html->getSecureURL('sale/order/details', '&order_id=' . $this->request->get['order_id']));
 		}
 
 		$this->view->batchAssign($this->data);
