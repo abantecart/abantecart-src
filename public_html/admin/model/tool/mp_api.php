@@ -33,6 +33,26 @@ class ModelToolMPAPI extends Model {
 		return (HTTPS===true ? 'https://' : 'http://') . base64_decode($this->mp_url);
 	}
 
+	/**
+	 * @param string $mp_token
+	 * @return bool
+	 * Disconnect store from AbanteCart marketplace
+	 */	
+	public function disconnect($mp_token){
+		if (!has_value($mp_token)) {
+			return false;
+		}
+
+		$params =  array( 'rt' => 'a/account/authorize/disconnect',
+							   'mp_token' => $mp_token
+							 );
+		$connect = new AConnect();
+		$connect->connect_method = 'curl';
+		$responce = $this->send( $connect, $params );
+		return $responce;
+	}
+	
+	/* Legacy */
 	public function authorize(){
 
 		$auth_params =  array( 'rt' => 'a/account/authorize/post',
@@ -191,7 +211,6 @@ class ModelToolMPAPI extends Model {
 		}
 
 		$response = $connect->getResponse($this->getMPURL().$href);
-
 		return $response;
 	}
 

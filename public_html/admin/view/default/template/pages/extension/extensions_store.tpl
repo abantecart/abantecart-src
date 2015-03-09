@@ -4,17 +4,29 @@
 
 	<div class="panel-heading">
 
+		<?php if(!$mp_connected) { ?>
+		<div class="btn-group">
+		    <a class="btn btn-orange mp-connect tooltips" title="<?php echo $text_marketplace_connect; ?>" data-toggle="modal" data-target="#amp_modal">
+		    	<i class="fa fa-sign-in fa-fw"></i> <?php echo $text_connect ?>
+		    </a>
+		</div>
+		<?php } else { ?>
+		<div class="btn-group">
+		    <a	class="btn btn-default tooltips" 
+		    	title="<?php echo $text_connected; ?>"
+		    	data-confirmation="delete"
+		    	onclick="disconnect(); return false;" href="#"
+		    	data-confirmation-text="<?php echo $text_disconnect_confirm; ?>"
+		    >
+		    	<i class="fa fa-unlink fa-fw"></i>
+		    </a>
+		</div>
+		<?php }  ?>
+
 		<div class="btn-group">
 		    <a href="<?php echo $my_extensions; ?>" class="btn btn-default" id="btn_my_exts">
 		    <i class="fa fa-tags fa-fw"></i>
 		    <?php echo $text_my_extensions; ?>
-		    </a>
-		</div>		
-
-		<div class="btn-group"> 
-		    <a href="<?php echo $my_account; ?>" target="_blank" class="btn btn-default" id="btn_my_account">
-		    <i class="fa fa-user fa-fw"></i>
-		    <?php echo $text_my_account; ?>
 		    </a>
 		</div>		
 
@@ -54,12 +66,18 @@
 		</div>
 		<?php } ?>
 		
-		<div class="btn-group pull-right">
+		<div class="btn-group pull-right ml10">
 		    <a class="btn btn-white tooltips" href="https://marketplace.abantecart.com" target="new" data-toggle="tooltip"
 		        data-original-title="<?php echo $text_marketplace_site; ?>">
 		        <i class="fa fa-external-link fa-lg"></i>
 		    </a>
 		</div>
+		<div class="btn-group pull-right"> 
+		    <a href="<?php echo $my_account; ?>" target="_blank" class="btn btn-default" id="btn_my_account">
+		    <i class="fa fa-user fa-fw"></i>
+		    <?php echo $text_my_account; ?>
+		    </a>
+		</div>		
 		
 	    <?php if (!empty ($help_url)) { ?>
 		<div class="btn-group pull-right">
@@ -169,6 +187,21 @@
 	
 </div>
 
+<?php
+	if(!$mp_connected) { 
+	echo $this->html->buildElement(
+		array('type' => 'modal',
+				'id' => 'amp_modal',
+				'modal_type' => 'md',
+				'title' => $text_marketplace_connect,
+				'content' =>'<iframe id="amp_frame" width="100%" height="380px" frameBorder="0"></iframe>
+								<div id="iframe_loading" class="center_div"><i class="fa fa-spinner fa-spin fa-2x"></i></div>
+							',
+				'footer' => ''
+		));
+	}	
+?>
+
 <script type="text/javascript">
 	$("#sorting").change(function () {
 		$(this).attr('disabled','disabled');
@@ -208,5 +241,45 @@
           return tooltipdata.html();
         }
 	})
+
+	$('#amp_modal').on('shown.bs.modal', function () {
+		var d = new Date();
+    	$('#amp_modal iframe').attr("src","<?php echo $amp_connect_url; ?>&time_stamp="+d.getTime());
+    	$('#iframe_loading').show();
+    	$('#amp_modal').modal('show');
+  	});
+  	
+  	$('#amp_frame').on('load', function() {  
+    	$('#iframe_loading').hide();
+	});
+
+	var disconnect = function(){
+		$.ajax({
+			url: '<?php echo $amp_disconnect_url; ?>',
+			type: 'GET',
+			success: function (data) {
+				if(data == 'success'){
+					success_alert('<?php echo $text_disconnect_success?>',true);
+					location.reload();
+				} else if(data == 'error')  {
+					error_alert('<?php echo $error_mp_connection; ?>',true);
+				} else {				
+					location.reload();
+				}
+			},
+			global: false,
+			error: function (jqXHR, textStatus, errorThrown) {
+				error_alert(errorThrown);
+			}
+		});
+		return false;
+	}
+
+	var reload_page = function(){
+		location.reload();
+		//important to clean up the modal 
+		$('#amp_modal').modal('hide');
+		$("#amp_modal").find(".modal-body").empty(); 
+	}
 	
 </script>
