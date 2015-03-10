@@ -107,6 +107,20 @@ h1,h2,h3,h4,h5 {
    font-size: 32px;
 }
 
+.center_div { 
+   position: fixed;
+   top: 45%;
+   left: 45%;
+   width: 100%;
+   height: 100%;
+}
+
+#iframe_loading {
+	font-size: 18px !important;
+	color: #f19013 !important;
+}
+
+
 /***** Main Scaffolding ******/
 .wrapper {
 }

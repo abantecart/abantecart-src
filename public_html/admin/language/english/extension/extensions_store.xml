@@ -71,7 +71,7 @@
 	</definition>
 	<definition>
 		<key>text_extensions_store</key>
-		<value><![CDATA[Extensions Store]]></value>
+		<value><![CDATA[Extensions Marketplace]]></value>
 	</definition>
 	<definition>
 		<key>text_required</key>
@@ -137,6 +137,31 @@
 		<key>text_all_categories</key>
 		<value><![CDATA[All Categories]]></value>
 	</definition>
+
+	<definition>
+		<key>text_connect</key>
+		<value><![CDATA[Connect]]></value>
+	</definition>	
+	<definition>
+		<key>text_marketplace_connect</key>
+		<value><![CDATA[Connect to the marketplace]]></value>
+	</definition>	
+	<definition>
+		<key>text_connected</key>
+		<value><![CDATA[Connected to the marketplace. Click to disconnect]]></value>
+	</definition>	
+	<definition>
+		<key>text_disconnect_confirm</key>
+		<value><![CDATA[Are you sure you want to disconnect?]]></value>
+	</definition>	
+	<definition>
+		<key>text_disconnect_success</key>
+		<value><![CDATA[This store was disconnected!]]></value>
+	</definition>	
+	
+	
+	
+	
 	<definition>
 		<key>text_compatibility</key>
 		<value><![CDATA[This extension is not confirmed to work with your version of AbanteCart. Contact extension developer to confirm compatibility.]]></value>

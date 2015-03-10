@@ -45,7 +45,6 @@ class ControllerPagesExtensionExtensions extends AController {
 		$this->loadModel('tool/mp_api');
 		$this->session->data['ready_to_install'] = $this->model_tool_mp_api->getExtensions();
 
-
 		$this->document->setTitle($this->language->get('heading_title'));
 
 		$this->document->initBreadcrumb(array(
@@ -170,6 +169,22 @@ class ControllerPagesExtensionExtensions extends AController {
 		$grid = $this->dispatch('common/listing_grid', array($grid_settings));
 		$this->view->assign('listing_grid', $grid->dispatchGetOutput());
 
+		$this->loadLanguage('extension/extensions_store');
+		$this->view->batchAssign($this->language->getASet('extension/extensions_store'));
+		//connection to marketplace
+		$mp_token = $this->config->get('mp_token');
+		if ( $mp_token ) {
+			$this->view->assign('mp_connected', true);
+		}
+		$return_url = base64_encode($this->html->getSecureURL('tool/extensions_store/connect'));		
+		$mp_params = '?rt=account/authenticate&return_url='.$return_url;
+		$mp_params .= '&store_id='.UNIQUE_ID;
+		$mp_params .= '&store_url='.HTTP_SERVER;
+		$mp_params .= '&store_version='.VERSION;
+		$mp_params .= '&store_ip='.$_SERVER ['SERVER_ADDR'];
+		$this->view->assign('amp_connect_url', $this->model_tool_mp_api->getMPURL().$mp_params);
+		$this->view->assign('amp_disconnect_url', $this->html->getSecureURL('tool/extensions_store/disconnect'));
+		
 		$this->data['btn_extensions_store'] = $this->html->buildElement(
 																	array(
 																		'type' => 'button',
@@ -201,7 +216,6 @@ class ControllerPagesExtensionExtensions extends AController {
 		$this->view->assign('help_url', $this->gen_help_url('extension_listing'));
 
 		$this->view->batchAssign($this->data);
-
 		$this->processTemplate('pages/extension/extensions.tpl');
 		//update controller data
 		$this->extensions->hk_UpdateData($this, __FUNCTION__);

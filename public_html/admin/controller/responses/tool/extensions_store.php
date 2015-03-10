@@ -97,5 +97,48 @@ class ControllerResponsesToolExtensionsStore extends AController {
 		}
         $this->response->setOutput($html);
 	}
+	
+	public function connect() {
+		
+		//we get token back
+		$mp_token = $this->request->get_or_post('mp_token');
+		$html = "";
+		if ($mp_token) {
+			//save token and return
+			$this->loadModel('setting/setting');
+			$setting = array('mp_token' => $mp_token);
+			$this->model_setting_setting->editSetting('api', $setting);
+			
+			$html = "
+				<script type='text/javascript'>
+				window.parent.reload_page();
+				</script>
+			";
+		}
+		
+		$this->response->setOutput($html);
+	}
+	
+	public function disconnect() {
+		$return = '';
+		$mp_token = $this->config->get('mp_token');
+		if ( $mp_token ) {
+			$this->loadModel('tool/mp_api');
+			//disconnect remote marketplace fist 
+			$result = $this->model_tool_mp_api->disconnect($mp_token);
+			if($result['status'] == 1) {
+				//reset token localy
+				$this->loadModel('setting/setting');
+				$setting = array('mp_token' => '');
+				$this->model_setting_setting->editSetting('api', $setting);
+				$return = 'success';
+			} else {
+				$return = 'error';			
+			}
+		}
+		//sucess all the time
+		$this->response->setOutput($return);
+	}
+		
 }
 ?>
