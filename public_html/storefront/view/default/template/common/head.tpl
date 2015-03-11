@@ -55,7 +55,7 @@
         document.write(include);
     }
 </script>
-<script type="text/javascript" src="<?php echo $template_dir; ?>javascript/jquery-migrate-1.2.1.min.js"></script>
+<script type="text/javascript" src="<?php echo $this->templateResource('/javascript/jquery-migrate-1.2.1.min.js');?>"></script>
 
 <script type="text/javascript" src="<?php echo $this->templateResource('/javascript/common.js'); ?>"></script>
 
