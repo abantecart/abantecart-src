@@ -76,7 +76,7 @@
 .ext_more .pricenew, .ext_more .oneprice {
 	text-align: right;
 	float: right;
-	font-size: 16px;
+	font-size: 14px;
 	font-weight: bold;
 }
 .ext_more .priceold {
@@ -90,7 +90,7 @@
 	float: right;
 	font-size: 16px;
 	color: #00A1CB;
-	width: 30px;
+	width: 20px;
 }
 .thumbnails .prdocutname {
 	font-size: 12px;

@@ -158,8 +158,14 @@
 		<key>text_disconnect_success</key>
 		<value><![CDATA[This store was disconnected!]]></value>
 	</definition>	
-	
-	
+	<definition>
+		<key>text_connection_required</key>
+		<value><![CDATA[You need to connect AbanteCart to the Marketplace to see your extensions! Click "connect" button in the above panel.]]></value>
+	</definition>	
+	<definition>
+		<key>text_in_other_store</key>
+		<value><![CDATA[Extension for this order was installed in the other AbanteCart. Check your connected stores for history.]]></value>
+	</definition>	
 	
 	
 	<definition>

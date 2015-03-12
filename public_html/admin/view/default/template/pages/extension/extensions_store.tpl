@@ -23,8 +23,14 @@
 		</div>
 		<?php }  ?>
 
+		<?php 
+			$my_ext_style = 'btn-default';
+			if($my_extensions_shown) {
+				$my_ext_style = 'btn-primary';			
+			}  
+		?>
 		<div class="btn-group">
-		    <a href="<?php echo $my_extensions; ?>" class="btn btn-default" id="btn_my_exts">
+		    <a href="<?php echo $my_extensions; ?>" class="btn <?php echo $my_ext_style; ?>" id="btn_my_exts">
 		    <i class="fa fa-tags fa-fw"></i>
 		    <?php echo $text_my_extensions; ?>
 		    </a>
@@ -91,6 +97,11 @@
 	</div>
 	
 	<div class="panel-body panel-body-nopadding">
+	<?php 
+		if(!$mp_connected && $my_extensions_shown) { 
+			echo $text_connection_required;
+		}
+	?>
 	<?php if($content){	?>
 	    <ul class="thumbnails">
 	        <?php
@@ -101,7 +112,7 @@
 	        		$item['image'] = $product['cell']['thumb'];
 	        		$item['main_image'] = $product['cell']['main_image'];
 	        		$item['title'] = $product['cell']['name'];
-	        		$item['description'] = $product['cell']['model'];
+	        		$item['extension_id'] = $product['cell']['model'];
 	        		$item['rating'] = "<img src='" . $this->templateResource('/image/stars_' . (int)$product['cell']['rating'] . '.png') . "' alt='" . (int)$product['stars'] . "' />";
 	    
 	        		$item['price'] = $product['cell']['price'];
@@ -113,6 +124,10 @@
 	        			$review = $item['rating'];
 	        		}	    
 	        		$item['version_supported'] = $product['cell']['version_supported'];
+	        		$item['in_other_store'] = $product['cell']['in_other_store'];
+	        		$item['installation_key'] = $product['cell']['installation_key'];
+	        		$item['install_url'] = $install_url . '&extension_key='.$product['cell']['installation_key'];
+	        		$item['edit_url'] = $edit_url . '&extension='.$item['extension_id'];	        	
 	        		?>
 	        		<li class="product-item col-md-4" data-product-id="<?php echo $product['id'] ?>">
 	        			<div class="ext_thumbnail">
@@ -146,15 +161,51 @@
 	        						<i class="fa fa-exclamation-triangle text-danger"></i>
 	        					</div>
 	    						<?php } ?>
-	    
+	  						<?php
+	  							//check exstention installation status if it is purchased 
+	  							if($item['installation_key'] && !$item['in_other_store']){
+	  								//extension is available
+	  								if($this->extensions->isExtensionAvailable($item['extension_id'])){			
+	  						?>  
 	        					<div class="ext_icons">
-	        						<a href="#" class="productcart" data-id="<?php echo $product['product_id'] ?>">
+	        						<a href="<?php echo $item['edit_url']; ?>" class="productedit tooltips" data-id="<?php echo $product['product_id'] ?>" data-original-title="<?php echo $text_edit; ?>">
+	        						<i class="fa fa-edit"></i>
+	        						</a>
+	        					</div>	  							
+		  						<?php
+		  							} else {
+		  						?>  
+	        					<div class="ext_icons">
+	        						<a href="<?php echo $item['install_url']; ?>" class="productinstall tooltips" data-original-title="<?php echo $text_install; ?>">
+	        						<i class="fa fa-cloud-download"></i>
+	        						</a>
+	        					</div>	  							
+		  						<?php
+		  							}
+		  						?>  
+	  						<?php
+	  							} else {
+	  						?>  
+		  						<?php
+	  								if($item['in_other_store']) {
+		  						?>  
+	        					<div class="ext_icons">
+	        						<a class="productinstall tooltips" data-original-title="<?php echo $text_in_other_store; ?>">
+									<i class="fa fa-ban text-danger"></i>
+	        						</a>
+	        					</div>	  						
+		  						<?php
+		  							}
+		  						?>  
+	        					<div class="ext_icons">
+	        						<a href="#" data-toggle="modal" data-target="#amp_modal" class="productcart" data-id="<?php echo $product['product_id'] ?>">
 	        						<i class="fa fa-shopping-cart"></i>
 	        						</a>
 	        					</div>
 						        <div class="pull-right ext_price">
                                     <div class="oneprice"><?php echo $item['price'] ?></div>
                                 </div>
+                               <?php } ?> 
 	        				</div>
 	        			</div>				
 	        		</li>
@@ -208,6 +259,8 @@
 		location = '<?php echo $listing_url?>&' + $(this).val();
 	});
 
+
+/*
 	$('a.productcart, a.product_thumb, .ext_name a').click(function(){
 		var product_id = $(this).parents('li.product-item').attr('data-product-id');
 		if(!product_id) return false;
@@ -221,6 +274,7 @@
 		window.open('<?php echo $remote_store_product_url;?>&rt=checkout/cart&product_id=' + product_id, 'MPside');
 		return false;
 	});
+*/
 
 	$('.ext_review a').click(function () {
 		var product_id = $(this).parents('li.product-item').attr('data-product-id');

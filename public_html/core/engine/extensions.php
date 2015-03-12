@@ -537,7 +537,15 @@ class ExtensionsApi {
 		$this->extension_models = $value;
 	}
 
-	
+	public function isExtensionAvailable($extension) {
+		foreach ($this->extensions_dir as $ext) {
+			if($ext == $extension){
+				return true;
+			}
+		}
+		return null;
+	}
+
 	/**
 	 * load all available (installed) extenions (for admin)
 	 *

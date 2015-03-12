@@ -62,8 +62,20 @@ class ControllerPagesExtensionExtensionsStore extends AController {
 		}
 
 		$this->loadModel('tool/mp_api');
-
 		$request_data = $this->request->get;
+
+		$this->data['my_extensions'] = $this->html->getSecureURL('extension/extensions');
+		//marketplace related
+		//connection to marketplace
+		$mp_token = $this->config->get('mp_token');
+		if ( $mp_token ) {
+			$this->view->assign('mp_connected', true);
+			$this->data['my_extensions'] = $this->html->getSecureURL('extension/extensions_store', '&purchased_only=1');
+		}
+		if($request_data['purchased_only']){
+			$this->data['my_extensions_shown'] = true;
+		}
+
 		if(!has_value($request_data['sidx'])){
 			$request_data['sidx'] = 'date_modified';
 		}
@@ -73,24 +85,22 @@ class ControllerPagesExtensionExtensionsStore extends AController {
 		if(has_value($request_data['limit'])){
 			$request_data['rows'] = $request_data['limit'];
 		}
-
-		//marketplace related
-		//connection to marketplace
-		$mp_token = $this->config->get('mp_token');
-		if ( $mp_token ) {
-			$this->view->assign('mp_connected', true);
+		if(has_value($mp_token)){
+			$request_data['mp_token'] = $mp_token;
 		}
+
 		$return_url = base64_encode($this->html->getSecureURL('tool/extensions_store/connect'));		
 		$mp_params = '?rt=account/authenticate&return_url='.$return_url;
 		$mp_params .= '&store_id='.UNIQUE_ID;
 		$mp_params .= '&store_url='.HTTP_SERVER;
 		$mp_params .= '&store_version='.VERSION;
-		$mp_params .= '&store_ip='.$_SERVER ['SERVER_ADDR'];
 		$this->view->assign('amp_connect_url', $this->model_tool_mp_api->getMPURL().$mp_params);
 		$this->view->assign('amp_disconnect_url', $this->html->getSecureURL('tool/extensions_store/disconnect'));
 
 		$result = $this->model_tool_mp_api->processRequest($request_data);
 		$this->view->assign('content', $result);
+		$this->view->assign('install_url', $this->html->getSecureURL('tool/package_installer/download', ''));
+		$this->view->assign('edit_url', $this->html->getSecureURL('extension/extensions/edit', ''));
 
 		$remote_store_product_url = $this->model_tool_mp_api->getMPURL().'?mp_token='.$this->session->data['mp_token'].'&mp_hash='.$this->session->data['mp_hash'];
 		$this->view->assign('remote_store_product_url',$remote_store_product_url);
@@ -111,36 +121,39 @@ class ControllerPagesExtensionExtensionsStore extends AController {
 		$this->data['form']['input'] = $form->getFieldHtml(array(
 														'type' => 'input',
 														'name' => 'keyword',
-														'value' => $this->request->get['keyword'],
+														'value' => $request_data['keyword'],
 														'style'=> 'pull-left',
 														'placeholder'=> $this->language->get('search'),
 												   ));
 		$this->data['form']['input'] .= $form->getFieldHtml(array(
 														'type' => 'hidden',
 														'name' => 'rt',
-														'value' => $this->request->get['rt']
+														'value' => $request_data['rt']
 												   ));
 		$this->data['form']['input'] .= $form->getFieldHtml(array(
 														'type' => 'hidden',
 														'name' => 's',
-														'value' => $this->request->get['s']
+														'value' => $request_data['s']
 												   ));
 		$this->data['form']['input'] .= $form->getFieldHtml(array(
 														'type' => 'hidden',
 														'name' => 'token',
-														'value' => $this->request->get['token']
+														'value' => $request_data['token']
 												   ));
 
 		if( $result['products']['rows']	){
 			$uri = '&limit='.$result['products']['limit'];
-			if(has_value($this->request->get['keyword'])){
-				$uri .= '&keyword='.$this->request->get['keyword'];
+			if(has_value($request_data['keyword'])){
+				$uri .= '&keyword='.$request_data['keyword'];
 			}
-			if(has_value($this->request->get['category_id'])){
-				$uri .= '&category_id='.$this->request->get['category_id'];
+			if(has_value($request_data['category_id'])){
+				$uri .= '&category_id='.$request_data['category_id'];
 			}
-			if(has_value($this->request->get['manufacturer_id'])){
-				$uri .= '&manufacturer_id='.$this->request->get['manufacturer_id'];
+			if(has_value($request_data['manufacturer_id'])){
+				$uri .= '&manufacturer_id='.$request_data['manufacturer_id'];
+			}
+			if(has_value($request_data['purchased_only'])){
+				$uri .= '&purchased_only='.$request_data['purchased_only'];
 			}
 			$sort_order = '&sidx='.$result['products']['sidx'].'&sord='.strtoupper($result['products']['sord']);
 
@@ -176,7 +189,6 @@ class ControllerPagesExtensionExtensionsStore extends AController {
 							'options' => $sorts));
 		}
 
-		$this->data['my_extensions'] = $this->html->getSecureURL('extension/extensions');
 		$this->data['my_account'] = $this->model_tool_mp_api->getMPURL().'?rt=account/account&mp_token='.$this->session->data['mp_token'].'&mp_hash='.$this->session->data['mp_hash'];
 		
 		$this->view->batchAssign($this->data);
