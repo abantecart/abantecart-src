@@ -6,7 +6,7 @@ SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 
 
 INSERT INTO `ac_addresses` 
-VALUES 
+VALUES
 (1,2,'','Juliana','Davis','9778 Golden Crescent','Apt 10','85804-7365','Humansville',223,3616),
 (2,3,'','Keely','Mccoy','5071 Misty Pond Farm','Suite #101','63406-9081','Bumble Bee',223,3648),
 (3,4,'BelfastCo','Zelda','Weiss','6944 Sleepy Fawn Abbey','Suite #31','86014-8121','Lawyers',223,3616),
@@ -393,7 +393,8 @@ VALUES
 
 
 
-INSERT INTO `ac_order_options` 
+INSERT INTO `ac_order_options`
+(`order_option_id`, `order_id`, `order_product_id`, `product_option_value_id`, `name`, `value`, `price`, `prefix`)
 VALUES 
 (1,1,2,588,'Memory','8GB','99.0000','+'),
 (2,2,7,684,'Color','brown','10.0000','+'),
