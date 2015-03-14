@@ -56,8 +56,8 @@
 		<?php } ?><!-- <div class="fieldset"> -->
 
 	</div>
-	<div class="panel-footer">
-		<div class="center">
+	<div class="panel-footer col-xs-12">
+		<div class="text-center">
 			<button type="submit" class="btn btn-primary lock-on-click">
 				<i class="fa fa-save"></i> <?php echo $head_form['button_save']->text; ?>
 			</button>
