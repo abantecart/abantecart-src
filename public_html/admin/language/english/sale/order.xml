@@ -254,7 +254,7 @@
 	</definition>
 	<definition>
 		<key>entry_add_product</key>
-		<value><![CDATA[Add Product(s):]]></value>
+		<value><![CDATA[Add Product:]]></value>
 	</definition>
 	<definition>
 		<key>error_permission</key>
@@ -339,5 +339,13 @@
 	<definition>
 		<key>text_push_download</key>
 		<value><![CDATA[- Push Download -]]></value>
+	</definition>
+	<definition>
+		<key>text_add_product_to_order</key>
+		<value><![CDATA[Add Product to Order #%s]]></value>
+	</definition>
+	<definition>
+		<key>text_edit_order_product</key>
+		<value><![CDATA[Edit Product]]></value>
 	</definition>
 </definitions>

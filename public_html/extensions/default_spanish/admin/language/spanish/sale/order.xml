@@ -150,7 +150,7 @@
 	</definition>
 	<definition>
 		<key>entry_add_product</key>
-		<value><![CDATA[Agregar Producto(s):]]></value>
+		<value><![CDATA[Agregar Producto:]]></value>
 	</definition>
 	<definition>
 		<key>entry_ip</key>

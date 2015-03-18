@@ -167,9 +167,14 @@
 					   data-order-product-row="<?php echo $order_product_row; ?>">
 						<i class="fa fa-minus-circle"></i>
 					</a>
+					<a class="edit btn btn-xs btn-info-alt tooltips"
+					   data-original-title="<?php echo $text_edit; ?>"
+					   data-order-product-id="<?php echo $order_product['order_product_id']; ?>">
+						<i class="fa fa-pencil"></i>
+					</a>
 				</td>
 				<td class="left">
-					<a href="<?php echo $order_product['href']; ?>"><?php echo $order_product['name']; ?>
+					<a target="_blank" href="<?php echo $order_product['href']; ?>"><?php echo $order_product['name']; ?>
 						(<?php echo $order_product['model']; ?>)</a>
 					<input type="hidden"
 						   name="product[<?php echo $order_product_row; ?>][order_product_id]"
@@ -183,7 +188,7 @@
 						<small>
 							- <?php echo $option['name']; ?> <?php echo $option['value']; ?></small>
 					<?php } ?></td>
-				<td class="right"><input class="no-save" type="text"
+				<td class="right"><input class="afield no-save" type="text"
 										 name="product[<?php echo $order_product_row; ?>][quantity]"
 										 value="<?php echo $order_product['quantity']; ?>"
 										 size="4"/></td>
@@ -235,9 +240,10 @@
 		<div class="list-inline input-group afield col-sm-7 col-xs-9">
 			<?php echo $add_product;?>
 		</div>
-		<div class="list-inline input-group afield col-sm-offset-1 col-sm-3 col-xs-1">
-			<a class="add btn btn-success tooltips" data-original-title="<?php echo $text_add; ?>"><i
-						class="fa fa-plus-circle fa-lg"></i></a>
+		<div class="list-inline input-group afield col-sm-offset-0 col-sm-3 col-xs-1">
+			<a class="add btn btn-success tooltips"
+			   data-original-title="<?php echo $text_add; ?>">
+				<i class="fa fa-plus-circle fa-lg"></i></a>
 		</div>
 	</div>
 	</div>
@@ -257,6 +263,13 @@
 
 </div><!-- <div class="tab-content"> -->
 
+<?php echo $this->html->buildElement(
+		array('type' => 'modal',
+				'id' => 'add_product_modal',
+				'modal_type' => 'lg',
+				'data_source' => 'ajax'
+		));
+?>
 
 <script type="text/javascript">
 
@@ -271,6 +284,7 @@
 	$(function () {
 
 		$('#add_product').chosen({'width': '100%', 'white-space': 'nowrap'});
+		$('#add_product').on('change', addProduct);
 
 		$("#products input").aform({        triggerChanged: false        });
 		$('#products input[type*="text"]').each(function () {
@@ -290,6 +304,11 @@
 			return false;
 		});
 
+
+		$('a.edit').click(function () {
+			addProduct($(this).attr('data-order-product-id'));
+			return false;
+		});
 
 		$(document).on('keyup', '#products input', function () {
 			recalculate();
@@ -371,45 +390,36 @@
 
 	var order_product_row = <?php echo $order_product_row; ?>;
 
-	function addProduct() {
-		var vals = $("#add_product").chosen().val();
-
-		if(vals.length>0) {
-			var product_id, price, product, html;
-
-			for(var k in vals){
-				product_id = vals[k];
-				product = $('#add_product option[value="' + product_id + '"]');
-				if (currency_location == 'left') {
-					price = currency_symbol + product.attr('data-price');
-				} else {
-					price = product.attr('data-price') + currency_symbol;
-				}
-
-				html = '<tbody id="product_' + order_product_row + '"><tr>';
-				html += '<td><a class="remove btn btn-xs btn-danger-alt tooltips" data-original-title="<?php echo $text_remove;?>"  data-order-product-row="' + order_product_row + '"><i class="fa fa-minus-circle"></i></a></td>';
-				html += '<td class="left">';
-				html += '<input type="hidden" name="product[' + order_product_row + '][product_id]" value="' + product_id + '">';
-				html += '<a href="<?php echo $product_update . '&product_id='; ?>' + product_id + '&token=<?php echo $token; ?>">' + product.html() + '</a>';
-				html += '</td>';
-				html += '<td class="right"><input type="text" name="product[' + order_product_row + '][quantity]" value="1" size="4" /></td>';
-				html += '<td class="right"><input type="text" name="product[' + order_product_row + '][price]" value="' + price + '" /></td>';
-				html += '<td class="right"><input type="text" name="product[' + order_product_row + '][total]" value="' + price + '" readonly /></td>';
-				html += '</tr></tbody>';
-
-				$('#totals').before(html);
-
-				$("input, textarea, select, .scrollbox", '#product_' + order_product_row).aform({triggerChanged: false});
-				$('#product_' + order_product_row + ' input[type*="text"]').each(function () {
-					$.aform.styleGridForm(this);
-				});
-
-				order_product_row++;
-
+	function addProduct(order_product_id) {
+		var id = '';
+		if(order_product_id>0){
+			id = '&order_product_id='+order_product_id;
+		}else{
+			var vals = $("#add_product").chosen().val();
+			$("#add_product").val('').trigger("chosen:updated");;
+			if(vals){
+				id = '&product_id='+vals[0];
 			}
 		}
-		recalculate();
-		$("#add_product").chosen().val('').trigger("chosen:updated");
+
+		if(id.length>0){
+			$('#add_product_modal')
+					.modal({ keyboard: false})
+					.find('.modal-content')
+					.load('<?php echo $add_product_url; ?>'+id, function () {
+					formOnExit();
+					bindCustomEvents('#orderProductFrm');
+					spanHelp2Toggles();
+				});
+		}
 	}
+
+	$(document).on('keyup','#orderProductFrm_product0price, #orderProductFrm_product0quantity', function(){
+		//update products
+		var qty = $('#orderProductFrm_product0quantity').val();
+		var price = get_currency_num($('#orderProductFrm_product0price').val());
+		var total = qty * price;
+		$('#orderProductFrm_product0total').val(get_currency_str(total));
+	});
 
 </script>

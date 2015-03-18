@@ -526,6 +526,10 @@
         <value><![CDATA[Out of Stock]]></value>
     </definition>
 	<definition>
+        <key>text_product_in_stock</key>
+        <value><![CDATA[In Stock]]></value>
+    </definition>
+	<definition>
         <key>text_product_option_out_of_stock</key>
         <value><![CDATA[Product Option(s) Out of Stock]]></value>
     </definition>

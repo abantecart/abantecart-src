@@ -246,7 +246,7 @@
 	</definition>
 	<definition>
 		<key>entry_add_product</key>
-		<value><![CDATA[Добавить продукт(ы):]]></value>
+		<value><![CDATA[Добавить продукт:]]></value>
 	</definition>
 	<definition>
 		<key>error_permission</key>
