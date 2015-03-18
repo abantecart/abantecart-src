@@ -214,14 +214,9 @@ class ControllerPagesToolFormsManager extends AController {
 		$this->data['cancel'] = $this->html->getSecureURL('tool/forms_manager');
 		$this->data['heading_title'] = $this->language->get('forms_manager_name');
 
-
-		$this->view->assign('cancel', $this->html->getSecureURL('forms_manager_name'));
-
 		$this->data['update'] = $this->html->getSecureURL('grid/form/update_field', '&form_id=' . $this->data['form_data']['form_id']);;
-
-
+		
 		$this->data['field_id'] = (int)$this->request->get['field_id'];
-
 
 		if ($this->request->get['form_id']) {
 			$head_form = new AForm('HS');
@@ -233,7 +228,6 @@ class ControllerPagesToolFormsManager extends AController {
 			$head_form = new AForm('HT');
 			$this->data['action'] = $this->html->getSecureURL('tool/forms_manager/update');
 		}
-
 
 		$this->document->initBreadcrumb(
 				array(
