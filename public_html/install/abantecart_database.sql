@@ -1183,7 +1183,7 @@ CREATE TABLE `ac_order_options` (
   `value` text COLLATE utf8_general_ci NOT NULL,
   `price` decimal(15,4) NOT NULL DEFAULT '0.0000',
   `prefix` char(1) COLLATE utf8_general_ci NOT NULL DEFAULT '',
-	`settings`			text COLLATE utf8_general_ci,
+  `settings` text COLLATE utf8_general_ci,
   PRIMARY KEY (`order_option_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
 

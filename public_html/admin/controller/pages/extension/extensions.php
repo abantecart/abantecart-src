@@ -32,7 +32,19 @@ class ControllerPagesExtensionExtensions extends AController {
 
 	public function main() {
 
-		if (!in_array($this->session->data['extension_filter'], array('extensions', 'payment', 'shipping', 'template', 'language'))) {
+		$ext_type_to_categ = array(
+			'extensions' => 0,
+			'payment' => 73,
+			'shipping' => 73,
+			'template' => 66,
+			'language' => 67,
+			'productivity' => 68,
+			'usability' => 76,
+			'utilities' => 72,
+			'marketing' => 65
+		);
+
+		if (!in_array($this->session->data['extension_filter'], array_keys($ext_type_to_categ))) {
 			$this->session->data['extension_filter'] = 'extensions';
 		}
 		unset($this->session->data['package_info']);
@@ -210,7 +222,14 @@ class ControllerPagesExtensionExtensions extends AController {
 		} else if( $this->session->data['extension_filter'] == 'language') {
 			$this->data['setting_url'] = $this->html->getSecureURL('localisation/language');
 		}
-
+		
+		$mp_categ_id = $ext_type_to_categ[$this->data['extension_type']];
+		if ($mp_categ_id) {
+			$this->data['more_extensions_url'] = $this->html->getSecureURL('extension/extensions_store', '&category_id='.$mp_categ_id);		
+		} else {
+			$this->data['more_extensions_url'] = $this->html->getSecureURL('extension/extensions_store');		
+		}
+		
 		$this->view->assign('form_store_switch', $this->html->getStoreSwitcher());
 		$this->view->assign('extension_edit_url', $this->html->getSecureURL('listing_grid/extension/license')) ;
 		$this->view->assign('help_url', $this->gen_help_url('extension_listing'));

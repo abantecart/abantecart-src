@@ -85,8 +85,10 @@ class ControllerPagesExtensionExtensionsStore extends AController {
 		if(has_value($request_data['limit'])){
 			$request_data['rows'] = $request_data['limit'];
 		}
+		$token_param = "";
 		if(has_value($mp_token)){
 			$request_data['mp_token'] = $mp_token;
+			$token_param = "&mp_token=".$mp_token;
 		}
 
 		$return_url = base64_encode($this->html->getSecureURL('tool/extensions_store/connect'));		
@@ -96,6 +98,19 @@ class ControllerPagesExtensionExtensionsStore extends AController {
 		$mp_params .= '&store_version='.VERSION;
 		$this->view->assign('amp_connect_url', $this->model_tool_mp_api->getMPURL().$mp_params);
 		$this->view->assign('amp_disconnect_url', $this->html->getSecureURL('tool/extensions_store/disconnect'));
+
+		$mp_params = '?rt=r/product/product';
+		$mp_params .= '&store_id='.UNIQUE_ID;
+		$mp_params .= '&store_url='.HTTP_SERVER;
+		$mp_params .= '&store_version='.VERSION;
+		$this->view->assign('amp_product_url', $this->model_tool_mp_api->getMPURL().$mp_params.$token_param);
+
+		$return_url = base64_encode($this->html->getSecureURL('tool/extensions_store', '&purchased_only=1'));		
+		$mp_params = '?rt=r/checkout/order&return_url='.$return_url;
+		$mp_params .= '&store_id='.UNIQUE_ID;
+		$mp_params .= '&store_url='.HTTP_SERVER;
+		$mp_params .= '&store_version='.VERSION;
+		$this->view->assign('amp_order_url', $this->model_tool_mp_api->getMPURL().$mp_params.$token_param);
 
 		$result = $this->model_tool_mp_api->processRequest($request_data);
 		$this->view->assign('content', $result);

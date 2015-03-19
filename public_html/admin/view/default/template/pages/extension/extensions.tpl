@@ -46,6 +46,15 @@
 	<div class="panel-body panel-body-nopadding tab-content col-xs-12">
 		<?php echo $listing_grid; ?>
 	</div>
+	
+	<div class="panel-footer col-xs-12">
+		<div class="text-center">
+			<a href="<?php echo $more_extensions_url; ?>" class="btn btn-orange lock-on-click">
+			<i class="fa fa-puzzle-piece fa-fw"></i> <?php echo $text_more_extensions; ?>
+			</a>
+		</div>
+	</div>
+	
 </div>
 
 <?php

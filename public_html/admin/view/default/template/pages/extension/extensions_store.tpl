@@ -109,11 +109,12 @@
 	        	foreach ($content['products']['rows'] as $product) {
 	        	
 	        		$item = array();	
+	        		$item['product_id'] = $product['id'];
 	        		$item['image'] = $product['cell']['thumb'];
 	        		$item['main_image'] = $product['cell']['main_image'];
 	        		$item['title'] = $product['cell']['name'];
 	        		$item['extension_id'] = $product['cell']['model'];
-	        		$item['rating'] = "<img src='" . $this->templateResource('/image/stars_' . (int)$product['cell']['rating'] . '.png') . "' alt='" . (int)$product['stars'] . "' />";
+	        		$item['rating'] = "<img src='" . $this->templateResource('/image/stars_' . (int)$product['cell']['rating'] . '.png') . "' alt='" . (int)$product['cell']['stars'] . "' />";
 	    
 	        		$item['price'] = $product['cell']['price'];
 	        		if ( substr( $product['cell']['price'],1) == '0.00' ) {
@@ -131,7 +132,7 @@
 	        		?>
 	        		<li class="product-item col-md-4" data-product-id="<?php echo $product['id'] ?>">
 	        			<div class="ext_thumbnail">
-	        				<a class="product_thumb" title='' data-html="true" rel="tooltip">
+	        				<a class="product_thumb" href="#" data-toggle="modal" data-target="#amp_product_modal" data-html="true" data-id="<?php echo $item['product_id']; ?>" title="" rel="tooltip">
 	        				<img width="57" alt="" src="<?php echo $item['image'] ?>">
 	        				</a>
 	        				<div class="tooltip-data hidden" style="display: none;">
@@ -150,7 +151,8 @@
 	        			<div class="ext_details">
 	        				<div class="ext_name">
 	        					<div class="text_zoom">
-	        					<a title="<?php echo $item['title']; ?>"><?php echo $item['title'] ?></a>
+	        						<a href="#" data-toggle="modal" data-target="#amp_product_modal" class="productcart" data-id="<?php echo $item['product_id']; ?>" title="<?php echo $item['title']; ?>">
+	        						<?php echo $item['title'] ?></a>
 	        					</div>
 	        				</div>
 	    
@@ -168,7 +170,7 @@
 	  								if($this->extensions->isExtensionAvailable($item['extension_id'])){			
 	  						?>  
 	        					<div class="ext_icons">
-	        						<a href="<?php echo $item['edit_url']; ?>" class="productedit tooltips" data-id="<?php echo $product['product_id'] ?>" data-original-title="<?php echo $text_edit; ?>">
+	        						<a href="<?php echo $item['edit_url']; ?>" class="productedit tooltips" data-id="<?php echo $item['product_id']; ?>" data-original-title="<?php echo $text_edit; ?>">
 	        						<i class="fa fa-edit"></i>
 	        						</a>
 	        					</div>	  							
@@ -198,7 +200,7 @@
 		  							}
 		  						?>  
 	        					<div class="ext_icons">
-	        						<a href="#" data-toggle="modal" data-target="#amp_modal" class="productcart" data-id="<?php echo $product['product_id'] ?>">
+	        						<a href="#" data-toggle="modal" data-target="#amp_order_modal" class="productcart tooltips" data-id="<?php echo $item['product_id']; ?>" title="<?php echo $text_marketplace_buy; ?>">
 	        						<i class="fa fa-shopping-cart"></i>
 	        						</a>
 	        					</div>
@@ -250,7 +252,27 @@
 							',
 				'footer' => ''
 		));
-	}	
+	}		
+	echo $this->html->buildElement(
+		array('type' => 'modal',
+				'id' => 'amp_product_modal',
+				'modal_type' => 'lg',
+				'title' => $text_marketplace_extension,
+				'content' =>'<iframe id="amp_product_frame" width="100%" height="450px" frameBorder="0"></iframe>
+								<div id="iframe_product_loading" class="center_div"><i class="fa fa-spinner fa-spin fa-2x"></i></div>
+							',
+				'footer' => ''
+	));
+	echo $this->html->buildElement(
+		array('type' => 'modal',
+				'id' => 'amp_order_modal',
+				'modal_type' => 'lg',
+				'title' => $text_marketplace_extension,
+				'content' =>'<iframe id="amp_order_frame" width="100%" height="450px" frameBorder="0"></iframe>
+								<div id="iframe_order_loading" class="center_div"><i class="fa fa-spinner fa-spin fa-2x"></i></div>
+							',
+				'footer' => ''
+	));
 ?>
 
 <script type="text/javascript">
@@ -296,6 +318,7 @@
         }
 	})
 
+	/* Connect modal */
 	$('#amp_modal').on('shown.bs.modal', function () {
 		var d = new Date();
     	$('#amp_modal iframe').attr("src","<?php echo $amp_connect_url; ?>&time_stamp="+d.getTime());
@@ -335,5 +358,34 @@
 		$('#amp_modal').modal('hide');
 		$("#amp_modal").find(".modal-body").empty(); 
 	}
+		
+	/* Product modal */
+	$('#amp_product_modal').on('shown.bs.modal', function (e) {
+		var $invoker = $(e.relatedTarget);
+		var d = new Date();
+		var product_id = $invoker.attr('data-id');
+    	$('#amp_product_modal iframe').attr("src","<?php echo $amp_product_url; ?>&product_id="+product_id+"&time_stamp="+d.getTime());
+    	$('#iframe_product_loading').show();
+    	$('#amp_product_modal').modal('show');
+  	});
+  	
+  	$('#amp_product_frame').on('load', function() {  
+    	$('#iframe_product_loading').hide();
+	});
+	
+	/* Order modal */
+	$('#amp_order_modal').on('shown.bs.modal', function (e) {
+		var $invoker = $(e.relatedTarget);
+		var d = new Date();
+		var product_id = $invoker.attr('data-id');
+    	$('#amp_order_modal iframe').attr("src","<?php echo $amp_order_url; ?>&product_id="+product_id+"&time_stamp="+d.getTime());
+    	$('#iframe_order_loading').show();
+    	$('#amp_order_modal').modal('show');
+  	});
+  	
+  	$('#amp_order_frame').on('load', function() {  
+    	$('#iframe_order_loading').hide();
+	});
+	
 	
 </script>

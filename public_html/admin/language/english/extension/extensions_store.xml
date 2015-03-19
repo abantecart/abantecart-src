@@ -137,7 +137,6 @@
 		<key>text_all_categories</key>
 		<value><![CDATA[All Categories]]></value>
 	</definition>
-
 	<definition>
 		<key>text_connect</key>
 		<value><![CDATA[Connect]]></value>
@@ -145,6 +144,14 @@
 	<definition>
 		<key>text_marketplace_connect</key>
 		<value><![CDATA[Connect to the marketplace]]></value>
+	</definition>	
+	<definition>
+		<key>text_marketplace_extension</key>
+		<value><![CDATA[Extension preview & order ]]></value>
+	</definition>	
+	<definition>
+		<key>text_marketplace_buy</key>
+		<value><![CDATA[Get this extension now]]></value>
 	</definition>	
 	<definition>
 		<key>text_connected</key>
