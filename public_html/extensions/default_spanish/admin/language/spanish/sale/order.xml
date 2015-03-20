@@ -335,5 +335,9 @@
 	<definition>
 		<key>text_push_download</key>
 		<value><![CDATA[- Empuje Descargar -]]></value>
-	</definition>	
+	</definition>
+	<definition>
+		<key>attention_check_total</key>
+		<value><![CDATA[Nota: los detalles del producto Orden ha cambiado. Impuestos y envío no se actualizan automáticamente. Revisión requiere.]]></value>
+	</definition>
 </definitions>

@@ -1273,6 +1273,7 @@ class ControllerResponsesProductProduct extends AController{
 		$this->loadModel('sale/order');
 		$this->loadLanguage('catalog/product');
 		$this->loadLanguage('sale/order');
+		$this->load->library('json');
 
 		$elements_with_options = HtmlElementFactory::getElementsWithOptions();
 		$order_product_id = (int)$this->request->get['order_product_id'];
@@ -1283,16 +1284,16 @@ class ControllerResponsesProductProduct extends AController{
 		$tax->setZone($order_info['country_id'], $order_info['zone_id']);
 
 		$product_id = (int)$this->request->get['product_id'];
-		$default_values = array();
+		$preset_values = array();
 
 		if($order_product_id){
 
 			//if unknown product_id but order_product_id we know
 			$order_product_info = $this->model_sale_order->getOrderProducts($order_id, $order_product_id);
 
-			$default_values['price'] = $this->currency->format($order_product_info[0]['price'], $order_info['currency'], $order_info['value'], false);
-			$default_values['total'] = $this->currency->format(($order_product_info[0]['price'] * $order_product_info[0]['quantity']), $order_info['currency'], $order_info['value'], false);
-			$default_values['quantity'] = $order_product_info[0]['quantity'];
+			$preset_values['price'] = $this->currency->format($order_product_info[0]['price'], $order_info['currency'], $order_info['value'], false);
+			$preset_values['total'] = $this->currency->format(($order_product_info[0]['price'] * $order_product_info[0]['quantity']), $order_info['currency'], $order_info['value'], false);
+			$preset_values['quantity'] = $order_product_info[0]['quantity'];
 
 			if(!$product_id){
 				$product_id = $order_product_info[0]['product_id'];
@@ -1301,13 +1302,16 @@ class ControllerResponsesProductProduct extends AController{
 			$order_product_options = $this->model_sale_order->getOrderOptions($order_id, $order_product_id);
 
 			foreach($order_product_options as $v){
-				if(in_array($v['element_type'], $elements_with_options)){
-					$default_values[$v['product_option_id']][] = $v['product_option_value_id'];
+
+				if( $v['element_type']=='R'){
+					$preset_values[$v['product_option_id']] = $v['product_option_value_id'];
+				}elseif(in_array($v['element_type'], $elements_with_options)){
+					$preset_values[$v['product_option_id']][] = $v['product_option_value_id'];
 				} else{
-					$default_values[$v['product_option_id']] = $v['value'];
+					$preset_values[$v['product_option_id']] = $v['value'];
+
 				}
 			}
-
 
 			$this->data['text_title'] = $this->language->get('text_edit_order_product');
 			$form_action = $this->html->getSecureURL('sale/order/update', '&order_id=' . $order_id . '&order_product_id=' . $order_product_id);
@@ -1315,9 +1319,9 @@ class ControllerResponsesProductProduct extends AController{
 		} else{
 			$product_info = $this->model_catalog_product->getProduct($product_id);
 			$this->data['text_title'] = sprintf($this->language->get('text_add_product_to_order'), $order_id);
-			$default_values['quantity'] = $product_info['minimum'] ? $product_info['minimum'] : 1;
-			$default_values['price'] = $this->currency->format($product_info['price'], $order_info['currency'], $order_info['value'], false);
-			$default_values['total'] = $this->currency->format(($product_info['price'] * $default_values['quantity']), $order_info['currency'], $order_info['value'], false);
+			$preset_values['quantity'] = $product_info['minimum'] ? $product_info['minimum'] : 1;
+			$preset_values['price'] = $this->currency->format($product_info['price'], $order_info['currency'], $order_info['value'], false);
+			$preset_values['total'] = $this->currency->format(($product_info['price'] * $preset_values['quantity']), $order_info['currency'], $order_info['value'], false);
 
 			$form_action = $this->html->getSecureURL('sale/order/update', '&order_id=' . $order_id . '&product_id=' . $product_id);
 		}
@@ -1342,20 +1346,29 @@ class ControllerResponsesProductProduct extends AController{
 
 		$this->data['text_title'] .= ' - ' . $product_info['name'];
 
-		// Preapare options and values for display
-
-		$options = array();
+		// Prepare options and values for display
 		$product_options = $this->model_catalog_product->getOrderProductOptions($product_id);
-
+		$option_values_prices = array();
 		foreach($product_options as $option){
 			if(in_array($option['element_type'], array('U'))){
 				continue;
 			} //skip files for now. TODO: add edit file-option in the future
-			$values = array();
-			$price = $default_value = '';
+			$values = $prices = array();
+			$price = $preset_value = $default_value =  '';
 			foreach($option['option_value'] as $option_value){
-				$default_value = $default_values[$option['product_option_id']];
+				//default value
+				$default_value = $option_value['default'] && !$order_product_id ? $option_value['product_option_value_id'] : $default_value;
+				//early saved value
+				$preset_value = $preset_values[$option['product_option_id']];
 
+				//when adds new product in the order
+				if(!$order_product_id){
+					if($option_value['default']==1){
+						$preset_value = $option_value['product_option_value_id'];
+					}elseif(!in_array($option['element_type'], $elements_with_options)){
+						$preset_value = $option_value['name'];
+					}
+				}
 
 				//Apply option price modifier
 				if($option_value['prefix'] == '%'){
@@ -1371,6 +1384,7 @@ class ControllerResponsesProductProduct extends AController{
 				}
 
 				if($price != 0){
+					$option_values_prices[$option['product_option_id']][$option_value['product_option_value_id']] = preformatFloat($product_info['price']+$price, '.');
 					$price = $this->currency->format($price);
 				} else{
 					$price = '';
@@ -1381,10 +1395,10 @@ class ControllerResponsesProductProduct extends AController{
 				if($option_value['subtract']){
 					if($option_value['quantity'] <= 0){
 						//show out of stock message
-						$opt_stock_message = $this->language->get('text_product_out_of_stock');
+						$opt_stock_message = ' ('.$this->language->get('text_product_out_of_stock').')';
 					} else{
 						if($this->config->get('config_stock_display')){
-							$opt_stock_message = '(' . $option_value['quantity'] . " " . $this->language->get('text_product_in_stock') . ')';
+							$opt_stock_message = ' (' . $option_value['quantity'] . " " . $this->language->get('text_product_in_stock') . ')';
 						}
 					}
 				}
@@ -1404,41 +1418,40 @@ class ControllerResponsesProductProduct extends AController{
 				}
 
 				//set default selection is nothing selected
-				if(!has_value($default_value) && !$order_product_id){
-					if(in_array($option['element_type'], $elements_with_options) && $option['element_type'] != 'S'){
-						//set first from the list to default
-						reset($values);
-						$default_value = key($values);
+				if ( !has_value($preset_value) && $option['element_type']!='C') {
+					if( has_value($default_value) ) {
+						$preset_value = $default_value;
 					}
 				}
 
-				if($option['html_type'] == 'radio'){
-					$default_value = key($values);
-				}
 				//show hidden option for admin
 				if($option['html_type'] == 'hidden'){
 					$option['html_type'] = 'input';
 				}
 
-				$val = $default_value;
+				$value = $preset_value;
 				//for checkbox with empty value
-				if($default_value == '' && $option['element_type'] == 'C'){
-					$val = 1;
+
+				if($value == '' && $option['element_type'] == 'C'){
+
+					$value = $default_value;
+					$value = $value=='' ? 1 : $value;
 				}
 
 				$option_data = array(
 						'type'           => $option['html_type'],
 						'name'           => !in_array($option['element_type'], HtmlElementFactory::getMultivalueElements()) ? 'product[0][option][' . $option['product_option_id'] . ']' : 'product[0][option][' . $option['product_option_id'] . '][]',
-						'value'          => $val,
+						'value'          => $value,
 						'options'        => $values,
-						'required'       => $order_product_id ? false : $option['required'], //show required sign aonly when need to add product into order
 						'placeholder'    => $option['option_placeholder'],
 						'regexp_pattern' => $option['regexp_pattern'],
-						'error_text'     => $option['error_text']
+						'error_text'     => $option['error_text'],
+						'attr'           => ' data-option-id ="'.$option['product_option_id'].'"'
 				);
 				if($option['html_type'] == 'checkbox'){
-					$option_data['label_text'] = $default_value && !in_array($default_value, array(0, 1)) ? $default_value : '';
-					$option_data['checked'] = $default_value == '1' ? true : false;
+					$option_data['label_text'] = $preset_value && !in_array($preset_value, array(0, 1)) ? $preset_value : '';
+
+					$option_data['checked'] = $preset_value ? true : false;
 
 				}
 
@@ -1450,6 +1463,7 @@ class ControllerResponsesProductProduct extends AController{
 		}
 		$this->data['options'] = $options;
 
+		$this->data['option_values_prices'] = AJson::encode($option_values_prices);
 
 		// main product image
 		$resource = new AResource('image');
@@ -1472,7 +1486,7 @@ class ControllerResponsesProductProduct extends AController{
 		$this->data['form']['fields']['price'] = $form->getFieldHtml(array(
 				'type'  => 'input',
 				'name'  => 'product[0][price]',
-				'value' => $default_values['price']
+				'value' => $preset_values['price']
 		));
 		if(!$options && $product_info['subtract']){
 			if($product_info['quantity']){
@@ -1485,13 +1499,13 @@ class ControllerResponsesProductProduct extends AController{
 		$this->data['form']['fields']['quantity'] = $form->getFieldHtml(array(
 				'type'  => 'input',
 				'name'  => 'product[0][quantity]',
-				'value' => $default_values['quantity'],
+				'value' => $preset_values['quantity'],
 				'attr'  => ' size="4" '
 		));
 		$this->data['form']['fields']['total'] = $form->getFieldHtml(array(
 				'type'  => 'input',
 				'name'  => 'product[0][total]',
-				'value' => $default_values['total'],
+				'value' => $preset_values['total'],
 				'attr'  => 'readonly'
 		));
 

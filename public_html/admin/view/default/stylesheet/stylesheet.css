@@ -2354,6 +2354,13 @@ body.stickyheader .sticky_left {
     color: #333333 !important;
 }
 
+.dl-horizontal.product-options-list-sm dt{
+	width: 120px;
+}
+.dl-horizontal.product-options-list-sm dd{
+	margin-left: 130px;
+}
+
 /***** Retina Resolution Logo  *****/
 @media all and (min-device-pixel-ratio : 2) {
 	.logo_image {

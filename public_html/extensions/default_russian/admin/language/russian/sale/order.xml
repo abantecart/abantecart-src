@@ -331,5 +331,9 @@
 	<definition>
 		<key>text_push_download</key>
 		<value><![CDATA[- Нажмите Скачать -]]></value>
-	</definition>	
+	</definition>
+	<definition>
+		<key>attention_check_total</key>
+		<value><![CDATA[Внимание: Данные продукта заказа изменились. Суммы налогов и стоимость доставки не обновились автоматически и требуют проверки.]]></value>
+	</definition>
 </definitions>

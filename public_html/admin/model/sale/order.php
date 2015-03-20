@@ -302,7 +302,7 @@ class ModelSaleOrder extends Model{
 						$po_ids[] = (int)$k;
 					}
 					//get all data of given product options from db
-					$sql = "SELECT *, povd.name as option_value_name, pod.name as option_name
+					$sql = "SELECT *, pov.product_option_value_id, povd.name as option_value_name, pod.name as option_name
 								FROM " . $this->db->table('product_options') . " po
 								LEFT JOIN " . $this->db->table('product_option_descriptions') . " pod
 									ON (pod.product_option_id = po.product_option_id AND pod.language_id=" . $this->language->getContentLanguageID() . ")
@@ -338,7 +338,10 @@ class ModelSaleOrder extends Model{
 					foreach($product['option'] as $opt_id => $values){
 
 						if(!is_array($values)){ // for non-multioptional elements
-							if($option_types[$opt_id] == 'S'){
+							//do not save empty inputs and texareas
+							if(in_array($option_types[$opt_id], array('I','T')) && $values==''){
+								continue;
+							}elseif($option_types[$opt_id] == 'S'){
 								$values = array($values);
 							} else{
 								foreach($option_value_info as $o){

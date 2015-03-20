@@ -348,4 +348,8 @@
 		<key>text_edit_order_product</key>
 		<value><![CDATA[Edit Product]]></value>
 	</definition>
+	<definition>
+		<key>attention_check_total</key>
+		<value><![CDATA[Note: Order product details has changed. Taxes and shipping are not updated automatically. Review required.]]></value>
+	</definition>
 </definitions>

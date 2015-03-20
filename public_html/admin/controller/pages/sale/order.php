@@ -220,7 +220,8 @@ class ControllerPagesSaleOrder extends AController{
 		if($this->request->is_POST() && $this->_validateForm()){
 			if(has_value($this->request->post['order_product_id'])){ //if present - saving form modal
 				$this->model_sale_order->editOrderProduct($this->request->get['order_id'], $this->request->post);
-				$this->session->data['success'] = $this->language->get('text_success') . $this->language->get('text_check_total');
+				$this->session->data['success'] = $this->language->get('text_success');
+				$this->session->data['attention'] = $this->language->get('attention_check_total');
 			} else{
 				$this->model_sale_order->editOrder($this->request->get['order_id'], $this->request->post);
 				$this->session->data['success'] = $this->language->get('text_success');
@@ -304,6 +305,12 @@ class ControllerPagesSaleOrder extends AController{
 				'current'   => true
 		));
 
+		if(isset($this->session->data['attention'])){
+			$this->data['attention'] = $this->session->data['attention'];
+			unset($this->session->data['attention']);
+		} else{
+			$this->data['attention'] = '';
+		}
 		if(isset($this->session->data['success'])){
 			$this->data['success'] = $this->session->data['success'];
 			unset($this->session->data['success']);
@@ -402,10 +409,12 @@ class ControllerPagesSaleOrder extends AController{
 				//generate link to download uploaded files
 				if($option['element_type'] == 'U'){
 					$option['value'] = '<a href="' . $this->html->getSecureURL('tool/files/download', '&filename=' . urlencode($option['value']) . '&attribute_id=' . (int)$option['attribute_id']) . '&attribute_type=product_option" title=" to download file" target="_blank">' . $option['value'] . '</a>';
+				}elseif($option['element_type']=='C' && $option['value']==1){
+					$option['value'] = '';
 				}
 				$option_data[] = array(
 						'name'  => $option['name'],
-						'value' => $option['value']
+						'value' => nl2br($option['value'])
 				);
 			}
 

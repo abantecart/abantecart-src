@@ -11,3 +11,7 @@
 <?php if ($info) { ?>
 	<div class="info alert alert-info"><i class="fa fa fa-check fa-fw"></i> <?php echo $info; ?></div>
 <?php } ?>
+
+<?php if ($attention) { ?>
+	<div class="info alert alert-warning"><i class="fa fa fa-exclamation-triangle fa-fw"></i> <?php echo $attention; ?></div>
+<?php } ?>

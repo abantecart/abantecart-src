@@ -182,11 +182,14 @@
 					<input type="hidden"
 						   name="product[<?php echo $order_product_row; ?>][product_id]"
 						   value="<?php echo $order_product['product_id']; ?>"/>
-					<?php foreach ($order_product['option'] as $option) { ?>
-						<br/>
-						&nbsp;
-						<small>
-							- <?php echo $option['name']; ?> <?php echo $option['value']; ?></small>
+					<?php
+					if($order_product['option']){ ?>
+						<dl class="dl-horizontal product-options-list-sm">
+					<?php
+					foreach ($order_product['option'] as $option) { ?>
+						<dt><small>- <?php echo $option['name']; ?></small></dt><dd><small><?php echo $option['value']; ?></small></dd>
+					<?php }?>
+						</dl>
 					<?php } ?></td>
 				<td class="right"><input class="afield no-save" type="text"
 										 name="product[<?php echo $order_product_row; ?>][quantity]"
