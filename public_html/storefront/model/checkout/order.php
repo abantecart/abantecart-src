@@ -419,9 +419,17 @@ class ModelCheckoutOrder extends Model {
 			foreach ($order_product_query->rows as $product) {
 				$option_data = array();
 
-				$order_option_query = $this->db->query("SELECT * FROM " . $this->db->table("order_options") . " WHERE order_id = '" . (int)$order_id . "' AND order_product_id = '" . (int)$product['order_product_id'] . "'");
+				$order_option_query = $this->db->query(
+						"SELECT oo.*, po.element_type
+						FROM " . $this->db->table("order_options") . " oo
+						LEFT JOIN " . $this->db->table("product_option_values") . " pov
+							ON pov.product_option_value_id = oo.product_option_value_id
+						LEFT JOIN " . $this->db->table("product_options") . " po
+							ON po.product_option_id = pov.product_option_id
+						WHERE oo.order_id = '" . (int)$order_id . "' AND oo.order_product_id = '" . (int)$product['order_product_id'] . "'");
 
 				foreach ($order_option_query->rows as $option) {
+					if($option['element_type']=='H'){ continue; } //skip hidden options
 					$option_data[] = array(
 						'name' => $option['name'],
 						'value' => $option['value']

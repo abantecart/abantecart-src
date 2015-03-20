@@ -65,7 +65,7 @@
 
 <script type="application/javascript">
 	var option_values_prices = <?php echo $option_values_prices;?>; //json encoded
-	$('#orderProductFrm input, #orderProductFrm select,  #orderProductFrm textarea').on('click', function(){
+	$('#orderProductFrm input, #orderProductFrm select,  #orderProductFrm textarea').on('change', function(){
 		var opt_id = $(this).attr('data-option-id');
 		if(opt_id>0 && option_values_prices.hasOwnProperty(opt_id)){
 			if(option_values_prices[opt_id].hasOwnProperty($(this).val())){

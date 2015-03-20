@@ -1384,7 +1384,8 @@ class ControllerResponsesProductProduct extends AController{
 				}
 
 				if($price != 0){
-					$option_values_prices[$option['product_option_id']][$option_value['product_option_value_id']] = preformatFloat($product_info['price']+$price, '.');
+					$price = $product_info['price']+$price;
+					$option_values_prices[$option['product_option_id']][$option_value['product_option_value_id']] = preformatFloat($price, '.');
 					$price = $this->currency->format($price);
 				} else{
 					$price = '';
@@ -1433,7 +1434,6 @@ class ControllerResponsesProductProduct extends AController{
 				//for checkbox with empty value
 
 				if($value == '' && $option['element_type'] == 'C'){
-
 					$value = $default_value;
 					$value = $value=='' ? 1 : $value;
 				}
@@ -1448,11 +1448,10 @@ class ControllerResponsesProductProduct extends AController{
 						'error_text'     => $option['error_text'],
 						'attr'           => ' data-option-id ="'.$option['product_option_id'].'"'
 				);
-				if($option['html_type'] == 'checkbox'){
-					$option_data['label_text'] = $preset_value && !in_array($preset_value, array(0, 1)) ? $preset_value : '';
-
+				if($option['element_type'] == 'C'){
+					// note: 0 and 1 must be stirng to prevent collision with 'yes'. (in php 'yes'==1) ;-)
+					$option_data['label_text'] = !in_array($value, array('0','1')) ? $value : '';
 					$option_data['checked'] = $preset_value ? true : false;
-
 				}
 
 				$options[] = array(
@@ -1492,7 +1491,7 @@ class ControllerResponsesProductProduct extends AController{
 			if($product_info['quantity']){
 				$this->data['column_quantity'] = $this->language->get('column_quantity') . ' (' . $this->language->get('text_product_in_stock') . ': ' . $product_info['quantity'] . ')';
 			} else{
-				$this->data['column_quantity'] = $this->language->get('column_quantity') . ' (' . $this->language->get('text_out_of_stock') . ')';
+				$this->data['column_quantity'] = $this->language->get('column_quantity') . ' (' . $this->language->get('text_product_out_of_stock') . ')';
 			}
 		}
 
