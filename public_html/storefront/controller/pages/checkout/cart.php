@@ -271,7 +271,7 @@ class ControllerPagesCheckoutCart extends AController {
           			'stock'    => $result['stock'],
 					'price'    => $this->currency->format($this->tax->calculate($result['price'], $result['tax_class_id'], $this->config->get('config_tax'))),
 					'total'    => $this->currency->format($this->tax->calculate($result['total'], $result['tax_class_id'], $this->config->get('config_tax'))),
-					'href'     => $this->html->getSEOURL('product/product', '&product_id=' . $result['product_id'],true)
+					'href'     => $this->html->getSEOURL('product/product', '&key='.$result['key'],true)
         		);
       		}
             $this->data['products'] =  $products ;

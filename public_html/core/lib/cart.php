@@ -152,6 +152,19 @@ class ACart {
   	}
 
 	/**
+	 * @param string $key
+	 * @param bool $recalculate
+	 * @return array
+	 */
+	public function getProduct($key, $recalculate = false ) {
+		if($recalculate){
+			$this->getProducts(true);
+		}
+		return has_value($this->session->data['cart'][$key]) ? $this->session->data['cart'][$key] : array();
+	}
+
+
+	/**
 	 * Collect product information for cart based on user selections
 	 * Function can be used to get totals and other product information
 	 * (based on user selection) as it is before getting into cart or after
