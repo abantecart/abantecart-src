@@ -1389,6 +1389,7 @@ class ControllerResponsesProductProduct extends AController{
 					$price = $this->currency->format($price);
 				} else{
 					$price = '';
+					$option_values_prices[$option['product_option_id']][$option_value['product_option_value_id']] = preformatFloat($product_info['price'], '.');
 				}
 
 				//Check stock and status
