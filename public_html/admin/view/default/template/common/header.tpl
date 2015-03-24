@@ -60,6 +60,7 @@
 
 		<div class="header-right">
 			<ul class="headermenu">
+				<?php echo $this->getHookVar('headermenu_left'); ?>
 				<li class="hidden-xs">
 					<?php if ($config_voicecontrol) { ?>
 						<div class="btn-group" id="voice_start">
