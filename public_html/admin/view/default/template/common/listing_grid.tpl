@@ -291,13 +291,13 @@ var initGrid_<?php echo $data['table_id'] ?> = function ($) {
 
                 //for dropdown
                 if($action['children']){
-                    $html_children = '<ul class="dropdown-menu dropdown-menu-right" role="menu">';
+                    $html_children = '<div class="dropdown-menu dropdown-menu-sm dropdown-menu-right" role="menu"><h5 class="title">'.$text_select_from_list.'</h5><ul class="dropdown-list grid-dropdown">';
                     foreach($action['children'] as $child){
                         $href = has_value($child['href']) ? $child['href'] : '#';
 						$html_children .= '<li><a href="'.$href.'" rel="%ID%">'.$child['text'].'</a></li>';
 
                     }
-                    $html_children .= '</ul>';
+                    $html_children .= '</ul></div>';
                     $html_btn = '<div class="btn-group">'.$html_btn.''.$html_children.'</div>';
 
                 }

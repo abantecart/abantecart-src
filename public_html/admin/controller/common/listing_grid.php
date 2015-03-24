@@ -123,6 +123,7 @@ class ControllerCommonListingGrid extends AController {
         $this->view->assign('text_select_items', $this->language->get('text_select_items'));
         $this->view->assign('text_no_results', $this->language->get('text_no_results'));
         $this->view->assign('text_all', $this->language->get('text_all'));
+        $this->view->assign('text_select_from_list', $this->language->get('text_select_from_list'));
 
         $this->processTemplate('common/listing_grid.tpl');
 

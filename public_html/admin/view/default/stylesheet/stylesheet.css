@@ -2361,6 +2361,22 @@ body.stickyheader .sticky_left {
 	margin-left: 130px;
 }
 
+.grid-dropdown {
+ 	padding-left: 5px;
+}
+.grid-dropdown li{
+ padding: 5px;
+}
+.grid-dropdown li a{
+	display: block;
+	width: 100%;
+	color: #333 !important;
+}
+.grid-dropdown li a:hover{
+ color: #5894fb !important;
+}
+
+
 /***** Retina Resolution Logo  *****/
 @media all and (min-device-pixel-ratio : 2) {
 	.logo_image {
