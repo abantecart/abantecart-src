@@ -1159,6 +1159,21 @@ class ControllerResponsesProductProduct extends AController{
 						$value = $attribute['values'][0]['value'];
 					}
 				}
+
+				$checked = false;
+				if($attribute['element_type'] == 'C'){
+					if($value){
+						$checked = true; //if value of attribute presents
+					}else{
+						$value = 1;
+					}
+
+				}
+
+				if($attribute['element_type'] == 'S'){
+					$values[''] = $this->language->get('text_select'); // give ability to select nothing for selectbox
+				}
+
 				// possible values
 				foreach($attribute['values'] as $val){
 					$values[$val['attribute_value_id']] = $val['value'];
@@ -1185,6 +1200,10 @@ class ControllerResponsesProductProduct extends AController{
 
 				if($html_type == 'checkboxgroup'){
 					$option_data['scrollbox'] = true;
+				}
+				if($html_type == 'checkbox'){
+					$option_data['checked'] = $checked;
+					$option_data['style'] .= ' btn_switch';
 				}
 
 				$this->data['entry_' . $attribute['attribute_id']] = $attribute['name'];
