@@ -64,19 +64,27 @@
 </div>
 
 <script type="application/javascript">
-	var option_values_prices = <?php echo $option_values_prices;?>; //json encoded
-	$('#orderProductFrm input, #orderProductFrm select,  #orderProductFrm textarea').on('change', function(){
-		var opt_id = $(this).attr('data-option-id');
-		if(opt_id>0 && option_values_prices.hasOwnProperty(opt_id)){
-			if(option_values_prices[opt_id].hasOwnProperty($(this).val())){
-				$('#orderProductFrm_product0price').val(option_values_prices[opt_id][$(this).val()]).change().keyup();
-			}else{
-				for (var first in option_values_prices[opt_id]){
-					$('#orderProductFrm_product0price').val(option_values_prices[opt_id][first]).change().keyup();
-					break; }
-			}
+	$('#orderProductFrm input, #orderProductFrm select,  #orderProductFrm textarea').on('change', display_total_price);
+	$('#orderProductFrm_product0quantity').on('keyup', display_total_price);
 
-		}
-	});
+	function display_total_price() {
+		var data = $("#orderProductFrm").serialize();
+		data = data.replace(new RegExp("product%5B0%5D%5Boption%5D",'g'),'option'); <?php // data format for storefront response-controller ?>
+		data = data.replace(new RegExp("product%5B0%5D%5Bquantity%5D",'g'),'quantity'); <?php // data format for storefront response-controller ?>
+		$.ajax({
+			type: 'POST',
+			url: '<?php echo $total_calc_url;?>',
+			dataType: 'json',
+			data: data,
+
+			success: function (data) {
+				if (data.total) {
+					$('#orderProductFrm_product0price').val(data.price);
+					$('#orderProductFrm_product0total').val(data.total);
+				}
+			}
+		});
+
+	}
 
 </script>

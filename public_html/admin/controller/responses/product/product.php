@@ -1384,12 +1384,9 @@ class ControllerResponsesProductProduct extends AController{
 				}
 
 				if($price != 0){
-					$price = $product_info['price']+$price;
-					$option_values_prices[$option['product_option_id']][$option_value['product_option_value_id']] = preformatFloat($price, '.');
 					$price = $this->currency->format($price);
 				} else{
 					$price = '';
-					$option_values_prices[$option['product_option_id']][$option_value['product_option_value_id']] = preformatFloat($product_info['price'], '.');
 				}
 
 				//Check stock and status
@@ -1463,8 +1460,6 @@ class ControllerResponsesProductProduct extends AController{
 		}
 		$this->data['options'] = $options;
 
-		$this->data['option_values_prices'] = AJson::encode($option_values_prices);
-
 		// main product image
 		$resource = new AResource('image');
 		$thumbnail = $resource->getMainThumb('products',
@@ -1486,7 +1481,8 @@ class ControllerResponsesProductProduct extends AController{
 		$this->data['form']['fields']['price'] = $form->getFieldHtml(array(
 				'type'  => 'input',
 				'name'  => 'product[0][price]',
-				'value' => $preset_values['price']
+				'value' => $preset_values['price'],
+				'attr'  => ' readonly'
 		));
 		if(!$options && $product_info['subtract']){
 			if($product_info['quantity']){
@@ -1500,7 +1496,7 @@ class ControllerResponsesProductProduct extends AController{
 				'type'  => 'input',
 				'name'  => 'product[0][quantity]',
 				'value' => $preset_values['quantity'],
-				'attr'  => ' size="4" '
+				'attr'  => ' size="4"'
 		));
 		$this->data['form']['fields']['total'] = $form->getFieldHtml(array(
 				'type'  => 'input',
@@ -1520,6 +1516,8 @@ class ControllerResponsesProductProduct extends AController{
 				'value' => (int)$order_product_id
 		));
 
+		//url to storefront response controller
+		$this->data['total_calc_url'] = $order_info['store_url'].'index.php?rt=r/product/product/calculateTotal';
 
 		//update controller data
 		$this->extensions->hk_UpdateData($this, __FUNCTION__);

@@ -191,11 +191,13 @@
 					<?php }?>
 						</dl>
 					<?php } ?></td>
-				<td class="right"><input class="afield no-save" type="text"
-										 name="product[<?php echo $order_product_row; ?>][quantity]"
-										 value="<?php echo $order_product['quantity']; ?>"
-										 size="4"/></td>
+				<td class="right">
+						<input class="afield no-save" type="text"
+							name="product[<?php echo $order_product_row; ?>][quantity]"
+							value="<?php echo $order_product['quantity']; ?>"
+							size="4"/></td>
 				<td><input class="no-save pull-right" type="text"
+				           readonly
 						   name="product[<?php echo $order_product_row; ?>][price]"
 						   value="<?php echo $order_product['price']; ?>"/></td>
 				<td><input readonly class="no-save pull-right" type="text"
@@ -348,23 +350,23 @@
 			subtotal += total;
 		});
 
-		var subtotal_name = $('input[name^="total"]').first().attr('name');
-		var total_name = $('input[name^="total"]').last().attr('name');
+		var subtotal_name = $('#products input[name^="total"]').first().attr('name');
+		var total_name = $('#products input[name^="total"]').last().attr('name');
 
 		//update first total - subtotal
-		$('input[name^="total"]').first().val(get_currency_str(subtotal));
-		$('b[rel="' + subtotal_name + '"]').html(get_currency_str(subtotal));
+		$('#products input[name^="total"]').first().val(get_currency_str(subtotal));
+		$('#products b[rel="' + subtotal_name + '"]').html(get_currency_str(subtotal));
 		//update last - total
-		$('input[name^="total"]').last().val(0);
+		$('#products input[name^="total"]').last().val(0);
 
 		var total = 0;
-		$('input[name^="total"]').each(function (i, v) {
+		$('#products input[name^="total"]').each(function (i, v) {
 			total += get_currency_num($(v).val());
 		});
 
 		//update last - total
-		$('input[name^="total"]').last().val(get_currency_str(total));
-		$('b[rel="' + total_name + '"]').html(get_currency_str(total));
+		$('#products input[name^="total"]').last().val(get_currency_str(total));
+		$('#products b[rel="' + total_name + '"]').html(get_currency_str(total));
 
 	}
 
@@ -416,13 +418,5 @@
 				});
 		}
 	}
-
-	$(document).on('keyup','#orderProductFrm_product0price, #orderProductFrm_product0quantity', function(){
-		//update products
-		var qty = $('#orderProductFrm_product0quantity').val();
-		var price = get_currency_num($('#orderProductFrm_product0price').val());
-		var total = qty * price;
-		$('#orderProductFrm_product0total').val(get_currency_str(total));
-	});
 
 </script>
