@@ -57,33 +57,35 @@
 						<tr <?php echo !$download['is_file'] ? 'class="warning alert alert-error alert-danger"' : '' ?>>
 							<td class="left"><a href="<?php echo $download['href'] ?>"
 												target="_blank"><?php echo $download['name']; ?></a>
-								<?php if ($download['attributes']) { ?>
-									<br>
-									<div class="download-list-attributes">
-										<?php foreach ($download['attributes'] as $name => $value) {
-											echo '<small>- ' . $name . ': ' . (is_array($value) ? implode(' ', $value) : $value) . '</small>';
-										}?>
-									</div>
+								<?php
+								if($download['attributes']){ ?>
+									<dl class="dl-horizontal product-options-list-sm">
+								<?php
+								foreach ($download['attributes'] as $name => $value) { ?>
+									<dt><small>- <?php echo $name; ?></small></dt><dd><small><?php echo (is_array($value) ? implode(' ', $value) : $value); ?></small></dd>
+								<?php }?>
+									</dl>
 								<?php } ?>
 							</td>
 							<td class="left">
 								<?php echo $download['resource']; ?>
 							</td>
 							<td class="left"><?php echo $download['mask']; ?></td>
-							<td class="right"><?php echo $download['remaining']; ?></td>
-							<td class="right"><?php echo $download['expire_date']; ?></td>
-							<td class="right"><?php
+							<td class="right"><div class="afield pull-left"><?php echo $download['remaining']; ?></div></td>
+							<td class="right"><div class="afield pull-left"><?php echo $download['expire_date']; ?></div></td>
+							<td class="right">
+								<div class="afield pull-left">
+								<?php
 								if (is_array($download['status'])) {
 									?>
-									<div class="error">
+									<div class="alert alert-warning">
 										<?php echo implode('<br>', $download['status']); ?>
 									</div>
 								<?php
 								} else {
 									echo $download['status'];
 								}
-
-								?></td>
+								?></div></td>
 						</tr>
 						<tr>
 							<td colspan="6"><?php if ($download['download_history']) { ?>
