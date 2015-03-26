@@ -62,7 +62,7 @@ class ControllerCommonHeader extends AController {
 			$this->view->assign('home_page', true);
 		} else {
 			$this->view->assign('home_page', false);
-			$this->view->assign('redirect', $this->html->getSecureURL($this->request->get['rt']));
+			$this->view->assign('redirect', HTTPS_SERVER.'?'.$_SERVER['QUERY_STRING']);
 		}
 
 		if (!$this->user->isLogged() || !isset($this->request->get['token']) || !isset($this->session->data['token']) || ($this->request->get['token'] != $this->session->data['token'])) {
