@@ -258,7 +258,11 @@ class ExtensionsApi {
 		$extensions = glob(DIR_EXT . '*', GLOB_ONLYDIR);
 		if ($extensions) {
 			foreach ($extensions as $ext) {
-				$this->extensions_dir[] = str_replace(DIR_EXT, '', $ext);
+				//skip other directory not containing extensions 
+				$filename = DIR_EXT . $ext . '/config.xml';
+				if(is_file($filename)){
+					$this->extensions_dir[] = str_replace(DIR_EXT, '', $ext);
+				}
 			}
 		}
 
