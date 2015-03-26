@@ -1122,13 +1122,12 @@ class ControllerResponsesProductProduct extends AController{
 		$attributes = $this->model_catalog_download->getDownloadAttributes($this->data['download_id']);
 		$elements = HtmlElementFactory::getAvailableElements();
 
-
 		$html_multivalue_elements = HtmlElementFactory::getMultivalueElements();
 		$html_elements_with_options = HtmlElementFactory::getElementsWithOptions();
 		if(!$attributes){
 			$attr_mng = new AAttribute_Manager('download_attribute');
 			$attr_type_id = $attr_mng->getAttributeTypeID('download_attribute');
-			$this->data['text_no_download_attributes_yet'] = sprintf($this->language->get('text_no_download_attributes_yet'),
+			$this->data['form']['fields']['attributes']['no_attr'] =  sprintf($this->language->get('text_no_download_attributes_yet'),
 					$this->html->getSecureURL('catalog/attribute/insert',
 							'&attribute_type_id=' . $attr_type_id));
 		} else{
@@ -1140,7 +1139,6 @@ class ControllerResponsesProductProduct extends AController{
 				$values = $value = array();
 				//values that was setted
 				if(in_array($attribute['element_type'], $html_elements_with_options) && $attribute['element_type'] != 'R'){
-
 					if(is_array($attribute['selected_values'])){
 						foreach($attribute['selected_values'] as $val){
 							$value[$val] = $val;
@@ -1154,7 +1152,6 @@ class ControllerResponsesProductProduct extends AController{
 						if($attribute['element_type'] == 'R' && is_array($value)){
 							$value = current($value);
 						}
-
 					} else{
 						$value = $attribute['values'][0]['value'];
 					}
@@ -1167,7 +1164,6 @@ class ControllerResponsesProductProduct extends AController{
 					}else{
 						$value = 1;
 					}
-
 				}
 
 				if($attribute['element_type'] == 'S'){
