@@ -74,7 +74,9 @@ final class ADownload {
 									FROM ". $this->db->table('downloads')." d
 									RIGHT JOIN ". $this->db->table('products_to_downloads')." ptd ON ptd.download_id = d.download_id
 									LEFT JOIN ". $this->db->table('download_descriptions')." dd ON d.download_id = dd.download_id AND dd.language_id = '".$language_id."'
-									WHERE ptd.product_id='".(int)$product_id."' AND d.activate='before_order'");
+									WHERE ptd.product_id='".(int)$product_id."'
+										AND d.activate='before_order'
+										AND d.status>0");
 		return $result->rows;
 	}
 

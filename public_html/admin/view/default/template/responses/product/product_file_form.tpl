@@ -88,7 +88,7 @@
 							<?php } else { ?>
 							<div class="input-group afield <?php echo $widthcasses; ?> <?php echo ($name == 'description' ? 'ml_ckeditor' : '')?>">
 							<?php echo $field; ?>
-							<?php if($section=='attributes' && $field->type=='radio'){ echo '<a class="uncheck">[x]</a>';} ?>
+							<?php if($section=='attributes' && $field->type=='radio'){ echo '<a class="btn uncheck">[x]</a>';} ?>
 							</div>
 							<?php } ?>
 
