@@ -1535,8 +1535,20 @@ class ControllerResponsesProductProduct extends AController{
 				'value' => (int)$order_product_id
 		));
 
-		//url to storefront response controller
-		$this->data['total_calc_url'] = $order_info['store_url'].'index.php?rt=r/product/product/calculateTotal';
+		//url to storefront response controller. Note: if admin under ssl - use https for url and otherwise
+		$order_store_id = $order_info['store_id'];
+		$this->loadModel('setting/store');
+		$store_info = $this->model_setting_store->getStore($order_store_id);
+		if(HTTPS===true && $store_info['config_ssl_url']){
+			$total_calc_url = $store_info['config_ssl_url'].'index.php?rt=r/product/product/calculateTotal';
+		}elseif(HTTPS===true && !$store_info['config_ssl_url']){
+			$total_calc_url = str_replace('http://','https://',$store_info['config_url']).'index.php?rt=r/product/product/calculateTotal';
+		}else{
+			$total_calc_url = $store_info['config_url'].'index.php?rt=r/product/product/calculateTotal';
+		}
+
+
+		$this->data['total_calc_url'] = $total_calc_url;
 
 		//update controller data
 		$this->extensions->hk_UpdateData($this, __FUNCTION__);

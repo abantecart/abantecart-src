@@ -76,7 +76,6 @@
 			url: '<?php echo $total_calc_url;?>',
 			dataType: 'json',
 			data: data,
-
 			success: function (data) {
 				if (data.total) {
 					$('#orderProductFrm_product0price').val(data.price);
@@ -86,5 +85,6 @@
 		});
 
 	}
+	display_total_price();
 
 </script>
