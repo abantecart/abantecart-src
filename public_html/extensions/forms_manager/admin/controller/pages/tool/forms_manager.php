@@ -206,7 +206,6 @@ class ControllerPagesToolFormsManager extends AController {
 			$this->data['error_warning'] = $this->html->convertLinks($this->language->get('forms_manager_error_empty_sender'));
 		}
 
-
 		$this->data['form_data'] = $this->model_tool_forms_manager->getFormById($this->request->get['form_id']);
 
 		$this->data['form_edit_title'] = isset($this->data['form_data']['description']) ? $this->data['form_data']['description'] : $this->language->get('entry_add_new_form');
@@ -438,7 +437,7 @@ class ControllerPagesToolFormsManager extends AController {
 		$this->data['urls']['update_form'] = $this->html->getSecureURL('forms_manager/fields/update_form', '&form_id=' . $this->request->get['form_id']);
 		$this->data['text_success_field'] = $this->language->get('text_success_field');
 
-		$this->data['help_url'] = $this->gen_help_url('order_attributes');
+		$this->data['help_url'] = $this->gen_help_url('forms_manager');
 		$this->data['form_language_switch'] = $this->html->getContentLanguageSwitcher();
 
 		$this->data['note'] = sprintf(
@@ -682,7 +681,7 @@ class ControllerPagesToolFormsManager extends AController {
 	}
 
 
-	private function _getBlockForm() {
+	private function    _getBlockForm() {
 		if (isset ($this->session->data['warning'])) {
 			$this->data ['error_warning'] = $this->session->data['warning'];
 			$this->session->data['warning'] = '';
@@ -857,8 +856,6 @@ class ControllerPagesToolFormsManager extends AController {
 		));
 		$this->data['form']['text']['block_description'] = $this->language->get('entry_block_description');
 
-		// groups of banners
-		$this->loadModel('extension/banner_manager');
 		$result = $this->model_tool_forms_manager->getForms(array('filter' => array('status' => 1)));
 		$forms = array();
 
@@ -888,7 +885,7 @@ class ControllerPagesToolFormsManager extends AController {
 		$this->view->batchAssign($this->data);
 		$this->view->assign('form_language_switch', $this->html->getContentLanguageSwitcher());
 		$this->view->assign('language_code', $this->session->data['language']);
-		$this->view->assign('help_url', $this->gen_help_url('banner_edit'));
+		$this->view->assign('help_url', $this->gen_help_url('form_block_edit'));
 
 		$this->processTemplate('pages/tool/forms_manager_block_form.tpl');
 	}

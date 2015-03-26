@@ -384,7 +384,7 @@ class ControllerPagesCatalogCategory extends AController {
 						'name' => 'status',
 						'value' => $this->data['status'],
 						'style' => 'btn_switch',
-						'help_url' => $this->gen_help_url('name'),
+						'help_url' => $this->gen_help_url('status'),
 				));
 		$this->data['form']['fields']['general']['parent_category'] = $form->getFieldHtml(
 				array('type' => 'selectbox',
@@ -414,7 +414,7 @@ class ControllerPagesCatalogCategory extends AController {
 						'name' => 'category_description[' . $this->session->data['content_language_id'] . '][meta_keywords]',
 						'value' => $this->data['category_description'][$this->session->data['content_language_id']]['meta_keywords'],
 						'style' => 'xl-field',
-						'help_url' => $this->gen_help_url('category_description'),
+						'help_url' => $this->gen_help_url('meta_keywords'),
 				));
 		$this->data['form']['fields']['data']['meta_description'] = $form->getFieldHtml(
 				array('type' => 'textarea',
