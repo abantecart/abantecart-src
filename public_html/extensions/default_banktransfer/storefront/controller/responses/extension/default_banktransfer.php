@@ -42,8 +42,6 @@ class ControllerResponsesExtensionDefaultBanktransfer extends AController {
 			$this->messages->saveError('default_banktransfer error', 'Please, set instructions for all languages!');
 		}
 
-
-
 		$this->view->assign('instructions', nl2br($instructions) );
 		$this->view->assign('continue', $this->html->getSecureURL('checkout/success'));		
 
@@ -68,10 +66,10 @@ class ControllerResponsesExtensionDefaultBanktransfer extends AController {
 		$this->load->model('checkout/order');
 		
 		$comment  = $this->language->get('text_instructions') . "\n";
-		$comment .= $this->config->get('default_banktransfer_instructions') . "\n\n";
+		$comment .= $this->config->get('default_banktransfer_instructions_'.$this->language->getLanguageID()) . "\n\n";
 		$comment .= $this->language->get('text_payment') . "\n";
 		
 		$this->model_checkout_order->confirm($this->session->data['order_id'], $this->config->get('default_banktransfer_order_status_id'), $comment);
 	}
 }
-?>
+
