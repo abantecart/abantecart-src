@@ -178,7 +178,8 @@ class ExtensionDefaultPPExpress extends Extension {
 			// rebuild order data if coupon applied
 			$order = new AOrder( Registry::getInstance() );
 			$this->data = $order->buildOrderData( $that->session->data );
-			$order->saveOrder();
+			$order_id = $order->saveOrder();
+			$that->session->data['order_id'] = $order_id;
 
 			$that->loadModel('checkout/order');
 

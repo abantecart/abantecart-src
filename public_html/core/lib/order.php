@@ -56,9 +56,9 @@ final class AOrder {
   		
 		$this->load->model('checkout/order');
 		$this->load->model('account/order');
-				
-		if (isset($this->session->data['order_id'])) {
-      		$this->order_id = $this->session->data['order_id'];
+
+		if ((int)$this->session->data['order_id']) {
+      		$this->order_id = (int)$this->session->data['order_id'];
     	}
     	if ( class_exists($this->registry->customer) ) {
 			$this->customer_id = $this->registry->customer->getId();

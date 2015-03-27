@@ -164,7 +164,7 @@ echo $tabs;
 		</div>
 		<?php if(!$this->config->get('default_pp_express_billmelater')){?>
 
-		<div style="float:left; background-color:#d3d3d3;padding:20px;">
+		<div style="float:none; background-color:#d3d3d3;padding:20px;">
 			<p style="text-align:left;">
 				<span style="font-family:Arial;font-size:16px;font-weight:bold;font-style:normal;text-decoration:none;color:#333333;">Congratulations!</span>
 				<span style="font-family:Arial;font-size:14px;font-weight:bold;font-style:normal;text-decoration:none;color:#333333;">&nbsp;</span>
