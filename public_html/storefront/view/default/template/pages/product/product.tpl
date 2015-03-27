@@ -119,7 +119,7 @@
 												<?php if ($option['html']->type != 'hidden') { ?>
 												<label class="control-label"><?php echo $option['name']; ?></label>
 												<?php } ?>
-												<div class="input-group col-sm-4">
+												<div class="input-group col-sm-7">
 													<?php echo $option['html']; ?>
 												</div>
 											</div>

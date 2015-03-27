@@ -1009,17 +1009,6 @@ class ModelCatalogProduct extends Model {
 				if ( $option['required'] ) {
 					if ( empty($input_options[$option['product_option_id']]) ) {
 						$errors[] = $option['name'].': '.$this->language->get('error_required_options');
-					}else{
-						//check default value for input and textarea
-						if ( in_array($option['element_type'] , array('I', 'T')) ) {
-							reset($option['option_value']);
-							$key = key($option['option_value']);
-							$option_value = $option['option_value'][$key];
-	
-							if ( $option_value['name'] == $input_options[$option['product_option_id']] ) {
-								$errors[] = $option['name'].': '.$this->language->get('error_required_options');
-							}
-						}
 					}
 				}
 	

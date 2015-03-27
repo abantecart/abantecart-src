@@ -307,7 +307,7 @@ class ControllerPagesProductProduct extends AController {
 		    $name = $price = '';
 			$default_value = $cart_product_info['options'][$option['product_option_id']];
 			if($option['element_type']=='R'){
-				$default_value = current($default_value);
+				$default_value = is_array($default_value) ? current($default_value) : (string)$default_value;
 			}
 			$preset_value = $default_value;
 

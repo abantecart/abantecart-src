@@ -156,6 +156,8 @@ class ControllerResponsesCatalogAttribute extends AController {
 				                                        ));
 		}
 
+		$this->data['settings'] = !$this->data['settings'] ? array() : $this->data['settings'];
+
 		$this->data['form']['settings_fields'] = array(
 			'extensions' => $form->getFieldHtml(array(
 				'type' => 'input',
