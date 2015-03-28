@@ -52,6 +52,7 @@ class ControllerBlocksCategory extends AController {
 
 		//Load nested categories and with all details based on whole categories list array in $this->data
 		$this->data['resource_obj'] = new AResource('image');
+		$this->view->assign('home_href', $this->html->getSEOURL('index/home'));
 		$this->view->assign('categories', $this->_buildNestedCategoryList());
 		
 		$this->processTemplate();
