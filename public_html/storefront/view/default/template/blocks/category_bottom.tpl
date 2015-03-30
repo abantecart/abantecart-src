@@ -2,7 +2,7 @@
 	<section id="categorymenu">
 		<nav class="subnav">
 			<ul class="nav-pills categorymenu">
-				<li><a class="active menu_home" href="<?php echo HTTP_SERVER; ?>"><?php echo $text_home; ?></a>
+				<li><a class="active menu_home" href="<?php echo $home_href; ?>"><?php echo $text_home; ?></a>
 
 					<div>
 						<ul id="main_menu" class="nav">
