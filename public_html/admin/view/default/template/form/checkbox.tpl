@@ -12,7 +12,7 @@
 <?php } ?>
 
 <?php if ( $required == 'Y' || !empty ($help_url) ) { ?>
-	<span class="input-group-addon">
+	<span class="input-addon">
 	<?php if ( $required == 'Y') { ?>
 		<span class="required">*</span>
 	<?php } ?>
