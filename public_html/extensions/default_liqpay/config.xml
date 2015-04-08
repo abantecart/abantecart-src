@@ -10,10 +10,6 @@
 	<layout></layout>
 	<priority>10</priority>
 	<settings>
-		<item id="default_liqpay_signature">
-			<type>input</type>
-			<default_value></default_value>
-		</item>
 		<item id="default_liqpay_public_key">
 			<type required="true">input</type>
 			<default_value></default_value>
