@@ -46,26 +46,40 @@ final class ACache {
 	 */
 	private $cache_map = array();
 
-  	public function __construct() {
-		$this->registry = Registry::getInstance ();
-		$cache_files = glob( DIR_CACHE. '*/*', GLOB_NOSORT);
+	public function __construct(){
+		$this->registry = Registry::getInstance();
+		$cache_files = glob(DIR_CACHE . '*/*', GLOB_NOSORT);
 		if(!is_array($cache_files)){
-			$this->registry->get('log')->write('Cache directory is not accessible or writable.  Caching operation was skipped!');
-		}
-		foreach ($cache_files as $file) {
-			//first of all check if file expired. delete it if needed
-			$file_time = filemtime($file);
-			if ( (time() - $file_time) > $this->expire ) {
-				if (file_exists($file)) {
-					$this->_remove($file);
-					continue;
-				}
+			$log = $this->registry->get('log');
+			if(!is_object($log) || !method_exists($log, 'write')){
+				$error_text = 'Error: Unable to access or write to cache directory ' . DIR_CACHE;
+				$log = new ALog(DIR_SYSTEM . 'logs/error.txt');
+				$this->registry->set('log', $log);
 			}
-			//build cache map as array {cache_file_name_without_timestamp=>expire_time}
-			$ch_base = substr($file,0,-11);
-			$this->cache_map[$ch_base] = $file_time + $this->expire;
+			$log->write($error_text);
+			//try to add message for admin (check if for install-process too)
+			$db = $this->registry->get('db');
+			if(is_object($db) && method_exists($db, 'query')){
+				$m = new AMessage();
+				$m->saveError('AbanteCart Error!', $error_text);
+			}
+
+		} else{
+			foreach($cache_files as $file){
+				//first of all check if file expired. delete it if needed
+				$file_time = filemtime($file);
+				if((time() - $file_time) > $this->expire){
+					if(file_exists($file)){
+						$this->_remove($file);
+						continue;
+					}
+				}
+				//build cache map as array {cache_file_name_without_timestamp=>expire_time}
+				$ch_base = substr($file, 0, -11);
+				$this->cache_map[$ch_base] = $file_time + $this->expire;
+			}
 		}
-  	}
+	}
 
 	/**
 	 * force to get cache data based on params and ignore disable cache setting
