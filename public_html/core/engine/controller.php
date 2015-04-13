@@ -188,7 +188,7 @@ abstract class AController {
 		if (empty ($rt) || !method_exists($this->load, 'model')) return null;
 		// strip off pages or responce
 		$rt = preg_replace('/^(pages|responses)\//', '', $rt);
-		$this->load->model($rt, $mode);
+		return $this->load->model($rt, $mode);
 	}
 
 

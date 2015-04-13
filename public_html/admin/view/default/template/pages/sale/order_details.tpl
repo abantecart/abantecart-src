@@ -167,7 +167,7 @@
 					   data-order-product-row="<?php echo $order_product_row; ?>">
 						<i class="fa fa-minus-circle"></i>
 					</a>
-					<a class="edit btn btn-xs btn-info-alt tooltips"
+					<a class="edit_product btn btn-xs btn-info-alt tooltips"
 					   data-original-title="<?php echo $text_edit; ?>"
 					   data-order-product-id="<?php echo $order_product['order_product_id']; ?>">
 						<i class="fa fa-pencil"></i>
@@ -310,7 +310,6 @@
 		});
 
 
-		$('a.edit').click(function () {
 			addProduct($(this).attr('data-order-product-id'));
 			return false;
 		});
@@ -350,23 +349,8 @@
 			subtotal += total;
 		});
 
-		var subtotal_name = $('#products input[name^="total"]').first().attr('name');
-		var total_name = $('#products input[name^="total"]').last().attr('name');
-
 		//update first total - subtotal
-		$('#products input[name^="total"]').first().val(get_currency_str(subtotal));
-		$('#products b[rel="' + subtotal_name + '"]').html(get_currency_str(subtotal));
 		//update last - total
-		$('#products input[name^="total"]').last().val(0);
-
-		var total = 0;
-		$('#products input[name^="total"]').each(function (i, v) {
-			total += get_currency_num($(v).val());
-		});
-
-		//update last - total
-		$('#products input[name^="total"]').last().val(get_currency_str(total));
-		$('#products b[rel="' + total_name + '"]').html(get_currency_str(total));
 
 	}
 
@@ -397,7 +381,6 @@
 
 	function addProduct(order_product_id) {
 		var id = '';
-		if(order_product_id>0){
 			id = '&order_product_id='+order_product_id;
 		}else{
 			var vals = $("#add_product").chosen().val();

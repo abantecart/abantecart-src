@@ -21,8 +21,8 @@ if (! defined ( 'DIR_CORE' )) {
 	header ( 'Location: static_pages/' );
 }
 class ModelTotalShipping extends Model {
-	public function getTotal(&$total_data, &$total, &$taxes) {
-		$ship_data = $this->session->data['shipping_method'];
+	public function getTotal(&$total_data, &$total, &$taxes, &$cust_data) {
+		$ship_data = $cust_data['shipping_method'];
 		if ($this->cart->hasShipping() && isset( $ship_data ) && $this->config->get('shipping_status')) {
 			$total_data[] = array( 
         		'id'         => 'shipping',

@@ -21,7 +21,7 @@ if (! defined ( 'DIR_CORE' )) {
 	header ( 'Location: static_pages/' );
 }
 class ModelTotalSubTotal extends Model {
-	public function getTotal(&$total_data, &$total, &$taxes) {
+	public function getTotal(&$total_data, &$total, &$taxes, &$cust_data) {
 		if ($this->config->get('sub_total_status')) {
 			$this->load->language('total/sub_total');
 			

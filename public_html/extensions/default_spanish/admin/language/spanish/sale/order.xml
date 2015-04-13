@@ -338,6 +338,6 @@
 	</definition>
 	<definition>
 		<key>attention_check_total</key>
-		<value><![CDATA[Nota: los detalles del producto Orden ha cambiado. Impuestos y envío no se actualizan automáticamente. Revisión requiere.]]></value>
+		<value><![CDATA[Nota: Los detalles del producto Orden ha cambiado. Total se recalcula automáticamente. Revisión requiere.]]></value>
 	</definition>
 </definitions>

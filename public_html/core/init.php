@@ -249,6 +249,7 @@ try {
 
 //Admin manager classes
 	if (IS_ADMIN) {
+		require_once(DIR_CORE . 'lib/order_manager.php');
 		require_once(DIR_CORE . 'lib/layout_manager.php');
 		require_once(DIR_CORE . 'lib/content_manager.php');
 		require_once(DIR_CORE . 'lib/package_manager.php');

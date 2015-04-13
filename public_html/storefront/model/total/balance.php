@@ -21,18 +21,18 @@ if (! defined ( 'DIR_CORE' )) {
 	header ( 'Location: static_pages/' );
 }
 class ModelTotalBalance extends Model {
-	public function getTotal(&$total_data, &$total, &$taxes) {
+	public function getTotal(&$total_data, &$total, &$taxes, &$cust_data) {
 		if ($this->config->get('balance_status')) {
-			if((float)$this->session->data['used_balance']){
+			if((float)$cust_data['used_balance']){
 				$total_data[] = array(
 					'id'         => 'balance',
 					'title'      => $this->language->get('text_balance_checkout'),
-					'text'       => '-'.$this->currency->format($this->session->data['used_balance']),
+					'text'       => '-'.$this->currency->format($cust_data['used_balance']),
 					'value'      => - $this->session->data['used_balance'],
 					'sort_order' => 999,
 					'total_type' => 'balance'
 				);
-				$total -= $this->session->data['used_balance'];
+				$total -= $cust_data['used_balance'];
 			}
 		}
 	}

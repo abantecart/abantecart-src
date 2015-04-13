@@ -350,6 +350,6 @@
 	</definition>
 	<definition>
 		<key>attention_check_total</key>
-		<value><![CDATA[Note: Order product details has changed. Taxes and shipping are not updated automatically. Review required.]]></value>
+		<value><![CDATA[Note: Order product details has changed. Total was recalculated automatically. Review required.]]></value>
 	</definition>
 </definitions>

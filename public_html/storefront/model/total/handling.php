@@ -21,7 +21,7 @@ if (! defined ( 'DIR_CORE' )) {
 	header ( 'Location: static_pages/' );
 }
 class ModelTotalHandling extends Model {
-	public function getTotal(&$total_data, &$total, &$taxes) {
+	public function getTotal(&$total_data, &$total, &$taxes, &$cust_data) {
 
 		if ($this->config->get('handling_status')){
 			$conf_hndl_subtotal = 0;
@@ -37,7 +37,7 @@ class ModelTotalHandling extends Model {
 			$per_payment = unserialize($this->config->get('handling_per_payment'));
 
 			if(is_array($per_payment)){
-				$customer_payment = $this->session->data['payment_method']['id'];
+				$customer_payment = $cust_data['payment_method']['id'];
 				foreach($per_payment['handling_payment'] as $i=>$payment_id){
 					if($customer_payment==$payment_id){
 						if($cart_subtotal<(float)$per_payment['handling_payment_subtotal'][$i]){

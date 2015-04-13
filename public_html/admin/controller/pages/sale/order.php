@@ -195,7 +195,6 @@ class ControllerPagesSaleOrder extends AController{
 		));
 		$grid_settings['search_form'] = true;
 
-
 		$grid = $this->dispatch('common/listing_grid', array($grid_settings));
 		$this->view->assign('listing_grid', $grid->dispatchGetOutput());
 		$this->view->assign('search_form', $grid_search_form);
@@ -218,16 +217,17 @@ class ControllerPagesSaleOrder extends AController{
 		$this->document->setTitle($this->language->get('heading_title'));
 
 		if($this->request->is_POST() && $this->_validateForm()){
+
 			if(has_value($this->request->post['order_product_id'])){ //if present - saving form modal
 				$this->model_sale_order->editOrderProduct($this->request->get['order_id'], $this->request->post);
-				$this->session->data['success'] = $this->language->get('text_success');
-				$this->session->data['attention'] = $this->language->get('attention_check_total');
 			} else{
 				$this->model_sale_order->editOrder($this->request->get['order_id'], $this->request->post);
-				$this->session->data['success'] = $this->language->get('text_success');
 			}
-
-			$this->redirect($this->html->getSecureURL('sale/order/details', '&order_id=' . $this->request->get['order_id']));
+						
+			//recalc totals and update
+			$this->session->data['success'] = $this->language->get('text_success');
+			$this->session->data['attention'] = $this->language->get('attention_check_total');
+			$this->redirect($this->html->getSecureURL('sale/order/recalc', '&order_id=' . $this->request->get['order_id']));
 		}
 
 		$this->redirect($this->html->getSecureURL('sale/order'));
@@ -252,9 +252,9 @@ class ControllerPagesSaleOrder extends AController{
 		}
 
 		$order_id = (int)$this->request->get['order_id'];
-
 		if($this->request->is_POST() && $this->_validateForm()){
 			$this->model_sale_order->editOrder($order_id, $this->request->post);
+			
 			if(has_value($this->request->post['downloads'])){
 				$data = $this->request->post['downloads'];
 				$this->loadModel('catalog/download');
@@ -268,10 +268,16 @@ class ControllerPagesSaleOrder extends AController{
 				}
 			}
 
-			$this->session->data['success'] = $this->language->get('text_success');
-			$this->redirect($this->html->getSecureURL('sale/order/details', '&order_id=' . $order_id));
+			//recalc totals and update
+			//total skip list 
+			$skip_totals = array();
+			foreach($this->request->post['totals'] as $key => $value){
+				$skip_totals[] = $key;
+			}  
+			$this->session->data['attention'] = $this->language->get('attention_check_total');
+			$this->redirect($this->html->getSecureURL(	'sale/order/recalc', 
+														'&order_id=' . $order_id.'&skip_totals='.serialize($skip_totals)));
 		}
-
 
 		$order_info = $this->model_sale_order->getOrder($order_id);
 		$this->data['order_info'] = $order_info;
@@ -434,7 +440,6 @@ class ControllerPagesSaleOrder extends AController{
 		$this->data['currency'] = $this->currency->getCurrency($order_info['currency']);
 
 		$this->data['totals'] = $this->model_sale_order->getOrderTotals($order_id);
-
 		$this->data['form_title'] = $this->language->get('edit_title_details');
 		$this->data['update'] = $this->html->getSecureURL('listing_grid/order/update_field', '&id=' . $order_id);
 		$form = new AForm('HS');
@@ -492,6 +497,7 @@ class ControllerPagesSaleOrder extends AController{
 		));
 
 		$this->data['add_product_url'] = $this->html->getSecureURL('r/product/product/orderProductForm', '&order_id=' . $order_id);
+		$this->data['edit_order_total'] = $this->html->getSecureURL('sale/order/recalc', '&order_id=' . $order_id);
 
 		$this->addChild('pages/sale/order_summary', 'summary_form', 'pages/sale/order_summary.tpl');
 
@@ -1326,5 +1332,52 @@ class ControllerPagesSaleOrder extends AController{
 		//update controller data
 		$this->extensions->hk_UpdateData($this, __FUNCTION__);
 	}
+
+
+	/*
+		Resopnse controller to resulculate an order in admin 
+		NOTE:	Any error in the data will cause refusal for recalculation 
+		IMPORTANT: To prevent conflict of models, call indipendantly
+	*/
+	public function recalc() {
+  
+ 		$this->extensions->hk_InitData($this, __FUNCTION__);
+
+   		$order_id = $this->request->get['order_id'];
+   		$skip_totals = array();
+   		$new_totals = array();   		
+		//do we have to skip reculc for some totals?
+		if($this->request->get['skip_totals']) {
+			$skip_totals = unserialize($this->request->get['skip_totals']);
+		}
+		//do we have total values passed?
+		if($this->request->post['totals']) {
+			$new_totals = $this->request->post['totals'];
+		}
+		
+		if (!$this->user->canModify('sale/order')) {
+			$this->session->data['error'] = $this->language->get('error_permission'); 
+      		return 0;
+		} else if ( !has_value($order_id) ) {
+			$this->session->data['error'] = "Missing required details";
+      		return 0;
+    	}
+    	
+		$order = new AOrderManager( $order_id );
+		//Recalc. If total has changed from original, update and create a log to order history
+		$totals = $order->recalcTotals($skip_totals, $new_totals);
+		if( empty($totals)) {
+			$this->session->data['error'] = "Error recalculating totals";			
+		}
+		
+		$this->session->data['success'] = $this->language->get('text_success');
+		$this->session->data['attention'] = $this->language->get('attention_check_total');
+		$this->redirect($this->html->getSecureURL('sale/order/details', '&order_id=' . $order_id));
+
+		//update controller data
+		$this->extensions->hk_UpdateData($this, __FUNCTION__);
+		
+	}	
+
 
 }

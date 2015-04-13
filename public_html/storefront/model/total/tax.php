@@ -21,7 +21,7 @@ if (! defined ( 'DIR_CORE' )) {
 	header ( 'Location: static_pages/' );
 }
 class ModelTotalTax extends Model {
-	public function getTotal(&$total_data, &$total, &$taxes) {
+	public function getTotal(&$total_data, &$total, &$taxes, &$cust_data) {
 		if ($this->config->get('tax_status')) {
 			foreach ($taxes as $tax_class_id => $subtax) {
 				if (!empty($subtax)) {

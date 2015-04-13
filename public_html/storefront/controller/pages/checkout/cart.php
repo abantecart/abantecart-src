@@ -78,7 +78,7 @@ class ControllerPagesCheckoutCart extends AController {
 				//we update cart
 				if (!is_array($this->request->post['quantity'])) {
 
-					$this->loadModel('catalog/product');
+					$this->loadModel('catalog/product','storefront');
 					$product_id = $this->request->post['product_id'];
 
 					if (isset($this->request->post['option'])) {
@@ -215,7 +215,7 @@ class ControllerPagesCheckoutCart extends AController {
                 $error_msg[] = $this->language->get('error_stock');
 			}
 						
-			$this->loadModel('tool/seo_url'); 
+			$this->loadModel('tool/seo_url','storefront'); 
 						
       		$products = array();
 			$resource = new AResource('image');
@@ -347,7 +347,7 @@ class ControllerPagesCheckoutCart extends AController {
 			//try to get shipping address details if we have them
 			$country_id = $this->config->get('config_country_id');
 			if ($this->session->data[ 'shipping_address_id' ]	) {
-				$this->loadModel('account/address');
+				$this->loadModel('account/address','storefront');
 				$shipping_address = $this->model_account_address->getAddress($this->session->data[ 'shipping_address_id' ]);
 				$postcode = $shipping_address['postcode'];
 				$country_id = $shipping_address['country_id'];
@@ -355,7 +355,7 @@ class ControllerPagesCheckoutCart extends AController {
 			}
 			// use default address of customer for estimate form whe shipping address is unknown
 			if(!$zone_id && $this->customer->isLogged()){
-				$this->loadModel('account/address');
+				$this->loadModel('account/address','storefront');
 				$payment_address = $this->model_account_address->getAddress($this->customer->getAddressId());
 				$postcode = $payment_address['postcode'];
 				$country_id = $payment_address['country_id'];
@@ -372,7 +372,7 @@ class ControllerPagesCheckoutCart extends AController {
 				$zone_id = $this->request->post['country_zones'][0];
 			}
 			if ( $zone_id ) {
-				$this->loadModel('localisation/zone');
+				$this->loadModel('localisation/zone','storefront');
 	    		$zone_data = $this->model_localisation_zone->getZone($zone_id);
 			}											
 

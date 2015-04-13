@@ -68,13 +68,20 @@ final class ALoader {
 	public function model($model, $mode = '') {
 
 		//force mode alows to load models for ALL extensions to bypass extension enabled only status
+		//This might be helpful in storefront. In admin all installed extenions are available 
 		$force = '';
 		if ($mode == 'force') {
 			$force = 'all';
 		}
 		
-        $file  = DIR_APP_SECTION . 'model/' . $model . '.php';
-        if ( $this->registry->has('extensions') && $result = $this->extensions->isExtensionResource('M', $model, $force) ) {
+		//mode to force load storefront model
+		$section = DIR_APP_SECTION;
+		if ($mode == 'storefront') {
+			$section = DIR_ROOT . '/storefront/';
+		}
+		
+        $file  = $section . 'model/' . $model . '.php';
+        if ( $this->registry->has('extensions') && $result = $this->extensions->isExtensionResource('M', $model, $force, $mode) ) {
             if ( is_file($file) ) {
                 $warning = new AWarning("Extension <b>{$result['extension']}</b> override model <b>$model</b>" );
                 $warning->toDebug();
@@ -83,15 +90,21 @@ final class ALoader {
         }
 
 		$class = 'Model' . preg_replace('/[^a-zA-Z0-9]/', '', $model);
+		$obj_name = 'model_' . str_replace('/', '_', $model);
 
-		if (file_exists($file)) {
+		//if modal is loaded return it back 
+		if ( is_object($this->registry->get($obj_name) )) {
+			return $this->registry->get($obj_name);
+		} else if (file_exists($file)) {
 			include_once($file);
-			$this->registry->set('model_' . str_replace('/', '_', $model), new $class($this->registry));
+			$this->registry->set($obj_name, new $class($this->registry));
+			return $this->registry->get($obj_name);
 		} else if ( $mode != 'silent' ) {
 			$backtrace = debug_backtrace();
 		 	$file_info =  $backtrace[ 0 ][ 'file' ] . ' on line ' . $backtrace[ 0 ][ 'line' ];
 			throw new AException(AC_ERR_LOAD, 'Error: Could not load model ' . $model . ' from ' . $file_info);
-		}else{
+            return false;
+		} else {
             return false;
         }
 	}

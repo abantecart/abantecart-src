@@ -114,7 +114,7 @@ class ModelCheckoutOrder extends Model {
 			$this->db->query("DELETE FROM " . $this->db->table("order_totals") . " WHERE order_id = '" . (int)$result['order_id'] . "'");
 		}
 
-		if ($old_order_id) {
+		if (has_value($old_order_id)) {
 			$old_order_id = "order_id = '" . $this->db->escape($old_order_id) . "', ";
 		}
 
@@ -155,6 +155,7 @@ class ModelCheckoutOrder extends Model {
 								shipping_country_id = '" . (int)$data['shipping_country_id'] . "',
 								shipping_address_format = '" . $this->db->escape($data['shipping_address_format']) . "',
 								shipping_method = '" . $this->db->escape($data['shipping_method']) . "',
+								shipping_method_key = '" . $this->db->escape($data['shipping_method_key']) . "',
 								payment_firstname = '" . $this->db->escape($data['payment_firstname']) . "',
 								payment_lastname = '" . $this->db->escape($data['payment_lastname']) . "',
 								payment_company = '" . $this->db->escape($data['payment_company']) . "',
@@ -168,6 +169,7 @@ class ModelCheckoutOrder extends Model {
 								payment_country_id = '" . (int)$data['payment_country_id'] . "',
 								payment_address_format = '" . $this->db->escape($data['payment_address_format']) . "',
 								payment_method = '" . $this->db->escape($data['payment_method']) . "',
+								payment_method_key = '" . $this->db->escape($data['payment_method_key']) . "',
 								comment = '" . $this->db->escape($data['comment']) . "'"
 								. $key_sql . ",
 								date_modified = NOW(),
@@ -210,15 +212,16 @@ class ModelCheckoutOrder extends Model {
 				$this->download->addProductDownloadToOrder($order_product_id, $order_id, $download);
 			}
 		}
-
 		foreach ($data['totals'] as $total) {
 			$this->db->query("INSERT INTO " . $this->db->table("order_totals") . "
-								SET order_id = '" . (int)$order_id . "',
-									title = '" . $this->db->escape($total['title']) . "',
-									text = '" . $this->db->escape($total['text']) . "',
+								SET `order_id` = '" . (int)$order_id . "',
+									`title` = '" . $this->db->escape($total['title']) . "',
+									`text` = '" . $this->db->escape($total['text']) . "',
 									`value` = '" . (float)$total['value'] . "',
-									sort_order = '" . (int)$total['sort_order'] . "',
-									type = '" . $this->db->escape($total['total_type']) . "'");
+									`sort_order` = '" . (int)$total['sort_order'] . "',
+									`type` = '" . $this->db->escape($total['total_type']) . "',
+									`key` = '" . $this->db->escape($total['id']) . "'"
+									);
 		}
 
 		return $order_id;

@@ -1040,6 +1040,7 @@ CREATE TABLE `ac_orders` (
   `shipping_country_id` int(11) NOT NULL,
   `shipping_address_format` text COLLATE utf8_general_ci NOT NULL,
   `shipping_method` varchar(128) COLLATE utf8_general_ci NOT NULL DEFAULT '',
+  `shipping_method_key` varchar(128) NOT NULL DEFAULT '',
   `payment_firstname` varchar(32) COLLATE utf8_general_ci NOT NULL DEFAULT '',
   `payment_lastname` varchar(32) COLLATE utf8_general_ci NOT NULL DEFAULT '',
   `payment_company` varchar(32) COLLATE utf8_general_ci NOT NULL,
@@ -1053,6 +1054,7 @@ CREATE TABLE `ac_orders` (
   `payment_country_id` int(11) NOT NULL,
   `payment_address_format` text COLLATE utf8_general_ci NOT NULL,
   `payment_method` varchar(128) COLLATE utf8_general_ci NOT NULL DEFAULT '',
+  `payment_method_key` varchar(128) NOT NULL DEFAULT '',
   `comment` text COLLATE utf8_general_ci NOT NULL,
   `total` decimal(15,4) NOT NULL DEFAULT '0.0000',
   `order_status_id` int(11) NOT NULL DEFAULT '0',
@@ -1252,7 +1254,8 @@ CREATE TABLE `ac_order_totals` (
   `value` decimal(15,4) NOT NULL DEFAULT '0.0000',
   `sort_order` int(3) NOT NULL,
   `type` varchar(255) COLLATE utf8_general_ci NOT NULL DEFAULT '',
-  PRIMARY KEY (`order_total_id`),
+   `key` varchar(128) NOT NULL DEFAULT '',
+ PRIMARY KEY (`order_total_id`),
   KEY `idx_orders_total_orders_id` (`order_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
 

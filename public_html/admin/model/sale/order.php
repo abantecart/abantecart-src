@@ -124,6 +124,7 @@ class ModelSaleOrder extends Model{
 				$update[] = $f . " = '" . $this->db->escape($data[$f]) . "'";
 			}
 		}
+
 		$this->db->query("UPDATE `" . $this->db->table("orders") . "`
 						  SET " . implode(',', $update) . "
 						  WHERE order_id = '" . (int)$order_id . "'");
@@ -179,6 +180,10 @@ class ModelSaleOrder extends Model{
 			ksort($data['totals'], SORT_NUMERIC); // it for to know that total amount is last
 			foreach($data['totals'] as $key => $value){
 				$val = (float)preg_replace("/[^0-9.]/", '', $value);
+				//check if number is negative. disount
+				if ( preg_match("/^\s*-/", $value) ) {
+					$val *= -1;
+				}
 				$this->db->query("UPDATE " . $this->db->table("order_totals") . "
 								  SET `text` = '" . $this->db->escape($value) . "',
 								      `value` = '" . $val . "'
@@ -653,6 +658,7 @@ class ModelSaleOrder extends Model{
 					'shipping_iso_code_3'     => $shipping_iso_code_3,
 					'shipping_address_format' => $order_row['shipping_address_format'],
 					'shipping_method'         => $order_row['shipping_method'],
+					'shipping_method_key'     => $order_row['shipping_method_key'],
 					'payment_firstname'       => $order_row['payment_firstname'],
 					'payment_lastname'        => $order_row['payment_lastname'],
 					'payment_company'         => $order_row['payment_company'],
@@ -669,6 +675,7 @@ class ModelSaleOrder extends Model{
 					'payment_iso_code_3'      => $payment_iso_code_3,
 					'payment_address_format'  => $order_row['payment_address_format'],
 					'payment_method'          => $order_row['payment_method'],
+					'payment_method_key'      => $order_row['payment_method_key'],
 					'comment'                 => $order_row['comment'],
 					'total'                   => $order_row['total'],
 					'order_status_id'         => $order_row['order_status_id'],

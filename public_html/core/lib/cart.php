@@ -43,6 +43,10 @@ class ACart {
 	 */
   	private $cart_data = array();
 	/**
+	 * @var array
+	 */
+  	private $cust_data = array();
+	/**
 	 * @var float
 	 */
   	private $sub_total;
@@ -77,14 +81,25 @@ class ACart {
 
 	/**
 	 * @param $registry Registry
+	   		  $c_data Array ref (Customer data array passed by ref) 
 	 */
-	public function __construct($registry) {
+	public function __construct($registry, &$c_data = null) {
   		$this->registry = $registry;
 		$this->attribute = new AAttribute('product_option');
-		$this->promotion = new APromotion();
 		$this->customer = $registry->get('customer');
-		if (!isset($this->session->data['cart']) || !is_array($this->session->data['cart'])) {
-      		$this->session->data['cart'] = array();
+		$this->session = $registry->get('session');
+		
+		//if nothing is passed (default) use session array. Customer session, can function on storefrnt only 
+		if ($c_data == null) {
+			$this->cust_data =& $this->session->data;  
+		} else {
+			$this->cust_data =& $c_data;  		
+		}
+		//can load promotion if customer_group_id is provided  
+		$this->promotion = new APromotion($this->cust_data['customer_group_id']);
+
+		if (!isset($this->cust_data['cart']) || !is_array($this->cust_data['cart'])) {
+      		$this->cust_data['cart'] = array();
     	}
 	}
 
@@ -110,7 +125,7 @@ class ACart {
 
 		$product_data = array();
 		//process data in the cart session per each product in the cart
-    	foreach ($this->session->data['cart'] as $key => $data) {
+    	foreach ($this->cust_data['cart'] as $key => $data) {
 			if ( $key == 'virtual' ) {
 				continue;
 			}
@@ -131,14 +146,14 @@ class ACart {
 
 				//apply min and max for quantity once we have product details.
 				if ($quantity < $product_result['minimum']) {
-					$this->language->load('checkout/cart');
-					$this->session->data['error'] = $this->language->get('error_quantity_minimum');
+					$this->language->load('checkout/cart','silent');
+					$this->cust_data['error'] = $this->language->get('error_quantity_minimum');
 					$this->update($key, $product_result['minimum']);
 				}
 				if ($product_result['maximum'] > 0) {
-					$this->language->load('checkout/cart');
+					$this->language->load('checkout/cart','silent');
 					if ($quantity > $product_result['maximum']) {
-						$this->session->data['error'] = $this->language->get('error_quantity_maximum');
+						$this->cust_data['error'] = $this->language->get('error_quantity_maximum');
 						$this->update($key, $product_result['maximum']);
 					}
 				}
@@ -160,7 +175,7 @@ class ACart {
 		if($recalculate){
 			$this->getProducts(true);
 		}
-		return has_value($this->session->data['cart'][$key]) ? $this->session->data['cart'][$key] : array();
+		return has_value($this->cust_data['cart'][$key]) ? $this->cust_data['cart'][$key] : array();
 	}
 
 
@@ -180,10 +195,10 @@ class ACart {
 
 		$stock = TRUE;
 
-		$this->load->model('catalog/product');
+		$sf_product_mdl = $this->load->model('catalog/product', 'storefront');
         $elements_with_options = HtmlElementFactory::getElementsWithOptions();
 
-  	  	$product_query = $this->model_catalog_product->getProductDataForCart($product_id);
+  	  	$product_query = $sf_product_mdl->getProductDataForCart($product_id);
   	  	if ( count($product_query) <= 0 || $product_query['call_to_order']) {
   	  		return array();
   	  	}
@@ -198,12 +213,12 @@ class ACart {
     	        continue;
     	    }
 
-            $option_query = $this->model_catalog_product->getProductOption($product_id, $product_option_id);
+            $option_query = $sf_product_mdl->getProductOption($product_id, $product_option_id);
             $element_type = $option_query['element_type'];
 
     	    if (!in_array($element_type, $elements_with_options)) {
     	    	//This is single value element, get all values and expect only one	
-    	    	$option_value_query = $this->model_catalog_product->getProductOptionValues($product_id, $product_option_id);
+    	    	$option_value_query = $sf_product_mdl->getProductOptionValues($product_id, $product_option_id);
     	    	$option_value_query = $option_value_query[0];
     	    	//Set value from input
     	    	$option_value_query['name'] = $this->db->escape($options[$product_option_id]);
@@ -212,17 +227,17 @@ class ACart {
     	    	if(is_array($product_option_value_id)){
     	    		$option_value_queries = array();
     	    		foreach($product_option_value_id as $val_id){
-    	    			$option_value_queries[$val_id] = $this->model_catalog_product->getProductOptionValue($product_id, $val_id);
+    	    			$option_value_queries[$val_id] = $sf_product_mdl->getProductOptionValue($product_id, $val_id);
     	    		}
     	    	}else{
-    	    		$option_value_query = $this->model_catalog_product->getProductOptionValue($product_id, (int)$product_option_value_id);
+    	    		$option_value_query = $sf_product_mdl->getProductOptionValue($product_id, (int)$product_option_value_id);
     	    	}
     	    }
 
     	    if( $option_value_query ){
             	//if group option load price from parent value
             	if ( $option_value_query['group_id'] && !in_array($option_value_query['group_id'], $groups) ) {
-            		$group_value_query = $this->model_catalog_product->getProductOptionValue($product_id, $option_value_query['group_id']);
+            		$group_value_query = $sf_product_mdl->getProductOptionValue($product_id, $option_value_query['group_id']);
             		$option_value_query['prefix'] = $group_value_query['prefix'];
             		$option_value_query['price'] = $group_value_query['price'];
             		$groups[] = $option_value_query['group_id'];
@@ -270,7 +285,7 @@ class ACart {
 		$discount_quantity = 0; // this is used to calculate total QTY of 1 product in the cart
 
 		// check is product is in cart and calculate quantity to define item price with product discount
-    	foreach ($this->session->data['cart'] as $k => $v) {
+    	foreach ($this->cust_data['cart'] as $k => $v) {
     	    $array2 = explode(':', $k);
     	    if ($array2[0] == $product_id) {
 				$discount_quantity += $v['qty'];
@@ -348,17 +363,17 @@ class ACart {
     	}
     	
 		if ((int)$qty && ((int)$qty > 0)) {
-    		if (!isset($this->session->data['cart'][$key])) {
-      			$this->session->data['cart'][$key]['qty'] = (int)$qty;
+    		if (!isset($this->cust_data['cart'][$key])) {
+      			$this->cust_data['cart'][$key]['qty'] = (int)$qty;
     		} else {
-      			$this->session->data['cart'][$key]['qty'] += (int)$qty;
+      			$this->cust_data['cart'][$key]['qty'] += (int)$qty;
     		}
     		//TODO Add validation for correct options for the product and add error return or more stable behaviour
-			$this->session->data['cart'][$key]['options'] = $options;
+			$this->cust_data['cart'][$key]['options'] = $options;
 		}
 
 		//if logged in customer, save cart content
-    	if ($this->customer->isLogged() || $this->customer->isUnauthCustomer()) {
+    	if ($this->customer && ($this->customer->isLogged() || $this->customer->isUnauthCustomer()) ) {
     		$this->customer->saveCustomerCart();
     	}
 		
@@ -377,25 +392,25 @@ class ACart {
 			return null;
 		}
 
-		if ( !isset($this->session->data['cart']['virtual']) || !is_array($this->session->data['cart']['virtual']) ) {
-			$this->session->data['cart']['virtual'] = array();
+		if ( !isset($this->cust_data['cart']['virtual']) || !is_array($this->cust_data['cart']['virtual']) ) {
+			$this->cust_data['cart']['virtual'] = array();
 		}
 
-		$this->session->data['cart']['virtual'][$key] = $data;
+		$this->cust_data['cart']['virtual'][$key] = $data;
 	}
 
 	public function getVirtualProducts() {
-		return (array)$this->session->data['cart']['virtual'];
+		return (array)$this->cust_data['cart']['virtual'];
 	}
 
 	/**
 	 * @param $key
 	 */
 	public function removeVirtual($key) {
-		if ( isset($this->session->data['cart']['virtual'][$key]) ) {
-			unset($this->session->data['cart']['virtual'][$key]);
-			if ( !has_value($this->session->data['cart']['virtual']) ) {
-				unset($this->session->data['cart']['virtual']);
+		if ( isset($this->cust_data['cart']['virtual'][$key]) ) {
+			unset($this->cust_data['cart']['virtual'][$key]);
+			if ( !has_value($this->cust_data['cart']['virtual']) ) {
+				unset($this->cust_data['cart']['virtual']);
 			}
 		}
 	}
@@ -406,13 +421,13 @@ class ACart {
 	 */
 	public function update($key, $qty) {
     	if ((int)$qty && ((int)$qty > 0)) {
-      		$this->session->data['cart'][$key]['qty'] = (int)$qty;
+      		$this->cust_data['cart'][$key]['qty'] = (int)$qty;
     	} else {
 	  		$this->remove($key);
 		}
 		
 		//save if logged in customer
-    	if ($this->customer->isLogged() || $this->customer->isUnauthCustomer()) {
+    	if ($this->customer && ($this->customer->isLogged() || $this->customer->isUnauthCustomer()) ) {
     		$this->customer->saveCustomerCart();
     	}
 
@@ -424,13 +439,13 @@ class ACart {
 	 * @param $key
 	 */
 	public function remove($key) {
-		if (isset($this->session->data['cart'][$key])) {
-     		unset($this->session->data['cart'][$key]);
+		if (isset($this->cust_data['cart'][$key])) {
+     		unset($this->cust_data['cart'][$key]);
 			// remove balance credit from session when any products removed from cart
-			unset($this->session->data['used_balance']);
+			unset($this->cust_data['used_balance']);
 
 			//if logged in customer, save cart content
-     		if ($this->customer->isLogged() || $this->customer->isUnauthCustomer()) {
+     		if ($this->customer && ($this->customer->isLogged() || $this->customer->isUnauthCustomer()) ) {
     			$this->customer->saveCustomerCart();
     		}
 
@@ -438,7 +453,7 @@ class ACart {
 	}
 
   	public function clear() {
-		$this->session->data['cart'] = array();		
+		$this->cust_data['cart'] = array();		
  	}
 
 	/**
@@ -533,7 +548,7 @@ class ACart {
 	public function setMinQty() {
 		foreach ($this->getProducts() as $product) {
 			if ($product['quantity'] < $product['minimum']) {
-				$this->session->data['cart'][$product['key']]['qty'] = $product['minimum'];
+				$this->cust_data['cart'][$product['key']]['qty'] = $product['minimum'];
 			}
 		}
   	}
@@ -547,8 +562,8 @@ class ACart {
 		foreach ($this->getProducts() as $product) {
 			if ($product['maximum'] > 0) {
 				if ($product['quantity'] > $product['maximum']) {
-					$this->session->data['error'] = $this->language->get('error_quantity_maximum');
-					$this->session->data['cart'][$product['key']]['qty'] = $product['maximum'];
+					$this->cust_data['error'] = $this->language->get('error_quantity_maximum');
+					$this->cust_data['cart'][$product['key']]['qty'] = $product['maximum'];
 				}
 			}
 		}
@@ -608,16 +623,15 @@ class ACart {
 			}
 		}
 		//tax for shipping
-		if($this->session->data['shipping_method']['tax_class_id']){
-			$tax_id = $this->session->data['shipping_method']['tax_class_id'];
-			$cost = $this->session->data['shipping_method']['cost'];
+		if($this->cust_data['shipping_method']['tax_class_id']){
+			$tax_id = $this->cust_data['shipping_method']['tax_class_id'];
+			$cost = $this->cust_data['shipping_method']['cost'];
 			if (!isset($this->taxes[$tax_id])) {
 				$this->taxes[$tax_id]['tax'] = $this->tax->calcTotalTaxAmount($cost, $tax_id);
 			} else {
 				$this->taxes[$tax_id]['tax'] += $this->tax->calcTotalTaxAmount($cost, $tax_id);
 			}
 		}
-
 		return $this->taxes;
   	}
 
@@ -662,9 +676,10 @@ class ACart {
 		$total = 0;
 		
 		$taxes = $this->getAppliedTaxes( $recalculate );		 
-		$this->load->model('checkout/extension');
+		//force storefront load (if called from admin)
+		$sf_checkout_mdl = $this->load->model('checkout/extension', 'storefront');
 
-		$total_extns = $this->model_checkout_extension->getExtensions('total');
+		$total_extns = $sf_checkout_mdl->getExtensions('total');
 
 		foreach ($total_extns as $value) {
 			$calc_order[$value['key']] = (int)$this->config->get($value['key'] . '_calculation_order');
@@ -672,15 +687,16 @@ class ACart {
 		array_multisort($calc_order, SORT_ASC, $total_extns);
 
 		foreach ($total_extns as $extn) {
-			$this->load->model('total/' . $extn['key']);
+			$sf_total_mdl = $this->load->model('total/' . $extn['key'], 'storefront');
 			/**
 			 * parameters are references!!!
 			 */
-			$this->{'model_total_' . $extn['key']}->getTotal($total_data, $total, $taxes);
+			$sf_total_mdl->getTotal($total_data, $total, $taxes, $this->cust_data);
+			$sf_total_mdl = null;
 		}
-		
+
 	  	$this->total_data = $total_data;	
-  		$this->final_total = $total;
+  		$this->final_total = $total;  		
   		return $this->final_total;
   	}
 
@@ -751,7 +767,7 @@ class ACart {
 	 */
 	public function countProducts() {
 		$qty = 0;
-		foreach ( $this->session->data['cart'] as $product) {
+		foreach ( $this->cust_data['cart'] as $product) {
 			$qty += $product['qty'];
 		}
 		return $qty;
@@ -762,7 +778,7 @@ class ACart {
 	* @return int
 	*/   		  
   	public function hasProducts() {
-    	return count($this->session->data['cart']);
+    	return count($this->cust_data['cart']);
   	}
   
 	/**

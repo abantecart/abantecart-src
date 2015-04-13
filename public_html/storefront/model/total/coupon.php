@@ -22,10 +22,10 @@ if (! defined ( 'DIR_CORE' )) {
 }
 
 class ModelTotalCoupon extends Model {
-	public function getTotal(&$total_data, &$total, &$taxes) {
-		if (isset($this->session->data['coupon']) && $this->config->get('coupon_status')) {
+	public function getTotal(&$total_data, &$total, &$taxes, &$cust_data) {
+		if (isset($cust_data['coupon']) && $this->config->get('coupon_status')) {
 			$promotion = new APromotion(); 
-			$coupon = $promotion->getCouponData($this->session->data['coupon']);
+			$coupon = $promotion->getCouponData($cust_data['coupon']);
 			
 			if ($coupon) {
 				$discount_total = 0;
@@ -74,7 +74,7 @@ class ModelTotalCoupon extends Model {
 					
 					$discount_total += $discount;
 				}
-				$ship_data = $this->session->data['shipping_method'];
+				$ship_data = $cust_data['shipping_method'];
 				if ($coupon['shipping'] && isset($ship_data)) {
 					if (isset($ship_data['tax_class_id']) && $ship_data['tax_class_id']) {
 						$taxes[$ship_data['tax_class_id']]['total'] -= $ship_data['cost'];

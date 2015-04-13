@@ -46,11 +46,11 @@ class APromotion {
 	/**
 	 * @param null|int $customer_id
 	 */
-	public function __construct( $customer_id = null ) {
+	public function __construct( $customer_group_id = null ) {
 		$this->registry = Registry::getInstance();
 
-		if ( $customer_id ){
-			$this->customer_group_id = $customer_id;
+		if ( $customer_group_id ){
+			$this->customer_group_id = $customer_group_id;
 		} else if ( !is_null($this->customer) ) {
 			//set customer group
 			if ($this->customer->isLogged()) {
@@ -321,21 +321,21 @@ class APromotion {
 													 FROM `" . $this->db->table("orders") . "`
 													 WHERE order_status_id > '0' AND coupon_id = '" . (int)$coupon_query->row['coupon_id'] . "'");
 
-			if ($coupon_redeem_query->row['total'] >= $coupon_query->row['uses_total'] && $coupon_query->row['uses_total']>0) {
+			if ($coupon_redeem_query->row['total'] >= $coupon_query->row['uses_total'] && $coupon_query->row['uses_total'] > 0) {
 				$status = FALSE;
 			}
-			if ($coupon_query->row['logged'] && !$this->customer->getId()) {
+			if ($coupon_query->row['logged'] && !is_null($this->customer) && !$this->customer->getId()) {
 				$status = FALSE;
 			}
 			
-			if ($this->customer->getId()) {
+			if (!is_null($this->customer) && $this->customer->getId()) {
 				$coupon_redeem_query = $this->db->query("SELECT COUNT(*) AS total
 														 FROM `" . $this->db->table("orders") . "`
 														 WHERE order_status_id > '0'
 														        AND coupon_id = '" . (int)$coupon_query->row['coupon_id'] . "'
 														        AND customer_id = '" . (int)$this->customer->getId() . "'");
 				
-				if ($coupon_redeem_query->row['total'] >= $coupon_query->row['uses_customer'] && $coupon_query->row['uses_customer']>0) {
+				if ($coupon_redeem_query->row['total'] >= $coupon_query->row['uses_customer'] && $coupon_query->row['uses_customer'] > 0) {
 					$status = FALSE;
 				}
 			}
