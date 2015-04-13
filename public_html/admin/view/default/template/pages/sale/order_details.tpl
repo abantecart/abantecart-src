@@ -218,19 +218,26 @@
 			<tr>
 				<td colspan="4" class="right"><span class="pull-right"><?php echo $total_row['title']; ?></span></td>
 				<td>
-					<?php if ($count == 0 || $count == ($total - 1)) { ?>
-						<b rel="totals[<?php echo $total_row['order_total_id']; ?>]"><?php echo $total_row['text']; ?></b>
-						<div class="input-group input-group-sm afield">
-							<input type="hidden" class="col-sm-2 col-xs-12"
-								   name="totals[<?php echo $total_row['order_total_id']; ?>]"
-								   value="<?php echo $total_row['text']; ?>"/>
-						</div>
-					<?php } else { ?>
-						<div class="input-group input-group-sm afield">
-							<input type="text" class="col-sm-2 col-xs-12 no-save"
-								   name="totals[<?php echo $total_row['order_total_id']; ?>]"
-								   value="<?php echo $total_row['text']; ?>"/>
-						</div>
+					<b class="<?php echo $total_row['type']; ?>" rel="totals[<?php echo $total_row['order_total_id']; ?>]"><?php echo $total_row['text']; ?></b>
+					<?php if (!in_array($total_row['type'] , array('subtotal', 'total', 'tax', 'discount'))) { ?>
+						<a class="edit_totals btn btn-xs btn-info-alt tooltips"
+						   data-original-title="<?php echo $text_edit; ?>"
+						   data-order-total-id="<?php echo $total_row['order_total_id']; ?>">
+							<i class="fa fa-pencil"></i>
+							
+							<div class="hidden">
+								<div class="container-fluid">
+								<div class="col-sm-6 col-xs-12">
+									<span class="pull-left"><?php echo $total_row['title']; ?></span>
+								</div>
+								<div class="col-sm-6 col-xs-12 input-group input-group-sm afield">
+									<input type="text" class="col-sm-2 col-xs-12 no-save"
+									   name="totals[<?php echo $total_row['order_total_id']; ?>]"
+									   value="<?php echo $total_row['text']; ?>"/>
+								</div>
+								</div>
+							</div>
+						</a>
 					<?php } ?>
 					<?php $count++; ?>
 				</td>
@@ -276,6 +283,30 @@
 		));
 ?>
 
+<?php echo $this->html->buildElement(
+		array('type' => 'modal',
+				'id' => 'edit_order_total',
+				'modal_type' => 'md',
+				'title' => $edit_title_details,
+				'content' => '
+				<form class="aform form-horizontal" enctype="multipart/form-data" method="post" class="edit_order_total" action="'.$edit_order_total.'">
+				
+				<div class="content mb20">
+				</div>
+								
+				<div class="text-center mb20">
+					<button class="btn btn-primary lock-on-click">
+					<i class="fa fa-save fa-fw"></i>'. $button_save . '
+					</button>
+					<button class="btn btn-default" type="button" data-dismiss="modal" aria-hidden="true">
+					<i class="fa fa-arrow-left fa-fw"></i> '. $button_cancel . '
+					</button>
+				</div>
+				
+				</form>'
+		));
+?>
+
 <script type="text/javascript">
 
 	<?php if ($currency['symbol_left']) { ?>
@@ -310,6 +341,7 @@
 		});
 
 
+		$('a.edit_product').click(function () {
 			addProduct($(this).attr('data-order-product-id'));
 			return false;
 		});
@@ -350,8 +382,12 @@
 		});
 
 		//update first total - subtotal
+		$('#products .subtotal').html(get_currency_str(subtotal));
 		//update last - total
 
+		//set tax and final total to 0 as we can not culculate it on a fly
+		$('#products .tax').html('--');
+		$('#products .total').html('--');
 	}
 
 	$('#generate_invoice').click(function () {
@@ -381,6 +417,7 @@
 
 	function addProduct(order_product_id) {
 		var id = '';
+		if(order_product_id > 0){
 			id = '&order_product_id='+order_product_id;
 		}else{
 			var vals = $("#add_product").chosen().val();
@@ -401,5 +438,21 @@
 				});
 		}
 	}
+
+	$('a.edit_totals').click(function () {
+	    editTotal($(this));
+	    return false;
+	});
+
+	function editTotal($obj) {
+		var id = $obj.attr('data-order-total-id');
+		var html = $obj.find('.hidden').html(); 
+
+		if(id.length > 0){
+			$('#edit_order_total').modal({ keyboard: false});
+			$('#edit_order_total form .content').html(html);
+		}
+	}
+
 
 </script>
