@@ -73,6 +73,8 @@ class AOrderManager extends AOrder {
 
 		//update total with new values passed and mark to skip reculc
 		if (!empty($new_totals)) {
+			//build new totals
+			$upd_total = array('totals' => $new_totals);
 			foreach($new_totals as $total_id => $value) {
 				$skip_totals[] = $total_id;
 				//create message if total changed from original
@@ -82,8 +84,14 @@ class AOrderManager extends AOrder {
 					}
 				}
 			}		
-			//save total
-			$upd_total = array('totals' => $new_totals);
+			//add old totals before saving whole array
+			foreach($original_totals as $t_old) {
+				if (!$upd_total['totals'][$t_old['order_total_id']]) {
+					$upd_total['totals'][$t_old['order_total_id']] = $t_old['value'];
+				}
+			}
+
+			//save new totals
 			$adm_order_mdl->editOrder($this->order_id, $upd_total);
 			//reload original total as it has changed
 	       	$original_totals = $adm_order_mdl->getOrderTotals($this->order_id);		
@@ -237,19 +245,21 @@ class AOrderManager extends AOrder {
 		}
 
 		//check new totals first 
+		$upd_total = array('totals' => array());
 		foreach($total_data as $t_new) {
 			foreach($original_totals as $t_old) {
 				if ($t_new['id'] == $t_old['key']) {
+					$upd_total['totals'][$t_old['order_total_id']] = $t_new['text'];
 					if ($t_new['value'] != $t_old['value']) {
 						//total changed, update
-						$upd_total = array('totals' => array($t_old['order_total_id'] => $t_new['text']));
-						$adm_order_mdl->editOrder(	$this->order_id, $upd_total );
 						$message .= $t_old['type']." changed from ".$t_old['text']." to ".$t_new['text']."\n";
 					}
 					break;	
 				}
 			}
 		}
+		//update all totals at once
+		$adm_order_mdl->editOrder($this->order_id, $upd_total);
 
 		//log to comment
 		if ($message) {
