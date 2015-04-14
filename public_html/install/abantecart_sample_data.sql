@@ -482,9 +482,9 @@ VALUES
 
 INSERT INTO `ac_order_totals` 
 VALUES 
-(1,1,'Sub-Total:','?1,583.44','1583.4400',1,'subtotal'),
-(2,1,'Flat Shipping Rate:','?2.00','2.0000',3,'shipping'),
-(3,1,'Total:','?1,585.44','1585.4400',6,'total'),
+(1,1,'Sub-Total:','£1,583.44','1583.4400',1,'subtotal'),
+(2,1,'Flat Shipping Rate:','£2.00','2.0000',3,'shipping'),
+(3,1,'Total:','£1,585.44','1585.4400',6,'total'),
 (4,2,'Sub-Total:','$386.00','386.0000',1,'subtotal'),
 (5,2,'Retail 8.5%:','$32.81','32.8100',5,'tax'),
 (6,2,'Total:','$418.81','418.8100',6,'total'),
