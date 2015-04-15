@@ -48,13 +48,14 @@ final class ATax {
 
 	/**
 	 * @param $registry Registry
+	 * @param null|array $c_data
 	 */
 	public function __construct($registry, &$c_data = null) {
 		$this->registry = $registry;
 		$this->cache = $registry->get('cache');
 		$this->db = $registry->get('db');
 		$this->config = $registry->get('config');
-		
+
 		//if nothing is passed (default) use session array. Customer session, can function on storefrnt only 
 		if ($c_data == null) {
 			$this->cust_data =& $this->session->data;

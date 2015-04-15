@@ -49,7 +49,8 @@ final class ACache {
 	public function __construct(){
 		$this->registry = Registry::getInstance();
 		$cache_files = glob(DIR_CACHE . '*/*', GLOB_NOSORT);
-		if(!is_array($cache_files)){
+
+		if(!is_array($cache_files) || !is_writeable(DIR_CACHE)){
 			$log = $this->registry->get('log');
 			if(!is_object($log) || !method_exists($log, 'write')){
 				$error_text = 'Error: Unable to access or write to cache directory ' . DIR_CACHE;
@@ -59,9 +60,16 @@ final class ACache {
 			$log->write($error_text);
 			//try to add message for admin (check if for install-process too)
 			$db = $this->registry->get('db');
+
 			if(is_object($db) && method_exists($db, 'query')){
+				$error_text .= ' Cache feature was disabled. Check permissions on directory and enable setting back.';
 				$m = new AMessage();
-				$m->saveError('AbanteCart Error!', $error_text);
+				$m->saveError('AbanteCart Warning', $error_text);
+				//also disable caching in config
+				$sql = "UPDATE ".$db->table('settings')."
+						SET `value` = '0'
+						WHERE `key` = 'config_cache_enable'";
+				$db->query($sql);
 			}
 
 		} else{
@@ -171,7 +179,7 @@ final class ACache {
 		if ($create_override || $this->registry->get('config')->get('config_cache_enable')){	
 			//build new cache file name
 			$ch_base = $this->_build_name($key, $language_id, $store_id);
-			$timestamp = (time() + $this->expire); // probably it's a rudiment
+			$timestamp = (time() + $this->expire);
 			$file =  $ch_base . '.' . $timestamp;
 			// write into cache map
 			$this->cache_map[$ch_base] = $timestamp;
