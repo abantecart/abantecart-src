@@ -90,18 +90,21 @@ class ModelExtensionDefaultStripe extends Model {
 			}
 			$charge_data['card'] = $token['id'];
 			
-			$charge_data['shipping'] = array(
-				'name' => $order_info['firstname'] . ' ' . $order_info['lastname'],
-				'phone' => $order_info['telephone'],
-				'address' => array(
-				    'line1' =>	$order_info['shipping_address_1'],
-				    'line2' => $order_info['shipping_address_2'],
-				    'city' => $order_info['shipping_city'],
-				    'postal_code' => $order_info['shipping_postcode'],
-				    'state' => $order_info['shipping_zone'],
-				    'country' => $order_info['shipping_iso_code_2'],
-				)
-			);
+			if ($order_info['shipping_method']) {
+				$charge_data['shipping'] = array(
+					'name' => $order_info['firstname'] . ' ' . $order_info['lastname'],
+					'phone' => $order_info['telephone'],
+					'address' => array(
+					    'line1' =>	$order_info['shipping_address_1'],
+					    'line2' => $order_info['shipping_address_2'],
+					    'city' => $order_info['shipping_city'],
+					    'postal_code' => $order_info['shipping_postcode'],
+					    'state' => $order_info['shipping_zone'],
+					    'country' => $order_info['shipping_iso_code_2'],
+					)
+				);			
+			}
+
 			$charge_data['metadata'] = array();
 			$charge_data['metadata']['order_id'] = $pd['order_id'];
 			if ($this->customer->getId() > 0) {
@@ -109,7 +112,6 @@ class ModelExtensionDefaultStripe extends Model {
 			}
 										 
 			ADebug::variable('Processing stripe payment request: ', $charge_data);
-		
 			$response = Stripe_Charge::create( $charge_data );
 
 		} catch(Stripe_CardError $e) {
