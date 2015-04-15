@@ -53,6 +53,7 @@ final class ATax {
 		$this->registry = $registry;
 		$this->cache = $registry->get('cache');
 		$this->db = $registry->get('db');
+		$this->config = $registry->get('config');
 		
 		//if nothing is passed (default) use session array. Customer session, can function on storefrnt only 
 		if ($c_data == null) {

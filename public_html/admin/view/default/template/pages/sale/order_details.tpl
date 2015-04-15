@@ -163,7 +163,7 @@
 			<tr>
 				<td>
 					<a class="remove btn btn-xs btn-danger-alt tooltips"
-					   data-original-title="<?php echo $text_remove; ?>"
+					   data-original-title="<?php echo $button_delete; ?>"
 					   data-order-product-row="<?php echo $order_product_row; ?>">
 						<i class="fa fa-minus-circle"></i>
 					</a>
@@ -216,34 +216,74 @@
 		$total = count($totals); ?>
 		<?php foreach ($totals as $total_row) { ?>
 			<tr>
-				<td colspan="4" class="right"><span class="pull-right"><?php echo $total_row['title']; ?></span></td>
+				<td colspan="4" class="right">
+				<span class="pull-right">
+					<?php echo $total_row['title']; ?>
+					<?php if (!in_array($total_row['type'] , array('subtotal','total'))) { ?>
+					<a class="reculc_total btn btn-xs btn-info-alt tooltips"
+					   data-original-title="<?php echo $text_recalc; ?>"
+					   data-order-total-id="<?php echo $total_row['order_total_id']; ?>">
+					    <i class="fa fa-refresh"></i>
+					</a>
+					<a class="remove btn btn-xs btn-danger-alt tooltips"
+					   data-original-title="<?php echo $button_delete; ?>"
+					   data-confirmation="delete" onclick="deleteTotal('<?php echo $total_row['order_total_id']; ?>');">
+						<i class="fa fa-minus-circle"></i>
+					</a>
+					<?php } ?>
+				</span>
+				</td>
 				<td>
-					<b class="<?php echo $total_row['type']; ?>" rel="totals[<?php echo $total_row['order_total_id']; ?>]"><?php echo $total_row['text']; ?></b>
-					<?php if (!in_array($total_row['type'] , array('subtotal', 'total', 'tax', 'discount'))) { ?>
-						<a class="edit_totals btn btn-xs btn-info-alt tooltips"
-						   data-original-title="<?php echo $text_edit; ?>"
-						   data-order-total-id="<?php echo $total_row['order_total_id']; ?>">
-							<i class="fa fa-pencil"></i>
-							
-							<div class="hidden">
-								<div class="container-fluid">
-								<div class="col-sm-6 col-xs-12">
-									<span class="pull-left"><?php echo $total_row['title']; ?></span>
-								</div>
-								<div class="col-sm-6 col-xs-12 input-group input-group-sm afield">
-									<input type="text" class="col-sm-2 col-xs-12 no-save"
+					<?php if (!in_array($total_row['type'] , array('subtotal','total'))) { ?>
+						<input type="text" class="col-sm-2 col-xs-12 no-save"
 									   name="totals[<?php echo $total_row['order_total_id']; ?>]"
 									   value="<?php echo $total_row['text']; ?>"/>
-								</div>
-								</div>
-							</div>
-						</a>
+					<?php } else { ?>
+					<b class="<?php echo $total_row['type']; ?>" rel="totals[<?php echo $total_row['order_total_id']; ?>]"><?php echo $total_row['text']; ?></b>					
 					<?php } ?>
+					
 					<?php $count++; ?>
 				</td>
 			</tr>
 			<?php $order_total_row++ ?>
 		<?php } ?>
+		<?php if (count($totals_add)) { ?>
+			<tr>
+				<td colspan="4" class="right"><span class="pull-right"><?php echo $text_add; ?></span></td>
+				<td>
+					<b class="<?php echo $total_row['type']; ?>" rel="totals[<?php echo $total_row['order_total_id']; ?>]">
+					<a class="add_totals btn btn-xs btn-info-alt tooltips"
+					   data-original-title="<?php echo $text_add; ?>"
+					   data-order-id="<?php echo $order_id; ?>">
+					    <i class="fa fa-plus-circle"></i>
+					    
+					    <?php foreach ($totals_add as $total_row) { ?>
+					    <div class="hidden <?php echo $total_row['key']; ?>">
+					    	<div class="row">
+					    	<input type="hidden" name="key" value="<?php echo $total_row['key']; ?>"/>
+					    	<input type="hidden" name="type" value="<?php echo $total_row['type']; ?>"/>
+					    	<input type="hidden" name="sort_order" value="<?php echo $total_row['sort_order']; ?>"/>
+					    	<div class="col-sm-3 col-xs-12">
+					    		<span class="pull-right"><?php echo $text_order_total_title; ?></span>
+					    	</div>
+					    	<div class="col-sm-4 col-xs-12">
+					    		<input type="text" class="col-sm-2 col-xs-12 no-save"
+					    		   name="title" value="<?php echo $total_row['title']; ?>"/>
+					    	</div>
+					    	<div class="col-sm-2 col-xs-12">
+					    		<span class="pull-right"><?php echo $text_order_total_amount; ?></span>
+					    	</div>
+					    	<div class="col-sm-3 col-xs-12">
+					    		<input type="text" class="col-sm-2 col-xs-12 no-save"
+					    		   name="text" value="<?php echo $total_row['text']; ?>"/>
+					    	</div>
+					    	</div>
+					    </div>
+					    <?php } ?>
+					</a>
+				</td>
+			</tr>
+		<?php } ?>		
 		</tbody>
 	</table>
 
@@ -285,13 +325,16 @@
 
 <?php echo $this->html->buildElement(
 		array('type' => 'modal',
-				'id' => 'edit_order_total',
+				'id' => 'add_order_total',
 				'modal_type' => 'md',
-				'title' => $edit_title_details,
+				'title' => $text_order_total_add,
 				'content' => '
-				<form class="aform form-horizontal" enctype="multipart/form-data" method="post" class="edit_order_total" action="'.$edit_order_total.'">
-				
-				<div class="content mb20">
+				<form class="aform form-horizontal" enctype="multipart/form-data" method="post" class="add_order_total" action="'.$edit_order_total.'">
+
+				<div class="mb20">' . $new_total . '
+				</div>
+								
+				<div class="content container-fluid mb20">
 				</div>
 								
 				<div class="text-center mb20">
@@ -439,20 +482,34 @@
 		}
 	}
 
-	$('a.edit_totals').click(function () {
-	    editTotal($(this));
+	$('a.reculc_total').click(function () {
+	    var total_id = $(this).attr('data-order-total-id');
+	    $('input[name="totals['+total_id+']"]').val('');
+	    $('#orderFrm').submit();
 	    return false;
 	});
 
-	function editTotal($obj) {
-		var id = $obj.attr('data-order-total-id');
-		var html = $obj.find('.hidden').html(); 
+	$('a.add_totals').click(function () {
+		addTotal();
+	    return false;
+	});
+	
+	$('#orderFrm_new_total').change(function () {
+		addTotalSelect( $("#orderFrm_new_total option:selected").text() );
+	});
 
-		if(id.length > 0){
-			$('#edit_order_total').modal({ keyboard: false});
-			$('#edit_order_total form .content').html(html);
-		}
+	function addTotal() {
+		$('#add_order_total').modal({ keyboard: false});
+		addTotalSelect( $("#orderFrm_new_total option:selected").text() );
 	}
 
+	function addTotalSelect(key) {
+		var html = $('.add_totals .hidden.'+key).html(); 
+		$('#add_order_total form .content').html(html);
+	}
 
+	function deleteTotal(order_total_id) {
+		location = '<?php echo $delete_order_total; ?>&order_total_id=' + order_total_id;
+	}
+	
 </script>

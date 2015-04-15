@@ -63,7 +63,7 @@ class AOrderManager extends AOrder {
 				
   		$adm_order_mdl = $this->load->model('sale/order');
 		$customer_data = array();
-		$skip_recalc = array('handling', 'adjustment', 'balance');
+		$skip_recalc = array('handling', 'balance');
 		//update and record changed totals. 
 		$message = '';
 
@@ -71,7 +71,7 @@ class AOrderManager extends AOrder {
        	$order_info = $adm_order_mdl->getOrder($this->order_id);
        	$original_totals = $adm_order_mdl->getOrderTotals($this->order_id);
 
-		//update total with new values passed and mark to skip reculc
+		//update total with new values passed and mark to skip recalc
 		if (!empty($new_totals)) {
 			//build new totals
 			$upd_total = array('totals' => $new_totals);
@@ -224,7 +224,7 @@ class AOrderManager extends AOrder {
 						$total_data[] = array(
 		        			'id'         => $or_total['key'],
         					'title'      => $or_total['title'],
-        					'text'       => $or_total['text'],
+        					'text'       => $this->currency->format($or_total['value'], $order_info['currency'], $order_info['value'], true),
         					'value'      => $or_total['value'],
 							'sort_order' => $or_total['sort_order'],
 							'total_type' => $or_total['type'],
@@ -234,7 +234,8 @@ class AOrderManager extends AOrder {
 						break;
 					}
 				}
-			} else {			
+			} else {	
+				//process storefront total models		
 				$sf_total_mdl = $this->load->model('total/' . $extn['key'], 'storefront');
 				/**
 			 	* parameters are references!!!
@@ -243,35 +244,25 @@ class AOrderManager extends AOrder {
 				$sf_total_mdl = null;
 			}
 		}
-
-		//check new totals first 
+		
+		//Create totals update array and log about totals change 
 		$upd_total = array('totals' => array());
 		foreach($total_data as $t_new) {
 			foreach($original_totals as $t_old) {
 				if ($t_new['id'] == $t_old['key']) {
 					$upd_total['totals'][$t_old['order_total_id']] = $t_new['text'];
 					if ($t_new['value'] != $t_old['value']) {
-						//total changed, update
 						$message .= $t_old['type']." changed from ".$t_old['text']." to ".$t_new['text']."\n";
 					}
 					break;	
 				}
 			}
 		}
+
 		//update all totals at once
 		$adm_order_mdl->editOrder($this->order_id, $upd_total);
-
-		//log to comment
-		if ($message) {
-			$adm_order_mdl->addOrderHistory($this->order_id, array(
-			    'order_status_id' => $order_info['order_status_id'],
-			    'notify' => 0,
-			    'append' => 1,
-			    'comment' => $message
-			));		
-		}
-
-		return $total;
+		
+		return array('message' => $message, 'order_status_id' => $order_info['order_status_id']);
   	}
    	  	
 }

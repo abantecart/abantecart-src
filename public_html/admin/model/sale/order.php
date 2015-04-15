@@ -75,6 +75,49 @@ class ModelSaleOrder extends Model{
 	 * @param int $order_id
 	 * @param array $data
 	 */
+	public function addOrderTotal($order_id, $data){
+		if (!has_value($order_id)) {
+			return null;
+		}
+		$value = (float)preg_replace("/[^0-9.]/", '', $data['text']);
+		//check if number is negative. disount
+		if ( preg_match("/^\s*-/", $data['text']) ) {
+			$value *= -1;
+		}
+
+		$this->db->query("INSERT INTO " . $this->db->table("order_totals") . "
+		    			SET `order_id` = '" . (int)$order_id . "',
+		    				`title` = '" . $this->db->escape($data['title']) . "',
+		    				`text` = '" . $this->db->escape($data['text']) . "',
+		    				`value` = '" . $this->db->escape($value) . "',
+		    				`sort_order` = '" . (int)$data['sort_order'] . "',
+		    				`type` = '" . $this->db->escape($data['type']) . "',
+		    				`key` = '" . $this->db->escape($data['key']) . "'"
+		    			);
+	
+		return $this->db->getLastId();
+	}
+
+	/**
+	 * @param int $order_id
+	 * @param int $order_total_id
+	 */
+	public function deleteOrderTotal($order_id, $order_total_id){
+		if (!has_value($order_id) && !has_value($order_total_id)) {
+			return null;
+		}
+		
+		$this->db->query("DELETE FROM " . $this->db->table("order_totals") . "
+							  WHERE order_id = '" . (int)$order_id . "' AND order_total_id = '" . (int)$order_total_id . "'");
+	
+		return 1;
+	}
+	
+
+	/**
+	 * @param int $order_id
+	 * @param array $data
+	 */
 	public function editOrder($order_id, $data){
 		$fields = array(
 				'telephone',
@@ -176,24 +219,28 @@ class ModelSaleOrder extends Model{
 			}
 		}
 
-		if(isset($data['totals'])){
-			ksort($data['totals'], SORT_NUMERIC); // it for to know that total amount is last
-			foreach($data['totals'] as $key => $value){
-				$val = (float)preg_replace("/[^0-9.]/", '', $value);
-				//check if number is negative. disount
-				if ( preg_match("/^\s*-/", $value) ) {
-					$val *= -1;
-				}
+		if(isset($data['totals'])){		
+		//TODO: Improve, not to rely on text value. Add 2 parameters for total, text_val and number. 
+			foreach($data['totals'] as $total_id => $text_value){
+				//get number portion together with the sign
+				$number = (float)preg_replace("/[^0-9.-]/", '', $text_value);
 				$this->db->query("UPDATE " . $this->db->table("order_totals") . "
-								  SET `text` = '" . $this->db->escape($value) . "',
-								      `value` = '" . $val . "'
-								  WHERE order_total_id = '" . (int)$key . "'");
+								  SET `text` = '" . $this->db->escape($text_value) . "',
+								      `value` = '" . $number . "'
+								  WHERE order_total_id = '" . (int)$total_id . "'");
 			}
-			// update total in orders table
-			$this->db->query("UPDATE " . $this->db->table("orders") . "
-							  SET `total` = '" . $val . "'
-							  WHERE order_id = '" . (int)$order_id . "'");
-
+			// update total in order main table reading back from all totals and select key 'total'
+			$totals = $this->getOrderTotals($order_id);			
+			if($totals){
+				foreach($totals as $total_id => $t_data) {
+					if( $t_data['key'] == 'total' ){
+						$this->db->query("UPDATE " . $this->db->table("orders") . "
+								  SET `total` = '" . $t_data['value'] . "'
+								  WHERE order_id = '" . (int)$order_id . "'");
+						break;			
+					}
+				}
+			}
 		}
 	}
 
