@@ -5,7 +5,7 @@ SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 --
 
 
-INSERT INTO `ac_addresses` 
+INSERT INTO `ac_addresses`
 VALUES
 (1,2,'','Juliana','Davis','9778 Golden Crescent','Apt 10','85804-7365','Humansville',223,3616),
 (2,3,'','Keely','Mccoy','5071 Misty Pond Farm','Suite #101','63406-9081','Bumble Bee',223,3648),
@@ -24,8 +24,8 @@ VALUES
 -- Dumping data for table `categories`
 --
 
-INSERT INTO `ac_categories` 
-VALUES 
+INSERT INTO `ac_categories`
+VALUES
 (46,43,0,1,now(), now()),
 (47,43,0,1,now(), now()),
 (38,36,0,1,now(), now()),
@@ -57,8 +57,8 @@ VALUES
 -- Dumping data for table `categories_to_stores`
 --
 
-INSERT INTO `ac_categories_to_stores` 
-VALUES 
+INSERT INTO `ac_categories_to_stores`
+VALUES
 (36,0),
 (37,0),
 (38,0),
@@ -90,8 +90,8 @@ VALUES
 -- Dumping data for table `category_descriptions`
 --
 
-INSERT INTO `ac_category_descriptions` 
-VALUES 
+INSERT INTO `ac_category_descriptions`
+VALUES
 (43,1,'Skincare','','','&lt;p&gt;\r\n	Products from award-winning skin care brands&lt;/p&gt;\r\n'),
 (41,1,'Lips','','',''),
 (42,1,'Nails','','',''),
@@ -127,8 +127,8 @@ VALUES
 
 
 
-INSERT INTO `ac_coupon_descriptions` 
-VALUES 
+INSERT INTO `ac_coupon_descriptions`
+VALUES
 (4,1,'Coupon (-10%)','10% Discount'),
 (5,1,'Coupon (Free Shipping)','Free Shipping'),
 (6,1,'Coupon (-10.00)','Fixed Amount Discount');
@@ -159,8 +159,8 @@ CREATE TABLE `ac_coupons` (
 
 
 
-INSERT INTO `ac_coupons` 
-VALUES 
+INSERT INTO `ac_coupons`
+VALUES
 (4,'2222','P','10.0000',0,0,'0.0000','2012-01-27','2010-03-06',10,'10',1,now(), now()),
 (5,'3333','P','0.0000',0,1,'100.0000','2012-03-01','2015-08-31',10,'10',1,now(), now()),
 (6,'1111','F','10.0000',0,0,'10.0000','2012-01-01','2015-03-01',10,'10',1,now(), now());
@@ -171,7 +171,7 @@ VALUES
 --
 
 
-INSERT INTO `ac_coupons_products` 
+INSERT INTO `ac_coupons_products`
 VALUES (8,6,68);
 
 
@@ -179,8 +179,8 @@ VALUES (8,6,68);
 -- Dumping data for table `custom_blocks`
 --
 
-INSERT INTO `ac_custom_blocks` 
-VALUES 
+INSERT INTO `ac_custom_blocks`
+VALUES
 (1,17,now(), now()),
 (2,20,now(), now()),
 (3,20,now(), now()),
@@ -231,7 +231,7 @@ INSERT INTO `ac_custom_lists` (`custom_block_id`, `data_type`, `id`, `sort_order
 INSERT INTO `ac_customers`
 (`customer_id`, `store_id`, `firstname`, `lastname`, `loginname`, `email`, `telephone`, `fax`, `password`, `cart`, `newsletter`, `address_id`,
  `status`, `approved`, `customer_group_id`, `ip`,  `date_added`)
-VALUES 
+VALUES
 (2,0,'Juliana','Davis', 'julidavis@abantecart.com', 'julidavis@abantecart.com','(602) 141-7191','','6b006ba67f3c172e146991a2ad46d865','a:0:{}',0,1,1,1,1,'109.104.166.98','2013-08-31 10:25:37'),
 (3,0,'Keely','Mccoy','keelymccoy@abantecart.com','keelymccoy@abantecart.com','(602) 916-1822','','6b006ba67f3c172e146991a2ad46d865','a:0:{}',0,2,1,1,1,'109.104.166.98','2013-08-31 10:39:08'),
 (4,0,'Zelda','Weiss','zeldaweiss@abantecart.com','zeldaweiss@abantecart.com','(539) 838-9210','','6b006ba67f3c172e146991a2ad46d865','a:0:{}',0,3,1,1,1,'109.104.166.138','2013-08-31 10:42:58'),
@@ -259,7 +259,7 @@ INSERT INTO `ac_global_attributes`
   `required`,
   `settings`,
   `status`)
-VALUES 
+VALUES
 (1,0,0,1,'S',1,1,'',1),
 (2,0,0,1,'C',0,0,'',1),
 (5,0,0,1,'G',1,1,'',1);
@@ -327,8 +327,8 @@ INSERT INTO `ac_global_attributes_value_descriptions` VALUES
 
 
 
-INSERT INTO `ac_manufacturers` 
-VALUES 
+INSERT INTO `ac_manufacturers`
+VALUES
 (14,'Bvlgari',0),
 (13,'Calvin Klein',0),
 (12,'Benefit',0),
@@ -348,8 +348,8 @@ VALUES
 
 
 
-INSERT INTO `ac_manufacturers_to_stores` 
-VALUES 
+INSERT INTO `ac_manufacturers_to_stores`
+VALUES
 (11,0),
 (12,0),
 (13,0),
@@ -369,8 +369,8 @@ VALUES
 
 
 
-INSERT INTO `ac_order_history` 
-VALUES 
+INSERT INTO `ac_order_history`
+VALUES
 (1,1,1,1,'','0000-00-00 00:00:00', now()),
 (2,2,1,1,'','2013-09-07 04:02:31', now()),
 (3,3,1,1,'','2013-09-07 04:41:25', now()),
@@ -395,7 +395,7 @@ VALUES
 
 INSERT INTO `ac_order_options`
 (`order_option_id`, `order_id`, `order_product_id`, `product_option_value_id`, `name`, `value`, `price`, `prefix`)
-VALUES 
+VALUES
 (1,1,2,588,'Memory','8GB','99.0000','+'),
 (2,2,7,684,'Color','brown','10.0000','+'),
 (3,3,9,651,'Size','33.8 oz','49.0000','+'),
@@ -480,8 +480,8 @@ VALUES
 
 
 
-INSERT INTO `ac_order_totals` 
-VALUES 
+INSERT INTO `ac_order_totals` (`order_total_id`, `order_id`, `title`, `text`, `value`, `sort_order`,`type`)
+VALUES
 (1,1,'Sub-Total:','£1,583.44','1583.4400',1,'subtotal'),
 (2,1,'Flat Shipping Rate:','£2.00','2.0000',3,'shipping'),
 (3,1,'Total:','£1,585.44','1585.4400',6,'total'),
@@ -533,8 +533,60 @@ VALUES
 
 
 
-INSERT INTO `ac_orders` 
-VALUES 
+INSERT INTO `ac_orders` (
+`order_id`,
+`invoice_id`,
+`invoice_prefix`,
+`store_id`,
+`store_name`,
+`store_url`,
+`customer_id`,
+`customer_group_id`,
+`firstname`,
+`lastname`,
+`telephone`,
+`fax`,
+`email`,
+`shipping_firstname`,
+`shipping_lastname`,
+`shipping_company`,
+`shipping_address_1`,
+`shipping_address_2`,
+`shipping_city`,
+`shipping_postcode`,
+`shipping_zone`,
+`shipping_zone_id`,
+`shipping_country`,
+`shipping_country_id`,
+`shipping_address_format`,
+`shipping_method`,
+`payment_firstname`,
+`payment_lastname`,
+`payment_company`,
+`payment_address_1`,
+`payment_address_2`,
+`payment_city`,
+`payment_postcode`,
+`payment_zone`,
+`payment_zone_id`,
+`payment_country`,
+`payment_country_id`,
+`payment_address_format`,
+`payment_method`,
+`comment`,
+`total`,
+`order_status_id`,
+`language_id`,
+`currency_id`,
+`currency`,
+`value`,
+`coupon_id`,
+`date_added`,
+`date_modified`,
+`ip`,
+`payment_method_data`
+)
+VALUES
 (1,0,'',0,'Your Store','http://localhost/',1,1,'fdsfdsf','czx','(092) 222-2222','','demo@abantecart.com','fdsfdsf','czx','','addresss','','testing','55555','Maryland',3643,'United States',223,'{firstname} {lastname} {company} {address_1} {address_2} {city}, {zone} {postcode} {country}','Flat Shipping Rate','fdsfdsf','czx','','addresss','','testing','55555','Maryland',3643,'United States',223,'{firstname} {lastname} {company} {address_1} {address_2} {city}, {zone} {postcode} {country}','Cash On Delivery','','1585.4400',1,1,1,'GBP','1.00000000',0,'0000-00-00 00:00:00','0000-00-00 00:00:00','127.0.0.1',''),
 (2,0,'',0,'Web Store Name','http://abantecart/public_html/',11,1,'Anthony','Blair','+1 907-842-2240','','anthonyblair@abantecart.com','','','','','','','','',0,'',0,'','','Anthony','Blair','','104 Main Street','','Dillingham','','North Dakota',3657,'United States',223,'{firstname} {lastname}\r\n{company}\r\n{address_1}\r\n{address_2}\r\n{city}, {zone} {postcode}\r\n{country}','Cash On Delivery','','418.8100',1,1,1,'USD','1.00000000',0,now(), now(),'109.104.166.98',''),
 (3,0,'',0,'Web Store Name','http://abantecart/public_html/',5,1,'Gloria','Macias','+1 418-461-2440','','gloriamacias@abantecart.com','Gloria','Macias','','Camille Marcoux 15','','Blanc-Sablon','1569','Nunavut',609,'Canada',38,'','Flat Shipping Rate','Gloria','Macias','','Camille Marcoux 15','','Blanc-Sablon','1569','Nunavut',609,'Canada',38,'','Cash On Delivery','Please ASAP','246.0000',1,1,1,'USD','1.00000000',0,now(), now(),'109.104.166.98',''),
@@ -557,8 +609,8 @@ VALUES
 
 
 
-INSERT INTO `ac_product_descriptions` 
-VALUES 
+INSERT INTO `ac_product_descriptions`
+VALUES
 (73,1,'Highlighting Expressions','','','&lt;p&gt;\r\n	WHAT&lt;br /&gt;\r\n	Pantene Pro-V COLOUR HAIR SOLUTIONS Highlighting Expressions™ Conditioner protects and enhances colour treated hair and infuses blonde highlights with shine. The advanced Pro-Vitamin formula restores shine to dull highlights and protects hair from daily damage. This non-colour depositing formula works for all blonde highlights.&lt;/p&gt;\r\n&lt;p&gt;\r\n	WHY&lt;br /&gt;\r\n	Pantene uncovered that oxidative colouring changes hair’s structure. Internally, the chemistry in hair colour attacks strength-giving proteins in hair and makes the fibre more porous, leading to weaker hair that fades more quickly. The surface of the hair fibres becomes uneven and the protective layer of the hair fibre disintegrates. Without the protective layer, the hair fibre is prone to micro-scarring and damage, which changes the way it interacts with light and leads to a dull appearance.&lt;/p&gt;\r\n&lt;p&gt;\r\n	HOW&lt;br /&gt;\r\n	Pantene’s non-colour depositing conditioner is designed to reinforce the structure of blonde highlighted hair and give it what it needs to reveal vibrant, glossy colour. Conditioning ingredients help revitalize and replenish highlighted hair while delivering brilliant shine and protecting from future damage. The result is healthy-looking hair rejuvenated with shimmering blonde highlights.&lt;/p&gt;\r\n&lt;p&gt;\r\n	USE&lt;br /&gt;\r\n	For rich, vibrant colour that’s shiny and healthy-looking, use with Pantene Pro-V Pantene COLOUR HAIR SOLUTIONS Highlighting Expressions™ Shampoo and Colour Nourishing Treatment.&lt;/p&gt;\r\n'),
 (74,1,'Curls to straight Shampoo','','','&lt;p&gt;\r\n	YOUR HAIR’S STARTING POINT&lt;br /&gt;\r\n	Curly&lt;/p&gt;\r\n&lt;p&gt;\r\n	WHAT&lt;br /&gt;\r\n	Pantene Curly Hair Series Curls to Straight Shampoo gently removes build-up, adding softness and control to your curls. The cleansing formula helps align and smooth the hair fibers. The result is healthy-looking hair that’s protected from frizz and ready for straight styling.&lt;/p&gt;\r\n&lt;p&gt;\r\n	WHY&lt;br /&gt;\r\n	Research shows that each curly hair fibre grows in a unique pattern, twisting and turning in all directions. This unpredictable pattern makes it difficult to create and control straight styles. The curved fibres of curly hair intersect with each other more often than any other hair type, causing friction which can result in breakage. The curvature of the hair fibre also provides a large amount of volume in curly hair, which can be hard to tame.&lt;/p&gt;\r\n&lt;p&gt;\r\n	HOW&lt;br /&gt;\r\n	Pantene’s straight shampoo contains micro-smoothers that aid you in loosening and unwinding curls from their natural pattern. Curly hair is left ready for frizz controlled straight styling, and protected from styling damage.&lt;/p&gt;\r\n&lt;p&gt;\r\n	USE&lt;br /&gt;\r\n	For healthy-looking, curly hair that’s styled straight, use with Curls to Straight Conditioner and Anti-Frizz Straightening Crème.&lt;/p&gt;\r\n'),
 (75,1,'Dove Men +Care Body Wash','','','&lt;p&gt;\r\n	A body and face wash developed for men\'s skin with Micromoisture technology.&lt;br /&gt;\r\n	Micromoisture activates on skin when lathering up, clinically proven to fight skin dryness.&lt;br /&gt;\r\n	Deep cleansing gel that rinses off easily. With purifying grains.&lt;br /&gt;\r\n	Dermatologist recommended.&lt;/p&gt;\r\n'),
@@ -628,7 +680,7 @@ VALUES
 
 
 INSERT INTO `ac_product_option_descriptions` (`product_option_id`,`language_id`,`product_id`,`name`)
-VALUES 
+VALUES
 (318,1,53,'Color'),
 (315,1,54,'Color'),
 (319,1,56,'Color'),
@@ -667,8 +719,8 @@ VALUES
 
 
 
-INSERT INTO `ac_product_option_value_descriptions` (product_option_value_id, language_id, product_id, name) 
-VALUES 
+INSERT INTO `ac_product_option_value_descriptions` (product_option_value_id, language_id, product_id, name)
+VALUES
 (653,1,53,'Natural Ambre'),
 (652,1,53,'Natural Golden'),
 (646,1,54,'Brown'),
@@ -772,7 +824,7 @@ weight,
 weight_type,
 attribute_value_id,
 sort_order)
-VALUES 
+VALUES
 (646,315,54,0,'',983,1,'5.0000','$','0.00000000','lb',0,0),
 (653,318,53,0,'',2000,1,'0.0000','$','0.00000000','lb',0,0),
 (652,318,53,0,'',0,0,'0.0000','$','0.00000000','lb',0,0),
@@ -871,7 +923,7 @@ INSERT INTO `ac_product_options`
       `status`,
       `element_type`,
       `required` )
-VALUES 
+VALUES
 (315,0,54,0,0,1,'S',0),
 (318,0,53,0,2,1,'S',0),
 (319,0,56,0,0,1,'S',0),
@@ -907,8 +959,8 @@ VALUES
 -- Dumping data for table `product_specials`
 --
 
-INSERT INTO `ac_product_specials` 
-VALUES 
+INSERT INTO `ac_product_specials`
+VALUES
 (252,51,1,0,'19.0000','0000-00-00','0000-00-00',now(),now()),
 (253,55,1,0,'27.0000','0000-00-00','0000-00-00',now(),now()),
 (254,67,1,0,'29.0000','0000-00-00','0000-00-00',now(),now()),
@@ -924,8 +976,8 @@ VALUES
 -- Dumping data for table `product_tags`
 --
 
-INSERT INTO `ac_product_tags` 
-VALUES 
+INSERT INTO `ac_product_tags`
+VALUES
 (50,'cheeks',1),
 (50,'makeup',1),
 (51,'cheeks',1),
@@ -966,8 +1018,8 @@ VALUES
 
 
 
-INSERT INTO `ac_products` (`product_id`,`model`,`sku`,`location`,`quantity`,`stock_status_id`,`manufacturer_id`,`shipping`,`price`,`tax_class_id`,`date_available`,`weight`,`weight_class_id`,`length`,`width`,`height`,`length_class_id`,`status`,`date_added`,`date_modified`,`viewed`,`sort_order`,`subtract`,`minimum`,`cost`) 
-VALUES 
+INSERT INTO `ac_products` (`product_id`,`model`,`sku`,`location`,`quantity`,`stock_status_id`,`manufacturer_id`,`shipping`,`price`,`tax_class_id`,`date_available`,`weight`,`weight_class_id`,`length`,`width`,`height`,`length_class_id`,`status`,`date_added`,`date_modified`,`viewed`,`sort_order`,`subtract`,`minimum`,`cost`)
+VALUES
 (68,'108681','','',1000,1,15,1,'42.0000',1,'2013-08-30','0.11',1,'0.00','0.00','0.00',0,1,now(), now(),0,1,1,1,'24.0000'),
 (65,'427847','','',1000,1,15,1,'105.0000',1,'2013-08-30','70.00',2,'0.00','0.00','0.00',0,1,now(), now(),21,1,0,1,'99.0000'),
 (66,'556240','','',145,1,12,1,'38.0000',1,'2013-08-30','0.40',1,'0.00','0.00','0.00',0,1,now(), now(),4,1,1,1,'0.0000'),
@@ -1034,8 +1086,8 @@ VALUES
 -- Dumping data for table `products_featured`
 --
 
-INSERT INTO `ac_products_featured` 
-VALUES 
+INSERT INTO `ac_products_featured`
+VALUES
 (50),
 (51),
 (52),
@@ -1049,8 +1101,8 @@ VALUES
 -- Dumping data for table `products_related`
 --
 
-INSERT INTO `ac_products_related` 
-VALUES 
+INSERT INTO `ac_products_related`
+VALUES
 (71,101),
 (100,108),
 (101,71),
@@ -1060,8 +1112,8 @@ VALUES
 -- Dumping data for table `products_to_categories`
 --
 
-INSERT INTO `ac_products_to_categories` 
-VALUES 
+INSERT INTO `ac_products_to_categories`
+VALUES
 (50,40),
 (51,40),
 (52,40),
@@ -1170,8 +1222,8 @@ VALUES
 -- Dumping data for table `products_to_stores`
 --
 
-INSERT INTO `ac_products_to_stores` 
-VALUES 
+INSERT INTO `ac_products_to_stores`
+VALUES
 (50,0),
 (51,0),
 (52,0),
@@ -1238,8 +1290,8 @@ VALUES
 -- Dumping data for table `resource_descriptions`
 --
 
-INSERT INTO `ac_resource_descriptions` 
-VALUES 
+INSERT INTO `ac_resource_descriptions`
+VALUES
 (100010,1,'demo_product15_1.jpg','','','18/6a/a.jpg','',now(), now()),
 (100012,1,'demo_product07.jpg','','','18/6a/c.jpg','',now(), now()),
 (100011,1,'demo_product15.jpg','','','18/6a/b.jpg','',now(), now()),
@@ -1419,8 +1471,8 @@ VALUES
 
 
 
-INSERT INTO `ac_resource_library` 
-VALUES 
+INSERT INTO `ac_resource_library`
+VALUES
 (100010,1,now(), now()),
 (100012,1,now(), now()),
 (100011,1,now(), now()),
@@ -1599,8 +1651,8 @@ VALUES
 -- Dumping data for table `resource_map`
 --
 
-INSERT INTO `ac_resource_map` 
-VALUES 
+INSERT INTO `ac_resource_map`
+VALUES
 (100012,'products',58,0,0,now(), now()),
 (100014,'products',80,0,0,now(), now()),
 (100013,'products',68,0,0,now(), now()),
@@ -1772,8 +1824,8 @@ VALUES
 -- Dumping data for table `reviews`
 --
 
-INSERT INTO `ac_reviews` 
-VALUES 
+INSERT INTO `ac_reviews`
+VALUES
 (63,77,6,'Bernard Horne','I thought since it was made for men that it was the perfect thing to go with the body wash. Its too small and doesn\'t lather up very well.',3,1,now(), now()),
 (62,54,2,'Juliana Davis','I\'ve been wearing all Lancome mascara\'s and I\'m just get really upset when I\'m out. I\'ve tried other Brands, but it\'s always right back to the Lancome productss. The extend L\'EXTREME is by far the best!!! Really Long and Great! ',5,1,now(), now()),
 (61,56,0,'Cassandra','Fortunately, I got this as a gift. BUT, I am willing to purchase this when I run out. This may be expensive but it is sooooo worth it! I love this concealer and I wouldn\'t even dare to use other brands. One more thing, the little tube lasts for a long time. I\'ve been using it everyday for 8 months now and I still have about 1/4 left.',5,1,now(), now()),
