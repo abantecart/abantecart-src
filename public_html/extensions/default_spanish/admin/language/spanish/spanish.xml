@@ -663,5 +663,9 @@
 		<key>text_abc_notification</key>
 		<value><![CDATA[Actualización de Software y Notificaciones]]></value>
 	</definition>
+	<definition>
+		<key>text_not_applicable</key>
+		<value><![CDATA[N/A]]></value>
+	</definition>
 	
 </definitions>

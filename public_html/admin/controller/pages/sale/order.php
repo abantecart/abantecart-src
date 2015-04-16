@@ -254,7 +254,6 @@ class ControllerPagesSaleOrder extends AController{
 		$order_id = (int)$this->request->get['order_id'];
 		if($this->request->is_POST() && $this->_validateForm()){
 			$this->model_sale_order->editOrder($order_id, $this->request->post);
-			
 			if(has_value($this->request->post['downloads'])){
 				$data = $this->request->post['downloads'];
 				$this->loadModel('catalog/download');
@@ -267,21 +266,23 @@ class ControllerPagesSaleOrder extends AController{
 					$this->model_catalog_download->editOrderDownload($order_download_id, $item);
 				}
 			} else {
-				//recalc totals and update 
-				//skip totals for provided values 
-				//NOTE: Tax or shipping will not be recalculated if produt count changes.
-				//		Need to think of better approach 
-				$skip_recalc = array();
-				foreach($this->request->post['totals'] as $key => $value){
-					if(has_value($value)){
-						$skip_recalc[] = $key;
-					}
+				//NOTE: Totals will be recalculated if forced so skip array is not needed.
+				if($this->request->post['force_recalc']){
+					$this->session->data['attention'] = $this->language->get('attention_check_total');
+					$this->redirect($this->html->getSecureURL('sale/order/recalc', '&order_id=' . $order_id));
+				} else {
+					//recalc totals and update 
+					//skip totals for provided values 
+					$skip_recalc = array();
+					foreach($this->request->post['totals'] as $key => $value){
+						if(has_value($value)){
+							$skip_recalc[] = $key;
+						}
+					}			
+					$this->redirect($this->html->getSecureURL(	'sale/order/recalc', 
+															'&order_id=' . $order_id.'&skip_recalc='.serialize($skip_recalc)));			
 				}
-				$this->session->data['attention'] = $this->language->get('attention_check_total');
-				$this->redirect($this->html->getSecureURL(	'sale/order/recalc', 
-															'&order_id=' . $order_id.'&skip_recalc='.serialize($skip_recalc)));
 			}
-
 		}
 
 		$order_info = $this->model_sale_order->getOrder($order_id);
@@ -513,15 +514,18 @@ class ControllerPagesSaleOrder extends AController{
 				'options' => $new_totals,
 		));
 
-		$this->data['form']['fields']['shipping_method'] = $this->data['shipping_method'];
-		//TODO: need to add shipping method changing based on shipping extensions (shipping can have submethods of shipping like ground,aero,1 day, 5 day etc)
-		/* $this->data['form']['fields']['shipping_method'] = $form->getFieldHtml(array(
-				'type' => 'selectbox',
-				'name' => 'shipping_method',
-				'value' => $this->data['shipping_method'],
-				'options' => $shipping_methods,
-			));*/
-		$this->data['form']['fields']['payment_method'] = $this->data['payment_method'];
+		//if virtual product (no shippment);
+		if(!$this->data['shipping_method']){
+			$this->data['form']['fields']['shipping_method'] = $this->language->get('text_not_applicable');
+		} else {
+			$this->data['form']['fields']['shipping_method'] = $this->data['shipping_method'];
+		}
+		// no payment 
+		if(!$this->data['payment_method']){
+			$this->data['form']['fields']['payment_method'] = $this->language->get('text_not_applicable');
+		} else {
+			$this->data['form']['fields']['payment_method'] = $this->data['payment_method'];
+		}			
 
 		$this->loadModel('catalog/product');
 		$this->data['products'] = $this->model_catalog_product->getProducts();
@@ -1435,7 +1439,6 @@ class ControllerPagesSaleOrder extends AController{
 				));		
 			}
 			$this->session->data['success'] = $this->language->get('text_success');
-			$this->session->data['attention'] = $this->language->get('attention_check_total');		
 		}
 				
 		$this->redirect($this->html->getSecureURL('sale/order/details', '&order_id=' . $order_id));

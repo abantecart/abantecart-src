@@ -660,5 +660,9 @@
 		<key>text_abc_notification</key>
 		<value><![CDATA[Обновления и Уведомления]]></value>
 	</definition>
+	<definition>
+		<key>text_not_applicable</key>
+		<value><![CDATA[Не Доступно]]></value>
+	</definition>
 	  
 </definitions>

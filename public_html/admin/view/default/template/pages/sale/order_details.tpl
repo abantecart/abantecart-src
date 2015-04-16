@@ -303,8 +303,11 @@
 	<div class="panel-footer col-xs-12">
 		<div class="text-center">
 			<button class="btn btn-primary lock-on-click">
-			<i class="fa fa-save fa-fw"></i> <?php echo $form['submit']->text; ?>
+			<i class="fa fa-save fa-fw"></i> <?php echo $button_save; ?>
 			</button>
+			<a class="btn btn-primary save_and_recalc" href="#">
+			<i class="fa fa-save fa-fw"></i><i class="fa fa-refresh fa-fw"></i> <?php echo $button_save.' & '.$text_recalc; ?>
+			</a>			
 			<a class="btn btn-default" href="<?php echo $cancel; ?>">
 			<i class="fa fa-arrow-left fa-fw"></i> <?php echo $form['cancel']->text; ?>
 			</a>
@@ -485,6 +488,12 @@
 	$('a.reculc_total').click(function () {
 	    var total_id = $(this).attr('data-order-total-id');
 	    $('input[name="totals['+total_id+']"]').val('');
+	    $('#orderFrm').submit();
+	    return false;
+	});
+
+	$('a.save_and_recalc').click(function () {
+		$(this).append('<input type="hidden" name="force_recalc" value="1">');
 	    $('#orderFrm').submit();
 	    return false;
 	});

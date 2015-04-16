@@ -43,6 +43,15 @@ class ControllerPagesSaleOrderSummary extends AController {
 		if (empty($order_info)) {
 			$this->data['error_warning'] = $this->language->get('error_order_load');
 		} else {
+			//if virtual product (no shippment);
+			if(!$order_info['shipping_method']){
+				$order_info['shipping_method'] = $this->language->get('text_not_applicable');
+			}
+			// no payment 
+			if(!$order_info['payment_method']){
+				$order_info['payment_method'] = $this->language->get('text_not_applicable');
+			}
+		
 			$this->data['order'] = array(
 				'order_id' => '#'.$order_info['order_id'],
 				'name' => $order_info['firstname'] .' '.$order_info['lastname'],
