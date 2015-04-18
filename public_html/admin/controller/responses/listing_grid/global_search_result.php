@@ -54,6 +54,7 @@ class ControllerResponsesListingGridGlobalSearchResult extends AController {
 		$response->page = $page;
 		$response->total = $total_pages;
 		$response->records = $total;
+		$response->userdata = new stdClass();
 
 		//	$response->search_str = $search_str;
 
@@ -62,6 +63,7 @@ class ControllerResponsesListingGridGlobalSearchResult extends AController {
 		foreach ($results[ 'result' ] as $result) {
 
 			$response->rows[ $i ][ 'id' ] = $i + 1;
+			$response->userdata->type[$i + 1] = $result['type'];
 			$response->rows[ $i ][ 'cell' ] = array( $i + 1,
 				$result[ 'text' ]
 			);
@@ -73,6 +75,7 @@ class ControllerResponsesListingGridGlobalSearchResult extends AController {
 		$this->extensions->hk_UpdateData($this, __FUNCTION__);
 
 		$this->load->library('json');
+		$this->response->addJSONHeader();
 		$this->response->setOutput(AJson::encode($response));
 
 	}
@@ -106,9 +109,16 @@ class ControllerResponsesListingGridGlobalSearchResult extends AController {
 					// exception for extension settings
 					if( $id=='settings' && !empty($item['extension'])){
 						$tmp_id='extensions';
+						if($item['type']=='total'){
+							$page_rt = sprintf($result_controllers[$tmp_id]['page2'],$item['extension']);
+						}else{
+							$page_rt = $result_controllers[ $tmp_id ][ 'page' ];
+						}
 					}else{
 						$tmp_id = $id;
+						$page_rt = $result_controllers[ $tmp_id ][ 'page' ];
 					}
+
 
 					if (!is_array($result_controllers[ $tmp_id ][ 'id' ])) {
 						$tmp[ ] = $result_controllers[ $tmp_id ][ 'id' ] . '=' . $item[ $result_controllers[ $tmp_id ][ 'id' ] ];
@@ -128,7 +138,7 @@ class ControllerResponsesListingGridGlobalSearchResult extends AController {
 
 
 					$item[ 'controller' ] = $result_controllers[ $tmp_id ][ 'response' ] ? $this->html->getSecureURL($result_controllers[ $tmp_id ][ 'response' ], '&' . implode('&', $tmp)) : '';
-					$item[ 'page' ] = $this->html->getSecureURL($result_controllers[ $tmp_id ][ 'page' ], '&' . implode('&', $tmp));
+					$item[ 'page' ] = $this->html->getSecureURL($page_rt, '&' . implode('&', $tmp));
 					$item[ 'category' ] = $id;
 					$item[ 'category_name' ] = $this->language->get('text_' . $id);
 					$item[ 'label' ] = mb_strlen($item[ 'title' ]) > 40 ? mb_substr($item[ 'title' ], 0, 40) . '...' : $item[ 'title' ];

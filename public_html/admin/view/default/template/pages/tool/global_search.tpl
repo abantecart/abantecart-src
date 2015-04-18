@@ -79,7 +79,6 @@
 
 </div>
 
-
 <?php
 echo $this->html->buildElement(
 		array('type' => 'modal',
@@ -107,12 +106,12 @@ echo $this->html->buildElement(
 	    window.location.hash = e.target.hash;
 	})
 
-	function grid_ready(grid_id){
+	var grid_ready = function (grid_id, data){
 
-		if( grid_id == 'languages_grid' || grid_id == 'settings_grid'){
+		if( grid_id == 'languages_grid' ){
 			$('#'+grid_id).find('td[aria-describedby$="_grid_search_result"]>a').each(
 					function () {
-						$(this).attr('data-toggle','modal').attr('data-target','#gs_modal');
+						$(this).attr('data-toggle', 'modal').attr('data-target', '#gs_modal');
 					});
 		}
 	}

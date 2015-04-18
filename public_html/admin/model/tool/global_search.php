@@ -87,13 +87,13 @@ class ModelToolGlobalSearch extends Model {
 			'alias' => 'extension',
 			'id' => 'extension',
 			'page' => 'extension/extensions/edit',
+			'page2' => 'total/%s',
 			'response' => ''),
 		"downloads" => array(
 			'alias' => 'download',
 			'id' => 'download_id',
 			'page' => 'catalog/download/update',
-			'response' => ''),
-
+			'response' => '')
 	);
 
 	/**
@@ -549,7 +549,7 @@ class ModelToolGlobalSearch extends Model {
 								s.store_id,
 								CONCAT( COALESCE(l.language_value,s.`key`), ' - ', COALESCE(st.`alias`,'Default' )) as title,
 								COALESCE(l.language_value,s.`key`) as text,
-								e.`key` as extension
+								e.`key` as extension, e.`type` as type
 						FROM " . $this->db->table("settings") . " s
 						LEFT JOIN " . $this->db->table("extensions") . " e ON s.`group` = e.`key`
 						LEFT JOIN " . $this->db->table("language_definitions") . " l
@@ -563,7 +563,7 @@ class ModelToolGlobalSearch extends Model {
 								CONCAT(s.`group`,'-',s.`key`,'-',s.store_id) as active,
 								s.store_id,
 								CONCAT(`group`,' -> ',COALESCE(l.language_value,s.`key`), ' - ', COALESCE(st.`alias`,'Default' ) ) as title,
-						CONCAT_WS(' >> ',l.language_value) as text, ''
+						CONCAT_WS(' >> ',l.language_value) as text, '', 'core'
 						FROM " . $this->db->table("language_definitions") . " l
 						LEFT JOIN " . $this->db->table("settings") . " s ON l.language_key = CONCAT('entry_',REPLACE(s.`key`,'config_',''))
 						LEFT JOIN " . $this->db->table("stores") . " st ON st.`store_id` = s.`store_id`
@@ -695,7 +695,11 @@ class ModelToolGlobalSearch extends Model {
 
 				if ($rt == 'setting/setting' && !empty($row['extension'])) {
 					$temp_key_field = $this->results_controllers['extensions']['id'];
-					$url = $this->results_controllers['extensions']['page'];
+					if($row['type']=='total'){ //for order total extensions
+						$url = sprintf($this->results_controllers['extensions']['page2'],$row['extension']);
+					}else{
+						$url = $this->results_controllers['extensions']['page'];
+					}
 
 				}
 
@@ -707,6 +711,7 @@ class ModelToolGlobalSearch extends Model {
 				} else {
 					$url .= "&" . $temp_key_field . "=" . $row [$temp_key_field];
 				}
+				$tmp ['type'] = $row['type'];
 				$tmp ['href'] = $this->html->getSecureURL($url);
 				$tmp ['text'] = '<a href="' . $tmp ['href'] . '" target="_blank" title="' . $row ['text'] . '">' . $row ['title'] . '</a>';
 				$output [] = $tmp;
