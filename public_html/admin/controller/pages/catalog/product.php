@@ -816,7 +816,7 @@ class ControllerPagesCatalogProduct extends AController {
             'style' => 'small-field',
 		));
 
-	    if($product_id && $this->data['shipping'] && (!(float)$this->data['weight'] || !$this->data['weight_class_id'])){
+	    if($product_id && $this->data['shipping'] && (!(float)$this->data['weight'] || !$this->data['weight_class_id']) && !(float)$this->data['shipping_price'] ){
 			if(!$this->data['weight_class_id']){
 				$this->data['error']['weight_class']  = $this->language->get('error_weight_class');
 		    }
