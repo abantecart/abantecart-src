@@ -139,9 +139,12 @@ class ControllerCommonHeader extends AController {
 		$this->view->assign('online_registered', $online_registered);
 		
 		$this->loadModel('report/sale');
-	    $data = array(
-			'date_start' => dateISO2Display(date('Y-m-d', time()) ,$this->language->get('date_format_short'))
-		);
+	    $data = array('filter' =>
+			                  array(
+									'date_start' => dateISO2Display(date('Y-m-d', time()) ,$this->language->get('date_format_short')),
+									'date_end' => dateISO2Display(date('Y-m-d', time()) ,$this->language->get('date_format_short'))
+			)
+	    );
 		$today_orders = $this->model_report_sale->getSaleReportSummary($data);
 		$today_order_count = $today_orders['orders'];
 		$today_sales_amount = $this->currency->format($today_orders['total_amount'], $this->config->get('config_currency'));		
