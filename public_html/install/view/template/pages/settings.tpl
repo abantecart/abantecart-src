@@ -62,6 +62,12 @@
 		    		<td>Off</td>
 		    		<td align="center"><?php echo (!ini_get('session_auto_start')) ? '<img src="' . $template_dir . 'image/good.png" alt="Good" />' : '<img src="' . $template_dir . 'image/bad.png" alt="Bad" />'; ?></td>
 		    	</tr>
+		    	<tr>
+		    		<td>Output Buffering</td>
+		    		<td><?php echo (ini_get('output_buffering')) ? 'On' : 'Off'; ?></td>
+		    		<td>On</td>
+		    		<td align="center"><?php echo (ini_get('output_buffering')) ? '<img src="' . $template_dir . 'image/good.png" alt="Good" />' : '<img src="' . $template_dir . 'image/bad.png" alt="Bad" />'; ?></td>
+		    	</tr>
 		    </table>
 		</div>
 		<p>2. Please make sure the extensions listed below are installed.</p>
