@@ -21,10 +21,25 @@ if (! defined ( 'DIR_CORE' )) {
 	header ( 'Location: static_pages/' );
 }
 class ModelToolImage extends Model {
-	function resize($filename, $width = 0, $height = 0) {
+	public $data = array();
+
+	public function resize($filename, $width = 0, $height = 0) {
+		$this->extensions->hk_resize($this, $filename, $width, $height);
+	}
+
+	public function _resize($filename, $width = 0, $height = 0) {
 		if (!is_file(DIR_IMAGE . $filename)) {
 			return null;
-		} 
+		}
+		$http_path = $this->data['http_image_dir'];
+		if(!$http_path){
+			$https = $this->request->server['HTTPS'];
+			if( $https == 'on' || $https == '1'){
+				$http_path = HTTPS_IMAGE;
+			} else{
+				$http_path = HTTP_IMAGE;
+			}
+		}
 		
 		$info = pathinfo($filename);
 		$extension = $info['extension'];
@@ -51,11 +66,8 @@ class ModelToolImage extends Model {
 			$image->save(DIR_IMAGE . $new_image);
 			unset($image);
 		}
-		
-		if (isset($this->request->server['HTTPS']) && (($this->request->server['HTTPS'] == 'on') || ($this->request->server['HTTPS'] == '1'))) {
-			return HTTPS_IMAGE . $new_image;
-		} else {
-			return HTTP_IMAGE . $new_image;
-		}	
+
+		return $http_path . $new_image;
+
 	}
 }

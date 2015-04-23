@@ -597,6 +597,11 @@
 			<![CDATA[Usar SEO URL's:<br /><span class="help">Para utilizar SEO URL's modulo apache debe estar instalado y necesita renombrar htaccess.txt a .htaccess.</span>]]></value>
 	</definition>
 	<definition>
+		<key>entry_retina_enable</key>
+		<value>
+			<![CDATA[Generar retina imágenes: <br/> <span class="help"> Para usar este módulo apache mod_rewrite debe estar instalado y hay que cambiar el nombre del htaccess.txt a .htaccess<br>Después de habilitar deben borrar. las imágenes de cache</span>]]></value>
+		</definition>
+	<definition>
 		<key>entry_compression</key>
 		<value>
 			<![CDATA[Nivel compresion de salida:<br /><span class="help">Nivel de compresion debe estar entre 0 y 9</span>]]></value>

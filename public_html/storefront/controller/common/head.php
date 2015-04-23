@@ -32,6 +32,7 @@ class ControllerCommonHead extends AController {
 		$this->view->assign('keywords', $this->document->getKeywords());
 		$this->view->assign('description', $this->document->getDescription());
 		$this->view->assign('template', $this->config->get('config_storefront_template'));
+		$this->view->assign('retina', $this->config->get('config_retina_enable'));
 
 		
 		if (isset($this->request->server['HTTPS']) && (($this->request->server['HTTPS'] == 'on') || ($this->request->server['HTTPS'] == '1'))) {

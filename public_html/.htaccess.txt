@@ -21,6 +21,15 @@ Order deny,allow
 Deny from all
 </FilesMatch>
 
+# Rewrite section for retina high-res images with @2x in the end of filename base on cookie HTTP_IS_RETINA
+RewriteEngine on
+RewriteCond %{HTTP_COOKIE} HTTP_IS_RETINA [NC]
+RewriteCond %{REQUEST_FILENAME} !@2x
+RewriteRule ^(.*)\.(gif|jpg|png)$ $1@2x.$2
+# if @2x isn't available fulfill the original request
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^(.*)@2x\.(gif|jpg|png)$ $1.$2
+
 # SEO URL Settings
 RewriteEngine On
 RewriteBase /

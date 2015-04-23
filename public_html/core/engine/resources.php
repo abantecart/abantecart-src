@@ -26,13 +26,38 @@ if (!defined('DIR_CORE')) {
  * @property ModelToolImage $model_tool_image
  */
 class AResource {
+	/**
+	 * @var Registry
+	 */
 	protected $registry;
+	/**
+	 * @var string
+	 */
 	protected $type;
+	/**
+	 * @var int
+	 */
 	protected $type_id;
+	/**
+	 * @var string
+	 */
 	protected $type_dir;
+	/**
+	 * @var string
+	 */
 	protected $type_icon;
+	/**
+	 * @var string
+	 */
 	protected $access_type;
+	/**
+	 * @var array
+	 */
 	protected $file_types;
+	/**
+	 * @var array
+	 */
+	public $data = array();
 
 	/**
 	 * @param string $type
@@ -239,6 +264,7 @@ class AResource {
 			$name = preg_replace('/[^a-zA-Z0-9]/', '_', $resource['name']);
 			//Build thumbnails path similar to resource library path
 			$new_image = 'thumbnails/' . dirname($resource['resource_path']) . '/' . $name . '-' . $resource['resource_id'] . '-' . $width . 'x' . $height . '.' . $extension;
+		    $new_image2x = 'thumbnails/' . dirname($resource['resource_path']) . '/' . $name . '-' . $resource['resource_id'] . '-' . $width . 'x' . $height . '@2x.' . $extension;
 
 			if (!file_exists(DIR_IMAGE . $new_image) || (filemtime($old_image) > filemtime(DIR_IMAGE . $new_image))) {
 				$path = '';
@@ -258,13 +284,29 @@ class AResource {
 				$image->resize($width, $height);
 				$image->save(DIR_IMAGE . $new_image);
 				unset($image);
+				//do retina version
+				if($this->config->get('config_retina_enable')){
+					$image = new AImage($old_image);
+					$image->resize($width * 2, $height * 2);
+					$image->save(DIR_IMAGE . $new_image2x);
+					unset($image);
+				}
 			}
 
-		    if ( HTTPS===true ) {
-				return HTTPS_IMAGE . $new_image;
-			} else {
-				return HTTP_IMAGE . $new_image;
-			}
+		    $this->registry->get('extensions')->hk_ProcessData($this, __FUNCTION__);
+
+		    $http_path = $this->data['http_image_dir'];
+
+		    if(!$http_path){
+                if( HTTPS===true){
+                    $http_path = HTTPS_IMAGE;
+                } else{
+                    $http_path = HTTP_IMAGE;
+                }
+            }
+
+			return $http_path . $new_image;
+
 
 	    } else { // returns ico-file as is
 	    	return $this->buildResourceURL($resource['resource_path'], 'full');
@@ -278,12 +320,18 @@ class AResource {
 	 * @return array
 	 */
     public function buildResourceURL ( $resource_path, $mode = 'full' ) {
+
 		if ( $mode == 'full') {
-		    if ( HTTPS===true ) {
-				return HTTPS_DIR_RESOURCE . $this->type_dir . $resource_path;
-			} else {
-				return HTTP_DIR_RESOURCE . $this->type_dir . $resource_path;
+			$this->registry->get('extensions')->hk_ProcessData($this, __FUNCTION__);
+			$http_path = $this->data['http_image_dir'];
+			if(!$http_path){
+				if( HTTPS===true){
+					$http_path = HTTPS_DIR_RESOURCE;
+				} else{
+					$http_path = HTTP_DIR_RESOURCE;
+				}
 			}
+			return $http_path . $this->type_dir . $resource_path;
 		} else {
 			return "/resources/" . $this->type_dir . $resource_path;
 		}

@@ -63,6 +63,11 @@
 <script type="text/javascript" src="<?php echo $script; ?>"></script>
 <?php } ?>
 <script type="text/javascript">
+<?php if($retina){?>
+	if((window.devicePixelRatio===undefined?1:window.devicePixelRatio)>1) {
+		document.cookie = 'HTTP_IS_RETINA=1;path=/';
+	}
+<?php } ?>
 <?php if($cart_ajax){ //event for adding product to cart by ajax ?>
 	$(document).on('click', 'a.productcart', function() {
         var item = $(this);
