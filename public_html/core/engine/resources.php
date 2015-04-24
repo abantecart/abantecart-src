@@ -264,39 +264,16 @@ class AResource {
 			$name = preg_replace('/[^a-zA-Z0-9]/', '_', $resource['name']);
 			//Build thumbnails path similar to resource library path
 			$new_image = 'thumbnails/' . dirname($resource['resource_path']) . '/' . $name . '-' . $resource['resource_id'] . '-' . $width . 'x' . $height . '.' . $extension;
-		    $new_image2x = 'thumbnails/' . dirname($resource['resource_path']) . '/' . $name . '-' . $resource['resource_id'] . '-' . $width . 'x' . $height . '@2x.' . $extension;
+		    $this->_check_create_thumb($new_image, $old_image, $width, $height);
 
-			if (!file_exists(DIR_IMAGE . $new_image) || (filemtime($old_image) > filemtime(DIR_IMAGE . $new_image))) {
-				$path = '';
-
-				$directories = explode('/', dirname(str_replace('../', '', $new_image)));
-
-				foreach ($directories as $directory) {
-					$path = $path . '/' . $directory;
-
-					if (!file_exists(DIR_IMAGE . $path)) {
-						@mkdir(DIR_IMAGE . $path, 0777);
-						chmod(DIR_IMAGE . $path, 0777);
-					}
-				}
-
-				$image = new AImage($old_image);
-				$image->resize($width, $height);
-				$image->save(DIR_IMAGE . $new_image);
-				unset($image);
-				//do retina version
-				if($this->config->get('config_retina_enable')){
-					$image = new AImage($old_image);
-					$image->resize($width * 2, $height * 2);
-					$image->save(DIR_IMAGE . $new_image2x);
-					unset($image);
-				}
-			}
+		    //do retina version
+		    if($this->config->get('config_retina_enable')){
+			    $new_image2x = 'thumbnails/' . dirname($resource['resource_path']) . '/' . $name . '-' . $resource['resource_id'] . '-' . $width . 'x' . $height . '@2x.' . $extension;
+			    $this->_check_create_thumb($new_image2x, $old_image, $width*2, $height*2);
+		    }
 
 		    $this->registry->get('extensions')->hk_ProcessData($this, __FUNCTION__);
-
 		    $http_path = $this->data['http_image_dir'];
-
 		    if(!$http_path){
                 if( HTTPS===true){
                     $http_path = HTTPS_IMAGE;
@@ -307,11 +284,29 @@ class AResource {
 
 			return $http_path . $new_image;
 
-
 	    } else { // returns ico-file as is
 	    	return $this->buildResourceURL($resource['resource_path'], 'full');
 	    }
     }
+	private function _check_create_thumb($filename, $resource_filename, $width, $height){
+		if (!file_exists(DIR_IMAGE . $filename) || (filemtime($resource_filename) > filemtime(DIR_IMAGE . $filename))) {
+			$path = '';
+			$directories = explode('/', dirname(str_replace('../', '', $filename)));
+			foreach ($directories as $directory) {
+				$path = $path . '/' . $directory;
+
+				if (!file_exists(DIR_IMAGE . $path)) {
+					@mkdir(DIR_IMAGE . $path, 0777);
+					chmod(DIR_IMAGE . $path, 0777);
+				}
+			}
+
+			$image = new AImage($resource_filename);
+			$image->resize($width, $height);
+			$image->save(DIR_IMAGE . $filename);
+			unset($image);
+		}
+	}
 
 
 	/**
