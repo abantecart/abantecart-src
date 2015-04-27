@@ -320,11 +320,7 @@ class AResource {
 			$this->registry->get('extensions')->hk_ProcessData($this, __FUNCTION__);
 			$http_path = $this->data['http_image_dir'];
 			if(!$http_path){
-				if( HTTPS===true){
-					$http_path = HTTPS_DIR_RESOURCE;
-				} else{
-					$http_path = HTTP_DIR_RESOURCE;
-				}
+				$http_path = HTTPS_DIR_RESOURCE;
 			}
 			return $http_path . $this->type_dir . $resource_path;
 		} else {
@@ -452,7 +448,7 @@ class AResource {
 
 			$resource_info = $result['resource_id'] ? $this->getResource($result['resource_id'], $this->config->get('storefront_language_id') ) : $result;
 		 	$origin = $resource_info['resource_path'] ? 'internal' : 'external';
-			$http = HTTPS===true ? HTTPS_DIR_RESOURCE : HTTP_DIR_RESOURCE;
+			$http = HTTPS_DIR_RESOURCE;
 
 			if($origin=='internal'){
 				if($sizes['thumb']){

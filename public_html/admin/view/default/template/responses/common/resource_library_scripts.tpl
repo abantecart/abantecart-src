@@ -21,7 +21,7 @@ var urls = {
 			del: '<?php echo $rl_delete; ?>',
 			download: '<?php echo $rl_download; ?>',
 			upload: '<?php echo $rl_upload; ?>',
-			resource: '<?php echo HTTP_DIR_RESOURCE; ?>'
+			resource: '<?php echo HTTPS_DIR_RESOURCE; ?>'
 		},
 		default_type = '<?php echo $default_type["type_name"]; ?>';
 

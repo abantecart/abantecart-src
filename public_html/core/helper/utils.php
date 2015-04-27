@@ -750,7 +750,7 @@ function getGravatar( $email = '', $s = 80, $d = 'mm', $r = 'g') {
     if ( empty($email) ) {
     	return null;
     }
-    $url = 'http://www.gravatar.com/avatar/';
+    $url = 'https://www.gravatar.com/avatar/';
     $url .= md5( strtolower( trim( $email ) ) );
     $url .= "?s=".$s."&d=".$d."&r=".$r;
     return $url;

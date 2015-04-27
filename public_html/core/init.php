@@ -307,20 +307,23 @@ try {
 		define('HTTP_DIR_NAME', rtrim(dirname($_SERVER[ 'PHP_SELF' ]), '/.\\') );
 		// Admin HTTP
 		define('HTTP_SERVER', 'http://' . REAL_HOST . HTTP_DIR_NAME . '/');
-		define('HTTP_CATALOG', 'http://' . REAL_HOST . HTTP_DIR_NAME . '/');
-		define('HTTP_IMAGE', 'http://' . REAL_HOST . HTTP_DIR_NAME . '/image/');
-		define('HTTP_EXT', 'http://' . REAL_HOST . HTTP_DIR_NAME . '/extensions/');
+		define('HTTP_CATALOG', HTTP_SERVER);
+		define('HTTP_IMAGE', HTTP_SERVER . 'image/');
+		define('HTTP_EXT', HTTP_SERVER . 'extensions/');
+		define('HTTP_DIR_RESOURCE', HTTP_SERVER . 'resources/');
 		//Admin HTTPS
 		if (defined('HTTPS') && HTTPS) {
 			define('HTTPS_SERVER', 'https://' . REAL_HOST . HTTP_DIR_NAME . '/');
-			define('HTTPS_CATALOG', 'https://' . REAL_HOST . HTTP_DIR_NAME . '/');
-			define('HTTPS_IMAGE', 'https://' . REAL_HOST . HTTP_DIR_NAME . '/image/');
-			define('HTTPS_EXT', 'https://' . REAL_HOST . HTTP_DIR_NAME . '/extensions/');
+			define('HTTPS_CATALOG', HTTPS_SERVER);
+			define('HTTPS_IMAGE', HTTPS_SERVER . 'image/');
+			define('HTTPS_EXT', HTTPS_SERVER . 'extensions/');
+			define('HTTPS_DIR_RESOURCE', HTTPS_SERVER . 'resources/');
 		} else {
 			define('HTTPS_SERVER', HTTP_SERVER);
 			define('HTTPS_CATALOG', HTTP_CATALOG);
 			define('HTTPS_IMAGE', HTTP_IMAGE);
 			define('HTTPS_EXT', HTTP_EXT);
+			define('HTTPS_DIR_RESOURCE', HTTP_DIR_RESOURCE);
 		}		
 	
 		//Admin specific loads
@@ -337,6 +340,7 @@ try {
 		define('HTTP_SERVER', $config->get('config_url'));
 		define('HTTP_IMAGE', HTTP_SERVER . 'image/');
 		define('HTTP_EXT', HTTP_SERVER . 'extensions/');
+		define('HTTP_DIR_RESOURCE', HTTP_SERVER . 'resources/');
 		// Storefront HTTPS
 		if ($config->get('config_ssl')) {
 			$store_url = $config->get('config_url');
@@ -346,21 +350,19 @@ try {
 			define('HTTPS_SERVER', 'https://' . preg_replace('/\w+:\/\//','', $store_url));
 			define('HTTPS_IMAGE', HTTPS_SERVER . 'image/');
 			define('HTTPS_EXT', HTTPS_SERVER . 'extensions/');
+			define('HTTPS_DIR_RESOURCE', HTTPS_SERVER . 'resources/');
 		} else {
 			define('HTTPS_SERVER', HTTP_SERVER);
 			define('HTTPS_IMAGE', HTTP_IMAGE);	
 			define('HTTPS_EXT', HTTP_EXT);
+			define('HTTPS_DIR_RESOURCE', HTTP_DIR_RESOURCE);
 		}
 		//set internal sign of shared ssl domains
 		if(preg_replace('/\w+:\/\//','',HTTPS_SERVER) != preg_replace('/\w+:\/\//','',HTTP_SERVER) ){
 			$registry->get('config')->set('config_shared_session',true);
 		}
 	}
-	//web URL to resource library
-	define('HTTP_DIR_RESOURCE', HTTP_SERVER . 'resources/');
-	define('HTTPS_DIR_RESOURCE', HTTPS_SERVER . 'resources/');
-
-
+	
 //Messages
 	$registry->set('messages', new AMessage());
 

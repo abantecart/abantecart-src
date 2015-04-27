@@ -48,7 +48,7 @@ class ControllerApiProductResources extends AControllerAPI {
 						                                $this->config->get('config_image_additional_height'));
 				if($thumbnail){
 					$images[] = array(
-						'origial' => HTTP_DIR_RESOURCE.'image/'.$result['resource_path'],
+						'origial' => HTTPS_DIR_RESOURCE.'image/'.$result['resource_path'],
 						'thumb' => $thumbnail );
 				}
 			}

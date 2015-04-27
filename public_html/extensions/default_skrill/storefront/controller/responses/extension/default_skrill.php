@@ -33,7 +33,7 @@ class ControllerResponsesExtensionDefaultSkrill extends AController {
 				: $this->html->getSecureURL('checkout/guest_step_2');
 
 		if ( is_file( DIR_RESOURCE . $this->config->get('config_logo')) ) {
-            $logo = HTTP_DIR_RESOURCE. $this->config->get('config_logo');
+            $logo = HTTPS_DIR_RESOURCE. $this->config->get('config_logo');
         } else {
             $logo = $this->config->get('config_logo');
         }

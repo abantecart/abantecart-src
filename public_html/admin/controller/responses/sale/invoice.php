@@ -62,7 +62,7 @@ class ControllerResponsesSaleInvoice extends AController {
 
 
 		if (is_file(DIR_RESOURCE . $this->config->get('config_logo'))) {
-			$this->data['logo'] = HTTP_DIR_RESOURCE . $this->config->get('config_logo');
+			$this->data['logo'] = HTTPS_DIR_RESOURCE . $this->config->get('config_logo');
 		} else {
 			$this->data['logo'] = $this->config->get('config_logo');
 		}
