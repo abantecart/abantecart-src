@@ -8,7 +8,7 @@
 <?php } ?>
 
 <?php if (is_file(DIR_RESOURCE . $icon)) { ?>
-<link href="<?php echo HTTP_DIR_RESOURCE . $icon; ?>" type="image/png" rel="icon"/>
+<link href="<?php echo HTTPS_DIR_RESOURCE . $icon; ?>" type="image/png" rel="icon"/>
 <?php } else if (!empty($icon)) { ?>
 <?php echo $icon; ?>
 <?php } ?>

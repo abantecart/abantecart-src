@@ -115,7 +115,7 @@ var setRLparams = function (attr_val_id) {
 				del: '<?php echo $rl_delete; ?>&object_id=' + attr_val_id,
 				download: '<?php echo $rl_download; ?>&object_id=' + attr_val_id,
 				upload: '<?php echo $rl_upload; ?>&object_id=' + attr_val_id,
-				resource: '<?php echo HTTP_DIR_RESOURCE; ?>'
+				resource: '<?php echo HTTPS_DIR_RESOURCE; ?>'
 			};
 
 	urls.attr_val_id = attr_val_id;
