@@ -4,7 +4,7 @@ $(document).ready(function() {
         var banner_obj = $(this).closest("[data-banner-id]");
         var banner_id = banner_obj.attr("data-banner-id");
         $.ajax({
-            url: 'index.php?rt=r/extension/banner_manager&type=1&banner_id=' + banner_id,
+            url: window.location.href+'index.php?rt=r/extension/banner_manager&type=1&banner_id=' + banner_id,
             type: 'GET',
             dataType: 'json',
             cache: false
@@ -20,8 +20,8 @@ $(document).ready(function() {
 			//register click only if no target_url banner type (HTML banner)			
 			var test_url = /extension\/banner_manager\/click/;
 			if( banner_id && !test_url.test(url)) {
-				$.ajax({
-                    url: 'index.php?rt=r/extension/banner_manager&type=2&banner_id=' + banner_id,
+                $.ajax({
+                    url: window.location.href +'index.php?rt=r/extension/banner_manager&type=2&banner_id=' + banner_id,
                     type: 'GET',
                     dataType: 'json',
                     cache: false,

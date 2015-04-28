@@ -83,7 +83,7 @@ $('form').submit(function(event) {
 function confirmSubmit() {		
 	$.ajax({
 		type: 'POST',
-		url: 'index.php?rt=extension/default_realex/send',
+		url: '<?php echo $this->html->getURL('extension/default_realex/send'); ?>',
 		data: $('#realex :input'),
 		dataType: 'json',		
 		beforeSend: function() {

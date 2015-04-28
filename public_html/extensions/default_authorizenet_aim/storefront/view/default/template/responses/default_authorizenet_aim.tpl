@@ -85,7 +85,7 @@ $('form').submit(function(event) {
 function confirmSubmit() {		
 	$.ajax({
 		type: 'POST',
-		url: 'index.php?rt=extension/default_authorizenet_aim/send',
+		url: '<?php echo $this->html->getURL('extension/default_authorizenet_aim/send'); ?>',
 		data: $('#authorizenet :input'),
 		dataType: 'json',		
 		beforeSend: function() {

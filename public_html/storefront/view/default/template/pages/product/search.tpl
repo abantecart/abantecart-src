@@ -85,7 +85,7 @@ $('#sort').change(function () {
 });
 
 function contentSearch() {
-	url = 'index.php?rt=product/search&limit=<?php echo $limit; ?>';
+	url = '<?php echo $this->html->getURL('product/search','&limit='.$limit); ?>';
 
 	var keyword = $('#keyword').attr('value');
 

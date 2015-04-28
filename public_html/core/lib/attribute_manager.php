@@ -687,7 +687,7 @@ class AAttribute_Manager extends AAttribute {
 			$this->load->language('catalog/attribute');
 			// required
 			if (empty($data[ 'attribute_type_id' ])) {
-				$this->error[ 'attribute_type' ] = $this->language->get('error_required');
+				$this->error[ 'attribute_type' ] = $this->language->get('error_required').': "attribute_type_id"';
 			}
 			// required
 			if ((mb_strlen($data[ 'name' ]) < 2) || (mb_strlen($data[ 'name' ]) > 64)) {
@@ -699,7 +699,7 @@ class AAttribute_Manager extends AAttribute {
 			}
 			// required
 			if (empty($data[ 'element_type' ])) {
-				$error[ 'element_type' ] = $this->language->get('error_required');
+				$error[ 'element_type' ] = $this->language->get('error_required').': "element_type"';
 			}
 			if (has_value($data['regexp_pattern'])) {
 				if (@preg_match($data[ 'regexp_pattern' ], "AbanteCart") === false) {

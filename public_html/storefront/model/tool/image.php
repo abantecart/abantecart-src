@@ -24,23 +24,17 @@ class ModelToolImage extends Model {
 	public $data = array();
 
 	public function resize($filename, $width = 0, $height = 0) {
-		$this->extensions->hk_resize($this, $filename, $width, $height);
-	}
-
-	public function _resize($filename, $width = 0, $height = 0) {
 		if (!is_file(DIR_IMAGE . $filename)) {
 			return null;
 		}
-		$http_path = $this->data['http_image_dir'];
-		if(!$http_path){
-			$https = $this->request->server['HTTPS'];
-			if( $https == 'on' || $https == '1'){
-				$http_path = HTTPS_IMAGE;
-			} else{
-				$http_path = HTTP_IMAGE;
-			}
+
+		$https = $this->request->server['HTTPS'];
+		if( $https == 'on' || $https == '1'){
+			$http_path = HTTPS_IMAGE;
+		} else{
+			$http_path = HTTP_IMAGE;
 		}
-		
+
 		$info = pathinfo($filename);
 		$extension = $info['extension'];
 

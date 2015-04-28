@@ -147,7 +147,14 @@ class ControllerPagesProductProduct extends AController {
 		$this->data['text_minimum'] = sprintf($this->language->get('text_minimum'), $product_info['minimum']);
 		$this->data['maximum'] = $product_info['maximum'];
 		$this->data['text_maximum'] = sprintf($this->language->get('text_maximum'), $product_info['maximum']);
-		
+		$this->data['option_resources_url'] = $this->html->getURL('r/product/product/get_option_resources');
+		$this->data['calc_total_url'] = $this->html->getURL('r/product/product/calculateTotal');
+		$this->data['product_review_url'] = $this->html->getURL('product/review/review', '&product_id='.$product_id);
+		$this->data['product_review_write_url'] = $this->html->getURL('product/review/write', '&product_id='.$product_id);
+		$this->data['product_wishlist_add_url'] = $this->html->getURL('product/wishlist/add', '&product_id='.$product_id);
+		$this->data['product_wishlist_remove_url'] = $this->html->getURL('product/wishlist/remove', '&product_id='.$product_id);
+		$this->data['captcha_url'] = $this->html->getURL('common/captcha');
+
 		$this->loadModel('catalog/review');
 		$this->data['tab_review'] = sprintf($this->language->get('tab_review'), $this->model_catalog_review->getTotalReviewsByProductId($product_id)) ;
 

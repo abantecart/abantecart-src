@@ -229,7 +229,7 @@ echo $form['form_open'];
 			replace_obj;
 			$.ajax({
 				type: 'POST',
-				url: 'index.php?rt=r/checkout/cart/change_zone_get_shipping_methods',
+				url: '<?php echo $this->html->getURL('r/checkout/cart/change_zone_get_shipping_methods'); ?>',
 				dataType: 'json',
 				data: 'country_id=' + country_id + '&zone_id=' + zone_id + '&postcode=' + postcode,
 				beforeSend: function () {
@@ -264,7 +264,7 @@ echo $form['form_open'];
 			}
 			$.ajax({
 				type: 'POST',
-				url: 'index.php?rt=r/checkout/cart/recalc_totals',
+				url: '<?php echo $this->html->getURL('r/checkout/cart/recalc_totals');?>',
 				dataType: 'json',
 				data: 'shipping_method=' + shipping_method + '&coupon=' + coupon,
 				beforeSend: function () {

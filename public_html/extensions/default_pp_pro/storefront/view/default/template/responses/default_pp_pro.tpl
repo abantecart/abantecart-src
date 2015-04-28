@@ -75,7 +75,7 @@ $('form').submit(function(event) {
 function confirmSubmit() {		
 	$.ajax({
 		type: 'POST',
-		url: 'index.php?rt=extension/default_pp_pro/send',
+		url: '<?php echo $this->html->getURL('extension/default_pp_pro/send'); ?>',
 		data: $('#paypal :input'),
 		dataType: 'json',		
 		beforeSend: function() {

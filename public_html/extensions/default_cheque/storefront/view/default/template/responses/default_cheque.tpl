@@ -25,7 +25,7 @@ function confirmSubmit() {
 	$('body').css('cursor','wait');
 	$.ajax({
 		type: 'GET',
-		url: 'index.php?rt=extension/default_cheque/confirm',
+		url: '<?php echo $this->html->getURL('extension/default_cheque/confirm'); ?>',
 		beforeSend: function() {
 			$('.alert').remove();
 			$('.action-buttons').hide(); 
