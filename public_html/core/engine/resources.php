@@ -455,7 +455,7 @@ class AResource {
 				$this->registry->get('extensions')->hk_ProcessData($this, __FUNCTION__);
 				$http_path = $this->data['http_dir'];
 				if(!$http_path){
-					$http_path = HTTPS_DIR_RESOURCE;				
+					$http_path = HTTPS_DIR_RESOURCE;					
 				}
 				
 				if($sizes['thumb']){
