@@ -896,7 +896,15 @@ var formOnExit = function(){
     $('.lock-on-click').each(function () {
     	$btn = $(this);
     	$btn.attr('data-loading-text',"<i class='fa fa-refresh fa-spin fa-fw'></i>");
-    	$btn.bind('click', function () {
+    	$btn.on('click', function (event) {
+    		//chrome submit fix
+    		//If we detect child was clicked, and not the actual button, stop the propagation and trigger the "click" event on the button.
+    		var $target = $( event.target );
+  			if ( !$target.is("button") ) {
+  			   event.stopPropagation();
+  			   $target.closest("button").click();
+  			   return;
+  			}
     		$(this).button('loading');  
     	});
     });
