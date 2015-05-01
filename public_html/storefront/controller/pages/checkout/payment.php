@@ -49,16 +49,22 @@ class ControllerPagesCheckoutPayment extends AController {
 			$order_totals = $this->cart->buildTotalDisplay(true);
 			$order_total = $order_totals['total'];
 			$balance = $this->currency->convert($this->customer->getBalance(),$this->config->get('config_currency'),$this->session->data['currency']);
-			if($this->session->data[ 'used_balance' ]){
-				$balance = $balance-$this->session->data[ 'used_balance' ];
-			}
-			if($balance>0){
-				if($balance>=$order_total){ //if enough
-					$this->session->data[ 'used_balance' ] = $order_total;
-					$this->session->data[ 'used_balance_full' ] = true;
+			if($this->session->data['used_balance']){
+				#check if we still have balance. 
+				if($this->session->data['used_balance'] <= $balance){
+					$this->session->data['used_balance_full'] = true;					
+				} else {
+					//if balance become less or 0 reaply partial
+					$this->session->data['used_balance'] = $balance;
+					$this->session->data['used_balance_full'] = false;				
+				}
+			} else if($balance > 0){
+				if($balance >= $order_total){ //if enough
+					$this->session->data['used_balance'] = $order_total;
+					$this->session->data['used_balance_full'] = true;
 				}else{ //partial pay
-					$this->session->data[ 'used_balance' ] = $balance;
-					$this->session->data[ 'used_balance_full' ] = false;
+					$this->session->data['used_balance'] = $balance;
+					$this->session->data['used_balance_full'] = false;
 				}
 			}
 			unset($this->request->get['balance']);
