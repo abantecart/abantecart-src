@@ -187,6 +187,7 @@
 		  						?>  
 	  						<?php
 	  							} else {
+	  							//
 	  						?>  
 		  						<?php
 	  								if($item['in_other_store']) {
@@ -247,7 +248,7 @@
 				'id' => 'amp_modal',
 				'modal_type' => 'md',
 				'title' => $text_marketplace_connect,
-				'content' =>'<iframe id="amp_frame" width="100%" height="380px" frameBorder="0"></iframe>
+				'content' =>'<iframe id="amp_frame" width="100%" height="400px" frameBorder="0"></iframe>
 								<div id="iframe_loading" class="center_div"><i class="fa fa-spinner fa-spin fa-2x"></i></div>
 							',
 				'footer' => ''
@@ -258,7 +259,7 @@
 				'id' => 'amp_product_modal',
 				'modal_type' => 'lg',
 				'title' => $text_marketplace_extension,
-				'content' =>'<iframe id="amp_product_frame" width="100%" height="450px" frameBorder="0"></iframe>
+				'content' =>'<iframe id="amp_product_frame" width="100%" height="650px" frameBorder="0"></iframe>
 								<div id="iframe_product_loading" class="center_div"><i class="fa fa-spinner fa-spin fa-2x"></i></div>
 							',
 				'footer' => ''
@@ -268,7 +269,7 @@
 				'id' => 'amp_order_modal',
 				'modal_type' => 'lg',
 				'title' => $text_marketplace_extension,
-				'content' =>'<iframe id="amp_order_frame" width="100%" height="450px" frameBorder="0"></iframe>
+				'content' =>'<iframe id="amp_order_frame" width="100%" height="650px" frameBorder="0"></iframe>
 								<div id="iframe_order_loading" class="center_div"><i class="fa fa-spinner fa-spin fa-2x"></i></div>
 							',
 				'footer' => ''
@@ -280,23 +281,6 @@
 		$(this).attr('disabled','disabled');
 		location = '<?php echo $listing_url?>&' + $(this).val();
 	});
-
-
-/*
-	$('a.productcart, a.product_thumb, .ext_name a').click(function(){
-		var product_id = $(this).parents('li.product-item').attr('data-product-id');
-		if(!product_id) return false;
-		window.open('<?php echo $remote_store_product_url;?>&rt=product/product&product_id=' + product_id, 'MPside');
-		return false;
-	});
-
-	$('a.productcart').click(function(){
-		var product_id = $(this).parents('li.product-item').attr('data-product-id');
-		if(!product_id) return false;
-		window.open('<?php echo $remote_store_product_url;?>&rt=checkout/cart&product_id=' + product_id, 'MPside');
-		return false;
-	});
-*/
 
 	$('.ext_review a').click(function () {
 		var product_id = $(this).parents('li.product-item').attr('data-product-id');
@@ -367,8 +351,10 @@
     	$('#amp_product_modal iframe').attr("src","<?php echo $amp_product_url; ?>&product_id="+product_id+"&time_stamp="+d.getTime());
     	$('#iframe_product_loading').show();
     	$('#amp_product_modal').modal('show');
+  	});  	
+	$('#amp_product_modal').on('hidden.bs.modal', function () {
+		$('#amp_product_modal iframe').attr('src', '');
   	});
-  	
   	$('#amp_product_frame').on('load', function() {  
     	$('#iframe_product_loading').hide();
 	});
@@ -382,7 +368,9 @@
     	$('#iframe_order_loading').show();
     	$('#amp_order_modal').modal('show');
   	});
-  	
+	$('#amp_order_modal').on('hidden.bs.modal', function () {
+		$('#amp_order_modal iframe').attr('src', '');
+  	}); 	
   	$('#amp_order_frame').on('load', function() {  
     	$('#iframe_order_loading').hide();
 	});
