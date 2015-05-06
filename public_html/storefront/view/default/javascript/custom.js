@@ -240,5 +240,9 @@ $(window).scroll(function () {
 
 
 function openModalRemote(id, url){
-	$(id).modal({remote: url});
+	var modal = $(id);
+	var modalBody = $(id +' .modal-body');
+	modal.on('show.bs.modal', function () {
+	    modalBody.load(url)
+	}).modal();
 }
