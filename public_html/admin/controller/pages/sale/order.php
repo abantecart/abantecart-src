@@ -1425,8 +1425,8 @@ class ControllerPagesSaleOrder extends AController{
 		$order = new AOrderManager( $order_id );
 		//Recalc. If total has changed from original, update and create a log to order history
 		$t_ret = $order->recalcTotals($skip_recalc, $new_totals);
-		if( !$t_ret ) {
-			$this->session->data['error'] = "Error recalculating totals";			
+		if( !$t_ret || $t_ret['error'] ) {
+			$this->session->data['error'] = "Error recalculating totals! " . $t_ret['error'];			
 		} else {
 			$log_msg .= $t_ret['message'];
 			//save log message to comment
@@ -1472,8 +1472,8 @@ class ControllerPagesSaleOrder extends AController{
 		  		//recalc order total
 		  		$order = new AOrderManager( $order_id );
 				$t_ret = $order->recalcTotals();
-				if( !$t_ret ) {
-					$this->session->data['error'] = "Error recalculating totals!";			
+				if( !$t_ret || $t_ret['error'] ) {
+					$this->session->data['error'] = "Error recalculating totals! " . $t_ret['error'];			
 				} else {
 					$log_msg .= $t_ret['message'];
 					//save log message to comment
