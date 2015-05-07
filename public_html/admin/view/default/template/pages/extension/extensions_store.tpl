@@ -213,7 +213,20 @@
 	        			</div>				
 	        		</li>
 	        	<?php
-	        	}
+		        } // end foreach
+	        } else {
+	            //no result from marketplace 
+		        ?>  
+		        	<li class="text-center">  
+		        <?php
+		            if($mp_connected && $my_extensions_shown) {
+		            	echo $text_no_purchase_or_not_connected;
+		            } else {
+		            	echo $text_no_extenions_loaded;	        		
+		            }
+		        ?>    
+		        	</li>
+	        <?php	            
 	        }
 	        ?>
 	    </ul>					

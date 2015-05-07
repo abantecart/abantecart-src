@@ -203,6 +203,8 @@ class ControllerPagesExtensionExtensionsStore extends AController {
 							'name' => 'sorting',
 							'value'=> $sort_order,
 							'options' => $sorts));
+		} else {
+			//no resut from marketplace
 		}
 
 		$this->data['my_account'] = $this->model_tool_mp_api->getMPURL().'?rt=account/account&mp_token='.$this->session->data['mp_token'].'&mp_hash='.$this->session->data['mp_hash'];
