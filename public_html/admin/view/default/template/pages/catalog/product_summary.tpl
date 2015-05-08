@@ -12,7 +12,7 @@
         <td class="summary_image" rowspan="3" align="center">
             <?php echo $product['image']['thumb_html']; ?>
             <br/>
-            <a href="<?php echo $product['preview']; ?>" class="btn btn-small btn-default" target="_new"><i class="fa fa-external-link"></i> <?php echo $text_view; ?></a>
+            <a href="<?php echo $product['preview']; ?>" class="btn btn-small btn-default mt10" target="_new"><i class="fa fa-external-link"></i> <?php echo $text_view; ?></a>
         </td>
         <td class="summary_label"><?php echo $entry_name; ?></td>
         <td class="summary_value"><?php echo $product['name']; ?></td>
