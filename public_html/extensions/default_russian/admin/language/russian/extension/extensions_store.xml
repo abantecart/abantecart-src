@@ -135,11 +135,11 @@
 	</definition>	
 	<definition>
 		<key>text_connection_required</key>
-		<value><![CDATA[Вам необходимо подключить AbanteCart к Marketplace, чтобы увидеть ваши расширения! Нажмите "подключить" кнопку в панели выше.]]></value>
+		<value><![CDATA[Вам необходимо подключить AbanteCart к Marketplace, чтобы увидеть ваши расширения! Нажмите кнопку "подключить" в панели выше.]]></value>
 	</definition>	
 	<definition>
 		<key>text_in_other_store</key>
-		<value><![CDATA[Расширение для этого заказа было установлено в другом AbanteCart. Проверьте, связанные магазины для истории.]]></value>
+		<value><![CDATA[Расширение для этого заказа было установлено в другом AbanteCart. Проверьте, связанные магазины.]]></value>
 	</definition>	
 	<definition>
 		<key>text_no_purchase_or_not_connected</key>
