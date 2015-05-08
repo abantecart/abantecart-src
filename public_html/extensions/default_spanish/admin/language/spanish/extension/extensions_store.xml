@@ -98,7 +98,6 @@
 		<key>text_my_account</key>
 		<value><![CDATA[Mi Cuenta]]></value>
 	</definition>
-	
 	<definition>
 		<key>text_marketplace_site</key>
 		<value><![CDATA[sitio Marketplace]]></value>
@@ -159,5 +158,4 @@
 		<key>error_mp_connection</key>
 		<value><![CDATA[Vaya, no puede conectarse a AbanteCart MarketPlace. Por favor, tratar de comprobar más tarde o pregunte a su proveedor de servicios de hosting para obtener ayuda.]]></value>
 	</definition>
-	
 </definitions>
