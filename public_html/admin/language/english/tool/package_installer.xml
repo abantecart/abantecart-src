@@ -98,8 +98,8 @@ Ideal OpenSource Ecommerce Solution ]]></value>
 		<value><![CDATA[You already have this extension "%EXTENSION%" installed! If you want to proceed to reinstall, please uninstall and delete extension first.]]></value>
 	</definition>
 	<definition>
-		<key>error_pack_not_found</key>
-		<value><![CDATA[ Error: file of package %PACKAGE% does not exists. ]]></value>
+		<key>error_pack_file_not_found</key>
+		<value><![CDATA[Error: Can not extract extension from the archive to %s. Check <a href="#admin#rt=tool/error_log" target="_blank">log</a> for errors ]]></value>
 	</definition>
 	<definition>
 		<key>error_repository</key>
@@ -138,8 +138,8 @@ Ideal OpenSource Ecommerce Solution ]]></value>
 		<value><![CDATA[ Error: Probably package is broken. Structure of package error. ]]></value>
 	</definition>
 	<definition>
-		<key>error_package_config</key>
-		<value><![CDATA[ Error: Can't find config-file package.xml inside package. Probably package is broken. Structure of package error. ]]></value>
+		<key>error_package_config_xml</key>
+		<value><![CDATA[ Error: Cannot locate file package.xml inside of extracted extension. Possibly extension was not extracted correctly. Check <a href="#admin#rt=tool/error_log" target="_blank">log</a> for errors ]]></value>
 	</definition>
 	<definition>
 		<key>error_package_config2</key>
@@ -231,5 +231,9 @@ Automatic full backup will be created. It is recommended to try upgrade on test 
 	<definition>
 		<key>text_upgrade_now</key>
 		<value><![CDATA[ Upgrade Now! ]]></value>
+	</definition>
+	<definition>
+		<key>error_additional_help_text</key>
+		<value><![CDATA[ Stuck? Not a problem. You can install extensions another way. Check <a href="http://www.abantecart.com/ecommerce-documentation/admin-user-manual/extensions-menu/extension-store#FTPinstall" target="_blank">this help link</a> ]]></value>
 	</definition>
 </definitions>
