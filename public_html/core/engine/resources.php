@@ -400,7 +400,7 @@ class AResource {
 
     //TODO: define where all object types will be kept and fetch them from storage
     public function getAllObjects() {
-        return $this->$obj_list;
+        return $this->obj_list;
     }
 
 	/**
