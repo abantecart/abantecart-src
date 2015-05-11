@@ -102,6 +102,10 @@ Ideal OpenSource Ecommerce Solution ]]></value>
 		<value><![CDATA[ Error: file of package %PACKAGE% does not exists. ]]></value>
 	</definition>
 	<definition>
+		<key>error_mp</key>
+		<value><![CDATA[ Marketplace error: ]]></value>
+	</definition>
+	<definition>
 		<key>error_repository</key>
 		<value><![CDATA[ Error: Cannot download file. Repository error or invalid extension key. Try one more time. If problem persist download file in your order history and install manually. ]]></value>
 	</definition>
@@ -231,5 +235,9 @@ Automatic full backup will be created. It is recommended to try upgrade on test 
 	<definition>
 		<key>text_upgrade_now</key>
 		<value><![CDATA[ Upgrade Now! ]]></value>
+	</definition>
+	<definition>
+		<key>error_notconnected</key>
+		<value><![CDATA[ Can not install extensions from the marketplace. This store is not authenticated/connected. Please authenticate and conect to the <a href="%s">marketplace</a> ]]></value>
 	</definition>
 </definitions>

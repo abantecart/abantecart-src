@@ -103,6 +103,10 @@ Solución ideal para comercio electrónico OpenSource ]]></value>
 		<value><![CDATA[ Error: file of package %PACKAGE% does not exists.]]></value>
 	</definition>
 	<definition>
+		<key>error_mp</key>
+		<value><![CDATA[ Marketplace error: ]]></value>
+	</definition>
+	<definition>
 		<key>error_repository</key>
 		<value>
 			<![CDATA[ Error: No se puede descargar el archivo. Repositorio de error o la tecla de extensión no válido. Prueba una vez más. Si el problema persiste archivo de descarga en su historial de pedidos e instalar manualmente. ]]></value>
@@ -244,4 +248,9 @@ Solución ideal para comercio electrónico OpenSource ]]></value>
         AbanteCart está a punto de ser actualizado a la versión %s!
         Copia de seguridad completa automática se creará. Se recomienda probar la actualización en el sitio de la primera prueba. ]]></value>
     </definition>
+	<definition>
+		<key>error_notconnected</key>
+		<value><![CDATA[ No se puede instalar extensiones del marketplace. Esta tienda no está autenticado / conectada. Por favor, autenticar y conect a la <a href="%s">marketplace</a> ]]></value>
+	</definition>
+    
 </definitions>
