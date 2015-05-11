@@ -98,66 +98,64 @@
 		<key>text_my_account</key>
 		<value><![CDATA[Mi Cuenta]]></value>
 	</definition>
-	
 	<definition>
 		<key>text_marketplace_site</key>
-		<value><![CDATA[Marketplace Site]]></value>
+		<value><![CDATA[sitio Marketplace]]></value>
 	</definition>
 	<definition>
 		<key>text_all_categories</key>
-		<value><![CDATA[All Categories]]></value>
+		<value><![CDATA[Todas las categorías]]></value>
 	</definition>
 	<definition>
 		<key>text_connect</key>
-		<value><![CDATA[Connect]]></value>
+		<value><![CDATA[Сonectar]]></value>
 	</definition>	
 	<definition>
 		<key>text_marketplace_connect</key>
-		<value><![CDATA[Connect to the marketplace]]></value>
+		<value><![CDATA[Conecte al mercado]]></value>
 	</definition>	
 	<definition>
 		<key>text_marketplace_extension</key>
-		<value><![CDATA[Extension preview & order ]]></value>
+		<value><![CDATA[Extensión de vista previa para ]]></value>
 	</definition>	
 	<definition>
 		<key>text_marketplace_buy</key>
-		<value><![CDATA[Get this extension now]]></value>
+		<value><![CDATA[Obtener esta extensión ahora]]></value>
 	</definition>	
 	<definition>
 		<key>text_connected</key>
-		<value><![CDATA[Connected to the marketplace. Click to disconnect]]></value>
+		<value><![CDATA[Con fácil acceso al mercado. Haga clic para desconectar]]></value>
 	</definition>	
 	<definition>
 		<key>text_disconnect_confirm</key>
-		<value><![CDATA[Are you sure you want to disconnect?]]></value>
+		<value><![CDATA[¿Seguro que desea desconectar]]></value>
 	</definition>	
 	<definition>
 		<key>text_disconnect_success</key>
-		<value><![CDATA[This store was disconnected!]]></value>
+		<value><![CDATA[Esta tienda fue desconectado!]]></value>
 	</definition>	
 	<definition>
 		<key>text_connection_required</key>
-		<value><![CDATA[You need to connect AbanteCart to the Marketplace to see your extensions! Click "connect" button in the above panel.]]></value>
+		<value><![CDATA[Es necesario conectar AbanteCart al Marketplace para ver las extensiones! Haga clic en el botón "conectar" en el panel anterior.]]></value>
 	</definition>	
 	<definition>
 		<key>text_in_other_store</key>
-		<value><![CDATA[Extension for this order was installed in the other AbanteCart. Check your connected stores for history.]]></value>
+		<value><![CDATA[Extensión para este fin se instaló en la otra AbanteCart. Revise sus tiendas conectadas para la historia.]]></value>
 	</definition>	
 	<definition>
 		<key>text_no_purchase_or_not_connected</key>
-		<value><![CDATA[You have no purchases for this store or this store was diconnected from the Marketplace.]]></value>
+		<value><![CDATA[No tiene compras para esta tienda o esta tienda se desconectan del Marketplace.]]></value>
 	</definition>	
 	<definition>
 		<key>text_no_extenions_loaded</key>
-		<value><![CDATA[No extensions are available. Check your selection or try again.]]></value>
+		<value><![CDATA[No hay extensiones disponibles. Compruebe su selección o intente de nuevo.]]></value>
 	</definition>	
 	<definition>
 		<key>text_compatibility</key>
-		<value><![CDATA[This extension is not confirmed to work with your version of AbanteCart. Contact extension developer to confirm compatibility.]]></value>
+		<value><![CDATA[Esta extensión no está confirmado para trabajar con su versión de AbanteCart. Contacto desarrollador extensión para confirmar la compatibilidad.]]></value>
 	</definition>
 	<definition>
 		<key>error_mp_connection</key>
-		<value><![CDATA[Oops, can not connect to AbanteCart MarketPlace. Please try to check later or ask your hosting service provider for help.]]></value>
+		<value><![CDATA[Vaya, no puede conectarse a AbanteCart MarketPlace. Por favor, tratar de comprobar más tarde o pregunte a su proveedor de servicios de hosting para obtener ayuda.]]></value>
 	</definition>
-	
 </definitions>
