@@ -65,10 +65,15 @@ class ControllerResponsesProductProduct extends AController {
 			$resource = new AResource('image');
 
 			// main product image
-			$sizes = array('main' => array('width' => $this->config->get('config_image_popup_width'),
-				'height' => $this->config->get('config_image_popup_height')),
-				'thumb' => array('width' => $this->config->get('config_image_thumb_width'),
-					'height' => $this->config->get('config_image_thumb_height')));
+			$sizes = array('main' =>
+					               array('width' => $this->config->get('config_image_popup_width'),
+						               	'height' => $this->config->get('config_image_popup_height')
+					      ),
+							'thumb' => array(
+									'width' => $this->config->get('config_image_thumb_width'),
+									'height' => $this->config->get('config_image_thumb_height')
+							)
+			);
 
 			$output['main'] = $resource->getResourceAllObjects('product_option_value', $attribute_value_id, $sizes, 1, false);
 
@@ -77,10 +82,23 @@ class ControllerResponsesProductProduct extends AController {
 			}
 
 			// additional images
-			$sizes = array('main' => array('width' => $this->config->get('config_image_popup_width'),
-				'height' => $this->config->get('config_image_popup_height')),
-				'thumb' => array('width' => $this->config->get('config_image_additional_width'),
-					'height' => $this->config->get('config_image_additional_height')));
+			$sizes = array('main' =>
+					               array(
+							               'width' => $this->config->get('config_image_popup_width'),
+											'height' => $this->config->get('config_image_popup_height')
+					               ),
+							'thumb' =>
+									array(
+											'width' => $this->config->get('config_image_additional_width'),
+											'height' => $this->config->get('config_image_additional_height')
+									),
+				//product image zoom related thumbnail
+							'thumb2' =>
+									array(
+											'width' => $this->config->get('config_image_thumb_width'),
+											'height' => $this->config->get('config_image_thumb_height')
+									)
+			);
 
 			$output['images'] = $resource->getResourceAllObjects('product_option_value', $attribute_value_id, $sizes, 0, false);
 			if (!$output['images']) {
