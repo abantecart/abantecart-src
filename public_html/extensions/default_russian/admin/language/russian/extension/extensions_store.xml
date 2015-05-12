@@ -87,7 +87,7 @@
 	</definition>
 	<definition>
 		<key>error_connect</key>
-		<value><![CDATA[К сожалению, Ваш Abantecart не может соединиться с магазином расширений. См. Система-&gt;Журналы Ошибок.]]></value>
+		<value><![CDATA[К сожалению, Ваш AbanteCart не может соединиться с магазином расширений. См. Система-&gt;Журналы Ошибок.]]></value>
 	</definition>
 	<definition>
 		<key>text_my_extensions</key>
@@ -97,4 +97,64 @@
 		<key>text_my_account</key>
 		<value><![CDATA[Моя учетная запись]]></value>
 	</definition>
+	<definition>
+		<key>text_marketplace_site</key>
+		<value><![CDATA[Marketplace сайт]]></value>
+	</definition>
+	<definition>
+		<key>text_all_categories</key>
+		<value><![CDATA[Все Категории]]></value>
+	</definition>
+	<definition>
+		<key>text_connect</key>
+		<value><![CDATA[Подключение]]></value>
+	</definition>	
+	<definition>
+		<key>text_marketplace_connect</key>
+		<value><![CDATA[Подключение к marketplace]]></value>
+	</definition>	
+	<definition>
+		<key>text_marketplace_extension</key>
+		<value><![CDATA[Предпросмотр и заказ расширения]]></value>
+	</definition>	
+	<definition>
+		<key>text_marketplace_buy</key>
+		<value><![CDATA[Заказать это расширение]]></value>
+	</definition>	
+	<definition>
+		<key>text_connected</key>
+		<value><![CDATA[Подключено к marketplace. Нажмите, чтобы отключить.]]></value>
+	</definition>	
+	<definition>
+		<key>text_disconnect_confirm</key>
+		<value><![CDATA[Вы уверены, что хотите отключить?]]></value>
+	</definition>	
+	<definition>
+		<key>text_disconnect_success</key>
+		<value><![CDATA[Этот магазин был отключен!]]></value>
+	</definition>	
+	<definition>
+		<key>text_connection_required</key>
+		<value><![CDATA[Вам необходимо подключить AbanteCart к Marketplace, чтобы увидеть ваши расширения! Нажмите кнопку "подключить" в панели выше.]]></value>
+	</definition>	
+	<definition>
+		<key>text_in_other_store</key>
+		<value><![CDATA[Расширение для этого заказа было установлено в другом AbanteCart. Проверьте, связанные магазины.]]></value>
+	</definition>	
+	<definition>
+		<key>text_no_purchase_or_not_connected</key>
+		<value><![CDATA[У Вас нет покупок для этого магазина или этот магазин был отключен от Marketplace.]]></value>
+	</definition>	
+	<definition>
+		<key>text_no_extenions_loaded</key>
+		<value><![CDATA[Нет доступных расширений. Проверьте ваш выбор или попробуйте снова.]]></value>
+	</definition>	
+	<definition>
+		<key>text_compatibility</key>
+		<value><![CDATA[Совместимость это расширения с вашей версией AbanteCart не подтверждена. Свяжитесь с разработчиком расширения для подтверждения совместимости.]]></value>
+	</definition>
+	<definition>
+		<key>error_mp_connection</key>
+		<value><![CDATA[Упс, не могу подключиться к AbanteCart MarketPlace. Пожалуйста, попробуйте проверить позднее или обратитесь к хостинг-провайдеру за помощью.]]></value>
+	</definition>	
 </definitions>

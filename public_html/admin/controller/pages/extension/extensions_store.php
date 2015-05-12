@@ -99,14 +99,15 @@ class ControllerPagesExtensionExtensionsStore extends AController {
 		$this->view->assign('amp_connect_url', $this->model_tool_mp_api->getMPURL().$mp_params);
 		$this->view->assign('amp_disconnect_url', $this->html->getSecureURL('tool/extensions_store/disconnect'));
 
-		$mp_params = '?rt=r/product/product';
+		$return_url = base64_encode($this->html->getSecureURL('tool/extensions_store/install'));		
+		$mp_params = '?rt=r/product/product&return_url='.$return_url;
 		$mp_params .= '&store_id='.UNIQUE_ID;
 		$mp_params .= '&store_url='.HTTP_SERVER;
 		$mp_params .= '&store_version='.VERSION;
 		$this->view->assign('amp_product_url', $this->model_tool_mp_api->getMPURL().$mp_params.$token_param);
 
-		$return_url = base64_encode($this->html->getSecureURL('tool/extensions_store', '&purchased_only=1'));		
-		$mp_params = '?rt=r/checkout/order&return_url='.$return_url;
+		$return_url = base64_encode($this->html->getSecureURL('tool/extensions_store/install'));		
+		$mp_params = '?rt=r/checkout/purchase&return_url='.$return_url;
 		$mp_params .= '&store_id='.UNIQUE_ID;
 		$mp_params .= '&store_url='.HTTP_SERVER;
 		$mp_params .= '&store_version='.VERSION;
@@ -117,7 +118,7 @@ class ControllerPagesExtensionExtensionsStore extends AController {
 		$this->view->assign('install_url', $this->html->getSecureURL('tool/package_installer/download', ''));
 		$this->view->assign('edit_url', $this->html->getSecureURL('extension/extensions/edit', ''));
 
-		$remote_store_product_url = $this->model_tool_mp_api->getMPURL().'?mp_token='.$this->session->data['mp_token'].'&mp_hash='.$this->session->data['mp_hash'];
+		$remote_store_product_url = $this->model_tool_mp_api->getMPURL().'?mp_token='.$this->session->data['mp_token'].'&mp_hash='.$this->session->data['mp_hash'].'&return_url='.$return_url;
 		$this->view->assign('remote_store_product_url',$remote_store_product_url);
 
 		$form = new AForm('ST');
@@ -202,6 +203,8 @@ class ControllerPagesExtensionExtensionsStore extends AController {
 							'name' => 'sorting',
 							'value'=> $sort_order,
 							'options' => $sorts));
+		} else {
+			//no resut from marketplace
 		}
 
 		$this->data['my_account'] = $this->model_tool_mp_api->getMPURL().'?rt=account/account&mp_token='.$this->session->data['mp_token'].'&mp_hash='.$this->session->data['mp_hash'];

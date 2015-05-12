@@ -139,6 +139,25 @@ class ControllerResponsesToolExtensionsStore extends AController {
 		//sucess all the time
 		$this->response->setOutput($return);
 	}
+
+	public function install() {
+		//we get extension_key back
+		$extension_key = $this->request->get_or_post('extension_key');
+		$html = "";
+		if ($extension_key) {
+			//ready to install
+			$url = $this->html->getSecureURL('tool/package_installer/download', '&extension_key='.$extension_key);	
+		} else {
+			$url = $this->html->getSecureURL('extension/extensions_store', '&purchased_only=1');
+		}
+
+		$html = "
+				<script type='text/javascript'>
+				window.top.location.href = '".$url."';
+				</script>
+		";
 		
+		$this->response->setOutput($html);
+	}		
 }
 ?>

@@ -173,8 +173,14 @@
 		<key>text_in_other_store</key>
 		<value><![CDATA[Extension for this order was installed in the other AbanteCart. Check your connected stores for history.]]></value>
 	</definition>	
-	
-	
+	<definition>
+		<key>text_no_purchase_or_not_connected</key>
+		<value><![CDATA[You have no purchases for this store or this store was diconnected from the Marketplace.]]></value>
+	</definition>	
+	<definition>
+		<key>text_no_extenions_loaded</key>
+		<value><![CDATA[No extensions are available. Check your selection or try again.]]></value>
+	</definition>	
 	<definition>
 		<key>text_compatibility</key>
 		<value><![CDATA[This extension is not confirmed to work with your version of AbanteCart. Contact extension developer to confirm compatibility.]]></value>

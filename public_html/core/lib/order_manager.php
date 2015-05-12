@@ -57,8 +57,7 @@ class AOrderManager extends AOrder {
 			return '';
 		}
 		if ( !has_value($this->order_id) ) {
-			$this->error['warning'] = "Missing required details";
-      		return 0;
+      		return array('error' => "Missing required details");
     	}
 				
   		$adm_order_mdl = $this->load->model('sale/order');
@@ -246,6 +245,7 @@ class AOrderManager extends AOrder {
 		}
 		
 		//Create totals update array and log about totals change 
+		$is_missing_keys = false;
 		$upd_total = array('totals' => array());
 		foreach($total_data as $t_new) {
 			foreach($original_totals as $t_old) {
@@ -255,12 +255,20 @@ class AOrderManager extends AOrder {
 						$message .= $t_old['type']." changed from ".$t_old['text']." to ".$t_new['text']."\n";
 					}
 					break;	
+				} else if ( empty($t_old['key']) ) {
+					$is_missing_keys = true;
 				}
 			}
 		}
 
 		//update all totals at once
 		$adm_order_mdl->editOrder($this->order_id, $upd_total);
+		
+		//do we have errors?
+		if ($is_missing_keys) {
+			//messing total keys. This is older order 
+			return array('error' => "Cannot recalculate some or all totals. Possibly this order was built prior to upgrade and does not have required data.");
+		}
 		
 		return array('message' => $message, 'order_status_id' => $order_info['order_status_id']);
   	}

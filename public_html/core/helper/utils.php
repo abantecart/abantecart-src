@@ -966,3 +966,11 @@ function getMemoryLimitInBytes (){
         default: return $size_str;
     }
 }
+
+function is_valid_url( $validate_url ) {
+	if (filter_var($validate_url, FILTER_VALIDATE_URL) === FALSE) {
+	    return false;	
+	} else {
+	    return true;		
+	}
+}
