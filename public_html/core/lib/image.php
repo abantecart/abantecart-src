@@ -98,43 +98,10 @@ final class AImage {
         $this->image = imagecreatetruecolor($width, $height);
 
 		if (isset($this->info['mime']) && $this->info['mime'] == 'image/png') {
-			$palette = (imagecolortransparent($this->image)<0);
-
-			// Has indexed transparent color
-			if(($tc=imagecolorstotal($this->image))&&$tc<=256){
-				imagetruecolortopalette($this->image, false, $tc);
-			}
 			imagealphablending($this->image, false);
 			imagesavealpha($this->image, true);
-			$alpha = imagecolorallocatealpha($this->image, 255, 255, 255, 127);
-			imagefill($this->image, 0, 0, $alpha);
-
-			// Did the original PNG supported Alpha?
-			if((ord(file_get_contents ($this->file, false, null, 25, 1)) & 4)){
-				// we dont have to check every pixel.
-				// We take a sample of 2500 pixels (for images between 50X50 up to 500X500), then 1/100 pixels thereafter.
-				$dx = min(max(floor($new_width/50),1),10);
-				$dy = min(max(floor($new_height/50),1),10);
-
-				$palette = true;
-				for($x=0;$x<$w;$x=$x+$dx){
-					for($y=0;$y<$h;$y=$y+$dy){
-						$col = imagecolorsforindex($this->image, imagecolorat($this->image,$x,$y));
-						// How transparent until it's actually visible
-						// I reackon atleast 10% of 127 before its noticeable, e.g. ~13
-						if($col['alpha']>13){
-							//print_r($col);
-							$palette = false;
-							break 2;
-						}
-					}
-				}
-			}
-
-			if($palette){
-				imagetruecolortopalette($this->image, false, 256);
-			}
-
+			$background = imagecolorallocatealpha($this->image, 255, 255, 255, 127);
+			imagefill($this->image, 0,0,$background);
 		} else {
 			if(!$nofill){ // if image no transparant
 				$background = imagecolorallocate($this->image, 255, 255, 255);
