@@ -40,7 +40,7 @@
 		<div class="row">
 			<div class="text-center">
 				<button id="agree_btn" class="btn btn-primary">
-					<i class="fa fa-check"></i> <?php echo $form['submit']->text; ?>
+					<i class="fa fa-refresh"></i> <?php echo $text_reload; ?>
 				</button>
 				&nbsp;
 				<?php if ($form['disagree_button']) { ?>

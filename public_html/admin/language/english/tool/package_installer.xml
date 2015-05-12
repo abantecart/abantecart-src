@@ -62,7 +62,7 @@
 	</definition>
 	<definition>
 		<key>text_download_error</key>
-		<value><![CDATA[ We are sorry, but in the process of uploading the file errors occurred.</br>Try one more time.</br>If problem persist download file in your order history and install manually. ]]></value>
+		<value><![CDATA[ We are sorry, but error occurred while uploading the file.</br>Try one more time.</br>If problem persist download file in your order history and install manually. ]]></value>
 	</definition>
 	<definition>
 		<key>text_continue</key>
