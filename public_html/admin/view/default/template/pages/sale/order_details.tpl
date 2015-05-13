@@ -306,7 +306,7 @@
 			<i class="fa fa-save fa-fw"></i> <?php echo $button_save; ?>
 			</button>
 			<a class="btn btn-primary save_and_recalc" href="#">
-			<i class="fa fa-save fa-fw"></i><i class="fa fa-refresh fa-fw"></i> <?php echo $button_save.' & '.$text_recalc; ?>
+			<i class="fa fa-save fa-fw"></i><i class="fa fa-refresh fa-fw"></i> <?php echo $button_save.' & '.$text_recalc.' '.$text_all; ?>
 			</a>			
 			<a class="btn btn-default" href="<?php echo $cancel; ?>">
 			<i class="fa fa-arrow-left fa-fw"></i> <?php echo $form['cancel']->text; ?>

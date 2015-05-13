@@ -180,6 +180,7 @@ class AOrderManager extends AOrder {
        	//locate shipping method quote
        	$quote_data = array();
        	$sf_ext_mdl = $this->load->model('checkout/extension', 'storefront');
+
        	//recalc shipping onnly if we know the shipping methond key
        	if ($order_info['shipping_method_key']) {
 	       	$results = $sf_ext_mdl->getExtensions('shipping');
@@ -215,11 +216,21 @@ class AOrderManager extends AOrder {
 		array_multisort($calc_order, SORT_ASC, $total_extns);
 
 		foreach ($total_extns as $extn) {
+			$include = false;
+			//completely skip if not part of current total. 
+			foreach($original_totals as $ototal) {
+				if(str_replace('_', '', $ototal['key']) == str_replace('_', '', $extn['key']) ){
+					$include = true;
+				}
+			}   	
+			if (!$include) {
+				continue;
+			}
 			//skip recalculation and write original values 
 			if (in_array($extn['key'], $skip_recalc)) {
 				//copy original totals
 				foreach ($original_totals as $or_total) {
-					if( $or_total['key'] == $extn['key'] ){
+					if(str_replace('_', '', $or_total['key']) == str_replace('_', '', $extn['key']) ){
 						$total_data[] = array(
 		        			'id'         => $or_total['key'],
         					'title'      => $or_total['title'],
@@ -241,25 +252,36 @@ class AOrderManager extends AOrder {
 			 	*/
 				$sf_total_mdl->getTotal($total_data, $total, $taxes, $customer_data);
 				$sf_total_mdl = null;
-			}
+			}			
 		}
-		
+
 		//Create totals update array and log about totals change 
 		$is_missing_keys = false;
 		$upd_total = array('totals' => array());
-		foreach($total_data as $t_new) {
-			foreach($original_totals as $t_old) {
+		foreach($original_totals as $t_old) {
+			$found = false;
+			if ( empty($t_old['key']) ) {
+				$is_missing_keys = true;
+			}
+						
+			foreach($total_data as $t_new) {
 				if ($t_new['id'] == $t_old['key']) {
+					$found = true;
 					$upd_total['totals'][$t_old['order_total_id']] = $t_new['text'];
 					if ($t_new['value'] != $t_old['value']) {
-						$message .= $t_old['type']." changed from ".$t_old['text']." to ".$t_new['text']."\n";
+						$message .= $t_old['key']." changed from ".$t_old['text']." to ".$t_new['text']."\n";
 					}
 					break;	
-				} else if ( empty($t_old['key']) ) {
-					$is_missing_keys = true;
 				}
 			}
-		}
+			//check if this is removed total as result from total calculation brings nothing
+			// need to set value to 0
+			if(!$found){
+				$zero_text_val = $this->currency->format(0, $order_info['currency'], $order_info['value'], true);
+				$upd_total['totals'][$t_old['order_total_id']] = $zero_text_val;
+				$message .= $t_old['key']." changed from ".$t_old['text']." to ".$zero_text_val."\n";
+			}	
+		}		
 
 		//update all totals at once
 		$adm_order_mdl->editOrder($this->order_id, $upd_total);
@@ -267,7 +289,7 @@ class AOrderManager extends AOrder {
 		//do we have errors?
 		if ($is_missing_keys) {
 			//messing total keys. This is older order 
-			return array('error' => "Cannot recalculate some or all totals. Possibly this order was built prior to upgrade and does not have required data.");
+			return array('error' => "Cannot recalculate some or all of the totals. Possibly this order was built prior to upgrade and does not have required data.");
 		}
 		
 		return array('message' => $message, 'order_status_id' => $order_info['order_status_id']);
