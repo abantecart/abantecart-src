@@ -179,7 +179,7 @@ class ModelToolMPAPI extends Model {
 		//prepare extensions for listing
 		//Check if extension is installed or requires updating based on versions
 		
-		if($output['products']){
+		if($output['products']['rows']){
 			foreach($output['products']['rows'] as &$product){
 				$info = $product['cell'];
 				$info['rating'] = (int)$info['rating'];
@@ -221,7 +221,6 @@ class ModelToolMPAPI extends Model {
 		$GET = array_merge($params,$GET);
 
 		$href .= '?'.http_build_query($GET);
-//echo_array($this->getMPURL().$href);
 		$response = $connect->getResponse($this->getMPURL().$href);
 		return $response;
 	}
