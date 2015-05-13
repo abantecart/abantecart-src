@@ -371,7 +371,7 @@ class ControllerBlocksListingBlock extends AController {
 
 				}
 				if(isset($item['price']) && preg_match('/^[0-9\.]/',$item['price'])){
-					$result[$k]['price'] = $this->currency->format($this->tax->calculate($item['price'], $result['tax_class_id'], $this->config->get('config_tax')));
+					$result[$k]['price'] = $this->currency->format($this->tax->calculate($item['price'], $item['tax_class_id'], $this->config->get('config_tax')));
 				}
 			}
 		}
