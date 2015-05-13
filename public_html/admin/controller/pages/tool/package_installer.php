@@ -84,8 +84,10 @@ class ControllerPagesToolPackageInstaller extends AController {
 						'text' => $this->language->get('text_continue')));
 
 		if (isset($this->session->data['error'])) {
-			$this->view->assign('error_warning', $this->session->data['error']);
-			unset($package_info['package_dir'], $this->session->data['error']);
+			$error_txt = $this->session->data['error'];
+			$error_txt .=  '<br>'.$this->language->get('error_additional_help_text');
+			$this->view->assign('error_warning', $error_txt);
+			unset($package_info['package_dir'], $this->session->data['error'], $error_txt);
 		}
 		unset($this->session->data['error'], $this->session->data['success']);
 		$package_info['package_source'] = 'network';
@@ -187,8 +189,10 @@ class ControllerPagesToolPackageInstaller extends AController {
 						'text' => $this->language->get('text_continue')));
 
 		if (isset($this->session->data['error'])) {
-			$this->view->assign('error_warning', $this->session->data['error']);
-			unset($package_info['package_dir']);
+			$error_txt = $this->session->data['error'];
+			$error_txt .=  '<br>'.$this->language->get('error_additional_help_text');
+			$this->view->assign('error_warning', $error_txt);
+			unset($package_info['package_dir'], $error_txt);
 		}
 		unset($this->session->data['error']);
 		$this->data['heading_title'] = $this->language->get('heading_title');
@@ -471,7 +475,9 @@ class ControllerPagesToolPackageInstaller extends AController {
 		}
 
 		if (!file_exists($package_info['tmp_dir'] . $package_dirname)) {
-			$this->session->data['error'] = str_replace('%PACKAGE%', $package_info['tmp_dir'] . $package_dirname, $this->language->get('error_pack_not_found'));
+			$this->session->data['error'] = $this->html->convertLinks(
+					sprintf($this->language->get('error_pack_file_not_found'), $package_info['tmp_dir'] . $package_dirname )
+			);
 			$this->redirect($this->_get_begin_href());
 		}
 
@@ -479,7 +485,7 @@ class ControllerPagesToolPackageInstaller extends AController {
 		$config = simplexml_load_string(file_get_contents($package_info['tmp_dir'] . $package_dirname . '/package.xml'));
 
 		if (!$config) {
-			$this->session->data['error'] = $this->language->get('error_package_config');
+			$this->session->data['error'] = $this->html->convertLinks($this->language->get('error_package_config_xml'));
 			$this->_removeTempFiles();
 			$this->redirect($this->_get_begin_href());
 		}

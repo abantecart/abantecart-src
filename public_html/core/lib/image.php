@@ -65,7 +65,8 @@ final class AImage {
         if ($extension == 'jpeg' || $extension == 'jpg') {
             imagejpeg($this->image, $file, $quality);
         } elseif($extension == 'png') {
-            imagepng($this->image, $file, 0);
+            imagepng($this->image, $file, 9, PNG_ALL_FILTERS);
+
         } elseif($extension == 'gif') {
             imagegif($this->image, $file);
         }
@@ -217,4 +218,3 @@ final class AImage {
 	}
 
 }
-?>

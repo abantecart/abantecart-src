@@ -400,7 +400,7 @@ class AResource {
 
     //TODO: define where all object types will be kept and fetch them from storage
     public function getAllObjects() {
-        return $this->$obj_list;
+        return $this->obj_list;
     }
 
 	/**
@@ -412,7 +412,7 @@ class AResource {
 	 * @param bool $noimage
 	 * @return array
 	 */
-	public function getResourceAllObjects($object_name, $object_id, $sizes=array('main'=>array(),'thumb'=>array()), $limit=0, $noimage=true){
+	public function getResourceAllObjects($object_name, $object_id, $sizes=array('main'=>array(),'thumb'=>array(), 'thumb2'=>array()), $limit=0, $noimage=true){
 		if(!$object_id || !$object_name ) return array();
 		$limit = (int)$limit;
 		$results = $this->getResources($object_name, $object_id);
@@ -465,6 +465,14 @@ class AResource {
 				if(!$thumb_url && $sizes['thumb']){
 					$thumb_url = $this->model_tool_image->resize($result['resource_path'],$sizes['thumb']['width'],$sizes['thumb']['height']);
 				}
+				//thumb2 - big thumbnails
+				if($sizes['thumb2']){
+					$thumb2_url = $this->getResourceThumb($result['resource_id'],$sizes['thumb2']['width'],$sizes['thumb2']['height']);
+				}
+				if(!$thumb2_url && $sizes['thum2b']){
+					$thumb2_url = $this->model_tool_image->resize($result['resource_path'],$sizes['thumb2']['width'],$sizes['thumb2']['height']);
+				}
+
 				if($this->getTypeDir()=='image/'){
 					if(!$sizes['main']){
 						$main_url = $this->getResourceThumb($result['resource_id'],$sizes['main']['width'],$sizes['main']['height']);
@@ -485,9 +493,17 @@ class AResource {
 										'thumb_html' => $this->html->buildResourceImage( array('url' => $thumb_url,
 										                                                    'width' => $sizes['thumb']['width'],
 										                                                    'height' => $sizes['thumb']['height'],
-										                                                    'attr' => 'alt="' . $resource_info['title'] . '"') ),
-										'description' =>  $resource_info['decription'],
-										'title' => $resource_info['title']);
+										                                                    'attr' => 'alt="' . $resource_info['title'] . '"') ));
+				if($sizes['thumb2']){
+					$resources[$k]['thumb2_url'] = $thumb2_url ;
+					$resources[$k]['thumb2_html'] = $this->html->buildResourceImage(array('url'    => $thumb2_url,
+										                                                  'width'  => $sizes['thumb2']['width'],
+										                                                  'height' => $sizes['thumb2']['height'],
+										                                                  'attr'   => 'alt="' . $resource_info['title'] . '"'));
+				}
+				$resources[$k]['description'] =  $resource_info['decription'];
+				$resources[$k]['title'] = $resource_info['title'];
+
 			}else{
 				$resources[$k] = array( 'origin' => $origin,
 										'main_html'=>$resource_info['resource_code'],

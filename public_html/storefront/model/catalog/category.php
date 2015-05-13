@@ -201,7 +201,7 @@ class ModelCatalogCategory extends Model {
 
 	/**
 	 * @param int $category_id
-	 * @return string\
+	 * @return string
 	 */
 	public function buildPath($category_id) {
 		$query = $this->db->query("SELECT c.category_id, c.parent_id

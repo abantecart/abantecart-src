@@ -12,9 +12,8 @@
 			<div class="col-md-6">
 				<ul class="thumbnails mainimage bigimage">
 					<?php if (sizeof($images) > 0) {
-						foreach ($images as $image) {
-							?>
-							<li>
+						foreach ($images as $image) { ?>
+							<li >
 								<?php
 								$im_width = $image_main['sizes']['thumb']['width'];
 								$im_height = $image_main['sizes']['thumb']['height'];
@@ -464,7 +463,7 @@
 							tmb_url = data.images[img].thumb_html;
 							html1 += '<a class="thumbnail">'+ img_url +'</a>';
 						} else {
-							html1 += '<a href="' + img_url + '" rel="position: \'inside\' , showTitle: false, adjustX:-4, adjustY:-4" class="thumbnail cloud-zoom"  title="' + data.images[img].title + '"><img src="' + img_url + '" alt="' + data.images[img].title + '" title="' + data.images[img].title + '"></a>';
+							html1 += '<a href="' + img_url + '" rel="position: \'inside\' , showTitle: false, adjustX:-4, adjustY:-4" class="thumbnail cloud-zoom"  title="' + data.images[img].title + '"><img src="' + data.images[img].thumb2_url + '" alt="' + data.images[img].title + '" title="' + data.images[img].title + '"></a>';
 							html2 += '<a class="thumbnail"><img src="' + tmb_url + '" alt="' + data.images[img].title + '" title="' + data.images[img].title + '"></a>';
 						}
 						html1 += '</li>';
