@@ -433,6 +433,9 @@ class ModelCheckoutOrder extends Model {
 
 				foreach ($order_option_query->rows as $option) {
 					if($option['element_type']=='H'){ continue; } //skip hidden options
+					elseif($option['element_type']=='C' && in_array($option['value'], array(0,1,''))){
+						$option['value'] = '';
+					}
 					$option_data[] = array(
 						'name' => $option['name'],
 						'value' => $option['value']
