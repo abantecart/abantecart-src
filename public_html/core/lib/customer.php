@@ -529,9 +529,11 @@ final class ACustomer{
 	 */
 	private function _is_new_cart_format($cart_data=array()){
 		$keys = array_keys($cart_data);
-		foreach($keys as $k){
-			if(is_int(strpos($k, 'store_'))){
-				return true;
+		if (is_array($keys) && !empty($keys)) {
+			foreach($keys as $k){
+				if(is_int(strpos($k, 'store_'))){
+					return true;
+				}
 			}
 		}
 		return false;
