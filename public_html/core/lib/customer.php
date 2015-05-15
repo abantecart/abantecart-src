@@ -527,7 +527,10 @@ final class ACustomer{
 	 * @param array $cart_data
 	 * @return bool
 	 */
-	private function _is_new_cart_format($cart_data=array()){
+	private function _is_new_cart_format($cart_data = array()){
+		if(empty($cart_data)){
+			return false;
+		}
 		$keys = array_keys($cart_data);
 		if (is_array($keys) && !empty($keys)) {
 			foreach($keys as $k){
