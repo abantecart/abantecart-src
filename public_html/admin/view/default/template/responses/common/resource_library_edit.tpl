@@ -119,12 +119,13 @@ $txt_unlink_resource = sprintf($text_unmap_from, $object_title);
 		<?php } ?>
 
 		<div class="form-group">
+			<?php if($resource['resource_objects'] || $mode!='single'){ ?>
 			<label class="col-sm-6 control-label"><?php echo $text_mapped_to; ?></label>
 
 			<div class="col-sm-3">
 				<div class="btn-group maped_resources">
 					<?php
-					if (is_array($resource['resource_objects'])) {
+					if (is_array($resource['resource_objects']) ) {
 						$total_cnt = 0;
 						?>
 						<div class="dropdown-menu dropdown-menu-sm pull-right">
@@ -155,7 +156,9 @@ $txt_unlink_resource = sprintf($text_unmap_from, $object_title);
 					</button>
 				</div>
 			</div>
-			<?php if ($mode == 'single') { ?>
+			<?php
+			}
+			if ($mode == 'single') { ?>
 				<div class="col-sm-3">
 					<a class="btn btn-default btn-xs rl_select tooltips"
 					   data-original-title="<?php echo $txt_select_resource; ?>"
