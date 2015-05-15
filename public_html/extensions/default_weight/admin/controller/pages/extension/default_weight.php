@@ -36,8 +36,14 @@ class ControllerPagesExtensionDefaultWeight extends AController {
 		$this->document->setTitle( $this->language->get('default_weight_name') );
 		$this->load->model('setting/setting');
 
+		//set store id based on param or session.
+		$store_id = (int)$this->config->get('config_store_id');
+		if ($this->session->data['current_store_id']) {
+			$store_id = (int)$this->session->data['current_store_id'];
+		}
+
 		if ($this->request->is_POST() && ($this->_validate())) {
-			$this->model_setting_setting->editSetting('default_weight', $this->request->post, $this->session->data['current_store_id'] );
+			$this->model_setting_setting->editSetting('default_weight', $this->request->post, $store_id );
 			$this->session->data['success'] = $this->language->get('text_success');
 			$this->redirect($this->html->getSecureURL('extension/default_weight'));
 		}
@@ -70,7 +76,7 @@ class ControllerPagesExtensionDefaultWeight extends AController {
    		 ));
 
 		$this->data['form_store_switch'] = $this->html->getStoreSwitcher();
-		
+
 		$this->load->model('localisation/tax_class');
 		$results = $this->model_localisation_tax_class->getTaxClasses();
 		$tax_classes = array( 0 => $this->language->get ( 'text_none' ));
@@ -85,7 +91,7 @@ class ControllerPagesExtensionDefaultWeight extends AController {
 			$locations[ $v['location_id'] ] = $v['name'];
 		}
 
-		$settings = $this->model_setting_setting->getSetting('default_weight',$this->session->data['current_store_id']);
+		$settings = $this->model_setting_setting->getSetting('default_weight',$store_id);
 
 		foreach ( $this->fields as $f ) {
 			if (isset ( $this->request->post [$f] )) {
