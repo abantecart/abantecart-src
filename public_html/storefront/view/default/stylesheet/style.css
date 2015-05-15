@@ -2926,6 +2926,10 @@ form .help-block {
 	min-width: 200px;
 }
 
+.smallimage 	.thumbnail{
+	min-width: 100px !important;
+}
+
 table th {
 	color: #333
 }
