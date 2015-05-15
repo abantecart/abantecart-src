@@ -427,14 +427,7 @@ final class ACustomer{
 		$result = $this->db->query("SELECT cart FROM " . $this->db->table("customers") . " WHERE customer_id = '" . (int)$customer_id . "' AND status = '1'");
 		$cart = unserialize($result->row['cart']);
 		//check is format of cart old or new
-		$keys = array_keys($cart);
-		$new = false;
-		foreach($keys as $k){
-			if(is_int(strpos($k, 'store_'))){
-				$new = true;
-				break;
-			}
-		}
+		$new = $this->_is_new_cart_format( $cart );
 
 		if(!$new){
 			$cart = array(); //clean cart from old format
@@ -470,27 +463,35 @@ final class ACustomer{
 			//load customer saved cart
 			if(($result->row['cart']) && (is_string($result->row['cart']))){
 				$cart = unserialize($result->row['cart']);
+				//check is format of cart old or new
+				$new = $this->_is_new_cart_format( $cart );
 				if(isset($cart['store_' . $store_id])){
 					$cart = $cart['store_' . $store_id];
+				}elseif($new){
+					$cart = array();
 				}
 				//clean products
 				if($cart){
+					$cart_products = array();
+					foreach($cart as $key=>$val){
+						$k = explode(':',$key);
+						$cart_products[] = (int)$k[0]; // <-product_id
+					}
 					$sql = "SELECT product_id
 							FROM " . $this->db->table('products_to_stores') . " pts
-							WHERE store_id = '" . $store_id . "' AND product_id IN (" . implode(', ', array_keys($cart)) . ")";
+							WHERE store_id = '" . $store_id . "' AND product_id IN (" . implode(', ', $cart_products) . ")";
+
 					$result = $this->db->query($sql);
 					$products = array();
 					foreach($result->rows as $row){
 						$products[] = $row['product_id'];
 					}
 
-					$diff = array_diff(array_keys($cart), $products);
+					$diff = array_diff($cart_products, $products);
 					foreach($diff as $p){
 						unset($cart[$p]);
 					}
-
 				}
-
 			}
 		}
 		return $cart;
@@ -505,14 +506,7 @@ final class ACustomer{
 		$store_id = (int)$this->config->get('config_store_id');
 		$cart = !is_array($cart) ? array() : $cart;
 		//check is format of cart old or new
-		$keys = array_keys($cart);
-		$new = false;
-		foreach($keys as $k){
-			if(is_int(strpos($k, 'store_'))){
-				$new = true;
-				break;
-			}
-		}
+		$new = $this->_is_new_cart_format( $cart );
 
 		if($new){
 			$cart = $cart['store_' . $store_id];
@@ -526,6 +520,21 @@ final class ACustomer{
 			}
 		}
 
+	}
+
+	/**
+	 * Recognize cart data format. New format is cart-per-store
+	 * @param array $cart_data
+	 * @return bool
+	 */
+	private function _is_new_cart_format($cart_data=array()){
+		$keys = array_keys($cart_data);
+		foreach($keys as $k){
+			if(is_int(strpos($k, 'store_'))){
+				return true;
+			}
+		}
+		return false;
 	}
 
 
