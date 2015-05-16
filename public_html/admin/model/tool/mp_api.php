@@ -30,6 +30,8 @@ class ModelToolMPAPI extends Model {
 	protected $data = array();
 	protected $mp_url = 'bWFya2V0cGxhY2UuYWJhbnRlY2FydC5jb20v';
 	public function getMPURL(){
+		return 'http://dev07.yourwebstore.net/index.php';
+		//?????
 		return (HTTPS===true ? 'https://' : 'http://') . base64_decode($this->mp_url);
 	}
 
@@ -221,6 +223,7 @@ class ModelToolMPAPI extends Model {
 		$GET = array_merge($params,$GET);
 
 		$href .= '?'.http_build_query($GET);
+
 		$response = $connect->getResponse($this->getMPURL().$href);
 		return $response;
 	}

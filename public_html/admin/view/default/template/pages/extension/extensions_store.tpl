@@ -124,6 +124,7 @@
 	        		if ($item['rating']) {
 	        			$review = $item['rating'];
 	        		}	    
+	        		$item['purchased'] = $product['cell']['purchased'];
 	        		$item['version_supported'] = $product['cell']['version_supported'];
 	        		$item['in_other_store'] = $product['cell']['in_other_store'];
 	        		$item['installation_key'] = $product['cell']['installation_key'];
@@ -165,8 +166,8 @@
 	    						<?php } ?>
 	  						<?php
 	  							//check exstention installation status if it is purchased 
-	  							if($item['installation_key'] && !$item['in_other_store']){
-	  								//extension is available
+	  							if($item['purchased'] && !$item['in_other_store']){
+	  								//is extension installed?
 	  								if($this->extensions->isExtensionAvailable($item['extension_id'])){			
 	  						?>  
 	        					<div class="ext_icons">
@@ -175,12 +176,22 @@
 	        						</a>
 	        					</div>	  							
 		  						<?php
-		  							} else {
+		  							//can we install extension?
+		  							} else if($item['installation_key']) {
 		  						?>  
 	        					<div class="ext_icons">
 	        						<a href="<?php echo $item['install_url']; ?>" class="productinstall tooltips" data-original-title="<?php echo $text_install; ?>">
 	        						<i class="fa fa-cloud-download"></i>
 	        						</a>
+	        					</div>	  							
+		  						<?php
+		  							} else {
+		  							// no supporting version or some other case
+		  						?>  
+	        					<div class="ext_icons">
+	        						<span class="grey_out">
+	        						<i class="fa fa-cloud-download"></i>
+	        						</span>
 	        					</div>	  							
 		  						<?php
 		  							}
