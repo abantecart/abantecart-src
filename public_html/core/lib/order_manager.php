@@ -63,25 +63,16 @@ class AOrderManager extends AOrder {
   		$adm_order_mdl = $this->load->model('sale/order');
 		$customer_data = array();
 		$skip_recalc = array('handling', 'balance');
-		//update and record changed totals. 
-		$message = '';
 
    		//load order details
        	$order_info = $adm_order_mdl->getOrder($this->order_id);
        	$original_totals = $adm_order_mdl->getOrderTotals($this->order_id);
-
 		//update total with new values passed and mark to skip recalc
 		if (!empty($new_totals)) {
 			//build new totals
 			$upd_total = array('totals' => $new_totals);
 			foreach($new_totals as $total_id => $value) {
 				$skip_totals[] = $total_id;
-				//create message if total changed from original
-				foreach($original_totals as $t_old) {
-					if ($total_id == $t_old['order_total_id'] && $value != $t_old['value']) {
-						$message .= $t_old['type']." changed from ".$t_old['text']." to ".$value."\n";
-					}
-				}
 			}		
 			//add old totals before saving whole array
 			foreach($original_totals as $t_old) {
@@ -213,8 +204,9 @@ class AOrderManager extends AOrder {
 		foreach ($total_extns as $value) {
 			$calc_order[$value['key']] = (int)$this->config->get($value['key'] . '_calculation_order');
 		}
+		
+		//need to perfom action of calculation totals one by one and build array by reference 
 		array_multisort($calc_order, SORT_ASC, $total_extns);
-
 		foreach ($total_extns as $extn) {
 			$include = false;
 			//completely skip if not part of current total. 
@@ -255,7 +247,7 @@ class AOrderManager extends AOrder {
 			}			
 		}
 
-		//Create totals update array and log about totals change 
+		//Create totals update array 
 		$is_missing_keys = false;
 		$upd_total = array('totals' => array());
 		foreach($original_totals as $t_old) {
@@ -268,9 +260,6 @@ class AOrderManager extends AOrder {
 				if ($t_new['id'] == $t_old['key']) {
 					$found = true;
 					$upd_total['totals'][$t_old['order_total_id']] = $t_new['text'];
-					if ($t_new['value'] != $t_old['value']) {
-						$message .= $t_old['key']." changed from ".$t_old['text']." to ".$t_new['text']."\n";
-					}
 					break;	
 				}
 			}
@@ -279,20 +268,17 @@ class AOrderManager extends AOrder {
 			if(!$found){
 				$zero_text_val = $this->currency->format(0, $order_info['currency'], $order_info['value'], true);
 				$upd_total['totals'][$t_old['order_total_id']] = $zero_text_val;
-				$message .= $t_old['key']." changed from ".$t_old['text']." to ".$zero_text_val."\n";
 			}	
 		}		
-
 		//update all totals at once
 		$adm_order_mdl->editOrder($this->order_id, $upd_total);
-		
 		//do we have errors?
 		if ($is_missing_keys) {
 			//messing total keys. This is older order 
 			return array('error' => "Cannot recalculate some or all of the totals. Possibly this order was built prior to upgrade and does not have required data.");
 		}
 		
-		return array('message' => $message, 'order_status_id' => $order_info['order_status_id']);
+		return array('order_status_id' => $order_info['order_status_id']);
   	}
    	  	
 }

@@ -270,9 +270,8 @@ class ControllerPagesSaleOrder extends AController{
 				if($this->request->post['force_recalc']){
 					$this->session->data['attention'] = $this->language->get('attention_check_total');
 					$this->redirect($this->html->getSecureURL('sale/order/recalc', '&order_id=' . $order_id));
-				} else {
-					//recalc totals and update 
-					//skip totals for provided values 
+				} else if($this->request->post['force_recalc_single']){
+					//recalc single only
 					$skip_recalc = array();
 					foreach($this->request->post['totals'] as $key => $value){
 						if(has_value($value)){
@@ -281,6 +280,10 @@ class ControllerPagesSaleOrder extends AController{
 					}			
 					$this->redirect($this->html->getSecureURL(	'sale/order/recalc', 
 															'&order_id=' . $order_id.'&skip_recalc='.serialize($skip_recalc)));			
+				
+				} else {
+					//we just save with no reculculation 
+					$this->model_sale_order->editOrder($order_id, $this->request->post);
 				}
 			}
 		}
@@ -403,11 +406,9 @@ class ControllerPagesSaleOrder extends AController{
 				'value' => $order_info['telephone']
 		));
 
+		$this->loadModel('catalog/product');
 		$this->loadModel('catalog/category');
 		$this->data['categories'] = $this->model_catalog_category->getCategories(0);
-
-		$this->loadModel('catalog/product');
-		$this->data['products'] = $this->model_catalog_product->getProducts();
 
 		$this->data['order_products'] = array();
 		$order_products = $this->model_sale_order->getOrderProducts($order_id);
@@ -430,9 +431,20 @@ class ControllerPagesSaleOrder extends AController{
 				);
 			}
 
+			//check if this product product is still available, so we can use reculculation against the cart
+			$product = $this->model_catalog_product->getProduct($order_product['product_id']);
+			if (empty($product) || !$product['status'] || $product['call_to_order']) {
+				$this->data['no_recalc_allowed'] = true;	
+				$product['status'] = 0;	
+			} else if(dateISO2Int($product['date_available']) > time()){
+				$this->data['no_recalc_allowed'] = true;		
+				$product['status'] = 0;	
+			}
+
 			$this->data['order_products'][] = array(
 					'order_product_id' => $order_product['order_product_id'],
 					'product_id'       => $order_product['product_id'],
+					'product_status'   => $product['status'],
 					'name'             => $order_product['name'],
 					'model'            => $order_product['model'],
 					'option'           => $option_data,
@@ -440,27 +452,28 @@ class ControllerPagesSaleOrder extends AController{
 					'price'            => $this->currency->format($order_product['price'], $order_info['currency'], $order_info['value']),
 					'total'            => $this->currency->format($order_product['total'], $order_info['currency'], $order_info['value']),
 					'href'             => $this->html->getSecureURL('catalog/product/update', '&product_id=' . $order_product['product_id'])
-			);
+			);			
+			
 		}
 
 		$this->data['currency'] = $this->currency->getCurrency($order_info['currency']);
 
 		$this->data['totals'] = $this->model_sale_order->getOrderTotals($order_id);
 		//add enabled but not present totals such as dicount and fee.
-		$add_missing = array('low_order_fee', 'handling', 'coupon', 'shipping');
+		$add_missing = array('low_order_fee', 'handling', 'coupon', 'shipping', 'tax');
 		$this->loadModel('setting/extension');
 		$new_totals = array();
 		$total_ext = $this->extensions->getExtensionsList(array('filter' => 'total'));
 		if ($total_ext->rows) {
 			foreach ($total_ext->rows as $row) {
-				$match = false;
+				$match = false;				
 				if(!$row['status'] || !in_array($row['key'], $add_missing)){
 					continue;
 				}		
 				foreach ($this->data['totals'] as $total) {				
 					if($row['key'] == $total['key'] ){
 						$match = true;
-						break;
+						break;	
 					}
 				}	
 				if(!$match){
@@ -475,6 +488,31 @@ class ControllerPagesSaleOrder extends AController{
 						'sort_order' => $this->config->get($row['key'].'_sort_order'),					
 					);
 				}
+			}
+		}
+		//check which totals we allow to edit (disable edit for missing and disabled totals. 
+		foreach ($this->data['totals'] as &$ototal) {
+			$ototal['unavailable'] = true;
+			//is order prior to 1.2.2 upgrade? do not allow recalc
+			if ( empty($ototal['key']) ) {
+				$this->data['no_recalc_allowed'] = true;
+				continue;
+			}
+
+			if ($total_ext->rows) {
+				foreach ($total_ext->rows as $extn) {
+					if(!$extn['status']) {
+						//is total in this order missing? do not allow resulculate 
+						if(str_replace('_', '', $ototal['key']) == str_replace('_', '', $extn['key']) ){
+							$this->data['no_recalc_allowed'] = true;
+						}
+						continue;
+					}
+					if(str_replace('_', '', $ototal['key']) == str_replace('_', '', $extn['key']) ){
+						//all good, total is available 
+						$ototal['unavailable'] = false;
+					}
+				}		
 			}
 		}
 
@@ -526,12 +564,6 @@ class ControllerPagesSaleOrder extends AController{
 		} else {
 			$this->data['form']['fields']['payment_method'] = $this->data['payment_method'];
 		}			
-
-		$this->loadModel('catalog/product');
-		$this->data['products'] = $this->model_catalog_product->getProducts();
-		foreach($this->data['products'] as &$product){
-			$product['price'] = $this->currency->format($product['price']);
-		}
 
 		$this->data['add_product'] = $this->html->buildElement(array(
 				'type'        => 'multiselectbox',
@@ -1428,16 +1460,6 @@ class ControllerPagesSaleOrder extends AController{
 		if( !$t_ret || $t_ret['error'] ) {
 			$this->session->data['error'] = "Error recalculating totals! " . $t_ret['error'];			
 		} else {
-			$log_msg .= $t_ret['message'];
-			//save log message to comment
-			if ($log_msg) {
-				$adm_order_mdl->addOrderHistory($order_id, array(
-				    'order_status_id' => $t_ret['order_status_id'],
-				    'notify' => 0,
-				    'append' => 1,
-				    'comment' => $log_msg
-				));		
-			}
 			$this->session->data['success'] = $this->language->get('text_success');
 		}
 				
@@ -1475,16 +1497,6 @@ class ControllerPagesSaleOrder extends AController{
 				if( !$t_ret || $t_ret['error'] ) {
 					$this->session->data['error'] = "Error recalculating totals! " . $t_ret['error'];			
 				} else {
-					$log_msg .= $t_ret['message'];
-					//save log message to comment
-					if ($log_msg) {
-						$adm_order_mdl->addOrderHistory($order_id, array(
-						    'order_status_id' => $t_ret['order_status_id'],
-						    'notify' => 0,
-						    'append' => 1,
-						    'comment' => $log_msg
-						));		
-					}
 					$this->session->data['success'] = $this->language->get('text_success');
 					$this->session->data['attention'] = $this->language->get('attention_check_total');		
 				}

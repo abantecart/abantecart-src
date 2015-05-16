@@ -160,18 +160,20 @@
 		<?php $order_product_row = 0; ?>
 		<?php foreach ($order_products as $order_product) { ?>
 			<tbody id="product_<?php echo $order_product_row; ?>">
-			<tr>
+			<tr <?php if (!$order_product['product_status']) { ?>class="alert alert-warning"<?php } ?>>
 				<td>
 					<a class="remove btn btn-xs btn-danger-alt tooltips"
 					   data-original-title="<?php echo $button_delete; ?>"
 					   data-order-product-row="<?php echo $order_product_row; ?>">
 						<i class="fa fa-minus-circle"></i>
 					</a>
+					<?php if ($order_product['product_status']) { ?>
 					<a class="edit_product btn btn-xs btn-info-alt tooltips"
 					   data-original-title="<?php echo $text_edit; ?>"
 					   data-order-product-id="<?php echo $order_product['order_product_id']; ?>">
 						<i class="fa fa-pencil"></i>
 					</a>
+					<?php } ?>
 				</td>
 				<td class="left">
 					<a target="_blank" href="<?php echo $order_product['href']; ?>"><?php echo $order_product['name']; ?>
@@ -193,6 +195,9 @@
 					<?php } ?></td>
 				<td class="right">
 						<input class="afield no-save" type="text"
+						<?php if (!$order_product['product_status']) { ?>
+							readonly
+						<?php } ?>
 							name="product[<?php echo $order_product_row; ?>][quantity]"
 							value="<?php echo $order_product['quantity']; ?>"
 							size="4"/></td>
@@ -220,11 +225,13 @@
 				<span class="pull-right">
 					<?php echo $total_row['title']; ?>
 					<?php if (!in_array($total_row['type'] , array('subtotal','total'))) { ?>
-					<a class="reculc_total btn btn-xs btn-info-alt tooltips"
-					   data-original-title="<?php echo $text_recalc; ?>"
-					   data-order-total-id="<?php echo $total_row['order_total_id']; ?>">
-					    <i class="fa fa-refresh"></i>
-					</a>
+						<?php if (!$total_row['unavailable']) { ?>
+						<a class="reculc_total btn btn-xs btn-info-alt tooltips"
+						   	data-original-title="<?php echo $text_recalc; ?>"
+					   		data-order-total-id="<?php echo $total_row['order_total_id']; ?>">
+					    	<i class="fa fa-refresh"></i>
+						</a>
+						<?php } ?>
 					<a class="remove btn btn-xs btn-danger-alt tooltips"
 					   data-original-title="<?php echo $button_delete; ?>"
 					   data-confirmation="delete" onclick="deleteTotal('<?php echo $total_row['order_total_id']; ?>');">
@@ -234,12 +241,14 @@
 				</span>
 				</td>
 				<td>
-					<?php if (!in_array($total_row['type'] , array('subtotal','total'))) { ?>
-						<input type="text" class="col-sm-2 col-xs-12 no-save"
+					<?php if (!in_array($total_row['type'] , array('total'))) { ?>
+						<input type="text" class="col-sm-2 col-xs-12 no-save <?php echo $total_row['type']; ?>"
 									   name="totals[<?php echo $total_row['order_total_id']; ?>]"
 									   value="<?php echo $total_row['text']; ?>"/>
 					<?php } else { ?>
-					<b class="<?php echo $total_row['type']; ?>" rel="totals[<?php echo $total_row['order_total_id']; ?>]"><?php echo $total_row['text']; ?></b>					
+					<b class="<?php echo $total_row['type']; ?>" rel="totals[<?php echo $total_row['order_total_id']; ?>]"><?php echo $total_row['text']; ?>
+					</b>	
+					<input type="hidden" class="hidden_<?php echo $total_row['type']; ?>" name="totals[<?php echo $total_row['order_total_id']; ?>]" value="<?php echo $total_row['text']; ?>"/>
 					<?php } ?>
 					
 					<?php $count++; ?>
@@ -251,7 +260,7 @@
 			<tr>
 				<td colspan="4" class="right"><span class="pull-right"><?php echo $text_add; ?></span></td>
 				<td>
-					<b class="<?php echo $total_row['type']; ?>" rel="totals[<?php echo $total_row['order_total_id']; ?>]">
+					<b rel="totals[<?php echo $total_row['order_total_id']; ?>]">
 					<a class="add_totals btn btn-xs btn-info-alt tooltips"
 					   data-original-title="<?php echo $text_add; ?>"
 					   data-order-id="<?php echo $order_id; ?>">
@@ -305,9 +314,11 @@
 			<button class="btn btn-primary lock-on-click">
 			<i class="fa fa-save fa-fw"></i> <?php echo $button_save; ?>
 			</button>
-			<a class="btn btn-primary save_and_recalc" href="#">
+			<?php if (!$no_recalc_allowed) { ?>
+			<a class="btn btn-default save_and_recalc" href="#">
 			<i class="fa fa-save fa-fw"></i><i class="fa fa-refresh fa-fw"></i> <?php echo $button_save.' & '.$text_recalc.' '.$text_all; ?>
-			</a>			
+			</a>
+			<?php } ?>			
 			<a class="btn btn-default" href="<?php echo $cancel; ?>">
 			<i class="fa fa-arrow-left fa-fw"></i> <?php echo $form['cancel']->text; ?>
 			</a>
@@ -428,12 +439,20 @@
 		});
 
 		//update first total - subtotal
-		$('#products .subtotal').html(get_currency_str(subtotal));
-		//update last - total
+		$('#products .subtotal').val(get_currency_str(subtotal));
 
-		//set tax and final total to 0 as we can not culculate it on a fly
-		$('#products .tax').html('--');
-		$('#products .total').html('--');
+		var total = 0;
+		$('input[name^="totals"]').each(function (i, v) {
+			//skip grand total
+			if(!$(v).hasClass('hidden_total') && $.isNumeric(get_currency_num($(v).val())) ) {
+				total += get_currency_num($(v).val());
+			}		
+		});
+		
+		//update last - total
+		$('#products .total').html(get_currency_str(total));
+		$('#products .hidden_total').val(get_currency_str(total));
+
 	}
 
 	$('#generate_invoice').click(function () {
@@ -486,6 +505,7 @@
 	}
 
 	$('a.reculc_total').click(function () {
+		$(this).append('<input type="hidden" name="force_recalc_single" value="1">');
 	    var total_id = $(this).attr('data-order-total-id');
 	    $('input[name="totals['+total_id+']"]').val('');
 	    $('#orderFrm').submit();
