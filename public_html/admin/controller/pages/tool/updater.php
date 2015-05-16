@@ -83,7 +83,7 @@ class ControllerPagesToolUpdater extends AController {
 								'id' => $key.'_status',
 								'name' => $key.'_status',
 								'value' => $ext_info['status'],
-								'style' => 'btn_switch btn-xs disabled',
+								'style' => 'btn_switch btn-group-xs disabled',
 								'attr' => 'readonly="true" data-edit-url="'.$this->html->getSecureURL('extension/extensions/edit','&extension='.$key).'"'
 							));
 
