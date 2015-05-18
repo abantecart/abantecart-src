@@ -1,3 +1,43 @@
+AbanteCart version 1.2.2
+
+This is a release with few new features and many fixes and improvements 
+
+New Features and improvements highlight:
+- Admin order management improvements
+	1. Ability to add products with options selection
+	2. Order total management & recalculation based on storefront rules
+- Resource library support for Retina images 
+- Marketplace authentication and improvements 
+- Number of UI Improvements for admin and storefront.
+
+
+Core:
+- Ability to access storefront models from Admin. 
+- Cache improvements
+- added experimental Postgres db-driver. Incomplete.
+
+Storefront:
+- checkbox and label position fix
+- added predefined product options when view product from checkout cart page
+- default template minor fix
+- Image resizing improvement for png format.  
+
+Admin:
+- added common controller for tabs building. Customer and customer group edit form tpl fix
+- global search fix related to total extensions
+- Improve HTTPS handling on admin. 
+- Form manager improvments
+
+Extensions:
+- Liqpay is updated.
+- Form manager, add files support.  
+
+Various bus fixes and UI improvements
+
+
+------------------------------------------------------------
+
+
 AbanteCart version 1.2.1
 
 This is a release with few new features and many fixes and improvements 
@@ -39,7 +79,7 @@ Storefront:
 Extensions:
 - Stripe and Skrill payment
 
-Various bus fixes and UI improvments
+Various bus fixes and UI improvements
 
 ------------------------------------------------------------
 
