@@ -205,6 +205,10 @@ class ModelToolTableRelationships extends Model {
 		$this->sections['customers'] = array(
 			'id' => 'customer_id',
 			'children' => array(
+				'addresses' => array(
+					'id' => null,
+					'relation_ids' => array('customer_id', 'address_id')
+				),
 				'reviews' => array(
 					'id' => null,
 					'relation_ids' => array('customer_id', 'review_id', 'product_id')
