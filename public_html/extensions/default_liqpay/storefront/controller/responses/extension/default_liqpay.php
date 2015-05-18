@@ -103,13 +103,29 @@ class ControllerResponsesExtensionDefaultLiqPay extends AController{
 		return null;
 	}
 
-	private function getStatus($liqpay_status){
+	private function getOrderStatus($liqpay_status){
+
+		if($this->config->get('default_liqpay_order_status_id')!='5'){
+			return $this->config->get('default_liqpay_order_status_id');
+		}
+		//for "auto-complete" orders check status from api-response. If something wrong - set pending
 		switch ($liqpay_status){
-			case 'success': $ac_status = 5; break;
-			case 'failure': $ac_status = 10; break;
-			case 'processing': $ac_status = 2; break;
-			case 'reversed': $ac_status = 12; break;
-			default: $ac_status = 1; break;
+			case 'sandbox':
+			case 'success':
+					$ac_status = 5;
+				break;
+			case 'failure':
+					$ac_status = 10;
+				break;
+			case 'processing':
+					$ac_status = 2;
+				break;
+			case 'reversed':
+					$ac_status = 12;
+				break;
+			default:
+				$ac_status = 1; // pending
+				break;
 		}
 		return $ac_status;
 	}
@@ -124,9 +140,9 @@ class ControllerResponsesExtensionDefaultLiqPay extends AController{
 
 		if ($signature == $this->request->post['signature']) {
 
-			$status = $this->getStatus($callback_data['status']);
+			$order_status_id = $this->getOrderStatus($callback_data['status']);
 			$this->load->model('checkout/order');
-			$this->model_checkout_order->confirm($callback_data['order_id'], (int)$status);
+			$this->model_checkout_order->confirm($callback_data['order_id'], (int)$order_status_id);
 			$this->model_checkout_order->updatePaymentMethodData($callback_data['order_id'], serialize($callback_data));
 		}
 	}
