@@ -480,52 +480,62 @@ VALUES
 
 
 
-INSERT INTO `ac_order_totals` (`order_total_id`, `order_id`, `title`, `text`, `value`, `sort_order`,`type`)
+INSERT INTO `ac_order_totals` (`order_total_id`, `order_id`, `title`, `text`, `value`, `sort_order`,`type`, `key`)
 VALUES
-(1,1,'Sub-Total:','£1,583.44','1583.4400',1,'subtotal'),
-(2,1,'Flat Shipping Rate:','£2.00','2.0000',3,'shipping'),
-(3,1,'Total:','£1,585.44','1585.4400',6,'total'),
-(4,2,'Sub-Total:','$386.00','386.0000',1,'subtotal'),
-(5,2,'Retail 8.5%:','$32.81','32.8100',5,'tax'),
-(6,2,'Total:','$418.81','418.8100',6,'total'),
-(7,3,'Sub-Total:','$244.00','244.0000',1,'subtotal'),
-(8,3,'Flat Shipping Rate:','$2.00','2.0000',3,'shipping'),
-(9,3,'Total:','$246.00','246.0000',6,'total'),
-(10,4,'Sub-Total:','$286.20','286.2000',1,'subtotal'),
-(11,4,'Retail 8.5%:','$24.33','24.3270',5,'tax'),
-(12,4,'Total:','$310.53','310.5270',6,'total'),
-(13,5,'Sub-Total:','$630.50','630.5000',1,'subtotal'),
-(14,5,'Flat Shipping Rate:','$2.00','2.0000',3,'shipping'),
-(15,5,'Retail 8.5%:','$53.59','53.5925',5,'tax'),
-(16,5,'Total:','$686.09','686.0925',6,'total'),
-(17,6,'Sub-Total:','$201.00','201.0000',1,'subtotal'),
-(18,6,'Retail 8.5%:','$17.09','17.0850',5,'tax'),
-(19,6,'Total:','$218.09','218.0850',6,'total'),
-(20,7,'Sub-Total:','$162.00','162.0000',1,'subtotal'),
-(21,7,'Retail 8.5%:','$13.77','13.7700',5,'tax'),
-(22,7,'Total:','$175.77','175.7700',6,'total'),
-(23,8,'Sub-Total:','$60.00','60.0000',1,'subtotal'),
-(24,8,'Flat Shipping Rate:','$2.00','2.0000',3,'shipping'),
-(25,8,'Total:','$62.00','62.0000',6,'total'),
-(26,9,'Sub-Total:','$350.00','350.0000',1,'subtotal'),
-(27,9,'Flat Shipping Rate:','$2.00','2.0000',3,'shipping'),
-(28,9,'Total:','$352.00','352.0000',6,'total'),
-(29,10,'Sub-Total:','$143.00','143.0000',1,'subtotal'),
-(30,10,'Retail 8.5%:','$12.16','12.1550',5,'tax'),
-(31,10,'Total:','$155.16','155.1550',6,'total'),
-(32,11,'Sub-Total:','$19.00','19.0000',1,'subtotal'),
-(33,11,'Flat Shipping Rate:','$2.00','2.0000',3,'shipping'),
-(34,11,'Total:','$21.00','21.0000',6,'total'),
-(35,12,'Sub-Total:','£289.42','453.5000',1,'subtotal'),
-(36,12,'Flat Shipping Rate:','£1.28','2.0000',3,'shipping'),
-(37,12,'Retail 8.5%:','£20.34','31.8750',5,'tax'),
-(38,12,'Total:','£311.04','487.3750',6,'total'),
-(39,13,'Sub-Total:','£367.60','576.0000',1,'subtotal'),
-(40,13,'Flat Shipping Rate:','£1.28','2.0000',3,'shipping'),
-(41,13,'Retail 8.5%:','£31.25','48.9600',5,'tax'),
-(42,13,'Total:','£400.13','626.9600',6,'total');
+(1,1,'Sub-Total:','£1,583.44','1583.4400',1,'subtotal', 'sub_total'),
+(2,1,'Flat Shipping Rate:','£2.00','2.0000',3,'shipping', 'shipping'),
+(3,1,'Total:','£1,585.44','1585.4400',6, 'total', 'total'),
 
+(4,2,'Sub-Total:','$386.00','386.0000',1,'subtotal', 'sub_total'),
+(5,2,'Retail 8.5%:','$32.81','32.8100',5,'tax','tax'),
+(6,2,'Total:','$418.81','418.8100',6,'total', 'total'),
 
+(7,3,'Sub-Total:','$244.00','244.0000',1,'subtotal', 'sub_total'),
+(8,3,'Flat Shipping Rate:','$2.00','2.0000',3,'shipping', 'shipping'),
+(9,3,'Total:','$246.00','246.0000',6,'total', 'total'),
+
+(10,4,'Sub-Total:','$286.20','286.2000',1,'subtotal', 'sub_total'),
+(11,4,'Retail 8.5%:','$24.33','24.3270',5,'tax','tax'),
+(12,4,'Total:','$310.53','310.5270',6,'total', 'total'),
+
+(13,5,'Sub-Total:','$630.50','630.5000',1,'subtotal', 'sub_total'),
+(14,5,'Flat Shipping Rate:','$2.00','2.0000',3,'shipping', 'shipping'),
+(15,5,'Retail 8.5%:','$53.59','53.5925',5,'tax','tax'),
+(16,5,'Total:','$686.09','686.0925',6,'total', 'total'),
+
+(17,6,'Sub-Total:','$201.00','201.0000',1,'subtotal', 'sub_total'),
+(18,6,'Retail 8.5%:','$17.09','17.0850',5,'tax','tax'),
+(19,6,'Total:','$218.09','218.0850',6,'total', 'total'),
+
+(20,7,'Sub-Total:','$162.00','162.0000',1,'subtotal', 'sub_total'),
+(21,7,'Retail 8.5%:','$13.77','13.7700',5,'tax','tax'),
+(22,7,'Total:','$175.77','175.7700',6,'total', 'total'),
+
+(23,8,'Sub-Total:','$60.00','60.0000',1,'subtotal', 'sub_total'),
+(24,8,'Flat Shipping Rate:','$2.00','2.0000',3,'shipping', 'shipping'),
+(25,8,'Total:','$62.00','62.0000',6,'total', 'total'),
+
+(26,9,'Sub-Total:','$350.00','350.0000',1,'subtotal', 'sub_total'),
+(27,9,'Flat Shipping Rate:','$2.00','2.0000',3,'shipping', 'shipping'),
+(28,9,'Total:','$352.00','352.0000',6,'total', 'total'),
+
+(29,10,'Sub-Total:','$143.00','143.0000',1,'subtotal', 'sub_total'),
+(30,10,'Retail 8.5%:','$12.16','12.1550',5,'tax','tax'),
+(31,10,'Total:','$155.16','155.1550',6,'total', 'total'),
+
+(32,11,'Sub-Total:','$19.00','19.0000',1,'subtotal', 'sub_total'),
+(33,11,'Flat Shipping Rate:','$2.00','2.0000',3,'shipping', 'shipping'),
+(34,11,'Total:','$21.00','21.0000',6,'total', 'total'),
+
+(35,12,'Sub-Total:','£289.42','453.5000',1,'subtotal', 'sub_total'),
+(36,12,'Flat Shipping Rate:','£1.28','2.0000',3,'shipping', 'shipping'),
+(37,12,'Retail 8.5%:','£20.34','31.8750',5,'tax','tax'),
+(38,12,'Total:','£311.04','487.3750',6,'total', 'total'),
+
+(39,13,'Sub-Total:','£367.60','576.0000',1,'subtotal', 'sub_total'),
+(40,13,'Flat Shipping Rate:','£1.28','2.0000',3,'shipping', 'shipping'),
+(41,13,'Retail 8.5%:','£31.25','48.9600',5,'tax','tax'),
+(42,13,'Total:','£400.13','626.9600',6,'total', 'total');
 
 --
 -- Dumping data for table `orders`

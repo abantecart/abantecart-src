@@ -92,7 +92,7 @@ class ModelExtensionDefaultWeight extends Model {
 							}
 					    }
 					}
-					
+
 					if ((string)$cost != '') { 
       					$quote_data['default_weight_' . $result['location_id']] = array(
         					'id'           => 'default_weight.default_weight_' . $result['location_id'],
@@ -126,7 +126,7 @@ class ModelExtensionDefaultWeight extends Model {
         		'error'      => FALSE
       		);
 		}
-	
+
 		return $method_data;
   	}
 }

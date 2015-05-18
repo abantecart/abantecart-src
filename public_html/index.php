@@ -61,11 +61,6 @@ if (!defined('IS_ADMIN') || !IS_ADMIN ) { // storefront load
 	// Tax
 	$registry->set('tax', new ATax($registry));
 
-	// Weight
-	$registry->set('weight', new AWeight($registry));
-
-	// Length
-	$registry->set('length', new ALength($registry));
 	// Cart
 	$registry->set('cart', new ACart($registry));
 
@@ -79,6 +74,11 @@ if (!defined('IS_ADMIN') || !IS_ADMIN ) { // storefront load
 					
 }// end admin load
 
+// Weight
+$registry->set('weight', new AWeight($registry));
+
+// Length
+$registry->set('length', new ALength($registry));
 
 // Currency
 $registry->set('currency', new ACurrency($registry));

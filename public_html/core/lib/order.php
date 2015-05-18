@@ -266,13 +266,12 @@ class AOrder {
 	
 		if (isset($indata['shipping_method']['title'])) {
 		    $order_info['shipping_method'] = $indata['shipping_method']['title'];
-		    preg_match('/^([^.]+)/', $indata['shipping_method']['id'], $matches);
-		    $order_info['shipping_method_key'] = $matches[1];
+		    $order_info['shipping_method_key'] = $indata['shipping_method']['id']; // note - id by mask method_txt_id.method_option_id. for ex. default_weight.default_weight_1
 		} else {
 		    $order_info['shipping_method'] = '';
 		    $order_info['shipping_method_key'] = '';		    
 		}
-		
+
 		if (isset($indata['payment_method']['title'])) {
 			$order_info['payment_method'] = $indata['payment_method']['title'];
 		    preg_match('/^([^.]+)/', $indata['payment_method']['id'], $matches);

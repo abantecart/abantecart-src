@@ -20,10 +20,11 @@
 if (! defined ( 'DIR_CORE' )) {
 	header ( 'Location: static_pages/' );
 }
+
 /**
  * Class AOrderManager
- *
  */
+
 class AOrderManager extends AOrder {
 	/**
 	 * @var Registry
@@ -33,8 +34,15 @@ class AOrderManager extends AOrder {
 	 * @var int
 	 */
 	protected $order_id;
+	/**
+	 * @var array
+	 */
 	protected $order_data;
-	
+
+	/**
+	 * @param string $order_id
+	 * @throws AException
+	 */
 	public function __construct($order_id = '') {
 		$this->registry = Registry::getInstance();
 		if ((int)$order_id) {
@@ -45,21 +53,24 @@ class AOrderManager extends AOrder {
 			throw new AException (AC_ERR_LOAD, 'Error: permission denied to access package manager');
 		}
 	}
-			      
+
 	/**
-	 * @param none
-	 * @return array 
+	 * @param array $skip_totals
+	 * @param array $new_totals
+	 * @throws AException
+	 * @return array
 	 * NOTE: Admin only method to recalculate existing order totals.
 	 */
   	public function recalcTotals($skip_totals = array(), $new_totals = array()) {
 		if (!IS_ADMIN) { // forbid for non admin calls
 			throw new AException (AC_ERR_LOAD, 'Error: permission denied to access order recalculation');
-			return '';
 		}
 		if ( !has_value($this->order_id) ) {
       		return array('error' => "Missing required details");
     	}
-				
+	    /**
+	     * @var $adm_order_mdl ModelSaleOrder
+	     */
   		$adm_order_mdl = $this->load->model('sale/order');
 		$customer_data = array();
 		$skip_recalc = array('handling', 'balance');
@@ -107,6 +118,9 @@ class AOrderManager extends AOrder {
        	$customer_data['customer_group_id'] = $order_info['customer_group_id'];
        	//get coupon code from coupon_id
        	if (has_value($order_info['coupon_id'])) {
+	        /**
+	         * @var $adm_coupon_mdl ModelSaleCoupon
+	         */
        		$adm_coupon_mdl = $this->load->model('sale/coupon');
        		$cpn_data = $adm_coupon_mdl->getCouponByID($order_info['coupon_id']);
        		if ($cpn_data['code']) {
@@ -170,21 +184,28 @@ class AOrderManager extends AOrder {
 
        	//locate shipping method quote
        	$quote_data = array();
+	    /**
+	     * @var $sf_ext_mdl ModelCheckoutExtension
+	     */
        	$sf_ext_mdl = $this->load->model('checkout/extension', 'storefront');
 
        	//recalc shipping onnly if we know the shipping methond key
        	if ($order_info['shipping_method_key']) {
+	        $shipping_method_key = explode('.',$order_info['shipping_method_key']);
+
+	        $shipping_method_option = $shipping_method_key[1] ? $shipping_method_key[1] : $shipping_method_key[0];
+
 	       	$results = $sf_ext_mdl->getExtensions('shipping');
 	       	foreach ($results as $result) {
-	       		if ($order_info['shipping_method_key'] == $result['key']) {
+	       		if ($shipping_method_key[0] == $result['key']) {
 	       			$this->load->model('extension/' . $result[ 'key' ], 'storefront');
 	       			$quote = $this->{'model_extension_' . $result[ 'key' ]}->getQuote($shipping_address);
 	       			if ($quote) {
 	       				$customer_data['shipping_method'] = array(
-	       					'id' => $quote['quote'][$result['key']]['id'],
-	       					'cost' => $quote['quote'][$result['key']]['cost'],
-	       					'tax_class_id' => $quote['quote'][$result['key']]['tax_class_id'],
-	       					'text' => $quote['quote'][$result['key']]['text']
+	       					'id' => $quote['quote'][$shipping_method_option]['id'],
+	       					'cost' => $quote['quote'][$shipping_method_option]['cost'],
+	       					'tax_class_id' => $quote['quote'][$shipping_method_option]['tax_class_id'],
+	       					'text' => $quote['quote'][$shipping_method_option]['text']
 	       				);
 	       			}			
 	       		}
@@ -237,7 +258,10 @@ class AOrderManager extends AOrder {
 					}
 				}
 			} else {	
-				//process storefront total models		
+				//process storefront total models
+				/**
+				 * @var $sf_total_mdl ModelTotalTotal etc
+				 */
 				$sf_total_mdl = $this->load->model('total/' . $extn['key'], 'storefront');
 				/**
 			 	* parameters are references!!!
