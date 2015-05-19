@@ -191,6 +191,10 @@ class AOrderManager extends AOrder {
 
        	//recalc shipping onnly if we know the shipping methond key
        	if ($order_info['shipping_method_key']) {
+	   		//Load weight/length classes
+	       	$this->registry->set('weight', new AWeight($this->registry));
+	       	$this->registry->set('length', new ALength($this->registry));
+
 	        $shipping_method_key = explode('.',$order_info['shipping_method_key']);
 
 	        $shipping_method_option = $shipping_method_key[1] ? $shipping_method_key[1] : $shipping_method_key[0];
