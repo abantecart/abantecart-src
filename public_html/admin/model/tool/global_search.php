@@ -282,10 +282,29 @@ class ModelToolGlobalSearch extends Model {
 
 			case "settings" :
 				$sql = "SELECT count(*) as total
-						FROM " . $this->db->table("settings") . " 
-						WHERE (LOWER(`value`) like '%" . $needle . "%') OR (LOWER(`key`) like '%" . $needle . "%')";
+						FROM " . $this->db->table("settings") . " s
+						LEFT JOIN " . $this->db->table("extensions") . " e ON s.`group` = e.`key`
+						LEFT JOIN " . $this->db->table("language_definitions") . " l
+										ON l.language_key = CONCAT('entry_',REPLACE(s.`key`,'config_',''))
+						LEFT JOIN " . $this->db->table("stores") . " st ON st.`store_id` = s.`store_id`
+						WHERE (LOWER(`value`) like '%" . $needle . "%')
+								OR
+								(LOWER(s.`key`) like '%" . $needle . "%')
+						UNION
+						SELECT COUNT(s.setting_id) as total
+						FROM " . $this->db->table("language_definitions") . " l
+						LEFT JOIN " . $this->db->table("settings") . " s ON l.language_key = CONCAT('entry_',REPLACE(s.`key`,'config_',''))
+						LEFT JOIN " . $this->db->table("stores") . " st ON st.`store_id` = s.`store_id`
+						WHERE (LOWER(l.language_value) like '%" . $needle . "%'
+								OR LOWER(l.language_value) like '%" . $needle . "%'
+								OR LOWER(l.language_key) like '%" . $needle . "%' )
+							AND block='setting_setting'
+							AND l.language_id ='".( int )$this->config->get('storefront_language_id')."'
+							AND setting_id>0";
 				$result = $this->db->query($sql);
-				$output = $result->row ['total'];
+				foreach($result->rows as $row){
+					$output += (int)$row['total'];
+				}
 				break;
 			case "messages" :
 				$sql = "SELECT COUNT(DISTINCT msg_id) as total
