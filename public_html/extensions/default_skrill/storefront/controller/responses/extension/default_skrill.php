@@ -54,7 +54,7 @@ class ControllerResponsesExtensionDefaultSkrill extends AController {
 			'ext_ref_id' 			=>	'abantecart',
 			'pay_to_email'			=>	$this->config->get('default_skrill_email'),
 			'recipient_description'	=>	$this->config->get('store_name'),
-			'transaction_id'		=>	$this->session->data['order_id'],
+			'transaction_id'		=>	$this->session->data['order_id'].'_'.UNIQUE_ID,
 			'return_url'			=>	$this->html->getSecureURL('checkout/success'),
 			'cancel_url'			=> 	$cancel_url,
 			'status_url'			=>	$this->html->getSecureURL('extension/default_skrill/callback'),
@@ -120,7 +120,7 @@ class ControllerResponsesExtensionDefaultSkrill extends AController {
 		$md5_ok = false;
 		if ($this->config->get('default_skrill_email')) {
 		    $ourhash  = $this->request->post['merchant_id'];
-		    $ourhash .= $this->request->post['transaction_id'];
+		    $ourhash .= $this->request->post['transaction_id'].'_'.UNIQUE_ID;
 		    $ourhash .= strtoupper(md5($this->config->get('default_skrill_secret')));
 		    $ourhash .= $this->request->post['mb_amount'];
 		    $ourhash .= $this->request->post['mb_currency'];
