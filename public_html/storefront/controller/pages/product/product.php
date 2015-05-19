@@ -100,7 +100,7 @@ class ControllerPagesProductProduct extends AController {
 			$key = explode(':',$this->request->get['key']);
 			$product_id = (int)$key[0];
 		}elseif (has_value($this->request->get['product_id'])) {
-			$product_id = $this->request->get['product_id'];
+			$product_id = (int)$this->request->get['product_id'];
 		} else {
 			$product_id = 0;
 		}
