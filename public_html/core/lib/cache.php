@@ -176,6 +176,10 @@ final class ACache {
     	if($this->registry->get('request')->get['rt']=='tool/cache'){
     		return null;
     	}
+    	//validate key for / and \ 
+    	if(strstr($string, '/') || strstr($string, '\\') ){
+    		return null;    	
+    	}
 		if ($create_override || $this->registry->get('config')->get('config_cache_enable')){	
 			//build new cache file name
 			$ch_base = $this->_build_name($key, $language_id, $store_id);
