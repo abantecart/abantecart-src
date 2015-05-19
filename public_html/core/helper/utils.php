@@ -222,7 +222,8 @@ function getFilesInDir($dir, $file_ext = '') {
 	return $result;
 }
 
-// function for version compare
+//Custom function for version compare between store version and extensions
+//NOTE: Function will return false if major versions donot match. 
 function versionCompare($version1, $version2, $operator) {
 	$version1 = explode('.', preg_replace('/[^0-9\.]/', '', $version1));
 	$version2 = explode('.', preg_replace('/[^0-9\.]/', '', $version2));
@@ -242,7 +243,8 @@ function versionCompare($version1, $version2, $operator) {
 		$i++;
 	}
 
-	if ($version1[1] > $version2[1]) { // if major version of extension changed
+	if ($version1[1] > $version2[1]) { 
+		//not compatible, if major version is higher
 		return false;
 	}
 
