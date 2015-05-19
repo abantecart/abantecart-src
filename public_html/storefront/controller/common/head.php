@@ -73,6 +73,7 @@ class ControllerCommonHead extends AController {
 		$this->view->assign('cart_url', $this->html->getURL('checkout/cart'));
         $this->view->assign('cart_ajax', (int) $this->config->get('config_cart_ajax'));
         $this->view->assign('cart_ajax_url', $this->html->getURL('r/product/product/addToCart'));
+        $this->view->assign('search_url', $this->html->getURL('product/search'));
 
         $this->view->assign('call_to_order_url', $this->html->getURL('content/contact'));
 

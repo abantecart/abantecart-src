@@ -106,5 +106,29 @@ $(document).on('click','a.call_to_order',function(){
 	goTo('<?php echo $call_to_order_url;?>');
 	return false;
 });
+
+
+<?php //search block form function ?>
+function search_submit () {
+
+    var url = '<?php echo $search_url;?>';
+
+	var filter_keyword = $('#filter_keyword').val();
+
+	if (filter_keyword) {
+	    url += '&keyword=' + encodeURIComponent(filter_keyword);
+	}
+
+	var filter_category_id = $('#filter_category_id').attr('value');
+
+	if (filter_category_id) {
+	    url += '&category_id=' + filter_category_id;
+	}
+
+	location = url;
+
+	return false;
+}
+
 </script>
 
