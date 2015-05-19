@@ -61,6 +61,7 @@ class ControllerPagesAccountCreate extends AController {
 				$subject = sprintf($this->language->get('text_subject'), $this->config->get('store_name'));
 				$message = sprintf($this->language->get('text_welcome'), $this->config->get('store_name')) . "\n\n";
 				if (!$this->config->get('config_customer_approval')) {
+					//add account activation link if required 
 					if($this->config->get('config_customer_email_activation')){
 						$activation = true; // sign of activation email
 						$code = md5(mt_rand(1,3000));
@@ -93,10 +94,10 @@ class ControllerPagesAccountCreate extends AController {
 				$mail->send();
 
 				$this->extensions->hk_UpdateData($this,__FUNCTION__);
-				if(has_value( $this->session->data['redirect'] )){
-					$redirect_url =  $this->session->data['redirect'];
-				}else{
+				if( $this->config->get('config_customer_email_activation') || !$this->session->data['redirect'] ) {
 					$redirect_url =  $this->html->getSecureURL('account/success');
+				} else {
+					$redirect_url =  $this->session->data['redirect'];					
 				}
 				$this->redirect($redirect_url);
 	  		}
