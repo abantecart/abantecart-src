@@ -101,8 +101,8 @@ showMsg = function (header, body, callback) {
 };   
 	
 function search_submit () {
-	url = window.location.href+'index.php?rt=product/search';
-	
+	url = window.location.href+'&rt=product/search';
+
 	var filter_keyword = $('#filter_keyword').val();
 	
 	if (filter_keyword) {
