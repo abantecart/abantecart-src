@@ -1040,6 +1040,7 @@ CREATE TABLE `ac_orders` (
   `shipping_country_id` int(11) NOT NULL,
   `shipping_address_format` text COLLATE utf8_general_ci NOT NULL,
   `shipping_method` varchar(128) COLLATE utf8_general_ci NOT NULL DEFAULT '',
+  `shipping_method_key` varchar(128) NOT NULL DEFAULT '',
   `payment_firstname` varchar(32) COLLATE utf8_general_ci NOT NULL DEFAULT '',
   `payment_lastname` varchar(32) COLLATE utf8_general_ci NOT NULL DEFAULT '',
   `payment_company` varchar(32) COLLATE utf8_general_ci NOT NULL,
@@ -1053,6 +1054,7 @@ CREATE TABLE `ac_orders` (
   `payment_country_id` int(11) NOT NULL,
   `payment_address_format` text COLLATE utf8_general_ci NOT NULL,
   `payment_method` varchar(128) COLLATE utf8_general_ci NOT NULL DEFAULT '',
+  `payment_method_key` varchar(128) NOT NULL DEFAULT '',
   `comment` text COLLATE utf8_general_ci NOT NULL,
   `total` decimal(15,4) NOT NULL DEFAULT '0.0000',
   `order_status_id` int(11) NOT NULL DEFAULT '0',
@@ -1183,6 +1185,7 @@ CREATE TABLE `ac_order_options` (
   `value` text COLLATE utf8_general_ci NOT NULL,
   `price` decimal(15,4) NOT NULL DEFAULT '0.0000',
   `prefix` char(1) COLLATE utf8_general_ci NOT NULL DEFAULT '',
+  `settings` text COLLATE utf8_general_ci,
   PRIMARY KEY (`order_option_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
 
@@ -1251,7 +1254,8 @@ CREATE TABLE `ac_order_totals` (
   `value` decimal(15,4) NOT NULL DEFAULT '0.0000',
   `sort_order` int(3) NOT NULL,
   `type` varchar(255) COLLATE utf8_general_ci NOT NULL DEFAULT '',
-  PRIMARY KEY (`order_total_id`),
+   `key` varchar(128) NOT NULL DEFAULT '',
+ PRIMARY KEY (`order_total_id`),
   KEY `idx_orders_total_orders_id` (`order_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
 
@@ -1358,6 +1362,7 @@ CREATE TABLE `ac_product_options` (
   `element_type` char(1) NOT NULL DEFAULT 'I',
   `required` smallint(1) NOT NULL default '0',
   `regexp_pattern` varchar(255) NOT NULL default '',
+	`settings`			text COLLATE utf8_general_ci,
   PRIMARY KEY (`product_option_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
 
@@ -11992,7 +11997,7 @@ VALUES  (20, NOW(),'1');
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
 VALUES  (21,'AbanteCart','1');
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
-VALUES  (22,'1.2.1','1');
+VALUES  (22,'1.2.2','1');
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
 VALUES  (23,'','1');
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)

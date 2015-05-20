@@ -254,7 +254,7 @@
 	</definition>
 	<definition>
 		<key>entry_add_product</key>
-		<value><![CDATA[Add Product(s):]]></value>
+		<value><![CDATA[Add Product:]]></value>
 	</definition>
 	<definition>
 		<key>error_permission</key>
@@ -340,4 +340,33 @@
 		<key>text_push_download</key>
 		<value><![CDATA[- Push Download -]]></value>
 	</definition>
+	<definition>
+		<key>text_add_product_to_order</key>
+		<value><![CDATA[Add Product to Order #%s]]></value>
+	</definition>
+	<definition>
+		<key>text_edit_order_product</key>
+		<value><![CDATA[Edit Product]]></value>
+	</definition>
+	<definition>
+		<key>attention_check_total</key>
+		<value><![CDATA[Note: Order product details has changed. Total was recalculated automatically. Review is required.]]></value>
+	</definition>
+	<definition>
+		<key>text_order_total_add</key>
+		<value><![CDATA[Add new amount to total calculation]]></value>
+	</definition>
+	<definition>
+		<key>text_order_total_title</key>
+		<value><![CDATA[Title to show]]></value>
+	</definition>
+	<definition>
+		<key>text_order_total_amount</key>
+		<value><![CDATA[Amount]]></value>
+	</definition>
+	<definition>
+		<key>text_recalc</key>
+		<value><![CDATA[Recalculate]]></value>
+	</definition>
+	
 </definitions>

@@ -1036,6 +1036,12 @@ class AConfigManager {
 			'value' => $data['enable_seo_url'],
 			'style' => 'btn_switch',
 		));
+		$fields['retina_enable'] = $form->getFieldHtml($props[] = array(
+			'type' => 'checkbox',
+			'name' => 'config_retina_enable',
+			'value' => $data['config_retina_enable'],
+			'style' => 'btn_switch',
+		));
 		$fields['compression'] = $form->getFieldHtml($props[] = array(
 			'type' => 'input',
 			'name' => 'config_compression',

@@ -107,6 +107,20 @@ h1,h2,h3,h4,h5 {
    font-size: 32px;
 }
 
+.center_div { 
+   position: fixed;
+   top: 45%;
+   left: 45%;
+   width: 100%;
+   height: 100%;
+}
+
+#iframe_loading {
+	font-size: 18px !important;
+	color: #f19013 !important;
+}
+
+
 /***** Main Scaffolding ******/
 .wrapper {
 }
@@ -799,19 +813,20 @@ h1,h2,h3,h4,h5 {
 }
 
 .pageheader h2 {
-   font-size: 22px;
-   color: #064770;
-   letter-spacing: -0.5px;
-   margin: 0;
-   max-width: 450px;
-   white-space:nowrap;
-   overflow: hidden; 
+	font-size: 22px;
+	color: #064770;
+	letter-spacing: -0.5px;
+	margin: 0;
+	max-width: 450px;
+	white-space:nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
 }
 
 .pageheader .glyphicon,
 .pageheader .fa {
-   font-size: 20px;
-   margin-right: 5px;
+	font-size: 20px;
+	margin-right: 5px;
 	padding: 6px 7px;
 	border: 2px solid #064770;
 	-moz-border-radius: 50px;
@@ -2339,6 +2354,29 @@ body.stickyheader .sticky_left {
     border-color: #ADADAD !important;
     color: #333333 !important;
 }
+
+.dl-horizontal.product-options-list-sm dt{
+	width: 120px;
+}
+.dl-horizontal.product-options-list-sm dd{
+	margin-left: 130px;
+}
+
+.grid-dropdown {
+ 	padding-left: 5px;
+}
+.grid-dropdown li{
+ padding: 5px;
+}
+.grid-dropdown li a{
+	display: block;
+	width: 100%;
+	color: #333 !important;
+}
+.grid-dropdown li a:hover{
+ color: #5894fb !important;
+}
+
 
 /***** Retina Resolution Logo  *****/
 @media all and (min-device-pixel-ratio : 2) {

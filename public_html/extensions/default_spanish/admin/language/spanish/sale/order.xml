@@ -150,7 +150,7 @@
 	</definition>
 	<definition>
 		<key>entry_add_product</key>
-		<value><![CDATA[Agregar Producto(s):]]></value>
+		<value><![CDATA[Agregar Producto:]]></value>
 	</definition>
 	<definition>
 		<key>entry_ip</key>
@@ -335,5 +335,25 @@
 	<definition>
 		<key>text_push_download</key>
 		<value><![CDATA[- Empuje Descargar -]]></value>
-	</definition>	
+	</definition>
+	<definition>
+		<key>attention_check_total</key>
+		<value><![CDATA[Nota: Los detalles del producto Orden ha cambiado. Total se recalcula automáticamente. Revisión requiere.]]></value>
+	</definition>
+	<definition>
+		<key>text_order_total_add</key>
+		<value><![CDATA[Añadir nuevo importe para el cálculo total de]]></value>
+	</definition>
+	<definition>
+		<key>text_order_total_title</key>
+		<value><![CDATA[Título para mostrar]]></value>
+	</definition>
+	<definition>
+		<key>text_order_total_amount</key>
+		<value><![CDATA[Suma]]></value>
+	</definition>
+	<definition>
+		<key>text_recalc</key>
+		<value><![CDATA[Recalcular]]></value>
+	</definition>		
 </definitions>

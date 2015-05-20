@@ -172,8 +172,14 @@ final class ACurrency {
 			$thousand_point = '';
 		}
 		
-    	$string = $symbol_left . number_format(round($value, (int)$decimal_place), (int)$decimal_place, $decimal_point, $thousand_point) .$symbol_right;
-
+    	//check if number is negative
+    	$sign = '';
+    	if ($value < 0) {
+	    	$sign = '-';
+    	}
+		$formated_number = number_format(round(abs($value), (int)$decimal_place), (int)$decimal_place, $decimal_point, $thousand_point);
+    	$string = $sign.$symbol_left.$formated_number.$symbol_right;    	
+    	
     	return $string;
   	}
 

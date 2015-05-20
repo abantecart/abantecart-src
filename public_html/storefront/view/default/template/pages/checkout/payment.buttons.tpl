@@ -23,7 +23,7 @@
 	<div class="modal-body">
 	</div>
 	<div class="modal-footer">
-		<button class="btn" data-dismiss="modal" aria-hidden="true"><?php echo $text_close; ?></button>
+		<button class="btn default" data-dismiss="modal" aria-hidden="true"><?php echo $text_close; ?></button>
 	</div>
 </div>
 </div>  

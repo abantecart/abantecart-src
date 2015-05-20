@@ -526,6 +526,10 @@
         <value><![CDATA[Out of Stock]]></value>
     </definition>
 	<definition>
+        <key>text_product_in_stock</key>
+        <value><![CDATA[In Stock]]></value>
+    </definition>
+	<definition>
         <key>text_product_option_out_of_stock</key>
         <value><![CDATA[Product Option(s) Out of Stock]]></value>
     </definition>
@@ -556,5 +560,21 @@
 	<definition>
 		<key>error_weight_class</key>
 		<value><![CDATA[Please set weight class.]]></value>
+	</definition>
+	<definition>
+		<key>entry_allowed_extensions</key>
+		<value><![CDATA[Allowed File Extensions (txt, jpg …)]]></value>
+	</definition>
+	<definition>
+		<key>entry_min_size</key>
+		<value><![CDATA[Min file size (Kb)]]></value>
+	</definition>
+	<definition>
+		<key>entry_max_size</key>
+		<value><![CDATA[Max file size (Kb)]]></value>
+	</definition>
+	<definition>
+		<key>entry_upload_dir</key>
+		<value><![CDATA[Upload directory name<br>%s]]></value>
 	</definition>
 </definitions>

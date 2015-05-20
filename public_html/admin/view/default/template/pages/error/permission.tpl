@@ -1,11 +1,16 @@
 
-<div class="box">
-  <div class="left"></div>
-  <div class="right"></div>
-  <div class="heading">
-    <h1 style="background-image: url('<?php echo $template_dir; ?>image/error.png');"><?php echo $heading_title; ?></h1>
-  </div>
-  <div class="content">
-    <div style="border: 1px solid #DDDDDD; background: #F7F7F7; text-align: center; padding: 15px;"><?php echo $text_permission; ?></div>
-  </div>
+<div id="content" class="panel panel-default">
+
+	<div class="panel-heading col-xs-12">
+		<div class="primary_content_actions text-left">
+			<label class="h4 heading "><?php echo $heading_title; ?></label>
+		</div>
+	</div>
+
+	<div class="panel-body panel-body-nopadding tab-content col-xs-12">
+		<div class="warning alert alert-error alert-danger"><i class="fa fa fa-exclamation-triangle fa-fw"></i>
+		<?php echo $text_permission; ?>
+		</div>
+	</div>
+
 </div>

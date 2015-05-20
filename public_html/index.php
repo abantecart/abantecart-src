@@ -66,6 +66,7 @@ if (!defined('IS_ADMIN') || !IS_ADMIN ) { // storefront load
 
 	// Length
 	$registry->set('length', new ALength($registry));
+
 	// Cart
 	$registry->set('cart', new ACart($registry));
 
@@ -78,7 +79,6 @@ if (!defined('IS_ADMIN') || !IS_ADMIN ) { // storefront load
 	$registry->set('user', new AUser($registry));
 					
 }// end admin load
-
 
 // Currency
 $registry->set('currency', new ACurrency($registry));

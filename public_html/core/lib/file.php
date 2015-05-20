@@ -81,7 +81,7 @@ class AFile {
 			$extension = substr(strrchr($data['name'], '.'), 1);
 
 			if ( !in_array($extension, $allowed_extensions) ) {
-				$errors[] = sprintf($this->language->get('error_file_extension'), $settings['extensions']);
+				$errors[] = sprintf($this->language->get('error_file_extension'), $settings['extensions']).' ('.$data['name'].')';
 			}
 
 		}
@@ -89,7 +89,7 @@ class AFile {
 		if ( (int) $settings['min_size'] > 0 ) {
 			$min_size_kb = $settings['min_size'];
 			if ( (int) $data['size'] / 1024 < $min_size_kb ) {
-				$errors[] = sprintf($this->language->get('error_min_file_size'), $min_size_kb);
+				$errors[] = sprintf($this->language->get('error_min_file_size'), $min_size_kb).' ('.$data['name'].')';
 			}
 		}
 
@@ -104,7 +104,7 @@ class AFile {
 		}
 
 		if ( $max_size_kb < (int) $data['size'] / 1024 ) {
-			$errors[] = sprintf($this->language->get('error_max_file_size'), $max_size_kb);
+			$errors[] = sprintf($this->language->get('error_max_file_size'), $max_size_kb).' ('.$data['name'].')';
 		}
 
 		return $errors;

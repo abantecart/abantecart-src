@@ -32,15 +32,18 @@ class ControllerResponsesProductReview extends AController {
 		$this->loadModel('catalog/review');
 
         $this->view->assign('text_no_reviews', $this->language->get('text_no_reviews') );
+	
+		$request = $this->request->get;
+		$product_id = (int)$request['product_id'];
 
-		if (isset($this->request->get['page'])) {
-			$page = $this->request->get['page'];
+		if (isset($request['page'])) {
+			$page = $request['page'];
 		} else {
 			$page = 1;
 		}  
 		
 		$reviews = array();
-		$results = $this->model_catalog_review->getReviewsByProductId($this->request->get['product_id'], ($page - 1) * 5, 5);
+		$results = $this->model_catalog_review->getReviewsByProductId($product_id, ($page - 1) * 5, 5);
 		foreach ($results as $result) {
         	$reviews[] = array(
         		'author'     => $result['author'],
@@ -52,7 +55,7 @@ class ControllerResponsesProductReview extends AController {
       	}
 		$this->data['reviews'] =  $reviews;
 		
-		$review_total = $this->model_catalog_review->getTotalReviewsByProductId($this->request->get['product_id']);
+		$review_total = $this->model_catalog_review->getTotalReviewsByProductId($product_id);
 
 		$this->data['pagination_bootstrap'] = HtmlElementFactory::create( array (
 									'type' => 'Pagination',
@@ -63,7 +66,7 @@ class ControllerResponsesProductReview extends AController {
 									'page'	=> $page,
 									'limit'	=> 5,
 									'no_perpage' => true,
-									'url' => $this->html->getURL('product/review/review','&product_id=' . $this->request->get['product_id'] . '&page={page}'),
+									'url' => $this->html->getURL('product/review/review','&product_id=' . $product_id . '&page={page}'),
 									'style' => 'pagination'));
 
 		$this->view->batchAssign($this->data);
@@ -78,11 +81,13 @@ class ControllerResponsesProductReview extends AController {
         //init controller data
         $this->extensions->hk_InitData($this,__FUNCTION__);
 
+		$product_id = (int)$this->request->get['product_id'];
+
 		$this->loadLanguage('product/product');
 		$this->loadModel('catalog/review');
 		$json = array();
 		if ($this->request->is_POST() && $this->_validate()) {
-			$this->model_catalog_review->addReview($this->request->get['product_id'], $this->request->post);
+			$this->model_catalog_review->addReview($product_id, $this->request->post);
 			unset($this->session->data['captcha']);
 			$json['success'] = $this->language->get('text_success');
 		} else {

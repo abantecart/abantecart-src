@@ -1,7 +1,7 @@
 <?php
 
 /*
-	1.2.1 Upgrade notes:
+	1.2.2 Upgrade notes:
 
 */
 
@@ -9,7 +9,7 @@
 $sql = "SELECT TABLE_NAME
 		FROM information_schema.TABLES
 		WHERE information_schema.TABLES.table_schema = '".DB_DATABASE."'
-					AND TABLE_NAME = '".$this->db->table('customers_enc')."'";
+					AND TABLE_NAME = '".$this->db->table('ac_users')."'";
 
 $result = $this->db->query($sql);
 if($result->num_rows){

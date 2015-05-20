@@ -18,7 +18,7 @@ $('#checkout').click(function() {
 	$('#blocker').show();
 	$.ajax({
 		type: 'GET',
-		url: 'index.php?rt=r/checkout/no_payment/confirm',
+		url: '<?php echo $this->html->getURL('r/checkout/no_payment/confirm');?>',
 		success: function() {
 			location = '<?php echo $continue; ?>';
 		}		

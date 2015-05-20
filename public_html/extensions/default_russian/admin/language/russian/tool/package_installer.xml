@@ -93,6 +93,10 @@
     <value><![CDATA[Ошибка: файл пакета %PACKAGE% не существует.]]></value>
   </definition>
   <definition>
+	<key>error_mp</key>
+	<value><![CDATA[ Marketplace error: ]]></value>
+  </definition>
+  <definition>
     <key>error_repository</key>
     <value><![CDATA[Ошибка: не удается загрузить файл. Ошибка хранилища или неверной ключ расширения. Попробуйте еще раз. Если проблема не устраняется скачайте файл в истории заказа и установить вручную.]]></value>
   </definition>
@@ -216,4 +220,9 @@
     <key>text_core_upgrade_attention</key>
     <value><![CDATA[Внимание! AbanteCart будет обновлен до версии %s! Автоматически будет создана полная резервная копия. Рекомендуется попробовать обновить на тестовом сайте.]]></value>
   </definition>
+	<definition>
+		<key>error_notconnected</key>
+		<value><![CDATA[ Не возможно устанавливать расширения с маркетплейса. Этот магазин не подключен. Пожалуйста, подключитесь в <a href="%s">маркетплейс</a> ]]></value>
+	</definition>
+  
 </definitions>

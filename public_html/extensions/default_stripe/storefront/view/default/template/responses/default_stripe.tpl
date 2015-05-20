@@ -153,7 +153,7 @@ $('#stripe').submit(function(event) {
 	if( !$.aCCValidator.validate($form) ){
 		return false;
 	} else {
-		confirmSubmit($form, 'index.php?rt=extension/default_stripe/send');
+		confirmSubmit($form, '<?php echo $this->html->getURL('extension/default_stripe/send');?>');
 	}
 });
 

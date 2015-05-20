@@ -84,8 +84,10 @@ class ControllerPagesToolPackageInstaller extends AController {
 						'text' => $this->language->get('text_continue')));
 
 		if (isset($this->session->data['error'])) {
-			$this->view->assign('error_warning', $this->session->data['error']);
-			unset($package_info['package_dir'], $this->session->data['error']);
+			$error_txt = $this->session->data['error'];
+			$error_txt .=  '<br>'.$this->language->get('error_additional_help_text');
+			$this->view->assign('error_warning', $error_txt);
+			unset($package_info['package_dir'], $this->session->data['error'], $error_txt);
 		}
 		unset($this->session->data['error'], $this->session->data['success']);
 		$package_info['package_source'] = 'network';
@@ -187,8 +189,10 @@ class ControllerPagesToolPackageInstaller extends AController {
 						'text' => $this->language->get('text_continue')));
 
 		if (isset($this->session->data['error'])) {
-			$this->view->assign('error_warning', $this->session->data['error']);
-			unset($package_info['package_dir']);
+			$error_txt = $this->session->data['error'];
+			$error_txt .=  '<br>'.$this->language->get('error_additional_help_text');
+			$this->view->assign('error_warning', $error_txt);
+			unset($package_info['package_dir'], $error_txt);
 		}
 		unset($this->session->data['error']);
 		$this->data['heading_title'] = $this->language->get('heading_title');
@@ -326,20 +330,26 @@ class ControllerPagesToolPackageInstaller extends AController {
 		if (!is_writable($package_info['tmp_dir'])) {
 			$this->session->data['error'] = $this->language->get('error_dir_permission') . ' ' . $package_info['tmp_dir'];
 			unset($this->session->data['package_info']);
-			$this->redirect($this->html->getSecureURL('tool/package_installer'));
+			$this->redirect($this->_get_begin_href());
 		}
 		//do condition for MP
 		$this->loadModel('tool/mp_api');
 
 		if($extension_key) {
+			//need to mp token to get download based on key.
+			$mp_token = $this->config->get('mp_token');
+			if (!$mp_token) {
+				$this->session->data['error'] = sprintf($this->language->get('error_notconnected'), $this->html->getSecureURL('extension/extensions_store'));
+				$this->redirect($this->_get_begin_href());			
+			} 
 			if( substr($extension_key,0,4) == 'acmp' ){ // if prefix for new mp presents
 				$url = $this->model_tool_mp_api->getMPURL().'?rt=r/account/download/getdownloadbykey';
 			}else{ // for upgrades
 				$url = "/?option=com_abantecartrepository&format=raw";
 			}
-			$url .= "&remote_store_id=" . UNIQUE_ID;
-			$url .= "&remote_store_ip=" . $_SERVER ['SERVER_ADDR'];
-			$url .= "&remote_store_url=" . HTTP_SERVER;
+			$url .= "&mp_token=".$mp_token;
+			$url .= "&store_id=" . UNIQUE_ID;
+			$url .= "&store_url=" . HTTP_SERVER;
 			$url .= "&store_version=" . VERSION;
 			$url .= "&extension_key=" . $extension_key;
 		} else {
@@ -348,15 +358,14 @@ class ControllerPagesToolPackageInstaller extends AController {
 
 		$pmanager = new APackageManager();
 		$headers = $pmanager->getRemoteFileHeaders($url);
-
 		if (!$headers) {
-			$this->session->data['error'] = $pmanager->error;
+			$this->session->data['error'] = $this->language->get('error_mp')." ".$pmanager->error;
 			$this->redirect($this->_get_begin_href());
 		}
-
-		if ($headers['Content-Type'] == 'application/json') {
+		//if we have json returned, something went wrong. 
+		if ( preg_match("/application\/json/", $headers['Content-Type'])) {
 			$error = $pmanager->getRemoteFile($url, false);
-			$this->session->data['error'] = $error['error'];
+			$this->session->data['error'] = $this->language->get('error_mp')." ".$error['error'];
 			$this->redirect($this->_get_begin_href());
 		} else {
 			$package_name = str_replace("attachment; filename=", "", $headers['Content-Disposition']);
@@ -466,7 +475,9 @@ class ControllerPagesToolPackageInstaller extends AController {
 		}
 
 		if (!file_exists($package_info['tmp_dir'] . $package_dirname)) {
-			$this->session->data['error'] = str_replace('%PACKAGE%', $package_info['tmp_dir'] . $package_dirname, $this->language->get('error_pack_not_found'));
+			$this->session->data['error'] = $this->html->convertLinks(
+					sprintf($this->language->get('error_pack_file_not_found'), $package_info['tmp_dir'] . $package_dirname )
+			);
 			$this->redirect($this->_get_begin_href());
 		}
 
@@ -474,7 +485,7 @@ class ControllerPagesToolPackageInstaller extends AController {
 		$config = simplexml_load_string(file_get_contents($package_info['tmp_dir'] . $package_dirname . '/package.xml'));
 
 		if (!$config) {
-			$this->session->data['error'] = $this->language->get('error_package_config');
+			$this->session->data['error'] = $this->html->convertLinks($this->language->get('error_package_config_xml'));
 			$this->_removeTempFiles();
 			$this->redirect($this->_get_begin_href());
 		}

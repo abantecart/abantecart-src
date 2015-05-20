@@ -1,15 +1,6 @@
 <?php include($tpl_common_dir . 'action_confirm.tpl'); ?>
 
-<?php if ($main_tab) { ?>
-	<ul class="nav nav-tabs nav-justified nav-profile">
-		<li><a href="<?php echo $main_tab['href']; ?>" class="<?php echo $main_tab['class']; ?>"><span><?php echo $main_tab['text']; ?></span></a></li>
-		<?php if ($tabs){ ?>
-			<?php foreach ( $tabs as $tab){ ?>
-		<li class="<?php echo $tab['class']; ?>"><a href="<?php echo $tab['href']; ?>"><span><?php echo $tab['text']; ?></span></a></li>
-		<?php }}?>
-		<?php echo $this->getHookVar('extension_tabs'); ?>
-	</ul>
-<?php } ?>
+<?php echo $tabs; ?>
 
 <div id="content" class="panel panel-default">
 

@@ -48,7 +48,8 @@
 			    if($active=='appearance'){?>
 			    	<a class="btn btn-white tooltips"
 			    	   href="<?php echo $clone_button->href; ?>"
-			    	   title="<?php echo $clone_button->text; ?>">
+			    	   title="<?php echo $clone_button->text; ?>"
+					   <?php echo $clone_button->attr;?> >
 			    	<i class="fa fa-copy fa-lg"></i>
 			    </a>
 			    <?php } ?>

@@ -567,4 +567,20 @@
 		<key>error_weight_class</key>
 		<value><![CDATA[Пожалуйста, укажите единицу измерения веса.]]></value>
 	</definition>
+	<definition>
+		<key>entry_allowed_extensions</key>
+		<value><![CDATA[Допустимые расширения файлов (TXT, JPG ...)]]></value>
+	</definition>
+	<definition>
+		<key>entry_min_size</key>
+		<value><![CDATA[Минимальный размер файла (Kb)]]></value>
+	</definition>
+	<definition>
+		<key>entry_max_size</key>
+		<value><![CDATA[Максимальный размер файла (Kb)]]></value>
+	</definition>
+	<definition>
+		<key>entry_upload_dir</key>
+		<value><![CDATA[Добавить имя каталога]]></value>
+	</definition>
 </definitions>

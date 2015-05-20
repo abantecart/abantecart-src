@@ -59,7 +59,17 @@ class ControllerPagesLocalisationTaxClass extends AController {
             'actions' => array(
                 'edit' => array(
                     'text' => $this->language->get('text_edit'),
-                    'href' => $this->html->getSecureURL('localisation/tax_class/update', '&tax_class_id=%ID%')
+                    'href' => $this->html->getSecureURL('localisation/tax_class/update', '&tax_class_id=%ID%'),
+                    'children' => array_merge(array(
+                            'details' => array(
+                                            'text' => $this->language->get('tab_details'),
+                                            'href' => $this->html->getSecureURL('localisation/tax_class/update', '&tax_class_id=%ID%'),
+                                            ),
+                            'rates' => array(
+                                            'text' => $this->language->get('tab_rates'),
+                                            'href' => $this->html->getSecureURL('localisation/tax_class/rates', '&tax_class_id=%ID%'),
+                                            )
+                    ),(array)$this->data['grid_edit_expand'])
                 ),
                 'save' => array(
                     'text' => $this->language->get('button_save'),
@@ -141,9 +151,9 @@ class ControllerPagesLocalisationTaxClass extends AController {
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
 
-
         $tax_class_info = $this->model_localisation_tax_class->getTaxClass($this->request->get['tax_class_id']);
-
+	    $this->data['tax_class_id'] = $this->request->get['tax_class_id'];
+		$this->_initTabs('rates');
         $this->view->assign('error_warning', $this->error['warning']);
         $this->view->assign('success', $this->session->data['success']);
         if (isset($this->session->data['success'])) {
@@ -167,15 +177,9 @@ class ControllerPagesLocalisationTaxClass extends AController {
         $this->document->addBreadcrumb(array(
             'href' => $this->html->getSecureURL('localisation/tax_class/update', '&tax_class_id=' . $this->request->get['tax_class_id']),
             'text' => $this->language->get('text_edit') . $this->language->get('text_class') . ' - ' . $tax_title,
-            'separator' => ' :: '
-        ));
-        $this->document->addBreadcrumb(array(
-            'href' => $this->html->getSecureURL('localisation/tax_class/rates', '&tax_class_id=' . $this->request->get['tax_class_id']),
-            'text' => $this->language->get('tab_rates'),
             'separator' => ' :: ',
             'current'	=> true
         ));
-
 
         $this->data['insert'] = $this->html->getSecureURL('localisation/tax_class/insert_rates', '&tax_class_id=' . $this->request->get['tax_class_id']);
 
@@ -327,7 +331,6 @@ class ControllerPagesLocalisationTaxClass extends AController {
 
         $tax_class_info = $this->model_localisation_tax_class->getTaxClass($tax_class_id);
 
-        $this->data = array();
         $this->data['error'] = $this->error;
         $this->data['cancel'] = $this->html->getSecureURL('localisation/tax_class/rates', '&tax_class_id=' . $tax_class_id);
 
@@ -414,6 +417,7 @@ class ControllerPagesLocalisationTaxClass extends AController {
             $this->data['update'] = '';
             $form = new AForm('ST');
         } else {
+	        $this->data['tax_class_id'] = $tax_class_id;
             $form_action = $this->html->getSecureURL('localisation/tax_class/update_rates', '&tax_class_id=' . $tax_class_id . '&tax_rate_id=' . $tax_rate_id);
             $this->data['heading_title'] = $this->language->get('text_edit') . $this->language->get('text_class') . ' - ' . $tax_title;
             $this->data['form_title'] = $this->language->get('text_edit') . $this->language->get('text_rate');
@@ -548,7 +552,6 @@ class ControllerPagesLocalisationTaxClass extends AController {
         $this->view->batchAssign($this->data);
         $this->processTemplate('pages/localisation/tax_class_rate_form.tpl');
     }
-
 
     private function _getForm() {
         $this->data = array();

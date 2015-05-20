@@ -32,6 +32,7 @@ class ControllerCommonHead extends AController {
 		$this->view->assign('keywords', $this->document->getKeywords());
 		$this->view->assign('description', $this->document->getDescription());
 		$this->view->assign('template', $this->config->get('config_storefront_template'));
+		$this->view->assign('retina', $this->config->get('config_retina_enable'));
 
 		
 		if (isset($this->request->server['HTTPS']) && (($this->request->server['HTTPS'] == 'on') || ($this->request->server['HTTPS'] == '1'))) {
@@ -72,6 +73,7 @@ class ControllerCommonHead extends AController {
 		$this->view->assign('cart_url', $this->html->getURL('checkout/cart'));
         $this->view->assign('cart_ajax', (int) $this->config->get('config_cart_ajax'));
         $this->view->assign('cart_ajax_url', $this->html->getURL('r/product/product/addToCart'));
+        $this->view->assign('search_url', $this->html->getURL('product/search'));
 
         $this->view->assign('call_to_order_url', $this->html->getURL('content/contact'));
 

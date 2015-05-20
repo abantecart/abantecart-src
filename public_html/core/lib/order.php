@@ -35,31 +35,35 @@ if (! defined ( 'DIR_CORE' )) {
  * @property ModelCheckoutOrder $model_checkout_order
  *
  */
-final class AOrder {
+class AOrder {
 	/**
 	 * @var Registry
 	 */
-	private $registry;
+	protected $registry;
 	/**
 	 * @var int
 	 */
-	private $customer_id;
+	protected $customer_id;
 	/**
 	 * @var int
 	 */
-	private $order_id;
-	private $customer;
-	private $order_data;
+	protected $order_id;
+	protected $customer;
+	protected $order_data;
 	
-  	public function __construct($registry) {
+  	public function __construct($registry, $order_id = '') {
   		$this->registry = $registry;
   		
-		$this->load->model('checkout/order');
-		$this->load->model('account/order');
-				
-		if (isset($this->session->data['order_id'])) {
-      		$this->order_id = $this->session->data['order_id'];
-    	}
+		$this->load->model('checkout/order', 'storefront');
+		$this->load->model('account/order', 'storefront');
+
+		//if nothing is passed use session array. Customer session, can function on storefrnt only 
+		if (!has_value($order_id)) {
+			$this->order_id = (int)$this->session->data['order_id'];  
+		} else {
+			$this->order_id = (int)$order_id;  		
+		}
+
     	if ( class_exists($this->registry->customer) ) {
 			$this->customer_id = $this->registry->customer->getId();
     	} else {
@@ -84,7 +88,11 @@ final class AOrder {
 		return $this->order_data;
 	}	
 		      
-	//method to create an order based on provided data array. 
+	/**
+	 * @param array $indata : Session data array
+	 * @return array 
+	 * NOTE: method to create an order based on provided data array. 
+	 */
 	public function buildOrderData( $indata ) {
 		$order_info = array();
 		if( empty( $indata ) ){
@@ -109,7 +117,7 @@ final class AOrder {
 		
 		foreach ($results as $result) {
 			$this->load->model('total/' . $result['key']);
-			$this->{'model_total_' . $result['key']}->getTotal($total_data, $total, $taxes);
+			$this->{'model_total_' . $result['key']}->getTotal($total_data, $total, $taxes, $indata);
 		}
 		
 		$sort_order = array(); 
@@ -258,12 +266,16 @@ final class AOrder {
 	
 		if (isset($indata['shipping_method']['title'])) {
 		    $order_info['shipping_method'] = $indata['shipping_method']['title'];
+		    $order_info['shipping_method_key'] = $indata['shipping_method']['id']; // note - id by mask method_txt_id.method_option_id. for ex. default_weight.default_weight_1
 		} else {
 		    $order_info['shipping_method'] = '';
+		    $order_info['shipping_method_key'] = '';		    
 		}
-		
+
 		if (isset($indata['payment_method']['title'])) {
 			$order_info['payment_method'] = $indata['payment_method']['title'];
+		    preg_match('/^([^.]+)/', $indata['payment_method']['id'], $matches);
+		    $order_info['payment_method_key'] = $matches[1];
 		} else {
 			$order_info['payment_method'] = '';
 		}

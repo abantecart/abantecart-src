@@ -1,5 +1,5 @@
 <div id="customernav" class="navbar">
-	<ul class="nav navbar-nav main_menu" id="main_menu_top">
+	<ul class="nav navbar-nav main_menu" id="customer_menu_top">
 <?php if ($active) { ?>
 		<li class="dropdown"><a href="<?php echo $account; ?>" class="top menu_account"><span class="menu_text"><?php echo $text_welcome.' '.$name; ?></span></a>
 		<ul class="sub_menu dropdown-menu">

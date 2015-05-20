@@ -71,7 +71,7 @@
 	</definition>
 	<definition>
 		<key>text_extensions_store</key>
-		<value><![CDATA[Extensions Store]]></value>
+		<value><![CDATA[Extensions Marketplace]]></value>
 	</definition>
 	<definition>
 		<key>text_required</key>
@@ -137,6 +137,50 @@
 		<key>text_all_categories</key>
 		<value><![CDATA[All Categories]]></value>
 	</definition>
+	<definition>
+		<key>text_connect</key>
+		<value><![CDATA[Connect]]></value>
+	</definition>	
+	<definition>
+		<key>text_marketplace_connect</key>
+		<value><![CDATA[Connect to the marketplace]]></value>
+	</definition>	
+	<definition>
+		<key>text_marketplace_extension</key>
+		<value><![CDATA[Extension preview & order ]]></value>
+	</definition>	
+	<definition>
+		<key>text_marketplace_buy</key>
+		<value><![CDATA[Get this extension now]]></value>
+	</definition>	
+	<definition>
+		<key>text_connected</key>
+		<value><![CDATA[Connected to the marketplace. Click to disconnect]]></value>
+	</definition>	
+	<definition>
+		<key>text_disconnect_confirm</key>
+		<value><![CDATA[Are you sure you want to disconnect?]]></value>
+	</definition>	
+	<definition>
+		<key>text_disconnect_success</key>
+		<value><![CDATA[This store was disconnected!]]></value>
+	</definition>	
+	<definition>
+		<key>text_connection_required</key>
+		<value><![CDATA[You need to connect AbanteCart to the Marketplace to see your extensions! Click "connect" button in the above panel.]]></value>
+	</definition>	
+	<definition>
+		<key>text_in_other_store</key>
+		<value><![CDATA[Extension for this order was installed in the other AbanteCart. Check your connected stores for history.]]></value>
+	</definition>	
+	<definition>
+		<key>text_no_purchase_or_not_connected</key>
+		<value><![CDATA[You have no purchases for this store or this store was diconnected from the Marketplace.]]></value>
+	</definition>	
+	<definition>
+		<key>text_no_extenions_loaded</key>
+		<value><![CDATA[No extensions are available. Check your selection or try again.]]></value>
+	</definition>	
 	<definition>
 		<key>text_compatibility</key>
 		<value><![CDATA[This extension is not confirmed to work with your version of AbanteCart. Contact extension developer to confirm compatibility.]]></value>

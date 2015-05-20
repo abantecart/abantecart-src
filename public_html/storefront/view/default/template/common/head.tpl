@@ -55,7 +55,7 @@
         document.write(include);
     }
 </script>
-<script type="text/javascript" src="<?php echo $template_dir; ?>javascript/jquery-migrate-1.2.1.min.js"></script>
+<script type="text/javascript" src="<?php echo $this->templateResource('/javascript/jquery-migrate-1.2.1.min.js');?>"></script>
 
 <script type="text/javascript" src="<?php echo $this->templateResource('/javascript/common.js'); ?>"></script>
 
@@ -63,6 +63,11 @@
 <script type="text/javascript" src="<?php echo $script; ?>"></script>
 <?php } ?>
 <script type="text/javascript">
+<?php if($retina){?>
+	if((window.devicePixelRatio===undefined?1:window.devicePixelRatio)>1) {
+		document.cookie = 'HTTP_IS_RETINA=1;path=/';
+	}
+<?php } ?>
 <?php if($cart_ajax){ //event for adding product to cart by ajax ?>
 	$(document).on('click', 'a.productcart', function() {
         var item = $(this);
@@ -101,5 +106,29 @@ $(document).on('click','a.call_to_order',function(){
 	goTo('<?php echo $call_to_order_url;?>');
 	return false;
 });
+
+
+<?php //search block form function ?>
+function search_submit () {
+
+    var url = '<?php echo $search_url;?>';
+
+	var filter_keyword = $('#filter_keyword').val();
+
+	if (filter_keyword) {
+	    url += '&keyword=' + encodeURIComponent(filter_keyword);
+	}
+
+	var filter_category_id = $('#filter_category_id').attr('value');
+
+	if (filter_category_id) {
+	    url += '&category_id=' + filter_category_id;
+	}
+
+	location = url;
+
+	return false;
+}
+
 </script>
 

@@ -21,7 +21,7 @@ if (! defined ( 'DIR_CORE' )) {
 	header ( 'Location: static_pages/' );
 }
 class ModelTotalLowOrderFee extends Model {
-	public function getTotal(&$total_data, &$total, &$taxes) {
+	public function getTotal(&$total_data, &$total, &$taxes, &$cust_data) {
 		$conf_tax_id = $this->config->get('low_order_fee_tax_class_id');
 		$conf_low_fee = $this->config->get('low_order_fee_fee');
 	

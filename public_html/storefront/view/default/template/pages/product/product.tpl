@@ -12,9 +12,8 @@
 			<div class="col-md-6">
 				<ul class="thumbnails mainimage bigimage">
 					<?php if (sizeof($images) > 0) {
-						foreach ($images as $image) {
-							?>
-							<li>
+						foreach ($images as $image) { ?>
+							<li >
 								<?php
 								$im_width = $image_main['sizes']['thumb']['width'];
 								$im_height = $image_main['sizes']['thumb']['height'];
@@ -119,7 +118,7 @@
 												<?php if ($option['html']->type != 'hidden') { ?>
 												<label class="control-label"><?php echo $option['name']; ?></label>
 												<?php } ?>
-												<div class="input-group col-sm-4">
+												<div class="input-group col-sm-7">
 													<?php echo $option['html']; ?>
 												</div>
 											</div>
@@ -321,7 +320,7 @@
 
 									<div class="form-inline">
 										<label class="control-label col-md-3">
-											<img src="index.php?rt=common/captcha" id="captcha_img" alt=""/>
+											<img src="<?php echo $captcha_url;?>" id="captcha_img" alt=""/>
 										</label>
 										<?php echo $review_captcha; ?>
 										&nbsp;&nbsp;<?php echo $review_button; ?>
@@ -418,7 +417,7 @@
 			return false;
 		});
 
-		reload_review('index.php?rt=product/review/review&product_id=<?php echo $product_id; ?>');
+		reload_review('<?php echo $product_review_url; ?>');
 	});
 
 	$('#product_add_to_cart').click(function () {
@@ -447,7 +446,7 @@
 	function load_option_images( attribute_value_id ) {
 		$.ajax({
 			type: 'POST',
-			url: 'index.php?rt=r/product/product/get_option_resources&attribute_value_id=' + attribute_value_id,
+			url: '<?php echo $option_resources_url; ?>&attribute_value_id=' + attribute_value_id,
 			dataType: 'json',
 			success: function (data) {
 				var html1 = '';
@@ -464,7 +463,7 @@
 							tmb_url = data.images[img].thumb_html;
 							html1 += '<a class="thumbnail">'+ img_url +'</a>';
 						} else {
-							html1 += '<a href="' + img_url + '" rel="position: \'inside\' , showTitle: false, adjustX:-4, adjustY:-4" class="thumbnail cloud-zoom"  title="' + data.images[img].title + '"><img src="' + img_url + '" alt="' + data.images[img].title + '" title="' + data.images[img].title + '"></a>';
+							html1 += '<a href="' + img_url + '" rel="position: \'inside\' , showTitle: false, adjustX:-4, adjustY:-4" class="thumbnail cloud-zoom"  title="' + data.images[img].title + '"><img src="' + data.images[img].thumb2_url + '" alt="' + data.images[img].title + '" title="' + data.images[img].title + '"></a>';
 							html2 += '<a class="thumbnail"><img src="' + tmb_url + '" alt="' + data.images[img].title + '" title="' + data.images[img].title + '"></a>';
 						}
 						html1 += '</li>';
@@ -486,7 +485,7 @@
 
 		$.ajax({
 			type: 'POST',
-			url: 'index.php?rt=r/product/product/calculateTotal',
+			url: '<?php echo $calc_total_url;?>',
 			dataType: 'json',
 			data: $("#product").serialize(),
 
@@ -510,7 +509,7 @@
 
 		$.ajax({
 			type: 'POST',
-			url: 'index.php?rt=product/review/write&product_id=<?php echo $product_id; ?>',
+			url: '<?php echo $product_review_write_url;?>',
 			dataType: 'json',
 			data: 'name=' + encodeURIComponent($('input[name=\'name\']').val()) + '&text=' + encodeURIComponent($('textarea[name=\'text\']').val()) + '&rating=' + encodeURIComponent($('input[name=\'rating\']:checked').val() ? $('input[name=\'rating\']:checked').val() : '') + '&captcha=' + encodeURIComponent($('input[name=\'captcha\']').val()),
 			beforeSend: function () {
@@ -549,7 +548,7 @@
 		var dismiss = '<button type="button" class="close" data-dismiss="alert">&times;</button>';
 		$.ajax({
 			type: 'POST',
-			url: 'index.php?rt=product/wishlist/add&product_id=<?php echo $product_id; ?>',
+			url: '<?php echo $product_wishlist_add_url; ?>',
 			dataType: 'json',
 			beforeSend: function () {
 				$('.success, .warning').remove();
@@ -583,7 +582,7 @@
 		var dismiss = '<button type="button" class="close" data-dismiss="alert">&times;</button>';
 		$.ajax({
 			type: 'POST',
-			url: 'index.php?rt=product/wishlist/remove&product_id=<?php echo $product_id; ?>',
+			url: '<?php echo $product_wishlist_remove_url; ?>',
 			dataType: 'json',
 			beforeSend: function () {
 				$('.success, .warning').remove();

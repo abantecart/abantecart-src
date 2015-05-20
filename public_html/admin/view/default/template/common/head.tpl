@@ -8,7 +8,7 @@
 <?php } ?>
 
 <?php if (is_file(DIR_RESOURCE . $icon)) { ?>
-<link href="<?php echo HTTP_DIR_RESOURCE . $icon; ?>" type="image/png" rel="icon"/>
+<link href="<?php echo HTTPS_DIR_RESOURCE . $icon; ?>" type="image/png" rel="icon"/>
 <?php } else if (!empty($icon)) { ?>
 <?php echo $icon; ?>
 <?php } ?>
@@ -27,6 +27,11 @@
         var include = '<script type="text/javascript" src="<?php echo $template_dir; ?>javascript/jquery/jquery-1.11.0.min.js"><\/script>';
         document.write(include);
     }
+<?php if($retina){?>
+    if((window.devicePixelRatio===undefined?1:window.devicePixelRatio)>1) {
+        document.cookie = 'HTTP_IS_RETINA=1;path=/';
+    }
+<?php } ?>
 </script>
 <script type="text/javascript" src="<?php echo $template_dir; ?>javascript/jquery/jquery-migrate-1.2.1.min.js"></script>
 <script type="text/javascript" src="<?php echo $template_dir; ?>javascript/jquery/jquery-ui/jquery-ui-1.10.4.custom.min.js"></script>

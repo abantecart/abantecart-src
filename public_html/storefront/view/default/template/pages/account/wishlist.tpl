@@ -93,7 +93,7 @@
 		var dismiss = '<button type="button" class="close" data-dismiss="alert">&times;</button>';
 		$.ajax({
 			type: 'POST',
-			url: 'index.php?rt=product/wishlist/remove&product_id='+product_id,
+			url: '<?php echo $this->html->getURL('product/wishlist/remove');?>&product_id='+product_id,
 			dataType: 'json',
 			beforeSend: function () {
 				$('.success, .warning, .alert').remove();

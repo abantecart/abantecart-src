@@ -99,26 +99,6 @@ showMsg = function (header, body, callback) {
       .on('click.callback', callback).end()
     .modal('show');
 };   
-	
-function search_submit () {
-	url = 'index.php?rt=product/search';
-	
-	var filter_keyword = $('#filter_keyword').val();
-	
-	if (filter_keyword) {
-	    url += '&keyword=' + encodeURIComponent(filter_keyword);
-	}
-	
-	var filter_category_id = $('#filter_category_id').attr('value');
-	
-	if (filter_category_id) {
-	    url += '&category_id=' + filter_category_id;
-	}
-	
-	location = url;
-	
-	return false;
-}
 
 
 function bookmark(url, title) {

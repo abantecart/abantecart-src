@@ -97,5 +97,67 @@ class ControllerResponsesToolExtensionsStore extends AController {
 		}
         $this->response->setOutput($html);
 	}
+	
+	public function connect() {
+		
+		//we get token back
+		$mp_token = $this->request->get_or_post('mp_token');
+		$html = "";
+		if ($mp_token) {
+			//save token and return
+			$this->loadModel('setting/setting');
+			$setting = array('mp_token' => $mp_token);
+			$this->model_setting_setting->editSetting('api', $setting);
+			
+			$html = "
+				<script type='text/javascript'>
+				window.parent.reload_page();
+				</script>
+			";
+		}
+		
+		$this->response->setOutput($html);
+	}
+	
+	public function disconnect() {
+		$return = '';
+		$mp_token = $this->config->get('mp_token');
+		if ( $mp_token ) {
+			$this->loadModel('tool/mp_api');
+			//disconnect remote marketplace fist 
+			$result = $this->model_tool_mp_api->disconnect($mp_token);
+			if($result['status'] == 1) {
+				//reset token localy
+				$this->loadModel('setting/setting');
+				$setting = array('mp_token' => '');
+				$this->model_setting_setting->editSetting('api', $setting);
+				$return = 'success';
+			} else {
+				$return = 'error';			
+			}
+		}
+		//sucess all the time
+		$this->response->setOutput($return);
+	}
+
+	public function install() {
+		//we get extension_key back
+		$extension_key = $this->request->get_or_post('extension_key');
+		$html = "";
+		if ($extension_key) {
+			//ready to install
+			$url = $this->html->getSecureURL('tool/package_installer/download', '&extension_key='.$extension_key);	
+		} else {
+			$url = $this->html->getSecureURL('extension/extensions_store', '&purchased_only=1');
+		}
+
+		$html = "
+				<script type='text/javascript'>
+				window.top.location.href = '".$url."';
+				</script>
+		";
+		
+		$this->response->setOutput($html);
+	}		
 }
 ?>

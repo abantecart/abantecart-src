@@ -459,6 +459,11 @@
 			<![CDATA[Use SEO URL's:<br /><span class="help">To use SEO URL's apache module mod-rewrite must be installed and you need to rename the htaccess.txt to .htaccess.</span>]]></value>
 	</definition>
 	<definition>
+		<key>entry_retina_enable</key>
+		<value>
+			<![CDATA[Generate high-res (retina) images:<br /><span class="help">To use this apache module mod-rewrite must be installed and you need to rename the htaccess.txt to .htaccess.<br>After enabling should clear the cache images</span>]]></value>
+	</definition>
+	<definition>
 		<key>entry_compression</key>
 		<value>
 			<![CDATA[Output Compression Level:<br /><span class="help">GZIP for more efficient transfer to requesting clients. Compression level must be between 0 - 9</span>]]></value>

@@ -88,6 +88,7 @@
 							<?php } else { ?>
 							<div class="input-group afield <?php echo $widthcasses; ?> <?php echo ($name == 'description' ? 'ml_ckeditor' : '')?>">
 							<?php echo $field; ?>
+							<?php if($section=='attributes' && $field->type=='radio'){ echo '<a class="btn uncheck">[x]</a>';} ?>
 							</div>
 							<?php } ?>
 
@@ -112,7 +113,7 @@
 					<div class="panel-footer">
 						<div class="center">
 							<div class="col-sm-12">
-								<button class="btn btn-primary">
+								<button class="btn btn-primary lock-on-click">
 									<i class="fa fa-save"></i> <?php echo $form['submit']->text; ?>
 								</button>
 								&nbsp;
@@ -182,5 +183,17 @@ $(document).ready(function(){
 				});
 		return false;
 	});
+
+	$('.uncheck').on('click',function(){
+		var radio = $(this).parents('.input-group').find('input[type=radio]');
+		radio.removeAttr('checked');
+		$(this).html('[x]<input type="hidden" name="'+radio.attr('name')+'" value="">');
+	});
+
+	$('#downloadFrm input[type=radio]').on('click',function(){
+		$(this).parents('.input-group').find('.uncheck').html('[x]');
+	});
 });
+
+
 </script>

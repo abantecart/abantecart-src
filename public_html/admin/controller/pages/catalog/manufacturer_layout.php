@@ -21,9 +21,7 @@ if (! defined ( 'DIR_CORE' ) || !IS_ADMIN) {
 	header ( 'Location: static_pages/' );
 }
 class ControllerPagesCatalogManufacturerLayout extends AController {
-	private $error = array();
 	public $data = array();
-
 	public function main() {
 		$page_controller = 'pages/product/manufacturer';
 		$page_key_param = 'manufacturer_id';
@@ -78,13 +76,8 @@ class ControllerPagesCatalogManufacturerLayout extends AController {
 		$this->document->addBreadcrumb(array(
 		                                    'href' => $this->data['manufacturer_edit'],
 		                                    'text' => $this->data['heading_title'],
-		                                    'separator' => ' :: '
-		                               ));
-		$this->document->addBreadcrumb(array(
-		                                    'href' => $page_url,
-		                                    'text' => $this->language->get('entry_layout'),
 		                                    'separator' => ' :: ',
-											'current'   => true
+		                                    'current'   => true
 		                               ));
 
 		$this->data['active'] = 'layout';

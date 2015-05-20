@@ -46,26 +46,48 @@ final class ACache {
 	 */
 	private $cache_map = array();
 
-  	public function __construct() {
-		$this->registry = Registry::getInstance ();
-		$cache_files = glob( DIR_CACHE. '*/*', GLOB_NOSORT);
-		if(!is_array($cache_files)){
-			$this->registry->get('log')->write('Cache directory is not accessible or writable.  Caching operation was skipped!');
-		}
-		foreach ($cache_files as $file) {
-			//first of all check if file expired. delete it if needed
-			$file_time = filemtime($file);
-			if ( (time() - $file_time) > $this->expire ) {
-				if (file_exists($file)) {
-					$this->_remove($file);
-					continue;
-				}
+	public function __construct(){
+		$this->registry = Registry::getInstance();
+		$cache_files = glob(DIR_CACHE . '*/*', GLOB_NOSORT);
+
+		if(!is_array($cache_files) || !is_writeable(DIR_CACHE)){
+			$log = $this->registry->get('log');
+			if(!is_object($log) || !method_exists($log, 'write')){
+				$error_text = 'Error: Unable to access or write to cache directory ' . DIR_CACHE;
+				$log = new ALog(DIR_SYSTEM . 'logs/error.txt');
+				$this->registry->set('log', $log);
 			}
-			//build cache map as array {cache_file_name_without_timestamp=>expire_time}
-			$ch_base = substr($file,0,-11);
-			$this->cache_map[$ch_base] = $file_time + $this->expire;
+			$log->write($error_text);
+			//try to add message for admin (check if for install-process too)
+			$db = $this->registry->get('db');
+
+			if(is_object($db) && method_exists($db, 'query')){
+				$error_text .= ' Cache feature was disabled. Check permissions on directory and enable setting back.';
+				$m = new AMessage();
+				$m->saveError('AbanteCart Warning', $error_text);
+				//also disable caching in config
+				$sql = "UPDATE ".$db->table('settings')."
+						SET `value` = '0'
+						WHERE `key` = 'config_cache_enable'";
+				$db->query($sql);
+			}
+
+		} else{
+			foreach($cache_files as $file){
+				//first of all check if file expired. delete it if needed
+				$file_time = filemtime($file);
+				if((time() - $file_time) > $this->expire){
+					if(file_exists($file)){
+						$this->_remove($file);
+						continue;
+					}
+				}
+				//build cache map as array {cache_file_name_without_timestamp=>expire_time}
+				$ch_base = substr($file, 0, -11);
+				$this->cache_map[$ch_base] = $file_time + $this->expire;
+			}
 		}
-  	}
+	}
 
 	/**
 	 * force to get cache data based on params and ignore disable cache setting
@@ -154,10 +176,14 @@ final class ACache {
     	if($this->registry->get('request')->get['rt']=='tool/cache'){
     		return null;
     	}
+    	//validate key for / and \ 
+    	if(strstr($string, '/') || strstr($string, '\\') ){
+    		return null;    	
+    	}
 		if ($create_override || $this->registry->get('config')->get('config_cache_enable')){	
 			//build new cache file name
 			$ch_base = $this->_build_name($key, $language_id, $store_id);
-			$timestamp = (time() + $this->expire); // probably it's a rudiment
+			$timestamp = (time() + $this->expire);
 			$file =  $ch_base . '.' . $timestamp;
 			// write into cache map
 			$this->cache_map[$ch_base] = $timestamp;

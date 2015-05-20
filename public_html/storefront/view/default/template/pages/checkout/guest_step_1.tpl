@@ -141,14 +141,15 @@
 $('#guestFrm_shipping_indicator').change( function(){
 	(this.checked) ? $('#shipping_details').show() : $('#shipping_details').hide();
 });
-
+<?php $cz_url = $this->html->getURL('common/zone', '&zone_id='. $zone_id); ?>
 $('#guestFrm_country_id').change(function() {
-    $('select[name=\'zone_id\']').load('index.php?rt=common/zone&country_id=' + $(this).val() + '&zone_id=<?php echo $zone_id; ?>');
+    $('select[name=\'zone_id\']').load('<?php echo $cz_url;?>&country_id=' + $(this).val());
 });
-$('select[name=\'zone_id\']').load('index.php?rt=common/zone&country_id='+$('#guestFrm_country_id').val()+'&zone_id=<?php echo $zone_id; ?>');
+$('select[name=\'zone_id\']').load('<?php echo $cz_url;?>&country_id='+$('#guestFrm_country_id').val());
 
+<?php $cz_url = $this->html->getURL('common/zone', '&zone_id='. $shipping_zone_id); ?>
 $('#guestFrm_shipping_country_id').change(function() {
-	$('select[name=\'shipping_zone_id\']').load('index.php?rt=common/zone&country_id=' + $(this).val() + '&zone_id=<?php echo $shipping_zone_id; ?>');
+	$('select[name=\'shipping_zone_id\']').load('<?php echo $cz_url;?>&country_id=' + $(this).val());
 });
-$('select[name=\'shipping_zone_id\']').load('index.php?rt=common/zone&country_id='+$('#guestFrm_shipping_country_id').val()+'&zone_id=<?php echo $shipping_zone_id; ?>');
+$('select[name=\'shipping_zone_id\']').load('<?php echo $cz_url;?>&country_id='+$('#guestFrm_shipping_country_id').val());
 //--></script>

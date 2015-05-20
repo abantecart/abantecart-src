@@ -258,7 +258,10 @@ class ExtensionsApi {
 		$extensions = glob(DIR_EXT . '*', GLOB_ONLYDIR);
 		if ($extensions) {
 			foreach ($extensions as $ext) {
-				$this->extensions_dir[] = str_replace(DIR_EXT, '', $ext);
+				//skip other directory not containing extensions 
+				if(is_file($ext . '/config.xml')){
+					$this->extensions_dir[] = str_replace(DIR_EXT, '', $ext);
+				}
 			}
 		}
 
@@ -537,7 +540,15 @@ class ExtensionsApi {
 		$this->extension_models = $value;
 	}
 
-	
+	public function isExtensionAvailable($extension) {
+		foreach ($this->extensions_dir as $ext) {
+			if($ext == $extension){
+				return true;
+			}
+		}
+		return null;
+	}
+
 	/**
 	 * load all available (installed) extenions (for admin)
 	 *
@@ -652,9 +663,10 @@ class ExtensionsApi {
 	 * @param  $resource_type - resource type - M, L, T  ( model, language, template )
 	 * @param  $route - resource route to check
 	 * @param  $ext_status - extension mode for resource route to check (enabled and all)
+	 * @param  $mode - mode to force storefront 
 	 * @return array|bool - false if not found, array with extension name and file name if found
 	 */
-	public function isExtensionResource($resource_type, $route, $ext_status = '') {
+	public function isExtensionResource($resource_type, $route, $ext_status = '', $mode = '') {
 		if ( empty($ext_status) ) {
 			$ext_status = 'enabled';
 		}
@@ -663,30 +675,35 @@ class ExtensionsApi {
 		$registry = Registry::getInstance();
 		if (!$registry->has('config')) return false;
 
+		$ext_section = (IS_ADMIN ? DIR_EXT_ADMIN : DIR_EXT_STORE);
+		//mode to force load storefront model is loaded from admin
+		if ($mode == 'storefront') {
+			$ext_section = DIR_EXT_STORE;
+		}
+
 		switch ($resource_type) {
 			case 'M' :
-				$file = (IS_ADMIN ? DIR_EXT_ADMIN : DIR_EXT_STORE) . 'model/' . $route . '.php';
+				$file = $ext_section . 'model/' . $route . '.php';
 				$source = $this->extension_models;
 				break;
 			case 'L' :
 				$query = $registry->get('db')->query("SELECT directory FROM " . $this->db->table("languages") . " 
                     WHERE code='" . $registry->get('session')->data['language'] . "'");
-				$file = (IS_ADMIN ? DIR_EXT_ADMIN : DIR_EXT_STORE) . 'language/' .
+				$file = $ext_section . 'language/' .
 						$query->row['directory'] . '/' . $route . '.xml';
 				$source = $this->extension_languages;
 				break;
 			case 'T' :
 				$tmpl_id = IS_ADMIN ? $registry->get('config')->get('admin_template')
 						: $registry->get('config')->get('config_storefront_template');
-				$file = (IS_ADMIN ? DIR_EXT_ADMIN
-						: DIR_EXT_STORE) . DIR_EXT_TEMPLATE . $tmpl_id . '/template/' . $route;
+				$file = $ext_section . DIR_EXT_TEMPLATE . $tmpl_id . '/template/' . $route;
 				$source = $this->extension_templates;
 				break;
 			default:
 				return false;
 		}
 
-		$section = trim((IS_ADMIN ? DIR_EXT_ADMIN : DIR_EXT_STORE), '/');
+		$section = trim($ext_section, '/');
 		
 		//list only enabled extensions or all depending on status flag
 		$extensions_lookup_list = array();
@@ -708,13 +725,12 @@ class ExtensionsApi {
 		    	}
 		    	if ($resource_type == 'T') {
 		    		//check default template
-		    		$f = DIR_EXT . $ext . (IS_ADMIN ? DIR_EXT_ADMIN
-		    				: DIR_EXT_STORE) . DIR_EXT_TEMPLATE . 'default/template/' . $route;
+		    		$f = DIR_EXT . $ext . $ext_section . DIR_EXT_TEMPLATE . 'default/template/' . $route;
 		    		if (is_file($f)) {
 		    			return array(
 		    				'file' => $f,
 		    				'extension' => $ext,
-		    				'base_path' => (IS_ADMIN ? DIR_EXT_ADMIN : DIR_EXT_STORE) . DIR_EXT_TEMPLATE . 'default/template/' . $route
+		    				'base_path' => $ext_section . DIR_EXT_TEMPLATE . 'default/template/' . $route
 		    			);
 		    		}
 		    	}
@@ -752,8 +768,7 @@ class ExtensionsApi {
 			$path_build .= $path_node;
 
 			foreach ($this->enabled_extensions as $ext) {
-				$file = DIR_EXT . $ext . (IS_ADMIN ? DIR_EXT_ADMIN
-						: DIR_EXT_STORE) . 'controller/' . $path_build . '.php';
+				$file = DIR_EXT . $ext . (IS_ADMIN ? DIR_EXT_ADMIN : DIR_EXT_STORE) . 'controller/' . $path_build . '.php';
 				if (in_array($path_build, $this->extension_controllers[$ext][$section]) && is_file($file)) {
 					//remove current node
 					array_shift($path_nodes);

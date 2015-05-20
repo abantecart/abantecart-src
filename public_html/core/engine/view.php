@@ -316,17 +316,24 @@ class AView {
     	if ( !$filename ) {
     		return null;    	
     	}
+	    $output = '';
 		$res_arr = $this->_extensions_resource_map($filename);
 		//get first exact template extension resource or default template resource othewise.
 		if ( count($res_arr['original'])) {
-			return $res_arr['original'][0];
+			$output = $res_arr['original'][0];
 		} else if(count($res_arr['default'])) {
-			return $res_arr['default'][0];
+			$output = $res_arr['default'][0];
+		}else{
+			//no extension found, use resource from core templates
+			$output = $this->_get_template_path(DIR_TEMPLATE, $filename, 'relative');
 		}
 
+	    if(!in_array(pathinfo($filename,PATHINFO_EXTENSION),array('tpl', 'php'))){
+		    $this->extensions->hk_ProcessData($this, __FUNCTION__);
+		    $http_path = $this->data['http_dir'];
+	    }
 
-		//no extension found, use resource from core templates
-		return $this->_get_template_path(DIR_TEMPLATE, $filename, 'relative');
+	    return $http_path.$output;
     }
 
 	/**

@@ -209,7 +209,7 @@ class ControllerPagesCatalogAttribute extends AController {
 		if ($attribute_id && $this->request->is_GET()) {
 			$attribute_info = $this->attribute_manager->getAttribute(
 				$this->request->get['attribute_id'],
-				$this->session->data['content_language_id']
+				$this->language->getContentLanguageID()
 			);
 
 			$attribute_type_info = $this->attribute_manager->getAttributeTypeInfoById((int)$attribute_info['attribute_type_id']);
@@ -221,7 +221,7 @@ class ControllerPagesCatalogAttribute extends AController {
 			if (in_array($attribute_info['element_type'], $this->data['elements_with_options'])) {
 				$values = $this->attribute_manager->getAttributeValues(
 					$attribute_id,
-					$this->session->data['content_language_id']
+					$this->language->getContentLanguageID()
 				);
 				$attribute_info['values'] = array();
 				foreach ($values as $v) {

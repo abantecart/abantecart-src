@@ -73,25 +73,27 @@ class ControllerPagesToolUpdater extends AController {
 		$updates = $this->cache->get('extensions.updates');
 		$this->data['extensions'] = array();
 
-		foreach($updates as $key=>$upd){
-			$ext_info = $this->extensions->getExtensionInfo($key);
-			$this->data['extensions'][$key]['installed_version'] = $ext_info['version'];
-			$this->data['extensions'][$key]['new_version'] = $upd['version'];
-			$this->data['extensions'][$key]['type'] = $ext_info['type'];
-			$this->data['extensions'][$key]['category'] = $ext_info['category'];
-			$this->data['extensions'][$key]['status'] = $this->html->buildCheckbox(array(
-								'id' => $key.'_status',
-								'name' => $key.'_status',
-								'value' => $ext_info['status'],
-								'style' => 'btn_switch btn-xs disabled',
-								'attr' => 'readonly="true" data-edit-url="'.$this->html->getSecureURL('extension/extensions/edit','&extension='.$key).'"'
-							));
-
-			$this->data['extensions'][$key]['mp_url'] = $upd['url'];
-			if($upd['installation_key']){
-				$this->data['extensions'][$key]['install_url'] = $this->html->getSecureURL('tool/package_installer', '&extension_key=' . $upd['installation_key']);
+		if(!empty($updates) && is_array($updates)) {
+			foreach($updates as $key => $upd){
+				$ext_info = $this->extensions->getExtensionInfo($key);
+				$this->data['extensions'][$key]['installed_version'] = $ext_info['version'];
+				$this->data['extensions'][$key]['new_version'] = $upd['version'];
+				$this->data['extensions'][$key]['type'] = $ext_info['type'];
+				$this->data['extensions'][$key]['category'] = $ext_info['category'];
+				$this->data['extensions'][$key]['status'] = $this->html->buildCheckbox(array(
+									'id' => $key.'_status',
+									'name' => $key.'_status',
+									'value' => $ext_info['status'],
+									'style' => 'btn_switch btn-group-xs disabled',
+									'attr' => 'readonly="true" data-edit-url="'.$this->html->getSecureURL('extension/extensions/edit','&extension='.$key).'"'
+								));
+	
+				$this->data['extensions'][$key]['mp_url'] = $upd['url'];
+				if($upd['installation_key']){
+					$this->data['extensions'][$key]['install_url'] = $this->html->getSecureURL('tool/package_installer', '&extension_key=' . $upd['installation_key']);
+				}
+				$this->data['extensions'][$key]['name'] = $this->extensions->getExtensionName($key);
 			}
-			$this->data['extensions'][$key]['name'] = $this->extensions->getExtensionName($key);
 		}
 
 		if ( ! $this->data['extensions'] ) {

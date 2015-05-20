@@ -70,12 +70,15 @@
 	</div>
 
 	</div>
-	<?php } ?>
+	<?php }	?>
 
-	<?php echo $form['form_open']; ?>
+	<?php echo $form['form_open'];
+	foreach($form['fields'] as $section=>$fields){
+	?>
+
 	<div class="panel-body panel-body-nopadding tab-content col-xs-12">
 		<label class="h4 heading"><?php echo ${'tab_customer_' . $section}; ?></label>
-		<?php foreach ($form['fields'][$section] as $name => $field) { ?>
+		<?php foreach ($fields as $name => $field) { ?>
 		<?php
 		//Logic to calculate fields width
 		$widthcasses = "col-sm-7";
@@ -105,6 +108,7 @@
 		</div>
 		<?php } ?><!-- <div class="fieldset"> -->
 	</div>
+<?php } ?>
 
 	<div class="panel-footer col-xs-12">
 		<div class="text-center">

@@ -198,6 +198,10 @@ class ControllerPagesLocalisationLanguage extends AController {
 
         //init controller data
         $this->extensions->hk_InitData($this,__FUNCTION__);
+
+		if(!$this->request->get['language_id']){
+			$this->redirect($this->html->getSecureURL('localisation/language'));
+		}
 		
 		$this->view->assign('success', $this->session->data['success']);
 		if (isset($this->session->data['success'])) {

@@ -15,7 +15,7 @@ function confirmSubmit() {
 	$('body').css('cursor','wait');
 	$.ajax({
 		type: 'GET',
-		url: 'index.php?rt=extension/default_cod/confirm',
+		url: '<?php echo $this->html->getURL('extension/default_cod/confirm');?>',
 		beforeSend: function() {
 			$('.alert').remove();
 			$('.action-buttons').hide(); 

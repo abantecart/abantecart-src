@@ -115,7 +115,7 @@
 	</definition>
 	<definition>
 		<key>text_extensions_store</key>
-		<value><![CDATA[Extensions Store]]></value>
+		<value><![CDATA[Extensions Marketplace]]></value>
 	</definition>
 	<definition>
 		<key>text_required</key>
@@ -388,6 +388,10 @@
 	<definition>
 	    <key>tab_additional_settings</key>
 	    <value><![CDATA[Additional Settings]]></value>
+	</definition>
+	<definition>
+		<key>text_more_extensions</key>
+		<value><![CDATA[More extensions are available for easy install.]]></value>
 	</definition>
 
 </definitions>

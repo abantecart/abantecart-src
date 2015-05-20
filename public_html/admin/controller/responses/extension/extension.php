@@ -52,6 +52,5 @@ class ControllerResponsesExtensionExtension extends AController {
 
 		//update controller data
 		$this->extensions->hk_UpdateData($this, __FUNCTION__);
-	}
-
+	}	
 }

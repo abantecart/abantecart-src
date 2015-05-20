@@ -37,7 +37,7 @@ class ControllerCommonHeader extends AController {
 			$this->session->data['language'] = $this->request->post['language_code'];
 			$this->cache->delete('admin_menu');
 
-			if (isset($this->request->post['redirect'])) {
+			if (!empty($this->request->post['redirect'])) {
 				$this->redirect($this->request->post['redirect']);
 			} else {
 				$this->redirect($this->html->getURL('index/home'));
@@ -57,11 +57,12 @@ class ControllerCommonHeader extends AController {
 		$this->view->assign('search_action', $this->html->getSecureURL('tool/global_search'));
 	
 		//redirect after language change
-		if (!isset($this->request->get['rt']) || $this->request->get['rt'] == 'index/home') {
+		if (!$this->request->get['rt'] || $this->request->get['rt'] == 'index/home') {
 			$this->view->assign('redirect', $this->html->getSecureURL('index/home'));
 			$this->view->assign('home_page', true);
 		} else {
 			$this->view->assign('home_page', false);
+			$this->view->assign('redirect', HTTPS_SERVER.'?'.$_SERVER['QUERY_STRING']);
 		}
 
 		if (!$this->user->isLogged() || !isset($this->request->get['token']) || !isset($this->session->data['token']) || ($this->request->get['token'] != $this->session->data['token'])) {
@@ -138,9 +139,12 @@ class ControllerCommonHeader extends AController {
 		$this->view->assign('online_registered', $online_registered);
 		
 		$this->loadModel('report/sale');
-	    $data = array(
-			'date_start' => dateISO2Display(date('Y-m-d', time()) ,$this->language->get('date_format_short'))
-		);
+	    $data = array('filter' =>
+			                  array(
+									'date_start' => dateISO2Display(date('Y-m-d', time()) ,$this->language->get('date_format_short')),
+									'date_end' => dateISO2Display(date('Y-m-d', time()) ,$this->language->get('date_format_short'))
+			)
+	    );
 		$today_orders = $this->model_report_sale->getSaleReportSummary($data);
 		$today_order_count = $today_orders['orders'];
 		$today_sales_amount = $this->currency->format($today_orders['total_amount'], $this->config->get('config_currency'));		

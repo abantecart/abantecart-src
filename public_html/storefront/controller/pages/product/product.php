@@ -94,8 +94,13 @@ class ControllerPagesProductProduct extends AController {
 			 ));	
 		}
 
-		if (isset($this->request->get['product_id'])) {
-			$product_id = $this->request->get['product_id'];
+		$key = array(); //key of product from cart
+
+		if(has_value($this->request->get['key'])){
+			$key = explode(':',$this->request->get['key']);
+			$product_id = (int)$key[0];
+		}elseif (has_value($this->request->get['product_id'])) {
+			$product_id = (int)$this->request->get['product_id'];
 		} else {
 			$product_id = 0;
 		}
@@ -142,7 +147,14 @@ class ControllerPagesProductProduct extends AController {
 		$this->data['text_minimum'] = sprintf($this->language->get('text_minimum'), $product_info['minimum']);
 		$this->data['maximum'] = $product_info['maximum'];
 		$this->data['text_maximum'] = sprintf($this->language->get('text_maximum'), $product_info['maximum']);
-		
+		$this->data['option_resources_url'] = $this->html->getURL('r/product/product/get_option_resources');
+		$this->data['calc_total_url'] = $this->html->getURL('r/product/product/calculateTotal');
+		$this->data['product_review_url'] = $this->html->getURL('product/review/review', '&product_id='.$product_id);
+		$this->data['product_review_write_url'] = $this->html->getURL('product/review/write', '&product_id='.$product_id);
+		$this->data['product_wishlist_add_url'] = $this->html->getURL('product/wishlist/add', '&product_id='.$product_id);
+		$this->data['product_wishlist_remove_url'] = $this->html->getURL('product/wishlist/remove', '&product_id='.$product_id);
+		$this->data['captcha_url'] = $this->html->getURL('common/captcha');
+
 		$this->loadModel('catalog/review');
 		$this->data['tab_review'] = sprintf($this->language->get('tab_review'), $this->model_catalog_review->getTotalReviewsByProductId($product_id)) ;
 
@@ -290,11 +302,25 @@ class ControllerPagesProductProduct extends AController {
 		$options = array();
         $product_options = $this->model_catalog_product->getProductOptions($product_id);
 
+
+		//get info from cart if key presents
+		$cart_product_info = array();
+		if($key){
+			$cart_product_info = $this->cart->getProduct($this->request->get['key']);
+		}
+
 		foreach ($product_options as $option) {
 		    $values = array();
-		    $name = $price = $default_value = '';
+		    $name = $price = '';
+			$default_value = $cart_product_info['options'][$option['product_option_id']];
+			if($option['element_type']=='R'){
+				$default_value = is_array($default_value) ? current($default_value) : (string)$default_value;
+			}
+			$preset_value = $default_value;
+
             foreach ($option['option_value'] as $option_value) {
-				$default_value = $option_value['default'] ? $option_value['product_option_value_id']: $default_value;
+				$default_value = $option_value['default'] && !$default_value ? $option_value['product_option_value_id']: $default_value;
+
 				// for case when trying to add to cart withot required options. we get option-array back inside _GET
 				if(has_value($this->request->get['option'][$option['product_option_id']])){
 					$default_value = $this->request->get['option'][$option['product_option_id']];
@@ -349,12 +375,12 @@ class ControllerPagesProductProduct extends AController {
 	                if ( $opt_stock_message ) {
 	                	$option['name'] .= '<br />' . $opt_stock_message;
 	                }
-		            $value = $name;
+		            $value = $default_value ? $default_value : $name;
 	            }
 	            
 				//set default selection is nothing selected
 				if ( !has_value($value) ) {
-					if( has_value($default_value) ) { 
+					if( has_value($default_value) ) {
 						$value = $default_value;
 					} else {
 						if(in_array($option['element_type'], $elements_with_options) && $option['element_type']!='S'){
@@ -380,8 +406,11 @@ class ControllerPagesProductProduct extends AController {
 		    			'regexp_pattern' => $option['regexp_pattern'],
 		    			'error_text' => $option['error_text']
 						);
-		    	if($option['html_type']=='checkbox'){
-		    		$option_data['label_text'] = $value;
+		    	if($option['element_type']=='C'){
+					if(!in_array($value, array('0','1'))){
+					  $option_data['label_text'] = $value;
+					}
+				    $option_data['checked'] = $preset_value ? true : false;
 		    	}
 	
 		    	$options[] = array(

@@ -31,6 +31,7 @@ if (!defined('DIR_CORE')) {
  * @property Ahtml $html
  * @property AUser $user
  * @property AMessage $messages
+ * @property ModelSettingStore $model_setting_store
  * */
 class AExtensionManager {
 	/**
@@ -443,8 +444,14 @@ class AExtensionManager {
 		$this->load->model('tool/updater');
 		$this->model_tool_updater->check4updates();
 
-		//save settings
-		$this->editSetting($name, $settings);
+
+		//save default settings for all stores
+		$this->load->model('setting/store');
+		$stores = $this->model_setting_store->getStores();
+		foreach($stores as $store){
+			$settings['store_id'] = $store['store_id'];
+			$this->editSetting($name, $settings);
+		}
 		return null;
 	}
 

@@ -73,7 +73,7 @@ $('form').submit(function(event) {
 function confirmSubmit() {		
 	$.ajax({
 		type: 'POST',
-		url: 'index.php?rt=extension/default_cashflows/send',
+		url: '<?php echo $this->html->getURL('extension/default_cashflows/send');?>',
 		data: $('#cashflows :input'),
 		dataType: 'json',		
 		beforeSend: function() {

@@ -222,7 +222,8 @@ function getFilesInDir($dir, $file_ext = '') {
 	return $result;
 }
 
-// function for version compare
+//Custom function for version compare between store version and extensions
+//NOTE: Function will return false if major versions donot match. 
 function versionCompare($version1, $version2, $operator) {
 	$version1 = explode('.', preg_replace('/[^0-9\.]/', '', $version1));
 	$version2 = explode('.', preg_replace('/[^0-9\.]/', '', $version2));
@@ -242,7 +243,8 @@ function versionCompare($version1, $version2, $operator) {
 		$i++;
 	}
 
-	if ($version1[1] > $version2[1]) { // if major version of extension changed
+	if ($version1[1] > $version2[1]) { 
+		//not compatible, if major version is higher
 		return false;
 	}
 
@@ -750,7 +752,7 @@ function getGravatar( $email = '', $s = 80, $d = 'mm', $r = 'g') {
     if ( empty($email) ) {
     	return null;
     }
-    $url = 'http://www.gravatar.com/avatar/';
+    $url = 'https://www.gravatar.com/avatar/';
     $url .= md5( strtolower( trim( $email ) ) );
     $url .= "?s=".$s."&d=".$d."&r=".$r;
     return $url;
@@ -965,4 +967,12 @@ function getMemoryLimitInBytes (){
         case 'G': case 'g': return (int)$size_str * 1073741824;
         default: return $size_str;
     }
+}
+
+function is_valid_url( $validate_url ) {
+	if (filter_var($validate_url, FILTER_VALIDATE_URL) === FALSE) {
+	    return false;	
+	} else {
+	    return true;		
+	}
 }

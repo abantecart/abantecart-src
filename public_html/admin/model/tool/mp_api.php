@@ -33,33 +33,71 @@ class ModelToolMPAPI extends Model {
 		return (HTTPS===true ? 'https://' : 'http://') . base64_decode($this->mp_url);
 	}
 
-	public function authorize(){
-
-		$auth_params =  array( 'rt' => 'a/account/authorize/post',
-							   'store_id' => UNIQUE_ID,
-							   'store_ip' => $_SERVER ['SERVER_ADDR'],
-							   'store_url' => HTTP_SERVER,
-							   'store_version' => VERSION,
-							   'installer_url' => $this->html->getSecureURL('tool/package_installer/download')
-							 );
-		$extensions_list = $this->extensions->getExtensionsList();
-		if ($extensions_list) {
-			foreach ( $extensions_list->rows as $ext ){
-				$auth_params["extensions[" . $ext['key'] . "]"] = $ext['version'];
-			}
+	/**
+	 * @param string $mp_token
+	 * @return bool
+	 * Disconnect store from AbanteCart marketplace
+	 */	
+	public function disconnect($mp_token){
+		if (!has_value($mp_token)) {
+			return false;
 		}
+
+		$params =  array( 'rt' => 'a/account/authorize/disconnect',
+							   'mp_token' => $mp_token
+							 );
+		$connect = new AConnect();
+		$connect->connect_method = 'curl';
+		$responce = $this->send( $connect, $params );
+		return $responce;
+	}
+	
+	/**
+	 * @param string $mp_token
+	 * @return bool
+	 * Standalone API call to validate token authentication
+	 */	
+	public function authorize($mp_token){
+		if(!$mp_token){		
+			return false;			
+		}
+	
+		$auth_params =  array( 'rt' => 'a/account/authorize/authorize',
+							   'mp_token' => $mp_token,	
+							 );
 
 		$connect = new AConnect();
-		$connect->connect_method = 'curl'; // set curl as default connection type
+		$connect->connect_method = 'curl';
 		$auth = $this->send( $connect, $auth_params );
 
-		//TODO: need to add validation for authorized stores count later
-
-		if($auth['mp_token']){
-			$this->session->data['mp_token'] = $auth['mp_token'];
-			$this->session->data['mp_hash'] = $auth['mp_hash'];
+		if($auth['status']){
+			return true;
+		} else {
+			return false;			
 		}
 	}
+
+	/**
+	 * @param string $mp_token
+	 * @return array
+	 * Standalone API call to get purchased extensions
+	 */	
+	public function getMyExtensions($mp_token){
+		if(!$mp_token){		
+			return array();			
+		}
+
+		$connect = new AConnect(true);
+		$connect->connect_method = 'curl';
+
+		$params =  array(	'rt' => 'a/account/account/get_extensions',
+							'mp_token' => $mp_token
+		    			);
+		$response = $this->send( $connect, $params	);
+
+		return $response;
+	}
+
 
 	public function processRequest($params=array()){
 		$output = array(
@@ -68,10 +106,6 @@ class ModelToolMPAPI extends Model {
 		);
 		$connect = new AConnect();
 		$connect->connect_method = 'curl'; // set curl as default connection type
-
-		if(!has_value($this->session->data['mp_token'])){
-			$this->authorize();
-		}
 
 		// prepare parameters
 		if(has_value($params['limit'])){
@@ -92,11 +126,14 @@ class ModelToolMPAPI extends Model {
 		}else{
 			$get_params['sord'] = 'DESC';
 		}
+		//pass token if have it 
+		if($params['mp_token']){
+			$get_params['mp_token'] = $params['mp_token'];		
+		}
 		// get category list
 		$output['categories'] = $this->send($connect,
 											array( 'rt' => 'a/product/category',
 												   'category_id' => 0,
-												   'mp_token' => $this->session->data['mp_token']
 		));
 
 
@@ -115,22 +152,34 @@ class ModelToolMPAPI extends Model {
 				'active' => $params['category_id'] ? false : true
 			));				
 		}
-		// get products of category
-		if(has_value($params['category_id'])){
+		//Load purchased extensions if requested
+		if( $params['purchased_only'] ){
+			$get_params['purchased_only'] = $params['purchased_only'];	
+			$get_params['rt'] = 'a/product/filter';
+			$output['products'] = $this->send( $connect, $get_params);
+			
+		} elseif (has_value($params['category_id'])){
+			// get products of category
 			$get_params['rt'] = 'a/product/filter';
 			$get_params['category_id'] = (int)$params['category_id'];
 			$output['products'] = $this->send( $connect, $get_params);
-		}elseif(has_value($params['keyword'])){//get products by keyword
+			
+		} elseif (has_value($params['keyword'])){//get products by keyword
 			$get_params['rt'] = 'a/product/filter';
 			$get_params['keyword'] = $params['keyword'];
 			$output['products'] = $this->send( $connect, $get_params );
-		}else{
-			$get_params['rt'] = 'a/product/latest';
+			
+		} else {
+			//default latest listing
+			$get_params['rt'] = 'a/product/filter';
 			$output['products'] = $this->send( $connect, $get_params );
+			
 		}
 
-		//prepare products
-		if($output['products']){
+		//prepare extensions for listing
+		//Check if extension is installed or requires updating based on versions
+		
+		if($output['products']['rows']){
 			foreach($output['products']['rows'] as &$product){
 				$info = $product['cell'];
 				$info['rating'] = (int)$info['rating'];
@@ -138,11 +187,6 @@ class ModelToolMPAPI extends Model {
 
 				$info['price'] = $info['price']>0 ? $this->currency->format($info['price'],'USD',1) : $this->language->get('text_free');
 
-				$info['addtocart'] = $this->html->buildElement(array(
-																	'type' => 'button',
-																	'text' =>$info['price'],
-																	'style' => 'button3',
-																	'href' => '#'));
 				$product['cell'] = $info;
 			}
 		}
@@ -164,7 +208,6 @@ class ModelToolMPAPI extends Model {
 		}
 
 		$GET['store_id'] = UNIQUE_ID;
-		$GET['store_ip'] = $_SERVER ['SERVER_ADDR'];
 		$GET['store_url'] = HTTP_SERVER;
 		$GET['store_version'] = VERSION;
 		$GET['language_code'] = $this->request->cookie ['language'];
@@ -179,44 +222,8 @@ class ModelToolMPAPI extends Model {
 
 		$href .= '?'.http_build_query($GET);
 
-		// add session id as cookie for autostart remote session on MP-side (non-token)
-		if($this->session->data['mp_token']){ // if server-server connect was created
-			$connect->setCurlOptions(array(
-					CURLOPT_CONNECTTIMEOUT => 2,
-					CURLOPT_HTTPHEADER => array('Expect:'),
-					CURLOPT_MAXREDIRS => 4,
-					CURLOPT_RETURNTRANSFER => true,
-					CURLOPT_SSL_VERIFYPEER => false,
-					CURLOPT_COOKIE => 'PHPSESSID_AC_SF='.$this->session->data['mp_token'] ));
-		}
-
 		$response = $connect->getResponse($this->getMPURL().$href);
-
 		return $response;
 	}
 
-	public function getExtensions($params=array()){
-		$params = array($params);
-		$connect = new AConnect(true);
-		$connect->connect_method = 'curl'; // set curl as default connection type
-
-		if(!has_value($this->session->data['mp_token'])){ // do auto-authorize...
-			$this->authorize();
-		}
-
-		if(has_value($this->session->data['mp_token'])){
-
-			$auth_params =  array( 'rt' => 'a/account/account/get',
-								   'store_id' => UNIQUE_ID,
-								   'store_ip' => $_SERVER ['SERVER_ADDR'],
-								   'store_url' => HTTP_SERVER,
-								   'store_version' => VERSION
-								 );
-			$auth_params = array_merge($auth_params, $params);
-
-			$response = $this->send( $connect, $auth_params	);
-
-			return $response;
-		}
-	}
 }

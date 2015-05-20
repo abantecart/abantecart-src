@@ -124,8 +124,11 @@ final class AConfig {
 				}
 				$this->cnfg[$setting['key']] = $setting['value'];
 			}
-			unset($setting); //unset reference
-			$cache->force_set('settings', $settings, '', 0);
+			unset($setting); //unset temp reference
+			//fix for rare issue on a database and creation of empty cache
+			if(!empty($settings)){			
+				$cache->force_set('settings', $settings, '', 0);
+			}
 		} else {
 			foreach ($settings as $setting) {
 				$this->cnfg[$setting['key']] = $setting['value'];
@@ -153,7 +156,10 @@ final class AConfig {
 
 				$query = $db->query($sql);
 				$store_settings = $query->rows;
-				$cache->force_set($cache_name, $store_settings);
+				//fix for rare issue on a database and creation of empty cache
+				if(!empty($store_settings)){
+					$cache->force_set($cache_name, $store_settings);
+				}
 			}
 			
 			if ($store_settings) {
@@ -214,7 +220,10 @@ final class AConfig {
 				if( $row['extension_type'] == 'template' && $tmpl_id!=$row['group'] && $row['key'] != $row['extension_txt_id'].'_status' ){ continue;}
 				$settings[] = $row;
 			}
-			$cache->force_set('settings.extension.' . $cache_suffix, $settings);
+			//fix for rare issue on a database and creation of empty cache
+			if(!empty($settings)){
+				$cache->force_set('settings.extension.' . $cache_suffix, $settings);
+			}
 		}
 
 		//add encryption key to settings, overwise use from database (backwards compatability) 

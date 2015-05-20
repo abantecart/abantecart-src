@@ -115,7 +115,7 @@ var setRLparams = function (attr_val_id) {
 				del: '<?php echo $rl_delete; ?>&object_id=' + attr_val_id,
 				download: '<?php echo $rl_download; ?>&object_id=' + attr_val_id,
 				upload: '<?php echo $rl_upload; ?>&object_id=' + attr_val_id,
-				resource: '<?php echo HTTP_DIR_RESOURCE; ?>'
+				resource: '<?php echo HTTPS_DIR_RESOURCE; ?>'
 			};
 
 	urls.attr_val_id = attr_val_id;
@@ -197,24 +197,16 @@ jQuery(function ($) {
 	//save option form details. 
 	var editOption = function (id) {
 		$('#notify_error').remove();
+		var senddata = $('#option_edit_form input,select,textarea').serialize()+'&option_id='+current_option_id;
 		$.ajax({
 			url: opt_urls.update_option,
-			data: {
-				option_id: current_option_id,
-				status: ( $('#status').val() ),
-				sort_order: $('#sort_order').val(),
-				name: $('#name').val(),
-				option_placeholder: ($('#option_placeholder') ? $('#option_placeholder').val() : ''),
-				regexp_pattern: ($('#regexp_pattern') ? $('#regexp_pattern').val() : ''),
-				error_text: ($('#error_text') ? $('#error_text').val() : ''),
-				required: $('#required').val()
-			},
+			data: senddata,
 			type: 'GET',
 			success: function (html) {
 				$('#option_name').html($('#name').val());
 				updateOptions();
 				//Reset changed values marks
-				resetAForm($("input, checkbox, select", '#option_edit_form'));
+				resetAForm($("input,select,textarea", '#option_edit_form'));
 				success_alert('<?php echo $text_success_option?>',true);
 			},
 			global: false,

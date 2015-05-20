@@ -126,7 +126,7 @@ class ControllerPagesToolGlobalSearch extends AController {
 											'columns_search' => false,
 											'sortable' => false,
 											'hidden_head' => true,
-											'grid_ready' => "grid_ready('".$search_category . '_grid'."');");
+											'grid_ready' => "grid_ready('".$search_category . '_grid'."', data);");
 					
 					$grid_settings ['colNames'] = array (	'#',
 															$this->language->get ( "text_".$search_category ) );

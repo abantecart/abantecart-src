@@ -19,6 +19,10 @@
 						'entry_option_placeholder' => 'option_placeholder',
 						'entry_sort_order' => 'option_sort_order',
 						'entry_required' => 'required',
+						'entry_allowed_extensions' => 'extensions',
+						'entry_min_size'=>'min_size',
+						'entry_max_size'=>'max_size',
+						'entry_upload_dir'=>'directory',
 						'entry_regexp_pattern' => 'option_regexp_pattern',
 						'entry_error_text'=>'option_error_text'
 
@@ -27,6 +31,9 @@
 				<?php
 					$entry = $$e;
 					$field = $$name;
+					if(!is_object($field)){
+						continue;
+					}
 
 					if($name == 'option_placeholder' && !(string)$option_placeholder){
 						continue;
@@ -85,10 +92,13 @@
 							<?php echo $text_default; ?>
 						</span>
 					</th>
-					<?php }?>
+					<?php }
+					if($option_data['element_type']!='U'){ ?>
 					<th class="left"><?php echo $entry_option_value; ?></th>
 					<th class="left"><?php echo $entry_option_quantity; ?></th>
 					<th class="left"><?php echo $entry_track_option_stock; ?></th>
+					<?php } ?>
+
 					<th class="left"><?php echo $entry_option_price; ?></th>
 					<th class="left"><?php echo $entry_option_prefix; ?></th>
 					<th class="left"><?php echo $entry_sort_order; ?></th>

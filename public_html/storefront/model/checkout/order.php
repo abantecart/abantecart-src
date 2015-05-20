@@ -114,7 +114,7 @@ class ModelCheckoutOrder extends Model {
 			$this->db->query("DELETE FROM " . $this->db->table("order_totals") . " WHERE order_id = '" . (int)$result['order_id'] . "'");
 		}
 
-		if ($old_order_id) {
+		if (has_value($old_order_id)) {
 			$old_order_id = "order_id = '" . $this->db->escape($old_order_id) . "', ";
 		}
 
@@ -155,6 +155,7 @@ class ModelCheckoutOrder extends Model {
 								shipping_country_id = '" . (int)$data['shipping_country_id'] . "',
 								shipping_address_format = '" . $this->db->escape($data['shipping_address_format']) . "',
 								shipping_method = '" . $this->db->escape($data['shipping_method']) . "',
+								shipping_method_key = '" . $this->db->escape($data['shipping_method_key']) . "',
 								payment_firstname = '" . $this->db->escape($data['payment_firstname']) . "',
 								payment_lastname = '" . $this->db->escape($data['payment_lastname']) . "',
 								payment_company = '" . $this->db->escape($data['payment_company']) . "',
@@ -168,6 +169,7 @@ class ModelCheckoutOrder extends Model {
 								payment_country_id = '" . (int)$data['payment_country_id'] . "',
 								payment_address_format = '" . $this->db->escape($data['payment_address_format']) . "',
 								payment_method = '" . $this->db->escape($data['payment_method']) . "',
+								payment_method_key = '" . $this->db->escape($data['payment_method_key']) . "',
 								comment = '" . $this->db->escape($data['comment']) . "'"
 								. $key_sql . ",
 								date_modified = NOW(),
@@ -197,7 +199,8 @@ class ModelCheckoutOrder extends Model {
 										name = '" . $this->db->escape($option['name']) . "',
 										`value` = '" . $this->db->escape($option['value']) . "',
 										price = '" . (float)$product['price'] . "',
-										prefix = '" . $this->db->escape($option['prefix']) . "'");
+										prefix = '" . $this->db->escape($option['prefix']) . "',
+										settings = '" . $this->db->escape($option['settings']) . "'");
 			}
 
 			foreach ($product['download'] as $download) {
@@ -209,15 +212,16 @@ class ModelCheckoutOrder extends Model {
 				$this->download->addProductDownloadToOrder($order_product_id, $order_id, $download);
 			}
 		}
-
 		foreach ($data['totals'] as $total) {
 			$this->db->query("INSERT INTO " . $this->db->table("order_totals") . "
-								SET order_id = '" . (int)$order_id . "',
-									title = '" . $this->db->escape($total['title']) . "',
-									text = '" . $this->db->escape($total['text']) . "',
+								SET `order_id` = '" . (int)$order_id . "',
+									`title` = '" . $this->db->escape($total['title']) . "',
+									`text` = '" . $this->db->escape($total['text']) . "',
 									`value` = '" . (float)$total['value'] . "',
-									sort_order = '" . (int)$total['sort_order'] . "',
-									type = '" . $this->db->escape($total['total_type']) . "'");
+									`sort_order` = '" . (int)$total['sort_order'] . "',
+									`type` = '" . $this->db->escape($total['total_type']) . "',
+									`key` = '" . $this->db->escape($total['id']) . "'"
+									);
 		}
 
 		return $order_id;
@@ -418,9 +422,20 @@ class ModelCheckoutOrder extends Model {
 			foreach ($order_product_query->rows as $product) {
 				$option_data = array();
 
-				$order_option_query = $this->db->query("SELECT * FROM " . $this->db->table("order_options") . " WHERE order_id = '" . (int)$order_id . "' AND order_product_id = '" . (int)$product['order_product_id'] . "'");
+				$order_option_query = $this->db->query(
+						"SELECT oo.*, po.element_type
+						FROM " . $this->db->table("order_options") . " oo
+						LEFT JOIN " . $this->db->table("product_option_values") . " pov
+							ON pov.product_option_value_id = oo.product_option_value_id
+						LEFT JOIN " . $this->db->table("product_options") . " po
+							ON po.product_option_id = pov.product_option_id
+						WHERE oo.order_id = '" . (int)$order_id . "' AND oo.order_product_id = '" . (int)$product['order_product_id'] . "'");
 
 				foreach ($order_option_query->rows as $option) {
+					if($option['element_type']=='H'){ continue; } //skip hidden options
+					elseif($option['element_type']=='C' && in_array($option['value'], array(0,1,''))){
+						$option['value'] = '';
+					}
 					$option_data[] = array(
 						'name' => $option['name'],
 						'value' => $option['value']

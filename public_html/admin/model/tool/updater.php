@@ -21,6 +21,10 @@ if(!defined('DIR_CORE') || !IS_ADMIN){
 	header('Location: static_pages/');
 }
 
+/**
+ * Class ModelToolUpdater
+ * @property ModelToolMPAPI $model_tool_mp_api
+ */
 class ModelToolUpdater extends Model{
 
 	/**

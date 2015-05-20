@@ -27,7 +27,7 @@ $('#checkout').click(function() {
 	$('body').css('cursor','wait');
 	$.ajax({ 
 		type: 'GET',
-		url: 'index.php?rt=extension/default_banktransfer/confirm',
+		url: '<?php echo $this->html->getURL('extension/default_banktransfer/confirm');?>',
 		success: function() {
 			goTo('<?php echo $continue; ?>');
 		}		

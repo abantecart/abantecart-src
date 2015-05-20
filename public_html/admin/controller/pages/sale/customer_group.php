@@ -192,6 +192,20 @@ class ControllerPagesSaleCustomerGroup extends AController {
 			'current'   => true
    		 ));
 
+		$tabs['general'] = array(
+			'name' => 'customer_group_edit',
+			'text' => $this->language->get('tab_general'),
+			'href' => $this->html->getSecureURL('sale/customer_group/update', '&customer_group_id=' . $this->request->get['customer_group_id'], true),
+			'active'=> true,
+			'sort_order' => 0
+		);
+
+		$obj = $this->dispatch('responses/common/tabs',array(
+															'sale/customer_group', //parent controller. Use customer group to use for other extensions that will add tabs via their hooks
+															array('tabs'=>$tabs))
+															);
+		$this->data['tabs'] = $obj->dispatchGetOutput();
+
 		$form->setForm(array(
 		    'form_name' => 'cgFrm',
 			'update' => $this->data['update'],

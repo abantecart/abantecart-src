@@ -160,16 +160,23 @@
 		<?php $order_product_row = 0; ?>
 		<?php foreach ($order_products as $order_product) { ?>
 			<tbody id="product_<?php echo $order_product_row; ?>">
-			<tr>
+			<tr <?php if (!$order_product['product_status']) { ?>class="alert alert-warning"<?php } ?>>
 				<td>
 					<a class="remove btn btn-xs btn-danger-alt tooltips"
-					   data-original-title="<?php echo $text_remove; ?>"
+					   data-original-title="<?php echo $button_delete; ?>"
 					   data-order-product-row="<?php echo $order_product_row; ?>">
 						<i class="fa fa-minus-circle"></i>
 					</a>
+					<?php if ($order_product['product_status']) { ?>
+					<a class="edit_product btn btn-xs btn-info-alt tooltips"
+					   data-original-title="<?php echo $text_edit; ?>"
+					   data-order-product-id="<?php echo $order_product['order_product_id']; ?>">
+						<i class="fa fa-pencil"></i>
+					</a>
+					<?php } ?>
 				</td>
 				<td class="left">
-					<a href="<?php echo $order_product['href']; ?>"><?php echo $order_product['name']; ?>
+					<a target="_blank" href="<?php echo $order_product['href']; ?>"><?php echo $order_product['name']; ?>
 						(<?php echo $order_product['model']; ?>)</a>
 					<input type="hidden"
 						   name="product[<?php echo $order_product_row; ?>][order_product_id]"
@@ -177,17 +184,25 @@
 					<input type="hidden"
 						   name="product[<?php echo $order_product_row; ?>][product_id]"
 						   value="<?php echo $order_product['product_id']; ?>"/>
-					<?php foreach ($order_product['option'] as $option) { ?>
-						<br/>
-						&nbsp;
-						<small>
-							- <?php echo $option['name']; ?> <?php echo $option['value']; ?></small>
+					<?php
+					if($order_product['option']){ ?>
+						<dl class="dl-horizontal product-options-list-sm">
+					<?php
+					foreach ($order_product['option'] as $option) { ?>
+						<dt><small>- <?php echo $option['name']; ?></small></dt><dd><small><?php echo $option['value']; ?></small></dd>
+					<?php }?>
+						</dl>
 					<?php } ?></td>
-				<td class="right"><input class="no-save" type="text"
-										 name="product[<?php echo $order_product_row; ?>][quantity]"
-										 value="<?php echo $order_product['quantity']; ?>"
-										 size="4"/></td>
+				<td class="right">
+						<input class="afield no-save" type="text"
+						<?php if (!$order_product['product_status']) { ?>
+							readonly
+						<?php } ?>
+							name="product[<?php echo $order_product_row; ?>][quantity]"
+							value="<?php echo $order_product['quantity']; ?>"
+							size="4"/></td>
 				<td><input class="no-save pull-right" type="text"
+				           readonly
 						   name="product[<?php echo $order_product_row; ?>][price]"
 						   value="<?php echo $order_product['price']; ?>"/></td>
 				<td><input readonly class="no-save pull-right" type="text"
@@ -206,27 +221,78 @@
 		$total = count($totals); ?>
 		<?php foreach ($totals as $total_row) { ?>
 			<tr>
-				<td colspan="4" class="right"><span class="pull-right"><?php echo $total_row['title']; ?></span></td>
-				<td>
-					<?php if ($count == 0 || $count == ($total - 1)) { ?>
-						<b rel="totals[<?php echo $total_row['order_total_id']; ?>]"><?php echo $total_row['text']; ?></b>
-						<div class="input-group input-group-sm afield">
-							<input type="hidden" class="col-sm-2 col-xs-12"
-								   name="totals[<?php echo $total_row['order_total_id']; ?>]"
-								   value="<?php echo $total_row['text']; ?>"/>
-						</div>
-					<?php } else { ?>
-						<div class="input-group input-group-sm afield">
-							<input type="text" class="col-sm-2 col-xs-12 no-save"
-								   name="totals[<?php echo $total_row['order_total_id']; ?>]"
-								   value="<?php echo $total_row['text']; ?>"/>
-						</div>
+				<td colspan="4" class="right">
+				<span class="pull-right">
+					<?php echo $total_row['title']; ?>
+					<?php if (!in_array($total_row['type'] , array('subtotal','total'))) { ?>
+						<?php if (!$total_row['unavailable']) { ?>
+						<a class="reculc_total btn btn-xs btn-info-alt tooltips"
+						   	data-original-title="<?php echo $text_recalc; ?>"
+					   		data-order-total-id="<?php echo $total_row['order_total_id']; ?>">
+					    	<i class="fa fa-refresh"></i>
+						</a>
+						<?php } ?>
+					<a class="remove btn btn-xs btn-danger-alt tooltips"
+					   data-original-title="<?php echo $button_delete; ?>"
+					   data-confirmation="delete" onclick="deleteTotal('<?php echo $total_row['order_total_id']; ?>');">
+						<i class="fa fa-minus-circle"></i>
+					</a>
 					<?php } ?>
+				</span>
+				</td>
+				<td>
+					<?php if (!in_array($total_row['type'] , array('total'))) { ?>
+						<input type="text" class="col-sm-2 col-xs-12 no-save <?php echo $total_row['type']; ?>"
+									   name="totals[<?php echo $total_row['order_total_id']; ?>]"
+									   value="<?php echo $total_row['text']; ?>"/>
+					<?php } else { ?>
+					<b class="<?php echo $total_row['type']; ?>" rel="totals[<?php echo $total_row['order_total_id']; ?>]"><?php echo $total_row['text']; ?>
+					</b>	
+					<input type="hidden" class="hidden_<?php echo $total_row['type']; ?>" name="totals[<?php echo $total_row['order_total_id']; ?>]" value="<?php echo $total_row['text']; ?>"/>
+					<?php } ?>
+					
 					<?php $count++; ?>
 				</td>
 			</tr>
 			<?php $order_total_row++ ?>
 		<?php } ?>
+		<?php if (count($totals_add)) { ?>
+			<tr>
+				<td colspan="4" class="right"><span class="pull-right"><?php echo $text_add; ?></span></td>
+				<td>
+					<b rel="totals[<?php echo $total_row['order_total_id']; ?>]">
+					<a class="add_totals btn btn-xs btn-info-alt tooltips"
+					   data-original-title="<?php echo $text_add; ?>"
+					   data-order-id="<?php echo $order_id; ?>">
+					    <i class="fa fa-plus-circle"></i>
+					    
+					    <?php foreach ($totals_add as $total_row) { ?>
+					    <div class="hidden <?php echo $total_row['key']; ?>">
+					    	<div class="row">
+					    	<input type="hidden" name="key" value="<?php echo $total_row['key']; ?>"/>
+					    	<input type="hidden" name="type" value="<?php echo $total_row['type']; ?>"/>
+					    	<input type="hidden" name="sort_order" value="<?php echo $total_row['sort_order']; ?>"/>
+					    	<div class="col-sm-3 col-xs-12">
+					    		<span class="pull-right"><?php echo $text_order_total_title; ?></span>
+					    	</div>
+					    	<div class="col-sm-4 col-xs-12">
+					    		<input type="text" class="col-sm-2 col-xs-12 no-save"
+					    		   name="title" value="<?php echo $total_row['title']; ?>"/>
+					    	</div>
+					    	<div class="col-sm-2 col-xs-12">
+					    		<span class="pull-right"><?php echo $text_order_total_amount; ?></span>
+					    	</div>
+					    	<div class="col-sm-3 col-xs-12">
+					    		<input type="text" class="col-sm-2 col-xs-12 no-save"
+					    		   name="text" value="<?php echo $total_row['text']; ?>"/>
+					    	</div>
+					    	</div>
+					    </div>
+					    <?php } ?>
+					</a>
+				</td>
+			</tr>
+		<?php } ?>		
 		</tbody>
 	</table>
 
@@ -235,9 +301,10 @@
 		<div class="list-inline input-group afield col-sm-7 col-xs-9">
 			<?php echo $add_product;?>
 		</div>
-		<div class="list-inline input-group afield col-sm-offset-1 col-sm-3 col-xs-1">
-			<a class="add btn btn-success tooltips" data-original-title="<?php echo $text_add; ?>"><i
-						class="fa fa-plus-circle fa-lg"></i></a>
+		<div class="list-inline input-group afield col-sm-offset-0 col-sm-3 col-xs-1">
+			<a class="add btn btn-success tooltips"
+			   data-original-title="<?php echo $text_add; ?>">
+				<i class="fa fa-plus-circle fa-lg"></i></a>
 		</div>
 	</div>
 	</div>
@@ -245,8 +312,13 @@
 	<div class="panel-footer col-xs-12">
 		<div class="text-center">
 			<button class="btn btn-primary lock-on-click">
-			<i class="fa fa-save fa-fw"></i> <?php echo $form['submit']->text; ?>
+			<i class="fa fa-save fa-fw"></i> <?php echo $button_save; ?>
 			</button>
+			<?php if (!$no_recalc_allowed) { ?>
+			<a class="btn btn-default save_and_recalc" href="#">
+			<i class="fa fa-save fa-fw"></i><i class="fa fa-refresh fa-fw"></i> <?php echo $button_save.' & '.$text_recalc.' '.$text_all; ?>
+			</a>
+			<?php } ?>			
 			<a class="btn btn-default" href="<?php echo $cancel; ?>">
 			<i class="fa fa-arrow-left fa-fw"></i> <?php echo $form['cancel']->text; ?>
 			</a>
@@ -257,6 +329,40 @@
 
 </div><!-- <div class="tab-content"> -->
 
+<?php echo $this->html->buildElement(
+		array('type' => 'modal',
+				'id' => 'add_product_modal',
+				'modal_type' => 'lg',
+				'data_source' => 'ajax'
+		));
+?>
+
+<?php echo $this->html->buildElement(
+		array('type' => 'modal',
+				'id' => 'add_order_total',
+				'modal_type' => 'md',
+				'title' => $text_order_total_add,
+				'content' => '
+				<form class="aform form-horizontal" enctype="multipart/form-data" method="post" class="add_order_total" action="'.$edit_order_total.'">
+
+				<div class="mb20">' . $new_total . '
+				</div>
+								
+				<div class="content container-fluid mb20">
+				</div>
+								
+				<div class="text-center mb20">
+					<button class="btn btn-primary lock-on-click">
+					<i class="fa fa-save fa-fw"></i>'. $button_save . '
+					</button>
+					<button class="btn btn-default" type="button" data-dismiss="modal" aria-hidden="true">
+					<i class="fa fa-arrow-left fa-fw"></i> '. $button_cancel . '
+					</button>
+				</div>
+				
+				</form>'
+		));
+?>
 
 <script type="text/javascript">
 
@@ -271,6 +377,7 @@
 	$(function () {
 
 		$('#add_product').chosen({'width': '100%', 'white-space': 'nowrap'});
+		$('#add_product').on('change', addProduct);
 
 		$("#products input").aform({        triggerChanged: false        });
 		$('#products input[type*="text"]').each(function () {
@@ -290,6 +397,11 @@
 			return false;
 		});
 
+
+		$('a.edit_product').click(function () {
+			addProduct($(this).attr('data-order-product-id'));
+			return false;
+		});
 
 		$(document).on('keyup', '#products input', function () {
 			recalculate();
@@ -326,23 +438,20 @@
 			subtotal += total;
 		});
 
-		var subtotal_name = $('input[name^="total"]').first().attr('name');
-		var total_name = $('input[name^="total"]').last().attr('name');
-
 		//update first total - subtotal
-		$('input[name^="total"]').first().val(get_currency_str(subtotal));
-		$('b[rel="' + subtotal_name + '"]').html(get_currency_str(subtotal));
-		//update last - total
-		$('input[name^="total"]').last().val(0);
+		$('#products .subtotal').val(get_currency_str(subtotal));
 
 		var total = 0;
-		$('input[name^="total"]').each(function (i, v) {
-			total += get_currency_num($(v).val());
+		$('input[name^="totals"]').each(function (i, v) {
+			//skip grand total
+			if(!$(v).hasClass('hidden_total') && $.isNumeric(get_currency_num($(v).val())) ) {
+				total += get_currency_num($(v).val());
+			}		
 		});
-
+		
 		//update last - total
-		$('input[name^="total"]').last().val(get_currency_str(total));
-		$('b[rel="' + total_name + '"]').html(get_currency_str(total));
+		$('#products .total').html(get_currency_str(total));
+		$('#products .hidden_total').val(get_currency_str(total));
 
 	}
 
@@ -371,45 +480,65 @@
 
 	var order_product_row = <?php echo $order_product_row; ?>;
 
-	function addProduct() {
-		var vals = $("#add_product").chosen().val();
-
-		if(vals.length>0) {
-			var product_id, price, product, html;
-
-			for(var k in vals){
-				product_id = vals[k];
-				product = $('#add_product option[value="' + product_id + '"]');
-				if (currency_location == 'left') {
-					price = currency_symbol + product.attr('data-price');
-				} else {
-					price = product.attr('data-price') + currency_symbol;
-				}
-
-				html = '<tbody id="product_' + order_product_row + '"><tr>';
-				html += '<td><a class="remove btn btn-xs btn-danger-alt tooltips" data-original-title="<?php echo $text_remove;?>"  data-order-product-row="' + order_product_row + '"><i class="fa fa-minus-circle"></i></a></td>';
-				html += '<td class="left">';
-				html += '<input type="hidden" name="product[' + order_product_row + '][product_id]" value="' + product_id + '">';
-				html += '<a href="<?php echo $product_update . '&product_id='; ?>' + product_id + '&token=<?php echo $token; ?>">' + product.html() + '</a>';
-				html += '</td>';
-				html += '<td class="right"><input type="text" name="product[' + order_product_row + '][quantity]" value="1" size="4" /></td>';
-				html += '<td class="right"><input type="text" name="product[' + order_product_row + '][price]" value="' + price + '" /></td>';
-				html += '<td class="right"><input type="text" name="product[' + order_product_row + '][total]" value="' + price + '" readonly /></td>';
-				html += '</tr></tbody>';
-
-				$('#totals').before(html);
-
-				$("input, textarea, select, .scrollbox", '#product_' + order_product_row).aform({triggerChanged: false});
-				$('#product_' + order_product_row + ' input[type*="text"]').each(function () {
-					$.aform.styleGridForm(this);
-				});
-
-				order_product_row++;
-
+	function addProduct(order_product_id) {
+		var id = '';
+		if(order_product_id > 0){
+			id = '&order_product_id='+order_product_id;
+		}else{
+			var vals = $("#add_product").chosen().val();
+			$("#add_product").val('').trigger("chosen:updated");;
+			if(vals){
+				id = '&product_id='+vals[0];
 			}
 		}
-		recalculate();
-		$("#add_product").chosen().val('').trigger("chosen:updated");
+
+		if(id.length>0){
+			$('#add_product_modal')
+					.modal({ keyboard: false})
+					.find('.modal-content')
+					.load('<?php echo $add_product_url; ?>'+id, function () {
+					formOnExit();
+					bindCustomEvents('#orderProductFrm');
+					spanHelp2Toggles();
+				});
+		}
 	}
 
+	$('a.reculc_total').click(function () {
+		$(this).append('<input type="hidden" name="force_recalc_single" value="1">');
+	    var total_id = $(this).attr('data-order-total-id');
+	    $('input[name="totals['+total_id+']"]').val('');
+	    $('#orderFrm').submit();
+	    return false;
+	});
+
+	$('a.save_and_recalc').click(function () {
+		$(this).append('<input type="hidden" name="force_recalc" value="1">');
+	    $('#orderFrm').submit();
+	    return false;
+	});
+
+	$('a.add_totals').click(function () {
+		addTotal();
+	    return false;
+	});
+	
+	$('#orderFrm_new_total').change(function () {
+		addTotalSelect( $("#orderFrm_new_total option:selected").text() );
+	});
+
+	function addTotal() {
+		$('#add_order_total').modal({ keyboard: false});
+		addTotalSelect( $("#orderFrm_new_total option:selected").text() );
+	}
+
+	function addTotalSelect(key) {
+		var html = $('.add_totals .hidden.'+key).html(); 
+		$('#add_order_total form .content').html(html);
+	}
+
+	function deleteTotal(order_total_id) {
+		location = '<?php echo $delete_order_total; ?>&order_total_id=' + order_total_id;
+	}
+	
 </script>

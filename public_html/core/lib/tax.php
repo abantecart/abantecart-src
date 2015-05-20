@@ -42,23 +42,30 @@ final class ATax {
 	 */
 	private $db;
 	/**
-	 * @var ASession
+	 * @var ASession or customer's data
 	 */
-	private $session;
+	private $cust_data;
 
 	/**
 	 * @param $registry Registry
+	 * @param null|array $c_data
 	 */
-	public function __construct($registry) {
+	public function __construct($registry, &$c_data = null) {
 		$this->registry = $registry;
-		$this->config = $registry->get('config');
-		$this->db = $registry->get('db');	
-		$this->session = $registry->get('session');
 		$this->cache = $registry->get('cache');
+		$this->db = $registry->get('db');
+		$this->config = $registry->get('config');
 
-		if (isset($this->session->data['country_id']) && isset($this->session->data['zone_id'])) {
-			$country_id = $this->session->data['country_id'];
-	 		$zone_id = $this->session->data['zone_id'];
+		//if nothing is passed (default) use session array. Customer session, can function on storefrnt only 
+		if ($c_data == null) {
+			$this->cust_data =& $this->session->data;
+		} else {
+			$this->cust_data =& $c_data;  		
+		}
+
+		if (isset($this->cust_data['country_id']) && isset($this->cust_data['zone_id'])) {
+			$country_id = $this->cust_data['country_id'];
+	 		$zone_id = $this->cust_data['zone_id'];
 		} else {
 			if($this->config->get('config_tax_store')){
 				$country_id = $this->config->get('config_country_id');
@@ -69,6 +76,14 @@ final class ATax {
 		}
 		$this->setZone($country_id, $zone_id);
   	}
+
+	public function __get($key) {
+		return $this->registry->get($key);
+	}
+	
+	public function __set($key, $value) {
+		$this->registry->set($key, $value);
+	}
 
 	/**
 	 * Set tax country ID and zone ID for the session
@@ -92,8 +107,8 @@ final class ATax {
       		);
     	}
 
-		$this->session->data['country_id'] = $country_id;
-		$this->session->data['zone_id'] = $zone_id;
+		$this->cust_data['country_id'] = $country_id;
+		$this->cust_data['zone_id'] = $zone_id;
 	}
 
 	/**

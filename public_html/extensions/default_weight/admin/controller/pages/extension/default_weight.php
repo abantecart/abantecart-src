@@ -35,9 +35,15 @@ class ControllerPagesExtensionDefaultWeight extends AController {
 		$this->loadLanguage('default_weight/default_weight');
 		$this->document->setTitle( $this->language->get('default_weight_name') );
 		$this->load->model('setting/setting');
-				 
+
+		//set store id based on param or session.
+		$store_id = (int)$this->config->get('config_store_id');
+		if ($this->session->data['current_store_id']) {
+			$store_id = (int)$this->session->data['current_store_id'];
+		}
+
 		if ($this->request->is_POST() && ($this->_validate())) {
-			$this->model_setting_setting->editSetting('default_weight', $this->request->post);
+			$this->model_setting_setting->editSetting('default_weight', $this->request->post, $store_id );
 			$this->session->data['success'] = $this->language->get('text_success');
 			$this->redirect($this->html->getSecureURL('extension/default_weight'));
 		}
@@ -68,7 +74,9 @@ class ControllerPagesExtensionDefaultWeight extends AController {
       		'separator' => ' :: ',
 		    'current'   => true
    		 ));
-		
+
+		$this->data['form_store_switch'] = $this->html->getStoreSwitcher();
+
 		$this->load->model('localisation/tax_class');
 		$results = $this->model_localisation_tax_class->getTaxClasses();
 		$tax_classes = array( 0 => $this->language->get ( 'text_none' ));
@@ -83,11 +91,13 @@ class ControllerPagesExtensionDefaultWeight extends AController {
 			$locations[ $v['location_id'] ] = $v['name'];
 		}
 
+		$settings = $this->model_setting_setting->getSetting('default_weight',$store_id);
+
 		foreach ( $this->fields as $f ) {
 			if (isset ( $this->request->post [$f] )) {
 				$this->data [$f] = $this->request->post [$f];
 			} else {
-				$this->data [$f] = $this->config->get($f);
+				$this->data [$f] = $settings[$f];
 			}
 		}
 		
@@ -95,13 +105,13 @@ class ControllerPagesExtensionDefaultWeight extends AController {
 			if (isset($this->request->post['default_weight_' . $location['location_id'] . '_rate'])) {
 				$this->data['default_weight_' . $location['location_id'] . '_rate'] = $this->request->post['default_weight_' . $location['location_id'] . '_rate'];
 			} else {
-				$this->data['default_weight_' . $location['location_id'] . '_rate'] = $this->config->get('default_weight_' . $location['location_id'] . '_rate');
+				$this->data['default_weight_' . $location['location_id'] . '_rate'] = $settings['default_weight_' . $location['location_id'] . '_rate'];
 			}		
 			
 			if (isset($this->request->post['default_weight_' . $location['location_id'] . '_status'])) {
 				$this->data['default_weight_' . $location['location_id'] . '_status'] = $this->request->post['default_weight_' . $location['location_id'] . '_status'];
 			} else {
-				$this->data['default_weight_' . $location['location_id'] . '_status'] = $this->config->get('default_weight_' . $location['location_id'] . '_status');
+				$this->data['default_weight_' . $location['location_id'] . '_status'] = $settings['default_weight_' . $location['location_id'] . '_status'];
 			}		
 		}
 
@@ -139,8 +149,6 @@ class ControllerPagesExtensionDefaultWeight extends AController {
 
 			$rate = 'default_weight_' . $location['location_id'] . '_rate';
 			$status = 'default_weight_' . $location['location_id'] . '_status';
-
-
 
 			$this->data['form']['fields']['rates'][$status] = $form->getFieldHtml(array(
 				'type' => 'checkbox',

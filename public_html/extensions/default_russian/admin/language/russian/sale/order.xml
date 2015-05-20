@@ -246,7 +246,7 @@
 	</definition>
 	<definition>
 		<key>entry_add_product</key>
-		<value><![CDATA[Добавить продукт(ы):]]></value>
+		<value><![CDATA[Добавить продукт:]]></value>
 	</definition>
 	<definition>
 		<key>error_permission</key>
@@ -331,5 +331,25 @@
 	<definition>
 		<key>text_push_download</key>
 		<value><![CDATA[- Нажмите Скачать -]]></value>
+	</definition>
+	<definition>
+		<key>attention_check_total</key>
+		<value><![CDATA[Внимание: Данные продукта заказа изменились. Суммы обновились автоматически и требуют проверки.]]></value>
+	</definition>
+	<definition>
+		<key>text_order_total_add</key>
+		<value><![CDATA[Добавить новую сумму для общего расчета]]></value>
+	</definition>
+	<definition>
+		<key>text_order_total_title</key>
+		<value><![CDATA[Название]]></value>
+	</definition>
+	<definition>
+		<key>text_order_total_amount</key>
+		<value><![CDATA[Сумма]]></value>
+	</definition>
+	<definition>
+		<key>text_recalc</key>
+		<value><![CDATA[Пересчитать]]></value>
 	</definition>	
 </definitions>

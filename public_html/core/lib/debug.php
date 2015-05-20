@@ -301,7 +301,7 @@ class ADebug {
                 if ( $registry->has('log') ) {
                 $log = $registry->get('log');
                 } else {
-                    $log = new ALog('error.txt');
+                    $log = new ALog(DIR_LOGS.'error.txt');
                 }
                 $log->write( strip_tags(str_replace('<br />', "\r\n", $debug)));
                 break;

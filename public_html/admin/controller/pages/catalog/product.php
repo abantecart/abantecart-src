@@ -59,6 +59,7 @@ class ControllerPagesCatalogProduct extends AController {
             $this->data['categories'][ $r['category_id'] ] = $r['name'];
         }
 
+
 		$grid_settings = array(
 			'table_id' => 'product_grid',
 			'url' => $this->html->getSecureURL('listing_grid/product','&category='.(int)$this->request->get['category']),
@@ -69,7 +70,38 @@ class ControllerPagesCatalogProduct extends AController {
             'actions' => array(
                 'edit' => array(
                     'text' => $this->language->get('text_edit'),
-				    'href' => $this->html->getSecureURL('catalog/product/update', '&product_id=%ID%')
+				    'href' => $this->html->getSecureURL('catalog/product/update', '&product_id=%ID%'),
+	                'children' => array_merge(array(
+			                'general' => array(
+							                'text' => $this->language->get('tab_general'),
+							                'href' => $this->html->getSecureURL('catalog/product/update', '&product_id=%ID%'),
+			                                ),
+			                'media' => array(
+							                'text' => $this->language->get('tab_media'),
+							                'href' => $this->html->getSecureURL('catalog/product_images', '&product_id=%ID%'),
+			                                ),
+			                'options' => array(
+							                'text' => $this->language->get('tab_option'),
+							                'href' => $this->html->getSecureURL('catalog/product_options', '&product_id=%ID%'),
+			                                ),
+			                'files' => array(
+							                'text' => $this->language->get('tab_files'),
+							                'href' => $this->html->getSecureURL('catalog/product_files', '&product_id=%ID%'),
+			                                ),
+			                'relations' => array(
+							                'text' => $this->language->get('tab_relations'),
+							                'href' => $this->html->getSecureURL('catalog/product_relations', '&product_id=%ID%'),
+			                                ),
+			                'promotions' => array(
+							                'text' => $this->language->get('tab_promotions'),
+							                'href' => $this->html->getSecureURL('catalog/product_promotions', '&product_id=%ID%'),
+			                                ),
+			                'layout' => array(
+							                'text' => $this->language->get('tab_layout'),
+							                'href' => $this->html->getSecureURL('catalog/product_layout', '&product_id=%ID%'),
+			                                ),
+
+	                ),(array)$this->data['grid_edit_expand'])
                 ),
 	            'save' => array(
                     'text' => $this->language->get('button_save'),
@@ -784,7 +816,7 @@ class ControllerPagesCatalogProduct extends AController {
             'style' => 'small-field',
 		));
 
-	    if($product_id && $this->data['shipping'] && (!(float)$this->data['weight'] || !$this->data['weight_class_id'])){
+	    if($product_id && $this->data['shipping'] && (!(float)$this->data['weight'] || !$this->data['weight_class_id']) && !(float)$this->data['shipping_price'] ){
 			if(!$this->data['weight_class_id']){
 				$this->data['error']['weight_class']  = $this->language->get('error_weight_class');
 		    }

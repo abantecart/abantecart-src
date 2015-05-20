@@ -2,17 +2,17 @@
            name="<?php echo $name ?>"
            id="<?php echo $id ?>"
            value="<?php echo $value ?>"
-           class="ckbox acheckbox <?php echo $style; ?>"
+           class=" pull-left ckbox acheckbox <?php echo $style; ?>"
 		   <?php echo ( ($checked ) ? 'checked="checked"':'' ) ?>
            data-orgvalue="<?php echo ($checked ? 'true':'false') ?>"
 		   <?php echo $attr ?>           
 />
 <?php if ( $label_text ){ ?>
-<label class="pull-left" for="<?php echo $id ?>"><?php echo $label_text; ?></label>
+<label for="<?php echo $id ?>"><?php echo $label_text; ?></label>
 <?php } ?>
 
 <?php if ( $required == 'Y' || !empty ($help_url) ) { ?>
-	<span class="input-group-addon">
+	<span class="input-addon">
 	<?php if ( $required == 'Y') { ?>
 		<span class="required">*</span>
 	<?php } ?>

@@ -21,7 +21,7 @@ var urls = {
 			del: '<?php echo $rl_delete; ?>',
 			download: '<?php echo $rl_download; ?>',
 			upload: '<?php echo $rl_upload; ?>',
-			resource: '<?php echo HTTP_DIR_RESOURCE; ?>'
+			resource: '<?php echo HTTPS_DIR_RESOURCE; ?>'
 		},
 		default_type = '<?php echo $default_type["type_name"]; ?>';
 
@@ -892,6 +892,10 @@ jQuery(function () {
 		if(!rl_type){
 			rl_type = $('#library').attr('data-type');
 		}
+		if(!rl_type){
+			rl_type = $(obj).children('[data-type="*"]').attr('data-type');
+		}
+
 		if(rl_type) {
 			URL += '&type=' + rl_type;
 		}
@@ -965,15 +969,14 @@ jQuery(function () {
 
 		e.preventDefault();
 		var files = e.originalEvent.dataTransfer.files;
-
+		var btn = o.find('a.btn');
 		//check if modal is open and we have details 
 		if (!modalscope.mode || !modalscope.wrapper_id) {
 			//enable single mode based on attribute
-			var btn = o.find('a.btn');
 			modalscope.mode = btn.attr('data-mode') ? btn.attr('data-mode') : modalscope.mode;
-			modalscope.wrapper_id = btn.attr('data-wrapper_id');
-			modalscope.field = btn.attr('data-field');
 		}
+		modalscope.wrapper_id = btn.attr('data-wrapper_id');
+		modalscope.field = btn.attr('data-field');
 
 		//if replacement of file - take only first dragged file
 		if ($('div.fileupload_drag_area').attr('data-upload-type') == 'single') {

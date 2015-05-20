@@ -26,13 +26,40 @@ if (!defined('DIR_CORE')) {
  * @property ModelToolImage $model_tool_image
  */
 class AResource {
+	/**
+	 * @var Registry
+	 */
 	protected $registry;
+	/**
+	 * @var string
+	 */
 	protected $type;
+	/**
+	 * @var int
+	 */
 	protected $type_id;
+	/**
+	 * @var string
+	 */
 	protected $type_dir;
+	/**
+	 * @var string
+	 */
 	protected $type_icon;
+	/**
+	 * @var string
+	 */
 	protected $access_type;
+	/**
+	 * @var array
+	 */
 	protected $file_types;
+	/**
+	 * @var array
+	 */
+	public $data = array();
+
+	public $obj_list = array('products', 'categories', 'manufacturers', 'product_option_value');
 
 	/**
 	 * @param string $type
@@ -239,37 +266,49 @@ class AResource {
 			$name = preg_replace('/[^a-zA-Z0-9]/', '_', $resource['name']);
 			//Build thumbnails path similar to resource library path
 			$new_image = 'thumbnails/' . dirname($resource['resource_path']) . '/' . $name . '-' . $resource['resource_id'] . '-' . $width . 'x' . $height . '.' . $extension;
+		    $this->_check_create_thumb($new_image, $old_image, $width, $height);
 
-			if (!file_exists(DIR_IMAGE . $new_image) || (filemtime($old_image) > filemtime(DIR_IMAGE . $new_image))) {
-				$path = '';
+		    //do retina version
+		    if($this->config->get('config_retina_enable')){
+			    $new_image2x = 'thumbnails/' . dirname($resource['resource_path']) . '/' . $name . '-' . $resource['resource_id'] . '-' . $width . 'x' . $height . '@2x.' . $extension;
+			    $this->_check_create_thumb($new_image2x, $old_image, $width*2, $height*2);
+		    }
 
-				$directories = explode('/', dirname(str_replace('../', '', $new_image)));
+		    $this->registry->get('extensions')->hk_ProcessData($this, __FUNCTION__);
+		    $http_path = $this->data['http_dir'];
+		    if(!$http_path){
+                if( HTTPS===true){
+                    $http_path = HTTPS_IMAGE;
+                } else{
+                    $http_path = HTTP_IMAGE;
+                }
+            }
 
-				foreach ($directories as $directory) {
-					$path = $path . '/' . $directory;
-
-					if (!file_exists(DIR_IMAGE . $path)) {
-						@mkdir(DIR_IMAGE . $path, 0777);
-						chmod(DIR_IMAGE . $path, 0777);
-					}
-				}
-
-				$image = new AImage($old_image);
-				$image->resize($width, $height);
-				$image->save(DIR_IMAGE . $new_image);
-				unset($image);
-			}
-
-		    if ( HTTPS===true ) {
-				return HTTPS_IMAGE . $new_image;
-			} else {
-				return HTTP_IMAGE . $new_image;
-			}
+			return $http_path . $new_image;
 
 	    } else { // returns ico-file as is
 	    	return $this->buildResourceURL($resource['resource_path'], 'full');
 	    }
     }
+	private function _check_create_thumb($filename, $resource_filename, $width, $height){
+		if (!file_exists(DIR_IMAGE . $filename) || (filemtime($resource_filename) > filemtime(DIR_IMAGE . $filename))) {
+			$path = '';
+			$directories = explode('/', dirname(str_replace('../', '', $filename)));
+			foreach ($directories as $directory) {
+				$path = $path . '/' . $directory;
+
+				if (!file_exists(DIR_IMAGE . $path)) {
+					@mkdir(DIR_IMAGE . $path, 0777);
+					chmod(DIR_IMAGE . $path, 0777);
+				}
+			}
+
+			$image = new AImage($resource_filename);
+			$image->resize($width, $height);
+			$image->save(DIR_IMAGE . $filename);
+			unset($image);
+		}
+	}
 
 
 	/**
@@ -278,12 +317,14 @@ class AResource {
 	 * @return array
 	 */
     public function buildResourceURL ( $resource_path, $mode = 'full' ) {
+
 		if ( $mode == 'full') {
-		    if ( HTTPS===true ) {
-				return HTTPS_DIR_RESOURCE . $this->type_dir . $resource_path;
-			} else {
-				return HTTP_DIR_RESOURCE . $this->type_dir . $resource_path;
+			$this->registry->get('extensions')->hk_ProcessData($this, __FUNCTION__);
+			$http_path = $this->data['http_dir'];
+			if(!$http_path){
+				$http_path = HTTPS_DIR_RESOURCE;
 			}
+			return $http_path . $this->type_dir . $resource_path;
 		} else {
 			return "/resources/" . $this->type_dir . $resource_path;
 		}
@@ -359,7 +400,7 @@ class AResource {
 
     //TODO: define where all object types will be kept and fetch them from storage
     public function getAllObjects() {
-        return array('products', 'categories', 'manufacturers', 'product_option_value');
+        return $this->obj_list;
     }
 
 	/**
@@ -371,7 +412,7 @@ class AResource {
 	 * @param bool $noimage
 	 * @return array
 	 */
-	public function getResourceAllObjects($object_name, $object_id, $sizes=array('main'=>array(),'thumb'=>array()), $limit=0, $noimage=true){
+	public function getResourceAllObjects($object_name, $object_id, $sizes=array('main'=>array(),'thumb'=>array(), 'thumb2'=>array()), $limit=0, $noimage=true){
 		if(!$object_id || !$object_name ) return array();
 		$limit = (int)$limit;
 		$results = $this->getResources($object_name, $object_id);
@@ -409,9 +450,14 @@ class AResource {
 
 			$resource_info = $result['resource_id'] ? $this->getResource($result['resource_id'], $this->config->get('storefront_language_id') ) : $result;
 		 	$origin = $resource_info['resource_path'] ? 'internal' : 'external';
-			$http = HTTPS===true ? HTTPS_DIR_RESOURCE : HTTP_DIR_RESOURCE;
-
+			
 			if($origin=='internal'){
+				$this->registry->get('extensions')->hk_ProcessData($this, __FUNCTION__);
+				$http_path = $this->data['http_dir'];
+				if(!$http_path){
+					$http_path = HTTPS_DIR_RESOURCE;					
+				}
+				
 				if($sizes['thumb']){
 					$thumb_url = $this->getResourceThumb($result['resource_id'],$sizes['thumb']['width'],$sizes['thumb']['height']);
 				}
@@ -419,19 +465,27 @@ class AResource {
 				if(!$thumb_url && $sizes['thumb']){
 					$thumb_url = $this->model_tool_image->resize($result['resource_path'],$sizes['thumb']['width'],$sizes['thumb']['height']);
 				}
+				//thumb2 - big thumbnails
+				if($sizes['thumb2']){
+					$thumb2_url = $this->getResourceThumb($result['resource_id'],$sizes['thumb2']['width'],$sizes['thumb2']['height']);
+				}
+				if(!$thumb2_url && $sizes['thum2b']){
+					$thumb2_url = $this->model_tool_image->resize($result['resource_path'],$sizes['thumb2']['width'],$sizes['thumb2']['height']);
+				}
+
 				if($this->getTypeDir()=='image/'){
 					if(!$sizes['main']){
 						$main_url = $this->getResourceThumb($result['resource_id'],$sizes['main']['width'],$sizes['main']['height']);
 					}else{ // return href for image with size as-is
-						$main_url = $http.$this->getTypeDir().$result['resource_path'];
+						$main_url = $http_path.$this->getTypeDir().$result['resource_path'];
 					}
 				}else{
-					$main_url = $http.$this->getTypeDir().$result['resource_path'];
+					$main_url = $http_path.$this->getTypeDir().$result['resource_path'];
 				}
 
 				$resources[$k] = array( 'origin' => $origin,
 										'main_url' => $main_url,
-										'main_html'=>$this->html->buildResourceImage( array('url' => $http.'image/'.$result['resource_path'],
+										'main_html'=>$this->html->buildResourceImage( array('url' => $http_path.'image/'.$result['resource_path'],
 										                                                    'width' => $sizes['main']['width'],
 										                                                    'height' => $sizes['main']['height'],
 										                                                    'attr' => 'alt="' . $resource_info['title'] . '"') ),
@@ -439,9 +493,17 @@ class AResource {
 										'thumb_html' => $this->html->buildResourceImage( array('url' => $thumb_url,
 										                                                    'width' => $sizes['thumb']['width'],
 										                                                    'height' => $sizes['thumb']['height'],
-										                                                    'attr' => 'alt="' . $resource_info['title'] . '"') ),
-										'description' =>  $resource_info['decription'],
-										'title' => $resource_info['title']);
+										                                                    'attr' => 'alt="' . $resource_info['title'] . '"') ));
+				if($sizes['thumb2']){
+					$resources[$k]['thumb2_url'] = $thumb2_url ;
+					$resources[$k]['thumb2_html'] = $this->html->buildResourceImage(array('url'    => $thumb2_url,
+										                                                  'width'  => $sizes['thumb2']['width'],
+										                                                  'height' => $sizes['thumb2']['height'],
+										                                                  'attr'   => 'alt="' . $resource_info['title'] . '"'));
+				}
+				$resources[$k]['description'] =  $resource_info['decription'];
+				$resources[$k]['title'] = $resource_info['title'];
+
 			}else{
 				$resources[$k] = array( 'origin' => $origin,
 										'main_html'=>$resource_info['resource_code'],
@@ -503,48 +565,4 @@ class AResource {
 	return $output;
 	}
 
-/*// for future. 
-		// method returns all resources of object by it's id and name
-	public function getMainThumbByHexPath($path, $sizes=array('width'=>0,'height'=>0), $noimage=true){
-		if(!$path) return array();
-
-		$resource_id = $resource->getIdFromHexPath($path);
-		$this->load->model('tool/image');
-
-		if(!$sizes || !isset($sizes['width']) || !isset($sizes['height']) ){
-				$sizes = array('width'=> $this->config->get('config_image_thumb_width'), 'height'=> $this->config->get('config_image_thumb_height'));
-		}
-
-
-		if(!$resource_id){
-			return array();
-		}
-
-		$resource_info = $this->getResource($resource_id, $this->config->get('storefront_language_id'));
-		$origin = $resource_info['resource_path'] ? 'internal' : 'external';
-
-		if($origin=='internal'){
-				$thumb_url = $this->getResourceThumb($resource_id,$sizes['width'],$sizes['height']);
-
-				if(!$thumb_url){
-					$thumb_url = $this->model_tool_image->resize('no_image.jpg',$sizes['width'],$sizes['height']);
-				}
-
-				$resources = array( 'origin' => $origin,
-									'thumb_url' => $thumb_url,
-									'thumb_html' => $this->html->buildResourceImage( array('url' => $thumb_url,
-										                                                    'width' => $sizes['width'],
-										                                                    'height' => $sizes['height']) ),
-									'title' => $resource_info['title']);
-			}else{
-				$resources = array( 'origin' => $origin,
-									'thumb_html' => $resource_info['resource_code'],
-									'title' => $resource_info['title']);
-			}
-
-
-
-	return $resources;
-	}
-*/
 }

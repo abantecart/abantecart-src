@@ -63,7 +63,22 @@ class ControllerPagesCatalogCategory extends AController {
 				'actions' => array(
 						'edit' => array(
 								'text' => $this->language->get('text_edit'),
-								'href' => $this->html->getSecureURL('catalog/category/update', '&category_id=%ID%')
+								'href' => $this->html->getSecureURL('catalog/category/update', '&category_id=%ID%'),
+								'children' => array_merge(array(
+							                'general' => array(
+										                'text' => $this->language->get('tab_general'),
+										                'href' => $this->html->getSecureURL('catalog/category/update', '&category_id=%ID%'),
+						                                ),
+							                'data' => array(
+										                'text' => $this->language->get('tab_data'),
+										                'href' => $this->html->getSecureURL('catalog/category/update', '&category_id=%ID%').'#data',
+						                                ),
+							                'layout' => array(
+										                'text' => $this->language->get('tab_layout'),
+										                'href' => $this->html->getSecureURL('catalog/category/edit_layout', '&category_id=%ID%'),
+						                                ),
+								),(array)$this->data['grid_edit_expand'])
+
 						),
 						'save' => array(
 								'text' => $this->language->get('button_save'),
@@ -369,7 +384,7 @@ class ControllerPagesCatalogCategory extends AController {
 						'name' => 'status',
 						'value' => $this->data['status'],
 						'style' => 'btn_switch',
-						'help_url' => $this->gen_help_url('name'),
+						'help_url' => $this->gen_help_url('status'),
 				));
 		$this->data['form']['fields']['general']['parent_category'] = $form->getFieldHtml(
 				array('type' => 'selectbox',
@@ -399,7 +414,7 @@ class ControllerPagesCatalogCategory extends AController {
 						'name' => 'category_description[' . $this->session->data['content_language_id'] . '][meta_keywords]',
 						'value' => $this->data['category_description'][$this->session->data['content_language_id']]['meta_keywords'],
 						'style' => 'xl-field',
-						'help_url' => $this->gen_help_url('category_description'),
+						'help_url' => $this->gen_help_url('meta_keywords'),
 				));
 		$this->data['form']['fields']['data']['meta_description'] = $form->getFieldHtml(
 				array('type' => 'textarea',
