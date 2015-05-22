@@ -274,8 +274,10 @@
 								<span class="productinfoleft"><?php echo $text_manufacturer; ?></span>
 								<a href="<?php echo $manufacturers; ?>">
 									<?php if ($manufacturer_icon) { ?>
-										<img alt="<?php echo $manufacturer; ?>" src="<?php echo $manufacturer_icon; ?>"
-											 title="<?php echo $manufacturer; ?>"/>
+										<img alt="<?php echo $manufacturer; ?>"
+										     src="<?php echo $manufacturer_icon; ?>"
+											 title="<?php echo $manufacturer; ?>"
+											 style="width: <?php echo $this->config->get('config_image_grid_width');?>px;"/>
 									<?php
 									} else {
 										echo $manufacturer;
