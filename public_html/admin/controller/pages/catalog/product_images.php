@@ -42,12 +42,6 @@ class ControllerPagesCatalogProductImages extends AController {
 			}
     	}
 
-		if ($this->request->is_POST() ) {
-			$this->model_catalog_product->updateProductImages($this->request->get['product_id'], $this->request->post);
-			$this->session->data['success'] = $this->language->get('text_success');
-			$this->redirect($this->html->getSecureURL('catalog/product_images', '&product_id=' . $this->request->get['product_id'] ));
-		}
-
 		$this->data['product_description'] = $this->model_catalog_product->getProductDescriptions($this->request->get['product_id']);
 
 		$this->view->assign('error_warning', $this->error['warning']);
