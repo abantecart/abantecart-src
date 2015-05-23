@@ -31,7 +31,7 @@ class ModelExtensionDefaultRealex extends Model {
 			$merchant_id = $this->config->get('default_realex_merchant_id');
 			$secret = $this->config->get('default_realex_secret');
 
-			$this->logger('Void hash construct: ' . $timestamp . '.' . $merchant_id . '.' . $realex_order['order_ref'] . '...');
+			//$this->log->write('Void hash construct: ' . $timestamp . '.' . $merchant_id . '.' . $realex_order['order_ref'] . '...');
 
 			$tmp = $timestamp . '.' . $merchant_id . '.' . $realex_order['order_ref'] . '...';
 			$hash = sha1($tmp);
@@ -158,7 +158,7 @@ class ModelExtensionDefaultRealex extends Model {
 				$pas_ref = $realex_order['pasref'];
 			}
 
-			$this->logger('Rebate hash construct: ' . $timestamp . '.' . $merchant_id . '.' . $order_ref . '.' . (int)round($amount*100) . '.' . $realex_order['currency_code'] . '.');
+			//$this->log->write('Rebate hash construct: ' . $timestamp . '.' . $merchant_id . '.' . $order_ref . '.' . (int)round($amount*100) . '.' . $realex_order['currency_code'] . '.');
 
 			$tmp = $timestamp . '.' . $merchant_id . '.' . $order_ref . '.' . (int)round($amount*100) . '.' . $realex_order['currency_code'] . '.';
 			$hash = sha1($tmp);

@@ -27,6 +27,9 @@ class ExtensionDefaultRealex extends Extension {
 	
 	//Hook to enable payment details tab in admin 
 	public function onControllerPagesSaleOrdertabs_UpdateData() {
+		/**
+		 * @var $that ControllerPagesSaleOrderTabs
+		 */
 		$that = $this->baseObject;
 		$order_id = $that->data['order_id'];
 		//are we logged in and in admin?
@@ -81,7 +84,10 @@ class ExtensionDefaultRealex extends Extension {
 
 	}
 
-
+	/**
+	 * @param int $order_id
+	 * @param AController $that
+	 */
 	private function _load_releax_order_data($order_id, $that) {
 		//data already loaded, return 
 		if ( $this->r_data ) {
