@@ -202,6 +202,12 @@
 
 <?php echo $this->getHookVar('home_page_bottom'); ?>
 
+<?php
+// in case when no any payment enabled
+if($no_payment_installed){
+	include('tip_modal.tpl');
+}?>
+
 <!--[if IE]>
 <script type="text/javascript" src="<?php echo RDIR_TEMPLATE; ?>javascript/jquery/flot/excanvas.js"></script>
 <![endif]-->

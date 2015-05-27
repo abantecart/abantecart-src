@@ -55,6 +55,24 @@
 		</div>
 
 		</br>
+		</br>
+		</br>
+		</br>
+
+		<div class="container-fluid">
+			<div class="h4 heading col-md-12 text-center" style="min-height: 50px;">Install Payment Extension Now</div>
+		    <div class="snapshots col-md-6">
+			    <?php $url = '../'.$admin_path."&rt=extension/extensions/install&extension=default_stripe"; ?>
+			    <a href="<?php echo $url;?>"><img src="../extensions/default_stripe/image/icon.png" alt="Install Stripe Payment" style="border: none;" /></a><br />
+			    <a href="<?php echo $url;?>">Stripe</a>
+			</div>
+		    <div class="snapshots col-md-6">
+			    <?php $url = '../'.$admin_path."&rt=extension/extensions/install&extension=default_pp_standart"; ?>
+			    <a href="<?php echo $url;?>"><img src="../extensions/default_pp_standart/image/icon.png" alt="Install Paypal Standart Payment" style="border: none;" /></a><br />
+			    <a href="<?php echo $url;?>">Paypal</a>
+			</div>
+		</div>
+
 	</div>
 		
 	</div>
