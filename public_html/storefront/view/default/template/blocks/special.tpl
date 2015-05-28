@@ -30,19 +30,19 @@ if ($products) {
 	    }
 	    
 ?>      
-              <li>
+              <li class="col-xs-12">
               	<a href="<?php echo $item['info_url']?>"><?php echo $item['image']?></a>
               	<a class="productname" href="<?php echo $item['info_url']?>"><?php echo $item['title']?></a>
               	<?php if ($review_status) { ?>
                 <span class="procategory"><?php echo $item['rating']?></span>
                 <?php } ?>
                 <span class="price">
-				<?php  if ($product['special']) { ?>
-					<div class="pricenew"><?php echo $product['special']?></div>
-					<div class="priceold"><?php echo $product['price']?></div>
-				<?php } else { ?>
-					<div class="oneprice"><?php echo $product['price']?></div>
-				<?php } ?>
+		        <?php  if ($product['special']) { ?>
+		            <span class="pricenew"><?php echo $product['special']?></span>
+		        	<span class="priceold"><?php echo $product['price']?></span>
+		        <?php } else { ?>
+		            <span class="oneprice"><?php echo $product['price']?></span>
+		  		<?php } ?>
                 </span>
               </li>
 <?php
