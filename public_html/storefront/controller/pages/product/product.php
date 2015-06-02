@@ -592,7 +592,7 @@ class ControllerPagesProductProduct extends AController {
 			}
 		}
 
-		$this->view->setTemplate( 'pages/product/product.tpl' );
+		$this->view->setTemplate( 'embed/product/product.tpl' );
 
 
 		$this->view->batchAssign($this->data);
