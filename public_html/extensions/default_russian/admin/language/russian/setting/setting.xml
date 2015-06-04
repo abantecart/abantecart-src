@@ -500,7 +500,7 @@
 	<definition>
 		<key>entry_storefront_api_stock_check</key>
 		<value>
-			<![CDATA[API витрины доступ к сотоянию на складе:<br /><span class="help">Включить, если вы хотите разрешить API проверять наличие товара на складе</span>]]></value>
+			<![CDATA[API-доступ к наличию на складе:<br /><span class="help">Включить, если вы хотите разрешить API проверять наличие товара на складе</span>]]></value>
 	</definition>
 	<definition>
 		<key>entry_admin_api_status</key>

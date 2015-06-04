@@ -1,7 +1,7 @@
 (function() {
 	// Localize jQuery variable
 	var jQuery;
-	
+
 	/******** Load jQuery if not yet loaded *********/
 	if (window.jQuery === undefined || window.jQuery.fn.jquery !== '1.11.0') {
 	    var script_tag = document.createElement('script');
@@ -33,45 +33,75 @@
 	    // Call our main function
 	    main(); 
 	}
-	
+
+	/******** ABC eval ********/
+
+	abcDo = function(){};  //sturt up empty global function. it's a abc js-runner to workaround cross-domain ajax calls
+
+	abc_cookie_allowed = true; // set global sign of allowed 3dparty cookies as true by default. Otherwise it's value will be overridden by testcookie js
+
+	//this function will be run every time when document changed (new script loaded for embedded abc)
+	//and will call function abcDo from response
+	document.onreadystatechange = function () {
+	if (this.readyState == 'complete' || this.readyState == 'loaded') {
+	            abcDo(); //do js-response
+	    }
+	}
+
+	/*abc url wrapper*/
+	var abc_process_url = function(url){
+		if(abc_cookie_allowed==false){
+			url += '&'+abc_token_name+'='+abc_token_value;
+		}
+	return url;
+	}
+
+
 	/******** Now main function ********/
 	function main() { 
-		// Load bootstrap componnets if not yet loaded
+		// Load bootstrap components if not yet loaded
 		// ??????
 	var modal = '<div id="abc_embed_modal" class="modal fade " tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">'+
-	'<div class="modal-dialog modal-lg">'+
-		'<div class="modal-content">' +
-			'<div class="modal-header">' +
-				'<button aria-hidden="true" data-dismiss="modal" class="close" type="button">&times;</button>' +
+					'<div class="modal-dialog modal-lg">'+
+						'<div class="modal-content">' +
+							'<div class="modal-header">' +
+								'<button aria-hidden="true" data-dismiss="modal" class="close" type="button">&times;</button>' +
 				'<h4 class="modal-title"></h4>' +
-			'</div>' +
+							'</div>' +
 			'<div class="modal-body"><iframe id="amp_product_frame" width="100%" height="650px" frameBorder="0"></iframe>' +
-			'<div id="iframe_product_loading" class="center_div"><i class="fa fa-spinner fa-spin fa-2x"></i></div>' +
-			'</div>' +
-		'</div>' +
-	'</div>' +
-'</div>';	
-	
-	    jQuery(document).ready(function($) { 
+			'<div id="iframe_loading" class="center_div"><i class="fa fa-spinner fa-spin fa-2x"></i></div>' +
+							'</div>' +
+						'</div>' +
+					'</div>' +
+				'</div>';
+	<?php if($test_cookie){?>
+		modal += '<script type="application/javascript" defer src="<?php echo $abc_embed_test_cookie_url; ?>"/>';
+		abc_token_name = '<?php echo EMBED_TOKEN_NAME; ?>';
+	<?php } ?>
+
+	    jQuery(document).ready(function($) {
 	        if( !$('#abc_embed_modal').length ) {
-		        $('body').append(modal);	        
-	        }
-	        
+				$('body').append(modal);
+			}
+
 	        var product = '<a data-id="<?php echo $product['product_id']; ?>" data-html="true" data-target="#abc_embed_modal" data-toggle="modal" href="#" class="product_thumb" data-original-title="">'+
 	        				'<img width="57" src="http://marketplace.abantecart.com/image/thumbnails/18/fd/iconpng-102354-57x57.png" alt="">'+
 	        				'<?php echo $product['name']; ?>'+
 	        				'</a>';
-	        
+
 	        $('#example-widget-container').html(product);
-	        
+
 			$('#abc_embed_modal').on('shown.bs.modal', function () {
 			    var d = new Date();
-			    $('#abc_embed_modal iframe').attr("src","<?php echo $abc_embed_product_url; ?>&time_stamp="+d.getTime());
+				var frame_url = abc_process_url("<?php echo $abc_embed_product_url; ?>&time_stamp="+d.getTime());
+
+			    $('#abc_embed_modal iframe').attr("src", frame_url);
 			    $('#iframe_loading').show();
 			    $('#abc_embed_modal').modal('show');
+				$('#iframe_loading').hide();
 			});
 
-	        
+
 	    });
 	}
 })();

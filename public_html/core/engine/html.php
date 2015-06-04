@@ -78,6 +78,11 @@ class AHtml extends AController {
 			$params .= '&session_id='.session_id();
 		}
 
+		//add token for embed mode with forbidden 3dparty cookies
+		if($_SESSION['session_mode'] == 'embed_token'){
+			$params .= '&'.EMBED_TOKEN_NAME.'='.session_id();
+		}
+
 		$url = $server . INDEX_FILE . $this->url_encode($this->buildURL($rt, $params), $encode);
 		return $url;
 	}
@@ -93,6 +98,10 @@ class AHtml extends AController {
 		// add session id for crossdomain transition in non-secure mode
 		if($this->registry->get('config')->get('config_shared_session')	&& HTTPS!==true){
 			$params .= '&session_id='.session_id();
+		}
+		//add token for embed mode with forbidden 3dparty cookies
+		if($_SESSION['session_mode'] == 'embed_token'){
+			$params .= '&'.EMBED_TOKEN_NAME.'='.session_id();
 		}
 
 		$suburl = $this->buildURL($rt, $params);
@@ -129,6 +138,10 @@ class AHtml extends AController {
 	 * @return string
 	 */
 	public function getSecureSEOURL($rt, $params = '', $encode = '') {
+		//add token for embed mode with forbidden 3dparty cookies
+		if($_SESSION['session_mode'] == 'embed_token'){
+			$params .= '&'.EMBED_TOKEN_NAME.'='.session_id();
+		}
 		//#PR Generate SEO URL based on standard URL
 		$this->loadModel('tool/seo_url');
 		return $this->url_encode($this->model_tool_seo_url->rewrite($this->getSecureURL($rt, $params)), $encode);
@@ -141,6 +154,10 @@ class AHtml extends AController {
 	 * @return string
 	 */
 	public function getCatalogURL($rt, $params = '', $encode = '') {
+		//add token for embed mode with forbidden 3dparty cookies
+		if($_SESSION['session_mode'] == 'embed_token'){
+			$params .= '&'.EMBED_TOKEN_NAME.'='.session_id();
+		}
 		$suburl = '?' . ($rt ? 'rt=' . $rt : '') . $params;
 		$url = HTTP_SERVER . INDEX_FILE . $this->url_encode($suburl, $encode);
 		return $url;

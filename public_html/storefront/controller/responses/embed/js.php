@@ -24,12 +24,19 @@ class ControllerResponsesEmbedJS extends AController {
 
 	public $data = array();
 
+	/**
+	 * NOTE: main() is bootup method
+	 */
 	public function main() {
 		$this->extensions->hk_InitData($this, __FUNCTION__);
 
 
-		$this->view->setTemplate( 'embed/js.tpl' );
+		//check is third-party cookie allowed
+		if(!isset($this->request->cookie[SESSION_ID])){
+			$this->data['test_cookie'] = true;
+		}
 
+		$this->view->setTemplate( 'embed/js.tpl' );
 		$this->view->batchAssign($this->data);
         $this->processTemplate();
 
@@ -40,12 +47,18 @@ class ControllerResponsesEmbedJS extends AController {
 	public function product() {
 		$this->extensions->hk_InitData($this, __FUNCTION__);
 
+		//check is third-party cookie allowed
+		if(!isset($this->request->cookie[SESSION_ID])){
+			$this->data['test_cookie'] = true;
+		}
+
 		$product_id = (int)$this->request->get['product_id'];
 		if(!$product_id){
 			return;
 		}
 		
 		$this->data['abc_embed_product_url'] = $this->html->getURL('r/product/product','&product_id=' . $product_id);
+		$this->data['abc_embed_test_cookie_url'] = $this->html->getURL('r/embed/js/testcookie','&timestamp='.time());
 
 		$this->loadModel('catalog/product');
 		$product_info = $this->model_catalog_product->getProduct($product_id);
@@ -58,10 +71,28 @@ class ControllerResponsesEmbedJS extends AController {
 
 		$this->view->setTemplate( 'embed/js.tpl' );
 		$this->view->batchAssign($this->data);
+		$this->response->addHeader('Content-Type: text/javascript; charset=UTF-8');
+
         $this->processTemplate();
 
         //init controller data
         $this->extensions->hk_UpdateData($this,__FUNCTION__);		
+	}
+
+	public function testCookie() {
+		$this->extensions->hk_InitData($this, __FUNCTION__);
+
+		$this->data['allowed'] = $this->request->cookie[SESSION_ID] ? true : false;
+		$this->data['abc_token'] = session_id();
+
+
+		$this->view->setTemplate( 'embed/js_cookie_check.tpl' );
+		$this->response->addHeader('Content-Type: text/javascript; charset=UTF-8'); //needed for debug in firebug
+		$this->view->batchAssign($this->data);
+        $this->processTemplate();
+
+        //init controller data
+        $this->extensions->hk_UpdateData($this,__FUNCTION__);
 	}
   	
 }

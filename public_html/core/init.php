@@ -85,6 +85,7 @@ if (defined('ADMIN_PATH') && (isset($_GET[ 's' ]) || isset($_POST[ 's' ])) && ($
 	define('DIR_LANGUAGE', DIR_ROOT . '/storefront/language/');
 	define('DIR_TEMPLATE', DIR_ROOT . '/storefront/view/');
 	define('SESSION_ID', 'PHPSESSID_AC_SF');
+	define('EMBED_TOKEN_NAME', 'ABC_TOKEN');
 }
 
 try {
