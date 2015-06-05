@@ -30,11 +30,15 @@ class ControllerResponsesEmbedJS extends AController {
 	public function main() {
 		$this->extensions->hk_InitData($this, __FUNCTION__);
 
-
 		//check is third-party cookie allowed
 		if(!isset($this->request->cookie[SESSION_ID])){
 			$this->data['test_cookie'] = true;
 		}
+
+		$this->data['abc_embed_css_url'] = 'http://abolabo.hopto.org/github/1.2.3/public_html/storefront/view/default/stylesheet/bootstrap.min.css';
+
+
+		$this->data['abc_embed_test_cookie_url'] = $this->html->getURL('r/embed/js/testcookie','&timestamp='.time());
 
 		$this->view->setTemplate( 'embed/js.tpl' );
 		$this->view->batchAssign($this->data);
@@ -44,21 +48,21 @@ class ControllerResponsesEmbedJS extends AController {
         $this->extensions->hk_UpdateData($this,__FUNCTION__);		
 	}
 
+	/**
+	 * Method fill data into embedded block with single product
+	 */
 	public function product() {
 		$this->extensions->hk_InitData($this, __FUNCTION__);
 
-		//check is third-party cookie allowed
-		if(!isset($this->request->cookie[SESSION_ID])){
-			$this->data['test_cookie'] = true;
-		}
-
 		$product_id = (int)$this->request->get['product_id'];
 		if(!$product_id){
-			return;
+			return null;
 		}
-		
-		$this->data['abc_embed_product_url'] = $this->html->getURL('r/product/product','&product_id=' . $product_id);
-		$this->data['abc_embed_test_cookie_url'] = $this->html->getURL('r/embed/js/testcookie','&timestamp='.time());
+
+		$target = $this->request->get['target'];
+		if(!$target){
+			return null;
+		}
 
 		$this->loadModel('catalog/product');
 		$product_info = $this->model_catalog_product->getProduct($product_id);
@@ -66,10 +70,32 @@ class ControllerResponsesEmbedJS extends AController {
 		if (!$product_info) { 
 			return null;
 		}
-		//optimize to pass only needed data
-		$this->data['product'] = $product_info;
 
-		$this->view->setTemplate( 'embed/js.tpl' );
+
+		$resource = new AResource('image');
+		$product_info['thumbnail'] =  $resource->getMainThumb('products',
+				$product_id,
+			(int)$this->config->get('config_image_grid_width'),
+			(int)$this->config->get('config_image_grid_height'),
+		    true);
+
+		$product_info['price'] = $this->currency->format($product_info['price']).$_SESSION['session_mode'];
+		$product_info['button_addtocart'] = $this->html->buildElement(
+				array(
+						'type' => 'button',
+						'name' => 'addtocart',
+						'text' => $this->language->get('button_add_to_cart'),
+						'attr' => 'data-product-id="'.$product_id.'"'
+					)
+		);
+
+
+		$this->data['product'] = $product_info;
+		$this->data['product_details_url'] = $this->html->getURL(
+													'r/product/product',
+													'&product_id=' . $product_id);
+
+		$this->view->setTemplate( 'embed/js_product.tpl' );
 		$this->view->batchAssign($this->data);
 		$this->response->addHeader('Content-Type: text/javascript; charset=UTF-8');
 

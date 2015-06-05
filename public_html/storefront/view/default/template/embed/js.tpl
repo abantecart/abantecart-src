@@ -1,3 +1,28 @@
+<?php
+/*
+
+ embed code for test
+
+ text about your store<br />
+ --------------------------------------------<br />
+ <script src="http://your_domain.com/public_html/index.php?rt=r/embed/js" defer type="text/javascript"></script>
+ <div class="abantecart-widget-container" data-url="http://your_domain.com/public_html/index.php">
+	 <div class="abantecart_product" data-product-id="90">
+		 <div class="abantecart_image">&nbsp;</div>
+		 <div class="abantecart_name">&nbsp;</div>
+		 <div class="abantecart_options">&nbsp;</div>
+		 <div class="abantecart_price">&nbsp;</div>
+		 <div class="abantecart_qty">&nbsp;</div>
+		 <div class="abantecart_addtocart">&nbsp;</div>
+	 </div>
+ </div>
+
+
+
+  */
+
+?>
+
 (function() {
 	// Localize jQuery variable
 	var jQuery;
@@ -53,7 +78,28 @@
 		if(abc_cookie_allowed==false){
 			url += '&'+abc_token_name+'='+abc_token_value;
 		}
+		//TODO: need to add currency and language code
+
 	return url;
+	}
+
+	function processRequest(url){
+		url = abc_process_url(url); //add token if needed
+		var script = '<script type="application/javascript" defer src="' + url + '"/>';
+		$('body').append(script);
+	}
+
+	// function appends css-file with styles for embedded block from abantecart host
+	function appendCSS(css_url){
+		if (css_url.lenght>0){
+		    var head  = document.getElementsByTagName('head')[0];
+		    var link  = document.createElement('link');
+		    link.rel  = 'stylesheet';
+		    link.type = 'text/css';
+		    link.href = css_url;
+		    link.media = 'all';
+		    head.appendChild(link);
+		}
 	}
 
 
@@ -74,26 +120,27 @@
 						'</div>' +
 					'</div>' +
 				'</div>';
+
+
 	<?php if($test_cookie){?>
 		modal += '<script type="application/javascript" defer src="<?php echo $abc_embed_test_cookie_url; ?>"/>';
 		abc_token_name = '<?php echo EMBED_TOKEN_NAME; ?>';
 	<?php } ?>
+
+
 
 	    jQuery(document).ready(function($) {
 	        if( !$('#abc_embed_modal').length ) {
 				$('body').append(modal);
 			}
 
-	        var product = '<a data-id="<?php echo $product['product_id']; ?>" data-html="true" data-target="#abc_embed_modal" data-toggle="modal" href="#" class="product_thumb" data-original-title="">'+
-	        				'<img width="57" src="http://marketplace.abantecart.com/image/thumbnails/18/fd/iconpng-102354-57x57.png" alt="">'+
-	        				'<?php echo $product['name']; ?>'+
-	        				'</a>';
+			processWrapper(); //fill data into embedded blocks
 
-	        $('#example-widget-container').html(product);
+			$('#abc_embed_modal').on('shown.bs.modal', function (e) {
 
-			$('#abc_embed_modal').on('shown.bs.modal', function () {
 			    var d = new Date();
-				var frame_url = abc_process_url("<?php echo $abc_embed_product_url; ?>&time_stamp="+d.getTime());
+				//get href of modal caller
+				var frame_url = abc_process_url($(e.relatedTarget).attr('href')+ '&time_stamp='+d.getTime());
 
 			    $('#abc_embed_modal iframe').attr("src", frame_url);
 			    $('#iframe_loading').show();
@@ -101,7 +148,41 @@
 				$('#iframe_loading').hide();
 			});
 
-
 	    });
+
+
+
+
+		function processWrapper(){
+
+			$('.abantecart-widget-container').each(function(){
+				var w_url = $(this).attr('data-url'); //widget url - base url of widget data (for case when 2 widgets from different domains on the same page)
+				if($(this).attr('data-css-url')){
+					appendCSS($(this).attr('data-css-url')); //load remote css for this embed block
+				}
+				processContainer(this, w_url);
+			});
+		}
+
+		function processContainer(obj, w_url){
+			var child = $(obj).children().first();
+
+			if(child.attr('data-product-id').length>0){
+				populateProductItem(child, w_url);
+			}
+			//	elseif(child.attr('data-category-id').length>0){} //for future
+		}
+
+		function populateProductItem(child, w_url){
+			var product_id = child.attr('data-product-id');
+			var d = new Date();
+			var target_id = 'abc_'+d.getTime(); // to know where we must to apply result
+			child.attr('id',target_id);
+			var url = w_url+'&rt=r/embed/js/product&product_id=' + product_id + '&target=' + target_id;
+			processRequest(url);
+		}
+
+
+
 	}
 })();
