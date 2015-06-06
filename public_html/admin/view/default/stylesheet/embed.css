@@ -1,0 +1,28 @@
+/*
+AbanteCart storefront CSS-styles for embedded blocks
+*/
+@charset "utf-8";
+@import url('bootstrap.min.css');
+
+.abantecart-widget-container{
+	background-color: darkgrey;
+}
+
+.abantecart-widget-container .abantecart_product{
+	width: 200px;
+}
+
+
+.abantecart-widget-container .abantecart_image{
+	margin: 10px auto;
+}
+
+.abantecart-widget-cart{
+	position: absolute;
+	right: 40px;
+	top: 80px;
+	width: 200px;
+	max-height: 200px;
+	background-color: white;
+	overflow: auto;
+}

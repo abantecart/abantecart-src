@@ -1,5 +1,5 @@
 <?php //populate product div on client side ?>
-var abcDo = function(){
+(function(){
 	var html = '';
 	if($('<?php echo $target;?> .abantecart_name')){
 		$('<?php echo $target;?> .abantecart_name').html('<?php echo $product['name']?>');
@@ -21,9 +21,9 @@ if($product['price']){?>
 
 if($product['button_addtocart']){?>
 	if($('<?php echo $target;?> .abantecart_addtocart')){
-		html = '<?php echo str_replace("\n",'',$product['button_addtocart']); ?>'
+		html = '<?php echo str_replace("\n",'',$product['button_addtocart']); ?>';
 		$('<?php echo $target;?> .abantecart_addtocart').html(html);
 	}
 <?php }?>
 
-}
+})();

@@ -6,7 +6,7 @@
  text about your store<br />
  --------------------------------------------<br />
  <script src="http://your_domain.com/public_html/index.php?rt=r/embed/js" defer type="text/javascript"></script>
- <div class="abantecart-widget-container" data-url="http://your_domain.com/public_html/index.php">
+ <div class="abantecart-widget-container" data-url="http://your_domain.com/public_html/index.php"  data-css-url="http://your_domain.com/public_html/admin/view/default/stylesheet/embed.css" >
 	 <div class="abantecart_product" data-product-id="90">
 		 <div class="abantecart_image">&nbsp;</div>
 		 <div class="abantecart_name">&nbsp;</div>
@@ -59,22 +59,13 @@
 	    main(); 
 	}
 
-	/******** ABC eval ********/
-
-	abcDo = function(){};  //sturt up empty global function. it's a abc js-runner to workaround cross-domain ajax calls
+	/****************/
 
 	abc_cookie_allowed = true; // set global sign of allowed 3dparty cookies as true by default. Otherwise it's value will be overridden by testcookie js
-
-	//this function will be run every time when document changed (new script loaded for embedded abc)
-	//and will call function abcDo from response
-	document.onreadystatechange = function () {
-	if (this.readyState == 'complete' || this.readyState == 'loaded') {
-	            abcDo(); //do js-response
-	    }
-	}
+	abc_token_value = abc_token_value = '';
 
 	/*abc url wrapper*/
-	var abc_process_url = function(url){
+	var abc_process_url = function (url){
 		if(abc_cookie_allowed==false){
 			url += '&'+abc_token_name+'='+abc_token_value;
 		}
@@ -83,24 +74,43 @@
 	return url;
 	}
 
-	function processRequest(url){
+	var abc_process_request = function(url){
+		if(url.length<1){
+			console.log('Abantecart embedded code: empty url requested!');
+			return null; }
 		url = abc_process_url(url); //add token if needed
-		var script = '<script type="application/javascript" defer src="' + url + '"/>';
-		$('body').append(script);
+		var s = document.createElement("script");
+		s.type = "text/javascript";
+		s.src = url;
+		$("head").append(s);
 	}
 
 	// function appends css-file with styles for embedded block from abantecart host
-	function appendCSS(css_url){
-		if (css_url.lenght>0){
+	var abc_append_css = function(url){
+			if(url.length<1){
+				console.log('Abantecart embedded code: empty url for css requested!');
+				return null;
+			}
+
 		    var head  = document.getElementsByTagName('head')[0];
 		    var link  = document.createElement('link');
 		    link.rel  = 'stylesheet';
 		    link.type = 'text/css';
-		    link.href = css_url;
+		    link.href = url;
 		    link.media = 'all';
 		    head.appendChild(link);
-		}
 	}
+
+	var abc_get_cookie = function() {
+		var name = 'abantecart_token';
+		var matches = document.cookie.match(new RegExp(
+	        "(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"
+		));
+	  return matches ? decodeURIComponent(matches[1]) : undefined;
+	}
+
+
+
 
 
 	/******** Now main function ********/
@@ -114,30 +124,36 @@
 								'<button aria-hidden="true" data-dismiss="modal" class="close" type="button">&times;</button>' +
 				'<h4 class="modal-title"></h4>' +
 							'</div>' +
-			'<div class="modal-body"><iframe id="amp_product_frame" width="100%" height="650px" frameBorder="0"></iframe>' +
-			'<div id="iframe_loading" class="center_div"><i class="fa fa-spinner fa-spin fa-2x"></i></div>' +
+				'<div class="modal-body"><iframe id="amp_product_frame" width="100%" height="650px" frameBorder="0"></iframe>' +
+				'<div id="iframe_loading" class="center_div"><i class="fa fa-spinner fa-spin fa-2x"></i></div>' +
 							'</div>' +
 						'</div>' +
 					'</div>' +
-				'</div>';
-
-
-	<?php if($test_cookie){?>
-		modal += '<script type="application/javascript" defer src="<?php echo $abc_embed_test_cookie_url; ?>"/>';
-		abc_token_name = '<?php echo EMBED_TOKEN_NAME; ?>';
-	<?php } ?>
-
+			'</div>';
+		modal += '<div class="abantecart-widget-cart"></div>';
 
 
 	    jQuery(document).ready(function($) {
 	        if( !$('#abc_embed_modal').length ) {
 				$('body').append(modal);
+
+
+			<?php
+			// do cookie-test if session id not retrieved from http-request
+			if($test_cookie){?>
+					abc_token_name = '<?php echo EMBED_TOKEN_NAME; ?>';
+					abc_token_value = abc_get_cookie();
+					var testcookieurl  = '<?php echo $abc_embed_test_cookie_url; ?>';
+					if(abc_token_value!=undefined && abc_token_value!=''){
+						testcookieurl +='&<?php echo EMBED_TOKEN_NAME; ?>='+abc_token_value;
+					}
+					abc_process_request(testcookieurl);
+			<?php } ?>
 			}
 
-			processWrapper(); //fill data into embedded blocks
+			abc_process_wrapper(); //fill data into embedded blocks
 
 			$('#abc_embed_modal').on('shown.bs.modal', function (e) {
-
 			    var d = new Date();
 				//get href of modal caller
 				var frame_url = abc_process_url($(e.relatedTarget).attr('href')+ '&time_stamp='+d.getTime());
@@ -153,36 +169,48 @@
 
 
 
-		function processWrapper(){
+		var abc_process_wrapper = function(){
 
 			$('.abantecart-widget-container').each(function(){
-				var w_url = $(this).attr('data-url'); //widget url - base url of widget data (for case when 2 widgets from different domains on the same page)
-				if($(this).attr('data-css-url')){
-					appendCSS($(this).attr('data-css-url')); //load remote css for this embed block
+				var c = $(this);
+				var w_url = c.attr('data-url'); //widget url - base url of widget data (for case when 2 widgets from different domains on the same page)
+				if(c.attr('data-css-url')){
+					abc_append_css(c.attr('data-css-url')); //load remote css for this embed block
 				}
-				processContainer(this, w_url);
+				abc_process_container(c, w_url);
+				//abc_populate_cart(w_url);
+
+				$('.abantecart-widget-container').on("click", ".abantecart_addtocart", function(){
+
+					abc_process_request($(".abantecart_addtocart button").attr('data-href'));
+					abc_populate_cart(w_url);
+					return false;
+				});
+
 			});
 		}
 
-		function processContainer(obj, w_url){
+		var abc_process_container = function (obj, w_url){
 			var child = $(obj).children().first();
-
 			if(child.attr('data-product-id').length>0){
-				populateProductItem(child, w_url);
+				abc_populate_product_item(child, w_url);
 			}
 			//	elseif(child.attr('data-category-id').length>0){} //for future
 		}
 
-		function populateProductItem(child, w_url){
+		var abc_populate_product_item = function(child, w_url){
 			var product_id = child.attr('data-product-id');
 			var d = new Date();
 			var target_id = 'abc_'+d.getTime(); // to know where we must to apply result
 			child.attr('id',target_id);
 			var url = w_url+'&rt=r/embed/js/product&product_id=' + product_id + '&target=' + target_id;
-			processRequest(url);
+			abc_process_request(url);
 		}
 
-
+		var abc_populate_cart = function( w_url){
+			var url = w_url+'&rt=r/embed/js/cart';
+			abc_process_request(url);
+		}
 
 	}
 })();

@@ -35,13 +35,11 @@ class ControllerResponsesEmbedJS extends AController {
 			$this->data['test_cookie'] = true;
 		}
 
-		$this->data['abc_embed_css_url'] = 'http://abolabo.hopto.org/github/1.2.3/public_html/storefront/view/default/stylesheet/bootstrap.min.css';
-
-
 		$this->data['abc_embed_test_cookie_url'] = $this->html->getURL('r/embed/js/testcookie','&timestamp='.time());
 
 		$this->view->setTemplate( 'embed/js.tpl' );
 		$this->view->batchAssign($this->data);
+		$this->response->addHeader('Content-Type: text/javascript; charset=UTF-8');
         $this->processTemplate();
 
         //init controller data
@@ -85,15 +83,19 @@ class ControllerResponsesEmbedJS extends AController {
 						'type' => 'button',
 						'name' => 'addtocart',
 						'text' => $this->language->get('button_add_to_cart'),
-						'attr' => 'data-product-id="'.$product_id.'"'
+
+						'attr' => 'data-product-id="'.$product_id.'" data-href = "'. $this->html->getURL('r/embed/js/addtocart', '&product_id='.$product_id).'"'
 					)
 		);
 
 
 		$this->data['product'] = $product_info;
-		$this->data['product_details_url'] = $this->html->getURL(
+		/*$this->data['product_details_url'] = $this->html->getURL(
 													'r/product/product',
-													'&product_id=' . $product_id);
+													'&product_id=' . $product_id);*/
+		$this->data['product_details_url'] = $this->html->getURL(
+															'product/product',
+															'&product_id=' . $product_id);
 
 		$this->view->setTemplate( 'embed/js_product.tpl' );
 		$this->view->batchAssign($this->data);
@@ -113,12 +115,45 @@ class ControllerResponsesEmbedJS extends AController {
 
 
 		$this->view->setTemplate( 'embed/js_cookie_check.tpl' );
-		$this->response->addHeader('Content-Type: text/javascript; charset=UTF-8'); //needed for debug in firebug
+		$this->response->addHeader('Content-Type: text/javascript; charset=UTF-8'); 
 		$this->view->batchAssign($this->data);
         $this->processTemplate();
 
         //init controller data
         $this->extensions->hk_UpdateData($this,__FUNCTION__);
+	}
+	
+	public function cart() {
+		$this->extensions->hk_InitData($this, __FUNCTION__);
+
+		//????  temporary part of html for floating cart block
+		$d = $this->dispatch('responses/product/product/getCartContent');
+		$this->load->library('json');
+		$this->data['cart_html'] = AJson::decode($d->dispatchGetOutput(), true);
+		$this->data['cart_html'] = $this->data['cart_html']['cart_details'];
+
+
+
+
+		$this->view->setTemplate( 'embed/js_cart.tpl' );
+		$this->response->addHeader('Content-Type: text/javascript; charset=UTF-8'); 
+		$this->view->batchAssign($this->data);
+        $this->processTemplate();
+
+        //init controller data
+        $this->extensions->hk_UpdateData($this,__FUNCTION__);
+	}
+	public function addtocart() {
+		//init controller data
+		$this->extensions->hk_InitData($this, __FUNCTION__);
+
+		$this->loadModel('catalog/product');
+		$product_info = $this->model_catalog_product->getProduct($this->request->get['product_id']);
+		if($product_info){
+			$this->cart->add($this->request->get['product_id'], ($product_info['minimum'] ? $product_info['minimum'] : 1));
+		}
+
+		$this->extensions->hk_UpdateData($this, __FUNCTION__);
 	}
   	
 }
