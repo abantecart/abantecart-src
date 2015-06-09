@@ -77,7 +77,7 @@ class ControllerResponsesEmbedJS extends AController {
 			(int)$this->config->get('config_image_grid_height'),
 		    true);
 
-		$product_info['price'] = $this->currency->format($product_info['price']).$_SESSION['session_mode'];
+		$product_info['price'] = $this->currency->format($product_info['price']);
 		$product_info['button_addtocart'] = $this->html->buildElement(
 				array(
 						'type' => 'button',
@@ -127,10 +127,12 @@ class ControllerResponsesEmbedJS extends AController {
 		$this->extensions->hk_InitData($this, __FUNCTION__);
 
 		//????  temporary part of html for floating cart block
-		$d = $this->dispatch('responses/product/product/getCartContent');
-		$this->load->library('json');
-		$this->data['cart_html'] = AJson::decode($d->dispatchGetOutput(), true);
-		$this->data['cart_html'] = $this->data['cart_html']['cart_details'];
+		if($this->cart->getProducts()){
+			$d = $this->dispatch('responses/product/product/getCartContent');
+			$this->load->library('json');
+			$this->data['cart_html'] = AJson::decode($d->dispatchGetOutput(), true);
+			$this->data['cart_html'] = $this->data['cart_html']['cart_details'];
+		}
 
 
 

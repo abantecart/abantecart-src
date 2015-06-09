@@ -59,18 +59,31 @@
 	    main(); 
 	}
 
-	/****************/
+	/*****************************************/
+
+
+	var abc_get_cookie = function() {
+		var name = 'abantecart_token';
+		var matches = document.cookie.match(new RegExp(
+	        "(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"
+		));
+	  return matches ? decodeURIComponent(matches[1]) : undefined;
+	}
 
 	abc_cookie_allowed = true; // set global sign of allowed 3dparty cookies as true by default. Otherwise it's value will be overridden by testcookie js
-	abc_token_value = abc_token_value = '';
 
-	/*abc url wrapper*/
+	abc_token_value = abc_get_cookie();
+
+	if(abc_token_value!=undefined && abc_token_value.length>0){
+		abc_cookie_allowed = false;
+	}
+
+	/********* abc url wrapper  ***********/
 	var abc_process_url = function (url){
 		if(abc_cookie_allowed==false){
 			url += '&'+abc_token_name+'='+abc_token_value;
 		}
 		//TODO: need to add currency and language code
-
 	return url;
 	}
 
@@ -101,13 +114,6 @@
 		    head.appendChild(link);
 	}
 
-	var abc_get_cookie = function() {
-		var name = 'abantecart_token';
-		var matches = document.cookie.match(new RegExp(
-	        "(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"
-		));
-	  return matches ? decodeURIComponent(matches[1]) : undefined;
-	}
 
 
 
@@ -137,17 +143,16 @@
 	        if( !$('#abc_embed_modal').length ) {
 				$('body').append(modal);
 
-
 			<?php
 			// do cookie-test if session id not retrieved from http-request
 			if($test_cookie){?>
-					abc_token_name = '<?php echo EMBED_TOKEN_NAME; ?>';
-					abc_token_value = abc_get_cookie();
-					var testcookieurl  = '<?php echo $abc_embed_test_cookie_url; ?>';
-					if(abc_token_value!=undefined && abc_token_value!=''){
-						testcookieurl +='&<?php echo EMBED_TOKEN_NAME; ?>='+abc_token_value;
-					}
-					abc_process_request(testcookieurl);
+				abc_token_name = '<?php echo EMBED_TOKEN_NAME; ?>';
+				abc_token_value = abc_get_cookie();
+				var testcookieurl  = '<?php echo $abc_embed_test_cookie_url; ?>';
+				if(abc_token_value!=undefined && abc_token_value!=''){
+					testcookieurl +='&<?php echo EMBED_TOKEN_NAME; ?>='+abc_token_value;
+				}
+				abc_process_request(testcookieurl);
 			<?php } ?>
 			}
 
@@ -178,7 +183,7 @@
 					abc_append_css(c.attr('data-css-url')); //load remote css for this embed block
 				}
 				abc_process_container(c, w_url);
-				//abc_populate_cart(w_url);
+				abc_populate_cart(w_url);
 
 				$('.abantecart-widget-container').on("click", ".abantecart_addtocart", function(){
 

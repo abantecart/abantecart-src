@@ -80,9 +80,9 @@ final class ASession {
 		if(isset($_GET[EMBED_TOKEN_NAME]) && !isset($_COOKIE[$session_name])){
 			session_id($_GET[EMBED_TOKEN_NAME]);
 			setcookie($session_name, $_GET[EMBED_TOKEN_NAME], 0, $path, null,(defined('HTTPS') && HTTPS));
-			$_SESSION['session_mode'] = 'embed_token';
+			$session_mode = 'embed_token';
 		}else{
-			$_SESSION['session_mode'] = '';
+			$session_mode = '';
 		}
 
 		session_start();
@@ -91,6 +91,8 @@ final class ASession {
 			session_name($this->ses_name);
 			session_start();
 		}
+
+		$_SESSION['session_mode'] = $session_mode;
 	}
 
 	public function clear() {

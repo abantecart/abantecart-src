@@ -99,15 +99,16 @@ class AHtml extends AController {
 		if($this->registry->get('config')->get('config_shared_session')	&& HTTPS!==true){
 			$params .= '&session_id='.session_id();
 		}
-		//add token for embed mode with forbidden 3dparty cookies
-		if($_SESSION['session_mode'] == 'embed_token'){
-			$params .= '&'.EMBED_TOKEN_NAME.'='.session_id();
-		}
 
 		$suburl = $this->buildURL($rt, $params);
 		//#PR Add session
 		if (isset($this->session->data['token']) && $this->session->data['token']) {
 			$suburl .= '&token=' . $this->session->data['token'];
+		}
+
+		//add token for embed mode with forbidden 3dparty cookies
+		if($_SESSION['session_mode'] == 'embed_token'){
+			$suburl .= '&'.EMBED_TOKEN_NAME.'='.session_id();
 		}
 
 		if ($this->registry->get('config')->get('storefront_template_debug') && isset($this->registry->get('request')->get['tmpl_debug'])) {

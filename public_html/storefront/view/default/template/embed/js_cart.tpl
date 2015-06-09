@@ -2,6 +2,8 @@
 
  (function(){
 	$('.abantecart-widget-cart').remove();
-	html = '<div class="abantecart-widget-cart"><?php echo str_replace("\n",'',$cart_html); ?></div>>';
-	$('body').append(html);
+	<?php if($cart_html){?>
+		html = '<div class="abantecart-widget-cart"><?php echo str_replace("\n",'',$cart_html); ?></div>>';
+		$('body').append(html);
+	<?php } ?>
  })();
