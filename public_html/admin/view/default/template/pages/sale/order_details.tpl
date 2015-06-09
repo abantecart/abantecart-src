@@ -366,6 +366,9 @@
 
 <script type="text/javascript">
 
+	var decimal_point = '<?php echo $decimal_point; ?>';
+	var decimal_place = '<?php echo $currency['decimal_place']; ?>';
+	var thousand_point = '<?php echo $thousand_point; ?>';
 	<?php if ($currency['symbol_left']) { ?>
 	var currency_symbol = '<?php echo $currency['symbol_left']; ?>';
 	var currency_location = 'left';
@@ -421,7 +424,16 @@
 	}
 
 	function get_currency_num(str) {
-		return parseFloat(str.replace(currency_symbol, ''));
+		var decimal_part = '';
+		//do we have decimals?
+		if(str.substr(str.length-decimal_place-1, 1) == decimal_point ){
+			decimal_part = str.substr(str.length-decimal_place);
+		}
+		var real_part = str.substr(0,str.length-decimal_place-1);
+		//remove thousand point separator for calculation if present
+		var final_number = real_part.replace(thousand_point, '')+decimal_point+decimal_part;
+		final_number = parseFloat(final_number.replace(currency_symbol, ''));
+		return 	final_number;
 	}
 
 	function recalculate() {
