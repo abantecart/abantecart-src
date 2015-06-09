@@ -311,7 +311,7 @@ class ALayoutManager{
 
 	public function getAllBlocks(){
 		$store_id = (int)$this->config->get('config_store_id');
-		$language_id = (int)$this->config->get('storefront_language_id');
+		$language_id = (int)$this->language->getContentLanguageID();
 		$cache_name = 'layout.a.blocks.all.' . $language_id;
 		$blocks = $this->cache->get($cache_name, '', $store_id);
 		if(!empty ($blocks)){
@@ -351,7 +351,7 @@ class ALayoutManager{
 	 * @return array|int
 	 */
 	public function getBlocksList($data = '', $mode = ''){
-		$language_id = !(int)$data['language_id'] ? $this->config->get('storefront_language_id') : (int)$data['language_id'];
+		$language_id = !(int)$data['language_id'] ? $this->language->getContentLanguageID() : (int)$data['language_id'];
 
 		if($mode != 'total_only'){
 			$sql = "SELECT b.block_id as block_id, "
