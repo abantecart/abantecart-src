@@ -6,7 +6,8 @@
  text about your store<br />
  --------------------------------------------<br />
  <script src="http://your_domain.com/public_html/index.php?rt=r/embed/js" defer type="text/javascript"></script>
- <div class="abantecart-widget-container" data-url="http://your_domain.com/public_html/index.php"  data-css-url="http://your_domain.com/public_html/admin/view/default/stylesheet/embed.css" >
+ <div class="abantecart-widget-container" data-url="http://your_domain.com/public_html/index.php"
+		data-css-url="http://your_domain.com/public_html/storefront/view/default/stylesheet/embed.css" >
 	 <div class="abantecart_product" data-product-id="90">
 		 <div class="abantecart_image">&nbsp;</div>
 		 <div class="abantecart_name">&nbsp;</div>

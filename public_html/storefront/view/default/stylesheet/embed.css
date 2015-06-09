@@ -2,7 +2,7 @@
 AbanteCart storefront CSS-styles for embedded blocks
 */
 @charset "utf-8";
-@import url('bootstrap.min.css');
+@import url('../../../../admin/view/default/stylesheet/bootstrap.min.css');
 
 .abantecart-widget-container{
 	background-color: darkgrey;
