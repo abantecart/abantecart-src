@@ -101,9 +101,11 @@ class ControllerPagesProductCategory extends AController {
 			}
 
 			if (isset($this->request->get['sort'])) {
-				list($sort,$order) = explode("-",$this->request->get['sort']);
+				$sorting_href = $this->request->get['sort'];
+				list($sort,$order) = explode("-",$sorting_href);
 			} else {
-				list($sort,$order) = explode("-",$this->config->get('config_product_default_sort_order'));
+				$sorting_href = $this->config->get('config_product_default_sort_order');
+				list($sort,$order) = explode("-",$sorting_href);
 				if($sort=='name'){
 					$sort = 'pd.'.$sort;
 				}elseif(in_array($sort,array('sort_order','price'))){
@@ -111,11 +113,8 @@ class ControllerPagesProductCategory extends AController {
 				}
 			}
 
-			$url = '';
-			
-			if (isset($this->request->get['sort'])) {
-				$url .= '&sort=' . $this->request->get['sort'];
-			}	
+			$url = '&sort=' . $sorting_href;
+
 
 			if (isset($this->request->get['order'])) {
 				$url .= '&order=' . $this->request->get['order'];
@@ -318,7 +317,7 @@ class ControllerPagesProductCategory extends AController {
 				$this->view->assign( 'sorting', $sorting );
 				$this->view->assign( 'url', $this->html->getSEOURL('product/category','&path=' . $this->request->get['path']));
 
-				$pegination_url = $this->html->getSEOURL('product/category','&path=' . $this->request->get['path'] . '&sort=' . $this->request->get['sort'] . '&page={page}' . '&limit=' . $limit, '&encode');
+				$pegination_url = $this->html->getSEOURL('product/category','&path=' . $this->request->get['path'] . '&sort=' . $sorting_href . '&page={page}' . '&limit=' . $limit, '&encode');
 
 				$this->view->assign('pagination_bootstrap', HtmlElementFactory::create( array (
 											'type' => 'Pagination',
