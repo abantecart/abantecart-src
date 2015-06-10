@@ -69,12 +69,11 @@ class ControllerResponsesEmbedJS extends AController {
 			return null;
 		}
 
-
 		$resource = new AResource('image');
 		$product_info['thumbnail'] =  $resource->getMainThumb('products',
 				$product_id,
-			(int)$this->config->get('config_image_grid_width'),
-			(int)$this->config->get('config_image_grid_height'),
+			(int)$this->config->get('config_image_thumb_width'),
+			(int)$this->config->get('config_image_thumb_height'),
 		    true);
 
 		$product_info['price'] = $this->currency->format($product_info['price']);
