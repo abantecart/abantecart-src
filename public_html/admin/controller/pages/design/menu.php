@@ -294,6 +294,7 @@ class ControllerPagesDesignMenu extends AController{
 
 		if($item_id){
 			unset($this->menu_tree[$item_id]);
+
 		}
 		foreach($this->menu_tree as $item){
 			$parent_id[$item['item_id']] = $item['text'];
@@ -316,9 +317,8 @@ class ControllerPagesDesignMenu extends AController{
 			$this->data['update'] = '';
 			$form = new AForm ('ST');
 		} else{
-
-			//do not allow to edit item_id
-			$this->data['item_id'] = $menu_item['item_id'];
+			//get menu item details
+			$this->data = array_merge($this->data, $this->menu->getMenuItem($item_id));
 
 			$this->data['action'] = $this->html->getSecureURL('design/menu/update', '&item_id=' . $item_id);
 			$this->data['heading_title'] = $this->language->get('text_edit') . $this->language->get('heading_title');
