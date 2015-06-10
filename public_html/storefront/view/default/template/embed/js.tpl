@@ -17,9 +17,6 @@
 		 <div class="abantecart_addtocart">&nbsp;</div>
 	 </div>
  </div>
-
-
-
   */
 
 ?>
@@ -35,13 +32,14 @@
 	    script_tag.setAttribute("src",
 	        "http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js");
 	    if (script_tag.readyState) {
-	      script_tag.onreadystatechange = function () { // For old versions of IE
-	          if (this.readyState == 'complete' || this.readyState == 'loaded') {
-	              scriptLoadHandler();
-	          }
+	    	script_tag.onreadystatechange = function () { // For old versions of IE
+	        if (this.readyState == 'complete' || this.readyState == 'loaded') {
+				scriptLoadHandler();
+	      	}
 	      };
-	    } else { // Other browsers
-	      script_tag.onload = scriptLoadHandler;
+	    } else { 
+	    	// Other browsers
+	    	script_tag.onload = scriptLoadHandler;
 	    }
 	    // Try to find the head, otherwise default to the documentElement
 	    (document.getElementsByTagName("head")[0] || document.documentElement).appendChild(script_tag);
@@ -51,7 +49,7 @@
 	    main();
 	}
 	
-	/******** Called once jQuery has loaded ******/
+	/******** Called after jQuery has loaded ******/
 	function scriptLoadHandler() {
 	    // Restore $ and window.jQuery to their previous values and store the
 	    // new jQuery in our local jQuery variable
@@ -62,7 +60,6 @@
 
 	/*****************************************/
 
-
 	var abc_get_cookie = function() {
 		var name = 'abantecart_token';
 		var matches = document.cookie.match(new RegExp(
@@ -71,9 +68,10 @@
 	  return matches ? decodeURIComponent(matches[1]) : undefined;
 	}
 
-	abc_cookie_allowed = true; // set global sign of allowed 3dparty cookies as true by default. Otherwise it's value will be overridden by testcookie js
-
-	abc_token_value = abc_get_cookie();
+	var abc_cookie_allowed = true; 
+	//set global sign of allowed 3dparty cookies as true by default. Otherwise it's value will be overridden by testcookie js
+	var abc_token_name = '<?php echo EMBED_TOKEN_NAME; ?>';
+	var abc_token_value = abc_get_cookie();
 
 	if(abc_token_value!=undefined && abc_token_value.length>0){
 		abc_cookie_allowed = false;
@@ -85,7 +83,7 @@
 			url += '&'+abc_token_name+'='+abc_token_value;
 		}
 		//TODO: need to add currency and language code
-	return url;
+		return url;
 	}
 
 	var abc_process_request = function(url){

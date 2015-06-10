@@ -5,7 +5,6 @@ AbanteCart storefront CSS-styles for embedded blocks
 @import url('../../../../admin/view/default/stylesheet/bootstrap.min.css');
 
 .abantecart-widget-container{
-	background-color: darkgrey;
 }
 
 .abantecart-widget-container .abantecart_product{
