@@ -21,6 +21,10 @@
 
 ?>
 
+var abc_cookie_allowed = true; //set global sign of allowed 3dparty cookies as true by default. Otherwise it's value will be overridden by testcookie js
+var abc_token_name = '<?php echo EMBED_TOKEN_NAME; ?>';
+var abc_token_value = '';
+
 (function() {
 	// Localize jQuery variable
 	var jQuery;
@@ -68,10 +72,7 @@
 	  return matches ? decodeURIComponent(matches[1]) : undefined;
 	}
 
-	var abc_cookie_allowed = true; 
-	//set global sign of allowed 3dparty cookies as true by default. Otherwise it's value will be overridden by testcookie js
-	var abc_token_name = '<?php echo EMBED_TOKEN_NAME; ?>';
-	var abc_token_value = abc_get_cookie();
+	abc_token_value = abc_get_cookie();
 
 	if(abc_token_value!=undefined && abc_token_value.length>0){
 		abc_cookie_allowed = false;

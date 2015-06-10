@@ -39,7 +39,7 @@ class ControllerResponsesEmbedJS extends AController {
 
 		$this->view->setTemplate( 'embed/js.tpl' );
 		$this->view->batchAssign($this->data);
-		$this->response->addHeader('Content-Type: text/javascript; charset=UTF-8');
+		$this->_set_js_http_headers();
         $this->processTemplate();
 
         //init controller data
@@ -98,8 +98,7 @@ class ControllerResponsesEmbedJS extends AController {
 
 		$this->view->setTemplate( 'embed/js_product.tpl' );
 		$this->view->batchAssign($this->data);
-		$this->response->addHeader('Content-Type: text/javascript; charset=UTF-8');
-
+		$this->_set_js_http_headers();
         $this->processTemplate();
 
         //init controller data
@@ -114,7 +113,7 @@ class ControllerResponsesEmbedJS extends AController {
 
 
 		$this->view->setTemplate( 'embed/js_cookie_check.tpl' );
-		$this->response->addHeader('Content-Type: text/javascript; charset=UTF-8'); 
+		$this->_set_js_http_headers();
 		$this->view->batchAssign($this->data);
         $this->processTemplate();
 
@@ -137,7 +136,7 @@ class ControllerResponsesEmbedJS extends AController {
 
 
 		$this->view->setTemplate( 'embed/js_cart.tpl' );
-		$this->response->addHeader('Content-Type: text/javascript; charset=UTF-8'); 
+		$this->_set_js_http_headers();
 		$this->view->batchAssign($this->data);
         $this->processTemplate();
 
@@ -155,6 +154,11 @@ class ControllerResponsesEmbedJS extends AController {
 		}
 
 		$this->extensions->hk_UpdateData($this, __FUNCTION__);
+	}
+
+	private function _set_js_http_headers(){
+		$this->response->addHeader('Content-Type: text/javascript; charset=UTF-8');
+		$this->response->addHeader('Expires: '.gmdate('D, d M Y H:i:s \G\M\T', time() - 10));
 	}
   	
 }
