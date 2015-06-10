@@ -55,15 +55,22 @@ class ControllerResponsesListingGridFileUploads extends AController {
 
 		// process jGrid search parameter
 
-		$data = array ('sort' => $sidx.":". $sord,
-			'offset' => ($page - 1) * $limit,
-			'limit' => $limit,
-			'filter' => $filter );
+		$data = array (
+				'sort' => $sidx.":". $sord,
+				'offset' => ($page - 1) * $limit,
+				'limit' => $limit,
+				'filter' => $filter );
+
 		$total = $this->model_tool_file_uploads->getTotalRows ( $filter );
 		if ($total > 0) {
 			$total_pages = ceil ( $total / $limit );
 		} else {
 			$total_pages = 0;
+		}
+
+		if($page > $total_pages){
+			$page = $total_pages;
+			$data['offset'] = ($page - 1) * $limit;
 		}
 
 		$response = new stdClass ();

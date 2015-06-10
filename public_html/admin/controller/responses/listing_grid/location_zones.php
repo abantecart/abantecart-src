@@ -57,6 +57,11 @@ class ControllerResponsesListingGridLocationZones extends AController {
 			$total_pages = 0;
 		}
 
+		if($page > $total_pages){
+			$page = $total_pages;
+			$data['start'] = ($page - 1) * $limit;
+		}
+
 		$response = new stdClass();
 		$response->page = $page;
 		$response->total = $total_pages;

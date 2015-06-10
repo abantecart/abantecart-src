@@ -55,7 +55,6 @@ class ControllerResponsesListingGridSetting extends AController {
 		$i = 0;
 		foreach ($results as $result) {
 
-
 			if (($result[ 'value' ] == '1' || $result[ 'value' ] == '0')
 					&& !is_int(strpos($result[ 'key' ], '_id'))
 					&& !is_int(strpos($result[ 'key' ], 'level'))
