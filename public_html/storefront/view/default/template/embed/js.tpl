@@ -43,10 +43,8 @@ var abc_token_value = '';
 		    }
 		};	
 		checkReady(function($){
-			//jQuery = window.jQuery.noConflict(true);	
-			jQuery = window.jQuery;
-	    	main(); 
-		
+			jQuery = window.jQuery.noConflict(true);	
+	    	main();
 		});	
 	} else {
 	    // The jQuery version on the window is the one we want to use
@@ -107,6 +105,8 @@ var abc_token_value = '';
 
 	/******** Main function ********/
 	function main() { 
+		//set new custom jQuery in global space for included scripts (custom bootstrap)
+		window.jQuery_abc = jQuery;
 		/******** Load custom modal *********/
 		css_loader("<?php echo $base.$this->templateResource('/stylesheet/bootstrap.embed.css'); ?>");
 		script_loader("<?php echo $base.$this->templateResource('/javascript/bootstrap.embed.js'); ?>");
@@ -171,7 +171,10 @@ var abc_token_value = '';
 
 	    });
 
+
 		var abc_process_wrapper = function(){
+			//using local jQuery
+			$ = jQuery;
 			$('.abantecart-widget-container').each(function(){
 				var c = $(this);
 				//widget url - base url of widget data (for case when 2 widgets from different domains on the same page)
@@ -193,6 +196,8 @@ var abc_token_value = '';
 		}
 
 		var abc_process_container = function (obj, w_url){
+			//using local jQuery
+			$ = jQuery;
 			var child = $(obj).children().first();
 			if(child.attr('data-product-id').length>0){
 				abc_populate_product_item(child, w_url);
@@ -201,15 +206,20 @@ var abc_token_value = '';
 		}
 
 		var abc_populate_product_item = function(child, w_url){
+			//using local jQuery
+			$ = jQuery;
 			var product_id = child.attr('data-product-id');
 			var d = new Date();
-			var target_id = 'abc_'+d.getTime(); // to know where we must to apply result
+			// to know where we must to apply result
+			var target_id = 'abc_'+d.getTime(); 
 			child.attr('id',target_id);
 			var url = w_url+'&rt=r/embed/js/product&product_id=' + product_id + '&target=' + target_id;
 			abc_process_request(url);
 		}
 
 		var abc_populate_cart = function( w_url){
+			//using local jQuery
+			$ = jQuery;
 			var url = w_url+'&rt=r/embed/js/cart';
 			abc_process_request(url);
 		}
