@@ -21,32 +21,33 @@
 
 ?>
 
-var abc_cookie_allowed = true; //set global sign of allowed 3dparty cookies as true by default. Otherwise it's value will be overridden by testcookie js
+//set global sign of allowed 3dparty cookies as true by default. This value might be overridden by testcookie js
+var abc_cookie_allowed = true; 
 var abc_token_name = '<?php echo EMBED_TOKEN_NAME; ?>';
 var abc_token_value = '';
 
 (function() {
-	// Localize jQuery variable
+	// Localize jQuery
 	var jQuery;
 
 	/******** Load jQuery if not yet loaded *********/
 	if (window.jQuery === undefined || window.jQuery.fn.jquery !== '1.11.0') {
-	    var script_tag = document.createElement('script');
-	    script_tag.setAttribute("type","text/javascript");
-	    script_tag.setAttribute("src",
-	        "http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js");
-	    if (script_tag.readyState) {
-	    	script_tag.onreadystatechange = function () { // For old versions of IE
-	        if (this.readyState == 'complete' || this.readyState == 'loaded') {
-				scriptLoadHandler();
-	      	}
-	      };
-	    } else { 
-	    	// Other browsers
-	    	script_tag.onload = scriptLoadHandler;
-	    }
-	    // Try to find the head, otherwise default to the documentElement
-	    (document.getElementsByTagName("head")[0] || document.documentElement).appendChild(script_tag);
+		script_loader("http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js");
+		// Poll for jQuery to come into existence
+		var checkReady = function(callback) {
+		    if (window.jQuery !== undefined) {
+		   		callback(jQuery);
+		    }
+		    else {
+		        window.setTimeout(function() { checkReady(callback); }, 10);
+		    }
+		};	
+		checkReady(function($){
+			//jQuery = window.jQuery.noConflict(true);	
+			jQuery = window.jQuery;
+	    	main(); 
+		
+		});	
 	} else {
 	    // The jQuery version on the window is the one we want to use
 	    jQuery = window.jQuery;
@@ -58,7 +59,6 @@ var abc_token_value = '';
 	    // Restore $ and window.jQuery to their previous values and store the
 	    // new jQuery in our local jQuery variable
 	    jQuery = window.jQuery.noConflict(true);
-	    // Call our main function
 	    main(); 
 	}
 
@@ -74,11 +74,11 @@ var abc_token_value = '';
 
 	abc_token_value = abc_get_cookie();
 
-	if(abc_token_value!=undefined && abc_token_value.length>0){
+	if(abc_token_value != undefined && abc_token_value.length > 0){
 		abc_cookie_allowed = false;
 	}
 
-	/********* abc url wrapper  ***********/
+	/********* AbanteCart url wrapper  ***********/
 	var abc_process_url = function (url){
 		if(abc_cookie_allowed==false){
 			url += '&'+abc_token_name+'='+abc_token_value;
@@ -88,49 +88,38 @@ var abc_token_value = '';
 	}
 
 	var abc_process_request = function(url){
-		if(url.length<1){
+		if(url.length < 1){
 			console.log('Abantecart embedded code: empty url requested!');
-			return null; }
-		url = abc_process_url(url); //add token if needed
-		var s = document.createElement("script");
-		s.type = "text/javascript";
-		s.src = url;
-		$("head").append(s);
+			return null; 
+		}
+		url = abc_process_url(url);
+		script_loader(url);
 	}
 
-	// function appends css-file with styles for embedded block from abantecart host
+	/******** function to append css-file with styles for embedded block from AbanteCart host ********/
 	var abc_append_css = function(url){
-			if(url.length<1){
-				console.log('Abantecart embedded code: empty url for css requested!');
-				return null;
-			}
-
-		    var head  = document.getElementsByTagName('head')[0];
-		    var link  = document.createElement('link');
-		    link.rel  = 'stylesheet';
-		    link.type = 'text/css';
-		    link.href = url;
-		    link.media = 'all';
-		    head.appendChild(link);
+		if(url.length<1){
+		    console.log('AbanteCart embedded code: empty url for css requested!');
+		    return null;
+		}
+		css_loader(url);
 	}
 
-
-
-
-
-
-	/******** Now main function ********/
+	/******** Main function ********/
 	function main() { 
-		// Load bootstrap components if not yet loaded
-		// ??????
-	var modal = '<div id="abc_embed_modal" class="modal fade " tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">'+
-					'<div class="modal-dialog modal-lg">'+
-						'<div class="modal-content">' +
-							'<div class="modal-header">' +
-								'<button aria-hidden="true" data-dismiss="modal" class="close" type="button">&times;</button>' +
-				'<h4 class="modal-title"></h4>' +
+		/******** Load custom modal *********/
+		css_loader("<?php echo $base.$this->templateResource('/stylesheet/bootstrap.embed.css'); ?>");
+		script_loader("<?php echo $base.$this->templateResource('/javascript/bootstrap.embed.js'); ?>");
+
+		// Load bootstrap custom modal (single instance)
+		var modal = '<div id="abc_embed_modal" class="abcmodal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">'+
+					'<div class="abcmodal-dialog abcmodal-lg">'+
+						'<div class="abcmodal-content">' +
+							'<div class="abcmodal-header"><?php if($icon) { ?><img src="resources/<?php echo $icon; ?>""/>&nbsp;<?php } ?>&nbsp;<?php echo $store_name; ?>' +
+								'<button aria-hidden="true" data-dismiss="abcmodal" class="abcmodal_close" type="button">&times;</button>' +
+				'<h4 class="abcmodal-title"></h4>' +
 							'</div>' +
-				'<div class="modal-body"><iframe id="amp_product_frame" width="100%" height="650px" frameBorder="0"></iframe>' +
+				'<div class="abcmodal-body"><iframe id="amp_product_frame" width="100%" height="650px" frameBorder="0"></iframe>' +
 				'<div id="iframe_loading" class="center_div"><i class="fa fa-spinner fa-spin fa-2x"></i></div>' +
 							'</div>' +
 						'</div>' +
@@ -138,11 +127,10 @@ var abc_token_value = '';
 			'</div>';
 		modal += '<div class="abantecart-widget-cart"></div>';
 
-
 	    jQuery(document).ready(function($) {
+
 	        if( !$('#abc_embed_modal').length ) {
 				$('body').append(modal);
-
 			<?php
 			// do cookie-test if session id not retrieved from http-request
 			if($test_cookie){?>
@@ -156,37 +144,46 @@ var abc_token_value = '';
 			<?php } ?>
 			}
 
-			abc_process_wrapper(); //fill data into embedded blocks
+			// Poll for abc_process_wrapper to come into existence
+			var processReady = function(callback) {
+			    if (abc_process_wrapper !== undefined) {
+			   		callback();
+			    }
+			    else {
+			        window.setTimeout(function() { processReady(callback); }, 10);
+			    }
+			};	
+			processReady(function($){
+				//fill data into embedded blocks
+				abc_process_wrapper();
+			});	
 
-			$('#abc_embed_modal').on('shown.bs.modal', function (e) {
+			$('#abc_embed_modal').on('shown.bs.abcmodal', function (e) {
 			    var d = new Date();
 				//get href of modal caller
-				var frame_url = abc_process_url($(e.relatedTarget).attr('href')+ '&time_stamp='+d.getTime());
+				var frame_url = abc_process_url($(e.relatedTarget).attr('data-href')+ '&time_stamp='+d.getTime());
 
 			    $('#abc_embed_modal iframe').attr("src", frame_url);
 			    $('#iframe_loading').show();
-			    $('#abc_embed_modal').modal('show');
+			    $('#abc_embed_modal').abcmodal('show');
 				$('#iframe_loading').hide();
 			});
 
 	    });
 
-
-
-
 		var abc_process_wrapper = function(){
-
 			$('.abantecart-widget-container').each(function(){
 				var c = $(this);
-				var w_url = c.attr('data-url'); //widget url - base url of widget data (for case when 2 widgets from different domains on the same page)
+				//widget url - base url of widget data (for case when 2 widgets from different domains on the same page)
+				var w_url = c.attr('data-url');
 				if(c.attr('data-css-url')){
-					abc_append_css(c.attr('data-css-url')); //load remote css for this embed block
+					//load remote css for this embed block
+					abc_append_css(c.attr('data-css-url'));
 				}
 				abc_process_container(c, w_url);
 				abc_populate_cart(w_url);
 
 				$('.abantecart-widget-container').on("click", ".abantecart_addtocart", function(){
-
 					abc_process_request($(".abantecart_addtocart button").attr('data-href'));
 					abc_populate_cart(w_url);
 					return false;
@@ -218,4 +215,27 @@ var abc_token_value = '';
 		}
 
 	}
+	
+	/******** Script loader function ********/
+	function script_loader( url ) { 
+		var script_tag = document.createElement('script');
+		script_tag.setAttribute("type","text/javascript");
+		script_tag.setAttribute("src",url);
+		// Try to find the head, otherwise default to the documentElement
+		(document.getElementsByTagName("head")[0] || document.documentElement).appendChild(script_tag);
+		return script_tag;
+	}
+
+	/******** CSS loader function ********/
+	function css_loader( url ) { 
+		var css_tag = document.createElement('link');
+		css_tag.setAttribute("type","text/javascript");
+		css_tag.setAttribute("rel",'stylesheet');
+		css_tag.setAttribute("type",'text/css');
+		css_tag.setAttribute("media","all");
+		css_tag.setAttribute("href",url);
+		// Try to find the head, otherwise default to the documentElement
+		(document.getElementsByTagName("head")[0] || document.documentElement).appendChild(css_tag);
+	}
+	
 })();

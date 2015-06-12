@@ -35,6 +35,31 @@ class ControllerResponsesEmbedJS extends AController {
 			$this->data['test_cookie'] = true;
 		}
 
+		if (isset($this->request->server['HTTPS']) && (($this->request->server['HTTPS'] == 'on') || ($this->request->server['HTTPS'] == '1'))) {
+			$this->view->assign('base', HTTPS_SERVER);
+		} else {
+			$this->view->assign('base', HTTP_SERVER);
+		}
+
+		$this->view->assign('store_name', $this->config->get('store_name'));
+		$icon_rl = $this->config->get('config_icon');
+		if($icon_rl){		
+			//see if we have a resource ID or path
+			if (is_numeric($icon_rl)) {
+				$resource = new AResource('image');
+			    $image_data = $resource->getResource( $icon_rl );
+			    if ( is_file(DIR_RESOURCE . $image_data['image']) ) {
+			    	$icon_rl = 'resources/'.$image_data['image'];
+			    } else {
+			    	$icon_rl = $image_data['resource_code'];
+			    }
+			} else	
+			if(!is_file(DIR_RESOURCE.$icon_rl)){
+				$icon_rl ='';
+			}
+		}
+		$this->view->assign('icon', $icon_rl);
+		
 		$this->data['abc_embed_test_cookie_url'] = $this->html->getURL('r/embed/js/testcookie','&timestamp='.time());
 
 		$this->view->setTemplate( 'embed/js.tpl' );

@@ -17,11 +17,16 @@ AbanteCart storefront CSS-styles for embedded blocks
 }
 
 .abantecart-widget-cart{
-	position: absolute;
-	right: 40px;
+	position: fixed;
+	right: 0;
 	top: 80px;
 	width: 200px;
 	max-height: 200px;
 	background-color: white;
 	overflow: auto;
+    visibility: visible;
+}
+
+.product_thumb img{
+	width: 200px;
 }

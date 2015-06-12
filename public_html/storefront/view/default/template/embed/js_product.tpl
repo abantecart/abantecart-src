@@ -6,7 +6,7 @@
 	}
 
 	if($('<?php echo $target;?> .abantecart_image')){
-		html = '<a href="<?php echo $product_details_url;?>"  data-id="<?php echo $product['product_id']; ?>" data-html="true" data-target="#abc_embed_modal" data-toggle="modal" href="#" class="product_thumb" data-original-title="">'
+		html = '<a data-href="<?php echo $product_details_url;?>"  data-id="<?php echo $product['product_id']; ?>" data-html="true" data-target="#abc_embed_modal" data-toggle="abcmodal" href="#" class="product_thumb" data-original-title="">'
 			+ '<?php echo $product['thumbnail']['thumb_html']?></a>';
 		$('<?php echo $target;?> .abantecart_image').html(html);
 	}
