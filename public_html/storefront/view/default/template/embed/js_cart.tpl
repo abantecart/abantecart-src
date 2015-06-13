@@ -2,8 +2,13 @@
 
  (function(){
 	$('.abantecart-widget-cart').remove();
-	<?php if($cart_html){?>
-		html = '<div class="abantecart-widget-cart"><?php echo str_replace("\n",'',$cart_html); ?></div>>';
+	<?php if($cart_count){?>
+		html = '<a data-href="<?php echo $cart_url;?>" data-html="true" data-target="#abc_embed_modal" data-toggle="abcmodal" href="#" title="<?php echo $text_view;?>"> \
+				<div class="abantecart-widget-cart"> \
+					<div class="cart_count"> \
+						<?php echo $cart_count; ?> \
+					</div>	\
+				</div></a>';
 		$('body').append(html);
 	<?php } ?>
  })();

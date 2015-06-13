@@ -132,16 +132,19 @@ var abc_token_value = '';
 	        if( !$('#abc_embed_modal').length ) {
 				$('body').append(modal);
 			<?php
-			// do cookie-test if session id not retrieved from http-request
-			if($test_cookie){?>
-				abc_token_name = '<?php echo EMBED_TOKEN_NAME; ?>';
-				abc_token_value = abc_get_cookie();
-				var testcookieurl  = '<?php echo $abc_embed_test_cookie_url; ?>';
-				if(abc_token_value!=undefined && abc_token_value!=''){
-					testcookieurl +='&<?php echo EMBED_TOKEN_NAME; ?>='+abc_token_value;
-				}
-				abc_process_request(testcookieurl);
-			<?php } ?>
+				// do cookie-test if session id not retrieved from http-request
+				if($test_cookie) { 
+			?>
+					abc_token_name = '<?php echo EMBED_TOKEN_NAME; ?>';
+					abc_token_value = abc_get_cookie();
+					var testcookieurl  = '<?php echo $abc_embed_test_cookie_url; ?>';
+					if(abc_token_value!=undefined && abc_token_value!=''){
+						testcookieurl +='&<?php echo EMBED_TOKEN_NAME; ?>='+abc_token_value;
+					}
+					abc_process_request(testcookieurl);
+			<?php 
+				} 
+			?>
 			}
 
 			// Poll for abc_process_wrapper to come into existence
@@ -195,6 +198,7 @@ var abc_token_value = '';
 			});
 		}
 
+		//process data containers
 		var abc_process_container = function (obj, w_url){
 			//using local jQuery
 			$ = jQuery;

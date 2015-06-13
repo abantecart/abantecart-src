@@ -149,17 +149,11 @@ class ControllerResponsesEmbedJS extends AController {
 	public function cart() {
 		$this->extensions->hk_InitData($this, __FUNCTION__);
 
-		//????  temporary part of html for floating cart block
-		if($this->cart->getProducts()){
-			$d = $this->dispatch('responses/product/product/getCartContent');
-			$this->load->library('json');
-			$this->data['cart_html'] = AJson::decode($d->dispatchGetOutput(), true);
-			$this->data['cart_html'] = $this->data['cart_html']['cart_details'];
-		}
-
-
-
-
+		$this->loadLanguage('blocks/cart');
+		
+		$this->data['cart_count'] = $this->cart->countProducts();
+		$this->data['cart_url'] = $this->html->getSecureURL('checkout/cart');
+	
 		$this->view->setTemplate( 'embed/js_cart.tpl' );
 		$this->_set_js_http_headers();
 		$this->view->batchAssign($this->data);
