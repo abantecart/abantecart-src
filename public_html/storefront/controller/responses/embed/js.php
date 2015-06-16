@@ -174,7 +174,7 @@ class ControllerResponsesEmbedJS extends AController {
 
 	private function _set_js_http_headers(){
 		$this->response->addHeader('Content-Type: text/javascript; charset=UTF-8');
-		$this->response->addHeader('Expires: '.gmdate('D, d M Y H:i:s \G\M\T', time() - 10));
+		//$this->response->addHeader('Expires: '.gmdate('D, d M Y H:i:s \G\M\T', time() - 10));
 	}
   	
 }

@@ -24,11 +24,20 @@
 var abc_cookie_allowed = true; 
 var abc_token_name = '<?php echo EMBED_TOKEN_NAME; ?>';
 var abc_token_value = '';
+if(window.abc_count === undefined){
+	window.abc_count = 0;
+}
 
 (function() {
 	// Localize jQuery
 	var jQuery;
 
+	if(window.abc_count > 0) {
+		return false;
+	} else {
+		window.abc_count++;
+	}
+	
 	/******** Load jQuery if not yet loaded *********/
 	if (window.jQuery === undefined || window.jQuery.fn.jquery !== '1.11.0') {
 		script_loader("http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js");		
@@ -44,7 +53,9 @@ var abc_token_value = '';
 		    } else {
 		    	//attempts limit reached
 		    	scounter = 0;
-				second();
+		    	if(second !== undefined ) {
+		    		second();
+		    	}
 		    }
 		};	
 		checkReady(
