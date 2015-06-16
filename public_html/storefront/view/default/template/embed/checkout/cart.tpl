@@ -1,3 +1,4 @@
+<?php echo $head; ?>
 <h1 class="heading1">
 	<span class="maintext"><i class="fa fa-shopping-cart"></i> <?php echo $heading_title; ?></span>
 	<?php if ($weight) { ?>
@@ -301,3 +302,4 @@ echo $form['form_open'];
 		}
 
 //--></script>
+<?php echo $footer; ?>

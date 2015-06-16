@@ -22,7 +22,9 @@ if (! defined ( 'DIR_CORE' )) {
 }
 
 class ControllerResponsesCheckoutCart extends AController {
+	private $error = array();
 	public $data = array();
+
 	public function main() {
 
         //init controller data
@@ -201,4 +203,20 @@ class ControllerResponsesCheckoutCart extends AController {
 
 		$this->response->setOutput(AJson::encode($this->data));
 	}
+	
+	
+	public function embed() {
+        //init controller data
+        $this->extensions->hk_InitData($this,__FUNCTION__);
+        
+		try{
+			$cart = $this->dispatch('pages/checkout/cart',array('embed' => true));
+			$cart_html = $cart->dispatchGetOutput();
+		}catch(AException $e){	}
+	
+        $this->extensions->hk_UpdateData($this,__FUNCTION__);
+
+		$this->response->setOutput($cart_html);
+	}
+	
 }

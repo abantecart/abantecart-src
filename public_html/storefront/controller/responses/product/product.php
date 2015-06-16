@@ -519,8 +519,11 @@ class ControllerResponsesProductProduct extends AController {
 			}
 		}
 
-		$this->view->setTemplate( 'embed/product/product.tpl' );
+		//load special headers
+        $this->addChild('responses/embed/head', 'head');
+        $this->addChild('responses/embed/footer', 'footer');
 
+		$this->view->setTemplate( 'embed/product/product.tpl' );
 
 		$this->view->batchAssign($this->data);
         $this->processTemplate();

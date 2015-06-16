@@ -10,11 +10,13 @@ AbanteCart storefront CSS-styles for embedded blocks
 	width: 200px;
 }
 
-
 .abantecart-widget-container .abantecart_image{
 	margin: 10px auto;
 }
 
+a.abantecart-widget-cart {
+	text-decoration: none;
+}
 .abantecart-widget-cart{
 	position: fixed;
 	right: 0;
@@ -30,11 +32,20 @@ AbanteCart storefront CSS-styles for embedded blocks
 .abantecart-widget-cart .cart_count {
 	position: relative;
 	top: 40px;
-	left: 32px;
-	width: 60px;	
-	text-decoration: none !important;
+	left: 10px;
+	width: 60px;
+	text-align: center;	
 }
 
-.product_thumb img{
+.abantecart_image .product_thumb img {
 	width: 200px;
+}
+
+#iframe_loading {
+	text-align: center;	
+	height: 650px;
+	background-color: white;
+	overflow: auto;
+    background: transparent url(../image/spinner.gif) no-repeat;
+	background-position: center;
 }

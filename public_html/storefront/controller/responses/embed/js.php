@@ -82,8 +82,8 @@ class ControllerResponsesEmbedJS extends AController {
 			return null;
 		}
 
-		$target = $this->request->get['target'];
-		if(!$target){
+		$this->data['target'] = $this->request->get['target'];
+		if(!$this->data['target']){
 			return null;
 		}
 
@@ -105,7 +105,7 @@ class ControllerResponsesEmbedJS extends AController {
 		$product_info['button_addtocart'] = $this->html->buildElement(
 				array(
 						'type' => 'button',
-						'name' => 'addtocart',
+						'name' => 'addtocart'.$product_id,
 						'text' => $this->language->get('button_add_to_cart'),
 
 						'attr' => 'data-product-id="'.$product_id.'" data-href = "'. $this->html->getURL('r/embed/js/addtocart', '&product_id='.$product_id).'"'
@@ -114,11 +114,8 @@ class ControllerResponsesEmbedJS extends AController {
 
 
 		$this->data['product'] = $product_info;
-		/*$this->data['product_details_url'] = $this->html->getURL(
-													'r/product/product',
-													'&product_id=' . $product_id);*/
 		$this->data['product_details_url'] = $this->html->getURL(
-															'product/product',
+															'r/product/product',
 															'&product_id=' . $product_id);
 
 		$this->view->setTemplate( 'embed/js_product.tpl' );
@@ -152,7 +149,7 @@ class ControllerResponsesEmbedJS extends AController {
 		$this->loadLanguage('blocks/cart');
 		
 		$this->data['cart_count'] = $this->cart->countProducts();
-		$this->data['cart_url'] = $this->html->getSecureURL('checkout/cart');
+		$this->data['cart_url'] = $this->html->getSecureURL('r/checkout/cart/embed');
 	
 		$this->view->setTemplate( 'embed/js_cart.tpl' );
 		$this->_set_js_http_headers();

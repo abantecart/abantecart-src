@@ -101,14 +101,17 @@ button.abcmodal_close {
   opacity: .5;
 }
 .abcmodal-header {
-  min-height: 45px;
+  min-height: 30px;
   padding: 12px;
   border-bottom: 1px solid #e5e5e5;
+  color: #96979d;
+  font-family: "Open Sans",sans-serif;
+  font-size: 13px;
 }
 .abcmodal-header img {
 	max-height: 25px;
+    vertical-align: middle;
 }
-
 .abcmodal-header .close {
   margin-top: -2px;
 }
