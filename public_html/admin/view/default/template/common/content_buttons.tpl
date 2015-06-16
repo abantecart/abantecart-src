@@ -8,6 +8,26 @@
 		<?php } ?>
 		<?php echo $this->getHookVar('common_content_buttons'); ?>
 
+		<?php if($embed_url) { ?>
+			<div class="btn-group">
+		        <a class="btn btn-white tooltips"
+		           href="<?php echo $embed_url; ?>"
+		           data-target="#embed_modal"
+		           data-toggle="modal"
+		           data-original-title="<?php echo $text_get_embed_code; ?>">
+		            <i class="fa fa-code fa-lg"></i>
+		        </a>
+				<?php echo $this->html->buildElement(
+							array(	'type' => 'modal',
+									'id' => 'embed_modal',
+									'modal_type' => 'lg',
+									'data_source' => 'ajax'));
+				?>
+			</div>
+
+
+    	<?php } ?>
+
 		<?php if(!empty($form_store_switch)) { ?>
 		<div class="btn-group">
 			<?php echo $form_store_switch; ?>

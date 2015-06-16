@@ -110,6 +110,8 @@ class ControllerPagesCatalogProductImages extends AController {
 		    'style' => 'button2',
 	    ));
 
+	    $this->data['embed_url'] = $this->html->getSecureURL('common/do_embed/product', '&product_id='.$this->request->get['product_id']);
+
 		$this->view->batchAssign( $this->data );
 		$this->view->assign('help_url', $this->gen_help_url('product_media') );
 		$this->addChild('pages/catalog/product_summary', 'summary_form', 'pages/catalog/product_summary.tpl');
