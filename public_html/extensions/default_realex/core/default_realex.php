@@ -81,7 +81,6 @@ class ExtensionDefaultRealex extends Extension {
 			$view->batchAssign($that->language->getASet('default_realex/default_realex'));
 			$this->baseObject->view->addHookVar('extension_payment_details', $view->fetch('pages/sale/payment_details.tpl'));
 		}
-
 	}
 
 	/**

@@ -29,7 +29,8 @@ class ControllerPagesCheckoutCart extends AController {
 
 		//is this an embed mode	
 		list($embed_mode) = func_get_args();
-		if($embed_mode){
+		$embed_mode = $embed_mode['embed'];
+		if($embed_mode == 1){
 			//load special headers
 	        $this->addChild('responses/embed/head', 'head');
 	        $this->addChild('responses/embed/footer', 'footer');

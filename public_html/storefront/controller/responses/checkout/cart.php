@@ -210,7 +210,7 @@ class ControllerResponsesCheckoutCart extends AController {
         $this->extensions->hk_InitData($this,__FUNCTION__);
         
 		try{
-			$cart = $this->dispatch('pages/checkout/cart',array('embed' => true));
+			$cart = $this->dispatch('pages/checkout/cart',array(array('embed' => true)));
 			$cart_html = $cart->dispatchGetOutput();
 		}catch(AException $e){	}
 	
