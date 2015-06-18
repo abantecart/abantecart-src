@@ -142,7 +142,19 @@ if(window.abc_count === undefined){
 		var modal = '<div id="abc_embed_modal" class="abcmodal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">'+
 					'<div class="abcmodal-dialog abcmodal-lg">'+
 						'<div class="abcmodal-content">' +
-							'<div class="abcmodal-header"><?php if($icon) { ?><img src="resources/<?php echo $icon; ?>""/>&nbsp;<?php } ?>&nbsp;<?php echo $store_name; ?>' +
+							'<div class="abcmodal-header">' +
+								'<div class="abcmodal-header-store">' +
+							
+								'<?php if($icon) { ?><img src="resources/<?php echo $icon; ?>""/>&nbsp;<?php } ?>&nbsp;<?php echo $store_name; ?>' +
+								'</div><div class="abcmodal-header-menu">' +
+								<?php if ($logged) { ?>
+								'<a class="abcmodal-reload" href="#" data-href="<?php echo $account;?>"><?php echo $text_account;?></a>&nbsp;&nbsp;' +
+								<?php } else { ?>
+								'<a class="abcmodal-reload" href="#" data-href="<?php echo $login;?>"><?php echo $text_login;?></a>&nbsp;&nbsp;' +
+								<?php } ?>
+								'|&nbsp;<a class="abcmodal-reload" href="#" data-href="<?php echo $cart;?>"><?php echo $text_cart;?></a>&nbsp;&nbsp;' +
+								'|&nbsp;<a class="abcmodal-reload" href="#" data-href="<?php echo $checkout;?>"><?php echo $text_checkout;?></a>&nbsp;&nbsp;' +
+								'</div>'+
 								'<button aria-hidden="true" data-dismiss="abcmodal" class="abcmodal_close" type="button">&times;</button>' +
 				'<h4 class="abcmodal-title"></h4>' +
 							'</div>' +
@@ -183,24 +195,20 @@ if(window.abc_count === undefined){
 			        window.setTimeout(function() { processReady(callback); }, 100);
 			    }
 			};	
+
 			processReady(function($){
 				//fill data into embedded blocks
 				abc_process_wrapper();
 			});	
-
+			
+			$('#abc_embed_modal').on('click', '.abcmodal-reload', function (e) {
+				loadIframe( $(this).attr('data-href') );
+			});
+			
 			$('#abc_embed_modal').on('shown.bs.abcmodal', function (e) {
 				//clear iframe content
-				$('#abc_embed_modal iframe').contents().find("body").html('');
-				$('#abc_embed_modal iframe').hide();
-			    $('#iframe_loading').show();
-			    var d = new Date();
-				//get href of modal caller
-				var frame_url = abc_process_url($(e.relatedTarget).attr('data-href')+ '&time_stamp='+d.getTime());
-
-			    $('#abc_embed_modal iframe').attr("src", frame_url);
+				loadIframe( $(e.relatedTarget).attr('data-href') );
 			    $('#abc_embed_modal').abcmodal('show');
-				$('#iframe_loading').hide();
-				$('#abc_embed_modal iframe').show();
 			});
 
 			$('#abc_embed_modal').on('hide.bs.abcmodal', function (e) {
@@ -208,6 +216,19 @@ if(window.abc_count === undefined){
 				var w_url = $('.abantecart-widget-container').first().attr('data-url');
 				abc_populate_cart(w_url);
 			});
+
+			var loadIframe = function(url) {
+				$('#abc_embed_modal iframe').contents().find("body").html('');
+				$('#abc_embed_modal iframe').hide();
+			    $('#iframe_loading').show();
+			    var d = new Date();
+				//get href of modal caller
+				var frame_url = abc_process_url(url+ '&time_stamp='+d.getTime());
+			    $('#abc_embed_modal iframe').attr("src", frame_url);
+				$('#iframe_loading').hide();
+				$('#abc_embed_modal iframe').show();
+				return false;
+			};	
 
 	    });
 
