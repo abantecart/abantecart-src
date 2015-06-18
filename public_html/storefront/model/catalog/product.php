@@ -36,9 +36,11 @@ class ModelCatalogProduct extends Model {
 										pd.name AS name,
 										m.name AS manufacturer,
 										ss.name AS stock_status,
-										lcd.unit as length_class_name " .
+										lcd.unit as length_class_name, " .
+								$this->_sql_avg_rating_string().", ".
+								$this->_sql_final_price_string()." ".
 								$this->_sql_join_string() .
-								"LEFT JOIN " . $this->db->table("length_class_descriptions") . " lcd
+								" LEFT JOIN " . $this->db->table("length_class_descriptions") . " lcd
 									ON (p.length_class_id = lcd.length_class_id
 										AND lcd.language_id = '" . (int)$this->config->get('storefront_language_id') . "')
 								WHERE p.product_id = '" . (int)$product_id . "'

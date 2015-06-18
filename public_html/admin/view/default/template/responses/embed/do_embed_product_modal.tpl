@@ -3,11 +3,11 @@
 	<h4 class="modal-title"><?php echo $text_get_product_embed_code; ?></h4>
 </div>
 <div class="tab-content">
-	<div class="panel-body panel-body-nopadding">
+	<div class="panel-body panel-body-nopadding table-responsive">
 		<div class="col-sm-6 col-xs-12">
 			<div id="embed_container" class="embed_preview"></div>
 		</div>
-		<div class="col-sm-6 col-xs-12">
+		<div id="code_options" class="col-sm-6 col-xs-12">
 
 			<label class="h4 heading"></label>
 			<?php echo $form['form_open']; ?>
@@ -16,13 +16,13 @@
 				?>
 				<div class="form-group">
 					<?php if(${'entry_' . $field->name}){?>
-					<label class="control-label col-sm-6 col-xs-12" for="<?php echo $field->element_id; ?>">
+					<label class="control-label col-md-6 col-xs-12" for="<?php echo $field->element_id; ?>">
 						<?php echo ${'entry_' . $field->name}; ?>
 					</label>
 					<?php }else{
 						$widthclass = 'col-sm-12 col-xs-12';
 					} ?>
-					<div class="input-group afield <?php echo $widthclass; ?>">
+					<div class="input-group input-group-sm afield <?php echo $widthclass; ?>">
 						<?php echo $field; ?>
 					</div>
 				</div>
@@ -47,71 +47,42 @@
 <div id="code" style="display:none;"></div>
 
 <script type="text/javascript"><!--
-	// get multiline html to paste it then. NOTE: DO NOT USE MULTI-LINE COMMENT INSIDE *_code.tpl!!!
-	var embed_base_code = function(){/*
-<?php include(DIR_ROOT.'/'.RDIR_TEMPLATE.'template/responses/embed/product_code.tpl'); ?>
-	*/}.toString().slice(14,-3).replace(/(\r\n|\n|\r)/gm,"");
+	var options = {
+		'image': '<div class="abantecart_image"></div>\n',
+		'name': '<div class="abantecart_name"></div>\n',
+		'price': '<div class="abantecart_price"></div>\n',
+		'rating': '<div class="abantecart_rating"></div>\n',
+		'blurb': '<div class="abantecart_blurb"></div>\n',
+		'quantity': '<div class="abantecart_quantity"></div>\n',
+		'addtocart': '<div class="abantecart_addtocart"></div>\n'
+	};
 
-	$('#getEmbedFrm_code_area').val(embed_base_code);
-	$("#embed_container" ).html(embed_base_code );
-	$("#code" ).html(embed_base_code );
+	var buildEmbedCode = function(){
+		var html = '<script src="<?php echo $sf_js_embed_url; ?>" type="text/javascript"></script>\n';
+			html += '<div class="abantecart-widget-container" data-url="<?php echo $sf_base_url; ?>" data-css-url="<?php echo $sf_css_embed_url; ?>">\n';
+			html += '\t<div id="abc_<?php echo (int)(microtime()*1000);?>" class="abantecart_product" data-product-id="<?php echo $product_id; ?>">\n';
+
+		$('#code_options').find('input[type="hidden"]').each(function(){
+			if($(this).val()==1){
+				html += '\t\t'+options[$(this).attr('name')];
+			}
+		});
+		html += '\t</div>\n</div>';
+		return html;
+	}
+
+	window.abc_count = 0;
+	var ec = buildEmbedCode();
+	$('#getEmbedFrm_code_area').val(ec);
+	$("#embed_container" ).html(ec);
+
 
 	$(document).ready(function(){
 		$('div#embed_modal').find('div.btn_switch').find('button').on('click', function(){
-			var sorting = [".abantecart_image", ".abantecart_name", ".abantecart_price",".abantecart_qty",".abantecart_addtocart"];
-			var switcher = $(this).parents('.input-group.afield').find('input');
-			var classname = switcher.attr('name').replace('show_','abantecart_');
-			var selector = '.'+classname;
-
-			if(switcher.val()==1){
-				var elm = $("#embed_container").find(selector);
-				if(elm.length==0){
-					//first of all get key
-					var key = -1;
-					for(var k in sorting){
-						if(sorting[k] == selector){
-							key = k;
-							break;
-						}
-					}
-					if(key==-1){ return false; }
-
-					//get previous element for append
-					k = key-1;
-					var cn=''; // classname
-					var t = -1; //target elm
-					while(k>-1){
-						cn = sorting[k];
-						if($("#embed_container").find(cn)){
-							t = k;
-							break;
-						}
-						k--;
-					}
-
-					if(t >= 0) {
-						$("#embed_container" ).find(sorting[t]).after('<div class="' + classname + '">&nbsp;</div>');
-						$(embed_base_code).find(sorting[t]).after('<div class="' + classname + '">&nbsp;</div>')
-					}
-					//in case when no one previous elem there
-					else{
-						$("#embed_container" ).prepend('<div class="' + classname + '">&nbsp;</div>');
-						$(embed_base_code).prepend('<div class="' + classname + '">&nbsp;</div>');
-					}
-				}
-			}else{
-				$("#embed_container" ).find(selector).remove();
-				$(embed_base_code).find(selector).remove().end();
-
-			}
-
-
-			/*var d = new Date();
-			var script_src = $("#embed_container" ).find('script').attr('src')+ '&time_stamp='+d.getTime();
-			$("#embed_container" ).find('script').attr('src', script_src);*/
-			var dd = $("#embed_container" ).html();
-			$("#embed_container" ).html(dd);
-			$('#getEmbedFrm_code_area').val(embed_base_code);
+		var ec = buildEmbedCode();
+			window.abc_count = 0;
+			$('#getEmbedFrm_code_area').val(ec);
+			$("#embed_container" ).html(ec);
 
 		});
 	});

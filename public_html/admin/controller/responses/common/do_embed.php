@@ -56,33 +56,49 @@ class ControllerResponsesCommonDoEmbed extends AController {
 	    $this->data['form']['form_open'] = $form->getFieldHtml(array(
 	    		    'type' => 'form',
 	    		    'name' => 'getEmbedFrm',
-	    		    'attr' => 'class="aform form-horizontal"',
+	    		    'attr' => 'class="aform"',
 	    	    ));
 
 	    $this->data['fields'][] = $form->getFieldHtml(array(
 	    				'type'  => 'checkbox',
-	    				'name'  => 'show_image',
+	    				'name'  => 'image',
 	    				'value' => 1,
 	    				'style' => 'btn_switch btn-group-xs',
 	    ));
 	    $this->data['fields'][] = $form->getFieldHtml(array(
 	    				'type'  => 'checkbox',
-	    				'name'  => 'show_name',
+	    				'name'  => 'name',
 	    				'value' => 1,
 	    				'style' => 'btn_switch btn-group-xs',
 	    ));
 	    $this->data['fields'][] = $form->getFieldHtml(array(
 	    				'type'  => 'checkbox',
-	    				'name'  => 'show_price',
+	    				'name'  => 'price',
 	    				'value' => 1,
 	    				'style' => 'btn_switch btn-group-xs',
 	    ));
 	    $this->data['fields'][] = $form->getFieldHtml(array(
 	    				'type'  => 'checkbox',
-	    				'name'  => 'show_addtocart',
+	    				'name'  => 'rating',
 	    				'value' => 1,
 	    				'style' => 'btn_switch btn-group-xs',
 	    ));
+	    $this->data['fields'][] = $form->getFieldHtml(array(
+	    				'type'  => 'checkbox',
+	    				'name'  => 'quantity',
+	    				'value' => 1,
+	    				'style' => 'btn_switch btn-group-xs',
+	    ));
+	    $this->data['fields'][] = $form->getFieldHtml(array(
+	    				'type'  => 'checkbox',
+	    				'name'  => 'addtocart',
+	    				'value' => 1,
+	    				'style' => 'btn_switch btn-group-xs',
+	    ));
+
+
+
+
 	    $this->data['text_area'] = $form->getFieldHtml(array(
 	    				'type'  => 'textarea',
 	    				'name'  => 'code_area',

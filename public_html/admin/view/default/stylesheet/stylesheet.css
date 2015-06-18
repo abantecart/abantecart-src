@@ -2971,6 +2971,7 @@ body.stickyheader .sticky_left {
 	position: relative;
 	margin-bottom: 20px;
 	padding: 20px;
+	overflow: hidden;
 }
 
 

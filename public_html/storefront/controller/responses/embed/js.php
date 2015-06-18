@@ -89,6 +89,7 @@ class ControllerResponsesEmbedJS extends AController {
 
 		$this->loadModel('catalog/product');
 		$product_info = $this->model_catalog_product->getProduct($product_id);
+
 		//can not locate product? get out
 		if (!$product_info) { 
 			return null;
@@ -102,6 +103,12 @@ class ControllerResponsesEmbedJS extends AController {
 		    true);
 
 		$product_info['price'] = $this->currency->format($product_info['price']);
+
+		if ($product_info['final_price'] && $product_info['final_price']!=$product_info['price']) {
+			$product_info['special'] = $this->currency->format($product_info['final_price']);
+		}
+
+
 		$product_info['button_addtocart'] = $this->html->buildElement(
 				array(
 						'type' => 'button',
@@ -112,6 +119,17 @@ class ControllerResponsesEmbedJS extends AController {
 					)
 		);
 
+		$product_info['quantity'] = $this->html->buildElement(
+				array(
+						'type' => 'input',
+						'name' => 'quantity',
+						'value' => $product_info['minimum'],
+						'style' => 'short'
+					)
+		);
+
+
+
 
 		$this->data['product'] = $product_info;
 		$this->data['product_details_url'] = $this->html->getURL(
@@ -119,6 +137,8 @@ class ControllerResponsesEmbedJS extends AController {
 															'&product_id=' . $product_id);
 
 		$this->view->setTemplate( 'embed/js_product.tpl' );
+
+		$this->view->batchAssign($this->language->getASet('product/product'));
 		$this->view->batchAssign($this->data);
 		$this->_set_js_http_headers();
         $this->processTemplate();

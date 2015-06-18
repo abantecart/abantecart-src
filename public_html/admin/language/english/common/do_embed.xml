@@ -5,19 +5,31 @@
     	<value><![CDATA[Product embed code]]></value>
   	</definition>
   	<definition>
-    	<key>entry_show_image</key>
+    	<key>entry_image</key>
     	<value><![CDATA[Show Image]]></value>
   	</definition>
   	<definition>
-    	<key>entry_show_name</key>
+    	<key>entry_name</key>
     	<value><![CDATA[Show Name]]></value>
   	</definition>
   	<definition>
-    	<key>entry_show_price</key>
+    	<key>entry_price</key>
     	<value><![CDATA[Show Price]]></value>
   	</definition>
   	<definition>
-    	<key>entry_show_addtocart</key>
+    	<key>entry_rating</key>
+    	<value><![CDATA[Show Reviews And Rating]]></value>
+  	</definition>
+  	<definition>
+    	<key>entry_blurb</key>
+    	<value><![CDATA[Show Blurb]]></value>
+  	</definition>
+  	<definition>
+    	<key>entry_quantity</key>
+    	<value><![CDATA[Show Quantity]]></value>
+  	</definition>
+  	<definition>
+    	<key>entry_addtocart</key>
     	<value><![CDATA[Show Button]]></value>
   	</definition>
 </definitions>
