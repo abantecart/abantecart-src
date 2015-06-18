@@ -115,6 +115,19 @@ button.abcmodal_close {
 .abcmodal-header .close {
   margin-top: -2px;
 }
+.abcmodal-header-store{
+  white-space: nowrap;
+  float: left;
+}
+.abcmodal-header-menu {
+  font-size: 14px;
+  font-weight: bold;
+  text-shadow: 0 1px 0 #fff;
+  padding-left: 25px;
+  padding-top: 5px;
+  white-space: nowrap;
+  float: left;
+}
 .abcmodal-title {
   margin: 0;
   line-height: 1.42857143;
@@ -156,6 +169,15 @@ button.abcmodal_close {
   }
   .abcmodal-sm {
     width: 300px;
+  }
+}
+@media (max-width: 480px) {
+  .abcmodal-header{
+  	min-height: 45px;
+  }
+  .abcmodal-header-menu {
+  	padding-left: 0px;
+  	padding-top: 10px;
   }
 }
 @media (min-width: 992px) {
