@@ -116,16 +116,32 @@ class ControllerResponsesEmbedJS extends AController {
 			$product_info['special'] = $this->currency->format($product_info['final_price']);
 		}
 
+		$this->data['product_details_url'] = $this->html->getURL(
+																	'r/product/product',
+																	'&product_id=' . $product_id);
 
-		$product_info['button_addtocart'] = $this->html->buildElement(
-				array(
-						'type' => 'button',
-						'name' => 'addtocart'.$product_id,
-						'text' => $this->language->get('button_add_to_cart'),
+		$product_options = $this->model_catalog_product->getProductOptions( $product_id );
 
-						'attr' => 'data-product-id="'.$product_id.'" data-href = "'. $this->html->getURL('r/embed/js/addtocart', '&product_id='.$product_id).'"'
+		if(!$product_options){
+			$product_info['button_addtocart'] = $this->html->buildElement(
+					array(
+							'type' => 'button',
+							'name' => 'addtocart' . $product_id,
+							'text' => $this->language->get('button_add_to_cart'),
+
+							'attr' => 'data-product-id="' . $product_id . '" data-href = "' . $this->html->getURL('r/embed/js/addtocart', '&product_id=' . $product_id) . '"'
 					)
-		);
+			);
+		}else{
+			$product_info['button_addtocart'] = $this->html->buildElement(
+					array(
+							'type' => 'button',
+							'name' => 'addtocart' . $product_id,
+							'text' => $this->language->get('button_add_to_cart'),
+							'attr' => ' data-href="'. $this->data['product_details_url'].'"  data-id="'. $product_id.'" data-html="true" data-target="#abc_embed_modal" data-toggle="abcmodal" '
+					)
+			);
+		}
 
 		$product_info['quantity'] = $this->html->buildElement(
 				array(
@@ -140,9 +156,6 @@ class ControllerResponsesEmbedJS extends AController {
 
 
 		$this->data['product'] = $product_info;
-		$this->data['product_details_url'] = $this->html->getURL(
-															'r/product/product',
-															'&product_id=' . $product_id);
 
 		$this->view->setTemplate( 'embed/js_product.tpl' );
 
@@ -194,7 +207,13 @@ class ControllerResponsesEmbedJS extends AController {
 		$this->loadModel('catalog/product');
 		$product_info = $this->model_catalog_product->getProduct($this->request->get['product_id']);
 		if($product_info){
-			$this->cart->add($this->request->get['product_id'], ($product_info['minimum'] ? $product_info['minimum'] : 1));
+
+			$qnt = (int)$this->request->get['quantity'];
+			if($qnt < $product_info['minimum']){
+				$qnt = (int)$product_info['minimum'];
+			}
+			$qnt = $qnt==0 ? 1 : $qnt;
+			$this->cart->add($this->request->get['product_id'], $qnt);
 		}
 
 		$this->extensions->hk_UpdateData($this, __FUNCTION__);

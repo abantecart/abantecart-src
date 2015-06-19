@@ -252,8 +252,14 @@ if(window.abc_count === undefined){
 			var main_url = $('.abantecart-widget-container').first().attr('data-url');
 			abc_populate_cart(main_url);
 
-			$('.abantecart-widget-container').on("click", ".abantecart_addtocart", function(){
+			$('.abantecart-widget-container').on("click", ".abantecart_addtocart", function(e){
+				if($(e.target).attr('data-toggle') == "abcmodal"){
+					return null;
+				}
 				var add_url = $(this).find('button').attr('data-href');
+				if($('.abantecart_quantity input').val()){
+					add_url += '&quantity='+ $('.abantecart_quantity input').val();
+				}
 				abc_process_request(add_url);
 				abc_populate_cart(main_url);
 				return false;
