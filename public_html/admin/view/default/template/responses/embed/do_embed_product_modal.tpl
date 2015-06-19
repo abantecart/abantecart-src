@@ -32,8 +32,9 @@
 		</div>
 
 		<div class="col-sm-12 col-xs-12">
-			<div class="zero-clipboard"><span class="btn-clipboard">    </span></div>
+
 			<div data-example-id="textarea-form-control" class="embed-code">
+				<span class="btn-clipboard btn-primary">Copy</span>
 			    <form>
 				    <?php echo $text_area;?>
 			    </form>
@@ -85,7 +86,15 @@
 			$("#embed_container" ).html(ec);
 
 		});
+
+		$(".btn-clipboard").click(function(){
+		        var txt = $('#getEmbedFrm_code_area').val();
+		        prompt ("Copy html-code, then click OK.", txt);
+        });
+
 	});
+
+
 
 
 
