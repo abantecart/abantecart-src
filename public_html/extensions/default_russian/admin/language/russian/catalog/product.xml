@@ -125,6 +125,10 @@
 		<value><![CDATA[Описание:]]></value>
 	</definition>
 	<definition>
+		<key>entry_blurb</key>
+		<value><![CDATA[Рекламный текст:]]></value>
+	</definition>
+	<definition>
 		<key>entry_store</key>
 		<value><![CDATA[Магазины:]]></value>
 	</definition>

@@ -75,7 +75,8 @@ class ModelCatalogProduct extends Model{
 									name = '" . $this->db->escape($value['name']) . "',
 									meta_keywords = '" . $this->db->escape($value['meta_keywords']) . "',
 									meta_description = '" . $this->db->escape($value['meta_description']) . "',
-									description = '" . $this->db->escape($value['description']) . "'");
+									description = '" . $this->db->escape($value['description']) . "',
+									blurb = '" . $this->db->escape($value['blurb']) . "'");
 			}
 			reset($data['product_description']);
 		}
@@ -244,7 +245,7 @@ class ModelCatalogProduct extends Model{
 		if(!empty($data['product_description'])){
 			foreach($data['product_description'] as $field => $value){
 
-				$fields = array('name', 'description', 'meta_keywords', 'meta_description');
+				$fields = array('name', 'description', 'meta_keywords', 'meta_description', 'blurb');
 				$update = array();
 				foreach($fields as $f){
 					if($f == $field){
@@ -1292,7 +1293,8 @@ class ModelCatalogProduct extends Model{
 					'name'             => $result['name'],
 					'meta_keywords'    => $result['meta_keywords'],
 					'meta_description' => $result['meta_description'],
-					'description'      => $result['description']
+					'description'      => $result['description'],
+					'blurb'            => $result['blurb']
 			);
 		}
 

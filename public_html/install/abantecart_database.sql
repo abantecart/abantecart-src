@@ -1312,6 +1312,7 @@ CREATE TABLE `ac_product_descriptions` (
   `meta_keywords` varchar(255) COLLATE utf8_general_ci NOT NULL COMMENT 'translatable',
   `meta_description` varchar(255) COLLATE utf8_general_ci NOT NULL COMMENT 'translatable',
   `description` text COLLATE utf8_general_ci NOT NULL COMMENT 'translatable',
+  `blurb` text COLLATE utf8_general_ci NOT NULL COMMENT 'translatable',
   PRIMARY KEY (`product_id`,`language_id`),
   KEY `name` (`name`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;

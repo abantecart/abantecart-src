@@ -606,6 +606,11 @@ class ControllerPagesCatalogProduct extends AController {
 			'name' => 'product_description[meta_description]',
 			'value' => $this->data['product_description']['meta_description'],
 		));
+        $this->data['form']['fields']['general']['blurb'] = $form->getFieldHtml(array(
+			'type' => 'textarea',
+			'name' => 'product_description[blurb]',
+			'value' => $this->data['product_description']['blurb'],
+		));
         $this->data['form']['fields']['general']['tags'] = $form->getFieldHtml(array(
 			'type' => 'input',
 			'name' => 'product_tags',

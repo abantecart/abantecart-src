@@ -125,6 +125,10 @@
 		<value><![CDATA[Description:]]></value>
 	</definition>
 	<definition>
+		<key>entry_blurb</key>
+		<value><![CDATA[Blurb:]]></value>
+	</definition>
+	<definition>
 		<key>entry_store</key>
 		<value><![CDATA[Stores:]]></value>
 	</definition>
