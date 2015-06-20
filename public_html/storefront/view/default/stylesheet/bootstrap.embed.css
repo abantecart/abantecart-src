@@ -107,6 +107,7 @@ button.abcmodal_close {
   color: #96979d;
   font-family: "Open Sans",sans-serif;
   font-size: 13px;
+	overflow: hidden;
 }
 .abcmodal-header img {
 	max-height: 25px;
