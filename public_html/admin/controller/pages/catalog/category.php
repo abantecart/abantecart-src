@@ -463,6 +463,10 @@ class ControllerPagesCatalogCategory extends AController {
 		$this->data['category_tabs'] = $tabs_obj->dispatchGetOutput();
 		unset($tabs_obj);
 
+		if( $category_id ){
+			$this->data['embed_url'] = $this->html->getSecureURL( 'common/do_embed/categories', '&category_id='.$category_id );
+		}
+
 
 		$this->view->batchAssign($this->data);
 		$this->view->assign('form_language_switch', $this->html->getContentLanguageSwitcher());

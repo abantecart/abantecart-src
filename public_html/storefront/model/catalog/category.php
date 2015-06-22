@@ -32,7 +32,10 @@ class ModelCatalogCategory extends Model {
 	 */
 	public function getCategory($category_id) {
 		$language_id = (int)$this->config->get('storefront_language_id');
-		$query = $this->db->query("SELECT DISTINCT *
+		$query = $this->db->query("SELECT DISTINCT *,
+										(SELECT COUNT(product_id) as cnt
+										 FROM ".$this->db->table('products_to_categories')." ptc
+										 WHERE ptc.category_id = c.category_id) as products_count
 									FROM " . $this->db->table("categories") . " c
 									LEFT JOIN " . $this->db->table("category_descriptions") . " cd ON (c.category_id = cd.category_id AND cd.language_id = '" . $language_id . "')
 									LEFT JOIN " . $this->db->table("categories_to_stores") . " c2s ON (c.category_id = c2s.category_id)

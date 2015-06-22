@@ -272,10 +272,11 @@ if(window.abc_count === undefined){
 			//using local jQuery
 			$ = jQuery;
 			var child = $(obj).children().first();
-			if(child.attr('data-product-id').length>0){
+			if(child.is('[data-product-id]')){
 				abc_populate_product_item(child, w_url);
+			}else if(child.is('[data-category-id]')){
+				abc_populate_categories_item(child, w_url);
 			}
-			//	elseif(child.attr('data-category-id').length>0){} //for future
 		}
 
 		var abc_populate_product_item = function(child, w_url){
@@ -287,6 +288,18 @@ if(window.abc_count === undefined){
 			var target_id = child.attr('id');
 			child.attr('id',target_id);
 			var url = w_url+'&rt=r/embed/js/product&product_id=' + product_id + '&target=' + target_id;
+			abc_process_request(url);
+		}
+
+		var abc_populate_categories_item = function(child, w_url){
+			//using local jQuery
+			$ = jQuery;
+			var category_id = child.attr('data-category-id');
+			var d = new Date();
+			//we need to know where we must to apply result
+			var target_id = child.attr('id');
+			child.attr('id',target_id);
+			var url = w_url+'&rt=r/embed/js/categories&category_id=' + category_id + '&target=' + target_id;
 			abc_process_request(url);
 		}
 

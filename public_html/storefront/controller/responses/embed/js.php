@@ -167,6 +167,55 @@ class ControllerResponsesEmbedJS extends AController {
         //init controller data
         $this->extensions->hk_UpdateData($this,__FUNCTION__);		
 	}
+	/**
+	 * Method fill data into embedded block with category or few categories
+	 */
+	public function categories() {
+		$this->extensions->hk_InitData($this, __FUNCTION__);
+
+		$category_id = (int)$this->request->get['category_id'];
+		if(!$category_id){
+			return null;
+		}
+
+		$this->data['target'] = $this->request->get['target'];
+		if(!$this->data['target']){
+			return null;
+		}
+
+		$this->loadModel('catalog/category');
+
+		$category_info = $this->model_catalog_category->getCategory($category_id);
+
+		//can not locate product? get out
+		if (!$category_info) {
+			return null;
+		}
+
+		$resource = new AResource('image');
+		$category_info['thumbnail'] =  $resource->getMainThumb('categories',
+				$category_id,
+			(int)$this->config->get('config_image_category_width'),
+			(int)$this->config->get('config_image_category_height'),
+		    true);
+
+
+		$this->data['category_details_url'] = $this->html->getURL( 'r/product/category',
+																   '&category_id=' . $category_id);
+
+
+		$this->data['category'] = $category_info;
+
+		$this->view->setTemplate( 'embed/js_categories.tpl' );
+
+		$this->view->batchAssign($this->language->getASet('product/category'));
+		$this->view->batchAssign($this->data);
+		$this->_set_js_http_headers();
+        $this->processTemplate();
+
+        //init controller data
+        $this->extensions->hk_UpdateData($this,__FUNCTION__);
+	}
 
 	public function testCookie() {
 		$this->extensions->hk_InitData($this, __FUNCTION__);
