@@ -57,14 +57,20 @@
 	var buildEmbedCode = function(){
 		var html = '<script src="<?php echo $sf_js_embed_url; ?>" type="text/javascript"></script>\n';
 			html += '<div class="abantecart-widget-container" data-url="<?php echo $sf_base_url; ?>" data-css-url="<?php echo $sf_css_embed_url; ?>">\n';
-			html += '\t<div id="abc_<?php echo (int)(microtime()*1000);?>" class="abantecart_category" data-category-id="<?php echo $category_id; ?>">\n';
 
-		$('#code_options').find('input[type="hidden"]').each(function(){
-			if($(this).val()==1){
-				html += '\t\t'+options[$(this).attr('name')];
-			}
+		var d = new Date();
+		$.each($('div#embed_modal').find("input[name='category_id[]']:checked"), function() {
+		    id = $(this).val();
+			html += '\t<div id="abc_' + (d.getTime() + id) + '" class="abantecart_category" data-category-id="'+ id +'">\n';
+
+			$('#code_options').find('input[type="hidden"]').each(function(){
+				if($(this).val()==1){
+					html += '\t\t'+options[$(this).attr('name')];
+				}
+			});
+			html += '\t</div>\n';
 		});
-		html += '\t</div>\n</div>';
+		html += '</div>';
 		return html;
 	}
 
@@ -75,12 +81,19 @@
 
 
 	$(document).ready(function(){
+
+		$('div#embed_modal').find("input[name='category_id[]']").on('click', function(){
+		var ec = buildEmbedCode();
+			window.abc_count = 0;
+			$('#getEmbedFrm_code_area').val(ec);
+			$("#embed_container" ).html(ec);
+		});
+
 		$('div#embed_modal').find('div.btn_switch').find('button').on('click', function(){
 		var ec = buildEmbedCode();
 			window.abc_count = 0;
 			$('#getEmbedFrm_code_area').val(ec);
 			$("#embed_container" ).html(ec);
-
 		});
 
 		$(".btn-clipboard").click(function(){

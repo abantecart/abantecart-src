@@ -108,6 +108,7 @@ class ControllerResponsesCommonDoEmbed extends AController {
 		if(!has_value($this->request->get['category_id'])){
 			return null;
 		}
+	    $category_id = $this->request->get['category_id'];
         //init controller data
         $this->extensions->hk_InitData($this,__FUNCTION__);
 
@@ -139,6 +140,37 @@ class ControllerResponsesCommonDoEmbed extends AController {
 	    				'name'  => 'products_count',
 	    				'value' => 1,
 	    				'style' => 'btn_switch btn-group-xs',
+	    ));
+
+	    $this->loadModel('catalog/category');
+
+
+	    $category_info = $this->model_catalog_category->getCategory($category_id);
+
+	    if($category_info['parent_id']==0){
+		    $options = $this->model_catalog_category->getCategories(0);
+	    }else{
+		    $options = array($category_id => $category_info);
+	    }
+
+	    $subcategories = $this->model_catalog_category->getCategories($category_id);
+
+	    if( $subcategories ){
+		    $options = array_merge($options,$subcategories);
+	    }
+
+	    foreach($options as $cat){
+		    $opt[$cat['category_id']] = $cat['name'];
+	    }
+
+	    $this->data['fields'][] = $form->getFieldHtml(array(
+	    				'type'  => 'checkboxgroup',
+	    				'name'  => 'category_id[]',
+	    				'value' => $category_id,
+		                'options' => $opt,
+		                'scrollbox' => true,
+		                'style' => 'medium-field'
+
 	    ));
 
 

@@ -173,38 +173,40 @@ class ControllerResponsesEmbedJS extends AController {
 	public function categories() {
 		$this->extensions->hk_InitData($this, __FUNCTION__);
 
-		$category_id = (int)$this->request->get['category_id'];
+		$category_id = (array)$this->request->get['category_id'];
+
 		if(!$category_id){
 			return null;
 		}
 
-		$this->data['target'] = $this->request->get['target'];
-		if(!$this->data['target']){
+		$this->data['targets'] = (array)$this->request->get['target_id'];
+		if(!$this->data['targets']){
 			return null;
 		}
 
 		$this->loadModel('catalog/category');
-
-		$category_info = $this->model_catalog_category->getCategory($category_id);
+		$categories = $this->model_catalog_category->getCategoriesData(array('filter_ids' => $category_id));
 
 		//can not locate product? get out
-		if (!$category_info) {
+		if (!$categories) {
 			return null;
 		}
 
 		$resource = new AResource('image');
-		$category_info['thumbnail'] =  $resource->getMainThumb('categories',
-				$category_id,
-			(int)$this->config->get('config_image_category_width'),
-			(int)$this->config->get('config_image_category_height'),
-		    true);
 
+		foreach($categories as &$category){
 
-		$this->data['category_details_url'] = $this->html->getURL( 'r/product/category',
-																   '&category_id=' . $category_id);
+			$category['thumbnail'] =  $resource->getMainThumb('categories',
+							$category['category_id'],
+						(int)$this->config->get('config_image_category_width'),
+						(int)$this->config->get('config_image_category_height'),
+					    true);
 
+			$category['details_url'] = $this->html->getURL( 'r/product/category', '&category_id=' .$category['category_id']);
 
-		$this->data['category'] = $category_info;
+		}
+
+		$this->data['categories'] = $categories;
 
 		$this->view->setTemplate( 'embed/js_categories.tpl' );
 
