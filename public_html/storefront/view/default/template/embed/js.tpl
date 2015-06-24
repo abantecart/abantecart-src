@@ -276,7 +276,7 @@ if(window.abc_count === undefined){
 			if(child.is('[data-product-id]')){
 				abc_populate_product_item(child, w_url);
 			}else if(child.is('[data-category-id]')){
-				abc_populate_categories_item(child, w_url);
+				abc_populate_categories_items($(obj).children(), w_url);
 			}
 		}
 
@@ -292,15 +292,20 @@ if(window.abc_count === undefined){
 			abc_process_request(url);
 		}
 
-		var abc_populate_categories_item = function(child, w_url){
+		var abc_populate_categories_items = function(children, w_url){
+
 			//using local jQuery
 			$ = jQuery;
-			var category_id = child.attr('data-category-id');
-			var d = new Date();
-			//we need to know where we must to apply result
-			var target_id = child.attr('id');
-			child.attr('id',target_id);
-			var url = w_url+'&rt=r/embed/js/categories&category_id=' + category_id + '&target=' + target_id;
+			var url = w_url+'&rt=r/embed/js/categories';
+			var target_id, category_id;
+
+			$(children).each(function(){
+				if($(this).is('[data-category-id]')){
+					var cid = $(this).attr('data-category-id');
+					url += '&category_id[]=' + cid +'&target_id['+cid+']=' + $(this).attr('id');
+				}
+			})
+
 			abc_process_request(url);
 		}
 

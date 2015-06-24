@@ -70,6 +70,115 @@ class ModelCatalogCategory extends Model {
 		return $cache;
 	}
 
+
+	/**
+	 * @param array $data
+	 * @param string $mode
+	 * @return array|int
+	 */
+	public function getCategoriesData($data, $mode = 'default') {
+
+		if ( $data['language_id'] ) {
+			$language_id = (int)$data['language_id'];
+		} else {
+			$language_id = (int)$this->language->getDefaultLanguageID();
+		}
+
+		if ( $data['store_id'] ) {
+			$store_id = (int)$data['store_id'];
+		} else {
+			$store_id = (int)$this->config->get('config_store_id');
+		}
+
+
+		if ($mode == 'total_only') {
+			$total_sql = 'count(*) as total';
+		}
+		else {
+			$total_sql = "*,
+						  c.category_id,
+						  (SELECT count(*) as cnt
+						  	FROM ".$this->db->table('products_to_categories')." p
+						  	WHERE p.category_id = c.category_id) as products_count ";
+		}
+        $where = (isset($data['parent_id']) ? " c.parent_id = '" . (int)$data['parent_id'] . "'" : '' );
+		//filter result by givem ids array
+		if( $data['filter_ids'] ){
+			$ids = array();
+			foreach( $data['filter_ids']  as $id){
+				$id = (int)$id;
+				if($id){
+					$ids[] = $id;
+				}
+			}
+			$where = " c.category_id IN (".implode(', ',$ids).")";
+		}
+
+		$where = $where ? 'WHERE '.$where : '';
+
+		$sql = "SELECT ". $total_sql ."
+				FROM " . $this->db->table('categories')." c
+				LEFT JOIN " . $this->db->table('category_descriptions')." cd
+					ON (c.category_id = cd.category_id AND cd.language_id = '" . $language_id . "')
+				INNER JOIN " . $this->db->table('categories_to_stores')." cs
+					ON (c.category_id = cs.category_id AND cs.store_id = '" . $store_id . "')
+				" . $where;
+
+		if ( !empty($data['subsql_filter']) ) {
+			$sql .= ($where ? " AND " : 'WHERE ').$data['subsql_filter'];
+		}
+
+		//If for total, we done bulding the query
+		if ($mode == 'total_only') {
+		    $query = $this->db->query($sql);
+		    return $query->row['total'];
+		}
+
+		$sort_data = array(
+		    'name' => 'cd.name',
+		    'status' => 'c.status',
+		    'sort_order' => 'c.sort_order'
+		);
+
+		if (isset($data['sort']) && in_array($data['sort'], array_keys($sort_data)) ) {
+			$sql .= " ORDER BY " . $data['sort'];
+		} else {
+			$sql .= " ORDER BY c.sort_order, cd.name ";
+		}
+
+		if (isset($data['order']) && ($data['order'] == 'DESC')) {
+			$sql .= " DESC";
+		} else {
+			$sql .= " ASC";
+		}
+
+		if (isset($data['start']) || isset($data['limit'])) {
+			if ($data['start'] < 0) {
+				$data['start'] = 0;
+			}
+
+			if ($data['limit'] < 1) {
+				$data['limit'] = 20;
+			}
+
+			$sql .= " LIMIT " . (int)$data['start'] . "," . (int)$data['limit'];
+		}
+
+		$query = $this->db->query($sql);
+		$category_data = array();
+		foreach ($query->rows as $result) {
+			$category_data[] = array(
+				'category_id' => $result['category_id'],
+				'name'    => $result['name'],
+				'status'  	  => $result['status'],
+				'sort_order'  => $result['sort_order'],
+				'products_count'=>$result['products_count']
+
+			);
+		}
+		return $category_data;
+	}
+
 	/**
 	 * @return array
 	 */
