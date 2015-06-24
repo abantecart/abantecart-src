@@ -28,9 +28,7 @@ class ControllerPagesCheckoutCart extends AController {
 		$error_msg = array();
 
 		//is this an embed mode	
-		list($embed_mode) = func_get_args();
-		$embed_mode = $embed_mode['embed'];
-		if($embed_mode == 1){
+		if($this->config->get('embed_mode') == true){
 			//load special headers
 	        $this->addChild('responses/embed/head', 'head');
 	        $this->addChild('responses/embed/footer', 'footer');
@@ -422,7 +420,7 @@ class ControllerPagesCheckoutCart extends AController {
 		    }
 
 			$this->view->assign('error_warning', $error_msg );
-			if($embed_mode){
+			if($this->config->get('embed_mode') == true){
 				$this->view->setTemplate( 'embed/checkout/cart.tpl' );
 			} else {
 				$this->view->setTemplate( 'pages/checkout/cart.tpl' );
@@ -438,7 +436,7 @@ class ControllerPagesCheckoutCart extends AController {
 																			   'href' =>  $this->html->getURL($home_rt),
 																			   'style' => 'button' ));
 
-			if($embed_mode){
+			if($this->config->get('embed_mode') == true){
 				$this->view->setTemplate( 'embed/error/not_found.tpl' );
 			} else {
 	            $this->view->setTemplate( 'pages/error/not_found.tpl' );

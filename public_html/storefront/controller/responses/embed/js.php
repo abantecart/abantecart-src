@@ -67,8 +67,8 @@ class ControllerResponsesEmbedJS extends AController {
 		$this->data['logged'] =  $this->customer->isLogged();
 		$this->data['login'] =  $this->html->getSecureURL('account/login');
 		$this->data['logout'] =  $this->html->getURL('account/logout');
-    	$this->data['cart'] =  $this->html->getURL('checkout/cart');
-		$this->data['checkout'] =  $this->html->getSecureURL('checkout/shipping');
+    	$this->data['cart'] =  $this->html->getURL('r/checkout/cart/embed');
+		$this->data['checkout'] =  $this->html->getSecureURL('r/checkout/shipping');
 
 		$this->view->setTemplate( 'embed/js.tpl' );
 		$this->view->batchAssign($this->data);

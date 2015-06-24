@@ -203,6 +203,7 @@ if(window.abc_count === undefined){
 			
 			$('#abc_embed_modal').on('click', '.abcmodal-reload', function (e) {
 				loadIframe( $(this).attr('data-href') );
+				return false;
 			});
 			
 			$('#abc_embed_modal').on('shown.bs.abcmodal', function (e) {

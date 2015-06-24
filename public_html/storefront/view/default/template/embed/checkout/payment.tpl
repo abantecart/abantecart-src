@@ -1,3 +1,4 @@
+<?php echo $head; ?>
 <h1 class="heading1">
   <span class="maintext"><i class="fa fa-credit-card"></i> <?php echo $heading_title; ?></span>
   <span class="subtext"></span>
@@ -17,7 +18,7 @@
 </div>
 <?php } ?>
 
-<div class="contentpanel">
+<div class="embed_contentpanel">
 
 	<h4 class="heading4"><?php echo $text_payment_address; ?></h4>
 	<div class="registerbox">
@@ -107,7 +108,6 @@
     		</div>
 		</div>			
 	</div>
-	
 	</form>
-		
 </div>
+<?php echo $footer; ?>

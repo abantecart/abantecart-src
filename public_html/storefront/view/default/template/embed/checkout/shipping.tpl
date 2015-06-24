@@ -1,3 +1,4 @@
+<?php echo $head; ?>
 <h1 class="heading1">
   <span class="maintext"><i class="fa fa-truck"></i> <?php echo $heading_title; ?></span>
   <span class="subtext"></span>
@@ -17,7 +18,7 @@
 </div>
 <?php } ?>
 
-<div class="contentpanel">
+<div class="embed_contentpanel">
 
 	<?php echo $form['form_open'];?>
 	<h4 class="heading4"><?php echo $text_shipping_address; ?></h4>
@@ -82,11 +83,7 @@
 	
 	<?php echo $this->getHookVar('order_attributes'); ?>
 	
-	<h4 class="heading4"><?php echo $text_comments; ?></h4>	
 	<div class="registerbox">		
-		<div class="content">
-			<?php echo $form['comment']; ?>
-     	</div>
 		<div class="form-group">
     		<div class="col-md-12 mt20 mb20">
     			<?php echo $this->getHookVar('buttons_pre'); ?>
@@ -97,3 +94,4 @@
 	</div>
 	</form>
 </div>
+<?php echo $footer; ?>
