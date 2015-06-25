@@ -336,15 +336,18 @@ class ControllerPagesToolPackageInstaller extends AController {
 		$this->loadModel('tool/mp_api');
 
 		if($extension_key) {
-			//need to mp token to get download based on key.
-			$mp_token = $this->config->get('mp_token');
-			if (!$mp_token) {
-				$this->session->data['error'] = sprintf($this->language->get('error_notconnected'), $this->html->getSecureURL('extension/extensions_store'));
-				$this->redirect($this->_get_begin_href());			
-			} 
-			if( substr($extension_key,0,4) == 'acmp' ){ // if prefix for new mp presents
+			// if prefix for new mp presents
+			if( substr($extension_key,0,4) == 'acmp' ){
+				//need to mp token to get download based on key.
+				$mp_token = $this->config->get('mp_token');
+				if (!$mp_token) {
+					$this->session->data['error'] = sprintf($this->language->get('error_notconnected'), $this->html->getSecureURL('extension/extensions_store'));
+					$this->redirect($this->_get_begin_href());
+				}
 				$url = $this->model_tool_mp_api->getMPURL().'?rt=r/account/download/getdownloadbykey';
-			}else{ // for upgrades
+
+			// for upgrades of core
+			}else{
 				$url = "/?option=com_abantecartrepository&format=raw";
 			}
 			$url .= "&mp_token=".$mp_token;
