@@ -105,10 +105,9 @@ class ControllerResponsesCommonDoEmbed extends AController {
 	}
 
   	public function categories() {
-		if(!has_value($this->request->get['category_id'])){
-			return null;
-		}
-	    $category_id = $this->request->get['category_id'];
+
+	    //this var can be an array
+	    $category_id = (array) $this->request->get['category_id'];
         //init controller data
         $this->extensions->hk_InitData($this,__FUNCTION__);
 
@@ -144,16 +143,25 @@ class ControllerResponsesCommonDoEmbed extends AController {
 
 	    $this->loadModel('catalog/category');
 
-
-	    $category_info = $this->model_catalog_category->getCategory($category_id);
-
-	    if($category_info['parent_id']==0){
-		    $options = $this->model_catalog_category->getCategories(0);
+	    if(sizeof($category_id)==1 ){
+		    $category_info = $this->model_catalog_category->getCategory( current($category_id) );
+		    $subcategories = $this->model_catalog_category->getCategories($category_id);
+		    if($category_info['parent_id']==0){
+			    $options = $this->model_catalog_category->getCategories(0);
+		    }
+	    }else if(!sizeof($category_id)){
+		    $options = $this->model_catalog_category->getCategoriesData(array('parent_id' => 0));
+		    $category_id = array();
+		    foreach($options as $c){
+			    $category_id[] = $c['category_id'];
+		    }
 	    }else{
-		    $options = array($category_id => $category_info);
+		    foreach($category_id as &$c){
+				$c = (int)$c;
+			}unset($c);
+		    $subsql = ' c.category_id IN ('.implode(',',$category_id).') ';
+		    $options = $this->model_catalog_category->getCategoriesData(array('subsql_filter' => $subsql));
 	    }
-
-	    $subcategories = $this->model_catalog_category->getCategories($category_id);
 
 	    if( $subcategories ){
 		    $options = array_merge($options,$subcategories);

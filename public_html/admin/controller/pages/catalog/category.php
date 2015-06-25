@@ -87,6 +87,7 @@ class ControllerPagesCatalogCategory extends AController {
 								'text' => $this->language->get('button_delete'),
 						)
 				),
+				'grid_ready' => 'grid_ready(data);'
 		);
 
 		$grid_settings['colNames'] = array(
@@ -189,6 +190,9 @@ class ControllerPagesCatalogCategory extends AController {
 		$grid_settings['search_form'] = true;
 
 		$grid = $this->dispatch('common/listing_grid', array($grid_settings));
+
+		$this->view->assign('embed_url', $this->html->getSecureURL( 'common/do_embed/categories' ));
+
 		$this->view->assign('listing_grid', $grid->dispatchGetOutput());
 		$this->view->assign('search_form', $grid_search_form);
 		$this->view->assign('grid_url', $this->html->getSecureURL('listing_grid/category'));

@@ -185,7 +185,7 @@ class ControllerResponsesEmbedJS extends AController {
 		}
 
 		$this->loadModel('catalog/category');
-		$categories = $this->model_catalog_category->getCategoriesData(array('filter_ids' => $category_id));
+		$categories = $this->model_catalog_category->getCategoriesData(array('filter_ids' => $category_id, 'subsql_filter' => ' c.status=1'));
 
 		//can not locate product? get out
 		if (!$categories) {

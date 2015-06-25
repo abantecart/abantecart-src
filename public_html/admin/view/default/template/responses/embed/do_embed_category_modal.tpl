@@ -13,11 +13,11 @@
 			<?php echo $form['form_open']; ?>
 				<?php foreach ($fields as $field) {
 				$widthclass = 'col-sm-6 col-xs-12';
-				?>
+				$label = ${'entry_' . str_replace(array('[', ']'), '', $field->name)};		?>
 				<div class="form-group">
-					<?php if(${'entry_' . $field->name}){?>
+					<?php if($label){?>
 					<label class="control-label col-md-6 col-xs-12" for="<?php echo $field->element_id; ?>">
-						<?php echo ${'entry_' . $field->name}; ?>
+						<?php echo $label; ?>
 					</label>
 					<?php }else{
 						$widthclass = 'col-sm-12 col-xs-12';
@@ -102,10 +102,6 @@
         });
 
 	});
-
-
-
-
 
 //--></script>
 
