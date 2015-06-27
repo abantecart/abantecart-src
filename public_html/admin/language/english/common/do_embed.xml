@@ -9,6 +9,10 @@
     	<value><![CDATA[Category Embed Code]]></value>
   	</definition>
   	<definition>
+    	<key>text_get_manufacturer_embed_code</key>
+    	<value><![CDATA[Manufacturer Embed Code]]></value>
+  	</definition>
+  	<definition>
     	<key>entry_image</key>
     	<value><![CDATA[Show Image]]></value>
   	</definition>

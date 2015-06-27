@@ -80,6 +80,7 @@ class ControllerPagesCatalogManufacturer extends AController {
                     'text' => $this->language->get('button_delete'),
                 )
             ),
+            'grid_ready' => 'grid_ready(data);'
 		);
 
         $grid_settings['colNames'] = array(
@@ -113,6 +114,8 @@ class ControllerPagesCatalogManufacturer extends AController {
 
         $grid = $this->dispatch('common/listing_grid', array( $grid_settings ) );
 		$this->view->assign('listing_grid', $grid->dispatchGetOutput());
+
+	    $this->view->assign('embed_url', $this->html->getSecureURL( 'common/do_embed/manufacturers' ));
 
 		$this->document->setTitle( $this->language->get('heading_title') );
 		$this->view->assign( 'insert', $this->html->getSecureURL('catalog/manufacturer/insert') );

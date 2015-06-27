@@ -277,6 +277,8 @@ if(window.abc_count === undefined){
 				abc_populate_product_item(child, w_url);
 			}else if(child.is('[data-category-id]')){
 				abc_populate_categories_items($(obj).children(), w_url);
+			}else if(child.is('[data-manufacturer-id]')){
+				abc_populate_manufacturers_items($(obj).children(), w_url);
 			}
 		}
 
@@ -303,6 +305,22 @@ if(window.abc_count === undefined){
 				if($(this).is('[data-category-id]')){
 					var cid = $(this).attr('data-category-id');
 					url += '&category_id[]=' + cid +'&target_id['+cid+']=' + $(this).attr('id');
+				}
+			})
+
+			abc_process_request(url);
+		}
+		var abc_populate_manufacturers_items = function(children, w_url){
+
+			//using local jQuery
+			$ = jQuery;
+			var url = w_url+'&rt=r/embed/js/manufacturers';
+			var target_id, manufacturer_id;
+
+			$(children).each(function(){
+				if($(this).is('[data-manufacturer-id]')){
+					var cid = $(this).attr('data-manufacturer-id');
+					url += '&manufacturer_id[]=' + cid +'&target_id['+cid+']=' + $(this).attr('id');
 				}
 			})
 

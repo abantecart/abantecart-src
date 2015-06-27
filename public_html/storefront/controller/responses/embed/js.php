@@ -187,7 +187,7 @@ class ControllerResponsesEmbedJS extends AController {
 		$this->loadModel('catalog/category');
 		$categories = $this->model_catalog_category->getCategoriesData(array('filter_ids' => $category_id, 'subsql_filter' => ' c.status=1'));
 
-		//can not locate product? get out
+		//can not locate categories? get out
 		if (!$categories) {
 			return null;
 		}
@@ -211,6 +211,62 @@ class ControllerResponsesEmbedJS extends AController {
 		$this->view->setTemplate( 'embed/js_categories.tpl' );
 
 		$this->view->batchAssign($this->language->getASet('product/category'));
+		$this->view->batchAssign($this->data);
+		$this->_set_js_http_headers();
+        $this->processTemplate();
+
+        //init controller data
+        $this->extensions->hk_UpdateData($this,__FUNCTION__);
+	}
+	/**
+	 * Method fill data into embedded block with manufacturer or few manufacturers
+	 */
+	public function manufacturers() {
+		$this->extensions->hk_InitData($this, __FUNCTION__);
+
+		$manufacturer_id = (array)$this->request->get['manufacturer_id'];
+
+		if(!$manufacturer_id){
+			return null;
+		}else{
+			foreach( $manufacturer_id  as &$id){
+				$id = (int)$id;
+			}
+			unset($id);
+		}
+
+		$this->data['targets'] = (array)$this->request->get['target_id'];
+		if(!$this->data['targets']){
+			return null;
+		}
+
+		$this->loadModel('catalog/manufacturer');
+		$manufacturers = $this->model_catalog_manufacturer->getManufacturersData(array('subsql_filter' => ' m.manufacturer_id IN ('.implode(',',$manufacturer_id).')'));
+
+		//can not locate manufacturers? get out
+		if (!$manufacturers) {
+			return null;
+		}
+
+		$resource = new AResource('image');
+
+		foreach($manufacturers as &$manufacturer){
+
+			$manufacturer['thumbnail'] =  $resource->getMainThumb('manufacturers',
+							$manufacturer['manufacturer_id'],
+						(int)$this->config->get('config_image_grid_width'),
+						(int)$this->config->get('config_image_grid_height'),
+					    true);
+
+			$manufacturer['details_url'] = $this->html->getURL( 'r/product/manufacturer', '&manufacturer_id=' .$manufacturer['manufacturer_id']);
+
+		}
+
+		$this->data['manufacturers'] = $manufacturers;
+
+		$this->view->setTemplate( 'embed/js_manufacturers.tpl' );
+
+		$this->view->batchAssign($this->language->getASet('product/manufacturer'));
 		$this->view->batchAssign($this->data);
 		$this->_set_js_http_headers();
         $this->processTemplate();
