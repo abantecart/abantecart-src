@@ -28,50 +28,49 @@ class ControllerCommonMenu extends AController {
 
 		$this->loadLanguage('common/header');
 
-		$cache_name = 'admin_menu';
-		//$this->data['menu_items'] = $this->cache->get($cache_name);
-		if (!$this->data['menu_items']) {
-			$menu = new ADataset ('menu', 'admin');
-			$this->data['menu_items'] = $menu->getRows();
-			// need to resort by sort_order property and exlude disabled extension items
-			$enabled_extension = $this->extensions->getEnabledExtensions();
+		$menu = new ADataset ('menu', 'admin');
+		$this->data['menu_items'] = $menu->getRows();
 
-			$offset = 0; // it needs for process repeating order numbers
-			$tmp = array();
-			foreach ($this->data['menu_items'] as $i => $item) {
-				if ($i > 0) {
-					if ($this->data['menu_items'][ $i - 1 ]['parent_id'] != $item ['parent_id']) {
-						$offset = 0;
+		//use to update data before render
+		$this->extensions->hk_ProcessData($this);
+
+		// need to resort by sort_order property and exlude disabled extension items
+		$enabled_extension = $this->extensions->getEnabledExtensions();
+
+		$offset = 0; // it needs for process repeating order numbers
+		$tmp = array();
+		foreach ($this->data['menu_items'] as $i => $item) {
+			if ($i > 0) {
+				if ($this->data['menu_items'][ $i - 1 ]['parent_id'] != $item ['parent_id']) {
+					$offset = 0;
+				}
+			}
+			//checks for disabled extension
+			if ($item ['item_type'] == 'extension') {
+
+				// looks for this name in enabled extensions list. if is not there - skip it
+				if (!$this->_find_itemId_in_extensions($item ['item_id'], $enabled_extension)) {
+					continue;
+				} else { // if all fine - loads language of extension for menu item text show
+					if (strpos($item ['item_url'], 'http') === false) {
+						$this->loadLanguage($item ['item_id'] . '/' . $item ['item_id'], 'silent');
+						$item['language'] = $item ['item_id'] . '/' . $item ['item_id'];
 					}
 				}
-				//checks for disabled extension
-				if ($item ['item_type'] == 'extension') {
-
-					// looks for this name in enabled extensions list. if is not there - skip it
-					if (!$this->_find_itemId_in_extensions($item ['item_id'], $enabled_extension)) {
-						continue;
-					} else { // if all fine - loads language of extension for menu item text show
-						if (strpos($item ['item_url'], 'http') === false) {
-							$this->loadLanguage($item ['item_id'] . '/' . $item ['item_id'], 'silent');
-							$item['language'] = $item ['item_id'] . '/' . $item ['item_id'];
-						}
-					}
-				}
-				if (isset ($tmp [ $item ['parent_id'] ] [ $item ['sort_order'] ])) {
-					$offset++;
-				}
-
-				$tmp [ $item ['parent_id'] ] [ $item ['sort_order'] + $offset ] = $item;
 			}
-			$this->data['menu_items'] = array();
-			foreach ($tmp as $item) {
-				ksort($item);
-				$this->data['menu_items'] = array_merge($this->data['menu_items'], $item);
+			if (isset ($tmp [ $item ['parent_id'] ] [ $item ['sort_order'] ])) {
+				$offset++;
 			}
-			unset ($tmp);
-			// now set menu array
-			$this->cache->set($cache_name, $this->data['menu_items']);
+
+			$tmp [ $item ['parent_id'] ] [ $item ['sort_order'] + $offset ] = $item;
 		}
+		$this->data['menu_items'] = array();
+		foreach ($tmp as $item) {
+			ksort($item);
+			$this->data['menu_items'] = array_merge($this->data['menu_items'], $item);
+		}
+		unset ($tmp);
+
 
 		$this->view->assign('menu_html',  renderAdminMenu(
 										$this->_buildMenuArray($this->data['menu_items']),
