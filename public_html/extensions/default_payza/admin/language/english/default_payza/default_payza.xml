@@ -49,14 +49,6 @@ With this extension you can use Payza IPN v1 system to accept payments from your
 		<key>default_payza_location_id</key>
 		<value><![CDATA[Location:]]></value>
 	</definition>
-	<definition>
-		<key>default_payza_status</key>
-		<value><![CDATA[Status:]]></value>
-	</definition>
-	<definition>
-		<key>default_payza_sort_order</key>
-		<value><![CDATA[Sort Order:<br /><span class="help">Number to indicate display position of this payment in relation to over enabled payments </span>]]></value>
-	</definition>
   	<definition>
     	<key>default_payza_autoselect</key>
     	<value><![CDATA[Auto Select:<br /><span class="help">You can set to skip payment selection page if there is only one payment option. This payment method will be selected automatically</span>]]></value>

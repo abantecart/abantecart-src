@@ -18,10 +18,6 @@
 			<![CDATA[Fedex Key:<br /><span class="help">Enter the Fedex Key Assigned to You, Required.</span>]]></value>
 	</definition>
 	<definition>
-		<key>default_fedex_status</key>
-		<value><![CDATA[Estado:]]></value>
-	</definition>
-	<definition>
 		<key>default_fedex_password</key>
 		<value><![CDATA[Fedex Password:<br /><span class="help"></span>]]></value>
 	</definition>
@@ -97,10 +93,6 @@
 	<definition>
 		<key>default_fedex_default_fedex_us_06</key>
 		<value><![CDATA[ FEDEX Ground  ]]></value>
-	</definition>
-	<definition>
-		<key>default_fedex_sort_order</key>
-		<value><![CDATA[Sort Order:]]></value>
 	</definition>
 	<definition>
 		<key>default_fedex_autoselect</key>

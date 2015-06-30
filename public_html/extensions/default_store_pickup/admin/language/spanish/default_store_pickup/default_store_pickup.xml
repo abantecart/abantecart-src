@@ -21,14 +21,6 @@
     <value><![CDATA[Todos las Localidades]]></value>
   </definition>
   <definition>
-    <key>default_store_pickup_status</key>
-    <value><![CDATA[Estado:]]></value>
-  </definition>
-  <definition>
-    <key>default_store_pickup_sort_order</key>
-    <value><![CDATA[Orden:]]></value>
-  </definition>
-  <definition>
     <key>default_store_pickup_autoselect</key>
     <value><![CDATA[Selección automática:<br /><span class="help">Se puede configurar para que omita página de envío selección si sólo hay una opción de envío. Este método de envío se seleccionará automáticamente</span>]]></value>  
   </definition>

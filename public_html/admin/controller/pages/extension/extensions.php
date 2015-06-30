@@ -352,19 +352,19 @@ class ControllerPagesExtensionExtensions extends AController {
 			$data['value'] = $item['value'];
 			$data['required'] = (bool)$item['required'];
 
-			if($item[ 'note' ]){
-				$data[ 'note' ] = $item[ 'note' ];
+			if($item['note']){
+				$data['note'] = $item['note'];
 			} else {
-				$note_text = $this->language->get($data[ 'name' ]);
+				$note_text = $this->language->get($data['name']);
 				// if text definition not found - seek it in default settings definitions
-				if ($note_text == $data[ 'name' ]) {
-					$new_text_key = str_replace($extension . '_','text_',$data[ 'name' ]);
-					$note_text = $this->language->get($new_text_key);
+				if ($note_text == $data['name']) {
+					$new_text_key = str_replace($extension . '_','text_',$data['name']);
+					$note_text = $this->language->get($new_text_key, 'extension/extensions');
 					if ($note_text == $new_text_key) {
 						$note_text = $this->language->get($new_text_key.'_'.$this->data['extension_info']['type']);
 					}
 				}
-				$data[ 'note' ] = $note_text;
+				$data['note'] = $note_text;
 			}
 
 			if ($item['style']) {
@@ -401,7 +401,7 @@ class ControllerPagesExtensionExtensions extends AController {
 					}
 				    if($data['type']=='checkboxgroup' || $data['type']=='multiselectbox'){
 						#custom settings for multivalue
-						$data[ 'scrollbox' ] = 'true';
+						$data['scrollbox'] = 'true';
 						if(substr($item['name'],-2)!='[]'){
 							$data['name'] = $item['name']."[]";
 						}

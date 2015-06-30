@@ -17,10 +17,6 @@
     <value><![CDATA[Статус:]]></value>
   </definition>
   <definition>
-    <key>encryption_data_manager_status</key>
-    <value><![CDATA[Статус:]]></value>
-  </definition>
-  <definition>
     <key>entry_sort_order</key>
     <value><![CDATA[Порядок сортировки:]]></value>
   </definition>

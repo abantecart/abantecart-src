@@ -57,15 +57,6 @@
 		<value><![CDATA[Географическая зона:]]></value>
 	</definition>
 	<definition>
-		<key>default_liqpay_status</key>
-		<value><![CDATA[Статус:]]></value>
-	</definition>
-	<definition>
-		<key>default_liqpay_sort_order</key>
-		<value>
-			<![CDATA[Порядок сортировки:<br /><span class="help">Номер указывающий позицию отображения этого способа оплаты наряду с другими</span>]]></value>
-	</definition>
-	<definition>
 		<key>default_liqpay_autoselect</key>
 		<value>
 			<![CDATA[Автоматический выбор: <br /><span class="help">Включить, чтобы пропустить страницу выбора способа оплаты, если есть только один вариант оплаты. Этот метод оплаты будет выбран автоматически</span>]]></value>

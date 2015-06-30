@@ -5,10 +5,6 @@
 		<value><![CDATA[UPS]]></value>
 	</definition>
 	<definition>
-		<key>default_ups_status</key>
-		<value><![CDATA[Status:]]></value>
-	</definition>
-	<definition>
 		<key>heading_title</key>
 		<value><![CDATA[UPS]]></value>
 	</definition>
@@ -300,10 +296,6 @@
 	<definition>
 		<key>entry_location</key>
 		<value><![CDATA[Location:]]></value>
-	</definition>
-	<definition>
-		<key>entry_sort_order</key>
-		<value><![CDATA[Sort Order:]]></value>
 	</definition>
 	<definition>
 		<key>error_permission</key>

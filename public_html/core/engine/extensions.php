@@ -207,7 +207,7 @@ class ExtensionsApi {
 	 */
 	protected $extensions_dir;
 	/**
-	 * @var $enabled_extensions - array of enabled extensions folders
+	 * @var $enabled_extensions - array of enabled extensions
 	 */
 	protected $enabled_extensions;
 	/**
@@ -496,6 +496,10 @@ class ExtensionsApi {
 		return $this->missing_extensions;
 	}
 
+	/*
+		Get an array of all enabled extensions.
+		NOTE: In admin all installed extensions are concedered to be enabled
+	*/
 	public function getEnabledExtensions() {
 		return $this->enabled_extensions;
 	}

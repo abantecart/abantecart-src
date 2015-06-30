@@ -5,10 +5,6 @@
 		<value><![CDATA[Gerente de Formularios]]></value>
 	</definition>
 	<definition>
-		<key>forms_manager_status</key>
-		<value><![CDATA[Estado:]]></value>
-	</definition>
-	<definition>
 		<key>forms_manager_default_email</key>
 		<value><![CDATA[Email predeterminada de controlador Nombre:]]></value>
 	</definition>

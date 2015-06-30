@@ -33,14 +33,6 @@
     <value><![CDATA[Все местоположения]]></value>
   </definition>
   <definition>
-    <key>default_per_item_shipping_status</key>
-    <value><![CDATA[Статус:]]></value>
-  </definition>
-  <definition>
-    <key>default_per_item_shipping_sort_order</key>
-    <value><![CDATA[Порядок сортировки:]]></value>
-  </definition>
-  <definition>
     <key>default_per_item_shipping_autoselect</key>
     <value><![CDATA[Автоматический выбор:<br /><span class="help">Включить, чтобы пропустить по страницу выбора доставки, если есть только один вариант доставки. Этот метод доставка будет выбран автоматически</span>]]></value>
   </definition>

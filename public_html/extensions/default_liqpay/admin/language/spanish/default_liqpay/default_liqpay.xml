@@ -53,20 +53,12 @@
 		<value><![CDATA[Todas las localidades]]></value>
 	</definition>
 	<definition>
-		<key>default_liqpay_status</key>
-		<value><![CDATA[Estado:]]></value>
-	</definition>
-	<definition>
 		<key>default_liqpay_type_pay</key>
 		<value><![CDATA[Pay]]></value>
 	</definition>
 	<definition>
 		<key>default_liqpay_type_card</key>
 		<value><![CDATA[Card]]></value>
-	</definition>
-	<definition>
-		<key>default_liqpay_sort_order</key>
-		<value><![CDATA[Orden:]]></value>
 	</definition>
   	<definition>
     	<key>default_liqpay_autoselect</key>

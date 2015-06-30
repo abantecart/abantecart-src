@@ -5,10 +5,6 @@
 		<value><![CDATA[PayPal Express Checkout]]></value>
 	</definition>
 	<definition>
-		<key>default_pp_express_status</key>
-		<value><![CDATA[Payment Extension Status]]></value>
-	</definition>
-	<definition>
 		<key>text_success</key>
 		<value><![CDATA[Success: You have modified PayPal account details!]]></value>
 	</definition>
@@ -67,10 +63,6 @@
 	<definition>
 		<key>default_pp_express_location_id_0</key>
 		<value><![CDATA[All Locations]]></value>
-	</definition>
-	<definition>
-		<key>default_pp_express_sort_order</key>
-		<value><![CDATA[Sort Order:<br /><span class="help">Number to indicate display position of this payment in relation to over enabled payments </span>]]></value>
 	</definition>
 	<definition>
 		<key>default_pp_express_autoselect</key>

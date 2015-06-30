@@ -13,10 +13,6 @@
 		<value><![CDATA[Success: You have modified shipping FEDEX!]]></value>
 	</definition>
 	<definition>
-		<key>default_fedex_status</key>
-		<value><![CDATA[Status]]></value>
-	</definition>
-	<definition>
 		<key>default_fedex_key</key>
 		<value>
 			<![CDATA[Fedex Production Key:<br /><span class="help">Enter the Fedex Production Key Assigned to You, Required. </span>]]></value>
@@ -95,10 +91,6 @@
 	<definition>
 		<key>default_fedex_default_fedex_us_06</key>
 		<value><![CDATA[ FEDEX Ground  ]]></value>
-	</definition>
-	<definition>
-		<key>default_fedex_sort_order</key>
-		<value><![CDATA[Sort Order:]]></value>
 	</definition>
 	<definition>
 		<key>default_fedex_autoselect</key>

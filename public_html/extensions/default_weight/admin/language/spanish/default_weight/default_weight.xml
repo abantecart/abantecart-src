@@ -33,10 +33,6 @@
     <value><![CDATA[Location:]]></value>
   </definition>
   <definition>
-    <key>default_weight_status</key>
-    <value><![CDATA[Status:]]></value>
-  </definition>
-  <definition>
     <key>entry_sort_order</key>
     <value><![CDATA[Sort Order:]]></value>
   </definition>

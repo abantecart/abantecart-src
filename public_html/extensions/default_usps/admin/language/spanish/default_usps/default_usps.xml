@@ -5,10 +5,6 @@
 		<value><![CDATA[United States Postal Service]]></value>
 	</definition>
 	<definition>
-		<key>default_usps_status</key>
-		<value><![CDATA[Status:]]></value>
-	</definition>
-	<definition>
 		<key>text_shipping</key>
 		<value><![CDATA[Envío]]></value>
 	</definition>

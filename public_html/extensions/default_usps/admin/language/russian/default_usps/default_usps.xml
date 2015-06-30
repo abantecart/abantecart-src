@@ -5,10 +5,6 @@
 		<value><![CDATA[Почтовая служба Соединенных Штатов]]></value>
 	</definition>
 	<definition>
-		<key>default_usps_status</key>
-		<value><![CDATA[Статус:]]></value>
-	</definition>
-	<definition>
 		<key>text_shipping</key>
 		<value><![CDATA[Доставка]]></value>
 	</definition>

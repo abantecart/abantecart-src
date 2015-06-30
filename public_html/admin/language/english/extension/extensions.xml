@@ -299,11 +299,11 @@
 	</definition>
 	<definition>
 		<key>text_status</key>
-		<value><![CDATA[Status]]></value>
+		<value><![CDATA[Status:<span class="help">This is to control storefront extension status.</span>]]></value>
 	</definition>
 	<definition>
 		<key>text_sort_order</key>
-		<value><![CDATA[Sort Order]]></value>
+		<value><![CDATA[Sort Order:<span class="help">Number to set display position for this extension in relation to other enabled extensions. (Sorting is from lower to higher number, ignoring 0 and empty values) </span>]]></value>
 	</definition>
 	<definition>
 		<key>text_payment_minimum_total</key>
@@ -323,15 +323,15 @@
 	</definition>
 	<definition>
 	    <key>text_autoselect_payment</key>
-	    <value><![CDATA[Auto Select:<br /><span class="help">You can set to skip payment selection page if there is only one payment option. This payment method will be selected automatically</span>]]></value>
+	    <value><![CDATA[Auto Select:<span class="help">You can set to skip payment selection page if there is only one payment option. This payment method will be selected automatically</span>]]></value>
 	</definition>
 	<definition>
 	    <key>text_autoselect_shipping</key>
-	    <value><![CDATA[Auto Select:<br /><span class="help">You can set to skip shipping selection page if there is only one shipping option. This shipping method will be selected automatically</span>]]></value>
+	    <value><![CDATA[Auto Select:<span class="help">You can set to skip shipping selection page if there is only one shipping option. This shipping method will be selected automatically</span>]]></value>
 	</definition>
 	<definition>
 	    <key>text_accept_payments_shipping</key>
-	    <value><![CDATA[Accept these payments:<br /><span class="help">If only specific payment methods are needed for this shipping method, select them here. If nothing selected, all available payment methods will be shown</span>]]></value>
+	    <value><![CDATA[Accept these payments:<span class="help">If only specific payment methods are needed for this shipping method, select them here. If nothing selected, all available payment methods will be shown</span>]]></value>
 	</definition>
 	<definition>
 	    <key>text_ready_to_install</key>

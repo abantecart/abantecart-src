@@ -17,14 +17,6 @@
     <value><![CDATA[Статистика Баннеров]]></value>
   </definition>
   <definition>
-    <key>banner_manager_status</key>
-    <value><![CDATA[Статус]]></value>
-  </definition>
-  <definition>
-    <key>banner_manager_sort_order</key>
-    <value><![CDATA[Порядок сортировки]]></value>
-  </definition>
-  <definition>
     <key>column_banner_id</key>
     <value><![CDATA[Id]]></value>
   </definition>
