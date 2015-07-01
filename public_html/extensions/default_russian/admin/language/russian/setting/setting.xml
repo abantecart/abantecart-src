@@ -843,4 +843,24 @@
 		<key>text_clone_template</key>
 		<value><![CDATA[Clone Template With AbanteCart Developer Tools]]></value>
 	</definition>
+	<definition>
+		<key>entry_embed_status</key>
+		<value><![CDATA[Внедрение Витрины:]]></value>
+	</definition>
+	<definition>
+		<key>entry_embed_click_action</key>
+		<value><![CDATA[Действие по клику внутри внедрения:]]></value>
+	</definition>
+	<definition>
+		<key>text_embed_click_action_modal</key>
+		<value><![CDATA[Модальное окно (без перегрузки)]]></value>
+	</definition>
+	<definition>
+		<key>text_embed_click_action_new_window</key>
+		<value><![CDATA[Новое окно]]></value>
+	</definition>
+	<definition>
+		<key>text_embed_click_action_same_window</key>
+		<value><![CDATA[То же Окно]]></value>
+	</definition>
 </definitions>

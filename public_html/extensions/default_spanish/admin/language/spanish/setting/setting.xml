@@ -834,5 +834,25 @@
 	<definition>
 		<key>text_clone_template</key>
 		<value><![CDATA[Clone Template With AbanteCart Developer Tools]]></value>
-	</definition>	
+	</definition>
+	<definition>
+		<key>entry_embed_status</key>
+		<value><![CDATA[Habilitar Delante Tienda Incrustación:]]></value>
+	</definition>
+	<definition>
+		<key>entry_embed_click_action</key>
+		<value><![CDATA[Insertar Haga clic en Acción:]]></value>
+	</definition>
+	<definition>
+		<key>text_embed_click_action_modal</key>
+		<value><![CDATA[Modal (misma ventana)]]></value>
+	</definition>
+	<definition>
+		<key>text_embed_click_action_new_window</key>
+		<value><![CDATA[Nueva Ventana]]></value>
+	</definition>
+	<definition>
+		<key>text_embed_click_action_same_window</key>
+		<value><![CDATA[La Misma Ventana]]></value>
+	</definition>
 </definitions>

@@ -190,8 +190,9 @@ class ControllerPagesCatalogCategory extends AController {
 		$grid_settings['search_form'] = true;
 
 		$grid = $this->dispatch('common/listing_grid', array($grid_settings));
-
-		$this->view->assign('embed_url', $this->html->getSecureURL( 'common/do_embed/categories' ));
+		if( $this->config->get('config_embed_status') ){
+			$this->view->assign('embed_url', $this->html->getSecureURL('common/do_embed/categories'));
+		}
 
 		$this->view->assign('listing_grid', $grid->dispatchGetOutput());
 		$this->view->assign('search_form', $grid_search_form);
@@ -467,7 +468,7 @@ class ControllerPagesCatalogCategory extends AController {
 		$this->data['category_tabs'] = $tabs_obj->dispatchGetOutput();
 		unset($tabs_obj);
 
-		if( $category_id ){
+		if( $category_id && $this->config->get('config_embed_status')){
 			$this->data['embed_url'] = $this->html->getSecureURL( 'common/do_embed/categories', '&category_id='.$category_id );
 		}
 

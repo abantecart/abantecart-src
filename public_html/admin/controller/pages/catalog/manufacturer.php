@@ -115,7 +115,9 @@ class ControllerPagesCatalogManufacturer extends AController {
         $grid = $this->dispatch('common/listing_grid', array( $grid_settings ) );
 		$this->view->assign('listing_grid', $grid->dispatchGetOutput());
 
-	    $this->view->assign('embed_url', $this->html->getSecureURL( 'common/do_embed/manufacturers' ));
+		if( $this->config->get('config_embed_status') ){
+		    $this->view->assign('embed_url', $this->html->getSecureURL('common/do_embed/manufacturers'));
+	    }
 
 		$this->document->setTitle( $this->language->get('heading_title') );
 		$this->view->assign( 'insert', $this->html->getSecureURL('catalog/manufacturer/insert') );
@@ -166,8 +168,9 @@ class ControllerPagesCatalogManufacturer extends AController {
 			$this->redirect($this->html->getSecureURL('catalog/manufacturer/update', '&manufacturer_id=' . $this->request->get['manufacturer_id'] ));
 		}
 
-
-	    $this->view->assign('embed_url', $this->html->getSecureURL( 'common/do_embed/manufacturers', '&manufacturer_id='. $this->request->get['manufacturer_id'] ));
+		if( $this->config->get('config_embed_status')){
+			$this->view->assign('embed_url', $this->html->getSecureURL('common/do_embed/manufacturers', '&manufacturer_id=' . $this->request->get['manufacturer_id']));
+		}
     	$this->_getForm();
 
         //update controller data

@@ -851,7 +851,7 @@ class ControllerPagesCatalogProduct extends AController {
 		));
 
 		$this->data['product_id'] = $product_id;
-	    if($product_id){
+	    if($product_id && $this->config->get('config_embed_status')){
 		    $this->data['embed_url'] = $this->html->getSecureURL('common/do_embed/product', '&product_id='.$product_id);
 	    }
 

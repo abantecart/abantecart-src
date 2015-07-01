@@ -1580,6 +1580,8 @@ INSERT INTO `ac_settings` (`group`, `key`, `value`) VALUES
 ('general','config_download',1),
 ('general','config_help_links',1),
 ('general','config_show_tree_data',1),
+('general','config_embed_status',1),
+('general','config_embed_click_action', 'modal'),
 ('general','config_product_default_sort_order','date_modified-ASC'),
 -- Checkout
 ('checkout','starting_invoice_id',001),
