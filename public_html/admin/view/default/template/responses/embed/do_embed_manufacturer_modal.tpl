@@ -59,7 +59,7 @@
 			html += '<div class="abantecart-widget-container" data-url="<?php echo $sf_base_url; ?>" data-css-url="<?php echo $sf_css_embed_url; ?>">\n';
 
 		var d = new Date();
-		$.each($('div#embed_modal').find("input[name='manufacturer_id[]']:checked"), function() {
+		$.each($('div#embed_modal').find("input[name='manufacturer_id[]']:checked, input[name='manufacturer_id[]'][type='hidden']"), function() {
 		    id = $(this).val();
 			html += '\t<div id="abc_' + (d.getTime() + id) + '" class="abantecart_manufacturer" data-manufacturer-id="'+ id +'">\n';
 

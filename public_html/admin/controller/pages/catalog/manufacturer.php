@@ -167,6 +167,7 @@ class ControllerPagesCatalogManufacturer extends AController {
 		}
 
 
+	    $this->view->assign('embed_url', $this->html->getSecureURL( 'common/do_embed/manufacturers', '&manufacturer_id='. $this->request->get['manufacturer_id'] ));
     	$this->_getForm();
 
         //update controller data

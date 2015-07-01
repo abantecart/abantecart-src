@@ -230,7 +230,7 @@ class ControllerResponsesCommonDoEmbed extends AController {
 	    $this->data['fields'][] = $form->getFieldHtml(array(
 	    				'type'  => 'checkbox',
 	    				'name'  => 'name',
-	    				'value' => 1,
+	    				'value' => 0,
 	    				'style' => 'btn_switch btn-group-xs',
 	    ));
 
@@ -252,20 +252,29 @@ class ControllerResponsesCommonDoEmbed extends AController {
 		    $subsql = ' m.manufacturer_id IN ('.implode(',',$manufacturer_id).') ';
 		    $options = $this->model_catalog_manufacturer->getManufacturers(array('subsql_filter' => $subsql));
 	    }
+	    reset($manufacturer_id);
 
 
 	    foreach($options as $m){
 		    $opt[$m['manufacturer_id']] = $m['name'];
 	    }
+	    if(sizeof($manufacturer_id)>1){
+		    $this->data['fields'][] = $form->getFieldHtml(array(
+				    'type'      => 'checkboxgroup',
+				    'name'      => 'manufacturer_id[]',
+				    'value'     => $manufacturer_id,
+				    'options'   => $opt,
+				    'scrollbox' => true,
+				    'style'     => 'medium-field'
+		    ));
+	    }else{
 
-	    $this->data['fields'][] = $form->getFieldHtml(array(
-	    				'type'  => 'checkboxgroup',
-	    				'name'  => 'manufacturer_id[]',
-	    				'value' => $manufacturer_id,
-		                'options' => $opt,
-		                'scrollbox' => true,
-		                'style' => 'medium-field'
-	    ));
+		    $this->data['fields'][] = $form->getFieldHtml(array(
+                    'type'      => 'hidden',
+                    'name'      => 'manufacturer_id[]',
+                    'value'     => current($manufacturer_id)
+            ));
+	    }
 
 	    $this->data['text_area'] = $form->getFieldHtml(array(
 	    				'type'  => 'textarea',
