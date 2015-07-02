@@ -28,6 +28,11 @@ class ControllerResponsesEmbedJS extends AController {
 	 * NOTE: main() is bootup method
 	 */
 	public function main() {
+		// if embedding disabled or enabled maintenance mode - return empty
+		if(!$this->config->get('config_embed_status') || $this->config->get('config_maintenance')){
+			return null;
+		}
+
 		$this->extensions->hk_InitData($this, __FUNCTION__);
 
 		//check is third-party cookie allowed

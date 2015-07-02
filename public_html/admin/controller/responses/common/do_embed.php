@@ -56,6 +56,12 @@ class ControllerResponsesCommonDoEmbed extends AController {
 	    ));
 	    $this->data['fields'][] = $form->getFieldHtml(array(
 	    				'type'  => 'checkbox',
+	    				'name'  => 'blurb',
+	    				'value' => 1,
+	    				'style' => 'btn_switch btn-group-xs',
+	    ));
+	    $this->data['fields'][] = $form->getFieldHtml(array(
+	    				'type'  => 'checkbox',
 	    				'name'  => 'price',
 	    				'value' => 1,
 	    				'style' => 'btn_switch btn-group-xs',

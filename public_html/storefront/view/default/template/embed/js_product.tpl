@@ -49,8 +49,8 @@ if($product['button_addtocart']){?>
 <?php }
 
 if($product['blurb']){?>
-	if($('#<?php echo $target;?> .abantecart_name')){
-		$('#<?php echo $target;?> .abantecart_name').html('<?php echo $product['blurb']?>');
+	if($('#<?php echo $target;?> .abantecart_blurb')){
+		$('#<?php echo $target;?> .abantecart_blurb').html('<?php echo $product['blurb']?>');
 	}
 <?php }?>
 

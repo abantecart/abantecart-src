@@ -139,7 +139,7 @@ if(window.abc_count === undefined){
 			var modal = '';
 			<?php
 			//for embedding with modal
-			if($embed_click_action=='modal'){?>
+			if( $embed_click_action == 'modal' ){ ?>
 			/******** Load custom modal *********/
 			css_loader("<?php echo $base.$this->templateResource('/stylesheet/bootstrap.embed.css'); ?>");
 			script_loader("<?php echo $base.$this->templateResource('/javascript/bootstrap.embed.js'); ?>");
@@ -258,6 +258,7 @@ if(window.abc_count === undefined){
 		var abc_process_wrapper = function(){
 			//using local jQuery
 			$ = jQuery;
+			$('.abantecart-widget-container').show();
 			$('.abantecart-widget-container').each(function(){
 				var c = $(this);
 				//widget url - base url of widget data (for case when 2 widgets from different domains on the same page)

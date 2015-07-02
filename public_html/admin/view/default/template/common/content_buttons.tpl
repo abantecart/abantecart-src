@@ -14,8 +14,8 @@
 		           href="<?php echo $embed_url; ?>"
 		           data-target="#embed_modal"
 		           data-toggle="modal"
-		           data-original-title="<?php echo $text_get_embed_code; ?>">
-		            <i class="fa fa-code fa-lg"></i>
+		           data-original-title="<?php echo $text_share_embed_code; ?>">
+		            <i class="fa fa-share-alt fa-lg"></i>
 		        </a>
 				<?php echo $this->html->buildElement(
 							array(	'type' => 'modal',

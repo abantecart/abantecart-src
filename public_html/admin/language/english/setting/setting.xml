@@ -846,11 +846,11 @@
 	</definition>
 	<definition>
 		<key>text_embed_click_action_modal</key>
-		<value><![CDATA[Modal (same window)]]></value>
+		<value><![CDATA[Same Page Modal Dialog]]></value>
 	</definition>
 	<definition>
 		<key>text_embed_click_action_new_window</key>
-		<value><![CDATA[New Window]]></value>
+		<value><![CDATA[Open in the Same Window]]></value>
 	</definition>
 	<definition>
 		<key>text_embed_click_action_same_window</key>

@@ -56,7 +56,7 @@
 
 	var buildEmbedCode = function(){
 		var html = '<script src="<?php echo $sf_js_embed_url; ?>" type="text/javascript"></script>\n';
-			html += '<div class="abantecart-widget-container" data-url="<?php echo $sf_base_url; ?>" data-css-url="<?php echo $sf_css_embed_url; ?>">\n';
+			html += '<div style="display:none;" class="abantecart-widget-container" data-url="<?php echo $sf_base_url; ?>" data-css-url="<?php echo $sf_css_embed_url; ?>">\n';
 
 		var d = new Date();
 		$.each($('div#embed_modal').find("input[name='category_id[]']:checked"), function() {

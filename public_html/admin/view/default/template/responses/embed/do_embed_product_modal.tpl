@@ -60,7 +60,7 @@
 
 	var buildEmbedCode = function(){
 		var html = '<script src="<?php echo $sf_js_embed_url; ?>" type="text/javascript"></script>\n';
-			html += '<div class="abantecart-widget-container" data-url="<?php echo $sf_base_url; ?>" data-css-url="<?php echo $sf_css_embed_url; ?>">\n';
+			html += '<div style="display:none;" class="abantecart-widget-container" data-url="<?php echo $sf_base_url; ?>" data-css-url="<?php echo $sf_css_embed_url; ?>">\n';
 			html += '\t<div id="abc_<?php echo (int)(microtime()*1000);?>" class="abantecart_product" data-product-id="<?php echo $product_id; ?>">\n';
 
 		$('#code_options').find('input[type="hidden"]').each(function(){
