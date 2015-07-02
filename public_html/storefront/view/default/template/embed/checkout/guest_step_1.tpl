@@ -1,3 +1,4 @@
+<?php echo $head; ?>
 <h1 class="heading1">
   <span class="maintext"><?php echo $heading_title; ?></span>
   <span class="subtext"></span>
@@ -153,3 +154,4 @@ $('#guestFrm_shipping_country_id').change(function() {
 });
 $('select[name=\'shipping_zone_id\']').load('<?php echo $cz_url;?>&country_id='+$('#guestFrm_shipping_country_id').val());
 //--></script>
+<?php echo $footer; ?>

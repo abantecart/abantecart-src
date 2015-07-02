@@ -110,4 +110,27 @@
 	</div>
 	</form>
 </div>
+<script type="text/javascript"><!--
+
+	$('input[name^=\'payment_method\']').change(function () {
+		var $form = $(this).closest('form');
+		var $agree = $form.find('input[name^=\'agree\']');
+		if($agree.length && !$agree.is(':checked')) {
+			$agree.focus();
+		} else {
+			$form.submit(); return false;
+		}		
+	});
+
+	$('input[name^=\'agree\']').change(function () {
+		var $form = $(this).closest('form');
+		var $payment = $form.find('input[name^=\'payment_method\']');
+		if($payment.length && !$payment.is(':checked')) {
+			$payment.focus();
+		} else {
+			$form.submit(); return false;
+		}		
+	});
+
+//--></script>
 <?php echo $footer; ?>

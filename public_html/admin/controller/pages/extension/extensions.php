@@ -837,8 +837,8 @@ class ControllerPagesExtensionExtensions extends AController {
 		$this->extensions->hk_ValidateData($this);
 		return $this->error ? false : true;
 	}
+	
 	public function install() {
-
 		//init controller data
 		$this->extensions->hk_InitData($this, __FUNCTION__);
 

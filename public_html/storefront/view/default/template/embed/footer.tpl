@@ -1,5 +1,6 @@
 <script type="text/javascript" src="<?php echo $this->templateResource('/javascript/cloud-zoom.1.0.2.min.js'); ?>"></script>
 <script type="text/javascript" src="<?php echo $this->templateResource('/javascript/jquery.validate.js'); ?>"></script>
+<script type="text/javascript" defer src="<?php echo $this->templateResource('/javascript/custom.embed.js'); ?>"></script>
 
 <?php if ($google_analytics) {
 	$ga_data = $this->registry->get('google_analytics_data');

@@ -27,21 +27,13 @@ class ControllerPagesCheckoutCart extends AController {
 	public function main() {
 		$error_msg = array();
 
+		$cart_rt = 'checkout/cart';		
+		$product_rt = 'product/product';		
+		$checkout_rt = 'checkout/shipping';		
+		$home_rt = 'index/home';	
 		//is this an embed mode	
 		if($this->config->get('embed_mode') == true){
-			//load special headers
-	        $this->addChild('responses/embed/head', 'head');
-	        $this->addChild('responses/embed/footer', 'footer');
-
 			$cart_rt = 'r/checkout/cart/embed';
-			$product_rt = 'r/product/product';		
-			$checkout_rt = 'r/checkout/shipping';	
-			$home_rt = 'r/index/home';	
-		} else {
-			$cart_rt = 'checkout/cart';		
-			$product_rt = 'product/product';		
-			$checkout_rt = 'checkout/shipping';		
-			$home_rt = 'index/home';	
 		}
 		
         //init controller data
@@ -421,6 +413,9 @@ class ControllerPagesCheckoutCart extends AController {
 
 			$this->view->assign('error_warning', $error_msg );
 			if($this->config->get('embed_mode') == true){
+				//load special headers
+	        	$this->addChild('responses/embed/head', 'head');
+	        	$this->addChild('responses/embed/footer', 'footer');
 				$this->view->setTemplate( 'embed/checkout/cart.tpl' );
 			} else {
 				$this->view->setTemplate( 'pages/checkout/cart.tpl' );
@@ -437,19 +432,20 @@ class ControllerPagesCheckoutCart extends AController {
 																			   'style' => 'button' ));
 
 			if($this->config->get('embed_mode') == true){
+				//load special headers
+	        	$this->addChild('responses/embed/head', 'head');
+	        	$this->addChild('responses/embed/footer', 'footer');
 				$this->view->setTemplate( 'embed/error/not_found.tpl' );
 			} else {
 	            $this->view->setTemplate( 'pages/error/not_found.tpl' );
 			}
     	}
 
-
 		$this->view->batchAssign( $this->data);
         $this->processTemplate();
 
         //init controller data
         $this->extensions->hk_UpdateData($this,__FUNCTION__);
-
   	}
 
 	private function _validateCoupon() {

@@ -373,7 +373,7 @@ class ControllerPagesCheckoutGuestStep2 extends AController {
 																	'type' => 'textarea',
 																	'name' => 'comment',
 																	'value' => $this->data['comment'],
-																	'attr' => ' rows="8" style="width: 99%" ' ));
+																	'attr' => ' rows="3" style="width: 99%" ' ));
 
 		if ($this->config->get('config_checkout_id')) {
 			$this->loadModel('catalog/content');

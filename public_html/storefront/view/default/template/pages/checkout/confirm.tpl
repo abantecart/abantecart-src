@@ -149,7 +149,7 @@
 
 	<?php if ($comment) { ?>
 		<h4 class="heading4"><?php echo $text_comment; ?></h4>
-		<div class="container-fluid"><?php echo $comment; ?></div>
+		<div class="container mb10"><?php echo $comment; ?></div>
 	<?php } ?>
 
 	<?php echo $this->getHookVar('order_attributes'); ?>

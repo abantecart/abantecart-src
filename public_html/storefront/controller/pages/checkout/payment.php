@@ -29,25 +29,15 @@ class ControllerPagesCheckoutPayment extends AController {
 		//init controller data
 		$this->extensions->hk_InitData($this, __FUNCTION__);
 
+		$cart_rt = 'checkout/cart';		
+		$checkout_rt = 'checkout/shipping';		
+		$payment_rt = 'checkout/payment';	
+		$login_rt = 'account/login';
+		$home_rt = 'index/home';	
+		$address_rt = 'checkout/address/payment';	
+		$confirm_rt = 'checkout/confirm';
 		if($this->config->get('embed_mode') == true){
-			//load special headers
-	        $this->addChild('responses/embed/head', 'head');
-	        $this->addChild('responses/embed/footer', 'footer');
 			$cart_rt = 'r/checkout/cart/embed';
-			$checkout_rt = 'r/checkout/shipping';	
-			$payment_rt = 'r/checkout/payment';	
-			$login_rt = 'r/account/login';
-			$home_rt = 'r/index/home';	
-			$address_rt = 'r/checkout/address/payment';	
-			$confirm_rt = 'r/checkout/confirm';
-		} else {
-			$cart_rt = 'checkout/cart';		
-			$checkout_rt = 'checkout/shipping';		
-			$payment_rt = 'checkout/payment';	
-			$login_rt = 'account/login';
-			$home_rt = 'index/home';	
-			$address_rt = 'checkout/address/payment';	
-			$confirm_rt = 'checkout/confirm';
 		}
 
 		//validate if order min/max are met
@@ -348,7 +338,7 @@ class ControllerPagesCheckoutPayment extends AController {
 																	'type' => 'textarea',
 																	'name' => 'comment',
 																	'value' => $this->data['comment'],
-																	'attr' => ' rows="8" style="width: 99%" ' ));
+																	'attr' => ' rows="3" style="width: 99%" ' ));
 
 		if ($this->config->get('config_checkout_id')) {
 			$this->loadModel('catalog/content');
@@ -389,6 +379,9 @@ class ControllerPagesCheckoutPayment extends AController {
 		$this->view->batchAssign($this->data);
 		if($this->config->get('embed_mode') == true){
 			$this->view->assign('buttons', $this->view->fetch('embed/checkout/payment.buttons.tpl'));	
+			//load special headers
+	        $this->addChild('responses/embed/head', 'head');
+	        $this->addChild('responses/embed/footer', 'footer');
 		    $this->processTemplate('embed/checkout/payment.tpl');
 		} else {
 			$this->view->assign('buttons', $this->view->fetch('pages/checkout/payment.buttons.tpl'));	

@@ -29,23 +29,14 @@ class ControllerPagesCheckoutShipping extends AController {
 		//init controller data
 		$this->extensions->hk_InitData($this, __FUNCTION__);
 
+		$cart_rt = 'checkout/cart';		
+		$checkout_rt = 'checkout/shipping';		
+		$payment_rt = 'checkout/payment';	
+		$login_rt = 'account/login';
+		$home_rt = 'index/home';	
+		$address_rt = 'checkout/address/shipping';	
 		if($this->config->get('embed_mode') == true){
-			//load special headers
-	        $this->addChild('responses/embed/head', 'head');
-	        $this->addChild('responses/embed/footer', 'footer');
 			$cart_rt = 'r/checkout/cart/embed';
-			$checkout_rt = 'r/checkout/shipping';	
-			$payment_rt = 'r/checkout/payment';	
-			$login_rt = 'r/account/login';
-			$home_rt = 'r/index/home';	
-			$address_rt = 'r/checkout/address/shipping';	
-		} else {
-			$cart_rt = 'checkout/cart';		
-			$checkout_rt = 'checkout/shipping';		
-			$payment_rt = 'checkout/payment';	
-			$login_rt = 'account/login';
-			$home_rt = 'index/home';	
-			$address_rt = 'checkout/address/shipping';	
 		}
 		
 		//validate if order min/max are met
@@ -248,7 +239,7 @@ class ControllerPagesCheckoutShipping extends AController {
 																	'type' => 'textarea',
 																	'name' => 'comment',
 																	'value' => $this->data['comment'],
-																	'attr' => ' rows="8" style="width: 99%" ' ));
+																	'attr' => ' rows="3" style="width: 99%" ' ));
 		$this->data['back'] = $this->html->getSecureURL($cart_rt);
 		$this->data['form']['back'] = $form->getFieldHtml( array( 'type' => 'button',
 		                                                            'name' => 'back',
@@ -261,6 +252,9 @@ class ControllerPagesCheckoutShipping extends AController {
 		$this->view->batchAssign($this->data);
 		if($this->config->get('embed_mode') == true){
 			$this->view->assign('buttons', $this->view->fetch('embed/checkout/shipping.buttons.tpl') );
+			//load special headers
+	        $this->addChild('responses/embed/head', 'head');
+	        $this->addChild('responses/embed/footer', 'footer');
 		    $this->processTemplate('embed/checkout/shipping.tpl');
 		} else {
 			$this->view->assign('buttons', $this->view->fetch('pages/checkout/shipping.buttons.tpl') );

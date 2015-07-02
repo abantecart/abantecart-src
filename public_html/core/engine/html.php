@@ -49,6 +49,13 @@ class AHtml extends AController {
 		if (!empty($this->registry->get('request')->get['sf'])) {
 			$suburl .= '&sf=' . $this->registry->get('request')->get['sf'];
 		}
+		
+		//if in embed mode add respoce prefix
+		if ($this->registry->get('config')->get('embed_mode') == true) {
+			if(substr($rt, 0, 2) != 'r/'){
+				$rt = 'r/'.$rt;
+			}
+		}		
 
 		$suburl = '?' . ($rt ? 'rt=' . $rt : '') . $params . $suburl;
 		return $suburl;

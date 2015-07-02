@@ -1,3 +1,4 @@
+<?php echo $head; ?>
 <h1 class="heading1">
 	<span class="maintext"><i class="fa fa-pushpin"></i> <?php echo $heading_title; ?></span>
 	<span class="subtext"></span>
@@ -149,7 +150,7 @@
 
 	<?php if ($comment) { ?>
 		<h4 class="heading4"><?php echo $text_comment; ?></h4>
-		<div class="container-fluid"><?php echo $comment; ?></div>
+		<div class="container mb10"><?php echo $comment; ?></div>
 	<?php } ?>
 
 	<?php echo $this->getHookVar('order_attributes'); ?>
@@ -181,3 +182,4 @@
 	</div>
 
 </div>
+<?php echo $footer; ?>

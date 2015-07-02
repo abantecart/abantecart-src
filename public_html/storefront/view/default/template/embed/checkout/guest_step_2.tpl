@@ -1,3 +1,4 @@
+<?php echo $head; ?>
 <h1 class="heading1">
   <span class="maintext"><?php echo $heading_title; ?></span>
   <span class="subtext"></span>
@@ -152,3 +153,4 @@
 		$('.payment_palce_holder').html( $('#hidden_payments .'+shp_name).html() );
 	}
 </script>
+<?php echo $footer; ?>
