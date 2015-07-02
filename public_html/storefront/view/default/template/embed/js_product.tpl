@@ -15,7 +15,8 @@
 if($product['price']){?>
 	if($('<?php echo $target;?> .abantecart_price')){
 	<?php if ($product['special']) { ?>
-			html = '<div class="pricenew"><?php echo $product['special'] ?></div><div class="priceold"><?php echo $product['price'] ?></div>';
+			html = '<div class="priceold"><?php echo $product['price'] ?></div>'+
+					'<div class="pricenew"><?php echo $product['special'] ?></div>';
 		<?php } else { ?>
 			html = '<div class="oneprice"><?php echo $product['price'] ?></div>'
 		<?php } ?>

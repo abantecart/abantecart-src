@@ -37,10 +37,6 @@ a.abantecart-widget-cart {
 	text-align: center;	
 }
 
-.abantecart_image .product_thumb img {
-	width: 200px;
-}
-
 #iframe_loading {
 	text-align: center;	
 	height: 650px;
@@ -48,4 +44,42 @@ a.abantecart-widget-cart {
 	overflow: auto;
     background: transparent url(../image/spinner.gif) no-repeat;
 	background-position: center;
+}
+
+/**** product ******/
+
+
+.abantecart_image .product_thumb img {
+	width: 200px;
+}
+
+.abantecart_name {
+	text-align: center;
+}
+
+.abantecart_price  {
+	margin-top: 10px;
+	font-size: 16px;
+	padding-left: 20%;
+	padding-right: 20%;
+}
+
+
+.abantecart_price .priceold {
+	float: left;
+	margin-right: 10px;
+	text-decoration: line-through;
+}
+
+.abantecart_quantity {
+	margin: 10px 5px 0 0 ;
+	overflow: hidden;
+	width: auto;
+}
+.abantecart_quantity input{
+	min-width: 43px;
+}
+.abantecart_addtocart {
+	margin: 10px 5px 0 0 ;
+	overflow: hidden;
 }
