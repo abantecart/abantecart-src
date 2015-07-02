@@ -134,41 +134,62 @@ if(window.abc_count === undefined){
 	function main() { 
 		//set new custom jQuery in global space for included scripts (custom bootstrap)
 		window.jQuery_abc = jQuery;
-		/******** Load custom modal *********/
-		css_loader("<?php echo $base.$this->templateResource('/stylesheet/bootstrap.embed.css'); ?>");
-		script_loader("<?php echo $base.$this->templateResource('/javascript/bootstrap.embed.js'); ?>");
-
-		// Load bootstrap custom modal (single instance)
-		var modal = '<div id="abc_embed_modal" class="abcmodal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">'+
-					'<div class="abcmodal-dialog abcmodal-lg">'+
-						'<div class="abcmodal-content">' +
-							'<div class="abcmodal-header">' +
-								'<div class="abcmodal-header-store">' +
-							
-								'<?php if($icon) { ?><img src="resources/<?php echo $icon; ?>""/>&nbsp;<?php } ?>&nbsp;<?php echo $store_name; ?>' +
-								'</div><div class="abcmodal-header-menu">' +
-								<?php if ($logged) { ?>
-								'<a class="abcmodal-reload" href="#" data-href="<?php echo $account;?>"><?php echo $text_account;?></a>&nbsp;&nbsp;' +
-								<?php } else { ?>
-								'<a class="abcmodal-reload" href="#" data-href="<?php echo $login;?>"><?php echo $text_login;?></a>&nbsp;&nbsp;' +
-								<?php } ?>
-								'|&nbsp;<a class="abcmodal-reload" href="#" data-href="<?php echo $cart;?>"><?php echo $text_cart;?></a>&nbsp;&nbsp;' +
-								'|&nbsp;<a class="abcmodal-reload" href="#" data-href="<?php echo $checkout;?>"><?php echo $text_checkout;?></a>&nbsp;&nbsp;' +
-								'</div>'+
-								'<button aria-hidden="true" data-dismiss="abcmodal" class="abcmodal_close" type="button">&times;</button>' +
-				'<h4 class="abcmodal-title"></h4>' +
-							'</div>' +
-				'<div class="abcmodal-body"><iframe id="amp_product_frame" width="100%" height="650px" frameBorder="0"></iframe>' +
-				'<div id="iframe_loading" display="none"></div>' +
-							'</div>' +
-						'</div>' +
-					'</div>' +
-			'</div>';
-		modal += '<div class="abantecart-widget-cart"></div>';
 
 	    jQuery(document).ready(function($) {
+			var modal = '';
+			<?php
+			//for embedding with modal
+			if($embed_click_action=='modal'){?>
+			/******** Load custom modal *********/
+			css_loader("<?php echo $base.$this->templateResource('/stylesheet/bootstrap.embed.css'); ?>");
+			script_loader("<?php echo $base.$this->templateResource('/javascript/bootstrap.embed.js'); ?>");
 
-	        if( !$('#abc_embed_modal').length ) {
+			// Load bootstrap custom modal (single instance)
+			modal = '<div id="abc_embed_modal" class="abcmodal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">'+
+						'<div class="abcmodal-dialog abcmodal-lg">'+
+							'<div class="abcmodal-content">' +
+								'<div class="abcmodal-header">' +
+									'<div class="abcmodal-header-store">' +
+
+									'<?php if($icon) { ?><img src="resources/<?php echo $icon; ?>""/>&nbsp;<?php } ?>&nbsp;<?php echo $store_name; ?>' +
+									'</div><div class="abcmodal-header-menu">' +
+									<?php if ($logged) { ?>
+									'<a class="abcmodal-reload" href="#" data-href="<?php echo $account;?>"><?php echo $text_account;?></a>&nbsp;&nbsp;' +
+									<?php } else { ?>
+									'<a class="abcmodal-reload" href="#" data-href="<?php echo $login;?>"><?php echo $text_login;?></a>&nbsp;&nbsp;' +
+									<?php } ?>
+									'|&nbsp;<a class="abcmodal-reload" href="#" data-href="<?php echo $cart;?>"><?php echo $text_cart;?></a>&nbsp;&nbsp;' +
+									'|&nbsp;<a class="abcmodal-reload" href="#" data-href="<?php echo $checkout;?>"><?php echo $text_checkout;?></a>&nbsp;&nbsp;' +
+									'</div>'+
+									'<button aria-hidden="true" data-dismiss="abcmodal" class="abcmodal_close" type="button">&times;</button>' +
+					'<h4 class="abcmodal-title"></h4>' +
+								'</div>' +
+					'<div class="abcmodal-body"><iframe id="amp_product_frame" width="100%" height="650px" frameBorder="0"></iframe>' +
+					'<div id="iframe_loading" display="none"></div>' +
+								'</div>' +
+							'</div>' +
+						'</div>' +
+				'</div>';
+			modal += '<div class="abantecart-widget-cart"></div>';
+			<?php
+			//for direct-link mode
+			}else{ ?>
+			$(document).on('click', "[data-toggle='abcmodal']", function(){
+				if($(this).attr('data-href')){
+				<?php if($embed_click_action=='same_window'){ ?>
+					window.location = $(this).attr('data-href');
+				<?php } ?>
+				<?php if($embed_click_action=='new_window'){ ?>
+					window.open($(this).attr('data-href'),'_blank');
+				<?php } ?>
+				}
+				return false;
+			});
+
+			<?php }?>
+
+
+	        if( !$('#abc_embed_modal').length && modal.length) {
 				$('body').append(modal);
 			<?php
 				// do cookie-test if session id not retrieved from http-request

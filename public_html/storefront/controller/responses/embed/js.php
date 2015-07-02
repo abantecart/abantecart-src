@@ -70,6 +70,8 @@ class ControllerResponsesEmbedJS extends AController {
     	$this->data['cart'] =  $this->html->getURL('r/checkout/cart/embed');
 		$this->data['checkout'] =  $this->html->getSecureURL('r/checkout/shipping');
 
+		$this->data['embed_click_action'] =  $this->config->get('config_embed_click_action');
+
 		$this->view->setTemplate( 'embed/js.tpl' );
 		$this->view->batchAssign($this->data);
 		$this->_set_js_http_headers();
@@ -116,9 +118,8 @@ class ControllerResponsesEmbedJS extends AController {
 			$product_info['special'] = $this->currency->format($product_info['final_price']);
 		}
 
-		$this->data['product_details_url'] = $this->html->getURL(
-																	'r/product/product',
-																	'&product_id=' . $product_id);
+		$rt = $this->config->get('config_embed_click_action')=='modal' ? 'r/product/product' : 'product/product';
+		$this->data['product_details_url'] = $this->html->getURL($rt,	'&product_id=' . $product_id);
 
 		$product_options = $this->model_catalog_product->getProductOptions( $product_id );
 
@@ -201,8 +202,8 @@ class ControllerResponsesEmbedJS extends AController {
 						(int)$this->config->get('config_image_category_width'),
 						(int)$this->config->get('config_image_category_height'),
 					    true);
-
-			$category['details_url'] = $this->html->getURL( 'r/product/category', '&category_id=' .$category['category_id']);
+			$rt = $this->config->get('config_embed_click_action')=='modal' ? 'r/product/category' : 'product/category';
+			$category['details_url'] = $this->html->getURL( $rt, '&category_id=' .$category['category_id']);
 
 		}
 
@@ -257,8 +258,8 @@ class ControllerResponsesEmbedJS extends AController {
 						(int)$this->config->get('config_image_grid_width'),
 						(int)$this->config->get('config_image_grid_height'),
 					    true);
-
-			$manufacturer['details_url'] = $this->html->getURL( 'r/product/manufacturer', '&manufacturer_id=' .$manufacturer['manufacturer_id']);
+			$rt = $this->config->get('config_embed_click_action')=='modal' ? 'r/product/manufacturer' : 'product/manufacturer';
+			$manufacturer['details_url'] = $this->html->getURL( $rt, '&manufacturer_id=' .$manufacturer['manufacturer_id']);
 
 		}
 
