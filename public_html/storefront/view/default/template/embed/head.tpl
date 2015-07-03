@@ -58,3 +58,9 @@ $(document).on('click','a.call_to_order',function(){
 
 </head>
 <body>
+<?php if($maintenance_warning){ ?>
+	<div class="alert alert-warning">
+	 	<button type="button" class="close" data-dismiss="alert">&times;</button>
+ 		<strong><?php echo $maintenance_warning;?></strong>
+ 	</div>
+<?php } ?>

@@ -1,3 +1,4 @@
+<?php echo $head; ?>
 <h1 class="heading1">
 	<span class="maintext"><i class="fa fa-user"></i> <?php echo $heading_title; ?></span>
 	<span class="subtext"><?php echo $customer_name; ?></span>
@@ -118,3 +119,5 @@
 </div>	
 
 <?php echo $this->getHookVar('account_bottom'); ?>
+
+<?php echo $footer; ?>

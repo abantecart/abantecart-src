@@ -153,11 +153,7 @@ if(window.abc_count === undefined){
 
 									'<?php if($icon) { ?><img src="resources/<?php echo $icon; ?>""/>&nbsp;<?php } ?>&nbsp;<?php echo $store_name; ?>' +
 									'</div><div class="abcmodal-header-menu">' +
-									<?php if ($logged) { ?>
 									'<a class="abcmodal-reload" href="#" data-href="<?php echo $account;?>"><?php echo $text_account;?></a>&nbsp;&nbsp;' +
-									<?php } else { ?>
-									'<a class="abcmodal-reload" href="#" data-href="<?php echo $login;?>"><?php echo $text_login;?></a>&nbsp;&nbsp;' +
-									<?php } ?>
 									'|&nbsp;<a class="abcmodal-reload" href="#" data-href="<?php echo $cart;?>"><?php echo $text_cart;?></a>&nbsp;&nbsp;' +
 									'|&nbsp;<a class="abcmodal-reload" href="#" data-href="<?php echo $checkout;?>"><?php echo $text_checkout;?></a>&nbsp;&nbsp;' +
 									'</div>'+

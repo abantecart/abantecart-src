@@ -1,3 +1,4 @@
+<?php echo $head; ?>
 <?php if ($success) { ?>
 	<h1 class="heading1">
 	  <span class="maintext"><i class="fa fa-thumbs-up"></i> <?php echo $text_subscribe_register; ?></span>
@@ -90,3 +91,4 @@
 </div>
 
 <?php } ?>
+<?php echo $footer; ?>

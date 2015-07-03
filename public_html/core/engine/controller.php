@@ -251,6 +251,21 @@ abstract class AController {
 	}
 
 	public function processTemplate($template = '') {
+		//is this an embed mode? Special templates needs to be loaded
+		if( $this->config->get('embed_mode') == true ){		  
+		  	//get template if it was set earlier
+			if (empty($template)) {
+				$template = $this->view->getTemplate();
+			}
+			//only substitute the template for page templates
+			if(substr($template, 0, 6) == 'pages/' && substr($template, 0, 6) != 'embed/'){
+		    	//load special headers for embed as no page/layout needed
+	       		$this->addChild('responses/embed/head', 'head');
+	        	$this->addChild('responses/embed/footer', 'footer');
+	        	$template = preg_replace('/pages\//', 'embed/', $template);			
+			}
+		}
+	
 		if (!empty($template)) {
 			$this->view->setTemplate($template);
 		}

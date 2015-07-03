@@ -54,6 +54,10 @@ class ControllerResponsesEmbedHead extends AController {
 
         $this->view->assign('call_to_order_url', $this->html->getURL('content/contact'));
 
+		if($this->config->get('config_maintenance') && isset($this->session->data['merchant'])){
+			$this->view->assign('maintenance_warning',$this->language->get('text_maintenance_notice'));
+		}
+		
 		$this->processTemplate('embed/head.tpl');
 
 		//Log Online Customers

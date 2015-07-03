@@ -412,14 +412,7 @@ class ControllerPagesCheckoutCart extends AController {
 		    }
 
 			$this->view->assign('error_warning', $error_msg );
-			if($this->config->get('embed_mode') == true){
-				//load special headers
-	        	$this->addChild('responses/embed/head', 'head');
-	        	$this->addChild('responses/embed/footer', 'footer');
-				$this->view->setTemplate( 'embed/checkout/cart.tpl' );
-			} else {
-				$this->view->setTemplate( 'pages/checkout/cart.tpl' );
-			}
+			$this->view->setTemplate( 'pages/checkout/cart.tpl' );
 
     	} else {            
             $this->data['heading_title'] = $this->language->get('heading_title');
@@ -431,14 +424,7 @@ class ControllerPagesCheckoutCart extends AController {
 																			   'href' =>  $this->html->getURL($home_rt),
 																			   'style' => 'button' ));
 
-			if($this->config->get('embed_mode') == true){
-				//load special headers
-	        	$this->addChild('responses/embed/head', 'head');
-	        	$this->addChild('responses/embed/footer', 'footer');
-				$this->view->setTemplate( 'embed/error/not_found.tpl' );
-			} else {
-	            $this->view->setTemplate( 'pages/error/not_found.tpl' );
-			}
+            $this->view->setTemplate( 'pages/error/not_found.tpl' );
     	}
 
 		$this->view->batchAssign( $this->data);

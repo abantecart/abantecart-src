@@ -1,3 +1,4 @@
+<?php echo $head; ?>
 <h1 class="heading1">
 	<span class="maintext"><i class="fa fa-briefcase"></i> <?php echo $heading_title; ?></span>
 	<span class="subtext"></span>
@@ -48,3 +49,4 @@
 		location = '<?php echo $order_url; ?>&order_id=' + order_id;
 	}
 </script>
+<?php echo $footer; ?>

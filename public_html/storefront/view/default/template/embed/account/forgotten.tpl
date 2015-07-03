@@ -1,3 +1,4 @@
+<?php echo $head; ?>
 <h1 class="heading1">
   <span class="maintext"><i class="fa fa-key"></i> <?php echo $heading_title; ?></span>
   <span class="subtext"></span>
@@ -55,3 +56,4 @@
 	
 	</form>
 </div>
+<?php echo $footer; ?>

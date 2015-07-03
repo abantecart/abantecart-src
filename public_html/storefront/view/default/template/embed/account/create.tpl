@@ -1,3 +1,4 @@
+<?php echo $head; ?>
 <h1 class="heading1">
   <span class="maintext"><i class="fa fa-group"></i> <?php echo $heading_title; ?></span>
   <span class="subtext"></span>
@@ -153,3 +154,5 @@ $('#AccountFrm_country_id').change( function(){
 $('select[name=\'zone_id\']').load('<?php echo $cz_url;?>&country_id='+ $('#AccountFrm_country_id').val());
 
 //--></script>
+
+<?php echo $footer; ?>

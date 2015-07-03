@@ -68,10 +68,10 @@ class ControllerResponsesEmbedJS extends AController {
 		$this->data['abc_embed_test_cookie_url'] = $this->html->getURL('r/embed/js/testcookie','&timestamp='.time());
 
 		$this->loadLanguage('common/header');
-    	$this->data['account'] =  $this->html->getSecureURL('account/account');
+    	$this->data['account'] =  $this->html->getSecureURL('r/account/account');
 		$this->data['logged'] =  $this->customer->isLogged();
-		$this->data['login'] =  $this->html->getSecureURL('account/login');
-		$this->data['logout'] =  $this->html->getURL('account/logout');
+		$this->data['login'] =  $this->html->getSecureURL('r/account/login');
+		$this->data['logout'] =  $this->html->getURL('r/account/logout');
     	$this->data['cart'] =  $this->html->getURL('r/checkout/cart/embed');
 		$this->data['checkout'] =  $this->html->getSecureURL('r/checkout/shipping');
 
