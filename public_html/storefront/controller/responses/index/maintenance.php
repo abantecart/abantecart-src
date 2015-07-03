@@ -20,26 +20,17 @@
 if (! defined ( 'DIR_CORE' )) {
 	header ( 'Location: static_pages/' );
 }
-class ControllerCommonMaintenance extends AController {
-    public function main() {
-	    //init controller data
-        $this->extensions->hk_InitData($this,__FUNCTION__);
-        //exclude control panel users
-        if ($this->config->get('config_maintenance') && !isset($this->session->data['merchant'])) {
-            return $this->dispatch('pages/index/maintenance');
-        }
-		//init controller data
-        $this->extensions->hk_UpdateData($this,__FUNCTION__);
-    }
+class ControllerResponsesIndexMaintenance extends AController {
 
-    public function response() {
-	    //init controller data
+	public $data;
+	public function main() {
+        //init controller data
         $this->extensions->hk_InitData($this,__FUNCTION__);
-        //exclude control panel users
-        if ($this->config->get('config_maintenance') && !isset($this->session->data['merchant'])) {
-            return $this->dispatch('responses/index/maintenance');
-        }
-		//init controller data
+
+		//For maintenance mode return empty response
+		
+        //init controller data
         $this->extensions->hk_UpdateData($this,__FUNCTION__);
     }
 }
+?>
