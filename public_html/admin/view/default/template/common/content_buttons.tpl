@@ -21,7 +21,9 @@
 							array(	'type' => 'modal',
 									'id' => 'embed_modal',
 									'modal_type' => 'lg',
-									'data_source' => 'ajax'));
+									'data_source' => 'ajax',
+									'js_onclose' => '$(".abantecart-widget-cart").remove();'
+							));
 				?>
 			</div>
 
