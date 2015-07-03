@@ -5,7 +5,7 @@
 <div class="container-fixed" style="max-width: <?php echo $layout_width; ?>">
 
 <?php if($maintenance_warning){ ?>
-	<div class="alert">
+	<div class="alert alert-warning">
 	 	<button type="button" class="close" data-dismiss="alert">&times;</button>
  		<strong><?php echo $maintenance_warning;?></strong>
  	</div>
