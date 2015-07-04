@@ -40,9 +40,16 @@
 	
 </div>
 
+<div class="container-fluid cart_total mt10">
 
-<div class="container-fluid cart_total">
-	<div class="cart-info totals pull-right">
+	<div class="col-md-6 mt20 pull-left">
+	    <a href="<?php echo $continue; ?>" class="btn btn-default mr10" title="<?php echo $button_back; ?>">
+	    	<i class="fa fa-arrow-left"></i>
+	    	<?php echo $button_back ?>
+	    </a>
+	</div>
+
+	<div class="col-md-6 cart-info totals pull-right">
 	    <table class="table table-striped table-bordered">
 	    	<tr>
 	    		<td>
@@ -53,11 +60,6 @@
 	    		</td>
 	    	</tr>
 	    </table>
-
-	    <a href="<?php echo $continue; ?>" class="btn btn-default mr10 pull-right" title="<?php echo $button_continue->text ?>">
-	    	    <i class="fa fa-arrow-right"></i>
-	    	    <?php echo $button_continue->text ?>
-	    </a>
 	</div>
 </div>
 

@@ -66,54 +66,62 @@
 
 <div class="dash-tiles row">
 	<div class="col-md-3 col-sm-6">
+	<a title="<?php echo $text_address; ?>" data-toggle="tooltip" href="<?php echo $address; ?>" data-original-title="<?php echo $text_address; ?>">
 		<div class="dash-tile dash-tile-ocean clearfix">
 			<div class="dash-tile-header">
 			<div class="dash-tile-options">
-			<a title="" data-toggle="tooltip" class="btn" href="<?php echo $address; ?>" data-original-title="<?php echo $text_address; ?>"><i class="fa fa-cog"></i></a>
+			<div class="btn"><i class="fa fa-cog"></i></div>
 			</div>
 			<?php echo $text_address; ?>
 			</div>
 			<div class="dash-tile-icon"><i class="fa fa-book"></i></div>
 			<div class="dash-tile-text"><?php echo $total_adresses; ?></div>
 		</div>
+	</a>	
 	</div>
 	<div class="col-md-3 col-sm-6">
+	<a title="<?php echo $text_history; ?>" data-toggle="tooltip" href="<?php echo $history; ?>" data-original-title="<?php echo $text_history; ?>">
 		<div class="dash-tile dash-tile-flower clearfix">
 			<div class="dash-tile-header">
 			<div class="dash-tile-options">
-			<a title="<?php echo $text_history; ?>" data-toggle="tooltip" class="btn" href="<?php echo $history; ?>" data-original-title="<?php echo $text_history; ?>"><i class="fa fa-cog"></i></a>
+			<div class="btn"><i class="fa fa-cog"></i></div>
 			</div>
 			<?php echo $text_history; ?>
 			</div>
 			<div class="dash-tile-icon"><i class="fa fa-briefcase"></i></div>
 			<div class="dash-tile-text"><?php echo $total_orders; ?></div>
 		</div>
+	</a>	
 	</div>
 	<?php if ($this->config->get('config_download')) { ?>
 	<div class="col-md-3 col-sm-6">
+	<a title="<?php echo $text_download; ?>" data-toggle="tooltip" href="<?php echo $download; ?>" data-original-title="<?php echo $text_download; ?>">
 		<div class="dash-tile dash-tile-oil clearfix">
 			<div class="dash-tile-header">
 			<div class="dash-tile-options">
-			<a title="<?php echo $text_download; ?>" data-toggle="tooltip" class="btn" href="<?php echo $download; ?>" data-original-title="<?php echo $text_download; ?>"><i class="fa fa-cog"></i></a>
+			<div class="btn"><i class="fa fa-cog"></i></div>
 			</div>
 			<?php echo $text_download; ?>
 			</div>
 			<div class="dash-tile-icon"><i class="fa fa-cloud-download"></i></div>
 			<div class="dash-tile-text"><?php echo $total_downloads; ?></div>
 		</div>
+	</a>	
 	</div>
 	<?php }?>
 	<div class="col-md-3 col-sm-6">
+	<a title="<?php echo $text_transactions; ?>" data-toggle="tooltip" href="<?php echo $transactions; ?>" data-original-title="<?php echo $text_transactions; ?>">
 		<div class="dash-tile dash-tile-balloon clearfix">
 			<div class="dash-tile-header">
 			<div class="dash-tile-options">
-			<a title="<?php echo $text_transactions; ?>" data-toggle="tooltip" class="btn" href="<?php echo $transactions; ?>" data-original-title="<?php echo $text_transactions; ?>"><i class="fa fa-cog"></i></a>
+			<div class="btn"><i class="fa fa-cog"></i></div>
 			</div>
 			<?php echo $text_transactions; ?>
 			</div>
 			<div class="dash-tile-icon"><i class="fa fa-money"></i></div>
 			<div class="dash-tile-text"><?php echo $balance_amount; ?></div>
 		</div>
+	</a>
 	</div>
 	<?php echo $this->getHookVar('account_sections'); ?>
 </div>	

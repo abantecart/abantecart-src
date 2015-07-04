@@ -1,24 +1,30 @@
+<?php echo $head; ?>
 <h1 class="heading1">
   <span class="maintext"><i class="fa fa-frown"></i> <?php echo $heading_title; ?></span>
   <span class="subtext"></span>
 </h1>
 
-<div class="contentpanel">
+<div class="contentpanel text-center">
 
 	<?php echo $text_error; ?>
 	
-	<div class="container-fluid">
-	    	<div class="col-md-4 mt20 mb20">
-	    		<?php 
-	    			if (empty($continue)){
-	    				$continue = $button_continue->href;
-	    			} 
-	    		?>	    	
-	    		<a href="<?php echo $continue; ?>" class="btn btn-default mr10" title="<?php echo $button_continue->text ?>">
-	    		    <i class="fa fa-arrow-right"></i>
-	    		    <?php echo $button_continue->text ?>
-	    		</a>
-	    	</div>	
+</div>
+
+<div class="container-fluid cart_total">
+
+	<div class="col-md-6 mt20 pull-left">
+	    <button onclick="goBack()" class="btn btn-default" title="<?php echo $button_back; ?>">
+	    	<i class="fa fa-arrow-left"></i>
+	    	<?php echo $button_back ?>
+	    </button>
 	</div>
 
 </div>
+
+<script>
+function goBack() {
+    window.history.back();
+}
+</script>
+
+<?php echo $footer; ?>

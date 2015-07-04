@@ -21,7 +21,7 @@ if (! defined ( 'DIR_CORE' )) {
 	header ( 'Location: static_pages/' );
 }
 
-class ControllerResponsesAccountAddress extends AController {
+class ControllerResponsesAccountNewsletter extends AController {
 	private $error = array();
 	public $data = array();
 
@@ -31,37 +31,7 @@ class ControllerResponsesAccountAddress extends AController {
 
 		try{
 			$this->config->set('embed_mode', true);
-			$cntr = $this->dispatch('pages/account/address');
-			$html_out = $cntr->dispatchGetOutput();
-		}catch(AException $e){	}
-	
-        $this->extensions->hk_UpdateData($this,__FUNCTION__);
-
-		$this->response->setOutput($html_out);
-	}	
-
-	public function update() {
-		//init controller data
-		$this->extensions->hk_InitData($this, __FUNCTION__);
-
-		try{
-			$this->config->set('embed_mode', true);
-			$cntr = $this->dispatch('pages/account/address/update');
-			$html_out = $cntr->dispatchGetOutput();
-		}catch(AException $e){	}
-	
-        $this->extensions->hk_UpdateData($this,__FUNCTION__);
-
-		$this->response->setOutput($html_out);
-	}	
-
-	public function insert() {
-		//init controller data
-		$this->extensions->hk_InitData($this, __FUNCTION__);
-
-		try{
-			$this->config->set('embed_mode', true);
-			$cntr = $this->dispatch('pages/account/address/insert');
+			$cntr = $this->dispatch('pages/account/newsletter');
 			$html_out = $cntr->dispatchGetOutput();
 		}catch(AException $e){	}
 	

@@ -124,9 +124,9 @@
 
 	<div class="form-group">
 		<div class="mt20 mb40">
-		    <a href="<?php echo $continue; ?>" class="btn btn-default mr10" title="<?php echo $button_continue->text ?>">
-		    	<i class="<?php echo $button_continue->{'icon'}; ?>"></i>
-		    	<?php echo $button_continue->text ?>
+		    <a href="<?php echo $continue; ?>" class="btn btn-default mr10" title="<?php echo $button_back; ?>">
+		    	<i class="fa fa-arrow-left"></i>
+		    	<?php echo $button_back ?>
 		    </a>
 		    <?php echo $this->getHookVar('hk_additional_buttons'); ?>
 		    <a href="javascript:window.print();" class="btn btn-orange mr10 pull-right"

@@ -9,7 +9,6 @@ AbanteCart brand color styles: #064770 (dark blue) #F19013 (Orange)
 @charset "utf-8";
 
 @import url('bootstrap.min.css');
-@import url('print.css');
 @import url('font-awesome.min.css');
 
 /* CSS Document */

@@ -34,11 +34,11 @@
 	<div class="container-fluid"><?php echo $pagination_bootstrap; ?></div>
 
 	<div class="container-fluid">
-		<div class="col-md-12 mt20">
-			<a href="<?php echo $continue; ?>" class="btn btn-default pull-right" title="<?php echo $button_continue->text ?>">
-	    		    <i class="fa fa-arrow-right"></i>
-	    		    <?php echo $button_continue->text ?>
-			</a>
+		<div class="col-md-12 mt20 pull-left">
+		    <a href="<?php echo $continue; ?>" class="btn btn-default mr10" title="<?php echo $button_back; ?>">
+		    	<i class="fa fa-arrow-left"></i>
+		    	<?php echo $button_back ?>
+		    </a>
 		</div>
 	</div>
 

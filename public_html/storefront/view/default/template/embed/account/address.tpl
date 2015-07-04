@@ -38,8 +38,8 @@
 			foreach ($field_list as $field_name => $field_id) {
 		?>
 			<div class="form-group <?php if (${'error_'.$field_name}) echo 'has-error'; ?>">
-				<label class="control-label col-md-4"><?php echo ${'entry_'.$field_name}; ?></label>
-				<div class="input-group col-md-4">
+				<label class="control-label col-sm-4 col-md-4"><?php echo ${'entry_'.$field_name}; ?></label>
+				<div class="input-group col-sm-6 col-md-4">
 				    <?php echo $form[$field_id]; ?>
 				</div>
 				<span class="help-block"><?php echo ${'error_'.$field_name}; ?></span>
@@ -48,7 +48,7 @@
 			}
 		?>	
 			<div class="form-group">
-				<label class="control-label col-md-4"><?php echo $entry_default; ?></label>
+				<label class="control-label col-sm-4 col-md-4"><?php echo $entry_default; ?></label>
 				<div class="input-group">
 				    <?php echo $form['default']; ?>
 				</div>
