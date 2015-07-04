@@ -15,11 +15,7 @@
 
 <link href='//fonts.googleapis.com/css?family=Open+Sans:400,300italic,400italic,600,600italic' rel='stylesheet' type='text/css' />
 <link href='//fonts.googleapis.com/css?family=Crete+Round' rel='stylesheet' type='text/css' />
-<link href="<?php echo $this->templateResource('/stylesheet/style.css'); ?>" rel="stylesheet" type='text/css' />
-
-<?php if ( $template_debug_mode ) {  ?>
-<link href="<?php echo $this->templateResource('/stylesheet/template_debug.css'); ?>" rel="stylesheet" />
-<?php } ?>
+<link href="<?php echo $this->templateResource('/stylesheet/style.response.css'); ?>" rel="stylesheet" type='text/css' />
 
 <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
 <!--[if lt IE 9]>

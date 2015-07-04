@@ -40,4 +40,34 @@ class ControllerResponsesAccountForgotten extends AController {
 		$this->response->setOutput($html_out);
 	}	
 
+	public function password() {
+		//init controller data
+		$this->extensions->hk_InitData($this, __FUNCTION__);
+
+		try{
+			$this->config->set('embed_mode', true);
+			$cntr = $this->dispatch('pages/account/forgotten/password');
+			$html_out = $cntr->dispatchGetOutput();
+		}catch(AException $e){	}
+	
+        $this->extensions->hk_UpdateData($this,__FUNCTION__);
+
+		$this->response->setOutput($html_out);
+	}	
+
+	public function loginname() {
+		//init controller data
+		$this->extensions->hk_InitData($this, __FUNCTION__);
+
+		try{
+			$this->config->set('embed_mode', true);
+			$cntr = $this->dispatch('pages/account/forgotten/loginname');
+			$html_out = $cntr->dispatchGetOutput();
+		}catch(AException $e){	}
+	
+        $this->extensions->hk_UpdateData($this,__FUNCTION__);
+
+		$this->response->setOutput($html_out);
+	}	
+
 }
