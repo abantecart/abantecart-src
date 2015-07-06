@@ -974,6 +974,7 @@ ul.rate li.off {
 	background-position: left -24px
 }
 
+
 .mainimage li.producthtumb {
 	display: inline-block;
 	width: auto;
@@ -1171,6 +1172,10 @@ h1.productname {
 .nav-tabs {
 	margin: 0;
 }
+
+#productdesc .row{
+	margin-left: auto 0;
+ }
 
 .productdesc {
 	margin: 22px 0 0 0
