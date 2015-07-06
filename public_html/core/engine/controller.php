@@ -107,6 +107,7 @@ abstract class AController {
 	protected $block_details = array();
 	public $dispatcher;
 	public $view;
+	protected $config;
 	protected $languages = array();
 
 	/**
@@ -124,6 +125,8 @@ abstract class AController {
 
 		//Instance of view for the controller
 		$this->view = new AView($this->registry, $instance_id);
+
+		$this->config = $this->registry->get('config');
 
 		if ($this->language) {
 			//initiate array of language references for current controller instance.
@@ -258,7 +261,7 @@ abstract class AController {
 
 	public function processTemplate($template = '') {
 		//is this an embed mode? Special templates needs to be loaded
-		if( $this->config->get('embed_mode') == true ){		  
+		if(is_object($this->registry->get('config')) &&  $this->registry->get('config')->get('embed_mode') == true ){
 		  	//get template if it was set earlier
 			if (empty($template)) {
 				$template = $this->view->getTemplate();
