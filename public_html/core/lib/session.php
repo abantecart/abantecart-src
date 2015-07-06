@@ -86,12 +86,15 @@ final class ASession {
 		}
 
 		session_start();
+		/*
+		NOTE: You can enable this section if you need extra security to prevent session attacks. 
+		We recomed to use of SSL on all admin pages and customer related storefront pages.
 		if(!$this->_prevent_hijacking()){
 			$this->clear();
 			session_name($this->ses_name);
 			session_start();
 		}
-
+		*/
 		$_SESSION['session_mode'] = $session_mode;
 	}
 
@@ -103,6 +106,11 @@ final class ASession {
 		$_SESSION = array();
 	}
 
+	/**
+	 * This function is to prevent session attacks
+	 * Validate that IP and User agent did not change for same session. 
+	 * @param none
+	 */
 	private function _prevent_hijacking(){
 
 		$_SESSION['IPaddress'] = !isset($_SESSION['IPaddress']) ? $_SERVER['REMOTE_ADDR'] : $_SESSION['IPaddress'];
