@@ -1,3 +1,4 @@
+<?php echo $head; ?>
 <h1 class="heading1">
   <span class="maintext"><i class="fa fa-envelope"></i> <?php echo $heading_title; ?></span>
   <span class="subtext"></span>
@@ -22,12 +23,12 @@
 
 	<div class="content-fluid">
 	  <div class="row">
-	    <div class="col-md-6 pull-left">
+	    <div class="col-sm-6 col-md-6 pull-left">
 	    <b><?php echo $text_address; ?></b><br />
 	      <?php echo $store; ?><br />
 	      <address><?php echo $address; ?></address>
 	    </div>
-	    <div class="col-md-6 pull-right">
+	    <div class="col-sm-6 col-md-6 pull-right">
 	      <?php if ($telephone) { ?>
 	      <b><?php echo $text_telephone; ?></b><br />
 	      <?php echo $telephone; ?><br />
@@ -46,3 +47,4 @@
 	</div>
 
 </div>
+<?php echo $footer; ?>

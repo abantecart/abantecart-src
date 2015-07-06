@@ -31,8 +31,8 @@
 			foreach ($field_list as $field_name) {
 		?>
 			<div class="form-group <?php if (${'error_'.$field_name}) echo 'has-error'; ?>">
-				<label class="control-label col-md-4"><?php echo ${'entry_'.$field_name}; ?></label>
-				<div class="input-group col-md-4">
+				<label class="control-label col-sm-4 col-md-4"><?php echo ${'entry_'.$field_name}; ?></label>
+				<div class="input-group col-sm-4 col-md-4">
 				    <?php echo $form[$field_name]; ?>
 				</div>
 				<span class="help-block"><?php echo ${'error_'.$field_name}; ?></span>
@@ -62,8 +62,8 @@
 			foreach ($field_list as $field_name => $field_id) {
 		?>
 			<div class="form-group <?php if (${'error_'.$field_name}) echo 'has-error'; ?>">
-				<label class="control-label col-md-4"><?php echo ${'entry_'.$field_name}; ?></label>
-				<div class="input-group col-md-4">
+				<label class="control-label col-sm-4 col-md-4"><?php echo ${'entry_'.$field_name}; ?></label>
+				<div class="input-group col-sm-4 col-md-4">
 				    <?php echo $form[$field_id]; ?>
 				</div>
 				<span class="help-block"><?php echo ${'error_'.$field_name}; ?></span>
@@ -75,8 +75,8 @@
 			<?php echo $this->getHookVar('address_entry_section'); ?>
 
 			<div class="form-group">
-				<label class="control-label col-md-4"></label>
-				<div class="input-group col-md-4">
+				<label class="control-label col-sm-4 col-md-4"></label>
+				<div class="input-group col-sm-4 col-md-4">
 				    <?php echo $form['shipping_indicator']; ?>
 				</div>
 			</div>		
@@ -103,8 +103,8 @@
 			foreach ($field_list as $field_name => $field_id) {
 		?>
 			<div class="form-group <?php if (${'error_'.$field_id}) echo 'has-error'; ?>">
-				<label class="control-label col-md-4"><?php echo ${'entry_'.$field_name}; ?></label>
-				<div class="input-group col-md-4">
+				<label class="control-label col-sm-4 col-md-4"><?php echo ${'entry_'.$field_name}; ?></label>
+				<div class="input-group col-sm-4 col-md-4">
 					<?php if ($field_name == 'country' || $field_name == 'zone') {
 						echo $form[$field_id."_id"]; 
 					} else { 

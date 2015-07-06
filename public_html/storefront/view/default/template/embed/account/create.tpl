@@ -111,14 +111,14 @@
 	<div class="form-group">
 		<div class="col-md-12">
 	<?php if ($text_agree) { ?>
-			<label class="col-md-6 mt20 mb40">
+			<label class="col-md-6 mt10 mb10">
 				<?php echo $text_agree; ?><a href="<?php echo $text_agree_href; ?>" onclick="openModalRemote('#privacyPolicyModal','<?php echo $text_agree_href; ?>'); return false;"><b><?php echo $text_agree_href_text; ?></b></a>
 
 				<?php echo $form['agree']; ?>
 			</label>
 
 	<?php } ?>    	
-	    	<div class="col-md-2 mt20 mb40">
+	    	<div class="col-md-2 mt10 mb40">
 	    		<button class="btn btn-orange pull-right" title="<?php echo $form['continue']->name ?>" type="submit">
 	    		    <i class="fa fa-check"></i>
 	    		    <?php echo $form['continue']->name ?>

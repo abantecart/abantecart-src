@@ -20,11 +20,4 @@
 	</div>
 
 </div>
-
-<script>
-function goBack() {
-    window.history.back();
-}
-</script>
-
 <?php echo $footer; ?>

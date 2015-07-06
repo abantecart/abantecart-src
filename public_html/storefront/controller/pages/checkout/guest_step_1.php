@@ -29,13 +29,19 @@ class ControllerPagesCheckoutGuestStep1 extends AController {
 		//init controller data
 		$this->extensions->hk_InitData($this, __FUNCTION__);
 
+		//is this an embed mode	
+		$cart_rt = 'checkout/cart';		
+		if($this->config->get('embed_mode') == true){
+			$cart_rt = 'r/checkout/cart/embed';
+		}
+
 		if (!$this->cart->hasProducts() || (!$this->cart->hasStock() && !$this->config->get('config_stock_checkout'))) {
-			$this->redirect($this->html->getSecureURL('checkout/cart'));
+			$this->redirect($this->html->getSecureURL($cart_rt));
 		}
 
 		//validate if order min/max are met
 		if (!$this->cart->hasMinRequirement() || !$this->cart->hasMaxRequirement()) {
-			$this->redirect($this->html->getSecureURL('checkout/cart'));
+			$this->redirect($this->html->getSecureURL($cart_rt));
 		}
 
 		if ($this->customer->isLogged()) {
@@ -149,7 +155,7 @@ class ControllerPagesCheckoutGuestStep1 extends AController {
 				'separator' => FALSE
 		));
 		$this->document->addBreadcrumb(array(
-				'href' => $this->html->getURL('checkout/cart'),
+				'href' => $this->html->getURL($cart_rt),
 				'text' => $this->language->get('text_cart'),
 				'separator' => $this->language->get('text_separator')
 		));
@@ -495,7 +501,7 @@ class ControllerPagesCheckoutGuestStep1 extends AController {
 		$this->loadModel('localisation/country');
 		$this->view->assign('countries', $this->model_localisation_country->getCountries());
 
-		$this->view->assign('back', $this->html->getURL('checkout/cart'));
+		$this->view->assign('back', $this->html->getURL($cart_rt));
 
 		$this->data['form']['back'] = $form->getFieldHtml(array('type' => 'button',
 				'name' => 'back',

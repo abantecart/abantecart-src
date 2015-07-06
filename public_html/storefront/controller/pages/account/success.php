@@ -78,7 +78,14 @@ class ControllerPagesAccountSuccess extends AController {
 				'style' => 'button'));
 		$this->view->assign('continue_button', $continue);
 
-		$this->processTemplate('common/success.tpl');
+		if($this->config->get('embed_mode') == true){
+		    //load special headers
+	        $this->addChild('responses/embed/head', 'head');
+	        $this->addChild('responses/embed/footer', 'footer');
+		    $this->processTemplate('embed/common/success.tpl');
+		} else {
+	    	$this->processTemplate('common/success.tpl');
+	    }
 
 		//init controller data
 		$this->extensions->hk_UpdateData($this, __FUNCTION__);
