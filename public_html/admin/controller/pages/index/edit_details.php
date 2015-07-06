@@ -27,26 +27,26 @@ class ControllerPagesIndexEditDetails extends AController {
 
 	public function main() {
 
-        //init controller data
-        $this->extensions->hk_InitData($this,__FUNCTION__);
+		//init controller data
+		$this->extensions->hk_InitData($this,__FUNCTION__);
 
-        $this->loadModel('user/user');
-    	$this->loadLanguage('user/user');
+		$this->loadModel('user/user');
+		$this->loadLanguage('user/user');
 
 		$this->document->setTitle( $this->language->get('text_edit_details') );
 
-   		$this->document->addBreadcrumb( array ( 
-       		'href'      => $this->html->getSecureURL('index/home'),
-       		'text'      => $this->language->get('text_home'),
-      		'separator' => FALSE
-   		 ));
+		$this->document->addBreadcrumb( array (
+			'href'      => $this->html->getSecureURL('index/home'),
+			'text'      => $this->language->get('text_home'),
+			'separator' => FALSE
+		 ));
 
-        $this->document->addBreadcrumb( array (
-            'href'      => $this->html->getSecureURL('index/edit_details'),
-            'text'      => $this->language->get('text_edit_details'),
-            'separator' => ' :: ',
-            'current' => true,
-        ));
+		$this->document->addBreadcrumb( array (
+			'href'      => $this->html->getSecureURL('index/edit_details'),
+			'text'      => $this->language->get('text_edit_details'),
+			'separator' => ' :: ',
+			'current' => true,
+		));
 		
 		$this->view->assign('success', $this->session->data['success']);
 		if (isset($this->session->data['success'])) {
@@ -57,7 +57,7 @@ class ControllerPagesIndexEditDetails extends AController {
 			$this->model_user_user->editUser($this->user->getId(), $this->request->post);
 			$this->session->data['success'] = $this->language->get('text_success_details');
 			$this->redirect( $this->html->getSecureURL('index/edit_details') );
-    	}
+		}
 
 		if ($this->request->is_POST() && $this->_validate()) {
 			$this->redirect($this->html->getSecureURL('index/edit_details'));
@@ -131,41 +131,41 @@ class ControllerPagesIndexEditDetails extends AController {
 
 		$this->processTemplate('pages/index/edit_details.tpl' );
 
-        //update controller data
-        $this->extensions->hk_UpdateData($this,__FUNCTION__);
-  	}
+		//update controller data
+		$this->extensions->hk_UpdateData($this,__FUNCTION__);
+	}
 
 	private function _validate() {
-    	if ( mb_strlen($this->request->post['firstname']) < 2 || mb_strlen($this->request->post['firstname']) > 32 ) {
-      		$this->error['firstname'] = $this->language->get('error_firstname');
-    	}
+		if ( mb_strlen($this->request->post['firstname']) < 2 || mb_strlen($this->request->post['firstname']) > 32 ) {
+			$this->error['firstname'] = $this->language->get('error_firstname');
+		}
 
-    	if ( mb_strlen($this->request->post['lastname']) < 2 || mb_strlen($this->request->post['lastname']) > 32 ) {
-      		$this->error['lastname'] = $this->language->get('error_lastname');
-    	}
+		if ( mb_strlen($this->request->post['lastname']) < 2 || mb_strlen($this->request->post['lastname']) > 32 ) {
+			$this->error['lastname'] = $this->language->get('error_lastname');
+		}
 
-    	if ( !empty($this->request->post['password']) ) {
-      		if ( mb_strlen($this->request->post['password']) < 4 ) {
-        		$this->error['password'] = $this->language->get('error_password');
-      		}
+		if ( !empty($this->request->post['password']) ) {
+			if ( mb_strlen($this->request->post['password']) < 4 ) {
+				$this->error['password'] = $this->language->get('error_password');
+			}
 
-	  		if (!$this->error['password'] && $this->request->post['password'] != $this->request->post['password_confirm']) {
-	    		$this->error['password'] = $this->language->get('error_confirm');
-	  		}
-    	}
+			if (!$this->error['password'] && $this->request->post['password'] != $this->request->post['password_confirm']) {
+				$this->error['password'] = $this->language->get('error_confirm');
+			}
+		}
 
 		$pattern = '/^[A-Z0-9._%-]+@[A-Z0-9][A-Z0-9.-]{0,61}[A-Z0-9]\.[A-Z]{2,6}$/i';
-    	if (!preg_match($pattern, $this->request->post['email'])) {
-      		$this->error['email'] = $this->language->get('error_email');
-    	}
+		if (!preg_match($pattern, $this->request->post['email'])) {
+			$this->error['email'] = $this->language->get('error_email');
+		}
 
 		$this->extensions->hk_ValidateData($this);
 
-	    if (!$this->error) {
-	  		return TRUE;
+		if (!$this->error) {
+			return TRUE;
 		} else {
-	  		return FALSE;
+			return FALSE;
 		}
-  	}
+	}
 
 }

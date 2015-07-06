@@ -24,38 +24,38 @@ if (! defined ( 'DIR_CORE' ) || !IS_ADMIN) {
 class ControllerPagesIndexLogin extends AController {
 	private $error = array();
 	public $data = array();
-	          
+
 	public function main() {
 
-        //init controller data
-        $this->extensions->hk_InitData($this,__FUNCTION__);
+		//init controller data
+		$this->extensions->hk_InitData($this,__FUNCTION__);
 
-    	$this->loadLanguage('common/login');
+		$this->loadLanguage('common/login');
 
 		$this->cache->delete('admin_menu');
 
 		$this->document->setTitle( $this->language->get('heading_title') );
 
-   		$this->document->addBreadcrumb( array ( 
-       		'href'      => '',
-       		'text'      => $this->language->get('text_home'),
-      		'separator' => FALSE
-   		 ));
-   		$this->document->addBreadcrumb( array ( 
-            'href'      => $this->html->getSecureURL('index/login'),
-            'text'      => $this->language->get('heading_title'),
-            'current' => true,
-            'sub_text' => '',
-            'icon' => '' //need getMenuIconByRT method 
-        ));
+		$this->document->addBreadcrumb( array (
+			'href'      => '',
+			'text'      => $this->language->get('text_home'),
+			'separator' => FALSE
+		 ));
+		$this->document->addBreadcrumb( array (
+			'href'      => $this->html->getSecureURL('index/login'),
+			'text'      => $this->language->get('heading_title'),
+			'current' => true,
+			'sub_text' => '',
+			'icon' => '' //need getMenuIconByRT method
+		));
 
 		if ($this->request->is_POST() && $this->_validate()) {
 			$this->session->data['token'] = AEncryption::getHash(mt_rand());
 			$this->session->data['checkupdates'] = true; // sign to run ajax-request to check for updates. see common/head for details
 			//login is sussessful redirect to originaly requested page
 			if (isset($this->request->post['redirect']) && !preg_match("/rt=index\/login/i", $this->request->post['redirect'])) {
-                $redirect = $this->html->filterQueryParams( $this->request->post['redirect'], array('token')  );
-                $redirect .=  "&token=".$this->session->data['token'];
+				$redirect = $this->html->filterQueryParams( $this->request->post['redirect'], array('token')  );
+				$redirect .=  "&token=".$this->session->data['token'];
 				$this->redirect($redirect);
 			} else {
 				$this->redirect($this->html->getSecureURL('index/home'));
@@ -117,7 +117,7 @@ class ControllerPagesIndexLogin extends AController {
 		}
 		
 		$this->view->assign('error_warning', $this->error['warning']);
-    	$this->view->assign('forgot_password', $this->html->getSecureURL('index/forgot_password'));
+		$this->view->assign('forgot_password', $this->html->getSecureURL('index/forgot_password'));
 
 		if (isset($this->request->get['rt'])) {
 			$route = $this->request->get['rt'];
@@ -141,11 +141,11 @@ class ControllerPagesIndexLogin extends AController {
 
 		$this->view->batchAssign( $this->data );
 		
-        $this->processTemplate('pages/index/login.tpl' );
+		$this->processTemplate('pages/index/login.tpl' );
 
-        //update controller data
-        $this->extensions->hk_UpdateData($this,__FUNCTION__);
-  	}
+		//update controller data
+		$this->extensions->hk_UpdateData($this,__FUNCTION__);
+	}
 		
 	private function _validate() {
 		if (isset($this->request->post['username']) && isset($this->request->post['password']) && !$this->user->login($this->request->post['username'], $this->request->post['password'])) {
