@@ -59,3 +59,7 @@ function openModalRemote(id, url){
 	    modalBody.load(url)
 	}).modal();
 }
+
+function goBack() {
+    window.history.back();
+}

@@ -144,6 +144,12 @@ abstract class AController {
 			$this->block_details = $this->layout->getBlockDetails($this->instance_id);
 			$this->children = $this->layout->getChildren($this->instance_id);
 		}
+
+		//set embed mode if passed
+		if($this->request->get['embed_mode']){
+			$config = $this->registry->get('config');
+			$config->set('embed_mode', true);		
+		}
 	}
 
 	public function __destruct() {

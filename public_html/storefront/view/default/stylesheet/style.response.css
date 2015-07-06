@@ -1521,7 +1521,6 @@ ul.total li span.extra {
 /* register */
 .registerbox {
 	padding: 15px 15px 0 15px;
-	margin-bottom: 15px
 }
 
 #Address2Frm .form-horizontal .control-label {
@@ -1617,8 +1616,7 @@ ul.total li span.extra {
 }
 
 .newcustomer, .returncustomer, .formbox {
-	border: 1px solid #E7E7E7;
-	padding: 15px 20px;
+	padding: 10px;
 }
 
 .returncustomer {
@@ -2558,10 +2556,6 @@ paypal pro styles
 		max-width: 235px !important;
 	}
 
-	.returncustomer, .newcustomer {
-		padding: 10px 10px;
-	}
-
 	.returncustomer {
 		margin-left: 25px;
 	}
@@ -2768,9 +2762,6 @@ paypal pro styles
 
 	.formbox.ml10 {
 		margin-left: 0;
-	}
-
-	.returncustomer, .newcustomer {
 	}
 
 	.returncustomer {

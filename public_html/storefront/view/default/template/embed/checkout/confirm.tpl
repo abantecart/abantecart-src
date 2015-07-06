@@ -155,7 +155,7 @@
 
 	<?php echo $this->getHookVar('order_attributes'); ?>
 
-	<div class="row confirm_total">
+	<div class="confirm_total">
 	
 		<div class="cart-info col-md-5">
 			<table class="table table-striped table-bordered">

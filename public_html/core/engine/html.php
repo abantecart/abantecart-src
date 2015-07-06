@@ -30,7 +30,7 @@ class AHtml extends AController {
 	 * @param array $args
 	 */
 	public function __construct($registry, $args = array()) {
-		$this->registry = $registry;
+		$this->registry = $registry;		
 	}
 
 	/**
@@ -52,6 +52,7 @@ class AHtml extends AController {
 		
 		//if in embed mode add respoce prefix
 		if ($this->registry->get('config')->get('embed_mode') == true) {
+			$suburl .= '&embed_mode=1';
 			if(substr($rt, 0, 2) != 'r/'){
 				$rt = 'r/'.$rt;
 			}

@@ -7,17 +7,15 @@
 
 	<div class="contentpanel">
 
-	<section class="mb40">
+	<section class="mb10">
 		<p></p>
 		<p><?php echo $success; ?></p>
 	</section>
 	</div>
 
-
-
 	<div class="form-group">
 		<div class="input-group">
-			<div class="pull-right col-md-2 mt20 mb40">
+			<div class="pull-right col-md-2 mt10 mb40">
 				<?php echo $continue;?>
 			</div>
 		</div>
