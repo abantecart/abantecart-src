@@ -255,7 +255,7 @@ abstract class AController {
 
 	public function processTemplate($template = '') {
 		//is this an embed mode? Special templates needs to be loaded
-		if( $this->config->get('embed_mode') == true ){
+		if(is_object($this->registry->get('config')) &&  $this->registry->get('config')->get('embed_mode') == true ){
 		  	//get template if it was set earlier
 			if (empty($template)) {
 				$template = $this->view->getTemplate();
