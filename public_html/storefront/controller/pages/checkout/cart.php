@@ -414,7 +414,7 @@ class ControllerPagesCheckoutCart extends AController {
 			$this->view->assign('error_warning', $error_msg );
 			$this->view->setTemplate( 'pages/checkout/cart.tpl' );
 
-    	} else {            
+	    } else{
             $this->data['heading_title'] = $this->language->get('heading_title');
             $this->data['text_error'] = $this->language->get('text_error');
 
@@ -423,6 +423,9 @@ class ControllerPagesCheckoutCart extends AController {
 																			   'text' =>  $this->language->get('button_continue'),
 																			   'href' =>  $this->html->getURL($home_rt),
 																			   'style' => 'button' ));
+		    if($this->config->get('embed_mode') == true){
+			    $this->data['back_url'] = $this->html->getURL('r/product/category');
+		    }
 
             $this->view->setTemplate( 'pages/error/not_found.tpl' );
     	}

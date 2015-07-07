@@ -4,7 +4,7 @@
   <span class="subtext"></span>
 </h1>
 
-<div class="contentpanel">
+	<div class="content container-fluid">
 
 	<?php if ($description) { ?>
 	<div style="margin-bottom: 15px;"><?php echo $description; ?></div>
@@ -33,17 +33,13 @@
 	  <form class=" form-inline pull-left">
 	    <?php echo $text_sort; ?>&nbsp;&nbsp;<?php echo $sorting; ?>
 	  </form>
-	  <div class="btn-group pull-right">
-	    <button class="btn" id="list"><i class="fa fa-th-list"></i>
-	    </button>
-	    <button class="btn btn-orange" id="grid"><i class="fa fa-th"></i></button>
-	  </div>
+
 	</div>
 	<!-- end sorting-->
 
 	<?php include( $this->templateResource('/template/pages/product/product_listing.tpl') ) ?>
-		
-	<!-- Sorting + pagination-->
+
+		<!-- Sorting + pagination-->
 	<div class="sorting well">
 		<?php echo $pagination_bootstrap; ?>
 		<div class="btn-group pull-right">

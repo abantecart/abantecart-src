@@ -25,6 +25,13 @@ class ControllerPagesProductCategory extends AController {
 	
 	public function main() {
 
+		//is this an embed mode
+		if($this->config->get('embed_mode') == true){
+			$cart_rt = 'r/checkout/cart/embed';
+		} else{
+			$cart_rt = 'checkout/cart';
+		}
+
         //init controller data
         $this->extensions->hk_InitData($this,__FUNCTION__);
 
@@ -76,8 +83,14 @@ class ControllerPagesProductCategory extends AController {
 		} else {
 			$category_id = 0;
 		}
-		
-		$category_info = $this->model_catalog_category->getCategory($category_id);
+
+		$category_info = array();
+
+		if($category_id){
+			$category_info = $this->model_catalog_category->getCategory($category_id);
+		} elseif($this->config->get('embed_mode') == true){
+			$category_info['name'] = $this->language->get('text_top_category');
+		}
 	
 		if ($category_info) {
 	  		$this->document->setTitle( $category_info['name'] );
@@ -124,7 +137,7 @@ class ControllerPagesProductCategory extends AController {
 	 
 			$category_total = $this->model_catalog_category->getTotalCategoriesByCategoryId($category_id);
 			$product_total = $this->model_catalog_product->getTotalProductsByCategoryId($category_id);
-			
+
 			if ($category_total || $product_total) {
         		$categories = array();
         		
@@ -192,7 +205,7 @@ class ControllerPagesProductCategory extends AController {
                         if($this->config->get('config_cart_ajax')){
                             $add = '#';
                         }else{
-						    $add = $this->html->getSecureURL('checkout/cart', '&product_id=' . $result['product_id'], '&encode');
+	                        $add = $this->html->getSecureURL($cart_rt, '&product_id=' . $result['product_id'], '&encode');
                         }
 					}
 					

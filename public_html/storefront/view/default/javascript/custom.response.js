@@ -28,7 +28,7 @@ $('document').ready(function () {
 
 })
 
-function process_thumbnails() {
+var process_thumbnails = function () {
     // Product thumbnails
     $('.thumbnail').each(function () {
         $(this).hover(
@@ -52,7 +52,7 @@ function process_thumbnails() {
 
 }
 
-function openModalRemote(id, url){
+var openModalRemote = function (id, url) {
 	var modal = $(id);
 	var modalBody = $(id +' .modal-body');
 	modal.on('show.bs.modal', function () {
@@ -60,6 +60,6 @@ function openModalRemote(id, url){
 	}).modal();
 }
 
-function goBack() {
+var goBack = function () {
     window.history.back();
 }

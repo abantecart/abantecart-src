@@ -46,10 +46,44 @@ if (typeof jQuery == 'undefined') {
 <?php } ?>
 
 <script type="text/javascript">
-$(document).on('click','a.call_to_order',function(){
-	goTo('<?php echo $call_to_order_url;?>');
-	return false;
-});
+	$(document).on('click', 'a.productcart', function () {
+		var item = $(this);
+		//check if href provided for product details access
+		if (item.attr('href') && item.attr('href') != '#') {
+			return true;
+		}
+
+		if (item.attr('data-id')) {
+			$.ajax({
+				url: '<?php echo $cart_ajax_url; ?>',
+				type: 'GET',
+				dataType: 'json',
+				data: {product_id: item.attr('data-id')},
+				success: function (data) {
+					var alert_msg = '<div class="alert alert-info added_to_cart"> \
+	                    		<button type="button" class="close" data-dismiss="alert">&times;</button> \
+	                    		&nbsp;&nbsp;<a href="<?php echo $cart_url ?>"><?php echo $text_add_cart_confirm; ?> \
+	                    		&nbsp;<img src="<?php echo $this->templateResource("/image/addcart.png"); ?>"></a> \
+	                    		</div>';
+					item.closest('.thumbnail .pricetag').prepend(alert_msg);
+
+					//topcart
+					$('.nav.topcart .dropdown-toggle span').first().html(data.item_count);
+					$('.nav.topcart .dropdown-toggle .cart_total').html(data.total);
+					if ($('#top_cart_product_list')) {
+						$('#top_cart_product_list').html(data.cart_details);
+					}
+					;
+				}
+			});
+		}
+		return false;
+	});
+
+	$(document).on('click', 'a.call_to_order', function () {
+		goTo('<?php echo $call_to_order_url;?>');
+		return false;
+	});
 </script>
 
 </head>

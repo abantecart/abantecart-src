@@ -28,6 +28,14 @@ class ControllerPagesProductManufacturer extends AController {
         //init controller data
         $this->extensions->hk_InitData($this,__FUNCTION__);
 
+		if($this->config->get('embed_mode') == true){
+			$cart_rt = 'r/checkout/cart/embed';
+
+			//load special headers
+			$this->addChild('responses/embed/head', 'head');
+			$this->addChild('responses/embed/footer', 'footer');
+		}
+
 		$this->loadLanguage('product/manufacturer');
 
 		$this->loadModel('catalog/manufacturer');
@@ -149,7 +157,7 @@ class ControllerPagesProductManufacturer extends AController {
                         if($this->config->get('config_cart_ajax')){
                             $add = '#';
                         }else{
-                            $add = $this->html->getSecureURL('checkout/cart', '&product_id=' . $result['product_id'], '&encode');
+	                        $add = $this->html->getSecureURL($cart_rt, '&product_id=' . $result['product_id'], '&encode');
                         }
 					}
 
@@ -352,4 +360,3 @@ class ControllerPagesProductManufacturer extends AController {
         $this->extensions->hk_UpdateData($this,__FUNCTION__);
   	}
 }
-?>

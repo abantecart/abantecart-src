@@ -23,6 +23,13 @@ if (! defined ( 'DIR_CORE' )) {
 class ControllerResponsesEmbedHead extends AController {
 	public function main() {
 
+		//is this an embed mode
+		if($this->config->get('embed_mode') == true){
+			$cart_rt = 'r/checkout/cart/embed';
+		} else{
+			$cart_rt = 'checkout/cart';
+		}
+
         //init controller data
         $this->extensions->hk_InitData($this,__FUNCTION__);
 		
@@ -47,7 +54,7 @@ class ControllerResponsesEmbedHead extends AController {
         if (isset($this->request->server['HTTPS']) && (($this->request->server['HTTPS'] == 'on') || ($this->request->server['HTTPS'] == '1'))) {
 		    $this->view->assign('ssl', 1);
         }
-		$this->view->assign('cart_url', $this->html->getURL('checkout/cart'));
+		$this->view->assign('cart_url', $this->html->getURL($cart_rt));
         $this->view->assign('cart_ajax', (int) $this->config->get('config_cart_ajax'));
         $this->view->assign('cart_ajax_url', $this->html->getURL('r/product/product/addToCart'));
         $this->view->assign('search_url', $this->html->getURL('product/search'));

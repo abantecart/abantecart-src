@@ -20,4 +20,13 @@
 	</div>
 
 </div>
+<?php if($back_url){ ?>
+	<script type="application/javascript">
+		$(document).ready(function () {
+			goBack = function () {
+				location = '<?php echo $back_url;?>';
+			}
+		});
+	</script>
+<?php } ?>
 <?php echo $footer; ?>

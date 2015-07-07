@@ -117,11 +117,13 @@ class ControllerResponsesEmbedJS extends AController {
 			(int)$this->config->get('config_image_thumb_height'),
 		    true);
 
-		$product_info['price'] = $this->currency->format($product_info['price']);
 
 		if ($product_info['final_price'] && $product_info['final_price']!=$product_info['price']) {
 			$product_info['special'] = $this->currency->format($product_info['final_price']);
 		}
+
+		$product_info['price'] = $this->currency->format($product_info['price']);
+
 
 		$rt = $this->config->get('config_embed_click_action')=='modal' ? 'r/product/product' : 'product/product';
 		$this->data['product_details_url'] = $this->html->getURL($rt,	'&product_id=' . $product_id);
