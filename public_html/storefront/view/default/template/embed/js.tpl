@@ -45,54 +45,78 @@ if(window.abc_count === undefined){
 		var scounter = 0;
 		var checkReady = function(callback, second) {
 			scounter++;
-		    if (window.jQuery !== undefined) {
-		   		callback(jQuery);
-		    }
-		    else if (scounter <= 5) {
-		        window.setTimeout(function() { checkReady(callback, second); }, 100);
-		    } else {
-		    	//attempts limit reached
-		    	scounter = 0;
-		    	if(second !== undefined ) {
-		    		second();
-		    	}
-		    }
+if (window.jQuery !== undefined) {
+callback(jQuery);
+}
+else if (scounter <= 5) {
+window.setTimeout(function() { checkReady(callback, second); }, 100);
+} else {
+//attempts limit reached
+scounter = 0;
+if(second !== undefined ) {
+second();
+}
+}
 		};	
 		checkReady(
 			function($){
-				jQuery = window.jQuery.noConflict(true);	
-	    		main();
+				jQuery = window.jQuery.noConflict(true);
+main();
 			},
 			function($){
 				//one more attemt to load local library		
 				script_loader("<?php echo $this->templateResource("/javascript/jquery-1.11.0.min.js"); ?>");
 				checkReady(function($){
-				    jQuery = window.jQuery.noConflict(true);	
-				    main();
+jQuery = window.jQuery.noConflict(true);
+main();
 				});		
 			}
 		);	
 		
 	} else {
-	    // The jQuery version on the window is the one we want to use
-	    jQuery = window.jQuery;
-	    main();
+// The jQuery version on the window is the one we want to use
+jQuery = window.jQuery;
+main();
 	}
 	
 	/******** Called after jQuery has loaded ******/
 	function scriptLoadHandler() {
-	    // Restore $ and window.jQuery to their previous values and store the
-	    // new jQuery in our local jQuery variable
-	    jQuery = window.jQuery.noConflict(true);
-	    main(); 
+// Restore $ and window.jQuery to their previous values and store the
+// new jQuery in our local jQuery variable
+jQuery = window.jQuery.noConflict(true);
+main();
 	}
+
+
+/******** Script loader function ********/
+function script_loader( url ) {
+var script_tag = document.createElement('script');
+script_tag.setAttribute("type","text/javascript");
+script_tag.setAttribute("src",url);
+// Try to find the head, otherwise default to the documentElement
+(document.getElementsByTagName("head")[0] || document.documentElement).appendChild(script_tag);
+return script_tag;
+}
+
+/******** CSS loader function ********/
+function css_loader( url ) {
+var css_tag = document.createElement('link');
+css_tag.setAttribute("type","text/javascript");
+css_tag.setAttribute("rel",'stylesheet');
+css_tag.setAttribute("type",'text/css');
+css_tag.setAttribute("media","all");
+css_tag.setAttribute("href",url);
+// Try to find the head, otherwise default to the documentElement
+(document.getElementsByTagName("head")[0] || document.documentElement).appendChild(css_tag);
+}
+
 
 	/*****************************************/
 
 	var abc_get_cookie = function() {
 		var name = 'abantecart_token';
 		var matches = document.cookie.match(new RegExp(
-	        "(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"
+"(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"
 		));
 	  return matches ? decodeURIComponent(matches[1]) : undefined;
 	}
@@ -124,8 +148,8 @@ if(window.abc_count === undefined){
 	/******** function to append css-file with styles for embedded block from AbanteCart host ********/
 	var abc_append_css = function(url){
 		if(url.length<1){
-		    console.log('AbanteCart embedded code: empty url for css requested!');
-		    return null;
+console.log('AbanteCart embedded code: empty url for css requested!');
+return null;
 		}
 		css_loader(url);
 	}
@@ -135,7 +159,7 @@ if(window.abc_count === undefined){
 		//set new custom jQuery in global space for included scripts (custom bootstrap)
 		window.jQuery_abc = jQuery;
 
-	    jQuery(document).ready(function($) {
+jQuery(document).ready(function($) {
 			var modal = '';
 			<?php
 			//for embedding with modal
@@ -185,7 +209,7 @@ if(window.abc_count === undefined){
 			<?php }?>
 
 
-	        if( !$('#abc_embed_modal').length && modal.length) {
+if( !$('#abc_embed_modal').length && modal.length) {
 				$('body').append(modal);
 			<?php
 				// do cookie-test if session id not retrieved from http-request
@@ -205,12 +229,12 @@ if(window.abc_count === undefined){
 
 			// Poll for abc_process_wrapper to come into existence
 			var processReady = function(callback) {
-			    if (abc_process_wrapper !== undefined) {
-			   		callback();
-			    }
-			    else {
-			        window.setTimeout(function() { processReady(callback); }, 100);
-			    }
+if (abc_process_wrapper !== undefined) {
+callback();
+}
+else {
+window.setTimeout(function() { processReady(callback); }, 100);
+}
 			};	
 
 			processReady(function($){
@@ -226,7 +250,7 @@ if(window.abc_count === undefined){
 			$('#abc_embed_modal').on('shown.bs.abcmodal', function (e) {
 				//clear iframe content
 				loadIframe( $(e.relatedTarget).attr('data-href') );
-			    $('#abc_embed_modal').abcmodal('show');
+$('#abc_embed_modal').abcmodal('show');
 			});
 
 			$('#abc_embed_modal').on('hide.bs.abcmodal', function (e) {
@@ -238,17 +262,17 @@ if(window.abc_count === undefined){
 			var loadIframe = function(url) {
 				$('#abc_embed_modal iframe').contents().find("body").html('');
 				$('#abc_embed_modal iframe').hide();
-			    $('#iframe_loading').show();
-			    var d = new Date();
+$('#iframe_loading').show();
+var d = new Date();
 				//get href of modal caller
 				var frame_url = abc_process_url(url+ '&time_stamp='+d.getTime());
-			    $('#abc_embed_modal iframe').attr("src", frame_url);
+$('#abc_embed_modal iframe').attr("src", frame_url);
 				$('#iframe_loading').hide();
 				$('#abc_embed_modal iframe').show();
 				return false;
-			};	
+			};
 
-	    });
+});
 
 
 		var abc_process_wrapper = function(){
@@ -280,7 +304,7 @@ if(window.abc_count === undefined){
 					add_url += '&quantity='+ $('.abantecart_quantity input').val();
 				}
 				abc_process_request(add_url);
-				abc_populate_cart(main_url);
+setTimeout(function(){ abc_populate_cart(main_url); },300)
 				return false;
 			});
 
@@ -353,27 +377,4 @@ if(window.abc_count === undefined){
 		}
 
 	}
-	
-	/******** Script loader function ********/
-	function script_loader( url ) { 
-		var script_tag = document.createElement('script');
-		script_tag.setAttribute("type","text/javascript");
-		script_tag.setAttribute("src",url);
-		// Try to find the head, otherwise default to the documentElement
-		(document.getElementsByTagName("head")[0] || document.documentElement).appendChild(script_tag);
-		return script_tag;
-	}
-
-	/******** CSS loader function ********/
-	function css_loader( url ) { 
-		var css_tag = document.createElement('link');
-		css_tag.setAttribute("type","text/javascript");
-		css_tag.setAttribute("rel",'stylesheet');
-		css_tag.setAttribute("type",'text/css');
-		css_tag.setAttribute("media","all");
-		css_tag.setAttribute("href",url);
-		// Try to find the head, otherwise default to the documentElement
-		(document.getElementsByTagName("head")[0] || document.documentElement).appendChild(css_tag);
-	}
-	
 })();
