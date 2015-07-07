@@ -184,11 +184,11 @@ class ControllerPagesIndexHome extends AController {
 		$this->view->assign('chart_url', $this->html->getSecureURL('index/chart') );
 
 		//check at least one enabled payment extension
-		$no_payment_installed = false;
+		$no_payment_installed = true;
 		$ext_list = $this->extensions->getInstalled('payment');
 		foreach($ext_list as $ext_txt_id){
 			if( $this->config->get($ext_txt_id.'_status')){
-				$no_payment_installed = true;
+				$no_payment_installed = false;
 				break;
 			}
 		}
@@ -198,10 +198,9 @@ class ControllerPagesIndexHome extends AController {
 			$this->loadLanguage('common/tips');
 			$tip_content = $this->html->convertLinks($this->language->get('no_enabled_payments_tip'));
 
-			// Do request for top5 payment extensions to MP API
-			$this->loadModel('tool/mp_api');
-			$api_response_html = $this->model_tool_mp_api->processRequest(array()); //?????TODO: build correct request
-
+			// TODO: Do request for top5 payment extensions to MP API
+			//$this->loadModel('tool/mp_api');
+			//$api_response_html = $this->model_tool_mp_api->processRequest(array());
 			$tip_content = sprintf($tip_content, $api_response_html);
 			$this->view->assign('tip_content', $tip_content);
 		}

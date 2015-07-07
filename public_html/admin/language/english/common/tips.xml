@@ -20,8 +20,6 @@
 	        <img src="extensions/default_pp_standart/image/icon.png">Install Paypal Extension</a>
 	    </div>
     </div>
-    <label class="h4 heading">TOP5 payment extensions on AbanteCart Marketplace </label>
-    <div id="mp_top5_promo" class="col-sm-12">%s</div>
 
     ]]></value>
   </definition>
