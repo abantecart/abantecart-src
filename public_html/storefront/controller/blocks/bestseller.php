@@ -86,6 +86,7 @@ class ControllerBlocksBestSeller extends AController {
 			$this->data['products'][] = array(
 				'product_id'    => $result['product_id'],
 				'name'    		=> $result['name'],
+				'blurb' => $result['blurb'],
 				'model'   		=> $result['model'],
 				'rating'  		=> $rating,
 				'stars'   		=> sprintf($this->language->get('text_stars'), $rating),
@@ -116,4 +117,3 @@ class ControllerBlocksBestSeller extends AController {
         $this->extensions->hk_UpdateData($this,__FUNCTION__);
 	}
 }
-?>

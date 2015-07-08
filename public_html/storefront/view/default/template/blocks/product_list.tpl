@@ -44,6 +44,7 @@
 						<?php } ?>
 						<?php echo $product['buttons'] ?>
 					</div>
+					<div class="blurb"><?php echo $product['blurb'] ?></div>
 					<?php if ($display_price) { ?>
 						<div class="pricetag jumbotron">
 							<span class="spiral"></span>

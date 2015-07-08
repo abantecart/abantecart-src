@@ -219,7 +219,7 @@ class APromotion {
 	 */
 	public function getProductSpecials($sort = 'p.sort_order', $order = 'ASC', $start = 0, $limit = 20) {
 
-        $sql = "SELECT DISTINCT ps.product_id, p.*, pd.name, pd.description,
+		$sql = "SELECT DISTINCT ps.product_id, p.*, pd.name, pd.description, pd.blurb,
                     (SELECT AVG(rating)
                     FROM " . $this->db->table("reviews") . " r1
                     WHERE r1.product_id = ps.product_id

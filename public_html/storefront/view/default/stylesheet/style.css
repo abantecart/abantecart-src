@@ -901,6 +901,12 @@ ul.categorymenu > li ul > li img {
 	display: block
 }
 
+.thumbnail .blurb {
+	max-height: 60px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
 .thumbnails.list > li {
 	margin-bottom: 40px;
 	padding-bottom: 40px;

@@ -262,6 +262,7 @@ class ControllerPagesProductSearch extends AController {
 						$products[] = array(
 							'product_id' => $result['product_id'],
 	            			'name'    => $result['name'],
+				            'blurb' => $result['blurb'],
 							'model'   => $result['model'],
 							'rating'  => $rating,
 							'stars'   => sprintf($this->language->get('text_stars'), $rating),

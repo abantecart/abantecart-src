@@ -75,7 +75,7 @@
 				<div class="row">
 					<div class="col-md-12">
 						<h1 class="productname"><span class="bgnone"><?php echo $heading_title; ?></span></h1>
-
+						<span class="blurb"><?php echo $product_info['blurb'] ?></span>
 						<div class="productprice">
 							<?php
 

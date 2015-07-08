@@ -139,7 +139,8 @@ class ModelCatalogProduct extends Model {
 						p.product_id,
 						". $this->_sql_final_price_string() . ", 
 						pd.name AS name, 
-						m.name AS manufacturer, 
+						pd.blurb,
+						m.name AS manufacturer,
 						ss.name AS stock,
 						". $this->_sql_avg_rating_string() . ",
 						". $this->_sql_review_count_string() . "
@@ -213,7 +214,8 @@ class ModelCatalogProduct extends Model {
 		$sql = "SELECT *, p.product_id,
 						". $this->_sql_final_price_string() . ", 
 						pd.name AS name, 
-						m.name AS manufacturer, 
+						pd.blurb,
+						m.name AS manufacturer,
 						ss.name AS stock,
 						". $this->_sql_avg_rating_string() . ",
 						". $this->_sql_review_count_string() . "
@@ -372,7 +374,8 @@ class ModelCatalogProduct extends Model {
 							p.product_id,  
 							". $this->_sql_final_price_string() . ", 
 							pd.name AS name, 
-							m.name AS manufacturer, 
+							pd.blurb,
+							m.name AS manufacturer,
 							ss.name AS stock,
 							". $this->_sql_avg_rating_string() . ",
 							". $this->_sql_review_count_string() . "
@@ -602,6 +605,7 @@ class ModelCatalogProduct extends Model {
 					pd.name AS name,
 					m.name AS manufacturer,
 					ss.name AS stock,
+					pd.blurb,
 					". $this->_sql_avg_rating_string() . ",
 					". $this->_sql_review_count_string() . "
 					". $this->_sql_join_string() . "
