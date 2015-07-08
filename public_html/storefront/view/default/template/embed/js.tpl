@@ -332,7 +332,7 @@ setTimeout(function(){ abc_populate_cart(main_url); },300)
 			//we need to know where we must to apply result
 			var target_id = child.attr('id');
 			child.attr('id',target_id);
-			var url = w_url+'&rt=r/embed/js/product&product_id=' + product_id + '&target=' + target_id;
+var url = w_url+'?rt=r/embed/js/product&product_id=' + product_id + '&target=' + target_id;
 			abc_process_request(url);
 		}
 
@@ -340,7 +340,7 @@ setTimeout(function(){ abc_populate_cart(main_url); },300)
 
 			//using local jQuery
 			$ = jQuery;
-			var url = w_url+'&rt=r/embed/js/categories';
+var url = w_url+'?rt=r/embed/js/categories';
 			var target_id, category_id;
 
 			$(children).each(function(){
@@ -356,7 +356,7 @@ setTimeout(function(){ abc_populate_cart(main_url); },300)
 
 			//using local jQuery
 			$ = jQuery;
-			var url = w_url+'&rt=r/embed/js/manufacturers';
+var url = w_url+'?rt=r/embed/js/manufacturers';
 			var target_id, manufacturer_id;
 
 			$(children).each(function(){
@@ -372,7 +372,7 @@ setTimeout(function(){ abc_populate_cart(main_url); },300)
 		var abc_populate_cart = function(w_url){
 			//using local jQuery
 			$ = jQuery;
-			var url = w_url+'&rt=r/embed/js/cart';
+var url = w_url+'?rt=r/embed/js/cart';
 			abc_process_request(url);
 		}
 
