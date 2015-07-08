@@ -456,12 +456,12 @@
 	<definition>
 		<key>entry_seo_url</key>
 		<value>
-			<![CDATA[Use SEO URL's:<br /><span class="help">To use SEO URL's apache module mod-rewrite must be installed and you need to rename the htaccess.txt to .htaccess.</span>]]></value>
+			<![CDATA[Use SEO URL's:<br /><span class="help">To use SEO URL's apache module mod-rewrite must be installed and you need to rename the htaccess.txt to .htaccess. Note: If abantecart not installed in the root of domain must be changed rewriteBase rule inside .htaccess file.</span>]]></value>
 	</definition>
 	<definition>
 		<key>entry_retina_enable</key>
 		<value>
-			<![CDATA[Generate high-res (retina) images:<br /><span class="help">To use this apache module mod-rewrite must be installed and you need to rename the htaccess.txt to .htaccess.<br>After enabling should clear the cache images</span>]]></value>
+			<![CDATA[Generate high-res (retina) images:<br /><span class="help">To use this apache module mod-rewrite must be installed and you need to rename the htaccess.txt to .htaccess. Note: If abantecart not installed in the root of domain must be changed rewriteBase rule inside .htaccess file. <br>After enabling should clear the cache images. </span>]]></value>
 	</definition>
 	<definition>
 		<key>entry_compression</key>
