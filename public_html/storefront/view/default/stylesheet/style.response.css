@@ -1635,22 +1635,13 @@ ul.total li span.extra {
 
 .added_to_cart {
 	display: block;
-	height: 55px;
-	margin-left: -15px;
-	margin-top: -10px;
 	position: absolute;
-	width: 255px;
+	left: 50%;
 	z-index: 999;
-	white-space: nowrap;
 }
-.added_to_cart>button.close {
-	line-height: 20px;
-	position: relative;
-	right: -10px;
-	top: -10px;
-}
-.added_to_cart a > img {
-	display: inline;
+.added_to_cart .fa{
+	font-size: 36px;
+	color: green;
 }
 
 /* javascripts */
