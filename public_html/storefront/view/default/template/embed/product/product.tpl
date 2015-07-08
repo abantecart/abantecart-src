@@ -11,49 +11,8 @@
 		<!-- Product Details-->
 		<div class="row">
 			<!-- Left Image-->
-			<div class="col-sm-6">
-				<ul class="thumbnails mainimage bigimage">
-					<?php if (sizeof($images) > 0) {
-						foreach ($images as $image) { ?>
-							<li >
-								<?php
-								$im_width = $image_main['sizes']['thumb']['width'];
-								$im_height = $image_main['sizes']['thumb']['height'];
-								if (!has_value($im_width)) {
-									$im_width = 380;
-								}
-								if (!has_value($im_height)) {
-									$im_height = 380;
-								}
-								//NOTE: ZOOM is not supported for embeded image tags
-								if ($image['origin'] == 'external') {
-								?>
-									<a class="thumbnail">
-									<?php echo $image['main_html'];	?>								
-									</a>
-								<?php
-								} else {
-									$image_url = $image['main_url'];?>
-									<a rel="position: 'inside', showTitle: false, adjustX:-4, adjustY:-4"
-									   class="thumbnail cloud-zoom"
-									   href="<?php echo $image['main_url']; ?>"
-									   title="<?php echo $image['title']; ?>"
-									   style="height:1%; width: 1%;">
-										<img src="<?php echo $image_url; ?>" alt="<?php echo $image['title']; ?>"
-											 title="<?php echo $image['title']; ?>"
-											 style="max-height:<?php echo $im_height ?>px; max-width: <?php echo $im_width ?>px;">
-									</a>
-								<?php } ?>
-							</li>
-						<?php
-						}
-					} ?>
-				</ul>
-				<?php if ($image_main) { ?>
-					<span><?php echo $text_zoom; ?></span>
-				<?php } ?>
-
-				<?php if (sizeof($images) > 0) { ?>
+			<div class="col-md-6 col-sm-6">
+				<?php if (sizeof($images) > 1) { ?>
 					<ul class="thumbnails mainimage smallimage">
 						<?php foreach ($images as $image) { ?>
 							<li class="producthtumb">
@@ -71,9 +30,41 @@
 						<?php } ?>
 					</ul>
 				<?php } ?>
+				<ul class="thumbnails mainimage bigimage">
+					<?php if (sizeof($images) > 0) {
+						foreach ($images as $image) { ?>
+							<li >
+								<?php
+								$im_width = 300;
+								$im_height = 300;
+								//NOTE: ZOOM is not supported for embeded image tags
+								if ($image['origin'] == 'external') {
+								?>
+									<a class="thumbnail">
+									<?php echo $image['main_html'];	?>								
+									</a>
+								<?php
+								} else {
+									$image_url = $image['main_url'];?>
+									<a rel="position: 'inside', showTitle: false, adjustX:-4, adjustY:-4"
+									   class="thumbnail cloud-zoom"
+									   href="<?php echo $image['main_url']; ?>" target="_image"
+									   title="<?php echo $image['title']; ?>"
+									   style="height:1%; width: 1%;">
+										<img src="<?php echo $image_url; ?>" alt="<?php echo $image['title']; ?>"
+											 title="<?php echo $image['title']; ?>"
+											 style="max-height:<?php echo $im_height ?>px; max-width: <?php echo $im_width ?>px;">
+										<i class="fa fa-arrows"></i>
+									</a>
+								<?php } ?>
+							</li>
+						<?php
+						}
+					} ?>
+				</ul>
 			</div>
 			<!-- Right Details-->
-			<div class="col-sm-6">
+			<div class="col-md-6 col-sm-6">
 				<div class="row">
 					<div class="col-sm-12">
 						<h1 class="productname"><span class="bgnone"><?php echo $heading_title; ?></span></h1>
@@ -118,9 +109,9 @@
 										<?php foreach ($options as $option) { ?>
 											<div class="form-group">
 												<?php if ($option['html']->type != 'hidden') { ?>
-												<label class="control-label"><?php echo $option['name']; ?></label>
+												<label class="control-label col-sm-6"><?php echo $option['name']; ?></label>
 												<?php } ?>
-												<div class="input-group col-sm-7">
+												<div class="input-group col-sm-6">
 													<?php echo $option['html']; ?>
 												</div>
 											</div>
@@ -467,7 +458,7 @@
 							tmb_url = data.images[img].thumb_html;
 							html1 += '<a class="thumbnail">'+ img_url +'</a>';
 						} else {
-							html1 += '<a href="' + img_url + '" rel="position: \'inside\' , showTitle: false, adjustX:-4, adjustY:-4" class="thumbnail cloud-zoom"  title="' + data.images[img].title + '"><img src="' + data.images[img].thumb2_url + '" alt="' + data.images[img].title + '" title="' + data.images[img].title + '"></a>';
+							html1 += '<a href="' + img_url + '" target="_image" rel="position: \'inside\' , showTitle: false, adjustX:-4, adjustY:-4" class="thumbnail cloud-zoom"  title="' + data.images[img].title + '"><img src="' + data.images[img].thumb2_url + '" alt="' + data.images[img].title + '" title="' + data.images[img].title + '"></a>';
 							html2 += '<a class="thumbnail"><img src="' + tmb_url + '" alt="' + data.images[img].title + '" title="' + data.images[img].title + '"></a>';
 						}
 						html1 += '</li>';

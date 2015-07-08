@@ -561,7 +561,7 @@ li.dropdown {
 .thumbnail .pricetag {
 	margin-top: 8px;
 	position: relative;
-	padding: 9px 9px 9px 16px;
+	padding: 9px 5px 9px 5px;
 	margin-bottom: 20px;
 	height: 55px;
 }
@@ -670,19 +670,19 @@ a.compare>img{
 .thumbnail .price .oneprice {
 	line-height: 35px;
 	vertical-align: middle;
-	font-size: 14px;
+	font-size: 12px;
 	color: #5e626b;
 	font-weight: bold;
 }
 
 .thumbnail .price .pricenew {
-	font-size: 14px;
+	font-size: 12px;
 	color: #5e626b;
 	font-weight: bold;
 }
 
 .thumbnail .price .priceold {
-	font-size: 12px;
+	font-size: 10px;
 	text-decoration: line-through;
 	color: #96979d;
 }
@@ -892,6 +892,27 @@ h1.pagetitle {
 	margin-bottom: 0;
 }
 
+.thumbnails.mainimage.bigimage {
+	padding-top: 10px;
+	position: absolute;
+	left: 50px;
+}
+.thumbnails.mainimage.bigimage .fa {
+	position: absolute;
+    top: 5px;
+    right:-60px;
+	z-index: 999;	
+	color: #96979d;
+	font-size: 16px;
+}
+.thumbnails.mainimage.smallimage {
+	padding-top: 10px;
+}
+.thumbnails.mainimage.smallimage .thumbnail {
+	margin-bottom: 5px;
+	cursor: pointer;	
+}
+
 ul.productinfo {
 	margin: 0;
 	padding: 0;
@@ -1040,7 +1061,7 @@ ul.rate li.off {
 .productpageprice {
 	position: relative;
 	padding: 9px 0 9px 20px;
-	margin: 40px 0 10px 0;
+	margin: 30px 0 10px 0;
 	font-size: 26px;
 	text-align: center;
 	line-height: 44px;
@@ -1110,7 +1131,6 @@ ul.productpagecart li {
 	border: 0;
 	padding: 15px 15px 8px 0;
 	display: block;
-	margin: 10px 0 10px 0;
 }
 
 .quantitybox:after {
@@ -1145,8 +1165,8 @@ ul.productpagecart li {
 
 h1.productname {
 	color: #00A1CB;
-	font-size: 26px;
-	margin: 0 0 20px 0;
+	font-size: 22px;
+	margin: 0 0 15px 0;
 	background: none;
 }
 
@@ -1155,11 +1175,11 @@ h1.productname {
 	color: #FFFFFF;
 	font-size: 20px;
 	font-weight: bold;
-	height: 34px;
-	padding: 58px 0 0;
+	height: 30px;
+	padding: 50px 0 0;
 	text-align: center;
 	width: 159px;
-	margin-top: 20px;
+	margin-top: 15px;
 	display: block;
 	cursor: pointer;
 	margin-left: 2px
@@ -1175,10 +1195,9 @@ h1.productname {
 
 #productdesc .row{
 	margin-left: auto 0;
- }
-
+}
 .productdesc {
-	margin: 22px 0 0 0
+	margin: 10px 0 0 0
 }
 
 .productdesc .nav-tabs li a {
@@ -1641,7 +1660,7 @@ ul.total li span.extra {
 }
 .added_to_cart .fa{
 	font-size: 36px;
-	color: green;
+	color: #f25c27;
 }
 
 /* javascripts */
@@ -2079,8 +2098,9 @@ form .help-block {
 	min-width: 200px;
 }
 
-.smallimage 	.thumbnail{
-	min-width: 100px !important;
+
+.smallimage .thumbnail{
+	min-width: 60px !important;
 }
 
 table th {
