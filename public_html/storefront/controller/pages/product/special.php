@@ -66,9 +66,11 @@ class ControllerPagesProductSpecial extends AController {
         }
 
 		if (isset($this->request->get['sort'])) {
-			list($sort,$order) = explode("-",$this->request->get['sort']);
+			$sorting_href = $this->request->get['sort'];
+			list($sort, $order) = explode("-", $sorting_href);
 		} else {
-			list($sort,$order) = explode("-",$this->config->get('config_product_default_sort_order'));
+			$sorting_href = $this->config->get('config_product_default_sort_order');
+			list($sort, $order) = explode("-", $sorting_href);
 			if($sort=='name'){
 				$sort = 'pd.'.$sort;
 			}elseif(in_array($sort,array('sort_order','price'))){
@@ -232,7 +234,7 @@ class ControllerPagesProductSpecial extends AController {
 
 			$this->data['sorts'] = $sorts;
 
-			$pagination_url = $this->html->getURL('product/special', '&sort=' . $this->request->get['sort'] . '&page={page}' . '&limit=' . $limit, '&encode');
+			$pagination_url = $this->html->getURL('product/special', '&sort=' . $sorting_href . '&page={page}' . '&limit=' . $limit, '&encode');
 			$this->data['pagination_bootstrap'] = HtmlElementFactory::create( array (
 											'type' => 'Pagination',
 											'name' => 'pagination',
@@ -269,4 +271,3 @@ class ControllerPagesProductSpecial extends AController {
         $this->extensions->hk_UpdateData($this,__FUNCTION__);
   	}
 }
-?>
