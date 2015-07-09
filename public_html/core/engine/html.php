@@ -162,13 +162,16 @@ class AHtml extends AController {
 	 * @param string $encode
 	 * @return string
 	 */
-	public function getCatalogURL($rt, $params = '', $encode = '') {
+	public function getCatalogURL($rt, $params = '', $encode = '', $ssl = false) {
 		//add token for embed mode with forbidden 3dparty cookies
 		if($_SESSION['session_mode'] == 'embed_token'){
 			$params .= '&'.EMBED_TOKEN_NAME.'='.session_id();
 		}
 		$suburl = '?' . ($rt ? 'rt=' . $rt : '') . $params;
-		$url = HTTP_SERVER . INDEX_FILE . $this->url_encode($suburl, $encode);
+		
+		$http = $ssl ? HTTPS_SERVER : HTTP_SERVER;
+
+		$url = $http . INDEX_FILE . $this->url_encode($suburl, $encode);
 		return $url;
 	}
 
