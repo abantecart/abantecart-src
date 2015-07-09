@@ -46,7 +46,26 @@ class ModelSaleOrder extends Model{
 								shipping_lastname = '" . $this->db->escape($data['shipping_lastname']) . "',
 								shipping_company = '" . $this->db->escape($data['shipping_company']) . "',
 								shipping_address_1 = '" . $this->db->escape($data['shipping_address_1']) . "',
-								shipping_address_2 = '" . $this->db->escape($data['shipping_address_2']) . "', shipping_city = '" . $this->db->escape($data['shipping_city']) . "', shipping_zone = '" . $this->db->escape($data['shipping_zone']) . "', shipping_zone_id = '" . (int)$data['shipping_zone_id'] . "', shipping_country = '" . $this->db->escape($data['shipping_country']) . "', shipping_country_id = '" . (int)$data['shipping_country_id'] . "', payment_firstname = '" . $this->db->escape($data['payment_firstname']) . "', payment_lastname = '" . $this->db->escape($data['payment_lastname']) . "', payment_company = '" . $this->db->escape($data['payment_company']) . "', payment_address_1 = '" . $this->db->escape($data['payment_address_1']) . "', payment_address_2 = '" . $this->db->escape($data['payment_address_2']) . "', payment_city = '" . $this->db->escape($data['payment_city']) . "', payment_postcode = '" . $this->db->escape($data['payment_postcode']) . "', payment_zone = '" . $this->db->escape($data['payment_zone']) . "', payment_zone_id = '" . (int)$data['payment_zone_id'] . "', payment_country = '" . $this->db->escape($data['payment_country']) . "', payment_country_id = '" . (int)$data['payment_country_id'] . "', ip = '" . $this->db->escape('0.0.0.0') . "', total = '" . $this->db->escape(preg_replace("/[^0-9.]/", '', $data['total'])) . "'" . $key_sql . ", date_modified = NOW()");
+								shipping_address_2 = '" . $this->db->escape($data['shipping_address_2']) . "',
+								shipping_city = '" . $this->db->escape($data['shipping_city']) . "',
+								shipping_zone = '" . $this->db->escape($data['shipping_zone']) . "',
+								shipping_zone_id = '" . (int)$data['shipping_zone_id'] . "',
+								shipping_country = '" . $this->db->escape($data['shipping_country']) . "',
+								shipping_country_id = '" . (int)$data['shipping_country_id'] . "',
+								payment_firstname = '" . $this->db->escape($data['payment_firstname']) . "',
+								payment_lastname = '" . $this->db->escape($data['payment_lastname']) . "',
+								payment_company = '" . $this->db->escape($data['payment_company']) . "',
+								payment_address_1 = '" . $this->db->escape($data['payment_address_1']) . "',
+								payment_address_2 = '" . $this->db->escape($data['payment_address_2']) . "',
+								payment_city = '" . $this->db->escape($data['payment_city']) . "',
+								payment_postcode = '" . $this->db->escape($data['payment_postcode']) . "',
+								payment_zone = '" . $this->db->escape($data['payment_zone']) . "',
+								payment_zone_id = '" . (int)$data['payment_zone_id'] . "',
+								payment_country = '" . $this->db->escape($data['payment_country']) . "',
+								payment_country_id = '" . (int)$data['payment_country_id'] . "',
+								ip = '" . $this->db->escape('0.0.0.0') . "',
+								total = '" . $this->db->escape(preformatFloat($data['total'], $this->language->get('decimal_point'))) . "'" . $key_sql . ",
+								date_modified = NOW()");
 
 		$order_id = $this->db->getLastId();
 
@@ -63,8 +82,8 @@ class ModelSaleOrder extends Model{
 										product_id = '" . (int)$product['product_id'] . "',
 										name = '" . $this->db->escape($product_query->row['name']) . "',
 										model = '" . $this->db->escape($product_query->row['model']) . "',
-										price = '" . $this->db->escape(preg_replace("/[^0-9.]/", '', $product['price'])) . "',
-										total = '" . $this->db->escape(preg_replace("/[^0-9.]/", '', $product['total'])) . "',
+										price = '" . $this->db->escape(preformatFloat($product['price'], $this->language->get('decimal_point'))) . "',
+										total = '" . $this->db->escape(preformatFloat($product['total'], $this->language->get('decimal_point'))) . "',
 										quantity = '" . $this->db->escape($product['quantity']) . "'");
 				}
 			}
@@ -74,12 +93,13 @@ class ModelSaleOrder extends Model{
 	/**
 	 * @param int $order_id
 	 * @param array $data
+	 * @return int
 	 */
 	public function addOrderTotal($order_id, $data){
 		if (!has_value($order_id)) {
 			return null;
 		}
-		$value = (float)preg_replace("/[^0-9.]/", '', $data['text']);
+		$value = preformatFloat($data['text'], $this->language->get('decimal_point'));
 		//check if number is negative. disount
 		if ( preg_match("/^\s*-/", $data['text']) ) {
 			$value *= -1;
@@ -101,6 +121,7 @@ class ModelSaleOrder extends Model{
 	/**
 	 * @param int $order_id
 	 * @param int $order_total_id
+	 * @return int|null
 	 */
 	public function deleteOrderTotal($order_id, $order_total_id){
 		if (!has_value($order_id) && !has_value($order_total_id)) {
@@ -109,8 +130,8 @@ class ModelSaleOrder extends Model{
 		
 		$this->db->query("DELETE FROM " . $this->db->table("order_totals") . "
 							  WHERE order_id = '" . (int)$order_id . "' AND order_total_id = '" . (int)$order_total_id . "'");
-	
-		return 1;
+
+		return true;
 	}
 	
 
@@ -193,8 +214,8 @@ class ModelSaleOrder extends Model{
 					$exists = $exists->num_rows;
 					if($exists){
 						$this->db->query("UPDATE " . $this->db->table("order_products") . "
-										  SET price = '" . $this->db->escape((preg_replace("/[^0-9.]/", '', $product['price']) / $order['value'])) . "',
-										  	  total = '" . $this->db->escape((preg_replace("/[^0-9.]/", '', $product['total']) / $order['value'])) . "',
+										  SET price = '" . $this->db->escape((preformatFloat($product['price'], $this->language->get('decimal_point')) / $order['value'])) . "',
+										  	  total = '" . $this->db->escape((preformatFloat($product['total'], $this->language->get('decimal_point')) / $order['value'])) . "',
 											  quantity = '" . $this->db->escape($product['quantity']) . "'
 										  WHERE order_id = '" . (int)$order_id . "' AND order_product_id = '" . (int)$product['order_product_id'] . "'");
 					} else{
@@ -211,8 +232,8 @@ class ModelSaleOrder extends Model{
 								product_id = '" . (int)$product['product_id'] . "',
 								name = '" . $this->db->escape($product_query->row['name']) . "',
 								model = '" . $this->db->escape($product_query->row['model']) . "',
-								price = '" . $this->db->escape((preg_replace("/[^0-9.]/", '', $product['price']) / $order['value'])) . "',
-								total = '" . $this->db->escape((preg_replace("/[^0-9.]/", '', $product['total']) / $order['value'])) . "',
+								price = '" . $this->db->escape((preformatFloat($product['price'], $this->language->get('decimal_point')) / $order['value'])) . "',
+								total = '" . $this->db->escape((preformatFloat($product['total'], $this->language->get('decimal_point')) / $order['value'])) . "',
 								quantity = '" . $this->db->escape($product['quantity']) . "'");
 					}
 				}
@@ -223,7 +244,7 @@ class ModelSaleOrder extends Model{
 		//TODO: Improve, not to rely on text value. Add 2 parameters for total, text_val and number. 
 			foreach($data['totals'] as $total_id => $text_value){
 				//get number portion together with the sign
-				$number = (float)preg_replace("/[^0-9.-]/", '', $text_value);
+				$number = preformatFloat($text_value, $this->language->get('decimal_point'));
 				$this->db->query("UPDATE " . $this->db->table("order_totals") . "
 								  SET `text` = '" . $this->db->escape($text_value) . "',
 								      `value` = '" . $number . "'
@@ -281,8 +302,8 @@ class ModelSaleOrder extends Model{
 				if($exists->num_rows){
 					//update order quantity
 					$this->db->query("UPDATE " . $this->db->table("order_products") . "
-										  SET price = '" . $this->db->escape((preg_replace("/[^0-9.]/", '', $product['price']) / $order_info['value'])) . "',
-										  	  total = '" . $this->db->escape((preg_replace("/[^0-9.]/", '', $product['total']) / $order_info['value'])) . "',
+										  SET price = '" . $this->db->escape((preformatFloat($product['price'], $this->language->get('decimal_point')) / $order_info['value'])) . "',
+										  	  total = '" . $this->db->escape((preformatFloat($product['total'], $this->language->get('decimal_point')) / $order_info['value'])) . "',
 											  quantity = '" . $this->db->escape($product['quantity']) . "'
 										  WHERE order_id = '" . (int)$order_id . "' AND order_product_id = '" . (int)$order_product_id . "'");
 					//update stock quantity
@@ -319,8 +340,8 @@ class ModelSaleOrder extends Model{
 								product_id = '" . (int)$product_id . "',
 								name = '" . $this->db->escape($product_query->row['name']) . "',
 								model = '" . $this->db->escape($product_query->row['model']) . "',
-								price = '" . $this->db->escape((preg_replace("/[^0-9.]/", '', $product['price']) / $order_info['value'])) . "',
-								total = '" . $this->db->escape((preg_replace("/[^0-9.]/", '', $product['total']) / $order_info['value'])) . "',
+								price = '" . $this->db->escape((preformatFloat($product['price'], $this->language->get('decimal_point')) / $order_info['value'])) . "',
+								total = '" . $this->db->escape((preformatFloat($product['total'], $this->language->get('decimal_point')) / $order_info['value'])) . "',
 								quantity = '" . (int)$product['quantity'] . "'");
 					$order_product_id = $this->db->getLastId();
 
