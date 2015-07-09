@@ -14,9 +14,6 @@ AbanteCart storefront CSS-styles for embedded blocks
 	margin: 10px auto;
 }
 
-a.abantecart-widget-cart {
-	text-decoration: none;
-}
 .abantecart-widget-cart{
 	position: fixed;
 	right: 0;
@@ -28,6 +25,7 @@ a.abantecart-widget-cart {
     visibility: visible;
     background: transparent url(../image/shoppingbag_icon.png) no-repeat;
     background-size: 80px;
+    z-index: 2000;
 }
 .abantecart-widget-cart .cart_count {
 	position: relative;
@@ -35,6 +33,9 @@ a.abantecart-widget-cart {
 	left: 10px;
 	width: 60px;
 	text-align: center;	
+}
+a.abantecart-widget-cart {
+	text-decoration: none;
 }
 
 #iframe_loading {
