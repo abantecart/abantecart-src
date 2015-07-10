@@ -75,8 +75,6 @@ final class ASession {
 			}
 		}
 
-
-
 		if(isset($_GET[EMBED_TOKEN_NAME]) && !isset($_COOKIE[$session_name])){
 			session_id($_GET[EMBED_TOKEN_NAME]);
 			setcookie($session_name, $_GET[EMBED_TOKEN_NAME], 0, $path, null,(defined('HTTPS') && HTTPS));

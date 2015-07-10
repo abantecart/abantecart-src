@@ -6,6 +6,8 @@ $('document').ready(function () {
         $(this).next('.toggledata').slideToggle();
     });
 
+	process_thumbnails();
+	
     // Checkout steps
     $('.checkoutsteptitle').addClass('down').next('.checkoutstep').fadeIn()
     $('.checkoutsteptitle').on('click', function () {
@@ -25,6 +27,20 @@ $('document').ready(function () {
     }
 
 })
+
+var process_thumbnails = function () {
+    // Product thumbnails
+    $('.thumbnail').each(function () {
+        $(this).hover(
+            function () {
+                $(this).children('.shortlinks').fadeIn()
+            },
+            function () {
+                $(this).children('.shortlinks').fadeOut()
+            });
+    });
+
+}
 
 var openModalRemote = function (id, url) {
 	var modal = $(id);
