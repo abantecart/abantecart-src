@@ -888,19 +888,10 @@ h1.pagetitle {
 	color: #00a1cb;
 }
 
-.thumbnails.mainimage li.span5, .thumbnails.mainimage li.span4 {
-	margin-bottom: 0;
-}
-
-.thumbnails.mainimage.bigimage {
-	padding-top: 10px;
+.mainimage.bigimage .fa {
 	position: absolute;
-	left: 50px;
-}
-.thumbnails.mainimage.bigimage .fa {
-	position: absolute;
-    top: 5px;
-    right:-60px;
+    top: 10px;
+    right: 10px;
 	z-index: 999;	
 	color: #96979d;
 	font-size: 16px;
@@ -910,9 +901,67 @@ h1.pagetitle {
 }
 .thumbnails.mainimage.smallimage .thumbnail {
 	margin-bottom: 5px;
-	cursor: pointer;	
+	cursor: pointer;
 }
 
+/**
+ * EasyZoom core styles
+ */
+.easyzoom {
+	position: relative;
+	/* 'Shrink-wrap' the element */
+	display: inline-block;
+	*display: inline;
+	*zoom: 1;
+}
+.easyzoom img {
+	vertical-align: bottom;
+}
+.easyzoom.is-loading img {
+	cursor: progress;
+}
+.easyzoom.is-ready img {
+	cursor: crosshair;
+}
+.easyzoom.is-error  img {
+	cursor: not-allowed;
+}
+.easyzoom-notice {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	z-index: 150;
+	width: 10em;
+	margin: -1em 0 0 -5em;
+	line-height: 2em;
+	text-align: center;
+	background: #FFF;
+	box-shadow: 0 0 10px #888;
+}
+.easyzoom-flyout {
+	position:absolute;
+	z-index: 100;
+	overflow: hidden;
+	background: #FFF;
+	border: 2px solid #ccc;
+}
+.easyzoom--overlay .easyzoom-flyout {
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+}
+.easyzoom--adjacent .easyzoom-flyout {
+	top: 0;
+	left: 100%;
+	width: 100%;
+	height: 100%;
+	margin-left: 20px;
+}
+/**
+ * EasyZoom end
+ */
+ 
 ul.productinfo {
 	margin: 0;
 	padding: 0;
@@ -1274,39 +1323,6 @@ ul.reveiw li .date {
 
 ul.reveiw ul.rate {
 	margin: 10px 0
-}
-
-.cloud-zoom-lens {
-	border: 1px solid #fff; 
-	margin:-1px;	/* Set this to minus the border thickness. */
-	background-color: #fff;
-	cursor: move;
-}
-
-.cloud-zoom-title {
-	font-family: Arial, Helvetica, sans-serif;
-	position: absolute !important;
-	background-color: #999999;
-	color: #fff;
-	width: 100%;
-	text-align: center;
-	font-size: 10px;
-	top: 0;
-}
-
-/* This is the zoom window. */
-.cloud-zoom-big {
-	border: 2px solid #ccc;
-	overflow: hidden;
-	margin: 4px;
-}
-
-/* This is the loading message. */
-.cloud-zoom-loading {
-	color: white;
-	background: #222;
-	padding: 3px;
-	border: 1px solid #999999;
 }
 
 #ContactUsFrm button {
