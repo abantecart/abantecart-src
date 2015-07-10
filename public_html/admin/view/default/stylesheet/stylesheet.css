@@ -2348,7 +2348,7 @@ body.stickyheader .sticky_left {
     color: #FFFFFF;
 }
 .btn-toggle.btn_switch {
-	min-width: 75px;
+	min-width: 100px;
 }
 .btn-toggle.btn_switch .btn-default:hover, .btn-toggle.btn_switch .btn-default:hover {
 	background-color: #fff;
