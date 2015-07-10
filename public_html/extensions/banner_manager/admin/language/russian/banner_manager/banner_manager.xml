@@ -64,6 +64,10 @@
     <key>text_text_banner</key>
     <value><![CDATA[Текстовый Баннер]]></value>
   </definition>
+	<definition>
+		<key>entry_banner_status</key>
+		<value><![CDATA[ Статус: ]]></value>
+	</definition>
   <definition>
     <key>entry_banner_name</key>
     <value><![CDATA[Имя:]]></value>
