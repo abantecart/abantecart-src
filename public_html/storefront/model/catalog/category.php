@@ -81,7 +81,7 @@ class ModelCatalogCategory extends Model {
 		if ( $data['language_id'] ) {
 			$language_id = (int)$data['language_id'];
 		} else {
-			$language_id = (int)$this->language->getDefaultLanguageID();
+			$language_id = (int)$this->config->get('storefront_language_id');
 		}
 
 		if ( $data['store_id'] ) {

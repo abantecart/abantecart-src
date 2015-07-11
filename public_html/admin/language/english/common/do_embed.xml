@@ -41,6 +41,14 @@
     	<value><![CDATA[Show Button]]></value>
   	</definition>
   	<definition>
+    	<key>entry_language</key>
+    	<value><![CDATA[Select Language]]></value>
+  	</definition>
+  	<definition>
+    	<key>entry_currency</key>
+    	<value><![CDATA[Select Currency]]></value>
+  	</definition>
+  	<definition>
     	<key>entry_products_count</key>
     	<value><![CDATA[Products Count]]></value>
   	</definition>

@@ -83,22 +83,22 @@
 	$(document).ready(function(){
 
 		$('div#embed_modal').find("input[name='manufacturer_id[]']").on('click', function(){
-		var ec = buildEmbedCode();
+			var ec = buildEmbedCode();
 			window.abc_count = 0;
 			$('#getEmbedFrm_code_area').val(ec);
 			$("#embed_container" ).html(ec);
 		});
 
 		$('div#embed_modal').find('div.btn_switch').find('button').on('click', function(){
-		var ec = buildEmbedCode();
+			var ec = buildEmbedCode();
 			window.abc_count = 0;
 			$('#getEmbedFrm_code_area').val(ec);
 			$("#embed_container" ).html(ec);
 		});
 
 		$(".btn-clipboard").click(function(){
-		        var txt = $('#getEmbedFrm_code_area').val();
-		        prompt ("Copy html-code, then click OK.", txt);
+			var txt = $('#getEmbedFrm_code_area').val();
+			prompt ("Copy html-code, then click OK.", txt);
         });
 
 		$("#getEmbedFrm_code_area").focus(function() {
@@ -112,9 +112,5 @@
 		        return false;
 		    });
 		});
-
 	});
-
 //--></script>
-
-
