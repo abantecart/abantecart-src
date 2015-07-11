@@ -876,8 +876,8 @@ class ModelCatalogProduct extends Model {
 
 							// ignore option value with 0 quantity and disabled subtract
 							if( (!$product_option_value['subtract'])
-							  ||
-								($product_option_value['quantity'] && $product_option_value['subtract'])
+									|| (!$this->config->get('config_nostock_autodisable'))
+									|| ($product_option_value['quantity'] && $product_option_value['subtract'])
 							){
 							$product_option_value_data[$product_option_value['product_option_value_id']] = array(
                                 'product_option_value_id' => $product_option_value['product_option_value_id'],

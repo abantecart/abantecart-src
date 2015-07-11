@@ -67,6 +67,10 @@
 		<value><![CDATA[ Texto del Mensaje ]]></value>
 	</definition>
 	<definition>
+		<key>entry_banner_status</key>
+		<value><![CDATA[ Estado: ]]></value>
+	</definition>
+	<definition>
 		<key>entry_banner_name</key>
 		<value><![CDATA[ Nobmre: ]]></value>
 	</definition>

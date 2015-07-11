@@ -72,6 +72,10 @@
 		<value><![CDATA[ Name: ]]></value>
 	</definition>
 	<definition>
+		<key>entry_banner_status</key>
+		<value><![CDATA[ Status: ]]></value>
+	</definition>
+	<definition>
 		<key>entry_banner_group_name</key>
 		<value><![CDATA[ Banner Group Name: ]]></value>
 	</definition>
