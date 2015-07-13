@@ -234,17 +234,16 @@ if(window.abc_count === undefined){
 				var url = $(e.relatedTarget).attr('data-href');
 				url += abc_add_common_params($(e.relatedTarget).closest('.abantecart-widget-container'));
 				loadIframe( url );
-				//clear iframe content
-				loadIframe( url );
 				$('#abc_embed_modal').abcmodal('show');
 			});
 
 			$('#abc_embed_modal').on('hide.bs.abcmodal', function (e) {
+				//clear iframe
+				$('#abc_embed_modal').find('iframe').attr('src', '');
 				//reload cart
 				var $first_obj = $('.abantecart-widget-container').first();
 				var w_url = $first_obj.attr('data-url');
-				w_url += abc_add_common_params($first_obj);
-				abc_populate_cart(w_url);
+				abc_populate_cart(w_url, abc_add_common_params($first_obj));
 			});
 
 			var loadIframe = function(url) {
@@ -279,8 +278,8 @@ if(window.abc_count === undefined){
 			//populate cart only 1 time
 			var $first_obj = $('.abantecart-widget-container').first();
 			var main_url = $first_obj.attr('data-url');
-			main_url += abc_add_common_params($first_obj);
-			abc_populate_cart(main_url);
+			var url_params = abc_add_common_params($first_obj);
+			abc_populate_cart(main_url, url_params);
 
 			$('.abantecart-widget-container').on("click", ".abantecart_addtocart", function(e){
 				if($(e.target).attr('data-toggle') == "abcmodal"){
@@ -291,7 +290,7 @@ if(window.abc_count === undefined){
 					add_url += '&quantity='+ $('.abantecart_quantity input').val();
 				}
 				abc_process_request(add_url);
-				setTimeout(function(){ abc_populate_cart(main_url); },300)
+				setTimeout(function(){ abc_populate_cart(main_url, url_params); },300)
 				return false;
 			});
 		}
@@ -355,10 +354,10 @@ if(window.abc_count === undefined){
 			abc_process_request(url);
 		}
 
-		var abc_populate_cart = function(w_url){
+		var abc_populate_cart = function(w_url, url_params){
 			//using local jQuery
 			$ = jQuery;
-			var url = w_url+'?rt=r/embed/js/cart';
+			var url = w_url+'?rt=r/embed/js/cart'+url_params;
 			abc_process_request(url);
 		}
 
