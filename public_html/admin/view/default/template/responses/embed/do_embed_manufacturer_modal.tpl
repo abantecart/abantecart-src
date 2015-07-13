@@ -49,28 +49,28 @@
 
 <script type="text/javascript"><!--
 	var options = {
-		'image': '<div class="abantecart_image"></div>\n',
-		'name': '<div class="abantecart_name"></div>\n',
-		'products_count': '<div class="abantecart_products_count"></div>\n'
+		'image': '<span class="abantecart_image"></span>\n',
+		'name': '<h3 class="abantecart_name"></h3>\n',
+		'products_count': '<p class="abantecart_products_count"></p>\n'
 	};
 
 	var buildEmbedCode = function(){
 		var html = '<script src="<?php echo $sf_js_embed_url; ?>" type="text/javascript"></script>\n';
-			html += '<div style="display:none;" class="abantecart-widget-container" data-url="<?php echo $sf_base_url; ?>" data-css-url="<?php echo $sf_css_embed_url; ?>">\n';
+			html += '<ul style="display:none;" class="abantecart-widget-container" data-url="<?php echo $sf_base_url; ?>" data-css-url="<?php echo $sf_css_embed_url; ?>">\n';
 
 		var d = new Date();
 		$.each($('div#embed_modal').find("input[name='manufacturer_id[]']:checked, input[name='manufacturer_id[]'][type='hidden']"), function() {
 		    id = $(this).val();
-			html += '\t<div id="abc_' + (d.getTime() + id) + '" class="abantecart_manufacturer" data-manufacturer-id="'+ id +'">\n';
+			html += '\t<li id="abc_' + (d.getTime() + id) + '" class="abantecart_manufacturer" data-manufacturer-id="'+ id +'">\n';
 
 			$('#code_options').find('input[type="hidden"]').each(function(){
 				if($(this).val()==1){
 					html += '\t\t'+options[$(this).attr('name')];
 				}
 			});
-			html += '\t</div>\n';
+			html += '\t</li>\n';
 		});
-		html += '</div>';
+		html += '</ul>';
 		return html;
 	}
 
@@ -83,22 +83,22 @@
 	$(document).ready(function(){
 
 		$('div#embed_modal').find("input[name='manufacturer_id[]']").on('click', function(){
-		var ec = buildEmbedCode();
+			var ec = buildEmbedCode();
 			window.abc_count = 0;
 			$('#getEmbedFrm_code_area').val(ec);
 			$("#embed_container" ).html(ec);
 		});
 
 		$('div#embed_modal').find('div.btn_switch').find('button').on('click', function(){
-		var ec = buildEmbedCode();
+			var ec = buildEmbedCode();
 			window.abc_count = 0;
 			$('#getEmbedFrm_code_area').val(ec);
 			$("#embed_container" ).html(ec);
 		});
 
 		$(".btn-clipboard").click(function(){
-		        var txt = $('#getEmbedFrm_code_area').val();
-		        prompt ("Copy html-code, then click OK.", txt);
+			var txt = $('#getEmbedFrm_code_area').val();
+			prompt ("Copy html-code, then click OK.", txt);
         });
 
 		$("#getEmbedFrm_code_area").focus(function() {
@@ -112,9 +112,5 @@
 		        return false;
 		    });
 		});
-
 	});
-
 //--></script>
-
-

@@ -262,8 +262,8 @@ class ControllerResponsesEmbedJS extends AController {
 
 			$manufacturer['thumbnail'] =  $resource->getMainThumb('manufacturers',
 							$manufacturer['manufacturer_id'],
-						(int)$this->config->get('config_image_grid_width'),
-						(int)$this->config->get('config_image_grid_height'),
+						(int)$this->config->get('config_image_category_width'),
+						(int)$this->config->get('config_image_category_height'),
 					    true);
 			$rt = $this->config->get('config_embed_click_action')=='modal' ? 'r/product/manufacturer' : 'product/manufacturer';
 			$manufacturer['details_url'] = $this->html->getURL( $rt, '&manufacturer_id=' .$manufacturer['manufacturer_id']);

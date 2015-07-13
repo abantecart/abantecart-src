@@ -1,26 +1,4 @@
-<?php
-/*
-
- embed code for test
-
- text about your store<br />
- --------------------------------------------<br />
- <script src="http://your_domain.com/public_html/index.php?rt=r/embed/js" defer type="text/javascript"></script>
- <div class="abantecart-widget-container" data-url="http://your_domain.com/public_html/index.php"
-		data-css-url="http://your_domain.com/public_html/storefront/view/default/stylesheet/embed.css" >
-	 <div class="abantecart_product" data-product-id="90">
-		 <div class="abantecart_image">&nbsp;</div>
-		 <div class="abantecart_name">&nbsp;</div>
-		 <div class="abantecart_options">&nbsp;</div>
-		 <div class="abantecart_price">&nbsp;</div>
-		 <div class="abantecart_qty">&nbsp;</div>
-		 <div class="abantecart_addtocart">&nbsp;</div>
-	 </div>
- </div>
-  */
-
-?>
-//set global sign of allowed 3dparty cookies as true by default. This value might be overridden by testcookie js
+//set global sign of allowed 3dparty cookies as true by default. This value might be overridden by test cookie js
 var abc_cookie_allowed = true; 
 var abc_token_name = '<?php echo EMBED_TOKEN_NAME; ?>';
 var abc_token_value = '';
@@ -45,74 +23,75 @@ if(window.abc_count === undefined){
 		var scounter = 0;
 		var checkReady = function(callback, second) {
 			scounter++;
-if (window.jQuery !== undefined) {
-callback(jQuery);
-}
-else if (scounter <= 5) {
-window.setTimeout(function() { checkReady(callback, second); }, 100);
-} else {
-//attempts limit reached
-scounter = 0;
-if(second !== undefined ) {
-second();
-}
-}
+			if (window.jQuery !== undefined) {
+				callback(jQuery);
+			}
+			else if (scounter <= 5) {
+				window.setTimeout(function() { checkReady(callback, second); }, 100);
+			} else {
+				//attempts limit reached
+				scounter = 0;
+				if(second !== undefined ) {
+					second();
+				}
+			}
 		};	
 		checkReady(
 			function($){
 				jQuery = window.jQuery.noConflict(true);
-main();
+				main();
 			},
 			function($){
 				//one more attemt to load local library		
 				script_loader("<?php echo $this->templateResource("/javascript/jquery-1.11.0.min.js"); ?>");
 				checkReady(function($){
-jQuery = window.jQuery.noConflict(true);
-main();
+					jQuery = window.jQuery.noConflict(true);
+					main();
 				});		
 			}
 		);	
-		
 	} else {
-// The jQuery version on the window is the one we want to use
-jQuery = window.jQuery;
-main();
+		// The jQuery version on the window is the one we want to use
+		jQuery = window.jQuery;
+		main();
 	}
 	
 	/******** Called after jQuery has loaded ******/
 	function scriptLoadHandler() {
-// Restore $ and window.jQuery to their previous values and store the
-// new jQuery in our local jQuery variable
-jQuery = window.jQuery.noConflict(true);
-main();
+		// Restore $ and window.jQuery to their previous values and store the
+		// new jQuery in our local jQuery variable
+		jQuery = window.jQuery.noConflict(true);
+		main();
+	}
+	
+	/******** Script loader function ********/
+	function script_loader( url ) {
+		var script_tag = document.createElement('script');
+		script_tag.setAttribute("type","text/javascript");
+		script_tag.setAttribute("src",url);
+		// Try to find the head, otherwise default to the documentElement
+		(document.getElementsByTagName("head")[0] || document.documentElement).appendChild(script_tag);
+		return script_tag;
+	}
+	
+	/******** CSS loader function ********/
+	function css_loader( url ) {
+		//check if css is already loaded
+		var ss = document.styleSheets;
+		for (var i = 0, max = ss.length; i < max; i++) {
+			if (ss[i].href == url) return;
+		}
+		var css_tag = document.createElement('link');
+		css_tag.setAttribute("type","text/javascript");
+		css_tag.setAttribute("rel",'stylesheet');
+		css_tag.setAttribute("type",'text/css');
+		css_tag.setAttribute("media","all");
+		css_tag.setAttribute("href",url);
+		// Try to find the head, otherwise default to the documentElement
+		(document.getElementsByTagName("head")[0] || document.documentElement).appendChild(css_tag);
 	}
 
-
-/******** Script loader function ********/
-function script_loader( url ) {
-var script_tag = document.createElement('script');
-script_tag.setAttribute("type","text/javascript");
-script_tag.setAttribute("src",url);
-// Try to find the head, otherwise default to the documentElement
-(document.getElementsByTagName("head")[0] || document.documentElement).appendChild(script_tag);
-return script_tag;
-}
-
-/******** CSS loader function ********/
-function css_loader( url ) {
-var css_tag = document.createElement('link');
-css_tag.setAttribute("type","text/javascript");
-css_tag.setAttribute("rel",'stylesheet');
-css_tag.setAttribute("type",'text/css');
-css_tag.setAttribute("media","all");
-css_tag.setAttribute("href",url);
-// Try to find the head, otherwise default to the documentElement
-(document.getElementsByTagName("head")[0] || document.documentElement).appendChild(css_tag);
-}
-
-
 	/*****************************************/
-
 	var abc_get_cookie = function() {
 		var name = 'abantecart_token';
 		var matches = document.cookie.match(new RegExp(
@@ -132,7 +111,6 @@ css_tag.setAttribute("href",url);
 		if(abc_cookie_allowed==false){
 			url += '&'+abc_token_name+'='+abc_token_value;
 		}
-		//TODO: need to add currency and language code
 		return url;
 	}
 
@@ -148,8 +126,8 @@ css_tag.setAttribute("href",url);
 	/******** function to append css-file with styles for embedded block from AbanteCart host ********/
 	var abc_append_css = function(url){
 		if(url.length<1){
-console.log('AbanteCart embedded code: empty url for css requested!');
-return null;
+			console.log('AbanteCart embedded code: empty url for css requested!');
+			return null;
 		}
 		css_loader(url);
 	}
@@ -159,7 +137,7 @@ return null;
 		//set new custom jQuery in global space for included scripts (custom bootstrap)
 		window.jQuery_abc = jQuery;
 
-jQuery(document).ready(function($) {
+		jQuery(document).ready(function($) {
 			var modal = '';
 			<?php
 			//for embedding with modal
@@ -192,24 +170,27 @@ jQuery(document).ready(function($) {
 				'</div>';
 			modal += '<div class="abantecart-widget-cart"></div>';
 			<?php
-			//for direct-link mode
-			}else{ ?>
-			$(document).on('click', "[data-toggle='abcmodal']", function(){
-				if($(this).attr('data-href')){
-				<?php if($embed_click_action=='same_window'){ ?>
-					window.location = $(this).attr('data-href');
-				<?php } ?>
-				<?php if($embed_click_action=='new_window'){ ?>
-					window.open($(this).attr('data-href'),'_blank');
-				<?php } ?>
-				}
-				return false;
-			});
+			} else { 
+			?>
+				//for direct-link mode
+				$(document).on('click', "[data-toggle='abcmodal']", function(){
+					var url = $(this).attr('data-href');
+					if(url.length > 0){
+						url += abc_add_common_params($(this).closest('.abantecart-widget-container'));		
+					<?php if($embed_click_action=='same_window'){ ?>
+						window.location = url;
+					<?php } ?>
+					<?php if($embed_click_action=='new_window'){ ?>
+						window.open(url,'_blank');
+					<?php } ?>
+					}
+					return false;
+				});
+			<?php 
+			}
+			?>
 
-			<?php }?>
-
-
-if( !$('#abc_embed_modal').length && modal.length) {
+			if( !$('#abc_embed_modal').length && modal.length) {
 				$('body').append(modal);
 			<?php
 				// do cookie-test if session id not retrieved from http-request
@@ -229,12 +210,12 @@ if( !$('#abc_embed_modal').length && modal.length) {
 
 			// Poll for abc_process_wrapper to come into existence
 			var processReady = function(callback) {
-if (abc_process_wrapper !== undefined) {
-callback();
-}
-else {
-window.setTimeout(function() { processReady(callback); }, 100);
-}
+				if (abc_process_wrapper !== undefined) {
+					callback();
+				}
+				else {
+					window.setTimeout(function() { processReady(callback); }, 100);
+				}
 			};	
 
 			processReady(function($){
@@ -243,37 +224,42 @@ window.setTimeout(function() { processReady(callback); }, 100);
 			});	
 			
 			$('#abc_embed_modal').on('click', '.abcmodal-reload', function (e) {
-				loadIframe( $(this).attr('data-href') );
+				var url = $(this).attr('data-href');
+				url += abc_add_common_params($(this).closest('.abantecart-widget-container'));
+				loadIframe( url );
 				return false;
 			});
 			
 			$('#abc_embed_modal').on('shown.bs.abcmodal', function (e) {
+				var url = $(e.relatedTarget).attr('data-href');
+				url += abc_add_common_params($(e.relatedTarget).closest('.abantecart-widget-container'));
+				loadIframe( url );
 				//clear iframe content
-				loadIframe( $(e.relatedTarget).attr('data-href') );
-$('#abc_embed_modal').abcmodal('show');
+				loadIframe( url );
+				$('#abc_embed_modal').abcmodal('show');
 			});
 
 			$('#abc_embed_modal').on('hide.bs.abcmodal', function (e) {
 				//reload cart
-				var w_url = $('.abantecart-widget-container').first().attr('data-url');
+				var $first_obj = $('.abantecart-widget-container').first();
+				var w_url = $first_obj.attr('data-url');
+				w_url += abc_add_common_params($first_obj);
 				abc_populate_cart(w_url);
 			});
 
 			var loadIframe = function(url) {
 				$('#abc_embed_modal iframe').contents().find("body").html('');
 				$('#abc_embed_modal iframe').hide();
-$('#iframe_loading').show();
-var d = new Date();
+				$('#iframe_loading').show();
+				var d = new Date();
 				//get href of modal caller
 				var frame_url = abc_process_url(url+ '&time_stamp='+d.getTime());
-$('#abc_embed_modal iframe').attr("src", frame_url);
+				$('#abc_embed_modal iframe').attr("src", frame_url);
 				$('#iframe_loading').hide();
 				$('#abc_embed_modal iframe').show();
 				return false;
 			};
-
-});
-
+		});
 
 		var abc_process_wrapper = function(){
 			//using local jQuery
@@ -288,11 +274,12 @@ $('#abc_embed_modal iframe').attr("src", frame_url);
 					abc_append_css(c.attr('data-css-url'));
 				}
 				abc_process_container(c, w_url);
-
 			});
 
 			//populate cart only 1 time
-			var main_url = $('.abantecart-widget-container').first().attr('data-url');
+			var $first_obj = $('.abantecart-widget-container').first();
+			var main_url = $first_obj.attr('data-url');
+			main_url += abc_add_common_params($first_obj);
 			abc_populate_cart(main_url);
 
 			$('.abantecart-widget-container').on("click", ".abantecart_addtocart", function(e){
@@ -304,10 +291,9 @@ $('#abc_embed_modal iframe').attr("src", frame_url);
 					add_url += '&quantity='+ $('.abantecart_quantity input').val();
 				}
 				abc_process_request(add_url);
-setTimeout(function(){ abc_populate_cart(main_url); },300)
+				setTimeout(function(){ abc_populate_cart(main_url); },300)
 				return false;
 			});
-
 		}
 
 		//process data containers
@@ -317,9 +303,9 @@ setTimeout(function(){ abc_populate_cart(main_url); },300)
 			var child = $(obj).children().first();
 			if(child.is('[data-product-id]')){
 				abc_populate_product_item(child, w_url);
-			}else if(child.is('[data-category-id]')){
+			} else if(child.is('[data-category-id]')){
 				abc_populate_categories_items($(obj).children(), w_url);
-			}else if(child.is('[data-manufacturer-id]')){
+			} else if(child.is('[data-manufacturer-id]')){
 				abc_populate_manufacturers_items($(obj).children(), w_url);
 			}
 		}
@@ -332,15 +318,15 @@ setTimeout(function(){ abc_populate_cart(main_url); },300)
 			//we need to know where we must to apply result
 			var target_id = child.attr('id');
 			child.attr('id',target_id);
-var url = w_url+'?rt=r/embed/js/product&product_id=' + product_id + '&target=' + target_id;
+			var url = w_url+'?rt=r/embed/js/product&product_id=' + product_id + '&target=' + target_id;
+			url += abc_add_common_params(child.parent('.abantecart-widget-container'));
 			abc_process_request(url);
 		}
 
 		var abc_populate_categories_items = function(children, w_url){
-
 			//using local jQuery
 			$ = jQuery;
-var url = w_url+'?rt=r/embed/js/categories';
+			var url = w_url+'?rt=r/embed/js/categories';
 			var target_id, category_id;
 
 			$(children).each(function(){
@@ -349,14 +335,14 @@ var url = w_url+'?rt=r/embed/js/categories';
 					url += '&category_id[]=' + cid +'&target_id['+cid+']=' + $(this).attr('id');
 				}
 			})
-
+			url += abc_add_common_params(children.first().parent('.abantecart-widget-container'));
 			abc_process_request(url);
 		}
+		
 		var abc_populate_manufacturers_items = function(children, w_url){
-
 			//using local jQuery
 			$ = jQuery;
-var url = w_url+'?rt=r/embed/js/manufacturers';
+			var url = w_url+'?rt=r/embed/js/manufacturers';
 			var target_id, manufacturer_id;
 
 			$(children).each(function(){
@@ -365,16 +351,28 @@ var url = w_url+'?rt=r/embed/js/manufacturers';
 					url += '&manufacturer_id[]=' + cid +'&target_id['+cid+']=' + $(this).attr('id');
 				}
 			})
-
+			url += abc_add_common_params(children.first().parent('.abantecart-widget-container'));
 			abc_process_request(url);
 		}
 
 		var abc_populate_cart = function(w_url){
 			//using local jQuery
 			$ = jQuery;
-var url = w_url+'?rt=r/embed/js/cart';
+			var url = w_url+'?rt=r/embed/js/cart';
 			abc_process_request(url);
 		}
 
+		var abc_add_common_params = function(obj){
+			var append = '';
+			var language = obj.attr('data-language');
+			var currency = obj.attr('data-currency');
+			if(language && language.length > 0) {
+				append += '&language='+language;
+			}
+			if(currency && currency.length > 0) {
+				append += '&currency='+currency;
+			}	
+			return append;		
+		}
 	}
 })();
