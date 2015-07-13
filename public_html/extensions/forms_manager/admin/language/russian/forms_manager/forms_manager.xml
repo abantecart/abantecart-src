@@ -5,6 +5,10 @@
 		<value><![CDATA[Менеджер Форм]]></value>
 	</definition>
 	<definition>
+		<key>forms_manager_status</key>
+		<value><![CDATA[Статус:]]></value>
+	</definition>
+	<definition>
 		<key>forms_manager_note</key>
 		<value><![CDATA[Чтоб управлять формами следует включить расширение  и перейти в меню Дизайн-><a href="#admin#rt=tool/forms_manager">Менеджер Форм</a>]]></value>
 	</definition>

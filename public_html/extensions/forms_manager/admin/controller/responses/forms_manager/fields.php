@@ -187,7 +187,7 @@ class ControllerResponsesFormsManagerFields extends AController {
 				'type' => 'checkbox',
 				'name' => 'status',
 				'value' => $this->data['field_data']['status'],
-				'style' => 'btn_switch',
+				'style' => 'btn_switch btn-group-xs',
 		));
 		$this->data['field_sort_order'] = $this->html->buildElement(array(
 				'type' => 'input',
@@ -199,7 +199,7 @@ class ControllerResponsesFormsManagerFields extends AController {
 				'type' => 'checkbox',
 				'name' => 'required',
 				'value' => ($this->data['field_data']['required'] == 'Y') ? 1 : 0,
-				'style' => 'btn_switch'
+				'style' => 'btn_switch btn-group-xs'
 		));
 
 		if (!in_array($this->data['field_data']['element_type'], array('U', 'K'))) {
