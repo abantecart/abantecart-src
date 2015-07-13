@@ -344,7 +344,7 @@ class ControllerPagesExtensionBannerManager extends AController {
 				'name' => 'status',
 				'value' => $this->data['status'],
 				'style' => 'btn_switch'));
-		$this->data['form']['text']['status'] = $this->language->get('banner_manager_status');
+		$this->data['form']['text']['status'] = $this->language->get('entry_banner_status');
 
 		$this->data['form']['fields']['name'] = $form->getFieldHtml(array(
 				'type' => 'input',
