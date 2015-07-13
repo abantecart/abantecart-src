@@ -340,7 +340,7 @@ class ModelToolFormsManager extends Model {
 		}
 
 		foreach ($columns as $colname) {
-			if ($data[$colname]) {
+			if(has_value($data[$colname])){
 				$update[] = $colname . " = '" . $data[$colname] . "'";
 			}
 		}

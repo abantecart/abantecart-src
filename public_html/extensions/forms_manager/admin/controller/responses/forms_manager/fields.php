@@ -394,6 +394,7 @@ class ControllerResponsesFormsManagerFields extends AController {
 				)),
 		);
 
+		$this->data['entry_upload_dir'] = sprintf($this->language->get('entry_upload_dir'), 'admin/system/upload/');
 		if (!is_writable(DIR_APP_SECTION . '/system/uploads')
 				|| (!is_writable(DIR_APP_SECTION . '/system/uploads/' . trim($this->data['attribute_data']['settings']['directory'], '/'))
 						&& is_dir(DIR_APP_SECTION . '/system/uploads/' . trim($this->data['attribute_data']['settings']['directory'], '/')))
