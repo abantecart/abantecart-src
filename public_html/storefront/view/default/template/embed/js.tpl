@@ -76,6 +76,11 @@ if(window.abc_count === undefined){
 	
 	/******** CSS loader function ********/
 	function css_loader( url ) {
+		//check if css is already loaded
+		var ss = document.styleSheets;
+		for (var i = 0, max = ss.length; i < max; i++) {
+			if (ss[i].href == url) return;
+		}
 		var css_tag = document.createElement('link');
 		css_tag.setAttribute("type","text/javascript");
 		css_tag.setAttribute("rel",'stylesheet');
@@ -333,8 +338,8 @@ if(window.abc_count === undefined){
 			url += abc_add_common_params(children.first().parent('.abantecart-widget-container'));
 			abc_process_request(url);
 		}
+		
 		var abc_populate_manufacturers_items = function(children, w_url){
-
 			//using local jQuery
 			$ = jQuery;
 			var url = w_url+'?rt=r/embed/js/manufacturers';

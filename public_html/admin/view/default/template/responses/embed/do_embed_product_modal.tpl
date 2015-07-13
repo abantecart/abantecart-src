@@ -50,7 +50,7 @@
 <script type="text/javascript"><!--
 	var options = {
 		'image': '<div class="abantecart_image"></div>\n',
-		'name': '<div class="abantecart_name"></div>\n',
+		'name': '<h3 class="abantecart_name"></h3>\n',
 		'price': '<div class="abantecart_price"></div>\n',
 		'rating': '<div class="abantecart_rating"></div>\n',
 		'blurb': '<div class="abantecart_blurb"></div>\n',

@@ -49,9 +49,9 @@
 
 <script type="text/javascript"><!--
 	var options = {
-		'image': '<div class="abantecart_image"></div>\n',
-		'name': '<div class="abantecart_name"></div>\n',
-		'products_count': '<div class="abantecart_products_count"></div>\n'
+		'image': '<span class="abantecart_image"></span>\n',
+		'name': '<h3 class="abantecart_name"></h3>\n',
+		'products_count': '<p class="abantecart_products_count"></p>\n'
 	};
 
 	var buildEmbedCode = function(){
@@ -66,21 +66,21 @@
 		}
 
 		var html = '<script src="<?php echo $sf_js_embed_url; ?>" type="text/javascript"></script>\n';
-			html += '<div style="display:none;" class="abantecart-widget-container" data-url="<?php echo $sf_base_url; ?>" data-css-url="<?php echo $sf_css_embed_url; ?>"'+common_params+'>\n';
+			html += '<ul style="display:none;" class="abantecart-widget-container" data-url="<?php echo $sf_base_url; ?>" data-css-url="<?php echo $sf_css_embed_url; ?>"'+common_params+'>\n';
 
 		var d = new Date();
 		$.each($('div#embed_modal').find("input[name='category_id[]']:checked"), function() {
 		    id = $(this).val();
-			html += '\t<div id="abc_' + (d.getTime() + id) + '" class="abantecart_category" data-category-id="'+ id +'">\n';
+			html += '\t<li id="abc_' + (d.getTime() + id) + '" class="abantecart_category" data-category-id="'+ id +'">\n';
 
 			$('#code_options').find('input[type="hidden"]').each(function(){
 				if($(this).val()==1){
 					html += '\t\t'+options[$(this).attr('name')];
 				}
 			});
-			html += '\t</div>\n';
+			html += '\t</li>\n';
 		});
-		html += '</div>';
+		html += '</ul>';
 		return html;
 	}
 

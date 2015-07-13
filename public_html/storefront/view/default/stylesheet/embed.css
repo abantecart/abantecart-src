@@ -7,11 +7,12 @@ AbanteCart storefront CSS-styles for embedded blocks
 }
 
 .abantecart-widget-container .abantecart_product{
-	width: 200px;
+	width: 250px;
 }
 
 .abantecart-widget-container .abantecart_image{
 	margin: 10px auto;
+	text-align: center;
 }
 
 .abantecart-widget-cart{
@@ -48,24 +49,19 @@ a.abantecart-widget-cart {
 }
 
 /**** product ******/
-
-
 .abantecart_image .product_thumb img {
 	width: 200px;
 }
-
 .abantecart_name {
 	text-align: center;
 }
-
 .abantecart_price  {
 	margin-top: 10px;
 	font-size: 16px;
-	padding-left: 20%;
-	padding-right: 20%;
+	text-align: center;
+	padding-left: 10px;
+	padding-right: 10px;
 }
-
-
 .abantecart_price .priceold {
 	float: left;
 	margin-right: 10px;
@@ -74,11 +70,11 @@ a.abantecart-widget-cart {
 .abantecart_price .oneprice {
 	text-align: center;
 }
-
 .abantecart_quantity {
-	margin: 10px 5px 0 0 ;
+	margin: 10px 5px 0 0;
+	padding: 0 5px 0 10px;
 	overflow: hidden;
-	width: auto;
+	float: left;
 }
 .abantecart_quantity input{
 	min-width: 43px;
@@ -86,4 +82,53 @@ a.abantecart-widget-cart {
 .abantecart_addtocart {
 	margin: 10px 5px 0 0 ;
 	overflow: hidden;
+	text-align: center;
+}
+.abantecart-widget-container .btn-default {
+    background-color: #fff;
+    border-color: #ccc;
+}
+.abantecart-widget-container .btn {
+    border-radius: 2px;
+    -moz-user-select: none;
+    background-image: none;
+    cursor: pointer;
+    display: inline-block;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1.42857;
+    margin-bottom: 0;
+    text-align: center;
+    vertical-align: middle;
+    white-space: nowrap;
+    overflow: visible;
+}
+
+/* category/manufacturers */
+ul.abantecart-widget-container {
+	display: block;
+	width: 100%;
+}
+.abantecart-widget-container h3 {
+	font: bold 16px/1.5 Helvetica, Verdana, sans-serif;
+	width: 300px; 
+}
+.abantecart-widget-container li img {
+	float: left;
+	margin: 0 10px 0 0;
+}
+.abantecart-widget-container li p {
+	font: 200 12px/1.5 Georgia, Times New Roman, serif;
+	text-align: center;
+}
+.abantecart-widget-container li {
+	padding: 5px;
+	overflow: auto;
+	float: left;  
+}
+.abantecart-widget-container li:hover {
+	background: #eee;
+}
+.abantecart-widget-container a {
+	text-decoration: none;
 }
