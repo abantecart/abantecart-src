@@ -46,7 +46,18 @@ class ControllerPagesContentContact extends AController {
 	  		$mail->setFrom($this->request->post['email']);
 	  		$mail->setSender($this->request->post['first_name']);
 	  		$mail->setSubject(sprintf($this->language->get('email_subject'), $this->request->post['name']));
-	  		$msg = $this->request->post['enquiry'];
+		    $msg = $this->request->post['enquiry'] . "\r\n";
+
+		    $form_fields = $this->form->getFields();
+		    foreach ($form_fields as $field_name => $field_info){
+			    if (has_value($this->request->post[$field_name]) && !in_array($field_name, array ('first_name', 'email', 'enquiry', 'captcha'))){
+				    $field_details = $this->form->getField($field_name);
+				    $msg .= "\r\n" . rtrim($field_details['name'], ':') . ":\t" . $this->request->post[$field_name];
+			    }
+		    }
+
+
+
 			if($file_pathes){
 				$msg .= "\r\n".$this->language->get('entry_attached').": \r\n";
 				foreach($file_pathes as $file_info){
