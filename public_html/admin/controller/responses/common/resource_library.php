@@ -206,6 +206,9 @@ class ControllerResponsesCommonResourceLibrary extends AController {
 		}
 
 		$this->data['type'] = $this->request->get['type'];
+		$this->data['wrapper_id'] = $this->request->get['wrapper_id'] ? $this->request->get['wrapper_id'] : false;
+		$this->data['field_id'] = $this->request->get['field_id'] ? $this->request->get['field_id'] : false;
+
 		$this->data['language_id'] = $this->config->get('storefront_language_id');
 
 		$this->data['image_width'] = $this->config->get('config_image_grid_width');

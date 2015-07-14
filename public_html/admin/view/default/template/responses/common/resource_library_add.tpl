@@ -59,13 +59,13 @@
 				<input class="hide" type="file" name="files[]" multiple="">
 				<div class="fileupload-buttonbar">
 					<div class="col-sm-6 col-xs-12 center">
-						<a class="btn rl_add_file">
+						<a class="btn rl_add_file" <?php echo $wrapper_id ? 'data-wrapper_id="'.$wrapper_id.'"' :'' ?> <?php echo $field_id ? 'data-field="'.$field_id.'"' :'' ?>>
 							<i class="fa fa-file-image-o" style="font-size: 10em;"></i>
 							<br/><?php echo $text_add_file; ?>
 						</a>
 					</div>
 					<div class="col-sm-6 col-xs-12 center">
-						<a class="btn rl_add_code">
+						<a class="btn rl_add_code" <?php echo $wrapper_id ? 'data-wrapper_id="'.$wrapper_id.'"' :'' ?> <?php echo $field_id ? 'data-field="'.$field_id.'"' :'' ?>>
 							<i class="fa fa-file-code-o " style="font-size: 10em;"></i>
 							<br/><?php echo $text_add_code; ?>
 						</a>
