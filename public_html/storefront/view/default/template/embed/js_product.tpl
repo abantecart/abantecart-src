@@ -36,14 +36,14 @@ if($product['rating']){?>
 
 if($product['quantity']){?>
 	if($('<?php echo $target;?> .abantecart_quantity')){
-		html = '<div class="input-group col-sm-6 pull-left"><span class="input-group-addon"><?php echo $text_qty;?></span><input type="text" size="3" class="form-control short" placeholder="" value="<?php echo $product['quantity']->value?>" id="product_quantity" name="<?php echo $product['quantity']->name?>"></div>';
+		html = '<span class="abantecart_quantity_text"><?php echo $text_qty;?></span>&nbsp;<input type="text" size="3" class="abantecart_quantity_field" placeholder="<?php echo $text_qty;?>" value="<?php echo $product['quantity']->value?>" id="product_quantity" name="<?php echo $product['quantity']->name?>"></div>';
 		$('#<?php echo $target;?> .abantecart_quantity').html(html);
 	}
 <?php }
 
 if($product['button_addtocart']){?>
 	if($('<?php echo $target;?> .abantecart_addtocart')){
-		html = '<?php echo str_replace("\n",'',$product['button_addtocart']); ?>';
+		html ='<button <?php echo $product['button_addtocart']->attr; ?> title="<?php echo $product['button_addtocart']->text; ?>" class="abantecart_button" id="<?php echo $product['button_addtocart']->id; ?>" type="button"><?php echo $product['button_addtocart']->text; ?></button>'
 		$('#<?php echo $target;?> .abantecart_addtocart').html(html);
 	}
 <?php }

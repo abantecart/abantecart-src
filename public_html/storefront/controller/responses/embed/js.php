@@ -130,7 +130,7 @@ class ControllerResponsesEmbedJS extends AController {
 
 		$product_options = $this->model_catalog_product->getProductOptions( $product_id );
 
-		if(!$product_options){
+		if(!$product_options) {
 			$product_info['button_addtocart'] = $this->html->buildElement(
 					array(
 							'type' => 'button',
@@ -140,7 +140,7 @@ class ControllerResponsesEmbedJS extends AController {
 							'attr' => 'data-product-id="' . $product_id . '" data-href = "' . $this->html->getURL('r/embed/js/addtocart', '&product_id=' . $product_id) . '"'
 					)
 			);
-		}else{
+		} else {
 			$product_info['button_addtocart'] = $this->html->buildElement(
 					array(
 							'type' => 'button',
@@ -159,9 +159,6 @@ class ControllerResponsesEmbedJS extends AController {
 						'style' => 'short'
 					)
 		);
-
-
-
 
 		$this->data['product'] = $product_info;
 

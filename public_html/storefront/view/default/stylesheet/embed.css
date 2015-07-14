@@ -78,18 +78,17 @@ a.abantecart-widget-cart {
 }
 .abantecart_quantity input{
 	min-width: 43px;
+	min-height: 30px;
 }
 .abantecart_addtocart {
 	margin: 10px 5px 0 0 ;
 	overflow: hidden;
 	text-align: center;
 }
-.abantecart-widget-container .btn-default {
+.abantecart-widget-container .abantecart_button {
     background-color: #fff;
     border-color: #ccc;
-}
-.abantecart-widget-container .btn {
-    border-radius: 2px;
+    border-radius: 1px;
     -moz-user-select: none;
     background-image: none;
     cursor: pointer;
@@ -102,6 +101,7 @@ a.abantecart-widget-cart {
     vertical-align: middle;
     white-space: nowrap;
     overflow: visible;
+    padding: 3px 10px;
 }
 
 /* category/manufacturers */
