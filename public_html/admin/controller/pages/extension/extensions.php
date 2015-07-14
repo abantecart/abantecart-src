@@ -486,7 +486,7 @@ class ControllerPagesExtensionExtensions extends AController {
 		$this->data['target_url'] = $this->html->getSecureURL('extension/extensions/edit', '&extension=' . $extension . '&store_id=' . $store_id);
 
 		//check if we restore settings to default values
-		if (isset($this->request->get['restore']) && $this->request->get['restore']) {
+		if (has_value($this->request->get['reload'])) {
 			$this->extension_manager->editSetting($extension, $ext->getDefaultSettings());
 			$this->cache->delete('settings.extension');
 			$this->session->data['success'] = $this->language->get('text_restore_success');
