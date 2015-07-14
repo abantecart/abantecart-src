@@ -102,6 +102,10 @@
 				</fields>
 			</variants>
         </item>
+		<item id="default_skrill_redirect_payment">
+			<type>hidden</type>
+			<default_value>true</default_value>
+		</item>
     </settings>
     <help_link><![CDATA[https://account.skrill.com/signup?rid=53571612]]></help_link>
 </extension>

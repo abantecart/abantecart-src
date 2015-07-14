@@ -89,7 +89,16 @@
 	        <table class="table table-striped table-bordered">
 	          <?php foreach ($payment_methods_per_shipping as $payment_method) { ?>
 	          <tr>
-	            <td width="1"><?php echo $payment_method['radio']; ?></td>
+	            <td width="1">
+				  <?php if( $payment_method['is_redirect_payment'] ) { 	
+				  ?>
+				  	<i class="fa fa-ban fa-fw" title="<?php echo $text_unavailable; ?>"></i>
+				  <?php
+				  	} else {
+				  		echo $payment_method['radio']; 
+				  	}
+				  ?>
+				</td>
 	            <td><label for="guest_payment_method<?php echo $payment_method['id']; ?>" style="cursor: pointer;">
 				<?php $icon = $payment_method['icon'];
 				if ( count ($icon) ) {  ?>

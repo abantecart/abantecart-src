@@ -33,6 +33,11 @@ class ControllerResponsesExtensionDefaultPPStandart extends AController {
 			$this->data['action'] = 'https://www.sandbox.paypal.com/cgi-bin/webscr';
 		}		
 		
+		//solution for embed mode do submit to parent window
+		if($this->config->get('embed_mode')) {
+			$this->data['target_parent'] = 'target="_parent"';
+		}
+		
 		$this->load->model('checkout/order');
 		$order_info = $this->model_checkout_order->getOrder($this->session->data['order_id']);
 		

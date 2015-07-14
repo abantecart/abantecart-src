@@ -167,6 +167,10 @@ class ControllerPagesCheckoutGuestStep2 extends AController {
 					$icon_data['image'] =  $icon;
 					$method_data[ $result[ 'key' ] ]['icon'] = $icon_data;
 				}
+				//check if this is a redirect type of the payment
+				if($ext_setgs[$result['key']."_redirect_payment"]) {
+					$method_data[ $result['key'] ]['is_redirect_payment'] = true;
+				}
 			}
 		}
 		//sort payments

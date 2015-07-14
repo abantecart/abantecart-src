@@ -6,3 +6,6 @@ INSERT INTO `ac_settings` (`group`, `key`, `value`) VALUES
 
 ('general','config_embed_status',1),
 ('general','config_embed_click_action', 'modal');
+
+-- add configs to payment with 
+-- [*]_redirect_payment = true

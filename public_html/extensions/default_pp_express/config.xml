@@ -85,6 +85,10 @@
 			<type>input</type>
 			<default_value></default_value>
 		</item>
+		<item id="default_pp_express_redirect_payment">
+			<type>hidden</type>
+			<default_value>true</default_value>
+		</item>
     </settings>
 	<custom_settings_template>pages/extension/default_pp_express_settings.tpl</custom_settings_template>
 	<help_file><![CDATA[help.txt]]></help_file>	

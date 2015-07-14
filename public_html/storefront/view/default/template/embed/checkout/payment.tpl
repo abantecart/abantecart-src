@@ -72,7 +72,16 @@
 				<?php echo $this->getHookVar('payment_extensions_pre_payments_hook'); ?>
 				<?php foreach ($payment_methods as $payment_method) { ?>
 				<tr>
-				  <td style="width:1px;"><?php echo $payment_method['radio']; ?></td>
+				  <td style="width:1px;">
+				  <?php if( $payment_method['is_redirect_payment'] ) { 	
+				  ?>
+				  	<i class="fa fa-ban fa-fw" title="<?php echo $text_unavailable; ?>"></i>
+				  <?php
+				  	} else {
+				  		echo $payment_method['radio']; 
+				  	}
+				  ?>
+				  </td>
 				  <td><label for="payment_payment_method<?php echo $payment_method['id']; ?>" style="cursor: pointer;">
 					<?php $icon = $payment_method['icon'];
 					if ( count ($icon) ) {  ?>

@@ -310,6 +310,10 @@
 		<value><![CDATA[Free Shipping]]></value>
 	</definition>
 	<definition>
+		<key>text_unavailable</key>
+		<value><![CDATA[Unavailable]]></value>
+	</definition>	
+	<definition>
 		<key>error_unknown</key>
 		<value><![CDATA[Unknown error encountered. Please try again!]]></value>
     </definition>    
