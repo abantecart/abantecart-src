@@ -203,6 +203,22 @@ class ModelCatalogManufacturer extends Model {
 		return $manufacturer_store_data;
 	}
 
+	public function getManufacturerStoresInfo($manufacturer_id) {
+
+		$query = $this->db->query("SELECT m2s.*,
+										s.name as store_name,
+										ss.`value` as store_url,
+										sss.`value` as store_ssl_url
+									FROM " . $this->db->table("manufacturers_to_stores") . " m2s
+									LEFT JOIN " . $this->db->table("stores") . " s ON s.store_id = m2s.store_id
+									LEFT JOIN " . $this->db->table("settings") . " ss
+										ON (ss.store_id = m2s.store_id AND ss.`key`='config_url')
+									LEFT JOIN " . $this->db->table("settings") . " sss
+										ON (sss.store_id = m2s.store_id AND sss.`key`='config_ssl_url')
+									WHERE m2s.manufacturer_id = '" . (int)$manufacturer_id . "'");
+		return $query->rows;
+	}
+
 	public function getTotalManufacturers($data = array()) {
 		return $this->getManufacturers($data, 'total_only');
 	}	

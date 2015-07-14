@@ -206,9 +206,19 @@ class ControllerResponsesCommonDoEmbed extends AController {
 	    ));
 
 	    $this->loadModel('catalog/category');
+	    $this->loadModel('setting/store');
+        //if loaded not default store - hide store switcher
+        $current_store_settings = $this->model_setting_store->getStore($this->config->get('config_store_id'));
+	    $remote_store_url = $current_store_settings['config_url'];
 
+		//if embed for only one category
 	    if(sizeof($category_id)==1 ){
 		    $category_info = $this->model_catalog_category->getCategory( current($category_id) );
+		    $category_stores = $this->model_catalog_category->getCategoryStoresInfo( current($category_id) );
+
+		    if(sizeof($category_stores) == 1){
+			    $remote_store_url = $category_stores[0]['store_url'];
+		    }
 		    $subcategories = $this->model_catalog_category->getCategories($category_id);
 		    if($category_info['parent_id']==0){
 			    $options = $this->model_catalog_category->getCategories(0);
@@ -254,10 +264,10 @@ class ControllerResponsesCommonDoEmbed extends AController {
 	    ));
 
 	    $this->data['category_id'] = $this->request->get['category_id'];
-	    $this->data['sf_js_embed_url'] = $this->html->getCatalogURL('r/embed/js');
-	    $this->data['sf_base_url'] = $this->config->get('config_url');
+	    $this->data['sf_js_embed_url'] = $remote_store_url.INDEX_FILE.'?rt=r/embed/js';
+	    $this->data['sf_base_url'] = $remote_store_url;
 
-	    $this->data['sf_css_embed_url'] = HTTP_SERVER.'storefront/view/' . $this->config->get('config_storefront_template').'/stylesheet/embed.css';
+	    $this->data['sf_css_embed_url'] = $remote_store_url.'storefront/view/' . $this->config->get('config_storefront_template').'/stylesheet/embed.css';
 
         //update controller data
         $this->extensions->hk_UpdateData($this,__FUNCTION__);
@@ -306,6 +316,10 @@ class ControllerResponsesCommonDoEmbed extends AController {
 	    ));
 
 	    $this->loadModel('catalog/manufacturer');
+	    $this->loadModel('setting/store');
+        //if loaded not default store - hide store switcher
+        $current_store_settings = $this->model_setting_store->getStore($this->config->get('config_store_id'));
+	    $remote_store_url = $current_store_settings['config_url'];
 
 	     if(!sizeof($manufacturer_id)){
 		    return null;
@@ -338,6 +352,12 @@ class ControllerResponsesCommonDoEmbed extends AController {
                     'name'      => 'manufacturer_id[]',
                     'value'     => current($manufacturer_id)
             ));
+
+		    $manufacturer_stores = $this->model_catalog_manufacturer->getManufacturerStoresInfo( current($manufacturer_id) );
+
+            if(sizeof($manufacturer_stores) == 1){
+                $remote_store_url = $manufacturer_stores[0]['store_url'];
+            }
 	    }
 
 	    $this->data['text_area'] = $form->getFieldHtml(array(
@@ -348,10 +368,10 @@ class ControllerResponsesCommonDoEmbed extends AController {
 	    ));
 
 	    $this->data['manufacturer_id'] = $this->request->get['manufacturer_id'];
-	    $this->data['sf_js_embed_url'] = $this->html->getCatalogURL('r/embed/js');
-	    $this->data['sf_base_url'] = $this->config->get('config_url');
+	    $this->data['sf_js_embed_url'] = $remote_store_url.INDEX_FILE.'?rt=r/embed/js';
+	    $this->data['sf_base_url'] = $remote_store_url;
 
-	    $this->data['sf_css_embed_url'] = HTTP_SERVER.'storefront/view/' . $this->config->get('config_storefront_template').'/stylesheet/embed.css';
+	    $this->data['sf_css_embed_url'] = $remote_store_url.'storefront/view/' . $this->config->get('config_storefront_template').'/stylesheet/embed.css';
 
         //update controller data
         $this->extensions->hk_UpdateData($this,__FUNCTION__);
