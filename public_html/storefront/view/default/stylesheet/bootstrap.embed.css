@@ -101,12 +101,12 @@ button.abcmodal_close {
   opacity: .5;
 }
 .abcmodal-header {
-  min-height: 30px;
-  padding: 12px;
-  border-bottom: 1px solid #e5e5e5;
-  color: #96979d;
-  font-family: "Open Sans",sans-serif;
-  font-size: 13px;
+	min-height: 30px;
+	padding: 12px;
+	border-bottom: 1px solid #e5e5e5;
+	color: #96979d;
+	font-family: "Open Sans",sans-serif;
+	font-size: 13px;
 	overflow: hidden;
 }
 .abcmodal-header img {
@@ -114,20 +114,28 @@ button.abcmodal_close {
     vertical-align: middle;
 }
 .abcmodal-header .close {
-  margin-top: -2px;
+	margin-top: -2px;
 }
 .abcmodal-header-store{
-  white-space: nowrap;
-  float: left;
+	white-space: nowrap;
+	float: left;
 }
 .abcmodal-header-menu {
-  font-size: 14px;
-  font-weight: bold;
-  text-shadow: 0 1px 0 #fff;
-  padding-left: 25px;
-  padding-top: 5px;
-  white-space: nowrap;
-  float: left;
+	font-size: 14px;
+	font-weight: bold;
+	text-shadow: 0 1px 0 #fff;
+	padding-left: 25px;
+	padding-top: 5px;
+	white-space: nowrap;
+	float: left;
+}
+.abcmodal-header-menu a {
+	color: #00A1CB;
+	text-decoration: none
+}
+.abcmodal-header-menu a:hover {
+	text-decoration: none;
+	color: #d8420e
 }
 .abcmodal-title {
   margin: 0;
