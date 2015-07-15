@@ -359,22 +359,23 @@ class AResource {
 		$where = "WHERE rm.object_name = '" . $this->db->escape( $object_name ) . "' "
 				. " and rm.object_id = '" . $this->db->escape( $object_id ) . "' "
 				. " and rl.type_id = ". $this->db->escape( $this->type_id );
-				
+
 		$sql = "SELECT
 					rl.resource_id, 
 					rd.name,
 					rd.title,
 					rd.description,
-					rd.resource_path,
-					rd.resource_code,
+					COALESCE(rd.resource_path,rdd.resource_path) as resource_path,
+					COALESCE(rd.resource_code,rdd.resource_code) as resource_code,
 					rm.default,
 					rm.sort_order	  
 				FROM " . $this->db->table("resource_library") . " rl " . "
 				LEFT JOIN " . $this->db->table("resource_map") . " rm ON rm.resource_id = rl.resource_id " . "
 				LEFT JOIN " . $this->db->table("resource_descriptions") . " rd ON (rl.resource_id = rd.resource_id AND rd.language_id = '".$language_id."')
+				LEFT JOIN " . $this->db->table("resource_descriptions") . " rdd ON (rl.resource_id = rdd.resource_id AND rdd.language_id = '".$this->language->getDefaultLanguageID()."')
 				" . $where . "
-				ORDER BY rm.sort_order ASC";		
-				
+				ORDER BY rm.sort_order ASC";
+					
 		$query = $this->db->query($sql);
 		$resources = $query->rows;
         $this->cache->set($cache_name, $resources, $language_id, (int)$this->config->get('config_store_id'));
