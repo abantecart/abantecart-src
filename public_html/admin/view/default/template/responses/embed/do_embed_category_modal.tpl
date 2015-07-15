@@ -55,7 +55,7 @@
 	};
 
 	var buildEmbedCode = function(){
-		var common_params = ''
+		var common_params = '';
 		var language = $('div#embed_modal').find('select[name="language"]').val();	
 		var currency = $('div#embed_modal').find('select[name="currency"]').val();	
 		if(language && language.length > 0){
@@ -66,7 +66,7 @@
 		}
 
 		var html = '<script src="<?php echo $sf_js_embed_url; ?>" type="text/javascript"></script>\n';
-			html += '<ul style="display:none;" class="abantecart-widget-container" data-url="<?php echo $sf_base_url; ?>" data-css-url="<?php echo $sf_css_embed_url; ?>"'+common_params+'>\n';
+			html += '<ul style="display:none;" class="abantecart-widget-container" data-url="<?php echo $sf_base_url; ?>" data-css-url="<?php echo $sf_css_embed_url; ?>"' + common_params + '>\n';
 
 		var d = new Date();
 		$.each($('div#embed_modal').find("input[name='category_id[]']:checked"), function() {
@@ -134,5 +134,3 @@
 	});
 
 //--></script>
-
-

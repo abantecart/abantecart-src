@@ -404,12 +404,8 @@ class ModelCatalogCategory extends Model {
 	 */
 	public function getCategoryStores($category_id) {
 		$category_store_data = array();
-		
-		$query = $this->db->query( "SELECT *
-									FROM " . $this->db->table("categories_to_stores") . " c2s
-									WHERE category_id = '" . (int)$category_id . "'");
-
-		foreach ($query->rows as $result) {
+		$rows = $this->getCategoryStoresInfo($category_id);
+		foreach ($rows as $result) {
 			$category_store_data[] = $result['store_id'];
 		}
 		

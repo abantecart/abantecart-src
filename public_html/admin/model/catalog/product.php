@@ -1607,16 +1607,33 @@ class ModelCatalogProduct extends Model{
 	 */
 	public function getProductStores($product_id){
 		$product_store_data = array();
+		$rows = $this->getProductStoresInfo($product_id);
 
-		$query = $this->db->query("SELECT *
-									FROM " . $this->db->table("products_to_stores") . " 
-									WHERE product_id = '" . (int)$product_id . "'");
-
-		foreach($query->rows as $result){
+		foreach($rows as $result){
 			$product_store_data[] = $result['store_id'];
 		}
 
 		return $product_store_data;
+	}
+	/**
+	 * @param int $product_id
+	 * @return array
+	 */
+	public function getProductStoresInfo($product_id){
+
+		$query = $this->db->query("SELECT p2s.*,
+										s.name as store_name,
+										ss.`value` as store_url,
+										sss.`value` as store_ssl_url
+									FROM " . $this->db->table("products_to_stores") . " p2s
+									LEFT JOIN " . $this->db->table("stores") . " s ON s.store_id = p2s.store_id
+                                    LEFT JOIN " . $this->db->table("settings") . " ss
+                                        ON (ss.store_id = p2s.store_id AND ss.`key`='config_url')
+                                    LEFT JOIN " . $this->db->table("settings") . " sss
+                                        ON (sss.store_id = p2s.store_id AND sss.`key`='config_ssl_url')
+									WHERE p2s.product_id = '" . (int)$product_id . "'");
+
+		return $query->rows;
 	}
 
 	/**
