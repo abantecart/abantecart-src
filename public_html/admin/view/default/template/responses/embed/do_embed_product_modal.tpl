@@ -12,15 +12,15 @@
 			<label class="h4 heading"></label>
 			<?php echo $form['form_open']; ?>
 				<?php foreach ($fields as $field) {
-				$widthclass = 'col-sm-4 col-sm-offset-2 col-xs-12';
+				$widthclass = 'col-sm-4 col-sm-offset-2 col-xs-6';
 				?>
 				<div class="form-group">
 					<?php if(${'entry_' . $field->name}){?>
-					<label class="control-label col-md-6 col-xs-12" for="<?php echo $field->element_id; ?>">
+					<label class="control-label col-md-6 col-xs-6" for="<?php echo $field->element_id; ?>">
 						<?php echo ${'entry_' . $field->name}; ?>
 					</label>
 					<?php }else{
-						$widthclass = 'col-sm-12 col-xs-12';
+						$widthclass = 'col-sm-4 col-sm-offset-2 col-xs-6';
 					} ?>
 					<div class="input-group input-group-sm afield <?php echo $widthclass; ?>">
 						<?php echo $field; ?>

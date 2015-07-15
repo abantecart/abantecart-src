@@ -39,7 +39,7 @@ foreach ($ext_list as $ext_txt_id){
 					VALUES
 						('".$store_id."',
 						'".$ext_txt_id."',
-						'".$ext_txt_id."__redirect_payment',
+						'".$ext_txt_id."_redirect_payment',
 						'true',
 						NOW() )";
 			$result = $this->db->query($sql);

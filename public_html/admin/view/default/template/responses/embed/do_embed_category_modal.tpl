@@ -16,11 +16,14 @@
 				$label = ${'entry_' . str_replace(array('[', ']'), '', $field->name)};		?>
 				<div class="form-group">
 					<?php if($label){?>
-					<label class="control-label col-md-6 col-xs-12" for="<?php echo $field->element_id; ?>">
+					<label class="control-label col-md-6 col-xs-6" for="<?php echo $field->element_id; ?>">
 						<?php echo $label; ?>
 					</label>
 					<?php }else{
-						$widthclass = 'col-sm-12 col-xs-12';
+						$widthclass = 'col-sm-12 col-xs-6';
+						if($field->name!='category_id[]'){
+							$widthclass .= ' col-sm-offset-2 ';
+						}
 					} ?>
 					<div class="input-group input-group-sm afield <?php echo $widthclass; ?>">
 						<?php echo $field; ?>
