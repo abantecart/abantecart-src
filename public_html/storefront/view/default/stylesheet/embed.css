@@ -125,7 +125,8 @@ ul.abantecart-widget-container {
 .abantecart-widget-container li {
 	padding: 5px;
 	overflow: auto;
-	float: left;  
+	float: left;
+	list-style: none;
 }
 .abantecart-widget-container li:hover {
 	background: #eee;
