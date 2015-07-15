@@ -1329,6 +1329,9 @@ h1.pagetitle {
 .easyzoom img {
 	vertical-align: bottom;
 }
+.local_image img {
+	width: 340px;
+}
 .easyzoom.is-loading img {
 	cursor: progress;
 }

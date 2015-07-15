@@ -42,7 +42,7 @@
 				    $image_url = $image_main['main_url'];
 				    $thumb_url = $image_main['thumb_url'];
 				?>
-				    <a href="<?php echo $image_url; ?>" target="_image" title="<?php echo $image_main['title']; ?>">
+				    <a class="local_image" href="<?php echo $image_url; ?>" target="_image" title="<?php echo $image_main['title']; ?>">
 				    	<img src="<?php echo $thumb_url; ?>" alt="<?php echo $image['title']; ?>" title="<?php echo $image['title']; ?>" />
 				    <i class="fa fa-arrows"></i>
 				    </a>

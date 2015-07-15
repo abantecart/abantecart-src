@@ -22,6 +22,7 @@ Deny from all
 </FilesMatch>
 
 # Rewrite section for retina high-res images with @2x in the end of filename base on cookie HTTP_IS_RETINA
+# To emulate Retina mode on your NON-Retina display, add HTTP_IS_RETINA cookie in your browser
 RewriteEngine on
 RewriteCond %{HTTP_COOKIE} HTTP_IS_RETINA [NC]
 RewriteCond %{REQUEST_FILENAME} !@2x
