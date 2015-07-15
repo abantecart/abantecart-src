@@ -657,11 +657,13 @@ class ModelCatalogProduct extends Model {
 	public function getFeaturedProducts($limit) {
 		$product_data = $this->cache->get('product.featured.' . $limit, $this->config->get('storefront_language_id'), (int)$this->config->get('config_store_id') );
 		if (is_null($product_data)) {
-			$sql = "SELECT *
+			$sql = "SELECT f.*, p.*, pd.*, ss.name AS stock
 					FROM " . $this->db->table("products_featured") . " f
 					LEFT JOIN " . $this->db->table("products") . " p ON (f.product_id = p.product_id)
 					LEFT JOIN " . $this->db->table("product_descriptions") . " pd ON (f.product_id = pd.product_id AND pd.language_id = '" . (int)$this->config->get('storefront_language_id') . "')
 					LEFT JOIN " . $this->db->table("products_to_stores") . " p2s ON (p.product_id = p2s.product_id)
+					LEFT JOIN " . $this->db->table("stock_statuses") . " ss ON (p.stock_status_id = ss.stock_status_id
+						AND ss.language_id = '" . (int)$this->config->get('storefront_language_id') . "') 
 					WHERE p2s.store_id = '" . (int)$this->config->get('config_store_id') . "'
 						AND p.status='1'
 						AND p.date_available <= NOW()
@@ -705,10 +707,13 @@ class ModelCatalogProduct extends Model {
 				}
 
 				if($products){
-					$sql = "SELECT *, p.product_id
+					$sql = "SELECT *, p.product_id, ss.name AS stock
 							FROM " . $this->db->table("products") . " p
 							LEFT JOIN " . $this->db->table("product_descriptions") . " pd ON (p.product_id = pd.product_id AND pd.language_id = '" . (int)$this->config->get('storefront_language_id') . "')
 							LEFT JOIN " . $this->db->table("products_to_stores") . " p2s ON (p.product_id = p2s.product_id)
+							LEFT JOIN " . $this->db->table("stock_statuses") . " ss
+								ON (p.stock_status_id = ss.stock_status_id
+									AND ss.language_id = '" . (int)$this->config->get('storefront_language_id') . "') 
 							WHERE p.product_id IN (" . implode(', ',$products) . ")
 								AND p.status = '1' AND p.date_available <= NOW()
 								AND p2s.store_id = '" . (int)$this->config->get('config_store_id') . "'"; 
