@@ -247,17 +247,22 @@ if(window.abc_count === undefined){
 			});
 
 			var loadIframe = function(url) {
-				$('#abc_embed_modal iframe').contents().find("body").html('');
-				$('#abc_embed_modal iframe').hide();
+				var $iframe = $("#abc_embed_modal iframe");
+				//clear iframe
+				$iframe.attr('src', '');
+				$iframe.hide();
 				$('#iframe_loading').show();
+				$iframe.load(function(){
+					$('#iframe_loading').hide();
+    				$iframe.show();
+				});
 				var d = new Date();
 				//get href of modal caller
 				var frame_url = abc_process_url(url+ '&time_stamp='+d.getTime());
-				$('#abc_embed_modal iframe').attr("src", frame_url);
-				$('#iframe_loading').hide();
-				$('#abc_embed_modal iframe').show();
+				$iframe.attr("src", frame_url);
 				return false;
 			};
+			
 		});
 
 		var abc_process_wrapper = function(){
