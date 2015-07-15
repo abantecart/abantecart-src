@@ -55,8 +55,18 @@
 	};
 
 	var buildEmbedCode = function(){
+		var common_params = '';
+		var language = $('div#embed_modal').find('select[name="language"]').val();
+		var currency = $('div#embed_modal').find('select[name="currency"]').val();
+		if(language && language.length > 0){
+			common_params += ' data-language="'+language+'"';
+		}
+		if(currency && currency.length > 0){
+			common_params += ' data-currency="'+currency+'"';
+		}
+
 		var html = '<script src="<?php echo $sf_js_embed_url; ?>" type="text/javascript"></script>\n';
-			html += '<ul style="display:none;" class="abantecart-widget-container" data-url="<?php echo $sf_base_url; ?>" data-css-url="<?php echo $sf_css_embed_url; ?>">\n';
+			html += '<ul style="display:none;" class="abantecart-widget-container" data-url="<?php echo $sf_base_url; ?>" data-css-url="<?php echo $sf_css_embed_url; ?>"'+common_params+'>\n';
 
 		var d = new Date();
 		$.each($('div#embed_modal').find("input[name='manufacturer_id[]']:checked, input[name='manufacturer_id[]'][type='hidden']"), function() {
@@ -90,6 +100,13 @@
 		});
 
 		$('div#embed_modal').find('div.btn_switch').find('button').on('click', function(){
+			var ec = buildEmbedCode();
+			window.abc_count = 0;
+			$('#getEmbedFrm_code_area').val(ec);
+			$("#embed_container" ).html(ec);
+		});
+
+		$('div#embed_modal').find('div.input-group').find('select').on('change', function(){
 			var ec = buildEmbedCode();
 			window.abc_count = 0;
 			$('#getEmbedFrm_code_area').val(ec);

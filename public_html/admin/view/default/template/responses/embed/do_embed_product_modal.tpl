@@ -59,7 +59,7 @@
 	};
 
 	var buildEmbedCode = function(){
-		var common_params = ''
+		var common_params = '';
 		var language = $('div#embed_modal').find('select[name="language"]').val();	
 		var currency = $('div#embed_modal').find('select[name="currency"]').val();	
 		if(language && language.length > 0){

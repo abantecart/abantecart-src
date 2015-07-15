@@ -328,6 +328,33 @@ class ControllerResponsesCommonDoEmbed extends AController {
 	    				'style' => 'btn_switch btn-group-xs',
 	    ));
 
+	    $results = $this->language->getAvailableLanguages();
+        $languages = array();
+        foreach ($results as $v) {
+            $languages[$v['code']] = $v['name'];
+            $lng_code = $this->language->getLanguageCodeByLocale($v['locale']);
+            $language_codes[$lng_code] = $v['name'];
+        }
+        $this->data['fields'][] = $form->getFieldHtml(array(
+                        'type'  => 'selectbox',
+                        'name'  => 'language',
+                        'value' => $this->config->get('config_storefront_language'),
+                        'options' => $language_codes,
+        ));
+
+        $this->load->model('localisation/currency');
+        $results = $this->model_localisation_currency->getCurrencies();
+        $currencies = array();
+        foreach ($results as $v) {
+            $currencies[$v['code']] = $v['title'];
+        }
+        $this->data['fields'][] = $form->getFieldHtml(array(
+                        'type'  => 'selectbox',
+                        'name'  => 'currency',
+                        'value' => $this->config->get('config_currency'),
+                        'options' => $currencies,
+        ));
+
 	    $this->loadModel('catalog/manufacturer');
 	    $this->loadModel('setting/store');
         //if loaded not default store - hide store switcher
