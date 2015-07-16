@@ -128,6 +128,31 @@ class ControllerResponsesEmbedJS extends AController {
 		$rt = $this->config->get('config_embed_click_action')=='modal' ? 'r/product/product' : 'product/product';
 		$this->data['product_details_url'] = $this->html->getURL($rt,	'&product_id=' . $product_id);
 
+		//handle stock messages
+		// if track stock is off. no messages needed.
+		if($this->model_catalog_product->isStockTrackable($product_id)){
+			$total_quantity = $this->model_catalog_product->hasAnyStock($product_id);
+			$product_info['track_stock'] = true;
+			//out of stock if no quantity and no stick checkout is disabled
+			if($total_quantity <= 0 && !$this->config->get('config_stock_checkout')){
+				$product_info['in_stock'] = false;
+				//show out of stock message
+				$product_info['stock'] = $product_info['stock_status'];
+			} else{
+				$product_info['in_stock'] = true;
+				if($this->config->get('config_stock_display')){
+					$product_info['stock'] = $product_info['quantity'];
+				} else{
+					$product_info['stock'] = $this->language->get('text_instock');
+				}
+			}
+
+			//check if we need to disable product for no stock
+			if($this->config->get('config_nostock_autodisable') && $total_quantity <= 0){
+				return null;
+			}
+		}
+
 		$product_options = $this->model_catalog_product->getProductOptions( $product_id );
 
 		if(!$product_options) {
