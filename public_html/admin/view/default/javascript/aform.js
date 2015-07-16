@@ -910,6 +910,11 @@ var formOnExit = function(){
     });
 }
 
+function resetLockBtn(){
+    $('.lock-on-click').each(function () {
+        $(this).button('reset');
+    });
+}
 //------------------------------------------------------------------------------
 // Add form events. Function can be reloaded after AJAX responce to dinamic HTML
 //------------------------------------------------------------------------------

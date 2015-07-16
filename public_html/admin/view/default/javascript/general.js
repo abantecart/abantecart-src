@@ -581,6 +581,7 @@ $(document).ajaxError(function (e, jqXHR, settings, exception) {
         }
     }
 
+    try { resetLockBtn(); } catch (e){}
 });
 
 
