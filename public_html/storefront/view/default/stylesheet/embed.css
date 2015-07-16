@@ -34,7 +34,8 @@ AbanteCart storefront CSS-styles for embedded blocks
 	top: 40px;
 	left: 10px;
 	width: 60px;
-	text-align: center;	
+	text-align: center;
+	color: #3071a9;
 }
 a.abantecart-widget-cart {
 	text-decoration: none;
