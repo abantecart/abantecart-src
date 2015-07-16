@@ -135,6 +135,10 @@ class AHtml extends AController {
 	 * @return string
 	 */
 	public function getSEOURL($rt, $params = '', $encode = '') {
+		//skip SEO for embed mode
+		if ($this->registry->get('config')->get('embed_mode') == true) {
+			return $this->getURL($rt, $params);
+		}
 		//#PR Generate SEO URL based on standard URL
 		$this->loadModel('tool/seo_url');
 		return $this->url_encode($this->model_tool_seo_url->rewrite($this->getURL($rt, $params)), $encode);

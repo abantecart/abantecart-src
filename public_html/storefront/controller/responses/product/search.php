@@ -32,14 +32,14 @@ class ControllerResponsesProductSearch extends AController{
 
 		try{
 			$this->config->set('embed_mode', true);
-			$cart = $this->dispatch('pages/product/search');
-			$cart_html = $cart->dispatchGetOutput();
+			$cntr = $this->dispatch('pages/product/search');
+			$html_out = $cntr->dispatchGetOutput();
 		} catch(AException $e){
 		}
 
 		$this->extensions->hk_UpdateData($this, __FUNCTION__);
 
-		$this->response->setOutput($cart_html);
+		$this->response->setOutput($html_out);
 
 	}
 
