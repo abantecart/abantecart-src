@@ -3019,11 +3019,10 @@ body.stickyheader .sticky_left {
 }
 
 .btn-clipboard {
-	background-color: #064770;
-	color: #ffffff;
-    border: 1px solid #064770;
+	border: 1px solid #e1e1e8;
+
+	border: 1px solid #e1e1e8;
     border-radius: 0 4px;
-    cursor: pointer;
     display: block;
     font-size: 12px;
     padding: 5px 8px;
@@ -3031,10 +3030,4 @@ body.stickyheader .sticky_left {
     right: -1px;
     top: -1px;
     z-index: 10;
-}
-
-.btn-clipboard:hover{
-	background-color: #fff;
-	color: #767676;
-	border: 1px solid #e1e1e8;
 }

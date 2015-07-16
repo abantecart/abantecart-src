@@ -34,7 +34,7 @@
 		<div class="col-sm-12 col-xs-12">
 
 			<div data-example-id="textarea-form-control" class="embed-code">
-				<!--<span class="btn-clipboard btn-primary">Copy</span> -->
+				<div class="btn-clipboard"><?php echo $text_copy_embed_code; ?></div>
 			    <form>
 				    <?php echo $text_area;?>
 			    </form>

@@ -673,5 +673,9 @@
 		<key>text_share_embed_code</key>
 		<value><![CDATA[Get Embed Code]]></value>
 	</definition>
+	<definition>
+		<key>text_copy_embed_code</key>
+		<value><![CDATA[Сopy and paste this into your HTML-code where you'd like to sell]]></value>
+	</definition>
 	
 </definitions>

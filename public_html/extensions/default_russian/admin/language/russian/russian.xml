@@ -668,5 +668,8 @@
 		<key>text_share_embed_code</key>
 		<value><![CDATA[Получить встраиваемый html-код]]></value>
 	</definition>
-	  
+	<definition>
+		<key>text_copy_embed_code</key>
+		<value><![CDATA[Скопируйте и вставьте содержимое в Ваш html-код где вы планируете продавать]]></value>
+	</definition>
 </definitions>
