@@ -29,11 +29,17 @@ class ControllerResponsesIndexHome extends AController {
 		//init controller data
 		$this->extensions->hk_InitData($this, __FUNCTION__);
 
+		//temporаry solution for home page - top category list
+		if($this->config->get('embed_mode') == true){
+			$continue_url = $this->html->getURL('product/category');
+			$this->redirect($continue_url);
+		}
+
 		$this->addChild('responses/embed/head', 'head');
 		$this->addChild('responses/embed/footer', 'footer');
 		$this->processTemplate('embed/index/home.tpl');
 
-        $this->extensions->hk_UpdateData($this,__FUNCTION__);
+		$this->extensions->hk_UpdateData($this,__FUNCTION__);
 
 	}	
 
