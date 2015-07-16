@@ -92,11 +92,9 @@ if(window.abc_count === undefined){
 	}
 
 	/*****************************************/
-	var abc_get_cookie = function() {
+	function abc_get_cookie() {
 		var name = 'abantecart_token';
-		var matches = document.cookie.match(new RegExp(
-"(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"
-		));
+		var matches = document.cookie.match(new RegExp("(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"));
 	  return matches ? decodeURIComponent(matches[1]) : undefined;
 	}
 
@@ -107,14 +105,14 @@ if(window.abc_count === undefined){
 	}
 
 	/********* AbanteCart url wrapper  ***********/
-	var abc_process_url = function (url){
+	function abc_process_url(url){
 		if(abc_cookie_allowed==false){
 			url += '&'+abc_token_name+'='+abc_token_value;
 		}
 		return url;
 	}
 
-	var abc_process_request = function(url){
+	function abc_process_request(url){
 		if(url.length < 1){
 			console.log('Abantecart embedded code: empty url requested!');
 			return null; 
@@ -124,7 +122,7 @@ if(window.abc_count === undefined){
 	}
 
 	/******** function to append css-file with styles for embedded block from AbanteCart host ********/
-	var abc_append_css = function(url){
+	function abc_append_css(url){
 		if(url.length<1){
 			console.log('AbanteCart embedded code: empty url for css requested!');
 			return null;
@@ -152,7 +150,6 @@ if(window.abc_count === undefined){
 							'<div class="abcmodal-content">' +
 								'<div class="abcmodal-header">' +
 									'<div class="abcmodal-header-store">' +
-
 									'<?php if($icon) { ?><img src="resources/<?php echo $icon; ?>""/>&nbsp;<?php } ?>&nbsp;<?php echo $store_name; ?>' +
 									'</div><div class="abcmodal-header-menu">' +
 									'<a class="abcmodal-reload" href="#" data-href="<?php echo $account;?>"><?php echo $text_account;?></a>&nbsp;&nbsp;' +
