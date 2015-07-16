@@ -846,14 +846,14 @@
 	</definition>
 	<definition>
 		<key>text_embed_click_action_modal</key>
-		<value><![CDATA[Same Page Modal Dialog]]></value>
+		<value><![CDATA[Same page Modal Dialog]]></value>
 	</definition>
 	<definition>
 		<key>text_embed_click_action_new_window</key>
-		<value><![CDATA[Open in the Same Window]]></value>
+		<value><![CDATA[Open new page in same window]]></value>
 	</definition>
 	<definition>
 		<key>text_embed_click_action_same_window</key>
-		<value><![CDATA[Same Window]]></value>
+		<value><![CDATA[Open new page in new tab]]></value>
 	</definition>
 </definitions>
