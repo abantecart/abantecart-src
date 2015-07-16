@@ -738,6 +738,9 @@ h1.pagetitle {
 /**
  * EasyZoom core styles
  */
+.local_image img {
+	width: 340px;
+}
 .easyzoom {
 	position: relative;
 	/* 'Shrink-wrap' the element */

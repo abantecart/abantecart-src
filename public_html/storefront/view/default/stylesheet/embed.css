@@ -47,6 +47,7 @@ a.abantecart-widget-cart {
 	overflow: auto;
     background: transparent url(../image/spinner.gif) no-repeat;
 	background-position: center;
+	z-index: 2000;
 }
 
 /**** product ******/
