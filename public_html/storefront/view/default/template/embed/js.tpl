@@ -232,6 +232,7 @@ if(window.abc_count === undefined){
 				url += abc_add_common_params($(e.relatedTarget).closest('.abantecart-widget-container'));
 				loadIframe( url );
 				$('#abc_embed_modal').abcmodal('show');
+				$('.abantecart-widget-cart').hide();
 			});
 
 			$('#abc_embed_modal').on('hide.bs.abcmodal', function (e) {
