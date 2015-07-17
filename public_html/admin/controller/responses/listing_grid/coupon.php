@@ -150,7 +150,7 @@ class ControllerResponsesListingGridCoupon extends AController {
 					$value = dateDisplay2ISO($value);
 				}
 
-			    if( $field=='discount'){
+			    if( in_array($field, array('discount','total')) ){
 					$value = preformatFloat($value, $this->language->get('decimal_point') );
 				}
 
