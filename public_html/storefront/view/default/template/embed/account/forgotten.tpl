@@ -28,8 +28,8 @@
 			foreach ( $form['fields'] as $field_name => $field) { 
 		?>
 			<div class="form-group">
-				<label class="control-label col-md-4"><?php echo ${'entry_'.$field_name}; ?></label>
-				<div class="input-group col-md-4">
+				<label class="control-label col-sm-4"><?php echo ${'entry_'.$field_name}; ?></label>
+				<div class="input-group col-sm-4">
 				    <?php echo $form['fields'][$field_name]; ?>
 				</div>
 			</div>		
@@ -42,7 +42,7 @@
 	<?php echo $this->getHookVar('password_forgotten_sections'); ?>
 	
 	<div class="form-group">
-	    <div class="col-md-12">
+	    <div class="col-sm-12">
 	        <button class="btn btn-orange pull-right" title="<?php echo $form['continue']->name ?>" type="submit">
 	            <i class="fa fa-check"></i>
 	            <?php echo $form['continue']->name ?>

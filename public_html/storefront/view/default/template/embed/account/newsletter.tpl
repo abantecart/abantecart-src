@@ -10,8 +10,8 @@
 	<div class="registerbox form-horizontal">
 		<fieldset>
 			<div class="form-group">
-				<label class="control-label col-md-4"><?php echo $entry_newsletter; ?></label>
-				<div class="input-group col-md-4">
+				<label class="control-label col-sm-4"><?php echo $entry_newsletter; ?></label>
+				<div class="input-group col-sm-4">
 				    <?php echo $form['newsletter']; ?>
 				</div>
 			</div>		

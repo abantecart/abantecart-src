@@ -60,10 +60,10 @@
 	
 	<div class="form-group">
 	    <div class="col-md-12">
-			<div class="pull-left col-md-8">
+			<div class="pull-left col-sm-8">
 				<?php echo $create_account ?>
 			</div>
-	    	<div class="pull-right col-md-4">
+	    	<div class="pull-right col-sm-4">
 				<?php echo $continue ?>
 	    	</div>	
 	    </div>
