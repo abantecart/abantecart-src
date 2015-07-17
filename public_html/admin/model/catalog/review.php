@@ -199,7 +199,7 @@ class ModelCatalogReview extends Model{
 		$sql = "SELECT DISTINCT r.product_id, pd.name
 				FROM " . $this->db->table("reviews") . " r
 				LEFT JOIN " . $this->db->table("product_descriptions") . " pd
-					ON (r.product_id = pd.product_id AND pd.language_id = '" . (int)$this->language->getContentLanguageID() . "'";
+					ON (r.product_id = pd.product_id AND pd.language_id = '" . (int)$this->language->getContentLanguageID() . "')";
 		$query = $this->db->query($sql);
 
 		$result = array();
