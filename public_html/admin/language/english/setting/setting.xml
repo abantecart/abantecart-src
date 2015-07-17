@@ -850,10 +850,10 @@
 	</definition>
 	<definition>
 		<key>text_embed_click_action_new_window</key>
-		<value><![CDATA[Open new page in same window]]></value>
+		<value><![CDATA[Open new page in new tab]]></value>
 	</definition>
 	<definition>
 		<key>text_embed_click_action_same_window</key>
-		<value><![CDATA[Open new page in new tab]]></value>
+		<value><![CDATA[Open new page in same window]]></value>
 	</definition>
 </definitions>
