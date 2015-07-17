@@ -31,8 +31,8 @@
 			foreach ($field_list as $field_name) {
 		?>
 			<div class="form-group <?php if (${'error_'.$field_name}) echo 'has-error'; ?>">
-				<label class="control-label col-md-4"><?php echo ${'entry_'.$field_name}; ?></label>
-				<div class="input-group col-md-4">
+				<label class="control-label col-sm-4"><?php echo ${'entry_'.$field_name}; ?></label>
+				<div class="input-group col-sm-4">
 				    <?php echo ${$field_name}; ?>
 				</div>
 				<span class="help-block"><?php echo ${'error_'.$field_name}; ?></span>
@@ -46,7 +46,7 @@
 	<?php echo $this->getHookVar('password_edit_sections'); ?>
 	
 	<div class="form-group">
-	    <div class="col-md-12">
+	    <div class="col-sm-12">
 	    	<button class="btn btn-orange pull-right" title="<?php echo $submit->name ?>" type="submit">
 	    	    <i class="<?php echo $submit->{'icon'}; ?> fa"></i>
 	    	    <?php echo $submit->name ?>

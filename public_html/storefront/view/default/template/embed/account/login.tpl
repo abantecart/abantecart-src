@@ -48,7 +48,7 @@
 
 <div class="col-sm-6 returncustomer">
 	<h2 class="heading2"><?php echo $text_returning_customer; ?></h2>
-	<div class="loginbox form-horizontal">
+	<div class="loginbox">
 		<h4 class="heading4"><?php echo $text_i_am_returning_customer; ?></h4>
 		<?php echo $form2['form_open']; ?>
 			<fieldset>
