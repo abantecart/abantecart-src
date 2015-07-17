@@ -327,7 +327,11 @@ class ControllerResponsesEmbedJS extends AController {
 		$this->loadLanguage('blocks/cart');
 		
 		$this->data['cart_count'] = $this->cart->countProducts();
-		$this->data['cart_url'] = $this->html->getSecureURL('r/checkout/cart/embed');
+		if($this->config->get('config_embed_click_action')!='modal'){
+			$this->data['cart_url'] = $this->html->getSecureURL('checkout/cart');
+		}else{
+			$this->data['cart_url'] = $this->html->getSecureURL('r/checkout/cart/embed');
+		}
 	
 		$this->view->setTemplate( 'embed/js_cart.tpl' );
 		$this->_set_js_http_headers();
