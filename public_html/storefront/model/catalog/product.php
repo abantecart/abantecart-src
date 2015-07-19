@@ -707,7 +707,7 @@ class ModelCatalogProduct extends Model {
 				}
 
 				if($products){
-					$sql = "SELECT *, p.product_id, ss.name AS stock
+					$sql = "SELECT p.*, pd.*, p.product_id, ss.name AS stock
 							FROM " . $this->db->table("products") . " p
 							LEFT JOIN " . $this->db->table("product_descriptions") . " pd ON (p.product_id = pd.product_id AND pd.language_id = '" . (int)$this->config->get('storefront_language_id') . "')
 							LEFT JOIN " . $this->db->table("products_to_stores") . " p2s ON (p.product_id = p2s.product_id)

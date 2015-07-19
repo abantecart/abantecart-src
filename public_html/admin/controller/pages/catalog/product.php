@@ -726,7 +726,7 @@ class ControllerPagesCatalogProduct extends AController {
 			'value' => $this->data['location'],
 		));
 		//prepend button to generate keyword
-		$this->data['form']['fields']['data']['keyword'] = $form->getFieldHtml(array(
+		$this->data['keyword_button'] = $form->getFieldHtml(array(
 								'type' => 'button',
 								'name' => 'generate_seo_keyword',
 								'text' => $this->language->get('button_generate'),
@@ -736,7 +736,7 @@ class ControllerPagesCatalogProduct extends AController {
 								));
 		$this->data['generate_seo_url'] =  $this->html->getSecureURL('common/common/getseokeyword','&object_key_name=product_id&id='.$product_id);
 
-		$this->data['form']['fields']['data']['keyword'] .= $form->getFieldHtml(array(
+		$this->data['form']['fields']['data']['keyword'] = $form->getFieldHtml(array(
 					'type' => 'input',
 					'name' => 'keyword',
 					'value' => $this->data['keyword'],

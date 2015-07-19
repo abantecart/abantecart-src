@@ -98,9 +98,9 @@
 										<?php foreach ($options as $option) { ?>
 											<div class="form-group">
 												<?php if ($option['html']->type != 'hidden') { ?>
-												<label class="control-label col-sm-6"><?php echo $option['name']; ?></label>
+												<label class="control-label"><?php echo $option['name']; ?></label>
 												<?php } ?>
-												<div class="input-group col-sm-6">
+												<div class="input-group">
 													<?php echo $option['html']; ?>
 												</div>
 											</div>
@@ -442,7 +442,7 @@
 		api1._init();
 		
 		// Setup thumbnails
-		$('.thumbnails').on('click', 'a', function(e) {
+		$('.thumbnails .producthtumb').on('click', 'a', function(e) {
 		   var $this = $(this);
 		   e.preventDefault();
 		   // Use EasyZoom's `swap` method

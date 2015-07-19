@@ -429,7 +429,7 @@ class ControllerPagesCatalogCategory extends AController {
 						'help_url' => $this->gen_help_url('meta_description'),
 				));
 
-		$this->data['form']['fields']['data']['keyword'] = $form->getFieldHtml(array(
+		$this->data['keyword_button'] = $form->getFieldHtml(array(
 				'type' => 'button',
 				'name' => 'generate_seo_keyword',
 				'text' => $this->language->get('button_generate'),
@@ -439,7 +439,7 @@ class ControllerPagesCatalogCategory extends AController {
 		));
 		$this->data['generate_seo_url'] = $this->html->getSecureURL('common/common/getseokeyword', '&object_key_name=category_id&id=' . $category_id);
 
-		$this->data['form']['fields']['data']['keyword'] .= $form->getFieldHtml(array(
+		$this->data['form']['fields']['data']['keyword'] = $form->getFieldHtml(array(
 				'type' => 'input',
 				'name' => 'keyword',
 				'value' => $this->data['keyword'],
