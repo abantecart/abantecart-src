@@ -1462,12 +1462,12 @@ ul.rate li.off {
 
 .mainimage li.producthtumb {
 	display: inline-block;
-	width: auto;
-	margin-left: 25px
+	margin-left: 25px;
 }
 
 .mainimage li.producthtumb img {
-	cursor: pointer
+	cursor: pointer;
+	width: 45px !important;
 }
 
 .total-price-holder {
