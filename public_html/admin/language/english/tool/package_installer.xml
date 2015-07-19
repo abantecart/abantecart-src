@@ -242,6 +242,6 @@ Automatic full backup will be created. It is recommended to try upgrade on test 
 	</definition>
 	<definition>
 		<key>error_notconnected</key>
-		<value><![CDATA[ Can not install extensions from the marketplace. This store is not authenticated/connected. Please authenticate and conect to the <a href="%s">marketplace</a> ]]></value>
+		<value><![CDATA[ Can not upgrade or install extensions from the marketplace. This store is not authenticated/connected. Please authenticate and conect to the <a href="%s">marketplace</a> ]]></value>
 	</definition>
 </definitions>
