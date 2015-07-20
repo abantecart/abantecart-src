@@ -73,7 +73,7 @@
     <value><![CDATA[Настроить страницу оформления заказа]]></value>
   </definition>
   <definition>
-    <key>text_custom_logo_preview</key>
+    <key>default_pp_standart_custom_logo_preview</key>
     <value><![CDATA[Логотип компании предварительный просмотр]]></value>
   </definition>
   <definition>

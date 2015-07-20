@@ -73,7 +73,7 @@
 		<value><![CDATA[Customize Checkout Page]]></value>
 	</definition>
 	<definition>
-		<key>text_custom_logo_preview</key>
+		<key>default_pp_standart_custom_logo_preview</key>
 		<value><![CDATA[Company Logo Preview]]></value>
 	</definition>
 	<definition>
