@@ -134,14 +134,30 @@
 	</definition>
 	<definition>
 		<key>default_fedex_test</key>
-		<value><![CDATA[Test Mode:<br /><span class="help">Use the live or testing gateway server?</span>]]></value>
+		<value><![CDATA[Modo de prueba:<br /><span class="help">Utilice el servidor de puerta de enlace en vivo o pruebas?</span>]]></value>
 	</definition>
 	<definition>
 		<key>default_fedex_test_1</key>
-		<value><![CDATA[ Yes ]]></value>
+		<value><![CDATA[ Si ]]></value>
 	</definition>
 	<definition>
 		<key>default_fedex_test_0</key>
 		<value><![CDATA[ No ]]></value>
+	</definition>
+	<definition>
+		<key>text_test_connection</key>
+		<value><![CDATA[Pruebe su conexión:<span class="help">Puede probar si las credenciales de API que ha entrado no son correctos.</span>]]></value>
+	</definition>
+	<definition>
+		<key>text_test</key>
+		<value><![CDATA[Prueba]]></value>
+	</definition>
+	<definition>
+		<key>text_connection_success</key>
+		<value><![CDATA[La conexión es exitosa y Credenciales de API están configurados correctamente.]]></value>
+	</definition>
+	<definition>
+		<key>error_turn_extension_on</key>
+		<value><![CDATA[Error! Por favor, compruebe si la extensión se pone en ON.]]></value>
 	</definition>
 </definitions>
