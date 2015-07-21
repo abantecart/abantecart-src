@@ -835,7 +835,7 @@ function gzip($src, $level = 5, $dst = false){
 /**
  * Generate random word
  *
- * @param int word length
+ * @param $length int  - {word length}
  * @return string
  */
 function randomWord($length = 4){

@@ -15,7 +15,7 @@ h1 {
 	padding-top: 4px;
 	padding-bottom: 6px;
 	padding-left: 38px;	
-	margin-top: 0px;
+	margin-top: 0;
 }
 a, a:visited {
 	color: #999;
@@ -26,7 +26,7 @@ b {
 	color: #000000;
 }
 p {
-	margin-top: 0px;
+	margin-top: 0;
 	margin-bottom: 20px;
 }
 form {

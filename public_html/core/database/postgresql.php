@@ -26,7 +26,7 @@ final class PostgreSQL {
      */
     protected $connection;
 	/**
-     * @var result
+     * @var resource
      */
     protected $result;
     /**

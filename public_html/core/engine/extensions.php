@@ -556,9 +556,8 @@ class ExtensionsApi {
 	/**
 	 * load all available (installed) extenions (for admin)
 	 *
-	 * @param none
-	 * @return none
-	 */   
+	 * @void
+	 */
 	public function loadAvailableExtensions() {
 		$this->loadEnabledExtensions(true);
 	}
@@ -568,7 +567,7 @@ class ExtensionsApi {
 	 * If force parameter provided,load all installed (for admin)
 	 *
 	 * @param bool $force_enabled_off
-	 * @return none
+	 * @void
 	 */
 	public function loadEnabledExtensions($force_enabled_off = false) {
 		/**

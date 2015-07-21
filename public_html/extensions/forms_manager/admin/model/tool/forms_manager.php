@@ -654,9 +654,7 @@ class ModelToolFormsManager extends Model {
 		$data['controller_path'] = $this->db->escape($data['controller_path']);
 		$data['success_page'] = $this->db->escape($data['success_page']);
 
-		if (isset($data['success_page']) && $data['success_page'] != '') {
-			$data['success_page'] = $data['success_page'];
-		} else {
+		if (!$data['success_page']){
 			$data['success_page'] = $data['controller_path'];
 		}
 
