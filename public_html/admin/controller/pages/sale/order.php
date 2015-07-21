@@ -422,7 +422,7 @@ class ControllerPagesSaleOrder extends AController{
 				//generate link to download uploaded files
 				if($option['element_type'] == 'U'){
 					$file_settings = unserialize($option['settings']);
-					$filename = urlencode($option['value']);
+					$filename = $option['value'];
 					if (has_value($file_settings['directory'])) {
 						$file = DIR_APP_SECTION . 'system/uploads/' . $file_settings['directory'] . '/' . $filename;
 					} else {
@@ -430,7 +430,7 @@ class ControllerPagesSaleOrder extends AController{
 					}
 
 					if(is_file($file)){
-						$option['value'] = '<a href="' . $this->html->getSecureURL('tool/files/download', '&filename=' . $filename . '&attribute_id=' . (int)$option['attribute_id']) . '&attribute_type=product_option" title=" to download file" target="_blank">' . $option['value'] . '</a>';
+						$option['value'] = '<a href="' . $this->html->getSecureURL('tool/files/download', '&filename=' . urlencode($filename) . '&attribute_id=' . (int)$option['attribute_id']) . '&attribute_type=product_option" title=" to download file" target="_blank">' . $option['value'] . '</a>';
 					}else{
 						$option['value'] = '<span title="file '.$file.' is unavailable">' . $option['value'] . '</span>';
 					}
