@@ -558,15 +558,17 @@ class ControllerPagesToolPackageInstaller extends AController {
 				}
 			} else {
 				foreach ($package_info['package_content']['core'] as $corefile) {
-					if( (!is_writable(DIR_ROOT . '/' . $corefile) && file_exists(DIR_ROOT . '/' . $corefile))
-						||
-						(!is_writable(pathinfo(DIR_ROOT . '/' . $corefile,PATHINFO_DIRNAME)) && is_dir(pathinfo(DIR_ROOT . '/' . $corefile,PATHINFO_DIRNAME)))
-					) {
+					$corefile_dir = pathinfo(DIR_ROOT . '/' . $corefile,PATHINFO_DIRNAME);
+					if( (!is_writable(DIR_ROOT . '/' . $corefile) && file_exists(DIR_ROOT . '/' . $corefile))) {
 							$ftp_mode = true; // enable ftp-mode
 							$non_writables[ ] = DIR_ROOT . '/' . $corefile;
+					} else if(!is_writable($corefile_dir) && is_dir($corefile_dir)){
+							$ftp_mode = true; // enable ftp-mode
+							$non_writables[ ] = $corefile_dir;						
 					}
 				}
 			}
+			$non_writables = array_unique($non_writables);
 		}
 
 		// if ftp mode and user give ftp parameters

@@ -4,7 +4,14 @@
 <div class="warning alert alert-info">
 	<i class="fa fa-info fa-fw"></i> <?php echo $warning_ftp; ?>
 	<?php if($warning_ftp_details){?>
-		<pre class="pre-scrollable"><?php echo $warning_ftp_details; ?></pre>
+		<pre class="pre-scrollable mt10"><?php echo $warning_ftp_details; ?></pre>
+		
+		<div class="text-center">
+			<button class="btn btn-primary install_retry lock-on-click">
+				<i class="fa fa-refresh"></i> <?php echo $button_retry; ?>
+			</button>
+		</div>
+				
 	<?php } ?>
 </div>
 
@@ -44,3 +51,13 @@
 	</form>
 
 </div><!-- <div class="tab-content"> -->
+<script type="application/javascript">
+
+$(document).ready(function(){    
+	$('.install_retry').on('click',function(){
+		location.reload();
+	});
+});
+
+
+</script>
