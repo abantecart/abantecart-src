@@ -106,8 +106,8 @@ final class ASession {
 
 	/**
 	 * This function is to prevent session attacks
-	 * Validate that IP and User agent did not change for same session. 
-	 * @param none
+	 * Validate that IP and User agent did not change for same session.
+	 * @return bool
 	 */
 	private function _prevent_hijacking(){
 

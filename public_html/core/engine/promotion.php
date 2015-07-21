@@ -44,7 +44,7 @@ class APromotion {
     public $bonus_objects = array();
 
 	/**
-	 * @param null|int $customer_id
+	 * @param null/int $customer_group_id
 	 */
 	public function __construct( $customer_group_id = null ) {
 		$this->registry = Registry::getInstance();

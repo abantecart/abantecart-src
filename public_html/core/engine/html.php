@@ -164,6 +164,7 @@ class AHtml extends AController {
 	 * @param string $rt
 	 * @param string $params
 	 * @param string $encode
+	 * @param bool $ssl
 	 * @return string
 	 */
 	public function getCatalogURL($rt, $params = '', $encode = '', $ssl = false) {

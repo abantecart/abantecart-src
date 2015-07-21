@@ -481,7 +481,8 @@ class ALayoutManager{
 	}
 
 	/**
-	 * @param int $instance_id
+	 * @param int $parent_instance_id
+	 * @param int $parent_block_id
 	 * @return array
 	 */
 	public function getBlockChildren($parent_instance_id, $parent_block_id){
@@ -973,7 +974,8 @@ class ALayoutManager{
 	}
 
 	/**
-	 * @param $block_id, $parent_block_id
+	 * @param int $block_id
+	 * @param int $parent_block_id
 	 * @return array
 	 */
 	public function getBlockTemplate($block_id, $parent_block_id = 0){

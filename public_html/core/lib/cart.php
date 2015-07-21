@@ -81,7 +81,8 @@ class ACart {
 
 	/**
 	 * @param $registry Registry
-	   		  $c_data Array ref (Customer data array passed by ref) 
+	  * @param $c_data array  - ref (Customer data array passed by ref)
+	 *
 	 */
 	public function __construct($registry, &$c_data = null) {
   		$this->registry = $registry;
@@ -194,7 +195,9 @@ class ACart {
 		}	
 
 		$stock = TRUE;
-
+		/**
+		 * @var $sf_product_mdl ModelCatalogProduct
+		 */
 		$sf_product_mdl = $this->load->model('catalog/product', 'storefront');
         $elements_with_options = HtmlElementFactory::getElementsWithOptions();
 
@@ -677,6 +680,9 @@ class ACart {
 		
 		$taxes = $this->getAppliedTaxes( $recalculate );		 
 		//force storefront load (if called from admin)
+		/**
+		 * @var $sf_checkout_mdl ModelCheckoutExtension
+		 */
 		$sf_checkout_mdl = $this->load->model('checkout/extension', 'storefront');
 
 		$total_extns = $sf_checkout_mdl->getExtensions('total');

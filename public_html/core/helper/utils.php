@@ -154,8 +154,7 @@ function SEOEncode($string_value, $object_key_name='', $object_id=0, $language_i
  * @param $seo_key
  * @param string $object_key_name
  * @param int $object_id
- * @param int $language_id
- * @return mixed
+ * @return string
  */
 function getUniqueSeoKeyword($seo_key, $object_key_name='', $object_id=0){
 
