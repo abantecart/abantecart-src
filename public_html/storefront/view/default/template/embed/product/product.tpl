@@ -99,9 +99,9 @@
 										<?php foreach ($options as $option) { ?>
 											<div class="form-group">
 												<?php if ($option['html']->type != 'hidden') { ?>
-												<label class="control-label col-sm-6"><?php echo $option['name']; ?></label>
+												<label class="control-label"><?php echo $option['name']; ?></label>
 												<?php } ?>
-												<div class="input-group col-sm-6">
+												<div class="input-group col-sm-10">
 													<?php echo $option['html']; ?>
 												</div>
 											</div>

@@ -4,7 +4,7 @@ This release is with new features and many fixes and improvements
 
 New Features and improvements highlight:
 - Easy embed codes to integrate AbanteCart into any existing website. 
-- Ability to sell products on any existing website without AbnateCart storefront 
+- Ability to sell products on any existing website without AbanteCart storefront 
 - New improve product images zoom
 - Product blurb or short description
 

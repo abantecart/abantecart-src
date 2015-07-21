@@ -44,6 +44,12 @@ class ControllerPagesAccountWishlist extends AController {
 	}
 
 	private function getWishList() {
+		$cart_rt = 'checkout/cart';
+		//is this an embed mode	
+		if($this->config->get('embed_mode') == true){
+			$cart_rt = 'r/checkout/cart/embed';
+		}
+
     	$this->document->setTitle( $this->language->get('heading_title') );
 
       	$this->document->resetBreadcrumbs();
@@ -88,7 +94,7 @@ class ControllerPagesAccountWishlist extends AController {
 		    	if ($options) {
 		    		$add = $this->html->getSEOURL('product/product','&product_id=' . $product_id, '&encode');
 		    	} else {
-                    $add = $this->html->getSecureURL('checkout/cart', '&product_id=' . $product_id, '&encode');
+                    $add = $this->html->getSecureURL($cart_rt, '&product_id=' . $product_id, '&encode');
 		    	}
 
        			$products[] = array(
@@ -143,7 +149,7 @@ class ControllerPagesAccountWishlist extends AController {
             $this->view->setTemplate( 'pages/error/not_found.tpl' );
     	}
 
-		$this->data['cart'] = $this->html->getSecureURL('checkout/cart');
+		$this->data['cart'] = $this->html->getSecureURL($cart_rt);
 
 		$this->view->batchAssign( $this->data);
         $this->processTemplate();

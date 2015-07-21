@@ -75,6 +75,8 @@ class ControllerPagesAccountAccount extends AController {
 			$this->data['balance'] = $this->language->get('text_balance_checkout').' '.$this->data['balance_amount'];
 		}
 		
+		$this->data['total_wishlist'] = count($this->customer->getWishList());		
+
 
 		$this->loadModel('account/address');
 		$this->data['total_adresses'] = $this->model_account_address->getTotalAddresses();

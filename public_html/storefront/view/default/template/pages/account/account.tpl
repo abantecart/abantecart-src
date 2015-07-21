@@ -33,6 +33,11 @@
 	</li>
 	<?php echo $this->getHookVar('account_dash_icons'); ?>
 	<li>
+	<a title="<?php echo $text_account_wishlist; ?>" data-toggle="tooltip" href="<?php echo $wishlist; ?>" data-original-title="<?php echo $text_account_wishlist; ?>">
+	<i class="fa fa-star"></i> <span class="badge badge-success"><?php echo $total_wishlist; ?></span>
+	</a>
+	</li>
+	<li>
 	<a title="<?php echo $text_history; ?>" data-toggle="tooltip" href="<?php echo $history; ?>" data-original-title="<?php echo $text_history; ?>">
 	<i class="fa fa-briefcase"></i> <span class="badge badge-success"><?php echo $total_orders; ?></span>
 	</a>
