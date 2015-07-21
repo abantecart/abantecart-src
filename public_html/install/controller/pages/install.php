@@ -346,7 +346,10 @@ class ControllerPagesInstall extends AController {
 			}
 			$db->query("SET CHARACTER SET utf8");
 			$db->query("SET @@session.sql_mode = 'MYSQL40'");
-		}		
+		}
+		//clear earlier created cache by AConfig and ALanguage classes in previous step
+		$cache = new ACache();
+        $cache->delete('*');
 		return null;
 	}	
 

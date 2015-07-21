@@ -1,5 +1,21 @@
 SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 
+INSERT INTO `ac_extensions` (`type`, `key`, `category`, `status`, `priority`, `version`, `license_key`, `date_installed`, `date_modified`, `date_added`) VALUES ('payment', 'default_cod', 'payment', 1, 1, '1.0.1', null, now(), now(), now() );
+INSERT INTO `ac_extensions` (`type`, `key`, `category`, `status`, `priority`, `version`, `license_key`, `date_installed`, `date_modified`, `date_added`) VALUES ('shipping', 'default_flat_rate_shipping', 'shipping', 1, 1, '1.0.1', null, now(), now(), now() );
+
+INSERT INTO `ac_settings` (`group`, `key`, `value`) VALUES ('default_cod', 'default_cod_sort_order', '1');
+INSERT INTO `ac_settings` (`group`, `key`, `value`) VALUES ('default_cod', 'default_cod_order_status_id', '1');
+INSERT INTO `ac_settings` (`group`, `key`, `value`) VALUES ('default_cod', 'default_cod_status', '1');
+INSERT INTO `ac_settings` (`group`, `key`, `value`) VALUES ('default_cod', 'default_cod_location_id', '0');
+INSERT INTO `ac_settings` (`group`, `key`, `value`) VALUES ('default_cod', 'default_cod_autoselect', '1');
+
+INSERT INTO `ac_settings` (`group`, `key`, `value`) VALUES ('default_flat_rate_shipping', 'default_flat_rate_shipping_cost', '2');
+INSERT INTO `ac_settings` (`group`, `key`, `value`) VALUES ('default_flat_rate_shipping', 'default_flat_rate_shipping_tax_class_id', '9');
+INSERT INTO `ac_settings` (`group`, `key`, `value`) VALUES ('default_flat_rate_shipping', 'default_flat_rate_shipping_location_id', '0');
+INSERT INTO `ac_settings` (`group`, `key`, `value`) VALUES ('default_flat_rate_shipping', 'default_flat_rate_shipping_status', '1');
+INSERT INTO `ac_settings` (`group`, `key`, `value`) VALUES ('default_flat_rate_shipping', 'default_flat_rate_shipping_sort_order', '1');
+INSERT INTO `ac_settings` (`group`, `key`, `value`) VALUES ('default_flat_rate_shipping', 'default_flat_rate_shipping_autoselect', '1');
+
 --
 -- Dumping data for table `addresses`
 --

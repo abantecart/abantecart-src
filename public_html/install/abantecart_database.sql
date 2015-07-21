@@ -811,7 +811,7 @@ CREATE TABLE `ac_extensions` (
 --
 
 INSERT INTO `ac_extensions` (`type`, `key`, `category`, `status`, `priority`, `version`, `license_key`, `date_installed`, `date_modified`, `date_added`) VALUES
-('payment', 'default_cod', 'payment', 0, 1, '1.0.1', null, now(), now(), now() ),
+
 ('total', 'coupon', '', 1, 1, '', null, now(), now(), now() ),
 ('total', 'shipping', 'shipping', 1, 1, '', null, now(), now(), now() ),
 ('total', 'low_order_fee', '', 0, 1, '', null, now(), now(), now() ),
@@ -828,8 +828,6 @@ INSERT INTO `ac_extensions` (`type`, `key`, `category`, `status`, `priority`, `v
 ('block', 'bestseller', '', 1, 1, '', null, now(), now(), now() ),
 ('block', 'latest', '', 1, 1, '', null, now(), now(), now() ),
 ('block', 'featured', '', 1, 1, '', null, now(), now(), now() ),
-
-('shipping', 'default_flat_rate_shipping', 'shipping', 1, 1, '1.0.1', null, now(), now(), now() ),
 
 ('extensions', 'banner_manager', 'extensions', 1, 1, '1.0.1', null, now(), now(), now() ),
 ('extensions', 'forms_manager', 'extensions', 1, 1, '1.0.2', null, now(), now(), now() ),
@@ -1702,19 +1700,6 @@ INSERT INTO `ac_settings` (`group`, `key`, `value`) VALUES
 ('total', 'total_calculation_order', '7'),
 ('total', 'total_status', '1'),
 ('total', 'total_total_type', 'total'),
-
-('default_cod', 'default_cod_sort_order', '1'),
-('default_cod', 'default_cod_order_status_id', '1'),
-('default_cod', 'default_cod_status', '1'),
-('default_cod', 'default_cod_location_id', '0'),
-('default_cod', 'default_cod_autoselect', '1'),
-
-('default_flat_rate_shipping', 'default_flat_rate_shipping_cost', '2'),
-('default_flat_rate_shipping', 'default_flat_rate_shipping_tax_class_id', '9'),
-('default_flat_rate_shipping', 'default_flat_rate_shipping_location_id', '0'),
-('default_flat_rate_shipping', 'default_flat_rate_shipping_status', '1'),
-('default_flat_rate_shipping', 'default_flat_rate_shipping_sort_order', '1'),
-('default_flat_rate_shipping', 'default_flat_rate_shipping_autoselect', '1'),
 
 ('banner_manager','banner_manager_layout',''),
 ('banner_manager','banner_manager_priority',10),
