@@ -1139,7 +1139,7 @@ class SelectboxHtmlElement extends HtmlElement {
 
 		if (!is_array($this->value)) $this->value = array( $this->value => (string)$this->value );
 
-		$this->options = !$this->options ? array() : $this->options;
+		$this->options = !$this->options ? array() : (array)$this->options;
 		foreach ($this->options as &$opt) {
 			$opt = (string)$opt;
 		}
