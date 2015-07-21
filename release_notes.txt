@@ -1,3 +1,60 @@
+AbanteCart version 1.2.3
+
+This release is with new features and many fixes and improvements 
+
+New Features and improvements highlight:
+- Easy embed codes to integrate AbanteCart into any existing website. 
+- Ability to sell products on any existing website without AbnateCart storefront 
+- New improve product images zoom
+- Product blurb or short description
+
+Core:
+- Session security improvement
+- package installer minor fix related to mp-token check
+- Updated demo products 
+
+Storefront:
+- Embed code into any existing website with same page checkout  
+- Added blurb (short description) to products 
+- New improved product images zoom module based on EazyZoom
+- sorting fix for manufacturer's product list and specials ( Github #151)
+- category page pagination fix ( Github #151 )
+- retina related fix ( Github #140 )
+- account/create minor fix related to hooks
+- Product images and listing styling improvements
+- Improved Add to cart ajax
+- Fix for side listing HTML layout
+- Message to user if ads blocking is enabled in the browser
+- Add maintenance mode for response controllers and response message in Maintenance mode
+- Various other storefront style related improvements 
+
+
+Admin:
+- Embed code settings, preview and management
+- order totals recalc fix related to price formatting 
+- Usability improvement if no payment is configured. 
+- fix of pagination in jgrid reloading after batch deleting on a last page
+- reviews grid fix related to languages selection ( Github #147 & #156)
+- design/content grid fix related to languages ( Github #148)
+- menu edit select box fix ( Github #142 )
+- Coupon large amount total issue fix. ( Github #162 )
+- retina related css-fix of RL styles
+- resource library single mode fix ( Github #180 )
+- Resource Library Multilingual fix
+
+Extensions:
+- 2checkout sandbox and language fixes
+- Updated Fedex shipping. Performance and rate calculation improvements 
+- Forms manager contactUs form fix related to new fields sending via email ( Github #176 )
+- banner manager, setting fix for url target of text banner ( Github #177 )
+
+
+Various bus fixes and UI improvements
+
+
+------------------------------------------------------------
+
+
 AbanteCart version 1.2.2
 
 This is a release with few new features and many fixes and improvements 
