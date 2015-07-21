@@ -70,6 +70,7 @@ class ModelExtensionDefaultFedex extends Model {
         }
         $special_ship_products = $this->cart->specialShippingProducts();
 		$total_fixed_cost = 0;
+		//process special shopping cases on a product base and adjust the rates
         foreach ($special_ship_products as $product) {
             //check if free or fixed shipping
             $fixed_cost = -1;
@@ -85,10 +86,10 @@ class ModelExtensionDefaultFedex extends Model {
                 $fixed_cost = $this->currency->convert($fixed_cost, $this->config->get('config_currency'), $this->currency->getCode());
 	            $total_fixed_cost +=$fixed_cost;
             } else {
+            	//case of shipping individualy with no fixed price
                 $new_quote_data = $this->_processRequest( $address,  array($product));
                 $error_msg .=  $new_quote_data['error_msg'];
                 $new_quote_data =  $new_quote_data['quote_data'];
-
             }
 
             //merge data and accumulate shipping cost
