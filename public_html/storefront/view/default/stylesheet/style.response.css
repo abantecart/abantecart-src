@@ -541,6 +541,28 @@ a.compare>img{
 	width: 60px;
 }
 
+ul.side_prd_list li.related_product {
+	display: inline-block;
+	font-size: 15px;
+	border: none;
+	min-height: 150px;
+	vertical-align: top;
+	zoom: 1;
+	*display: inline;
+}
+ul.side_prd_list li.related_product a {
+	display: inline-block;
+}
+
+ul.side_prd_list li.related_product .productname {
+	white-space: pre-wrap;
+	height: 21px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	width: 205px;
+}
+
+
 #featured .thumbnails li:hover .thumbnail img,
 #latest .thumbnails li:hover .thumbnail img,
 #bestseller .thumbnails li:hover .thumbnail img,
