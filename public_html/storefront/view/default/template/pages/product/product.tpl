@@ -334,7 +334,7 @@
 									$related_product['price'] = $related_product['special'] = '';
 								}
 							?>
-								<li class="col-md-4 col-sm-6 col-xs-12 related_product">
+								<li class="col-md-3 col-sm-5 col-xs-6 related_product">
 									<a href="<?php echo $related_product['href']; ?>"><?php echo $related_product['image']['thumb_html'] ?></a>
 									<a class="productname"
 									   href="<?php echo $related_product['href']; ?>"><?php echo $related_product['name']; ?></a>
