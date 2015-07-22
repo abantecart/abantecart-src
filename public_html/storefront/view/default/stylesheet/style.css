@@ -43,7 +43,7 @@ ul, ul li {
 }
 
 ul {
-    padding: 0px;
+    padding: 0;
 }
 
 .heading1 {
@@ -206,7 +206,7 @@ form {
 
 .gray_separator {
 	border-bottom: 1px solid #dedede;
-	height: 0px;
+	height: 0;
 	margin: 10px 0;
 }
 
@@ -4245,7 +4245,7 @@ paypal pro styles
 	}
 
 	.navbar {
-		margin-bottom: 0px;
+		margin-bottom: 0;
 	}
 
 	.nav-tabs > li, .nav-pills > li {
