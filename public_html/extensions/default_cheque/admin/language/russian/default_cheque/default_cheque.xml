@@ -5,10 +5,6 @@
     <value><![CDATA[Чек/Денежный перевод]]></value>
   </definition>
   <definition>
-    <key>default_cheque_status</key>
-    <value><![CDATA[Статус:]]></value>
-  </definition>
-  <definition>
     <key>text_payment</key>
     <value><![CDATA[Оплата]]></value>
   </definition>
@@ -35,10 +31,6 @@
   <definition>
     <key>default_cheque_location_id_0</key>
     <value><![CDATA[Все местоположения]]></value>
-  </definition>
-  <definition>
-    <key>default_cheque_sort_order</key>
-    <value><![CDATA[Порядок сортировки:<br /><span class="help">Номер указывающий позицию отображения этого способа оплаты наряду с другими</span>]]></value>
   </definition>
   <definition>
     <key>default_cheque_autoselect</key>

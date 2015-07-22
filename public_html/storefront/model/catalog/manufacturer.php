@@ -51,5 +51,23 @@ class ModelCatalogManufacturer extends Model {
 										WHERE p.product_id = '" . (int)$product_id . "'");
 		return $query->rows;
 	}
+
+
+	public function getManufacturersData( $data=array() ) {
+			$sql =  "SELECT *,
+						(SELECT count(*) as cnt
+				        FROM ".$this->db->table('products')." p
+				        WHERE p.manufacturer_id = m.manufacturer_id and p.status=1) as products_count
+					FROM " . $this->db->table("manufacturers") . " m
+					LEFT JOIN " . $this->db->table("manufacturers_to_stores") . " m2s ON (m.manufacturer_id = m2s.manufacturer_id)";
+
+			$sql .= " WHERE m2s.store_id = '" . (int)$this->config->get('config_store_id') . "' ";
+			if ( !empty($data['subsql_filter']) ) {
+				$sql .= ' AND '.$data['subsql_filter'];
+			}
+			$sql .=	" ORDER BY sort_order, LCASE(m.name) ASC";
+
+		$query = $this->db->query($sql);
+		return $query->rows;
+	}
 }
-?>

@@ -29,12 +29,18 @@ class ControllerPagesCheckoutAddress extends AController {
         //init controller data
         $this->extensions->hk_InitData($this,__FUNCTION__);
 
+		$cart_rt = 'checkout/cart';		
+		//is this an embed mode	
+		if($this->config->get('embed_mode') == true){
+			$cart_rt = 'r/checkout/cart/embed';
+		}
+
 		if (!$this->cart->hasProducts() || (!$this->cart->hasStock() && !$this->config->get('config_stock_checkout'))) {
-	  		$this->redirect($this->html->getSecureURL('checkout/cart'));
+	  		$this->redirect($this->html->getSecureURL($cart_rt));
     	}
 		
     	if (!$this->cart->hasShipping()) {
-			$this->redirect($this->html->getSecureURL('checkout/cart'));
+			$this->redirect($this->html->getSecureURL($cart_rt));
     	}
 		
 		if (!$this->customer->isLogged()) {  
@@ -54,7 +60,7 @@ class ControllerPagesCheckoutAddress extends AController {
       	 )); 
 
       	$this->document->addBreadcrumb( array ( 
-        	'href'      => $this->html->getURL('checkout/cart'),
+        	'href'      => $this->html->getURL($cart_rt),
         	'text'      => $this->language->get('text_basket'),
         	'separator' => $this->language->get('text_separator')
       	 ));
@@ -116,8 +122,14 @@ class ControllerPagesCheckoutAddress extends AController {
         //init controller data
         $this->extensions->hk_InitData($this,__FUNCTION__);
 
+		$cart_rt = 'checkout/cart';		
+		//is this an embed mode	
+		if($this->config->get('embed_mode') == true){
+			$cart_rt = 'r/checkout/cart/embed';
+		}
+
     	if (!$this->cart->hasProducts() || (!$this->cart->hasStock() && !$this->config->get('config_stock_checkout'))) {
-	  		$this->redirect($this->html->getSecureURL('checkout/cart'));
+	  		$this->redirect($this->html->getSecureURL($cart_rt));
     	}
 		
 		if (!$this->customer->isLogged()) {  
@@ -137,7 +149,7 @@ class ControllerPagesCheckoutAddress extends AController {
       	 )); 
 
       	$this->document->addBreadcrumb( array ( 
-        	'href'      => $this->html->getURL('checkout/cart'),
+        	'href'      => $this->html->getURL($cart_rt),
         	'text'      => $this->language->get('text_basket'),
         	'separator' => $this->language->get('text_separator')
       	 ));
@@ -312,7 +324,14 @@ class ControllerPagesCheckoutAddress extends AController {
     	$this->data['countries'] = $this->model_localisation_country->getCountries();
 
 	    $this->view->batchAssign($this->data);
-		$this->processTemplate('pages/checkout/address.tpl' );
+		if($this->config->get('embed_mode') == true){
+		    //load special headers
+	        $this->addChild('responses/embed/head', 'head');
+	        $this->addChild('responses/embed/footer', 'footer');
+		    $this->processTemplate('embed/checkout/address.tpl');
+		} else {
+	    	$this->processTemplate('pages/checkout/address.tpl');
+	    }
   	}
 
 }

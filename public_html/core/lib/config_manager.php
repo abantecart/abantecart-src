@@ -430,6 +430,24 @@ class AConfigManager {
 			'value' => $data['config_show_tree_data'],
 			'style' => 'btn_switch',
 		));
+		$fields['embed_status'] = $form->getFieldHtml($props[] = array(
+			'type' => 'checkbox',
+			'name' => 'config_embed_status',
+			'value' => $data['config_embed_status'],
+			'style' => 'btn_switch',
+		));
+
+		$fields['embed_click_action'] = $form->getFieldHtml($props[] = array(
+			'type' => 'selectbox',
+			'name' => 'config_embed_click_action',
+			'value' => $data['config_embed_click_action'],
+			'options' => array(
+					'modal' => $this->language->get('text_embed_click_action_modal'),
+					'new_window' => $this->language->get('text_embed_click_action_new_window'),
+					'same_window' => $this->language->get('text_embed_click_action_same_window')
+			),
+		));
+
 		$fields['google_analytics'] = $form->getFieldHtml($props[] = array(
 			'type' => 'input',
 			'name' => 'config_google_analytics_code',

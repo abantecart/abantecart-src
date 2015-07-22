@@ -344,7 +344,7 @@ class ControllerPagesExtensionBannerManager extends AController {
 				'name' => 'status',
 				'value' => $this->data['status'],
 				'style' => 'btn_switch'));
-		$this->data['form']['text']['status'] = $this->language->get('banner_manager_status');
+		$this->data['form']['text']['status'] = $this->language->get('entry_banner_status');
 
 		$this->data['form']['fields']['name'] = $form->getFieldHtml(array(
 				'type' => 'input',
@@ -393,24 +393,24 @@ class ControllerPagesExtensionBannerManager extends AController {
 				''));
 		$this->data['form']['text']['sort_order'] = $this->language->get('entry_banner_sort_order');
 
-		if ($banner_type == 1) {
+		if ($banner_type == 1){
 			$this->data['form']['fields']['url'] = $form->getFieldHtml(
-				array(
-						'type' => 'input',
-						'name' => 'target_url',
-						'value' => $this->data['target_url'],
-						'required' => true
-			));
+					array (
+							'type'     => 'input',
+							'name'     => 'target_url',
+							'value'    => $this->data['target_url'],
+							'required' => true
+					));
 			$this->data['form']['text']['url'] = $this->language->get('entry_banner_url');
-		}
-		$this->data['form']['fields']['blank'] = $form->getFieldHtml(
-				array('type' => 'checkbox',
-						'name' => 'blank',
-						'value' => $this->data['blank'],
-						'style' => 'btn_switch'
-		));
-		$this->data['form']['text']['blank'] = $this->language->get('entry_banner_blank');
 
+			$this->data['form']['fields']['blank'] = $form->getFieldHtml(
+					array ('type'  => 'checkbox',
+					       'name'  => 'blank',
+					       'value' => $this->data['blank'],
+					       'style' => 'btn_switch'
+					));
+			$this->data['form']['text']['blank'] = $this->language->get('entry_banner_blank');
+		}
 		$this->data['form']['fields']['date_start'] = $form->getFieldHtml(array(
 				'type' => 'date',
 				'name' => 'start_date',

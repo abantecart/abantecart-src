@@ -1,4 +1,4 @@
-<div id="content" style="margin: 0pt; padding: 0pt;">
+<div id="content" style="margin: 0; padding: 0;">
 	<div class="top">
 		<div class="left"></div>
 		<div class="right"></div>

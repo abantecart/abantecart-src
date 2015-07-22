@@ -31,4 +31,15 @@ class ControllerCommonMaintenance extends AController {
 		//init controller data
         $this->extensions->hk_UpdateData($this,__FUNCTION__);
     }
+
+    public function response() {
+	    //init controller data
+        $this->extensions->hk_InitData($this,__FUNCTION__);
+        //exclude control panel users
+        if ($this->config->get('config_maintenance') && !isset($this->session->data['merchant'])) {
+            return $this->dispatch('responses/index/maintenance');
+        }
+		//init controller data
+        $this->extensions->hk_UpdateData($this,__FUNCTION__);
+    }
 }

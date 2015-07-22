@@ -133,19 +133,18 @@ class ControllerResponsesExtensionDefaultWorldPay extends AController {
 				}				
 
 				$this->model_checkout_order->update($this->request->post['cartId'], $this->config->get('default_worldpay_order_status_id'), $message, FALSE);
-		
 				$template_data['continue'] = $this->html->getSecureURL('checkout/success');
-				
 				$this->template = 'extension/default_worldpay_success.tpl';
-		
-	  			$this->response->setOutput($this->render(TRUE), $this->config->get('config_compression'));				
+
 			} else {
     			$template_data['continue'] = $this->html->getSecureURL('checkout/cart');
-		
 				$this->template = 'extension/default_worldpay_failure.tpl';
-				
-	  			$this->response->setOutput($this->render(TRUE), $this->config->get('config_compression'));					
 			}
+
+			$view = new AView($this->registry, 0);
+			$view->batchAssign($template_data);
+			$html = $view->fetch($this->template);
+			$this->response->setOutput($html);
 		}
 	}
 }

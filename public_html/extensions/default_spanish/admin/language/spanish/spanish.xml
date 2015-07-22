@@ -667,5 +667,9 @@
 		<key>text_not_applicable</key>
 		<value><![CDATA[N/A]]></value>
 	</definition>
+	<definition>
+		<key>text_share_embed_code</key>
+		<value><![CDATA[Obtener código incrustar]]></value>
+	</definition>
 	
 </definitions>

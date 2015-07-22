@@ -19,14 +19,6 @@
 		<value><![CDATA[Banner Estadística]]></value>
 	</definition>
 	<definition>
-		<key>banner_manager_status</key>
-		<value><![CDATA[Estado]]></value>
-	</definition>
-	<definition>
-		<key>banner_manager_sort_order</key>
-		<value><![CDATA[Orden de Clasificación]]></value>
-	</definition>
-	<definition>
 		<key>column_banner_id</key>
 		<value><![CDATA[ Id ]]></value>
 	</definition>
@@ -73,6 +65,10 @@
 	<definition>
 		<key>text_text_banner</key>
 		<value><![CDATA[ Texto del Mensaje ]]></value>
+	</definition>
+	<definition>
+		<key>entry_banner_status</key>
+		<value><![CDATA[ Estado: ]]></value>
 	</definition>
 	<definition>
 		<key>entry_banner_name</key>

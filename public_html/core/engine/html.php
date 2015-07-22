@@ -30,7 +30,7 @@ class AHtml extends AController {
 	 * @param array $args
 	 */
 	public function __construct($registry, $args = array()) {
-		$this->registry = $registry;
+		$this->registry = $registry;		
 	}
 
 	/**
@@ -49,6 +49,14 @@ class AHtml extends AController {
 		if (!empty($this->registry->get('request')->get['sf'])) {
 			$suburl .= '&sf=' . $this->registry->get('request')->get['sf'];
 		}
+		
+		//if in embed mode add respoce prefix
+		if ($this->registry->get('config')->get('embed_mode') == true) {
+			$suburl .= '&embed_mode=1';
+			if(substr($rt, 0, 2) != 'r/'){
+				$rt = 'r/'.$rt;
+			}
+		}		
 
 		$suburl = '?' . ($rt ? 'rt=' . $rt : '') . $params . $suburl;
 		return $suburl;
@@ -78,6 +86,11 @@ class AHtml extends AController {
 			$params .= '&session_id='.session_id();
 		}
 
+		//add token for embed mode with forbidden 3dparty cookies
+		if($_SESSION['session_mode'] == 'embed_token'){
+			$params .= '&'.EMBED_TOKEN_NAME.'='.session_id();
+		}
+
 		$url = $server . INDEX_FILE . $this->url_encode($this->buildURL($rt, $params), $encode);
 		return $url;
 	}
@@ -101,6 +114,11 @@ class AHtml extends AController {
 			$suburl .= '&token=' . $this->session->data['token'];
 		}
 
+		//add token for embed mode with forbidden 3dparty cookies
+		if($_SESSION['session_mode'] == 'embed_token'){
+			$suburl .= '&'.EMBED_TOKEN_NAME.'='.session_id();
+		}
+
 		if ($this->registry->get('config')->get('storefront_template_debug') && isset($this->registry->get('request')->get['tmpl_debug'])) {
 			$suburl .= '&tmpl_debug=' . $this->registry->get('request')->get['tmpl_debug'];
 		}
@@ -117,6 +135,10 @@ class AHtml extends AController {
 	 * @return string
 	 */
 	public function getSEOURL($rt, $params = '', $encode = '') {
+		//skip SEO for embed mode
+		if ($this->registry->get('config')->get('embed_mode') == true) {
+			return $this->getURL($rt, $params);
+		}
 		//#PR Generate SEO URL based on standard URL
 		$this->loadModel('tool/seo_url');
 		return $this->url_encode($this->model_tool_seo_url->rewrite($this->getURL($rt, $params)), $encode);
@@ -129,6 +151,10 @@ class AHtml extends AController {
 	 * @return string
 	 */
 	public function getSecureSEOURL($rt, $params = '', $encode = '') {
+		//add token for embed mode with forbidden 3dparty cookies
+		if($_SESSION['session_mode'] == 'embed_token'){
+			$params .= '&'.EMBED_TOKEN_NAME.'='.session_id();
+		}
 		//#PR Generate SEO URL based on standard URL
 		$this->loadModel('tool/seo_url');
 		return $this->url_encode($this->model_tool_seo_url->rewrite($this->getSecureURL($rt, $params)), $encode);
@@ -138,11 +164,19 @@ class AHtml extends AController {
 	 * @param string $rt
 	 * @param string $params
 	 * @param string $encode
+	 * @param bool $ssl
 	 * @return string
 	 */
-	public function getCatalogURL($rt, $params = '', $encode = '') {
+	public function getCatalogURL($rt, $params = '', $encode = '', $ssl = false) {
+		//add token for embed mode with forbidden 3dparty cookies
+		if($_SESSION['session_mode'] == 'embed_token'){
+			$params .= '&'.EMBED_TOKEN_NAME.'='.session_id();
+		}
 		$suburl = '?' . ($rt ? 'rt=' . $rt : '') . $params;
-		$url = HTTP_SERVER . INDEX_FILE . $this->url_encode($suburl, $encode);
+		
+		$http = $ssl ? HTTPS_SERVER : HTTP_SERVER;
+
+		$url = $http . INDEX_FILE . $this->url_encode($suburl, $encode);
 		return $url;
 	}
 
@@ -1106,7 +1140,7 @@ class SelectboxHtmlElement extends HtmlElement {
 
 		if (!is_array($this->value)) $this->value = array( $this->value => (string)$this->value );
 
-		$this->options = !$this->options ? array() : $this->options;
+		$this->options = !$this->options ? array() : (array)$this->options;
 		foreach ($this->options as &$opt) {
 			$opt = (string)$opt;
 		}

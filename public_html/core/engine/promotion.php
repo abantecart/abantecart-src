@@ -44,7 +44,7 @@ class APromotion {
     public $bonus_objects = array();
 
 	/**
-	 * @param null|int $customer_id
+	 * @param null/int $customer_group_id
 	 */
 	public function __construct( $customer_group_id = null ) {
 		$this->registry = Registry::getInstance();
@@ -219,7 +219,7 @@ class APromotion {
 	 */
 	public function getProductSpecials($sort = 'p.sort_order', $order = 'ASC', $start = 0, $limit = 20) {
 
-        $sql = "SELECT DISTINCT ps.product_id, p.*, pd.name, pd.description,
+		$sql = "SELECT DISTINCT ps.product_id, p.*, pd.name, pd.description, pd.blurb, ss.name AS stock,
                     (SELECT AVG(rating)
                     FROM " . $this->db->table("reviews") . " r1
                     WHERE r1.product_id = ps.product_id
@@ -229,6 +229,7 @@ class APromotion {
                 LEFT JOIN " . $this->db->table("products") . " p ON (ps.product_id = p.product_id)
                 LEFT JOIN " . $this->db->table("product_descriptions") . " pd ON (p.product_id = pd.product_id AND language_id=".(int)$this->config->get('storefront_language_id').")
                 LEFT JOIN " . $this->db->table("products_to_stores") . " p2s ON (p.product_id = p2s.product_id)
+				LEFT JOIN " . $this->db->table("stock_statuses") . " ss ON (p.stock_status_id = ss.stock_status_id AND ss.language_id = '" . (int)$this->config->get('storefront_language_id') . "')
                 WHERE p.status = '1'
                     AND p.date_available <= NOW()
                     AND p2s.store_id = '" . (int)$this->config->get('config_store_id') . "'

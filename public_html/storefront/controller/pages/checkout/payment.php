@@ -29,9 +29,20 @@ class ControllerPagesCheckoutPayment extends AController {
 		//init controller data
 		$this->extensions->hk_InitData($this, __FUNCTION__);
 
+		$cart_rt = 'checkout/cart';		
+		$checkout_rt = 'checkout/shipping';		
+		$payment_rt = 'checkout/payment';	
+		$login_rt = 'account/login';
+		$home_rt = 'index/home';	
+		$address_rt = 'checkout/address/payment';	
+		$confirm_rt = 'checkout/confirm';
+		if($this->config->get('embed_mode') == true){
+			$cart_rt = 'r/checkout/cart/embed';
+		}
+
 		//validate if order min/max are met
 		if (!$this->cart->hasMinRequirement() || !$this->cart->hasMaxRequirement()) {
-			$this->redirect($this->html->getSecureURL('checkout/cart'));
+			$this->redirect($this->html->getSecureURL($cart_rt));
 		}
 
 		//Selections are posted, validate and apply
@@ -42,7 +53,7 @@ class ControllerPagesCheckoutPayment extends AController {
 			//process data
 			$this->extensions->hk_ProcessData($this, __FUNCTION__);
 
-			$this->redirect($this->html->getSecureURL('checkout/payment'));
+			$this->redirect($this->html->getSecureURL($payment_rt));
 		}
 		//process balance
 		if($this->request->get['balance']=='apply'){
@@ -78,23 +89,23 @@ class ControllerPagesCheckoutPayment extends AController {
 		}
 
 		if (!$this->cart->hasProducts() || (!$this->cart->hasStock() && !$this->config->get('config_stock_checkout'))) {
-			$this->redirect($this->html->getSecureURL('checkout/cart'));
+			$this->redirect($this->html->getSecureURL($cart_rt));
 		}
 
 		if (!$this->customer->isLogged()) {
-			$this->session->data['redirect'] = $this->html->getSecureURL('checkout/shipping');
-			$this->redirect($this->html->getSecureURL('account/login'));
+			$this->session->data['redirect'] = $this->html->getSecureURL($checkout_rt);
+			$this->redirect($this->html->getSecureURL($login_rt));
 		}
 
 		$this->loadModel('account/address');
 
 		if ($this->cart->hasShipping()) {
 			if (!isset($this->session->data['shipping_address_id']) || !$this->session->data['shipping_address_id']) {
-				$this->redirect($this->html->getSecureURL('checkout/shipping'));
+				$this->redirect($this->html->getSecureURL($checkout_rt));
 			}
 
 			if (!isset($this->session->data['shipping_method'])) {
-				$this->redirect($this->html->getSecureURL('checkout/shipping'));
+				$this->redirect($this->html->getSecureURL($checkout_rt));
 			}
 		} else {
 			unset($this->session->data['shipping_address_id']);
@@ -114,13 +125,13 @@ class ControllerPagesCheckoutPayment extends AController {
 		}
 
 		if (!$this->session->data['payment_address_id']) {
-			$this->redirect($this->html->getSecureURL('checkout/address/payment'));
+			$this->redirect($this->html->getSecureURL($address_rt));
 		}
 
 		$this->loadModel('account/address');
 		$payment_address = $this->model_account_address->getAddress($this->session->data['payment_address_id']);
 		if (!$payment_address) {
-			$this->redirect($this->html->getSecureURL('checkout/address/payment'));
+			$this->redirect($this->html->getSecureURL($address_rt));
 		}
 		if (!$this->cart->hasShipping() || $this->config->get('config_tax_customer')) {
 			$this->tax->setZone($payment_address['country_id'], $payment_address['zone_id']);
@@ -170,6 +181,10 @@ class ControllerPagesCheckoutPayment extends AController {
 					$icon_data['image'] =  $icon;
 					$method_data[ $result['key'] ]['icon'] = $icon_data;
 				}
+				//check if this is a redirect type of the payment
+				if($ext_setgs[$result['key']."_redirect_payment"]) {
+					$method_data[ $result['key'] ]['is_redirect_payment'] = true;
+				}
 			}
 		}
 
@@ -182,7 +197,7 @@ class ControllerPagesCheckoutPayment extends AController {
 			//process data
 			$this->extensions->hk_ProcessData($this);
 
-			$this->redirect($this->html->getSecureURL('checkout/confirm'));
+			$this->redirect($this->html->getSecureURL($confirm_rt));
 		}
 
 		if($total['total']==0 && $this->request->get['mode'] != 'edit'){
@@ -190,7 +205,7 @@ class ControllerPagesCheckoutPayment extends AController {
 															'id'         => 'no_payment_required',
 															'title'      => $this->language->get('no_payment_required')
 			      		);
-			$this->redirect($this->html->getSecureURL('checkout/confirm'));
+			$this->redirect($this->html->getSecureURL($confirm_rt));
 
 		}
 
@@ -205,7 +220,7 @@ class ControllerPagesCheckoutPayment extends AController {
 		    	$autoselect = $ext_config[$method_name."_autoselect"];
 		    	if ( $autoselect ) {
 		    		$this->session->data['payment_method'] = $only_method[$method_name];
-		    		$this->redirect($this->html->getSecureURL('checkout/confirm'));				
+		    		$this->redirect($this->html->getSecureURL($confirm_rt));				
 		    	}
 		    }
 		}
@@ -221,19 +236,19 @@ class ControllerPagesCheckoutPayment extends AController {
 		                               ));
 
 		$this->document->addBreadcrumb(array(
-		                                    'href' => $this->html->getURL('checkout/cart'),
+		                                    'href' => $this->html->getURL($cart_rt),
 		                                    'text' => $this->language->get('text_basket'),
 		                                    'separator' => $this->language->get('text_separator')
 		                               ));
 
 		$this->document->addBreadcrumb(array(
-		                                    'href' => $this->html->getURL('checkout/shipping'),
+		                                    'href' => $this->html->getURL($checkout_rt),
 		                                    'text' => $this->language->get('entry_shipping'),
 		                                    'separator' => $this->language->get('text_separator')
 		                               ));
 
 		$this->document->addBreadcrumb(array(
-		                                    'href' => $this->html->getURL('checkout/payment'),
+		                                    'href' => $this->html->getURL($payment_rt),
 		                                    'text' => $this->language->get('entry_payment'),
 		                                    'separator' => $this->language->get('text_separator')
 		                               ));
@@ -249,7 +264,7 @@ class ControllerPagesCheckoutPayment extends AController {
 		if (isset($this->session->data['success'])) {
 			unset($this->session->data['success']);
 		}
-		$action = $this->html->getSecureURL('checkout/payment', '&mode='.$this->request->get['mode'],true);
+		$action = $this->html->getSecureURL($payment_rt, '&mode='.$this->request->get['mode'],true);
 
 		$this->data['change_address'] = HtmlElementFactory::create( array('type' => 'button',
 			                                      'name' => 'change_address',
@@ -257,7 +272,7 @@ class ControllerPagesCheckoutPayment extends AController {
 		                                          'text' => $this->language->get('button_change_address')
 		                                    ));
 
-		$this->data['change_address_href'] = $this->html->getSecureURL('checkout/address/payment');
+		$this->data['change_address_href'] = $this->html->getSecureURL($address_rt);
 
 		$this->view->assign( 'coupon_status', $this->config->get('coupon_status') );
 		$coupon_form = $this->dispatch('blocks/coupon_codes', array( 'action' => $action ) );
@@ -281,14 +296,14 @@ class ControllerPagesCheckoutPayment extends AController {
 		if($balance!=0 || ($balance==0 && $this->config->get('config_zero_customer_balance')) && (float)$this->session->data['used_balance']!=0){
 			if((float)$this->session->data['used_balance']==0 && $balance>0){
 				$this->data['apply_balance_button'] = $this->html->buildButton(array('name' => 'apply_balance',
-																					'href' => $this->html->getSecureURL('checkout/payment','&mode=edit&balance=apply',true),
+																					'href' => $this->html->getSecureURL($payment_rt,'&mode=edit&balance=apply',true),
 																					'text' => $this->language->get('button_apply_balance'),
 																					'icon' => 'fa fa-money',
 																					'style'=>'btn-default'));
 			}elseif((float)$this->session->data['used_balance']>0){
 
 				$this->data['apply_balance_button'] = $this->html->buildButton(array('name' => 'apply_balance',
-																					'href' => $this->html->getSecureURL('checkout/payment','&mode=edit&balance=disapply',true),
+																					'href' => $this->html->getSecureURL($payment_rt,'&mode=edit&balance=disapply',true),
 																					'text' => $this->language->get('button_disapply_balance'),
 																					'icon' => 'fa fa-times',
 																					'style'=>'btn-default'));
@@ -315,7 +330,7 @@ class ControllerPagesCheckoutPayment extends AController {
 					                                                                   'type' => 'radio',
 					                                                                   'name' => 'payment_method',
 					                                                                   'options' => array($v['id']=>''),
-					                                                                   'value' => $selected
+					                                                                   'value' => $selected,
 				                                                                  ));
 			}
 		}else{
@@ -327,7 +342,7 @@ class ControllerPagesCheckoutPayment extends AController {
 																	'type' => 'textarea',
 																	'name' => 'comment',
 																	'value' => $this->data['comment'],
-																	'attr' => ' rows="8" style="width: 99%" ' ));
+																	'attr' => ' rows="3" style="width: 99%" ' ));
 
 		if ($this->config->get('config_checkout_id')) {
 			$this->loadModel('catalog/content');
@@ -353,7 +368,7 @@ class ControllerPagesCheckoutPayment extends AController {
 		}
 
 		$this->data['agree'] = $this->request->post['agree'];
-		$this->data['back'] = $this->cart->hasShipping() ? $this->html->getSecureURL('checkout/shipping') : $this->data['back'] = $this->html->getSecureURL('checkout/cart');
+		$this->data['back'] = $this->cart->hasShipping() ? $this->html->getSecureURL($checkout_rt) : $this->data['back'] = $this->html->getSecureURL($cart_rt);
 
 		$this->data['form']['back'] = $form->getFieldHtml( array( 'type' => 'button',
 		                                                            'name' => 'back',
@@ -366,9 +381,16 @@ class ControllerPagesCheckoutPayment extends AController {
 
 		//render buttons
 		$this->view->batchAssign($this->data);
-		$this->view->assign('buttons', $this->view->fetch('pages/checkout/payment.buttons.tpl'));
-
-		$this->processTemplate('pages/checkout/payment.tpl');
+		if($this->config->get('embed_mode') == true){
+			$this->view->assign('buttons', $this->view->fetch('embed/checkout/payment.buttons.tpl'));	
+			//load special headers
+	        $this->addChild('responses/embed/head', 'head');
+	        $this->addChild('responses/embed/footer', 'footer');
+		    $this->processTemplate('embed/checkout/payment.tpl');
+		} else {
+			$this->view->assign('buttons', $this->view->fetch('pages/checkout/payment.buttons.tpl'));	
+			$this->processTemplate('pages/checkout/payment.tpl');
+		}
 
 		//update data before render
 		$this->extensions->hk_UpdateData($this, __FUNCTION__);

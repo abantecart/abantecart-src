@@ -366,6 +366,9 @@
 
 <script type="text/javascript">
 
+	var decimal_point = '<?php echo $decimal_point; ?>';
+	var decimal_place = '<?php echo $currency['decimal_place']; ?>';
+	var thousand_point = '<?php echo $thousand_point; ?>';
 	<?php if ($currency['symbol_left']) { ?>
 	var currency_symbol = '<?php echo $currency['symbol_left']; ?>';
 	var currency_location = 'left';
@@ -410,18 +413,35 @@
 
 	});
 
+	function formatMoney(num, c, d, t) {
+		c = isNaN(c = Math.abs(c)) ? 2 : c,
+				d = d == undefined ? "." : d,
+				t = t == undefined ? "," : t,
+				s = num < 0 ? "-" : "",
+				i = parseInt(num = Math.abs(+num || 0).toFixed(c)) + "",
+				j = (j = i.length) > 3 ? j % 3 : 0;
+		return s + (j ? i.substr(0, j) + t : "") + i.substr(j).replace(/(\d{3})(?=\d)/g, "$1" + t) + (c ? d + Math.abs(num - i).toFixed(c).slice(2) : "");
+	}
+	;
+
 	function get_currency_str(num) {
 		var str;
 		if (currency_location == 'left') {
-			str = currency_symbol + num.toFixed(2);
+			str = currency_symbol + formatMoney(num, decimal_place, decimal_point, thousand_point);
 		} else {
-			str = num.toFixed(2) + currency_symbol;
+			str = formatMoney(num, decimal_place, decimal_point, thousand_point) + currency_symbol;
 		}
 		return str;
 	}
 
 	function get_currency_num(str) {
-		return parseFloat(str.replace(currency_symbol, ''));
+		str = str == undefined || str.length == 0 ? '0' : str;
+		var final_number = str.replace(thousand_point, '');
+		final_number = final_number.replace(currency_symbol, '');
+		final_number = final_number.replace(decimal_point, '.');
+		final_number = parseFloat(final_number.replace(/[^0-9\-\.]/g, ''));
+
+		return final_number;
 	}
 
 	function recalculate() {
@@ -444,8 +464,9 @@
 		var total = 0;
 		$('input[name^="totals"]').each(function (i, v) {
 			//skip grand total
-			if(!$(v).hasClass('hidden_total') && $.isNumeric(get_currency_num($(v).val())) ) {
-				total += get_currency_num($(v).val());
+			var n = get_currency_num($(v).val());
+			if (!$(v).hasClass('hidden_total') && $.isNumeric(n)) {
+				total += n;
 			}		
 		});
 		

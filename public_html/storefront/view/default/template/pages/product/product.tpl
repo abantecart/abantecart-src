@@ -9,73 +9,55 @@
 		<!-- Product Details-->
 		<div class="row">
 			<!-- Left Image-->
-			<div class="col-md-6">
-				<ul class="thumbnails mainimage bigimage">
-					<?php if (sizeof($images) > 0) {
-						foreach ($images as $image) { ?>
-							<li >
-								<?php
-								$im_width = $image_main['sizes']['thumb']['width'];
-								$im_height = $image_main['sizes']['thumb']['height'];
-								if (!has_value($im_width)) {
-									$im_width = 380;
-								}
-								if (!has_value($im_height)) {
-									$im_height = 380;
-								}
-								//NOTE: ZOOM is not supported for embeded image tags
-								if ($image['origin'] == 'external') {
-								?>
-									<a class="thumbnail">
-									<?php echo $image['main_html'];	?>								
-									</a>
-								<?php
-								} else {
-									$image_url = $image['main_url'];?>
-									<a rel="position: 'inside', showTitle: false, adjustX:-4, adjustY:-4"
-									   class="thumbnail cloud-zoom"
-									   href="<?php echo $image['main_url']; ?>"
-									   title="<?php echo $image['title']; ?>"
-									   style="height:1%; width: 1%;">
-										<img src="<?php echo $image_url; ?>" alt="<?php echo $image['title']; ?>"
-											 title="<?php echo $image['title']; ?>"
-											 style="max-height:<?php echo $im_height ?>px; max-width: <?php echo $im_width ?>px;">
-									</a>
-								<?php } ?>
-							</li>
-						<?php
-						}
-					} ?>
-				</ul>
-				<?php if ($image_main) { ?>
-					<span><?php echo $text_zoom; ?></span>
-				<?php } ?>
+			<div class="col-md-6 text-center">
 
-				<?php if (sizeof($images) > 0) { ?>
-					<ul class="thumbnails mainimage smallimage">
-						<?php foreach ($images as $image) { ?>
-							<li class="producthtumb">
-								<?php
-								if ($image['origin'] != 'external') {
-								?>
-								<a class="thumbnail">
-									<img src="<?php echo $image['thumb_url']; ?>" alt="<?php echo $image['title']; ?>"
-										 title="<?php echo $image['title']; ?>">
-								</a>
-								<?php
-								}
-								?>
-							</li>
-						<?php } ?>
-					</ul>
+			<ul class="thumbnails mainimage smallimage">
+			<?php if (sizeof($images) > 1) {
+			    foreach ($images as $image) { ?>
+			    <li class="producthtumb">
+			        <?php
+			        if ($image['origin'] != 'external') {
+			        ?>
+				    	<a href="<?php echo $image['main_url']; ?>" data-standard="<?php echo $image['thumb2_url']; ?>">
+			        	<img src="<?php echo $image['thumb_url']; ?>" alt="<?php echo $image['title']; ?>" title="<?php echo $image['title']; ?>" />
+				    	</a>
+			        <?php } ?>
+			    </li>
+			    <?php
+			    }
+			} ?>
+			</ul>
+
+			<div class="mainimage bigimage easyzoom easyzoom--overlay easyzoom--with-thumbnails">
+			<?php if (sizeof($images) > 0) {
+				//NOTE: ZOOM is not supported for embeded image tags
+				if ($image_main['origin'] == 'external') {
+				?>
+				    <a class="html_with_image">
+				    <?php echo $image_main['main_html'];	?>								
+				    </a>
+				<?php
+				} else {
+				    $image_url = $image_main['main_url'];
+				    $thumb_url = $image_main['thumb_url'];
+				?>
+				    <a class="local_image" href="<?php echo $image_url; ?>" target="_image" title="<?php echo $image_main['title']; ?>">
+				    	<img src="<?php echo $thumb_url; ?>" alt="<?php echo $image['title']; ?>" title="<?php echo $image['title']; ?>" />
+				    <i class="fa fa-arrows"></i>
+				    </a>
 				<?php } ?>
+				<?php
+				} 
+				?>
+			</div>
+
 			</div>
 			<!-- Right Details-->
 			<div class="col-md-6">
 				<div class="row">
 					<div class="col-md-12">
 						<h1 class="productname"><span class="bgnone"><?php echo $heading_title; ?></span></h1>
-
+						<span class="blurb"><?php echo $product_info['blurb'] ?></span>
 						<div class="productprice">
 							<?php
 
@@ -118,7 +100,7 @@
 												<?php if ($option['html']->type != 'hidden') { ?>
 												<label class="control-label"><?php echo $option['name']; ?></label>
 												<?php } ?>
-												<div class="input-group col-sm-7">
+												<div class="input-group col-sm-10">
 													<?php echo $option['html']; ?>
 												</div>
 											</div>
@@ -274,8 +256,10 @@
 								<span class="productinfoleft"><?php echo $text_manufacturer; ?></span>
 								<a href="<?php echo $manufacturers; ?>">
 									<?php if ($manufacturer_icon) { ?>
-										<img alt="<?php echo $manufacturer; ?>" src="<?php echo $manufacturer_icon; ?>"
-											 title="<?php echo $manufacturer; ?>"/>
+										<img alt="<?php echo $manufacturer; ?>"
+										     src="<?php echo $manufacturer_icon; ?>"
+											 title="<?php echo $manufacturer; ?>"
+											 style="width: <?php echo $this->config->get('config_image_grid_width');?>px;"/>
 									<?php
 									} else {
 										echo $manufacturer;
@@ -350,7 +334,7 @@
 									$related_product['price'] = $related_product['special'] = '';
 								}
 							?>
-								<li class="col-md-4 col-sm-6 col-xs-12 related_product">
+								<li class="col-md-3 col-sm-5 col-xs-6 related_product">
 									<a href="<?php echo $related_product['href']; ?>"><?php echo $related_product['image']['thumb_html'] ?></a>
 									<a class="productname"
 									   href="<?php echo $related_product['href']; ?>"><?php echo $related_product['name']; ?></a>
@@ -396,16 +380,19 @@
 
 <script type="text/javascript"><!--
 
-	var orig_imgs = $('ul.bigimage').html();
+	var orig_imgs = $('div.bigimage').html();
 	var orig_thumbs = $('ul.smallimage').html();
 
 	jQuery(function ($) {
+
+		start_easyzoom();
+
 		//if have product options, load select option images 
 		var $select = $('input[name^=\'option\'], select[name^=\'option\']'); 
 		if ($select.length) {
 			//if no images for options are present, main product images will be used. 
 			//if atleast one image is present in the option, main images will be replaced.
-			load_option_images($select.val());
+			//????load_option_images($select.val());
 		}
 
 		display_total_price();
@@ -443,6 +430,26 @@
 		display_total_price();
 	});
 
+
+	function start_easyzoom() {
+		// Instantiate EasyZoom instances
+		var $easyzoom = $('.easyzoom').easyZoom();
+		
+		// Get an instance API
+		var api1 = $easyzoom.filter('.easyzoom--with-thumbnails').data('easyZoom');
+		//clean and reload esisting events 
+		api1.teardown();
+		api1._init();
+		
+		// Setup thumbnails
+		$('.thumbnails .producthtumb').on('click', 'a', function(e) {
+		   var $this = $(this);
+		   e.preventDefault();
+		   // Use EasyZoom's `swap` method
+		   api1.swap($this.data('standard'), $this.attr('href'));
+		});
+	}
+
 	function load_option_images( attribute_value_id ) {
 		$.ajax({
 			type: 'POST',
@@ -451,32 +458,35 @@
 			success: function (data) {
 				var html1 = '';
 				var html2 = '';
+				
+				if (data.main) {
+					if (data.main.origin == 'external') {
+						html1 = '<a class="html_with_image">';
+						html1 += data.main.main_html + '</a>';						
+					} else {
+				    	html1 = '<a href="' + data.main.main_url + '">';
+				    	html1 += '<img src="' + data.main.thumb_url + '" />';
+				    	html1 += '<i class="fa fa-arrows"></i></a>';
+				    }			
+				}				
 				if (data.images) {
 					for (img in data.images) {
-						html1 += '<li>';
 						html2 += '<li class="producthtumb">';
-
 						var img_url = data.images[img].main_url;
 						var tmb_url = data.images[img].thumb_url;
-						if (data.images[img].origin == 'external') {
-							img_url = data.images[img].main_html;
-							tmb_url = data.images[img].thumb_html;
-							html1 += '<a class="thumbnail">'+ img_url +'</a>';
-						} else {
-							html1 += '<a href="' + img_url + '" rel="position: \'inside\' , showTitle: false, adjustX:-4, adjustY:-4" class="thumbnail cloud-zoom"  title="' + data.images[img].title + '"><img src="' + data.images[img].thumb2_url + '" alt="' + data.images[img].title + '" title="' + data.images[img].title + '"></a>';
-							html2 += '<a class="thumbnail"><img src="' + tmb_url + '" alt="' + data.images[img].title + '" title="' + data.images[img].title + '"></a>';
+						var tmb2_url = data.images[img].thumb2_url;
+						if (data.images[img].origin != 'external') {
+							html2 += '<a href="'+img_url+'" data-standard="'+tmb2_url+'"><img src="' + tmb_url + '" alt="' + data.images[img].title + '" title="' + data.images[img].title + '" /></a>';
 						}
-						html1 += '</li>';
 						html2 += '</li>';
 					}
 				} else {
 					html1 = orig_imgs;
 					html2 = orig_thumbs;
 				}
-				$('ul.bigimage').html(html1);
+				$('div.bigimage').html(html1);
 				$('ul.smallimage').html(html2);
-				$('.cloud-zoom, .cloud-zoom-gallery').CloudZoom();
-				process_thumbnails();
+				start_easyzoom();
 			}
 		});
 	}

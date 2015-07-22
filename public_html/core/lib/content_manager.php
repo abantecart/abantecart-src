@@ -376,10 +376,11 @@ class AContentManager {
 			$select_columns = 'count(*) as total';
 		}
 		else {
-			$select_columns = "i.*, id.*,
+			$select_columns = "id.*,
 						cd.title as parent_name,
 						( SELECT COUNT(*) FROM " . $this->db->table("contents") . " 
-						WHERE parent_content_id=i.content_id ) as cnt";
+						WHERE parent_content_id=i.content_id ) as cnt,
+						i.*	";
 		}
 		
 		$sql = "SELECT ".$select_columns."
@@ -462,7 +463,6 @@ class AContentManager {
 						$output[ (int)$row[ 'content_id' ] ][ 'parent_content_id' ] = array( $parent => $parent );
                         $output[ (int)$row[ 'content_id' ] ][ 'sort_order' ] = array( $parent => (int)$row['sort_order']);
 					}
-
 				}
 			}
 		} else {

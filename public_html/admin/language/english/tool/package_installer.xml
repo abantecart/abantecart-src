@@ -87,7 +87,7 @@ Ideal OpenSource Ecommerce Solution ]]></value>
 	</definition>
 	<definition>
 		<key>warning_ftp</key>
-		<value><![CDATA[ Warning: Some file or directory does not have write permission (<span id="see_details">see more details</span>)<br>You can change this right or<br>use ftp-access to server for installing package (usually hosting provider sends it via email)<br> ]]></value>
+		<value><![CDATA[ Warning: Some directory or file does not have write permission (<span id="see_details">see more details</span>)<br>You can change permissions on your server or<br>use ftp access to your server for installation (usually, hosting provider sends this info via email or you can manage it in hosting control tools)<br> ]]></value>
 	</definition>
 	<definition>
 		<key>warning_already_installed</key>
@@ -242,6 +242,6 @@ Automatic full backup will be created. It is recommended to try upgrade on test 
 	</definition>
 	<definition>
 		<key>error_notconnected</key>
-		<value><![CDATA[ Can not install extensions from the marketplace. This store is not authenticated/connected. Please authenticate and conect to the <a href="%s">marketplace</a> ]]></value>
+		<value><![CDATA[ Can not upgrade or install extensions from the marketplace. This store is not authenticated/connected. Please authenticate and conect to the <a href="%s">marketplace</a> ]]></value>
 	</definition>
 </definitions>

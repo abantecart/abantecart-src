@@ -93,6 +93,7 @@
             <default_value>0</default_value>
         </item>
     </settings>
+	<custom_settings_template>pages/extension/default_fedex_settings.tpl</custom_settings_template>
     <install>
 	    <sql></sql>
 	    <trigger></trigger>

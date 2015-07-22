@@ -210,7 +210,10 @@ class ControllerPagesSaleCoupon extends AController {
         $this->load->library('json');
         if ( $this->request->is_POST() && $this->_validateForm()) {
 			if (has_value($this->request->post[ 'date_start' ])) {
-				$this->request->post[ 'date_start' ] = dateDisplay2ISO($this->request->post[ 'date_start' ],$this->language->get('date_format_short'));
+				$this->request->post[ 'date_start' ] = dateDisplay2ISO(
+																		$this->request->post[ 'date_start' ],
+																		$this->language->get('date_format_short')
+				);
 			}
 			if (has_value($this->request->post[ 'date_end' ])) {
 				$this->request->post[ 'date_end' ] = dateDisplay2ISO($this->request->post[ 'date_end' ],$this->language->get('date_format_short'));
@@ -218,6 +221,9 @@ class ControllerPagesSaleCoupon extends AController {
 					$this->request->post[ 'status' ] = 0;
 				}
 			}
+
+	        $this->request->post['discount'] = preformatFloat($this->request->post['discount'], $this->language->get('decimal_point') );
+	        $this->request->post['total'] = preformatFloat($this->request->post['total'], $this->language->get('decimal_point') );
 
             $coupon_id = $this->model_sale_coupon->addCoupon($this->request->post);
             $this->session->data['success'] = $this->language->get('text_success');
@@ -252,6 +258,9 @@ class ControllerPagesSaleCoupon extends AController {
 					$this->request->post[ 'status' ] = 0;
 				}
 			}
+
+	        $this->request->post['discount'] = preformatFloat($this->request->post['discount'], $this->language->get('decimal_point') );
+	        $this->request->post['total'] = preformatFloat($this->request->post['total'], $this->language->get('decimal_point') );
 
             $this->model_sale_coupon->editCoupon($this->request->get['coupon_id'], $this->request->post);
             $this->model_sale_coupon->editCouponProducts($this->request->get['coupon_id'], $this->request->post);

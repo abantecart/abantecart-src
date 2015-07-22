@@ -80,6 +80,7 @@ class ControllerPagesCatalogManufacturer extends AController {
                     'text' => $this->language->get('button_delete'),
                 )
             ),
+            'grid_ready' => 'grid_ready(data);'
 		);
 
         $grid_settings['colNames'] = array(
@@ -113,6 +114,10 @@ class ControllerPagesCatalogManufacturer extends AController {
 
         $grid = $this->dispatch('common/listing_grid', array( $grid_settings ) );
 		$this->view->assign('listing_grid', $grid->dispatchGetOutput());
+
+		if( $this->config->get('config_embed_status') ){
+		    $this->view->assign('embed_url', $this->html->getSecureURL('common/do_embed/manufacturers'));
+	    }
 
 		$this->document->setTitle( $this->language->get('heading_title') );
 		$this->view->assign( 'insert', $this->html->getSecureURL('catalog/manufacturer/insert') );
@@ -163,7 +168,9 @@ class ControllerPagesCatalogManufacturer extends AController {
 			$this->redirect($this->html->getSecureURL('catalog/manufacturer/update', '&manufacturer_id=' . $this->request->get['manufacturer_id'] ));
 		}
 
-
+		if( $this->config->get('config_embed_status')){
+			$this->view->assign('embed_url', $this->html->getSecureURL('common/do_embed/manufacturers', '&manufacturer_id=' . $this->request->get['manufacturer_id']));
+		}
     	$this->_getForm();
 
         //update controller data
@@ -285,7 +292,7 @@ class ControllerPagesCatalogManufacturer extends AController {
 			'help_url' => $this->gen_help_url('manufacturer_store'),
 		));
 
-		$this->data['form']['fields']['general']['keyword'] = $form->getFieldHtml(array(
+		$this->data['keyword_button'] = $form->getFieldHtml(array(
 				'type' => 'button',
 				'name' => 'generate_seo_keyword',
 				'text' => $this->language->get('button_generate'),
@@ -295,7 +302,7 @@ class ControllerPagesCatalogManufacturer extends AController {
 		));
 		$this->data['generate_seo_url'] = $this->html->getSecureURL('common/common/getseokeyword', '&object_key_name=category_id&id=' . $category_id);
 
-		$this->data['form']['fields']['general']['keyword'] .= $form->getFieldHtml(array(
+		$this->data['form']['fields']['general']['keyword'] = $form->getFieldHtml(array(
 				'type' => 'input',
 				'name' => 'keyword',
 				'value' => $this->data['keyword'],

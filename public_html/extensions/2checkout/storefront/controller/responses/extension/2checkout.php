@@ -35,7 +35,11 @@ class ControllerResponsesExtension2Checkout extends AController {
 
 		$order_info = $this->model_checkout_order->getOrder($this->session->data['order_id']);
 
-		$template_data['action'] = 'https://www.2checkout.com/checkout/purchase';
+		if($this->config->get('2checkout_test')){
+			$template_data['action'] = 'https://sandbox.2checkout.com/checkout/purchase';
+		} else{
+			$template_data['action'] = 'https://www.2checkout.com/checkout/purchase';
+		}
 
 		$template_data['sid'] = $this->config->get('2checkout_account');
 		$template_data['total'] = $this->currency->format($order_info['total'], $order_info['currency'], $order_info['value'], FALSE);

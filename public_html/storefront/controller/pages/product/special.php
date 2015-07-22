@@ -66,9 +66,11 @@ class ControllerPagesProductSpecial extends AController {
         }
 
 		if (isset($this->request->get['sort'])) {
-			list($sort,$order) = explode("-",$this->request->get['sort']);
+			$sorting_href = $this->request->get['sort'];
+			list($sort, $order) = explode("-", $sorting_href);
 		} else {
-			list($sort,$order) = explode("-",$this->config->get('config_product_default_sort_order'));
+			$sorting_href = $this->config->get('config_product_default_sort_order');
+			list($sort, $order) = explode("-", $sorting_href);
 			if($sort=='name'){
 				$sort = 'pd.'.$sort;
 			}elseif(in_array($sort,array('sort_order','price'))){
@@ -136,6 +138,20 @@ class ControllerPagesProductSpecial extends AController {
                     }
                 }
 
+				//check for stock status, availability and config
+				$track_stock = false;
+				$in_stock = false;
+				$no_stock_text = $result['stock'];
+				$total_quantity = 0;
+				if ( $this->model_catalog_product->isStockTrackable($result['product_id']) ) {
+				    $track_stock = true;
+			        $total_quantity = $this->model_catalog_product->hasAnyStock($result['product_id']);
+			        //we have stock or out of stock checkout is allowed
+			        if ($total_quantity > 0 || $this->config->get('config_stock_checkout')) {
+				    	$in_stock = true;
+			        }
+				}
+
                 $this->data['products'][] = array(
                     'product_id'    => $result['product_id'],
                     'name'    		=> $result['name'],
@@ -150,6 +166,10 @@ class ControllerPagesProductSpecial extends AController {
                     'href'    		=> $this->html->getSEOURL('product/product','&product_id=' . $result['product_id'], '&encode'),
                     'add'    		=> $add,
                     'description'	=> html_entity_decode($result['description'], ENT_QUOTES, 'UTF-8'),
+					'track_stock' => $track_stock,
+					'in_stock'		=> $in_stock,
+					'no_stock_text' => $no_stock_text,
+					'total_quantity'=> $total_quantity,
                 );
             }
 
@@ -232,7 +252,7 @@ class ControllerPagesProductSpecial extends AController {
 
 			$this->data['sorts'] = $sorts;
 
-			$pagination_url = $this->html->getURL('product/special', '&sort=' . $this->request->get['sort'] . '&page={page}' . '&limit=' . $limit, '&encode');
+			$pagination_url = $this->html->getURL('product/special', '&sort=' . $sorting_href . '&page={page}' . '&limit=' . $limit, '&encode');
 			$this->data['pagination_bootstrap'] = HtmlElementFactory::create( array (
 											'type' => 'Pagination',
 											'name' => 'pagination',
@@ -269,4 +289,3 @@ class ControllerPagesProductSpecial extends AController {
         $this->extensions->hk_UpdateData($this,__FUNCTION__);
   	}
 }
-?>

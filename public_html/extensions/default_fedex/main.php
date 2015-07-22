@@ -23,7 +23,7 @@ if ( !defined ( 'DIR_CORE' )) {
 
 $controllers = array(
     'storefront' => array(),
-    'admin' => array( ),
+    'admin' => array('responses/extension/default_fedex' ),
 );
 
 $models = array(
@@ -39,4 +39,4 @@ $languages = array(
 
 $templates = array(
     'storefront' => array(),
-    'admin' => array( ));
+    'admin' => array( 'pages/extension/default_fedex_settings.tpl' ));

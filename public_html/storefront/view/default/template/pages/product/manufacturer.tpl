@@ -1,6 +1,9 @@
 <h1 class="heading1">
   <span class="maintext"><?php echo $heading_title; ?></span>
-  <span class="subtext"><img src="<?php echo $manufacturer_icon; ?>" /></span>
+  <span class="subtext">
+	  <img style="width: <?php echo $this->config->get('config_image_grid_width');?>px;"
+	       src="<?php echo $manufacturer_icon; ?>" />
+  </span>
 </h1>
 
 <div class="contentpanel">

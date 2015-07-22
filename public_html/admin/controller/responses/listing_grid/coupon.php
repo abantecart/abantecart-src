@@ -149,6 +149,11 @@ class ControllerResponsesListingGridCoupon extends AController {
 				if(in_array($field,array('date_start', 'date_end'))){
 					$value = dateDisplay2ISO($value);
 				}
+
+			    if( in_array($field, array('discount','total')) ){
+					$value = preformatFloat($value, $this->language->get('decimal_point') );
+				}
+
 			    if ( !$err ) {
 			        $this->model_sale_coupon->editCoupon($this->request->get['id'], array( $field => $value) );
 			    } else {

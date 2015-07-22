@@ -60,14 +60,6 @@
     <key>default_worldpay_location_id_0</key>
     <value><![CDATA[Todos las Localidades]]></value>
   </definition>
-  <definition>
-    <key>default_worldpay_status</key>
-    <value><![CDATA[Status:]]></value>
-  </definition>
-  <definition>
-    <key>default_worldpay_sort_order</key>
-    <value><![CDATA[Sort Order:]]></value>
-  </definition>
   	<definition>
     	<key>default_worldpay_autoselect</key>
     	<value><![CDATA[Auto Select:<br /><span class="help">You can set to skip payment selection page if there is only one payment option. This payment method will be selected automatically</span>]]></value>

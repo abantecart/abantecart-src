@@ -303,11 +303,11 @@
 	</definition>
 	<definition>
 		<key>text_status</key>
-		<value><![CDATA[Estado]]></value>
+		<value><![CDATA[Estado:<span class="help">Este es el control de estado de la extensión del escaparate.</span>]]></value>
 	</definition>
     <definition>
         <key>text_sort_order</key>
-        <value><![CDATA[Orden de Clasificación]]></value>
+        <value><![CDATA[Orden de Clasificación::<span class="help">Número para ajustar la posición de visualización para esta extensión en relación con otras extensiones habilitadas. (Clasificación se establece de menor a ignorar 0 y vacíos valores más altos) </span>]]></value>
     </definition>
 	<definition>
 		<key>text_payment_minimum_total</key>

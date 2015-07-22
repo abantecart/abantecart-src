@@ -171,7 +171,10 @@ class ControllerPagesCatalogManufacturerLayout extends AController {
 		                                        'name' => 'cp_layout_frm',
 		                                        'attr' => 'class="aform form-inline"',
 			                                    'action' => $action));
-		
+		if( $this->config->get('config_embed_status')){
+			$this->view->assign('embed_url', $this->html->getSecureURL('common/do_embed/manufacturers', '&manufacturer_id=' . $manufacturer_id));
+		}
+
 		$this->view->batchAssign($this->data);
 		$this->processTemplate('pages/catalog/manufacturer_layout.tpl');
 

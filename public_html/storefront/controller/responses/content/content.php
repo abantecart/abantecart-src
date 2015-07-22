@@ -22,6 +22,21 @@ if (! defined ( 'DIR_CORE' )) {
 }
 class ControllerResponsesContentContent extends AController {
 
+	public function main() {
+		//init controller data
+		$this->extensions->hk_InitData($this, __FUNCTION__);
+
+		try{
+			$this->config->set('embed_mode', true);
+			$cntr = $this->dispatch('pages/content/content');
+			$html_out = $cntr->dispatchGetOutput();
+		}catch(AException $e){	}
+	
+        $this->extensions->hk_UpdateData($this,__FUNCTION__);
+
+		$this->response->setOutput($html_out);
+	}	
+
 	public function loadInfo() {
 
         //init controller data

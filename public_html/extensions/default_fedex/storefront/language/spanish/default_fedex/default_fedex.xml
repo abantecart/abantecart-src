@@ -12,4 +12,8 @@
 		<key>fedex_error_empty_postcode</key>
 		<value><![CDATA[Error: Código postal vacía.]]></value>
 	</definition>
+	<definition>
+		<key>fedex_error_no_service</key>
+		<value><![CDATA[El servicio no está disponible en su área. Compruebe si su dirección de envío es correcta]]></value>
+	</definition>
 </definitions>

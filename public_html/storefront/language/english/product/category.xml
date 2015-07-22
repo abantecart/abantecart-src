@@ -48,4 +48,8 @@
 		<key>text_rating_desc</key>
 		<value><![CDATA[Rating Highest]]></value>
 	</definition>
+	<definition>
+		<key>text_top_category</key>
+		<value><![CDATA[Top Category]]></value>
+	</definition>
 </definitions>

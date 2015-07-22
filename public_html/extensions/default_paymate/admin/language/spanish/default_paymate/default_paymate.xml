@@ -29,14 +29,6 @@
     <value><![CDATA[Todas las localidades:]]></value>
   </definition>
   <definition>
-    <key>default_paymate_status</key>
-    <value><![CDATA[Status:]]></value>
-  </definition>
-  <definition>
-    <key>default_paymate_sort_order</key>
-    <value><![CDATA[Sort Order:<br /><span class="help">Number to indicate display position of this payment in relation to over enabled payments </span>]]></value>
-  </definition>
-  <definition>
     <key>error_permission</key>
     <value><![CDATA[Warning: You do not have permission to modify payment PayMate!]]></value>
   </definition>

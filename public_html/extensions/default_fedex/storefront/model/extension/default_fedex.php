@@ -70,6 +70,7 @@ class ModelExtensionDefaultFedex extends Model {
         }
         $special_ship_products = $this->cart->specialShippingProducts();
 		$total_fixed_cost = 0;
+		//process special shopping cases on a product base and adjust the rates
         foreach ($special_ship_products as $product) {
             //check if free or fixed shipping
             $fixed_cost = -1;
@@ -85,10 +86,10 @@ class ModelExtensionDefaultFedex extends Model {
                 $fixed_cost = $this->currency->convert($fixed_cost, $this->config->get('config_currency'), $this->currency->getCode());
 	            $total_fixed_cost +=$fixed_cost;
             } else {
+            	//case of shipping individualy with no fixed price
                 $new_quote_data = $this->_processRequest( $address,  array($product));
                 $error_msg .=  $new_quote_data['error_msg'];
                 $new_quote_data =  $new_quote_data['quote_data'];
-
             }
 
             //merge data and accumulate shipping cost
@@ -143,19 +144,19 @@ class ModelExtensionDefaultFedex extends Model {
         return $method_data;
 	}
 
-
-
     private function _processRequest($address, $products){
         require_once(DIR_EXT . 'default_fedex/core/lib/fedex_func.php');
+
+        $this->load->language('default_fedex/default_fedex');
 
 		if($this->config->get('default_fedex_test')){
         	$path_to_wsdl = DIR_EXT . 'default_fedex/core/lib/RateService_v9_test.wsdl';
 		}else{
 			$path_to_wsdl = DIR_EXT . 'default_fedex/core/lib/RateService_v9.wsdl';
 		}
-        $client = new SoapClient($path_to_wsdl, array('trace' => 1)); // Refer to http://us3.php.net/manual/en/ref.soap.php for more information
-
-
+			// Refer to http://us3.php.net/manual/en/ref.soap.php for more information
+    	    $client = new SoapClient($path_to_wsdl, array('trace' => 1)); 
+	
             //Fedex Key
             $fedex_key = $this->config->get('default_fedex_key');
             //Fedex Password
@@ -196,131 +197,150 @@ class ModelExtensionDefaultFedex extends Model {
             $priority_overnight_quote = 0;
             $standard_overnight_quote = 0;
             $two_day_quote = 0;
-            $express_saver_quote = 0;
-
-
-            //Products info
+            $express_saver_quote = 0;	
+			$total_volume = $total_weight = $total_price = 0;
+			$products_values = array();
+	
             if ($products) {
+	            //build accumulative package volume based on all products we have 
+                foreach ($products as $product) {
 
-                foreach ($products as $result) {
-                    $request = array();
-
-                    $product_weight = $this->weight->convert($result['weight'], $this->config->get('config_weight_class'), 'lb');
+                    $product_weight = $this->weight->convert($product['weight'], $this->config->get('config_weight_class'), 'lb');
                     $product_weight = ($product_weight < 0.1 ? 0.1 : $product_weight);
+                    $total_weight += $product_weight * $product['quantity'];
 
-                    $product_length = $this->length->convert($result['length'], $this->config->get('config_length_class'), 'in');
-                    $product_width = $this->length->convert($result['width'], $this->config->get('config_length_class'), 'in');
-                    $product_height = $this->length->convert($result['height'], $this->config->get('config_length_class'), 'in');
+                    $product_length = $this->length->convert($product['length'], $this->config->get('config_length_class'), 'in');
+                    $product_width = $this->length->convert($product['width'], $this->config->get('config_length_class'), 'in');
+                    $product_height = $this->length->convert($product['height'], $this->config->get('config_length_class'), 'in');
 
+					$total_volume += $product_length * $product_width * $product_height * $product['quantity'] * 0.00057870;
 
-                    $product_quantity = $result['quantity'];
-                    $product_total	  = $result['total'];
+                    $total_price += $product['total'];
+				}
 
-                    //BUILD REQUEST START
-                    $request['WebAuthenticationDetail'] = array(
-		                    'UserCredential' => array(
-				                                    'Key' => $fedex_key,
-				                                    'Password' => $fedex_password)
-                    );
-                    $request['ClientDetail'] = array('AccountNumber' => $fedex_account, 'MeterNumber' => $fedex_meter_id);
-                    $request['TransactionDetail'] = array('CustomerTransactionId' => ' *** Rate Request v9 using PHP ***');
-                    $request['Version'] = array('ServiceId' => 'crs', 'Major' => '9', 'Intermediate' => '0', 'Minor' => '0');
-                    $request['ReturnTransitAndCommit'] = true;
-                    $request['RequestedShipment']['DropoffType'] = 'REGULAR_PICKUP'; // valid values REGULAR_PICKUP, REQUEST_COURIER, ...
-                    $request['RequestedShipment']['ShipTimestamp'] = date('c');
-                    //$request['RequestedShipment']['ServiceType'] = 'GROUND_HOME_DELIVERY'; // valid values STANDARD_OVERNIGHT, PRIORITY_OVERNIGHT, FEDEX_GROUND, ...
-                    $request['RequestedShipment']['PackagingType'] = 'YOUR_PACKAGING'; // valid values FEDEX_BOX, FEDEX_PAK, FEDEX_TUBE, YOUR_PACKAGING, ...
-                    $request['RequestedShipment']['TotalInsuredValue']=array('Ammount'=> $product_total,'Currency'=>'USD');
-                    $request['RequestedShipment']['Shipper'] = array('Address' => array(
-                        'StreetLines' => array($fedex_addr), // Origin details
-                        'City' => $fedex_city,
-                        'StateOrProvinceCode' => $fedex_state,
-                        'PostalCode' => $fedex_zip,
-                        'CountryCode' => $fedex_country));
+                //BUILD REQUEST START
+                $request = array();
+                $request['WebAuthenticationDetail'] = array(
+		                'UserCredential' => array(
+				                                'Key' => $fedex_key,
+				                                'Password' => $fedex_password)
+                );
+                $request['ClientDetail'] = array('AccountNumber' => $fedex_account, 'MeterNumber' => $fedex_meter_id);
+                $request['TransactionDetail'] = array('CustomerTransactionId' => ' *** Rate Request v9 using PHP ***');
+                $request['Version'] = array('ServiceId' => 'crs', 'Major' => '9', 'Intermediate' => '0', 'Minor' => '0');
+                $request['ReturnTransitAndCommit'] = true;
+                // valid values REGULAR_PICKUP, REQUEST_COURIER, ...
+                $request['RequestedShipment']['DropoffType'] = 'REGULAR_PICKUP'; 
+                $request['RequestedShipment']['ShipTimestamp'] = date('c');
+                // valid values STANDARD_OVERNIGHT, PRIORITY_OVERNIGHT, FEDEX_GROUND, ...
+                //$request['RequestedShipment']['ServiceType'] = 'GROUND_HOME_DELIVERY'; 
+                // valid values FEDEX_BOX, FEDEX_PAK, FEDEX_TUBE, YOUR_PACKAGING, ...
+                $request['RequestedShipment']['PackagingType'] = 'YOUR_PACKAGING'; 
+                $request['RequestedShipment']['TotalInsuredValue'] = array('Ammount'=> $total_price,'Currency'=>'USD');
+                // $request['RequestedShipment']['TotalWeight'] = array('Weight'=> $total_weight,'Units'=>'LB');
+                $request['RequestedShipment']['Shipper'] = array('Address' => array(
+                    'StreetLines' => array($fedex_addr), // Origin details
+                    'City' => $fedex_city,
+                    'StateOrProvinceCode' => $fedex_state,
+                    'PostalCode' => $fedex_zip,
+                    'CountryCode' => $fedex_country));
 
-                    $request['RequestedShipment']['Recipient'] = array(
-                        'Address' => array(
-                            'StreetLines' => array($shipping_address['address_1'],$shipping_address['address_2']),
-                            'City' => $shipping_address['city'],
-                            'StateOrProvinceCode' => $shipping_address['zone_code'],
-                            'PostalCode' => $shipping_address['postcode'],
-                            'CountryCode' => $shipping_address['iso_code_2'],
-                            'Residential' => $fedex_residential)
-                    );
-                    $request['RequestedShipment']['ShippingChargesPayment'] = array('PaymentType' => 'SENDER',
-                        'Payor' => array('AccountNumber' => $fedex_account,
-                            'CountryCode' => 'US'));
-                    $request['RequestedShipment']['RateRequestTypes'] = 'ACCOUNT';
-                    $request['RequestedShipment']['RateRequestTypes'] = 'LIST';
-                    $request['RequestedShipment']['PackageCount'] = $product_quantity ;
-                    $request['RequestedShipment']['PackageDetail'] = 'INDIVIDUAL_PACKAGES';  //  Or PACKAGE_SUMMARY
-
-                    for ( $q=0 ; $q< $product_quantity ;$q++){
-                        $request['RequestedShipment']['RequestedPackageLineItems']= array('Weight' => array('Value' => $product_weight,
-                            'Units' => 'LB'),
-                            'Dimensions' => array('Length' => $product_length,
-                                'Width' => $product_width,
-                                'Height' => $product_height,
-                                'Units' => 'IN'));
+                $request['RequestedShipment']['Recipient'] = array(
+                    'Address' => array(
+                        'StreetLines' => array($shipping_address['address_1'],$shipping_address['address_2']),
+                        'City' => $shipping_address['city'],
+                        'StateOrProvinceCode' => $shipping_address['zone_code'],
+                        'PostalCode' => $shipping_address['postcode'],
+                        'CountryCode' => $shipping_address['iso_code_2'],
+                        'Residential' => $fedex_residential)
+                );
+                $request['RequestedShipment']['ShippingChargesPayment'] = array('PaymentType' => 'SENDER',
+                    'Payor' => array('AccountNumber' => $fedex_account,
+                        'CountryCode' => 'US'));
+                //$request['RequestedShipment']['RateRequestTypes'] = 'LIST';
+                $request['RequestedShipment']['RateRequestTypes'] = 'ACCOUNT';
+                //this will always be packaged in 1 package to calculate as one shipment
+                $request['RequestedShipment']['PackageCount'] = 1;
+                // PACKAGE_GROUPS, INDIVIDUAL_PACKAGES Or PACKAGE_SUMMARY
+                $request['RequestedShipment']['PackageDetail'] = 'INDIVIDUAL_PACKAGES';  
+				$request['RequestedShipment']['RequestedPackageLineItems']= array(
+	                    	'Weight' => array(	'Value' => $total_weight,
+	                        					'Units' => 'LB'),
+	                        'Volume' => array(	'Value' => $total_volume,
+	                            				'Units' => 'CUBIC_FT')
+	            );
+            
+                try {
+                    if(setEndpoint('changeEndpoint')){
+                        $newLocation = $client->__setLocation(setEndpoint('endpoint'));
                     }
 
+                    $response = $client->getRates($request);
 
+                    if ($response->HighestSeverity != 'FAILURE' && $response->HighestSeverity != 'ERROR' ){
 
-                    try{
-                        if(setEndpoint('changeEndpoint')){
-                            $newLocation = $client->__setLocation(setEndpoint('endpoint'));
-                        }
-
-                        $response = $client->getRates($request);
-
-                        if ($response -> HighestSeverity != 'FAILURE' && $response -> HighestSeverity != 'ERROR' ){
-
-                            if ( count(	$response->RateReplyDetails ) > 1 ){
-                                foreach ($response->RateReplyDetails as $rateReply){
-                                    if($rateReply->ServiceType=='FEDEX_GROUND' || $rateReply->ServiceType=='GROUND_HOME_DELIVERY' ){
-                                        $ground_quote = $ground_quote + $product_quantity * ( number_format($rateReply->RatedShipmentDetails[0]->ShipmentRateDetail->TotalNetCharge->Amount,2,".",",") ) ;
-                                    } else if($rateReply->ServiceType== 'FIRST_OVERNIGHT' ){
-                                        $first_overnight_quote = $first_overnight_quote + $product_quantity * ( number_format($rateReply->RatedShipmentDetails[0]->ShipmentRateDetail->TotalNetCharge->Amount,2,".",",") ) ;
-                                    } else if($rateReply->ServiceType== 'PRIORITY_OVERNIGHT' ){
-                                        $priority_overnight_quote = $priority_overnight_quote + $product_quantity * ( number_format($rateReply->RatedShipmentDetails[0]->ShipmentRateDetail->TotalNetCharge->Amount,2,".",",") ) ;
-                                    } else if($rateReply->ServiceType== 'STANDARD_OVERNIGHT' ){
-                                        $standard_overnight_quote = $standard_overnight_quote + $product_quantity * ( number_format($rateReply->RatedShipmentDetails[0]->ShipmentRateDetail->TotalNetCharge->Amount,2,".",",") );
-                                    } else if($rateReply->ServiceType== 'FEDEX_2_DAY' ){
-                                        $two_day_quote = $two_day_quote + $product_quantity * ( number_format($rateReply->RatedShipmentDetails[0]->ShipmentRateDetail->TotalNetCharge->Amount,2,".",",") ) ;
-                                    } else if($rateReply->ServiceType== 'FEDEX_EXPRESS_SAVER' ){
-                                        $express_saver_quote = $express_saver_quote + $product_quantity * ( number_format($rateReply->RatedShipmentDetails[0]->ShipmentRateDetail->TotalNetCharge->Amount,2,".",",") ) ;
-                                    }
-                                }
-                            }else{
-                                $rateReply = $response->RateReplyDetails;
+                        if ( count(	$response->RateReplyDetails ) > 1 ){
+                            foreach ($response->RateReplyDetails as $rateReply){
+                            	if(is_object($rateReply->RatedShipmentDetails)) {
+                            		$rate = number_format($rateReply->RatedShipmentDetails->ShipmentRateDetail->TotalNetCharge->Amount,2,".",",");
+                            	} else {
+                            		$rate = number_format($rateReply->RatedShipmentDetails[0]->ShipmentRateDetail->TotalNetCharge->Amount,2,".",",");
+                            	}
+                            
                                 if($rateReply->ServiceType=='FEDEX_GROUND' || $rateReply->ServiceType=='GROUND_HOME_DELIVERY' ){
-                                    $ground_quote = $ground_quote + $product_quantity * ( number_format($rateReply->RatedShipmentDetails[0]->ShipmentRateDetail->TotalNetCharge->Amount,2,".",",") ) ;
+                                    $ground_quote = $rate;
                                 } else if($rateReply->ServiceType== 'FIRST_OVERNIGHT' ){
-                                    $first_overnight_quote = $first_overnight_quote + $product_quantity * ( number_format($rateReply->RatedShipmentDetails[0]->ShipmentRateDetail->TotalNetCharge->Amount,2,".",",") ) ;
+                                    $first_overnight_quote = $rate;
                                 } else if($rateReply->ServiceType== 'PRIORITY_OVERNIGHT' ){
-                                    $priority_overnight_quote = $priority_overnight_quote + $product_quantity * ( number_format($rateReply->RatedShipmentDetails[0]->ShipmentRateDetail->TotalNetCharge->Amount,2,".",",") ) ;
+                                    $priority_overnight_quote = $rate;
                                 } else if($rateReply->ServiceType== 'STANDARD_OVERNIGHT' ){
-                                    $standard_overnight_quote = $standard_overnight_quote + $product_quantity * ( number_format($rateReply->RatedShipmentDetails[0]->ShipmentRateDetail->TotalNetCharge->Amount,2,".",",") ) ;
+                                    $standard_overnight_quote = $rate;
                                 } else if($rateReply->ServiceType== 'FEDEX_2_DAY' ){
-                                    $two_day_quote = $two_day_quote + $product_quantity * ( number_format($rateReply->RatedShipmentDetails[0]->ShipmentRateDetail->TotalNetCharge->Amount,2,".",",") );
+                                    $two_day_quote = $rate;
                                 } else if($rateReply->ServiceType== 'FEDEX_EXPRESS_SAVER' ){
-                                    $express_saver_quote = $express_saver_quote + $product_quantity * ( number_format($rateReply->RatedShipmentDetails[0]->ShipmentRateDetail->TotalNetCharge->Amount,2,".",",") ) ;
+                                    $express_saver_quote = $rate;
                                 }
                             }
-                        }else{
-                            $error_msg = $this->getNotifications($response -> Notifications);
+                        } else {
+                            $rateReply = $response->RateReplyDetails;
+                           	if(is_object($rateReply->RatedShipmentDetails)) {
+                            	$rate = number_format($rateReply->RatedShipmentDetails->ShipmentRateDetail->TotalNetCharge->Amount,2,".",",");
+                            } else {
+                            	$rate = number_format($rateReply->RatedShipmentDetails[0]->ShipmentRateDetail->TotalNetCharge->Amount,2,".",",");
+                            }
+
+                            if($rateReply->ServiceType=='FEDEX_GROUND' || $rateReply->ServiceType=='GROUND_HOME_DELIVERY' ){
+                                $ground_quote = $rate;
+                            } else if($rateReply->ServiceType== 'FIRST_OVERNIGHT' ){
+                                $first_overnight_quote = $rate;
+                            } else if($rateReply->ServiceType== 'PRIORITY_OVERNIGHT' ){
+                                $priority_overnight_quote = $rate;
+                            } else if($rateReply->ServiceType== 'STANDARD_OVERNIGHT' ){
+                                $standard_overnight_quote = $rate;
+                            } else if($rateReply->ServiceType== 'FEDEX_2_DAY' ){
+                                $two_day_quote = $rate;
+                            } else if($rateReply->ServiceType== 'FEDEX_EXPRESS_SAVER' ){
+                                $express_saver_quote = $rate;
+                            }
                         }
-
-                    }catch (SoapFault $exception) {
-                        $error_text = 'Fault' . "<br>\n";
-                        $error_text .= "Code:".$exception->faultcode."\n";
-                        $error_text .= "String:".$exception->faultstring."\n";
-                        $error_text .= $client;
-                        $this->message->saveError('fedex extension soap error', $error_text);
-                        $this->log->write($error_text);
+                    	//check if there was a warning
+                        if( $response->HighestSeverity == 'WARNING' && $response->Notifications->Code == '556' ) {
+                        	//There are no valid services available. 
+                        	// possibly incorrect address 
+                        	$error_msg = $this->language->get('fedex_error_no_service');
+                        }
+                    } else {
+                        $error_msg = $this->getNotifications($response->Notifications);
                     }
-                }
 
+                }catch (SoapFault $exception) {
+                    $error_text = 'Fault' . "<br>\n";
+                    $error_text .= "Code:".$exception->faultcode."\n";
+                    $error_text .= "String:".$exception->faultstring."\n";
+                    $error_text .= $client;
+                    $this->message->saveError('fedex extension soap error', $error_text);
+                    $this->log->write($error_text);
+                }
             }
 
 

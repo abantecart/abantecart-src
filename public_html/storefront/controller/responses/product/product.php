@@ -25,7 +25,22 @@ class ControllerResponsesProductProduct extends AController {
 
 	public $data = array();
 
-	public function main() {}
+	public function main() {
+		//init controller data
+        $this->extensions->hk_InitData($this,__FUNCTION__);
+
+		try{
+			$this->config->set('embed_mode', true);
+			$cntr = $this->dispatch('pages/product/product');
+			$html_out = $cntr->dispatchGetOutput();
+		}catch(AException $e){	}
+
+        $this->extensions->hk_UpdateData($this,__FUNCTION__);
+
+		$this->response->setOutput($html_out);
+
+  	}
+
 
 	public function is_group_option() {
 		//init controller data

@@ -1,25 +1,51 @@
 <?php
 
 /*
-	1.2.2 Upgrade notes:
+	1.2.3 Upgrade notes:
 
 */
 
-//update encrypted table if it exists
-$sql = "SELECT TABLE_NAME
-		FROM information_schema.TABLES
-		WHERE information_schema.TABLES.table_schema = '".DB_DATABASE."'
-					AND TABLE_NAME = '".$this->db->table('ac_users')."'";
+//inserting new setting related to embed
+$ext_list = array(
+		'default_cashflows',
+		'default_liqpay',
+		'default_paymate',
+		'default_paypoint',
+		'default_payza',
+		'default_pp_express',
+		'default_pp_standart',
+		'default_skrill',
+		'default_worldpay'
+);
 
+$sql = "SELECT DISTINCT store_id FROM ".$this->db->table('stores').";";
 $result = $this->db->query($sql);
-if($result->num_rows){
-	$sql  = "ALTER TABLE `".$this->db->table('customers_enc')."`  ADD `wishlist` text COLLATE utf8_general_ci;";
+
+$stores = array( 0 => 0 );
+foreach($result->rows as $row){
+	$stores[$row['store_id']] = $row['store_id'];
 }
 
+//for installed extensions only
+foreach ($ext_list as $ext_txt_id){
+	if (!is_null($this->config->get($ext_txt_id . '_status'))){
+		foreach($stores as $store_id){
+			$sql = "INSERT INTO ".$this->db->table('settings')."
+						(`store_id`,
+						`group`,
+						`key`,
+						`value`,
+						`date_added`)
+					VALUES
+						('".$store_id."',
+						'".$ext_txt_id."',
+						'".$ext_txt_id."_redirect_payment',
+						'true',
+						NOW() )";
+			$result = $this->db->query($sql);
+		}
+	}
+}
 
-
-
-
-
-//clear cache after upgrade       					
+//clear cache after upgrade
 $this->cache->delete('*');

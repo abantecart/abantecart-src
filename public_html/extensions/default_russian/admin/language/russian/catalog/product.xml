@@ -125,6 +125,10 @@
 		<value><![CDATA[Описание:]]></value>
 	</definition>
 	<definition>
+		<key>entry_blurb</key>
+		<value><![CDATA[Рекламный текст:]]></value>
+	</definition>
+	<definition>
 		<key>entry_store</key>
 		<value><![CDATA[Магазины:]]></value>
 	</definition>
@@ -539,11 +543,11 @@
 		<value><![CDATA[Вариант(ы) товара отсутствует на складе]]></value>
 	</definition>
 	<definition>
-		<key>text_call_for_order</key>
+		<key>text_call_to_order</key>
 		<value><![CDATA[Позвонить для заказа]]></value>
 	</definition>
 	<definition>
-		<key>entry_call_for_order</key>
+		<key>entry_call_to_order</key>
 		<value>
 			<![CDATA[Заблокировать заказ продукта:<br /><span class="help">Установить продукт в режим отображения но без возможности на заказа. Будет отображаться сообщение Свяжитесь с нами для заказа.</span>]]></value>
 	</definition>

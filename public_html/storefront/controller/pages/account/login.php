@@ -207,7 +207,7 @@ class ControllerPagesAccountLogin extends AController {
 
 		$this->view->batchAssign( $this->data );
 		$this->processTemplate('pages/account/login.tpl');
-
+		
         //init controller data
         $this->extensions->hk_UpdateData($this,__FUNCTION__);
   	}

@@ -1,6 +1,6 @@
 <?php
  if ($languages) {
- 	$cur_lang;
+ 	$cur_lang = array();
  	foreach ($languages as $language) {
 		if ($language['code'] == $language_code) {
 			$cur_lang = $language;

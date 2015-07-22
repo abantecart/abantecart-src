@@ -24,7 +24,7 @@ class ControllerResponsesListingGridStore extends AController {
 	/**
 	 * update only one field
 	 *
-	 * @return void
+	 * @return mixed
 	 */
 	public function update_field() {
 

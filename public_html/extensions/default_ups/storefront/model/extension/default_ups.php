@@ -384,22 +384,33 @@ class ModelExtensionDefaultUps extends Model {
             $dom = new DOMDocument('1.0', 'UTF-8');
             $dom->loadXml($result);
 
+	        /**
+	         * @var $rating_service_selection_response DOMElement
+	         * @var $response DOMElement
+	         * @var $error DOMElement
+	         */
             $rating_service_selection_response = $dom->getElementsByTagName('RatingServiceSelectionResponse')->item(0);
-
-            $response = $rating_service_selection_response->getElementsByTagName('Response')->item(0);
+	        $response = $rating_service_selection_response->getElementsByTagName('Response')->item(0);
 
             $response_status_code = $response->getElementsByTagName('ResponseStatusCode');
 
             if ($response_status_code->item(0)->nodeValue != '1') {
                 $error = $response->getElementsByTagName('Error')->item(0);
-
                 $error_msg = $error->getElementsByTagName('ErrorCode')->item(0)->nodeValue;
-
                 $error_msg .= ': ' . $error->getElementsByTagName('ErrorDescription')->item(0)->nodeValue;
             } else {
+	            /**
+                 * @var $rated_shipments DOMElement
+                 */
                 $rated_shipments = $rating_service_selection_response->getElementsByTagName('RatedShipment');
 
+
                 foreach ($rated_shipments as $rated_shipment) {
+	                /**
+                     * @var $rated_shipment DOMElement
+                     * @var $service DOMElement
+                     * @var $total_charges DOMElement
+                     */
                     $service = $rated_shipment->getElementsByTagName('Service')->item(0);
                     $code = $service->getElementsByTagName('Code')->item(0)->nodeValue;
                     $total_charges = $rated_shipment->getElementsByTagName('TotalCharges')->item(0);

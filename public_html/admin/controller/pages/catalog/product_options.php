@@ -241,7 +241,9 @@ class ControllerPagesCatalogProductOptions extends AController {
 				'onload' => false //sign loading thumbs on oage load. disable it for hidden attribute values info
             )
         );
-
+	    if($this->config->get('config_embed_status')){
+		    $this->data['embed_url'] = $this->html->getSecureURL('common/do_embed/product', '&product_id=' . $this->request->get['product_id']);
+	    }
 		$this->view->assign('resources_scripts', $resources_scripts->dispatchGetOutput());
 
 		$this->view->assign('help_url', $this->gen_help_url('product_options') );

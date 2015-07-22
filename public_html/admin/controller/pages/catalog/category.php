@@ -87,6 +87,7 @@ class ControllerPagesCatalogCategory extends AController {
 								'text' => $this->language->get('button_delete'),
 						)
 				),
+				'grid_ready' => 'grid_ready(data);'
 		);
 
 		$grid_settings['colNames'] = array(
@@ -189,6 +190,10 @@ class ControllerPagesCatalogCategory extends AController {
 		$grid_settings['search_form'] = true;
 
 		$grid = $this->dispatch('common/listing_grid', array($grid_settings));
+		if( $this->config->get('config_embed_status') ){
+			$this->view->assign('embed_url', $this->html->getSecureURL('common/do_embed/categories'));
+		}
+
 		$this->view->assign('listing_grid', $grid->dispatchGetOutput());
 		$this->view->assign('search_form', $grid_search_form);
 		$this->view->assign('grid_url', $this->html->getSecureURL('listing_grid/category'));
@@ -424,7 +429,7 @@ class ControllerPagesCatalogCategory extends AController {
 						'help_url' => $this->gen_help_url('meta_description'),
 				));
 
-		$this->data['form']['fields']['data']['keyword'] = $form->getFieldHtml(array(
+		$this->data['keyword_button'] = $form->getFieldHtml(array(
 				'type' => 'button',
 				'name' => 'generate_seo_keyword',
 				'text' => $this->language->get('button_generate'),
@@ -434,7 +439,7 @@ class ControllerPagesCatalogCategory extends AController {
 		));
 		$this->data['generate_seo_url'] = $this->html->getSecureURL('common/common/getseokeyword', '&object_key_name=category_id&id=' . $category_id);
 
-		$this->data['form']['fields']['data']['keyword'] .= $form->getFieldHtml(array(
+		$this->data['form']['fields']['data']['keyword'] = $form->getFieldHtml(array(
 				'type' => 'input',
 				'name' => 'keyword',
 				'value' => $this->data['keyword'],
@@ -462,6 +467,10 @@ class ControllerPagesCatalogCategory extends AController {
 		$tabs_obj = $this->dispatch('pages/catalog/category_tabs', array($this->data));
 		$this->data['category_tabs'] = $tabs_obj->dispatchGetOutput();
 		unset($tabs_obj);
+
+		if( $category_id && $this->config->get('config_embed_status')){
+			$this->data['embed_url'] = $this->html->getSecureURL( 'common/do_embed/categories', '&category_id='.$category_id );
+		}
 
 
 		$this->view->batchAssign($this->data);

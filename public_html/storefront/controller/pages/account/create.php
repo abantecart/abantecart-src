@@ -47,7 +47,7 @@ class ControllerPagesAccountCreate extends AController {
 					$request_data['loginname'] = $request_data['email'];
 				}
 				
-				$customer_id = $this->model_account_customer->addCustomer($request_data);
+				$this->data['customer_id'] = $this->model_account_customer->addCustomer($request_data);
 
 				unset($this->session->data['guest']);
 
@@ -67,7 +67,7 @@ class ControllerPagesAccountCreate extends AController {
 						$code = md5(mt_rand(1,3000));
 						$email = $this->request->post['email'];
 						$this->session->data['activation'] = array(
-																	'customer_id' => $customer_id,
+																	'customer_id' => $this->data['customer_id'],
 																	'code' => $code,
 																	'email' => $email);
 

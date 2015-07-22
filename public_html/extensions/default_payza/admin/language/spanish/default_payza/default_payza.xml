@@ -44,14 +44,6 @@
 		<key>default_payza_location_id_0</key>
 		<value><![CDATA[All Locations]]></value>
 	</definition>
-	<definition>
-		<key>default_payza_status</key>
-		<value><![CDATA[Estado:]]></value>
-	</definition>
-	<definition>
-		<key>default_payza_sort_order</key>
-		<value><![CDATA[Orden:]]></value>
-	</definition>
   	<definition>
     	<key>default_payza_autoselect</key>
     	<value><![CDATA[Selección automática:<br/><span class="help">Se puede configurar para que omita la página de pago selección si sólo hay una opción de pago. Esta forma de pago se seleccionará automáticamente</span>]]></value>

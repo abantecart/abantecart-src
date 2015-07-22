@@ -8,6 +8,28 @@
 		<?php } ?>
 		<?php echo $this->getHookVar('common_content_buttons'); ?>
 
+		<?php if($embed_url) { ?>
+			<div class="btn-group">
+		        <a class="btn btn-white tooltips"
+		           href="<?php echo $embed_url; ?>"
+		           data-target="#embed_modal"
+		           data-toggle="modal"
+		           data-original-title="<?php echo $text_share_embed_code; ?>">
+		            <i class="fa fa-share-alt fa-lg"></i>
+		        </a>
+				<?php echo $this->html->buildElement(
+							array(	'type' => 'modal',
+									'id' => 'embed_modal',
+									'modal_type' => 'lg',
+									'data_source' => 'ajax',
+									'js_onclose' => '$(".abantecart-widget-cart").remove();'
+							));
+				?>
+			</div>
+
+
+    	<?php } ?>
+
 		<?php if(!empty($form_store_switch)) { ?>
 		<div class="btn-group">
 			<?php echo $form_store_switch; ?>

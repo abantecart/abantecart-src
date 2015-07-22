@@ -15,7 +15,7 @@
   <definition>
     <key>2checkout_note</key>
     <value><![CDATA[С помощью этого расширения можно использовать платежную систему 2Сheckout принимать платежи от ваших клиентов. <br> <b>Зарегистрироваться бесплатно сегодня! Используйте промо-код ABANTECART2CO для отмены от платы за услуги заявки (экономия $10.99) и начните продавать онлайн сегодня!</b> Посетите <a href="https://www.2checkout.com/signup/">www.2checkout.com</a>, заполнить заявление, а затем введите код в поле промо-кода, чтобы воспользоваться этим специальным предложением сегодня! <br> После регистрации войдите, чтобы получить учетные данные для настройки этого расширения<br> Не забудьте установки INS URL здесь <a href="https://www.2checkout.com/va/notifications/">https://www.2checkout.com/va/notifications/</a>. <br><br> Ваш URL INS является <h4>#storefront#rt=extension/2checkout/callback</h4>
-<br><br>Также настройте Approved URL здесь <a href="https://www.2checkout.com/va/notifications/">https://www.2checkout.com/va/acct/detail_company_info</a> и выберите &quot;Header return&quot;. <br><br> Ваш Approved URL <h3>#storefront#rt=checkout/success</h3>]]></value>
+<br><br>Также настройте Approved URL здесь <a href="https://www.2checkout.com/va/acct/detail_company_info">https://www.2checkout.com/va/acct/detail_company_info</a> и выберите &quot;Header return&quot;. <br><br> Ваш Approved URL <h3>#storefront#rt=checkout/success</h3>]]></value>
   </definition>
   <definition>
     <key>2checkout_account</key>
@@ -48,14 +48,6 @@
   <definition>
     <key>2checkout_location_id_0</key>
     <value><![CDATA[Все местоположения]]></value>
-  </definition>
-  <definition>
-    <key>2checkout_status</key>
-    <value><![CDATA[Статус:]]></value>
-  </definition>
-  <definition>
-    <key>2checkout_sort_order</key>
-    <value><![CDATA[Порядок сортировки:<br /><span class="help">Номер указывающий позицию отображения этого способа оплаты наряду с другими</span>]]></value>
   </definition>
   <definition>
     <key>2checkout_autoselect</key>

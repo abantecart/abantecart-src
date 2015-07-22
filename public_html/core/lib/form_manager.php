@@ -81,7 +81,11 @@ class AFormManager {
 		return ( int ) $result->row ['group_id'];
 	}
 
-	/** @noinspection PhpUnusedPrivateMethodInspection */
+	/**
+	 * @param string $field_group_id
+	 * @param int $language_id
+	 * @return null|array
+	 */
 	private function _getFieldGroupDescription($field_group_id = '', $language_id = 0) {
 		$language_id = ( int ) $language_id;
 		$field_group_id = ( int ) $field_group_id;
@@ -180,6 +184,7 @@ class AFormManager {
 
 	/**
 	 * @param SimpleXmlElement $xml_obj
+	 * @return null
 	 */
 	private function _processXML($xml_obj) {
 		$forms = $xml_obj->xpath ( '/forms' );

@@ -48,10 +48,20 @@
 
 <script type="text/javascript">
     $('#category_grid_wrapper a.grid_action_expand').click(function(){
- 			        var new_url = '<?php echo $grid_url; ?>&'+$(this).attr('rel');
-        			$('#category_grid')
-            			.jqGridHistory('setGridParam',{url:new_url})
-            			.trigger("reloadGrid");
-        			return false;
-                });
+        var new_url = '<?php echo $grid_url; ?>&'+$(this).attr('rel');
+        $('#category_grid')
+            .jqGridHistory('setGridParam',{url:new_url})
+            .trigger("reloadGrid");
+        return false;
+    });
+
+	var grid_ready = function(data) {
+		var url = '<?php echo $embed_url?>';
+		$('#category_grid tr[role="row"]').each(function () {
+			if ($(this).attr('id')) {
+				url += '&category_id[]=' + $(this).attr('id');
+			}
+		});
+		$('a[data-target="#embed_modal"]').attr('href', url);
+	}
 </script>

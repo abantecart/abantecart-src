@@ -28,13 +28,19 @@ class ControllerPagesCheckoutGuestStep2 extends AController {
         //init controller data
         $this->extensions->hk_InitData($this,__FUNCTION__);
 
+		//is this an embed mode	
+		$cart_rt = 'checkout/cart';		
+		if($this->config->get('embed_mode') == true){
+			$cart_rt = 'r/checkout/cart/embed';
+		}
+
     	if (!$this->cart->hasProducts() || (!$this->cart->hasStock() && !$this->config->get('config_stock_checkout'))) {
-	  		$this->redirect($this->html->getSecureURL('checkout/cart'));
+	  		$this->redirect($this->html->getSecureURL($cart_rt));
     	}
 
 		//validate if order min/max are met
 		if (!$this->cart->hasMinRequirement() || !$this->cart->hasMaxRequirement()) {
-			$this->redirect($this->html->getSecureURL('checkout/cart'));
+			$this->redirect($this->html->getSecureURL($cart_rt));
 		}
 
 		if ($this->customer->isLogged()) {
@@ -161,6 +167,10 @@ class ControllerPagesCheckoutGuestStep2 extends AController {
 					$icon_data['image'] =  $icon;
 					$method_data[ $result[ 'key' ] ]['icon'] = $icon_data;
 				}
+				//check if this is a redirect type of the payment
+				if($ext_setgs[$result['key']."_redirect_payment"]) {
+					$method_data[ $result['key'] ]['is_redirect_payment'] = true;
+				}
 			}
 		}
 		//sort payments
@@ -230,7 +240,7 @@ class ControllerPagesCheckoutGuestStep2 extends AController {
         	'separator' => FALSE
       	 ));
       	$this->document->addBreadcrumb( array (
-        	'href'      => $this->html->getURL('checkout/cart'),
+        	'href'      => $this->html->getURL($cart_rt),
         	'text'      => $this->language->get('text_cart'),
         	'separator' => $this->language->get('text_separator')
       	 ));
@@ -373,7 +383,7 @@ class ControllerPagesCheckoutGuestStep2 extends AController {
 																	'type' => 'textarea',
 																	'name' => 'comment',
 																	'value' => $this->data['comment'],
-																	'attr' => ' rows="8" style="width: 99%" ' ));
+																	'attr' => ' rows="3" style="width: 99%" ' ));
 
 		if ($this->config->get('config_checkout_id')) {
 			$this->loadModel('catalog/content');

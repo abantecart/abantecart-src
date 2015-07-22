@@ -21,38 +21,37 @@ if (! defined ( 'DIR_CORE' )) {
 	header ( 'Location: static_pages/' );
 }
 class ControllerPagesIndexHome extends AController {
-	
+
 	public function main() {
 
-        //init controller data
-        $this->extensions->hk_InitData($this,__FUNCTION__);
-	
+		//init controller data
+		$this->extensions->hk_InitData($this,__FUNCTION__);
+
 		$this->document->setTitle( $this->config->get('config_title') );
 		$this->document->setDescription( $this->config->get('config_meta_description') );
 		$this->document->setKeywords( $this->config->get('config_meta_keywords') );
-		
+
 		$this->view->assign('heading_title', sprintf($this->language->get('heading_title'), $this->config->get('store_name')) );
-		
+
 		$this->loadModel('setting/store');
-		
+
 		if (!$this->config->get('config_store_id')) {
 			$this->view->assign('welcome', html_entity_decode($this->config->get('config_description_' . $this->config->get('storefront_language_id')), ENT_QUOTES, 'UTF-8') );
 		} else {
 			$store_info = $this->model_setting_store->getStore($this->config->get('config_store_id'));
-			
+
 			if ($store_info) {
 				$this->view->assign('welcome', html_entity_decode($store_info['description'], ENT_QUOTES, 'UTF-8') );
 			} else {
 				$this->view->assign('welcome', '');
 			}
 		}
-		
+
 		$this->view->assign('special', $this->html->getURL('product/special') );
 
 		$this->processTemplate();
 
-        //init controller data
-        $this->extensions->hk_UpdateData($this,__FUNCTION__);
+		//init controller data
+		$this->extensions->hk_UpdateData($this,__FUNCTION__);
 	}
 }
-?>

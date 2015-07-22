@@ -625,7 +625,7 @@ class ModelCheckoutOrder extends Model {
 	/**
 	 * @param int $order_id
 	 * @param int $order_status_id
-	 * @return string $comment
+	 * @param string $comment
 	 * @return null
 	 */
 	public function addHistory($order_id, $order_status_id, $comment) {

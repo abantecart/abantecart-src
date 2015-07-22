@@ -8,7 +8,7 @@
 				<?php echo $attr; ?>
 			   name="<?php echo $name ?>"
 				<?php echo ($v == $value ? ' checked="checked" ':'') ?>>
-		<?php echo $text ?>
+				&nbsp;<?php echo $text ?>&nbsp;&nbsp;
 	</label>
 <?php } ?>
 <?php if ( $required == 'Y' ) { ?>

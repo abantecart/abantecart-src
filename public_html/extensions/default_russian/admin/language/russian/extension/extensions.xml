@@ -298,11 +298,11 @@
   </definition>
   <definition>
     <key>text_status</key>
-    <value><![CDATA[Статус]]></value>
+    <value><![CDATA[Статус:<span class="help">Статус расширения для витрины.</span>]]></value>
   </definition>
   <definition>
     <key>text_sort_order</key>
-    <value><![CDATA[Порядок сортировки]]></value>
+    <value><![CDATA[Порядок сортировки:<span class="help">Номер указывающий позицию отображения этого расширения по отношению к другим.</span>]]></value>
   </definition>
   <definition>
     <key>text_payment_minimum_total</key>

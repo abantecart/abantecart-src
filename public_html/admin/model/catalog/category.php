@@ -180,7 +180,6 @@ class ModelCatalogCategory extends Model {
 											AND language_id='".(int)$this->language->getContentLanguageID()."' ) AS keyword
 									FROM " . $this->db->table("categories") . " 
 									WHERE category_id = '" . (int)$category_id . "'");
-		
 		return $query->row;
 	}
 
@@ -405,14 +404,30 @@ class ModelCatalogCategory extends Model {
 	 */
 	public function getCategoryStores($category_id) {
 		$category_store_data = array();
-		
-		$query = $this->db->query("SELECT * FROM " . $this->db->table("categories_to_stores") . " WHERE category_id = '" . (int)$category_id . "'");
-
-		foreach ($query->rows as $result) {
+		$rows = $this->getCategoryStoresInfo($category_id);
+		foreach ($rows as $result) {
 			$category_store_data[] = $result['store_id'];
 		}
 		
 		return $category_store_data;
+	}
+	/**
+	 * @param int $category_id
+	 * @return array
+	 */
+	public function getCategoryStoresInfo($category_id) {
+		$query = $this->db->query( "SELECT c2s.*,
+											s.name as store_name,
+											ss.`value` as store_url,
+											sss.`value` as store_ssl_url
+									FROM " . $this->db->table("categories_to_stores") . " c2s
+									LEFT JOIN " . $this->db->table("stores") . " s ON s.store_id = c2s.store_id
+									LEFT JOIN " . $this->db->table("settings") . " ss
+										ON (ss.store_id = c2s.store_id AND ss.`key`='config_url')
+									LEFT JOIN " . $this->db->table("settings") . " sss
+										ON (sss.store_id = c2s.store_id AND sss.`key`='config_ssl_url')
+									WHERE category_id = '" . (int)$category_id . "'");
+		return $query->rows;
 	}
 
 	/**

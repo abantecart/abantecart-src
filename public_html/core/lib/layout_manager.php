@@ -311,7 +311,7 @@ class ALayoutManager{
 
 	public function getAllBlocks(){
 		$store_id = (int)$this->config->get('config_store_id');
-		$language_id = (int)$this->config->get('storefront_language_id');
+		$language_id = (int)$this->language->getContentLanguageID();
 		$cache_name = 'layout.a.blocks.all.' . $language_id;
 		$blocks = $this->cache->get($cache_name, '', $store_id);
 		if(!empty ($blocks)){
@@ -351,7 +351,7 @@ class ALayoutManager{
 	 * @return array|int
 	 */
 	public function getBlocksList($data = '', $mode = ''){
-		$language_id = !(int)$data['language_id'] ? $this->config->get('storefront_language_id') : (int)$data['language_id'];
+		$language_id = !(int)$data['language_id'] ? $this->language->getContentLanguageID() : (int)$data['language_id'];
 
 		if($mode != 'total_only'){
 			$sql = "SELECT b.block_id as block_id, "
@@ -481,7 +481,8 @@ class ALayoutManager{
 	}
 
 	/**
-	 * @param int $instance_id
+	 * @param int $parent_instance_id
+	 * @param int $parent_block_id
 	 * @return array
 	 */
 	public function getBlockChildren($parent_instance_id, $parent_block_id){
@@ -973,7 +974,8 @@ class ALayoutManager{
 	}
 
 	/**
-	 * @param $block_id, $parent_block_id
+	 * @param int $block_id
+	 * @param int $parent_block_id
 	 * @return array
 	 */
 	public function getBlockTemplate($block_id, $parent_block_id = 0){

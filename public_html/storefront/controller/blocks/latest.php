@@ -70,7 +70,6 @@ class ControllerBlocksLatest extends AController {
 				}						
 			}
 			
-
 			$options = $products_info[$result['product_id']]['options'];
 
 			if ($options) {
@@ -83,9 +82,24 @@ class ControllerBlocksLatest extends AController {
                 }
 			}
 
+			//check for stock status, availability and config
+			$track_stock = false;
+			$in_stock = false;
+			$no_stock_text = $result['stock'];
+			$total_quantity = 0;
+			if ( $this->model_catalog_product->isStockTrackable($result['product_id']) ) {
+				$track_stock = true;
+    			$total_quantity = $this->model_catalog_product->hasAnyStock($result['product_id']);
+    			//we have stock or out of stock checkout is allowed
+    			if ($total_quantity > 0 || $this->config->get('config_stock_checkout')) {
+	    			$in_stock = true;
+    			}
+			}
+
 			$this->data['products'][] = array(
 				'product_id'    => $result['product_id'],
 				'name'    		=> $result['name'],
+				'blurb' => $result['blurb'],
 				'model'   		=> $result['model'],
 				'rating'  		=> $rating,
 				'stars'   		=> sprintf($this->language->get('text_stars'), $rating),
@@ -95,7 +109,11 @@ class ControllerBlocksLatest extends AController {
 				'special' 		=> $special,
 				'thumb'   		=> $thumbnail,
 				'href'    		=> $this->html->getSEOURL('product/product','&product_id=' . $result['product_id'], '&encode'),
-				'add'    		=> $add
+				'add'    		=> $add,
+				'track_stock' 	=> $track_stock,
+				'in_stock'		=> $in_stock,
+				'no_stock_text' => $no_stock_text,
+				'total_quantity'=> $total_quantity			
 			);
 		}
 

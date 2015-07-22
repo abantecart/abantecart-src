@@ -1058,6 +1058,7 @@ class ControllerResponsesProductProduct extends AController{
 				'type'  => 'input',
 				'name'  => 'name',
 				'value' => $file_data['name'],
+				'required' => true,
 				'attr'  => ' maxlength="64" '
 		));
 		$this->data['form']['fields']['general']['mask'] = $form->getFieldHtml(array(

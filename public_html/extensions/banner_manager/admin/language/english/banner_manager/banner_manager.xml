@@ -20,14 +20,6 @@
 		<value><![CDATA[Banner Statistic]]></value>
 	</definition>
 	<definition>
-		<key>banner_manager_status</key>
-		<value><![CDATA[Status]]></value>
-	</definition>
-	<definition>
-		<key>banner_manager_sort_order</key>
-		<value><![CDATA[Sort Order]]></value>
-	</definition>
-	<definition>
 		<key>column_banner_id</key>
 		<value><![CDATA[ Id ]]></value>
 	</definition>
@@ -78,6 +70,10 @@
 	<definition>
 		<key>entry_banner_name</key>
 		<value><![CDATA[ Name: ]]></value>
+	</definition>
+	<definition>
+		<key>entry_banner_status</key>
+		<value><![CDATA[ Status: ]]></value>
 	</definition>
 	<definition>
 		<key>entry_banner_group_name</key>

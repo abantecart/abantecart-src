@@ -348,6 +348,17 @@ jQuery(document).ready(function() {
     	}
 	});
 
+	//check if ads bloking is enabled in user browser
+	var div = $('<div>').attr('class', 'afs_ads').text('&nbsp;');
+	var add = $('body').prepend(div);       
+    setTimeout(function(){
+        if(!$(".afs_ads").is(':visible')) {
+            warning_alert('Ads block is enabled in your browser. Some AbanteCart administration features might not function as they will be blocked. Disable ads blocking in your browser.');
+        } else {
+        	$(".afs_ads").remove();
+        }
+    }, 500);
+
 });
 
 //-----------------------------------------------
@@ -570,6 +581,7 @@ $(document).ajaxError(function (e, jqXHR, settings, exception) {
         }
     }
 
+    try { resetLockBtn(); } catch (e){}
 });
 
 

@@ -421,7 +421,20 @@ class ControllerPagesSaleOrder extends AController{
 			foreach($options as $option){
 				//generate link to download uploaded files
 				if($option['element_type'] == 'U'){
-					$option['value'] = '<a href="' . $this->html->getSecureURL('tool/files/download', '&filename=' . urlencode($option['value']) . '&attribute_id=' . (int)$option['attribute_id']) . '&attribute_type=product_option" title=" to download file" target="_blank">' . $option['value'] . '</a>';
+					$file_settings = unserialize($option['settings']);
+					$filename = $option['value'];
+					if (has_value($file_settings['directory'])) {
+						$file = DIR_APP_SECTION . 'system/uploads/' . $file_settings['directory'] . '/' . $filename;
+					} else {
+						$file = DIR_APP_SECTION . 'system/uploads/' . $filename;
+					}
+
+					if(is_file($file)){
+						$option['value'] = '<a href="' . $this->html->getSecureURL('tool/files/download', '&filename=' . urlencode($filename) . '&attribute_id=' . (int)$option['attribute_id']) . '&attribute_type=product_option" title=" to download file" target="_blank">' . $option['value'] . '</a>';
+					}else{
+						$option['value'] = '<span title="file '.$file.' is unavailable">' . $option['value'] . '</span>';
+					}
+
 				}elseif($option['element_type']=='C' && $option['value']==1){
 					$option['value'] = '';
 				}
@@ -1414,11 +1427,11 @@ class ControllerPagesSaleOrder extends AController{
 		$this->extensions->hk_UpdateData($this, __FUNCTION__);
 	}
 
-
-	/*
-		Resopnse controller to resulculate an order in admin 
-		IMPORTANT: To prevent conflict of models, call indipendantly
-	*/
+	/**
+	 * Response controller to recalculate an order in admin
+	 * IMPORTANT: To prevent conflict of models, call indipendantly
+	 * @void
+ 	*/
 	public function recalc() {
   
  		$this->extensions->hk_InitData($this, __FUNCTION__);
@@ -1426,7 +1439,7 @@ class ControllerPagesSaleOrder extends AController{
    		$order_id = $this->request->get['order_id'];
    		$skip_recalc = array();
    		$new_totals = array();   		
-   		$log_msg = '';
+   		//$log_msg = '';
 
 		if (!$this->user->canModify('sale/order')) {
 			$this->session->data['error'] = $this->language->get('error_permission'); 
@@ -1446,12 +1459,15 @@ class ControllerPagesSaleOrder extends AController{
 		}
 
    		//do we need to add new total record?
+		/**
+		 * @var $adm_order_mdl ModelSaleOrder
+		 */
 	  	$adm_order_mdl = $this->load->model('sale/order');
 		if($this->request->post['key'] && $order_id) {
 			$new_total = $this->request->post;
 	  		$order_total_id = $adm_order_mdl->addOrderTotal($order_id, $new_total);
 			$skip_recalc[] = $order_total_id;
-			$log_msg .= "Added  ". $new_total['key']."/".$new_total['title'].": ".$new_total['text']."\n";
+			//$log_msg .= "Added  ". $new_total['key']."/".$new_total['title'].": ".$new_total['text']."\n";
 		}
   				
 		$order = new AOrderManager( $order_id );
@@ -1475,8 +1491,11 @@ class ControllerPagesSaleOrder extends AController{
 
    		$order_id = $this->request->get['order_id'];
    		$order_total_id = $this->request->get['order_total_id'];
-   		$log_msg = '';
+   		//$log_msg = '';
 		if(has_value($order_id) && has_value($order_total_id)){
+			/**
+			 * @var $adm_order_mdl ModelSaleOrder
+			 */
 	  		$adm_order_mdl = $this->load->model('sale/order');
 	  		$original_totals = $adm_order_mdl->getOrderTotals($order_id);
 	  		$tobe_deleted = array();
@@ -1490,7 +1509,7 @@ class ControllerPagesSaleOrder extends AController{
 				$this->session->data['error'] = "Error deleting total!";			
 			} else {
 		  		$adm_order_mdl->deleteOrderTotal($order_id, $order_total_id);	
-		  		$log_msg .= "Deleted  ". $tobe_deleted['key']."/".$tobe_deleted['title'].": ".$tobe_deleted['text']."\n";	
+		  		//$log_msg .= "Deleted  ". $tobe_deleted['key']."/".$tobe_deleted['title'].": ".$tobe_deleted['text']."\n";
 		  		//recalc order total
 		  		$order = new AOrderManager( $order_id );
 				$t_ret = $order->recalcTotals();

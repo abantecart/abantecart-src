@@ -31,7 +31,7 @@
 
 ?>
 
-				<li class="">
+				<li class="col-xs-12">
 					<?php if ($item[ 'resource_code' ]) {
 						echo $item[ 'resource_code' ];
 					} else {?>
@@ -43,10 +43,10 @@
 					<?php if($item['price']){?>
 						   <span class="price">
 							<?php  if ($item['special']) { ?>
-								   <div class="pricenew"><?php echo $item['special']?></div>
-								   <div class="priceold"><?php echo $item['price']?></div>
+								   <span class="pricenew"><?php echo $item['special']?></span>
+								   <span class="priceold"><?php echo $item['price']?></span>
 							<?php } else { ?>
-								   <div class="oneprice"><?php echo $item['price']?></div>
+								   <span class="oneprice"><?php echo $item['price']?></span>
 							<?php } ?>
 						   </span>
 					<?php }

@@ -129,7 +129,7 @@ class AMenu {
 	/**
 	 * Method return menu item properties by RT or URL
 	 *
-	 * @param string $tr
+	 * @param $rt string
 	 * @return boolean|array
 	 */
 	public function getMenuByRT($rt) {

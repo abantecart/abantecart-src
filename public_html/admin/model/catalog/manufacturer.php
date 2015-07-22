@@ -22,6 +22,10 @@ if (! defined ( 'DIR_CORE' ) || !IS_ADMIN) {
 }
 /** @noinspection PhpUndefinedClassInspection */
 class ModelCatalogManufacturer extends Model {
+	/**
+	 * @param array $data
+	 * @return int
+	 */
 	public function addManufacturer($data) {
       	$this->db->query("INSERT INTO " . $this->db->table("manufacturers") . " SET name = '" . $this->db->escape($data['name']) . "', sort_order = '" . (int)$data['sort_order'] . "'");
 		
@@ -59,7 +63,11 @@ class ModelCatalogManufacturer extends Model {
 
 		return $manufacturer_id;
 	}
-	
+
+	/**
+	 * @param int $manufacturer_id
+	 * @param array $data
+	 */
 	public function editManufacturer($manufacturer_id, $data) {
 
 		$fields = array('name', 'sort_order');
@@ -93,7 +101,10 @@ class ModelCatalogManufacturer extends Model {
 		
 		$this->cache->delete('manufacturer');
 	}
-	
+
+	/**
+	 * @param int $manufacturer_id
+	 */
 	public function deleteManufacturer($manufacturer_id) {
 		$this->db->query("DELETE FROM " . $this->db->table("manufacturers") . " WHERE manufacturer_id = '" . (int)$manufacturer_id . "'");
 		$this->db->query("DELETE FROM " . $this->db->table("manufacturers_to_stores") . " WHERE manufacturer_id = '" . (int)$manufacturer_id . "'");
@@ -102,8 +113,12 @@ class ModelCatalogManufacturer extends Model {
 		$lm = new ALayoutManager();
 		$lm->deletePageLayout('pages/product/manufacturer','manufacturer_id',(int)$manufacturer_id);
 		$this->cache->delete('manufacturer');
-	}	
-	
+	}
+
+	/**
+	 * @param int $manufacturer_id
+	 * @return array
+	 */
 	public function getManufacturer($manufacturer_id) {
 		$query = $this->db->query("SELECT DISTINCT *, ( SELECT keyword
 														FROM " . $this->db->table("url_aliases") . " 
@@ -114,7 +129,12 @@ class ModelCatalogManufacturer extends Model {
 		
 		return $query->row;
 	}
-	
+
+	/**
+	 * @param array $data
+	 * @param string $mode
+	 * @return array|int
+	 */
 	public function getManufacturers($data = array(), $mode = 'default') {
 		if ($data) {
 
@@ -191,18 +211,43 @@ class ModelCatalogManufacturer extends Model {
 		}
 	}
 
+	/**
+	 * @param int $manufacturer_id
+	 * @return array
+	 */
 	public function getManufacturerStores($manufacturer_id) {
 		$manufacturer_store_data = array();
-		
-		$query = $this->db->query("SELECT * FROM " . $this->db->table("manufacturers_to_stores") . " WHERE manufacturer_id = '" . (int)$manufacturer_id . "'");
-
-		foreach ($query->rows as $result) {
+		$rows = $this->getManufacturerStoresInfo($manufacturer_id);
+		foreach ($rows as $result) {
 			$manufacturer_store_data[] = $result['store_id'];
 		}
-		
 		return $manufacturer_store_data;
 	}
 
+	/**
+	 * @param int $manufacturer_id
+	 * @return array
+	 */
+	public function getManufacturerStoresInfo($manufacturer_id) {
+
+		$query = $this->db->query("SELECT m2s.*,
+										s.name as store_name,
+										ss.`value` as store_url,
+										sss.`value` as store_ssl_url
+									FROM " . $this->db->table("manufacturers_to_stores") . " m2s
+									LEFT JOIN " . $this->db->table("stores") . " s ON s.store_id = m2s.store_id
+									LEFT JOIN " . $this->db->table("settings") . " ss
+										ON (ss.store_id = m2s.store_id AND ss.`key`='config_url')
+									LEFT JOIN " . $this->db->table("settings") . " sss
+										ON (sss.store_id = m2s.store_id AND sss.`key`='config_ssl_url')
+									WHERE m2s.manufacturer_id = '" . (int)$manufacturer_id . "'");
+		return $query->rows;
+	}
+
+	/**
+	 * @param array $data
+	 * @return mixed|null
+	 */
 	public function getTotalManufacturers($data = array()) {
 		return $this->getManufacturers($data, 'total_only');
 	}	

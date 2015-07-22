@@ -13,10 +13,6 @@
 		<value><![CDATA[Success: You have modified shipping FEDEX!]]></value>
 	</definition>
 	<definition>
-		<key>default_fedex_status</key>
-		<value><![CDATA[Status]]></value>
-	</definition>
-	<definition>
 		<key>default_fedex_key</key>
 		<value>
 			<![CDATA[Fedex Production Key:<br /><span class="help">Enter the Fedex Production Key Assigned to You, Required. </span>]]></value>
@@ -97,10 +93,6 @@
 		<value><![CDATA[ FEDEX Ground  ]]></value>
 	</definition>
 	<definition>
-		<key>default_fedex_sort_order</key>
-		<value><![CDATA[Sort Order:]]></value>
-	</definition>
-	<definition>
 		<key>default_fedex_autoselect</key>
 		<value>
 			<![CDATA[Auto Select:<br /><span class="help">You can set to skip shipping selection page if there is only one shipping option. This shipping method will be selected automatically</span>]]></value>
@@ -150,4 +142,21 @@
 		<key>default_fedex_test_0</key>
 		<value><![CDATA[ No ]]></value>
 	</definition>
+	<definition>
+		<key>text_test_connection</key>
+		<value><![CDATA[Test Your Connection:<span class="help">You can test if API credentials that you've entered are correct.</span>]]></value>
+	</definition>
+	<definition>
+		<key>text_test</key>
+		<value><![CDATA[Test]]></value>
+	</definition>
+	<definition>
+		<key>text_connection_success</key>
+		<value><![CDATA[Connection is successful and API Credentials are configured correctly.]]></value>
+	</definition>
+	<definition>
+		<key>error_turn_extension_on</key>
+		<value><![CDATA[Error! Please check if extension is turned ON.]]></value>
+	</definition>
+
 </definitions>

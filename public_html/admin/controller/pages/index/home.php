@@ -20,11 +20,13 @@
 if (! defined ( 'DIR_CORE' ) || !IS_ADMIN) {
 	header ( 'Location: static_pages/' );
 }
+
+
 class ControllerPagesIndexHome extends AController {
 	public function main() {
 
-        //init controller data
-        $this->extensions->hk_InitData($this,__FUNCTION__);
+		//init controller data
+		$this->extensions->hk_InitData($this,__FUNCTION__);
 
 		$this->loadLanguage('common/header');
 		$this->loadLanguage('common/home');
@@ -33,12 +35,12 @@ class ControllerPagesIndexHome extends AController {
 		
 		$this->document->resetBreadcrumbs();
 
-   		$this->document->addBreadcrumb( array ( 
-       		'href'      => $this->html->getSecureURL('index/home'),
-       		'text'      => $this->language->get('text_home'),
-      		'separator' => FALSE,
-      		'current' => true,
-   		 ));
+		$this->document->addBreadcrumb( array (
+			'href'      => $this->html->getSecureURL('index/home'),
+			'text'      => $this->language->get('text_home'),
+			'separator' => FALSE,
+			'current' => true,
+		 ));
 		
 		$this->view->assign('token', $this->session->data['token']);
 		
@@ -62,66 +64,66 @@ class ControllerPagesIndexHome extends AController {
 		$this->view->assign('shortcut_heading', $this->language->get('text_dashboard'));
 		
 		$this->view->assign('shortcut', array(
-            array(
-                'href' => $this->html->getSecureURL('catalog/category'),
-                'text' => $this->language->get('text_category'),
+			array(
+				'href' => $this->html->getSecureURL('catalog/category'),
+				'text' => $this->language->get('text_category'),
 				'icon' => 'categories_icon.png',
-            ),
+			),
 			array(
-                'href' => $this->html->getSecureURL('catalog/product'),
-                'text' => $this->language->get('text_product'),
+				'href' => $this->html->getSecureURL('catalog/product'),
+				'text' => $this->language->get('text_product'),
 				'icon' => 'products_icon.png',
-            ),
+			),
 			array(
-                'href' => $this->html->getSecureURL('catalog/manufacturer'),
-                'text' => $this->language->get('text_manufacturer'),
+				'href' => $this->html->getSecureURL('catalog/manufacturer'),
+				'text' => $this->language->get('text_manufacturer'),
 				'icon' => 'brands_icon.png',
-            ),
+			),
 			array(
-                'href' => $this->html->getSecureURL('catalog/review'),
-                'text' => $this->language->get('text_review'),
+				'href' => $this->html->getSecureURL('catalog/review'),
+				'text' => $this->language->get('text_review'),
 				'icon' => 'icon_manage3.png',
-            ),
+			),
 			array(
-                'href' => $this->html->getSecureURL('sale/customer'),
-                'text' => $this->language->get('text_customer'),
+				'href' => $this->html->getSecureURL('sale/customer'),
+				'text' => $this->language->get('text_customer'),
 				'icon' => 'customers_icon.png',
-            ),
+			),
 			array(
-                'href' => $this->html->getSecureURL('sale/order'),
-                'text' => $this->language->get('text_order_short'),
+				'href' => $this->html->getSecureURL('sale/order'),
+				'text' => $this->language->get('text_order_short'),
 				'icon' => 'orders_icon.png',
-            ),
+			),
 			array(
-                'href' => $this->html->getSecureURL('extension/extensions/extensions'),
-                'text' => $this->language->get('text_extensions_short'),
+				'href' => $this->html->getSecureURL('extension/extensions/extensions'),
+				'text' => $this->language->get('text_extensions_short'),
 				'icon' => 'extensions_icon.png',
-            ),
+			),
 			array(
-                'href' => $this->html->getSecureURL('localisation/language'),
-                'text' => $this->language->get('text_language'),
+				'href' => $this->html->getSecureURL('localisation/language'),
+				'text' => $this->language->get('text_language'),
 				'icon' => 'languages_icon.png',
-            ),
+			),
 			array(
-                'href' => $this->html->getSecureURL('design/content'),
-                'text' => $this->language->get('text_content'),
+				'href' => $this->html->getSecureURL('design/content'),
+				'text' => $this->language->get('text_content'),
 				'icon' => 'content_manager_icon.png',
-            ),
+			),
 			array(
-                'href' => $this->html->getSecureURL('setting/setting'),
-                'text' => $this->language->get('text_setting'),
+				'href' => $this->html->getSecureURL('setting/setting'),
+				'text' => $this->language->get('text_setting'),
 				'icon' => 'settings_icon.png',
-            ),
+			),
 			array(
-                'href' => $this->html->getSecureURL('tool/message_manager'),
-                'text' => $this->language->get('text_messages'),
+				'href' => $this->html->getSecureURL('tool/message_manager'),
+				'text' => $this->language->get('text_messages'),
 				'icon' => 'icon_messages.png',
-            ),
+			),
 			array(
-                'href' => $this->html->getSecureURL('design/layout'),
-                'text' => $this->language->get('text_layout'),
+				'href' => $this->html->getSecureURL('design/layout'),
+				'text' => $this->language->get('text_layout'),
 				'icon' => 'icon_layouts.png',
-            )
+			)
 		));
 
 		//10 new orders and customers
@@ -154,8 +156,8 @@ class ControllerPagesIndexHome extends AController {
 		$this->view->assign('orders_text', $this->language->get('text_order'));
 		
 		$results = $this->model_sale_order->getOrders($filter);
-    	
-    	foreach ($results as $result) {
+
+		foreach ($results as $result) {
 			$action = array();
 			$action[] = array(
 				'text' => $this->language->get('text_edit'),
@@ -171,7 +173,7 @@ class ControllerPagesIndexHome extends AController {
 				'action'     => $action
 			);
 		}
-        $this->view->assign('orders', $orders );
+		$this->view->assign('orders', $orders );
 
 		if ($this->config->get('config_currency_auto')) {
 			$this->loadModel('localisation/currency');
@@ -180,11 +182,33 @@ class ControllerPagesIndexHome extends AController {
 		}
 		
 		$this->view->assign('chart_url', $this->html->getSecureURL('index/chart') );
+
+		//check at least one enabled payment extension
+		$no_payment_installed = true;
+		$ext_list = $this->extensions->getInstalled('payment');
+		foreach($ext_list as $ext_txt_id){
+			if( $this->config->get($ext_txt_id.'_status')){
+				$no_payment_installed = false;
+				break;
+			}
+		}
+
+		if($no_payment_installed){
+			$this->view->assign('no_payment_installed', $no_payment_installed);
+			$this->loadLanguage('common/tips');
+			$tip_content = $this->html->convertLinks($this->language->get('no_enabled_payments_tip'));
+
+			// TODO: Do request for top5 payment extensions to MP API
+			//$this->loadModel('tool/mp_api');
+			//$api_response_html = $this->model_tool_mp_api->processRequest(array());
+			$tip_content = sprintf($tip_content, $api_response_html);
+			$this->view->assign('tip_content', $tip_content);
+		}
 		
 		$this->processTemplate('pages/index/home.tpl' );
 
-        //update controller data
-        $this->extensions->hk_UpdateData($this,__FUNCTION__);
-  	}
+		//update controller data
+		$this->extensions->hk_UpdateData($this,__FUNCTION__);
+	}
 
 }

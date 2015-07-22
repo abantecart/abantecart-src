@@ -93,7 +93,7 @@ echo $tabs;
 				continue;
 			}
 
-			if (is_integer($field['note'])) {
+			if (is_integer($field['note']) || $field['value']->type == 'hidden' ) {
 				echo $field['value'];
 				continue;
 			}

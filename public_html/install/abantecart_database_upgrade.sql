@@ -1,14 +1,7 @@
-ALTER TABLE `ac_product_options`
-  ADD `settings` text COLLATE utf8_general_ci;
+ALTER TABLE `ac_product_descriptions`
+ADD COLUMN `blurb` TEXT COLLATE utf8_general_ci  NOT NULL COMMENT 'translatable';
 
-ALTER TABLE `ac_order_options`
-  ADD `settings` text COLLATE utf8_general_ci;
-  
-ALTER TABLE `ac_orders`
-  ADD `shipping_method_key` varchar(128) NOT NULL DEFAULT '';
+INSERT INTO `ac_settings` (`group`, `key`, `value`) VALUES
+('general','config_embed_status',1),
+('general','config_embed_click_action', 'modal');
 
-ALTER TABLE `ac_orders`
-  ADD `payment_method_key` varchar(128) NOT NULL DEFAULT '';
-
-ALTER TABLE `ac_order_totals`
-  ADD `key` varchar(128) NOT NULL DEFAULT '';

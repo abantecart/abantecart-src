@@ -456,12 +456,12 @@
 	<definition>
 		<key>entry_seo_url</key>
 		<value>
-			<![CDATA[Use SEO URL's:<br /><span class="help">To use SEO URL's apache module mod-rewrite must be installed and you need to rename the htaccess.txt to .htaccess.</span>]]></value>
+			<![CDATA[Use SEO URL's:<br /><span class="help">To use SEO URL's apache module mod-rewrite must be installed and you need to rename the htaccess.txt to .htaccess. Note: If abantecart not installed in the root of domain must be changed rewriteBase rule inside .htaccess file.</span>]]></value>
 	</definition>
 	<definition>
 		<key>entry_retina_enable</key>
 		<value>
-			<![CDATA[Generate high-res (retina) images:<br /><span class="help">To use this apache module mod-rewrite must be installed and you need to rename the htaccess.txt to .htaccess.<br>After enabling should clear the cache images</span>]]></value>
+			<![CDATA[Generate high-res (retina) images:<br /><span class="help">To use this apache module mod-rewrite must be installed and you need to rename the htaccess.txt to .htaccess. Note: If abantecart not installed in the root of domain must be changed rewriteBase rule inside .htaccess file. <br>After enabling should clear the cache images. </span>]]></value>
 	</definition>
 	<definition>
 		<key>entry_compression</key>
@@ -835,5 +835,25 @@
 	<definition>
 		<key>text_clone_template</key>
 		<value><![CDATA[Clone Template With AbanteCart Developer Tools]]></value>
+	</definition>
+	<definition>
+		<key>entry_embed_status</key>
+		<value><![CDATA[Enable Storefront Embed:]]></value>
+	</definition>
+	<definition>
+		<key>entry_embed_click_action</key>
+		<value><![CDATA[Embed Click Action:]]></value>
+	</definition>
+	<definition>
+		<key>text_embed_click_action_modal</key>
+		<value><![CDATA[Same page Modal Dialog]]></value>
+	</definition>
+	<definition>
+		<key>text_embed_click_action_new_window</key>
+		<value><![CDATA[Open new page in new tab]]></value>
+	</definition>
+	<definition>
+		<key>text_embed_click_action_same_window</key>
+		<value><![CDATA[Open new page in same window]]></value>
 	</definition>
 </definitions>

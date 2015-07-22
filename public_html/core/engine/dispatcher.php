@@ -70,7 +70,7 @@ final class ADispatcher {
 		}
 
 		ADebug::checkpoint('ADispatch: '.$rt.' construct start');
-        // We always get full RT (route) to dispatcher. Needs to have pages/ or responces/
+        // We always get full RT (route) to dispatcher. Needs to have pages/ or responses/
 		if ( !$this->_process_path($rt) ){
 			$warning_txt = 'ADispatch: '.$rt.' construct FAILED. Missing or incorrect controller route path. Possibly layout block is enabled for disabled or missing extension! ';
 		    	$warning = new AWarning( $warning_txt );

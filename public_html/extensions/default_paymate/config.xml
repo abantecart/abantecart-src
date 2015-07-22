@@ -42,6 +42,10 @@
 				</fields>
 			</variants>
         </item>
+		<item id="default_paymate_redirect_payment">
+			<type>hidden</type>
+			<default_value>true</default_value>
+		</item>
     </settings>
     <install>
 	    <sql></sql>

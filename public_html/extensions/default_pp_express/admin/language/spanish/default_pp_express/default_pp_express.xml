@@ -5,10 +5,6 @@
 		<value><![CDATA[PayPal Salida Exprés]]></value>
 	</definition>
 	<definition>
-		<key>default_pp_express_status</key>
-		<value><![CDATA[Estado]]></value>
-	</definition>
-	<definition>
 		<key>text_success</key>
 		<value><![CDATA[Exito: Se ha modificado datos de la cuenta de PayPal!]]></value>
 	</definition>
@@ -67,10 +63,6 @@
 	<definition>
 		<key>default_pp_express_location_id_0</key>
 		<value><![CDATA[Todas las localizaciones]]></value>
-	</definition>
-	<definition>
-		<key>default_pp_express_sort_order</key>
-		<value><![CDATA[Orden: <br /> <span class="help"> número para indicar la posición de visualización de este pago en relación con más de pagos habilitados</span>]]></value>
 	</definition>
 	<definition>
 		<key>default_pp_express_autoselect</key>

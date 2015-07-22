@@ -60,6 +60,12 @@ var mediaDialog = function (type, action, id) {
 	if (id) {
 		src += '&resource_id=' + id;
 	}
+	if(modalscope.wrapper_id!=undefined && modalscope.wrapper_id!=null){
+		src += '&wrapper_id='+modalscope.wrapper_id;
+	}
+	if(modalscope.field_id!=undefined && modalscope.field_id!=null){
+		src += '&field_id='+modalscope.field_id;
+	}
 	reloadModal(src);
 };
 
@@ -207,9 +213,9 @@ var loadSingle = function (type, wrapper_id, resource_id, field) {
 		modalscope.wrapper_id = wrapper_id;
 	}
 	if (!field || field == undefined || field == null || field == '') {
-		field = modalscope.field;
+		field = modalscope.field_id;
 	} else {
-		modalscope.field = field;
+		modalscope.field_id = field;
 	}
 
 	$.ajax({
@@ -281,11 +287,11 @@ jQuery(function () {
 		modalscope.mode = $(this).attr('data-mode') ? $(this).attr('data-mode') : ''; //set here mode based on link attribute (in case when we have a few RL single elements in the form)
 
 		if(modalscope.mode=='single'){
-			if( $(this).attr('data-wrapper_id') ){
+			if( $(this).attr('data-wrapper_id')){
 				modalscope.wrapper_id = $(this).attr('data-wrapper_id');
 			}
 			if( $(this).attr('data-field') ){
-				modalscope.field = $(this).attr('data-field');
+				modalscope.field_id = $(this).attr('data-field');
 			}
 		}
 
@@ -298,11 +304,11 @@ jQuery(function () {
 		modalscope.mode = $(this).attr('data-mode') ? $(this).attr('data-mode') : ''; //set here mode based on link attribute (in case when we have a few RL single elements in the form)
 
 		if(modalscope.mode=='single'){
-			if( $(this).attr('data-wrapper_id') ){
+			if( $(this).attr('data-wrapper_id')!=undefined ){
 				modalscope.wrapper_id = $(this).attr('data-wrapper_id');
 			}
 			if( $(this).attr('data-field') ){
-				modalscope.field = $(this).attr('data-field');
+				modalscope.field_id = $(this).attr('data-field');
 			}
 		}
 
@@ -494,7 +500,7 @@ var bind_rl = function (elm) {
 	$obj.find('.rl_select').click(function () {
 		if (modalscope.mode == 'single') {
 			var rl_id = $(this).attr('data-rl-id');
-			loadSingle($('#library').attr('data-type'), null, rl_id);
+			loadSingle($('#library').attr('data-type'), modalscope.wrapper_id, rl_id);
 			$('#rl_modal').modal('hide');
 			modalscope.mode = '';
 			modalscope.wrapper_id = '';
@@ -587,6 +593,9 @@ var bind_rl = function (elm) {
 		var type = $('#type').val();
 		if (type == undefined) {
 			type = $('#rl_types').val();
+		}
+		if (type == undefined) {
+			type = $('#library').attr('data-type');;
 		}
 		var src = urls.resource_library + '&type=' + type;
 		var rid = $('#RlFrm_resource_id').val();
@@ -889,7 +898,7 @@ jQuery(function () {
 		var e = 0;
 		//set type of resource for upload etc
 		var rl_type = $('#resource_types_tabs li.active').attr('data-type');
-		if(!rl_type){
+		if(rl_type==undefined){
 			rl_type = $('#library').attr('data-type');
 		}
 		if(!rl_type){
@@ -923,7 +932,7 @@ jQuery(function () {
 				mediaDialog(rl_type, 'list_object');
 			} else {
 				if( modalscope.mode=='single'){
-					loadSingle(rl_type, modalscope.wrapper_id, response.resource_id, modalscope.field);
+					loadSingle(rl_type, modalscope.wrapper_id, response.resource_id, modalscope.field_id);
 				}
 				mediaDialog(rl_type, 'update', response.resource_id);
 			}
@@ -971,12 +980,12 @@ jQuery(function () {
 		var files = e.originalEvent.dataTransfer.files;
 		var btn = o.find('a.btn');
 		//check if modal is open and we have details 
-		if (!modalscope.mode || !modalscope.wrapper_id) {
+		if (!modalscope.mode ) {
 			//enable single mode based on attribute
 			modalscope.mode = btn.attr('data-mode') ? btn.attr('data-mode') : modalscope.mode;
 		}
 		modalscope.wrapper_id = btn.attr('data-wrapper_id');
-		modalscope.field = btn.attr('data-field');
+		modalscope.field_id = btn.attr('data-field');
 
 		//if replacement of file - take only first dragged file
 		if ($('div.fileupload_drag_area').attr('data-upload-type') == 'single') {

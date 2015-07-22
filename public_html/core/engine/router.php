@@ -162,6 +162,7 @@ final class ARouter {
 			$resp_controller = new ATypeResponse($this->registry);	
 			if (!defined('IS_ADMIN') || !IS_ADMIN ) {	
 				//Load required controller for storefront
+				$resp_controller->addPreDispatch('common/maintenance/response');	
 			} else {
 				//Load required controller for admin
 				$resp_controller->addPreDispatch('responses/common/access/login');

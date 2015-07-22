@@ -44,16 +44,23 @@
 						<?php } ?>
 						<?php echo $product['buttons'] ?>
 					</div>
+					<div class="blurb"><?php echo $product['blurb'] ?></div>
 					<?php if ($display_price) { ?>
 						<div class="pricetag jumbotron">
 							<span class="spiral"></span>
-							<?php if(!$product['call_to_order']){ ?>
-							<a data-id="<?php echo $product['product_id'] ?>" href="<?php echo $item['buy_url'] ?>" class="productcart"><?php echo $button_add_to_cart ?></a>
-							<?php }else{ ?>
+							<?php if($product['call_to_order']){ ?>
 							<a data-id="<?php echo $product['product_id'] ?>" href="#"
-							   class="btn call_to_order"><?php echo $text_call_to_order?>&nbsp;&nbsp;<i class="fa fa-phone"></i></a>
+								class="btn call_to_order"><?php echo $text_call_to_order?>&nbsp;&nbsp;
+								<i class="fa fa-phone"></i>
+							</a>
+							<?php } else if ($product['track_stock'] && !$product['in_stock']) { ?>
+								<span class="nostock"><?php echo $product['no_stock_text']; ?></span>
+							<?php } else { ?>
+							<a data-id="<?php echo $product['product_id'] ?>"
+								href="<?php echo $item['buy_url'] ?>"
+							   class="productcart"><?php echo $button_add_to_cart ?>
+							</a>
 							<?php } ?>
-
 							<div class="price">
 								<?php if ($product['special']) { ?>
 									<div class="pricenew"><?php echo $product['special'] ?></div>

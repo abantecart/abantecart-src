@@ -308,6 +308,8 @@ final class AMessage {
 	}
 
 	/**
+	 * @param string $message_id
+	 * @param string $language_code
 	 * @return string
 	 */
 	public function markViewedANT($message_id, $language_code) {

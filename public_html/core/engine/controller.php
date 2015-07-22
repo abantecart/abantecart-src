@@ -107,6 +107,7 @@ abstract class AController {
 	protected $block_details = array();
 	public $dispatcher;
 	public $view;
+	protected $config;
 	protected $languages = array();
 
 	/**
@@ -125,6 +126,8 @@ abstract class AController {
 		//Instance of view for the controller
 		$this->view = new AView($this->registry, $instance_id);
 
+		$this->config = $this->registry->get('config');
+
 		if ($this->language) {
 			//initiate array of language references for current controller instance.
 			//add main language to languages references
@@ -140,6 +143,12 @@ abstract class AController {
 			//Load Children from layout if any. 'instance_id', 'contorller', 'block_text_id', 'template'
 			$this->block_details = $this->layout->getBlockDetails($this->instance_id);
 			$this->children = $this->layout->getChildren($this->instance_id);
+		}
+
+		//set embed mode if passed
+		if($this->request->get['embed_mode']){
+			$config = $this->registry->get('config');
+			$config->set('embed_mode', true);		
 		}
 	}
 
@@ -251,6 +260,21 @@ abstract class AController {
 	}
 
 	public function processTemplate($template = '') {
+		//is this an embed mode? Special templates needs to be loaded
+		if(is_object($this->registry->get('config')) &&  $this->registry->get('config')->get('embed_mode') == true ){
+		  	//get template if it was set earlier
+			if (empty($template)) {
+				$template = $this->view->getTemplate();
+			}
+			//only substitute the template for page templates
+			if(substr($template, 0, 6) == 'pages/' && substr($template, 0, 6) != 'embed/'){
+		    	//load special headers for embed as no page/layout needed
+	       		$this->addChild('responses/embed/head', 'head');
+	        	$this->addChild('responses/embed/footer', 'footer');
+	        	$template = preg_replace('/pages\//', 'embed/', $template);			
+			}
+		}
+	
 		if (!empty($template)) {
 			$this->view->setTemplate($template);
 		}

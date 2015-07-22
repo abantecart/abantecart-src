@@ -129,7 +129,7 @@ echo $form['form_open'];
 								</div>																			
 								
 								<div class="form-group">
-									<label class="checkbox col-sm-4"><?php echo $text_estimate_postcode; ?></label>
+									<label class="control-label col-sm-4"><?php echo $text_estimate_postcode; ?></label>
 						    		<div class="input-group col-sm-6">
 						    		<?php echo $form_estimate['postcode']; ?>
 						    		<span class="input-group-btn">

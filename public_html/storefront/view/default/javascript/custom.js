@@ -29,7 +29,7 @@ $('document').ready(function () {
         }
     );
 
-    process_thumbnails();
+	process_thumbnails();
 
     // Checkout steps
     $('.checkoutsteptitle').addClass('down').next('.checkoutstep').fadeIn()
@@ -206,7 +206,7 @@ $(window).load(function () {
 
 });
 
-function process_thumbnails() {
+var process_thumbnails = function () {
     // Product thumbnails
     $('.thumbnail').each(function () {
         $(this).hover(
@@ -217,16 +217,6 @@ function process_thumbnails() {
                 $(this).children('.shortlinks').fadeOut()
             });
     });
-
-    // Product Thumb
-    $('.mainimage li #wrap').hide()
-    $('.mainimage li #wrap').eq(0).fadeIn()
-    $('ul.mainimage li.producthtumb').click(function () {
-        var thumbindex = $(this).index()
-        $('.mainimage li #wrap').fadeOut(0)
-        $('.mainimage li #wrap').eq(thumbindex).fadeIn()
-        $('.cloud-zoom, .cloud-zoom-gallery').CloudZoom();
-    })
 
 }
 

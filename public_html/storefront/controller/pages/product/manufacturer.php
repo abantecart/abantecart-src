@@ -28,6 +28,14 @@ class ControllerPagesProductManufacturer extends AController {
         //init controller data
         $this->extensions->hk_InitData($this,__FUNCTION__);
 
+		if($this->config->get('embed_mode') == true){
+			$cart_rt = 'r/checkout/cart/embed';
+
+			//load special headers
+			$this->addChild('responses/embed/head', 'head');
+			$this->addChild('responses/embed/footer', 'footer');
+		}
+
 		$this->loadLanguage('product/manufacturer');
 
 		$this->loadModel('catalog/manufacturer');
@@ -89,16 +97,18 @@ class ControllerPagesProductManufacturer extends AController {
 				}
 
 				if (isset($this->request->get['sort'])) {
-					list($sort,$order) = explode("-",$this->request->get['sort']);
+					$sorting_href = $this->request->get['sort'];
+					list($sort, $order) = explode("-", $sorting_href);
 				} else {
-					list($sort,$order) = explode("-",$this->config->get('config_product_default_sort_order'));
+					$sorting_href = $this->config->get('config_product_default_sort_order');
+					list($sort, $order) = explode("-", $sorting_href);
 					if($sort=='name'){
 						$sort = 'pd.'.$sort;
 					}elseif(in_array($sort,array('sort_order','price'))){
 						$sort = 'p.'.$sort;
 					}
 				}
-				
+
 				$this->loadModel('catalog/review');
 				
                 $this->view->assign('button_add_to_cart', $this->language->get('button_add_to_cart') );
@@ -149,7 +159,7 @@ class ControllerPagesProductManufacturer extends AController {
                         if($this->config->get('config_cart_ajax')){
                             $add = '#';
                         }else{
-                            $add = $this->html->getSecureURL('checkout/cart', '&product_id=' . $result['product_id'], '&encode');
+	                        $add = $this->html->getSecureURL($cart_rt, '&product_id=' . $result['product_id'], '&encode');
                         }
 					}
 
@@ -170,6 +180,7 @@ class ControllerPagesProductManufacturer extends AController {
           			$products[] = array(
 						'product_id' => $result['product_id'],
             			'name'    => $result['name'],
+			            'blurb' => $result['blurb'],
 						'model'   => $result['model'],
 						'rating'  => $rating,
 						'stars'   => sprintf($this->language->get('text_stars'), $rating),            			
@@ -273,8 +284,8 @@ class ControllerPagesProductManufacturer extends AController {
 													 ) );
 				$this->view->assign( 'sorting', $sorting );
 				$this->view->assign( 'url', $this->html->getSEOURL('product/manufacturer','&manufacturer_id=' . $this->request->get['manufacturer_id']) );
-				
-				$pagination_url = $this->html->getSEOURL('product/manufacturer','&manufacturer_id=' . $this->request->get['manufacturer_id'] . '&sort=' . $this->request->get['sort'] . '&page={page}' . '&limit=' . $limit, '&encode');
+
+				$pagination_url = $this->html->getSEOURL('product/manufacturer', '&manufacturer_id=' . $this->request->get['manufacturer_id'] . '&sort=' . $sorting_href . '&page={page}' . '&limit=' . $limit, '&encode');
 
 				$this->view->assign('pagination_bootstrap', HtmlElementFactory::create( array (
 											'type' => 'Pagination',
@@ -352,4 +363,3 @@ class ControllerPagesProductManufacturer extends AController {
         $this->extensions->hk_UpdateData($this,__FUNCTION__);
   	}
 }
-?>

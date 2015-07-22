@@ -31,6 +31,11 @@
 		<div class="form-group <?php if (!empty($error[$name])) { echo "has-error"; } ?>">
 			<label class="control-label col-sm-3 col-xs-12" for="<?php echo $field->element_id; ?>"><?php echo ${'entry_' . $name}; ?></label>
 			<div class="input-group afield <?php echo $widthcasses; ?> <?php echo ($name == 'description' ? 'ml_ckeditor' : '')?>">
+				<?php if($name == 'keyword') { ?>
+				<span class="input-group-btn">
+					<?php echo $keyword_button; ?>
+				</span>
+				<?php }  ?>
 				<?php echo $field; ?>
 			</div>
 		    <?php if (!empty($error[$name])) { ?>

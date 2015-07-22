@@ -23,19 +23,18 @@ if (! defined ( 'DIR_CORE' ) || !IS_ADMIN) {
 class ControllerPagesIndexLogout extends AController {
 	public function main() {
 
-        //init controller data
-        $this->extensions->hk_InitData($this,__FUNCTION__);
+		//init controller data
+		$this->extensions->hk_InitData($this,__FUNCTION__);
 
 		$this->cache->delete('admin_menu');
 
-    	$this->user->logout();
+		$this->user->logout();
  
- 		unset($this->session->data['token']);
+		unset($this->session->data['token']);
 
-        //update controller data
-        $this->extensions->hk_UpdateData($this,__FUNCTION__);
+		//update controller data
+		$this->extensions->hk_UpdateData($this,__FUNCTION__);
 
 		$this->redirect($this->html->getSecureURL('index/login'));
-  	}
+	}
 }  
-?>

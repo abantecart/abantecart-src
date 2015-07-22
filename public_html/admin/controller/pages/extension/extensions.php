@@ -352,19 +352,19 @@ class ControllerPagesExtensionExtensions extends AController {
 			$data['value'] = $item['value'];
 			$data['required'] = (bool)$item['required'];
 
-			if($item[ 'note' ]){
-				$data[ 'note' ] = $item[ 'note' ];
+			if($item['note']){
+				$data['note'] = $item['note'];
 			} else {
-				$note_text = $this->language->get($data[ 'name' ]);
+				$note_text = $this->language->get($data['name']);
 				// if text definition not found - seek it in default settings definitions
-				if ($note_text == $data[ 'name' ]) {
-					$new_text_key = str_replace($extension . '_','text_',$data[ 'name' ]);
-					$note_text = $this->language->get($new_text_key);
+				if ($note_text == $data['name']) {
+					$new_text_key = str_replace($extension . '_','text_',$data['name']);
+					$note_text = $this->language->get($new_text_key, 'extension/extensions');
 					if ($note_text == $new_text_key) {
 						$note_text = $this->language->get($new_text_key.'_'.$this->data['extension_info']['type']);
 					}
 				}
-				$data[ 'note' ] = $note_text;
+				$data['note'] = $note_text;
 			}
 
 			if ($item['style']) {
@@ -401,7 +401,7 @@ class ControllerPagesExtensionExtensions extends AController {
 					}
 				    if($data['type']=='checkboxgroup' || $data['type']=='multiselectbox'){
 						#custom settings for multivalue
-						$data[ 'scrollbox' ] = 'true';
+						$data['scrollbox'] = 'true';
 						if(substr($item['name'],-2)!='[]'){
 							$data['name'] = $item['name']."[]";
 						}
@@ -486,7 +486,7 @@ class ControllerPagesExtensionExtensions extends AController {
 		$this->data['target_url'] = $this->html->getSecureURL('extension/extensions/edit', '&extension=' . $extension . '&store_id=' . $store_id);
 
 		//check if we restore settings to default values
-		if (isset($this->request->get['restore']) && $this->request->get['restore']) {
+		if (has_value($this->request->get['reload'])) {
 			$this->extension_manager->editSetting($extension, $ext->getDefaultSettings());
 			$this->cache->delete('settings.extension');
 			$this->session->data['success'] = $this->language->get('text_restore_success');
@@ -837,8 +837,8 @@ class ControllerPagesExtensionExtensions extends AController {
 		$this->extensions->hk_ValidateData($this);
 		return $this->error ? false : true;
 	}
+	
 	public function install() {
-
 		//init controller data
 		$this->extensions->hk_InitData($this, __FUNCTION__);
 

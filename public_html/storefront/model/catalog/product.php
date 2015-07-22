@@ -36,9 +36,11 @@ class ModelCatalogProduct extends Model {
 										pd.name AS name,
 										m.name AS manufacturer,
 										ss.name AS stock_status,
-										lcd.unit as length_class_name " .
+										lcd.unit as length_class_name, " .
+								$this->_sql_avg_rating_string().", ".
+								$this->_sql_final_price_string()." ".
 								$this->_sql_join_string() .
-								"LEFT JOIN " . $this->db->table("length_class_descriptions") . " lcd
+								" LEFT JOIN " . $this->db->table("length_class_descriptions") . " lcd
 									ON (p.length_class_id = lcd.length_class_id
 										AND lcd.language_id = '" . (int)$this->config->get('storefront_language_id') . "')
 								WHERE p.product_id = '" . (int)$product_id . "'
@@ -137,7 +139,8 @@ class ModelCatalogProduct extends Model {
 						p.product_id,
 						". $this->_sql_final_price_string() . ", 
 						pd.name AS name, 
-						m.name AS manufacturer, 
+						pd.blurb,
+						m.name AS manufacturer,
 						ss.name AS stock,
 						". $this->_sql_avg_rating_string() . ",
 						". $this->_sql_review_count_string() . "
@@ -211,7 +214,8 @@ class ModelCatalogProduct extends Model {
 		$sql = "SELECT *, p.product_id,
 						". $this->_sql_final_price_string() . ", 
 						pd.name AS name, 
-						m.name AS manufacturer, 
+						pd.blurb,
+						m.name AS manufacturer,
 						ss.name AS stock,
 						". $this->_sql_avg_rating_string() . ",
 						". $this->_sql_review_count_string() . "
@@ -370,7 +374,8 @@ class ModelCatalogProduct extends Model {
 							p.product_id,  
 							". $this->_sql_final_price_string() . ", 
 							pd.name AS name, 
-							m.name AS manufacturer, 
+							pd.blurb,
+							m.name AS manufacturer,
 							ss.name AS stock,
 							". $this->_sql_avg_rating_string() . ",
 							". $this->_sql_review_count_string() . "
@@ -600,6 +605,7 @@ class ModelCatalogProduct extends Model {
 					pd.name AS name,
 					m.name AS manufacturer,
 					ss.name AS stock,
+					pd.blurb,
 					". $this->_sql_avg_rating_string() . ",
 					". $this->_sql_review_count_string() . "
 					". $this->_sql_join_string() . "
@@ -651,11 +657,13 @@ class ModelCatalogProduct extends Model {
 	public function getFeaturedProducts($limit) {
 		$product_data = $this->cache->get('product.featured.' . $limit, $this->config->get('storefront_language_id'), (int)$this->config->get('config_store_id') );
 		if (is_null($product_data)) {
-			$sql = "SELECT *
+			$sql = "SELECT f.*, p.*, pd.*, ss.name AS stock
 					FROM " . $this->db->table("products_featured") . " f
 					LEFT JOIN " . $this->db->table("products") . " p ON (f.product_id = p.product_id)
 					LEFT JOIN " . $this->db->table("product_descriptions") . " pd ON (f.product_id = pd.product_id AND pd.language_id = '" . (int)$this->config->get('storefront_language_id') . "')
 					LEFT JOIN " . $this->db->table("products_to_stores") . " p2s ON (p.product_id = p2s.product_id)
+					LEFT JOIN " . $this->db->table("stock_statuses") . " ss ON (p.stock_status_id = ss.stock_status_id
+						AND ss.language_id = '" . (int)$this->config->get('storefront_language_id') . "') 
 					WHERE p2s.store_id = '" . (int)$this->config->get('config_store_id') . "'
 						AND p.status='1'
 						AND p.date_available <= NOW()
@@ -699,10 +707,13 @@ class ModelCatalogProduct extends Model {
 				}
 
 				if($products){
-					$sql = "SELECT *, p.product_id
+					$sql = "SELECT p.*, pd.*, p.product_id, ss.name AS stock
 							FROM " . $this->db->table("products") . " p
 							LEFT JOIN " . $this->db->table("product_descriptions") . " pd ON (p.product_id = pd.product_id AND pd.language_id = '" . (int)$this->config->get('storefront_language_id') . "')
 							LEFT JOIN " . $this->db->table("products_to_stores") . " p2s ON (p.product_id = p2s.product_id)
+							LEFT JOIN " . $this->db->table("stock_statuses") . " ss
+								ON (p.stock_status_id = ss.stock_status_id
+									AND ss.language_id = '" . (int)$this->config->get('storefront_language_id') . "') 
 							WHERE p.product_id IN (" . implode(', ',$products) . ")
 								AND p.status = '1' AND p.date_available <= NOW()
 								AND p2s.store_id = '" . (int)$this->config->get('config_store_id') . "'"; 
@@ -870,8 +881,8 @@ class ModelCatalogProduct extends Model {
 
 							// ignore option value with 0 quantity and disabled subtract
 							if( (!$product_option_value['subtract'])
-							  ||
-								($product_option_value['quantity'] && $product_option_value['subtract'])
+									|| (!$this->config->get('config_nostock_autodisable'))
+									|| ($product_option_value['quantity'] && $product_option_value['subtract'])
 							){
 							$product_option_value_data[$product_option_value['product_option_value_id']] = array(
                                 'product_option_value_id' => $product_option_value['product_option_value_id'],

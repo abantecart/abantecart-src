@@ -26,6 +26,15 @@ class ControllerPagesCheckoutCart extends AController {
 
 	public function main() {
 		$error_msg = array();
+
+		$cart_rt = 'checkout/cart';		
+		$product_rt = 'product/product';		
+		$checkout_rt = 'checkout/shipping';		
+		$home_rt = 'index/home';	
+		//is this an embed mode	
+		if($this->config->get('embed_mode') == true){
+			$cart_rt = 'r/checkout/cart/embed';
+		}
 		
         //init controller data
         $this->extensions->hk_InitData($this,__FUNCTION__);
@@ -52,13 +61,13 @@ class ControllerPagesCheckoutCart extends AController {
 
 			$this->cart->add($this->request->get['product_id'], $quantity, $option);
 
-			$this->redirect($this->html->getSecureURL('checkout/cart'));
+			$this->redirect($this->html->getSecureURL($cart_rt));
 
 		} else if ($this->request->is_GET() && isset($this->request->get['remove']) ) {
 		
 			//remove product with button claick.
           	$this->cart->remove($this->request->get['remove']);
-			$this->redirect($this->html->getSecureURL('checkout/cart'));
+			$this->redirect($this->html->getSecureURL($cart_rt));
 			          	
 		} else if ($this->request->is_POST()) {
 
@@ -151,7 +160,7 @@ class ControllerPagesCheckoutCart extends AController {
 						$this->session->data['error'] = $text_errors;
 						//send options values back via _GET
 						$url = '&'.http_build_query(array('option' => $this->request->post['option']));
-						$this->redirect($this->html->getSecureURL('product/product','&product_id='.$this->request->post['product_id'].$url));
+						$this->redirect($this->html->getSecureURL($product_rt,'&product_id='.$this->request->post['product_id'].$url));
 					}
 
       				$this->cart->add($this->request->post['product_id'], $this->request->post['quantity'], $options);
@@ -189,7 +198,7 @@ class ControllerPagesCheckoutCart extends AController {
 				unset($this->session->data['payment_methods']);
 				unset($this->session->data['payment_method']);	
 				
-				$this->redirect($this->html->getSecureURL('checkout/cart'));
+				$this->redirect($this->html->getSecureURL($cart_rt));
 			}
     	}
 
@@ -225,7 +234,7 @@ class ControllerPagesCheckoutCart extends AController {
             $this->data['form'][ 'form_open' ] = $form->getFieldHtml(
                                                                 array( 'type' => 'form',
                                                                        'name' => 'cart',
-                                                                       'action' => $this->html->getSecureURL('checkout/cart')));
+                                                                       'action' => $this->html->getSecureURL($cart_rt)));
 
 			$cart_products = $this->cart->getProducts();
 
@@ -256,7 +265,7 @@ class ControllerPagesCheckoutCart extends AController {
 			        'remove' => $form->getFieldHtml( array( 'type' => 'checkbox',
 				                                            'name' => 'remove['.$result['key'].']',
 			                                                )),
-			        'remove_url' => $this->html->getSecureURL('checkout/cart', '&remove='.$result['key']),                                        
+			        'remove_url' => $this->html->getSecureURL($cart_rt, '&remove='.$result['key']),                                        
           			'key'      => $result['key'],
           			'name'     => $result['name'],
           			'model'    => $result['model'],
@@ -271,7 +280,7 @@ class ControllerPagesCheckoutCart extends AController {
           			'stock'    => $result['stock'],
 					'price'    => $this->currency->format($this->tax->calculate($result['price'], $result['tax_class_id'], $this->config->get('config_tax'))),
 					'total'    => $this->currency->format($this->tax->calculate($result['total'], $result['tax_class_id'], $this->config->get('config_tax'))),
-					'href'     => $this->html->getSEOURL('product/product', '&key='.$result['key'],true)
+					'href'     => $this->html->getSEOURL($product_rt, '&key='.$result['key'],true)
         		);
       		}
             $this->data['products'] =  $products ;
@@ -300,7 +309,7 @@ class ControllerPagesCheckoutCart extends AController {
 				$this->data['continue'] = str_replace('&amp;','&',$this->session->data['redirect']);
 				unset($this->session->data['redirect']);
 			} else {
-                $this->data['continue'] = $this->html->getURL('index/home');
+                $this->data['continue'] = $this->html->getURL($home_rt);
 			}
 			$this->data['form'][ 'continue_shopping' ] = $form->getFieldHtml(
 				array(
@@ -312,8 +321,8 @@ class ControllerPagesCheckoutCart extends AController {
 				)
 			);
 			
-            $this->data['checkout'] = $this->html->getSecureURL('checkout/shipping');
-            $this->data['checkout_rt'] = 'checkout/shipping';
+            $this->data['checkout'] = $this->html->getSecureURL($checkout_rt);
+            $this->data['checkout_rt'] = $checkout_rt;
 
 			#Check if order total max/min is set and met
 			$cf_total_min = $this->config->get('total_order_minimum'); 
@@ -330,7 +339,7 @@ class ControllerPagesCheckoutCart extends AController {
 			//prepare coupon display
 			if($this->config->get('config_coupon_on_cart_page')){
 				$this->view->assign( 'coupon_status', $this->config->get('coupon_status') );
-				$action = $this->html->getSecureURL('checkout/cart');
+				$action = $this->html->getSecureURL($cart_rt);
 				$coupon_form = $this->dispatch('blocks/coupon_codes', array('action' => $action));
 				$this->view->assign('coupon_form', $coupon_form->dispatchGetOutput() );
 			}
@@ -341,7 +350,7 @@ class ControllerPagesCheckoutCart extends AController {
 				$this->data['form_estimate']['form_open'] = $form->getFieldHtml(
 														array(	'type' => 'form',
 																'name' => 'estimate',
-																'action' => $this->html->getSecureURL('checkout/cart')));
+																'action' => $this->html->getSecureURL($cart_rt)));
 				$this->data['estimates_enabled'] = true;
 			}
 			//try to get shipping address details if we have them
@@ -405,26 +414,27 @@ class ControllerPagesCheckoutCart extends AController {
 			$this->view->assign('error_warning', $error_msg );
 			$this->view->setTemplate( 'pages/checkout/cart.tpl' );
 
-    	} else {            
+	    } else{
             $this->data['heading_title'] = $this->language->get('heading_title');
             $this->data['text_error'] = $this->language->get('text_error');
 
 		    $this->data['button_continue'] = HtmlElementFactory::create( array('name' => 'continue',
 																			   'type' => 'button',
 																			   'text' =>  $this->language->get('button_continue'),
-																			   'href' =>  $this->html->getURL('index/home'),
+																			   'href' =>  $this->html->getURL($home_rt),
 																			   'style' => 'button' ));
+		    if($this->config->get('embed_mode') == true){
+			    $this->data['back_url'] = $this->html->getURL('r/product/category');
+		    }
 
             $this->view->setTemplate( 'pages/error/not_found.tpl' );
     	}
-
 
 		$this->view->batchAssign( $this->data);
         $this->processTemplate();
 
         //init controller data
         $this->extensions->hk_UpdateData($this,__FUNCTION__);
-
   	}
 
 	private function _validateCoupon() {

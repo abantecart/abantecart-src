@@ -182,6 +182,9 @@ class ControllerPagesCatalogProductLayout extends AController {
 		                                        'name' => 'cp_layout_frm',
 		                                        'attr' => 'class="aform form-inline"',
 			                                    'action' => $action));
+		if($this->config->get('config_embed_status')){
+			$this->data['embed_url'] = $this->html->getSecureURL('common/do_embed/product', '&product_id=' . $this->request->get['product_id']);
+		}
 		
         $this->view->batchAssign( $this->data );
 		$this->processTemplate('pages/catalog/product_layout.tpl');

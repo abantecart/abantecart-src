@@ -1,4 +1,4 @@
-<form action="<?php echo str_replace('&', '&amp;', $action); ?>" method="post" id="checkout">
+<form action="<?php echo str_replace('&', '&amp;', $action); ?>" method="post" id="checkout" <?php echo $target_parent; ?>>
 	<input type="hidden" name="cmd" value="_cart"/>
 	<input type="hidden" name="upload" value="1" />
 	<input type="hidden" name="business" value="<?php echo $business; ?>"/>

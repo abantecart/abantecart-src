@@ -16,7 +16,7 @@
 		Ir a <a href="https://www.2checkout.com/">https://www.2checkout.com/</a> primero en registrarse y obtener credenciales de cuenta.<br>
 		No se olvide de configurar URL aquí <a href="https://www.2checkout.com/va/notifications/">https://www.2checkout.com/va/notifications/</a> INS.<br>
 		Su URL es INS <h4>#storefront#rt=extension/2checkout/callback</h4>
-		<br><br>También configurar direcciones URL permitidas aquí  <a href="https://www.2checkout.com/va/notifications/">https://www.2checkout.com/va/acct/detail_company_info</a> y elegir la opción "Redirección del Encabezado (Su URL) ".
+		<br><br>También configurar direcciones URL permitidas aquí  <a href="https://www.2checkout.com/va/acct/detail_company_info">https://www.2checkout.com/va/acct/detail_company_info</a> y elegir la opción "Redirección del Encabezado (Su URL) ".
 		<br><br>Su URL permitidas se <h4>#storefront#rt=checkout/success</h4>]]></value>
 	</definition>
 	<definition>
@@ -55,14 +55,6 @@
 	<definition>
 		<key>2checkout_location_id_0</key>
 		<value><![CDATA[Todos las Localidades]]></value>
-	</definition>
-	<definition>
-		<key>2checkout_status</key>
-		<value><![CDATA[Status:]]></value>
-	</definition>
-	<definition>
-		<key>2checkout_sort_order</key>
-   		<value><![CDATA[Sort Order:<br /><span class="help">Number to indicate display position of this payment in relation to over enabled payments </span>]]></value>
 	</definition>
 	<definition>
 		<key>2checkout_autoselect</key>

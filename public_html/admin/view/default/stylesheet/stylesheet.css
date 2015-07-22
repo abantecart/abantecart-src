@@ -1088,6 +1088,10 @@ p {
 .reslibrary .thumbnail {
 	margin-bottom : 0px;
 }
+.reslibrary .thumbnail img {
+	width: 100px;
+	height: 100px;
+}
 .reslibrary .thumbnail .resource_add {
 }
 
@@ -2344,7 +2348,7 @@ body.stickyheader .sticky_left {
     color: #FFFFFF;
 }
 .btn-toggle.btn_switch {
-	min-width: 75px;
+	min-width: 100px;
 }
 .btn-toggle.btn_switch .btn-default:hover, .btn-toggle.btn_switch .btn-default:hover {
 	background-color: #fff;
@@ -2953,4 +2957,77 @@ body.stickyheader .sticky_left {
 	margin: 0;
 	padding: 0;
 	display: block;
+}
+
+
+/* styles for embed code management*/
+.embed_preview{
+	background-color: #fff;
+	border-color: #ddd;
+	border-radius: 4px 4px 0 0;
+	border-width: 1px;
+	box-shadow: none;
+	border-style: solid;
+	position: relative;
+	margin-bottom: 10px;
+	padding: 20px;
+	overflow: auto;
+	height: 400px;
+}
+
+
+.embed-code::after {
+	color: #959595;
+    content: "html";
+    font-size: 12px;
+    font-weight: 700;
+    left: 15px;
+    letter-spacing: 1px;
+    position: absolute;
+    text-transform: uppercase;
+    top: 15px;
+}
+
+.embed-code {
+	background-color: #fff;
+	border-color: #ddd;
+	border-radius: 4px 4px 0 0;
+	border-width: 1px;
+	box-shadow: none;
+	margin-left: 0;
+	margin-right: 0;
+	border-style: solid;
+	padding: 45px 15px 15px;
+	position: relative;
+}
+
+ #code_options .acheckboxgroup {
+	height: 157px !important;
+	margin-bottom: 10px;
+}
+
+#code_options div.aform div.scrollbox{
+	width: 100%;
+}
+
+#code_options .checkbox_element div.form-inline{
+	width: 100% !important;
+}
+
+#code_options .scrollbox .acheckbox input, #code_options .scrollbox div.acheckbox{
+	width: auto !important;
+}
+
+.btn-clipboard {
+	border: 1px solid #e1e1e8;
+
+	border: 1px solid #e1e1e8;
+    border-radius: 0 4px;
+    display: block;
+    font-size: 12px;
+    padding: 5px 8px;
+    position: absolute;
+    right: -1px;
+    top: -1px;
+    z-index: 10;
 }

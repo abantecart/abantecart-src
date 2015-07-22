@@ -606,6 +606,11 @@ class ControllerPagesCatalogProduct extends AController {
 			'name' => 'product_description[meta_description]',
 			'value' => $this->data['product_description']['meta_description'],
 		));
+        $this->data['form']['fields']['general']['blurb'] = $form->getFieldHtml(array(
+			'type' => 'textarea',
+			'name' => 'product_description[blurb]',
+			'value' => $this->data['product_description']['blurb'],
+		));
         $this->data['form']['fields']['general']['tags'] = $form->getFieldHtml(array(
 			'type' => 'input',
 			'name' => 'product_tags',
@@ -721,7 +726,7 @@ class ControllerPagesCatalogProduct extends AController {
 			'value' => $this->data['location'],
 		));
 		//prepend button to generate keyword
-		$this->data['form']['fields']['data']['keyword'] = $form->getFieldHtml(array(
+		$this->data['keyword_button'] = $form->getFieldHtml(array(
 								'type' => 'button',
 								'name' => 'generate_seo_keyword',
 								'text' => $this->language->get('button_generate'),
@@ -731,7 +736,7 @@ class ControllerPagesCatalogProduct extends AController {
 								));
 		$this->data['generate_seo_url'] =  $this->html->getSecureURL('common/common/getseokeyword','&object_key_name=product_id&id='.$product_id);
 
-		$this->data['form']['fields']['data']['keyword'] .= $form->getFieldHtml(array(
+		$this->data['form']['fields']['data']['keyword'] = $form->getFieldHtml(array(
 					'type' => 'input',
 					'name' => 'keyword',
 					'value' => $this->data['keyword'],
@@ -846,16 +851,19 @@ class ControllerPagesCatalogProduct extends AController {
 		));
 
 		$this->data['product_id'] = $product_id;
-		$this->view->batchAssign( $this->data );
+	    if($product_id && $this->config->get('config_embed_status')){
+		    $this->data['embed_url'] = $this->html->getSecureURL('common/do_embed/product', '&product_id='.$product_id);
+	    }
 
-		$this->view->assign('text_clone',  $this->language->get('text_clone'));
-		$this->view->assign('clone_url',  $this->html->getSecureURL('catalog/product/copy', '&product_id='.$this->request->get['product_id']));
+	    $this->data['text_clone'] = $this->language->get('text_clone');
+	    $this->data['clone_url'] = $this->html->getSecureURL('catalog/product/copy', '&product_id='.$this->request->get['product_id']);
+	    $this->data['form_language_switch'] = $this->html->getContentLanguageSwitcher();
+	    $this->data['language_id'] = $this->session->data['content_language_id'];
+	    $this->data['language_code'] = $this->session->data['language'];
+	    $this->data['help_url'] = $this->gen_help_url('product_edit');
+	    $this->data['rl'] = $this->html->getSecureURL('common/resource_library', '&object_name=&object_id&type=image&mode=url');
 
-        $this->view->assign('form_language_switch', $this->html->getContentLanguageSwitcher());
-        $this->view->assign('language_id', $this->session->data['content_language_id']);
-		$this->view->assign('language_code', $this->session->data['language']);
-		$this->view->assign('help_url', $this->gen_help_url('product_edit') );
-		$this->view->assign('rl', $this->html->getSecureURL('common/resource_library', '&object_name=&object_id&type=image&mode=url'));
+	    $this->view->batchAssign( $this->data );
 
 		$this->processTemplate('pages/catalog/product_form.tpl' );
   	}

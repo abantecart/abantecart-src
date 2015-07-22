@@ -207,7 +207,7 @@ class ExtensionsApi {
 	 */
 	protected $extensions_dir;
 	/**
-	 * @var $enabled_extensions - array of enabled extensions folders
+	 * @var $enabled_extensions - array of enabled extensions
 	 */
 	protected $enabled_extensions;
 	/**
@@ -496,6 +496,10 @@ class ExtensionsApi {
 		return $this->missing_extensions;
 	}
 
+	/*
+		Get an array of all enabled extensions.
+		NOTE: In admin all installed extensions are concedered to be enabled
+	*/
 	public function getEnabledExtensions() {
 		return $this->enabled_extensions;
 	}
@@ -552,9 +556,8 @@ class ExtensionsApi {
 	/**
 	 * load all available (installed) extenions (for admin)
 	 *
-	 * @param none
-	 * @return none
-	 */   
+	 * @void
+	 */
 	public function loadAvailableExtensions() {
 		$this->loadEnabledExtensions(true);
 	}
@@ -564,7 +567,7 @@ class ExtensionsApi {
 	 * If force parameter provided,load all installed (for admin)
 	 *
 	 * @param bool $force_enabled_off
-	 * @return none
+	 * @void
 	 */
 	public function loadEnabledExtensions($force_enabled_off = false) {
 		/**

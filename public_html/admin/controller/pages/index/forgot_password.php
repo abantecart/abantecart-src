@@ -28,8 +28,8 @@ class ControllerPagesIndexForgotPassword extends AController {
 
 	public function main() {
 
-        //init controller data
-        $this->extensions->hk_InitData($this,__FUNCTION__);
+		//init controller data
+		$this->extensions->hk_InitData($this,__FUNCTION__);
 		
 		$this->loadLanguage('common/forgot_password');
 		$this->document->setTitle( $this->language->get('heading_title') );
@@ -44,14 +44,14 @@ class ControllerPagesIndexForgotPassword extends AController {
 
 			$mail = new AMail( $this->config );
 			$mail->setTo($this->request->post['email']);
-	  		$mail->setFrom($this->config->get('store_main_email'));
-	  		$mail->setSender($this->config->get('config_owner'));
-	  		$mail->setSubject(sprintf($this->language->get('reset_email_subject'), $this->config->get('store_name')));
-	  		$mail->setHtml(sprintf($this->language->get('reset_email_body_html'), $link, $link));
-	  		$mail->setText(sprintf($this->language->get('reset_email_body_text'), $link, $link));
-      		$mail->send();
+			$mail->setFrom($this->config->get('store_main_email'));
+			$mail->setSender($this->config->get('config_owner'));
+			$mail->setSubject(sprintf($this->language->get('reset_email_subject'), $this->config->get('store_name')));
+			$mail->setHtml(sprintf($this->language->get('reset_email_body_html'), $link, $link));
+			$mail->setText(sprintf($this->language->get('reset_email_body_text'), $link, $link));
+			$mail->send();
 
-	  		$this->redirect($this->html->getSecureURL('index/forgot_password','&mail=sent'));
+			$this->redirect($this->html->getSecureURL('index/forgot_password','&mail=sent'));
 
 		}
 
@@ -120,13 +120,13 @@ class ControllerPagesIndexForgotPassword extends AController {
 
 		$this->processTemplate('pages/index/forgot_password.tpl' );
 
-        //update controller data
-        $this->extensions->hk_UpdateData($this,__FUNCTION__);
-  	}
+		//update controller data
+		$this->extensions->hk_UpdateData($this,__FUNCTION__);
+	}
 
 	public function validate() {
 		//init controller data
-        $this->extensions->hk_InitData($this,__FUNCTION__);
+		$this->extensions->hk_InitData($this,__FUNCTION__);
 		$this->loadLanguage('common/forgot_password');
 		$this->document->setTitle( $this->language->get('heading_title') );
 
@@ -138,16 +138,16 @@ class ControllerPagesIndexForgotPassword extends AController {
 
 			$mail = new AMail($this->config);
 			$mail->setTo($this->user_data['email']);
-	  		$mail->setFrom($this->config->get('store_main_email'));
-	  		$mail->setSender($this->config->get('config_owner'));
-	  		$mail->setSubject(sprintf($this->language->get('reset_email_subject'), $this->config->get('store_name')));
-	  		$mail->setHtml(sprintf($this->language->get('new_password_email_body'), $password));
-	  		$mail->setText(sprintf($this->language->get('new_password_email_body'), $password));
-      		$mail->send();
+			$mail->setFrom($this->config->get('store_main_email'));
+			$mail->setSender($this->config->get('config_owner'));
+			$mail->setSubject(sprintf($this->language->get('reset_email_subject'), $this->config->get('store_name')));
+			$mail->setHtml(sprintf($this->language->get('new_password_email_body'), $password));
+			$mail->setText(sprintf($this->language->get('new_password_email_body'), $password));
+			$mail->send();
 
 			$this->cache->delete($this->request->get['hash']);
 
-	  		$this->redirect($this->html->getSecureURL('index/forgot_password/validate','&mail=sent'));
+			$this->redirect($this->html->getSecureURL('index/forgot_password/validate','&mail=sent'));
 
 		}
 
@@ -219,41 +219,41 @@ class ControllerPagesIndexForgotPassword extends AController {
 
 		$this->processTemplate('pages/index/forgot_password.tpl' );
 
-        //update controller data
-        $this->extensions->hk_UpdateData($this,__FUNCTION__);
+		//update controller data
+		$this->extensions->hk_UpdateData($this,__FUNCTION__);
 	}
 
-    private function _validate() {
-    	if ( mb_strlen($this->request->post['username']) < 1 ) {
-      		$this->error['username'] = $this->language->get('error_username');
-    	}
+	private function _validate() {
+		if ( mb_strlen($this->request->post['username']) < 1 ) {
+			$this->error['username'] = $this->language->get('error_username');
+		}
 
 		$pattern = '/^[A-Z0-9._%-]+@[A-Z0-9][A-Z0-9.-]{0,61}[A-Z0-9]\.[A-Z]{2,6}$/i';
-    	if (!preg_match($pattern, $this->request->post['email'])) {
-      		$this->error['email'] = $this->language->get('error_email');
-    	}
+		if (!preg_match($pattern, $this->request->post['email'])) {
+			$this->error['email'] = $this->language->get('error_email');
+		}
 
-    	if (!isset($this->session->data['captcha']) || ($this->session->data['captcha'] != $this->request->post['captcha'])) {
-      		$this->error['captcha'] = $this->language->get('error_captcha');
-    	}
+		if (!isset($this->session->data['captcha']) || ($this->session->data['captcha'] != $this->request->post['captcha'])) {
+			$this->error['captcha'] = $this->language->get('error_captcha');
+		}
 
-	    if ( !$this->error && !$this->user->validate($this->request->post['username'], $this->request->post['email']) ) {
-		    $this->error['warning'] = $this->language->get('error_match');
-	    }
+		if ( !$this->error && !$this->user->validate($this->request->post['username'], $this->request->post['email']) ) {
+			$this->error['warning'] = $this->language->get('error_match');
+		}
 
-	    $this->extensions->hk_ValidateData($this);
+		$this->extensions->hk_ValidateData($this);
 
 		if (!$this->error) {
-	  		return TRUE;
+			return TRUE;
 		} else {
-	  		return FALSE;
+			return FALSE;
 		}
-  	}
+	}
 
 	private function _validateCaptcha() {
-    	if (!isset($this->session->data['captcha']) || ($this->session->data['captcha'] != $this->request->post['captcha'])) {
-      		$this->error['captcha'] = $this->language->get('error_captcha');
-    	}
+		if (!isset($this->session->data['captcha']) || ($this->session->data['captcha'] != $this->request->post['captcha'])) {
+			$this->error['captcha'] = $this->language->get('error_captcha');
+		}
 
 		$email = $this->cache->get($this->request->get['hash']);
 
@@ -271,10 +271,10 @@ class ControllerPagesIndexForgotPassword extends AController {
 
 		$this->extensions->hk_ValidateData($this);
 
-	    if (!$this->error) {
-	  		return TRUE;
+		if (!$this->error) {
+			return TRUE;
 		} else {
-	  		return FALSE;
+			return FALSE;
 		}
-  	}
+	}
 }

@@ -5,10 +5,6 @@
 		<value><![CDATA[UPS]]></value>
 	</definition>
 	<definition>
-		<key>default_ups_status</key>
-		<value><![CDATA[Estado:]]></value>
-	</definition>
-	<definition>
 		<key>heading_title</key>
 		<value><![CDATA[UPS]]></value>
 	</definition>

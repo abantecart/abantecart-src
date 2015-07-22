@@ -1,3 +1,10 @@
+@charset "utf-8";
+@import url('bootstrap.min.css');
+@import url('flexslider.css');
+@import url('onebyone.css');
+@import url('print.css');
+@import url('font-awesome.min.css');
+
 /*
 AbanteCart storefront main CSS style.css
 
@@ -6,13 +13,6 @@ Developers: Pavel Rojkov (projkov@abantecart.com)
 AbanteCart brand color styles: #064770 (dark blue) #F19013 (Orange)
 
 */
-@charset "utf-8";
-
-@import url('bootstrap.min.css');
-@import url('flexslider.css');
-@import url('onebyone.css');
-@import url('print.css');
-@import url('font-awesome.min.css');
 
 /* CSS Document */
 /* ------------ Reset ------------ */
@@ -514,6 +514,7 @@ li.dropdown {
 .headerdetails ul.nav.topcart li.dropdown, .headerstrip ul.nav.topcart li.dropdown {
 	border: 1px solid #f2f2f2;
 	display: inline-block;
+	margin-right: 15px;
 	text-transform: uppercase;
 	background-color: #ffffff;
 }
@@ -540,7 +541,7 @@ li.dropdown {
     text-overflow: ellipsis;
     -o-text-overflow: ellipsis;
     white-space: nowrap;	
-    max-width: 140px;
+    max-width: 120px;
 }
 
 #top_cart_product_list table td.total {
@@ -901,6 +902,12 @@ ul.categorymenu > li ul > li img {
 	display: block
 }
 
+.thumbnail .blurb {
+	max-height: 60px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
 .thumbnails.list > li {
 	margin-bottom: 40px;
 	padding-bottom: 40px;
@@ -968,7 +975,7 @@ ul.categorymenu > li ul > li img {
 .thumbnail .pricetag {
 	margin-top: 8px;
 	position: relative;
-	padding: 9px 9px 9px 16px;
+	padding: 9px 5px 9px 5px;
 	margin-bottom: 20px;
 	height: 55px;
 }
@@ -1077,19 +1084,19 @@ a.compare>img{
 .thumbnail .price .oneprice {
 	line-height: 35px;
 	vertical-align: middle;
-	font-size: 14px;
+	font-size: 12px;
 	color: #5e626b;
 	font-weight: bold;
 }
 
 .thumbnail .price .pricenew {
-	font-size: 14px;
+	font-size: 12px;
 	color: #5e626b;
 	font-weight: bold;
 }
 
 .thumbnail .price .priceold {
-	font-size: 12px;
+	font-size: 10px;
 	text-decoration: line-through;
 	color: #96979d;
 }
@@ -1294,10 +1301,82 @@ h1.pagetitle {
 	margin: 0 0 40px 0;
 	color: #00a1cb;
 }
-
-.thumbnails.mainimage li.span5, .thumbnails.mainimage li.span4 {
-	margin-bottom: 0;
+.mainimage.bigimage .fa {
+	position: absolute;
+    top: 10px;
+    right: 10px;
+	z-index: 999;	
+	color: #96979d;
+	font-size: 16px;
 }
+.thumbnails.mainimage.smallimage {
+	padding-top: 10px;
+}
+.thumbnails.mainimage.smallimage .thumbnail {
+	margin-bottom: 5px;
+	cursor: pointer;
+}
+
+/**
+ * EasyZoom core styles
+ */
+.easyzoom {
+	position: relative;
+	/* 'Shrink-wrap' the element */
+	display: inline-block;
+	*display: inline;
+	*zoom: 1;
+}
+.easyzoom img {
+	vertical-align: bottom;
+}
+.local_image img {
+	width: 340px;
+}
+.easyzoom.is-loading img {
+	cursor: progress;
+}
+.easyzoom.is-ready img {
+	cursor: crosshair;
+}
+.easyzoom.is-error  img {
+	cursor: not-allowed;
+}
+.easyzoom-notice {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	z-index: 150;
+	width: 10em;
+	margin: -1em 0 0 -5em;
+	line-height: 2em;
+	text-align: center;
+	background: #FFF;
+	box-shadow: 0 0 10px #888;
+}
+.easyzoom-flyout {
+	position:absolute;
+	z-index: 100;
+	overflow: hidden;
+	background: #FFF;
+	border: 2px solid #ccc;
+}
+.easyzoom--overlay .easyzoom-flyout {
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+}
+.easyzoom--adjacent .easyzoom-flyout {
+	top: 0;
+	left: 100%;
+	width: 100%;
+	height: 100%;
+	margin-left: 20px;
+}
+/**
+ * EasyZoom end
+ */
 
 ul.productinfo {
 	margin: 0;
@@ -1383,12 +1462,12 @@ ul.rate li.off {
 
 .mainimage li.producthtumb {
 	display: inline-block;
-	width: auto;
-	margin-left: 25px
+	margin-left: 25px;
 }
 
 .mainimage li.producthtumb img {
-	cursor: pointer
+	cursor: pointer;
+	width: 45px !important;
 }
 
 .total-price-holder {
@@ -1657,39 +1736,6 @@ ul.reveiw li .date {
 
 ul.reveiw ul.rate {
 	margin: 10px 0
-}
-
-.cloud-zoom-lens {
-	border: 1px solid #fff; 
-	margin:-1px;	/* Set this to minus the border thickness. */
-	background-color: #fff;
-	cursor: move;
-}
-
-.cloud-zoom-title {
-	font-family: Arial, Helvetica, sans-serif;
-	position: absolute !important;
-	background-color: #999999;
-	color: #fff;
-	width: 100%;
-	text-align: center;
-	font-size: 10px;
-	top: 0;
-}
-
-/* This is the zoom window. */
-.cloud-zoom-big {
-	border: 2px solid #ccc;
-	overflow: hidden;
-	margin: 4px;
-}
-
-/* This is the loading message. */
-.cloud-zoom-loading {
-	color: white;
-	background: #222;
-	padding: 3px;
-	border: 1px solid #999999;
 }
 
 #ContactUsFrm button {
@@ -2047,22 +2093,13 @@ ul.total li span.extra {
 
 .added_to_cart {
 	display: block;
-	height: 55px;
-	margin-left: -15px;
-	margin-top: -10px;
 	position: absolute;
-	width: 255px;
+	left: 50%;
 	z-index: 999;
-	white-space: nowrap;
 }
-.added_to_cart>button.close {
-	line-height: 20px;
-	position: relative;
-	right: -10px;
-	top: -10px;
-}
-.added_to_cart a > img {
-	display: inline;
+.added_to_cart .fa{
+	font-size: 36px;
+	color: #f25c27;
 }
 
 /* javascripts */
@@ -2126,11 +2163,6 @@ span.viewfancypopup {
 	border: 1px solid #E7E7E7; 
 	padding: 10px; 
 	margin-bottom: 10px;
-}
-
-.confirm_total {
-}
-.payment_confirmation {
 }
 
 /* Sidebar */
@@ -2926,8 +2958,8 @@ form .help-block {
 	min-width: 200px;
 }
 
-.smallimage 	.thumbnail{
-	min-width: 100px !important;
+.smallimage .thumbnail{
+	min-width: 60px !important;
 }
 
 table th {
@@ -3541,6 +3573,10 @@ paypal pro styles
 		display: none
 	}
 
+	.payment_confirmation {
+		margin-top: 20px;
+	}
+
 }
 
 /* END @media FULL */
@@ -3789,12 +3825,15 @@ paypal pro styles
 		width: 95%;
 		float: left !important;
 	}
+	
+	.confirm_payment_options .btn {
+		margin-bottom: 3px;
+	}
 }
 
 /* END @media (max-width: 979px) */
 
 @media (max-width: 760px) {
-
 	.smbanner {
 		width: auto;
 	}

@@ -25,6 +25,13 @@ class ControllerPagesProductSearch extends AController {
 	public $data = array();
 	public function main() {
 
+		//is this an embed mode
+		if($this->config->get('embed_mode') == true){
+			$cart_rt = 'r/checkout/cart/embed';
+		} else{
+			$cart_rt = 'checkout/cart';
+		}
+
         //init controller data
         $this->extensions->hk_InitData($this,__FUNCTION__);
 
@@ -234,7 +241,7 @@ class ControllerPagesProductSearch extends AController {
 	                        if($this->config->get('config_cart_ajax')){
 	                            $add = '#';
 	                        }else{
-	                            $add = $this->html->getSecureURL('checkout/cart', '&product_id=' . $result['product_id'], '&encode');
+		                        $add = $this->html->getSecureURL($cart_rt, '&product_id=' . $result['product_id'], '&encode');
 	                        }
 						}
 
@@ -255,6 +262,7 @@ class ControllerPagesProductSearch extends AController {
 						$products[] = array(
 							'product_id' => $result['product_id'],
 	            			'name'    => $result['name'],
+				            'blurb' => $result['blurb'],
 							'model'   => $result['model'],
 							'rating'  => $rating,
 							'stars'   => sprintf($this->language->get('text_stars'), $rating),

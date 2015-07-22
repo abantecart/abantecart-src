@@ -40,7 +40,7 @@
 	    	    <i class="fa fa-check"></i>
 	    	    <?php echo $button_confirm; ?>
 	    	</button>
-	    	<a href="<?php echo str_replace('&', '&amp;', $back); ?>" class="btn btn-default" title="<?php echo button_back; ?>">
+	    	<a href="<?php echo str_replace('&', '&amp;', $back); ?>" class="btn btn-default" title="<?php echo $button_back; ?>">
 	    	    <i class="fa fa-arrow-left"></i>
 	    	    <?php echo $button_back; ?>
 	    	</a>

@@ -336,15 +336,18 @@ class ControllerPagesToolPackageInstaller extends AController {
 		$this->loadModel('tool/mp_api');
 
 		if($extension_key) {
-			//need to mp token to get download based on key.
-			$mp_token = $this->config->get('mp_token');
-			if (!$mp_token) {
-				$this->session->data['error'] = sprintf($this->language->get('error_notconnected'), $this->html->getSecureURL('extension/extensions_store'));
-				$this->redirect($this->_get_begin_href());			
-			} 
-			if( substr($extension_key,0,4) == 'acmp' ){ // if prefix for new mp presents
+			// if prefix for new mp presents
+			if( substr($extension_key,0,4) == 'acmp' ){
+				//need to mp token to get download based on key.
+				$mp_token = $this->config->get('mp_token');
+				if (!$mp_token) {
+					$this->session->data['error'] = sprintf($this->language->get('error_notconnected'), $this->html->getSecureURL('extension/extensions_store'));
+					$this->redirect($this->_get_begin_href());
+				}
 				$url = $this->model_tool_mp_api->getMPURL().'?rt=r/account/download/getdownloadbykey';
-			}else{ // for upgrades
+
+			// for upgrades of core
+			}else{
 				$url = "/?option=com_abantecartrepository&format=raw";
 			}
 			$url .= "&mp_token=".$mp_token;
@@ -555,15 +558,17 @@ class ControllerPagesToolPackageInstaller extends AController {
 				}
 			} else {
 				foreach ($package_info['package_content']['core'] as $corefile) {
-					if( (!is_writable(DIR_ROOT . '/' . $corefile) && file_exists(DIR_ROOT . '/' . $corefile))
-						||
-						(!is_writable(pathinfo(DIR_ROOT . '/' . $corefile,PATHINFO_DIRNAME)) && is_dir(pathinfo(DIR_ROOT . '/' . $corefile,PATHINFO_DIRNAME)))
-					) {
+					$corefile_dir = pathinfo(DIR_ROOT . '/' . $corefile,PATHINFO_DIRNAME);
+					if( (!is_writable(DIR_ROOT . '/' . $corefile) && file_exists(DIR_ROOT . '/' . $corefile))) {
 							$ftp_mode = true; // enable ftp-mode
 							$non_writables[ ] = DIR_ROOT . '/' . $corefile;
+					} else if(!is_writable($corefile_dir) && is_dir($corefile_dir)){
+							$ftp_mode = true; // enable ftp-mode
+							$non_writables[ ] = $corefile_dir;						
 					}
 				}
 			}
+			$non_writables = array_unique($non_writables);
 		}
 
 		// if ftp mode and user give ftp parameters

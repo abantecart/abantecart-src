@@ -19,3 +19,16 @@
 	</div>
 
 </div>
+
+<script type="text/javascript">
+
+	var grid_ready = function(data) {
+		var url = '<?php echo $embed_url?>';
+		$('#manufacturer_grid tr[role="row"]').each(function () {
+			if ($(this).attr('id')) {
+				url += '&manufacturer_id[]=' + $(this).attr('id');
+			}
+		});
+		$('a[data-target="#embed_modal"]').attr('href', url);
+	}
+</script>

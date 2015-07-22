@@ -42,12 +42,6 @@ class ControllerPagesCatalogProductImages extends AController {
 			}
     	}
 
-		if ($this->request->is_POST() ) {
-			$this->model_catalog_product->updateProductImages($this->request->get['product_id'], $this->request->post);
-			$this->session->data['success'] = $this->language->get('text_success');
-			$this->redirect($this->html->getSecureURL('catalog/product_images', '&product_id=' . $this->request->get['product_id'] ));
-		}
-
 		$this->data['product_description'] = $this->model_catalog_product->getProductDescriptions($this->request->get['product_id']);
 
 		$this->view->assign('error_warning', $this->error['warning']);
@@ -115,7 +109,9 @@ class ControllerPagesCatalogProductImages extends AController {
 		    'text' => $this->language->get('button_cancel'),
 		    'style' => 'button2',
 	    ));
-
+	    if($this->config->get('config_embed_status')){
+		    $this->data['embed_url'] = $this->html->getSecureURL('common/do_embed/product', '&product_id=' . $this->request->get['product_id']);
+	    }
 		$this->view->batchAssign( $this->data );
 		$this->view->assign('help_url', $this->gen_help_url('product_media') );
 		$this->addChild('pages/catalog/product_summary', 'summary_form', 'pages/catalog/product_summary.tpl');

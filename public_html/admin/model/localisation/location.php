@@ -85,7 +85,7 @@ class ModelLocalisationLocation extends Model {
     }
 
 	/**
-	 * @param int zone_to_location_id
+	 * @param int $zone_to_location_id
 	 * @param array $data
 	 */
     public function editLocationZone($zone_to_location_id, $data) {
