@@ -17,7 +17,7 @@
    versions in the future. If you wish to customize AbanteCart for your
    needs please refer to http://www.AbanteCart.com for more information.
 ------------------------------------------------------------------------------*/
-if(!defined('DIR_CORE') || !IS_ADMIN){
+if (!defined('DIR_CORE') || !IS_ADMIN){
 	header('Location: static_pages/');
 }
 
@@ -31,7 +31,7 @@ class ModelToolUpdater extends Model{
 	 * error text array
 	 * @var array
 	 */
-	public $error = array();
+	public $error = array ();
 	/**
 	 * size of data in bytes
 	 *
@@ -46,10 +46,10 @@ class ModelToolUpdater extends Model{
 	public function check4Updates(){
 		$update_info = $this->cache->get('extensions.updates');
 
-		if(is_null($update_info)){
+		if (is_null($update_info)){
 			$update_info = $this->_getUpdateInfo();
-			if($update_info){
-				$this->cache->set('extensions.updates',$update_info);
+			if ($update_info){
+				$this->cache->set('extensions.updates', $update_info);
 			}
 		}
 	}
@@ -60,23 +60,23 @@ class ModelToolUpdater extends Model{
 
 		$installed_extensions = $this->extensions->getInstalled('');
 
-		if($extensions_list->num_rows){
-			foreach($extensions_list->rows as $extension){
+		if ($extensions_list->num_rows){
+			foreach ($extensions_list->rows as $extension){
 				//skip default
-				if(strpos($extension['key'], 'default') !== false){
+				if (strpos($extension['key'], 'default') !== false){
 					continue;
 				}
 				// if extension is installed
-				if(in_array($extension['key'], $installed_extensions)){
+				if (in_array($extension['key'], $installed_extensions)){
 					$status = $extension['status'] ? $this->language->get('text_enabled') : $this->language->get('text_disabled');
 
 					$extension_name = trim($this->extensions->getExtensionName($extension['key']));
-					$list[$extension['key']] = array('name'        => $extension_name,
-					                                 'type'        => $extension['type'],
-					                                 'category'    => $extension['category'],
-					                                 'status'      => $status,
-					                                 'license_key' => $extension['license_key'],
-					                                 'version'     => $extension['version']);
+					$list[$extension['key']] = array ('name'        => $extension_name,
+					                                  'type'        => $extension['type'],
+					                                  'category'    => $extension['category'],
+					                                  'status'      => $status,
+					                                  'license_key' => $extension['license_key'],
+					                                  'version'     => $extension['version']);
 				}
 			}
 		}
@@ -93,25 +93,25 @@ class ModelToolUpdater extends Model{
 
 		$this->load->model('tool/mp_api');
 
-		$url = $this->model_tool_mp_api->getMPURL().'?rt=a/product/updates';
+		$url = $this->model_tool_mp_api->getMPURL() . '?rt=a/product/updates';
 		$url .= "&store_id=" . UNIQUE_ID;
 		$url .= "&store_ip=" . $_SERVER ['SERVER_ADDR'];
 		$url .= "&store_url=" . HTTP_SERVER;
 		$url .= "&software_name=AbanteCart";
 		$url .= "&software_version=" . VERSION;
 		$url .= "&language_code=" . $this->request->cookie ['language'];
-		foreach($el as $key=>$extension){
-			$url .= '&extensions['.$key.']='.$extension['version'];
+		foreach ($el as $key => $extension){
+			$url .= '&extensions[' . $key . ']=' . $extension['version'];
 		}
-
-		$pack = new AConnect(true);
+		//do connect without any http-redirects
+		$pack = new AConnect(true, true);
 		$info = $pack->getData($url);
 
 		// get array with updates information
-		if($info){
+		if ($info){
 			return $info;
 		}
-		return array();
+		return array ();
 	}
 
 }
