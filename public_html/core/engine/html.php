@@ -78,15 +78,9 @@ class AHtml extends AController {
 			$server = defined('HTTP_SERVER') ? HTTP_SERVER : 'http://' . REAL_HOST . get_url_path($_SERVER['PHP_SELF']);
 		}
 
-//echo_array(HTTP_SERVER);		
-echo_array($server);	
-
-echo_array(get_url_path($_SERVER['PHP_SELF']));	
-	
-echo_array(get_url_path('/github/1.2.3/public_html/index.php/storefront/view/resources/image/18/6c/index.php'));
-exit;
-
-		if ($this->registry->get('config')->get('storefront_template_debug') && isset($this->registry->get('request')->get['tmpl_debug'])) {
+		if ($this->registry->get('config')->get('storefront_template_debug') 
+			&& isset($this->registry->get('request')->get['tmpl_debug'])
+			) {
 			$params .= '&tmpl_debug=' . $this->registry->get('request')->get['tmpl_debug'];
 		}
 		// add session id for crossdomain transition in secure mode
