@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<definitions>
+	<definition>
+		<key>diagnose_name</key>
+		<value><![CDATA[AbanteCart Diagnostics]]></value>
+	</definition>
+	<definition>
+		<key>diagnose_note</key>
+		<value><![CDATA[Additional settings are required to complete setup. See additional settings tab.]]></value>
+	</definition>
+
+
+	<definition>
+		<key>error_permission</key>
+		<value><![CDATA[Warning: You do not have permission to modify Stripe Payment!]]></value>
+	</definition>
+</definitions>

@@ -6,7 +6,12 @@ if(window.abc_count === undefined){
 	window.abc_count = 0;
 }
 
-(function() {
+window.addEventListener("load", function () {
+    // wait for main window to finish loading
+    init();
+});
+
+var init = function() {
 	// Localize jQuery
 	var jQuery;
 
@@ -16,8 +21,8 @@ if(window.abc_count === undefined){
 		window.abc_count++;
 	}
 	
-	/******** Load jQuery if not yet loaded *********/
-	if (window.jQuery === undefined || window.jQuery.fn.jquery !== '1.11.0') {
+	/******** Load jQuery if not yet loaded (note: supported jquery >= 10 ) *********/
+	if ( window.jQuery === undefined ) {
 		script_loader("http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js");		
 		// Poll for jQuery to come into existence
 		var scounter = 0;
@@ -377,4 +382,4 @@ if(window.abc_count === undefined){
 			return append;		
 		}
 	}
-})();
+};
