@@ -74,9 +74,17 @@ class AHtml extends AController {
 				&& (($this->registry->get('request')->server['HTTPS'] == 'on') || ($this->registry->get('request')->server['HTTPS'] == '1'))) {
 			$server = HTTPS_SERVER;
 		} else {
-			// for garbage session need to check constant HTTP_SERVER
-			$server = defined('HTTP_SERVER') ? HTTP_SERVER : 'http://' . REAL_HOST . rtrim(dirname($_SERVER['PHP_SELF']), '/.\\') . '/' ;
+			//to prevent garbage session need to check constant HTTP_SERVER
+			$server = defined('HTTP_SERVER') ? HTTP_SERVER : 'http://' . REAL_HOST . get_url_path($_SERVER['PHP_SELF']);
 		}
+
+//echo_array(HTTP_SERVER);		
+echo_array($server);	
+
+echo_array(get_url_path($_SERVER['PHP_SELF']));	
+	
+echo_array(get_url_path('/github/1.2.3/public_html/index.php/storefront/view/resources/image/18/6c/index.php'));
+exit;
 
 		if ($this->registry->get('config')->get('storefront_template_debug') && isset($this->registry->get('request')->get['tmpl_debug'])) {
 			$params .= '&tmpl_debug=' . $this->registry->get('request')->get['tmpl_debug'];
@@ -90,7 +98,6 @@ class AHtml extends AController {
 		if($_SESSION['session_mode'] == 'embed_token'){
 			$params .= '&'.EMBED_TOKEN_NAME.'='.session_id();
 		}
-
 		$url = $server . INDEX_FILE . $this->url_encode($this->buildURL($rt, $params), $encode);
 		return $url;
 	}

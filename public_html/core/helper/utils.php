@@ -975,3 +975,19 @@ function is_valid_url( $validate_url ) {
 	    return true;		
 	}
 }
+
+/*
+	Get valid URL path considering *.php
+*/
+function get_url_path( $url ) {
+	$url_path1 = parse_url($url,PHP_URL_PATH);	
+	//do we have path with php in the string? Treat case: /abantecart120/index.php/storefront/view/resources/image/18/6c/index.php
+	$pos = stripos($url_path1, '.php');
+	if ($pos) {
+		//we have .php files specified.
+		$filtered_url = substr($url_path1, 0, $pos+4);
+		return rtrim(dirname($filtered_url), '/.\\').'/';
+	} else {
+		return rtrim($url_path1, '/.\\').'/';	
+	}
+}
