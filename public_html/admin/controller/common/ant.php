@@ -47,7 +47,7 @@ class ControllerCommonANT extends AController {
 		//init controller data
 		$this->extensions->hk_InitData($this, __FUNCTION__);
 
-		$url = "/?option=com_antresponses&format=raw";
+		$url = "/index.php?option=com_antresponses&format=raw";
 		$url .= "&store_id=" . UNIQUE_ID;
 		$url .= "&store_ip=" . $_SERVER ['SERVER_ADDR'];
 		$url .= "&store_url=" . HTTP_SERVER;
