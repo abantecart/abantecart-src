@@ -64,7 +64,7 @@
 
 <!--
 AbanteCart is open source software and you are free to remove the Powered By AbanteCart if you want, but its generally accepted practise to make a small donatation.
-Please donate via PayPal to donate@abantecart.com
+Please donate http://www.abantecart.com/donate
 //-->
 
 <!-- Placed at the end of the document so the pages load faster -->
