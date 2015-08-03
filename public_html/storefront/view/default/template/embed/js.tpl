@@ -6,15 +6,9 @@ if(window.abc_count === undefined){
 	window.abc_count = 0;
 }
 
-window.addEventListener("load", function () {
-    // wait for main window to finish loading
-    init();
-});
-
 var init = function() {
 	// Localize jQuery
 	var jQuery;
-
 	if(window.abc_count > 0) {
 		return false;
 	} else {
@@ -383,3 +377,17 @@ var init = function() {
 		}
 	}
 };
+
+if( checkLoaded() ) {
+	//if main window is already loaded fire up
+	init();
+} else {
+	window.addEventListener("load", function () {
+	    // wait for main window to finish loading
+	   	init();
+	});
+}
+
+function checkLoaded() {
+  return document.readyState === "complete" || document.readyState === "interactive";
+}
