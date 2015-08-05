@@ -32,7 +32,7 @@
 	</section>
 	<section class="copyrightbottom align_center">
 		<div class="container-fluid">
-			<div class="pull-left mt10">
+			<div class="pull-left mt5">
 				<?php echo ${$children_blocks[6]}; ?>
 			</div>
 			<div class="pull-right align_center">
@@ -40,7 +40,7 @@
 				<br />
 	    		<?php echo $text_copy; ?>				
 			</div>
-			<div class="pull-right mr20 mt10">
+			<div class="pull-right mr20 mt5">
 				<?php echo ${$children_blocks[7]}; ?>
 			</div>
 		</div>
