@@ -48,9 +48,10 @@ A REVISION version is when a fix is added, it should be considered safe to updat
 
 ## Releases
 
-AbanteCart will announce to developers 1-2 week prior to public release of BULD versions, this is to allow for testing of their own extensions for compatibility. For bigger releases an extended period will be considered following an announced release candidate (RC). Revision versions may have a significantly reduced developer release period.
+AbanteCart will announce to developers 1-2 week prior to public release of BULD versions, this is to allow for testing of their own extensions for compatibility. For bigger releases an extended period will be considered following an announced release candidate. Revision versions may have a significantly reduced developer release period.
+Prerelease will be also announced on a forum.
 
-To receive developer notifications about release information, sign up to the newsletter on the [AbanteCart website](http://www.AbanteCart.com) - located in the footer.
+To receive developer notifications about release information, sign up to the newsletter on the [AbanteCart website](http://www.AbanteCart.com) - located in the footer. 
 
 ## How to install
 
