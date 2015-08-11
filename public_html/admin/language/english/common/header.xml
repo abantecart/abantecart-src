@@ -242,7 +242,7 @@
 	</definition>
 	<definition>
 		<key>text_extensions_store</key>
-		<value><![CDATA[Extensions Store]]></value>
+		<value><![CDATA[Get Extensions]]></value>
 	</definition>
 	<definition>
 		<key>text_migrate</key>

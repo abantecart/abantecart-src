@@ -133,6 +133,10 @@
 	  <value><![CDATA[Сброс]]></value>
 	</definition>
 	<definition>
+	  <key>button_reload</key>
+	  <value><![CDATA[Обновить]]></value>
+	</definition>
+	<definition>
 	  <key>button_clear</key>
 	  <value><![CDATA[Очистить]]></value>
 	</definition>

@@ -84,7 +84,6 @@ h1,h2,h3,h4,h5 {
 	padding: 0 0 0 10px;
 }
 
-
 /* preloader */
 #preloader {
    position: fixed;
@@ -3030,4 +3029,21 @@ body.stickyheader .sticky_left {
     right: -1px;
     top: -1px;
     z-index: 10;
+}
+
+.template_thumbnail.default {
+    background-color: #e4eef7;
+    border: 1px solid #064770;
+}
+.template_thumbnail {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    display: block;
+    line-height: 1.42857;
+    margin-bottom: 10px;
+    transition: all 0.2s ease-in-out 0s;
+}
+.template_thumbnail .img-responsive {
+	display:inline;
+	max-height: 250px;
 }

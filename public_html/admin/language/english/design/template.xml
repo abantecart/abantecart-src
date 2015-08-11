@@ -6,6 +6,18 @@
   </definition>
   <definition>
     <key>text_success</key>
-    <value><![CDATA[Success: You have modified template!]]></value>
+    <value><![CDATA[Success: You have set a new storefront template!]]></value>
+  </definition>
+  <definition>
+    <key>text_storefront_templates</key>
+    <value><![CDATA[Available Storefront Templates]]></value>
+  </definition>
+  <definition>
+    <key>text_edit_extension</key>
+    <value><![CDATA[Extension Settings]]></value>
+  </definition>
+  <definition>
+    <key>text_error</key>
+    <value><![CDATA[Error: Missing required parameter in your request!]]></value>
   </definition>
 </definitions>

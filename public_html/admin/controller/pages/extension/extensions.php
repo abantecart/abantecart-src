@@ -205,15 +205,6 @@ class ControllerPagesExtensionExtensions extends AController {
 																		'href' => $this->html->getSecureURL('extension/extensions_store')
 																		));
 
-		$this->data['btn_add_new'] = $this->html->buildElement(
-															array(
-																'type' => 'button',
-																'name' => 'text_add_new',
-																'text' => $this->language->get('text_add_new'),
-																'href' => $this->html->getSecureURL('tool/package_installer')
-															));
-
-
 		$this->data['license_url'] = $this->html->getSecureURL('listing_grid/extension/license');
 		$this->data['dependants_url'] = $this->html->getSecureURL('listing_grid/extension/dependants');
 		$this->data['extension_type'] = $this->session->data['extension_filter'];

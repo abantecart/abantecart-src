@@ -133,6 +133,10 @@
 		<value><![CDATA[Reajustar]]></value>
 	</definition>
 	<definition>
+		<key>button_reload</key>
+		<value><![CDATA[Recargar]]></value>
+	</definition>
+	<definition>
 		<key>button_clear</key>
 		<value><![CDATA[Limpiar registro]]></value>
 	</definition>

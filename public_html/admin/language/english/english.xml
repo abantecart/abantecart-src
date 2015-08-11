@@ -137,6 +137,10 @@
 		<value><![CDATA[Reset]]></value>
 	</definition>
 	<definition>
+		<key>button_reload</key>
+		<value><![CDATA[Reload]]></value>
+	</definition>
+	<definition>
 		<key>button_clear</key>
 		<value><![CDATA[Clear Log]]></value>
 	</definition>

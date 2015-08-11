@@ -153,7 +153,7 @@ class ControllerPagesSettingSetting extends AController {
 
 		if($this->data['active']=='appearance'){
 			$group = !$this->request->get['tmpl_id'] || $this->request->get['tmpl_id']=='default' ? $group : $this->request->get['tmpl_id'];
-			$tmpls = $this->conf_mngr->getTemplatesLIst('storefront');
+			$tmpls = $this->conf_mngr->getTemplates('storefront');
 
 			foreach ($tmpls as $tmpl) {
 				$templates[$tmpl] = array(

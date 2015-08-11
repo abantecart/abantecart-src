@@ -11401,8 +11401,8 @@ VALUES  (10,'template',131),
         (10,'blocks',133),
         (10,'menu',134),
         (10,'content',135),
-		    (10,'banner_manager',136),
-		    (10,'forms_manager',200);
+		(10,'banner_manager',136),
+		(10,'forms_manager',200);
 -- ITEM_TEXT
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`) 
 VALUES  (11,'text_templates',131),
@@ -11414,7 +11414,7 @@ VALUES  (11,'text_templates',131),
         (11,'forms_manager_name',200);
 -- ITEM_URL
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`) 
-VALUES  (12,'extension/extensions/template',131),
+VALUES  (12,'design/template',131),
         (12,'design/layout',132),
         (12,'design/blocks',133),
         (12,'design/menu',134),
@@ -12165,8 +12165,8 @@ VALUES
   ( 216,1,'Icon Templates', '', '', '', '<i class="fa fa-outdent"></i>&nbsp;', NOW() ),
   ( 217,1,'Icon Languages', '', '', '', '<i class="fa fa-language"></i>&nbsp;', NOW() ),
   ( 218,1,'Icon Total', '', '', '', '<i class="fa fa-sign-in"></i>&nbsp;', NOW() ),
-  ( 219,1,'Icon Add extension', '', '', '', '<i class="fa fa-paperclip"></i>&nbsp;', NOW() ),
-  ( 220,1,'Icon Extensions stores', '', '', '', '<i class="fa fa-arrows-alt"></i>&nbsp;', NOW() ),
+  ( 219,1,'Icon Add extension', '', '', '', '<i class="fa fa-magic"></i>&nbsp;', NOW() ),
+  ( 220,1,'Icon Get Extensions', '', '', '', '<i class="fa fa-cloud-download"></i>&nbsp;', NOW() ),
   ( 221,1,'Icon Order', '', '', '', '<i class="fa fa-flag-checkered"></i>&nbsp;', NOW() ),
   ( 222,1,'Icon Customer', '', '', '', '<i class="fa fa-users"></i>&nbsp;', NOW() ),
   ( 223,1,'Icon Customer group', '', '', '', '<i class="fa fa-book"></i>&nbsp;', NOW() ),

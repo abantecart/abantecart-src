@@ -648,7 +648,7 @@ class AConfigManager {
 
 		//common section
 		if( empty($data['tmpl_id']) ){
-			$templates = $this->getTemplatesLIst('storefront');
+			$templates = $this->getTemplates('storefront');
 
 			$fields['template'] = $form->getFieldHtml($props[] = array(
 				'type' => 'selectbox',
@@ -659,7 +659,7 @@ class AConfigManager {
 			));
 
 			//appearance section
-			$templates = $this->getTemplatesLIst('admin');
+			$templates = $this->getTemplates('admin');
 
 			$fields['admin_template'] = $form->getFieldHtml($props[] = array(
 				'type' => 'selectbox',
@@ -866,11 +866,17 @@ class AConfigManager {
 		return $fields;
 	}
 
+	//To be removed in v 1.3 or next major release
+	public function getTemplatesLIst($section) {
+		return $this->getTemplates($section);
+	}
+
 	/**
-	 * @param string $section - can be storefront or admin
+	 * @param 	string $section - can be storefront or admin
+	 * 			int $status - template extension status
 	 * @return array
 	 */
-	public function getTemplatesLIst($section){
+	public function getTemplates($section, $status = 1){
 
 		if(has_value($this->templates[$section])){
 			return $this->templates[$section];
@@ -879,11 +885,13 @@ class AConfigManager {
 		$basedir = $section=='admin' ? DIR_APP_SECTION : DIR_STOREFRONT;
 
 		$directories = glob($basedir . 'view/*', GLOB_ONLYDIR);
+		//get core templates
 		foreach ($directories as $directory) {
 			$this->templates[$section][basename($directory)] = basename($directory);
 		}
 		if($section!='admin'){
-			$extension_templates = $this->extension_manager->getExtensionsList(array('filter' => 'template', 'status' => 1));
+			//get extension templates
+			$extension_templates = $this->extension_manager->getExtensionsList(array('filter' => 'template', 'status' => (int)$status));
 			if($extension_templates->total > 0){
 				foreach($extension_templates->rows as $row){
 					$this->templates[$section][$row['key']] = $row['key'];

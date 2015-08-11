@@ -836,6 +836,10 @@
 		<value><![CDATA[Clone Template With AbanteCart Developer Tools]]></value>
 	</definition>
 	<definition>
+		<key>text_set_template</key>
+		<value><![CDATA[Set this template for the storefront]]></value>
+	</definition>
+	<definition>
 		<key>entry_embed_status</key>
 		<value><![CDATA[Habilitar Delante Tienda Incrustación:]]></value>
 	</definition>
