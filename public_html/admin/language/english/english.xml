@@ -547,7 +547,7 @@
 	</definition>
 	<definition>
 		<key>text_select_store</key>
-		<value><![CDATA[Select Store]]></value>
+		<value><![CDATA[Select a different store]]></value>
 	</definition>
 	<definition>
 		<key>text_click_browse_file</key>

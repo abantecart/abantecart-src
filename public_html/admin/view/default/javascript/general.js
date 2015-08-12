@@ -251,22 +251,22 @@ jQuery(document).ready(function() {
 			$.removeCookie("sticky-header");
 	   		$('body').removeClass('stickyheader');			
 	   		$('.sticky_header').removeClass('panel_frozen');
-	   		$('.sticky_header').removeClass('fa-dot-circle-o');
-	   		$('.sticky_header').addClass('fa-circle-o');
+	   		$('.sticky_header').removeClass('fa-toggle-on');
+	   		$('.sticky_header').addClass('fa-toggle-off');
 		} else {
 	   		$('body').addClass('stickyheader');
 	   		$.cookie("sticky-header", 1);	
 	   		$('.sticky_header').addClass('panel_frozen');
-	   		$('.sticky_header').addClass('fa-dot-circle-o');
-	   		$('.sticky_header').removeClass('fa-circle-o');
+	   		$('.sticky_header').addClass('fa-toggle-on');
+	   		$('.sticky_header').removeClass('fa-toggle-off');
 		}
 	});
 	
 	if(jQuery.cookie('sticky-header')) {
 		$('body').addClass('stickyheader');
 		$('.sticky_header').addClass('panel_frozen');
-   		$('.sticky_header').addClass('fa-dot-circle-o');
-   		$('.sticky_header').removeClass('fa-circle-o');
+   		$('.sticky_header').addClass('fa-toggle-on');
+   		$('.sticky_header').removeClass('fa-toggle-off');
 	}  
    
 	$('.sticky_left').click(function(){
@@ -274,21 +274,21 @@ jQuery(document).ready(function() {
 			$.removeCookie("sticky-leftpanel");
 	   		$('.leftpanel').removeClass('sticky-leftpanel');		
 	   		$('.sticky_left').removeClass('panel_frozen');
-	   		$('.sticky_left').removeClass('fa-dot-circle-o');
-	   		$('.sticky_left').addClass('fa-circle-o');
+	   		$('.sticky_left').removeClass('fa-toggle-on');
+	   		$('.sticky_left').addClass('fa-toggle-off');
 		} else {
 	   		$('.leftpanel').addClass('sticky-leftpanel');
 	   		$.cookie("sticky-leftpanel", 1);	
 	   		$('.sticky_left').addClass('panel_frozen');
-	   		$('.sticky_left').addClass('fa-dot-circle-o');
-	   		$('.sticky_left').removeClass('fa-circle-o');
+	   		$('.sticky_left').addClass('fa-toggle-on');
+	   		$('.sticky_left').removeClass('fa-toggle-off');
 		}
 	});
 	if(jQuery.cookie('sticky-leftpanel')) {
 		$('.leftpanel').addClass('sticky-leftpanel');
 		$('.sticky_left').addClass('panel_frozen');
-  		$('.sticky_left').addClass('fa-dot-circle-o');
-   		$('.sticky_left').removeClass('fa-circle-o');
+  		$('.sticky_left').addClass('fa-toggle-on');
+   		$('.sticky_left').removeClass('fa-toggle-off');
 	}   
    
 	if(jQuery.cookie('leftpanel-collapsed')) {

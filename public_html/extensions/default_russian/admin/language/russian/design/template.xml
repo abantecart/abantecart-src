@@ -20,4 +20,8 @@
     <key>text_error</key>
     <value><![CDATA[Ошибка: отсутствует необходимый параметр в запросе!]]></value>
   </definition>  
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Внимание: Вы не имеете прав модифицировать шаблоны!]]></value>
+  </definition>    
 </definitions>

@@ -20,4 +20,8 @@
     <key>text_error</key>
     <value><![CDATA[Error: Missing required parameter in your request!]]></value>
   </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Warning: You do not have permission to modify templates!]]></value>
+  </definition>  
 </definitions>

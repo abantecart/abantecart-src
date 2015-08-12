@@ -10,18 +10,19 @@
 				</a>
 			</div>
 
-			<div class="btn-group toolbar">
+			<div class="btn-group toolbar mr10">
 				<a class="actionitem btn btn-default lock-on-click tooltips" href="<?php echo $current_url; ?>" title="<?php echo $button_reload; ?>">
 					<i class="fa fa-refresh fa-fw"></i>
 				</a>
-			</div>
-			
+				<?php echo $this->getHookVar('template_toolbar_buttons'); ?>
+			</div>			
+			<?php echo $this->getHookVar('template_panel_buttons'); ?>
 		</div>
 
 		<?php include($tpl_common_dir . 'content_buttons.tpl'); ?>	
 	</div>
 
-	<div class="panel-body panel-body-nopadding tab-content col-xs-12">
+	<div class="panel-body panel-body-nopadding tab-content col-xs-12 <?php echo $status_off; ?>">
 		<label class="h4 heading"><?php echo $text_storefront_templates; ?></label>
 		
 		<div class="row type_blocks mt10">
@@ -41,13 +42,18 @@
 						if($template['set_defailt_url']) {
 					?>
 						<a href="<?php echo $template['set_defailt_url']; ?>" class="btn tooltips" data-original-title="<?php echo $text_set_template; ?>">
-							<i class="fa fa-check fa-lg"></i>
+							<i class="fa fa-toggle-off fa-lg"></i>
 						</a>
+					<?php 
+						} else {
+					?>
+						<span class="btn tooltips"><i class="fa fa-toggle-on fa-lg"></i></span>
+						
 					<?php 
 						}
 					?>
-						<a href="<?php echo $template['edit_url']; ?>" target="_template" class="btn tooltips" data-original-title="<?php echo $text_edit; ?>">
-							<i class="fa fa-edit fa-lg"></i>
+						<a href="<?php echo $template['edit_url']; ?>" class="btn tooltips" data-original-title="<?php echo $text_edit; ?>">
+							<i class="fa fa-gear fa-lg"></i>
 						</a>
 					<?php 
 						if($template['extn_url']) {
@@ -61,8 +67,9 @@
 						<a href="<?php echo $template['clone_url']; ?>" target="_template" class="btn tooltips" data-original-title="<?php echo $text_clone_template; ?>">
 							<i class="fa fa-copy fa-lg"></i>
 						</a>
-					</div>
 
+						<?php echo $this->getHookVar('template_control_buttons'); ?>
+					</div>					
 				</div>
 			</div>		
 <?php 
@@ -73,17 +80,3 @@
 	</div>
 
 </div>
-
-<script type="text/javascript"><!--
-
-$('.delete_page_layout').click(function(e) {
-  e.stopPropagation();
-  e.preventDefault();
-  
-  if (confirm('<?php echo $text_delete_confirm; ?>' )) {
-    var url = $(this).attr('href');
-    window.location = url + '&confirmed_delete=yes';  
-  }
-});
-
---></script>

@@ -2,7 +2,7 @@
 	<i class="fa fa-desktop"></i>
 	<?php echo $current_store; ?> <span class="caret"></span>
 </button>
-<div class="dropdown-menu dropdown-menu-sm pull-right switcher">
+<div class="dropdown-menu dropdown-menu-sm pull-left switcher">
 	<h5 class="title"><?php echo $current_store; ?></h5>
     <ul class="dropdown-list dropdown-list-sm">
     	<?php 

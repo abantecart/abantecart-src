@@ -20,4 +20,8 @@
     <key>text_error</key>
     <value><![CDATA[Error: Missing requiere de parámetros en su solicitud!]]></value>
   </definition>  
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Advertencia: Usted no tiene permiso para modificar el disponibles!]]></value>
+  </definition>    
 </definitions>

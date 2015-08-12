@@ -152,39 +152,6 @@ class ControllerPagesSettingSetting extends AController {
 		$this->conf_mngr = new AConfigManager();
 
 		if($this->data['active']=='appearance'){
-			$group = !$this->request->get['tmpl_id'] || $this->request->get['tmpl_id']=='default' ? $group : $this->request->get['tmpl_id'];
-			$tmpls = $this->conf_mngr->getTemplates('storefront');
-
-			foreach ($tmpls as $tmpl) {
-				$templates[$tmpl] = array(
-										'name' => "&nbsp;&nbsp;&nbsp;".$tmpl,
-										'href' => $this->html->getSecureURL('setting/setting', '&active=' . $this->data['active'].'&tmpl_id='.$tmpl));
-			}
-
-			array_unshift($templates, array(
-											'name' => $this->language->get('text_common_template_settings') ,
-											'href' => $this->html->getSecureURL('setting/setting', '&active=' . $this->data['active'])));
-
-			$this->data['templates'] = $templates;
-			$this->data['current_template'] = $this->request->get['tmpl_id'] ? $this->request->get['tmpl_id'] : $this->language->get('text_common_template_settings');
-
-			//button for template cloning
-			$dev_tools = $this->extensions->getExtensionsList(array('search'=>'developer_tools'))->row;
-			if( is_null($dev_tools['status']) ){
-				$href = "http://www.abantecart.com/extension-developer-tools";
-			}elseif($dev_tools['status']==1){
-				$href = $this->html->getSecureURL('tool/developer_tools/create');
-			}else{
-				$href = $this->html->getSecureURL('extension/extensions/edit','&extension=developer_tools');
-			}
-			//NOTE: need to show dibberent icon and message if dev tools extension is not installed
-			$this->data['clone_button'] = $this->html->buildElement(
-					array(
-							'type' => 'button',
-							'name' => 'clone_button',
-							'href' => $href,
-							'text' => $this->language->get('text_clone_template')));
-
 			$this->data['manage_extensions'] = $this->html->buildElement(
 					array(
 							'type' => 'button',
@@ -193,9 +160,6 @@ class ControllerPagesSettingSetting extends AController {
 							'text' => $this->language->get('button_manage_extensions'),
 							'title' => $this->language->get('button_manage_extensions')
 					));
-
-
-
 		}
 
 		$this->data['settings'] = $this->model_setting_setting->getSetting($group, $this->data['store_id']);
@@ -452,10 +416,9 @@ class ControllerPagesSettingSetting extends AController {
 
 				$this->data['settings']['tmpl_id'] = $this->request->get['tmpl_id'];
 				if($this->data['settings']['tmpl_id']=='default'){
+					//get default setting fields for template
 					$this->data['settings']['tmpl_id'] = 'appearance';
 				}
-
-
 				$this->data = array_merge_recursive($this->data, $this->_build_appearance($form, $this->data['settings']));
 
 				$resources_scripts = $this->dispatch(
