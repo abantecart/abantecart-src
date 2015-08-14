@@ -93,9 +93,9 @@ function moneyDisplayFormat($value, $mode = 'no_round'){
  * check that argument variable has value (even 0 is a value)  
  * */
 function has_value($value) {
-	if (!is_array($value) && $value !== '' && !is_null($value)) {
+	if ($value !== (array)$value && $value !== '' && $value !== null ) {
 		return true;
-	} else if (is_array($value) && count($value) > 0) {
+	} else if ($value === (array)$value && count($value) > 0) {
 		return true;
 	} else {
 		return false;
@@ -118,7 +118,7 @@ function is_serialized ($value) {
  * check that argument array is multidimensional  
  * */
 function is_multi ($array) {
-	if (is_array($array) && count($array) != count($array, COUNT_RECURSIVE)) {
+	if ($array === (array)$array && count($array) != count($array, COUNT_RECURSIVE)) {
 	    return true;
 	} else {
 	    return false;
