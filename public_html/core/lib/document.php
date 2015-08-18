@@ -21,6 +21,9 @@ if (!defined('DIR_CORE')) {
 	header('Location: static_pages/');
 }
 
+/**
+ * Class ADocument
+ */
 final class ADocument {
 	private $title;
 	private $description;
@@ -35,62 +38,108 @@ final class ADocument {
 	private $scripts_bottom = array();
 	private $breadcrumbs = array();
 
+	/**
+	 * @param string $title
+	 */
 	public function setTitle($title) {
 		$this->title = $title;
 	}
 
+	/**
+	 * @return string
+	 */
 	public function getTitle() {
 		return $this->title;
 	}
 
+	/**
+	 * @param string $description
+	 * @void
+	 */
 	public function setDescription($description) {
 		$this->description = $description;
 	}
 
+	/**
+	 * @return string
+	 */
 	public function getDescription() {
 		return $this->description;
 	}
 
+	/**
+	 * @param string $keywords
+	 */
 	public function setKeywords($keywords) {
 		$this->keywords = $keywords;
 	}
 
+	/**
+	 * @return string
+	 */
 	public function getKeywords() {
 		return $this->keywords;
 	}
 
+	/**
+	 * @param string $base
+	 */
 	public function setBase($base) {
 		$this->base = $base;
 	}
 
+	/**
+	 * @return string
+	 */
 	public function getBase() {
 		return $this->base;
 	}
 
+	/**
+	 * @param string $charset
+	 */
 	public function setCharset($charset) {
 		$this->charset = $charset;
 	}
 
+	/**
+	 * @return string
+	 */
 	public function getCharset() {
 		return $this->charset;
 	}
 
+	/**
+	 * @param string $language
+	 */
 	public function setLanguage($language) {
 		$this->language = $language;
 	}
 
+	/**
+	 * @return string
+	 */
 	public function getLanguage() {
 		return $this->language;
 	}
 
+	/**
+	 * @param string $direction
+	 */
 	public function setDirection($direction) {
 		$this->direction = $direction;
 	}
 
+	/**
+	 * @return string
+	 */
 	public function getDirection() {
 		return $this->direction;
 	}
 
+	/**
+	 * @void
+	 */
 	public function resetLinks() {
 		$this->links = array();
 	}
@@ -98,10 +147,9 @@ final class ADocument {
 	/**
 	 * method add new Link item
 	 *
-	 * @param array $link_item
-	 * @internal param array $item ("href"=>"","rel"=>"")
+	 * @param array $link_item - array("href"=>"","rel"=>"")
 	 * Examples: href => 'www.google.com', 'rel'  => 'canonical'
-	 * @return null
+	 * @void
 	 */
 	public function addLink($link_item = array()) {
 		if ($link_item[ "href" ]) {
@@ -109,10 +157,16 @@ final class ADocument {
 		}
 	}
 
+	/**
+	 * @return array
+	 */
 	public function getLinks() {
 		return $this->links;
 	}
 
+	/**
+	 * @void
+	 */
 	public function resetStyles() {
 		$this->styles = array();
 	}
@@ -120,8 +174,7 @@ final class ADocument {
 	/**
 	 * method to add new Style item
 	 *
-	 * @param array $style_item
-	 * @internal param array $item ("href"=>"","rel"=>"","media"=>)
+	 * @param array $style_item - array("href"=>"","rel"=>"","media"=>)
 	 * Examples: href => 'www.google.com', $rel = 'stylesheet', $media = 'screen'
 	 * @return null
 	 */
@@ -131,10 +184,16 @@ final class ADocument {
 		}
 	}
 
+	/**
+	 * @return array
+	 */
 	public function getStyles() {
 		return $this->styles;
 	}
 
+	/**
+	 * @void
+	 */
 	public function resetScripts() {
 		$this->scripts = array();
 	}
@@ -152,6 +211,9 @@ final class ADocument {
 		}
 	}
 
+	/**
+	 * @return array
+	 */
 	public function getScripts() {
 		//Need to have only unique scripts to avoid duplicates
 		return array_unique ( $this->scripts );
@@ -162,12 +224,15 @@ final class ADocument {
 	 *
 	 * @param string - web path to the file
 	 * Examples: /javascript/bootstrap.js or http//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js
-	 * @return null
+	 * @void
 	 */
 	public function addScriptBottom($script) {
 		$this->scripts_bottom[ ] = $script;
 	}
 
+	/**
+	 * @return array
+	 */
 	public function getScriptsBottom() {
 		//Need to have only unique scripts to avoid duplicates
 		return array_unique ( $this->scripts_bottom );
@@ -179,9 +244,7 @@ final class ADocument {
 
 	/**
 	 * method to reset breadcrumbs array
-	 *
-	 * @internal param $ : none
-	 * @return void : nothing
+	 * @void
 	 */
 	public function resetBreadcrumbs() {
 		$this->breadcrumbs = array();
@@ -190,9 +253,8 @@ final class ADocument {
 	/**
 	 * method to initialize Breadcrumbs aray and add root attribute
 	 *
-	 * @param array $breadcrumb_item
-	 * @internal param array $item ("href"=>"", "text"=>"", "separator"=>)
-	 * @return void : nothing
+	 * @param array $breadcrumb_item ("href"=>"", "text"=>"", "separator"=>)
+	 * @void
 	 */
 	public function initBreadcrumb($breadcrumb_item = array()) {
 		$this->resetBreadcrumbs();
@@ -203,9 +265,8 @@ final class ADocument {
 	/**
 	 * method add new Breadcrumb item
 	 *
-	 * @param array $breadcrumb_item
-	 * @internal param array $item ("href"=>"", "text"=>"", "separator"=>)
-	 * @return null
+	 * @param array $breadcrumb_item ("href"=>"", "text"=>"", "separator"=>)
+	 * @void
 	 */
 	public function addBreadcrumb($breadcrumb_item = array()) {
 		if ($breadcrumb_item[ "href" ]) {
@@ -213,6 +274,9 @@ final class ADocument {
 		}
 	}
 
+	/**
+	 * @return array
+	 */
 	public function getBreadcrumbs() {
 		return $this->breadcrumbs;
 	}

@@ -866,14 +866,18 @@ class AConfigManager {
 		return $fields;
 	}
 
-	//To be removed in v 1.3 or next major release
+	/**To be removed in v 1.3 or next major release
+	 * @deprecated since 1.2.4
+	 * @param $section
+	 * @return array
+	 */
 	public function getTemplatesLIst($section) {
 		return $this->getTemplates($section);
 	}
 
 	/**
 	 * @param 	string $section - can be storefront or admin
-	 * 			int $status - template extension status
+	 * @param 	int $status - template extension status
 	 * @return array
 	 */
 	public function getTemplates($section, $status = 1){

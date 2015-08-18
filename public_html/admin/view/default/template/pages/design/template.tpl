@@ -30,7 +30,7 @@
 	foreach ($templates as $template) {
 ?>		
 			<div class="col-md-4 col-sm-6 template_block">
-				<div class="text-center template_thumbnail <?php if(!$template['set_defailt_url']) echo 'default';?>">   
+				<div class="text-center template_thumbnail <?php if(!$template['set_default_url']) echo 'default';?>">   
 					<div class="h5"><?php echo $template['name']; ?></div>
 				             
 					<a class="text-center" href="<?php echo $template['edit_url']; ?>">
@@ -39,9 +39,9 @@
 
 					<div class="caption center">
 					<?php 
-						if($template['set_defailt_url']) {
+						if($template['set_default_url']) {
 					?>
-						<a href="<?php echo $template['set_defailt_url']; ?>" class="btn tooltips" data-original-title="<?php echo $text_set_template; ?>">
+						<a href="<?php echo $template['set_default_url']; ?>" class="btn tooltips" data-original-title="<?php echo $text_set_template; ?>">
 							<i class="fa fa-toggle-off fa-lg"></i>
 						</a>
 					<?php 
@@ -61,22 +61,22 @@
 						<a href="<?php echo $template['extn_url']; ?>" target="_template" class="btn tooltips" data-original-title="<?php echo $text_edit_extension; ?>">
 							<i class="fa fa-puzzle-piece fa-lg"></i>
 						</a>
-					<?php 
-						}
-					?>
-						<a href="<?php echo $template['clone_url']; ?>" target="_template" class="btn tooltips" data-original-title="<?php echo $text_clone_template; ?>">
+					<?php }
+
+					if($template['clone_button']){ ?>
+						<a href="<?php echo $template['clone_button']->href; ?>"
+						   target="_template"
+						   class="btn tooltips"
+						   data-original-title="<?php echo $template['clone_button']->text; ?>"
+						   <?php echo $template['clone_button']->attr; ?> >
 							<i class="fa fa-copy fa-lg"></i>
 						</a>
-
-						<?php echo $this->getHookVar('template_control_buttons'); ?>
+					<?php } ?>
+					<?php echo $this->getHookVar('template_control_buttons_'.$template['name']); ?>
 					</div>					
 				</div>
 			</div>		
-<?php 
-	} 
-?> 			
+<?php } ?>
 		</div>
-		
 	</div>
-
 </div>
