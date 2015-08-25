@@ -1361,7 +1361,7 @@ CREATE TABLE `ac_product_options` (
   `element_type` char(1) NOT NULL DEFAULT 'I',
   `required` smallint(1) NOT NULL default '0',
   `regexp_pattern` varchar(255) NOT NULL default '',
-	`settings`			text COLLATE utf8_general_ci,
+  `settings` text COLLATE utf8_general_ci,
   PRIMARY KEY (`product_option_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
 

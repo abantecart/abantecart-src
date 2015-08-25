@@ -8,7 +8,7 @@
     <key>no_enabled_payments_tip</key>
     <value><![CDATA[
 
-    <div class="info alert alert-warning"><i class="fa fa fa-exclamation-triangle fa-fw"></i> You have any payment method enabled yet.</div>
+    <div class="info alert alert-warning"><i class="fa fa fa-exclamation-triangle fa-fw"></i> You have no payment method enabled yet.</div>
     <label class="h4 heading">Check most common payments:</label>
     <div class="row">
 	    <div class="col-sm-6 h5 heading">

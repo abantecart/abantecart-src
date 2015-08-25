@@ -65,7 +65,7 @@
 						}
 					?>
 						<a href="<?php echo $template['clone_url']; ?>" target="_template" class="btn tooltips" data-original-title="<?php echo $text_clone_template; ?>">
-							<i class="fa fa-copy fa-lg"></i>
+							<i class="fa fa-clone fa-lg"></i>
 						</a>
 
 						<?php echo $this->getHookVar('template_control_buttons'); ?>

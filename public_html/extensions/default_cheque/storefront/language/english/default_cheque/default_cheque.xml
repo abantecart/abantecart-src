@@ -6,7 +6,7 @@
   </definition>
   <definition>
     <key>text_payable</key>
-    <value><![CDATA[Make Payable To: ]]></value>
+    <value><![CDATA[Make Check Payable To: ]]></value>
   </definition>
   <definition>
     <key>text_address</key>
