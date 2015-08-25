@@ -47,6 +47,10 @@ class ControllerPagesSettingSetting extends AController {
 		$this->extensions->hk_InitData($this, __FUNCTION__);
 
 		$this->document->setTitle($this->language->get('heading_title'));
+		$group = $this->request->get['active'];
+		if(has_value($this->request->get['tmpl_id']) && $this->request->get['tmpl_id']!='default' && $group=='appearance'){
+			$group = $this->request->get['tmpl_id'];
+		}
 		if ($this->request->is_POST() && $this->_validate($this->request->get['active'])) {
 			if (has_value($this->request->post['config_logo'])) {
 				$this->request->post['config_logo'] = html_entity_decode($this->request->post['config_logo'], ENT_COMPAT, 'UTF-8');
@@ -63,13 +67,6 @@ class ControllerPagesSettingSetting extends AController {
 			//html decode store name
 			if (has_value($this->request->post['store_name'])) {
 				$this->request->post['store_name'] = html_entity_decode($this->request->post['store_name'], ENT_COMPAT, 'UTF-8');
-			}
-
-			$group = $this->request->get['active'];
-
-			if(has_value($this->request->get['tmpl_id']) && $this->request->get['tmpl_id']!='default' && $group=='appearance'){
-				$group = $this->request->get['tmpl_id'];
-
 			}
 
 			$this->model_setting_setting->editSetting( $group, $this->request->post, $this->request->get['store_id']);
@@ -92,8 +89,9 @@ class ControllerPagesSettingSetting extends AController {
 		if ($this->request->get['store_id']) {
 			$this->data['store_id'] = $this->request->get['store_id'];
 		} else {
-			$this->data['store_id'] = $this->config->get('config_store_id');
+			$this->data['store_id'] = $this->session->data['current_store_id'];
 		}
+
 
 		$this->data['groups'] = $this->groups;
 		if (isset($this->request->get['active']) && strpos($this->request->get['active'], '-') !== false) {
@@ -147,7 +145,6 @@ class ControllerPagesSettingSetting extends AController {
 		$this->data['cancel'] = $this->html->getSecureURL('setting/setting');
 		$this->data['action'] = $this->html->getSecureURL('setting/setting');
 
-		$group = $this->data['active'];
 		require_once(DIR_CORE.'lib/config_manager.php');
 		$this->conf_mngr = new AConfigManager();
 

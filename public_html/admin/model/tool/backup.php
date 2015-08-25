@@ -30,6 +30,10 @@ class ModelToolBackup extends Model {
 	 */
 	private $est_backup_size = 0;
 
+	//TODO: need to solve issue (memory overflow) with large sql-scripts
+	/**
+	 * @param string $sql
+	 */
 	public function restore($sql) {
 		$this->db->query("SET SQL_MODE = 'NO_AUTO_VALUE_ON_ZERO'"); // to prevent auto increment for 0 value of id
 		$qr = explode(";\n", $sql);
@@ -41,19 +45,29 @@ class ModelToolBackup extends Model {
 		}
 		$this->db->query("SET SQL_MODE = ''");
 	}
-	public function load($xml) {
-		$xml_obj = simplexml_load_string($xml);
+
+	/**
+	 * @param string $xml_source  - xml as string or full filename to xml-file
+	 * @param string $mode
+	 * @return bool
+	 */
+	public function load($xml_source,$mode='string') {
+		if($mode=='string'){
+			$xml_obj = simplexml_load_string($xml_source);
+		}elseif($mode=='file'){
+			$xml_obj = simplexml_load_file($xml_source);
+		}
 		if ($xml_obj) {
 			$xmlname = $xml_obj->getName();
 			if ($xmlname == 'template_layouts') {
 				$load = new ALayoutManager();
-				$load->loadXML(array('xml' => $xml));
+				$load->loadXML(array('xml' => $xml_source));
 			} elseif ($xmlname == 'datasets') {
 				$load = new ADataset();
-				$load->loadXML(array('xml' => $xml));
+				$load->loadXML(array('xml' => $xml_source));
 			} elseif ($xmlname == 'forms') {
 				$load = new AFormManager();
-				$load->loadXML(array('xml' => $xml));
+				$load->loadXML(array('xml' => $xml_source));
 			} else {
 				return false;
 			}
@@ -64,7 +78,7 @@ class ModelToolBackup extends Model {
 	}
 
 	/**
-	 * funrtion returns table list of abantecart
+	 * function returns table list of abantecart
 	 * @return array
 	 */
 	public function getTables() {
@@ -84,6 +98,13 @@ class ModelToolBackup extends Model {
 		return $table_data;
 	}
 
+	/**
+	 * @param array $tables
+	 * @param bool|true $rl
+	 * @param bool|false $config
+	 * @param string $sql_dump_mode
+	 * @return bool
+	 */
 	public function backup($tables, $rl = true, $config = false, $sql_dump_mode = 'data_only') {
 
 		$bkp = new ABackup('manual_backup' .'_'. date('Y-m-d-H-i-s'));
@@ -117,6 +138,11 @@ class ModelToolBackup extends Model {
 		return $result;
 	}
 
+	/**
+	 * @param string $task_name
+	 * @param array $data
+	 * @return array|bool
+	 */
 	public function createBackupTask($task_name, $data = array()){
 
 		if(!$task_name){
@@ -285,6 +311,10 @@ class ModelToolBackup extends Model {
 
 	}
 
+	/**
+	 * @param array $table_list
+	 * @return array
+	 */
 	public function getTableSizes($table_list=array()){
 		$tables = array();
 		foreach($table_list as $table){
@@ -315,6 +345,9 @@ class ModelToolBackup extends Model {
 		return $output;
 	}
 
+	/**
+	 * @return int
+	 */
 	public function getCodeSize(){
 
 		$code_dirs = array(
@@ -332,6 +365,9 @@ class ModelToolBackup extends Model {
 		return $dirs_size;
 	}
 
+	/**
+	 * @return int
+	 */
 	public function getContentSize(){
 		$content_dirs = array( // white list
 							'resources',
@@ -345,6 +381,10 @@ class ModelToolBackup extends Model {
 		return $dirs_size;
 	}
 
+	/**
+	 * @param string $dir
+	 * @return int
+	 */
 	private function _get_directory_size($dir){
 		$count_size = 0;
 		$count = 0;
