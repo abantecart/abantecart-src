@@ -31,7 +31,7 @@
 
 			<div class="btn-group mr10 toolbar">
 			    <a class="btn btn-white tooltips" href="<?php echo $clone_button->href; ?>" title="<?php echo $clone_button->text; ?>" <?php echo $clone_button->attr;?> >
-			    	<i class="fa fa-copy fa-lg"></i>
+			    	<i class="fa fa-clone fa-lg"></i>
 			    </a>
 				<?php echo $this->getHookVar('template_edit_toolbar_buttons'); ?>
 			</div>

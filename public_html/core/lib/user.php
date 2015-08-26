@@ -96,7 +96,7 @@ final class AUser {
 			$this->username = $user_query->row['username'];
 			$this->last_login = $user_query->row['last_login'];
 			if ($this->last_login == '0000-00-00 00:00:00') {
-				$this->session->data['user_last_login'] = $this->last_login = '-------';
+				$this->session->data['user_last_login'] = $this->last_login = '---';
 			}
 
 			$this->db->query("UPDATE " . $this->db->table("users") . " 

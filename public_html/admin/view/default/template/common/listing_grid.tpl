@@ -266,7 +266,7 @@ var initGrid_<?php echo $data['table_id'] ?> = function ($) {
                         $html_btn .= ' href="'.$href.'" target="_blank" rel="%ID%"><i class="fa fa-male fa-lg"></i>';
                         break;
                     case 'clone':
-                        $html_btn .= ' href="'.$href.'" rel="%ID%"><i class="fa fa-copy fa-lg"></i>';
+                        $html_btn .= ' href="'.$href.'" rel="%ID%"><i class="fa fa-clone fa-lg"></i>';
                         break;
                     case 'remote_install':
                         $html_btn .= ' href="'.$href.'" rel="%ID%"><i class="fa fa-play fa-lg"></i>';

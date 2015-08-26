@@ -14,6 +14,14 @@
 
 	<div class="panel-heading col-xs-12">
 		<div class="primary_content_actions pull-left">
+			<div class="actionitem btn-group mr10 toolbar">
+				<a class="btn btn-primary lock-on-click tooltips" href="<?php echo $insert; ?>" title="<?php echo $button_add; ?>">
+				<i class="fa fa-plus"></i>
+				</a>
+			</div>
+		</div>
+
+		<div class="primary_content_actions pull-left">
 		</div>
 		<?php include($tpl_common_dir . 'content_buttons.tpl'); ?>
 	</div>
@@ -27,9 +35,9 @@
 			<?php foreach ($fields as $name => $field) { ?>
 			<?php
 				//Logic to calculate fields width
-				$widthcasses = "col-sm-7";
+				$widthcasses = "col-sm-9";
 				if ( is_int(stripos($field->style, 'large-field')) ) {
-					$widthcasses = "col-sm-7";
+					$widthcasses = "col-sm-9";
 				} else if ( is_int(stripos($field->style, 'medium-field')) || is_int(stripos($field->style, 'date')) ) {
 					$widthcasses = "col-sm-5";
 				} else if ( is_int(stripos($field->style, 'small-field')) || is_int(stripos($field->style, 'btn_switch')) ) {
