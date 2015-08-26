@@ -3047,3 +3047,12 @@ body.stickyheader .sticky_left {
 	display:inline;
 	max-height: 250px;
 }
+
+/*CDEditor RL button label style*/
+.cke_button_icon.cke_button__ck_rl_button_icon{
+   display: none;
+}
+
+.cke_button.cke_button__ck_rl_button .cke_button_label.cke_button__ck_rl_button_label{
+   display:inline;
+}

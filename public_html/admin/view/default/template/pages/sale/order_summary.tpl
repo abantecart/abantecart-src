@@ -1,4 +1,4 @@
-<?php include($tpl_common_dir . 'action_confirm.tpl'); ?>
+<?php include($tpl_common_dir . 'action_confirm.tpl');?>
 
 <div class="panel panel-default">
 	<div class="panel-heading">
@@ -34,6 +34,7 @@
 				<td class="summary_label"><?php echo $entry_payment_method; ?></td>
 				<td class="summary_value"><?php echo $order['payment_method']; ?></td>
 			</tr>
+			<?php echo $this->getHookVar('order_summary_hook_var'); ?>
 		</table>
 	</div>
 </div>

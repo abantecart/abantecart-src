@@ -895,4 +895,49 @@ var getUrlParameter = function (sParam) {
         }
     }
 }
+/*function adds Resource LIbrary Button into CKEditor
+* cke - CKEDITOR js instance
+* base_url - config_url of selected store with slash at the end
+* */
+function addRL2CKE(cke, base_url){
+    cke.addCommand("openRLModal", {
+        exec: function(edt) {
+            window.parent.openRLModal(cke, base_url);
+            return  null;
+        }
+    });
 
+    cke.ui.addButton('ck_rl_button', {
+        label: "Resource Library",
+        command: 'openRLModal',
+        toolbar: 'abantecart'
+    });
+
+}
+function openRLModal(cke, base_url){
+	modalscope.mode = 'single';
+	mediaDialog('image', 'list_library');
+
+	$('#rl_modal').on('shown.bs.modal', function () {
+
+		$('#rl_modal').unbind("hidden.bs.modal").on("hidden.bs.modal", function (e) {
+			var item = modalscope.selected_resource;
+			if(item.length<1){ return null;}
+
+			var insert_html='';
+			if( item.resource_path.length>0 ){
+				var type_name = item.type_name;
+				insert_html = base_url+'resources/'+type_name+'/'+item.resource_path;
+				if(type_name=='image'){
+					insert_html = '<img src="'+insert_html+'">';
+				}else{
+					//TODO : need to add other RL-types support
+					return null;
+				}
+			}else if(item.resource_code!=undefined && item.resource_code.length>0){
+				insert_html = item.resource_code;
+			}
+			cke.insertHtml(insert_html);
+			});
+	});
+}
