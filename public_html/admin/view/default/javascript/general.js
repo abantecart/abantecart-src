@@ -897,24 +897,23 @@ var getUrlParameter = function (sParam) {
 }
 /*function adds Resource LIbrary Button into CKEditor
 * cke - CKEDITOR js instance
-* base_url - config_url of selected store with slash at the end
 * */
-function addRL2CKE(cke, base_url){
-    cke.addCommand("openRLModal", {
+function addRL2CKE(cke){
+    cke.addCommand("openCKRLModal", {
         exec: function(edt) {
-            window.parent.openRLModal(cke, base_url);
+            window.parent.openCKRLModal(cke);
             return  null;
         }
     });
 
     cke.ui.addButton('ck_rl_button', {
         label: "Resource Library",
-        command: 'openRLModal',
+        command: 'openCKRLModal',
         toolbar: 'abantecart'
     });
 
 }
-function openRLModal(cke, base_url){
+function openCKRLModal(cke){
 	modalscope.mode = 'single';
 	mediaDialog('image', 'list_library');
 
@@ -927,7 +926,7 @@ function openRLModal(cke, base_url){
 			var insert_html='';
 			if( item.resource_path.length>0 ){
 				var type_name = item.type_name;
-				insert_html = base_url+'resources/'+type_name+'/'+item.resource_path;
+				insert_html = 'resources/'+type_name+'/'+item.resource_path;
 				if(type_name=='image'){
 					insert_html = '<img src="'+insert_html+'">';
 				}else{

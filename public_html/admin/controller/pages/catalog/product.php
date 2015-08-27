@@ -854,7 +854,18 @@ class ControllerPagesCatalogProduct extends AController {
 	    $this->data['language_id'] = $this->session->data['content_language_id'];
 	    $this->data['language_code'] = $this->session->data['language'];
 	    $this->data['help_url'] = $this->gen_help_url('product_edit');
-	    $this->data['rl'] = $this->html->getSecureURL('common/resource_library', '&object_name=&object_id&type=image&mode=url');
+
+	    $this->addChild('responses/common/resource_library/get_resources_html', 'resources_html', 'responses/common/resource_library_scripts.tpl');
+        $resources_scripts = $this->dispatch(
+                'responses/common/resource_library/get_resources_scripts',
+                array(
+                        'object_name' => 'products',
+                        'object_id' => $product_id,
+                        'types' => array('image'),
+                )
+        );
+        $this->data['resources_scripts'] =  $resources_scripts->dispatchGetOutput();
+        $this->data['rl'] = $this->html->getSecureURL('common/resource_library', '&action=list_library&object_name=&object_id&type=image&mode=single');
 
 	    $this->view->batchAssign( $this->data );
 

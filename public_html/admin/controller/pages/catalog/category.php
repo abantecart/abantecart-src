@@ -494,16 +494,11 @@ class ControllerPagesCatalogCategory extends AController {
 						'types' => array('image'),
 				)
 		);
-
-		$this->view->assign('current_url', $this->html->currentURL());
-
 		$this->view->assign('resources_scripts', $resources_scripts->dispatchGetOutput());
 		$this->view->assign('rl', $this->html->getSecureURL('common/resource_library', '&action=list_library&object_name=&object_id&type=image&mode=single'));
 
+		$this->view->assign('current_url', $this->html->currentURL());
 
-		//add base url for selected store
-		$this->loadModel('setting/store');
-		$this->view->assign('base_url',$this->model_setting_store->getStoreURL($this->session->data['current_store_id']));
 		$this->processTemplate('pages/catalog/category_form.tpl');
 	}
 

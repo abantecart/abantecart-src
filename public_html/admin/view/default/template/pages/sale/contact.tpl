@@ -68,18 +68,21 @@
 	</div>
 	</form>
 </div><!-- <div class="tab-content"> -->
-
+<?php echo $resources_scripts; ?>
 <script type="text/javascript">
-	$('#mail_form_recipient').change(function(){
-		if($(this).val()=='' || $(this).val()=='FALSE'){
-			$('#mail_form_to').removeAttr('disabled');
-			$('#mail_personaly').fadeIn(500);
-		}else{
-			$('#mail_form_to').prop('disabled','disabled');
-			$('#mail_personaly').fadeOut(500);
+	$(document).ready(function () {
+		$('#mail_form_recipient').change(function () {
+			if ($(this).val() == '' || $(this).val() == 'FALSE') {
+				$('#mail_form_to').removeAttr('disabled');
+				$('#mail_personaly').fadeIn(500);
+			} else {
+				$('#mail_form_to').prop('disabled', 'disabled');
+				$('#mail_personaly').fadeOut(500);
 
-		}
+			}
+		});
+
+		var cke = wrapCKEditor('message');
+		addRL2CKE(cke);
 	});
-
-	CKEDITOR.replace('message', { language: '<?php echo $language_code; ?>'});
 </script>

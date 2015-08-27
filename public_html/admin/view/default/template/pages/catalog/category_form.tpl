@@ -57,8 +57,9 @@
 			<div id="image">
 			   <?php if ( !empty($update) ) {
 				echo $resources_html;
-				echo $resources_scripts;
-			} ?>
+			}
+			// add RL-scripts anyway for ckeditor usage
+			echo $resources_scripts; ?>
 			</div>
 	</div>
 		
@@ -88,10 +89,7 @@ $(document).ready(function(){
 		});
 	});
 
-	var ck = CKEDITOR.replace('editFrm_category_description<?php echo $language_id; ?>description',
-		{ language: '<?php echo $language_code; ?>'	});
-
-	addRL2CKE(ck,'<?php echo $base_url?>');
-
+	var ck = wrapCKEditor('editFrm_category_description<?php echo $language_id; ?>description');
+	addRL2CKE(ck);
 });
 //--></script>

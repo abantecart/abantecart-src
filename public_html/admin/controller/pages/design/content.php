@@ -458,8 +458,18 @@ class ControllerPagesDesignContent extends AController {
 		}
 
 		$this->view->assign('help_url', $this->gen_help_url('content_edit'));
-		$this->view->assign('rl', $this->html->getSecureURL('common/resource_library', '&object_name=&object_id&type=image&mode=url'));
-		$this->view->assign('language_code', $this->session->data['language']);
+
+		$resources_scripts = $this->dispatch(
+				'responses/common/resource_library/get_resources_scripts',
+				array(
+						'object_name' => 'contents',
+						'object_id' => $p_content_id_id,
+						'types' => array('image'),
+				)
+		);
+		$this->data['resources_scripts'] = $resources_scripts->dispatchGetOutput();
+		$this->data['rl'] = $this->html->getSecureURL('common/resource_library', '&action=list_library&object_name=&object_id&type=image&mode=single');
+
 		$this->view->batchAssign($this->data);
 		$this->processTemplate('pages/design/content_form.tpl');
 	}
