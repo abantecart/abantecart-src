@@ -61,13 +61,7 @@
 						<a href="<?php echo $template['extn_url']; ?>" target="_template" class="btn tooltips" data-original-title="<?php echo $text_edit_extension; ?>">
 							<i class="fa fa-puzzle-piece fa-lg"></i>
 						</a>
-<<<<<<< HEAD
-					<?php 
-						}
-					?>
-						<a href="<?php echo $template['clone_url']; ?>" target="_template" class="btn tooltips" data-original-title="<?php echo $text_clone_template; ?>">
-							<i class="fa fa-clone fa-lg"></i>
-=======
+
 					<?php }
 
 					if($template['clone_button']){ ?>
@@ -76,10 +70,10 @@
 						   class="btn tooltips"
 						   data-original-title="<?php echo $template['clone_button']->text; ?>"
 						   <?php echo $template['clone_button']->attr; ?> >
-							<i class="fa fa-copy fa-lg"></i>
->>>>>>> origin/1.2.4
+							<i class="fa fa-clone fa-lg"></i>
 						</a>
 					<?php } ?>
+					
 					<?php echo $this->getHookVar('template_control_buttons_'.$template['name']); ?>
 					</div>					
 				</div>
