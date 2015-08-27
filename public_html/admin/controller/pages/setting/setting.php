@@ -412,6 +412,16 @@ class ControllerPagesSettingSetting extends AController {
 		switch ($this->data['active']) {
 			case 'details':
 				$this->data = array_merge_recursive($this->data, $this->_build_details($form, $this->data['settings']));
+				$resources_scripts = $this->dispatch(
+						'responses/common/resource_library/get_resources_scripts',
+						array(
+								'object_name' => '',
+								'object_id' => '',
+								'types' => array('image'),
+						)
+				);
+				$this->data['resources_scripts'] = $resources_scripts->dispatchGetOutput();
+
 				break;
 			case 'general' :
 				$this->data = array_merge_recursive($this->data, $this->_build_general($form, $this->data['settings']));

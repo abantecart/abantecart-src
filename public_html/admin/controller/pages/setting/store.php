@@ -289,9 +289,19 @@ class ControllerPagesSettingStore extends AController {
             ));
         }
 
+        $resources_scripts = $this->dispatch(
+                'responses/common/resource_library/get_resources_scripts',
+                array(
+                        'object_name' => '',
+                        'object_id' => '',
+                        'types' => array('image'),
+                )
+        );
+        $this->data['resources_scripts'] = $resources_scripts->dispatchGetOutput();
+
         $this->view->batchAssign($this->data);
 		$this->view->assign('form_store_switch', $this->html->getStoreSwitcher());
-        $this->view->assign('language_code', $this->session->data['language']);
+
         $this->processTemplate('pages/setting/store.tpl');
 
         //update controller data

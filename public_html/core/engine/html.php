@@ -199,7 +199,6 @@ class AHtml extends AController {
 	 * Current URL built based on get params with ability to exclude params
 	 *
 	 * @param $filter_params array - array of vars to filter
-	 * @internal param array $params_arr - data array to process
 	 * @return string - url without unwanted filter parameters
 	 */
 	public function currentURL($filter_params = array()) {	
@@ -576,6 +575,10 @@ class AHtml extends AController {
 		return $item->getHtml();
 	}
 
+	/**
+	 * @return string
+	 * @throws AException
+	 */
 	public function getStoreSwitcher() {
 		$registry = Registry::getInstance();
 		$view = new AView(Registry::getInstance(), 0);
@@ -613,6 +616,10 @@ class AHtml extends AController {
 		} 
 	}
 
+	/**
+	 * @return string
+	 * @throws AException
+	 */
 	public function getContentLanguageSwitcher() {
 		$registry = Registry::getInstance();
 		$view = new AView(Registry::getInstance(), 0);
@@ -642,6 +649,10 @@ class AHtml extends AController {
 		return $view->fetch('form/language_switcher.tpl');
 	}
 
+	/**
+	 * @return string
+	 * @throws AException
+	 */
 	public function getContentLanguageFlags() {
 		$registry = Registry::getInstance();
 		$view = new AView(Registry::getInstance(), 0);
@@ -949,6 +960,9 @@ abstract class HtmlElement {
 		return isset($this->data[ $name ]);
 	}
 
+	/**
+	 * @return string
+	 */
 	public function __toString() {
 		$javascript = '';
 		if ($this->data['javascript']) {
@@ -957,16 +971,23 @@ abstract class HtmlElement {
 		return $javascript . $this->getHtml();
 	}
 
+	/**
+	 * @return null
+	 */
 	public function getHtml() {
 		return null;
 	}
 
 }
 
+/**
+ * Class HiddenHtmlElement
+ */
 class HiddenHtmlElement extends HtmlElement {
-
+	/**
+	 * @return string
+	 */
 	public function getHtml() {
-
 		$this->view->batchAssign(
 			array(
 				'id' => $this->element_id,
@@ -980,8 +1001,13 @@ class HiddenHtmlElement extends HtmlElement {
 	}
 }
 
+/**
+ * Class MultivalueListHtmlElement
+ */
 class MultivalueListHtmlElement extends HtmlElement {
-
+	/**
+	 * @return string
+	 */
 	public function getHtml() {
 		$data = array(
 			'id' => $this->element_id,
@@ -1006,7 +1032,13 @@ class MultivalueListHtmlElement extends HtmlElement {
 	}
 }
 
+/**
+ * Class MultivalueHtmlElement
+ */
 class MultivalueHtmlElement extends HtmlElement {
+	/**
+	 * @return string
+	 */
 	public function getHtml() {
 		$data = array(
 			'id' => $this->element_id,
@@ -1038,8 +1070,13 @@ class MultivalueHtmlElement extends HtmlElement {
 	}
 }
 
+/**
+ * Class SubmitHtmlElement
+ */
 class SubmitHtmlElement extends HtmlElement {
-
+	/**
+	 * @return string
+	 */
 	public function getHtml() {
 		$this->view->batchAssign(
 			array(
@@ -1056,8 +1093,13 @@ class SubmitHtmlElement extends HtmlElement {
 	}
 }
 
+/**
+ * Class InputHtmlElement
+ */
 class InputHtmlElement extends HtmlElement {
-
+	/**
+	 * @return string
+	 */
 	public function getHtml() {
 
 		if (!isset($this->default)) $this->default = '';
@@ -1086,8 +1128,13 @@ class InputHtmlElement extends HtmlElement {
 	}
 }
 
+/**
+ * Class PasswordHtmlElement
+ */
 class PasswordHtmlElement extends HtmlElement {
-
+	/**
+	 * @return string
+	 */
 	public function getHtml() {
 
 		if (!isset($this->default)) $this->default = '';
@@ -1112,8 +1159,13 @@ class PasswordHtmlElement extends HtmlElement {
 	}
 }
 
+/**
+ * Class TextareaHtmlElement
+ */
 class TextareaHtmlElement extends HtmlElement {
-
+	/**
+	 * @return string
+	 */
 	public function getHtml() {
 		$this->view->batchAssign(
 			array(
@@ -1135,8 +1187,13 @@ class TextareaHtmlElement extends HtmlElement {
 	}
 }
 
+/**
+ * Class SelectboxHtmlElement
+ */
 class SelectboxHtmlElement extends HtmlElement {
-
+	/**
+	 * @return string
+	 */
 	public function getHtml() {
 
 		if (!is_array($this->value)) $this->value = array( $this->value => (string)$this->value );
@@ -1186,8 +1243,13 @@ class SelectboxHtmlElement extends HtmlElement {
 	}
 }
 
+/**
+ * Class MultiSelectboxHtmlElement
+ */
 class MultiSelectboxHtmlElement extends HtmlElement {
-
+	/**
+	 * @return string
+	 */
 	public function getHtml() {
 
 		if (!is_array($this->value)) $this->value = array( $this->value => $this->value );
@@ -1229,9 +1291,13 @@ class MultiSelectboxHtmlElement extends HtmlElement {
 	}
 }
 
-
+/**
+ * Class CheckboxHtmlElement
+ */
 class CheckboxHtmlElement extends HtmlElement {
-
+	/**
+	 * @return string
+	 */
 	public function getHtml() {
 
 		if( strpos($this->style,'btn_switch') !== false ) { //for switch button NOTE: value is binary (1 or 0)!!!
@@ -1309,8 +1375,13 @@ class CheckboxGroupHtmlElement extends HtmlElement {
 	}
 }
 
+/**
+ * Class FileHtmlElement
+ */
 class FileHtmlElement extends HtmlElement {
-
+	/**
+	 * @return string
+	 */
 	public function getHtml() {
         /**
          * @var $registry Registry
@@ -1499,7 +1570,8 @@ class ResourceHtmlElement extends HtmlElement {
 			'resource_id'=>$this->resource_id, //resource_id
 			'object_name'=> $this->object_name,
 			'object_id'=> $this->object_id,
-			'rl_type'=> $this->rl_type // image or audio or pdf etc
+			'rl_type'=> $this->rl_type, // image or audio or pdf etc
+			'hide'=> ($this->hide ? true : false) // hide image preview
 		);
 		if(!$data['resource_id'] && $data['resource_path']){
 			$path = ltrim($data['resource_path'], $data['rl_type'].'/');
@@ -1566,7 +1638,9 @@ class DateHtmlElement extends HtmlElement {
 		}
 	}
 
-
+	/**
+	 * @return string
+	 */
 	public function getHtml() {
 
 		if (!isset($this->default)) $this->default = '';
@@ -1597,8 +1671,13 @@ class DateHtmlElement extends HtmlElement {
 	}
 }
 
+/**
+ * Class EmailHtmlElement
+ */
 class EmailHtmlElement extends HtmlElement {
-
+	/**
+	 * @return string
+	 */
 	public function getHtml() {
 
 		if (!isset($this->default)) $this->default = '';
@@ -1627,8 +1706,13 @@ class EmailHtmlElement extends HtmlElement {
 	}
 }
 
+/**
+ * Class NumberHtmlElement
+ */
 class NumberHtmlElement extends HtmlElement {
-
+	/**
+	 * @return string
+	 */
 	public function getHtml() {
 
 		if (!isset($this->default)) $this->default = '';
@@ -1657,8 +1741,13 @@ class NumberHtmlElement extends HtmlElement {
 	}
 }
 
+/**
+ * Class PhoneHtmlElement
+ */
 class PhoneHtmlElement extends HtmlElement {
-
+	/**
+	 * @return string
+	 */
 	public function getHtml() {
 
 		if (!isset($this->default)) $this->default = '';
@@ -1856,6 +1945,9 @@ class ZonesHtmlElement extends HtmlElement {
 class PaginationHtmlElement extends HtmlElement {
 	public $sts = array();
 
+	/**
+	 * @param array $data
+	 */
 	public function __construct($data) {
 		parent::__construct($data);
 		//default settings
@@ -1883,7 +1975,10 @@ class PaginationHtmlElement extends HtmlElement {
 			}
 		}
 	}
-	
+
+	/**
+	 * @return string
+	 */
 	public function getHtml() {
 		//Build pagination data and dysplay
 		/**
@@ -1997,12 +2092,17 @@ class PaginationHtmlElement extends HtmlElement {
  * Class ModalHtmlElement
  */
 class ModalHtmlElement extends HtmlElement {
-
+	/**
+	 * @param array $data
+	 */
 	public function __construct($data) {
 		parent::__construct($data);
 
 	}
 
+	/**
+	 * @return string
+	 */
 	public function getHtml() {
 
 		$modal_type = $this->modal_type ? $this->modal_type : 'lg';

@@ -604,7 +604,18 @@ class ControllerPagesDesignBlocks extends AController {
 		$this->view->assign('form_language_switch', $this->html->getContentLanguageSwitcher());
 		$this->view->assign('language_code', $this->session->data['language']);
 		$this->view->assign('help_url', $this->gen_help_url('block_edit'));
-		$this->view->assign('rl', $this->html->getSecureURL('common/resource_library', '&object_name=custom_block&type=image&mode=url'));
+
+		$this->addChild('responses/common/resource_library/get_resources_html', 'resources_html', 'responses/common/resource_library_scripts.tpl');
+		$resources_scripts = $this->dispatch(
+				'responses/common/resource_library/get_resources_scripts',
+				array(
+						'object_name' => 'categories',
+						'object_id' => $category_id,
+						'types' => array('image'),
+				)
+		);
+		$this->view->assign('resources_scripts', $resources_scripts->dispatchGetOutput());
+		$this->view->assign('rl', $this->html->getSecureURL('common/resource_library', '&action=list_library&object_name=&object_id&type=image&mode=single'));
 
 		$this->processTemplate('pages/design/blocks_form.tpl');
 	}

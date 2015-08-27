@@ -29,7 +29,8 @@ var urls = {
 var modalscope = {
 	mode: '<?php echo $mode;?>',
 	wrapper_id: '',
-	field_id: ''
+	field_id: '',
+	selected_resource: {} //for single mode only
 };
 
 var rl_error_handler = function(jqXHR, textStatus, errorThrown){
@@ -206,7 +207,7 @@ var loadMedia = function (type, wrapper) {
 
 }
 
-var loadSingle = function (type, wrapper_id, resource_id, field) {
+var loadSingle = function (type, wrapper_id, resource_id, field, hide) {
 	if (!wrapper_id || wrapper_id == undefined || wrapper_id == null || wrapper_id == '') {
 		wrapper_id = modalscope.wrapper_id;
 	} else {
@@ -225,7 +226,22 @@ var loadSingle = function (type, wrapper_id, resource_id, field) {
 		dataType: 'json',
 		global: false,
 		success: function (item) {
-		
+			//when preview is hidden  -skip
+			if(hide){
+				if (item != null) {
+					$('#' + field).val(item['resource_path'].length > 0 ? item['type_name'] + '/' + item['resource_path'] : '');
+					$('#' + field + '_resource_id').val(item['resource_id']);
+					$('#' + field + '_resource_code').val(item['resource_code']);
+					modalscope.selected_resource = item;
+				}else{
+					$('#' + field).val('');
+					$('#' + field + '_resource_id').val('');
+					$('#' + field + '_resource_code').val('');
+					modalscope.selected_resource = {};
+				}
+				return true;
+			}
+
 			var html = '';
 			if (item != null) {
 				var t = new Date().getTime();
@@ -251,8 +267,8 @@ var loadSingle = function (type, wrapper_id, resource_id, field) {
 
 				$('#'+field).val(item['resource_path'].length>0 ? item['type_name']+'/'+item['resource_path'] : '');
 				$('#'+field+'_resource_id').val(item['resource_id']);
-
-
+				$('#'+field+'_resource_code').val(item['resource_code']);
+				modalscope.selected_resource = item;
 			} else {
 				html = '<div class="resource_single col-sm-6 col-xs-12"><div class="center thumbnail fileupload_drag_area" >';
 				html += '<a class="btn resource_add tooltips transparent" ' +
@@ -265,8 +281,9 @@ var loadSingle = function (type, wrapper_id, resource_id, field) {
 
 				$('#'+field).val('');
 				$('#'+field+'_resource_id').val('');
+				$('#'+field+'_resource_code').val('');
+				modalscope.selected_resource = {};
 			}
-
 			$('#' + wrapper_id).html(html);
 		},
 		error: rl_error_handler

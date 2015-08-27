@@ -57,8 +57,9 @@
 			<div id="image">
 			   <?php if ( !empty($update) ) {
 				echo $resources_html;
-				echo $resources_scripts;
-			} ?>
+			}
+			// add RL-scripts anyway for ckeditor usage
+			echo $resources_scripts; ?>
 			</div>
 	</div>
 		
@@ -78,8 +79,9 @@
 
 </div><!-- <div class="tab-content"> -->
 
-
 <script type="text/javascript"><!--
+
+$(document).ready(function(){
 	$('#editFrm_generate_seo_keyword').click(function(){
 		var seo_name = $('#editFrm_category_description<?php echo $language_id; ?>name').val().replace('%','');
 		$.get('<?php echo $generate_seo_url;?>&seo_name='+seo_name, function(data){
@@ -87,10 +89,7 @@
 		});
 	});
 
-	$('#editFrm_category_description<?php echo $language_id; ?>description').parents('.afield').removeClass('mask2');
-
-	CKEDITOR.replace('editFrm_category_description<?php echo $language_id; ?>description',
-	{
-		language: '<?php echo $language_code; ?>'
-	});
+	var ck = wrapCKEditor('editFrm_category_description<?php echo $language_id; ?>description');
+	addRL2CKE(ck);
+});
 //--></script>
