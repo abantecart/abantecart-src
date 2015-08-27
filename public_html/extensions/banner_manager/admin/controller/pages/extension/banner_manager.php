@@ -463,7 +463,16 @@ class ControllerPagesExtensionBannerManager extends AController {
 				'value' => $this->data ['description'],
 				'attr' => '')
 				);
-			$this->data['form']['text']['description'] = $this->language->get('entry_banner_html');	
+			$this->data['form']['text']['description'] = $this->language->get('entry_banner_html');
+			$resources_scripts = $this->dispatch(
+					'responses/common/resource_library/get_resources_scripts',
+					array(
+							'object_name' => '',
+							'object_id' => '',
+							'types' => array('image'),
+					)
+			);
+			$this->view->assign('resources_scripts', $resources_scripts->dispatchGetOutput());
 		}
 
 		$this->view->batchAssign($this->language->getASet());
