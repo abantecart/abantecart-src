@@ -148,6 +148,12 @@ class ControllerPagesSettingSetting extends AController {
 		require_once(DIR_CORE.'lib/config_manager.php');
 		$this->conf_mngr = new AConfigManager();
 
+		//activate quick start guide button
+		$this->loadLanguage('common/quick_start');
+		$this->data['quick_start_url'] = $this->html->getSecureURL('setting/setting_quick_form/quick_start');
+		
+		$group = $this->data['active'];
+
 		if($this->data['active']=='appearance'){
 			$this->data['manage_extensions'] = $this->html->buildElement(
 					array(
@@ -319,6 +325,10 @@ class ControllerPagesSettingSetting extends AController {
 		$this->data['resources_scripts'] = $resources_scripts->dispatchGetOutput();
 		$this->data['content_language_id'] = $this->language->getContentLanguageID();
 
+		//activate quick start guide button
+		$this->loadLanguage('common/quick_start');
+		$this->data['quick_start_url'] = $this->html->getSecureURL('setting/setting_quick_form/quick_start');
+		
 		$this->view->batchAssign($this->data);
 		$this->view->assign('help_url', $this->gen_help_url('setting_listing'));
 

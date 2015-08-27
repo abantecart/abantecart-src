@@ -23,6 +23,8 @@ if (! defined ( 'DIR_CORE' ) || !IS_ADMIN) {
 
 
 class ControllerPagesIndexHome extends AController {
+	public $data = array();
+
 	public function main() {
 
 		//init controller data
@@ -203,6 +205,12 @@ class ControllerPagesIndexHome extends AController {
 			//$api_response_html = $this->model_tool_mp_api->processRequest(array());
 			$tip_content = sprintf($tip_content, $api_response_html);
 			$this->view->assign('tip_content', $tip_content);
+		}
+
+		//check quick start quide based on no last_login
+		$last_login = $this->user->getLastLogin();
+		if( !$last_login || $last_login == '---') {
+			$this->view->assign('quick_start_url', $this->html->getSecureURL('setting/setting_quick_form/quick_start'));
 		}
 		
 		$this->processTemplate('pages/index/home.tpl' );
