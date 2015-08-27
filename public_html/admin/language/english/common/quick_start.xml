@@ -1,0 +1,64 @@
+<?xml version="1.0"?>
+<definitions>
+  <definition>
+    <key>text_quick_start</key>
+    <value><![CDATA[Quick Start Wizard]]></value>
+  </definition>
+  <definition>
+    <key>text_quick_start_note</key>
+    <value><![CDATA[
+    	Welcome to AbanteCart administration.<br />
+    	This is a wizard to help you quickly set up your shopping cart with most common settings.
+		<br />
+    ]]></value>
+  </definition>
+
+  <definition>
+    <key>text_quick_start_general</key>
+    <value><![CDATA[
+    	Below are most common general settings. 
+    	More settings are available <a href="%s" target="_new_admin"><i class="fa fa-link fa-fw"></i></a>
+    ]]></value>
+  </definition>
+
+  <definition>
+    <key>text_quick_start_details</key>
+    <value><![CDATA[
+    	Below are most common settings about your store. 
+    	More settings are available <a href="%s" target="_new_admin"><i class="fa fa-link fa-fw"></i></a>
+    ]]></value>
+  </definition>
+
+  <definition>
+    <key>text_quick_start_checkout</key>
+    <value><![CDATA[
+    	Below are most common settings for checkout process. 
+    	More settings are available <a href="%s" target="_new_admin"><i class="fa fa-link fa-fw"></i></a>
+    ]]></value>
+  </definition>
+
+  <definition>
+    <key>text_quick_start_appearance</key>
+    <value><![CDATA[
+    	Below are most common settings for storefront appearance. 
+    	More settings are available <a href="%s" target="_new_admin"><i class="fa fa-link fa-fw"></i></a>
+    ]]></value>
+  </definition>
+
+  <definition>
+    <key>text_quick_start_mail</key>
+    <value><![CDATA[
+    	Below are most common settings to enable email. If you use external email server (google, etc) to send emails, you need to use SMTP option. For emails to be sent from this server use Mail option. 
+    	More settings are available <a href="%s" target="_new_admin"><i class="fa fa-link fa-fw"></i></a>
+    ]]></value>
+  </definition>
+
+  <definition>
+    <key>text_quick_start_last</key>
+    <value><![CDATA[
+    	You have completed quick starter wizard. <br /><br /> 
+    	You can locate all the settings <a href="%s">this link <i class="fa fa-link fa-fw"></i></a>
+    ]]></value>
+  </definition>
+
+</definitions>

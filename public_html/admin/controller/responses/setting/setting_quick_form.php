@@ -93,12 +93,10 @@ class ControllerResponsesSettingSettingQuickForm extends AController {
             $this->data['languages'][$lang['language_id']] = $lang;
         }
 
-
         $this->data['action'] = $this->html->getSecureURL('setting/setting_quick_form', '&target=' . $this->request->get['target'].'&active='.$this->request->get['active']);
         $this->data['heading_title'] = $this->language->get('text_edit') . ' ' . $this->language->get('text_setting');
         $form = new AForm('HT');
         $this->data['setting_id'] = (int)$this->request->get['setting_id'];
-
 
         $form->setForm(array(
             'form_name' => 'qsFrm',
@@ -166,5 +164,208 @@ class ControllerResponsesSettingSettingQuickForm extends AController {
             return FALSE;
         }
     }
+    
+    /* Quick Start Guide */
+    public function quick_start_save_next() {
+    	$group = $this->session->data['quick_start_step'];
+    	if(!isset($group)) {
+    		//get setting group if sesssion has expired
+    		$group = $this->request->get['active'];
+    		$this->session->data['quick_start_step'] = $group;
+    	}
+	    $store_id = !isset($this->session->data['current_store_id']) ? 0 : $this->session->data['current_store_id'];
+    	if(has_value($this->request->get['store_id'])) {
+    		$store_id = $this->request->get['store_id'];
+    		$this->session->data['current_store_id'] = $store_id;
+    	}
+    	
+		//save settings 
+        if ($group && $this->request->is_POST()){
+			if( $this->_validateForm($group) ) {
+				$this->loadModel('setting/setting');
+		        $this->loadLanguage('setting/setting');
+    	    	$this->loadLanguage('common/header');
+				$this->loadLanguage('common/quick_start');
+				$this->model_setting_setting->editSetting( $group, $this->request->post, $store_id );
+				$output['result_text'] = $this->language->get('text_success');
+				//set next step
+				$this->session->data['quick_start_step'] = $this->_next_step($group);
+				if(empty($this->session->data['quick_start_step'])){
+					//last step
+					$this->session->data['quick_start_step'] = 'finished';
+				}
+			}
+		}
+		$this->quick_start();
+	}
+	
+    public function quick_start() {
+        if (!$this->user->canModify('setting/setting_quick_form')) {
+            $this->error['warning'] = $this->language->get('error_permission');
+        }
+
+        //init controller data
+        $this->extensions->hk_InitData($this, __FUNCTION__);
+
+		$output = array('result_text'=>'');
+
+		$this->loadModel('setting/setting');
+        $this->loadLanguage('setting/setting');
+        $this->loadLanguage('common/header');
+		$this->loadLanguage('common/quick_start');
+
+		//quick start guide can be for different stores 
+	    $this->data['store_id'] = !isset($this->session->data['current_store_id']) ? 0 : $this->session->data['current_store_id'];
+		$this->data['title'] = $this->language->get('text_quick_start');
+		$this->data['heading_title'] = $this->language->get('text_quick_start');
+
+		$this->data['qs_fields']['details'] = array(
+			'name',
+			'title',
+			'meta_description',
+			'meta_keywords',
+			'description',
+			'owner',
+			'address',
+			'email',
+			'telephone',
+			'country',
+			'country_id_zones'
+		);
+		$this->data['qs_fields']['general'] = array(
+			'google_analytics',
+			'stock_display',
+			'nostock_autodisable',
+			'stock_status',
+			'embed_status',
+			'embed_click_action'
+		);
+		$this->data['qs_fields']['checkout'] = array(
+			'tax',
+			'tax_store',
+			'tax_customer',
+			'invoice',
+			'customer_approval',
+			'customer_email_activation',
+			'guest_checkout',
+			'stock_checkout',
+			'order_status'
+		);
+		$this->data['qs_fields']['appearance'] = array(
+			'logo',
+			'icon',
+			'image_thumb_width',
+			'image_thumb_height',
+			'image_product_width',
+			'image_product_height'
+		);
+		$this->data['qs_fields']['mail'] = array(
+			'mail_protocol',
+			'smtp_host',
+			'smtp_username',
+			'smtp_password',
+			'smtp_port',
+			'smtp_timeout',
+		);
+
+		if(empty($this->session->data['quick_start_step'])) {
+			$this->session->data['quick_start_step'] = 'details';
+		}
+        $section = $this->session->data['quick_start_step'];
+		
+		if($section && $section != 'finished') {
+	        $data = array();
+	 	    $data = $this->model_setting_setting->getSetting($section, $this->data['store_id']);
+			$this->_getQuickStartForm($section, $data);
+	
+			if($section == 'details') {
+				//welcome message for the first step
+				$this->data['quick_start_note'] = $this->language->get('text_quick_start_note');	
+			}
+			$this->data['quick_start_note'] .= sprintf(
+												$this->language->get('text_quick_start_'.$section),
+									 			$this->html->getSecureURL('setting/setting/'.$section));
+		} else {
+			$this->data['quick_start_note'] .= sprintf(
+												$this->language->get('text_quick_start_last'),
+									 			$this->html->getSecureURL('setting/setting/all'));	
+			$this->data['competed'] = true;				 				
+		}
+
+		$this->data['error'] = $this->error;
+        $this->view->batchAssign($this->data);
+        
+		$this->view->assign('help_url', $this->gen_help_url('settings_quickstart'));
+
+		//update controller data
+		$this->extensions->hk_UpdateData($this, __FUNCTION__);
+
+		$this->processTemplate('responses/setting/quick_start.tpl');
+	}
+
+	private function _getQuickStartForm($section, $settigs_data) {
+
+		$this->data['action'] = $this->html->getSecureURL('setting/setting_quick_form/quick_start_save_next',
+				'&active=' . $this->session->data['quick_start_step'] . '&store_id='.$this->session->data['current_store_id']);
+		$this->data['update'] = $this->html->getSecureURL('listing_grid/setting/update_field',
+				'&group=' . $section . '&store_id=' . $this->data['store_id']);
+		$this->view->assign('language_code', $this->session->data['language']);
+		$form = new AForm('HS');
+
+		$form->setForm(array(
+			'form_name' => 'settingFrm',
+			'update' => $this->data['update'],
+		));
+
+		$this->data['form']['id'] = 'settingFrm';
+		$this->data['form']['form_open'] = $form->getFieldHtml(array(
+			'type' => 'form',
+			'name' => 'settingFrm',
+			'attr' => 'data-confirm-exit="true" class="aform form-horizontal"',
+			'action' => $this->data['action'],	
+		));
+		$this->data['form']['submit'] = $form->getFieldHtml(array(
+			'type' => 'button',
+			'name' => 'submit',
+			'text' => $this->language->get('button_save'),
+			'style' => 'button1',
+		));
+		$this->data['form']['reset'] = $form->getFieldHtml(array(
+				'type' => 'button',
+				'name' => 'reset',
+				'text' => $this->language->get('button_reset'),
+		));
+
+		if($section == 'appearance') {
+			//get set current template
+			$this->data['tmpl_id'] = $settigs_data['config_storefront_template'];
+		}
+
+		$this->data['form']['fields'] = array();
+        require_once(DIR_CORE . 'lib/config_manager.php');
+        $conf_mngr = new AConfigManager();
+		$set_fields =  $conf_mngr->getFormFields($section, $form, $settigs_data);
+        foreach ($this->data['qs_fields'][$section] as $field) {
+       		$this->data['form']['fields'][$field] = $set_fields[$field];
+		}
+		unset($set_fields);
+		
+		$resources_scripts = $this->dispatch(
+		    'responses/common/resource_library/get_resources_scripts',
+		    array(
+		    	'object_name' => 'store',
+		    	'object_id' => (int)$this->request->get['store_id'],
+		    	'types' => array($item['resource_type']),
+		    	'onload' => true,
+		    	'mode' => 'single'
+		    )
+		);
+		$this->data['resources_scripts'] = $resources_scripts->dispatchGetOutput();
+	}
+	
+	private function _next_step($current_step) {
+		$steps = array('details' => 'general', 'general' => 'checkout', 'checkout' => 'appearance', 'appearance' => 'mail', 'mail' => '');
+		return $steps[$current_step];
+	}
 
 }
