@@ -539,6 +539,7 @@ class ControllerResponsesProductProduct extends AController{
 	private function _option_value_form($form){
 		$this->data['option_attribute'] = $this->attribute_manager->getAttributeByProductOptionId($this->request->get['option_id']);
 		$this->data['option_attribute']['values'] = '';
+
 		$this->data['option_attribute']['type'] = 'input';
 		$product_option_value_id = $this->request->get['product_option_value_id'];
 		$group_attribute = array();
@@ -643,7 +644,7 @@ class ControllerResponsesProductProduct extends AController{
 			} else{
 
 				$arr = array(
-						'type'  => 'input',
+						'type'  => $this->data['option_data']['element_type']=='T' ? 'textarea' : 'input',
 						'name'  => 'name[' . $product_option_value_id . ']',
 						'value' => $this->data['name']
 				);
