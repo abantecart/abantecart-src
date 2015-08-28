@@ -408,20 +408,22 @@ class ControllerPagesSettingSetting extends AController {
 			'style' => 'button2',
 		));
 
+		//need resource script on every page for quick start
+		$resources_scripts = $this->dispatch(
+		    'responses/common/resource_library/get_resources_scripts',
+		    array(
+		    	'object_name' => 'store',
+		    	'object_id' => (int)$this->data['store_id'],
+		    	'types' => array('image'),
+		    	'onload' => true,
+		    	'mode' => 'single'
+		    )
+		);
+		$this->data['resources_scripts'] = $resources_scripts->dispatchGetOutput();
 
 		switch ($this->data['active']) {
 			case 'details':
 				$this->data = array_merge_recursive($this->data, $this->_build_details($form, $this->data['settings']));
-				$resources_scripts = $this->dispatch(
-						'responses/common/resource_library/get_resources_scripts',
-						array(
-								'object_name' => '',
-								'object_id' => '',
-								'types' => array('image'),
-						)
-				);
-				$this->data['resources_scripts'] = $resources_scripts->dispatchGetOutput();
-
 				break;
 			case 'general' :
 				$this->data = array_merge_recursive($this->data, $this->_build_general($form, $this->data['settings']));
@@ -438,17 +440,6 @@ class ControllerPagesSettingSetting extends AController {
 				}
 				$this->data = array_merge_recursive($this->data, $this->_build_appearance($form, $this->data['settings']));
 
-				$resources_scripts = $this->dispatch(
-					'responses/common/resource_library/get_resources_scripts',
-					array(
-						'object_name' => 'store',
-						'object_id' => (int)$this->request->get['store_id'],
-						'types' => array($item['resource_type']),
-						'onload' => true,
-						'mode' => 'single'
-					)
-				);
-				$this->data['resources_scripts'] = $resources_scripts->dispatchGetOutput();
 				break;
 			case 'mail' :
 				$this->data = array_merge_recursive($this->data, $this->_build_mail($form, $this->data['settings']));

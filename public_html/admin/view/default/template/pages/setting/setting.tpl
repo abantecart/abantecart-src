@@ -110,9 +110,7 @@
 </div><!-- <div class="tab-content"> -->
 
 
-<?php
-
-echo $resources_scripts ?>
+<?php echo $resources_scripts ?>
 
 <script type="text/javascript"><!--
 jQuery(function ($) {

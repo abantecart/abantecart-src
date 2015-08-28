@@ -211,6 +211,8 @@ if($quick_start_url){
 		    	'modal_type' => 'lg',
 		    	'data_source' => 'ajax'
 		));
+	
+	echo $resources_scripts;	
 }
 
 // in case when no any payment enabled

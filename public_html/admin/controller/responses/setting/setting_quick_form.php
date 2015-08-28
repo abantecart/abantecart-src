@@ -186,7 +186,29 @@ class ControllerResponsesSettingSettingQuickForm extends AController {
 		        $this->loadLanguage('setting/setting');
     	    	$this->loadLanguage('common/header');
 				$this->loadLanguage('common/quick_start');
-				$this->model_setting_setting->editSetting( $group, $this->request->post, $store_id );
+
+				if ($group == 'appearance'){
+					$section = $this->request->get['tmpl_id'] == 'default' ? 'appearance' : $this->request->get['tmpl_id'];
+					if (has_value($this->request->post['config_logo'])){
+						$this->request->post['config_logo'] = html_entity_decode($this->request->post['config_logo'], ENT_COMPAT, 'UTF-8');
+					} else if (!$this->request->post['config_logo'] && isset($this->request->post['config_logo_resource_id'])){
+						//we save resource ID vs resource path
+						$this->request->post['config_logo'] = $this->request->post['config_logo_resource_id'];
+					}
+					if (has_value($this->request->post['config_icon'])){
+						$this->request->post['config_icon'] = html_entity_decode($this->request->post['config_icon'], ENT_COMPAT, 'UTF-8');
+					} else if (!$this->request->post['config_icon'] && isset($this->request->post['config_icon_resource_id'])){
+						//we save resource ID vs resource path
+						$this->request->post['config_icon'] = $this->request->post['config_icon_resource_id'];
+					}
+		
+					$this->model_setting_setting->editSetting($section, $this->request->post, $store_id);
+				
+				} else {
+					$this->model_setting_setting->editSetting( $group, $this->request->post, $store_id );			
+				}
+				$this->session->data['success'] = $this->language->get('text_success');
+				
 				$output['result_text'] = $this->language->get('text_success');
 				//set next step
 				$this->session->data['quick_start_step'] = $this->_next_step($group);
@@ -275,9 +297,21 @@ class ControllerResponsesSettingSettingQuickForm extends AController {
 		
 		if($section && $section != 'finished') {
 	        $data = array();
-	 	    $data = $this->model_setting_setting->getSetting($section, $this->data['store_id']);
-			$this->_getQuickStartForm($section, $data);
-	
+			if($section == 'appearance') {
+				//get current template
+				$tsettings = $this->model_setting_setting->getSetting('appearance', $this->data['store_id']);
+				$this->data['current_tmpl_id'] = $tsettings['config_storefront_template'];
+				//extract settings for template or default
+				unset($tsettings);		
+
+				$data = $this->model_setting_setting->getSetting($this->data['current_tmpl_id'], $this->data['store_id']);
+				//need to set template to be edited	
+				$data['tmpl_id'] = $this->data['current_tmpl_id'];
+			} else {
+				$data = $this->model_setting_setting->getSetting($section, $this->data['store_id']);
+			}
+			$this->_getQuickStartForm($section, $data);			
+
 			if($section == 'details') {
 				//welcome message for the first step
 				$this->data['quick_start_note'] = $this->language->get('text_quick_start_note');	
@@ -305,10 +339,19 @@ class ControllerResponsesSettingSettingQuickForm extends AController {
 
 	private function _getQuickStartForm($section, $settigs_data) {
 
-		$this->data['action'] = $this->html->getSecureURL('setting/setting_quick_form/quick_start_save_next',
-				'&active=' . $this->session->data['quick_start_step'] . '&store_id='.$this->session->data['current_store_id']);
-		$this->data['update'] = $this->html->getSecureURL('listing_grid/setting/update_field',
-				'&group=' . $section . '&store_id=' . $this->data['store_id']);
+		if ($settigs_data['tmpl_id']) {
+			//template settings
+			$this->data['action'] = $this->html->getSecureURL('setting/setting_quick_form/quick_start_save_next',
+				'&active='.$section.'&store_id='.$this->data['store_id'].'&tmpl_id='.$settigs_data['tmpl_id']);
+			$this->data['update'] = $this->html->getSecureURL('listing_grid/setting/update_field',
+				'&group='.$settigs_data['tmpl_id'].'&store_id='.$this->data['store_id'].'&tmpl_id='.$settigs_data['tmpl_id']);
+		} else {
+			$this->data['action'] = $this->html->getSecureURL('setting/setting_quick_form/quick_start_save_next',
+				'&active='.$section.'&store_id='.$this->data['store_id']);
+			$this->data['update'] = $this->html->getSecureURL('listing_grid/setting/update_field',
+				'&group=' . $section . '&store_id=' . $this->data['store_id']);	
+		}
+		
 		$this->view->assign('language_code', $this->session->data['language']);
 		$form = new AForm('HS');
 
@@ -336,11 +379,6 @@ class ControllerResponsesSettingSettingQuickForm extends AController {
 				'text' => $this->language->get('button_reset'),
 		));
 
-		if($section == 'appearance') {
-			//get set current template
-			$this->data['tmpl_id'] = $settigs_data['config_storefront_template'];
-		}
-
 		$this->data['form']['fields'] = array();
         require_once(DIR_CORE . 'lib/config_manager.php');
         $conf_mngr = new AConfigManager();
@@ -350,17 +388,6 @@ class ControllerResponsesSettingSettingQuickForm extends AController {
 		}
 		unset($set_fields);
 		
-		$resources_scripts = $this->dispatch(
-		    'responses/common/resource_library/get_resources_scripts',
-		    array(
-		    	'object_name' => 'store',
-		    	'object_id' => (int)$this->request->get['store_id'],
-		    	'types' => array($item['resource_type']),
-		    	'onload' => true,
-		    	'mode' => 'single'
-		    )
-		);
-		$this->data['resources_scripts'] = $resources_scripts->dispatchGetOutput();
 	}
 	
 	private function _next_step($current_step) {

@@ -646,8 +646,10 @@ class AConfigManager {
 	private function _build_form_appearance($form, $data) {
 		$fields = array();
 
-		//common section
+		//this method ca build filds for general apearance or template specific
+		//for template settings, need to specify 'tmpl_id' as template_id for settings section
 		if( empty($data['tmpl_id']) ){
+			//general appearance section
 			$templates = $this->getTemplates('storefront');
 
 			$fields['template'] = $form->getFieldHtml($props[] = array(
@@ -658,7 +660,6 @@ class AConfigManager {
 				'style' => 'large-field',
 			));
 
-			//appearance section
 			$templates = $this->getTemplates('admin');
 
 			$fields['admin_template'] = $form->getFieldHtml($props[] = array(
@@ -676,8 +677,8 @@ class AConfigManager {
 				'required' => true,
 			));
 
-		}else{ // settings per template
-
+		}else{ 
+			// settings per template
 			$default_values = $this->model_setting_setting->getSetting('appearance', (int)$data['store_id']);
 			$fieldset = array(
 					'storefront_width' ,

@@ -210,6 +210,18 @@ class ControllerPagesIndexHome extends AController {
 		//check quick start quide based on no last_login
 		$last_login = $this->user->getLastLogin();
 		if( !$last_login || $last_login == '---') {
+			$store_id = !isset($this->session->data['current_store_id']) ? 0 : $this->session->data['current_store_id'];
+			$resources_scripts = $this->dispatch(
+			    'responses/common/resource_library/get_resources_scripts',
+			    array(
+			    	'object_name' => 'store',
+			    	'object_id' => (int)$store_id,
+			    	'types' => array('image'),
+			    	'onload' => true,
+			    	'mode' => 'single'
+			    )
+			);
+			$this->view->assign('resources_scripts', $resources_scripts->dispatchGetOutput());
 			$this->view->assign('quick_start_url', $this->html->getSecureURL('setting/setting_quick_form/quick_start'));
 		}
 		
