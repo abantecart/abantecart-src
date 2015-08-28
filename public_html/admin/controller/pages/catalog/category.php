@@ -330,7 +330,7 @@ class ControllerPagesCatalogCategory extends AController {
 		if ($this->data['status'] == '') {
 			$this->data['status'] = 1;
 		}
-		if ($this->request->is_GET()) {
+		if ($this->request->is_GET() && has_value($this->request->get['parent_id'])) {
 			$this->data['parent_id'] =  $this->request->get['parent_id'];
 		}
 		if ($this->data['parent_id'] == '') {
