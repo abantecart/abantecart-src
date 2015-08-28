@@ -104,10 +104,18 @@ class ACart {
     	}
 	}
 
+	/**
+	 * @param $key
+	 * @return mixed
+	 */
 	public function __get($key) {
 		return $this->registry->get($key);
 	}
-	
+
+	/**
+	 * @param string $key
+	 * @param mixed $value
+	 */
 	public function __set($key, $value) {
 		$this->registry->set($key, $value);
 	}
@@ -402,6 +410,9 @@ class ACart {
 		$this->cust_data['cart']['virtual'][$key] = $data;
 	}
 
+	/**
+	 * @return array
+	 */
 	public function getVirtualProducts() {
 		return (array)$this->cust_data['cart']['virtual'];
 	}
@@ -466,7 +477,8 @@ class ACart {
 	 */
 	public function getWeight( $product_ids = array() ) {
 		$weight = 0;
-    	foreach ($this->getProducts() as $product) {
+		$products = $this->getProducts();
+    	foreach ($products as $product) {
       		if (count($product_ids) > 0 && !in_array((string)$product['product_id'], $product_ids) ) {
       			continue;	
       		}
@@ -506,7 +518,8 @@ class ACart {
 	 */
 	public function basicShippingProducts() {
 		$basic_ship_products = array();
-    	foreach ($this->getProducts() as $product) {
+		$products = $this->getProducts();
+    	foreach ($products as $product) {
 			if ($product['shipping'] && !$product['ship_individually'] && !$product['free_shipping'] && $product['shipping_price'] == 0 ) {
 				$basic_ship_products[] = $product;	
 			}
@@ -520,7 +533,8 @@ class ACart {
 	 */
 	public function specialShippingProducts() {
 		$special_ship_products = array();
-    	foreach ($this->getProducts() as $product) {
+		$products = $this->getProducts();
+    	foreach ($products as $product) {
 			if ($product['shipping'] && ($product['ship_individually'] || $product['free_shipping'] || $product['shipping_price'] > 0 )) {
 				$special_ship_products[] = $product;	
 			}
@@ -534,11 +548,12 @@ class ACart {
 	 */
 	public function areAllFreeShipping() {
 		$all_free_shipping = false;
-    	foreach ($this->getProducts() as $product) {
+		$products = $this->getProducts();
+    	foreach ($products as $product) {
 			if ( !$product['shipping'] || ($product['shipping'] && $product['free_shipping']) ) {
 				$all_free_shipping = true;
 			} else {
-				$all_free_shipping = false;
+				return false;
 			}
 		}
 		return $all_free_shipping;
@@ -549,7 +564,8 @@ class ACart {
 	 * @void
 	 */
 	public function setMinQty() {
-		foreach ($this->getProducts() as $product) {
+		$products = $this->getProducts();
+		foreach ($products as $product) {
 			if ($product['quantity'] < $product['minimum']) {
 				$this->cust_data['cart'][$product['key']]['qty'] = $product['minimum'];
 			}
@@ -562,7 +578,8 @@ class ACart {
 	 */
 	public function setMaxQty() {
 		# If set 0 there is no minimum
-		foreach ($this->getProducts() as $product) {
+		$products = $this->getProducts();
+		foreach ($products as $product) {
 			if ($product['maximum'] > 0) {
 				if ($product['quantity'] > $product['maximum']) {
 					$this->cust_data['error'] = $this->language->get('error_quantity_maximum');
@@ -585,7 +602,8 @@ class ACart {
 		}
 		
 		$this->sub_total = 0.0;
-		foreach ($this->getProducts() as $product) {
+		$products = $this->getProducts();
+		foreach ($products as $product) {
 			$this->sub_total += $product['total'];
 		}
 
@@ -613,7 +631,8 @@ class ACart {
 		}
 		$this->taxes = array();
 		// taxes for products
-		foreach ($this->getProducts() as $product) {
+		$products = $this->getProducts();
+		foreach ($products as $product) {
 			if ($product['tax_class_id']) {
 				//save total for each tax class to build clear tax display later
 				if (!isset($this->taxes[$product['tax_class_id']])) {
@@ -652,7 +671,8 @@ class ACart {
 			return $this->total_value;
 		}
 		$this->total_value = 0.0;
-		foreach ($this->getProducts() as $product) {
+		$products = $this->getProducts();
+		foreach ($products as $product) {
 			$this->total_value += $product['total'] + $this->tax->calcTotalTaxAmount($product['total'], $product['tax_class_id']);
 		}
 
@@ -793,8 +813,8 @@ class ACart {
 	*/   		    
   	public function hasStock() {
 		$stock = TRUE;
-		
-		foreach ($this->getProducts() as $product) {
+		$products = $this->getProducts();
+		foreach ($products as $product) {
 			if (!$product['stock']) {
 	    		$stock = FALSE;
 			}
@@ -809,8 +829,8 @@ class ACart {
 	*/   		    
   	public function hasShipping() {
 		$shipping = FALSE;
-		
-		foreach ($this->getProducts() as $product) {
+	    $products = $this->getProducts();
+		foreach ($products as $product) {
 	  		if ($product['shipping']) {
 	    		$shipping = TRUE;
 				break;
@@ -826,8 +846,8 @@ class ACart {
 	*/   		    
   	public function hasDownload() {
 		$download = FALSE;
-		
-		foreach ($this->getProducts() as $product) {
+	    $products = $this->getProducts();
+		foreach ($products as $product) {
 	  		if ($product['download']) {
 	    		$download = TRUE;
 				break;
