@@ -207,7 +207,7 @@ var loadMedia = function (type, wrapper) {
 
 }
 
-var loadSingle = function (type, wrapper_id, resource_id, field, hide) {
+var loadSingle = function (type, wrapper_id, resource_id, field, save) {
 	if (!wrapper_id || wrapper_id == undefined || wrapper_id == null || wrapper_id == '') {
 		wrapper_id = modalscope.wrapper_id;
 	} else {
@@ -226,22 +226,6 @@ var loadSingle = function (type, wrapper_id, resource_id, field, hide) {
 		dataType: 'json',
 		global: false,
 		success: function (item) {
-			//when preview is hidden  -skip
-			if(hide){
-				if (item != null) {
-					$('#' + field).val(item['resource_path'].length > 0 ? item['type_name'] + '/' + item['resource_path'] : '');
-					$('#' + field + '_resource_id').val(item['resource_id']);
-					$('#' + field + '_resource_code').val(item['resource_code']);
-					modalscope.selected_resource = item;
-				}else{
-					$('#' + field).val('');
-					$('#' + field + '_resource_id').val('');
-					$('#' + field + '_resource_code').val('');
-					modalscope.selected_resource = {};
-				}
-				return true;
-			}
-
 			var html = '';
 			if (item != null) {
 				var t = new Date().getTime();
@@ -252,18 +236,30 @@ var loadSingle = function (type, wrapper_id, resource_id, field, hide) {
 					<?php // variable t needs to prevent browser caching in case of replacement of file of resource?>
 					src = '<img class="img-responsive" src="' + item['thumbnail_url'] + '?t=' + t + '" title="' + item['name'] + '" />';
 				}
-				html += '<div class="resource_single col-sm-6 col-xs-12">';
-				html += '<div class="center thumbnail fileupload_drag_area" id="image_row' + item['resource_id'] + '" >'+
+				//mark as changed
+				var changed = '';
+				if(save) {
+					changed = ' changed';
+				}
+				html += '<div class="resource_single col-sm-6 col-xs-12 text-center">';
+				html += '<div class="thumbnail fileupload_drag_area '+changed+'" id="image_row' + item['resource_id'] + '" >'+
 						'<a class="btn resource_edit" ' +
 								'data-mode="single" ' +
 								'data-type="' + type + '" ' +
 								'data-wrapper_id="' + wrapper_id + '" ' +
 								'data-field="' + field + '" ' +
 								'data-rl-id="' + item['resource_id'] + '">' + src + '</a></div>';
+				//is new resource, do we need to save?
+				if(save) {
+					html += '<a class="btn resource_save tooltips" data-rl-id="' + item['resource_id'] + '" ' +
+						'data-original-title="<?php echo $button_save ?>" ' +
+						'"><i class="fa fa-save"></i>&nbsp;<?php echo $button_save?></a>';
+				}
 				html += '<a class="btn resource_delete tooltips" data-rl-id="' + item['resource_id'] + '" ' +
 						'data-original-title="<?php echo $button_delete ?>" ' +
 						'onclick="loadSingle(\'' + type + '\', \'' + wrapper_id + '\', null, \'' + field + '\');"><i class="fa fa-times"></i>&nbsp;<?php echo $button_remove?></a>';
 				html += '</div>';
+				
 
 				$('#'+field).val(item['resource_path'].length>0 ? item['type_name']+'/'+item['resource_path'] : '');
 				$('#'+field+'_resource_id').val(item['resource_id']);
@@ -514,18 +510,6 @@ var bind_rl = function (elm) {
 		enable_menu($obj, true);
 	});
 
-	$obj.find('.rl_select').click(function () {
-		if (modalscope.mode == 'single') {
-			var rl_id = $(this).attr('data-rl-id');
-			loadSingle($('#library').attr('data-type'), modalscope.wrapper_id, rl_id);
-			$('#rl_modal').modal('hide');
-			modalscope.mode = '';
-			modalscope.wrapper_id = '';
-			modalscope.field_id = '';
-		}
-		return false;
-	});
-
 	$obj.find('#rl_selectall').click(function () {
 		if (modalscope.mode == 'single') {
 			return false;
@@ -601,6 +585,20 @@ var bind_rl = function (elm) {
 
 	$obj.find('.rl_unlink_multiple').click(function () {
 		multi_action('unmap');
+		return false;
+	});
+
+	$obj.find('.rl_select').click(function () {
+		if (modalscope.mode == 'single') {	
+			var rl_id = $(this).attr('data-rl-id');
+			//reload media and mark for save
+			loadSingle($('#library').attr('data-type'), modalscope.wrapper_id, rl_id, '', true);
+
+			$('#rl_modal').modal('hide');
+			modalscope.mode = '';
+			modalscope.wrapper_id = '';
+			modalscope.field_id = '';
+		}
 		return false;
 	});
 
