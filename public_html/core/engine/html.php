@@ -1120,7 +1120,8 @@ class InputHtmlElement extends HtmlElement {
 				'error_text' => $this->error_text,
 			)
 		);
-		if( count($this->data['registry']->get('language')->getActiveLanguages()) > 1 ) {
+		if( is_object($this->data['registry']->get('language')) 
+			&& count($this->data['registry']->get('language')->getActiveLanguages()) > 1 ) {
 			$this->view->assign('multilingual', $this->multilingual);		
 		}
 		if (!empty($this->help_url)) {
@@ -1183,7 +1184,8 @@ class TextareaHtmlElement extends HtmlElement {
 				'placeholder' => $this->placeholder,
 			)
 		);
-		if( count($this->data['registry']->get('language')->getActiveLanguages()) > 1 ) {
+		if( is_object($this->data['registry']->get('language'))
+		 && count($this->data['registry']->get('language')->getActiveLanguages()) > 1 ) {
 			$this->view->assign('multilingual', $this->multilingual);		
 		}
 		if (!empty($this->help_url)) {
