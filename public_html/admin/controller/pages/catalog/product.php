@@ -585,26 +585,31 @@ class ControllerPagesCatalogProduct extends AController {
 			'name' => 'product_description[name]',
 			'value' => $this->data['product_description']['name'],
 			'required' => true,
+			'multilingual' => true,		
 		));
         $this->data['form']['fields']['general']['description'] = $form->getFieldHtml(array(
 			'type' => 'textarea',
 			'name' => 'product_description[description]',
 			'value' => $this->data['product_description']['description'],
+			'multilingual' => true,		
 		));
         $this->data['form']['fields']['general']['meta_keywords'] = $form->getFieldHtml(array(
 			'type' => 'textarea',
 			'name' => 'product_description[meta_keywords]',
 			'value' => $this->data['product_description']['meta_keywords'],
+			'multilingual' => true,		
 		));
         $this->data['form']['fields']['general']['meta_description'] = $form->getFieldHtml(array(
 			'type' => 'textarea',
 			'name' => 'product_description[meta_description]',
 			'value' => $this->data['product_description']['meta_description'],
+			'multilingual' => true,		
 		));
         $this->data['form']['fields']['general']['blurb'] = $form->getFieldHtml(array(
 			'type' => 'textarea',
 			'name' => 'product_description[blurb]',
 			'value' => $this->data['product_description']['blurb'],
+			'multilingual' => true,		
 		));
         $this->data['form']['fields']['general']['tags'] = $form->getFieldHtml(array(
 			'type' => 'input',
@@ -734,7 +739,8 @@ class ControllerPagesCatalogProduct extends AController {
 					'name' => 'keyword',
 					'value' => $this->data['keyword'],
 			        'help_url' => $this->gen_help_url('seo_keyword'),
-					'attr' => ' gen-value="'.SEOEncode($this->data['product_description']['name']).'" '
+					'attr' => ' gen-value="'.SEOEncode($this->data['product_description']['name']).'" ',
+					'multilingual' => true,		
 				));
         $this->data['form']['fields']['data']['date_available'] = $form->getFieldHtml(array(
             'type' => 'date',

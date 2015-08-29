@@ -334,9 +334,9 @@ class ControllerPagesExtensionBannerManager extends AController {
 		if (dateISO2Int($this->data['start_date']) > $now ) {
 			$this->data['status'] = 0;
 		}
-		$stop =  dateISO2Int($this->data['end_date']);
+		$stop = dateISO2Int($this->data['end_date']);
 
-		if($stop>0 && $stop<$now){
+		if($stop > 0 && $stop < $now){
 			$this->data['status'] = 0;
 		}
 
@@ -350,6 +350,7 @@ class ControllerPagesExtensionBannerManager extends AController {
 				'type' => 'input',
 				'name' => 'name',
 				'value' => $this->data['name'],
+				'multilingual' => true,
 				'required' => true));
 		$this->data['form']['text']['name'] = $this->language->get('entry_banner_name');
 

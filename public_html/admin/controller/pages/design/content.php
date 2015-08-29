@@ -385,11 +385,13 @@ class ControllerPagesDesignContent extends AController {
 				'name' => 'title',
 				'value' => $this->data['title'],
 				'required' => true,
+				'multilingual' => true,
 		));
 		$this->data['form']['fields']['description'] = $form->getFieldHtml(array(
 				'type' => 'textarea',
 				'name' => 'description',
-				'value' => $this->data['description']
+				'value' => $this->data['description'],
+				'multilingual' => true,
 		));
 
 		$this->data['form']['fields']['content'] = $form->getFieldHtml(array(
@@ -397,6 +399,7 @@ class ControllerPagesDesignContent extends AController {
 				'name' => 'content',
 				'value' => $this->data['content'],
 				'required' => true,
+				'multilingual' => true,
 		));
 
 		$this->data['keyword_button'] = $form->getFieldHtml(array(
@@ -413,6 +416,7 @@ class ControllerPagesDesignContent extends AController {
 				'name' => 'keyword',
 				'value' => $this->data['keyword'],
 				'style' => 'large-field',
+				'multilingual' => true,
 				'help_url' => $this->gen_help_url('seo_keyword')
 		));
 

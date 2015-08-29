@@ -1118,11 +1118,13 @@ class InputHtmlElement extends HtmlElement {
 				'placeholder' => $this->placeholder,
 				'regexp_pattern' => trim($this->regexp_pattern,'/'),
 				'error_text' => $this->error_text,
+				'multilingual' => $this->multilingual,
 			)
 		);
 		if (!empty($this->help_url)) {
 			$this->view->assign('help_url', $this->help_url);
 		}
+				
 		$return = $this->view->fetch('form/input.tpl');
 		return $return;
 	}
@@ -1177,6 +1179,7 @@ class TextareaHtmlElement extends HtmlElement {
 				'required' => $this->required,
 				'style' => $this->style,
 				'placeholder' => $this->placeholder,
+				'multilingual' => $this->multilingual,
 			)
 		);
 		if (!empty($this->help_url)) {
