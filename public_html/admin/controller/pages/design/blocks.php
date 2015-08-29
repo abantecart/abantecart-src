@@ -579,14 +579,14 @@ class ControllerPagesDesignBlocks extends AController {
 				'name' => 'block_wrapper',
 				'options' => $this->data['block_wrappers'],
 				'value' => $this->data['block_wrapper'],
-				'help_url' => $this->gen_help_url('block_wrapper'),));
+				));
 		$this->data['form']['text']['block_wrapper'] = $this->language->get('entry_block_wrapper');
 
 		$this->data['form']['fields']['block_framed'] = $form->getFieldHtml(array('type' => 'checkbox',
 				'name' => 'block_framed',
 				'value' => $this->data['block_framed'],
 				'style' => 'btn_switch',
-				'help_url' => $this->gen_help_url('block_framed'),));
+				));
 		$this->data['form']['text']['block_framed'] = $this->language->get('entry_block_framed');
 
 		$this->data['form']['fields']['block_description'] = $form->getFieldHtml(array('type' => 'textarea',
@@ -785,7 +785,7 @@ class ControllerPagesDesignBlocks extends AController {
 				'name' => 'block_wrapper',
 				'options' => $this->data['block_wrappers'],
 				'value' => $this->data['block_wrapper'],
-				'help_url' => $this->gen_help_url('block_wrapper')));
+				));
 		$this->data['form']['text']['block_wrapper'] = $this->language->get('entry_block_wrapper');
 
 
@@ -793,7 +793,7 @@ class ControllerPagesDesignBlocks extends AController {
 				'name' => 'block_framed',
 				'value' => $this->data['block_framed'],
 				'style' => 'btn_switch',
-				'help_url' => $this->gen_help_url('block_framed'),));
+				));
 		$this->data['form']['text']['block_framed'] = $this->language->get('entry_block_framed');
 
 
@@ -818,7 +818,7 @@ class ControllerPagesDesignBlocks extends AController {
 				'options' => $listing_datasources,
 				'value' => $default_listing_datasource,
 				'style' => 'no-save',
-				'help_url' => $this->gen_help_url('block_wrapper')));
+				));
 		$this->data['form']['text']['listing_datasource'] = $this->language->get('entry_listing_datasource');
 
 		if (!isset($this->data['subform_url'])) {

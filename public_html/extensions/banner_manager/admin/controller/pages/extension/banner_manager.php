@@ -928,7 +928,7 @@ class ControllerPagesExtensionBannerManager extends AController {
 				'name' => 'block_wrapper',
 				'options' => $this->data['block_wrappers'],
 				'value' => $this->data['block_wrapper'],
-				'help_url' => $this->gen_help_url('block_wrapper')));
+				));
 		$this->data['form']['text']['block_wrapper'] = $this->language->get('entry_block_wrapper');
 
 
@@ -936,7 +936,7 @@ class ControllerPagesExtensionBannerManager extends AController {
 				'name' => 'block_framed',
 				'value' => $this->data['block_framed'],
 				'style' => 'btn_switch',
-				'help_url' => $this->gen_help_url('block_framed'),));
+				));
 		$this->data['form']['text']['block_framed'] = $this->language->get('entry_block_framed');
 
 		$this->data['form']['fields']['block_description'] = $form->getFieldHtml(array('type' => 'textarea',
