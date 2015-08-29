@@ -760,51 +760,25 @@ ul.categorymenu > li ul > li img {
 	padding: 0 5px 0 5px;
 }
 
-/* ------------ otherddetails ------------ */
-.otherddetails {
+/* ------------ Promo Section ------------ */
+.promo_section {
+	padding: 10px 0 25px 0;
 	border: 1px solid #ddd;
 	margin: 0 auto 10px auto;
 	width: auto;
 }
-
-.otherddetails .otherddetailspart {
-	background: url(../image/otherseperate.png) no-repeat right center;
-	width: 25%;
-	float: left;
-	display: inline-block;
-	min-width: 215px;
+.promo_block {
+    overflow: hidden;
 }
-
-.otherddetails .otherddetailspart:last-child {
-	background: none
+.promo_block .promo_icon {
+    float: left;
+    margin-bottom: 0;
+    overflow: hidden;
+    position: relative;
+    font-size: 60px;
+    padding: 10px 10px 0 0;
 }
-
-.otherddetails .otherddetailspart .innerclass {
-	padding: 25px 0 25px 90px;
-	background: url(../image/otherdetailicon.png) no-repeat 10px top;
-}
-
-.otherddetails .otherddetailspart .innerclass h2 {
-	font-size: 20px;
-	color: #5e626b;
-	line-height: normal;
-	margin: 0
-}
-
-.otherddetails .otherddetailspart .innerclass.free {
-	background-position: 20px 29px
-}
-
-.otherddetails .otherddetailspart .innerclass.payment {
-	background-position: 20px -103px
-}
-
-.otherddetails .otherddetailspart .innerclass.shipping {
-	background-position: 20px -240px
-}
-
-.otherddetails .otherddetailspart .innerclass.choice {
-	background-position: 20px -360px
+.promo_block .promo_text {
 }
 
 /* ------------ banners ------------ */
