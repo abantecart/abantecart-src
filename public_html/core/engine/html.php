@@ -934,7 +934,7 @@ abstract class HtmlElement {
 		$data['registry'] = Registry::getInstance();
 		$this->data = $data;
 
-		$this->view = new AView(Registry::getInstance(), 0);
+		$this->view = new AView($data['registry'], 0);
 		$this->element_id = preformatTextID($data['name']);
 		if (isset($data['form']))
 			$this->element_id = $data['form'] . '_' . $this->element_id;
@@ -1118,9 +1118,11 @@ class InputHtmlElement extends HtmlElement {
 				'placeholder' => $this->placeholder,
 				'regexp_pattern' => trim($this->regexp_pattern,'/'),
 				'error_text' => $this->error_text,
-				'multilingual' => $this->multilingual,
 			)
 		);
+		if( count($this->data['registry']->get('language')->getActiveLanguages()) > 1 ) {
+			$this->view->assign('multilingual', $this->multilingual);		
+		}
 		if (!empty($this->help_url)) {
 			$this->view->assign('help_url', $this->help_url);
 		}
@@ -1179,9 +1181,11 @@ class TextareaHtmlElement extends HtmlElement {
 				'required' => $this->required,
 				'style' => $this->style,
 				'placeholder' => $this->placeholder,
-				'multilingual' => $this->multilingual,
 			)
 		);
+		if( count($this->data['registry']->get('language')->getActiveLanguages()) > 1 ) {
+			$this->view->assign('multilingual', $this->multilingual);		
+		}
 		if (!empty($this->help_url)) {
 			$this->view->assign('help_url', $this->help_url);
 		}

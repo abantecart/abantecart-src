@@ -859,12 +859,14 @@ class ControllerPagesExtensionBannerManager extends AController {
 				'type' => 'input',
 				'name' => 'block_name',
 				'value' => $this->data['name'],
+				'multilingual' => true,
 				'required' => true));
 		$this->data['form']['text']['block_name'] = $this->language->get('entry_block_name');
 
 		$this->data['form']['fields']['block_title'] = $form->getFieldHtml(array('type' => 'input',
 				'name' => 'block_title',
 				'required' => true,
+				'multilingual' => true,
 				'value' => $this->data ['title']
 		));
 		$this->data['form']['text']['block_title'] = $this->language->get('entry_block_title');
@@ -941,6 +943,7 @@ class ControllerPagesExtensionBannerManager extends AController {
 				'name' => 'block_description',
 				'value' => $this->data ['description'],
 				'attr' => ' style="height: 50px;"',
+				'multilingual' => true,
 		));
 		$this->data['form']['text']['block_description'] = $this->language->get('entry_block_description');
 
