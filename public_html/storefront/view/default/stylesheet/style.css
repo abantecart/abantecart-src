@@ -1634,10 +1634,21 @@ h1.productname {
 	width: auto;
 }
 
-
 #product_details fieldset .checkbox>input {
 	margin-left: 0;
 	position: relative;
+}
+
+#description ul {
+	list-style: none; 
+	margin: 0; 
+	padding: 0; 
+}
+#description ul li {
+	list-style: inside;
+}
+#description .marker {
+    background-color: Yellow;
 }
 
 .tab-content {
