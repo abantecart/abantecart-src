@@ -285,7 +285,7 @@ class AView {
 		}
 	    
 	    if (empty($file)) {
-			$error = new AError('Error: Unable to identify file path to template ' . $filename . '! Check blocks in the layout or enable debug mode to get more details' . AC_ERR_LOAD);
+			$error = new AError('Error: Unable to identify file path to template ' . $filename . '! Check blocks in the layout or enable debug mode to get more details. ' . AC_ERR_LOAD);
 			$error->toDebug()->toLog();
 			return '';
 	    }
@@ -306,7 +306,7 @@ class AView {
 			ADebug::checkpoint('fetch '.$filename.' end');
       		return $content;
     	} else {
-			$error = new AError('Error: Could not load template ' . $filename . '! File '.$file.' is missing or incorrect. Check blocks in the layout or enable debug mode to get more details', AC_ERR_LOAD);
+			$error = new AError('Error: Could not load template ' . $filename . '! File '.$file.' is missing or incorrect. Check blocks in the layout or enable debug mode to get more details. ', AC_ERR_LOAD);
 			$error->toDebug()->toLog();
     	}
 
