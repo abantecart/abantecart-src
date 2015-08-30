@@ -1,20 +1,7 @@
 $('document').ready(function () {
 
-    // Toggle
-    $('.togglehandle').click(function () {
-        $(this).toggleClass('active');
-        $(this).next('.toggledata').slideToggle();
-    });
-
 	process_thumbnails();
 	
-    // Checkout steps
-    $('.checkoutsteptitle').addClass('down').next('.checkoutstep').fadeIn()
-    $('.checkoutsteptitle').on('click', function () {
-        $("select, input:checkbox, input:radio, input:file").css('display', 'blcok');
-        $(this).toggleClass('down').next('.checkoutstep').slideToggle()
-    });
-
     // Prdouctpagetab
     $('#myTab a:first').tab('show')
     $('#myTab a').click(function (e) {
