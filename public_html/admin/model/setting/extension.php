@@ -20,20 +20,7 @@
 if (! defined ( 'DIR_CORE' ) || !IS_ADMIN) {
 	header ( 'Location: static_pages/' );
 }
-class ModelSettingExtension extends Model {
-	//???? i think this method not needed anymore
-	public function getInstalled($type) {
-		$extension_data = array();
-		
-		$query = $this->db->query("SELECT * FROM " . $this->db->table("extensions") . " WHERE `type` = '" . $this->db->escape($type) . "'");
-		
-		foreach ($query->rows as $result) {
-			$extension_data[] = $result['key'];
-		}
-		
-		return $extension_data;
-	}
-	
+class ModelSettingExtension extends Model {	
 	/*
 	* Get enabled payment extensions. Used in configuration for shipping extensions
 	*/

@@ -369,6 +369,7 @@ class ControllerPagesDesignMenu extends AController{
 						'value'    => $this->data['item_text'][$language_id],
 						'required' => true,
 						'style'    => 'large-field',
+						'multilingual' => true,
 				));
 		$this->data['form']['fields']['item_url'] = $form->getFieldHtml(
 				array(

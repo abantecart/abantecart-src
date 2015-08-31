@@ -213,6 +213,7 @@ class ControllerPagesLocalisationStockStatus extends AController {
 			'value' => $this->data['stock_status'][$this->session->data['content_language_id']]['name'],
 			'required' => true,
 			'style' => 'large-field',
+			'multilingual' => true,
 		));
 
 		$this->view->batchAssign( $this->data );

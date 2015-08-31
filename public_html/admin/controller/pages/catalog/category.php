@@ -416,24 +416,28 @@ class ControllerPagesCatalogCategory extends AController {
 						'required' => true,
 						'style' => 'large-field',
 						'attr' => ' maxlength="255" ',
+						'multilingual' => true,
 				));
 		$this->data['form']['fields']['general']['description'] = $form->getFieldHtml(
 				array('type' => 'textarea',
 						'name' => 'category_description[' . $content_language_id . '][description]',
 						'value' => $this->data['category_description'][$content_language_id]['description'],
 						'style' => 'xl-field',
+						'multilingual' => true,	
 				));
 		$this->data['form']['fields']['data']['meta_keywords'] = $form->getFieldHtml(
 				array('type' => 'textarea',
 						'name' => 'category_description[' . $content_language_id . '][meta_keywords]',
 						'value' => $this->data['category_description'][$content_language_id]['meta_keywords'],
 						'style' => 'xl-field',
+						'multilingual' => true,
 				));
 		$this->data['form']['fields']['data']['meta_description'] = $form->getFieldHtml(
 				array('type' => 'textarea',
 						'name' => 'category_description[' . $content_language_id . '][meta_description]',
 						'value' => $this->data['category_description'][$content_language_id]['meta_description'],
 						'style' => 'xl-field',
+						'multilingual' => true,
 				));
 
 		$this->data['keyword_button'] = $form->getFieldHtml(array(
@@ -451,6 +455,7 @@ class ControllerPagesCatalogCategory extends AController {
 				'name' => 'keyword',
 				'value' => $this->data['keyword'],
 				'help_url' => $this->gen_help_url('seo_keyword'),
+				'multilingual' => true,
 				'attr' => ' gen-value="' . SEOEncode($this->data['category_description']['name']) . '" '
 		));
 

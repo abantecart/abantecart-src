@@ -958,7 +958,7 @@ function canChangeExecTime(){
 	}
 }
 
-function getMemoryLimitInBytes (){
+function getMemoryLimitInBytes(){
 	$size_str = ini_get('memory_limit');
     switch (substr ($size_str, -1)){
         case 'M': case 'm': return (int)$size_str * 1048576;
@@ -990,4 +990,28 @@ function get_url_path( $url ) {
 	} else {
 		return rtrim($url_path1, '/.\\').'/';	
 	}
+}
+
+/*
+	Return formated execution back stack
+ *
+ * @param $depth int/string  - depth of the trace back ('full' to get complete stack)
+ * @return string
+	
+*/
+function genExecTrace($depth = 5){
+	$e = new Exception();
+	$trace = explode("\n", $e->getTraceAsString());
+	array_pop($trace); // remove call to this method
+	if($depth == 'full') {
+		$length = count($trace);		
+	} else {
+		$length = $depth;
+	}
+	$result = array();
+	for ($i = 0; $i < $length; $i++) {
+	    $result[] = ' - ' . substr($trace[$i], strpos($trace[$i], ' '));
+	}
+	
+	return "Execution stack: \t" . implode("\n\t", $result);
 }

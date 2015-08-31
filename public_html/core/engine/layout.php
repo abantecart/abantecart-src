@@ -128,11 +128,11 @@ class ALayout {
 		//Get the page layout
 		$layouts = $this->getLayouts(1);
 		if (sizeof($layouts) == 0) {
-			//No page specific layout, load default layout
+			//No page specific layout found, load default layout
 			$layouts = $this->getDefaultLayout();
 			if (sizeof($layouts) == 0) {
 				// ????? How to terminate ????
-				throw new AException(AC_ERR_LOAD_LAYOUT, 'No layout found for page_id/controller ' . $this->page_id . '::' . $this->page['controller'] . '!');
+				throw new AException(AC_ERR_LOAD_LAYOUT, 'No layout found for page_id/controller ' . $this->page_id . '::' . $this->page['controller'] . '! ' . genExecTrace('full'));
 			}
 		}
 
