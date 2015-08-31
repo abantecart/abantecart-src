@@ -203,11 +203,12 @@ class ModelSettingSetting extends Model {
 			$this->db->query($sql);
 
 			$sql = "INSERT INTO " . $this->db->table("settings") . " 
-					( `store_id`, `group`, `key`, `value`)
+					( `store_id`, `group`, `key`, `value`, `date_added`)
 				VALUES (  '".$store_id."',
 				          '" . $this->db->escape($group) . "',
 				          '" . $this->db->escape($key) . "',
-				          '" . $this->db->escape($value) . "')";
+				          '" . $this->db->escape($value) . "',
+				          NOW())";
 			$this->db->query($sql);
 		}
 		$this->cache->delete('settings');
