@@ -241,6 +241,7 @@ var loadSingle = function (type, wrapper_id, resource_id, field) {
 				var changed = '';
 				if($('#'+field).attr('data-orgvalue') != item['type_name']+'/'+item['resource_path']) {
 					changed = ' changed';
+					$('#'+field).parents('form').prop('changed', 'true');
 				}
 
 				html += '<div class="resource_single col-sm-6 col-xs-12 text-center">';
