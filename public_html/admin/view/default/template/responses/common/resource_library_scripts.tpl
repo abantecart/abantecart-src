@@ -33,7 +33,7 @@ var modalscope = {
 	selected_resource: {} //for single mode only
 };
 
-var rl_error_handler = function(jqXHR, textStatus, errorThrown){
+var rl_error_handler = function(jqXHR){
 	try {
 		var err = $.parseJSON(jqXHR.responseText);
 		if (err.hasOwnProperty("error_text")) {
@@ -207,7 +207,8 @@ var loadMedia = function (type, wrapper) {
 
 }
 
-var loadSingle = function (type, wrapper_id, resource_id, field, save) {
+
+var loadSingle = function (type, wrapper_id, resource_id, field) {
 	if (!wrapper_id || wrapper_id == undefined || wrapper_id == null || wrapper_id == '') {
 		wrapper_id = modalscope.wrapper_id;
 	} else {
@@ -238,9 +239,10 @@ var loadSingle = function (type, wrapper_id, resource_id, field, save) {
 				}
 				//mark as changed
 				var changed = '';
-				if(save) {
+				if($('#'+field).attr('data-orgvalue') != item['type_name']+'/'+item['resource_path']) {
 					changed = ' changed';
 				}
+
 				html += '<div class="resource_single col-sm-6 col-xs-12 text-center">';
 				html += '<div class="thumbnail fileupload_drag_area '+changed+'" id="image_row' + item['resource_id'] + '" >'+
 						'<a class="btn resource_edit" ' +
@@ -249,17 +251,11 @@ var loadSingle = function (type, wrapper_id, resource_id, field, save) {
 								'data-wrapper_id="' + wrapper_id + '" ' +
 								'data-field="' + field + '" ' +
 								'data-rl-id="' + item['resource_id'] + '">' + src + '</a></div>';
-				//is new resource, do we need to save?
-				if(save) {
-					html += '<a class="btn resource_save tooltips" data-rl-id="' + item['resource_id'] + '" ' +
-						'data-original-title="<?php echo $button_save ?>" ' +
-						'"><i class="fa fa-save"></i>&nbsp;<?php echo $button_save?></a>';
-				}
+
 				html += '<a class="btn resource_delete tooltips" data-rl-id="' + item['resource_id'] + '" ' +
 						'data-original-title="<?php echo $button_delete ?>" ' +
 						'onclick="loadSingle(\'' + type + '\', \'' + wrapper_id + '\', null, \'' + field + '\');"><i class="fa fa-times"></i>&nbsp;<?php echo $button_remove?></a>';
 				html += '</div>';
-				
 
 				$('#'+field).val(item['resource_path'].length>0 ? item['type_name']+'/'+item['resource_path'] : '');
 				$('#'+field+'_resource_id').val(item['resource_id']);
@@ -351,13 +347,13 @@ jQuery(function () {
 		return false;
 	});
 
-	$(document).on('click', 'a.rl_add_file', function (e) {
+	$(document).on('click', 'a.rl_add_file', function () {
 		$('#choose_resource_type').fadeOut("normal", function () {
 			$('#add_form, #file_subform').fadeIn("normal");
 		});
 		return false;
 	});
-	$(document).on('click', 'a.rl_add_code', function (e) {
+	$(document).on('click', 'a.rl_add_code', function () {
 		$('#choose_resource_type').fadeOut("normal", function () {
 			$('#add_form, #code_subform, #add_resource_buttons').fadeIn("normal");
 		});
@@ -482,9 +478,9 @@ var bind_rl = function (elm) {
 	$obj.find('.thmb .checksign').click(function () {
 		if (modalscope.mode == 'single') {
 			//get RL ID from check box value
-			var rl_id = $(this).val()
+			var rl_id = $(this).val();
 
-			loadSingle($('#library').attr('data-type'), null, rl_id);
+			loadSingle($('#library').attr('data-type'), modalscope.wrapper_id, rl_id, modalscope.field_id);
 			$('#rl_modal').modal('hide');
 			modalscope.mode = '';
 			modalscope.wrapper_id = '';
@@ -548,7 +544,7 @@ var bind_rl = function (elm) {
 
 		var type = $('#library').attr('data-type');
 
-		map_resource(rl_id)
+		map_resource(rl_id);
 
 		if (tab_id == 'resource') {
 			mediaDialog(type, 'update', rl_id);
@@ -610,7 +606,7 @@ var bind_rl = function (elm) {
 			type = $('#rl_types').val();
 		}
 		if (type == undefined) {
-			type = $('#library').attr('data-type');;
+			type = $('#library').attr('data-type');
 		}
 		var src = urls.resource_library + '&type=' + type;
 		var rid = $('#RlFrm_resource_id').val();
@@ -666,7 +662,7 @@ var bind_rl = function (elm) {
 			dataType: 'html',
 			async: false,
 			global: false,
-			success: function (html) {
+			success: function () {
 				rl_success_alert('<?php echo $text_success; ?>', true);
 			},
 			error: rl_error_handler
@@ -895,15 +891,6 @@ jQuery(function () {
 				this.abort.hide();
 			}
 		}
-		/*
-		this.setAbort = function (jqxhr) {
-			var sb = this.statusbar;
-			this.abort.click(function () {
-				jqxhr.abort();
-				sb.hide();
-			});
-		}
-		*/
 	}
 
 	var handleFileUpload = function (files, obj, URL) {

@@ -1121,7 +1121,13 @@ class ControllerResponsesCommonResourceLibrary extends AController {
 	}
 
 	public function get_resources_scripts() {
-
+		/**
+		 * @var string $object_name - name of RL-object for assistance of resources, for ex. products, categories, etc
+		 * @var int $object_id - id of object
+		 * @var array $types - array with RL-types (image, audio,video,archive etc)
+		 * @var bool $onload - sign of call function after js-script load
+		 * @var string $mode - mode of RL
+		 */
 		list($object_name,$object_id,$types, $onload, $mode) = func_get_args();
 
 		//init controller data
