@@ -95,21 +95,13 @@
 								<?php echo $form['form_open']; ?>
 								<fieldset>
 									<?php if ($options) { ?>
-										<?php foreach ($options as $option) {
-
-										?>
+										<?php foreach ($options as $option) { ?>
 											<div class="form-group">
 												<?php if (!in_array($option['html']->type, array('hidden','textarea'))) { ?>
 												<label class="control-label"><?php echo $option['name']; ?></label>
 												<?php } ?>
 												<div class="input-group col-sm-10">
-													<?php
-													if ( $option['html']->type == 'textarea' ){
-														echo html_entity_decode($option['html']->value,ENT_QUOTES,'UTF-8');
-													}else{
-														echo $option['html'];
-													}	?>
-
+													<?php echo $option['html'];	?>
 												</div>
 											</div>
 										<?php } ?>

@@ -76,13 +76,6 @@
 <script type="text/javascript"><!--
 
 $(document).ready(function () {
-    var array = ['#productFrm_price',
-        '#productFrm_cost',
-        '#productFrm_shipping_price',
-        '#productFrm_length',
-        '#productFrm_width',
-        '#productFrm_height',
-        '#productFrm_weight'];
 
 	$('#productFrm_generate_seo_keyword').click(function(){
 		var seo_name = $('#productFrm_product_descriptionname').val().replace('%','');

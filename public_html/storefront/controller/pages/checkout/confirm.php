@@ -206,9 +206,18 @@ class ControllerPagesCheckoutConfirm extends AController {
                 if($option['element_type']=='C' && in_array($value, array(0,1))){
                     $value = '';
                 }
+                // strip long textarea value
+                if($option['element_type']=='T' && mb_strlen($value)>64){
+                    $title = strip_tags($value);
+                    $title = str_replace('\r\n',"\n",$title);
+
+                    $value = str_replace('\r\n',"\n",$value);
+                    $value = mb_substr($value,0,64).'...';
+                }
                 $options[] = array(
                     'name'  => $option['name'],
-                    'value' => $value
+                    'value' => $value,
+		            'title' => $title
                 );
             }
 
@@ -223,7 +232,7 @@ class ControllerPagesCheckoutConfirm extends AController {
       		$this->data['products'][$i] = array_merge( 
       			$this->data['products'][$i], 
       			array(
-        		'thumb'    => $thumbnail,
+        		'thumb'      => $thumbnail,
 				'tax'        => $this->currency->format($tax),
         		'price'      => $this->currency->format($this->data['products'][$i]['price']),
         		'total'      => $this->currency->format($this->data['products'][$i]['total']),

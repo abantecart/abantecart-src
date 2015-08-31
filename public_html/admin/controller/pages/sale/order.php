@@ -419,10 +419,11 @@ class ControllerPagesSaleOrder extends AController{
 			$options = $this->model_sale_order->getOrderOptions($order_id, $order_product['order_product_id']);
 
 			foreach($options as $option){
+				$value = $option['value'];
 				//generate link to download uploaded files
 				if($option['element_type'] == 'U'){
 					$file_settings = unserialize($option['settings']);
-					$filename = $option['value'];
+					$filename = $value;
 					if (has_value($file_settings['directory'])) {
 						$file = DIR_APP_SECTION . 'system/uploads/' . $file_settings['directory'] . '/' . $filename;
 					} else {
@@ -430,17 +431,27 @@ class ControllerPagesSaleOrder extends AController{
 					}
 
 					if(is_file($file)){
-						$option['value'] = '<a href="' . $this->html->getSecureURL('tool/files/download', '&filename=' . urlencode($filename) . '&attribute_id=' . (int)$option['attribute_id']) . '&attribute_type=product_option" title=" to download file" target="_blank">' . $option['value'] . '</a>';
+						$value = '<a href="' . $this->html->getSecureURL('tool/files/download', '&filename=' . urlencode($filename) . '&attribute_id=' . (int)$option['attribute_id']) . '&attribute_type=product_option" title=" to download file" target="_blank">' . $value . '</a>';
 					}else{
-						$option['value'] = '<span title="file '.$file.' is unavailable">' . $option['value'] . '</span>';
+						$value = '<span title="file '.$file.' is unavailable">' . $value . '</span>';
 					}
 
-				}elseif($option['element_type']=='C' && $option['value']==1){
-					$option['value'] = '';
+				}elseif($option['element_type']=='C' && $value==1){
+					$value = '';
 				}
+				// strip long textarea value
+                if($option['element_type']=='T' && mb_strlen($value)>64){
+                    $title = strip_tags($value);
+                    $title = str_replace('\r\n',"\n",$title);
+
+                    $value = str_replace('\r\n',"\n",$value);
+                    $value = mb_substr($value,0,64).'...';
+		        }
+
 				$option_data[] = array(
 						'name'  => $option['name'],
-						'value' => nl2br($option['value'])
+						'value' => nl2br($value),
+						'title' => $title
 				);
 			}
 
