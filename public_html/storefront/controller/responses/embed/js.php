@@ -110,6 +110,8 @@ class ControllerResponsesEmbedJS extends AController {
 			return null;
 		}
 
+		$product_info['name'] = htmlentities($product_info['name'],ENT_QUOTES,'UTF-8');
+
 		$resource = new AResource('image');
 		$product_info['thumbnail'] =  $resource->getMainThumb('products',
 				$product_id,
@@ -225,7 +227,7 @@ class ControllerResponsesEmbedJS extends AController {
 		$resource = new AResource('image');
 
 		foreach($categories as &$category){
-
+			$category['name'] = htmlentities($category['name'],ENT_QUOTES,'UTF-8');
 			$category['thumbnail'] =  $resource->getMainThumb('categories',
 							$category['category_id'],
 						(int)$this->config->get('config_image_category_width'),
@@ -281,7 +283,7 @@ class ControllerResponsesEmbedJS extends AController {
 		$resource = new AResource('image');
 
 		foreach($manufacturers as &$manufacturer){
-
+			$manufacturer['name'] = htmlentities($manufacturer['name'],ENT_QUOTES,'UTF-8');
 			$manufacturer['thumbnail'] =  $resource->getMainThumb('manufacturers',
 							$manufacturer['manufacturer_id'],
 						(int)$this->config->get('config_image_category_width'),
