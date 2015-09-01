@@ -589,12 +589,10 @@ var bind_rl = function (elm) {
 		if (modalscope.mode == 'single') {	
 			var rl_id = $(this).attr('data-rl-id');
 			//reload media and mark for save
-			loadSingle($('#library').attr('data-type'), modalscope.wrapper_id, rl_id, '', true);
+			loadSingle($('#library').attr('data-type'), modalscope.wrapper_id, rl_id, modalscope.field_id, true);
 
 			$('#rl_modal').modal('hide');
 			modalscope.mode = '';
-			modalscope.wrapper_id = '';
-			modalscope.field_id = '';
 		}
 		return false;
 	});
