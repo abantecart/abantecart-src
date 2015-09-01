@@ -21,6 +21,9 @@ if (! defined ( 'DIR_CORE' )) {
 	header ( 'Location: static_pages/' );
 }
 
+/**
+ * Class ADataset
+ */
 final class ADataset {
 	
 	/**
@@ -124,8 +127,7 @@ final class ADataset {
 		
 		$column_checklist = array ('name', 'type');
 		// if $new_columnset[] contain array key 'old_name' it mean that column must be update (functional for future, for example for upgrading extension dataset)
-		
-		// write columnset definitions		
+		// write columnset definitions
 		$existing_column_names = array ();
 		if ($new_columnset) {
 			if ($this->columnset) {
@@ -163,7 +165,6 @@ final class ADataset {
 					$dataset_column_id = $this->db->getLastId();
 
 					//after insert of column need to insert empty values for data consistency
-
 					$sql_query = "SELECT DISTINCT dv.row_id
 								  FROM ". $this->db->table('dataset_values')." dv
 								  INNER JOIN ". $this->db->table('dataset_definition')." dd ON dd.dataset_column_id = dv.dataset_column_id
@@ -175,12 +176,6 @@ final class ADataset {
 												VALUES ('".$dataset_column_id."','".$r['row_id']."')");
 						}
 					}
-
-
-
-
-
-
 					// update new column
 				} else {
 					// if old name present - update column definition.
@@ -200,13 +195,11 @@ final class ADataset {
 			//	reset $this->columnset
 			$this->_getColumnSet ();
 		}
-		
 		return true;
 	}
 	
-	/* Function gets columns definitions and writes to public var $columnset
-	 *  
-	 * @return boolean
+	/** Function gets columns definitions and writes to public var $columnset
+	 * @return bool
 	 */
 	private function _getColumnSet() {
 		if (! $this->dataset_id) {
@@ -264,7 +257,6 @@ final class ADataset {
 			if (array_diff_key ( $dataset_row, $this->check_columnset )) {
 				throw new AException ( AC_ERR_LOAD, 'Error: Valueset contain column name which not defined in dataset:' . implode ( ", ", array_keys ( array_diff_key ( $dataset_row, $this->check_columnset ) ) ) );
 			}
-		
 		}
 		
 		//get last row number of dataset
@@ -343,9 +335,8 @@ final class ADataset {
 	 * Function set Column properties. It may be checks for value of column cell or some limits etc
 	 *
 	 * @param string $column_name
-	 * @param array $properties
+	 * @param array $properties $property ("property_name"=>"property_value")
 	 * @throws AException
-	 * @internal param array $property ("property_name"=>"property_value")
 	 * @return boolean
 	 */
 	public function setColumnProperties($column_name = '', $properties = array()) {
@@ -406,11 +397,7 @@ final class ADataset {
 		}
 		return $output;
 	}
-	
-	
-	
-	
-	
+
 	/**
 	 * This method is analog SELECT of SQL.
 	 * 
@@ -418,12 +405,12 @@ final class ADataset {
 	 * @param string $order_by
 	 * @param integer $limit
 	 * @param integer $offset
-	 * @return array | boolean 
+	 * @return array
 	 */
 	public function getRows($column_list = array(), $order_by = 'row_id:ASC', $limit = 1000, $offset = 0) {
 		
 		if (! $this->dataset_id || ! $this->columnset) {
-			return false;
+			return array();
 		}
 		$column_list_id = array();
 		if (! $column_list) { // if column list is empty - select all columns of table
@@ -435,10 +422,7 @@ final class ADataset {
 			foreach ( $column_list as $colname ) {
 				$column_list_id [] = $this->_getColumnIdByName ( $colname );
 			}
-		
 		}
-		
-		
 		
 		$order_by = ( string ) $order_by;
 		if(strpos($order_by,":")!==false){
@@ -536,7 +520,7 @@ final class ADataset {
 	 */
 	private function _createTable($dataset_values = array(), $column_names = array(), $order_by= array()) {
 		if (! $dataset_values || ! $this->columnset) {
-			return false;
+			return array();
 		}
 		if($order_by){
 			list($order_name,$order_direction,$limit,$offset) = $order_by;
@@ -564,7 +548,6 @@ final class ADataset {
                 $order = $order_direction=='DESC' ? SORT_DESC : SORT_ASC;
                 array_multisort($index,$order,$output);
 			}
-
 			// limit-offset
 			if((int)$limit){
 				$offset = (int)$offset;
@@ -577,8 +560,6 @@ final class ADataset {
 				}
 				$output = array_slice($output, $offset,$limit);
 			}
-
-
 		}
 		return $output;
 	}
@@ -691,7 +672,6 @@ final class ADataset {
 					WHERE dataset_column_id = " . $column_id . " AND  row_id in (" . implode ( ", ", $row_ids ) . ")";
 
 			$this->db->query ( $sql );
-		
 		}
 		// return updated rows count
 		return sizeof($row_ids);
@@ -790,7 +770,6 @@ final class ADataset {
 		
 		return true;
 	}
-	
 
 	/**
 	 * @param string $column_name
@@ -828,7 +807,10 @@ final class ADataset {
 			return null;
 		}
 	}
-	
+
+	/**
+	 * @param string $data
+	 */
 	public function loadXML($data) {
 		// Input possible with XML string, File or both.
 		// We process both one at a time. XML string processed first
