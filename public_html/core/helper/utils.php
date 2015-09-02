@@ -646,7 +646,7 @@ function startStorefrontSession($user_id, $data=array()){
     $data['merchant'] = (int)$user_id;
     if(!$data['merchant']){ return false;}
     session_write_close();
-    $session = new ASession('PHPSESSID_AC_SF');
+    $session = new ASession(defined('UNIQUE_ID') ? 'AC_SF_'.strtoupper(substr(UNIQUE_ID, 0, 10)) : 'AC_SF_PHPSESSID');
     foreach($data as $k=>$v){
         $session->data[$k] = $v;
     }
