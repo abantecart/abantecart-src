@@ -10056,8 +10056,8 @@ CREATE TABLE `ac_contents_to_stores` (
 DROP TABLE IF EXISTS `ac_blocks`;
 CREATE TABLE `ac_blocks` (
   `block_id` int(10) NOT NULL auto_increment,
-  `block_txt_id` varchar(40) NOT NULL,
-  `controller` varchar(120) NOT NULL,
+  `block_txt_id` varchar(255) NOT NULL,
+  `controller` varchar(255) NOT NULL,
   `date_added` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `date_modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY  (`block_id`)
@@ -10155,7 +10155,7 @@ DROP TABLE IF EXISTS `ac_block_templates`;
 CREATE TABLE `ac_block_templates` (
   `block_id` int(10) NOT NULL auto_increment,
   `parent_block_id` int(10) NOT NULL DEFAULT 0, -- Placeholder where this block can be placed. 0 - any location
-  `template` varchar(100) NOT NULL,
+  `template` varchar(255) NOT NULL,
   `date_added` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `date_modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY  (`block_id`, `parent_block_id`)
