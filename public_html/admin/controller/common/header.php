@@ -73,10 +73,13 @@ class ControllerCommonHeader extends AController {
 			$this->view->assign('logged', sprintf($this->language->get('text_logged'), $this->user->getUserName()));
 			$this->view->assign('avatar', $this->user->getAvatar());
 			$this->view->assign('username', $this->user->getUserName());
-			$this->view->assign('last_login', sprintf($this->language->get('text_last_login'), $this->user->getLastLogin()));
+			if($this->user->getLastLogin()) {
+				$this->view->assign('last_login', sprintf($this->language->get('text_last_login'), $this->user->getLastLogin()));	
+			} else {
+				$this->view->assign('last_login', sprintf($this->language->get('text_welcome'), $this->user->getUserName()));
+			}
 			$this->view->assign('account_edit', $this->html->getSecureURL('index/edit_details', '', true));
-			
-			
+					
 			$stores = array();
 			$this->loadModel('setting/store');
 			$results = $this->model_setting_store->getStores();

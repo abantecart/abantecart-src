@@ -54,9 +54,9 @@ class ControllerCommonANT extends AController {
 		$url .= "&software_name=AbanteCart";
 		$url .= "&store_version=" . VERSION;
 		$url .= "&language_code=" . $this->request->cookie ['language'];
-		if ($this->request->cookie['new_cart']) {
+		//check if user login first time 
+		if (!$this->user->getLastLogin()) {
 			$url .= "&new_cart=1";
-			setcookie("new_cart", 0, 0, "/");
 		}
 
 		//send extension info
