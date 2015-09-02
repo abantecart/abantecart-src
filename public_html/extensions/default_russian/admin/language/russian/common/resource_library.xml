@@ -313,7 +313,7 @@
 		<value><![CDATA[Ошибка: Не удается переместить файл %s в каталог ресурсов.]]></value>
 	</definition>
 	<definition>
-		<key>button_save_n_link</key>
-		<value><![CDATA[Сохранить и связать]]></value>
+		<key>button_save_n_apply</key>
+		<value><![CDATA[Сохранить и Применить]]></value>
 	</definition>  
 </definitions>

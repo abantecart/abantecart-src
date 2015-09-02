@@ -243,7 +243,7 @@ $txt_unlink_resource = sprintf($text_unmap_from, $object_title);
 				<a class="btn btn-primary rl_save rl_select"
 				        data-rl-id="<?php echo $resource_id; ?>"
 				        data-type="<?php echo $type; ?>">
-					<i class="fa fa-save"></i> <?php echo $button_save_n_link; ?>
+					<i class="fa fa-save"></i> <?php echo $button_save_n_apply; ?>
 				</a>&nbsp;
 			<?php } else { ?>
 				<a class="btn btn-primary rl_save rl_close" href="#">

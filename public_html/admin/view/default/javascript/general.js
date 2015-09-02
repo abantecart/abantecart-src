@@ -924,7 +924,7 @@ function openCKRLModal(cke){
 			if(item.length<1){ return null;}
 
 			var insert_html='';
-			if( item.resource_path.length>0 ){
+			if( item.resource_path != undefined && item.resource_path.length>0 ){
 				var type_name = item.type_name;
 				insert_html = 'resources/'+type_name+'/'+item.resource_path;
 				if(type_name=='image'){

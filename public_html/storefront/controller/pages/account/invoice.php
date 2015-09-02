@@ -140,9 +140,19 @@ class ControllerPagesAccountInvoice extends AController {
                     if($option['element_type']=='C' && in_array($value, array(0,1))){
                         $value = '';
                     }
+			        // strip long textarea value
+                    if($option['element_type']=='T' && mb_strlen($value)>64){
+	                    $title = strip_tags($value);
+	                    $title = str_replace('\r\n',"\n",$title);
+
+	                    $value = str_replace('\r\n',"\n",$value);
+                        $value = mb_substr($value,0,64).'...';
+                    }
+
                     $option_data[] = array(
                         'name'  => $option['name'],
-                        'value' => $value
+                        'value' => $value,
+		                'title' => $title
                     );
                 }
 

@@ -523,6 +523,17 @@ class ControllerResponsesProductProduct extends AController{
 
 		$this->loadLanguage('catalog/product');
 		$this->loadModel('catalog/product');
+
+		$option_info = $this->model_catalog_product->getProductOption($this->request->get['product_id'], $this->request->get['option_id']);
+
+		//remove html-code from textarea product option
+		if($option_info['element_type'] == 'T'){
+			foreach($this->request->post['name'] as &$v){
+				$v = strip_tags(html_entity_decode($v,ENT_QUOTES,'UTF-8'));
+				$v = str_replace('\r\n',"\n",$v);
+			}
+		}
+
 		$this->model_catalog_product->updateProductOptionValues($this->request->get['product_id'], $this->request->get['option_id'], $this->request->post);
 		$this->session->data['success'] = $this->language->get('text_success_option');
 

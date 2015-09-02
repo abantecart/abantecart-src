@@ -179,9 +179,25 @@ class ControllerResponsesProductProduct extends AController {
 				$this->config->get('config_image_product_height'), true);
 
 			foreach ($result['option'] as $option) {
+
+				$value = $option['value'];
+                // hide binary value for checkbox
+                if($option['element_type']=='C' && in_array($value, array(0,1))){
+                    $value = '';
+                }
+                // strip long textarea value
+                if($option['element_type']=='T' && mb_strlen($value)>64){
+                    $title = strip_tags($value);
+                    $title = str_replace('\r\n',"\n",$title);
+
+                    $value = str_replace('\r\n',"\n",$value);
+                    $value = mb_substr($value,0,64).'...';
+		        }
+
 				$option_data[] = array(
-					'name' => $option['name'],
-					'value' => $option['value']
+					'name'  => $option['name'],
+					'value' => $value,
+					'title' => $title
 				);
 			}
 

@@ -69,8 +69,13 @@ $modal_content = '<div class="add-option-modal" >
 	    <div>
 	        <div class="panel-body panel-body-nopadding">
 	            <div class="mt10 options_buttons" id="option_name_block">
-                    <div class=" afield ">
-                        <textarea id="option_textarea_value">'.$form['fields']['option_value']->value.'</textarea>
+                    <div class=" afield ">'.$this->html->buildElement(
+                    		array('type' => 'textarea',
+                    				'id' => 'option_textarea_value',
+                    				'value' => $form['fields']['option_value']->value,
+                    				'style' => 'col-sm-12',
+                    				'attr' => 'row="10"'
+                    				)).'
                     </div>
 	            </div>
 	        </div>
@@ -92,26 +97,19 @@ echo $this->html->buildElement(
 				'id' => 'option_value_modal',
 				'modal_type' => 'lg',
 				'title' => $text_edit_option_values,
-				'content' => $modal_content,
-				//on close set value of textarea into CKEditor
-				'js_onclose' => "CKEDITOR.instances.option_textarea_value.setData($('tr.optionRow').find('textarea').html());"));
+				'content' => $modal_content));
 ?>
-
 
 <script type="application/javascript">
 	$('#apply_cke').on('click', function(){
-		$('tr.optionRow').find('textarea').html(CKEDITOR.instances.option_textarea_value.getData());
+		$('tr.optionRow').find('textarea').html( $('#option_textarea_value').val() );
 		$('#option_value_modal').modal('hide');
 		return false;
 	});
 
 	$(document).ready(function(){
-		var ta = $('tr.optionRow').find('textarea');
-		ta.attr('readonly','readonly');
-		var cke = wrapCKEditor('option_textarea_value',{height: 400});
-		addRL2CKE(cke);
+		$('tr.optionRow').find('textarea').attr('readonly','readonly');
 	});
-
 
 </script>
 

@@ -20,9 +20,16 @@
 if (!defined('DIR_CORE') || !IS_ADMIN) {
 	header('Location: static_pages/');
 }
+
+/**
+ * Class ModelToolFileUploads
+ */
 class ModelToolFileUploads extends Model {
 
-
+	/**
+	 * @param array $data
+	 * @return array
+	 */
 	public function getLog($data = array()) {
 
 		if (!isset($data[ 'sort' ])) {
@@ -39,10 +46,13 @@ class ModelToolFileUploads extends Model {
 		$dataset = new ADataset('file_uploads', 'admin');
 		$rows = $dataset->getRows(array(), $data[ 'sort' ], $data[ 'limit' ], $data[ 'offset' ]);
 
-
 		return $rows;
 	}
 
+	/**
+	 * @param array $filter
+	 * @return int
+	 */
 	public function getTotalRows($filter = array()) {
 
 		if ($filter) {
@@ -56,6 +66,10 @@ class ModelToolFileUploads extends Model {
 		return $rows;
 	}
 
+	/**
+	 * @param int $field_id
+	 * @return array
+	 */
 	public function getField($field_id) {
 		$result = $this->db->query('SELECT * FROM ' . $this->db->table('fields') . ' WHERE field_id =	"' . (int)$field_id . '"');
 
@@ -70,5 +84,3 @@ class ModelToolFileUploads extends Model {
 		return array();
 	}
 }
-
-?>

@@ -45,9 +45,9 @@ echo $form['form_open'];
 							<span style="color: #FF0000; font-weight: bold;">***</span>
 						<?php } ?>
 						<div>
-							<?php foreach ($product['option'] as $option) { ?>
+							<?php foreach ($product['option'] as $option) {?>
 								-
-								<small><?php echo $option['name']; ?> <?php echo $option['value']; ?></small><br/>
+								<small title="<?php echo $option['title']?>"><?php echo $option['name']; ?> <?php echo $option['value']; ?></small><br/>
 							<?php } ?>
 						</div>
 					</td>

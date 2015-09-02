@@ -138,7 +138,7 @@
 					<?php foreach ($product['option'] as $option) { ?>
 						<br/>
 						&nbsp;
-						<small> - <?php echo $option['name']; ?> <?php echo $option['value']; ?></small>
+						<small title="<?php echo $option['title']?>"> - <?php echo $option['name']; ?> <?php echo $option['value']; ?></small>
 					<?php } ?></td>
 				<td><?php echo $product['price']; ?></td>
 				<td><?php echo $product['quantity']; ?></td>

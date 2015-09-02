@@ -74,7 +74,7 @@
 
 		<div class="pull-right mb20">
 			<?php echo $this->getHookVar('top_wishlist_buttons'); ?>
-			<a href="" class="btn btn-default mr10">
+			<a href="<?php echo $continue; ?>" class="btn btn-default mr10">
 				<i class="fa fa-arrow-right"></i>
 				<?php echo $button_continue; ?>
 			</a>

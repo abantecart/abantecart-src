@@ -189,7 +189,7 @@
 						<dl class="dl-horizontal product-options-list-sm">
 					<?php
 					foreach ($order_product['option'] as $option) { ?>
-						<dt><small>- <?php echo $option['name']; ?></small></dt><dd><small><?php echo $option['value']; ?></small></dd>
+						<dt><small title="<?php echo $option['title']?>">- <?php echo $option['name']; ?></small></dt><dd><small title="<?php echo $option['title']?>"><?php echo $option['value']; ?></small></dd>
 					<?php }?>
 						</dl>
 					<?php } ?></td>

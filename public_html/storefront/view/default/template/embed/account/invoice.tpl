@@ -69,7 +69,7 @@
 						<?php foreach ($product['option'] as $option) { ?>
 							<br/>
 							&nbsp;
-							<small> - <?php echo $option['name']; ?> <?php echo $option['value']; ?></small>
+							<small title="<?php echo $option['title']?>"> - <?php echo $option['name']; ?> <?php echo $option['value']; ?></small>
 						<?php } ?></td>
 					<td class="align_left valign_top"><?php echo $product['model']; ?></td>
 					<td class="align_right valign_top"><?php echo $product['quantity']; ?></td>

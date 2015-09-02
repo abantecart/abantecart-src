@@ -309,7 +309,7 @@
 		<value><![CDATA[Error: No se puede mover el archivo %s al directorio de recursos.]]></value>
 	</definition>
 	<definition>
-		<key>button_save_n_link</key>
-		<value><![CDATA[Guardar y Enlace]]></value>
+		<key>button_save_n_apply</key>
+		<value><![CDATA[Guardar y Aplicar]]></value>
 	</definition>	
 </definitions>
