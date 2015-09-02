@@ -59,6 +59,13 @@
 			</div>
 		    <?php } ?>
 			
+		    <?php if ($back) { ?>
+			<div class="btn-group">
+			    <a class="btn btn-white step_back" href="<?php echo $back; ?>">
+			        <i class="fa fa-arrow-left"></i> <?php echo $button_back; ?>
+			    </a>
+			</div>		    
+		    <?php } ?>
 		    <?php if ($competed) { ?>
 		    <button class="btn btn-default" type="button" data-dismiss="modal" aria-hidden="true">
 		    	<i class="fa fa-close fa-fw"></i> <?php echo $button_close; ?>
@@ -103,6 +110,27 @@ function save_and_next(){
 	});
 	return false;
 }
+
+//regular submit will load next step
+$('#setting_form').on('click', '.step_back', function () {
+	var $modal  = $('#quick_start');
+	var url = $(this).attr('href');
+	$.ajax({
+		url: url,
+	    type: 'GET',
+	    dataType: 'html',
+	    success: function (data) {
+			$modal.find('.modal-content').removeData().html(data);
+			//enable help toggles
+			spanHelp2Toggles();
+			//deal with email settings
+			mail_toggle();
+			$('#settingFrm_config_mail_protocol').change(mail_toggle);
+	    }
+	});
+	return false;
+});
+
 
 mail_toggle();
 $('#settingFrm_config_mail_protocol').change(mail_toggle);

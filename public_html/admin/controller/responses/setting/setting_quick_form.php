@@ -220,6 +220,17 @@ class ControllerResponsesSettingSettingQuickForm extends AController {
 		}
 		$this->quick_start();
 	}
+
+
+    public function quick_start_back() {
+		$this->session->data['quick_start_step'] = $this->_prior_step($this->session->data['quick_start_step']);
+		if(empty($this->session->data['quick_start_step'])){
+		    //sirst step
+		    $this->session->data['quick_start_step'] = 'details';
+		}
+
+		$this->quick_start();
+	}
 	
     public function quick_start() {
         if (!$this->user->canModify('setting/setting_quick_form')) {
@@ -326,6 +337,12 @@ class ControllerResponsesSettingSettingQuickForm extends AController {
 			$this->data['competed'] = true;				 				
 		}
 
+		$back_step = $this->_prior_step($section);
+		if($back_step) {
+			$this->data['back'] = $this->html->getSecureURL('setting/setting_quick_form/quick_start_back',
+				'&store_id='.$this->data['store_id']);
+		}
+
 		$this->data['error'] = $this->error;
         $this->view->batchAssign($this->data);
         
@@ -338,7 +355,6 @@ class ControllerResponsesSettingSettingQuickForm extends AController {
 	}
 
 	private function _getQuickStartForm($section, $settigs_data) {
-
 		if ($settigs_data['tmpl_id']) {
 			//template settings
 			$this->data['action'] = $this->html->getSecureURL('setting/setting_quick_form/quick_start_save_next',
@@ -392,6 +408,11 @@ class ControllerResponsesSettingSettingQuickForm extends AController {
 	
 	private function _next_step($current_step) {
 		$steps = array('details' => 'general', 'general' => 'checkout', 'checkout' => 'appearance', 'appearance' => 'mail', 'mail' => '');
+		return $steps[$current_step];
+	}
+
+	private function _prior_step($current_step) {
+		$steps = array('details' => '', 'general' => 'details', 'checkout' => 'general', 'appearance' => 'checkout', 'mail' => 'appearance', 'finished' => 'mail');
 		return $steps[$current_step];
 	}
 
