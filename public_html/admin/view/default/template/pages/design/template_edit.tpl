@@ -12,6 +12,7 @@
 					<span class="caret"></span>
 				</button>
 				<ul class="dropdown-menu">
+				<?php if (is_array($templates)) { ?>
 					<?php foreach ($templates as $tmpl) { ?>
 						<?php 
 							if($tmpl['name'] == $default_template ) {
@@ -26,6 +27,7 @@
 						</a>
 						</li>
 					<?php } ?>
+				<?php } ?>
 				</ul>
 			</div>
 
