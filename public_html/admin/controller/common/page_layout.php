@@ -49,6 +49,7 @@ class ControllerCommonPageLayout extends AController {
     $layout = func_get_arg(0);
     
     $this->installed_blocks = $layout->getInstalledBlocks();
+
     $layout_main_blocks = $layout->getLayoutBlocks();
     // Build Page Sections and Blocks
     $page_sections = $this->_buildPageSections($layout_main_blocks);

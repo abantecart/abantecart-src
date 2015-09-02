@@ -506,7 +506,6 @@ class ControllerPagesDesignBlocks extends AController {
 			}
 		}
 
-
 		$this->data['form']['fields']['block_name'] = $form->getFieldHtml(array('type' => 'hidden',
 				'name' => 'block_id',
 				'value' => $default_block_type));
@@ -722,12 +721,14 @@ class ControllerPagesDesignBlocks extends AController {
 				'type' => 'input',
 				'name' => 'block_name',
 				'value' => $this->data['name'],
+				'multilingual' => true,
 				'required' => true));
 		$this->data['form']['text']['block_name'] = $this->language->get('entry_block_name');
 
 		$this->data['form']['fields']['block_title'] = $form->getFieldHtml(array('type' => 'input',
 				'name' => 'block_title',
 				'required' => true,
+				'multilingual' => true,
 				'value' => $this->data ['title']
 		));
 		$this->data['form']['text']['block_title'] = $this->language->get('entry_block_title');
@@ -747,7 +748,6 @@ class ControllerPagesDesignBlocks extends AController {
 				}
 			}
 		}
-
 
 		//Automatic block template selection mode based on parent is limited to 1 template per location
 		//To extend, allow custom block's template to be selected to suppress automatic selection
@@ -801,6 +801,7 @@ class ControllerPagesDesignBlocks extends AController {
 				'name' => 'block_description',
 				'value' => $this->data ['description'],
 				'attr' => ' style="height: 50px;"',
+				'multilingual' => true,
 		));
 		$this->data['form']['text']['block_description'] = $this->language->get('entry_block_description');
 

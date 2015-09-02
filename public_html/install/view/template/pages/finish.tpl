@@ -35,7 +35,7 @@
 			<i class="fa fa-comments fa-fw"></i> <a href="http://forum.abantecart.com" target="_abante">Support Forums</a></p>
 
 		<div class="container-fluid text-center">
-			<a href="http://www.abantecart.com/donate"><img src="image/donate_btn.gif" border="0" alt="Support AbanteCart eCommerce" /></a>
+			<a href="http://www.abantecart.com/contribute-to-abantecart"><img src="image/conrib_btn_sm.png" border="0" alt="Support AbanteCart eCommerce" /></a>
 		</div>
 
 		<div class="container-fluid">
