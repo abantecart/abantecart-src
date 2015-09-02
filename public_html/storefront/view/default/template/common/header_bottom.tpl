@@ -1,8 +1,5 @@
 <?php foreach ($children_blocks as $k => $block) { ?>
+	<div class="col-md-12">
 <?php echo ${$block}; ?>
-<?php if ( $k < count($children_blocks) ) { ?>
-<div class="sep"></div>
+	</div>
 <?php } ?>
-<?php } ?>
-
-

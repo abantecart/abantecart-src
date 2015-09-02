@@ -592,7 +592,6 @@ li.dropdown {
 #categorymenu {
 	padding: 7px 0 7px 0;
 	background: #F5F5F5;
-	height: 45px;
 }
 
 #categorymenu:after {
@@ -605,13 +604,16 @@ li.dropdown {
 }
 
 ul.categorymenu {
-	margin: 0 6px 0 6px
+	margin: 0 6px 0 6px;
+	display: table;
+    table-layout: fixed;	
 }
 
 ul.categorymenu > li {
 	position: relative;
 	margin: 0;
-	border-right: 1px solid #CCCCCC
+	border-right: 1px solid #CCCCCC;
+	display: table-cell;
 }
 
 ul.categorymenu > li:last-child {
