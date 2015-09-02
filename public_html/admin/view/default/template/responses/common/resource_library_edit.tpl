@@ -246,8 +246,8 @@ $txt_unlink_resource = sprintf($text_unmap_from, $object_title);
 					<i class="fa fa-save"></i> <?php echo $button_save_n_apply; ?>
 				</a>&nbsp;
 			<?php } else { ?>
-				<a class="btn btn-primary rl_save rl_close" href="#">
-					<i class="fa fa-save"></i> <?php echo $button_save_and_close; ?>
+				<a class="btn btn-primary rl_link rl_save rl_close" href="#">
+					<i class="fa fa-save"></i> <?php echo $button_save_n_apply; ?>
 				</a>&nbsp;
 			<?php } ?>
 			<a class="btn btn-default rl_reset" href="<?php echo $cancel; ?>">
