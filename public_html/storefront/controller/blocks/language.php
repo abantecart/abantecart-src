@@ -61,7 +61,7 @@ class ControllerBlocksLanguage extends AController {
 			$URI = $URI=='&' ? '' : $URI;
         }
 		foreach($this->data['languages'] as &$lang){
-			$lang['href'] = $this->html->getSEOURL($rt, $URI.'&language='.$lang['code'],true);
+			$lang['href'] = $this->html->getURL($rt, $URI.'&language='.$lang['code'],true);
 		}
 
 		$this->view->batchAssign($this->data);
