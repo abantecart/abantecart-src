@@ -547,10 +547,13 @@ var bind_rl = function (elm) {
 
 		map_resource(rl_id);
 
-		if (tab_id == 'resource') {
-			mediaDialog(type, 'update', rl_id);
-		} else {
-			tab.click();
+		//reload modal dialog if only mapping. If need to save at the same time - just return false
+		if(!$(this).hasClass('rl_save')) {
+			if (tab_id == 'resource') {
+				mediaDialog(type, 'update', rl_id);
+			} else {
+				tab.click();
+			}
 		}
 		return false;
 	});
