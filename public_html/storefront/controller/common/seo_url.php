@@ -76,7 +76,7 @@ class ControllerCommonSeoUrl extends AController {
 
 			if (isset($this->request->get['rt'])) {
 				$rt = $this->request->get['rt'];
-				unset($this->request->get['rt'],$this->request->get['_route_']);
+				unset($this->request->get['_route_']);
 				//Update router with new RT 
 				$this->router->resetController($rt);
 				return $this->dispatch($rt,$this->request->get);
@@ -86,7 +86,5 @@ class ControllerCommonSeoUrl extends AController {
 
         //init controller data
         $this->extensions->hk_UpdateData($this,__FUNCTION__);
-
 	}
 }
-?>
