@@ -108,12 +108,13 @@ class ControllerPagesInstall extends AController {
 				));
 			} else {
 				$options = array();
+
+				if(extension_loaded('mysqli')){
+					$options['amysqli'] = 'MySQLi';
+				}
 				//regular mysql is not supported on PHP 5.5.+
 				if(extension_loaded('mysql') && version_compare(phpversion(), '5.5.0', '<') == TRUE ){
 					$options['mysql'] = 'MySQL';
-				}
-				if(extension_loaded('mysqli')){
-					$options['amysqli'] = 'MySQLi';
 				}
 
 				$this->data[ 'form' ][ $field ] = $form->getFieldHtml(array(
