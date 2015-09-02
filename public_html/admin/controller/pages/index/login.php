@@ -69,13 +69,6 @@ class ControllerPagesIndexLogin extends AController {
 			$this->error['warning'] = $this->language->get('error_token');
 		}
 
-		//There was no login done, so clear the session for new login screen 
-		$this->session->clear();
-		
-		if($this->request->cookie['new_cart']==1 && $this->error['warning'] && $this->request->server['REQUEST_METHOD'] == 'GET'){
-			$this->error['warning'] = '';
-		}
-
 		$this->data['action'] = $this->html->getSecureURL('index/login');
 		$this->data['update'] = '';
 		$form = new AForm('ST');
