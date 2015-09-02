@@ -140,6 +140,12 @@ class ControllerPagesToolFiles extends AController {
 				$aform = new AForm('ST');
 				$aform->loadFromDb($form_info[1]);
 				$attribute_data = $aform->getField($form_info[2]);
+			}
+			// if request file from order details page, file is product option value
+			elseif ($this->request->get['order_option_id']) {
+				$this->loadModel('sale/order');
+				$attribute_data = $this->model_sale_order->getOrderOption($this->request->get['order_option_id']);
+				$attribute_data['settings'] = unserialize($attribute_data['settings']);
 			} else {
 				$am = new AAttribute($this->request->get['attribute_type']);
 				$attribute_data = $am->getAttribute($this->request->get['attribute_id']);
@@ -165,7 +171,7 @@ class ControllerPagesToolFiles extends AController {
 				readfile($file);
 				exit;
 			} else {
-				echo 'File '.$file.' does not exists!';
+				echo 'Error: File '.$file.' does not exists!';
 				exit;
 			}
 		} else {

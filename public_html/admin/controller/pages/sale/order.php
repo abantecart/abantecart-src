@@ -431,7 +431,7 @@ class ControllerPagesSaleOrder extends AController{
 					}
 
 					if(is_file($file)){
-						$value = '<a href="' . $this->html->getSecureURL('tool/files/download', '&filename=' . urlencode($filename) . '&attribute_id=' . (int)$option['attribute_id']) . '&attribute_type=product_option" title=" to download file" target="_blank">' . $value . '</a>';
+						$value = '<a href="' . $this->html->getSecureURL('tool/files/download', '&filename=' . urlencode($filename) . '&order_option_id='. (int)$option['order_option_id']) . '" title=" to download file" target="_blank">' . $value . '</a>';
 					}else{
 						$value = '<span title="file '.$file.' is unavailable">' . $value . '</span>';
 					}

@@ -997,6 +997,20 @@ class ModelSaleOrder extends Model{
 
 		return $query->rows;
 	}
+	/**
+	 * @param int $order_option_id
+	 * @return array
+	 */
+	public function getOrderOption($order_option_id){
+		$query = $this->db->query("SELECT op.*, po.element_type, po.attribute_id, po.product_option_id, pov.subtract
+									FROM " . $this->db->table("order_options") . " op
+									LEFT JOIN " . $this->db->table("product_option_values") . " pov
+										ON op.product_option_value_id = pov.product_option_value_id
+									LEFT JOIN " . $this->db->table("product_options") . " po
+										ON pov.product_option_id = po.product_option_id
+									WHERE op.order_option_id = '" . (int)$order_option_id . "'");
+		return $query->row;
+	}
 
 	/**
 	 * @param int $order_id
