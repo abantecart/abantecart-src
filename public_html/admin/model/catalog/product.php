@@ -399,6 +399,7 @@ class ModelCatalogProduct extends Model{
 			}
 		}
 		$this->cache->delete('product');
+		return true;
 	}
 
 	/**
@@ -906,7 +907,11 @@ class ModelCatalogProduct extends Model{
 
 			//get product resources
 			$rm = new AResourceManager();
-			$resources = $rm->getResourcesList(array('object_name' => 'products', 'object_id' => $product_id));
+			$resources = $rm->getResourcesList(
+					array(
+							'object_name' => 'products',
+							'object_id'   => $product_id,
+							'sort'        => 'sort_order'));
 
 			$new_product_id = $this->addProduct($data);
 
@@ -1143,6 +1148,7 @@ class ModelCatalogProduct extends Model{
 		$lm->deletePageLayout('pages/product/product', 'product_id', (int)$product_id);
 
 		$this->cache->delete('product');
+		return true;
 	}
 
 	/**
