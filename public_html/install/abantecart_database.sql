@@ -11364,7 +11364,7 @@ VALUES  (11,'text_abantecart',111),
 -- ITEM_URL
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`) 
 VALUES  (12,'window.open(\'http://www.abantecart.com\');',111),
-        (12,'window.open(\'http://www.abantecart.com/ecommerce-documentation\');',112),
+        (12,'window.open(\'http://docs.abantecart.com\');',112),
         (12,'window.open(\'http://forum.abantecart.com\');',113),
         (12,'window.open(\'http://marketplace.abantecart.com\');',114);
 -- PARENT_ID
