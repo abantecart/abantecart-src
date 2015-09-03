@@ -66,12 +66,14 @@ class ControllerBlocksOrderSummary extends AController {
                     $value = '';
                 }
                 // strip long textarea value
-                if($option['element_type']=='T' && mb_strlen($value)>64){
+                if($option['element_type']=='T'){
                     $title = strip_tags($value);
                     $title = str_replace('\r\n',"\n",$title);
 
                     $value = str_replace('\r\n',"\n",$value);
-                    $value = mb_substr($value,0,64).'...';
+	                if(mb_strlen($value) > 64){
+		                $value = mb_substr($value, 0, 64) . '...';
+	                }
 		        }
 
           		$option_data[] = array(

@@ -97,7 +97,7 @@
 									<?php if ($options) { ?>
 										<?php foreach ($options as $option) { ?>
 											<div class="form-group">
-												<?php if (!in_array($option['html']->type, array('hidden','textarea'))) { ?>
+												<?php if (!in_array($option['html']->type, array('hidden'))) { ?>
 												<label class="control-label"><?php echo $option['name']; ?></label>
 												<?php } ?>
 												<div class="input-group col-sm-10">
