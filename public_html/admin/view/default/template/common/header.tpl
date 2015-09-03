@@ -330,7 +330,7 @@ $(document).ready(function () {
 	$(window).on('load',function(){
 		setTimeout(
 			function() {
-				$('.ant_window .dropdown-menu').dropdown('toggle'); //show with delay
+				$('.ant_window').addClass('open'); //show with delay
 				setTimeout(	function() {$('.ant_window').removeClass('open')}, 6000); //hide
 			}, 1500
 		);
