@@ -3,7 +3,9 @@ $(document).ready(function() {
     $('.banner a').each(function(){
         var banner_obj = $(this).closest("[data-banner-id]");
         var banner_id = banner_obj.attr("data-banner-id");
-        var href = window.location.href.replace(window.location.search,'').replace('index.php','');
+        var href = window.location.href;
+        href = href.replace(window.location.search,'');
+        href = href.replace('index.php','');
 
         $.ajax({
             url: href+'index.php?rt=r/extension/banner_manager&type=1&banner_id=' + banner_id,
@@ -22,7 +24,9 @@ $(document).ready(function() {
 			//register click only if no target_url banner type (HTML banner)			
 			var test_url = /extension\/banner_manager\/click/;
 			if( banner_id && !test_url.test(url)) {
-                var href = window.location.href.replace(window.location.search,'').replace('index.php','');
+                var href = window.location.href;
+                href = href.replace(window.location.search,'');
+                href = href.replace('index.php','');
                 $.ajax({
                     url: href +'index.php?rt=r/extension/banner_manager&type=2&banner_id=' + banner_id,
                     type: 'GET',
