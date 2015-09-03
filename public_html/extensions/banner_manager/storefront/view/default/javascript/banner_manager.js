@@ -3,6 +3,7 @@ $(document).ready(function() {
     $('.banner a').each(function(){
         var banner_obj = $(this).closest("[data-banner-id]");
         var banner_id = banner_obj.attr("data-banner-id");
+        //need give absolute url to ajax (related to CDN)
         var href = window.location.href;
         href = href.replace(window.location.search,'');
         href = href.replace('index.php','');
@@ -24,6 +25,7 @@ $(document).ready(function() {
 			//register click only if no target_url banner type (HTML banner)			
 			var test_url = /extension\/banner_manager\/click/;
 			if( banner_id && !test_url.test(url)) {
+                //need give absolute url to ajax (related to CDN)
                 var href = window.location.href;
                 href = href.replace(window.location.search,'');
                 href = href.replace('index.php','');
