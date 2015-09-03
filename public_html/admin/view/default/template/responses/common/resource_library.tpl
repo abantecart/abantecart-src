@@ -75,8 +75,12 @@ if ($action == 'list_object') {
 						   data-original-title="<?php echo $txt_link_resource; ?>"><i class="fa fa-link"></i></a></li>
 				<?php } ?>
 				<li>
-					<a class="actionitem disabled rl_delete_multiple" onclick="multi_action('delete'); return false;" href="#"
-					   data-confirmation="delete"><i class="fa fa-trash-o"></i></a>
+					<a class="actionitem disabled rl_delete_multiple"
+					   onclick="multi_action('delete'); return false;"
+					   href="#"
+					   data-confirmation="delete"
+					   data-confirmation-text="<?php echo $text_confirm_delete; ?>">
+						<i class="fa fa-trash-o"></i></a>
 				</li>
 				<?php
 			}

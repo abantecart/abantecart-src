@@ -13,8 +13,8 @@
 		<value><![CDATA[Confirm resource(s) delete]]></value>
 	</definition>
 	<definition>
-		<key>text_confirm</key>
-		<value><![CDATA[Are you sure you want to delete resource(s)?]]></value>
+		<key>text_confirm_delete</key>
+		<value><![CDATA[Some resources might be included in the text. We can not check this automatically.  Delete?]]></value>
 	</definition>
 	<definition>
 		<key>text_cant_delete_title</key>

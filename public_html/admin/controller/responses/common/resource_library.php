@@ -141,10 +141,24 @@ class ControllerResponsesCommonResourceLibrary extends AController {
 		$resource['resource_objects'] = $rm->getResourceObjects($resource['resource_id'], $language_id);
 
 		//mark if this resource mapped to selected object
-		$resource['mapped_to_current'] = $rm->isMapped($resource['resource_id'], $this->data['object_name'], $this->data['object_id']);
+
+
 		if($this->data['mode']!='single'){
-			$resource['can_delete'] = $rm->isMapped($resource['resource_id'])==1 && $resource['mapped_to_current'] ? true : false;
+			$resource['mapped_to_current'] = $rm->isMapped(
+							$resource['resource_id'],
+							$this->data['object_name'],
+							$this->data['object_id']);
+
+			// also check is mapped at all
+			//NOTE: we allow to delete resource that mappend ONLY to current object
+			$is_mapped = $rm->isMapped($resource['resource_id']);
+			if( ($is_mapped==1 && $resource['mapped_to_current']) || !$is_mapped){
+				$resource['can_delete'] = true;
+			}else{
+				$resource['can_delete'] = false;
+			}
 		}else{
+			//check is mapped at all
 			$resource['can_delete'] = $rm->isMapped($resource['resource_id'])>0 ? false : true;
 		}
 

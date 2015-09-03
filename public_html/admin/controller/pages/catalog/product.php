@@ -865,8 +865,8 @@ class ControllerPagesCatalogProduct extends AController {
         $resources_scripts = $this->dispatch(
                 'responses/common/resource_library/get_resources_scripts',
                 array(
-                        'object_name' => 'products',
-                        'object_id' => $product_id,
+                        'object_name' => '',
+                        'object_id' => '',
                         'types' => array('image'),
                 )
         );

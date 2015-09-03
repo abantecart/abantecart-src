@@ -50,6 +50,8 @@ $txt_unlink_resource = sprintf($text_unmap_from, $object_title);
 			$cssclass = $onclick = "";
 			if ($resource['mapped_to_current']) {
 				$onclick = "delete_resource(" . $resource['resource_id'] . ", '" . $object_name . "', '" . $object_id . "');";
+			}else{
+				$onclick = "delete_resource(" . $resource['resource_id'] . ", '" . $object_name . "', '" . $object_id . "');";
 			}
 		} else {
 			$cssclass = "disabled";
@@ -60,7 +62,9 @@ $txt_unlink_resource = sprintf($text_unmap_from, $object_title);
 		   href="#"
 		   onclick="<?php echo $onclick; ?> return false;"
 		   data-rl-id="<?php echo $resource['resource_id']; ?>"
-		   data-confirmation="delete"><i class="fa fa-trash-o"></i></a>
+		   data-confirmation="delete"
+		   data-confirmation-text="<?php echo $text_confirm_delete; ?>"
+				><i class="fa fa-trash-o"></i></a>
 	</li>
 	<?php if ($form_language_switch) { ?>
 		<li><?php echo $form_language_switch; ?></li>
@@ -246,7 +250,7 @@ $txt_unlink_resource = sprintf($text_unmap_from, $object_title);
 					<i class="fa fa-save"></i> <?php echo $button_save_n_apply; ?>
 				</a>&nbsp;
 			<?php } else { ?>
-				<a class="btn btn-primary rl_link rl_save rl_close" href="#">
+				<a class="btn btn-primary rl_link rl_save rlclose" href="#">
 					<i class="fa fa-save"></i> <?php echo $button_save_n_apply; ?>
 				</a>&nbsp;
 			<?php } ?>

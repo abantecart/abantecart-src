@@ -182,9 +182,9 @@ var loadMedia = function (type, wrapper) {
 
 				if (item['can_delete'] == true) {
 					html += '<a class="btn resource_delete tooltips" data-rl-id="' + item['resource_id'] + '" ' +
-							'data-original-title="<?php echo $button_delete ?>" ' +
+							'data-original-title="<?php echo $button_delete; ?>" ' +
 							'data-confirmation="delete" ' +
-							'data-confirmation-text="<?php echo $text_confirm_del ?>" ' +
+							'data-confirmation-text="<?php echo $text_confirm_delete; ?>" ' +
 							'onclick="delete_resource(' + item['resource_id'] + ',\'' + json.object_name + '\',\'' + json.object_id + '\');"><i class="fa fa-trash-o"></i></a>';
 				}
 
@@ -603,6 +603,7 @@ var bind_rl = function (elm) {
 	$obj.find('.rl_save').click(function () {
 		//save rl details. 
 		var datastring = $('.edit_resource_form').find('[id^="RlFrm_"]').serialize();
+
 		var type = $('#type').val();
 		if (type == undefined) {
 			type = $('#rl_types').val();
