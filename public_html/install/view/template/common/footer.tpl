@@ -1,5 +1,5 @@
   </div>
-  <footer><a onclick="window.open('http://www.abantecart.com');">Project Homepage</a>|<a onclick="window.open('http://www.abantecart.com/ecommerce-documentation');">Documentation</a>|<a onclick="window.open('http://marketplace.abantecart.com');">Extensions Marketplace</a>|<a onclick="window.open('http://forum.abantecart.com');">Support Forums</a></footer>
+  <footer><a onclick="window.open('http://www.abantecart.com');">Project Homepage</a>|<a onclick="window.open('http://docs.abantecart.com');">Documentation</a>|<a onclick="window.open('http://marketplace.abantecart.com');">Extensions Marketplace</a>|<a onclick="window.open('http://forum.abantecart.com');">Support Forums</a></footer>
 
    <center>
    <small>
