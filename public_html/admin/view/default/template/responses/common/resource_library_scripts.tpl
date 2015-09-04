@@ -434,6 +434,9 @@ function delete_resource(rl_id, object_name, object_id) {
 			}
 			if (isModalOpen()) {
 				var type = $('#RlFrm_type').val();
+				if(type==undefined){
+					type = $('#library').attr('data-type');
+				}
 				mediaDialog(type, 'list_library');
 			}
 			rl_success_alert('<?php echo $text_file_delete; ?>', true);

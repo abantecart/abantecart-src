@@ -451,7 +451,7 @@ class ControllerResponsesCommonResourceLibrary extends AController {
 		    'name' => 'rl_types',
 		    'placeholder' => $this->language->get('text_type'),
             'options' => $options,
-            'value' => $rm->getTypeId(),
+            'value' => $this->data['type'],
 	    ));
 
 		$this->data['languages'] = array();
