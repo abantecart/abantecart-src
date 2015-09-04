@@ -684,14 +684,15 @@ class ControllerPagesCatalogProduct extends AController {
                 1 => $this->language->get('text_yes'),
                 0 => $this->language->get('text_no'),
             ),
-	        'help_url' => $this->gen_help_url('track_stock'),
+	        'help_url' => $this->gen_help_url('product_inventory'),
 	        'style' => 'medium-field'
 		));
         $this->data['form']['fields']['data']['quantity'] = $form->getFieldHtml(array(
 			'type' => 'input',
 			'name' => 'quantity',
 			'value' => (int)$this->data['quantity'],
-			'style' => 'col-xs-1 small-field'
+			'style' => 'col-xs-1 small-field',
+			'help_url' => $this->gen_help_url('product_inventory'),
 	    ));
         $this->data['form']['fields']['data']['minimum'] = $form->getFieldHtml(array(
 			'type' => 'input',
@@ -710,6 +711,7 @@ class ControllerPagesCatalogProduct extends AController {
 			'name' => 'stock_status_id',
 			'value' => $this->data['stock_status_id'],
             'options' => $this->data['stock_statuses'],
+            'help_url' => $this->gen_help_url('product_inventory'),
             'style' => 'small-field',
 		));
 
