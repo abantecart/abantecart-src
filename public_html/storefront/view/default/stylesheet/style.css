@@ -2158,6 +2158,7 @@ ul.side_prd_list li.related_product {
 	vertical-align: top;
 	zoom: 1;
 	*display: inline;
+	overflow: hidden;
 }
 ul.side_prd_list li.related_product a {
 	display: inline-block;
@@ -2168,7 +2169,6 @@ ul.side_prd_list li.related_product .productname {
 	height: 21px;
 	overflow: hidden;
 	text-overflow: ellipsis;
-	width: 205px;
 }
 
 ul.side_prd_list li img {

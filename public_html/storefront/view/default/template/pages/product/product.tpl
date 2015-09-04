@@ -336,7 +336,7 @@
 							?>
 								<li class="col-md-3 col-sm-5 col-xs-6 related_product">
 									<a href="<?php echo $related_product['href']; ?>"><?php echo $related_product['image']['thumb_html'] ?></a>
-									<a class="productname"
+									<a class="productname" title="<?php echo $related_product['name']; ?>"
 									   href="<?php echo $related_product['href']; ?>"><?php echo $related_product['name']; ?></a>
 									<span class="procategory"><?php echo $item['rating'] ?></span>
 
