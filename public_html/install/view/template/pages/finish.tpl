@@ -30,7 +30,7 @@
 		<p>Your comments and contributions are very welcome.</p>
 		<p class="text-center">
 			<i class="fa fa-home fa-fw"></i> <a href="http://www.abantecart.com" target="_abante">Project Homepage</a>&nbsp;&nbsp;
-			<i class="fa fa-graduation-cap fa-fw"></i> <a href="http://www.abantecart.com/ecommerce-documentation" target="_blank">Documentation</a>&nbsp;&nbsp;
+			<i class="fa fa-graduation-cap fa-fw"></i> <a href="http://docs.abantecart.com" target="_abantecart_docs">Documentation</a>&nbsp;&nbsp;
 			<i class="fa fa-puzzle-piece fa-fw"></i> <a href="http://marketplace.abantecart.com" target="_blank">Marketplace</a>&nbsp;&nbsp;
 			<i class="fa fa-comments fa-fw"></i> <a href="http://forum.abantecart.com" target="_abante">Support Forums</a></p>
 

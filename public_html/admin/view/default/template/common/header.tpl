@@ -336,7 +336,6 @@ $(document).ready(function () {
 		);
 	});
 
-
 	<?php } ?>
 	//update ANT Viewed message only on click
 	$('.ant_window button').click(function (event) {

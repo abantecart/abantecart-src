@@ -238,7 +238,7 @@ Automatic full backup will be created. It is recommended to try upgrade on test 
 	</definition>
 	<definition>
 		<key>error_additional_help_text</key>
-		<value><![CDATA[ Stuck? Not a problem. You can install extensions another way. Check <a href="http://www.abantecart.com/ecommerce-documentation/admin-user-manual/extensions-menu/extension-store#FTPinstall" target="_blank">this help link</a> ]]></value>
+		<value><![CDATA[ Stuck? Not a problem. You can install extensions another way. Check <a href="http://docs.abantecart.com/pages/extensions/install.html#FTPinstall" target="_blank">this help link</a> ]]></value>
 	</definition>
 	<definition>
 		<key>error_notconnected</key>
