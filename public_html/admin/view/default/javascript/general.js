@@ -903,7 +903,8 @@ function addRL2CKE(cke){
         exec: function(edt) {
             window.parent.openCKRLModal(cke);
             return  null;
-        }
+        },
+        modes: { wysiwyg:1,source:1 }
     });
 
     cke.ui.addButton('ck_rl_button', {
@@ -911,7 +912,6 @@ function addRL2CKE(cke){
         command: 'openCKRLModal',
         toolbar: 'abantecart'
     });
-
 }
 function openCKRLModal(cke){
 	modalscope.mode = 'single';
@@ -936,7 +936,19 @@ function openCKRLModal(cke){
 			}else if(item.resource_code!=undefined && item.resource_code.length>0){
 				insert_html = item.resource_code;
 			}
-			cke.insertHtml(insert_html);
+
+            InsertHtml(cke, insert_html);
+
+            function InsertHtml(editor, value) {
+                if (editor.mode == 'wysiwyg') {
+                     editor.insertHtml( "text to insert" );
+                } else { //for source mode
+                    var caretPos = jQuery('textarea.cke_source')[0].selectionStart;
+                    var textAreaTxt = jQuery('textarea.cke_source').val();
+                    jQuery('textarea.cke_source').val(textAreaTxt.substring(0, caretPos) + value + textAreaTxt.substring(caretPos) );
+                }
+            }
+
 			});
 	});
 }
