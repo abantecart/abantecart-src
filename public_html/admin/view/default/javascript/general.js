@@ -941,7 +941,7 @@ function openCKRLModal(cke){
 
             function InsertHtml(editor, value) {
                 if (editor.mode == 'wysiwyg') {
-                     editor.insertHtml( "text to insert" );
+                     editor.insertHtml( value );
                 } else { //for source mode
                     var caretPos = jQuery('textarea.cke_source')[0].selectionStart;
                     var textAreaTxt = jQuery('textarea.cke_source').val();
