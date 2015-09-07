@@ -91,7 +91,10 @@ a.abantecart-widget-cart {
 .abantecart-widget-container .abantecart_button {
     background-color: #fff;
     border-color: #ccc;
+	color: #333;
     border-radius: 1px;
+	border-color: #ccc;
+	box-sizing: border-box;
     -moz-user-select: none;
     background-image: none;
     cursor: pointer;
