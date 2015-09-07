@@ -294,7 +294,8 @@ jQuery(function () {
 	}?>
 
 	$(document).on('click', 'a.resource_add', function () {
-		modalscope.mode = $(this).attr('data-mode') ? $(this).attr('data-mode') : ''; //set here mode based on link attribute (in case when we have a few RL single elements in the form)
+		//set here mode based on link attribute (in case when we have a few RL single elements in the form)
+		modalscope.mode = $(this).attr('data-mode') ? $(this).attr('data-mode') : '';
 
 		if(modalscope.mode=='single'){
 			if( $(this).attr('data-wrapper_id')){
@@ -310,8 +311,8 @@ jQuery(function () {
 	});
 
 	$(document).on("click", 'a.resource_edit', function () {
-
-		modalscope.mode = $(this).attr('data-mode') ? $(this).attr('data-mode') : ''; //set here mode based on link attribute (in case when we have a few RL single elements in the form)
+		//set here mode based on link attribute (in case when we have a few RL single elements in the form)
+		modalscope.mode = $(this).attr('data-mode') ? $(this).attr('data-mode') : '';
 
 		if(modalscope.mode=='single'){
 			if( $(this).attr('data-wrapper_id')!=undefined ){
@@ -455,7 +456,7 @@ var bind_rl = function (elm) {
 	}
 
 	//bind form action if any
-	bindAform($("input, checkbox, select, textarea", 'form'));
+	bindAform($("#rl_container input, #rl_container select, #rl_container textarea"));
 
 	$obj.find('.thmb').hover(function () {
 		var t = $(this);
