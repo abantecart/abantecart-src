@@ -292,6 +292,7 @@ $(document).ready(function () {
 	    	if(!dataobj[row.category]){
 	    		dataobj[row.category] = new Object;
 	    		dataobj[row.category].name = row.category_name;
+	    		dataobj[row.category].icon = row.category_icon;
 	    		dataobj[row.category].items = [];
 	    	}
 	    	//if controller present need to open modal 
@@ -312,8 +313,11 @@ $(document).ready(function () {
 	    $.each(dataobj, function (category, datacat) {
 	    	var url = serch_action + '#' + category;
 	    	var onclick = 'onClick="window.open(\''+url+'\');"';
-	    	var header = '<span class="h5">'+datacat.name+'</span>';
-	    	header += '<span class="pull-right"><a class="more-in-category" '+onclick+'><?php echo $text_all_matches;?></a></span>';
+	    	var header = '<span class="h5">'+searchSectionIcon(category)+datacat.name+'</span>';
+	    	//show more result only if there are more records
+	    	if(datacat.items.length == 3) {
+	    		header += '<span class="pull-right"><a class="more-in-category" '+onclick+'><?php echo $text_all_matches;?></a></span>';
+	    	}
 	    	results.push({ 
 				group: true,
 				text: header, 
@@ -325,6 +329,53 @@ $(document).ready(function () {
 		
 		return results;
 	});
+	
+	var searchSectionIcon = function(section) {
+		switch(section) {
+		    case 'commands':
+		        return '<i class="fa fa-bullhorn fa-fw"></i> ';
+		        break;
+		    case 'orders':
+		        return '<i class="fa fa-money fa-fw"></i> ';
+		        break;
+		    case 'customers':
+		        return '<i class="fa fa-group fa-fw"></i> ';
+		        break;
+		    case 'product_categories':
+		        return '<i class="fa fa-tags fa-fw"></i> ';
+		        break;
+		    case 'products':
+		        return '<i class="fa fa-tag fa-fw"></i> ';
+		        break;
+		    case 'reviews':
+		        return '<i class="fa fa-comment fa-fw"></i> ';
+		        break;
+		    case 'manufacturers':
+		        return '<i class="fa fa-bookmark fa-fw"></i> ';
+		        break;
+		    case 'languages':
+		        return '<i class="fa fa-language fa-fw"></i> ';
+		        break;
+		    case 'pages':
+		        return '<i class="fa fa-clipboard fa-fw"></i> ';
+		        break;
+		    case 'settings':
+		        return '<i class="fa fa-cogs fa-fw"></i> ';
+		        break;
+		    case 'messages':
+		        return '<i class="fa fa-weixin fa-fw"></i> ';
+		        break;
+		    case 'extensions':
+		        return '<i class="fa fa-puzzle-piece fa-fw"></i> ';
+		        break;
+		    case 'downloads':
+		        return '<i class="fa fa-download fa-fw"></i> ';
+		        break;
+		    default:
+		        return '<i class="fa fa-info-circle fa-fw"></i> ';
+		        break;
+		}
+	}
 	
 	<?php if(!$home_page) { ?>
 	$(window).on('load',function(){

@@ -40,7 +40,12 @@
 
     <definition>
         <key>command_view_order</key>
-        <value><![CDATA[view order, order number, open order, show order, open order number, view order number, show order number]]></value>
+        <value><![CDATA[view order, order number, open order, show order, open order number, view order number, show order number, order #]]></value>
+    </definition>
+
+    <definition>
+        <key>command_view_product</key>
+        <value><![CDATA[view product, product number, open product, show product, open product number, view product number, show product number, product #]]></value>
     </definition>
 
     <definition>

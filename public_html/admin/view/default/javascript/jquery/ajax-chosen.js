@@ -12,7 +12,7 @@
         }
         defaultOptions = {
             minTermLength: 3,
-            afterTypeDelay: 500,
+            afterTypeDelay: 1000,
             jsonTermKey: "term",
             keepTypingMsg: "Keep typing...",
             lookingForMsg: "Looking for"

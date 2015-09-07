@@ -140,12 +140,12 @@ echo $tabs;
 					<div class="modal-body next"></div>
 					<div class="modal-footer">
 						<button type="button" class="btn btn-default pull-left prev">
-							<i class="glyphicon glyphicon-chevron-left"></i>
+							<i class="fa fa-chevron-left"></i>
 							<?php echo $text_previous; ?>
 						</button>
 						<button type="button" class="btn btn-primary next">
 							<?php echo $text_next; ?>
-							<i class="glyphicon glyphicon-chevron-right"></i>
+							<i class="fa fa-chevron-right"></i>
 						</button>
 					</div>
 				</div>

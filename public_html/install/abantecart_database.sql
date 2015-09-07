@@ -12156,7 +12156,7 @@ VALUES
   ( 207,1,'Icon Category', '', '', '', '<i class="fa fa-folder-open"></i>&nbsp;', NOW() ),
   ( 208,1,'Icon Product', '', '', '', '<i class="fa fa-cubes"></i>&nbsp;', NOW() ),
   ( 209,1,'Icon Manufacturer', '', '', '', '<i class="fa fa-bookmark-o"></i>&nbsp;', NOW() ),
-  ( 210,1,'Icon Download', '', '', '', '<i class="fa fa-upload"></i>&nbsp;', NOW() ),
+  ( 210,1,'Icon Download', '', '', '', '<i class="fa fa-download"></i>&nbsp;', NOW() ),
   ( 211,1,'Icon Review', '', '', '', '<i class="fa fa-comment-o"></i>&nbsp;', NOW() ),
   ( 212,1,'Icon Attributes', '', '', '', '<i class="fa fa-ticket"></i>&nbsp;', NOW() ),
   ( 213,1,'Icon Extensions', '', '', '', '<i class="fa fa-th"></i>&nbsp;', NOW() ),

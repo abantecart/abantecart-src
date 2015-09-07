@@ -29,17 +29,16 @@ class ControllerResponsesListingGridGlobalSearchResult extends AController {
 		$this->loadModel('tool/global_search');
 		$this->loadLanguage('tool/global_search');
 
-		$page = (int)$this->request->post[ 'page' ]; // get the requested page
-		$limit = $this->request->post[ 'rows' ]; // get how many rows we want to have into the grid
+		$page = (int)$this->request->post['page']; // get the requested page
+		$limit = $this->request->post['rows']; // get how many rows we want to have into the grid
 
-
-		$results = $this->model_tool_global_search->getResult($this->request->get[ 'search_category' ], $this->request->get[ 'keyword' ]);
+		$results = $this->model_tool_global_search->getResult($this->request->get['search_category'], $this->request->get['keyword']);
 		// preverse repeat request to db for total
-		if (!isset($this->session->data[ 'search_totals' ][ $this->request->get[ 'search_category' ] ])) {
-			$total = $this->model_tool_global_search->getTotal($this->request->get[ 'search_category' ], $this->request->get[ 'keyword' ]);
+		if (!isset($this->session->data['search_totals'][ $this->request->get['search_category'] ])) {
+			$total = $this->model_tool_global_search->getTotal($this->request->get['search_category'], $this->request->get['keyword']);
 		} else {
-			$total = $this->session->data[ 'search_totals' ][ $this->request->get[ 'search_category' ] ];
-			unset($this->session->data[ 'search_totals' ][ $this->request->get[ 'search_category' ] ]);
+			$total = $this->session->data['search_totals'][ $this->request->get['search_category'] ];
+			unset($this->session->data['search_totals'][ $this->request->get['search_category'] ]);
 		}
 
 		if ($total > 0) {
@@ -60,12 +59,12 @@ class ControllerResponsesListingGridGlobalSearchResult extends AController {
 
 
 		$i = 0;
-		foreach ($results[ 'result' ] as $result) {
+		foreach ($results['result'] as $result) {
 
-			$response->rows[ $i ][ 'id' ] = $i + 1;
+			$response->rows[ $i ]['id'] = $i + 1;
 			$response->userdata->type[$i + 1] = $result['type'];
-			$response->rows[ $i ][ 'cell' ] = array( $i + 1,
-				$result[ 'text' ]
+			$response->rows[ $i ]['cell'] = array( $i + 1,
+				$result['text']
 			);
 			$i++;
 		}
@@ -88,7 +87,7 @@ class ControllerResponsesListingGridGlobalSearchResult extends AController {
 	private function validate($permissions = null) {
 		// check access to global search
 		if (!$this->user->canAccess('tool/global_search')) {
-			$this->error [ 'warning' ] = $this->language->get('error_permission');
+			$this->error ['warning'] = $this->language->get('error_permission');
 		}
 		return !$this->error ? true : false;
 	}
@@ -99,11 +98,11 @@ class ControllerResponsesListingGridGlobalSearchResult extends AController {
 
 		$search_categories = $this->model_tool_global_search->getSearchSources('all');
 		$result_controllers = $this->model_tool_global_search->results_controllers;
-		$results[ 'response' ] = array();
+		$results['response'] = array();
 
 		foreach ($search_categories as $id => $name) {
-			$r = $this->model_tool_global_search->getResult($id, $this->request->get[ 'term' ], 'suggest');
-			foreach ($r[ 'result' ] as $item) {
+			$r = $this->model_tool_global_search->getResult($id, $this->request->get['term'], 'suggest');
+			foreach ($r['result'] as $item) {
 				if ($item) {
 					$tmp = array();
 					// exception for extension settings
@@ -112,18 +111,17 @@ class ControllerResponsesListingGridGlobalSearchResult extends AController {
 						if($item['type']=='total'){
 							$page_rt = sprintf($result_controllers[$tmp_id]['page2'],$item['extension']);
 						}else{
-							$page_rt = $result_controllers[ $tmp_id ][ 'page' ];
+							$page_rt = $result_controllers[ $tmp_id ]['page'];
 						}
 					}else{
 						$tmp_id = $id;
-						$page_rt = $result_controllers[ $tmp_id ][ 'page' ];
+						$page_rt = $result_controllers[ $tmp_id ]['page'];
 					}
 
-
-					if (!is_array($result_controllers[ $tmp_id ][ 'id' ])) {
-						$tmp[ ] = $result_controllers[ $tmp_id ][ 'id' ] . '=' . $item[ $result_controllers[ $tmp_id ][ 'id' ] ];
+					if (!is_array($result_controllers[ $tmp_id ]['id'])) {
+						$tmp[ ] = $result_controllers[ $tmp_id ]['id'] . '=' . $item[ $result_controllers[ $tmp_id ]['id'] ];
 					} else {
-						foreach ($result_controllers[ $tmp_id ][ 'id' ] as $al => $j) {
+						foreach ($result_controllers[ $tmp_id ]['id'] as $al => $j) {
 							// if some id have alias - build link with it
 							$tmp[ ] = $j . '=' . $item[ $j ];
 						}
@@ -132,17 +130,23 @@ class ControllerResponsesListingGridGlobalSearchResult extends AController {
 					if($item['controller'] == 'setting/setting'){
 						$a = explode('-',$item['active']);
 						if($a[0] == 'appearance'){
-							unset($result_controllers[ $tmp_id ][ 'response' ]);
+							unset($result_controllers[ $tmp_id ]['response']);
 						}
 					}
+					
+					if( $id=='commands'){
+						$item['page'] = $item['url'];
+						unset($item['url']);
+					} else {
+						$item['controller'] = $result_controllers[ $tmp_id ]['response'] ? $this->html->getSecureURL($result_controllers[ $tmp_id ]['response'], '&' . implode('&', $tmp)) : '';
+						$item['page'] = $this->html->getSecureURL($page_rt, '&' . implode('&', $tmp));
+					}
+					
+					$item['category'] = $id;
+					$item['category_name'] = $this->language->get('text_' . $id);
+					$item['label'] = mb_strlen($item['title']) > 40 ? mb_substr($item['title'], 0, 40) . '...' : $item['title'];
 
-
-					$item[ 'controller' ] = $result_controllers[ $tmp_id ][ 'response' ] ? $this->html->getSecureURL($result_controllers[ $tmp_id ][ 'response' ], '&' . implode('&', $tmp)) : '';
-					$item[ 'page' ] = $this->html->getSecureURL($page_rt, '&' . implode('&', $tmp));
-					$item[ 'category' ] = $id;
-					$item[ 'category_name' ] = $this->language->get('text_' . $id);
-					$item[ 'label' ] = mb_strlen($item[ 'title' ]) > 40 ? mb_substr($item[ 'title' ], 0, 40) . '...' : $item[ 'title' ];
-					$results[ 'response' ][ ] = $item;
+					$results['response'][ ] = $item;
 				}
 			}
 		}
