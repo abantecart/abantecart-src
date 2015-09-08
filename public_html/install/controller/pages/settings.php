@@ -94,7 +94,7 @@ class ControllerPagesSettings extends AController {
 			$this->error['warning'] = 'Warning: GD extension needs to be loaded for AbanteCart to work!';
 		}
 
-		if (!extension_loaded('mbstring')) {
+		if (!extension_loaded('mbstring') || !function_exists('mb_internal_encoding')) {
 			$this->error['warning'] = 'Warning: MultiByte String extension needs to be loaded for AbanteCart to work!';
 		}
 		if (!extension_loaded('zlib')) {
