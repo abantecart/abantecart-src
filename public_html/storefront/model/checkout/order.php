@@ -252,16 +252,16 @@ class ModelCheckoutOrder extends Model {
 
 		if ($order_query->num_rows) {
 			$order_row = $this->dcrypt->decrypt_data($order_query->row, 'orders');
-			//if promotions applied - updates total and add row to order_total for promo type
 			$update = array();
 
+			//update order status
 			$update[] = "order_status_id = '" . (int)$order_status_id . "'";
 			$sql = "UPDATE `" . $this->db->table("orders") . "`
 				    SET " . implode(", ", $update) . "
 					WHERE order_id = '" . (int)$order_id . "'";
 			$this->db->query($sql);
 
-
+			//record history
 			$this->db->query("INSERT INTO " . $this->db->table("order_history") . "
 							   SET order_id = '" . (int)$order_id . "',
 							        order_status_id = '" . (int)$order_status_id . "',
@@ -273,7 +273,7 @@ class ModelCheckoutOrder extends Model {
 			$order_product_query = $this->db->query("SELECT *
 													 FROM " . $this->db->table("order_products") . "
 													 WHERE order_id = '" . (int)$order_id . "'");
-
+			//update products inventory
 			foreach ($order_product_query->rows as $product) {
 				$this->db->query("UPDATE " . $this->db->table("products") . "
 									  SET quantity = (quantity - " . (int)$product['quantity'] . ")
@@ -294,13 +294,12 @@ class ModelCheckoutOrder extends Model {
 				$this->cache->delete('product');
 
 			}
-
+			//build confirmation email 
 			$language = new ALanguage($this->registry, $order_row['code']);
 			$language->load($order_row['filename']);
 			$language->load('mail/order_confirm');
 
 			$this->load->model('localisation/currency');
-
 			$order_status_query = $this->db->query("SELECT *
 													FROM " . $this->db->table("order_statuses") . "
 													WHERE order_status_id = '" . (int)$order_status_id . "'

@@ -110,7 +110,7 @@
 	</definition>
 	<definition>
 		<key>entry_total_coupon_usage</key>
-		<value><![CDATA[Total Coupon Usage:]]></value>
+		<value><![CDATA[Total Coupon Usage:<br /><span class="help">Count of all orders placed using this coupon</span>]]></value>
 	</definition>
 	<definition>
 		<key>error_permission</key>

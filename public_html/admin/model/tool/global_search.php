@@ -338,7 +338,7 @@ class ModelToolGlobalSearch extends Model {
 			case "extensions" :
 				$sql = "SELECT COUNT( DISTINCT `key`) as total
 						FROM " . $this->db->table("extensions") . " 
-						WHERE (LOWER(`key`) like '%" . $needle . "%')";
+						WHERE LOWER(`key`) like '%" . $needle . "%' AND `type` <> 'total'";
 				$result = $this->db->query($sql);
 				$output = $result->row ['total'];
 				break;
@@ -645,7 +645,7 @@ class ModelToolGlobalSearch extends Model {
 			case "extensions" :
 				$sql = "SELECT DISTINCT `key` as extension, `key` as title, `key` as text
 						FROM " . $this->db->table("extensions") . " e						
-						WHERE (LOWER(`key`) like '%" . $needle . "%')
+						WHERE LOWER(`key`) like '%" . $needle . "%' AND `type` <> 'total'
 						LIMIT " . $offset . "," . $rows_count;
 
 				$result = $this->db->query($sql);
