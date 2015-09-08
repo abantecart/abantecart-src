@@ -307,7 +307,6 @@ function showInfo(s) {
 }
 
 function lookupCommand( command ) {
-
      $.ajax({
          url:"<?php echo $command_lookup_url; ?>&term=" + command ,
          type:'GET',
@@ -316,7 +315,6 @@ function lookupCommand( command ) {
          	display_result(data);
          }
      });
-
 }
 
 function display_result(data) {
