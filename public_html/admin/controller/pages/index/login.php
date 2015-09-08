@@ -32,8 +32,6 @@ class ControllerPagesIndexLogin extends AController {
 
 		$this->loadLanguage('common/login');
 
-		$this->cache->delete('admin_menu');
-
 		$this->document->setTitle( $this->language->get('heading_title') );
 
 		$this->document->addBreadcrumb( array (
