@@ -121,24 +121,28 @@ class AdminCommands {
 		$request = preg_replace('/menu|tab|page/', '', $request);
 		$request = trim($request);
 		//look for page in the menu matching 
-		//assume for now we have cache get menu from database.
-		$menu_arr = $this->cache->get('admin_menu');
+		$menu = new AMenu('admin');
+		$menu_arr = $menu->getMenuItems();
 		if (count($menu_arr)) {
-			foreach($menu_arr as $menu){
+			foreach($menu_arr as $section_menu){
 				$sub_res = array();
-				//load language for prospect controller
-				//Check that filename has proper name with no other special characters. 
-				if ( preg_match("/[\W]+/", str_replace('/', '_', $menu['item_url'])) ) {
-					$title = $this->language->get($menu['item_text']);
-				} else {
-					$this->load->language($menu['item_url'], 'silent');
-					$title = $this->language->get($menu['item_text']) . " / " . $this->language->get('heading_title');
-				}
-				if (preg_match("/$request/iu", $title)){
-					$sub_res["title"] = $title;
-					$sub_res["url"] = $this->html->getSecureURL($menu['item_url']);
-					$sub_res["confirmation"] = false;
-					$result[] = $sub_res;
+				if(is_array($section_menu)) {
+					foreach($section_menu as $menu){
+						//load language for prospect controller
+						//Check that filename has proper name with no other special characters. 
+						if ( preg_match("/[\W]+/", str_replace('/', '_', $menu['item_url'])) ) {
+							$title = $this->language->get($menu['item_text']);
+						} else {
+							$this->load->language($menu['item_url'], 'silent');
+							$title = $this->language->get($menu['item_text']) . " / " . $this->language->get('heading_title');
+						}
+						if (preg_match("/$request/iu", $title)){
+							$sub_res["title"] = $title;
+							$sub_res["url"] = $this->html->getSecureURL($menu['item_url']);
+							$sub_res["confirmation"] = false;
+							$result[] = $sub_res;
+						}					
+					}		
 				}
 			}
 		}
