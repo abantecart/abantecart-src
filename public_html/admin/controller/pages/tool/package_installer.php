@@ -540,6 +540,7 @@ class ControllerPagesToolPackageInstaller extends AController {
 		if ($this->request->is_GET()) {
 			//check  write permissions
 			// find directory from app_root_dir
+			$non_writables = array();
 			if ($package_info['package_content']['extensions']) {
 				$dst_dirs = $pmanager->getDestinationDirectories();
 				$ftp_mode = false;
