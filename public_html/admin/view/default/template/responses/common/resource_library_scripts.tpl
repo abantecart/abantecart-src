@@ -223,6 +223,8 @@ var loadSingle = function (type, wrapper_id, resource_id, field) {
 	$.ajax({
 		url: urls.resource_single + '&resource_id=' + resource_id,
 		type: 'GET',
+		//disable async-mode by cause of slow connections via proxies (limit for connections count at the same time)
+		async: false,
 		data: { type: type },
 		dataType: 'json',
 		global: false,

@@ -938,8 +938,14 @@ function openCKRLModal(cke){
 			}
 
             InsertHtml(cke, insert_html);
+            modalscope.selected_resource = {};
 
             function InsertHtml(editor, value) {
+                if(!value || value.length<1){
+                    info_alert('Resource Library: Nothing Was Pasted.', true);
+                    return null;
+                }
+
                 if (editor.mode == 'wysiwyg') {
                      editor.insertHtml( value );
                 } else { //for source mode
