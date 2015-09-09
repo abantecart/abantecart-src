@@ -1,3 +1,55 @@
+AbanteCart version 1.2.4
+
+This a minor release is with further usability improvements and bug fixes
+
+New Features and improvements highlight:
+- New template management page
+- Quick starter wizard to help with most common settings.
+- Commands in global search
+
+Core:
+- ACart fix related to https://github.com/abantecart/abantecart-src/issues/235
+- AConnect improvements
+- New stack trace function for logs
+- Session security improvement
+- replace is_array for better performance
+- better layout XML load error hendling
+
+Storefront:
+- Product embed code fixes.
+- Embed fix for jQuery loaded at the end of the page
+- 0px value replaced by 0 in css-files
+- category menu fix #225
+- Removal of misused cookie and improve first login message
+- Main page promo section improvement
+
+Admin:
+- New template management page
+- Improve global search and add commands in connection to voice commands
+- implement of Resource Library into CKEditor. Added ability to paste in CKE SOURCE-mode
+- Mark multilingual fields with the flag
+- Resource Library fixes related to deleting of resource from edit-page and preselected type on search result
+- Resource Library deleting resource fix
+- cloning product fix https://github.com/abantecart/abantecart-src/issues/209
+- Resource Library multi mode, save'n'apply button improvement
+- Resource Library single mode fix related to drag and drop
+- Layout management improvements.
+- textarea product option improvment
+- changes related to template cloning and devtools
+- Styles and images cleanup
+- Implement new documents site cross reference
+
+Initial install
+- Quick starter wizard to help with most common settings.
+- added additional check for multibyte functions support (mbstring)
+- optimized demo images 
+
+Various bug fixes and improvements
+
+
+------------------------------------------------------------
+
+
 AbanteCart version 1.2.3
 
 This release is with new features and many fixes and improvements 
@@ -49,7 +101,7 @@ Extensions:
 - banner manager, setting fix for url target of text banner ( Github #177 )
 
 
-Various bus fixes and UI improvements
+Various bug fixes and UI improvements
 
 
 ------------------------------------------------------------
@@ -89,7 +141,7 @@ Extensions:
 - Liqpay is updated.
 - Form manager, add files support.  
 
-Various bus fixes and UI improvements
+Various bug fixes and UI improvements
 
 
 ------------------------------------------------------------
@@ -136,7 +188,7 @@ Storefront:
 Extensions:
 - Stripe and Skrill payment
 
-Various bus fixes and UI improvements
+Various bug fixes and UI improvements
 
 ------------------------------------------------------------
 
