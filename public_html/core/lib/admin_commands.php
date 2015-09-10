@@ -84,7 +84,7 @@ class AdminCommands {
 			foreach ($variations as $test) {
 				$test = trim($test);
 				//check exact match first
-				if($test == $keyword){
+				if(strtolower($test) == strtolower($keyword)){
 					$result['command'] = $test;
 					$result['key'] = $key;
 					$result['request'] = '';
