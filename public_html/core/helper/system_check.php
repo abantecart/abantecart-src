@@ -204,12 +204,24 @@ function check_server_configuration($registry){
 	
 	$size = disk_size( DIR_ROOT );
 	//check for size to drop below 10mb
-	if ($size['bytes'] < 1024*10000) {
+	if (isset($size['bytes']) && $size['bytes'] < 1024*10000) {
 	    $ret_array[] = array(
 	    	'title' => 'Critically low disk space',
 	    	'body' => 'AbanteCart is running on critically low disk space of '.$size['human'].'! Increase disk size to prevent failure.',
 	    	'type' => 'E'	    
 	    );
+	}
+
+	//if SEO is anabled
+	if( $registry->get('config')->get('enable_seo_url') ) {	
+		$htaccess = DIR_ROOT . '/.htaccess';
+		if(!file_exists($htaccess)) {
+		    $ret_array[] = array(
+		    	'title' => 'SEO URLs does not work',
+		    	'body' => $htaccess.' file is missing. SEO URL functionality will not work. Check the <a href="http://docs.abantecart.com/pages/settings/system.html">manual for SEO URL setting</a> ',
+		    	'type' => 'W'	    
+		    );		
+		}
 	}
 
 	return $ret_array;
@@ -230,7 +242,6 @@ function get_all_files_dirs($start_dir) {
 }
 
 function disk_size($path){
-
 	//check if this is supported by server
 	if(function_exists('disk_free_space')){
 		try {

@@ -48,9 +48,6 @@ class ControllerPagesSettingSetting extends AController {
 
 		$this->document->setTitle($this->language->get('heading_title'));
 		$group = $this->request->get['active'];
-		if(has_value($this->request->get['tmpl_id']) && $this->request->get['tmpl_id']!='default' && $group=='appearance'){
-			$group = $this->request->get['tmpl_id'];
-		}
 		if ($this->request->is_POST() && $this->_validate($this->request->get['active'])) {
 			if (has_value($this->request->post['config_logo'])) {
 				$this->request->post['config_logo'] = html_entity_decode($this->request->post['config_logo'], ENT_COMPAT, 'UTF-8');
@@ -81,7 +78,7 @@ class ControllerPagesSettingSetting extends AController {
                 startStorefrontSession($this->user->getId());
             }
 			$redirect_url = $this->html->getSecureURL('setting/setting',
-					'&active=' . $this->request->get['active'] . '&store_id=' . (int)$this->request->get['store_id'].(has_value($this->request->get['tmpl_id']) ? '&tmpl_id='.$this->request->get['tmpl_id']:''));
+					'&active=' . $this->request->get['active'] . '&store_id=' . (int)$this->request->get['store_id']);
 			$this->redirect($redirect_url);
 		}
 
@@ -376,10 +373,10 @@ class ControllerPagesSettingSetting extends AController {
 	private function _getForm() {
 
 		$this->data['action'] = $this->html->getSecureURL('setting/setting',
-				'&active=' . $this->data['active'] . '&store_id=' . $this->data['store_id'].(has_value($this->request->get['tmpl_id']) ? '&tmpl_id='.$this->request->get['tmpl_id']:''));
+				'&active=' . $this->data['active'] . '&store_id=' . $this->data['store_id']);
 		$this->data['form_title'] = $this->language->get('text_edit') . ' ' . $this->language->get('heading_title');
 		$this->data['update'] = $this->html->getSecureURL('listing_grid/setting/update_field',
-				'&group=' . $this->data['active'] . '&store_id=' . $this->data['store_id'].(has_value($this->request->get['tmpl_id']) ? '&tmpl_id='.$this->request->get['tmpl_id']:''));
+				'&group=' . $this->data['active'] . '&store_id=' . $this->data['store_id']);
 		$this->view->assign('language_code', $this->session->data['language']);
 		$form = new AForm('HS');
 
@@ -432,14 +429,7 @@ class ControllerPagesSettingSetting extends AController {
 				$this->data = array_merge_recursive($this->data, $this->_build_checkout($form, $this->data['settings']));
 				break;
 			case 'appearance' :
-
-				$this->data['settings']['tmpl_id'] = $this->request->get['tmpl_id'];
-				if($this->data['settings']['tmpl_id']=='default'){
-					//get default setting fields for template
-					$this->data['settings']['tmpl_id'] = 'appearance';
-				}
 				$this->data = array_merge_recursive($this->data, $this->_build_appearance($form, $this->data['settings']));
-
 				break;
 			case 'mail' :
 				$this->data = array_merge_recursive($this->data, $this->_build_mail($form, $this->data['settings']));
@@ -452,7 +442,6 @@ class ControllerPagesSettingSetting extends AController {
 				break;
 			default:
 		}
-
 	}
 
     /**
