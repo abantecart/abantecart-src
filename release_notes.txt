@@ -6,6 +6,7 @@ New Features and improvements highlight:
 - New template management page
 - Quick starter wizard to help with most common settings.
 - Commands in global search
+- System condition check
 
 Core:
 - ACart fix related to https://github.com/abantecart/abantecart-src/issues/235
@@ -14,6 +15,7 @@ Core:
 - Session security improvement
 - replace is_array for better performance
 - better layout XML load error hendling
+- System condition check to warn changes on OS that effect AbanteCart stability
 
 Storefront:
 - Product embed code fixes.

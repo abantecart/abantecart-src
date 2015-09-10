@@ -1138,6 +1138,17 @@ class AConfigManager {
 			'value' => $data['config_error_filename'],
 			'required' => true,
 		));
+		$fields['system_check'] = $form->getFieldHtml($props[] = array(
+			'type' => 'selectbox',
+			'name' => 'config_system_check',
+			'value' => $data['config_system_check'],
+			'options' => array(
+				0 => 'Admin & Storefront',
+				1 => 'Admin',
+				2 => 'Storefront',
+				3 => $this->language->get('text_disabled'),
+			),
+		));
 		if (isset($data['one_field'])) {
 			$fields = $this->_filterField($fields, $props, $data['one_field']);
 		}

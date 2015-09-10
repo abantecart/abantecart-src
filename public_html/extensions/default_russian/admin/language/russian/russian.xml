@@ -533,14 +533,6 @@
 	  <value><![CDATA[Подтвержение открепления ресурса]]></value>
 	</definition>
 	<definition>
-	  <key>text_install_warning_subject</key>
-	  <value><![CDATA[Предупреждение системы безопасности]]></value>
-	</definition>
-	<definition>
-	  <key>text_install_warning</key>
-	  <value><![CDATA[Подпапка install все еще существует в каталоге вашей AbanteCart. Рекомендуем Вам удалить ее в целях безопасности.]]></value>
-	</definition>
-	<definition>
 	  <key>text_select_store</key>
 	  <value><![CDATA[Выберите магазин]]></value>
 	</definition>
@@ -676,4 +668,16 @@
 		<key>text_copy_embed_code</key>
 		<value><![CDATA[Скопируйте и вставьте содержимое в Ваш html-код где вы планируете продавать]]></value>
 	</definition>
+	<definition>
+		<key>text_system_error</key>
+		<value><![CDATA[Была обнаружена системная ошибка. Проверьте системные <a target="_blank" href="%s">сообщения</a> или <a target="_blank" href="%s">лог ошибок</a>]]></value>
+	</definition>
+	<definition>
+		<key>text_system_warning</key>
+		<value><![CDATA[Было обнаружено системное предупреждение. Проверьте системные <a target="_blank" href="%s">сообщения</a>]]></value>
+	</definition>
+	<definition>
+		<key>text_system_notice</key>
+		<value><![CDATA[Было обнаружено системное сообщение. Проверьте системные <a target="_blank" href="%s">сообщения</a>]]></value>
+	</definition>	
 </definitions>

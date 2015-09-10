@@ -265,7 +265,7 @@
 
 <script type="text/javascript">
 $(document).ready(function () {
-	
+		
 	<?php if (count($breadcrumbs) <= 1 && $ant) { ?>
 	//register ant shown in dashboard 
 	updateANT('<?php echo $mark_read_url; ?>');

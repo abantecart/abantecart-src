@@ -83,6 +83,12 @@ class AdminCommands {
 			//loop for command in the term
 			foreach ($variations as $test) {
 				$test = trim($test);
+				//check exact match first
+				if($test == $keyword){
+					$result['command'] = $test;
+					$result['key'] = $key;
+					$result['request'] = '';
+				} 
 				preg_match("/^$test\s+(.*)/iu", $keyword, $matches);
 				if (count($matches)) {
 					$result['command'] = $test;

@@ -660,6 +660,11 @@
 			<![CDATA[Minimum order amount:<br /><span class="help">Prevent checkout if order sub-total does not reach minimum amount set. 0 = NO MINIMUM</span>]]></value>
 	</definition>
 	<definition>
+		<key>entry_system_check</key>
+		<value>
+			<![CDATA[System Check:<br /><span class="help">Enable this setting if you want to check your system condition in respect to AbanteCart functionlaity. System issues effecting AbanteCart will be reported as messages visible in admin.</span>]]></value>
+	</definition>
+	<definition>
 		<key>button_add_store</key>
 		<value><![CDATA[New Store]]></value>
 	</definition>

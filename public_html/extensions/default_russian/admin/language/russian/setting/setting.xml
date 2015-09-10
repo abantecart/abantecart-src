@@ -662,6 +662,11 @@
 			<![CDATA[Минимальный заказ:<br /><span class="help">Предотвратить оформление заказа если промежуточная сумма заказа не достигает минимальной установленной суммы. 0 = НЕТ МИНИМУМА</span>]]></value>
 	</definition>
 	<definition>
+		<key>entry_system_check</key>
+		<value>
+			<![CDATA[Проверка системы:<br /><span class="help">Включите этот параметр, если вы хотите проверить состояние системы по отношению к AbanteCart. Системные настройки влияющие на AbanteCart будут видны для администратора.</span>]]></value>
+	</definition>
+	<definition>
 		<key>button_add_store</key>
 		<value><![CDATA[Новый Магазин]]></value>
 	</definition>

@@ -210,6 +210,7 @@ try {
 
 	require_once(DIR_CORE . 'helper/html.php');
 	require_once(DIR_CORE . 'helper/utils.php');
+	require_once(DIR_CORE . 'helper/system_check.php');
 
 // Include library files
 	require_once(DIR_CORE . 'lib/cache.php');

@@ -122,10 +122,6 @@ class ControllerCommonHeader extends AController {
 		$this->view->assign('dialog_title', $this->language->get('text_quick_edit_form'));
 		$this->view->assign('button_go', $this->html->buildButton(array('name' => 'searchform_go', 'text' => $this->language->get('button_go'), 'style' => 'button5')));
 
-		//check if install dir existing. warn
-		if (file_exists(DIR_ROOT . '/install')) {
-			$this->messages->saveWarning($this->language->get('text_install_warning_subject'), $this->language->get('text_install_warning'));
-		}
 		//backwards compatability from 1.2.1. Can remove this check in the future. 
 		if (!defined('ENCRYPTION_KEY')) {
 			$cmbody = "To be compatible with v".VERSION." add below line to configuration file: <br>\n" . DIR_ROOT . '/system/config.php';

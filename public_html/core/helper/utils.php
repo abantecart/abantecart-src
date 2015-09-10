@@ -475,38 +475,6 @@ if( !function_exists("strptime")) {
 	}
 }
 
-function checkRequirements() {
-	$error = '';
-	if (phpversion() < '5.2') {
-		$error = 'Warning: You need to use PHP5.2 or above for AbanteCart to work!';
-	}
-
-	if (!ini_get('file_uploads')) {
-		$error = 'Warning: file_uploads needs to be enabled!';
-	}
-
-	if (ini_get('session.auto_start')) {
-		$error = 'Warning: AbanteCart will not work with session.auto_start enabled!';
-	}
-
-	if (!extension_loaded('mysql')) {
-		$error = 'Warning: MySQL extension needs to be loaded for AbanteCart to work!';
-	}
-
-	if (!extension_loaded('gd')) {
-		$error = 'Warning: GD extension needs to be loaded for AbanteCart to work!';
-	}
-
-	if (!extension_loaded('mbstring')) {
-		$error = 'Warning: MultiByte String extension needs to be loaded for AbanteCart to work!';
-	}
-	if (!extension_loaded('zlib')) {
-		$error = 'Warning: ZLIB extension needs to be loaded for AbanteCart to work!';
-	}
-	return $error;
-}
-
-
 /**
  * @param string $extension_txt_id
  * @return SimpleXMLElement | bool

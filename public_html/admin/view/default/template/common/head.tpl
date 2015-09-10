@@ -50,6 +50,17 @@
 ?>
 <script type="text/javascript">
 $(document).ready(function () {
+
+	//system check warnings
+	<?php if($system_error) { ?>
+		error_alert('<?php echo $system_error; ?>', false);
+	<?php } ?>
+	<?php if($system_warning) { ?>
+		warning_alert('<?php echo $system_warning; ?>', false);
+	<?php } ?>
+	<?php if($system_notice) { ?>
+		info_alert('<?php echo $system_notice; ?>', false);
+	<?php } ?>
   
 	numberSeparators = {decimal:'<?php echo $decimal_point; ?>', thousand:'<?php echo $thousand_point; ?>'};
 

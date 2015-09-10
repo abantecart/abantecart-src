@@ -79,7 +79,7 @@ class ControllerPagesSettings extends AController {
 		}
 
 		if (!ini_get('file_uploads')) {
-			$this->error['warning'] = 'Warning: file_uploads needs to be enabled!';
+			$this->error['warning'] = 'Warning: file_uploads needs to be enabled in PHP!';
 		}
 
 		if (ini_get('session.auto_start')) {

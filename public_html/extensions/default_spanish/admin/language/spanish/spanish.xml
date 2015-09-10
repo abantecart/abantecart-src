@@ -535,15 +535,6 @@
 		<value><![CDATA[Confirme los recursos Desvincular]]></value>
 	</definition>
 	<definition>
-		<key>text_install_warning_subject</key>
-		<value><![CDATA[Advertencia de seguridad]]></value>
-	</definition>
-	<definition>
-		<key>text_install_warning</key>
-		<value>
-			<![CDATA[Todavía se "install" presente en su directorio de instalación AbanteCart. Se recomienda que elimine este directorio.]]></value>
-	</definition>
-	<definition>
 		<key>text_select_store</key>
 		<value><![CDATA[Seleccionar tienda]]></value>
 	</definition>
@@ -675,5 +666,21 @@
 		<key>text_share_embed_code</key>
 		<value><![CDATA[Obtener código incrustar]]></value>
 	</definition>
+	<definition>
+		<key>text_copy_embed_code</key>
+		<value><![CDATA[Copia y pega este en su código HTML que desea vender]]></value>
+	</definition>
+	<definition>
+		<key>text_system_error</key>
+		<value><![CDATA[Se ha encontrado Error del sistema. Comprobar sistema <a target="_blank" href="%s">mensajes</a> o <a target="_blank" href="%s">registro de errores</a>]]></value>
+	</definition>
+	<definition>
+		<key>text_system_warning</key>
+		<value><![CDATA[Sistema de advertencia ha sido reportado. Comprobar sistema <a target="_blank" href="%s">mensajes</a>]]></value>
+	</definition>
+	<definition>
+		<key>text_system_notice</key>
+		<value><![CDATA[Aviso de sistema se ha informado. Comprobar sistema <a target="_blank" href="%s">mensajes</a>]]></value>
+	</definition>	
 	
 </definitions>
