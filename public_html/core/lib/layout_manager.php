@@ -68,9 +68,15 @@ class ALayoutManager{
 	const FOOTER_MAIN = 8;
 	const FIXED_POSITIONS = 8;
 
-	//Layout Manager Class to handle layout in the admin
-	//NOTES: Object can be constructed with specific template, page or layout id provided
-	//	     Possible to create an object with no specifics to access layout methods. 
+	/**
+	 *  Layout Manager Class to handle layout in the admin
+	 *  NOTES: Object can be constructed with specific template, page or layout id provided
+	 * Possible to create an object with no specifics to access layout methods.
+	 * @param string $tmpl_id
+	 * @param string $page_id
+	 * @param string $layout_id
+	 * @throws AException
+	 */
 	public function __construct($tmpl_id = '', $page_id = '', $layout_id = ''){
 		if(!IS_ADMIN){ // forbid for non admin calls
 			throw new AException (AC_ERR_LOAD, 'Error: permission denied to change page layout');
@@ -79,6 +85,33 @@ class ALayoutManager{
 		$this->registry = Registry::getInstance();
 
 		$this->tmpl_id = !empty ($tmpl_id) ? $tmpl_id : $this->config->get('config_storefront_template');
+
+		//do check for existance of storefront template in case when $tmpl_id not set
+		if( empty($tmpl_id) ){
+			//check is template an extension
+			$template = $this->config->get('config_storefront_template');
+			$dir = $template . DIR_EXT_STORE . DIR_EXT_TEMPLATE . $template;
+			$enabled_extensions = $this->extensions->getEnabledExtensions();
+
+			if (in_array($template, $enabled_extensions) && is_dir(DIR_EXT . $dir)) {
+				$is_valid = true;
+			} else {
+				$is_valid = false;
+			}
+
+			//check if this is template from core
+			if (!$is_valid && is_dir(DIR_ROOT . '/storefront/view/' . $template)) {
+				$is_valid = true;
+			}
+
+			if(!$is_valid){
+				$this->tmpl_id = 'default';
+			}else{
+				$this->tmpl_id = $template;
+			}
+		}else{
+			$this->tmpl_id = $tmpl_id;
+		}
 
 		//load all pages specific to set template. No cross template page/layouts
 		$this->pages = $this->getPages();
@@ -126,10 +159,18 @@ class ALayoutManager{
 		$this->blocks = $this->_getLayoutBlocks();
 	}
 
+	/**
+	 * @param string $key
+	 * @return mixed
+	 */
 	public function __get($key){
 		return $this->registry->get($key);
 	}
 
+	/**
+	 * @param string $key
+	 * @param mixed $value
+	 */
 	public function __set($key, $value){
 		$this->registry->set($key, $value);
 	}
@@ -278,7 +319,10 @@ class ALayoutManager{
 		return $ret_arr;
 	}
 
-
+	/**
+	 * @param int $layout_id
+	 * @return array
+	 */
 	private function _getLayoutBlocks($layout_id = 0){
 		$store_id = (int)$this->config->get('config_store_id');
 		$layout_id = !$layout_id ? $this->layout_id : $layout_id;
@@ -312,6 +356,9 @@ class ALayoutManager{
 		return $blocks;
 	}
 
+	/**
+	 * @return array
+	 */
 	public function getAllBlocks(){
 		$store_id = (int)$this->config->get('config_store_id');
 		$language_id = (int)$this->language->getContentLanguageID();
@@ -543,6 +590,11 @@ class ALayoutManager{
 		return $blocks;
 	}
 
+	/**
+	 * @param array $blocks
+	 * @param int $total_blocks
+	 * @return array
+	 */
 	private function _buildChildtenBlocks($blocks, $total_blocks){
 		$select_boxes = array();
 		$empty_block = array(
@@ -560,6 +612,11 @@ class ALayoutManager{
 		return $select_boxes;
 	}
 
+	/**
+	 * @param array $blocks_arr
+	 * @param int $position
+	 * @return int
+	 */
 	private function _find_block_by_postion($blocks_arr, $position){
 		foreach($blocks_arr as $index => $block_s){
 			if($block_s['position'] == $position){
@@ -1545,7 +1602,10 @@ class ALayoutManager{
 		return true;
 	}
 
-
+	/**
+	 * @param int $page_id
+	 * @param int $layout_id
+	 */
 	private function _set_current_page($page_id = '', $layout_id = ''){
 		//find page used for this instance. If page_id is not specified for the instance, generic page/layout is used.
 		if(has_value($page_id) && has_value($layout_id)){
@@ -2312,13 +2372,12 @@ class ALayoutManager{
 		return $result->row ['instance_id'];
 	}
 
-	/*
+	/**
 	 * Function return integer type of layout by given text. Used by xml-import of layouts.
 	 *
 	 * @param string $text_type
 	 * @return int
 	 */
-
 	private function _getIntLayoutTypeByText($text_type){
 		$text_type = ucfirst($text_type);
 		switch($text_type){
