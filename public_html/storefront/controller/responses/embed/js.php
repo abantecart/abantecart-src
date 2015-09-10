@@ -109,8 +109,8 @@ class ControllerResponsesEmbedJS extends AController {
 		if (!$product_info) { 
 			return null;
 		}
-
-		$product_info['name'] = htmlentities($product_info['name'],ENT_QUOTES,'UTF-8');
+		//deal with quotes in name
+		$product_info['name'] = htmlentities(html_entity_decode($product_info['name'],ENT_QUOTES,'UTF-8'),ENT_QUOTES,'UTF-8');
 
 		$resource = new AResource('image');
 		$product_info['thumbnail'] =  $resource->getMainThumb('products',
@@ -227,7 +227,8 @@ class ControllerResponsesEmbedJS extends AController {
 		$resource = new AResource('image');
 
 		foreach($categories as &$category){
-			$category['name'] = htmlentities($category['name'],ENT_QUOTES,'UTF-8');
+			//deal with quotes
+			$category['name'] = htmlentities(html_entity_decode($category['name'],ENT_QUOTES,'UTF-8'),ENT_QUOTES,'UTF-8');
 			$category['thumbnail'] =  $resource->getMainThumb('categories',
 							$category['category_id'],
 						(int)$this->config->get('config_image_category_width'),
@@ -283,7 +284,8 @@ class ControllerResponsesEmbedJS extends AController {
 		$resource = new AResource('image');
 
 		foreach($manufacturers as &$manufacturer){
-			$manufacturer['name'] = htmlentities($manufacturer['name'],ENT_QUOTES,'UTF-8');
+			//deal with quotes
+			$manufacturer['name'] = htmlentities(html_entity_decode($manufacturer['name'],ENT_QUOTES,'UTF-8'),ENT_QUOTES,'UTF-8');
 			$manufacturer['thumbnail'] =  $resource->getMainThumb('manufacturers',
 							$manufacturer['manufacturer_id'],
 						(int)$this->config->get('config_image_category_width'),
