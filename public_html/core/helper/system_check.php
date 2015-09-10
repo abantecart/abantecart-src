@@ -190,7 +190,7 @@ function check_php_configuraion($registry){
 	}
 	if (!extension_loaded('zlib')) {
 	    $ret_array[] = array(
-	    	'title' => 'mbstring extension is missing',
+	    	'title' => 'ZLIB extension is missing',
 	    	'body' => 'ZLIB extension needs to be loaded in PHP for backups to work!',
 	    	'type' => 'W'	    
 	    );
@@ -230,11 +230,21 @@ function get_all_files_dirs($start_dir) {
 }
 
 function disk_size($path){
-    $bytes = disk_free_space($path);
-    $si_prefix = array( 'B', 'KB', 'MB', 'GB', 'TB', 'EB', 'ZB', 'YB' );
-    $base = 1024;
-    $class = min((int)log($bytes , $base) , count($si_prefix) - 1);
-    return array('bytes' => $bytes, 'human' => sprintf('%1.2f' , $bytes / pow($base,$class)) . ' ' . $si_prefix[$class]);
+
+	//check if this is supported by server
+	if(function_exists('disk_free_space')){
+		try {
+		    $bytes = disk_free_space($path);
+		    $si_prefix = array( 'B', 'KB', 'MB', 'GB', 'TB', 'EB', 'ZB', 'YB' );
+		    $base = 1024;
+		    $class = min((int)log($bytes , $base) , count($si_prefix) - 1);
+		    return array('bytes' => $bytes, 'human' => sprintf('%1.2f' , $bytes / pow($base,$class)) . ' ' . $si_prefix[$class]);
+		} catch (Exception $e) {
+			return array();
+		}
+	} else {
+		return array();
+	}
 }
 
 
