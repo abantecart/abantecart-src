@@ -83,8 +83,11 @@
 			<?php } ?>
 		</div>
 		<?php
-		 echo $this->getHookVar('hk_order_comment_pre');
-		} ?><!-- <div class="fieldset"> -->
+		 
+		} // end of foreach $form['fields']
+
+		echo $this->getHookVar('hk_order_comment_pre');
+		?>
 	</div>
 
 	<div class="panel-footer col-xs-12">
