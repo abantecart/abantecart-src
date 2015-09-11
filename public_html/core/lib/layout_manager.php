@@ -1836,18 +1836,20 @@ class ALayoutManager{
 				$query = "SELECT language_id FROM " . $this->db->table("languages") . " 
 											WHERE LOWER(name) = '" . $this->db->escape($page_description->language) . "'";
 				$result = $this->db->query($query);
-				$language_id = $result->row ? $result->row ['language_id'] : 0;
-
-				$this->language->replaceDescriptions('page_descriptions',
-						array('page_id' => (int)$page_id),
-						array((int)$language_id => array(
-								'name'        => $page_description->name,
-								'title'       => $page_description->title,
-								'seo_url'     => $page_description->seo_url,
-								'keywords'    => $page_description->keywords,
-								'description' => $page_description->description,
-								'content'     => $page_description->content
-						)));
+				//if loading language does not exists or installed, skipp 
+				if($result->row) {
+					$language_id = $result->row['language_id'];
+					$this->language->replaceDescriptions('page_descriptions',
+							array('page_id' => (int)$page_id),
+							array((int)$language_id => array(
+									'name'        => $page_description->name,
+									'title'       => $page_description->title,
+									'seo_url'     => $page_description->seo_url,
+									'keywords'    => $page_description->keywords,
+									'description' => $page_description->description,
+									'content'     => $page_description->content
+							)));
+				}
 			}
 		}
 
