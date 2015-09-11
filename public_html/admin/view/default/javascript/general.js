@@ -895,6 +895,76 @@ var getUrlParameter = function (sParam) {
         }
     }
 }
+
+var searchSectionIcon = function(section) {
+    switch(section) {
+        case 'commands':
+            return '<i class="fa fa-bullhorn fa-fw"></i> ';
+            break;
+        case 'orders':
+            return '<i class="fa fa-money fa-fw"></i> ';
+            break;
+        case 'customers':
+            return '<i class="fa fa-group fa-fw"></i> ';
+            break;
+        case 'product_categories':
+            return '<i class="fa fa-tags fa-fw"></i> ';
+            break;
+        case 'products':
+            return '<i class="fa fa-tag fa-fw"></i> ';
+            break;
+        case 'reviews':
+            return '<i class="fa fa-comment fa-fw"></i> ';
+            break;
+        case 'manufacturers':
+            return '<i class="fa fa-bookmark fa-fw"></i> ';
+            break;
+        case 'languages':
+            return '<i class="fa fa-language fa-fw"></i> ';
+            break;
+        case 'pages':
+            return '<i class="fa fa-clipboard fa-fw"></i> ';
+            break;
+        case 'settings':
+            return '<i class="fa fa-cogs fa-fw"></i> ';
+            break;
+        case 'messages':
+            return '<i class="fa fa-weixin fa-fw"></i> ';
+            break;
+        case 'extensions':
+            return '<i class="fa fa-puzzle-piece fa-fw"></i> ';
+            break;
+        case 'downloads':
+            return '<i class="fa fa-download fa-fw"></i> ';
+            break;
+        default:
+            return '<i class="fa fa-info-circle fa-fw"></i> ';
+            break;
+    }
+}
+
+var updateANT = function (url) {
+    $.ajax({
+    	type: 'POST',
+    	url: url,
+    	dataType: 'json',		
+    	success: function(data) {
+    		$('.ant_window').find('span.badge').remove();
+    	}
+    });
+}
+
+var loadAndShowData = function (url, $elem) {
+    $.ajax({
+    	url: url,
+    	dataType: 'text',		
+    	success: function(data) {
+    		console.log(data);
+    		$elem.html(data);
+    	}
+    });
+}
+		
 /*function adds Resource LIbrary Button into CKEditor
 * cke - CKEDITOR js instance
 * */
@@ -913,6 +983,7 @@ function addRL2CKE(cke){
         toolbar: 'abantecart'
     });
 }
+
 function openCKRLModal(cke){
 	modalscope.mode = 'single';
 	mediaDialog('image', 'list_library');

@@ -44,5 +44,54 @@ class ControllerResponsesCommonTabs extends AController {
 		$this->processTemplate('responses/common/tabs.tpl');
 		$this->extensions->hk_UpdateData($this, __FUNCTION__);
 	}
+	
+  	public function latest_customers() {
+        //init controller data
+        $this->extensions->hk_InitData($this,__FUNCTION__);
+
+		//10 new customers
+		$this->loadModel('sale/customer');		
+		$filter = array(
+			'sort'  => 'c.date_added',
+			'order' => 'DESC',
+			'start' => 0,
+			'limit' => 10
+		);
+		$top_customers = $this->model_sale_customer->getCustomers($filter);
+		foreach( $top_customers as $indx => $customer) {
+			$top_customers[$indx]['url'] = $this->html->getSecureURL('sale/customer/update', '&customer_id='.$customer['customer_id']);
+		}
+		$this->view->assign('top_customers', $top_customers);
+		$this->view->assign('recent_customers', $this->language->get('recent_customers'));
+
+		$this->processTemplate('responses/common/latest_customers.tpl');
+		$this->extensions->hk_UpdateData($this, __FUNCTION__);
+	}
+
+  	public function latest_orders() {
+        //init controller data
+        $this->extensions->hk_InitData($this,__FUNCTION__);
+
+		//10 new orders
+		$this->loadModel('sale/order');
+		$filter = array(
+			'sort'  => 'o.date_added',
+			'order' => 'DESC',
+			'start' => 0,
+			'limit' => 10
+		);
+		$top_orders = $this->model_sale_order->getOrders($filter);
+		foreach( $top_orders as $indx => $order) {
+			$top_orders[$indx]['url'] = $this->html->getSecureURL('sale/order/details', '&order_id='.$order['order_id']);
+			$top_orders[$indx]['total'] = $this->currency->format($order['total'], $this->config->get('config_currency'));
+		}
+		$this->view->assign('top_orders', $top_orders);
+
+		$this->view->assign('new_orders', $this->language->get('new_orders'));
+
+		$this->processTemplate('responses/common/latest_orders.tpl');
+		$this->extensions->hk_UpdateData($this, __FUNCTION__);
+	}
+
 }
 

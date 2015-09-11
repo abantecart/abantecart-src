@@ -329,54 +329,7 @@ $(document).ready(function () {
 		
 		return results;
 	});
-	
-	var searchSectionIcon = function(section) {
-		switch(section) {
-		    case 'commands':
-		        return '<i class="fa fa-bullhorn fa-fw"></i> ';
-		        break;
-		    case 'orders':
-		        return '<i class="fa fa-money fa-fw"></i> ';
-		        break;
-		    case 'customers':
-		        return '<i class="fa fa-group fa-fw"></i> ';
-		        break;
-		    case 'product_categories':
-		        return '<i class="fa fa-tags fa-fw"></i> ';
-		        break;
-		    case 'products':
-		        return '<i class="fa fa-tag fa-fw"></i> ';
-		        break;
-		    case 'reviews':
-		        return '<i class="fa fa-comment fa-fw"></i> ';
-		        break;
-		    case 'manufacturers':
-		        return '<i class="fa fa-bookmark fa-fw"></i> ';
-		        break;
-		    case 'languages':
-		        return '<i class="fa fa-language fa-fw"></i> ';
-		        break;
-		    case 'pages':
-		        return '<i class="fa fa-clipboard fa-fw"></i> ';
-		        break;
-		    case 'settings':
-		        return '<i class="fa fa-cogs fa-fw"></i> ';
-		        break;
-		    case 'messages':
-		        return '<i class="fa fa-weixin fa-fw"></i> ';
-		        break;
-		    case 'extensions':
-		        return '<i class="fa fa-puzzle-piece fa-fw"></i> ';
-		        break;
-		    case 'downloads':
-		        return '<i class="fa fa-download fa-fw"></i> ';
-		        break;
-		    default:
-		        return '<i class="fa fa-info-circle fa-fw"></i> ';
-		        break;
-		}
-	}
-	
+		
 	<?php if(!$home_page) { ?>
 	$(window).on('load',function(){
 		setTimeout(
@@ -392,19 +345,25 @@ $(document).ready(function () {
 	$('.ant_window button').click(function (event) {
 		updateANT('<?php echo $mark_read_url; ?>');
 	});
-		
-});
+	
+	//process side tabs ajax
+	$('#right_side_view').click(function (event) {
+		//right side not opened yet? load data for first tab
+		if(!$('body').hasClass('stats-view')) {
+			loadAndShowData('<?php echo $latest_customers_url; ?>', $('#rp-alluser'));
+		}
+	});
 
-var updateANT = function (url) {
-    $.ajax({
-    	type: 'POST',
-    	url: url,
-    	dataType: 'json',		
-    	success: function(data) {
-    		$('.ant_window').find('span.badge').remove();
-    	}
-    });
-}
+	$('.rightpanel').on('shown.bs.tab', function (e) {
+	  var target = $(e.target).attr("href");
+	  if(target == '#rp-alluser') {
+		loadAndShowData('<?php echo $latest_customers_url; ?>', $('#rp-alluser'));  	
+	  } else if(target == '#rp-orders') {
+		loadAndShowData('<?php echo $latest_orders_url; ?>', $('#rp-orders'));  		  
+	  }
+	});
+			
+});
 </script>
 
 <?php } else { ?><!-- not logged in -->

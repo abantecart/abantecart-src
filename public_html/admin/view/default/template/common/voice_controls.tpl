@@ -253,7 +253,6 @@ function upgrade() {
   $('#start_button i').addClass('fa');
   $('#start_button i').addClass('fa-microphone-slash');
   $('#start_button i').addClass('fa-lg');
-  //start_button.style.visibility = 'hidden';
   showInfo('info_upgrade');
 }
 

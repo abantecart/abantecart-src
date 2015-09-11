@@ -32,45 +32,10 @@
     <div class="tab-content">
         <div class="tab-pane active" id="rp-alluser">
             <h5 class="sidebartitle"><?php echo $recent_customers; ?></h5>
-            <?php foreach( $top_customers as $customer) { ?> 
-            <ul class="latestuserlist">
-            	<?php if ($customer['approved']) { ?> 
-                <li class="approved">
-                <?php } else { ?> 
-                <li class="notapproved">
-                <?php } ?> 
-                    <div class="media">
-                        <a href="<?php echo $customer['url']; ?>" class="pull-left media-thumb">
-                            <img class="media-object" src="<?php echo getGravatar($customer['email']); ?>" alt="<?php echo $customer['name']; ?>"/>
-                        </a>
-                        <div class="media-body">
-                            <strong><a href="<?php echo $customer['url']; ?>"><?php echo $customer['name']; ?></a></strong>
-                            <small><?php echo $customer['email']; ?></small>
-                        </div>
-                    </div>
-                </li>
-            </ul>
-            <?php } ?>    
         </div>
         
          <div class="tab-pane" id="rp-orders">
             <h5 class="sidebartitle"><?php echo $new_orders; ?></h5>
-            <?php foreach( $top_orders as $order) { ?> 
-            <ul class="latestuserlist">
-                <li>
-                    <div class="media">
-                        <a href="<?php echo $order['url']; ?>" class="pull-left media-thumb">
-							#<?php echo $order['order_id'];?>
-                        </a>
-                        <div class="media-body">
-                            <strong>Status: <?php echo $order['status'];?></strong>
-                            <small>Total: <?php echo $order['total'];?></small>
-                            <small><?php echo $order['date_added'];?></small>
-                        </div>
-                    </div><!-- media -->
-                </li>
-            </ul>            
-            <?php } ?>                
         </div>
         
         <?php echo $this->getHookVar('rightpanel_tabpanes'); ?>
