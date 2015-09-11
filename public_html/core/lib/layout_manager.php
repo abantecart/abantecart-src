@@ -570,8 +570,8 @@ class ALayoutManager{
 
 		foreach($this->main_placeholders as $placeholder){
 			$block = $this->getLayoutBlockByTxtId($placeholder);
-			if(!empty ($block)){
-				$blocks [$block['block_id']] = $block;
+			if(!empty($block)){
+				$blocks[$block['block_id']] = $block;
 				$children = $this->getBlockChildren($block['instance_id'], $block['block_id']);
 				//process special case of fixed location for header and footer
 				if($block['block_id'] == self::HEADER_MAIN
@@ -582,8 +582,7 @@ class ALayoutManager{
 						$children = $this->_buildChildtenBlocks($children, self::FIXED_POSITIONS);
 					}
 				}
-
-				$blocks [$block['block_id']] ['children'] = $children;
+				$blocks[$block['block_id']]['children'] = $children;
 			}
 		}
 
@@ -1187,14 +1186,14 @@ class ALayoutManager{
 				}
 			}
 		}
-		// save block descriptions by pass
+		// save block descriptions bypass
 		$data['block_descriptions'] = !isset($data['block_descriptions']) && $data['block_description'] ? array($data['block_description']) : $data['block_descriptions'];
 		if($data['block_descriptions']){
 			foreach($data['block_descriptions'] as $block_description){
 				if(!isset($block_description ['language_id']) && $block_description ['language_name']){
-					$block_description ['language_id'] = $this->_getLanguageIdByName($block_description ['language_name']);
+					$block_description['language_id'] = $this->_getLanguageIdByName($block_description['language_name']);
 				}
-				if(!$block_description ['language_id']){
+				if(!$block_description['language_id']){
 					continue;
 				}
 				$this->saveBlockDescription($block_id, $block_description['block_description_id'], $block_description);
@@ -1836,7 +1835,7 @@ class ALayoutManager{
 				$query = "SELECT language_id FROM " . $this->db->table("languages") . " 
 											WHERE LOWER(name) = '" . $this->db->escape($page_description->language) . "'";
 				$result = $this->db->query($query);
-				//if loading language does not exists or installed, skipp 
+				//if loading language does not exists or installed, skip 
 				if($result->row) {
 					$language_id = $result->row['language_id'];
 					$this->language->replaceDescriptions('page_descriptions',
@@ -1951,7 +1950,9 @@ class ALayoutManager{
 				if($block->block_descriptions->block_description){
 					foreach($block->block_descriptions->block_description as $block_description){
 						$language_id = $this->_getLanguageIdByName(mb_strtolower((string)$block_description->language, 'UTF-8'));
-						$this->language->replaceDescriptions('block_descriptions',
+						//if loading language does not exists or installed, skip 
+						if($language_id) {
+							$this->language->replaceDescriptions('block_descriptions',
 								array('instance_id' => (int)$instance_id,
 								      'block_id'    => (int)$block_id),
 								array((int)$language_id => array(
@@ -1959,8 +1960,8 @@ class ALayoutManager{
 										'title'       => (string)$block_description->title,
 										'description' => (string)$block_description->description,
 										'content'     => (string)$block_description->content
-								)));
-	
+								)));						
+						}
 					}
 				}
 				//insert new block tempalte
@@ -2007,7 +2008,7 @@ class ALayoutManager{
 					if($block->block_descriptions->block_description){
 						foreach($block->block_descriptions->block_description as $block_description){
 							$language_id = $this->_getLanguageIdByName(mb_strtolower((string)$block_description->language, 'UTF-8'));
-							// if language unknown
+							//if loading language does not exists or installed, log error on update 
 							if(!$language_id){
 								$error = "ALayout_manager Error. Unknown language for block descriptions.'."
 										. "(Block_id=" . $block_id . ", name=" . (string)$block_description->name . ", "
@@ -2218,7 +2219,10 @@ class ALayoutManager{
 			if($block->block_descriptions->block_description){
 				foreach($block->block_descriptions->block_description as $block_description){
 					$language_id = $this->_getLanguageIdByName((string)$block_description->language);
-
+					//if loading language does not exists or installed, skip 
+					if(!$language_id){
+						continue;
+					}
 					$desc_array = array('language_id' => $language_id);
 					if((string)$block_description->name){
 						$desc_array['name'] = (string)$block_description->name;
