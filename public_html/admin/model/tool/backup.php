@@ -79,13 +79,23 @@ class ModelToolBackup extends Model {
 
 	/**
 	 * function returns table list of abantecart
-	 * @return array
+	 * @return array|bool
 	 */
 	public function getTables() {
 		$table_data = array();
 		$prefix_len = strlen(DB_PREFIX);
 
-		$query = $this->db->query("SHOW TABLES FROM `" . DB_DATABASE . "`");
+		$query = $this->db->query("SHOW TABLES FROM `" . DB_DATABASE . "`", true);
+		if(!$query){
+			$sql = "SELECT TABLE_NAME
+					FROM information_schema.TABLES
+					WHERE information_schema.TABLES.table_schema = '".DB_DATABASE."' ";
+			$query = $this->db->query( $sql, true );
+		}
+
+		if(!$query){
+			return false;
+		}
 
 		foreach ($query->rows as $result) {
 			$table_name = $result['Tables_in_' . DB_DATABASE];
