@@ -213,10 +213,8 @@ if($quick_start_url){
 		));
 	
 	echo $resources_scripts;	
-}
-
+} else if($no_payment_installed){
 // in case when no any payment enabled
-if($no_payment_installed){
 	include('tip_modal.tpl');
 }
 ?>

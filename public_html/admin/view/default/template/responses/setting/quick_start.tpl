@@ -11,7 +11,7 @@
 		<div class="form-group text-center">
 			<label><?php echo $quick_start_note; ?></label>
 		</div>
-	  			
+	  	<?php if(!$competed) { ?>
 			<?php foreach ($form['fields'] as $name => $field) { ?>
 			<?php
 				//Logic to calculate fields width
@@ -46,7 +46,16 @@
 			</div>
 		<?php }
 		}  ?>
-
+	  	<?php } else { ?>
+	  		<?php echo $payments_selection; ?>
+	  		<?php echo $shipping_selection; ?>
+	  		<?php echo $language_selection; ?>
+	  		<?php echo $more_extentions; ?>
+	  	<?php } ?>
+	  	<br /><br />
+		<div class="form-group text-center">
+			<label><?php echo $text_quick_start_last_footer; ?></label>
+		</div>
 	</div>
 	<div class="panel-footer">
 		<div class="row">

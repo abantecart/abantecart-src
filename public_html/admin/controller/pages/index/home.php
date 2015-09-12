@@ -200,9 +200,6 @@ class ControllerPagesIndexHome extends AController {
 			$this->loadLanguage('common/tips');
 			$tip_content = $this->html->convertLinks($this->language->get('no_enabled_payments_tip'));
 
-			// TODO: Do request for top5 payment extensions to MP API
-			//$this->loadModel('tool/mp_api');
-			//$api_response_html = $this->model_tool_mp_api->processRequest(array());
 			$tip_content = sprintf($tip_content, $api_response_html);
 			$this->view->assign('tip_content', $tip_content);
 		}
