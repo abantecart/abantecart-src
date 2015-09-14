@@ -36,7 +36,7 @@
 			          <td><?php echo $extension['installed_version'] ?></td>
 			          <td><a href="<?php echo $extension['mp_url']; ?>" target="_blank" title="<?php echo $text_view_details;?>"><i class="fa fa-info-circle"></i> <?php echo $extension['new_version'] ?></a></td>
 			          <td><?php if($extension['install_url']){?>
-				          <a href="<?php echo $extension['install_url']; ?>" title="<?php echo $text_upgrade_now;?>"><i class="fa fa-play"></i></a>
+				          <a href="<?php echo $extension['install_url']; ?>" title="<?php echo $text_upgrade_now;?>"><i class="fa fa-cloud-download"></i></a>
 					<?php } ?>
 					  </td>
 			        </tr>
