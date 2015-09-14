@@ -51,11 +51,11 @@
 	  		<?php echo $shipping_selection; ?>
 	  		<?php echo $language_selection; ?>
 	  		<?php echo $more_extentions; ?>
-	  	<?php } ?>
 	  	<br /><br />
 		<div class="form-group text-center">
 			<label><?php echo $text_quick_start_last_footer; ?></label>
-		</div>
+		</div>		
+	  	<?php } ?>
 	</div>
 	<div class="panel-footer">
 		<div class="row">
