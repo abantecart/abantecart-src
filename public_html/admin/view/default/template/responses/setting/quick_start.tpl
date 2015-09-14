@@ -53,7 +53,7 @@
 	  		<?php echo $more_extentions; ?>
 	  	<br /><br />
 		<div class="form-group text-center">
-			<label><?php echo $text_quick_start_last_footer; ?></label>
+			<label><?php echo $quick_start_last_footer; ?></label>
 		</div>		
 	  	<?php } ?>
 	</div>
