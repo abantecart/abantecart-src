@@ -362,13 +362,17 @@ class ControllerPagesToolPackageInstaller extends AController {
 		$pmanager = new APackageManager();
 		$headers = $pmanager->getRemoteFileHeaders($url);
 		if (!$headers) {
-			$this->session->data['error'] = $this->language->get('error_mp')." ".$pmanager->error;
+			$error_text = $pmanager->error;
+			$error_text = empty($error_text) ? 'Unknown error happened.' : $error_text;
+			$this->session->data['error'] = $this->language->get('error_mp')." ".$error_text;
 			$this->redirect($this->_get_begin_href());
 		}
 		//if we have json returned, something went wrong. 
 		if ( preg_match("/application\/json/", $headers['Content-Type'])) {
 			$error = $pmanager->getRemoteFile($url, false);
-			$this->session->data['error'] = $this->language->get('error_mp')." ".$error['error'];
+			$error_text = $error['error'];
+			$error_text = empty($error_text) ? 'Unknown error happened.' : $error_text;
+			$this->session->data['error'] = $this->language->get('error_mp')." ".$error_text;
 			$this->redirect($this->_get_begin_href());
 		} else {
 			$package_name = str_replace("attachment; filename=", "", $headers['Content-Disposition']);
