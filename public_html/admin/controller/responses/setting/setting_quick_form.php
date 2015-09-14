@@ -336,8 +336,9 @@ class ControllerResponsesSettingSettingQuickForm extends AController {
 			$this->data['shipping_selection'] = $this->html->convertLinks($this->language->get('shipping_selection'));	
 			$this->data['language_selection'] = $this->html->convertLinks($this->language->get('language_selection'));	
 			$this->data['more_extentions'] = $this->html->convertLinks($this->language->get('more_extentions'));	
-			$this->data['quick_start_note'] .= sprintf(
-												$this->language->get('text_quick_start_last'),
+			$this->data['quick_start_note'] = $this->language->get('text_quick_start_note');	
+			$this->data['quick_start_last_footer'] .= sprintf(
+												$this->language->get('text_quick_start_last_footer'),
 									 			$this->html->getSecureURL('setting/setting/all'));	
 			$this->data['competed'] = true;				 				
 		}
