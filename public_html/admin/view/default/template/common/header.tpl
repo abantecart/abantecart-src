@@ -2,7 +2,7 @@
 	<div class="leftpanel">
 
 		<div class="logopanel">
-			<i class="sticky_header fa fa-circle-o fa-fw"></i>
+			<i class="sticky_header fa fa-toggle-off fa-fw"></i>
 			<a href="<?php echo $home; ?>">
 				<?php
 				if ($this->getHookVar('logoimage_hookvar')) {
@@ -19,7 +19,7 @@
 		<!-- logopanel -->
 
 		<div class="leftpanelinner">
-			<i class="sticky_left fa fa-circle-o fa-fw"></i>
+			<i class="sticky_left fa fa-toggle-off fa-fw"></i>
 
 			<!-- This is only visible to small devices -->
 			<div class="visible-xs hidden-sm hidden-md hidden-lg">
@@ -265,7 +265,7 @@
 
 <script type="text/javascript">
 $(document).ready(function () {
-	
+		
 	<?php if (count($breadcrumbs) <= 1 && $ant) { ?>
 	//register ant shown in dashboard 
 	updateANT('<?php echo $mark_read_url; ?>');
@@ -292,6 +292,7 @@ $(document).ready(function () {
 	    	if(!dataobj[row.category]){
 	    		dataobj[row.category] = new Object;
 	    		dataobj[row.category].name = row.category_name;
+	    		dataobj[row.category].icon = row.category_icon;
 	    		dataobj[row.category].items = [];
 	    	}
 	    	//if controller present need to open modal 
@@ -312,8 +313,11 @@ $(document).ready(function () {
 	    $.each(dataobj, function (category, datacat) {
 	    	var url = serch_action + '#' + category;
 	    	var onclick = 'onClick="window.open(\''+url+'\');"';
-	    	var header = '<span class="h5">'+datacat.name+'</span>';
-	    	header += '<span class="pull-right"><a class="more-in-category" '+onclick+'><?php echo $text_all_matches;?></a></span>';
+	    	var header = '<span class="h5">'+searchSectionIcon(category)+datacat.name+'</span>';
+	    	//show more result only if there are more records
+	    	if(datacat.items.length == 3) {
+	    		header += '<span class="pull-right"><a class="more-in-category" '+onclick+'><?php echo $text_all_matches;?></a></span>';
+	    	}
 	    	results.push({ 
 				group: true,
 				text: header, 
@@ -325,36 +329,41 @@ $(document).ready(function () {
 		
 		return results;
 	});
-	
+		
 	<?php if(!$home_page) { ?>
 	$(window).on('load',function(){
 		setTimeout(
 			function() {
-				$('.ant_window .dropdown-menu').dropdown('toggle'); //show with delay
+				$('.ant_window').addClass('open'); //show with delay
 				setTimeout(	function() {$('.ant_window').removeClass('open')}, 6000); //hide
 			}, 1500
 		);
 	});
-
 
 	<?php } ?>
 	//update ANT Viewed message only on click
 	$('.ant_window button').click(function (event) {
 		updateANT('<?php echo $mark_read_url; ?>');
 	});
-		
-});
+	
+	//process side tabs ajax
+	$('#right_side_view').click(function (event) {
+		//right side not opened yet? load data for first tab
+		if(!$('body').hasClass('stats-view')) {
+			loadAndShowData('<?php echo $latest_customers_url; ?>', $('#rp-alluser'));
+		}
+	});
 
-var updateANT = function (url) {
-    $.ajax({
-    	type: 'POST',
-    	url: url,
-    	dataType: 'json',		
-    	success: function(data) {
-    		$('.ant_window').find('span.badge').remove();
-    	}
-    });
-}
+	$('.rightpanel').on('shown.bs.tab', function (e) {
+	  var target = $(e.target).attr("href");
+	  if(target == '#rp-alluser') {
+		loadAndShowData('<?php echo $latest_customers_url; ?>', $('#rp-alluser'));  	
+	  } else if(target == '#rp-orders') {
+		loadAndShowData('<?php echo $latest_orders_url; ?>', $('#rp-orders'));  		  
+	  }
+	});
+			
+});
 </script>
 
 <?php } else { ?><!-- not logged in -->

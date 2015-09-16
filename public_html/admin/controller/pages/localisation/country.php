@@ -249,6 +249,7 @@ class ControllerPagesLocalisationCountry extends AController {
 			'name' => 'country_name['.$this->session->data['content_language_id'].'][name]',
 			'value' => $country_name,
 			'required' => true,
+			'multilingual' => true,
 		));
 		$this->data['form']['fields']['iso_code_2'] = $form->getFieldHtml(array(
 			'type' => 'input',

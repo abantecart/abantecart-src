@@ -254,9 +254,20 @@ class ControllerPagesSaleContact extends AController {
 
 		$this->data['category_products'] = $this->html->getSecureURL('product/product/category');
 		$this->data['customers_list'] = $this->html->getSecureURL('user/customers');
-		$this->data['rl'] =  $this->html->getSecureURL('common/resource_library', '&object_name=&object_id&type=image&mode=url');
+
 		$this->data['help_url'] = $this->gen_help_url('mail');
-		$this->data['language_code'] = $this->session->data['language'];
+
+		$resources_scripts = $this->dispatch(
+				'responses/common/resource_library/get_resources_scripts',
+				array(
+						'object_name' => 'contact',
+						'object_id' => '',
+						'types' => array('image'),
+				)
+		);
+		$this->data['resources_scripts'] = $resources_scripts->dispatchGetOutput();
+		$this->data['rl'] = $this->html->getSecureURL('common/resource_library', '&action=list_library&object_name=&object_id&type=image&mode=single');
+
 
 		$this->view->batchAssign($this->data);
 		$this->processTemplate('pages/sale/contact.tpl');

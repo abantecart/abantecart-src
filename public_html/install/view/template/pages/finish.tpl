@@ -30,17 +30,12 @@
 		<p>Your comments and contributions are very welcome.</p>
 		<p class="text-center">
 			<i class="fa fa-home fa-fw"></i> <a href="http://www.abantecart.com" target="_abante">Project Homepage</a>&nbsp;&nbsp;
-			<i class="fa fa-graduation-cap fa-fw"></i> <a href="http://www.abantecart.com/ecommerce-documentation" target="_blank">Documentation</a>&nbsp;&nbsp;
+			<i class="fa fa-graduation-cap fa-fw"></i> <a href="http://docs.abantecart.com" target="_abantecart_docs">Documentation</a>&nbsp;&nbsp;
 			<i class="fa fa-puzzle-piece fa-fw"></i> <a href="http://marketplace.abantecart.com" target="_blank">Marketplace</a>&nbsp;&nbsp;
 			<i class="fa fa-comments fa-fw"></i> <a href="http://forum.abantecart.com" target="_abante">Support Forums</a></p>
 
 		<div class="container-fluid text-center">
-		    <form action="https://www.paypal.com/cgi-bin/webscr" method="post">
-		    <input type="hidden" name="cmd" value="_s-xclick">
-		    <input type="hidden" name="hosted_button_id" value="YUDUXTP8GED58">
-		    <input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_donate_SM.gif" border="0" name="submit" alt="Donate to AbanteCart Project and Help build better eCommerce application">
-		    <img alt="" border="0" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" width="1" height="1">
-		    </form>
+			<a href="http://www.abantecart.com/contribute-to-abantecart"><img src="<?php echo $template_dir; ?>image/conrib_btn_sm.png" border="0" alt="Support AbanteCart eCommerce" /></a>
 		</div>
 
 		<div class="container-fluid">

@@ -84,7 +84,6 @@ h1,h2,h3,h4,h5 {
 	padding: 0 0 0 10px;
 }
 
-
 /* preloader */
 #preloader {
    position: fixed;
@@ -1089,8 +1088,8 @@ p {
 	margin-bottom : 0px;
 }
 .reslibrary .thumbnail img {
-	width: 100px;
-	height: 100px;
+	max-width: 100px;
+	max-height: 100px;
 }
 .reslibrary .thumbnail .resource_add {
 }
@@ -3030,4 +3029,30 @@ body.stickyheader .sticky_left {
     right: -1px;
     top: -1px;
     z-index: 10;
+}
+
+.template_thumbnail.default {
+    background-color: #e4eef7;
+    border: 1px solid #064770;
+}
+.template_thumbnail {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    display: block;
+    line-height: 1.42857;
+    margin-bottom: 10px;
+    transition: all 0.2s ease-in-out 0s;
+}
+.template_thumbnail .img-responsive {
+	display:inline;
+	max-height: 250px;
+}
+
+/*CDEditor RL button label style*/
+.cke_button_icon.cke_button__ck_rl_button_icon{
+   display: none;
+}
+
+.cke_button.cke_button__ck_rl_button .cke_button_label.cke_button__ck_rl_button_label{
+   display:inline;
 }

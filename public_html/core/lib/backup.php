@@ -23,8 +23,8 @@ if (! defined ( 'DIR_CORE' )) {
 
 /**
  * Class ABackup
- * @property AMessage $message
  * @property ALog $log
+ * @property ModelToolBackup $model_tool_backup
  */
 final class ABackup {
 	/**
@@ -39,6 +39,9 @@ final class ABackup {
 	private $registry;
 	public  $error;
 
+	/**
+	 * @param string $name
+	 */
   	public function __construct( $name ) {
 	    /**
          * @var Registry
@@ -61,7 +64,6 @@ final class ABackup {
 			if(!$result){
 				$this->error = "Error: Can't create directory ".$this->backup_dir." during backup.";
 				$this->log->write($this->error);
-				$this->message->saveError('Backup Error',$this->error);
 				$this->backup_dir = $this->backup_name = null;
 			}
 			chmod($this->backup_dir,0777);
@@ -78,18 +80,33 @@ final class ABackup {
 		}
   	}
 
-
+	/**
+	 * @param $key
+	 * @return mixed
+	 */
 	public function __get($key) {
 		return $this->registry->get ( $key );
 	}
 
+	/**
+	 * @param string $key
+	 * @param mixed $value
+	 */
 	public function __set($key, $value) {
 		$this->registry->set ( $key, $value );
 	}
 
+	/**
+	 * @return string
+	 */
 	public function getBackupName() {
 		return $this->backup_name;
 	}
+
+	/**
+	 * @param string $name
+	 * @return mixed
+	 */
 	public function setBackupName($name) {
 		return $this->backup_name = $name;
 	}
@@ -132,7 +149,7 @@ final class ABackup {
 		$memory_limit = (getMemoryLimitInBytes()-memory_get_usage())/4;
 
 		// sql-file for small tables
-		$dump_file = $this->backup_dir.'data/dump_' .DB_DATABASE.'_'. date('Y-m-d-His') . '.sql';
+		$dump_file = !$dump_file ? $this->backup_dir.'data/dump_' .DB_DATABASE.'_'. date('Y-m-d-His') . '.sql' : $dump_file;
 		$file = fopen($dump_file,'w');
 		if(!$file){
 			$error_text = 'Error: Cannot create file as "'.$dump_file.'" during sql-dumping. Check is it writable.';
@@ -240,7 +257,9 @@ final class ABackup {
 		return $dump_file;
 	}
 
-
+	/**
+	 * @return bool
+	 */
 	public function dumpDatabase() {
 		if(!$this->backup_dir){
 			return FALSE;
@@ -248,17 +267,28 @@ final class ABackup {
 
 		$this->load->model('tool/backup');
 		$table_list = $this->model_tool_backup->getTables();
+		if(!$table_list){
+			$this->error = "Error: Can't create sql dump of database during backup. Cannot obtain table list. ";
+			if(DB_DRIVER=='mysql'){
+				$this->error .= 'Try to change db-driver to "amysqli" in your /system/config.php file.';
+			}
+			$this->log->write($this->error);
+			return false;
+		}
 
 		if( !$this->dumpTables($table_list) ){
-			$this->error = "Error: Can't create sql dump of database during backup";
+			$this->error = "Error: Can't create sql dump of tables during backup.";
 			$this->log->write($this->error);
-			$this->message->saveError('SQL-Backup Error',$this->error);
 			return false;
 		}
 
 		return true;
 	}
 
+	/**
+	 * @param string $table_name
+	 * @return bool
+	 */
 	public function dumpTable( $table_name ) {
 		if(!$this->backup_dir || trim($table_name)){
 			return FALSE;
@@ -273,12 +303,16 @@ final class ABackup {
 		if(!$result){
 			$this->error = "Error: Can't create sql dump of database table during backup";
 			$this->log->write($this->error);
-			$this->message->saveError('Backup Error',$this->error);
 			return false;
 		}
 		return true;
 	}
-	
+
+	/**
+	 * @param string $dir_path
+	 * @param bool|false $remove
+	 * @return bool
+	 */
 	public function backupDirectory ( $dir_path, $remove=false  ) {
 		if(!$this->backup_dir){
 			return FALSE;
@@ -287,7 +321,6 @@ final class ABackup {
 		if(!is_dir($dir_path)){
 			$this->error = "Error: Can't backup directory ".$dir_path.' because is not a directory!';
 			$this->log->write($this->error);
-			$this->message->saveError('Backup Error',$this->error);
 			return false;
 		}
 
@@ -325,7 +358,6 @@ final class ABackup {
 				$this->error .= "Check write permission for directory \"".$dir_path. "";
 			}
 			$this->log->write($this->error);
-			$this->message->saveError('Backup Error',$this->error);
 			return false;
 		}
 
@@ -336,6 +368,11 @@ final class ABackup {
 		return true;
 	}
 
+	/**
+	 * @param string $file_path
+	 * @param bool|true $remove
+	 * @return bool
+	 */
 	public function backupFile ( $file_path, $remove=true ) {
 		if(!$this->backup_dir || !$file_path){
 			return FALSE;
@@ -353,13 +390,11 @@ final class ABackup {
 			if(!$result){
 				$this->error = "Error: Can't create directory ".$this->backup_dir.'files/'.$path. " during backup";
 				$this->log->write($this->error);
-				$this->message->saveError('Backup Error',$this->error);
 				return false;
 			}
 			if(!is_writable($this->backup_dir.'files/'.$path)){
 				$this->error = "Error: Directory ".$this->backup_dir.'files/'.$path. ' is not writable for backup.';
 				$this->log->write($this->error);
-				$this->message->saveError('Backup Error',$this->error);
 				return false;
 			}
 		}
@@ -375,13 +410,18 @@ final class ABackup {
 			if(!$result){
 				$this->error = "Error: Can't move file ".$file_path. ' into '.$this->backup_dir.'files/'.$path.'during backup.';
 				$this->log->write($this->error);
-				$this->message->saveError('Backup Error',$this->error);
 				return false;
 			}
 
 	return true;
 	}
-	
+
+	/**
+	 * @param string $archive_filename
+	 * @param string $src_dir
+	 * @param string $filename
+	 * @return bool
+	 */
 	public function archive($archive_filename, $src_dir, $filename ) {
 		//Archive the backup to DIR_BACKUP, delete tmp files in directory $this->backup_dir 
 		//And create record in the database for created archive. 
@@ -393,7 +433,6 @@ final class ABackup {
 		if(!file_exists($archive_filename)){
 			$this->error = 'Error: cannot to pack ' . $archive_filename."\n ";
 			$this->log->write($this->error);
-			$this->messages->saveError('Backup Compress Error',$this->error);
 			return false;
 		}else{
 			@chmod($archive_filename,0777);
@@ -425,7 +464,7 @@ final class ABackup {
 						$err = is_dir($dir . "/" . $obj) ? $this->_removeDir($dir . "/" . $obj) : unlink($dir . "/" . $obj);
 						if ( ! $err ) {
 							$this->error = "Error: Can't to delete file or directory: '".$dir . "/" . $obj."'.";
-							$this->message->saveError('Backup Error',$this->error);
+
 							$this->log->write($this->error);
 							return false;
 						}
@@ -439,6 +478,13 @@ final class ABackup {
 			}
 	}
 
+	/**
+	 * Recursive function for copiing of directory with nested
+	 *
+	 * @param string $src
+	 * @param string $dest
+	 * @return bool
+	 */
 	function _copyDir($src, $dest) {
 		// If source is not a directory stop processing
 		if (!is_dir($src)) return false;

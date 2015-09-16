@@ -362,7 +362,7 @@
   </definition>
   <definition>
     <key>text_voice_command_prompt</key>
-    <value><![CDATA[Голосовые команды. (Бета-версия)]]></value>
+    <value><![CDATA[Голосовые команды.]]></value>
   </definition>
   <definition>
     <key>text_voice_select_dialect</key>

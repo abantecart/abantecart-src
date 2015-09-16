@@ -97,11 +97,11 @@
 									<?php if ($options) { ?>
 										<?php foreach ($options as $option) { ?>
 											<div class="form-group">
-												<?php if ($option['html']->type != 'hidden') { ?>
+												<?php if (!in_array($option['html']->type, array('hidden'))) { ?>
 												<label class="control-label"><?php echo $option['name']; ?></label>
 												<?php } ?>
 												<div class="input-group col-sm-10">
-													<?php echo $option['html']; ?>
+													<?php echo $option['html'];	?>
 												</div>
 											</div>
 										<?php } ?>
@@ -336,7 +336,7 @@
 							?>
 								<li class="col-md-3 col-sm-5 col-xs-6 related_product">
 									<a href="<?php echo $related_product['href']; ?>"><?php echo $related_product['image']['thumb_html'] ?></a>
-									<a class="productname"
+									<a class="productname" title="<?php echo $related_product['name']; ?>"
 									   href="<?php echo $related_product['href']; ?>"><?php echo $related_product['name']; ?></a>
 									<span class="procategory"><?php echo $item['rating'] ?></span>
 

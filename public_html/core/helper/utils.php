@@ -93,9 +93,9 @@ function moneyDisplayFormat($value, $mode = 'no_round'){
  * check that argument variable has value (even 0 is a value)  
  * */
 function has_value($value) {
-	if (!is_array($value) && $value !== '' && !is_null($value)) {
+	if ($value !== (array)$value && $value !== '' && $value !== null ) {
 		return true;
-	} else if (is_array($value) && count($value) > 0) {
+	} else if ($value === (array)$value && count($value) > 0) {
 		return true;
 	} else {
 		return false;
@@ -118,7 +118,7 @@ function is_serialized ($value) {
  * check that argument array is multidimensional  
  * */
 function is_multi ($array) {
-	if (is_array($array) && count($array) != count($array, COUNT_RECURSIVE)) {
+	if ($array === (array)$array && count($array) != count($array, COUNT_RECURSIVE)) {
 	    return true;
 	} else {
 	    return false;
@@ -475,38 +475,6 @@ if( !function_exists("strptime")) {
 	}
 }
 
-function checkRequirements() {
-	$error = '';
-	if (phpversion() < '5.2') {
-		$error = 'Warning: You need to use PHP5.2 or above for AbanteCart to work!';
-	}
-
-	if (!ini_get('file_uploads')) {
-		$error = 'Warning: file_uploads needs to be enabled!';
-	}
-
-	if (ini_get('session.auto_start')) {
-		$error = 'Warning: AbanteCart will not work with session.auto_start enabled!';
-	}
-
-	if (!extension_loaded('mysql')) {
-		$error = 'Warning: MySQL extension needs to be loaded for AbanteCart to work!';
-	}
-
-	if (!extension_loaded('gd')) {
-		$error = 'Warning: GD extension needs to be loaded for AbanteCart to work!';
-	}
-
-	if (!extension_loaded('mbstring')) {
-		$error = 'Warning: MultiByte String extension needs to be loaded for AbanteCart to work!';
-	}
-	if (!extension_loaded('zlib')) {
-		$error = 'Warning: ZLIB extension needs to be loaded for AbanteCart to work!';
-	}
-	return $error;
-}
-
-
 /**
  * @param string $extension_txt_id
  * @return SimpleXMLElement | bool
@@ -646,7 +614,7 @@ function startStorefrontSession($user_id, $data=array()){
     $data['merchant'] = (int)$user_id;
     if(!$data['merchant']){ return false;}
     session_write_close();
-    $session = new ASession('PHPSESSID_AC_SF');
+    $session = new ASession(defined('UNIQUE_ID') ? 'AC_SF_'.strtoupper(substr(UNIQUE_ID, 0, 10)) : 'AC_SF_PHPSESSID');
     foreach($data as $k=>$v){
         $session->data[$k] = $v;
     }
@@ -958,7 +926,7 @@ function canChangeExecTime(){
 	}
 }
 
-function getMemoryLimitInBytes (){
+function getMemoryLimitInBytes(){
 	$size_str = ini_get('memory_limit');
     switch (substr ($size_str, -1)){
         case 'M': case 'm': return (int)$size_str * 1048576;
@@ -974,4 +942,44 @@ function is_valid_url( $validate_url ) {
 	} else {
 	    return true;		
 	}
+}
+
+/*
+	Get valid URL path considering *.php
+*/
+function get_url_path( $url ) {
+	$url_path1 = parse_url($url,PHP_URL_PATH);	
+	//do we have path with php in the string? Treat case: /abantecart120/index.php/storefront/view/resources/image/18/6c/index.php
+	$pos = stripos($url_path1, '.php');
+	if ($pos) {
+		//we have .php files specified.
+		$filtered_url = substr($url_path1, 0, $pos+4);
+		return rtrim(dirname($filtered_url), '/.\\').'/';
+	} else {
+		return rtrim($url_path1, '/.\\').'/';	
+	}
+}
+
+/*
+	Return formated execution back stack
+ *
+ * @param $depth int/string  - depth of the trace back ('full' to get complete stack)
+ * @return string
+	
+*/
+function genExecTrace($depth = 5){
+	$e = new Exception();
+	$trace = explode("\n", $e->getTraceAsString());
+	array_pop($trace); // remove call to this method
+	if($depth == 'full') {
+		$length = count($trace);		
+	} else {
+		$length = $depth;
+	}
+	$result = array();
+	for ($i = 0; $i < $length; $i++) {
+	    $result[] = ' - ' . substr($trace[$i], strpos($trace[$i], ' '));
+	}
+	
+	return "Execution stack: \t" . implode("\n\t", $result);
 }

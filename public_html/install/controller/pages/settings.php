@@ -18,6 +18,9 @@
    needs please refer to http://www.AbanteCart.com for more information.  
 ------------------------------------------------------------------------------*/
 
+/**
+ * Class ControllerPagesSettings
+ */
 class ControllerPagesSettings extends AController {
 	private $error = array();
 
@@ -33,10 +36,22 @@ class ControllerPagesSettings extends AController {
 			$template_data['error_warning'] = '';
 		}
 
+		//show warning about opcache and apc but do not block installation
+		if (ini_get('opcache.enable')) {
+			if($template_data['error_warning']){
+				$template_data['error_warning'] .= '<br>';
+			}
+			$template_data['error_warning'] .= 'Warning: Your server have opcache php module enabled. Please disable it before installation!';
+		}
+		if (ini_get('apc.enabled')) {
+			if($template_data['error_warning']){
+				$template_data['error_warning'] .= '<br>';
+			}
+			$template_data['error_warning'] .= 'Warning: Your server have APC (Alternative PHP Cache) php module enabled. Please disable it before installation!';
+		}
+
 		$template_data['action'] = HTTP_SERVER . 'index.php?rt=settings';
-
 		$template_data['config_catalog'] = DIR_ABANTECART . 'system/config.php';
-
 		$template_data['system'] = DIR_SYSTEM;
 		$template_data['cache'] = DIR_SYSTEM . 'cache';
 		$template_data['logs'] = DIR_SYSTEM . 'logs';
@@ -55,13 +70,16 @@ class ControllerPagesSettings extends AController {
 		$this->processTemplate('pages/settings.tpl');
 	}
 
+	/**
+	 * @return bool
+	 */
 	private function validate() {
 		if (phpversion() < '5.2') {
 			$this->error['warning'] = 'Warning: You need to use PHP5.2 or above for AbanteCart to work!';
 		}
 
 		if (!ini_get('file_uploads')) {
-			$this->error['warning'] = 'Warning: file_uploads needs to be enabled!';
+			$this->error['warning'] = 'Warning: file_uploads needs to be enabled in PHP!';
 		}
 
 		if (ini_get('session.auto_start')) {
@@ -76,7 +94,7 @@ class ControllerPagesSettings extends AController {
 			$this->error['warning'] = 'Warning: GD extension needs to be loaded for AbanteCart to work!';
 		}
 
-		if (!extension_loaded('mbstring')) {
+		if (!extension_loaded('mbstring') || !function_exists('mb_internal_encoding')) {
 			$this->error['warning'] = 'Warning: MultiByte String extension needs to be loaded for AbanteCart to work!';
 		}
 		if (!extension_loaded('zlib')) {
@@ -86,7 +104,6 @@ class ControllerPagesSettings extends AController {
 		if (!is_writable(DIR_ABANTECART . 'system/config.php')) {
 			$this->error['warning'] = 'Warning: config.php needs to be writable for AbanteCart to be installed!';
 		}
-
 
 		if (!is_writable(DIR_SYSTEM)) {
 			$this->error['warning'] = 'Warning: System directory and all its children files/directories need to be writable for AbanteCart to work!';
@@ -128,13 +145,6 @@ class ControllerPagesSettings extends AController {
 
 		if (!is_writable(DIR_ABANTECART . 'resources')) {
 			$this->error['warning'] = 'Warning: Resources directory needs to be writable for AbanteCart to work!';
-		}
-
-		if (ini_get('opcache.enable')) {
-			$this->error['warning'] = 'Warning: Your server have opcache php module enabled. Please disable it before installation!';
-		}
-		if (ini_get('apc.enabled')) {
-			$this->error['warning'] = 'Warning: Your server have APC (Alternative PHP Cache) php module enabled. Please disable it before installation!';
 		}
 
 		if (!is_writable(DIR_ABANTECART . 'admin/system/backup')) {

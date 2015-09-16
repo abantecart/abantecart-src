@@ -5,13 +5,6 @@
 
 	<div class="panel-heading col-xs-12">
 		<div class="primary_content_actions pull-left">
-		<?php if($active=='appearance'){?>
-			<div class="btn-group">
-				<a class="btn btn-primary actionitem tooltips" title="<?php echo $manage_extensions->title; ?>" href="<?php echo $manage_extensions->href; ?>">
-				<i class="fa fa-puzzle-piece"></i>
-				</a>
-			</div>
-		<?php } ?>
 		<?php if($store_id > 0){ ?>
 			<div class="btn-group">
 				<a  class="btn btn-primary actionitem tooltips" title="<?php echo $edit_store_button->title; ?>" href="<?php echo $edit_store_button->href; ?>">
@@ -19,7 +12,7 @@
 				</a>
 			</div>	
 		<?php } ?>
-		
+
 			<div class="btn-group">
 				<a class="btn btn-primary actionitem tooltips" title="<?php echo $new_store_button->title; ?>" href="<?php echo $new_store_button->href; ?>">
 				<i class="fa fa-plus"></i>
@@ -28,33 +21,16 @@
 
 		<?php if($active=='appearance'){?>
 			<div class="btn-group">
-				<button class="btn btn-default dropdown-toggle tooltips" type="button" data-toggle="dropdown" title="<?php echo $text_edit_template_settings; ?>">
-					<i class="fa fa-image"></i>
-					<?php echo $current_template; ?> <span class="caret"></span>
-				</button>
-				<ul class="dropdown-menu">
-					<?php foreach ($templates as $tmpl) { ?>
-						<li><a href="<?php echo $tmpl['href'] ?>" class="<?php echo $tmpl['name'] == $current_template ? 'disabled' : ''; ?>"><?php echo $tmpl['name']; ?></a></li>
-					<?php } ?>
-				</ul>
+				<a class="btn btn-primary actionitem tooltips" title="<?php echo $manage_extensions->title; ?>" href="<?php echo $manage_extensions->href; ?>">
+				<i class="fa fa-puzzle-piece"></i>
+				</a>
 			</div>
 		<?php } ?>
-
-			<?php echo $this->getHookVar('extension_panel_buttons'); ?>
-
+				
 			<div class="btn-group mr10 toolbar">
-			    <?php
-			    //clone template button for developer tools functionality
-			    if($active=='appearance'){?>
-			    	<a class="btn btn-white tooltips"
-			    	   href="<?php echo $clone_button->href; ?>"
-			    	   title="<?php echo $clone_button->text; ?>"
-					   <?php echo $clone_button->attr;?> >
-			    	<i class="fa fa-copy fa-lg"></i>
-			    </a>
-			    <?php } ?>
-			    <?php echo $this->getHookVar('extension_toolbar_buttons'); ?>
+			    <?php echo $this->getHookVar('settings_toolbar_buttons'); ?>
 			</div>
+			<?php echo $this->getHookVar('settings_panel_buttons'); ?>
 		</div>
 		
 		<?php include($tpl_common_dir . 'content_buttons.tpl'); ?>			
@@ -134,9 +110,7 @@
 </div><!-- <div class="tab-content"> -->
 
 
-<?php
-
-echo $resources_scripts ?>
+<?php echo $resources_scripts ?>
 
 <script type="text/javascript"><!--
 jQuery(function ($) {
@@ -177,10 +151,11 @@ jQuery(function () {
 //--></script>
 <script type="text/javascript"><!--
 $(document).ready(function () {
+
     if ($('#settingFrm_config_description_<?php echo $content_language_id; ?>').length) {
-        CKEDITOR.replace('settingFrm_config_description_<?php echo $content_language_id; ?>', {
-            language:'<?php echo $language_code; ?>'
-        });
+
+	    var ck = wrapCKEditor('settingFrm_config_description_<?php echo $content_language_id; ?>');
+	   	addRL2CKE(ck);
     }
 });
 //--></script>

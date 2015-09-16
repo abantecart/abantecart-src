@@ -348,6 +348,7 @@ class ControllerPagesCatalogAttribute extends AController {
 		                                                                       'value' => $this->data['name'],
 		                                                                       'required' => true,
 		                                                                       'style' => 'large-field',
+		                                                                       'multilingual' => true,
 		                                                                  ));
 
 		if($attribute_type_info['type_key']!='download_attribute'){

@@ -126,8 +126,7 @@ class ControllerPagesProductCategory extends AController {
 				}
 			}
 
-			$url = '&sort=' . $sorting_href;
-
+			$url = '&sort=' . $sort."-".$order;
 
 			if (isset($this->request->get['order'])) {
 				$url .= '&order=' . $this->request->get['order'];

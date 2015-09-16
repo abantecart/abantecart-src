@@ -56,7 +56,7 @@
 		<div id="choose_resource_type" class="row fileupload_drag_area">
 			<?php //dnd area?>
 			<form action="<?php echo $rl_upload; ?>" method="POST" enctype="multipart/form-data">
-				<input class="hide" type="file" name="files[]" multiple="">
+				<input class="hide" type="file" name="files[]" <?php echo $mode!='single' ? 'multiple=""' : ''; ?>>
 				<div class="fileupload-buttonbar">
 					<div class="col-sm-6 col-xs-12 center">
 						<a class="btn rl_add_file" <?php echo $wrapper_id ? 'data-wrapper_id="'.$wrapper_id.'"' :'' ?> <?php echo $field_id ? 'data-field="'.$field_id.'"' :'' ?>>
@@ -88,7 +88,7 @@
 										<span class="ui-button-text"><span>
 											<i class="fa fa-upload" style="font-size: 14em;"></i>
 										</span></span>
-										<input type="file" name="files[]" multiple="">
+										<input type="file" name="files[]" <?php echo $mode!='single' ? 'multiple=""' : ''; ?>>
 									</label>
 								</div>
 							</form>

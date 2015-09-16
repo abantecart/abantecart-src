@@ -78,13 +78,14 @@ if (defined('ADMIN_PATH') && (isset($_GET[ 's' ]) || isset($_POST[ 's' ])) && ($
 	define('DIR_TEMPLATE', DIR_ROOT . '/admin/view/');
 	define('DIR_STOREFRONT', DIR_ROOT . '/storefront/');
 	define('DIR_BACKUP', DIR_ROOT . '/admin/system/backup/');
-	define('SESSION_ID', 'PHPSESSID_AC_CP');
+	//generate unique sessioin ID name 
+	define('SESSION_ID', defined('UNIQUE_ID') ? 'AC_CP_'.strtoupper(substr(UNIQUE_ID, 0, 10)) : 'AC_CP_PHPSESSID');
 } else {
 	define('IS_ADMIN', false);
 	define('DIR_APP_SECTION', DIR_ROOT . '/storefront/');
 	define('DIR_LANGUAGE', DIR_ROOT . '/storefront/language/');
 	define('DIR_TEMPLATE', DIR_ROOT . '/storefront/view/');
-	define('SESSION_ID', 'PHPSESSID_AC_SF');
+	define('SESSION_ID', defined('UNIQUE_ID') ? 'AC_SF_'.strtoupper(substr(UNIQUE_ID, 0, 10)) : 'AC_SF_PHPSESSID');
 	define('EMBED_TOKEN_NAME', 'ABC_TOKEN');
 }
 
@@ -209,6 +210,7 @@ try {
 
 	require_once(DIR_CORE . 'helper/html.php');
 	require_once(DIR_CORE . 'helper/utils.php');
+	require_once(DIR_CORE . 'helper/system_check.php');
 
 // Include library files
 	require_once(DIR_CORE . 'lib/cache.php');
@@ -263,6 +265,7 @@ try {
 		require_once(DIR_CORE . 'lib/language_manager.php');
 		require_once(DIR_CORE . 'lib/backup.php');
 		require_once(DIR_CORE . 'lib/file_uploads_manager.php');
+		require_once(DIR_CORE . 'lib/admin_commands.php');
 	}
 
 // Registry

@@ -13,12 +13,6 @@ $(window).bind("load", function() {
 
 $('document').ready(function () {
 
-    // Toggle
-    $('.togglehandle').click(function () {
-        $(this).toggleClass('active');
-        $(this).next('.toggledata').slideToggle();
-    });
-
     // Dropdowns
     $('.dropdown').hover(
         function () {
@@ -30,13 +24,6 @@ $('document').ready(function () {
     );
 
 	process_thumbnails();
-
-    // Checkout steps
-    $('.checkoutsteptitle').addClass('down').next('.checkoutstep').fadeIn()
-    $('.checkoutsteptitle').on('click', function () {
-        $("select, input:checkbox, input:radio, input:file").css('display', 'blcok');
-        $(this).toggleClass('down').next('.checkoutstep').slideToggle()
-    });
 
     // Top Main Menu mobile
     $('<select class="form-control" />').appendTo("#topnav");

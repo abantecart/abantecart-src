@@ -59,7 +59,6 @@ class ControllerPagesCatalogProduct extends AController {
             $this->data['categories'][ $r['category_id'] ] = $r['name'];
         }
 
-
 		$grid_settings = array(
 			'table_id' => 'product_grid',
 			'url' => $this->html->getSecureURL('listing_grid/product','&category='.(int)$this->request->get['category']),
@@ -573,14 +572,12 @@ class ControllerPagesCatalogProduct extends AController {
 		    'name' => 'status',
 		    'value' => $this->data['status'],
 			'style'  => 'btn_switch btn-group-sm',
-	        'help_url' => $this->gen_help_url('status'),
 	    ));
         $this->data['form']['fields']['general']['featured'] = $form->getFieldHtml(array(
 		    'type' => 'checkbox',
 		    'name' => 'featured',
 		    'value' => $this->data['featured'],
 			'style'  => 'btn_switch btn-group-sm',
-	        'help_url' => $this->gen_help_url('featured'),
 	    ));
 
         $this->data['form']['fields']['general']['name'] = $form->getFieldHtml(array(
@@ -588,28 +585,31 @@ class ControllerPagesCatalogProduct extends AController {
 			'name' => 'product_description[name]',
 			'value' => $this->data['product_description']['name'],
 			'required' => true,
-	        'help_url' => $this->gen_help_url('name'),
+			'multilingual' => true,		
 		));
         $this->data['form']['fields']['general']['description'] = $form->getFieldHtml(array(
 			'type' => 'textarea',
 			'name' => 'product_description[description]',
 			'value' => $this->data['product_description']['description'],
+			'multilingual' => true,		
 		));
         $this->data['form']['fields']['general']['meta_keywords'] = $form->getFieldHtml(array(
 			'type' => 'textarea',
 			'name' => 'product_description[meta_keywords]',
 			'value' => $this->data['product_description']['meta_keywords'],
-	        'help_url' => $this->gen_help_url('meta_keywords'),
+			'multilingual' => true,		
 		));
         $this->data['form']['fields']['general']['meta_description'] = $form->getFieldHtml(array(
 			'type' => 'textarea',
 			'name' => 'product_description[meta_description]',
 			'value' => $this->data['product_description']['meta_description'],
+			'multilingual' => true,		
 		));
         $this->data['form']['fields']['general']['blurb'] = $form->getFieldHtml(array(
 			'type' => 'textarea',
 			'name' => 'product_description[blurb]',
 			'value' => $this->data['product_description']['blurb'],
+			'multilingual' => true,		
 		));
         $this->data['form']['fields']['general']['tags'] = $form->getFieldHtml(array(
 			'type' => 'input',
@@ -653,8 +653,7 @@ class ControllerPagesCatalogProduct extends AController {
 				    'type' => 'checkbox',
 				    'name' => 'call_to_order',
 				    'value' => $this->data['call_to_order'],
-					'style'  => 'btn_switch btn-group-sm',
-			        'help_url' => $this->gen_help_url('call_to_order')
+					'style'  => 'btn_switch btn-group-sm'
 		));
 
         $this->data['form']['fields']['data']['price'] = $form->getFieldHtml(array(
@@ -685,14 +684,15 @@ class ControllerPagesCatalogProduct extends AController {
                 1 => $this->language->get('text_yes'),
                 0 => $this->language->get('text_no'),
             ),
-	        'help_url' => $this->gen_help_url('subtract'),
+	        'help_url' => $this->gen_help_url('product_inventory'),
 	        'style' => 'medium-field'
 		));
         $this->data['form']['fields']['data']['quantity'] = $form->getFieldHtml(array(
 			'type' => 'input',
 			'name' => 'quantity',
 			'value' => (int)$this->data['quantity'],
-			'style' => 'col-xs-1 small-field'
+			'style' => 'col-xs-1 small-field',
+			'help_url' => $this->gen_help_url('product_inventory'),
 	    ));
         $this->data['form']['fields']['data']['minimum'] = $form->getFieldHtml(array(
 			'type' => 'input',
@@ -711,6 +711,7 @@ class ControllerPagesCatalogProduct extends AController {
 			'name' => 'stock_status_id',
 			'value' => $this->data['stock_status_id'],
             'options' => $this->data['stock_statuses'],
+            'help_url' => $this->gen_help_url('product_inventory'),
             'style' => 'small-field',
 		));
 
@@ -718,7 +719,6 @@ class ControllerPagesCatalogProduct extends AController {
 			'type' => 'input',
 			'name' => 'sku',
 			'value' => $this->data['sku'],
-	        'help_url' => $this->gen_help_url('sku'),
 		));
         $this->data['form']['fields']['data']['location'] = $form->getFieldHtml(array(
 			'type' => 'input',
@@ -741,7 +741,8 @@ class ControllerPagesCatalogProduct extends AController {
 					'name' => 'keyword',
 					'value' => $this->data['keyword'],
 			        'help_url' => $this->gen_help_url('seo_keyword'),
-					'attr' => ' gen-value="'.SEOEncode($this->data['product_description']['name']).'" '
+					'attr' => ' gen-value="'.SEOEncode($this->data['product_description']['name']).'" ',
+					'multilingual' => true,		
 				));
         $this->data['form']['fields']['data']['date_available'] = $form->getFieldHtml(array(
             'type' => 'date',
@@ -861,7 +862,18 @@ class ControllerPagesCatalogProduct extends AController {
 	    $this->data['language_id'] = $this->session->data['content_language_id'];
 	    $this->data['language_code'] = $this->session->data['language'];
 	    $this->data['help_url'] = $this->gen_help_url('product_edit');
-	    $this->data['rl'] = $this->html->getSecureURL('common/resource_library', '&object_name=&object_id&type=image&mode=url');
+
+	    $this->addChild('responses/common/resource_library/get_resources_html', 'resources_html', 'responses/common/resource_library_scripts.tpl');
+        $resources_scripts = $this->dispatch(
+                'responses/common/resource_library/get_resources_scripts',
+                array(
+                        'object_name' => '',
+                        'object_id' => '',
+                        'types' => array('image'),
+                )
+        );
+        $this->data['resources_scripts'] =  $resources_scripts->dispatchGetOutput();
+        $this->data['rl'] = $this->html->getSecureURL('common/resource_library', '&action=list_library&object_name=&object_id&type=image&mode=single');
 
 	    $this->view->batchAssign( $this->data );
 

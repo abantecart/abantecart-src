@@ -32,8 +32,6 @@ class ControllerPagesIndexLogin extends AController {
 
 		$this->loadLanguage('common/login');
 
-		$this->cache->delete('admin_menu');
-
 		$this->document->setTitle( $this->language->get('heading_title') );
 
 		$this->document->addBreadcrumb( array (
@@ -67,13 +65,6 @@ class ControllerPagesIndexLogin extends AController {
 			(isset($this->session->data['token']) && !isset($this->request->get['token']))
 			|| ((isset($this->request->get['token']) && (isset($this->session->data['token']) && ($this->request->get['token'] != $this->session->data['token']))))) {
 			$this->error['warning'] = $this->language->get('error_token');
-		}
-
-		//There was no login done, so clear the session for new login screen 
-		$this->session->clear();
-		
-		if($this->request->cookie['new_cart']==1 && $this->error['warning'] && $this->request->server['REQUEST_METHOD'] == 'GET'){
-			$this->error['warning'] = '';
 		}
 
 		$this->data['action'] = $this->html->getSecureURL('index/login');

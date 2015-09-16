@@ -646,9 +646,11 @@ class AConfigManager {
 	private function _build_form_appearance($form, $data) {
 		$fields = array();
 
-		//common section
+		//this method ca build filds for general apearance or template specific
+		//for template settings, need to specify 'tmpl_id' as template_id for settings section
 		if( empty($data['tmpl_id']) ){
-			$templates = $this->getTemplatesLIst('storefront');
+			//general appearance section
+			$templates = $this->getTemplates('storefront');
 
 			$fields['template'] = $form->getFieldHtml($props[] = array(
 				'type' => 'selectbox',
@@ -658,8 +660,7 @@ class AConfigManager {
 				'style' => 'large-field',
 			));
 
-			//appearance section
-			$templates = $this->getTemplatesLIst('admin');
+			$templates = $this->getTemplates('admin');
 
 			$fields['admin_template'] = $form->getFieldHtml($props[] = array(
 				'type' => 'selectbox',
@@ -676,8 +677,8 @@ class AConfigManager {
 				'required' => true,
 			));
 
-		}else{ // settings per template
-
+		}else{ 
+			// settings per template
 			$default_values = $this->model_setting_setting->getSetting('appearance', (int)$data['store_id']);
 			$fieldset = array(
 					'storefront_width' ,
@@ -866,11 +867,21 @@ class AConfigManager {
 		return $fields;
 	}
 
-	/**
-	 * @param string $section - can be storefront or admin
+	/**To be removed in v 1.3 or next major release
+	 * @deprecated since 1.2.4
+	 * @param $section
 	 * @return array
 	 */
-	public function getTemplatesLIst($section){
+	public function getTemplatesLIst($section) {
+		return $this->getTemplates($section);
+	}
+
+	/**
+	 * @param 	string $section - can be storefront or admin
+	 * @param 	int $status - template extension status
+	 * @return array
+	 */
+	public function getTemplates($section, $status = 1){
 
 		if(has_value($this->templates[$section])){
 			return $this->templates[$section];
@@ -879,11 +890,13 @@ class AConfigManager {
 		$basedir = $section=='admin' ? DIR_APP_SECTION : DIR_STOREFRONT;
 
 		$directories = glob($basedir . 'view/*', GLOB_ONLYDIR);
+		//get core templates
 		foreach ($directories as $directory) {
 			$this->templates[$section][basename($directory)] = basename($directory);
 		}
 		if($section!='admin'){
-			$extension_templates = $this->extension_manager->getExtensionsList(array('filter' => 'template', 'status' => 1));
+			//get extension templates
+			$extension_templates = $this->extension_manager->getExtensionsList(array('filter' => 'template', 'status' => (int)$status));
 			if($extension_templates->total > 0){
 				foreach($extension_templates->rows as $row){
 					$this->templates[$section][$row['key']] = $row['key'];
@@ -1124,6 +1137,17 @@ class AConfigManager {
 			'name' => 'config_error_filename',
 			'value' => $data['config_error_filename'],
 			'required' => true,
+		));
+		$fields['system_check'] = $form->getFieldHtml($props[] = array(
+			'type' => 'selectbox',
+			'name' => 'config_system_check',
+			'value' => $data['config_system_check'],
+			'options' => array(
+				0 => 'Admin & Storefront',
+				1 => 'Admin',
+				2 => 'Storefront',
+				3 => $this->language->get('text_disabled'),
+			),
 		));
 		if (isset($data['one_field'])) {
 			$fields = $this->_filterField($fields, $props, $data['one_field']);

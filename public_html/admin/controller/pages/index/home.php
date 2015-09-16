@@ -23,6 +23,8 @@ if (! defined ( 'DIR_CORE' ) || !IS_ADMIN) {
 
 
 class ControllerPagesIndexHome extends AController {
+	public $data = array();
+
 	public function main() {
 
 		//init controller data
@@ -198,11 +200,25 @@ class ControllerPagesIndexHome extends AController {
 			$this->loadLanguage('common/tips');
 			$tip_content = $this->html->convertLinks($this->language->get('no_enabled_payments_tip'));
 
-			// TODO: Do request for top5 payment extensions to MP API
-			//$this->loadModel('tool/mp_api');
-			//$api_response_html = $this->model_tool_mp_api->processRequest(array());
 			$tip_content = sprintf($tip_content, $api_response_html);
 			$this->view->assign('tip_content', $tip_content);
+		}
+
+		//check quick start quide based on no last_login and if it is not yet completed
+		if( !$this->user->getLastLogin() && $this->session->data['quick_start_step'] != 'finished') {
+			$store_id = !isset($this->session->data['current_store_id']) ? 0 : $this->session->data['current_store_id'];
+			$resources_scripts = $this->dispatch(
+			    'responses/common/resource_library/get_resources_scripts',
+			    array(
+			    	'object_name' => 'store',
+			    	'object_id' => (int)$store_id,
+			    	'types' => array('image'),
+			    	'onload' => true,
+			    	'mode' => 'single'
+			    )
+			);
+			$this->view->assign('resources_scripts', $resources_scripts->dispatchGetOutput());
+			$this->view->assign('quick_start_url', $this->html->getSecureURL('setting/setting_quick_form/quick_start'));
 		}
 		
 		$this->processTemplate('pages/index/home.tpl' );

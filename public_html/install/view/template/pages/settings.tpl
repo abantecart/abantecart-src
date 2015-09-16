@@ -110,9 +110,9 @@
 		    	</tr>
 		    	<tr>
 		    		<td>MultiByte String:</td>
-		    		<td><?php echo extension_loaded('mbstring') ? 'On' : 'Off'; ?></td>
+		    		<td><?php echo (extension_loaded('mbstring') && function_exists('mb_internal_encoding')) ? 'On' : 'Off'; ?></td>
 		    		<td>On</td>
-		    		<td align="center"><?php echo extension_loaded('mbstring') ? '<img src="' . $template_dir . 'image/good.png" alt="Good" />' : '<img src="' . $template_dir . 'image/bad.png" alt="Bad" />'; ?></td>
+		    		<td align="center"><?php echo (extension_loaded('mbstring') && function_exists('mb_internal_encoding')) ? '<img src="' . $template_dir . 'image/good.png" alt="Good" />' : '<img src="' . $template_dir . 'image/bad.png" alt="Bad" />'; ?></td>
 		    	</tr>
 		    </table>
 		</div>

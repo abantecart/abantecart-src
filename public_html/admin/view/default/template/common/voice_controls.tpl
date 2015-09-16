@@ -45,10 +45,10 @@
 	        </div>
 
 	        <div id="results" style="display:none">
-	          <i class="icon-quote-right"></i> 
+	          <i class="fa fa-quote-right"></i> 
 	          <span class="final_speech" id="final_speech_span"></span>
 	          <span class="interim_speech" id="interim_speech_span"></span>
-	          <i class="icon-quote-left"></i> 
+	          <i class="fa fa-quote-left"></i> 
 	        </div>	        
 	        
 	        <div id="result_comands" style="display:none">
@@ -57,18 +57,20 @@
 	    </div>
         </div>
         <div class="modal-footer">
-
-	       <div class="compact marquee" id="div_language" style="display:none" >
-	          <input type="hidden" id="select_language" value="<?php echo $language_code; ?>">
-	          <?php echo $text_voice_select_dialect; ?>
-	          <select id="select_dialect">
-	          </select>
-	       </div>
-
-	      <a class="try_again_now try_again" style="display:none" title="Retry" onclick="startButton(event)">
-	      	<i class="icon-refresh icon-2x"></i>
-	      </a>
-          <a class="voice-close" data-dismiss="modal"><i class="icon-remove icon-2x"></i></a>
+			<div class="col-sm-9">
+				<div class="compact marquee" id="div_language" style="display:none" >
+				   <input type="hidden" id="select_language" value="<?php echo $language_code; ?>">
+				   <?php echo $text_voice_select_dialect; ?>
+				   <select id="select_dialect">
+				   </select>
+				</div>
+			</div>
+			<div class="col-sm-3">
+				<a class="try_again_now try_again" style="display:none" title="Retry" onclick="startButton(event)">
+				  <i class="fa fa-refresh fa-2x"></i>
+				</a>
+				<a class="voice-close" data-dismiss="modal"><i class="fa fa-remove fa-2x"></i></a>
+			</div>
         </div>
       </div>
     </div>
@@ -251,7 +253,6 @@ function upgrade() {
   $('#start_button i').addClass('fa');
   $('#start_button i').addClass('fa-microphone-slash');
   $('#start_button i').addClass('fa-lg');
-  //start_button.style.visibility = 'hidden';
   showInfo('info_upgrade');
 }
 
@@ -305,7 +306,6 @@ function showInfo(s) {
 }
 
 function lookupCommand( command ) {
-
      $.ajax({
          url:"<?php echo $command_lookup_url; ?>&term=" + command ,
          type:'GET',
@@ -314,7 +314,6 @@ function lookupCommand( command ) {
          	display_result(data);
          }
      });
-
 }
 
 function display_result(data) {

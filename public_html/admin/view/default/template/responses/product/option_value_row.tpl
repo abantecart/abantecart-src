@@ -8,7 +8,12 @@
 	 	}
 	if($form['fields']['option_value'] && $option_data['element_type']!='U'){ ?>
 	    <td>
-		    <div class="input-group input-group-sm afield"><?php echo $form['fields']['option_value']; ?></div>
+		    <div class="input-group input-group-sm afield"><?php
+			    echo $form['fields']['option_value'];
+			    if($option_data['element_type'] == 'T'){?>
+				    <a class="input-group-addon btn btn-xs btn-default" data-toggle="modal" data-target="#option_value_modal"><i class="fa fa-pencil"></i></a>
+			    <?php }
+			    ?></div>
 	    </td>
 	    <td class="small-td"><div class="input-group input-group-sm afield"><?php echo $form['fields']['quantity']; ?></div></td>
 	    <td><div class="input-group input-group-sm afield"><?php echo $form['fields']['subtract']; ?></div></td>
@@ -52,4 +57,60 @@
 		</div>
 	</td>
 </tr>
+<?php } ?>
+
+<?php
+//if option type is textarea
+if($option_data['element_type'] == 'T'){
+
+//build modal for texarea editing
+$modal_content = '<div class="add-option-modal" >
+	<div class="panel panel-default">
+	    <div>
+	        <div class="panel-body panel-body-nopadding">
+	            <div class="mt10 options_buttons" id="option_name_block">
+                    <div class=" afield ">'.$this->html->buildElement(
+                    		array('type' => 'textarea',
+                    				'id' => 'option_textarea_value',
+                    				'value' => $form['fields']['option_value']->value,
+                    				'style' => 'col-sm-12',
+                    				'attr' => 'row="10"'
+                    				)).'
+                    </div>
+	            </div>
+	        </div>
+	        <div class="panel-footer">
+	            <div class="row">
+	               <div class="center">
+	                 <button id="apply_cke" class="btn btn-primary"><i class="fa fa-save"></i> '.$text_apply.'</button>&nbsp;
+	                 <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times"></i> '.$button_cancel.'</button>
+	               </div>
+	            </div>
+	        </div>
+
+	    </div>
+	</div>
+</div>';
+
+echo $this->html->buildElement(
+		array('type' => 'modal',
+				'id' => 'option_value_modal',
+				'modal_type' => 'lg',
+				'title' => $text_edit_option_values,
+				'content' => $modal_content));
+?>
+
+<script type="application/javascript">
+	$('#apply_cke').on('click', function(){
+		$('tr.optionRow').find('textarea').html( $('#option_textarea_value').val() );
+		$('#option_value_modal').modal('hide');
+		return false;
+	});
+
+	$(document).ready(function(){
+		$('tr.optionRow').find('textarea').attr('readonly','readonly');
+	});
+
+</script>
+
 <?php } ?>

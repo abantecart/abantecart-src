@@ -98,7 +98,7 @@ final class AConfig {
 		$db = $this->registry->get('db');
 
 		//detect URL for the store
-		$url = str_replace('www.', '', $_SERVER['HTTP_HOST']) . rtrim(dirname($_SERVER['PHP_SELF']), '/.\\') . '/';
+		$url = str_replace('www.', '', $_SERVER['HTTP_HOST']) . get_url_path($_SERVER['PHP_SELF']);
 		if (defined('INSTALL')) {
 			$url = str_replace('install/', '', $url);
 		}
@@ -136,7 +136,16 @@ final class AConfig {
 		}
 
 		// if storefront and not default store try to load setting for given URL
-		if (!(is_int(strpos($this->cnfg['config_url'],$url)))) { 
+		/* Example: 
+			Specific store config -> http://localhost/abantecart123 
+			Generic config -> http://localhost
+		*/
+		$config_url = preg_replace("(^https?://)", "", $this->cnfg['config_url'] );
+		$config_url = preg_replace("(^://)", "", $config_url );
+		if (
+			!(is_int(strpos($config_url,$url))) &&
+			!(is_int(strpos($url, $config_url))) 			
+		) { 
 			// if requested url not a default store URL - do check other stores.
 			$cache_name = 'settings.store.' . md5('http://' . $url);
 			$store_settings = $cache->force_get($cache_name);
@@ -173,11 +182,11 @@ final class AConfig {
 				$warning = new AWarning('Warning: Accessing store with unconfigured or unknown domain ( '.$url.' ).'."\n".' Check setting of your store domain URL in System Settings . Loading default store configuration for now.');
 				$warning->toLog()->toMessages();
 				//set config url to current domain
-				$this->cnfg['config_url'] = 'http://' . REAL_HOST . rtrim(dirname($_SERVER['PHP_SELF']), '/.\\') . '/';
+				$this->cnfg['config_url'] = 'http://' . REAL_HOST . get_url_path($_SERVER['PHP_SELF']);
 			}
 
 			if (!$this->cnfg['config_url']) {
-				$this->cnfg['config_url'] = 'http://' . REAL_HOST . rtrim(dirname($_SERVER['PHP_SELF']), '/.\\') . '/';
+				$this->cnfg['config_url'] = 'http://' . REAL_HOST . get_url_path($_SERVER['PHP_SELF']);
 			}
 
 		}

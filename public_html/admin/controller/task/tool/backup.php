@@ -44,6 +44,15 @@ class ControllerTaskToolBackup extends AController {
 			$table_list = $this->model_tool_backup->getTables();
 		}
 
+		if($table_list===false){
+			$error_text = 'Dump tables error. Cannot obtain table list.';
+			$error = new AError($error_text);
+			return $error->toJSONResponse('APP_ERROR_402',
+									array( 'error_text' => $error_text,
+											'reset_value' => true
+									));
+		}
+
 		$result = $bkp->dumpTables($table_list);
 
 		if($result){

@@ -47,6 +47,7 @@ class ControllerPagesSettingSetting extends AController {
 		$this->extensions->hk_InitData($this, __FUNCTION__);
 
 		$this->document->setTitle($this->language->get('heading_title'));
+		$group = $this->request->get['active'];
 		if ($this->request->is_POST() && $this->_validate($this->request->get['active'])) {
 			if (has_value($this->request->post['config_logo'])) {
 				$this->request->post['config_logo'] = html_entity_decode($this->request->post['config_logo'], ENT_COMPAT, 'UTF-8');
@@ -65,13 +66,6 @@ class ControllerPagesSettingSetting extends AController {
 				$this->request->post['store_name'] = html_entity_decode($this->request->post['store_name'], ENT_COMPAT, 'UTF-8');
 			}
 
-			$group = $this->request->get['active'];
-
-			if(has_value($this->request->get['tmpl_id']) && $this->request->get['tmpl_id']!='default' && $group=='appearance'){
-				$group = $this->request->get['tmpl_id'];
-
-			}
-
 			$this->model_setting_setting->editSetting( $group, $this->request->post, $this->request->get['store_id']);
 			if ($this->config->get('config_currency_auto')) {
 				$this->loadModel('localisation/currency');
@@ -84,7 +78,7 @@ class ControllerPagesSettingSetting extends AController {
                 startStorefrontSession($this->user->getId());
             }
 			$redirect_url = $this->html->getSecureURL('setting/setting',
-					'&active=' . $this->request->get['active'] . '&store_id=' . (int)$this->request->get['store_id'].(has_value($this->request->get['tmpl_id']) ? '&tmpl_id='.$this->request->get['tmpl_id']:''));
+					'&active=' . $this->request->get['active'] . '&store_id=' . (int)$this->request->get['store_id']);
 			$this->redirect($redirect_url);
 		}
 
@@ -92,8 +86,9 @@ class ControllerPagesSettingSetting extends AController {
 		if ($this->request->get['store_id']) {
 			$this->data['store_id'] = $this->request->get['store_id'];
 		} else {
-			$this->data['store_id'] = $this->config->get('config_store_id');
+			$this->data['store_id'] = $this->session->data['current_store_id'];
 		}
+
 
 		$this->data['groups'] = $this->groups;
 		if (isset($this->request->get['active']) && strpos($this->request->get['active'], '-') !== false) {
@@ -147,44 +142,16 @@ class ControllerPagesSettingSetting extends AController {
 		$this->data['cancel'] = $this->html->getSecureURL('setting/setting');
 		$this->data['action'] = $this->html->getSecureURL('setting/setting');
 
-		$group = $this->data['active'];
 		require_once(DIR_CORE.'lib/config_manager.php');
 		$this->conf_mngr = new AConfigManager();
 
+		//activate quick start guide button
+		$this->loadLanguage('common/quick_start');
+		$this->data['quick_start_url'] = $this->html->getSecureURL('setting/setting_quick_form/quick_start');
+		
+		$group = $this->data['active'];
+
 		if($this->data['active']=='appearance'){
-			$group = !$this->request->get['tmpl_id'] || $this->request->get['tmpl_id']=='default' ? $group : $this->request->get['tmpl_id'];
-			$tmpls = $this->conf_mngr->getTemplatesLIst('storefront');
-
-			foreach ($tmpls as $tmpl) {
-				$templates[$tmpl] = array(
-										'name' => "&nbsp;&nbsp;&nbsp;".$tmpl,
-										'href' => $this->html->getSecureURL('setting/setting', '&active=' . $this->data['active'].'&tmpl_id='.$tmpl));
-			}
-
-			array_unshift($templates, array(
-											'name' => $this->language->get('text_common_template_settings') ,
-											'href' => $this->html->getSecureURL('setting/setting', '&active=' . $this->data['active'])));
-
-			$this->data['templates'] = $templates;
-			$this->data['current_template'] = $this->request->get['tmpl_id'] ? $this->request->get['tmpl_id'] : $this->language->get('text_common_template_settings');
-
-			//button for template cloning
-			$dev_tools = $this->extensions->getExtensionsList(array('search'=>'developer_tools'))->row;
-			if( is_null($dev_tools['status']) ){
-				$href = "http://www.abantecart.com/extension-developer-tools";
-			}elseif($dev_tools['status']==1){
-				$href = $this->html->getSecureURL('tool/developer_tools/create');
-			}else{
-				$href = $this->html->getSecureURL('extension/extensions/edit','&extension=developer_tools');
-			}
-			//NOTE: need to show dibberent icon and message if dev tools extension is not installed
-			$this->data['clone_button'] = $this->html->buildElement(
-					array(
-							'type' => 'button',
-							'name' => 'clone_button',
-							'href' => $href,
-							'text' => $this->language->get('text_clone_template')));
-
 			$this->data['manage_extensions'] = $this->html->buildElement(
 					array(
 							'type' => 'button',
@@ -193,9 +160,6 @@ class ControllerPagesSettingSetting extends AController {
 							'text' => $this->language->get('button_manage_extensions'),
 							'title' => $this->language->get('button_manage_extensions')
 					));
-
-
-
 		}
 
 		$this->data['settings'] = $this->model_setting_setting->getSetting($group, $this->data['store_id']);
@@ -358,6 +322,10 @@ class ControllerPagesSettingSetting extends AController {
 		$this->data['resources_scripts'] = $resources_scripts->dispatchGetOutput();
 		$this->data['content_language_id'] = $this->language->getContentLanguageID();
 
+		//activate quick start guide button
+		$this->loadLanguage('common/quick_start');
+		$this->data['quick_start_url'] = $this->html->getSecureURL('setting/setting_quick_form/quick_start');
+		
 		$this->view->batchAssign($this->data);
 		$this->view->assign('help_url', $this->gen_help_url('setting_listing'));
 
@@ -405,10 +373,10 @@ class ControllerPagesSettingSetting extends AController {
 	private function _getForm() {
 
 		$this->data['action'] = $this->html->getSecureURL('setting/setting',
-				'&active=' . $this->data['active'] . '&store_id=' . $this->data['store_id'].(has_value($this->request->get['tmpl_id']) ? '&tmpl_id='.$this->request->get['tmpl_id']:''));
+				'&active=' . $this->data['active'] . '&store_id=' . $this->data['store_id']);
 		$this->data['form_title'] = $this->language->get('text_edit') . ' ' . $this->language->get('heading_title');
 		$this->data['update'] = $this->html->getSecureURL('listing_grid/setting/update_field',
-				'&group=' . $this->data['active'] . '&store_id=' . $this->data['store_id'].(has_value($this->request->get['tmpl_id']) ? '&tmpl_id='.$this->request->get['tmpl_id']:''));
+				'&group=' . $this->data['active'] . '&store_id=' . $this->data['store_id']);
 		$this->view->assign('language_code', $this->session->data['language']);
 		$form = new AForm('HS');
 
@@ -437,6 +405,18 @@ class ControllerPagesSettingSetting extends AController {
 			'style' => 'button2',
 		));
 
+		//need resource script on every page for quick start
+		$resources_scripts = $this->dispatch(
+		    'responses/common/resource_library/get_resources_scripts',
+		    array(
+		    	'object_name' => 'store',
+		    	'object_id' => (int)$this->data['store_id'],
+		    	'types' => array('image'),
+		    	'onload' => true,
+		    	'mode' => 'single'
+		    )
+		);
+		$this->data['resources_scripts'] = $resources_scripts->dispatchGetOutput();
 
 		switch ($this->data['active']) {
 			case 'details':
@@ -449,26 +429,7 @@ class ControllerPagesSettingSetting extends AController {
 				$this->data = array_merge_recursive($this->data, $this->_build_checkout($form, $this->data['settings']));
 				break;
 			case 'appearance' :
-
-				$this->data['settings']['tmpl_id'] = $this->request->get['tmpl_id'];
-				if($this->data['settings']['tmpl_id']=='default'){
-					$this->data['settings']['tmpl_id'] = 'appearance';
-				}
-
-
 				$this->data = array_merge_recursive($this->data, $this->_build_appearance($form, $this->data['settings']));
-
-				$resources_scripts = $this->dispatch(
-					'responses/common/resource_library/get_resources_scripts',
-					array(
-						'object_name' => 'store',
-						'object_id' => (int)$this->request->get['store_id'],
-						'types' => array($item['resource_type']),
-						'onload' => true,
-						'mode' => 'single'
-					)
-				);
-				$this->data['resources_scripts'] = $resources_scripts->dispatchGetOutput();
 				break;
 			case 'mail' :
 				$this->data = array_merge_recursive($this->data, $this->_build_mail($form, $this->data['settings']));
@@ -481,7 +442,6 @@ class ControllerPagesSettingSetting extends AController {
 				break;
 			default:
 		}
-
 	}
 
     /**

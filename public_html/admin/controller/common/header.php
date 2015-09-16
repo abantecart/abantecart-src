@@ -35,7 +35,6 @@ class ControllerCommonHeader extends AController {
 		if ($this->request->is_POST() && isset($this->request->post['language_code'])) {
 			unset($this->session->data['content_language']);
 			$this->session->data['language'] = $this->request->post['language_code'];
-			$this->cache->delete('admin_menu');
 
 			if (!empty($this->request->post['redirect'])) {
 				$this->redirect($this->request->post['redirect']);
@@ -73,10 +72,13 @@ class ControllerCommonHeader extends AController {
 			$this->view->assign('logged', sprintf($this->language->get('text_logged'), $this->user->getUserName()));
 			$this->view->assign('avatar', $this->user->getAvatar());
 			$this->view->assign('username', $this->user->getUserName());
-			$this->view->assign('last_login', sprintf($this->language->get('text_last_login'), $this->user->getLastLogin()));
+			if($this->user->getLastLogin()) {
+				$this->view->assign('last_login', sprintf($this->language->get('text_last_login'), $this->user->getLastLogin()));	
+			} else {
+				$this->view->assign('last_login', sprintf($this->language->get('text_welcome'), $this->user->getUserName()));
+			}
 			$this->view->assign('account_edit', $this->html->getSecureURL('index/edit_details', '', true));
-			
-			
+					
 			$stores = array();
 			$this->loadModel('setting/store');
 			$results = $this->model_setting_store->getStores();
@@ -115,15 +117,14 @@ class ControllerCommonHeader extends AController {
 		$this->view->assign('voicecontrol_setting_url', $this->html->getSecureURL('setting/setting/system'));
 		$this->view->assign('command_lookup_url', $this->html->getSecureURL('common/action_commands'));
 		$this->view->assign('search_suggest_url', $this->html->getSecureURL('listing_grid/global_search_result/suggest'));		
+		$this->view->assign('latest_customers_url', $this->html->getSecureURL('common/tabs/latest_customers'));
+		$this->view->assign('latest_orders_url', $this->html->getSecureURL('common/tabs/latest_orders'));
+
 		$this->view->assign('search_everywhere', $this->language->get('search_everywhere'));
 		$this->view->assign('text_all_matches', $this->language->get('text_all_matches'));
 		$this->view->assign('dialog_title', $this->language->get('text_quick_edit_form'));
 		$this->view->assign('button_go', $this->html->buildButton(array('name' => 'searchform_go', 'text' => $this->language->get('button_go'), 'style' => 'button5')));
 
-		//check if install dir existing. warn
-		if (file_exists(DIR_ROOT . '/install')) {
-			$this->messages->saveWarning($this->language->get('text_install_warning_subject'), $this->language->get('text_install_warning'));
-		}
 		//backwards compatability from 1.2.1. Can remove this check in the future. 
 		if (!defined('ENCRYPTION_KEY')) {
 			$cmbody = "To be compatible with v".VERSION." add below line to configuration file: <br>\n" . DIR_ROOT . '/system/config.php';

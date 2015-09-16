@@ -60,9 +60,26 @@ class ControllerBlocksOrderSummary extends AController {
         	$option_data = array();
 
         	foreach ($result['option'] as $option) {
+		        $value = $option['value'];
+                // hide binary value for checkbox
+                if($option['element_type']=='C' && in_array($value, array(0,1))){
+                    $value = '';
+                }
+                // strip long textarea value
+                if($option['element_type']=='T'){
+                    $title = strip_tags($value);
+                    $title = str_replace('\r\n',"\n",$title);
+
+                    $value = str_replace('\r\n',"\n",$value);
+	                if(mb_strlen($value) > 64){
+		                $value = mb_substr($value, 0, 64) . '...';
+	                }
+		        }
+
           		$option_data[] = array(
             		'name'  => $option['name'],
-            		'value' => $option['value']
+            		'value' => $value,
+			        'title' => $title
           		);
         	}
 			

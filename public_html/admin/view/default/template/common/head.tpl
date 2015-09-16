@@ -50,6 +50,17 @@
 ?>
 <script type="text/javascript">
 $(document).ready(function () {
+
+	//system check warnings
+	<?php if($system_error) { ?>
+		error_alert('<?php echo $system_error; ?>', false);
+	<?php } ?>
+	<?php if($system_warning) { ?>
+		warning_alert('<?php echo $system_warning; ?>', false);
+	<?php } ?>
+	<?php if($system_notice) { ?>
+		info_alert('<?php echo $system_notice; ?>', false);
+	<?php } ?>
   
 	numberSeparators = {decimal:'<?php echo $decimal_point; ?>', thousand:'<?php echo $thousand_point; ?>'};
 
@@ -92,23 +103,28 @@ var wrapConfirmDelete = function(){
 }
 
 $(document).on('change', wrapConfirmDelete);
+/**
+ *
+ * @param textarea_id - id of textarea that need to wrap without # as prefix
+ * @param options - CKEDITOR options
+ * @return CKEDITOR instance
+ */
+var wrapCKEditor = function(textarea_id, options){
+	var cke;
+	if(textarea_id == undefined || textarea_id.length < 1 ){
+		return {};
+	}
 
-var wrapCKEditor = function(mode){
-	$('.ml_ckeditor > textarea').each(function () {
-		var id = $(this).attr('id');
-		if (mode == 'add') {
-			try{
-				CKEDITOR.replace(id, {
-					language: '<?php echo $language_code; ?>'
-				});
-			}catch(e){}
-		} else {
-			var editor = CKEDITOR.instances[id];
-			if (editor) {
-				editor.destroy(true);
-			}
-		}
-	});
+	if(options == undefined ){
+		options = {};
+	}
+
+	options['language'] = '<?php echo $language_code; ?>';
+
+	try{
+		cke = CKEDITOR.replace(textarea_id, options);
+	}catch(e){}
+	return cke;
 }
 
 //periodical updater of new message notifier

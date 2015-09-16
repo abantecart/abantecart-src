@@ -16,9 +16,7 @@ echo ${$header}; ?>
 <?php if ( !empty( ${$header_bottom} ) ) { ?>
 <!-- header_bottom blocks placeholder -->
 	<div class="container-fluid">
-		<div class="col-md-12">
 	    <?php echo ${$header_bottom}; ?>
-	  	</div>
 	</div>
 <!-- header_bottom blocks placeholder -->
 <?php } ?>

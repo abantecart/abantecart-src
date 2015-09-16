@@ -41,7 +41,7 @@ class ControllerResponsesSettingTemplateImage extends AController {
 			$img = HTTPS_IMAGE . 'no_image.jpg';
 		}
 
-		$edit = $this->html->getSecureURL('setting/setting', '&active=appearance&tmpl_id='.$template);
+		$edit = $this->html->getSecureURL('design/template/edit', '&tmpl_id='.$template);
 		$html = '<img src="' . $img . '" alt="" title="" />';
 		$html .= '<a class="btn btn-default" href='.$edit.'><i class="template_edit fa fa-gear fa-fw fa-lg"></i> '.$this->language->get('text_edit').'</a>';  		
 

@@ -1361,7 +1361,7 @@ CREATE TABLE `ac_product_options` (
   `element_type` char(1) NOT NULL DEFAULT 'I',
   `required` smallint(1) NOT NULL default '0',
   `regexp_pattern` varchar(255) NOT NULL default '',
-	`settings`			text COLLATE utf8_general_ci,
+  `settings` text COLLATE utf8_general_ci,
   PRIMARY KEY (`product_option_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
 
@@ -10056,8 +10056,8 @@ CREATE TABLE `ac_contents_to_stores` (
 DROP TABLE IF EXISTS `ac_blocks`;
 CREATE TABLE `ac_blocks` (
   `block_id` int(10) NOT NULL auto_increment,
-  `block_txt_id` varchar(40) NOT NULL,
-  `controller` varchar(120) NOT NULL,
+  `block_txt_id` varchar(255) NOT NULL,
+  `controller` varchar(255) NOT NULL,
   `date_added` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `date_modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY  (`block_id`)
@@ -10155,7 +10155,7 @@ DROP TABLE IF EXISTS `ac_block_templates`;
 CREATE TABLE `ac_block_templates` (
   `block_id` int(10) NOT NULL auto_increment,
   `parent_block_id` int(10) NOT NULL DEFAULT 0, -- Placeholder where this block can be placed. 0 - any location
-  `template` varchar(100) NOT NULL,
+  `template` varchar(255) NOT NULL,
   `date_added` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `date_modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY  (`block_id`, `parent_block_id`)
@@ -11364,7 +11364,7 @@ VALUES  (11,'text_abantecart',111),
 -- ITEM_URL
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`) 
 VALUES  (12,'window.open(\'http://www.abantecart.com\');',111),
-        (12,'window.open(\'http://www.abantecart.com/ecommerce-documentation\');',112),
+        (12,'window.open(\'http://docs.abantecart.com\');',112),
         (12,'window.open(\'http://forum.abantecart.com\');',113),
         (12,'window.open(\'http://marketplace.abantecart.com\');',114);
 -- PARENT_ID
@@ -11401,8 +11401,8 @@ VALUES  (10,'template',131),
         (10,'blocks',133),
         (10,'menu',134),
         (10,'content',135),
-		    (10,'banner_manager',136),
-		    (10,'forms_manager',200);
+		(10,'banner_manager',136),
+		(10,'forms_manager',200);
 -- ITEM_TEXT
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`) 
 VALUES  (11,'text_templates',131),
@@ -11414,7 +11414,7 @@ VALUES  (11,'text_templates',131),
         (11,'forms_manager_name',200);
 -- ITEM_URL
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`) 
-VALUES  (12,'extension/extensions/template',131),
+VALUES  (12,'design/template',131),
         (12,'design/layout',132),
         (12,'design/blocks',133),
         (12,'design/menu',134),
@@ -11986,7 +11986,7 @@ VALUES  (20, NOW(),'1');
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
 VALUES  (21,'AbanteCart','1');
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
-VALUES  (22,'1.2.3','1');
+VALUES  (22,'1.2.4','1');
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
 VALUES  (23,'','1');
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
@@ -12156,7 +12156,7 @@ VALUES
   ( 207,1,'Icon Category', '', '', '', '<i class="fa fa-folder-open"></i>&nbsp;', NOW() ),
   ( 208,1,'Icon Product', '', '', '', '<i class="fa fa-cubes"></i>&nbsp;', NOW() ),
   ( 209,1,'Icon Manufacturer', '', '', '', '<i class="fa fa-bookmark-o"></i>&nbsp;', NOW() ),
-  ( 210,1,'Icon Download', '', '', '', '<i class="fa fa-upload"></i>&nbsp;', NOW() ),
+  ( 210,1,'Icon Download', '', '', '', '<i class="fa fa-download"></i>&nbsp;', NOW() ),
   ( 211,1,'Icon Review', '', '', '', '<i class="fa fa-comment-o"></i>&nbsp;', NOW() ),
   ( 212,1,'Icon Attributes', '', '', '', '<i class="fa fa-ticket"></i>&nbsp;', NOW() ),
   ( 213,1,'Icon Extensions', '', '', '', '<i class="fa fa-th"></i>&nbsp;', NOW() ),
@@ -12165,8 +12165,8 @@ VALUES
   ( 216,1,'Icon Templates', '', '', '', '<i class="fa fa-outdent"></i>&nbsp;', NOW() ),
   ( 217,1,'Icon Languages', '', '', '', '<i class="fa fa-language"></i>&nbsp;', NOW() ),
   ( 218,1,'Icon Total', '', '', '', '<i class="fa fa-sign-in"></i>&nbsp;', NOW() ),
-  ( 219,1,'Icon Add extension', '', '', '', '<i class="fa fa-paperclip"></i>&nbsp;', NOW() ),
-  ( 220,1,'Icon Extensions stores', '', '', '', '<i class="fa fa-arrows-alt"></i>&nbsp;', NOW() ),
+  ( 219,1,'Icon Add extension', '', '', '', '<i class="fa fa-magic"></i>&nbsp;', NOW() ),
+  ( 220,1,'Icon Get Extensions', '', '', '', '<i class="fa fa-cloud-download"></i>&nbsp;', NOW() ),
   ( 221,1,'Icon Order', '', '', '', '<i class="fa fa-flag-checkered"></i>&nbsp;', NOW() ),
   ( 222,1,'Icon Customer', '', '', '', '<i class="fa fa-users"></i>&nbsp;', NOW() ),
   ( 223,1,'Icon Customer group', '', '', '', '<i class="fa fa-book"></i>&nbsp;', NOW() ),

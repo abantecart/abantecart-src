@@ -156,24 +156,20 @@ class ModelToolMPAPI extends Model {
 		if( $params['purchased_only'] ){
 			$get_params['purchased_only'] = $params['purchased_only'];	
 			$get_params['rt'] = 'a/product/filter';
-			$output['products'] = $this->send( $connect, $get_params);
-			
+			$output['products'] = $this->send( $connect, $get_params);			
 		} elseif (has_value($params['category_id'])){
 			// get products of category
 			$get_params['rt'] = 'a/product/filter';
 			$get_params['category_id'] = (int)$params['category_id'];
 			$output['products'] = $this->send( $connect, $get_params);
-			
 		} elseif (has_value($params['keyword'])){//get products by keyword
 			$get_params['rt'] = 'a/product/filter';
 			$get_params['keyword'] = $params['keyword'];
 			$output['products'] = $this->send( $connect, $get_params );
-			
 		} else {
 			//default latest listing
 			$get_params['rt'] = 'a/product/filter';
 			$output['products'] = $this->send( $connect, $get_params );
-			
 		}
 
 		//prepare extensions for listing
@@ -183,7 +179,11 @@ class ModelToolMPAPI extends Model {
 			foreach($output['products']['rows'] as &$product){
 				$info = $product['cell'];
 				$info['rating'] = (int)$info['rating'];
-				$info['description'] = substr(strip_tags(html_entity_decode(str_replace('&nbsp;','',$info['description']),ENT_QUOTES)),0,344).'...';
+				$info['description'] = substr(
+					strip_tags(html_entity_decode(str_replace('&nbsp;','',$info['description']),ENT_QUOTES)),
+					0,
+					344
+				).'...';
 
 				$info['price'] = $info['price']>0 ? $this->currency->format($info['price'],'USD',1) : $this->language->get('text_free');
 

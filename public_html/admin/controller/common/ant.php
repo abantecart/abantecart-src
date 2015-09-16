@@ -34,11 +34,6 @@ class ControllerCommonANT extends AController {
 			return null;
 		}
 
-		// check for updates
-		$this->loadModel('tool/updater');
-		$this->model_tool_updater->check4updates();
-
-
 		if (!has_value($this->session->data['ant_messages']['date_modified'])) {
 			unset($this->session->data['ant_messages']);
 		}
@@ -52,16 +47,16 @@ class ControllerCommonANT extends AController {
 		//init controller data
 		$this->extensions->hk_InitData($this, __FUNCTION__);
 
-		$url = "/?option=com_antresponses&format=raw";
+		$url = "/index.php?option=com_antresponses&format=raw";
 		$url .= "&store_id=" . UNIQUE_ID;
 		$url .= "&store_ip=" . $_SERVER ['SERVER_ADDR'];
 		$url .= "&store_url=" . HTTP_SERVER;
 		$url .= "&software_name=AbanteCart";
 		$url .= "&store_version=" . VERSION;
 		$url .= "&language_code=" . $this->request->cookie ['language'];
-		if ($this->request->cookie['new_cart']) {
+		//check if user login first time 
+		if (!$this->user->getLastLogin()) {
 			$url .= "&new_cart=1";
-			setcookie("new_cart", 0, 0, "/");
 		}
 
 		//send extension info
@@ -72,15 +67,29 @@ class ControllerCommonANT extends AController {
 			}
 		}
 
-		$connect = new AConnect ();
+		//do connect without any http-redirects
+		$connect = new AConnect (true, true);
 		$result = $connect->getResponse($url);
 		$this->session->data ['ant_messages'] = array(); // prevent requests in future at this session
 		// insert new messages in database
 		if ($result && is_array($result)) {
 			//set array for check response
-			$check_array = array('message_id', 'type', 'date_added', 'date_modified', 'start_date', 'end_date',
-					'priority', 'title', 'description', 'version', 'prior_version', 'html',
-					'url', 'published', 'language_code');
+			$check_array = array(
+					'message_id',
+					'type',
+					'date_added',
+					'date_modified',
+					'start_date',
+					'end_date',
+					'priority',
+					'title',
+					'description',
+					'version',
+					'prior_version',
+					'html',
+					'url',
+					'published',
+					'language_code');
 			$banners = array();
 			foreach ($result as $notify) {
 				$tmp = array();
@@ -113,5 +122,9 @@ class ControllerCommonANT extends AController {
 		}
 		// in case when answer from server is empty
 		$this->session->data['ant_messages']['date_modified'] = time();
+
+		// check for extensions updates
+		$this->loadModel('tool/updater');
+		$this->model_tool_updater->check4updates();
 	}
 }

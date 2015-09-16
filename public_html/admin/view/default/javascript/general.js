@@ -251,22 +251,22 @@ jQuery(document).ready(function() {
 			$.removeCookie("sticky-header");
 	   		$('body').removeClass('stickyheader');			
 	   		$('.sticky_header').removeClass('panel_frozen');
-	   		$('.sticky_header').removeClass('fa-dot-circle-o');
-	   		$('.sticky_header').addClass('fa-circle-o');
+	   		$('.sticky_header').removeClass('fa-toggle-on');
+	   		$('.sticky_header').addClass('fa-toggle-off');
 		} else {
 	   		$('body').addClass('stickyheader');
 	   		$.cookie("sticky-header", 1);	
 	   		$('.sticky_header').addClass('panel_frozen');
-	   		$('.sticky_header').addClass('fa-dot-circle-o');
-	   		$('.sticky_header').removeClass('fa-circle-o');
+	   		$('.sticky_header').addClass('fa-toggle-on');
+	   		$('.sticky_header').removeClass('fa-toggle-off');
 		}
 	});
 	
 	if(jQuery.cookie('sticky-header')) {
 		$('body').addClass('stickyheader');
 		$('.sticky_header').addClass('panel_frozen');
-   		$('.sticky_header').addClass('fa-dot-circle-o');
-   		$('.sticky_header').removeClass('fa-circle-o');
+   		$('.sticky_header').addClass('fa-toggle-on');
+   		$('.sticky_header').removeClass('fa-toggle-off');
 	}  
    
 	$('.sticky_left').click(function(){
@@ -274,21 +274,21 @@ jQuery(document).ready(function() {
 			$.removeCookie("sticky-leftpanel");
 	   		$('.leftpanel').removeClass('sticky-leftpanel');		
 	   		$('.sticky_left').removeClass('panel_frozen');
-	   		$('.sticky_left').removeClass('fa-dot-circle-o');
-	   		$('.sticky_left').addClass('fa-circle-o');
+	   		$('.sticky_left').removeClass('fa-toggle-on');
+	   		$('.sticky_left').addClass('fa-toggle-off');
 		} else {
 	   		$('.leftpanel').addClass('sticky-leftpanel');
 	   		$.cookie("sticky-leftpanel", 1);	
 	   		$('.sticky_left').addClass('panel_frozen');
-	   		$('.sticky_left').addClass('fa-dot-circle-o');
-	   		$('.sticky_left').removeClass('fa-circle-o');
+	   		$('.sticky_left').addClass('fa-toggle-on');
+	   		$('.sticky_left').removeClass('fa-toggle-off');
 		}
 	});
 	if(jQuery.cookie('sticky-leftpanel')) {
 		$('.leftpanel').addClass('sticky-leftpanel');
 		$('.sticky_left').addClass('panel_frozen');
-  		$('.sticky_left').addClass('fa-dot-circle-o');
-   		$('.sticky_left').removeClass('fa-circle-o');
+  		$('.sticky_left').addClass('fa-toggle-on');
+   		$('.sticky_left').removeClass('fa-toggle-off');
 	}   
    
 	if(jQuery.cookie('leftpanel-collapsed')) {
@@ -896,3 +896,136 @@ var getUrlParameter = function (sParam) {
     }
 }
 
+var searchSectionIcon = function(section) {
+    switch(section) {
+        case 'commands':
+            return '<i class="fa fa-bullhorn fa-fw"></i> ';
+            break;
+        case 'orders':
+            return '<i class="fa fa-money fa-fw"></i> ';
+            break;
+        case 'customers':
+            return '<i class="fa fa-group fa-fw"></i> ';
+            break;
+        case 'product_categories':
+            return '<i class="fa fa-tags fa-fw"></i> ';
+            break;
+        case 'products':
+            return '<i class="fa fa-tag fa-fw"></i> ';
+            break;
+        case 'reviews':
+            return '<i class="fa fa-comment fa-fw"></i> ';
+            break;
+        case 'manufacturers':
+            return '<i class="fa fa-bookmark fa-fw"></i> ';
+            break;
+        case 'languages':
+            return '<i class="fa fa-language fa-fw"></i> ';
+            break;
+        case 'pages':
+            return '<i class="fa fa-clipboard fa-fw"></i> ';
+            break;
+        case 'settings':
+            return '<i class="fa fa-cogs fa-fw"></i> ';
+            break;
+        case 'messages':
+            return '<i class="fa fa-weixin fa-fw"></i> ';
+            break;
+        case 'extensions':
+            return '<i class="fa fa-puzzle-piece fa-fw"></i> ';
+            break;
+        case 'downloads':
+            return '<i class="fa fa-download fa-fw"></i> ';
+            break;
+        default:
+            return '<i class="fa fa-info-circle fa-fw"></i> ';
+            break;
+    }
+}
+
+var updateANT = function (url) {
+    $.ajax({
+    	type: 'POST',
+    	url: url,
+    	dataType: 'json',		
+    	success: function(data) {
+    		$('.ant_window').find('span.badge').remove();
+    	}
+    });
+}
+
+var loadAndShowData = function (url, $elem) {
+    $.ajax({
+    	url: url,
+    	dataType: 'text',		
+    	success: function(data) {
+    		console.log(data);
+    		$elem.html(data);
+    	}
+    });
+}
+		
+/*function adds Resource LIbrary Button into CKEditor
+* cke - CKEDITOR js instance
+* */
+function addRL2CKE(cke){
+    cke.addCommand("openCKRLModal", {
+        exec: function(edt) {
+            window.parent.openCKRLModal(cke);
+            return  null;
+        },
+        modes: { wysiwyg:1,source:1 }
+    });
+
+    cke.ui.addButton('ck_rl_button', {
+        label: "Resource Library",
+        command: 'openCKRLModal',
+        toolbar: 'abantecart'
+    });
+}
+
+function openCKRLModal(cke){
+	modalscope.mode = 'single';
+	mediaDialog('image', 'list_library');
+
+	$('#rl_modal').on('shown.bs.modal', function () {
+
+		$('#rl_modal').unbind("hidden.bs.modal").on("hidden.bs.modal", function (e) {
+			var item = modalscope.selected_resource;
+			if(item.length<1){ return null;}
+
+			var insert_html='';
+			if( item.resource_path != undefined && item.resource_path.length>0 ){
+				var type_name = item.type_name;
+				insert_html = 'resources/'+type_name+'/'+item.resource_path;
+				if(type_name=='image'){
+					insert_html = '<img src="'+insert_html+'">';
+				}else{
+					//TODO : need to add other RL-types support
+					return null;
+				}
+			}else if(item.resource_code!=undefined && item.resource_code.length>0){
+				insert_html = item.resource_code;
+			}
+
+            InsertHtml(cke, insert_html);
+            modalscope.selected_resource = {};
+
+            function InsertHtml(editor, value) {
+                if(!value || value.length<1){
+                    info_alert('Resource Library: Nothing Was Pasted.', true);
+                    return null;
+                }
+
+                if (editor.mode == 'wysiwyg') {
+                     editor.insertHtml( value );
+                } else { //for source mode
+                    var caretPos = jQuery('textarea.cke_source')[0].selectionStart;
+                    var textAreaTxt = jQuery('textarea.cke_source').val();
+                    jQuery('textarea.cke_source').val(textAreaTxt.substring(0, caretPos) + value + textAreaTxt.substring(caretPos) );
+                }
+            }
+
+			});
+	});
+}

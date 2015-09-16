@@ -27,11 +27,20 @@ class ModelToolGlobalSearch extends Model {
 	 * @var object Registry
 	 */
 	public $registry;
+	
+	/**
+	 * commans awaialable in the system
+	 *
+	 * @var array
+	 */
+	public $commands;
+	
 	/**
 	 * array with descriptions of controller for search
 	 * @var array
 	 */
 	public $results_controllers = array(
+		"commands" => array(),
 		"orders" => array(
 			'alias' => 'order',
 			'id' => 'order_id',
@@ -96,6 +105,17 @@ class ModelToolGlobalSearch extends Model {
 			'response' => '')
 	);
 
+
+	public function __construct($registry) {
+		parent::__construct($registry);
+
+		$text_data = $this->language->getASet('common/action_commands');	
+		$keys = preg_grep("/^command.*/", array_keys($text_data));
+		foreach($keys as $key) {
+			$this->commands[$key] = $text_data[$key];
+		}
+	}
+
 	/**
 	 * function returns list of accessible search categories
 	 *
@@ -121,16 +141,18 @@ class ModelToolGlobalSearch extends Model {
 	 * @return int
 	 */
 	public function getTotal($search_category, $keyword) {
-
-
 		$needle = $this->db->escape(mb_strtolower(htmlentities($keyword, ENT_QUOTES)));
 		$all_languages = $this->language->getActiveLanguages();
+		$current_store_id = !isset($this->session->data['current_store_id']) ? 0 : $this->session->data['current_store_id'];
 		$search_languages = array();
 		foreach($all_languages as $l){
 			$search_languages[] = (int)$l['language_id'];
 		}
 
 		switch ($search_category) {
+			case 'commands' :
+				$output = $this->_possibleCommands($needle, 'total');
+				break;
 			case 'product_categories' :
 				$sql = "SELECT count(*) as total
 						FROM " . $this->db->table("category_descriptions") . " c 
@@ -285,21 +307,21 @@ class ModelToolGlobalSearch extends Model {
 						FROM " . $this->db->table("settings") . " s
 						LEFT JOIN " . $this->db->table("extensions") . " e ON s.`group` = e.`key`
 						LEFT JOIN " . $this->db->table("language_definitions") . " l
-										ON l.language_key = CONCAT('entry_',REPLACE(s.`key`,'config_',''))
-						LEFT JOIN " . $this->db->table("stores") . " st ON st.`store_id` = s.`store_id`
+										ON l.language_key like CONCAT(s.`key`,'%')
 						WHERE (LOWER(`value`) like '%" . $needle . "%')
 								OR
 								(LOWER(s.`key`) like '%" . $needle . "%')
+							AND s.`store_id` ='".( int )$current_store_id."'
 						UNION
 						SELECT COUNT(s.setting_id) as total
 						FROM " . $this->db->table("language_definitions") . " l
 						LEFT JOIN " . $this->db->table("settings") . " s ON l.language_key = CONCAT('entry_',REPLACE(s.`key`,'config_',''))
-						LEFT JOIN " . $this->db->table("stores") . " st ON st.`store_id` = s.`store_id`
 						WHERE (LOWER(l.language_value) like '%" . $needle . "%'
 								OR LOWER(l.language_value) like '%" . $needle . "%'
 								OR LOWER(l.language_key) like '%" . $needle . "%' )
 							AND block='setting_setting'
 							AND l.language_id ='".( int )$this->config->get('storefront_language_id')."'
+							AND s.`store_id` ='".( int )$current_store_id."'
 							AND setting_id>0";
 				$result = $this->db->query($sql);
 				foreach($result->rows as $row){
@@ -316,7 +338,7 @@ class ModelToolGlobalSearch extends Model {
 			case "extensions" :
 				$sql = "SELECT COUNT( DISTINCT `key`) as total
 						FROM " . $this->db->table("extensions") . " 
-						WHERE (LOWER(`key`) like '%" . $needle . "%') AND `type` = 'extensions'";
+						WHERE LOWER(`key`) like '%" . $needle . "%' AND `type` <> 'total'";
 				$result = $this->db->query($sql);
 				$output = $result->row ['total'];
 				break;
@@ -346,7 +368,6 @@ class ModelToolGlobalSearch extends Model {
 	 */
 	public function getResult($search_category, $keyword, $mode = 'listing') {
 
-
 		// two variants of needles for search: with and without html-entities
 		$needle = $this->db->escape(mb_strtolower(htmlentities($keyword, ENT_QUOTES)));
 		$needle2 = $this->db->escape(mb_strtolower($keyword));
@@ -363,12 +384,17 @@ class ModelToolGlobalSearch extends Model {
 		}
 
 		$all_languages = $this->language->getActiveLanguages();
+		$current_store_id = !isset($this->session->data['current_store_id']) ? 0 : $this->session->data['current_store_id'];
 		$search_languages = array();
 		foreach($all_languages as $l){
 			$search_languages[] = (int)$l['language_id'];
 		}
 
 		switch ($search_category) {
+			case 'commands' :
+				$result = array_slice($this->_possibleCommands($needle), $offset, $rows_count);
+				break;
+
 			case 'product_categories' :
 				$sql = "SELECT c.category_id, c.name as title, c.name as text, c.meta_keywords as text2, c.meta_description as text3, c.description as text4
 						FROM " . $this->db->table("category_descriptions") . " c 
@@ -566,30 +592,30 @@ class ModelToolGlobalSearch extends Model {
 				$sql = "SELECT setting_id,
 								CONCAT(`group`,'-',s.`key`,'-',s.store_id) as active,
 								s.store_id,
-								CONCAT( COALESCE(l.language_value,s.`key`), ' - ', COALESCE(st.`alias`,'Default' )) as title,
+								COALESCE(l.language_value,s.`key`) as title,
 								COALESCE(l.language_value,s.`key`) as text,
 								e.`key` as extension, e.`type` as type
 						FROM " . $this->db->table("settings") . " s
 						LEFT JOIN " . $this->db->table("extensions") . " e ON s.`group` = e.`key`
 						LEFT JOIN " . $this->db->table("language_definitions") . " l
-										ON l.language_key = CONCAT('entry_',REPLACE(s.`key`,'config_',''))
-						LEFT JOIN " . $this->db->table("stores") . " st ON st.`store_id` = s.`store_id`
+										ON l.language_key like CONCAT(s.`key`,'%')
 						WHERE (LOWER(`value`) like '%" . $needle . "%'
 								OR LOWER(`value`) like '%" . $needle2 . "%'
 								OR LOWER(s.`key`) like '%" . $needle . "%')
+							AND s.`store_id` ='".( int )$current_store_id."'
 						UNION
 						SELECT s.setting_id,
 								CONCAT(s.`group`,'-',s.`key`,'-',s.store_id) as active,
 								s.store_id,
-								CONCAT(`group`,' -> ',COALESCE(l.language_value,s.`key`), ' - ', COALESCE(st.`alias`,'Default' ) ) as title,
+								CONCAT(`group`,' -> ',COALESCE( l.language_value,s.`key` )) as title,
 						CONCAT_WS(' >> ',l.language_value) as text, '', 'core'
 						FROM " . $this->db->table("language_definitions") . " l
 						LEFT JOIN " . $this->db->table("settings") . " s ON l.language_key = CONCAT('entry_',REPLACE(s.`key`,'config_',''))
-						LEFT JOIN " . $this->db->table("stores") . " st ON st.`store_id` = s.`store_id`
 						WHERE (LOWER(l.language_value) like '%" . $needle . "%'
 								OR LOWER(l.language_value) like '%" . $needle . "%'
 								OR LOWER(l.language_key) like '%" . $needle . "%' )
 							AND block='setting_setting' AND l.language_id ='".( int )$this->config->get('storefront_language_id')."'
+							AND s.`store_id` ='".( int )$current_store_id."'
 							AND setting_id>0
 						LIMIT " . $offset . "," . $rows_count;
 
@@ -598,8 +624,10 @@ class ModelToolGlobalSearch extends Model {
 				$result=array();
 				foreach($rows as $row){
 					if(!isset($result[$row['setting_id']])){
-						$row['title'] = str_replace(array("	","  ","\n"),"",strip_tags($row['title']));
-						$row['text'] = str_replace(array("	","  ","\n"),"",strip_tags($row['text']));
+						//remove all text between span tags
+						$regex = '/<span(.*)span>/';
+						$row['title'] = str_replace(array("	","  ","\n"),"",strip_tags(preg_replace($regex, '', $row['title'])));
+						$row['text'] = str_replace(array("	","  ","\n"),"",strip_tags(preg_replace($regex, '', $row['text'])));
 						$result[$row['setting_id']] = $row;
 					}
 				}
@@ -617,7 +645,7 @@ class ModelToolGlobalSearch extends Model {
 			case "extensions" :
 				$sql = "SELECT DISTINCT `key` as extension, `key` as title, `key` as text
 						FROM " . $this->db->table("extensions") . " e						
-						WHERE (LOWER(`key`) like '%" . $needle . "%') AND `type`='extensions'
+						WHERE LOWER(`key`) like '%" . $needle . "%' AND `type` <> 'total'
 						LIMIT " . $offset . "," . $rows_count;
 
 				$result = $this->db->query($sql);
@@ -641,10 +669,14 @@ class ModelToolGlobalSearch extends Model {
 		}
 
 		if ($mode == 'listing') {
-			$result = $this->_prepareResponse($keyword,
-				$this->results_controllers[$search_category]['page'],
-				$this->results_controllers[$search_category]['id'],
-				$result);
+			if($search_category == 'commands') {
+				$result = $this->_prepareCommandsResponse($result);
+			} else {
+				$result = $this->_prepareResponse($keyword,
+					$this->results_controllers[$search_category]['page'],
+					$this->results_controllers[$search_category]['id'],
+					$result);
+			}
 		}
 		foreach ($result as &$row) {
 			$row['controller'] = $this->results_controllers[$search_category]['page'];
@@ -719,9 +751,7 @@ class ModelToolGlobalSearch extends Model {
 					}else{
 						$url = $this->results_controllers['extensions']['page'];
 					}
-
 				}
-
 
 				if (is_array($temp_key_field)) {
 					foreach ($temp_key_field as $var) {
@@ -737,10 +767,48 @@ class ModelToolGlobalSearch extends Model {
 			}
 		} else {
 			$this->load->language('tool/global_search');
-			$output [0] = array(
-				"text" => $this->language->get('no_results_message'));
+			$output [0] = array("text" => $this->language->get('no_results_message'));
 		}
 		return $output;
+	}
+
+	private function _prepareCommandsResponse($table = array()) {
+		$output = array();
+		foreach ($table as $row) {
+			$tmp = array();
+			$tmp ['text'] = '<a href="' . $row['url'] . '" target="_blank" title="' . $row['text'] . '">' . $row['title'] . '</a>';
+			$output [] = $tmp;
+		}
+		return $output;
+	}
+	/**
+	 * function to get possible commands for the look up
+	 *
+	 * @param string $keyword
+	 * @param string $mode ('total')
+	 * @return array
+	 */
+	private function _possibleCommands($keyword, $mode = '') {
+	
+		$comds_obj = new AdminCommands();
+		$this->commands = $comds_obj->commands;
+		$result = $comds_obj->getCommands($keyword);
+
+		if($mode == 'total'){
+			return count($result['found_actions']);
+		}
+
+		$ret = array();
+		if($result['found_actions']) {
+			foreach($result['found_actions'] as $comnd) {
+				$ret[] = array(
+					'text' => $result['command']." ".$comnd['title']." ".$result['request'],
+					'title' => $result['command']." ".$comnd['title']." ".$result['request'],
+					'url' => $comnd['url']
+				);						
+			}
+		}
+		return $ret;
 	}
 
 }

@@ -60,4 +60,8 @@
         <key>text_extensions</key>
         <value><![CDATA[Extensiones]]></value>
     </definition>
+    <definition>
+        <key>text_commands</key>
+        <value><![CDATA[Comandos rápidos]]></value>
+    </definition>
 </definitions>

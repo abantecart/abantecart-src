@@ -138,6 +138,16 @@ class ControllerPagesToolBackup extends AController {
 		$this->loadModel('tool/backup');
 
 		$this->data['tables'] = $this->model_tool_backup->getTables();
+		//if we cannot to get table list from database -show error
+		if( $this->data['tables']===false || sizeof($this->data['tables'])==0 ){
+			$error = "Error: Can't create sql dump of database during backup. Cannot obtain table list. ";
+			if(DB_DRIVER=='mysql'){
+				$error .= 'Try to change db-driver to "amysqli" in your /system/config.php file.';
+			}
+			$this->session->data['error'] = $error;
+			$this->redirect($this->html->getSecureURL('tool/backup'));
+		}
+
 		$table_sizes = $this->model_tool_backup->getTableSizes($this->data['tables']);
 		$tables = array();
 		$db_size = 0;

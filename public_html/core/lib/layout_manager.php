@@ -35,6 +35,7 @@ class ALayoutManager{
 	private $pages = array();
 	private $layouts = array();
 	private $blocks = array();
+	//Layout palaceholder parent blocks present in any template
 	private $main_placeholders = array(
 			'header',
 			'header_bottom',
@@ -43,7 +44,8 @@ class ALayoutManager{
 			'content_bottom',
 			'column_right',
 			'footer_top',
-			'footer'
+			'footer',
+			'content'
 	);
 	private $tmpl_id;
 	private $layout_id;
@@ -66,9 +68,15 @@ class ALayoutManager{
 	const FOOTER_MAIN = 8;
 	const FIXED_POSITIONS = 8;
 
-	//Layout Manager Class to handle layout in the admin
-	//NOTES: Object can be constructed with specific template, page or layout id provided
-	//	     Possible to create an object with no specifics to access layout methods. 
+	/**
+	 *  Layout Manager Class to handle layout in the admin
+	 *  NOTES: Object can be constructed with specific template, page or layout id provided
+	 * Possible to create an object with no specifics to access layout methods.
+	 * @param string $tmpl_id
+	 * @param string $page_id
+	 * @param string $layout_id
+	 * @throws AException
+	 */
 	public function __construct($tmpl_id = '', $page_id = '', $layout_id = ''){
 		if(!IS_ADMIN){ // forbid for non admin calls
 			throw new AException (AC_ERR_LOAD, 'Error: permission denied to change page layout');
@@ -77,6 +85,33 @@ class ALayoutManager{
 		$this->registry = Registry::getInstance();
 
 		$this->tmpl_id = !empty ($tmpl_id) ? $tmpl_id : $this->config->get('config_storefront_template');
+
+		//do check for existance of storefront template in case when $tmpl_id not set
+		if( empty($tmpl_id) ){
+			//check is template an extension
+			$template = $this->config->get('config_storefront_template');
+			$dir = $template . DIR_EXT_STORE . DIR_EXT_TEMPLATE . $template;
+			$enabled_extensions = $this->extensions->getEnabledExtensions();
+
+			if (in_array($template, $enabled_extensions) && is_dir(DIR_EXT . $dir)) {
+				$is_valid = true;
+			} else {
+				$is_valid = false;
+			}
+
+			//check if this is template from core
+			if (!$is_valid && is_dir(DIR_ROOT . '/storefront/view/' . $template)) {
+				$is_valid = true;
+			}
+
+			if(!$is_valid){
+				$this->tmpl_id = 'default';
+			}else{
+				$this->tmpl_id = $template;
+			}
+		}else{
+			$this->tmpl_id = $tmpl_id;
+		}
 
 		//load all pages specific to set template. No cross template page/layouts
 		$this->pages = $this->getPages();
@@ -106,8 +141,9 @@ class ALayoutManager{
 		if(count($this->active_layout) == 0){
 			$this->active_layout = $this->getLayouts(0);
 			if(count($this->active_layout) == 0){
-				$message_text = 'No layout found for page_id/controller ' . $this->page_id . '::' . $this->page ['controller'] . '!';
+				$message_text = 'No template layout found for page_id/controller ' . $this->page_id . '::' . $this->page ['controller'] . '!';
 				$message_text .= ' Requested data: template: ' . $tmpl_id . ', page_id: ' . $page_id . ', layout_id: ' . $layout_id;
+				$message_text .= '  '. genExecTrace('full');
 				throw new AException (AC_ERR_LOAD_LAYOUT, $message_text);
 			}
 		}
@@ -123,10 +159,18 @@ class ALayoutManager{
 		$this->blocks = $this->_getLayoutBlocks();
 	}
 
+	/**
+	 * @param string $key
+	 * @return mixed
+	 */
 	public function __get($key){
 		return $this->registry->get($key);
 	}
 
+	/**
+	 * @param string $key
+	 * @param mixed $value
+	 */
 	public function __set($key, $value){
 		$this->registry->set($key, $value);
 	}
@@ -275,7 +319,10 @@ class ALayoutManager{
 		return $ret_arr;
 	}
 
-
+	/**
+	 * @param int $layout_id
+	 * @return array
+	 */
 	private function _getLayoutBlocks($layout_id = 0){
 		$store_id = (int)$this->config->get('config_store_id');
 		$layout_id = !$layout_id ? $this->layout_id : $layout_id;
@@ -309,6 +356,9 @@ class ALayoutManager{
 		return $blocks;
 	}
 
+	/**
+	 * @return array
+	 */
 	public function getAllBlocks(){
 		$store_id = (int)$this->config->get('config_store_id');
 		$language_id = (int)$this->language->getContentLanguageID();
@@ -509,7 +559,6 @@ class ALayoutManager{
 				$blocks [] = $block;
 			}
 		}
-
 		return $blocks;
 	}
 
@@ -521,8 +570,8 @@ class ALayoutManager{
 
 		foreach($this->main_placeholders as $placeholder){
 			$block = $this->getLayoutBlockByTxtId($placeholder);
-			if(!empty ($block)){
-				$blocks [$block['block_id']] = $block;
+			if(!empty($block)){
+				$blocks[$block['block_id']] = $block;
 				$children = $this->getBlockChildren($block['instance_id'], $block['block_id']);
 				//process special case of fixed location for header and footer
 				if($block['block_id'] == self::HEADER_MAIN
@@ -533,14 +582,18 @@ class ALayoutManager{
 						$children = $this->_buildChildtenBlocks($children, self::FIXED_POSITIONS);
 					}
 				}
-
-				$blocks [$block['block_id']] ['children'] = $children;
+				$blocks[$block['block_id']]['children'] = $children;
 			}
 		}
 
 		return $blocks;
 	}
 
+	/**
+	 * @param array $blocks
+	 * @param int $total_blocks
+	 * @return array
+	 */
 	private function _buildChildtenBlocks($blocks, $total_blocks){
 		$select_boxes = array();
 		$empty_block = array(
@@ -558,6 +611,11 @@ class ALayoutManager{
 		return $select_boxes;
 	}
 
+	/**
+	 * @param array $blocks_arr
+	 * @param int $position
+	 * @return int
+	 */
 	private function _find_block_by_postion($blocks_arr, $position){
 		foreach($blocks_arr as $index => $block_s){
 			if($block_s['position'] == $position){
@@ -1128,14 +1186,14 @@ class ALayoutManager{
 				}
 			}
 		}
-		// save block descriptions by pass
+		// save block descriptions bypass
 		$data['block_descriptions'] = !isset($data['block_descriptions']) && $data['block_description'] ? array($data['block_description']) : $data['block_descriptions'];
 		if($data['block_descriptions']){
 			foreach($data['block_descriptions'] as $block_description){
 				if(!isset($block_description ['language_id']) && $block_description ['language_name']){
-					$block_description ['language_id'] = $this->_getLanguageIdByName($block_description ['language_name']);
+					$block_description['language_id'] = $this->_getLanguageIdByName($block_description['language_name']);
 				}
-				if(!$block_description ['language_id']){
+				if(!$block_description['language_id']){
 					continue;
 				}
 				$this->saveBlockDescription($block_id, $block_description['block_description_id'], $block_description);
@@ -1201,9 +1259,9 @@ class ALayoutManager{
 		$block_id = (int)$block_id;
 		$custom_block_id = (int)$custom_block_id;
 		if(!$description['language_id']){
-			$this->errors = 'Error: Can\'t save custom block description, because language_id is empty!';
+			$description['language_id'] = $this->session->data['content_language_id'];
+			$this->errors = 'Warning: block description does not provide language. Current language id '.$description['language_id'].' is used!';
 			$this->log->write($this->errors);
-			return false;
 		}
 		// if id is set - update only given data
 		if($custom_block_id){
@@ -1543,7 +1601,10 @@ class ALayoutManager{
 		return true;
 	}
 
-
+	/**
+	 * @param int $page_id
+	 * @param int $layout_id
+	 */
 	private function _set_current_page($page_id = '', $layout_id = ''){
 		//find page used for this instance. If page_id is not specified for the instance, generic page/layout is used.
 		if(has_value($page_id) && has_value($layout_id)){
@@ -1627,9 +1688,8 @@ class ALayoutManager{
 			if($layout_id && $layout->action == 'insert'){
 				$layout->action = 'update';
 			}
-			//layouts
+			//Delete layout if requested and all it's part included
 			if($layout->action == "delete"){
-
 				if($layout_id){
 					$sql = array();
 					$sql[] = "DELETE FROM " . $this->db->table("pages_layouts") . " 
@@ -1638,6 +1698,20 @@ class ALayoutManager{
 							   WHERE  layout_id = '" . $layout_id . "'";
 					$sql[] = "DELETE FROM " . $this->db->table("layouts") . " 
 							   WHERE layout_id= " . $layout_id;
+					
+					//Delete Blocks if we are allowed
+					foreach($layout->blocks->block as $block){
+						if(!$block->block_txt_id){
+							continue;
+						}
+						//is this custom block?
+						if ($block->custom_block_txt_id) {
+							$this->_deleteCustomBlock($block, $layout_id);
+						} else {
+							$this->_deleteBlock($block, $layout_id);
+						}	
+					}
+					
 					foreach($sql as $query){
 						$this->db->query($query);
 					}
@@ -1646,7 +1720,7 @@ class ALayoutManager{
 			} elseif($layout->action == 'insert'){
 
 				if($layout_id){
-					$errmessage = 'Error: cannot add new layout (layout name: "' . $layout->name . '") into database because it already exists.';
+					$errmessage = 'Layout XML load error: Cannot add new layout (layout name: "' . $layout->name . '") into database because it already exists.';
 					$error = new AError ($errmessage);
 					$error->toLog()->toDebug();
 					$this->errors = 1;
@@ -1671,7 +1745,7 @@ class ALayoutManager{
 
 			} else{ // layout update
 				if(!$layout_id){
-					$errmessage = 'Error: cannot update layout (layout name: "' . $layout->name . '") because it not exists.';
+					$errmessage = 'Layout XML load error: Cannot update layout (layout name: "' . $layout->name . '") because it not exists.';
 					$error = new AError ($errmessage);
 					$error->toLog()->toDebug();
 					$this->errors = 1;
@@ -1761,18 +1835,20 @@ class ALayoutManager{
 				$query = "SELECT language_id FROM " . $this->db->table("languages") . " 
 											WHERE LOWER(name) = '" . $this->db->escape($page_description->language) . "'";
 				$result = $this->db->query($query);
-				$language_id = $result->row ? $result->row ['language_id'] : 0;
-
-				$this->language->replaceDescriptions('page_descriptions',
-						array('page_id' => (int)$page_id),
-						array((int)$language_id => array(
-								'name'        => $page_description->name,
-								'title'       => $page_description->title,
-								'seo_url'     => $page_description->seo_url,
-								'keywords'    => $page_description->keywords,
-								'description' => $page_description->description,
-								'content'     => $page_description->content
-						)));
+				//if loading language does not exists or installed, skip 
+				if($result->row) {
+					$language_id = $result->row['language_id'];
+					$this->language->replaceDescriptions('page_descriptions',
+							array('page_id' => (int)$page_id),
+							array((int)$language_id => array(
+									'name'        => $page_description->name,
+									'title'       => $page_description->title,
+									'seo_url'     => $page_description->seo_url,
+									'keywords'    => $page_description->keywords,
+									'description' => $page_description->description,
+									'content'     => $page_description->content
+							)));
+				}
 			}
 		}
 
@@ -1788,6 +1864,7 @@ class ALayoutManager{
 	private function _processBlock($layout, $block, $parent_instance_id = 0){
 		$instance_id = null;
 		$layout_id = (int)$layout->layout_id;
+		$layout_name = $layout->name;
 
 		if((string)$block->type){
 			$this->_processCustomBlock($layout_id, $block, $parent_instance_id);
@@ -1801,155 +1878,94 @@ class ALayoutManager{
 			return true;
 		}
 
-		//get block_id
+		$restricted = true;
+		if(!in_array($block->block_txt_id, $this->main_placeholders)) {
+			$restricted = false;
+		}	
+		//NOTE $restricted blocks can only be linked to layout. Can not be deleted or updated
+
+		//try to get block_id to see if it exists
 		$sql = "SELECT block_id
 				FROM " . $this->db->table("blocks") . " 
 				WHERE block_txt_id = '" . $this->db->escape($block->block_txt_id) . "'";
 		$result = $this->db->query($sql);
-		$block_id = ( int )$result->row ['block_id'];
+		$block_id = (int)$result->row ['block_id'];
 
 		$action = (string)$block->action;
 		if(!$block_id && in_array($action, array("", null, "update"))){
+			//if block does not exist, we need to insert new one
 			$action = 'insert';
 		}
 
-		if($action == 'delete'){
-			//Delete block and unlink from all layouts					
-			$sql = array();
-			$sql[] = "DELETE FROM " . $this->db->table("block_layouts") . " 
-					   WHERE block_id='" . $block_id . "' AND layout_id='" . $layout_id . "'";
-			// check if block used by another layouts					
-			$query = "SELECT *
-					  FROM " . $this->db->table("block_layouts") . " 
-					  WHERE block_id='" . $block_id . "' AND layout_id<>'" . $layout_id . "'";
-			$result = $this->db->query($query);
-			if(!$result->row){
-				/*	$sql [] = "DELETE FROM " . DB_PREFIX . "block_descriptions
-							   WHERE block_id='" . $block_id . "'";*/
-				$sql[] = "DELETE FROM " . $this->db->table("block_templates") . " 
-						   WHERE block_id='" . $block_id . "'";
-				$sql[] = "DELETE FROM " . $this->db->table("blocks") . " 
-						   WHERE block_id='" . $block_id . "'";
-			}
-			foreach($sql as $query){
-				$this->db->query($query);
-			}
-
-		} elseif($action == 'insert'){
-
-			//If exists same block with same block_txt_id, return error and finish					
+		if(has_value($block_id) && $action == 'delete'){
+			//try to delete the block if exists
+			$this->_deleteBlock($block, $layout_id);
+		} else if($action == 'insert'){
+			//If block exists with same block_txt_id, log error and continue					
 			if($block_id){
-				$errmessage = 'Error: cannot insert block (block_txt_id: "' . $block->block_txt_id . '") into database because it already exists.';
+				$errmessage = 'Layout ('.$layout_name.') XML error: Cannot insert block (block_txt_id: "' . $block->block_txt_id . '"). Block already exists!';
 				$error = new AError ($errmessage);
 				$error->toLog()->toDebug();
 				$this->errors = 1;
-
-			}
-
-			// if not exists - insert and get it's block_id
-			$sql = "INSERT INTO " . $this->db->table("blocks") . " (block_txt_id, controller,date_added) 
-					VALUES ('" . $this->db->escape($block->block_txt_id) . "', '" . $this->db->escape($block->controller) . "',NOW())";
-			$this->db->query($sql);
-			$block_id = $this->db->getLastId();
-
-			$position = (int)$block->position;
-			// if parent block exists
-			if($parent_instance_id && !$position){
-				$sql = "SELECT MAX(position) as maxpos
-						FROM " . $this->db->table("block_layouts") . " 
-						WHERE  parent_instance_id = " . ( int )$parent_instance_id;
-				$result = $this->db->query($sql);
-				$position = $result->row ['maxpos'] + 10;
-			}
-			$position = !$position ? 10 : $position;
-			$sql = "INSERT INTO " . $this->db->table("block_layouts") . " (layout_id,
-																block_id,
-																parent_instance_id,
-																position,
-																status,
-																date_added)
-					VALUES ('" . ( int )$layout_id . "',
-							'" . ( int )$block_id . "',
-							'" . ( int )$parent_instance_id . "',
-							'" . ( int )$position . "',
-							'" . 1 . "',
-							NOW())";
-			$this->db->query($sql);
-			$instance_id = $this->db->getLastId();
-
-			$sql = array();
-			// insert block's info
-			if($block->block_descriptions->block_description){
-				foreach($block->block_descriptions->block_description as $block_description){
-					$language_id = $this->_getLanguageIdByName(mb_strtolower((string)$block_description->language, 'UTF-8'));
-					$this->language->replaceDescriptions('block_descriptions',
-							array('instance_id' => (int)$instance_id,
-							      'block_id'    => (int)$block_id),
-							array((int)$language_id => array(
-									'name'        => (string)$block_description->name,
-									'title'       => (string)$block_description->title,
-									'description' => (string)$block_description->description,
-									'content'     => (string)$block_description->content
-							)));
-
+			} else {
+				//if block does not exists - insert and get a new block_id
+				$sql = "INSERT INTO " . $this->db->table("blocks") . " (block_txt_id, controller, date_added) 
+						VALUES ('" . $this->db->escape($block->block_txt_id) . "', '" . $this->db->escape($block->controller) . "',NOW())";
+				if (!$block->controller) {
+					$errmessage = 'Layout ('.$layout_name.') XML error: Missing controller for new block (block_txt_id: "' . $block->block_txt_id . '"). This block might not function properly!';
+					$error = new AError ($errmessage);
+					$error->toLog()->toDebug();
+					$this->errors = 1;				
 				}
-			}
-			if($block->templates->template){
-				foreach($block->templates->template as $block_template){
-					// parent block_id by parent_name
-					$query = "SELECT block_id
-							  FROM " . $this->db->table("blocks") . " 
-							  WHERE block_txt_id = '" . $this->db->escape($block_template->parent_block) . "'";
-					$result = $this->db->query($query);
-					$parent_block_id = $result->row ['block_id'];
-
-					$sql[] = "INSERT INTO " . $this->db->table("block_templates") . " (block_id,parent_block_id,template,date_added)
-							   VALUES ('" . ( int )$block_id . "',
-										'" . ( int )$parent_block_id . "',
-										'" . $this->db->escape($block_template->template_name) . "',NOW())";
-				}
-			}
-
-			foreach($sql as $query){
-				$this->db->query($query);
-			}
-
-		} else{ // Update or insert
-
-
-			if($block_id){
-				$sql = "UPDATE " . $this->db->table("blocks") . " 
-						SET controller = '" . $this->db->escape($block->controller) . "' 
-						WHERE block_id='" . $block_id . "'";
 				$this->db->query($sql);
-
+				$block_id = $this->db->getLastId();
+	
+				$position = (int)$block->position;
+				//if parent block exists add positioning
+				if($parent_instance_id && !$position){
+					$sql = "SELECT MAX(position) as maxpos
+							FROM " . $this->db->table("block_layouts") . " 
+							WHERE  parent_instance_id = " . ( int )$parent_instance_id;
+					$result = $this->db->query($sql);
+					$position = $result->row ['maxpos'] + 10;
+				}
+				$position = !$position ? 10 : $position;
+				$sql = "INSERT INTO " . $this->db->table("block_layouts") . " (layout_id,
+																	block_id,
+																	parent_instance_id,
+																	position,
+																	status,
+																	date_added)
+						VALUES ('" . ( int )$layout_id . "',
+								'" . ( int )$block_id . "',
+								'" . ( int )$parent_instance_id . "',
+								'" . ( int )$position . "',
+								'" . 1 . "',
+								NOW())";
+				$this->db->query($sql);
+				$instance_id = $this->db->getLastId();
+	
 				$sql = array();
-				// insert block's info
+				//insert new block details
 				if($block->block_descriptions->block_description){
 					foreach($block->block_descriptions->block_description as $block_description){
 						$language_id = $this->_getLanguageIdByName(mb_strtolower((string)$block_description->language, 'UTF-8'));
-						// if language unknown
-						if(!$language_id){
-							$error = "ALayout_manager Error. Unknown language for block descriptions.'."
-									. "(Block_id=" . $block_id . ", name=" . (string)$block_description->name . ", "
-									. "title=" . (string)$block_description->title . ", "
-									. "description=" . (string)$block_description->description . ", "
-									. "content=" . (string)$block_description->content . ", "
-									. ")";
-							$this->log->write($error);
-							$this->message->saveError('layout import error', $error);
-							continue;
-						}
-						$this->language->replaceDescriptions('block_descriptions',
-								array('block_id' => (int)$block_id),
+						//if loading language does not exists or installed, skip 
+						if($language_id) {
+							$this->language->replaceDescriptions('block_descriptions',
+								array('instance_id' => (int)$instance_id,
+								      'block_id'    => (int)$block_id),
 								array((int)$language_id => array(
 										'name'        => (string)$block_description->name,
 										'title'       => (string)$block_description->title,
 										'description' => (string)$block_description->description,
 										'content'     => (string)$block_description->content
-								)));
+								)));						
+						}
 					}
 				}
+				//insert new block tempalte
+				//Idealy, block needs to have a template set, but template can be set in the controller for the block.
 				if($block->templates->template){
 					foreach($block->templates->template as $block_template){
 						// parent block_id by parent_name
@@ -1957,40 +1973,112 @@ class ALayoutManager{
 								  FROM " . $this->db->table("blocks") . " 
 								  WHERE block_txt_id = '" . $this->db->escape($block_template->parent_block) . "'";
 						$result = $this->db->query($query);
-						$parent_block_id = $result->row ? $result->row ['block_id'] : 0;
-
-						$query = "SELECT block_id
-								  FROM " . $this->db->table("block_templates") . " 
-								  WHERE block_id = '" . $block_id . "'
-									  AND parent_block_id = '" . $parent_block_id . "'";
-						$result = $this->db->query($query);
-						$exists = $result->row ? $result->row ['block_id'] : 0;
-						if(!$parent_block_id){
-							$errmessage = 'Error: block template "' . $block_template->template_name . '" (block_txt_id: "' . $block->block_txt_id . '") have not parent block!';
-							$error = new AError ($errmessage);
-							$error->toLog()->toDebug();
-							$this->errors = 1;
-						}
-
-						if($exists){
-							$sql[] = "UPDATE " . $this->db->table("block_templates") . " 
-									   SET parent_block_id = '" . ( int )$parent_block_id . "',
-										   template = '" . $this->db->escape($block_template->template_name) . "'
-									   WHERE block_id='" . $block_id . "' AND parent_block_id='" . $parent_block_id . "'";
-						} else{
-							$sql[] = "INSERT INTO " . $this->db->table("block_templates") . " (block_id,parent_block_id,template,date_added)
-										VALUES ('" . ( int )$block_id . "',
-												'" . ( int )$parent_block_id . "',
-												'" . $this->db->escape($block_template->template_name) . "',NOW())";
-						}
+						$parent_block_id = $result->row ['block_id'];
+	
+						$sql[] = "INSERT INTO " . $this->db->table("block_templates") . " (block_id,parent_block_id,template,date_added)
+								   VALUES ('" . ( int )$block_id . "',
+											'" . ( int )$parent_block_id . "',
+											'" . $this->db->escape($block_template->template_name) . "',NOW())";
 					}
 				}
-
+	
 				foreach($sql as $query){
 					$this->db->query($query);
-				}
+				}			
+			}			
 
-				// and finally relate block with layout						
+		} else { 
+			//other update action
+			if($block_id){
+				//update non restricted blocks and blocks for current template only.
+				//this will update blocks that present only in this template
+				$query = "SELECT count(*) as total
+					  FROM " . $this->db->table("block_layouts") . " bl
+					  INNER JOIN " . $this->db->table("layouts") . " l on l.layout_id = bl.layout_id					  
+					  WHERE bl.block_id='" . $block_id . "' AND l.template_id <> '" . $layout->template_id . "'";
+				$result = $this->db->query($query);
+				if($result->row['total'] == 0 && !$restricted) {
+					$sql = "UPDATE " . $this->db->table("blocks") . " 
+							SET controller = '" . $this->db->escape($block->controller) . "' 
+							WHERE block_id='" . $block_id . "'";
+					$this->db->query($sql);
+	
+					$sql = array();
+					// insert block's info
+					if($block->block_descriptions->block_description){
+						foreach($block->block_descriptions->block_description as $block_description){
+							$language_id = $this->_getLanguageIdByName(mb_strtolower((string)$block_description->language, 'UTF-8'));
+							//if loading language does not exists or installed, log error on update 
+							if(!$language_id){
+								$error = "ALayout_manager Error. Unknown language for block descriptions.'."
+										. "(Block_id=" . $block_id . ", name=" . (string)$block_description->name . ", "
+										. "title=" . (string)$block_description->title . ", "
+										. "description=" . (string)$block_description->description . ", "
+										. "content=" . (string)$block_description->content . ", "
+										. ")";
+								$this->log->write($error);
+								$this->message->saveError('layout import error', $error);
+								continue;
+							}
+							$this->language->replaceDescriptions('block_descriptions',
+									array('block_id' => (int)$block_id),
+									array((int)$language_id => array(
+											'name'        => (string)$block_description->name,
+											'title'       => (string)$block_description->title,
+											'description' => (string)$block_description->description,
+											'content'     => (string)$block_description->content
+									)));
+						}
+					}
+					if($block->templates->template){
+						foreach($block->templates->template as $block_template){
+							// parent block_id by parent_name
+							$query = "SELECT block_id
+									  FROM " . $this->db->table("blocks") . " 
+									  WHERE block_txt_id = '" . $this->db->escape($block_template->parent_block) . "'";
+							$result = $this->db->query($query);
+							$parent_block_id = $result->row ? $result->row ['block_id'] : 0;
+	
+							$query = "SELECT block_id
+									  FROM " . $this->db->table("block_templates") . " 
+									  WHERE block_id = '" . $block_id . "'
+										  AND parent_block_id = '" . $parent_block_id . "'";
+							$result = $this->db->query($query);
+							$exists = $result->row ? $result->row ['block_id'] : 0;
+							if(!$parent_block_id){
+								$errmessage = 'Layout ('.$layout_name.') XML error: block template "' . $block_template->template_name . '" (block_txt_id: "' . $block->block_txt_id . '") have not parent block!';
+								$error = new AError ($errmessage);
+								$error->toLog()->toDebug();
+								$this->errors = 1;
+							}
+	
+							if($exists){
+								$sql[] = "UPDATE " . $this->db->table("block_templates") . " 
+										   SET parent_block_id = '" . ( int )$parent_block_id . "',
+											   template = '" . $this->db->escape($block_template->template_name) . "'
+										   WHERE block_id='" . $block_id . "' AND parent_block_id='" . $parent_block_id . "'";
+							} else{
+								$sql[] = "INSERT INTO " . $this->db->table("block_templates") . " (block_id,parent_block_id,template,date_added)
+											VALUES ('" . ( int )$block_id . "',
+													'" . ( int )$parent_block_id . "',
+													'" . $this->db->escape($block_template->template_name) . "',NOW())";
+							}
+						}
+					}
+	
+					foreach($sql as $query){
+						$this->db->query($query);
+					}
+				} else if (!$restricted) {
+					//log warning if try to update exsting block with new controller or template
+					if ($block->templates || $block->controller ) {					
+						$errmessage = 'Layout ('.$layout_name.') XML warning: Block (block_txt_id: "' . $block->block_txt_id . '") cannot be updated. This block is used by another template(s)! Will be linked to existing block';
+						$error = new AWarning ($errmessage);
+						$error->toLog()->toDebug();
+					}							
+				} // end of check for use
+
+				//Finally relate block with current layout						
 				$query = "SELECT *
 							FROM " . $this->db->table("block_layouts") . " 
 							WHERE layout_id = '" . ( int )$layout_id . "'
@@ -2003,7 +2091,7 @@ class ALayoutManager{
 
 				if(!$exists && $layout->action != "delete"){
 					$position = (int)$block->position;
-					// if parent block exists
+					// if parent block exists add positioning
 					if($parent_instance_id && !$position){
 						$sql = "SELECT MAX(position) as maxpos
 								FROM " . $this->db->table("block_layouts") . " 
@@ -2030,7 +2118,6 @@ class ALayoutManager{
 				}
 			} // end if block_id
 		} // end of update block
-
 
 		// start recursion for all included blocks
 		if($block->block){
@@ -2059,7 +2146,7 @@ class ALayoutManager{
 
 		// if base block not found - break processing
 		if(!$block_id){
-			$errmessage = 'Error: layout.xml::cannot insert custom block (custom_block_txt_id: "' . $block->custom_block_txt_id . '") into database because it block_id of type "' . $block->type . '" does not exists.';
+			$errmessage = 'Layout XML load error: Cannot insert custom block (custom_block_txt_id: "' . $block->custom_block_txt_id . '") because block_id of type "' . $block->type . '" does not exists.';
 			$error = new AError ($errmessage);
 			$error->toLog()->toDebug();
 			$this->errors = 1;
@@ -2077,32 +2164,11 @@ class ALayoutManager{
 			$action = 'insert-update';
 		}
 
-
 		// DELETE BLOCK
 		if($action == 'delete'){
-			if(!$custom_block_id){ // if we don't know about this custom block - break;
-				return false;
-			}
-			//Delete block and unlink from all layouts
-			$sql = array();
-			$sql[] = "DELETE FROM " . $this->db->table("block_layouts") . " 
-					   WHERE block_id='" . $block_id . "' AND layout_id='" . $layout_id . "' AND custom_block_id='" . $custom_block_id . "'";
-			// check if block used by another layouts
-			$query = "SELECT *
-					  FROM " . $this->db->table("block_layouts") . " 
-					  WHERE block_id='" . $block_id . "' AND layout_id<>'" . $layout_id . "' AND custom_block_id='" . $custom_block_id . "'";
-			$result = $this->db->query($query);
-			if(!$result->row){
-				$sql[] = "DELETE FROM " . $this->db->table("block_descriptions") . " 
-						   WHERE block_id='" . $custom_block_id . "'";
-				$sql[] = "DELETE FROM " . $this->db->table("custom_blocks") . " 
-						   WHERE custom_block_id='" . $custom_block_id . "'";
-			}
-			foreach($sql as $query){
-				$this->db->query($query);
-			}
-		} // insert or update custom block
-		else{
+			$this->_deleteCustomBlock($block, $layout_id);
+		} else {
+			// insert or update custom block
 			// check is this block was already inserted in previous loop by xml tree
 			if(isset($this->custom_blocks[(string)$block->custom_block_txt_id])){
 				$custom_block_id = $this->custom_blocks[(string)$block->custom_block_txt_id];
@@ -2125,7 +2191,6 @@ class ALayoutManager{
 					$parent_inst[] = $this->_getInstanceIdByTxtId($layout_id, (string)$parent_instance_txt_id);
 				}
 			}
-
 
 			foreach($parent_inst as $par_inst){
 				$sql = "SELECT MAX(position) as maxpos
@@ -2154,7 +2219,10 @@ class ALayoutManager{
 			if($block->block_descriptions->block_description){
 				foreach($block->block_descriptions->block_description as $block_description){
 					$language_id = $this->_getLanguageIdByName((string)$block_description->language);
-
+					//if loading language does not exists or installed, skip 
+					if(!$language_id){
+						continue;
+					}
 					$desc_array = array('language_id' => $language_id);
 					if((string)$block_description->name){
 						$desc_array['name'] = (string)$block_description->name;
@@ -2180,12 +2248,101 @@ class ALayoutManager{
 					$this->saveBlockDescription($block_id, $custom_block_id, $desc_array);
 				}
 			}
-
 		}
 
 		return true;
 	}
 
+	/**
+	 * @param object $block
+	 * @param int $layout_id
+	 * @return bool
+	 */
+	private function _deleteBlock($block, $layout_id){
+		//delete block if we allowed
+		if(in_array($block->block_txt_id, $this->main_placeholders)) {
+			return false;
+		}	
+		//get block_id
+		$sql = "SELECT block_id
+				FROM " . $this->db->table("blocks") . " 
+				WHERE block_txt_id = '" . $this->db->escape($block->block_txt_id) . "'";
+		$result = $this->db->query($sql);
+		$block_id = (int)$result->row['block_id'];
+		if(!$block_id) {
+			// if we donot know about this block - break;
+			return false;	
+		}
+		
+		$sql = array();
+		// check if block is used by another layouts					
+		$query = "SELECT count(*) as total
+		    	  FROM " . $this->db->table("block_layouts") . " 
+		    	  WHERE block_id='" . $block_id . "' AND layout_id<>'" . $layout_id . "'";
+		$result = $this->db->query($query);
+		//do not allow to delete block if used by other layout or template
+		if($result->row['total'] == 0){
+		    $sql[] = "DELETE FROM " . DB_PREFIX . "block_descriptions
+		    			   WHERE block_id='" . $block_id . "'";
+		    $sql[] = "DELETE FROM " . $this->db->table("block_templates") . " 
+		    		   WHERE block_id='" . $block_id . "'";
+		    $sql[] = "DELETE FROM " . $this->db->table("blocks") . " 
+		    		   WHERE block_id='" . $block_id . "'";
+		}
+		//Unlink block from current layout				
+		$sql[] = "DELETE FROM " . $this->db->table("block_layouts") . " 
+		    	   WHERE block_id='" . $block_id . "' AND layout_id='" . $layout_id . "'";
+		foreach($sql as $query){
+		    $this->db->query($query);
+		}
+		return true;
+	}
+
+	/**
+	 * @param object $block
+	 * @param int $layout_id
+	 * @return bool
+	 */
+	private function _deleteCustomBlock($block, $layout_id){
+		//get block_id of custom block by block type(base block_txt_id)
+		$sql = "SELECT block_id
+				FROM " . $this->db->table("blocks") . " 
+				WHERE block_txt_id = '" . $this->db->escape($block->type) . "'";
+		$result = $this->db->query($sql);
+		$block_id = ( int )$result->row ['block_id'];
+		if(!$block_id) {
+			// if we donot know about this block - break;
+			return false;	
+		}
+		//get block custom
+		$custom_block_info = $this->getBlocksList(array('subsql_filter' => "bd.name = '" . (string)$block->custom_block_txt_id . "' AND cb.block_id='" . $block_id . "'"));
+		$custom_block_id = $custom_block_info[0]['custom_block_id'];
+		if(!$custom_block_id){ 
+			// if we donot know about this custom block - break;
+			return false;
+		}
+
+		//Delete block and unlink from layout
+		$sql = array();
+		$sql[] = "DELETE FROM " . $this->db->table("block_layouts") . " 
+		    	   WHERE block_id='" . $block_id . "' AND layout_id='" . $layout_id . "' AND custom_block_id='" . $custom_block_id . "'";
+		// check if block used by another layouts
+		$query = "SELECT count(*) as total
+		    	  FROM " . $this->db->table("block_layouts") . " 
+		    	  WHERE block_id='" . $block_id . "' AND layout_id<>'" . $layout_id . "' AND custom_block_id='" . $custom_block_id . "'";
+		$result = $this->db->query($query);
+		if($result->row['total'] == 0){
+		    $sql[] = "DELETE FROM " . $this->db->table("block_descriptions") . " 
+		    		   WHERE block_id='" . $custom_block_id . "'";
+		    $sql[] = "DELETE FROM " . $this->db->table("custom_blocks") . " 
+		    		   WHERE custom_block_id='" . $custom_block_id . "'";
+		}
+		foreach($sql as $query){
+		    $this->db->query($query);
+		}
+		return true;
+	}
+	
 	/**
 	 * @param string $language_name
 	 * @return int
@@ -2221,13 +2378,12 @@ class ALayoutManager{
 		return $result->row ['instance_id'];
 	}
 
-	/*
+	/**
 	 * Function return integer type of layout by given text. Used by xml-import of layouts.
 	 *
 	 * @param string $text_type
 	 * @return int
 	 */
-
 	private function _getIntLayoutTypeByText($text_type){
 		$text_type = ucfirst($text_type);
 		switch($text_type){

@@ -298,7 +298,8 @@ class ControllerPagesToolFormsManager extends AController {
 				'name' => 'form_description',
 				'value' => isset($this->data['form_data']['description']) ? $this->data['form_data']['description'] : '',
 				'required' => true,
-				'style' => 'large-field'
+				'style' => 'large-field',
+				'multilingual' => true,
 		));
 
 

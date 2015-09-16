@@ -131,7 +131,7 @@ abstract class AController {
 		if ($this->language) {
 			//initiate array of language references for current controller instance.
 			//add main language to languages references
-			$this->languages[ ] = $this->language->language_details[ 'filename' ];
+			$this->languages[ ] = $this->language->language_details['filename'];
 			$this->loadLanguage($this->controller, "silent");
 		}
 		//Load default model for current controller instance. Ignore if no model found  mode = silent
@@ -233,9 +233,9 @@ abstract class AController {
 			if (!empty($block['position'])) {
 				//assign count based on possition (currently div. by 10)
 				if( (int)$block['position'] % 10 == 0 ) {
-					$blocks[ (int)($block['position']/10 - 1)] = $block[ 'block_txt_id' ] . '_' . (int)$block[ 'instance_id' ];
+					$blocks[ (int)($block['position']/10 - 1)] = $block['block_txt_id'] . '_' . (int)$block['instance_id'];
 				} else {
-					array_push($blocks, $block[ 'block_txt_id' ] . '_' . $block[ 'instance_id' ]);
+					array_push($blocks, $block['block_txt_id'] . '_' . $block['instance_id']);
 				}
 			}
 		}
@@ -246,16 +246,16 @@ abstract class AController {
 	public function addChild($new_controller, $block_text_id, $new_template = '', $template_position = '') {
 		// append child to the controller children list
 		$new_block = array();
-		$new_block[ 'parent_instance_id' ] = $this->instance_id;
-		$new_block[ 'instance_id' ] = $block_text_id . $this->instance_id;
-		$new_block[ 'block_id' ] = $block_text_id;
-		$new_block[ 'controller' ] = $new_controller;
-		$new_block[ 'block_txt_id' ] = $block_text_id;
-		$new_block[ 'template' ] = $new_template;
+		$new_block['parent_instance_id'] = $this->instance_id;
+		$new_block['instance_id'] = $block_text_id . $this->instance_id;
+		$new_block['block_id'] = $block_text_id;
+		$new_block['controller'] = $new_controller;
+		$new_block['block_txt_id'] = $block_text_id;
+		$new_block['template'] = $new_template;
 		// This it to position element to the placeholder.
 		// If not set emenet will not be displayed in place holder.
 		// To use manual inclusion to parent template ignore this parameter
-		$new_block[ 'position' ] = $template_position;
+		$new_block['position'] = $template_position;
 		array_push($this->children, $new_block);
 	}
 
@@ -290,37 +290,29 @@ abstract class AController {
 		if ($this->config) {
 			if ($this->config->get('storefront_template_debug')) {
 				// storefront enabling
-				if (!IS_ADMIN && !isset($this->session->data[ 'tmpl_debug' ]) && isset($this->request->get[ 'tmpl_debug' ])) {
-					$this->session->data[ 'tmpl_debug' ] = isset($this->request->get[ 'tmpl_debug' ]);
+				if (!IS_ADMIN && !isset($this->session->data['tmpl_debug']) && isset($this->request->get['tmpl_debug'])) {
+					$this->session->data['tmpl_debug'] = isset($this->request->get['tmpl_debug']);
 				}
 
-				if ((isset($this->session->data[ 'tmpl_debug' ]) && isset($this->request->get[ 'tmpl_debug' ])) && ($this->session->data[ 'tmpl_debug' ] == $this->request->get[ 'tmpl_debug' ])) {
+				if ((isset($this->session->data['tmpl_debug']) && isset($this->request->get['tmpl_debug'])) && ($this->session->data['tmpl_debug'] == $this->request->get['tmpl_debug'])) {
 
 					$block_details = $this->layout->getBlockDetails($this->instance_id);
 					$excluded_blocks = array( 'common/head' );
-					//if(!empty($block_details['parent_instance_id']) && $block_details['parent_instance_id'] > 0) {
-					if (!empty($this->instance_id) && (string)$this->instance_id != '0' && !in_array($block_details[ 'controller' ], $excluded_blocks)) {
-						if (!empty($this->parent_controller)) {
-							// need to check what tpl-file used for render: extension's template or default template
-							$tpl_filename = $this->view->getTemplate();
-							if ( $this->registry->has('extensions') && $result = $this->extensions->isExtensionResource('T', $tpl_filename) ) {
-								$block_tpl_file = $result['base_path'];
-							}else{
-								$basepath = str_replace(DIR_ROOT,'',DIR_TEMPLATE);
-								$block_tpl_file = $basepath.'default/template/'.  $tpl_filename;
-							}
 
+					if (!empty($this->instance_id) && (string)$this->instance_id != '0' && !in_array($block_details['controller'], $excluded_blocks)) {
+						if (!empty($this->parent_controller)) {
+							//build block template file path based on primary template used
+							//template path is based on parent block 'template_dir'
+							$tmp_dir = $this->parent_controller->view->data['template_dir']."template/";
+							$block_tpl_file = $tmp_dir.$this->view->getTemplate();
+							$prt_block_tpl_file = $tmp_dir.$this->parent_controller->view->getTemplate();
 							$args = array( 'block_id' => $this->instance_id,
 											'block_controller' => $this->dispatcher->getFile(),
 											'block_tpl' => $block_tpl_file,
 											'parent_id' => $this->parent_controller->instance_id,
 											'parent_controller' => $this->parent_controller->dispatcher->getFile(),
-											'parent_tpl' => $this->parent_controller->view->data[ 'template_dir' ] . $this->parent_controller->view->getTemplate()
+											'parent_tpl' => $prt_block_tpl_file
 							);
-							if(strpos($block_tpl_file,'.tpl')===false){
-								$this->log->write('Warning: Template for controller '.$this->dispatcher->getFile().' not found!'."		\n".print_r($args,true));
-							}
-
 							$debug_wrapper = $this->dispatch('common/template_debug', array( 'instance_id' => $this->instance_id, 'details' => $args ));
 							$debug_output = $debug_wrapper->dispatchGetOutput();
 							$output = trim($this->view->getOutput());
@@ -331,7 +323,7 @@ abstract class AController {
 
 				}
 			} else {
-				unset($this->session->data[ 'tmpl_debug' ]);
+				unset($this->session->data['tmpl_debug']);
 			}
 		}
 		$this->view->render();
@@ -387,7 +379,7 @@ abstract class AController {
 			$main_key = str_replace('/', '_', $this->controller);
 		}
 
-		$url = "http://www.abantecart.com/search?areas=content&searchword=" . $main_key;
+		$url = "http://docs.abantecart.com/tag/" . $main_key;
 		return $url;
 	}
 

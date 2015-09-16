@@ -486,6 +486,7 @@ class ControllerPagesLocalisationTaxClass extends AController {
 			'name' => 'tax_rate['.$this->session->data['content_language_id'].'][description]',
 			'value' => $this->data['tax_rate'][$this->session->data['content_language_id']]['description'],
             'style' => 'large-field',
+            'multilingual' => true,
         ));
 
 
@@ -640,6 +641,7 @@ class ControllerPagesLocalisationTaxClass extends AController {
 			'name' => 'tax_class['.$this->session->data['content_language_id'].'][description]',
 			'value' => $tax_desc,
             'style' => 'large-field',
+            'multilingual' => true,
         ));
 		$this->view->assign('form_language_switch', $this->html->getContentLanguageSwitcher());
         $this->view->assign('help_url', $this->gen_help_url('tax_class_edit'));

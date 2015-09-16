@@ -334,9 +334,9 @@ class ControllerPagesExtensionBannerManager extends AController {
 		if (dateISO2Int($this->data['start_date']) > $now ) {
 			$this->data['status'] = 0;
 		}
-		$stop =  dateISO2Int($this->data['end_date']);
+		$stop = dateISO2Int($this->data['end_date']);
 
-		if($stop>0 && $stop<$now){
+		if($stop > 0 && $stop < $now){
 			$this->data['status'] = 0;
 		}
 
@@ -350,6 +350,7 @@ class ControllerPagesExtensionBannerManager extends AController {
 				'type' => 'input',
 				'name' => 'name',
 				'value' => $this->data['name'],
+				'multilingual' => true,
 				'required' => true));
 		$this->data['form']['text']['name'] = $this->language->get('entry_banner_name');
 
@@ -463,7 +464,16 @@ class ControllerPagesExtensionBannerManager extends AController {
 				'value' => $this->data ['description'],
 				'attr' => '')
 				);
-			$this->data['form']['text']['description'] = $this->language->get('entry_banner_html');	
+			$this->data['form']['text']['description'] = $this->language->get('entry_banner_html');
+			$resources_scripts = $this->dispatch(
+					'responses/common/resource_library/get_resources_scripts',
+					array(
+							'object_name' => '',
+							'object_id' => '',
+							'types' => array('image'),
+					)
+			);
+			$this->view->assign('resources_scripts', $resources_scripts->dispatchGetOutput());
 		}
 
 		$this->view->batchAssign($this->language->getASet());
@@ -849,12 +859,14 @@ class ControllerPagesExtensionBannerManager extends AController {
 				'type' => 'input',
 				'name' => 'block_name',
 				'value' => $this->data['name'],
+				'multilingual' => true,
 				'required' => true));
 		$this->data['form']['text']['block_name'] = $this->language->get('entry_block_name');
 
 		$this->data['form']['fields']['block_title'] = $form->getFieldHtml(array('type' => 'input',
 				'name' => 'block_title',
 				'required' => true,
+				'multilingual' => true,
 				'value' => $this->data ['title']
 		));
 		$this->data['form']['text']['block_title'] = $this->language->get('entry_block_title');
@@ -916,7 +928,7 @@ class ControllerPagesExtensionBannerManager extends AController {
 				'name' => 'block_wrapper',
 				'options' => $this->data['block_wrappers'],
 				'value' => $this->data['block_wrapper'],
-				'help_url' => $this->gen_help_url('block_wrapper')));
+				));
 		$this->data['form']['text']['block_wrapper'] = $this->language->get('entry_block_wrapper');
 
 
@@ -924,13 +936,14 @@ class ControllerPagesExtensionBannerManager extends AController {
 				'name' => 'block_framed',
 				'value' => $this->data['block_framed'],
 				'style' => 'btn_switch',
-				'help_url' => $this->gen_help_url('block_framed'),));
+				));
 		$this->data['form']['text']['block_framed'] = $this->language->get('entry_block_framed');
 
 		$this->data['form']['fields']['block_description'] = $form->getFieldHtml(array('type' => 'textarea',
 				'name' => 'block_description',
 				'value' => $this->data ['description'],
 				'attr' => ' style="height: 50px;"',
+				'multilingual' => true,
 		));
 		$this->data['form']['text']['block_description'] = $this->language->get('entry_block_description');
 

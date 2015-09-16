@@ -87,7 +87,7 @@
 	</definition>
 	<definition>
 		<key>error_connect</key>
-		<value><![CDATA[Sorry, Your Abantecart cannot connect with extension store. Please see System->Error logs for details.]]></value>
+		<value><![CDATA[Oops, Your AbanteCart cannot connect with extensions marketplace. Please see System->Error logs for details.]]></value>
 	</definition>
 	<definition>
 		<key>text_sorting_review_asc</key>

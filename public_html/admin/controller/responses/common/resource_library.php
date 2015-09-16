@@ -141,10 +141,24 @@ class ControllerResponsesCommonResourceLibrary extends AController {
 		$resource['resource_objects'] = $rm->getResourceObjects($resource['resource_id'], $language_id);
 
 		//mark if this resource mapped to selected object
-		$resource['mapped_to_current'] = $rm->isMapped($resource['resource_id'], $this->data['object_name'], $this->data['object_id']);
+
+
 		if($this->data['mode']!='single'){
-			$resource['can_delete'] = $rm->isMapped($resource['resource_id'])==1 && $resource['mapped_to_current'] ? true : false;
+			$resource['mapped_to_current'] = $rm->isMapped(
+							$resource['resource_id'],
+							$this->data['object_name'],
+							$this->data['object_id']);
+
+			// also check is mapped at all
+			//NOTE: we allow to delete resource that mappend ONLY to current object
+			$is_mapped = $rm->isMapped($resource['resource_id']);
+			if( ($is_mapped==1 && $resource['mapped_to_current']) || !$is_mapped){
+				$resource['can_delete'] = true;
+			}else{
+				$resource['can_delete'] = false;
+			}
 		}else{
+			//check is mapped at all
 			$resource['can_delete'] = $rm->isMapped($resource['resource_id'])>0 ? false : true;
 		}
 
@@ -437,7 +451,7 @@ class ControllerResponsesCommonResourceLibrary extends AController {
 		    'name' => 'rl_types',
 		    'placeholder' => $this->language->get('text_type'),
             'options' => $options,
-            'value' => $rm->getTypeId(),
+            'value' => $this->data['type'],
 	    ));
 
 		$this->data['languages'] = array();
@@ -1121,7 +1135,13 @@ class ControllerResponsesCommonResourceLibrary extends AController {
 	}
 
 	public function get_resources_scripts() {
-
+		/**
+		 * @var string $object_name - name of RL-object for assistance of resources, for ex. products, categories, etc
+		 * @var int $object_id - id of object
+		 * @var array $types - array with RL-types (image, audio,video,archive etc)
+		 * @var bool $onload - sign of call function after js-script load
+		 * @var string $mode - mode of RL
+		 */
 		list($object_name,$object_id,$types, $onload, $mode) = func_get_args();
 
 		//init controller data

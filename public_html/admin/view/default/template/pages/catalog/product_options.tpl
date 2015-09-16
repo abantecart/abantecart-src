@@ -197,7 +197,7 @@ jQuery(function ($) {
 	//save option form details. 
 	var editOption = function (id) {
 		$('#notify_error').remove();
-		var senddata = $('#option_edit_form input,select,textarea').serialize()+'&option_id='+current_option_id;
+		var senddata = $('#option_edit_form').find('input,select,textarea').serialize()+'&option_id='+current_option_id;
 		$.ajax({
 			url: opt_urls.update_option,
 			data: senddata,
@@ -285,7 +285,7 @@ jQuery(function ($) {
 			//we insert first row
 			$('#option_values_tbl tr:last-child').after(new_row);			
 		}
-		bindAform($("input, checkbox, select", new_row));
+		bindAform($("input, textarea, select", new_row));
 		//Mark rows to be new
 		$('#new' + row_id + ' input[name=default_value]').last()
 				.val('new' + row_id)
@@ -319,8 +319,8 @@ jQuery(function ($) {
 				error_alert(errorThrown);
 			},
 			complete: function() {
-				bindAform($("input, checkbox, select", '#option_edit_form'));
-				bindAform($("input, checkbox, select", '#update_option_values'));
+				bindAform($("input, textarea, select", '#option_edit_form'));
+				bindAform($("input, textarea, select", '#update_option_values'));
 				bindCustomEvents('#option_values');
 			}
 		});
@@ -360,8 +360,8 @@ jQuery(function ($) {
 				error_alert(errorThrown);
 			},
 			complete: function() {
-				bindAform($("input, checkbox, select", '#option_edit_form'));
-				bindAform($("input, checkbox, select", '#update_option_values'));
+				bindAform($("input, textarea, select", '#option_edit_form'));
+				bindAform($("input, textarea, select", '#update_option_values'));
 				bindCustomEvents('#option_values');
 			}			
 		});

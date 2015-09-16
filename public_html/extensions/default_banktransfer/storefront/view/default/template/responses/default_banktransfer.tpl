@@ -12,12 +12,12 @@
 </div>
 
 <a class="btn btn-default pull-left" href="<?php echo $back; ?>">
-     <i class="icon-arrow-left"></i>
+     <i class="fa fa-arrow-left"></i>
     <?php echo $button_back; ?>
 </a>
 <?php if (!$minimum_notmet) { ?>	
 <a id="checkout" class="btn ml10 pull-right btn-orange">
-    <i class="icon-ok icon-white"></i>
+    <i class="fa fa-ok fa-white"></i>
     <?php echo $button_confirm; ?>
 </a>
 <?php } ?>

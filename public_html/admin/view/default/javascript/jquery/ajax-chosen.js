@@ -12,7 +12,7 @@
         }
         defaultOptions = {
             minTermLength: 3,
-            afterTypeDelay: 500,
+            afterTypeDelay: 1500,
             jsonTermKey: "term",
             keepTypingMsg: "Keep typing...",
             lookingForMsg: "Looking for"
@@ -24,7 +24,6 @@
         return this.each(function () {
             return $(this).next('.chosen-container').find(".search-field > input, .chosen-search > input").bind('keyup', function () {
                 var field, msg, success, untrimmed_val, val;
-                untrimmed_val = $(this).val();
                 val = $.trim($(this).val());
                 msg = val.length < options.minTermLength ? options.keepTypingMsg : options.lookingForMsg + (" '" + val + "'");
                 select.next('.chosen-container').find('.no-results').text(msg);
@@ -39,6 +38,7 @@
                     return false;
                 }
                 field = $(this);
+                untrimmed_val = field.val();
                 if (options.data == null) {
                     options.data = {};
                 }

@@ -10,9 +10,9 @@
   color: #064770;
   padding: 3px 10px;
   min-height: 27px;
-  -webkit-border-radius: 3px 3px 0 0;
-  -moz-border-radius: 3px 3px 0 0;
-  border-radius: 3px 3px 0 0;
+  -webkit-border-radius: 2px 2px 0 0;
+  -moz-border-radius: 2px 2px 0 0;
+  border-radius: 2px 2px 0 0;
   -webkit-box-shadow: inset 0 0 1px #064770;
   -moz-box-shadow: inset 0 0 1px #064770;
   box-shadow: inset 0 0 1px #064770;
@@ -32,9 +32,9 @@
 #page-layout .section .blocks {
   background: #f4f4f4;
   padding: 5px 0;
-  -webkit-border-radius: 0 3px;
-  -moz-border-radius: 0 3px;
-  border-radius: 0 3px;
+  -webkit-border-radius: 0 2px;
+  -moz-border-radius: 0 2px;
+  border-radius: 0 2px;
   min-height: 78px;
 }
 #page-layout .section.off .section-header {
@@ -81,9 +81,9 @@
   clear: left;
 }
 #page-layout .block .block-content {
-  -webkit-border-radius: 4px;
-  -moz-border-radius: 4px;
-  border-radius: 4px;
+  -webkit-border-radius: 2px;
+  -moz-border-radius: 2px;
+  border-radius: 2px;
   border: 1px solid #ccc;
   background: #e4eef7;
   text-align: center;
@@ -110,9 +110,9 @@
   padding: 0 5px;
   margin: 0;
   text-align: left;
-  -webkit-border-radius: 0 0 3px 3px;
-  -moz-border-radius: 0 0 3px 3px;
-  border-radius: 0 0 3px 3px;
+  -webkit-border-radius: 0 0 2px 2px;
+  -moz-border-radius: 0 0 2px 2px;
+  border-radius: 0 0 2px 2px;
   background: rgba(6, 71, 112, 0.8);
   margin: 0 -1px;
 }
@@ -193,9 +193,9 @@
   padding: 10px;
   text-decoration: none;
   cursor: pointer;
-  -webkit-border-radius: 4px;
-  -moz-border-radius: 4px;
-  border-radius: 4px;
+  -webkit-border-radius: 2px;
+  -moz-border-radius: 2px;
+  border-radius: 2px;
   background: #e4eef7;
 }
 .blocks-manager .block-item:hover {

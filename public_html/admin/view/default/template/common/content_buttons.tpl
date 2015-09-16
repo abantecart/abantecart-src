@@ -41,6 +41,26 @@
 			<?php echo $form_language_switch; ?>
 		</div>
 		<?php } ?>
+
+	    <?php if (!empty($quick_start_url)) { ?>
+		<div class="btn-group">
+			<a class="btn btn-white tooltips"
+			   href="<?php echo $quick_start_url; ?>"
+			   data-target="#quick_start"
+			   data-toggle="modal"
+			   data-original-title="<?php echo $text_quick_start; ?>">
+			    <i class="fa fa-magic fa-lg"></i>
+			</a>
+			<?php echo $this->html->buildElement(
+			    		array(	'type' => 'modal',
+			    				'id' => 'quick_start',
+			    				'modal_type' => 'lg',
+			    				'data_source' => 'ajax'
+			    		));
+			?>
+		</div>
+	    <?php } ?>
+
 	    <?php if (!empty ($help_url)) { ?>
 		<div class="btn-group">
 		    	<a class="btn btn-white tooltips" href="<?php echo $help_url; ?>" target="_ext_help" data-toggle="tooltip" data-original-title="<?php echo $text_external_help; ?>">

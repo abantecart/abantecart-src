@@ -300,6 +300,7 @@ class ControllerPagesLocalisationZone extends AController {
 			'value' => $this->data['zone_name'][$this->session->data['content_language_id']]['name'],			
 			'required' => true,
 			'help_url' => $this->gen_help_url('name'),
+			'multilingual' => true,
 		));
 		$this->data['form']['fields']['code'] = $form->getFieldHtml(array(
 			'type' => 'input',

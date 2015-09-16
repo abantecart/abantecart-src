@@ -13,8 +13,8 @@
 		<value><![CDATA[Confirm resource(s) delete]]></value>
 	</definition>
 	<definition>
-		<key>text_confirm</key>
-		<value><![CDATA[Are you sure you want to delete resource(s)?]]></value>
+		<key>text_confirm_delete</key>
+		<value><![CDATA[Some resources might be included in the text. We can not check this automatically.  Delete?]]></value>
 	</definition>
 	<definition>
 		<key>text_cant_delete_title</key>
@@ -322,7 +322,7 @@
 		<value><![CDATA[Error: Cannot move file %s to resources directory.]]></value>
 	</definition>
 	<definition>
-		<key>button_save_n_link</key>
-		<value><![CDATA[Save and Link]]></value>
+		<key>button_save_n_apply</key>
+		<value><![CDATA[Save and Apply]]></value>
 	</definition>
 </definitions>

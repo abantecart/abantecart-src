@@ -137,6 +137,10 @@
 		<value><![CDATA[Reset]]></value>
 	</definition>
 	<definition>
+		<key>button_reload</key>
+		<value><![CDATA[Reload]]></value>
+	</definition>
+	<definition>
 		<key>button_clear</key>
 		<value><![CDATA[Clear Log]]></value>
 	</definition>
@@ -534,16 +538,8 @@
 		<value><![CDATA[Confirm resource Unlink]]></value>
 	</definition>
 	<definition>
-		<key>text_install_warning_subject</key>
-		<value><![CDATA[Security warning]]></value>
-	</definition>
-	<definition>
-		<key>text_install_warning</key>
-		<value><![CDATA[You still have install directory present in your AbanteCart installation directory. It is recommended you delete this directory.]]></value>
-	</definition>
-	<definition>
 		<key>text_select_store</key>
-		<value><![CDATA[Select Store]]></value>
+		<value><![CDATA[Select a different store]]></value>
 	</definition>
 	<definition>
 		<key>text_click_browse_file</key>
@@ -680,6 +676,18 @@
 	<definition>
 		<key>button_retry</key>
 		<value><![CDATA[Retry]]></value>
+	</definition>
+	<definition>
+		<key>text_system_error</key>
+		<value><![CDATA[System error has been encountered. Check system <a target="_blank" href="%s">messages</a> or <a target="_blank" href="%s">error log</a>]]></value>
+	</definition>
+	<definition>
+		<key>text_system_warning</key>
+		<value><![CDATA[System warning has been reported. Check system <a target="_blank" href="%s">messages</a>]]></value>
+	</definition>
+	<definition>
+		<key>text_system_notice</key>
+		<value><![CDATA[System notice has been reported. Check system <a target="_blank" href="%s">messages</a>]]></value>
 	</definition>
 	
 </definitions>

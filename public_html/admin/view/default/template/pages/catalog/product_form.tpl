@@ -71,28 +71,23 @@
 	
 </div>
 
+<?php echo $resources_scripts; ?>
+
 <script type="text/javascript"><!--
 
 $(document).ready(function () {
-    var array = ['#productFrm_price',
-        '#productFrm_cost',
-        '#productFrm_shipping_price',
-        '#productFrm_length',
-        '#productFrm_width',
-        '#productFrm_height',
-        '#productFrm_weight'];
-});
 
-$('#productFrm_generate_seo_keyword').click(function(){
-	var seo_name = $('#productFrm_product_descriptionname').val().replace('%','');
-	$.get('<?php echo $generate_seo_url;?>&seo_name='+seo_name, function(data){
-		$('#productFrm_keyword').val(data).change();
+	$('#productFrm_generate_seo_keyword').click(function(){
+		var seo_name = $('#productFrm_product_descriptionname').val().replace('%','');
+		$.get('<?php echo $generate_seo_url;?>&seo_name='+seo_name, function(data){
+			$('#productFrm_keyword').val(data).change();
+		});
 	});
-});
 
-if (document.getElementById('productFrm_product_descriptiondescription')){
-	CKEDITOR.replace('productFrm_product_descriptiondescription',{
-        language:'<?php echo $language_code; ?>'
-    });
-}
+	if (document.getElementById('productFrm_product_descriptiondescription')) {
+		var ck = wrapCKEditor('productFrm_product_descriptiondescription');
+		addRL2CKE(ck);
+	}
+
+});
 //--></script>

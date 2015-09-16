@@ -304,8 +304,4 @@
 		<key>error_unknown</key>
 		<value><![CDATA[Error desconocido. Por favor, vuelve a intentarlo!]]></value>
     </definition>
-	<definition>
-		<key>text_copy_embed_code</key>
-		<value><![CDATA[Copia y pega este en su código HTML que desea vender]]></value>
-	</definition>
 </definitions>

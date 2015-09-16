@@ -1,4 +1,3 @@
-
 <?php
 echo $this->html->buildElement(
 		array(

@@ -506,7 +506,6 @@ class ControllerPagesDesignBlocks extends AController {
 			}
 		}
 
-
 		$this->data['form']['fields']['block_name'] = $form->getFieldHtml(array('type' => 'hidden',
 				'name' => 'block_id',
 				'value' => $default_block_type));
@@ -515,6 +514,7 @@ class ControllerPagesDesignBlocks extends AController {
 				'name' => 'block_name',
 				'value' => $this->data['name'],
 				'required' => true,
+				'multilingual' => true,
 		));
 		$this->data['form']['text']['block_name'] = $this->language->get('entry_block_name');
 
@@ -522,6 +522,7 @@ class ControllerPagesDesignBlocks extends AController {
 				'name' => 'block_title',
 				'required' => true,
 				'value' => $this->data ['title'],
+				'multilingual' => true,
 		));
 		$this->data['form']['text']['block_title'] = $this->language->get('entry_block_title');
 
@@ -577,25 +578,28 @@ class ControllerPagesDesignBlocks extends AController {
 				'name' => 'block_wrapper',
 				'options' => $this->data['block_wrappers'],
 				'value' => $this->data['block_wrapper'],
-				'help_url' => $this->gen_help_url('block_wrapper'),));
+				));
 		$this->data['form']['text']['block_wrapper'] = $this->language->get('entry_block_wrapper');
 
 		$this->data['form']['fields']['block_framed'] = $form->getFieldHtml(array('type' => 'checkbox',
 				'name' => 'block_framed',
 				'value' => $this->data['block_framed'],
 				'style' => 'btn_switch',
-				'help_url' => $this->gen_help_url('block_framed'),));
+				));
 		$this->data['form']['text']['block_framed'] = $this->language->get('entry_block_framed');
 
 		$this->data['form']['fields']['block_description'] = $form->getFieldHtml(array('type' => 'textarea',
 				'name' => 'block_description',
 				'value' => $this->data ['description'],
-				'attr' => ' style="height: 50px;"',));
+				'attr' => ' style="height: 50px;"',
+				'multilingual' => true,
+				));
 		$this->data['form']['text']['block_description'] = $this->language->get('entry_block_description');
 
 		$this->data['form']['fields']['block_content'] = $form->getFieldHtml(array('type' => 'textarea',
 				'name' => 'block_content',
-				'value' => $this->data ['content']
+				'value' => $this->data ['content'],
+				'multilingual' => true,
 		));
 		$this->data['form']['text']['block_content'] = $this->language->get('entry_block_content');
 
@@ -604,7 +608,18 @@ class ControllerPagesDesignBlocks extends AController {
 		$this->view->assign('form_language_switch', $this->html->getContentLanguageSwitcher());
 		$this->view->assign('language_code', $this->session->data['language']);
 		$this->view->assign('help_url', $this->gen_help_url('block_edit'));
-		$this->view->assign('rl', $this->html->getSecureURL('common/resource_library', '&object_name=custom_block&type=image&mode=url'));
+
+		$this->addChild('responses/common/resource_library/get_resources_html', 'resources_html', 'responses/common/resource_library_scripts.tpl');
+		$resources_scripts = $this->dispatch(
+				'responses/common/resource_library/get_resources_scripts',
+				array(
+						'object_name' => 'categories',
+						'object_id' => $category_id,
+						'types' => array('image'),
+				)
+		);
+		$this->view->assign('resources_scripts', $resources_scripts->dispatchGetOutput());
+		$this->view->assign('rl', $this->html->getSecureURL('common/resource_library', '&action=list_library&object_name=&object_id&type=image&mode=single'));
 
 		$this->processTemplate('pages/design/blocks_form.tpl');
 	}
@@ -706,12 +721,14 @@ class ControllerPagesDesignBlocks extends AController {
 				'type' => 'input',
 				'name' => 'block_name',
 				'value' => $this->data['name'],
+				'multilingual' => true,
 				'required' => true));
 		$this->data['form']['text']['block_name'] = $this->language->get('entry_block_name');
 
 		$this->data['form']['fields']['block_title'] = $form->getFieldHtml(array('type' => 'input',
 				'name' => 'block_title',
 				'required' => true,
+				'multilingual' => true,
 				'value' => $this->data ['title']
 		));
 		$this->data['form']['text']['block_title'] = $this->language->get('entry_block_title');
@@ -731,7 +748,6 @@ class ControllerPagesDesignBlocks extends AController {
 				}
 			}
 		}
-
 
 		//Automatic block template selection mode based on parent is limited to 1 template per location
 		//To extend, allow custom block's template to be selected to suppress automatic selection
@@ -769,7 +785,7 @@ class ControllerPagesDesignBlocks extends AController {
 				'name' => 'block_wrapper',
 				'options' => $this->data['block_wrappers'],
 				'value' => $this->data['block_wrapper'],
-				'help_url' => $this->gen_help_url('block_wrapper')));
+				));
 		$this->data['form']['text']['block_wrapper'] = $this->language->get('entry_block_wrapper');
 
 
@@ -777,7 +793,7 @@ class ControllerPagesDesignBlocks extends AController {
 				'name' => 'block_framed',
 				'value' => $this->data['block_framed'],
 				'style' => 'btn_switch',
-				'help_url' => $this->gen_help_url('block_framed'),));
+				));
 		$this->data['form']['text']['block_framed'] = $this->language->get('entry_block_framed');
 
 
@@ -785,6 +801,7 @@ class ControllerPagesDesignBlocks extends AController {
 				'name' => 'block_description',
 				'value' => $this->data ['description'],
 				'attr' => ' style="height: 50px;"',
+				'multilingual' => true,
 		));
 		$this->data['form']['text']['block_description'] = $this->language->get('entry_block_description');
 
@@ -802,7 +819,7 @@ class ControllerPagesDesignBlocks extends AController {
 				'options' => $listing_datasources,
 				'value' => $default_listing_datasource,
 				'style' => 'no-save',
-				'help_url' => $this->gen_help_url('block_wrapper')));
+				));
 		$this->data['form']['text']['listing_datasource'] = $this->language->get('entry_listing_datasource');
 
 		if (!isset($this->data['subform_url'])) {

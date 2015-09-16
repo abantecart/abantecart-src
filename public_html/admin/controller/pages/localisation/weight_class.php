@@ -238,6 +238,7 @@ class ControllerPagesLocalisationWeightClass extends AController {
 			'value' => $this->data['weight_class_description'][$content_language_id]['title'],
 			'required' => true,
 			'style' => 'large-field',
+			'multilingual' => true,
 		));
 		$this->data['form']['fields']['unit'] = $form->getFieldHtml(array(
 			'type' => 'input',
@@ -245,6 +246,7 @@ class ControllerPagesLocalisationWeightClass extends AController {
 			'value' => $this->data['weight_class_description'][$content_language_id]['unit'],
 			'required' => true,
 			'style' => 'large-field',
+			'multilingual' => true,
 		));
 		$this->data['form']['fields']['value'] = $form->getFieldHtml(array(
 			'type' => 'input',

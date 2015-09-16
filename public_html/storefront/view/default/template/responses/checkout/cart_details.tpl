@@ -28,7 +28,7 @@
 					<div>
 						<?php foreach ($product['option'] as $option) { ?>
 							-
-							<small><?php echo $option['name']; ?> <?php echo $option['value']; ?></small><br/>
+							<small title="<?php echo $option['title']?>"><?php echo $option['name']; ?> <?php echo $option['value']; ?></small><br/>
 						<?php } ?>
 					</div>
 				</td>

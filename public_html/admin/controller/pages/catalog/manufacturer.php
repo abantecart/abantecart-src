@@ -120,7 +120,7 @@ class ControllerPagesCatalogManufacturer extends AController {
 	    }
 
 		$this->document->setTitle( $this->language->get('heading_title') );
-		$this->view->assign( 'insert', $this->html->getSecureURL('catalog/manufacturer/insert') );
+		$this->view->assign('insert', $this->html->getSecureURL('catalog/manufacturer/insert') );
 		$this->view->assign('help_url', $this->gen_help_url('manufacturer_listing') );
 		$this->view->assign('form_store_switch', $this->html->getStoreSwitcher());
 
@@ -158,6 +158,7 @@ class ControllerPagesCatalogManufacturer extends AController {
 
         $this->view->assign('error_warning', $this->error['warning']);
         $this->view->assign('success', $this->session->data['success']);
+		$this->view->assign('insert', $this->html->getSecureURL('catalog/manufacturer/insert') );
 		if (isset($this->session->data['success'])) {
 			unset($this->session->data['success']);
 		}
@@ -281,7 +282,6 @@ class ControllerPagesCatalogManufacturer extends AController {
 			'value' => $this->data['name'],
 			'required' => true,
 			'style' => 'large-field',
-			'help_url' => $this->gen_help_url('name'),
 		));
 		$this->data['form']['fields']['general']['manufacturer_store'] = $form->getFieldHtml(array(
 			'type' => 'checkboxgroup',
@@ -289,16 +289,14 @@ class ControllerPagesCatalogManufacturer extends AController {
 			'value' => $this->data['manufacturer_store'],
 			'options' => $stores,
 			'style' => 'chosen',
-			'help_url' => $this->gen_help_url('manufacturer_store'),
 		));
 
 		$this->data['keyword_button'] = $form->getFieldHtml(array(
 				'type' => 'button',
 				'name' => 'generate_seo_keyword',
 				'text' => $this->language->get('button_generate'),
-			//set button not to submit a form
 				'attr' => 'type="button"',
-				'style' => 'btn btn-info'
+				'style' => 'btn btn-info',
 		));
 		$this->data['generate_seo_url'] = $this->html->getSecureURL('common/common/getseokeyword', '&object_key_name=category_id&id=' . $category_id);
 
@@ -306,8 +304,8 @@ class ControllerPagesCatalogManufacturer extends AController {
 				'type' => 'input',
 				'name' => 'keyword',
 				'value' => $this->data['keyword'],
-				'help_url' => $this->gen_help_url('seo_keyword'),
-				'attr' => ' gen-value="' . SEOEncode($this->data['category_description']['name']) . '" '
+				'attr' => ' gen-value="' . SEOEncode($this->data['category_description']['name']) . '" ',
+				'help_url' => $this->gen_help_url('seo_keyword')
 		));
 
 		$this->data['form']['fields']['general']['sort_order'] = $form->getFieldHtml(array(

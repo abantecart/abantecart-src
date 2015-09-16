@@ -203,10 +203,21 @@
 <?php echo $this->getHookVar('home_page_bottom'); ?>
 
 <?php
+// Quick start guide
+if($quick_start_url){
+	echo $this->html->buildElement(
+		array(	'type' => 'modal',
+		    	'id' => 'quick_start',
+		    	'modal_type' => 'lg',
+		    	'data_source' => 'ajax'
+		));
+	
+	echo $resources_scripts;	
+} else if($no_payment_installed){
 // in case when no any payment enabled
-if($no_payment_installed){
 	include('tip_modal.tpl');
-}?>
+}
+?>
 
 <!--[if IE]>
 <script type="text/javascript" src="<?php echo RDIR_TEMPLATE; ?>javascript/jquery/flot/excanvas.js"></script>
@@ -214,9 +225,23 @@ if($no_payment_installed){
 <script type="text/javascript" src="<?php echo RDIR_TEMPLATE; ?>javascript/jquery/flot/jquery.flot.js"></script>
 <script type="text/javascript"><!--
 
+<?php
+// Quick start guide
+if($quick_start_url){
+?>
+$(window).load(function(){
+	if($('#quick_start').length > 0){
+        $('#quick_start').removeData('bs.modal');
+        $('#quick_start').modal({remote: '<?php echo $quick_start_url; ?>' });
+        $('#quick_start').modal('show');
+	}
+});
+<?php
+}
+?>
+
 loadPerformanceChart($('#range').val());
 $('#range').aform({triggerChanged: false});
-//$.aform.styleGridForm('#range');
 
 function loadPerformanceChart(range) {
 	$.ajax({

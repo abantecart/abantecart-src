@@ -248,6 +248,7 @@ class ControllerPagesCheckoutCart extends AController {
 
 
         		foreach ($result['option'] as $option) {
+			        $title = '';
 			        if($option['element_type']=='H'){ continue;} //hide hidden options
 
 			        $value = $option['value'];
@@ -255,9 +256,22 @@ class ControllerPagesCheckoutCart extends AController {
 			        if($option['element_type']=='C' && in_array($value, array(0,1))){
 				        $value = '';
 			        }
+
+			        // strip long textarea value
+                    if($option['element_type']=='T'){
+	                    $title = strip_tags($value);
+	                    $title = str_replace('\r\n',"\n",$title);
+
+	                    $value = str_replace('\r\n',"\n",$value);
+	                    if(mb_strlen($value) > 64){
+		                    $value = mb_substr($value, 0, 64) . '...';
+	                    }
+                    }
+
           			$option_data[] = array(
             			'name'  => $option['name'],
-            			'value' => $value
+            			'value' => $value,
+				        'title' => $title
           			);
         		}
 

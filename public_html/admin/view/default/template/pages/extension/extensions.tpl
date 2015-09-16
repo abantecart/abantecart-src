@@ -24,14 +24,10 @@
 			<?php }  ?>
 			<div class="btn-group">
 			    <a class="btn btn-primary" href="<?php echo $btn_extensions_store->href;?>">
-			    	<i class="fa fa-shopping-cart fa-fw"></i> <?php echo $btn_extensions_store->text ?>
+			    	<i class="fa fa-cloud-download fa-fw"></i> <?php echo $btn_extensions_store->text ?>
 			    </a>
 			</div>
-			<div class="btn-group">
-			    <a class="btn btn-primary" href="<?php echo $btn_add_new->href;?>">
-			    	<i class="fa fa-step-forward fa-fw"></i> <?php echo $btn_add_new->text ?>
-			    </a>
-			</div>
+
 			<?php if($setting_url) { ?>
 			<div class="btn-group">
 			    <a class="btn btn-default tooltips" href="<?php echo $setting_url;?>" title="<?php echo $text_configuration_settings; ?>">

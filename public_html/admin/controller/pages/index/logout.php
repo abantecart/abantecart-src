@@ -26,8 +26,6 @@ class ControllerPagesIndexLogout extends AController {
 		//init controller data
 		$this->extensions->hk_InitData($this,__FUNCTION__);
 
-		$this->cache->delete('admin_menu');
-
 		$this->user->logout();
  
 		unset($this->session->data['token']);
