@@ -74,8 +74,8 @@ class ControllerPagesSettings extends AController {
 	 * @return bool
 	 */
 	private function validate() {
-		if (phpversion() < '5.2') {
-			$this->error['warning'] = 'Warning: You need to use PHP5.2 or above for AbanteCart to work!';
+		if ( version_compare(phpversion(), MIN_PHP_VERSION, '<') == TRUE ) {
+			$this->error['warning'] = 'Warning: You need to use PHP '.MIN_PHP_VERSION.' or above for AbanteCart to work!';
 		}
 
 		if (!ini_get('file_uploads')) {
