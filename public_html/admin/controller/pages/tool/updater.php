@@ -21,6 +21,10 @@ if (! defined ( 'DIR_CORE' ) || !IS_ADMIN) {
 	header ( 'Location: static_pages/' );
 }
 
+/**
+ * Class ControllerPagesToolUpdater
+ * @property  ModelToolMPAPI $model_tool_mp_api
+ */
 class ControllerPagesToolUpdater extends AController {
 
 	public $data;
@@ -70,34 +74,54 @@ class ControllerPagesToolUpdater extends AController {
 		
 		$this->data['extensions'] = array();
 
-		$updates = $this->cache->get('extensions.updates');
-		$this->data['extensions'] = array();
+		$mp_token = $this->config->get('mp_token');
+		if ( !$mp_token ) {
+			$this->data['mp_connected'] = false;
+			$this->loadModel('tool/mp_api');
 
-		if(!empty($updates) && is_array($updates)) {
-			foreach($updates as $key => $upd){
-				$ext_info = $this->extensions->getExtensionInfo($key);
-				$this->data['extensions'][$key]['installed_version'] = $ext_info['version'];
-				$this->data['extensions'][$key]['new_version'] = $upd['version'];
-				$this->data['extensions'][$key]['type'] = $ext_info['type'];
-				$this->data['extensions'][$key]['category'] = $ext_info['category'];
-				$this->data['extensions'][$key]['status'] = $this->html->buildCheckbox(array(
-									'id' => $key.'_status',
-									'name' => $key.'_status',
-									'value' => $ext_info['status'],
-									'style' => 'btn_switch btn-group-xs disabled',
-									'attr' => 'readonly="true" data-edit-url="'.$this->html->getSecureURL('extension/extensions/edit','&extension='.$key).'"'
-								));
-	
-				$this->data['extensions'][$key]['mp_url'] = $upd['url'];
-				if($upd['installation_key']){
-					$this->data['extensions'][$key]['install_url'] = $this->html->getSecureURL('tool/package_installer', '&extension_key=' . $upd['installation_key']);
+			$this->data['text_marketplace_connect'] = $this->language->get('text_marketplace_connect');
+			$this->data['text_connect'] = $this->language->get('text_connect');
+			$this->data['text_please_connect'] = $this->language->get('text_marketplace_connect_your_store');
+
+			$return_url = base64_encode($this->html->getSecureURL('tool/extensions_store/connect'));
+			$mp_params = '?rt=account/authenticate&return_url='.$return_url;
+			$mp_params .= '&store_id='.UNIQUE_ID;
+			$mp_params .= '&store_url='.HTTP_SERVER;
+			$mp_params .= '&store_version='.VERSION;
+			$this->data['amp_connect_url'] = $this->model_tool_mp_api->getMPURL().$mp_params;
+			$this->data['amp_disconnect_url'] = $this->html->getSecureURL('tool/extensions_store/disconnect');
+
+		}else{
+			$this->data['mp_connected'] = true;
+			$updates = $this->cache->get('extensions.updates');
+			$this->data['extensions'] = array ();
+
+			if (!empty($updates) && is_array($updates)){
+				foreach ($updates as $key => $upd){
+					$ext_info = $this->extensions->getExtensionInfo($key);
+					$this->data['extensions'][$key]['installed_version'] = $ext_info['version'];
+					$this->data['extensions'][$key]['new_version'] = $upd['version'];
+					$this->data['extensions'][$key]['type'] = $ext_info['type'];
+					$this->data['extensions'][$key]['category'] = $ext_info['category'];
+					$this->data['extensions'][$key]['status'] = $this->html->buildCheckbox(array (
+							'id'    => $key . '_status',
+							'name'  => $key . '_status',
+							'value' => $ext_info['status'],
+							'style' => 'btn_switch btn-group-xs disabled',
+							'attr'  => 'readonly="true" data-edit-url="' . $this->html->getSecureURL('extension/extensions/edit', '&extension=' . $key) . '"'
+					));
+
+					$this->data['extensions'][$key]['mp_url'] = $upd['url'];
+					if ($upd['installation_key']){
+						$this->data['extensions'][$key]['install_url'] = $this->html->getSecureURL('tool/package_installer', '&extension_key=' . $upd['installation_key']);
+					}
+					$this->data['extensions'][$key]['name'] = $this->extensions->getExtensionName($key);
 				}
-				$this->data['extensions'][$key]['name'] = $this->extensions->getExtensionName($key);
 			}
-		}
 
-		if ( ! $this->data['extensions'] ) {
-			$this->data['text_nothing_todo'] = $this->language->get('text_nothing_todo');
+			if (!$this->data['extensions']){
+				$this->data['text_nothing_todo'] = $this->language->get('text_nothing_todo');
+			}
 		}
 		$this->view->assign('help_url', $this->gen_help_url() );
 		$this->view->batchAssign($this->data);
