@@ -35,6 +35,8 @@ class ControllerPagesToolUpdater extends AController {
         $this->extensions->hk_InitData($this,__FUNCTION__);
 
 		$this->loadModel('tool/updater');
+		//refresh data. just clear cache with updates. In other usages of this cache-data it will be cleared in 24 hours
+		$this->cache->delete('extensions.updates');
 		$this->model_tool_updater->check4Updates();
 
 		$this->document->setTitle( $this->language->get('heading_title') );
