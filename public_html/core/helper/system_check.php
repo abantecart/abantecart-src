@@ -83,7 +83,7 @@ function check_file_permissions($registry){
 	if (is_writable($index) || substr(sprintf("%o",fileperms($index)), -3) == '777') {
 	    $ret_array[] = array(
 	    	'title' => 'Incorrect index.php file permissions',
-	    	'body' => $index . ' file is writable. It is recommended to set read and execute modes (644 or 755) for this file to keep it secured and running properly!',
+	    	'body' => $index . ' file is writable. It is recommended to set read and execute modes for this file to keep it secured and running properly!',
 	    	'type' => 'W'	    
 	    );
 	}
@@ -91,7 +91,7 @@ function check_file_permissions($registry){
 	if (is_writable(DIR_SYSTEM . 'config.php')) {
 	    $ret_array[] = array(
 	    	'title' => 'Incorrect config.php file permissions',
-	    	'body' => DIR_SYSTEM . 'config.php' . ' file needs to be set to read and execute modes (644 or 755) to keep it secured from editing!',
+	    	'body' => DIR_SYSTEM . 'config.php' . ' file needs to be set to read and execute modes to keep it secured from editing!',
 	    	'type' => 'W'	    
 	    );
 	}
