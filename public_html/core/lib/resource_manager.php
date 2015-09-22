@@ -222,26 +222,34 @@ class AResourceManager extends AResource {
     }
 
 	public function deleteThumbnail($resource_id='') {
+		$resource_id = (int)$resource_id;
+		if(!$resource_id){
+			return false;
+		}
 
-        $path = DIR_IMAGE . 'thumbnails/';
+		//get $resource with all translations
+		$resource = $this->getResource($resource_id);
+		//skip when resource is html-code or does not exists
+		if(!$resource['resource_path'] || !$resource){
+			return false;
+		}
 
-		$iterator = new RecursiveDirectoryIterator($path);
-	    foreach (new RecursiveIteratorIterator($iterator, RecursiveIteratorIterator::CHILD_FIRST) as $file) {
-	    	if(is_int(strpos($file->getPathname(),'/index.html'))){
-	    		continue;
-	    	}
+		foreach($resource['name'] as $lang_id => $name){
+			$name = preg_replace('/[^a-zA-Z0-9]/', '_', $name);
+			$filemask = DIR_IMAGE . 'thumbnails/' . dirname($resource['resource_path']) . '/' . $name . '-' . $resource_id . '-*';
 
-			if($resource_id && strpos($file->getPathname(),(string)$resource_id)===false ){
-				continue;
+			$file_list = glob($filemask, GLOB_NOSORT);
+
+			if ($file_list){
+				foreach ($file_list as $thumb){
+					if (is_file($thumb)){
+						unlink($thumb);
+					}
+				}
 			}
 
-			if ($file->isDir()) {
-				rmdir($file->getPathname());
-			} else {
-				unlink($file->getPathname());
-			}
-	    }
-
+		}
+		return true;
   	}
 
     /**
@@ -262,6 +270,8 @@ class AResourceManager extends AResource {
         if ( $resource['resource_path'] && is_file( DIR_RESOURCE . $resource['type_name'] . '/' . $resource['resource_path']) ) {
             unlink( DIR_RESOURCE.$resource['type_name'].'/'.$resource['resource_path'] );
         }
+	    //remove thumbnail before removing
+	    $this->deleteThumbnail($resource_id);
 
         $this->db->query("DELETE FROM " . $this->db->table("resource_map") . " WHERE resource_id = '".(int)$resource_id."' ");
         $this->db->query("DELETE FROM " . $this->db->table("resource_descriptions") . " WHERE resource_id = '".(int)$resource_id."' ");

@@ -1107,6 +1107,10 @@ class ModelCatalogProduct extends Model{
 					$product_id,
 					$r['resource_id']
 			);
+			//if resource become orphan - delete it
+			if(!$rm->isMapped($r['resource_id'])){
+				$rm->deleteResource($r['resource_id']);
+			}
 		}
 
 		//delete product's downloads

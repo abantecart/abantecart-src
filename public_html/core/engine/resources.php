@@ -24,6 +24,7 @@ if (!defined('DIR_CORE')) {
 
 /** @noinspection PhpUndefinedClassInspection
  * @property ModelToolImage $model_tool_image
+ * @property  ExtensionsAPI $extensions
  */
 class AResource {
 	/**
@@ -233,6 +234,11 @@ class AResource {
         }
 
         $resource = $this->getResource($resource_id, $language_id);
+	    //check is resource have descriptions. if not - try to get it for default language
+	    if(!$resource['name']){
+		    $resource = $this->getResource($resource_id, $this->language->getDefaultLanguageID());
+	    }
+
         switch( $this->type ) {
             case 'image' :
                 if(!$resource['default_icon']){
@@ -274,7 +280,7 @@ class AResource {
 			    $this->_check_create_thumb($new_image2x, $old_image, $width*2, $height*2);
 		    }
 
-		    $this->registry->get('extensions')->hk_ProcessData($this, __FUNCTION__);
+		    $this->extensions->hk_ProcessData($this, __FUNCTION__);
 		    $http_path = $this->data['http_dir'];
 		    if(!$http_path){
                 if( HTTPS===true){
@@ -319,7 +325,7 @@ class AResource {
     public function buildResourceURL ( $resource_path, $mode = 'full' ) {
 
 		if ( $mode == 'full') {
-			$this->registry->get('extensions')->hk_ProcessData($this, __FUNCTION__);
+			$this->extensions->hk_ProcessData($this, __FUNCTION__);
 			$http_path = $this->data['http_dir'];
 			if(!$http_path){
 				$http_path = HTTPS_DIR_RESOURCE;
@@ -453,7 +459,7 @@ class AResource {
 		 	$origin = $resource_info['resource_path'] ? 'internal' : 'external';
 			
 			if($origin=='internal'){
-				$this->registry->get('extensions')->hk_ProcessData($this, __FUNCTION__);
+				$this->extensions->hk_ProcessData($this, __FUNCTION__);
 				$http_path = $this->data['http_dir'];
 				if(!$http_path){
 					$http_path = HTTPS_DIR_RESOURCE;					
@@ -532,7 +538,7 @@ class AResource {
 	public function getMainThumb($object_name, $object_id, $width, $height, $noimage=true ){
 		$sizes=array('thumb'=>array('width'=>$width, 'height'=> $height));
 		$result =  $this->getResourceAllObjects($object_name, $object_id, $sizes,1, $noimage);
-
+		$output = array();
 		if($result){
 			$output = array( 'origin' => $result['origin'],
 							 'thumb_html'=>$result['thumb_html'],
@@ -555,6 +561,7 @@ class AResource {
 	public function getMainImage($object_name, $object_id, $width, $height, $noimage=true){
 		$sizes=array('main'=>array('width'=>$width, 'height'=> $height));
 		$result =  $this->getResourceAllObjects($object_name, $object_id, $sizes,1, $noimage);
+		$output = array();
 		if($result){
 			$output = array( 'origin' => $result['origin'],
 							'main_html'=>$result['main_html'],
