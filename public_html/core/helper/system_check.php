@@ -132,7 +132,7 @@ function check_file_permissions($registry){
 	if($image_message){
 	    $ret_array[] = array(
 	    	'title' => 'Incorrect image files permissions',
-	    	'body' => "Following files do not have write permissions. AbanteCart thumbnail images will not function properly. <br/>" . $cache_message,
+	    	'body' => "Following files do not have write permissions. AbanteCart thumbnail images will not function properly. <br/>" . $image_message,
 	    	'type' => 'W'	    
 	    );	
 	}
