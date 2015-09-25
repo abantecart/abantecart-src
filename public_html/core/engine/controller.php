@@ -97,6 +97,7 @@ if (!defined('DIR_CORE')) {
  * @property ADataEncryption $dcrypt
  * @property ModelToolFileUploads $model_tool_file_uploads
  * @property ADownload $download
+ * @property AOrderStatus $order_status
  */
 abstract class AController {
 	protected $registry;

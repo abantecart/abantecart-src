@@ -41,7 +41,7 @@ final class Registry {
 
 	/**
 	 * @param $key string
-	 * @return ARequest|ALoader|ADocument|ADB|AConfig|AHtml|ExtensionsApi|AExtensionManager|ALanguageManager|ASession|ACache|AMessage|ALog|AResponse|AUser|ARouter| ACurrency |ModelLocalisationLanguageDefinitions| ModelLocalisationCountry | ModelSettingSetting | ADataEncryption | ModelInstall | ADownload
+	 * @return ARequest|ALoader|ADocument|ADB|AConfig|AHtml|ExtensionsApi|AExtensionManager|ALanguageManager|ASession|ACache|AMessage|ALog|AResponse|AUser|ARouter| ACurrency |ModelLocalisationLanguageDefinitions| ModelLocalisationCountry | ModelSettingSetting | ADataEncryption | ModelInstall | ADownload|AOrderStatus
 	 */
 	public function get($key) {
 		return (isset($this->data[$key]) ? $this->data[$key] : NULL);

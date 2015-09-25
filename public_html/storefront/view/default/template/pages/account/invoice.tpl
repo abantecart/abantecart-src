@@ -2,6 +2,12 @@
 	<span class="maintext"><i class="fa fa-file"></i> <?php echo $heading_title; ?></span>
 	<span class="subtext"></span>
 </h1>
+<?php if ($success) { ?>
+<div class="alert alert-success">
+	<button type="button" class="close" data-dismiss="alert">&times;</button>
+	<?php echo $success; ?>
+</div>
+<?php } ?>
 
 <div class="contentpanel">
 
@@ -128,6 +134,30 @@
 		    	<?php echo $button_continue->text ?>
 		    </a>
 		    <?php echo $this->getHookVar('hk_additional_buttons'); ?>
+
+			<?php if ($button_order_cancel) { ?>
+		    <a href="" class="btn btn-default mr10 pull-right" data-toggle="modal" data-target="#cancelationModal"
+		       title="<?php echo $button_order_cancel->text ?>">
+		    	<i class="<?php echo $button_order_cancel->{'icon'}; ?>"></i>
+		    	<?php echo $button_order_cancel->text ?>
+		    </a>
+				<div id="cancelationModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="cancelationModalLabel" aria-hidden="true">
+					<div class="modal-dialog">
+						<div class="modal-content">
+							<div class="modal-header">
+								<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+								<h3 id="returnPolicyModalLabel"><?php echo $text_order_cancelation; ?></h3>
+							</div>
+							<div class="modal-body"><?php echo $text_order_cancelation_confirm; ?></div>
+							<div class="modal-footer">
+								<button class="btn btn-default pull-left" data-dismiss="modal" aria-hidden="true"><?php echo $text_close; ?></button>
+								<button class="btn btn-orange pull-right" onclick="location='<?php echo $order_cancelation_url;?>';"><?php echo $button_continue->text; ?></button>
+							</div>
+						</div>
+					</div>
+				</div>
+
+			<?php } ?>
 		    <a href="javascript:window.print();" class="btn btn-orange mr10 pull-right"
 		       title="<?php echo $button_print->text ?>">
 		    	<i class="<?php echo $button_print->{'icon'}; ?>"></i>

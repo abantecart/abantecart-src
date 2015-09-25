@@ -340,8 +340,9 @@ class ControllerResponsesExtensionDefaultAuthorizeNetAim extends AController {
 			} 
 		} else if ($response_data[ 1 ] == '4') {
 			//special case of sucess payment in review stage. Create order with pending status
-			$this->model_checkout_order->confirm($this->session->data['order_id'], ORDER_PENDING);
-			$this->model_checkout_order->update($this->session->data['order_id'], ORDER_PENDING, $message, FALSE);
+			$new_order_status_id = $this->order_status->getStatusByTextId('pending');
+			$this->model_checkout_order->confirm($this->session->data['order_id'], $new_order_status_id);
+			$this->model_checkout_order->update($this->session->data['order_id'], $new_order_status_id, $message, FALSE);
 			$json['success'] = $this->html->getSecureURL('checkout/success');
 		} else {
 			$json['error'] = $response_data[ 4 ];

@@ -137,7 +137,11 @@ class ModelSettingSetting extends Model {
 			WHERE `group` = '" . $this->db->escape($group) . "'
 					AND store_id = '".(int)$store_id."'" );
 		foreach ($query->rows as $result) {
-			$data[$result['key']] = $result['value'];
+			$value = $result['value'];
+			if (is_serialized($value)) {
+				$value = unserialize($value);
+			}
+			$data[$result['key']] = $value;
 		}
 		return $data;
 	}
@@ -196,6 +200,19 @@ class ModelSettingSetting extends Model {
 
 		foreach ($data as $key => $value) {
 			if($key=='one_field'){ continue; } //is'a sign for displaying one setting for quick edit form. ignore it!
+
+			//check if setting is multi-value (array) and save serialized value.
+			if (is_array($value)) {
+				//validate values in array. If setting is array of all members = 0 save only single value of 0
+				//This is to match standard post format in regular form submit
+				$concat = implode('',$value);
+				if (preg_match('/[^0]/',$concat)) {
+					$value = serialize($value);
+				} else {
+					$value = 0;
+				}
+			}
+
 			$sql = "DELETE FROM " . $this->db->table("settings") . " 
 					WHERE `group` = '" . $this->db->escape($group) . "'
 							AND `key` = '" . $this->db->escape($key) . "'

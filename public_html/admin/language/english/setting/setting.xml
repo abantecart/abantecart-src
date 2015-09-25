@@ -261,6 +261,11 @@
 			<![CDATA[Order Status:<br /><span class="help">Set the default order status when an order is processed.</span>]]></value>
 	</definition>
 	<definition>
+		<key>entry_customer_cancelation_order_status</key>
+		<value>
+			<![CDATA[Allow Customer to Cancel Order on Status:]]></value>
+	</definition>
+	<definition>
 		<key>entry_stock_display</key>
 		<value>
 			<![CDATA[Display Stock:<br /><span class="help">Display stock quantity on the product page.</span>]]></value>

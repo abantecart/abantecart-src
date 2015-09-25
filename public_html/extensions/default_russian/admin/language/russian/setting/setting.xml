@@ -261,6 +261,11 @@
 		<value><![CDATA[Статус заказа: <br /> <span class="help">Установить статус по умолчанию.</span>]]></value>
 	</definition>
 	<definition>
+		<key>entry_customer_cancelation_order_status</key>
+		<value>
+			<![CDATA[Позволять покупателю отменить заказ при статусе заказа:]]></value>
+	</definition>
+	<definition>
 		<key>entry_stock_display</key>
 		<value>
 			<![CDATA[Показывать наличие на складе:<br /><span class="help">Показывать остаток товаров на складе на странице товара.</span>]]></value>

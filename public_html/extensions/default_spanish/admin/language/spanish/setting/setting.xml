@@ -471,6 +471,11 @@
 			<![CDATA[Estado del pedido:<br /><span class="help">Establecer el estado del pedido por defecto cuando una compra es procesada.</span>]]></value>
 	</definition>
 	<definition>
+		<key>entry_customer_cancelation_order_status</key>
+		<value>
+			<![CDATA[Permitir al Cliente para Cancelar la Orden relativa a la situación:]]></value>
+	</definition>
+	<definition>
 		<key>entry_stock_display</key>
 		<value>
 			<![CDATA[Mostrar Stock:<br /><span class="help">Mostrar la cantidad de stock restante al cliente, al visualizar el producto.</span>]]></value>
