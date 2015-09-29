@@ -1,12 +1,14 @@
 <?php //NOTE: For multivalue, need to pass attribute multiple="multiple" ?>
 <select id="<?php echo $id ?>" name="<?php echo $name ?>" data-placeholder="<?php echo $placeholder; ?>" class="chosen-select form-control aselect <?php echo ($style ? $style:''); ?>" style="display: none;" <?php echo $attr; ?>>
 <?php 
+if(is_array($options)){
 	foreach ( $options as $v => $text ) { 	
 	$check_id = preg_replace('/[^a-zA-Z0-9_]/', '', $id . $v);
 	//special case for chosen
 	if (is_array($text )) {
 		$text = $text['name'];
 	}
+}
 ?>
 <option id="<?php echo $check_id ?>" value="<?php echo $v ?>" <?php echo (in_array($v, $value) ? ' selected="selected" ':'') ?> data-orgvalue="<?php echo (in_array($v, $value) ? 'true':'false') ?>"><?php echo $text ?></option>
 <?php } ?>
@@ -29,6 +31,7 @@
 <script type="text/javascript">
 $(document).ready(function () {
 <?php 
+if(is_array($options)){
 	foreach ( $options as $v => $text ) { 	
 		if (is_array($text)) {
 		$check_id = preg_replace('/[^a-zA-Z0-9_]/', '', $id . $v);
@@ -38,6 +41,7 @@ $(document).ready(function () {
 <?php 
 		}
 	}
+}
 ?>
 
 $("#<?php echo $id ?>").chosen({'width':'100%','white-space':'nowrap'});
