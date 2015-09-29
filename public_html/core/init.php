@@ -178,13 +178,6 @@ try {
 	define('POSTFIX_PRE', '.pre');
 	define('POSTFIX_POST', '.post');
 
-//Static order ids 1,2,5,7
-	define('ORDER_INIT', 0);
-	define('ORDER_PENDING', 1);
-	define('ORDER_PROCESSING', 2);
-	define('ORDER_COMPLETED', 5);
-	define('ORDER_CANCELED', 7);
-
 // Include Engine
 	require_once(DIR_CORE . 'engine/router.php');
 	require_once(DIR_CORE . 'engine/page.php');
@@ -235,6 +228,7 @@ try {
 // Application Classes
 	require_once(DIR_CORE . 'lib/customer.php');
 	require_once(DIR_CORE . 'lib/order.php');
+	require_once(DIR_CORE . 'lib/order_status.php');
 	require_once(DIR_CORE . 'lib/currency.php');
 	require_once(DIR_CORE . 'lib/tax.php');
 	require_once(DIR_CORE . 'lib/weight.php');
@@ -469,6 +463,8 @@ try {
 	$registry->get('language')->load();
 	$hook->hk_InitEnd();
 
+//load order status class
+	$registry->set('order_status',new AOrderStatus());
 } //eof try
 catch (AException $e) {
 	ac_exception_handler($e);

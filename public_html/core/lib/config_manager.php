@@ -595,6 +595,13 @@ class AConfigManager {
 			'value' => $data['config_order_status_id'],
 			'options' => $order_statuses,
 		));
+		$fields['customer_cancelation_order_status'] = $form->getFieldHtml($props[] = array(
+			'type' => 'multiselectbox',
+			'name' => 'config_customer_cancelation_order_status_id[]',
+			'value' => $data['config_customer_cancelation_order_status_id'] ? $data['config_customer_cancelation_order_status_id'] : array(),
+			'options' => $order_statuses,
+			'style' => 'chosen'
+		));
 		$fields['cart_weight'] = $form->getFieldHtml($props[] = array(
 			'type' => 'checkbox',
 			'name' => 'config_cart_weight',

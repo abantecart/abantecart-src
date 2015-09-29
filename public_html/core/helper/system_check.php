@@ -24,8 +24,8 @@ if (!defined('DIR_CORE')) {
 /**
  * Main driver for running system check 
  * @since 1.2.4
- * @param $registry
- * @param $mode ('log', 'return') 
+ * @param  Registry $registry
+ * @param string $mode ('log', 'return')
  * @return array
  *
  * Note: This is English text only. Can be call before database and languges are loaded
@@ -38,7 +38,8 @@ function run_system_check($registry, $mode = 'log'){
 	$mlog = array_merge($mlog, check_file_permissions($registry));	
 	$mlog = array_merge($mlog, check_php_configuraion($registry));	
 	$mlog = array_merge($mlog, check_server_configuration($registry));	
-	
+	$mlog = array_merge($mlog, check_order_statuses($registry));
+
 	$counts['error_count'] = $counts['warning_count'] = $counts['notice_count'] = 0;
 	foreach($mlog as $message){
 	    if($message['type'] == 'E'){
@@ -96,11 +97,14 @@ function check_file_permissions($registry){
 	    );
 	}
 
-	//if cache is anabled
+	//if cache is enabled
 	if( $registry->get('config')->get('config_cache_enable') ) {
 		$cache_files = get_all_files_dirs(DIR_SYSTEM . 'cache/');
 		$cache_message = '';
 		foreach($cache_files as $file) {
+			if(in_array(basename($file), array('index.html', 'index.html','.','','..'))){
+				continue;
+			}
 			if (!is_writable($file)) {
 				$cache_message .= $file."<br/>";
 			}	
@@ -125,6 +129,9 @@ function check_file_permissions($registry){
 	$image_files = get_all_files_dirs(DIR_ROOT . '/image/thumbnails/');
 	$image_message = '';
 	foreach($image_files as $file) {
+		if(in_array(basename($file), array('index.html', 'index.html','.','','..'))){
+			continue;
+		}
 	    if (!is_writable($file)) {
 	    	$image_message .= $file."<br/>";
 	    }	
@@ -212,7 +219,7 @@ function check_server_configuration($registry){
 	    );
 	}
 
-	//if SEO is anabled
+	//if SEO is enabled
 	if( $registry->get('config')->get('enable_seo_url') ) {	
 		$htaccess = DIR_ROOT . '/.htaccess';
 		if(!file_exists($htaccess)) {
@@ -249,13 +256,52 @@ function disk_size($path){
 		    $si_prefix = array( 'B', 'KB', 'MB', 'GB', 'TB', 'EB', 'ZB', 'YB' );
 		    $base = 1024;
 		    $class = min((int)log($bytes , $base) , count($si_prefix) - 1);
-		    return array('bytes' => $bytes, 'human' => sprintf('%1.2f' , $bytes / pow($base,$class)) . ' ' . $si_prefix[$class]);
+		    return array(
+				    'bytes' => $bytes,
+				    'human' => sprintf('%1.2f' , $bytes / pow($base,$class)) . ' ' . $si_prefix[$class]);
 		} catch (Exception $e) {
 			return array();
 		}
 	} else {
 		return array();
 	}
+}
+
+/**
+ * @param Registry $registry
+ * @return array
+ */
+function check_order_statuses($registry){
+
+	$db = $registry->get('db');
+
+	$order_statuses = $registry->get('order_status')->getStatuses();
+	$language_id = (int)$registry->get('language')->getDefaultLanguageID();
+
+	$query = $db->query("SELECT osi.order_status_id, osi.status_text_id
+							    FROM " . $db->table('order_statuses') . " os
+								INNER JOIN " . $db->table('order_status_ids') . " osi
+									ON osi.order_status_id = os.order_status_id
+								WHERE os.language_id = '".$language_id."'");
+	$db_statuses = array();
+	foreach($query->rows as $row){
+		$db_statuses[(int)$row['order_status_id']] = $row['status_text_id'];
+	}
+
+	$ret_array = array();
+
+	foreach ($order_statuses as $id => $text_id){
+		if($text_id != $db_statuses[$id]){
+			$ret_array[] = array(
+						        'title' => 'Incorrect order status with id '.$id,
+						        'body' => 'Incorrect status text id for order status #'.$id.'. Value must be "'.$text_id.'" ('.$db_statuses[$id].'). Please check data of tables '.$db->table('order_status_ids').' and '.$db->table('order_statuses'),
+						        'type' => 'W'
+						    );
+		}
+	}
+
+
+ return $ret_array;
 }
 
 
