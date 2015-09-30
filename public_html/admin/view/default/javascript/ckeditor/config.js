@@ -45,4 +45,5 @@ CKEDITOR.editorConfig = function( config ) {
     config.disableNativeSpellChecker = false;
     
     config.allowedContent = true;
+	config.extraPlugins = 'font,colorbutton';
 };
