@@ -108,7 +108,9 @@ class ControllerPagesToolBackup extends AController {
 			$this->data['error_warning'] = $this->session->data['error'];
 			unset($this->session->data['error']);
 		} else {
-			$this->data['error_warning'] = '';
+			$bkp = new ABackup('manual_backup');
+			$bkp->validate();
+			$this->data['error_warning'] = implode("\n",$bkp->error);
 		}
 
 		if (isset($this->session->data['success'])) {
@@ -139,13 +141,8 @@ class ControllerPagesToolBackup extends AController {
 
 		$this->data['tables'] = $this->model_tool_backup->getTables();
 		//if we cannot to get table list from database -show error
-		if( $this->data['tables']===false || sizeof($this->data['tables'])==0 ){
-			$error = "Error: Can't create sql dump of database during backup. Cannot obtain table list. ";
-			if(DB_DRIVER=='mysql'){
-				$error .= 'Try to change db-driver to "amysqli" in your /system/config.php file.';
-			}
-			$this->session->data['error'] = $error;
-			$this->redirect($this->html->getSecureURL('tool/backup'));
+		if( $this->data['tables']===false ){
+			$this->data['tables'] = array();
 		}
 
 		$table_sizes = $this->model_tool_backup->getTableSizes($this->data['tables']);
@@ -314,7 +311,7 @@ class ControllerPagesToolBackup extends AController {
 			$this->request->post['backup_config'] = $this->request->post['backup_config'] ? true : false;
 
 			if(!$this->request->post['backup'] &&  !$this->request->post['backup_files'] && !$this->request->post['backup_config']){
-				$this->errors['warning'] = $this->language->get('error_nothing_to_backup');
+				$this->error['warning'] = $this->language->get('error_nothing_to_backup');
 			}
 		}
 

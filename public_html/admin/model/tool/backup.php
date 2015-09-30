@@ -52,6 +52,7 @@ class ModelToolBackup extends Model {
 	 * @return bool
 	 */
 	public function load($xml_source,$mode='string') {
+		$xml_obj = null;
 		if($mode=='string'){
 			$xml_obj = simplexml_load_string($xml_source);
 		}elseif($mode=='file'){
@@ -140,7 +141,7 @@ class ModelToolBackup extends Model {
 		}
 		$result = $bkp->archive(DIR_BACKUP . $bkp->getBackupName() . '.tar.gz', DIR_BACKUP, $bkp->getBackupName());
 		if (!$result) {
-			$this->errors[] = $bkp->error;
+			$this->errors = array_merge($this->errors,$bkp->error);
 		} else {
 			$this->backup_filename = $bkp->getBackupName();
 		}
