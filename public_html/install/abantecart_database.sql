@@ -1628,7 +1628,6 @@ INSERT INTO `ac_settings` (`group`, `key`, `value`) VALUES
 ('checkout','config_stock_checkout',0),
 ('checkout','config_order_status_id',1),
 ('checkout','config_stock_subtract',0),
-('checkout','config_stock_check',1),
 ('checkout','config_cart_ajax',1),
 ('checkout','total_order_maximum',0),
 ('checkout','total_order_minimum',0),
