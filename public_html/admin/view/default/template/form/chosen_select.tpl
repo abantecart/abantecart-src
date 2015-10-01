@@ -8,10 +8,10 @@ if(is_array($options)){
 	if (is_array($text )) {
 		$text = $text['name'];
 	}
-}
+
 ?>
 <option id="<?php echo $check_id ?>" value="<?php echo $v ?>" <?php echo (in_array($v, $value) ? ' selected="selected" ':'') ?> data-orgvalue="<?php echo (in_array($v, $value) ? 'true':'false') ?>"><?php echo $text ?></option>
-<?php } ?>
+<?php }} ?>
 </select>
 
 <?php if ( $required == 'Y' || !empty ($help_url) ) { ?>
