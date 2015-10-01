@@ -21,3 +21,7 @@ INSERT INTO `ac_order_status_ids` (`order_status_id`, `status_text_id`) VALUES
 (12, 'reversed'),
 (13, 'chargeback'),
 (14, 'canceled_by_customer');
+
+UPDATE `ac_fields`
+SET regexp_pattern = '/^[A-Z0-9._%-]+@[A-Z0-9][A-Z0-9.-]{0,61}[A-Z0-9]\\.[A-Z]{2,16}$/i'
+WHERE field_id = 12 AND field_name = 'email';

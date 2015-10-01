@@ -298,8 +298,7 @@ class ControllerResponsesListingGridCustomer extends AController {
 				}
 				break;
 			case 'email':
-				$pattern = '/^[A-Z0-9._%-]+@[A-Z0-9][A-Z0-9.-]{0,61}\.[A-Z]{2,6}$/i';
-				if ( mb_strlen($value) > 96 || !preg_match($pattern, $value) ) {
+				if ( mb_strlen($value) > 96 || !preg_match(EMAIL_REGEX_PATTERN, $value) ) {
 					$this->error = $this->language->get('error_email');
 				}
 				break;

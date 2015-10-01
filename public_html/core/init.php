@@ -60,6 +60,9 @@ define('DIR_LOGS', DIR_ROOT . '/system/logs/');
 // SEO URL Keyword separator
 define('SEO_URL_SEPARATOR', '-');
 
+// EMAIL REGEXP PATTERN
+define('EMAIL_REGEX_PATTERN','/^[A-Z0-9._%-]+@[A-Z0-9][A-Z0-9.-]{0,61}[A-Z0-9]\.[A-Z]{2,16}$/i');
+
 // Error Reporting
 error_reporting(E_ALL);
 require_once(DIR_CORE . '/lib/debug.php');

@@ -228,8 +228,7 @@ class ControllerPagesIndexForgotPassword extends AController {
 			$this->error['username'] = $this->language->get('error_username');
 		}
 
-		$pattern = '/^[A-Z0-9._%-]+@[A-Z0-9][A-Z0-9.-]{0,61}[A-Z0-9]\.[A-Z]{2,6}$/i';
-		if (!preg_match($pattern, $this->request->post['email'])) {
+		if (!preg_match(EMAIL_REGEX_PATTERN, $this->request->post['email'])) {
 			$this->error['email'] = $this->language->get('error_email');
 		}
 
