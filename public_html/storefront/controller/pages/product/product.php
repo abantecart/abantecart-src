@@ -279,11 +279,19 @@ class ControllerPagesProductProduct extends AController{
 
 
 		if(!$product_info['call_to_order']){
+			$qnt = (int)$this->request->get['quantity'];
+			if(!$qnt){
+				$qnt = ($product_info['minimum'] ? (int)$product_info['minimum'] : 1);
+			}
+
+			$qnt = (int)$product_info['minimum'] && $product_info['minimum']>$qnt ?  (int)$product_info['minimum'] : $qnt;
+			$qnt = (int)$product_info['maximum'] && $product_info['maximum']<$qnt ?  (int)$product_info['maximum'] : $qnt;
+
 			$this->data['form']['minimum'] = $form->getFieldHtml(
 					array(
 							'type'  => 'input',
 							'name'  => 'quantity',
-							'value' => ($product_info['minimum'] ? (int)$product_info['minimum'] : 1),
+							'value' => $qnt,
 							'style' => 'short',
 							'attr'  => ' size="3" '));
 
