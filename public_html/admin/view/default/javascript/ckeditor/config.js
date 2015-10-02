@@ -38,7 +38,7 @@ CKEDITOR.editorConfig = function( config ) {
 	config.removeDialogTabs = 'image:advanced;link:advanced';
 
 	// ALLOW <i></i> and break-line signs
-	config.protectedSource = [/\r|\n|<i[^>]*><\/i>/g];
+	config.protectedSource = [/\r|\n|\s|\S|\t|<i[^>]*><\/i>/g];
 	
     config.enterMode = CKEDITOR.ENTER_BR;
     config.shiftEnterMode = CKEDITOR.ENTER_BR;
