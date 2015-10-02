@@ -302,9 +302,7 @@ class ModelAccountCustomer extends Model {
       		$error['lastname'] = $this->language->get('error_lastname');
     	}
 
-		$pattern = '/^[-0-9a-zA-Z.+_]+@[-0-9a-zA-Z.+_]+\.[a-zA-Z]{2,4}$/i';
-
-    	if ((mb_strlen($data['email']) > 96) || (!preg_match($pattern, $data['email']))) {
+    	if ((mb_strlen($data['email']) > 96) || (!preg_match(EMAIL_REGEX_PATTERN, $data['email']))) {
       		$error['email'] = $this->language->get('error_email');
     	}
 
@@ -373,9 +371,7 @@ class ModelAccountCustomer extends Model {
       		$error['lastname'] = $this->language->get('error_lastname');
     	}
 
-		$pattern = '/^[-0-9a-zA-Z.+_]+@[-0-9a-zA-Z.+_]+\.[a-zA-Z]{2,4}$/i';
-
-    	if ((mb_strlen($data['email']) > 96) || (!preg_match($pattern, $data['email']))) {
+    	if ((mb_strlen($data['email']) > 96) || (!preg_match(EMAIL_REGEX_PATTERN, $data['email']))) {
       		$error['email'] = $this->language->get('error_email');
     	}
 
@@ -418,9 +414,7 @@ class ModelAccountCustomer extends Model {
 			$error['lastname'] = $this->language->get('error_lastname');
 		}
 
-		$pattern = '/^[-0-9a-zA-Z.+_]+@[-0-9a-zA-Z.+_]+\.[a-zA-Z]{2,4}$/i';
-
-		if ((mb_strlen($data['email']) > 96) || (!preg_match($pattern, $data['email']))) {
+		if ((mb_strlen($data['email']) > 96) || (!preg_match(EMAIL_REGEX_PATTERN, $data['email']))) {
 			$error['email'] = $this->language->get('error_email');
 		}
 		

@@ -529,9 +529,7 @@ class ControllerPagesCheckoutGuestStep1 extends AController {
 			$this->error['lastname'] = $this->language->get('error_lastname');
 		}
 
-		$pattern = '/^[-0-9a-zA-Z.+_]+@[-0-9a-zA-Z.+_]+\.[a-zA-Z]{2,4}$/i';
-
-		if (!preg_match($pattern, $this->request->post['email'])) {
+		if (!preg_match(EMAIL_REGEX_PATTERN, $this->request->post['email'])) {
 			$this->error['email'] = $this->language->get('error_email');
 		}
 
