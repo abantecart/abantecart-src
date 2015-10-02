@@ -1,4 +1,4 @@
-<?php  
+<?php
 /*------------------------------------------------------------------------------
   $Id$
 
@@ -17,13 +17,16 @@
    versions in the future. If you wish to customize AbanteCart for your
    needs please refer to http://www.AbanteCart.com for more information.
 ------------------------------------------------------------------------------*/
-if (! defined ( 'DIR_CORE' )) {
-	header ( 'Location: static_pages/' );
+if (!defined('DIR_CORE')){
+	header('Location: static_pages/');
 }
-class ControllerBlocksBreadcrumbs extends AController {
-	public $data=array();
-	public function main() {
+
+class ControllerBlocksBreadcrumbs extends AController{
+	public $data = array ();
+
+	public function main(){
 		$this->data['breadcrumbs'] = $this->document->getBreadcrumbs();
+		$this->data['text_home'] = $this->language->get('text_home');
 		$this->view->batchAssign($this->data);
 		$this->processTemplate();
 	}
