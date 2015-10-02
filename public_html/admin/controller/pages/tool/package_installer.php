@@ -112,6 +112,8 @@ class ControllerPagesToolPackageInstaller extends AController {
 		$package_info = &$this->session->data['package_info'];
 		$package_info['package_source'] = 'file';
 
+		$package_info['tmp_dir'] = $this->_get_temp_dir();
+
 		// process post
 		if ($this->request->is_POST()) {
 			if (is_uploaded_file($this->request->files['package_file']['tmp_name'])) {
