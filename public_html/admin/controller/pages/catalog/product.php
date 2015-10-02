@@ -587,6 +587,13 @@ class ControllerPagesCatalogProduct extends AController {
 			'required' => true,
 			'multilingual' => true,		
 		));
+
+	    $this->data['form']['fields']['general']['blurb'] = $form->getFieldHtml(array(
+			'type' => 'textarea',
+			'name' => 'product_description[blurb]',
+			'value' => $this->data['product_description']['blurb'],
+			'multilingual' => true,
+		));
         $this->data['form']['fields']['general']['description'] = $form->getFieldHtml(array(
 			'type' => 'textarea',
 			'name' => 'product_description[description]',
@@ -603,12 +610,6 @@ class ControllerPagesCatalogProduct extends AController {
 			'type' => 'textarea',
 			'name' => 'product_description[meta_description]',
 			'value' => $this->data['product_description']['meta_description'],
-			'multilingual' => true,		
-		));
-        $this->data['form']['fields']['general']['blurb'] = $form->getFieldHtml(array(
-			'type' => 'textarea',
-			'name' => 'product_description[blurb]',
-			'value' => $this->data['product_description']['blurb'],
 			'multilingual' => true,		
 		));
         $this->data['form']['fields']['general']['tags'] = $form->getFieldHtml(array(
