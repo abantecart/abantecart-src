@@ -21,6 +21,7 @@ if (! defined ( 'DIR_CORE' ) || !IS_ADMIN) {
 	header ( 'Location: static_pages/' );
 }
 class ControllerPagesReportPurchased extends AController {
+	public $data = array();
 	public function main() {
 
         //init controller data
@@ -28,13 +29,14 @@ class ControllerPagesReportPurchased extends AController {
 
 		$grid_settings = array(
 			//id of grid
-            'table_id' => 'report_viewed_grid',
+            'table_id' => 'report_purchased_grid',
             // url to load data from
 			'url' => $this->html->getSecureURL('listing_grid/report_purchased'),
             // default sort column
 			'sortname' => 'quantity',
 			'columns_search' => false,
 			'multiselect' => 'false',
+			'search_form' => true
 		);
 
 		$grid_settings['colNames'] = array(
@@ -79,6 +81,38 @@ class ControllerPagesReportPurchased extends AController {
 		$grid = $this->dispatch('common/listing_grid', array( $grid_settings ) );
 		$this->view->assign('listing_grid', $grid->dispatchGetOutput());
 
+		//prepare the filter form
+		//Note: External search form needs to be named [grid_name]_search
+		//		In this case it will be auto submited to filter grid
+        $form = new AForm();
+        $form->setForm(array(
+            'form_name' => 'report_purchased_grid_search',
+        ));
+        $this->data['grid_search_form'] = array();
+        $this->data['grid_search_form']['id'] = 'report_purchased_grid_search';
+        $this->data['grid_search_form']['form_open'] = $form->getFieldHtml(array(
+            'type' => 'form',
+            'name' => 'report_purchased_grid_search',
+            'action' => '',
+        ));
+        $this->data['grid_search_form']['submit'] = $form->getFieldHtml(array(
+            'type' => 'button',
+            'name' => 'submit',
+            'text' => $this->language->get('button_go'),
+            'style' => 'button1',
+        ));
+		$this->view->assign('js_date_format', format4Datepicker($this->language->get('date_format_short')));
+        $this->data['grid_search_form']['fields']['date_start'] = $form->getFieldHtml(array(
+            'type' => 'input',
+            'name' => 'date_start'
+        ));
+        $this->data['grid_search_form']['fields']['date_end'] = $form->getFieldHtml(array(
+            'type' => 'input',
+            'name' => 'date_end'
+        ));
+
+        $this->view->assign('search_form', $this->data['grid_search_form']);
+
    		$this->document->initBreadcrumb( array (
        		'href'      => $this->html->getSecureURL('index/home'),
        		'text'      => $this->language->get('text_home'),
@@ -89,14 +123,7 @@ class ControllerPagesReportPurchased extends AController {
        		'text'      => $this->language->get('heading_title'),
       		'separator' => ' :: ',
 			'current'	=> true
-   		 ));		
-		
-		$this->view->assign('reset', $this->html->getSecureURL('report/purchased'));
-		$this->view->assign('reset_button', $this->html->buildButton(array(
-		    'name' => 'reset_button',
-		    'text' => $this->language->get('button_reset'),
-		    'style' => 'button1',
-	    )));
+   		 ));
 
 		$this->document->setTitle( $this->language->get('heading_title') );
 
