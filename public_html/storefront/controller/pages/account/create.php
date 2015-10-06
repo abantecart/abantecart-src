@@ -56,10 +56,14 @@ class ControllerPagesAccountCreate extends AController {
 					$this->customer->login($request_data['loginname'], $request_data['password']);
 				}
 
+			    $template = new ATemplate();
 
 				$this->loadLanguage('mail/account_create');
 				$subject = sprintf($this->language->get('text_subject'), $this->config->get('store_name'));
 				$message = sprintf($this->language->get('text_welcome'), $this->config->get('store_name')) . "\n\n";
+			    $template->data['text_welcome'] = $message;
+
+				$activation = false;
 				if (!$this->config->get('config_customer_approval')) {
 					//add account activation link if required 
 					if($this->config->get('config_customer_email_activation')){
@@ -71,19 +75,28 @@ class ControllerPagesAccountCreate extends AController {
 																	'code' => $code,
 																	'email' => $email);
 
-						$message .= sprintf($this->language->get('text_activate'), "\n".$this->html->getSecureURL('account/login', '&activation='.$code.'&email='.$email) ) . "\n";
+						$activate_url =  $this->html->getSecureURL('account/login', '&activation='.$code.'&email='.$email);
+						$message .= sprintf($this->language->get('text_activate'), $activate_url."\n") . "\n";
+						$template->data['text_activate'] = sprintf($this->language->get('text_activate'), '<a href="'.$activate_url.'">'.$activate_url.'</a>');
 					}else{
 						$message .= $this->language->get('text_login') . "\n";
+						$template->data['text_login'] = $this->language->get('text_login');
 					}
 				} else {
 					$message .= $this->language->get('text_approval') . "\n";
+					$template->data['text_approval'] = $this->language->get('text_approval');
 				}
 				if( !$activation ){
-					$message .= $this->html->getSecureURL('account/login') . "\n\n";
+					$login_url = $this->html->getSecureURL('account/login');
+					$message .=  $login_url. "\n\n";
 					$message .= $this->language->get('text_services') . "\n\n";
+					$template->data['text_login_later'] = '<a href="'.$login_url.'">'.$login_url.'</a><br>'.$this->language->get('text_services');
 				}
+
 				$message .= $this->language->get('text_thanks') . "\n";
 				$message .= $this->config->get('store_name');
+
+			    $template->data['text_thanks'] = $this->language->get('text_thanks');
 
 				$mail = new AMail( $this->config );
 				$mail->setTo($this->request->post['email']);
@@ -91,6 +104,16 @@ class ControllerPagesAccountCreate extends AController {
 				$mail->setSender($this->config->get('store_name'));
 				$mail->setSubject($subject);
 				$mail->setText(html_entity_decode($message, ENT_QUOTES, 'UTF-8'));
+
+			    $store_logo = md5(pathinfo($this->config->get('config_logo'), PATHINFO_FILENAME)) . '.' . pathinfo($this->config->get('config_logo'), PATHINFO_EXTENSION);
+                $template->data['logo'] = 'cid:' . $store_logo;
+                $template->data['store_name'] = $this->config->get('store_name');
+                $template->data['store_url'] = $this->config->get('config_url');
+                $template->data['text_project_label'] = project_base();
+			    $mail_html = $template->fetch('mail/account_create.tpl');
+
+			    $mail->addAttachment(DIR_RESOURCE . $this->config->get('config_logo'), $store_logo);
+				$mail->setHtml($mail_html);
 				$mail->send();
 
 				$this->extensions->hk_UpdateData($this,__FUNCTION__);

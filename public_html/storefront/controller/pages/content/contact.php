@@ -40,23 +40,33 @@ class ControllerPagesContentContact extends AController {
 		if ($this->request->is_POST() && $this->_validate()) {
 			// move all uploaded files to their directories
 			$file_pathes = $this->form->processFileUploads($this->request->files);
+			$template = new ATemplate();
+
+			$subject = sprintf($this->language->get('email_subject'), $this->request->post['name']);
+			$template->data['subject'] = $subject;
 
 			$mail = new AMail( $this->config );
 			$mail->setTo($this->config->get('store_main_email'));
 			$mail->setFrom($this->request->post['email']);
 			$mail->setSender($this->request->post['first_name']);
-			$mail->setSubject(sprintf($this->language->get('email_subject'), $this->request->post['name']));
-			$msg = $this->request->post['enquiry'] . "\r\n";
+			$mail->setSubject($subject);
+
+			$store_logo = md5(pathinfo($this->config->get('config_logo'), PATHINFO_FILENAME)) . '.' . pathinfo($this->config->get('config_logo'), PATHINFO_EXTENSION);
+			$template->data['logo'] = 'cid:' . $store_logo;
+			$template->data['store_name'] = $this->config->get('store_name');
+			$template->data['store_url'] = $this->config->get('config_url');
+			$template->data['text_project_label'] = project_base();
+			$template->data['entry_enquiry'] = $this->language->get('entry_enquiry');
+			$template->data['enquiry'] = $msg = $this->request->post['enquiry'] . "\r\n";
 
 			$form_fields = $this->form->getFields();
 			foreach ($form_fields as $field_name => $field_info){
 				if (has_value($this->request->post[$field_name]) && !in_array($field_name, array ('first_name', 'email', 'enquiry', 'captcha'))){
 					$field_details = $this->form->getField($field_name);
 					$msg .= "\r\n" . rtrim($field_details['name'], ':') . ":\t" . $this->request->post[$field_name];
+					$template->data['form_fields'][rtrim($field_details['name'], ':')] = $this->request->post[$field_name];
 				}
 			}
-
-
 
 			if($file_pathes){
 				$msg .= "\r\n".$this->language->get('entry_attached').": \r\n";
@@ -64,8 +74,13 @@ class ControllerPagesContentContact extends AController {
 					$basename = pathinfo(str_replace(' ','_',$file_info['path']),PATHINFO_BASENAME);
 					$msg .= "\t" .$file_info['display_name'] . ': ' . $basename . " (". round(filesize($file_info['path'])/1024,2) ."Kb)\r\n";
 					$mail->addAttachment($file_info['path'], $basename);
+					$template->data['form_fields'][ $file_info['display_name'] ] = $basename . " (". round(filesize($file_info['path'])/1024,2) ."Kb)";
 				}
 			}
+			$mail_html = $template->fetch('mail/contact.tpl');
+			$mail->setHtml($mail_html);
+			$mail->addAttachment(DIR_RESOURCE . $this->config->get('config_logo'), $store_logo);
+
 			$mail->setText(strip_tags(html_entity_decode($msg, ENT_QUOTES, 'UTF-8')));
 			$mail->send();
 			//get success_page

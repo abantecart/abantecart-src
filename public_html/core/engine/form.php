@@ -119,7 +119,6 @@ class AForm {
 	 *
 	 * @param string $name
 	 * @return null
-	 * @internal param $fname - unique form name
 	 */
 	public function loadFromDb($name) {
 
@@ -405,10 +404,6 @@ class AForm {
 	 * @return string
 	 */
 	protected function addFormJs() {
-		/**
-		 * @var AHtml
-		 */
-		$html = $this->registry->get('html');
 		/**
 		 * @var ALanguageManager
 		 */
