@@ -32,6 +32,14 @@ class ControllerResponsesListingGridReportPurchased extends AController {
 
 	    //Prepare filter config
         $filter_params =  array('date_start', 'date_end');
+
+	    if(!$this->request->get['date_start']){
+		    $this->request->get['date_start'] = dateInt2Display(strtotime('-30 day'));
+	    }
+	    if(!$this->request->get['date_end']){
+		    $this->request->get['date_end'] = dateInt2Display(time());
+	    }
+
         $filter_form = new AFilter(array( 'method' => 'get', 'filter_params' => $filter_params ));
         $filter_grid = new AFilter(array( 'method' => 'post' ));
         $data = array_merge($filter_form->getFilterData(), $filter_grid->getFilterData());
