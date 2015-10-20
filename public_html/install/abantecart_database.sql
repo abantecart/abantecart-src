@@ -971,7 +971,7 @@ CREATE TABLE `ac_length_class_descriptions` (
   `title` varchar(32) COLLATE utf8_general_ci NOT NULL COMMENT 'translatable',
   `unit` varchar(4) COLLATE utf8_general_ci NOT NULL COMMENT 'translatable',
   PRIMARY KEY (`length_class_id`,`language_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 --
 -- Dumping data for table `length_class_descriptions`
@@ -1220,7 +1220,7 @@ CREATE TABLE `ac_order_statuses` (
   `language_id` int(11) NOT NULL,
   `name` varchar(32) COLLATE utf8_general_ci NOT NULL COMMENT 'translatable',
   PRIMARY KEY (`order_status_id`,`language_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 --
 -- Dumping data for table `order_statuses`
@@ -1341,7 +1341,7 @@ CREATE TABLE `ac_product_descriptions` (
   `blurb` text COLLATE utf8_general_ci NOT NULL COMMENT 'translatable',
   PRIMARY KEY (`product_id`,`language_id`),
   KEY `name` (`name`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 
 --
@@ -1753,7 +1753,7 @@ CREATE TABLE `ac_stock_statuses` (
   `language_id` int(11) NOT NULL,
   `name` varchar(32) COLLATE utf8_general_ci NOT NULL COMMENT 'translatable',
   PRIMARY KEY (`stock_status_id`,`language_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 --
 -- Dumping data for table `stock_status`
@@ -1955,7 +1955,7 @@ CREATE TABLE `ac_weight_class_descriptions` (
   `title` varchar(32) COLLATE utf8_general_ci NOT NULL COMMENT 'translatable',
   `unit` varchar(4) COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT 'translatable',
   PRIMARY KEY (`weight_class_id`,`language_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 --
 -- Dumping data for table `weight_class_description`
