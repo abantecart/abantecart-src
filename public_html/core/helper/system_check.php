@@ -28,7 +28,7 @@ if (!defined('DIR_CORE')) {
  * @param string $mode ('log', 'return')
  * @return array
  *
- * Note: This is English text only. Can be call before database and languges are loaded
+ * Note: This is English text only. Can be call before database and languages are loaded
  */
 
 function run_system_check($registry, $mode = 'log'){
@@ -39,6 +39,7 @@ function run_system_check($registry, $mode = 'log'){
 	$mlog = array_merge($mlog, check_php_configuraion($registry));	
 	$mlog = array_merge($mlog, check_server_configuration($registry));	
 	$mlog = array_merge($mlog, check_order_statuses($registry));
+	$mlog = array_merge($mlog, check_web_access());
 
 	$counts['error_count'] = $counts['warning_count'] = $counts['notice_count'] = 0;
 	foreach($mlog as $message){
@@ -144,11 +145,35 @@ function check_file_permissions($registry){
 	    );	
 	}
 
-	if (!is_writable(DIR_ROOT . '/admin/system/backup')) {
+	if (!is_writable(DIR_ROOT . '/admin/system')) {
+	    $ret_array[] = array(
+	    	'title' => 'Incorrect directory permission',
+	    	'body' => DIR_ROOT . '/admin/system' . ' directory needs to be set to full permissions(777)! AbanteCart backups and upgrade will not work.',
+	    	'type' => 'W'	    
+	    );
+	}
+
+	if (is_dir(DIR_ROOT . '/admin/system/backup') && !is_writable(DIR_ROOT . '/admin/system/backup')) {
 	    $ret_array[] = array(
 	    	'title' => 'Incorrect backup directory permission',
 	    	'body' => DIR_ROOT . '/admin/system/backup' . ' directory needs to be set to full permissions(777)! AbanteCart backups and upgrade will not work.',
-	    	'type' => 'W'	    
+	    	'type' => 'W'
+	    );
+	}
+
+	if (is_dir(DIR_ROOT . '/admin/system/temp') && !is_writable(DIR_ROOT . '/admin/system/temp')) {
+	    $ret_array[] = array(
+	    	'title' => 'Incorrect temp directory permission',
+	    	'body' => DIR_ROOT . '/admin/system/temp' . ' directory needs to be set to full permissions(777)!',
+	    	'type' => 'W'
+	    );
+	}
+
+	if (!is_writable(DIR_ROOT . '/admin/system/uploads')) {
+	    $ret_array[] = array(
+	    	'title' => 'Incorrect "uploads" directory permission',
+	    	'body' => DIR_ROOT . '/admin/system/uploads' . ' directory needs to be set to full permissions(777)! Probably AbanteCart file uploads will not work.',
+	    	'type' => 'W'
 	    );
 	}
 	
@@ -302,6 +327,59 @@ function check_order_statuses($registry){
 
 
  return $ret_array;
+}
+
+/**
+ * function checks restricted areas
+ */
+function check_web_access(){
+
+	$areas = array(
+			'system' => array('.htaccess', 'index.php'),
+			'resources/download' => array('.htaccess'),
+			'download' => array('index.html'),
+			'admin' => array('.htaccess', 'index.php'),
+			'admin/system' => array('index.html'),
+			'admin/system/backup' => array('.htaccess', 'index.html'),
+			'admin/system/uploads' => array('.htaccess', 'index.html')
+	);
+
+	foreach($areas as $subfolder=>$rules){
+		$dirname = DIR_ROOT.'/'.$subfolder;
+		if(!is_dir($dirname)){ continue;}
+
+		foreach($rules as $rule){
+			$message = '';
+			switch($rule){
+				case '.htaccess':
+					if(!is_file($dirname.'/.htaccess')){
+						$message = 'Restricted directory '.$dirname.' have public access. It is highly recommended to create .htaccess file and forbid access. ';
+					}
+					break;
+				case 'index.php':
+					if(!is_file($dirname.'/index.php')){
+						$message = 'Restricted directory '.$dirname.' does not contain index.php file. It is highly recommended to create it.';
+					}
+					break;
+				case 'index.html':
+					if(!is_file($dirname.'/index.html')){
+						$message = 'Restricted directory '.$dirname.' does not contain empty index.html file. It is highly recommended to create it.';
+					}
+
+					break;
+				default:
+					break;
+			}
+			if($message){
+				$ret_array[] = array (
+						'title' => 'Security warning ('.$subfolder.', '.$rule.')',
+						'body'  => $message,
+						'type'  => 'W'
+				);
+			}
+		}
+	}
+	return $ret_array;
 }
 
 

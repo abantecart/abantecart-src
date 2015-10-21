@@ -170,6 +170,10 @@ class APackageManager {
 		}
 		if (file_exists($old_path . $package_id)) {
 			$backup = new ABackup($extension_id .'_'. date('Y-m-d-H-i-s'));
+			if ($backup->error) {
+				$this->error = implode("\n",$backup->error);
+				return false;
+			}
 			$backup_dirname = $backup->getBackupName();
 			if ($backup_dirname) {
 
@@ -787,7 +791,7 @@ class APackageManager {
 		$this->getTempDir();
 
 		//3. run validation for backup-process before install
-		$bkp = new ABackup('');
+		$bkp = new ABackup('',false);
 		if(!$bkp->validate()){
 			$this->error .= implode("\n",$bkp->error);
 		}
@@ -800,21 +804,29 @@ class APackageManager {
 
 	/**
 	 * Method returns absolute path to temporary directory for unpacking package
+	 * if system/temp is unaccessable - use php temp directory
 	 * @return string
 	 */
 	public function getTempDir() {
 		$tmp_install_dir = DIR_APP_SECTION . "system/temp/install";
 
-		if(!is_dir( $tmp_install_dir )){
+		if(!is_dir(DIR_APP_SECTION . "system/temp") && is_writable(DIR_APP_SECTION . "system")){
+			mkdir( DIR_APP_SECTION . "system/temp", 0777);
 			mkdir( $tmp_install_dir, 0777);
 		}
-		if (is_writable($tmp_install_dir."/")) {
+
+		// if temp directory already exists
+		if(!is_dir( $tmp_install_dir ) && is_writable(DIR_APP_SECTION . "system/temp")){
+			mkdir( $tmp_install_dir, 0777);
+		}
+
+		if (is_writable($tmp_install_dir)) {
 			$dir = $tmp_install_dir . "/";
 		}else {
-			if(!is_dir(sys_get_temp_dir() . '/install')){
-				mkdir(sys_get_temp_dir() . '/install/',0777);
+			if(!is_dir(sys_get_temp_dir() . '/abantecart_install')){
+				mkdir(sys_get_temp_dir() . '/abantecart_install/',0777);
 			}
-			$dir = sys_get_temp_dir() . '/install/';
+			$dir = sys_get_temp_dir() . '/abantecart_install/';
 
 			if(!is_writable($dir)){
 				$error_text = 'Error: php tried to use directory '.DIR_APP_SECTION . "system/temp/install".' but it is non-writable. Temporary php-directory '.$dir.' is non-writable too! Please change permissions one of them.'."\n";

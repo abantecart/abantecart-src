@@ -1004,6 +1004,11 @@ class ControllerPagesToolPackageInstaller extends AController {
 		$pmanager = new APackageManager();
 		//#1 backup files
 		$backup = new ABackup('abantecart_' . str_replace('.','',VERSION));
+		//interrupt if backup directory is unaccessable
+		if ($backup->error) {
+			$this->session->data['error'] = implode("\n", $backup->error);
+			return false;
+		}
 		foreach ($corefiles as $core_file) {
 			if (file_exists(DIR_ROOT . '/' . $core_file)) {
 				if (!$backup->backupFile(DIR_ROOT . '/' . $core_file, false)) {

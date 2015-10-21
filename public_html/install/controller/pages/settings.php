@@ -60,7 +60,7 @@ class ControllerPagesSettings extends AController {
 		$template_data['download'] = DIR_ABANTECART . 'download';
 		$template_data['extensions'] = DIR_ABANTECART . 'extensions';
 		$template_data['resources'] = DIR_ABANTECART . 'resources';
-		$template_data['backup'] = DIR_ABANTECART . 'admin/system/backup';
+		$template_data['admin_system'] = DIR_ABANTECART . 'admin/system';
 
 		$this->addChild('common/header', 'header', 'common/header.tpl');
 		$this->addChild('common/footer', 'footer', 'common/footer.tpl');	

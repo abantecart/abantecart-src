@@ -47,24 +47,42 @@ final class ABackup {
 
 	/**
 	 * @param string $name
+	 * @param bool $create_subfolders - sign for creating temp folder for backup. set false if only validate
 	 */
-  	public function __construct( $name ) {
+  	public function __construct( $name, $create_subfolders = true ) {
 	    /**
 	         * @var Registry
 	         */
 		$this->registry = Registry::getInstance();
 
 
+	    //first of all check backup directory permissions etc
+	    //if backup directory is unaccessable - use php temporary directory. But it's a extreme case.
+	    // Before backup process need to call validate() method! (see belong)
+	    if(!is_dir(DIR_BACKUP)){
+			if(!is_writeable(DIR_APP_SECTION.'system')){
+				$this->error[] = 'Directory '.DIR_BACKUP.' is non-writable. It is recommended to set write mode for it.';
+			}else{
+				mkdir(DIR_BACKUP,0777);
+			    //add htaccess file
+	            $handle = fopen(DIR_BACKUP.'.htaccess', 'a+');
+	            fwrite($handle, "<Files *.*>\norder allow,deny\ndeny from all\n</Files>");
+	            fclose($handle);
+	            chmod(DIR_BACKUP.'.htaccess',0644);
+			}
+	    }
+
+
   		//Add [date] snapshot to the name and validate if archive is already used.
   		//Return error if archive can not be created
 	    $name = !$name ? 'backup_'.time() : $name;
 		$this->backup_name = $name;
-		//Create a tmp directory with backup name in admin/system/backup/ (add config constant DIR_BACKUP with path in init.php)
+		//Create a tmp directory with backup name
 		//Create subdirectory /files and  /data
 		$this->backup_dir = DIR_BACKUP . $this->backup_name.'/';
 
 
-		if(!is_dir($this->backup_dir)){
+		if(!is_dir($this->backup_dir) && $create_subfolders ){
 			$result = mkdir($this->backup_dir, 0777, true);
 
 			if(!$result){
@@ -76,15 +94,17 @@ final class ABackup {
 			chmod($this->backup_dir,0777);
 		}
 
-		if(!is_dir($this->backup_dir.'files')){
-			mkdir($this->backup_dir.'files');
-			chmod($this->backup_dir.'files',0777);
-		}
+	    if($this->backup_dir && $create_subfolders){
+		    if (!is_dir($this->backup_dir . 'files')){
+			    mkdir($this->backup_dir . 'files');
+			    chmod($this->backup_dir . 'files', 0777);
+		    }
 
-		if(!is_dir($this->backup_dir.'data')){
-			mkdir($this->backup_dir.'data');
-			chmod($this->backup_dir.'data',0777);
-		}
+		    if (!is_dir($this->backup_dir . 'data')){
+			    mkdir($this->backup_dir . 'data');
+			    chmod($this->backup_dir . 'data', 0777);
+		    }
+	    }
   	}
 
 	/**
@@ -141,7 +161,8 @@ final class ABackup {
 		/**
 		 * @var $db AMySQLi
 		 */
-		$db = new $driver(DB_HOSTNAME, DB_USERNAME, DB_PASSWORD, DB_DATABASE); // use driver directly to exclude hooks calls
+		 // use driver directly to exclude hooks calls
+		$db = new $driver(DB_HOSTNAME, DB_USERNAME, DB_PASSWORD, DB_DATABASE);
 		$prefix_len = strlen(DB_PREFIX);
 		// get sizes of tables
 
@@ -341,7 +362,8 @@ final class ABackup {
 		$path = pathinfo($dir_path, PATHINFO_BASENAME);
 
 		if(!is_dir($this->backup_dir.'files/'.$path)){
-			mkdir($this->backup_dir.'files/'.$path,0777,TRUE); // it need for nested dirs, for example files/extensions
+			// it need for nested dirs, for example files/extensions
+			mkdir($this->backup_dir.'files/'.$path,0777,TRUE);
 		}
 
 		if(file_exists($this->backup_dir.'files/'.$path)){
