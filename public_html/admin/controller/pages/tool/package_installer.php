@@ -1052,6 +1052,9 @@ class ControllerPagesToolPackageInstaller extends AController {
 		$pmanager->replaceCoreFiles();
 		//#4 run sql and php upgare procedure files
 		$package_dirname = $package_info['tmp_dir'] . $package_info['package_dir'];
+		if($pmanager->error){
+			$this->session->data['error'] = $pmanager->error;
+		}
 		/**
 		 * @var SimpleXmlElement $config
 		 */
