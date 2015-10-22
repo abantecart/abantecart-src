@@ -129,6 +129,14 @@ class ControllerPagesSettingSetting extends AController {
 			'href' => $this->html->getSecureURL('setting/store/insert'),
 		));
 
+		if($group=='system'){
+			$this->data['phpinfo_button'] = $this->html->buildElement(array(
+				'type' => 'button',
+				'title' => 'PHP Info',
+				'href' => $this->html->getSecureURL('setting/setting/phpinfo'),
+			));
+		}
+
 		if ($this->data['store_id'] > 0) {
 			$this->data['edit_store_button'] = $this->html->buildElement(array(
 				'type' => 'button',
@@ -578,6 +586,11 @@ class ControllerPagesSettingSetting extends AController {
 			}
 			return FALSE;
 		}
+	}
+
+	public function phpinfo(){
+		phpinfo();
+		exit;
 	}
 
 }
