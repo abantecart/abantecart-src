@@ -64,11 +64,6 @@ final class ABackup {
 				$this->error[] = 'Directory '.DIR_BACKUP.' is non-writable. It is recommended to set write mode for it.';
 			}else{
 				mkdir(DIR_BACKUP,0777);
-			    //add htaccess file
-	            $handle = fopen(DIR_BACKUP.'.htaccess', 'a+');
-	            fwrite($handle, "<Files *.*>\norder allow,deny\ndeny from all\n</Files>");
-	            fclose($handle);
-	            chmod(DIR_BACKUP.'.htaccess',0644);
 			}
 	    }
 

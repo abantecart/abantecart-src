@@ -339,9 +339,7 @@ function check_web_access(){
 			'resources/download' => array('.htaccess'),
 			'download' => array('index.html'),
 			'admin' => array('.htaccess', 'index.php'),
-			'admin/system' => array('index.html'),
-			'admin/system/backup' => array('.htaccess', 'index.html'),
-			'admin/system/uploads' => array('.htaccess', 'index.html')
+			'admin/system' => array('.htaccess','index.html')
 	);
 
 	foreach($areas as $subfolder=>$rules){
