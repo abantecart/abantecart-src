@@ -102,7 +102,7 @@
 	</definition>
 	<definition>
 		<key>text_order_cancelation</key>
-		<value><![CDATA[Request Cancelation of Order]]></value>
+		<value><![CDATA[Request Cancellation of Order]]></value>
 	</definition>
 	<definition>
 		<key>text_order_cancelation_confirm</key>
@@ -110,7 +110,7 @@
 	</definition>
 	<definition>
 		<key>text_order_cancelation_success</key>
-		<value><![CDATA[Order cancelation request has been submitted]]></value>
+		<value><![CDATA[Order cancellation request has been submitted]]></value>
 	</definition>
 	<definition>
 		<key>text_order_cancelation_message_title</key>
