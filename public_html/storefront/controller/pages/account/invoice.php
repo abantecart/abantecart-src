@@ -276,7 +276,7 @@ class ControllerPagesAccountInvoice extends AController{
 		$new_order_status_id = $this->order_status->getStatusByTextId('canceled_by_customer');
 		if($new_order_status_id){
 			$this->loadModel('checkout/order');
-			$this->model_checkout_order->update($order_id, $new_order_status_id, 'Request an Order cancelation form Customer', true);
+			$this->model_checkout_order->update($order_id, $new_order_status_id, 'Request an Order cancellation from Customer', true);
 			$this->session->data['success'] = $this->language->get('text_order_cancelation_success');
 
 			$this->messages->saveNotice(
