@@ -3,7 +3,7 @@
 # 2. In your abantecart main directory rename file htaccess.txt to .htaccess
 
 # 3. Edit file .htaccess. If abantecart is installed in yourdomain/ subfolder change configuration line  RewriteBase /  to  RewriteBase /subfolder/.
-# Example:  yourdomain.com/store   use RewriteBase/store/ 
+# Example:  yourdomain.com/store   use RewriteBase /store/ 
 # Important to have / at the end of the line.
 
 # 4. if htaccess and mode_rewrite still does not works - check and set apache2 webserver directive AllowOverride All for your virtual hosts
