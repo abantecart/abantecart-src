@@ -672,7 +672,7 @@ class ModelCatalogProduct extends Model{
 			if ((int)$limit){
 				$sql .= " LIMIT " . (int)$limit;
 			}
-			$this->log->write($sql);
+
 			$query = $this->db->query($sql);
 			$product_data = $query->rows;
 			$this->cache->set('product.featured.' . $limit, $product_data, $this->config->get('storefront_language_id'), (int)$this->config->get('config_store_id'));
