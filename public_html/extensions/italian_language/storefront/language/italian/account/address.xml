@@ -1,0 +1,107 @@
+<?xml version="1.0"?>
+<definitions>
+    <definition>
+        <key>heading_title</key>
+        <value><![CDATA[Rubrica]]></value>
+    </definition>
+    <definition>
+        <key>text_account</key>
+        <value><![CDATA[Account]]></value>
+    </definition>
+    <definition>
+        <key>text_address_book</key>
+        <value><![CDATA[Voci rubrica]]></value>
+    </definition>
+    <definition>
+        <key>text_edit_address</key>
+        <value><![CDATA[Modifica indirizzo]]></value>
+    </definition>
+    <definition>
+        <key>text_insert</key>
+        <value><![CDATA[Il tuo indirizzo è stato inserito]]></value>
+    </definition>
+    <definition>
+        <key>text_update</key>
+        <value><![CDATA[Il tuo indirizzo è stato aggiornato]]></value>
+    </definition>
+    <definition>
+        <key>text_delete</key>
+        <value><![CDATA[Il tuo indirizzo è stato eliminato]]></value>
+    </definition>
+    <definition>
+        <key>entry_firstname</key>
+        <value><![CDATA[Nome:]]></value>
+    </definition>
+    <definition>
+        <key>entry_lastname</key>
+        <value><![CDATA[Cognome:]]></value>
+    </definition>
+    <definition>
+        <key>entry_company</key>
+        <value><![CDATA[Azienda:]]></value>
+    </definition>
+    <definition>
+        <key>entry_address_1</key>
+        <value><![CDATA[Indirizzo 1:]]></value>
+    </definition>
+    <definition>
+        <key>entry_address_2</key>
+        <value><![CDATA[Indirizzo 2:]]></value>
+    </definition>
+    <definition>
+        <key>entry_postcode</key>
+        <value><![CDATA[C.A.P.:]]></value>
+    </definition>
+    <definition>
+        <key>entry_city</key>
+        <value><![CDATA[Città:]]></value>
+    </definition>
+    <definition>
+        <key>error_postcode</key>
+        <value><![CDATA[C.A.P.]]></value>
+    </definition>
+    <definition>
+        <key>entry_country</key>
+        <value><![CDATA[Nazione:]]></value>
+    </definition>
+    <definition>
+        <key>entry_zone</key>
+        <value><![CDATA[Provincia:]]></value>
+    </definition>
+    <definition>
+        <key>entry_default</key>
+        <value><![CDATA[Indirizzo principale:]]></value>
+    </definition>
+    <definition>
+        <key>error_delete</key>
+        <value><![CDATA[Errore: è necessario avere almeno un indirizzo!]]></value>
+    </definition>
+    <definition>
+        <key>error_default</key>
+        <value><![CDATA[Errore: non puoi eliminare il tuo indirizzo principale!]]></value>
+    </definition>
+    <definition>
+        <key>error_firstname</key>
+        <value><![CDATA[Il nome deve avere da 1 a 32 caratteri!]]></value>
+    </definition>
+    <definition>
+        <key>error_lastname</key>
+        <value><![CDATA[Il cognome deve avere da 1 a 32 caratteri!]]></value>
+    </definition>
+    <definition>
+        <key>error_address_1</key>
+        <value><![CDATA[L'indirizzo deve avere da 3 a 128 caratteri!]]></value>
+    </definition>
+    <definition>
+        <key>error_city</key>
+        <value><![CDATA[La città deve avere da 3 a 128 caratteri!]]></value>
+    </definition>
+    <definition>
+        <key>error_country</key>
+        <value><![CDATA[Seleziona nazione!]]></value>
+    </definition>
+    <definition>
+        <key>error_zone</key>
+        <value><![CDATA[Seleziona provincia!]]></value>
+    </definition>
+</definitions>

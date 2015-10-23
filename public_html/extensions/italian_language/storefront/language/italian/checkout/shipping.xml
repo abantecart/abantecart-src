@@ -1,0 +1,43 @@
+<?xml version="1.0"?>
+<definitions>
+	<definition>
+		<key>heading_title</key>
+		<value><![CDATA[Informazioni di consegna]]></value>
+	</definition>
+	<definition>
+		<key>text_basket</key>
+		<value><![CDATA[Cestino]]></value>
+	</definition>
+	<definition>
+		<key>text_shipping</key>
+		<value><![CDATA[Spedizione]]></value>
+	</definition>
+	<definition>
+		<key>text_shipping_to</key>
+		<value><![CDATA[Scegli nella rubrica dove dove desideri che siano spediti gli articoli.]]></value>
+	</definition>
+	<definition>
+		<key>text_shipping_address</key>
+		<value><![CDATA[Indirizzo di spedizione]]></value>
+	</definition>
+	<definition>
+		<key>text_shipping_method</key>
+		<value><![CDATA[Metodo di spedizione]]></value>
+	</definition>
+	<definition>
+		<key>text_shipping_methods</key>
+		<value><![CDATA[Seleziona i metodi di spedizione preferiti per questo ordine.]]></value>
+	</definition>
+	<definition>
+		<key>text_comments</key>
+		<value><![CDATA[Aggiungi un commento al tuo ordine]]></value>
+	</definition>
+	<definition>
+		<key>error_shipping</key>
+		<value><![CDATA[Errore: Il metodo di spedizione è richiesto!]]></value>
+	</definition>
+	<definition>
+		<key>error_no_shipping</key>
+		<value><![CDATA[Errore: Nessuna opzione di spedizione è disponibile. <a href="index.php?rt=content/contact">Contattaci</a> per assistenza!]]></value>
+	</definition>
+</definitions>

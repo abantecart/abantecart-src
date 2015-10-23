@@ -1,0 +1,256 @@
+<?xml version="1.0"?>
+<definitions>
+	<definition>
+		<key>heading_title</key>
+		<value><![CDATA[File Prodotto]]></value>
+	</definition>
+	<definition>
+		<key>text_product</key>
+		<value><![CDATA[Prodotto]]></value>
+	</definition>
+	<definition>
+		<key>text_edit_product_file</key>
+		<value><![CDATA[Modifica File Prodotto]]></value>
+	</definition>
+	<definition>
+		<key>tab_files</key>
+		<value><![CDATA[File]]></value>
+	</definition>
+	<definition>
+		<key>tab_general</key>
+		<value><![CDATA[Generale]]></value>
+	</definition>
+	<definition>
+		<key>tab_attributes</key>
+		<value><![CDATA[Attributi Download]]></value>
+	</definition>
+	<definition>
+		<key>entry_file_icon</key>
+		<value><![CDATA[Icona File]]></value>
+	</definition>
+	<definition>
+		<key>entry_status</key>
+		<value><![CDATA[ Stato]]></value>
+	</definition>
+	<definition>
+		<key>entry_resource</key>
+		<value><![CDATA[ Risorsa]]></value>
+	</definition>
+	<definition>
+		<key>entry_name</key>
+		<value><![CDATA[ Nome]]></value>
+	</definition>
+	<definition>
+		<key>entry_download_name</key>
+		<value><![CDATA[Nome Download]]></value>
+	</definition>
+	<definition>
+		<key>entry_mask</key>
+		<value><![CDATA[Download mask <span class="help">Filename alias for customer download output</span>]]></value>
+	</definition>
+	<definition>
+		<key>entry_file_full_path</key>
+		<value><![CDATA[Percorso del File sul Server ]]></value>
+	</definition>
+	<definition>
+		<key>entry_file_max_downloads</key>
+		<value><![CDATA[Max Download]]></value>
+	</definition>
+	<definition>
+		<key>entry_file_sort_order</key>
+		<value><![CDATA[Ordinamento]]></value>
+	</definition>
+	<definition>
+		<key>entry_file_status</key>
+		<value><![CDATA[Stato]]></value>
+	</definition>
+	<definition>
+		<key>entry_file_push_to_customers</key>
+		<value><![CDATA[Spingere i clienti]]></value>
+	</definition>
+	<definition>
+		<key>entry_file_activation</key>
+		<value><![CDATA[Modalità di attivazione]]></value>
+	</definition>
+	<definition>
+		<key>text_add_file</key>
+		<value><![CDATA[Aggiungi File]]></value>
+	</definition>
+	<definition>
+		<key>text_new_file</key>
+		<value><![CDATA[Aggiungi nuovo File]]></value>
+	</definition>
+	<definition>
+		<key>text_download_attributes</key>
+		<value><![CDATA[Download Attributi]]></value>
+	</definition>
+	<definition>
+		<key>text_download_information</key>
+		<value><![CDATA[Generale]]></value>
+	</definition>
+	<definition>
+		<key>entry_date_added</key>
+		<value><![CDATA[Aggiunto il ]]></value>
+	</definition>
+	<definition>
+		<key>entry_date_modified</key>
+		<value><![CDATA[Modificato ]]></value>
+	</definition>
+	<definition>
+		<key>entry_max_downloads</key>
+		<value><![CDATA[Max downloads <span class="help">Count of downloads allowed for customer</span>]]></value>
+	</definition>
+	<definition>
+		<key>entry_activate</key>
+		<value><![CDATA[Activated<span class="help">Download will be activates on the event selected.<br>Example: Immediately. Download is activate  after order is placed, regardless of the order status</span>]]></value>
+	</definition>
+	<definition>
+		<key>entry_sort_order</key>
+		<value><![CDATA[Ordinamento]]></value>
+	</definition>
+	<definition>
+		<key>entry_expire_days</key>
+		<value><![CDATA[Expire days<span class="help">Count of days from date of purchase</span>]]></value>
+	</definition>
+	<definition>
+		<key>text_before_order</key>
+		<value><![CDATA[Prima di ordine]]></value>
+	</definition>
+	<definition>
+		<key>text_immediately</key>
+		<value><![CDATA[Immediatamente]]></value>
+	</definition>
+	<definition>
+		<key>text_on_order_status</key>
+		<value><![CDATA[Stato dell'ordine]]></value>
+	</definition>
+	<definition>
+		<key>text_manually</key>
+		<value><![CDATA[Manualmente]]></value>
+	</definition>
+	<definition>
+		<key>text_success_download_save</key>
+		<value><![CDATA[Complimenti: il file è stato modificato! ]]></value>
+	</definition>
+
+	<definition>
+		<key>error_download_exists</key>
+		<value><![CDATA[Error: Cannot to update download because it does not exists in database! ]]></value>
+	</definition>
+	<definition>
+		<key>error_download_name</key>
+		<value><![CDATA[Error: Download name must have length between 2 and 128 characters! ]]></value>
+	</definition>
+	<definition>
+		<key>error_max_downloads</key>
+		<value><![CDATA[Error: maximum downloads count must be greater 0! ]]></value>
+	</definition>
+	<definition>
+		<key>error_activate</key>
+		<value><![CDATA[Error: select action for activation of download! ]]></value>
+	</definition>
+	<definition>
+		<key>error_order_status</key>
+		<value><![CDATA[Error: select order status for activation of download! ]]></value>
+	</definition>
+	<definition>
+		<key>error_download_attributes</key>
+		<value><![CDATA[Download Attributes Error(s):]]></value>
+	</definition>
+	<definition>
+		<key>text_shared_downloads</key>
+		<value><![CDATA[Shared Downloads]]></value>
+	</definition>
+	<definition>
+		<key>text_create_download</key>
+		<value><![CDATA[Create new download]]></value>
+	</definition>
+	<definition>
+		<key>text_path</key>
+		<value><![CDATA[Relative path to file]]></value>
+	</definition>
+	<definition>
+		<key>text_preview</key>
+		<value><![CDATA[Preview]]></value>
+	</definition>
+	<definition>
+		<key>entry_shared</key>
+		<value><![CDATA[Shared Download]]></value>
+	</definition>
+	<definition>
+		<key>text_assign</key>
+		<value><![CDATA[ Salva ]]></value>
+	</definition>
+	<definition>
+		<key>text_assigned_to</key>
+		<value><![CDATA[Also assigned to: ]]></value>
+	</definition>
+	<definition>
+		<key>text_select_shared_downloads</key>
+		<value><![CDATA[Select shared downloads]]></value>
+	</definition>
+	<definition>
+		<key>error_selected_downloads</key>
+		<value><![CDATA[Warning: Please select the shared downloads for assign.]]></value>
+	</definition>
+	<definition>
+		<key>text_map_success</key>
+		<value><![CDATA[Success: You have assigned shared downloads to product!]]></value>
+	</definition>
+	<definition>
+		<key>text_delete_or_refuse</key>
+		<value><![CDATA[delete or refuse (for shared)]]></value>
+	</definition>
+	<definition>
+		<key>text_confirm_delete</key>
+		<value><![CDATA[Confirm download delete/refuse]]></value>
+	</definition>
+	<definition>
+		<key>text_success_remove</key>
+		<value><![CDATA[Success: product files list changed!]]></value>
+	</definition>
+	<definition>
+		<key>text_push</key>
+		<value><![CDATA[Push]]></value>
+	</definition>
+	<definition>
+		<key>text_push_to_customers</key>
+		<value><![CDATA[Push to Customers]]></value>
+	</definition>
+	<definition>
+		<key>text_push_to_orders</key>
+		<value><![CDATA[Push Download to %s Orders]]></value>
+	</definition>
+	<definition>
+		<key>success_push_to_orders</key>
+		<value><![CDATA[Success: Download was pushed  to %s order(s) successfully]]></value>
+	</definition>
+    <definition>
+        <key>text_no_download_attributes_yet</key>
+        <value><![CDATA[ No download attributes yet. <a href="%s" target="_blank">Click to add</a>]]></value>
+    </definition>
+    <definition>
+        <key>text_confirm_push</key>
+        <value><![CDATA[ Confirm? ]]></value>
+    </definition>
+	<definition>
+		<key>error_downloads_disabled</key>
+		<value><![CDATA[Warning: Downloads are disabled in store settings. <a href="#admin#rt=setting/setting&active=general" target="new">Click to Edit</a>!]]></value>
+	</definition>
+	<definition>
+		<key>error_permission</key>
+		<value><![CDATA[Warning: You do not have permission to modify product files!]]></value>
+	</definition>
+	<definition>
+		<key>error_file</key>
+		<value><![CDATA[Please set the file for download.]]></value>
+	</definition>
+	<definition>
+		<key>attention_shared</key>
+		<value><![CDATA[You are about to edit shared download. Edit will effect other products.]]></value>
+	</definition>
+	<definition>
+		<key>text_shared_with</key>
+		<value><![CDATA[Shared with:]]></value>
+	</definition>
+</definitions>

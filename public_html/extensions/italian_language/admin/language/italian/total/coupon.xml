@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<definitions>
+	<definition>
+		<key>heading_title</key>
+		<value><![CDATA[Coupon]]></value>
+	</definition>
+	<definition>
+		<key>total_name</key>
+		<value><![CDATA[Coupon]]></value>
+	</definition>
+	<definition>
+		<key>text_total</key>
+		<value><![CDATA[Totale ordine]]></value>
+	</definition>
+	<definition>
+		<key>text_success</key>
+		<value><![CDATA[Hai modificato il coupon con successo!]]></value>
+	</definition>
+	<definition>
+		<key>entry_status</key>
+		<value><![CDATA[Stato:]]></value>
+	</definition>
+	<definition>
+		<key>entry_sort_order</key>
+		<value><![CDATA[Ordina:]]></value>
+	</definition>
+	<definition>
+		<key>entry_calculation_order</key>
+		<value><![CDATA[Calcolo ordine:]]></value>
+	</definition>
+	<definition>
+		<key>error_permission</key>
+		<value><![CDATA[ATTENZIONE: Non puoi modificare il coupon!]]></value>
+	</definition>
+</definitions>

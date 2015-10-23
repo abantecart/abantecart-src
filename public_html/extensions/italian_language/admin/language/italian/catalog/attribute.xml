@@ -1,0 +1,139 @@
+<?xml version="1.0"?>
+<definitions>
+	<definition>
+		<key>heading_title</key>
+		<value><![CDATA[Attributi Globali]]></value>
+	</definition>
+	<definition>
+		<key>text_attribute</key>
+		<value><![CDATA[Attributi Globali]]></value>
+	</definition>
+	<definition>
+		<key>text_success</key>
+		<value><![CDATA[Le modifiche degli attributi sono state effettuate!]]></value>
+	</definition>
+    <definition>
+        <key>text_select_type</key>
+        <value><![CDATA[- Seleziona tipo -]]></value>
+    </definition>
+    <definition>
+        <key>text_select_parent</key>
+        <value><![CDATA[- Seleziona genitore -]]></value>
+    </definition>
+	<definition>
+		<key>column_name</key>
+		<value><![CDATA[Nome]]></value>
+	</definition>
+	<definition>
+		<key>column_type</key>
+		<value><![CDATA[Tipo]]></value>
+	</definition>
+	<definition>
+		<key>column_sort_order</key>
+		<value><![CDATA[Ordine]]></value>
+	</definition>
+	<definition>
+		<key>column_status</key>
+		<value><![CDATA[Stato]]></value>
+	</definition>
+	<definition>
+		<key>column_action</key>
+		<value><![CDATA[Azione]]></value>
+	</definition>
+	<definition>
+		<key>entry_name</key>
+		<value><![CDATA[Nome:]]></value>
+	</definition>
+	<definition>
+		<key>entry_attribute_parent</key>
+		<value><![CDATA[Attributo genitore:]]></value>
+	</definition>
+	<definition>
+		<key>entry_attribute_group</key>
+		<value><![CDATA[Attributo gruppo:]]></value>
+	</definition>
+	<definition>
+		<key>entry_attribute_type</key>
+		<value><![CDATA[Attributo Tipo:]]></value>
+	</definition>
+	<definition>
+		<key>entry_element_type</key>
+		<value><![CDATA[Elemento tipo:]]></value>
+	</definition>
+	<definition>
+		<key>entry_element_values</key>
+		<value><![CDATA[Elemento Valori:]]></value>
+	</definition>
+	<definition>
+		<key>entry_sort_order</key>
+		<value><![CDATA[Ordine:]]></value>
+	</definition>
+	<definition>
+		<key>entry_required</key>
+		<value><![CDATA[Richiesto:]]></value>
+	</definition>
+	<definition>
+		<key>entry_status</key>
+		<value><![CDATA[Stato:]]></value>
+	</definition>
+	<definition>
+		<key>entry_children_attributes</key>
+		<value><![CDATA[Children Attributo:]]></value>
+	</definition>
+	<definition>
+		<key>error_permission</key>
+		<value><![CDATA[ATTENZIONE: Non si dispone del permesso per modificare gli attributi globali!]]></value>
+	</definition>
+	<definition>
+		<key>error_name</key>
+		<value><![CDATA[Il nome del gruppo deve essere compreso tra 2 e 32 caratteri!]]></value>
+	</definition>
+	<definition>
+		<key>error_required</key>
+		<value><![CDATA[Questo campo è richiesto!]]></value>
+	</definition>
+	<definition>
+		<key>text_parent_note</key>
+		<value><![CDATA[Se questo è un attributo padre con gli attributi dei bambini, non può che essere di tipo SelectBox, Box MultiSelect, Casella di controllo e il gruppo Checkbox. <br> Bambini combinazione di valori viene visualizzato come un insieme.]]></value>
+	</definition>
+	<definition>
+		<key>entry_allowed_extensions</key>
+		<value><![CDATA[Estensioni del file permesse (txt, jpg …)]]></value>
+	</definition>
+	<definition>
+		<key>entry_min_size</key>
+		<value><![CDATA[Dimensione minima del file (Kb)]]></value>
+	</definition>
+	<definition>
+		<key>entry_max_size</key>
+		<value><![CDATA[Dimensione massima del file (Kb)]]></value>
+	</definition>
+	<definition>
+		<key>entry_upload_dir</key>
+		<value><![CDATA[Carica il nome della cartella<br>%s]]></value>
+	</definition>
+	<definition>
+		<key>entry_regexp_pattern</key>
+		<value><![CDATA[Modello di espressione regolare per la convalida dei valori:]]></value>
+	</definition>
+	<definition>
+		<key>entry_error_text</key>
+		<value><![CDATA[Messaggio di errore per un valore non valido:]]></value>
+	</definition>
+	<definition>
+		<key>error_attribute_name</key>
+		<value><![CDATA[Il nome attribuito deve avere da 2 a 64 caratteri!]]></value>
+	</definition>
+	<definition>
+		<key>error_error_text</key>
+		<value><![CDATA[Il testo di errore sul valore di un attributo non valido, deve essere tra 2 e 255 caratteri!]]></value>
+	</definition>
+	<definition>
+		<key>error_regexp_pattern</key>
+		<value><![CDATA[Il modello di espressione regolare non è valido!]]></value>
+	</definition>
+	<definition>
+		<key>entry_show_to_customer</key>
+		<value><![CDATA[Mostra al cliente]]></value>
+	</definition>
+</definitions>

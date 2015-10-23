@@ -1,0 +1,131 @@
+<?xml version="1.0"?>
+<definitions>
+	<definition>
+		<key>heading_title</key>
+		<value><![CDATA[Carrello]]></value>
+	</definition>
+	<definition>
+		<key>text_basket</key>
+		<value><![CDATA[Carrello]]></value>
+	</definition>
+	<definition>
+		<key>text_sub_total</key>
+		<value><![CDATA[Totale parziale:]]></value>
+	</definition>
+	<definition>
+		<key>text_weight</key>
+		<value><![CDATA[Peso carrellot:]]></value>
+	</definition>
+	<definition>
+		<key>text_error</key>
+		<value><![CDATA[Il tuo carrello è vuoto!]]></value>
+	</definition>
+	<definition>
+		<key>column_remove</key>
+		<value><![CDATA[Rimuovi]]></value>
+	</definition>
+	<definition>
+		<key>column_image</key>
+		<value><![CDATA[Immagine]]></value>
+	</definition>
+	<definition>
+		<key>column_name</key>
+		<value><![CDATA[Nome]]></value>
+	</definition>
+	<definition>
+		<key>column_model</key>
+		<value><![CDATA[Modello]]></value>
+	</definition>
+	<definition>
+		<key>column_quantity</key>
+		<value><![CDATA[Quantità]]></value>
+	</definition>
+	<definition>
+		<key>column_price</key>
+		<value><![CDATA[Prezzo unitario]]></value>
+	</definition>
+	<definition>
+		<key>column_total</key>
+		<value><![CDATA[Totale]]></value>
+	</definition>
+	<definition>
+		<key>text_continue_shopping</key>
+		<value><![CDATA[Continua Shopping]]></value>
+	</definition>
+	<definition>
+		<key>text_coupon_codes</key>
+		<value><![CDATA[Applica Codice Coupon]]></value>
+	</definition>
+	<definition>
+		<key>text_estimate_shipping_tax</key>
+		<value><![CDATA[Stima Spedizione e Tasse]]></value>
+	</definition>
+	<definition>
+		<key>text_estimate_country</key>
+		<value><![CDATA[Provincia e Nazione]]></value>
+	</definition>
+	<definition>
+		<key>text_estimate_postcode</key>
+		<value><![CDATA[C.A.P.]]></value>
+	</definition>
+	<definition>
+		<key>button_text_estimate</key>
+		<value><![CDATA[Stima]]></value>
+	</definition>
+	<definition>
+		<key>text_estimate_shipments</key>
+		<value><![CDATA[Spedizioni]]></value>
+	</definition>
+	<definition>
+		<key>error_coupon</key>
+		<value><![CDATA[Errore: Il coupon non è più valido, è scaduto o ha raggiunto il suo limite di utilizzo!]]></value>
+	</definition>
+	<definition>
+		<key>error_stock</key>
+		<value><![CDATA[I prodotti contrassegnati con *** non sono disponibili nella quantità desiderata o sono esauriti!]]></value>
+	</definition>
+	<definition>
+		<key>error_required_options</key>
+		<value><![CDATA[Seleziona tutte la opzioni richieste!]]></value>
+	</definition>
+	<definition>
+		<key>error_order_minimum</key>
+		<value><![CDATA[Il totale parziale del tuo ordine non soddisfa l'importo minimo %s richiesto. Aggiungi altri prodotti al carrello!]]></value>
+	</definition>
+	<definition>
+		<key>error_order_maximum</key>
+		<value><![CDATA[Il totale parziale del tuo ordine supera il valore massimo consentito di %s permesso per ogni ordine. Per favore rimuovi alcuni articoli dal tuo carrello!]]></value>
+	</definition>
+	<definition>
+		<key>error_empty_file_data</key>
+		<value><![CDATA[File danneggiato o vuoto.]]></value>
+	</definition>
+	<definition>
+		<key>error_empty_file_name</key>
+		<value><![CDATA[Nome del file vuoto!]]></value>
+	</definition>
+	<definition>
+		<key>error_file_extension</key>
+		<value><![CDATA[Solo file con estensione %s è permessa!]]></value>
+	</definition>
+	<definition>
+		<key>error_min_file_size</key>
+		<value><![CDATA[La dimensione minima del file da caricare è %s Kb.]]></value>
+	</definition>
+	<definition>
+		<key>error_max_file_size</key>
+		<value><![CDATA[La dimensione massima del file da caricare è %s Kb.]]></value>
+	</definition>
+	<definition>
+		<key>text_coupon_success</key>
+		<value><![CDATA[Successo: Lo sconto coupon è stato applicato!]]></value>
+	</definition>
+	<definition>
+		<key>error_quantity_maximum</key>
+		<value><![CDATA[La quantità supera quella ammessa. La quantità è stata impostata al massimo.]]></value>
+	</definition>
+	<definition>
+		<key>error_quantity_minimum</key>
+		<value><![CDATA[La quantità di prodotto consentita è inferiore al minimo richiesto. La quantità è stata impostata al minimo.]]></value>
+	</definition>
+</definitions>

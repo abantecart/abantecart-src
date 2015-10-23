@@ -1,0 +1,319 @@
+<?xml version="1.0"?>
+<definitions>
+	<definition>
+		<key>code</key>
+		<value><![CDATA[it]]></value>
+	</definition>
+	<definition>
+		<key>direction</key>
+		<value><![CDATA[ltr]]></value>
+	</definition>
+	<definition>
+		<key>date_format_short</key>
+		<value><![CDATA[d/m/Y]]></value>
+	</definition>
+	<definition>
+		<key>date_format_long</key>
+		<value><![CDATA[l dS F Y]]></value>
+	</definition>
+	<definition>
+		<key>time_format</key>
+		<value><![CDATA[h:i:s A]]></value>
+	</definition>
+	<definition>
+		<key>time_format_short</key>
+		<value><![CDATA[H:i]]></value>
+	</definition>
+	<definition>
+		<key>decimal_point</key>
+		<value><![CDATA[,]]></value>
+	</definition>
+	<definition>
+		<key>thousand_point</key>
+		<value><![CDATA[.]]></value>
+	</definition>
+	<definition>
+		<key>text_home</key>
+		<value><![CDATA[Home]]></value>
+	</definition>
+	<definition>
+		<key>text_yes</key>
+		<value><![CDATA[Sì]]></value>
+	</definition>
+	<definition>
+		<key>text_no</key>
+		<value><![CDATA[No]]></value>
+	</definition>
+	<definition>
+		<key>text_none</key>
+		<value><![CDATA[ --- Nessuno --- ]]></value>
+	</definition>
+	<definition>
+		<key>text_select</key>
+		<value><![CDATA[ --- Seleziona --- ]]></value>
+	</definition>
+	<definition>
+		<key>text_all_zones</key>
+		<value><![CDATA[Tutte le Zone]]></value>
+	</definition>
+	<definition>
+		<key>text_pagination</key>
+		<value><![CDATA[Mostra da {start} a {end} di {total} ({pages} Pagine)]]></value>
+	</definition>
+	<definition>
+		<key>text_per_page</key>
+		<value><![CDATA[Per Pagina]]></value>
+	</definition>
+	<definition>
+		<key>text_separator</key>
+		<value><![CDATA[ &gt; ]]></value>
+	</definition>
+	<definition>
+		<key>button_continue</key>
+		<value><![CDATA[Continuare]]></value>
+	</definition>
+	<definition>
+		<key>button_back</key>
+		<value><![CDATA[Indietro]]></value>
+	</definition>
+	<definition>
+		<key>button_add_to_cart</key>
+		<value><![CDATA[Aggiungi al carrello]]></value>
+	</definition>
+	<definition>
+		<key>button_add_wishlist</key>
+		<value><![CDATA[Aggiungi alla lista dei desideri]]></value>
+	</definition>
+	<definition>
+		<key>button_remove_wishlist</key>
+		<value><![CDATA[Rimuovi dalla lista dei desideri]]></value>
+	</definition>
+	<definition>
+		<key>text_wishlist_add_success</key>
+		<value><![CDATA[Aggiunto alla lista dei desideri]]></value>
+	</definition>
+	<definition>
+		<key>text_wishlist_remove_success</key>
+		<value><![CDATA[Rimosso dalla lista dei desideri]]></value>
+	</definition>
+	<definition>
+		<key>button_add_address</key>
+		<value><![CDATA[Aggiungi indirizzo]]></value>
+	</definition>
+	<definition>
+		<key>button_new_address</key>
+		<value><![CDATA[Nuovo indirizzo]]></value>
+	</definition>
+	<definition>
+		<key>button_change_address</key>
+		<value><![CDATA[Cambia indirizzo]]></value>
+	</definition>
+	<definition>
+		<key>button_edit</key>
+		<value><![CDATA[Modifica]]></value>
+	</definition>
+	<definition>
+		<key>button_delete</key>
+		<value><![CDATA[Cancella]]></value>
+	</definition>
+	<definition>
+		<key>button_reviews</key>
+		<value><![CDATA[Recensioni]]></value>
+	</definition>
+	<definition>
+		<key>button_write</key>
+		<value><![CDATA[Scrivi recensione]]></value>
+	</definition>
+	<definition>
+		<key>button_login</key>
+		<value><![CDATA[Login]]></value>
+	</definition>
+	<definition>
+		<key>button_update</key>
+		<value><![CDATA[Aggiorna]]></value>
+	</definition>
+	<definition>
+		<key>button_wish</key>
+		<value><![CDATA[Desiderio]]></value>
+	</definition>
+	<definition>
+		<key>button_print</key>
+		<value><![CDATA[Stampa]]></value>
+	</definition>
+	<definition>
+		<key>button_shopping</key>
+		<value><![CDATA[Continua lo Shopping]]></value>
+	</definition>
+	<definition>
+		<key>button_checkout</key>
+		<value><![CDATA[Acquista]]></value>
+	</definition>
+	<definition>
+		<key>button_confirm</key>
+		<value><![CDATA[Conferma ordine]]></value>
+	</definition>
+	<definition>
+		<key>button_view</key>
+		<value><![CDATA[Mostra]]></value>
+	</definition>
+	<definition>
+		<key>button_search</key>
+		<value><![CDATA[Cerca]]></value>
+	</definition>
+	<definition>
+		<key>button_go</key>
+		<value><![CDATA[Vai]]></value>
+	</definition>
+	<definition>
+		<key>button_coupon</key>
+		<value><![CDATA[Applica Coupon]]></value>
+	</definition>
+	<definition>
+		<key>button_guest</key>
+		<value><![CDATA[Acquista cliente]]></value>
+	</definition>
+	<definition>
+		<key>notice_out_of_stock_ttl</key>
+		<value><![CDATA[Avviso di non disponibilità per: %s]]></value>
+	</definition>
+	<definition>
+		<key>notice_out_of_stock_body</key>
+		<value><![CDATA[Il prodotto "%s" è esaurito. <br> Per impostazione predefinita il prodotto (%s) è stato disabilitato!]]></value>
+	</definition>
+	<definition>
+		<key>no_payment_required</key>
+		<value><![CDATA[Nessun pagamento richiesto]]></value>
+	</definition>
+	<definition>
+		<key>gen_data_entry_error</key>
+		<value><![CDATA[Oops, c'è un errore sulle informazioni fornite!]]></value>
+	</definition>
+	<definition>
+		<key>text_sorting_name_asc</key>
+		<value><![CDATA[Nome A - Z]]></value>
+	</definition>
+	<definition>
+		<key>text_sorting_name_desc</key>
+		<value><![CDATA[Nome Z - A]]></value>
+	</definition>
+	<definition>
+		<key>text_sorting_price_asc</key>
+		<value><![CDATA[Prezzo: dal più basso]]></value>
+	</definition>
+	<definition>
+		<key>text_sorting_price_desc</key>
+		<value><![CDATA[Prezzo: dal più alto]]></value>
+	</definition>
+	<definition>
+		<key>text_sorting_rating_asc</key>
+		<value><![CDATA[Voto più basso]]></value>
+	</definition>
+	<definition>
+		<key>text_sorting_rating_desc</key>
+		<value><![CDATA[Voto più alto]]></value>
+	</definition>
+	<definition>
+		<key>text_sorting_date_asc</key>
+		<value><![CDATA[Data inserimento: dal più vecchio]]></value>
+	</definition>
+	<definition>
+		<key>text_sorting_date_desc</key>
+		<value><![CDATA[Data inserimento: dal più recente]]></value>
+	</definition>
+	<definition>
+		<key>text_add_cart_confirm</key>
+		<value><![CDATA[Aggiunto al carrello]]></value>
+	</definition>
+	<definition>
+		<key>text_close</key>
+		<value><![CDATA[Chiudi]]></value>
+	</definition>
+	<definition>
+		<key>text_balance</key>
+		<value><![CDATA[Saldo contabile ]]></value>
+	</definition>
+	<definition>
+		<key>text_balance_checkout</key>
+		<value><![CDATA[Saldo contabile: ]]></value>
+	</definition>
+	<definition>
+		<key>button_apply_balance</key>
+		<value><![CDATA[Applica all'ordine]]></value>
+	</definition>
+	<definition>
+		<key>button_disapply_balance</key>
+		<value><![CDATA[Rimuovi dall'ordine]]></value>
+	</definition>
+	<definition>
+		<key>text_applied_balance</key>
+		<value><![CDATA[applicato all'ordine]]></value>
+	</definition>
+	<definition>
+		<key>text_applied_balance_to_order</key>
+		<value><![CDATA[%s usato per l'ordine #%s]]></value>
+	</definition>
+	<definition>
+		<key>text_maintenance_notice</key>
+		<value><![CDATA[Avviso: Sito in manutenzione.]]></value>
+	</definition>
+	<definition>
+		<key>text_browse</key>
+		<value><![CDATA[Seleziona File]]></value>
+	</definition>
+	<definition>
+		<key>button_cancel</key>
+		<value><![CDATA[annulla]]></value>
+	</definition>
+	<definition>
+		<key>button_reset</key>
+		<value><![CDATA[Reimposta]]></value>
+	</definition>
+	<definition>
+		<key>button_submit</key>
+		<value><![CDATA[Invia]]></value>
+	</definition>
+	<definition>
+		<key>button_save</key>
+		<value><![CDATA[Salva]]></value>
+	</definition>
+	<definition>
+		<key>text_field_required</key>
+		<value><![CDATA[Il campo èrichiesto!]]></value>
+	</definition>
+	<definition>
+		<key>error_captcha</key>
+		<value><![CDATA[Il codice di verifica non corrisponde all'immagine!]]></value>
+    </definition>
+	<definition>
+		<key>entry_attached</key>
+		<value><![CDATA[Allegato]]></value>
+    </definition>
+	<definition>
+		<key>text_call_to_order</key>
+		<value><![CDATA[Chiama per ordinare]]></value>
+    </definition>
+	<definition>
+		<key>text_discount</key>
+		<value><![CDATA[Sconto]]></value>
+    </definition>
+	<definition>
+		<key>text_download</key>
+		<value><![CDATA[Download]]></value>
+    </definition>
+	<definition>
+		<key>text_free</key>
+		<value><![CDATA[Gratis]]></value>
+	</definition>
+	<definition>
+		<key>text_free_shipping</key>
+		<value><![CDATA[Spedizione gratuita]]></value>
+	</definition>
+	<definition>
+		<key>text_unavailable</key>
+		<value><![CDATA[Non disponibile]]></value>
+	</definition>	
+	<definition>
+		<key>error_unknown</key>
+		<value><![CDATA[Errore sconosciuto. Riprovare!]]></value>
+	</definition>    
+</definitions>

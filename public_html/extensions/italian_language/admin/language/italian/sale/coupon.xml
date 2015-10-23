@@ -1,0 +1,135 @@
+<?xml version="1.0"?>
+<definitions>
+	<definition>
+		<key>heading_title</key>
+		<value><![CDATA[Coupon]]></value>
+	</definition>
+	<definition>
+		<key>text_coupon</key>
+		<value><![CDATA[Coupon]]></value>
+	</definition>
+	<definition>
+		<key>text_success</key>
+		<value><![CDATA[Hai modificato i coupon con successo!]]></value>
+	</definition>
+	<definition>
+		<key>text_percent</key>
+		<value><![CDATA[Percentuale]]></value>
+	</definition>
+	<definition>
+		<key>text_amount</key>
+		<value><![CDATA[Importo fisso]]></value>
+	</definition>
+	<definition>
+		<key>column_name</key>
+		<value><![CDATA[Nome Coupon]]></value>
+	</definition>
+	<definition>
+		<key>column_code</key>
+		<value><![CDATA[Codice]]></value>
+	</definition>
+	<definition>
+		<key>column_discount</key>
+		<value><![CDATA[Sconto]]></value>
+	</definition>
+	<definition>
+		<key>column_date_start</key>
+		<value><![CDATA[Data inizio]]></value>
+	</definition>
+	<definition>
+		<key>column_date_end</key>
+		<value><![CDATA[Data scadenza]]></value>
+	</definition>
+	<definition>
+		<key>column_status</key>
+		<value><![CDATA[Stato]]></value>
+	</definition>
+	<definition>
+		<key>column_action</key>
+		<value><![CDATA[Azione]]></value>
+	</definition>
+	<definition>
+		<key>entry_name</key>
+		<value><![CDATA[Nome Coupon:]]></value>
+	</definition>
+	<definition>
+		<key>entry_description</key>
+		<value><![CDATA[Descrizione Coupon:]]></value>
+	</definition>
+	<definition>
+		<key>entry_code</key>
+		<value><![CDATA[Codice:<br /><span class="help">Il cliente deve essere loggato per utilizzare il codice.</span>]]></value>
+	</definition>
+	<definition>
+		<key>entry_type</key>
+		<value><![CDATA[Tipo:<br /><span class="help">Percentuale o importo fisso.</span>]]></value>
+	</definition>
+	<definition>
+		<key>entry_discount</key>
+		<value><![CDATA[Sconto:]]></value>
+	</definition>
+	<definition>
+		<key>entry_logged</key>
+		<value>
+			<![CDATA[Login cliente:<br /><span class="help">Il cliente deve essere loggato per utilizzare il coupon.</span>]]></value>
+	</definition>
+	<definition>
+		<key>entry_shipping</key>
+		<value><![CDATA[Spedizione gratuita:]]></value>
+	</definition>
+	<definition>
+		<key>entry_total</key>
+		<value>
+			<![CDATA[Importo totale:<br /><span class="help">L'importo totale che si deve raggiungere prima che il coupon sia valido.</span>]]></value>
+	</definition>
+	<definition>
+		<key>entry_product</key>
+		<value><![CDATA[Prodotti selezionati:]]></value>
+	</definition>
+	<definition>
+		<key>entry_date_start</key>
+		<value><![CDATA[Data inizio:]]></value>
+	</definition>
+	<definition>
+		<key>entry_date_end</key>
+		<value><![CDATA[Data di scadenza:]]></value>
+	</definition>
+	<definition>
+		<key>entry_uses_total</key>
+		<value>
+			<![CDATA[Utilizza Per Coupon:<br /><span class="help">Il numero massimo di volte in cui il coupon può essere utilizzato da qualsiasi cliente. Lasciare vuoto per un numero illimitato.</span>]]></value>
+	</definition>
+	<definition>
+		<key>entry_uses_customer</key>
+		<value>
+			<![CDATA[Utilizza per cliente:<br /><span class="help">Il numero massimo di volte in cui il coupon può essere utilizzato da un singolo cliente. lasciare vuoto per un numero illimitato.</span>]]></value>
+	</definition>
+	<definition>
+		<key>entry_status</key>
+		<value><![CDATA[Stato:]]></value>
+	</definition>
+	<definition>
+		<key>entry_total_coupon_usage</key>
+		<value><![CDATA[Totale dell'utilizzo del coupon:]]></value>
+	</definition>
+	<definition>
+		<key>error_permission</key>
+		<value><![CDATA[ATTENZIONE: Non sei autorizzato a modificare i coupon!]]></value>
+	</definition>
+	<definition>
+		<key>error_name</key>
+		<value><![CDATA[Il nome del Coupon deve avere da 2 a 64 caratteri!]]></value>
+	</definition>
+	<definition>
+		<key>error_description</key>
+		<value><![CDATA[La descrizione del coupon deve essere superiore a 2 caratteri!]]></value>
+	</definition>
+	<definition>
+		<key>error_code</key>
+		<value><![CDATA[Il codice deve avere da 2 a 10 caratteri!]]></value>
+	</definition>
+	<definition>
+		<key>error_date</key>
+		<value><![CDATA[Si prega di impostare l'intervallo delle date!]]></value>
+	</definition>
+</definitions>

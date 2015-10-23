@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Gestione Template]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Il Template è stato modificato!]]></value>
+  </definition>
+</definitions>

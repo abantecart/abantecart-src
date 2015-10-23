@@ -1,0 +1,191 @@
+<?xml version="1.0"?>
+<definitions>
+	<definition>
+		<key>heading_title</key>
+		<value><![CDATA[Negozio estensioni]]></value>
+	</definition>
+	<definition>
+		<key>text_install</key>
+		<value><![CDATA[Installa]]></value>
+	</definition>
+	<definition>
+		<key>text_uninstall</key>
+		<value><![CDATA[Disinstalla]]></value>
+	</definition>
+	<definition>
+		<key>text_uninstall_delete</key>
+		<value><![CDATA[Disinstalla/Cancella]]></value>
+	</definition>
+	<definition>
+		<key>text_uninstall_confirm</key>
+		<value><![CDATA[ Si prega di confermare la disinstallazione dell'estensione [ %extension% ]. Tutte le impostazioni di estensione e relativi dati potrebbero essere cancellati e persi. ]]></value>
+	</definition>
+	<definition>
+		<key>text_delete</key>
+		<value><![CDATA[Cancella]]></value>
+	</definition>
+	<definition>
+		<key>text_enlarge</key>
+		<value><![CDATA[Clicca sull'immagine per allargarla]]></value>
+	</definition>
+	<definition>
+		<key>text_activate</key>
+		<value><![CDATA[Attivare]]></value>
+	</definition>
+	<definition>
+		<key>text_deactivate</key>
+		<value><![CDATA[Disattivare]]></value>
+	</definition>
+	<definition>
+		<key>text_left</key>
+		<value><![CDATA[Sinistra]]></value>
+	</definition>
+	<definition>
+		<key>text_right</key>
+		<value><![CDATA[Destra]]></value>
+	</definition>
+	<definition>
+		<key>text_date_added</key>
+		<value><![CDATA[Aggiunto il]]></value>
+	</definition>
+	<definition>
+		<key>error_permission</key>
+		<value><![CDATA[ATTENZIONE: Non hai l'autorizzazione per modificare le estensioni!]]></value>
+	</definition>
+	<definition>
+		<key>error_required_field</key>
+		<value><![CDATA[ATTENZIONE: Compilare i campi richiesti! ]]></value>
+	</definition>
+	<definition>
+		<key>error_payment_uninstall</key>
+		<value><![CDATA[ATTENZIONE: Disabilita l'estensione prima della disinstallazione!]]></value>
+	</definition>
+	<definition>
+		<key>error_uninstall</key>
+		<value><![CDATA[ATTENZIONE: Disinstalla l'estensione prima di cancellarla!]]></value>
+	</definition>
+	<definition>
+		<key>text_success</key>
+		<value><![CDATA[Le impostazioni di estensione sono state modificate!]]></value>
+	</definition>
+	<definition>
+		<key>text_extensions_store</key>
+		<value><![CDATA[Negozio delle estensioni]]></value>
+	</definition>
+	<definition>
+		<key>text_required</key>
+		<value><![CDATA[Richiesto]]></value>
+	</definition>
+	<definition>
+		<key>text_optional</key>
+		<value><![CDATA[Opzionale]]></value>
+	</definition>
+	<definition>
+		<key>text_add_new</key>
+		<value><![CDATA[Installa estensioni]]></value>
+	</definition>
+	<definition>
+		<key>error_connect</key>
+		<value><![CDATA[Ci spiace, non è possibile connettersi al negozio delle estensioni. Si prega di consultare Sistema->Registro errori per i dettagli.]]></value>
+	</definition>
+	<definition>
+		<key>text_sorting_review_asc</key>
+		<value><![CDATA[Review Count Low > High]]></value>
+	</definition>
+	<definition>
+		<key>text_sorting_review_desc</key>
+		<value><![CDATA[Review Count High > Low]]></value>
+	</definition>
+	<definition>
+		<key>text_sorting_price_asc</key>
+		<value><![CDATA[Prezzo:dal più basso]]></value>
+	</definition>
+	<definition>
+		<key>text_sorting_price_desc</key>
+		<value><![CDATA[Prezzo: dal più alto]]></value>
+	</definition>
+	<definition>
+		<key>text_sorting_rating_desc</key>
+		<value><![CDATA[Voto più alto]]></value>
+	</definition>
+	<definition>
+		<key>text_sorting_rating_asc</key>
+		<value><![CDATA[Voto più basso]]></value>
+	</definition>
+	<definition>
+		<key>text_sorting_date_modified_asc</key>
+		<value><![CDATA[Data da nuovo a vecchio]]></value>
+	</definition>
+	<definition>
+		<key>text_sorting_date_modified_desc</key>
+		<value><![CDATA[Data da vechio a nuovo]]></value>
+	</definition>
+	<definition>
+		<key>text_my_extensions</key>
+		<value><![CDATA[Le mie estensioni]]></value>
+	</definition>
+	<definition>
+		<key>text_my_account</key>
+		<value><![CDATA[Il mio Account]]></value>
+	</definition>
+	<definition>
+		<key>text_marketplace_site</key>
+		<value><![CDATA[Marketplace Site]]></value>
+	</definition>
+	<definition>
+		<key>text_all_categories</key>
+		<value><![CDATA[Tutte le categorie]]></value>
+	</definition>
+	<definition>
+		<key>text_connect</key>
+		<value><![CDATA[Connetti]]></value>
+	</definition>	
+	<definition>
+		<key>text_marketplace_connect</key>
+		<value><![CDATA[Connetti al marketplace]]></value>
+	</definition>	
+	<definition>
+		<key>text_marketplace_extension</key>
+		<value><![CDATA[Anteprima dell'ordine e estensione ]]></value>
+	</definition>	
+	<definition>
+		<key>text_marketplace_buy</key>
+		<value><![CDATA[ottieni questa estensione ora]]></value>
+	</definition>	
+	<definition>
+		<key>text_connected</key>
+		<value><![CDATA[Collegato al marketplace. Clicca per scollegare]]></value>
+	</definition>	
+	<definition>
+		<key>text_disconnect_confirm</key>
+		<value><![CDATA[Sei sicuro di volerti scollegare?]]></value>
+	</definition>	
+	<definition>
+		<key>text_disconnect_success</key>
+		<value><![CDATA[Questo negozio è stato scollegato!]]></value>
+	</definition>	
+	<definition>
+		<key>text_connection_required</key>
+		<value><![CDATA[È necessario colegare AbanteCart al Marketplace per vedere le tue estenzioni! Clicca su "connetti" nel pannello sopra.]]></value>
+	</definition>	
+	<definition>
+		<key>text_in_other_store</key>
+		<value><![CDATA[L'estensione per questo ordine è già stato installato in un altro AbanteCart. Controlla i tuoi negozi collegati per la cronologia.]]></value>
+	</definition>	
+	<definition>
+		<key>text_no_purchase_or_not_connected</key>
+		<value><![CDATA[Non ci sono acquisti per questo negozio o esso è stato disconnesso dal Marketplace.]]></value>
+	</definition>	
+	<definition>
+		<key>text_no_extenions_loaded</key>
+		<value><![CDATA[Non ci sono estensioni disponibili. Controllare la selezione o riprovare..]]></value>
+	</definition>	
+	<definition>
+		<key>text_compatibility</key>
+		<value><![CDATA[Questa estensione non è confermata per funzionare con la tua versione di AbanteCart. Contatta lo sviluppatore della estansione per verificare la compatibilità.]]></value>
+	</definition>
+	<definition>
+		<key>error_mp_connection</key>
+		<value><![CDATA[Oops, non è possibile connettersi al MarketPlace di AbanteCart. Si prega di provare a controllare più tardi o chiedere aiuto al vostro fornitore di servizi di hosting.]]></value>
+	</definition>
+</definitions>
