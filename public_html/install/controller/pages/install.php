@@ -286,6 +286,9 @@ class ControllerPagesInstall extends AController {
 		$file = fopen(DIR_ABANTECART . 'system/config.php', 'w');
 		fwrite($file, $content);
 		fclose($file);
+
+		//set file into read-only mode
+		chmod(DIR_ABANTECART . 'system/config.php',0444);
 		return null;
 	}
 
