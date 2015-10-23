@@ -48,6 +48,35 @@ if ( !empty($_SESSION['exception_msg']) ) {
 	$error =  $_SESSION['exception_msg'];
 	unset($_SESSION['exception_msg']);
 }
+
+$subject = rawurlencode("AbanteCart Error Report " . UNIQUE_ID);
+$pos = -2;
+$t ='';
+$count = 0;
+$log_contents_end = "Log file tail: \n\n";
+$log_handle = fopen(DIR_ABANTECART . "system/logs/error.txt", "r");
+//read 100 lines backwards from the eof or less 
+$max_lines = 100;
+$max_bytes = filesize(DIR_ABANTECART . "system/logs/error.txt");
+$lines = array();
+while ($count < $max_lines) {
+	//read one line back
+	while ($t != "\n") {
+	    if(abs($pos) >= $max_bytes){
+	    	break;
+	    }
+	    fseek($log_handle, $pos, SEEK_END);
+	    $t = fgetc($log_handle);
+	    $pos = $pos - 1;
+	}
+	$lines[] = fgets($log_handle);
+	$count++;
+	$t='';
+}
+fclose ($log_handle);
+
+$body = rawurlencode($log_contents_end . implode("", array_reverse($lines)) );
+
 ?>
 <?php echo '<?xml version="1.0" encoding="UTF-8"?>'; ?>
 <html xmlns="http://www.w3.org/1999/xhtml" dir="ltr" lang="en" xml:lang="en">
@@ -67,9 +96,15 @@ if ( !empty($_SESSION['exception_msg']) ) {
 		<?php echo $error; ?>
 	</div>
 	<br><br>
-	<div>
-		<a href="<?php echo HTTP_ABANTECART; ?>">Go to main page</a>
-	</div>
+	<center>
+		<div style="font-size: 16px;">
+			<b><a href="mailto:help@abantecart.com?subject=<?php echo $subject ?>&body=<?php echo $body ?>">Report this problem to AbanteCart team (do not change email subject)</a></b>
+		</div>
+		<br><br>
+		<div>
+			<a href="<?php echo HTTP_ABANTECART; ?>">Go to main page</a>
+		</div>
+	</center>
     </div>
     <div id="content_bottom"></div>
   </div>
