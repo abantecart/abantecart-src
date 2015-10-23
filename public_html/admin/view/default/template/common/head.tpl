@@ -66,6 +66,31 @@ $(document).ready(function () {
 
 });
 
+//periodical updater of new message notifier
+var system_checker = function () {
+  $.ajax({
+	url: '<?php echo $system_checker_url?>',
+	success: showSystemAlert,
+	complete: function() {
+	  // Schedule the next request when the current one's complete
+	  setTimeout(system_checker, 600000);
+	}
+  });
+};
+
+var showSystemAlert = function(data){
+	if(data.hasOwnProperty('error')){
+		error_alert(data.error, false);
+	}
+	if(data.hasOwnProperty('warning')){
+		warning_alert(data.warning, false);
+	}
+	if(data.hasOwnProperty('notice')){
+		info_alert(data.notice, false);
+	}
+}
+
+
 var wrapConfirmDelete = function(){
     var wrapper = '<div class="btn-group dropup" />';
     var popover, href;
@@ -170,6 +195,7 @@ var buildNotifier = function(data){
 <?php if($this->user->isLogged()){?>
 $(document).ready(function(){
 	notifier_updater();
+	system_checker();
 	$(document).on('click', '#message_modal a[data-dismiss="modal"], #message_modal button[data-dismiss="modal"]', notifier_updater );
 	<?php
 	//do ajax call to check extension updates
