@@ -32,72 +32,107 @@ class AListing {
 		$this->custom_block_id = (int)$custom_block_id;
 		// datasources hardcode
 		$this->data_sources = Array(
-				'catalog_product_getPopularProducts' => array('text' => 'text_products_popular',
+				'catalog_product_getPopularProducts' => array(
+						'text' => 'text_products_popular',
 						'rl_object_name' => 'products',
 						'data_type' => 'product_id',
 						'storefront_model' => 'catalog/product',
 						'storefront_method' => 'getPopularProducts',
 						'storefront_view_path' => 'product/product',
 				),
-				'catalog_product_getSpecialProducts' => array('text' => 'text_products_special',
+				'catalog_product_getSpecialProducts' => array(
+						'text' => 'text_products_special',
 						'rl_object_name' => 'products',
 						'data_type' => 'product_id',
 						'storefront_model' => 'catalog/product',
 						'storefront_method' => 'getProductSpecials',
 						'storefront_view_path' => 'product/product',
 				),
-				'catalog_category_getcategories' => array('text' => 'text_categories',
+				'catalog_category_getcategories' => array(
+						'text' => 'text_categories',
 						'rl_object_name' => 'categories',
 						'data_type' => 'category_id',
 						'storefront_model' => 'catalog/category',
 						'storefront_method' => 'getCategories',
 						'storefront_view_path' => 'product/category',
 				),
-						'media' => array( 'text'=>'text_media'),
-						'custom_products' => array(
-												'model'=>'catalog/product',
-												'total_method' => 'getTotalProducts',
-												'method' => 'getProducts',
-												'language'=>'catalog/product',
-												'data_type'=>'product_id',
-												'view_path' => 'catalog/product/update',
-												'rl_object_name' => 'products',
-												'text'=>'text_custom_products',
-												'storefront_model' => 'catalog/product',
-												'storefront_method' => 'getProduct',
-												'storefront_view_path' => 'product/product',
-												'items_list_url' => 'product/product/related'
-												),
+				'catalog_category_getmanufacturers' => array(
+						'text' => 'text_manufacturers',
+						'rl_object_name' => 'manufacturers',
+						'data_type' => 'manufacturer_id',
+						'storefront_model' => 'catalog/manufacturer',
+						'storefront_method' => 'getManufacturers',
+						'storefront_view_path' => 'product/manufacturer',
+				),
+				'catalog_category_getfeatured' => array(
+						'text' => 'text_featured',
+						'rl_object_name' => 'products',
+						'data_type' => 'product_id',
+						'storefront_model' => 'catalog/product',
+						'storefront_method' => 'getFeaturedProducts',
+						'storefront_view_path' => 'product/product',
+				),
+				'catalog_category_getlatest' => array(
+						'text' => 'text_latest',
+						'rl_object_name' => 'products',
+						'data_type' => 'product_id',
+						'storefront_model' => 'catalog/product',
+						'storefront_method' => 'getLatestProducts',
+						'storefront_view_path' => 'product/product',
+				),
+				'catalog_category_getlatest' => array(
+						'text' => 'text_bestsellers',
+						'rl_object_name' => 'products',
+						'data_type' => 'product_id',
+						'storefront_model' => 'catalog/product',
+						'storefront_method' => 'getBestsellerProducts',
+						'storefront_view_path' => 'product/product',
+				),
+				'media' => array( 'text'=>'text_media'),
+				'custom_products' => array(
 
-						'custom_categories' => array(
-												'model'=>'catalog/category',
-												'total_method' => 'getTotalCategories',
-												'method' => 'getCategoriesData',
-												'language'=>'catalog/category',
-												'data_type'=>'category_id',
-												'view_path' => 'catalog/category/update',
-												'rl_object_name' => 'categories',
-												'text'=>'text_custom_categories',
-												'storefront_model' => 'catalog/category',
-												'storefront_method' => 'getCategory',
-												'storefront_view_path' => 'product/category',
-												'items_list_url' => 'product/product/product_categories'
-												),
-
-						'custom_manufacturers' => array(
-												'model'=>'catalog/manufacturer',
-												'total_method' => 'getTotalManufacturers',
-												'method' => 'getManufacturers',
-												'language'=>'catalog/manufacturer',
-												'data_type'=>'manufacturer_id',
-												'view_path' => 'catalog/category/update',
-												'rl_object_name' => 'manufacturers',
-												'text'=>'text_custom_manufacturers',
-												'storefront_model' => 'catalog/manufacturer',
-												'storefront_method' => 'getManufacturer',
-												'storefront_view_path' => 'product/manufacturer',
-												'items_list_url' => 'catalog/manufacturer_listing/getManufacturers'
-												));
+						'model'=>'catalog/product',
+						'total_method' => 'getTotalProducts',
+						'method' => 'getProducts',
+						'language'=>'catalog/product',
+						'data_type'=>'product_id',
+						'view_path' => 'catalog/product/update',
+						'rl_object_name' => 'products',
+						'text'=>'text_custom_products',
+						'storefront_model' => 'catalog/product',
+						'storefront_method' => 'getProduct',
+						'storefront_view_path' => 'product/product',
+						'items_list_url' => 'product/product/related'
+				),
+				'custom_categories' => array(
+						'model'=>'catalog/category',
+						'total_method' => 'getTotalCategories',
+						'method' => 'getCategoriesData',
+						'language'=>'catalog/category',
+						'data_type'=>'category_id',
+						'view_path' => 'catalog/category/update',
+						'rl_object_name' => 'categories',
+						'text'=>'text_custom_categories',
+						'storefront_model' => 'catalog/category',
+						'storefront_method' => 'getCategory',
+						'storefront_view_path' => 'product/category',
+						'items_list_url' => 'product/product/product_categories'
+				),
+				'custom_manufacturers' => array(
+						'model'=>'catalog/manufacturer',
+						'total_method' => 'getTotalManufacturers',
+						'method' => 'getManufacturers',
+						'language'=>'catalog/manufacturer',
+						'data_type'=>'manufacturer_id',
+						'view_path' => 'catalog/category/update',
+						'rl_object_name' => 'manufacturers',
+						'text'=>'text_custom_manufacturers',
+						'storefront_model' => 'catalog/manufacturer',
+						'storefront_method' => 'getManufacturer',
+						'storefront_view_path' => 'product/manufacturer',
+						'items_list_url' => 'catalog/manufacturer_listing/getManufacturers'
+				)
+		);
 	}
 
 
