@@ -240,10 +240,15 @@ class ControllerPagesToolPackageInstaller extends AController {
 		$extension_key = trim($this->request->post_or_get('extension_key'));
 
 		if (!$extension_key && !$package_info['package_url']) {
+			$this->_removeTempFiles();
 			$this->redirect($this->_get_begin_href());
 		}
 
-		if ($this->request->is_POST()) { // if does not agree  with agreement of filesize
+		if( $this->request->is_GET() ){
+			//reset installer array after redirects
+			$this->_removeTempFiles();
+			$this->session->data['package_info'] = array();
+		}elseif ($this->request->is_POST()) { // if does not agree  with agreement of filesize
 			if ($this->request->post['disagree'] == 1) {
 				$this->_removeTempFiles();
 				unset($this->session->data['package_info']);
@@ -474,8 +479,11 @@ class ControllerPagesToolPackageInstaller extends AController {
 		$pmanager = new APackageManager();
 		//unpack package
 
-		// if package not unpack - redirect to the begin and show error message
-		if (!$pmanager->unpack($package_info['tmp_dir'] . $package_name, $package_info['tmp_dir'])) {
+		// if package not unpacked - redirect to the begin and show error message
+		if(!is_dir($package_info['tmp_dir'].$package_info['extension_key'])){
+			mkdir($package_info['tmp_dir'].$package_info['extension_key'],0777);
+		}
+		if (!$pmanager->unpack($package_info['tmp_dir'] . $package_name, $package_info['tmp_dir'].$package_info['extension_key'].'/')) {
 			$this->session->data['error'] = str_replace('%PACKAGE%', $package_info['tmp_dir'].$package_name, $this->language->get('error_unpack'));
 			$error = new AError ($pmanager->error);
 			$error->toLog()->toDebug();
@@ -1072,7 +1080,7 @@ class ControllerPagesToolPackageInstaller extends AController {
 	}
 
 	private function _find_package_dir(){
-		$dirs = glob($this->session->data['package_info']['tmp_dir'].'*', GLOB_ONLYDIR);
+		$dirs = glob($this->session->data['package_info']['tmp_dir'].$this->session->data['package_info']['extension_key'].'/*', GLOB_ONLYDIR);
 		foreach($dirs as $dir){
 			if(file_exists($dir.'/package.xml')){
 				return str_replace($this->session->data['package_info']['tmp_dir'],'',$dir);
