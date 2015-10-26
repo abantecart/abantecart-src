@@ -150,8 +150,8 @@
 							</div>
 							<div class="modal-body"><?php echo $text_order_cancelation_confirm; ?></div>
 							<div class="modal-footer">
-								<button class="btn btn-default pull-left" data-dismiss="modal" aria-hidden="true"><?php echo $text_close; ?></button>
-								<button class="btn btn-orange pull-right" onclick="location='<?php echo $order_cancelation_url;?>';"><?php echo $button_continue->text; ?></button>
+								<button class="btn btn-default pull-left" data-dismiss="modal" aria-hidden="true"><i class="fa fa-close">&nbsp;</i><?php echo $text_close; ?></button>
+								<button class="btn btn-orange pull-right" onclick="location='<?php echo $order_cancelation_url;?>';"><i class="fa fa-arrow-right"></i>&nbsp;<?php echo $button_continue->text; ?></button>
 							</div>
 						</div>
 					</div>
