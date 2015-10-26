@@ -290,7 +290,7 @@ class ControllerPagesInstall extends AController {
 		//set file into read-only mode
 		try{
 			@chmod(DIR_ABANTECART . 'system/config.php', 0444);
-		}catch(AException $e){}
+		}catch(Exception $e){}
 		return null;
 	}
 
