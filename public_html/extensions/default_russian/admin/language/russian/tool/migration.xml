@@ -182,7 +182,7 @@
   </definition>
   <definition>
     <key>error_empty_source_cart</key>
-    <value><![CDATA[Внимание: Выбранный исходный магазин пуст!]]></value>
+    <value><![CDATA[Внимание: Выбранный исходный магазин пуст! Проверьте базу данных и приставку названий таблиц]]></value>
   </definition>
   <definition>
     <key>text_finished</key>

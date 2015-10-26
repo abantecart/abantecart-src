@@ -185,7 +185,7 @@
     </definition>
     <definition>
         <key>error_empty_source_cart</key>
-        <value><![CDATA[Advertencia: Elegido cesta origen está vacío!]]></value>
+        <value><![CDATA[Advertencia: Elegido cesta origen está vacío!  Por favor, consulte la base de datos y el prefijo de la tabla.]]></value>
     </definition>
     <definition>
         <key>text_finished</key>
