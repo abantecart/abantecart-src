@@ -28,7 +28,7 @@
 		<?php } ?>
 		<?php if($phpinfo_button){?>
 			<div class="btn-group">
-				<a class="btn btn-primary actionitem tooltips"
+				<a class="btn btn-default actionitem tooltips"
 				   title="PHP Info"
 				   href="<?php echo $phpinfo_button->href;?>"
 				   target="_blank">
