@@ -47,7 +47,7 @@ class Migration_Zen implements Migration {
 	}
 
 	public function getVersion() {
-		return '1.3.9h';
+		return '1.3x-1.5x';
 	}
 
 	private function getSourceLanguageId() {
