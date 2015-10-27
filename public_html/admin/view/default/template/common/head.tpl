@@ -83,10 +83,10 @@ var showSystemAlert = function(data){
 		error_alert(data.error, false);
 	}
 	if(data.hasOwnProperty('warning')){
-		warning_alert(data.warning, false);
+		warning_alert(data.warning, true);
 	}
 	if(data.hasOwnProperty('notice')){
-		info_alert(data.notice, false);
+		info_alert(data.notice, true);
 	}
 }
 
