@@ -381,3 +381,44 @@ function check_web_access(){
 }
 
 
+/**
+ * @param $registry
+ * @param string $mode
+ * @return array
+ */
+
+function run_critical_system_check($registry, $mode = 'log'){
+
+	$mlog = array();
+	$mlog[] =  check_session_save_path($registry);
+
+	$output = array();
+
+	foreach($mlog as $message){
+		if($message['body']){
+			if ($mode == 'log'){
+				//only save errors to the log
+				$error = new AError($message['body']);
+				$error->toLog()->toDebug();
+				$registry->get('messages')->saveError($message['title'], $message['body']);
+			}
+		$output[] = $message;
+		}
+	}
+
+	return $output;
+}
+
+/**
+ * @return array
+ */
+function check_session_save_path(){
+	$savepath = ini_get('session.save_path');
+	if(!is_writable($savepath)){
+		return array(
+			        'title' => 'Session save path is not writable! ',
+			        'body' => 'Your server is unable to create a session necessary for AbanteCart functionality. Check logs for exact error details and contact your hosting support administrator to resolve this error.'
+		);
+	}
+	return array();
+}
