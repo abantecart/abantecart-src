@@ -273,15 +273,15 @@ class ALanguage {
 		$request = $this->registry->get('request');
 		if (isset($request->server['HTTP_ACCEPT_LANGUAGE']) && ($request->server['HTTP_ACCEPT_LANGUAGE'])) {
 			$parse = explode(';', $request->server['HTTP_ACCEPT_LANGUAGE']);
-
-			$browser_languages = explode(',',$parse[0]);
+			$browser_languages = array_map('trim', explode(',',$parse[0]));
 			if($browser_languages){
 				foreach ($browser_languages as $browser_language){
+					$browser_language = trim($browser_language);
 					if (!$browser_language || @preg_match("/".$browser_language."/i", '') === false){
 						continue;
 					}
 					foreach ($this->getActiveLanguages() as $key => $value){
-						$locale = explode(',', $value['locale']);
+						$locale = array_map('trim', explode(',', $value['locale']));
 						if (!$locale){
 							continue;
 						}
