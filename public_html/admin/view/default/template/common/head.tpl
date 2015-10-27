@@ -79,6 +79,8 @@ var system_checker = function () {
 };
 
 var showSystemAlert = function(data){
+	if(data==null || data==undefined ){ return; }
+
 	if(data.hasOwnProperty('error')){
 		error_alert(data.error, false);
 	}
