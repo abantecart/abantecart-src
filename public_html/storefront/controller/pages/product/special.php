@@ -67,15 +67,14 @@ class ControllerPagesProductSpecial extends AController {
 
 		if (isset($this->request->get['sort'])) {
 			$sorting_href = $this->request->get['sort'];
-			list($sort, $order) = explode("-", $sorting_href);
 		} else {
 			$sorting_href = $this->config->get('config_product_default_sort_order');
-			list($sort, $order) = explode("-", $sorting_href);
-			if($sort=='name'){
-				$sort = 'pd.'.$sort;
-			}elseif(in_array($sort,array('sort_order','price'))){
-				$sort = 'p.'.$sort;
-			}
+		}
+		list($sort, $order) = explode("-", $sorting_href);
+		if($sort=='name'){
+			$sort = 'pd.'.$sort;
+		}elseif(in_array($sort,array('sort_order','price'))){
+			$sort = 'p.'.$sort;
 		}
 	
 		$this->loadModel('catalog/product');
@@ -241,11 +240,12 @@ class ControllerPagesProductSpecial extends AController {
 				foreach($sorts as $item){
 					$options[$item['value']] = $item['text'];
 				}
-			$sorting = $this->html->buildSelectbox( array (
-		                                         'name' => 'sort',
-			                                     'options'=> $options,
-			                                     'value'=> $sort.'-'.$order
-		                                         ) );
+			$sorting = $this->html->buildElement( array (
+				'type' => 'selectbox',
+                 'name' => 'sort',
+                 'options'=> $options,
+                 'value'=> $sort.'-'.$order
+                 ) );
 
 			$this->view->assign('sorting', $sorting );
 			$this->view->assign('url', $this->html->getURL('product/special') );
@@ -253,7 +253,7 @@ class ControllerPagesProductSpecial extends AController {
 			$this->data['sorts'] = $sorts;
 
 			$pagination_url = $this->html->getURL('product/special', '&sort=' . $sorting_href . '&page={page}' . '&limit=' . $limit, '&encode');
-			$this->data['pagination_bootstrap'] = HtmlElementFactory::create( array (
+			$this->data['pagination_bootstrap'] = $this->html->buildElement( array (
 											'type' => 'Pagination',
 											'name' => 'pagination',
 											'text'=> $this->language->get('text_pagination'),
@@ -274,7 +274,7 @@ class ControllerPagesProductSpecial extends AController {
 		} else {
 
             $this->view->assign('text_error', $this->language->get('text_empty') );
-			$continue = HtmlElementFactory::create( array ('type' => 'button',
+			$continue = $this->html->buildElement( array ('type' => 'button',
 		                                               'name' => 'continue_button',
 			                                           'text'=> $this->language->get('button_continue'),
 			                                           'style' => 'button'));
