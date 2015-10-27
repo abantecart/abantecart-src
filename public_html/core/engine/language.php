@@ -277,7 +277,7 @@ class ALanguage {
 			$browser_languages = explode(',',$parse[0]);
 			if($browser_languages){
 				foreach ($browser_languages as $browser_language){
-					if (!$browser_language){
+					if (!$browser_language || @preg_match("/".$browser_language."/i", '') === false){
 						continue;
 					}
 					foreach ($this->getActiveLanguages() as $key => $value){
@@ -285,7 +285,7 @@ class ALanguage {
 						if (!$locale){
 							continue;
 						}
-						if (preg_grep("/$browser_language/i", $locale)){
+						if (preg_grep("/".$browser_language."/i", $locale)){
 							return $value['code'];
 						}
 					}
