@@ -98,22 +98,22 @@ class ControllerPagesProductManufacturer extends AController {
 
 				if (isset($this->request->get['sort'])) {
 					$sorting_href = $this->request->get['sort'];
-					list($sort, $order) = explode("-", $sorting_href);
 				} else {
 					$sorting_href = $this->config->get('config_product_default_sort_order');
-					list($sort, $order) = explode("-", $sorting_href);
-					if($sort=='name'){
-						$sort = 'pd.'.$sort;
-					}elseif(in_array($sort,array('sort_order','price'))){
-						$sort = 'p.'.$sort;
-					}
+				}
+
+				list($sort, $order) = explode("-", $sorting_href);
+				if($sort=='name'){
+					$sort = 'pd.'.$sort;
+				}elseif(in_array($sort,array('sort_order','price'))){
+					$sort = 'p.'.$sort;
 				}
 
 				$this->loadModel('catalog/review');
 				
                 $this->view->assign('button_add_to_cart', $this->language->get('button_add_to_cart') );
 				
-				$products = array();
+				$product_ids = $products = array();
         		
 				$products_result = $this->model_catalog_product->getProductsByManufacturerId($this->request->get['manufacturer_id'],
 				                                                                     $sort,
@@ -287,7 +287,7 @@ class ControllerPagesProductManufacturer extends AController {
 
 				$pagination_url = $this->html->getSEOURL('product/manufacturer', '&manufacturer_id=' . $this->request->get['manufacturer_id'] . '&sort=' . $sorting_href . '&page={page}' . '&limit=' . $limit, '&encode');
 
-				$this->view->assign('pagination_bootstrap', HtmlElementFactory::create( array (
+				$this->view->assign('pagination_bootstrap', $this->html->buildElement( array (
 											'type' => 'Pagination',
 											'name' => 'pagination',
 											'text'=> $this->language->get('text_pagination'),
@@ -308,7 +308,7 @@ class ControllerPagesProductManufacturer extends AController {
 
         		$this->view->assign('heading_title', $manufacturer_info['name'] );
         		$this->view->assign('text_error', $this->language->get('text_empty') );
-				$continue = HtmlElementFactory::create( array ('type' => 'button',
+				$continue = $this->html->buildElement( array ('type' => 'button',
 		                                               'name' => 'continue_button',
 			                                           'text'=> $this->language->get('button_continue'),
 			                                           'style' => 'button'));
@@ -343,7 +343,7 @@ class ControllerPagesProductManufacturer extends AController {
 
       		$this->view->assign('heading_title', $this->language->get('text_error') );
             $this->view->assign('text_error', $this->language->get('text_error') );
-			$continue = HtmlElementFactory::create( array ('type' => 'button',
+			$continue = $this->html->buildElement( array ('type' => 'button',
 		                                               'name' => 'continue_button',
 			                                           'text'=> $this->language->get('button_continue'),
 			                                           'style' => 'button'));
