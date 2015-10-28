@@ -342,6 +342,8 @@ function check_web_access(){
 			'admin/system' => array('.htaccess','index.html')
 	);
 
+	$ret_array = array();
+
 	foreach($areas as $subfolder=>$rules){
 		$dirname = DIR_ROOT.'/'.$subfolder;
 		if(!is_dir($dirname)){ continue;}
