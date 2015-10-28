@@ -319,6 +319,11 @@
 	text-overflow: ellipsis;
 }
 
+.ui-jqgrid tr.jqgrow td:last-child{
+	overflow: visible;
+}
+
+
 .ui-jqgrid tr.jqgrow td .btn_grid {
 	font-size: 14px;
 }

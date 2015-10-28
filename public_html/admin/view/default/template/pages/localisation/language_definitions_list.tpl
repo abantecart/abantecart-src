@@ -74,6 +74,9 @@ echo $this->html->buildElement(
 		});
 
 		$('#lang_definition_grid tr').each(function(){
+			if(!data.hasOwnProperty('userdata') || data['userdata'].hasOwnProperty('section') || !$(this).attr('id')){
+				return false;
+			}
 			var value = data['userdata']['section'][$(this).attr('id')];
 			if(value==1){
 				$(this).find('td[aria-describedby="lang_definition_grid_block"]').prepend('<i class="fa fa-globe" title="<?php echo $entry_section.': '.$text_storefront;?>"></i>&nbsp;');
