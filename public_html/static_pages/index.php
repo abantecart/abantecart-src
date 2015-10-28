@@ -49,7 +49,7 @@ if ( !empty($_SESSION['exception_msg']) ) {
 	unset($_SESSION['exception_msg']);
 }
 
-$subject = rawurlencode("AbanteCart Error Report " . UNIQUE_ID);
+$subject = rawurlencode("AbanteCart Crash Report " . UNIQUE_ID);
 $pos = -2;
 $t ='';
 $count = 0;
