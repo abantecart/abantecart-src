@@ -277,6 +277,7 @@ class ALanguage {
 			if($browser_languages){
 				foreach ($browser_languages as $browser_language){
 					$browser_language = trim($browser_language);
+					//validate and ignore browser data if causing warnings
 					if (!$browser_language || @preg_match("/".$browser_language."/i", '') === false){
 						continue;
 					}
@@ -285,7 +286,9 @@ class ALanguage {
 						if (!$locale){
 							continue;
 						}
+						//match browser language code with AbanteCart language locales
 						if (preg_grep("/".$browser_language."/i", $locale)){
+							//matching language was found
 							return $value['code'];
 						}
 					}

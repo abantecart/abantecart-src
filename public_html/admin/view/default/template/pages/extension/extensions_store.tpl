@@ -39,11 +39,13 @@
 		<?php 
 		if($content){
 		    $current_categ = $text_all_categories;
-		    foreach ($content['categories']['subcategories'] as $category) {
-		    	if ($category['active']) {
-		    		$current_categ = $category['name'];
-		    	}
-		}
+		    if(is_array($content['categories']['subcategories'])) {
+			    foreach ($content['categories']['subcategories'] as $category) {
+			    	if ($category['active']) {
+			    		$current_categ = $category['name'];
+			    	}
+				}
+		    }
 		?>
 		<div class="btn-group">
 		  <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">

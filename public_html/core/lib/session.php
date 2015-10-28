@@ -59,7 +59,7 @@ final class ASession {
 	public function init( $session_name ) {
 		$session_mode = '';
 	
-		if(IS_API) {
+		if(IS_API===true) {
 			//set up session specific for API based on the token or create new 
 			$token = '';
 			if($_GET['token']) {
