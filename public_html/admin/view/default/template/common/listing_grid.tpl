@@ -601,12 +601,6 @@ if ($custom_buttons) {
     var resize_the_grid = function() {
         if($.browser.msie!=true){
             $(table_id).fluidGrid({base:table_id + '_wrapper', offset:-10});
-            //update input width
-			/*
-            $("input, textarea, select", table_id).each(function () {
-                $(this).css('width', $(this).closest('th').width() - 52);
-            });
-            */
         }
     }
 

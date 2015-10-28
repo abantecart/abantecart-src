@@ -68,9 +68,18 @@ echo $this->html->buildElement(
 ?>
 
 <script type="text/javascript">
-	var grid_ready = function(){
+	var grid_ready = function(data){
 		$('.grid_action_edit').each( function () {
 			$(this).attr('data-toggle','modal').attr('data-target','#ld_modal');
+		});
+
+		$('#lang_definition_grid tr').each(function(){
+			var value = data['userdata']['section'][$(this).attr('id')];
+			if(value==1){
+				$(this).find('td[aria-describedby="lang_definition_grid_block"]').prepend('<i class="fa fa-globe" title="<?php echo $entry_section.': '.$text_storefront;?>"></i>&nbsp;');
+			}else{
+				$(this).find('td[aria-describedby="lang_definition_grid_block"]').prepend('<i class="fa fa-lock" title="<?php echo $entry_section.': '.$text_admin;?>"></i>&nbsp;');
+			}
 		});
 	}
 

@@ -68,7 +68,7 @@ class ControllerPagesLocalisationLanguageDefinitions extends AController {
 								'text' => $this->language->get('button_delete'),
 						)
 				),
-				'grid_ready' => 'grid_ready();'
+				'grid_ready' => 'grid_ready(data);'
 		);
 
 		$form = new AForm();
