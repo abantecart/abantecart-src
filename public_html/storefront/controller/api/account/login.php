@@ -41,7 +41,15 @@ class ControllerApiAccountLogin extends AControllerAPI {
 			//support old email based login
 			$loginname = ( isset($request['loginname']) ) ? $request['loginname'] : $request['email'];
 			if ( isset($loginname) && isset($request['password']) && $this->_validate($loginname, $request['password']) ) {
-				$this->rest->setResponseData( array( 'status' => 1, 'success' => 'Logged in', 'token' => $this->session->data['token'] ) );	
+				if(!session_id()) {
+					$this->rest->setResponseData( array( 'status' => 0, 'error' => 'Unable to get session ID.') );	
+					$this->rest->sendResponse(501);		
+					return null;
+				}
+				$this->session->data['token'] = session_id();
+				$this->rest->setResponseData( array( 'status' => 1,
+													 'success' => 'Logged in', 
+													 'token' => $this->session->data['token'] ) );	
 				$this->rest->sendResponse(200);
 				return null;
 			} else {
@@ -62,7 +70,6 @@ class ControllerApiAccountLogin extends AControllerAPI {
 			$address = $this->model_account_address->getAddress($this->customer->getAddressId());
 		    $this->session->data['country_id'] = $address['country_id'];
 		    $this->session->data['zone_id'] = $address['zone_id'];
-			$this->session->data['token'] = AEncryption::getHash(mt_rand());
 			return TRUE;
 	    }
   	}

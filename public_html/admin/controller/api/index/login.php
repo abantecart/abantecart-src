@@ -36,7 +36,12 @@ class ControllerApiIndexLogin extends AControllerAPI {
 			$this->_validate_token($request['token']);
 		} else {
 			if ( isset($request['username']) && isset($request['password']) && $this->_validate($request['username'], $request['password']) ) {
-				$this->session->data['token'] = AEncryption::getHash(mt_rand());
+				if(!session_id()) {
+					$this->rest->setResponseData( array( 'status' => 0, 'error' => 'Unable to get session ID.') );	
+					$this->rest->sendResponse(501);		
+					return null;	
+				}
+				$this->session->data['token'] = session_id();
 				$this->rest->setResponseData( array( 'status' => 1, 'success' => 'Logged in', 'token' => $this->session->data['token'] ) );	
 				$this->rest->sendResponse(200);
 			} else {

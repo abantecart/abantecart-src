@@ -87,13 +87,7 @@ $registry->set('currency', new ACurrency($registry));
 //Route to request process
 $router = new ARouter($registry);
 $registry->set('router', $router);
-if (!empty($request->get['rt'])) {
-        $router->processRoute( $request->get['rt'] );
-} else if (!empty($request->post['rt'])) {
-        $router->processRoute( $request->post['rt'] );
-} else {
-        $router->processRoute('index/home');
-}
+$router->processRoute(ROUTE);
 
 // Output
 $registry->get('response')->output();
