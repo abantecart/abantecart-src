@@ -1565,7 +1565,7 @@ CREATE TABLE `ac_settings` (
 
 INSERT INTO `ac_settings` (`group`, `key`, `value`) VALUES
 
--- details of store
+-- store details
 ('details','store_name','Web Store Name'),
 ('details','config_url',''),
 ('details','config_ssl',0),

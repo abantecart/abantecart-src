@@ -67,29 +67,44 @@ $(document).ready(function () {
 });
 
 //periodical updater of new message notifier
+var growl = null;
+var alertcount = 3;
 var system_checker = function () {
-  $.ajax({
-	url: '<?php echo $system_checker_url?>',
-	success: showSystemAlert,
-	complete: function() {
-	  // Schedule the next request when the current one's complete
-	  setTimeout(system_checker, 600000);
+	if(alertcount <= 0) {
+		return;
 	}
-  });
+	$.ajax({
+		async: false,
+		cache: false,
+		url: '<?php echo $system_checker_url?>',
+		success: function(data) {
+			if(data != null && data != undefined) {
+				if(growl != null && growl != undefined ) {
+					growl.close();
+				}
+				growl = showSystemAlert(data);
+			}
+		},	
+		complete: function() {
+			// Schedule the next request when the current one's complete
+			alertcount--;
+			setTimeout(system_checker, 600000);
+		}
+	});
 };
 
 var showSystemAlert = function(data){
-	if(data==null || data==undefined ){ return; }
-
 	if(data.hasOwnProperty('error')){
-		error_alert(data.error, false);
+		return error_alert(data.error, false);
 	}
 	if(data.hasOwnProperty('warning')){
-		warning_alert(data.warning, true);
+		return warning_alert(data.warning, false);
+		
 	}
 	if(data.hasOwnProperty('notice')){
-		info_alert(data.notice, true);
+		return info_alert(data.notice, true);
 	}
+	return;
 }
 
 
@@ -155,15 +170,20 @@ var wrapCKEditor = function(textarea_id, options){
 }
 
 //periodical updater of new message notifier
+var noticecount = 3;
 var notifier_updater = function () {
-  $.ajax({
-	url: '<?php echo $notifier_updater_url?>',
-	success: buildNotifier,
-	complete: function() {
-	  // Schedule the next request when the current one's complete
-	  setTimeout(notifier_updater, 600000);
+	if(noticecount <= 0) {
+		return;
 	}
-  });
+	$.ajax({
+		url: '<?php echo $notifier_updater_url?>',
+		success: buildNotifier,
+		complete: function() {
+		  // Schedule the next request when the current one's complete
+		  noticecount--;
+		  setTimeout(notifier_updater, 600000);
+		}
+	});
 }
 
 var buildNotifier = function(data){

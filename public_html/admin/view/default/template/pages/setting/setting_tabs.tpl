@@ -1,4 +1,3 @@
-
 <ul class="nav nav-tabs nav-justified nav-profile">
 	<?php foreach($groups as $group){?>
 		<li <?php echo ( $active == $group ? 'class="active"' : '' ) ?>>
