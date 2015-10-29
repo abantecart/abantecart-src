@@ -390,7 +390,7 @@ class AAttribute {
 			}
 
 			//for captcha
-			if($attribute_info['element_type']=='K'
+			if($attribute_info['element_type'] == 'K'
 				&& (!isset($this->session->data['captcha']) || $this->session->data['captcha'] != $data[$attribute_info['attribute_id']])
 			){
 				$errors[$attribute_info['attribute_id']] = $this->language->get('error_captcha');

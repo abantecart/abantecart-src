@@ -89,7 +89,8 @@ class ControllerPagesFormsManagerDefaultEmail extends AController {
 				$fields = $this->model_tool_forms_manager->getFields($this->request->get['form_id']);
 
 				foreach ( $fields as $field ) {
-					if(in_array($field['element_type'],array('K','U'))){ continue; } // skip files and captchas
+					// skip files and captchas
+					if(in_array($field['element_type'],array('K','U'))){ continue; }
 
 					if ( isset($this->request->post[$field['field_name']]) ) {
 						$val = $this->request->post[$field['field_name']];
@@ -106,7 +107,6 @@ class ControllerPagesFormsManagerDefaultEmail extends AController {
 						}
 					}
 				}
-
 
 				// add attachments
 				$file_pathes = $form->processFileUploads($this->request->files);

@@ -447,6 +447,25 @@ class AConfigManager {
 					'same_window' => $this->language->get('text_embed_click_action_same_window')
 			),
 		));
+		$fields['account_create_captcha'] = $form->getFieldHtml($props[] = array(
+			'type' => 'checkbox',
+			'name' => 'config_account_create_captcha',
+			'value' => $data['config_account_create_captcha'],
+			'style' => 'btn_switch',
+		));
+
+		$fields['recaptcha_site_key'] = $form->getFieldHtml($props[] = array(
+			'type' => 'input',
+			'name' => 'config_recaptcha_site_key',
+			'value' => $data['config_recaptcha_site_key'],
+			'style' => 'medium-field',
+		));
+		$fields['recaptcha_secret_key'] = $form->getFieldHtml($props[] = array(
+			'type' => 'input',
+			'name' => 'config_recaptcha_secret_key',
+			'value' => $data['config_recaptcha_secret_key'],
+			'style' => 'medium-field',
+		));
 
 		$fields['google_analytics'] = $form->getFieldHtml($props[] = array(
 			'type' => 'input',
@@ -454,7 +473,6 @@ class AConfigManager {
 			'value' => $data['config_google_analytics_code'],
 			'style' => 'medium-field',
 		));
-
 
 		if (isset($data['one_field'])) {
 			$fields = $this->_filterField($fields, $props, $data['one_field']);

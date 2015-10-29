@@ -46,7 +46,11 @@
 		if($form){
 			foreach ($form as $field_name=>$field) { ?>
 			<div class="form-group <?php echo (${'error_'.$field_name} ? 'has-error' : '')?>">
+				<?php if( $field->type == 'recaptcha')  { ?>
+				<label class="control-label col-sm-4"></label>
+				<?php } else { ?>
 				<label class="control-label col-sm-4"><?php echo ${'entry_'.$field_name}; ?></label>
+				<?php } ?>
 				<div class="input-group col-sm-4">
 				    <?php echo $field; ?>
 				</div>

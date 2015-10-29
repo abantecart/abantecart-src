@@ -65,7 +65,7 @@ final class ADataset {
 	 * @param string $dataset_key (optional)
 	 * @throws AException
 	 */
-	public function __construct($dataset_name = '', $dataset_key = '') {
+	public function __construct($dataset_name = '', $dataset_key = '', $mode = '') {
 		
 		$this->registry = Registry::getInstance ();
 		$this->db = $this->registry->get ( 'db' );
@@ -81,8 +81,8 @@ final class ADataset {
 			// if dataset already exists - extract it's column definitions
 			if ($this->dataset_id) {
 				$this->_getColumnSet ();
-			}else{
-				if($dataset_name){
+			} else {
+				if($dataset_name && $mode != 'silent'){
 					throw new AException ( AC_ERR_LOAD, 'Error: Dataset with given name ' . $dataset_name . ' and key ' . $dataset_key . ' does not exists.' );
 				}
 			}
@@ -102,14 +102,15 @@ final class ADataset {
 										WHERE dataset_name = '" . $this->db->escape ( $dataset_name ) . "'
 										AND dataset_key = '" . $this->db->escape ( $dataset_key ) . "';" );
 		if ($result->num_rows) {
-			throw new AException ( AC_ERR_LOAD, 'Error: Could not create dataset because dataset with name ' . $dataset_name . ' and key ' . $dataset_key . ' is already exists.' );
+			//dataset exists. get an ID
+			$this->dataset_id = $result->rows[0]['dataset_id'];		
+		} else {		
+			$this->db->query ( "INSERT INTO " . $this->db->table("datasets") . " (dataset_name,dataset_key) 
+							VALUES ('" . $this->db->escape($dataset_name) . "'
+							,'" . ($dataset_key ? $this->db->escape($dataset_key) : "") . "')" );
+		
+			$this->dataset_id = (int)$this->db->getLastId();
 		}
-		
-		$this->db->query ( "INSERT INTO " . $this->db->table("datasets") . " (dataset_name,dataset_key) 
-							VALUES ('" . $this->db->escape ( $dataset_name ) . "'
-							" . ($dataset_key ? ", '" . $this->db->escape ( $dataset_key ) : "") . "')" );
-		
-		$this->dataset_id = ( int ) $this->db->getLastId ();
 	}
 
 	/**
@@ -300,7 +301,7 @@ final class ADataset {
 			}
 			$query = "DELETE FROM " . $this->db->table("dataset_properties") . " WHERE dataset_id=" . $this->dataset_id . " AND dataset_property_name = '" . $this->db->escape ( $name ) . "' ;";
 			$this->db->query ( $query );
-			$query = "INSERT INTO " . $this->db->table("dataset_properties") . " VALUES (" . $this->dataset_id . ",'" . $this->db->escape ( $name ) . "','" . $this->db->escape ( $value ) . "');";
+			$query = "INSERT INTO " . $this->db->table("dataset_properties") . " VALUES (DEFAULT," . $this->dataset_id . ",'" . $this->db->escape ( $name ) . "','" . $this->db->escape ( $value ) . "');";
 			$this->db->query ( $query );
 		}
 		return true;
@@ -311,8 +312,8 @@ final class ADataset {
 	 * @param string $property_name
 	 * @return boolean|array
 	 */
-	public function getDatasetProperties($property_name = "") {
-		if (! $this->dataset_id ) {
+	public function getDatasetProperties($property_name = '') {
+		if (!$this->dataset_id ) {
 			return false;
 		}
 		
@@ -320,7 +321,7 @@ final class ADataset {
 		$query = "SELECT dataset_property_name, dataset_property_value 
 				  FROM " . $this->db->table("dataset_properties") . " 
 				  WHERE dataset_id = " . (int)$this->dataset_id . " 
-				  ".($property_name ? " AND dataset_property_name = '".$this->db->escape($property_name)."'":"");
+				  ".($property_name ? " AND dataset_property_name = '".$this->db->escape($property_name)."'" : "");
 		$result = $this->db->query ( $query );
 		$rows = $result->rows;
 		if ($rows) {

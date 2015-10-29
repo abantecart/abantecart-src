@@ -56,6 +56,7 @@ define('DIR_DATABASE', DIR_ROOT . '/core/database/');
 define('DIR_CONFIG', DIR_ROOT . '/core/config/');
 define('DIR_CACHE', DIR_ROOT . '/system/cache/');
 define('DIR_LOGS', DIR_ROOT . '/system/logs/');
+define('DIR_VENDORS', DIR_CORE . '/vendors/');
 
 // SEO URL Keyword separator
 define('SEO_URL_SEPARATOR', '-');

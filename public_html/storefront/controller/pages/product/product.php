@@ -198,11 +198,24 @@ class ControllerPagesProductProduct extends AController{
 						'name' => 'text',
 						'attr' => ' rows="8" cols="50" ',
 				));
-		$this->data['review_captcha'] = HtmlElementFactory::create(
+
+		if($this->config->get('config_recaptcha_site_key')) {
+			$this->data['recaptcha_site_key'] = $this->config->get('config_recaptcha_site_key');
+			$this->data['review_recaptcha'] = HtmlElementFactory::create(
+				array(
+						'type' => 'recaptcha',
+						'name' => 'recaptcha',
+						'recaptcha_site_key' => $this->data['recaptcha_site_key'],
+						'language_code' => $this->language->getLanguageCode()
+				));		
+		
+		} else {
+			$this->data['review_captcha'] = HtmlElementFactory::create(
 				array(
 						'type' => 'input',
 						'name' => 'captcha',
-						'attr' => ''));
+						'attr' => ''));		
+		}
 		$this->data['review_button'] = HtmlElementFactory::create(
 				array(
 						'type'  => 'button',

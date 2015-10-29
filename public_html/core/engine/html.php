@@ -481,6 +481,16 @@ class AHtml extends AController {
 	 * same format as for buildElement, except unnecessarily 'type'
 	 * @return string - html code
 	 */
+	public function buildReCaptcha($data) {
+		$item = new ReCaptchaHtmlElement($data);
+		return $item->getHtml();
+	}
+
+	/**
+	 * @param  $data - array with element data
+	 * same format as for buildElement, except unnecessarily 'type'
+	 * @return string - html code
+	 */
 	public function buildPasswordset($data) {
 		$item = new PasswordsetHtmlElement($data);
 		return $item->getHtml();
@@ -775,6 +785,11 @@ class HtmlElementFactory {
 			'method' => 'buildCaptcha',
 			'class' => 'CaptchaHtmlElement',
 		),
+		'J' => array(
+			'type' => 'recaptcha',
+			'method' => 'buildReCaptcha',
+			'class' => 'ReCaptchaHtmlElement',
+		),
 		'H' => array(
 			'type' => 'hidden',
 			'method' => 'buildHidden',
@@ -899,7 +914,7 @@ class HtmlElementFactory {
 
 	/**
 	 * @param $data
-	 * @return HiddenHtmlElement | MultivalueListHtmlElement | MultivalueHtmlElement | SubmitHtmlElement | InputHtmlElement | PasswordHtmlElement | PaginationHtmlElement | TextareaHtmlElement | SelectboxHtmlElement | MultiSelectboxHtmlElement | CheckboxHtmlElement | CheckboxGroupHtmlElement | FileHtmlElement | RadioHtmlElement | ButtonHtmlElement | FormHtmlElement | RatingHtmlElement | CaptchaHtmlElement | PasswordsetHtmlElement | ResourceHtmlElement | ResourceImageHtmlElement | DateHtmlElement | EmailHtmlElement | NumberHtmlElement | PhoneHtmlElement | IPaddressHtmlElement | CountriesHtmlElement | ZonesHtmlElement | ModalHtmlElement
+	 * @return HiddenHtmlElement | MultivalueListHtmlElement | MultivalueHtmlElement | SubmitHtmlElement | InputHtmlElement | PasswordHtmlElement | PaginationHtmlElement | TextareaHtmlElement | SelectboxHtmlElement | MultiSelectboxHtmlElement | CheckboxHtmlElement | CheckboxGroupHtmlElement | FileHtmlElement | RadioHtmlElement | ButtonHtmlElement | FormHtmlElement | RatingHtmlElement | CaptchaHtmlElement | ReCaptchaHtmlElement | PasswordsetHtmlElement | ResourceHtmlElement | ResourceImageHtmlElement | DateHtmlElement | EmailHtmlElement | NumberHtmlElement | PhoneHtmlElement | IPaddressHtmlElement | CountriesHtmlElement | ZonesHtmlElement | ModalHtmlElement
 	 * @throws AException
 	 */
 	static function create($data) {
@@ -996,8 +1011,8 @@ class HiddenHtmlElement extends HtmlElement {
 				'attr' => $this->attr,
 			)
 		);
-		$return = $this->view->fetch('form/hidden.tpl');
-		return $return;
+
+		return $this->view->fetch('form/hidden.tpl');
 	}
 }
 
@@ -1027,8 +1042,8 @@ class MultivalueListHtmlElement extends HtmlElement {
 		$data['text']['column_action'] = $this->data['registry']->get('language')->get('column_action');
 		$data['text']['column_sort_order'] = $this->data['registry']->get('language')->get('text_sort_order');
 		$this->view->batchAssign($data);
-		$return = $this->view->fetch('form/multivalue_list.tpl');
-		return $return;
+
+		return $this->view->fetch('form/multivalue_list.tpl');
 	}
 }
 
@@ -1065,8 +1080,8 @@ class MultivalueHtmlElement extends HtmlElement {
 		$data['text_reset'] = $this->text['reset'] ? $this->text['reset'] : 'reset';
 
 		$this->view->batchAssign($data);
-		$return = $this->view->fetch('form/multivalue_hidden.tpl');
-		return $return;
+
+		return $this->view->fetch('form/multivalue_hidden.tpl');
 	}
 }
 
@@ -1088,8 +1103,8 @@ class SubmitHtmlElement extends HtmlElement {
 				'icon' => $this->icon,
 			)
 		);
-		$return = $this->view->fetch('form/submit.tpl');
-		return $return;
+
+		return $this->view->fetch('form/submit.tpl');
 	}
 }
 
@@ -1128,8 +1143,7 @@ class InputHtmlElement extends HtmlElement {
 			$this->view->assign('help_url', $this->help_url);
 		}
 				
-		$return = $this->view->fetch('form/input.tpl');
-		return $return;
+		return $this->view->fetch('form/input.tpl');
 	}
 }
 
@@ -1159,8 +1173,8 @@ class PasswordHtmlElement extends HtmlElement {
 				'error_text' => $this->error_text,
 			)
 		);
-		$return = $this->view->fetch('form/input.tpl');
-		return $return;
+
+		return $this->view->fetch('form/input.tpl');
 	}
 }
 
@@ -1191,8 +1205,8 @@ class TextareaHtmlElement extends HtmlElement {
 		if (!empty($this->help_url)) {
 			$this->view->assign('help_url', $this->help_url);
 		}
-		$return = $this->view->fetch('form/textarea.tpl');
-		return $return;
+
+		return $this->view->fetch('form/textarea.tpl');
 	}
 }
 
@@ -1414,8 +1428,7 @@ class FileHtmlElement extends HtmlElement {
 			$this->view->assign('help_url', $this->help_url);
 		}
 
-		$return = $this->view->fetch('form/file.tpl');
-		return $return;
+		return $this->view->fetch('form/file.tpl');
 	}
 }
 
@@ -1436,8 +1449,8 @@ class RadioHtmlElement extends HtmlElement {
 		if (!empty($this->help_url)) {
 			$this->view->assign('help_url', $this->help_url);
 		}
-		$return = $this->view->fetch('form/radio.tpl');
-		return $return;
+
+		return $this->view->fetch('form/radio.tpl');
 	}
 }
 
@@ -1457,8 +1470,8 @@ class ButtonHtmlElement extends HtmlElement {
 				'target' => $this->target
 			)
 		);
-		$return = $this->view->fetch('form/button.tpl');
-		return $return;
+
+		return $this->view->fetch('form/button.tpl');
 	}
 }
 
@@ -1477,8 +1490,7 @@ class FormHtmlElement extends HtmlElement {
 			)
 		);
 
-		$return = $this->view->fetch('form/form_open.tpl');
-		return $return;
+		return $this->view->fetch('form/form_open.tpl');
 	}
 }
 
@@ -1515,8 +1527,8 @@ class RatingHtmlElement extends HtmlElement {
 				'required' => $this->required,
 			)
 		);
-		$return = $this->view->fetch('form/rating.tpl');
-		return $return;
+
+		return $this->view->fetch('form/rating.tpl');
 	}
 }
 
@@ -1536,8 +1548,23 @@ class CaptchaHtmlElement extends HtmlElement {
 				'placeholder' => $this->placeholder
 			)
 		);
-		$return = $this->view->fetch('form/captcha.tpl');
-		return $return;
+		return $this->view->fetch('form/captcha.tpl');
+	}
+}
+
+class ReCaptchaHtmlElement extends HtmlElement {
+
+	public function getHtml() {
+		$this->view->batchAssign(
+			array(
+				'name' => $this->name,
+				'id' => $this->element_id,
+				'attr' => $this->attr.' data-aform-field-type="captcha"',
+				'language_code' => $this->language_code,
+				'recaptcha_site_key' => $this->recaptcha_site_key
+			)
+		);
+		return $this->view->fetch('form/recaptcha.tpl');
 	}
 }
 
@@ -1556,8 +1583,7 @@ class PasswordsetHtmlElement extends HtmlElement {
 				'placeholder' => $this->placeholder,
 			)
 		);
-		$return = $this->view->fetch('form/passwordset.tpl');
-		return $return;
+		return $this->view->fetch('form/passwordset.tpl');
 	}
 }
 
@@ -1595,8 +1621,7 @@ class ResourceHtmlElement extends HtmlElement {
 
 		$this->view->batchAssign($data);
 
-		$return = $this->view->fetch('form/resource.tpl');
-		return $return;
+		return $this->view->fetch('form/resource.tpl');
 	}
 }
 
@@ -1614,8 +1639,7 @@ class ResourceImageHtmlElement extends HtmlElement {
 			'attr' => $this->attr,
 		));
 
-		$return = $this->view->fetch('common/resource_image.tpl');
-		return $return;
+		return $this->view->fetch('common/resource_image.tpl');
 	}
 
 }
@@ -1675,8 +1699,8 @@ class DateHtmlElement extends HtmlElement {
 		if (!empty($this->help_url)) {
 			$this->view->assign('help_url', $this->help_url);
 		}
-		$return = $this->view->fetch('form/date.tpl');
-		return $return;
+
+		return $this->view->fetch('form/date.tpl');
 	}
 }
 
@@ -1710,8 +1734,8 @@ class EmailHtmlElement extends HtmlElement {
 		if (!empty($this->help_url)) {
 			$this->view->assign('help_url', $this->help_url);
 		}
-		$return = $this->view->fetch('form/input.tpl');
-		return $return;
+
+		return $this->view->fetch('form/input.tpl');
 	}
 }
 
@@ -1745,8 +1769,8 @@ class NumberHtmlElement extends HtmlElement {
 		if (!empty($this->help_url)) {
 			$this->view->assign('help_url', $this->help_url);
 		}
-		$return = $this->view->fetch('form/input.tpl');
-		return $return;
+
+		return $this->view->fetch('form/input.tpl');
 	}
 }
 
@@ -1780,8 +1804,8 @@ class PhoneHtmlElement extends HtmlElement {
 		if (!empty($this->help_url)) {
 			$this->view->assign('help_url', $this->help_url);
 		}
-		$return = $this->view->fetch('form/input.tpl');
-		return $return;
+
+		return $this->view->fetch('form/input.tpl');
 	}
 }
 
@@ -1797,8 +1821,8 @@ class IPaddressHtmlElement extends HtmlElement {
 				'attr' => 'aform_field_type="ipaddress" ' . $this->attr.' data-aform-field-type="captcha"',
 			)
 		);
-		$return = $this->view->fetch('form/hidden.tpl');
-		return $return;
+
+		return $this->view->fetch('form/hidden.tpl');
 	}
 }
 
@@ -1835,8 +1859,8 @@ class CountriesHtmlElement extends HtmlElement {
 		if (!empty($this->help_url)) {
 			$this->view->assign('help_url', $this->help_url);
 		}
-		$return = $this->view->fetch('form/selectbox.tpl');
-		return $return;
+
+		return $this->view->fetch('form/selectbox.tpl');
 	}
 
 }
@@ -1940,8 +1964,8 @@ class ZonesHtmlElement extends HtmlElement {
 		if (!empty($this->help_url)) {
 			$this->view->assign('help_url', $this->help_url);
 		}
-		$return = $this->view->fetch('form/countries_zones.tpl');
-		return $return;
+
+		return $this->view->fetch('form/countries_zones.tpl');
 	}
 
 }
