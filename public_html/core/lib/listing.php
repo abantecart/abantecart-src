@@ -200,6 +200,8 @@ class AListing {
 			$output = array('limit' => $args['limit']);
 		} elseif ($model == 'catalog/product' && $method == 'getProductSpecials') {
 			$output = array('p.sort_order', 'ASC', 0, 'limit' => $args['limit']);
+		} elseif ($model == 'catalog/product' && $method == 'getBestsellerProducts') {
+			$output = array($args['limit']);
 		}
 
 		return $output;

@@ -239,7 +239,7 @@ class ControllerBlocksListingBlock extends AController {
 
 		if(strpos($content['listing_datasource'],'custom_')===FALSE){ // for auto listings
 			$route = $content['listing_datasource'];
-			$limit  = $content['limit'];
+			$limit = $content['limit'];
 
 			// for resource library
 			if($route=='media'){
@@ -305,10 +305,10 @@ class ControllerBlocksListingBlock extends AController {
 				if($route){
 					$this->loadModel($data_source['storefront_model']);
                   	$result = call_user_func_array(array( $this->{'model_'.str_replace('/','_',$data_source['storefront_model'])},
-												          $data_source['storefront_method']),
+												       $data_source['storefront_method']),
                                                    $listing->getlistingArguments( $data_source['storefront_model'],
-                                                                                          $data_source['storefront_method'],
-                                                                                          array('limit'=>$limit)) );
+                                                                                  $data_source['storefront_method'],
+                                                                                  array('limit'=>$limit)) );
 					if($result){
 						$desc = $listing->getListingDataSources();
 						foreach($desc as $d){
