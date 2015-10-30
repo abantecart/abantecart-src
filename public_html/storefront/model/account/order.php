@@ -29,7 +29,7 @@ class ModelAccountOrder extends Model {
 	 * @param string $order_status_id
 	 * @return array|bool
 	 */
-	public function getOrder($order_id, $order_status_id = '') {
+	public function getOrder($order_id, $order_status_id = '', $mode = '') {
 		if ( $order_status_id == '') {
 			//processed order
 			$status_check = " AND order_status_id > '0'";			
@@ -41,11 +41,18 @@ class ModelAccountOrder extends Model {
 			//only specific status
 			$status_check = " AND order_status_id = '".$order_status_id."'";
 		}
+
+		$sql = "SELECT *
+				FROM `" . $this->db->table("orders") . "`
+				WHERE order_id = '" . (int)$order_id . "' ";
+
+		if($mode==''){
+			$sql .= " AND customer_id = '" . (int)$this->customer->getId() . "'";
+		}
+
+		$sql .= $status_check;
 	
-		$order_query = $this->db->query("SELECT *
-										FROM `" . $this->db->table("orders") . "`
-										WHERE order_id = '" . (int)$order_id . "'
-											AND customer_id = '" . (int)$this->customer->getId() . "'" . $status_check);
+		$order_query = $this->db->query($sql);
 	
 		if ($order_query->num_rows) {
 			$order_row = $this->dcrypt->decrypt_data($order_query->row, 'orders');

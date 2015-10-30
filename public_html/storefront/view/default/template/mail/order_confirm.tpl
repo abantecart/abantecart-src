@@ -118,7 +118,7 @@
 			<td>&nbsp;</td>
 		</tr>
 	<?php } ?>
-	<?php if($customer_id){ ?>
+	<?php if($invoice){ ?>
 		<tr>
 			<td class="align_left"
 			    style="background-color: #069; color: #FFF; font-size: 12px; font-weight: bold; padding: 0.5em 1em;"><?php echo $text_invoice; ?></td>

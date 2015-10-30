@@ -10934,7 +10934,8 @@ VALUES  (1,'home',1),
         (1,'account',4),
         (1,'cart',5),
         (1,'checkout',6),
-        (1,'specials',7);
+        (1,'specials',7),
+        (1,'order',8);
 
 -- ITEM_ICON
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
@@ -10944,7 +10945,8 @@ VALUES  (2,'',1),
         (2,'',4),
         (2,'',5),
         (2,'',6),
-        (2,'',7);
+        (2,'',7),
+        (2,'',8);
 -- ITEM_URL
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
 VALUES  (3,'index/home',1),
@@ -10953,7 +10955,8 @@ VALUES  (3,'index/home',1),
         (3,'account/account',4),
         (3,'checkout/cart',5),
         (3,'checkout/shipping',6),
-        (3,'product/special',7);
+        (3,'product/special',7),
+        (3,'account/invoice',8);
 -- PARENT_ID
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
 VALUES  (4,'',1),
@@ -10962,7 +10965,8 @@ VALUES  (4,'',1),
         (4,'',4),
         (4,'',5),
         (4,'',6),
-        (4,'',7);
+        (4,'',7),
+        (4,'account',8);
 -- SORT_ORDER
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_integer`,`row_id`)
 VALUES  (5,10,1),
@@ -10971,7 +10975,8 @@ VALUES  (5,10,1),
         (5,40,4),
         (5,50,5),
         (5,60,6),
-        (5,11,7);
+        (5,11,7),
+        (5,20,8);
 -- ITEM_TYPE
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
 VALUES  (6,'core',1),
@@ -10980,7 +10985,8 @@ VALUES  (6,'core',1),
         (6,'core',4),
         (6,'core',5),
         (6,'core',6),
-        (6,'core',7);
+        (6,'core',7),
+        (6,'core',8);
 -- item_icon_rl_id
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_integer`,`row_id`)
 VALUES  (7,'2',1),
@@ -10989,7 +10995,8 @@ VALUES  (7,'2',1),
         (7,'4',4),
         (7,'250',5),
        	(7,'260',6),
-       	(7,'244',7);
+       	(7,'244',7),
+       	(7,'266',8);
 
 --
 -- ADMIN MENU SECTION
@@ -11943,7 +11950,8 @@ VALUES  (16,'home',1),
         (16,'account',4),
         (16,'cart',5),
         (16,'checkout',6),
-        (16,'specials',14);
+        (16,'specials',14),
+        (16,'order',15);
 -- ITEM_TEXT
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
 VALUES  (17,'Home',1),
@@ -11952,7 +11960,8 @@ VALUES  (17,'Home',1),
         (17,'Account',4),
         (17,'Cart',5),
         (17,'Checkout',6),
-        (17,'Specials',14);
+        (17,'Specials',14),
+        (17,'Check the Order',15);
 -- LANGUAGE_ID
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_integer`,`row_id`)
 VALUES  (18,1,1),
@@ -11961,7 +11970,8 @@ VALUES  (18,1,1),
         (18,1,4),
         (18,1,5),
         (18,1,6),
-        (18,1,14);
+        (18,1,14),
+        (18,1,15);
 -- spanish
 -- ITEM_ID
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
@@ -11971,7 +11981,8 @@ VALUES  (16,'home',7),
         (16,'account',10),
         (16,'cart',11),
         (16,'checkout',12),
-        (16,'specials',13);
+        (16,'specials',13),
+        (16,'order',16);
 -- ITEM_TEXT
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
 VALUES  (17,'Casa',7),
@@ -11980,7 +11991,8 @@ VALUES  (17,'Casa',7),
         (17,'Cuenta',10),
         (17,'Carro',11),
         (17,'Caja',12),
-        (17,'Especiales',13);
+        (17,'Especiales',13),
+        (17,'Comprobar el Orden',16);
 -- LANGUAGE_ID
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_integer`,`row_id`)
 VALUES  (18,9,7),
@@ -11989,8 +12001,8 @@ VALUES  (18,9,7),
         (18,9,10),
         (18,9,11),
         (18,9,12),
-        (18,9,13);
-
+        (18,9,13),
+        (18,9,16);
 
 
 -- ## ADD INSTALL/UPGRADE HISTORY DATASET

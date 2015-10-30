@@ -355,7 +355,18 @@ class ModelCheckoutOrder extends Model {
 			$template->data['fax'] = $this->config->get('config_fax');
 			$template->data['email'] = $this->config->get('store_main_email');
 			$template->data['store_url'] = $order_row['store_url'];
-			$template->data['invoice'] = $order_row['store_url'] . 'index.php?rt=account/invoice&order_id=' . $order_id;
+
+			//give link on order page for quest
+			if($this->config->get('config_guest_checkout') && $order_row['email']){
+				$order_token = AEncryption::mcrypt_encode($order_id.'~~~'.$order_row['email']);
+				if($order_token){
+					$template->data['invoice'] = $order_row['store_url'] . 'index.php?rt=account/invoice&ot=' . $order_token . "\n\n";
+				}
+			}//give link on order for registered customers
+			elseif($order_row['customer_id']){
+				$template->data['invoice'] = $order_row['store_url'] . 'index.php?rt=account/invoice&order_id=' . $order_id;
+			}
+
 			$template->data['firstname'] = $order_row['firstname'];
 			$template->data['lastname'] = $order_row['lastname'];
 			$template->data['shipping_method'] = $order_row['shipping_method'];
@@ -488,6 +499,13 @@ class ModelCheckoutOrder extends Model {
 				$text .= $language->get('text_invoice') . "\n";
 				$text .= $order_row['store_url'] . 'index.php?rt=account/invoice&order_id=' . $order_id . "\n\n";
 			}
+			//give link on order page for quest
+			elseif($this->config->get('config_guest_checkout') && $order_row['email']){
+				if($order_token){
+					$text .= $language->get('text_invoice') . "\n";
+					$text .= $order_row['store_url'] . 'index.php?rt=account/invoice&ot=' . $order_token . "\n\n";
+				}
+			}
 
 			if ($order_download_query->num_rows) {
 				$text .= $language->get('text_download') . "\n";
@@ -600,8 +618,19 @@ class ModelCheckoutOrder extends Model {
 					$message .= $order_status_query->row['name'] . "\n\n";
 				}
 
-				$message .= $language->get('text_invoice') . "\n";
-				$message .= $order_row['store_url'] . 'index.php?rt=account/invoice&order_id=' . $order_id . "\n\n";
+				if ($order_row['customer_id']) {
+					$message .= $language->get('text_invoice') . "\n";
+					$message .= $order_row['store_url'] . 'index.php?rt=account/invoice&order_id=' . $order_id . "\n\n";
+				}
+				//give link on order page for quest
+				elseif($this->config->get('config_guest_checkout') && $order_row['email']){
+					$order_token = AEncryption::mcrypt_encode($order_id.'~~~'.$order_row['email']);
+					if($order_token){
+						$message .= $language->get('text_invoice') . "\n";
+						$message .= $order_row['store_url'] . 'index.php?rt=account/invoice&ot=' . $order_token . "\n\n";
+					}
+				}
+
 
 				if ($comment) {
 					$message .= $language->get('text_comment') . "\n\n";

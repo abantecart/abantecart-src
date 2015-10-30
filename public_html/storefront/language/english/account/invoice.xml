@@ -120,4 +120,12 @@
 		<key>text_order_cancelation_message_body</key>
 		<value><![CDATA[Customer %s has requested order cancellation for order #%s . To review go to %s]]></value>
 	</definition>
+	<definition>
+		<key>error_email</key>
+		<value><![CDATA[E-Mail Address does not appear to be valid!]]></value>
+	</definition>
+	<definition>
+		<key>error_order_id</key>
+		<value><![CDATA[Order ID is required field!]]></value>
+	</definition>
 </definitions>

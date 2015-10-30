@@ -100,4 +100,12 @@
 		<key>column_comment</key>
 		<value><![CDATA[Commenti]]></value>
 	</definition>
+	<definition>
+		<key>error_email</key>
+		<value><![CDATA[Indirizzo E-Mail non sembra essere valido!]]></value>
+	</definition>
+	<definition>
+		<key>error_order_id</key>
+		<value><![CDATA[ID ordine è un campo obbligatorio!]]></value>
+	</definition>
 </definitions>

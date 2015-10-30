@@ -100,4 +100,12 @@
 		<key>text_image</key>
 		<value><![CDATA[Изображение]]></value>
 	</definition>
+	<definition>
+		<key>error_email</key>
+		<value><![CDATA[Неверный e-mail адрес!]]></value>
+	</definition>
+	<definition>
+		<key>error_order_id</key>
+		<value><![CDATA[ID Заказа требуемое поле!]]></value>
+	</definition>
 </definitions>

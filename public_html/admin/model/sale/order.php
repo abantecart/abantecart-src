@@ -626,6 +626,14 @@ class ModelSaleOrder extends Model{
 					$message .= $language->get('text_invoice') . "\n";
 					$message .= html_entity_decode($order_query->row['store_url'] . 'index.php?rt=account/invoice&order_id=' . $order_id, ENT_QUOTES, 'UTF-8') . "\n\n";
 				}
+				//give link on order page for quest
+				elseif($this->config->get('config_guest_checkout') && $order_query->row['email']){
+					$order_token = AEncryption::mcrypt_encode($order_id.'~~~'.$order_query->row['email']);
+					if($order_token){
+						$message .= $language->get('text_invoice') . "\n";
+						$message .= html_entity_decode($order_query->row['store_url'] . 'index.php?rt=account/invoice&ot=' . $order_token, ENT_QUOTES, 'UTF-8') . "\n\n";
+					}
+				}
 
 				if($data['comment']){
 					$message .= $language->get('text_comment') . "\n\n";

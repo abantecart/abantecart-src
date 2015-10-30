@@ -104,4 +104,12 @@
 		<key>text_image</key>
 		<value><![CDATA[Imagen]]></value>
 	</definition>
+	<definition>
+		<key>error_email</key>
+		<value><![CDATA[E-Mail no parece ser válida!]]></value>
+	</definition>
+	<definition>
+		<key>error_order_id</key>
+		<value><![CDATA[ID del pedido se requiere el campo!]]></value>
+	</definition>
 </definitions>

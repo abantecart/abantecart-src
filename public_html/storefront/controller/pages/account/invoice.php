@@ -26,20 +26,74 @@ if (!defined('DIR_CORE')){
  */
 class ControllerPagesAccountInvoice extends AController{
 	public $data = array ();
+	public $error = array ();
 	public function main(){
 
 		//init controller data
 		$this->extensions->hk_InitData($this, __FUNCTION__);
 
-		if (!$this->customer->isLogged()){
-			if (isset($this->request->get['order_id'])){
-				$order_id = $this->request->get['order_id'];
-			} else{
-				$order_id = 0;
+		if (isset($this->request->get['order_id'])){
+			$order_id = (int)$this->request->get['order_id'];
+		} else{
+			$order_id = 0;
+		}
+
+		$this->loadModel('account/order');
+
+		$guest = false;
+		if( isset($this->request->get['ot']) && $this->config->get('config_guest_checkout')){
+			//try to decrypt order token
+			$decrypted = AEncryption::mcrypt_decode($this->request->get['ot']);
+			list($order_id,$email) = explode('~~~',$decrypted);
+
+			$order_id = (int)$order_id;
+			if(!$decrypted || !$order_id || !$email){
+				if($order_id){
+					$this->session->data['redirect'] = $this->html->getSecureURL('account/invoice', '&order_id=' . $order_id);
+				}
+				$this->redirect($this->html->getSecureURL('account/login'));
 			}
+			$order_info = $this->model_account_order->getOrder($order_id,'','view');
+			//compare emails
+			if($order_info['email']!=$email){
+				$this->redirect($this->html->getSecureURL('account/login'));
+			}
+			$guest = true;
+		}
+
+		if($this->request->is_POST() && $this->_validate()){
+			$guest = true;
+
+			$order_id = $this->request->post['order_id'];
+			$email = $this->request->post['email'];
+
+			$order_info = $this->model_account_order->getOrder($order_id,'','view');
+
+			//compare emails
+			if($order_info['email'] != $email){
+				unset($order_info, $order_id, $email);
+			}
+		}
+
+		$this->view->assign('error',$this->error);
+
+		if(!$this->customer->isLogged() && !$guest){
 
 			$this->session->data['redirect'] = $this->html->getSecureURL('account/invoice', '&order_id=' . $order_id);
-			$this->redirect($this->html->getSecureURL('account/login'));
+
+			$this->getForm();
+			return null;
+		}
+
+		if(!$order_id && $this->customer->isLogged()){
+			$this->redirect($this->html->getSecureURL('account/history'));
+		}
+
+
+
+		//get info for registered customers
+		if(!$order_info){
+			$order_info = $this->model_account_order->getOrder($order_id);
 		}
 
 		$this->document->setTitle($this->language->get('heading_title'));
@@ -57,15 +111,16 @@ class ControllerPagesAccountInvoice extends AController{
 				'text'      => $this->language->get('text_account'),
 				'separator' => $this->language->get('text_separator')
 		));
+		if(!$guest){
+			$this->document->addBreadcrumb(array (
+					'href'      => $this->html->getURL('account/history'),
+					'text'      => $this->language->get('text_history'),
+					'separator' => $this->language->get('text_separator')
+			));
+		}
 
 		$this->document->addBreadcrumb(array (
-				'href'      => $this->html->getURL('account/history'),
-				'text'      => $this->language->get('text_history'),
-				'separator' => $this->language->get('text_separator')
-		));
-
-		$this->document->addBreadcrumb(array (
-				'href'      => $this->html->getURL('account/invoice', '&order_id=' . $this->request->get['order_id']),
+				'href'      => $this->html->getURL('account/invoice', '&order_id=' . $order_id),
 				'text'      => $this->language->get('text_invoice'),
 				'separator' => $this->language->get('text_separator')
 		));
@@ -76,15 +131,7 @@ class ControllerPagesAccountInvoice extends AController{
 			unset($this->session->data['success']);
 		}
 
-		$this->loadModel('account/order');
 
-		if (isset($this->request->get['order_id'])){
-			$order_id = $this->request->get['order_id'];
-		} else{
-			$order_id = 0;
-		}
-
-		$order_info = $this->model_account_order->getOrder($order_id);
 
 		if ($order_info){
 			$this->data['order_id'] = $order_id;
@@ -198,7 +245,13 @@ class ControllerPagesAccountInvoice extends AController{
 				);
 			}
 			$this->data['historys'] = $historys;
-			$this->data['continue'] = $this->html->getSecureURL('account/history');
+
+			if($guest){
+				$this->data['continue'] = $this->html->getSecureURL('index/home');
+			}else{
+				$this->data['continue'] = $this->html->getSecureURL('account/history');
+			}
+
 			$this->data['button_print'] = $this->html->buildElement(
 					array ('type'  => 'button',
 					       'name'  => 'print_button',
@@ -216,14 +269,22 @@ class ControllerPagesAccountInvoice extends AController{
 										       'text'  => $this->language->get('text_order_cancelation'),
 										       'icon'  => 'fa fa-ban',
 										       'style' => 'button'));
-					$this->data['order_cancelation_url'] = $this->html->getSecureURL('account/invoice/CancelOrder', '&order_id='.$order_id);
+					if(!$guest){
+						$this->data['order_cancelation_url'] = $this->html->getSecureURL('account/invoice/CancelOrder', '&order_id=' . $order_id);
+					}else{
+						$this->data['order_cancelation_url'] = $this->html->getSecureURL('account/invoice/CancelOrder', '&ot=' . $this->request->get['ot']);
+					}
 				}
 			}
 
 
 			$this->view->setTemplate('pages/account/invoice.tpl');
 		} else{
-			$this->data['continue'] = $this->html->getSecureURL('account/account');
+			if($guest){
+				$this->data['continue'] = $this->html->getSecureURL('index/home');
+			}else{
+				$this->data['continue'] = $this->html->getSecureURL('account/account');
+			}
 			$this->view->setTemplate('pages/error/not_found.tpl');
 		}
 
@@ -241,6 +302,74 @@ class ControllerPagesAccountInvoice extends AController{
 		$this->extensions->hk_UpdateData($this, __FUNCTION__);
 	}
 
+	private function getForm() {
+		$this->document->resetBreadcrumbs();
+
+		$this->document->addBreadcrumb(array(
+			'href' => $this->html->getURL('index/home'),
+			'text' => $this->language->get('text_home'),
+			'separator' => FALSE
+		));
+
+		$this->document->addBreadcrumb(array(
+			'href' => $this->html->getURL('account/account'),
+			'text' => $this->language->get('text_account'),
+			'separator' => $this->language->get('text_separator')
+		));
+
+		$this->document->addBreadcrumb(array(
+			'href' => $this->html->getURL('account/invoice'),
+			'text' => $this->language->get('heading_title'),
+			'separator' => $this->language->get('text_separator')
+		));
+
+		$this->data['back'] = $this->html->getSecureURL('index/home');
+
+		$form = new AForm();
+		$form->setForm(array('form_name' => 'CheckOrderFrm'));
+
+		$this->data['form']['form_open'] = $form->getFieldHtml(
+			array(
+				'type' => 'form',
+				'name' => 'CheckOrderFrm',
+				'action' => $this->html->getSecureURL('account/invoice')
+			));
+
+		$order_id = (int)$this->request->post['order_id'] ? (int)$this->request->post['order_id'] : '';
+		$this->data['form']['order_id'] = $form->getFieldHtml(array(
+			'type' => 'input',
+			'name' => 'order_id',
+			'value' => $order_id,
+			'required' => true));
+
+		$this->data['entry_order_id'] = $this->language->get('text_order_id');
+
+
+		$this->data['form']['email'] = $form->getFieldHtml(array(
+			'type' => 'input',
+			'name' => 'email',
+			'value' => $this->request->post['email'],
+			'required' => true));
+
+		$this->data['entry_email'] = $this->language->get('text_email');
+
+		$this->data['form']['back'] = $form->getFieldHtml(array(
+			'type' => 'button',
+			'name' => 'back',
+			'text' => $this->language->get('button_back'),
+			'icon' => 'fa fa-arrow-left',
+			'style' => 'button'));
+
+		$this->data['form']['submit'] = $form->getFieldHtml(array(
+			'type' => 'submit',
+			'icon' => 'fa fa-check',
+			'name' => $this->language->get('button_continue')
+		));
+
+		$this->view->batchAssign($this->data);
+		$this->processTemplate('pages/account/order.tpl');
+	}
+
 	public function CancelOrder(){
 		//init controller data
 		$this->extensions->hk_InitData($this, __FUNCTION__);
@@ -248,17 +377,41 @@ class ControllerPagesAccountInvoice extends AController{
 		//do a few checks
 		//is order exists
 		$order_id = (int)$this->request->get['order_id'];
-		if(!$order_id){
+		$customer_id = $this->customer->getId();
+
+		$this->loadModel('account/order');
+
+		$guest = false;
+		if( isset($this->request->get['ot']) && $this->config->get('config_guest_checkout')){
+			//try to decrypt order token
+			$decrypted = AEncryption::mcrypt_decode($this->request->get['ot']);
+			list($order_id,$email) = explode('~~~',$decrypted);
+
+			$order_id = (int)$order_id;
+			if(!$decrypted || !$order_id || !$email){
+				if($order_id){
+					$this->session->data['redirect'] = $this->html->getSecureURL('account/invoice', '&order_id=' . $order_id);
+				}
+				$this->redirect($this->html->getSecureURL('account/login'));
+			}
+			$order_info = $this->model_account_order->getOrder($order_id,'','view');
+			//compare emails
+			if($order_info['email']!=$email){
+				$this->redirect($this->html->getSecureURL('account/login'));
+			}
+			$guest = true;
+		}else{
+			$order_info = $this->model_account_order->getOrder($order_id);
+		}
+
+		if(!$order_id && !$guest){
 			$this->redirect($this->html->getSecureURL('account/invoice'));
 		}
-		//is customer logged
-		$customer_id = $this->customer->getId();
-		if(!$customer_id){
+
+		if(!$customer_id && !$guest){
 			$this->redirect($this->html->getSecureURL('account/login'));
 		}
-		//is order of customer
-		$this->loadModel('account/order');
-		$order_info = $this->model_account_order->getOrder($order_id);
+
 		if(!$order_info){
 			$this->redirect($this->html->getSecureURL('account/invoice'));
 		}
@@ -284,7 +437,7 @@ class ControllerPagesAccountInvoice extends AController{
 							$order_id
 					),
 					sprintf( $this->language->get('text_order_cancelation_message_body'),
-							$this->customer->getFirstName().' '.$this->customer->getLastName(),
+							$order_info['firstname'].' '.$order_info['lastname'],
 							$order_id,
 							'#admin#rt=sale/order/details&order_id='.$order_id
 							)
@@ -297,6 +450,28 @@ class ControllerPagesAccountInvoice extends AController{
 		//update controller data
 		$this->extensions->hk_UpdateData($this, __FUNCTION__);
 
-		$this->redirect($this->html->getSecureURL('account/invoice', '&order_id='.$order_id));
+		if(!$guest){
+			$url = $this->html->getSecureURL('account/invoice', '&order_id=' . $order_id);
+		}else{
+			$url = $this->html->getSecureURL('account/invoice', '&ot=' . $this->request->get['ot']);
+		}
+
+		$this->redirect($url);
+	}
+
+	private function _validate(){
+
+		if(!(int)$this->request->post['order_id']){
+			$this->error['order_id'] = $this->language->get('error_order_id');
+		}
+
+		if (mb_strlen($this->request->post['email']) > 96 || !preg_match(EMAIL_REGEX_PATTERN, $this->request->post['email'])) {
+		    $this->error['email'] = $this->language->get('error_email');
+		}
+
+		$this->extensions->hk_ValidateData($this);
+
+		return !$this->error ? TRUE : FALSE;
+
 	}
 }
