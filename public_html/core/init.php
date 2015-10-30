@@ -99,6 +99,7 @@ if (defined('ADMIN_PATH') && (isset($_GET['s']) || isset($_POST['s'])) && ($_GET
 	define('DIR_TEMPLATE', DIR_ROOT . '/admin/view/');
 	define('DIR_STOREFRONT', DIR_ROOT . '/storefront/');
 	define('DIR_BACKUP', DIR_ROOT . '/admin/system/backup/');
+	define('DIR_DATA', DIR_ROOT . '/admin/system/data/');
 	//generate unique sessioin name. 
 	//NOTE: This is a session name not to confuse with actual session id. Candidate to renaming 
 	define('SESSION_ID', defined('UNIQUE_ID') ? 'AC_CP_'.strtoupper(substr(UNIQUE_ID, 0, 10)) : 'AC_CP_PHPSESSID');

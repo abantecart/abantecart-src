@@ -195,8 +195,13 @@ final class AData {
 	 */
 	public function array2CSV($in_array, $fileName, $delimIndex = 0, $format = '.csv', $enclose = '"', $escape = '"', $asFile = false) {
 
-		if (!is_writable(DIR_BACKUP)) {
-			$this->processError('CSV/TXT Export Error', "Error: Not writable Backup directory!", 'error');
+		if ( !is_dir(DIR_DATA) ) {
+			$res = mkdir(DIR_DATA);
+			chmod(DIR_DATA, 0777);
+		}
+
+		if (!is_dir(DIR_DATA) || !is_writable(DIR_DATA)) {
+			$this->processError('CSV/TXT Export Error', "Error: Data directory in ".DIR_DATA." is not writable or can not be created!", 'error');
 			return false;
 		}
 
@@ -214,7 +219,7 @@ final class AData {
 		if ( count($in_array) ){
 
 			$d_name = str_replace('.tar.gz', '', $fileName);
-			$dirName = DIR_BACKUP . $d_name;
+			$dirName = DIR_DATA . $d_name;
 
 			if ( !file_exists($dirName) ) {
 				$res = mkdir($dirName);
@@ -256,7 +261,7 @@ final class AData {
 			}
 
 			$archive = $dirName.'.tar.gz';
-			$this->_archive($archive, DIR_BACKUP, $d_name );
+			$this->_archive($archive, DIR_DATA, $d_name );
 
 			if ( $asFile ) {
 				return $archive;
@@ -276,11 +281,9 @@ final class AData {
 	 * @return bool
 	 */
 	private function _archive($tar_filename, $tar_dir, $filename ) {
-		//Archive the backup to DIR_BACKUP, delete tmp files in directory $this->backup_dir
-		//And create record in the database for created archive.
+		//Archive data to DIR_DATA, delete tmp files in directory 
 		//generate errors: No space on device (log to message as error too), No permissons, Others
 		//return Success or failed.
-
 
 		compressTarGZ($tar_filename, $tar_dir.$filename);
 
