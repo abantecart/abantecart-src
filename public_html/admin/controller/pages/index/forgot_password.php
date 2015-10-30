@@ -55,10 +55,8 @@ class ControllerPagesIndexForgotPassword extends AController {
 			$mail->setHtml(sprintf($this->language->get('reset_email_body_html'), $link, $link));
 			$mail->setText(sprintf($this->language->get('reset_email_body_text'), $link, $link));
 			$mail->	send();
-echo $link;
-exit;
-			$this->redirect($this->html->getSecureURL('index/forgot_password','&mail=sent'));
 
+			$this->redirect($this->html->getSecureURL('index/forgot_password','&mail=sent'));
 		}
 
 		$this->data['login'] =  $this->html->getSecureURL('index/login');
@@ -168,8 +166,6 @@ exit;
 			//generate password
 			$password = AUser::generatePassword(8);
 			$this->model_user_user->editUser($this->user_data['user_id'], array('password' => $password));
-echo $password;
-exit;
 
 			$mail = new AMail($this->config);
 			$mail->setTo($this->user_data['email']);
