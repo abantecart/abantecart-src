@@ -279,6 +279,22 @@ class ModelAccountCustomer extends Model {
 	 */
 	public function validateRegistrationData( $data ) {
 		$error = array();
+		//If captcha enabled, validate
+		if($this->config->get('config_account_create_captcha')) {
+			if($this->config->get('config_recaptcha_secret_key')) {
+				require_once DIR_VENDORS . '/google_recaptcha/autoload.php';
+				$recaptcha = new \ReCaptcha\ReCaptcha($this->config->get('config_recaptcha_secret_key'));
+				$resp = $recaptcha->verify(	$data['g-recaptcha-response'],
+											$this->request->server['REMOTE_ADDR']);
+				if (!$resp->isSuccess() && $resp->getErrorCodes()) {
+					$error['captcha'] = $this->language->get('error_captcha');
+				}
+			} else {
+				if (!isset($this->session->data['captcha']) || ($this->session->data['captcha'] != $data['captcha'])) {
+					$error['captcha'] = $this->language->get('error_captcha');
+				}
+			}
+		}
 
 		if ( $this->config->get('prevent_email_as_login')) {
 			//validate only if email login is not allowed
