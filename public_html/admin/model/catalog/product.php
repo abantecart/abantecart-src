@@ -2097,5 +2097,53 @@ class ModelCatalogProduct extends Model{
 
 		return $product_option_data;
 	}
+	
+	/**
+	 * @param string $object_name
+	 * @param int $object_id
+	 * @param string $type_id
+	 * @return null
+	 */
+    public function deleteResources( $object_name, $object_id, $type_name ) {
+		if (!$object_name || empty($object_id) || empty($type_name)) {
+			return null;
+		}
 
+		$sql = "SELECT resource_id FROM " . $this->db->table("resource_map") . " 
+                WHERE object_name = '".$this->db->escape($object_name)."'
+                      AND object_id = '".(int)$object_id."'";
+        $result = $this->db->query($sql);
+        if ( $result->num_rows ) {
+        	foreach($result->rows as $row){
+	        	$this->deleteResource($row['resource_id'], $type_name);
+        	}
+        }
+	}
+	
+	/**
+	 * @param int $resource_id
+	 * @return null
+	 */	
+    public function deleteResource($resource_id, $type_name) {
+
+		$rl = new AResource($type_name);
+        $resource = $rl->getResource($resource_id);
+        //no resource or nor matching type_name
+        if ( empty($resource) || $resource['type_name'] != $type_name ) {
+            return null;
+        }
+
+        if ( $resource['resource_path'] && is_file( DIR_RESOURCE . $resource['type_name'] . '/' . $resource['resource_path']) ) {
+            unlink( DIR_RESOURCE.$resource['type_name'].'/'.$resource['resource_path'] );
+        }
+
+        $this->db->query("DELETE FROM " . $this->db->table("resource_map") . " WHERE resource_id = '".(int)$resource_id."' ");
+        $this->db->query("DELETE FROM " . $this->db->table("resource_library") . " WHERE resource_id = '".(int)$resource_id."' ");
+        $this->db->query("DELETE FROM " . $this->db->table("resource_descriptions") . " WHERE resource_id = '".(int)$resource_id."' ");
+
+        $this->cache->delete('resources.'. $resource_id);
+        $this->cache->delete('resources.'. $resource['type_name']);
+
+        return true;
+    }	
 }
