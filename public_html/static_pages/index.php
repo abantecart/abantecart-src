@@ -49,33 +49,43 @@ if ( !empty($_SESSION['exception_msg']) ) {
 	unset($_SESSION['exception_msg']);
 }
 
-$subject = rawurlencode("AbanteCart Crash Report " . UNIQUE_ID);
-$pos = -2;
-$t ='';
-$count = 0;
-$log_contents_end = "Log file tail: \n\n";
-$log_handle = fopen(DIR_ABANTECART . "system/logs/error.txt", "r");
-//read 100 lines backwards from the eof or less 
-$max_lines = 100;
-$max_bytes = filesize(DIR_ABANTECART . "system/logs/error.txt");
-$lines = array();
-while ($count < $max_lines) {
-	//read one line back
-	while ($t != "\n") {
-	    if(abs($pos) >= $max_bytes){
-	    	break;
-	    }
-	    fseek($log_handle, $pos, SEEK_END);
-	    $t = fgetc($log_handle);
-	    $pos = $pos - 1;
+//check if this is admin and show option to report this issue 
+$from_admin = false;
+foreach(array_keys($_COOKIE) as $key) {
+	if ( preg_match("/^AC_CP/", $key) ) {
+		$from_admin = true;
 	}
-	$lines[] = fgets($log_handle);
-	$count++;
-	$t='';
 }
-fclose ($log_handle);
 
-$body = rawurlencode($log_contents_end . implode("", array_reverse($lines)) );
+if($from_admin){
+	$subject = rawurlencode("AbanteCart Crash Report " . UNIQUE_ID);
+	$pos = -2;
+	$t ='';
+	$count = 0;
+	$log_contents_end = "Log file tail: \n\n";
+	$log_handle = fopen(DIR_ABANTECART . "system/logs/error.txt", "r");
+	//read 100 lines backwards from the eof or less 
+	$max_lines = 100;
+	$max_bytes = filesize(DIR_ABANTECART . "system/logs/error.txt");
+	$lines = array();
+	while ($count < $max_lines) {
+		//read one line back
+		while ($t != "\n") {
+		    if(abs($pos) >= $max_bytes){
+		    	break;
+		    }
+		    fseek($log_handle, $pos, SEEK_END);
+		    $t = fgetc($log_handle);
+		    $pos = $pos - 1;
+		}
+		$lines[] = fgets($log_handle);
+		$count++;
+		$t='';
+	}
+	fclose ($log_handle);
+	
+	$body = rawurlencode($log_contents_end . implode("", array_reverse($lines)) );
+}
 
 ?>
 <?php echo '<?xml version="1.0" encoding="UTF-8"?>'; ?>
@@ -97,10 +107,16 @@ $body = rawurlencode($log_contents_end . implode("", array_reverse($lines)) );
 	</div>
 	<br><br>
 	<center>
+<?php 
+	if($from_admin){
+?>	
 		<div style="font-size: 16px;">
 			<b><a href="mailto:help@abantecart.com?subject=<?php echo $subject ?>&body=<?php echo $body ?>">Report this problem to AbanteCart team (do not change email subject)</a></b>
 		</div>
 		<br><br>
+<?php 
+	}
+?>	
 		<div>
 			<a href="<?php echo HTTP_ABANTECART; ?>">Go to main page</a>
 		</div>
