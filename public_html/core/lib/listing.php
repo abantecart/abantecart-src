@@ -64,7 +64,7 @@ class AListing {
 						'storefront_method' => 'getManufacturers',
 						'storefront_view_path' => 'product/manufacturer',
 				),
-				'catalog_category_getfeatured' => array(
+				'catalog_product_getfeatured' => array(
 						'text' => 'text_featured',
 						'rl_object_name' => 'products',
 						'data_type' => 'product_id',
@@ -72,7 +72,7 @@ class AListing {
 						'storefront_method' => 'getFeaturedProducts',
 						'storefront_view_path' => 'product/product',
 				),
-				'catalog_category_getlatest' => array(
+				'catalog_product_getlatest' => array(
 						'text' => 'text_latest',
 						'rl_object_name' => 'products',
 						'data_type' => 'product_id',
@@ -80,7 +80,7 @@ class AListing {
 						'storefront_method' => 'getLatestProducts',
 						'storefront_view_path' => 'product/product',
 				),
-				'catalog_category_getlatest' => array(
+				'catalog_product_getbestsellers' => array(
 						'text' => 'text_bestsellers',
 						'rl_object_name' => 'products',
 						'data_type' => 'product_id',
