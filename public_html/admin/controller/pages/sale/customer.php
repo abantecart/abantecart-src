@@ -139,7 +139,7 @@ class ControllerPagesSaleCustomer extends AController {
 								'href' => $this->html->getSecureURL('sale/customer/update', '&customer_id=%ID%'),
 								'children' => array_merge(array(
 						                'details' => array(
-										                'text' => $this->language->get('tab_details'),
+										                'text' => $this->language->get('tab_customer_details'),
 										                'href' => $this->html->getSecureURL('sale/customer/update', '&customer_id=%ID%'),
 						                                ),
 						                'transaction' => array(
@@ -355,7 +355,7 @@ class ControllerPagesSaleCustomer extends AController {
 		));
 
 		$this->data['addresses'] = array();
-
+		$customer_info = array();
 		if (has_value($customer_id)) {
 			$customer_info = $this->model_sale_customer->getCustomer($customer_id);
 			$this->data['button_orders_count'] = $this->html->buildElement(
@@ -579,7 +579,7 @@ class ControllerPagesSaleCustomer extends AController {
 
 		$customer_id = $this->request->get['customer_id'];
 		$address_id = $this->request->get['address_id'];
-		if ($this->request->is_POST() && $this->_validateAddressForm($address_id)) {
+		if ($this->request->is_POST() && $this->_validateAddressForm()) {
 			//do we need to update default address?
 			if($this->request->post['default']) {
 				$this->model_sale_customer->setDefaultAddress($customer_id, $address_id);
@@ -617,6 +617,8 @@ class ControllerPagesSaleCustomer extends AController {
 		));
 
 		$this->data['addresses'] = array();
+
+		$customer_info = array();
 
 		if (has_value($customer_id)) {
 			$customer_info = $this->model_sale_customer->getCustomer($customer_id);
@@ -807,8 +809,8 @@ class ControllerPagesSaleCustomer extends AController {
 			//NOTE: if need to act on additional store - redirect to it's admin side.
 			// and then to storefront because crossdomain restriction for session cookie
 			$this->loadModel('setting/store');
+			$store_settings = $this->model_setting_store->getStore($this->session->data['current_store_id']);
 			if($this->config->get('config_url') != $this->model_setting_store->getStoreURL($this->session->data['current_store_id'])){
-				$store_settings = $this->model_setting_store->getStore($this->session->data['current_store_id']);
 				if($store_settings){
 					if($store_settings['config_ssl']){
 						$add_store_url = $store_settings['config_ssl_url'].'?s='.ADMIN_PATH.'&rt=sale/customer/actonbehalf&customer_id='.$this->request->get['customer_id'];
@@ -920,10 +922,9 @@ class ControllerPagesSaleCustomer extends AController {
 	}
 
 	/**
-	 * @param null $address_id
 	 * @return bool
 	 */
-	private function _validateAddressForm($address_id = null) {
+	private function _validateAddressForm() {
 		if (!$this->user->canModify('sale/customer')) {
 			$this->error['warning'] = $this->language->get('error_permission');
 			return FALSE;

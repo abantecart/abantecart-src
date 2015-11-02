@@ -153,6 +153,7 @@ class ControllerResponsesListingGridCustomer extends AController {
 						if (!$err) {
 							$this->model_sale_customer->editCustomerField($id, 'status', $this->request->post[ 'status' ][ $id ]);
 						} else {
+							$error = new AError('');
 							return $error->toJSONResponse('VALIDATION_ERROR_406',
 																				array('error_text' => $err,
 																					'reset_value' => false
@@ -163,6 +164,7 @@ class ControllerResponsesListingGridCustomer extends AController {
 							$this->model_sale_customer->editCustomerField($id, 'approved', $this->request->post[ 'approved' ][ $id ]);
 							$this->_sendMail($id, $this->request->post[ 'approved' ][ $id ]);
 						} else {
+							$error = new AError('');
 							return $error->toJSONResponse('VALIDATION_ERROR_406',
 																				array('error_text' => $err,
 																					'reset_value' => false
@@ -260,6 +262,7 @@ class ControllerResponsesListingGridCustomer extends AController {
 					}
 					$this->model_sale_customer->editCustomerField($k, $field, $v);
 				} else {
+					$error = new AError('');
 					return $error->toJSONResponse('VALIDATION_ERROR_406',
 																		array('error_text' => $err,
 																			'reset_value' => false
@@ -267,7 +270,6 @@ class ControllerResponsesListingGridCustomer extends AController {
 				}
 			}
 		}
-
 
 		//update controller data
 		$this->extensions->hk_UpdateData($this, __FUNCTION__);
