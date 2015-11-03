@@ -548,7 +548,7 @@ var bind_rl = function (elm) {
 		if (rl_id < 1 || rl_id == 'undefined') {
 			return false;
 		}
-
+		var reload_url = $("#rl_container").attr('data-current-url');
 		var type = $('#library').attr('data-type');
 
 		map_resource(rl_id);
@@ -558,7 +558,8 @@ var bind_rl = function (elm) {
 			if (tab_id == 'resource') {
 				mediaDialog(type, 'update', rl_id);
 			} else {
-				tab.click();
+				//reload the same list with the filter
+				reloadModal(reload_url);
 			}
 		}
 		return false;
@@ -577,13 +578,15 @@ var bind_rl = function (elm) {
 		if (rl_id < 1 || rl_id == 'undefined') {
 			return false;
 		}
+		var reload_url = $("#rl_container").attr('data-current-url');
+
 		unmap_resource(rl_id);
 		var tab = active_tab();
-
 		if (tab.attr('id') == 'resource') {
 			mediaDialog($(this).attr('data-type'), 'update', rl_id);
 		} else {
-			tab.click();
+			//reload the same list with the filter
+			reloadModal(reload_url);
 		}
 
 		return false;
@@ -793,7 +796,13 @@ var multi_action = function (action) {
 		error: rl_error_handler
 	});
 
-	active_tab().click(); // reload modal with object's resources
+	var reload_url = $("#rl_container").attr('data-current-url');
+	if(reload_url) {
+		reloadModal(reload_url);
+	} else {
+		// reload modal with object's resources
+		active_tab().click(); 
+	}
 }
 
 var rl_error_alert = function (text, autohide) {

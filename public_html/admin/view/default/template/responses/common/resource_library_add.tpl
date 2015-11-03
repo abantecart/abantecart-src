@@ -1,14 +1,16 @@
 <div id="rl_container">
 	<ul class="nav nav-tabs nav-justified nav-profile">
-		<li class="active" id="resource" data-rl-id="<?php echo $resource_id; ?>" data-type="<?php echo $type; ?>"><a
-					class="widthM400 ellipsis" href="#"><strong><?php echo $button_add; ?></strong></a></li>
+		<li class="active" id="resource" data-rl-id="<?php echo $resource_id; ?>" data-type="<?php echo $type; ?>">
+			<a class="widthM300 ellipsis" href="#"><strong><i class="fa fa-plus fa-fw"></i> <?php echo $button_add; ?></strong></a>
+		</li>
 		<?php if (has_value($object_id)) { ?>
-			<li id="object" data-rl-id="<?php echo $resource_id; ?>" data-type="<?php echo $type; ?>"><a
-						class="widthM400 ellipsis"
-						href="#"><strong><?php echo $object_title." (".$object_name.")"; ?></strong></a></li>
+			<li id="object" data-rl-id="<?php echo $resource_id; ?>" data-type="<?php echo $type; ?>">
+				<a class="widthM400 ellipsis" href="#"><strong><i class="fa fa-bookmark fa-fw"></i> <?php echo $object_title." (".$object_name.")"; ?></strong></a>
+			</li>
 		<?php } ?>
-		<li id="library" data-rl-id="<?php echo $resource_id; ?>" data-type="<?php echo $type; ?>"><a
-					class="widthM400 ellipsis" href="#"><span><?php echo $heading_title; ?></span></a></li>
+		<li id="library" data-rl-id="<?php echo $resource_id; ?>" data-type="<?php echo $type; ?>">
+			<a class="widthM300 ellipsis" href="#"><span><i class="fa fa-book fa-fw"></i> <?php echo $heading_title; ?></span></a>
+		</li>
 	</ul>
 
 	<?php

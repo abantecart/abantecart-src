@@ -7,16 +7,18 @@ if ($action == 'list_object') {
 	$active_library = 'class="active"';
 }
 ?>
-	<div id="rl_container">
+	<div id="rl_container" data-current-url="<?php echo $full_url; ?>">
 		<ul class="nav nav-tabs nav-justified nav-profile">
 			<?php if (has_value($object_id)) { ?>
 				<li id="object" data-rl-id="<?php echo $resource_id; ?>"
-					data-type="<?php echo $type; ?>" <?php echo $active_object; ?>><a class="ellipsis"
-							href="#"><strong><?php echo $object_title." (".$object_name.")"; ?></strong></a></li>
+					data-type="<?php echo $type; ?>" <?php echo $active_object; ?>>
+					<a class="ellipsis" href="#"><strong><i class="fa fa-bookmark fa-fw"></i> <?php echo $object_title." (".$object_name.")"; ?></strong></a>
+				</li>
 			<?php } ?>
 			<li id="library" data-rl-id="<?php echo $resource_id; ?>"
-				data-type="<?php echo $type; ?>" <?php echo $active_library; ?>><a class="ellipsis"
-						href="#"><span><?php echo $heading_title; ?></span></a></li>
+				data-type="<?php echo $type; ?>" <?php echo $active_library; ?>>
+				<a class="ellipsis" href="#"><span><i class="fa fa-book fa-fw"></i> <?php echo $heading_title; ?></span></a>
+			</li>
 		</ul>
 
 		<?php

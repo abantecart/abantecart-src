@@ -1262,6 +1262,19 @@ p {
     display: block;
 }
 
+.rl_pagination .pagination-sm > li > a, .pagination-sm > li > span {
+	padding: 5px 8px;
+}
+.rl_pagination .input-group {
+	font-size: 12px;
+}
+#rl_container .edit_resource_form {
+	min-height: 360px;
+}
+#rl_container .reslibrary {
+	min-height: 380px;
+}
+
 #choose_resource_type{
 	margin: 0;
 }
@@ -2304,6 +2317,9 @@ body.stickyheader .sticky_left {
 	-moz-opacity: 0.2;
 	-khtml-opacity: 0.2;
 	opacity: 0.2;
+}
+.widthM300 {
+	max-width: 300px;
 }
 .widthM400 {
 	max-width: 400px;
