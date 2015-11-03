@@ -159,13 +159,17 @@ class ControllerResponsesListingGridMessageGrid extends AController {
 
 		//init controller data
 		$this->extensions->hk_InitData($this, __FUNCTION__);
+		$ret = array();
 
 		$this->loadLanguage('tool/message_manager');
 		$this->data['shortlist'] = $this->messages->getShortList();
-		$this->data['shortlist']['total_title'] = sprintf($this->language->get('text_notifier_title'),$this->data['shortlist']['total']);
-		foreach($this->data['shortlist']['shortlist'] as &$m){
-			$m['message'] = mb_substr($m['message'],0, 30).'...';
-			$m['href']	= $this->html->getSecureURL ( 'listing_grid/message_grid/update','&oper=show&readonly=1&id='.$m['msg_id']);
+		if($this->data['shortlist']['total']) {
+			$ret = $this->data['shortlist'];
+			$ret['total_title'] = sprintf($this->language->get('text_notifier_title'),$ret['total']);
+			foreach($ret['shortlist'] as &$m){
+				$m['message'] = mb_substr($m['message'],0, 30).'...';
+				$m['href']	= $this->html->getSecureURL ( 'listing_grid/message_grid/update','&oper=show&readonly=1&id='.$m['msg_id']);
+			}
 		}
 
 		//update controller data
@@ -173,6 +177,6 @@ class ControllerResponsesListingGridMessageGrid extends AController {
 
 		$this->load->library('json');
 		$this->response->addJSONHeader();
-		$this->response->setOutput(AJson::encode($this->data['shortlist']));
+		$this->response->setOutput(AJson::encode($ret));
 	}
 }
