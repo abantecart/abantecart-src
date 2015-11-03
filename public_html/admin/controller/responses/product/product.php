@@ -1493,7 +1493,7 @@ class ControllerResponsesProductProduct extends AController{
 		$thumbnail = $resource->getMainThumb('products',
 				$product_id,
 				$this->config->get('config_image_product_width'),
-				$this->config->get('config_image_product_height'), true);
+				$this->config->get('config_image_product_height'));
 		$this->data['image'] = $thumbnail;
 
 		$this->data['form']['submit'] = $form->getFieldHtml(array(
