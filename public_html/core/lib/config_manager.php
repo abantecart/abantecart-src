@@ -701,6 +701,34 @@ class AConfigManager {
 				'style' => 'small-field',
 				'required' => true,
 			));
+			$fields['image_grid_width'] = $form->getFieldHtml($props[] = array(
+				'type' => 'input',
+				'name' => 'config_image_grid_width',
+				'value' => $data['config_image_grid_width'],
+				'style' => 'small-field',
+				'required' => true,
+			));
+			$fields['image_grid_height'] = $form->getFieldHtml($props[] = array(
+				'type' => 'input',
+				'name' => 'config_image_grid_height',
+				'value' => $data['config_image_grid_height'],
+				'style' => 'small-field',
+				'required' => true,
+			));
+			$fields['image_product_width'] = $form->getFieldHtml($props[] = array(
+				'type' => 'input',
+				'name' => 'config_image_product_width',
+				'value' => $data['config_image_product_width'],
+				'style' => 'small-field',
+				'required' => true,
+			));
+			$fields['image_product_height'] = $form->getFieldHtml($props[] = array(
+				'type' => 'input',
+				'name' => 'config_image_product_height',
+				'value' => $data['config_image_product_height'],
+				'style' => 'small-field',
+				'required' => true,
+			));
 
 		}else{ 
 			// settings per template

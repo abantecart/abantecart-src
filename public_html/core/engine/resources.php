@@ -524,7 +524,7 @@ class AResource {
 			$resources = $resources[0];
 		}
 
-	return $resources;
+		return $resources;
 	}
 
 	/**
@@ -536,8 +536,8 @@ class AResource {
 	 * @return array
 	 */
 	public function getMainThumb($object_name, $object_id, $width, $height, $noimage=true ){
-		$sizes=array('thumb'=>array('width'=>$width, 'height'=> $height));
-		$result =  $this->getResourceAllObjects($object_name, $object_id, $sizes,1, $noimage);
+		$sizes = array('thumb' => array('width' => $width, 'height' => $height));
+		$result = $this->getResourceAllObjects($object_name, $object_id, $sizes,1, $noimage);
 		$output = array();
 		if($result){
 			$output = array( 'origin' => $result['origin'],
@@ -547,7 +547,7 @@ class AResource {
 			);
 			if($result['thumb_url']) $output['thumb_url'] = $result['thumb_url'];
 		}
-	return $output;
+		return $output;
 	}
 
 	/**
@@ -570,7 +570,7 @@ class AResource {
 			);
 			if($result['main_url']) $output['main_url'] = $result['main_url'];
 		}
-	return $output;
+		return $output;
 	}
 
 }

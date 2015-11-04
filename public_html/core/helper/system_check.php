@@ -250,7 +250,7 @@ function check_server_configuration($registry){
 		if(!file_exists($htaccess)) {
 		    $ret_array[] = array(
 		    	'title' => 'SEO URLs does not work',
-		    	'body' => $htaccess.' file is missing. SEO URL functionality will not work. Check the <a href="http://docs.abantecart.com/pages/settings/system.html">manual for SEO URL setting</a> ',
+		    	'body' => $htaccess.' file is missing. SEO URL functionality will not work. Check the <a href="http://docs.abantecart.com/pages/tips/enable_seo.html" target="_help_doc">manual for SEO URL setting</a> ',
 		    	'type' => 'W'	    
 		    );		
 		}
