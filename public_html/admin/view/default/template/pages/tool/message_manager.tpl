@@ -32,6 +32,7 @@
 	$(document).on("hidden.bs.modal", function (e) {
 		$('#message_grid').trigger("reloadGrid");
 		notifier_updater();
+		$('#message_grid').focus();
 	});
 
 </script>
