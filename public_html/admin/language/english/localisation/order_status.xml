@@ -68,6 +68,6 @@
 	<definition>
 		<key>error_status_text_id</key>
 		<value>
-			<![CDATA[Order Status Text Id must be Unique and between 2 ans 32 characters!]]></value>
+			<![CDATA[Order Status Text Id must be Unique and between 2 and 32 characters!]]></value>
 	</definition>
 </definitions>

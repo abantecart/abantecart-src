@@ -587,4 +587,8 @@
 		<key>entry_upload_dir</key>
 		<value><![CDATA[Добавить имя каталога]]></value>
 	</definition>
+	<definition>
+		<key>text_product_in_stock</key>
+		<value><![CDATA[В наличии]]></value>
+	</definition>
 </definitions>

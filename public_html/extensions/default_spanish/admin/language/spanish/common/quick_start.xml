@@ -1,0 +1,140 @@
+<?xml version="1.0"?>
+<definitions>
+  <definition>
+    <key>text_quick_start</key>
+    <value><![CDATA[Asistente de Inicio Rápido]]></value>
+  </definition>
+  <definition>
+    <key>text_quick_start_note</key>
+    <value><![CDATA[
+    	Bienvenido a la administración AbanteCart.<br />
+    	Se trata de un asistente para ayudarle a configurar rápidamente su carrito de compras con la mayoría de los ajustes comunes.<br />]]></value>
+  </definition>
+  <definition>
+    <key>text_quick_start_general</key>
+    <value><![CDATA[
+    	A continuación se presentan los ajustes generales más comunes.
+    	Más ajustes están disponibles <a href="%s" target="_new_admin"><i class="fa fa-link fa-fw"></i></a>]]></value>
+  </definition>
+  <definition>
+    <key>text_quick_start_details</key>
+    <value><![CDATA[
+    	A continuación se presentan los ajustes más comunes acerca de su tienda.
+    	Más ajustes están disponibles <a href="%s" target="_new_admin"><i class="fa fa-link fa-fw"></i></a>]]></value>
+  </definition>
+  <definition>
+    <key>text_quick_start_checkout</key>
+    <value><![CDATA[
+    	A continuación se presentan los ajustes más comunes para el proceso de pago.
+    	Más ajustes están disponibles <a href="%s" target="_new_admin"><i class="fa fa-link fa-fw"></i></a>]]></value>
+  </definition>
+  <definition>
+    <key>text_quick_start_appearance</key>
+    <value><![CDATA[
+    	A continuación se presentan los ajustes más comunes para la aparición del escaparate.
+    	Más ajustes están disponibles <a href="%s" target="_new_admin"><i class="fa fa-link fa-fw"></i></a>]]></value>
+  </definition>
+  <definition>
+    <key>text_quick_start_mail</key>
+    <value><![CDATA[
+    	A continuación se presentan los ajustes más comunes que permitan correo electrónico. Si utiliza un servidor externo de correo electrónico (google, etc) para enviar mensajes de correo electrónico, es necesario utilizar la opción SMTP. Para mensajes de correo electrónico que se envía desde esta opción Correo uso del servidor.
+    	Más ajustes están disponibles <a href="%s" target="_new_admin"><i class="fa fa-link fa-fw"></i></a>]]></value>
+  </definition>
+  <definition>
+    <key>text_quick_start_last</key>
+    <value><![CDATA[
+    	A continuación puede seleccionar pagos deseados y los métodos de envío, idiomas adicionales y muchas otras características para ampliar su funcionalidad de comercio electrónico.
+    	Recuerde consultar una selección de extensiones en <a href="#admin#rt=extension/extensions_store" target="_extension">AbanteCart el mercado</a> que ofrece la comunidad de desarrolladores profesionales.]]></value>
+  </definition>
+  <definition>
+    <key>text_quick_start_last_footer</key>
+    <value><![CDATA[
+    	Ha completado asistente de arranque rápido. <br /><br />
+    	Usted puede encontrar todos los ajustes <a href="%s">de este enlace <i class="fa fa-link fa-fw"></i></a>]]></value>
+  </definition>
+  <definition>
+    <key>payments_selection</key>
+    <value><![CDATA[
+    <div class="info alert alert-info">
+    <i class="fa fa-money fa-fw"></i> Seleccione sus métodos de pago.
+    </div>
+    <div class="row">
+	    <div class="col-sm-3 h5 center">
+	        <a href="#admin#rt=extension/extensions/install&extension=default_stripe" target="_extension">
+	        <img src="extensions/default_stripe/image/icon.png"><br>Instalar Stripe</a>
+	    </div>
+	    <div class="col-sm-3 h5 center">
+	        <a href="#admin#rt=extension/extensions/install&extension=default_pp_standart" target="_extension">
+	        <img src="extensions/default_pp_standart/image/icon.png"><br>Instalar Paypal</a>
+	    </div>
+	    <div class="col-sm-3 h5 center">
+	        <a href="#admin#rt=extension/extensions/install&extension=default_payza" target="_extension">
+	        <img src="extensions/default_payza/image/icon.png"><br>Instalar Payza</a>
+	    </div>
+	    <div class="col-sm-3 h5 center">
+	        <a href="#admin#rt=extension/extensions/payment" target="_extension">
+	        <img src="admin/view/default/image/default_extension.png"><br>más Pagos</a>
+	    </div>
+    </div>]]></value>
+  </definition>
+  <definition>
+    <key>shipping_selection</key>
+    <value><![CDATA[
+    <div class="info alert alert-info">
+    <i class="fa fa-truck fa-fw"></i> Seleccione sus métodos de envío.
+    </div>
+    <div class="row">
+	    <div class="col-sm-3 h5 center">
+	        <a href="#admin#rt=extension/extensions/install&extension=default_free_shipping" target="_extension">
+	        <img src="extensions/default_free_shipping/image/icon.png"><br>Envío gratis</a>
+	    </div>
+	    <div class="col-sm-3 h5 center">
+	        <a href="#admin#rt=extension/extensions/install&extension=default_fedex" target="_extension">
+	        <img src="extensions/default_fedex/image/icon.png"><br>Fedex</a>
+	    </div>
+	    <div class="col-sm-3 h5 center">
+	        <a href="#admin#rt=extension/extensions/install&extension=default_ups" target="_extension">
+	        <img src="extensions/default_ups/image/icon.png"><br>UPS</a>
+	    </div>
+	    <div class="col-sm-3 h5 center">
+	        <a href="#admin#rt=extension/extensions/shipping" target="_extension">
+	        <img src="admin/view/default/image/default_extension.png"><br>más envíos</a>
+	    </div>
+    </div>]]></value>
+  </definition>
+  <definition>
+    <key>language_selection</key>
+    <value><![CDATA[
+    <div class="info alert alert-info">
+    <i class="fa fa-language fa-fw"></i> Seleccione idiomas adicionales.
+    </div>
+    <div class="row">
+	    <div class="col-sm-4 h5 center">
+	        <a href="#admin#rt=extension/extensions/install&extension=default_spanish" target="_extension">
+	        <img src="extensions/default_spanish/image/icon.png"><br>Español</a>
+	    </div>
+	    <div class="col-sm-4 h5 center">
+	        <a href="#admin#rt=extension/extensions/install&extension=default_russian" target="_extension">
+	        <img src="extensions/default_russian/image/icon.png"><br>Русский</a>
+	    </div>
+	    <div class="col-sm-4 h5 center">
+	        <a href="#admin#rt=extension/extensions_store&category_id=67&sidx=date_modified" target="_extension">
+	        <img src="admin/view/default/image/default_extension.png"><br>más Idiomas</a>
+	    </div>
+    </div>]]></value>
+  </definition>
+  <definition>
+    <key>more_extentions</key>
+    <value><![CDATA[
+    <div class="info alert alert-info">
+    <i class="fa fa-puzzle-piece fa-fw"></i> Más sobre extensiones AbanteCart mercado.
+    </div>
+    <div class="row center">
+		<div class="btn-group center">
+		    <a class="btn btn-primary" href="#admin#rt=extension/extensions_store" target="_extension">
+		    	<i class="fa fa-cloud-download fa-fw"></i> Extensiones del mercado
+		    </a>
+		</div>
+    </div>]]></value>
+  </definition>
+</definitions>

@@ -186,8 +186,7 @@
 	</definition>
 	<definition>
 		<key>error_emptyResult</key>
-		<value>
-			<![CDATA[File vuoto caricare il risultato. Forse il file è danneggiato o troppo grande. Le dimensioni del file sono limitate a 16MB. Se la dimensione del file è inferiore al limite, si prega di controllare le impostazioni di php per upload_max_filesize e post_max_size  ]]></value>
+		<value><![CDATA[File vuoto caricare il risultato. Forse il file è danneggiato o troppo grande. Le dimensioni del file sono limitate a 16MB. Se la dimensione del file è inferiore al limite, si prega di controllare le impostazioni di php per upload_max_filesize e post_max_size	]]></value>
 	</definition>
 	<definition>
 		<key>error_1</key>
@@ -324,5 +323,13 @@
 	<definition>
 		<key>button_save_n_link</key>
 		<value><![CDATA[Salva e collega]]></value>
+	</definition>
+	<definition>
+		<key>text_confirm_delete</key>
+		<value><![CDATA[????Some resources might be included in the text. We can not check this automatically.	Delete?]]></value>
+	</definition>
+	<definition>
+		<key>button_save_n_apply</key>
+		<value><![CDATA[????Save and Apply]]></value>
 	</definition>
 </definitions>

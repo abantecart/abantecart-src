@@ -127,7 +127,7 @@
     <key>language_selection</key>
     <value><![CDATA[
     <div class="info alert alert-info">
-    <i class="fa fa-language fa-fw"></i> Select additional langauges.
+    <i class="fa fa-language fa-fw"></i> Select additional languages.
     </div>
     <div class="row">
 	    <div class="col-sm-4 h5 center">

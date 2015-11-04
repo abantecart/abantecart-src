@@ -334,7 +334,8 @@
 	</definition>
 	<definition>
 		<key>attention_check_total</key>
-		<value><![CDATA[Внимание: Данные продукта заказа изменились. Суммы обновились автоматически и требуют проверки.]]></value>
+		<value>
+			<![CDATA[Внимание: Данные продукта заказа изменились. Суммы обновились автоматически и требуют проверки.]]></value>
 	</definition>
 	<definition>
 		<key>text_order_total_add</key>
@@ -351,5 +352,25 @@
 	<definition>
 		<key>text_recalc</key>
 		<value><![CDATA[Пересчитать]]></value>
-	</definition>	
+	</definition>
+	<definition>
+		<key>column_file</key>
+		<value><![CDATA[Файл]]></value>
+	</definition>
+	<definition>
+		<key>column_expire_date</key>
+		<value><![CDATA[Истекает]]></value>
+	</definition>
+	<definition>
+		<key>column_mask</key>
+		<value><![CDATA[Маска]]></value>
+	</definition>
+	<definition>
+		<key>text_add_product_to_order</key>
+		<value><![CDATA[Добавить продукт в заказ №%s]]></value>
+	</definition>
+	<definition>
+		<key>text_edit_order_product</key>
+		<value><![CDATA[Редактировать продукт]]></value>
+	</definition>
 </definitions>

@@ -1,0 +1,51 @@
+<?xml version="1.0"?>
+<definitions>
+	<definition>
+		<key>heading_title</key>
+		<value><![CDATA[Tareas programadas]]></value>
+	</definition>
+	<definition>
+		<key>column_id</key>
+		<value><![CDATA[ ID]]></value>
+	</definition>
+	<definition>
+		<key>column_date_created</key>
+		<value><![CDATA[Fecha de creacion]]></value>
+	</definition>
+	<definition>
+		<key>column_name</key>
+		<value><![CDATA[ Nombre ]]></value>
+	</definition>
+	<definition>
+		<key>column_status</key>
+		<value><![CDATA[ Estado ]]></value>
+	</definition>
+	<definition>
+		<key>column_start_time</key>
+		<value><![CDATA[ Hora de inicio]]></value>
+	</definition>
+	<definition>
+		<key>text_active</key>
+		<value><![CDATA[ Vivo]]></value>
+	</definition>
+	<definition>
+		<key>text_scheduled</key>
+		<value><![CDATA[ Programado]]></value>
+	</definition>
+	<definition>
+		<key>text_disabled</key>
+		<value><![CDATA[Discapacitados]]></value>
+	</definition>
+	<definition>
+		<key>text_restart</key>
+		<value><![CDATA[Reiniciar Tarea]]></value>
+	</definition>
+	<definition>
+		<key>text_run</key>
+		<value><![CDATA[Ejecutar tarea]]></value>
+	</definition>
+	<definition>
+		<key>text_task_started</key>
+		<value><![CDATA[Tarea empezó]]></value>
+	</definition>
+</definitions>

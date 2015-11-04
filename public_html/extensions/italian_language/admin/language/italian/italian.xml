@@ -173,8 +173,8 @@
 		<value><![CDATA[Indietro]]></value>
 	</definition>
 	<definition>
-	    <key>button_continue</key>
-	    <value><![CDATA[Continua]]></value>
+		<key>button_continue</key>
+		<value><![CDATA[Continua]]></value>
 	</definition>
 	<definition>
 		<key>button_remove</key>
@@ -334,8 +334,7 @@
 	</definition>
 	<definition>
 		<key>error_upload_2</key>
-		<value>
-			<![CDATA[ATTENZIONE: Il file caricato eccede la direttiva MAX_FILE_SIZE che è stato specificato nel modulo HTML!]]></value>
+		<value><![CDATA[ATTENZIONE: Il file caricato eccede la direttiva MAX_FILE_SIZE che è stato specificato nel modulo HTML!]]></value>
 	</definition>
 	<definition>
 		<key>error_upload_3</key>
@@ -648,7 +647,7 @@
 	<definition>
 		<key>text_select_from_lookup</key>
 		<value><![CDATA[Tipo di iniziale del nome da cercare e selezionare]]></value>
-	</definition>	
+	</definition>
 	<definition>
 		<key>text_continue_typing</key>
 		<value><![CDATA[Continua il typing ...]]></value>
@@ -681,5 +680,20 @@
 		<key>button_retry</key>
 		<value><![CDATA[Riprova]]></value>
 	</definition>
-	
+	<definition>
+		<key>button_reload</key>
+		<value><![CDATA[????Reload]]></value>
+	</definition>
+	<definition>
+		<key>text_system_error</key>
+		<value><![CDATA[????System error has been encountered. Check system <a target="_blank" href="%s">messages</a> or <a target="_blank" href="%s">error log</a>]]></value>
+	</definition>
+	<definition>
+		<key>text_system_warning</key>
+		<value><![CDATA[????System warning has been reported. Check system <a target="_blank" href="%s">messages</a>]]></value>
+	</definition>
+	<definition>
+		<key>text_system_notice</key>
+		<value><![CDATA[????System notice has been reported. Check system <a target="_blank" href="%s">messages</a>]]></value>
+	</definition>
 </definitions>

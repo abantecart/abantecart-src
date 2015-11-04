@@ -52,8 +52,4 @@
     	<key>entry_products_count</key>
     	<value><![CDATA[Products Count]]></value>
   	</definition>
-  	<definition>
-    	<key>entry_products_count</key>
-    	<value><![CDATA[Products Count]]></value>
-  	</definition>
 </definitions>

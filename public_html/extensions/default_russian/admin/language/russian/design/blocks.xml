@@ -252,4 +252,8 @@
 		<key>error_block_not_available</key>
 		<value><![CDATA[Этот блок не будет отображаться в выбранном положении на витрине!]]></value>
 	</definition>
+	<definition>
+		<key>text_enable</key>
+		<value><![CDATA[Вкл/Выкл]]></value>
+	</definition>
 </definitions>

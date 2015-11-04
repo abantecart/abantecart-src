@@ -1,0 +1,51 @@
+<?xml version="1.0"?>
+<definitions>
+	<definition>
+		<key>heading_title</key>
+		<value><![CDATA[Запланированные задания]]></value>
+	</definition>
+	<definition>
+		<key>column_id</key>
+		<value><![CDATA[ Ид]]></value>
+	</definition>
+	<definition>
+		<key>column_date_created</key>
+		<value><![CDATA[ Дата создания]]></value>
+	</definition>
+	<definition>
+		<key>column_name</key>
+		<value><![CDATA[ Название ]]></value>
+	</definition>
+	<definition>
+		<key>column_status</key>
+		<value><![CDATA[ Статус ]]></value>
+	</definition>
+	<definition>
+		<key>column_start_time</key>
+		<value><![CDATA[ Время запуска]]></value>
+	</definition>
+	<definition>
+		<key>text_active</key>
+		<value><![CDATA[ Активность]]></value>
+	</definition>
+	<definition>
+		<key>text_scheduled</key>
+		<value><![CDATA[ Запланировано]]></value>
+	</definition>
+	<definition>
+		<key>text_disabled</key>
+		<value><![CDATA[ Выключено]]></value>
+	</definition>
+	<definition>
+		<key>text_restart</key>
+		<value><![CDATA[ Перазапустить Задание]]></value>
+	</definition>
+	<definition>
+		<key>text_run</key>
+		<value><![CDATA[ Выполнить задание]]></value>
+	</definition>
+	<definition>
+		<key>text_task_started</key>
+		<value><![CDATA[ Задание Выполняется]]></value>
+	</definition>
+</definitions>

@@ -355,5 +355,25 @@
 	<definition>
 		<key>text_recalc</key>
 		<value><![CDATA[Recalcular]]></value>
-	</definition>		
+	</definition>
+	<definition>
+		<key>column_file</key>
+		<value><![CDATA[????File]]></value>
+	</definition>
+	<definition>
+		<key>column_expire_date</key>
+		<value><![CDATA[????Expire Date]]></value>
+	</definition>
+	<definition>
+		<key>column_mask</key>
+		<value><![CDATA[????Mask]]></value>
+	</definition>
+	<definition>
+		<key>text_add_product_to_order</key>
+		<value><![CDATA[????Add Product to Order #%s]]></value>
+	</definition>
+	<definition>
+		<key>text_edit_order_product</key>
+		<value><![CDATA[????Edit Product]]></value>
+	</definition>
 </definitions>

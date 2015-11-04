@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<definitions>
+  <definition>
+    <key>text_tip</key>
+    <value><![CDATA[Подсказка]]></value>
+  </definition>
+  <definition>
+    <key>no_enabled_payments_tip</key>
+    <value><![CDATA[
+    <div class="info alert alert-warning"><i class="fa fa fa-exclamation-triangle fa-fw"></i> У вас пока не включен ни один платежный метод.</div>
+    <label class="h4 heading">:</label>
+    <div class="row">
+	    <div class="col-sm-4 h5 center">
+	        <a href="#admin#rt=extension/extensions/install&extension=default_stripe">
+	        <img src="extensions/default_stripe/image/icon.png"><br>Установить Stripe расширение</a>
+	    </div>
+	    <div class="col-sm-4 h5 center">
+	        <a href="#admin#rt=extension/extensions/install&extension=default_pp_standart">
+	        <img src="extensions/default_pp_standart/image/icon.png"><br>Установить Paypal расширение</a>
+	    </div>
+	    <div class="col-sm-4 h5 center">
+	        <a href="#admin#rt=extension/extensions/payment" target="_extension">
+	        <img src="admin/view/default/image/default_extension.png"><br>Больше платежных методов</a>
+	    </div>
+    </div>]]></value>
+  </definition>
+</definitions>

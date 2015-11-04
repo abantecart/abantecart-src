@@ -10,8 +10,7 @@
 	</definition>
 	<definition>
 		<key>text_confirm_delete</key>
-		<value>
-			<![CDATA[Algunos recursos podrían ser incluidos en el texto. No podemos comprobar esto automáticamente. Eliminar?]]></value>
+		<value><![CDATA[Algunos recursos podrían ser incluidos en el texto. No podemos comprobar esto automáticamente. Eliminar?]]></value>
 	</definition>
 	<definition>
 		<key>text_cant_delete_title</key>
@@ -151,8 +150,7 @@
 	</definition>
 	<definition>
 		<key>error_file_size</key>
-		<value>
-			<![CDATA[Advertencia: El archivo es demasiado grande por favor mantenga por debajo de 300kb y no más de 1000px de altura o el ancho!]]></value>
+		<value><![CDATA[Advertencia: El archivo es demasiado grande por favor mantenga por debajo de 300kb y no más de 1000px de altura o el ancho!]]></value>
 	</definition>
 	<definition>
 		<key>error_maxFileSize</key>
@@ -220,8 +218,7 @@
 	</definition>
 	<definition>
 		<key>error_not_added</key>
-		<value>
-			<![CDATA[Recursos no se añade. Por favor, compruebe el registro de errores para obtener más información]]></value>
+		<value><![CDATA[Recursos no se añade. Por favor, compruebe el registro de errores para obtener más información]]></value>
 	</definition>
 	<definition>
 		<key>error_permission</key>
@@ -265,8 +262,7 @@
 	</definition>
 	<definition>
 		<key>error_ajax</key>
-		<value>
-			<![CDATA[Carga de error de datos. Por favor, compruebe el registro de errores para obtener más información.]]></value>
+		<value><![CDATA[Carga de error de datos. Por favor, compruebe el registro de errores para obtener más información.]]></value>
 	</definition>
 	<definition>
 		<key>text_preview</key>
@@ -274,8 +270,7 @@
 	</definition>
 	<definition>
 		<key>error_file size</key>
-		<value>
-			<![CDATA[Atención: El tamaño máximo de archivo para la carga es de %s. Puede aumentar este valor en php.ini.]]></value>
+		<value><![CDATA[Atención: El tamaño máximo de archivo para la carga es de %s. Puede aumentar este valor en php.ini.]]></value>
 	</definition>
 	<definition>
 		<key>text_product_option_value</key>
@@ -316,5 +311,17 @@
 	<definition>
 		<key>button_save_n_apply</key>
 		<value><![CDATA[Guardar y Aplicar]]></value>
+	</definition>
+	<definition>
+		<key>text_map_to</key>
+		<value><![CDATA[????Link to %s]]></value>
+	</definition>
+	<definition>
+		<key>error_name</key>
+		<value><![CDATA[????Error: Name field is required!]]></value>
+	</definition>
+	<definition>
+		<key>text_map_success</key>
+		<value><![CDATA[????Resource successfully linked]]></value>
 	</definition>
 </definitions>

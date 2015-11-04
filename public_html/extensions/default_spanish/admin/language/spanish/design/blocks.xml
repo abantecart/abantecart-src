@@ -252,8 +252,8 @@
 		<key>error_block_not_available</key>
 		<value><![CDATA[Este bloque no se mostrará en la posición seleccionada en una tienda!]]></value>
 	</definition>
-
+	<definition>
+		<key>text_enable</key>
+		<value><![CDATA[????Enable/Disable]]></value>
+	</definition>
 </definitions>
-
-
-

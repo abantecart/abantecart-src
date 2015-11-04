@@ -260,7 +260,6 @@
 		<key>popup_title_insert</key>
 		<value><![CDATA[Вставить новую транзакцию]]></value>
 	</definition>
-
 	<definition>
 		<key>entry_credit</key>
 		<value><![CDATA[Кредит (увеличение баланса)]]></value>
@@ -337,5 +336,9 @@
 		<key>warning_actonbehalf_additional_store</key>
 		<value>
 			<![CDATA[Чтобы действовать от имени покупателя в дополнительной магазине вы должны войти в контрольную панель этого магазина. Продолжить?]]></value>
+	</definition>
+	<definition>
+		<key>entry_update_date</key>
+		<value><![CDATA[Дата обновления:]]></value>
 	</definition>
 </definitions>

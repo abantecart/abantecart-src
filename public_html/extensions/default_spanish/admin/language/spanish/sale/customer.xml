@@ -264,7 +264,6 @@
 		<key>popup_title_insert</key>
 		<value><![CDATA[Insert New Transaction]]></value>
 	</definition>
-
 	<definition>
 		<key>entry_credit</key>
 		<value><![CDATA[Crédito (incremento del balance)]]></value>
@@ -339,7 +338,10 @@
 	</definition>
 	<definition>
 		<key>warning_actonbehalf_additional_store</key>
-		<value>
-			<![CDATA[Para actuar en nombre del cliente en almacén adicional que debe abrirse una sesión en parte de administración de otra tienda. De acuerdo?]]></value>
+		<value><![CDATA[Para actuar en nombre del cliente en almacén adicional que debe abrirse una sesión en parte de administración de otra tienda. De acuerdo?]]></value>
+	</definition>
+	<definition>
+		<key>entry_create_date</key>
+		<value><![CDATA[????Create Date:]]></value>
 	</definition>
 </definitions>

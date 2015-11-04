@@ -262,8 +262,7 @@
 	</definition>
 	<definition>
 		<key>entry_customer_cancelation_order_status</key>
-		<value>
-			<![CDATA[Позволять покупателю отменить заказ при статусе заказа:]]></value>
+		<value><![CDATA[Позволять покупателю отменить заказ при статусе заказа:]]></value>
 	</definition>
 	<definition>
 		<key>entry_stock_display</key>
@@ -420,7 +419,7 @@
 	<definition>
 		<key>entry_mail_parameter</key>
 		<value>
-			<![CDATA[Почтовые Параметры:<span class="help">При использовании &#39;Mail&#39;, дополнительные параметры почты могут быть здесь  добавлены (например, &quot;"-femail@storeaddress.com&quot;.</span>]]></value>
+			<![CDATA[Почтовые Параметры:<span class="help">При использовании &#39;Mail&#39;, дополнительные параметры почты могут быть здесь	добавлены (например, &quot;"-femail@storeaddress.com&quot;.</span>]]></value>
 	</definition>
 	<definition>
 		<key>entry_smtp_host</key>
@@ -876,5 +875,20 @@
 	<definition>
 		<key>text_embed_click_action_same_window</key>
 		<value><![CDATA[То же Окно]]></value>
+	</definition>
+	<definition>
+		<key>entry_account_create_captcha</key>
+		<value>
+			<![CDATA[Каптча в форме создания аккаунта :<br /><span class="help">Предотвращает создание аккаунта спам-роботами посредством проверки является ли человеком инициатор запроса</span>]]></value>
+	</definition>
+	<definition>
+		<key>entry_recaptcha_site_key</key>
+		<value>
+			<![CDATA[Ключ сайта для Google reCAPTCHA:<br /><span class="help">Укажите <a href="https://www.google.com/recaptcha" target="_blank">Google reCAPTCHA v2</a> чтобы предоставить вашим посетителям сайта лучшую каптчу. Если Вы укажете секретные ключи reCAPTCHA, Google reCAPTCHA v2 будет задействована вместо каптчи AbanteCart по умолчанию</span>]]></value>
+	</definition>
+	<definition>
+		<key>entry_recaptcha_secret_key</key>
+		<value>
+			<![CDATA[Секретный ключ Google reCAPTCHA:<br/><span class="help">Укажите <a href="https://www.google.com/recaptcha" target="_blank">Google reCAPTCHA v2</a> чтобы предоставить вашим посетителям сайта лучшую каптчу. Если Вы укажете секретные ключи reCAPTCHA, Google reCAPTCHA v2 будет задействована вместо каптчи AbanteCart по умолчанию</span>]]></value>
 	</definition>
 </definitions>

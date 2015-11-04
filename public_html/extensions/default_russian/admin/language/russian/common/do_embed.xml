@@ -1,0 +1,55 @@
+<?xml version="1.0"?>
+<definitions>
+  	<definition>
+    	<key>text_get_product_embed_code</key>
+    	<value><![CDATA[Встраиваемый код продукта]]></value>
+  	</definition>
+  	<definition>
+    	<key>text_get_category_embed_code</key>
+    	<value><![CDATA[Встраиваемый код категории]]></value>
+  	</definition>
+  	<definition>
+    	<key>text_get_manufacturer_embed_code</key>
+    	<value><![CDATA[Встраиваемый код производителя]]></value>
+  	</definition>
+  	<definition>
+    	<key>entry_image</key>
+    	<value><![CDATA[Показывать Изображение]]></value>
+  	</definition>
+  	<definition>
+    	<key>entry_name</key>
+    	<value><![CDATA[Показывать название]]></value>
+  	</definition>
+  	<definition>
+    	<key>entry_price</key>
+    	<value><![CDATA[Показывать цену]]></value>
+  	</definition>
+  	<definition>
+    	<key>entry_rating</key>
+    	<value><![CDATA[Показывать отзывы и рейтинг]]></value>
+  	</definition>
+  	<definition>
+    	<key>entry_blurb</key>
+    	<value><![CDATA[Показывать рекламное объявление]]></value>
+  	</definition>
+  	<definition>
+    	<key>entry_quantity</key>
+    	<value><![CDATA[Показывать количество]]></value>
+  	</definition>
+  	<definition>
+    	<key>entry_addtocart</key>
+    	<value><![CDATA[Показывать кнопку]]></value>
+  	</definition>
+  	<definition>
+    	<key>entry_language</key>
+    	<value><![CDATA[Выберите язык]]></value>
+  	</definition>
+  	<definition>
+    	<key>entry_currency</key>
+    	<value><![CDATA[Выберите страну]]></value>
+  	</definition>
+  	<definition>
+    	<key>entry_products_count</key>
+    	<value><![CDATA[Количество продуктов]]></value>
+  	</definition>
+</definitions>

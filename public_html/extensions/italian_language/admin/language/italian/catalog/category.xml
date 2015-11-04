@@ -116,8 +116,12 @@
 		<key>tab_layout</key>
 		<value><![CDATA[ Impaginazione ]]></value>
 	</definition>
-    <definition>
-        <key>tab_image</key>
-        <value><![CDATA[Immagini]]></value>
-    </definition>	
+	<definition>
+		<key>tab_image</key>
+		<value><![CDATA[Immagini]]></value>
+	</definition>
+	<definition>
+		<key>entry_parent_category</key>
+		<value><![CDATA[????Parent Category:]]></value>
+	</definition>
 </definitions>

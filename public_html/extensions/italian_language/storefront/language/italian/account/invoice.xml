@@ -108,4 +108,24 @@
 		<key>error_order_id</key>
 		<value><![CDATA[ID ordine è un campo obbligatorio!]]></value>
 	</definition>
+	<definition>
+		<key>text_order_cancelation</key>
+		<value><![CDATA[????Request Cancellation of Order]]></value>
+	</definition>
+	<definition>
+		<key>text_order_cancelation_confirm</key>
+		<value><![CDATA[????Your cancellation request may not be made in some cases, for example, when the goods have been shipped. Continue?]]></value>
+	</definition>
+	<definition>
+		<key>text_order_cancelation_success</key>
+		<value><![CDATA[????Order cancellation request has been submitted]]></value>
+	</definition>
+	<definition>
+		<key>text_order_cancelation_message_title</key>
+		<value><![CDATA[????Order #%s cancellation request]]></value>
+	</definition>
+	<definition>
+		<key>text_order_cancelation_message_body</key>
+		<value><![CDATA[????Customer %s has requested order cancellation for order #%s . To review go to %s]]></value>
+	</definition>
 </definitions>

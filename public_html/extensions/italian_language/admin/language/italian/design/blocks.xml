@@ -236,4 +236,20 @@
 		<key>error_block_not_available</key>
 		<value><![CDATA[Questo blocco non viene visualizzato nella posizione selezionata nel negozio!]]></value>
 	</definition>
+	<definition>
+		<key>text_manufacturers</key>
+		<value><![CDATA[????Manufacturers]]></value>
+	</definition>
+	<definition>
+		<key>text_featured</key>
+		<value><![CDATA[????Featured Products]]></value>
+	</definition>
+	<definition>
+		<key>text_latest</key>
+		<value><![CDATA[????Latest Products]]></value>
+	</definition>
+	<definition>
+		<key>text_bestsellers</key>
+		<value><![CDATA[????Bestsellers Products]]></value>
+	</definition>
 </definitions>

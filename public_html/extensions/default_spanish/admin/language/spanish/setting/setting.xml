@@ -54,8 +54,7 @@
 	</definition>
 	<definition>
 		<key>entry_alert_emails</key>
-		<value>
-			<![CDATA[Alerta adicional de E-Mails:<br /><span class="help">Cualquier correo electrónico adicionales que desee recibir la alerta por correo electrónico, además de la tienda principal de correo electrónico. (separados por comas)</span>]]></value>
+		<value><![CDATA[Alerta adicional de E-Mails:<br /><span class="help">Cualquier correo electrónico adicionales que desee recibir la alerta por correo electrónico, además de la tienda principal de correo electrónico. (separados por comas)</span>]]></value>
 	</definition>
 	<definition>
 		<key>entry_width</key>
@@ -135,13 +134,11 @@
 	</definition>
 	<definition>
 		<key>entry_mail_parameter</key>
-		<value>
-			<![CDATA[Parámetros de correo:<span class="help">Cuando se utiliza 'Correo', los parámetros adicionales de correo se puede añadir aquí (por ejemplo "-femail@storeaddress.com".]]></value>
+		<value><![CDATA[Parámetros de correo:<span class="help">Cuando se utiliza 'Correo', los parámetros adicionales de correo se puede añadir aquí (por ejemplo "-femail@storeaddress.com".]]></value>
 	</definition>
 	<definition>
 		<key>entry_cache_enable</key>
-		<value>
-			<![CDATA[Caché habilitado:<br /><span class="help">Tenga cuidado al deshabilitar el almacenamiento en caché. Las páginas en caché no se vuelven a crear al menos hasta el presente ha transcurrido mucho tiempo. </span>]]></value>
+		<value><![CDATA[Caché habilitado:<br /><span class="help">Tenga cuidado al deshabilitar el almacenamiento en caché. Las páginas en caché no se vuelven a crear al menos hasta el presente ha transcurrido mucho tiempo. </span>]]></value>
 	</definition>
 	<definition>
 		<key>entry_upload_max_size</key>
@@ -153,13 +150,11 @@
 	</definition>
 	<definition>
 		<key>entry_storefront_api_key</key>
-		<value>
-			<![CDATA[Storefront API Key:<br /><span class="help">Establecer esta clave para facilitar el acceso restringido (más seguro) para storefront API.</span>]]></value>
+		<value><![CDATA[Storefront API Key:<br /><span class="help">Establecer esta clave para facilitar el acceso restringido (más seguro) para storefront API.</span>]]></value>
 	</definition>
 	<definition>
 		<key>entry_storefront_api_stock_check</key>
-		<value>
-			<![CDATA[Storefront API Stock Access:<br /><span class="help">Habilitar si usted permite que la API escaparate para comprobar la disponibilidad de stock</span>]]></value>
+		<value><![CDATA[Storefront API Stock Access:<br /><span class="help">Habilitar si usted permite que la API escaparate para comprobar la disponibilidad de stock</span>]]></value>
 	</definition>
 	<definition>
 		<key>entry_admin_api_status</key>
@@ -172,7 +167,7 @@
 	<definition>
 		<key>entry_admin_access_ip_list</key>
 		<value><![CDATA[Admin API Access IPs:<br /><span class="help">Proporcionaremos una lista de direcciones IP (separadas por comas) que le permitirá acceder a la API de administración. IPs demás se bloquearán</span>]]></value>
-	</definition>	
+	</definition>
 	<definition>
 		<key>entry_debug</key>
 		<value><![CDATA[Mostrar información de depuración:]]></value>
@@ -203,8 +198,7 @@
 	</definition>
 	<definition>
 		<key>entry_debug_level_2</key>
-		<value>
-			<![CDATA[Nivel 2 - # 1 + carga del sitio mysql, php tiempo de archivo de ejecución y la página de tiempo de carga de los elementos ]]></value>
+		<value><![CDATA[Nivel 2 - # 1 + carga del sitio mysql, php tiempo de archivo de ejecución y la página de tiempo de carga de los elementos ]]></value>
 	</definition>
 	<definition>
 		<key>entry_debug_level_3</key>
@@ -228,33 +222,27 @@
 	</definition>
 	<definition>
 		<key>entry_review</key>
-		<value>
-			<![CDATA[Permitir Comentarios:<br /><span class="help">Activar / desactivar la entrada un nuevo comentario y la visualización de las revisiones existentes</span>]]></value>
+		<value><![CDATA[Permitir Comentarios:<br /><span class="help">Activar / desactivar la entrada un nuevo comentario y la visualización de las revisiones existentes</span>]]></value>
 	</definition>
 	<definition>
 		<key>entry_maintenance</key>
-		<value>
-			<![CDATA[En Modo de Mantenimiento:<br /><span class="help">Evita que los clientes de la navegación por su tienda. En su lugar, aparecerá un mensaje de mantenimiento. Si iniciado sesión como administrador, verá la tienda como de costumbre.</span>]]></value>
+		<value><![CDATA[En Modo de Mantenimiento:<br /><span class="help">Evita que los clientes de la navegación por su tienda. En su lugar, aparecerá un mensaje de mantenimiento. Si iniciado sesión como administrador, verá la tienda como de costumbre.</span>]]></value>
 	</definition>
 	<definition>
 		<key>entry_voicecontrol</key>
-		<value>
-			<![CDATA[Vontrol por voz:<br /><span class="help">Activar el control de voz de administrador para activar la función de comandos de voz. Actualmente sólo se admite en la versión de Chrome 25 o posterior.</span>]]></value>
+		<value><![CDATA[Vontrol por voz:<br /><span class="help">Activar el control de voz de administrador para activar la función de comandos de voz. Actualmente sólo se admite en la versión de Chrome 25 o posterior.</span>]]></value>
 	</definition>
 	<definition>
 		<key>entry_help_links</key>
-		<value>
-			<![CDATA[Ayuda Enlaces:<br /><span class="help">Si quieres ver los iconos de ayuda y enlaces al sitio AbanteCart. Esto le ayudará a aprender sobre las características y la forma de utilizarlos. Si el usuario avanzado y no quieren ver a estos iconos de ayuda, se puede desactivar.</span>]]></value>
+		<value><![CDATA[Ayuda Enlaces:<br /><span class="help">Si quieres ver los iconos de ayuda y enlaces al sitio AbanteCart. Esto le ayudará a aprender sobre las características y la forma de utilizarlos. Si el usuario avanzado y no quieren ver a estos iconos de ayuda, se puede desactivar.</span>]]></value>
 	</definition>
 	<definition>
 		<key>entry_show_tree_data</key>
-		<value>
-			<![CDATA[Activar cuadrícula Tree:<br /><span class="help">Activar las redes de administración para mostrar padre / Tipo niños en el listado de cuadrícula. NOTA: La paginación y acciones múltiples están deshabilitados para redes supremo</span>]]></value>
+		<value><![CDATA[Activar cuadrícula Tree:<br /><span class="help">Activar las redes de administración para mostrar padre / Tipo niños en el listado de cuadrícula. NOTA: La paginación y acciones múltiples están deshabilitados para redes supremo</span>]]></value>
 	</definition>
 	<definition>
 		<key>entry_cart_ajax</key>
-		<value>
-			<![CDATA[Misma página Añadir al carro:<br /><span class="help">Esto le permitirá añadir a AJAX característica del carro. El producto puede ser añadido a la cesta sin redirigir a la página de compra</span>]]></value>
+		<value><![CDATA[Misma página Añadir al carro:<br /><span class="help">Esto le permitirá añadir a AJAX característica del carro. El producto puede ser añadido a la cesta sin redirigir a la página de compra</span>]]></value>
 	</definition>
 	<definition>
 		<key>entry_storefront_width</key>
@@ -262,8 +250,7 @@
 	</definition>
 	<definition>
 		<key>entry_admin_width</key>
-		<value>
-			<![CDATA[Ancho del sitio de administración:<br /><span class="help">Example: 100% or 1000px </span>]]></value>
+		<value><![CDATA[Ancho del sitio de administración:<br /><span class="help">Example: 100% or 1000px </span>]]></value>
 	</definition>
 	<definition>
 		<key>error_image_grid</key>
@@ -295,8 +282,7 @@
 	</definition>
 	<definition>
 		<key>entry_url</key>
-		<value>
-			<![CDATA[URL de la tienda:<br /><span class="help">Incluya la URL completa de su tienda. Ejemplo: http://www.tutienda.com/path/</span>]]></value>
+		<value><![CDATA[URL de la tienda:<br /><span class="help">Incluya la URL completa de su tienda. Ejemplo: http://www.tutienda.com/path/</span>]]></value>
 	</definition>
 	<definition>
 		<key>entry_owner</key>
@@ -320,8 +306,7 @@
 	</definition>
 	<definition>
 		<key>entry_title</key>
-		<value>
-			<![CDATA[Titulo:<br /><span class="help">Esto se muestra en el título de escaparate del navegador</span>]]></value>
+		<value><![CDATA[Titulo:<br /><span class="help">Esto se muestra en el título de escaparate del navegador</span>]]></value>
 	</definition>
 	<definition>
 		<key>entry_meta_description</key>
@@ -337,8 +322,7 @@
 	</definition>
 	<definition>
 		<key>entry_template</key>
-		<value>
-			<![CDATA[Plantilla:<span class="help">Plantilla de escaparate. Esto puede ser principal de la plantilla o la extensión </ span>]]></value>
+		<value><![CDATA[Plantilla:<span class="help">Plantilla de escaparate. Esto puede ser principal de la plantilla o la extensión </ span>]]></value>
 	</definition>
 	<definition>
 		<key>entry_country</key>
@@ -358,13 +342,11 @@
 	</definition>
 	<definition>
 		<key>entry_currency</key>
-		<value>
-			<![CDATA[Moneda:<span class="help">NOTA: El cambio de la moneda por defecto no convertir todos los precios de los productos</span>]]></value>
+		<value><![CDATA[Moneda:<span class="help">NOTA: El cambio de la moneda por defecto no convertir todos los precios de los productos</span>]]></value>
 	</definition>
 	<definition>
 		<key>entry_currency_auto</key>
-		<value>
-			<![CDATA[Actualizacion automatica de divisas:<br /><span class="help">Actualiza automaticamente el cambio entre divisas. Servidor de Yahoo se utiliza.</span>]]></value>
+		<value><![CDATA[Actualizacion automatica de divisas:<br /><span class="help">Actualiza automaticamente el cambio entre divisas. Servidor de Yahoo se utiliza.</span>]]></value>
 	</definition>
 	<definition>
 		<key>entry_weight_class</key>
@@ -393,7 +375,7 @@
 	<definition>
 		<key>entry_warn_lang_text_missing</key>
 		<value><![CDATA[Warn for missing language text:<br /><span class="help">Get warning message if missing language text is detected.</span>]]></value>
-	</definition>	
+	</definition>
 	<definition>
 		<key>entry_tax</key>
 		<value><![CDATA[Mostrar los precios con impuestos:]]></value>
@@ -424,13 +406,11 @@
 	</definition>
 	<definition>
 		<key>entry_invoice</key>
-		<value>
-			<![CDATA[Factura N. de inicio:<br /><span class="help">Establecer el numero de partida inicial de las facturas.</span>]]></value>
+		<value><![CDATA[Factura N. de inicio:<br /><span class="help">Establecer el numero de partida inicial de las facturas.</span>]]></value>
 	</definition>
 	<definition>
 		<key>entry_invoice_prefix</key>
-		<value>
-			<![CDATA[Prefijo Factura:<br /><span class="help">Establecer la factura por ejemplo, el prefijo IN/001</span>]]></value>
+		<value><![CDATA[Prefijo Factura:<br /><span class="help">Establecer la factura por ejemplo, el prefijo IN/001</span>]]></value>
 	</definition>
 	<definition>
 		<key>entry_customer_group</key>
@@ -438,8 +418,7 @@
 	</definition>
 	<definition>
 		<key>entry_customer_price</key>
-		<value>
-			<![CDATA[Mostrar precios:<br /><span class="help">Mostrar los precios, incluso si el cliente no se registra en.</span>]]></value>
+		<value><![CDATA[Mostrar precios:<br /><span class="help">Mostrar los precios, incluso si el cliente no se registra en.</span>]]></value>
 	</definition>
 	<definition>
 		<key>entry_prevent_email_as_login</key>
@@ -447,63 +426,51 @@
 	</definition>
 	<definition>
 		<key>entry_customer_approval</key>
-		<value>
-			<![CDATA[Nuevos clientes necesitan aprobacion:<br /><span class="help">No permitir la entrada de nuevos clientes hasta que hallan sido aprobados.</span>]]></value>
+		<value><![CDATA[Nuevos clientes necesitan aprobacion:<br /><span class="help">No permitir la entrada de nuevos clientes hasta que hallan sido aprobados.</span>]]></value>
 	</definition>
 	<definition>
 		<key>entry_guest_checkout</key>
-		<value>
-			<![CDATA[Compras de invitado:<br /><span class="help">Permitir a los clientes comprar, sin crear una cuenta. Esto no estara disponible para descargas.</span>]]></value>
+		<value><![CDATA[Compras de invitado:<br /><span class="help">Permitir a los clientes comprar, sin crear una cuenta. Esto no estara disponible para descargas.</span>]]></value>
 	</definition>
 	<definition>
 		<key>entry_account</key>
-		<value>
-			<![CDATA[Legal:<br /><span class="help">El cliente debera aceptar las condiciones para crear una cuenta.</span>]]></value>
+		<value><![CDATA[Legal:<br /><span class="help">El cliente debera aceptar las condiciones para crear una cuenta.</span>]]></value>
 	</definition>
 	<definition>
 		<key>entry_checkout</key>
-		<value>
-			<![CDATA[Terminos y Condiciones:<br /><span class="help">El cliente debera aceptar las condiciones para comprar.</span>]]></value>
+		<value><![CDATA[Terminos y Condiciones:<br /><span class="help">El cliente debera aceptar las condiciones para comprar.</span>]]></value>
 	</definition>
 	<definition>
 		<key>entry_order_status</key>
-		<value>
-			<![CDATA[Estado del pedido:<br /><span class="help">Establecer el estado del pedido por defecto cuando una compra es procesada.</span>]]></value>
+		<value><![CDATA[Estado del pedido:<br /><span class="help">Establecer el estado del pedido por defecto cuando una compra es procesada.</span>]]></value>
 	</definition>
 	<definition>
 		<key>entry_customer_cancelation_order_status</key>
-		<value>
-			<![CDATA[Permitir al Cliente para Cancelar la Orden relativa a la situación:]]></value>
+		<value><![CDATA[Permitir al Cliente para Cancelar la Orden relativa a la situación:]]></value>
 	</definition>
 	<definition>
 		<key>entry_stock_display</key>
-		<value>
-			<![CDATA[Mostrar Stock:<br /><span class="help">Mostrar la cantidad de stock restante al cliente, al visualizar el producto.</span>]]></value>
+		<value><![CDATA[Mostrar Stock:<br /><span class="help">Mostrar la cantidad de stock restante al cliente, al visualizar el producto.</span>]]></value>
 	</definition>
 	<definition>
 		<key>entry_nostock_autodisable</key>
-		<value>
-			<![CDATA[Sin Auto de archivo Desactivar:<br /><span class="help">Desactivar su producto para la vista si las acciones se reduce a 0. La notificación se enviará</span>]]></value>
+		<value><![CDATA[Sin Auto de archivo Desactivar:<br /><span class="help">Desactivar su producto para la vista si las acciones se reduce a 0. La notificación se enviará</span>]]></value>
 	</definition>
 	<definition>
 		<key>entry_stock_check</key>
-		<value>
-			<![CDATA[Mostrar Agotado:<br /><span class="help">Mostrar un mensaje en la pagina del carrito de la compra, si un producto esta agotado.</span>]]></value>
+		<value><![CDATA[Mostrar Agotado:<br /><span class="help">Mostrar un mensaje en la pagina del carrito de la compra, si un producto esta agotado.</span>]]></value>
 	</definition>
 	<definition>
 		<key>entry_stock_checkout</key>
-		<value>
-			<![CDATA[Compras sin stock:<br /><span class="help">Permitir a los clientes pagar si los productos que estan pidiendo estan agotados.</span>]]></value>
+		<value><![CDATA[Compras sin stock:<br /><span class="help">Permitir a los clientes pagar si los productos que estan pidiendo estan agotados.</span>]]></value>
 	</definition>
 	<definition>
 		<key>entry_stock_subtract</key>
-		<value>
-			<![CDATA[Restar stock:<br /><span class="help">Restar la cantidad del stock cuando un pedido es procesado.</span>]]></value>
+		<value><![CDATA[Restar stock:<br /><span class="help">Restar la cantidad del stock cuando un pedido es procesado.</span>]]></value>
 	</definition>
 	<definition>
 		<key>entry_stock_status</key>
-		<value>
-			<![CDATA[Estado del stock:<br /><span class="help">Ajuste por defecto de mensaje que indica que la situación del stock de producto. Se utiliza en la página del producto de edición.</span>]]></value>
+		<value><![CDATA[Estado del stock:<br /><span class="help">Ajuste por defecto de mensaje que indica que la situación del stock de producto. Se utiliza en la página del producto de edición.</span>]]></value>
 	</definition>
 	<definition>
 		<key>entry_logo</key>
@@ -543,8 +510,7 @@
 	</definition>
 	<definition>
 		<key>entry_alert_mail</key>
-		<value>
-			<![CDATA[Mail de aviso:<br /><span class="help">Enviar un correo electronico al propietario de la tienda cuando hay un nuevo pedido.</span>]]></value>
+		<value><![CDATA[Mail de aviso:<br /><span class="help">Enviar un correo electronico al propietario de la tienda cuando hay un nuevo pedido.</span>]]></value>
 	</definition>
 	<definition>
 		<key>entry_download</key>
@@ -552,18 +518,15 @@
 	</definition>
 	<definition>
 		<key>entry_download_status</key>
-		<value>
-			<![CDATA[Estado pedido Descargas:<br /><span class="help">Establecer el estado del pedido para los clientes antes de efectuar la descarga.</span>]]></value>
+		<value><![CDATA[Estado pedido Descargas:<br /><span class="help">Establecer el estado del pedido para los clientes antes de efectuar la descarga.</span>]]></value>
 	</definition>
 	<definition>
 		<key>entry_mail_protocol</key>
-		<value>
-			<![CDATA[Correo Protocolo:<span class="help">Correo: servidor servidor de correo por defecto se utilizará. Asegúrese de que está configurado y podrá enviar un correo electrónico con el correo de PHP.]]></value>
+		<value><![CDATA[Correo Protocolo:<span class="help">Correo: servidor servidor de correo por defecto se utilizará. Asegúrese de que está configurado y podrá enviar un correo electrónico con el correo de PHP.]]></value>
 	</definition>
 	<definition>
 		<key>entry_smtp_host</key>
-		<value>
-			<![CDATA[SMTP Anfitrión:<br /><span class="help">Usar ssl :/ / smtp.yourdomain.com de conexión segura SMTP]]></value>
+		<value><![CDATA[SMTP Anfitrión:<br /><span class="help">Usar ssl :/ / smtp.yourdomain.com de conexión segura SMTP]]></value>
 	</definition>
 	<definition>
 		<key>entry_smtp_username</key>
@@ -583,33 +546,27 @@
 	</definition>
 	<definition>
 		<key>entry_ssl</key>
-		<value>
-			<![CDATA[Usar SSL:<br /><span class="help">Debe haber instalado en su servidor un certificado SSL</span>]]></value>
+		<value><![CDATA[Usar SSL:<br /><span class="help">Debe haber instalado en su servidor un certificado SSL</span>]]></value>
 	</definition>
 	<definition>
 		<key>entry_session_ttl</key>
-		<value>
-			<![CDATA[Panel de control de caducidad de sesión:<br /><span class="help">Este valor controla el intervalo de tiempo antes de que se le pedirá que vuelva a conectarse, debido a la actividad no.</span>]]></value>
+		<value><![CDATA[Panel de control de caducidad de sesión:<br /><span class="help">Este valor controla el intervalo de tiempo antes de que se le pedirá que vuelva a conectarse, debido a la actividad no.</span>]]></value>
 	</definition>
 	<definition>
 		<key>entry_encryption</key>
-		<value>
-			<![CDATA[Clave encriptacion:<br /><span class="help">Setting migrated to config file starting in v1.2.1.</span>]]></value>
+		<value><![CDATA[Clave encriptacion:<br /><span class="help">Setting migrated to config file starting in v1.2.1.</span>]]></value>
 	</definition>
 	<definition>
 		<key>entry_seo_url</key>
-		<value>
-			<![CDATA[Usar SEO URL's:<br /><span class="help">Para utilizar SEO URL's modulo apache debe estar instalado y necesita renombrar htaccess.txt a .htaccess.</span>]]></value>
+		<value><![CDATA[Usar SEO URL's:<br /><span class="help">Para utilizar SEO URL's modulo apache debe estar instalado y necesita renombrar htaccess.txt a .htaccess.</span>]]></value>
 	</definition>
 	<definition>
 		<key>entry_retina_enable</key>
-		<value>
-			<![CDATA[Generar retina imágenes: <br/> <span class="help"> Para usar este módulo apache mod_rewrite debe estar instalado y hay que cambiar el nombre del htaccess.txt a .htaccess<br>Después de habilitar deben borrar. las imágenes de cache</span>]]></value>
-		</definition>
+		<value><![CDATA[Generar retina imágenes: <br/> <span class="help"> Para usar este módulo apache mod_rewrite debe estar instalado y hay que cambiar el nombre del htaccess.txt a .htaccess<br>Después de habilitar deben borrar. las imágenes de cache</span>]]></value>
+	</definition>
 	<definition>
 		<key>entry_compression</key>
-		<value>
-			<![CDATA[Nivel compresion de salida:<br /><span class="help">Nivel de compresion debe estar entre 0 y 9</span>]]></value>
+		<value><![CDATA[Nivel compresion de salida:<br /><span class="help">Nivel de compresion debe estar entre 0 y 9</span>]]></value>
 	</definition>
 	<definition>
 		<key>entry_error_display</key>
@@ -625,18 +582,15 @@
 	</definition>
 	<definition>
 		<key>entry_shipping_session</key>
-		<value>
-			<![CDATA[Utilizar sesion de envio:<br /><span class="help">Saves shipping quotes to session to avoid re-quoting unnecessarily. Quotes will only be re-quoted if cart or address is changed.</span>]]></value>
+		<value><![CDATA[Utilizar sesion de envio:<br /><span class="help">Saves shipping quotes to session to avoid re-quoting unnecessarily. Quotes will only be re-quoted if cart or address is changed.</span>]]></value>
 	</definition>
 	<definition>
 		<key>entry_catalog_limit</key>
-		<value>
-			<![CDATA[Productos por pagina (Storefront):<br /><span class="help">Determina el numero de articulos del catalogo que se muestran por pagina (productos, categorias, etc)</span>]]></value>
+		<value><![CDATA[Productos por pagina (Storefront):<br /><span class="help">Determina el numero de articulos del catalogo que se muestran por pagina (productos, categorias, etc)</span>]]></value>
 	</definition>
 	<definition>
 		<key>entry_admin_limit</key>
-		<value>
-			<![CDATA[Productos por pagina (Administracion):<br /><span class="help">Determina el numero de articulos de administracion que se muestran por pagina (pedidos, clientes, etc)</span>]]></value>
+		<value><![CDATA[Productos por pagina (Administracion):<br /><span class="help">Determina el numero de articulos de administracion que se muestran por pagina (pedidos, clientes, etc)</span>]]></value>
 	</definition>
 	<definition>
 		<key>entry_total_order_maximum</key>
@@ -645,11 +599,10 @@
 	<definition>
 		<key>entry_total_order_minimum</key>
 		<value><![CDATA[Cantidad mínima de pedido:<br /><span class="help">Impedir la salida sub-total del pedido si no alcanza conjunto mínimo. 0 = NO MINIMUM</span>]]></value>
-	</definition>		
+	</definition>
 	<definition>
 		<key>entry_system_check</key>
-		<value>
-			<![CDATA[Comprobación del sistema:<br /><span class="help">Habilite esta opción si desea comprobar el estado del sistema en lo que respecta a AbanteCart functionlaity. Problemas del sistema que afectan AbanteCart serán reportados como mensajes visibles en la administración.</span>]]></value>
+		<value><![CDATA[Comprobación del sistema:<br /><span class="help">Habilite esta opción si desea comprobar el estado del sistema en lo que respecta a AbanteCart functionlaity. Problemas del sistema que afectan AbanteCart serán reportados como mensajes visibles en la administración.</span>]]></value>
 	</definition>
 	<definition>
 		<key>entry_cart_weight</key>
@@ -663,14 +616,14 @@
 		<key>error_permission</key>
 		<value><![CDATA[Advertencia: No tiene permiso para modificar la configuraci�n!]]></value>
 	</definition>
-  	<definition>
-    	<key>error_loginname</key>
-    	<value><![CDATA[Nombre de inicio de sesión debe ser alfanuméricos y sólo entre 5 y 64 caracteres!]]></value>
-  	</definition>
-  	<definition>
-    	<key>error_loginname_notunique</key>
-    	<value><![CDATA[Este nombre de usuario no está disponible. Trate nombre de usuario diferente!]]></value>
-  	</definition>    	
+	<definition>
+		<key>error_loginname</key>
+		<value><![CDATA[Nombre de inicio de sesión debe ser alfanuméricos y sólo entre 5 y 64 caracteres!]]></value>
+	</definition>
+	<definition>
+		<key>error_loginname_notunique</key>
+		<value><![CDATA[Este nombre de usuario no está disponible. Trate nombre de usuario diferente!]]></value>
+	</definition>
 	<definition>
 		<key>error_name</key>
 		<value><![CDATA[Nombre Tienda necesita minimo 2 letras y maximo 32!]]></value>
@@ -765,8 +718,7 @@
 	</definition>
 	<definition>
 		<key>entry_reviews</key>
-		<value>
-			<![CDATA[Permitir Comentarios:<br /><span class="help">Activar / desactivar la entrada un nuevo comentario y la visualización de las revisiones existentes</span>]]></value>
+		<value><![CDATA[Permitir Comentarios:<br /><span class="help">Activar / desactivar la entrada un nuevo comentario y la visualización de las revisiones existentes</span>]]></value>
 	</definition>
 	<definition>
 		<key>error_mail</key>
@@ -838,8 +790,7 @@
 	</definition>
 	<definition>
 		<key>entry_customer_email_activation</key>
-		<value>
-			<![CDATA[Email Activation for New Customers:<br /><span class="help">Don't allow new customer to login until their account has been confirmed by activation link sent via email. For this to work, make sure "Approve New Customers" is set to OFF.</span>]]></value>
+		<value><![CDATA[Email Activation for New Customers:<br /><span class="help">Don't allow new customer to login until their account has been confirmed by activation link sent via email. For this to work, make sure "Approve New Customers" is set to OFF.</span>]]></value>
 	</definition>
 	<definition>
 		<key>text_clone_template</key>
@@ -868,5 +819,17 @@
 	<definition>
 		<key>text_embed_click_action_same_window</key>
 		<value><![CDATA[La Misma Ventana]]></value>
+	</definition>
+	<definition>
+		<key>entry_account_create_captcha</key>
+		<value><![CDATA[????Captcha on create account form :<br /><span class="help">Prevent spam/robot account creation with enabling human verification captcha</span>]]></value>
+	</definition>
+	<definition>
+		<key>entry_recaptcha_site_key</key>
+		<value><![CDATA[????Google reCAPTCHA Site Key:<br /><span class="help">Add <a href="https://www.google.com/recaptcha" target="_blank">Google reCAPTCHA v2</a> to help your visitors with better captcha entry. If you enable reCAPTCHA site/secret keys, Google reCAPTCHA v2 will be activated instead of default AbanteCart captcha image</span>]]></value>
+	</definition>
+	<definition>
+		<key>entry_recaptcha_secret_key</key>
+		<value><![CDATA[????Google reCAPTCHA Secret Key:<br /><span class="help">Add <a href="https://www.google.com/recaptcha" target="_blank">Google reCAPTCHA v2</a> to help your visitors with better captcha entry. If you enable reCAPTCHA site/secret keys, Google reCAPTCHA v2 will be activated instead of default AbanteCart captcha image</span>]]></value>
 	</definition>
 </definitions>

@@ -54,8 +54,7 @@
 	</definition>
 	<definition>
 		<key>error_empty</key>
-		<value>
-			<![CDATA[Advertencia: el archivo que has subido estaba vacío o tenía tipo de archivo incorrecto!]]></value>
+		<value><![CDATA[Advertencia: el archivo que has subido estaba vacío o tenía tipo de archivo incorrecto!]]></value>
 	</definition>
 	<definition>
 		<key>error_upload</key>
@@ -63,8 +62,7 @@
 	</definition>
 	<definition>
 		<key>error_xml</key>
-		<value>
-			<![CDATA[Advertencia: El archivo que has subido no se carga como XML! Por favor, consulte el archivo de registro para más detalles]]></value>
+		<value><![CDATA[Advertencia: El archivo que has subido no se carga como XML! Por favor, consulte el archivo de registro para más detalles]]></value>
 	</definition>
 	<definition>
 		<key>note_rl</key>
@@ -72,11 +70,54 @@
 	</definition>
 	<definition>
 		<key>note_config</key>
-		<value>
-			<![CDATA[Config.php. Nota: mantener copia de seguridad de archivos de forma segura. Archivo contendrá la "sal" para cifrar.]]></value>
+		<value><![CDATA[Config.php. Nota: mantener copia de seguridad de archivos de forma segura. Archivo contendrá la "sal" para cifrar.]]></value>
 	</definition>
 	<definition>
 		<key>backup_complete_text</key>
 		<value><![CDATA[Para descargar la copia de seguridad de archivos, visita <a href="#admin#rt=tool/install_upgrade_history">Instalar/Historia Actualiza</a> ]]></value>
+	</definition>
+	<definition>
+		<key>error_nothing_to_backup</key>
+		<value><![CDATA[????Warning: Please set what you want to backup!]]></value>
+	</definition>
+	<definition>
+		<key>entry_backup_code</key>
+		<value><![CDATA[????Backup Code (%s)<br/><span class="help">Sub-directories with code files excluding dynamic files such as cache, log files, images, resources etc </span>]]></value>
+	</definition>
+	<definition>
+		<key>entry_backup_content</key>
+		<value><![CDATA[????Backup Content (%s)<br/><span class="help">Sub-directories with dynamic files such as images, downloads, resources etc </span>]]></value>
+	</definition>
+	<definition>
+		<key>entry_compress_backup</key>
+		<value><![CDATA[????Compress Backup Directory	%s ?<br/><span class="help">Archive *.tar.gz will be created.<br/> Note: it could to take a long time. Otherwise you can disable compression and find your backup in folder %s</span>]]></value>
+	</definition>
+	<definition>
+		<key>button_backup_now</key>
+		<value><![CDATA[????Backup Now]]></value>
+	</definition>
+	<definition>
+		<key>button_load</key>
+		<value><![CDATA[????Load]]></value>
+	</definition>
+	<definition>
+		<key>button_backup_schedule</key>
+		<value><![CDATA[????Schedule Backup]]></value>
+	</definition>
+	<definition>
+		<key>text_success_scheduled</key>
+		<value><![CDATA[????Success: You have successfully created scheduled backup task! <a href="%s">See details</a>]]></value>
+	</definition>
+	<definition>
+		<key>text_fail_note</key>
+		<value><![CDATA[????NOTE: This process execution depends on your AbanteCart data size as well as your server virtual memory size. If process terminates with errors, check directory %s permissions to be set to -rw-rw-rw and <a href="http://php.net/manual/en/ini.core.php#ini.memory-limit" target="_blank">[PHP memory setting]</a>. Increase memory setting or run backup manually if process still fail.]]></value>
+	</definition>
+	<definition>
+		<key>backup_complete_text_file</key>
+		<value><![CDATA[????To download backup-file please visit <a href="#admin#rt=tool/install_upgrade_history">Install/Upgrade History</a> ]]></value>
+	</definition>
+	<definition>
+		<key>backup_complete_text_dir</key>
+		<value><![CDATA[????Directory with backup-files is %s</a> ]]></value>
 	</definition>
 </definitions>

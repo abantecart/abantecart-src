@@ -21,6 +21,10 @@
 		<value><![CDATA[h:i:s A]]></value>
 	</definition>
 	<definition>
+		<key>time_format_short</key>
+		<value><![CDATA[H:i]]></value>
+	</definition>
+	<definition>
 		<key>decimal_point</key>
 		<value><![CDATA[.]]></value>
 	</definition>
@@ -75,7 +79,7 @@
 	<definition>
 		<key>button_save</key>
 		<value><![CDATA[Сохранить]]></value>
-	</definition>	
+	</definition>
 	<definition>
 		<key>button_back</key>
 		<value><![CDATA[Назад]]></value>
@@ -296,7 +300,7 @@
 	<definition>
 		<key>text_download</key>
 		<value><![CDATA[Скачать]]></value>
-    </definition>
+	</definition>
 	<definition>
 		<key>text_free</key>
 		<value><![CDATA[Бесплатно]]></value>
@@ -308,5 +312,13 @@
 	<definition>
 		<key>error_unknown</key>
 		<value><![CDATA[Неизвестная ошибка. Пожалуйста, попробуйте еще раз!]]></value>
-    </definition>
+	</definition>
+	<definition>
+		<key>text_call_to_order</key>
+		<value><![CDATA[Позвонить чтобы заказать]]></value>
+	</definition>
+	<definition>
+		<key>text_unavailable</key>
+		<value><![CDATA[Недоступно]]></value>
+	</definition>
 </definitions>

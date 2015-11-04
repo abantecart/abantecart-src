@@ -70,7 +70,7 @@
 	</definition>
 	<definition>
 		<key>entry_url</key>
-		<value><![CDATA[Indirizzo web del negozio:<br /><span class="help">Inserisci l'indirizzo web completo del negozio.  Assicurarsi di aggiungere '/' alla fine. Esempio: http://www.mionegozio.com/</span>]]></value>
+		<value><![CDATA[Indirizzo web del negozio:<br /><span class="help">Inserisci l'indirizzo web completo del negozio.	Assicurarsi di aggiungere '/' alla fine. Esempio: http://www.mionegozio.com/</span>]]></value>
 	</definition>
 	<definition>
 		<key>entry_owner</key>
@@ -599,7 +599,7 @@
 	<definition>
 		<key>entry_total_order_minimum</key>
 		<value><![CDATA[Ordine minimo:<br /><span class="help">Impedire il pagamento se il totale parziale dell'ordine non raggiunge l'importo minimo. 0 = NIENTE MINIMO</span>]]></value>
-	</definition>	
+	</definition>
 	<definition>
 		<key>button_add_store</key>
 		<value><![CDATA[Nuovo negozio]]></value>
@@ -608,14 +608,14 @@
 		<key>error_permission</key>
 		<value><![CDATA[ATTENZIONE: Non hai l'autorizzazione per modificare le impostazioni!]]></value>
 	</definition>
-  	<definition>
-	  <key>error_loginname</key>
-	  <value><![CDATA[Il nome utente deve essere alfanumerico e avere tra 5 e 64 caratteri!]]></value>
-  	</definition>
- 	<definition>
-  	  <key>error_loginname_notunique</key>
-  	  <value><![CDATA[Questo nome utente non è disponibile. Trovare un nome diverso!]]></value>
-  	</definition>  	
+	<definition>
+		<key>error_loginname</key>
+		<value><![CDATA[Il nome utente deve essere alfanumerico e avere tra 5 e 64 caratteri!]]></value>
+	</definition>
+	<definition>
+		<key>error_loginname_notunique</key>
+		<value><![CDATA[Questo nome utente non è disponibile. Trovare un nome diverso!]]></value>
+	</definition>
 	<definition>
 		<key>error_name</key>
 		<value><![CDATA[Il nome del negozio deve avere tra 2 e 32 caratteri!]]></value>
@@ -795,5 +795,31 @@
 	<definition>
 		<key>text_embed_click_action_same_window</key>
 		<value><![CDATA[Open new page in same window]]></value>
+	</definition>
+	<definition>
+		<key>entry_customer_cancelation_order_status</key>
+		<value><![CDATA[????
+			Allow Customer to Cancel Order on Status:]]></value>
+	</definition>
+	<definition>
+		<key>entry_system_check</key>
+		<value><![CDATA[????
+			System Check:<br /><span class="help">Enable this setting if you want to check your system condition in respect to AbanteCart functionlaity. System issues effecting AbanteCart will be reported as messages visible in admin.</span>]]></value>
+	</definition>
+	<definition>
+		<key>text_set_template</key>
+		<value><![CDATA[????Set this template for the storefront]]></value>
+	</definition>
+	<definition>
+		<key>entry_account_create_captcha</key>
+		<value><![CDATA[????Captcha on create account form :<br /><span class="help">Prevent spam/robot account creation with enabling human verification captcha</span>]]></value>
+	</definition>
+	<definition>
+		<key>entry_recaptcha_site_key</key>
+		<value><![CDATA[????Google reCAPTCHA Site Key:<br /><span class="help">Add <a href="https://www.google.com/recaptcha" target="_blank">Google reCAPTCHA v2</a> to help your visitors with better captcha entry. If you enable reCAPTCHA site/secret keys, Google reCAPTCHA v2 will be activated instead of default AbanteCart captcha image</span>]]></value>
+	</definition>
+	<definition>
+		<key>entry_recaptcha_secret_key</key>
+		<value><![CDATA[????Google reCAPTCHA Secret Key:<br /><span class="help">Add <a href="https://www.google.com/recaptcha" target="_blank">Google reCAPTCHA v2</a> to help your visitors with better captcha entry. If you enable reCAPTCHA site/secret keys, Google reCAPTCHA v2 will be activated instead of default AbanteCart captcha image</span>]]></value>
 	</definition>
 </definitions>

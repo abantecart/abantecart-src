@@ -21,7 +21,7 @@
 		<value><![CDATA[Totale ordine:]]></value>
 	</definition>
 	<definition>
-		<key>entry_total_palceholder</key>
+		<key>entry_total_placeholder</key>
 		<value><![CDATA[Valore testo]]></value>
 	</definition>
 	<definition>
@@ -34,7 +34,7 @@
 	</definition>
 	<definition>
 		<key>entry_order_subtotal</key>
-		<value><![CDATA[Ordine Sub-Totale:</span>]]></value>
+		<value><![CDATA[Ordine Sub-Totale:]]></value>
 	</definition>
 	<definition>
 		<key>entry_tax</key>
