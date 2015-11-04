@@ -317,9 +317,10 @@
 	border-bottom: 1px solid #CACCD2;
 	overflow: hidden;
 	text-overflow: ellipsis;
+	white-space: nowrap;
 }
 
-.ui-jqgrid tr.jqgrow td:last-child{
+tr.jqgrow td[aria-describedby$="_action"]{
 	overflow: visible;
 }
 
