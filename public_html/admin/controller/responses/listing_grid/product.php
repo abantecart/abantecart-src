@@ -32,14 +32,14 @@ class ControllerResponsesListingGridProduct extends AController {
 		$this->loadModel('tool/image');
 
 		//Clean up parametres if needed
-		if (isset($this->request->get[ 'keyword' ]) && $this->request->get[ 'keyword' ] == $this->language->get('filter_product')) {
-			unset($this->request->get[ 'keyword' ]);
+		if (isset($this->request->get['keyword']) && $this->request->get['keyword'] == $this->language->get('filter_product')) {
+			unset($this->request->get['keyword']);
 		}
-		if (isset($this->request->get[ 'pfrom' ]) && $this->request->get[ 'pfrom' ] == 0) {
-			unset($this->request->get[ 'pfrom' ]);
+		if (isset($this->request->get['pfrom']) && $this->request->get['pfrom'] == 0) {
+			unset($this->request->get['pfrom']);
 		}
-		if (isset($this->request->get[ 'pto' ]) && $this->request->get[ 'pto' ] == $this->language->get('filter_price_max')) {
-			unset($this->request->get[ 'pto' ]);
+		if (isset($this->request->get['pto']) && $this->request->get['pto'] == $this->language->get('filter_price_max')) {
+			unset($this->request->get['pto']);
 		}
 
 		//Prepare filter config
@@ -63,14 +63,14 @@ class ControllerResponsesListingGridProduct extends AController {
 		$i = 0;
 		foreach ($results as $result) {
 			$thumbnail = $resource->getMainThumb('products',
-												$result[ 'product_id' ],
+												$result['product_id'],
 												(int)$this->config->get('config_image_grid_width'),
 												(int)$this->config->get('config_image_grid_height'),
 												true);
 
-			$response->rows[ $i ][ 'id' ] = $result[ 'product_id' ];
+			$response->rows[ $i ]['id'] = $result['product_id'];
 			if( dateISO2Int($result['date_available'])> time()){
-				$response->userdata->classes[ $result[ 'product_id' ] ] = 'warning';
+				$response->userdata->classes[ $result['product_id'] ] = 'warning';
 			}
 
 
@@ -79,29 +79,29 @@ class ControllerResponsesListingGridProduct extends AController {
 			}else{
 				$price = $this->html->buildInput(
 								array(
-									'name' => 'price[' . $result[ 'product_id' ] . ']',
-									'value' => moneyDisplayFormat( $result[ 'price' ] )
+									'name' => 'price[' . $result['product_id'] . ']',
+									'value' => moneyDisplayFormat( $result['price'] )
 								));
 			}
 
-			$response->rows[ $i ][ 'cell' ] = array(
-				$thumbnail[ 'thumb_html' ],
+			$response->rows[ $i ]['cell'] = array(
+				$thumbnail['thumb_html'],
 				$this->html->buildInput(array(
-					'name' => 'product_description[' . $result[ 'product_id' ] . '][name]',
-					'value' => $result[ 'name' ],
+					'name' => 'product_description[' . $result['product_id'] . '][name]',
+					'value' => $result['name'],
 				)),
 				$this->html->buildInput(array(
-					'name' => 'model[' . $result[ 'product_id' ] . ']',
-					'value' => $result[ 'model' ],
+					'name' => 'model[' . $result['product_id'] . ']',
+					'value' => $result['model'],
 				)),
 				$price,
 				$this->html->buildInput(array(
-					'name' => 'quantity[' . $result[ 'product_id' ] . ']',
-					'value' => $result[ 'quantity' ],
+					'name' => 'quantity[' . $result['product_id'] . ']',
+					'value' => $result['quantity'],
 				)),
 				$this->html->buildCheckbox(array(
-					'name' => 'status[' . $result[ 'product_id' ] . ']',
-					'value' => $result[ 'status' ],
+					'name' => 'status[' . $result['product_id'] . ']',
+					'value' => $result['status'],
 					'style' => 'btn_switch',
 				)),
 			);
@@ -131,9 +131,9 @@ class ControllerResponsesListingGridProduct extends AController {
 		$this->loadModel('catalog/product');
 		$this->loadLanguage('catalog/product');
 
-		switch ($this->request->post[ 'oper' ]) {
+		switch ($this->request->post['oper']) {
 			case 'del':
-				$ids = explode(',', $this->request->post[ 'id' ]);
+				$ids = explode(',', $this->request->post['id']);
 				if (!empty($ids))
 					foreach ($ids as $id) {
 						$err = $this->_validateDelete($id);
@@ -147,13 +147,13 @@ class ControllerResponsesListingGridProduct extends AController {
 				break;
 			case 'save':
 				$fields = array( 'product_description', 'model', 'call_to_order', 'price', 'quantity', 'status' );
-				$ids = explode(',', $this->request->post[ 'id' ]);
+				$ids = explode(',', $this->request->post['id']);
 				if (!empty($ids))
 					foreach ($ids as $id) {
 						foreach ($fields as $f) {
 
-							if ($f == 'status' && !isset($this->request->post[ 'status' ][ $id ]))
-								$this->request->post[ 'status' ][ $id ] = 0;
+							if ($f == 'status' && !isset($this->request->post['status'][ $id ]))
+								$this->request->post['status'][ $id ] = 0;
 
 							if (isset($this->request->post[ $f ][ $id ])) {
 								$err = $this->_validateField($f, $this->request->post[ $f ][ $id ]);
@@ -198,7 +198,7 @@ class ControllerResponsesListingGridProduct extends AController {
 		$this->loadLanguage('catalog/product');
 
 		$this->loadModel('catalog/product');
-		if (isset($this->request->get[ 'id' ])) {
+		if (isset($this->request->get['id'])) {
 			//request sent from edit form. ID in url
 			foreach ($this->request->post as $key => $value) {
 				$err = $this->_validateField($key, $value);
@@ -210,8 +210,8 @@ class ControllerResponsesListingGridProduct extends AController {
                     $value = dateDisplay2ISO($value);
                 }
                 $data = array( $key => $value );
-				$this->model_catalog_product->updateProduct($this->request->get[ 'id' ], $data);
-				$this->model_catalog_product->updateProductLinks($this->request->get[ 'id' ], $data);
+				$this->model_catalog_product->updateProduct($this->request->get['id'], $data);
+				$this->model_catalog_product->updateProductLinks($this->request->get['id'], $data);
 			}
 			return null;
 		}
@@ -249,11 +249,11 @@ class ControllerResponsesListingGridProduct extends AController {
 
 		$this->loadLanguage('catalog/product');
 		$this->loadModel('catalog/product');
-		if (isset($this->request->get[ 'id' ])) {
+		if (isset($this->request->get['id'])) {
 			//request sent from edit form. ID in url
 			foreach ($this->request->post as $key => $value) {
 				$data = array( $key => $value );
-				$this->model_catalog_product->updateProductDiscount($this->request->get[ 'id' ], $data);
+				$this->model_catalog_product->updateProductDiscount($this->request->get['id'], $data);
 			}
 			return null;
 		}
@@ -277,11 +277,11 @@ class ControllerResponsesListingGridProduct extends AController {
 
 		$this->loadLanguage('catalog/product');
 		$this->loadModel('catalog/product');
-		if (isset($this->request->get[ 'id' ])) {
+		if (isset($this->request->get['id'])) {
 			//request sent from edit form. ID in url
 			foreach ($this->request->post as $key => $value) {
 				$data = array( $key => $value );
-				$this->model_catalog_product->updateProductSpecial($this->request->get[ 'id' ], $data);
+				$this->model_catalog_product->updateProductSpecial($this->request->get['id'], $data);
 			}
 			return null;
 		}
@@ -305,11 +305,11 @@ class ControllerResponsesListingGridProduct extends AController {
 
 		$this->loadLanguage('catalog/product');
 		$this->loadModel('catalog/product');
-		if (isset($this->request->get[ 'id' ])) {
+		if (isset($this->request->get['id'])) {
 			//request sent from edit form. ID in url
 			foreach ($this->request->post as $key => $value) {
 				$data = array( $key => $value );
-				$this->model_catalog_product->updateProductLinks($this->request->get[ 'id' ], $data);
+				$this->model_catalog_product->updateProductLinks($this->request->get['id'], $data);
 			}
 			return null;
 		}
@@ -322,7 +322,7 @@ class ControllerResponsesListingGridProduct extends AController {
 		$err = '';
 		switch ($field) {
 			case 'product_description' :
-				if (isset($value[ 'name' ]) && ((mb_strlen($value[ 'name' ]) < 1) || (mb_strlen($value[ 'name' ]) > 255))) {
+				if (isset($value['name']) && ((mb_strlen($value['name']) < 1) || (mb_strlen($value['name']) > 255))) {
 					$err = $this->language->get('error_name');
 				}
 				break;				
