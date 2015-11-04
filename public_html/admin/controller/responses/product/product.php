@@ -51,11 +51,11 @@ class ControllerResponsesProductProduct extends AController{
 				}
 			}
 		} else if(isset($this->request->post['term'])){
-			$filter = array('limit'               => 20,
-			                'content_language_id' => $this->session->data['content_language_id'],
-			                'filter'              => array(
-					                'keyword' => $this->request->post['term'],
-					                'match'   => 'begin'
+			$filter = array('limit'	=> 20,
+							'content_language_id' => $this->session->data['content_language_id'],
+							'filter' => array(
+							'keyword' => $this->request->post['term'],
+							'match' => 'all'
 			                ));
 			$products = $this->model_catalog_product->getProducts($filter);
 			$resource = new AResource('image');

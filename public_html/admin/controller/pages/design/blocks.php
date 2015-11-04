@@ -148,7 +148,6 @@ class ControllerPagesDesignBlocks extends AController {
 			}
 		}
 
-
 		if ($this->request->is_POST() && $this->_validateForm()) {
 			if (isset($this->session->data['layout_params'])) {
 				$layout = new ALayoutManager($this->session->data['layout_params']['tmpl_id'],
