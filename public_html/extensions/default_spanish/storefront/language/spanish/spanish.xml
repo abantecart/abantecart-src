@@ -306,14 +306,14 @@
 	</definition>
 	<definition>
 		<key>time_format_short</key>
-		<value><![CDATA[????H:i]]></value>
+		<value><![CDATA[H:i]]></value>
 	</definition>
 	<definition>
 		<key>text_field_required</key>
-		<value><![CDATA[????is required field!]]></value>
+		<value><![CDATA[se Campo requerido!]]></value>
 	</definition>
 	<definition>
 		<key>text_unavailable</key>
-		<value><![CDATA[????Unavailable]]></value>
+		<value><![CDATA[Indisponible]]></value>
 	</definition>
 </definitions>

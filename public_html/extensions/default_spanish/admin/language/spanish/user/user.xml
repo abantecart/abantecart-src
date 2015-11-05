@@ -114,6 +114,6 @@
 	</definition>
 	<definition>
 		<key>error_email</key>
-		<value><![CDATA[????E-Mail Address does not appear to be valid!]]></value>
+		<value><![CDATA[Dirección E-Mail no parece ser válido!]]></value>
 	</definition>
 </definitions>

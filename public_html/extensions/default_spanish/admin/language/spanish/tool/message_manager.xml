@@ -94,6 +94,6 @@
 	</definition>
 	<definition>
 		<key>text_notifier_title</key>
-		<value><![CDATA[???? You Have %s New Message(s)]]></value>
+		<value><![CDATA[Usted tiene %s mensajes nuevos]]></value>
 	</definition>
 </definitions>

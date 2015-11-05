@@ -358,22 +358,22 @@
 	</definition>
 	<definition>
 		<key>column_file</key>
-		<value><![CDATA[????File]]></value>
+		<value><![CDATA[Archivo]]></value>
 	</definition>
 	<definition>
 		<key>column_expire_date</key>
-		<value><![CDATA[????Expire Date]]></value>
+		<value><![CDATA[Fecha de caducidad]]></value>
 	</definition>
 	<definition>
 		<key>column_mask</key>
-		<value><![CDATA[????Mask]]></value>
+		<value><![CDATA[Mask]]></value>
 	</definition>
 	<definition>
 		<key>text_add_product_to_order</key>
-		<value><![CDATA[????Add Product to Order #%s]]></value>
+		<value><![CDATA[Agregar Producto a pedido #%s]]></value>
 	</definition>
 	<definition>
 		<key>text_edit_order_product</key>
-		<value><![CDATA[????Edit Product]]></value>
+		<value><![CDATA[Editar Producto]]></value>
 	</definition>
 </definitions>

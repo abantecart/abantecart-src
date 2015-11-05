@@ -190,7 +190,6 @@
 	</definition>
 	<definition>
 		<key>text_cart_info</key>
-		<value><![CDATA[????
-						Source Cart Info<span class="help">Source shopping cart application details.</span>]]></value>
+		<value><![CDATA[Fuente Cart Info<span class="help">Fuente Cart detalles.</span>]]></value>
 	</definition>
 </definitions>

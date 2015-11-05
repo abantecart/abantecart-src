@@ -98,10 +98,10 @@
 	</definition>
 	<definition>
 		<key>text_select_product</key>
-		<value><![CDATA[????- Select Products -]]></value>
+		<value><![CDATA[- Seleccione los productos -]]></value>
 	</definition>
 	<definition>
 		<key>text_select_customer</key>
-		<value><![CDATA[????- Select Customers -]]></value>
+		<value><![CDATA[- Seleccione Clientes -]]></value>
 	</definition>
 </definitions>

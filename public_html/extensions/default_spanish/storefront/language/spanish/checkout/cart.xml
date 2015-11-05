@@ -122,10 +122,10 @@
 	</definition>
 	<definition>
 		<key>error_quantity_maximum</key>
-		<value><![CDATA[????Allowed product's quantity exceeds. Quantity was set to maximum.]]></value>
+		<value><![CDATA[Cantidad permitida de producto excede. Cantidad se ajusta al máximo.]]></value>
 	</definition>
 	<definition>
 		<key>error_quantity_minimum</key>
-		<value><![CDATA[????Allowed product's quantity is below minimum required. Quantity was set to minimum amount.]]></value>
+		<value><![CDATA[Cantidad permitida de producto es por debajo del mínimo requerido. Cantidad se establece en cantidad mínima.]]></value>
 	</definition>
 </definitions>
