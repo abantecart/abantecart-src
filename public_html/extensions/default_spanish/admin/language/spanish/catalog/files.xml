@@ -226,38 +226,38 @@
 	</definition>
 	<definition>
 		<key>text_edit_product_file</key>
-		<value><![CDATA[????Edit Product File]]></value>
+		<value><![CDATA[Editar archivo de producto]]></value>
 	</definition>
 	<definition>
 		<key>tab_general</key>
-		<value><![CDATA[????General]]></value>
+		<value><![CDATA[General]]></value>
 	</definition>
 	<definition>
 		<key>tab_attributes</key>
-		<value><![CDATA[????Download Attributes]]></value>
+		<value><![CDATA[Descarga Atributos]]></value>
 	</definition>
 	<definition>
 		<key>entry_status</key>
-		<value><![CDATA[???? Status]]></value>
+		<value><![CDATA[Estado]]></value>
 	</definition>
 	<definition>
 		<key>entry_resource</key>
-		<value><![CDATA[???? Resource]]></value>
+		<value><![CDATA[ Recursos]]></value>
 	</definition>
 	<definition>
 		<key>text_add_file</key>
-		<value><![CDATA[????Add File]]></value>
+		<value><![CDATA[Agregar archivo]]></value>
 	</definition>
 	<definition>
 		<key>text_new_file</key>
-		<value><![CDATA[????Add New File]]></value>
+		<value><![CDATA[Añadir Nuevo Archivo]]></value>
 	</definition>
 	<definition>
 		<key>success_push_to_orders</key>
-		<value><![CDATA[????Success: Download was pushed	to %s order(s) successfully]]></value>
+		<value><![CDATA[éxito: Descargar fue empujado a %s pedido(s) exitosamente]]></value>
 	</definition>
 	<definition>
 		<key>text_shared_with</key>
-		<value><![CDATA[????Shared with:]]></value>
+		<value><![CDATA[Compartido con:]]></value>
 	</definition>
 </definitions>

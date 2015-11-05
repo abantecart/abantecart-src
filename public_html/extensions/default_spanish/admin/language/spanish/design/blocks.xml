@@ -254,6 +254,6 @@
 	</definition>
 	<definition>
 		<key>text_enable</key>
-		<value><![CDATA[????Enable/Disable]]></value>
+		<value><![CDATA[Habilitar/Desactivar]]></value>
 	</definition>
 </definitions>

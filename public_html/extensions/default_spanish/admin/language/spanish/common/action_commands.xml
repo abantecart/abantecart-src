@@ -122,6 +122,6 @@
 	</definition>
 	<definition>
 		<key>command_view_product</key>
-		<value><![CDATA[????view product, product number, open product, show product, open product number, view product number, show product number, product #]]></value>
+		<value><![CDATA[Muestra de productos, número de producto, producto abierto, demostración del producto, número del producto abierto, ver el número de producto, número demostración del producto, producto #]]></value>
 	</definition>
 </definitions>
