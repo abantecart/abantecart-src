@@ -70,7 +70,7 @@
 	</definition>
 	<definition>
 		<key>entry_cart_zen</key>
-		<value><![CDATA[ZenCart 1.3.9h]]></value>
+		<value><![CDATA[ZenCart 1.3.9h-1.5.x]]></value>
 	</definition>
 	<definition>
 		<key>entry_cart_cre</key>
@@ -190,7 +190,6 @@
 	</definition>
 	<definition>
 		<key>text_cart_info</key>
-		<value><![CDATA[????
-						Source Cart Info<span class="help">Source shopping cart application details.</span>]]></value>
+		<value><![CDATA[Исходный магазин <span class="help">Детальная информация</span>]]></value>
 	</definition>
 </definitions>
