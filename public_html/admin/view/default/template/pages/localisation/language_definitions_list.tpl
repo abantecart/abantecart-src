@@ -80,9 +80,9 @@ echo $this->html->buildElement(
 			var value = data['userdata']['section'][$(this).attr('id')];
 
 			if(value==1){
-				$(this).find('td[aria-describedby="lang_definition_grid_block"]').prepend('<i class="fa fa-globe" title="<?php echo $entry_section.': '.$text_storefront;?>"></i>&nbsp;');
-			}else{
 				$(this).find('td[aria-describedby="lang_definition_grid_block"]').prepend('<i class="fa fa-lock" title="<?php echo $entry_section.': '.$text_admin;?>"></i>&nbsp;');
+			}else{
+				$(this).find('td[aria-describedby="lang_definition_grid_block"]').prepend('<i class="fa fa-globe" title="<?php echo $entry_section.': '.$text_storefront;?>"></i>&nbsp;');
 			}
 		});
 	}
