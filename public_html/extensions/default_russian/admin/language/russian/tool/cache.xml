@@ -102,6 +102,6 @@
 	</definition>
 	<definition>
 		<key>text_clear_all_cache</key>
-		<value><![CDATA[????Clear All Cache]]></value>
+		<value><![CDATA[Очистить весь кеш]]></value>
 	</definition>
 </definitions>

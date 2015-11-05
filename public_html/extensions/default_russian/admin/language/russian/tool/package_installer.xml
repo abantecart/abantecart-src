@@ -226,18 +226,18 @@
 	</definition>
 	<definition>
 		<key>error_pack_file_not_found</key>
-		<value><![CDATA[????Error: Can not extract extension from the archive to %s. Check <a href="#admin#rt=tool/error_log" target="_blank">log</a> for errors ]]></value>
+		<value><![CDATA[Ошибка: Невозможно распаковать расширение из архива в %s. Проверьте <a href="#admin#rt=tool/error_log" target="_blank">лог</a> на наличие ошибок ]]></value>
 	</definition>
 	<definition>
 		<key>error_package_config_xml</key>
-		<value><![CDATA[???? Error: Cannot locate file package.xml inside of extracted extension. Possibly extension was not extracted correctly. Check <a href="#admin#rt=tool/error_log" target="_blank">log</a> for errors ]]></value>
+		<value><![CDATA[Ошибка: Невозможно найти файл package.xml в распакованном расширении. Возможно расширение не было распаковано коректно. Проверьте <a href="#admin#rt=tool/error_log" target="_blank">лог</a> на наличие ошибок ]]></value>
 	</definition>
 	<definition>
 		<key>text_upgrade_now</key>
-		<value><![CDATA[???? Upgrade Now! ]]></value>
+		<value><![CDATA[Обновить сейчас! ]]></value>
 	</definition>
 	<definition>
 		<key>error_additional_help_text</key>
-		<value><![CDATA[???? Stuck? Not a problem. You can install extensions another way. Check <a href="http://docs.abantecart.com/pages/extensions/install.html#FTPinstall" target="_blank">this help link</a> ]]></value>
+		<value><![CDATA[Непредвиденная ошибка? Не проблема. Вы можете устанавить расширение другим способом. Просмотрите <a href="http://docs.abantecart.com/pages/extensions/install.html#FTPinstall" target="_blank">ссылку помощи</a> ]]></value>
 	</definition>
 </definitions>
