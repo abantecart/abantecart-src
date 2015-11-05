@@ -265,7 +265,7 @@
 		<value><![CDATA[De Resumen del Pedido]]></value>
 	</definition>
 	<definition>
-		<key>tab_details</key>
+		<key>tab_order_details</key>
 		<value><![CDATA[Detalles]]></value>
 	</definition>
 	<definition>

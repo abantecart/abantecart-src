@@ -269,8 +269,8 @@
 		<value><![CDATA[Order Summary]]></value>
 	</definition>
 	<definition>
-		<key>tab_details</key>
-		<value><![CDATA[Details]]></value>
+		<key>tab_order_details</key>
+		<value><![CDATA[Order Details]]></value>
 	</definition>
 	<definition>
 		<key>tab_shipping</key>
@@ -286,7 +286,7 @@
 	</definition>
 	<definition>
 		<key>tab_files</key>
-		<value><![CDATA[Files]]></value>
+		<value><![CDATA[Order Files]]></value>
 	</definition>
 	<definition>
 		<key>tab_payment_details</key>
@@ -368,5 +368,4 @@
 		<key>text_recalc</key>
 		<value><![CDATA[Recalculate]]></value>
 	</definition>
-	
 </definitions>

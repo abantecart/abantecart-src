@@ -261,7 +261,7 @@
 		<value><![CDATA[Сводка заказа]]></value>
 	</definition>
 	<definition>
-		<key>tab_details</key>
+		<key>tab_order_details</key>
 		<value><![CDATA[Детали]]></value>
 	</definition>
 	<definition>
