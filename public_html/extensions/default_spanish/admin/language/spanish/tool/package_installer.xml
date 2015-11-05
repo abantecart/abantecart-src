@@ -234,22 +234,23 @@ Solución ideal para comercio electrónico OpenSource ]]></value>
 	</definition>
 	<definition>
 		<key>text_retry</key>
-		<value><![CDATA[???? Retry ]]></value>
+		<value><![CDATA[ Reintente ]]></value>
 	</definition>
 	<definition>
 		<key>error_pack_file_not_found</key>
-		<value><![CDATA[????Error: Can not extract extension from the archive to %s. Check <a href="#admin#rt=tool/error_log" target="_blank">log</a> for errors ]]></value>
+		<value><![CDATA[Error: No se puede extraer la extensión del archivo a %s. Compruebe <a href="#admin#rt=tool/error_log" target="_blank">log</a> de errores ]]></value>
 	</definition>
 	<definition>
 		<key>error_package_config_xml</key>
-		<value><![CDATA[???? Error: Cannot locate file package.xml inside of extracted extension. Possibly extension was not extracted correctly. Check <a href="#admin#rt=tool/error_log" target="_blank">log</a> for errors ]]></value>
+		<value><![CDATA[Error: No se puede localizar el archivo package.xml dentro de la extensión extraído. 
+Posiblemente extensión no se extrajo correctamente. Compruebe <a href="#admin#rt=tool/error_log" target="_blank">log</a> de errores ]]></value>
 	</definition>
 	<definition>
 		<key>text_upgrade_now</key>
-		<value><![CDATA[???? Upgrade Now! ]]></value>
+		<value><![CDATA[Actualizar ahora! ]]></value>
 	</definition>
 	<definition>
 		<key>error_additional_help_text</key>
-		<value><![CDATA[???? Stuck? Not a problem. You can install extensions another way. Check <a href="http://docs.abantecart.com/pages/extensions/install.html#FTPinstall" target="_blank">this help link</a> ]]></value>
+		<value><![CDATA[¿Atascado? No es un problema. Puede instalar las extensiones de otra manera. Revise <a href="http://docs.abantecart.com/pages/extensions/install.html#FTPinstall" target="_blank">este enlace ayuda</a> ]]></value>
 	</definition>
 </definitions>

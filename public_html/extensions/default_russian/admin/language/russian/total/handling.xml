@@ -58,6 +58,6 @@
 	</definition>
 	<definition>
 		<key>entry_order_subtotal</key>
-		<value><![CDATA[Подытог:]]></value>
+		<value><![CDATA[Под-итог:]]></value>
 	</definition>
 </definitions>

@@ -822,14 +822,16 @@
 	</definition>
 	<definition>
 		<key>entry_account_create_captcha</key>
-		<value><![CDATA[????Captcha on create account form :<br /><span class="help">Prevent spam/robot account creation with enabling human verification captcha</span>]]></value>
+		<value><![CDATA[Captcha en crear la forma de cuenta :<br /><span class="help">Prevenir creación de cuenta de correo no deseado/robot con código de imagen que permite la verificación humana</span>]]></value>
 	</definition>
 	<definition>
 		<key>entry_recaptcha_site_key</key>
-		<value><![CDATA[????Google reCAPTCHA Site Key:<br /><span class="help">Add <a href="https://www.google.com/recaptcha" target="_blank">Google reCAPTCHA v2</a> to help your visitors with better captcha entry. If you enable reCAPTCHA site/secret keys, Google reCAPTCHA v2 will be activated instead of default AbanteCart captcha image</span>]]></value>
+		<value><![CDATA[Google reCAPTCHA Secret Key:<br /><span class="help">Añadir <a href="https://www.google.com/recaptcha" target="_blank">Google reCAPTCHA v2</a> para ayudar a sus visitantes con una mejor entrada captcha. Si habilita reCAPTCHA site/secret keys, Google reCAPTCHA v2 se activará en lugar de por defecto AbanteCart captcha 
+imagen</span>]]></value>
 	</definition>
 	<definition>
 		<key>entry_recaptcha_secret_key</key>
-		<value><![CDATA[????Google reCAPTCHA Secret Key:<br /><span class="help">Add <a href="https://www.google.com/recaptcha" target="_blank">Google reCAPTCHA v2</a> to help your visitors with better captcha entry. If you enable reCAPTCHA site/secret keys, Google reCAPTCHA v2 will be activated instead of default AbanteCart captcha image</span>]]></value>
+		<value><![CDATA[Google reCAPTCHA Secret Key:<br /><span class="help">Añadir <a href="https://www.google.com/recaptcha" target="_blank">Google reCAPTCHA v2</a> para ayudar a sus visitantes con una mejor entrada captcha. Si habilita reCAPTCHA site/secret keys, Google reCAPTCHA v2 se activará en lugar de por defecto AbanteCart captcha 
+imagen</span>]]></value>
 	</definition>
 </definitions>

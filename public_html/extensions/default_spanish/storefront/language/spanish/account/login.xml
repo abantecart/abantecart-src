@@ -62,14 +62,14 @@
 	</definition>
 	<definition>
 		<key>text_success_activated</key>
-		<value><![CDATA[????Success: Your account was activated successfully. Please login with your credentials.]]></value>
+		<value><![CDATA[éxito: Tu cuenta ha sido activado con éxito. Inicia sesión con sus credenciales.]]></value>
 	</definition>
 	<definition>
 		<key>text_already_activated</key>
-		<value><![CDATA[????Your account is already activated. Please login with your credentials.]]></value>
+		<value><![CDATA[Tu cuenta ya está activada. Inicia sesión con sus credenciales.]]></value>
 	</definition>
 	<definition>
 		<key>text_resend_activation_email</key>
-		<value><![CDATA[????Error: Your activation code not found. To send new code please click this <a href=" %s ">link</a>]]></value>
+		<value><![CDATA[Error: Su código de activación no se encuentra. Para enviar nuevo código por favor haga clic en este <a href=" %s ">enlace</a>]]></value>
 	</definition>
 </definitions>

@@ -682,14 +682,14 @@
 	</definition>
 	<definition>
 		<key>time_format_short</key>
-		<value><![CDATA[????H:i]]></value>
+		<value><![CDATA[H:i]]></value>
 	</definition>
 	<definition>
 		<key>button_add_location_zone</key>
-		<value><![CDATA[????Add Location Zone]]></value>
+		<value><![CDATA[Agregar ubicación Zona]]></value>
 	</definition>
 	<definition>
 		<key>button_retry</key>
-		<value><![CDATA[????Retry]]></value>
+		<value><![CDATA[Reintente]]></value>
 	</definition>
 </definitions>

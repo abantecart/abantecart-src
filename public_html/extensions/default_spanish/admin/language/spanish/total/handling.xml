@@ -50,14 +50,14 @@
 	</definition>
 	<definition>
 		<key>entry_total_placeholder</key>
-		<value><![CDATA[????Text Value]]></value>
+		<value><![CDATA[Valor de texto]]></value>
 	</definition>
 	<definition>
 		<key>entry_payment</key>
-		<value><![CDATA[????Payment:]]></value>
+		<value><![CDATA[Pago:]]></value>
 	</definition>
 	<definition>
 		<key>entry_order_subtotal</key>
-		<value><![CDATA[????Order Sub-Total:]]></value>
+		<value><![CDATA[Subtotal de Orden:]]></value>
 	</definition>
 </definitions>

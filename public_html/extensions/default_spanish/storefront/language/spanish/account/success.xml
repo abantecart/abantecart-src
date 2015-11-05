@@ -22,6 +22,6 @@
 	</definition>
 	<definition>
 		<key>text_activate</key>
-		<value><![CDATA[????<p>Thank you for registering with %s!</p><p>You will be notified by email about your account activation.</p><p>If you have ANY questions about the operation of this online shop, please <a href="%s">contact the store owner</a>.</p>]]></value>
+		<value><![CDATA[<p>Gracias por registrarse con %s!</p><p>Se le notificará por correo electrónico sobre su activación de la cuenta.</p><p>Si usted tiene alguna pregunta acerca del funcionamiento de esta tienda en línea, por favor <a href="%s">en contacto con el dueño de la tienda</a>.</p>]]></value>
 	</definition>
 </definitions>

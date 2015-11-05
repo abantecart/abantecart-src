@@ -338,7 +338,7 @@
 	</definition>
 	<definition>
 		<key>button_install</key>
-		<value><![CDATA[Install]]></value>
+		<value><![CDATA[Instalar]]></value>
 	</definition>
 	<definition>
 		<key>error_dependencies</key>
@@ -354,23 +354,23 @@
 	</definition>
 	<definition>
 		<key>text_preview</key>
-		<value><![CDATA[Preview]]></value>
+		<value><![CDATA[Vista previa]]></value>
 	</definition>
 	<definition>
 		<key>text_confirmation</key>
-		<value><![CDATA[Confirmation]]></value>
+		<value><![CDATA[Confirmación]]></value>
 	</definition>
 	<definition>
 		<key>button_confirm</key>
-		<value><![CDATA[Confirm]]></value>
+		<value><![CDATA[Confirmar]]></value>
 	</definition>
 	<definition>
 		<key>button_continue</key>
-		<value><![CDATA[Continue]]></value>
+		<value><![CDATA[Continuar]]></value>
 	</definition>
 	<definition>
 		<key>button_cancel</key>
-		<value><![CDATA[Cancel]]></value>
+		<value><![CDATA[Cancelar]]></value>
 	</definition>
 	<definition>
 		<key>error_could_not_load_config</key>
@@ -386,14 +386,14 @@
 	</definition>
 	<definition>
 		<key>tab_additional_settings</key>
-		<value><![CDATA[Additional Settings]]></value>
+		<value><![CDATA[Ajustes adicionales]]></value>
 	</definition>
 	<definition>
 		<key>text_more_extensions</key>
-		<value><![CDATA[More extensions are available for easy install.]]></value>
+		<value><![CDATA[Más extensiones están disponibles para una fácil instalación.]]></value>
 	</definition>
 	<definition>
 		<key>text_save_success</key>
-		<value><![CDATA[????Success: You have modified extension settings!]]></value>
+		<value><![CDATA[éxito: Ha modificado la configuración de extensión!]]></value>
 	</definition>
 </definitions>

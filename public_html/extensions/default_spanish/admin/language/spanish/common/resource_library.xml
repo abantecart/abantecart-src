@@ -314,14 +314,14 @@
 	</definition>
 	<definition>
 		<key>text_map_to</key>
-		<value><![CDATA[????Link to %s]]></value>
+		<value><![CDATA[Enlace a %s]]></value>
 	</definition>
 	<definition>
 		<key>error_name</key>
-		<value><![CDATA[????Error: Name field is required!]]></value>
+		<value><![CDATA[Error: Se requiere campo Nombre!]]></value>
 	</definition>
 	<definition>
 		<key>text_map_success</key>
-		<value><![CDATA[????Resource successfully linked]]></value>
+		<value><![CDATA[Recursos vinculado con éxito]]></value>
 	</definition>
 </definitions>

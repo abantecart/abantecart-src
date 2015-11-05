@@ -54,15 +54,14 @@
 	</definition>
 	<definition>
 		<key>column_text_id</key>
-		<value><![CDATA[????Order Status Text ID]]></value>
+		<value><![CDATA[Estado del pedido Text ID]]></value>
 	</definition>
 	<definition>
 		<key>entry_text_id</key>
-		<value><![CDATA[????Order Status Text ID:]]></value>
+		<value><![CDATA[Estado del pedido Text ID:]]></value>
 	</definition>
 	<definition>
 		<key>error_status_text_id</key>
-		<value><![CDATA[????
-			Order Status Text Id must be Unique and between 2 and 32 characters!]]></value>
+		<value><![CDATA[Estado del pedido Text Id debe ser único y entre 2 y 32 caracteres!]]></value>
 	</definition>
 </definitions>
