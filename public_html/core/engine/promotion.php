@@ -265,8 +265,9 @@ class APromotion {
 		if ($start < 0) {
 			$start = 0;
 		}
-		
-		$sql .= " LIMIT " . (int)$start . "," . (int)$limit;
+		if((int)$limit){
+			$sql .= " LIMIT " . (int)$start . "," . (int)$limit;
+		}
 
 		$query = $this->db->query($sql);
 		
@@ -314,6 +315,7 @@ class APromotion {
 										        AND ((date_start = '0000-00-00' OR date_start < NOW())
 										        AND (date_end = '0000-00-00' OR date_end > NOW()))
 										        AND c.status = '1'");
+		$coupon_product_data = array();
 		if ($coupon_query->num_rows) {
 			if ($coupon_query->row['total'] >= $this->cart->getSubTotal()) {
 				$status = FALSE;
@@ -340,8 +342,7 @@ class APromotion {
 					$status = FALSE;
 				}
 			}
-			
-			$coupon_product_data = array();			
+
 			$coupon_product_query = $this->db->query( "SELECT *
 													   FROM " . $this->db->table("coupons_products") . "
 													   WHERE coupon_id = '" . (int)$coupon_query->row['coupon_id'] . "'");

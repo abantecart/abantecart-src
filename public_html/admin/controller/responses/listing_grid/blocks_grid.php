@@ -223,6 +223,7 @@ class ControllerResponsesListingGridBlocksGrid extends AController {
 			array('type' => 'input',
 				'name' => 'limit',
 				'value' => $content['limit'],
+				'style' => 'no-save',
 				'help_url' => $this->gen_help_url('block_limit'))));
 
 		$this->data['response'] = $view->fetch('responses/design/block_auto_listing_subform.tpl');
