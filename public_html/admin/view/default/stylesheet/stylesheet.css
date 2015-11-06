@@ -644,7 +644,7 @@ h1,h2,h3,h4,h5 {
 }
 
 .nav-bracket > li.nav-parent > a:focus {
-   background-color: none;
+   background-color: transparent;
    color: #EEEEEE;
    -moz-box-shadow: none;
    -webkit-box-shadow: none;
@@ -1050,7 +1050,7 @@ p {
 /***********************/
 #report_flot {
 	height: 315px;
-	widows: 450px;
+	widows: 450;
 	margin: auto;
 }
 .tooltipflot {
@@ -2364,6 +2364,9 @@ body.stickyheader .sticky_left {
 }
 .btn-toggle.btn_switch {
 	min-width: 100px;
+}
+.btn-toggle.btn_switch.xs {
+	min-width: inherit;
 }
 .btn-toggle.btn_switch .btn-default:hover, .btn-toggle.btn_switch .btn-default:hover {
 	background-color: #fff;
