@@ -644,7 +644,7 @@ h1,h2,h3,h4,h5 {
 }
 
 .nav-bracket > li.nav-parent > a:focus {
-   background-color: transparent;
+   background-color: none;
    color: #EEEEEE;
    -moz-box-shadow: none;
    -webkit-box-shadow: none;
