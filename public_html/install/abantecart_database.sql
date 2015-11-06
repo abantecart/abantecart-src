@@ -11961,7 +11961,7 @@ VALUES  (17,'Home',1),
         (17,'Cart',5),
         (17,'Checkout',6),
         (17,'Specials',14),
-        (17,'Check the Order',15);
+        (17,'Check Order Status',15);
 -- LANGUAGE_ID
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_integer`,`row_id`)
 VALUES  (18,1,1),
