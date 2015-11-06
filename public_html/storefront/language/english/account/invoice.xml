@@ -2,7 +2,7 @@
 <definitions>
 	<definition>
 		<key>heading_title</key>
-		<value><![CDATA[Order Invoice]]></value>
+		<value><![CDATA[Order Details]]></value>
 	</definition>
 	<definition>
 		<key>text_account</key>
