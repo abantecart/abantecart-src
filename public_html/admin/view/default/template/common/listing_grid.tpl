@@ -411,8 +411,8 @@ var initGrid_<?php echo $data['table_id'] ?> = function ($) {
 
 			<?php echo $data['grid_ready'] ? $data['grid_ready'] : ''?>
 			
-			//refresh tooltips in the grid
-			$(table_id).find('.tooltips').tooltip({ container: 'body'});
+			//rebind events after grid reload
+			bindCustomEvents();
 			
 			//end of grid load complete
         },
