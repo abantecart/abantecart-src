@@ -121,7 +121,7 @@ class ALanguage {
 		if (empty($key)) {
 			return null;
 		}
-
+	
 		//if no specific area specified return main language
 		if (!empty($block)) {
 			if (!$this->_is_loaded($block)) {
@@ -129,8 +129,14 @@ class ALanguage {
 			}
 			$return_text = $this->_get_language_value($key, $block);
 		} else {
-			$backtrace = debug_backtrace();
-			$return_text = $this->_get_last_language_value($key, $backtrace,$silent);
+			if(!$silent){
+				$backtrace = debug_backtrace();
+				$caller_file = $backtrace[0]['file'];
+				$caller_file_line = $backtrace[0]['line'];		
+				$return_text = $this->_get_last_language_value($key, $caller_file, $caller_file_line, $silent);
+			} else {
+				$return_text = $this->_get_last_language_value($key);			
+			}			
 		}
 		if ( empty($return_text) ) {
 			$return_text = $key;
@@ -579,12 +585,7 @@ class ALanguage {
 				$this->cache->set($cache_file, $load_data);
 			}
 		}
-		//Merge with main array and override if not matching main language.
-		if ($this->language_details['filename'] != $filename
-				&& $this->entries[$this->language_details['filename']] && $load_data
-		) {
-			$load_data = array_merge($this->entries[$this->language_details['filename']], $load_data);
-		}
+
 		ADebug::checkpoint('ALanguage ' . $this->language_details['name'] . ' ' . $filename . ' is loaded');
 		$this->entries[$filename] = $load_data;
 		//add filename to scope
@@ -813,11 +814,12 @@ class ALanguage {
 	/**
 	 * Call to get specific definition value back traced in all available RTs(blocks)
 	 * @param string $key
-	 * @param array $backtrace
+	 * @param string $caller_file
+	 * @param string $caller_file_line
 	 * @param bool $silent
 	 * @return null|string
 	 */
-	protected function _get_last_language_value($key, $backtrace, $silent=false) {
+	protected function _get_last_language_value($key, $caller_file = '', $caller_file_line = '', $silent = false) {
 		if (empty ($key)) {
 			return null;
 		}
@@ -828,18 +830,17 @@ class ALanguage {
 		} else {
 			$rev_language_blocks = array_reverse(array_keys($this->entries));
 		}
+
 		$lang_value = '';
 		foreach ($rev_language_blocks as $block) {
 			$lang_value = $this->_get_language_value($key, $block);
-			if (isset ($lang_value)) {
+			if (isset($lang_value)) {
 				break;
 			}
 		}
 
 		// if value empty - write message based on the setting
 		if (empty($lang_value) && $this->registry->get('config')->get('warn_lang_text_missing')) {
-			$caller_file = $backtrace[0]['file'];
-			$caller_file_line = $backtrace[0]['line'];
 			$rt = $this->registry->get('request')->get['rt'];
 			if(!$silent){
 				$this->registry->get('messages')->saveWarning('Language definition "' . $key . '" is missing for "' . $this->available_languages[$this->code]['name'] . '"', 'AbanteCart engine cannot find value of language definition with key "' . $key . '" in ' . $caller_file . ' line ' . $caller_file_line . ($rt ? ' (rt=' . $rt . ')' : '') . '.  Please add it in #admin#rt=localisation/language_definitions or run language translate process in #admin#rt=localisation/language');
