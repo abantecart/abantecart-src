@@ -1227,9 +1227,16 @@ class SelectboxHtmlElement extends HtmlElement {
 		}
 		unset($opt);
 
-		$language = $this->data['registry']->get('language');
-		$text_continue_typing = $language ? $language->get('text_continue_typing') : 'Continue typing ...';
-		$text_looking_for = $language ? $language->get('text_looking_for') : 'Looking for';
+		$registry = $this->data['registry'];
+		$text_continue_typing = $text_looking_for = '';
+		if(is_object($registry->get('language'))){
+			$text_continue_typing = $registry->get('language')->get('text_continue_typing','',true);
+			$text_looking_for = $registry->get('language')->get('text_looking_for','',true);
+		}
+
+		$text_continue_typing = !$text_continue_typing || $text_continue_typing=='text_continue_typing' ? 'Continue typing ...' : $text_continue_typing;
+		$text_looking_for = !$text_looking_for || $text_looking_for=='text_looking_for' ? 'Looking for' : $text_looking_for;
+
 
 		$this->view->batchAssign(
 			array(
@@ -1338,13 +1345,14 @@ class CheckboxHtmlElement extends HtmlElement {
 		}
 
 		$registry = $this->data['registry'];
+		$text_on = $text_off = '';
 		if(is_object($registry->get('language'))){
-			$text_on = $registry->get('language')->get('text_on');
-			$text_off = $registry->get('language')->get('text_off');
-		}else{
-			$text_on = 'ON';
-			$text_off = 'OFF';
+			$text_on = $registry->get('language')->get('text_on','',true);
+			$text_off = $registry->get('language')->get('text_off','',true);
 		}
+
+		$text_on = !$text_on || $text_on=='text_on' ? 'ON' : $text_on;
+		$text_off = !$text_off || $text_off=='text_off' ? 'OFF' : $text_off;
 
 		$this->view->batchAssign(
 			array(

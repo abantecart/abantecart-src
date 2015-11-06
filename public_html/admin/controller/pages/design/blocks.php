@@ -385,7 +385,8 @@ class ControllerPagesDesignBlocks extends AController {
 		$this->extensions->hk_InitData($this, __FUNCTION__);
 
 		$blocks = array();
-		$lm = new ALayoutManager();;
+		$lm = new ALayoutManager();
+
 		foreach ($this->data['custom_block_types'] as $txt_id) {
 			$block = $lm->getBlockByTxtId($txt_id);
 			if ($block['block_id']) {
@@ -612,8 +613,8 @@ class ControllerPagesDesignBlocks extends AController {
 		$resources_scripts = $this->dispatch(
 				'responses/common/resource_library/get_resources_scripts',
 				array(
-						'object_name' => 'categories',
-						'object_id' => $category_id,
+						'object_name' => '',
+						'object_id' => '',
 						'types' => array('image'),
 				)
 		);
