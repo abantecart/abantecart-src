@@ -78,7 +78,7 @@
 	</definition>
 	<definition>
 		<key>entry_block_description</key>
-		<value><![CDATA[ Descripción personalizada del Bloque <p> Nota: uso interno </ p> ]]></value>
+		<value><![CDATA[ Descripción personalizada del Bloque <p> Nota: uso interno </p> ]]></value>
 	</definition>
 	<definition>
 		<key>entry_block_content</key>
