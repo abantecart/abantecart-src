@@ -682,18 +682,18 @@
 	</definition>
 	<definition>
 		<key>button_reload</key>
-		<value><![CDATA[????Reload]]></value>
+		<value><![CDATA[Ricaricare]]></value>
 	</definition>
 	<definition>
 		<key>text_system_error</key>
-		<value><![CDATA[????System error has been encountered. Check system <a target="_blank" href="%s">messages</a> or <a target="_blank" href="%s">error log</a>]]></value>
+		<value><![CDATA[Si è verificato l'errore di sistema. Controlla i <a target="_blank" href="%s">messaggi</a> di sistema o <a target="_blank" href="%s">log degli errori</a>]]></value>
 	</definition>
 	<definition>
 		<key>text_system_warning</key>
-		<value><![CDATA[????System warning has been reported. Check system <a target="_blank" href="%s">messages</a>]]></value>
+		<value><![CDATA[È stata riportata avvertimento sistema. Controlla i <a target="_blank" href="%s">messaggi</a> di sistema]]></value>
 	</definition>
 	<definition>
 		<key>text_system_notice</key>
-		<value><![CDATA[????System notice has been reported. Check system <a target="_blank" href="%s">messages</a>]]></value>
+		<value><![CDATA[È stata riportata avviso di sistema. Controlla i <a target="_blank" href="%s">messaggi</a> di sistema]]></value>
 	</definition>
 </definitions>

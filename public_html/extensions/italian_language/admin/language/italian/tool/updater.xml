@@ -86,14 +86,14 @@
 	</definition>
 	<definition>
 		<key>text_connect</key>
-		<value><![CDATA[????Connect]]></value>
+		<value><![CDATA[Сollegare]]></value>
 	</definition>
 	<definition>
 		<key>text_marketplace_connect</key>
-		<value><![CDATA[????Connect to the marketplace]]></value>
+		<value><![CDATA[Connettersi al mercato]]></value>
 	</definition>
 	<definition>
 		<key>text_marketplace_connect_your_store</key>
-		<value><![CDATA[????Please Connect Your Store to the Marketplace]]></value>
+		<value><![CDATA[Collegate il vostro negozio al Marketplace]]></value>
 	</definition>
 </definitions>

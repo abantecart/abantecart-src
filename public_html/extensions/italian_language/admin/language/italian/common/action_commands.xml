@@ -2,19 +2,19 @@
 <definitions>
 	<definition>
 		<key>text_possible_commands</key>
-		<value><![CDATA[Bellow are possible Commands. You can speek more details after command keyword. Example, "open page messages" or "insert product"]]></value>
+		<value><![CDATA[Qui di seguito sono possibili comandi. È possibile parlare maggiori dettagli dopo la parola chiave di comando. Esempio, "open page messages" o "insert product"]]></value>
 	</definition>
 	<definition>
 		<key>text_multiple_result_found</key>
-		<value><![CDATA[Multiple action result found:]]></value>
+		<value><![CDATA[Risultato azione multipla trovato:]]></value>
 	</definition>
 	<definition>
 		<key>text_action_confirm</key>
-		<value><![CDATA[Please confirm your request:]]></value>
+		<value><![CDATA[Conferma la tua richiesta:]]></value>
 	</definition>
 	<definition>
 		<key>command_open</key>
-		<value><![CDATA[open,open page, open menu]]></value>
+		<value><![CDATA[aperto,aperto pagina, aprire il menu]]></value>
 	</definition>
 	<definition>
 		<key>command_find</key>
@@ -38,47 +38,47 @@
 	</definition>
 	<definition>
 		<key>command_create_new</key>
-		<value><![CDATA[insert, create, add, new, insert new,create new, add new]]></value>
+		<value><![CDATA[inserire, creare, aggiungere, nuovo, insert new,create new, add new]]></value>
 	</definition>
 	<definition>
 		<key>category</key>
-		<value><![CDATA[category]]></value>
+		<value><![CDATA[categoria]]></value>
 	</definition>
 	<definition>
 		<key>product</key>
-		<value><![CDATA[product]]></value>
+		<value><![CDATA[prodotto]]></value>
 	</definition>
 	<definition>
 		<key>brand</key>
-		<value><![CDATA[brand]]></value>
+		<value><![CDATA[marca]]></value>
 	</definition>
 	<definition>
 		<key>manufacturer</key>
-		<value><![CDATA[manufacturer]]></value>
+		<value><![CDATA[fabbricante]]></value>
 	</definition>
 	<definition>
 		<key>review</key>
-		<value><![CDATA[review]]></value>
+		<value><![CDATA[recensione]]></value>
 	</definition>
 	<definition>
 		<key>download</key>
-		<value><![CDATA[download]]></value>
+		<value><![CDATA[scaricare]]></value>
 	</definition>
 	<definition>
 		<key>attribute</key>
-		<value><![CDATA[attribute]]></value>
+		<value><![CDATA[attributo]]></value>
 	</definition>
 	<definition>
 		<key>customer</key>
-		<value><![CDATA[customer]]></value>
+		<value><![CDATA[cliente]]></value>
 	</definition>
 	<definition>
 		<key>coupon</key>
-		<value><![CDATA[coupon]]></value>
+		<value><![CDATA[talloncino]]></value>
 	</definition>
 	<definition>
 		<key>discount</key>
-		<value><![CDATA[discount]]></value>
+		<value><![CDATA[sconto]]></value>
 	</definition>
 	<definition>
 		<key>block</key>
@@ -118,10 +118,10 @@
 	</definition>
 	<definition>
 		<key>tax</key>
-		<value><![CDATA[tax]]></value>
+		<value><![CDATA[tasse]]></value>
 	</definition>
 	<definition>
 		<key>command_view_product</key>
-		<value><![CDATA[????view product, product number, open product, show product, open product number, view product number, show product number, product #]]></value>
+		<value><![CDATA[vedere prodotto, numero del prodotto, prodotto open, esposizione del prodotto, numero del prodotto aperto, numero di vista del prodotto, numero di esposizione del prodotto, prodotto #]]></value>
 	</definition>
 </definitions>

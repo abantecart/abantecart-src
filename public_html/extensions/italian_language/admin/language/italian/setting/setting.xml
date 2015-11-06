@@ -742,27 +742,27 @@
 	</definition>
 	<definition>
 		<key>entry_product_default_sort_order</key>
-		<value><![CDATA[Sort Products as default by:]]></value>
+		<value><![CDATA[Ordina prodotti come default:]]></value>
 	</definition>
 	<definition>
 		<key>entry_zero_customer_balance</key>
-		<value><![CDATA[Show Zero Customer Balance:<br /><span class="help">Note: Enable/disable display of balance message if customer account balance is 0</span>]]></value>
+		<value><![CDATA[Mostra Zero Balance clienti:<br /><span class="help">Nota: Abilitare/disabilitare la visualizzazione dei mesaggi equilibrio se saldo del conto del cliente è 0</span>]]></value>
 	</definition>
 	<definition>
 		<key>entry_shipping_tax_estimate</key>
-		<value><![CDATA[Shipping and Tax Estimate:<br /><span class="help">Allow customers to get quick shipping and tax estimate in the shopping cart.</span>]]></value>
+		<value><![CDATA[Spedizione e imposte Preventivo:<br /><span class="help">Consentire ai clienti di ottenere il trasporto rapido e stima fiscale nel carrello della spesa.</span>]]></value>
 	</definition>
 	<definition>
 		<key>entry_coupon_on_cart_page</key>
-		<value><![CDATA[Coupon on shopping cart page:<br /><span class="help">Allow customers to enter coupon code and see discount in the shopping cart.</span>]]></value>
+		<value><![CDATA[Coupon sulla pagina del carrello:<br /><span class="help">Consentono ai clienti di inserire il codice coupon e vedono sconto nel carrello.</span>]]></value>
 	</definition>
 	<definition>
 		<key>entry_google_analytics</key>
-		<value><![CDATA[Google Analytics Account Number:<br /><span class="help">Add your <a href="https://support.google.com/analytics/answer/1032385?hl=en&ref_topic=1008082" target="_blank">Google Analytics Account Number</a> to enable site activity tracking. This also enables ecommerce activity tracking. You must enable ecommerce tracking in google on the profile settings page for your website</span>]]></value>
+		<value><![CDATA[Google Analytics Account Number:<br /><span class="help">Aggiungi il tuo <a href="https://support.google.com/analytics/answer/1032385?hl=en&ref_topic=1008082" target="_blank">Google Analytics Account Number</a> per consentire il monitoraggio attività del sito. Ciò consente anche il monitoraggio di attività e-commerce. È necessario attivare il monitoraggio e-commerce in Google nella pagina delle impostazioni del profilo per il tuo sito.</span>]]></value>
 	</definition>
 	<definition>
 		<key>entry_ssl_url</key>
-		<value><![CDATA[Secure Store URL:<br /><span class="help">Include the full SSL URL(HTTPS) to your store. Make sure to add '/' at the end. Example: https://www.yourdomain.com/path/</span>]]></value>
+		<value><![CDATA[Sicuro Store URL:<br /><span class="help">Include the full SSL URL(HTTPS) to your store. Make sure to add '/' at the end. Example: https://www.yourdomain.com/path/</span>]]></value>
 	</definition>
 	<definition>
 		<key>error_ssl_url</key>
@@ -770,7 +770,7 @@
 	</definition>
 	<definition>
 		<key>entry_customer_email_activation</key>
-		<value><![CDATA[Email Activation for New Customers:<br /><span class="help">Don't allow new customer to login until their account has been confirmed by activation link sent via email. For this to work, make sure "Approve New Customers" is set to OFF.</span>]]></value>
+		<value><![CDATA[Email di attivazione per i nuovi clienti:<br /><span class="help">Non permettere nuovo cliente per effettuare il login finché il loro account è stato confermato da link di attivazione inviato via e-mail. Per questo lavoro, assicurarsi che "Approva Nuovi clienti" è impostato su OFF.</span>]]></value>
 	</definition>
 	<definition>
 		<key>text_clone_template</key>
@@ -798,28 +798,26 @@
 	</definition>
 	<definition>
 		<key>entry_customer_cancelation_order_status</key>
-		<value><![CDATA[????
-			Allow Customer to Cancel Order on Status:]]></value>
+		<value><![CDATA[Lasciare clienti di revoca per lo stato:]]></value>
 	</definition>
 	<definition>
 		<key>entry_system_check</key>
-		<value><![CDATA[????
-			System Check:<br /><span class="help">Enable this setting if you want to check your system condition in respect to AbanteCart functionlaity. System issues effecting AbanteCart will be reported as messages visible in admin.</span>]]></value>
+		<value><![CDATA[Controllo di Sistema:<br /><span class="help">Attivare questa impostazione se si desidera controllare il vostro stato del sistema in relazione alla funzionalità AbanteCart. Problemi di sistema che riguardano AbanteCart saranno segnalati come messaggi visibili in admin.</span>]]></value>
 	</definition>
 	<definition>
 		<key>text_set_template</key>
-		<value><![CDATA[????Set this template for the storefront]]></value>
+		<value><![CDATA[Impostare questo modello (template) per il piccolo ufficio]]></value>
 	</definition>
 	<definition>
 		<key>entry_account_create_captcha</key>
-		<value><![CDATA[????Captcha on create account form :<br /><span class="help">Prevent spam/robot account creation with enabling human verification captcha</span>]]></value>
+		<value><![CDATA[Captcha sul creare la forma conto:<br /><span class="help">Prevenire la creazione di account spam / robot con abilitazione captcha verifica umana</span>]]></value>
 	</definition>
 	<definition>
 		<key>entry_recaptcha_site_key</key>
-		<value><![CDATA[????Google reCAPTCHA Site Key:<br /><span class="help">Add <a href="https://www.google.com/recaptcha" target="_blank">Google reCAPTCHA v2</a> to help your visitors with better captcha entry. If you enable reCAPTCHA site/secret keys, Google reCAPTCHA v2 will be activated instead of default AbanteCart captcha image</span>]]></value>
+		<value><![CDATA[Google reCAPTCHA Site Key:<br /><span class="help">Aggiungere <a href="https://www.google.com/recaptcha" target="_blank">Google reCAPTCHA v2</a> per aiutare i vostri ospiti con una migliore entrata captcha. If you enable reCAPTCHA site/secret keys, Google reCAPTCHA v2 will be activated instead of default AbanteCart captcha image</span>]]></value>
 	</definition>
 	<definition>
 		<key>entry_recaptcha_secret_key</key>
-		<value><![CDATA[????Google reCAPTCHA Secret Key:<br /><span class="help">Add <a href="https://www.google.com/recaptcha" target="_blank">Google reCAPTCHA v2</a> to help your visitors with better captcha entry. If you enable reCAPTCHA site/secret keys, Google reCAPTCHA v2 will be activated instead of default AbanteCart captcha image</span>]]></value>
+		<value><![CDATA[Google reCAPTCHA Site Key:<br /><span class="help">Aggiungere <a href="https://www.google.com/recaptcha" target="_blank">Google reCAPTCHA v2</a> per aiutare i vostri ospiti con una migliore entrata captcha. If you enable reCAPTCHA site/secret keys, Google reCAPTCHA v2 will be activated instead of default AbanteCart captcha image</span>]]></value>
 	</definition>
 </definitions>

@@ -110,22 +110,22 @@
 	</definition>
 	<definition>
 		<key>text_order_cancelation</key>
-		<value><![CDATA[????Request Cancellation of Order]]></value>
+		<value><![CDATA[Richiesta di annullamento dell'ordine]]></value>
 	</definition>
 	<definition>
 		<key>text_order_cancelation_confirm</key>
-		<value><![CDATA[????Your cancellation request may not be made in some cases, for example, when the goods have been shipped. Continue?]]></value>
+		<value><![CDATA[La vostra richiesta di cancellazione non può essere effettuato in alcuni casi, ad esempio, quando le merci sono state spedite. Continuare?]]></value>
 	</definition>
 	<definition>
 		<key>text_order_cancelation_success</key>
-		<value><![CDATA[????Order cancellation request has been submitted]]></value>
+		<value><![CDATA[Richiesta di annullamento dell'ordine è stata presentata]]></value>
 	</definition>
 	<definition>
 		<key>text_order_cancelation_message_title</key>
-		<value><![CDATA[????Order #%s cancellation request]]></value>
+		<value><![CDATA[Richiesta di annullamento dell'ordine #%s]]></value>
 	</definition>
 	<definition>
 		<key>text_order_cancelation_message_body</key>
-		<value><![CDATA[????Customer %s has requested order cancellation for order #%s . To review go to %s]]></value>
+		<value><![CDATA[Сliente %s ha chiesto l'annullamento dell'ordine per ordine #%s . Per rivedere vai a %s]]></value>
 	</definition>
 </definitions>

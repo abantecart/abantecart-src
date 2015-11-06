@@ -135,10 +135,10 @@
 	</definition>
 	<definition>
 		<key>entry_language_selector</key>
-		<value><![CDATA[????Source Language: ]]></value>
+		<value><![CDATA[Lingua di partenza: ]]></value>
 	</definition>
 	<definition>
 		<key>entry_translate_method_selector</key>
-		<value><![CDATA[????Text translation method: ]]></value>
+		<value><![CDATA[Metodo Traduzione del testo: ]]></value>
 	</definition>
 </definitions>

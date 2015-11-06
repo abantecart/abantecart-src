@@ -66,10 +66,10 @@
 	</definition>
 	<definition>
 		<key>entry_shipping</key>
-		<value><![CDATA[????Shipping]]></value>
+		<value><![CDATA[Spedizione]]></value>
 	</definition>
 	<definition>
 		<key>entry_payment</key>
-		<value><![CDATA[????Payment]]></value>
+		<value><![CDATA[Versamento]]></value>
 	</definition>
 </definitions>

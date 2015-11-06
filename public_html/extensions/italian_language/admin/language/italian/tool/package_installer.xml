@@ -191,7 +191,7 @@ Ideal OpenSource Ecommerce Solution ]]></value>
 	</definition>
 	<definition>
 		<key>text_continue</key>
-		<value><![CDATA[ Continue ]]></value>
+		<value><![CDATA[ Continua ]]></value>
 	</definition>
 	<definition>
 		<key>confirm_version_incompatibility</key>
@@ -234,7 +234,7 @@ Automatic full backup will be created. It is recommended to try upgrade on test 
 	</definition>
 	<definition>
 		<key>text_upgrade_now</key>
-		<value><![CDATA[ Upgrade Now! ]]></value>
+		<value><![CDATA[ Aggiorna ora! ]]></value>
 	</definition>
 	<definition>
 		<key>error_additional_help_text</key>
@@ -242,10 +242,10 @@ Automatic full backup will be created. It is recommended to try upgrade on test 
 	</definition>
 	<definition>
 		<key>error_notconnected</key>
-		<value><![CDATA[ Can not upgrade or install extensions from the marketplace. This store is not authenticated/connected. Please authenticate and conect to the <a href="%s">marketplace</a> ]]></value>
+		<value><![CDATA[ Can not upgrade or install extensions from the marketplace. This store is not authenticated/connected. Please authenticate and connect to the <a href="%s">marketplace</a> ]]></value>
 	</definition>
 	<definition>
 		<key>text_success</key>
-		<value><![CDATA[???? Success: Package was installed successfully. ]]></value>
+		<value><![CDATA[ Successo: Pacchetto stato installato con successo. ]]></value>
 	</definition>
 </definitions>

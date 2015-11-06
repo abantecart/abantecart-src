@@ -390,10 +390,10 @@
 	</definition>
 	<definition>
 		<key>text_save_success</key>
-		<value><![CDATA[????Success: You have modified extension settings!]]></value>
+		<value><![CDATA[Successo: sono state modificate le impostazioni di estensione!]]></value>
 	</definition>
 	<definition>
 		<key>text_update_available</key>
-		<value><![CDATA[????New version (%s) is available. <a href="%s">Click to update now.</a>]]></value>
+		<value><![CDATA[La Nuova versione (%s) è disponibile. <a href="%s">Clicca per aggiornare ora.</a>]]></value>
 	</definition>
 </definitions>

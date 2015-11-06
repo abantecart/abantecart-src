@@ -238,18 +238,18 @@
 	</definition>
 	<definition>
 		<key>text_manufacturers</key>
-		<value><![CDATA[????Manufacturers]]></value>
+		<value><![CDATA[Fabbricanti]]></value>
 	</definition>
 	<definition>
 		<key>text_featured</key>
-		<value><![CDATA[????Featured Products]]></value>
+		<value><![CDATA[Prodotti sponsorizzati]]></value>
 	</definition>
 	<definition>
 		<key>text_latest</key>
-		<value><![CDATA[????Latest Products]]></value>
+		<value><![CDATA[Gli ultimi prodotti]]></value>
 	</definition>
 	<definition>
 		<key>text_bestsellers</key>
-		<value><![CDATA[????Bestsellers Products]]></value>
+		<value><![CDATA[Prodotti venduti]]></value>
 	</definition>
 </definitions>

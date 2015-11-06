@@ -10,18 +10,18 @@
 	</definition>
 	<definition>
 		<key>text_storefront_templates</key>
-		<value><![CDATA[????Available Storefront Templates]]></value>
+		<value><![CDATA[Modelli disponibili Storefront]]></value>
 	</definition>
 	<definition>
 		<key>text_edit_extension</key>
-		<value><![CDATA[????Extension Settings]]></value>
+		<value><![CDATA[Impostazioni degli interni]]></value>
 	</definition>
 	<definition>
 		<key>text_error</key>
-		<value><![CDATA[????Error: Missing required parameter in your request!]]></value>
+		<value><![CDATA[Errore: mancante parametro richiesto nella vostra richiesta!]]></value>
 	</definition>
 	<definition>
 		<key>error_permission</key>
-		<value><![CDATA[????Warning: You do not have permission to modify templates!]]></value>
+		<value><![CDATA[Attenzione: Non hai il permesso di modificare i modelli!]]></value>
 	</definition>
 </definitions>
