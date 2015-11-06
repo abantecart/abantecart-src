@@ -521,15 +521,7 @@ class ALanguage {
 		$load_data = null;
 		//Check if we already have language loaded. Skip and return the language set
 		if ($this->_is_loaded($filename)) {
-			$this->current_languages_scope[] = $filename;
 			$load_data = $this->_get_language_set($filename);
-			if ($this->language_details['filename'] != $filename
-					&& $this->entries[$this->language_details['filename']]
-					&& $load_data
-			) {
-				$load_data = array_merge($this->entries[$this->language_details['filename']], $load_data);
-			}
-			$this->entries[$filename] = $load_data;
 			return $load_data;
 		}
 
