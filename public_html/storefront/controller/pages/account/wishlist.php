@@ -30,7 +30,7 @@ class ControllerPagesAccountWishlist extends AController {
 		$this->extensions->hk_InitData($this, __FUNCTION__);
 
 		if (!$this->customer->isLogged()) {
-			$this->session->data['redirect'] = $this->html->getSecureURL('account/address');
+			$this->session->data['redirect'] = $this->html->getSecureURL('account/wishlist');
 			$this->redirect($this->html->getSecureURL('account/login'));
 		}
 
