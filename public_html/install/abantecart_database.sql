@@ -10715,7 +10715,7 @@ VALUES
 (11,'First name:','Name must be between 3 and 32 characters!',1),
 (12,'Email:','E-Mail Address does not appear to be valid!',1),
 (13,'Enquiry:','Enquiry must be between 10 and 3000 characters!',1),
-(14,'Enter the code in the box below:','Verification code does not match the image!',1);
+(14,'Enter the code in the box below:','Human verification has failed! Please try agan.',1);
 
 --
 -- DDL for table `ac_field_values`
