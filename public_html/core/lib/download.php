@@ -356,7 +356,7 @@ final class ADownload {
 				header('Content-Transfer-Encoding: ' . $encoding);
 				header('Content-Disposition: attachment; filename=' . ($mask ? $mask : basename($file)));
 				header('Content-Length: ' . $filesize);
-				ob_clean();
+				ob_end_clean();
 				$bytes_sent = 0;
 				$order_download_history_id = 'NULL';
 				while(!feof($file_handler) ){// if we haven't got to the End Of File
