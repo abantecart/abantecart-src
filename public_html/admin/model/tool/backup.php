@@ -30,7 +30,6 @@ class ModelToolBackup extends Model {
 	 */
 	private $est_backup_size = 0;
 
-	//TODO: need to solve issue (memory overflow) with large sql-scripts
 	/**
 	 * @param string $sql
 	 */
@@ -200,9 +199,6 @@ class ModelToolBackup extends Model {
 					FROM information_schema.TABLES
 					WHERE information_schema.TABLES.table_schema = '".DB_DATABASE."'
 						AND TABLE_NAME IN ('".implode("','",$data['table_list'])."')	";
-			if($prefix_len){
-				$sql .= " AND TABLE_NAME like '".DB_PREFIX."%'";
-			}
 
 			$result = $this->db->query($sql);
 			$db_size = $result->row['db_size']; //size in bytes
