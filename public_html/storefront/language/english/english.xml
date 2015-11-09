@@ -283,7 +283,7 @@
 	</definition>
 	<definition>
 		<key>error_captcha</key>
-		<value><![CDATA[Verification code does not match the image!]]></value>
+		<value><![CDATA[Human verification has failed! Please try agan.]]></value>
     </definition>
 	<definition>
 		<key>entry_attached</key>
