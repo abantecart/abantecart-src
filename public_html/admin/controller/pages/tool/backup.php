@@ -307,10 +307,10 @@ class ControllerPagesToolBackup extends AController {
 		}
 
 		if(has_value($this->request->post['do_backup'])){ // sign of backup form
-			$this->request->post['backup_files'] = $this->request->post['backup_files'] ? true : false;
-			$this->request->post['backup_config'] = $this->request->post['backup_config'] ? true : false;
+			$this->request->post['backup_code'] = $this->request->post['backup_code'] ? true : false;
+			$this->request->post['backup_content'] = $this->request->post['backup_content'] ? true : false;
 
-			if(!$this->request->post['backup'] &&  !$this->request->post['backup_files'] && !$this->request->post['backup_config']){
+			if(!$this->request->post['do_backup'] &&  !$this->request->post['backup_code'] && !$this->request->post['backup_content']){
 				$this->error['warning'] = $this->language->get('error_nothing_to_backup');
 			}
 		}
