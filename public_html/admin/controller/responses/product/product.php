@@ -404,7 +404,7 @@ class ControllerResponsesProductProduct extends AController{
 					'style' => 'no-save'
 			));
 
-			$this->data['entry_upload_dir'] = sprintf($this->language->get('entry_upload_dir'), 'admin/system/upload/');
+			$this->data['entry_upload_dir'] = sprintf($this->language->get('entry_upload_dir'), 'admin/system/uploads/');
 
 		} else{
 

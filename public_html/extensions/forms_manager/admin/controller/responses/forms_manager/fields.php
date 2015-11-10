@@ -394,11 +394,11 @@ class ControllerResponsesFormsManagerFields extends AController {
 				)),
 		);
 
-		$this->data['entry_upload_dir'] = sprintf($this->language->get('entry_upload_dir'), 'admin/system/upload/');
-		if (!is_writable(DIR_APP_SECTION . '/system/uploads')
-				|| (!is_writable(DIR_APP_SECTION . '/system/uploads/' . trim($this->data['attribute_data']['settings']['directory'], '/'))
-						&& is_dir(DIR_APP_SECTION . '/system/uploads/' . trim($this->data['attribute_data']['settings']['directory'], '/')))
-		) {
+		$this->data['entry_upload_dir'] = sprintf($this->language->get('entry_upload_dir'), 'admin/system/uploads/');
+		$uplds_dir = DIR_APP_SECTION . '/system/uploads';
+		$settgs_dir = $uplds_dir.'/'.trim($this->data['attribute_data']['settings']['directory'], '/');
+		//check or make writable dirs
+		if( !make_writable_dir($uplds_dir) || !make_writable_dir($settgs_dir) ){
 			$this->data['form']['settings_fields']['directory'] .= '<i class="error">' . $this->language->get('error_directory_not_writable') . '</i>';
 		}
 
