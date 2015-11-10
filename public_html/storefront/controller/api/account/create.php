@@ -82,7 +82,9 @@ class ControllerApiAccountCreate extends AControllerAPI {
     	} else { 
 
       		$this->data['status'] = 0;
+      		$this->data['errors'] = $this->v_error;
 	        $this->data['error_warning'] = $this->v_error['warning'];
+	        $this->data['error_loginname'] = $this->v_error['loginname'];
 			$this->data['error_firstname'] = $this->v_error['firstname'];
 			$this->data['error_lastname'] = $this->v_error['lastname'];
 			$this->data['error_email'] = $this->v_error['email'];
