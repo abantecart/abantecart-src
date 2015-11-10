@@ -6,7 +6,7 @@
 	<div class="panel-heading">
 		<h3 class="panel-title"><?php echo $option_data['language'][$language_id]['name']; ?></h3>
 	</div>
-	<div id="option_edit_form" class="panel-body panel-body-nopadding table-responsive">
+	<div id="option_edit_form" class="panel-body panel-body-nopadding">
 		<div class="form-group">
 			<label class="heading col-sm-10"><?php echo $text_option_type; ?>: <?php echo $option_type; ?></label>
 			<div class="input-group col-sm-2">

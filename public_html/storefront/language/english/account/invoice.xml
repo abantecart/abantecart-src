@@ -86,7 +86,7 @@
 	</definition>
 	<definition>
 		<key>text_error</key>
-		<value><![CDATA[The invoice you requested could not be found!]]></value>
+		<value><![CDATA[The order you have requested could not be found!]]></value>
 	</definition>
 	<definition>
 		<key>column_date_added</key>

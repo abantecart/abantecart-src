@@ -72,11 +72,12 @@ class ControllerResponsesToolBackup extends AController {
 			$backup_name = $this->request->get_or_post('backup_name');
 			$backup_name = !$backup_name ? 'manual_backup' : $backup_name;
 
+			$display_name = '';
 			if(is_file(DIR_BACKUP.$backup_name.'.tar.gz')){
-				$bkp_name = 'admin/system/backup/'.$backup_name.'.tar.gz';
+				$display_name = $backup_name.'.tar.gz';
 				$result_text = $this->html->convertLinks($this->language->get('backup_complete_text_file'));
 			}elseif(is_dir(DIR_BACKUP.$backup_name)){
-				$bkp_name = 'admin/system/backup/'.$backup_name;
+				$display_name = $backup_name . '/...';
 				$result_text = sprintf($this->language->get('backup_complete_text_dir'),DIR_BACKUP.$backup_name);
 			}
 
@@ -84,7 +85,7 @@ class ControllerResponsesToolBackup extends AController {
 			$install_upgrade_history->addRows(array('date_added'=> date("Y-m-d H:i:s",time()),
 										'name' => 'Manual Backup',
 										'version' => VERSION,
-										'backup_file' => $bkp_name,
+										'backup_file' => $display_name,
 										'backup_date' => date("Y-m-d H:i:s",time()),
 										'type' => 'backup',
 										'user' => $this->user->getUsername() ));

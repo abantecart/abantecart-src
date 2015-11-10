@@ -4,7 +4,7 @@
 		<div class="panel-heading">
 			<h3 class="panel-title"><?php echo $field_data['field_name']; ?></h3>
 		</div>
-		<div id="field_edit_form" class="panel-body panel-body-nopadding table-responsive">
+		<div id="field_edit_form" class="panel-body panel-body-nopadding">
 			<div class="form-group">
 				<label class="heading col-sm-10"><?php echo $text_field_type; ?>: <?php echo $field_type; ?></label>
 				<div class="input-group col-sm-2">
