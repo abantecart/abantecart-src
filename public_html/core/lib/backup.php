@@ -55,18 +55,11 @@ final class ABackup {
 	         */
 		$this->registry = Registry::getInstance();
 
-
-	    //first of all check backup directory permissions etc
-	    //if backup directory is unaccessable - use php temporary directory. But it's a extreme case.
-	    // Before backup process need to call validate() method! (see belong)
-	    if(!is_dir(DIR_BACKUP)){
-			if(!is_writeable(DIR_APP_SECTION.'system')){
-				$this->error[] = 'Directory '.DIR_BACKUP.' is non-writable. It is recommended to set write mode for it.';
-			}else{
-				mkdir(DIR_BACKUP,0777);
-			}
+	    //first of all check backup directory create or set writable permissions
+	    // Before backup process need to call validate() method! (see below)
+	    if(!make_writable_dir(DIR_BACKUP)){
+			$this->error[] = 'Directory '.DIR_BACKUP.' can not be created or is not writable. Backup operation is not possible';
 	    }
-
 
   		//Add [date] snapshot to the name and validate if archive is already used.
   		//Return error if archive can not be created
@@ -75,7 +68,6 @@ final class ABackup {
 		//Create a tmp directory with backup name
 		//Create subdirectory /files and  /data
 		$this->backup_dir = DIR_BACKUP . $this->backup_name.'/';
-
 
 		if(!is_dir($this->backup_dir) && $create_subfolders ){
 			$result = mkdir($this->backup_dir, 0777, true);
