@@ -169,7 +169,7 @@ function check_file_permissions($registry){
 	    );
 	}
 
-	if (!is_writable(DIR_ROOT . '/admin/system/uploads')) {
+	if (is_dir(DIR_ROOT . '/admin/system/uploads') && !is_writable(DIR_ROOT . '/admin/system/uploads')) {
 	    $ret_array[] = array(
 	    	'title' => 'Incorrect "uploads" directory permission',
 	    	'body' => DIR_ROOT . '/admin/system/uploads' . ' directory needs to be set to full permissions(777)! Probably AbanteCart file uploads will not work.',

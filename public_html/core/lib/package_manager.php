@@ -808,19 +808,10 @@ class APackageManager {
 	 * @return string
 	 */
 	public function getTempDir() {
-		$tmp_install_dir = DIR_APP_SECTION . "system/temp/install";
-
-		if(!is_dir(DIR_APP_SECTION . "system/temp") && is_writable(DIR_APP_SECTION . "system")){
-			mkdir( DIR_APP_SECTION . "system/temp", 0777);
-			mkdir( $tmp_install_dir, 0777);
-		}
-
-		// if temp directory already exists
-		if(!is_dir( $tmp_install_dir ) && is_writable(DIR_APP_SECTION . "system/temp")){
-			mkdir( $tmp_install_dir, 0777);
-		}
-
-		if (is_writable($tmp_install_dir)) {
+		$tmp_dir = DIR_APP_SECTION . 'system/temp';
+		$tmp_install_dir = $tmp_dir. '/install';
+		//try to create tmp dir if not yet created and install.		
+		if (make_writable_dir($tmp_dir) && make_writable_dir($tmp_install_dir)) {
 			$dir = $tmp_install_dir . "/";
 		}else {
 			if(!is_dir(sys_get_temp_dir() . '/abantecart_install')){

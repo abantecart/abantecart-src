@@ -73,7 +73,7 @@ class ControllerResponsesToolBackup extends AController {
 			$backup_name = !$backup_name ? 'manual_backup' : $backup_name;
 
 			if(is_file(DIR_BACKUP.$backup_name.'.tar.gz')){
-				$bkp_name = $backup_name.'.tar.gz';
+				$bkp_name = 'admin/system/backup/'.$backup_name.'.tar.gz';
 				$result_text = $this->html->convertLinks($this->language->get('backup_complete_text_file'));
 			}elseif(is_dir(DIR_BACKUP.$backup_name)){
 				$bkp_name = 'admin/system/backup/'.$backup_name;

@@ -326,7 +326,7 @@ class ControllerPagesToolBackup extends AController {
 
 		if ($this->user->canAccess('tool/backup')) {
 			$filename = str_replace(array('../', '..\\', '\\', '/'), '', $this->request->get['filename']);
-			$file = DIR_APP_SECTION . 'system/backup/' . $filename;
+			$file = DIR_BACKUP . $filename;
 			if (file_exists($file)) {
 				header('Content-Description: File Transfer');
 				header('Content-Type: application/x-gzip');
