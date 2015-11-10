@@ -227,6 +227,32 @@ function check_php_configuraion($registry){
 	    	'type' => 'W'	    
 	    );
 	}
+
+	//check memory limit
+
+	$memory_limit = trim(ini_get('memory_limit'));
+	$last = strtolower($memory_limit[strlen($memory_limit)-1]);
+
+    switch($last) {
+        // The 'G' modifier is available since PHP 5.1.0
+        case 'g':
+	        $memory_limit *= 1024;
+        case 'm':
+	        $memory_limit *= 1024;
+        case 'k':
+	        $memory_limit *= 1024;
+    }
+
+
+	if ($memory_limit < (128 * 1024 * 1024)) {
+		$ret_array[] = array(
+		        'title' => 'Memory limitation',
+		        'body' => 'Incorrect PHP memory limit. Some Abantecart functions will not work with memory limit less than 128Mb!',
+		        'type' => 'W'
+		);
+	}
+
+
 	return $ret_array;
 }
 

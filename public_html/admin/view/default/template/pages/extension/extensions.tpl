@@ -100,8 +100,9 @@ echo $this->html->buildElement(
 		var userdata = data.userdata;
 		$('.grid_action_edit, .grid_action_install, .grid_action_uninstall, .grid_action_delete' ).each(function(){
 			var row_id = $(this).parents('tr').attr('id');
-			var href = $(this).attr('href');
-			$(this).attr('href', href+'&extension='+userdata.extension_id[ row_id ]);
+			var href = $(this).attr('href') + '&extension='+userdata.extension_id[ row_id ];
+			$(this).attr('href', href);
+			$(this).next('.confirm_popover').find('.btn-danger').attr('href',href);
 		});
 
 		$('.grid_action_install' ).click(function(){
