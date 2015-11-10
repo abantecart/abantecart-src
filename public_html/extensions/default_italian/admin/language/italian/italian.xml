@@ -110,7 +110,7 @@
 	</definition>
 	<definition>
 		<key>text_home</key>
-		<value><![CDATA[Home]]></value>
+		<value><![CDATA[Casa]]></value>
 	</definition>
 	<definition>
 		<key>button_insert</key>
@@ -182,7 +182,7 @@
 	</definition>
 	<definition>
 		<key>button_backup</key>
-		<value><![CDATA[Backup]]></value>
+		<value><![CDATA[Di Riserva]]></value>
 	</definition>
 	<definition>
 		<key>button_restore</key>

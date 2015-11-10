@@ -12,9 +12,9 @@ if (! defined ( 'DIR_CORE' )) {
 	header ( 'Location: static_pages/' );
 }
 $this->db->query("INSERT INTO ".DB_PREFIX."languages (`name`,`code`,`locale`,`image`,`directory`,`filename`,`sort_order`, `status`)
-				  VALUES ('Italian', 'it', 'it_IT.UTF-8,it_IT,italian', 'extensions/italian_language/storefront/language/italian/flag.png','italian','italian','3',0);");
+				  VALUES ('Italiano', 'it', 'it_IT.UTF-8,it_IT,italian', 'extensions/default_italian/storefront/language/italian/flag.png','italian','italian','3',0);");
 $new_language_id = $this->db->getLastId();
-$xml = simplexml_load_file(DIR_EXT.'italian_language/menu.xml');
+$xml = simplexml_load_file(DIR_EXT.'default_italian/menu.xml');
 
 $routes = array(
 			'text_index_home_menu'=>'index/home',
