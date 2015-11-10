@@ -130,15 +130,19 @@
     <i class="fa fa-language fa-fw"></i> Select additional languages.
     </div>
     <div class="row">
-	    <div class="col-sm-4 h5 center">
+	    <div class="col-sm-3 h5 center">
+	        <a href="#admin#rt=extension/extensions/install&extension=default_italian" target="_extension">
+	        <img src="extensions/default_italian/image/icon.png"><br>Italian</a>
+	    </div>
+	    <div class="col-sm-3 h5 center">
 	        <a href="#admin#rt=extension/extensions/install&extension=default_spanish" target="_extension">
 	        <img src="extensions/default_spanish/image/icon.png"><br>Spanish</a>
 	    </div>
-	    <div class="col-sm-4 h5 center">
+	    <div class="col-sm-3 h5 center">
 	        <a href="#admin#rt=extension/extensions/install&extension=default_russian" target="_extension">
 	        <img src="extensions/default_russian/image/icon.png"><br>Russian</a>
 	    </div>
-	    <div class="col-sm-4 h5 center">
+	    <div class="col-sm-3 h5 center">
 	        <a href="#admin#rt=extension/extensions_store&category_id=67&sidx=date_modified" target="_extension">
 	        <img src="admin/view/default/image/default_extension.png"><br>More Languages</a>
 	    </div>
