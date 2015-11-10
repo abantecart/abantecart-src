@@ -53,7 +53,9 @@
 			if(!tr.hasClass('disable-edit')){
 				var rowid = tr.attr('id').split('_');
 				if(rowid[1]){
-					$(this).attr('href', $(this).attr('href')+'&custom_block_id='+rowid[1]);
+					var href = $(this).attr('href')+'&custom_block_id='+rowid[1];
+					$(this).attr('href', href);
+					$(this).next('.confirm_popover').find('.btn-danger').attr('href',href);
 				}
 			}
 		});
