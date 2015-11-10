@@ -395,6 +395,9 @@
 	            $field.wrap($.aform.wrapper).wrap($.aform.mask);
 	            $field.addClass('form-control').addClass('input-sm');            
             }
+            if($field.parents('td').css('overflow')=='hidden'){
+                $field.parents('td').css('overflow','visible');
+            }
         }
 
         $.aform.noSelect = function (elem) {
