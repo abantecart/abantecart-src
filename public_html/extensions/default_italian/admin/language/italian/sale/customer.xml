@@ -337,5 +337,4 @@
         <key>warning_actonbehalf_additional_store</key>
         <value><![CDATA[Per agire per conto del cliente nel negozio supplementare, si dovrebbe effettuare il login nel lato di amministrazione di un altro negozio. Continuare?]]></value>
     </definition>
-
 </definitions>

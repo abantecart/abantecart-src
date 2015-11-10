@@ -92,5 +92,4 @@
         <key>error_already exists</key>
         <value><![CDATA[ERRORE!<br>Definizione della lingua con chiave "%s" e blocco "%s" per %s la sezione esiste già!<br>Clicca <a target="_blank" href="%s">questo link</a> per visualizzare]]></value>
     </definition>
-
 </definitions>

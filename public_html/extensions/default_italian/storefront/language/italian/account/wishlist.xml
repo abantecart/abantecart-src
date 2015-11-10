@@ -8,7 +8,6 @@
         <key>text_account</key>
         <value><![CDATA[Account]]></value>
     </definition>
-
 	<definition>
 		<key>text_empty_wishlist</key>
 		<value><![CDATA[Lista dei desideri vuota]]></value>
@@ -21,7 +20,6 @@
 		<key>button_continue</key>
 		<value><![CDATA[Continua Shopping]]></value>
 	</definition>
-	
 	<definition>
 		<key>column_image</key>
 		<value><![CDATA[Immagine]]></value>
@@ -46,5 +44,4 @@
 		<key>column_actions</key>
 		<value><![CDATA[Azioni]]></value>
 	</definition>
-
 </definitions>

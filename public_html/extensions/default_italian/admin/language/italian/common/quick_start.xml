@@ -1,77 +1,69 @@
 <?xml version="1.0"?>
 <definitions>
-  <definition>
-    <key>text_quick_start</key>
-    <value><![CDATA[Avvio rapido guidato]]></value>
-  </definition>
-  <definition>
-    <key>text_quick_start_note</key>
-    <value><![CDATA[
+	<definition>
+		<key>text_quick_start</key>
+		<value><![CDATA[Avvio rapido guidato]]></value>
+	</definition>
+	<definition>
+		<key>text_quick_start_note</key>
+		<value><![CDATA[
     	Benvenuto nell'amministrazione di AbanteCart.<br />
     	Si tratta di una procedura guidata per impostare rapidamente il tuo carrello della spesa con la maggior parte delle impostazioni comuni.
 		<br />
     ]]></value>
-  </definition>
-
-  <definition>
-    <key>text_quick_start_general</key>
-    <value><![CDATA[
+	</definition>
+	<definition>
+		<key>text_quick_start_general</key>
+		<value><![CDATA[
     	Qui di seguito ci sono le impostazioni generali più comuni. 
     	Ulteriori impostazioni sono disponibili <a href="%s" target="_new_admin"><i class="fa fa-link fa-fw"></i></a>
     ]]></value>
-  </definition>
-
-  <definition>
-    <key>text_quick_start_details</key>
-    <value><![CDATA[
+	</definition>
+	<definition>
+		<key>text_quick_start_details</key>
+		<value><![CDATA[
     	Qui di seguito sono le impostazioni più comuni sul tuo negozio. 
     	Ulteriori impostazioni sono disponibili <a href="%s" target="_new_admin"><i class="fa fa-link fa-fw"></i></a>
     ]]></value>
-  </definition>
-
-  <definition>
-    <key>text_quick_start_checkout</key>
-    <value><![CDATA[
+	</definition>
+	<definition>
+		<key>text_quick_start_checkout</key>
+		<value><![CDATA[
     	Qui di seguito sono le impostazioni più comuni sul checkout processo. 
     	Ulteriori impostazioni sono disponibili <a href="%s" target="_new_admin"><i class="fa fa-link fa-fw"></i></a>
     ]]></value>
-  </definition>
-
-  <definition>
-    <key>text_quick_start_appearance</key>
-    <value><![CDATA[
+	</definition>
+	<definition>
+		<key>text_quick_start_appearance</key>
+		<value><![CDATA[
     	Qui di seguito sono le impostazioni più comuni per l'aspetto vetrina. 
     	Ulteriori impostazioni sono disponibili <a href="%s" target="_new_admin"><i class="fa fa-link fa-fw"></i></a>
     ]]></value>
-  </definition>
-
-  <definition>
-    <key>text_quick_start_mail</key>
-    <value><![CDATA[
+	</definition>
+	<definition>
+		<key>text_quick_start_mail</key>
+		<value><![CDATA[
     	Qui di seguito sono le impostazioni più comuni per consentire di posta elettronica. Se si utilizza un server esterno di posta elettronica (google, ecc) per inviare e-mail, è necessario utilizzare l'opzione SMTP. Per e-mail da inviare da questo server di posta utilizzare opzioni mail. 
     	Ulteriori impostazioni sono disponibili <a href="%s" target="_new_admin"><i class="fa fa-link fa-fw"></i></a>
     ]]></value>
-  </definition>
-
-  <definition>
-    <key>text_quick_start_last</key>
-    <value><![CDATA[
+	</definition>
+	<definition>
+		<key>text_quick_start_last</key>
+		<value><![CDATA[
     	Qui sotto è possibile selezionare i pagamenti desiderati e le modalità di spedizione, lingue e molte altre caratteristiche per estendere la funzionalità e-commerce.
     	Ricordati di controllare una selezione di estensioni su <a href="#admin#rt=extension/extensions_store" target="_extension">AbanteCart marketplace</a> offerto dalla comunità di sviluppatori professionali.
     ]]></value>
-  </definition>
-
-  <definition>
-    <key>text_quick_start_last_footer</key>
-    <value><![CDATA[
+	</definition>
+	<definition>
+		<key>text_quick_start_last_footer</key>
+		<value><![CDATA[
     	Hai completato wizard di avviamento rapido. <br /><br /> 
     	È possibile individuare tutte le impostazioni <a href="%s">this link <i class="fa fa-link fa-fw"></i></a>
     ]]></value>
-  </definition>
-
-  <definition>
-    <key>payments_selection</key>
-    <value><![CDATA[
+	</definition>
+	<definition>
+		<key>payments_selection</key>
+		<value><![CDATA[
     <div class="info alert alert-info">
     <i class="fa fa-money fa-fw"></i> Seleziona il tuo metodo di pagamento.
     </div>
@@ -94,11 +86,10 @@
 	    </div>
     </div>
     ]]></value>
-  </definition>
-
-  <definition>
-    <key>shipping_selection</key>
-    <value><![CDATA[
+	</definition>
+	<definition>
+		<key>shipping_selection</key>
+		<value><![CDATA[
     <div class="info alert alert-info">
     <i class="fa fa-truck fa-fw"></i> Seleziona il tuo metodo di spedizione.
     </div>
@@ -121,11 +112,10 @@
 	    </div>
     </div>
     ]]></value>
-  </definition>
-
-  <definition>
-    <key>language_selection</key>
-    <value><![CDATA[
+	</definition>
+	<definition>
+		<key>language_selection</key>
+		<value><![CDATA[
     <div class="info alert alert-info">
     <i class="fa fa-language fa-fw"></i> Seleziona lingue addizionali.
     </div>
@@ -144,11 +134,10 @@
 	    </div>
     </div>
     ]]></value>
-  </definition>
-
-  <definition>
-    <key>more_extentions</key>
-    <value><![CDATA[
+	</definition>
+	<definition>
+		<key>more_extentions</key>
+		<value><![CDATA[
     <div class="info alert alert-info">
     <i class="fa fa-puzzle-piece fa-fw"></i> Altre estensioni su AbanteCart marketplace.
     </div>
@@ -160,6 +149,5 @@
 		</div>
     </div>
     ]]></value>
-  </definition>
-
+	</definition>
 </definitions>

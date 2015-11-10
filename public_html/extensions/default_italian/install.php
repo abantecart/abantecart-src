@@ -14,6 +14,7 @@ if (! defined ( 'DIR_CORE' )) {
 $this->db->query("INSERT INTO ".DB_PREFIX."languages (`name`,`code`,`locale`,`image`,`directory`,`filename`,`sort_order`, `status`)
 				  VALUES ('Italiano', 'it', 'it_IT.UTF-8,it_IT,italian', 'extensions/default_italian/storefront/language/italian/flag.png','italian','italian','3',0);");
 $new_language_id = $this->db->getLastId();
+
 $xml = simplexml_load_file(DIR_EXT.'default_italian/menu.xml');
 
 $routes = array(

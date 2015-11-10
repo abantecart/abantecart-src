@@ -360,7 +360,6 @@
 		<key>text_settings_newstore</key>
 		<value><![CDATA[Crea un nuovo negozio]]></value>
 	</definition>
-
 	<definition>
 		<key>text_voice_command_prompt</key>
 		<value><![CDATA[Prompt dei comandi vocali.]]></value>
@@ -413,7 +412,6 @@
 		<key>text_read_all_messages</key>
 		<value><![CDATA[Leggi tutti i messaggi]]></value>
 	</definition>
-
 	<definition>
 		<key>text_short_stats</key>
 		<value><![CDATA[Statistiche veloci]]></value>
@@ -446,5 +444,4 @@
 		<key>text_today_reviews</key>
 		<value><![CDATA[Nuove recensioni di oggi]]></value>
 	</definition>
-
 </definitions>

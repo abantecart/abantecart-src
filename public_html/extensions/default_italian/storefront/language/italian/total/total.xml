@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <definitions>
-  <definition>
-    <key>text_total</key>
-    <value><![CDATA[Totale:]]></value>
-  </definition>
+	<definition>
+		<key>text_total</key>
+		<value><![CDATA[Totale:]]></value>
+	</definition>
 </definitions>
