@@ -4,12 +4,13 @@
 <?php } ?>
 <?php echo $form ?>
 <div class="form-group">
-	<div class="col-md-7 pull-right">
-	<button type="reset" class="btn btn-default pull-left"><i class="fa fa-refresh"></i></button>
-	&nbsp;
-	<button type="<?php echo $submit->type ?>" class="btn btn-primary" title="<?php echo $submit->name ?>">
-	<i class="fa fa-check"></i> <?php echo $submit->name ?>
-	</button>
+	<div class="col-md-4 col-md-offset-2">
+		<button type="reset" class="btn btn-default pull-left"><i class="fa fa-refresh"></i></button>
+	</div>
+	<div class="col-md-6">
+		<button type="<?php echo $submit->type ?>" class="btn btn-primary" title="<?php echo $submit->name ?>">
+		<i class="fa fa-check"></i> <?php echo $submit->name ?>
+		</button>
 	</div>
 </div>
 <?php echo $form_close ?>

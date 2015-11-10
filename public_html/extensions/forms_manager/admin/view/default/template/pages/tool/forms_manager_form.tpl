@@ -71,23 +71,19 @@
 	<?php if ($form_id) { ?>
 		<div class="panel-body panel-body-nopadding tab-content col-xs-12">
 			<div class="form-inline">
-				<div class="form-group">
-					<div class="input-group input-group-sm">
-						<label><?php echo $entry_edit_fields; ?></label>
-					</div>
-				</div>
-				<div class="form-group">
-					<div class="input-group input-group-sm">
-						<?php echo $form['fields']; ?>
-					</div>
-				</div>
-				<div class="btn-group ml10 toolbar">
-					<a class="btn btn-white tooltips" href="#"
+				<div class="btn-group ml10 toolbar mr20">
+					<a class="btn btn-primary tooltips" href="#"
 					   title="<?php echo $text_add_new_field; ?>"
 					   data-original-title="<?php echo $text_add_new_field; ?>"
 					   data-target="#field_modal" data-toggle="modal">
 						<i class="fa fa-plus"></i>
 					</a>
+				</div>
+				<div class="form-group">
+					<label><?php echo $entry_edit_fields; ?></label>
+					<div class="input-group input-group-sm">
+						<?php echo $form['fields']; ?>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -177,11 +173,7 @@ echo $this->html->buildElement(
 				'content' => $modal_content));
 ?>
 
-
-
-
 <script type="text/javascript"><!--
-
 
 var text = {
 	error_attribute_not_selected: '<?php echo $error_attribute_not_selected ?>',
@@ -374,6 +366,9 @@ jQuery(function ($) {
 				$('#new_fieldFrm_field_id').delay(1000).change();
 				$('#field_modal').modal('hide');
 				success_alert('<?php echo $text_success_added_field; ?>', true);
+				//reset form in modal
+				$("#new_fieldFrm").trigger('reset');
+				$("#new_fieldFrm .changed").removeClass('changed');
 			},
 			complete: function () {
 				bindAform($("input, checkbox, select", '#field_edit_form'));

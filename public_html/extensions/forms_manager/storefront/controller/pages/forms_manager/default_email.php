@@ -44,13 +44,16 @@ class ControllerPagesFormsManagerDefaultEmail extends AController {
 				exit;
 			}
 
-			$form_data = $this->model_tool_forms_manager->getForm($this->request->get['form_id']);
+			$form_id = $this->request->get['form_id'];
+			$form_data = $this->model_tool_forms_manager->getForm($form_id);
 			$form = new AForm($form_data['form_name']);
 			$form->loadFromDb($form_data['form_name']);
 			$errors = $form->validateFormData($this->request->post);
 
 			if ( $errors ) {
-				$this->session->data['custom_form_errors'][$this->request->get['form_id']] = $errors;
+				//save error and data to session
+				$this->session->data['custom_form_'.$form_id] = $this->request->post;
+				$this->session->data['custom_form_'.$form_id]['errors'] = $errors;
 				$this->redirect($path);
 				exit;
 			}else {
@@ -86,11 +89,11 @@ class ControllerPagesFormsManagerDefaultEmail extends AController {
 
 				$msg = $this->config->get('store_name')."\r\n".$this->config->get('config_url')."\r\n";
 
-				$fields = $this->model_tool_forms_manager->getFields($this->request->get['form_id']);
+				$fields = $this->model_tool_forms_manager->getFields($form_id);
 
 				foreach ( $fields as $field ) {
 					// skip files and captchas
-					if(in_array($field['element_type'],array('K','U'))){ continue; }
+					if(in_array($field['element_type'],array('K', 'J' ,'U'))){ continue; }
 
 					if ( isset($this->request->post[$field['field_name']]) ) {
 						$val = $this->request->post[$field['field_name']];
@@ -129,11 +132,14 @@ class ControllerPagesFormsManagerDefaultEmail extends AController {
 					}else{
 						$success_url = $this->html->getSecureURL('forms_manager/default_email/success');
 					}
+					
+					//clear form session 
+					unset($this->session->data['custom_form_'.$form_id]);
 					$this->redirect($success_url);
 					exit;
 				} else {
 					$this->session->data['warning'] = $mail->error;
-					$this->redirect($this->html->getSecureURL('forms_manager/default_email','&form_id='.$this->request->get['form_id']));
+					$this->redirect($this->html->getSecureURL('forms_manager/default_email','&form_id='.$form_id));
 					exit;
 				}
 			}

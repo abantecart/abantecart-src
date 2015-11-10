@@ -476,6 +476,12 @@ class AForm {
 				'value' => $field['value'],
 				'options' => $field['options'],
 			);
+			
+			//populate customer entered values from session (if present)
+			if( is_array($this->session->data['custom_form_'.$this->form['form_id']]) ) {
+				$data['value'] = $this->session->data['custom_form_'.$this->form['form_id']][$field['field_name']];
+			}
+			
 			//custom data based on the HTML element type
 			switch ($data['type']) {
 				case 'multiselectbox' :
@@ -584,7 +590,7 @@ class AForm {
 				$errors[$field['field_name']] = $field['name'].' '.$this->language->get('text_field_required');
 			}
 			// for required string values
-			if($field['required']=='Y' && !in_array($field['element_type'],array('K','U'))){
+			if($field['required']=='Y' && !in_array($field['element_type'],array('K','J','U'))){
 				if(!is_array( $data[$field['field_name']] )){
 					$data[$field['field_name']] = trim($data[$field['field_name']]);
 					//if empty string!
@@ -621,7 +627,7 @@ class AForm {
 			}
 
 			//for captcha or recaptcha	
-			if($field['element_type'] == 'K') {
+			if($field['element_type'] == 'K' || $field['element_type'] == 'J') {
 
 				if($this->config->get('config_recaptcha_secret_key')) {
 					require_once DIR_VENDORS . '/google_recaptcha/autoload.php';
@@ -660,6 +666,7 @@ class AForm {
 				}
 			}
 		}
+
 		return $errors;
 	}
 

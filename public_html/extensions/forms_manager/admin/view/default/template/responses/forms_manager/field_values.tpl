@@ -5,13 +5,16 @@
 			<h3 class="panel-title"><?php echo $field_data['field_name']; ?></h3>
 		</div>
 		<div id="field_edit_form" class="panel-body panel-body-nopadding table-responsive">
-			<h4 class="mb20"><?php echo $text_field_type; ?>: <?php echo $field_type; ?>
-				<a class="pull-right btn btn-default tooltips"
+			<div class="form-group">
+				<label class="heading col-sm-10"><?php echo $text_field_type; ?>: <?php echo $field_type; ?></label>
+				<div class="input-group col-sm-2">
+				<a class=" pull-right btn btn-default tooltips"
 				   href="<?php echo $button_remove_field->href; ?>"
 				   data-original-title="<?php echo $button_remove_field->text; ?>" data-confirmation="delete">
-					<i class="fa fa-trash-o"></i>
+				    <i class="fa fa-trash-o"></i>
 				</a>
-			</h4>
+				</div>
+			</div>
 
 			<?php
 			$fields = array(
