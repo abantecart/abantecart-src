@@ -159,9 +159,6 @@ class ControllerPagesToolBackup extends AController {
 			$this->data['entry_tables_size'] = round($db_size/1024,1) .'Kb';
 		}
 
-		$this->data['note_rl'] = $this->language->get('note_rl');
-		$this->data['note_config'] = $this->language->get('note_config');
-
 		$form = new AForm('ST');
 
 		$form->setForm(array('form_name' => 'backup'));

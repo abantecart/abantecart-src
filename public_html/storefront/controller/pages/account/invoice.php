@@ -43,7 +43,8 @@ class ControllerPagesAccountInvoice extends AController{
 		$guest = false;
 		if( isset($this->request->get['ot']) && $this->config->get('config_guest_checkout')){
 			//try to decrypt order token
-			$decrypted = AEncryption::mcrypt_decode($this->request->get['ot']);
+			$ot = $this->request->get['ot'];
+			$decrypted = AEncryption::mcrypt_decode($ot);
 			list($order_id,$email) = explode('~~~',$decrypted);
 
 			$order_id = (int)$order_id;
@@ -66,7 +67,7 @@ class ControllerPagesAccountInvoice extends AController{
 
 			$order_id = $this->request->post['order_id'];
 			$email = $this->request->post['email'];
-
+			$ot = AEncryption::mcrypt_encode($order_id.'~~~'.$email);
 			$order_info = $this->model_account_order->getOrder($order_id,'','view');
 
 			//compare emails
@@ -272,7 +273,7 @@ class ControllerPagesAccountInvoice extends AController{
 					if(!$guest){
 						$this->data['order_cancelation_url'] = $this->html->getSecureURL('account/invoice/CancelOrder', '&order_id=' . $order_id);
 					}else{
-						$this->data['order_cancelation_url'] = $this->html->getSecureURL('account/invoice/CancelOrder', '&ot=' . $this->request->get['ot']);
+						$this->data['order_cancelation_url'] = $this->html->getSecureURL('account/invoice/CancelOrder', '&ot=' . $ot);
 					}
 				}
 			}
