@@ -22,6 +22,7 @@ if (!defined('DIR_CORE')) {
 }
 
 final class AConfig {
+	public $data;
 	private $cnfg = array();
 	/**
 	 * @var Registry

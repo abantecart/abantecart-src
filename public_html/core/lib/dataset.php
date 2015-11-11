@@ -25,6 +25,10 @@ if (! defined ( 'DIR_CORE' )) {
  * Class ADataset
  */
 final class ADataset {
+	/**
+	 * @var ADB
+	 */
+	private $db;
 	
 	/**
 	 * inner id for dataset 
@@ -68,7 +72,8 @@ final class ADataset {
 	public function __construct($dataset_name = '', $dataset_key = '', $mode = '') {
 		
 		$this->registry = Registry::getInstance ();
-		$this->db = $this->registry->get ( 'db' );
+
+		$this->db = $this->registry->get('db');
 		
 		// if dataset_name given - let's get dataset_id
 		if ($dataset_name) {
