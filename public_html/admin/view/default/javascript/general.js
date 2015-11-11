@@ -1017,7 +1017,7 @@ function openCKRLModal(cke){
 
             function InsertHtml(editor, value) {
                 if(!value || value.length<1){
-                    info_alert('Resource Library: Nothing Was Pasted.', true);
+                    info_alert('Resource Library: Nothing was posted into editor.', true);
                     return null;
                 }
 
