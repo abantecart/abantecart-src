@@ -320,7 +320,7 @@
 	white-space: nowrap;
 }
 
-tr.jqgrow td[aria-describedby$="_action"], tr.jqgrow td[aria-describedby$="_status"]{
+tr.jqgrow td[aria-describedby$="_action"]{
 	overflow: visible;
 }
 

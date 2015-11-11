@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<definitions>
+	<definition>
+		<key>heading_title</key>
+		<value><![CDATA[Registro errori]]></value>
+	</definition>
+	<definition>
+		<key>text_success</key>
+		<value><![CDATA[Il registro degli errori è stato eliminato!]]></value>
+	</definition>
+	<definition>
+		<key>text_file_tail</key>
+		<value><![CDATA[                                        A causa delle grandi dimensioni del file di registro, possono essere visualizzati solo gli ultimi 500Kb.
+					Per visualizzare il registro completo, bisogna richiederlo direttamente al server.
+					Path:       ]]></value>
+	</definition>
+</definitions>

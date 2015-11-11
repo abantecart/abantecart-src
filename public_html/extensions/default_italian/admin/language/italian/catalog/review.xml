@@ -1,0 +1,103 @@
+<?xml version="1.0"?>
+<definitions>
+	<definition>
+		<key>heading_title</key>
+		<value><![CDATA[Recensioni]]></value>
+	</definition>
+	<definition>
+		<key>text_review</key>
+		<value><![CDATA[Recensione]]></value>
+	</definition>
+	<definition>
+		<key>insert_title</key>
+		<value><![CDATA[Inserisci recensione]]></value>
+	</definition>
+	<definition>
+		<key>update_title</key>
+		<value><![CDATA[Aggiorna recensione]]></value>
+	</definition>
+	<definition>
+		<key>text_success</key>
+		<value><![CDATA[La recensione è stata modificata!]]></value>
+	</definition>
+	<definition>
+		<key>column_product</key>
+		<value><![CDATA[Prodotto]]></value>
+	</definition>
+	<definition>
+		<key>column_author</key>
+		<value><![CDATA[Autore]]></value>
+	</definition>
+	<definition>
+		<key>column_rating</key>
+		<value><![CDATA[Valutazione]]></value>
+	</definition>
+	<definition>
+		<key>column_status</key>
+		<value><![CDATA[Stato]]></value>
+	</definition>
+	<definition>
+		<key>column_date_added</key>
+		<value><![CDATA[Data di inserimento]]></value>
+	</definition>
+	<definition>
+		<key>column_action</key>
+		<value><![CDATA[Azione]]></value>
+	</definition>
+	<definition>
+		<key>entry_product</key>
+		<value><![CDATA[Prodotto:]]></value>
+	</definition>
+	<definition>
+		<key>entry_author</key>
+		<value><![CDATA[Autore:]]></value>
+	</definition>
+	<definition>
+		<key>entry_rating</key>
+		<value><![CDATA[Valutazione:]]></value>
+	</definition>
+	<definition>
+		<key>entry_status</key>
+		<value><![CDATA[Stato:]]></value>
+	</definition>
+	<definition>
+		<key>entry_text</key>
+		<value><![CDATA[Testo:]]></value>
+	</definition>
+	<definition>
+		<key>entry_good</key>
+		<value><![CDATA[Buono]]></value>
+	</definition>
+	<definition>
+		<key>entry_bad</key>
+		<value><![CDATA[Scadente]]></value>
+	</definition>
+	<definition>
+		<key>error_permission</key>
+		<value><![CDATA[ATTENZIONE: Non si dispone dell'autorizzazione per modificare le recensioni!]]></value>
+	</definition>
+	<definition>
+		<key>error_product</key>
+		<value><![CDATA[Prodotto richiesto!]]></value>
+	</definition>
+	<definition>
+		<key>error_author</key>
+		<value><![CDATA[Il nome dell'autore deve essere compreso tra 2 e 34 caratteri!]]></value>
+	</definition>
+	<definition>
+		<key>error_text</key>
+		<value><![CDATA[Il testo del commento deve essere compreso tra 25 e 1000 caratteri!]]></value>
+	</definition>
+	<definition>
+		<key>error_rating</key>
+		<value><![CDATA[Valutazione della recensione richiesta!]]></value>
+	</definition>
+	<definition>
+		<key>text_select_product</key>
+		<value><![CDATA[- Seleziona Prodotto -]]></value>
+	</definition>
+	<definition>
+		<key>text_select_category</key>
+		<value><![CDATA[- Seleziona categoria -]]></value>
+	</definition>
+</definitions>

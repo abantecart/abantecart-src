@@ -1,0 +1,372 @@
+<?xml version="1.0"?>
+<definitions>
+	<definition>
+		<key>heading_title</key>
+		<value><![CDATA[Ordini]]></value>
+	</definition>
+	<definition>
+		<key>edit_title_details</key>
+		<value><![CDATA[Modifica dati dell'ordine]]></value>
+	</definition>
+	<definition>
+		<key>edit_title_shipping</key>
+		<value><![CDATA[Modifica indirizzo di spedizione]]></value>
+	</definition>
+	<definition>
+		<key>edit_title_payment</key>
+		<value><![CDATA[Modifica indirizzo di pagamento]]></value>
+	</definition>
+	<definition>
+		<key>title_payment_details</key>
+		<value><![CDATA[Dettagli pagamento]]></value>
+	</definition>
+	<definition>
+		<key>text_success</key>
+		<value><![CDATA[Hai modificato gli ordini con successo!]]></value>
+	</definition>
+	<definition>
+		<key>text_invoice</key>
+		<value><![CDATA[Fattura]]></value>
+	</definition>
+	<definition>
+		<key>text_order_id</key>
+		<value><![CDATA[ID ordine:]]></value>
+	</definition>
+	<definition>
+		<key>text_invoice_id</key>
+		<value><![CDATA[N. fattura:]]></value>
+	</definition>
+	<definition>
+		<key>text_date_added</key>
+		<value><![CDATA[Data fattura:]]></value>
+	</definition>
+	<definition>
+		<key>text_telephone</key>
+		<value><![CDATA[Telefono]]></value>
+	</definition>
+	<definition>
+		<key>text_fax</key>
+		<value><![CDATA[Fax]]></value>
+	</definition>
+	<definition>
+		<key>text_select_country</key>
+		<value><![CDATA[- Seleziona nazione -]]></value>
+	</definition>
+	<definition>
+		<key>text_to</key>
+		<value><![CDATA[A]]></value>
+	</definition>
+	<definition>
+		<key>text_ship_to</key>
+		<value><![CDATA[Spedire a (se l'indirizzo è diverso)]]></value>
+	</definition>
+	<definition>
+		<key>text_missing_orders</key>
+		<value><![CDATA[Ordini mancanti]]></value>
+	</definition>
+	<definition>
+		<key>text_wait</key>
+		<value><![CDATA[Attendere prego!]]></value>
+	</definition>
+	<definition>
+		<key>column_order</key>
+		<value><![CDATA[ID ordine]]></value>
+	</definition>
+	<definition>
+		<key>column_name</key>
+		<value><![CDATA[Nome cliente]]></value>
+	</definition>
+	<definition>
+		<key>column_status</key>
+		<value><![CDATA[Stato]]></value>
+	</definition>
+	<definition>
+		<key>column_date_added</key>
+		<value><![CDATA[Data di inserimento]]></value>
+	</definition>
+	<definition>
+		<key>column_total</key>
+		<value><![CDATA[Totale]]></value>
+	</definition>
+	<definition>
+		<key>column_product</key>
+		<value><![CDATA[Prodotto]]></value>
+	</definition>
+	<definition>
+		<key>column_model</key>
+		<value><![CDATA[Modello]]></value>
+	</definition>
+	<definition>
+		<key>column_quantity</key>
+		<value><![CDATA[Quantità]]></value>
+	</definition>
+	<definition>
+		<key>column_price</key>
+		<value><![CDATA[Prezzo unitario]]></value>
+	</definition>
+	<definition>
+		<key>column_download</key>
+		<value><![CDATA[Nome del Download]]></value>
+	</definition>
+	<definition>
+		<key>column_file</key>
+		<value><![CDATA[File]]></value>
+	</definition>
+	<definition>
+		<key>column_remaining</key>
+		<value><![CDATA[Rimanente]]></value>
+	</definition>
+	<definition>
+		<key>column_expire_date</key>
+		<value><![CDATA[Data di scadenza]]></value>
+	</definition>
+	<definition>
+		<key>column_mask</key>
+		<value><![CDATA[Maschera]]></value>
+	</definition>
+	<definition>
+		<key>column_notify</key>
+		<value><![CDATA[Notifica al cliente]]></value>
+	</definition>
+	<definition>
+		<key>column_comment</key>
+		<value><![CDATA[Commento]]></value>
+	</definition>
+	<definition>
+		<key>column_action</key>
+		<value><![CDATA[Azione]]></value>
+	</definition>
+	<definition>
+		<key>entry_order_id</key>
+		<value><![CDATA[ID ordine:]]></value>
+	</definition>
+	<definition>
+		<key>entry_invoice_id</key>
+		<value><![CDATA[ID fattura:]]></value>
+	</definition>
+	<definition>
+		<key>entry_customer</key>
+		<value><![CDATA[Cliente:]]></value>
+	</definition>
+	<definition>
+		<key>entry_firstname</key>
+		<value><![CDATA[Nome:]]></value>
+	</definition>
+	<definition>
+		<key>entry_lastname</key>
+		<value><![CDATA[Cognome:]]></value>
+	</definition>
+	<definition>
+		<key>entry_customer_group</key>
+		<value><![CDATA[Gruppo clienti:]]></value>
+	</definition>
+	<definition>
+		<key>entry_email</key>
+		<value><![CDATA[E-Mail:]]></value>
+	</definition>
+	<definition>
+		<key>entry_ip</key>
+		<value><![CDATA[Indirizzo IP:]]></value>
+	</definition>
+	<definition>
+		<key>entry_telephone</key>
+		<value><![CDATA[Telefono:]]></value>
+	</definition>
+	<definition>
+		<key>entry_fax</key>
+		<value><![CDATA[Fax:]]></value>
+	</definition>
+	<definition>
+		<key>entry_store_name</key>
+		<value><![CDATA[Nome del negozio:]]></value>
+	</definition>
+	<definition>
+		<key>entry_store_url</key>
+		<value><![CDATA[Indirizzo web del negozio:]]></value>
+	</definition>
+	<definition>
+		<key>entry_date_added</key>
+		<value><![CDATA[Data di inserimento:]]></value>
+	</definition>
+	<definition>
+		<key>entry_shipping_method</key>
+		<value><![CDATA[Metodo di spedizione:]]></value>
+	</definition>
+	<definition>
+		<key>entry_payment_method</key>
+		<value><![CDATA[Metodo di pagamento:]]></value>
+	</definition>
+	<definition>
+		<key>entry_total</key>
+		<value><![CDATA[Totale dell'ordine originale:]]></value>
+	</definition>
+	<definition>
+		<key>entry_order_status</key>
+		<value><![CDATA[Stato dell'ordine:]]></value>
+	</definition>
+	<definition>
+		<key>entry_comment</key>
+		<value><![CDATA[Commento:]]></value>
+	</definition>
+	<definition>
+		<key>entry_company</key>
+		<value><![CDATA[Azienda:]]></value>
+	</definition>
+	<definition>
+		<key>entry_address_1</key>
+		<value><![CDATA[Indirizzo 1:]]></value>
+	</definition>
+	<definition>
+		<key>entry_address_2</key>
+		<value><![CDATA[Indirizzo 2:]]></value>
+	</definition>
+	<definition>
+		<key>entry_postcode</key>
+		<value><![CDATA[C.A.P.:]]></value>
+	</definition>
+	<definition>
+		<key>entry_city</key>
+		<value><![CDATA[Città:]]></value>
+	</definition>
+	<definition>
+		<key>entry_zone</key>
+		<value><![CDATA[Provincia:]]></value>
+	</definition>
+	<definition>
+		<key>entry_zone_code</key>
+		<value><![CDATA[Codice provincia:]]></value>
+	</definition>
+	<definition>
+		<key>entry_country</key>
+		<value><![CDATA[Nazione:]]></value>
+	</definition>
+	<definition>
+		<key>entry_status</key>
+		<value><![CDATA[Stato dell'ordine:]]></value>
+	</definition>
+	<definition>
+		<key>entry_notify</key>
+		<value><![CDATA[Notificare al cliente:]]></value>
+	</definition>
+	<definition>
+		<key>entry_append</key>
+		<value><![CDATA[Aggiungi commenti:]]></value>
+	</definition>
+	<definition>
+		<key>entry_add_product</key>
+		<value><![CDATA[Inserisci prodotto(i):]]></value>
+	</definition>
+	<definition>
+		<key>error_permission</key>
+		<value><![CDATA[ATTENZIONE: Non hai l'autorizzazione per modificare gli ordini!]]></value>
+	</definition>
+	<definition>
+		<key>error_order_load</key>
+		<value><![CDATA[ATTENZIONE: Nessun ordine con questo ID!]]></value>
+	</definition>
+	<definition>
+		<key>text_order_summary</key>
+		<value><![CDATA[Riepilogo dell'ordine]]></value>
+	</definition>
+	<definition>
+		<key>tab_order_details</key>
+		<value><![CDATA[Dettagli]]></value>
+	</definition>
+	<definition>
+		<key>tab_shipping</key>
+		<value><![CDATA[Indirizzo di spedizione]]></value>
+	</definition>
+	<definition>
+		<key>tab_payment</key>
+		<value><![CDATA[Indirizzo di pagamento]]></value>
+	</definition>
+	<definition>
+		<key>tab_history</key>
+		<value><![CDATA[Stato e commenti]]></value>
+	</definition>
+	<definition>
+		<key>tab_files</key>
+		<value><![CDATA[File]]></value>
+	</definition>
+	<definition>
+		<key>tab_payment_details</key>
+		<value><![CDATA[Dettagli pagamento]]></value>
+	</definition>
+	<definition>
+		<key>edit_title_files</key>
+		<value><![CDATA[modifica file ordine]]></value>
+	</definition>
+	<definition>
+		<key>text_missing_file</key>
+		<value><![CDATA[File mancante]]></value>
+	</definition>
+	<definition>
+		<key>order_download_history</key>
+		<value><![CDATA[Download cronologia]]></value>
+	</definition>
+	<definition>
+		<key>text_time</key>
+		<value><![CDATA[Ora]]></value>
+	</definition>
+	<definition>
+		<key>text_filename</key>
+		<value><![CDATA[Nome del file]]></value>
+	</definition>
+	<definition>
+		<key>text_mask</key>
+		<value><![CDATA[Maschera]]></value>
+	</definition>
+	<definition>
+		<key>text_download_percent</key>
+		<value><![CDATA[Scarica le percentuali]]></value>
+	</definition>
+	<definition>
+		<key>text_download_expired</key>
+		<value><![CDATA[Data scadenza]]></value>
+	</definition>
+	<definition>
+		<key>text_download_remaining_count</key>
+		<value><![CDATA[Conto rimanente]]></value>
+	</definition>
+	<definition>
+		<key>text_order_status_required</key>
+		<value><![CDATA[Stato dell'ordine "%s" richiesto]]></value>
+	</definition>
+	<definition>
+		<key>text_select_product</key>
+		<value><![CDATA[- Seleziona prodotto -]]></value>
+	</definition>
+	<definition>
+		<key>text_push_download</key>
+		<value><![CDATA[- Spingi Download -]]></value>
+	</definition>
+	<definition>
+		<key>text_add_product_to_order</key>
+		<value><![CDATA[Aggiungi il prodotto all'ordine #%s]]></value>
+	</definition>
+	<definition>
+		<key>text_edit_order_product</key>
+		<value><![CDATA[Modifica prodotto]]></value>
+	</definition>
+	<definition>
+		<key>attention_check_total</key>
+		<value>
+			<![CDATA[Nota: I dettagli dell'ordine del prodotto son cambiati.Il totale è stato ricalcolato automaticamente. La recensione è richiesta.]]></value>
+	</definition>
+	<definition>
+		<key>text_order_total_add</key>
+		<value><![CDATA[Aggiungi una nuova somma al calcolo del totale.]]></value>
+	</definition>
+	<definition>
+		<key>text_order_total_title</key>
+		<value><![CDATA[Mosta titolo]]></value>
+	</definition>
+	<definition>
+		<key>text_order_total_amount</key>
+		<value><![CDATA[Somma]]></value>
+	</definition>
+	<definition>
+		<key>text_recalc</key>
+		<value><![CDATA[Ricalcola]]></value>
+	</definition>
+</definitions>

@@ -1,0 +1,251 @@
+<?xml version="1.0"?>
+<definitions>
+	<definition>
+		<key>success</key>
+		<value><![CDATA[ Il pacchetto è stato installato. ]]></value>
+	</definition>
+	<definition>
+		<key>heading_title</key>
+		<value><![CDATA[Pacchetto di installazione]]></value>
+	</definition>
+	<definition>
+		<key>heading_title_license</key>
+		<value><![CDATA[Package Contratto di licenza]]></value>
+	</definition>
+	<definition>
+		<key>heading_title_ftp</key>
+		<value><![CDATA[FTP - parametri di accesso]]></value>
+	</definition>
+	<definition>
+		<key>heading_title_download</key>
+		<value><![CDATA[Pacchetto di caricamento in corso]]></value>
+	</definition>
+	<definition>
+		<key>text_preloading</key>
+		<value><![CDATA[ File del pacchetto %file% verrà scaricato.]]></value>
+	</definition>
+	<definition>
+		<key>text_loading</key>
+		<value><![CDATA[Download file. Dimensioni: %s .<br/>Il caricamento potrebbe richiedere alcuni secondi in base alla tua connessione.]]></value>
+	</definition>
+	<definition>
+		<key>text_key_hint</key>
+		<value><![CDATA[Inserisci chiave di installazione qui]]></value>
+	</definition>
+	<definition>
+		<key>text_ftp_user</key>
+		<value><![CDATA[ FTP - Nome utente: ]]></value>
+	</definition>
+	<definition>
+		<key>text_ftp_password</key>
+		<value><![CDATA[ FTP - Password: ]]></value>
+	</definition>
+	<definition>
+		<key>text_ftp_host</key>
+		<value><![CDATA[ FTP Host: ftp://]]></value>
+	</definition>
+	<definition>
+		<key>text_i_agree</key>
+		<value><![CDATA[ Accetto licenza ]]></value>
+	</definition>
+	<definition>
+		<key>text_agree</key>
+		<value><![CDATA[ Accetto ]]></value>
+	</definition>
+	<definition>
+		<key>text_retry</key>
+		<value><![CDATA[ Riprova ]]></value>
+	</definition>
+	<definition>
+		<key>text_disagree</key>
+		<value><![CDATA[ Non accetto ]]></value>
+	</definition>
+	<definition>
+		<key>text_download_error</key>
+		<value><![CDATA[ Siamo spiacenti, ma si sono verificati degli errori nei file durante il processo di caricamento.</br>Prova di nuovo.</br>Se il problema persiste scarica il file nell'orine della cronologia e installa manualmente. ]]></value>
+	</definition>
+	<definition>
+		<key>text_continue</key>
+		<value><![CDATA[ Continua ]]></value>
+	</definition>
+	<definition>
+		<key>text_disclaimer_heading</key>
+		<value><![CDATA[ Disclaimer ]]></value>
+	</definition>
+	<definition>
+		<key>text_disclaimer</key>
+		<value><![CDATA[ <h3>Gentile cliente di AbanteCart,</h3><br>
+Stai per installare l'estensione di terze parti per il tuo AbanteCart.<br><br>
+Si prega di leggere attentamente questo Disclaimer in merito alla estensione di terze parti che si sta per installare.<br><br>
+Le estensioni e i servizi di terze parti sono forniti da dagli stessi venditori.<br><br>
+Sebbene, AbanteCart si fa garante della qualità delle estensioni dei servizi forniti da terzi, AbanteCart non garantisce che essi funzionino correttamente o non possano causare conflitti nel sistema.
+I membri e gli affiliati di AbanteCart non devono in alcun modo essere ritenuti responsabili per eventuali danni causati da prodotti o servizi forniti da terze parti. AbanteCart non garantisce sulla qualità di estensioni o servizi di terze parti. Si prega di inviare le vostre richieste in materia di estensioni o servizi di terze parti al fornitore stesso.
+Se si hanno domande su qualsiasi fornitore di terze parti, si prega di contatare AbanteCart a <a href="http://www.abantecart.com/contact-us" target="_blank">http://www.abantecart.com/contact-us</a><br><br>
+Cordialmente,<br>
+AbanteCart<br>
+Ideal OpenSource Ecommerce Solution ]]></value>
+	</definition>
+	<definition>
+		<key>warning_ftp</key>
+		<value><![CDATA[ ATTENZIONE: La Directory con le estensioni non ha i permessi di scrittura.<br>E' possibile modificare questo o<br>utilizzare l'accesso ftp al server per l'installazione del pacchetto (il provaider di solito invia una email)<br> ]]></value>
+	</definition>
+	<definition>
+		<key>warning_already_installed</key>
+		<value><![CDATA[<p class="success">You already have %EXTENSION% extension installed! If you want to proceed and upgrade, please confirm.</p>]]></value>
+	</definition>
+	<definition>
+		<key>warning_already_installed_uninstall</key>
+		<value><![CDATA[You already have this extension "%EXTENSION%" installed! If you want to proceed to reinstall, please uninstall and delete extension first.]]></value>
+	</definition>
+	<definition>
+		<key>error_pack_file_not_found</key>
+		<value><![CDATA[Error: Can not extract extension from the archive to %s. Check <a href="#admin#rt=tool/error_log" target="_blank">log</a> for errors ]]></value>
+	</definition>
+	<definition>
+		<key>error_mp</key>
+		<value><![CDATA[ Marketplace error: ]]></value>
+	</definition>
+	<definition>
+		<key>error_repository</key>
+		<value><![CDATA[ Error: Cannot download file. Repository error or invalid extension key. Try one more time. If problem persist download file in your order history and install manually. ]]></value>
+	</definition>
+	<definition>
+		<key>error_ftp_user</key>
+		<value><![CDATA[ Error: FTP User Name is empty. ]]></value>
+	</definition>
+	<definition>
+		<key>error_ftp_password</key>
+		<value><![CDATA[ Error: FTP User Password is empty. ]]></value>
+	</definition>
+	<definition>
+		<key>error_ftp_connect</key>
+		<value><![CDATA[ Error: Can't connect to ftp-server ]]></value>
+	</definition>
+	<definition>
+		<key>error_ftp_login</key>
+		<value><![CDATA[ Error: Can't login to ftp-server. Invalid Username or Password. ]]></value>
+	</definition>
+	<definition>
+		<key>error_ftp_path</key>
+		<value><![CDATA[ Error: Can't find root directory of AbanteCart by FTP path.<br>Try leave it empty for automatic search. ]]></value>
+	</definition>
+	<definition>
+		<key>error_ftp_path_array</key>
+		<value><![CDATA[ Error: Can't automatic recognize root directory of AbanteCart in FTP-mode.<br>Please fill FTP-path form field.<br>Path suggestions are:	]]></value>
+	</definition>
+	<definition>
+		<key>error_dir_permission</key>
+		<value><![CDATA[ Can't to save file because directory is not writable: ]]></value>
+	</definition>
+	<definition>
+		<key>error_package_structure</key>
+		<value><![CDATA[ Error: Probably package is broken. Structure of package error. ]]></value>
+	</definition>
+	<definition>
+		<key>error_package_config_xml</key>
+		<value><![CDATA[ Error: Cannot locate file package.xml inside of extracted extension. Possibly extension was not extracted correctly. Check <a href="#admin#rt=tool/error_log" target="_blank">log</a> for errors ]]></value>
+	</definition>
+	<definition>
+		<key>error_package_config2</key>
+		<value><![CDATA[ Error: Can't find installation mode in package.xml inside package. ]]></value>
+	</definition>
+	<definition>
+		<key>error_package_info_not_exists</key>
+		<value><![CDATA[ Error: Can't find package session info about this download. ]]></value>
+	</definition>
+	<definition>
+		<key>error_unpack</key>
+		<value><![CDATA[ Error: Can't unpack package "%PACKAGE%" after download. Archive error. See error log for details. ]]></value>
+	</definition>
+	<definition>
+		<key>error_move</key>
+		<value><![CDATA[ Error: Can't move package code after unpacking. Please try check write permissions of directory: ]]></value>
+	</definition>
+	<definition>
+		<key>error_install_mode</key>
+		<value><![CDATA[ Error: Can't install extension "%package%" because it already installed. You need deinstall and delete it first or get package for upgrade. ]]></value>
+	</definition>
+	<definition>
+		<key>error_install_mode2</key>
+		<value><![CDATA[ Error: Can't upgrade extension "%package%" because it not installed. You need get package for install. ]]></value>
+	</definition>
+	<definition>
+		<key>error_version_compatibility</key>
+		<value><![CDATA[ Error: Can't install package. Your cart version is <b>%CURRENT_VERSION%</b>. Version(s) <b>%VERSIONS%</b>	required. ]]></value>
+	</definition>
+	<definition>
+		<key>error_package_version_compatibility</key>
+		<value><![CDATA[ Error: Can't upgrade package. Newer package version is already installed. ]]></value>
+	</definition>
+	<definition>
+		<key>error_install</key>
+		<value><![CDATA[ Error: Can't install package. Please see System -> Error Log for details. ]]></value>
+	</definition>
+	<definition>
+		<key>error_core_version</key>
+		<value><![CDATA[ Error: You have AbanteCart version %VERSION% installed.<br>This upgrade package only for versions lower than	]]></value>
+	</definition>
+	<definition>
+		<key>text_interrupt</key>
+		<value><![CDATA[ Interrupt ]]></value>
+	</definition>
+	<definition>
+		<key>text_continue</key>
+		<value><![CDATA[ Continua ]]></value>
+	</definition>
+	<definition>
+		<key>confirm_version_incompatibility</key>
+		<value><![CDATA[ Current copy of this extension is not verified for your version of AbanteCart (v%s).<br>Extension build is specified for AbanteCart v%s.<br>
+		This is not a problem, but if you notice issues or incompatibility, please contact extension developer. ]]></value>
+	</definition>
+	<definition>
+		<key>error_move_ftp</key>
+		<value><![CDATA[ Error: Can't move package code after unpacking. Probably FTP path is incorrect.<br>Also, please, try to check write permissions of directory: ]]></value>
+	</definition>
+	<definition>
+		<key>text_network_install</key>
+		<value><![CDATA[ Network Install ]]></value>
+	</definition>
+	<definition>
+		<key>text_extension_upload</key>
+		<value><![CDATA[ Extension Upload ]]></value>
+	</definition>
+	<definition>
+		<key>error_archive_extension</key>
+		<value><![CDATA[ Error: Only .tar.gz files supported. ]]></value>
+	</definition>
+	<definition>
+		<key>entry_upload_file</key>
+		<value><![CDATA[ Upload file: ]]></value>
+	</definition>
+	<definition>
+		<key>entry_upload_url</key>
+		<value><![CDATA[ Insert URL: ]]></value>
+	</definition>
+	<definition>
+		<key>error_move_backup</key>
+		<value><![CDATA[ Error: Can't backup files before upgrade. Check write permissions of directory: ]]></value>
+	</definition>
+	<definition>
+		<key>text_core_upgrade_attention</key>
+		<value><![CDATA[ Attention!
+AbanteCart is about to be upgraded to version %s!
+Automatic full backup will be created. It is recommended to try upgrade on test site first. ]]></value>
+	</definition>
+	<definition>
+		<key>text_upgrade_now</key>
+		<value><![CDATA[ Aggiorna ora! ]]></value>
+	</definition>
+	<definition>
+		<key>error_additional_help_text</key>
+		<value><![CDATA[ Stuck? Not a problem. You can install extensions another way. Check <a href="http://www.abantecart.com/ecommerce-documentation/admin-user-manual/extensions-menu/extension-store#FTPinstall" target="_blank">this help link</a> ]]></value>
+	</definition>
+	<definition>
+		<key>error_notconnected</key>
+		<value><![CDATA[ Can not upgrade or install extensions from the marketplace. This store is not authenticated/connected. Please authenticate and connect to the <a href="%s">marketplace</a> ]]></value>
+	</definition>
+	<definition>
+		<key>text_success</key>
+		<value><![CDATA[ Successo: Pacchetto stato installato con successo. ]]></value>
+	</definition>
+</definitions>

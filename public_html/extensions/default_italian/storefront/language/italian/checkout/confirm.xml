@@ -1,0 +1,104 @@
+<?xml version="1.0"?>
+<definitions>
+	<definition>
+		<key>heading_title</key>
+		<value><![CDATA[Conferma l'acquisto]]></value>
+	</definition>
+	<definition>
+		<key>text_basket</key>
+		<value><![CDATA[Carrello]]></value>
+	</definition>
+	<definition>
+		<key>text_edit_basket</key>
+		<value><![CDATA[Modifica carrello]]></value>
+	</definition>
+	<definition>
+		<key>text_accept_agree</key>
+		<value>
+			<![CDATA[Facendo click su conferma ordine, l'utente accetta tutti i termini di ]]></value>
+	</definition>
+	<definition>
+		<key>text_cart_items</key>
+		<value><![CDATA[Prodotti nel carrello]]></value>
+	</definition>
+	<definition>
+		<key>text_shipping</key>
+		<value><![CDATA[Spedizione]]></value>
+	</definition>
+	<definition>
+		<key>text_edit_shipping</key>
+		<value><![CDATA[Modifica spedizione]]></value>
+	</definition>
+	<definition>
+		<key>text_payment</key>
+		<value><![CDATA[Pagamento]]></value>
+	</definition>
+	<definition>
+		<key>text_edit_payment</key>
+		<value><![CDATA[Modifica pagamento]]></value>
+	</definition>
+	<definition>
+		<key>text_guest_step_1</key>
+		<value><![CDATA[Acquisto cliente - Step 1]]></value>
+	</definition>
+	<definition>
+		<key>text_guest_step_2</key>
+		<value><![CDATA[Acquisto cliente - Step 2]]></value>
+	</definition>
+	<definition>
+		<key>text_confirm</key>
+		<value><![CDATA[Conferma]]></value>
+	</definition>
+	<definition>
+		<key>text_shipping_address</key>
+		<value><![CDATA[Indirizzo di spedizione]]></value>
+	</definition>
+	<definition>
+		<key>text_shipping_method</key>
+		<value><![CDATA[Metodo di spedizione]]></value>
+	</definition>
+	<definition>
+		<key>text_payment_address</key>
+		<value><![CDATA[Indirizzo pagamento]]></value>
+	</definition>
+	<definition>
+		<key>text_payment_method</key>
+		<value><![CDATA[Metodo di pagamento]]></value>
+	</definition>
+	<definition>
+		<key>text_change</key>
+		<value><![CDATA[Cambia]]></value>
+	</definition>
+	<definition>
+		<key>text_comment</key>
+		<value><![CDATA[I tuoi commenti]]></value>
+	</definition>
+	<definition>
+		<key>text_discount</key>
+		<value><![CDATA[Coupon sconto]]></value>
+	</definition>
+	<definition>
+		<key>column_product</key>
+		<value><![CDATA[Prodotto]]></value>
+	</definition>
+	<definition>
+		<key>column_model</key>
+		<value><![CDATA[Modello]]></value>
+	</definition>
+	<definition>
+		<key>column_quantity</key>
+		<value><![CDATA[Quantità]]></value>
+	</definition>
+	<definition>
+		<key>column_price</key>
+		<value><![CDATA[Prezzo]]></value>
+	</definition>
+	<definition>
+		<key>column_total</key>
+		<value><![CDATA[Totale]]></value>
+	</definition>
+	<definition>
+		<key>text_add_coupon</key>
+		<value><![CDATA[Aggiungi Coupon]]></value>
+	</definition>
+</definitions>

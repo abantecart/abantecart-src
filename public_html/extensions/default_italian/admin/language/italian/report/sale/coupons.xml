@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<definitions>
+	<definition>
+		<key>heading_title</key>
+		<value><![CDATA[Resoconto sconti]]></value>
+	</definition>
+	<definition>
+		<key>column_coupon_name</key>
+		<value><![CDATA[Nome Sconti/Coupon]]></value>
+	</definition>
+	<definition>
+		<key>column_code</key>
+		<value><![CDATA[Codice]]></value>
+	</definition>
+	<definition>
+		<key>column_orders</key>
+		<value><![CDATA[N. ordini]]></value>
+	</definition>
+	<definition>
+		<key>column_total</key>
+		<value><![CDATA[Totale]]></value>
+	</definition>
+	<definition>
+		<key>column_discount_total</key>
+		<value><![CDATA[Totale sconti]]></value>
+	</definition>
+	<definition>
+		<key>entry_date_start</key>
+		<value><![CDATA[Data inizio:]]></value>
+	</definition>
+	<definition>
+		<key>entry_date_end</key>
+		<value><![CDATA[Data fine:]]></value>
+	</definition>
+</definitions>

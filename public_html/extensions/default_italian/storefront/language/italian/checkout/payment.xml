@@ -1,0 +1,75 @@
+<?xml version="1.0"?>
+<definitions>
+	<definition>
+		<key>heading_title</key>
+		<value><![CDATA[Informazioni di pagamento]]></value>
+	</definition>
+	<definition>
+		<key>text_basket</key>
+		<value><![CDATA[Cestino]]></value>
+	</definition>
+	<definition>
+		<key>text_shipping</key>
+		<value><![CDATA[Spedizione]]></value>
+	</definition>
+	<definition>
+		<key>text_payment</key>
+		<value><![CDATA[Pagamento]]></value>
+	</definition>
+	<definition>
+		<key>text_payment_to</key>
+		<value><![CDATA[Scegliere nella rubrica, l'indirizzo per la spedizione della fattura.]]></value>
+	</definition>
+	<definition>
+		<key>text_payment_address</key>
+		<value><![CDATA[Indirizzo pagamento]]></value>
+	</definition>
+	<definition>
+		<key>text_payment_method</key>
+		<value><![CDATA[Metodo di pagamento]]></value>
+	</definition>
+	<definition>
+		<key>text_payment_methods</key>
+		<value><![CDATA[Selezionare il metodo di pagamento preferito da utilizzare per questo ordine.]]></value>
+	</definition>
+	<definition>
+		<key>text_comments</key>
+		<value><![CDATA[Aggiungi un commento sul tuo ordine]]></value>
+	</definition>
+	<definition>
+		<key>text_agree</key>
+		<value><![CDATA[Ho letto e accetto il ]]></value>
+	</definition>
+	<definition>
+		<key>text_coupon</key>
+		<value><![CDATA[Inserisci il codice e clicca su "Applica Coupon" e visualizza immediatamente lo sconto applicato al tuo ordine.]]></value>
+	</definition>
+	<definition>
+		<key>text_success</key>
+		<value><![CDATA[Il tuo sconto coupon è stato applicato!]]></value>
+	</definition>
+	<definition>
+		<key>entry_coupon</key>
+		<value><![CDATA[Coupon:]]></value>
+	</definition>
+	<definition>
+		<key>error_payment</key>
+		<value><![CDATA[Errore: Metodo di pagamento richiesto!]]></value>
+	</definition>
+	<definition>
+		<key>error_agree</key>
+		<value><![CDATA[Errore: Devi accettare i %s!]]></value>
+	</definition>
+	<definition>
+		<key>error_coupon</key>
+		<value><![CDATA[Errore: Il coupon non è valido, è scaduto o ha raggiunto il suo limite di utilizzo!]]></value>
+	</definition>
+	<definition>
+		<key>entry_shipping</key>
+		<value><![CDATA[Spedizione]]></value>
+	</definition>
+	<definition>
+		<key>entry_payment</key>
+		<value><![CDATA[Versamento]]></value>
+	</definition>
+</definitions>

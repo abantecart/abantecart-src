@@ -1,0 +1,187 @@
+<?xml version="1.0"?>
+<definitions>
+	<definition>
+		<key>text_enlarge</key>
+		<value><![CDATA[Clicca sull'immagine per ingrandirla]]></value>
+	</definition>
+	<definition>
+		<key>text_zoom</key>
+		<value><![CDATA[Muovi il cursore sopra l'immagine per ingrandire]]></value>
+	</definition>
+	<definition>
+		<key>text_discount</key>
+		<value><![CDATA[Sconto sulla quantità:]]></value>
+	</definition>
+	<definition>
+		<key>text_options</key>
+		<value><![CDATA[Opzioni disponibili:]]></value>
+	</definition>
+	<definition>
+		<key>text_error</key>
+		<value><![CDATA[Prodotto non trovato!]]></value>
+	</definition>
+	<definition>
+		<key>text_price</key>
+		<value><![CDATA[Prezzo:]]></value>
+	</definition>
+	<definition>
+		<key>text_availability</key>
+		<value><![CDATA[Disponibilità:]]></value>
+	</definition>
+	<definition>
+		<key>text_model</key>
+		<value><![CDATA[Modello:]]></value>
+	</definition>
+	<definition>
+		<key>text_manufacturer</key>
+		<value><![CDATA[Produttore:]]></value>
+	</definition>
+	<definition>
+		<key>text_instock</key>
+		<value><![CDATA[In Stock]]></value>
+	</definition>
+	<definition>
+		<key>text_order_quantity</key>
+		<value><![CDATA[Quantità ordinabile]]></value>
+	</definition>
+	<definition>
+		<key>text_price_per_item</key>
+		<value><![CDATA[Prezzo per articolo]]></value>
+	</definition>
+	<definition>
+		<key>text_write</key>
+		<value><![CDATA[Scrivi una recensione]]></value>
+	</definition>
+	<definition>
+		<key>text_no_reviews</key>
+		<value><![CDATA[Non ci sono ancora recensioni per questo prodotto.]]></value>
+	</definition>
+	<definition>
+		<key>text_average</key>
+		<value><![CDATA[Valutazione media:]]></value>
+	</definition>
+	<definition>
+		<key>text_stars</key>
+		<value><![CDATA[%s su 5 Stelle!]]></value>
+	</definition>
+	<definition>
+		<key>text_no_rating</key>
+		<value><![CDATA[Nessuna valutazione]]></value>
+	</definition>
+	<definition>
+		<key>text_no_images</key>
+		<value><![CDATA[Non ci sono altre immagini per questo prodotto.]]></value>
+	</definition>
+	<definition>
+		<key>text_no_related</key>
+		<value><![CDATA[Non ci sono prodotti correlati per questo prodotto.]]></value>
+	</definition>
+	<definition>
+		<key>text_qty</key>
+		<value><![CDATA[Q.tà:]]></value>
+	</definition>
+	<definition>
+		<key>text_note</key>
+		<value><![CDATA[<span style="color: #FF0000;">Nota:</span> HTML non è tradotto!]]></value>
+	</definition>
+	<definition>
+		<key>text_success</key>
+		<value><![CDATA[Grazie per la tua opinione. È stato presentato al webmaster per l'approvazione.]]></value>
+	</definition>
+	<definition>
+		<key>text_wait</key>
+		<value><![CDATA[Attendere prego!]]></value>
+	</definition>
+	<definition>
+		<key>text_search</key>
+		<value><![CDATA[Cerca]]></value>
+	</definition>
+	<definition>
+		<key>text_tags</key>
+		<value><![CDATA[Tags:]]></value>
+	</definition>
+	<definition>
+		<key>text_minimum</key>
+		<value><![CDATA[(Questo prodotto ha una quantità minima di %s)]]></value>
+	</definition>
+	<definition>
+		<key>text_maximum</key>
+		<value><![CDATA[(Questo prodotto ha un limite impostato su %s articolo(i) per ordine)]]></value>
+	</definition>
+	<definition>
+		<key>entry_name</key>
+		<value><![CDATA[Il tuo nome:]]></value>
+	</definition>
+	<definition>
+		<key>entry_review</key>
+		<value><![CDATA[La tua recensione:]]></value>
+	</definition>
+	<definition>
+		<key>entry_rating</key>
+		<value><![CDATA[Valutazione:]]></value>
+	</definition>
+	<definition>
+		<key>entry_good</key>
+		<value><![CDATA[Ottimo]]></value>
+	</definition>
+	<definition>
+		<key>entry_bad</key>
+		<value><![CDATA[Scadente]]></value>
+	</definition>
+	<definition>
+		<key>entry_captcha</key>
+		<value><![CDATA[Inserisci il codice che vedi qui sotto:]]></value>
+	</definition>
+	<definition>
+		<key>tab_description</key>
+		<value><![CDATA[Descrizione]]></value>
+	</definition>
+	<definition>
+		<key>tab_image</key>
+		<value><![CDATA[Immagini aggiuntive]]></value>
+	</definition>
+	<definition>
+		<key>tab_review</key>
+		<value><![CDATA[Recensioni (%s)]]></value>
+	</definition>
+	<definition>
+		<key>tab_related</key>
+		<value><![CDATA[Prodotti correlati]]></value>
+	</definition>
+	<definition>
+		<key>error_name</key>
+		<value><![CDATA[Errore: Il nome della recensione deve avere da 3 a 25 caratteri!]]></value>
+	</definition>
+	<definition>
+		<key>error_text</key>
+		<value><![CDATA[Errore: Il testo della recensione deve avere da 25 a 1000 caratteri!]]></value>
+	</definition>
+	<definition>
+		<key>error_rating</key>
+		<value><![CDATA[Errore: Seleziona una opzione di valutazione!]]></value>
+	</definition>
+	<definition>
+		<key>text_total_price</key>
+		<value><![CDATA[Prezzo Totale:]]></value>
+	</definition>
+	<definition>
+		<key>text_login_view_price</key>
+		<value><![CDATA[Effettua il login o registrati per vedereil prezzo o l'ordine.]]></value>
+	</definition>
+	<definition>
+		<key>tab_downloads</key>
+		<value><![CDATA[Download]]></value>
+	</definition>
+	<definition>
+		<key>text_start_download</key>
+		<value><![CDATA[Inizia Download]]></value>
+	</definition>
+	<definition>
+		<key>text_new_review</key>
+		<value><![CDATA[In attesa dell'approvazione della recensione del prodotto.]]></value>
+	</definition>	
+	<definition>
+		<key>text_pending_review_approval</key>
+		<value><![CDATA[Recensione per id prodotto %s è pubblicato. Azione di approvazione è necessario! Clicca per vedere #admin#rt=catalog/review/update&review_id=%s]]></value>
+	</definition>	
+</definitions>

@@ -1,0 +1,98 @@
+<?xml version="1.0"?>
+<definitions>
+	<definition>
+		<key>heading_title</key>
+		<value><![CDATA[Nazioni]]></value>
+	</definition>
+	<definition>
+		<key>text_country</key>
+		<value><![CDATA[Nazione]]></value>
+	</definition>
+	<definition>
+		<key>text_success</key>
+		<value><![CDATA[La nazione è stata modificata!]]></value>
+	</definition>
+	<definition>
+		<key>column_name</key>
+		<value><![CDATA[Nome Nazione]]></value>
+	</definition>
+	<definition>
+		<key>column_iso_code_2</key>
+		<value><![CDATA[Codice ISO (2)]]></value>
+	</definition>
+	<definition>
+		<key>column_iso_code_3</key>
+		<value><![CDATA[Codice ISO (3)]]></value>
+	</definition>
+	<definition>
+		<key>column_action</key>
+		<value><![CDATA[Azione]]></value>
+	</definition>
+	<definition>
+		<key>column_status</key>
+		<value><![CDATA[Stato]]></value>
+	</definition>
+	<definition>
+		<key>entry_status</key>
+		<value><![CDATA[Stato della Nazione:]]></value>
+	</definition>
+	<definition>
+		<key>entry_name</key>
+		<value><![CDATA[Nome della Nazione:]]></value>
+	</definition>
+	<definition>
+		<key>entry_iso_code_2</key>
+		<value><![CDATA[Codice ISO (2):]]></value>
+	</definition>
+	<definition>
+		<key>entry_iso_code_3</key>
+		<value><![CDATA[Codice ISO (3):]]></value>
+	</definition>
+	<definition>
+		<key>entry_address_format</key>
+		<value><![CDATA[Indirizzo:<br /><span class="help">
+Nome = {firstname}<br />
+Cognome = {lastname}<br />
+Azienda = {company}<br />
+Indirizzo 1 = {address_1}<br />
+Indirizzo 2 = {address_2}<br />
+Città = {city}<br />
+C.A.P. = {postcode}<br />
+Zona = {zone}<br />
+Codice Zone  = {zone_code}<br />
+Nazione = {country}</span>]]></value>
+	</definition>
+	<definition>
+		<key>error_permission</key>
+		<value><![CDATA[ATTENZIONE: Non hai l'autorizzazione per modificare le nazioni!]]></value>
+	</definition>
+	<definition>
+		<key>error_name</key>
+		<value><![CDATA[Il nome della nazione deve essere compreso tra 2 e 128 caratteri!]]></value>
+	</definition>
+	<definition>
+		<key>error_default</key>
+		<value>
+			<![CDATA[ATTENZIONE: Questa nazione è assegnata di impostazione al negozio, pertanto non può essere eliminata!]]></value>
+	</definition>
+	<definition>
+		<key>error_store</key>
+		<value>
+			<![CDATA[ATTENZIONE: Questa nazione non può essere eliminata in quanto è attualmente asseganta a %s negozi!]]></value>
+	</definition>
+	<definition>
+		<key>error_address</key>
+		<value>
+			<![CDATA[ATTENZIONE: Questa nazione non può essere eliminata in quanto è assegnata alle %s voci delle rubriche!]]></value>
+	</definition>
+	<definition>
+		<key>error_zone</key>
+		<value>
+			<![CDATA[ATTENZIONE: Questa nazione non può essere eliminata in quanto è attualmente assegnata alle %s zone!]]></value>
+	</definition>
+	<definition>
+		<key>error_zone_to_location</key>
+		<value>
+			<![CDATA[ATTENZIONE: Questa nazione non può essere eliminata in quanto attualmente assegnata alle %s zone di destinazioni!]]></value>
+	</definition>
+</definitions>

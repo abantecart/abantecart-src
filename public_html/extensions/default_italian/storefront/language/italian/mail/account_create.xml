@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<definitions>
+	<definition>
+		<key>text_subject</key>
+		<value><![CDATA[%s - Grazie per esserti registrato]]></value>
+	</definition>
+	<definition>
+		<key>text_welcome</key>
+		<value><![CDATA[Benvenuti e grazie per la registrazione su %s!]]></value>
+	</definition>
+	<definition>
+		<key>text_login</key>
+		<value>
+			<![CDATA[Il tuo account è stato creato e si può accedere al sito utilizzando il tuo indirizzo email e la password. Per accedervi visita il nostro sito web o al seguente indirizzo:]]></value>
+	</definition>
+	<definition>
+		<key>text_approval</key>
+		<value>
+			<![CDATA[Il tuo account deve essere approvato prima di poter effettuare il login. Una volta approvato è possibile accedere al sito web utilizzando il tuo indirizzo email e la password visitando il nostro sito web o al seguente indirizzo:]]></value>
+	</definition>
+	<definition>
+		<key>text_activate</key>
+		<value><![CDATA[Prima di poter attivare il tuo account è necessario completare la registrazione. Si prega di notare - è necessario compilare questo ultimo passo per poter diventare un nostro cliente. Hai solo bisogno di visitare solo una volta questo URL per attivare l'account. Per completare la registrazione, clicca sul link seguente:
+    %s ]]></value>
+	</definition>
+	<definition>
+		<key>text_services</key>
+		<value>
+			<![CDATA[Una volta effettuato l'accesso, potrai accedere ad altri servizi tra cui la revisione degli ordini precedenti, la stampa delle fatture e modificare le informazioni dell'account.]]></value>
+	</definition>
+	<definition>
+		<key>text_thanks</key>
+		<value><![CDATA[Grazie,]]></value>
+	</definition>
+</definitions>

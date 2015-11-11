@@ -1,0 +1,141 @@
+<?xml version="1.0"?>
+<definitions>
+	<definition>
+		<key>heading_title</key>
+		<value><![CDATA[Gestione contenuti]]></value>
+	</definition>
+	<definition>
+		<key>insert_title</key>
+		<value><![CDATA[Inserire contenuti]]></value>
+	</definition>
+	<definition>
+		<key>update_title</key>
+		<value><![CDATA[Aggiorna contenuti]]></value>
+	</definition>
+	<definition>
+		<key>text_success</key>
+		<value><![CDATA[Il contenuto è stato modificato con successo!]]></value>
+	</definition>
+	<definition>
+		<key>text_success_layout</key>
+		<value><![CDATA[L'impaginazione della pagina del contenuto è stata modificata.]]></value>
+	</definition>
+	<definition>
+		<key>text_hidden</key>
+		<value><![CDATA[Nascosto]]></value>
+	</definition>
+	<definition>
+		<key>text_default</key>
+		<value><![CDATA[Predefinito]]></value>
+	</definition>
+	<definition>
+		<key>column_title</key>
+		<value><![CDATA[Titolo del contenuto]]></value>
+	</definition>
+	<definition>
+		<key>column_parent</key>
+		<value><![CDATA[Contenuto superiore]]></value>
+	</definition>
+	<definition>
+		<key>entry_parent</key>
+		<value><![CDATA[Contenuto della pagina superiore]]></value>
+	</definition>
+	<definition>
+		<key>column_sort_order</key>
+		<value><![CDATA[Ordine]]></value>
+	</definition>
+	<definition>
+		<key>column_status</key>
+		<value><![CDATA[Stato]]></value>
+	</definition>
+	<definition>
+		<key>column_action</key>
+		<value><![CDATA[Azione]]></value>
+	</definition>
+	<definition>
+		<key>entry_name</key>
+		<value><![CDATA[Nome del contenuto:]]></value>
+	</definition>
+	<definition>
+		<key>entry_title</key>
+		<value><![CDATA[Titolo del contenuto:]]></value>
+	</definition>
+	<definition>
+		<key>entry_description</key>
+		<value><![CDATA[Descrizione:]]></value>
+	</definition>
+	<definition>
+		<key>entry_content</key>
+		<value><![CDATA[Contenuto:]]></value>
+	</definition>
+	<definition>
+		<key>entry_store</key>
+		<value><![CDATA[Negozi:]]></value>
+	</definition>
+	<definition>
+		<key>entry_status</key>
+		<value><![CDATA[Stato:]]></value>
+	</definition>
+	<definition>
+		<key>entry_keyword</key>
+		<value><![CDATA[SEO Parole chiave:]]></value>
+	</definition>
+	<definition>
+		<key>entry_sort_order</key>
+		<value><![CDATA[Ordine:]]></value>
+	</definition>
+	<definition>
+		<key>error_permission</key>
+		<value><![CDATA[ATTENZIONE: Non si dispone dell'autorizzazione per modificare il contenuto!]]></value>
+	</definition>
+	<definition>
+		<key>error_title</key>
+		<value><![CDATA[Il titolo del contenuto deve avere da 2 e 64 caratteri!]]></value>
+	</definition>
+	<definition>
+		<key>error_name</key>
+		<value><![CDATA[Il nome del contenuto deve avere da 2 a 64 caratteri!]]></value>
+	</definition>
+	<definition>
+		<key>error_description</key>
+		<value><![CDATA[La descrizione deve avere più di 1 carattere!]]></value>
+	</definition>
+	<definition>
+		<key>error_content</key>
+		<value><![CDATA[Il contenuto deve avere più di 1 carattere!]]></value>
+	</definition>
+	<definition>
+		<key>error_seo_url</key>
+		<value><![CDATA[SEO URLdeve avere più di 1 carattere!]]></value>
+	</definition>
+	<definition>
+		<key>error_account</key>
+		<value>
+			<![CDATA[ATENZIONE: Questo contenuto non può essere cancellato in quanto è attualmente assegnato ai termini predefiniti del conto del negozio!]]></value>
+	</definition>
+	<definition>
+		<key>error_checkout</key>
+		<value>
+			<![CDATA[ATTENZIONE: Il contenuto non può essere eliminato, in quanto è attualmente assegnato come termini di pagamento e spedizione predefiniti per il negozio!]]></value>
+	</definition>
+	<definition>
+		<key>error_required_data</key>
+		<value><![CDATA[I dati richiesti non sono stati inseriti. Verificare la presenza di errori nei campi!]]></value>
+	</definition>
+	<definition>
+		<key>text_top_level</key>
+		<value><![CDATA[Livello superiore]]></value>
+	</definition>
+	<definition>
+		<key>text_any</key>
+		<value><![CDATA[Qualsiasi]]></value>
+	</definition>
+	<definition>
+		<key>tab_form</key>
+		<value><![CDATA[ Modifica ]]></value>
+	</definition>
+	<definition>
+		<key>tab_layout</key>
+		<value><![CDATA[ Impaginazione ]]></value>
+	</definition>
+</definitions>

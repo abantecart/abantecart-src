@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<definitions>
+	<definition>
+		<key>text_index_home_menu</key>
+		<value><![CDATA[Home]]></value>
+	</definition>
+	<definition>
+		<key>text_account_login_menu</key>
+		<value><![CDATA[Login]]></value>
+	</definition>
+	<definition>
+		<key>text_account_logout_menu</key>
+		<value><![CDATA[Disconettiti]]></value>
+	</definition>
+	<definition>
+		<key>text_account_account_menu</key>
+		<value><![CDATA[Il mio conto]]></value>
+	</definition>
+	<definition>
+		<key>text_checkout_cart_menu</key>
+		<value><![CDATA[Carrello]]></value>
+	</definition>
+	<definition>
+		<key>text_checkout_shipping_menu</key>
+		<value><![CDATA[Acquista]]></value>
+	</definition>
+</definitions>

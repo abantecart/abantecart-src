@@ -1,0 +1,119 @@
+<?xml version="1.0"?>
+<definitions>
+	<definition>
+		<key>heading_title</key>
+		<value><![CDATA[Backup / Ripristina / Carica]]></value>
+	</definition>
+	<definition>
+		<key>text_backup</key>
+		<value><![CDATA[Download Backup]]></value>
+	</definition>
+	<definition>
+		<key>text_success_backup</key>
+		<value><![CDATA[Hai creato il file di Backup con successo!]]></value>
+	</definition>
+	<definition>
+		<key>text_success</key>
+		<value><![CDATA[Il tuo database è stato importato con successo!]]></value>
+	</definition>
+	<definition>
+		<key>text_success_xml</key>
+		<value><![CDATA[Il tuo file xml è stato importato con successo!]]></value>
+	</definition>
+	<definition>
+		<key>entry_restore</key>
+		<value><![CDATA[Ripristino Backup:]]></value>
+	</definition>
+	<definition>
+		<key>entry_tables</key>
+		<value><![CDATA[Backup Tables:]]></value>
+	</definition>
+	<definition>
+		<key>entry_restore</key>
+		<value><![CDATA[Ripristino da file sql o xml:]]></value>
+	</definition>
+	<definition>
+		<key>entry_loadxml</key>
+		<value><![CDATA[Carica XML-file:]]></value>
+	</definition>
+	<definition>
+		<key>tab_backup</key>
+		<value><![CDATA[Backup]]></value>
+	</definition>
+	<definition>
+		<key>tab_restore</key>
+		<value><![CDATA[Ripristina]]></value>
+	</definition>
+	<definition>
+		<key>tab_loadxml</key>
+		<value><![CDATA[Layout and dataset load XML]]></value>
+	</definition>
+	<definition>
+		<key>error_permission</key>
+		<value><![CDATA[ATTENZIONE: Non hai l'autorizzazione per modificare il backups!]]></value>
+	</definition>
+	<definition>
+		<key>error_nothing_to_backup</key>
+		<value><![CDATA[Warning: Please set what you want to backup!]]></value>
+	</definition>
+	<definition>
+		<key>error_empty</key>
+		<value><![CDATA[ATTENZIONE: Il file che hai caricato era vuoto o aveva dei file errati!]]></value>
+	</definition>
+	<definition>
+		<key>error_upload</key>
+		<value>
+			<![CDATA[ATTENZIONE: il file non è stato caricato. Controllare post_max_size o le direttive file_upload del file php.ini. ]]></value>
+	</definition>
+	<definition>
+		<key>error_xml</key>
+		<value>
+			<![CDATA[ATTENZIONE: Il file che hai caricato non è un file XML! Per favore vedere il registro dei file per dettagli.]]></value>
+	</definition>
+	<definition>
+		<key>entry_backup_code</key>
+		<value>
+			<![CDATA[Backup Code (%s)<br/><span class="help">Sub-directories with code files excluding dynamic files such as cache, log files, images, resources etc </span>]]></value>
+	</definition>
+	<definition>
+		<key>entry_backup_content</key>
+		<value>
+			<![CDATA[Backup Content (%s)<br/><span class="help">Sub-directories with dynamic files such as images, downloads, resources etc </span>]]></value>
+	</definition>
+	<definition>
+		<key>entry_compress_backup</key>
+		<value>
+			<![CDATA[Compress Backup Directory  %s ?<br/><span class="help">Archive *.tar.gz will be created.<br/> Note: it could to take a long time. Otherwise you can disable compression and find your backup in folder %s</span>]]></value>
+	</definition>
+	<definition>
+		<key>button_backup_now</key>
+		<value><![CDATA[Backup Now]]></value>
+	</definition>
+	<definition>
+		<key>button_load</key>
+		<value><![CDATA[Load]]></value>
+	</definition>
+	<definition>
+		<key>button_backup_schedule</key>
+		<value><![CDATA[Schedule Backup]]></value>
+	</definition>
+	<definition>
+		<key>text_success_scheduled</key>
+		<value>
+			<![CDATA[Success: You have successfully created scheduled backup task! <a href="%s">See details</a>]]></value>
+	</definition>
+	<definition>
+		<key>text_fail_note</key>
+		<value>
+			<![CDATA[NOTE: This process execution depends on your AbanteCart data size as well as your server virtual memory size. If process terminates with errors, check directory %s permissions to be set to -rw-rw-rw and <a href="http://php.net/manual/en/ini.core.php#ini.memory-limit" target="_blank">[PHP memory setting]</a>. Increase memory setting or run backup manually if process still fail.]]></value>
+	</definition>
+	<definition>
+		<key>backup_complete_text_file</key>
+		<value>
+			<![CDATA[To download backup-file please visit <a href="#admin#rt=tool/install_upgrade_history">Install/Upgrade History</a> ]]></value>
+	</definition>
+	<definition>
+		<key>backup_complete_text_dir</key>
+		<value><![CDATA[Directory with backup-files is %s</a> ]]></value>
+	</definition>
+</definitions>

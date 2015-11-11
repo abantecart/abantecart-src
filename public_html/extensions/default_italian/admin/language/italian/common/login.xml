@@ -1,0 +1,47 @@
+<?xml version="1.0"?>
+<definitions>
+	<definition>
+		<key>heading_title</key>
+		<value><![CDATA[Amministrazione]]></value>
+	</definition>
+	<definition>
+		<key>text_heading</key>
+		<value><![CDATA[Amministrazione]]></value>
+	</definition>
+	<definition>
+		<key>text_login</key>
+		<value><![CDATA[Inserisci i tuoi dati di accesso.]]></value>
+	</definition>
+	<definition>
+		<key>entry_username</key>
+		<value><![CDATA[Nome utente:]]></value>
+	</definition>
+	<definition>
+		<key>entry_password</key>
+		<value><![CDATA[Password:]]></value>
+	</definition>
+	<definition>
+		<key>entry_forgot_password</key>
+		<value><![CDATA[Password dimenticata?]]></value>
+	</definition>
+	<definition>
+		<key>button_login</key>
+		<value><![CDATA[Entra]]></value>
+	</definition>
+	<definition>
+		<key>error_login</key>
+		<value><![CDATA[Nessun risultato per il Nome utente e/o Password.]]></value>
+	</definition>
+	<definition>
+		<key>error_token</key>
+		<value><![CDATA[Sessione non valida. Effettuare nuovamente l'accesso.]]></value>
+	</definition>
+	<definition>
+		<key>error_login_message</key>
+		<value><![CDATA[Accesso non riuscito al tentativo di amministrazione dell'IP:]]></value>
+	</definition>
+	<definition>
+		<key>error_login_message_text</key>
+		<value><![CDATA[Dati di accesso utente: ]]></value>
+	</definition>
+</definitions>
