@@ -122,9 +122,9 @@ var setRLparams = function (attr_val_id) {
 }
 
 var text = {
-	error_attribute_not_selected: '<?php echo $error_attribute_not_selected ?>',
-	text_expand: '<?php echo $text_expand ?>',
-	text_hide: '<?php echo $text_hide ?>'
+	error_attribute_not_selected: <?php js_echo($error_attribute_not_selected); ?>,
+	text_expand: <?php js_echo($text_expand); ?>,
+	text_hide: <?php js_echo($text_hide); ?>
 };
 var opt_urls = {
 	load_option: '<?php echo $url['load_option'] ?>',

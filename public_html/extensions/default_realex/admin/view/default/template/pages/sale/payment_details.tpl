@@ -85,7 +85,7 @@
 
 <script type="text/javascript"><!--
   $("#button_void").click(function () {
-    if (confirm('<?php echo $text_confirm_void; ?>')) {
+    if (confirm(<?php js_echo($text_confirm_void); ?>)) {
       $.ajax({
         type:'POST',
         dataType: 'json',
@@ -108,7 +108,7 @@
     }
   });
   $("#button_capture").click(function () {
-    if (confirm('<?php echo $text_confirm_capture; ?>')) {
+    if (confirm(<?php js_echo($text_confirm_capture); ?>)) {
       $.ajax({
         type:'POST',
         dataType: 'json',
@@ -131,7 +131,7 @@
     }
   });
   $("#button_rebate").click(function () {
-    if (confirm('<?php echo $text_confirm_rebate ?>')) {
+    if (confirm(<?php js_echo($text_confirm_rebate); ?>)) {
       $.ajax({
         type:'POST',
         dataType: 'json',

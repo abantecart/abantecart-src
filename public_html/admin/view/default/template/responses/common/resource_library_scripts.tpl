@@ -125,7 +125,7 @@ var saveRL = function (URL, postdata) {
 		global: false,
 		success: function (new_rl_id) {
 			rid = new_rl_id;
-			rl_success_alert('<?php echo $text_success; ?>', true);
+			rl_success_alert(<?php js_echo($text_success); ?>, true);
 		},
 
 		error: rl_error_handler
@@ -385,7 +385,7 @@ function map_resource(rl_id, object_name, object_id) {
 			if (json) {
 				$('#image_row' + rl_id).parent().remove();
 			}
-			rl_success_alert('<?php echo $text_map_success; ?>', true);
+			rl_success_alert(<?php js_echo($text_map_success); ?>, true);
 		},
 		error: rl_error_handler
 	});
@@ -410,7 +410,7 @@ function unmap_resource(rl_id, object_name, object_id) {
 			if (json) {
 				$('#image_row' + rl_id).parent().remove();
 			}
-			rl_success_alert('<?php echo $text_success_unmap; ?>', true);
+			rl_success_alert(<?php js_echo($text_success_unmap); ?>, true);
 		},
 		error: rl_error_handler
 	});
@@ -442,7 +442,7 @@ function delete_resource(rl_id, object_name, object_id) {
 				}
 				mediaDialog(type, 'list_library');
 			}
-			rl_success_alert('<?php echo $text_file_delete; ?>', true);
+			rl_success_alert(<?php js_echo($text_file_delete); ?>, true);
 		},
 		error: rl_error_handler
 	});
@@ -675,7 +675,7 @@ var bind_rl = function (elm) {
 			async: false,
 			global: false,
 			success: function () {
-				rl_success_alert('<?php echo $text_success; ?>', true);
+				rl_success_alert(<?php js_echo($text_success); ?>, true);
 			},
 			error: rl_error_handler
 		});
@@ -791,7 +791,7 @@ var multi_action = function (action) {
 		async: false,
 		global: false,
 		success: function (html) {
-			rl_success_alert('<?php echo $text_success; ?>', true);
+			rl_success_alert(<?php js_echo($text_success); ?>, true);
 		},
 		error: rl_error_handler
 	});

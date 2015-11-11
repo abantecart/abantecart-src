@@ -109,7 +109,7 @@ $('.delete_page_layout').click(function(e) {
   e.stopPropagation();
   e.preventDefault();
   
-  if (confirm('<?php echo $text_delete_confirm; ?>' )) {
+  if (confirm(<?php js_echo($text_delete_confirm); ?>)) {
     var url = $(this).attr('href');
     window.location = url + '&confirmed_delete=yes';  
   }

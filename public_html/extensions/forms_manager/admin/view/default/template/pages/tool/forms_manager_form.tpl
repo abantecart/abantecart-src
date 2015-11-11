@@ -176,9 +176,9 @@ echo $this->html->buildElement(
 <script type="text/javascript"><!--
 
 var text = {
-	error_attribute_not_selected: '<?php echo $error_attribute_not_selected ?>',
-	text_expand: '<?php echo $text_expand ?>',
-	text_hide: '<?php echo $text_hide ?>'
+	error_attribute_not_selected: <?php js_echo($error_attribute_not_selected); ?>,
+	text_expand: <?php js_echo($text_expand); ?>,
+	text_hide: <?php js_echo($text_hide); ?>
 };
 var opt_urls = {
 	load_field: '<?php echo $urls['load_field'] ?>',
@@ -236,7 +236,7 @@ jQuery(function ($) {
 				updateFieldsList();
 				//Reset changed values marks
 				resetAForm($("input, checkbox, select", '#field_edit_form'));
-				success_alert('<?php echo $text_success_field; ?>', true);
+				success_alert(<?php js_echo($text_success_field); ?>, true);
 			}
 		});
 		return false;
@@ -365,7 +365,7 @@ jQuery(function ($) {
 				updateFieldsList();
 				$('#new_fieldFrm_field_id').delay(1000).change();
 				$('#field_modal').modal('hide');
-				success_alert('<?php echo $text_success_added_field; ?>', true);
+				success_alert(<?php js_echo($text_success_added_field); ?>, true);
 				//reset form in modal
 				$("#new_fieldFrm").trigger('reset');
 				$("#new_fieldFrm .changed").removeClass('changed');

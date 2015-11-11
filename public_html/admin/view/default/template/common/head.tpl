@@ -53,17 +53,16 @@ $(document).ready(function () {
 
 	//system check warnings
 	<?php if($system_error) { ?>
-		error_alert('<?php echo $system_error; ?>', false);
+		error_alert(<?php js_echo($system_error); ?>, false);
 	<?php } ?>
 	<?php if($system_warning) { ?>
-		warning_alert('<?php echo $system_warning; ?>', false);
+		warning_alert(<?php js_echo($system_warning); ?>, false);
 	<?php } ?>
 	<?php if($system_notice) { ?>
-		info_alert('<?php echo $system_notice; ?>', false);
+		info_alert(<?php js_echo($system_notice); ?>, false);
 	<?php } ?>
   
 	numberSeparators = {decimal:'<?php echo $decimal_point; ?>', thousand:'<?php echo $thousand_point; ?>'};
-
 });
 
 //periodical updater of new message notifier
@@ -127,7 +126,7 @@ var wrapConfirmDelete = function(){
         
     	var conf_text = $(this).attr('data-confirmation-text');
     	if (!conf_text) {
-    		conf_text = '<?php echo $text_confirm; ?>';
+    		conf_text = <?php js_echo($text_confirm); ?>;
     	} 
         
         $(this).wrap(wrapper);

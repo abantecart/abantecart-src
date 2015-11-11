@@ -310,7 +310,7 @@ echo $this->html->buildElement(
 				dataType: 'json',
 				success: function (response) {
 					if (!response) {
-						error_alert('<?php echo $error_turn_extension_on; ?>');
+						error_alert(<?php js_echo($error_turn_extension_on); ?>);
 						return false;
 					}
 					success_alert(response['message']);
@@ -331,7 +331,7 @@ echo $this->html->buildElement(
 
 		var email = $('#default_pp_express_email').val();
 		if (email == '') {
-			error_alert("<?php echo $default_pp_express_email_error;?>");
+			error_alert(<?php js_echo($default_pp_express_email_error); ?>);
 			return false;
 		}
 

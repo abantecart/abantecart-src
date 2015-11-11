@@ -45,7 +45,7 @@
 				if ( !values.length ) {
 					if ( $(field_div).find('span.required').length && attr!='file') {
 						$(field_div).find('input, select, textarea').addClass('custom_form_field_error');
-						$(field_div).find('.element_error').text('<?php echo $error_required; ?>');
+						$(field_div).find('.element_error').text(<?php js_echo($error_required); ?>);
 						errors++;
 					}
 				} else {
@@ -54,7 +54,7 @@
 							case 'email':
 								if ( !validateEmail($(field).val()) ) {
 									$(field).addClass('custom_form_field_error');
-									$(field_div).find('.element_error').text('<?php echo $error_email_not_valid; ?>');
+									$(field_div).find('.element_error').text(<?php js_echo($error_email_not_valid); ?>);
 									errors++;
 								} else {
 									$(field).removeClass('custom_form_field_error');
@@ -64,7 +64,7 @@
 							case 'number':
 								if ( !isInt($(field).val()) ) {
 									$(field).addClass('custom_form_field_error');
-									$(field_div).find('.element_error').text('<?php echo $error_number_not_valid;?>');
+									$(field_div).find('.element_error').text(<?php js_echo($error_number_not_valid); ?>);
 									errors++;
 								} else {
 									$(field).removeClass('custom_form_field_error');
@@ -74,7 +74,7 @@
 							case 'phone':
 								if ( !validatePhone($(field).val()) ) {
 									$(field).addClass('custom_form_field_error');
-									$(field_div).find('.element_error').text('<?php echo $error_phone_not_valid; ?>');
+									$(field_div).find('.element_error').text(<?php js_echo($error_phone_not_valid); ?>);
 									errors++;
 								} else {
 									$(field).removeClass('custom_form_field_error');
@@ -84,7 +84,7 @@
 							case 'captcha':
 								if ( !validateCaptcha($(field).val()) ) {
 									$(field).addClass('custom_form_field_error');
-									$(field_div).find('.element_error').text('<?php echo $error_captcha_not_valid; ?>');
+									$(field_div).find('.element_error').text(<?php js_echo($error_captcha_not_valid); ?>);
 									errors++;
 								} else {
 									$(field).removeClass('custom_form_field_error');

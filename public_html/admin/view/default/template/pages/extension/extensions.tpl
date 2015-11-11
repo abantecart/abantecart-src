@@ -128,7 +128,7 @@ echo $this->html->buildElement(
 				    		$('#license_modal').modal('show');
 				    		return false;
 				    	}else if (responseData.license_text.length>0) {
-				    		$('#license_modal .modal-title').html('<?php echo $text_license?>');
+				    		$('#license_modal .modal-title').html(<?php js_echo($text_license); ?>);
 				    		$('#license_modal .modal-body').html(responseData.license_text);
 				    		$('#license_modal').modal('show');
 				    		return false;
@@ -193,10 +193,10 @@ echo $this->html->buildElement(
 			type: 'GET',
 			success: function (data) {
 				if(data == 'success'){
-					success_alert('<?php echo $text_disconnect_success?>',true);
+					success_alert(<?php js_echo($text_disconnect_success); ?>,true);
 					location.reload();
 				} else if(data == 'error')  {
-					error_alert('<?php echo $error_mp_connection; ?>',true);
+					error_alert(<?php js_echo($error_mp_connection); ?>,true);
 				} else {				
 					location.reload();
 				}

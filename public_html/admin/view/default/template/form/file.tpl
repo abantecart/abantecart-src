@@ -19,8 +19,8 @@ jQuery(document).ready(function() {
 	    showCaption: true,
 	    showPreview: false,
 	    browseIcon: '<i class="fa fa-folder-open fa-fw"></i> ',
-	    browseLabel: '<?php echo $text_browse ?>',
-	    initialCaption: '<?php echo $default_text ?>'
+	    browseLabel: <?php js_echo($text_browse); ?>,
+	    initialCaption: <?php js_echo($default_text); ?>
 	});
 });
 </script>

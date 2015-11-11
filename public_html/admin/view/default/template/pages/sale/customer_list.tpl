@@ -54,7 +54,7 @@
 		$('.grid_action_actonbehalfof').each(function(){
 
 			$(this).attr('data-confirmation', 'delete');
-			$(this).attr('data-confirmation-text', '<?php echo $warning_actonbehalf;?>');
+			$(this).attr('data-confirmation-text', <?php js_echo($warning_actonbehalf); ?>);
 		});
 		<?php } ?>
 	}

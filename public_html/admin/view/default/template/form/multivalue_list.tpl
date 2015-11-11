@@ -102,7 +102,7 @@ var <?php echo $id; ?>_delete_item = function( id ) {
 	if(!tmp){
 		return;
 	}
-	if(confirm('<?php echo $text['delete_confirm'];?>')){
+	if(confirm(<?php js_echo($text['delete_confirm']); ?>)){
 		tmp[id]['status'] = false;
 		var newvalue = JSON.stringify(tmp);
 		$('#'+prefix+'_selected').html( newvalue ) ;

@@ -62,7 +62,7 @@ if (!empty($multivalue['description'])) { ?>
         postdata['selected'] = $('#<?php echo $id ?>_selected').html();
 
         var $Popup = $('#<?php echo $id ?>_popup_dialog').dialog({
-            title:'<?php echo $title; ?>',
+            title:<?php js_echo($title); ?>,
             autoOpen:true,
             bgiframe:false,
             width: <?php echo $popup_width; ?>,

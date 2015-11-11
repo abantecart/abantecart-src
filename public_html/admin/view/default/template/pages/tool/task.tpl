@@ -25,7 +25,7 @@
 					url: URL,
 					type:'POST'
 				});
-				success_alert('<?php echo $text_task_started; ?>', true);
+				success_alert(<?php js_echo($text_task_started); ?>, true);
 				$('#tasks_grid').trigger("reloadGrid");
 				return false;
 			})
@@ -39,12 +39,11 @@
 					url: URL,
 					type:'POST'
 				});
-				success_alert('<?php echo $text_task_started; ?>', true);
+				success_alert(<?php js_echo($text_task_started); ?>, true);
 				$('#tasks_grid').trigger("reloadGrid");
 				return false;
 			})
 		});
-
 	};
 
 </script>

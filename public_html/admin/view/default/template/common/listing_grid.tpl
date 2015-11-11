@@ -30,8 +30,8 @@
 
 var initGrid_<?php echo $data['table_id'] ?> = function ($) {
 
-	var text_choose_action = '<?php echo $text_choose_action ?>';
-	var text_select_items = '<?php echo $text_select_items ?>';
+	var text_choose_action = <?php js_echo($text_choose_action); ?>;
+	var text_select_items = <?php js_echo($text_select_items); ?>;
 	var _table_id = '<?php echo $data['table_id'] ?>';
 	var table_id = '#<?php echo $data['table_id'] ?>';
 	var jq_names = [<?php echo "'" . implode("','", $data['colNames']) . "'"?>];
@@ -499,7 +499,7 @@ if ($custom_buttons) {
 					{
 						reloadAfterSubmit:true,
 						beforeShowForm:function ($form) {
-							$("td.delmsg", $form[0]).html("<?php echo $text_delete_confirm ?>");
+							$("td.delmsg", $form[0]).html(<?php js_echo($text_delete_confirm); ?>);
 							var dlgDiv = $("#delmod" + _table_id);
 							var parentDiv = $(table_id + '_wrapper');
 							$('#dData', dlgDiv).show();

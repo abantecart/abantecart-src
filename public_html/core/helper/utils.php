@@ -1021,3 +1021,23 @@ function make_writable_dir($dir) {
 		return is_writable_dir($dir);	
 	}
 }
+
+/**
+ * Qoutes encode a string for javascript using json_encode();
+ *
+ * @param string $text 
+ * @return string
+*/
+function js_encode($text) {
+	return json_encode($text);
+}
+
+/**
+ * Echo js_encode string;
+ *
+ * @param string $text 
+ * @return string
+*/
+function js_echo($text) {
+	echo js_encode($text);
+}

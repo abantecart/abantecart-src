@@ -43,13 +43,7 @@ if ( has_value($pp_capture_amount) ){ ?>
 	</table>
 </div>
 
-
-
-
-
 <script type="text/javascript">
-
-
 	$('#pp_refund_submit').click(function() {
 
 		$('#pp_refund_message_td').hide();
@@ -65,14 +59,14 @@ if ( has_value($pp_capture_amount) ){ ?>
 					if ( result ) {
 						goTo( result.href );
 					} else {
-						error_alert('<?php echo $error_service_unavailable; ?>');
+						error_alert(<?php js_echo($error_service_unavailable); ?>);
 					}
 				}
 			});
 		} else {
-			error_alert('<?php echo $error_wrong_amount; ?>');
+			error_alert(<?php js_echo($error_wrong_amount); ?>);
 		}
-	return false;
+		return false;
 	});
 
 	$('#pp_capture_submit').click(function() {
@@ -89,13 +83,11 @@ if ( has_value($pp_capture_amount) ){ ?>
 					if ( result ) {
 						goTo( result.href );
 					} else {
-						error_alert('<?php echo $error_service_unavailable; ?>');
+						error_alert(<?php js_echo($error_service_unavailable); ?>);
 					}
 				}
 			});
 		}
 
-
 	});
-
 </script>

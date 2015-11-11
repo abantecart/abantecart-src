@@ -3,12 +3,12 @@ jQuery(function($){
 	$("input, textarea, select, .scrollbox", '#<?php echo $id ?>').not('.no-save').aform({
 		triggerChanged: true,
         buttons: {
-            save: '<?php echo $button_save ?>',
-            reset: '<?php echo $button_reset ?>'
+            save: <?php js_echo($button_save); ?>,
+            reset: <?php js_echo($button_reset); ?>
         },
         save_url: '<?php echo $update; ?>',
-        saved_txt: '<?php echo $text_saved; ?>',
-        processing_txt: '<?php echo $text_processing; ?>'
+        saved_txt: <?php js_echo($text_saved); ?>,
+        processing_txt: <?php js_echo($text_processing); ?>
 	});
 
 	//do not apply highlight & save to elements with class="no-save"

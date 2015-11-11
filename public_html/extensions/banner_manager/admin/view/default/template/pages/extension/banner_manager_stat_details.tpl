@@ -46,7 +46,7 @@ function getSalesChart(range) {
 					axisLabel: json.xaxisLabel
 				},
 				yaxis: {
-            		axisLabel: '<?php echo $text_count; ?>'
+            		axisLabel: <?php js_echo($text_count); ?>
 				}
 			}
 

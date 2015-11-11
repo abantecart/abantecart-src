@@ -37,7 +37,7 @@ if(is_array($options)){
 		$check_id = preg_replace('/[^a-zA-Z0-9_]/', '', $id . $v);
 ?>
 		$('#<?php echo $check_id ?>').html('<?php echo $text['image']; ?>');
-		$('#<?php echo $check_id ?>').append('<span class="hide_text"> <?php echo htmlentities($text['name'],ENT_QUOTES); ?></span>');
+		$('#<?php echo $check_id ?>').append('<span class="hide_text"> <?php js_echo($text['name']); ?></span>');
 <?php 
 		}
 	}
