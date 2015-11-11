@@ -243,11 +243,11 @@ function check_php_configuraion($registry){
 	        $memory_limit *= 1024;
     }
 
-
-	if ($memory_limit < (128 * 1024 * 1024)) {
+	//Recommended minimal PHP memory size is 64mb
+	if ($memory_limit < (64 * 1024 * 1024)) {
 		$ret_array[] = array(
 		        'title' => 'Memory limitation',
-		        'body' => 'Incorrect PHP memory limit. Some Abantecart functions will not work with memory limit less than 128Mb!',
+		        'body' => 'Low PHP memory setting. Some Abantecart features will not work with memory limit less than 64Mb! Check <a href="http://php.net/manual/en/ini.core.php#ini.memory-limit" target="_help_doc">PHP memory-limit setting</a>',
 		        'type' => 'W'
 		);
 	}
