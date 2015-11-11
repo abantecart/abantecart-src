@@ -34,6 +34,12 @@ var modalscope = {
 };
 
 var rl_error_handler = function(jqXHR){
+	//If 401 authentication issue redirect for user to login
+    if(jqXHR.status == 401){
+        window.location.reload();
+        return;
+    }
+
 	try {
 		var err = $.parseJSON(jqXHR.responseText);
 		if (err.hasOwnProperty("error_text")) {
