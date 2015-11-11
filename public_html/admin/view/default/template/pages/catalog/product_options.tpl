@@ -207,7 +207,7 @@ jQuery(function ($) {
 				updateOptions();
 				//Reset changed values marks
 				resetAForm($("input,select,textarea", '#option_edit_form'));
-				success_alert('<?php echo $text_success_option?>',true);
+				success_alert(<?php js_echo($text_success_option); ?>,true);
 			},
 			global: false,
 			error: function (jqXHR, textStatus, errorThrown) {

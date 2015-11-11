@@ -193,7 +193,7 @@ echo $this->html->buildElement(
 		$('#editSettings').submit(function() {
 			$('#editSettings_default_pp_standart_cartbordercolor').keyup();
 			if ( $('#default_pp_standart_confirm_email').val() != $('#editSettings_default_pp_standart_email').val() ) {
-				error_alert("<?php echo $error_confirm_email; ?>");
+				error_alert(<?php js_echo($error_confirm_email); ?>);
 				return false;
 			}
 			$(this).prop('changed','false');

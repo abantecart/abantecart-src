@@ -807,7 +807,7 @@ var multi_action = function (action) {
 
 var rl_error_alert = function (text, autohide) {
 	if(text.length<1){
-		text = '<?php echo $error_ajax?>';
+		text = <?php js_echo($error_ajax); ?>;
 	}
 	error_alert(text, autohide);
 }

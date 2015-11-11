@@ -361,7 +361,7 @@ echo $this->html->buildElement(
 
 	function checkStatus() {
 		if ($('#editSettings_default_pp_express_status').attr('data-orgvalue') == 0) {
-			error_alert('<?php echo $error_turn_extension_on; ?>');
+			error_alert(<?php js_echo($error_turn_extension_on); ?>);
 			return false;
 		} else {
 			return true;
