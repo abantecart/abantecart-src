@@ -235,6 +235,7 @@ final class AMessage {
 
 	/**
 	 * @param array $data
+	 * @return null
 	 */
 	public function saveANTMessage($data = array()) {
 		if (!$data || !$data['message_id']) {

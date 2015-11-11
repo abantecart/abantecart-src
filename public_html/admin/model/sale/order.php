@@ -268,6 +268,7 @@ class ModelSaleOrder extends Model{
 	/**
 	 * @param int $order_id
 	 * @param array $data
+	 * @return bool
 	 */
 	public function editOrderProduct($order_id, $data){
 

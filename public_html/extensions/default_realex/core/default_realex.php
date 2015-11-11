@@ -86,6 +86,7 @@ class ExtensionDefaultRealex extends Extension {
 	/**
 	 * @param int $order_id
 	 * @param AController $that
+	 * @return null
 	 */
 	private function _load_releax_order_data($order_id, $that) {
 		//data already loaded, return 

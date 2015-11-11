@@ -31,6 +31,7 @@ require_once(DIR_CORE . '/lib/exceptions/exception.php');
  * @param string $errstr
  * @param string $errfile
  * @param string $errline
+ * @return null
  */
 function ac_error_handler($errno, $errstr, $errfile, $errline) {
 
@@ -49,6 +50,7 @@ function ac_error_handler($errno, $errstr, $errfile, $errline) {
 /**
  * called for caught exceptions
  * @param  AException $e
+ * @return null
  */
 function ac_exception_handler($e)
 {

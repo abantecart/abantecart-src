@@ -122,6 +122,7 @@ class ModelSaleCustomer extends Model {
 	 * @param int $customer_id
 	 * @param int $address_id
 	 * @param array $address
+	 * @return bool
 	 */
 	public function editAddress($customer_id, $address_id, $address){
 
@@ -154,6 +155,7 @@ class ModelSaleCustomer extends Model {
 	/**
 	 * @param int $customer_id
 	 * @param int $address_id
+	 * @return bool
 	 */
 	public function deleteAddress($customer_id, $address_id){
 		if(!(int)$customer_id || !(int)$address_id ){
