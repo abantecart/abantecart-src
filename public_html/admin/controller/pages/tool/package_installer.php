@@ -109,7 +109,7 @@ class ControllerPagesToolPackageInstaller extends AController {
 		$this->_clean_temp_dir();
 
 		$this->session->data['package_info'] = array();
-		$package_info = &$this->session->data['package_info'];
+		$package_info =& $this->session->data['package_info'];
 		$package_info['package_source'] = 'file';
 
 		$package_info['tmp_dir'] = $this->_get_temp_dir();
@@ -236,8 +236,10 @@ class ControllerPagesToolPackageInstaller extends AController {
 
 
 	public function download() {
-		$package_info = &$this->session->data['package_info']; // for short code
+		$package_info =& $this->session->data['package_info']; // for short code
 		$extension_key = trim($this->request->post_or_get('extension_key'));
+		$disclaimer = false;
+		$mp_token = '';
 
 		if (!$extension_key && !$package_info['package_url']) {
 			$this->_removeTempFiles();
@@ -247,7 +249,10 @@ class ControllerPagesToolPackageInstaller extends AController {
 		if( $this->request->is_GET() ){
 			//reset installer array after redirects
 			$this->_removeTempFiles();
-			$this->session->data['package_info'] = array();
+			if($extension_key){
+				//reset array only for requests by key (exclude upload url method)
+				$this->session->data['package_info'] = array ();
+			}
 		}elseif ($this->request->is_POST()) { // if does not agree  with agreement of filesize
 			if ($this->request->post['disagree'] == 1) {
 				$this->_removeTempFiles();
@@ -743,6 +748,7 @@ class ControllerPagesToolPackageInstaller extends AController {
 		$package_id = $package_info['package_id'];
 		$package_dirname = $package_info['package_dir'];
 		$temp_dirname = $package_info['tmp_dir'];
+		$extension_id = '';
 
 		if ($this->request->is_POST() && $this->request->post['disagree'] == 1) {
 			//if user disagree clean up and exit
