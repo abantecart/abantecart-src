@@ -309,7 +309,7 @@
 	<definition>
 		<key>text_sort_order</key>
 		<value>
-			<![CDATA[Порядок сортировки:<span class="help">Номер указывающий позицию отображения этого расширения по отношению к другим.</span>]]></value>
+			<![CDATA[Порядок запуска:<span class="help">Номер указывающий позицию отображения этого расширения по отношению к другим.</span>]]></value>
 	</definition>
 	<definition>
 		<key>text_payment_minimum_total</key>
