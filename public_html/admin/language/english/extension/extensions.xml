@@ -303,7 +303,7 @@
 	</definition>
 	<definition>
 		<key>text_sort_order</key>
-		<value><![CDATA[Sort Order:<span class="help">Number to set display position for this extension in relation to other enabled extensions. (Sorting is from lower to higher number, ignoring 0 and empty values) </span>]]></value>
+		<value><![CDATA[Run Order:<span class="help">Number to set display position or execution order for this extension in relation to other enabled extensions. (Sorting is from lower to higher number, ignoring 0 and empty values) </span>]]></value>
 	</definition>
 	<definition>
 		<key>text_payment_minimum_total</key>
