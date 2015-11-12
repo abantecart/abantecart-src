@@ -1795,6 +1795,7 @@ p {
 .latestuserlist .media-body {
    line-height: normal;
    padding-top: 7px;
+   padding-left: 5px;
 }
 
 .latestuserlist .media-body small {
@@ -2397,6 +2398,10 @@ body.stickyheader .sticky_left {
 }
 .grid-dropdown li a:hover{
  color: #5894fb !important;
+}
+.panel .table > tbody > tr > td, 
+.panel .table > tbody > tr > th {
+	vertical-align: middle;
 }
 
 
