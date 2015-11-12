@@ -1092,6 +1092,11 @@ class ControllerPagesToolPackageInstaller extends AController {
 				return str_replace($this->session->data['package_info']['tmp_dir'],'',$dir);
 			}
 		}
+		//try to find package.xml in root of package
+		if(is_file($this->session->data['package_info']['tmp_dir'].$this->session->data['package_info']['extension_key'].'/package.xml')){
+			return $this->session->data['package_info']['extension_key'];
+		}
+
 		return null;
 	}
 
