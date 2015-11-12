@@ -588,7 +588,8 @@ class ExtensionsApi {
 				  && has_value($ext)
 				) {
 
-				$priority = (int)$registry->get('config')->get($ext . '_priority');
+				// run order is sort_order!
+				$priority = (int)$registry->get('config')->get($ext . '_sort_order');
 				$enabled_extensions[$priority][] = $ext;
 
 				$controllers = $languages = $models = $templates = array(
@@ -613,6 +614,7 @@ class ExtensionsApi {
 
 		$this->setExtensionCollection(new ExtensionCollection($extensions));
 		$this->enabled_extensions = array();
+		//sort extensions list by sort_order by ascending (sort_order)
 		ksort($enabled_extensions);
 		foreach($enabled_extensions as $exts){
 			$this->enabled_extensions = array_merge($this->enabled_extensions,$exts);
@@ -714,7 +716,13 @@ class ExtensionsApi {
 			$extensions_lookup_list = $this->enabled_extensions;
 		} else if ( $ext_status == 'all' ) {
 			$extensions_lookup_list = $this->extensions_dir;
-		}			
+		}
+
+		//reverse $extensions_lookup_list when looking for tpl
+		// need to take last from the list
+		if ($resource_type == 'T') {
+			$extensions_lookup_list = array_reverse($extensions_lookup_list);
+		}
 
 		foreach ($extensions_lookup_list as $ext) {
 		    $f = DIR_EXT . $ext . $file;
@@ -753,6 +761,58 @@ class ExtensionsApi {
 			}
 		}
 		return false;
+	}
+
+	/**
+	 * Function returns all tpl with pre or post prefixes for all enabled extensions
+	 * @param string $route - relative path of file.
+	 * @return array|bool
+	 */
+	public function getAllPrePostTemplates($route){
+
+		$registry = Registry::getInstance();
+		if (!$registry->has('config')) return false;
+
+		$ext_section = (IS_ADMIN ? DIR_EXT_ADMIN : DIR_EXT_STORE);
+
+		$tmpl_id = IS_ADMIN ? $registry->get('config')->get('admin_template')
+				: $registry->get('config')->get('config_storefront_template');
+		$file = $ext_section . DIR_EXT_TEMPLATE . $tmpl_id . '/template/' . $route;
+		$source = $this->extension_templates;
+
+
+		$section = trim($ext_section, '/');
+
+		//list only enabled extensions
+		$extensions_lookup_list = $this->enabled_extensions;
+		$output = array();
+		foreach ($extensions_lookup_list as $ext) {
+			//looking for active template tpl
+		    $f = DIR_EXT . $ext . $file;
+		    if ( in_array($route, $source[$ext][$section]) ) {
+		        if (is_file($f)) {
+		            $output[$ext] = array(
+		                'file' => $f,
+		                'extension' => $ext,
+		                'base_path' => $file
+		            );
+		        }
+			    //if active template tpl not found - looking for default
+				if(!isset($output[$ext])){
+					//check default template
+					$f = DIR_EXT . $ext . $ext_section . DIR_EXT_TEMPLATE . 'default/template/' . $route;
+					if (is_file($f)){
+						$output[] = array (
+								'file'      => $f,
+								'extension' => $ext,
+								'base_path' => $ext_section . DIR_EXT_TEMPLATE . 'default/template/' . $route
+						);
+					}
+				}
+		    }
+		}
+
+		return $output;
 	}
 
 	/**
@@ -1185,6 +1245,9 @@ class ExtensionUtils {
 					$value = (string)$item->resource_type . '/' . $resource_info['resource_path'];
 				}
 				$result[(string)$item['id']] = $value;
+				if((string)$item['id']=='priority'){
+					$result['sort_order'] = $value;
+				}
 			}
 		}
 
