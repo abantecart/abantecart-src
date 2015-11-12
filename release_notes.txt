@@ -6,7 +6,7 @@ New Features and improvements highlight:
 - Order cancellation option for customers 
 - Ability for guest customers to access order details 
 - Google reCaptcha v2. Easy to use captcha to protect from robots.  
-- Italian core language 
+- Italian core language (Special thanks to Daniela Stucchi)
 - Additional listing block data list sources (manufacturers, featured, bestsellers,latest)
 
 Core:
@@ -34,6 +34,7 @@ Storefront:
 - sql fix related to top 4 of featured products + reformat of code
 - breadcrumbs minor fix
 - Minor HTML and CSS fixes
+- Improvement to cookie handling 
 
 Admin:
 - added critical system check on login page

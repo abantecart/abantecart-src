@@ -135,15 +135,22 @@ final class ACustomer{
 			//we have unauthenticated customer
 			$encryption = new AEncryption($this->config->get('encryption_key'));
 			$this->unauth_customer = unserialize($encryption->decrypt($this->request->cookie['customer']));
-			//customer is not from the same store (under the same domain)
-			if($this->unauth_customer['script_name'] != $this->request->server['SCRIPT_NAME']){
+			//customer is not valid or not from the same store (under the same domain)
+			if(
+				$this->unauth_customer['script_name'] != $this->request->server['SCRIPT_NAME']
+				|| !$this->isValidEnabledCustomer()
+			){
 				//clean up
 				$this->unauth_customer = array();
-				setcookie("customer", "", time() - 3600);
+				//expire unauth cookie
+				unset($_COOKIE['customer']);
+				setcookie('customer', '', time() - 3600, dirname($this->request->server['PHP_SELF']));
 			}
-			//no need to merge with session as it shoud be always in sync
-			$this->session->data['cart'] = array();
-			$this->session->data['cart'] = $this->getCustomerCart();
+			//check if unauthenticated customer cart content was found and merge with session
+			$saved_cart = $this->getCustomerCart();
+			if(!empty($saved_cart) && count($saved_cart)) {
+				$this->mergeCustomerCart($saved_cart);
+			}
 		}
 	}
 
@@ -197,7 +204,16 @@ final class ACustomer{
 					'customer_id' => $this->customer_id,
 					'script_name' => $this->request->server['SCRIPT_NAME']
 			)));
-			setcookie('customer', $cutomer_data, time() + 60 * 60 * 24 * 365, '/', $this->request->server['HTTP_HOST']);
+			//Set cookie for this customer to track unauthenticated activity, expire in 1 year
+			setcookie(	'customer',
+						$cutomer_data, 
+						time() + 60 * 60 * 24 * 365, 
+						dirname($this->request->server['PHP_SELF']), 
+						null,
+						(defined('HTTPS') && HTTPS),
+						true
+					);
+		
 			return true;
 		} else{
 			return false;
@@ -222,8 +238,9 @@ final class ACustomer{
 		$this->address_id = '';
 		$this->cache->delete('storefront_menu');
 
-		//remove unauth cookie
-		setcookie("customer", "", time() - 3600, '/', $this->request->server['HTTP_HOST']);
+		//expire unauth cookie
+		unset($_COOKIE['customer']);
+		setcookie('customer', '', time() - 3600, dirname($this->request->server['PHP_SELF']));
 	}
 
 	/**
@@ -438,6 +455,31 @@ final class ACustomer{
        	                  WHERE customer_id = '" . (int)$customer_id . "'");
 	}
 
+	/**
+	 * Confirm that current customer is valid
+	 * @param none
+	 * @return bool
+	 */
+	public function isValidEnabledCustomer(){
+		$customer_id = $this->customer_id;
+		if(!$customer_id){
+			$customer_id = $this->unauth_customer['customer_id'];
+		}
+		if(!$customer_id){
+			return false;
+		}
+
+		$sql = "SELECT cart
+	    		FROM " . $this->db->table("customers") . "
+	    		WHERE customer_id = '" . (int)$customer_id . "' AND status = '1'";
+		$result = $this->db->query($sql);
+		if($result->num_rows){
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
 	/**
 	 * Get cart content
 	 * @param none
