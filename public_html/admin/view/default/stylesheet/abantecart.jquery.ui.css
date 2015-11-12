@@ -323,7 +323,9 @@
 tr.jqgrow td[aria-describedby$="_action"]{
 	overflow: visible;
 }
-
+tr.jqgrow td[aria-describedby="extension_grid_icon"] img{
+	height: 57px;
+}
 
 .ui-jqgrid tr.jqgrow td .btn_grid {
 	font-size: 14px;
