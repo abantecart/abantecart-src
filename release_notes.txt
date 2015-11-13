@@ -26,6 +26,7 @@ Core:
 - Missed translations for Spanish and Russian languages
 - Image size update for settings shared between admin and storefront
 - Better session ID validation and handling
+- Rare cart rounding issue fix
 
 Storefront:
 - added feature "order cancelation by customer" on SF-side
@@ -49,6 +50,7 @@ Admin:
 - Form Manager improvements
 - Show crash report and email to AbanteCart team
 - Chosen HTML element selection improvements
+- Extension archive extraction bug fix and improvment
 
 API:
 - Fix to allow authentication without use of cookies. 
