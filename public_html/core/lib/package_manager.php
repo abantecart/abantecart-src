@@ -497,6 +497,7 @@ class APackageManager {
 		if (!@ftp_chdir($fconnect, $remote_dir)) {
 			$result = ftp_mkdir($fconnect, $remote_dir);
 			if (!$result) {
+				$this->error .= "\nCannot to create directory ".$remote_dir." via ftp.";
 				return false;
 			}
             if(!ftp_chmod($fconnect, 0777, $remote_dir)){
@@ -512,6 +513,7 @@ class APackageManager {
 
 		} else {
 			if (!ftp_put($fconnect, $remote_file, $local, FTP_BINARY)) {
+				$this->error .= "\nCannot to put file ".$remote_file." via ftp.";
 				return false;
 			}
             $remote_file = $remote_dir . pathinfo($local, PATHINFO_BASENAME);
