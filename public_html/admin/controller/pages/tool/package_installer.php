@@ -990,10 +990,10 @@ class ControllerPagesToolPackageInstaller extends AController {
 			}
 		} else {
 			if ($package_info['ftp']) {
-				$this->session->data['error'] = $this->language->get('error_move_ftp') . DIR_EXT . $extension_id;
+				$this->session->data['error'] = $this->language->get('error_move_ftp') . DIR_EXT . $extension_id.'<br><br>'.$pmanager->error;
 				$this->redirect($this->html->getSecureURL('tool/package_installer/agreement'));
 			} else {
-				$this->session->data['error'] = $this->language->get('error_move') . DIR_EXT . $extension_id;
+				$this->session->data['error'] = $this->language->get('error_move') . DIR_EXT . $extension_id.'<br><br>'.$pmanager->error;
 				$this->_removeTempFiles('dir');
 				$this->redirect($this->_get_begin_href());
 			}
