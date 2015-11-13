@@ -256,6 +256,14 @@ class APackageManager {
 					mkdir($dir, 0777, true);
 				}
 
+				if(!is_dir($dir) || !is_writable($dir)){
+					$this->error .= "Error: Can't upgrade file : '" . $core_filename."\n Destination folder ".$dir." is not writable or does not exists";
+					$this->messages->saveNotice('Error', $this->error);
+					$error = new AError ($this->error);
+					$error->toLog()->toDebug();
+					continue;
+				}
+
 				$result = rename($this->session->data['package_info']['tmp_dir'] . $this->session->data['package_info']['package_dir'] . '/code/' . $core_filename, DIR_ROOT . '/' . $core_filename);
 				if ($result) {
 					// for index.php do not set 777 permissions because hosting providers will ban it

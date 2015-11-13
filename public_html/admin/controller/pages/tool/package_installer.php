@@ -1082,6 +1082,10 @@ class ControllerPagesToolPackageInstaller extends AController {
 
 		$pmanager->updateCoreVersion((string)$config->version);
 
+		if($pmanager->error){
+			$this->session->data['error'] .= "\n".$pmanager->error;
+		}
+
 		return true;
 	}
 
