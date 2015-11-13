@@ -555,7 +555,9 @@ final class ACustomer{
 		}
 		$cart = !is_array($cart) ? array() : $cart; // for case when data format is new but cart for store does not yet created
 
-
+		if($cart && !is_array($this->session->data['cart'])){
+			$this->session->data['cart'] = array();
+		}
 		foreach($cart as $key => $value){
 			if(!array_key_exists($key, $this->session->data['cart'])){
 				$this->session->data['cart'][$key] = $value;
