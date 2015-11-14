@@ -82,7 +82,7 @@ class ControllerPagesDesignBlocks extends AController {
 				'search' => false),
 				array('name' => 'block_txt_id',
 						'index' => 'block_txt_id',
-						'width' => 250,
+						'width' => 210,
 						'align' => 'left',
 						'search' => 'true'),
 				array('name' => 'block_name',
@@ -93,7 +93,7 @@ class ControllerPagesDesignBlocks extends AController {
 				array('name' => 'status',
 						'index' => 'status',
 						'align' => 'center',
-						'width' => 70,
+						'width' => 110,
 						'search' => false),
 				array('name' => 'block_date_added',
 						'index' => 'block_date_added',
@@ -147,7 +147,6 @@ class ControllerPagesDesignBlocks extends AController {
 				break;
 			}
 		}
-
 
 		if ($this->request->is_POST() && $this->_validateForm()) {
 			if (isset($this->session->data['layout_params'])) {
@@ -386,7 +385,8 @@ class ControllerPagesDesignBlocks extends AController {
 		$this->extensions->hk_InitData($this, __FUNCTION__);
 
 		$blocks = array();
-		$lm = new ALayoutManager();;
+		$lm = new ALayoutManager();
+
 		foreach ($this->data['custom_block_types'] as $txt_id) {
 			$block = $lm->getBlockByTxtId($txt_id);
 			if ($block['block_id']) {
@@ -613,8 +613,8 @@ class ControllerPagesDesignBlocks extends AController {
 		$resources_scripts = $this->dispatch(
 				'responses/common/resource_library/get_resources_scripts',
 				array(
-						'object_name' => 'categories',
-						'object_id' => $category_id,
+						'object_name' => '',
+						'object_id' => '',
 						'types' => array('image'),
 				)
 		);

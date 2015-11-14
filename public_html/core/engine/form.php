@@ -119,7 +119,6 @@ class AForm {
 	 *
 	 * @param string $name
 	 * @return null
-	 * @internal param $fname - unique form name
 	 */
 	public function loadFromDb($name) {
 
@@ -406,10 +405,6 @@ class AForm {
 	 */
 	protected function addFormJs() {
 		/**
-		 * @var AHtml
-		 */
-		$html = $this->registry->get('html');
-		/**
 		 * @var ALanguageManager
 		 */
 		$language = $this->registry->get('language');
@@ -467,7 +462,11 @@ class AForm {
 		$view = new AView($this->registry, 0);
 
 		foreach ($this->fields as $field) {
-
+			//check for enabled recaptcha instead of default captcha
+			if($this->config->get('config_recaptcha_site_key') && $field['element_type'] == 'K') {
+				$field['element_type'] = 'J';
+			}
+			//build data array for each field HTML template
 			$data = array(
 				'type' => HtmlElementFactory::getElementType($field['element_type']),
 				'name' => $field['field_name'],
@@ -477,7 +476,13 @@ class AForm {
 				'value' => $field['value'],
 				'options' => $field['options'],
 			);
-
+			
+			//populate customer entered values from session (if present)
+			if( is_array($this->session->data['custom_form_'.$this->form['form_id']]) ) {
+				$data['value'] = $this->session->data['custom_form_'.$this->form['form_id']][$field['field_name']];
+			}
+			
+			//custom data based on the HTML element type
 			switch ($data['type']) {
 				case 'multiselectbox' :
 					$data['name'] .= '[]';
@@ -487,6 +492,10 @@ class AForm {
 					break;
 				case 'captcha' :
 					$data['captcha_url'] = $this->html->getURL('common/captcha');
+					break;
+				case 'recaptcha' :
+					$data['recaptcha_site_key'] = $this->config->get('config_recaptcha_site_key');
+					$data['language_code'] = $this->language->getLanguageCode();
 					break;
 			}
 			$item = HtmlElementFactory::create($data);
@@ -500,6 +509,7 @@ class AForm {
 					$view->batchAssign(
 						array(
 							'element_id' => $item->element_id,
+							'type' => $data['type'],
 							'title' => $field['name'],
 							'description' => (!empty($field['description']) ? $field['description'] : ''),
 							'error' => (!empty($this->errors[ $field['field_name'] ]) ? $this->errors[ $field['field_name'] ] : ''),
@@ -580,14 +590,16 @@ class AForm {
 				$errors[$field['field_name']] = $field['name'].' '.$this->language->get('text_field_required');
 			}
 			// for required string values
-			if($field['required']=='Y' && !in_array($field['element_type'],array('K','U'))){
+			if($field['required']=='Y' && !in_array($field['element_type'],array('K','J','U'))){
 				if(!is_array( $data[$field['field_name']] )){
 					$data[$field['field_name']] = trim($data[$field['field_name']]);
-					if($data[$field['field_name']]==''){	//if empty string!
+					//if empty string!
+					if($data[$field['field_name']]==''){	
 						$errors[$field['field_name']] = $field['name'].' '.$this->language->get('text_field_required');
 					}
-				}else{
-					if(!$data[$field['field_name']]){	// if empty array
+				} else {
+					// if empty array
+					if(!$data[$field['field_name']]){	
 						$errors[$field['field_name']] = $field['name'].' '.$this->language->get('text_field_required');
 					}
 				}
@@ -596,11 +608,13 @@ class AForm {
 			if(has_value($field['regexp_pattern'])){
 				if(!is_array($data[$field['field_name']])){ //for string value
 					if(!preg_match($field['regexp_pattern'],$data[$field['field_name']])){
-						if( ($data[$field['field_name']] && $field['required']!='Y') || $field['required']=='Y'){ // show error only for field with value or required
+						// show error only for field with value or required
+						if( ($data[$field['field_name']] && $field['required']!='Y') || $field['required']=='Y'){ 
 							$errors[$field['field_name']] .= ' '. $field['error_text'];
 						}
 					}
-				}else{ // for array's values
+				} else { 
+					// for array's values
 					foreach($data[$field['field_name']] as $dd){
 						if(!preg_match($field['regexp_pattern'],$dd)){
 							if( ($dd && $field['required']!='Y') || $field['required']=='Y'){
@@ -612,12 +626,25 @@ class AForm {
 				}
 			}
 
-			//for captcha
-			if($field['element_type']=='K'
-				&& (!isset($this->session->data['captcha']) || $this->session->data['captcha'] != $data[$field['field_name']])
-			){
-				$errors[$field['field_name']] = $this->language->get('error_captcha');
+			//for captcha or recaptcha	
+			if($field['element_type'] == 'K' || $field['element_type'] == 'J') {
+
+				if($this->config->get('config_recaptcha_secret_key')) {
+					require_once DIR_VENDORS . '/google_recaptcha/autoload.php';
+					$recaptcha = new \ReCaptcha\ReCaptcha($this->config->get('config_recaptcha_secret_key'));
+					$resp = $recaptcha->verify(	$data['g-recaptcha-response'],
+												$this->request->server['REMOTE_ADDR']);
+					if (!$resp->isSuccess() && $resp->getErrorCodes()) {
+						$errors[$field['field_name']] = $this->language->get('error_captcha');		
+					}
+				} else {
+					if ( !isset($this->session->data['captcha']) 
+							|| ($this->session->data['captcha'] != $data[$field['field_name']]) ) {
+						$errors[$field['field_name']] = $this->language->get('error_captcha');
+					}
+				}
 			}
+
 			// for file
 			if($field['element_type']=='U' && ($this->request->files[$field['field_name']]['tmp_name'] || $field['required']=='Y') ){
 				$fm = new AFile();
@@ -639,6 +666,7 @@ class AForm {
 				}
 			}
 		}
+
 		return $errors;
 	}
 

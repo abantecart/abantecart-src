@@ -67,6 +67,7 @@ final class ALog {
 
 	/**
 	 * @param string $message
+	 * @return null
 	 */
 	public function write($message) {
 		if(!$this->mode) return null;

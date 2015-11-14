@@ -315,7 +315,14 @@ class ACart {
     	if ( !$price ) {
     	    $price = $product_query['price'];
     	} 
-
+    	
+    	//Need to round price after discounts and specials 
+    	//round main price to currency decimal_place setting (most common 2, but still...)
+		$currency = $this->registry->get('currency')->getCurrency();
+		$decimal_place = (int)$currency['decimal_place'];
+		$decimal_place = !$decimal_place ? 2 : $decimal_place;
+    	$price = round($price, $decimal_place);
+    	
     	foreach ( $option_data as $item ) {
     	    if ( $item['prefix'] == '%' ) {
     	    	$option_price += $price * $item['price'] / 100;
@@ -323,6 +330,9 @@ class ACart {
     	    	$option_price += $item['price'];
     	    }
     	}
+    	//round option price to currency decimal_place setting (most common 2, but still...)
+    	$option_price = round($option_price, $decimal_place);
+
 		// product downloads
     	$download_data = $this->download->getProductOrderDownloads($product_id);
     	
@@ -356,7 +366,6 @@ class ACart {
     	    'free_shipping'		=> $product_query['free_shipping'],
     	    'sku'			=> $product_query['sku']
   		);
- 		
  		return $result;	
 	}
 

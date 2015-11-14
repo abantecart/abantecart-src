@@ -376,6 +376,10 @@ var bindCustomEvents  = function(elm){
 	
 	// Tooltip
 	$obj.find('.tooltips').tooltip({ container: 'body'});
+	//Fix to hide tooltip on click in case of ajax on click.
+	$obj.find('.tooltips').on('click', function () {
+		$(this).tooltip('hide');
+	});
    
 	//build tooltips to fit full text on ellipses
 	buildTooltips($obj.find('.ellipsis'));	
@@ -1013,7 +1017,7 @@ function openCKRLModal(cke){
 
             function InsertHtml(editor, value) {
                 if(!value || value.length<1){
-                    info_alert('Resource Library: Nothing Was Pasted.', true);
+                    info_alert('Resource Library: Nothing was posted into editor.', true);
                     return null;
                 }
 

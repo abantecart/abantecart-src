@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<definitions>
+	<definition>
+		<key>text_tip</key>
+		<value><![CDATA[Consejo]]></value>
+	</definition>
+	<definition>
+		<key>no_enabled_payments_tip</key>
+		<value><![CDATA[
+    <div class="info alert alert-warning"><i class="fa fa fa-exclamation-triangle fa-fw"></i> You have no payment method enabled yet.</div>
+    <label class="h4 heading">Compruebe pagos más comunes:</label>
+    <div class="row">
+	    <div class="col-sm-4 h5 center">
+	        <a href="#admin#rt=extension/extensions/install&extension=default_stripe">
+	        <img src="extensions/default_stripe/image/icon.png"><br>Instale Stripe </a>
+	    </div>
+	    <div class="col-sm-4 h5 center">
+	        <a href="#admin#rt=extension/extensions/install&extension=default_pp_standart">
+	        <img src="extensions/default_pp_standart/image/icon.png"><br>Instale Paypal Extensión</a>
+	    </div>
+	    <div class="col-sm-4 h5 center">
+	        <a href="#admin#rt=extension/extensions/payment" target="_extension">
+	        <img src="admin/view/default/image/default_extension.png"><br>más Pagos</a>
+	    </div>
+    </div>]]></value>
+	</definition>
+</definitions>

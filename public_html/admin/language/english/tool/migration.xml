@@ -190,7 +190,7 @@
     </definition>
     <definition>
         <key>error_empty_source_cart</key>
-        <value><![CDATA[Warning: Chosen source cart is empty!]]></value>
+        <value><![CDATA[Warning: Chosen source cart is empty! Please check database and table prefix.]]></value>
     </definition>
     <definition>
         <key>text_finished</key>

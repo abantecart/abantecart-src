@@ -298,18 +298,30 @@
 									</div>
 									<div class="input-group"><?php echo $text_note; ?></div>
 								</div>
+								<?php if ($review_recaptcha) { ?>
+								<div class="clear form-group">
+								    <div class="form-inline col-md-6 col-md-offset-1 col-sm-6">
+								    	<?php echo $review_recaptcha; ?>
+								    </div>	
+								    <div class="form-inline col-md-5 col-sm-6">								    
+								    	<?php echo $review_button; ?>
+								    </div>
+								</div>
+								<?php } else { ?>
 								<div class="clear form-group">
 									<label class="control-label"><?php echo $entry_captcha; ?> <span
-												class="red">*</span></label>
-
-									<div class="form-inline">
-										<label class="control-label col-md-3">
-											<img src="<?php echo $captcha_url;?>" id="captcha_img" alt=""/>
-										</label>
-										<?php echo $review_captcha; ?>
-										&nbsp;&nbsp;<?php echo $review_button; ?>
-									</div>
+							    				class="red">*</span></label>
+	
+							    	<div class="form-inline">
+							    		<label class="control-label col-md-3">
+							    			<img src="<?php echo $captcha_url;?>" id="captcha_img" alt=""/>
+							    		</label>
+							    		<?php echo $review_captcha; ?>
+							    		&nbsp;&nbsp;<?php echo $review_button; ?>
+							    	</div>
 								</div>
+								<?php } ?>
+
 							</fieldset>
 						</div>
 					</div>
@@ -517,11 +529,17 @@
 	function review() {
 		var dismiss = '<button type="button" class="close" data-dismiss="alert">&times;</button>';
 
+		<?php if ($review_recaptcha) { ?>
+		var captcha = '&g-recaptcha-response=' + encodeURIComponent($('textarea[name=\'g-recaptcha-response\']').val());
+		<?php } else { ?>
+		var captcha = '&captcha=' + encodeURIComponent($('input[name=\'captcha\']').val());
+		<?php } ?>
+
 		$.ajax({
 			type: 'POST',
 			url: '<?php echo $product_review_write_url;?>',
 			dataType: 'json',
-			data: 'name=' + encodeURIComponent($('input[name=\'name\']').val()) + '&text=' + encodeURIComponent($('textarea[name=\'text\']').val()) + '&rating=' + encodeURIComponent($('input[name=\'rating\']:checked').val() ? $('input[name=\'rating\']:checked').val() : '') + '&captcha=' + encodeURIComponent($('input[name=\'captcha\']').val()),
+			data: 'name=' + encodeURIComponent($('input[name=\'name\']').val()) + '&text=' + encodeURIComponent($('textarea[name=\'text\']').val()) + '&rating=' + encodeURIComponent($('input[name=\'rating\']:checked').val() ? $('input[name=\'rating\']:checked').val() : '') + captcha,
 			beforeSend: function () {
 				$('.success, .warning').remove();
 				$('#review_button').attr('disabled', 'disabled');
@@ -530,6 +548,9 @@
 			complete: function () {
 				$('#review_button').attr('disabled', '');
 				$('.wait').remove();
+				<?php if ($review_recaptcha) { ?>
+    				grecaptcha.reset();
+    			<?php } ?>
 			},
             error: function (jqXHR, exception) {
             	var text = jqXHR.statusText + ": " + jqXHR.responseText;

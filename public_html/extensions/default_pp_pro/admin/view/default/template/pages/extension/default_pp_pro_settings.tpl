@@ -208,7 +208,7 @@ echo $this->html->buildElement(
 
 	$('#test_connection').click(function() {
 		if($('#editSettings_default_pp_pro_status').attr('data-orgvalue')!='1'){
-			error_alert('<?php echo $error_turn_extension_on; ?>');
+			error_alert(<?php js_echo($error_turn_extension_on); ?>);
 			return false;
 		}
 		$.ajax({
@@ -220,7 +220,7 @@ echo $this->html->buildElement(
 			},
 			success: function( response ) {
 				if ( !response ) {
-					error_alert( '<?php echo $error_turn_extension_on; ?>' );
+					error_alert( <?php js_echo($error_turn_extension_on); ?> );
 					return false;
 				}
 				info_alert( response['message'] );

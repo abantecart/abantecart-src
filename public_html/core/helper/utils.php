@@ -983,3 +983,61 @@ function genExecTrace($depth = 5){
 	
 	return "Execution stack: \t" . implode("\n\t", $result);
 }
+
+/**
+ * Validate if directory exists and writable
+ *
+ * @param string $dir 
+ * @return bool
+*/
+function is_writable_dir($dir) {
+	if (empty($dir)){
+		return false;
+	} else if(is_dir($dir) && is_writable($dir)) {
+		return true;	
+	} else {
+		return false;	
+	}
+}
+
+/**
+ * Create (signle level) dir if does not exists and/or make dir writable
+ *
+ * @param string $dir 
+ * @return bool
+*/
+function make_writable_dir($dir) {
+	if (empty($dir)){
+		return false;
+	} else if(is_writable_dir($dir)) {
+		return true;	
+	} else if(is_dir($dir) ) {
+		//Try to make directory writable 
+		chmod($dir,0777);
+		return is_writable_dir($dir);
+	} else {
+		//Try to create directory
+		mkdir($dir,0777);
+		return is_writable_dir($dir);	
+	}
+}
+
+/**
+ * Qoutes encode a string for javascript using json_encode();
+ *
+ * @param string $text 
+ * @return string
+*/
+function js_encode($text) {
+	return json_encode($text);
+}
+
+/**
+ * Echo js_encode string;
+ *
+ * @param string $text 
+ * @return string
+*/
+function js_echo($text) {
+	echo js_encode($text);
+}

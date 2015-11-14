@@ -24,11 +24,11 @@ if (!defined('DIR_CORE')) {
 /**
  * Main driver for running system check 
  * @since 1.2.4
- * @param $registry
- * @param $mode ('log', 'return') 
+ * @param  Registry $registry
+ * @param string $mode ('log', 'return')
  * @return array
  *
- * Note: This is English text only. Can be call before database and languges are loaded
+ * Note: This is English text only. Can be call before database and languages are loaded
  */
 
 function run_system_check($registry, $mode = 'log'){
@@ -38,7 +38,9 @@ function run_system_check($registry, $mode = 'log'){
 	$mlog = array_merge($mlog, check_file_permissions($registry));	
 	$mlog = array_merge($mlog, check_php_configuraion($registry));	
 	$mlog = array_merge($mlog, check_server_configuration($registry));	
-	
+	$mlog = array_merge($mlog, check_order_statuses($registry));
+	$mlog = array_merge($mlog, check_web_access());
+
 	$counts['error_count'] = $counts['warning_count'] = $counts['notice_count'] = 0;
 	foreach($mlog as $message){
 	    if($message['type'] == 'E'){
@@ -83,7 +85,7 @@ function check_file_permissions($registry){
 	if (is_writable($index) || substr(sprintf("%o",fileperms($index)), -3) == '777') {
 	    $ret_array[] = array(
 	    	'title' => 'Incorrect index.php file permissions',
-	    	'body' => $index . ' file is writable. It is recommended to set read and execute modes (644 or 755) for this file to keep it secured and running properly!',
+	    	'body' => $index . ' file is writable. It is recommended to set read and execute modes for this file to keep it secured and running properly!',
 	    	'type' => 'W'	    
 	    );
 	}
@@ -91,16 +93,19 @@ function check_file_permissions($registry){
 	if (is_writable(DIR_SYSTEM . 'config.php')) {
 	    $ret_array[] = array(
 	    	'title' => 'Incorrect config.php file permissions',
-	    	'body' => DIR_SYSTEM . 'config.php' . ' file needs to be set to read and execute modes (644 or 755) to keep it secured from editing!',
+	    	'body' => DIR_SYSTEM . 'config.php' . ' file needs to be set to read and execute modes to keep it secured from editing!',
 	    	'type' => 'W'	    
 	    );
 	}
 
-	//if cache is anabled
+	//if cache is enabled
 	if( $registry->get('config')->get('config_cache_enable') ) {
 		$cache_files = get_all_files_dirs(DIR_SYSTEM . 'cache/');
 		$cache_message = '';
 		foreach($cache_files as $file) {
+			if(in_array(basename($file), array('index.html', 'index.html','.','','..'))){
+				continue;
+			}
 			if (!is_writable($file)) {
 				$cache_message .= $file."<br/>";
 			}	
@@ -125,6 +130,9 @@ function check_file_permissions($registry){
 	$image_files = get_all_files_dirs(DIR_ROOT . '/image/thumbnails/');
 	$image_message = '';
 	foreach($image_files as $file) {
+		if(in_array(basename($file), array('index.html', 'index.html','.','','..'))){
+			continue;
+		}
 	    if (!is_writable($file)) {
 	    	$image_message .= $file."<br/>";
 	    }	
@@ -132,16 +140,40 @@ function check_file_permissions($registry){
 	if($image_message){
 	    $ret_array[] = array(
 	    	'title' => 'Incorrect image files permissions',
-	    	'body' => "Following files do not have write permissions. AbanteCart thumbnail images will not function properly. <br/>" . $cache_message,
+	    	'body' => "Following files do not have write permissions. AbanteCart thumbnail images will not function properly. <br/>" . $image_message,
 	    	'type' => 'W'	    
 	    );	
 	}
 
-	if (!is_writable(DIR_ROOT . '/admin/system/backup')) {
+	if (!is_writable(DIR_ROOT . '/admin/system')) {
+	    $ret_array[] = array(
+	    	'title' => 'Incorrect directory permission',
+	    	'body' => DIR_ROOT . '/admin/system' . ' directory needs to be set to full permissions(777)! AbanteCart backups and upgrade will not work.',
+	    	'type' => 'W'	    
+	    );
+	}
+
+	if (is_dir(DIR_ROOT . '/admin/system/backup') && !is_writable(DIR_ROOT . '/admin/system/backup')) {
 	    $ret_array[] = array(
 	    	'title' => 'Incorrect backup directory permission',
 	    	'body' => DIR_ROOT . '/admin/system/backup' . ' directory needs to be set to full permissions(777)! AbanteCart backups and upgrade will not work.',
-	    	'type' => 'W'	    
+	    	'type' => 'W'
+	    );
+	}
+
+	if (is_dir(DIR_ROOT . '/admin/system/temp') && !is_writable(DIR_ROOT . '/admin/system/temp')) {
+	    $ret_array[] = array(
+	    	'title' => 'Incorrect temp directory permission',
+	    	'body' => DIR_ROOT . '/admin/system/temp' . ' directory needs to be set to full permissions(777)!',
+	    	'type' => 'W'
+	    );
+	}
+
+	if (is_dir(DIR_ROOT . '/admin/system/uploads') && !is_writable(DIR_ROOT . '/admin/system/uploads')) {
+	    $ret_array[] = array(
+	    	'title' => 'Incorrect "uploads" directory permission',
+	    	'body' => DIR_ROOT . '/admin/system/uploads' . ' directory needs to be set to full permissions(777)! Probably AbanteCart file uploads will not work.',
+	    	'type' => 'W'
 	    );
 	}
 	
@@ -195,6 +227,32 @@ function check_php_configuraion($registry){
 	    	'type' => 'W'	    
 	    );
 	}
+
+	//check memory limit
+
+	$memory_limit = trim(ini_get('memory_limit'));
+	$last = strtolower($memory_limit[strlen($memory_limit)-1]);
+
+    switch($last) {
+        // The 'G' modifier is available since PHP 5.1.0
+        case 'g':
+	        $memory_limit *= 1024;
+        case 'm':
+	        $memory_limit *= 1024;
+        case 'k':
+	        $memory_limit *= 1024;
+    }
+
+	//Recommended minimal PHP memory size is 64mb
+	if ($memory_limit < (64 * 1024 * 1024)) {
+		$ret_array[] = array(
+		        'title' => 'Memory limitation',
+		        'body' => 'Low PHP memory setting. Some Abantecart features will not work with memory limit less than 64Mb! Check <a href="http://php.net/manual/en/ini.core.php#ini.memory-limit" target="_help_doc">PHP memory-limit setting</a>',
+		        'type' => 'W'
+		);
+	}
+
+
 	return $ret_array;
 }
 
@@ -212,13 +270,13 @@ function check_server_configuration($registry){
 	    );
 	}
 
-	//if SEO is anabled
+	//if SEO is enabled
 	if( $registry->get('config')->get('enable_seo_url') ) {	
 		$htaccess = DIR_ROOT . '/.htaccess';
 		if(!file_exists($htaccess)) {
 		    $ret_array[] = array(
 		    	'title' => 'SEO URLs does not work',
-		    	'body' => $htaccess.' file is missing. SEO URL functionality will not work. Check the <a href="http://docs.abantecart.com/pages/settings/system.html">manual for SEO URL setting</a> ',
+		    	'body' => $htaccess.' file is missing. SEO URL functionality will not work. Check the <a href="http://docs.abantecart.com/pages/tips/enable_seo.html" target="_help_doc">manual for SEO URL setting</a> ',
 		    	'type' => 'W'	    
 		    );		
 		}
@@ -249,7 +307,9 @@ function disk_size($path){
 		    $si_prefix = array( 'B', 'KB', 'MB', 'GB', 'TB', 'EB', 'ZB', 'YB' );
 		    $base = 1024;
 		    $class = min((int)log($bytes , $base) , count($si_prefix) - 1);
-		    return array('bytes' => $bytes, 'human' => sprintf('%1.2f' , $bytes / pow($base,$class)) . ' ' . $si_prefix[$class]);
+		    return array(
+				    'bytes' => $bytes,
+				    'human' => sprintf('%1.2f' , $bytes / pow($base,$class)) . ' ' . $si_prefix[$class]);
 		} catch (Exception $e) {
 			return array();
 		}
@@ -258,4 +318,135 @@ function disk_size($path){
 	}
 }
 
+/**
+ * @param Registry $registry
+ * @return array
+ */
+function check_order_statuses($registry){
 
+	$db = $registry->get('db');
+
+	$order_statuses = $registry->get('order_status')->getStatuses();
+	$language_id = (int)$registry->get('language')->getDefaultLanguageID();
+
+	$query = $db->query("SELECT osi.order_status_id, osi.status_text_id
+							    FROM " . $db->table('order_statuses') . " os
+								INNER JOIN " . $db->table('order_status_ids') . " osi
+									ON osi.order_status_id = os.order_status_id
+								WHERE os.language_id = '".$language_id."'");
+	$db_statuses = array();
+	foreach($query->rows as $row){
+		$db_statuses[(int)$row['order_status_id']] = $row['status_text_id'];
+	}
+
+	$ret_array = array();
+
+	foreach ($order_statuses as $id => $text_id){
+		if($text_id != $db_statuses[$id]){
+			$ret_array[] = array(
+						        'title' => 'Incorrect order status with id '.$id,
+						        'body' => 'Incorrect status text id for order status #'.$id.'. Value must be "'.$text_id.'" ('.$db_statuses[$id].'). Please check data of tables '.$db->table('order_status_ids').' and '.$db->table('order_statuses'),
+						        'type' => 'W'
+						    );
+		}
+	}
+
+
+ return $ret_array;
+}
+
+/**
+ * function checks restricted areas
+ */
+function check_web_access(){
+
+	$areas = array(
+			'system' => array('.htaccess', 'index.php'),
+			'resources/download' => array('.htaccess'),
+			'download' => array('index.html'),
+			'admin' => array('.htaccess', 'index.php'),
+			'admin/system' => array('.htaccess','index.html')
+	);
+
+	$ret_array = array();
+
+	foreach($areas as $subfolder=>$rules){
+		$dirname = DIR_ROOT.'/'.$subfolder;
+		if(!is_dir($dirname)){ continue;}
+
+		foreach($rules as $rule){
+			$message = '';
+			switch($rule){
+				case '.htaccess':
+					if(!is_file($dirname.'/.htaccess')){
+						$message = 'Restricted directory '.$dirname.' have public access. It is highly recommended to create .htaccess file and forbid access. ';
+					}
+					break;
+				case 'index.php':
+					if(!is_file($dirname.'/index.php')){
+						$message = 'Restricted directory '.$dirname.' does not contain index.php file. It is highly recommended to create it.';
+					}
+					break;
+				case 'index.html':
+					if(!is_file($dirname.'/index.html')){
+						$message = 'Restricted directory '.$dirname.' does not contain empty index.html file. It is highly recommended to create it.';
+					}
+
+					break;
+				default:
+					break;
+			}
+			if($message){
+				$ret_array[] = array (
+						'title' => 'Security warning ('.$subfolder.', '.$rule.')',
+						'body'  => $message,
+						'type'  => 'W'
+				);
+			}
+		}
+	}
+	return $ret_array;
+}
+
+
+/**
+ * @param $registry
+ * @param string $mode
+ * @return array
+ */
+
+function run_critical_system_check($registry, $mode = 'log'){
+
+	$mlog = array();
+	$mlog[] =  check_session_save_path($registry);
+
+	$output = array();
+
+	foreach($mlog as $message){
+		if($message['body']){
+			if ($mode == 'log'){
+				//only save errors to the log
+				$error = new AError($message['body']);
+				$error->toLog()->toDebug();
+				$registry->get('messages')->saveError($message['title'], $message['body']);
+			}
+		$output[] = $message;
+		}
+	}
+
+	return $output;
+}
+
+/**
+ * @return array
+ */
+function check_session_save_path(){
+	$savepath = ini_get('session.save_path');
+	if(!is_writable($savepath)){
+		return array(
+			        'title' => 'Session save path is not writable! ',
+			        'body' => 'Your server is unable to create a session necessary for AbanteCart functionality. Check logs for exact error details and contact your hosting support administrator to resolve this error.'
+		);
+	}
+	return array();
+}

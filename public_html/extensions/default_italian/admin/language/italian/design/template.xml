@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<definitions>
+	<definition>
+		<key>heading_title</key>
+		<value><![CDATA[Gestione Template]]></value>
+	</definition>
+	<definition>
+		<key>text_success</key>
+		<value><![CDATA[Il Template è stato modificato!]]></value>
+	</definition>
+	<definition>
+		<key>text_storefront_templates</key>
+		<value><![CDATA[Modelli disponibili Storefront]]></value>
+	</definition>
+	<definition>
+		<key>text_edit_extension</key>
+		<value><![CDATA[Impostazioni degli interni]]></value>
+	</definition>
+	<definition>
+		<key>text_error</key>
+		<value><![CDATA[Errore: mancante parametro richiesto nella vostra richiesta!]]></value>
+	</definition>
+	<definition>
+		<key>error_permission</key>
+		<value><![CDATA[Attenzione: Non hai il permesso di modificare i modelli!]]></value>
+	</definition>
+</definitions>

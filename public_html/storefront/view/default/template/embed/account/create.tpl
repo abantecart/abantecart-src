@@ -105,6 +105,21 @@
 				</div>
 			</div>
 		</fieldset>
+		<?php if ($form['captcha']) { ?>
+		<fieldset>
+			<div class="form-group <?php if ($error_captcha) echo 'has-error'; ?>">
+				<?php if ($form['captcha']->type == 'recaptcha') { ?>
+				<label class="col-sm-4 control-label"></label>
+				<?php } else { ?>
+				<label class="col-sm-4 control-label"><?php echo $entry_captcha; ?></label>
+				<?php } ?>
+				<div class="input-group col-sm-4">
+				    <?php echo $form['captcha']; ?>
+				</div>
+				<span class="help-block"><?php echo $error_captcha; ?></span>
+			</div>
+		</fieldset>
+		<?php } ?>
 	</div>
 
 

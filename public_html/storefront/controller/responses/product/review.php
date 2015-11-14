@@ -114,8 +114,19 @@ class ControllerResponsesProductReview extends AController {
 			$this->error['message'] = $this->language->get('error_rating');
 		}
 
-		if (!isset($this->session->data['captcha']) || ($this->session->data['captcha'] != $this->request->post['captcha'])) {
-			$this->error['message'] = $this->language->get('error_captcha');
+		if($this->config->get('config_recaptcha_secret_key')) {
+			require_once DIR_VENDORS . '/google_recaptcha/autoload.php';
+			$recaptcha = new \ReCaptcha\ReCaptcha($this->config->get('config_recaptcha_secret_key'));
+			$resp = $recaptcha->verify(	$this->request->post['g-recaptcha-response'],
+										$this->request->server['REMOTE_ADDR']);
+			if (!$resp->isSuccess() && $resp->getErrorCodes()) {
+				$this->error['message'] = $this->language->get('error_captcha');			
+			}
+		} else {
+			if (!isset($this->session->data['captcha']) 
+					|| ($this->session->data['captcha'] != $this->request->post['captcha'])) {
+				$this->error['message'] = $this->language->get('error_captcha');
+			}
 		}
 
 		$this->extensions->hk_ValidateData($this);

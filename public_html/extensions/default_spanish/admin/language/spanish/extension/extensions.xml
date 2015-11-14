@@ -18,8 +18,7 @@
 	</definition>
 	<definition>
 		<key>text_uninstall_confirm</key>
-		<value>
-			<![CDATA[Por favor, confirme que desea desinstalar la extensión [%% de la extensión]. Todos los ajustes de extensión y los datos relacionados se pueden borrar y perdió.]]></value>
+		<value><![CDATA[Por favor, confirme que desea desinstalar la extensión [%% de la extensión]. Todos los ajustes de extensión y los datos relacionados se pueden borrar y perdió.]]></value>
 	</definition>
 	<definition>
 		<key>text_delete</key>
@@ -139,13 +138,11 @@
 	</definition>
 	<definition>
 		<key>text_missing_extension</key>
-		<value>
-			<![CDATA[&quot;%% EXT Extensión: Placere delete is et visita extention provisor impetro completum fons et intall eam iterum &quot;]]></value>
+		<value><![CDATA[&quot;%% EXT Extensión: Placere delete is et visita extention provisor impetro completum fons et intall eam iterum &quot;]]></value>
 	</definition>
 	<definition>
 		<key>text_broken_extension</key>
-		<value>
-			<![CDATA["&quot;%% EXT Extensión: Placere delete is et visita extention provisor impetro completum fons et intall eam iterum  "]]></value>
+		<value><![CDATA["&quot;%% EXT Extensión: Placere delete is et visita extention provisor impetro completum fons et intall eam iterum	"]]></value>
 	</definition>
 	<definition>
 		<key>text_extension_pagination</key>
@@ -201,8 +198,7 @@
 	</definition>
 	<definition>
 		<key>text_visit_repository</key>
-		<value>
-			<![CDATA[Por favor, visite %extensions_store% repositorio de extensiones</a> para descargar la extensión]]></value>
+		<value><![CDATA[Por favor, visite %extensions_store% repositorio de extensiones</a> para descargar la extensión]]></value>
 	</definition>
 	<definition>
 		<key>text_license</key>
@@ -258,8 +254,7 @@
 	</definition>
 	<definition>
 		<key>additional_settings_confirm</key>
-		<value>
-			<![CDATA[Para configurar los ajustes adicionales de la extensión de la otra tienda debes iniciar una sesión en el panel de control de otro nombre de dominio. Ok? ]]></value>
+		<value><![CDATA[Para configurar los ajustes adicionales de la extensión de la otra tienda debes iniciar una sesión en el panel de control de otro nombre de dominio. Ok? ]]></value>
 	</definition>
 	<definition>
 		<key>error_no_help_file</key>
@@ -305,10 +300,10 @@
 		<key>text_status</key>
 		<value><![CDATA[Estado:<span class="help">Este es el control de estado de la extensión del escaparate.</span>]]></value>
 	</definition>
-    <definition>
-        <key>text_sort_order</key>
-        <value><![CDATA[Orden de Clasificación::<span class="help">Número para ajustar la posición de visualización para esta extensión en relación con otras extensiones habilitadas. (Clasificación se establece de menor a ignorar 0 y vacíos valores más altos) </span>]]></value>
-    </definition>
+	<definition>
+		<key>text_sort_order</key>
+		<value><![CDATA[Orden de Clasificación::<span class="help">Número para ajustar la posición de visualización para esta extensión en relación con otras extensiones habilitadas. (Clasificación se establece de menor a ignorar 0 y vacíos valores más altos) </span>]]></value>
+	</definition>
 	<definition>
 		<key>text_payment_minimum_total</key>
 		<value><![CDATA[Orden mínima Total:<span class="help">Cantidad mínima de pedido para llegar a permitir el pago</span>]]></value>
@@ -320,82 +315,85 @@
 	<definition>
 		<key>text_payment_storefront_icon</key>
 		<value><![CDATA[Escaparate Icono:<span class="help">Icono de Pago que se muestra en la selección de pago de pago</span>]]></value>
-	</definition>	
+	</definition>
 	<definition>
 		<key>text_shipping_storefront_icon</key>
 		<value><![CDATA[Escaparate Icono:<span class="help">Envios Icono que se mostrará en la selección del envío checkout</span>]]></value>
 	</definition>
 	<definition>
-	    <key>text_autoselect_payment</key>
-	    <value><![CDATA[Selección automática:<br/><span class="help"> Puede configurar para pasar página de selección de pago si sólo hay una opción de pago. Esta forma de pago se seleccionará automáticamente </span>]]></value>
+		<key>text_autoselect_payment</key>
+		<value><![CDATA[Selección automática:<br/><span class="help"> Puede configurar para pasar página de selección de pago si sólo hay una opción de pago. Esta forma de pago se seleccionará automáticamente </span>]]></value>
 	</definition>
 	<definition>
-	    <key>text_autoselect_shipping</key>
-	    <value><![CDATA[Selección automática:<br/><span class="help"> Puede configurar para pasar la página de selección de envío si sólo hay una opción de envío. Este método de envío se seleccionará automáticamente</span>]]></value>
+		<key>text_autoselect_shipping</key>
+		<value><![CDATA[Selección automática:<br/><span class="help"> Puede configurar para pasar la página de selección de envío si sólo hay una opción de envío. Este método de envío se seleccionará automáticamente</span>]]></value>
 	</definition>
 	<definition>
-	    <key>text_accept_payments_shipping</key>
-	    <value><![CDATA[Acepte los siguientes pagos: <br/><span class="help"> Si sólo se necesitan métodos de pago específicos para este método de envío, seleccione aquí. Si no hay nada seleccionado, todos los métodos de pago disponibles se mostrarán</span>]]></value>
+		<key>text_accept_payments_shipping</key>
+		<value><![CDATA[Acepte los siguientes pagos: <br/><span class="help"> Si sólo se necesitan métodos de pago específicos para este método de envío, seleccione aquí. Si no hay nada seleccionado, todos los métodos de pago disponibles se mostrarán</span>]]></value>
 	</definition>
 	<definition>
-	    <key>text_ready_to_install</key>
-	    <value><![CDATA[Ready to install]]></value>
+		<key>text_ready_to_install</key>
+		<value><![CDATA[Ready to install]]></value>
 	</definition>
 	<definition>
-	    <key>button_install</key>
-	    <value><![CDATA[Install]]></value>
+		<key>button_install</key>
+		<value><![CDATA[Instalar]]></value>
 	</definition>
 	<definition>
-	    <key>error_dependencies</key>
-	    <value><![CDATA[This extension cannot be enabled because required dependency missing or not enabled.]]></value>
+		<key>error_dependencies</key>
+		<value><![CDATA[This extension cannot be enabled because required dependency missing or not enabled.]]></value>
 	</definition>
 	<definition>
-	    <key>button_howto</key>
-	    <value><![CDATA[How To]]></value>
+		<key>button_howto</key>
+		<value><![CDATA[How To]]></value>
 	</definition>
 	<definition>
-	    <key>text_developer_site</key>
-	    <value><![CDATA[External support site]]></value>
+		<key>text_developer_site</key>
+		<value><![CDATA[External support site]]></value>
 	</definition>
 	<definition>
-	    <key>text_preview</key>
-	    <value><![CDATA[Preview]]></value>
+		<key>text_preview</key>
+		<value><![CDATA[Vista previa]]></value>
 	</definition>
 	<definition>
-	    <key>text_confirmation</key>
-	    <value><![CDATA[Confirmation]]></value>
+		<key>text_confirmation</key>
+		<value><![CDATA[Confirmación]]></value>
 	</definition>
 	<definition>
-	    <key>button_confirm</key>
-	    <value><![CDATA[Confirm]]></value>
+		<key>button_confirm</key>
+		<value><![CDATA[Confirmar]]></value>
 	</definition>
 	<definition>
-	    <key>button_continue</key>
-	    <value><![CDATA[Continue]]></value>
+		<key>button_continue</key>
+		<value><![CDATA[Continuar]]></value>
 	</definition>
 	<definition>
-	    <key>button_cancel</key>
-	    <value><![CDATA[Cancel]]></value>
+		<key>button_cancel</key>
+		<value><![CDATA[Cancelar]]></value>
 	</definition>
 	<definition>
-	    <key>error_could_not_load_config</key>
-	    <value><![CDATA[Error: Could not load config for <b>%s</b> (%s)!]]></value>
+		<key>error_could_not_load_config</key>
+		<value><![CDATA[Error: Could not load config for <b>%s</b> (%s)!]]></value>
 	</definition>
 	<definition>
-	    <key>error_could_not_load_override</key>
-	    <value><![CDATA[Error: Cannot load override template %s in extension %s!]]></value>
+		<key>error_could_not_load_override</key>
+		<value><![CDATA[Error: Cannot load override template %s in extension %s!]]></value>
 	</definition>
 	<definition>
-	    <key>tab_general</key>
-	    <value><![CDATA[General]]></value>
+		<key>tab_general</key>
+		<value><![CDATA[General]]></value>
 	</definition>
 	<definition>
-	    <key>tab_additional_settings</key>
-	    <value><![CDATA[Additional Settings]]></value>
+		<key>tab_additional_settings</key>
+		<value><![CDATA[Ajustes adicionales]]></value>
 	</definition>
 	<definition>
 		<key>text_more_extensions</key>
-		<value><![CDATA[More extensions are available for easy install.]]></value>
+		<value><![CDATA[Más extensiones están disponibles para una fácil instalación.]]></value>
 	</definition>
-	
+	<definition>
+		<key>text_save_success</key>
+		<value><![CDATA[éxito: Ha modificado la configuración de extensión!]]></value>
+	</definition>
 </definitions>

@@ -1,0 +1,127 @@
+<?xml version="1.0"?>
+<definitions>
+	<definition>
+		<key>heading_title</key>
+		<value><![CDATA[Categorie]]></value>
+	</definition>
+	<definition>
+		<key>text_category</key>
+		<value><![CDATA[Categoria]]></value>
+	</definition>
+	<definition>
+		<key>text_success</key>
+		<value><![CDATA[La modifica della categoria è stata effettuata!]]></value>
+	</definition>
+	<definition>
+		<key>text_default</key>
+		<value><![CDATA[Predefinito]]></value>
+	</definition>
+	<definition>
+		<key>text_image_manager</key>
+		<value><![CDATA[Gestione immagine]]></value>
+	</definition>
+	<definition>
+		<key>update_title</key>
+		<value><![CDATA[aggiorna categoria]]></value>
+	</definition>
+	<definition>
+		<key>column_image</key>
+		<value><![CDATA[Immagine]]></value>
+	</definition>
+	<definition>
+		<key>column_name</key>
+		<value><![CDATA[Nome categoria]]></value>
+	</definition>
+	<definition>
+		<key>column_sort_order</key>
+		<value><![CDATA[Ordina]]></value>
+	</definition>
+	<definition>
+		<key>column_status</key>
+		<value><![CDATA[Stato]]></value>
+	</definition>
+	<definition>
+		<key>column_products</key>
+		<value><![CDATA[Conta Prodotti]]></value>
+	</definition>
+	<definition>
+		<key>column_subcategories</key>
+		<value><![CDATA[Conta sottocategorie]]></value>
+	</definition>
+	<definition>
+		<key>entry_name</key>
+		<value><![CDATA[Nome categoria:]]></value>
+	</definition>
+	<definition>
+		<key>entry_meta_keywords</key>
+		<value><![CDATA[Meta Tag Parole chiavi:]]></value>
+	</definition>
+	<definition>
+		<key>entry_meta_description</key>
+		<value><![CDATA[Meta Tag Descrizione:]]></value>
+	</definition>
+	<definition>
+		<key>entry_description</key>
+		<value><![CDATA[Descrizione:]]></value>
+	</definition>
+	<definition>
+		<key>entry_status</key>
+		<value><![CDATA[Stato categoria:]]></value>
+	</definition>
+	<definition>
+		<key>entry_category</key>
+		<value><![CDATA[Categoria genitore:]]></value>
+	</definition>
+	<definition>
+		<key>entry_store</key>
+		<value><![CDATA[Negozi:]]></value>
+	</definition>
+	<definition>
+		<key>entry_keyword</key>
+		<value><![CDATA[SEO parole chiavi:]]></value>
+	</definition>
+	<definition>
+		<key>entry_image</key>
+		<value><![CDATA[Immagine:]]></value>
+	</definition>
+	<definition>
+		<key>entry_sort_order</key>
+		<value><![CDATA[Ordina:]]></value>
+	</definition>
+	<definition>
+		<key>error_permission</key>
+		<value><![CDATA[ATTENZIONE: Non hai il permesso per modificare le categorie!]]></value>
+	</definition>
+	<definition>
+		<key>error_name</key>
+		<value><![CDATA[Il nome della categoria deve essere compreso tra 2 e 32 caratteri!]]></value>
+	</definition>
+	<definition>
+		<key>error_required_data</key>
+		<value><![CDATA[I dati richiesti non sono stati aggiunti. Verificare la presenza di errori nel campo!]]></value>
+	</definition>
+	<definition>
+		<key>text_select_all</key>
+		<value><![CDATA[- Tutte le categorie -]]></value>
+	</definition>
+	<definition>
+		<key>text_select_parent</key>
+		<value><![CDATA[- Seleziona genitore -]]></value>
+	</definition>
+	<definition>
+		<key>text_success_layout</key>
+		<value><![CDATA[La modifica della impaginazione della pagina della categoria è stata effettuata.]]></value>
+	</definition>
+	<definition>
+		<key>tab_layout</key>
+		<value><![CDATA[ Impaginazione ]]></value>
+	</definition>
+	<definition>
+		<key>tab_image</key>
+		<value><![CDATA[Immagini]]></value>
+	</definition>
+	<definition>
+		<key>entry_parent_category</key>
+		<value><![CDATA[Settore superiore:]]></value>
+	</definition>
+</definitions>

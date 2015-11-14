@@ -342,12 +342,16 @@ class ControllerResponsesCommonResourceLibrary extends AController {
 			$filter_data['sort'] = 'date_added';
 			$filter_data['order'] = 'DESC';
 		}
+		$full_uri = $uri;
 		if (isset($this->request->get['page'])) {
 			$page = $this->request->get['page'];
 			if ((int)$page < 1) {
 				$page = 1;
 			}
 			$filter_data['start'] = (($page - 1) * $filter_data['limit']) ;
+			$full_uri .= '&page=' . $page;
+		} else {
+			$full_uri .= '&page=0';
 		}
 
 		$resources_total = $rm->getTotalResources($filter_data);
@@ -369,8 +373,10 @@ class ControllerResponsesCommonResourceLibrary extends AController {
 		}
 
 		$sort_order = '&sort='.$this->data['sort'].'&order='.$this->data['order'];
+		$full_uri .= $sort_order;
 		$this->data['current_url'] = $this->html->getSecureURL('common/resource_library',$uri.$sort_order.'&page={page}','&encode');
 		$this->data['no_sort_url'] = $this->html->getSecureURL('common/resource_library',$uri,'&encode');
+		$this->data['full_url'] = $this->html->getSecureURL('common/resource_library',$full_uri,'&encode');
 				
 		if ($resources_total > 12) {
 		$this->data['pagination_bootstrap'] = HtmlElementFactory::create(array(

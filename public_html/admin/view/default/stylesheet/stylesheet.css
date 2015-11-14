@@ -1050,7 +1050,7 @@ p {
 /***********************/
 #report_flot {
 	height: 315px;
-	widows: 450px;
+	widows: 450;
 	margin: auto;
 }
 .tooltipflot {
@@ -1260,6 +1260,19 @@ p {
     overflow: hidden;
     text-overflow: ellipsis;
     display: block;
+}
+
+.rl_pagination .pagination-sm > li > a, .pagination-sm > li > span {
+	padding: 5px 8px;
+}
+.rl_pagination .input-group {
+	font-size: 12px;
+}
+#rl_container .edit_resource_form {
+	min-height: 360px;
+}
+#rl_container .reslibrary {
+	min-height: 380px;
 }
 
 #choose_resource_type{
@@ -1782,6 +1795,7 @@ p {
 .latestuserlist .media-body {
    line-height: normal;
    padding-top: 7px;
+   padding-left: 5px;
 }
 
 .latestuserlist .media-body small {
@@ -2305,6 +2319,9 @@ body.stickyheader .sticky_left {
 	-khtml-opacity: 0.2;
 	opacity: 0.2;
 }
+.widthM300 {
+	max-width: 300px;
+}
 .widthM400 {
 	max-width: 400px;
 }
@@ -2349,6 +2366,9 @@ body.stickyheader .sticky_left {
 .btn-toggle.btn_switch {
 	min-width: 100px;
 }
+.btn-toggle.btn_switch.xs {
+	min-width: inherit;
+}
 .btn-toggle.btn_switch .btn-default:hover, .btn-toggle.btn_switch .btn-default:hover {
 	background-color: #fff;
 }
@@ -2378,6 +2398,10 @@ body.stickyheader .sticky_left {
 }
 .grid-dropdown li a:hover{
  color: #5894fb !important;
+}
+.panel .table > tbody > tr > td, 
+.panel .table > tbody > tr > th {
+	vertical-align: middle;
 }
 
 

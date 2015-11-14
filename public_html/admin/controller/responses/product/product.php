@@ -51,11 +51,11 @@ class ControllerResponsesProductProduct extends AController{
 				}
 			}
 		} else if(isset($this->request->post['term'])){
-			$filter = array('limit'               => 20,
-			                'content_language_id' => $this->session->data['content_language_id'],
-			                'filter'              => array(
-					                'keyword' => $this->request->post['term'],
-					                'match'   => 'begin'
+			$filter = array('limit'	=> 20,
+							'content_language_id' => $this->session->data['content_language_id'],
+							'filter' => array(
+							'keyword' => $this->request->post['term'],
+							'match' => 'all'
 			                ));
 			$products = $this->model_catalog_product->getProducts($filter);
 			$resource = new AResource('image');
@@ -404,7 +404,7 @@ class ControllerResponsesProductProduct extends AController{
 					'style' => 'no-save'
 			));
 
-			$this->data['entry_upload_dir'] = sprintf($this->language->get('entry_upload_dir'), 'admin/system/upload/');
+			$this->data['entry_upload_dir'] = sprintf($this->language->get('entry_upload_dir'), 'admin/system/uploads/');
 
 		} else{
 
@@ -1493,7 +1493,7 @@ class ControllerResponsesProductProduct extends AController{
 		$thumbnail = $resource->getMainThumb('products',
 				$product_id,
 				$this->config->get('config_image_product_width'),
-				$this->config->get('config_image_product_height'), true);
+				$this->config->get('config_image_product_height'));
 		$this->data['image'] = $thumbnail;
 
 		$this->data['form']['submit'] = $form->getFieldHtml(array(

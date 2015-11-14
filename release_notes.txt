@@ -1,3 +1,65 @@
+AbanteCart version 1.2.5
+
+Release includes couple of new features and number of core improvements 
+
+New Features and improvements highlight:
+- Order cancellation option for customers 
+- Ability for guest customers to access order details 
+- Google reCaptcha v2. Easy to use captcha to protect from robots.  
+- Italian core language (Special thanks to Daniela Stucchi)
+- Additional listing block data list sources (manufacturers, featured, bestsellers,latest)
+
+Core:
+- changed minimal php version requirement to 5.3
+- Fontawesome v4.4 updarade
+- Bootstrap v3.3.5 upgrade
+- Resource library UI improvement
+- Image processing and memory allocation improvement 
+- Language processing improvement and bug fix
+- fix for getBrowserLanguage() related to web-bots and empty language-code
+- added system check for web-access to restricted folders
+- added system check for low PHP memory limit 
+- added AOrderStatus class. Changed order status management in admin. 
+- Handling single quote issue in language text used in JavaScripts
+- Improvement to files/directories handling in admin/system
+- Add make_writable_dir and is_writable_dir
+- Missed translations for Spanish and Russian languages
+- Image size update for settings shared between admin and storefront
+- Better session ID validation and handling
+- Rare cart rounding issue fix
+
+Storefront:
+- added feature "order cancelation by customer" on SF-side
+- added feature for guest customers to access order details 
+- added mail.tpl for "create account" email.
+- sql fix related to top 4 of featured products + reformat of code
+- breadcrumbs minor fix
+- Minor HTML and CSS fixes
+- Improvement to cookie handling 
+
+Admin:
+- added critical system check on login page
+- various data grid UI improvements 
+- added icon for section into lang_definitions grid
+- periodical ajax system check instead of every page load
+- added htaccess with deny rule to admin/system directory and subs.
+- added phpinfo view on settings/system page
+- added mail.tpl for "send mail" page.
+- added system check before package installer and backup processes
+- ckEditor fixes
+- Form Manager improvements
+- Show crash report and email to AbanteCart team
+- Chosen HTML element selection improvements
+- Extension archive extraction bug fix and improvment
+
+API:
+- Fix to allow authentication without use of cookies. 
+- Fix for customer loginname based login and account creation 
+
+
+
+------------------------------------------------------------
+
 AbanteCart version 1.2.4
 
 This a minor release is with further usability improvements and bug fixes

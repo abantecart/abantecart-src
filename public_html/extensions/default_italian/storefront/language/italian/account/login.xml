@@ -1,0 +1,78 @@
+<?xml version="1.0"?>
+<definitions>
+	<definition>
+		<key>heading_title</key>
+		<value><![CDATA[Nome utente]]></value>
+	</definition>
+	<definition>
+		<key>text_account</key>
+		<value><![CDATA[Registra un Account]]></value>
+	</definition>
+	<definition>
+		<key>text_login</key>
+		<value><![CDATA[Login]]></value>
+	</definition>
+	<definition>
+		<key>text_i_am_new_customer</key>
+		<value><![CDATA[Sono un nuovo cliente.]]></value>
+	</definition>
+	<definition>
+		<key>text_checkout</key>
+		<value><![CDATA[Opzioni di acquisto:]]></value>
+	</definition>
+	<definition>
+		<key>text_guest</key>
+		<value><![CDATA[Acquisto cliente]]></value>
+	</definition>
+	<definition>
+		<key>text_create_account</key>
+		<value>
+			<![CDATA[Creando un nuoco account sarai in grado di acquistare velocemente, essere sempre aggiornato sullo stato di un ordine e rivedere la cronologia degli ordini che hai effettuato.]]></value>
+	</definition>
+	<definition>
+		<key>text_returning_customer</key>
+		<value><![CDATA[Cliente già registrato]]></value>
+	</definition>
+	<definition>
+		<key>text_i_am_returning_customer</key>
+		<value><![CDATA[Sono un vostro cliente.]]></value>
+	</definition>
+	<definition>
+		<key>text_forgotten_login</key>
+		<value><![CDATA[Hai dimenticato il tuo accesso?]]></value>
+	</definition>
+	<definition>
+		<key>text_forgotten_password</key>
+		<value><![CDATA[Dimenticato la password?]]></value>
+	</definition>
+	<definition>
+		<key>entry_loginname</key>
+		<value><![CDATA[Nome utente o email:]]></value>
+	</definition>
+	<definition>
+		<key>entry_email_address</key>
+		<value><![CDATA[E-Mail:]]></value>
+	</definition>
+	<definition>
+		<key>entry_password</key>
+		<value><![CDATA[Password:]]></value>
+	</definition>
+	<definition>
+		<key>error_login</key>
+		<value><![CDATA[Errore: Nessun risultato per email e/o password.]]></value>
+	</definition>
+	<definition>
+		<key>text_success_activated</key>
+		<value>
+			<![CDATA[Il tuo account è stato attivato con successo. Ora puoi entrare con le tue credenziali.]]></value>
+	</definition>
+	<definition>
+		<key>text_already_activated</key>
+		<value><![CDATA[Il tuo account è già stato attivato. Effettua il login con le proprie credenziali.]]></value>
+	</definition>
+	<definition>
+		<key>text_resend_activation_email</key>
+		<value>
+			<![CDATA[Errore: Il codice di attivazione non è stato trovato. Per inviare un nuovo codice clicca a questo <a href=" %s ">link</a>]]></value>
+	</definition>
+</definitions>

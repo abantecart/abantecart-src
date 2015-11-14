@@ -34,6 +34,12 @@ var modalscope = {
 };
 
 var rl_error_handler = function(jqXHR){
+	//If 401 authentication issue redirect for user to login
+    if(jqXHR.status == 401){
+        window.location.reload();
+        return;
+    }
+
 	try {
 		var err = $.parseJSON(jqXHR.responseText);
 		if (err.hasOwnProperty("error_text")) {
@@ -125,7 +131,7 @@ var saveRL = function (URL, postdata) {
 		global: false,
 		success: function (new_rl_id) {
 			rid = new_rl_id;
-			rl_success_alert('<?php echo $text_success; ?>', true);
+			rl_success_alert(<?php js_echo($text_success); ?>, true);
 		},
 
 		error: rl_error_handler
@@ -385,7 +391,7 @@ function map_resource(rl_id, object_name, object_id) {
 			if (json) {
 				$('#image_row' + rl_id).parent().remove();
 			}
-			rl_success_alert('<?php echo $text_map_success; ?>', true);
+			rl_success_alert(<?php js_echo($text_map_success); ?>, true);
 		},
 		error: rl_error_handler
 	});
@@ -410,7 +416,7 @@ function unmap_resource(rl_id, object_name, object_id) {
 			if (json) {
 				$('#image_row' + rl_id).parent().remove();
 			}
-			rl_success_alert('<?php echo $text_success_unmap; ?>', true);
+			rl_success_alert(<?php js_echo($text_success_unmap); ?>, true);
 		},
 		error: rl_error_handler
 	});
@@ -442,7 +448,7 @@ function delete_resource(rl_id, object_name, object_id) {
 				}
 				mediaDialog(type, 'list_library');
 			}
-			rl_success_alert('<?php echo $text_file_delete; ?>', true);
+			rl_success_alert(<?php js_echo($text_file_delete); ?>, true);
 		},
 		error: rl_error_handler
 	});
@@ -548,7 +554,7 @@ var bind_rl = function (elm) {
 		if (rl_id < 1 || rl_id == 'undefined') {
 			return false;
 		}
-
+		var reload_url = $("#rl_container").attr('data-current-url');
 		var type = $('#library').attr('data-type');
 
 		map_resource(rl_id);
@@ -558,7 +564,8 @@ var bind_rl = function (elm) {
 			if (tab_id == 'resource') {
 				mediaDialog(type, 'update', rl_id);
 			} else {
-				tab.click();
+				//reload the same list with the filter
+				reloadModal(reload_url);
 			}
 		}
 		return false;
@@ -577,13 +584,15 @@ var bind_rl = function (elm) {
 		if (rl_id < 1 || rl_id == 'undefined') {
 			return false;
 		}
+		var reload_url = $("#rl_container").attr('data-current-url');
+
 		unmap_resource(rl_id);
 		var tab = active_tab();
-
 		if (tab.attr('id') == 'resource') {
 			mediaDialog($(this).attr('data-type'), 'update', rl_id);
 		} else {
-			tab.click();
+			//reload the same list with the filter
+			reloadModal(reload_url);
 		}
 
 		return false;
@@ -672,7 +681,7 @@ var bind_rl = function (elm) {
 			async: false,
 			global: false,
 			success: function () {
-				rl_success_alert('<?php echo $text_success; ?>', true);
+				rl_success_alert(<?php js_echo($text_success); ?>, true);
 			},
 			error: rl_error_handler
 		});
@@ -788,15 +797,24 @@ var multi_action = function (action) {
 		async: false,
 		global: false,
 		success: function (html) {
-			rl_success_alert('<?php echo $text_success; ?>', true);
+			rl_success_alert(<?php js_echo($text_success); ?>, true);
 		},
 		error: rl_error_handler
 	});
 
-	active_tab().click(); // reload modal with object's resources
+	var reload_url = $("#rl_container").attr('data-current-url');
+	if(reload_url) {
+		reloadModal(reload_url);
+	} else {
+		// reload modal with object's resources
+		active_tab().click(); 
+	}
 }
 
 var rl_error_alert = function (text, autohide) {
+	if(text.length<1){
+		text = <?php js_echo($error_ajax); ?>;
+	}
 	error_alert(text, autohide);
 }
 

@@ -1,0 +1,79 @@
+<?xml version="1.0"?>
+<definitions>
+	<definition>
+		<key>heading_title</key>
+		<value><![CDATA[Hai dimenticato la Password?]]></value>
+	</definition>
+	<definition>
+		<key>heading_title_loginname</key>
+		<value><![CDATA[Hai dimenticato il tuo nome utente?]]></value>
+	</definition>
+	<definition>
+		<key>text_account</key>
+		<value><![CDATA[Account]]></value>
+	</definition>
+	<definition>
+		<key>text_forgotten</key>
+		<value><![CDATA[Password dimenticata]]></value>
+	</definition>
+	<definition>
+		<key>text_your_email</key>
+		<value><![CDATA[Il tuo indirizzo E-Mail]]></value>
+	</definition>
+	<definition>
+		<key>text_email</key>
+		<value>
+			<![CDATA[Inserisci l'indirizzo e-mail associato al tuo account. Clicca su Invia per ricevere la tua password tramite email.]]></value>
+	</definition>
+	<definition>
+		<key>text_loginname_email</key>
+		<value>
+			<![CDATA[Inserisci il nome utente e la email associati al tuo account. Clicca su Invia per ricevere la tua password tramite email.]]></value>
+	</definition>
+	<definition>
+		<key>text_lastname_email</key>
+		<value>
+			<![CDATA[Inserisci il cognome e l'indirizzo email associati al tuo account. Clicca su Invia per avere il nome utente inviato tramite email.]]></value>
+	</definition>
+	<definition>
+		<key>text_success</key>
+		<value><![CDATA[Una nuova password è stata inviata al tuo indirizzo email.]]></value>
+	</definition>
+	<definition>
+		<key>text_success_loginname</key>
+		<value><![CDATA[Il promemoria per il tuo nome utente è stato inviato al tuo indirizzo email.]]></value>
+	</definition>
+	<definition>
+		<key>entry_loginname</key>
+		<value><![CDATA[Nome utente:]]></value>
+	</definition>
+	<definition>
+		<key>entry_lastname</key>
+		<value><![CDATA[Cognome:]]></value>
+	</definition>
+	<definition>
+		<key>entry_email</key>
+		<value><![CDATA[E-Mail:]]></value>
+	</definition>
+	<definition>
+		<key>error_email</key>
+		<value><![CDATA[Errore: L'indirizzo email non è stato fornito o trovato nei nostri archivi, riprova!]]></value>
+	</definition>
+	<definition>
+		<key>error_loginname</key>
+		<value><![CDATA[Errore: Il nome utente non è stato fornito o trovato nei nostri archivi, riprova!]]></value>
+	</definition>
+	<definition>
+		<key>error_lastname</key>
+		<value><![CDATA[Errore: Il cognome non è stato fornito o trovato nei nostri archivi, riprova!]]></value>
+	</definition>
+	<definition>
+		<key>error_not_found</key>
+		<value>
+			<![CDATA[Errore: Nessun risultato trovato che corrisponde alle tue condizioni, controlla le tue informazioni e riprova!]]></value>
+	</definition>
+	<definition>
+		<key>text_forgotten_loginname</key>
+		<value><![CDATA[Hai dimenticato il nome?]]></value>
+	</definition>
+</definitions>

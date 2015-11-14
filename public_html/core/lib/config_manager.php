@@ -447,6 +447,25 @@ class AConfigManager {
 					'same_window' => $this->language->get('text_embed_click_action_same_window')
 			),
 		));
+		$fields['account_create_captcha'] = $form->getFieldHtml($props[] = array(
+			'type' => 'checkbox',
+			'name' => 'config_account_create_captcha',
+			'value' => $data['config_account_create_captcha'],
+			'style' => 'btn_switch',
+		));
+
+		$fields['recaptcha_site_key'] = $form->getFieldHtml($props[] = array(
+			'type' => 'input',
+			'name' => 'config_recaptcha_site_key',
+			'value' => $data['config_recaptcha_site_key'],
+			'style' => 'medium-field',
+		));
+		$fields['recaptcha_secret_key'] = $form->getFieldHtml($props[] = array(
+			'type' => 'input',
+			'name' => 'config_recaptcha_secret_key',
+			'value' => $data['config_recaptcha_secret_key'],
+			'style' => 'medium-field',
+		));
 
 		$fields['google_analytics'] = $form->getFieldHtml($props[] = array(
 			'type' => 'input',
@@ -454,7 +473,6 @@ class AConfigManager {
 			'value' => $data['config_google_analytics_code'],
 			'style' => 'medium-field',
 		));
-
 
 		if (isset($data['one_field'])) {
 			$fields = $this->_filterField($fields, $props, $data['one_field']);
@@ -595,6 +613,13 @@ class AConfigManager {
 			'value' => $data['config_order_status_id'],
 			'options' => $order_statuses,
 		));
+		$fields['customer_cancelation_order_status'] = $form->getFieldHtml($props[] = array(
+			'type' => 'multiselectbox',
+			'name' => 'config_customer_cancelation_order_status_id[]',
+			'value' => $data['config_customer_cancelation_order_status_id'] ? $data['config_customer_cancelation_order_status_id'] : array(),
+			'options' => $order_statuses,
+			'style' => 'chosen'
+		));
 		$fields['cart_weight'] = $form->getFieldHtml($props[] = array(
 			'type' => 'checkbox',
 			'name' => 'config_cart_weight',
@@ -673,6 +698,34 @@ class AConfigManager {
 				'type' => 'input',
 				'name' => 'admin_width',
 				'value' => $data['admin_width'],
+				'style' => 'small-field',
+				'required' => true,
+			));
+			$fields['image_grid_width'] = $form->getFieldHtml($props[] = array(
+				'type' => 'input',
+				'name' => 'config_image_grid_width',
+				'value' => $data['config_image_grid_width'],
+				'style' => 'small-field',
+				'required' => true,
+			));
+			$fields['image_grid_height'] = $form->getFieldHtml($props[] = array(
+				'type' => 'input',
+				'name' => 'config_image_grid_height',
+				'value' => $data['config_image_grid_height'],
+				'style' => 'small-field',
+				'required' => true,
+			));
+			$fields['image_product_width'] = $form->getFieldHtml($props[] = array(
+				'type' => 'input',
+				'name' => 'config_image_product_width',
+				'value' => $data['config_image_product_width'],
+				'style' => 'small-field',
+				'required' => true,
+			));
+			$fields['image_product_height'] = $form->getFieldHtml($props[] = array(
+				'type' => 'input',
+				'name' => 'config_image_product_height',
+				'value' => $data['config_image_product_height'],
 				'style' => 'small-field',
 				'required' => true,
 			));
@@ -1202,8 +1255,7 @@ class AConfigManager {
 							$error['address'] = $this->language->get('error_address');
 						}
 
-						$pattern = '/^[A-Z0-9._%-]+@[A-Z0-9][A-Z0-9.-]{0,61}\.[A-Z]{2,6}$/i';
-						if ( mb_strlen($fields['store_main_email']) > 96 || (!preg_match($pattern, $fields['store_main_email']))) {
+						if ( mb_strlen($fields['store_main_email']) > 96 || (!preg_match(EMAIL_REGEX_PATTERN, $fields['store_main_email']))) {
 							$error['email'] = $this->language->get('error_email');
 						}
 

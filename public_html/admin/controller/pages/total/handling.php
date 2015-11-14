@@ -151,7 +151,7 @@ class ControllerPagesTotalHandling extends AController {
 			'type' => 'input',
 			'name' => 'handling_total',
 			'value' => $this->data['handling_total'],
-			'placeholder' => $this->language->get('entry_total_palceholder')
+			'placeholder' => $this->language->get('entry_total_placeholder')
 		));
 		$this->data['form']['fields']['fee'] = array(
 				$form->getFieldHtml(array(

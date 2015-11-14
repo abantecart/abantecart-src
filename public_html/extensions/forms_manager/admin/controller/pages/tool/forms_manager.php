@@ -376,7 +376,9 @@ class ControllerPagesToolFormsManager extends AController {
 		$results = HtmlElementFactory::getAvailableElements();
 		$element_types = array('' => $this->language->get('text_select_field_type'));
 		foreach ($results as $key => $type) {
-			if (!in_array($key, array('P', 'L'))) // file and multivalue element types disabled for now
+			// file and multivalue element types disabled for now, 
+			//J = reCaptcha is not selectable, it will be used automaticaly if instead of captcha if enabled 
+			if (!in_array($key, array('P', 'L', 'J'))) 
 				$element_types[$key] = $type['type'];
 		}
 
@@ -406,7 +408,7 @@ class ControllerPagesToolFormsManager extends AController {
 				'type' => 'checkbox',
 				'name' => 'status',
 				'value' => 1,
-				'style' => 'btn_switch',
+				'style' => 'btn_switch btn-group-xs',
 		));
 
 		$this->data['entry_sort_order'] = $this->language->get('entry_sort_order');
@@ -420,7 +422,7 @@ class ControllerPagesToolFormsManager extends AController {
 		$this->data['required'] = $form->getFieldHtml(array(
 				'type' => 'checkbox',
 				'name' => 'required',
-				'style'=> 'btn_switch'
+				'style'=> 'btn_switch btn-group-xs'
 		));
 
 		$this->data['entry_element_type'] = $this->language->get('text_field_type');

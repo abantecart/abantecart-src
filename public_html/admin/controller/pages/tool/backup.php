@@ -108,7 +108,9 @@ class ControllerPagesToolBackup extends AController {
 			$this->data['error_warning'] = $this->session->data['error'];
 			unset($this->session->data['error']);
 		} else {
-			$this->data['error_warning'] = '';
+			$bkp = new ABackup('manual_backup');
+			$bkp->validate();
+			$this->data['error_warning'] = implode("\n",$bkp->error);
 		}
 
 		if (isset($this->session->data['success'])) {
@@ -139,13 +141,8 @@ class ControllerPagesToolBackup extends AController {
 
 		$this->data['tables'] = $this->model_tool_backup->getTables();
 		//if we cannot to get table list from database -show error
-		if( $this->data['tables']===false || sizeof($this->data['tables'])==0 ){
-			$error = "Error: Can't create sql dump of database during backup. Cannot obtain table list. ";
-			if(DB_DRIVER=='mysql'){
-				$error .= 'Try to change db-driver to "amysqli" in your /system/config.php file.';
-			}
-			$this->session->data['error'] = $error;
-			$this->redirect($this->html->getSecureURL('tool/backup'));
+		if( $this->data['tables']===false ){
+			$this->data['tables'] = array();
 		}
 
 		$table_sizes = $this->model_tool_backup->getTableSizes($this->data['tables']);
@@ -161,9 +158,6 @@ class ControllerPagesToolBackup extends AController {
 		}else{
 			$this->data['entry_tables_size'] = round($db_size/1024,1) .'Kb';
 		}
-
-		$this->data['note_rl'] = $this->language->get('note_rl');
-		$this->data['note_config'] = $this->language->get('note_config');
 
 		$form = new AForm('ST');
 
@@ -310,11 +304,11 @@ class ControllerPagesToolBackup extends AController {
 		}
 
 		if(has_value($this->request->post['do_backup'])){ // sign of backup form
-			$this->request->post['backup_files'] = $this->request->post['backup_files'] ? true : false;
-			$this->request->post['backup_config'] = $this->request->post['backup_config'] ? true : false;
+			$this->request->post['backup_code'] = $this->request->post['backup_code'] ? true : false;
+			$this->request->post['backup_content'] = $this->request->post['backup_content'] ? true : false;
 
-			if(!$this->request->post['backup'] &&  !$this->request->post['backup_files'] && !$this->request->post['backup_config']){
-				$this->errors['warning'] = $this->language->get('error_nothing_to_backup');
+			if(!$this->request->post['do_backup'] &&  !$this->request->post['backup_code'] && !$this->request->post['backup_content']){
+				$this->error['warning'] = $this->language->get('error_nothing_to_backup');
 			}
 		}
 
@@ -332,7 +326,7 @@ class ControllerPagesToolBackup extends AController {
 
 		if ($this->user->canAccess('tool/backup')) {
 			$filename = str_replace(array('../', '..\\', '\\', '/'), '', $this->request->get['filename']);
-			$file = DIR_APP_SECTION . 'system/backup/' . $filename;
+			$file = DIR_BACKUP . $filename;
 			if (file_exists($file)) {
 				header('Content-Description: File Transfer');
 				header('Content-Type: application/x-gzip');
@@ -342,7 +336,7 @@ class ControllerPagesToolBackup extends AController {
 				header('Cache-Control: must-revalidate');
 				header('Pragma: public');
 				header('Content-Length: ' . filesize($file));
-				ob_clean();
+				ob_end_clean();
 				flush();
 				readfile($file);
 				exit;

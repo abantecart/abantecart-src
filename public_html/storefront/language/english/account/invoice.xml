@@ -2,7 +2,7 @@
 <definitions>
 	<definition>
 		<key>heading_title</key>
-		<value><![CDATA[Order Invoice]]></value>
+		<value><![CDATA[Order Details]]></value>
 	</definition>
 	<definition>
 		<key>text_account</key>
@@ -86,7 +86,7 @@
 	</definition>
 	<definition>
 		<key>text_error</key>
-		<value><![CDATA[The invoice you requested could not be found!]]></value>
+		<value><![CDATA[The order you have requested could not be found!]]></value>
 	</definition>
 	<definition>
 		<key>column_date_added</key>
@@ -99,5 +99,33 @@
 	<definition>
 		<key>column_comment</key>
 		<value><![CDATA[Customer's order comment]]></value>
+	</definition>
+	<definition>
+		<key>text_order_cancelation</key>
+		<value><![CDATA[Request Cancellation of Order]]></value>
+	</definition>
+	<definition>
+		<key>text_order_cancelation_confirm</key>
+		<value><![CDATA[Your cancellation request may not be made in some cases, for example, when the goods have been shipped. Continue?]]></value>
+	</definition>
+	<definition>
+		<key>text_order_cancelation_success</key>
+		<value><![CDATA[Order cancellation request has been submitted]]></value>
+	</definition>
+	<definition>
+		<key>text_order_cancelation_message_title</key>
+		<value><![CDATA[Order #%s cancellation request]]></value>
+	</definition>
+	<definition>
+		<key>text_order_cancelation_message_body</key>
+		<value><![CDATA[Customer %s has requested order cancellation for order #%s . To review go to %s]]></value>
+	</definition>
+	<definition>
+		<key>error_email</key>
+		<value><![CDATA[E-Mail Address does not appear to be valid!]]></value>
+	</definition>
+	<definition>
+		<key>error_order_id</key>
+		<value><![CDATA[Order ID is required field!]]></value>
 	</definition>
 </definitions>

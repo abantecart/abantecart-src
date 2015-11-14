@@ -1,0 +1,67 @@
+<?xml version="1.0"?>
+<definitions>
+	<definition>
+		<key>heading_title</key>
+		<value><![CDATA[Stati dell'ordine]]></value>
+	</definition>
+	<definition>
+		<key>text_status</key>
+		<value><![CDATA[Stato dell'ordine]]></value>
+	</definition>
+	<definition>
+		<key>text_success</key>
+		<value><![CDATA[Hai modificato gli stati dell'ordine con successo!]]></value>
+	</definition>
+	<definition>
+		<key>column_name</key>
+		<value><![CDATA[Nome dello stato dell'ordine]]></value>
+	</definition>
+	<definition>
+		<key>column_action</key>
+		<value><![CDATA[Azione]]></value>
+	</definition>
+	<definition>
+		<key>entry_name</key>
+		<value><![CDATA[Nome dello stato dell'ordine:]]></value>
+	</definition>
+	<definition>
+		<key>error_permission</key>
+		<value><![CDATA[ATTENZIONE: Non hai l'autorizzazione per modificare gli stati dell'ordine!]]></value>
+	</definition>
+	<definition>
+		<key>error_name</key>
+		<value><![CDATA[Il nome dello stato dell'ordine deve essere compreso tra 2 e 32 caratteri!]]></value>
+	</definition>
+	<definition>
+		<key>error_default</key>
+		<value><![CDATA[ATTENZIONE: Questo stato dell'ordine non può essere eliminato perchè è attualmente assegnato come stato dell'ordine predefinito nel negozio!]]></value>
+	</definition>
+	<definition>
+		<key>error_download</key>
+		<value><![CDATA[ATTENZIONE: Questo stato dell'ordine non può essere eliminato perchè è attualmente asegnato come stato di download predefinito!]]></value>
+	</definition>
+	<definition>
+		<key>error_store</key>
+		<value><![CDATA[ATTENZIONE: Questo stato dell'ordine non può essere eliminato in quanto è attualmente assegnato a %s negozi!]]></value>
+	</definition>
+	<definition>
+		<key>error_order</key>
+		<value><![CDATA[ATTENZIONE: Questo stato dell'ordine non può essere eliminato perchè attualmente è assegnato a %s ordini!]]></value>
+	</definition>
+	<definition>
+		<key>error_nondeletable</key>
+		<value><![CDATA[ATTENZIONE: Questo è importante lo stato dell'ordine che si collega ai pagamenti. Non è possibile eliminare questo stato.]]></value>
+	</definition>
+	<definition>
+		<key>column_text_id</key>
+		<value><![CDATA[Lo stato dell'ordine Text ID]]></value>
+	</definition>
+	<definition>
+		<key>entry_text_id</key>
+		<value><![CDATA[Lo stato dell'ordine Text ID:]]></value>
+	</definition>
+	<definition>
+		<key>error_status_text_id</key>
+		<value><![CDATA[Lo stato dell'ordine Text Id deve essere univoco e tra 2 e 32 caratteri!]]></value>
+	</definition>
+</definitions>

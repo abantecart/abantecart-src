@@ -1,0 +1,59 @@
+<?xml version="1.0"?>
+<definitions>
+  	<definition>
+    	<key>text_get_product_embed_code</key>
+    	<value><![CDATA[Product Embed Code]]></value>
+  	</definition>
+  	<definition>
+    	<key>text_get_category_embed_code</key>
+    	<value><![CDATA[Category Embed Code]]></value>
+  	</definition>
+  	<definition>
+    	<key>text_get_manufacturer_embed_code</key>
+    	<value><![CDATA[Manufacturer Embed Code]]></value>
+  	</definition>
+  	<definition>
+    	<key>entry_image</key>
+    	<value><![CDATA[Show Image]]></value>
+  	</definition>
+  	<definition>
+    	<key>entry_name</key>
+    	<value><![CDATA[Show Name]]></value>
+  	</definition>
+  	<definition>
+    	<key>entry_price</key>
+    	<value><![CDATA[Show Price]]></value>
+  	</definition>
+  	<definition>
+    	<key>entry_rating</key>
+    	<value><![CDATA[Show Reviews And Rating]]></value>
+  	</definition>
+  	<definition>
+    	<key>entry_blurb</key>
+    	<value><![CDATA[Show Blurb]]></value>
+  	</definition>
+  	<definition>
+    	<key>entry_quantity</key>
+    	<value><![CDATA[Show Quantity]]></value>
+  	</definition>
+  	<definition>
+    	<key>entry_addtocart</key>
+    	<value><![CDATA[Show Button]]></value>
+  	</definition>
+  	<definition>
+    	<key>entry_language</key>
+    	<value><![CDATA[Select Language]]></value>
+  	</definition>
+  	<definition>
+    	<key>entry_currency</key>
+    	<value><![CDATA[Select Currency]]></value>
+  	</definition>
+  	<definition>
+    	<key>entry_products_count</key>
+    	<value><![CDATA[Products Count]]></value>
+  	</definition>
+  	<definition>
+    	<key>entry_products_count</key>
+    	<value><![CDATA[Products Count]]></value>
+  	</definition>
+</definitions>

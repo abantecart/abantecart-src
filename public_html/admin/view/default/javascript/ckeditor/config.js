@@ -37,12 +37,14 @@ CKEDITOR.editorConfig = function( config ) {
 	// Make dialogs simpler.
 	config.removeDialogTabs = 'image:advanced;link:advanced';
 
-	// ALLOW <i></i>
+	// ALLOW <i></i> and break-line signs
+    config.protectedSource = [/\r|\n|\t/g]; //allows tab, newline
 	config.protectedSource.push(/<i[^>]*><\/i>/g);
-	
+
     config.enterMode = CKEDITOR.ENTER_BR;
     config.shiftEnterMode = CKEDITOR.ENTER_BR;
     config.disableNativeSpellChecker = false;
     
     config.allowedContent = true;
+	config.extraPlugins = 'font,colorbutton';
 };

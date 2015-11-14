@@ -279,6 +279,22 @@ class ModelAccountCustomer extends Model {
 	 */
 	public function validateRegistrationData( $data ) {
 		$error = array();
+		//If captcha enabled, validate
+		if($this->config->get('config_account_create_captcha')) {
+			if($this->config->get('config_recaptcha_secret_key')) {
+				require_once DIR_VENDORS . '/google_recaptcha/autoload.php';
+				$recaptcha = new \ReCaptcha\ReCaptcha($this->config->get('config_recaptcha_secret_key'));
+				$resp = $recaptcha->verify(	$data['g-recaptcha-response'],
+											$this->request->server['REMOTE_ADDR']);
+				if (!$resp->isSuccess() && $resp->getErrorCodes()) {
+					$error['captcha'] = $this->language->get('error_captcha');
+				}
+			} else {
+				if (!isset($this->session->data['captcha']) || ($this->session->data['captcha'] != $data['captcha'])) {
+					$error['captcha'] = $this->language->get('error_captcha');
+				}
+			}
+		}
 
 		if ( $this->config->get('prevent_email_as_login')) {
 			//validate only if email login is not allowed
@@ -302,9 +318,7 @@ class ModelAccountCustomer extends Model {
       		$error['lastname'] = $this->language->get('error_lastname');
     	}
 
-		$pattern = '/^[-0-9a-zA-Z.+_]+@[-0-9a-zA-Z.+_]+\.[a-zA-Z]{2,4}$/i';
-
-    	if ((mb_strlen($data['email']) > 96) || (!preg_match($pattern, $data['email']))) {
+    	if ((mb_strlen($data['email']) > 96) || (!preg_match(EMAIL_REGEX_PATTERN, $data['email']))) {
       		$error['email'] = $this->language->get('error_email');
     	}
 
@@ -365,6 +379,20 @@ class ModelAccountCustomer extends Model {
 	public function validateSubscribeData( $data ) {
 		$error = array();
 
+		if($this->config->get('config_recaptcha_secret_key')) {
+			require_once DIR_VENDORS . '/google_recaptcha/autoload.php';
+			$recaptcha = new \ReCaptcha\ReCaptcha($this->config->get('config_recaptcha_secret_key'));
+			$resp = $recaptcha->verify(	$data['g-recaptcha-response'],
+										$this->request->server['REMOTE_ADDR']);
+			if (!$resp->isSuccess() && $resp->getErrorCodes()) {
+				$error['captcha'] = $this->language->get('error_captcha');
+			}
+		} else {
+			if (!isset($this->session->data['captcha']) || ($this->session->data['captcha'] != $data['captcha'])) {
+				$error['captcha'] = $this->language->get('error_captcha');
+			}
+		}
+
     	if ((mb_strlen($data['firstname']) < 1) || (mb_strlen($data['firstname']) > 32)) {
       		$error['firstname'] = $this->language->get('error_firstname');
     	}
@@ -373,18 +401,12 @@ class ModelAccountCustomer extends Model {
       		$error['lastname'] = $this->language->get('error_lastname');
     	}
 
-		$pattern = '/^[-0-9a-zA-Z.+_]+@[-0-9a-zA-Z.+_]+\.[a-zA-Z]{2,4}$/i';
-
-    	if ((mb_strlen($data['email']) > 96) || (!preg_match($pattern, $data['email']))) {
+    	if ((mb_strlen($data['email']) > 96) || (!preg_match(EMAIL_REGEX_PATTERN, $data['email']))) {
       		$error['email'] = $this->language->get('error_email');
     	}
 
 		if ( $this->getTotalCustomersByEmail($data['email'])) {
 			$error['warning'] = $this->language->get('error_subscriber_exists');
-		}
-
-		if (!isset($this->session->data['captcha']) || ($this->session->data['captcha'] != $this->request->post['captcha'])) {
-			$error['captcha'] = $this->language->get('error_captcha');
 		}
 
     	return $error;
@@ -418,9 +440,7 @@ class ModelAccountCustomer extends Model {
 			$error['lastname'] = $this->language->get('error_lastname');
 		}
 
-		$pattern = '/^[-0-9a-zA-Z.+_]+@[-0-9a-zA-Z.+_]+\.[a-zA-Z]{2,4}$/i';
-
-		if ((mb_strlen($data['email']) > 96) || (!preg_match($pattern, $data['email']))) {
+		if ((mb_strlen($data['email']) > 96) || (!preg_match(EMAIL_REGEX_PATTERN, $data['email']))) {
 			$error['email'] = $this->language->get('error_email');
 		}
 		

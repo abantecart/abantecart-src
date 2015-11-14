@@ -1,0 +1,41 @@
+<?xml version="1.0"?>
+<definitions>
+	<definition>
+		<key>heading_title</key>
+		<value><![CDATA[Il tuo ordine è stato inoltrato!]]></value>
+	</definition>
+	<definition>
+		<key>text_message</key>
+		<value>
+			<![CDATA[<p>Il tuo ordine è stato inoltrato!</p><p>Puoi vedere la cronologia degli ordini andando a <a href="%s">Il mio account</a> pagina e cliccando su <a href="%s">Cronologia</a>.</p><p>Per qualsiasi domanda contatta <a href="%s">il proprietario del negozio</a>.</p><p>Grazie per aver acquistato i nostri prodotti!</p>]]></value>
+	</definition>
+	<definition>
+		<key>text_message_guest</key>
+		<value>
+			<![CDATA[<p>Il tuo ordine è stato inoltrato!</p><p>Per ogni informazione contata <a href="%s">il proprietario del negozio</a>.</p><p>Grazie per aver acquistato i nostri prodotti!</p>]]></value>
+	</definition>
+	<definition>
+		<key>text_basket</key>
+		<value><![CDATA[Cestino]]></value>
+	</definition>
+	<definition>
+		<key>text_shipping</key>
+		<value><![CDATA[Spedizione]]></value>
+	</definition>
+	<definition>
+		<key>text_payment</key>
+		<value><![CDATA[Pagamento]]></value>
+	</definition>
+	<definition>
+		<key>text_guest</key>
+		<value><![CDATA[Acquisto cliente]]></value>
+	</definition>
+	<definition>
+		<key>text_confirm</key>
+		<value><![CDATA[Conferma]]></value>
+	</definition>
+	<definition>
+		<key>text_success</key>
+		<value><![CDATA[Successo]]></value>
+	</definition>
+</definitions>

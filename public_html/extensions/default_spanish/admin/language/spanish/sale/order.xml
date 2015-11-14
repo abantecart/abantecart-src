@@ -265,7 +265,7 @@
 		<value><![CDATA[De Resumen del Pedido]]></value>
 	</definition>
 	<definition>
-		<key>tab_details</key>
+		<key>tab_order_details</key>
 		<value><![CDATA[Detalles]]></value>
 	</definition>
 	<definition>
@@ -355,5 +355,25 @@
 	<definition>
 		<key>text_recalc</key>
 		<value><![CDATA[Recalcular]]></value>
-	</definition>		
+	</definition>
+	<definition>
+		<key>column_file</key>
+		<value><![CDATA[Archivo]]></value>
+	</definition>
+	<definition>
+		<key>column_expire_date</key>
+		<value><![CDATA[Fecha de caducidad]]></value>
+	</definition>
+	<definition>
+		<key>column_mask</key>
+		<value><![CDATA[Mask]]></value>
+	</definition>
+	<definition>
+		<key>text_add_product_to_order</key>
+		<value><![CDATA[Agregar Producto a pedido #%s]]></value>
+	</definition>
+	<definition>
+		<key>text_edit_order_product</key>
+		<value><![CDATA[Editar Producto]]></value>
+	</definition>
 </definitions>

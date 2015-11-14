@@ -46,6 +46,7 @@ if (!defined('DIR_CORE')) {
  * @property ADataEncryption $dcrypt
  * @property ModelCatalogCategory $model_catalog_category
  * @property ADownload $download
+ * @property AOrderStatus $order_status
  */
 abstract class Model {
 

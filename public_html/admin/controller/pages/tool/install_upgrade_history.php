@@ -28,7 +28,7 @@ class ControllerPagesToolInstallUpgradeHistory extends AController {
 		
 		//init controller data
 		$this->extensions->hk_InitData($this,__FUNCTION__);
-				
+
 		$this->document->setTitle ( $this->language->get ( 'heading_title' ) );
 		
 		$this->document->initBreadcrumb ();
@@ -138,9 +138,6 @@ class ControllerPagesToolInstallUpgradeHistory extends AController {
 			unset($this->session->data['success']);
 		}
 
-
-		$this->view->batchAssign (  $this->language->getASet () );
-		
 		$this->processTemplate ( 'pages/tool/install_upgrade_history.tpl' );
 		
 		//update controller data

@@ -153,6 +153,7 @@ class ControllerResponsesListingGridCustomer extends AController {
 						if (!$err) {
 							$this->model_sale_customer->editCustomerField($id, 'status', $this->request->post[ 'status' ][ $id ]);
 						} else {
+							$error = new AError('');
 							return $error->toJSONResponse('VALIDATION_ERROR_406',
 																				array('error_text' => $err,
 																					'reset_value' => false
@@ -163,6 +164,7 @@ class ControllerResponsesListingGridCustomer extends AController {
 							$this->model_sale_customer->editCustomerField($id, 'approved', $this->request->post[ 'approved' ][ $id ]);
 							$this->_sendMail($id, $this->request->post[ 'approved' ][ $id ]);
 						} else {
+							$error = new AError('');
 							return $error->toJSONResponse('VALIDATION_ERROR_406',
 																				array('error_text' => $err,
 																					'reset_value' => false
@@ -260,6 +262,7 @@ class ControllerResponsesListingGridCustomer extends AController {
 					}
 					$this->model_sale_customer->editCustomerField($k, $field, $v);
 				} else {
+					$error = new AError('');
 					return $error->toJSONResponse('VALIDATION_ERROR_406',
 																		array('error_text' => $err,
 																			'reset_value' => false
@@ -267,7 +270,6 @@ class ControllerResponsesListingGridCustomer extends AController {
 				}
 			}
 		}
-
 
 		//update controller data
 		$this->extensions->hk_UpdateData($this, __FUNCTION__);
@@ -298,8 +300,7 @@ class ControllerResponsesListingGridCustomer extends AController {
 				}
 				break;
 			case 'email':
-				$pattern = '/^[A-Z0-9._%-]+@[A-Z0-9][A-Z0-9.-]{0,61}\.[A-Z]{2,6}$/i';
-				if ( mb_strlen($value) > 96 || !preg_match($pattern, $value) ) {
+				if ( mb_strlen($value) > 96 || !preg_match(EMAIL_REGEX_PATTERN, $value) ) {
 					$this->error = $this->language->get('error_email');
 				}
 				break;

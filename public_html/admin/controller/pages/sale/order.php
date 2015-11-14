@@ -28,6 +28,7 @@ class ControllerPagesSaleOrder extends AController{
 
 		//init controller data
 		$this->extensions->hk_InitData($this, __FUNCTION__);
+
 		$this->document->setTitle($this->language->get('heading_title'));
 		$this->document->initBreadcrumb(array(
 				'href'      => $this->html->getSecureURL('index/home'),
@@ -83,15 +84,14 @@ class ControllerPagesSaleOrder extends AController{
 						'print'  => array(
 								'text'   => $this->language->get('button_invoice'),
 								'href'   => $this->html->getSecureURL('sale/invoice', '&order_id=%ID%'),
-								'target' => '_invoice',
-
+								'target' => '_invoice'
 						),
 						'edit'   => array(
 								'text'     => $this->language->get('text_edit'),
 								'href'     => $this->html->getSecureURL('sale/order/update', '&order_id=%ID%'),
 								'children' => array_merge(array(
 										'details'  => array(
-												'text' => $this->language->get('tab_details'),
+												'text' => $this->language->get('tab_order_details'),
 												'href' => $this->html->getSecureURL('sale/order/details', '&order_id=%ID%'),
 										),
 										'shipping' => array(
@@ -348,7 +348,7 @@ class ControllerPagesSaleOrder extends AController{
 		$this->data['action'] = $this->html->getSecureURL('sale/order/details', '&order_id=' . $order_id);
 		$this->data['cancel'] = $this->html->getSecureURL('sale/order');
 
-		$this->_initTabs('details');
+		$this->_initTabs('order_details');
 
 		// These only change for insert, not edit. To be added later
 		$this->data['ip'] = $order_info['ip'];

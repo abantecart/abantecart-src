@@ -115,15 +115,16 @@ class ControllerPagesProductCategory extends AController {
 
 			if (isset($this->request->get['sort'])) {
 				$sorting_href = $this->request->get['sort'];
-				list($sort,$order) = explode("-",$sorting_href);
 			} else {
 				$sorting_href = $this->config->get('config_product_default_sort_order');
-				list($sort,$order) = explode("-",$sorting_href);
-				if($sort=='name'){
-					$sort = 'pd.'.$sort;
-				}elseif(in_array($sort,array('sort_order','price'))){
-					$sort = 'p.'.$sort;
-				}
+			}
+
+			list($sort,$order) = explode("-",$sorting_href);
+
+			if($sort=='name'){
+				$sort = 'pd.'.$sort;
+			}elseif(in_array($sort,array('sort_order','price'))){
+				$sort = 'p.'.$sort;
 			}
 
 			$url = '&sort=' . $sort."-".$order;
@@ -160,8 +161,8 @@ class ControllerPagesProductCategory extends AController {
 				
 				$this->view->assign('button_add_to_cart', $this->language->get('button_add_to_cart'));
 				
-				$products = array();
-        		
+				$product_ids = $products = array();
+
 				$products_result = $this->model_catalog_product->getProductsByCategoryId($category_id,
 				                                                                 $sort,
 				                                                                 $order,
@@ -330,9 +331,9 @@ class ControllerPagesProductCategory extends AController {
 				$this->view->assign( 'sorting', $sorting );
 				$this->view->assign( 'url', $this->html->getSEOURL('product/category','&path=' . $this->request->get['path']));
 
-				$pegination_url = $this->html->getSEOURL('product/category','&path=' . $this->request->get['path'] . '&sort=' . $sorting_href . '&page={page}' . '&limit=' . $limit, '&encode');
+				$pagination_url = $this->html->getSEOURL('product/category','&path=' . $this->request->get['path'] . '&sort=' . $sorting_href . '&page={page}' . '&limit=' . $limit, '&encode');
 
-				$this->view->assign('pagination_bootstrap', HtmlElementFactory::create( array (
+				$this->view->assign('pagination_bootstrap', $this->html->buildElement( array (
 											'type' => 'Pagination',
 											'name' => 'pagination',
 											'text'=> $this->language->get('text_pagination'),
@@ -340,7 +341,7 @@ class ControllerPagesProductCategory extends AController {
 											'total'	=> $product_total,
 											'page'	=> $page,
 											'limit'	=> $limit,
-											'url' => $pegination_url,
+											'url' => $pagination_url,
 											'style' => 'pagination')) 
 									);
 			
@@ -392,11 +393,11 @@ class ControllerPagesProductCategory extends AController {
 
       		$this->view->assign('heading_title', $this->language->get('text_error') );
             $this->view->assign('text_error', $this->language->get('text_error') );
-            $continue = HtmlElementFactory::create( array ('type' => 'button',
+			$this->view->assign('button_continue', $this->html->buildElement( array ('type' => 'button',
 		                                               'name' => 'continue_button',
 			                                           'text'=> $this->language->get('button_continue'),
-			                                           'style' => 'button'));
-			$this->view->assign('button_continue', $continue);
+			                                           'style' => 'button')));
+
       		$this->view->assign('continue',  $this->html->getURL('index/home') );
 
             $this->view->setTemplate( 'pages/error/not_found.tpl' );

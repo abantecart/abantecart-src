@@ -98,9 +98,9 @@ class ControllerBlocksCustomFormBlock extends AController {
 		$form_info['controller'] = $form_info['controller'] . '&form_id=' . $content['form_id'];
 		$form->setForm($form_info);
 
-		if ( isset($this->session->data['custom_form_errors'][$content['form_id']]) ) {
-			$form->setErrors($this->session->data['custom_form_errors'][$content['form_id']]);
-			unset($this->session->data['custom_form_errors'][$content['form_id']]);
+		if ( isset($this->session->data['custom_form_'.$content['form_id']]['errors']) ) {
+			$form->setErrors($this->session->data['custom_form_'.$content['form_id']]['errors']);
+			unset($this->session->data['custom_form_'.$content['form_id']]['errors']);
 		}
 
 		$output = array(

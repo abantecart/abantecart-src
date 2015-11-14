@@ -100,4 +100,33 @@
 		<key>text_image</key>
 		<value><![CDATA[Изображение]]></value>
 	</definition>
+	<definition>
+		<key>error_email</key>
+		<value><![CDATA[Неверный e-mail адрес!]]></value>
+	</definition>
+	<definition>
+		<key>error_order_id</key>
+		<value><![CDATA[Номер Заказа требуемое поле!]]></value>
+	</definition>
+	<definition>
+		<key>text_order_cancelation</key>
+		<value><![CDATA[Запрос отмены заказа]]></value>
+	</definition>
+	<definition>
+		<key>text_order_cancelation_confirm</key>
+		<value>
+			<![CDATA[Отмена заказа в некотоых случаях невозможна по некоторым причинам, например, когда товар отправлен покупателю. Продолжить?]]></value>
+	</definition>
+	<definition>
+		<key>text_order_cancelation_success</key>
+		<value><![CDATA[Запрос отмены заказа отправлен]]></value>
+	</definition>
+	<definition>
+		<key>text_order_cancelation_message_title</key>
+		<value><![CDATA[Запрос отмены заказа №%s]]></value>
+	</definition>
+	<definition>
+		<key>text_order_cancelation_message_body</key>
+		<value><![CDATA[Покупатель %s запросил отмену заказа №%s . Чтобы посмотреть перейдите %s]]></value>
+	</definition>
 </definitions>

@@ -1,0 +1,66 @@
+<?xml version="1.0"?>
+<definitions>
+	<definition>
+		<key>heading_title</key>
+		<value><![CDATA[Tipologie di peso]]></value>
+	</definition>
+	<definition>
+		<key>text_class</key>
+		<value><![CDATA[Tipologia di peso]]></value>
+	</definition>
+	<definition>
+		<key>text_success</key>
+		<value><![CDATA[Hai modificato le tipologie di peso con successo!]]></value>
+	</definition>
+	<definition>
+		<key>column_title</key>
+		<value><![CDATA[Titolo del peso]]></value>
+	</definition>
+	<definition>
+		<key>column_unit</key>
+		<value><![CDATA[Unità di peso]]></value>
+	</definition>
+	<definition>
+		<key>column_value</key>
+		<value><![CDATA[Valore]]></value>
+	</definition>
+	<definition>
+		<key>column_action</key>
+		<value><![CDATA[Azione]]></value>
+	</definition>
+	<definition>
+		<key>entry_title</key>
+		<value><![CDATA[Titolo peso:]]></value>
+	</definition>
+	<definition>
+		<key>entry_unit</key>
+		<value><![CDATA[Unità peso:]]></value>
+	</definition>
+	<definition>
+		<key>entry_value</key>
+		<value>
+			<![CDATA[Valore:<br /><span class="help">Imposta su 1.00000 se questo è il peso predefinito.</span>]]></value>
+	</definition>
+	<definition>
+		<key>error_permission</key>
+		<value><![CDATA[ATTENZIONE: Non sei autorizzato a modificare le tipologie di peso!]]></value>
+	</definition>
+	<definition>
+		<key>error_title</key>
+		<value><![CDATA[Il titolo peso deve avere tra 2 e 32 caratteri!]]></value>
+	</definition>
+	<definition>
+		<key>error_unit</key>
+		<value><![CDATA[L'unità di peso deve avere tra 1 e 4 caratteri!]]></value>
+	</definition>
+	<definition>
+		<key>error_default</key>
+		<value>
+			<![CDATA[ATTENZIONE: Questa tipologia di peso non può essere eliminata perchè è attualmente assegnata come tipologia di peso predefinita nel negozio!]]></value>
+	</definition>
+	<definition>
+		<key>error_product</key>
+		<value>
+			<![CDATA[ATTENZIONE: Questa tipologia di peso non può essere eliminata perchè è attualmente assegnata a %s prodotti!]]></value>
+	</definition>
+</definitions>

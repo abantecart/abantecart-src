@@ -1,0 +1,84 @@
+<?xml version="1.0"?>
+<definitions>
+	<definition>
+		<key>heading_title</key>
+		<value><![CDATA[Informazioni sul mio account]]></value>
+	</definition>
+	<definition>
+		<key>text_account</key>
+		<value><![CDATA[Account]]></value>
+	</definition>
+	<definition>
+		<key>text_edit</key>
+		<value><![CDATA[Modifica Informazioni]]></value>
+	</definition>
+	<definition>
+		<key>text_your_details</key>
+		<value><![CDATA[I tuoi dati personali]]></value>
+	</definition>
+	<definition>
+		<key>text_success</key>
+		<value><![CDATA[Il tuo account è stato aggiornato con successo.]]></value>
+	</definition>
+	<definition>
+		<key>entry_loginname</key>
+		<value><![CDATA[Nome utente:]]></value>
+	</definition>
+	<definition>
+		<key>entry_firstname</key>
+		<value><![CDATA[Nome:]]></value>
+	</definition>
+	<definition>
+		<key>entry_lastname</key>
+		<value><![CDATA[Cognome:]]></value>
+	</definition>
+	<definition>
+		<key>entry_date_of_birth</key>
+		<value><![CDATA[Data di nascita:]]></value>
+	</definition>
+	<definition>
+		<key>entry_email</key>
+		<value><![CDATA[E-Mail:]]></value>
+	</definition>
+	<definition>
+		<key>entry_telephone</key>
+		<value><![CDATA[Telefono:]]></value>
+	</definition>
+	<definition>
+		<key>entry_fax</key>
+		<value><![CDATA[Fax:]]></value>
+	</definition>
+	<definition>
+		<key>error_exists</key>
+		<value><![CDATA[Errore: L'indirizzo E-Mail è già registrato!]]></value>
+	</definition>
+	<definition>
+		<key>error_loginname</key>
+		<value><![CDATA[Il nome utente deve essere alfanumerico e avere da 5 a 64 caratteri!]]></value>
+	</definition>
+	<definition>
+		<key>error_loginname_notunique</key>
+		<value><![CDATA[Questo nome utente non è disponibile. Provare con un nome diverso!]]></value>
+	</definition>
+	<definition>
+		<key>error_firstname</key>
+		<value><![CDATA[Il nome deve avere da 1 a 32 caratteri!]]></value>
+	</definition>
+	<definition>
+		<key>error_lastname</key>
+		<value><![CDATA[Il cognome deve avere da 1 a 32 caratteri!]]></value>
+	</definition>
+	<definition>
+		<key>error_email</key>
+		<value><![CDATA[L'indirizzo E-Mail non sembra essere valido!]]></value>
+	</definition>
+	<definition>
+		<key>error_telephone</key>
+		<value><![CDATA[Il telefono deve avere da 3 a 32 caratteri!]]></value>
+	</definition>
+	<definition>
+		<key>loginname_update_required</key>
+		<value>
+			<![CDATA[Il tuo nome utente è lo stesso tuo indirizzo email. Per mantenere il tuo account protetto, si prega di creare un nuovo nome utente.]]></value>
+	</definition>
+</definitions>

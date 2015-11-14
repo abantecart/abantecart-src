@@ -284,13 +284,22 @@ var init = function() {
 			abc_populate_cart(main_url, url_params);
 
 			$('.abantecart-widget-container').on("click", ".abantecart_addtocart", function(e){
+				var add_url='';
 				if($(e.target).attr('data-toggle') == "abcmodal"){
+					add_url =  $(e.target).attr('data-href');
+				}else{
+					add_url = $(this).find('button').attr('data-href');
+				}
+
+				if($('.abantecart_quantity input').val()){
+						add_url += '&quantity='+ $('.abantecart_quantity input').val();
+				}
+
+				if($(e.target).attr('data-toggle') == "abcmodal"){
+					$(e.target).attr('data-href', add_url);
 					return null;
 				}
-				var add_url = $(this).find('button').attr('data-href');
-				if($('.abantecart_quantity input').val()){
-					add_url += '&quantity='+ $('.abantecart_quantity input').val();
-				}
+
 				abc_process_request(add_url);
 				setTimeout(function(){ abc_populate_cart(main_url, url_params); },300)
 				return false;

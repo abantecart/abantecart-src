@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<definitions>
+	<definition>
+		<key>text_subject</key>
+		<value><![CDATA[%s - Il tuo Account è stato attivato!]]></value>
+	</definition>
+	<definition>
+		<key>text_welcome</key>
+		<value><![CDATA[Benvenuto e grazie per esserti registrato in %s!]]></value>
+	</definition>
+	<definition>
+		<key>text_login</key>
+		<value>
+			<![CDATA[Il tuo account è stato creato, ora puoi accedere cliccando il seguente link utilizzando la tua email e la password che hai inserito in fase di registrazione:]]></value>
+	</definition>
+	<definition>
+		<key>text_services</key>
+		<value>
+			<![CDATA[Una volta effettuato l'accesso, potrai accedere ad altri servizi tra cui la revisione dei dati precedenti, la stampa delle fatture e la possibilità di modificare le informazioni del tuo account.]]></value>
+	</definition>
+	<definition>
+		<key>text_thanks</key>
+		<value><![CDATA[Grazie,]]></value>
+	</definition>
+</definitions>

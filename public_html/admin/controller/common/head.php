@@ -30,7 +30,6 @@ class ControllerCommonHead extends AController {
 		$this->loadLanguage('common/header');
 
 		$message_link = $this->html->getSecureURL('tool/message_manager');
-		$logs_link = $this->html->getSecureURL('tool/error_log');
 
 		$this->view->assign('title', $this->document->getTitle());
 		$this->view->assign('base', (HTTPS_SERVER) ? HTTPS_SERVER : HTTP_SERVER);
@@ -38,27 +37,11 @@ class ControllerCommonHead extends AController {
 		$this->view->assign('styles', $this->document->getStyles());
 		$this->view->assign('scripts', $this->document->getScripts());
 		$this->view->assign('notifier_updater_url', $this->html->getSecureURL('listing_grid/message_grid/getnotifies'));
+		$this->view->assign('system_checker_url', $this->html->getSecureURL('common/common/checksystem'));
 		$this->view->assign('ck_rl_url', $this->html->getSecureURL('common/resource_library', '&type=image&mode=url'));
 		$this->view->assign('language_code', $this->session->data['language']);
 		$this->view->assign('retina', $this->config->get('config_retina_enable'));
 		$this->view->assign('message_manager_url', $message_link);
-
-		//if enabled system check for all 0 or for admin only 1
-		if(!$this->config->get('config_system_check') || $this->config->get('config_system_check') == 1 ) {
-			//run system check to make sure system is stable to run the request
-			list($system_messages, $counts) = run_system_check($this->registry, 'log');
-			if(count($system_messages) > 0){		
-				if($counts['error_count']) {
-					$this->view->assign('system_error', sprintf($this->language->get('text_system_error'), $message_link, $logs_link));
-				}
-				if($counts['warning_count']) {
-					$this->view->assign('system_warning', sprintf($this->language->get('text_system_warning'), $message_link));
-				}
-				if($counts['notice_count']) {
-					$this->view->assign('system_notice', sprintf($this->language->get('text_system_notice'), $message_link));
-				}
-			}		
-		}
 
 		if( $this->session->data['checkupdates'] ){
 			$this->view->assign('check_updates_url', $this->html->getSecureURL('r/common/common/checkUpdates'));

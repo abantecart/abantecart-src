@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<extension>
+    <id>default_italian</id>
+    <version>1.0.1</version>
+	<type>language</type>
+	<category>languages</category>
+    <cartversions>
+        <item>1.0</item>
+		<item>1.1</item>
+		<item>1.2</item>
+    </cartversions>
+    <layout></layout>
+    <priority>10</priority>
+    <settings>
+        <item id="default_italian_status">
+            <type>checkbox</type>
+            <default_value>0</default_value>
+        </item>
+    </settings>
+	<note>true</note>
+	<preview>
+		<item>preview1.gif</item>
+	</preview>
+    <install>
+	    <sql>install.sql</sql>
+	    <trigger>install.php</trigger>
+	</install>
+	<uninstall>
+	    <sql>uninstall.sql</sql>
+	    <trigger>uninstall.php</trigger>
+	</uninstall>
+</extension>

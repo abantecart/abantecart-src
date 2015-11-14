@@ -1,0 +1,89 @@
+<?xml version="1.0"?>
+<definitions>
+	<definition>
+		<key>heading_title</key>
+		<value><![CDATA[Mail]]></value>
+	</definition>
+	<definition>
+		<key>text_success</key>
+		<value><![CDATA[Il tuo messaggio è stato inviato!]]></value>
+	</definition>
+	<definition>
+		<key>text_default</key>
+		<value><![CDATA[Predefinito]]></value>
+	</definition>
+	<definition>
+		<key>text_custom_send</key>
+		<value><![CDATA[Invia al cliente]]></value>
+	</definition>
+	<definition>
+		<key>text_all_subscribers</key>
+		<value><![CDATA[Tutti gli iscritti]]></value>
+	</definition>
+	<definition>
+		<key>text_subscribers_only</key>
+		<value><![CDATA[Solo Abbonati Newsletter (non clienti)]]></value>
+	</definition>
+	<definition>
+		<key>text_customers_only</key>
+		<value><![CDATA[Solo clienti]]></value>
+	</definition>
+	<definition>
+		<key>entry_store</key>
+		<value><![CDATA[Da:]]></value>
+	</definition>
+	<definition>
+		<key>entry_product</key>
+		<value><![CDATA[Per i clienti che hanno ordinato i prodotti:]]></value>
+	</definition>
+	<definition>
+		<key>entry_to</key>
+		<value><![CDATA[A:]]></value>
+	</definition>
+	<definition>
+		<key>entry_subject</key>
+		<value><![CDATA[Oggetto:]]></value>
+	</definition>
+	<definition>
+		<key>entry_message</key>
+		<value><![CDATA[Messaggio:]]></value>
+	</definition>
+	<definition>
+		<key>error_permission</key>
+		<value><![CDATA[ATTENZIONE: Non hai l'autorizzazione per inviare le E-Mail!]]></value>
+	</definition>
+	<definition>
+		<key>error_subject</key>
+		<value><![CDATA[L'oggetto della E-Mail è richiesto!]]></value>
+	</definition>
+	<definition>
+		<key>error_message</key>
+		<value><![CDATA[Il messaggio della E-Mail è richiesto!]]></value>
+	</definition>
+	<definition>
+		<key>error_recipients</key>
+		<value><![CDATA[I destinatari della E-mail sono richiesti!]]></value>
+	</definition>
+	<definition>
+		<key>error_not_sent</key>
+		<value>
+			<![CDATA['Errore: Email non inviata! Si prega di consultare il registro degli errori per i dettagli.']]></value>
+	</definition>
+	<definition>
+		<key>text_unsubscribe</key>
+		<value>
+			<![CDATA[Questa email è stata inviata a %s, perché le preferenze di e-mail sono impostati per ricevere newsletter. Clicca <a href="%s">qui per annullare l'iscizione</a>. ]]></value>
+	</definition>
+	<definition>
+		<key>text_total_to_be_sent</key>
+		<value><![CDATA[(Totale da inviare a: %s )]]></value>
+	</definition>
+	<definition>
+		<key>text_select_product</key>
+		<value><![CDATA[- Seleziona prodotto -]]></value>
+	</definition>
+	<definition>
+		<key>text_select_customer</key>
+		<value><![CDATA[- Seleziona cliente -]]></value>
+	</definition>
+</definitions>

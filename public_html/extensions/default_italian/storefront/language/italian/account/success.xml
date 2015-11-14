@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<definitions>
+	<definition>
+		<key>heading_title</key>
+		<value><![CDATA[Il tuo account è stato creato!]]></value>
+	</definition>
+	<definition>
+		<key>text_message</key>
+		<value>
+			<![CDATA[<p>Congratulazioni! Il tuo nuovo account è stato creato con successo!</p> <p>Ora è possibile usufuire dei privilegi offerti all'utente per migliorare l'esperienza di shopping online con noi.</p> <p>Se avete domande sul funzionamento di questo negozio online, si prega di inviare una email.</p> <p>Una conferma è stata inviata all'indirizzo email fornito. Se non ricevi entro un'ora, si prega di <a href="%s">contattarci</a>.</p>]]></value>
+	</definition>
+	<definition>
+		<key>text_approval</key>
+		<value>
+			<![CDATA[<p>Grazie per esserti registrato a %s!</p><p>Una volta che il tuo account è stato attivato si riceverà una notifica via email.</p><p>Se hai domande su questo negozio online, <a href="%s">contatare il proprietario del negozio</a>.</p>]]></value>
+	</definition>
+	<definition>
+		<key>text_activate</key>
+		<value>
+			<![CDATA[<p>Grazie per esserti registrato con %s!</p><p>Riceverai una notifica via e-mail circa l'attivazione dell'account.</p><p>Se avete domande sul funzionamento di questo negozio on-line, si prega di <a href="%s">contattarci</a>.</p>]]></value>
+	</definition>
+	<definition>
+		<key>text_account</key>
+		<value><![CDATA[Account]]></value>
+	</definition>
+	<definition>
+		<key>text_success</key>
+		<value><![CDATA[Successo]]></value>
+	</definition>
+</definitions>

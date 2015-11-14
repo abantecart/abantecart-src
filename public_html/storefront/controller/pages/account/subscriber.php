@@ -113,11 +113,23 @@ class ControllerPagesAccountSubscriber extends AController {
 																		   'name' => 'email',
 																		   'value' => $this->request->get_or_post('email'),
 																		   'required' => true ));
-			$this->data['form']['captcha'] = $form->getFieldHtml( array(    'type'=>'captcha',
+
+			if($this->config->get('config_recaptcha_site_key')) {
+				$this->data['form']['captcha'] = $form->getFieldHtml(
+					array(
+						'type' => 'recaptcha',
+						'name' => 'captcha',
+						'recaptcha_site_key' => $this->config->get('config_recaptcha_site_key'),
+						'language_code' => $this->language->getLanguageCode()
+					)
+				);			
+			} else {
+				$this->data['form']['captcha'] = $form->getFieldHtml( array(
+																			'type'=>'captcha',
 					                                               			'name' =>'captcha',
 																			'required' => true
 																		));
-
+			}
 
 			$this->data[ 'continue' ] = $form->getFieldHtml( array(
 																	'type' => 'submit',

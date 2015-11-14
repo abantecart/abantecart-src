@@ -91,38 +91,39 @@ class ControllerPagesProductSearch extends AController {
 		}
 
 		if (isset($this->request->get['sort'])) {
-			list($sort,$order) = explode("-",$this->request->get['sort']);
+			$sorting_href = $this->request->get['sort'];
 		} else {
-			list($sort,$order) = explode("-",$this->config->get('config_product_default_sort_order'));
-			if($sort=='name'){
-				$sort = 'pd.'.$sort;
-			}elseif(in_array($sort,array('sort_order','price'))){
-				$sort = 'p.'.$sort;
-			}
+			$sorting_href = $this->config->get('config_product_default_sort_order');
 		}
 
-		$this->data['keyword'] = HtmlElementFactory::create( array ( 'type' => 'input',
-			                                    'name'=>'keyword',
-			                                    'value'=> $this->request->get['keyword'],
-		                                    ));
-		
-		$this->data['keyword'] = $this->data['keyword']->getHtml();
+		list($sort,$order) = explode("-",$sorting_href);
+		if($sort=='name'){
+			$sort = 'pd.'.$sort;
+		}elseif(in_array($sort,array('sort_order','price'))){
+			$sort = 'p.'.$sort;
+		}
+
+		$this->data['keyword'] = $this->html->buildElement(
+				array ( 'type' => 'input',
+			            'name'=>'keyword',
+			            'value'=> $this->request->get['keyword'],
+		        ));
 
 		$this->loadModel('catalog/category');
 		$categories = $this->_getCategories(0);
-		$options = array( 0 =>$this->language->get('text_category'),);
+		$options = array( 0 =>$this->language->get('text_category'));
 		if($categories){
 			foreach( $categories as $item){
 				$options[$item['category_id']] = $item['name'];
 			}
 		}
-		$this->data['category'] = HtmlElementFactory::create( array ( 'type' => 'selectbox',
+		$this->data['category'] = $this->html->buildElement( array ( 'type' => 'selectbox',
 																	   'name' => 'category_id',
 																	   'options'=> $options,
 																	   'value'=> $this->request->get['category_id'],
 															 ) );
 
-		$this->data['description'] = HtmlElementFactory::create( array('type' => 'checkbox',
+		$this->data['description'] = $this->html->buildElement( array('type' => 'checkbox',
 																		'id' => 'description',
 																		'name' => 'description',
 																		'checked' => (int)$this->request->get['description'],
@@ -130,7 +131,7 @@ class ControllerPagesProductSearch extends AController {
 																		'label_text' => $this->language->get('entry_description')
 																   ));
 
-		$this->data['model'] = HtmlElementFactory::create( array(     'type' => 'checkbox',
+		$this->data['model'] = $this->html->buildElement( array(     'type' => 'checkbox',
 														'id' => 'model',
 														'name' => 'model',
 														'checked' => (bool)$this->request->get['model'],
@@ -138,7 +139,7 @@ class ControllerPagesProductSearch extends AController {
 			                                            'label_text' => $this->language->get('entry_model')
 		                                           ));
 
-		$this->data['submit'] = HtmlElementFactory::create( array (
+		$this->data['submit'] = $this->html->buildElement( array (
 			                                                    'type' => 'button',
 		                                                        'name' => 'search_button',
 			                                                    'text'=> $this->language->get('button_search'),
@@ -373,21 +374,20 @@ class ControllerPagesProductSearch extends AController {
 					'href'  => $this->html->getSEOURL('product/search', $url . '&sort=date_modified&order=ASC', '&encode')
 				);
 
-
                 $this->data['sorts'] = $sorts;
 				$options = array();
 				foreach($sorts as $item){
 					$options[$item['value']] = $item['text'];
 				}
 
-				$sorting = $this->html->buildSelectbox( array (
+				$sorting = $this->html->buildElement( array (
+												 'type' => 'selectbox',
 		                                         'name' => 'sort',
 			                                     'options'=> $options,
 			                                     'value'=> $sort.'-'.$order
 		                                         ) );
 
 				$this->data['sorting'] = $sorting;
-
 
 				$url = '';
 
@@ -417,7 +417,7 @@ class ControllerPagesProductSearch extends AController {
                     $url .= '&limit=' . $this->request->get['limit'];
                 }
 
-				$this->data['pagination_bootstrap'] = HtmlElementFactory::create( array (
+				$this->data['pagination_bootstrap'] = $this->html->buildElement( array (
 											'type' => 'Pagination',
 											'name' => 'pagination',
 											'text'=> $this->language->get('text_pagination'),

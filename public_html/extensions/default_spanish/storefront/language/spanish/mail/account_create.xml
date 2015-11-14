@@ -1,27 +1,34 @@
 <?xml version="1.0"?>
 <definitions>
-  <definition>
-    <key>text_subject</key>
-    <value><![CDATA[%s - Gracias por registrarse]]></value>
-  </definition>
-  <definition>
-    <key>text_welcome</key>
-    <value><![CDATA[Bienvenido y gracias por registrarte en %s!]]></value>
-  </definition>
-  <definition>
-    <key>text_login</key>
-    <value><![CDATA[Ahora podre iniciar sesion utilizando su direccion de correo electronico y su contrasena visitando nuestro sitio web, o en la siguiente direccion URL:]]></value>
-  </definition>
-  <definition>
-    <key>text_approval</key>
-    <value><![CDATA[Su cuenta ha sido activada, puedes acceder mediante su direccion de correo electronico y su contrasena visitando nuestro sitio web o en la siguiente direccion URL:]]></value>
-  </definition>
-  <definition>
-    <key>text_services</key>
-    <value><![CDATA[Despues de ingresar en el apartado MI CUENTA, podra acceder a otros servicios, como la revision de pedidos anteriores, la impresion de facturas y la edicion de informacion de su cuenta.]]></value>
-  </definition>
-  <definition>
-    <key>text_thanks</key>
-    <value><![CDATA[Gracias!!]]></value>
-  </definition>
+	<definition>
+		<key>text_subject</key>
+		<value><![CDATA[%s - Gracias por registrarse]]></value>
+	</definition>
+	<definition>
+		<key>text_welcome</key>
+		<value><![CDATA[Bienvenido y gracias por registrarte en %s!]]></value>
+	</definition>
+	<definition>
+		<key>text_login</key>
+		<value><![CDATA[Ahora podre iniciar sesion utilizando su direccion de correo electronico y su contrasena visitando nuestro sitio web, o en la siguiente direccion URL:]]></value>
+	</definition>
+	<definition>
+		<key>text_approval</key>
+		<value><![CDATA[Su cuenta ha sido activada, puedes acceder mediante su direccion de correo electronico y su contrasena visitando nuestro sitio web o en la siguiente direccion URL:]]></value>
+	</definition>
+	<definition>
+		<key>text_services</key>
+		<value><![CDATA[Despues de ingresar en el apartado MI CUENTA, podra acceder a otros servicios, como la revision de pedidos anteriores, la impresion de facturas y la edicion de informacion de su cuenta.]]></value>
+	</definition>
+	<definition>
+		<key>text_thanks</key>
+		<value><![CDATA[Gracias!!]]></value>
+	</definition>
+	<definition>
+		<key>text_activate</key>
+		<value><![CDATA[Antes de poder activar su cuenta un último paso se debe tomar para completar su registro.
+		Tenga en cuenta - debe completar este último paso para convertirse en un usuario registrado. Usted sólo tendrá que visitar este URL una vez para activar tu cuenta.
+		Para completar su registro, visite la URL:
+		%s ]]></value>
+	</definition>
 </definitions>

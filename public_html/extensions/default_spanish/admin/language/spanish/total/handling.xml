@@ -48,4 +48,16 @@
 		<key>error_number</key>
 		<value><![CDATA[Atención: Orden costo total y el manejo debe ser un número!]]></value>
 	</definition>
+	<definition>
+		<key>entry_total_placeholder</key>
+		<value><![CDATA[Valor de texto]]></value>
+	</definition>
+	<definition>
+		<key>entry_payment</key>
+		<value><![CDATA[Pago:]]></value>
+	</definition>
+	<definition>
+		<key>entry_order_subtotal</key>
+		<value><![CDATA[Subtotal de Orden:]]></value>
+	</definition>
 </definitions>

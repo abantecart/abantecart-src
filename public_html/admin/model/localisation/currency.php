@@ -89,6 +89,7 @@ class ModelLocalisationCurrency extends Model {
 
 	/**
 	 * @param int $currency_id
+	 * @return bool
 	 */
 	public function deleteCurrency($currency_id) {
 		// prevent deleting all currencies
@@ -98,6 +99,7 @@ class ModelLocalisationCurrency extends Model {
 		$this->db->query("DELETE FROM " . $this->db->table("currencies") . " 
 						  WHERE currency_id = '" . (int)$currency_id . "'");
 		$this->cache->delete('currency');
+		return true;
 	}
 
 	/**

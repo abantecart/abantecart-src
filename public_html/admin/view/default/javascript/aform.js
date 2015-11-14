@@ -387,12 +387,16 @@
             } else if ($field.hasClass('aswitcher'))  {
             	//locate switch buttons
        		    var $wrapper = $field.parent().find('.btn_switch');
+                $wrapper.addClass('xs');
        		    $wrapper.next('input').andSelf().wrapAll($.aform.wrapper).wrapAll($.aform.mask);
        		    $wrapper.find('.btn').addClass('btn-xs');
             	doSwitchButton($field);
             } else {
 	            $field.wrap($.aform.wrapper).wrap($.aform.mask);
 	            $field.addClass('form-control').addClass('input-sm');            
+            }
+            if($field.parents('td').css('overflow')=='hidden'){
+                $field.parents('td').css('overflow','visible');
             }
         }
 

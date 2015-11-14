@@ -198,11 +198,24 @@ class ControllerPagesProductProduct extends AController{
 						'name' => 'text',
 						'attr' => ' rows="8" cols="50" ',
 				));
-		$this->data['review_captcha'] = HtmlElementFactory::create(
+
+		if($this->config->get('config_recaptcha_site_key')) {
+			$this->data['recaptcha_site_key'] = $this->config->get('config_recaptcha_site_key');
+			$this->data['review_recaptcha'] = HtmlElementFactory::create(
+				array(
+						'type' => 'recaptcha',
+						'name' => 'recaptcha',
+						'recaptcha_site_key' => $this->data['recaptcha_site_key'],
+						'language_code' => $this->language->getLanguageCode()
+				));		
+		
+		} else {
+			$this->data['review_captcha'] = HtmlElementFactory::create(
 				array(
 						'type' => 'input',
 						'name' => 'captcha',
-						'attr' => ''));
+						'attr' => ''));		
+		}
 		$this->data['review_button'] = HtmlElementFactory::create(
 				array(
 						'type'  => 'button',
@@ -279,11 +292,19 @@ class ControllerPagesProductProduct extends AController{
 
 
 		if(!$product_info['call_to_order']){
+			$qnt = (int)$this->request->get['quantity'];
+			if(!$qnt){
+				$qnt = ($product_info['minimum'] ? (int)$product_info['minimum'] : 1);
+			}
+
+			$qnt = (int)$product_info['minimum'] && $product_info['minimum']>$qnt ?  (int)$product_info['minimum'] : $qnt;
+			$qnt = (int)$product_info['maximum'] && $product_info['maximum']<$qnt ?  (int)$product_info['maximum'] : $qnt;
+
 			$this->data['form']['minimum'] = $form->getFieldHtml(
 					array(
 							'type'  => 'input',
 							'name'  => 'quantity',
-							'value' => ($product_info['minimum'] ? (int)$product_info['minimum'] : 1),
+							'value' => $qnt,
 							'style' => 'short',
 							'attr'  => ' size="3" '));
 

@@ -73,12 +73,19 @@ class ControllerPagesLocalisationOrderStatus extends AController {
 
         $grid_settings['colNames'] = array(
             $this->language->get('column_name'),
+            $this->language->get('column_text_id'),
 		);
 		$grid_settings['colModel'] = array(
 			array(
 				'name' => 'name',
 				'index' => 'name',
-				'width' => 600,
+				'width' => 200,
+                'align' => 'left',
+			),
+			array(
+				'name' => 'status_text_id',
+				'index' => 'status_text_id',
+				'width' => 200,
                 'align' => 'left',
 			),
 		);
@@ -153,12 +160,14 @@ class ControllerPagesLocalisationOrderStatus extends AController {
        		'href'      => $this->html->getSecureURL('localisation/order_status'),
        		'text'      => $this->language->get('heading_title'),
       		'separator' => ' :: '
-   		 )); 
+   		 ));
+
+	    $order_status_id = $this->request->get['order_status_id'];
 		
 		if (isset($this->request->post['order_status'])) {
 			$this->data['order_status'] = $this->request->post['order_status'];
 		} elseif (isset($this->request->get['order_status_id'])) {
-			$this->data['order_status'] = $this->model_localisation_order_status->getOrderStatusDescriptions($this->request->get['order_status_id']);
+			$this->data['order_status'] = $this->model_localisation_order_status->getOrderStatus($order_status_id);
 		} else {
 			$this->data['order_status'] = array();
 		}
@@ -169,10 +178,11 @@ class ControllerPagesLocalisationOrderStatus extends AController {
 			$this->data['update'] = '';
 			$form = new AForm('ST');
 		} else {
-			$this->data['action'] = $this->html->getSecureURL('localisation/order_status/update', '&order_status_id=' . $this->request->get['order_status_id'] );
+			$this->data['action'] = $this->html->getSecureURL('localisation/order_status/update', '&order_status_id=' . $order_status_id );
 			$this->data['heading_title'] = $this->language->get('text_edit') .' '. $this->language->get('text_status');
-			$this->data['update'] = $this->html->getSecureURL('listing_grid/order_status/update_field','&id='.$this->request->get['order_status_id']);
+			$this->data['update'] = $this->html->getSecureURL('listing_grid/order_status/update_field','&id='.$order_status_id);
 			$form = new AForm('HS');
+			$is_base = in_array($order_status_id, array_keys($this->order_status->getBaseStatuses())) ? true : false;
 		}
 
 		$this->document->addBreadcrumb( array (
@@ -209,16 +219,25 @@ class ControllerPagesLocalisationOrderStatus extends AController {
 
 		$this->data['form']['fields']['name'] = $form->getFieldHtml(array(
 			'type' => 'input',
-			'name' => 'order_status['.$this->session->data['content_language_id'].'][name]',
-			'value' => $this->data['order_status'][$this->session->data['content_language_id']]['name'],
+			'name' => 'name',
+			'value' => $this->data['order_status']['name'],
 			'required' => true,
 			'style' => 'large-field',
 			'multilingual' => true,
 		));
 
+	    if(!$is_base){
+		    $this->data['form']['fields']['text_id'] = $form->getFieldHtml(array(
+		  			'type' => 'input',
+		  			'name' => 'status_text_id',
+		  			'value' => $this->data['order_status']['status_text_id'],
+		  			'required' => true,
+		  			'style' => 'large-field'
+		  		));
+	    }
+
 		$this->view->batchAssign( $this->data );
 		$this->view->assign('form_language_switch', $this->html->getContentLanguageSwitcher());
-		$this->view->assign('language_id', $this->session->data['content_language_id']);
 		$this->view->assign('help_url', $this->gen_help_url('order_status_edit') );
 
         $this->processTemplate('pages/localisation/order_status_form.tpl' );
@@ -229,11 +248,16 @@ class ControllerPagesLocalisationOrderStatus extends AController {
       		$this->error['warning'] = $this->language->get('error_permission');
     	}
 	
-    	foreach ($this->request->post['order_status'] as $language_id => $value) {
-      		if ( mb_strlen($value['name']) < 2 || mb_strlen($value['name']) > 32 ) {
-        		$this->error['name'][$language_id] = $this->language->get('error_name');
-      		}
-    	}
+    	if ( mb_strlen($this->request->post['name']) < 3 || mb_strlen($this->request->post['name']) > 32 ) {
+        	$this->error['name'] = $this->language->get('error_name');
+      	}
+
+		if ( mb_strlen($this->request->post['status_text_id']) < 3
+				|| mb_strlen($this->request->post['status_text_id']) > 32
+				|| in_array($this->request->post['status_text_id'], $this->order_status->getStatuses())
+		) {
+            $this->error['text_id'] = $this->language->get('error_status_text_id');
+        }
 
 		$this->extensions->hk_ValidateData($this);
 		

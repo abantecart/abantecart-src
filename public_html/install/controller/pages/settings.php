@@ -60,7 +60,7 @@ class ControllerPagesSettings extends AController {
 		$template_data['download'] = DIR_ABANTECART . 'download';
 		$template_data['extensions'] = DIR_ABANTECART . 'extensions';
 		$template_data['resources'] = DIR_ABANTECART . 'resources';
-		$template_data['backup'] = DIR_ABANTECART . 'admin/system/backup';
+		$template_data['admin_system'] = DIR_ABANTECART . 'admin/system';
 
 		$this->addChild('common/header', 'header', 'common/header.tpl');
 		$this->addChild('common/footer', 'footer', 'common/footer.tpl');	
@@ -74,8 +74,8 @@ class ControllerPagesSettings extends AController {
 	 * @return bool
 	 */
 	private function validate() {
-		if (phpversion() < '5.2') {
-			$this->error['warning'] = 'Warning: You need to use PHP5.2 or above for AbanteCart to work!';
+		if ( version_compare(phpversion(), MIN_PHP_VERSION, '<') == TRUE ) {
+			$this->error['warning'] = 'Warning: You need to use PHP '.MIN_PHP_VERSION.' or above for AbanteCart to work!';
 		}
 
 		if (!ini_get('file_uploads')) {
@@ -123,7 +123,7 @@ class ControllerPagesSettings extends AController {
 
 		if (!is_writable(DIR_ABANTECART . 'image/thumbnails')) {
 			if (file_exists(DIR_ABANTECART . 'image/thumbnails') && is_dir(DIR_ABANTECART . 'image/thumbnails')) {
-				$this->error['warning'] = 'Warning: Backup directory needs to be writable for AbanteCart to work!';
+				$this->error['warning'] = 'Warning: image/thumbnails directory needs to be writable for AbanteCart to work!';
 			} else {
 				$result = mkdir(DIR_ABANTECART . 'image/thumbnails', 0777, true);
 				if ($result) {
@@ -147,18 +147,8 @@ class ControllerPagesSettings extends AController {
 			$this->error['warning'] = 'Warning: Resources directory needs to be writable for AbanteCart to work!';
 		}
 
-		if (!is_writable(DIR_ABANTECART . 'admin/system/backup')) {
-			if (file_exists(DIR_ABANTECART . 'admin/system/backup') && is_dir(DIR_ABANTECART . 'admin/system/backup')) {
-				$this->error['warning'] = 'Warning: Backup directory needs to be writable for AbanteCart to work!';
-			} else {
-				$result = mkdir(DIR_ABANTECART . 'admin/system/backup', 0777, true);
-				if ($result) {
-					chmod(DIR_ABANTECART . 'admin/system/backup', 0777);
-					chmod(DIR_ABANTECART . 'admin/system', 0777);
-				} else {
-					$this->error['warning'] = 'Warning: Backup directory does not exists in "admin" folder!';
-				}
-			}
+		if (!is_writable(DIR_ABANTECART . 'admin/system')) {
+			$this->error['warning'] = 'Warning: Admin/system directory needs to be writable for AbanteCart to work!';
 		}
 
 		if (!$this->error) {

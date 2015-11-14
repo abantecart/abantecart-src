@@ -63,7 +63,7 @@ class ControllerTaskToolBackup extends AController {
 		}else{
 			$error = new AError('dump tables error');
 			return $error->toJSONResponse('APP_ERROR_402',
-									array( 'error_text' => $bkp->error,
+									array( 'error_text' => implode("\n",$bkp->error),
 										'reset_value' => true
 									));
 		}
@@ -101,7 +101,7 @@ class ControllerTaskToolBackup extends AController {
 		}else{
 			$error = new AError('files backup error');
 			return $error->toJSONResponse('APP_ERROR_402',
-									array( 'error_text' => $bkp->error,
+									array( 'error_text' => implode("\n",$bkp->error),
 										'reset_value' => true
 									));
 		}
@@ -146,7 +146,7 @@ class ControllerTaskToolBackup extends AController {
 		}else{
 			$error = new AError('files backup error');
 			return $error->toJSONResponse('APP_ERROR_402',
-									array( 'error_text' => $bkp->error,
+									array( 'error_text' => implode("\n",$bkp->error),
 										'reset_value' => true
 									));
 		}
@@ -194,7 +194,7 @@ class ControllerTaskToolBackup extends AController {
 		}else{
 			$error = new AError('compress backup error');
 			return $error->toJSONResponse('APP_ERROR_402',
-									array( 'error_text' => $bkp->error,
+									array( 'error_text' => implode("\n",$bkp->error),
 										'reset_value' => true
 									));
 		}

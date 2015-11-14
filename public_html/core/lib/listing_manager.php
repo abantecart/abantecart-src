@@ -35,7 +35,6 @@ class AListingManager extends AListing {
 		}
 	}
 
-
 	public function saveCustomListItem($data) {
 		$custom_block_id = (int)$this->custom_block_id;
 		if( !isset($data['data_type']) && isset( $data['listing_datasource'] ) ){
@@ -72,6 +71,7 @@ class AListingManager extends AListing {
 
 		return true;
 	}
+	
 	// delete one item from custom list of custom listing block
 	public function deleteCustomListItem($data) {
 

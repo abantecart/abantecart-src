@@ -26,6 +26,15 @@
 				</a>
 			</div>
 		<?php } ?>
+		<?php if($phpinfo_button){?>
+			<div class="btn-group">
+				<a class="btn btn-default actionitem tooltips"
+				   title="PHP Info"
+				   href="<?php echo $phpinfo_button->href;?>"
+				   target="_blank">
+				<i class="fa fa-lg fa-info-circle"></i>&nbsp;PHP Info</a>
+			</div>
+		<?php } ?>
 				
 			<div class="btn-group mr10 toolbar">
 			    <?php echo $this->getHookVar('settings_toolbar_buttons'); ?>

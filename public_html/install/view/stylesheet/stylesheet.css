@@ -188,3 +188,16 @@ footer a {
 	border: 3px solid #F19013;
 	background: #F19013;
 }
+
+.settings_table {
+	width: 100%;
+}
+.settings_table tbody tr:hover{
+	background-color: #f4f4f4;
+}
+.settings_table th{
+	width: 35%;
+	text-align: left;
+	font-weight: bold;
+	color: #000;
+}

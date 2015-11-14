@@ -112,19 +112,18 @@ class AFile {
 	}
 
 	/**
-	 * @param string $upload_dir
+	 * @param string $upload_sub_dir
 	 * @param string $file_name
 	 * @return array
 	 */	
-	public function getUploadFilePath($upload_dir, $file_name) {
+	public function getUploadFilePath($upload_sub_dir, $file_name) {
 		if ( empty($file_name)) {
 			return array();
 		}
-		$file_path = DIR_ROOT . '/admin/system/uploads/' . $upload_dir . '/';
-
-		if ( !is_dir($file_path) ) {
-			mkdir($file_path, 0777);
-		}
+		$uplds_dir = DIR_ROOT . '/admin/system/uploads';
+		make_writable_dir($uplds_dir);
+		$file_path = $uplds_dir . '/' . $upload_sub_dir . '/';
+		make_writable_dir($file_path);
 
 		$ext = strrchr($file_name, '.');
 		$file_name = substr($file_name, 0, strlen($file_name) - strlen($ext));

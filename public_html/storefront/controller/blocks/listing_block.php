@@ -48,10 +48,16 @@ class ControllerBlocksListingBlock extends AController {
 		if($block_data){
 			if(!$exists || !$this->data['controller']){
 				//Only products have special listing data preparation
-				if(in_array($this->data['listing_datasource'], array('custom_products',
-				                                                     'catalog_product_getPopularProducts',
-				                                                     'catalog_product_getSpecialProducts',
-				                                                    ))){
+				if(in_array($this->data['listing_datasource'],
+							array(  'custom_products',
+				                    'catalog_product_getPopularProducts',
+				                    'catalog_product_getSpecialProducts',
+									'catalog_product_getfeatured',
+									'catalog_product_getlatest',
+									'catalog_product_getbestsellers'
+							)
+						)){
+
 					$this->_prepareProducts( $block_data['content'], $block_data['block_wrapper'] );
 					$template_overrided = true;
 				}else{
@@ -80,7 +86,7 @@ class ControllerBlocksListingBlock extends AController {
 	 * @param array $data
 	 * @param string $block_wrapper
 	 */
-	protected function _prepareProducts($data, $block_wrapper=''){
+	protected function _prepareProducts(&$data, $block_wrapper=''){
 		$this->loadModel('catalog/product');
 		$this->loadModel('catalog/review');
 		$this->loadLanguage('product/product');
@@ -133,6 +139,8 @@ class ControllerBlocksListingBlock extends AController {
 		);
 		//add thumbnails to list of products. 1 thumbnail per product
 		$products = $this->_prepareCustomItems($data_source, $products);
+		//need to override reference (see params)
+		$data = $products;
 
 		// set sign of displaying prices on storefront
 		if ($this->config->get('config_customer_price')) {
@@ -239,7 +247,7 @@ class ControllerBlocksListingBlock extends AController {
 
 		if(strpos($content['listing_datasource'],'custom_')===FALSE){ // for auto listings
 			$route = $content['listing_datasource'];
-			$limit  = $content['limit'];
+			$limit = $content['limit'];
 
 			// for resource library
 			if($route=='media'){
@@ -305,10 +313,10 @@ class ControllerBlocksListingBlock extends AController {
 				if($route){
 					$this->loadModel($data_source['storefront_model']);
                   	$result = call_user_func_array(array( $this->{'model_'.str_replace('/','_',$data_source['storefront_model'])},
-												          $data_source['storefront_method']),
+												       $data_source['storefront_method']),
                                                    $listing->getlistingArguments( $data_source['storefront_model'],
-                                                                                          $data_source['storefront_method'],
-                                                                                          array('limit'=>$limit)) );
+                                                                                  $data_source['storefront_method'],
+                                                                                  array('limit'=>$limit)) );
 					if($result){
 						$desc = $listing->getListingDataSources();
 						foreach($desc as $d){

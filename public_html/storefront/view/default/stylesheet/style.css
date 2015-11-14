@@ -2757,6 +2757,13 @@ table th {
 	filter: alpha(opacity=100);
 }
 
+.input-group-addon.captcha-addon {
+	padding: 0;
+}
+.input-group-addon.captcha-addon img{
+	height: 32px;
+}
+
 /*--- Specific CSS --*/
 .welcome_msg {
 

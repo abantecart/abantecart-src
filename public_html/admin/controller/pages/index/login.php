@@ -106,7 +106,17 @@ class ControllerPagesIndexLogin extends AController {
 				)
 			);
 		}
-		
+
+		//run critial system check
+		$check_result = run_critical_system_check($this->registry);
+
+		if($check_result){
+			$this->error['warning'] = '';
+			foreach($check_result as $log){
+				$this->error['warning'] .= $log['body']."\n";
+			}
+		}
+
 		$this->view->assign('error_warning', $this->error['warning']);
 		$this->view->assign('forgot_password', $this->html->getSecureURL('index/forgot_password'));
 

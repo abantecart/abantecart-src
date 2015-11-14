@@ -330,7 +330,7 @@ function display_result(data) {
 	} else {
 		if( data.found_actions.length == 1 ){
 			if (data.found_actions[0]['confirmation'] == true) {
-				if ( confirm('<?php echo $text_voice_confirm_action; ?>') ) {
+				if ( confirm(<?php js_echo($text_voice_confirm_action); ?>) ) {
 					window.location.href = data.found_actions[0]['url'];
 				}
 			} else {

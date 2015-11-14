@@ -39,11 +39,13 @@
 		<?php 
 		if($content){
 		    $current_categ = $text_all_categories;
-		    foreach ($content['categories']['subcategories'] as $category) {
-		    	if ($category['active']) {
-		    		$current_categ = $category['name'];
-		    	}
-		}
+		    if(is_array($content['categories']['subcategories'])) {
+			    foreach ($content['categories']['subcategories'] as $category) {
+			    	if ($category['active']) {
+			    		$current_categ = $category['name'];
+			    	}
+				}
+		    }
 		?>
 		<div class="btn-group">
 		  <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">
@@ -344,10 +346,10 @@
 			type: 'GET',
 			success: function (data) {
 				if(data == 'success'){
-					success_alert('<?php echo $text_disconnect_success?>',true);
+					success_alert(<?php js_echo($text_disconnect_success); ?>,true);
 					location.reload();
 				} else if(data == 'error')  {
-					error_alert('<?php echo $error_mp_connection; ?>',true);
+					error_alert(<?php js_echo($error_mp_connection); ?>,true);
 				} else {				
 					location.reload();
 				}

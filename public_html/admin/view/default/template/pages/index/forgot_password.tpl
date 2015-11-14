@@ -14,7 +14,7 @@
             <img src="<?php echo $template_dir; ?>image/login.png" alt="<?php echo $text_login; ?>" />
         </div>
         <div class="logged">
-            <h4><?php echo $heading_title; ?></h4>
+            <h4><?php echo $text_heading; ?></h4>
             <small class="text-muted"><a href="<?php echo $login; ?>"><?php echo $text_login; ?></a></small>
         </div>
         
@@ -31,7 +31,7 @@
 			<?php echo $field; ?>
 			</div>
 		</div>	
-		<?php } else if( $field->type == 'captcha')  { ?>
+		<?php } else if( $field->type == 'captcha' || $field->type == 'recaptcha')  { ?>
 		<div class="form-group <?php if (!empty($error[$name])) { ?>has-error<?php } ?>">
 			<?php if (!empty($error[$name])) { ?>
 			<div class="help-block with-errors"><?php echo $error[$name]; ?></div>

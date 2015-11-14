@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<definitions>
+	<definition>
+		<key>heading_title</key>
+		<value><![CDATA[File Uploads]]></value>
+	</definition>
+	<definition>
+		<key>column_date_added</key>
+		<value><![CDATA[Date Added]]></value>
+	</definition>
+	<definition>
+		<key>column_path</key>
+		<value><![CDATA[File]]></value>
+	</definition>
+	<definition>
+		<key>column_section</key>
+		<value><![CDATA[Section]]></value>
+	</definition>
+	<definition>
+		<key>text_download</key>
+		<value><![CDATA[to download file]]></value>
+	</definition>
+</definitions>

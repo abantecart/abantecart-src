@@ -1,9 +1,27 @@
-update `ac_dataset_values` set value_varchar = 'design/template' where dataset_column_id = 12 and row_id = 131;
+DROP TABLE IF EXISTS `ac_order_status_ids`;
+CREATE TABLE `ac_order_status_ids` (
+  `order_status_id` int(11) NOT NULL,
+  `status_text_id` varchar(32) NOT NULL,
+  PRIMARY KEY (`order_status_id`,`status_text_id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+CREATE UNIQUE INDEX `ac_order_status_ids_idx`
+ON `ac_order_status_ids` ( `status_text_id`);
 
-alter table `ac_blocks` modify column `block_txt_id` varchar(255) NOT NULL;
-alter table `ac_blocks` modify column `controller` varchar(255) NOT NULL;
-alter table `ac_block_templates` modify column `template` varchar(255) NOT NULL;
+INSERT INTO `ac_order_status_ids` (`order_status_id`, `status_text_id`) VALUES
+(0, 'incomplete'),
+(1, 'pending'),
+(2, 'processing'),
+(3, 'shipped'),
+(7, 'canceled'),
+(5, 'completed'),
+(8, 'denied'),
+(9, 'canceled_reversal'),
+(10, 'failed'),
+(11, 'refunded'),
+(12, 'reversed'),
+(13, 'chargeback'),
+(14, 'canceled_by_customer');
 
-UPDATE `ac_dataset_values`
-SET value_varchar = 'window.open(\'http://docs.abantecart.com\');'
-WHERE value_varchar = 'window.open(\'http://www.abantecart.com/ecommerce-documentation\');';
+UPDATE `ac_fields`
+SET regexp_pattern = '/^[A-Z0-9._%-]+@[A-Z0-9][A-Z0-9.-]{0,61}[A-Z0-9]\\.[A-Z]{2,16}$/i'
+WHERE field_id = 12 AND field_name = 'email';

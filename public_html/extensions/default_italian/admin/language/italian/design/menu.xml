@@ -1,0 +1,64 @@
+<?xml version="1.0"?>
+<definitions>
+	<definition>
+		<key>heading_title</key>
+		<value><![CDATA[Menu]]></value>
+	</definition>
+	<definition>
+		<key>text_success</key>
+		<value><![CDATA[Il menu è stato modificato!]]></value>
+	</definition>
+	<definition>
+		<key>entry_item_id</key>
+		<value><![CDATA[ID univoco]]></value>
+	</definition>
+	<definition>
+		<key>entry_item_icon</key>
+		<value><![CDATA[Icona]]></value>
+	</definition>
+	<definition>
+		<key>entry_item_text</key>
+		<value><![CDATA[Testo]]></value>
+	</definition>
+	<definition>
+		<key>entry_item_url</key>
+		<value>
+			<![CDATA[Link<br /><span class="help">Per utilizzare link esterni aggiungere prima http:// o https://</span>]]></value>
+	</definition>
+	<definition>
+		<key>entry_parent_id</key>
+		<value><![CDATA[Superiore]]></value>
+	</definition>
+	<definition>
+		<key>entry_sort_order</key>
+		<value><![CDATA[Ordine]]></value>
+	</definition>
+	<definition>
+		<key>entry_link_category</key>
+		<value><![CDATA[Link alla categoria]]></value>
+	</definition>
+	<definition>
+		<key>entry_link_page</key>
+		<value><![CDATA[Link alla pagina]]></value>
+	</definition>
+	<definition>
+		<key>text_link</key>
+		<value><![CDATA[Link]]></value>
+	</definition>
+	<definition>
+		<key>text_select_parent_id</key>
+		<value><![CDATA[- Menu origine -]]></value>
+	</definition>
+	<definition>
+		<key>error_empty</key>
+		<value><![CDATA[Il campo non può essere vuoto!]]></value>
+	</definition>
+	<definition>
+		<key>error_non_unique</key>
+		<value><![CDATA[Voce ID non è unica!]]></value>
+	</definition>
+	<definition>
+		<key>error_non_ascii</key>
+		<value><![CDATA[Solo caratteri alfanumerici sono consentiti per il campo ID menu!]]></value>
+	</definition>
+</definitions>

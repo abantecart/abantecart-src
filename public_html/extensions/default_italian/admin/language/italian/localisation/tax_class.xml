@@ -1,0 +1,92 @@
+<?xml version="1.0"?>
+<definitions>
+	<definition>
+		<key>heading_title</key>
+		<value><![CDATA[Tipologie fiscali]]></value>
+	</definition>
+	<definition>
+		<key>text_class</key>
+		<value><![CDATA[Tipologia fiscale]]></value>
+	</definition>
+	<definition>
+		<key>text_rate</key>
+		<value><![CDATA[Aliquota d'imposta]]></value>
+	</definition>
+	<definition>
+		<key>text_success</key>
+		<value><![CDATA[Hai modificato le tipologie fiscali con successo!]]></value>
+	</definition>
+	<definition>
+		<key>column_title</key>
+		<value><![CDATA[Titolo della tipologia fiscale]]></value>
+	</definition>
+	<definition>
+		<key>column_action</key>
+		<value><![CDATA[Azione]]></value>
+	</definition>
+	<definition>
+		<key>tab_details</key>
+		<value><![CDATA[Dettagli]]></value>
+	</definition>
+	<definition>
+		<key>tab_rates</key>
+		<value><![CDATA[Aliquota]]></value>
+	</definition>
+	<definition>
+		<key>entry_title</key>
+		<value><![CDATA[Titolo della tipologia fiscale]]></value>
+	</definition>
+	<definition>
+		<key>entry_description</key>
+		<value><![CDATA[Descrizione:]]></value>
+	</definition>
+	<definition>
+		<key>entry_location</key>
+		<value><![CDATA[Localizzazione:]]></value>
+	</definition>
+	<definition>
+		<key>entry_zone</key>
+		<value><![CDATA[Zona di localizzazione:]]></value>
+	</definition>
+	<definition>
+		<key>entry_priority</key>
+		<value><![CDATA[Priorità:]]></value>
+	</definition>
+	<definition>
+		<key>entry_rate</key>
+		<value><![CDATA[Aliquota fiscale:]]></value>
+	</definition>
+	<definition>
+		<key>error_permission</key>
+		<value><![CDATA[ATTENZIONE: Non hai l'autorizzazione per modificare le tipologia fiscali!]]></value>
+	</definition>
+	<definition>
+		<key>error_tax_title</key>
+		<value><![CDATA[Il titolo della tipologia fiscale deve avere tra 2 e 32 caratteri!]]></value>
+	</definition>
+	<definition>
+		<key>error_rate</key>
+		<value><![CDATA[Aliquota fiscale richiesta!]]></value>
+	</definition>
+	<definition>
+		<key>error_product</key>
+		<value>
+			<![CDATA[ATTENZIONE: Questa tipologia fiscale non può essere eliminata perchè è attualmente assegnata a %s prodotti!]]></value>
+	</definition>
+	<definition>
+		<key>text_tax_all_zones</key>
+		<value><![CDATA[Tutte le zone di localizzazione]]></value>
+	</definition>
+	<definition>
+		<key>entry_tax_rate_threshold</key>
+		<value><![CDATA[Applicare questa imposta solo se, il totale parziale è … ]]></value>
+	</definition>
+	<definition>
+		<key>text_absolute</key>
+		<value><![CDATA[Assoluto]]></value>
+	</definition>
+	<definition>
+		<key>text_percent</key>
+		<value><![CDATA[Percenuale]]></value>
+	</definition>
+</definitions>

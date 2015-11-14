@@ -1,0 +1,144 @@
+<?xml version="1.0"?>
+<definitions>
+	<definition>
+		<key>heading_title</key>
+		<value><![CDATA[Lingue]]></value>
+	</definition>
+	<definition>
+		<key>text_language</key>
+		<value><![CDATA[Lingua]]></value>
+	</definition>
+	<definition>
+		<key>text_success</key>
+		<value><![CDATA[Le lingue sono state modificate!]]></value>
+	</definition>
+	<definition>
+		<key>column_name</key>
+		<value><![CDATA[Nome della lingua]]></value>
+	</definition>
+	<definition>
+		<key>column_code</key>
+		<value><![CDATA[Codice]]></value>
+	</definition>
+	<definition>
+		<key>column_sort_order</key>
+		<value><![CDATA[Ordina]]></value>
+	</definition>
+	<definition>
+		<key>column_action</key>
+		<value><![CDATA[Azione]]></value>
+	</definition>
+	<definition>
+		<key>entry_name</key>
+		<value><![CDATA[Nome della lingua:]]></value>
+	</definition>
+	<definition>
+		<key>entry_code</key>
+		<value><![CDATA[Codice:<br /><span class="help">Non cambiare se questa è la lingua predefinita.</span>]]></value>
+	</definition>
+	<definition>
+		<key>entry_locale</key>
+		<value><![CDATA[Locale:]]></value>
+	</definition>
+	<definition>
+		<key>entry_image</key>
+		<value><![CDATA[Immagine:]]></value>
+	</definition>
+	<definition>
+		<key>entry_directory</key>
+		<value><![CDATA[Directory:]]></value>
+	</definition>
+	<definition>
+		<key>entry_filename</key>
+		<value><![CDATA[Nome del file:]]></value>
+	</definition>
+	<definition>
+		<key>entry_status</key>
+		<value><![CDATA[Stato:]]></value>
+	</definition>
+	<definition>
+		<key>entry_sort_order</key>
+		<value><![CDATA[Ordine:]]></value>
+	</definition>
+	<definition>
+		<key>error_permission</key>
+		<value><![CDATA[ATTENZIONE: Non hai l'autorizzazione per modificare le lingue!]]></value>
+	</definition>
+	<definition>
+		<key>error_name</key>
+		<value><![CDATA[Il nome della lingua deve essere compreso tra 2 e 32 caratteri!]]></value>
+	</definition>
+	<definition>
+		<key>error_code</key>
+		<value><![CDATA[Il codice della lingua deve avere almeno 2 caratteri!]]></value>
+	</definition>
+	<definition>
+		<key>error_locale</key>
+		<value><![CDATA[Locale richiesto!]]></value>
+	</definition>
+	<definition>
+		<key>error_image</key>
+		<value><![CDATA[Il nome del file immagine deve essere compreso tra 2 e 64 caratteri!]]></value>
+	</definition>
+	<definition>
+		<key>error_directory</key>
+		<value><![CDATA[Directory richiesta!]]></value>
+	</definition>
+	<definition>
+		<key>error_filename</key>
+		<value><![CDATA[Il nome del file deve essere compreso tra 2 e 64 caratteri!]]></value>
+	</definition>
+	<definition>
+		<key>error_default</key>
+		<value><![CDATA[ATTENZIONE: Questa lingua non può essere eliminata perchè è attualmente assegnata come lingua predefinita del negozio!]]></value>
+	</definition>
+	<definition>
+		<key>error_admin</key>
+		<value><![CDATA[ATTENZIONE: Questa lingua non può essere eliminata in quanto è attualmente assegnata come lingua dell'amministrazione!]]></value>
+	</definition>
+	<definition>
+		<key>error_store</key>
+		<value><![CDATA[ATTENZIONE: Questa lingua non può essere eliminata perchè è attualmente assegnata a %s negozi!]]></value>
+	</definition>
+	<definition>
+		<key>error_order</key>
+		<value><![CDATA[ATTENZIONE: Questa lingua non può essere eliminata in quanto è attualmente assegnata a %s ordini!]]></value>
+	</definition>
+	<definition>
+		<key>language_edit_title</key>
+		<value><![CDATA[Modifica i dettagli della lingua]]></value>
+	</definition>
+	<definition>
+		<key>load_language_title</key>
+		<value><![CDATA[Caricare i dati della lingua mancante]]></value>
+	</definition>
+	<definition>
+		<key>load_language_data_txt</key>
+		<value><![CDATA[Origine della Lingua: ]]></value>
+	</definition>
+	<definition>
+		<key>language_translate_method_txt</key>
+		<value><![CDATA[Metodo di traduzione del testo: ]]></value>
+	</definition>
+	<definition>
+		<key>load_language_note</key>
+		<value><![CDATA[NOTA: Questa operazione potrebbe richiedere alcuni minuti per l'eseguzione. Non chiufere il browser, lasciare o aggiornare la pagina!	]]></value>
+	</definition>
+	<definition>
+		<key>create_language_note</key>
+		<value><![CDATA[NOTA: Si raccomanda di creare la lingua come un estensione. Controllare le estensioni della lingua esistenti. Se si desidera comunque creare una nuova lingua manualmente, è necessario aggiungere l'immagine della bandiera corrispondente alla lingua in admin/language/[Language Directory]/flag.png e in	storefront/language/[Language Directory]flag.png
+		Dopo aver creato la lingua, caricare i dati della lingua mancanti traducendo o copiando il contenuto del testo dalla lingua di origine.	]]></value>
+	</definition>
+	<definition>
+		<key>button_load_language</key>
+		<value><![CDATA[Carica]]></value>
+	</definition>
+	<definition>
+		<key>entry_language_selector</key>
+		<value><![CDATA[Lingua di partenza: ]]></value>
+	</definition>
+	<definition>
+		<key>entry_translate_method_selector</key>
+		<value><![CDATA[Metodo Traduzione del testo: ]]></value>
+	</definition>
+</definitions>

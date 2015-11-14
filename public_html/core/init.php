@@ -26,26 +26,26 @@ include('version.php');
 define('VERSION', MASTER_VERSION . '.' . MINOR_VERSION . '.' . VERSION_BUILT);
 
 // Detect if localhost is used.
-if (!isset($_SERVER[ 'HTTP_HOST' ])) {
-	$_SERVER[ 'HTTP_HOST' ] = 'localhost';
+if (!isset($_SERVER['HTTP_HOST'])) {
+	$_SERVER['HTTP_HOST'] = 'localhost';
 }
 
 // Detect https
-if (isset($_SERVER[ 'HTTPS' ]) && ($_SERVER[ 'HTTPS' ] == 'on' || $_SERVER[ 'HTTPS' ] == '1')) {
+if (isset($_SERVER['HTTPS']) && ($_SERVER['HTTPS'] == 'on' || $_SERVER['HTTPS'] == '1')) {
 	define('HTTPS', true);
-} elseif (isset($_SERVER[ 'HTTP_X_FORWARDED_SERVER' ]) && ($_SERVER[ 'HTTP_X_FORWARDED_SERVER' ] == 'secure' || $_SERVER[ 'HTTP_X_FORWARDED_SERVER' ] == 'ssl')) {
+} elseif (isset($_SERVER['HTTP_X_FORWARDED_SERVER']) && ($_SERVER['HTTP_X_FORWARDED_SERVER'] == 'secure' || $_SERVER['HTTP_X_FORWARDED_SERVER'] == 'ssl')) {
 	define('HTTPS', true);
-} elseif (isset($_SERVER[ 'SCRIPT_URI' ]) && (substr($_SERVER[ 'SCRIPT_URI' ], 0, 5) == 'https')) {
+} elseif (isset($_SERVER['SCRIPT_URI']) && (substr($_SERVER['SCRIPT_URI'], 0, 5) == 'https')) {
 	define('HTTPS', true);
-} elseif (isset($_SERVER[ 'HTTP_HOST' ]) && (strpos($_SERVER[ 'HTTP_HOST' ], ':443') !== false)) {
+} elseif (isset($_SERVER['HTTP_HOST']) && (strpos($_SERVER['HTTP_HOST'], ':443') !== false)) {
 	define('HTTPS', true);
 }
 
 // Detect http host
-if (isset($_SERVER[ 'HTTP_X_FORWARDED_HOST' ])) {
-	define('REAL_HOST', $_SERVER[ 'HTTP_X_FORWARDED_HOST' ]);
+if (isset($_SERVER['HTTP_X_FORWARDED_HOST'])) {
+	define('REAL_HOST', $_SERVER['HTTP_X_FORWARDED_HOST']);
 } else {
-	define('REAL_HOST', $_SERVER[ 'HTTP_HOST' ]);
+	define('REAL_HOST', $_SERVER['HTTP_HOST']);
 }
 
 //Set up common paths
@@ -56,9 +56,13 @@ define('DIR_DATABASE', DIR_ROOT . '/core/database/');
 define('DIR_CONFIG', DIR_ROOT . '/core/config/');
 define('DIR_CACHE', DIR_ROOT . '/system/cache/');
 define('DIR_LOGS', DIR_ROOT . '/system/logs/');
+define('DIR_VENDORS', DIR_CORE . '/vendors/');
 
 // SEO URL Keyword separator
 define('SEO_URL_SEPARATOR', '-');
+
+// EMAIL REGEXP PATTERN
+define('EMAIL_REGEX_PATTERN','/^[A-Z0-9._%-]+@[A-Z0-9][A-Z0-9.-]{0,61}[A-Z0-9]\.[A-Z]{2,16}$/i');
 
 // Error Reporting
 error_reporting(E_ALL);
@@ -67,18 +71,37 @@ require_once(DIR_CORE . '/lib/exceptions.php');
 require_once(DIR_CORE . '/lib/error.php');
 require_once(DIR_CORE . '/lib/warning.php');
 
+//define rt - route for application controller
+if($_GET['rt']) {
+	define('ROUTE', $_GET['rt']);	
+} else if($_POST['rt']){
+	define('ROUTE', $_POST['rt']);	
+} else {
+	define('ROUTE', 'index/home');	
+}
+
+//detect API call
+$path_nodes = explode('/', ROUTE);
+if($path_nodes[0] == 'a') {
+	define('IS_API', true);
+} else {
+	define('IS_API', false);
+}	
+
 //Detect the section of the cart to access and build the path definitions
 // s=admin or s=storefront (default nothing)
 define('INDEX_FILE', 'index.php');
 
-if (defined('ADMIN_PATH') && (isset($_GET[ 's' ]) || isset($_POST[ 's' ])) && ($_GET[ 's' ] == ADMIN_PATH || $_POST[ 's' ] == ADMIN_PATH)) {
+if (defined('ADMIN_PATH') && (isset($_GET['s']) || isset($_POST['s'])) && ($_GET['s'] == ADMIN_PATH || $_POST['s'] == ADMIN_PATH)) {
 	define('IS_ADMIN', true);
 	define('DIR_APP_SECTION', DIR_ROOT . '/admin/');
 	define('DIR_LANGUAGE', DIR_ROOT . '/admin/language/');
 	define('DIR_TEMPLATE', DIR_ROOT . '/admin/view/');
 	define('DIR_STOREFRONT', DIR_ROOT . '/storefront/');
 	define('DIR_BACKUP', DIR_ROOT . '/admin/system/backup/');
-	//generate unique sessioin ID name 
+	define('DIR_DATA', DIR_ROOT . '/admin/system/data/');
+	//generate unique sessioin name. 
+	//NOTE: This is a session name not to confuse with actual session id. Candidate to renaming 
 	define('SESSION_ID', defined('UNIQUE_ID') ? 'AC_CP_'.strtoupper(substr(UNIQUE_ID, 0, 10)) : 'AC_CP_PHPSESSID');
 } else {
 	define('IS_ADMIN', false);
@@ -98,7 +121,7 @@ try {
 	// Process Global data if Register Globals enabled
 	if (ini_get('register_globals')) {
 
-	        $path = dirname($_SERVER[ 'PHP_SELF' ]);
+	        $path = dirname($_SERVER['PHP_SELF']);
 	        session_set_cookie_params(0,
 	                $path,
 	                null,
@@ -140,23 +163,23 @@ try {
 		date_default_timezone_set('UTC');
 	}
 
-	if (!isset($_SERVER[ 'DOCUMENT_ROOT' ])) {
-		if (isset($_SERVER[ 'SCRIPT_FILENAME' ])) {
-			$_SERVER[ 'DOCUMENT_ROOT' ] = str_replace('\\', '/', substr($_SERVER[ 'SCRIPT_FILENAME' ], 0, 0 - strlen($_SERVER[ 'PHP_SELF' ])));
+	if (!isset($_SERVER['DOCUMENT_ROOT'])) {
+		if (isset($_SERVER['SCRIPT_FILENAME'])) {
+			$_SERVER['DOCUMENT_ROOT'] = str_replace('\\', '/', substr($_SERVER['SCRIPT_FILENAME'], 0, 0 - strlen($_SERVER['PHP_SELF'])));
 		}
 	}
 
-	if (!isset($_SERVER[ 'DOCUMENT_ROOT' ])) {
-		if (isset($_SERVER[ 'PATH_TRANSLATED' ])) {
-			$_SERVER[ 'DOCUMENT_ROOT' ] = str_replace('\\', '/', substr(str_replace('\\\\', '\\', $_SERVER[ 'PATH_TRANSLATED' ]), 0, 0 - strlen($_SERVER[ 'PHP_SELF' ])));
+	if (!isset($_SERVER['DOCUMENT_ROOT'])) {
+		if (isset($_SERVER['PATH_TRANSLATED'])) {
+			$_SERVER['DOCUMENT_ROOT'] = str_replace('\\', '/', substr(str_replace('\\\\', '\\', $_SERVER['PATH_TRANSLATED']), 0, 0 - strlen($_SERVER['PHP_SELF'])));
 		}
 	}
 
-	if (!isset($_SERVER[ 'REQUEST_URI' ])) {
-		$_SERVER[ 'REQUEST_URI' ] = substr($_SERVER[ 'PHP_SELF' ], 1);
+	if (!isset($_SERVER['REQUEST_URI'])) {
+		$_SERVER['REQUEST_URI'] = substr($_SERVER['PHP_SELF'], 1);
 
-		if (isset($_SERVER[ 'QUERY_STRING' ])) {
-			$_SERVER[ 'REQUEST_URI' ] .= '?' . $_SERVER[ 'QUERY_STRING' ];
+		if (isset($_SERVER['QUERY_STRING'])) {
+			$_SERVER['REQUEST_URI'] .= '?' . $_SERVER['QUERY_STRING'];
 		}
 	}
 
@@ -177,13 +200,6 @@ try {
 	define('POSTFIX_OVERRIDE', '.override');
 	define('POSTFIX_PRE', '.pre');
 	define('POSTFIX_POST', '.post');
-
-//Static order ids 1,2,5,7
-	define('ORDER_INIT', 0);
-	define('ORDER_PENDING', 1);
-	define('ORDER_PROCESSING', 2);
-	define('ORDER_COMPLETED', 5);
-	define('ORDER_CANCELED', 7);
 
 // Include Engine
 	require_once(DIR_CORE . 'engine/router.php');
@@ -235,6 +251,7 @@ try {
 // Application Classes
 	require_once(DIR_CORE . 'lib/customer.php');
 	require_once(DIR_CORE . 'lib/order.php');
+	require_once(DIR_CORE . 'lib/order_status.php');
 	require_once(DIR_CORE . 'lib/currency.php');
 	require_once(DIR_CORE . 'lib/tax.php');
 	require_once(DIR_CORE . 'lib/weight.php');
@@ -308,7 +325,7 @@ try {
 
 // Set up HTTP and HTTPS based automatic and based on config
 	if (IS_ADMIN) {
-		define('HTTP_DIR_NAME', rtrim(dirname($_SERVER[ 'PHP_SELF' ]), '/.\\') );
+		define('HTTP_DIR_NAME', rtrim(dirname($_SERVER['PHP_SELF']), '/.\\') );
 		// Admin HTTP
 		define('HTTP_SERVER', 'http://' . REAL_HOST . HTTP_DIR_NAME . '/');
 		define('HTTP_CATALOG', HTTP_SERVER);
@@ -377,15 +394,15 @@ try {
 	$registry->set('document', new ADocument());
 
 // AbanteCart Snapshot details
-	$registry->set('snapshot', 'AbanteCart/' . VERSION . ' ' . $_SERVER[ 'SERVER_SOFTWARE' ] . ' (' . $_SERVER[ 'SERVER_NAME' ] . ')');
+	$registry->set('snapshot', 'AbanteCart/' . VERSION . ' ' . $_SERVER['SERVER_SOFTWARE'] . ' (' . $_SERVER['SERVER_NAME'] . ')');
 //Non-apache fix for REQUEST_URI
-	if (!isset($_SERVER[ 'REQUEST_URI' ])) {
-		$_SERVER[ 'REQUEST_URI' ] = substr($_SERVER[ 'PHP_SELF' ], 1);
-		if (isset($_SERVER[ 'QUERY_STRING' ])) {
-			$_SERVER[ 'REQUEST_URI' ] .= '?' . $_SERVER[ 'QUERY_STRING' ];
+	if (!isset($_SERVER['REQUEST_URI'])) {
+		$_SERVER['REQUEST_URI'] = substr($_SERVER['PHP_SELF'], 1);
+		if (isset($_SERVER['QUERY_STRING'])) {
+			$_SERVER['REQUEST_URI'] .= '?' . $_SERVER['QUERY_STRING'];
 		}
 	}
-	$registry->set('uri', $_SERVER[ 'REQUEST_URI' ]);
+	$registry->set('uri', $_SERVER['REQUEST_URI']);
 
 //main instance of data encryption 
 	$registry->set('dcrypt', new ADataEncryption());
@@ -469,6 +486,8 @@ try {
 	$registry->get('language')->load();
 	$hook->hk_InitEnd();
 
+//load order status class
+	$registry->set('order_status',new AOrderStatus());
 } //eof try
 catch (AException $e) {
 	ac_exception_handler($e);

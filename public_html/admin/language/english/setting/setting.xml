@@ -261,6 +261,11 @@
 			<![CDATA[Order Status:<br /><span class="help">Set the default order status when an order is processed.</span>]]></value>
 	</definition>
 	<definition>
+		<key>entry_customer_cancelation_order_status</key>
+		<value>
+			<![CDATA[Allow Customer to Cancel Order on Status:]]></value>
+	</definition>
+	<definition>
 		<key>entry_stock_display</key>
 		<value>
 			<![CDATA[Display Stock:<br /><span class="help">Display stock quantity on the product page.</span>]]></value>
@@ -339,11 +344,11 @@
 	</definition>
 	<definition>
 		<key>entry_image_product_height</key>
-		<value><![CDATA[Product List Height:]]></value>
+		<value><![CDATA[Product List Height:<br /><span class="help">This is to control height of a preview image in the listing pages of admin and other places in the storefront. Note, this setting is shared between admin and default storefront template.</span>]]></value>
 	</definition>
 	<definition>
 		<key>entry_image_product_width</key>
-		<value><![CDATA[Product List Width:]]></value>
+		<value><![CDATA[Product List Width:<br /><span class="help">This is to control width of a preview image in the listing pages of admin and other places in the storefront. Note, this setting is shared between admin and default storefront template.</span>]]></value>
 	</definition>
 	<definition>
 		<key>entry_image_additional</key>
@@ -387,11 +392,11 @@
 	</definition>
 	<definition>
 		<key>entry_image_grid_width</key>
-		<value><![CDATA[Grid Image Width:]]></value>
+		<value><![CDATA[Grid Image Width:<br /><span class="help">This is to control width of a very small preview image in the listing grids of admin and other places in the storefront. Note, this setting is shared between admin and default storefront template.</span>]]></value>
 	</definition>
 	<definition>
 		<key>entry_image_grid_height</key>
-		<value><![CDATA[Grid Image Height:]]></value>
+		<value><![CDATA[Grid Image Height:<br /><span class="help">This is to control height of a very small preview image in the listing grids of admin and other places in the storefront. Note, this setting is shared between admin and default storefront template.</span>]]></value>
 	</definition>
 	<definition>
 		<key>entry_alert_mail</key>
@@ -865,4 +870,17 @@
 		<key>text_embed_click_action_same_window</key>
 		<value><![CDATA[Open new page in same window]]></value>
 	</definition>
+	<definition>
+		<key>entry_account_create_captcha</key>
+		<value><![CDATA[Captcha on create account form :<br /><span class="help">Prevent spam/robot account creation with enabling human verification captcha</span>]]></value>
+	</definition>
+	<definition>
+		<key>entry_recaptcha_site_key</key>
+		<value><![CDATA[Google reCAPTCHA Site Key:<br /><span class="help">Add <a href="https://www.google.com/recaptcha" target="_blank">Google reCAPTCHA v2</a> to help your visitors with better captcha entry. If you enable reCAPTCHA site/secret keys, Google reCAPTCHA v2 will be activated instead of default AbanteCart captcha image</span>]]></value>
+	</definition>
+	<definition>
+		<key>entry_recaptcha_secret_key</key>
+		<value><![CDATA[Google reCAPTCHA Secret Key:<br /><span class="help">Add <a href="https://www.google.com/recaptcha" target="_blank">Google reCAPTCHA v2</a> to help your visitors with better captcha entry. If you enable reCAPTCHA site/secret keys, Google reCAPTCHA v2 will be activated instead of default AbanteCart captcha image</span>]]></value>
+	</definition>
+	
 </definitions>

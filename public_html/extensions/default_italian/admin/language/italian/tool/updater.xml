@@ -1,0 +1,99 @@
+<?xml version="1.0"?>
+<definitions>
+	<definition>
+		<key>heading_title</key>
+		<value><![CDATA[Gestione aggiornamenti]]></value>
+	</definition>
+	<definition>
+		<key>text_checkupdates</key>
+		<value><![CDATA[Controllare gli aggiornamenti]]></value>
+	</definition>
+	<definition>
+		<key>column_name</key>
+		<value><![CDATA[Nome estensione]]></value>
+	</definition>
+	<definition>
+		<key>column_type</key>
+		<value><![CDATA[Tipo]]></value>
+	</definition>
+	<definition>
+		<key>column_category</key>
+		<value><![CDATA[Categotia]]></value>
+	</definition>
+	<definition>
+		<key>column_status</key>
+		<value><![CDATA[Stato]]></value>
+	</definition>
+	<definition>
+		<key>column_version</key>
+		<value><![CDATA[CVersione corrente]]></value>
+	</definition>
+	<definition>
+		<key>column_new_version</key>
+		<value><![CDATA[Nuova versione]]></value>
+	</definition>
+	<definition>
+		<key>column_action</key>
+		<value><![CDATA[Azione]]></value>
+	</definition>
+	<definition>
+		<key>text_success</key>
+		<value><![CDATA[Le estensioni sono state aggiornate!]]></value>
+	</definition>
+	<definition>
+		<key>text_update</key>
+		<value><![CDATA[Aggiorna]]></value>
+	</definition>
+	<definition>
+		<key>entry_restore_exts</key>
+		<value><![CDATA[Ripristina il backup dell'estensione:]]></value>
+	</definition>
+	<definition>
+		<key>entry_update</key>
+		<value><![CDATA[Aggiornamenti:]]></value>
+	</definition>
+	<definition>
+		<key>error_permission</key>
+		<value><![CDATA[ATTENZIONE: Non puoi modificare la directory: ]]></value>
+	</definition>
+	<definition>
+		<key>warning_server</key>
+		<value><![CDATA[Il server aggiornato è inaccessibile.]]></value>
+	</definition>
+	<definition>
+		<key>text_notice_title</key>
+		<value><![CDATA[]]>Update Notice for %EXTENSION%</value>
+	</definition>
+	<definition>
+		<key>text_notice_text</key>
+		<value><![CDATA[]]>'New version of extension "%EXTENSION%" is available. Please, go to %LINK% and upgrade it.'</value>
+	</definition>
+	<definition>
+		<key>warning_updates</key>
+		<value><![CDATA[Impossibile ottenere informazioni sugli aggiornamenti.]]></value>
+	</definition>
+	<definition>
+		<key>error_empty</key>
+		<value><![CDATA[ATTENZIONE: Il file che hai caricato era vuoto!]]></value>
+	</definition>
+	<definition>
+		<key>error_exts_list</key>
+		<value><![CDATA[ATTENZIONE: L'elenco di estensione non è array!]]></value>
+	</definition>
+	<definition>
+		<key>text_nothing_todo</key>
+		<value><![CDATA[ Le tue estensioni sono già aggiornate. ]]></value>
+	</definition>
+	<definition>
+		<key>text_connect</key>
+		<value><![CDATA[Сollegare]]></value>
+	</definition>
+	<definition>
+		<key>text_marketplace_connect</key>
+		<value><![CDATA[Connettersi al mercato]]></value>
+	</definition>
+	<definition>
+		<key>text_marketplace_connect_your_store</key>
+		<value><![CDATA[Collegate il vostro negozio al Marketplace]]></value>
+	</definition>
+</definitions>

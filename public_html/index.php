@@ -19,7 +19,7 @@
 ------------------------------------------------------------------------------*/
 
 // Required PHP Version
-define('MIN_PHP_VERSION', '5.2.0');
+define('MIN_PHP_VERSION', '5.3.0');
 if (version_compare(phpversion(), MIN_PHP_VERSION, '<') == TRUE) {
     die( MIN_PHP_VERSION . '+ Required for AbanteCart to work properly! Please contact your system administrator or host service provider.');
 }
@@ -87,13 +87,7 @@ $registry->set('currency', new ACurrency($registry));
 //Route to request process
 $router = new ARouter($registry);
 $registry->set('router', $router);
-if (!empty($request->get['rt'])) {
-        $router->processRoute( $request->get['rt'] );
-} else if (!empty($request->post['rt'])) {
-        $router->processRoute( $request->post['rt'] );
-} else {
-        $router->processRoute('index/home');
-}
+$router->processRoute(ROUTE);
 
 // Output
 $registry->get('response')->output();

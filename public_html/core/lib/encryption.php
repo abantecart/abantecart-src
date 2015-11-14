@@ -85,6 +85,47 @@ final class AEncryption {
 	return $url;
 	}
 
+	/**
+	 * URL-safe encode function
+	 * @param string $string
+	 * @return string
+	 */
+	static function mcrypt_encode($string){
+		if(!self::_check_mcrypt()){
+			return '';
+		}
+		$output = mcrypt_encrypt(MCRYPT_RIJNDAEL_256, SALT, trim($string), MCRYPT_MODE_ECB, mcrypt_create_iv(mcrypt_get_iv_size(MCRYPT_RIJNDAEL_256, MCRYPT_MODE_ECB), MCRYPT_RAND));
+		return rtrim(strtr(base64_encode($output), '+/', '-_'), '=');
+	}
+
+	/**
+	 * @param string $hash
+	 * @return string
+	 */
+	static function mcrypt_decode($hash){
+		if(!self::_check_mcrypt()){
+			return '';
+		}
+		$output = base64_decode(str_pad(strtr($hash, '-_', '+/'), strlen($hash) % 4, '=', STR_PAD_RIGHT));
+		return trim(mcrypt_decrypt( MCRYPT_RIJNDAEL_256, SALT, $output, MCRYPT_MODE_ECB, mcrypt_create_iv(mcrypt_get_iv_size(MCRYPT_RIJNDAEL_256, MCRYPT_MODE_ECB), MCRYPT_RAND)));
+	}
+
+	static function _check_mcrypt(){
+		if(!function_exists('mcrypt_encrypt')){
+			$error_text = 'MCrypt php-library not loaded. Please enable it to use encryption.';
+			$registry = Registry::getInstance();
+			$log = $registry->get('log');
+			if(!is_object($log) || !method_exists($log, 'write')){
+				$error_text = 'Error: Unable to access or write to cache directory ' . DIR_CACHE;
+				$log = new ALog(DIR_SYSTEM . 'logs/error.txt');
+				$registry->set('log', $log);
+			}
+			$log->write($error_text);
+			return false;
+		}
+		return true;
+	}
+
 }
 
 // SSL Based encryption class PHP 5.3 >
@@ -242,6 +283,7 @@ final class ASSLEncryption {
 		}
 					
 		foreach ( $keys as $type => $key ) {
+			$ext = '';
 			if ( $type == 'private') {
 				$ext = '.prv';			
 			} else if ( $type == 'public') {

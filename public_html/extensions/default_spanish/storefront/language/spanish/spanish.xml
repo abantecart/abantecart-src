@@ -75,7 +75,7 @@
 	<definition>
 		<key>button_save</key>
 		<value><![CDATA[Guardar]]></value>
-	</definition>	
+	</definition>
 	<definition>
 		<key>button_back</key>
 		<value><![CDATA[Retroceder]]></value>
@@ -191,7 +191,7 @@
 	<definition>
 		<key>gen_data_entry_error</key>
 		<value><![CDATA[Vaya, hay un error con infomación proporcionada!]]></value>
-	</definition>	
+	</definition>
 	<definition>
 		<key>text_sorting_name_asc</key>
 		<value><![CDATA[Nombre A - Z]]></value>
@@ -273,25 +273,25 @@
 		<value><![CDATA[Reajustar]]></value>
 	</definition>
 	<definition>
-	   <key>error_captcha</key>
-	   <value><![CDATA[El código de verificación no coincide con la imagen!]]></value>
-	 </definition>
+		<key>error_captcha</key>
+		<value><![CDATA[El código de verificación no coincide con la imagen!]]></value>
+	</definition>
 	<definition>
 		<key>entry_attached</key>
 		<value><![CDATA[Adjunto]]></value>
-    </definition>
+	</definition>
 	<definition>
 		<key>text_call_to_order</key>
 		<value><![CDATA[Llamar al orden]]></value>
-    </definition>
+	</definition>
 	<definition>
 		<key>text_discount</key>
 		<value><![CDATA[Descuento]]></value>
-    </definition>
+	</definition>
 	<definition>
 		<key>text_download</key>
 		<value><![CDATA[Descargar]]></value>
-    </definition>
+	</definition>
 	<definition>
 		<key>text_free</key>
 		<value><![CDATA[Libre]]></value>
@@ -303,5 +303,17 @@
 	<definition>
 		<key>error_unknown</key>
 		<value><![CDATA[Error desconocido. Por favor, vuelve a intentarlo!]]></value>
-    </definition>
+	</definition>
+	<definition>
+		<key>time_format_short</key>
+		<value><![CDATA[H:i]]></value>
+	</definition>
+	<definition>
+		<key>text_field_required</key>
+		<value><![CDATA[se Campo requerido!]]></value>
+	</definition>
+	<definition>
+		<key>text_unavailable</key>
+		<value><![CDATA[Indisponible]]></value>
+	</definition>
 </definitions>

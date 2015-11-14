@@ -30,8 +30,7 @@
 	</definition>
 	<definition>
 		<key>text_payment_methods</key>
-		<value>
-			<![CDATA[Seleccione forma de pago. (EN LA OPCIÓN PAYPAL, PODRÁ EFECTUAR SU PAGO A TRAVÉS DE TARJETA DE CREDITO)]]></value>
+		<value><![CDATA[Seleccione forma de pago. (EN LA OPCIÓN PAYPAL, PODRÁ EFECTUAR SU PAGO A TRAVÉS DE TARJETA DE CREDITO)]]></value>
 	</definition>
 	<definition>
 		<key>text_comments</key>
@@ -51,8 +50,7 @@
 	</definition>
 	<definition>
 		<key>text_coupon</key>
-		<value>
-			<![CDATA[Ingrese su código y haga clic en "Aplicar Cupón" y para ver su descuento instantáneamente aplicadas a su fin.]]></value>
+		<value><![CDATA[Ingrese su código y haga clic en "Aplicar Cupón" y para ver su descuento instantáneamente aplicadas a su fin.]]></value>
 	</definition>
 	<definition>
 		<key>text_success</key>
@@ -65,5 +63,13 @@
 	<definition>
 		<key>error_coupon</key>
 		<value><![CDATA[Error: descuento no es válido, expirado o alcanzado su límite de uso!]]></value>
+	</definition>
+	<definition>
+		<key>entry_shipping</key>
+		<value><![CDATA[Envío]]></value>
+	</definition>
+	<definition>
+		<key>entry_payment</key>
+		<value><![CDATA[Pago]]></value>
 	</definition>
 </definitions>

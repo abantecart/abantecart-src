@@ -48,8 +48,8 @@ final class ASession {
 				header('Location: ' . $registry->get('html')->currentURL( array('token') ) );
 			}
 		}
-		$_SESSION[ 'LAST_ACTIVITY' ] = time(); // update last activity time stamp
-
+		// update last activity time stamp
+		$_SESSION['LAST_ACTIVITY'] = time();
 		$this->data =& $_SESSION;
 	}
 
@@ -57,33 +57,56 @@ final class ASession {
 	 * @param string $session_name
 	 */
 	public function init( $session_name ) {
-		$path =  dirname($_SERVER[ 'PHP_SELF' ]);
-		session_set_cookie_params(
-			0,
-		    $path,
-		    null,
-		    (defined('HTTPS') && HTTPS),
-		    true);
-		session_name( $session_name );
-		// for shared ssl domain set session id of non-secure domain
-		$registry = Registry::getInstance();
-		if ($registry->get('config')) {
-			if( $registry->get('config')->get('config_shared_session') && isset($_GET['session_id'])){
-				header('P3P: CP="CAO COR CURa ADMa DEVa OUR IND ONL COM DEM PRE"');
-				session_id($_GET['session_id']);
-				setcookie($session_name, $_GET['session_id'], 0, $path, null,(defined('HTTPS') && HTTPS),true);
+		$session_mode = '';
+	
+		if(IS_API===true) {
+			//set up session specific for API based on the token or create new 
+			$token = '';
+			if($_GET['token']) {
+				$token = $_GET['token'];	
+			} else if($_POST['token']){
+				$token = $_POST['token'];	
+			}
+			$final_session_id = $this->_prepare_session_id($token);
+			session_id($final_session_id);
+		} else {
+			$path =  dirname($_SERVER[ 'PHP_SELF' ]);
+			session_set_cookie_params(
+				0,
+			    $path,
+			    null,
+			    (defined('HTTPS') && HTTPS),
+			    true);
+			session_name( $session_name );
+			// for shared ssl domain set session id of non-secure domain
+			$registry = Registry::getInstance();
+			if ($registry->get('config')) {
+				if( $registry->get('config')->get('config_shared_session') && isset($_GET['session_id'])){
+					header('P3P: CP="CAO COR CURa ADMa DEVa OUR IND ONL COM DEM PRE"');
+					session_id($_GET['session_id']);
+					setcookie($session_name, $_GET['session_id'], 0, $path, null,(defined('HTTPS') && HTTPS),true);
+				}
+			}
+	
+			if(isset($_GET[EMBED_TOKEN_NAME]) && !isset($_COOKIE[$session_name])){
+				//check and reset session if it is not valid
+				$final_session_id = $this->_prepare_session_id($_GET[EMBED_TOKEN_NAME]);
+				session_id($final_session_id);
+				setcookie($session_name, $final_session_id, 0, $path, null,(defined('HTTPS') && HTTPS));
+				$session_mode = 'embed_token';
 			}
 		}
-
-		if(isset($_GET[EMBED_TOKEN_NAME]) && !isset($_COOKIE[$session_name])){
-			session_id($_GET[EMBED_TOKEN_NAME]);
-			setcookie($session_name, $_GET[EMBED_TOKEN_NAME], 0, $path, null,(defined('HTTPS') && HTTPS));
-			$session_mode = 'embed_token';
-		}else{
-			$session_mode = '';
+	
+		//check if session can not be started. Try one more time with new generated session ID
+		$is_session_ok = session_start();
+		if(!$is_session_ok){
+			//autogenerate session id and try to start session again
+			$final_session_id = $this->_prepare_session_id();
+			session_id($final_session_id);
+			setcookie($session_name, $final_session_id, 0, $path, null,(defined('HTTPS') && HTTPS));
+			session_start(); 
 		}
-
-		session_start();
+		
 		/*
 		NOTE: You can enable this section if you need extra security to prevent session attacks. 
 		We recomed to use of SSL on all admin pages and customer related storefront pages.
@@ -126,4 +149,32 @@ final class ASession {
 		return true;
 	}
 
+
+	/**
+	 * This function to return clean validated session ID
+	 * @param string $session_id
+	 * @return string
+	 */
+	private function _prepare_session_id($session_id){
+		if(!$session_id || !$this->_is_session_id_valid($session_id)) {
+			//if session ID is invalid, generate new one
+			$session_id = uniqid(SALT, true);
+			return preg_replace("/[^-,a-zA-Z0-9]/", '', $session_id);
+		} else {
+			return $session_id;
+		}
+	}
+
+	/**
+	 * This function is to validate session id 
+	 * @param string $session_id
+	 * @return bool
+	 */
+	private function _is_session_id_valid($session_id){
+		if(empty($session_id)) {
+			return false;
+		} else {
+			return preg_match('/^[-,a-zA-Z0-9]{1,128}$/', $session_id) > 0;
+		}
+	}
 }

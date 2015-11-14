@@ -48,7 +48,8 @@ final class ACache {
 
 	public function __construct(){
 		$this->registry = Registry::getInstance();
-		$cache_files = glob(DIR_CACHE . '*/*', GLOB_NOSORT);
+
+		$cache_files = $this->_get_cache_files();
 
 		if(!is_array($cache_files) || !is_writeable(DIR_CACHE)){
 			$log = $this->registry->get('log');
@@ -87,6 +88,19 @@ final class ACache {
 				$this->cache_map[$ch_base] = $file_time + $this->expire;
 			}
 		}
+	}
+
+	/**
+	 * returns array of full pathes of cache files
+	 * @return array
+	 */
+	private function _get_cache_files(){
+		$output = glob(DIR_CACHE . '*/*', GLOB_NOSORT);
+		//do the trick for php v5.3.3. (php-bug in glob(). It returns false for empty folder).
+		if(is_writable(DIR_CACHE) && $output===false){
+			$output = array();
+		}
+		return $output;
 	}
 
 	/**
@@ -177,7 +191,7 @@ final class ACache {
     		return null;
     	}
     	//validate key for / and \ 
-    	if(strstr($string, '/') || strstr($string, '\\') ){
+    	if(strstr($key, '/') || strstr($key, '\\') ){
     		return null;    	
     	}
 		if ($create_override || $this->registry->get('config')->get('config_cache_enable')){	

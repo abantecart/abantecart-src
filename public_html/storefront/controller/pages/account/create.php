@@ -56,10 +56,14 @@ class ControllerPagesAccountCreate extends AController {
 					$this->customer->login($request_data['loginname'], $request_data['password']);
 				}
 
+			    $template = new ATemplate();
 
 				$this->loadLanguage('mail/account_create');
 				$subject = sprintf($this->language->get('text_subject'), $this->config->get('store_name'));
 				$message = sprintf($this->language->get('text_welcome'), $this->config->get('store_name')) . "\n\n";
+			    $template->data['text_welcome'] = $message;
+
+				$activation = false;
 				if (!$this->config->get('config_customer_approval')) {
 					//add account activation link if required 
 					if($this->config->get('config_customer_email_activation')){
@@ -71,19 +75,28 @@ class ControllerPagesAccountCreate extends AController {
 																	'code' => $code,
 																	'email' => $email);
 
-						$message .= sprintf($this->language->get('text_activate'), "\n".$this->html->getSecureURL('account/login', '&activation='.$code.'&email='.$email) ) . "\n";
+						$activate_url =  $this->html->getSecureURL('account/login', '&activation='.$code.'&email='.$email);
+						$message .= sprintf($this->language->get('text_activate'), $activate_url."\n") . "\n";
+						$template->data['text_activate'] = sprintf($this->language->get('text_activate'), '<a href="'.$activate_url.'">'.$activate_url.'</a>');
 					}else{
 						$message .= $this->language->get('text_login') . "\n";
+						$template->data['text_login'] = $this->language->get('text_login');
 					}
 				} else {
 					$message .= $this->language->get('text_approval') . "\n";
+					$template->data['text_approval'] = $this->language->get('text_approval');
 				}
 				if( !$activation ){
-					$message .= $this->html->getSecureURL('account/login') . "\n\n";
+					$login_url = $this->html->getSecureURL('account/login');
+					$message .=  $login_url. "\n\n";
 					$message .= $this->language->get('text_services') . "\n\n";
+					$template->data['text_login_later'] = '<a href="'.$login_url.'">'.$login_url.'</a><br>'.$this->language->get('text_services');
 				}
+
 				$message .= $this->language->get('text_thanks') . "\n";
 				$message .= $this->config->get('store_name');
+
+			    $template->data['text_thanks'] = $this->language->get('text_thanks');
 
 				$mail = new AMail( $this->config );
 				$mail->setTo($this->request->post['email']);
@@ -91,6 +104,16 @@ class ControllerPagesAccountCreate extends AController {
 				$mail->setSender($this->config->get('store_name'));
 				$mail->setSubject($subject);
 				$mail->setText(html_entity_decode($message, ENT_QUOTES, 'UTF-8'));
+
+			    $store_logo = md5(pathinfo($this->config->get('config_logo'), PATHINFO_FILENAME)) . '.' . pathinfo($this->config->get('config_logo'), PATHINFO_EXTENSION);
+                $template->data['logo'] = 'cid:' . $store_logo;
+                $template->data['store_name'] = $this->config->get('store_name');
+                $template->data['store_url'] = $this->config->get('config_url');
+                $template->data['text_project_label'] = project_base();
+			    $mail_html = $template->fetch('mail/account_create.tpl');
+
+			    $mail->addAttachment(DIR_RESOURCE . $this->config->get('config_logo'), $store_logo);
+				$mail->setHtml($mail_html);
 				$mail->send();
 
 				$this->extensions->hk_UpdateData($this,__FUNCTION__);
@@ -127,63 +150,63 @@ class ControllerPagesAccountCreate extends AController {
 
         $form = new AForm();
         $form->setForm(array( 'form_name' => 'AccountFrm' ));
-        $this->data['form'][ 'form_open' ] = $form->getFieldHtml( array( 'type' => 'form',
+        $this->data['form']['form_open'] = $form->getFieldHtml( array( 'type' => 'form',
                                                                          'name' => 'AccountFrm',
                                                                          'action' => $this->html->getSecureURL('account/create')));
 
 		if($this->config->get('prevent_email_as_login')){ // require login name
-			$this->data['form'][ 'loginname' ] = $form->getFieldHtml( array(
+			$this->data['form']['loginname'] = $form->getFieldHtml( array(
 																		   'type' => 'input',
 																		   'name' => 'loginname',
 																		   'value' => $this->request->post['loginname'],
 																		   'required' => true ));
 		}
-		$this->data['form'][ 'firstname' ] = $form->getFieldHtml( array(
+		$this->data['form']['firstname'] = $form->getFieldHtml( array(
                                                                        'type' => 'input',
 		                                                               'name' => 'firstname',
 		                                                               'value' => $this->request->post['firstname'],
 		                                                               'required' => true ));
-		$this->data['form'][ 'lastname' ] = $form->getFieldHtml( array(
+		$this->data['form']['lastname'] = $form->getFieldHtml( array(
                                                                        'type' => 'input',
 		                                                               'name' => 'lastname',
 		                                                               'value' => $this->request->post['lastname'],
 		                                                               'required' => true ));
-		$this->data['form'][ 'email' ] = $form->getFieldHtml( array(
+		$this->data['form']['email'] = $form->getFieldHtml( array(
                                                                        'type' => 'input',
 		                                                               'name' => 'email',
 		                                                               'value' => $this->request->get_or_post('email'),
 		                                                               'required' => true ));
-		$this->data['form'][ 'telephone' ] = $form->getFieldHtml( array(
+		$this->data['form']['telephone'] = $form->getFieldHtml( array(
                                                                        'type' => 'input',
 		                                                               'name' => 'telephone',
 		                                                               'value' => $this->request->post['telephone']
 		                                                               ));
-		$this->data['form'][ 'fax' ] = $form->getFieldHtml( array(
+		$this->data['form']['fax'] = $form->getFieldHtml( array(
                                                                        'type' => 'input',
 		                                                               'name' => 'fax',
 		                                                               'value' => $this->request->post['fax'],
 		                                                               'required' => false ));
-		$this->data['form'][ 'company' ] = $form->getFieldHtml( array(
+		$this->data['form']['company'] = $form->getFieldHtml( array(
                                                                        'type' => 'input',
 		                                                               'name' => 'company',
 		                                                               'value' => $this->request->post['company'],
 		                                                               'required' => false ));
-		$this->data['form'][ 'address_1' ] = $form->getFieldHtml( array(
+		$this->data['form']['address_1'] = $form->getFieldHtml( array(
                                                                        'type' => 'input',
 		                                                               'name' => 'address_1',
 		                                                               'value' => $this->request->post['address_1'],
 		                                                               'required' => true ));
-		$this->data['form'][ 'address_2' ] = $form->getFieldHtml( array(
+		$this->data['form']['address_2'] = $form->getFieldHtml( array(
                                                                        'type' => 'input',
 		                                                               'name' => 'address_2',
 		                                                               'value' => $this->request->post['address_2'],
 		                                                               'required' => false ));
-		$this->data['form'][ 'city' ] = $form->getFieldHtml( array(
+		$this->data['form']['city'] = $form->getFieldHtml( array(
                                                                        'type' => 'input',
 		                                                               'name' => 'city',
 		                                                               'value' => $this->request->post['city'],
 		                                                               'required' => true ));
-		$this->data['form'][ 'postcode' ] = $form->getFieldHtml( array(
+		$this->data['form']['postcode'] = $form->getFieldHtml( array(
                                                                        'type' => 'input',
 		                                                               'name' => 'postcode',
 		                                                               'value' => $this->request->post['postcode'],
@@ -194,31 +217,31 @@ class ControllerPagesAccountCreate extends AController {
         foreach($countries as $item){
             $options[ $item['country_id'] ] = $item['name'];
         }
-	    $this->data['form'][ 'country_id' ] = $form->getFieldHtml( array(
+	    $this->data['form']['country_id'] = $form->getFieldHtml( array(
                                                                        'type' => 'selectbox',
 		                                                               'name' => 'country_id',
                                                                        'options'=>$options,
 		                                                               'value' => ( isset($this->request->post['country_id']) ? $this->request->post['country_id'] : $this->config->get('config_country_id')),
 		                                                               'required' => true ));
         $this->view->assign('zone_id', $this->request->post['zone_id'], 'FALSE' );
-        $this->data['form'][ 'zone_id' ] = $form->getFieldHtml( array(
+        $this->data['form']['zone_id'] = $form->getFieldHtml( array(
                                                                        'type' => 'selectbox',
 		                                                               'name' => 'zone_id',
 		                                                               'required' => true ));
 
-		$this->data['form'][ 'password' ] = $form->getFieldHtml( array(
+		$this->data['form']['password'] = $form->getFieldHtml( array(
                                                                        'type' => 'password',
 		                                                               'name' => 'password',
 		                                                               'value' => $this->request->post['password'],
 		                                                               'required' => true ));
-		$this->data['form'][ 'confirm' ] = $form->getFieldHtml( array(
+		$this->data['form']['confirm'] = $form->getFieldHtml( array(
                                                                        'type' => 'password',
 		                                                               'name' => 'confirm',
 		                                                               'value' => $this->request->post['confirm'],
 		                                                               'required' => true ));
 
 		$newsletter = '';
-		$this->data['form'][ 'newsletter' ] = $form->getFieldHtml( array(
+		$this->data['form']['newsletter'] = $form->getFieldHtml( array(
                                                                        'type' => 'radio',
 		                                                               'name' => 'newsletter',
 		                                                               'value' => (!is_null($this->request->get_or_post('newsletter')) ? $this->request->get_or_post('newsletter') : -1),
@@ -227,14 +250,34 @@ class ControllerPagesAccountCreate extends AController {
                                                                            '0' => $this->language->get('text_no'),
                                                                        ) ));
 
+		//If captcha enabled, validate
+		if($this->config->get('config_account_create_captcha')) {
+			if($this->config->get('config_recaptcha_site_key')) {
+				$this->data['form']['captcha'] = $form->getFieldHtml(
+					array(
+							'type' => 'recaptcha',
+							'name' => 'recaptcha',
+							'recaptcha_site_key' => $this->config->get('config_recaptcha_site_key'),
+							'language_code' => $this->language->getLanguageCode()
+					));		
+			
+			} else {
+				$this->data['form']['captcha'] = $form->getFieldHtml(
+					array(
+							'type' => 'captcha',
+							'name' => 'captcha',
+							'attr' => ''));		
+			}
+		}
+
 		$agree = isset($this->request->post['agree']) ? $this->request->post['agree'] : FALSE;
-		$this->data['form'][ 'agree' ] = $form->getFieldHtml( array(
+		$this->data['form']['agree'] = $form->getFieldHtml( array(
                                                                     'type' => 'checkbox',
 		                                                            'name' => 'agree',
 		                                                            'value' => 1,
 		                                                            'checked' => $agree ));
 
-		$this->data['form'][ 'continue' ] = $form->getFieldHtml( array(
+		$this->data['form']['continue'] = $form->getFieldHtml( array(
                                                                        'type' => 'submit',
 		                                                               'name' => $this->language->get('button_continue') ));
 
@@ -252,6 +295,7 @@ class ControllerPagesAccountCreate extends AController {
 		$this->data['error_postcode'] = $this->errors['postcode'];
 		$this->data['error_country'] = $this->errors['country'];
 		$this->data['error_zone'] = $this->errors['zone'];
+		$this->data['error_captcha'] = $this->errors['captcha'];
 
         $this->data['action'] = $this->html->getSecureURL('account/create') ;
 		$this->data['newsletter'] = $this->request->post['newsletter'];

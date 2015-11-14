@@ -349,22 +349,20 @@ class ControllerPagesSaleContact extends AController {
 		$emails = array_unique($emails);
 
 		if ($emails) {
-			$message_html = '<html dir="ltr" lang="en">' . "\n";
-			$message_html .= '<head>' . "\n";
-			$message_html .= '<title>' . $this->request->post['subject'] . '</title>' . "\n";
-			$message_html .= '<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">' . "\n";
-			$message_html .= '</head>' . "\n";
-			$message_html .= '<body>%MESSAGEBODY%</body>' . "\n";
-			$message_html .= '</html>' . "\n";
+
+			// HTML Mail
+			$template = new ATemplate();
+			$template->data['lang_direction'] = $this->language->get('direction');
+			$template->data['lang_code'] = $this->language->get('code');
+			$template->data['subject'] = $this->request->post['subject'];
 
 			$text_unsubscribe = $this->language->get('text_unsubscribe');
 			$text_subject = $this->request->post['subject'];
 			$text_message = $this->request->post['message'];
 			$from = $this->config->get('store_main_email');
 
-
+			$mail = new AMail($this->config);
 			foreach ($emails as $email) {
-				$mail = new AMail($this->config);
 				$mail->setTo($email);
 				$mail->setFrom($from);
 				$mail->setSender($store_name);
@@ -378,8 +376,9 @@ class ControllerPagesSaleContact extends AController {
 										$this->html->getCatalogURL('account/unsubscribe', '&email=' . $email . '&customer_id=' . $customer_id));
 					}
 				}
-				$message_body = html_entity_decode($message_body, ENT_QUOTES, 'UTF-8');
-				$html = str_replace('%MESSAGEBODY%', $message_body, $message_html);
+
+				$template->data['body'] = html_entity_decode($message_body, ENT_QUOTES, 'UTF-8');
+				$html = $template->fetch('mail/contact.tpl');
 				$mail->setHtml($html);
 				$mail->send();
 				if ($mail->error) {
@@ -387,14 +386,13 @@ class ControllerPagesSaleContact extends AController {
 					$this->main();
 					return null;
 				}
-				unset($mail);
 			}
+			unset($mail);
+		}
 
-		}
-		if (!$mail->error) {
-			$this->session->data['success'] = $this->language->get('text_success');
-			$this->redirect($this->html->getSecureURL('sale/contact'));
-		}
+		$this->session->data['success'] = $this->language->get('text_success');
+		$this->redirect($this->html->getSecureURL('sale/contact'));
+
 
 		//update controller data
 		$this->extensions->hk_UpdateData($this, __FUNCTION__);

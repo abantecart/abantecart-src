@@ -78,7 +78,7 @@
 	</definition>
 	<definition>
 		<key>entry_block_description</key>
-		<value><![CDATA[ Descripción personalizada del Bloque <p> Nota: uso interno </ p> ]]></value>
+		<value><![CDATA[ Descripción personalizada del Bloque <p> Nota: uso interno </p> ]]></value>
 	</definition>
 	<definition>
 		<key>entry_block_content</key>
@@ -139,6 +139,22 @@
 	<definition>
 		<key>text_categories</key>
 		<value><![CDATA[Categorías]]></value>
+	</definition>
+	<definition>
+		<key>text_manufacturers</key>
+		<value><![CDATA[Fabricantes]]></value>
+	</definition>
+	<definition>
+		<key>text_featured</key>
+		<value><![CDATA[Productos Destacados]]></value>
+	</definition>
+	<definition>
+		<key>text_latest</key>
+		<value><![CDATA[últimos Productos]]></value>
+	</definition>
+	<definition>
+		<key>text_bestsellers</key>
+		<value><![CDATA[Bestsellers Products]]></value>
 	</definition>
 	<definition>
 		<key>text_media</key>
@@ -236,8 +252,8 @@
 		<key>error_block_not_available</key>
 		<value><![CDATA[Este bloque no se mostrará en la posición seleccionada en una tienda!]]></value>
 	</definition>
-
+	<definition>
+		<key>text_enable</key>
+		<value><![CDATA[Habilitar/Desactivar]]></value>
+	</definition>
 </definitions>
-
-
-

@@ -1,0 +1,59 @@
+<?xml version="1.0"?>
+<definitions>
+	<definition>
+		<key>heading_title</key>
+		<value><![CDATA[Contattaci]]></value>
+	</definition>
+	<definition>
+		<key>text_address</key>
+		<value><![CDATA[Indirizzo:]]></value>
+	</definition>
+	<definition>
+		<key>text_email</key>
+		<value><![CDATA[E-Mail:]]></value>
+	</definition>
+	<definition>
+		<key>text_telephone</key>
+		<value><![CDATA[Telefono:]]></value>
+	</definition>
+	<definition>
+		<key>text_fax</key>
+		<value><![CDATA[Fax:]]></value>
+	</definition>
+	<definition>
+		<key>text_message</key>
+		<value><![CDATA[<p>La tua richiesta è stata inviata con successo!</p>]]></value>
+	</definition>
+	<definition>
+		<key>entry_name</key>
+		<value><![CDATA[Nome:]]></value>
+	</definition>
+	<definition>
+		<key>entry_email</key>
+		<value><![CDATA[Indirizzo E-Mail:]]></value>
+	</definition>
+	<definition>
+		<key>entry_enquiry</key>
+		<value><![CDATA[Richiesta:]]></value>
+	</definition>
+	<definition>
+		<key>entry_captcha</key>
+		<value><![CDATA[Inserisci il codice che vedi qui sotto:]]></value>
+	</definition>
+	<definition>
+		<key>email_subject</key>
+		<value><![CDATA[Richiesta %s]]></value>
+	</definition>
+	<definition>
+		<key>error_name</key>
+		<value><![CDATA[Il nome deve avere da 3 a 32 caratteri!]]></value>
+	</definition>
+	<definition>
+		<key>error_email</key>
+		<value><![CDATA[L'indirizzo E-Mail non sembra essere valido!]]></value>
+	</definition>
+	<definition>
+		<key>error_enquiry</key>
+		<value><![CDATA[La richiesta deve avere da 10 a 3000 caratteri!]]></value>
+	</definition>
+</definitions>

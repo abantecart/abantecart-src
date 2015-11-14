@@ -123,7 +123,7 @@
 	<definition>
 		<key>button_save_and_close</key>
 		<value><![CDATA[Guardar y cerrar]]></value>
-	</definition>	
+	</definition>
 	<definition>
 		<key>button_cancel</key>
 		<value><![CDATA[Cancelar]]></value>
@@ -169,8 +169,8 @@
 		<value><![CDATA[Volver]]></value>
 	</definition>
 	<definition>
-	    <key>button_continue</key>
-	    <value><![CDATA[Continuar]]></value>
+		<key>button_continue</key>
+		<value><![CDATA[Continuar]]></value>
 	</definition>
 	<definition>
 		<key>button_remove</key>
@@ -227,7 +227,7 @@
 	<definition>
 		<key>button_actas</key>
 		<value><![CDATA[Actuar en nombre de]]></value>
-	</definition>	
+	</definition>
 	<definition>
 		<key>button_approve</key>
 		<value><![CDATA[Aprobar]]></value>
@@ -318,8 +318,7 @@
 	</definition>
 	<definition>
 		<key>error_upload_2</key>
-		<value>
-			<![CDATA[Atención: El archivo subido supera la directiva MAX_FILE_SIZE que fue especificada en el formulario!]]></value>
+		<value><![CDATA[Atención: El archivo subido supera la directiva MAX_FILE_SIZE que fue especificada en el formulario!]]></value>
 	</definition>
 	<definition>
 		<key>error_upload_3</key>
@@ -519,8 +518,7 @@
 	</definition>
 	<definition>
 		<key>additional_settings_confirm</key>
-		<value>
-			<![CDATA[Para configurar los ajustes adicionales de la extensión de la otra tienda debes iniciar una sesión en el panel de control de otro nombre de dominio. Ok? ]]></value>
+		<value><![CDATA[Para configurar los ajustes adicionales de la extensión de la otra tienda debes iniciar una sesión en el panel de control de otro nombre de dominio. Ok? ]]></value>
 	</definition>
 	<definition>
 		<key>button_unlink</key>
@@ -573,7 +571,7 @@
 	<definition>
 		<key>text_apply_layout</key>
 		<value><![CDATA[Aplicar ahora]]></value>
-	</definition>	
+	</definition>
 	<definition>
 		<key>text_new_download</key>
 		<value><![CDATA[Nueva descarga]]></value>
@@ -641,7 +639,7 @@
 	<definition>
 		<key>text_select_from_lookup</key>
 		<value><![CDATA[Tipo comienzo del nombre para buscar y seleccionar]]></value>
-	</definition>	
+	</definition>
 	<definition>
 		<key>text_continue_typing</key>
 		<value><![CDATA[Siga escribiendo ...]]></value>
@@ -681,6 +679,17 @@
 	<definition>
 		<key>text_system_notice</key>
 		<value><![CDATA[Aviso de sistema se ha informado. Comprobar sistema <a target="_blank" href="%s">mensajes</a>]]></value>
-	</definition>	
-	
+	</definition>
+	<definition>
+		<key>time_format_short</key>
+		<value><![CDATA[H:i]]></value>
+	</definition>
+	<definition>
+		<key>button_add_location_zone</key>
+		<value><![CDATA[Agregar ubicación Zona]]></value>
+	</definition>
+	<definition>
+		<key>button_retry</key>
+		<value><![CDATA[Reintente]]></value>
+	</definition>
 </definitions>

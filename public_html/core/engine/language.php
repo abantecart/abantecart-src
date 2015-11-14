@@ -121,7 +121,7 @@ class ALanguage {
 		if (empty($key)) {
 			return null;
 		}
-
+	
 		//if no specific area specified return main language
 		if (!empty($block)) {
 			if (!$this->_is_loaded($block)) {
@@ -129,8 +129,14 @@ class ALanguage {
 			}
 			$return_text = $this->_get_language_value($key, $block);
 		} else {
-			$backtrace = debug_backtrace();
-			$return_text = $this->_get_last_language_value($key, $backtrace,$silent);
+			if(!$silent){
+				$backtrace = debug_backtrace();
+				$caller_file = $backtrace[0]['file'];
+				$caller_file_line = $backtrace[0]['line'];		
+				$return_text = $this->_get_last_language_value($key, $caller_file, $caller_file_line, $silent);
+			} else {
+				$return_text = $this->_get_last_language_value($key);			
+			}			
 		}
 		if ( empty($return_text) ) {
 			$return_text = $key;
@@ -273,20 +279,30 @@ class ALanguage {
 		$request = $this->registry->get('request');
 		if (isset($request->server['HTTP_ACCEPT_LANGUAGE']) && ($request->server['HTTP_ACCEPT_LANGUAGE'])) {
 			$parse = explode(';', $request->server['HTTP_ACCEPT_LANGUAGE']);
-			$browser_languages = explode(',',$parse[0]);
-
-			foreach ($browser_languages as $browser_language) {
-				if(!$browser_language){ continue;}
-				foreach ($this->getActiveLanguages() as $key => $value) {
-					$locale = explode(',', $value['locale']);
-					if(!$locale){ continue; }
-					if (preg_grep("/$browser_language/i", $locale)) {
-						return $value['code'];
+			$browser_languages = array_map('trim', explode(',',$parse[0]));
+			if($browser_languages){
+				foreach ($browser_languages as $browser_language){
+					$browser_language = trim($browser_language);
+					//validate and ignore browser data if causing warnings
+					if (!$browser_language || @preg_match("/".$browser_language."/i", '') === false){
+						continue;
+					}
+					foreach ($this->getActiveLanguages() as $key => $value){
+						$locale = array_map('trim', explode(',', $value['locale']));
+						if (!$locale){
+							continue;
+						}
+						//match browser language code with AbanteCart language locales
+						if (preg_grep("/".$browser_language."/i", $locale)){
+							//matching language was found
+							return $value['code'];
+						}
 					}
 				}
 			}
 		}
-		return null;
+		$default = $this->getDefaultLanguage();
+		return $default['code'];
 	}
 
 	/**
@@ -336,7 +352,14 @@ class ALanguage {
 		}
 
 		if (!isset($request->cookie['language']) || $request->cookie['language'] != $lang_code) {
-			setcookie('language', $lang_code, time() + 60 * 60 * 24 * 30, '/', $request->server['HTTP_HOST']);
+			//Set cookie for the language code
+			setcookie(	'language',
+						$lang_code, 
+						time() + 60 * 60 * 24 * 30, 
+						dirname($request->server['PHP_SELF']), 
+						null,
+						(defined('HTTPS') && HTTPS)
+					);
 		}
 		//set current language
 		$this->current_language = $languages[$lang_code];
@@ -505,15 +528,7 @@ class ALanguage {
 		$load_data = null;
 		//Check if we already have language loaded. Skip and return the language set
 		if ($this->_is_loaded($filename)) {
-			$this->current_languages_scope[] = $filename;
 			$load_data = $this->_get_language_set($filename);
-			if ($this->language_details['filename'] != $filename
-					&& $this->entries[$this->language_details['filename']]
-					&& $load_data
-			) {
-				$load_data = array_merge($this->entries[$this->language_details['filename']], $load_data);
-			}
-			$this->entries[$filename] = $load_data;
 			return $load_data;
 		}
 
@@ -569,12 +584,7 @@ class ALanguage {
 				$this->cache->set($cache_file, $load_data);
 			}
 		}
-		//Merge with main array and override if not matching main language.
-		if ($this->language_details['filename'] != $filename
-				&& $this->entries[$this->language_details['filename']] && $load_data
-		) {
-			$load_data = array_merge($this->entries[$this->language_details['filename']], $load_data);
-		}
+
 		ADebug::checkpoint('ALanguage ' . $this->language_details['name'] . ' ' . $filename . ' is loaded');
 		$this->entries[$filename] = $load_data;
 		//add filename to scope
@@ -803,11 +813,12 @@ class ALanguage {
 	/**
 	 * Call to get specific definition value back traced in all available RTs(blocks)
 	 * @param string $key
-	 * @param array $backtrace
+	 * @param string $caller_file
+	 * @param string $caller_file_line
 	 * @param bool $silent
 	 * @return null|string
 	 */
-	protected function _get_last_language_value($key, $backtrace, $silent=false) {
+	protected function _get_last_language_value($key, $caller_file = '', $caller_file_line = '', $silent = false) {
 		if (empty ($key)) {
 			return null;
 		}
@@ -818,18 +829,17 @@ class ALanguage {
 		} else {
 			$rev_language_blocks = array_reverse(array_keys($this->entries));
 		}
+
 		$lang_value = '';
 		foreach ($rev_language_blocks as $block) {
 			$lang_value = $this->_get_language_value($key, $block);
-			if (isset ($lang_value)) {
+			if (isset($lang_value)) {
 				break;
 			}
 		}
 
 		// if value empty - write message based on the setting
 		if (empty($lang_value) && $this->registry->get('config')->get('warn_lang_text_missing')) {
-			$caller_file = $backtrace[0]['file'];
-			$caller_file_line = $backtrace[0]['line'];
 			$rt = $this->registry->get('request')->get['rt'];
 			if(!$silent){
 				$this->registry->get('messages')->saveWarning('Language definition "' . $key . '" is missing for "' . $this->available_languages[$this->code]['name'] . '"', 'AbanteCart engine cannot find value of language definition with key "' . $key . '" in ' . $caller_file . ' line ' . $caller_file_line . ($rt ? ' (rt=' . $rt . ')' : '') . '.  Please add it in #admin#rt=localisation/language_definitions or run language translate process in #admin#rt=localisation/language');

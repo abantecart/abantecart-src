@@ -39,25 +39,46 @@ final class AImage {
             	'width'  => $info[0],
             	'height' => $info[1],
             	'bits'   => $info['bits'],
-            	'mime'   => $info['mime']
+            	'mime'   => $info['mime'],
+            	'channels' => $info['channels']
         	);
         	
         	$this->image = $this->create($file);
     	} else {
-            throw new AException(AC_ERR_LOAD, 'Error: Could not load image ' . $file . '!');
+			throw new AException(AC_ERR_LOAD, 'Error: Cannot load image ' . $file . '!');
     	}
 	}
 
 	private function create($image) {
 		$mime = $this->info['mime'];
-		
-		if ($mime == 'image/gif') {
-			return imagecreatefromgif($image);
-		} elseif ($mime == 'image/png') {
-			return imagecreatefrompng($image);
-		} elseif ($mime == 'image/jpeg') {
-			return imagecreatefromjpeg($image);
+
+		//some images processing can run out of original PHP memory limit size 
+		//Dynamic memory allocation based on K.Tamutis solution on the php manual
+		$mem_estimate = round(
+				(	$this->info['width']
+					* $this->info['height']
+					* $this->info['bits']
+					* $this->info['channels'] / 8 
+					+ Pow(2,16)
+				) * 1.7
+		);
+		if (function_exists('memory_get_usage')) {
+			if(memory_get_usage() + $mem_estimate > (integer)ini_get('memory_limit') * pow(1024, 2)) {
+				$new_mem = (integer)ini_get('memory_limit') + ceil(((memory_get_usage() + $mem_estimate) - (integer)ini_get('memory_limit') * pow(1024, 2)) / pow(1024, 2)).'M';
+				//TODO. Validate if memory change was in fact changed or report an error 
+				ini_set('memory_limit', $new_mem);
+			}
 		}
+		 
+		$res_img = '';
+		if ($mime == 'image/gif') {
+		    $res_img = imagecreatefromgif($image);
+		} elseif ($mime == 'image/png') {
+		    $res_img = imagecreatefrompng($image);
+		} elseif ($mime == 'image/jpeg') {
+		    $res_img = imagecreatefromjpeg($image);
+		}
+		return $res_img;
     }	
 	
     public function save($file, $quality = 100) {

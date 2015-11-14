@@ -82,8 +82,7 @@
 	</definition>
 	<definition>
 		<key>error_stock</key>
-		<value>
-			<![CDATA[Los productos marcados con *** no están disponibles en la cantidad deseada o no están en stock!]]></value>
+		<value><![CDATA[Los productos marcados con *** no están disponibles en la cantidad deseada o no están en stock!]]></value>
 	</definition>
 	<definition>
 		<key>error_required_options</key>
@@ -91,13 +90,11 @@
 	</definition>
 	<definition>
 		<key>error_order_minimum</key>
-		<value>
-			<![CDATA[Su pedido subtotal cantidad no satisface cantidad mínima %s requerida. Por favor, añadir más productos a su carrito!]]></value>
+		<value><![CDATA[Su pedido subtotal cantidad no satisface cantidad mínima %s requerida. Por favor, añadir más productos a su carrito!]]></value>
 	</definition>
 	<definition>
 		<key>error_order_maximum</key>
-		<value>
-			<![CDATA[Su pedido subtotal importe exceda la cantidad máxima %s permitida por pedido. Elimina algunos artículos de su carrito!]]></value>
+		<value><![CDATA[Su pedido subtotal importe exceda la cantidad máxima %s permitida por pedido. Elimina algunos artículos de su carrito!]]></value>
 	</definition>
 	<definition>
 		<key>text_coupon_success</key>
@@ -122,5 +119,13 @@
 	<definition>
 		<key>error_max_file_size</key>
 		<value><![CDATA[Tamaño máximo de archivo para la carga es de %s Kb.]]></value>
-	</definition>	
+	</definition>
+	<definition>
+		<key>error_quantity_maximum</key>
+		<value><![CDATA[Cantidad permitida de producto excede. Cantidad se ajusta al máximo.]]></value>
+	</definition>
+	<definition>
+		<key>error_quantity_minimum</key>
+		<value><![CDATA[Cantidad permitida de producto es por debajo del mínimo requerido. Cantidad se establece en cantidad mínima.]]></value>
+	</definition>
 </definitions>

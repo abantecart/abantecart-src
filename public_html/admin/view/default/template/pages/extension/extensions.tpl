@@ -100,8 +100,9 @@ echo $this->html->buildElement(
 		var userdata = data.userdata;
 		$('.grid_action_edit, .grid_action_install, .grid_action_uninstall, .grid_action_delete' ).each(function(){
 			var row_id = $(this).parents('tr').attr('id');
-			var href = $(this).attr('href');
-			$(this).attr('href', href+'&extension='+userdata.extension_id[ row_id ]);
+			var href = $(this).attr('href') + '&extension='+userdata.extension_id[ row_id ];
+			$(this).attr('href', href);
+			$(this).next('.confirm_popover').find('.btn-danger').attr('href',href);
 		});
 
 		$('.grid_action_install' ).click(function(){
@@ -127,7 +128,7 @@ echo $this->html->buildElement(
 				    		$('#license_modal').modal('show');
 				    		return false;
 				    	}else if (responseData.license_text.length>0) {
-				    		$('#license_modal .modal-title').html('<?php echo $text_license?>');
+				    		$('#license_modal .modal-title').html(<?php js_echo($text_license); ?>);
 				    		$('#license_modal .modal-body').html(responseData.license_text);
 				    		$('#license_modal').modal('show');
 				    		return false;
@@ -192,10 +193,10 @@ echo $this->html->buildElement(
 			type: 'GET',
 			success: function (data) {
 				if(data == 'success'){
-					success_alert('<?php echo $text_disconnect_success?>',true);
+					success_alert(<?php js_echo($text_disconnect_success); ?>,true);
 					location.reload();
 				} else if(data == 'error')  {
-					error_alert('<?php echo $error_mp_connection; ?>',true);
+					error_alert(<?php js_echo($error_mp_connection); ?>,true);
 				} else {				
 					location.reload();
 				}

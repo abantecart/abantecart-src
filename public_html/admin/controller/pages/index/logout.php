@@ -28,7 +28,7 @@ class ControllerPagesIndexLogout extends AController {
 
 		$this->user->logout();
  
-		unset($this->session->data['token']);
+		unset($this->session->data['token'], $this->session->data['system_check_last_time']);
 
 		//update controller data
 		$this->extensions->hk_UpdateData($this,__FUNCTION__);

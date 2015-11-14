@@ -53,18 +53,59 @@ $(document).ready(function () {
 
 	//system check warnings
 	<?php if($system_error) { ?>
-		error_alert('<?php echo $system_error; ?>', false);
+		error_alert(<?php js_echo($system_error); ?>, false);
 	<?php } ?>
 	<?php if($system_warning) { ?>
-		warning_alert('<?php echo $system_warning; ?>', false);
+		warning_alert(<?php js_echo($system_warning); ?>, false);
 	<?php } ?>
 	<?php if($system_notice) { ?>
-		info_alert('<?php echo $system_notice; ?>', false);
+		info_alert(<?php js_echo($system_notice); ?>, false);
 	<?php } ?>
   
 	numberSeparators = {decimal:'<?php echo $decimal_point; ?>', thousand:'<?php echo $thousand_point; ?>'};
-
 });
+
+//periodical updater of new message notifier
+var growl = null;
+var alertcount = 3;
+var system_checker = function () {
+	if(alertcount <= 0) {
+		return;
+	}
+	$.ajax({
+		async: false,
+		cache: false,
+		url: '<?php echo $system_checker_url?>',
+		success: function(data) {
+			if(data != null && data != undefined) {
+				if(growl != null && growl != undefined ) {
+					growl.close();
+				}
+				growl = showSystemAlert(data);
+			}
+		},	
+		complete: function() {
+			// Schedule the next request when the current one's complete
+			alertcount--;
+			setTimeout(system_checker, 600000);
+		}
+	});
+};
+
+var showSystemAlert = function(data){
+	if(data.hasOwnProperty('error')){
+		return error_alert(data.error, false);
+	}
+	if(data.hasOwnProperty('warning')){
+		return warning_alert(data.warning, false);
+		
+	}
+	if(data.hasOwnProperty('notice')){
+		return info_alert(data.notice, true);
+	}
+	return;
+}
+
 
 var wrapConfirmDelete = function(){
     var wrapper = '<div class="btn-group dropup" />';
@@ -85,7 +126,7 @@ var wrapConfirmDelete = function(){
         
     	var conf_text = $(this).attr('data-confirmation-text');
     	if (!conf_text) {
-    		conf_text = '<?php echo $text_confirm; ?>';
+    		conf_text = <?php js_echo($text_confirm); ?>;
     	} 
         
         $(this).wrap(wrapper);
@@ -128,15 +169,20 @@ var wrapCKEditor = function(textarea_id, options){
 }
 
 //periodical updater of new message notifier
+var noticecount = 3;
 var notifier_updater = function () {
-  $.ajax({
-	url: '<?php echo $notifier_updater_url?>',
-	success: buildNotifier,
-	complete: function() {
-	  // Schedule the next request when the current one's complete
-	  setTimeout(notifier_updater, 600000);
+	if(noticecount <= 0) {
+		return;
 	}
-  });
+	$.ajax({
+		url: '<?php echo $notifier_updater_url?>',
+		success: buildNotifier,
+		complete: function() {
+		  // Schedule the next request when the current one's complete
+		  noticecount--;
+		  setTimeout(notifier_updater, 600000);
+		}
+	});
 }
 
 var buildNotifier = function(data){
@@ -170,6 +216,7 @@ var buildNotifier = function(data){
 <?php if($this->user->isLogged()){?>
 $(document).ready(function(){
 	notifier_updater();
+	system_checker();
 	$(document).on('click', '#message_modal a[data-dismiss="modal"], #message_modal button[data-dismiss="modal"]', notifier_updater );
 	<?php
 	//do ajax call to check extension updates

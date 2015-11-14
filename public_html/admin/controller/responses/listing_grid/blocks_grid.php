@@ -118,29 +118,38 @@ class ControllerResponsesListingGridBlocksGrid extends AController {
 		$custom_block_id = (int)$this->request->get['custom_block_id'];
 		$layout = new ALayoutManager();
 		if ( $this->request->is_POST()) {
-
 			$tmp = array();
-			if (isset($this->request->post ['block_status'])) {
-				$tmp['status'] = (int)$this->request->post ['block_status'];
+			if (isset($this->request->post['block_status'])) {
+				$tmp['status'] = (int)$this->request->post['block_status'];
 			}
-			if (isset($this->request->post ['block_name'])) {
-				$tmp['name'] = $this->request->post ['block_name'];
+			if (isset($this->request->post['block_name'])) {
+				$tmp['name'] = $this->request->post['block_name'];
 			}
-			if (isset($this->request->post ['block_title'])) {
-				$tmp['title'] = $this->request->post ['block_title'];
+			if (isset($this->request->post['block_title'])) {
+				$tmp['title'] = $this->request->post['block_title'];
 			}
-			if (isset($this->request->post ['block_description'])) {
-				$tmp['description'] = $this->request->post ['block_description'];
+			if (isset($this->request->post['block_description'])) {
+				$tmp['description'] = $this->request->post['block_description'];
 			}
-			if (isset($this->request->post ['block_content'])) {
-				$tmp['content'] = $this->request->post ['block_content'];
+			if (isset($this->request->post['block_content'])) {
+				$tmp['content'] = $this->request->post['block_content'];
 			}
-			if (isset($this->request->post ['block_wrapper'])) {
-				$tmp['block_wrapper'] = $this->request->post ['block_wrapper'];
+			if (isset($this->request->post['block_wrapper'])) {
+				$tmp['block_wrapper'] = $this->request->post['block_wrapper'];
 			}
-			if (isset($this->request->post ['block_framed'])) {
-				$tmp['block_framed'] = (int)$this->request->post ['block_framed'];
+			if (isset($this->request->post['block_framed'])) {
+				$tmp['block_framed'] = (int)$this->request->post['block_framed'];
 			}
+			if (isset($this->request->post['selected']) && is_array($this->request->post['selected'])) {
+				//updating custom list of selected items
+				$listing_manager = new AListingManager($custom_block_id);
+				$listing_manager->deleteCustomListing();
+				$k = 0;
+				foreach ($this->request->post['selected'] as $id) {
+					$listing_manager->saveCustomListItem( array( 'id' => $id, 'sort_order' => (int)$k));
+				    $k++;
+				}
+			}			
 
 			$tmp['language_id'] = $this->language->getContentLanguageID();
 
@@ -214,6 +223,7 @@ class ControllerResponsesListingGridBlocksGrid extends AController {
 			array('type' => 'input',
 				'name' => 'limit',
 				'value' => $content['limit'],
+				'style' => 'no-save',
 				'help_url' => $this->gen_help_url('block_limit'))));
 
 		$this->data['response'] = $view->fetch('responses/design/block_auto_listing_subform.tpl');
@@ -222,7 +232,6 @@ class ControllerResponsesListingGridBlocksGrid extends AController {
 		$this->extensions->hk_UpdateData($this, __FUNCTION__);
 		$this->response->setOutput($this->data['response']);
 	}
-
 
 	public function getMediaListingSubForm() {
 		//init controller data
@@ -272,8 +281,6 @@ class ControllerResponsesListingGridBlocksGrid extends AController {
 		$this->extensions->hk_UpdateData($this, __FUNCTION__);
 		$this->response->setOutput($this->data['response']);
 	}
-
-
 
 	public function getCustomListingSubForm() {
 		//init controller data

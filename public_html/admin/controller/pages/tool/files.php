@@ -166,7 +166,7 @@ class ControllerPagesToolFiles extends AController {
 				header('Cache-Control: must-revalidate');
 				header('Pragma: public');
 				header('Content-Length: ' . filesize($file));
-				ob_clean();
+				ob_end_clean();
 				flush();
 				readfile($file);
 				exit;

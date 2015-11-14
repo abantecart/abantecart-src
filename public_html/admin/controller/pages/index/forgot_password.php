@@ -39,9 +39,14 @@ class ControllerPagesIndexForgotPassword extends AController {
 			//generate hash
 			$hash = AEncryption::getHash(time());
 			$link = $this->html->getSecureURL('index/forgot_password/validate','&hash='.$hash);
-
-			$this->cache->set($hash, $this->request->post['email']);
-
+	
+			//create a scratch data for future use 
+			$passreset = new ADataset ();
+			$passreset->createDataset('admin_pass_reset', $this->request->post['username']);
+			$passreset->setDatasetProperties(array( 
+								'hash' => $hash,
+								'email' => $this->request->post['email'] )
+								);
 			$mail = new AMail( $this->config );
 			$mail->setTo($this->request->post['email']);
 			$mail->setFrom($this->config->get('store_main_email'));
@@ -49,10 +54,9 @@ class ControllerPagesIndexForgotPassword extends AController {
 			$mail->setSubject(sprintf($this->language->get('reset_email_subject'), $this->config->get('store_name')));
 			$mail->setHtml(sprintf($this->language->get('reset_email_body_html'), $link, $link));
 			$mail->setText(sprintf($this->language->get('reset_email_body_text'), $link, $link));
-			$mail->send();
+			$mail->	send();
 
 			$this->redirect($this->html->getSecureURL('index/forgot_password','&mail=sent'));
-
 		}
 
 		$this->data['login'] =  $this->html->getSecureURL('index/login');
@@ -102,18 +106,45 @@ class ControllerPagesIndexForgotPassword extends AController {
 				)
 			);
 
-			foreach ( $fields as $f ) {
-				$this->data['form']['fields'][$f] = $form->getFieldHtml(
-					array(
-						'type' => ($f == 'captcha' ? 'captcha' : 'input'),
-						'name' => $f,
-						'value' => $this->data[$f],
-						'required' => true,
-						'placeholder' => $this->language->get('entry_'.$f),
-					)
-				);
-			}
+			$this->data['form']['fields']['username'] = $form->getFieldHtml(
+			    array(
+			    	'type' => 'input',
+			    	'name' => 'username',
+			    	'value' => $this->data['username'],
+			    	'required' => true,
+			    	'placeholder' => $this->language->get('entry_username'),
+			    )
+			);
+			$this->data['form']['fields']['email'] = $form->getFieldHtml(
+			    array(
+			    	'type' => 'input',
+			    	'name' => 'email',
+			    	'value' => $this->data['email'],
+			    	'required' => true,
+			    	'placeholder' => $this->language->get('entry_email'),
+			    )
+			);
 
+			if($this->config->get('config_recaptcha_site_key')) {
+				$this->data['form']['fields']['captcha'] = $form->getFieldHtml(
+					array(
+						'type' => 'recaptcha',
+						'name' => 'captcha',
+						'recaptcha_site_key' => $this->config->get('config_recaptcha_site_key'),
+						'language_code' => $this->language->getLanguageCode()
+					)
+				);			
+			} else {
+				$this->data['form']['fields']['captcha'] = $form->getFieldHtml(
+					array(
+						'type' => 'captcha',
+						'name' => 'captcha',
+						'value' => $this->data['captcha'],
+						'required' => true,
+						'placeholder' => $this->language->get('entry_captcha'),
+					)
+				);			
+			}
 		}
 
 		$this->view->batchAssign( $this->data );
@@ -164,15 +195,6 @@ class ControllerPagesIndexForgotPassword extends AController {
 
 			$this->data['error'] = $this->error;
 
-			$fields = array('captcha');
-			foreach ( $fields as $f ) {
-				if (isset ( $this->request->post [$f] )) {
-					$this->data [$f] = $this->request->post [$f];
-				} else {
-					$this->data[$f] = '';
-				}
-			}
-
 			$this->data['action'] = $this->html->getSecureURL('index/forgot_password/validate', '&hash='.$this->request->get['hash']);
 			$this->data['update'] = '';
 			$form = new AForm('ST');
@@ -196,23 +218,41 @@ class ControllerPagesIndexForgotPassword extends AController {
 				array(
 					'type' => 'button',
 					'name' => 'submit',
-					'text' => $this->language->get('button_reset_password'),
+					'text' => $this->language->get('text_please_confirm'),
 					'style' => 'button3',
 				)
 			);
 
-			foreach ( $fields as $f ) {
-				$this->data['form']['fields'][$f] = $form->getFieldHtml(
-					array(
-						'type' => ($f == 'captcha' ? 'captcha' : 'input'),
-						'name' => $f,
-						'value' => $this->data[$f],
-						'required' => true,
-						'placeholder' => $this->language->get('entry_'.$f),
-					)
-				);
-			}
+			$this->data['form']['fields']['username'] = $form->getFieldHtml(
+			    array(
+			    	'type' => 'input',
+			    	'name' => 'username',
+			    	'value' => $this->request->post['username'],
+			    	'required' => true,
+			    	'placeholder' => $this->language->get('entry_username'),
+			    )
+			);
 
+			if($this->config->get('config_recaptcha_site_key')) {
+				$this->data['form']['fields']['captcha'] = $form->getFieldHtml(
+					array(
+						'type' => 'recaptcha',
+						'name' => 'captcha',
+						'recaptcha_site_key' => $this->config->get('config_recaptcha_site_key'),
+						'language_code' => $this->language->getLanguageCode()
+					)
+				);			
+			} else {
+				$this->data['form']['fields']['captcha'] = $form->getFieldHtml(
+					array(
+						'type' => 'captcha',
+						'name' => 'captcha',
+						'value' => $this->data['captcha'],
+						'required' => true,
+						'placeholder' => $this->language->get('entry_captcha'),
+					)
+				);			
+			}
 		}
 
 		$this->view->batchAssign( $this->data );
@@ -224,17 +264,28 @@ class ControllerPagesIndexForgotPassword extends AController {
 	}
 
 	private function _validate() {
+		if($this->config->get('config_recaptcha_secret_key')) {
+			require_once DIR_VENDORS . '/google_recaptcha/autoload.php';
+			$recaptcha = new \ReCaptcha\ReCaptcha($this->config->get('config_recaptcha_secret_key'));
+			$resp = $recaptcha->verify(	$this->request->post['g-recaptcha-response'],
+										$this->request->server['REMOTE_ADDR']);
+			if (!$resp->isSuccess() && $resp->getErrorCodes()) {
+				$this->error['captcha'] = $this->language->get('error_captcha');			
+				return FALSE;
+			}
+		} else {
+			if (!isset($this->session->data['captcha']) || ($this->session->data['captcha'] != $this->request->post['captcha'])) {
+				$this->error['captcha'] = $this->language->get('error_captcha');
+				return FALSE;
+			}
+		}
+
 		if ( mb_strlen($this->request->post['username']) < 1 ) {
 			$this->error['username'] = $this->language->get('error_username');
 		}
 
-		$pattern = '/^[A-Z0-9._%-]+@[A-Z0-9][A-Z0-9.-]{0,61}[A-Z0-9]\.[A-Z]{2,6}$/i';
-		if (!preg_match($pattern, $this->request->post['email'])) {
+		if (!preg_match(EMAIL_REGEX_PATTERN, $this->request->post['email'])) {
 			$this->error['email'] = $this->language->get('error_email');
-		}
-
-		if (!isset($this->session->data['captcha']) || ($this->session->data['captcha'] != $this->request->post['captcha'])) {
-			$this->error['captcha'] = $this->language->get('error_captcha');
 		}
 
 		if ( !$this->error && !$this->user->validate($this->request->post['username'], $this->request->post['email']) ) {
@@ -251,13 +302,34 @@ class ControllerPagesIndexForgotPassword extends AController {
 	}
 
 	private function _validateCaptcha() {
-		if (!isset($this->session->data['captcha']) || ($this->session->data['captcha'] != $this->request->post['captcha'])) {
-			$this->error['captcha'] = $this->language->get('error_captcha');
+
+		if($this->config->get('config_recaptcha_secret_key')) {
+			require_once DIR_VENDORS . '/google_recaptcha/autoload.php';
+			$recaptcha = new \ReCaptcha\ReCaptcha($this->config->get('config_recaptcha_secret_key'));
+			$resp = $recaptcha->verify(	$this->request->post['g-recaptcha-response'],
+										$this->request->server['REMOTE_ADDR']);
+			if (!$resp->isSuccess() && $resp->getErrorCodes()) {
+				$this->error['captcha'] = $this->language->get('error_captcha');			
+				return FALSE;
+			}
+		} else {
+			if (!isset($this->session->data['captcha']) || ($this->session->data['captcha'] != $this->request->post['captcha'])) {
+				$this->error['captcha'] = $this->language->get('error_captcha');
+				return FALSE;
+			}
 		}
 
-		$email = $this->cache->get($this->request->get['hash']);
+		if ( mb_strlen($this->request->post['username']) < 1 ) {
+			$this->error['username'] = $this->language->get('error_username');
+			return FALSE;
+		}
 
-		if ( empty($email) ) {
+		$passreset = new ADataset('admin_pass_reset', $this->request->post['username'], 'silent');
+		$reset_data = $passreset->getDatasetProperties();
+		$email = $reset_data['email'];
+		$hash = $reset_data['hash'];
+
+		if ( empty($email) || $hash != $this->request->get['hash']) {
 			$this->error['warning'] =  $this->language->get('error_hash');
 		} else {
 			$this->loadModel('user/user');
@@ -272,6 +344,8 @@ class ControllerPagesIndexForgotPassword extends AController {
 		$this->extensions->hk_ValidateData($this);
 
 		if (!$this->error) {
+			//destroy stratch data
+			$passreset->dropDataset();
 			return TRUE;
 		} else {
 			return FALSE;

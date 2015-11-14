@@ -1,0 +1,415 @@
+<?xml version="1.0"?>
+<definitions>
+	<definition>
+		<key>heading_title</key>
+		<value><![CDATA[Estensioni]]></value>
+	</definition>
+	<definition>
+		<key>text_install</key>
+		<value><![CDATA[Installa]]></value>
+	</definition>
+	<definition>
+		<key>text_uninstall</key>
+		<value><![CDATA[Disinstalla]]></value>
+	</definition>
+	<definition>
+		<key>text_uninstall_delete</key>
+		<value><![CDATA[-didinstalla/Cancella]]></value>
+	</definition>
+	<definition>
+		<key>text_uninstall_confirm</key>
+		<value>
+			<![CDATA[ Conferma la disinstallazione dell'estensione [ %extension% ]. Tutte le impostazioni di estensione e relativi dati potrebbero essere cancellato e persi. ]]></value>
+	</definition>
+	<definition>
+		<key>text_delete</key>
+		<value><![CDATA[Cancella]]></value>
+	</definition>
+	<definition>
+		<key>text_enlarge</key>
+		<value><![CDATA[Clicca sull'immagine per ingrandirla]]></value>
+	</definition>
+	<definition>
+		<key>text_activate</key>
+		<value><![CDATA[Attivare]]></value>
+	</definition>
+	<definition>
+		<key>text_deactivate</key>
+		<value><![CDATA[Disattivare]]></value>
+	</definition>
+	<definition>
+		<key>text_left</key>
+		<value><![CDATA[Sinistra]]></value>
+	</definition>
+	<definition>
+		<key>text_right</key>
+		<value><![CDATA[Destra]]></value>
+	</definition>
+	<definition>
+		<key>text_date_added</key>
+		<value><![CDATA[Aggiunto il ]]></value>
+	</definition>
+	<definition>
+		<key>column_icon</key>
+		<value><![CDATA[Icona]]></value>
+	</definition>
+	<definition>
+		<key>column_id</key>
+		<value><![CDATA[Estensione ID]]></value>
+	</definition>
+	<definition>
+		<key>column_required</key>
+		<value><![CDATA[Richiesto]]></value>
+	</definition>
+	<definition>
+		<key>column_name</key>
+		<value><![CDATA[Nome estensione]]></value>
+	</definition>
+	<definition>
+		<key>column_position</key>
+		<value><![CDATA[Posizione]]></value>
+	</definition>
+	<definition>
+		<key>column_update_date</key>
+		<value><![CDATA[Data di aggiornamento]]></value>
+	</definition>
+	<definition>
+		<key>column_category</key>
+		<value><![CDATA[Categoria]]></value>
+	</definition>
+	<definition>
+		<key>column_status</key>
+		<value><![CDATA[Stato]]></value>
+	</definition>
+	<definition>
+		<key>column_sort_order</key>
+		<value><![CDATA[Ordine]]></value>
+	</definition>
+	<definition>
+		<key>column_action</key>
+		<value><![CDATA[Azioni rapide]]></value>
+	</definition>
+	<definition>
+		<key>error_permission</key>
+		<value><![CDATA[ATTENZIONE: Non si dispone dell'autorizzazione per modificare le stensioni!]]></value>
+	</definition>
+	<definition>
+		<key>error_required_field</key>
+		<value><![CDATA[ATTENZIONE: Compilare i campi obbligatori! ]]></value>
+	</definition>
+	<definition>
+		<key>error_payment_uninstall</key>
+		<value><![CDATA[ATTENZIONE: Disabilita l'estensione prima della disinstallazione!]]></value>
+	</definition>
+	<definition>
+		<key>error_uninstall</key>
+		<value><![CDATA[ATTENZIONE: Disinstallare l'estensione prima dell'eliminazione!]]></value>
+	</definition>
+	<definition>
+		<key>text_success</key>
+		<value><![CDATA[Le impostazioni di estensione sono state modificate!]]></value>
+	</definition>
+	<definition>
+		<key>text_restore_success</key>
+		<value><![CDATA[Le impostazioni predefinite di estensione sono state ripristinate!]]></value>
+	</definition>
+	<definition>
+		<key>text_extensions_store</key>
+		<value><![CDATA[Negozio delle estensioni]]></value>
+	</definition>
+	<definition>
+		<key>text_required</key>
+		<value><![CDATA[Richiesto]]></value>
+	</definition>
+	<definition>
+		<key>text_optional</key>
+		<value><![CDATA[Opziopnale]]></value>
+	</definition>
+	<definition>
+		<key>text_add_new</key>
+		<value><![CDATA[Installa estensione]]></value>
+	</definition>
+	<definition>
+		<key>text_search</key>
+		<value><![CDATA[Cerca]]></value>
+	</definition>
+	<definition>
+		<key>text_search_for_extension</key>
+		<value><![CDATA[Cerca per estensione]]></value>
+	</definition>
+	<definition>
+		<key>text_missing_extension</key>
+		<value>
+			<![CDATA["L'origine dell'estensione %EXT% non può essere individuata! Si prega di eliminarla e visitare il fornitore dell'estensione per ottenere l'origine completa e installarla di nuovo "]]></value>
+	</definition>
+	<definition>
+		<key>text_broken_extension</key>
+		<value>
+			<![CDATA["L'origine dell'estensione %EXT% è probabilmente danneggiata! Non si riesce a trovare il file config.xml o main.php. Si prega di eliminarla e di visitare il fornitore dell'estensione per ottenere l'origine completa e installarla di nuovo "]]></value>
+	</definition>
+	<definition>
+		<key>text_extension_pagination</key>
+		<value><![CDATA[Estensione(i) dal {start} a {end} di {total}]]></value>
+	</definition>
+	<definition>
+		<key>text_per_page</key>
+		<value><![CDATA[Per paginae]]></value>
+	</definition>
+	<definition>
+		<key>text_error_in_ajax</key>
+		<value><![CDATA[Errore nella chiamata ajax]]></value>
+	</definition>
+	<definition>
+		<key>text_saved</key>
+		<value><![CDATA[Salvato]]></value>
+	</definition>
+	<definition>
+		<key>text_save</key>
+		<value><![CDATA[Salva]]></value>
+	</definition>
+	<definition>
+		<key>text_reset</key>
+		<value><![CDATA[Azzera]]></value>
+	</definition>
+	<definition>
+		<key>text_back</key>
+		<value><![CDATA[Indietro]]></value>
+	</definition>
+	<definition>
+		<key>text_additional_settings</key>
+		<value><![CDATA[Impostazioni aggiuntive]]></value>
+	</definition>
+	<definition>
+		<key>text_reload</key>
+		<value><![CDATA[Ricaricare]]></value>
+	</definition>
+	<definition>
+		<key>text_version</key>
+		<value><![CDATA[Versione]]></value>
+	</definition>
+	<definition>
+		<key>text_installed_on</key>
+		<value><![CDATA[Installato su]]></value>
+	</definition>
+	<definition>
+		<key>text_installed</key>
+		<value><![CDATA[Installato]]></value>
+	</definition>
+	<definition>
+		<key>text_not_installed</key>
+		<value><![CDATA[Non installato]]></value>
+	</definition>
+	<definition>
+		<key>text_visit_repository</key>
+		<value>
+			<![CDATA[Si prega di visitare %extensions_store% l'archivio delle estensioni </a> per scaricare l'estensione]]></value>
+	</definition>
+	<definition>
+		<key>text_license</key>
+		<value><![CDATA[Licenza]]></value>
+	</definition>
+	<definition>
+		<key>text_dependency</key>
+		<value><![CDATA[Dipendenza]]></value>
+	</definition>
+	<definition>
+		<key>text_configuration_settings</key>
+		<value><![CDATA[Impostazioni di configurazione]]></value>
+	</definition>
+	<definition>
+		<key>text_upgrade</key>
+		<value><![CDATA[Aggiorna]]></value>
+	</definition>
+	<definition>
+		<key>text_help</key>
+		<value><![CDATA[Aiuto]]></value>
+	</definition>
+	<definition>
+		<key>text_dependencies</key>
+		<value><![CDATA[Dipendenze]]></value>
+	</definition>
+	<definition>
+		<key>text_update_it</key>
+		<value><![CDATA[La nuova versione (%NEWVERSION%) è disponibile]]></value>
+	</definition>
+	<definition>
+		<key>text_delete_confirm</key>
+		<value><![CDATA[Sei sicuro di voler eliminare l'estensione?]]></value>
+	</definition>
+	<definition>
+		<key>error_config_load</key>
+		<value><![CDATA[ERRORE: Impossibile caricare la configurazione per <b>%s</b>!]]></value>
+	</definition>
+	<definition>
+		<key>error_required_extension</key>
+		<value><![CDATA[<b>%s</b> l'estensione non può essere installata: <b>%s</b> estensione richiesta]]></value>
+	</definition>
+	<definition>
+		<key>error_required_phpmodule</key>
+		<value><![CDATA[<b>%s</b> l'estensione non può essere installata: <b>%s</b> modulo php richiesto]]></value>
+	</definition>
+	<definition>
+		<key>button_restore_defaults</key>
+		<value><![CDATA[Ripristina le impostazioni predefinite]]></value>
+	</definition>
+	<definition>
+		<key>additional_settings_confirm</key>
+		<value>
+			<![CDATA[Per configurare le impostazioni aggiuntive dell'estensione di un altro negozio effettua il Login nel pannello di controllo di un altro nome di dominio. Ok? ]]></value>
+	</definition>
+	<definition>
+		<key>error_no_help_file</key>
+		<value><![CDATA[Ci spiace, non ci sono file di aiuto per questa estensione.]]></value>
+	</definition>
+	<definition>
+		<key>text_more_help</key>
+		<value><![CDATA[Ulteriore aiuto]]></value>
+	</definition>
+	<definition>
+		<key>entry_total_type</key>
+		<value><![CDATA[Tipo]]></value>
+	</definition>
+	<definition>
+		<key>text_total</key>
+		<value><![CDATA[Totale]]></value>
+	</definition>
+	<definition>
+		<key>text_subtotal</key>
+		<value><![CDATA[Totale parziale]]></value>
+	</definition>
+	<definition>
+		<key>text_shipping</key>
+		<value><![CDATA[Spedizione]]></value>
+	</definition>
+	<definition>
+		<key>text_tax</key>
+		<value><![CDATA[Imposta]]></value>
+	</definition>
+	<definition>
+		<key>text_fee</key>
+		<value><![CDATA[Tassa]]></value>
+	</definition>
+	<definition>
+		<key>text_discount</key>
+		<value><![CDATA[Sconto]]></value>
+	</definition>
+	<definition>
+		<key>text_confirm_disable_dependants</key>
+		<value>
+			<![CDATA[L'estensione %s che sono a carico sono: <br>%s<br> saranno anche automaticamente disabilitate.<br> Confermi?]]></value>
+	</definition>
+	<definition>
+		<key>text_status</key>
+		<value>
+			<![CDATA[Stato:<span class="help">Questo è il controllo dello stato dell'estensione del storefront.</span>]]></value>
+	</definition>
+	<definition>
+		<key>text_sort_order</key>
+		<value>
+			<![CDATA[Ordine:<span class="help">Numero per impostare la posizione di visualizzazione per questa estensione in relazione alle altre estensioni abilitate. (L'ordinamento è dal numero più basso al più alto, ignorando lo 0 e i valori vuoti.) </span>]]></value>
+	</definition>
+	<definition>
+		<key>text_payment_minimum_total</key>
+		<value>
+			<![CDATA[Totale minimo dell'ordine:<span class="help">Importo minimo da raggiungere dell'ordine per permettere questo pagamento.</span>]]></value>
+	</definition>
+	<definition>
+		<key>text_payment_maximum_total</key>
+		<value>
+			<![CDATA[Ordine totale masimo:<span class="help">Importo massimo da raggiungere per non consentire questo pagamento.</span>]]></value>
+	</definition>
+	<definition>
+		<key>text_payment_storefront_icon</key>
+		<value>
+			<![CDATA[Storefront Icona:<span class="help">Visualizza l'icona del pagamento nel selezione di pagamento cassa.</span>]]></value>
+	</definition>
+	<definition>
+		<key>text_shipping_storefront_icon</key>
+		<value>
+			<![CDATA[Storefront Icona:<span class="help">Icona del trasporto da visualizzare in selezione spedizione della cassa.</span>]]></value>
+	</definition>
+	<definition>
+		<key>text_autoselect_payment</key>
+		<value>
+			<![CDATA[seleziona automaticamente:<span class="help">È possibile impostare che puoi saltare la pagina di selezione pagamento, se c'è una sola opzione di pagamento. Questo metodo di pagamento verrà selezionato automaticamente.</span>]]></value>
+	</definition>
+	<definition>
+		<key>text_autoselect_shipping</key>
+		<value>
+			<![CDATA[Seleziona automaticamente:<span class="help">È possibile impostare che puoi saltare la pagina di selezione trasporto, se c'è una sola opzione di trasporto. Questo metodo di trasporto viene selezionato automaticamente.</span>]]></value>
+	</definition>
+	<definition>
+		<key>text_accept_payments_shipping</key>
+		<value>
+			<![CDATA[Accetta questi pagamenti:<span class="help">Se sono necessari metodidi pagamento specifici perquesto metodo di trasporto, selezionarli qui. Se non selezionati verranno visualizzati tuttii metodi di pagamento disponibili.</span>]]></value>
+	</definition>
+	<definition>
+		<key>text_ready_to_install</key>
+		<value><![CDATA[Pronto per l'installazione]]></value>
+	</definition>
+	<definition>
+		<key>button_install</key>
+		<value><![CDATA[Installa]]></value>
+	</definition>
+	<definition>
+		<key>error_dependencies</key>
+		<value>
+			<![CDATA[Questa estensione non può essere abilitata perchè richiesta una dipendenza mancante o non abilitata.]]></value>
+	</definition>
+	<definition>
+		<key>button_howto</key>
+		<value><![CDATA[Come fare a ]]></value>
+	</definition>
+	<definition>
+		<key>text_developer_site</key>
+		<value><![CDATA[Sito di supporto esterno]]></value>
+	</definition>
+	<definition>
+		<key>text_preview</key>
+		<value><![CDATA[Anteprima]]></value>
+	</definition>
+	<definition>
+		<key>text_confirmation</key>
+		<value><![CDATA[Confermare]]></value>
+	</definition>
+	<definition>
+		<key>button_confirm</key>
+		<value><![CDATA[Conferma]]></value>
+	</definition>
+	<definition>
+		<key>button_continue</key>
+		<value><![CDATA[Continua]]></value>
+	</definition>
+	<definition>
+		<key>button_cancel</key>
+		<value><![CDATA[Annulla]]></value>
+	</definition>
+	<definition>
+		<key>error_could_not_load_config</key>
+		<value><![CDATA[Errore: Impossibile caricarela configurazione per <b>%s</b> (%s)!]]></value>
+	</definition>
+	<definition>
+		<key>error_could_not_load_override</key>
+		<value><![CDATA[Errore: Impossibile caricare sostituzione template %s in estensione %s!]]></value>
+	</definition>
+	<definition>
+		<key>tab_general</key>
+		<value><![CDATA[Generale]]></value>
+	</definition>
+	<definition>
+		<key>tab_additional_settings</key>
+		<value><![CDATA[Impostazioni aggiuntive]]></value>
+	</definition>
+	<definition>
+		<key>text_more_extensions</key>
+		<value><![CDATA[ulteriori estensionisono disponibili per una facile installazione.]]></value>
+	</definition>
+	<definition>
+		<key>text_save_success</key>
+		<value><![CDATA[Successo: sono state modificate le impostazioni di estensione!]]></value>
+	</definition>
+	<definition>
+		<key>text_update_available</key>
+		<value><![CDATA[La Nuova versione (%s) è disponibile. <a href="%s">Clicca per aggiornare ora.</a>]]></value>
+	</definition>
+</definitions>

@@ -293,15 +293,19 @@ class AView {
 		if (is_file($file)) {
             $content = '';
             $file_pre = str_replace('.tpl', POSTFIX_PRE.'.tpl', $filename );
-            if ( $result = $this->extensions->isExtensionResource('T', $file_pre) ) {
-                $content .= $this->_fetch($result['file']);
+            if ( $result = $this->extensions->getAllPrePostTemplates($file_pre) ) {
+	            foreach($result as $item){
+                    $content .= $this->_fetch($item['file']);
+                }
             }
 			
       		$content .= $this->_fetch($file);
 
             $file_post = str_replace('.tpl', POSTFIX_POST.'.tpl', $filename );
-            if ( $result = $this->extensions->isExtensionResource('T', $file_post) ) {
-                $content .= $this->_fetch($result['file']);
+            if ( $result = $this->extensions->getAllPrePostTemplates( $file_post) ) {
+	            foreach($result as $item){
+		            $content .= $this->_fetch($item['file']);
+	            }
             }
 			ADebug::checkpoint('fetch '.$filename.' end');
       		return $content;

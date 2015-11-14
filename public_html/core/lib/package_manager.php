@@ -170,11 +170,15 @@ class APackageManager {
 		}
 		if (file_exists($old_path . $package_id)) {
 			$backup = new ABackup($extension_id .'_'. date('Y-m-d-H-i-s'));
+			if ($backup->error) {
+				$this->error = implode("\n",$backup->error);
+				return false;
+			}
 			$backup_dirname = $backup->getBackupName();
 			if ($backup_dirname) {
 
 				if (!$backup->backupDirectory($old_path . $package_id, true)) {
-					$this->error = $backup->error;
+					$this->error = implode("\n",$backup->error);
 					return false;
 				}
 
@@ -233,7 +237,7 @@ class APackageManager {
 						'type' => 'upgrade',
 						'user' => $this->user->getUsername()));
 				} else {
-					$this->error = "Error: Can't upgrade file : '" . $core_filename;
+					$this->error .= "Error: Can't upgrade file : '" . $core_filename."\n";
 					$this->messages->saveNotice('Error', $this->error);
 					$error = new AError ($this->error);
 					$error->toLog()->toDebug();
@@ -250,6 +254,14 @@ class APackageManager {
 				$dir = pathinfo(DIR_ROOT . '/' . $core_filename, PATHINFO_DIRNAME);
 				if (!file_exists($dir)) {
 					mkdir($dir, 0777, true);
+				}
+
+				if(!is_dir($dir) || !is_writable($dir)){
+					$this->error .= "Error: Can't upgrade file : '" . $core_filename."\n Destination folder ".$dir." is not writable or does not exists";
+					$this->messages->saveNotice('Error', $this->error);
+					$error = new AError ($this->error);
+					$error->toLog()->toDebug();
+					continue;
 				}
 
 				$result = rename($this->session->data['package_info']['tmp_dir'] . $this->session->data['package_info']['package_dir'] . '/code/' . $core_filename, DIR_ROOT . '/' . $core_filename);
@@ -270,7 +282,7 @@ class APackageManager {
 						'type' => 'upgrade',
 						'user' => $this->user->getUsername()));
 				} else {
-					$this->error = "Error: Can't upgrade file : '" . $core_filename;
+					$this->error .= "Error: Can't upgrade file : '" . $core_filename."\n";
 					$this->messages->saveNotice('Error', $this->error);
 					$error = new AError ($this->error);
 					$error->toLog()->toDebug();
@@ -431,6 +443,7 @@ class APackageManager {
 			return false;
 		}
         $abs_path = pathinfo($_SERVER[ 'DOCUMENT_ROOT' ].$_SERVER[ 'PHP_SELF' ],PATHINFO_DIRNAME);
+		$ftp_dir_list = array();
         // first fo all try to change directory
         //(for case when ftp-user does not locked in his ftp root directory)
         if(ftp_chdir($fconnect, $abs_path)){
@@ -484,6 +497,7 @@ class APackageManager {
 		if (!@ftp_chdir($fconnect, $remote_dir)) {
 			$result = ftp_mkdir($fconnect, $remote_dir);
 			if (!$result) {
+				$this->error .= "\nCannot to create directory ".$remote_dir." via ftp.";
 				return false;
 			}
             if(!ftp_chmod($fconnect, 0777, $remote_dir)){
@@ -499,6 +513,7 @@ class APackageManager {
 
 		} else {
 			if (!ftp_put($fconnect, $remote_file, $local, FTP_BINARY)) {
+				$this->error .= "\nCannot to put file ".$remote_file." via ftp.";
 				return false;
 			}
             $remote_file = $remote_dir . pathinfo($local, PATHINFO_BASENAME);
@@ -613,7 +628,7 @@ class APackageManager {
 					                                        'type'        => 'upgrade',
 					                                        'user'        => $this->user->getUsername()));
 
-					$config = '';
+					$config = null;
 					$ext_conf_filename = $this->session->data['package_info']['tmp_dir'] . $package_dirname . '/code/extensions/' . $extension_id . '/config.xml';
 					if(is_file($ext_conf_filename)){
 						$config = simplexml_load_file($ext_conf_filename);
@@ -771,5 +786,55 @@ class APackageManager {
 				return null;
 			}
 		}
+	}
+
+	/**
+	 * Method of checks before installation process
+	 */
+	public function validate(){
+		$this->error = '';
+		//1.check is extension directory writable
+		if(!is_writable(DIR_EXT)){
+			$this->error .= 'Directory '.DIR_EXT.' is not writable. Please change permissions for it.'."\n";
+		}
+		//2. check temporaty directory. just call method
+		$this->getTempDir();
+
+		//3. run validation for backup-process before install
+		$bkp = new ABackup('',false);
+		if(!$bkp->validate()){
+			$this->error .= implode("\n",$bkp->error);
+		}
+
+		$this->extensions->hk_ValidateData($this);
+
+		return ($this->error ? false : true);
+
+	}
+
+	/**
+	 * Method returns absolute path to temporary directory for unpacking package
+	 * if system/temp is unaccessable - use php temp directory
+	 * @return string
+	 */
+	public function getTempDir() {
+		$tmp_dir = DIR_APP_SECTION . 'system/temp';
+		$tmp_install_dir = $tmp_dir. '/install';
+		//try to create tmp dir if not yet created and install.		
+		if (make_writable_dir($tmp_dir) && make_writable_dir($tmp_install_dir)) {
+			$dir = $tmp_install_dir . "/";
+		}else {
+			if(!is_dir(sys_get_temp_dir() . '/abantecart_install')){
+				mkdir(sys_get_temp_dir() . '/abantecart_install/',0777);
+			}
+			$dir = sys_get_temp_dir() . '/abantecart_install/';
+
+			if(!is_writable($dir)){
+				$error_text = 'Error: php tried to use directory '.DIR_APP_SECTION . "system/temp/install".' but it is non-writable. Temporary php-directory '.$dir.' is non-writable too! Please change permissions one of them.'."\n";
+				$this->error .= $error_text;
+				$this->log->write($error_text);
+			}
+		}
+		return $dir;
 	}
 }

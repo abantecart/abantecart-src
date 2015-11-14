@@ -41,10 +41,14 @@ class ModelToolUpdater extends Model{
 
 	/**
 	 * this method checks for updates on remote server if date about updates absent in cache (cache expires about day)
-	 *
+	 * @param bool $force  - sign to do request to mp-server forcibly
 	 */
-	public function check4Updates(){
-		$update_info = $this->cache->get('extensions.updates');
+	public function check4Updates( $force = false ){
+		if(!$force){
+			$update_info = $this->cache->get('extensions.updates');
+		}else{
+			$update_info = null;
+		}
 
 		if (is_null($update_info)){
 			$update_info = $this->_getUpdateInfo();

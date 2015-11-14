@@ -97,6 +97,7 @@ if (!defined('DIR_CORE')) {
  * @property ADataEncryption $dcrypt
  * @property ModelToolFileUploads $model_tool_file_uploads
  * @property ADownload $download
+ * @property AOrderStatus $order_status
  */
 abstract class AController {
 	protected $registry;
@@ -129,9 +130,9 @@ abstract class AController {
 		$this->config = $this->registry->get('config');
 
 		if ($this->language) {
-			//initiate array of language references for current controller instance.
-			//add main language to languages references
-			$this->languages[ ] = $this->language->language_details['filename'];
+			//add main language to languages references and map to view 
+			$this->loadLanguage($this->language->language_details['filename']);
+			//try to map controller language to view 
 			$this->loadLanguage($this->controller, "silent");
 		}
 		//Load default model for current controller instance. Ignore if no model found  mode = silent

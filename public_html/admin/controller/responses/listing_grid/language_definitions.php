@@ -49,11 +49,12 @@ class ControllerResponsesListingGridLanguageDefinitions extends AController {
 
 		$results = $this->model_localisation_language_definitions->getLanguageDefinitions( $filter_data );
 
-	    $i = 0;
+	    $i=0;
 		foreach ($results as $result) {
 			if($result['error']){
 				$response->userdata->classes[ $result['language_definition_id'] ] = 'warning';
 			}
+			$response->userdata->section[ $result['language_definition_id'] ] = $result['section'];
 
             $response->rows[$i]['id'] = $result['language_definition_id'];
 			$response->rows[$i]['cell'] = array(

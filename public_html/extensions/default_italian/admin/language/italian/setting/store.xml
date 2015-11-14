@@ -1,0 +1,162 @@
+<?xml version="1.0"?>
+<definitions>
+    <definition>
+        <key>heading_title</key>
+        <value><![CDATA[Dettagli negozio]]></value>
+    </definition>
+    <definition>
+        <key>text_success</key>
+        <value><![CDATA[Hai modificato le impostazioni con successo!]]></value>
+    </definition>
+    <definition>
+        <key>text_image_manager</key>
+        <value><![CDATA[Gestione immagine]]></value>
+    </definition>
+    <definition>
+        <key>text_default</key>
+        <value><![CDATA[Predefinito]]></value>
+    </definition>
+    <definition>
+        <key>text_edit_store</key>
+        <value><![CDATA[Modifica negozio:]]></value>
+    </definition>
+    <definition>
+        <key>entry_name</key>
+        <value><![CDATA[Nome del negozio:<br /><span class="help">Copiate nelle impostazioni e mostrati su una sezione del negozio.</span>]]></value>
+    </definition>
+    <definition>
+        <key>entry_url</key>
+        <value>
+            <![CDATA[Indirizzo web del negozio:<br /><span class="help">Includere l'indirizzo web completo del negozio. Assicurarsi di aggiungere '/' alla fine. Esempio: http://www.mionegozio.com/<br /><br />Non usare le directory per creare un nuovo negozio. Si dovrebbe sempre indicare un altro dominio o sottodominio al tuo fornitore di hosting.</span>]]></value>
+    </definition>
+    <definition>
+        <key>entry_ssl</key>
+        <value><![CDATA[Utilizza SSL:<br /><span class="help">Serve per effettuare il controllo SSL con il tuo hosting, se un certificato SSL è installato.</span>]]></value>
+    </definition>
+    <definition>
+        <key>entry_title</key>
+        <value><![CDATA[Titolo:]]></value>
+    </definition>
+    <definition>
+        <key>entry_meta_description</key>
+        <value><![CDATA[Meta Tag Descrizione:]]></value>
+    </definition>
+    <definition>
+        <key>entry_template</key>
+        <value><![CDATA[Template:]]></value>
+    </definition>
+    <definition>
+        <key>entry_description</key>
+        <value><![CDATA[Messaggio di benvenuto:]]></value>
+    </definition>
+    <definition>
+        <key>entry_country</key>
+        <value><![CDATA[Nazione:]]></value>
+    </definition>
+    <definition>
+        <key>entry_zone</key>
+        <value><![CDATA[Provincia:]]></value>
+    </definition>
+    <definition>
+        <key>entry_language</key>
+        <value><![CDATA[Lingua:]]></value>
+    </definition>
+    <definition>
+        <key>entry_status</key>
+        <value>
+            <![CDATA[Stato del negozio<br /><span class="help">Impostare lo stato del negozio. Se su NO esso vi dirigerà nel negozio. Utilizzare la modalità di manutenzione per impostare temporaneamente un messagio di manutenzione del negozio.</span]]></value>
+    </definition>
+    <definition>
+        <key>entry_alias</key>
+        <value><![CDATA[Alias Nome<br /><span class="help">Conservare nome Alias. Se vuoto si baserà un nome abbreviato.</span]]></value>
+    </definition>
+    <definition>
+        <key>entry_status</key>
+        <value>
+            <![CDATA[Stato del negozio<br /><span class="help">Conservare lo stato del negozio. Se su NO vi dirigerà sul negozio. Utilizzare la modalità di impostazione di manutenzione per impostare un messaggio temporaneo di manutenzione del negozio.</span]]></value>
+    </definition>
+    <definition>
+        <key>button_add_store</key>
+        <value><![CDATA[Nuovo negozio]]></value>
+    </definition>
+    <definition>
+        <key>button_delete_store</key>
+        <value><![CDATA[Cancella negozio]]></value>
+    </definition>
+    <definition>
+        <key>button_edit_settings</key>
+        <value><![CDATA[Modifica impostazioni]]></value>
+    </definition>
+    <definition>
+        <key>error_permission</key>
+        <value><![CDATA[ATTENZIONE: Non sei autorizzato a modificare i negozi!]]></value>
+    </definition>
+    <definition>
+        <key>error_name</key>
+        <value><![CDATA[Il nome del negozio deve avere da 3 a 32 caratteri!]]></value>
+    </definition>
+    <definition>
+        <key>error_url</key>
+        <value><![CDATA[L'indirizzo web del negozio è richiesto!]]></value>
+    </definition>
+    <definition>
+        <key>error_title</key>
+        <value><![CDATA[Il titolo deve avere da 3 a 32 caratteri!]]></value>
+    </definition>
+    <definition>
+        <key>error_image_thumb</key>
+        <value><![CDATA[La dimensione della miniatura del prodotto è richiesta!]]></value>
+    </definition>
+    <definition>
+        <key>error_image_popup</key>
+        <value><![CDATA[Le dimensioni del popup del prodotto sono richieste!]]></value>
+    </definition>
+    <definition>
+        <key>error_image_category</key>
+        <value><![CDATA[Le dimensioni dell'elenco della categoria sono richieste!]]></value>
+    </definition>
+    <definition>
+        <key>error_image_product</key>
+        <value><![CDATA[Sono richieste le dimensioni dell'elen<co del prodotto!]]></value>
+    </definition>
+    <definition>
+        <key>error_image_additional</key>
+        <value><![CDATA[Sono richieste le dimensioni dell'immagine del prodotto aggiuntivo!]]></value>
+    </definition>
+    <definition>
+        <key>error_image_related</key>
+        <value><![CDATA[Sono richieste le dimensioni dell'immagine del prodotto correlato!]]></value>
+    </definition>
+    <definition>
+        <key>error_image_cart</key>
+        <value><![CDATA[Sono richieste le dimensioni dell'immagine del carrello!]]></value>
+    </definition>
+    <definition>
+        <key>error_image_grid</key>
+        <value><![CDATA[Sono richieste le dimensioni dell'immagine della griglia!]]></value>
+    </definition>
+    <definition>
+        <key>error_store</key>
+        <value><![CDATA[ATTENZIONE: Questo negozio non può essere eliminato poichè è attualmente assegnato a %s ordini!]]></value>
+    </definition>
+    <definition>
+        <key>error_required_data</key>
+        <value><![CDATA[I dati richiesti non sono stati inseriti. Verificare errori nei campi!]]></value>
+    </definition>
+    <definition>
+        <key>error_limit</key>
+        <value><![CDATA[Limite richiesto!]]></value>
+    </definition>
+    <definition>
+        <key>entry_clone_store</key>
+        <value><![CDATA[ Impostazioni di copia:<br/><span class="help">Si può selezionare Copia di tutte le impostazioni da un negozio esistente.</span> ]]></value>
+    </definition>
+    <definition>
+		<key>entry_ssl_url</key>
+		<value><![CDATA[URL sicuro del negozio:<br /><span class="help">Includere l'URL completo di SSL (HTTPS) al tuo negozio. Assicurarsi di aggiungere '/' alla fine. Esempio: https://www.miodominio.com/path/</span>]]></value>
+	</definition>
+	<definition>
+		<key>error_ssl_url</key>
+		<value><![CDATA[URL sicuro richiesto!]]></value>
+	</definition>
+</definitions>

@@ -24,6 +24,7 @@
 				<div class="fixed">
 					<a class="prdocutname" href="<?php echo $item['info_url'] ?>"
 					   title="<?php echo $item['title'] ?>"><?php echo $item['title'] ?></a>
+					<?php echo $this->getHookvar('product_listing_name_'.$product['product_id']);?>
 				</div>
 			</div>
 			<div class="thumbnail">
@@ -43,6 +44,7 @@
 					<?php echo $product['buttons']; ?>
 				</div>
 				<div class="blurb"><?php echo $product['blurb'] ?></div>
+				<?php echo $this->getHookvar('product_listing_details0_'.$product['product_id']);?>
 				<?php if ($display_price) { ?>
 					<div class="pricetag jumbotron">
 						<span class="spiral"></span>
@@ -64,6 +66,7 @@
 								<div class="oneprice"><?php echo $product['price'] ?></div>
 							<?php } ?>
 						</div>
+						<?php echo $this->getHookvar('product_listing_details1_'.$product['product_id']);?>
 					</div>
 				<?php } ?>
 			</div>
@@ -103,6 +106,7 @@
 						<?php if ($product['new_product']) { ?>
 							<span class="new tooltip-test"><?php echo $text_new_label; ?></span>
 						<?php } ?>
+						<?php echo $this->getHookvar('product_listing_label_'.$product['product_id']);?>
 						<a href="<?php echo $item['info_url'] ?>"><?php echo $item['image'] ?></a>
 					</div>
 					<div class="col-md-8">
@@ -118,6 +122,7 @@
 							<?php echo $product['buttons'];?>
 						</div>
 						<div class="blurb"><?php echo $product['blurb'] ?></div>
+						<?php echo $this->getHookvar('product_listing_details00_'.$product['product_id']);?>
 						<?php if ($display_price) { ?>
 						<div class="pricetag pull-right">
 							<span class="spiral"></span>
@@ -144,7 +149,7 @@
 							</div>
 						</div>
 						<?php } ?>
-
+						<?php echo $this->getHookvar('product_listing_details11_'.$product['product_id']);?>
 					</div>
 
 				</div>

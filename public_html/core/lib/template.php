@@ -23,7 +23,8 @@ if (! defined ( 'DIR_CORE' )) {
 
 final class ATemplate {
 	public $data = array();
-	
+	private $config;
+
 	public function fetch($filename) {
 
         $registry = Registry::getInstance();

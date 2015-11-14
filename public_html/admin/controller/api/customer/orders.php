@@ -43,7 +43,16 @@ class ControllerApiCustomerOrders extends AControllerAPI {
 			'sort'  => 'o.date_added',
 			'order' => 'DESC',
 			'start' => 0,
+			'limit' => 20
 		);		
+
+		if($request['start']) {
+			$filter['start'] = (int)$request['start'];
+		}
+		if($request['limit']) {
+			$filter['limit'] = (int)$request['limit'];
+		}
+
 		$orders =  $this->model_sale_order->getOrders($filter);
 		if (!count($orders)) {
 			$this->rest->setResponseData( array('Message' => 'No order records found for the customer') );

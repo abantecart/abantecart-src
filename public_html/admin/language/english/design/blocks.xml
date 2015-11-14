@@ -153,6 +153,22 @@
 		<value><![CDATA[Categories]]></value>
 	</definition>
 	<definition>
+		<key>text_manufacturers</key>
+		<value><![CDATA[Manufacturers]]></value>
+	</definition>
+	<definition>
+		<key>text_featured</key>
+		<value><![CDATA[Featured Products]]></value>
+	</definition>
+	<definition>
+		<key>text_latest</key>
+		<value><![CDATA[Latest Products]]></value>
+	</definition>
+	<definition>
+		<key>text_bestsellers</key>
+		<value><![CDATA[Bestsellers Products]]></value>
+	</definition>
+	<definition>
 		<key>text_media</key>
 		<value><![CDATA[Media]]></value>
 	</definition>

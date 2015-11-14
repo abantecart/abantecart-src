@@ -1,0 +1,55 @@
+<?xml version="1.0"?>
+<definitions>
+  	<definition>
+    	<key>text_get_product_embed_code</key>
+    	<value><![CDATA[Producto Código incrustado]]></value>
+  	</definition>
+  	<definition>
+    	<key>text_get_category_embed_code</key>
+    	<value><![CDATA[Categoría Código incrustado]]></value>
+  	</definition>
+  	<definition>
+    	<key>text_get_manufacturer_embed_code</key>
+    	<value><![CDATA[Fabricante Código incrustado]]></value>
+  	</definition>
+  	<definition>
+    	<key>entry_image</key>
+    	<value><![CDATA[Mostrar imagen]]></value>
+  	</definition>
+  	<definition>
+    	<key>entry_name</key>
+    	<value><![CDATA[Mostrar nombre]]></value>
+  	</definition>
+  	<definition>
+    	<key>entry_price</key>
+    	<value><![CDATA[Mostrar Precio]]></value>
+  	</definition>
+  	<definition>
+    	<key>entry_rating</key>
+    	<value><![CDATA[Mostrar Comentarios y puntuaciones]]></value>
+  	</definition>
+  	<definition>
+    	<key>entry_blurb</key>
+    	<value><![CDATA[Mostrar Blurb]]></value>
+  	</definition>
+  	<definition>
+    	<key>entry_quantity</key>
+    	<value><![CDATA[Mostrar Cantidad]]></value>
+  	</definition>
+  	<definition>
+    	<key>entry_addtocart</key>
+    	<value><![CDATA[Mostrar Button]]></value>
+  	</definition>
+  	<definition>
+    	<key>entry_language</key>
+    	<value><![CDATA[Seleccione idioma]]></value>
+  	</definition>
+  	<definition>
+    	<key>entry_currency</key>
+    	<value><![CDATA[Seleccionar moneda]]></value>
+  	</definition>
+  	<definition>
+    	<key>entry_products_count</key>
+    	<value><![CDATA[Productos Count]]></value>
+  	</definition>
+</definitions>

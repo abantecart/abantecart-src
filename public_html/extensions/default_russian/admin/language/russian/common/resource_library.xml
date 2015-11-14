@@ -15,7 +15,7 @@
 	<definition>
 		<key>text_confirm_delete</key>
 		<value>
-			<![CDATA[Некоторые ресурсы могут быть включены в текстовые описания. Мы не можем проверить это автоматически.  Удалить?]]></value>
+			<![CDATA[Некоторые ресурсы могут быть включены в текстовые описания. Мы не можем проверить это автоматически.	Удалить?]]></value>
 	</definition>
 	<definition>
 		<key>text_cant_delete_title</key>
@@ -321,5 +321,17 @@
 	<definition>
 		<key>button_save_n_apply</key>
 		<value><![CDATA[Сохранить и Применить]]></value>
+	</definition>
+	<definition>
+		<key>text_map_to</key>
+		<value><![CDATA[Привязать к %s]]></value>
+	</definition>
+	<definition>
+		<key>error_name</key>
+		<value><![CDATA[Ошибка: Поле Название требуемое!]]></value>
+	</definition>
+	<definition>
+		<key>text_map_success</key>
+		<value><![CDATA[Ресурс успешно привязан.]]></value>
 	</definition>
 </definitions>

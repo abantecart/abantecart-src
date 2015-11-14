@@ -1,0 +1,141 @@
+<?xml version="1.0"?>
+<definitions>
+  <definition>
+    <key>text_quick_start</key>
+    <value><![CDATA[Быстрый старт]]></value>
+  </definition>
+  <definition>
+    <key>text_quick_start_note</key>
+    <value><![CDATA[
+    	Добро подаловать в управление AbanteCart.<br />
+    	Этот помощник поможет вам быстро настроить ваш магазин с основными настроками.<br />]]></value>
+  </definition>
+  <definition>
+    <key>text_quick_start_general</key>
+    <value><![CDATA[
+    	Ниже приведены основные настройки вашего Abantecart.
+    	Больше настроек доступно по ссылке<a href="%s" target="_new_admin"><i class="fa fa-link fa-fw"></i></a>]]></value>
+  </definition>
+  <definition>
+    <key>text_quick_start_details</key>
+    <value><![CDATA[
+    	Ниже приведены общие настройки магазина.
+    	Больше настроек доступно по ссылке <a href="%s" target="_new_admin"><i class="fa fa-link fa-fw"></i></a>]]></value>
+  </definition>
+  <definition>
+    <key>text_quick_start_checkout</key>
+    <value><![CDATA[
+    	Ниже приведены общие настройки процесса покупки.
+    	Больше настроек доступно по ссылке <a href="%s" target="_new_admin"><i class="fa fa-link fa-fw"></i></a>]]></value>
+  </definition>
+  <definition>
+    <key>text_quick_start_appearance</key>
+    <value><![CDATA[
+    	Ниже приведены общие настройки внешнего вида.
+    	Больше настроек доступно по ссылке <a href="%s" target="_new_admin"><i class="fa fa-link fa-fw"></i></a>]]></value>
+  </definition>
+  <definition>
+    <key>text_quick_start_mail</key>
+    <value><![CDATA[
+    	Ниже приведены настройки отправки электронной почты. Если вы используете сторонний почтовый сервер (google, yandex и тп) для отправки писем, Вам следует выбрать SMTP опцию. Для писем, которые будут отправляться этим сервером выбирайте Mail опцию.
+    	Больше настроек доступно по ссылке <a href="%s" target="_new_admin"><i class="fa fa-link fa-fw"></i></a>]]></value>
+  </definition>
+  <definition>
+    <key>text_quick_start_last</key>
+    <value><![CDATA[
+    	Ниже Вы можете выбрать желаемый платежный шлюз и метод доставки, дополнительные языки и много других возможностей расширить функциональность вашего магазина.
+    	Не забудьте проверить подборку расширений на <a href="#admin#rt=extension/extensions_store" target="_extension">AbanteCart marketplace</a> предлагаемые сообществом профессиональных разработчиков.]]></value>
+  </definition>
+  <definition>
+    <key>text_quick_start_last_footer</key>
+    <value><![CDATA[
+        Вы завершили процедуру быстрой настройки. <br /><br />
+    	Полный список всех настроек доступен по <a href="%s">этой ссылке <i class="fa fa-link fa-fw"></i></a>]]></value>
+  </definition>
+  <definition>
+    <key>payments_selection</key>
+    <value><![CDATA[
+    <div class="info alert alert-info">
+    <i class="fa fa-money fa-fw"></i> Выберите ваш платежный метод.
+    </div>
+    <div class="row">
+	    <div class="col-sm-3 h5 center">
+	        <a href="#admin#rt=extension/extensions/install&extension=default_stripe" target="_extension">
+	        <img src="extensions/default_stripe/image/icon.png"><br>Установить Stripe</a>
+	    </div>
+	    <div class="col-sm-3 h5 center">
+	        <a href="#admin#rt=extension/extensions/install&extension=default_pp_standart" target="_extension">
+	        <img src="extensions/default_pp_standart/image/icon.png"><br>Установить Paypal</a>
+	    </div>
+	    <div class="col-sm-3 h5 center">
+	        <a href="#admin#rt=extension/extensions/install&extension=default_payza" target="_extension">
+	        <img src="extensions/default_payza/image/icon.png"><br>Установить Payza</a>
+	    </div>
+	    <div class="col-sm-3 h5 center">
+	        <a href="#admin#rt=extension/extensions/payment" target="_extension">
+	        <img src="admin/view/default/image/default_extension.png"><br>Больше Методов</a>
+	    </div>
+    </div>]]></value>
+  </definition>
+  <definition>
+    <key>shipping_selection</key>
+    <value><![CDATA[
+    <div class="info alert alert-info">
+    <i class="fa fa-truck fa-fw"></i> Выберите метод доставки.
+    </div>
+    <div class="row">
+	    <div class="col-sm-3 h5 center">
+	        <a href="#admin#rt=extension/extensions/install&extension=default_free_shipping" target="_extension">
+	        <img src="extensions/default_free_shipping/image/icon.png"><br>Бесплатная доставка</a>
+	    </div>
+	    <div class="col-sm-3 h5 center">
+	        <a href="#admin#rt=extension/extensions/install&extension=default_fedex" target="_extension">
+	        <img src="extensions/default_fedex/image/icon.png"><br>Fedex</a>
+	    </div>
+	    <div class="col-sm-3 h5 center">
+	        <a href="#admin#rt=extension/extensions/install&extension=default_ups" target="_extension">
+	        <img src="extensions/default_ups/image/icon.png"><br>UPS</a>
+	    </div>
+	    <div class="col-sm-3 h5 center">
+	        <a href="#admin#rt=extension/extensions/shipping" target="_extension">
+	        <img src="admin/view/default/image/default_extension.png"><br>Больше методов доставки</a>
+	    </div>
+    </div>
+    ]]></value>
+  </definition>
+
+  <definition>
+    <key>language_selection</key>
+    <value><![CDATA[
+    <div class="info alert alert-info">
+    <i class="fa fa-language fa-fw"></i> Выберите дополнительные языки.
+    </div>
+    <div class="row">
+	    <div class="col-sm-4 h5 center">
+	        <a href="#admin#rt=extension/extensions/install&extension=default_spanish" target="_extension">
+	        <img src="extensions/default_spanish/image/icon.png"><br>Испанский
+	    <div class="col-sm-4 h5 center">
+	        <a href="#admin#rt=extension/extensions/install&extension=default_russian" target="_extension">
+	        <img src="extensions/default_russian/image/icon.png"><br>Русский</a>
+	    </div>
+	    <div class="col-sm-4 h5 center">
+	        <a href="#admin#rt=extension/extensions_store&category_id=67&sidx=date_modified" target="_extension">
+	        <img src="admin/view/default/image/default_extension.png"><br>Больше языков</a>
+	    </div>
+    </div>]]></value>
+  </definition>
+  <definition>
+    <key>more_extentions</key>
+    <value><![CDATA[
+    <div class="info alert alert-info">
+    <i class="fa fa-puzzle-piece fa-fw"></i> Больше расширений на AbanteCart marketplace.
+    </div>
+    <div class="row center">
+		<div class="btn-group center">
+		    <a class="btn btn-primary" href="#admin#rt=extension/extensions_store" target="_extension">
+		    	<i class="fa fa-cloud-download fa-fw"></i> Расширения с Marketplace
+		    </a>
+		</div>
+    </div>]]></value>
+  </definition>
+</definitions>
