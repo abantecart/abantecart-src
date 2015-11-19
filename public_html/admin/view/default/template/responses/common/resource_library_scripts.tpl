@@ -269,6 +269,16 @@ var loadSingle = function (type, wrapper_id, resource_id, field) {
 				$('#'+field).val(item['resource_path'].length>0 ? item['type_name']+'/'+item['resource_path'] : '');
 				$('#'+field+'_resource_id').val(item['resource_id']);
 				$('#'+field+'_resource_code').val(item['resource_code']);
+				//add item properties for single mode for CKE
+				if($('#RlFrm_image_size').length>0){
+					var dim = $('#RlFrm_image_size').val().split('_');
+					item['width'] = dim[0];
+					item['height'] = dim[1];
+					//check title to paste it into alt attribute
+					if(item['title'].length<1 && $('#RlFrm_title').val().length>0){
+						item['title'] = $('#RlFrm_title').val();
+					}
+				}
 				modalscope.selected_resource = item;
 			} else {
 				html = '<div class="resource_single col-sm-6 col-xs-12"><div class="center thumbnail fileupload_drag_area" >';

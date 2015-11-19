@@ -842,9 +842,8 @@ function compressZIP($zip_filename, $zip_dir){
 }
 
 function getMimeType($filename) {
-$filename = (string)$filename;
+	$filename = (string)$filename;
     $mime_types = array(
-
         'txt' => 'text/plain',
         'htm' => 'text/html',
         'html' => 'text/html',
@@ -871,6 +870,7 @@ $filename = (string)$filename;
 
         // archives
         'zip' => 'application/zip',
+        'gz' => 'application/gzip',
         'rar' => 'application/x-rar-compressed',
         'exe' => 'application/x-msdownload',
         'msi' => 'application/x-msdownload',
@@ -899,7 +899,9 @@ $filename = (string)$filename;
         'ods' => 'application/vnd.oasis.opendocument.spreadsheet',
     );
 
-    $ext = strtolower(array_pop(explode('.',$filename)));
+	$pieces = explode('.',$filename);
+	$ext = strtolower(array_pop($pieces));
+
     if (has_value($mime_types[$ext])) {
         return $mime_types[$ext];
     }elseif (function_exists('finfo_open')) {
