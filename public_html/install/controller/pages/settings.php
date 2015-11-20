@@ -86,7 +86,7 @@ class ControllerPagesSettings extends AController {
 			$this->error['warning'] = 'Warning: AbanteCart will not work with session.auto_start enabled!';
 		}
 
-		if (!extension_loaded('mysql') && !extension_loaded('mysqli')) {
+		if (!extension_loaded('mysql') && !extension_loaded('mysqli') && !extension_loaded('pdo_mysql')) {
 			$this->error['warning'] = 'Warning: MySQL extension needs to be loaded for AbanteCart to work!';
 		}
 
