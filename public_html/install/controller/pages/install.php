@@ -113,7 +113,7 @@ class ControllerPagesInstall extends AController {
 					$options['amysqli'] = 'MySQLi';
 				}
 
-				if(extension_loaded('mysqli')){
+				if(extension_loaded('pdo_mysql')){
 					$options['apdomysql'] = 'PDO MySQL';
 				}
 
