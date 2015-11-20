@@ -114,7 +114,7 @@ class ControllerPagesInstall extends AController {
 				}
 
 				if(extension_loaded('mysqli')){
-					$options['pdo_mysql'] = 'PDO MySQL';
+					$options['apdomysql'] = 'PDO MySQL';
 				}
 
 				//regular mysql is not supported on PHP 5.5.+
