@@ -1254,6 +1254,7 @@ p {
 .reslibrary .rl-title {
     margin-bottom: 0;
     font-size: 13px;
+    min-height: 15px;
 }
 
 .reslibrary .rl-title a {

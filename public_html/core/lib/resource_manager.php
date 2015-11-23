@@ -99,6 +99,9 @@ class AResourceManager extends AResource {
 			foreach ($directories as $directory) {
 				$path = $path . '/' . $directory;
 				if (!is_dir(DIR_RESOURCE . $this->type_dir . $path)) {
+					if (!is_dir(DIR_RESOURCE . $this->type_dir)) {
+						@mkdir(DIR_RESOURCE . $this->type_dir, 0777);
+					}
 					@mkdir(DIR_RESOURCE . $this->type_dir . $path, 0777);
 					chmod(DIR_RESOURCE . $this->type_dir . $path, 0777);
 				}
@@ -282,6 +285,27 @@ class AResourceManager extends AResource {
 
         return true;
     }
+	
+	/**
+	 * @param string $object_name
+	 * @param int $object_id
+	 * @param string $type
+	 * @return bool|null
+	 */
+	public function unmapAndDeleteResources($object_name, $object_id, $type='') {
+		if(!$object_name || !$object_id){
+			return null;
+		}
+		if($type) {
+			$this->setType($type);
+		}
+		$delete_ids = array();
+		$resources = $this->getResources($object_name, $object_id);
+		foreach($resources as $resource) {
+			$this->unmapResource($object_name, $object_id, $resource['resource_id']);
+			$this->deleteResource($resource['resource_id']);
+		}
+	}
 
 	/**
 	 * @param array $resource_ids
@@ -342,7 +366,7 @@ class AResourceManager extends AResource {
 	 * @param int $resource_id
 	 * @return null
 	 */
-	public function mapResource (  $object_name, $object_id, $resource_id ) {
+	public function mapResource($object_name, $object_id, $resource_id) {
 
         $resource = $this->getResource($resource_id);
         if ( empty($resource) ) {
@@ -384,7 +408,7 @@ class AResourceManager extends AResource {
 	 * @param int $object_id
 	 * @return bool|null
 	 */
-	public function mapResources (  $resource_ids, $object_name, $object_id ) {
+	public function mapResources($resource_ids, $object_name, $object_id) {
 		if(!$object_name && !(int)$object_id){ return null; }
 		if(!$resource_ids || !is_array($resource_ids)){
 			return null;
@@ -437,7 +461,7 @@ class AResourceManager extends AResource {
 	 * @param int $resource_id
 	 * @return bool
 	 */
-	public function unmapResource (  $object_name, $object_id, $resource_id ) {
+	public function unmapResource($object_name, $object_id, $resource_id) {
 
         $resource = $this->getResource($resource_id);
         if ( empty($resource) ) {
@@ -463,7 +487,7 @@ class AResourceManager extends AResource {
 	 * @param int $object_id
 	 * @return bool|null
 	 */
-	public function unmapResources ( $resource_ids, $object_name, $object_id ) {
+	public function unmapResources($resource_ids, $object_name, $object_id) {
 		if(!$object_name && !(int)$object_id){ return null; }
 		if(!$resource_ids || !is_array($resource_ids)){
 			return null;
@@ -494,7 +518,7 @@ class AResourceManager extends AResource {
 	 * @param int $object_id
 	 * @return bool
 	 */
-	public function updateSortOrder ( $data, $object_name, $object_id ) {
+	public function updateSortOrder($data, $object_name, $object_id) {
 		if(!$data || !is_array($data) ){
 			return false;
 		}
@@ -523,7 +547,7 @@ class AResourceManager extends AResource {
 	 * @param int $language_id
 	 * @return array|null
 	 */
-	public function getResource ( $resource_id, $language_id = 0 ) {
+	public function getResource($resource_id, $language_id = 0) {
         if ( !$resource_id ) {
 			return null;
 	    }
