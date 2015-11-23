@@ -156,15 +156,30 @@ class ModelCatalogCategory extends Model {
 		$this->db->query("DELETE FROM " . $this->db->table("categories_to_stores") . " WHERE category_id = '" . (int)$category_id . "'");
 		$this->db->query("DELETE FROM " . $this->db->table("url_aliases") . " WHERE query = 'category_id=" . (int)$category_id . "'");
 		$this->db->query("DELETE FROM " . $this->db->table("products_to_categories") . " WHERE category_id = '" . (int)$category_id . "'");
+
+		//delete resources
+		$rm = new AResourceManager();
+		$resources = $rm->getResourcesList(	array( 'object_name' => 'categories', 'object_id'   => (int)$category_id) );
+		foreach($resources as $r){
+			$rm->unmapResource(	'products',	$category_id, $r['resource_id'] );
+			//if resource became orphan - delete it
+			if(!$rm->isMapped($r['resource_id'])){
+				$rm->deleteResource($r['resource_id']);
+			}
+		}
+		//remove layout
+		$lm = new ALayoutManager();
+		$lm->deletePageLayout('pages/product/category','path',$category_id);
 		
 		//delete children categories
-		$query = $this->db->query("SELECT category_id FROM " . $this->db->table("categories") . " WHERE parent_id = '" . (int)$category_id . "'");
-		$lm = new ALayoutManager();
+		$query = $this->db->query( "SELECT category_id
+									FROM " . $this->db->table("categories") . "
+									WHERE parent_id = '" . (int)$category_id . "'");
+
 		foreach ($query->rows as $result) {
 			$this->deleteCategory($result['category_id']);
-			$lm->deletePageLayout('pages/product/category','path',$result['category_id']);
 		}
-		$lm->deletePageLayout('pages/product/category','path',$category_id);
+
 		$this->cache->delete('category');
 	}
 
