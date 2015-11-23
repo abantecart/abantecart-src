@@ -38,8 +38,9 @@ class Migration_Osc implements Migration {
 		 * @var ADB
 		 */
 		if($migrate_data){
-			require_once DIR_DATABASE.'mysql.php';
-			$this->src_db = new Mysql($this->data['db_host'], $this->data['db_user'], $this->data['db_password'], $this->data['db_name'], true);
+			$db_driver = DB_DRIVER;
+			require_once DIR_DATABASE . $db_driver.'.php';
+			$this->src_db = new $db_driver($this->data['db_host'], $this->data['db_user'], $this->data['db_password'], $this->data['db_name'], true);
 		}
 	}
 
