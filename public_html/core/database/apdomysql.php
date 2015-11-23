@@ -1,8 +1,14 @@
 <?php
 
 final class APDOMySQL{
+	/**
+	 * @var PDO
+	 */
 	private $connection = null;
-	private $statement = null;
+	/**
+	 * @var PDOStatement
+	 */
+	private $statement;
 	/**
 	 * @var Registry
 	 */
@@ -27,7 +33,7 @@ final class APDOMySQL{
 		$this->statement = $this->connection->prepare($sql);
 	}
 
-	public function bindParam($parameter, $variable, $data_type = \PDO::PARAM_STR, $length = 0){
+	public function bindParam($parameter, $variable, $data_type = PDO::PARAM_STR, $length = 0){
 		if ($length){
 			$this->statement->bindParam($parameter, $variable, $data_type, $length);
 		} else{
@@ -35,27 +41,8 @@ final class APDOMySQL{
 		}
 	}
 
-	public function execute(){
-		try{
-			if ($this->statement && $this->statement->execute()){
-				$data = array ();
-
-				while ($row = $this->statement->fetch(PDO::FETCH_ASSOC)){
-					$data[] = $row;
-				}
-
-				$result = new stdClass();
-				$result->row = (isset($data[0])) ? $data[0] : array ();
-				$result->rows = $data;
-				$result->num_rows = $this->statement->rowCount();
-			}
-		} catch(AException $e){
-			throw new AException(AC_ERR_MYSQL, 'Error: ' . $e->getMessage() . ' Error Code : ' . $e->getCode());
-		}
-	}
-
 	public function query($sql, $noexcept = false, $params = array ()){
-		if(!$noexcept){
+		if (!$noexcept){
 			$this->connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 			$this->connection->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
 		}
@@ -67,7 +54,7 @@ final class APDOMySQL{
 		try{
 			if ($this->statement && $this->statement->execute($params)){
 				$data = array ();
-				if($this->statement->rowCount()){
+				if ($this->statement->columnCount()){
 					while ($row = $this->statement->fetch(PDO::FETCH_ASSOC)){
 						$data[] = $row;
 					}
@@ -78,11 +65,14 @@ final class APDOMySQL{
 					$result->num_rows = $this->statement->rowCount();
 				}
 			}
-		} catch(AException $e){
+		} catch(PDOException $e){
 			if ($noexcept){
 				$this->error = 'AbanteCart Error: ' . $result->error . '<br />' . $sql;
 				return false;
 			} else{
+				$er = new AError(var_export($this->statement->rowCount(), true));
+				$er->toLog();
+
 				throw new AException(AC_ERR_MYSQL, 'Error: ' . $e->getMessage() . '<br />Error No: ' . $e->getCode() . '<br />' . $sql);
 			}
 		}
