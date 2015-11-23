@@ -780,8 +780,14 @@ final class AData {
 		}
 
 		$new_vals = array();
-
-		foreach ($data_arr['rows'] as $rnode){
+		
+		//Process new load of resources (add or replace)
+		if($table_name == 'resource_map' && $data_arr['rows'][0]['type']) {
+			$new_vals = $this->_do_all_resources($table_cfg, $data_arr, $parent_vals);
+			return $new_vals;
+		}
+		
+		foreach ($data_arr['rows'] as $count => $rnode){
 
 			$action = '';
 			//Set action for the row
@@ -982,6 +988,103 @@ final class AData {
 
 		return $results;
 	}
+
+	/**
+	 * Process resource library insert 
+	 * @param array $table_cfg
+	 * @param array $data_row
+	 * @param array $parent_vals
+	 * @return array
+	 */
+	private function _do_all_resources($table_cfg, $data, $parent_vals) {
+		$records = array();
+		foreach($data['rows'] as $row){
+			if($row['type']) {
+				if($row['source_url']) {
+					$records[$row['type']]['source_url'][] = $row['source_url']; 
+				} else if($row['source_path']) {
+					$records[$row['type']]['source_path'][] =  $row['source_path']; 
+				} else if($row['html_code']) {
+					$records[$row['type']]['html_code'][] =  $row['html_code']; 
+				}
+			}			
+		} 
+
+		foreach($records as $type => $sources) {
+			$rm = new AResourceManager();
+			$rm->setType($type);
+			//delete all resource of the type from library
+			$object_name = $table_cfg['special_relation']['object_name'];
+			$object_id = $parent_vals[$table_cfg['special_relation']['object_id']];
+			$resources = $rm->unmapAndDeleteResources($object_name,$object_id,$type);
+			//ad new media sources
+			if($sources['source_url']) {
+				$fl = new AFile();
+				foreach($sources['source_url'] as $source) {	
+					$image_basename = basename($source);
+					$target = DIR_RESOURCE . $rm->getTypeDir().'/' . $image_basename;
+					if (($file = $fl->downloadFile($source)) === false) {	
+						$this->_status2array('error', "Unable to download file from $source");
+						continue;
+					}
+					if(!$fl->writeDownloadToFile($file, $target)){
+						$this->_status2array('error', "Unable to save download to $target");					
+						continue;
+					}	
+					if(!$this->_create_resource($rm, $object_name, $object_id, $image_basename)){
+						$this->_status2array('error', "Unable to create new media resource type $type for $image_basename");
+						continue;
+					}
+				}			
+			}
+			if($sources['source_path']) {
+				foreach($sources['source_path'] as $source) {		
+					$image_basename = basename($source);
+					$target = DIR_RESOURCE . $rm->getTypeDir().'/' . $image_basename;
+					if(!copy($source, $target)){
+						$this->_status2array('error', "Unable to copy $source to $target");					
+						continue;
+					}	
+					if(!$this->_create_resource($rm, $object_name, $object_id, $image_basename)){
+						$this->_status2array('error', "Unable to create new media resource for $image_basename");
+						continue;
+					}						
+				}			
+			}
+			if($sources['html_code']) {
+				foreach($sources['html_code'] as $code) {		
+					if(!$this->_create_resource($rm, $object_name, $object_id, '', $code)){
+						$this->_status2array('error', "Unable to create new HTML code media resource type $type");
+						continue;
+					}						
+				}			
+			}		
+		}
+		
+		return array();
+	}
+
+	private function _create_resource($rm, $object_txt_id, $object_id, $image_basename = '', $code = '') {
+		$language_list = $this->language->getAvailableLanguages();
+		$resource = array(  'language_id' => $this->config->get('storefront_language_id'),
+		    				'name' => array(),
+		    				'title' => '',
+		    				'description' => '',
+		    				'resource_path' => $image_basename,
+		    				'resource_code' => $code );
+
+		foreach ($language_list as $lang) {
+		    $resource['name'][$lang['language_id']] = str_replace('%20',' ',$image_basename);
+		}
+		$resource_id = $rm->addResource($resource);
+		if ($resource_id) {
+		    $rm->mapResource($object_txt_id, $object_id, $resource_id);
+		    return $resource_id; 
+		} else {
+			return null;
+		}
+	}
+
 
 	/**
 	 * @param string $table_name
