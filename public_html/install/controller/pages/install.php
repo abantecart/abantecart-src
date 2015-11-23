@@ -112,18 +112,27 @@ class ControllerPagesInstall extends AController {
 				if(extension_loaded('mysqli')){
 					$options['amysqli'] = 'MySQLi';
 				}
+
+				if(extension_loaded('pdo_mysql')){
+					$options['apdomysql'] = 'PDO MySQL';
+				}
+
 				//regular mysql is not supported on PHP 5.5.+
 				if(extension_loaded('mysql') && version_compare(phpversion(), '5.5.0', '<') == TRUE ){
 					$options['mysql'] = 'MySQL';
 				}
-
-				$this->data[ 'form' ][ $field ] = $form->getFieldHtml(array(
-					'type' => 'selectbox',
-					'name' => $field,
-					'value' => $this->data[ $field ],
-					'options' => $options,
-					'required' => true
-				));
+				if($options){
+					$this->data['form'][$field] = $form->getFieldHtml(array (
+							'type'     => 'selectbox',
+							'name'     => $field,
+							'value'    => $this->data[$field],
+							'options'  => $options,
+							'required' => true
+					));
+				}else{
+					$this->data['form'][$field] = '';
+					$this->data['error'][$field] = 'No database support. Please install AMySQL or PDO_MySQL php extension.';
+				}
 
 			}
 		}

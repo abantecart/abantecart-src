@@ -49,6 +49,10 @@ final class AImage {
     	}
 	}
 
+	public function getInfo(){
+		return $this->info;
+	}
+
 	private function create($image) {
 		$mime = $this->info['mime'];
 

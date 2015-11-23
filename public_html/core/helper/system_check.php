@@ -442,7 +442,8 @@ function run_critical_system_check($registry, $mode = 'log'){
  */
 function check_session_save_path(){
 	$savepath = ini_get('session.save_path');
-	if(!is_writable($savepath)){
+	//check for non-empty path (it can be on some fast-cgi php)
+	if($savepath && !is_writable($savepath)){
 		return array(
 			        'title' => 'Session save path is not writable! ',
 			        'body' => 'Your server is unable to create a session necessary for AbanteCart functionality. Check logs for exact error details and contact your hosting support administrator to resolve this error.'

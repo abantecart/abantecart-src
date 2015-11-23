@@ -1001,9 +1001,16 @@ function openCKRLModal(cke){
 			var insert_html='';
 			if( item.resource_path != undefined && item.resource_path.length>0 ){
 				var type_name = item.type_name;
-				insert_html = 'resources/'+type_name+'/'+item.resource_path;
+				insert_html = 'index.php?rt=r/common/resource/getImageThumbnail&resource_id='+item.resource_id;
 				if(type_name=='image'){
-					insert_html = '<img src="'+insert_html+'">';
+                    var alt='';
+                    if(item['title'].length>0){
+                        alt = ' alt="'+encodeURIComponent(item['title'])+'"';
+                    }
+                    if(item['width'].length>0){
+                        insert_html += '&w='+item['width']+'&h='+item['height'];
+                    }
+					insert_html = '<img src="'+insert_html+'"'+alt+'>';
 				}else{
 					//TODO : need to add other RL-types support
 					return null;
