@@ -164,6 +164,20 @@ var wrapCKEditor = function(textarea_id, options){
 
 	try{
 		cke = CKEDITOR.replace(textarea_id, options);
+		cke.on('instanceReady', function(ev){
+
+		   var taglist = new Array ('p','h1','h2','h3','h4','h5','h6','div','i','span','table');
+
+		   for (var Tag in taglist) {
+		      ev.editor.dataProcessor.writer.setRules(taglist[Tag], {
+		         indent : false,
+		         breakBeforeOpen : false,
+		         breakAfterOpen : false,
+		         breakBeforeClose : false,
+		         breakAfterClose : false
+		      });
+		   }
+		});
 	}catch(e){}
 	return cke;
 }
