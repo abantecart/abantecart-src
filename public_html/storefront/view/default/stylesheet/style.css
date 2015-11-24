@@ -1327,8 +1327,10 @@ h1.pagetitle {
 .easyzoom img {
 	vertical-align: bottom;
 }
-.local_image img {
-	width: 340px;
+a.local_image {
+	min-width: 340px;
+	display: inline-block;
+	min-height: 340px;
 }
 .easyzoom.is-loading img {
 	cursor: progress;
