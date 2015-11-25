@@ -382,7 +382,7 @@ class ControllerPagesSaleContact extends AController {
 				$mail->setHtml($html);
 				$mail->send();
 				if ($mail->error) {
-					$this->error[] = 'Error: Emails does not sent! Please see error log for details.';
+					$this->error[] = 'Error: No emails were sent! Please see error log for details.';
 					$this->main();
 					return null;
 				}
