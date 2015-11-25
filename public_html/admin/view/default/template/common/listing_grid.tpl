@@ -220,7 +220,7 @@ var initGrid_<?php echo $data['table_id'] ?> = function ($) {
 				$html_string .= "actions_urls['".$type."'] = '".$href."';\n";
 				$html_string .= ' actions += \'';
 				$has_children = sizeof($action['children']);
-				$html_btn = '<a class="btn btn-xs btn_grid tooltips grid_action_' . $type . '" title="' . $action['text'] . '" data-action-type="'.$type.'"';
+				$html_btn = '<a class="btn btn-xs btn_grid tooltips grid_action_' . $type . '" title="' . htmlentities($action['text'],ENT_QUOTES,'UTF-8') . '" data-action-type="'.$type.'"';
 				if($has_children){
 					$html_btn .= ' data-toggle="dropdown" aria-expanded="false"';
 				}
@@ -279,11 +279,10 @@ var initGrid_<?php echo $data['table_id'] ?> = function ($) {
 
 				//for dropdown
 				if($action['children']){
-					$html_children = '<div class="dropdown-menu dropdown-menu-sm dropdown-menu-right" role="menu"><h5 class="title">'.$text_select_from_list.'</h5><ul class="dropdown-list grid-dropdown">';
+					$html_children = '<div class="dropdown-menu dropdown-menu-sm dropdown-menu-right" role="menu"><h5 class="title">'.htmlentities($text_select_from_list,ENT_QUOTES,'UTF-8').'</h5><ul class="dropdown-list grid-dropdown">';
 					foreach($action['children'] as $child){
 						$href = has_value($child['href']) ? $child['href'] : '#';
-						$html_children .= '<li><a href="'.$href.'" rel="%ID%">'.$child['text'].'</a></li>';
-
+						$html_children .= '<li><a href="'.$href.'" rel="%ID%">'.htmlentities($child['text'],ENT_QUOTES,'UTF-8').'</a></li>';
 					}
 					$html_children .= '</ul></div>';
 					$html_btn = '<div class="btn-group">'.$html_btn.''.$html_children.'</div>';

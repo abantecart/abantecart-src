@@ -147,10 +147,8 @@ class AExtensionManager {
 	}
 
 	/**
-	 * @param $extension_txt_id
-	 * @param $extension_parent_txt_id
-	 * @internal param int $extension_id
-	 * @internal param int $extension_parent_id
+	 * @param string $extension_txt_id
+	 * @param string $extension_parent_txt_id
 	 * @return bool
 	 */
 	public function addDependant($extension_txt_id, $extension_parent_txt_id) {
@@ -175,8 +173,6 @@ class AExtensionManager {
 	 * function delete extension dependants from table by given id's
 	 * @param string $extension_txt_id
 	 * @param string $extension_parent_txt_id
-	 * @internal param string $extension_id
-	 * @internal param string $extension_parent_id
 	 * @return bool
 	 */
 	public function deleteDependant($extension_txt_id = '', $extension_parent_txt_id = '') {
