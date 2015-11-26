@@ -1091,8 +1091,9 @@ class AConfigManager {
 		$fields['session_ttl'] = $form->getFieldHtml($props[] = array(
 			'type' => 'input',
 			'name' => 'config_session_ttl',
-			'value' => $data['config_session_ttl'],
-		));
+			'value' => $data['config_session_ttl']
+		)) . sprintf($this->language->get('text_setting_php_exceed'), 'session.gc_maxlifetime', (int)ini_get('session.gc_maxlifetime')/60);
+
 		$fields['maintenance'] = $form->getFieldHtml($props[] = array(
 			'type' => 'checkbox',
 			'name' => 'config_maintenance',
@@ -1141,7 +1142,7 @@ class AConfigManager {
 					'type' => 'input',
 					'name' => 'config_upload_max_size',
 					'value' => (int)$data['config_upload_max_size']
-				)) . 'This value can not exceed your php.ini setting (<= ' . ini_get('post_max_size') . ')';
+				)) . sprintf($this->language->get('text_setting_php_exceed'), 'post_max_size', (int)ini_get('post_max_size'));
 
 		$fields['error_display'] = $form->getFieldHtml($props[] = array(
 			'type' => 'checkbox',

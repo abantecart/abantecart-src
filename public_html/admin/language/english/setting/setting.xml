@@ -882,5 +882,8 @@
 		<key>entry_recaptcha_secret_key</key>
 		<value><![CDATA[Google reCAPTCHA Secret Key:<br /><span class="help">Add <a href="https://www.google.com/recaptcha" target="_blank">Google reCAPTCHA v2</a> to help your visitors with better captcha entry. If you enable reCAPTCHA site/secret keys, Google reCAPTCHA v2 will be activated instead of default AbanteCart captcha image</span>]]></value>
 	</definition>
-	
+	<definition>
+		<key>text_setting_php_exceed</key>
+		<value><![CDATA[This value can not exceed your php.ini directive %s (<=%s)]]></value>
+	</definition>
 </definitions>
