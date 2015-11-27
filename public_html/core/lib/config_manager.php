@@ -529,6 +529,12 @@ class AConfigManager {
 			'value' => $data['config_tax_customer'],
 			'options' => array($this->language->get('entry_tax_customer_0'), $this->language->get('entry_tax_customer_1')),
 		));
+		$fields['start_order_id'] = $form->getFieldHtml($props[] = array(
+			'type' => 'input',
+			'name' => 'config_start_order_id',
+			'value' => $data['config_start_order_id'],
+			'style' => 'small-field',
+		));
 		$fields['invoice'] = $form->getFieldHtml($props[] = array(
 			'type' => 'input',
 			'name' => 'starting_invoice_id',
@@ -619,6 +625,12 @@ class AConfigManager {
 			'value' => $data['config_customer_cancelation_order_status_id'] ? $data['config_customer_cancelation_order_status_id'] : array(),
 			'options' => $order_statuses,
 			'style' => 'chosen'
+		));
+		$fields['expire_order_days'] = $form->getFieldHtml($props[] = array(
+			'type' => 'input',
+			'name' => 'config_expire_order_days',
+			'value' => $data['config_expire_order_days'],
+			'style' => 'small-field',
 		));
 		$fields['cart_weight'] = $form->getFieldHtml($props[] = array(
 			'type' => 'checkbox',
@@ -1324,6 +1336,16 @@ class AConfigManager {
 					break;
 
 				case 'checkout':
+					if ($field_name == 'config_start_order_id' && $field_value &&  !(int)$field_value) {
+						$error['start_order_id'] = $this->language->get('error_start_order_id');
+					}
+					if ($field_name == 'starting_invoice_id' && $field_value && !(int)$field_value) {
+						$error['starting_invoice_id'] = $this->language->get('error_starting_invoice_id');
+					}
+					if ($field_name == 'config_expire_order_days' && $field_value && !(int)$field_value) {
+						$error['expire_order_days'] = $this->language->get('error_expire_order_days');
+					}
+
 					break;
 
 				case 'api':

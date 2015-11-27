@@ -886,4 +886,25 @@
 		<key>text_setting_php_exceed</key>
 		<value><![CDATA[This value can not exceed your php.ini directive %s (<=%s)]]></value>
 	</definition>
+	<definition>
+		<key>entry_start_order_id</key>
+		<value><![CDATA[Order Start No.:<br /><span class="help">Set the starting number the orders will begin from.</span>]]></value>
+	</definition>
+	<definition>
+		<key>error_start_order_id</key>
+		<value><![CDATA[Order start number must be a numeric!]]></value>
+	</definition>
+	<definition>
+		<key>error_starting_invoice_id</key>
+		<value><![CDATA[Invoice start number must be a numeric!]]></value>
+	</definition>
+	<definition>
+		<key>entry_expire_order_days</key>
+		<value>
+			<![CDATA[Incomplete Order Expiration:<br /><br /><span class="help">This value controls time interval in days before incomplete orders will be deleted. Empty value means that no orders will be to deleted.</span>]]></value>
+	</definition>
+	<definition>
+		<key>error_expire_order_days</key>
+		<value><![CDATA[Incomplete Order Expiration value must be a numeric!]]></value>
+	</definition>
 </definitions>

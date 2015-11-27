@@ -87,24 +87,36 @@ class ModelCheckoutOrder extends Model {
 
 	/**
 	 * @param array $data
-	 * @param int|string $old_order_id
+	 * @param int|string $set_order_id
 	 * @return bool|int
 	 */
-	public function create($data, $old_order_id = '') {
+	public function create($data, $set_order_id = '') {
 		//reuse same order_id or unused one order_status_id = 0
-		if ($old_order_id) {
-			$query = $this->db->query("SELECT order_id FROM `" . $this->db->table("orders") . "` WHERE order_id = " . $old_order_id . " AND order_status_id = '0'");
+		if ($set_order_id) {
+			$query = $this->db->query( "SELECT order_id
+										FROM `" . $this->db->table("orders") . "`
+										WHERE order_id = " . $set_order_id . " AND order_status_id = '0'");
 
 			if (!$query->num_rows) { // for already processed orders do redirect
-				$query = $this->db->query("SELECT order_id FROM `" . $this->db->table("orders") . "` WHERE order_id = " . $old_order_id . " AND order_status_id > '0'");
+				$query = $this->db->query("SELECT order_id
+											FROM `" . $this->db->table("orders") . "`
+											WHERE order_id = " . $set_order_id . " AND order_status_id > '0'");
 				if ($query->num_rows) {
 					return false;
 				}
 			}
 		} else {
-			$query = $this->db->query("SELECT order_id FROM `" . $this->db->table("orders") . "` WHERE date_added < '" . date('Y-m-d', strtotime('-1 month')) . "' AND order_status_id = '0'");
+			//clean up based on setting
+			if((int)$this->config->get('config_order_expire_days')){
+				$query = $this->db->query("SELECT order_id
+										FROM " . $this->db->table("orders") . "
+										WHERE date_added < '" . date('Y-m-d', strtotime('-'.$this->config->get('config_order_expire_days').' days')) . "'
+											AND order_status_id = '0'");
+
+			}
 		}
 
+		// remove abandoned order older than 1 month
 		foreach ($query->rows as $result) {
 			$this->db->query("DELETE FROM `" . $this->db->table("orders") . "` WHERE order_id = '" . (int)$result['order_id'] . "'");
 			$this->db->query("DELETE FROM " . $this->db->table("order_history") . " WHERE order_id = '" . (int)$result['order_id'] . "'");
@@ -114,8 +126,22 @@ class ModelCheckoutOrder extends Model {
 			$this->db->query("DELETE FROM " . $this->db->table("order_totals") . " WHERE order_id = '" . (int)$result['order_id'] . "'");
 		}
 
-		if (has_value($old_order_id)) {
-			$old_order_id = "order_id = '" . $this->db->escape($old_order_id) . "', ";
+		if(!has_value($set_order_id) && (int)$this->config->get('config_start_order_id')){
+			$query = $this->db->query("SELECT MAX(order_id) AS order_id
+										FROM `" . $this->db->table("orders") . "`");
+			if($query->row['order_id'] && $query->row['order_id'] >= $this->config->get('config_start_order_id')){
+				$set_order_id = (int)$query->row['order_id'] + 1;
+			} elseif($this->config->get('config_start_order_id')){
+				$set_order_id = (int)$this->config->get('config_start_order_id');
+			} else{
+				$set_order_id = 0;
+			}
+		}
+
+		if($set_order_id){
+			$set_order_id = "order_id = '" . $this->db->escape($set_order_id) . "', ";
+		}else{
+			$set_order_id = '';
 		}
 
 		$key_sql = '';
@@ -125,7 +151,7 @@ class ModelCheckoutOrder extends Model {
 		}
 
 		$this->db->query("INSERT INTO `" . $this->db->table("orders") . "`
-							SET " . $old_order_id . " store_id = '" . (int)$data['store_id'] . "',
+							SET " . $set_order_id . " store_id = '" . (int)$data['store_id'] . "',
 								store_name = '" . $this->db->escape($data['store_name']) . "',
 								store_url = '" . $this->db->escape($data['store_url']) . "',
 								customer_id = '" . (int)$data['customer_id'] . "',
@@ -357,6 +383,7 @@ class ModelCheckoutOrder extends Model {
 			$template->data['store_url'] = $order_row['store_url'];
 
 			//give link on order page for quest
+			$order_token = '';
 			if($this->config->get('config_guest_checkout') && $order_row['email']){
 				$order_token = AEncryption::mcrypt_encode($order_id.'~~~'.$order_row['email']);
 				if($order_token){

@@ -1633,6 +1633,7 @@ INSERT INTO `ac_settings` (`group`, `key`, `value`) VALUES
 ('checkout','total_order_minimum',0),
 ('checkout','config_shipping_tax_estimate',1),
 ('checkout','config_coupon_on_cart_page',1),
+('checkout','config_expire_order_days',30),
 
 -- Appearance
 

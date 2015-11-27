@@ -962,10 +962,10 @@ class ModelSaleOrder extends Model{
 	public function generateInvoiceId($order_id){
 		$query = $this->db->query("SELECT MAX(invoice_id) AS invoice_id FROM `" . $this->db->table("orders") . "`");
 
-		if($query->row['invoice_id']){
+		if($query->row['invoice_id'] && $query->row['invoice_id'] >= $this->config->get('starting_invoice_id')){
 			$invoice_id = (int)$query->row['invoice_id'] + 1;
 		} elseif($this->config->get('starting_invoice_id')){
-			$invoice_id = $this->config->get('starting_invoice_id');
+			$invoice_id = (int)$this->config->get('starting_invoice_id');
 		} else{
 			$invoice_id = 1;
 		}
