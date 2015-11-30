@@ -136,7 +136,7 @@ class ControllerResponsesListingGridMessageGrid extends AController {
 							$this->data['message'] ['status'] = $this->language->get('text_notice');
 							break;
 					}
-					$this->data['message'] ['date_formatted'] = dateISO2Display($this->data['message'] ['date_modified'], $this->language->get('date_format_short').' '.$this->language->get('time_format'));
+					$this->data['message'] ['date_formatted'] = dateISO2Display($this->data['message'] ['date_added'], $this->language->get('date_format_short').' '.$this->language->get('time_format'));
 				} else {
 					$this->data['message'] ["message"] = $this->language->get('text_not_found');
 				}
