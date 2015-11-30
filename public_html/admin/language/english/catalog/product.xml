@@ -581,4 +581,8 @@
 		<key>entry_upload_dir</key>
 		<value><![CDATA[Upload directory name<br>%s]]></value>
 	</definition>
+	<definition>
+		<key>text_success_relation_set</key>
+		<value><![CDATA[Relations of selected products was set successfully!]]></value>
+	</definition>
 </definitions>

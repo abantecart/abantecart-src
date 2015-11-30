@@ -403,6 +403,25 @@ class ModelCatalogProduct extends Model{
 	}
 
 	/**
+	 * @param array $product_ids
+	 * @return bool
+	 */
+	public function relateProducts($product_ids=array()){
+		if(!$product_ids || !is_array($product_ids)){ return false;}
+		foreach($product_ids as $product_id){
+			if ((int)$product_id){
+				foreach($product_ids as $related_id){
+					if ((int)$related_id && $related_id!=$product_id){
+						$this->db->query("DELETE FROM " . $this->db->table("products_related") . " WHERE product_id = '" . (int)$related_id . "' AND related_id = '" . (int)$product_id . "'");
+						$this->db->query("INSERT INTO " . $this->db->table("products_related") . " SET product_id = '" . (int)$related_id . "', related_id = '" . (int)$product_id . "'");
+					}
+				}
+			}
+		}
+		return true;
+	}
+
+	/**
 	 * @param int $product_id
 	 * @param array $data
 	 * @return int

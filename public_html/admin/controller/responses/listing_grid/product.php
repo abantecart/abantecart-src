@@ -167,10 +167,13 @@ class ControllerResponsesListingGridProduct extends AController {
 					}
 
 				break;
-
+			case 'relate':
+				$ids = explode(',', $this->request->post['id']);
+				if (!empty($ids)){
+					$this->model_catalog_product->relateProducts($ids);
+				}
+				break;
 			default:
-				//print_r($this->request->post);
-
 		}
 
 		//update controller data

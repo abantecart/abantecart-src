@@ -379,7 +379,7 @@
 	</definition>
 	<definition>
 		<key>text_save_selected</key>
-		<value><![CDATA[save selected]]></value>
+		<value><![CDATA[Save Selected]]></value>
 	</definition>
 	<definition>
 		<key>text_save_all</key>
@@ -689,5 +689,8 @@
 		<key>text_system_notice</key>
 		<value><![CDATA[System notice has been reported. Check system <a target="_blank" href="%s">messages</a>]]></value>
 	</definition>
-	
+	<definition>
+		<key>text_set_related</key>
+		<value><![CDATA[Set Related]]></value>
+	</definition>
 </definitions>

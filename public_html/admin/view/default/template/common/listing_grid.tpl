@@ -547,9 +547,11 @@ if ($custom_buttons) {
 					}
 				});
 				break;
-			default:
+			case '':
 				alert(text_choose_action);
 				return;
+			default:
+				break;
 		}
 
 	});
