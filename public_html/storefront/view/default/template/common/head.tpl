@@ -15,8 +15,8 @@
 
 <base href="<?php echo $base; ?>" />
 
-<?php if ( is_file( DIR_RESOURCE . $icon ) ) {  ?>
-<link href="resources/<?php echo $icon; ?>" type="image/png" rel="icon" />
+<?php if ( $icon ) {  ?>
+<link href="<?php echo $icon; ?>" type="image/png" rel="icon" />
 <?php } ?>
 
 <link href="<?php echo $this->templateResource('/image/apple-touch-icon.png');?>" rel="apple-touch-icon" />

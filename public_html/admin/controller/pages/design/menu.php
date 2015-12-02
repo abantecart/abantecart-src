@@ -400,7 +400,8 @@ class ControllerPagesDesignMenu extends AController{
 				'name'          => 'item_icon',
 				'resource_path' => htmlspecialchars($this->data['item_icon'], ENT_COMPAT, 'UTF-8'),
 				'resource_id'   => $this->data['item_icon_rl_id'],
-				'rl_type'       => 'image'
+				'rl_type'       => 'image',
+				'meta'          => unserialize($this->config->get('config_menu_icon_meta'))
 		));
 		//adds scripts for RL work
 		$resources_scripts = $this->dispatch(

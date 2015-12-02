@@ -785,14 +785,16 @@ class AConfigManager {
 					'type' => 'resource',
 					'name' => 'config_logo',
 					'resource_id' => $data['config_logo'],
-					'rl_type' => 'image'
+					'rl_type' => 'image',
+					'meta'  => $data['config_logo_meta']
 				));			
 			} else {
 				$fields['logo'] = $form->getFieldHtml($props[] = array(
 					'type' => 'resource',
 					'name' => 'config_logo',
 					'resource_path' => htmlspecialchars($data['config_logo'], ENT_COMPAT, 'UTF-8'),
-					'rl_type' => 'image'
+					'rl_type' => 'image',
+					'meta'  => $data['config_logo_meta']
 				));
 			}
 			//see if we have resource id or path 

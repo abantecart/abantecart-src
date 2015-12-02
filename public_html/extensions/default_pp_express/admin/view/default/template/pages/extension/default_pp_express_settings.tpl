@@ -24,8 +24,7 @@ $settings_order = array(
 );
 
 if (!$this->config->get('default_pp_express_custom_logo')) {
-	$custom_logo = 'resources/' . $this->config->get('config_logo');
-	$this->config->set('default_pp_express_custom_logo', $custom_logo);
+	$this->config->set('default_pp_express_custom_logo', $this->config->get('config_logo'));
 } else {
 	$custom_logo = $this->config->get('default_pp_express_custom_logo');
 }

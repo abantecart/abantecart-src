@@ -8,11 +8,13 @@
 	      <span class="icon-bar"></span>
 	      <span class="icon-bar"></span>
 	    </button>
-	    <?php if (is_file(DIR_RESOURCE . $logo)) { ?>
-	    <a class="logo" href="<?php echo $homepage; ?>"><img src="resources/<?php echo $logo; ?>"
-	        														   title="<?php echo $store; ?>"
-	        														   alt="<?php echo $store; ?>"/></a>
-	    <?php } else if (!empty($logo)) { ?>
+	    <?php if(!$logo_html){ ?>
+	    <a class="logo" href="<?php echo $homepage; ?>">
+		    <img src="<?php echo $logo; ?>"
+	             title="<?php echo $store; ?>"
+	             alt="<?php echo $store; ?>"/>
+	    </a>
+	    <?php }else{ ?>
 	    <a class="logo" href="<?php echo $homepage; ?>"><?php echo $logo; ?></a>
 	    <?php } ?>
 	  </div>

@@ -227,7 +227,7 @@ class ControllerResponsesExtensionDefaultPPExpress extends AController {
 			}
 
 			if ( has_value($this->config->get('default_pp_express_custom_logo')) ) {
-				$payment_data['LOGOIMG'] = HTTPS_SERVER .'resources/'. $this->config->get('default_pp_express_custom_logo');
+				$payment_data['LOGOIMG'] = HTTPS_SERVER . $this->config->get('default_pp_express_custom_logo');
 			}
 
 			if ( has_value($this->config->get('default_pp_express_custom_bg_color')) ) {

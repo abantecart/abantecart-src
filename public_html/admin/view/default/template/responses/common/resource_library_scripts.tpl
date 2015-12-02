@@ -30,6 +30,7 @@ var modalscope = {
 	mode: '<?php echo $mode;?>',
 	wrapper_id: '',
 	field_id: '',
+	meta: null, //for single mode only
 	selected_resource: {} //for single mode only
 };
 
@@ -214,7 +215,7 @@ var loadMedia = function (type, wrapper) {
 }
 
 
-var loadSingle = function (type, wrapper_id, resource_id, field) {
+var loadSingle = function (type, wrapper_id, resource_id, field, meta) {
 	if (!wrapper_id || wrapper_id == undefined || wrapper_id == null || wrapper_id == '') {
 		wrapper_id = modalscope.wrapper_id;
 	} else {
@@ -231,7 +232,8 @@ var loadSingle = function (type, wrapper_id, resource_id, field) {
 		type: 'GET',
 		//disable async-mode by cause of slow connections via proxies (limit for connections count at the same time)
 		async: false,
-		data: { type: type },
+		//send meta with image size for recalculation with proportions
+		data: { type: type, meta: meta },
 		dataType: 'json',
 		global: false,
 		success: function (item) {
@@ -245,15 +247,22 @@ var loadSingle = function (type, wrapper_id, resource_id, field) {
 					<?php // variable t needs to prevent browser caching in case of replacement of file of resource?>
 					src = '<img class="img-responsive" src="' + item['thumbnail_url'] + '?t=' + t + '" title="' + item['name'] + '" />';
 				}
-				//mark as changed
-				var changed = '';
-				if($('#'+field).attr('data-orgvalue') != item['type_name']+'/'+item['resource_path']) {
-					changed = ' changed';
-					$('#'+field).parents('form').prop('changed', 'true');
+				//add item properties for single mode for CKE
+				if($('#RlFrm_meta').length>0){
+					var image_meta = $('#RlFrm_meta').val();
+					if(image_meta.length>0) {
+						item['meta'] = image_meta;
+					}
+					//check title to paste it into alt attribute
+					if(item['title'].length<1 && $('#RlFrm_title').val().length>0){
+						item['title'] = $('#RlFrm_title').val();
+					}
+				}else{
+					item['meta'] = '';//JSON.stringify(meta);
 				}
 
 				html += '<div class="resource_single col-sm-6 col-xs-12 text-center">';
-				html += '<div class="thumbnail fileupload_drag_area '+changed+'" id="image_row' + item['resource_id'] + '" >'+
+				html += '<div class="thumbnail fileupload_drag_area" id="image_row' + item['resource_id'] + '" >'+
 						'<a class="btn resource_edit" ' +
 								'data-mode="single" ' +
 								'data-type="' + type + '" ' +
@@ -263,22 +272,25 @@ var loadSingle = function (type, wrapper_id, resource_id, field) {
 
 				html += '<a class="btn resource_delete tooltips" data-rl-id="' + item['resource_id'] + '" ' +
 						'data-original-title="<?php echo $button_delete ?>" ' +
-						'onclick="loadSingle(\'' + type + '\', \'' + wrapper_id + '\', null, \'' + field + '\');"><i class="fa fa-times"></i>&nbsp;<?php echo $button_remove?></a>';
+						'><i class="fa fa-times"></i>&nbsp;<?php echo $button_remove?></a>';
 				html += '</div>';
-
-				$('#'+field).val(item['resource_path'].length>0 ? item['type_name']+'/'+item['resource_path'] : '');
-				$('#'+field+'_resource_id').val(item['resource_id']);
-				$('#'+field+'_resource_code').val(item['resource_code']);
-				//add item properties for single mode for CKE
-				if($('#RlFrm_image_size').length>0){
-					var dim = $('#RlFrm_image_size').val().split('_');
-					item['width'] = dim[0];
-					item['height'] = dim[1];
-					//check title to paste it into alt attribute
-					if(item['title'].length<1 && $('#RlFrm_title').val().length>0){
-						item['title'] = $('#RlFrm_title').val();
+				var resource_uri = '';
+				if(item['resource_path'].length>0 && type=='image'){
+					resource_uri = 'index.php?rt=r/common/resource/getImageThumbnail&resource_id='+item['resource_id'];
+					if(meta && meta!='') {
+						resource_uri += '&' + $.param(meta);
+					}
+				}else {
+					if(item['resource_path'].length > 0){
+						resource_uri =  item['type_name'] + '/' + item['resource_path'];
+					}else{
+						resource_uri = item['resource_id'];
 					}
 				}
+				$('#' + field).val(resource_uri);
+				$('#'+field+'_resource_id').val(item['resource_id']);
+				$('#'+field+'_resource_code').val(item['resource_code']);
+
 				modalscope.selected_resource = item;
 			} else {
 				html = '<div class="resource_single col-sm-6 col-xs-12"><div class="center thumbnail fileupload_drag_area" >';
@@ -296,6 +308,19 @@ var loadSingle = function (type, wrapper_id, resource_id, field) {
 				modalscope.selected_resource = {};
 			}
 			$('#' + wrapper_id).html(html);
+			$('#' + wrapper_id).find('.resource_delete').on('click', function(){
+				loadSingle(type, wrapper_id, null, field, meta);
+			});
+
+			$('#' + wrapper_id).find('a.resource_edit, a.resource_add').data('meta',meta);
+
+			//mark as changed
+			var changed = '';
+			if($('#'+field).attr('data-orgvalue') != $('#'+field).val()) {
+				$('#' + wrapper_id).find('.resource_single .thumbnail').addClass('changed');
+				$('#'+field).parents('form').prop('changed', 'true');
+
+			}
 		},
 		error: rl_error_handler
 	});
@@ -322,6 +347,9 @@ jQuery(function () {
 			if( $(this).attr('data-field') ){
 				modalscope.field_id = $(this).attr('data-field');
 			}
+			if( $(this).data('meta') ){
+				modalscope.meta = $(this).data('meta');
+			}
 		}
 
 		mediaDialog($(this).attr('data-type'), 'add');
@@ -338,6 +366,11 @@ jQuery(function () {
 			}
 			if( $(this).attr('data-field') ){
 				modalscope.field_id = $(this).attr('data-field');
+			}
+			if( $(this).data('meta') ){
+				modalscope.meta = $(this).data('meta');
+			}else{
+				modalscope.meta = 	null;
 			}
 		}
 
@@ -503,11 +536,12 @@ var bind_rl = function (elm) {
 			//get RL ID from check box value
 			var rl_id = $(this).val();
 
-			loadSingle($('#library').attr('data-type'), modalscope.wrapper_id, rl_id, modalscope.field_id);
+			loadSingle($('#library').attr('data-type'), modalscope.wrapper_id, rl_id, modalscope.field_id, modalscope.meta);
 			$('#rl_modal').modal('hide');
 			modalscope.mode = '';
 			modalscope.wrapper_id = '';
 			modalscope.field_id = '';
+			modalscope.meta = null;
 			return false;
 		}
 
@@ -617,7 +651,7 @@ var bind_rl = function (elm) {
 		if (modalscope.mode == 'single') {	
 			var rl_id = $(this).attr('data-rl-id');
 			//reload media and mark for save
-			loadSingle($('#library').attr('data-type'), modalscope.wrapper_id, rl_id, modalscope.field_id, true);
+			loadSingle($('#library').attr('data-type'), modalscope.wrapper_id, rl_id, modalscope.field_id, modalscope.meta);
 
 			$('#rl_modal').modal('hide');
 			modalscope.mode = '';
@@ -971,7 +1005,7 @@ jQuery(function () {
 				mediaDialog(rl_type, 'list_object');
 			} else {
 				if( modalscope.mode=='single'){
-					loadSingle(rl_type, modalscope.wrapper_id, response.resource_id, modalscope.field_id);
+					loadSingle(rl_type, modalscope.wrapper_id, response.resource_id, modalscope.field_id, modalscope.meta);
 				}
 				mediaDialog(rl_type, 'update', response.resource_id);
 			}
@@ -1068,6 +1102,4 @@ jQuery(function () {
 	});
 
 });
-
-
 </script>

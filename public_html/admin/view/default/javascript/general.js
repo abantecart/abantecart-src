@@ -1007,8 +1007,10 @@ function openCKRLModal(cke){
                     if(item['title'].length>0){
                         alt = ' alt="'+encodeURIComponent(item['title'])+'"';
                     }
-                    if(item['width'].length>0){
-                        insert_html += '&w='+item['width']+'&h='+item['height'];
+
+                    if(item.hasOwnProperty('meta') && item.meta.length>0){
+                        var size = item.meta.split('_');
+                        insert_html += '&width='+size[0]+'&height='+size[1];
                     }
 					insert_html = '<img src="'+insert_html+'"'+alt+'>';
 				}else{

@@ -1609,6 +1609,7 @@ class ResourceHtmlElement extends HtmlElement {
 			'id' => $this->element_id,
 			'wrapper_id' => $this->element_id.'_wrapper',
 			'name' => $this->name,
+			'meta' => json_encode($this->meta),
 			'resource_path' => $this->resource_path, //path
 			'resource_id'=>$this->resource_id, //resource_id
 			'object_name'=> $this->object_name,
@@ -1620,11 +1621,19 @@ class ResourceHtmlElement extends HtmlElement {
 			$path = ltrim($data['resource_path'], $data['rl_type'].'/');
 			$r = new AResource($data['rl_type']);
 			$data['resource_id'] = $r->getIdFromHexPath( $path );
+			if(!$data['resource_id']){
+				$data['resource_id'] = $r->getIdFromUri($path);
+			}
 		}
 		if($data['resource_id'] && !$data['resource_path']){
 			$r = new AResource($data['rl_type']);
 			$info = $r->getResource($data['resource_id']);
-			$data['resource_path'] = $data['rl_type'].'/'.$info['resource_path'];
+			if($info['resource_path']){
+				$data['resource_path'] = $data['rl_type'] . '/' . $info['resource_path'];
+			}else{
+				//for code-resources
+				$data['resource_path'] = $data['resource_id'];
+			}
 		}
 
 		$this->view->batchAssign($data);

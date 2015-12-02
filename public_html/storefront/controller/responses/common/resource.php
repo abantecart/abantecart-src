@@ -66,11 +66,13 @@ class ControllerResponsesCommonResource extends AController {
                 exit;
             }
 
-            if($this->request->get['w']){
-                $width = (int)$this->request->get['w'];
-                $height = (int)$this->request->get['h'];
-	            $this->load->model('tool/image');
-	            $file_path = $this->model_tool_image->resize($file_path,$width,$height, $result['name'], 'path');
+            if($this->request->get['width']){
+                $width = (int)$this->request->get['width'];
+                $height = (int)$this->request->get['height'];
+                $this->load->model('tool/image');
+                $file_path = $this->model_tool_image->resize($file_path,$width,$height, $result['name'], 'path');
+            }else{
+                $file_path = DIR_RESOURCE . $r->getTypeDir() . $file_path;
             }
 
 

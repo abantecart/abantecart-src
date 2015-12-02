@@ -237,13 +237,16 @@ $txt_unlink_resource = sprintf($text_unmap_from, $object_title);
 		</div>
 
 		<?php //part of form that related to images and RL single mode. It used by preformatted img tags
-		if($form['field_image_size']){	?>
+		if($form['field_meta']){	?>
 
 		<div class="form-group">
-			<label class="control-label" for="<?php echo $form['field_image_size']->element_id; ?>"><?php echo $text_image_size; ?></label>
+
+			<label class="control-label" for="<?php echo $form['field_meta']->element_id; ?>">
+				<?php echo $form['field_meta']->type!='hidden' ? $text_image_size : ''; ?>
+			</label>
 
 			<div class="input-group afield col-sm-12">
-				<?php echo $form['field_image_size']; ?>
+				<?php echo $form['field_meta']; ?>
 			</div>
 		</div>
 

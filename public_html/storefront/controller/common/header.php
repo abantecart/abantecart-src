@@ -33,15 +33,12 @@ class ControllerCommonHeader extends AController {
 		$this->data['store'] = $this->config->get('store_name');
 
         $this->data['logo'] = $this->config->get('config_logo');
+
 		//see if we have a resource ID	
 		if (is_numeric($this->data['logo'])) {
 			$resource = new AResource('image');
 		    $image_data = $resource->getResource( $this->data['logo'] );
-		    if ( is_file(DIR_RESOURCE . $image_data['image']) ) {
-		    	$this->data['logo'] = 'resources/'.$image_data['image'];
-		    } else {
-		    	$this->data['logo'] = $image_data['resource_code'];
-		    }
+		    $this->data['logo_html'] = $image_data['resource_code'];
 		}
         
 		$this->data['text_special'] = $this->language->get('text_special');

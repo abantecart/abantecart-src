@@ -1638,8 +1638,14 @@ INSERT INTO `ac_settings` (`group`, `key`, `value`) VALUES
 -- Appearance
 
 ('appearance','storefront_width','100%'),
-('appearance','config_logo','image/18/73/3.png'),
-('appearance','config_icon','image/18/73/4.ico'),
+('appearance','config_logo','index.php?rt=r/common/resource/getImageThumbnail&resource_id=100147&width=230&height=60'),
+('appearance','config_logo_meta','a:2:{s:5:"width";i:230;s:6:"height";i:60;}'),
+
+('appearance','config_icon','index.php?rt=r/common/resource/getImageThumbnail&resource_id=100148&width=32&height=32'),
+('appearance','config_icon_meta','a:2:{s:5:"width";i:32;s:6:"height";i:32;}'),
+
+('appearance','config_menu_icon_meta','a:2:{s:5:"width";i:14;s:6:"height";i:14;}'),
+
 ('appearance','config_image_thumb_width',380),
 ('appearance','config_image_thumb_height',380),
 ('appearance','config_image_popup_width',500),

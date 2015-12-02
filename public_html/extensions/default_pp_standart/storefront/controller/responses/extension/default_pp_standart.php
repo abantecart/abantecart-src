@@ -62,7 +62,7 @@ class ControllerResponsesExtensionDefaultPPStandart extends AController {
 			if (strpos($this->config->get('default_pp_standart_custom_logo'), 'http')===0 ) {
 				$this->data['logoimg'] = $this->config->get('default_pp_standart_custom_logo');
 			} else {
-				$this->data['logoimg'] = HTTPS_SERVER . 'resources/'.$this->config->get('default_pp_standart_custom_logo');
+				$this->data['logoimg'] = HTTPS_SERVER . $this->config->get('default_pp_standart_custom_logo');
 			}
 		}
 
@@ -75,6 +75,7 @@ class ControllerResponsesExtensionDefaultPPStandart extends AController {
 
 		$this->data['products'] = array();
 		$products = $this->cart->getProducts();
+
 		foreach ($products as $product) {
 			$option_data = array();
 
@@ -101,6 +102,21 @@ class ControllerResponsesExtensionDefaultPPStandart extends AController {
 				'weight'   => $product['weight']
 			);
 		}
+		//check for virtual product such as gift certificate
+		$cart_data = $this->customer->getCustomerCart();
+		if(isset($cart_data['virtual'])){
+			foreach($cart_data['virtual'] as $virtual){
+				$this->data['products'][] = array (
+						'name'     => 'Virtual Product',
+						'model'    => '',
+						'price'    => $this->currency->format($virtual['amount'], $order_info['currency'], $order_info['value'], false),
+						'quantity' => $virtual['quantity'],
+						'option'   => array(),
+						'weight'   => 0
+				);
+			}
+		}
+
 
 
 		$this->data['discount_amount_cart'] = 0;

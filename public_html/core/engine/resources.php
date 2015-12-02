@@ -155,6 +155,31 @@ class AResource {
 	    }else{
 		    $result = $this->_getIdByName($path);
 	    }
+		//function must return only integer!
+		if(!is_int($result)){
+			return null;
+		}
+	    return $result;
+    }
+
+
+	/**
+	 * @param string $uri
+	 * @return null|number
+	 */
+	public function getIdFromUri( $uri ) {
+	    if(strpos($uri, 'resource_id=') === false){ return null; }
+		if(strpos($uri, '&amp;')){
+			$uri = html_entity_decode($uri, ENT_QUOTES, 'UTF-8');
+		}
+
+		parse_str($uri,$parsed);
+
+		$result = $parsed['resource_id'];
+
+		if(gettype($result)!='int'){
+		//	return null;
+		}
 	    return $result;
     }
 
@@ -168,7 +193,7 @@ class AResource {
                 WHERE name like '%".$this->db->escape($filename)."%'
                 ORDER BY language_id";
         $query = $this->db->query($sql);
-        return $query->row['resource_id'];
+        return (int)$query->row['resource_id'];
 	}
 
 	/**

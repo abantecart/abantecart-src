@@ -297,29 +297,42 @@ class ControllerResponsesCommonResourceLibrary extends AController {
 		//show image sizes selectbox for single mode
 		if($this->data['type']=='image' && $this->data['mode']=='single' && $resource['resource_path']){
 
-			$file_path = DIR_RESOURCE . 'image/' . $resource['resource_path'];
-			$img = new AImage($file_path);
-			$img_info = $img->getInfo();
-			$img_sizes = array('150', '300', '600', '900');
-			$options = array();
-			foreach($img_sizes as $size){
-				if($size > $img_info['width']){ break; }
-				$new_height = ceil($img_info['height']*$size/$img_info['width']);
+			//when modal opened from CKE
+			if(!$this->request->get['wrapper_id']){
+				$file_path = DIR_RESOURCE . 'image/' . $resource['resource_path'];
+				$img = new AImage($file_path);
+				$img_info = $img->getInfo();
+				$img_sizes = array ('150', '300', '600', '900');
+				$options = array ();
+				foreach ($img_sizes as $size){
+					if ($size > $img_info['width']){
+						break;
+					}
+					$new_height = ceil($img_info['height'] * $size / $img_info['width']);
+					$options[$size.'_'.$new_height] = $size . 'x' . $new_height . ' px';
+				}
+				//add original size
+				$options[$img_info['width'].'_'.$img_info['height']] = $img_info['width'] . 'x' . $img_info['height'] . ' px';
 
-				$options[$size.'_'.$new_height] = $size.'x'.$new_height.' px';
+
+				$this->data['form']['field_meta'] = $form->getFieldHtml(
+						array ('type'        => 'selectbox',
+						       'name'        => 'meta',
+						       'placeholder' => $this->language->get('text_select'),
+						       'options'     => $options
+						)
+				);
+				$this->data['text_image_size'] = $this->language->get('text_image_size');
+			//when modal opened from page
+			}elseif($this->request->get['meta']){
+
+				$this->data['form']['field_meta'] = $form->getFieldHtml(
+						array ('type'        => 'hidden',
+						       'name'        => 'meta',
+						       'value'       => $this->request->get['meta']
+						)
+				);
 			}
-			//add original size
-			$options[$img_info['width'].'_'.$img_info['height']] = $img_info['width'].'x'.$img_info['height'].' px';
-
-
-			$this->data['form']['field_image_size'] = $form->getFieldHtml(
-				array(  'type'=>'selectbox',
-						'name'=>'image_size',
-						'placeholder' => $this->language->get('text_select'),
-						'options'=> $options
-					)
-			);
-			$this->data['text_image_size'] = $this->language->get('text_image_size');
 
 		}
 	}
@@ -500,7 +513,7 @@ class ControllerResponsesCommonResourceLibrary extends AController {
 						'id' => 'language_id',
 						'name' => 'language_id',
 						'options' => $languages,
-						'value' => $language_id
+						'value' => $this->language->getContentLanguageID()
 					));
 	}
 
