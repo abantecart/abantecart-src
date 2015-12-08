@@ -139,6 +139,23 @@ class ControllerResponsesExtensionDefaultPPStandart extends AController {
 			}
 		}
 
+		//check for virtual product such as gift certificate, account credit etc
+		$virtual_products = $this->cart->getVirtualProducts();
+
+		if($virtual_products){
+			foreach($virtual_products as $k => $virtual){
+				$this->data['products'][] = array (
+						'name'     => ($virtual['name'] ? $virtual['name'] : 'Virtual Product'),
+						'model'    => '',
+						'price'    => $this->currency->format($virtual['amount'], $order_info['currency'], $order_info['value'], false),
+						'quantity' => ($virtual['quantity'] ? $virtual['quantity'] : 1),
+						'option'   => array(),
+						'weight'   => 0
+				);
+				$this->data['items_total'] += ($virtual['quantity'] ? $virtual['quantity'] : 1) * $this->currency->format($virtual['amount'], $order_info['currency'], $order_info['value'], false);
+			}
+		}
+
 
 		if (!$this->config->get('default_pp_standart_transaction')) {
 			$this->data['paymentaction'] = 'authorization';

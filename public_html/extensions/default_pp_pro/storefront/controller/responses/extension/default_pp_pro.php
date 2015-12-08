@@ -338,6 +338,22 @@ class ControllerResponsesExtensionDefaultPPPro extends AController {
 			$this->data['items_total'] += $price*$product['quantity'];
 		}
 
+		//check for virtual product such as gift certificate
+		$virtual_products = $this->cart->getVirtualProducts();
+
+		if($virtual_products){
+			foreach($virtual_products as $k => $virtual){
+				$this->data['products'][] = array (
+						'name'     => ($virtual['name'] ? $virtual['name'] : 'Virtual Product'),
+						'model'    => '',
+						'price'    => $this->currency->format($virtual['amount'], $order_info['currency'], $order_info['value'], false),
+						'quantity' => ($virtual['quantity'] ? $virtual['quantity'] : 1),
+						'option'   => array(),
+						'weight'   => 0
+				);
+				$this->data['items_total'] += ($virtual['quantity'] ? $virtual['quantity'] : 1) * $this->currency->format($virtual['amount'], $order_info['currency'], $order_info['value'], false);
+			}
+		}
 
 		$this->data['discount_amount_cart'] = 0;
 		$totals = $this->cart->buildTotalDisplay();
