@@ -368,6 +368,8 @@ class ModelCatalogProduct extends Model{
 	 * @return array
 	 */
 	public function getProductsByKeyword($keyword, $category_id = 0, $description = false, $model = false, $sort = 'p.sort_order', $order = 'ASC', $start = 0, $limit = 20){
+		//trim keyword
+		$keyword = trim($keyword);
 		if ($keyword){
 			$sql = "SELECT  *,
 							p.product_id,  
