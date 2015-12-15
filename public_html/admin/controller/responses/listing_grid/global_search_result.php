@@ -93,6 +93,9 @@ class ControllerResponsesListingGridGlobalSearchResult extends AController {
 	}
 
 	public function suggest() {
+		//init controller data
+		$this->extensions->hk_InitData($this, __FUNCTION__);
+
 		$this->loadModel('tool/global_search');
 		$this->loadLanguage('tool/global_search');
 
@@ -150,6 +153,9 @@ class ControllerResponsesListingGridGlobalSearchResult extends AController {
 				}
 			}
 		}
+
+		//update controller data
+		$this->extensions->hk_UpdateData($this, __FUNCTION__);
 
 		$this->load->library('json');
 		$this->response->addJSONHeader();
