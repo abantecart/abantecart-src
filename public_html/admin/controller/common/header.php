@@ -44,7 +44,6 @@ class ControllerCommonHeader extends AController {
 		}
 
 		$this->view->assign('language_code', $this->session->data['language']);
-		$this->view->assign('languages', array());
 		$this->view->assign('languages', $this->language->getActiveLanguages());
 		$this->view->assign('content_language_id', $this->language->getContentLanguageID());
 		$this->view->assign('language_settings', $this->html->getSecureURL('localisation/language'));
@@ -97,7 +96,24 @@ class ControllerCommonHeader extends AController {
 
 			//Get surrent menu item
 			$menu = new AMenu('admin');
+
 			$current_menu = $menu->getMenuByRT($this->request->get['rt']);
+			if(!$current_menu && substr_count($this->request->get['rt'],'/')>=2){
+				$rt_parts = explode('/', $this->request->get['rt']);
+				if($rt_parts){
+					//remove p,a,r prefixes from rt
+					if( strlen($rt_parts[0])==1 ){
+						unset($rt_parts[0]);
+					}
+					//try to get icon from parent menu item
+					array_pop($rt_parts);
+					$menu_item = $menu->getMenuByRT(implode('/',$rt_parts));
+					if($menu_item['item_icon_rl_id']){
+						$current_menu = array('item_icon_rl_id' => $menu_item['item_icon_rl_id']);
+					}
+				}
+				unset($rt_parts,$menu_item);
+			}
 			if($current_menu ['item_icon_rl_id']) {
 				$rm = new AResourceManager();
 				$rm->setType('image');
