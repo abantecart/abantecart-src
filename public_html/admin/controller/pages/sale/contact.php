@@ -111,8 +111,6 @@ class ControllerPagesSaleContact extends AController {
 
 		$this->loadModel('catalog/product');
 
-		$this->data['products'] = $this->model_catalog_product->getProducts();
-
 		if (isset($this->request->post['product'])) {
 			$this->data['product'] = $this->request->post['product'];
 		} else {
