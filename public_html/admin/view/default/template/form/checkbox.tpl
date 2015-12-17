@@ -8,7 +8,7 @@
 		   <?php echo $attr ?>           
 />
 <?php if ( $label_text ){ ?>
-<label for="<?php echo $id ?>"><?php echo $label_text; ?></label>
+&nbsp;<label for="<?php echo $id ?>"><?php echo $label_text; ?></label>
 <?php } ?>
 
 <?php if ( $required == 'Y' || !empty ($help_url) ) { ?>
