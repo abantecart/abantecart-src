@@ -196,6 +196,10 @@ Candidate for review
 	height: auto;
 }
 
+.acheckbox-label{
+	display:inline;
+}
+
 /* Scrollbox */
 div.aform div.scrollbox {
 	background:none;
