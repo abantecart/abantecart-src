@@ -2593,6 +2593,10 @@ label.error {
 /* fix for lable inside of input-group */
 .input-group label {
 	padding-top: 7px;
+	margin-right: 5px;
+}
+.input-group label>input[type="checkbox"]{
+	vertical-align: sub;
 }
 
 form .help-block {
