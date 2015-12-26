@@ -45,7 +45,6 @@ class ControllerPagesCheckoutAddress extends AController {
 		
 		if (!$this->customer->isLogged()) {  
 			$this->session->data['redirect'] = $this->html->getSecureURL('checkout/shipping');
-      		
 			$this->redirect($this->html->getSecureURL('account/login'));
     	}	
 
@@ -93,6 +92,7 @@ class ControllerPagesCheckoutAddress extends AController {
 				}
 			}
 			unset($this->session->data['shipping_methods'], $this->session->data['shipping_method']);
+			$this->extensions->hk_ProcessData($this);
 			$this->redirect($this->html->getSecureURL('checkout/shipping'));
 		}
 		
@@ -106,7 +106,7 @@ class ControllerPagesCheckoutAddress extends AController {
 				if ($this->cart->hasShipping()) {
 					$this->tax->setZone($this->request->post['country_id'], $this->request->post['zone_id']);
 				}	
-
+			    $this->extensions->hk_ProcessData($this);
 				$this->redirect($this->html->getSecureURL('checkout/shipping'));
 			}
 		}
@@ -134,7 +134,6 @@ class ControllerPagesCheckoutAddress extends AController {
 		
 		if (!$this->customer->isLogged()) {  
 			$this->session->data['redirect'] = $this->html->getSecureURL('checkout/shipping');
-      		
 			$this->redirect($this->html->getSecureURL('account/login'));
     	}	
 		
@@ -181,7 +180,7 @@ class ControllerPagesCheckoutAddress extends AController {
 	  		
 			unset($this->session->data['payment_methods']);
 			unset($this->session->data['payment_method']);
-			
+		    $this->extensions->hk_ProcessData($this);
 			$this->redirect($this->html->getSecureURL('checkout/payment'));
 		} 
 	   
@@ -192,7 +191,7 @@ class ControllerPagesCheckoutAddress extends AController {
 	  		
 				unset($this->session->data['payment_methods']);
 				unset($this->session->data['payment_method']);
-			
+			    $this->extensions->hk_ProcessData($this);
 	  			$this->redirect($this->html->getSecureURL('checkout/payment'));
 	  		}
     	}

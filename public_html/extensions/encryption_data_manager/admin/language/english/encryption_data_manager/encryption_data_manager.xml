@@ -42,9 +42,9 @@
 		  <b>This extension requires ADVANCED configuration and attention</b><br/> 
 		  <b>Once enabled and data encrypted, there is NO undo and extension can not be disabled! </b><br/> 
 		  This extension helps managing encryption keys creation and data migration from open to encrypted tables (initial migration)<br/> 
-		  <b>PLEASE NOTE:</b> you need to have <b>PHP 5.3</b> or grater with SSL Encryption  <b>ENABLED</b>
+		  <b>PLEASE NOTE:</b> you need to have PHP with SSL Encryption  <b>ENABLED</b>
           <br/>
-          <br/>To enable data encryption please read help instructions (Help button above)]]></value>
+          <br/>To enable data encryption please read help instructions (HOW TO button)]]></value>
   </definition>  
   <definition>
     <key>error_openssl_disabled</key>

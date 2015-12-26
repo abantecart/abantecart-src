@@ -256,7 +256,7 @@
 			</tr>
 			<?php $order_total_row++ ?>
 		<?php } ?>
-		<?php if (count($totals_add)) { ?>
+		<?php if ($totals_add) {?>
 			<tr>
 				<td colspan="4" class="right"><span class="pull-right"><?php echo $text_add; ?></span></td>
 				<td>
@@ -296,6 +296,7 @@
 		</tbody>
 	</table>
 
+	<?php if($add_product){?>
 	<div class="container-fluid form-inline">
 		<div class="list-inline col-sm-12"><?php echo $entry_add_product; ?></div>
 		<div class="list-inline input-group afield col-sm-7 col-xs-9">
@@ -307,6 +308,7 @@
 				<i class="fa fa-plus-circle fa-lg"></i></a>
 		</div>
 	</div>
+	<?php } ?>
 	</div>
 
 	<div class="panel-footer col-xs-12">

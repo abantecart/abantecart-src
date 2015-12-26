@@ -21,6 +21,7 @@ if (! defined ( 'DIR_CORE' )) {
 	header ( 'Location: static_pages/' );
 }
 class ControllerPagesCheckoutSuccess extends AController {
+	public $data = array();
 	public function main() {
 
         //init controller data
@@ -79,7 +80,9 @@ class ControllerPagesCheckoutSuccess extends AController {
 					$this->session->data['coupon'],
 					$this->session->data['used_balance'],
 					$this->session->data['used_balance_full']);
-					
+
+			$this->extensions->hk_ProcessData($this);
+
 			//Redirect back. Fix for clearing shopping cart content
 			$this->redirect($this->html->getSecureURL('checkout/success'));
 		}

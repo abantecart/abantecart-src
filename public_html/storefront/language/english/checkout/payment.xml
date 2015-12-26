@@ -1,67 +1,68 @@
 <?xml version="1.0"?>
 <definitions>
-  <definition>
-    <key>heading_title</key>
-    <value><![CDATA[Payment Information]]></value>
-  </definition>
-  <definition>
-    <key>text_basket</key>
-    <value><![CDATA[Basket]]></value>
-  </definition>
-  <definition>
-    <key>entry_shipping</key>
-    <value><![CDATA[Shipping]]></value>
-  </definition>
-  <definition>
-    <key>entry_payment</key>
-    <value><![CDATA[Payment]]></value>
-  </definition>
-  <definition>
-    <key>text_payment_to</key>
-    <value><![CDATA[Please choose from your address book where you would like the invoice sent.]]></value>
-  </definition>
-  <definition>
-    <key>text_payment_address</key>
-    <value><![CDATA[Payment Address]]></value>
-  </definition>
-  <definition>
-    <key>text_payment_method</key>
-    <value><![CDATA[Payment Method]]></value>
-  </definition>
-  <definition>
-    <key>text_payment_methods</key>
-    <value><![CDATA[Please select the preferred payment method to use on this order.]]></value>
-  </definition>
-  <definition>
-    <key>text_comments</key>
-    <value><![CDATA[Add Comments About Your Order]]></value>
-  </definition>
-  <definition>
-    <key>text_agree</key>
-    <value><![CDATA[I have read and agree to the ]]></value>
-  </definition>
-  <definition>
-    <key>text_coupon</key>
-    <value><![CDATA[Enter your code and click "Apply Coupon" and to see your discount instantly applied to your order.]]></value>
-  </definition>
-  <definition>
-    <key>text_success</key>
-    <value><![CDATA[Success: Your coupon discount has been applied!]]></value>
-  </definition>
-  <definition>
-    <key>entry_coupon</key>
-    <value><![CDATA[Coupon:]]></value>
-  </definition>
-  <definition>
-    <key>error_payment</key>
-    <value><![CDATA[Error: Payment method required!]]></value>
-  </definition>
-  <definition>
-    <key>error_agree</key>
-    <value><![CDATA[Error: You must agree to the %s!]]></value>
-  </definition>
-  <definition>
-    <key>error_coupon</key>
-    <value><![CDATA[Error: Coupon is either invalid, expired or reached it's usage limit!]]></value>
-  </definition>
+	<definition>
+		<key>heading_title</key>
+		<value><![CDATA[Payment Information]]></value>
+	</definition>
+	<definition>
+		<key>text_basket</key>
+		<value><![CDATA[Basket]]></value>
+	</definition>
+	<definition>
+		<key>entry_shipping</key>
+		<value><![CDATA[Shipping]]></value>
+	</definition>
+	<definition>
+		<key>entry_payment</key>
+		<value><![CDATA[Payment]]></value>
+	</definition>
+	<definition>
+		<key>text_payment_to</key>
+		<value><![CDATA[Please choose from your address book where you would like the invoice sent.]]></value>
+	</definition>
+	<definition>
+		<key>text_payment_address</key>
+		<value><![CDATA[Payment Address]]></value>
+	</definition>
+	<definition>
+		<key>text_payment_method</key>
+		<value><![CDATA[Payment Method]]></value>
+	</definition>
+	<definition>
+		<key>text_payment_methods</key>
+		<value><![CDATA[Please select the preferred payment method to use on this order.]]></value>
+	</definition>
+	<definition>
+		<key>text_comments</key>
+		<value><![CDATA[Add Comments About Your Order]]></value>
+	</definition>
+	<definition>
+		<key>text_agree</key>
+		<value><![CDATA[I have read and agree to the ]]></value>
+	</definition>
+	<definition>
+		<key>text_coupon</key>
+		<value>
+			<![CDATA[Enter your code and click "Apply Coupon" and to see your discount instantly applied to your order.]]></value>
+	</definition>
+	<definition>
+		<key>text_success</key>
+		<value><![CDATA[Success: Your coupon discount has been applied!]]></value>
+	</definition>
+	<definition>
+		<key>entry_coupon</key>
+		<value><![CDATA[Coupon:]]></value>
+	</definition>
+	<definition>
+		<key>error_payment</key>
+		<value><![CDATA[Error: Payment method required!]]></value>
+	</definition>
+	<definition>
+		<key>error_agree</key>
+		<value><![CDATA[Error: You must agree to the %s!]]></value>
+	</definition>
+	<definition>
+		<key>error_coupon</key>
+		<value><![CDATA[Error: Coupon is either invalid, expired or reached it's usage limit!]]></value>
+	</definition>
 </definitions>

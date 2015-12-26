@@ -685,11 +685,10 @@ final class ADataset {
 
 	/**
 	 * Function returns rows of dataset table by given search condition
-	 * @param array $condition
+	 * @param array $condition  - array("column_name"=>string, "operator"=>string,"value"=>string )
 	 * @param string $order_by
 	 * @param int $limit
 	 * @param int $offset
-	 * @internal param array $array $condition array("column_name"=>string, "operator"=>string,"value"=>string )
 	 * @return array|bool
 	 */
 	public function searchRows($condition = array(), $order_by = 'row_id:ASC', $limit = 1000, $offset = 0) {
@@ -753,8 +752,7 @@ final class ADataset {
 	}
 
 	/**
-	 * drop dataset with values and columnset
-	 * @internal param int $dataset_id
+	 * Drop dataset with values and columnset
 	 * @return boolean
 	 */
 	public function dropDataset() {
