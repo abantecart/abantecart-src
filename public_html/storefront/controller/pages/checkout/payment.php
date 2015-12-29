@@ -294,24 +294,45 @@ class ControllerPagesCheckoutPayment extends AController {
 		$balance = $this->currency->convert($balance_def_currency,$this->config->get('config_currency'),$this->session->data['currency']);
 		if($balance!=0 || ($balance==0 && $this->config->get('config_zero_customer_balance')) && (float)$this->session->data['used_balance']!=0){
 			if((float)$this->session->data['used_balance']==0 && $balance>0){
-				$this->data['apply_balance_button'] = $this->html->buildButton(array('name' => 'apply_balance',
-																					'href' => $this->html->getSecureURL($payment_rt,'&mode=edit&balance=apply',true),
-																					'text' => $this->language->get('button_apply_balance'),
-																					'icon' => 'fa fa-money',
-																					'style'=>'btn-default'));
+				$this->data['apply_balance_button'] = $this->html->buildElement(
+						array(
+								'type' => 'button',
+								'name' => 'apply_balance',
+							    'href' => $this->html->getSecureURL($payment_rt,'&mode=edit&balance=apply',true),
+								'text' => $this->language->get('button_apply_balance'),
+								'icon' => 'fa fa-money',
+								'style'=> 'btn-default'
+						));
 			}elseif((float)$this->session->data['used_balance']>0){
 
-				$this->data['apply_balance_button'] = $this->html->buildButton(array('name' => 'apply_balance',
-																					'href' => $this->html->getSecureURL($payment_rt,'&mode=edit&balance=disapply',true),
-																					'text' => $this->language->get('button_disapply_balance'),
-																					'icon' => 'fa fa-times',
-																					'style'=>'btn-default'));
+				$this->data['apply_balance_button'] = $this->html->buildElement(
+						array(
+								'type' => 'button',
+							    'name' => 'apply_balance',
+								'href' => $this->html->getSecureURL($payment_rt,'&mode=edit&balance=disapply',true),
+								'text' => $this->language->get('button_disapply_balance'),
+								'icon' => 'fa fa-times',
+								'style'=> 'btn btn-default'
+								));
+
+				//if balance cover all order amount - butil button for contunie checkout
+				if($this->session->data['used_balance_full']){
+					$this->data['balance_continue_button'] = $this->html->buildElement(
+								array(
+										'type' => 'submit',
+										'name' => $this->language->get('button_continue'),
+										'icon' => 'fa fa-arrow-right'
+								));
+				}
 			}
 
-			$this->data['balance'] = $this->language->get('text_balance_checkout').' '.$this->currency->format($balance,$this->session->data['currency'],1);
+			$this->data['text_balance'] = $this->language->get('text_balance_checkout');
+			$this->data['balance_remains'] = $this->data['balance_value'] = $this->currency->format($balance,$this->session->data['currency'],1);
+
 			if((float)$this->session->data['used_balance']>0){
-				$this->data['balance'] .=  ' ('.$this->currency->format($balance_def_currency-(float)$this->session->data['used_balance']).')';
-				$this->data['balance'] .=  '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'.$this->currency->format((float)$this->session->data['used_balance']).' '.$this->language->get('text_applied_balance');
+				$this->data['balance_remains'] =  $this->currency->format($balance_def_currency-(float)$this->session->data['used_balance']);
+				$this->data['balance_used'] =  $this->currency->format((float)$this->session->data['used_balance']);
+				$this->data['text_applied_balance'] =  $this->language->get('text_applied_balance');
 			}
 		}
 

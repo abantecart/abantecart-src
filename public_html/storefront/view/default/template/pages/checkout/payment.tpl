@@ -50,12 +50,18 @@
 	if ($coupon_status){
 		echo $coupon_form;
 	}
-	if ($balance){ ?>
+	if ($balance_value){ ?>
 		<h4 class="heading4"><?php echo $text_balance; ?></h4>
 		<div class="registerbox">
 			<table class="table table-striped table-bordered">
 				<tr>
-					<td><?php echo $balance; ?>&nbsp;&nbsp;&nbsp;&nbsp;<?php echo $apply_balance_button; ?></td>
+					<td><?php
+						echo $text_balance_checkout.' '.$balance_value;
+						if($balance_used){
+							echo ' ('.$balance_remains.') &nbsp;&nbsp;&nbsp;'.$balance_used .' '.$text_applied_balance;
+						}
+						$apply_balance_button->style .= ' ml20';
+						echo $apply_balance_button;	?></td>
 				</tr>
 			</table>
 		</div>
