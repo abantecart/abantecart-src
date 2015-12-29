@@ -33,12 +33,7 @@
 			<?php } ?>
 		</table>
 	<?php } ?>
-	<?php if ($products) { ?>
-		<div class="buttonwrap col-md-3">
-			<a class="btn btn-orange pull-right" href="<?php echo $checkout; ?>"><?php echo $text_checkout; ?></a>
-		</div>
-
-	<?php } else { ?>
-		<div class="align_center"><?php echo $text_empty; ?></div>
+	<?php if (!$products) { ?>
+		 		<div class="align_center"><?php echo $text_empty; ?></div>
 	<?php } ?>
 </div>

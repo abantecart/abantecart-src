@@ -67,14 +67,16 @@ class ControllerPagesCheckoutPayment extends AController {
 				if($this->session->data['used_balance'] <= $balance){
 					$this->session->data['used_balance_full'] = true;					
 				} else {
-					//if balance become less or 0 reaply partial
+					//if balance become less or 0 reapply partial
 					$this->session->data['used_balance'] = $balance;
 					$this->session->data['used_balance_full'] = false;				
 				}
 			} else if($balance > 0){
-				if($balance >= $order_total){ //if enough
+				if($balance >= $order_total){
 					$this->session->data['used_balance'] = $order_total;
 					$this->session->data['used_balance_full'] = true;
+					//if enough  -redirect on confirmation page
+					$this->redirect($this->html->getSecureURL('checkout/confirm'));
 				}else{ //partial pay
 					$this->session->data['used_balance'] = $balance;
 					$this->session->data['used_balance_full'] = false;
@@ -306,7 +308,7 @@ class ControllerPagesCheckoutPayment extends AController {
 								'type' => 'button',
 								'name' => 'apply_balance',
 							    'href' => $this->html->getSecureURL($payment_rt,'&mode=edit&balance=apply',true),
-								'text' => $this->language->get('button_apply_balance'),
+								'text' => $this->language->get('button_pay_with_balance'),
 								'icon' => 'fa fa-money',
 								'style'=> 'btn-default'
 						));
