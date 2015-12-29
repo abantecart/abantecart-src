@@ -55,10 +55,12 @@ class ControllerPagesCheckoutPayment extends AController {
 
 			$this->redirect($this->html->getSecureURL($payment_rt));
 		}
+
+		$order_totals = $this->cart->buildTotalDisplay(true);
+		$order_total = $order_totals['total'];
+
 		//process balance
 		if($this->request->get['balance']=='apply'){
-			$order_totals = $this->cart->buildTotalDisplay(true);
-			$order_total = $order_totals['total'];
 			$balance = $this->currency->convert($this->customer->getBalance(),$this->config->get('config_currency'),$this->session->data['currency']);
 			if($this->session->data['used_balance']){
 				#check if we still have balance. 
@@ -291,6 +293,9 @@ class ControllerPagesCheckoutPayment extends AController {
 
 		//balance handling
 		$balance_def_currency = $this->customer->getBalance();
+		//is balance enough to cover all order amount
+		$this->data['balance_enough'] = $balance_def_currency>= $order_total ? true : false;
+
 		$balance = $this->currency->convert($balance_def_currency,$this->config->get('config_currency'),$this->session->data['currency']);
 		if($balance!=0 || ($balance==0 && $this->config->get('config_zero_customer_balance')) && (float)$this->session->data['used_balance']!=0){
 			if((float)$this->session->data['used_balance']==0 && $balance>0){
