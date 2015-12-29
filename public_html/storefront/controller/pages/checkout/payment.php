@@ -84,6 +84,8 @@ class ControllerPagesCheckoutPayment extends AController {
 		}
 		if($this->request->get['balance']=='disapply'){
 			unset($this->session->data['used_balance'],$this->request->get['balance'],$this->session->data['used_balance_full']);
+			$order_totals = $this->cart->buildTotalDisplay(true);
+			$order_total = $order_totals['total'];
 		}
 		//we might have some uncleaned session. Show only if comes together with used balance  
 		if ($this->session->data['used_balance']) {
