@@ -75,7 +75,7 @@ class ControllerPagesAccountLogout extends AController {
       	 ));	
 		
     	$this->view->assign('continue', $this->html->getURL('index/home') );
-		$continue = HtmlElementFactory::create( array ('type' => 'button',
+		$continue = $this->html->buildElement( array ('type' => 'button',
 		                                               'name' => 'continue_button',
 			                                           'text'=> $this->language->get('button_continue'),
 			                                           'style' => 'button'));

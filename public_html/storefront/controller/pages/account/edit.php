@@ -21,7 +21,7 @@ if (! defined ( 'DIR_CORE' )) {
 	header ( 'Location: static_pages/' );
 }
 class ControllerPagesAccountEdit extends AController {
-	private $error = array();
+	public $error = array();
     public $data;
     
 	public function main() {
@@ -30,7 +30,6 @@ class ControllerPagesAccountEdit extends AController {
 
 		if (!$this->customer->isLogged()) {
 			$this->session->data['redirect'] = $this->html->getSecureURL('account/edit');
-
 			$this->redirect($this->html->getSecureURL('account/login'));
 		}
 
@@ -54,6 +53,7 @@ class ControllerPagesAccountEdit extends AController {
     		if ( !$this->error ) {		
 				$this->model_account_customer->editCustomer($request_data);
 				$this->session->data['success'] = $this->language->get('text_success');
+			    $this->extensions->hk_ProcessData($this);
 				$this->redirect($this->html->getSecureURL('account/account'));
 			}
 		}
@@ -143,7 +143,8 @@ class ControllerPagesAccountEdit extends AController {
 		$this->data['reset_loginname'] = $reset_loginname;
 		
 		if($reset_loginname) {
-			$this->data['form'][ 'loginname' ] = $form->getFieldHtml( array(
+			$this->data['form'][ 'loginname' ] = $form->getFieldHtml(
+					array(
                                                                        'type' => 'input',
 		                                                               'name' => 'loginname',
 		                                                               'value' => $loginname,
@@ -153,36 +154,43 @@ class ControllerPagesAccountEdit extends AController {
 			$this->data['form'][ 'loginname' ] = $loginname;
 		}
 		
-		$this->data['form'][ 'firstname' ] = $form->getFieldHtml( array(
+		$this->data['form'][ 'firstname' ] = $form->getFieldHtml(
+				array(
                                                                        'type' => 'input',
 		                                                               'name' => 'firstname',
 		                                                               'value' => $firstname,
 		                                                               'required' => true ));
-		$this->data['form'][ 'lastname' ] = $form->getFieldHtml( array(
+		$this->data['form'][ 'lastname' ] = $form->getFieldHtml(
+				array(
                                                                        'type' => 'input',
 		                                                               'name' => 'lastname',
 		                                                               'value' => $lastname,
 		                                                               'required' => true ));
-		$this->data['form'][ 'email' ] = $form->getFieldHtml( array(
+		$this->data['form'][ 'email' ] = $form->getFieldHtml(
+				array(
                                                                        'type' => 'input',
 		                                                               'name' => 'email',
 		                                                               'value' => $email,
 		                                                               'required' => true ));
-		$this->data['form'][ 'telephone' ] = $form->getFieldHtml( array(
+		$this->data['form'][ 'telephone' ] = $form->getFieldHtml(
+				array(
                                                                        'type' => 'input',
 		                                                               'name' => 'telephone',
 		                                                               'value' => $telephone
 		                                                                ));
-		$this->data['form'][ 'fax' ] = $form->getFieldHtml( array(
+		$this->data['form'][ 'fax' ] = $form->getFieldHtml(
+				array(
                                                                        'type' => 'input',
 		                                                               'name' => 'fax',
 		                                                               'value' => $fax,
 		                                                               'required' => false ));
-		$this->data['form'][ 'continue' ] = $form->getFieldHtml( array(
+		$this->data['form'][ 'continue' ] = $form->getFieldHtml(
+				array(
                                                                        'type' => 'submit',
                                                                        'icon' => 'fa fa-check',
 		                                                               'name' => $this->language->get('button_continue') ));
-		$this->data['form'][ 'back' ] = $form->getFieldHtml( array(
+		$this->data['form'][ 'back' ] = $form->getFieldHtml(
+				array(
                                                                     'type' => 'button',
 		                                                            'name' => 'back',
 			                                                        'style' => 'button',

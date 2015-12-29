@@ -26,6 +26,7 @@ if (! defined ( 'DIR_CORE' )) {
  * @property ModelCatalogContent $model_catalog_content
  */
 class ModelAccountCustomer extends Model {
+	public $error = array();
 	/**
 	 * @param array $data
 	 * @return int
@@ -278,7 +279,7 @@ class ModelAccountCustomer extends Model {
 	 * @return array
 	 */
 	public function validateRegistrationData( $data ) {
-		$error = array();
+		$this->error = array();
 		//If captcha enabled, validate
 		if($this->config->get('config_account_create_captcha')) {
 			if($this->config->get('config_recaptcha_secret_key')) {
@@ -287,11 +288,11 @@ class ModelAccountCustomer extends Model {
 				$resp = $recaptcha->verify(	$data['g-recaptcha-response'],
 											$this->request->server['REMOTE_ADDR']);
 				if (!$resp->isSuccess() && $resp->getErrorCodes()) {
-					$error['captcha'] = $this->language->get('error_captcha');
+					$this->error['captcha'] = $this->language->get('error_captcha');
 				}
 			} else {
 				if (!isset($this->session->data['captcha']) || ($this->session->data['captcha'] != $data['captcha'])) {
-					$error['captcha'] = $this->language->get('error_captcha');
+					$this->error['captcha'] = $this->language->get('error_captcha');
 				}
 			}
 		}
@@ -303,58 +304,58 @@ class ModelAccountCustomer extends Model {
 					|| mb_strlen($data['loginname']) > 64
 					|| !preg_match($login_name_pattern, $data['loginname'])
 			) {
-      			$error['loginname'] = $this->language->get('error_loginname');
+      			$this->error['loginname'] = $this->language->get('error_loginname');
     		//validate uniqunes of login name
    		 	} else if ( !$this->is_unique_loginname($data['loginname']) ) {
-   		   		$error['loginname'] = $this->language->get('error_loginname_notunique');
+   		   		$this->error['loginname'] = $this->language->get('error_loginname_notunique');
    		 	}			
 		} 
 	
     	if ((mb_strlen($data['firstname']) < 1) || (mb_strlen($data['firstname']) > 32)) {
-      		$error['firstname'] = $this->language->get('error_firstname');
+      		$this->error['firstname'] = $this->language->get('error_firstname');
     	}
 
     	if ((mb_strlen($data['lastname']) < 1) || (mb_strlen($data['lastname']) > 32)) {
-      		$error['lastname'] = $this->language->get('error_lastname');
+      		$this->error['lastname'] = $this->language->get('error_lastname');
     	}
 
     	if ((mb_strlen($data['email']) > 96) || (!preg_match(EMAIL_REGEX_PATTERN, $data['email']))) {
-      		$error['email'] = $this->language->get('error_email');
+      		$this->error['email'] = $this->language->get('error_email');
     	}
 
     	if ($this->getTotalCustomersByEmail($data['email'])) {
-      		$error['warning'] = $this->language->get('error_exists');
+      		$this->error['warning'] = $this->language->get('error_exists');
     	}
 
 		if ( mb_strlen($data['telephone']) > 32 ) {
-			$error['telephone'] = $this->language->get('error_telephone');
+			$this->error['telephone'] = $this->language->get('error_telephone');
 		}
 
 		if ((mb_strlen($data['address_1']) < 3) || (mb_strlen($data['address_1']) > 128)) {
-			$error['address_1'] = $this->language->get('error_address_1');
+			$this->error['address_1'] = $this->language->get('error_address_1');
 		}
 
 		if ((mb_strlen($data['city']) < 3) || (mb_strlen($data['city']) > 128)) {
-			$error['city'] = $this->language->get('error_city');
+			$this->error['city'] = $this->language->get('error_city');
 		}
 		if ((mb_strlen($data['postcode']) < 3) || (mb_strlen($data['postcode']) > 128)) {
-			$error['postcode'] = $this->language->get('error_postcode');
+			$this->error['postcode'] = $this->language->get('error_postcode');
 		}
 
 		if ($data['country_id'] == 'FALSE') {
-			$error['country'] = $this->language->get('error_country');
+			$this->error['country'] = $this->language->get('error_country');
 		}
 
 		if ($data['zone_id'] == 'FALSE') {
-			$error['zone'] = $this->language->get('error_zone');
+			$this->error['zone'] = $this->language->get('error_zone');
 		}
 
 		if ((mb_strlen($data['password']) < 4) || (mb_strlen($data['password']) > 20)) {
-			$error['password'] = $this->language->get('error_password');
+			$this->error['password'] = $this->language->get('error_password');
 		}
 
 		if ($data['confirm'] != $data['password']) {
-			$error['confirm'] = $this->language->get('error_confirm');
+			$this->error['confirm'] = $this->language->get('error_confirm');
 		}
 
 		if ($this->config->get('config_account_id')) {
@@ -364,20 +365,21 @@ class ModelAccountCustomer extends Model {
 
 			if ($content_info) {
 				if (!isset($data['agree'])) {
-					$error['warning'] = sprintf($this->language->get('error_agree'), $content_info['title']);
+					$this->error['warning'] = sprintf($this->language->get('error_agree'), $content_info['title']);
 				}
 			}
 		}
 
-		
-    	return $error;
+		$this->extensions->hk_ValidateData($this);
+
+    	return $this->error;
 	}
 	/**
 	 * @param array $data
 	 * @return array
 	 */
 	public function validateSubscribeData( $data ) {
-		$error = array();
+		$this->error = array();
 
 		if($this->config->get('config_recaptcha_secret_key')) {
 			require_once DIR_VENDORS . '/google_recaptcha/autoload.php';
@@ -385,31 +387,33 @@ class ModelAccountCustomer extends Model {
 			$resp = $recaptcha->verify(	$data['g-recaptcha-response'],
 										$this->request->server['REMOTE_ADDR']);
 			if (!$resp->isSuccess() && $resp->getErrorCodes()) {
-				$error['captcha'] = $this->language->get('error_captcha');
+				$this->error['captcha'] = $this->language->get('error_captcha');
 			}
 		} else {
 			if (!isset($this->session->data['captcha']) || ($this->session->data['captcha'] != $data['captcha'])) {
-				$error['captcha'] = $this->language->get('error_captcha');
+				$this->error['captcha'] = $this->language->get('error_captcha');
 			}
 		}
 
     	if ((mb_strlen($data['firstname']) < 1) || (mb_strlen($data['firstname']) > 32)) {
-      		$error['firstname'] = $this->language->get('error_firstname');
+      		$this->error['firstname'] = $this->language->get('error_firstname');
     	}
 
     	if ((mb_strlen($data['lastname']) < 1) || (mb_strlen($data['lastname']) > 32)) {
-      		$error['lastname'] = $this->language->get('error_lastname');
+      		$this->error['lastname'] = $this->language->get('error_lastname');
     	}
 
     	if ((mb_strlen($data['email']) > 96) || (!preg_match(EMAIL_REGEX_PATTERN, $data['email']))) {
-      		$error['email'] = $this->language->get('error_email');
+      		$this->error['email'] = $this->language->get('error_email');
     	}
 
 		if ( $this->getTotalCustomersByEmail($data['email'])) {
-			$error['warning'] = $this->language->get('error_subscriber_exists');
+			$this->error['warning'] = $this->language->get('error_subscriber_exists');
 		}
 
-    	return $error;
+		$this->extensions->hk_ValidateData($this);
+
+    	return $this->error;
 	}
 
 	/**
@@ -417,7 +421,7 @@ class ModelAccountCustomer extends Model {
 	 * @return array
 	 */
 	public function validateEditData( $data ) {
-		$error = array();	
+		$this->error = array();
 		
 		//validate loginname only if cannot match email and if it is set. Edit of loginname not allowed
 		if ( $this->config->get('prevent_email_as_login') && isset($data['loginname']) ) {
@@ -425,44 +429,46 @@ class ModelAccountCustomer extends Model {
 			$login_name_pattern = '/^[\w._-]+$/i';
     		if ((mb_strlen($data['loginname']) < 5) || (mb_strlen($data['loginname']) > 64)
     			|| (!preg_match($login_name_pattern, $data['loginname'])) ) {
-      			$error['loginname'] = $this->language->get('error_loginname');
+      			$this->error['loginname'] = $this->language->get('error_loginname');
     		//validate uniqunes of login name
    		 	} else if ( !$this->is_unique_loginname($data['loginname']) ) {
-   		   		$error['loginname'] = $this->language->get('error_loginname_notunique');
+   		   		$this->error['loginname'] = $this->language->get('error_loginname_notunique');
    		 	}			
 		} 
 		
 		if ((mb_strlen($data['firstname']) < 1) || (mb_strlen($data['firstname']) > 32)) {
-			$error['firstname'] = $this->language->get('error_firstname');
+			$this->error['firstname'] = $this->language->get('error_firstname');
 		}
 
 		if ((mb_strlen($data['lastname']) < 1) || (mb_strlen($data['lastname']) > 32)) {
-			$error['lastname'] = $this->language->get('error_lastname');
+			$this->error['lastname'] = $this->language->get('error_lastname');
 		}
 
 		if ((mb_strlen($data['email']) > 96) || (!preg_match(EMAIL_REGEX_PATTERN, $data['email']))) {
-			$error['email'] = $this->language->get('error_email');
+			$this->error['email'] = $this->language->get('error_email');
 		}
 		
 		if (($this->customer->getEmail() != $data['email']) && $this->getTotalCustomersByEmail($data['email'])) {
-			$error['warning'] = $this->language->get('error_exists');
+			$this->error['warning'] = $this->language->get('error_exists');
 		}
 
 		if ($data['telephone'] && (mb_strlen($data['telephone']) < 3 || mb_strlen($data['telephone']) > 32)) {
-			$error['telephone'] = $this->language->get('error_telephone');
+			$this->error['telephone'] = $this->language->get('error_telephone');
 		}
 
-		if ( count($error) && empty( $error['warning'] ) ) {
-			$error['warning'] = $this->language->get('gen_data_entry_error');
+		if ( count($this->error) && empty( $this->error['warning'] ) ) {
+			$this->error['warning'] = $this->language->get('gen_data_entry_error');
 		}
-		
-    	return $error;
+
+		$this->extensions->hk_ValidateData($this);
+
+    	return $this->error;
 	}
 
 	public function getTotalTransactions() {
       	$query = $this->db->query("SELECT COUNT(*) AS total FROM `" . $this->db->table("customer_transactions") . "` WHERE customer_id = '" . (int)$this->customer->getId() . "'" );
 		
-		return $query->row['total'];
+		return (int)$query->row['total'];
 	}
 	
 	public function getTransactions($start = 0, $limit = 20) {
