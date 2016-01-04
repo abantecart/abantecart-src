@@ -29,7 +29,7 @@ class ControllerBlocksBestSeller extends AController {
         //init controller data
         $this->extensions->hk_InitData($this,__FUNCTION__);
 
-      	$this->data['heading_title'] = $this->language->get('heading_title');
+      	$this->data['heading_title'] = $this->language->get('heading_title', 'blocks_bestseller');
 		
 		$this->loadModel('catalog/product');
 		$this->loadModel('catalog/review');

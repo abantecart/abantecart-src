@@ -28,7 +28,7 @@ class ControllerBlocksMenu extends AController {
 		$this->loadLanguage('blocks/menu');
 		$this->loadLanguage('common/header');
 
-		$this->data['heading_title'] = $this->language->get('heading_title');
+		$this->data['heading_title'] = $this->language->get('heading_title','blocks_menu');
 
 		$cache_name = 'storefront_menu.'.(int)$this->config->get('config_store_id');
 		$this->menu_items = $this->cache->get($cache_name, $this->config->get('storefront_language_id'));

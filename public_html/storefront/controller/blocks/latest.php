@@ -29,7 +29,7 @@ class ControllerBlocksLatest extends AController {
 
 		$this->loadLanguage('blocks/latest');
 
-      	$this->view->assign('heading_title', $this->language->get('heading_title') );
+      	$this->view->assign('heading_title', $this->language->get('heading_title', 'blocks_latest') );
 
 		$this->loadModel('catalog/product');
 		$this->loadModel('catalog/review');
@@ -39,7 +39,7 @@ class ControllerBlocksLatest extends AController {
 		$this->data['products'] = array();
 		
 		$results = $this->model_catalog_product->getLatestProducts($this->config->get('config_latest_limit'));
-
+		$product_ids = array();
 		foreach($results as $result){
 			$product_ids[] = $result['product_id'];
 		}

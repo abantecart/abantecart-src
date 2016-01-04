@@ -29,18 +29,17 @@ class ControllerBlocksfeatured extends AController {
         //init controller data
         $this->extensions->hk_InitData($this,__FUNCTION__);
 
-      	$this->data['heading_title'] = $this->language->get('heading_title');
+      	$this->data['heading_title'] = $this->language->get('heading_title','blocks_featured');
 		
 		$this->loadModel('catalog/product');
 		$this->loadModel('catalog/review');
 		$this->loadModel('tool/image');
 		
 		$this->data['button_add_to_cart'] = $this->language->get('button_add_to_cart');
-			
 		$this->data['products'] = array();
 		
 		$results = $this->model_catalog_product->getfeaturedProducts($this->config->get('config_featured_limit'));
-		
+		$product_ids = array();
 		foreach($results as $result){
 			$product_ids[] = (int)$result['product_id'];
 		}
