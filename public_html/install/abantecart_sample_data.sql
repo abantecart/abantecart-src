@@ -1587,7 +1587,7 @@ INSERT INTO `ac_resource_descriptions` VALUES (100144,1,'demo_product_18.jpg',''
 INSERT INTO `ac_resource_descriptions` VALUES (100145,1,'demo_product_37.jpg','','','18/73/1.jpg','','2015-06-12 09:56:25','2015-06-12 09:56:25');
 INSERT INTO `ac_resource_descriptions` VALUES (100146,1,'demo_product_49_1.png','','','18/73/2.png','','2015-06-12 09:56:25','2015-06-12 09:56:25');
 INSERT INTO `ac_resource_descriptions` VALUES (100147,1,'store_logo.png','','','18/73/3.png','','2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_descriptions` VALUES (100148,1,'favicon.ico','','','18/73/4.ico','','2015-06-12 09:56:25','2015-06-12 09:56:25');
+INSERT INTO `ac_resource_descriptions` VALUES (100148,1,'favicon.png','','','18/73/4.png','','2015-06-12 09:56:25','2015-06-12 09:56:25');
 INSERT INTO `ac_resource_descriptions` VALUES (100150,1,'demo_product51.png','','','18/73/6.png','','2015-06-12 09:56:25','2015-06-12 09:56:25');
 INSERT INTO `ac_resource_descriptions` VALUES (100153,1,'demo_mf_gucci.jpg','','','18/73/9.jpg','','2015-06-12 09:56:25','2015-06-12 09:56:25');
 INSERT INTO `ac_resource_descriptions` VALUES (100154,1,'demo_product52_1.jpg','','','18/73/a.jpg','','2015-06-12 09:56:25','2015-06-12 09:56:25');
