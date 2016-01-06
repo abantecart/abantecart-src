@@ -32,7 +32,11 @@ class ModelCheckoutOrder extends Model {
 	 * @return array|bool
 	 */
 	public function getOrder($order_id) {
-		$order_query = $this->db->query("SELECT * FROM `" . $this->db->table("orders") . "` WHERE order_id = '" . (int)$order_id . "'");
+		$order_query = $this->db->query(
+				"SELECT *
+				FROM `" . $this->db->table("orders") . "`
+				WHERE order_id = '" . (int)$order_id . "'"
+		);
 
 		if ($order_query->num_rows) {
 
@@ -116,14 +120,16 @@ class ModelCheckoutOrder extends Model {
 			}
 		}
 
-		// remove abandoned order older than 1 month
-		foreach ($query->rows as $result) {
-			$this->db->query("DELETE FROM `" . $this->db->table("orders") . "` WHERE order_id = '" . (int)$result['order_id'] . "'");
-			$this->db->query("DELETE FROM " . $this->db->table("order_history") . " WHERE order_id = '" . (int)$result['order_id'] . "'");
-			$this->db->query("DELETE FROM " . $this->db->table("order_products") . " WHERE order_id = '" . (int)$result['order_id'] . "'");
-			$this->db->query("DELETE FROM " . $this->db->table("order_options") . " WHERE order_id = '" . (int)$result['order_id'] . "'");
-			$this->db->query("DELETE FROM " . $this->db->table("order_downloads") . " WHERE order_id = '" . (int)$result['order_id'] . "'");
-			$this->db->query("DELETE FROM " . $this->db->table("order_totals") . " WHERE order_id = '" . (int)$result['order_id'] . "'");
+		//remove already created or abandoned orders
+		if($query->rows){
+			foreach ($query->rows as $result){
+				$this->db->query("DELETE FROM `" . $this->db->table("orders") . "` WHERE order_id = '" . (int)$result['order_id'] . "'");
+				$this->db->query("DELETE FROM " . $this->db->table("order_history") . " WHERE order_id = '" . (int)$result['order_id'] . "'");
+				$this->db->query("DELETE FROM " . $this->db->table("order_products") . " WHERE order_id = '" . (int)$result['order_id'] . "'");
+				$this->db->query("DELETE FROM " . $this->db->table("order_options") . " WHERE order_id = '" . (int)$result['order_id'] . "'");
+				$this->db->query("DELETE FROM " . $this->db->table("order_downloads") . " WHERE order_id = '" . (int)$result['order_id'] . "'");
+				$this->db->query("DELETE FROM " . $this->db->table("order_totals") . " WHERE order_id = '" . (int)$result['order_id'] . "'");
+			}
 		}
 
 		if(!has_value($set_order_id) && (int)$this->config->get('config_start_order_id')){
