@@ -1121,6 +1121,10 @@ a.compare>img{
 	width: 60px;
 }
 
+.container .jumbotron, .container-fluid .jumbotron {
+    border-radius: 0;
+}
+
 #featured .thumbnails li:hover .thumbnail img,
 #latest .thumbnails li:hover .thumbnail img,
 #bestseller .thumbnails li:hover .thumbnail img,

@@ -44,8 +44,7 @@ class ALayoutManager{
 			'content_bottom',
 			'column_right',
 			'footer_top',
-			'footer',
-			'content'
+			'footer'
 	);
 	private $tmpl_id;
 	private $layout_id;
