@@ -21,7 +21,6 @@ if (! defined ( 'DIR_CORE' )) {
 	header ( 'Location: static_pages/' );
 }
 class ControllerResponsesCommonResource extends AController {
-	private $error = array(); 
 	    
   	public function main() {
 
@@ -32,15 +31,16 @@ class ControllerResponsesCommonResource extends AController {
 
         //update controller data
         $this->extensions->hk_UpdateData($this,__FUNCTION__);
-
 	}
 
     public function getImageThumbnail(){
+
         //init controller data
         $this->extensions->hk_InitData($this,__FUNCTION__);
 
 	    $r = new AResource('image');
         $result = $r->getResource($this->request->get['resource_id']);
+
 
 	    if(!$result){
 		    $error = new AError('Resource with ID #'.$this->request->get['resource_id'].' not found!');
@@ -65,16 +65,15 @@ class ControllerResponsesCommonResource extends AController {
                 header('HTTP/1.1 404 Not Found');
                 exit;
             }
-
-            if($this->request->get['width']){
+            //if format of file is ICO - do not resize it.
+            if($this->request->get['width'] && pathinfo($result['resource_path'], PATHINFO_EXTENSION)!='ico'){
                 $width = (int)$this->request->get['width'];
                 $height = (int)$this->request->get['height'];
                 $this->load->model('tool/image');
-                $file_path = $this->model_tool_image->resize($file_path,$width,$height, $result['name'], 'path');
+                $file_path = $this->model_tool_image->resize($file_path, $width, $height, $result['name'], 'path');
             }else{
                 $file_path = DIR_RESOURCE . $r->getTypeDir() . $file_path;
             }
-
 
             if (file_exists($file_path) && ($fd = fopen($file_path, "r"))) {
                 $fsize = filesize($file_path);
@@ -92,9 +91,8 @@ class ControllerResponsesCommonResource extends AController {
                 exit;
 
             }else{
-                $this->response->setOutput($this->language->get('text_no_resources'));
+                $this->response->setOutput('Resource not found!');
             }
-
 
         }
     }
