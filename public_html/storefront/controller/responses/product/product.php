@@ -278,4 +278,41 @@ class ControllerResponsesProductProduct extends AController {
 		$this->load->library('json');
 		$this->response->setOutput(AJson::encode($output));
 	}
+
+	public function editCartProduct() {
+
+		//init controller data
+		$this->extensions->hk_InitData($this, __FUNCTION__);
+		$this->loadLanguage('checkout/cart');
+
+		if (!empty($this->request->post['quantity'])) {
+			foreach ($this->request->post['quantity'] as $key => $value) {
+				$this->cart->update($key, $value);
+			}
+			unset($this->session->data['shipping_method']);
+			unset($this->session->data['shipping_methods']);
+			unset($this->session->data['payment_method']);
+			unset($this->session->data['payment_methods']);
+			$this->extensions->hk_UpdateData($this, __FUNCTION__);
+		}
+		return $this->getCartContent();
+	}
+
+	public function removeFromCart() {
+		//init controller data
+		$this->extensions->hk_InitData($this, __FUNCTION__);
+		$this->loadLanguage('checkout/cart');
+
+		// Remove
+		if ($this->request->post_or_get('key')){
+			$this->cart->remove($this->request->post_or_get('key'));
+			$this->session->data['success'] = $this->language->get('text_remove');
+			unset($this->session->data['shipping_method']);
+			unset($this->session->data['shipping_methods']);
+			unset($this->session->data['payment_method']);
+			unset($this->session->data['payment_methods']);
+			$this->extensions->hk_UpdateData($this, __FUNCTION__);
+		}
+		return $this->getCartContent();
+	}
 }
