@@ -116,7 +116,8 @@ class ControllerBlocksSpecial extends AController {
 				'track_stock' => $track_stock,
 				'in_stock'		=> $in_stock,
 				'no_stock_text' => $no_stock_text,
-				'total_quantity'=> $total_quantity			
+				'total_quantity'=> $total_quantity,
+				'date_added'    => $result['date_added']
 			);
 		}
 
