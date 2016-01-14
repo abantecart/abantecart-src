@@ -343,7 +343,7 @@ class ModelSaleCustomer extends Model {
 				cg.name AS customer_group
 				";
 		}
-		if ( $mode != 'total_only'){
+		if ( $mode != 'total_only' && $mode != 'quick'){
 			$sql .= ", COUNT(o.order_id) as orders_count  ";
 		}
 
@@ -353,7 +353,7 @@ class ModelSaleCustomer extends Model {
 
 		$sql .= " FROM " . $this->db->table("customers") . " c
 				LEFT JOIN " . $this->db->table("customer_groups") . " cg ON (c.customer_group_id = cg.customer_group_id) ";
-		if ( $mode != 'total_only'){
+		if ( $mode != 'total_only' && $mode != 'quick'){
 			$sql .= " LEFT JOIN " . $this->db->table("orders") . " o ON (c.customer_id = o.customer_id AND o.order_status_id>0) ";
 		}
 
