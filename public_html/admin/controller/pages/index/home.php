@@ -130,7 +130,7 @@ class ControllerPagesIndexHome extends AController {
 
 		//10 new orders and customers
 		$filter = array(
-			'sort'  => 'c.date_added',
+			'sort'  => 'date_added',
 			'order' => 'DESC',
 			'start' => 0,
 			'limit' => 10

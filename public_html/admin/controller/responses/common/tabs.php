@@ -52,7 +52,7 @@ class ControllerResponsesCommonTabs extends AController {
 		//10 new customers
 		$this->loadModel('sale/customer');		
 		$filter = array(
-			'sort'  => 'c.date_added',
+			'sort'  => 'date_added',
 			'order' => 'DESC',
 			'start' => 0,
 			'limit' => 10
