@@ -1077,7 +1077,7 @@ class ALayoutManager{
 								SET parent_page_id = '" . ( int )$data ['parent_page_id'] . "',
 									controller = '" . $this->db->escape($data ['controller']) . "',
 									key_param = '" . $this->db->escape($data ['key_param']) . "',
-									key_param = '" . $this->db->escape($data ['key_value']) . "',
+									key_value = '" . $this->db->escape($data ['key_value']) . "',
 									date_modified = NOW()
 								WHERE page_id = '" . ( int )$page_id . "'");
 

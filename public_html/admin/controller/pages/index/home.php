@@ -130,12 +130,12 @@ class ControllerPagesIndexHome extends AController {
 
 		//10 new orders and customers
 		$filter = array(
-			'sort'  => 'c.date_added',
+			'sort'  => 'date_added',
 			'order' => 'DESC',
 			'start' => 0,
 			'limit' => 10
 		);		
-		$top_customers = $this->model_sale_customer->getCustomers($filter);
+		$top_customers = $this->model_sale_customer->getCustomers($filter, 'quick');
 		foreach( $top_customers as $indx => $customer) {
 			$action = array();
 			$action[] = array(
