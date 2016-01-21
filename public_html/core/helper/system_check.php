@@ -103,6 +103,10 @@ function check_file_permissions($registry){
 		$cache_files = get_all_files_dirs(DIR_SYSTEM . 'cache/');
 		$cache_message = '';
 		foreach($cache_files as $file) {
+			if(!is_file($file)){
+				continue;
+			}
+			$cache_message = '';
 			if(in_array(basename($file), array('index.html', 'index.html','.','','..'))){
 				continue;
 			}
