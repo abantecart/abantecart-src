@@ -75,6 +75,9 @@ final class ACache {
 
 		} else{
 			foreach($cache_files as $file){
+				if(!is_file($file)){
+					continue;
+				}
 				//first of all check if file expired. delete it if needed
 				$file_time = filemtime($file);
 				if((time() - $file_time) > $this->expire){
