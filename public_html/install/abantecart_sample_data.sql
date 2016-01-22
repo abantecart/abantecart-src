@@ -424,31 +424,34 @@ INSERT INTO `ac_order_history` VALUES (13,13,1,1,'','2012-03-15 14:05:40','2015-
 -- Dumping data for table `order_options`
 --
 
-INSERT INTO `ac_order_options` VALUES (1,1,2,588,'Memory','8GB',99.0000,'+',NULL);
-INSERT INTO `ac_order_options` VALUES (2,2,7,684,'Color','brown',10.0000,'+',NULL);
-INSERT INTO `ac_order_options` VALUES (3,3,9,651,'Size','33.8 oz',49.0000,'+',NULL);
-INSERT INTO `ac_order_options` VALUES (4,3,10,650,'Size','8 oz',19.0000,'+',NULL);
-INSERT INTO `ac_order_options` VALUES (5,3,15,646,'Color','Brown',20.0000,'-',NULL);
-INSERT INTO `ac_order_options` VALUES (6,4,16,613,'Color','Mandarin Sky',29.5000,'+',NULL);
-INSERT INTO `ac_order_options` VALUES (7,4,18,664,'Fragrance Size','3.4 oz',84.0000,'+',NULL);
-INSERT INTO `ac_order_options` VALUES (8,4,19,673,'Fragrance Size','6.7 oz',92.0000,'+',NULL);
-INSERT INTO `ac_order_options` VALUES (9,4,21,661,'Fragrance Size','150ml',45.0000,'+',NULL);
-INSERT INTO `ac_order_options` VALUES (10,5,23,627,'Color','Jade Fever',48.0000,'+',NULL);
-INSERT INTO `ac_order_options` VALUES (11,5,24,626,'Color','Gris Fatale',48.0000,'+',NULL);
-INSERT INTO `ac_order_options` VALUES (12,5,25,622,'Color','Shirelle',15.0000,'+',NULL);
-INSERT INTO `ac_order_options` VALUES (13,5,26,619,'Color','Lacewood',27.0000,'+',NULL);
-INSERT INTO `ac_order_options` VALUES (14,5,27,657,'Color','Light Bisque',30.5000,'+',NULL);
-INSERT INTO `ac_order_options` VALUES (15,5,30,651,'Size','33.8 oz',49.0000,'+',NULL);
-INSERT INTO `ac_order_options` VALUES (16,6,31,666,'Size','30 ml',30.0000,'+',NULL);
-INSERT INTO `ac_order_options` VALUES (17,7,33,649,'Fragrance Size','1.7 oz',88.0000,'+',NULL);
-INSERT INTO `ac_order_options` VALUES (18,7,34,660,'Fragrance Size','100ml',37.0000,'+',NULL);
-INSERT INTO `ac_order_options` VALUES (19,8,35,646,'Color','Brown',20.0000,'-',NULL);
-INSERT INTO `ac_order_options` VALUES (20,8,36,681,'Color','beige',10.0000,'+',NULL);
-INSERT INTO `ac_order_options` VALUES (21,12,45,721,'Size','Eau de Toilette',78.5000,'$',NULL);
-INSERT INTO `ac_order_options` VALUES (22,12,45,1,'Gift Wrapping','1',78.5000,'$',NULL);
-INSERT INTO `ac_order_options` VALUES (23,12,47,738,'Size','30ml',90.0000,'$',NULL);
-INSERT INTO `ac_order_options` VALUES (24,13,49,713,'Size','1.7 oz',72.0000,'$',NULL);
-INSERT INTO `ac_order_options` VALUES (25,13,49,1,'Gift Wrapping','1',72.0000,'$',NULL);
+INSERT INTO `ac_order_options`
+		(`order_option_id`, `order_id`, `order_product_id`, `product_option_value_id`, `name`, `value`, `price`, `prefix`, `settings`)
+VALUES
+ (1,1,2,588,'Memory','8GB',99.0000,'+',NULL),
+ (2,2,7,684,'Color','brown',10.0000,'+',NULL),
+ (3,3,9,651,'Size','33.8 oz',49.0000,'+',NULL),
+ (4,3,10,650,'Size','8 oz',19.0000,'+',NULL),
+ (5,3,15,646,'Color','Brown',20.0000,'-',NULL),
+ (6,4,16,613,'Color','Mandarin Sky',29.5000,'+',NULL),
+ (7,4,18,664,'Fragrance Size','3.4 oz',84.0000,'+',NULL),
+ (8,4,19,673,'Fragrance Size','6.7 oz',92.0000,'+',NULL),
+ (9,4,21,661,'Fragrance Size','150ml',45.0000,'+',NULL),
+ (10,5,23,627,'Color','Jade Fever',48.0000,'+',NULL),
+ (11,5,24,626,'Color','Gris Fatale',48.0000,'+',NULL),
+ (12,5,25,622,'Color','Shirelle',15.0000,'+',NULL),
+ (13,5,26,619,'Color','Lacewood',27.0000,'+',NULL),
+ (14,5,27,657,'Color','Light Bisque',30.5000,'+',NULL),
+ (15,5,30,651,'Size','33.8 oz',49.0000,'+',NULL),
+ (16,6,31,666,'Size','30 ml',30.0000,'+',NULL),
+ (17,7,33,649,'Fragrance Size','1.7 oz',88.0000,'+',NULL),
+ (18,7,34,660,'Fragrance Size','100ml',37.0000,'+',NULL),
+ (19,8,35,646,'Color','Brown',20.0000,'-',NULL),
+ (20,8,36,681,'Color','beige',10.0000,'+',NULL),
+ (21,12,45,721,'Size','Eau de Toilette',78.5000,'$',NULL),
+ (22,12,45,1,'Gift Wrapping','1',78.5000,'$',NULL),
+ (23,12,47,738,'Size','30ml',90.0000,'$',NULL),
+ (24,13,49,713,'Size','1.7 oz',72.0000,'$',NULL),
+ (25,13,49,1,'Gift Wrapping','1',72.0000,'$',NULL);
 
 INSERT INTO `ac_order_products` VALUES (6,2,97,'Eye Rejuvenating Serum','GRMBC004',126.0000,126.0000,8.5000,1,0);
 INSERT INTO `ac_order_products` VALUES (7,2,100,'Smooth silk lip pencils','GRMBC007',10.0000,40.0000,8.5000,4,0);

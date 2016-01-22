@@ -10566,7 +10566,7 @@ INSERT INTO `ac_form_descriptions` VALUES (2,1,'Contact Us Form');
 --
 DROP TABLE IF EXISTS `ac_fields`;
 CREATE TABLE `ac_fields` (
-  `field_id` int(11) NOT NULL NULL auto_increment,
+  `field_id` int(11) NOT NULL auto_increment,
   `form_id` int(11) NOT NULL DEFAULT '0',
   `field_name` varchar(40) NOT NULL, 
   -- used to create css ID (form_name + field_name) and name for input tag tag
@@ -11913,7 +11913,7 @@ VALUES  (5,30,'date_added','timestamp',1),
 --
 DROP TABLE IF EXISTS `ac_resource_library`;
 CREATE TABLE `ac_resource_library` (
-  `resource_id` int(11) NOT NULL NULL auto_increment,
+  `resource_id` int(11) NOT NULL auto_increment,
   `type_id` int(11) NOT NULL,
   `date_added` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `date_modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
@@ -12149,7 +12149,7 @@ INSERT INTO `ac_resource_types` (`type_id`, `type_name`, `default_icon`, `defaul
 --
 DROP TABLE IF EXISTS `ac_resource_map`;
 CREATE TABLE `ac_resource_map` (
-  `resource_id` int(11) NOT NULL NULL,
+  `resource_id` int(11) NOT NULL,
   `object_name` varchar(40) NOT NULl,
   `object_id` int(11) NOT NULL,  
   `default`tinyint(1) NOT NULL DEFAULT '0' COMMENT '0-no, 1-Yes', 
