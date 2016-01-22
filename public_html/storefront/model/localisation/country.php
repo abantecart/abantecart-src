@@ -21,10 +21,13 @@ if (! defined ( 'DIR_CORE' )) {
 	header ( 'Location: static_pages/' );
 }
 class ModelLocalisationCountry extends Model {
-
+	/**
+	 * @param int $country_id
+	 * @return array
+	 */
 	public function getCountry($country_id) {
 		$language_id = $this->language->getLanguageID();
-		$default_lang_id = $this->language->getDefaultLanguageID();	
+		$default_language_id = $this->language->getDefaultLanguageID();
 
 		$query = $this->db->query("SELECT *, COALESCE( cd1.name,cd2.name) as name
 										FROM " . $this->db->table("countries") . " c
@@ -35,7 +38,10 @@ class ModelLocalisationCountry extends Model {
 										WHERE c.country_id = '" . (int)$country_id . "' AND status = '1'");
 		return $query->row;
 	}
-	
+
+	/**
+	 * @return array
+	 */
 	public function getCountries() {
 		$language_id = $this->language->getLanguageID();
 		$default_language_id = $this->language->getDefaultLanguageID();		
@@ -67,7 +73,6 @@ class ModelLocalisationCountry extends Model {
 			$this->cache->set('country', $country_data, $language_id);
 		}
 
-		return $country_data;
+		return (array)$country_data;
 	}
 }
-?>
