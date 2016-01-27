@@ -1211,6 +1211,54 @@ class TextareaHtmlElement extends HtmlElement {
 }
 
 /**
+ * Class TextEditorHtmlElement
+ */
+class TextEditorHtmlElement extends HtmlElement {
+	/**
+	 * @return string
+	 */
+	public function getHtml() {
+		$this->view->batchAssign(
+			array(
+				'name' => $this->name,
+				'id' => $this->element_id,
+				'value' => $this->value,
+				'ovalue' => htmlentities($this->value, ENT_QUOTES, 'UTF-8'),
+				'attr' => $this->attr,
+				'required' => $this->required,
+				'style' => $this->style,
+				'placeholder' => $this->placeholder
+			)
+		);
+		if( is_object($this->data['registry']->get('language'))){
+			$language = $this->data['registry']->get('language');
+			if (count($language->getActiveLanguages()) > 1){
+				$this->view->assign('multilingual', $this->multilingual);
+			}
+			$text = array();
+			$text['tab_text'] = $language->get('tab_text');
+			$text['tab_text'] = $text['tab_text']=='tab_text' ? 'Text' : $text['tab_text'];
+
+			$text['tab_visual'] = $language->get('tab_visual');
+			$text['tab_visual'] = $text['tab_visual']=='tab_visual' ? 'Visual' : $text['tab_visual'];
+
+			$text['button_add_media'] = $language->get('button_add_media');
+			$text['button_add_media'] = $text['button_add_media']=='button_add_media' ? 'Add Media' : $text['button_add_media'];
+
+			$this->view->batchAssign($text);
+		}
+
+
+
+
+
+		return $this->view->fetch('form/text_editor.tpl');
+	}
+}
+
+
+
+/**
  * Class SelectboxHtmlElement
  */
 class SelectboxHtmlElement extends HtmlElement {

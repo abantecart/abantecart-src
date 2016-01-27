@@ -81,8 +81,5 @@
 
 			}
 		});
-
-		var cke = wrapCKEditor('message');
-		addRL2CKE(cke);
 	});
 </script>

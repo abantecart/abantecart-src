@@ -3073,11 +3073,21 @@ body.stickyheader .sticky_left {
 	max-height: 250px;
 }
 
-/*CDEditor RL button label style*/
-.cke_button_icon.cke_button__ck_rl_button_icon{
-   display: none;
+/*TextEditor RL button label style*/
+
+.text-editor{
+   border: 1px solid lightgrey;
+   padding: 2px;
+}
+.text-editor .nav.nav-tabs{
+   display: inline-block;
 }
 
-.cke_button.cke_button__ck_rl_button .cke_button_label.cke_button__ck_rl_button_label{
-   display:inline;
+.text-editor .tab-content{
+   display: block;
+   overflow: hidden;
+}
+
+.text-editor .toolbar{
+   margin: 5px;
 }

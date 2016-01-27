@@ -419,7 +419,7 @@ class ControllerPagesCatalogCategory extends AController {
 						'multilingual' => true,
 				));
 		$this->data['form']['fields']['general']['description'] = $form->getFieldHtml(
-				array('type' => 'textarea',
+				array('type' => 'texteditor',
 						'name' => 'category_description[' . $content_language_id . '][description]',
 						'value' => $this->data['category_description'][$content_language_id]['description'],
 						'style' => 'xl-field',

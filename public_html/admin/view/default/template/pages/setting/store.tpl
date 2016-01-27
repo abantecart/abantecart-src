@@ -79,9 +79,3 @@
 
 </div><!-- <div class="tab-content"> -->
 <?php echo $resources_scripts; ?>
-<script type="text/javascript"><!--
-	$(document).ready(function () {
-	    var ck = wrapCKEditor('store_description[<?php echo $content_language_id; ?>][description]');
-	    addRL2CKE(ck);
-	});
-//--></script>

@@ -963,32 +963,16 @@ var loadAndShowData = function (url, $elem) {
     	url: url,
     	dataType: 'text',		
     	success: function(data) {
-    		console.log(data);
+    		//console.log(data);
     		$elem.html(data);
     	}
     });
 }
 		
-/*function adds Resource LIbrary Button into CKEditor
-* cke - CKEDITOR js instance
-* */
-function addRL2CKE(cke){
-    cke.addCommand("openCKRLModal", {
-        exec: function(edt) {
-            window.parent.openCKRLModal(cke);
-            return  null;
-        },
-        modes: { wysiwyg:1,source:1 }
-    });
+//function adds Resource LIbrary Button into WYSIWYG editor
 
-    cke.ui.addButton('ck_rl_button', {
-        label: "Resource Library",
-        command: 'openCKRLModal',
-        toolbar: 'abantecart'
-    });
-}
 
-function openCKRLModal(cke){
+function openTextEditRLModal(editor, cursorPosition){
 	modalscope.mode = 'single';
 	mediaDialog('image', 'list_library');
 
@@ -1021,7 +1005,7 @@ function openCKRLModal(cke){
 				insert_html = item.resource_code;
 			}
 
-            InsertHtml(cke, insert_html);
+            InsertHtml(editor, insert_html);
             modalscope.selected_resource = {};
 
             function InsertHtml(editor, value) {
@@ -1030,15 +1014,32 @@ function openCKRLModal(cke){
                     return null;
                 }
 
-                if (editor.mode == 'wysiwyg') {
-                     editor.insertHtml( value );
+                if (editor.hasOwnProperty('editorCommands')) {
+                     editor.execCommand('mceInsertContent',false, value );
                 } else { //for source mode
-                    var caretPos = jQuery('textarea.cke_source')[0].selectionStart;
-                    var textAreaTxt = jQuery('textarea.cke_source').val();
-                    jQuery('textarea.cke_source').val(textAreaTxt.substring(0, caretPos) + value + textAreaTxt.substring(caretPos) );
+                    var caretPos = cursorPosition;
+                    var textAreaTxt = editor.val();
+                    editor.val(textAreaTxt.substring(0, caretPos) + value + textAreaTxt.substring(caretPos) );
                 }
             }
 
 			});
 	});
 }
+
+(function ($, undefined) {
+    $.fn.getCursorPosition = function() {
+        var el = $(this).get(0);
+        var pos = 0;
+        if('selectionStart' in el) {
+            pos = el.selectionStart;
+        } else if('selection' in document) {
+            el.focus();
+            var Sel = document.selection.createRange();
+            var SelLength = document.selection.createRange().text.length;
+            Sel.moveStart('character', -el.value.length);
+            pos = Sel.text.length - SelLength;
+        }
+        return pos;
+    }
+})(jQuery);

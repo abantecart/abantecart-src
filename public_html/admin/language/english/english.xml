@@ -693,4 +693,16 @@
 		<key>text_set_related</key>
 		<value><![CDATA[Set Related]]></value>
 	</definition>
+	<definition>
+		<key>tab_text</key>
+		<value><![CDATA[Text]]></value>
+	</definition>
+	<definition>
+		<key>tab_visual</key>
+		<value><![CDATA[Visual]]></value>
+	</definition>
+	<definition>
+		<key>button_add_media</key>
+		<value><![CDATA[Add Media]]></value>
+	</definition>
 </definitions>

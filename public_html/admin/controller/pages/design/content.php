@@ -395,7 +395,7 @@ class ControllerPagesDesignContent extends AController {
 		));
 
 		$this->data['form']['fields']['content'] = $form->getFieldHtml(array(
-				'type' => 'textarea',
+				'type' => 'texteditor',
 				'name' => 'content',
 				'value' => $this->data['content'],
 				'required' => true,

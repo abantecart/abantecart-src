@@ -252,7 +252,7 @@ class ControllerPagesSettingStore extends AController {
             $store_info['store_description'] = $this->model_setting_store->getStoreDescriptions($this->request->get['store_id']);
         }
         $this->data['form']['fields']['general']['description'] = $form->getFieldHtml(array(
-            'type' => 'textarea',
+            'type' => 'texteditor',
             'name' => 'store_description[' . $this->session->data['content_language_id'] . '][description]',
             'value' => $store_info['store_description'][$this->session->data['content_language_id']]['description'],
             'style' => 'xl-field',

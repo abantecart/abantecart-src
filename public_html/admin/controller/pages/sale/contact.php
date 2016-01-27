@@ -235,7 +235,7 @@ class ControllerPagesSaleContact extends AController {
 				'required' => true
 		));
 		$this->data['form']['fields']['message'] = $form->getFieldHtml(array(
-				'type' => 'textarea',
+				'type' => 'texteditor',
 				'name' => 'message',
 				'value' => $this->request->post['message'],
 				'style' => 'ml_ckeditor',

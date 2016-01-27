@@ -36,8 +36,6 @@
 <script type="text/javascript" src="<?php echo $template_dir; ?>javascript/jquery/jquery-migrate-1.2.1.min.js"></script>
 <script type="text/javascript" src="<?php echo $template_dir; ?>javascript/jquery/jquery-ui/jquery-ui-1.10.4.custom.min.js"></script>
 <script type="text/javascript" src="<?php echo $template_dir; ?>javascript/bootstrap.min.js"></script>
-<script type="text/javascript" src="<?php echo $template_dir; ?>javascript/ckeditor/ckeditor.js"></script>
-<script type="text/javascript" src="<?php echo $template_dir; ?>javascript/ckeditor/adapters/jquery.js"></script>
 
 <?php foreach ($scripts as $script) { ?>
 <script type="text/javascript" src="<?php echo $script; ?>"></script>
@@ -144,43 +142,6 @@ var wrapConfirmDelete = function(){
 }
 
 $(document).on('change', wrapConfirmDelete);
-/**
- *
- * @param textarea_id - id of textarea that need to wrap without # as prefix
- * @param options - CKEDITOR options
- * @return CKEDITOR instance
- */
-var wrapCKEditor = function(textarea_id, options){
-	var cke;
-	if(textarea_id == undefined || textarea_id.length < 1 ){
-		return {};
-	}
-
-	if(options == undefined ){
-		options = {};
-	}
-
-	options['language'] = '<?php echo $language_code; ?>';
-
-	try{
-		cke = CKEDITOR.replace(textarea_id, options);
-		cke.on('instanceReady', function(ev){
-
-		   var taglist = new Array ('p','h1','h2','h3','h4','h5','h6','div','i','span','table');
-
-		   for (var Tag in taglist) {
-		      ev.editor.dataProcessor.writer.setRules(taglist[Tag], {
-		         indent : false,
-		         breakBeforeOpen : false,
-		         breakAfterOpen : false,
-		         breakBeforeClose : false,
-		         breakAfterClose : false
-		      });
-		   }
-		});
-	}catch(e){}
-	return cke;
-}
 
 //periodical updater of new message notifier
 var noticecount = 3;

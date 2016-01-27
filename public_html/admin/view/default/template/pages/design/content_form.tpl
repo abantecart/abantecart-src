@@ -102,8 +102,6 @@
 <?php echo $resources_scripts; ?>
 <script type="text/javascript">
 	$(document).ready(function () {
-		var cke = wrapCKEditor('contentFrm_content', {height: '400px'});
-		addRL2CKE(cke);
 
 		$('#contentFrm_generate_seo_keyword').click(function () {
 			var seo_name = $('#contentFrm_title').val().replace('%', '');

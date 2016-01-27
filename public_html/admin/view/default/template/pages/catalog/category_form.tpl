@@ -89,7 +89,5 @@ $(document).ready(function(){
 		});
 	});
 
-	var ck = wrapCKEditor('editFrm_category_description<?php echo $language_id; ?>description');
-	addRL2CKE(ck);
 });
 //--></script>

@@ -602,7 +602,7 @@ class ControllerPagesCatalogProduct extends AController {
 			'multilingual' => true,
 		));
         $this->data['form']['fields']['general']['description'] = $form->getFieldHtml(array(
-			'type' => 'textarea',
+			'type' => 'texteditor',
 			'name' => 'product_description[description]',
 			'value' => $this->data['product_description']['description'],
 			'multilingual' => true,		

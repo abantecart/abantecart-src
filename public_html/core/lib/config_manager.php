@@ -153,7 +153,7 @@ class AConfigManager {
 			'style' => 'large-field',
 		));
 		$fields['description'] = $form->getFieldHtml($props[] = array(
-			'type' => 'textarea',
+			'type' => 'texteditor',
 			'name' => 'config_description_' . $this->session->data['content_language_id'],
 			'value' => $data['config_description_' . $this->session->data['content_language_id']],
 			'style' => 'xl-field',
