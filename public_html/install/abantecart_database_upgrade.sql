@@ -1,4 +1,23 @@
+ALTER TABLE `ac_online_customers`
+CHANGE COLUMN `ip` `ip` VARCHAR(50) NOT NULL ,
+ADD INDEX `ac_online_customers_idx` (`date_added` ASC);
 
+ALTER TABLE `ac_orders`
+DROP INDEX `ac_orders_idx` ,
+ADD INDEX `ac_orders_idx`
+	(`invoice_id` ASC,
+	`store_id` ASC,
+	`customer_group_id` ASC,
+	`shipping_zone_id` ASC,
+	`shipping_country_id` ASC,
+	`payment_zone_id` ASC,
+	`payment_country_id` ASC,
+	`language_id` ASC,
+	`currency_id` ASC,
+	`coupon_id` ASC,
+	`customer_id` ASC,
+	`date_modified` ASC,
+	`date_added` ASC);
 
 
 

@@ -344,7 +344,9 @@ class ModelSaleCustomer extends Model {
 				";
 		}
 		if ( $mode != 'total_only' && $mode != 'quick'){
-			$sql .= ", COUNT(o.order_id) as orders_count  ";
+			$sql .= ", (SELECT COUNT(o.order_id) as cnt
+						FROM " . $this->db->table("orders") . " o
+						WHERE c.customer_id = o.customer_id AND o.order_status_id>0) as orders_count";
 		}
 
 		if ( $this->dcrypt->active ) {
@@ -352,10 +354,7 @@ class ModelSaleCustomer extends Model {
 		}
 
 		$sql .= " FROM " . $this->db->table("customers") . " c
-				LEFT JOIN " . $this->db->table("customer_groups") . " cg ON (c.customer_group_id = cg.customer_group_id) ";
-		if ( $mode != 'total_only' && $mode != 'quick'){
-			$sql .= " LEFT JOIN " . $this->db->table("orders") . " o ON (c.customer_id = o.customer_id AND o.order_status_id>0) ";
-		}
+					LEFT JOIN " . $this->db->table("customer_groups") . " cg ON (c.customer_group_id = cg.customer_group_id) ";
 
 		$implode = array();
 		$filter = (isset($data['filter']) ? $data['filter'] : array());
@@ -438,9 +437,6 @@ class ModelSaleCustomer extends Model {
 				'orders_count'      => 'orders_count'
 		);	
 
-		if ( $mode != 'total_only'){
-			$sql .= " GROUP BY c.customer_id ";
-		}
 
 		//Total culculation for encrypted mode 
 		// NOTE: Performance slowdown might be noticed or larger search results	

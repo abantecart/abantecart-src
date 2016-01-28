@@ -735,11 +735,12 @@ CREATE INDEX `ac_customer_transactions_idx` ON `ac_customer_transactions` ( `cus
 DROP TABLE IF EXISTS `ac_online_customers`;
 CREATE TABLE `ac_online_customers` (
   `customer_id` int(11) NOT NULL,
-  `ip` varchar(40) NOT NULL,
+  `ip` varchar(50) NOT NULL,
   `url` text NOT NULL,
   `referer` text NOT NULL,
   `date_added` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
-  PRIMARY KEY (`ip`)
+  PRIMARY KEY (`ip`),
+  KEY `ac_online_customers_idx` (`date_added`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 --
