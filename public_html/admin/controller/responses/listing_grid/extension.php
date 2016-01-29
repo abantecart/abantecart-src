@@ -248,6 +248,9 @@ class ControllerResponsesListingGridExtension extends AController {
 
 		$this->loadLanguage('extension/extensions');
 		$store_id = $this->request->post_or_get('store_id');
+		if($this->session->data['current_store_id']){
+			$store_id = $this->session->data['current_store_id'];
+		}
 
 		if (empty($this->request->get['id'])) {
 			foreach ($this->request->post as $ext => $val) {
