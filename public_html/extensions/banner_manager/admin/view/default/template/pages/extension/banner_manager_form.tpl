@@ -109,13 +109,8 @@
 $(document).ready(function() {
 	$('#BannerFrm_banner_group_name0').change();
 
-	if($('#BannerFrm_description').length){
-	    var cke = wrapCKEditor('BannerFrm_description', {height: '300px'} );
-		addRL2CKE(cke);
-	}
-
 	$('#BannerFrm_banner_group_name0').on('change',function(){
-	    if($(this).val()=='new'){
+	    if($(this).val()=='new' || $(this).val()=='0' ){
 	    	$('#BannerFrm_banner_group_name1').fadeIn().focus();
 	    }else{
 	    	$('#BannerFrm_banner_group_name1').fadeOut();

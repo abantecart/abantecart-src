@@ -459,7 +459,7 @@ class ControllerPagesExtensionBannerManager extends AController {
 			$this->view->assign('rl', $this->html->getSecureURL('common/resource_library', '&object_name=banners&type=image'));
 		} else {
 			$this->data['form']['fields']['description'] = $form->getFieldHtml(array(
-				'type' => 'textarea',
+				'type' => 'texteditor',
 				'name' => 'description',
 				'value' => $this->data ['description'],
 				'attr' => '')
@@ -536,7 +536,7 @@ class ControllerPagesExtensionBannerManager extends AController {
 			$this->request->post['banner_group_name'][1] = mb_ereg_replace('/^[0-9A-Za-z\ \. _\-]/', '', $this->request->post['banner_group_name'][1]);
 		}
 
-		if ($this->request->post['banner_group_name'][1] && $this->request->post['banner_group_name'][0] == 'new') {
+		if ($this->request->post['banner_group_name'][1] && $this->request->post['banner_group_name'][0] == '0') {
 			$this->request->post['banner_group_name'] = $this->request->post['banner_group_name'][1];
 		} else {
 			$this->request->post['banner_group_name'] = $this->request->post['banner_group_name'][0];
@@ -939,7 +939,8 @@ class ControllerPagesExtensionBannerManager extends AController {
 				));
 		$this->data['form']['text']['block_framed'] = $this->language->get('entry_block_framed');
 
-		$this->data['form']['fields']['block_description'] = $form->getFieldHtml(array('type' => 'textarea',
+		$this->data['form']['fields']['block_description'] = $form->getFieldHtml(array(
+				'type' => 'textarea',
 				'name' => 'block_description',
 				'value' => $this->data ['description'],
 				'attr' => ' style="height: 50px;"',
