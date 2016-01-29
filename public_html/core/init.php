@@ -333,7 +333,7 @@ try {
 		define('HTTP_EXT', HTTP_SERVER . 'extensions/');
 		define('HTTP_DIR_RESOURCE', HTTP_SERVER . 'resources/');
 		//Admin HTTPS
-		if (defined('HTTPS') && HTTPS) {
+		if (defined('HTTPS') && HTTPS===true) {
 			define('HTTPS_SERVER', 'https://' . REAL_HOST . HTTP_DIR_NAME . '/');
 			define('HTTPS_CATALOG', HTTPS_SERVER);
 			define('HTTPS_IMAGE', HTTPS_SERVER . 'image/');
@@ -363,7 +363,7 @@ try {
 		define('HTTP_EXT', HTTP_SERVER . 'extensions/');
 		define('HTTP_DIR_RESOURCE', HTTP_SERVER . 'resources/');
 		// Storefront HTTPS
-		if ($config->get('config_ssl')) {
+		if ($config->get('config_ssl') && HTTPS===true) {
 			$store_url = $config->get('config_url');
 			if ( $config->get('config_ssl_url') ) {
 				$store_url = $config->get('config_ssl_url');
