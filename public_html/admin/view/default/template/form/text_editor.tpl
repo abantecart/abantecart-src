@@ -2,59 +2,93 @@
 //unique id
 $wrapper_id = randomWord(6);
 ?>
-<div id="<?php echo $wrapper_id ?>" class="text-editor">
+<div id="<?php echo $wrapper_id ?>" class="text-editor panel panel-default">
 	<ul class="nav nav-tabs" role="tablist">
 		<li role="presentation" class="active">
-			<a href="#text_<?php echo $wrapper_id; ?>"
-			   aria-controls="text_<?php echo $wrapper_id; ?>"
-			   role="tab"
-			   data-toggle="tab"><?php echo $tab_text; ?></a>
+			<a href="#text_<?php echo $wrapper_id; ?>" aria-controls="text_<?php echo $wrapper_id; ?>" role="tab" data-toggle="tab">
+				&nbsp;&nbsp;&nbsp;<?php echo $tab_text; ?>&nbsp;&nbsp;&nbsp;
+			</a>
 		</li>
 		<li role="presentation">
-			<a href="#visual_<?php echo $wrapper_id; ?>"
-			   aria-controls="visual_<?php echo $wrapper_id; ?>"
-			   role="tab"
-			   data-toggle="tab"><?php echo $tab_visual; ?></a>
+			<a href="#visual_<?php echo $wrapper_id; ?>" aria-controls="visual_<?php echo $wrapper_id; ?>" role="tab" data-toggle="tab">
+				&nbsp;&nbsp;&nbsp;<?php echo $tab_visual; ?>&nbsp;&nbsp;&nbsp;
+			</a>
 		</li>
 	</ul>
 
 	<div class="common_content_actions pull-right">
 		<div class="btn-group">
+
+			<?php if ($required == 'Y' || $multilingual){ ?>
+			<span class="btn afield-nav">
+	        <?php if ($required == 'Y'){ ?>
+			    <span class="required">*</span>
+		    <?php } ?>
+	
+			<?php if ($multilingual){ ?>
+			    <span class="multilingual"><i class="fa fa-flag"></i></span>
+			<?php } ?>
+	
+	        </span>
+			<?php } ?>
+		
 			<a title="<?php js_echo($button_add_media); ?>"
 				data-original-title="<?php js_echo($button_add_media); ?>"
                 href="#"
-                class="add_media btn btn-white tooltips">
-				<i class="fa fa-music fa-lg"> <?php echo $button_add_media; ?></i>
+                class="btn btn-primary tooltips add_media">
+				<i class="fa fa-file-picture-o fa-fw"></i> <?php echo $button_add_media; ?>
 			</a>
 		</div>
+
 	</div>
 	<!-- Tab panes -->
 	<div class="tab-content">
 		<div role="tabpanel" class="tab-pane active" id="text_<?php echo $wrapper_id; ?>">
-			<div class="toolbar text-toolbar col-xs-12">
-				<div class="primary_content_actions pull-left">
-					<div class="btn-group mr10">
-						<a title=""
-						   href="#"
-						   class="btn btn-primary tooltips" data-original-title="">
-							<i class="fa fa-plus"></i>
+			<div class="zennable">
+			
+			<div class="toolbar text-editor-toolbar">
+				<div class="primary_content_actions">
+					<div class="btn-group">
+						<a href="#" class="btn btn-default btn-xs tooltips qt_cnt qt_cnt_strong" data-original-title="Paragraph">p</a>
+						<a href="#" class="btn btn-default btn-xs tooltips qt_cnt qt_cnt_strong" data-original-title="Bold">b</a>
+						<a href="#" class="btn btn-default btn-xs tooltips qt_cnt qt_cnt_em" data-original-title="Italic">i</a>
+						<a href="#" class="btn btn-default btn-xs tooltips qt_cnt_link" data-original-title="Insert link">a</a>
+						<a href="#" class="btn btn-default btn-xs tooltips qt_cnt qt_cnt_block" data-original-title="Blockquote">blockquote</a>
+						<a href="#" class="btn btn-default btn-xs tooltips qt_cnt qt_cnt_del" data-original-title="Deleted text (strikethrough)">del</a>
+						<a href="#" class="btn btn-default btn-xs tooltips qt_cnt qt_cnt_ins" data-original-title="Inserted text">ins</a>
+						<a href="#" class="btn btn-default btn-xs tooltips qt_cnt_img" data-original-title="Insert image">img</a>
+						<a href="#" class="btn btn-default btn-xs tooltips qt_cnt qt_cnt_ul" data-original-title="Bulleted list">ul</a>
+						<a href="#" class="btn btn-default btn-xs tooltips qt_cnt qt_cnt_ol" data-original-title="Numbered list">ol</a>
+						<a href="#" class="btn btn-default btn-xs tooltips qt_cnt qt_cnt_li" data-original-title="List item">li</a>
+						<a href="#" class="btn btn-default btn-xs tooltips qt_cnt qt_cnt_code" data-original-title="Code">code</a>
+						<a href="#" class="btn btn-default btn-xs tooltips qt_cnt_comment" data-original-title="Comment">Comment</a>
+						<a href="#" class="btn btn-default btn-xs tooltips qt_cnt_expand" data-original-title="Expand">
+							<i class="fa fa-expand fa-fw"></i>
+						</a>
+						<a href="#" class="btn btn-default btn-xs tooltips qt_cnt_shrink" data-original-title="Shrink" style="display:none">
+							<i class="fa fa-compress fa-fw"></i>
 						</a>
 					</div>
 				</div>
 			</div>
-	        <textarea
-			    class="form-control atext <?php echo $style ?>"
-			    name="<?php echo $name ?>"
-			    placeholder="<?php echo $placeholder; ?>"
-			    id="<?php echo $id ?>"
-			    data-orgvalue="<?php echo $ovalue ?>"
-			    <?php echo $attr ?>
-			    ><?php echo $value ?></textarea>
+		    <div class="zen-backdrop">
+			        <textarea
+					    class="form-control atext <?php echo $style ?>"
+					    name="<?php echo $name ?>"
+					    placeholder="<?php echo $placeholder; ?>"
+					    id="<?php echo $id ?>"
+					    data-orgvalue="<?php echo $ovalue ?>"
+					    <?php echo $attr ?>
+					    ><?php echo $value ?></textarea>
+		
+		    </div>
+		</div>
 
 		</div>
 
 		<div role="tabpanel" class="tab-pane" id="visual_<?php echo $wrapper_id ?>">
 	        <textarea
+	        	class="visual_editor"
 			    name="<?php echo $name ?>"
 			    disabled="disabled"
 			    placeholder="<?php echo $placeholder; ?>"
@@ -62,18 +96,7 @@ $wrapper_id = randomWord(6);
 			    ><?php echo $value ?>
 	        </textarea>
 		</div>
-		<?php if ($required == 'Y' || $multilingual){ ?>
-			<span class="input-group-addon">
-        <?php if ($required == 'Y'){ ?>
-		    <span class="required">*</span>
-	    <?php } ?>
 
-				<?php if ($multilingual){ ?>
-					<span class="multilingual"><i class="fa fa-flag"></i></span>
-				<?php } ?>
-
-        </span>
-		<?php } ?>
 	</div>
 
 </div>
@@ -85,11 +108,75 @@ $wrapper_id = randomWord(6);
 		document.write(include);
 	}
 	$(document).ready(function () {
+	
+		//event for textarea buttons
+		$('#<?php echo $wrapper_id; ?> a.qt_cnt_expand').on('click',function(){
+			$('#<?php echo $wrapper_id; ?> .zennable').addClass('expanded');
+			$('#<?php echo $wrapper_id; ?> .qt_cnt_shrink').show();
+			$('#<?php echo $wrapper_id; ?> .qt_cnt_expand').hide();
+			return false;
+		});
+	
+		$('#<?php echo $wrapper_id; ?> a.qt_cnt_shrink').on('click',function(){
+			$('#<?php echo $wrapper_id; ?> .zennable').removeClass('expanded');
+			$('#<?php echo $wrapper_id; ?> .qt_cnt_shrink').hide();
+			$('#<?php echo $wrapper_id; ?> .qt_cnt_expand').show();
+			return false;
+		});
+
+		$('#<?php echo $wrapper_id; ?> a.qt_cnt').on('click',function(){
+			var elem = $(this);
+			var tag = elem.text();
+			var editor, cursorPosition;
+			editor = $('#<?php echo $id ?>');
+			if(elem.hasClass('closing')){
+				textareaInsert(editor, '<'+tag+'>');
+				elem.text(tag.replace('/', ''));
+				elem.removeClass('closing');				
+			} else {
+				textareaInsert(editor, '<'+tag+'>');
+				elem.prepend('/');
+				elem.addClass('closing');	
+			}
+			return false;
+		});
+		
+		$('#<?php echo $wrapper_id; ?> a.qt_cnt_link').on('click',function(){
+			var elem = $(this);
+			var tag = elem.text();
+			var editor, cursorPosition;
+			editor = $('#<?php echo $id ?>');
+			if(elem.hasClass('closing')){
+				textareaInsert(editor, '<'+tag+'>');
+				elem.text(tag.replace('/', ''));
+				elem.removeClass('closing');				
+			} else {
+				textareaInsert(editor, '<a href="" target="">');
+				elem.prepend('/');
+				elem.addClass('closing');	
+			}
+			return false;
+		});
+
+		$('#<?php echo $wrapper_id; ?> a.qt_cnt_img').on('click',function(){
+			var editor, cursorPosition;
+			editor = $('#<?php echo $id ?>');
+			textareaInsert(editor, '<img src="" alt="" />');
+			return false;
+		});
+
+		$('#<?php echo $wrapper_id; ?> a.qt_cnt_comment').on('click',function(){
+			var editor, cursorPosition;
+			editor = $('#<?php echo $id ?>');
+			textareaInsert(editor, '<!-- comment -->');
+			return false;
+		});
+		
 		tinymce.baseURL = "<?php echo $template_dir; ?>javascript/tinymce";
 		var mcei = {
 			theme: "modern",
 			skin: "lightgray",
-			language: "ru",
+			language: "<?php echo $language_code; ?>",
 			formats: {
 				alignleft: [{
 					selector: "p,h1,h2,h3,h4,h5,h6,td,th,div,ul,ol,li",
@@ -105,6 +192,10 @@ $wrapper_id = randomWord(6);
 				}, {selector: "img,table,dl.wp-caption", classes: "alignright"}],
 				strikethrough: {inline: "del"}
 			},
+			remove_linebreaks: false,
+			force_p_newlines : true,    
+			convert_newlines_to_brs : false,
+			verify_html : false,
 			relative_urls: false,
 			remove_script_host: false,
 			convert_urls: false,
@@ -118,14 +209,13 @@ $wrapper_id = randomWord(6);
 			end_container_on_empty_block: true,
 			editimage_disable_captions: false,
 			editimage_html5_captions: true,
-			plugins: "charmap,colorpicker,hr,lists,media,paste,tabfocus,textcolor,fullscreen,link", //,wpautoresize,wpeditimage,wpemoji,wpgallery,wpdialogs,textpattern,wpview",
-			//  content_css: "http://abolabo.hopto.org/wordpress/wp-includes/css/dashicons.min.css?ver=4.3.2,http://abolabo.hopto.org/wordpress/wp-includes/js/tinymce/skins/wordpress/wp-content.css?ver=4.3.2,https://fonts.googleapis.com/css?family=Noto+Sans%3A400italic%2C700italic%2C400%2C700%7CNoto+Serif%3A400italic%2C700italic%2C400%2C700%7CInconsolata%3A400%2C700&subset=latin%2Clatin-ext,http://abolabo.hopto.org/wordpress/wp-content/themes/twentyfifteen/css/editor-style.css,http://abolabo.hopto.org/wordpress/wp-content/themes/twentyfifteen/genericons/genericons.css",
+			plugins: "charmap,colorpicker,hr,lists,media,paste,tabfocus,textcolor,fullscreen,link",
 			selector: '',
 			resize: true,
 			menubar: false,
 			autop: true,
 			indent: false,
-			toolbar1: "undo,redo, bold,italic,strikethrough,bullist,numlist,blockquote,hr,alignleft,aligncenter,alignright,link,unlink,spellchecker,dfw",
+			toolbar1: "undo,redo,bold,italic,strikethrough,bullist,numlist,blockquote,hr,alignleft,aligncenter,alignright,link,spellchecker,dfw,fullscreen",
 			toolbar2: "",
 			//toolbar2: "formatselect,underline,alignjustify,forecolor,pastetext,removeformat,charmap,outdent,indent",
 			toolbar3: "",
@@ -133,7 +223,7 @@ $wrapper_id = randomWord(6);
 			tabfocus_elements: "content-html,save-post",
 			body_class: "content post-type-post post-status-auto-draft post-format-standard locale-en-gb",
 			autoresize_on: true,
-			add_unload_trigger: false
+			add_unload_trigger: false,
 		};
 
 		$('#<?php echo $wrapper_id; ?> a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
@@ -143,11 +233,11 @@ $wrapper_id = randomWord(6);
 			var textarea, value;
 			textarea = $('#'+prevtab_id+ ' textarea');
 
-			if(prevtab_id=='visual_<?php echo $wrapper_id?>'){
+			if(prevtab_id == 'visual_<?php echo $wrapper_id?>'){
 				$('#'+newtab_id+ ' textarea')
 						.val( tinyMCE.activeEditor.getContent() )
 						.removeAttr('disabled');
-			}else{
+			} else {
 				$('#'+newtab_id+ ' textarea')
 						.val(textarea.val())
 						.removeAttr('disabled');
@@ -178,10 +268,4 @@ $wrapper_id = randomWord(6);
 			return false;
 		});
 	});
-
-
-
-
-
-
 </script>

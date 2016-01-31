@@ -1218,6 +1218,7 @@ class TextEditorHtmlElement extends HtmlElement {
 	 * @return string
 	 */
 	public function getHtml() {
+		$registry = $this->data['registry'];
 		$this->view->batchAssign(
 			array(
 				'name' => $this->name,
@@ -1236,27 +1237,17 @@ class TextEditorHtmlElement extends HtmlElement {
 				$this->view->assign('multilingual', $this->multilingual);
 			}
 			$text = array();
+			$text['language_code'] = $registry->get('session')->data['content_language'];
 			$text['tab_text'] = $language->get('tab_text');
-			$text['tab_text'] = $text['tab_text']=='tab_text' ? 'Text' : $text['tab_text'];
-
 			$text['tab_visual'] = $language->get('tab_visual');
-			$text['tab_visual'] = $text['tab_visual']=='tab_visual' ? 'Visual' : $text['tab_visual'];
-
 			$text['button_add_media'] = $language->get('button_add_media');
-			$text['button_add_media'] = $text['button_add_media']=='button_add_media' ? 'Add Media' : $text['button_add_media'];
 
 			$this->view->batchAssign($text);
 		}
 
-
-
-
-
 		return $this->view->fetch('form/text_editor.tpl');
 	}
 }
-
-
 
 /**
  * Class SelectboxHtmlElement

@@ -1032,21 +1032,6 @@ p {
 	margin-right: 2px;
 }
 
-/* CKEDITOR */
-.editable {
-   padding: 10px;
-   border: 1px solid #fcfcfc;
-   margin-bottom: 20px;
-}
-
-.editable:hover {
-   border: 1px solid #ccc;
-}
-
-.editable h4 {
-   color: #333;
-}
-
 /***********************/
 #report_flot {
 	height: 315px;
@@ -3074,10 +3059,9 @@ body.stickyheader .sticky_left {
 }
 
 /*TextEditor RL button label style*/
-
-.text-editor{
-   border: 1px solid lightgrey;
-   padding: 2px;
+.text-editor {
+   padding: 3px;
+   margin-bottom: 0px;
 }
 .text-editor .nav.nav-tabs{
    display: inline-block;
@@ -3087,7 +3071,71 @@ body.stickyheader .sticky_left {
    display: block;
    overflow: hidden;
 }
+.text-editor .toolbar {
+  text-align: center;
+}
+.text-editor .visual_editor{
+  height: 250px;
+}
 
-.text-editor .toolbar{
-   margin: 5px;
+.zennable {
+  position: relative;
+}
+.zennable textarea {
+  background-color: #f6f6f6;
+  border: 0;
+  border-radius: 3px;
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  color: #333;
+  display: block;
+  font-size: 12px;
+  height: 304px;
+  padding: 3px 5px;
+  width: 100%;
+}
+.zennable textarea:focus {
+  background-color: white;
+}
+.zennable.expanded .zen-backdrop .expander {
+  display: none;
+}
+.zennable.expanded .zen-backdrop .shrinker {
+  display: block;
+  position: absolute;
+  top: 0;
+}
+.zennable.expanded .zen-backdrop textarea {
+  height: 100%;
+  font-size: 14px;
+  padding: 5px;
+  background-color: white;
+  margin: 0 auto;
+  border: 0;
+  resize: none;
+  border-radius: 0;
+  outline: none;
+  z-index: 20000;
+  margin-top: 30px;
+}
+.zennable.expanded .zen-backdrop {
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  background-color: white;
+}
+.zennable.expanded .toolbar {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 100%;
+  height: 30px;
+  letter-spacing: 1px;
+  font-weight: 500;
+  font-size: 12px;
+  z-index: 20000;
+  background-color: #f6f6f6;
+  padding: 5px 0 5px 0;
 }

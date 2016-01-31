@@ -165,7 +165,7 @@
 
         function doTextarea(elem) {
             var $field = $(elem);
-            //no need to wrap ckeditor
+            //no need to wrap texteditor
             if ($field.closest('.ml_ckeditor').length) return;
             var $wrapper = $field.closest('.afield');
 

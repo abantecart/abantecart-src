@@ -695,7 +695,7 @@
 	</definition>
 	<definition>
 		<key>tab_text</key>
-		<value><![CDATA[Text]]></value>
+		<value><![CDATA[HTML/Text]]></value>
 	</definition>
 	<definition>
 		<key>tab_visual</key>
