@@ -7,10 +7,8 @@
 <link href="<?php echo $link['href']; ?>" rel="<?php echo $link['rel']; ?>"/>
 <?php } ?>
 
-<?php if (is_file(DIR_RESOURCE . $icon)) { ?>
-<link href="<?php echo ($ssl ? HTTPS_DIR_RESOURCE : HTTP_DIR_RESOURCE). $icon; ?>" type="image/png" rel="icon"/>
-<?php } else if (!empty($icon)) { ?>
-<?php echo $icon; ?>
+<?php if ( $icon ) {  ?>
+<link href="<?php echo $icon; ?>" type="image/png" rel="icon" />
 <?php } ?>
 
 <link rel="stylesheet" type="text/css" href="<?php echo $template_dir; ?>stylesheet/stylesheet.css" />
