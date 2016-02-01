@@ -504,9 +504,8 @@ class ControllerPagesExtensionBannerManager extends AController {
 			}
 
 			if (!is_array($this->request->post['banner_group_name'])
-					|| (!$this->request->post['banner_group_name'][1] && in_array($this->request->post['banner_group_name'][0], array('0', 'new')))
-					|| trim($this->request->post['banner_group_name'][1]) == trim($this->language->get('text_put_new_group')) && in_array($this->request->post['banner_group_name'][0], array('0', 'new'))
-			) {
+					|| (!trim($this->request->post['banner_group_name'][1]) && in_array($this->request->post['banner_group_name'][0], array('0', 'new')))
+				) {
 
 				$this->error ['warning'] = $this->language->get('error_empty');
 				$this->session->data['warning'] = $this->language->get('error_empty');
@@ -536,8 +535,10 @@ class ControllerPagesExtensionBannerManager extends AController {
 			$this->request->post['banner_group_name'][1] = mb_ereg_replace('/^[0-9A-Za-z\ \. _\-]/', '', $this->request->post['banner_group_name'][1]);
 		}
 
-		if ($this->request->post['banner_group_name'][1] && $this->request->post['banner_group_name'][0] == '0') {
+		if ($this->request->post['banner_group_name'][0] == 'new' && $this->request->post['banner_group_name'][1]) {
 			$this->request->post['banner_group_name'] = $this->request->post['banner_group_name'][1];
+		} elseif($this->request->post['banner_group_name'][0]=='0' && !$this->request->post['banner_group_name'][1]) {
+			unset($this->request->post['banner_group_name']);
 		} else {
 			$this->request->post['banner_group_name'] = $this->request->post['banner_group_name'][0];
 		}

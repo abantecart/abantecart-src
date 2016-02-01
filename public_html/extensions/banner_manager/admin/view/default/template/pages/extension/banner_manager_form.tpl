@@ -107,26 +107,14 @@
 <?php echo $resources_scripts; ?>
 <script type="text/javascript">
 $(document).ready(function() {
-	$('#BannerFrm_banner_group_name0').change();
-
 	$('#BannerFrm_banner_group_name0').on('change',function(){
-	    if($(this).val()=='new' || $(this).val()=='0' ){
+	    if($(this).val()=='new'){
 	    	$('#BannerFrm_banner_group_name1').fadeIn().focus();
 	    }else{
 	    	$('#BannerFrm_banner_group_name1').fadeOut();
 	    }
 	});
 
-	$('#BannerFrm_banner_group_name\\\[0\\\]').change( function(){
-		$(this).val() == 'new' ? $('#BannerFrm_banner_group_name\\\[1\\\]').show().parents('.aform').show() : $('#BannerFrm_banner_group_name\\\[1\\\]').hide().parents('.aform').hide();
-		!$('#BannerFrm_banner_group_name\\\[1\\\]').is(':visible') ? $('#BannerFrm_banner_group_name\\\[1\\\]').val('<?php echo $new_group_hint; ?>') : null;
-	});
-	$('#BannerFrm_banner_group_name\\\[1\\\]').click( function(){
-		$(this).val() == '<?php echo $new_group_hint; ?>' ? $(this).val('') : null;
-	});
+	$('#BannerFrm_banner_group_name0').change();
 });
-
-
-
-
 </script>
