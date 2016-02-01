@@ -47,14 +47,8 @@ class ControllerCommonHead extends AController {
 			$this->view->assign('check_updates_url', $this->html->getSecureURL('r/common/common/checkUpdates'));
 		}
 
-		$icon_path = $this->config->get('config_icon');
-		if( $icon_path){
-			if(!is_file(DIR_RESOURCE.$this->config->get('config_icon'))){
-				$this->messages->saveWarning('Check favicon.','Warning: please check favicon in your store settings. Current path is "'.DIR_RESOURCE.$this->config->get('config_icon').'" but file does not exists.');
-				$icon_path ='';
-			}
-		}
-		$this->view->assign('icon', $icon_path);
+		$this->view->assign('icon', $this->config->get('config_icon'));
+
         if (isset($this->request->server['HTTPS']) && (($this->request->server['HTTPS'] == 'on') || ($this->request->server['HTTPS'] == '1'))) {
 		    $this->view->assign('ssl', 1);
         }
@@ -63,7 +57,5 @@ class ControllerCommonHead extends AController {
 
         //update controller data
         $this->extensions->hk_UpdateData($this,__FUNCTION__);
-
-	}	
-	
+	}
 }
