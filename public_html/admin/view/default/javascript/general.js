@@ -639,6 +639,21 @@ function textareaInsert(editor, text) {
 	editor.setCursorPosition(caretPos + text.length);
 }
 
+
+function html2visual(text) {
+	var output = '';
+    output = text.replace(new RegExp('\r?\n','g'), '<p class="abc-markup" hidden="">n<\/p>');
+    output = output.replace(new RegExp('\t','g'), '<p class="abc-markup" hidden="">t<\/p>');
+    return output;
+}
+
+function visual2html(text) {
+    var output = '';
+    output = text.replace(new RegExp('(<p class="abc-markup" hidden="">n<\/p>)','g'), '\r\n');
+    output = output.replace(new RegExp('<p class="abc-markup" hidden="">t<\/p>','g'), '\t');
+    return output;
+}
+
 /*
  task run via ajax
  */

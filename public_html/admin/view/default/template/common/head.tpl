@@ -34,6 +34,8 @@
 <script type="text/javascript" src="<?php echo $template_dir; ?>javascript/jquery/jquery-migrate-1.2.1.min.js"></script>
 <script type="text/javascript" src="<?php echo $template_dir; ?>javascript/jquery/jquery-ui/jquery-ui-1.10.4.custom.min.js"></script>
 <script type="text/javascript" src="<?php echo $template_dir; ?>javascript/bootstrap.min.js"></script>
+<script defer type="text/javascript" src="<?php echo $template_dir; ?>javascript/tinymce/tinymce.min.js"></script>
+
 
 <?php foreach ($scripts as $script) { ?>
 <script type="text/javascript" src="<?php echo $script; ?>"></script>
@@ -45,6 +47,64 @@
 	//Generic PHP processed Javascript section
 ?>
 <script type="text/javascript">
+//define tinymce config
+var mcei = {
+	theme: "modern",
+	skin: "lightgray",
+	language: "<?php echo $language_code; ?>",
+	formats: {
+		alignleft: [{
+			selector: "p,h1,h2,h3,h4,h5,h6,td,th,div,ul,ol,li",
+			styles: {textAlign: "left"}
+		}, {selector: "img,table,dl.wp-caption", classes: "alignleft"}],
+		aligncenter: [{
+			selector: "p,h1,h2,h3,h4,h5,h6,td,th,div,ul,ol,li",
+			styles: {textAlign: "center"}
+		}, {selector: "img,table,dl.wp-caption", classes: "aligncenter"}],
+		alignright: [{
+			selector: "p,h1,h2,h3,h4,h5,h6,td,th,div,ul,ol,li",
+			styles: {textAlign: "right"}
+		}, {selector: "img,table,dl.wp-caption", classes: "alignright"}],
+		strikethrough: {inline: "del"}
+	},
+	forced_root_block : false,
+	cleanup : false,
+	//force_p_newlines : false,
+	//force_br_newlines : true,
+	//convert_newlines_to_brs : true,
+	verify_html : false,
+	relative_urls: false,
+	remove_script_host: false,
+	convert_urls: false,
+	browser_spellcheck: true,
+	fix_list_elements: true,
+	entities: "38,amp,60,lt,62,gt",
+	entity_encoding: "raw",
+	keep_styles: false,
+	cache_suffix: "abc-mce-433-20160114",
+	preview_styles: "font-family font-size font-weight font-style text-decoration text-transform",
+	end_container_on_empty_block: true,
+	editimage_disable_captions: false,
+	editimage_html5_captions: true,
+	plugins: "charmap,colorpicker,hr,lists,media,paste,tabfocus,textcolor,fullscreen,link",
+	selector: '',
+	resize: true,
+	menubar: false,
+	autop: true,
+	indent: false,
+	toolbar1: "undo,redo,bold,italic,strikethrough,bullist,numlist,blockquote,hr,alignleft,aligncenter,alignright,link,spellchecker,dfw,fullscreen",
+	toolbar2: "",
+	//toolbar2: "formatselect,underline,alignjustify,forecolor,pastetext,removeformat,charmap,outdent,indent",
+	toolbar3: "",
+	toolbar4: "",
+	tabfocus_elements: "content-html,save-post",
+	body_class: "content post-type-post post-status-auto-draft post-format-standard locale-en-gb",
+	autoresize_on: true,
+	add_unload_trigger: false
+};
+
+
+
 $(document).ready(function () {
 
 	//system check warnings

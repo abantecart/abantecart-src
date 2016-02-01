@@ -103,11 +103,12 @@ $wrapper_id = randomWord(6);
 
 
 <script type="application/javascript">
-	if (typeof tinymce == 'undefined') {
-		var include = '<script type="text/javascript" src="<?php echo $template_dir; ?>javascript/tinymce/tinymce.min.js"><\/script>';
-		document.write(include);
-	}
 	$(document).ready(function () {
+		//initiate editor
+		mcei.selector = 'textarea#text_editor_<?php echo $id ?>';
+		tinymce.baseURL = "<?php echo $template_dir; ?>javascript/tinymce";
+		tinymce.init(mcei);
+
 	
 		//event for textarea buttons
 		$('#<?php echo $wrapper_id; ?> a.qt_cnt_expand').on('click',function(){
@@ -171,60 +172,6 @@ $wrapper_id = randomWord(6);
 			textareaInsert(editor, '<!-- comment -->');
 			return false;
 		});
-		
-		tinymce.baseURL = "<?php echo $template_dir; ?>javascript/tinymce";
-		var mcei = {
-			theme: "modern",
-			skin: "lightgray",
-			language: "<?php echo $language_code; ?>",
-			formats: {
-				alignleft: [{
-					selector: "p,h1,h2,h3,h4,h5,h6,td,th,div,ul,ol,li",
-					styles: {textAlign: "left"}
-				}, {selector: "img,table,dl.wp-caption", classes: "alignleft"}],
-				aligncenter: [{
-					selector: "p,h1,h2,h3,h4,h5,h6,td,th,div,ul,ol,li",
-					styles: {textAlign: "center"}
-				}, {selector: "img,table,dl.wp-caption", classes: "aligncenter"}],
-				alignright: [{
-					selector: "p,h1,h2,h3,h4,h5,h6,td,th,div,ul,ol,li",
-					styles: {textAlign: "right"}
-				}, {selector: "img,table,dl.wp-caption", classes: "alignright"}],
-				strikethrough: {inline: "del"}
-			},
-			remove_linebreaks: false,
-			force_p_newlines : true,    
-			convert_newlines_to_brs : false,
-			verify_html : false,
-			relative_urls: false,
-			remove_script_host: false,
-			convert_urls: false,
-			browser_spellcheck: true,
-			fix_list_elements: true,
-			entities: "38,amp,60,lt,62,gt",
-			entity_encoding: "raw",
-			keep_styles: false,
-			cache_suffix: "abc-mce-433-20160114",
-			preview_styles: "font-family font-size font-weight font-style text-decoration text-transform",
-			end_container_on_empty_block: true,
-			editimage_disable_captions: false,
-			editimage_html5_captions: true,
-			plugins: "charmap,colorpicker,hr,lists,media,paste,tabfocus,textcolor,fullscreen,link",
-			selector: '',
-			resize: true,
-			menubar: false,
-			autop: true,
-			indent: false,
-			toolbar1: "undo,redo,bold,italic,strikethrough,bullist,numlist,blockquote,hr,alignleft,aligncenter,alignright,link,spellchecker,dfw,fullscreen",
-			toolbar2: "",
-			//toolbar2: "formatselect,underline,alignjustify,forecolor,pastetext,removeformat,charmap,outdent,indent",
-			toolbar3: "",
-			toolbar4: "",
-			tabfocus_elements: "content-html,save-post",
-			body_class: "content post-type-post post-status-auto-draft post-format-standard locale-en-gb",
-			autoresize_on: true,
-			add_unload_trigger: false,
-		};
 
 		$('#<?php echo $wrapper_id; ?> a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
 			var newtab_id = $(e.target).attr('aria-controls'), // newly activated tab
@@ -234,23 +181,29 @@ $wrapper_id = randomWord(6);
 			textarea = $('#'+prevtab_id+ ' textarea');
 
 			if(prevtab_id == 'visual_<?php echo $wrapper_id?>'){
+				value = tinyMCE.activeEditor.getContent();
+				value = visual2html(value);
 				$('#'+newtab_id+ ' textarea')
-						.val( tinyMCE.activeEditor.getContent() )
+						.val( value )
 						.removeAttr('disabled');
 			} else {
 				$('#'+newtab_id+ ' textarea')
 						.val(textarea.val())
 						.removeAttr('disabled');
-				mcei.selector = 'textarea#'+$('#'+newtab_id+ ' textarea').attr('id');
-				tinymce.init(mcei);
 				if(tinyMCE.activeEditor!=null) {
-					tinyMCE.activeEditor.setContent(textarea.val());
+					value = textarea.val();
+					value = html2visual(value);
+					tinyMCE.activeEditor.setContent( value );
 				}
 			}
 
 			//block previous textarea
 			textarea.attr('disabled','disabled');
 		});
+
+		<?php if(is_int(strpos($value,'abc-markup'))){?>
+		$('#<?php echo $wrapper_id; ?> a[href="#visual_<?php echo $wrapper_id; ?>"]').tab('show');
+		<?php } ?>
 
 		//event for addmedia button
 		$('#<?php echo $wrapper_id; ?> a.add_media').on('click',function(){
