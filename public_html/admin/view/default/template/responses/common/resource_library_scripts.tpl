@@ -179,19 +179,19 @@ var loadMedia = function (type, wrapper) {
 				html += '<a class="btn resource_edit tooltips" ' +
 						'data-type="' + type + '" ' +
 						'data-rl-id="' + item['resource_id'] + '" ' +
-						'data-original-title="<?php echo $button_edit ?>"><i class="fa fa-edit"></i></a>' +
+						'data-original-title="<?php echo_html2view($button_edit) ?>"><i class="fa fa-edit"></i></a>' +
 						'<a class="btn resource_unmap tooltips" ' +
 						'data-rl-id="' + item['resource_id'] + '" ' +
-						'data-original-title="<?php echo $button_unmap; ?>" ' +
+						'data-original-title="<?php echo_html2view($button_unmap); ?>" ' +
 						'data-confirmation="delete" ' +
-						'data-confirmation-text="<?php echo $text_confirm_unmap ?>" ' +
+						'data-confirmation-text="<?php echo_html2view($text_confirm_unmap) ?>" ' +
 						'onclick="unmap_resource(' + item['resource_id'] + ',\'' + json.object_name + '\',\'' + json.object_id + '\');"><i class="fa fa-unlink"></i></a>';
 
 				if (item['can_delete'] == true) {
 					html += '<a class="btn resource_delete tooltips" data-rl-id="' + item['resource_id'] + '" ' +
-							'data-original-title="<?php echo $button_delete; ?>" ' +
+							'data-original-title="<?php echo_html2view($button_delete); ?>" ' +
 							'data-confirmation="delete" ' +
-							'data-confirmation-text="<?php echo $text_confirm_delete; ?>" ' +
+							'data-confirmation-text="<?php echo_html2view($text_confirm_delete); ?>" ' +
 							'onclick="delete_resource(' + item['resource_id'] + ',\'' + json.object_name + '\',\'' + json.object_id + '\');"><i class="fa fa-trash-o"></i></a>';
 				}
 
@@ -201,7 +201,7 @@ var loadMedia = function (type, wrapper) {
 			html += '<div class="col-md-1 reslibrary_block">' +
 					'<div class="center thumbnail fileupload_drag_area">' +
 					'<form action="<?php echo $rl_upload; ?>&type=' + type + '" method="POST" enctype="multipart/form-data"><input type="file" name="files[]" multiple="" class="hide">';
-			html += '<a class="btn resource_add tooltips transparent" data-type="' + type + '" data-original-title="<?php echo $text_add_media ?>"><img src="<?php echo $template_dir . 'image/icons/icon_add_media.png'; ?>" alt="<?php echo $text_add_media; ?>" width="100" /></a>';
+			html += '<a class="btn resource_add tooltips transparent" data-type="' + type + '" data-original-title="<?php echo_html2view($text_add_media) ?>"><img src="<?php echo $template_dir . 'image/icons/icon_add_media.png'; ?>" alt="<?php echo_html2view($text_add_media); ?>" width="100" /></a>';
 			html += '</form</div></div>';
 
 			$(wrapper).html(html);
@@ -271,7 +271,7 @@ var loadSingle = function (type, wrapper_id, resource_id, field, meta) {
 								'data-rl-id="' + item['resource_id'] + '">' + src + '</a></div>';
 
 				html += '<a class="btn resource_delete tooltips" data-rl-id="' + item['resource_id'] + '" ' +
-						'data-original-title="<?php echo $button_delete ?>" ' +
+						'data-original-title="<?php echo_html2view($button_delete) ?>" ' +
 						'><i class="fa fa-times"></i>&nbsp;<?php echo $button_remove?></a>';
 				html += '</div>';
 				var resource_uri = '';
@@ -299,7 +299,7 @@ var loadSingle = function (type, wrapper_id, resource_id, field, meta) {
 						'data-type="' + type + '" ' +
 						'data-wrapper_id="' + wrapper_id + '" ' +
 						'data-field="' + field + '" ' +
-						'data-original-title="<?php echo $text_add_media ?>"><img src="<?php echo $template_dir . 'image/icons/icon_add_media.png'; ?>" alt="<?php echo $text_add_media; ?>" width="100" /></a>';
+						'data-original-title="<?php echo_html2view($text_add_media) ?>"><img src="<?php echo $template_dir . 'image/icons/icon_add_media.png'; ?>" alt="<?php echo_html2view($text_add_media); ?>" width="100" /></a>';
 				html += '</div></div>';
 
 				$('#'+field).val('');

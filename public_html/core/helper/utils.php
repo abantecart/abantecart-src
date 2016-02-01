@@ -1043,3 +1043,12 @@ function js_encode($text) {
 function js_echo($text) {
 	echo js_encode($text);
 }
+/**
+ * Function output string with html-entities
+ *
+ * @param string $text
+ * @return string
+*/
+function echo_html2view($html){
+	echo htmlspecialchars($html,ENT_QUOTES,'UTF-8');
+}
