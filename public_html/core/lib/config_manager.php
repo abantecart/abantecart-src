@@ -803,14 +803,16 @@ class AConfigManager {
 					'type' => 'resource',
 					'name' => 'config_icon',
 					'resource_id' => $data['config_icon'],
-					'rl_type' => 'image'
+					'rl_type' => 'image',
+					'meta'  => $data['config_icon_meta']
 				));			
 			} else {
 				$fields['icon'] = $form->getFieldHtml($props[] = array(
 					'type' => 'resource',
 					'name' => 'config_icon',
 					'resource_path' => htmlspecialchars($data['config_icon'], ENT_COMPAT, 'UTF-8'),
-					'rl_type' => 'image'
+					'rl_type' => 'image',
+					'meta'  => $data['config_icon_meta']
 				));			
 			}
 
