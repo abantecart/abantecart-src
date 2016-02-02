@@ -31,7 +31,8 @@ class ModelToolOnlineNow extends Model{
 	public function setOnline($ip, $customer_id, $url, $referer){
 		//delete old records
 		$this->db->query("DELETE FROM `" . $this->db->table("online_customers") . "`
-                		  WHERE `date_added`> (NOW() - INTERVAL 1 HOUR)");
+                		  WHERE `date_added`< (NOW() - INTERVAL 1 HOUR)");
+
 		//insert new record
 		$this->db->query("REPLACE INTO `" . $this->db->table("online_customers") . "`
                         SET `ip` = '" . $this->db->escape($ip) . "',
