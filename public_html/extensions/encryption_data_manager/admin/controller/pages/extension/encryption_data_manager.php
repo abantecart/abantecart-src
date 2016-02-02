@@ -134,7 +134,7 @@ class ControllerPagesExtensionEncryptionDataManager extends AController {
       		'separator' => FALSE
    		 ));
    		$this->document->addBreadcrumb( array ( 
-       		'href'      => $this->html->getSecureURL('eextension/extensions/extensions'),
+       		'href'      => $this->html->getSecureURL('extension/extensions/extensions'),
        		'text'      => $this->language->get('text_extensions'),
       		'separator' => ' :: '
    		 ));
@@ -349,7 +349,7 @@ class ControllerPagesExtensionEncryptionDataManager extends AController {
 		//load tabs controller
 
 		$this->data['groups'][] = 'additional_settings';
-		$this->data['link_additional_settings'] = $this->data['add_sett']->href;
+		$this->data['link_additional_settings'] = $this->html->getSecureURL('extension/encryption_data_manager');
 		$this->data['active_group'] = 'additional_settings';
 
 		$tabs_obj = $this->dispatch('pages/extension/extension_tabs', array( $this->data ) );
