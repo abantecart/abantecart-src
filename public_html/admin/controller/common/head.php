@@ -40,7 +40,14 @@ class ControllerCommonHead extends AController {
 		$this->view->assign('system_checker_url', $this->html->getSecureURL('common/common/checksystem'));
 		$this->view->assign('ck_rl_url', $this->html->getSecureURL('common/resource_library', '&type=image&mode=url'));
 		$this->view->assign('language_code', $this->session->data['language']);
-		$this->view->assign('retina', $this->config->get('config_retina_enable'));
+
+		$retina = $this->config->get('config_retina_enable');
+		$this->view->assign('retina', $retina);
+		//remove cookie for retina
+		if(!$retina){
+			$this->request->deleteCookie('HTTP_IS_RETINA');
+		}
+
 		$this->view->assign('message_manager_url', $message_link);
 
 		if( $this->session->data['checkupdates'] ){

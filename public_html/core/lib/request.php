@@ -147,6 +147,7 @@ final class ARequest {
           if(strlen( stristr($nua, $browsers[$i]) )>0){
            $agent["b_version"] = "";
            $agent["browser"] = $browsers[$i];
+	       $n = stristr($nua, $agent["browser"]);
            $j=strpos($nua, $agent["browser"])+$n+strlen($agent["browser"])+1;
            for (; $j<=$l; $j++){
              $s = substr ($nua, $j, 1);
@@ -213,5 +214,19 @@ final class ARequest {
 	 */
 	public function is_GET(){
 		return ($this->server['REQUEST_METHOD']=='GET' ? true : false);
+	}
+
+	/**
+	 * @param string $name
+	 * @return bool
+	 */
+	public function deleteCookie($name){
+		if(empty($name)){
+			return false;
+		}
+		$path =  dirname($this->server[ 'PHP_SELF' ]);
+		setcookie($name, null, -1, $path);
+		unset($this->cookie[$name], $_COOKIE[$name]);
+		return true;
 	}
 }
