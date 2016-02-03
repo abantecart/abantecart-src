@@ -61,7 +61,7 @@ $wrapper_id = randomWord(6);
 						<a href="#" class="btn btn-default btn-xs tooltips qt_cnt qt_cnt_ol" data-original-title="Numbered list">ol</a>
 						<a href="#" class="btn btn-default btn-xs tooltips qt_cnt qt_cnt_li" data-original-title="List item">li</a>
 						<a href="#" class="btn btn-default btn-xs tooltips qt_cnt qt_cnt_code" data-original-title="Code">code</a>
-						<a href="#" class="btn btn-default btn-xs tooltips qt_cnt_comment" data-original-title="Comment">Comment</a>
+						<a href="#" class="btn btn-default btn-xs tooltips qt_cnt_comment" data-original-title="Comment">comment</a>
 						<a href="#" class="btn btn-default btn-xs tooltips qt_cnt_expand" data-original-title="Expand">
 							<i class="fa fa-expand fa-fw"></i>
 						</a>

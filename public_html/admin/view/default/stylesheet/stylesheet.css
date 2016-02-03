@@ -3074,6 +3074,10 @@ body.stickyheader .sticky_left {
 .text-editor .toolbar {
   text-align: center;
 }
+.text-editor .toolbar .btn-group .btn-xs { 
+	padding: 1px 5px;
+	font-size: 11px;
+}
 .text-editor .visual_editor{
   height: 250px;
 }
@@ -3138,4 +3142,8 @@ body.stickyheader .sticky_left {
   z-index: 20000;
   background-color: #f6f6f6;
   padding: 5px 0 5px 0;
+}
+.zennable.expanded .toolbar .btn-group .btn-xs { 
+	padding: 1px 8px;
+	font-size: 12px;
 }
