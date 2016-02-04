@@ -447,6 +447,12 @@ class ControllerPagesSaleCustomer extends AController {
 				'href' => $this->html->getSecureURL('sale/customer/actonbehalf', '&customer_id=' . $customer_id),
 				'target' => 'new'
 		));
+		$this->data['message'] = $this->html->buildElement(array(
+				'type' => 'button',
+				'text' => $this->language->get('button_message'),
+				'href' => $this->html->getSecureURL('sale/contact', '&to[]=' . $customer_id),
+				'target' => 'new'
+		));
 
 		$form->setForm(array(
 				'form_name' => 'cgFrm',

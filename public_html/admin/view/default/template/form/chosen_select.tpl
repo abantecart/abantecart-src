@@ -5,7 +5,7 @@ if(is_array($options)){
 	foreach ( $options as $v => $text ) { 	
 	$check_id = preg_replace('/[^a-zA-Z0-9_]/', '', $id . $v);
 	//special case for chosen
-	if (is_array($text )) {
+	if( is_array($text) ) {
 		$text = $text['name'];
 	}
 

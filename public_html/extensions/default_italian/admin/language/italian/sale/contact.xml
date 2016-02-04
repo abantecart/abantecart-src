@@ -79,11 +79,11 @@
 		<value><![CDATA[(Totale da inviare a: %s )]]></value>
 	</definition>
 	<definition>
-		<key>text_select_product</key>
+		<key>text_select_products</key>
 		<value><![CDATA[- Seleziona prodotto -]]></value>
 	</definition>
 	<definition>
-		<key>text_select_customer</key>
+		<key>text_select_customers</key>
 		<value><![CDATA[- Seleziona cliente -]]></value>
 	</definition>
 </definitions>

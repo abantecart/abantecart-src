@@ -70,16 +70,35 @@
 </div><!-- <div class="tab-content"> -->
 <?php echo $resources_scripts; ?>
 <script type="text/javascript">
-	$(document).ready(function () {
-		$('#mail_form_recipient').change(function () {
-			if ($(this).val() == '' || $(this).val() == 'FALSE') {
-				$('#mail_form_to').removeAttr('disabled');
-				$('#mail_personaly').fadeIn(500);
-			} else {
-				$('#mail_form_to').prop('disabled', 'disabled');
-				$('#mail_personaly').fadeOut(500);
+$(document).ready(function () {
+	if ($("#mail_form_products").val() != '' && $("#mail_form_products").val() != null) {
+		$('#mail_personaly').hide();
+		$('#mail_form_recipient').closest('.form-group').hide();
+	}
+    if ($('#mail_form_recipient').val() != '' && $('#mail_form_recipient').val() != null) {
+        $('#mail_personaly').hide();
+    }
 
-			}
-		});
-	});
+    $('#mail_form_recipient').change(function () {
+    	if ($(this).val() == '' || $(this).val() == 'FALSE') {
+    		$('#mail_form_to').removeAttr('disabled');
+    		$('#mail_personaly').fadeIn(500);
+    	} else {
+    		$('#mail_form_to').prop('disabled', 'disabled');
+    		$('#mail_personaly').fadeOut(500);
+    	}
+    });
+
+    $('#mail_form_products').change(function () {
+    	if ($(this).val() == '' || $(this).val() == null) {
+    		$('#mail_form_recipient').closest('.form-group').fadeIn(500);
+    		$('#mail_personaly').fadeIn(500);
+    	} else {
+    		$('#mail_personaly').fadeOut(500);
+    		$('#mail_form_recipient').closest('.form-group').fadeOut(500);
+    	}
+    });
+
+});
+	
 </script>

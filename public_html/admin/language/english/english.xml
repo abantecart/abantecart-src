@@ -237,6 +237,10 @@
 		<value><![CDATA[Act on behalf of]]></value>
 	</definition>
 	<definition>
+		<key>button_message</key>
+		<value><![CDATA[Contact this customer]]></value>
+	</definition>	
+	<definition>
 		<key>button_approve</key>
 		<value><![CDATA[Approve]]></value>
 	</definition>
