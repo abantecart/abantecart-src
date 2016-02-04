@@ -23,7 +23,7 @@
 		<div class="primary_content_actions pull-left">
 			<div class="btn-group">
 				<button class="btn btn-default dropdown-toggle tooltips" data-original-title="<?php echo $text_edit_address; ?>" title="<?php echo $text_edit_address; ?>" type="button" data-toggle="dropdown">
-					<i class="fa fa-envelope-o"></i>
+					<i class="fa fa-book"></i>
 					<?php echo $current_address; ?><span class="caret"></span>
 				</button>
 				<ul class="dropdown-menu">
@@ -109,6 +109,13 @@
 				   for="<?php echo $field->element_id; ?>"><?php echo ${'entry_' . $name}; ?></label>
 
 			<div class="input-group afield <?php echo $widthcasses; ?> <?php echo($name == 'description' ? 'ml_ckeditor' : '') ?>">
+				<?php if($name == 'email') { ?>
+				<span class="input-group-btn">
+					<a type="button" title="mailto" class="btn btn-info" href="mailto:<?php echo $field->value; ?>">
+					<i class="fa fa-envelope-o fa-fw"></i>
+					</a>
+				</span>
+				<?php } ?>
 				<?php echo $field; ?>
 			</div>
 			<?php if (!empty($error[$name])) { ?>

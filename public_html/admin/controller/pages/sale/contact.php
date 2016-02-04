@@ -106,7 +106,8 @@ class ControllerPagesSaleContact extends AController {
 					$this->data['customers'][$customer_info['customer_id']] = $customer_info['firstname'] . ' ' . $customer_info['lastname'] . ' (' . $customer_info['email'] . ')';
 				}
 			}
-		} else if (isset($product_ids) && is_array($product_ids)) {
+		} 
+		if (isset($product_ids) && is_array($product_ids)) {
 			foreach ($product_ids as $product_id) {
 				$prduct_info = $this->model_catalog_product->getProduct($product_id);
 				if ($prduct_info) {
