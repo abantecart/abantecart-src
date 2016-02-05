@@ -2,6 +2,10 @@ ALTER TABLE `ac_online_customers`
 CHANGE COLUMN `ip` `ip` VARCHAR(50) NOT NULL ,
 ADD INDEX `ac_online_customers_idx` (`date_added` ASC);
 
+ALTER TABLE `ac_customers`
+ADD COLUMN `sms` VARCHAR(32) NULL AFTER `fax`;
+
+
 ALTER TABLE `ac_orders`
 DROP INDEX `ac_orders_idx` ,
 ADD INDEX `ac_orders_idx`

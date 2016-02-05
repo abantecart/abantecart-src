@@ -98,6 +98,7 @@ if (!defined('DIR_CORE')) {
  * @property ModelToolFileUploads $model_tool_file_uploads
  * @property ADownload $download
  * @property AOrderStatus $order_status
+ * @property AIM $im
  */
 abstract class AController {
 	protected $registry;

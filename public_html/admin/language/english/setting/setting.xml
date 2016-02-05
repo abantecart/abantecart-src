@@ -907,4 +907,20 @@
 		<key>error_expire_order_days</key>
 		<value><![CDATA[Incomplete Order Expiration value must be a numeric!]]></value>
 	</definition>
+	<definition>
+		<key>text_storefront</key>
+		<value><![CDATA[Storefront]]></value>
+	</definition>
+	<definition>
+		<key>text_admin</key>
+		<value><![CDATA[Admin]]></value>
+	</definition>
+	<definition>
+		<key>entry_sms_driver</key>
+		<value><![CDATA[SMS Provider]]></value>
+	</definition>
+	<definition>
+		<key>text_no_driver</key>
+		<value><![CDATA[ No One IM Driver Found]]></value>
+	</definition>
 </definitions>

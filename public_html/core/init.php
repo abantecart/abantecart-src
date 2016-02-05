@@ -266,6 +266,7 @@ try {
 	require_once(DIR_CORE . 'lib/filter.php');
 	require_once(DIR_CORE . 'lib/listing.php');
 	require_once(DIR_CORE . 'lib/task_manager.php');
+	require_once(DIR_CORE . 'lib/im.php');
 
 //Admin manager classes
 	if (IS_ADMIN) {
@@ -488,6 +489,10 @@ try {
 
 //load order status class
 	$registry->set('order_status',new AOrderStatus());
+
+//IM
+	$registry->set('im', new AIM());
+
 } //eof try
 catch (AException $e) {
 	ac_exception_handler($e);

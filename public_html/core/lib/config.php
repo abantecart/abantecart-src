@@ -28,7 +28,7 @@ final class AConfig {
 	 * @var Registry
 	 */
 	private $registry;
-	public $groups = array( 'details', 'general', 'checkout', 'appearance', 'mail', 'api', 'system' );
+	public $groups = array( 'details', 'general', 'checkout', 'appearance', 'mail', 'im', 'api', 'system' );
 
 	public function __construct($registry) {
 		$this->registry = $registry;

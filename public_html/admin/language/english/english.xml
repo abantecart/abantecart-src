@@ -273,6 +273,10 @@
 		<value><![CDATA[Appearance]]></value>
 	</definition>
 	<definition>
+		<key>tab_im</key>
+		<value><![CDATA[IM]]></value>
+	</definition>
+	<definition>
 		<key>tab_api</key>
 		<value><![CDATA[API]]></value>
 	</definition>

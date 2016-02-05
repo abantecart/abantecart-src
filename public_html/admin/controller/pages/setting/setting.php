@@ -368,6 +368,13 @@ class ControllerPagesSettingSetting extends AController {
 		$this->main();
 	}
 
+	public function im () {
+		$this->request->get['active'] = 'im';
+		$this->data['entry_storefront_sms_status'] = $this->language->get('text_storefront');
+		$this->data['entry_admin_sms_status'] = $this->language->get('text_admin');
+		$this->main();
+	}
+
 	public function api () {
 		$this->request->get['active'] = 'api';
 		$this->main();
@@ -445,6 +452,9 @@ class ControllerPagesSettingSetting extends AController {
 			case 'api' :
 				$this->data = array_merge_recursive($this->data, $this->_build_api($form, $this->data['settings']));
 				break;
+			case 'im' :
+				$this->data = array_merge_recursive($this->data, $this->_build_im($form, $this->data['settings']));
+				break;
 			case 'system':
 				$this->data = array_merge_recursive($this->data, $this->_build_system($form, $this->data['settings']));
 				break;
@@ -504,6 +514,16 @@ class ControllerPagesSettingSetting extends AController {
 	private function _build_mail($form, $data) {
 		$ret_data = array();
 		$ret_data['form'] = array('fields' => $this->conf_mngr->getFormFields('mail', $form, $data));
+		return $ret_data;
+	}
+    /**
+     * @param AForm $form
+     * @param $data
+     * @return array
+     */
+	private function _build_im($form, $data) {
+		$ret_data = array();
+		$ret_data['form'] = array('fields' => $this->conf_mngr->getFormFields('im', $form, $data));
 		return $ret_data;
 	}
     /**

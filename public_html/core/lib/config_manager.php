@@ -33,6 +33,7 @@ if (!defined('DIR_CORE')) {
  * @property ASession $session
  * @property ALanguageManager $language
  * @property ALoader $load
+ * @property AIM $im
  *
  */
 class AConfigManager {
@@ -1051,9 +1052,58 @@ class AConfigManager {
 	 * @param array $data
 	 * @return array
 	 */
+	private function _build_form_im($form, $data) {
+		$fields = array();
+
+		$protocols = $this->im->getProtocols();
+		$im_drivers = $this->im->getIMDrivers();
+
+		foreach($protocols as $protocol){
+
+			if($im_drivers[$protocol]){
+				$options = array_merge(array(''=> $this->language->get('text_select')), $im_drivers[$protocol]);
+			}else{
+				$options = array('' => $this->language->get('text_no_driver'));
+			}
+
+
+			$fields['sms_driver'] = $form->getFieldHtml($props[] = array (
+					'type'    => 'selectbox',
+					'name'    => 'config_'.$protocol.'_driver',
+					'value'   => $data['config_sms_driver'],
+					'options' => $options,
+			));
+
+			$fields['storefront_sms_status'] = $form->getFieldHtml($props[] = array (
+					'type'  => 'checkbox',
+					'name'  => 'config_storefront_' . $protocol . '_status',
+					'value' => $data['config_storefront_' . $protocol . '_status'],
+					'style' => 'btn_switch',
+			));
+
+			$fields['admin_sms_status'] = $form->getFieldHtml($props[] = array (
+					'type'  => 'checkbox',
+					'name'  => 'config_admin_' . $protocol . '_status',
+					'value' => $data['config_admin_' . $protocol . '_status'],
+					'style' => 'btn_switch',
+			));
+
+		}
+
+		if (isset($data['one_field'])) {
+			$fields = $this->_filterField($fields, $props, $data['one_field']);
+		}
+		return $fields;
+	}
+
+	/**
+	 * @var AForm $form
+	 * @param array $data
+	 * @return array
+	 */
 	private function _build_form_api($form, $data) {
 		$fields = array();
-		//api section 
+		//api section
 		$fields['storefront_api_status'] = $form->getFieldHtml($props[] = array(
 			'type' => 'checkbox',
 			'name' => 'config_storefront_api_status',
