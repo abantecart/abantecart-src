@@ -157,6 +157,8 @@
 			<?php } ?>
 		</div>
 	
+		<?php echo $this->getHookVar('tax_class_rate_form_fields'); ?>
+	
 	</div>
 
 	<div class="panel-footer col-xs-12">
