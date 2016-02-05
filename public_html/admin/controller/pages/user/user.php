@@ -27,7 +27,7 @@ class ControllerPagesUserUser extends AController {
    
   	public function main() {
 
-          //init controller data
+         //init controller data
         $this->extensions->hk_InitData($this,__FUNCTION__);
 
     	$this->document->setTitle( $this->language->get('heading_title') );
@@ -241,8 +241,13 @@ class ControllerPagesUserUser extends AController {
 		$this->data['cancel'] = $this->html->getSecureURL('user/user');
 
     	if (isset($this->request->get['user_id']) ) {
-      		$user_info = $this->model_user_user->getUser($this->request->get['user_id']);
-    	}
+		    $user_id = $this->request->get['user_id'];
+		    $this->data['user_id'] = $user_id;
+      		$user_info = $this->model_user_user->getUser( $user_id );
+    	}else{
+		    $user_id = 0;
+	    }
+
 
 		foreach ( $this->fields as $f ) {
 			if (isset($user_info)) {
@@ -254,16 +259,17 @@ class ControllerPagesUserUser extends AController {
 			}
 		}
 
-		if (!isset($this->request->get['user_id'])) {
+		if (!$user_id) {
 			$this->data['action'] = $this->html->getSecureURL('user/user/insert');
 			$this->data['heading_title'] = $this->language->get('text_insert') .'&nbsp;'. $this->language->get('text_user');
 			$this->data['update'] = '';
 			$form = new AForm('ST');
 		} else {
-			$this->data['action'] = $this->html->getSecureURL('user/user/update', '&user_id=' . $this->request->get['user_id'] );
+			$this->data['action'] = $this->html->getSecureURL('user/user/update', '&user_id=' . $user_id );
 			$this->data['heading_title'] = $this->language->get('text_edit') .'&nbsp;'. $this->language->get('text_user') . ' - ' . $this->data['username'];
-			$this->data['update'] = $this->html->getSecureURL('listing_grid/user/update_field','&id='.$this->request->get['user_id']);
+			$this->data['update'] = $this->html->getSecureURL('listing_grid/user/update_field','&id='.$user_id);
 			$form = new AForm('HS');
+
 		}
 
 		$this->document->addBreadcrumb( array (
@@ -305,7 +311,7 @@ class ControllerPagesUserUser extends AController {
 			'style'  => 'btn_switch',
 	    ));
 
-		$input = array('username', 'firstname', 'lastname', 'email', 'password');
+		$input = array('username', 'firstname', 'lastname', 'password');
 		foreach ( $input as $f ) {
 			$this->data['form']['fields'][$f] = $form->getFieldHtml(array(
 				'type' => ( $f == 'password' ? 'passwordset' : 'input' ),
@@ -323,6 +329,19 @@ class ControllerPagesUserUser extends AController {
 			'value' => $this->data['user_group_id'],
             'options' => $user_groups,
 	    ));
+
+	    $this->data['form']['fields']['email'] = $form->getFieldHtml(array(
+            'type' => 'input' ,
+            'name' => 'email',
+            'value' => $this->data['email'],
+            'required' => true
+        ));
+
+	    if($user_id){
+		    //load im list controller
+		    $ims = $this->dispatch('responses/user/user_ims', array ($this->data));
+		    $this->data['form']['fields']['ims'] = $ims->dispatchGetOutput();
+	    }
 
 		$this->view->assign('help_url', $this->gen_help_url('user_edit') );
 		$this->view->batchAssign( $this->data );
@@ -369,4 +388,5 @@ class ControllerPagesUserUser extends AController {
       		return FALSE;
     	}
   	}
+
 }

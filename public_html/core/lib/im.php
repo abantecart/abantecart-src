@@ -30,12 +30,15 @@ if (!defined('DIR_CORE')) {
  * @property ALoader $load
  * @property AHtml $html
  * @property ExtensionsAPI $extensions
+ * @property ASession $session
  */
 
 class AIM {
 	private $registry;
-	private $protocols = array('sms');
-
+	private $protocols = array('sms', 'skype');
+	/**
+	 * @var array for StoreFront side ONLY!
+	 */
 	public $sendpoints = array(
 		'order_created' => array(
 				'sf' => 'im_order_created_text_to_customer',

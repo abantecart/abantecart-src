@@ -1935,6 +1935,19 @@ INSERT INTO `ac_user_groups` (`user_group_id`, `name`, `permission`) VALUES
 (1, 'Top Administrator', ''),
 (10, 'Demonstration', '');
 
+
+DROP TABLE IF EXISTS `ac_user_notifications`;
+CREATE TABLE `ac_user_notifications` (
+  `user_id` INT(11) NOT NULL,
+  `store_id` INT(11) NOT NULL,
+  `sendpoint` VARCHAR(255) NOT NULL,
+  `protocol` VARCHAR(30) NOT NULL,
+  `uri` TEXT NOT NULL,
+  `date_added` TIMESTAMP NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `date_modified` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`user_id`, `store_id`, `sendpoint`, `protocol`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
 --
 -- DDL for table `weight_class`
 --

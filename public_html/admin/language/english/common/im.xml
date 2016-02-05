@@ -1,7 +1,23 @@
 <?xml version="1.0"?>
 <definitions>
   	<definition>
-    	<key></key>
-    	<value><![CDATA[]]></value>
+    	<key>im_sendpoint_name_order_updated</key>
+    	<value><![CDATA[]]>Order Updated</value>
+  	</definition>
+  	<definition>
+    	<key>im_sendpoint_name_product_created</key>
+    	<value><![CDATA[]]>Product Created</value>
+  	</definition>
+  	<definition>
+    	<key>im_sendpoint_name_product_updated</key>
+    	<value><![CDATA[]]>Product Updated</value>
+  	</definition>
+  	<definition>
+    	<key>text_edit_im_settings</key>
+    	<value><![CDATA[]]>Edit IM settings</value>
+  	</definition>
+  	<definition>
+    	<key>error_unknown_sendpoint</key>
+    	<value><![CDATA[]]>Sendpoint %s does not found in sendpoints list!</value>
   	</definition>
 </definitions>

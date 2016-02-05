@@ -11,6 +11,18 @@ ADD INDEX `ac_online_customers_idx` (`date_added` ASC);
 ALTER TABLE `ac_customers`
 ADD COLUMN `sms` VARCHAR(32) NULL AFTER `fax`;
 
+DROP TABLE IF EXISTS `ac_user_notifications`;
+CREATE TABLE `ac_user_notifications` (
+  `user_id` INT(11) NOT NULL,
+  `store_id` INT(11) NOT NULL,
+  `sendpoint` VARCHAR(255) NOT NULL,
+  `protocol` VARCHAR(30) NOT NULL,
+  `uri` TEXT NOT NULL,
+  `date_added` TIMESTAMP NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `date_modified` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`user_id`, `store_id`, `sendpoint`, `protocol`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
 
 ALTER TABLE `ac_orders`
 DROP INDEX `ac_orders_idx` ,
