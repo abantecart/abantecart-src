@@ -102,6 +102,11 @@ h4, .h4 {
 .form-inline .checkbox {
    margin-right: 20px;
 }
+.input-group input[type="checkbox"], 
+.input-group input[type="radio"] {
+    float: left;
+    margin-right: 5px;
+}
 
 .input-sm {
    font-size: 12px;

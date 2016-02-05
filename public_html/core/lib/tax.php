@@ -103,6 +103,7 @@ final class ATax {
 				'threshold_condition'    => $result['threshold_condition'],
 				'threshold'    => $result['threshold'],
         		'description' => $result['description'],
+        		'tax_exempt_groups' => unserialize($result['tax_exempt_groups']),
 				'priority'    => $result['priority']
       		);
     	}
@@ -133,7 +134,9 @@ final class ATax {
 			//Note: Default language text is picked up if no selected language available
 			$sql = "SELECT tr.tax_class_id,
 							tr.rate AS rate, tr.rate_prefix AS rate_prefix, 
-							tr.threshold_condition AS threshold_condition, tr.threshold AS threshold,
+							tr.threshold_condition AS threshold_condition, 
+							tr.threshold AS threshold,
+							tr.tax_exempt_groups AS tax_exempt_groups,
 							COALESCE( td1.title,td2.title) as title,
 							COALESCE( NULLIF(trd1.description, ''),
 									  NULLIF(td1.description, ''),

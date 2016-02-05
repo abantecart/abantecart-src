@@ -22,12 +22,24 @@ if (! defined ( 'DIR_CORE' )) {
 }
 class ModelTotalTax extends Model {
 	public function getTotal(&$total_data, &$total, &$taxes, &$cust_data) {
+
+		if($this->customer->isTaxExempt()) {
+			//customer is tax exempt, do nothing
+			return;
+		}
 		if ($this->config->get('tax_status')) {
 			foreach ($taxes as $tax_class_id => $subtax) {
 				if (!empty($subtax)) {
 					$tax_classes = $this->tax->getDescription($tax_class_id);
 					foreach ($tax_classes as $tax_class) {
 						$tax_amount = 0;
+						//check if we have exempt group for this class 
+						if(is_array($tax_class['tax_exempt_groups']) && count($tax_class['tax_exempt_groups']) > 0){
+							if (in_array($this->customer->getCustomerGroupId(), $tax_class['tax_exempt_groups'])) {
+								//we found taxt exempt. 
+								continue;
+							}
+						}				
 						//This is the same as $subtax['tax'], but we will recalculate
 						$tax_amount = $this->tax->calcTaxAmount($subtax['total'], $tax_class);
 						if ($tax_amount > 0) {

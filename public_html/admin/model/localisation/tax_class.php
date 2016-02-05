@@ -64,6 +64,7 @@ class ModelLocalisationTaxClass extends Model {
 				threshold_condition = '" . $this->db->escape($data['threshold_condition']) . "',
 				threshold = '"  . (float)$data['threshold'] . "',
 				tax_class_id = '"  . (int)$tax_class_id . "',
+				tax_exempt_groups = '"  . serialize($data['tax_exempt_groups']) . "',
 				date_added = NOW()");
 
 		$tax_rate_id = $this->db->getLastId();
@@ -119,7 +120,8 @@ class ModelLocalisationTaxClass extends Model {
 	 * @param array $data
 	 */
 	public function editTaxRate($tax_rate_id, $data) {
-		$fields = array('location_id', 'zone_id', 'priority','rate_prefix', 'threshold_condition' );
+		$data['tax_exempt_groups'] = serialize($data['tax_exempt_groups']);
+		$fields = array('location_id', 'zone_id', 'priority','rate_prefix', 'threshold_condition', 'tax_exempt_groups');
 		$update = array('date_modified = NOW()');
 		foreach ( $fields as $f ) {
 			if ( isset($data[$f]) )
@@ -218,6 +220,7 @@ class ModelLocalisationTaxClass extends Model {
 									(t.tax_rate_id = td1.tax_rate_id AND td1.language_id = '" . (int)$language_id . "')
 									WHERE t.tax_rate_id = '" . (int)$tax_rate_id . "'");
 		$ret_data = $query->row;
+		$ret_data['tax_exempt_groups'] = unserialize($ret_data['tax_exempt_groups']);
 		$ret_data['tax_rate'] = $this->getTaxRateDescriptions($tax_rate_id); 
 		return $ret_data;
 	}
