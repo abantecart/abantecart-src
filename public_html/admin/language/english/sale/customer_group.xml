@@ -17,12 +17,20 @@
     <value><![CDATA[Customer Group Name]]></value>
   </definition>
   <definition>
+    <key>column_tax_exempt</key>
+    <value><![CDATA[Tax Exempt]]></value>
+  </definition>
+  <definition>
     <key>column_action</key>
     <value><![CDATA[Action]]></value>
   </definition>
   <definition>
     <key>entry_name</key>
     <value><![CDATA[Customer Group Name:]]></value>
+  </definition>
+  <definition>
+    <key>entry_tax_exempt</key>
+    <value><![CDATA[Exempt from all taxes:]]></value>
   </definition>
   <definition>
     <key>error_permission</key>

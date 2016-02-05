@@ -1,3 +1,9 @@
+ALTER TABLE `ac_customer_groups`
+ADD COLUMN `tax_exempt` tinyint(1) NOT NULL DEFAULT '0';
+
+ALTER TABLE `ac_tax_rates`
+ADD COLUMN `tax_exempt_groups` text DEFAULT NULL; 
+
 ALTER TABLE `ac_online_customers`
 CHANGE COLUMN `ip` `ip` VARCHAR(50) NOT NULL ,
 ADD INDEX `ac_online_customers_idx` (`date_added` ASC);

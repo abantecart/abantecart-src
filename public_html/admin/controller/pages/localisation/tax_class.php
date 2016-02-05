@@ -367,7 +367,7 @@ class ControllerPagesLocalisationTaxClass extends AController {
             $rate_info = $this->model_localisation_tax_class->getTaxRate($tax_rate_id);
         }
 
-        $fields = array('location_id', 'zone_id', 'rate', 'priority', 'rate_prefix', 'threshold_condition', 'threshold');
+        $fields = array('location_id', 'zone_id', 'rate', 'priority', 'rate_prefix', 'threshold_condition', 'threshold', 'tax_exempt_groups');
         foreach ($fields as $f) {
             if (isset ($this->request->post [$f])) {
                 $this->data [$f] = $this->request->post [$f];
@@ -377,7 +377,7 @@ class ControllerPagesLocalisationTaxClass extends AController {
                 $this->data[$f] = '';
             }
         }
-
+        
 		//set multilingual fields
 		$this->data['tax_rate'] = array();
 		if ( $rate_info['tax_rate'] ) {
@@ -488,8 +488,6 @@ class ControllerPagesLocalisationTaxClass extends AController {
             'style' => 'large-field',
             'multilingual' => true,
         ));
-
-
         
 		$this->data[ 'rate_prefix' ] = trim($this->data[ 'rate_prefix' ]);
 		$currency_symbol = $this->currency->getCurrency($this->config->get('config_currency'));
@@ -506,17 +504,16 @@ class ControllerPagesLocalisationTaxClass extends AController {
 				'%' => $this->language->get('text_percent') . " (%)",
 				'$' => $this->language->get('text_absolute') . " (". $currency_symbol . ")",
 			),
-			'style' => 'tiny-field'
+			'style' => 'medium-field'
         ));
 
 		$this->data['form']['fields']['rate'][] = $form->getFieldHtml(array(
-		            'type' => 'input',
-		            'name' => 'rate',
-		            'value' => (float)$this->data['rate'],
-		            'required' => true,
-		            'style' => 'tiny-field'
+		    'type' => 'input',
+		    'name' => 'rate',
+		    'value' => (float)$this->data['rate'],
+		    'required' => true,
+		    'style' => 'medium-field'
 		));
-
 
         $this->data['form']['fields']['tax_rate_threshold'][] = $form->getFieldHtml(array(
 			'type' => 'selectbox',
@@ -531,7 +528,7 @@ class ControllerPagesLocalisationTaxClass extends AController {
 				'ne' => '<>',
 				'eq' => '=',
 			),
-			'style' => 'tiny-field'
+			'style' => 'medium-field'
         ));
 
         $this->data['form']['fields']['tax_rate_threshold'][] = $form->getFieldHtml(array(
@@ -539,8 +536,23 @@ class ControllerPagesLocalisationTaxClass extends AController {
             'name' => 'threshold',
             'value' => (float)$this->data['threshold'],
             'required' => false,
-			'style' => 'tiny-field'
+			'style' => 'medium-field'
         ));
+
+		$this->loadModel('sale/customer_group');
+		$results = $this->model_sale_customer_group->getCustomerGroups();
+		$multiSelect = array();
+		foreach( $results as $r ) {
+            $multiSelect[ $r['customer_group_id'] ] = $r['name'];
+        }
+		$this->data['form']['fields']['tax_exempt_groups'] = $form->getFieldHtml(array(
+				'type' => 'multiSelectbox',
+				'name' => 'tax_exempt_groups[]',
+				'options' => $multiSelect,
+				'value' => $this->data['tax_exempt_groups'],
+				'disabled' => '',
+				'attr' => 'size = "' . (sizeof($multiSelect) > 10 ? 10 : sizeof($multiSelect)) . '"'
+		));
 
         $this->data['form']['fields']['priority'] = $form->getFieldHtml(array(
             'type' => 'input',

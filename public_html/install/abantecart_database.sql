@@ -694,6 +694,7 @@ DROP TABLE IF EXISTS `ac_customer_groups`;
 CREATE TABLE `ac_customer_groups` (
   `customer_group_id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(32) COLLATE utf8_general_ci NOT NULL,
+  `tax_exempt` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`customer_group_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
 
@@ -701,11 +702,10 @@ CREATE TABLE `ac_customer_groups` (
 -- Dumping data for table `customer_groups`
 --
 
-INSERT INTO `ac_customer_groups` ( `name`) VALUES
-('Default'),
-('Wholesalers'),
-('Newsletter Subscribers');
-
+INSERT INTO `ac_customer_groups` ( `name`, `tax_exempt`) VALUES
+('Default', '0'),
+('Wholesalers', '1'),
+('Newsletter Subscribers', '0');
 
 --
 -- DDL for table table `ac_customer_transactions`
@@ -1844,6 +1844,7 @@ CREATE TABLE `ac_tax_rates` (
   `rate_prefix` char(1) COLLATE utf8_general_ci NOT NULL DEFAULT '%', -- % or $ 
   `threshold_condition` char(2) COLLATE utf8_general_ci NOT NULL, -- '<=', '>=', '==' or '<'
   `threshold` decimal(15,4) NOT NULL DEFAULT '0.0000',
+  `tax_exempt_groups` text DEFAULT NULL, 
   `date_added` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `date_modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`tax_rate_id`)
