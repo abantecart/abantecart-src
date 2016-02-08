@@ -746,6 +746,20 @@ h4, .h4 {
    border-color: #ddd;
 }
 
+.modal-xlg .modal-body{
+	overflow:scroll;
+}
+@media (min-width: 992px) {
+	.modal-xlg {
+    	width: 980px;
+	}
+}
+@media (min-width: 1200px) {
+  .modal-xlg {
+    width: 1150px;
+  }
+}
+
 .modal-dialog {
    border: 0;
 }

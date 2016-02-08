@@ -502,7 +502,7 @@ function notice(text, autohide, elm, type, icon) {
 	if(elm == null){
 		elm = 'body';
 	}
-	var delay = 6000;
+	var delay = 2000;
 	if(autohide == null || autohide == 'false' || autohide == false) {
 		delay = 0;
 	}
@@ -995,6 +995,7 @@ var loadAndShowData = function (url, $elem) {
 function openTextEditRLModal(editor, cursorPosition){
 	modalscope.mode = 'single';
 	mediaDialog('image', 'list_library');
+	sideDialog('image', 'add');
 
 	$('#rl_modal').on('shown.bs.modal', function () {
 
@@ -1030,7 +1031,6 @@ function openTextEditRLModal(editor, cursorPosition){
 
             function InsertHtml(editor, value) {
                 if(!value || value.length<1){
-                    info_alert('Resource Library: Nothing was posted into editor.', true);
                     return null;
                 }
 

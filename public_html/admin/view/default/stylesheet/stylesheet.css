@@ -114,6 +114,12 @@ h1,h2,h3,h4,h5 {
    height: 100%;
 }
 
+.center_div_abs { 
+   position: absolute;
+   top: 45%;
+   left: 45%;
+}
+
 #iframe_loading {
 	font-size: 18px !important;
 	color: #f19013 !important;
@@ -1072,6 +1078,10 @@ p {
 .reslibrary .thumbnail {
 	margin-bottom : 0px;
 }
+.reslibrary .thumbnail .html {
+	width: 100px;
+	height: 100px;
+}
 .reslibrary .thumbnail img {
 	max-width: 100px;
 	max-height: 100px;
@@ -1106,6 +1116,15 @@ p {
     color: #666;
 }
 
+.reslibrary-options.edit-resource {
+	text-align: center;
+}
+
+.reslibrary-options.edit-resource > li {
+	border: none;
+	padding: 12px 12px;
+}
+
 .reslibrary-options > li a {
     color: #666;
 }
@@ -1122,6 +1141,10 @@ p {
 .reslibrary-options > li i {
     font-size: 14px;
     color: #444;
+}
+
+.reslibrary-options .btn-primary i {
+    color: #fff !important;
 }
 
 .reslibrary-options .ckbox label {
@@ -1158,12 +1181,18 @@ p {
     -moz-border-radius: 3px;
     -webkit-border-radius: 3px;
     border-radius: 3px;
-    padding: 10px;
-    margin-bottom: 12px;
+    padding: 6px;
+    margin-bottom: 10px;
     position: relative;
     -moz-box-shadow: 0 3px 0 rgba(12,12,12,0.03);
     -webkit-box-shadow: 0 3px 0 rgba(12,12,12,0.03);
     box-shadow: 0 3px 0 rgba(12,12,12,0.03);
+}
+
+.reslibrary .thmb .img-responsive {
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
 }
 
 .reslibrary .thmb.checked {
@@ -1254,55 +1283,67 @@ p {
 .rl_pagination .input-group {
 	font-size: 12px;
 }
-#rl_container .edit_resource_form {
+.rl_pagination li.disabled a {
+	font-weight: bold;
+	text-decoration: underline;
+}
+
+#rl_dynamic_container{
+	border-left: 1px solid #e5e5e5;
+	height: 660px;
+}
+.rl-content .edit_resource_form {
 	min-height: 360px;
+}
+.rl-content .edit_resource_form .form-group {
+	margin-bottom: 5px;
+}
+#rl_edit_container .ellipsis {
+	max-width: 260px;
+	white-space:nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
 }
 #rl_container .reslibrary {
 	min-height: 380px;
 }
-
 #choose_resource_type{
 	margin: 0;
+	margin-top: 20px;
 }
-
+#choose_resource_type .fileupload-buttonbar .btn{
+	margin-top: 30% !important;
+	color: #064770;
+}
 #choose_resource_type .fileupload-buttonbar>div{
-	height: 390px;
+	height: 200px;
 }
 #choose_resource_type .fileupload-buttonbar>div a.btn{
 	margin-top: 30% !important;
 }
-
 #add_form{
 	margin-top: 40px;
 }
-
-
-#add_form, #file_subform, #code_subform, #add_resource_buttons{
+#add_form, #code_subform, #add_resource_buttons{
 	display: none;
 }
-
-
 .rl-content .fileupload_drag_area{
-	height: 440px;
+	height: 505px;
 	padding: 5% 7%;
 	overflow: auto;
 	border: 1px dashed grey;
 	background-color: #f7f7f7;
 }
-
 .rl-content .fileupload_drag_area .fileupload-buttonbar label{
-	margin-top: 8%;
+	margin-top: 1%;
 }
-
 .rl-content .fileupload_drag_area .statusbar{
 	text-align: left;
 }
-
-
 .edit_resource_form .fileupload_drag_area{
-	height: 103px;
+	height: 140px;
 	padding: 3px 0 0 0;
-	margin-top: 10px;
+	margin-top: 5px;
 	overflow: hidden;
 	border: 1px dashed grey;
 	background-color: #f7f7f7;

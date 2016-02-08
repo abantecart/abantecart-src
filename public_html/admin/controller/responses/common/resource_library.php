@@ -197,8 +197,6 @@ class ControllerResponsesCommonResourceLibrary extends AController {
 			return $this->add_code();
 		}
 
-
-
 		$this->data['languages'] = array();
 		$result = $this->language->getAvailableLanguages();
 		foreach ($result as $lang) {
@@ -265,7 +263,7 @@ class ControllerResponsesCommonResourceLibrary extends AController {
 								'name'=> 'resource_code',
 								'value'=> $resource['resource_code'],
 								'placeholder' => $this->language->get('text_resource_code'),
-								'attr' =>' rows="10" cols="50" style="resize: none;"',
+								'attr' =>' rows="8" cols="40" style="resize: none;"',
 								'required'=>true)
 		);
 		$this->data['form']['field_name'] = $form->getFieldHtml(
@@ -347,12 +345,12 @@ class ControllerResponsesCommonResourceLibrary extends AController {
 
 		$language_id = $this->language->getContentLanguageID();
 
-
 		$this->data['sort'] = $this->request->get['sort'];
 		$this->data['order'] = $this->request->get['order'];
 
 		$rm = new AResourceManager();
 		$rm->setType($this->data['type']);
+		$list_limit = 18;
 
 		//Build request URI and filter params
 		$uri = '&object_name='.$this->data['object_name'].'&object_id='.$this->data['object_id'];
@@ -360,7 +358,7 @@ class ControllerResponsesCommonResourceLibrary extends AController {
 		$filter_data = array(
 			'type_id' => $rm->getTypeId(),
 			'language_id' => $language_id,
-			'limit' => 12,
+			'limit' => $list_limit,
 		);
 		if (!empty($this->request->get['keyword'])) {
 			$filter_data['keyword'] = $this->request->get['keyword'];
@@ -419,7 +417,7 @@ class ControllerResponsesCommonResourceLibrary extends AController {
 		$this->data['no_sort_url'] = $this->html->getSecureURL('common/resource_library',$uri,'&encode');
 		$this->data['full_url'] = $this->html->getSecureURL('common/resource_library',$full_uri,'&encode');
 				
-		if ($resources_total > 12) {
+		if ($resources_total > $list_limit) {
 		$this->data['pagination_bootstrap'] = HtmlElementFactory::create(array(
 		    			'type' => 'Pagination',
 		    			'name' => 'pagination',
@@ -427,7 +425,7 @@ class ControllerResponsesCommonResourceLibrary extends AController {
 		    			'text_limit' => $this->language->get('text_per_page'),
 						'total' => $resources_total,
 						'page' => $page,
-		    			'limit' => 12,
+		    			'limit' => $list_limit,
 		    			'url' => $this->data['current_url'],
 		    			'size_class' => 'sm',
 		    			'no_perpage' => true,
