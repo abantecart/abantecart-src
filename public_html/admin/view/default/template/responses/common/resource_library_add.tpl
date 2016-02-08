@@ -1,6 +1,6 @@
 <div id="rl_add_container">
 	<ul class="nav nav-tabs nav-justified nav-profile">
-		<li class="active" id="resource" data-rl-id="<?php echo $resource_id; ?>" data-type="<?php echo $type; ?>">
+		<li class="active" id="add_resource" data-type="<?php echo $type; ?>">
 			<a class="widthM300 ellipsis" href="#"><strong><i class="fa fa-plus fa-fw"></i> <?php echo $button_add; ?></strong></a>
 		</li>
 	</ul>

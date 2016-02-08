@@ -883,7 +883,12 @@ var enable_menu = function ($obj, enable) {
 }
 
 var active_tab = function () {
-	return $('#rl_container ul.nav>li.active');
+	//detect active tab. Resource edit will have priority
+	if( $('#resource').length ){
+		return $('#resource');
+	} else {
+		return $('#rl_container ul.nav>li.active');
+	}
 }
 
 var multi_action = function (action) {

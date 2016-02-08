@@ -45,24 +45,34 @@ $txt_unlink_resource = sprintf($text_unmap_from, $object_title);
 			}else{
 				$onclick = "delete_resource(" . $resource['resource_id'] . ", '" . $object_name . "', '" . $object_id . "');";
 			}
+		?>
+			<a class="btn btn-default actionitem <?php echo $cssclass; ?> rl_delete"
+			   href="#"
+			   onclick="<?php echo $onclick; ?> return false;"
+			   data-rl-id="<?php echo $resource['resource_id']; ?>"
+			   data-confirmation="delete"
+			   data-confirmation-text="<?php echo $text_confirm_delete; ?>">
+			   	<i class="fa fa-trash-o"></i>
+			</a>		
+		<?php
 		} else {
-			$cssclass = "disabled";
-			$onclick = "";
+		?>
+			<a class="btn btn-default actionitem disabled rl_delete" href="#">
+				<span class="fa-stack fa-lg">		   
+			   		<i class="fa fa-trash-o fa-stack-1x"></i>
+			   		<i class="fa fa-ban fa-stack-2x text-danger"></i>
+			   </span>
+			</a>				
+		<?php	
 		}
 		?>
-		<a class="btn btn-default actionitem <?php echo $cssclass; ?> rl_delete"
-		   href="#"
-		   onclick="<?php echo $onclick; ?> return false;"
-		   data-rl-id="<?php echo $resource['resource_id']; ?>"
-		   data-confirmation="delete"
-		   data-confirmation-text="<?php echo $text_confirm_delete; ?>"
-				><i class="fa fa-trash-o"></i></a>
 	</li>
+
 
 </ul>
 
 <div class="row edit_resource_form">
-	<div class="col-xs-12">
+	<div class="col-xs-12">	
 		<?php if (!empty ($resource['resource_code'])) { ?>
 			<div class="form-group <?php echo(!empty($error['resource_code']) ? "has-error" : ""); ?>">
 				<label class="control-label"

@@ -1142,7 +1142,14 @@ p {
     font-size: 14px;
     color: #444;
 }
-
+.reslibrary-options > li .fa-stack {
+	height: 1.1em;
+	width: 1.1em;
+	line-height: 1.1em;
+}
+.reslibrary-options > li i.fa-stack-2x {
+    font-size: 1.2em;
+}
 .reslibrary-options .btn-primary i {
     color: #fff !important;
 }
