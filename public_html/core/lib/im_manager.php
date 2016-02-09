@@ -93,9 +93,30 @@ class AIMManager extends AIM {
 		return $output;
 	}
 
-	public function validateUserSettings(){
+	public function validateUserSettings($settings){
+		$this->errors = array();
+		if(!$settings){
+			return null;
+		}
+		$drivers = $this->getIMDrivers('objects');
+		$supported_protocols = array_keys($drivers);
+		foreach($settings as $protocol=> $uri){
 
-		return true;
+			//ignore non-supported protocols
+			if(!in_array($protocol,$supported_protocols) || !$uri){
+				continue;
+			}
+			$driver = $drivers[$protocol];
+			if(!$driver->validateURI($uri)){
+				$this->errors[$protocol] = implode('<br>',$driver->errors);
+			}
+		}
+
+		if($this->errors){
+			return false;
+		}else{
+			return true;
+		}
 	}
 
 	public function saveIMSettings($user_id, $sendpoint, $store_id, $settings = array()){

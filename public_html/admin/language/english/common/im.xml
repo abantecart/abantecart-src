@@ -13,11 +13,15 @@
     	<value><![CDATA[]]>Product Updated</value>
   	</definition>
   	<definition>
-    	<key>text_edit_im_settings</key>
-    	<value><![CDATA[]]>Edit IM settings</value>
+    	<key>text_notification_for</key>
+    	<value><![CDATA[]]>Notification for User %s</value>
   	</definition>
   	<definition>
     	<key>error_unknown_sendpoint</key>
     	<value><![CDATA[]]>Sendpoint %s does not found in sendpoints list!</value>
+  	</definition>
+  	<definition>
+    	<key>text_settings_success_saved</key>
+    	<value><![CDATA[]]>Notification settings saved successfully!</value>
   	</definition>
 </definitions>

@@ -8,14 +8,27 @@
 	<div class="panel-body panel-body-nopadding">
 		<?php
 		foreach ($form['fields'] as $name => $field) {?>
-		<div class="form-group <?php if (!empty($error[$name])) { echo "has-error"; } ?>" >
+		<div class="form-group d" >
 			<label class="control-label col-sm-4 col-xs-12" for="<?php echo $field->element_id; ?>"><?php echo $name; ?></label>
-			<div class="input-group afield col-sm-3 col-xs-12"><?php echo $field; ?></div>
-			<?php if (is_array($error[$name]) && !empty($error[$name])) { ?>
-				<span class="help-block field_err"><?php echo $error[$name]; ?></span>
-			<?php } else if (!empty($error[$name])) { ?>
-				<span class="help-block field_err"><?php echo $error[$name]; ?></span>
-			<?php } ?>
+			<div class="input-group afield col-sm-5 col-xs-12">
+				<?php
+				if($name=='email'){ ?>
+				<div class="input-group-btn">
+					<button id="dLabel" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+					    Dropdown trigger
+					    <span class="caret"></span>
+					  </button>
+					  <ul class="emails dropdown-menu" aria-labelledby="dLabel">
+						  <?php
+                        foreach($admin_emails as $e){
+                            echo '<li>'.$e.'</li>';
+                        }
+                        ?>
+					  </ul>
+				</div>
+				<?php }
+				echo $field; ?>
+			</div>
 		</div>
 	<?php } ?>
 	</div>
@@ -38,4 +51,46 @@
 
 	</form>
 </div>
+
+<script type="text/javascript">
+$('#imsetFrm').submit(function () {
+	save_changes();
+	return false;
+});
+
+//save an close mode
+$('.on_save_close').on('click', function(){
+	var $btn = $(this);
+	save_changes();
+	$btn.closest('.modal').modal('hide');
+	return false;
+});
+
+function save_changes(){
+	$.ajax({
+		url: '<?php echo $form['form_open']->action; ?>',
+	    type: 'POST',
+	    data: $('#imsetFrm').serializeArray(),
+	    dataType: 'json',
+	    success: function (data) {
+			<?php if(!$language_definition_id){?>
+			if ($('#im_settings_modal')) {
+			    $('#im_settings_modal').modal('hide');
+			}
+			if ($('#lang_definition_grid')) {
+			    $('#lang_definition_grid').trigger("reloadGrid");
+			    success_alert(data.result_text);
+			}
+			<?php }else{ ?>
+				success_alert(data.result_text, false, "#im_settings_modal");
+			<?php } ?>
+	    }
+	});
+}
+
+	$('.emails.dropdown-menu li').on('click', function(){
+		$('#imsetFrm_settingsemail').val($(this).html()).change();
+	});
+
+</script>
 

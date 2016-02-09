@@ -32,6 +32,7 @@ class ControllerResponsesUserUserIMs extends AController {
         $this->extensions->hk_InitData($this,__FUNCTION__);
 
 		$protocols = $this->im->getProtocols();
+
 	    $sendpoints = array_keys($this->im->sendpoints);
 
 		$ims = $this->im->getUserIMs($this->data['user_id'], $this->session->data['current_store_id']);
@@ -52,8 +53,10 @@ class ControllerResponsesUserUserIMs extends AController {
 			    $this->log->write('IM sendpoint '.$sendpoint.' is not in sendpoints list! ');
 		    }
 
-		    if($imsettings['uri'] && in_array($imsettings['protocol'], $protocols)){
-			    $point['value'][] = $imsettings['protocol'];
+		    foreach($imsettings as $row){
+			    if ($row['uri'] && in_array($row['protocol'], $protocols)){
+				    $point['value'][] = $row['protocol'];
+			    }
 		    }
 
 		    $this->data['sendpoints'][$sendpoint] = $point;
@@ -76,18 +79,19 @@ class ControllerResponsesUserUserIMs extends AController {
 		$this->extensions->hk_InitData($this,__FUNCTION__);
 
 		$user_id = $this->request->get['user_id'];
+		$this->loadModel('user/user');
+		$user_info = $this->model_user_user->getUser($user_id);
+
+		$this->data['user_id'] = $user_id;
 		$sendpoint = $this->request->get['sendpoint'];
 
-		$this->data['text_title'] = $this->language->get('text_edit_im_settings');
-
+		$this->data['text_title'] = $this->language->get('im_sendpoint_name_'.preformatTextID($sendpoint)).' '.sprintf($this->language->get('text_notification_for', 'common_im'),$user_info['username']);
 		$this->data['action'] = $this->html->getSecureURL('user/user_ims/saveIMSettings', '&user_id=' . $user_id.'&sendpoint='.$sendpoint );
 
-		//$this->data['update'] = $this->html->getSecureURL('listing_grid/user/update_field','&id='.$user_id);
 		$form = new AForm('HS');
-
 		$form->setForm(array(
 		    'form_name' => 'imsetFrm',
-			'update' => $this->data['update'],
+			'update' => $this->data['action'].'&qs=1',
 	    ));
 
         $this->data['form']['id'] = 'imsetFrm';
@@ -123,11 +127,34 @@ class ControllerResponsesUserUserIMs extends AController {
 
 		$settings = $this->im->getUserSendPointSettings($this->data['user_id'], $sendpoint, $this->session->data['current_store_id']);
 
+		$this->data['form']['fields']['email'] = $form->getFieldHtml(array(
+            'type' => 'input' ,
+            'name' => 'settings[email]',
+            'value' => $settings['email']
+		));
+
+		//build prior email list
+		$this->data['admin_emails'] = array();
+		$ims = $this->im->getUserIMs($user_id, $this->session->data['current_store_id']);
+		foreach($ims as $rows){
+			foreach($rows as $row){
+				if ($row['protocol'] != 'email' || !$row['uri']){
+					continue;
+				}
+				$this->data['admin_emails'][] = $row['uri'];
+			}
+		}
+		$this->data['admin_emails'][] = $user_info['email'];
+		$this->data['admin_emails'][] = $this->config->get('store_main_email');
+
+		$this->data['admin_emails'] = array_unique($this->data['admin_emails']);
+
+
 		foreach($protocols as $protocol){
 		    $uri = $settings[$protocol];
 			$this->data['form']['fields'][$protocol] = $form->getFieldHtml(array(
 	            'type' => 'input' ,
-	            'name' => $protocol,
+	            'name' => 'settings['.$protocol.']',
 	            'value' => $uri
 	        ));
 	    }
@@ -141,6 +168,16 @@ class ControllerResponsesUserUserIMs extends AController {
 
 
 	public function saveIMSettings(){
+
+		if (!$this->user->canModify($this->rt)) {
+			$error = new AError('');
+			return $error->toJSONResponse('NO_PERMISSIONS_402',
+					array('error_text' => sprintf($this->language->get('error_permission_modify'), $this->rt),
+							'reset_value' => true
+					));
+		}
+
+
 		if(!$this->request->is_POST() || !$this->request->get['user_id'] || !$this->request->get['sendpoint']){
 			$this->redirect($this->html->getSecureURL('user/user'));
 		}
@@ -149,19 +186,37 @@ class ControllerResponsesUserUserIMs extends AController {
         $this->extensions->hk_InitData($this,__FUNCTION__);
 
 		$this->im->errors = array();
-		if($this->im->validateUserSettings($this->request->post)){
+
+		if($this->im->validateUserSettings($this->request->post['settings'])){
+
 			$this->im->saveIMSettings(
 					$this->request->get['user_id'],
 					$this->request->get['sendpoint'],
 					$this->session->data['current_store_id'],
-					$this->request->post
-					);
+					$this->request->post['settings']
+			);
+			$output['result_text'] = $this->language->get('text_settings_success_saved');
+
 		}else{
 			$errors = $this->im->errors;
+			$error_text = implode('<br>', $errors);
+			$error = new AError('');
+			return $error->toJSONResponse('VALIDATION_ERROR_406',
+				array('error_text' => $error_text,
+					  'reset_value' => false
+				));
 		}
 
 
         //update controller data
         $this->extensions->hk_UpdateData($this,__FUNCTION__);
+
+		if($this->request->get['qs']!=1){
+			$this->load->library('json');
+			$this->response->addJSONHeader();
+			$this->response->setOutput(AJson::encode($output));
+		}else{
+			$this->response->setOutput($output['result_text']);
+		}
 	}
 }

@@ -21,6 +21,10 @@
 		<value><![CDATA[Edit Profile Details]]></value>
 	</definition>
 	<definition>
+		<key>text_edit_notifications</key>
+		<value><![CDATA[Edit Notification Settings]]></value>
+	</definition>
+	<definition>
 		<key>text_catalog</key>
 		<value><![CDATA[Catalog]]></value>
 	</definition>

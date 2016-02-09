@@ -290,7 +290,7 @@ class ControllerPagesAccountAddress extends AController{
 		} else{
 			$firstname = '';
 		}
-		$this->data['form']['firstname'] = $form->getFieldHtml(array (
+		$this->data['form']['fields']['firstname'] = $form->getFieldHtml(array (
 				'type'     => 'input',
 				'name'     => 'firstname',
 				'value'    => $firstname,
@@ -303,7 +303,7 @@ class ControllerPagesAccountAddress extends AController{
 		} else{
 			$lastname = '';
 		}
-		$this->data['form']['lastname'] = $form->getFieldHtml(array (
+		$this->data['form']['fields']['lastname'] = $form->getFieldHtml(array (
 				'type'     => 'input',
 				'name'     => 'lastname',
 				'value'    => $lastname,
@@ -316,7 +316,7 @@ class ControllerPagesAccountAddress extends AController{
 		} else{
 			$company = '';
 		}
-		$this->data['form']['company'] = $form->getFieldHtml(array (
+		$this->data['form']['fields']['company'] = $form->getFieldHtml(array (
 				'type'     => 'input',
 				'name'     => 'company',
 				'value'    => $company,
@@ -329,7 +329,7 @@ class ControllerPagesAccountAddress extends AController{
 		} else{
 			$address_1 = '';
 		}
-		$this->data['form']['address_1'] = $form->getFieldHtml(array (
+		$this->data['form']['fields']['address_1'] = $form->getFieldHtml(array (
 				'type'     => 'input',
 				'name'     => 'address_1',
 				'value'    => $address_1,
@@ -342,7 +342,7 @@ class ControllerPagesAccountAddress extends AController{
 		} else{
 			$address_2 = '';
 		}
-		$this->data['form']['address_2'] = $form->getFieldHtml(array (
+		$this->data['form']['fields']['address_2'] = $form->getFieldHtml(array (
 				'type'     => 'input',
 				'name'     => 'address_2',
 				'value'    => $address_2,
@@ -355,7 +355,7 @@ class ControllerPagesAccountAddress extends AController{
 		} else{
 			$city = '';
 		}
-		$this->data['form']['city'] = $form->getFieldHtml(array (
+		$this->data['form']['fields']['city'] = $form->getFieldHtml(array (
 				'type'     => 'input',
 				'name'     => 'city',
 				'value'    => $city,
@@ -368,7 +368,7 @@ class ControllerPagesAccountAddress extends AController{
 		} else{
 			$postcode = '';
 		}
-		$this->data['form']['postcode'] = $form->getFieldHtml(array (
+		$this->data['form']['fields']['postcode'] = $form->getFieldHtml(array (
 				'type'     => 'input',
 				'name'     => 'postcode',
 				'value'    => $postcode,
@@ -387,7 +387,7 @@ class ControllerPagesAccountAddress extends AController{
 		foreach ($countries as $item){
 			$options[$item['country_id']] = $item['name'];
 		}
-		$this->data['form']['country_id'] = $form->getFieldHtml(array (
+		$this->data['form']['fields']['country'] = $form->getFieldHtml(array (
 				'type'     => 'selectbox',
 				'name'     => 'country_id',
 				'options'  => $options,
@@ -403,7 +403,7 @@ class ControllerPagesAccountAddress extends AController{
 			$this->data['zone_id'] = 'FALSE';
 		}
 
-		$this->data['form']['zone_id'] = $form->getFieldHtml(array (
+		$this->data['form']['fields']['zone'] = $form->getFieldHtml(array (
 				'type'     => 'selectbox',
 				'name'     => 'zone_id',
 				'value'    => $this->data['zone_id'],
@@ -434,6 +434,18 @@ class ControllerPagesAccountAddress extends AController{
 				'icon' => 'fa fa-check',
 				'name' => $this->language->get('button_continue')
 		));
+
+		//TODO: REMOVE THIS IN 1.3!!!
+		// backward compatibility code
+		$deprecated = array_keys($this->data['form']['fields']);
+		foreach($deprecated as $name){
+			$fld = $this->data['form']['fields'][$name];
+			if(in_array($name, array('country','zone'))){
+				$name .= '_id';
+			}
+			$this->data['form'][$name] = $fld;
+		}
+		//end of trick
 
 		$this->view->batchAssign($this->data);
 		$this->processTemplate('pages/account/address.tpl');
