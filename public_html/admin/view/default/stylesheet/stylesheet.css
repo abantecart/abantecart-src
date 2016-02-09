@@ -1142,7 +1142,14 @@ p {
     font-size: 14px;
     color: #444;
 }
-
+.reslibrary-options > li .fa-stack {
+	height: 1.1em;
+	width: 1.1em;
+	line-height: 1.1em;
+}
+.reslibrary-options > li i.fa-stack-2x {
+    font-size: 1.2em;
+}
 .reslibrary-options .btn-primary i {
     color: #fff !important;
 }
@@ -1188,23 +1195,31 @@ p {
     -webkit-box-shadow: 0 3px 0 rgba(12,12,12,0.03);
     box-shadow: 0 3px 0 rgba(12,12,12,0.03);
 }
-
 .reslibrary .thmb .img-responsive {
 	display: block;
 	margin-left: auto;
 	margin-right: auto;
 }
-
 .reslibrary .thmb.checked {
     border-color: #ccc;
 }
-
+.reslibrary .thmb.view_details {
+    border: solid 1px #F19013 !important;
+}
+.reslibrary .thmb.view_details:before {
+	content: "\f00c"; 
+	font-family: FontAwesome;
+	color: #F19013;
+	font-size: 36px;
+	position:absolute;
+	bottom: 15px;
+	right: 15px;
+}
 .reslibrary .thmb::after {
     clear: both;
     display: block;
     content: '';
 }
-
 .reslibrary .ckbox {
     position: absolute;
     top: 15px;
@@ -1304,6 +1319,12 @@ p {
 	overflow: hidden;
 	text-overflow: ellipsis;
 }
+.maped_resources .ellipsis {
+	max-width: 170px !important;
+}
+#resource_types_tabs {
+	overflow-x: scroll;
+}
 #rl_container .reslibrary {
 	min-height: 380px;
 }
@@ -1311,12 +1332,18 @@ p {
 	margin: 0;
 	margin-top: 20px;
 }
+#choose_resource_type .fileupload-buttonbar .statusbar{
+	font-size: 11px;
+}
 #choose_resource_type .fileupload-buttonbar .btn{
 	margin-top: 30% !important;
 	color: #064770;
 }
-#choose_resource_type .fileupload-buttonbar>div{
+#choose_resource_type .fileupload-buttonbar > div{
 	height: 200px;
+}
+#choose_resource_type .fileupload-buttonbar .statusbar{
+	height: 30px;
 }
 #choose_resource_type .fileupload-buttonbar>div a.btn{
 	margin-top: 30% !important;
@@ -1331,7 +1358,7 @@ p {
 	height: 505px;
 	padding: 5% 7%;
 	overflow: auto;
-	border: 1px dashed grey;
+	border: 1px dashed #e5e5e5;
 	background-color: #f7f7f7;
 }
 .rl-content .fileupload_drag_area .fileupload-buttonbar label{
@@ -1345,8 +1372,32 @@ p {
 	padding: 3px 0 0 0;
 	margin-top: 5px;
 	overflow: hidden;
-	border: 1px dashed grey;
+	border: 1px dashed #e5e5e5;
 	background-color: #f7f7f7;
+}
+.edit_resource_form label {
+	font-size: 13px;
+}
+.resource_details {
+	border: 1px solid #e5e5e5;
+	font-size: 11px;
+	padding: 2px 5px 2px 10px;
+}
+.resource_details label {
+	margin-bottom: 0;
+}
+.resource_details .row {
+	margin-bottom: 2px;
+	line-height: 15px;
+}
+.resource_details .rl_details {
+    font-size: 10px;
+    height: 20px;
+    width: 130px;
+    border: medium none;
+}
+.reslibrary-options .confirm_popover.dropdown-menu {
+	bottom: auto;
 }
 
 /* locked screen */

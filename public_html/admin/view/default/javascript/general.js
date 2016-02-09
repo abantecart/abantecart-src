@@ -515,9 +515,13 @@ function notice(text, autohide, elm, type, icon) {
 		z_index: 99999,
 		delay: delay,
     	type: type,
+    	placement: {
+    		from: 'top',
+    		align: 'left'
+    	},
 		animate: {
-			enter: 'animated fadeInDown',
-			exit: 'animated fadeOutRight'
+			enter: 'animated fadeInLeft',
+			exit: 'animated fadeOutLeft'
 		}	
 	});
 	return growl;

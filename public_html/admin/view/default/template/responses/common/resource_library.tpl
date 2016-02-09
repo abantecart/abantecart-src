@@ -67,15 +67,15 @@ if ($action == 'list_object') {
     	    				class="fa fa-save"></i></a>
     	    </li>
     	<?php }
-    	if($mode!='single'){
-
+    	if($mode!='single' && $mode!='list_all'){
     		if($action=='list_object'){ ?>
     			<li><a class="actionitem disabled rl_unlink_multiple tooltips" onclick="return false;" href="#"
     				   data-original-title="<?php echo $txt_unlink_resource; ?>"><i class="fa fa-unlink"></i></a></li>
-    		<?php }else{ ?>
+    		<?php } else { ?>
     			<li><a class="actionitem disabled rl_link_multiple tooltips" onclick="return false;" href="#"
     				   data-original-title="<?php echo $txt_link_resource; ?>"><i class="fa fa-link"></i></a></li>
     		<?php } ?>
+    	<?php } ?>
     		<li>
     			<a class="actionitem disabled rl_delete_multiple"
     			   onclick="multi_action('delete'); return false;"
@@ -85,7 +85,6 @@ if ($action == 'list_object') {
     				<i class="fa fa-trash-o"></i></a>
     		</li>
     		<?php
-    	}
     		if ($form_language_switch) { ?>
     			<li>
     				<?php echo $form_language_switch; ?>
@@ -130,7 +129,9 @@ if ($action == 'list_object') {
     					<div class="col-xs-6 col-sm-2 col-md-2 document">
     						<div class="thmb <?php if ($rl['mapped_to_current']) { echo "mapped"; } ?>"	data-rl-id="<?php echo $rl['resource_id']; ?>">
     							<div class="ckbox ckbox-default" style="display: none;">
+    								<?php if( $mode != 'list_all' || !$rl['mapped_to_current'] ){ ?>
     								<input class="checksign" type="checkbox" value="<?php echo $rl['resource_id']; ?>" id="check_<?php echo $rl['resource_id']; ?>">
+    								<?php } ?>
     								<label for="check<?php echo $rl['resource_id']; ?>"></label>
     								<?php if (has_value($active_object)) { ?>
     									<div class="rl_sort_order center ml10 mt10" title="sort order">
@@ -152,14 +153,14 @@ if ($action == 'list_object') {
     										   data-rl-id="<?php echo $rl['resource_id']; ?>"
     										   data-type="<?php echo $type; ?>"
     										   href="#" onclick="return false;"><i class="fa fa-pencil"></i><?php echo $text_edit;?></a></li>
-    								<?php if( $mode!='single' ){?>
+    								<?php if( $mode!='single' && $mode!='list_all' ){?>
     									<li>
     										<?php if($action=='list_object' || $rl['mapped_to_current']){?>
     										<a class="rl_unlink"
     										   data-rl-id="<?php echo $rl['resource_id']; ?>"
     										   data-type="<?php echo $type; ?>"
     										   href="#" onclick="return false;"><i class="fa fa-link"></i><?php echo $txt_unlink_resource; ?></a>
-    										<?php }else{?>
+    										<?php } else {?>
     											<a class="rl_link"
     											   data-rl-id="<?php echo $rl['resource_id']; ?>"
     											   data-type="<?php echo $type; ?>"
@@ -203,7 +204,6 @@ if ($action == 'list_object') {
     				}
     				}
     				?>
-
     			</div>
     		</div>
     		<!-- col-sm-12 -->
@@ -251,9 +251,7 @@ if ($action == 'list_object') {
     			</div>
     		<?php } ?>
 
-
     	</div>
-
     </div>
 
 </div><!-- <div class="tab-content"> -->

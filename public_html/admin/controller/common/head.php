@@ -38,7 +38,6 @@ class ControllerCommonHead extends AController {
 		$this->view->assign('scripts', $this->document->getScripts());
 		$this->view->assign('notifier_updater_url', $this->html->getSecureURL('listing_grid/message_grid/getnotifies'));
 		$this->view->assign('system_checker_url', $this->html->getSecureURL('common/common/checksystem'));
-		$this->view->assign('ck_rl_url', $this->html->getSecureURL('common/resource_library', '&type=image&mode=url'));
 		$this->view->assign('language_code', $this->session->data['language']);
 
 		$retina = $this->config->get('config_retina_enable');
