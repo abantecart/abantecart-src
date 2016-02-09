@@ -135,6 +135,7 @@ class ControllerCommonHeader extends AController {
 		$this->view->assign('search_suggest_url', $this->html->getSecureURL('listing_grid/global_search_result/suggest'));		
 		$this->view->assign('latest_customers_url', $this->html->getSecureURL('common/tabs/latest_customers'));
 		$this->view->assign('latest_orders_url', $this->html->getSecureURL('common/tabs/latest_orders'));
+		$this->view->assign('rl_manager_url', $this->html->getSecureURL('tool/rl_manager'));
 
 		$this->view->assign('search_everywhere', $this->language->get('search_everywhere'));
 		$this->view->assign('text_all_matches', $this->language->get('text_all_matches'));

@@ -327,6 +327,22 @@
 	</definition>
 	<definition>
 		<key>text_image_size</key>
-		<value><![CDATA[Image Size]]></value>
+		<value><![CDATA[Image size:]]></value>
+	</definition>
+	<definition>
+		<key>text_file_size</key>
+		<value><![CDATA[File size:]]></value>
+	</definition>
+	<definition>
+		<key>text_file_mime</key>
+		<value><![CDATA[MIME:]]></value>
+	</definition>
+	<definition>
+		<key>text_file_path</key>
+		<value><![CDATA[File location:]]></value>
+	</definition>
+	<definition>
+		<key>text_file_url</key>
+		<value><![CDATA[Resource URL:]]></value>
 	</definition>
 </definitions>

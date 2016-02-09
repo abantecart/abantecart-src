@@ -51,7 +51,7 @@
 	<div class="headerbar">
 
 		<a class="menutoggle"><i class="fa fa-bars"></i></a>
-
+		
 		<select id="global_search" name="search" data-placeholder="<?php echo $search_everywhere; ?>" class="chosen-select form-control aselect ">
 		<option></option>
 		</select>
@@ -80,7 +80,13 @@
 						</div>
 					<?php } ?>
 				</li>
-
+				
+				<li class="hidden-xs">
+				<div class="btn-group">
+						<a href="<?php echo $rl_manager_url; ?>" class="btn btn-default tp-icon"><i class="fa fa-photo"></i></a>
+					</div>
+				</li>
+				
 				<?php if ($ant) { ?>
 					<li>
 						<div class="btn-group ant_window">

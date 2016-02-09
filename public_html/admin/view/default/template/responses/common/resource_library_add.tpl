@@ -1,14 +1,9 @@
 <div id="rl_add_container">
 	<ul class="nav nav-tabs nav-justified nav-profile">
-		<li class="active" id="add_resource" data-type="<?php echo $type; ?>">
-			<a class="widthM300 ellipsis" href="#"><strong><i class="fa fa-plus fa-fw"></i> <?php echo $button_add; ?></strong></a>
+		<li class="active" id="add_resource"  data-type="<?php echo $type; ?>">
+			<a class="widthM300" href="javascript:void(0);"><strong><i class="fa fa-plus fa-fw"></i> <?php echo $button_add; ?></strong></a>
 		</li>
 	</ul>
-
-	<?php
-	$txt_link_resource = "Link to " . $object_title;
-	$txt_unlink_resource = "Unlink from " . $object_title;
-	?>
 
 	<div class="tab-content rl-content">
 		<?php if(sizeof($types)>1){ ?>
@@ -39,9 +34,9 @@
 				$active = $current_type==$rl_type['type_name'] || (!$current_type && $rl_type['type_name']=='image') ? 'active' : '';
 				?>
 	        <li class="<?php echo $active; ?>" data-type="<?php echo $rl_type['type_name']; ?>">
-				  <a class="actionitem tooltips"
-					 onclick="return false;"
-					 href="#"><i class="fa <?php echo $icon; ?>"></i> <?php echo $rl_type['type_name']; ?>
+				  <a class="actionitem tooltips" data-original-title="<?php echo $text_type.': '.$rl_type['type_name']; ?>"
+					 onclick="return false;" href="#"> 
+					 <i class="fa <?php echo $icon; ?>"></i>
 				  </a>
 	        </li>
 	        <?php } ?>

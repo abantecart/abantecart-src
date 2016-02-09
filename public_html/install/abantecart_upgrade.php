@@ -13,7 +13,7 @@ $resource_id = $rm->addResource($data);
 
 $menu = new AMenu ( "admin" );
 $menu->insertMenuItem ( array (  "item_id" => "media_manager",
-								 "parent_id"=>"design",
+								 "parent_id"=>"catalog",
 								 "item_text" => "media_manager_name",
 								 "item_url" => "tool/media_manager",
 								 "item_icon_rl_id" => $resource_id,

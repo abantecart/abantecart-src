@@ -142,8 +142,7 @@ class ControllerResponsesCommonResourceLibrary extends AController {
 
 		//mark if this resource mapped to selected object
 
-
-		if($this->data['mode']!='single'){
+		if($this->data['mode'] != 'single'){
 			$resource['mapped_to_current'] = $rm->isMapped(
 							$resource['resource_id'],
 							$this->data['object_name'],
@@ -164,15 +163,30 @@ class ControllerResponsesCommonResourceLibrary extends AController {
 
 		$this->_buildForm($resource);
 
-		$this->view->assign('form_language_switch', $this->html->getContentLanguageSwitcher());
-		$this->view->assign('help_url', $this->gen_help_url('resource_library'));
-
+		//get resource information 
+		$res_dets = $rm->getResource($resource['resource_id']);
+		if($res_dets['resource_path']) {
+			$res_dets['res_url'] = $rm->buildResourceURL($res_dets['resource_path']);
+			$res_dets['file_path'] = DIR_RESOURCE . $rm->getTypeDir() . $res_dets['resource_path'];
+			$res_dets['file_size'] = human_filesize(filesize($res_dets['file_path']));
+			$image_dets = getimagesize($res_dets['file_path']);
+			if($image_dets[0]) {
+				$res_dets['width'] = $image_dets[0].'px.';
+				$res_dets['height'] = $image_dets[1].'px.';
+				$res_dets['mime'] = $image_dets['mime'];
+			} else {
+				$res_dets['mime'] = getMimeType($res_dets['file_path']);
+			}
+			$this->data['details'] = $res_dets;
+		}
 		$this->data['resource'] = $resource;
-
+			
 		//update controller data
         $this->extensions->hk_UpdateData($this,__FUNCTION__);
 
 		$this->view->batchAssign($this->data);
+		$this->view->assign('form_language_switch', $this->html->getContentLanguageSwitcher());
+		$this->view->assign('help_url', $this->gen_help_url('resource_library'));
 		$this->processTemplate('responses/common/resource_library_edit.tpl');
 	}
 
@@ -191,7 +205,6 @@ class ControllerResponsesCommonResourceLibrary extends AController {
 
 		//init controller data
         $this->extensions->hk_InitData($this,__FUNCTION__);
-
 
 		if($this->request->is_POST()){
 			return $this->add_code();
@@ -263,7 +276,8 @@ class ControllerResponsesCommonResourceLibrary extends AController {
 								'name'=> 'resource_code',
 								'value'=> $resource['resource_code'],
 								'placeholder' => $this->language->get('text_resource_code'),
-								'attr' =>' rows="8" cols="40" style="resize: none;"',
+								'attr' =>' rows="8" cols="50" style="resize: none;"',
+								'style' => 'input-sm',
 								'required'=>true)
 		);
 		$this->data['form']['field_name'] = $form->getFieldHtml(
@@ -271,6 +285,7 @@ class ControllerResponsesCommonResourceLibrary extends AController {
 								'name'=> 'name',
 								'value'=> $resource['name'],
 								'placeholder' => $this->language->get('text_name'),
+								'style' => 'input-sm',
 								'required'=>true)
 		);
 		$this->data['form']['field_resource_id'] .= $form->getFieldHtml(
@@ -283,12 +298,14 @@ class ControllerResponsesCommonResourceLibrary extends AController {
 			array(  'type'=> 'input',
 					'value'=> $resource['title'],
 					'placeholder' => $this->language->get('text_title'),
+					'style' => 'input-sm',
 					'name'=> 'title')
 		);
 		$this->data['form']['field_description'] = $form->getFieldHtml(
 			array(  'type'=>'textarea',
 					'name'=>'description',
 					'placeholder' => $this->language->get('text_description'),
+					'style' => 'input-sm',
 					'value'=> $resource['description']
 				)
 		);
@@ -316,6 +333,7 @@ class ControllerResponsesCommonResourceLibrary extends AController {
 				$this->data['form']['field_meta'] = $form->getFieldHtml(
 						array ('type'        => 'selectbox',
 						       'name'        => 'meta',
+						       'style' 		 => 'input-sm',
 						       'placeholder' => $this->language->get('text_select'),
 						       'options'     => $options
 						)
@@ -497,6 +515,7 @@ class ControllerResponsesCommonResourceLibrary extends AController {
 		    'placeholder' => $this->language->get('text_type'),
             'options' => $options,
             'value' => $this->data['type'],
+            'style' => 'input-sm',
 	    ));
 
 		$this->data['languages'] = array();
@@ -796,20 +815,30 @@ class ControllerResponsesCommonResourceLibrary extends AController {
 			$filter_data['object_id'] = $this->request->get['object_id'];
 			$uri .= '&object_id=' . $this->request->get['object_id'];
 		}
+
+		if (isset($this->request->get['limit'])) {
+			$filter_data['limit'] = $this->request->get['limit'];
+		}		
+		
 		if (isset($this->request->get['page'])) {
 			$page = $this->request->get['page'];
 			if ((int)$page < 1) {
 				$page = 1;
 			}
 			$filter_data['page'] = $page;
-			$filter_data['limit'] = 12;
+			$filter_data['limit'] = $filter_data['limit'] ? $filter_data['limit'] : 12;
 		}
+		
 		if (!empty($this->request->get['sort'])) {
 			$filter_data['sort'] = $this->request->get['sort'];		
 		} else {
-			$filter_data['sort'] = 'sort_order';		
+			$filter_data['sort'] = 'date_added';		
 		}
-
+		
+		if (!empty($this->request->get['order'])) {
+			$filter_data['order'] = $this->request->get['order'];		
+		}
+		
 		$result = array(
 			'items' => $rm->getResourcesList($filter_data),
 			'pagination' => '',
@@ -1187,7 +1216,7 @@ class ControllerResponsesCommonResourceLibrary extends AController {
 		 * @var bool $onload - sign of call function after js-script load
 		 * @var string $mode - mode of RL
 		 */
-		list($object_name,$object_id,$types, $onload, $mode) = func_get_args();
+		list($object_name, $object_id, $types, $onload, $mode, $page, $limit, $sort, $order) = func_get_args();
 
 		//init controller data
         $this->extensions->hk_InitData($this,__FUNCTION__);
@@ -1211,8 +1240,12 @@ class ControllerResponsesCommonResourceLibrary extends AController {
 		$this->data['object_name'] = $object_name;
 		$this->data['object_id'] = $object_id;
 		$this->data['mode'] = $mode;
+		$this->data['page'] = $page;
+		$this->data['limit'] = $limit;
+		$this->data['sort'] = $sort;
+		$this->data['order'] = $order;
 
-		$params = '&mode='.$mode.'&object_name=' . $object_name . '&object_id=' . $object_id;
+		$params = '&mode='.$mode.'&object_name='.$object_name.'&object_id='.$object_id.'&page='.$page.'&limit='.$limit.'&sort='.$sort.'&order='.$order;
 		$this->data['rl_resource_library'] = $this->html->getSecureURL('common/resource_library', $params);
 		$this->data['rl_resources'] = $this->html->getSecureURL('common/resource_library/resources', $params);
 		$this->data['rl_resource_single'] = $this->html->getSecureURL('common/resource_library/get_resource_details', $params);

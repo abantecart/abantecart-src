@@ -84,6 +84,9 @@ var sideDialog = function (type, action, id) {
 	var src = urls.resource_library + '&action=' + action + '&type=' + type + '&mode=' + modalscope.mode;
 	if (id) {
 		src += '&resource_id=' + id;
+		//highlite resource in the list
+		$("#rl_container .thmb").removeClass('view_details');
+		$("#rl_container .thmb[data-rl-id='"+id+"']").addClass('view_details');
 	}
 	if(modalscope.wrapper_id!=undefined && modalscope.wrapper_id!=null){
 		src += '&wrapper_id='+modalscope.wrapper_id;
@@ -206,6 +209,10 @@ var loadMedia = function (type, wrapper) {
 
 			var html = '';
 			var t = new Date().getTime();
+			var data_mode = '';
+			if( !json.object_id ){
+				data_mode = ' data-mode="list_all" ';
+			}				
 			$(json.items).each(function (index, item) {
 				var src = '';
 				if (type == 'image' && item['resource_code']) {
@@ -214,38 +221,43 @@ var loadMedia = function (type, wrapper) {
 					<?php // variable t needs to prevent browser caching in case of replacement of file of resource?>
 					src = '<img class="img-responsive" src="' + item['thumbnail_url'] + '?t=' + t + '" title="' + item['name'] + '" />';
 				}
+				
 				html += '<div class="col-md-1 reslibrary_block">';
 				html += '<div class="center thumbnail" id="image_row' + item['resource_id'] + '" >\
-                <a class="btn resource_edit" data-type="' + type + '" data-rl-id="' + item['resource_id'] + '">' + src + '</a></div>';
-
-				html += '<div class="caption center">';
-
-				html += '<a class="btn resource_edit tooltips" ' +
-						'data-type="' + type + '" ' +
-						'data-rl-id="' + item['resource_id'] + '" ' +
-						'data-original-title="<?php echo_html2view($button_edit) ?>"><i class="fa fa-edit"></i></a>' +
-						'<a class="btn resource_unmap tooltips" ' +
-						'data-rl-id="' + item['resource_id'] + '" ' +
-						'data-original-title="<?php echo_html2view($button_unmap); ?>" ' +
-						'data-confirmation="delete" ' +
-						'data-confirmation-text="<?php echo_html2view($text_confirm_unmap) ?>" ' +
-						'onclick="unmap_resource(' + item['resource_id'] + ',\'' + json.object_name + '\',\'' + json.object_id + '\');"><i class="fa fa-unlink"></i></a>';
-
-				if (item['can_delete'] == true) {
-					html += '<a class="btn resource_delete tooltips" data-rl-id="' + item['resource_id'] + '" ' +
-							'data-original-title="<?php echo_html2view($button_delete); ?>" ' +
+                <a class="btn resource_edit" '+data_mode+' data-type="' + type + '" data-rl-id="' + item['resource_id'] + '">' + src + '</a></div>';
+				
+				//do not show if no object id
+				if( json.object_id ){
+					html += '<div class="caption center">';
+					html += '<a class="btn resource_edit tooltips" ' +
+							'data-type="' + type + '" ' +
+							'data-rl-id="' + item['resource_id'] + '" ' +
+							'data-original-title="<?php echo_html2view($button_edit) ?>"><i class="fa fa-edit"></i></a>' +
+							'<a class="btn resource_unmap tooltips" ' +
+							'data-rl-id="' + item['resource_id'] + '" ' +
+							'data-original-title="<?php echo_html2view($button_unmap); ?>" ' +
 							'data-confirmation="delete" ' +
-							'data-confirmation-text="<?php echo_html2view($text_confirm_delete); ?>" ' +
-							'onclick="delete_resource(' + item['resource_id'] + ',\'' + json.object_name + '\',\'' + json.object_id + '\');"><i class="fa fa-trash-o"></i></a>';
+							'data-confirmation-text="<?php echo_html2view($text_confirm_unmap) ?>" ' +
+							'onclick="unmap_resource(' + item['resource_id'] + ',\'' + json.object_name + '\',\'' + json.object_id + '\');"><i class="fa fa-unlink"></i></a>';
+	
+					if (item['can_delete'] == true) {
+						html += '<a class="btn resource_delete tooltips" data-rl-id="' + item['resource_id'] + '" ' +
+								'data-original-title="<?php echo_html2view($button_delete); ?>" ' +
+								'data-confirmation="delete" ' +
+								'data-confirmation-text="<?php echo_html2view($text_confirm_delete); ?>" ' +
+								'onclick="delete_resource(' + item['resource_id'] + ',\'' + json.object_name + '\',\'' + json.object_id + '\');"><i class="fa fa-trash-o"></i></a>';
+					}
+					html += '</div>';
+				} else {
+					html += '<div class="caption center ellipsis"><a href="# "class="resource_edit" '+data_mode+' data-type="' + type + '" data-rl-id="' + item['resource_id'] + '">'+item['name']+'</a></div><br />';
 				}
-
-				html += '</div></div></div>';
+				html += '</div></div>';
 			});
 
 			html += '<div class="col-md-1 reslibrary_block">' +
 					'<div class="center thumbnail fileupload_drag_area">' +
 					'<form action="<?php echo $rl_upload; ?>&type=' + type + '" method="POST" enctype="multipart/form-data"><input type="file" name="files[]" multiple="" class="hide">';
-			html += '<a class="btn resource_add tooltips transparent" data-type="' + type + '" data-original-title="<?php echo_html2view($text_add_media) ?>"><img src="<?php echo $template_dir . 'image/icons/icon_add_media.png'; ?>" alt="<?php echo_html2view($text_add_media); ?>" width="100" /></a>';
+			html += '<a class="btn resource_add tooltips transparent" '+data_mode+' data-type="' + type + '" data-original-title="<?php echo_html2view($text_add_media) ?>"><img src="<?php echo $template_dir . 'image/icons/icon_add_media.png'; ?>" alt="<?php echo_html2view($text_add_media); ?>" width="100" /></a>';
 			html += '</form</div></div>';
 
 			$(wrapper).html(html);
@@ -380,6 +392,13 @@ jQuery(function () {
 		<?php }
 	}?>
 
+	//generic mode to list all resources
+	$(document).on("click", 'a.list_resources', function () {
+		mediaDialog($(this).attr('data-type'), 'list_library');
+		sideDialog($(this).attr('data-type'), 'add');
+		return false;
+	});
+
 	$(document).on('click', 'a.resource_add', function () {
 		//set here mode based on link attribute (in case when we have a few RL single elements in the form)
 		modalscope.mode = $(this).attr('data-mode') ? $(this).attr('data-mode') : '';
@@ -396,6 +415,9 @@ jQuery(function () {
 				modalscope.meta = $(this).data('meta');
 			}
 			list_type = 'list_library';
+		} else if(modalscope.mode=='list_all'){
+			//list all resources mode
+			list_type = 'list_library';			
 		}
 
 		mediaDialog($(this).attr('data-type'), list_type);
@@ -421,6 +443,9 @@ jQuery(function () {
 				modalscope.meta = 	null;
 			}
 			list_type = 'list_library';
+		} else if(modalscope.mode=='list_all'){
+			//list all resources mode
+			list_type = 'list_library';			
 		}
 		if (!isModalOpen('#rl_modal')) {
 			//if new open of modal, load modal together with sidebar
@@ -616,17 +641,17 @@ var bind_rl = function (elm) {
 		}
 
 		if (this.checked) {
-			$('.thmb').each(function () {
-				$(this).find('input:checkbox').attr('checked', true);
-				$(this).addClass('checked');
-				$(this).find('.ckbox, .rl-group').show();
+			$('.thmb .checksign').each(function () {
+				$(this).attr('checked', true);
+				$(this).closest('.thmb').addClass('checked');
+				$(this).closest('.ckbox, .rl-group').show();
 			});
 			enable_menu($obj, true);
 		} else {
-			$('.thmb').each(function () {
-				$(this).find('input:checkbox').attr('checked', false);
-				$(this).removeClass('checked');
-				$(this).find('.ckbox, .rl-group').hide();
+			$('.thmb .checksign').each(function () {
+				$(this).attr('checked', false);
+				$(this).closest('.thmb').removeClass('checked');
+				$(this).closest('.ckbox, .rl-group').hide();
 			});
 			enable_menu($obj, false);
 		}
@@ -784,7 +809,7 @@ var bind_rl = function (elm) {
 			},
 			error: rl_error_handler
 		});
-		$('#object').click(); // reload modal with object's resources
+		active_tab().click(); // reload active tab
 		return false;
 	});
 
@@ -797,9 +822,13 @@ var bind_rl = function (elm) {
 		if($('#library.active').attr('data-type')) {
 			list_type = 'list_library';
 		}
-		mediaDialog(type, list_type, rid);
+		reloadModal($("#rl_container").attr('data-current-url'));
 		sideDialog(type, 'update', rid);
 		return false;
+	});
+
+	$obj.find('.rl_details').click(function () {
+		$(this).select();
 	});
 
 	<?php
@@ -964,7 +993,6 @@ jQuery(function () {
 			URL = urls.upload+'&type='+$('div.fileupload_drag_area').find('a.btn').attr('data-type');
 		}
 
-
 		var jqXHR = $.ajax({
 			xhr: function() {
 					var xhrobj = $.ajaxSettings.xhr();
@@ -1007,8 +1035,8 @@ jQuery(function () {
 	var createStatusbar = function (obj) {
 		rowCount++;
 		this.statusbar = $('<div class="statusbar row"></div>');
-		this.filename = $('<div class="filename col-sm-6 ellipsis"></div>').appendTo(this.statusbar);
-		this.size = $('<div class="filesize col-sm-2"></div>').appendTo(this.statusbar);
+		this.filename = $('<div class="filename col-sm-4 ellipsis"></div>').appendTo(this.statusbar);
+		this.size = $('<div class="filesize col-sm-4"></div>').appendTo(this.statusbar);
 		this.progressBar = $('<div class="progress col-sm-4"><div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%;">loading</div></div>').appendTo(this.statusbar);
 		/*
 			TODO: Fix progress bar and upload abort feature
@@ -1032,6 +1060,7 @@ jQuery(function () {
 			this.filename.html(name);
 			this.size.html(sizeStr);
 		}
+
 		this.setProgress = function (progress) {
 			var progressBarWidth = progress * this.progressBar.width() / 100;
 			this.progressBar.find('div').animate({ width: progressBarWidth }, 10).html(progress + "%&nbsp;");
@@ -1078,20 +1107,25 @@ jQuery(function () {
 			rl_type = response.type;
 		}
 
+		var list_type = 'list_object';
+		if(modalscope.mode=='single' || modalscope.mode=='list_all'){
+			list_type = 'list_library';
+		}
+
 		if (e != files.length) {
 			if (files.length > 1) {
-				mediaDialog(rl_type, 'list_object');
+				mediaDialog(rl_type, list_type);
 				sideDialog(rl_type, 'add');
 			} else {
 				if( modalscope.mode=='single'){
 					loadSingle(rl_type, modalscope.wrapper_id, response.resource_id, modalscope.field_id, modalscope.meta);
 				}
-				mediaDialog(rl_type, 'list_object', response.resource_id);
+				mediaDialog(rl_type, list_type, response.resource_id);
 				sideDialog(rl_type, 'update', response.resource_id);
 			}
 		} else {
 			if (isModalOpen()) {
-				mediaDialog(rl_type, 'list_object');
+				mediaDialog(rl_type, list_type);
 				sideDialog(rl_type, 'add');
 			}
 		}
