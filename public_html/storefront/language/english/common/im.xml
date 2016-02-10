@@ -1,11 +1,44 @@
 <?xml version="1.0"?>
 <definitions>
 	<definition>
+		<key>im_protocol_email_title</key>
+		<value><![CDATA[ E-mail ]]></value>
+	</definition>
+	<definition>
+		<key>im_protocol_sms_title</key>
+		<value><![CDATA[ SMS ]]></value>
+	</definition>
+	<definition>
+		<key>im_sendpoint_name_order_updates</key>
+		<value><![CDATA[ Order Updates ]]></value>
+	</definition>
+	<definition>
+		<key>im_sendpoint_name_account_updates</key>
+		<value><![CDATA[ Account Updates ]]></value>
+	</definition>
+	<definition>
+		<key>im_sendpoint_name_newsletter</key>
+		<value><![CDATA[ Newsletters ]]></value>
+	</definition>
+	<definition>
+		<key>im_sendpoint_name_product_notifications</key>
+		<value><![CDATA[ Product notifications ]]></value>
+	</definition>
+
+	<definition>
 		<key>im_order_created_text_to_customer</key>
 		<value><![CDATA[ Thank you for your order! ]]></value>
 	</definition>
 	<definition>
 		<key>im_order_created_text_to_admin</key>
 		<value><![CDATA[ New order created! ]]></value>
+	</definition>
+	<definition>
+		<key>im_order_updates_text_to_customer</key>
+		<value><![CDATA[ Your order %s Updated! ]]></value>
+	</definition>
+	<definition>
+		<key>im_order_updates_text_to_admin</key>
+		<value><![CDATA[ Your order %s Updated! ]]></value>
 	</definition>
 </definitions>

@@ -916,11 +916,19 @@
 		<value><![CDATA[Admin]]></value>
 	</definition>
 	<definition>
+		<key>text_im_driver</key>
+		<value><![CDATA[Driver]]></value>
+	</definition>
+	<definition>
+		<key>text_im_protocol</key>
+		<value><![CDATA[IM Protocol]]></value>
+	</definition>
+	<definition>
 		<key>entry_sms_driver</key>
 		<value><![CDATA[SMS Provider]]></value>
 	</definition>
 	<definition>
 		<key>text_no_driver</key>
-		<value><![CDATA[ No One IM Driver Found]]></value>
+		<value><![CDATA[ No IM Driver Found]]></value>
 	</definition>
 </definitions>

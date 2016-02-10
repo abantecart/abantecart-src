@@ -40,9 +40,19 @@ class AIM {
 	 * @var array for StoreFront side ONLY!
 	 */
 	public $sendpoints = array(
-		'order_created' => array(
-				'sf' => 'im_order_created_text_to_customer',
-				'cp' => 'im_order_created_text_to_admin')
+		'order_updates' => array(
+				'sf' => 'im_order_updates_text_to_customer',
+				'cp' => 'im_order_updates_text_to_admin'),
+		'account_updates' => array(
+				'sf' => 'im_account_updates_text_to_customer',
+				'cp' => ''),
+		'newsletter' => array(
+				'sf' => 'im_newsletter_text_to_customer',
+				'cp' => ''),
+		'product_notifications' => array(
+				'sf' => 'im_product_notifications_text_to_customer',
+				'cp' => 'im_product_notifications_text_to_admin'),
+
 	);
 	public function __construct() {
 		$this->registry = Registry::getInstance();
@@ -178,9 +188,12 @@ class AIM {
 			$driver = new $classname();
 
 			//for customer
+
+
 			if($this->config->get('config_storefront_'.$protocol.'_status')){
 				$text = $this->_get_message_text($sendpoint_info['sf']);
 				$to = $this->_get_customer_im_address($protocol);
+
 				if ($text && $to){
 					//use safe call
 					try{
