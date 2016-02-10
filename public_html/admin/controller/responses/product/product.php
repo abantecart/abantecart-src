@@ -1227,11 +1227,11 @@ class ControllerResponsesProductProduct extends AController{
 	 * @return bool
 	 */
 	private function _validateDownloadForm($data = array()){
+		$this->error = array();
 		if(!$this->user->canModify('catalog/product_files')){
 			$this->error['warning'] = $this->language->get('error_permission');
 		}
 
-		$this->error = array();
 		$this->loadLanguage('catalog/files');
 		$this->loadModel('catalog/download');
 
