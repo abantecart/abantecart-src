@@ -24,24 +24,16 @@
 	<div class="registerbox form-horizontal">
 		<fieldset>
 		<?php
-			$field_list = array();
-			array_push($field_list, 'firstname', 'lastname', 'email', 'telephone', 'fax');
-			
-			foreach ($field_list as $field_name) {
-		?>
+		foreach ($form['fields']['general'] as $field_name=>$field) { ?>
 			<div class="form-group <?php if (${'error_'.$field_name}) echo 'has-error'; ?>">
 				<label class="control-label col-md-4"><?php echo ${'entry_'.$field_name}; ?></label>
 				<div class="input-group col-md-4">
-				    <?php echo $form[$field_name]; ?>
+				    <?php echo $field; ?>
 				</div>
 				<span class="help-block"><?php echo ${'error_'.$field_name}; ?></span>
 			</div>		
-		<?php
-			}
-		?>	
-		
-		<?php echo $this->getHookVar('guest_details_attributes'); ?>
-	
+		<?php }
+		echo $this->getHookVar('guest_details_attributes'); ?>
 		</fieldset>
 	</div>	
 
@@ -58,20 +50,16 @@
 								'zone' => 'zone_id',
 								);
 			
-			foreach ($field_list as $field_name => $field_id) {
-		?>
+			foreach ($form['fields']['address'] as $field_name=>$field) {?>
 			<div class="form-group <?php if (${'error_'.$field_name}) echo 'has-error'; ?>">
 				<label class="control-label col-md-4"><?php echo ${'entry_'.$field_name}; ?></label>
 				<div class="input-group col-md-4">
-				    <?php echo $form[$field_id]; ?>
+				    <?php echo $field; ?>
 				</div>
 				<span class="help-block"><?php echo ${'error_'.$field_name}; ?></span>
 			</div>		
-		<?php
-			}
-		?>	
-	
-			<?php echo $this->getHookVar('address_entry_section'); ?>
+		<?php }
+			echo $this->getHookVar('address_entry_section'); ?>
 
 			<div class="form-group">
 				<label class="control-label col-md-4"></label>
@@ -99,16 +87,13 @@
 								'zone' => 'shipping_zone',
 								);
 			
-			foreach ($field_list as $field_name => $field_id) {
+			foreach ($form['fields']['shipping'] as $field_name=>$field) {
 		?>
 			<div class="form-group <?php if (${'error_'.$field_id}) echo 'has-error'; ?>">
 				<label class="control-label col-md-4"><?php echo ${'entry_'.$field_name}; ?></label>
 				<div class="input-group col-md-4">
-					<?php if ($field_name == 'country' || $field_name == 'zone') {
-						echo $form[$field_id."_id"]; 
-					} else { 
-				   		echo $form[$field_id]; 
-				   	}
+					<?php
+				   		echo $field;
 				   	?>
 				</div>
 				<span class="help-block"><?php echo ${'error_'.$field_id}; ?></span>

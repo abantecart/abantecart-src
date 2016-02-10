@@ -1839,17 +1839,29 @@ class PhoneHtmlElement extends HtmlElement {
 	 */
 	public function getHtml() {
 
-		if (!isset($this->default)) $this->default = '';
-		if ($this->value == '' && !empty($this->default)) $this->value = $this->default;
+		if (!isset($this->default)){
+			$this->default = '';
+		}
+		if ($this->value == '' && !empty($this->default)){
+			$this->value = $this->default;
+		}
+
+		/**
+		 * @var $doc ADocument
+		 */
+		$doc = $this->data['registry']->get('document');
+		$doc->addScript($this->view->templateResource('/javascript/jquery.caret.js'));
+		$doc->addScript($this->view->templateResource('/javascript/jquery.mobilePhoneNumber.js'));
+
 		$this->view->batchAssign(
 			array(
 				'name' => $this->name,
 				'id' => $this->element_id,
-				'type' => 'text',
+				'type' => 'tel',
 				'value' => str_replace('"', '&quot;', $this->value),
 				'default' => $this->default,
 				//TODO: remove deprecated attribute aform_field_type
-				'attr' => 'aform_field_type="phone" ' . $this->attr.' data-aform-field-type="captcha"',
+				'attr' => $this->attr,
 				'required' => $this->required,
 				'style' => $this->style,
 				'placeholder' => $this->placeholder,
@@ -1861,7 +1873,7 @@ class PhoneHtmlElement extends HtmlElement {
 			$this->view->assign('help_url', $this->help_url);
 		}
 
-		return $this->view->fetch('form/input.tpl');
+		return $this->view->fetch('form/phone.tpl');
 	}
 }
 

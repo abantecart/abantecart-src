@@ -122,8 +122,21 @@ class ModelAccountCustomer extends Model {
 
 	/**
 	 * @param array $data
+	 * @return bool
 	 */
 	public function editCustomer($data) {
+		if(!$data){
+			return false;
+		}
+
+/*		$sql = "SELECT column_name
+		        FROM information_schema.columns
+		        WHERE table_name='" . $this->db->escape("customers") . "'
+		            AND column_comment='im'
+		        GROUP BY column_name";
+		$im_uri = $this->db->query($sql);
+
+		*/
 		$key_sql = '';
 		if ( $this->dcrypt->active ) {
 			$data = $this->dcrypt->encrypt_data($data, 'customers');
@@ -136,14 +149,61 @@ class ModelAccountCustomer extends Model {
     		$loginname = " loginname = '" . $this->db->escape($data['loginname'])  . "', ";
     	}
 
-		$this->db->query("UPDATE " . $this->db->table("customers") . " 
-						  SET 	firstname = '" . $this->db->escape($data['firstname']) . "', 
-						  		lastname = '" . $this->db->escape($data['lastname']) . "', " . $loginname . "
-						  		email = '" . $this->db->escape($data['email']) . "', 
-						  		telephone = '" . $this->db->escape($data['telephone']) . "', 
-						  		fax = '" . $this->db->escape($data['fax']) . "'"
-						  		. $key_sql .
-						  		" WHERE customer_id = '" . (int)$this->customer->getId() . "'");
+		$sql = "UPDATE " . $this->db->table("customers") . "
+			  SET 	firstname = '" . $this->db->escape($data['firstname']) . "',
+			        lastname = '" . $this->db->escape($data['lastname']) . "', " . $loginname . "
+			        email = '" . $this->db->escape($data['email']) . "',
+			        telephone = '" . $this->db->escape($data['telephone']) . "',
+			        fax = '" . $this->db->escape($data['fax']) . "'"
+			        . $key_sql .
+			        " WHERE customer_id = '" . (int)$this->customer->getId() . "'";
+
+		$this->db->query($sql);
+		return true;
+	}
+
+	public function editCustomerNotifications($data){
+		if(!$data){
+			return false;
+		}
+
+		//get only active IM drivers
+		$im_protocols = $this->im->getProtocols();
+		foreach ($im_protocols as $protocol){
+			if($data[$protocol]){
+				$upd[$protocol] = "`".$this->db->escape($protocol)."` = '".$this->db->escape($data[$protocol])."'";
+			}
+		}
+		//get all columns
+		$sql = "SELECT column_name
+		        FROM information_schema.columns
+		        WHERE table_name='" . $this->db->escape("customers") . "'
+		        GROUP BY column_name";
+		$result = $this->db->query($sql);
+		$columns = array();
+		foreach($result->rows as $row){
+			$columns[] = $row['column_name'];
+		}
+
+		//remove not IM data
+		$diff = array_diff($im_protocols,$columns);
+		foreach($diff as $k){
+			unset($data[$k]);
+		}
+
+
+		$key_sql = '';
+		if ( $this->dcrypt->active ) {
+			$data = $this->dcrypt->encrypt_data($data, 'customers');
+			$key_sql = ", key_id = '" . (int)$data['key_id'] . "'";
+		}
+
+		$sql = "UPDATE ".$this->db->table('customers')."
+				SET ".implode(', ',$upd)."\n"
+				. $key_sql .
+				" WHERE customer_id = '" . (int)$this->customer->getId() . "'";
+		$this->db->query($sql);
+		return true;
 	}
 
 	/**
@@ -370,6 +430,23 @@ class ModelAccountCustomer extends Model {
 			}
 		}
 
+		//validate IM URIs
+		//get only active IM drivers
+		$im_drivers = $this->im->getIMDrivers('objects', 'active');
+
+		if ($im_drivers){
+			foreach ($im_drivers as $protocol => $driver_obj){
+				if (!is_object($driver_obj)){
+					continue;
+				}
+				$result = $driver_obj->validateURI($data[$protocol]);
+				if(!$result){
+					$this->error[$protocol] = implode('<br>',$driver_obj->errors);
+				}
+
+			}
+		}
+
 		$this->extensions->hk_ValidateData($this);
 
     	return $this->error;
@@ -409,6 +486,23 @@ class ModelAccountCustomer extends Model {
 
 		if ( $this->getTotalCustomersByEmail($data['email'])) {
 			$this->error['warning'] = $this->language->get('error_subscriber_exists');
+		}
+
+		//validate IM URIs
+		//get only active IM drivers
+		$im_drivers = $this->im->getIMDrivers('objects', 'active');
+
+		if ($im_drivers){
+			foreach ($im_drivers as $protocol => $driver_obj){
+				if (!is_object($driver_obj)){
+					continue;
+				}
+				$result = $driver_obj->validateURI($data[$protocol]);
+				if(!$result){
+					$this->error[$protocol] = implode('<br>',$driver_obj->errors);
+				}
+
+			}
 		}
 
 		$this->extensions->hk_ValidateData($this);
@@ -458,6 +552,23 @@ class ModelAccountCustomer extends Model {
 
 		if ( count($this->error) && empty( $this->error['warning'] ) ) {
 			$this->error['warning'] = $this->language->get('gen_data_entry_error');
+		}
+
+		//validate IM URIs
+		//get only active IM drivers
+		$im_drivers = $this->im->getIMDrivers('objects', 'active');
+
+		if ($im_drivers){
+			foreach ($im_drivers as $protocol => $driver_obj){
+				if (!is_object($driver_obj)){
+					continue;
+				}
+				$result = $driver_obj->validateURI($data[$protocol]);
+				if(!$result){
+					$this->error[$protocol] = implode('<br>',$driver_obj->errors);
+				}
+
+			}
 		}
 
 		$this->extensions->hk_ValidateData($this);

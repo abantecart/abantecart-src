@@ -205,7 +205,7 @@ class ControllerPagesCheckoutGuestStep1 extends AController{
 			$firstname = '';
 		}
 
-		$this->data['form']['firstname'] = $form->getFieldHtml(array (
+		$this->data['form']['fields']['general']['firstname'] = $form->getFieldHtml(array (
 				'type'     => 'input',
 				'name'     => 'firstname',
 				'value'    => $firstname,
@@ -219,7 +219,7 @@ class ControllerPagesCheckoutGuestStep1 extends AController{
 		} else{
 			$lastname = '';
 		}
-		$this->data['form']['lastname'] = $form->getFieldHtml(
+		$this->data['form']['fields']['general']['lastname'] = $form->getFieldHtml(
 				array (
 						'type'     => 'input',
 						'name'     => 'lastname',
@@ -233,7 +233,7 @@ class ControllerPagesCheckoutGuestStep1 extends AController{
 			$email = '';
 		}
 
-		$this->data['form']['email'] = $form->getFieldHtml(
+		$this->data['form']['fields']['general']['email'] = $form->getFieldHtml(
 				array (
 						'type'     => 'input',
 						'name'     => 'email',
@@ -246,7 +246,7 @@ class ControllerPagesCheckoutGuestStep1 extends AController{
 		} else{
 			$telephone = '';
 		}
-		$this->data['form']['telephone'] = $form->getFieldHtml(
+		$this->data['form']['fields']['general']['telephone'] = $form->getFieldHtml(
 				array (
 						'type'  => 'input',
 						'name'  => 'telephone',
@@ -259,12 +259,28 @@ class ControllerPagesCheckoutGuestStep1 extends AController{
 		} else{
 			$fax = '';
 		}
-		$this->data['form']['fax'] = $form->getFieldHtml(
+		$this->data['form']['fields']['general']['fax'] = $form->getFieldHtml(
 				array (
 						'type'     => 'input',
 						'name'     => 'fax',
 						'value'    => $fax,
 						'required' => false));
+
+		//get only active IM drivers
+		$im_drivers = $this->im->getIMDrivers('objects', 'active');
+
+		if ($im_drivers){
+			foreach ($im_drivers as $protocol => $driver_obj){
+				if (!is_object($driver_obj)){
+					continue;
+				}
+				$fld = $driver_obj->getURIField($form, $this->request->post[$protocol]);
+				$this->data['form']['fields']['general'][$protocol] = $fld;
+				$this->data['entry_'.$protocol] = $fld->label_text;
+			}
+		}
+
+
 		if (isset($this->request->post['company'])){
 			$company = $this->request->post['company'];
 		} elseif (isset($this->session->data['guest']['company'])){
@@ -273,7 +289,7 @@ class ControllerPagesCheckoutGuestStep1 extends AController{
 			$company = '';
 		}
 
-		$this->data['form']['company'] = $form->getFieldHtml(
+		$this->data['form']['fields']['address']['company'] = $form->getFieldHtml(
 				array (
 						'type'     => 'input',
 						'name'     => 'company',
@@ -286,7 +302,7 @@ class ControllerPagesCheckoutGuestStep1 extends AController{
 		} else{
 			$address_1 = '';
 		}
-		$this->data['form']['address_1'] = $form->getFieldHtml(
+		$this->data['form']['fields']['address']['address_1'] = $form->getFieldHtml(
 				array (
 						'type'     => 'input',
 						'name'     => 'address_1',
@@ -301,7 +317,7 @@ class ControllerPagesCheckoutGuestStep1 extends AController{
 		} else{
 			$address_2 = '';
 		}
-		$this->data['form']['address_2'] = $form->getFieldHtml(
+		$this->data['form']['fields']['address']['address_2'] = $form->getFieldHtml(
 				array (
 						'type'     => 'input',
 						'name'     => 'address_2',
@@ -317,7 +333,7 @@ class ControllerPagesCheckoutGuestStep1 extends AController{
 		}
 
 
-		$this->data['form']['city'] = $form->getFieldHtml(
+		$this->data['form']['fields']['address']['city'] = $form->getFieldHtml(
 				array (
 						'type'     => 'input',
 						'name'     => 'city',
@@ -331,7 +347,7 @@ class ControllerPagesCheckoutGuestStep1 extends AController{
 		} else{
 			$postcode = '';
 		}
-		$this->data['form']['postcode'] = $form->getFieldHtml(
+		$this->data['form']['fields']['address']['postcode'] = $form->getFieldHtml(
 				array (
 						'type'     => 'input',
 						'name'     => 'postcode',
@@ -353,7 +369,7 @@ class ControllerPagesCheckoutGuestStep1 extends AController{
 		foreach ($countries as $item){
 			$options[$item['country_id']] = $item['name'];
 		}
-		$this->data['form']['country_id'] = $form->getFieldHtml(
+		$this->data['form']['fields']['address']['country'] = $form->getFieldHtml(
 				array (
 						'type'     => 'selectbox',
 						'name'     => 'country_id',
@@ -370,7 +386,7 @@ class ControllerPagesCheckoutGuestStep1 extends AController{
 		}
 		$this->view->assign('zone_id', $zone_id);
 
-		$this->data['form']['zone_id'] = $form->getFieldHtml(
+		$this->data['form']['fields']['address']['zone'] = $form->getFieldHtml(
 				array (
 						'type'     => 'selectbox',
 						'name'     => 'zone_id',
@@ -394,7 +410,7 @@ class ControllerPagesCheckoutGuestStep1 extends AController{
 		} else{
 			$shipping_firstname = '';
 		}
-		$this->data['form']['shipping_firstname'] = $form->getFieldHtml(
+		$this->data['form']['fields']['shipping']['firstname'] = $form->getFieldHtml(
 				array (
 						'type'     => 'input',
 						'name'     => 'shipping_firstname',
@@ -407,7 +423,7 @@ class ControllerPagesCheckoutGuestStep1 extends AController{
 		} else{
 			$shipping_lastname = '';
 		}
-		$this->data['form']['shipping_lastname'] = $form->getFieldHtml(
+		$this->data['form']['fields']['shipping']['lastname'] = $form->getFieldHtml(
 				array (
 						'type'     => 'input',
 						'name'     => 'shipping_lastname',
@@ -420,7 +436,7 @@ class ControllerPagesCheckoutGuestStep1 extends AController{
 		} else{
 			$shipping_company = '';
 		}
-		$this->data['form']['shipping_company'] = $form->getFieldHtml(
+		$this->data['form']['fields']['shipping']['company'] = $form->getFieldHtml(
 				array (
 						'type'     => 'input',
 						'name'     => 'shipping_company',
@@ -433,7 +449,7 @@ class ControllerPagesCheckoutGuestStep1 extends AController{
 		} else{
 			$shipping_address_1 = '';
 		}
-		$this->data['form']['shipping_address_1'] = $form->getFieldHtml(
+		$this->data['form']['fields']['shipping']['address_1'] = $form->getFieldHtml(
 				array (
 						'type'     => 'input',
 						'name'     => 'shipping_address_1',
@@ -446,7 +462,7 @@ class ControllerPagesCheckoutGuestStep1 extends AController{
 		} else{
 			$shipping_address_2 = '';
 		}
-		$this->data['form']['shipping_address_2'] = $form->getFieldHtml(
+		$this->data['form']['fields']['shipping']['address_2'] = $form->getFieldHtml(
 				array (
 						'type'     => 'input',
 						'name'     => 'shipping_address_2',
@@ -459,7 +475,7 @@ class ControllerPagesCheckoutGuestStep1 extends AController{
 		} else{
 			$shipping_city = '';
 		}
-		$this->data['form']['shipping_city'] = $form->getFieldHtml(
+		$this->data['form']['fields']['shipping']['city'] = $form->getFieldHtml(
 				array (
 						'type'     => 'input',
 						'name'     => 'shipping_city',
@@ -472,7 +488,7 @@ class ControllerPagesCheckoutGuestStep1 extends AController{
 		} else{
 			$shipping_postcode = '';
 		}
-		$this->data['form']['shipping_postcode'] = $form->getFieldHtml(
+		$this->data['form']['fields']['shipping']['postcode'] = $form->getFieldHtml(
 				array (
 						'type'     => 'input',
 						'name'     => 'shipping_postcode',
@@ -490,7 +506,7 @@ class ControllerPagesCheckoutGuestStep1 extends AController{
 		} else{
 			$shipping_country_id = $this->config->get('config_country_id');
 		}
-		$this->data['form']['shipping_country_id'] = $form->getFieldHtml(
+		$this->data['form']['fields']['shipping']['country'] = $form->getFieldHtml(
 				array (
 						'type'     => 'selectbox',
 						'name'     => 'shipping_country_id',
@@ -507,7 +523,7 @@ class ControllerPagesCheckoutGuestStep1 extends AController{
 			$shipping_zone_id = 'FALSE';
 		}
 		$this->view->assign('shipping_zone_id', $shipping_zone_id);
-		$this->data['form']['shipping_zone_id'] = $form->getFieldHtml(
+		$this->data['form']['fields']['shipping']['zone'] = $form->getFieldHtml(
 				array (
 						'type'     => 'selectbox',
 						'name'     => 'shipping_zone_id',
@@ -525,6 +541,25 @@ class ControllerPagesCheckoutGuestStep1 extends AController{
 		$this->view->assign('shipping', $this->cart->hasShipping());
 		$this->loadModel('localisation/country');
 		$this->view->assign('countries', $this->model_localisation_country->getCountries());
+
+		//TODO: REMOVE THIS IN 1.3!!!
+		// backward compatibility code
+		$deprecated = $this->data['form']['fields'];
+		foreach($deprecated as $section=>$fields){
+			foreach ($fields as $name=>$fld){
+				if(in_array($name, array('country','zone'))){
+					$name .= '_id';
+				}
+
+				if($section=='shipping'){
+					$name = 'shipping_'.$name;
+				}
+
+				$this->data['form'][$name] = $fld;
+			}
+		}
+		//end of trick
+
 
 		$this->view->assign('back', $this->html->getURL($cart_rt));
 

@@ -187,6 +187,8 @@
 							<ul class="dropdown-list gen-list">
 								<li><a href="<?php echo $account_edit; ?>"><i
 												class="fa fa-edit"></i> <?php echo $text_edit_details; ?></a></li>
+								<li><a href="<?php echo $im_settings_edit; ?>"><i
+												class="fa fa-bell-o"></i> <?php echo $text_edit_notifications; ?></a></li>
 								<li><a href="<?php echo $logout; ?>"><i
 												class="fa fa-unlock"></i><?php echo $text_logout; ?></a></li>
 							</ul>

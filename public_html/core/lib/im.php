@@ -35,7 +35,7 @@ if (!defined('DIR_CORE')) {
 
 class AIM {
 	private $registry;
-	private $protocols = array('sms', 'skype');
+	private $protocols = array('email', 'sms', 'skype');
 	/**
 	 * @var array for StoreFront side ONLY!
 	 */
@@ -80,13 +80,40 @@ class AIM {
 		}
 	}
 
-	public function getIMDrivers(){
-		$extensions = $this->extensions->getExtensionsList(array( 'category' => 'IM-drivers', 'status' => 1 ));
-
+	/**
+	 * Note: method can be called from admin side
+	 * @param string $mode  - can be 'list' for selectbox, or 'objects' for validations
+	 * @return array
+	 */
+	public function getIMDrivers($mode='list', $filter_mode = ''){
+		$filter = array(
+				'category' => 'IM-drivers',
+				'status'    => 1
+				);
+		//returns all drivers for admin side settings page
+		if(IS_ADMIN===true && $mode=='objects'){
+			unset($filter['status']);
+		}
+		$extensions = $this->extensions->getExtensionsList( $filter );
 		$driver_list = array();
+
+		if($filter_mode=='active'){
+			$active_drivers = array();
+			foreach($this->protocols as $protocol){
+				if($this->config->get('config_storefront_' . $protocol . '_status')){
+					$active_drivers[] = $this->config->get('config_'.$protocol.'_driver');
+				}
+			}
+		}
+
 		foreach($extensions->rows as $ext){
 
 			$driver_txt_id = $ext['key'];
+			//skip non-active drivers
+			if($filter_mode=='active' && !in_array($driver_txt_id, $active_drivers)){
+				continue;
+			}
+
 			//NOTE! all IM drivers MUST have class by these path
 			try{
 				include_once(DIR_EXT . $driver_txt_id . '/core/lib/' . $driver_txt_id . '.php');
@@ -98,7 +125,11 @@ class AIM {
 			}
 
 			$driver = new $classname();
-			$driver_list[$driver->getProtocol()][$driver_txt_id] = $driver->getName();
+			if($mode=='list'){
+				$driver_list[$driver->getProtocol()][$driver_txt_id] = $driver->getName();
+			}else if($mode=='objects'){
+				$driver_list[$driver->getProtocol()] = $driver;
+			}
 		}
 		return $driver_list;
 	}
@@ -201,7 +232,6 @@ class AIM {
 
 //todo
 	private function _get_admin_im_addresses($protocol){
-
 
 		return array();
 	}

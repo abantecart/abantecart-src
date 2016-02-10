@@ -77,7 +77,9 @@ class ControllerCommonHeader extends AController {
 				$this->view->assign('last_login', sprintf($this->language->get('text_welcome'), $this->user->getUserName()));
 			}
 			$this->view->assign('account_edit', $this->html->getSecureURL('index/edit_details', '', true));
-					
+			$this->view->assign('im_settings_edit', $this->html->getSecureURL('user/user/update', '&user_id='.$this->user->getId(), true));
+			$this->view->assign('text_edit_notifications', $this->language->get('text_edit_notifications'));
+
 			$stores = array();
 			$this->loadModel('setting/store');
 			$results = $this->model_setting_store->getStores();

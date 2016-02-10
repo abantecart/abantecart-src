@@ -1058,7 +1058,12 @@ class AConfigManager {
 		$protocols = $this->im->getProtocols();
 		$im_drivers = $this->im->getIMDrivers();
 
+
 		foreach($protocols as $protocol){
+			//skip email protocol. it cannot be disabled
+			if($protocol=='email'){
+				continue;
+			}
 
 			if($im_drivers[$protocol]){
 				$options = array_merge(array(''=> $this->language->get('text_select')), $im_drivers[$protocol]);
@@ -1066,22 +1071,21 @@ class AConfigManager {
 				$options = array('' => $this->language->get('text_no_driver'));
 			}
 
-
-			$fields['sms_driver'] = $form->getFieldHtml($props[] = array (
+			$fields[$protocol.'_driver'] = $form->getFieldHtml($props[] = array (
 					'type'    => 'selectbox',
 					'name'    => 'config_'.$protocol.'_driver',
 					'value'   => $data['config_sms_driver'],
 					'options' => $options,
 			));
 
-			$fields['storefront_sms_status'] = $form->getFieldHtml($props[] = array (
+			$fields['storefront_'.$protocol.'_status'] = $form->getFieldHtml($props[] = array (
 					'type'  => 'checkbox',
 					'name'  => 'config_storefront_' . $protocol . '_status',
 					'value' => $data['config_storefront_' . $protocol . '_status'],
 					'style' => 'btn_switch',
 			));
 
-			$fields['admin_sms_status'] = $form->getFieldHtml($props[] = array (
+			$fields['admin_'.$protocol.'_status'] = $form->getFieldHtml($props[] = array (
 					'type'  => 'checkbox',
 					'name'  => 'config_admin_' . $protocol . '_status',
 					'value' => $data['config_admin_' . $protocol . '_status'],
