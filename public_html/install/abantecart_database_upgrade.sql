@@ -23,6 +23,17 @@ CREATE TABLE `ac_user_notifications` (
   PRIMARY KEY (`user_id`, `store_id`, `sendpoint`, `protocol`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
+DROP TABLE IF EXISTS `ac_customer_notifications`;
+CREATE TABLE `ac_customer_notifications` (
+  `customer_id` int(11) NOT NULL,
+  `sendpoint` varchar(255) NOT NULL,
+  `protocol` varchar(30) NOT NULL,
+  `status` int(1) NOT NULL DEFAULT '0',
+  `date_added` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `date_modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`customer_id`,`sendpoint`,`protocol`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
 
 ALTER TABLE `ac_orders`
 DROP INDEX `ac_orders_idx` ,

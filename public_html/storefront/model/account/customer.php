@@ -129,14 +129,6 @@ class ModelAccountCustomer extends Model {
 			return false;
 		}
 
-/*		$sql = "SELECT column_name
-		        FROM information_schema.columns
-		        WHERE table_name='" . $this->db->escape("customers") . "'
-		            AND column_comment='im'
-		        GROUP BY column_name";
-		$im_uri = $this->db->query($sql);
-
-		*/
 		$key_sql = '';
 		if ( $this->dcrypt->active ) {
 			$data = $this->dcrypt->encrypt_data($data, 'customers');
@@ -203,6 +195,69 @@ class ModelAccountCustomer extends Model {
 				. $key_sql .
 				" WHERE customer_id = '" . (int)$this->customer->getId() . "'";
 		$this->db->query($sql);
+		return true;
+	}
+
+	public function getCustomerNotificationSettings(){
+
+		//get only active IM drivers
+		$im_protocols = $this->im->getProtocols();
+		$im_settings = array();
+		$sql = "SELECT *
+				FROM ".$this->db->table('customer_notifications')."
+				WHERE customer_id = ".(int)$this->customer->getId();
+		$result = $this->db->query($sql);
+
+		foreach($result->rows as $row){
+			if(!in_array($row['protocol'], $im_protocols)){
+				continue;
+			}
+			$im_settings[$row['sendpoint']][$row['protocol']] = (int)$row['status'];
+		}
+		return $im_settings;
+	}
+	public function saveCustomerNotificationSettings($settings){
+		if(!$settings){
+			return null;
+		}
+
+		$customer_id = (int)$this->customer->getId();
+		//do not save settings for guests
+		if(!$customer_id){
+			return null;
+		}
+
+		$sendpoints = array_keys($this->im->sendpoints);
+		$im_protocols = $this->im->getProtocols();
+
+		$update = array();
+		foreach($settings as $sendpoint=>$row){
+			if(!in_array($sendpoint, $sendpoints)){
+				continue;
+			}
+			foreach($im_protocols as $protocol){
+				$update[$sendpoint][$protocol] = (int)$settings[$sendpoint][$protocol];
+			}
+		}
+
+		if($update){
+			$sql = "DELETE FROM ".$this->db->table('customer_notifications')." WHERE customer_id = ".$customer_id;
+			$this->db->query($sql);
+
+			foreach($update as $sendpoint=>$row){
+				foreach($row as $protocol=>$status){
+					$sql = "INSERT INTO " . $this->db->table('customer_notifications') . "
+							(customer_id, sendpoint,protocol,status, date_added)
+						VALUES
+						('" . $customer_id . "',
+						'" . $this->db->escape($sendpoint) . "',
+						'" . $this->db->escape($protocol) . "',
+						'" . (int)$status . "',
+						NOW());";
+					$this->db->query($sql);
+				}
+			}
+		}
 		return true;
 	}
 

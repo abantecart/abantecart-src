@@ -26,6 +26,9 @@ class ControllerPagesAccountEdit extends AController{
 	public $data;
 
 	public function main(){
+
+		$this->im->send('order_updates');
+
 		//init controller data
 		$this->extensions->hk_InitData($this, __FUNCTION__);
 

@@ -294,6 +294,7 @@ class ModelSaleCustomer extends Model {
 	public function deleteCustomer($customer_id) {
 		$this->db->query("DELETE FROM " . $this->db->table("customers") . " WHERE customer_id = '" . (int)$customer_id . "'");
 		$this->db->query("DELETE FROM " . $this->db->table("addresses") . " WHERE customer_id = '" . (int)$customer_id . "'");
+		$this->db->query("DELETE FROM " . $this->db->table("customer_notifications") . " WHERE customer_id = '" . (int)$customer_id . "'");
 	}
 
 	/**

@@ -198,7 +198,12 @@ class ControllerPagesSettingSetting extends AController {
 		$this->view->assign('form_store_switch', $this->html->getStoreSwitcher());
 		$this->view->assign('help_url', $this->gen_help_url($this->data['active']));
 		$this->view->batchAssign($this->data);
-		$this->processTemplate('pages/setting/setting.tpl');
+
+		if($this->data['active']=='im'){
+			$this->processTemplate('pages/setting/setting_im.tpl');
+		}else{
+			$this->processTemplate('pages/setting/setting.tpl');
+		}
 
 		//update controller data
 		$this->extensions->hk_UpdateData($this, __FUNCTION__);
