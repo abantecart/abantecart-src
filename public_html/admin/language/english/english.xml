@@ -490,6 +490,10 @@
 		<value><![CDATA[Archive]]></value>
 	</definition>
 	<definition>
+		<key>text_type_download</key>
+		<value><![CDATA[Download File]]></value>
+	</definition>
+	<definition>
 		<key>button_unmap</key>
 		<value><![CDATA[Unlink]]></value>
 	</definition>
@@ -713,4 +717,8 @@
 		<key>button_add_media</key>
 		<value><![CDATA[Add Media]]></value>
 	</definition>
+	<definition>
+		<key>text_view_more</key>
+		<value><![CDATA[View More]]></value>
+	</definition>	
 </definitions>

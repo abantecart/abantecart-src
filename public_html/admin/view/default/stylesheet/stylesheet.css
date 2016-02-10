@@ -52,6 +52,9 @@ a:focus, a:active { outline: none; }
 h1,h2,h3,h4,h5 {
    font-family: 'Lucida Grande', 'Lucida Sans Unicode', Helvetica, sans-serif;
 }
+h1 a:hover, h2 a:hover, h3  a:hover {
+	text-decoration: none;
+}
 
 .grey_out {
     opacity: 0.2;
@@ -1398,6 +1401,13 @@ p {
 }
 .reslibrary-options .confirm_popover.dropdown-menu {
 	bottom: auto;
+}
+.thumbnail .rl_large_icon {
+	height: 114px;
+}
+.thumbnail .rl_large_icon i {
+	text-align: center;
+	font-size: 7em;
 }
 
 /* locked screen */

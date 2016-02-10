@@ -1239,7 +1239,7 @@ class ControllerResponsesProductProduct extends AController{
 			$this->error['download_id'] = $this->language->get('error_download_exists');
 		}
 
-		if(mb_strlen($data['name']) < 2 || mb_strlen($data['name']) > 64){
+		if(mb_strlen($data['name']) < 2 || mb_strlen($data['name']) > 40){
 			$this->error['name'] = $this->language->get('error_download_name');
 		}
 

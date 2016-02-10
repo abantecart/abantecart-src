@@ -46,6 +46,7 @@ class ControllerResponsesCommonResourceLibrary extends AController {
 		}
 		$this->data['language_id'] = $language_id;
 		$this->data['mode'] = $this->request->get['mode'];
+		$this->data['type'] = $this->request->get['type'];
 
 		$rm = new AResourceManager();
 		$this->_common($rm);
@@ -462,9 +463,8 @@ class ControllerResponsesCommonResourceLibrary extends AController {
 		$this->processTemplate('responses/common/resource_library.tpl');
 	}
 
-	private function _common() {
+	private function _common($rm) {
 
-		$rm = new AResourceManager();
 		if($this->request->get['mode']=='single'){
 			$this->data['types'] = array($rm->getResourceTypeByName($this->request->get['type']));
 		}else{
@@ -516,6 +516,7 @@ class ControllerResponsesCommonResourceLibrary extends AController {
             'options' => $options,
             'value' => $this->data['type'],
             'style' => 'input-sm',
+            'attr'	=> 'disabled'
 	    ));
 
 		$this->data['languages'] = array();
@@ -796,7 +797,8 @@ class ControllerResponsesCommonResourceLibrary extends AController {
 
 		$rm = new AResourceManager();
 		$rm->setType($this->request->get['type']);
-
+		$list_limit = 12;
+		
 		$uri = '&type=' . $this->request->get['type'] . '&language_id=' . $this->request->get['language_id'];
 
 		$filter_data = array(
@@ -826,7 +828,7 @@ class ControllerResponsesCommonResourceLibrary extends AController {
 				$page = 1;
 			}
 			$filter_data['page'] = $page;
-			$filter_data['limit'] = $filter_data['limit'] ? $filter_data['limit'] : 12;
+			$filter_data['limit'] = $filter_data['limit'] ? $filter_data['limit'] : $list_limit;
 		}
 		
 		if (!empty($this->request->get['sort'])) {
@@ -839,9 +841,12 @@ class ControllerResponsesCommonResourceLibrary extends AController {
 			$filter_data['order'] = $this->request->get['order'];		
 		}
 		
+		$resources_total = $rm->getResourcesList($filter_data, true);
 		$result = array(
 			'items' => $rm->getResourcesList($filter_data),
 			'pagination' => '',
+			'total'	=> $resources_total,
+			'limit' => $list_limit,
 			'object_name' => $this->request->get['object_name'],
 			'object_id' => $this->request->get['object_id']
 		);
@@ -860,9 +865,7 @@ class ControllerResponsesCommonResourceLibrary extends AController {
 		}
 
 		if (isset($this->request->get['page'])) {
-
-			$resources_total = $rm->getResourcesList($filter_data, true);
-			if ($resources_total > 12) {
+			if ($resources_total > $list_limit) {
 				$result['pagination'] = (string)HtmlElementFactory::create(array(
 					'type' => 'Pagination',
 					'name' => 'pagination',
@@ -870,7 +873,7 @@ class ControllerResponsesCommonResourceLibrary extends AController {
 					'text_limit' => $this->language->get('text_per_page'),
 					'total' => $resources_total,
 					'page' => $page,
-					'limit' => 12,
+					'limit' => $list_limit,
 					'url' => $this->html->getSecureURL('common/resource_library/resources', $uri . '&page={page}'),
 					'style' => 'pagination'));
 			}
