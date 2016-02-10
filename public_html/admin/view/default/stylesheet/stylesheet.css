@@ -3168,13 +3168,11 @@ body.stickyheader .sticky_left {
 .text-editor .nav.nav-tabs{
    display: inline-block;
 }
-
 .text-editor .tab-content{
    display: block;
-   overflow: hidden;
 }
 .text-editor .toolbar {
-  text-align: center;
+  text-align: center; 
 }
 .text-editor .toolbar .btn-group .btn-xs { 
 	padding: 1px 5px;
@@ -3188,7 +3186,7 @@ body.stickyheader .sticky_left {
   position: relative;
 }
 .zennable textarea {
-  background-color: #f6f6f6;
+  background-color: #f6fs6f6;
   border: 0;
   border-radius: 3px;
   box-sizing: border-box;
@@ -3202,6 +3200,9 @@ body.stickyheader .sticky_left {
 }
 .zennable textarea:focus {
   background-color: white;
+}
+.zennable .toolbar .btn-group{
+  overflow-x: scroll;
 }
 .zennable.expanded .zen-backdrop .expander {
   display: none;
