@@ -3250,3 +3250,8 @@ body.stickyheader .sticky_left {
 	padding: 1px 8px;
 	font-size: 12px;
 }
+/*mce fix*/
+.mce-container .mce-btn button {
+    font-size: 11px;
+    padding: 1px 3px;
+}
