@@ -52,6 +52,9 @@ a:focus, a:active { outline: none; }
 h1,h2,h3,h4,h5 {
    font-family: 'Lucida Grande', 'Lucida Sans Unicode', Helvetica, sans-serif;
 }
+h1 a:hover, h2 a:hover, h3  a:hover {
+	text-decoration: none;
+}
 
 .grey_out {
     opacity: 0.2;
@@ -1398,6 +1401,13 @@ p {
 }
 .reslibrary-options .confirm_popover.dropdown-menu {
 	bottom: auto;
+}
+.thumbnail .rl_large_icon {
+	height: 114px;
+}
+.thumbnail .rl_large_icon i {
+	text-align: center;
+	font-size: 7em;
 }
 
 /* locked screen */
@@ -3158,13 +3168,11 @@ body.stickyheader .sticky_left {
 .text-editor .nav.nav-tabs{
    display: inline-block;
 }
-
 .text-editor .tab-content{
    display: block;
-   overflow: hidden;
 }
 .text-editor .toolbar {
-  text-align: center;
+  text-align: center; 
 }
 .text-editor .toolbar .btn-group .btn-xs { 
 	padding: 1px 5px;
@@ -3178,7 +3186,7 @@ body.stickyheader .sticky_left {
   position: relative;
 }
 .zennable textarea {
-  background-color: #f6f6f6;
+  background-color: #f6fs6f6;
   border: 0;
   border-radius: 3px;
   box-sizing: border-box;
@@ -3186,12 +3194,15 @@ body.stickyheader .sticky_left {
   color: #333;
   display: block;
   font-size: 12px;
-  height: 304px;
+  height: 310px;
   padding: 3px 5px;
   width: 100%;
 }
 .zennable textarea:focus {
   background-color: white;
+}
+.zennable .toolbar .btn-group{
+  overflow-x: scroll;
 }
 .zennable.expanded .zen-backdrop .expander {
   display: none;

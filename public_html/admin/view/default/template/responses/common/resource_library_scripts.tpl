@@ -254,11 +254,19 @@ var loadMedia = function (type, wrapper) {
 				html += '</div></div>';
 			});
 
+			//check if more available 
+			if(json.total > json.limit) {
+				html += '<div class="col-md-1 reslibrary_block">' +
+						'<div class="center thumbnail">';
+				html += '<a class="btn list_maped_resources tooltips transparent rl_large_icon" '+data_mode+' data-type="' + type + '" data-original-title="<?php echo_html2view($text_view_more) ?>"><i class="fa fa-folder-open"></i></a>';
+				html += '</div></div>';
+			}
+		
 			html += '<div class="col-md-1 reslibrary_block">' +
 					'<div class="center thumbnail fileupload_drag_area">' +
 					'<form action="<?php echo $rl_upload; ?>&type=' + type + '" method="POST" enctype="multipart/form-data"><input type="file" name="files[]" multiple="" class="hide">';
-			html += '<a class="btn resource_add tooltips transparent" '+data_mode+' data-type="' + type + '" data-original-title="<?php echo_html2view($text_add_media) ?>"><img src="<?php echo $template_dir . 'image/icons/icon_add_media.png'; ?>" alt="<?php echo_html2view($text_add_media); ?>" width="100" /></a>';
-			html += '</form</div></div>';
+			html += '<a class="btn resource_add tooltips transparent rl_large_icon" '+data_mode+' data-type="' + type + '" data-original-title="<?php echo_html2view($text_add_media) ?>"><i class="fa fa-plus-circle"></a>';
+			html += '</form></div></div>';
 
 			$(wrapper).html(html);
 		},
@@ -395,6 +403,13 @@ jQuery(function () {
 	//generic mode to list all resources
 	$(document).on("click", 'a.list_resources', function () {
 		mediaDialog($(this).attr('data-type'), 'list_library');
+		sideDialog($(this).attr('data-type'), 'add');
+		return false;
+	});
+
+	//mode to list maped resources
+	$(document).on("click", 'a.list_maped_resources', function () {
+		mediaDialog($(this).attr('data-type'), 'list_object');
 		sideDialog($(this).attr('data-type'), 'add');
 		return false;
 	});
@@ -888,6 +903,12 @@ var bind_rl = function (elm) {
 	$obj.find('#resource_types_tabs a').click(function () {
 		$('#resource_types_tabs li.active').removeClass('active');
 		$(this).parents('li').addClass('active');
+		//reload with new rl type on bad select
+		var new_type = $(this).parents('li').attr('data-type');
+		var url = $("#rl_container").attr('data-current-url')+ '&type=' + new_type;
+		reloadModal(url);
+		sideDialog(new_type, 'add');
+		
 		return false;
 	});
 	

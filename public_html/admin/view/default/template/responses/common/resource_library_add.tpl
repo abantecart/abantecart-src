@@ -31,7 +31,7 @@
 					default:
 						$icon = 'fa-file';
 				}
-				$active = $current_type==$rl_type['type_name'] || (!$current_type && $rl_type['type_name']=='image') ? 'active' : '';
+				$active = $type==$rl_type['type_name'] || (!$type && $rl_type['type_name']=='image') ? 'active' : '';
 				?>
 	        <li class="<?php echo $active; ?>" data-type="<?php echo $rl_type['type_name']; ?>">
 				  <a class="actionitem tooltips" data-original-title="<?php echo $text_type.': '.$rl_type['type_name']; ?>"

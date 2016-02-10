@@ -48,19 +48,22 @@ class ControllerPagesToolRLManager extends AController {
 		$rm = new AResourceManager();
 		$this->view->assign('types', $rm->getResourceTypes());
 		
+		$latest_limit = 13;
 		$resources_scripts = $this->dispatch(
 			'responses/common/resource_library/get_resources_scripts',
 			array(
 				null, null, null, null, 
 				'mode' => 'list_all',
 				'page' => 1,
-				'limit' => 13,
+				'limit' => $latest_limit,
 				'sort' => 'date_added',
 				'order' => 'DESC'
 			)			
 		);
+		$this->view->assign('latest_limit', $latest_limit);	
+		$this->view->assign('rl_types_url', $this->html->getSecureURL('r/tool/rl_manager/update'));		
 		$this->view->assign('resources_scripts', $resources_scripts->dispatchGetOutput());
-
+		$this->view->assign('form_language_switch', $this->html->getContentLanguageSwitcher());
         $this->processTemplate('pages/tool/rl_manager.tpl' );
 
         //update controller data

@@ -144,7 +144,7 @@ $txt_unlink_resource = sprintf($text_unmap_from, $object_title);
 				<?php if($resource['resource_objects'] || $mode!='single'){ ?>
 				<label class="col-sm-5 ellipsis control-label"><?php echo $text_mapped_to; ?></label>
 	
-				<div class="col-sm-7">
+				<div class="col-sm-4">
 					<div class="btn-group maped_resources">
 						<?php
 						if (is_array($resource['resource_objects']) ) {

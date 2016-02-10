@@ -77,11 +77,29 @@ class AResourceManager extends AResource {
 		return array();
 	}
 
+    public function updateResourceType($data) {
+    	if(empty($data) || !has_value($data['type_id'])) {
+    		return null;
+    	}
+		$sql = "UPDATE ".$this->db->table('resource_types')."
+		    	SET type_name='".$this->db->escape($data['type_name'])."',
+		    		default_directory='".$this->db->escape($data['default_directory'])."',
+		    		default_icon='".$this->db->escape($data['default_icon'])."',
+		    		file_types='".$this->db->escape($data['file_types'])."'
+		    	WHERE type_id =  ".(int)$data['type_id'];
+		$this->db->query( $sql );
+
+        $this->cache->delete('resources.*');
+        return true;
+	}
+
+	/* not yet supported */
 	public function addResourceType () {
         $cache_name = 'resources.types';
         $this->cache->delete($cache_name,'',(int)$this->config->get('config_store_id'));
 	}
 
+	/* not yet supported */
     public function deleteResourceType() {
         $cache_name = 'resources.types';
         $this->cache->delete($cache_name,'',(int)$this->config->get('config_store_id'));
