@@ -262,7 +262,7 @@ class ControllerPagesSaleContact extends AController {
 		$this->data['category_products'] = $this->html->getSecureURL('product/product/category');
 		$this->data['customers_list'] = $this->html->getSecureURL('user/customers');
 
-		$this->data['help_url'] = $this->gen_help_url('mail');
+		$this->data['help_url'] = $this->gen_help_url('send_mail');
 
 		$resources_scripts = $this->dispatch(
 				'responses/common/resource_library/get_resources_scripts',
