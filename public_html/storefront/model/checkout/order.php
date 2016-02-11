@@ -129,6 +129,7 @@ class ModelCheckoutOrder extends Model {
 				$this->db->query("DELETE FROM " . $this->db->table("order_options") . " WHERE order_id = '" . (int)$result['order_id'] . "'");
 				$this->db->query("DELETE FROM " . $this->db->table("order_downloads") . " WHERE order_id = '" . (int)$result['order_id'] . "'");
 				$this->db->query("DELETE FROM " . $this->db->table("order_totals") . " WHERE order_id = '" . (int)$result['order_id'] . "'");
+				$this->db->query("DELETE FROM " . $this->db->table("order_data") . " WHERE order_id = '" . (int)$result['order_id'] . "'");
 			}
 		}
 
@@ -254,6 +255,31 @@ class ModelCheckoutOrder extends Model {
 									`type` = '" . $this->db->escape($total['total_type']) . "',
 									`key` = '" . $this->db->escape($total['id']) . "'"
 									);
+		}
+
+		//save IM settings for guest checkout
+		if(!$data['customer_id']){
+			$protocols = $this->im->getProtocols();
+			$p = array();
+			foreach($protocols as $protocol){
+				$p[] = $this->db->escape($protocol);
+			}
+
+			$sql = "SELECT DISTINCT `type_id`, `name` as protocol
+					FROM ".$this->db->table('order_data_types')."
+					WHERE `name` IN ('".implode("', '",$p)."')";
+			$result = $this->db->query($sql);
+			foreach($result->rows as $row){
+				if(has_value($data[$row['protocol']])){
+					$type_id = (int)$row['type_id'];
+					$im_data = serialize(array('uri'=>$data[$row['protocol']], 'status' => $this->config->get('config_im_guest_'.$row['protocol'].'_status')));
+					$sql = "INSERT INTO ".$this->db->table('order_data')."
+							(`order_id`, `type_id`, `data`, `date_added`)
+							VALUES (".(int)$order_id.", ".(int)$type_id.", '".$this->db->escape($im_data)."', NOW() )";
+					$this->db->query($sql);
+				}
+			}
+
 		}
 
 		return $order_id;
@@ -631,20 +657,30 @@ class ModelCheckoutOrder extends Model {
 									comment = '" . $this->db->escape($comment) . "',
 									date_added = NOW()");
 
+			//send notifications
+			$language = new ALanguage($this->registry, $order_row['code']);
+			$language->load($order_row['filename']);
+			$language->load('mail/order_update');
+
+			$order_status_query = $this->db->query("SELECT *
+													FROM " . $this->db->table("order_statuses") . "
+													WHERE order_status_id = '" . (int)$order_status_id . "'
+														AND language_id = '" . (int)$order_row['language_id'] . "'");
+
+			$im_text_vars = array('order_id'=>$order_id);
+			if($order_status_query->row['name']){
+				$im_text_vars['order_status_id'] = $order_status_query->row['name'];
+			}
+			$this->im->send('order_updates', $im_text_vars);
+			unset($im_text_vars);
+
+			//notify via email
 			if ($notify) {
-				$language = new ALanguage($this->registry, $order_row['code']);
-				$language->load($order_row['filename']);
-				$language->load('mail/order_update');
 
 				$subject = sprintf($language->get('text_subject'), html_entity_decode($order_row['store_name'], ENT_QUOTES, 'UTF-8'), $order_id);
 
 				$message = $language->get('text_order') . ' ' . $order_id . "\n";
 				$message .= $language->get('text_date_added') . ' ' . dateISO2Display($order_row['date_added'], $language->get('date_format_short')) . "\n\n";
-
-				$order_status_query = $this->db->query("SELECT *
-														FROM " . $this->db->table("order_statuses") . "
-														WHERE order_status_id = '" . (int)$order_status_id . "'
-															AND language_id = '" . (int)$order_row['language_id'] . "'");
 
 				if ($order_status_query->num_rows) {
 					$message .= $language->get('text_order_status') . "\n\n";

@@ -68,6 +68,14 @@ class ControllerPagesCheckoutGuestStep1 extends AController{
 			$this->session->data['guest']['country_id'] = $this->request->post['country_id'];
 			$this->session->data['guest']['zone_id'] = $this->request->post['zone_id'];
 
+			//IM addresses
+			$protocols = $this->im->getProtocols();
+			foreach($protocols as $protocol){
+				if(has_value($this->request->post[$protocol]) && !has_value($this->session->data['guest'][$protocol])){
+					$this->session->data['guest'][$protocol] = $this->request->post[$protocol];
+				}
+			}
+
 			//if ($this->cart->hasShipping()) {
 			$this->tax->setZone($this->request->post['country_id'], $this->request->post['zone_id']);
 			//}
@@ -267,11 +275,10 @@ class ControllerPagesCheckoutGuestStep1 extends AController{
 						'required' => false));
 
 		//get only active IM drivers
-		$im_drivers = $this->im->getIMDrivers('objects', 'active');
-
+		$im_drivers = $this->im->getIMDriverObjects();
 		if ($im_drivers){
 			foreach ($im_drivers as $protocol => $driver_obj){
-				if (!is_object($driver_obj)){
+				if (!is_object($driver_obj) || $protocol=='email'){
 					continue;
 				}
 				$fld = $driver_obj->getURIField($form, $this->request->post[$protocol]);

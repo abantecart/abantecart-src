@@ -24,6 +24,7 @@ if (! defined ( 'DIR_CORE' )) {
 /**
  * Class ModelAccountCustomer
  * @property ModelCatalogContent $model_catalog_content
+ * @property AIM $im
  */
 class ModelAccountCustomer extends Model {
 	public $error = array();
@@ -487,11 +488,10 @@ class ModelAccountCustomer extends Model {
 
 		//validate IM URIs
 		//get only active IM drivers
-		$im_drivers = $this->im->getIMDrivers('objects', 'active');
-
+		$im_drivers = $this->im->getIMDriverObjects();
 		if ($im_drivers){
 			foreach ($im_drivers as $protocol => $driver_obj){
-				if (!is_object($driver_obj)){
+				if (!is_object($driver_obj) || $protocol=='email'){
 					continue;
 				}
 				$result = $driver_obj->validateURI($data[$protocol]);
@@ -545,11 +545,10 @@ class ModelAccountCustomer extends Model {
 
 		//validate IM URIs
 		//get only active IM drivers
-		$im_drivers = $this->im->getIMDrivers('objects', 'active');
-
+		$im_drivers = $this->im->getIMDriverObjects();
 		if ($im_drivers){
 			foreach ($im_drivers as $protocol => $driver_obj){
-				if (!is_object($driver_obj)){
+				if (!is_object($driver_obj) || $protocol=='email'){
 					continue;
 				}
 				$result = $driver_obj->validateURI($data[$protocol]);
@@ -611,11 +610,10 @@ class ModelAccountCustomer extends Model {
 
 		//validate IM URIs
 		//get only active IM drivers
-		$im_drivers = $this->im->getIMDrivers('objects', 'active');
-
+		$im_drivers = $this->im->getIMDriverObjects();
 		if ($im_drivers){
 			foreach ($im_drivers as $protocol => $driver_obj){
-				if (!is_object($driver_obj)){
+				if (!is_object($driver_obj) || $protocol=='email'){
 					continue;
 				}
 				$result = $driver_obj->validateURI($data[$protocol]);
@@ -632,7 +630,9 @@ class ModelAccountCustomer extends Model {
 	}
 
 	public function getTotalTransactions() {
-      	$query = $this->db->query("SELECT COUNT(*) AS total FROM `" . $this->db->table("customer_transactions") . "` WHERE customer_id = '" . (int)$this->customer->getId() . "'" );
+      	$query = $this->db->query("SELECT COUNT(*) AS total
+								   FROM `" . $this->db->table("customer_transactions") . "`
+								   WHERE customer_id = '" . (int)$this->customer->getId() . "'" );
 		
 		return (int)$query->row['total'];
 	}
@@ -643,23 +643,27 @@ class ModelAccountCustomer extends Model {
 		}
 		
 		$query = $this->db->query("SELECT 
-			t.customer_transaction_id, 
-			t.order_id, 
-			t.section, 
-			t.credit, 
-			t.debit, 
-			t.transaction_type, 
-			t.description, 
-			t.date_added 
-			FROM `" . $this->db->table("customer_transactions") . "` t 
-			WHERE customer_id = '" . (int)$this->customer->getId() . "' 
-			ORDER BY t.date_added DESC LIMIT " . (int)$start . "," . (int)$limit);
+											t.customer_transaction_id,
+											t.order_id,
+											t.section,
+											t.credit,
+											t.debit,
+											t.transaction_type,
+											t.description,
+											t.date_added
+									FROM `" . $this->db->table("customer_transactions") . "` t
+									WHERE customer_id = '" . (int)$this->customer->getId() . "'
+									ORDER BY t.date_added DESC
+									LIMIT " . (int)$start . "," . (int)$limit);
 	
 		return $query->rows;
 	}
 
 	public function getSubscribersCustomerGroupId() {
-		$query = $this->db->query("SELECT customer_group_id	FROM `" . $this->db->table("customer_groups") . "` WHERE `name` = 'Newsletter Subscribers' LIMIT 0,1");
+		$query = $this->db->query("SELECT customer_group_id
+								   FROM `" . $this->db->table("customer_groups") . "`
+								   WHERE `name` = 'Newsletter Subscribers'
+								   LIMIT 0,1");
 		$result = !$query->row['customer_group_id'] ? (int)$this->config->get('config_customer_group_id') :  $query->row['customer_group_id'];
 		return $result;
 	}

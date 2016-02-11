@@ -27,8 +27,6 @@ class ControllerPagesAccountEdit extends AController{
 
 	public function main(){
 
-		$this->im->send('order_updates');
-
 		//init controller data
 		$this->extensions->hk_InitData($this, __FUNCTION__);
 
@@ -58,6 +56,7 @@ class ControllerPagesAccountEdit extends AController{
 				$this->model_account_customer->editCustomer($request_data);
 				$this->model_account_customer->editCustomerNotifications($request_data);
 				$this->session->data['success'] = $this->language->get('text_success');
+				$this->im->send('account_updates');
 				$this->extensions->hk_ProcessData($this);
 				$this->redirect($this->html->getSecureURL('account/account'));
 			}
@@ -191,11 +190,10 @@ class ControllerPagesAccountEdit extends AController{
 						'required' => false));
 
 		//get only active IM drivers
-		$im_drivers = $this->im->getIMDrivers('objects', 'active');
-
+		$im_drivers = $this->im->getIMDriverObjects();
 		if ($im_drivers){
 			foreach ($im_drivers as $protocol => $driver_obj){
-				if (!is_object($driver_obj)){
+				if (!is_object($driver_obj) || $protocol=='email'){
 					continue;
 				}
 				$fld = $driver_obj->getURIField($form, $customer_info[$protocol]);

@@ -31,6 +31,7 @@ if (!defined('DIR_CORE')) {
  * @property AHtml $html
  * @property ExtensionsAPI $extensions
  * @property ASession $session
+ * @property ModelAccountCustomer $model_account_customer
  */
 
 class AIM {
@@ -92,22 +93,22 @@ class AIM {
 
 	/**
 	 * Note: method can be called from admin side
-	 * @param string $mode  - can be 'list' for selectbox, or 'objects' for validations
+	 * @param array $filter_arr
 	 * @return array
 	 */
-	public function getIMDrivers($mode='list', $filter_mode = ''){
+	public function getIMDriverObjects( $filter_arr = array('status' => 1)){
 		$filter = array(
-				'category' => 'IM-drivers',
-				'status'    => 1
+				'category' => 'IM-drivers'
 				);
 		//returns all drivers for admin side settings page
-		if(IS_ADMIN===true && $mode=='objects'){
-			unset($filter['status']);
+		if(has_value($filter_arr['status'])){
+			$filter['status'] = (int)$filter_arr['status'];
 		}
-		$extensions = $this->extensions->getExtensionsList( $filter );
-		$driver_list = array();
 
-		if($filter_mode=='active'){
+		$extensions = $this->extensions->getExtensionsList( $filter );
+		$driver_list = array('email' => new AMailIM());
+
+		if($filter_arr['status']){
 			$active_drivers = array();
 			foreach($this->protocols as $protocol){
 				if($this->config->get('config_storefront_' . $protocol . '_status')){
@@ -117,10 +118,9 @@ class AIM {
 		}
 
 		foreach($extensions->rows as $ext){
-
 			$driver_txt_id = $ext['key'];
 			//skip non-active drivers
-			if($filter_mode=='active' && !in_array($driver_txt_id, $active_drivers)){
+			if($filter_arr['status'] && !in_array($driver_txt_id, $active_drivers)){
 				continue;
 			}
 
@@ -135,11 +135,7 @@ class AIM {
 			}
 
 			$driver = new $classname();
-			if($mode=='list'){
-				$driver_list[$driver->getProtocol()][$driver_txt_id] = $driver->getName();
-			}else if($mode=='objects'){
-				$driver_list[$driver->getProtocol()] = $driver;
-			}
+			$driver_list[$driver->getProtocol()] = $driver;
 		}
 		return $driver_list;
 	}
@@ -152,46 +148,77 @@ class AIM {
 		if($name && !in_array($name, $this->sendpoints)){
 			$this->sendpoints[] = $name;
 		}else{
-			$this->log->write('SendPoint '.$name.' cannot be added into points list. Probably it already present there.');
+			$error = new AError('SendPoint '.$name.' cannot be added into points list. Probably it already present there.');
+			$error->toLog()->toMessages();
 			return false;
 		}
 		return true;
 	}
 
-	public function send($sendpoint){
+	public function send($sendpoint, $text_vars = array()){
 		//check sendpoint
 		if(!in_array($sendpoint,array_keys($this->sendpoints))){
-			$this->log->write('IM error: sendpoint '.$sendpoint.' not found in preset of IM class. Nothing sent.');
+			$error = new AError('IM error: sendpoint '.$sendpoint.' not found in preset of IM class. Nothing sent.');
+			$error->toLog()->toMessages();
 			return false;
 		}
 		$sendpoint_info = $this->sendpoints[$sendpoint];
+		$this->load->model('account/customer');
+		$customer_im_settings = $this->getCustomerNotificationSettings();
 
 		foreach($this->protocols as $protocol){
-			$driver_txt_id = $this->config->get('config_'.$protocol.'_driver');
-
-			//if driver not set - skip protocol
-			if(!$driver_txt_id){
+			$driver = null;
+			//check is notification for this protocol and sendpoint allowed
+			if(!$customer_im_settings[$sendpoint][$protocol]){
 				continue;
 			}
-			try{
-				include_once(DIR_EXT . $driver_txt_id . '/core/lib/' . $driver_txt_id . '.php');
-			}catch(AException $e){}
+			//check protocol status
+			if($protocol=='email'){
+				//email notifications always enabled
+				$protocol_status = 1;
+			}elseif((int)$this->config->get('config_storefront_'.$protocol.'_status')
+					||
+					(int)$this->config->get('config_admin_'.$protocol.'_status')){
+				$protocol_status = 1;
+			}else{
+				$protocol_status = 0;
+			}
 
-			//if class of driver
-			$classname = preg_replace('/[^a-zA-Z]/','',$driver_txt_id);
-			if(!class_exists($classname)){
-				$error = new AError('IM-driver '.$driver_txt_id.' load error.');
-				$error->toLog()->toMessages();
+			if(!$protocol_status){
 				continue;
 			}
 
-			$driver = new $classname();
+			if($protocol=='email'){
+				$driver = new AMailIM();
+			}else{
+				$driver_txt_id = $this->config->get('config_' . $protocol . '_driver');
 
-			//for customer
+				//if driver not set - skip protocol
+				if (!$driver_txt_id){
+					continue;
+				}
+				//use safe include
+				try{
+					include_once(DIR_EXT . $driver_txt_id . '/core/lib/' . $driver_txt_id . '.php');
+					//if class of driver
+					$classname = preg_replace('/[^a-zA-Z]/', '', $driver_txt_id);
+					if (!class_exists($classname)){
+						$error = new AError('IM-driver ' . $driver_txt_id . ' load error.');
+						$error->toLog()->toMessages();
+						continue;
+					}
 
+					$driver = new $classname();
+				} catch(AException $e){}
+			}
+			//if driver cannot be initialized - skip protocol
+			if($driver===null){
+				continue;
+			}
 
-			if($this->config->get('config_storefront_'.$protocol.'_status')){
-				$text = $this->_get_message_text($sendpoint_info['sf']);
+			//send notification to customer
+			if($this->config->get('config_storefront_'.$protocol.'_status') || $protocol=='email'){
+				$text = $this->_get_message_text($sendpoint_info['sf'], $text_vars);
 				$to = $this->_get_customer_im_address($protocol);
 
 				if ($text && $to){
@@ -202,18 +229,16 @@ class AIM {
 				}
 			}
 
-			//for admins
-			if($this->config->get('config_admin_'.$protocol.'_status')){
-				$text = $this->_get_message_text($sendpoint_info['cp']);
+			//send notification to admins
+			if($this->config->get('config_admin_'.$protocol.'_status') || $protocol=='email'){
+				$text = $this->_get_message_text($sendpoint_info['cp'], $text_vars);
 				//NOTE! all admins will receipt IMs
-				$to = $this->_get_admin_im_addresses($protocol);
+				$to = $this->_get_admin_im_addresses($sendpoint, $protocol);
 				if ($text && $to){
-					foreach ($to as $admin_im){
-						//use safe call
-						try{
-							$driver->send($admin_im, $text);
-						}catch(AException $e){}
-					}
+					//use safe call
+					try{
+						$driver->sendFew($to, $text);
+					}catch(AException $e){}
 				}
 			}
 
@@ -221,32 +246,227 @@ class AIM {
 		}
 	}
 
-	private function _get_message_text($text_key){
+	private function getCustomerNotificationSettings(){
+		$settings = array();
+		$protocols = $this->protocols;
+		//todo: in the future should to create separate configurable sendpoints list for guests
+		$sendpoints = $this->sendpoints;
+		if($this->customer->isLogged()){
+			$settings = $this->model_account_customer->getCustomerNotificationSettings();
+		}
+		//for guests before order creation
+		elseif($this->session->data['guest']){
+			//get im settings for guest
+			$guest_data = $this->session->data['guest'];
+
+			foreach($sendpoints as $sendpoint=>$row){
+				foreach($protocols as $protocol){
+					if( $guest_data[$protocol] ){
+						$settings[$sendpoint][$protocol] = (int)$this->config->get('config_im_guest_' . $protocol . '_status');
+					}
+				}
+			}
+		}//for guests after order placement
+		elseif($this->session->data['order_id']){
+
+			$p = array();
+			foreach($protocols as $protocol){
+				$p[] = $this->db->escape($protocol);
+			}
+
+			$sql = "SELECT DISTINCT odt.`type_id`, odt.`name` as protocol, od.data
+					FROM ".$this->db->table('order_data_types')." odt
+					LEFT JOIN ".$this->db->table('order_data')." od
+						ON (od.type_id = odt.type_id AND od.order_id = '".(int)$this->session->data['order_id']."')
+					WHERE odt.`name` IN ('".implode("', '",$p)."')";
+			$result = $this->db->query($sql);
+
+			if($result->rows){
+				foreach ($result->rows as $row){
+					$guest_data = unserialize($row['data']);
+					foreach ($sendpoints as $sendpoint => $r){
+						$settings[$sendpoint][$row['protocol']] = (int)$guest_data['status'];
+					}
+				}
+			}
+		}
+
+		return $settings;
+	}
+
+	private function _get_message_text($text_key, $text_vars){
 		$text = $this->language->get($text_key);
 		//check is text_key have value. If does not - skip sending
 		if($text == $text_key){
 			return '';
 		}
+		//put text vars into language definitions (replace %s with given vars)
+		//check %s inside of text and compare it with text vars count to prevent error in vsprintf function below
+		$s_num = substr_count($text, '%s');
+		$text_var_count = sizeof($text_vars);
+		if($s_num != $text_var_count){
+			$diff = $s_num - $text_var_count;
+			if($diff>0){
+				while($diff>0){
+					$text_vars[] = '';
+					$diff--;
+				}
+			}else{
+				while($diff<0){
+					array_pop($text_vars);
+					$diff++;
+				}
+			}
+		}
+
+		$text = vsprintf($text,$text_vars);
+
 		//process formatted url like #storefront#rt=...
 		$text = $this->html->convertLinks($text);
 		return $text;
 	}
 
+	/**
+	 * @param string $protocol
+	 * @return string
+	 */
 	private function _get_customer_im_address($protocol){
-		if(!(int)$this->customer->getId()){
-			return array();
-		}
-		$sql = "SELECT * FROM ".$this->db->table('customers')." WHERE customer_id=".(int)$this->customer->getId();
 
-		$customer_info = $this->db->query($sql, true);
-		return $customer_info->row[$protocol];
+		$customer_id = (int)$this->customer->getId();
+		//for registered customers - get adress from database
+		if($customer_id){
+			$sql = "SELECT *
+					FROM ".$this->db->table('customers')."
+					WHERE customer_id=".(int)$this->customer->getId();
+			$customer_info = $this->db->query($sql, true);
+			return $customer_info->row[$protocol];
+		}elseif($this->session->data['order_id']){
+			//if guests - get im-data from order_data tables
+
+			$sql = "SELECT *
+					FROM ".$this->db->table('order_data')." od
+					WHERE `type_id` in ( SELECT DISTINCT type_id
+										 FROM ".$this->db->table('order_data_types')."
+										 WHERE `name`='".$this->db->escape($protocol)."' )
+						AND order_id = '".(int)$this->session->data['order_id']."'";
+			$result = $this->db->query($sql);
+
+			if($result->row['data']){
+				$im_info = unserialize($result->row['data']);
+				if($im_info['status'] && $im_info['uri']){
+					return $im_info['uri'];
+				}
+			}
+			return '';
+		}
+		//when guest checkout - take uri from session
+		elseif($this->session->data['guest'][$protocol]){
+			return $this->session->data['guest'][$protocol];
+		}
+
 	}
 
 
 //todo
-	private function _get_admin_im_addresses($protocol){
+	private function _get_admin_im_addresses($sendpoint, $protocol){
+		$output = array();
+		$sql = "SELECT *
+				FROM ".$this->db->table('user_notifications')."
+				WHERE protocol='".$this->db->escape($protocol)."'
+					AND sendpoint = '".$this->db->escape($sendpoint)."'
+					AND store_id = '".(int)$this->config->get('config_store_id')."'";
+		$result = $this->db->query($sql);
+		foreach($result->rows as $row){
+			$uri = trim($row['uri']);
+			if($uri){
+				$output[] = $uri;
+			}
+		}
 
-		return array();
+		return $output;
 	}
 
+
+
+}
+
+
+//email driver for notification class use
+final class AMailIM{
+	public $errors = array();
+	private $registry;
+	private $config;
+	private $language;
+	public function __construct(){
+		$this->registry = Registry::getInstance();
+		$this->language = $this->registry->get('language');
+		$this->language->load('common/im');
+		$this->config = $this->registry->get('config');
+	}
+
+	public function getProtocol(){
+		return 'email';
+	}
+
+	public function getProtocolTitle(){
+		return $this->language->get('im_protocol_email_title') ;
+	}
+
+	public function getName(){
+		return 'Email';
+	}
+
+	public function send($to, $text){
+
+		$to = trim($to);
+		$text = trim($text);
+		if(!$to || !$text){
+			return false;
+		}
+
+		$mail = new AMail($this->config);
+		$mail->setTo($to);
+		$mail->setFrom($this->config->get('store_main_email'));
+		$mail->setSender($this->config->get('store_name'));
+		$mail->setSubject($this->config->get('store_name').' '.$this->language->get('im_text_notification'));
+		$mail->setHtml($text);
+		$mail->setText($text);
+		$mail->send();
+		unset($mail);
+
+	}
+
+	/**
+	 * @param array $to
+	 * @param $text
+	 */
+	public function sendFew($to, $text){
+		foreach($to as $uri){
+			$this->send($uri, $text);
+		}
+	}
+
+	public function validateURI($email){
+		$this->errors = array();
+		if((mb_strlen($email) > 96) || (!preg_match(EMAIL_REGEX_PATTERN, $email))){
+			$this->errors[] = sprintf($this->language->get('im_error_mail_address'),$email);
+		}
+
+		if($this->errors){
+			return false;
+		}else{
+			return true;
+		}
+	}
+
+	/**
+	 * Function builds form element for storefront side (customer account page)
+	 *
+	 * @param AForm $form
+	 * @param string $value
+	 * @return object
+	 */
+	public function getURIField($form, $value=''){
+		return '';
+	}
 }

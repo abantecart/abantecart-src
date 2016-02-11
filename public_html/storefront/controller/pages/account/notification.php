@@ -71,7 +71,7 @@ class ControllerPagesAccountNotification extends AController {
                     'action' => $this->html->getSecureURL('account/notification') ));
 
 		$protocols = $this->im->getProtocols();
-		$im_drivers = $this->im->getIMDrivers('objects','active');
+		$im_drivers = $this->im->getIMDriverObjects();
 		//build protocol list
 		foreach($protocols as $name){
 			$this->data['protocols'][$name] = array( 'name' => $name );

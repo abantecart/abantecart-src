@@ -98,7 +98,8 @@ class AIMManager extends AIM {
 		if(!$settings){
 			return null;
 		}
-		$drivers = $this->getIMDrivers('objects');
+		//get all installed drivers
+		$drivers = $this->getIMDriverObjects(array('status'=>''));
 		$supported_protocols = array_keys($drivers);
 		foreach($settings as $protocol=> $uri){
 
@@ -149,5 +150,31 @@ class AIMManager extends AIM {
 
 		return true;
 	}
+
+	public function getIMDriversList(){
+		$filter = array(
+				'category' => 'IM-drivers'
+				);
+		$extensions = $this->extensions->getExtensionsList( $filter );
+		$driver_list = array();
+		foreach($extensions->rows as $ext){
+			$driver_txt_id = $ext['key'];
+			//NOTE! all IM drivers MUST have class by these path
+			try{
+				include_once(DIR_EXT . $driver_txt_id . '/core/lib/' . $driver_txt_id . '.php');
+			}catch(AException $e){}
+			$classname = preg_replace('/[^a-zA-Z]/','',$driver_txt_id);
+
+			if(!class_exists($classname)){
+				continue;
+			}
+
+			$driver = new $classname();
+			$driver_list[$driver->getProtocol()][$driver_txt_id] = $driver->getName();
+		}
+		return $driver_list;
+	}
+
+
 
 }

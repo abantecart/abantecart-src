@@ -1056,7 +1056,7 @@ class AConfigManager {
 		$fields = array();
 
 		$protocols = $this->im->getProtocols();
-		$im_drivers = $this->im->getIMDrivers();
+		$im_drivers = $this->im->getIMDriversList();
 
 
 		foreach($protocols as $protocol){

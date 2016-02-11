@@ -203,6 +203,14 @@ class AOrder {
 			$order_info['telephone'] = $indata['guest']['telephone'];
 			$order_info['fax'] = $indata['guest']['fax'];
 
+			//IM addresses
+			$protocols = $this->im->getProtocols();
+			foreach($protocols as $protocol){
+				if(has_value($indata['guest'][$protocol]) && !has_value($order_info[$protocol])){
+					$order_info[$protocol] = $indata['guest'][$protocol];
+				}
+			}
+
 			if ($this->cart->hasShipping()) {
 				if (isset($indata['guest']['shipping'])) {
 					$order_info['shipping_firstname'] = $indata['guest']['shipping']['firstname'];

@@ -1,6 +1,14 @@
 <?xml version="1.0"?>
 <definitions>
 	<definition>
+		<key>im_text_notification</key>
+		<value><![CDATA[ Notification ]]></value>
+	</definition>
+	<definition>
+		<key>im_error_mail_address</key>
+		<value><![CDATA[ Email Address %s is not valid! ]]></value>
+	</definition>
+	<definition>
 		<key>im_protocol_email_title</key>
 		<value><![CDATA[ E-mail ]]></value>
 	</definition>
@@ -24,21 +32,16 @@
 		<key>im_sendpoint_name_product_notifications</key>
 		<value><![CDATA[ Product notifications ]]></value>
 	</definition>
-
-	<definition>
-		<key>im_order_created_text_to_customer</key>
-		<value><![CDATA[ Thank you for your order! ]]></value>
-	</definition>
-	<definition>
-		<key>im_order_created_text_to_admin</key>
-		<value><![CDATA[ New order created! ]]></value>
-	</definition>
 	<definition>
 		<key>im_order_updates_text_to_customer</key>
-		<value><![CDATA[ Your order %s Updated! ]]></value>
+		<value><![CDATA[ Your order #%s Updated. New Order Status is %s ]]></value>
 	</definition>
 	<definition>
 		<key>im_order_updates_text_to_admin</key>
-		<value><![CDATA[ Your order %s Updated! ]]></value>
+		<value><![CDATA[ Order #%s has been updated. ]]></value>
+	</definition>
+	<definition>
+		<key>im_account_updates_text_to_customer</key>
+		<value><![CDATA[ Your account recently updated! ]]></value>
 	</definition>
 </definitions>

@@ -1153,6 +1153,11 @@ CREATE TABLE `ac_order_data_types` (
   PRIMARY KEY (`type_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
 
+-- write preinstalled IM protocols for guest checkout orders
+INSERT INTO `ac_order_data_types` (`language_id`, `name`, `date_added`) VALUES
+(1, 'email', NOW()),
+(1, 'sms', NOW());
+
 
 --
 -- DDL for table `order_history`
@@ -1678,7 +1683,11 @@ INSERT INTO `ac_settings` (`group`, `key`, `value`) VALUES
 ('mail', 'config_smtp_port', '25'),
 ('mail', 'config_smtp_timeout', '5'),
 ('mail', 'config_alert_mail', '0'),
-('mail', 'config_alert_emails', ''),
+
+
+-- im
+('im', 'config_im_guest_email_status', '1'),
+('im', 'config_im_guest_sms_status', '1'),
 
 -- system
 ('system','config_session_ttl',120),

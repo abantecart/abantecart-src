@@ -21,8 +21,8 @@
 		<value><![CDATA[My Orders]]></value>
 	</definition>
 	<definition>
-		<key>text_my_newsletter</key>
-		<value><![CDATA[Newsletter]]></value>
+		<key>text_my_notifications</key>
+		<value><![CDATA[Notifications]]></value>
 	</definition>
 	<definition>
 		<key>text_information</key>

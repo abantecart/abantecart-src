@@ -196,11 +196,11 @@ class ControllerPagesAccountCreate extends AController{
 						'required' => false));
 
 		//get only active IM drivers
-		$im_drivers = $this->im->getIMDrivers('objects', 'active');
+		$im_drivers = $this->im->getIMDriverObjects();
 
 		if ($im_drivers){
 			foreach ($im_drivers as $protocol => $driver_obj){
-				if (!is_object($driver_obj)){
+				if (!is_object($driver_obj) || $protocol=='email'){
 					continue;
 				}
 				$fld = $driver_obj->getURIField($form, $this->request->post[$protocol]);

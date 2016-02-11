@@ -34,6 +34,14 @@ CREATE TABLE `ac_customer_notifications` (
   PRIMARY KEY (`customer_id`,`sendpoint`,`protocol`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
+INSERT INTO `ac_order_data_types` (`language_id`, `name`, `date_added`) VALUES
+(1, 'email', NOW()),
+(1, 'sms', NOW());
+
+INSERT INTO `ac_settings` (`group`, `key`, `value`) VALUES
+('im', 'config_im_guest_email_status', '1'),
+('im', 'config_im_guest_sms_status', '1');
+
 
 ALTER TABLE `ac_orders`
 DROP INDEX `ac_orders_idx` ,
