@@ -3855,6 +3855,34 @@ paypal pro styles
 /* END @media (max-width: 760px) */
 
 @media only screen and (min-width: 480px) and (max-width: 767px) {
+	.header-logo {
+		background: none;
+		width: auto;
+		height: auto;	
+		line-height: normal;
+		text-align: left;
+	}
+	.logo img {
+		background: white;
+		padding: 5px;
+	}
+
+	.headerstrip_blocks .block_4 {
+		float: left;
+	}
+	.headerdetails {
+		padding-top: 10px;
+	}
+	.headerdetails .block_8 {
+		float: left;
+	}
+	.heading1 .maintext, .heading2 {
+		font-size: 20px;
+	}
+
+	#product_details .thumbnail img {
+		max-width: 300px !important;
+	}
 
 	.payment_icon img{
 		max-width: 350px;
