@@ -57,6 +57,8 @@ final class MySQL {
 		mysql_query("SET CHARACTER_SET_CONNECTION=utf8", $connection);
 		mysql_query("SET SQL_MODE = ''", $connection);
 		mysql_query("SET session wait_timeout=60;", $connection);
+		mysql_query("SET SESSION SQL_BIG_SELECTS=1;", $connection);
+
 
         $this->registry = Registry::getInstance();
 		$this->connection = $connection;

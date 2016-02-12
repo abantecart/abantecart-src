@@ -26,6 +26,8 @@ final class APDOMySQL{
 		$this->connection->exec("SET CHARACTER SET utf8");
 		$this->connection->exec("SET CHARACTER_SET_CONNECTION=utf8");
 		$this->connection->exec("SET SQL_MODE = ''");
+		$this->connection->exec("SET session wait_timeout=60;");
+		$this->connection->exec("SET SESSION SQL_BIG_SELECTS=1;");
 
 	}
 

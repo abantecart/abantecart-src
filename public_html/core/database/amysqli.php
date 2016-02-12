@@ -53,6 +53,7 @@ final class AMySQLi {
 	    $connection->query("SET CHARACTER_SET_CONNECTION=utf8");
 	    $connection->query("SET SQL_MODE = ''");
 	    $connection->query("SET session wait_timeout=60;");
+	    $connection->query("SET SESSION SQL_BIG_SELECTS=1;");
 
         $this->registry = Registry::getInstance();
 		$this->connection = $connection;
