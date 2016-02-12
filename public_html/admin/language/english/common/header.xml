@@ -454,5 +454,8 @@
 		<key>text_today_reviews</key>
 		<value><![CDATA[New Reviews Today]]></value>
 	</definition>
-
+	<definition>
+		<key>text_rl_manager</key>
+		<value><![CDATA[Resource Library Manager]]></value>
+	</definition>
 </definitions>
