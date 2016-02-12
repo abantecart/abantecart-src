@@ -13,15 +13,16 @@ ADD COLUMN `sms` VARCHAR(32) NULL AFTER `fax`;
 
 DROP TABLE IF EXISTS `ac_user_notifications`;
 CREATE TABLE `ac_user_notifications` (
-  `user_id` INT(11) NOT NULL,
-  `store_id` INT(11) NOT NULL,
-  `sendpoint` VARCHAR(255) NOT NULL,
-  `protocol` VARCHAR(30) NOT NULL,
-  `uri` TEXT NOT NULL,
-  `date_added` TIMESTAMP NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `date_modified` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`user_id`, `store_id`, `sendpoint`, `protocol`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+  `user_id` int(11) NOT NULL,
+  `store_id` int(11) NOT NULL,
+  `section` tinyint(1) NOT NULL COMMENT '1 - admin, 0 - storefront',
+  `sendpoint` varchar(255) NOT NULL,
+  `protocol` varchar(30) NOT NULL,
+  `uri` text NOT NULL,
+  `date_added` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `date_modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`user_id`,`store_id`,`section`,`sendpoint`,`protocol`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 DROP TABLE IF EXISTS `ac_customer_notifications`;
 CREATE TABLE `ac_customer_notifications` (
@@ -39,8 +40,10 @@ INSERT INTO `ac_order_data_types` (`language_id`, `name`, `date_added`) VALUES
 (1, 'sms', NOW());
 
 INSERT INTO `ac_settings` (`group`, `key`, `value`) VALUES
-('im', 'config_im_guest_email_status', '1'),
-('im', 'config_im_guest_sms_status', '1');
+  ('im', 'config_storefront_email_status', '1'),
+  ('im', 'config_admin_email_status', '1'),
+  ('im', 'config_im_guest_email_status', '1'),
+  ('im', 'config_im_guest_sms_status', '1');
 
 
 ALTER TABLE `ac_orders`

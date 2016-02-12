@@ -298,336 +298,349 @@ class ModelCheckoutOrder extends Model {
 	 * @param int $order_id
 	 * @param int $order_status_id
 	 * @param string $comment
+	 * @return bool
 	 */
 	public function _confirm($order_id, $order_status_id, $comment = '') {
 		$order_query = $this->db->query("SELECT *,
 												l.filename AS filename,
 												l.directory AS directory
 										 FROM `" . $this->db->table("orders") . "` o
-										 LEFT JOIN " . $this->db->table("languages") . " l ON (o.language_id = l.language_id)
+										 LEFT JOIN " . $this->db->table("languages") . " l
+										    ON (o.language_id = l.language_id)
 										 WHERE o.order_id = '" . (int)$order_id . "'
 										        AND o.order_status_id = '0'");
+		if (!$order_query->num_rows) {
+			return false;
+		}
+		$order_row = $this->dcrypt->decrypt_data($order_query->row, 'orders');
+		$update = array();
 
-		if ($order_query->num_rows) {
-			$order_row = $this->dcrypt->decrypt_data($order_query->row, 'orders');
-			$update = array();
+		//update order status
+		$update[] = "order_status_id = '" . (int)$order_status_id . "'";
+		$sql = "UPDATE `" . $this->db->table("orders") . "`
+			    SET " . implode(", ", $update) . "
+				WHERE order_id = '" . (int)$order_id . "'";
+		$this->db->query($sql);
 
-			//update order status
-			$update[] = "order_status_id = '" . (int)$order_status_id . "'";
-			$sql = "UPDATE `" . $this->db->table("orders") . "`
-				    SET " . implode(", ", $update) . "
-					WHERE order_id = '" . (int)$order_id . "'";
-			$this->db->query($sql);
+		//record history
+		$this->db->query("INSERT INTO " . $this->db->table("order_history") . "
+						   SET order_id = '" . (int)$order_id . "',
+						        order_status_id = '" . (int)$order_status_id . "',
+						        notify = '1',
+						        comment = '" . $this->db->escape($comment) . "',
+						        date_added = NOW()");
+		$order_row['comment'] = $order_row['comment'] .' '. $comment;
 
-			//record history
-			$this->db->query("INSERT INTO " . $this->db->table("order_history") . "
-							   SET order_id = '" . (int)$order_id . "',
-							        order_status_id = '" . (int)$order_status_id . "',
-							        notify = '1',
-							        comment = '" . $this->db->escape($comment) . "',
-							        date_added = NOW()");
-			$order_row['comment'] = $order_row['comment'] .' '. $comment;
+		$order_product_query = $this->db->query("SELECT *
+												 FROM " . $this->db->table("order_products") . "
+												 WHERE order_id = '" . (int)$order_id . "'");
+		//update products inventory
+		foreach ($order_product_query->rows as $product) {
+			$this->db->query("UPDATE " . $this->db->table("products") . "
+							  SET quantity = (quantity - " . (int)$product['quantity'] . ")
+							  WHERE product_id = '" . (int)$product['product_id'] . "' AND subtract = 1");
 
-			$order_product_query = $this->db->query("SELECT *
-													 FROM " . $this->db->table("order_products") . "
-													 WHERE order_id = '" . (int)$order_id . "'");
-			//update products inventory
-			foreach ($order_product_query->rows as $product) {
-				$this->db->query("UPDATE " . $this->db->table("products") . "
-									  SET quantity = (quantity - " . (int)$product['quantity'] . ")
-									  WHERE product_id = '" . (int)$product['product_id'] . "' AND subtract = 1");
-
-				$order_option_query = $this->db->query("SELECT *
-														FROM " . $this->db->table("order_options") . "
-														WHERE order_id = '" . (int)$order_id . "'
-																AND order_product_id = '" . (int)$product['order_product_id'] . "'");
-
-				foreach ($order_option_query->rows as $option) {
-					$this->db->query("UPDATE " . $this->db->table("product_option_values") . "
-									  SET quantity = (quantity - " . (int)$product['quantity'] . ")
-									  WHERE product_option_value_id = '" . (int)$option['product_option_value_id'] . "'
-									        AND subtract = 1");
-				}
-
-				$this->cache->delete('product');
-
+			//check quantity and send notification when 0 or less
+			$sql = "SELECT quantity
+			        FROM " . $this->db->table("products") . "
+					WHERE product_id = '" . (int)$product['product_id'] . "' AND subtract = 1";
+			$res = $this->db->query($sql);
+			if($res->row['quantity']<=0){
+				$this->im->send('product_out_of_stock',array('product_id' => (int)$product['product_id']));
 			}
-			//build confirmation email 
-			$language = new ALanguage($this->registry, $order_row['code']);
-			$language->load($order_row['filename']);
-			$language->load('mail/order_confirm');
 
-			$this->load->model('localisation/currency');
-			$order_status_query = $this->db->query("SELECT *
-													FROM " . $this->db->table("order_statuses") . "
-													WHERE order_status_id = '" . (int)$order_status_id . "'
-															AND language_id = '" . (int)$order_row['language_id'] . "'");
-			$order_product_query = $this->db->query("SELECT *
-													FROM " . $this->db->table("order_products") . "
-													WHERE order_id = '" . (int)$order_id . "'");
-			$order_total_query = $this->db->query("SELECT *
-													FROM " . $this->db->table("order_totals") . "
+			$order_option_query = $this->db->query("SELECT *
+													FROM " . $this->db->table("order_options") . "
 													WHERE order_id = '" . (int)$order_id . "'
-													ORDER BY sort_order ASC");
-			$order_download_query = $this->db->query("SELECT *
-														FROM " . $this->db->table("order_downloads") . "
-														WHERE order_id = '" . (int)$order_id . "'");
+															AND order_product_id = '" . (int)$product['order_product_id'] . "'");
 
-			$subject = sprintf($language->get('text_subject'), $order_row['store_name'], $order_id);
+			foreach ($order_option_query->rows as $option) {
+				$this->db->query("UPDATE " . $this->db->table("product_option_values") . "
+								  SET quantity = (quantity - " . (int)$product['quantity'] . ")
+								  WHERE product_option_value_id = '" . (int)$option['product_option_value_id'] . "'
+								        AND subtract = 1");
+			}
 
-			// HTML Mail
-			$template = new ATemplate();
+			$this->cache->delete('product');
 
-			$template->data['title'] = sprintf($language->get('text_subject'), html_entity_decode($order_row['store_name'], ENT_QUOTES, 'UTF-8'), $order_id);
+		}
+		//build confirmation email
+		$language = new ALanguage($this->registry, $order_row['code']);
+		$language->load($order_row['filename']);
+		$language->load('mail/order_confirm');
 
-			$template->data['text_greeting'] = sprintf($language->get('text_greeting'), html_entity_decode($order_row['store_name'], ENT_QUOTES, 'UTF-8'));
-			$template->data['text_order_detail'] = $language->get('text_order_detail');
-			$template->data['text_order_id'] = $language->get('text_order_id');
-			$template->data['text_invoice'] = $language->get('text_invoice');
-			$template->data['text_date_added'] = $language->get('text_date_added');
-			$template->data['text_telephone'] = $language->get('text_telephone');
-			$template->data['text_email'] = $language->get('text_email');
-			$template->data['text_ip'] = $language->get('text_ip');
-			$template->data['text_fax'] = $language->get('text_fax');
-			$template->data['text_shipping_address'] = $language->get('text_shipping_address');
-			$template->data['text_payment_address'] = $language->get('text_payment_address');
-			$template->data['text_shipping_method'] = $language->get('text_shipping_method');
-			$template->data['text_payment_method'] = $language->get('text_payment_method');
-			$template->data['text_comment'] = $language->get('text_comment');
-			$template->data['text_powered_by'] = $language->get('text_powered_by');
-			$template->data['text_project_label'] = $language->get('text_powered_by')  . ' ' .  project_base();
+		$this->load->model('localisation/currency');
+		$order_status_query = $this->db->query("SELECT *
+												FROM " . $this->db->table("order_statuses") . "
+												WHERE order_status_id = '" . (int)$order_status_id . "'
+														AND language_id = '" . (int)$order_row['language_id'] . "'");
+		$order_product_query = $this->db->query("SELECT *
+												FROM " . $this->db->table("order_products") . "
+												WHERE order_id = '" . (int)$order_id . "'");
+		$order_total_query = $this->db->query("SELECT *
+												FROM " . $this->db->table("order_totals") . "
+												WHERE order_id = '" . (int)$order_id . "'
+												ORDER BY sort_order ASC");
+		$order_download_query = $this->db->query("SELECT *
+													FROM " . $this->db->table("order_downloads") . "
+													WHERE order_id = '" . (int)$order_id . "'");
 
-			$template->data['column_product'] = $language->get('column_product');
-			$template->data['column_model'] = $language->get('column_model');
-			$template->data['column_quantity'] = $language->get('column_quantity');
-			$template->data['column_price'] = $language->get('column_price');
-			$template->data['column_total'] = $language->get('column_total');
+		$subject = sprintf($language->get('text_subject'), $order_row['store_name'], $order_id);
 
-			$template->data['order_id'] = $order_id;
-			$template->data['customer_id'] = $order_row['customer_id'];
-			$template->data['date_added'] = dateISO2Display($order_row['date_added'],$language->get('date_format_short'));
-			$template->data['logo'] = 'cid:' . md5(pathinfo($this->config->get('config_logo'), PATHINFO_FILENAME)) . '.' . pathinfo($this->config->get('config_logo'), PATHINFO_EXTENSION);
-			$template->data['store_name'] = $order_row['store_name'];
-			$template->data['address'] = nl2br($this->config->get('config_address'));
-			$template->data['telephone'] = $this->config->get('config_telephone');
-			$template->data['fax'] = $this->config->get('config_fax');
-			$template->data['email'] = $this->config->get('store_main_email');
-			$template->data['store_url'] = $order_row['store_url'];
+		// HTML Mail
+		$template = new ATemplate();
 
-			//give link on order page for quest
-			$order_token = '';
-			if($this->config->get('config_guest_checkout') && $order_row['email']){
-				$order_token = AEncryption::mcrypt_encode($order_id.'~~~'.$order_row['email']);
-				if($order_token){
-					$template->data['invoice'] = $order_row['store_url'] . 'index.php?rt=account/invoice&ot=' . $order_token . "\n\n";
+		$template->data['title'] = sprintf($language->get('text_subject'), html_entity_decode($order_row['store_name'], ENT_QUOTES, 'UTF-8'), $order_id);
+
+		$template->data['text_greeting'] = sprintf($language->get('text_greeting'), html_entity_decode($order_row['store_name'], ENT_QUOTES, 'UTF-8'));
+		$template->data['text_order_detail'] = $language->get('text_order_detail');
+		$template->data['text_order_id'] = $language->get('text_order_id');
+		$template->data['text_invoice'] = $language->get('text_invoice');
+		$template->data['text_date_added'] = $language->get('text_date_added');
+		$template->data['text_telephone'] = $language->get('text_telephone');
+		$template->data['text_email'] = $language->get('text_email');
+		$template->data['text_ip'] = $language->get('text_ip');
+		$template->data['text_fax'] = $language->get('text_fax');
+		$template->data['text_shipping_address'] = $language->get('text_shipping_address');
+		$template->data['text_payment_address'] = $language->get('text_payment_address');
+		$template->data['text_shipping_method'] = $language->get('text_shipping_method');
+		$template->data['text_payment_method'] = $language->get('text_payment_method');
+		$template->data['text_comment'] = $language->get('text_comment');
+		$template->data['text_powered_by'] = $language->get('text_powered_by');
+		$template->data['text_project_label'] = $language->get('text_powered_by')  . ' ' .  project_base();
+
+		$template->data['column_product'] = $language->get('column_product');
+		$template->data['column_model'] = $language->get('column_model');
+		$template->data['column_quantity'] = $language->get('column_quantity');
+		$template->data['column_price'] = $language->get('column_price');
+		$template->data['column_total'] = $language->get('column_total');
+
+		$template->data['order_id'] = $order_id;
+		$template->data['customer_id'] = $order_row['customer_id'];
+		$template->data['date_added'] = dateISO2Display($order_row['date_added'],$language->get('date_format_short'));
+		$template->data['logo'] = 'cid:' . md5(pathinfo($this->config->get('config_logo'), PATHINFO_FILENAME)) . '.' . pathinfo($this->config->get('config_logo'), PATHINFO_EXTENSION);
+		$template->data['store_name'] = $order_row['store_name'];
+		$template->data['address'] = nl2br($this->config->get('config_address'));
+		$template->data['telephone'] = $this->config->get('config_telephone');
+		$template->data['fax'] = $this->config->get('config_fax');
+		$template->data['email'] = $this->config->get('store_main_email');
+		$template->data['store_url'] = $order_row['store_url'];
+
+		//give link on order page for quest
+		$order_token = '';
+		if($this->config->get('config_guest_checkout') && $order_row['email']){
+			$order_token = AEncryption::mcrypt_encode($order_id.'~~~'.$order_row['email']);
+			if($order_token){
+				$template->data['invoice'] = $order_row['store_url'] . 'index.php?rt=account/invoice&ot=' . $order_token . "\n\n";
+			}
+		}//give link on order for registered customers
+		elseif($order_row['customer_id']){
+			$template->data['invoice'] = $order_row['store_url'] . 'index.php?rt=account/invoice&order_id=' . $order_id;
+		}
+
+		$template->data['firstname'] = $order_row['firstname'];
+		$template->data['lastname'] = $order_row['lastname'];
+		$template->data['shipping_method'] = $order_row['shipping_method'];
+		$template->data['payment_method'] = $order_row['payment_method'];
+		$template->data['customer_email'] = $order_row['email'];
+		$template->data['customer_telephone'] = $order_row['telephone'];
+		$template->data['customer_ip'] = $order_row['ip'];
+		$template->data['comment'] = trim(nl2br($order_row['comment']));
+
+		//override with the data from the before hooks
+		if ($this->data){
+			$template->data = array_merge($template->data,$this->data);
+		}
+
+		$this->load->model('localisation/zone');
+		$zone_row = $this->model_localisation_zone->getZone($order_row['shipping_zone_id']);
+		if ( $zone_row ) {
+			$zone_code = $zone_row['code'];
+		} else {
+			$zone_code = '';
+		}
+
+		$shipping_data = array(
+			'firstname' => $order_row['shipping_firstname'],
+			'lastname' => $order_row['shipping_lastname'],
+			'company' => $order_row['shipping_company'],
+			'address_1' => $order_row['shipping_address_1'],
+			'address_2' => $order_row['shipping_address_2'],
+			'city' => $order_row['shipping_city'],
+			'postcode' => $order_row['shipping_postcode'],
+			'zone' => $order_row['shipping_zone'],
+			'zone_code' => $zone_code,
+			'country' => $order_row['shipping_country']
+		);
+
+		$template->data['shipping_address'] = $this->customer->getFormatedAdress($shipping_data, $order_row['shipping_address_format']);
+		$zone_row = $this->model_localisation_zone->getZone($order_row['payment_zone_id']);
+		if ( $zone_row ) {
+			$zone_code = $zone_row['code'];
+		} else {
+			$zone_code = '';
+		}
+
+		$payment_data = array(
+			'firstname' => $order_row['payment_firstname'],
+			'lastname' => $order_row['payment_lastname'],
+			'company' => $order_row['payment_company'],
+			'address_1' => $order_row['payment_address_1'],
+			'address_2' => $order_row['payment_address_2'],
+			'city' => $order_row['payment_city'],
+			'postcode' => $order_row['payment_postcode'],
+			'zone' => $order_row['payment_zone'],
+			'zone_code' => $zone_code,
+			'country' => $order_row['payment_country']
+		);
+
+		$template->data['payment_address'] = $this->customer->getFormatedAdress($payment_data, $order_row['payment_address_format']);
+
+		if ( !has_value($this->data['products']) ) {
+			$this->data['products'] = array();
+		}
+
+		foreach ($order_product_query->rows as $product) {
+			$option_data = array();
+
+			$order_option_query = $this->db->query(
+					"SELECT oo.*, po.element_type
+					FROM " . $this->db->table("order_options") . " oo
+					LEFT JOIN " . $this->db->table("product_option_values") . " pov
+						ON pov.product_option_value_id = oo.product_option_value_id
+					LEFT JOIN " . $this->db->table("product_options") . " po
+						ON po.product_option_id = pov.product_option_id
+					WHERE oo.order_id = '" . (int)$order_id . "' AND oo.order_product_id = '" . (int)$product['order_product_id'] . "'");
+
+			foreach ($order_option_query->rows as $option) {
+				if($option['element_type']=='H'){ continue; } //skip hidden options
+				elseif($option['element_type']=='C' && in_array($option['value'], array(0,1,''))){
+					$option['value'] = '';
 				}
-			}//give link on order for registered customers
-			elseif($order_row['customer_id']){
-				$template->data['invoice'] = $order_row['store_url'] . 'index.php?rt=account/invoice&order_id=' . $order_id;
-			}
-
-			$template->data['firstname'] = $order_row['firstname'];
-			$template->data['lastname'] = $order_row['lastname'];
-			$template->data['shipping_method'] = $order_row['shipping_method'];
-			$template->data['payment_method'] = $order_row['payment_method'];
-			$template->data['customer_email'] = $order_row['email'];
-			$template->data['customer_telephone'] = $order_row['telephone'];
-			$template->data['customer_ip'] = $order_row['ip'];
-			$template->data['comment'] = trim(nl2br($order_row['comment']));
-
-			//override with the data from the before hooks 
-			if ($this->data){
-				$template->data = array_merge($template->data,$this->data);
-			}
-
-			$this->load->model('localisation/zone');
-			$zone_row = $this->model_localisation_zone->getZone($order_row['shipping_zone_id']);
-			if ( $zone_row ) {
-				$zone_code = $zone_row['code'];
-			} else {
-				$zone_code = '';
-			}
-
-			$shipping_data = array(
-				'firstname' => $order_row['shipping_firstname'],
-				'lastname' => $order_row['shipping_lastname'],
-				'company' => $order_row['shipping_company'],
-				'address_1' => $order_row['shipping_address_1'],
-				'address_2' => $order_row['shipping_address_2'],
-				'city' => $order_row['shipping_city'],
-				'postcode' => $order_row['shipping_postcode'],
-				'zone' => $order_row['shipping_zone'],
-				'zone_code' => $zone_code,
-				'country' => $order_row['shipping_country']
-			);
-
-			$template->data['shipping_address'] = $this->customer->getFormatedAdress($shipping_data, $order_row['shipping_address_format']);
-			$zone_row = $this->model_localisation_zone->getZone($order_row['payment_zone_id']);
-			if ( $zone_row ) {
-				$zone_code = $zone_row['code'];
-			} else {
-				$zone_code = '';
-			}
-
-			$payment_data = array(
-				'firstname' => $order_row['payment_firstname'],
-				'lastname' => $order_row['payment_lastname'],
-				'company' => $order_row['payment_company'],
-				'address_1' => $order_row['payment_address_1'],
-				'address_2' => $order_row['payment_address_2'],
-				'city' => $order_row['payment_city'],
-				'postcode' => $order_row['payment_postcode'],
-				'zone' => $order_row['payment_zone'],
-				'zone_code' => $zone_code,
-				'country' => $order_row['payment_country']
-			);
-
-			$template->data['payment_address'] = $this->customer->getFormatedAdress($payment_data, $order_row['payment_address_format']);
-
-			if ( !has_value($this->data['products']) ) {
-				$this->data['products'] = array();
-			}
-
-			foreach ($order_product_query->rows as $product) {
-				$option_data = array();
-
-				$order_option_query = $this->db->query(
-						"SELECT oo.*, po.element_type
-						FROM " . $this->db->table("order_options") . " oo
-						LEFT JOIN " . $this->db->table("product_option_values") . " pov
-							ON pov.product_option_value_id = oo.product_option_value_id
-						LEFT JOIN " . $this->db->table("product_options") . " po
-							ON po.product_option_id = pov.product_option_id
-						WHERE oo.order_id = '" . (int)$order_id . "' AND oo.order_product_id = '" . (int)$product['order_product_id'] . "'");
-
-				foreach ($order_option_query->rows as $option) {
-					if($option['element_type']=='H'){ continue; } //skip hidden options
-					elseif($option['element_type']=='C' && in_array($option['value'], array(0,1,''))){
-						$option['value'] = '';
-					}
-					$option_data[] = array(
-						'name' => $option['name'],
-						'value' => $option['value']
-					);
-				}
-
-				$this->data['products'][] = array(
-					'name' => $product['name'],
-					'model' => $product['model'],
-					'option' => $option_data,
-					'quantity' => $product['quantity'],
-					'price' => $this->currency->format($product['price'], $order_row['currency'], $order_row['value']),
-					'total' => $this->currency->format($product['total'], $order_row['currency'], $order_row['value'])
+				$option_data[] = array(
+					'name' => $option['name'],
+					'value' => $option['value']
 				);
 			}
 
-			$template->data['products'] = $this->data['products'];
+			$this->data['products'][] = array(
+				'name' => $product['name'],
+				'model' => $product['model'],
+				'option' => $option_data,
+				'quantity' => $product['quantity'],
+				'price' => $this->currency->format($product['price'], $order_row['currency'], $order_row['value']),
+				'total' => $this->currency->format($product['total'], $order_row['currency'], $order_row['value'])
+			);
+		}
 
-			$template->data['totals'] = $order_total_query->rows;
+		$template->data['products'] = $this->data['products'];
+
+		$template->data['totals'] = $order_total_query->rows;
+
+		$html = $template->fetch('mail/order_confirm.tpl');
+
+		// Text Mail
+		$text = sprintf($language->get('text_greeting'), html_entity_decode($order_row['store_name'], ENT_QUOTES, 'UTF-8')) . "\n\n";
+		$text .= $language->get('text_order_id') . ' ' . $order_id . "\n";
+		$text .= $language->get('text_date_added') . ' ' . dateISO2Display($order_row['date_added'], $language->get('date_format_short')) . "\n";
+		$text .= $language->get('text_order_status') . ' ' . $order_status_query->row['name'] . "\n\n";
+		$text .= $language->get('text_product') . "\n";
+
+		foreach ($order_product_query->rows as $result) {
+			$text .= $result['quantity'] . 'x ' . $result['name'] . ' (' . $result['model'] . ') ' . html_entity_decode($this->currency->format($result['total'], $order_row['currency'], $order_row['value']), ENT_NOQUOTES, 'UTF-8') . "\n";
+			$order_option_query = $this->db->query("SELECT * FROM " . $this->db->table("order_options") . " WHERE order_id = '" . (int)$order_id . "' AND order_product_id = '" . $result['order_product_id'] . "'");
+			foreach ($order_option_query->rows as $option) {
+				$text .= chr(9) . '-' . $option['name'] . ' ' . $option['value'] . "\n";
+			}
+		}
+
+		$text .= "\n";
+
+		$text .= $language->get('text_total') . "\n";
+
+		foreach ($order_total_query->rows as $result) {
+			$text .= $result['title'] . ' ' . html_entity_decode($result['text'], ENT_NOQUOTES, 'UTF-8') . "\n";
+		}
+
+		$order_total = $result['text'];
+
+		$text .= "\n";
+
+		if ($order_row['customer_id']) {
+			$text .= $language->get('text_invoice') . "\n";
+			$text .= $order_row['store_url'] . 'index.php?rt=account/invoice&order_id=' . $order_id . "\n\n";
+		}
+		//give link on order page for quest
+		elseif($this->config->get('config_guest_checkout') && $order_row['email']){
+			if($order_token){
+				$text .= $language->get('text_invoice') . "\n";
+				$text .= $order_row['store_url'] . 'index.php?rt=account/invoice&ot=' . $order_token . "\n\n";
+			}
+		}
+
+		if ($order_download_query->num_rows) {
+			$text .= $language->get('text_download') . "\n";
+			$text .= $order_row['store_url'] . 'index.php?rt=account/download' . "\n\n";
+		}
+
+		if ($order_row['comment'] != '') {
+			$comment = ($order_row['comment'] . "\n\n" . $comment);
+		}
+
+		if ($comment) {
+			$text .= $language->get('text_comment') . "\n\n";
+			$text .= $comment . "\n\n";
+		}
+
+		$text .= $language->get('text_footer');
+
+		$mail = new AMail($this->config);
+		$mail->setTo($order_row['email']);
+		$mail->setFrom($this->config->get('store_main_email'));
+		$mail->setSender($order_row['store_name']);
+		$mail->setSubject($subject);
+		$mail->setHtml($html);
+		$mail->setText(html_entity_decode($text, ENT_QUOTES, 'UTF-8'));
+		$mail->addAttachment(DIR_RESOURCE . $this->config->get('config_logo'),
+				md5(pathinfo($this->config->get('config_logo'), PATHINFO_FILENAME)) . '.' . pathinfo($this->config->get('config_logo'), PATHINFO_EXTENSION));
+
+		$mail->send();
+
+		if ($this->config->get('config_alert_mail')) {
+
+			// HTML
+			$template->data['text_greeting'] = $language->get('text_received') . "\n\n";
+			$template->data['invoice'] = '';
+			$template->data['text_invoice'] = '';
 
 			$html = $template->fetch('mail/order_confirm.tpl');
 
-			// Text Mail
-			$text = sprintf($language->get('text_greeting'), html_entity_decode($order_row['store_name'], ENT_QUOTES, 'UTF-8')) . "\n\n";
-			$text .= $language->get('text_order_id') . ' ' . $order_id . "\n";
-			$text .= $language->get('text_date_added') . ' ' . dateISO2Display($order_row['date_added'], $language->get('date_format_short')) . "\n";
-			$text .= $language->get('text_order_status') . ' ' . $order_status_query->row['name'] . "\n\n";
-			$text .= $language->get('text_product') . "\n";
+			$subject = sprintf($language->get('text_subject'), html_entity_decode($this->config->get('store_name'), ENT_QUOTES, 'UTF-8'), $order_id . ' (' . $order_total . ')');
 
-			foreach ($order_product_query->rows as $result) {
-				$text .= $result['quantity'] . 'x ' . $result['name'] . ' (' . $result['model'] . ') ' . html_entity_decode($this->currency->format($result['total'], $order_row['currency'], $order_row['value']), ENT_NOQUOTES, 'UTF-8') . "\n";
-				$order_option_query = $this->db->query("SELECT * FROM " . $this->db->table("order_options") . " WHERE order_id = '" . (int)$order_id . "' AND order_product_id = '" . $result['order_product_id'] . "'");
-				foreach ($order_option_query->rows as $option) {
-					$text .= chr(9) . '-' . $option['name'] . ' ' . $option['value'] . "\n";
-				}
-			}
-
-			$text .= "\n";
-
-			$text .= $language->get('text_total') . "\n";
-
-			foreach ($order_total_query->rows as $result) {
-				$text .= $result['title'] . ' ' . html_entity_decode($result['text'], ENT_NOQUOTES, 'UTF-8') . "\n";
-			}
-
-			$order_total = $result['text'];
-
-			$text .= "\n";
-
-			if ($order_row['customer_id']) {
-				$text .= $language->get('text_invoice') . "\n";
-				$text .= $order_row['store_url'] . 'index.php?rt=account/invoice&order_id=' . $order_id . "\n\n";
-			}
-			//give link on order page for quest
-			elseif($this->config->get('config_guest_checkout') && $order_row['email']){
-				if($order_token){
-					$text .= $language->get('text_invoice') . "\n";
-					$text .= $order_row['store_url'] . 'index.php?rt=account/invoice&ot=' . $order_token . "\n\n";
-				}
-			}
-
-			if ($order_download_query->num_rows) {
-				$text .= $language->get('text_download') . "\n";
-				$text .= $order_row['store_url'] . 'index.php?rt=account/download' . "\n\n";
-			}
-
-			if ($order_row['comment'] != '') {
-				$comment = ($order_row['comment'] . "\n\n" . $comment);
-			}
-
-			if ($comment) {
-				$text .= $language->get('text_comment') . "\n\n";
-				$text .= $comment . "\n\n";
-			}
-
-			$text .= $language->get('text_footer');
-
-			$mail = new AMail($this->config);
-			$mail->setTo($order_row['email']);
-			$mail->setFrom($this->config->get('store_main_email'));
-			$mail->setSender($order_row['store_name']);
 			$mail->setSubject($subject);
+			$mail->setTo($this->config->get('store_main_email'));
 			$mail->setHtml($html);
-			$mail->setText(html_entity_decode($text, ENT_QUOTES, 'UTF-8'));
-			$mail->addAttachment(DIR_RESOURCE . $this->config->get('config_logo'),
-					md5(pathinfo($this->config->get('config_logo'), PATHINFO_FILENAME)) . '.' . pathinfo($this->config->get('config_logo'), PATHINFO_EXTENSION));
-
 			$mail->send();
 
-			if ($this->config->get('config_alert_mail')) {
-
-				// HTML
-				$template->data['text_greeting'] = $language->get('text_received') . "\n\n";
-				$template->data['invoice'] = '';
-				$template->data['text_invoice'] = '';
-
-				$html = $template->fetch('mail/order_confirm.tpl');
-
-				$subject = sprintf($language->get('text_subject'), html_entity_decode($this->config->get('store_name'), ENT_QUOTES, 'UTF-8'), $order_id . ' (' . $order_total . ')');
-
-				$mail->setSubject($subject);
-				$mail->setTo($this->config->get('store_main_email'));
-				$mail->setHtml($html);
-				$mail->send();
-
-				// Send to additional alert emails
-				$emails = explode(',', $this->config->get('config_alert_emails'));
-				foreach ($emails as $email) {
-					if (trim($email)) {
-						$mail->setTo($email);
-						$mail->send();
-					}
+			// Send to additional alert emails
+			$emails = explode(',', $this->config->get('config_alert_emails'));
+			foreach ($emails as $email) {
+				if (trim($email)) {
+					$mail->setTo($email);
+					$mail->send();
 				}
 			}
-
-			$msg_text = sprintf($language->get('text_new_order_text'), $order_row['firstname'] . ' ' . $order_row['lastname']);
-			$msg_text .= "<br/><br/>";
-			foreach ($template->data['totals'] as $total) {
-				$msg_text .= $total['title'] . ' - ' . $total['text'] . "<br/>";
-			}
-			$msg = new AMessage();
-			$msg->saveNotice($language->get('text_new_order') . $order_id, $msg_text);
 		}
+
+		$msg_text = sprintf($language->get('text_new_order_text'), $order_row['firstname'] . ' ' . $order_row['lastname']);
+		$msg_text .= "<br/><br/>";
+		foreach ($template->data['totals'] as $total) {
+			$msg_text .= $total['title'] . ' - ' . $total['text'] . "<br/>";
+		}
+		$msg = new AMessage();
+		$msg->saveNotice($language->get('text_new_order') . $order_id, $msg_text);
+
+		return true;
 	}
 
 	/**

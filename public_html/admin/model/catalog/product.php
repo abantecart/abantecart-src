@@ -148,6 +148,7 @@ class ModelCatalogProduct extends Model{
 			}
 		}
 		$this->cache->delete('product');
+		$this->im->send('product_creates', array('product_id' => $product_id));
 		return $product_id;
 	}
 
@@ -309,6 +310,7 @@ class ModelCatalogProduct extends Model{
 		}
 
 		$this->cache->delete('product');
+		$this->im->send('product_updates', array('product_id' => $product_id));
 	}
 
 	/**
@@ -905,7 +907,9 @@ class ModelCatalogProduct extends Model{
 	 * @return bool
 	 */
 	public function copyProduct($product_id){
-		if(empty($product_id)) return false;
+		if(empty($product_id)){
+			return false;
+		}
 
 		$sql = "SELECT DISTINCT *, p.product_id
 				FROM " . $this->db->table("products") . " p
@@ -915,62 +919,62 @@ class ModelCatalogProduct extends Model{
 				WHERE p.product_id = '" . (int)$product_id . "'";
 		$query = $this->db->query($sql);
 
-		if($query->num_rows){
-			$data = $query->row;
-			$data = array_merge($data, array('product_description' => $this->getProductDescriptions($product_id)));
-			foreach($data['product_description'] as $lang => $desc){
-				$data['product_description'][$lang]['name'] .= ' ( Copy )';
-			}
-			$data = array_merge($data, array('product_option' => $this->getProductOptions($product_id)));
-			$data['keyword'] = '';
-
-			$data = array_merge($data, array('product_discount' => $this->getProductDiscounts($product_id)));
-			$data = array_merge($data, array('product_special' => $this->getProductSpecials($product_id)));
-			$data = array_merge($data, array('product_download' => $this->getProductDownloads($product_id)));
-			$data = array_merge($data, array('product_category' => $this->getProductCategories($product_id)));
-			$data = array_merge($data, array('product_store' => $this->getProductStores($product_id)));
-			$data = array_merge($data, array('product_related' => $this->getProductRelated($product_id)));
-			$data = array_merge($data, array('product_tags' => $this->getProductTags($product_id)));
-
-			//set status to off for cloned product
-			$data['status'] = 0;
-
-			//get product resources
-			$rm = new AResourceManager();
-			$resources = $rm->getResourcesList(
-					array(
-							'object_name' => 'products',
-							'object_id'   => $product_id,
-							'sort'        => 'sort_order'));
-
-			$new_product_id = $this->addProduct($data);
-
-			foreach($data['product_discount'] as $item){
-				$this->addProductDiscount($new_product_id, $item);
-			}
-			foreach($data['product_special'] as $item){
-				$this->addProductSpecial($new_product_id, $item);
-			}
-
-			$this->updateProductLinks($new_product_id, $data);
-			$this->_clone_product_options($new_product_id, $data);
-
-			foreach($resources as $r){
-				$rm->mapResource(
-						'products',
-						$new_product_id,
-						$r['resource_id']
-				);
-			}
-			$this->cache->delete('product');
-
-			//clone layout for the product if present
-			$this->_clone_product_layout($product_id, $new_product_id);
-
-			return array('name' => $data['name'], 'id' => $new_product_id);
+		if(!$query->num_rows){
+			return false;
 		}
 
-		return false;
+		$data = $query->row;
+		$data = array_merge($data, array('product_description' => $this->getProductDescriptions($product_id)));
+		foreach($data['product_description'] as $lang => $desc){
+			$data['product_description'][$lang]['name'] .= ' ( Copy )';
+		}
+		$data = array_merge($data, array('product_option' => $this->getProductOptions($product_id)));
+		$data['keyword'] = '';
+
+		$data = array_merge($data, array('product_discount' => $this->getProductDiscounts($product_id)));
+		$data = array_merge($data, array('product_special' => $this->getProductSpecials($product_id)));
+		$data = array_merge($data, array('product_download' => $this->getProductDownloads($product_id)));
+		$data = array_merge($data, array('product_category' => $this->getProductCategories($product_id)));
+		$data = array_merge($data, array('product_store' => $this->getProductStores($product_id)));
+		$data = array_merge($data, array('product_related' => $this->getProductRelated($product_id)));
+		$data = array_merge($data, array('product_tags' => $this->getProductTags($product_id)));
+
+		//set status to off for cloned product
+		$data['status'] = 0;
+
+		//get product resources
+		$rm = new AResourceManager();
+		$resources = $rm->getResourcesList(
+				array(
+						'object_name' => 'products',
+						'object_id'   => $product_id,
+						'sort'        => 'sort_order'));
+
+		$new_product_id = $this->addProduct($data);
+
+		foreach($data['product_discount'] as $item){
+			$this->addProductDiscount($new_product_id, $item);
+		}
+		foreach($data['product_special'] as $item){
+			$this->addProductSpecial($new_product_id, $item);
+		}
+
+		$this->updateProductLinks($new_product_id, $data);
+		$this->_clone_product_options($new_product_id, $data);
+
+		foreach($resources as $r){
+			$rm->mapResource(
+					'products',
+					$new_product_id,
+					$r['resource_id']
+			);
+		}
+		$this->cache->delete('product');
+
+		//clone layout for the product if present
+		$this->_clone_product_layout($product_id, $new_product_id);
+
+		return array('name' => $data['name'], 'id' => $new_product_id);
 	}
 
 	/**

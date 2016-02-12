@@ -1,16 +1,32 @@
 <?xml version="1.0"?>
 <definitions>
   	<definition>
-    	<key>im_sendpoint_name_order_updated</key>
-    	<value><![CDATA[]]>Order Updated</value>
+    	<key>im_sendpoint_name_order_updates</key>
+    	<value><![CDATA[]]>Order Updates</value>
   	</definition>
   	<definition>
-    	<key>im_sendpoint_name_product_created</key>
-    	<value><![CDATA[]]>Product Created</value>
+    	<key>im_sendpoint_name_product_creates</key>
+    	<value><![CDATA[]]>Product Creates</value>
   	</definition>
   	<definition>
-    	<key>im_sendpoint_name_product_updated</key>
-    	<value><![CDATA[]]>Product Updated</value>
+    	<key>im_sendpoint_name_product_updates</key>
+    	<value><![CDATA[]]>Product Updates</value>
+  	</definition>
+  	<definition>
+    	<key>im_sendpoint_name_product_out_of_stock</key>
+    	<value><![CDATA[]]>Product Out of Stock</value>
+  	</definition>
+  	<definition>
+    	<key>im_sendpoint_name_product_review</key>
+    	<value><![CDATA[]]>Added New Product Review</value>
+  	</definition>
+  	<definition>
+    	<key>im_product_created_admin_text</key>
+    	<value><![CDATA[]]>Added New Product with ID #%s</value>
+  	</definition>
+  	<definition>
+    	<key>im_product_updated_admin_text</key>
+    	<value><![CDATA[]]>Product with ID #%s updated</value>
   	</definition>
   	<definition>
     	<key>text_notification_for</key>

@@ -31,6 +31,7 @@ if (!defined('DIR_CORE')) {
  * @property AHtml $html
  * @property ExtensionsAPI $extensions
  * @property ASession $session
+ * @property AConfig $config
  * @property ModelAccountCustomer $model_account_customer
  */
 
@@ -39,6 +40,14 @@ class AIM {
 	private $protocols = array('email', 'sms', 'skype');
 	/**
 	 * @var array for StoreFront side ONLY!
+	 * NOTE:
+	 * each key of array is text_id of sendpoint.
+	 * To get sendpoint title needs to request language definition in format im_sendpoint_name_{sendpoint_text_id}
+	 * All sendpoint titles must to be saved in common/im language block for both sides! (admin + storefront)
+	 * Values of array is language definitions key that stores in the same block. This values can have %s that will be replaced by sendpoint text variables.
+	 * for ex. message have url to product page. Text will have #storefront#rt=product/product&product_id=%s and customer will receive full url to product.
+	 * Some sendpoints have few text variables, for ex. order status and order status name
+	 * For additional sendpoints ( from extensions) you can store language keys wherever you want.
 	 */
 	public $sendpoints = array(
 		'order_updates' => array(
@@ -50,10 +59,12 @@ class AIM {
 		'newsletter' => array(
 				'sf' => 'im_newsletter_text_to_customer',
 				'cp' => ''),
-		'product_notifications' => array(
-				'sf' => 'im_product_notifications_text_to_customer',
-				'cp' => 'im_product_notifications_text_to_admin'),
-
+		'product_review' => array(
+				'sf' => '',
+				'cp' => 'im_product_review_text_to_admin'),
+		'product_out_of_stock' => array (
+				'sf' => '',
+				'cp' => 'im_product_out_of_stock_admin_text')
 	);
 	public function __construct() {
 		$this->registry = Registry::getInstance();
@@ -156,22 +167,26 @@ class AIM {
 	}
 
 	public function send($sendpoint, $text_vars = array()){
+		if(!IS_ADMIN){
+			$sendpoints_list = $this->sendpoints;
+			$this->load->model('account/customer');
+			$customer_im_settings = $this->getCustomerNotificationSettings();
+		}else{
+			$sendpoints_list = $this->admin_sendpoints;
+			//this method forbid to use for sending notifications to custromers from admin-side
+			$customer_im_settings = array();
+		}
 		//check sendpoint
-		if(!in_array($sendpoint,array_keys($this->sendpoints))){
+		if(!in_array($sendpoint,array_keys($sendpoints_list))){
 			$error = new AError('IM error: sendpoint '.$sendpoint.' not found in preset of IM class. Nothing sent.');
 			$error->toLog()->toMessages();
 			return false;
 		}
-		$sendpoint_info = $this->sendpoints[$sendpoint];
-		$this->load->model('account/customer');
-		$customer_im_settings = $this->getCustomerNotificationSettings();
+		$sendpoint_info = $sendpoints_list[$sendpoint];
 
 		foreach($this->protocols as $protocol){
 			$driver = null;
-			//check is notification for this protocol and sendpoint allowed
-			if(!$customer_im_settings[$sendpoint][$protocol]){
-				continue;
-			}
+
 			//check protocol status
 			if($protocol=='email'){
 				//email notifications always enabled
@@ -189,6 +204,7 @@ class AIM {
 			}
 
 			if($protocol=='email'){
+				//see AMailAIM class below
 				$driver = new AMailIM();
 			}else{
 				$driver_txt_id = $this->config->get('config_' . $protocol . '_driver');
@@ -197,7 +213,7 @@ class AIM {
 				if (!$driver_txt_id){
 					continue;
 				}
-				//use safe include
+				//use safe usage
 				try{
 					include_once(DIR_EXT . $driver_txt_id . '/core/lib/' . $driver_txt_id . '.php');
 					//if class of driver
@@ -217,15 +233,19 @@ class AIM {
 			}
 
 			//send notification to customer
-			if($this->config->get('config_storefront_'.$protocol.'_status') || $protocol=='email'){
-				$text = $this->_get_message_text($sendpoint_info['sf'], $text_vars);
-				$to = $this->_get_customer_im_address($protocol);
+			if($customer_im_settings[$sendpoint][$protocol]){
+				if ($this->config->get('config_storefront_' . $protocol . '_status') || $protocol == 'email'){
+					//check is notification for this protocol and sendpoint allowed
 
-				if ($text && $to){
-					//use safe call
-					try{
-						$driver->send($to, $text);
-					}catch(AException $e){}
+					$text = $this->_get_message_text($sendpoint_info['sf'], $text_vars);
+					$to = $this->_get_customer_im_uri($protocol);
+
+					if ($text && $to){
+						//use safe call
+						try{
+							$driver->send($to, $text);
+						} catch(AException $e){}
+					}
 				}
 			}
 
@@ -233,7 +253,8 @@ class AIM {
 			if($this->config->get('config_admin_'.$protocol.'_status') || $protocol=='email'){
 				$text = $this->_get_message_text($sendpoint_info['cp'], $text_vars);
 				//NOTE! all admins will receipt IMs
-				$to = $this->_get_admin_im_addresses($sendpoint, $protocol);
+				$to = $this->_get_admin_im_uri($sendpoint, $protocol);
+
 				if ($text && $to){
 					//use safe call
 					try{
@@ -262,7 +283,14 @@ class AIM {
 			foreach($sendpoints as $sendpoint=>$row){
 				foreach($protocols as $protocol){
 					if( $guest_data[$protocol] ){
-						$settings[$sendpoint][$protocol] = (int)$this->config->get('config_im_guest_' . $protocol . '_status');
+						//allow to send notifications only when it allowed by global IM settings
+						if((int)$this->config->get('config_storefront_'.$protocol.'_status')
+							&& (int)$this->config->get('config_im_guest_' . $protocol . '_status')){
+							$protocol_status = 1;
+						}else{
+							$protocol_status = 0;
+						}
+						$settings[$sendpoint][$protocol] = $protocol_status;
 					}
 				}
 			}
@@ -296,7 +324,7 @@ class AIM {
 
 	private function _get_message_text($text_key, $text_vars){
 		$text = $this->language->get($text_key);
-		//check is text_key have value. If does not - skip sending
+		//check is text_key have value. If does not - abort sending
 		if($text == $text_key){
 			return '';
 		}
@@ -330,7 +358,7 @@ class AIM {
 	 * @param string $protocol
 	 * @return string
 	 */
-	private function _get_customer_im_address($protocol){
+	private function _get_customer_im_uri($protocol){
 
 		$customer_id = (int)$this->customer->getId();
 		//for registered customers - get adress from database
@@ -366,14 +394,14 @@ class AIM {
 
 	}
 
-
-//todo
-	private function _get_admin_im_addresses($sendpoint, $protocol){
+	private function _get_admin_im_uri($sendpoint, $protocol){
+		$section = IS_ADMIN===true ? 1 : 0;
 		$output = array();
 		$sql = "SELECT *
 				FROM ".$this->db->table('user_notifications')."
 				WHERE protocol='".$this->db->escape($protocol)."'
 					AND sendpoint = '".$this->db->escape($sendpoint)."'
+					AND section = '".$section."'
 					AND store_id = '".(int)$this->config->get('config_store_id')."'";
 		$result = $this->db->query($sql);
 		foreach($result->rows as $row){

@@ -87,9 +87,10 @@ class ControllerResponsesProductReview extends AController {
 		$this->loadModel('catalog/review');
 		$json = array();
 		if ($this->request->is_POST() && $this->_validate()) {
-			$this->model_catalog_review->addReview($product_id, $this->request->post);
+			$review_id = $this->model_catalog_review->addReview($product_id, $this->request->post);
 			unset($this->session->data['captcha']);
 			$json['success'] = $this->language->get('text_success');
+			$this->im->send('product_review',array('review_id' => $review_id));
 		} else {
 			$json['error'] = $this->error['message'];
 		}

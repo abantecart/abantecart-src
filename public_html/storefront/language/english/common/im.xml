@@ -44,4 +44,12 @@
 		<key>im_account_updates_text_to_customer</key>
 		<value><![CDATA[ Your account recently updated! ]]></value>
 	</definition>
+	<definition>
+		<key>im_product_review_text_to_admin</key>
+		<value><![CDATA[ New product review has been added. See details #admin#rt=catalog/review/update&review_id=%s ]]></value>
+	</definition>
+	<definition>
+		<key>im_product_out_of_stock_admin_text</key>
+		<value><![CDATA[ Product with ID #%s is out of Stock. ]]></value>
+	</definition>
 </definitions>

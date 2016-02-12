@@ -36,11 +36,7 @@ class ControllerPagesProductProduct extends AController{
 	}
 
 	public function main(){
-
 		$this->_init();
-		$this->session->data['order_id']=24;
-		$this->im->send('order_updates', array('order_id'=>24,'order_status_id'=>'55555','ff'=>'sssss'));
-
 		//init controller data
 		$this->extensions->hk_InitData($this, __FUNCTION__);
 

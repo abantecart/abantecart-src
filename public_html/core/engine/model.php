@@ -47,6 +47,7 @@ if (!defined('DIR_CORE')) {
  * @property ModelCatalogCategory $model_catalog_category
  * @property ADownload $download
  * @property AOrderStatus $order_status
+ * @property AIMManager $im
  */
 abstract class Model {
 

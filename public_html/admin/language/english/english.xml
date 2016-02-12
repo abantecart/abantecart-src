@@ -720,5 +720,13 @@
 	<definition>
 		<key>text_view_more</key>
 		<value><![CDATA[View More]]></value>
-	</definition>	
+	</definition>
+	<definition>
+		<key>text_admin</key>
+		<value><![CDATA[Control Panel]]></value>
+	</definition>
+	<definition>
+		<key>text_storefront</key>
+		<value><![CDATA[Storefront]]></value>
+	</definition>
 </definitions>

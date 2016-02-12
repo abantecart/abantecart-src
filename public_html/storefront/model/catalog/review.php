@@ -20,7 +20,12 @@
 if (! defined ( 'DIR_CORE' )) {
 	header ( 'Location: static_pages/' );
 }
-class ModelCatalogReview extends Model {		
+class ModelCatalogReview extends Model {
+	/**
+	 * @param int $product_id
+	 * @param array $data
+	 * @return int
+	 */
 	public function addReview($product_id, $data) {
 		$this->db->query("INSERT INTO " . $this->db->table("reviews") . " 
 						  SET author = '" . $this->db->escape($data['name']) . "',
@@ -43,9 +48,15 @@ class ModelCatalogReview extends Model {
 		$this->cache->delete('product.reviews.totals');
 		$this->cache->delete('product.reviews.totals.'.$product_id);
 
-		return '';
+		return $review_id;
 	}
-		
+
+	/**
+	 * @param int $product_id
+	 * @param int $start
+	 * @param int $limit
+	 * @return array
+	 */
 	public function getReviewsByProductId($product_id, $start = 0, $limit = 20) {
 		$query = $this->db->query("SELECT r.review_id,
 										  r.author,
@@ -68,7 +79,11 @@ class ModelCatalogReview extends Model {
 		
 		return $query->rows;
 	}
-	
+
+	/**
+	 * @param int $product_id
+	 * @return int
+	 */
 	public function getAverageRating($product_id) {
 		$cache = $this->cache->get('product.rating.'.(int)$product_id);
 		if(is_null($cache)){
@@ -80,8 +95,11 @@ class ModelCatalogReview extends Model {
 			$this->cache->set('product.rating.'.(int)$product_id,$cache);
 		}
 		return $cache;
-	}	
-	
+	}
+
+	/**
+	 * @return int
+	 */
 	public function getTotalReviews() {
 		$cache = $this->cache->get('product.reviews.totals');
 		if(is_null($cache)){
@@ -91,12 +109,16 @@ class ModelCatalogReview extends Model {
 									WHERE p.date_available <= NOW()
 										AND p.status = '1'
 										AND r.status = '1'");
-			$cache = $query->row['total'];
+			$cache = (int)$query->row['total'];
 			$this->cache->set('product.reviews.totals', $cache);
 		}
 		return $cache;
 	}
 
+	/**
+	 * @param int $product_id
+	 * @return int
+	 */
 	public function getTotalReviewsByProductId($product_id) {
 		$cache = $this->cache->get('product.reviews.totals.'.$product_id, (int)$this->config->get('storefront_language_id'));
 		if(is_null($cache)){
@@ -110,10 +132,9 @@ class ModelCatalogReview extends Model {
 											AND r.status = '1'
 											AND pd.language_id = '" . (int)$this->config->get('storefront_language_id') . "'");
 
-			$cache = $query->row['total'];
+			$cache = (int)$query->row['total'];
 			$this->cache->set('product.reviews.totals.'.$product_id, $cache, (int)$this->config->get('storefront_language_id'));
 		}
 		return $cache;
 	}
 }
-?>
