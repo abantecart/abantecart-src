@@ -1963,6 +1963,7 @@ class ZonesHtmlElement extends HtmlElement {
 		}
 
 		$this->zone_name = !$this->zone_name ? '' : urlencode($this->zone_name);
+		$this->default_zone_value = array();
 		$this->options = !$this->options ? array() : $this->options;
 		$this->element_id = preg_replace('/[\[+\]+]/', '_', $this->element_id);
 
@@ -2023,7 +2024,7 @@ class ZonesHtmlElement extends HtmlElement {
 				'url' => $url,
 				'zone_field_name' => $this->zone_field_name ? $this->zone_field_name : $this->default_zone_field_name,
 				'zone_name' => $this->zone_name ? $this->zone_name : $this->default_zone_name,
-				'zone_value' => $this->zone_value ? $this->zone_value : $this->default_zone_value,
+				'zone_value' => (array)($this->zone_value ? $this->zone_value : $this->default_zone_value),
 				'zone_options' => $this->zone_options,
 				'submit_mode' => $this->submit_mode,
 				'placeholder' => $this->placeholder
