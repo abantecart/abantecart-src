@@ -3167,6 +3167,7 @@ body.stickyheader .sticky_left {
 }
 .text-editor .nav.nav-tabs{
    display: inline-block;
+   margin-bottom: -10px;
 }
 .text-editor .tab-content{
    display: block;
@@ -3178,6 +3179,9 @@ body.stickyheader .sticky_left {
 	padding: 1px 5px;
 	font-size: 11px;
 }
+.text-editor .tab-content .tab-pane{
+  height: 330px;
+}
 .text-editor .visual_editor{
   height: 250px;
 }
@@ -3186,7 +3190,7 @@ body.stickyheader .sticky_left {
   position: relative;
 }
 .zennable textarea {
-  background-color: #f6fs6f6;
+  background-color: #fff;
   border: 0;
   border-radius: 3px;
   box-sizing: border-box;
@@ -3199,7 +3203,10 @@ body.stickyheader .sticky_left {
   width: 100%;
 }
 .zennable textarea:focus {
-  background-color: white;
+  background-color: #fff;
+}
+.zennable .toolbar {
+  background-color: #f6f6f6;
 }
 .zennable .toolbar .btn-group{
   overflow-x: scroll;
