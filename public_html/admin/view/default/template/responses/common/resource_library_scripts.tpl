@@ -879,16 +879,19 @@ var bind_rl = function (elm) {
 	});
 
 	//hook to switch language
-	$obj.find('#content_language_form').one("submit", function (e) {
+	$obj.find('.content_language_form').one("submit", function (e) {
+		//grab the event and do not call default language submit
 		e.preventDefault(); 
-		var $inputs = $('#content_language_form :input');
+		var $elm = $obj.find('.content_language_form');
+    	$elm.closest('.content_language').removeClass('open');
+		var $inputs = $elm.find(':input');
 		var url = urls.resource_library;
 		$inputs.each(function () {
 			if (url.indexOf(this.name + '=' + $(this).val()) <= 0) {
 				url += '&' + this.name + '=' + $(this).val();
 			}
 		});
-		var type = $('#content_language_form').find('input[name=type]').val();
+		var type = $elm.find('input[name=type]').val();
 		var rl_id = $('#rl_edit_container').find('input[name=resource_id]').val();
 		reloadModal(url);
 		//reload side panel
