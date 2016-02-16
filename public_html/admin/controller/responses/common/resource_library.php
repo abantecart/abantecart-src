@@ -279,6 +279,7 @@ class ControllerResponsesCommonResourceLibrary extends AController {
 								'placeholder' => $this->language->get('text_resource_code'),
 								'attr' =>' rows="8" cols="50" style="resize: none;"',
 								'style' => 'input-sm',
+								'multilingual' => true,
 								'required'=>true)
 		);
 		$this->data['form']['field_name'] = $form->getFieldHtml(
@@ -287,6 +288,7 @@ class ControllerResponsesCommonResourceLibrary extends AController {
 								'value'=> $resource['name'],
 								'placeholder' => $this->language->get('text_name'),
 								'style' => 'input-sm',
+								'multilingual' => true,
 								'required'=>true)
 		);
 		$this->data['form']['field_resource_id'] .= $form->getFieldHtml(
@@ -300,6 +302,7 @@ class ControllerResponsesCommonResourceLibrary extends AController {
 					'value'=> $resource['title'],
 					'placeholder' => $this->language->get('text_title'),
 					'style' => 'input-sm',
+					'multilingual' => true,
 					'name'=> 'title')
 		);
 		$this->data['form']['field_description'] = $form->getFieldHtml(
@@ -307,6 +310,7 @@ class ControllerResponsesCommonResourceLibrary extends AController {
 					'name'=>'description',
 					'placeholder' => $this->language->get('text_description'),
 					'style' => 'input-sm',
+					'multilingual' => true,
 					'value'=> $resource['description']
 				)
 		);
