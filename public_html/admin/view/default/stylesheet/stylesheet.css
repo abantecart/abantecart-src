@@ -1310,6 +1310,9 @@ p {
 	border-left: 1px solid #e5e5e5;
 	height: 660px;
 }
+#rl_container .nav-tabs, #rl_edit_container .nav-tabs {
+	background: none;
+} 
 .rl-content .edit_resource_form {
 	min-height: 360px;
 }
