@@ -28,10 +28,7 @@ if (!ini_get('safe_mode')) {
 class ControllerResponsesCommonResourceLibrary extends AController {
 	public $data = array();
 	// TODO: need to find solution for this hardcoded preview sizes
-	public $thumb_sizes = array(
-								'width' => 100,
-								'height' => 100
-								);
+	public $thumb_sizes = array('width' => 100,'height' => 100);
 
 	public function main() {
 

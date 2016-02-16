@@ -189,14 +189,17 @@ if ($action == 'list_object') {
     								</div>
     							<?php } ?>
     							</a>
-    							<h5 class="rl-title"><a class="resource_edit tooltips ellipsis"
-    													data-mode="<?php echo $mode; ?>"
-    													data-type="<?php echo $type; ?>"
-    													data-rl-id="<?php echo $rl['resource_id']; ?>"
-    													data-original-title="<?php echo $rl['name']; ?>"
-    													href="#"><?php echo $rl['name']; ?></a></h5>
+    							<h5 class="rl-title">
+    								<a	class="resource_edit tooltips ellipsis"
+    									data-mode="<?php echo $mode; ?>"
+    									data-type="<?php echo $type; ?>"
+    									data-rl-id="<?php echo $rl['resource_id']; ?>"
+    									data-original-title="<?php echo $rl['name']; ?>"
+    									href="#"><?php echo $rl['name']; ?>
+    								</a>
+    							</h5>
     							<?php if ($rl['date_added']) { ?>
-    								<small class="text-muted">Added: <?php echo $rl['date_added']; ?></small>
+    								<small class="text-muted ellipsis">Added: <?php echo $rl['date_added']; ?></small>
     							<?php } ?>
     						</div>
     					</div>

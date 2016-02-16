@@ -1288,8 +1288,7 @@ p {
     font-size: 13px;
     min-height: 15px;
 }
-
-.reslibrary .rl-title a {
+.reslibrary .rl-title a, .reslibrary .ellipsis{
     overflow: hidden;
     text-overflow: ellipsis;
     display: block;
