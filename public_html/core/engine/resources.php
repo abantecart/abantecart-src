@@ -505,7 +505,7 @@ class AResource {
 					$thumb2_url = $this->model_tool_image->resize($result['resource_path'],$sizes['thumb2']['width'],$sizes['thumb2']['height']);
 				}
 
-				if($this->getTypeDir()=='image/'){
+				if($this->getType()=='image'){
 					if(!$sizes['main']){
 						$main_url = $this->getResourceThumb($result['resource_id'],$sizes['main']['width'],$sizes['main']['height']);
 					}else{ // return href for image with size as-is
