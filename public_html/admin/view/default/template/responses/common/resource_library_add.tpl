@@ -121,11 +121,11 @@
 			<div id="add_resource_buttons">
 				<div class="row">
 					<div class="center">
-						<button class="btn btn-primary rl_save">
+						<button class="btn btn-primary rl_save tooltips" title="<?php echo $button_save; ?>">
 							<i class="fa fa-save"></i> <?php echo $button_save; ?>
 						</button>
 						&nbsp;
-						<a class="btn btn-default rl_reset" href="<?php echo $cancel; ?>">
+						<a class="btn btn-default rl_reset tooltips" title="<?php echo $button_reload; ?>" href="<?php echo $cancel; ?>">
 							<i class="fa fa-refresh"></i> <?php echo $button_reset; ?>
 						</a>
 					</div>

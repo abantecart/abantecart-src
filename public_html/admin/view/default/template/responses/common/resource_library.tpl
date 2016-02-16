@@ -63,7 +63,7 @@ if ($action == 'list_object') {
     	<?php }?>
     	<?php if (has_value($active_object)) { ?>
     	    <li>
-    	    	<a class="actionitem disabled rl_save_multiple" onclick="return false;" href="#"><i
+    	    	<a class="actionitem disabled rl_save_multiple tooltips" onclick="return false;" href="#" data-original-title="<?php echo $text_save_sort_order; ?>"><i
     	    				class="fa fa-save"></i></a>
     	    </li>
     	<?php }
@@ -77,11 +77,12 @@ if ($action == 'list_object') {
     		<?php } ?>
     	<?php } ?>
     		<li>
-    			<a class="actionitem disabled rl_delete_multiple"
+    			<a class="actionitem disabled rl_delete_multiple tooltips"
     			   onclick="multi_action('delete'); return false;"
     			   href="#"
     			   data-confirmation="delete"
-    			   data-confirmation-text="<?php echo $text_confirm_delete; ?>">
+    			   data-confirmation-text="<?php echo $text_confirm_delete; ?>"
+    			   data-original-title="<?php echo $button_delete; ?>">
     				<i class="fa fa-trash-o"></i></a>
     		</li>
     		<?php

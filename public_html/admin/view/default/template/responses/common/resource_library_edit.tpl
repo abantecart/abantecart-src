@@ -15,8 +15,8 @@ $txt_unlink_resource = sprintf($text_unmap_from, $object_title);
 <div class="tab-content rl-content">
 <ul class="reslibrary-options edit-resource">
 	<li>
-		<a class="btn btn-default rl_download" data-rl-id="<?php echo $resource['resource_id']; ?>" href="#"
-		   onclick="return false;"><i class="fa fa-download"></i></a>
+		<a class="btn btn-default rl_download tooltips" data-rl-id="<?php echo $resource['resource_id']; ?>" href="#"
+		   onclick="return false;" data-original-title="<?php echo $text_preview; ?>"><i class="fa fa-download"></i></a>
 	</li>
 	<?php if ($resource['mapped_to_current'] && $mode != 'list_all') { ?>
 		<li>
@@ -46,18 +46,19 @@ $txt_unlink_resource = sprintf($text_unmap_from, $object_title);
 				$onclick = "delete_resource(" . $resource['resource_id'] . ", '" . $object_name . "', '" . $object_id . "');";
 			}
 		?>
-			<a class="btn btn-default <?php echo $cssclass; ?> rl_delete"
+			<a class="btn btn-default <?php echo $cssclass; ?> rl_delete tooltips"
 			   href="#"
 			   onclick="<?php echo $onclick; ?> return false;"
 			   data-rl-id="<?php echo $resource['resource_id']; ?>"
 			   data-confirmation="delete"
-			   data-confirmation-text="<?php echo $text_confirm_delete; ?>">
+			   data-confirmation-text="<?php echo $text_confirm_delete; ?>"
+			   data-original-title="<?php echo $button_delete; ?>">
 			   	<i class="fa fa-trash-o"></i>
 			</a>		
 		<?php
 		} else {
 		?>
-			<a class="btn btn-default disabled rl_delete" href="#">
+			<a class="btn btn-default disabled rl_delete tooltips" href="#" data-original-title="<?php echo $error_delete; ?>">
 				<span class="fa-stack fa-lg">		   
 			   		<i class="fa fa-trash-o fa-stack-1x"></i>
 			   		<i class="fa fa-ban fa-stack-2x text-danger"></i>
@@ -275,24 +276,24 @@ $txt_unlink_resource = sprintf($text_unmap_from, $object_title);
 <div class="panel-footer">
 	<div class="row">
 		<div class="center">
-			<a class="btn btn-default rl_reset" href="#">
+			<a class="btn btn-default rl_reset tooltips" href="#" title="<?php echo $button_reload; ?>">
 				<i class="fa fa-refresh"></i>
 			</a>
 			&nbsp;
-			<a class="btn btn-primary rl_save" href="#">
+			<a class="btn btn-primary rl_save tooltips" href="#" title="<?php echo $button_save; ?>">
 				<i class="fa fa-save"></i>
 			</a>
 			&nbsp;
 			<?php if ($mode == 'single') { ?>
-				<a class="btn btn-primary rl_save rl_select" data-rl-id="<?php echo $resource_id; ?>" data-type="<?php echo $type; ?>"  title="<?php echo $button_save_n_apply; ?>">
+				<a class="btn btn-primary rl_save rl_select tooltips" data-rl-id="<?php echo $resource_id; ?>" data-type="<?php echo $type; ?>"  title="<?php echo $button_save_n_apply; ?>">
 					<i class="fa fa-save fa-fw"></i> <i class="fa fa-check fa-fw"></i> <i class="fa fa-close fa-fw"></i> 
 				</a>&nbsp;
 			<?php } elseif ($mode == 'list_all') { ?>
-				<a class="btn btn-primary rl_save rl_close" data-rl-id="<?php echo $resource_id; ?>" data-type="<?php echo $type; ?>"  title="<?php echo $button_save_n_apply; ?>">
+				<a class="btn btn-primary rl_save rl_close tooltips" data-rl-id="<?php echo $resource_id; ?>" data-type="<?php echo $type; ?>"  title="<?php echo $button_save_n_apply; ?>">
 					<i class="fa fa-save fa-fw"></i> <i class="fa fa-close fa-fw"></i> 
 				</a>&nbsp;				
 			<?php } else { ?>
-				<a class="btn btn-primary rl_link rl_save rl_close" href="#" title="<?php echo $button_save_n_apply; ?>">
+				<a class="btn btn-primary rl_link rl_save rl_close tooltips" href="#" title="<?php echo $button_save_n_apply; ?>">
 					<i class="fa fa-save fa-fw"></i> <i class="fa fa-check fa-fw"></i> <i class="fa fa-close fa-fw"></i> 
 				</a>&nbsp;
 			<?php } ?>
