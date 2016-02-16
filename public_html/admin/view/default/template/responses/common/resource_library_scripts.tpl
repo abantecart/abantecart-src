@@ -222,7 +222,7 @@ var loadMedia = function (type, wrapper) {
 					src = '<img class="img-responsive" src="' + item['thumbnail_url'] + '?t=' + t + '" title="' + item['name'] + '" />';
 				}
 				
-				html += '<div class="col-md-1 reslibrary_block">';
+				html += '<div class="col-md-1 col-sm-2 col-xs-6 reslibrary_block">';
 				html += '<div class="center thumbnail" id="image_row' + item['resource_id'] + '" >\
                 <a class="btn resource_edit" '+data_mode+' data-type="' + type + '" data-rl-id="' + item['resource_id'] + '">' + src + '</a></div>';
 				
@@ -256,13 +256,13 @@ var loadMedia = function (type, wrapper) {
 
 			//check if more available 
 			if(json.total > json.limit) {
-				html += '<div class="col-md-1 reslibrary_block">' +
+				html += '<div class="col-md-1 col-sm-2 col-xs-6 reslibrary_block">' +
 						'<div class="center thumbnail">';
 				html += '<a class="btn list_maped_resources tooltips transparent rl_large_icon" '+data_mode+' data-type="' + type + '" data-original-title="<?php echo_html2view($text_view_more) ?>"><i class="fa fa-folder-open"></i></a>';
 				html += '</div></div>';
 			}
 		
-			html += '<div class="col-md-1 reslibrary_block">' +
+			html += '<div class="col-md-1 col-sm-2 col-xs-6 reslibrary_block">' +
 					'<div class="center thumbnail fileupload_drag_area">' +
 					'<form action="<?php echo $rl_upload; ?>&type=' + type + '" method="POST" enctype="multipart/form-data"><input type="file" name="files[]" multiple="" class="hide">';
 			html += '<a class="btn resource_add tooltips transparent rl_large_icon" '+data_mode+' data-type="' + type + '" data-original-title="<?php echo_html2view($text_add_media) ?>"><i class="fa fa-plus-circle"></a>';

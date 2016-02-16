@@ -126,7 +126,7 @@ if ($action == 'list_object') {
     					  [mapped_to_current] =>
     					  */
     					?>
-    					<div class="col-xs-6 col-sm-2 col-md-2 document">
+    					<div class="col-xs-6 col-sm-3 col-md-2 document">
     						<div class="thmb <?php if ($rl['mapped_to_current']) { echo "mapped"; } ?>"	data-rl-id="<?php echo $rl['resource_id']; ?>">
     							<div class="ckbox ckbox-default" style="display: none;">
     								<?php if( $mode != 'list_all' || !$rl['mapped_to_current'] ){ ?>
