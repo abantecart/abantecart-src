@@ -222,7 +222,7 @@ var loadMedia = function (type, wrapper) {
 					src = '<img class="img-responsive" src="' + item['thumbnail_url'] + '?t=' + t + '" title="' + item['name'] + '" />';
 				}
 				
-				html += '<div class="col-md-1 reslibrary_block">';
+				html += '<div class="col-md-1 col-sm-2 col-xs-6 reslibrary_block">';
 				html += '<div class="center thumbnail" id="image_row' + item['resource_id'] + '" >\
                 <a class="btn resource_edit" '+data_mode+' data-type="' + type + '" data-rl-id="' + item['resource_id'] + '">' + src + '</a></div>';
 				
@@ -256,13 +256,13 @@ var loadMedia = function (type, wrapper) {
 
 			//check if more available 
 			if(json.total > json.limit) {
-				html += '<div class="col-md-1 reslibrary_block">' +
+				html += '<div class="col-md-1 col-sm-2 col-xs-6 reslibrary_block">' +
 						'<div class="center thumbnail">';
 				html += '<a class="btn list_maped_resources tooltips transparent rl_large_icon" '+data_mode+' data-type="' + type + '" data-original-title="<?php echo_html2view($text_view_more) ?>"><i class="fa fa-folder-open"></i></a>';
 				html += '</div></div>';
 			}
 		
-			html += '<div class="col-md-1 reslibrary_block">' +
+			html += '<div class="col-md-1 col-sm-2 col-xs-6 reslibrary_block">' +
 					'<div class="center thumbnail fileupload_drag_area">' +
 					'<form action="<?php echo $rl_upload; ?>&type=' + type + '" method="POST" enctype="multipart/form-data"><input type="file" name="files[]" multiple="" class="hide">';
 			html += '<a class="btn resource_add tooltips transparent rl_large_icon" '+data_mode+' data-type="' + type + '" data-original-title="<?php echo_html2view($text_add_media) ?>"><i class="fa fa-plus-circle"></a>';
@@ -879,16 +879,19 @@ var bind_rl = function (elm) {
 	});
 
 	//hook to switch language
-	$obj.find('#content_language_form').one("submit", function (e) {
+	$obj.find('.content_language_form').one("submit", function (e) {
+		//grab the event and do not call default language submit
 		e.preventDefault(); 
-		var $inputs = $('#content_language_form :input');
+		var $elm = $obj.find('.content_language_form');
+    	$elm.closest('.content_language').removeClass('open');
+		var $inputs = $elm.find(':input');
 		var url = urls.resource_library;
 		$inputs.each(function () {
 			if (url.indexOf(this.name + '=' + $(this).val()) <= 0) {
 				url += '&' + this.name + '=' + $(this).val();
 			}
 		});
-		var type = $('#content_language_form').find('input[name=type]').val();
+		var type = $elm.find('input[name=type]').val();
 		var rl_id = $('#rl_edit_container').find('input[name=resource_id]').val();
 		reloadModal(url);
 		//reload side panel

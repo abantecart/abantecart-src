@@ -147,7 +147,8 @@ class ControllerResponsesToolRlManager extends AController {
 				'type' => 'input',
 				'name' => 'default_directory',
 				'value' => $this->data['default_directory'],
-				'style' => 'small-field'
+				'style' => 'small-field',
+				'attr' => 'readonly'
 		));
 		$this->data['form']['fields']['file_types'] = $form->getFieldHtml(array(
 				'type' => 'input',

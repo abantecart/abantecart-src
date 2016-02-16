@@ -302,6 +302,10 @@
 		<value><![CDATA[Manufacturers]]></value>
 	</definition>
 	<definition>
+		<key>error_delete</key>
+		<value><![CDATA[Cannot delete resource linked to multiple objects]]></value>
+	</definition>
+	<definition>
 		<key>error_unmap</key>
 		<value><![CDATA[Cannot unlink resource. Object wasn't set.]]></value>
 	</definition>

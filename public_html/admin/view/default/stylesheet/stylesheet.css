@@ -1093,6 +1093,10 @@ p {
 }
 
 /* resource library */
+#rl_modal .modal-body {
+	padding: 5px;
+}
+
 .tab-content.rl-content {
 	background: none #fff !important;
 }
@@ -1101,7 +1105,7 @@ p {
     list-style: none;
     margin: 0;
     padding: 0;
-    margin-bottom: 20px;
+    margin-bottom: 15px;
     background: #fcfcfc;
     -moz-border-radius: 3px;
     -webkit-border-radius: 3px;
@@ -1110,7 +1114,6 @@ p {
     -webkit-box-shadow: 0 3px 0 rgba(12,12,12,0.03);
     box-shadow: 0 3px 0 rgba(12,12,12,0.03);
 }
-
 .reslibrary-options > li {
     display: inline-block;
     padding: 12px 15px;
@@ -1118,29 +1121,23 @@ p {
     font-size: 12px;
     color: #666;
 }
-
 .reslibrary-options.edit-resource {
 	text-align: center;
 }
-
 .reslibrary-options.edit-resource > li {
 	border: none;
 	padding: 12px 12px;
 }
-
 .reslibrary-options > li a {
     color: #666;
 }
-
 .reslibrary-options > li a.disabled {
     opacity: 0.5;
     cursor: default;
 }
-
 .reslibrary-options > li a.disabled:hover {
     text-decoration: none;
 }
-
 .reslibrary-options > li i {
     font-size: 14px;
     color: #444;
@@ -1288,8 +1285,7 @@ p {
     font-size: 13px;
     min-height: 15px;
 }
-
-.reslibrary .rl-title a {
+.reslibrary .rl-title a, .reslibrary .ellipsis{
     overflow: hidden;
     text-overflow: ellipsis;
     display: block;
@@ -1310,6 +1306,9 @@ p {
 	border-left: 1px solid #e5e5e5;
 	height: 660px;
 }
+#rl_container .nav-tabs, #rl_edit_container .nav-tabs {
+	background: none;
+} 
 .rl-content .edit_resource_form {
 	min-height: 360px;
 }
@@ -1380,6 +1379,7 @@ p {
 }
 .edit_resource_form label {
 	font-size: 13px;
+	margin-bottom: 1px !important;
 }
 .resource_details {
 	border: 1px solid #e5e5e5;
@@ -3167,6 +3167,7 @@ body.stickyheader .sticky_left {
 }
 .text-editor .nav.nav-tabs{
    display: inline-block;
+   margin-bottom: -10px;
 }
 .text-editor .tab-content{
    display: block;
@@ -3178,6 +3179,9 @@ body.stickyheader .sticky_left {
 	padding: 1px 5px;
 	font-size: 11px;
 }
+.text-editor .tab-content .tab-pane{
+  height: 330px;
+}
 .text-editor .visual_editor{
   height: 250px;
 }
@@ -3186,7 +3190,7 @@ body.stickyheader .sticky_left {
   position: relative;
 }
 .zennable textarea {
-  background-color: #f6fs6f6;
+  background-color: #fff;
   border: 0;
   border-radius: 3px;
   box-sizing: border-box;
@@ -3199,7 +3203,10 @@ body.stickyheader .sticky_left {
   width: 100%;
 }
 .zennable textarea:focus {
-  background-color: white;
+  background-color: #fff;
+}
+.zennable .toolbar {
+  background-color: #f6f6f6;
 }
 .zennable .toolbar .btn-group{
   overflow-x: scroll;
