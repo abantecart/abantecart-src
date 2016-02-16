@@ -1093,6 +1093,10 @@ p {
 }
 
 /* resource library */
+#rl_modal .modal-body {
+	padding: 5px;
+}
+
 .tab-content.rl-content {
 	background: none #fff !important;
 }
@@ -1101,7 +1105,7 @@ p {
     list-style: none;
     margin: 0;
     padding: 0;
-    margin-bottom: 20px;
+    margin-bottom: 15px;
     background: #fcfcfc;
     -moz-border-radius: 3px;
     -webkit-border-radius: 3px;
@@ -1110,7 +1114,6 @@ p {
     -webkit-box-shadow: 0 3px 0 rgba(12,12,12,0.03);
     box-shadow: 0 3px 0 rgba(12,12,12,0.03);
 }
-
 .reslibrary-options > li {
     display: inline-block;
     padding: 12px 15px;
@@ -1118,29 +1121,23 @@ p {
     font-size: 12px;
     color: #666;
 }
-
 .reslibrary-options.edit-resource {
 	text-align: center;
 }
-
 .reslibrary-options.edit-resource > li {
 	border: none;
 	padding: 12px 12px;
 }
-
 .reslibrary-options > li a {
     color: #666;
 }
-
 .reslibrary-options > li a.disabled {
     opacity: 0.5;
     cursor: default;
 }
-
 .reslibrary-options > li a.disabled:hover {
     text-decoration: none;
 }
-
 .reslibrary-options > li i {
     font-size: 14px;
     color: #444;
@@ -1382,6 +1379,7 @@ p {
 }
 .edit_resource_form label {
 	font-size: 13px;
+	margin-bottom: 1px !important;
 }
 .resource_details {
 	border: 1px solid #e5e5e5;
