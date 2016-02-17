@@ -1306,7 +1306,7 @@ p {
 	border-left: 1px solid #e5e5e5;
 	height: 660px;
 }
-#rl_container .nav-tabs, #rl_edit_container .nav-tabs {
+#rl_container .nav-tabs, #rl_edit_container .nav-tabs, #rl_add_container > .nav-tabs {
 	background: none;
 } 
 .rl-content .edit_resource_form {
@@ -1326,6 +1326,9 @@ p {
 }
 #resource_types_tabs {
 	overflow-x: scroll;
+	overflow-y: hidden;
+	white-space: nowrap;
+	-ms-overflow-style: -ms-autohiding-scrollbar;
 }
 #rl_container .reslibrary {
 	min-height: 380px;
