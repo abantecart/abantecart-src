@@ -1095,6 +1095,7 @@ p {
 /* resource library */
 #rl_modal .modal-body {
 	padding: 5px;
+	overflow: hidden;
 }
 
 .tab-content.rl-content {
@@ -1306,7 +1307,7 @@ p {
 	border-left: 1px solid #e5e5e5;
 	height: 660px;
 }
-#rl_container .nav-tabs, #rl_edit_container .nav-tabs {
+#rl_container .nav-tabs, #rl_edit_container .nav-tabs, #rl_add_container > .nav-tabs {
 	background: none;
 } 
 .rl-content .edit_resource_form {
@@ -1325,7 +1326,9 @@ p {
 	max-width: 170px !important;
 }
 #resource_types_tabs {
-	overflow-x: scroll;
+	overflow: auto;
+	white-space: nowrap;
+	-ms-overflow-style: -ms-autohiding-scrollbar;
 }
 #rl_container .reslibrary {
 	min-height: 380px;
@@ -3187,7 +3190,8 @@ body.stickyheader .sticky_left {
 }
 
 .zennable {
-  position: relative;
+  position: absolute;
+  width: 100%;
 }
 .zennable textarea {
   background-color: #fff;
@@ -3209,7 +3213,17 @@ body.stickyheader .sticky_left {
   background-color: #f6f6f6;
 }
 .zennable .toolbar .btn-group{
-  overflow-x: scroll;
+  overflow: auto;
+  white-space: nowrap;
+  -ms-overflow-style: -ms-autohiding-scrollbar;
+  width: 100%;  
+}
+.zennable .toolbar .btn-group > .btn {
+	float: none;
+}
+
+.zennable.expanded {
+  position: relative;
 }
 .zennable.expanded .zen-backdrop .expander {
   display: none;
