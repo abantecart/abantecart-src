@@ -258,8 +258,9 @@ var loadMedia = function (type, wrapper) {
 			if(json.total > json.limit) {
 				html += '<div class="col-md-1 col-sm-2 col-xs-6 reslibrary_block">' +
 						'<div class="center thumbnail">';
-				html += '<a class="btn list_maped_resources tooltips transparent rl_large_icon" '+data_mode+' data-type="' + type + '" data-original-title="<?php echo_html2view($text_view_more) ?>"><i class="fa fa-folder-open"></i></a>';
-				html += '</div></div>';
+				html += '<a class="btn list_maped_resources tooltips transparent rl_large_icon" '+data_mode+' data-type="' + type + '" data-original-title="<?php echo_html2view($text_view_more) ?>"><i class="fa fa-folder-open"></i></a></div>';
+				html += '<div class="caption center ellipsis"><a href="# "class="list_maped_resources resource_edit" '+data_mode+' data-type="' + type + '"><?php echo_html2view($text_view_more) ?></a></div><br />';
+				html += '</div>';
 			}
 		
 			html += '<div class="col-md-1 col-sm-2 col-xs-6 reslibrary_block">' +
