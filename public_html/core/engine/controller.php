@@ -52,6 +52,7 @@ if (!defined('DIR_CORE')) {
  * @property ModelLocalisationOrderStatus $model_localisation_order_status
  * @property ModelReportViewed $model_report_viewed
  * @property ModelSaleCoupon $model_sale_coupon
+ * @property ModelSaleContact $model_sale_contact
  * @property ModelToolBackup $model_tool_backup
  * @property ModelToolGlobalSearch $model_tool_global_search
  * @property ModelToolMigration $model_tool_migration

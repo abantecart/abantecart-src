@@ -118,6 +118,19 @@ class ModelAccountCustomer extends Model {
 			$msg->saveNotice($language->get('text_new_customer'), $msg_text);
 		}
 
+		//enable notification setting for newsletter via email
+		if($data['newsletter']){
+			$sql = "INSERT INTO " . $this->db->table('customer_notifications') . "
+					(customer_id, sendpoint,protocol,status, date_added)
+				VALUES
+				('" . $customer_id . "',
+				'newsletter',
+				'email',
+				'1',
+				NOW());";
+			$this->db->query($sql);
+		}
+
 		return $customer_id;
 	}
 
@@ -258,6 +271,18 @@ class ModelAccountCustomer extends Model {
 					$this->db->query($sql);
 				}
 			}
+			//for newsletter subscription do changes inside customers table
+			//if at least one protocol enabled - set 1, otherwise - 0
+			if(has_value($update['newsletter'])){
+				$newsletter_status = 0;
+				foreach($update['newsletter'] as $protocol=>$status){
+					if($status){
+						$newsletter_status = 1;
+						break;
+					}
+				}
+				$this->editNewsletter($newsletter_status, $customer_id);
+			}
 		}
 		return true;
 	}
@@ -315,7 +340,10 @@ class ModelAccountCustomer extends Model {
 				FROM " . $this->db->table("customers") . "
 				WHERE LOWER(`email`) = LOWER('" . $this->db->escape($email) . "')";
 		if($no_subscribers){
-			$sql .= " AND customer_group_id NOT IN (SELECT customer_group_id FROM ".$this->db->table('customer_groups')." WHERE `name` = 'Newsletter Subscribers')";
+			$sql .= " AND customer_group_id NOT IN
+							(SELECT customer_group_id
+							FROM ".$this->db->table('customer_groups')."
+							WHERE `name` = 'Newsletter Subscribers')";
 		}
 		$query = $this->db->query($sql);
 		
@@ -328,7 +356,9 @@ class ModelAccountCustomer extends Model {
 	 */
 	public function getCustomerByEmail($email) {
 		//assuming that data is not encrypted. Can not call these otherwise
-		$query = $this->db->query("SELECT * FROM " . $this->db->table("customers") . " WHERE LOWER(`email`) = LOWER('" . $this->db->escape($email) . "')");
+		$query = $this->db->query("SELECT *
+									FROM " . $this->db->table("customers") . "
+									WHERE LOWER(`email`) = LOWER('" . $this->db->escape($email) . "')");
 		return $query->row;
 	}
 
@@ -338,7 +368,9 @@ class ModelAccountCustomer extends Model {
 	 * @return array
 	 */
 	public function getCustomerByLoginnameAndEmail($loginname, $email) {
-		$query = $this->db->query("SELECT * FROM " . $this->db->table("customers") . " WHERE LOWER(`loginname`) = LOWER('" . $this->db->escape($loginname) . "')");
+		$query = $this->db->query("SELECT *
+									FROM " . $this->db->table("customers") . "
+									WHERE LOWER(`loginname`) = LOWER('" . $this->db->escape($loginname) . "')");
 		//validate it is correct row by matchign decrypted email;
 		$result_row = $this->dcrypt->decrypt_data($query->row, 'customers');		
 		if ( strtolower($result_row['email']) == strtolower($email) ) {
@@ -354,7 +386,9 @@ class ModelAccountCustomer extends Model {
 	 * @return array
 	 */
 	public function getCustomerByLastnameAndEmail($lastname, $email) {
-		$query = $this->db->query("SELECT * FROM " . $this->db->table("customers") . " WHERE LOWER(`lastname`) = LOWER('" . $this->db->escape($lastname) . "')");
+		$query = $this->db->query("SELECT *
+									FROM " . $this->db->table("customers") . "
+									WHERE LOWER(`lastname`) = LOWER('" . $this->db->escape($lastname) . "')");
 		//validate if we have row with matchign decrypted email;		
 		$result_row = array();
 		foreach ($query->rows as $result) {

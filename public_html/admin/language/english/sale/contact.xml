@@ -1,8 +1,12 @@
 <?xml version="1.0"?>
 <definitions>
 	<definition>
-		<key>heading_title</key>
+		<key>text_send_email</key>
 		<value><![CDATA[Send Mail]]></value>
+	</definition>
+	<definition>
+		<key>text_send_sms</key>
+		<value><![CDATA[Send SMS]]></value>
 	</definition>
 	<definition>
 		<key>text_success</key>
@@ -33,12 +37,12 @@
 		<value><![CDATA[From store:<span class="help">Store email address to send email from. Value is set in store settings</span>]]></value>
 	</definition>
 	<definition>
-		<key>entry_product</key>
-		<value><![CDATA[To customers ordered:<span class="help">Send message to customers who ordered selected products</span>]]></value>
+		<key>text_customers_who_ordered</key>
+		<value><![CDATA[To customers who ordered selected products]]></value>
 	</definition>
 	<definition>
 		<key>entry_to</key>
-		<value><![CDATA[To:<span class="help">List of customers to recieve this message. NOTE: Large customer lists will require long time to be processed and might require alternative methods. Refer to your web and email server configurations</span>]]></value>
+		<value><![CDATA[To:<span class="help">List of customers to receive this message. NOTE: Large customer lists will require long time to be processed and might require alternative methods. Refer to your web and email server configurations</span>]]></value>
 	</definition>
 	<definition>
 		<key>text_customers_from_lookup</key>
@@ -91,5 +95,13 @@
 	<definition>
 		<key>text_select_customers</key>
 		<value><![CDATA[- Select Customers -]]></value>
+	</definition>
+	<definition>
+		<key>text_email</key>
+		<value><![CDATA[Email]]></value>
+	</definition>
+	<definition>
+		<key>text_sms</key>
+		<value><![CDATA[SMS]]></value>
 	</definition>
 </definitions>

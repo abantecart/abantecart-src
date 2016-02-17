@@ -1,6 +1,10 @@
 <?xml version="1.0"?>
 <definitions>
   	<definition>
+    	<key>im_text_notification</key>
+    	<value><![CDATA[]]>Notification</value>
+  	</definition>
+  	<definition>
     	<key>im_sendpoint_name_order_updates</key>
     	<value><![CDATA[]]>Order Updates</value>
   	</definition>

@@ -49,8 +49,22 @@ class ModelSaleCustomer extends Model {
       	                    approved = '" . (int)$data['approved'] . "'"
       	                    .$key_sql . ",
       	                    date_added = NOW()");
+		$customer_id = $this->db->getLastId();
+
+		//enable notification setting for newsletter via email
+		if($data['newsletter']){
+			$sql = "INSERT INTO " . $this->db->table('customer_notifications') . "
+					(customer_id, sendpoint,protocol,status, date_added)
+				VALUES
+				('" . $customer_id . "',
+				'newsletter',
+				'email',
+				'1',
+				NOW());";
+			$this->db->query($sql);
+		}
       	
-      	return $this->db->getLastId();
+      	return $customer_id;
 	}
 
 	/**
@@ -337,6 +351,7 @@ class ModelSaleCustomer extends Model {
   				c.lastname,
   				c.loginname,
   				c.email,
+  				c.sms,
   				c.status,
   				c.approved,
   				c.customer_group_id,
@@ -384,6 +399,9 @@ class ModelSaleCustomer extends Model {
 			}
 			if (has_value($filter['telephone'])) {
 				$implode[] = "c.telephone LIKE '%" . $this->db->escape($filter['telephone']) . "%' collate utf8_general_ci";
+			}
+			if (has_value($filter['sms'])) {
+				$implode[] = "c.sms LIKE '%" . $this->db->escape($filter['sms']) . "%' collate utf8_general_ci";
 			}
 		}
 		
@@ -472,7 +490,10 @@ class ModelSaleCustomer extends Model {
 			}
 			if (has_value($filter['telephone'])) {
 				$result_rows = $this->_filter_by_encrypted_field($result_rows, 'telephone', $filter['telephone']);
-			}			
+			}
+			if (has_value($filter['sms'])) {
+				$result_rows = $this->_filter_by_encrypted_field($result_rows, 'sms', $filter['sms']);
+			}
 		}		
 
 		if ($mode == 'total_only') {
@@ -607,20 +628,25 @@ class ModelSaleCustomer extends Model {
 	 * @return array
 	 */
 	public function getCustomersByProduct($product_id) {
-		if ($product_id) {
-			$query = $this->db->query("SELECT DISTINCT `email`
-										FROM `" . $this->db->table("orders") . "` o
-										LEFT JOIN " . $this->db->table("order_products") . " op ON (o.order_id = op.order_id)
-										WHERE op.product_id = '" . (int)$product_id . "' AND o.order_status_id <> '0'");
-	
-			$result_rows = array();
-			foreach ($query->rows as $row) {
-				$result_rows[] = $this->dcrypt->decrypt_data($row, 'orders');	
-			}		
-			return $result_rows;
-		} else {
-			return array();	
+		if (!$product_id){
+			return array ();
 		}
+
+		$query = $this->db->query("SELECT *
+									FROM " . $this->db->table("customers") . "
+									WHERE customer_id IN (
+										SELECT DISTINCT `customer_id`
+										FROM `" . $this->db->table("orders") . "` o
+										INNER JOIN " . $this->db->table("order_products") . " op
+											ON (o.order_id = op.order_id AND op.product_id = '" . (int)$product_id . "')
+										WHERE o.order_status_id <> '0')");
+
+		$result_rows = array();
+		foreach ($query->rows as $row) {
+			$result_rows[] = $this->dcrypt->decrypt_data($row, 'customers');
+		}
+		return $result_rows;
+
 	}
 
 	/**

@@ -107,6 +107,7 @@ class ATaskManager {
 		$steps_count = sizeof($steps); // total count of steps to calculate percentage (for future)
 		$k=0;
 		foreach($steps as $step){
+
 			$this->toLog('Tried to run step #'.$step['step_id'].' of task #'.$task_id);
 			//change status to active
 			$this->_update_step_state( $step['step_id'],
@@ -115,7 +116,8 @@ class ATaskManager {
 												'status' => 2) ); //change status of step to active while it run
 
 			try{
-				$dd = new ADispatcher($step['controller'],$step_settings['params']);
+
+				$dd = new ADispatcher($step['controller'],$step['settings']);
 				$response = $dd->dispatchGetOutput($step['controller']);
 			}catch(AException $e){	}
 
@@ -461,8 +463,8 @@ class ATaskManager {
 			$sql .= " AND " . $data['subsql_filter'];
 		}
 
-		if (has_value($filter['name'])) {
-			$sql .= " AND (LCASE(t.name) LIKE '%" . $this->db->escape(mb_strtolower($filter['name'])) . "%'";
+		if (has_value($data['filter']['name'])) {
+			$sql .= " AND (LCASE(t.name) LIKE '%" . $this->db->escape(mb_strtolower($data['filter']['name'])) . "%'";
 		}
 
 
@@ -481,8 +483,8 @@ class ATaskManager {
 			$sql .= " AND " . $data['subsql_filter'];
 		}
 
-		if (has_value($filter['name'])) {
-			$sql .= " AND (LCASE(t.name) LIKE '%" . $this->db->escape(mb_strtolower($filter['name'])) . "%'";
+		if (has_value($data['filter']['name'])) {
+			$sql .= " AND (LCASE(t.name) LIKE '%" . $this->db->escape(mb_strtolower($data['filter']['name'])) . "%'";
 		}
 
 		$sort_data = array(

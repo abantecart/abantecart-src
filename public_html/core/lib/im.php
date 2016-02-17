@@ -37,7 +37,7 @@ if (!defined('DIR_CORE')) {
 
 class AIM {
 	private $registry;
-	private $protocols = array('email', 'sms', 'skype');
+	private $protocols = array('email', 'sms');
 	/**
 	 * @var array for StoreFront side ONLY!
 	 * NOTE:
@@ -130,6 +130,12 @@ class AIM {
 
 		foreach($extensions->rows as $ext){
 			$driver_txt_id = $ext['key'];
+
+			//skip non-installed
+			if(!has_value($this->config->get($driver_txt_id.'_status'))){
+				continue;
+			}
+
 			//skip non-active drivers
 			if($filter_arr['status'] && !in_array($driver_txt_id, $active_drivers)){
 				continue;
