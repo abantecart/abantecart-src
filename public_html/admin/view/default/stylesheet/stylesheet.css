@@ -3210,6 +3210,13 @@ body.stickyheader .sticky_left {
 }
 .zennable .toolbar .btn-group{
   overflow-x: scroll;
+  overflow-y: hidden;
+  white-space: nowrap;
+  -ms-overflow-style: -ms-autohiding-scrollbar;
+  width: 550px;
+}
+.zennable .toolbar .btn-group > .btn {
+	float: none;
 }
 .zennable.expanded .zen-backdrop .expander {
   display: none;
