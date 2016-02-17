@@ -249,7 +249,7 @@ var loadMedia = function (type, wrapper) {
 					}
 					html += '</div>';
 				} else {
-					html += '<div class="caption center ellipsis"><a href="# "class="resource_edit" '+data_mode+' data-type="' + type + '" data-rl-id="' + item['resource_id'] + '">'+item['name']+'</a></div><br />';
+					html += '<div class="caption center ellipsis"><a href="#" class="resource_edit" '+data_mode+' data-type="' + type + '" data-rl-id="' + item['resource_id'] + '">'+item['name']+'</a></div><br />';
 				}
 				html += '</div></div>';
 			});
@@ -259,15 +259,17 @@ var loadMedia = function (type, wrapper) {
 				html += '<div class="col-md-1 col-sm-2 col-xs-6 reslibrary_block">' +
 						'<div class="center thumbnail">';
 				html += '<a class="btn list_maped_resources tooltips transparent rl_large_icon" '+data_mode+' data-type="' + type + '" data-original-title="<?php echo_html2view($text_view_more) ?>"><i class="fa fa-folder-open"></i></a></div>';
-				html += '<div class="caption center ellipsis"><a href="# "class="list_maped_resources resource_edit" '+data_mode+' data-type="' + type + '"><?php echo_html2view($text_view_more) ?></a></div><br />';
+				html += '<div class="caption center ellipsis"><a href="#" class="list_maped_resources resource_edit" '+data_mode+' data-type="' + type + '"><?php echo_html2view($text_view_more) ?></a></div><br />';
 				html += '</div>';
 			}
 		
 			html += '<div class="col-md-1 col-sm-2 col-xs-6 reslibrary_block">' +
 					'<div class="center thumbnail fileupload_drag_area">' +
 					'<form action="<?php echo $rl_upload; ?>&type=' + type + '" method="POST" enctype="multipart/form-data"><input type="file" name="files[]" multiple="" class="hide">';
-			html += '<a class="btn resource_add tooltips transparent rl_large_icon" '+data_mode+' data-type="' + type + '" data-original-title="<?php echo_html2view($text_add_media) ?>"><i class="fa fa-plus-circle"></a>';
-			html += '</form></div></div>';
+			html += '<a class="btn resource_add tooltips transparent rl_large_icon" '+data_mode+' data-type="' + type + '" data-original-title="<?php echo_html2view($text_add_media) ?>"><i class="fa fa-plus-circle"></i></a>';
+			html += '</form></div>';
+			html += '<div class="caption center ellipsis"><a href="#" class="resource_add" '+data_mode+' data-type="' + type + '"><?php echo_html2view($text_add_media) ?></a></div><br />';
+			html += '</div>';
 
 			$(wrapper).html(html);
 		},
@@ -791,7 +793,7 @@ var bind_rl = function (elm) {
 		if(!$(this).hasClass('rl_select')) {
 			//reload listing page (whole modal)
 			reloadModal($("#rl_container").attr('data-current-url'));
-			//reload editpage 
+			//reload edit pane
 			sideDialog(type, 'update', rid);			
 		}
 		
@@ -825,7 +827,8 @@ var bind_rl = function (elm) {
 			},
 			error: rl_error_handler
 		});
-		active_tab().click(); // reload active tab
+		reloadModal($("#rl_container").attr('data-current-url'));
+		sideDialog(type, 'add');			
 		return false;
 	});
 
