@@ -208,7 +208,7 @@ class ATaskManager {
 		}
 
 		$sql = "INSERT INTO ".$this->db->table('tasks')."
-				(`name`,`starter`,`status`,`start_time`,`last_time_run`,`progress`,`last_result`,`run_interval`,`max_execution_time`,`date_modified`)
+				(`name`,`starter`,`status`,`start_time`,`last_time_run`,`progress`,`last_result`,`run_interval`,`max_execution_time`,`date_added`)
 				VALUES ('".$this->db->escape($data['name'])."',
 						'".(int)$data['starter']."',
 						'".(int)$data['status']."',
@@ -484,7 +484,7 @@ class ATaskManager {
 		}
 
 		if (has_value($data['filter']['name'])) {
-			$sql .= " AND (LCASE(t.name) LIKE '%" . $this->db->escape(mb_strtolower($data['filter']['name'])) . "%'";
+			$sql .= " AND (LCASE(t.name) LIKE '%" . $this->db->escape(mb_strtolower($data['filter']['name'])) . "%')";
 		}
 
 		$sort_data = array(

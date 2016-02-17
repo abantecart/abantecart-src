@@ -34,6 +34,7 @@ final class AUser {
     private $email;
     private $username;
     private $last_login;
+    private $user_group_id;
     /**
      * @var array
      */
@@ -185,6 +186,12 @@ final class AUser {
      */
     public function getId() {
 		return $this->user_id;
+	}
+    /**
+     * @return int
+     */
+    public function getUserGroupId() {
+		return $this->user_group_id;
 	}
 
     /**

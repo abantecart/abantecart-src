@@ -39,7 +39,20 @@
 				</ul>
 			</div>
 		</div>
-		<?php include($tpl_common_dir . 'content_buttons.tpl'); ?>
+		<?php
+		if($incomplete_tasks_url){
+			$common_content_buttons[] = '<a class="btn btn-danger"
+											href="'.$incomplete_tasks_url.'"
+											data-toggle="modal"
+											data-target="#incompleted_tasks_modal">
+											<i class="fa fa-thumbs-o-down"></i> '.$text_incompleted_tasks.'</a>';
+			echo $this->html->buildElement(
+					array('type' => 'modal',
+							'id' => 'incompleted_tasks_modal',
+							'title' => $text_incompleted_tasks,
+							'data_source' => 'ajax'));
+		}
+		include($tpl_common_dir . 'content_buttons.tpl'); ?>
 	</div>
 
 	<?php echo $form['form_open']; ?>
@@ -117,10 +130,26 @@
 				type: "POST",
 				url: '<?php echo $presave_url;?>',
 				data: $('#sendFrm').serializeArray(),
-				datatype: 'json',
-				global: false
+				datatype: 'json'
 			});
 		});
 	});
+
+
+	function removeTask(elm){
+		$.ajax({
+			type: "POST",
+			url: '<?php echo $form['abort_task_url'];?>',
+			data: {task_id: $(elm).attr('data-task_id')},
+			datatype: 'json',
+			complete: function(){
+				location.reload();
+			}
+		});
+	}
+
+	$(document).on('click', 'a.restart_task', function(){
+		$('#incompleted_tasks_modal').modal('hide');
+	})
 
 </script>

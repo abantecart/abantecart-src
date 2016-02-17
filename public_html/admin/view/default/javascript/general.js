@@ -698,7 +698,13 @@ $(document).on('click', ".task_run", function () {
 
     run_task_url = $(this).attr('data-run-task-url');
     complete_task_url = $(this).attr('data-complete-task-url');
-   // abort_task_url = $(this).attr('data-abort-task-url');
+    abort_task_url = $(this).attr('data-abort-task-url');
+
+    //do the trick before form serialization
+    if(tinyMCE) {
+        tinyMCE.triggerSave();
+    }
+
     var send_data = $(this).parents('form').serialize();
     $.ajax({
         url: run_task_url,
@@ -733,6 +739,8 @@ var runTaskUI = function (data) {
     }
 }
 
+
+
 var runTaskStepsUI = function (task_details) {
     if (task_details.status != '1') {
         runTaskShowError('Cannot to run steps of task "' + task_details.name + '" because status of task is not "scheduled". Current status - ' + task_details.status);
@@ -742,9 +750,9 @@ var runTaskStepsUI = function (task_details) {
                         '<div class="progress">' +
                             '<div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="2" aria-valuemin="0" aria-valuemax="100" style="width: 1%;">1%</div>' +
                     '</div>'
-       /* if(abort_task_url.length>0){
+        if(abort_task_url.length>0){
             html += '<a class="abort btn btn-danger"><i class="fa fa-times-circle-o"></i> Abort</a>';
-        }*/
+        }
         html += '</div>';
 
         $('#task_modal .modal-body').html(html);
@@ -756,11 +764,52 @@ var runTaskStepsUI = function (task_details) {
         var def_timeout = $.ajaxSetup()['timemout'];
         var stop_task = false;
 
+
+        var ajaxes = {};
+        for(var k in task_details.steps){
+            var step = task_details.steps[k];
+            var senddata = { rt: decodeURIComponent(step.controller),
+                                             token: getUrlParameter('token'),
+                                             s: getUrlParameter('s'),
+                                             task_id: task_details.task_id,
+                                             step_id: step.step_id
+                            };
+            for(var s in step.settings){
+                senddata[s] = step.settings[s];
+            }
+            var timeout = 500;
+            if(step.hasOwnProperty('eta')){
+                senddata['eta'] = step.eta;
+                timeout = (step.eta + 10)*1000;
+            }
+            if(task_details.hasOwnProperty('backup_name')){
+                senddata['backup_name'] = task_details.backup_name;
+            }
+            ajaxes[k] = {
+                task_id:task_details.task_id,
+                type:'GET',
+                timeout: timeout,
+                url: window.location.protocol+'//'+window.location.host+window.location.pathname,
+                data: senddata,
+                dataType: 'json',
+            };
+            if (step.hasOwnProperty("settings") && step.settings!=null
+                && step.settings.hasOwnProperty("interrupt_on_step_fault")
+                && step.settings.interrupt_on_step_fault == true) {
+                ajaxes[k]['interrupt_on_step_fault'] = true;
+            }
+            else{
+                ajaxes[k]['interrupt_on_step_fault'] = false;
+            }
+
+        }
+        do_seqAjax(ajaxes, 3);
+
         //abort process
-    /*    if(abort_task_url.length>0){
+
+        if(abort_task_url.length>0){
             $('#task_modal .modal-body').find('a.abort').on('click', function(){
-                stop_task = true;
-                step_ajax.abort();
+                $.xhrPool.abortAll();
                 $.ajax({
                             type: "POST",
                             url: abort_task_url,
@@ -805,115 +854,6 @@ var runTaskStepsUI = function (task_details) {
                         });
             });
         }
-*/
-        for (var k in task_details.steps) {
-            if (stop_task == true) {
-                break;
-            } // interruption
-
-            var step = task_details.steps[k];
-
-            $('div.progress-info').html(defaultTaskMessages.processing_step +' #' + step_num);
-
-            var attempts = 3;// set attempts count for fail ajax call (for repeating request)
-
-            while (attempts >= 0) { // run each ajax call few times in case when we have unstable commention etc
-
-                var senddata = { rt: decodeURIComponent(step.controller),
-                                 token: getUrlParameter('token'),
-                                 s: getUrlParameter('s'),
-                                 task_id: task_details.task_id,
-                                 step_id: step.step_id
-                };
-                for(var s in step.settings){
-                    senddata[s] = step.settings[s];
-                }
-                var timeout = 500;
-                if(step.hasOwnProperty('eta')){
-                    senddata['eta'] = step.eta;
-                    timeout = (step.eta + 10)*1000;
-                }
-                if(task_details.hasOwnProperty('backup_name')){
-                    senddata['backup_name'] = task_details.backup_name;
-                }
-
-                var step_ajax = $.ajax({
-                    type: "GET",
-                    async: false,
-                    timeout: timeout,
-                    url: window.location.protocol+'//'+window.location.host+window.location.pathname,
-                    data: senddata,
-                    dataType: 'json',
-                    global: false,
-                    success: function (data, textStatus, xhr) {
-                        //TODO: add check for php-syntax errors (if php-crashed we got HTTP200 and error handler fired)
-                        var prc = Math.round(step_num * 100 / steps_cnt);
-                        $('div.progress-bar').css('width', prc + '%').html(prc + '%');
-                        task_complete_text += '<div class="alert-success">'+defaultTaskMessages.step+' ' + step_num + ': '+defaultTaskMessages.success+'</div>';
-                        step_num++;
-                        if (step_num > steps_cnt) { //after last step start post-trigger of task
-                            $('div.progress-bar')
-                                .removeClass('active, progress-bar-striped')
-                                .css('width', '100%')
-                                .html('100%');
-                            $('div.progress-info').html(defaultTaskMessages.complete);
-                            runTaskComplete(task_details.task_id, senddata['backup_name']);
-                        }
-                        attempts = -1; //stop attempts of this task
-                    },
-                    error: function (xhr, status, error) {
-                        var error_txt;
-                        try { //when server response is json formatted string
-                            var err = $.parseJSON(xhr.responseText);
-                            if (err.hasOwnProperty("error_text")) {
-                                error_txt = err.error_text;
-                                attempts = 0; //if we got error from task-controller  - interrupt attemps
-                            } else {
-                                if(xhr.status==200){
-                                    error_txt = '('+xhr.responseText+')';
-                                }else{
-                                    error_txt = 'HTTP-status:' + xhr.status;
-                                }
-                                error_txt = 'Connection error occurred. ' + error_txt;
-                            }
-                        } catch (e) {
-                            if(xhr.status==200){
-                                error_txt = '('+xhr.responseText+')';
-                            }else{
-                                error_txt = 'HTTP-status:' + xhr.status;
-                            }
-                            error_txt = 'Connection error occurred. ' + error_txt;
-                        }
-
-                        //so.. if all attempts of this step are failed
-                        if (attempts == 0) {
-                            task_complete_text += '<div class="alert-danger">' + defaultTaskMessages.step + ' ' + step_num + ' - '+defaultTaskMessages.failed+'. ('+ error_txt +')</div>';
-                            //check interruption of task on step failure
-                            if (step.hasOwnProperty("settings") && step.settings!=null){
-                                if (step.settings.hasOwnProperty("interrupt_on_step_fault")) {
-                                    if (step.settings.interrupt_on_step_fault == true) {
-                                        stop_task = true;
-                                        runTaskComplete(task_details.task_id, senddata['backup_name']);
-                                    }
-                                }
-                            }
-                            task_fail = true;
-                            step_num++;
-                            //if last step failed
-                            if(step_num>steps_cnt){
-                                runTaskComplete(task_details.task_id, senddata['backup_name']);
-                            }
-                        }
-
-                        attempts--;
-                    }
-
-                });
-            }
-        }
-
-
-
     }
 }
 
@@ -978,6 +918,134 @@ var runTaskComplete = function (task_id, bkp_name) {
 
 var runTaskShowError = function (error_text) {
     $('#task_modal .modal-body').html('<div class="alert alert-danger" role="alert">' + error_text + '</div>');
+}
+
+   /**
+     * function for sequental ajax calls, one by one
+     * @param ajaxes - object with descriptions for ajax call
+     * @param attempts_count - number of attempts if ajax call failed
+     */
+
+function do_seqAjax(ajaxes, attempts_count){
+
+       $.xhrPool = [];
+       $.xhrPool.abortAll = function() {
+           $(this).each(function(i, jqXHR) {   //  cycle through list of recorded connection
+               jqXHR.abort();  //  aborts connection
+               $.xhrPool.splice(i, 1); //  removes from list by index
+           });
+       }
+
+        var current = 0,
+            current_key,
+            keys = [];
+        for(var k in ajaxes){
+            keys.push(k);
+        }
+        var steps_cnt = keys.length;
+        var attempts = attempts_count || 3;// set attempts count for fail ajax call (for repeating request)
+        var kill = false;
+
+        //declare your function to run AJAX requests
+        function do_ajax() {
+
+            //interrupt recursion when:
+            //kill task
+            // task complete
+            if (kill || current >= steps_cnt) {
+                $('div.progress-bar')
+                    .removeClass('active, progress-bar-striped')
+                    .css('width', '100%')
+                    .html('100%');
+                $('div.progress-info').html(defaultTaskMessages.complete);
+                runTaskComplete(ajaxes[current_key].task_id, ajaxes[current_key].data);
+                return;
+            }
+            current_key = keys[current];
+            //make the AJAX request with the given data from the `ajaxes` array of objects
+            ajaxes[current_key].data['t'] = new Date().getTime();
+            $.ajax({
+                type: ajaxes[current_key].type,
+                timeout: ajaxes[current_key].timeout,
+                url: ajaxes[current_key].url,
+                data: ajaxes[current_key].data,
+                dataType: ajaxes[current_key].dataType,
+                global: false,
+                cache: false,
+                beforeSend: function(jqXHR) {
+                    $.xhrPool.push(jqXHR);
+                },
+                success: function (data, textStatus, xhr) {
+                    var prc = Math.round((current+1) * 100 / steps_cnt);
+                    $('div.progress-bar').css('width', prc + '%').html(prc + '%');
+                    task_complete_text += '<div class="alert-success">'
+                        +defaultTaskMessages.step+' '
+                        + (current+1) + ': '
+                        +defaultTaskMessages.success+'</div>';
+
+                    attempts = 3;
+                    current++;
+                },
+                error: function (xhr, status, error) {
+                    var error_txt='';
+                    try { //when server response is json formatted string
+                        var err = $.parseJSON(xhr.responseText);
+                        if (err.hasOwnProperty("error_text")) {
+                            error_txt = err.error_text;
+                        } else {
+                            if(xhr.status==200){
+                                error_txt = '('+xhr.responseText+')';
+                            }else{
+                                error_txt = 'HTTP-status:' + xhr.status;
+                            }
+                            error_txt = 'Connection error occurred. ' + error_txt;
+                        }
+                    } catch (e) {
+                        if(xhr.status==200){
+                            error_txt = '('+xhr.responseText+')';
+                        }else{
+                            error_txt = 'HTTP-status:' + xhr.status;
+                        }
+                        error_txt = 'Connection error occurred. ' + error_txt;
+                    }
+
+                    //so.. if all attempts of this step are failed
+                    if (attempts == 0) {
+                        task_complete_text += '<div class="alert-danger">'
+                            + defaultTaskMessages.step + ' '
+                            + (current+1) + ' - '
+                            + defaultTaskMessages.failed
+                            +'. ('+ error_txt +')</div>';
+                        //check interruption of task on step failure
+                        if(ajaxes[current_key].interrupt_on_step_fault){
+                            kill=true;
+                            task_fail = true;
+                            xhr.abort();
+                        }else{
+                            task_fail = true;
+                            attempts = 3;
+                        }
+                        current++;
+                    }else {
+                        attempts--;
+                    }
+                },
+                complete: function(jqXHR, text_status){
+                    //  get index for current connection completed
+                    var i = $.xhrPool.indexOf(jqXHR);
+                    //  removes from list by index
+                    if (i > -1){
+                        $.xhrPool.splice(i, 1);
+                    }
+                    if(text_status!='abort') {
+                        do_ajax();
+                    }
+                }
+            });
+        }
+
+        //first run
+        do_ajax();
 }
 
 

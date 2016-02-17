@@ -66,12 +66,15 @@ class ModelSaleContact extends Model {
 			return false;
 		}
 
+		//numbers of emails per task step
 		$divider = 10;
+		//timeout in seconds for one email send
+		$time_per_send = 4;
 		$steps_count = ceil(sizeof($uris) / $divider);
 
 		$tm = new ATaskManager();
 
-		//1. create new task
+		//create new task
 		$task_id = $tm->addTask(
 				array ('name'               => $task_name,
 				       'starter'            => 1, //admin-side is starter
@@ -82,7 +85,9 @@ class ModelSaleContact extends Model {
 				       'progress'           => '0',
 				       'last_result'        => '0',
 				       'run_interval'       => '0',
-				       'max_execution_time' => '0'
+						//think that task will execute with some connection errors
+				       'max_execution_time' => (sizeof($uris) * $time_per_send * 2)
+
 				)
 		);
 		if (!$task_id){
@@ -93,15 +98,17 @@ class ModelSaleContact extends Model {
 
 		//create steps for sending
 		$k=0;
+		$sort_order =1;
 		while ($steps_count > 0){
 			$uri_list = array_slice($uris, $k, $divider);
 			$step_id = $tm->addStep(array (
 					'task_id'            => $task_id,
-					'sort_order'         => 1,
+					'sort_order'         => $sort_order,
 					'status'             => 1,
 					'last_time_run'      => '0000-00-00 00:00:00',
 					'last_result'        => '0',
-					'max_execution_time' => 4*$divider,
+					//think that task will execute with some connection errors
+					'max_execution_time' => ($time_per_send*$divider*2),
 					'controller'         => $task_controller,
 					'settings'           => array (
 							'to'            => $uri_list,
@@ -109,21 +116,20 @@ class ModelSaleContact extends Model {
 							'message'       => $data['message'],
 							'store_name'    => $store_name,
 							'subscribers'   => $subscribers
-
 					)
 			));
 
-			if (!$step_id){
+			if(!$step_id){
 				$this->errors = array_merge($this->errors, $tm->errors);
 				return false;
-			} else{
+			}else{
 				// get eta in seconds
-				$this->eta[$step_id] = 4*$divider;
+				$this->eta[$step_id] = ($time_per_send * $divider);
 			}
 			$steps_count--;
-			$k = $k+5;
+			$k = $k+$divider;
+			$sort_order++;
 		}
-
 
 		$task_details = $tm->getTaskById($task_id);
 		if($task_details){

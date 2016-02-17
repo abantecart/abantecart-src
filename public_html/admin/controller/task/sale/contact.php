@@ -25,6 +25,10 @@ class ControllerTaskSaleContact extends AController{
 
 	private $protocol;
 	public function sendSms(){
+		//for aborting process
+		ignore_user_abort(false);
+		session_write_close();
+
 		//init controller data
 		$this->extensions->hk_InitData($this, __FUNCTION__);
 
@@ -37,6 +41,9 @@ class ControllerTaskSaleContact extends AController{
 	}
 
 	public function sendEmail(){
+		//for aborting process
+		ignore_user_abort(false);
+		session_write_close();
 
 		//init controller data
 		$this->extensions->hk_InitData($this, __FUNCTION__);
@@ -67,6 +74,9 @@ class ControllerTaskSaleContact extends AController{
 		foreach($task_steps as $task_step){
 			if($task_step['step_id'] == $step_id){
 				$step_info = $task_step;
+				if($task_step['sort_order']==1){
+					$tm->updateTask($task_id, array('last_time_run' => date('Y-m-d H:i:s')));
+				}
 				break;
 			}
 		}
@@ -75,6 +85,8 @@ class ControllerTaskSaleContact extends AController{
 			$error_text = 'Cannot run task step. Looks like task #'.$task_id.' does not contain step #'.$step_id;
 			$this->_return_error($error_text);
 		}
+
+		$tm->updateStep($step_id, array('last_time_run' => date('Y-m-d H:i:s')));
 
 		if(!$step_info['settings'] || !$step_info['settings']['to']){
 			$error_text = 'Cannot run task step #'.$step_id.'. Unknown settings for it.';

@@ -104,4 +104,44 @@
 		<key>text_sms</key>
 		<value><![CDATA[SMS]]></value>
 	</definition>
+	<definition>
+		<key>text_incompleted_tasks</key>
+		<value><![CDATA[Incompleted Tasks]]></value>
+	</definition>
+	<definition>
+		<key>text_task_id</key>
+		<value><![CDATA[Task ID:]]></value>
+	</definition>
+	<definition>
+		<key>text_last_time_run</key>
+		<value><![CDATA[Last Time Run:]]></value>
+	</definition>
+	<definition>
+		<key>text_date_added</key>
+		<value><![CDATA[Created:]]></value>
+	</definition>
+	<definition>
+		<key>text_date_added</key>
+		<value><![CDATA[Created:]]></value>
+	</definition>
+	<definition>
+		<key>text_subject</key>
+		<value><![CDATA[Subject:]]></value>
+	</definition>
+	<definition>
+		<key>text_message</key>
+		<value><![CDATA[Message:]]></value>
+	</definition>
+	<definition>
+		<key>text_starter_name</key>
+		<value><![CDATA[Created by:]]></value>
+	</definition>
+	<definition>
+		<key>text_restart</key>
+		<value><![CDATA[Restart]]></value>
+	</definition>
+	<definition>
+		<key>text_remove</key>
+		<value><![CDATA[Remove]]></value>
+	</definition>
 </definitions>
