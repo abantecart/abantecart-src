@@ -10031,7 +10031,8 @@ INSERT INTO `ac_pages` (`page_id`, `parent_page_id`, `controller`, `key_param`, 
 (4, 0, 'pages/account/login', '', '', now() ),
 (5, 0, 'pages/product/product', '', '', now()),
 (10, 0, 'pages/index/maintenance', '', '', now() ),
-(11, 0, 'pages/account', '', '', now() );
+(11, 0, 'pages/account', '', '', now() ),
+(12, 0, 'pages/checkout/cart', '', '', now() );
 
 
 --
@@ -10220,7 +10221,6 @@ CREATE TABLE `ac_block_descriptions` (
   PRIMARY KEY (`block_description_id`, `custom_block_id`, `language_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
-
 --
 -- DDL for table `block_templates`
 --
@@ -10244,7 +10244,6 @@ INSERT INTO `ac_block_templates` (`block_id`, `parent_block_id`, `template`, `da
 (9, 6, 'blocks/category.tpl', now() ),
 (9, 7, 'blocks/category_bottom.tpl', now() ),
 (9, 8, 'blocks/category_bottom.tpl', now() ),
-
 (10, 3, 'blocks/manufacturer.tpl', now() ),
 (10, 6, 'blocks/manufacturer.tpl', now() ),
 (11, 3, 'blocks/content.tpl', now() ),
@@ -10319,8 +10318,7 @@ INSERT INTO `ac_block_templates` (`block_id`, `parent_block_id`, `template`, `da
 (30, 6, 'blocks/custom_form_block.tpl', NOW() ),
 (30, 7, 'blocks/custom_form_block_content.tpl', NOW() ),
 (30, 8, 'blocks/custom_form_block_header.tpl', NOW() ),
-(31, 0, 'blocks/customer.tpl', now() )
-;
+(31, 0, 'blocks/customer.tpl', now() );
 
 --
 -- DDL for table `layouts`
@@ -10345,8 +10343,8 @@ INSERT INTO `ac_layouts` (`layout_id`, `template_id`, `layout_type`, `layout_nam
 (15, 'default', 1, 'Checkout Pages', now()),
 (16, 'default', 1, 'Product Listing Page', now()),
 (17, 'default', 1, 'Maintanance Page', now()),
-(18, 'default', 1, 'Customer Account Pages', now())
-;
+(18, 'default', 1, 'Customer Account Pages', now()),
+(19, 'default', 1, 'Cart Page', now());
 
 --
 -- DDL for table `pages_layouts`
@@ -10365,8 +10363,8 @@ INSERT INTO `ac_pages_layouts` (`layout_id`, `page_id`) VALUES
 (14, 5),
 (15, 3),
 (17, 10),
-(18, 11)
-;
+(18, 11),
+(19, 12);
 
 --
 -- DDL for table `block_layouts`
@@ -10409,7 +10407,8 @@ VALUES
 (1830,	11,	26,	0,	330,	40,	1,	NOW(),	NOW()),	
 (1831,	11,	14,	0,	330,	60,	1,	NOW(),	NOW()),
 (1832,	11,	13,	0,	330,	50,	1,	NOW(),	NOW()),
-(1833,	11,	15,	0,	330,	70,	1,	NOW(),	NOW());
+(1833,	11,	15,	0,	330,	70,	1,	NOW(),	NOW()),
+(1950,	11,	28,	0,	331,	20,	1,	NOW(),	NOW());
 
 -- Home page
 INSERT INTO `ac_block_layouts`
@@ -10447,6 +10446,7 @@ VALUES
 (1799,	13,	27,	0,	378,	30,	1,	NOW(),	NOW()),	
 (1810,	13,	11,	0,	379,	50,	1,	NOW(),	NOW()),	
 (1805,	13,	9,	0,	375,	10,	1,	NOW(),	NOW()),	
+(1951,	13,	28,	0,	375,	20,	1,	NOW(),	NOW()),	
 (1801,	13,	13,	0,	378,	50,	1,	NOW(),	NOW()),	
 (1813,	13,	21,	0,	379,	80,	1,	NOW(),	NOW()),	
 (1809,	13,	25,	0,	379,	40,	1,	NOW(),	NOW()),
@@ -10476,6 +10476,7 @@ VALUES
 (1785,	14,	13,	0,	391,	50,	1,	NOW(),	NOW()),	
 (1786,	14,	14,	0,	391,	60,	1,	NOW(),	NOW()),	
 (1789,	14,	9,	0,	388,	10,	1,	NOW(),	NOW()),
+(1952,	14,	28,	0,	388,	20,	1,	NOW(),	NOW()),	
 (1787,	14,	15,	0,	391,	70,	1,	NOW(),	NOW()),	
 (1797,	14,	24,	0,	392,	70,	1,	NOW(),	NOW()),	
 (1798,	14,	21,	0,	392,	80,	1,	NOW(),	NOW()),	
@@ -10492,26 +10493,28 @@ VALUES
 INSERT INTO `ac_block_layouts`
 (`instance_id`,`layout_id`,`block_id`,`custom_block_id`,`parent_instance_id`,`position`,`status`,`date_added`,`date_modified`)
 VALUES
-(1827, 15, 24, 0, 403, 70, 1, NOW(), NOW()),
-(1818, 15, 15, 0, 395, 70, 1, NOW(), NOW()),
-(1817, 15, 14, 0, 395, 60, 1, NOW(), NOW()),
-(1816, 15, 13, 0, 395, 50, 1, NOW(), NOW()),
-(1828, 15, 21, 0, 403, 80, 1, NOW(), NOW()),
-(1815, 15, 26, 0, 395, 40, 1, NOW(), NOW()),
-(1848, 15, 31, 0, 395, 20, 1, NOW(), NOW()),
-(1814, 15, 27, 0, 395, 30, 1, NOW(), NOW()),
-(1820, 15, 9, 0, 399, 10, 1, NOW(), NOW()),
-(1825, 15, 11, 0, 403, 50, 1, NOW(), NOW()),
-(402, 15, 5, 0, 0, 50, 1, NOW(), NOW()),
-(401, 15, 4, 0, 0, 40, 1, NOW(), NOW()),
-(400, 15, 3, 0, 0, 30, 0, NOW(), NOW()),
-(399, 15, 2, 0, 0, 20, 1, NOW(), NOW()),
-(398, 15, 5, 0, 0, 50, 1, NOW(), NOW()),
-(397, 15, 6, 0, 0, 60, 1, NOW(), NOW()),
-(396, 15, 7, 0, 0, 70, 1, NOW(), NOW()),
-(395, 15, 1, 0, 0, 10, 1, NOW(), NOW()),
-(1824, 15, 25, 0, 403, 40, 1, NOW(), NOW()),
-(403, 15, 8, 0, 0, 80, 1, NOW(), NOW());
+(1827,	15,	24,	0,	403,	70,	1,	NOW(),	NOW()),
+(1818,	15,	15,	0,	395,	70,	1,	NOW(),	NOW()),
+(1817,	15,	14,	0,	395,	60,	1,	NOW(),	NOW()),
+(1816,	15,	13,	0,	395,	50,	1,	NOW(),	NOW()),
+(1828,	15,	21,	0,	403,	80,	1,	NOW(),	NOW()),
+(1815,	15,	26,	0,	395,	40,	1,	NOW(),	NOW()),
+(1848,	15,	31,	0,	395,	20,	1,	NOW(),	NOW()),
+(1814,	15,	27,	0,	395,	30,	1,	NOW(),	NOW()),
+(1820,	15,	9,	0,	399,	10,	1,	NOW(),	NOW()),
+(1953,	15,	28,	0,	399,	20,	1,	NOW(),	NOW()),	
+(1825,	15,	11,	0,	403,	50,	1,	NOW(),	NOW()),
+(402,	15,	5,	0,	0,		50,	1,	NOW(),	NOW()),
+(401,	15,	4,	0,	0,		40,	1,	NOW(),	NOW()),
+(400,	15,	3,	0,	0,		30,	0,	NOW(),	NOW()),
+(399,	15,	2,	0,	0,		20,	1,	NOW(),	NOW()),
+(398,	15,	5,	0,	0,		50,	1,	NOW(),	NOW()),
+(397,	15,	6,	0,	0,		60,	1,	NOW(),	NOW()),
+(396,	15,	7,	0,	0,		70,	1,	NOW(),	NOW()),
+(395,	15,	1,	0,	0,		10,	1,	NOW(),	NOW()),
+(1824,	15,	25,	0,	403,	40,	1,	NOW(),	NOW()),
+(2021,	15,	16,	0,	397,	10,	1,	NOW(),	NOW()),
+(403,	15,	8,	0,	0,		80,	1,	NOW(),	NOW());
 
 -- Maintenance Page
 INSERT INTO `ac_block_layouts`
@@ -10524,7 +10527,8 @@ VALUES
 (940,	17,	3,	0,	0,		30,	1,	NOW(),	NOW()),	
 (939,	17,	2,	0,	0,		20,	1,	NOW(),	NOW()),	
 (938,	17,	1,	0,	0,		10,	1,	NOW(),	NOW()),	
-(941,	17,	4,	0,	0,		40,	1,	NOW(),	NOW());
+(941,	17,	4,	0,	0,		40,	1,	NOW(),	NOW()),
+(1954,	17,	28,	0,	939,	20,	1,	NOW(),	NOW());	
 
 -- Customer Account Pages
 INSERT INTO `ac_block_layouts` (`instance_id`,	 `layout_id`,	 `block_id`,	 `custom_block_id`,	 `parent_instance_id`,	 `position`,	 `status`,	 `date_added`,	`date_modified`) VALUES
@@ -10546,19 +10550,36 @@ INSERT INTO `ac_block_layouts` (`instance_id`,	 `layout_id`,	 `block_id`,	 `cust
 (1849,	18,	31,	0,	1907,	20,	1,	NOW(),	NOW()),	
 (1926,	18,	27,	0,	1907,	30,	1,	NOW(),	NOW()),	
 (1927,	18,	9,	0,	1903,	10,	1,	NOW(),	NOW()),
+(1955,	18,	28,	0,	1903,	20,	1,	NOW(),	NOW()),
 (1930,	18,	11,	0,	1908,	50,	1,	NOW(),	NOW()),
 (1932,	18,	25,	0,	1908,	40,	1,	NOW(),	NOW()),
 (1935,	18,	29,	0,	1905,	10,	1,	NOW(),	NOW());
 
--- add breadcrumbs 
-INSERT INTO `ac_block_layouts` (`instance_id`,	 `layout_id`,	 `block_id`,	 `custom_block_id`,	 `parent_instance_id`,	 `position`,	 `status`,	 `date_added`,	`date_modified`) VALUES
-(1950,	11,	28,	0,	331,	20,	1,	NOW(),	NOW()),	
-(1951,	13,	28,	0,	375,	20,	1,	NOW(),	NOW()),	
-(1952,	14,	28,	0,	388,	20,	1,	NOW(),	NOW()),	
-(1953,	15,	28,	0,	399,	20,	1,	NOW(),	NOW()),	
-(1954,	17,	28,	0,	939,	20,	1,	NOW(),	NOW()),	
-(1955,	18,	28,	0,	1903,	20,	1,	NOW(),	NOW());
-
+-- Cart page
+INSERT INTO `ac_block_layouts`
+(`instance_id`,`layout_id`,`block_id`,`custom_block_id`,`parent_instance_id`,`position`,`status`,`date_added`,`date_modified`)
+VALUES
+(2000,	19,	24,	0,	2019,	70, 1, 	NOW(), 	NOW()),
+(2001,	19,	15,	0,	2017,	70, 1, 	NOW(), 	NOW()),
+(2002,	19,	14,	0,	2017,	60, 1, 	NOW(), 	NOW()),
+(2003,	19,	13,	0,	2017,	50, 1, 	NOW(), 	NOW()),
+(2004,	19,	21,	0,	2019,	80, 1, 	NOW(), 	NOW()),
+(2005,	19,	26,	0,	2017,	40, 1, 	NOW(), 	NOW()),
+(2006,	19,	31,	0,	2017,	20, 1, 	NOW(), 	NOW()),
+(2007,	19,	27,	0,	2017,	30, 1, 	NOW(), 	NOW()),
+(2008,	19,	9,	0,	2013,	10, 1, 	NOW(), 	NOW()),
+(2009,	19,	11,	0,	2019,	50, 1, 	NOW(), 	NOW()),
+(2010,	19,	5,	0,	0,		50, 1, 	NOW(), 	NOW()),
+(2011,	19,	4,	0,	0,		40, 1, 	NOW(), 	NOW()),
+(2012,	19,	3,	0,	0,		30, 0, 	NOW(), 	NOW()),
+(2013,	19,	2,	0,	0,		20, 1, 	NOW(), 	NOW()),
+(2014,	19,	5,	0,	0,		50, 1, 	NOW(), 	NOW()),
+(2015,	19,	6,	0,	0,		60, 1, 	NOW(), 	NOW()),
+(2016,	19,	7,	0,	0,		70, 1, 	NOW(), 	NOW()),
+(2017,	19,	1,	0,	0,		10, 1, 	NOW(), 	NOW()),
+(2018,	19,	25,	0,	2019,	40, 1, 	NOW(), 	NOW()),
+(2019,	19,	8, 	0,	0,		80, 1, 	NOW(), 	NOW()),
+(2020,	19,	28,	0,	2013,	20,	1,	NOW(),	NOW());
 
 --
 -- DDL for table `forms_pages`

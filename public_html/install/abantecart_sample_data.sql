@@ -253,8 +253,7 @@ INSERT INTO `ac_custom_lists` VALUES (10,12,'manufacturer_id',16,0,'2015-06-12 0
 --
 -- Dumping data for table `customers`
 --
-INSERT INTO `ac_customers`
-VALUES
+INSERT INTO `ac_customers` VALUES
 (2,0,'Juliana','Davis','julidavis@abantecart.com','julidavis@abantecart.com','(602) 141-7191','','','6b006ba67f3c172e146991a2ad46d865','a:0:{}',NULL,0,1,1,1,1,'109.104.166.98','2013-08-31 14:25:37','2015-06-12 09:56:24'),
 (3,0,'Keely','Mccoy','keelymccoy@abantecart.com','keelymccoy@abantecart.com','(602) 916-1822','','','6b006ba67f3c172e146991a2ad46d865','a:0:{}',NULL,0,2,1,1,1,'109.104.166.98','2013-08-31 14:39:08','2015-06-12 09:56:24'),
 (4,0,'Zelda','Weiss','zeldaweiss@abantecart.com','zeldaweiss@abantecart.com','(539) 838-9210','','','6b006ba67f3c172e146991a2ad46d865','a:0:{}',NULL,0,3,1,1,1,'109.104.166.138','2013-08-31 14:42:58','2015-06-12 09:56:24'),
