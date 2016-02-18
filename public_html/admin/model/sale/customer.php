@@ -430,8 +430,19 @@ class ModelSaleCustomer extends Model {
 		if (has_value($filter['date_added'])) {
 			$implode[] = "DATE(c.date_added) = DATE('" . $this->db->escape($filter['date_added']) . "')";
 		}
+
+		$store_id = null;
 		if( has_value($this->session->data['current_store_id']) ) {
-			$implode[] =  "c.store_id = " . (int)$this->session->data['current_store_id'];
+			$store_id = (int)$this->session->data['current_store_id'];
+		}
+
+		$this->load->model('setting/store');
+		if( !$store_id && !$this->model_setting_store->isDefaultStore() ) {
+			$store_id = $this->config->get('config_store_id');
+		}
+
+		if( $store_id!==null ) {
+			$implode[] =  "c.store_id = " . (int)$store_id;
 		}
 		
 		if ($implode) {

@@ -662,7 +662,7 @@ function visual2html(text) {
  task run via ajax
  */
 
-var run_task_url, complete_task_url;
+var run_task_url, complete_task_url, abort_task_url;
 var task_fail = false;
 var task_complete_text = task_fail_text = ''; // You can set you own value inside tpl who runs interactive task. see admin/view/default/template/pages/tool/backup.tpl
 
@@ -750,21 +750,14 @@ var runTaskStepsUI = function (task_details) {
                         '<div class="progress">' +
                             '<div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="2" aria-valuemin="0" aria-valuemax="100" style="width: 1%;">1%</div>' +
                     '</div>'
-        if(abort_task_url.length>0){
+        if(abort_task_url && abort_task_url.length>0){
             html += '<a class="abort btn btn-danger"><i class="fa fa-times-circle-o"></i> Abort</a>';
         }
         html += '</div>';
 
         $('#task_modal .modal-body').html(html);
-
-
-
-        var steps_cnt = Object.keys(task_details.steps).length;
-        var step_num = 1;
-        var def_timeout = $.ajaxSetup()['timemout'];
-        var stop_task = false;
-
-
+        //then run sequental ajax calls
+        //note: all that calls must be asynchronous to be interruptable!
         var ajaxes = {};
         for(var k in task_details.steps){
             var step = task_details.steps[k];
@@ -782,9 +775,7 @@ var runTaskStepsUI = function (task_details) {
                 senddata['eta'] = step.eta;
                 timeout = (step.eta + 10)*1000;
             }
-            if(task_details.hasOwnProperty('backup_name')){
-                senddata['backup_name'] = task_details.backup_name;
-            }
+
             ajaxes[k] = {
                 task_id:task_details.task_id,
                 type:'GET',
@@ -807,7 +798,7 @@ var runTaskStepsUI = function (task_details) {
 
         //abort process
 
-        if(abort_task_url.length>0){
+        if(abort_task_url && abort_task_url.length>0){
             $('#task_modal .modal-body').find('a.abort').on('click', function(){
                 $.xhrPool.abortAll();
                 $.ajax({
@@ -859,7 +850,7 @@ var runTaskStepsUI = function (task_details) {
 
 /* run post-trigger */
 
-var runTaskComplete = function (task_id, bkp_name) {
+var runTaskComplete = function (task_id) {
     if(task_fail){
         task_complete_text += '<div class="alert-danger">' + defaultTaskMessages.task_failed + '</div>';
         // replace progressbar by result message
@@ -870,7 +861,7 @@ var runTaskComplete = function (task_id, bkp_name) {
             type: "POST",
             async: false,
             url: complete_task_url,
-            data: {task_id: task_id, backup_name: bkp_name },
+            data: {task_id: task_id },
             datatype: 'json',
             global: false,
             success: function (data) {

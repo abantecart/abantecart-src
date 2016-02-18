@@ -168,7 +168,11 @@ class ControllerResponsesSaleContact extends AController {
 
 			$task_details = $tm->getTaskById($task_id);
 			if(!$task_details || !$task_details['steps']){
-				$error_text = "Mail/Notification Sending Error: Cannot to restart task #".$task_id;
+				//remove task when it does not contain steps
+				if(!$task_details['steps']){
+					$tm->deleteTask($task_id);
+				}
+				$error_text = "Mail/Notification Sending Error: Cannot to restart task #".$task_id.'. Task removed.';
 				$error = new AError( $error_text );
 				return $error->toJSONResponse('APP_ERROR_402',
 										array( 'error_text' => $error_text,

@@ -185,6 +185,8 @@ class ModelToolBackup extends Model {
 			return false;
 		}
 
+		$backup_filename = "manual_backup_".date('Ymd_His');
+
 		//create step for table backup
 		if($data['table_list'] ){
 
@@ -214,7 +216,8 @@ class ModelToolBackup extends Model {
 				'controller' => 'task/tool/backup/dumptables',
 				'settings' => array(
 								'table_list' => $data['table_list'],
-								'sql_dump_mode'=> $data['sql_dump_mode']
+								'sql_dump_mode'=> $data['sql_dump_mode'],
+								'backup_name' => $backup_filename
 								)
 			));
 
@@ -241,7 +244,10 @@ class ModelToolBackup extends Model {
 										'last_result' => '0',
 										'max_execution_time' => ceil($dirs_size/28468838),
 										'controller' => 'task/tool/backup/backupCodeFiles',
-										'settings' => array('interrupt_on_step_fault' =>false)
+										'settings' => array(
+												'interrupt_on_step_fault' =>false,
+												'backup_name' => $backup_filename
+										)
 			));
 
 			if(!$step_id){
@@ -267,7 +273,10 @@ class ModelToolBackup extends Model {
 										'last_result' => '0',
 										'max_execution_time' => ceil($dirs_size/28468838),
 										'controller' => 'task/tool/backup/backupContentFiles',
-										'settings' => array('interrupt_on_step_fault' =>false)
+										'settings' => array(
+												'interrupt_on_step_fault' =>false,
+												'backup_name' => $backup_filename
+										)
 			));
 
 			if(!$step_id){
@@ -292,7 +301,11 @@ class ModelToolBackup extends Model {
 					'last_time_run'      => '0000-00-00 00:00:00',
 					'last_result'        => '0',
 					'max_execution_time' => ceil($this->est_backup_size/18874368),
-					'controller'         => 'task/tool/backup/compressbackup'
+					'controller'         => 'task/tool/backup/compressbackup',
+					'settings' => array(
+										'interrupt_on_step_fault' =>false,
+										'backup_name' => $backup_filename
+								)
 			));
 			if(!$step_id){
 				$this->errors = array_merge($this->errors, $tm->errors);
