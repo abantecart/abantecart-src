@@ -165,8 +165,11 @@
 
         function doTextarea(elem) {
             var $field = $(elem);
-            //no need to wrap texteditor
-            if ($field.closest('.ml_ckeditor').length) return;
+            //special wrap for texteditor
+            if ($field.closest('.ml_ckeditor').length) {
+            	 doTextEditor(elem);
+            	 return;
+            }        
             var $wrapper = $field.closest('.afield');
 
             if ($field.prop("readonly")) {
@@ -198,6 +201,14 @@
             });
         }
 
+        function doTextEditor(elem) {
+            var $field = $(elem);
+            var $wrapper = $field.closest('.afield');
+			
+			/*Todo: Add special quick save handling for text editor */
+
+		}
+		
         function doScrollbox(elem) {}
 
         function doCheckbox(elem) {

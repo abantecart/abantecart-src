@@ -369,9 +369,9 @@ class ControllerPagesLocalisationTaxClass extends AController {
 
         $fields = array('location_id', 'zone_id', 'rate', 'priority', 'rate_prefix', 'threshold_condition', 'threshold', 'tax_exempt_groups');
         foreach ($fields as $f) {
-            if (isset ($this->request->post [$f])) {
-                $this->data [$f] = $this->request->post [$f];
-            } elseif (isset($rate_info)) {
+            if (isset($this->request->post[$f])) {
+                $this->data[$f] = $this->request->post[$f];
+            } elseif(isset($rate_info)) {
                 $this->data[$f] = $rate_info[$f];
             } else {
                 $this->data[$f] = '';
@@ -380,7 +380,9 @@ class ControllerPagesLocalisationTaxClass extends AController {
         
 		//set multilingual fields
 		$this->data['tax_rate'] = array();
-		if ( $rate_info['tax_rate'] ) {
+		if (is_array($this->request->post['tax_rate']) && sizeof($this->request->post['tax_rate']) ) {
+			$this->data['tax_rate'] = $this->request->post['tax_rate'];			
+		} elseif ( $rate_info['tax_rate'] ) {
 			$this->data['tax_rate'] = $rate_info['tax_rate'];
 		}
 

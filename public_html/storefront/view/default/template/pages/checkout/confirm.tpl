@@ -87,6 +87,7 @@
 							<i class="fa fa-edit"></i>
 							<?php echo $text_edit_payment; ?>
 						</a>
+						<br /><br />
 						<a class="btn btn-default btn-xs" href="<?php echo $checkout_payment_edit; ?>">
 							<i class="fa fa-check-square-o"></i>
 							<?php echo $text_add_coupon; ?>
