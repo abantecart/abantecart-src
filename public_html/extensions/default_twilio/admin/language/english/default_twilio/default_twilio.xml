@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+	<definition>
+		<key>default_twilio_name</key>
+		<value><![CDATA[Twilio]]></value>
+	</definition>
+	<definition>
+		<key>default_twilio_username</key>
+		<value><![CDATA[API Account ID]]></value>
+	</definition>
+	<definition>
+		<key>default_twilio_token</key>
+		<value><![CDATA[API Token]]></value>
+	</definition>
+	<definition>
+		<key>default_twilio_test</key>
+		<value><![CDATA[Test Mode]]></value>
+	</definition>
+	<definition>
+		<key>default_twilio_sender_phone</key>
+		<value><![CDATA[Sender (Twilio) Phone: <span class="help">Phone number of sender in international format (ex. +14158675309)</span>]]></value>
+	</definition>
+	<definition>
+		<key>default_twilio_test_0</key>
+		<value><![CDATA[No]]></value>
+	</definition>
+	<definition>
+		<key>default_twilio_test_1</key>
+		<value><![CDATA[Yes]]></value>
+	</definition>
+</definitions>

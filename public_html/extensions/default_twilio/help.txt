@@ -1,0 +1,7 @@
+<b><a target="_new" href="http://www.twilio.com">Twilio</a> SMS Driver Configuration</b>
+<br/><br/>
+
+1. To use this extension, you need to have active Twilio account. <br/>
+If you do not have Twilio account, please follow <a href="https://www.twilio.com/user/account" target="_blank">this link</a> to create an account <br/><br/>
+2. Fill in required fields with information provided by Twilio.<br/>
+	
