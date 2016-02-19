@@ -670,7 +670,7 @@ CREATE TABLE `ac_customers` (
   `email` varchar(96) COLLATE utf8_general_ci NOT NULL DEFAULT '',
   `telephone` varchar(32) COLLATE utf8_general_ci NOT NULL DEFAULT '',
   `fax` varchar(32) COLLATE utf8_general_ci NOT NULL DEFAULT '',
-  `sms` varchar(32) COLLATE utf8_general_ci NOT NULL DEFAULT '',
+  `sms` varchar(32) COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT 'mobile phone number',
   `password` varchar(40) COLLATE utf8_general_ci NOT NULL DEFAULT '',
   `cart` text COLLATE utf8_general_ci,
   `wishlist` text COLLATE utf8_general_ci,

@@ -63,6 +63,8 @@ class ModelSaleCustomer extends Model {
 				NOW());";
 			$this->db->query($sql);
 		}
+
+		$this->editCustomerNotifications($customer_id, $data);
       	
       	return $customer_id;
 	}
@@ -106,6 +108,7 @@ class ModelSaleCustomer extends Model {
 	public function editCustomer($customer_id, $data) {
 		//encrypt address data
 		$key_sql = '';
+		$this->editCustomerNotifications($customer_id, $data);
 		if ( $this->dcrypt->active ) {
 			$data = $this->dcrypt->encrypt_data($data, 'customers');
 			$key_sql = ", key_id = '" . (int)$data['key_id'] . "'";
@@ -129,7 +132,6 @@ class ModelSaleCustomer extends Model {
         	                  SET password = '" . $this->db->escape(AEncryption::getHash($data['password'])) . "'
         	                  WHERE customer_id = '" . (int)$customer_id . "'");
       	}
-
 	}
 
 	/**
@@ -183,21 +185,46 @@ class ModelSaleCustomer extends Model {
 	 * @param int $customer_id
 	 * @param string $field
 	 * @param mixed $value
+	 * @return bool
 	 */
 	public function editCustomerField($customer_id, $field, $value) {
+		if(!$customer_id || !$field){
+			return false;
+		}
 
-		$data = array('loginname', 'firstname', 'lastname', 'email', 'telephone', 'fax', 'newsletter', 'customer_group_id', 'status', 'approved' );
+		$data = array(
+				'loginname',
+				'firstname',
+				'lastname',
+				'email',
+				'telephone',
+				'fax',
+				'newsletter',
+				'customer_group_id',
+				'status',
+				'approved' );
+
+		//adds IM fields
+		//get only active IM drivers
+		$im_protocols = $this->im->getProtocols();
+		foreach ($im_protocols as $protocol){
+			if(!in_array($protocol, $data)){
+				$data[] = $protocol;
+			}
+		}
+
 		if ( in_array($field, $data) )
-
 			if ( $this->dcrypt->active && in_array($field, $this->dcrypt->getEcryptedFields("customers")) ) {
 				//check key_id to use 
-				$query_key = $this->db->query("select key_id from " . $this->db->table("customers") . "
-							  WHERE customer_id = '" . (int)$customer_id . "'");
+				$query_key = $this->db->query(
+									"SELECT key_id
+									 FROM " . $this->db->table("customers") . "
+							         WHERE customer_id = '" . (int)$customer_id . "'");
 				$key_id = $query_key->rows[0]['key_id'];		
 				$value = $this->dcrypt->encrypt_field($value, $key_id);
 			}
 			$this->db->query("UPDATE " . $this->db->table("customers") . "
-							  SET $field = '" . $this->db->escape($value) . "'
+							  SET ".$field." = '" . $this->db->escape($value) . "'
 							  WHERE customer_id = '" . (int)$customer_id . "'");
 
       	if ($field == 'password') {
@@ -205,6 +232,51 @@ class ModelSaleCustomer extends Model {
         	                  SET password = '" . $this->db->escape(AEncryption::getHash($value)) . "'
         	                  WHERE customer_id = '" . (int)$customer_id . "'");
       	}
+		return true;
+	}
+
+	public function editCustomerNotifications($customer_id, $data){
+		if(!$data || !$customer_id){
+			return false;
+		}
+
+		//get only active IM drivers
+		$im_protocols = $this->im->getProtocols();
+		foreach ($im_protocols as $protocol){
+			if(isset($data[$protocol])){
+				$upd[$protocol] = "`".$this->db->escape($protocol)."` = '".$this->db->escape($data[$protocol])."'";
+			}
+		}
+
+		//get all columns
+		$sql = "SELECT COLUMN_NAME
+				FROM INFORMATION_SCHEMA.COLUMNS
+				WHERE TABLE_SCHEMA = '".DB_DATABASE."' AND TABLE_NAME = '" . $this->db->table("customers") . "'";
+		$result = $this->db->query($sql);
+		$columns = array();
+		foreach($result->rows as $row){
+			$columns[] = $row['COLUMN_NAME'];
+		}
+
+		//remove not IM data
+		$diff = array_diff($im_protocols,$columns);
+		foreach($diff as $k){
+			unset($data[$k]);
+		}
+
+
+		$key_sql = '';
+		if ( $this->dcrypt->active ) {
+			$data = $this->dcrypt->encrypt_data($data, 'customers');
+			$key_sql = ", key_id = '" . (int)$data['key_id'] . "'";
+		}
+
+		$sql = "UPDATE ".$this->db->table('customers')."
+				SET ".implode(', ',$upd)."\n"
+				. $key_sql .
+				" WHERE customer_id = '" . (int)$customer_id . "'";
+		$this->db->query($sql);
+		return true;
 	}
 
 	/**
@@ -418,7 +490,11 @@ class ModelSaleCustomer extends Model {
 		if (has_value($filter['only_customers'])) {
 			$implode[] = "cg.customer_group_id NOT IN (".(int)$this->getSubscribersCustomerGroupId().") ";
 		}
-		
+
+		if (has_value($filter['only_with_mobile_phones'])) {
+			$implode[] = " TRIM(COALESCE(c.sms,''))  <> '' ";
+		}
+
 		if (has_value($filter['status'])) {
 			$implode[] = "c.status = '" . (int)$filter['status'] . "'";
 		}	
@@ -460,6 +536,7 @@ class ModelSaleCustomer extends Model {
 				'loginname'         => 'c.loginname',
 				'lastname'          => 'c.lastname',
 				'email'             => 'c.email',
+				'sms'               => 'c.sms',
 				'customer_group'    => 'customer_group',
 				'status'            => 'c.status',
 				'approved'          => 'c.approved',
@@ -768,6 +845,14 @@ class ModelSaleCustomer extends Model {
 		$data['filter']['all_subscribers'] = 1;
 		return $this->getCustomers($data, $mode);
 	}
+	/**
+	 * @param array $data
+	 * @return array|int
+	 */
+	public function getTotalAllSubscribers($data=array()){
+		$data['filter']['all_subscribers'] = 1;
+		return $this->getCustomers($data, 'total_only');
+	}
 
 	/**
 	 * @param array $data
@@ -778,6 +863,14 @@ class ModelSaleCustomer extends Model {
 		$data['filter']['customer_group_id'] = $this->getSubscribersCustomerGroupId();
 		return $this->getCustomers($data, $mode);
 	}
+	/**
+	 * @param array $data
+	 * @return int
+	 */
+	public function getTotalOnlyNewsletterSubscribers($data=array()){
+		$data['filter']['customer_group_id'] = $this->getSubscribersCustomerGroupId();
+		return $this->getCustomers($data, 'total_only');
+	}
 
 	/**
 	 * @param array $data
@@ -787,6 +880,14 @@ class ModelSaleCustomer extends Model {
 	public function getOnlyCustomers($data=array(), $mode = 'default'){
 		$data['filter']['only_customers'] = 1;
 		return $this->getCustomers($data, $mode);
+	}
+	/**
+	 * @param array $data
+	 * @return int
+	 */
+	public function getTotalOnlyCustomers($data=array()){
+		$data['filter']['only_customers'] = 1;
+		return $this->getCustomers($data, 'total_only');
 	}
 
 	/**

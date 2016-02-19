@@ -23,13 +23,13 @@
 						data-run-task-url="'. $restart_task_url.'&task_id='.$task['task_id'].'"
 						data-complete-task-url="'. $complete_task_url.'"
 						data-abort-task-url="'. $abort_task_url.'">
-						<i class="fa fa-play-circle"></i> '.$text_restart.'</a>
+						<i class="fa fa-play-circle fa-lg"></i> '.$text_restart.'</a>
 					<a class="remove_task btn btn-danger"
 						data-task_id="'.$task['task_id'].'"
 						onclick="removeTask(this);"
 						data-confirmation="delete">
-						<i class="fa fa-minus-circle"></i> '.$text_remove.'</a>
-</dd></dl>';
+						<i class="fa fa-minus-circle fa-lg"></i> '.$text_remove.'</a>
+				</dd></dl>';
 			}
 		}
 ?>

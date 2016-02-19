@@ -176,15 +176,14 @@ class ModelAccountCustomer extends Model {
 		//get only active IM drivers
 		$im_protocols = $this->im->getProtocols();
 		foreach ($im_protocols as $protocol){
-			if($data[$protocol]){
+			if(isset($data[$protocol])){
 				$upd[$protocol] = "`".$this->db->escape($protocol)."` = '".$this->db->escape($data[$protocol])."'";
 			}
 		}
 		//get all columns
-		$sql = "SELECT column_name
-		        FROM information_schema.columns
-		        WHERE table_name='" . $this->db->escape("customers") . "'
-		        GROUP BY column_name";
+		$sql = "SELECT COLUMN_NAME
+				FROM INFORMATION_SCHEMA.COLUMNS
+				WHERE TABLE_SCHEMA = '".DB_DATABASE."' AND TABLE_NAME = '" . $this->db->table("customers") . "'";
 		$result = $this->db->query($sql);
 		$columns = array();
 		foreach($result->rows as $row){

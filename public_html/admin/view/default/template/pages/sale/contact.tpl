@@ -44,8 +44,9 @@
 			$common_content_buttons[] = '<a class="btn btn-danger"
 											href="'.$incomplete_tasks_url.'"
 											data-toggle="modal"
-											data-target="#incompleted_tasks_modal">
-											<i class="fa fa-thumbs-o-down"></i> '.$text_incompleted_tasks.'</a>';
+											data-target="#incompleted_tasks_modal"
+											title="'.$text_incompleted_tasks.'">
+											<i class="fa fa-exclamation-triangle fa-lg"></i> '.$text_incompleted_tasks.'</a>';
 			echo $this->html->buildElement(
 					array('type' => 'modal',
 							'id' => 'incompleted_tasks_modal',

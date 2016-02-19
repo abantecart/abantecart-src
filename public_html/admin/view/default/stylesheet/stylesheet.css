@@ -3276,3 +3276,24 @@ body.stickyheader .sticky_left {
     font-size: 11px;
     padding: 1px 3px;
 }
+
+#task_modal .modal-body div{
+   font-size: 16px;
+   margin: 5px;
+   padding: 5px;
+   line-height: 27px;
+}
+
+#task_modal .modal-body div.progress, #task_modal .modal-body div.progress-bar{
+   height: 31px;
+   padding: 0;
+}
+#task_modal .modal-body .panel-footer{
+   padding: 0;
+   margin: 0;
+}
+#task_modal .modal-body div.progress-bar{
+   margin: 0;
+   padding: 3px;
+
+}

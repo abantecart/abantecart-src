@@ -29,6 +29,17 @@ class ControllerPagesSaleContact extends AController {
 	public $data = array();
 	public $error = array();
 
+
+	public function email(){
+		$this->data['protocol'] = 'email';
+		$this->main();
+	}
+
+	public function sms(){
+		$this->data['protocol'] = 'sms';
+		$this->main();
+	}
+
 	public function main() {
 
 		//init controller data
@@ -111,7 +122,6 @@ class ControllerPagesSaleContact extends AController {
 		if (isset($customer_ids) && is_array($customer_ids)) {
 			foreach ($customer_ids as $customer_id) {
 				$customer_info = $this->model_sale_customer->getCustomer($customer_id);
-
 				if ($customer_info) {
 					$this->data['customers'][$customer_info['customer_id']] = $customer_info['firstname'] . ' ' . $customer_info['lastname'] . ' (' . $customer_info['email'] . ')';
 				}
@@ -141,14 +151,6 @@ class ControllerPagesSaleContact extends AController {
 			if (!$this->data[$n] && has_value($this->session->data['sale_contact_presave'][$n])){
 				$this->data[$n] = $this->session->data['sale_contact_presave'][$n];
 			}
-		}
-
-
-		$this->loadModel('catalog/category');
-		$categories = $this->model_catalog_category->getCategories(0);
-		$this->data['categories'][0] = $this->language->get('text_select_category');
-		foreach ($categories as $category) {
-			$this->data['categories'][$category['category_id']] = $category['name'];
 		}
 
 		$form = new AForm('ST');
@@ -216,22 +218,28 @@ class ControllerPagesSaleContact extends AController {
 		//build recipient filter
 		$options = array('' => $this->language->get('text_custom_send'));
 
-		$all_subscribers = $this->model_sale_customer->getAllSubscribers(array('status' => 1, 'approved' => 1));
-		$all_subscribers_count = sizeof($this->_unify_customer_list($all_subscribers));
+		$db_filter = array('status' => 1, 'approved' => 1);
+		if($this->data['protocol']=='sms'){
+			$db_filter['filter']['only_with_mobile_phones'] = 1;
+		}
+
+		$all_subscribers_count = $this->model_sale_customer->getTotalAllSubscribers($db_filter);
 		if($all_subscribers_count){
 			$options['all_subscribers'] = $this->language->get('text_all_subscribers') . ' ' . sprintf($this->language->get('text_total_to_be_sent'), $all_subscribers_count);
 		}
 
-		$only_subscribers = $this->model_sale_customer->getOnlyNewsletterSubscribers(array('status' => 1, 'approved' => 1));
-		$only_subscribers_count = sizeof($this->_unify_customer_list($only_subscribers));
+		$only_subscribers_count = $this->model_sale_customer->getTotalOnlyNewsletterSubscribers($db_filter);
 		if($only_subscribers_count){
 			$options['only_subscribers'] = $this->language->get('text_subscribers_only') . ' ' . sprintf($this->language->get('text_total_to_be_sent'), $only_subscribers_count);
 		}
 
-		$only_customers = $this->model_sale_customer->getOnlyCustomers(array('status' => 1, 'approved' => 1));
-		$only_customers_count = sizeof($this->_unify_customer_list($only_customers));
+		$only_customers_count = $this->model_sale_customer->getTotalOnlyCustomers($db_filter);
 		if($only_customers_count){
 			$options['only_customers']  = $this->language->get('text_customers_only') . ' ' . sprintf($this->language->get('text_total_to_be_sent'), $only_customers_count);
+		}
+
+		if(sizeof($options)==1){
+			$this->data['error_warning'] = $this->language->get('error_no_recipients');
 		}
 
 		$options['ordered'] = $this->language->get('text_customers_who_ordered');
@@ -353,38 +361,6 @@ class ControllerPagesSaleContact extends AController {
 
 		//update controller data
 		$this->extensions->hk_UpdateData($this, __FUNCTION__);
-	}
-
-
-	public function email(){
-		$this->data['protocol'] = 'email';
-		$this->main();
-	}
-
-	public function sms(){
-		$this->data['protocol'] = 'sms';
-		$this->main();
-	}
-
-
-
-
-	/**
-	 * function filters customers list by unique email, to prevent duplicate emails
-	 * @param array $list
-	 * @return array|bool
-	 */
-	private function _unify_customer_list($list = array()) {
-		if (!is_array($list)) {
-			return array();
-		}
-		$output = array();
-		foreach ($list as $c) {
-			if (has_value($c['email'])) {
-				$output[$c['email']] = $c;
-			}
-		}
-		return $output;
 	}
 
 }

@@ -83,7 +83,7 @@ class ModelSaleContact extends Model {
 				       'start_time'         => date('Y-m-d H:i:s', mktime(0, 0, 0, date('m'), date('d') + 1, date('Y'))),
 				       'last_time_run'      => '0000-00-00 00:00:00',
 				       'progress'           => '0',
-				       'last_result'        => '0',
+				       'last_result'        => '1', // think all fine until some failed step will set 0 here
 				       'run_interval'       => '0',
 						//think that task will execute with some connection errors
 				       'max_execution_time' => (sizeof($uris) * $time_per_send * 2)

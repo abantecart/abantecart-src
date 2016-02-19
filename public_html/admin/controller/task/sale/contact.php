@@ -147,6 +147,8 @@ class ControllerTaskSaleContact extends AController{
 
 	private function _send_email($email, $data){
 		if(!$email || !$data){
+			$error = new AError('Error: Cannot send email. Unknown address or empty message.');
+			$error->toLog()->toMessages();
 			return false;
 		}
 
@@ -190,9 +192,10 @@ class ControllerTaskSaleContact extends AController{
 		return true;
 	}
 
-
 	private function _send_sms($phone, $data){
 		if(!$phone || !$data){
+			$error = new AError('Error: Cannot send sms. Unknown phone number or empty message.');
+			$error->toLog()->toMessages();
 			return false;
 		}
 
@@ -223,7 +226,7 @@ class ControllerTaskSaleContact extends AController{
 
 		$text = $data['message'];
 		$to = $phone;
-		$result = false;
+		$result = true;
 		if ($text && $to){
 			//use safe call
 			try{

@@ -9,7 +9,7 @@ CHANGE COLUMN `ip` `ip` VARCHAR(50) NOT NULL ,
 ADD INDEX `ac_online_customers_idx` (`date_added` ASC);
 
 ALTER TABLE `ac_customers`
-ADD COLUMN `sms` VARCHAR(32) NULL AFTER `fax`;
+ADD COLUMN `sms` VARCHAR(32) NULL COMMENT 'mobile phone number' AFTER `fax`;
 
 DROP TABLE IF EXISTS `ac_user_notifications`;
 CREATE TABLE `ac_user_notifications` (

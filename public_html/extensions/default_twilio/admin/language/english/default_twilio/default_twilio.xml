@@ -18,7 +18,8 @@
 	</definition>
 	<definition>
 		<key>default_twilio_sender_phone</key>
-		<value><![CDATA[Sender (Twilio) Phone: <span class="help">Phone number of sender in international format (ex. +14158675309)</span>]]></value>
+		<value>
+			<![CDATA[Sender (Twilio) Phone: <span class="help">Phone number of sender in international format (ex. +14158675309)</span>]]></value>
 	</definition>
 	<definition>
 		<key>default_twilio_test_0</key>
@@ -27,5 +28,9 @@
 	<definition>
 		<key>default_twilio_test_1</key>
 		<value><![CDATA[Yes]]></value>
+	</definition>
+	<definition>
+		<key>entry_sms</key>
+		<value><![CDATA[ Mobile Phone ]]></value>
 	</definition>
 </definitions>

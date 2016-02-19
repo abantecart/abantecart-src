@@ -684,11 +684,11 @@ $(document).on('click', ".task_run", function () {
         '<div id="task_modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">' +
         '<div class="modal-dialog">' +
         '<div class="modal-content">' +
-        '<div class="modal-header">Task Run' +
+        '<div class="modal-header">' +
         '<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>' +
-        '<h4 class="modal-title" id="myModalLabel">&nbsp;</h4>' +
+        '<h4 class="modal-title">Task Run</h4>'+
         '</div>' +
-        '<div class="modal-body"></div>' +
+        '<div class="modal-body panel-body panel-body-nopadding"></div>' +
         '</div></div></div>';
     $("body").first().after(modal);
     var options = {"backdrop": "static", 'show': true};
@@ -751,7 +751,9 @@ var runTaskStepsUI = function (task_details) {
                             '<div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="2" aria-valuemin="0" aria-valuemax="100" style="width: 1%;">1%</div>' +
                     '</div>'
         if(abort_task_url && abort_task_url.length>0){
-            html += '<a class="abort btn btn-danger"><i class="fa fa-times-circle-o"></i> Abort</a>';
+            html += '<div class="center">' +
+                                '<a class="abort btn btn-danger" title="Interrupt Task" ><i class="fa fa-times-circle-o"></i> Abort</a>' +
+                    '</div>';
         }
         html += '</div>';
 

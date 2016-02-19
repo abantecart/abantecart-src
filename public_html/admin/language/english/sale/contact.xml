@@ -144,4 +144,20 @@
 		<key>text_remove</key>
 		<value><![CDATA[Remove]]></value>
 	</definition>
+	<definition>
+		<key>error_no_recipients</key>
+		<value><![CDATA[Attention. The database did not find any recipient data selected method.]]></value>
+	</definition>
+	<definition>
+		<key>text_success_abort</key>
+		<value><![CDATA[Task interrupted successfully.]]></value>
+	</definition>
+	<definition>
+		<key>text_success_sent</key>
+		<value><![CDATA[Messages was sent successfully]]></value>
+	</definition>
+	<definition>
+		<key>text_task_failed</key>
+		<value><![CDATA[Some errors occured during task process. Please see log for details or restart this task.]]></value>
+	</definition>
 </definitions>

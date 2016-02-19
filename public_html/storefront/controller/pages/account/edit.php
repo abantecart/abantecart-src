@@ -196,7 +196,14 @@ class ControllerPagesAccountEdit extends AController{
 				if (!is_object($driver_obj) || $protocol=='email'){
 					continue;
 				}
-				$fld = $driver_obj->getURIField($form, $customer_info[$protocol]);
+
+				if (isset($request_data[$protocol])){
+					$value = $request_data[$protocol];
+				} elseif (isset($customer_info)){
+					$value = $customer_info[$protocol];
+				}
+
+				$fld = $driver_obj->getURIField($form, $value);
 				$this->data['form']['fields'][$protocol] = $fld;
 				$this->data['entry_'.$protocol] = $fld->label_text;
 				$this->data['error_'.$protocol] = $this->error[$protocol];

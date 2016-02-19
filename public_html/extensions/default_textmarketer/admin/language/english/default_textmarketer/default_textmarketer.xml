@@ -24,4 +24,8 @@
 		<key>default_textmarketer_test_1</key>
 		<value><![CDATA[Yes]]></value>
 	</definition>
+	<definition>
+		<key>entry_sms</key>
+		<value><![CDATA[ Mobile Phone ]]></value>
+	</definition>
 </definitions>

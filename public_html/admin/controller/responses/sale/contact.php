@@ -40,7 +40,7 @@ class ControllerResponsesSaleContact extends AController {
 
 		if ($this->request->is_POST() && $this->_validate()) {
 			$this->loadModel('sale/contact');
-			$task_details = $this->model_sale_contact->createTask('send_now', $this->request->post);
+			$task_details = $this->model_sale_contact->createTask('send_now_'.date('Ymd-H:i:s'), $this->request->post);
 
 			if(!$task_details){
 				$this->errors = array_merge($this->errors,$this->model_sale_contact->errors);
@@ -51,7 +51,6 @@ class ControllerResponsesSaleContact extends AController {
 										));
 			}else{
 				$this->data['output']['task_details'] = $task_details;
-			//	$this->data['output']['task_details']['backup_name'] = "manual_backup_".date('Ymd_His');
 			}
 
 		}else{
@@ -86,12 +85,12 @@ class ControllerResponsesSaleContact extends AController {
 		$task_result = $task_info['last_result'];
 		if($task_result){
 			$tm->deleteTask($task_id);
-			$result_text = 'Messages was sent successfully';
+			$result_text = $this->language->get('text_success_sent');
 			if(has_value($this->session->data['sale_contact_presave'])){
 				unset($this->session->data['sale_contact_presave']);
 			}
 		}else{
-			$result_text = 'Some errors occured during task process. Please see log for details or restart this task.';
+			$result_text = $this->language->get('text_task_failed');
 		}
 
 
@@ -121,9 +120,9 @@ class ControllerResponsesSaleContact extends AController {
 		$tm = new ATaskManager();
 		$task_info = $tm->getTaskById($task_id);
 
-		if($task_info['name']=='send_now'){
+		if($task_info){
 			$tm->deleteTask($task_id);
-			$result_text = 'Task aborted successfully.';
+			$result_text = $this->language->get('text_success_abort');
 		}else{
 			$error_text = 'Task #'.$task_id.' not found!';
 			$error = new AError($error_text);
@@ -152,7 +151,7 @@ class ControllerResponsesSaleContact extends AController {
 		$this->extensions->hk_InitData($this,__FUNCTION__);
 
 		$task_id = (int)$this->request->get_or_post('task_id');
-
+		$etas = array();
 		if ($task_id) {
 			$tm= new ATaskManager();
 
