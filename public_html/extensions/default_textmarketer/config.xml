@@ -31,4 +31,6 @@
 			<default_value>1</default_value>
 		</item>
 	</settings>
+	<help_file><![CDATA[help.txt]]></help_file>
+	<help_link><![CDATA[https://www.textmarketer.co.uk/abantecart]]></help_link>	
 </extension>

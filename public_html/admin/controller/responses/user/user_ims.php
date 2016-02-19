@@ -38,9 +38,6 @@ class ControllerResponsesUserUserIMs extends AController {
 		        'admin'      => array_keys($this->im->admin_sendpoints)
 	    );
 
-
-
-
 	    $all_sendpoints = array_merge($sendpoints['admin'],$sendpoints['storefront']);
 
 		$ims = $this->im->getUserIMs($this->data['user_id'], $this->session->data['current_store_id']);
