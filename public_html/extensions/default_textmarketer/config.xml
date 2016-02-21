@@ -3,7 +3,7 @@
 	<id>default_textmarketer</id>
 	<version>1.0.0</version>
 	<type>extension</type>
-	<category>IM-drivers</category>
+	<category>Communication</category>
 	<cartversions>
 		<item>1.2</item>
 	</cartversions>

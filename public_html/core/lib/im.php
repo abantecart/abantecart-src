@@ -109,7 +109,7 @@ class AIM {
 	 */
 	public function getIMDriverObjects( $filter_arr = array('status' => 1)){
 		$filter = array(
-				'category' => 'IM-drivers'
+				'category' => 'Communication'
 				);
 		//returns all drivers for admin side settings page
 		if(has_value($filter_arr['status'])){

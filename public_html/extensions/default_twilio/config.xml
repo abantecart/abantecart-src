@@ -3,7 +3,7 @@
 	<id>default_twilio</id>
 	<version>1.0.0</version>
 	<type>extension</type>
-	<category>IM-drivers</category>
+	<category>Communication</category>
 	<cartversions>
 		<item>1.2</item>
 	</cartversions>
@@ -19,7 +19,7 @@
 			<default_value></default_value>
 		</item>
 		<item id="default_twilio_token">
-			<type required="true">password</type>
+			<type required="true">input</type>
 			<default_value></default_value>
 		</item>
 		<item id="default_twilio_sender_phone">
@@ -33,6 +33,11 @@
 				<item>0</item>
 			</variants>
 			<default_value>1</default_value>
+		</item>
+		<item id="default_twilio_test_connection">
+			<type>html_template</type>
+			<template>responses/extension/default_twilio_test.tpl</template>
+			<default_value></default_value>
 		</item>
 	</settings>
 	<help_file><![CDATA[help.txt]]></help_file>

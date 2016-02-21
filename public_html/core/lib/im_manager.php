@@ -179,7 +179,7 @@ class AIMManager extends AIM{
 
 	public function getIMDriversList(){
 		$filter = array (
-				'category' => 'IM-drivers'
+				'category' => 'Communication'
 		);
 		$extensions = $this->extensions->getExtensionsList($filter);
 		$driver_list = array ();

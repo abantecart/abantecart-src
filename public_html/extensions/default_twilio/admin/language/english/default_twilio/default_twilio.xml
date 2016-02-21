@@ -30,7 +30,23 @@
 		<value><![CDATA[Yes]]></value>
 	</definition>
 	<definition>
+		<key>default_twilio_test_connection</key>
+		<value><![CDATA[Test Your Connection:<span class="help">You can test if API credentials that you've entered are correct.</span>]]></value>
+	</definition>
+	<definition>
 		<key>entry_sms</key>
 		<value><![CDATA[ Mobile Phone ]]></value>
+	</definition>
+	<definition>
+		<key>text_test</key>
+		<value><![CDATA[ Test ]]></value>
+	</definition>
+	<definition>
+		<key>error_turn_extension_on</key>
+		<value><![CDATA[Error! Please check if extension is turned ON.]]></value>
+	</definition>
+	<definition>
+		<key>text_connection_success</key>
+		<value><![CDATA[Connection is successful and API Credentials are configured correctly.]]></value>
 	</definition>
 </definitions>
