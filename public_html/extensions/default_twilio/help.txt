@@ -9,7 +9,7 @@ Notifications are managed in admin profile or in customer profile
 
 1. To use this extension, you need to have active Twilio account. <br/>
 If you do not have Twilio account, please follow <a href="https://www.twilio.com/user/account" target="_blank">this link</a> to create an account <br/><br/>
-2. Fill in required fields (API Account ID/Token ) with information provided by Twilio.
+2. Fill in required fields (AccountSID/AuthToken ) with information provided by Twilio. To get API credentials visit <a href="https://www.twilio.com/user/account/settings" target="_blank">Twillio account settings</a> page.
 <br/><br/>
 3. Select Twilio as SMS provider in System -> Settings -> IM.<br/><br/>
 
