@@ -49,31 +49,18 @@
 	<div class="panel-body panel-body-nopadding tab-content col-xs-12 <?php echo $status_off; ?>">
 
 		<label class="h4 heading"><?php echo $form_title; ?></label>
-			<?php foreach ($form['fields'] as $name => $field) { ?>
-			<?php
-				//Logic to calculate fields width
-				$widthcasses = "col-sm-7";
-				if ( is_int(stripos($field->style, 'large-field')) ) {
-					$widthcasses = "col-sm-7";
-				} else if ( is_int(stripos($field->style, 'medium-field')) || is_int(stripos($field->style, 'date')) ) {
-					$widthcasses = "col-sm-5";
-				} else if ( is_int(stripos($field->style, 'small-field')) || is_int(stripos($field->style, 'btn_switch')) ) {
-					$widthcasses = "col-sm-4";
-				} else if ( is_int(stripos($field->style, 'tiny-field')) ) {
-					$widthcasses = "col-sm-2";
-				}
-				$widthcasses .= " col-xs-12";
+			<?php foreach ($form['fields'] as $name => $field) {
 
 			$protocol = $name;
 			$id = current($field)->element_id;
 			?>
 		<div id="<?php echo $id.'_fld'; ?>" class="form-group <?php if (!empty($error[$name])) { echo "has-error"; } ?>">
-			<label class="control-label col-sm-4" for="<?php echo $id; ?>"><?php echo $this->language->get('entry_'.$protocol.'_driver'); ?></label>
-
-			<div class="input-group col-sm-7 <?php echo $widthcasses; ?>">
+			<label class="control-label col-sm-3" for="<?php echo $id; ?>"><?php echo $this->language->get('entry_'.$protocol.'_driver'); ?></label>
+			<div class="input-group col-sm-9 col-xs-12">
 				<?php
 					foreach($field as $fld){
-						echo '<div class="afield col-sm-3">'.$fld.'</div>';
+						$fld->style = 'btn_switch';
+						echo '<div class="afield col-sm-3">'.$fld->label_text.' '.$fld.'</div>';
 					} ?>
 			</div>
 		    <?php if (!empty($error[$name])) { ?>
