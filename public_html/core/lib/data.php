@@ -23,6 +23,7 @@ if (! defined ( 'DIR_CORE' )) {
 /**
  * Class AData
  * @property ModelToolTableRelationships $model_tool_table_relationships
+ * @property ALanguageManager $language
  */
 final class AData {
 	/**
@@ -87,10 +88,10 @@ final class AData {
 
 	/**
 	 * @param array $request - See manual for more details
-	 * @param bool $skip_inner_ids - Exclude IDs for nested structured related to parent level
+	 * @param array $skip_inner_ids - Exclude IDs for nested structured related to parent level
 	 * @return array
 	 */
-	public function exportData( $request, $skip_inner_ids = true ) {
+	public function exportData( $request, $skip_inner_ids = array() ) {
 		$result_arr = array();
 		$result_arr['timestamp'] = date('m/d/Y H:i:s');
 		$result_arr['tables'] = array();
@@ -196,8 +197,7 @@ final class AData {
 	public function array2CSV($in_array, $fileName, $delimIndex = 0, $format = '.csv', $enclose = '"', $escape = '"', $asFile = false) {
 
 		if ( !is_dir(DIR_DATA) ) {
-			$res = mkdir(DIR_DATA);
-			chmod(DIR_DATA, 0777);
+			mkdir(DIR_DATA, 0777, true);
 		}
 
 		if (!is_dir(DIR_DATA) || !is_writable(DIR_DATA)) {
@@ -325,7 +325,7 @@ final class AData {
 	}
 
 	/**
-	 * generate 1 dimention aray per row of the main table
+	 * generate 1 dimention array per row of the main table
 	 * @param array $data_array
 	 * @param string $append
 	 * @param bool $root
@@ -415,8 +415,7 @@ final class AData {
 
 			$this->_filter_empty($this->nested_array);
 
-			for ($i; $i > 0; $i--)
-			{
+			for ($i; $i > 0; $i--){
 				$this->_filter_empty($this->nested_array);
 			}
 
@@ -1064,6 +1063,14 @@ final class AData {
 		return array();
 	}
 
+	/**
+	 * @param AResourceManager $rm
+	 * @param $object_txt_id
+	 * @param $object_id
+	 * @param string $image_basename
+	 * @param string $code
+	 * @return null
+	 */
 	private function _create_resource($rm, $object_txt_id, $object_id, $image_basename = '', $code = '') {
 		$language_list = $this->language->getAvailableLanguages();
 		$resource = array(  'language_id' => $this->config->get('storefront_language_id'),
@@ -1604,7 +1611,7 @@ final class AData {
 	}
 
 	/**
-	 * get page_id and layout_id to be able to delete propper rows from database
+	 * get page_id and layout_id to be able to delete proper rows from database
 	 * @param string $key_param
 	 * @param string $key_value
 	 * @return array
