@@ -185,6 +185,11 @@ class AIMManager extends AIM{
 		$driver_list = array ();
 		foreach ($extensions->rows as $ext){
 			$driver_txt_id = $ext['key'];
+
+			if($this->config->get($driver_txt_id . '_status')===null){
+				continue;
+			}
+
 			//NOTE! all IM drivers MUST have class by these path
 			try{
 				include_once(DIR_EXT . $driver_txt_id . '/core/lib/' . $driver_txt_id . '.php');
