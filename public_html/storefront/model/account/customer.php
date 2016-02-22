@@ -230,9 +230,6 @@ class ModelAccountCustomer extends Model {
 		return $im_settings;
 	}
 	public function saveCustomerNotificationSettings($settings){
-		if(!$settings){
-			return null;
-		}
 
 		$customer_id = (int)$this->customer->getId();
 		//do not save settings for guests

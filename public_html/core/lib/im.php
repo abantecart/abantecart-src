@@ -122,6 +122,9 @@ class AIM {
 		if($filter_arr['status']){
 			$active_drivers = array();
 			foreach($this->protocols as $protocol){
+				if($protocol=='email'){
+					continue;
+				}
 				if($this->config->get('config_storefront_' . $protocol . '_status')){
 					$active_drivers[] = $this->config->get('config_'.$protocol.'_driver');
 				}

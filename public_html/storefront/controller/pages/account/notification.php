@@ -73,18 +73,11 @@ class ControllerPagesAccountNotification extends AController {
 		$protocols = $this->im->getProtocols();
 		$im_drivers = $this->im->getIMDriverObjects();
 		//build protocol list
-		foreach($protocols as $name){
+		foreach($im_drivers as $name=>$driver){
 			$this->data['protocols'][$name] = array( 'name' => $name );
 
-			if(is_object($im_drivers[$name])){
-				$this->data['protocols'][$name]['title'] = $im_drivers[$name]->getProtocolTitle();
-			}else{
-				$title = $this->language->get('im_protocol_'.$name.'_title');
-				//if title not found - use name
-				if($title == 'im_protocol_'.$name.'_title'){
-					$title = $name;
-				}
-				$this->data['protocols'][$name]['title'] = $title;
+			if(is_object($driver)){
+				$this->data['protocols'][$name]['title'] = $driver->getProtocolTitle();
 			}
 		}
 
