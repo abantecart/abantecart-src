@@ -22,6 +22,10 @@
 			<type required="true">input</type>
 			<default_value></default_value>
 		</item>
+		<item id="default_textmarketer_originator">
+			<type required="true">input</type>
+			<default_value></default_value>
+		</item>
 		<item id="default_textmarketer_test">
 			<type>selectbox</type>
 			<variants>
@@ -29,6 +33,11 @@
 				<item>0</item>
 			</variants>
 			<default_value>1</default_value>
+		</item>
+		<item id="default_textmarketer_test_connection">
+			<type>html_template</type>
+			<template>responses/extension/default_textmarketer_test.tpl</template>
+			<default_value></default_value>
 		</item>
 	</settings>
 	<help_file><![CDATA[help.txt]]></help_file>

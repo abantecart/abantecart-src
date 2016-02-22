@@ -1,7 +1,7 @@
 <?php
 
 // Send SMS Example
-class SendSMS{
+class TextMarketer{
 	private $url = ''; // url of the service
 	private $username = '';
 	private $password = '';
@@ -27,9 +27,15 @@ class SendSMS{
 
 	// public function to commit the send
 	public function send($message, $mobile, $originator){
+
+
 		//var_dump($this->username, $this->password, $this->url, $message, $mobile, $originator); exit;
-		$url_array = array ('message'  => $message, 'mobile_number' => $mobile, 'originator' => $originator,
-		                    'username' => $this->username, 'password' => $this->password);
+		$url_array = array ('message'  => $message,
+		                    'mobile_number' => $mobile,
+		                    'originator' => $originator,
+		                    'username' => $this->username,
+		                    'password' => $this->password);
+
 		$url_string = $data = http_build_query($url_array, '', '&');
 		// we're using the curl library to make the request
 		$curlHandle = curl_init();
@@ -53,6 +59,17 @@ class SendSMS{
 		} else{
 			$this->message_id = null;
 			$this->credits_used = null;
+			$xml_obj = @simplexml_load_string($body);
+			if((string)$xml_obj->errors->error){
+				$error_text = "Textmarketer: ". (string)$xml_obj->errors[0]->error."\n";
+				foreach($xml_obj->errors[0]->error->attributes() as $a => $b) {
+					$error_text .=  $a.'="'.$b."\"\n";
+				}
+			}else{
+				$error_text = "Textmarketer: something goes wrong. API response: \n".var_export($body, true);
+			}
+			$error = new AError($error_text);
+			$error->toLog();
 			// error handling
 			return false;
 		}

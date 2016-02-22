@@ -7,7 +7,7 @@ header ( 'Location: static_pages/' );
 
 $controllers = array(
     'storefront' => array(),
-    'admin' => array());
+    'admin' => array('responses/extension/default_textmarketer'));
 
 $models = array(
     'storefront' => array(),
@@ -15,7 +15,7 @@ $models = array(
 
 $templates = array(
     'storefront' => array(),
-    'admin' => array());
+    'admin' => array('responses/extension/default_textmarketer_test.tpl'));
 
 $languages = array(
     'storefront' => array(

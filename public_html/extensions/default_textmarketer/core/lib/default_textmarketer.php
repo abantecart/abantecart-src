@@ -9,8 +9,8 @@ final class DefaultTextMarketer{
 		$this->registry->get('language')->load('default_textmarketer/default_textmarketer');
 		$this->config = $this->registry->get('config');
 		try{
-			include_once('sendsms.php');
-			$this->sender = new SendSMS( $this->config->get('default_textmarketer_username'),
+			include_once('textmarketer.php');
+			$this->sender = new TextMarketer( $this->config->get('default_textmarketer_username'),
 								$this->config->get('default_textmarketer_password'),
 								$this->config->get('default_textmarketer_test'));
 		}catch(AException $e){}
@@ -29,11 +29,14 @@ final class DefaultTextMarketer{
 	}
 
 	public function send($to, $text){
-
-		$log = $this->registry->get('log');
+		if(!$to || !$text){
+			return null;
+		}
+		$to = '+'.ltrim($to,'+');
 		try{
-			$result = $this->sender->send($text,$to,$this->config->get('store_name'));
-//$log->write(var_export($result, true));
+			$originator = $this->config->get('default_textmarketer_originator');
+			$originator = preg_replace('/[^a-zA-z]/','',$originator);
+			$this->sender->send($text,$to,$originator);
 		}catch(AException $e){}
 
 

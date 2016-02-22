@@ -219,9 +219,22 @@ class AIM {
 				if (!$driver_txt_id){
 					continue;
 				}
+
+				if(!$this->config->get($driver_txt_id . '_status')){
+					$error = new AError('Cannot send notification. Communication driver '.$driver_txt_id.' is disabled!');
+					$error->toLog()->toMessages();
+					continue;
+				}
+
 				//use safe usage
+				$driver_file = DIR_EXT . $driver_txt_id . '/core/lib/' . $driver_txt_id . '.php';
+				if(!is_file($driver_file)){
+					$error = new AError('Cannot find file '.$driver_file.' to send notification.');
+					$error->toLog()->toMessages();
+					continue;
+				}
 				try{
-					include_once(DIR_EXT . $driver_txt_id . '/core/lib/' . $driver_txt_id . '.php');
+					include_once($driver_file);
 					//if class of driver
 					$classname = preg_replace('/[^a-zA-Z]/', '', $driver_txt_id);
 					if (!class_exists($classname)){
