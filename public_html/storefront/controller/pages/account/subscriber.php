@@ -29,7 +29,7 @@ class ControllerPagesAccountSubscriber extends AController {
         $this->extensions->hk_InitData($this,__FUNCTION__);
 
 		if ($this->customer->isLogged()) {
-	  		$this->redirect($this->html->getSecureURL('account/newsletter'));
+	  		$this->redirect($this->html->getSecureURL('account/notification'));
     	}
 		$this->loadModel('account/customer');
     	$this->loadLanguage('account/create');

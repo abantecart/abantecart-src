@@ -59,7 +59,7 @@ class ControllerPagesAccountAccount extends AController {
         $this->data['address'] = $this->html->getSecureURL('account/address');
         $this->data['history'] = $this->html->getSecureURL('account/history');
         $this->data['download'] = $this->html->getSecureURL('account/download');
-        $this->data['newsletter'] = $this->html->getSecureURL('account/newsletter');
+        $this->data['notification'] = $this->html->getSecureURL('account/notification');
         $this->data['transactions'] = $this->html->getSecureURL('account/transactions');
         $this->data['wishlist'] = $this->html->getSecureURL('account/wishlist');
         

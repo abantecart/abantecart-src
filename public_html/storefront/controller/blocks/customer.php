@@ -48,7 +48,7 @@ class ControllerBlocksCustomer extends AController {
 			$this->data['history'] = $this->html->getSecureURL('account/history');
 			$this->data['transactions'] = $this->html->getSecureURL('account/transactions');
 			$this->data['download'] = $this->html->getSecureURL('account/download');
-			$this->data['newsletter'] = $this->html->getSecureURL('account/newsletter');
+			$this->data['notification'] = $this->html->getSecureURL('account/notification');
 			$this->data['wishlist'] = $this->html->getSecureURL('account/wishlist');
 			$this->data['current'] = $this->html->getSecureURL($this->request->get['rt']);
 

@@ -34,8 +34,8 @@
 			</li>	  		
 			<?php } ?>
 			
-			<li class="dropdown <?php if ( $newsletter == $current) echo 'current'; ?>">
-			  <a href="<?php echo $newsletter; ?>"><i class="fa fa-bullhorn fa-fw"></i>&nbsp; <?php echo $text_newsletter; ?></a>
+			<li class="dropdown <?php if ( $notification == $current) echo 'current'; ?>">
+			  <a href="<?php echo $notification; ?>"><i class="fa fa-bullhorn fa-fw"></i>&nbsp; <?php echo $text_my_notifications; ?></a>
 			</li>	  		
 			
 			<li class="dropdown <?php if ( $logout == $current) echo 'current'; ?>">

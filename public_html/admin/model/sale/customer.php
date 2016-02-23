@@ -53,15 +53,7 @@ class ModelSaleCustomer extends Model {
 
 		//enable notification setting for newsletter via email
 		if($data['newsletter']){
-			$sql = "INSERT INTO " . $this->db->table('customer_notifications') . "
-					(customer_id, sendpoint,protocol,status, date_added)
-				VALUES
-				('" . $customer_id . "',
-				'newsletter',
-				'email',
-				'1',
-				NOW());";
-			$this->db->query($sql);
+			$this->saveCustomerNotificationSettings($customer_id, array('newsletter'=>array('email'=>1)));
 		}
 
 		$this->editCustomerNotifications($customer_id, $data);
@@ -132,6 +124,11 @@ class ModelSaleCustomer extends Model {
         	                  SET password = '" . $this->db->escape(AEncryption::getHash($data['password'])) . "'
         	                  WHERE customer_id = '" . (int)$customer_id . "'");
       	}
+
+		if(isset($data['newsletter'])){
+			//enable notification setting for newsletter via email
+			$this->saveCustomerNotificationSettings($customer_id, array('newsletter'=>array('email'=>(int)$data['newsletter'])));
+		}
 	}
 
 	/**
@@ -232,6 +229,9 @@ class ModelSaleCustomer extends Model {
         	                  SET password = '" . $this->db->escape(AEncryption::getHash($value)) . "'
         	                  WHERE customer_id = '" . (int)$customer_id . "'");
       	}
+		if($field == 'newsletter'){
+			$this->saveCustomerNotificationSettings($customer_id, array('newsletter'=>array('email'=>(int)$value)));
+		}
 		return true;
 	}
 
@@ -276,6 +276,51 @@ class ModelSaleCustomer extends Model {
 				. $key_sql .
 				" WHERE customer_id = '" . (int)$customer_id . "'";
 		$this->db->query($sql);
+		return true;
+	}
+
+
+	public function saveCustomerNotificationSettings($customer_id, $settings=array()){
+
+		if(!$customer_id){
+			return null;
+		}
+
+		$sendpoints = array_keys($this->im->sendpoints);
+		$im_protocols = $this->im->getProtocols();
+
+		$update = array();
+		foreach($settings as $sendpoint=>$row){
+			if(!in_array($sendpoint, $sendpoints)){
+				continue;
+			}
+			foreach($im_protocols as $protocol){
+				$update[$sendpoint][$protocol] = (int)$settings[$sendpoint][$protocol];
+			}
+		}
+
+		if($update){
+			foreach($update as $sendpoint=>$row){
+				foreach($row as $protocol=>$status){
+
+					$sql = "DELETE FROM ".$this->db->table('customer_notifications')."
+							WHERE customer_id = ".$customer_id."
+								AND sendpoint = '" . $this->db->escape($sendpoint) . "'
+								AND protocol = '" . $this->db->escape($protocol) . "'";
+					$this->db->query($sql);
+
+					$sql = "INSERT INTO " . $this->db->table('customer_notifications') . "
+							(customer_id, sendpoint,protocol,status, date_added)
+						VALUES
+						('" . $customer_id . "',
+						'" . $this->db->escape($sendpoint) . "',
+						'" . $this->db->escape($protocol) . "',
+						'" . (int)$status . "',
+						NOW());";
+					$this->db->query($sql);
+				}
+			}
+		}
 		return true;
 	}
 

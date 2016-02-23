@@ -56,7 +56,7 @@
 	</li>
 	<?php } ?>
 	<li>
-	<a title="<?php echo $text_newsletter; ?>" data-toggle="tooltip" href="<?php echo $newsletter; ?>" data-original-title="<?php echo $text_newsletter; ?>">
+	<a title="<?php echo $text_my_notifications; ?>" data-toggle="tooltip" href="<?php echo $notification; ?>" data-original-title="<?php echo $text_my_notifications; ?>">
 	<i class="fa fa-bullhorn"></i>
 	</a>
 	</li>

@@ -21,7 +21,7 @@ if (! defined ( 'DIR_CORE' )) {
 	header ( 'Location: static_pages/' );
 }
 
-class ControllerResponsesAccountNewsletter extends AController {
+class ControllerResponsesAccountNotification extends AController {
 	private $error = array();
 	public $data = array();
 
@@ -31,7 +31,7 @@ class ControllerResponsesAccountNewsletter extends AController {
 
 		try{
 			$this->config->set('embed_mode', true);
-			$cntr = $this->dispatch('pages/account/newsletter');
+			$cntr = $this->dispatch('pages/account/notification');
 			$html_out = $cntr->dispatchGetOutput();
 		}catch(AException $e){	}
 	
