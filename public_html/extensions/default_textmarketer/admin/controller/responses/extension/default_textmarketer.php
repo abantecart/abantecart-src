@@ -40,7 +40,6 @@ class ControllerResponsesExtensionDefaultTextMarketer extends AController {
 			include_once(DIR_EXT . 'default_textmarketer/core/lib/textmarketer.php');
 			$result = null;
 			try{
-				include_once('textmarketer.php');
 				$sender = new TextMarketer($this->config->get('default_textmarketer_username'),
 						$this->config->get('default_textmarketer_password'),
 						$this->config->get('default_textmarketer_test'));
