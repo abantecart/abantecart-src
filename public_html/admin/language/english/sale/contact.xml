@@ -146,7 +146,7 @@
 	</definition>
 	<definition>
 		<key>error_no_recipients</key>
-		<value><![CDATA[Attention. The database did not find any recipient data selected method.]]></value>
+		<value><![CDATA[Attention. No one of your customers have not Mobile phone data.]]></value>
 	</definition>
 	<definition>
 		<key>text_success_abort</key>
