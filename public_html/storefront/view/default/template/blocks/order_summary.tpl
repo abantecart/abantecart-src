@@ -1,7 +1,7 @@
+<?php if ($products || $this->getHookVar('list_more_product_last')) { ?>
 <div class="sidewidt">
 	<h2 class="heading2"><span><?php echo $heading_title; ?></span></h2>
 
-	<?php if ($products || $this->getHookVar('list_more_product_last')) { ?>
 		<table style="width: 100%; border-spacing: 2px;">
 			<?php foreach ($products as $product) { ?>
 				<tr>
@@ -32,8 +32,9 @@
 				</tr>
 			<?php } ?>
 		</table>
-	<?php } ?>
+
 	<?php if (!$products) { ?>
 		 		<div class="align_center"><?php echo $text_empty; ?></div>
 	<?php } ?>
 </div>
+<?php } ?>
