@@ -83,6 +83,7 @@ class ControllerPagesAccountNotification extends AController {
 
 	    $sendpoints = $this->im->sendpoints;
 		$all_im_settings = $this->model_account_customer->getCustomerNotificationSettings();
+		$customer_info = $this->model_account_customer->getCustomer($this->customer->getId());
 
 	    foreach($sendpoints as $sendpoint=>$sendpoint_message){
 		    //skip sendpoint for admins
@@ -100,7 +101,8 @@ class ControllerPagesAccountNotification extends AController {
 						    'type' => 'checkbox',
 				            'name' => 'settings['.$sendpoint.']['.$protocol.']',
 				            'value' => '1',
-				            'checked' => ($imsettings[$protocol] ? true : false)
+				            'checked' => ($imsettings[$protocol] ? true : false),
+							'attr' => $customer_info[$protocol] ? '' : ' readonly="readonly" '
 					    )
 			    );
 		    }
