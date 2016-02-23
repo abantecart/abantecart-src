@@ -72,17 +72,7 @@ function save_changes(){
 	    data: $('#imsetFrm').serializeArray(),
 	    dataType: 'json',
 	    success: function (data) {
-			<?php if(!$language_definition_id){?>
-			if ($('#im_settings_modal')) {
-			    $('#im_settings_modal').modal('hide');
-			}
-			if ($('#lang_definition_grid')) {
-			    $('#lang_definition_grid').trigger("reloadGrid");
-			    success_alert(data.result_text);
-			}
-			<?php }else{ ?>
-				success_alert(data.result_text, false, "#im_settings_modal");
-			<?php } ?>
+			success_alert(data.result_text, true, "#im_settings_modal");
 	    }
 	});
 }

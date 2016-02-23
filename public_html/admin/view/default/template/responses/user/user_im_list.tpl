@@ -24,5 +24,6 @@ echo $this->html->buildElement(
 				'type'        => 'modal',
 				'id'          => 'im_settings_modal',
 				'modal_type'  => 'lg',
-				'data_source' => 'ajax'));
+				'data_source' => 'ajax',
+				'js_onclose'  => 'location.reload();'));
 ?>
