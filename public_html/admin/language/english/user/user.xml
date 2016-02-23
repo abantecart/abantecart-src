@@ -128,4 +128,8 @@
 		<key>entry_im_sms</key>
 		<value><![CDATA[Mobile Phone:<span class="help">Phone number in international format. ex. +14566887777</span>]]></value>
 	</definition>
+	<definition>
+		<key>text_change_im_addresses</key>
+		<value><![CDATA[Edit Notification Addresses for this SendPoint]]></value>
+	</definition>
 </definitions>

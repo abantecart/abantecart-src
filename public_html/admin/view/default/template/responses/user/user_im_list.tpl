@@ -10,6 +10,7 @@
 						<a href="<?php echo $im_settings_url . '&section=' . $section . '&sendpoint=' . $sendpoint; ?>"
 						   data-toggle="modal"
 						   data-target="#im_settings_modal"
+						   title="<?php echo $text_change_im_addresses; ?>"
 						   class="btn btn-default"><i class="fa fa-gears"></i></a>
 					</td>
 				</tr>

@@ -79,7 +79,7 @@ class ControllerResponsesUserUserIMs extends AController {
 	    }
 
 		$this->data['im_settings_url'] = $this->html->getSecureURL('user/user_ims/settings','&user_id='.$this->data['user_id']);
-
+	    $this->data['text_change_im_addresses'] = $this->language->get('text_change_im_addresses');
 
 		$this->view->assign('help_url', $this->gen_help_url('user_edit') );
 		$this->view->batchAssign( $this->data );
@@ -134,15 +134,12 @@ class ControllerResponsesUserUserIMs extends AController {
 		    'style' => 'button2',
 	    ));
 
-
-
 		$protocols = $this->im->getProtocols();
 		if($section=='admin'){
 			$all_sendpoints = array_keys($this->im->admin_sendpoints);
 		}else{
 			$all_sendpoints = array_keys($this->im->sendpoints);
 		}
-
 
 		//mark error sendpoints
 	    if(!in_array($sendpoint, $all_sendpoints)){
@@ -175,7 +172,6 @@ class ControllerResponsesUserUserIMs extends AController {
 		$this->data['admin_emails'][] = $this->config->get('store_main_email');
 
 		$this->data['admin_emails'] = array_unique($this->data['admin_emails']);
-
 
 		foreach($protocols as $protocol){
 		    $uri = $settings[$protocol];
