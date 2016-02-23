@@ -6,11 +6,11 @@
 	</definition>
 	<definition>
 		<key>default_twilio_username</key>
-		<value><![CDATA[API Account ID]]></value>
+		<value><![CDATA[API AccountSID]]></value>
 	</definition>
 	<definition>
 		<key>default_twilio_token</key>
-		<value><![CDATA[API Token]]></value>
+		<value><![CDATA[API AuthToken]]></value>
 	</definition>
 	<definition>
 		<key>default_twilio_test</key>
