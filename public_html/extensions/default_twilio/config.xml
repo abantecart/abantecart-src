@@ -40,6 +40,7 @@
 			<default_value></default_value>
 		</item>
 	</settings>
+	<note>true</note>
 	<help_file><![CDATA[help.txt]]></help_file>
 	<help_link><![CDATA[http://www.twilio.com/help]]></help_link>
 </extension>

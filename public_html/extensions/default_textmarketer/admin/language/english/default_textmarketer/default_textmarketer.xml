@@ -5,6 +5,12 @@
 		<value><![CDATA[TextMarketer]]></value>
 	</definition>
 	<definition>
+		<key>default_textmarketer_note</key>
+		<value><![CDATA[To enable sms-messaging go to System -> Settings -> <a href="#admin#rt=setting/setting/im" target="_im">IM</a> <br/>
+		and choose TextMarketer as default sms-driver. Do not forget to enable section where you wish to receive sms from (admin or storefront).
+		]]></value>
+	</definition>
+	<definition>
 		<key>default_textmarketer_username</key>
 		<value><![CDATA[API Username]]></value>
 	</definition>
