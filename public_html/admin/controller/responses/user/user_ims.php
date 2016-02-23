@@ -96,6 +96,7 @@ class ControllerResponsesUserUserIMs extends AController {
 
 		$user_id = $this->request->get['user_id'];
 		$this->loadModel('user/user');
+		$this->loadLanguage('user/user');
 		$user_info = $this->model_user_user->getUser($user_id);
 
 		$this->data['user_id'] = $user_id;
@@ -183,6 +184,7 @@ class ControllerResponsesUserUserIMs extends AController {
 	            'name' => 'settings['.$protocol.']',
 	            'value' => $uri
 	        ));
+			$this->data['entry_im_'.$protocol] = $this->language->get('entry_im_'.$protocol);
 	    }
 
 		$this->view->batchAssign( $this->data );

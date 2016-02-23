@@ -9,7 +9,7 @@
 		<?php
 		foreach ($form['fields'] as $name => $field) {?>
 		<div class="form-group d" >
-			<label class="control-label col-sm-4 col-xs-12" for="<?php echo $field->element_id; ?>"><?php echo $name; ?></label>
+			<label class="control-label col-sm-4 col-xs-12" for="<?php echo $field->element_id; ?>"><?php echo ${'entry_im_'.$name}; ?></label>
 			<div class="input-group afield col-sm-5 col-xs-12">
 				<?php
 				if($name=='email'){ ?>

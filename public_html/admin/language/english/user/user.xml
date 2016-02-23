@@ -120,4 +120,12 @@
 		<key>text_select_group</key>
 		<value><![CDATA[- Select Group -]]></value>
 	</definition>
+	<definition>
+		<key>entry_im_email</key>
+		<value><![CDATA[E-Mail:<span class="help">One or more comma separated email addresses</span>]]></value>
+	</definition>
+	<definition>
+		<key>entry_im_sms</key>
+		<value><![CDATA[Mobile Phone:<span class="help">Phone number in international format. ex. +14566887777</span>]]></value>
+	</definition>
 </definitions>
