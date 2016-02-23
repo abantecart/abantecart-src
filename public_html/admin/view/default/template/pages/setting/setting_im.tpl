@@ -55,12 +55,12 @@
 			$id = current($field)->element_id;
 			?>
 		<div id="<?php echo $id.'_fld'; ?>" class="form-group <?php if (!empty($error[$name])) { echo "has-error"; } ?>">
-			<label class="control-label col-sm-3" for="<?php echo $id; ?>"><?php echo $this->language->get('entry_'.$protocol.'_driver'); ?></label>
-			<div class="input-group col-sm-9 col-xs-12">
+			<label class="control-label col-sm-2" for="<?php echo $id; ?>"><?php echo $this->language->get('entry_'.$protocol.'_driver'); ?></label>
+			<div class="input-group col-sm-10 col-xs-12 row">
 				<?php
 					foreach($field as $fld){
 						$fld->style = 'btn_switch';
-						echo '<div class="afield col-sm-3">'.$fld->label_text.' '.$fld.'</div>';
+						echo '<div class="input-group-cell afield col-sm-3">'.$fld->label_text.' '.$fld.'</div>';
 					} ?>
 			</div>
 		    <?php if (!empty($error[$name])) { ?>

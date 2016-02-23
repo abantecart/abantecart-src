@@ -15,7 +15,6 @@
 				if($name=='email'){ ?>
 				<div class="input-group-btn">
 					<button id="dLabel" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-					    Dropdown trigger
 					    <span class="caret"></span>
 					  </button>
 					  <ul class="emails dropdown-menu" aria-labelledby="dLabel">

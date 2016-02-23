@@ -3297,3 +3297,9 @@ body.stickyheader .sticky_left {
    padding: 3px;
 
 }
+
+.input-group-cell{
+   float: left;
+   display: table;
+   white-space: nowrap;
+}
