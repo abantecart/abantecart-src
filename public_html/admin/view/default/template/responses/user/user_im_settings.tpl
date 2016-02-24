@@ -59,6 +59,7 @@ $('#imsetFrm').submit(function () {
 	return false;
 });
 
+var modal_changed = false;
 //save an close mode
 $('.on_save_close').on('click', function(){
 	var $btn = $(this);
@@ -75,11 +76,18 @@ function save_changes(){
 	    dataType: 'json',
 	    success: function (data) {
 			success_alert(data.result_text, true, "#im_settings_modal");
+		    modal_changed = true;
 	    },
 		complete: function(){
 			resetLockBtn();
 		}
 	});
+}
+
+function on_modal_close(){
+	if(modal_changed){
+		location.reload();
+	}
 }
 
 	$('.emails.dropdown-menu li').on('click', function(){
