@@ -37,7 +37,7 @@ function ac_error_handler($errno, $errstr, $errfile, $errline) {
 
     if (class_exists('Registry') ){
         $registry = Registry::getInstance();
-        if ($registry->get('core_silent_mode')){
+        if ($registry->get('force_skip_errors')){
             return null;
         }
     }
@@ -63,7 +63,7 @@ function ac_exception_handler($e)
 {
     if (class_exists('Registry') ){
         $registry = Registry::getInstance();
-        if ($registry->get('core_silent_mode')){
+        if ($registry->get('force_skip_errors')){
             return null;
         }
     }
