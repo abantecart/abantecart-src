@@ -1103,9 +1103,7 @@ class AConfigManager {
 
 		}
 
-		if (isset($data['one_field'])) {
-			$fields = $this->_filterField($fields, $props, $data['one_field']);
-		}
+
 		return $fields;
 	}
 

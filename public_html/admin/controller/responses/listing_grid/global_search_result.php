@@ -132,7 +132,7 @@ class ControllerResponsesListingGridGlobalSearchResult extends AController {
 
 					if($item['controller'] == 'setting/setting'){
 						$a = explode('-',$item['active']);
-						if($a[0] == 'appearance'){
+						if($a[0] == 'appearance' || $a[0] == 'im'){
 							unset($result_controllers[ $tmp_id ]['response']);
 						}
 					}
