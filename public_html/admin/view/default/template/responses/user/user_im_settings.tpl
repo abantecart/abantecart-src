@@ -35,7 +35,9 @@
 	<div class="panel-footer">
 		<div class="row">
 			<div class="col-sm-6 col-sm-offset-3 center">
-
+				<a class="btn btn-primary on_save_close lock-on-click">
+				 <i class="fa fa-save"></i> <?php echo $button_save_and_close; ?>
+				 </a>&nbsp;
 				<button class="btn btn-primary lock-on-click">
 					<i class="fa fa-save"></i> <?php echo $form['submit']->text; ?>
 				</button>
