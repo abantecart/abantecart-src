@@ -343,6 +343,10 @@ class ControllerPagesSaleContact extends AController {
 				if ($incm_task['starter'] != $this->user->getId()){
 					continue;
 				}
+				//rename task to prevent colission with new
+				if($incm_task['name']=='send_now'){
+					$tm->updateTask($incm_task['task_id'],array('name' => 'send_now_'.date('YmdHis')));
+				}
 			}
 			//define incompleted tasks by last time run
 			$max_exec_time = (int)$incm_task['max_execution_time'];
