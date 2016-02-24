@@ -181,7 +181,7 @@ class AIM {
 			$sendpoints_list = $this->sendpoints;
 			$this->load->model('account/customer');
 			$customer_im_settings = $this->getCustomerNotificationSettings();
-			$this->registry->set('non-exception', true);
+			$this->registry->set('core_silent_mode', true);
 		}else{
 			$sendpoints_list = $this->admin_sendpoints;
 			//this method forbid to use for sending notifications to custromers from admin-side
@@ -268,7 +268,7 @@ class AIM {
 						//use safe call
 						try{
 							$driver->send($to, $text);
-						} catch(AException $e){	}
+						} catch(Exception $e){	}
 					}
 				}
 			}
@@ -283,12 +283,13 @@ class AIM {
 					//use safe call
 					try{
 						$driver->sendFew($to, $text);
-					}catch(AException $e){}
+					}catch(Exception $e){}
 				}
 			}
 
 			unset($driver);
 		}
+		$this->registry->set('core_silent_mode', false);
 	}
 
 	private function getCustomerNotificationSettings(){

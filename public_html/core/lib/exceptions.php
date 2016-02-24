@@ -35,6 +35,13 @@ require_once(DIR_CORE . '/lib/exceptions/exception.php');
  */
 function ac_error_handler($errno, $errstr, $errfile, $errline) {
 
+    if (class_exists('Registry') ){
+        $registry = Registry::getInstance();
+        if ($registry->get('core_silent_mode')){
+            return null;
+        }
+    }
+
 	//skip notice
 	if ( $errno == E_NOTICE )
 		return null;
@@ -54,6 +61,13 @@ function ac_error_handler($errno, $errstr, $errfile, $errline) {
  */
 function ac_exception_handler($e)
 {
+    if (class_exists('Registry') ){
+        $registry = Registry::getInstance();
+        if ($registry->get('core_silent_mode')){
+            return null;
+        }
+    }
+
 	//fix for default PHP handler call in third party PHP libraries
 	if (!method_exists($e,'logError')) {
 		$e = new AException($e->getCode(), $e->getMessage(), $e->getFile(), $e->getLine());
@@ -61,6 +75,7 @@ function ac_exception_handler($e)
 
     if (class_exists('Registry') ) {
         $registry = Registry::getInstance();
+
         $config = $registry->get('config');
         if (!$config || ( !$config->has('config_error_log') && !$config->has('config_error_display') ) ) {
             $e->logError();
