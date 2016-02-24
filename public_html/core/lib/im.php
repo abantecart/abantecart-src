@@ -33,6 +33,7 @@ if (!defined('DIR_CORE')) {
  * @property ASession $session
  * @property AConfig $config
  * @property ModelAccountCustomer $model_account_customer
+ * @property AResponse $response
  */
 
 class AIM {
@@ -147,7 +148,7 @@ class AIM {
 			//NOTE! all IM drivers MUST have class by these path
 			try{
 				include_once(DIR_EXT . $driver_txt_id . '/core/lib/' . $driver_txt_id . '.php');
-			}catch(AException $e){}
+			}catch(AException $e){	}
 			$classname = preg_replace('/[^a-zA-Z]/','',$driver_txt_id);
 
 			if(!class_exists($classname)){
@@ -180,6 +181,7 @@ class AIM {
 			$sendpoints_list = $this->sendpoints;
 			$this->load->model('account/customer');
 			$customer_im_settings = $this->getCustomerNotificationSettings();
+			$this->registry->set('non-exception', true);
 		}else{
 			$sendpoints_list = $this->admin_sendpoints;
 			//this method forbid to use for sending notifications to custromers from admin-side
@@ -247,7 +249,7 @@ class AIM {
 					}
 
 					$driver = new $classname();
-				} catch(AException $e){}
+				} catch(AException $e){	}
 			}
 			//if driver cannot be initialized - skip protocol
 			if($driver===null){
@@ -266,7 +268,7 @@ class AIM {
 						//use safe call
 						try{
 							$driver->send($to, $text);
-						} catch(AException $e){}
+						} catch(AException $e){	}
 					}
 				}
 			}
@@ -496,10 +498,14 @@ final class AMailIM{
 		}
 	}
 
-	public function validateURI($email){
+	public function validateURI($emails){
 		$this->errors = array();
-		if((mb_strlen($email) > 96) || (!preg_match(EMAIL_REGEX_PATTERN, $email))){
-			$this->errors[] = sprintf($this->language->get('im_error_mail_address'),$email);
+		$emails = explode(',',$emails);
+		foreach($emails as $email){
+			$email = trim($email);
+			if ((mb_strlen($email) > 96) || (!preg_match(EMAIL_REGEX_PATTERN, $email))){
+				$this->errors[] = sprintf($this->language->get('im_error_mail_address'), $email);
+			}
 		}
 
 		if($this->errors){

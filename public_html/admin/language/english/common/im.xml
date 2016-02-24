@@ -44,4 +44,8 @@
     	<key>text_settings_success_saved</key>
     	<value><![CDATA[]]>Notification settings saved successfully!</value>
   	</definition>
+  	<definition>
+    	<key>im_error_mail_address</key>
+    	<value><![CDATA[]]>Email address %s looks like invalid!</value>
+  	</definition>
 </definitions>
