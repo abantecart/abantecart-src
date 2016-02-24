@@ -1,6 +1,5 @@
 <?php
 
-// Send SMS Example
 class TextMarketer{
 	private $url = ''; // url of the service
 	private $username = '';
@@ -61,26 +60,15 @@ class TextMarketer{
 			$this->credits_used = null;
 			$xml_obj = @simplexml_load_string($body);
 			if((string)$xml_obj->errors->error){
-				$error_text = "Textmarketer: ". (string)$xml_obj->errors[0]->error."\n";
+				$error_text = "Textmarketer error: \n". (string)$xml_obj->errors[0]->error."\n";
 				foreach($xml_obj->errors[0]->error->attributes() as $a => $b) {
 					$error_text .=  $a.'="'.$b."\"\n";
 				}
 			}else{
-				$error_text = "Textmarketer: something goes wrong. API response: \n".var_export($body, true);
+				$error_text = "Textmarketer error: API response: \n".var_export($body, true);
 			}
-			$error = new AError($error_text);
-			$error->toLog();
-			// error handling
-			return false;
+			throw new Exception($error_text);
+
 		}
 	}
 }
-/*
- * Example of use
- * Remember to change the username and password!
- */
-/*
-$sms = new SendSMS();
-if($sms->send("hello this is a test",'07712345678',"Achme Ltd")) echo "Yay, sent!";
-else echo "Boo, not sent";
-*/

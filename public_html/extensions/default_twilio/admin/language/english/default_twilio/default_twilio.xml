@@ -40,6 +40,10 @@
 		<value><![CDATA[Test Your Connection:<span class="help">You can test if API credentials that you've entered are correct.</span>]]></value>
 	</definition>
 	<definition>
+		<key>default_twilio_logging</key>
+		<value><![CDATA[Error Logging Status<span class="help">If you want to log all errors of Twilio extension turn this setting ON.</span>]]></value>
+	</definition>
+	<definition>
 		<key>entry_sms</key>
 		<value><![CDATA[ Mobile Phone ]]></value>
 	</definition>

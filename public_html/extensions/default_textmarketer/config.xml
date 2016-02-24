@@ -39,6 +39,10 @@
 			<template>responses/extension/default_textmarketer_test.tpl</template>
 			<default_value></default_value>
 		</item>
+		<item id="default_textmarketer_logging">
+			<type>checkbox</type>
+			<default_value>1</default_value>
+		</item>
 	</settings>
 	<note>true</note>
 	<help_file><![CDATA[help.txt]]></help_file>

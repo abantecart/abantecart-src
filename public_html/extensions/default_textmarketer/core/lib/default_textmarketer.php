@@ -13,7 +13,11 @@ final class DefaultTextMarketer{
 			$this->sender = new TextMarketer( $this->config->get('default_textmarketer_username'),
 								$this->config->get('default_textmarketer_password'),
 								$this->config->get('default_textmarketer_test'));
-		}catch(AException $e){}
+		}catch(Exception $e){
+			if($this->config->get('default_textmarketer_logging')){
+				$this->registry->get('log')->write('TextMarketer error: '.$e->getMessage().'. Error Code:'.$e->getCode());
+			}
+		}
 	}
 
 	public function getProtocol(){
@@ -37,10 +41,11 @@ final class DefaultTextMarketer{
 			$originator = $this->config->get('default_textmarketer_originator');
 			$originator = preg_replace('/[^a-zA-z]/','',$originator);
 			$this->sender->send($text,$to,$originator);
-		}catch(AException $e){}
-
-
-//$log->write('SMS sent to: '.$to.', text:'.$text);
+		}catch(Exception $e){
+			if($this->config->get('default_textmarketer_logging')){
+				$this->registry->get('log')->write('TextMarketer error: '.$e->getMessage().'. Error Code:'.$e->getCode());
+			}
+		}
 
 		return true;
 

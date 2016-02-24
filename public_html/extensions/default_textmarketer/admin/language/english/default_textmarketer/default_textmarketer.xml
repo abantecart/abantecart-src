@@ -35,6 +35,10 @@
 		<value><![CDATA[Yes]]></value>
 	</definition>
 	<definition>
+		<key>default_textmarketer_logging</key>
+		<value><![CDATA[Error Logging Status<span class="help">If you want to log all errors of TextMarketer extension turn this setting ON.</span>]]></value>
+	</definition>
+	<definition>
 		<key>entry_sms</key>
 		<value><![CDATA[ Mobile Phone ]]></value>
 	</definition>

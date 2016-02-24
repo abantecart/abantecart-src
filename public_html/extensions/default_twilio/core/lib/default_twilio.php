@@ -9,15 +9,17 @@ final class DefaultTwilio{
 		$this->registry->get('language')->load('default_twilio/default_twilio');
 		$this->config = $this->registry->get('config');
 		try{
-
 			include_once('Services/Twilio.php');
-
 		    $AccountSid = $this->config->get('default_twilio_username');
 		    $AuthToken = $this->config->get('default_twilio_token');
 
 			$this->sender = new Services_Twilio($AccountSid, $AuthToken);
 
-		}catch(AException $e){}
+		}catch(Exception $e){
+			if($this->config->get('default_twilio_logging')){
+				$this->registry->get('log')->write('Twilio error: '.$e->getMessage().'. Error Code:'.$e->getCode());
+			}
+		}
 	}
 
 	public function getProtocol(){
@@ -46,7 +48,11 @@ final class DefaultTwilio{
 				$from = '+'.ltrim($from,'+');
 			}
 			$result = $this->sender->account->messages->sendMessage($from,$to,$text);
-		}catch(AException $e){}
+		}catch(Exception $e){
+			if($this->config->get('default_twilio_logging')){
+				$this->registry->get('log')->write('Twilio error: '.$e->getMessage().'. Error Code:'.$e->getCode());
+			}
+		}
 
 		return true;
 	}
