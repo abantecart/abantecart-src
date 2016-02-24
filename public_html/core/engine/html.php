@@ -697,10 +697,11 @@ class AHtml extends AController {
 	 * @param $html - text that might contain internal links #admin# or #storefront#
 	 *           $mode  - 'href' create complete a tag or default just replace URL
 	 * @param string $type - can be 'message' to convert url into <a> tag or empty
+	 * @param bool $for_admin - force mode for converting links to admin side from storefront scope (see AIM-class etc)
 	 * @return string - html code with parsed internal URLs
 	 */
-	public function convertLinks($html, $type = '') {
-		$is_admin = IS_ADMIN===true ? true : false;
+	public function convertLinks($html, $type = '', $for_admin = false) {
+		$is_admin = (IS_ADMIN===true || $for_admin) ? true : false;
 		$route_sections = $is_admin ? array( "admin", "storefront" ) : array( "storefront" );
 		foreach ($route_sections as $rt_type) {
 			preg_match_all('/(#' . $rt_type . '#rt=){1}[a-z0-9\/_\-\?\&=\%#]{1,255}(\b|\")/', $html, $matches, PREG_OFFSET_CAPTURE);
@@ -709,6 +710,9 @@ class AHtml extends AController {
 					$href = str_replace('?', '&', $match[ 0 ]);
 
 					if ($rt_type == 'admin') {
+						if($for_admin && IS_ADMIN!==true){
+							$href .= '&s='.ADMIN_PATH;
+						}
 						$new_href = str_replace('#admin#', $this->getSecureURL('') . '&', $href);
 					} else {
 						$new_href = str_replace('#storefront#', $this->getCatalogURL('') . '&', $href);

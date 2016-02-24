@@ -275,7 +275,7 @@ class AIM {
 
 			//send notification to admins
 			if($this->config->get('config_admin_'.$protocol.'_status') || $protocol=='email'){
-				$text = $this->_get_message_text($sendpoint_info['cp'], $text_vars);
+				$text = $this->_get_message_text($sendpoint_info['cp'], $text_vars, true);
 				//NOTE! all admins will receipt IMs
 				$to = $this->_get_admin_im_uri($sendpoint, $protocol);
 
@@ -347,7 +347,7 @@ class AIM {
 		return $settings;
 	}
 
-	private function _get_message_text($text_key, $text_vars){
+	private function _get_message_text($text_key, $text_vars, $for_admin=false){
 		$text = $this->language->get($text_key);
 		//check is text_key have value. If does not - abort sending
 		if($text == $text_key){
@@ -375,7 +375,7 @@ class AIM {
 		$text = vsprintf($text,$text_vars);
 
 		//process formatted url like #storefront#rt=...
-		$text = $this->html->convertLinks($text);
+		$text = $this->html->convertLinks($text,'',$for_admin);
 		return $text;
 	}
 
