@@ -299,6 +299,8 @@ jQuery(document).ready(function() {
 	}      
 	if($('body').hasClass('leftpanel-collapsed')) {
 		$('.nav-bracket .children').css({display: ''});
+		//need to triiger leftpanel resize evend to perform other adjustments 
+   		$('body').trigger('leftpanelChanged');
 	}      
 	$('.dropdown-menu').find('form').click(function (e) {
       e.stopPropagation();
