@@ -143,6 +143,8 @@ var initGrid_<?php echo $data['table_id'] ?> = function ($) {
 		altRows: <?php echo $data['altRows'] ?>,
 		height:'100%',
 		width: ($.browser.msie ? ($(window).width()-100) : '100%'),// memory leak in damn msie
+		shrinkToFit: false,
+		autowidth: true,
 		sortname:'<?php echo $data['sortname'] ?>',
 		sortorder:'<?php echo $data['sortorder'] ?>',
 		<?php if($data['expand_column']) { ?>
@@ -504,7 +506,7 @@ if ($custom_buttons) {
 							$('#dData', dlgDiv).show();
 
 							selRowId = $(table_id).jqGrid('getGridParam', 'selrow'),
-								selRowCoordinates = $('#' + selRowId).offset();
+							selRowCoordinates = $('#' + selRowId).offset();
 							dlgDiv.css('top', selRowCoordinates.top);
 							dlgDiv.css('left', Math.round((parentDiv.width() - dlgDiv.width()) / 2) + "px");
 
@@ -586,16 +588,30 @@ if ($custom_buttons) {
 		}	
 	}
 
-
+	//resize jqgrid
 	var resize_the_grid = function() {
-		if($.browser.msie!=true){
-			$(table_id).fluidGrid({base:table_id + '_wrapper', offset:-10});
-		}
+	    // Get width of parent contentpanel
+	    $targetContainer = $(table_id).closest('.contentpanel'); 
+	    var width = $targetContainer.width() - 20;
+	    if(width < 750) {
+	    	//min grid width is 750px;
+	    	width = 750;
+	    }
+	    if (width > 0 && Math.abs(width - $(table_id).width()) > 5) {
+	        $(table_id).setGridWidth(width, true);
+	    }	
 	}
 
-	resize_the_grid();
-	$(window).resize(resize_the_grid);
-
+	//resize on load
+	resize_the_grid();	
+	$(window).bind('resize', function() {
+		//resize grid width on window resize
+		resize_the_grid();
+	}).trigger('resize');
+	//resize on left penel 
+	$('body').bind('leftpanelChanged', function() {
+		resize_the_grid();
+	});
 
 	// fix cursor on non-sortable columns
 	var cm = $(table_id)[0].p.colModel;
@@ -636,8 +652,8 @@ if ($custom_buttons) {
 <?php
 //run initialization if initialization on load enabled
 if ($init_onload) {
-	?>
+?>
 initGrid_<?php echo $data['table_id'] ?>($);
-	<?php } ?>
+<?php } ?>
 
 </script>
