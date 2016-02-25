@@ -130,7 +130,6 @@ class ModelAccountCustomer extends Model {
 				NOW());";
 			$this->db->query($sql);
 		}
-
 		return $customer_id;
 	}
 
