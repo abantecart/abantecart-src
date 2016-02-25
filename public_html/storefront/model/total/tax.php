@@ -22,8 +22,17 @@ if (! defined ( 'DIR_CORE' )) {
 }
 class ModelTotalTax extends Model {
 	public function getTotal(&$total_data, &$total, &$taxes, &$cust_data) {
+		//check if we have customer object 
+		$istax_exempt = false;
+		if(is_object($this->customer)) {
+			$istax_exempt = $this->customer->isTaxExempt();
+			$customer_group_id = $this->customer->getCustomerGroupId();
+		} else {
+			$istax_exempt = $cust_data['tax_exempt'];		
+			$customer_group_id = $cust_data['customer_group_id'];	
+		}
 
-		if($this->customer->isTaxExempt()) {
+		if($istax_exempt) {
 			//customer is tax exempt, do nothing
 			return;
 		}
@@ -35,7 +44,7 @@ class ModelTotalTax extends Model {
 						$tax_amount = 0;
 						//check if we have exempt group for this class 
 						if(is_array($tax_class['tax_exempt_groups']) && count($tax_class['tax_exempt_groups']) > 0){
-							if (in_array($this->customer->getCustomerGroupId(), $tax_class['tax_exempt_groups'])) {
+							if (in_array($customer_group_id, $tax_class['tax_exempt_groups'])) {
 								//we found taxt exempt. 
 								continue;
 							}

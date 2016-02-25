@@ -543,7 +543,7 @@ class ControllerPagesLocalisationTaxClass extends AController {
 
 		$this->loadModel('sale/customer_group');
 		$results = $this->model_sale_customer_group->getCustomerGroups();
-		$multiSelect = array();
+		$multiSelect = array(0 => '- none -');
 		foreach( $results as $r ) {
             $multiSelect[ $r['customer_group_id'] ] = $r['name'];
         }
