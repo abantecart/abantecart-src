@@ -154,7 +154,7 @@
 	</definition>
 	<definition>
 		<key>text_success_sent</key>
-		<value><![CDATA[Messages was sent successfully]]></value>
+		<value><![CDATA[Messages have been sent.]]></value>
 	</definition>
 	<definition>
 		<key>text_task_failed</key>

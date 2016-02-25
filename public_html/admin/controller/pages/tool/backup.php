@@ -303,6 +303,10 @@ class ControllerPagesToolBackup extends AController {
 			$this->error['warning'] = $this->language->get('error_permission');
 		}
 
+		if(!$this->request->post && !$this->request->files){
+			$this->error['warning'] = $this->language->get('error_nothing_to_do');
+		}
+
 		if(has_value($this->request->post['do_backup'])){ // sign of backup form
 			$this->request->post['backup_code'] = $this->request->post['backup_code'] ? true : false;
 			$this->request->post['backup_content'] = $this->request->post['backup_content'] ? true : false;

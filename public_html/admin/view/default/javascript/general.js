@@ -672,8 +672,8 @@ var task_complete_text = task_fail_text = ''; // You can set you own value insid
 
 var defaultTaskMessages = {
     task_failed: 'Task Failed',
-    task_success: 'Task Success',
-    task_abort: 'Task Aborted',
+    task_success: 'Task was completed',
+    task_abort: 'Task was aborted',
     complete: 'Complete',
     step: 'Step',
     failed: 'failed',
@@ -910,6 +910,7 @@ var runTaskComplete = function (task_id) {
             }
         });
     }
+    $('#task_modal').data('bs.modal').options.backdrop = true;
 }
 
 

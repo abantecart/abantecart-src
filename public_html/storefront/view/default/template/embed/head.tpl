@@ -37,6 +37,8 @@ if (typeof jQuery == 'undefined') {
 <script type="text/javascript" src="<?php echo $this->templateResource('/javascript/bootstrap.min.js'); ?>"></script>
 <script type="text/javascript" src="<?php echo $this->templateResource('/javascript/jquery-migrate-1.2.1.min.js');?>"></script>
 <script type="text/javascript" src="<?php echo $this->templateResource('/javascript/common.js'); ?>"></script>
+<script type="text/javascript" src="<?php echo $this->templateResource('/javascript/jquery.caret.js'); ?>"></script>
+<script type="text/javascript" src="<?php echo $this->templateResource('/javascript/jquery.mobilePhoneNumber.js'); ?>"></script>
 
 <?php foreach ($scripts as $script) { ?>
 <script type="text/javascript" src="<?php echo $script; ?>"></script>

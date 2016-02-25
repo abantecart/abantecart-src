@@ -74,7 +74,27 @@
 		<?php if ($fax) { ?>
 			<div class="form-group">
 				<label class="control-label col-sm-5"><?php echo $entry_fax; ?></label>
-				<div class="input-group afield col-sm-7"><?php echo $form['fields']['fax']; ?></div>
+				<div class="input-group afield col-sm-7"><?php echo $fax; ?></div>
+			</div>
+		<?php }
+		if ($im) { ?>
+			<div class="form-group">
+				<label class="control-label col-sm-5"><?php echo $entry_im; ?></label>
+				<div class="input-group afield col-sm-7">
+					<p class="form-control-static"><?php
+						foreach($im as $protocol=>$uri){
+							switch($protocol){
+								case 'sms':
+									$icon = 'fa-mobile';
+									break;
+								default :
+									$icon = 'fa-'.$protocol;
+							}
+							?>
+							<i class="fa <?php echo $icon;?>"></i> <?php echo $uri;?>
+						<?php }
+					?></p>
+				</div>
 			</div>
 		<?php } ?>
 		<div class="form-group">
