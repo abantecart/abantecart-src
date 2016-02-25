@@ -239,7 +239,7 @@ class ControllerPagesSaleOrder extends AController{
 	public function details(){
 
 		$this->data = array();
-		$fields = array('email', 'telephone', 'shipping_method', 'payment_method');
+		$fields = array('email', 'telephone', 'fax', 'shipping_method', 'payment_method');
 
 		//init controller data
 		$this->extensions->hk_InitData($this, __FUNCTION__);
@@ -289,6 +289,7 @@ class ControllerPagesSaleOrder extends AController{
 		}
 
 		$order_info = $this->model_sale_order->getOrder($order_id);
+
 		$this->data['order_info'] = $order_info;
 
 		//set content language to order language ID.
@@ -405,6 +406,17 @@ class ControllerPagesSaleOrder extends AController{
 				'name'  => 'telephone',
 				'value' => $order_info['telephone']
 		));
+
+		$this->data['fax'] = $this->html->buildInput(array(
+				'name'  => 'fax',
+				'value' => $order_info['fax']
+		));
+
+		if(isset($order_info['im'])){
+			foreach($order_info['im'] as $protocol=>$setting){
+				$this->data['im'][$protocol] = $setting['uri'];
+			}
+		}
 
 		$this->loadModel('catalog/product');
 		$this->loadModel('catalog/category');

@@ -772,6 +772,28 @@ class ModelSaleOrder extends Model{
 			if(has_value($order_row['payment_method_data'])){
 				$order_data['payment_method_data'] = $order_row['payment_method_data'];
 			}
+			if(!$order_data['customer_id']){
+				$protocols = $this->im->getProtocols();
+				$p = array();
+				foreach($protocols as $protocol){
+					$p[] = $this->db->escape($protocol);
+				}
+				$sql = "SELECT od.*, odt.name as type_name
+						FROM ".$this->db->table('order_data')." od
+						LEFT JOIN ".$this->db->table('order_data_types')." odt ON odt.type_id = od.type_id
+						WHERE od.order_id = ".(int)$order_data['order_id']."
+								AND od.type_id IN (
+											SELECT DISTINCT `type_id`
+											FROM ".$this->db->table('order_data_types')."
+											WHERE `name` IN ('".implode("', '",$p)."')) ";
+				$result = $this->db->query($sql);
+
+				foreach($result->rows as $row){
+					if($row['type_name']=='email'){continue;}
+					$order_data['im'][$row['type_name']] = unserialize($row['data']);
+				}
+
+			}
 
 			return $order_data;
 		} else{
