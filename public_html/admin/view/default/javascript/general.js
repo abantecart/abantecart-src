@@ -149,6 +149,8 @@ jQuery(document).ready(function() {
 		   }
 		   ajust_content_height();         
 		}
+		//trigger an event at the end
+   		body.trigger('leftpanelChanged');
    });
    
    // Right Side Panel 
