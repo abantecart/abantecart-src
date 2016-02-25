@@ -53,8 +53,8 @@
 		<value><![CDATA[Warning: You do not have permission to modify backups!]]></value>
 	</definition>
 	<definition>
-		<key>error_nothing_to_backup</key>
-		<value><![CDATA[Warning: Please set what you want to backup!]]></value>
+		<key>error_nothing_to_do</key>
+		<value><![CDATA[Warning: Please set what you want to backup or import!]]></value>
 	</definition>
 	<definition>
 		<key>error_empty</key>
