@@ -50,7 +50,7 @@ echo $this->html->buildElement(
 <script type="text/javascript">
 	var grid_ready = function(data){
 		$('.grid_action_edit').each( function () {
-			if($(this).is('[href*=appearance]')){
+			if($(this).is('[href*=appearance]') || $(this).is('[href*=im]')){
 				var id = $(this).parents('tr').attr('id');
 				$(this).attr('href', data.userdata.href[id]).attr('target', '_blank');
 			}else {
@@ -63,10 +63,6 @@ echo $this->html->buildElement(
 		});
 
 	}
-
-	$('#setting_modal').on('loaded.bs.modal', function (e) {
-		wrapCKEditor('add');
-	});
 
 	$('#store_switcher').change(function(){
 		goTo('<?php echo $store_edit_url;?>','store_id='+$(this).val());

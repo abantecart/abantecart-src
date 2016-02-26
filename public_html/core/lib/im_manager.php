@@ -158,7 +158,7 @@ class AIMManager extends AIM{
 			}
 			$sql .= " AND sendpoint = '" . $this->db->escape($sendpoint) . "'
 					AND protocol='" . $this->db->escape($protocol) . "'";
-			$this->log->write($sql);
+
 			$this->db->query($sql);
 
 			$sections = $section ? array($section) : array('admin', 'storefront');

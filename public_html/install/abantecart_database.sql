@@ -1616,6 +1616,12 @@ INSERT INTO `ac_settings` (`group`, `key`, `value`) VALUES
 ('general','config_embed_status',1),
 ('general','config_embed_click_action', 'modal'),
 ('general','config_product_default_sort_order','date_modified-ASC'),
+('general','config_account_create_captcha','0'),
+('general','config_recaptcha_site_key',''),
+('general','config_recaptcha_secret_key',''),
+('general','config_google_analytics_code',''),
+
+
 -- Checkout
 ('checkout','starting_invoice_id',001),
 ('checkout','invoice_prefix','IN#'),
@@ -1641,6 +1647,8 @@ INSERT INTO `ac_settings` (`group`, `key`, `value`) VALUES
 ('checkout','config_shipping_tax_estimate',1),
 ('checkout','config_coupon_on_cart_page',1),
 ('checkout','config_expire_order_days',30),
+('checkout','config_customer_cancelation_order_status_id',''),
+('checkout','config_zero_customer_balance','0'),
 
 -- Appearance
 
