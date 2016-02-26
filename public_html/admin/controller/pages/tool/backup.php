@@ -226,7 +226,7 @@ class ControllerPagesToolBackup extends AController {
 						'value' => 1
 				));
 
-		$this->data['entry_compress_backup'] = sprintf($this->language->get('entry_compress_backup'), str_replace(DIR_ROOT,'',DIR_BACKUP) ,DIR_BACKUP);
+		$this->data['entry_compress_backup'] = sprintf($this->language->get('entry_compress_backup'), str_replace(DIR_ROOT,'',DIR_BACKUP) ,str_replace(DIR_ROOT.'/','',DIR_BACKUP));
 
 		$this->data['form']['build_task_url'] = $this->html->getSecureURL('r/tool/backup/buildTask');
 		$this->data['form']['complete_task_url'] = $this->html->getSecureURL('r/tool/backup/complete');
