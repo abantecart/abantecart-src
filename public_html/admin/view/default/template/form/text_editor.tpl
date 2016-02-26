@@ -104,9 +104,12 @@ $wrapper_id = randomWord(6);
 
 <script type="application/javascript">
 	$(document).ready(function () {
+		tinymce.remove();
 		//initiate editor
 		mcei.selector = 'textarea#text_editor_<?php echo $id ?>';
+
 		tinymce.baseURL = "<?php echo $template_dir; ?>javascript/tinymce";
+
 		tinymce.init(mcei);
 
 	
