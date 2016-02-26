@@ -112,6 +112,10 @@ $wrapper_id = randomWord(6);
 
 		tinymce.init(mcei);
 
+		//for modal mode
+		if($('#<?php echo $wrapper_id; ?>').parents('.modal-content').length>0){
+			$('#<?php echo $wrapper_id; ?> a.qt_cnt_expand').hide();
+		}
 	
 		//event for textarea buttons
 		$('#<?php echo $wrapper_id; ?> a.qt_cnt_expand').on('click',function(){
