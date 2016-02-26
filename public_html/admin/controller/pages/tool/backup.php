@@ -303,6 +303,12 @@ class ControllerPagesToolBackup extends AController {
 			$this->error['warning'] = $this->language->get('error_permission');
 		}
 
+		foreach($this->request->files as $k=>$file){
+			if($file['size']==0){
+				unset($this->request->files[$k]);
+			}
+		}
+
 		if(!$this->request->post && !$this->request->files){
 			$this->error['warning'] = $this->language->get('error_nothing_to_do');
 		}
