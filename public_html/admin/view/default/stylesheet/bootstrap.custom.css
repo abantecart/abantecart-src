@@ -1207,3 +1207,7 @@ dl {
     margin-bottom: 0;
     margin-top: 0;
 }
+
+.modal-body div.alert-success{
+   overflow: auto;
+}
