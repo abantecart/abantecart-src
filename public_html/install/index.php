@@ -74,6 +74,7 @@ if ( defined('DB_HOSTNAME') && DB_HOSTNAME ) {
 }
 
 if ( $data_exist && empty($session->data['finish']) ) {
+    session_destroy();
     header('Location: ../');
 }
 
