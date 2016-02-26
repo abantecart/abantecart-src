@@ -45,12 +45,12 @@
 				$('#test_connection').button('loading');
 			},
 			success: function( response ) {
-				if ( response.error ) {
+				$('#test_connection').button('reset');
+				if ( response.hasOwnProperty('error') ) {
 					error_alert( response['message'] );
 					return false;
 				}
 				info_alert( response['message'] );
-				$('#test_connection').button('reset');
 			},
 			complete: function(){
 				$('#test_connection').button('reset');

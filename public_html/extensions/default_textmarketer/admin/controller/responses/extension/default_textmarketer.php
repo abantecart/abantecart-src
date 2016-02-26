@@ -26,10 +26,12 @@ class ControllerResponsesExtensionDefaultTextMarketer extends AController {
 	public $data = array();
 
 	public function test() {
+		$this->registry->set('force_skip_errors', true);
 
 		$this->loadLanguage('default_textmarketer/default_textmarketer');
 		$error_message = '';
 		$to = $this->request->get['to'];
+		$to = str_replace(' ','',$to);
 		if(!$to){
 			$error_message = $this->language->get('error_empty_test_phone_number');
 		}
@@ -38,6 +40,7 @@ class ControllerResponsesExtensionDefaultTextMarketer extends AController {
 		if(!$error_message){
 
 			include_once(DIR_EXT . 'default_textmarketer/core/lib/textmarketer.php');
+
 			$result = null;
 			try{
 				$sender = new TextMarketer($this->config->get('default_textmarketer_username'),
@@ -48,17 +51,17 @@ class ControllerResponsesExtensionDefaultTextMarketer extends AController {
 				$originator = preg_replace('/[^a-zA-z]/', '', $originator);
 				$result = $sender->send('test message', $to, $originator);
 
-			} catch(AException $e){	}
-
-
-			if (!$result){
-				$error_message = $this->language->get('text_see_log');
+			} catch(Exception $e){
+				$error_message = $e->getMessage();
+				$result = false;
 			}
 
-
+			if (!$result && !$error_message){
+				$error_message = $this->language->get('text_see_log');
+			}
 		}
 
-
+		$this->registry->set('force_skip_errors', false);
 		$json = array();
 
 		if(!$error_message){
@@ -73,6 +76,4 @@ class ControllerResponsesExtensionDefaultTextMarketer extends AController {
 		$this->response->setOutput(AJson::encode($json));
 
 	}
-
-
 }

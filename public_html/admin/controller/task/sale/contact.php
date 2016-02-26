@@ -218,7 +218,7 @@ class ControllerTaskSaleContact extends AController{
 			}
 
 			$driver = new $classname();
-		} catch(AException $e){}
+		} catch(AException $e){	}
 
 		if($driver===null){
 			return false;
@@ -231,7 +231,9 @@ class ControllerTaskSaleContact extends AController{
 			//use safe call
 			try{
 				$result = $driver->send($to, $text);
-			} catch(AException $e){}
+			} catch(AException $e){
+				return false;
+			}
 		}
 
 		return $result;

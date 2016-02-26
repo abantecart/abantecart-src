@@ -41,14 +41,15 @@ final class DefaultTextMarketer{
 			$originator = $this->config->get('default_textmarketer_originator');
 			$originator = preg_replace('/[^a-zA-z]/','',$originator);
 			$this->sender->send($text,$to,$originator);
+			$result = true;
 		}catch(Exception $e){
 			if($this->config->get('default_textmarketer_logging')){
 				$this->registry->get('log')->write('TextMarketer error: '.$e->getMessage().'. Error Code:'.$e->getCode());
 			}
+			$result = false;
 		}
 
-		return true;
-
+		return $result;
 	}
 
 	public function sendFew($to, $text){

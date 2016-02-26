@@ -47,14 +47,16 @@ final class DefaultTwilio{
 				$from = $this->config->get('default_twilio_sender_phone');
 				$from = '+'.ltrim($from,'+');
 			}
-			$result = $this->sender->account->messages->sendMessage($from,$to,$text);
+			$this->sender->account->messages->sendMessage($from,$to,$text);
+			$result = true;
 		}catch(Exception $e){
 			if($this->config->get('default_twilio_logging')){
 				$this->registry->get('log')->write('Twilio error: '.$e->getMessage().'. Error Code:'.$e->getCode());
 			}
+			$result = false;
 		}
 
-		return true;
+		return $result;
 	}
 
 	public function sendFew($to, $text){
