@@ -77,6 +77,7 @@ function save_changes(){
 	    success: function (data) {
 			success_alert(data.result_text, true, "#im_settings_modal");
 		    modal_changed = true;
+		    resetAForm();
 	    },
 		complete: function(){
 			resetLockBtn();

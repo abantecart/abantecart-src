@@ -24,72 +24,6 @@ class ControllerResponsesUserUserIMs extends AController {
 	public $data = array();
 	public $error = array();
 
-  	public function main() {
-
-	    $this->data = func_get_arg(0);
-
-	    //init controller data
-        $this->extensions->hk_InitData($this,__FUNCTION__);
-	    $this->loadLanguage('common/im');
-		$protocols = $this->im->getProtocols();
-
-	    $sendpoints = array(
-			    'storefront' => array_keys($this->im->sendpoints),
-		        'admin'      => array_keys($this->im->admin_sendpoints)
-	    );
-
-	    $all_sendpoints = array_merge($sendpoints['admin'],$sendpoints['storefront']);
-
-		$ims = $this->im->getUserIMs($this->data['user_id'], $this->session->data['current_store_id']);
-	    foreach(array('storefront','admin') as $section){
-		    foreach($sendpoints[$section] as $sendpoint){
-
-			     //skip sendpoints without text for user
-		         if(($section=='admin' && empty($this->im->admin_sendpoints[$sendpoint]['cp']))
-			         ||
-				    ($section=='storefront' && empty($this->im->sendpoints[$sendpoint]['cp']))){
-			         continue;
-		         }
-
-			    $imsettings = $ims[$section][$sendpoint] ? $ims[$section][$sendpoint] : array();
-			    if(!isset($this->data['sendpoints'][$section][$sendpoint])){
-				    $point = array(
-						    'text' => $this->language->get('im_sendpoint_name_'.preformatTextID($sendpoint)),
-						    'value' => array()
-						    );
-				}else{
-				    $point = $this->data['sendpoints'][$sendpoint];
-			    }
-			    //mark error sendpoints
-			    if(!in_array($sendpoint, $all_sendpoints) ){
-				    $point['error'] = true;
-				    $error = new AError('IM sendpoint '.$sendpoint.' is not in sendpoints list! ');
-				    $error->toLog()->toDebug();
-				    continue;
-			    }
-				//build display comma-separated list of enabled protocols
-			    foreach($imsettings as $row){
-				    if ($row['uri'] && in_array($row['protocol'], $protocols)){
-					    $point['value'][] = $row['protocol'];
-				    }
-			    }
-
-			    $this->data['sendpoints'][$section][$sendpoint] = $point;
-		    }
-	    }
-
-		$this->data['im_settings_url'] = $this->html->getSecureURL('user/user_ims/settings','&user_id='.$this->data['user_id']);
-	    $this->data['text_change_im_addresses'] = $this->language->get('text_change_im_addresses');
-
-		$this->view->assign('help_url', $this->gen_help_url('user_edit') );
-		$this->view->batchAssign( $this->data );
-
-		$this->processTemplate('/responses/user/user_im_list.tpl');
-
-	    //update controller data
-        $this->extensions->hk_UpdateData($this,__FUNCTION__);
-	}
-
 	public function settings(){
 		//init controller data
 		$this->extensions->hk_InitData($this,__FUNCTION__);
@@ -105,7 +39,9 @@ class ControllerResponsesUserUserIMs extends AController {
 
 		$this->data['text_title'] = '"'.$this->language->get('im_sendpoint_name_'.preformatTextID($sendpoint)).'"';
 		$this->data['text_title'] .= ' '.sprintf($this->language->get('text_notification_for', 'common_im'),$user_info['username']);
-		$this->data['text_title'] .= " (".$this->language->get('text_'.$section).")";
+		if($section){
+			$this->data['text_title'] .= " (" . $this->language->get('text_' . $section) . ")";
+		}
 		$this->data['action'] = $this->html->getSecureURL('user/user_ims/saveIMSettings', '&user_id=' . $user_id.'&sendpoint='.$sendpoint.'&section='.$section );
 
 		$form = new AForm('HS');
@@ -137,8 +73,10 @@ class ControllerResponsesUserUserIMs extends AController {
 		$protocols = $this->im->getProtocols();
 		if($section=='admin'){
 			$all_sendpoints = array_keys($this->im->admin_sendpoints);
+		}else if($section=='storefront'){
+			$all_sendpoints = array_keys($this->im->admin_sendpoints);
 		}else{
-			$all_sendpoints = array_keys($this->im->sendpoints);
+			$all_sendpoints = array_merge(array_keys($this->im->sendpoints), array_keys($this->im->admin_sendpoints));
 		}
 
 		//mark error sendpoints
@@ -147,7 +85,11 @@ class ControllerResponsesUserUserIMs extends AController {
 		    $this->log->write('IM sendpoint '.$sendpoint.' is not in sendpoints list! ');
 	    }
 
-		$settings = $this->im->getUserSendPointSettings($this->data['user_id'], $section, $sendpoint, $this->session->data['current_store_id']);
+		$settings = $this->im->getUserSendPointSettings(
+				$this->data['user_id'],
+				'',
+				$sendpoint,
+				$this->session->data['current_store_id']);
 
 		$this->data['form']['fields']['email'] = $form->getFieldHtml(array(
             'type' => 'input' ,
@@ -203,7 +145,6 @@ class ControllerResponsesUserUserIMs extends AController {
 
 
 		if(!$this->request->is_POST()
-				|| !$this->request->get['section']
 				|| !$this->request->get['user_id']
 				|| !$this->request->get['sendpoint']){
 			$this->redirect($this->html->getSecureURL('user/user'));

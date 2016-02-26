@@ -74,7 +74,7 @@
 	</definition>
 	<definition>
 		<key>entry_ims</key>
-		<value><![CDATA[Notifications:]]></value>
+		<value><![CDATA[Notifications]]></value>
 	</definition>
 	<definition>
 		<key>entry_captcha</key>
@@ -127,6 +127,14 @@
 	<definition>
 		<key>entry_im_sms</key>
 		<value><![CDATA[Mobile Phone:<span class="help">Phone number in international format. ex. +14566887777</span>]]></value>
+	</definition>
+	<definition>
+		<key>text_edit_im</key>
+		<value><![CDATA[Edit Notifications]]></value>
+	</definition>
+	<definition>
+		<key>text_sendpoints</key>
+		<value><![CDATA[SendPoints]]></value>
 	</definition>
 	<definition>
 		<key>text_change_im_addresses</key>

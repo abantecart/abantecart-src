@@ -955,5 +955,6 @@ var resetAForm = function (selector) {
     $(selector).each(function () {
         var $field = $(this);
         $field.removeClass('changed');
+        $field.parent().find('.quicksave').remove();
     });
 }

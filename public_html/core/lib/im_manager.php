@@ -37,17 +37,12 @@ class AIMManager extends AIM{
 	 * For additional sendpoints ( from extensions) you can store language keys wherever you want.
 	 */
 	public $admin_sendpoints = array (
-			'product_creates'      => array (
-					'cp' => 'im_product_created_admin_text'),
-			'product_updates'      => array (
-					'cp' => 'im_product_updated_admin_text'),
-			/* for future
+
 			'product_out_of_stock' => array (
 					'cp' => 'im_product_out_of_stock_admin_text'),
 			'order_updates'        => array (
 								'sf' => 'im_order_updates_text_to_customer',
 								'cp' => 'im_order_updates_text_to_admin'),
-			*/
 			'product_review'       => array (
 					'sf' => '',
 					'cp' => 'im_product_review_text_to_admin'),
@@ -93,24 +88,27 @@ class AIMManager extends AIM{
 		$user_id = (int)$user_id;
 		$store_id = (int)$store_id;
 
-		if (!$user_id || !$sendpoint || !in_array($section, array ('admin', 'storefront'))){
+		if (!$user_id || !$sendpoint || !in_array($section, array ('admin', 'storefront',''))){
 			return array ();
 		}
-
-		$section = $section == 'admin' ? 1 : 0;
 
 		$sql = "SELECT *
 				FROM " . $this->db->table('user_notifications') . "
 				WHERE user_id=" . $user_id . "
 					AND store_id = '" . $store_id . "'
-					AND sendpoint = '" . $this->db->escape($sendpoint) . "'
-					AND section = '" . $section . "'
-				ORDER BY `protocol`";
+					AND sendpoint = '" . $this->db->escape($sendpoint) . "'";
+		if($section!=''){
+			$sql .= " AND section = '" . ($section == 'admin' ? 1 : 0) . "'";
+		}
+
+		$sql .= "ORDER BY `protocol`";
 		$result = $this->db->query($sql);
 
 		$output = array ();
 		foreach ($result->rows as $row){
-			$output[$row['protocol']] = $row['uri'];
+			if(!$output[$row['protocol']]){
+				$output[$row['protocol']] = $row['uri'];
+			}
 		}
 		return $output;
 	}
@@ -147,31 +145,36 @@ class AIMManager extends AIM{
 		$user_id = (int)$user_id;
 		$store_id = (int)$store_id;
 		$settings = (array)$settings;
-		if (!$user_id || !$sendpoint || !in_array($section, array ('admin', 'storefront'))){
+		if (!$user_id || !$sendpoint || !in_array($section, array ('admin', 'storefront', ''))){
 			return false;
 		}
-
-		$section = $section == 'admin' ? 1 : 0;
 
 		foreach ($settings as $protocol => $uri){
 			$sql = "DELETE FROM " . $this->db->table('user_notifications') . "
 				WHERE user_id=" . $user_id . "
-					AND store_id = '" . $store_id . "'
-					AND section = '" . $section . "'
-					AND sendpoint = '" . $this->db->escape($sendpoint) . "'
+					AND store_id = '" . $store_id . "'";
+			if($section!=''){
+				$sql .=	" AND section = '" . ($section == 'admin' ? 1 : 0) . "'";
+			}
+			$sql .= " AND sendpoint = '" . $this->db->escape($sendpoint) . "'
 					AND protocol='" . $this->db->escape($protocol) . "'";
+			$this->log->write($sql);
 			$this->db->query($sql);
 
-			$sql = "INSERT INTO " . $this->db->table('user_notifications') . "
+			$sections = $section ? array($section) : array('admin', 'storefront');
+			foreach($sections as $s){
+				$s = $s == 'admin' ? 1 : 0;
+				$sql = "INSERT INTO " . $this->db->table('user_notifications') . "
 					(user_id, store_id, section, sendpoint, protocol, uri, date_added)
 					VALUES ('" . $user_id . "',
 							'" . $store_id . "',
-							'" . $section . "',
+							'" . $s . "',
 							'" . $this->db->escape($sendpoint) . "',
 							'" . $this->db->escape($protocol) . "',
 							'" . $this->db->escape($uri) . "',
 							NOW())";
-			$this->db->query($sql);
+				$this->db->query($sql);
+			}
 		}
 
 		return true;

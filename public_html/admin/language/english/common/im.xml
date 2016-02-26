@@ -9,14 +9,6 @@
     	<value><![CDATA[]]>Order Updates</value>
   	</definition>
   	<definition>
-    	<key>im_sendpoint_name_product_creates</key>
-    	<value><![CDATA[]]>Product Creates</value>
-  	</definition>
-  	<definition>
-    	<key>im_sendpoint_name_product_updates</key>
-    	<value><![CDATA[]]>Product Updates</value>
-  	</definition>
-  	<definition>
     	<key>im_sendpoint_name_product_out_of_stock</key>
     	<value><![CDATA[]]>Product Out of Stock</value>
   	</definition>
@@ -24,6 +16,14 @@
     	<key>im_sendpoint_name_product_review</key>
     	<value><![CDATA[]]>Added New Product Review</value>
   	</definition>
+	<definition>
+		<key>im_sendpoint_name_account_updates</key>
+		<value><![CDATA[ Account Updates ]]></value>
+	</definition>
+	<definition>
+		<key>im_sendpoint_name_newsletter</key>
+		<value><![CDATA[ Newsletters ]]></value>
+	</definition>
   	<definition>
     	<key>im_product_created_admin_text</key>
     	<value><![CDATA[]]>Added New Product with ID #%s</value>
