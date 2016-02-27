@@ -18,11 +18,12 @@
 <?php } ?>
 
 <div class="contentpanel addresses">
-	<section class="formbox old_address">
+	<div class="col-md-6 col-xs-12">
+	<h4 class="heading4"><?php echo $text_entries; ?></h4>
+	<section class="old_address">
 	<?php if ($addresses) {
 	  echo  $form0['form_open'];
 	?>
-	<h4 class="heading4"><?php echo $text_entries; ?></h4>
 		<div class="registerbox form-horizontal">
 			<table class="table table-striped">
 			<?php foreach ($addresses as $address) { ?>		
@@ -44,12 +45,14 @@
 		</div>		
 	</form>
 	</section>
+	</div>
 	
-	<section class="formbox ml10 new_address">
+	<div class="col-md-6 col-xs-12">
+	<h4 class="heading4"><?php echo $text_new_address; ?></h4>
+	<section class="new_address">
 	<?php }
 	   echo $form['form_open'];
 	?>
-	<h4 class="heading4"><?php echo $text_new_address; ?></h4>
 	<div class="registerbox">
 		<fieldset>
 		<?php
@@ -67,8 +70,8 @@
 			foreach ($field_list as $field_name => $field_id) {
 		?>
 			<div class="form-group <?php if (${'error_'.$field_name}) echo 'has-error'; ?>">
-				<label class="control-label col-md-4"><?php echo ${'entry_'.$field_name}; ?></label>
-				<div class="input-group col-md-6">
+				<label class="control-label col-md-5"><?php echo ${'entry_'.$field_name}; ?></label>
+				<div class="input-group col-md-7">
 				    <?php echo $form[$field_id]; ?>
 				</div>
 				<span class="help-block"><?php echo ${'error_'.$field_name}; ?></span>
@@ -89,6 +92,7 @@
 	</div>	
 	</form>
 	</section>
+	</div>
 
 </div>
 
