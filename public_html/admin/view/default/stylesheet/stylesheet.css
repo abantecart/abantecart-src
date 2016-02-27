@@ -3243,7 +3243,7 @@ body.stickyheader .sticky_left {
   resize: none;
   border-radius: 0;
   outline: none;
-  z-index: 20000;
+  z-index: 2000;
   margin-top: 30px;
 }
 .zennable.expanded .zen-backdrop {
@@ -3253,6 +3253,7 @@ body.stickyheader .sticky_left {
   left: 0;
   bottom: 0;
   background-color: white;
+  z-index: 2000;
 }
 .zennable.expanded .toolbar {
   position: fixed;
