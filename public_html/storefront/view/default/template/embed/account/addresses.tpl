@@ -22,18 +22,17 @@
 
 	<h4 class="heading4"><?php echo $text_address_book; ?></h4>
     <?php foreach ($addresses as $result) { ?>
-    <div class="genericbox border-bottom">
-      <table width="100%">	
-        <tr>
-          <td><address><?php echo $result['address']; ?></address></td>
-          <td class="pull-right">
+    <div class="genericbox border-bottom container-fluid">
+		<div class="col-md-10 pull-left">
+			<address><?php echo $result['address']; ?></address>
+		</div>
+		<div class="col-md-2 pull-right">
           	<?php echo $result['button_edit'];
           		if ( !$result['default'] ) {
           			echo $result['button_delete'];
           		}
-          	?></td>
-        </tr>
-      </table>
+          	?>
+		</div>    
     </div>
     <?php } ?>
 
