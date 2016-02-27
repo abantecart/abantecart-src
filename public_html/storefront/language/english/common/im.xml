@@ -13,12 +13,24 @@
 		<value><![CDATA[ E-mail ]]></value>
 	</definition>
 	<definition>
+		<key>im_protocol_email_empty_warn</key>
+		<value><![CDATA[ im_protocol_email_empty_warn !!!!! ]]></value>
+	</definition>
+	<definition>
 		<key>im_protocol_sms_title</key>
 		<value><![CDATA[ SMS ]]></value>
 	</definition>
 	<definition>
+		<key>im_protocol_sms_empty_warn</key>
+		<value><![CDATA[ im_protocol_sms_empty_warn !!!!! ]]></value>
+	</definition>
+	<definition>
 		<key>im_sendpoint_name_order_update</key>
 		<value><![CDATA[ Order Update ]]></value>
+	</definition>
+	<definition>
+		<key>im_sendpoint_name_order_update_note</key>
+		<value><![CDATA[ im_sendpoint_name_order_update_note !!!!! ]]></value>
 	</definition>
 	<definition>
 		<key>im_order_update_text_to_admin</key>
@@ -42,6 +54,10 @@
 		<value><![CDATA[ Account Update ]]></value>
 	</definition>
 	<definition>
+		<key>im_sendpoint_name_customer_account_update_note</key>
+		<value><![CDATA[ im_sendpoint_name_customer_account_update_note !!!!! ]]></value>
+	</definition>
+	<definition>
 		<key>im_customer_account_update_text_to_customer</key>
 		<value><![CDATA[ Your account have been updated! ]]></value>
 	</definition>
@@ -52,6 +68,10 @@
 	<definition>
 		<key>im_sendpoint_name_newsletter</key>
 		<value><![CDATA[ Newsletters ]]></value>
+	</definition>
+	<definition>
+		<key>im_sendpoint_name_newsletter_note</key>
+		<value><![CDATA[ im_sendpoint_name_newsletter_note !!!!! ]]></value>
 	</definition>
 	<definition>
 		<key>im_product_review_text_to_admin</key>

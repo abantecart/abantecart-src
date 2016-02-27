@@ -17,7 +17,13 @@
 		<tbody>
 		<?php foreach($form['fields']['sendpoints'] as $sendpoint){ ?>
 			<tr>
-				<td><?php echo $sendpoint['title']; ?></td>
+				<td><?php echo $sendpoint['title']; ?><br>
+					<small><?php echo $sendpoint['note']; ?></small>
+				<?php
+				if($sendpoint['warn']){ ?>
+					<p class="alert-danger"><?php echo $sendpoint['warn']; ?></p>
+				<?php } ?>
+				</td>
 				<?php foreach($protocols as $protocol){?>
 					<td><?php echo $sendpoint['values'][$protocol['name']];	?></td>
 				<?php } ?>

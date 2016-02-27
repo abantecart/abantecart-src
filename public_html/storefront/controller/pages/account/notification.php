@@ -95,6 +95,9 @@ class ControllerPagesAccountNotification extends AController {
 
 		    $point = array();
 		    $point['title'] = $this->language->get('im_sendpoint_name_'.preformatTextID($sendpoint));
+		    $point['note'] = $this->language->get('im_sendpoint_name_'.preformatTextID($sendpoint).'_note');
+		    $point['warn'] = '';
+
 		    foreach($protocols as $protocol){
 			    $point['values'][$protocol] = $form->getFieldHtml(
 					    array(
@@ -105,6 +108,11 @@ class ControllerPagesAccountNotification extends AController {
 							'attr' => $customer_info[$protocol] ? '' : ' readonly="readonly" '
 					    )
 			    );
+			    //adds warning about empty IM address (URI)
+
+			    if(!$customer_info[$protocol]){
+					$point['warn'] .= $this->language->get('im_protocol_'.$protocol.'_empty_warn');
+			    }
 		    }
 
 		    $this->data['form']['fields']['sendpoints'][$sendpoint] = $point;
