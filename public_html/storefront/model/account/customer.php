@@ -106,7 +106,9 @@ class ModelAccountCustomer extends Model {
       					  		zone_id = '" . (int)$data['zone_id'] . "'");
 		
 		$address_id = $this->db->getLastId();
-      	$this->db->query("UPDATE " . $this->db->table("customers") . " SET address_id = '" . (int)$address_id . "' WHERE customer_id = '" . (int)$customer_id . "'");
+      	$this->db->query("UPDATE " . $this->db->table("customers") . "
+      	                    SET address_id = '" . (int)$address_id . "'
+      	                    WHERE customer_id = '" . (int)$customer_id . "'");
 
 		if(!$data['approved']){
 			$language = new ALanguage($this->registry);
@@ -130,6 +132,7 @@ class ModelAccountCustomer extends Model {
 				NOW());";
 			$this->db->query($sql);
 		}
+		$this->im->send('new_customer', array($customer_id));
 		return $customer_id;
 	}
 
@@ -164,9 +167,14 @@ class ModelAccountCustomer extends Model {
 			        " WHERE customer_id = '" . (int)$this->customer->getId() . "'";
 
 		$this->db->query($sql);
+		$this->im->send('customer_account_update', array((int)$this->customer->getId()));
 		return true;
 	}
 
+	/**
+	 * @param array $data
+	 * @return bool
+	 */
 	public function editCustomerNotifications($data){
 		if(!$data){
 			return false;
@@ -210,6 +218,9 @@ class ModelAccountCustomer extends Model {
 		return true;
 	}
 
+	/**
+	 * @return array
+	 */
 	public function getCustomerNotificationSettings(){
 
 		//get only active IM drivers
@@ -228,6 +239,11 @@ class ModelAccountCustomer extends Model {
 		}
 		return $im_settings;
 	}
+
+	/**
+	 * @param array $settings
+	 * @return bool|null
+	 */
 	public function saveCustomerNotificationSettings($settings){
 
 		$customer_id = (int)$this->customer->getId();
@@ -288,7 +304,17 @@ class ModelAccountCustomer extends Model {
 	 */
 	public function editPassword($loginname, $password) {
 		$password = AEncryption::getHash($password);
-      	$this->db->query("UPDATE " . $this->db->table("customers") . " SET password = '" . $this->db->escape($password) . "' WHERE loginname = '" . $this->db->escape($loginname) . "'");
+      	$this->db->query("UPDATE " . $this->db->table("customers") . "
+      	                SET password = '" . $this->db->escape($password) . "'
+      	                WHERE loginname = '" . $this->db->escape($loginname) . "'");
+		//send IM
+		$sql = "SELECT FROM " . $this->db->table("customers") . "
+		      	WHERE loginname = '" . $this->db->escape($loginname) . "'";
+		$result = $this->db->query($sql);
+		$customer_id = $result->row['customer_id'];
+		if($customer_id){
+			$this->im->send('customer_account_update', array ($customer_id));
+		}
 	}
 
 	/**
@@ -297,7 +323,10 @@ class ModelAccountCustomer extends Model {
 	 */
 	public function editNewsletter($newsletter,$customer_id=0) {
 		$customer_id = (int)$customer_id ? (int)$customer_id : (int)$this->customer->getId();
-		$this->db->query("UPDATE " . $this->db->table("customers") . " SET newsletter = '" . (int)$newsletter . "' WHERE customer_id = '" . $customer_id . "'");
+		$this->db->query(
+				"UPDATE " . $this->db->table("customers") . "
+				SET newsletter = '" . (int)$newsletter . "'
+				WHERE customer_id = '" . $customer_id . "'");
 	}
 
 	/**
@@ -320,7 +349,10 @@ class ModelAccountCustomer extends Model {
 	 * @return array
 	 */
 	public function getCustomer($customer_id) {
-		$query = $this->db->query("SELECT * FROM " . $this->db->table("customers") . " WHERE customer_id = '" . (int)$customer_id . "'");
+		$query = $this->db->query(
+				"SELECT *
+				FROM " . $this->db->table("customers") . "
+				WHERE customer_id = '" . (int)$customer_id . "'");
 		$result_row = $this->dcrypt->decrypt_data($query->row, 'customers');
 		return $result_row;
 	}

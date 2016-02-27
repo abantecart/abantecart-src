@@ -49,6 +49,7 @@ class ModelUserUser extends Model {
 			$sql = "UPDATE " . $this->db->table("users") . " SET ". implode(',', $update) ." WHERE user_id = '" . (int)$user_id . "'";
 			$this->db->query( $sql );
 		}
+		$this->im->send('account_update', array($user_id));
 	}
 	
 	public function deleteUser($user_id) {

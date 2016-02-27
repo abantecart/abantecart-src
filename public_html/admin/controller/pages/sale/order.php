@@ -279,11 +279,7 @@ class ControllerPagesSaleOrder extends AController{
 						}
 					}			
 					$this->redirect($this->html->getSecureURL(	'sale/order/recalc', 
-															'&order_id=' . $order_id.'&skip_recalc='.serialize($skip_recalc)));			
-				
-				} else {
-					//we just save with no reculculation 
-					$this->model_sale_order->editOrder($order_id, $this->request->post);
+															'&order_id=' . $order_id.'&skip_recalc='.serialize($skip_recalc)));
 				}
 			}
 		}

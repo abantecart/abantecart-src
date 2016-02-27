@@ -417,11 +417,13 @@ class ControllerPagesUserUser extends AController{
 					$values[$row['protocol']] = $row['protocol'];
 				}
 			}
-
-			$this->data['sendpoints'][$sendpoint] = array(
-														'id' => $sendpoint,
-														'text'=> $this->language->get('im_sendpoint_name_' . preformatTextID($sendpoint)),
-														'values' => $values  );
+			//when text for notification presents
+			if($this->im->sendpoints[$sendpoint]['cp'] || $this->im->admin_sendpoints[$sendpoint]['cp']){
+				$this->data['sendpoints'][$sendpoint] = array (
+						'id'     => $sendpoint,
+						'text'   => $this->language->get('im_sendpoint_name_' . preformatTextID($sendpoint)),
+						'values' => $values);
+			}
 		}
 
 

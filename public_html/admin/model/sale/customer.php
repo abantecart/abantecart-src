@@ -57,7 +57,7 @@ class ModelSaleCustomer extends Model {
 		}
 
 		$this->editCustomerNotifications($customer_id, $data);
-      	
+		$this->im->send('new_customer', array($customer_id));
       	return $customer_id;
 	}
 

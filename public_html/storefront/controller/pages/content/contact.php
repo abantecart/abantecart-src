@@ -93,6 +93,9 @@ class ControllerPagesContentContact extends AController{
 			} else{
 				$success_url = $this->html->getSecureURL('content/contact/success');
 			}
+
+			$this->im->send('customer_contact',array($this->request->post['email'], $this->request->post['first_name']));
+
 			$this->extensions->hk_ProcessData($this);
 			$this->redirect($success_url);
 		}

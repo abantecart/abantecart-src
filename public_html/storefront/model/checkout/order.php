@@ -640,6 +640,10 @@ class ModelCheckoutOrder extends Model {
 		$msg = new AMessage();
 		$msg->saveNotice($language->get('text_new_order') . $order_id, $msg_text);
 
+		//send IM
+		$this->im->send('new_order', array('order_id'=>$order_id));
+		unset($im_text_vars);
+
 		return true;
 	}
 
@@ -684,7 +688,7 @@ class ModelCheckoutOrder extends Model {
 			if($order_status_query->row['name']){
 				$im_text_vars['order_status_id'] = $order_status_query->row['name'];
 			}
-			$this->im->send('order_updates', $im_text_vars);
+			$this->im->send('order_update', $im_text_vars);
 			unset($im_text_vars);
 
 			//notify via email

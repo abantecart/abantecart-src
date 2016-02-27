@@ -44,7 +44,7 @@ class ControllerResponsesUserUserIMs extends AController {
 		}
 		$this->data['action'] = $this->html->getSecureURL('user/user_ims/saveIMSettings', '&user_id=' . $user_id.'&sendpoint='.$sendpoint.'&section='.$section );
 
-		$form = new AForm('HS');
+		$form = new AForm('HT');
 		$form->setForm(array(
 		    'form_name' => 'imsetFrm',
 			'update' => $this->data['action'].'&qs=1',

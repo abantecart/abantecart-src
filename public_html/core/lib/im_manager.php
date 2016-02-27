@@ -39,13 +39,27 @@ class AIMManager extends AIM{
 	public $admin_sendpoints = array (
 
 			'product_out_of_stock' => array (
-					'cp' => 'im_product_out_of_stock_admin_text'),
-			'order_updates'        => array (
-								'sf' => 'im_order_updates_text_to_customer',
-								'cp' => 'im_order_updates_text_to_admin'),
+					'cp' => 'im_product_out_of_stock_admin_text',   //text for admin
+					'sf' => ''                                      //text for customer
+			),
+			'order_update'        => array (
+					'cp' => 'im_order_update_text_to_admin',
+					'sf' => ''
+			),
+			'new_order'        => array (
+					'cp' => 'im_new_order_text_to_admin',
+					'sf' => ''
+			),
+			'new_customer'        => array (
+					'cp' => 'im_new_customer_text_to_admin',
+					'sf' => ''
+			),
 			'product_review'       => array (
-					'sf' => '',
-					'cp' => 'im_product_review_text_to_admin'),
+					'cp' => 'im_product_review_text_to_admin',
+					'sf' => ''),
+			'account_update'       => array (
+					'cp' => 'im_account_update_text_to_admin',
+					'sf' => '')
 	);
 
 	//NOTE: This class is loaded in INIT for admin only

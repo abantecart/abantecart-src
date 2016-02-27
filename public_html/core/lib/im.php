@@ -51,12 +51,8 @@ class AIM {
 	 * For additional sendpoints ( from extensions) you can store language keys wherever you want.
 	 */
 	public $sendpoints = array(
-		'order_updates' => array(
-				'sf' => 'im_order_updates_text_to_customer',
-				'cp' => 'im_order_updates_text_to_admin'),
-		'account_updates' => array(
-				'sf' => 'im_account_updates_text_to_customer',
-				'cp' => ''),
+
+
 		'newsletter' => array(
 				'sf' => 'im_newsletter_text_to_customer',
 				'cp' => ''),
@@ -65,7 +61,25 @@ class AIM {
 				'cp' => 'im_product_review_text_to_admin'),
 		'product_out_of_stock' => array (
 				'sf' => '',
-				'cp' => 'im_product_out_of_stock_admin_text')
+				'cp' => 'im_product_out_of_stock_admin_text'),
+		'order_update' => array(
+				'sf' => 'im_order_update_text_to_customer',
+				'cp' => 'im_order_update_text_to_admin'),
+		'new_order' => array (
+				'sf' => '',
+				'cp' => 'im_new_order_text_to_admin'),
+		'new_customer' => array (
+				'sf' => '',
+				'cp' => 'im_new_customer_admin_text'),
+		'customer_account_update' => array(
+				'sf' => 'im_customer_account_update_text_to_customer',
+				'cp' => ''),
+		'customer_contact' => array (
+				'sf' => '',
+				'cp' => 'im_customer_contact_admin_text'),
+		'system_messages' => array (
+				'sf' => '',
+				'cp' => 'im_system_messages_admin_text'),
 	);
 	public function __construct() {
 		$this->registry = Registry::getInstance();

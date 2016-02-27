@@ -38,6 +38,10 @@ final class AMessage {
 	 */
 	private $html;
 	/**
+	 * @var AIMManager
+	 */
+	private $im;
+	/**
 	 * @var Registry
 	 */
 	private $registry;
@@ -50,6 +54,7 @@ final class AMessage {
 		$this->db = $this->registry->get('db');
 		$this->html = $this->registry->get('html');
 		$this->session = $this->registry->get('session');
+		$this->im = $this->registry->get('im');
 	}
 
 	/**
@@ -113,6 +118,9 @@ final class AMessage {
 						    `message` = '" . $this->db->escape($message) . "',
 						    `status` = '" . $this->db->escape($status) . "',						    
 						    `date_added` = NOW()");
+			$msg_id = $this->db->getLastId();
+			//send notification
+			$this->im->send('system_messages', array($msg_id));
 		}
 	}
 

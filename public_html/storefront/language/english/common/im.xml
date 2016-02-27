@@ -17,39 +17,52 @@
 		<value><![CDATA[ SMS ]]></value>
 	</definition>
 	<definition>
-		<key>im_sendpoint_name_order_updates</key>
-		<value><![CDATA[ Order Updates ]]></value>
+		<key>im_sendpoint_name_order_update</key>
+		<value><![CDATA[ Order Update ]]></value>
 	</definition>
 	<definition>
-		<key>im_sendpoint_name_account_updates</key>
-		<value><![CDATA[ Account Updates ]]></value>
+		<key>im_order_update_text_to_admin</key>
+		<value><![CDATA[ Order #%s have been updated! Order status ID %s]]></value>
+	</definition>
+	<definition>
+		<key>im_order_update_text_to_customer</key>
+		<value><![CDATA[ Your order #%s Updated. New Order Status is %s ]]></value>
+	</definition>
+
+	<definition>
+		<key>im_new_order_text_to_admin</key>
+		<value><![CDATA[ New Order #%s have been placed!]]></value>
+	</definition>
+	<definition>
+		<key>im_new_customer_text_to_admin</key>
+		<value><![CDATA[ New Customer #%s have been registered!]]></value>
+	</definition>
+	<definition>
+		<key>im_sendpoint_name_customer_account_update</key>
+		<value><![CDATA[ Account Update ]]></value>
+	</definition>
+	<definition>
+		<key>im_customer_account_update_text_to_customer</key>
+		<value><![CDATA[ Your account have been updated! ]]></value>
+	</definition>
+	<definition>
+		<key>im_customer_contact_admin_text</key>
+		<value><![CDATA[ You've got new enquiry from customer (%s, %s)! ]]></value>
 	</definition>
 	<definition>
 		<key>im_sendpoint_name_newsletter</key>
 		<value><![CDATA[ Newsletters ]]></value>
 	</definition>
 	<definition>
-		<key>im_sendpoint_name_product_notifications</key>
-		<value><![CDATA[ Product notifications ]]></value>
-	</definition>
-	<definition>
-		<key>im_order_updates_text_to_customer</key>
-		<value><![CDATA[ Your order #%s Updated. New Order Status is %s ]]></value>
-	</definition>
-	<definition>
-		<key>im_order_updates_text_to_admin</key>
-		<value><![CDATA[ Order #%s has been updated. ]]></value>
-	</definition>
-	<definition>
-		<key>im_account_updates_text_to_customer</key>
-		<value><![CDATA[ Your account recently updated! ]]></value>
-	</definition>
-	<definition>
 		<key>im_product_review_text_to_admin</key>
-		<value><![CDATA[ New product review has been added. See details #admin#rt=catalog/review/update&review_id=%s ]]></value>
+		<value><![CDATA[ New product review have been added. See details #admin#rt=catalog/review/update&review_id=%s ]]></value>
 	</definition>
 	<definition>
 		<key>im_product_out_of_stock_admin_text</key>
 		<value><![CDATA[ Product with ID #%s is out of Stock. ]]></value>
+	</definition>
+	<definition>
+		<key>im_system_messages_admin_text</key>
+		<value><![CDATA[ im_system_messages_admin_text !!!!! ]]></value>
 	</definition>
 </definitions>

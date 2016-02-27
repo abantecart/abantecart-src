@@ -88,6 +88,7 @@ class ModelSaleOrder extends Model{
 				}
 			}
 		}
+		$this->im->send('new_order', array($order_id,$order_id));
 	}
 
 	/**
@@ -263,6 +264,8 @@ class ModelSaleOrder extends Model{
 				}
 			}
 		}
+
+		$this->im->send('order_update', array($order_id,$order_id));
 	}
 
 	/**
