@@ -78,6 +78,10 @@ ul {
 	font-family: 'Crete Round', serif;
 }
 
+.hidden {
+	display: none;
+}
+
 .heading1 .subtext img {
 	padding-bottom: 5px;
 }
@@ -757,9 +761,14 @@ ul.categorymenu > li ul > li img {
 .breadcrumb {
 	margin-bottom: 10px
 }
-
 .breadcrumb-separator {
 	padding: 0 5px 0 5px;
+}
+.breadcrumb > li + li::before {
+    color: #ccc;
+	font-family: FontAwesome;
+	content: "\f101"; 
+    padding: 0 5px;
 }
 
 /* ------------ Promo Section ------------ */
@@ -834,12 +843,6 @@ ul.categorymenu > li ul > li img {
 
 .addresses>section{
 	display: inline-block;
-}
-.addresses .old_address{
-	float: left;
-}
-.addresses .new_address{
-	float: right;
 }
 
 
@@ -1959,7 +1962,7 @@ ul.total li span.extra {
 	padding: 5px 5px 5px 5px;
 }
 
-.newcustomer, .returncustomer, .formbox {
+.newcustomer, .returncustomer {
 	width: 48%;
 	float: left;
 	border: 1px solid #E7E7E7;
@@ -3236,12 +3239,6 @@ paypal pro styles
 		display: inline-block;
 		width: 45% !important;
 	}
-	.addresses .old_address{
-		float: left;
-	}
-	.addresses .new_address{
-		float: right;
-	}
 	.cart-info .estimate{
 		float: right;
 	}
@@ -3484,11 +3481,6 @@ paypal pro styles
 		-o-transition: all 0.8s; /* Opera */
 	}
 
-	.formbox {
-		width: 85%;
-		margin-bottom: 10px;
-	}
-
 	.newcustomer, .returncustomer{
 		width: 97%;
 		margin-bottom: 10px;
@@ -3579,10 +3571,6 @@ paypal pro styles
 
 	.cart-info .coupon table {
 		border-right: 1px solid #E7E7E7 !important;
-	}
-
-	.formbox.ml10 {
-		margin-left: 0;
 	}
 
 	.block_frame_cart  .buttonwrap {
@@ -3834,11 +3822,6 @@ paypal pro styles
 		text-align: center;
 	}
 
-	.formbox {
-		width: 85%;
-		margin-bottom: 10px;
-	}
-
 	.newcustomer, .returncustomer{
 		width: 97%;
 		margin-bottom: 10px;
@@ -3911,10 +3894,6 @@ paypal pro styles
 
 	.sorting.well .pull-right {
 		margin-top: 0;
-	}
-
-	.formbox.ml10 {
-		margin-left: 0;
 	}
 
 	.returncustomer, .newcustomer {
@@ -4263,12 +4242,8 @@ paypal pro styles
 		margin-left: 37%;
 	}
 
-	.newcustomer, .returncustomer, .formbox {
+	.newcustomer, .returncustomer {
 		width: 100%;
-	}
-
-	.formbox.ml10 {
-		margin-left: 0;
 	}
 
 	.pagination.pull-right {

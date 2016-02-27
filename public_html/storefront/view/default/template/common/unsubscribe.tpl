@@ -3,8 +3,9 @@
   <span class="subtext"></span>
 </h1>
 
-<div class="container-fluid">
+<div class="contentpanel">
 
+<h4 class="heading4"></h4>
 <section class="mb40">
 	<p><?php echo $text_message; ?></p>
 	

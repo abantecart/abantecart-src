@@ -1,3 +1,4 @@
+<h4 class="hidden"> </h4>
 <section id="categorymenu">
     <nav class="subnav">
     	<ul class="nav-pills categorymenu">

@@ -1,3 +1,4 @@
+<h4 class="hidden"> </h4>
 <section id="newslettersignup">
 	<div class="pull-left newsletter"><?php echo $text_signup; ?></div>
 	<div class="pull-right">

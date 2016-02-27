@@ -1,4 +1,5 @@
-<section id="bestseller" class="row mt40">
+<h4 class="hidden"> </h4>
+<section id="bestseller" class="row mt20">
 	<div class="container-fluid">
 		<?php
 		if ( $block_framed ) { ?>

@@ -1,6 +1,7 @@
 <!-- Footer -->
 <footer>
 	<!-- footer blocks placeholder -->
+	<h4 class="hidden"> </h4>
 	<section class="footersocial">
 		<div class="container-fluid">
 			<div class="row">
@@ -20,6 +21,7 @@
 		</div>
 	</section>
 
+	<h2 class="hidden"> </h2>
 	<section class="footerlinks">
 		<div class="container-fluid">
 			<div class="pull-left">
@@ -30,6 +32,8 @@
 			</div>
 		</div>
 	</section>
+
+	<h2 class="hidden"> </h2>
 	<section class="copyrightbottom align_center">
 		<div class="container-fluid">
 			<div class="pull-left mt5">
@@ -54,7 +58,7 @@
 <div class="modal-content">
   <div class="modal-header">
     <button type="button" class="close callback-btn" data-dismiss="modal" aria-hidden="true">&times;</button>
-    <h3></h3>
+    <h3 class="hidden"> </h3>
   </div>
   <div class="modal-body">
   </div>
