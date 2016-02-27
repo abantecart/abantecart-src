@@ -19,8 +19,8 @@
 
 <div class="contentpanel addresses">
 	<div class="col-md-6 col-xs-12">
-	<h4 class="heading4"><?php echo $text_entries; ?></h4>
 	<section class="old_address">
+	<h4 class="heading4"><?php echo $text_entries; ?></h4>
 	<?php if ($addresses) {
 	  echo  $form0['form_open'];
 	?>
@@ -48,8 +48,8 @@
 	</div>
 	
 	<div class="col-md-6 col-xs-12">
-	<h4 class="heading4"><?php echo $text_new_address; ?></h4>
 	<section class="new_address">
+	<h4 class="heading4"><?php echo $text_new_address; ?></h4>
 	<?php }
 	   echo $form['form_open'];
 	?>

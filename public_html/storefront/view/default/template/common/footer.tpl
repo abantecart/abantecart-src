@@ -1,8 +1,8 @@
 <!-- Footer -->
 <footer>
 	<!-- footer blocks placeholder -->
-	<h4 class="hidden"> </h4>
 	<section class="footersocial">
+	<h4 class="hidden">&nbsp;</h4>
 		<div class="container-fluid">
 			<div class="row">
 				<div class="col-md-3">
@@ -21,8 +21,8 @@
 		</div>
 	</section>
 
-	<h2 class="hidden"> </h2>
 	<section class="footerlinks">
+	<h2 class="hidden">&nbsp;</h2>
 		<div class="container-fluid">
 			<div class="pull-left">
 				<?php echo ${$children_blocks[4]}; ?>
@@ -33,8 +33,8 @@
 		</div>
 	</section>
 
-	<h2 class="hidden"> </h2>
 	<section class="copyrightbottom align_center">
+	<h2 class="hidden">&nbsp;</h2>
 		<div class="container-fluid">
 			<div class="pull-left mt5">
 				<?php echo ${$children_blocks[6]}; ?>
@@ -58,7 +58,7 @@
 <div class="modal-content">
   <div class="modal-header">
     <button type="button" class="close callback-btn" data-dismiss="modal" aria-hidden="true">&times;</button>
-    <h3 class="hidden"> </h3>
+    <h3 class="hidden">&nbsp;</h3>
   </div>
   <div class="modal-body">
   </div>

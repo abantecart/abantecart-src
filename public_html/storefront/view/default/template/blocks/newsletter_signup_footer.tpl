@@ -1,6 +1,6 @@
 <div class="footer_block">
-<h2><?php echo $heading_title; ?></h2>
 <section id="newslettersignup">
+<h2><?php echo $heading_title; ?></h2>
 	<div class="pull-left newsletter"><?php echo $text_signup; ?></div>
 	<div class="pull-right">
 		<?php echo $form_open;?>
