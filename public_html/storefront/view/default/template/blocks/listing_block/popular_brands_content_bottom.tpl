@@ -1,6 +1,6 @@
 <!-- Popular Brands-->
-<h4 class="hidden"> </h4>
 <section id="popularbrands" class="container-fluid mt20">
+<h4 class="hidden">&nbsp;</h4>
     <div class="container-fluid">
 <?php if ( $block_framed ) { ?>
 		<div class="block_frame block_frame_<?php echo $block_details['block_txt_id']; ?>"

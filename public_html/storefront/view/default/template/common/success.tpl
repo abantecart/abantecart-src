@@ -5,8 +5,8 @@
 
 <div class="contentpanel">
 
-<h4 class="hidden"> </h4>
 <section class="mb40">
+<h4 class="hidden">&nbsp;</h4>
 	<p><?php echo $text_message; ?></p>
 	
 	<a href="<?php echo $continue; ?>" class="btn btn-default mr10" title="<?php echo $continue_button->text ?>">

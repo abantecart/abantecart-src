@@ -1,5 +1,5 @@
-<h4 class="hidden"> </h4>
 <section id="newslettersignup">
+<h4 class="hidden">&nbsp;</h4>
 	<div class="pull-left newsletter"><?php echo $text_signup; ?></div>
 	<div class="pull-right">
 		<?php echo $form_open;?>

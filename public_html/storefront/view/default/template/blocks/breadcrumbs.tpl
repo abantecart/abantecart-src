@@ -1,6 +1,6 @@
 <?php if ($breadcrumbs && count($breadcrumbs) > 1) {?>
-<h4 class="hidden"> </h4>
 <section class="breadcrumbs">
+<h4 class="hidden">&nbsp;</h4>
 	<ul class="breadcrumb">
 	    <?php foreach ($breadcrumbs as $breadcrumb) { ?>
 	    <li>

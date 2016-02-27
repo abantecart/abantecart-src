@@ -6,8 +6,8 @@
 
 	<div class="contentpanel">
 	
-	<h4 class="hidden"> </h4>
 	<section class="mb40">
+	<h4 class="hidden">&nbsp;</h4>
 		<p></p>
 		<p><?php echo $success; ?></p>
 	</section>
