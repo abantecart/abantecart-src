@@ -272,12 +272,14 @@ class ControllerPagesSaleContact extends AController {
 		    'placeholder' => $this->language->get('text_products_from_lookup')
 		));
 
-		$this->data['form']['fields']['subject'] = $form->getFieldHtml(array(
-				'type' => 'input',
-				'name' => 'subject',
-				'value' => $this->data['subject'],
-				'required' => true
-		));
+		if($this->data['protocol']=='email'){
+			$this->data['form']['fields']['subject'] = $form->getFieldHtml(array (
+					'type'     => 'input',
+					'name'     => 'subject',
+					'value'    => $this->data['subject'],
+					'required' => true
+			));
+		}
 
 		$this->data['form']['fields']['message'] = $form->getFieldHtml(array(
 				'type' => ($this->data['protocol']=='email' ? 'texteditor' : 'textarea'),

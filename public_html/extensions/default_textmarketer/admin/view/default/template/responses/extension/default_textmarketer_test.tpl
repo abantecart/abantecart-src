@@ -46,7 +46,7 @@
 			},
 			success: function( response ) {
 				$('#test_connection').button('reset');
-				if ( response.hasOwnProperty('error') ) {
+				if ( response.hasOwnProperty('error') && response.error!=false  ) {
 					error_alert( response['message'] );
 					return false;
 				}

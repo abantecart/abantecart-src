@@ -281,8 +281,10 @@ class ControllerResponsesSaleContact extends AController {
 			$this->errors['warning'] = $this->language->get('error_permission');
 		}
 
-		if (!$this->request->post['subject']) {
-			$this->errors['subject'] = $this->language->get('error_subject');
+		if($this->request->post['protocol']=='email'){
+			if (!$this->request->post['subject']){
+				$this->errors['subject'] = $this->language->get('error_subject');
+			}
 		}
 
 		if (!$this->request->post['message']) {
