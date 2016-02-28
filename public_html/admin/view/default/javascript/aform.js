@@ -848,35 +848,23 @@ jQuery(document).ready(function() {
 
 	/* Handling forms exit */
 	$(window).bind('beforeunload', function () {
-	    var message = '', ckedit = false;
+	    var message = '';
 	    if ($('form[data-confirm-exit="true"]').length > 0) {
 	        $('form[data-confirm-exit="true"]').each(function () {
 	        	//skip validation if we submit
 	            if ($(this).prop('changed') != 'submit') {
-		            // now check is cdeditor changed
-		            if (null != window['CKEDITOR']) {
-		                for (var i in CKEDITOR.instances) {
-		                    if (CKEDITOR.instances[i].checkDirty()) {
-		                        $(this).prop('changed', 'true');
-		                        ckedit = true;
-		                        break;
-		                    }
-		                }
-		            }
-
-		            if ($(this).prop('changed') == 'true') {
-		                message = "You might have unsaved changes!";
-		            }
-
-		            //check if all elements are unchanged. If yes, we already undo or saved them
-		            if ($(this).find(".afield .changed").length == 0 && ckedit == false) {
-		                message = '';
-		            }
-	            }
-	        });
-	        if (message) {
-	            return message;
-	        }
+                    if ($(this).prop('changed') == 'true') {
+                        message = "You might have unsaved changes!";
+                    }
+                    //check if all elements are unchanged. If yes, we already undo or saved them
+                    if ($(this).find(".afield .changed").length == 0) {
+                        message = '';
+                    }
+                }
+            });
+            if (message) {
+                return message;
+            }
 	    }
 	});
     formOnExit();
