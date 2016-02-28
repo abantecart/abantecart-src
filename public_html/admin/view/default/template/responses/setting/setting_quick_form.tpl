@@ -100,10 +100,9 @@ $('#store_switcher_form').on('submit', function(){
 		data: that.serializeArray(),
 		success: function (data) {
 
-			that.parents('.modal-content')
-			        .removeData()
-			        .html('')
-			        .load('<?php echo $form['form_open']->action; ?>');
+			that.parents('.modal-content').removeData().html('').load('<?php echo $form['form_open']->action; ?>', function() {
+				spanHelp2Toggles();	
+			});
 		}
 	});
 
