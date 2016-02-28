@@ -155,9 +155,21 @@ INSERT INTO `ac_coupon_descriptions` VALUES (6,1,'Coupon (-10.00)','Fixed Amount
 -- Dumping data for table `coupons`
 --
 
-INSERT INTO `ac_coupons` VALUES (4,'2222','P',10.0000,0,0,0.0000,'2012-01-27','2010-03-06',10,'10',1,'2015-06-12 09:56:24','2015-06-12 09:56:24');
-INSERT INTO `ac_coupons` VALUES (5,'3333','P',0.0000,0,1,100.0000,'2012-03-01','2015-08-31',10,'10',1,'2015-06-12 09:56:24','2015-06-12 09:56:24');
-INSERT INTO `ac_coupons` VALUES (6,'1111','F',10.0000,0,0,10.0000,'2012-01-01','2015-03-01',10,'10',1,'2015-06-12 09:56:24','2015-06-12 09:56:24');
+INSERT INTO `ac_coupons`
+  (`coupon_id`,`code`,`type`,`discount`,`logged`,`shipping`,`total`,`date_start`,`date_end`,`uses_total`,`uses_customer`,`status`,`date_added`)
+ VALUES
+  (  4,  '2222',  'P',  10.0000,  0,  0,  0.0000,  '2015-01-01',  '2016-01-01',  10,  '10',  1,  NOW());
+
+INSERT INTO `ac_coupons`
+(`coupon_id`,`code`,`type`,`discount`,`logged`,`shipping`,`total`,`date_start`,`date_end`,`uses_total`,`uses_customer`,`status`,`date_added`)
+VALUES
+ (5,  '3333',  'P',  0.0000,  0,  1,  100.0000,  '2015-01-01',  '2016-01-01',  10,  '10',  1,  NOW());
+
+INSERT INTO `ac_coupons`
+(`coupon_id`,`code`,`type`,`discount`,`logged`,`shipping`,`total`,`date_start`,`date_end`,`uses_total`,`uses_customer`,`status`,`date_added`)
+VALUES
+ ( 6, '1111', 'F', 10.0000, 0, 0, 10.0000, '2015-01-01', '2016-01-01', 10, '10', 1, NOW());
+
 
 --
 -- Dumping data for table `coupons_products`
