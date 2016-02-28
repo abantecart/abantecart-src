@@ -340,7 +340,7 @@ class ControllerPagesExtensionExtensions extends AController {
 			}
 			$data['name'] = $item['name'];
 			$data['type'] = $item['type'];
-			$data['value'] = $item['value'];
+			$data['value'] = isset($this->request->post[$item['name']]) ? $this->request->post[$item['name']] : $item['value'];
 			$data['required'] = (bool)$item['required'];
 
 			if($item['note']){
