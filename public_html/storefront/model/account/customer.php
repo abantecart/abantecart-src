@@ -256,10 +256,7 @@ class ModelAccountCustomer extends Model {
 		$im_protocols = $this->im->getProtocols();
 
 		$update = array();
-		foreach($settings as $sendpoint=>$row){
-			if(!in_array($sendpoint, $sendpoints)){
-				continue;
-			}
+		foreach($sendpoints as $sendpoint){
 			foreach($im_protocols as $protocol){
 				$update[$sendpoint][$protocol] = (int)$settings[$sendpoint][$protocol];
 			}
