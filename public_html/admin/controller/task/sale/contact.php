@@ -94,13 +94,22 @@ class ControllerTaskSaleContact extends AController{
 		}
 
 		$this->loadModel('sale/customer');
+		$this->loadModel('setting/store');
+		$store_info = $this->model_setting_store->getStore((int)$this->session->data['current_store_id']);
+		$from = '';
+		if ($store_info){
+			$from = $store_info['store_main_email'];
+		}
+		if(!$from){
+			$from = $this->config->get('store_main_email');
+		}
 
 		$send_data = array(
 				'sender' => $step_info['settings']['sender'],
 				'subject' => $step_info['settings']['subject'],
 				'message' => $step_info['settings']['message'],
 				'sender' => $step_info['settings']['store_name'],
-				'from' => $this->config->get('store_main_email')
+				'from' => $from
 		);
 		//send emails in loop and update task's step info for restarting if step or task failed
 		$step_settings =  $step_info['settings'];

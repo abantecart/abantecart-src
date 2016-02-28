@@ -104,7 +104,7 @@ class ControllerPagesSaleContact extends AController {
 		$this->data['cancel'] = $this->html->getSecureURL('sale/contact');
 
 		//get store from main switcher and current config
-		$this->data['store_id'] = $this->config->get('config_store_id');
+		$this->data['store_id'] = (int)$this->session->data['current_store_id'];
 
 		$this->data['customers'] = array();
 		$this->data['products'] = array();
@@ -190,30 +190,9 @@ class ControllerPagesSaleContact extends AController {
 		$this->data['form']['complete_task_url'] = $this->html->getSecureURL('r/sale/contact/complete');
 		$this->data['form']['abort_task_url'] = $this->html->getSecureURL('r/sale/contact/abort');
 
-		$this->loadModel('setting/store');
-		$this->loadModel('setting/setting');
-		$stores = array(0 => $this->language->get('text_default'));
-		$allstores = $this->model_setting_store->getStores();
-		if ($allstores) {
-			foreach ($allstores as $item) {
-				//get store email address to display
-				$settings = $this->model_setting_setting->getSetting('details', $item['store_id']);
-				$stores[$item['store_id']] = $settings['store_name'];
-				if($this->data['protocol']=='email'){
-					$stores[$item['store_id']] .= ' ( ' . $settings['store_main_email'].' )';
-				}
-			}
-		}
 
-		//do not allow to edit store. This is changed with main store switcher
-		$this->data['form']['fields']['store'] = $form->getFieldHtml(array(
-				'type' => 'selectbox',
-				'name' => 'store_id',
-				'value' => $this->data['store_id'],
-				'options' => $stores,
-				'style' => 'large-field',
-				'attr' => 'disabled'
-		));
+		//set store selector
+		$this->view->assign('form_store_switch', $this->html->getStoreSwitcher());
 
 		//build recipient filter
 		$options = array('' => $this->language->get('text_custom_send'));

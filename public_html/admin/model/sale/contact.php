@@ -45,7 +45,7 @@ class ModelSaleContact extends Model {
 		//first of all needs to define recipient count
 		$this->load->model('sale/customer');
 		$this->load->model('setting/store');
-		$store_info = $this->model_setting_store->getStore($data['store_id']);
+		$store_info = $this->model_setting_store->getStore((int)$this->session->data['current_store_id']);
 		if ($store_info){
 			$store_name = $store_info['store_name'];
 		} else{
