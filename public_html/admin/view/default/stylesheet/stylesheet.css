@@ -462,7 +462,7 @@ h1 a:hover, h2 a:hover, h3  a:hover {
     border-right: 6px solid transparent;
     content: "";
     display: inline-block;
-    right: 17px;
+    left: 40px;
     position: absolute;
     top: -6px;
 }
