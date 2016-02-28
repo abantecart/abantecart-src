@@ -19,13 +19,6 @@
 				</a>
 			</div>
 
-		<?php if($active=='appearance'){?>
-			<div class="btn-group">
-				<a class="btn btn-primary actionitem tooltips" title="<?php echo $manage_extensions->title; ?>" href="<?php echo $manage_extensions->href; ?>">
-				<i class="fa fa-puzzle-piece"></i>
-				</a>
-			</div>
-		<?php } ?>
 		<?php if($phpinfo_button){?>
 			<div class="btn-group">
 				<a class="btn btn-default actionitem tooltips"
@@ -55,12 +48,19 @@
 			$id = current($field)->element_id;
 			?>
 		<div id="<?php echo $id.'_fld'; ?>" class="form-group <?php if (!empty($error[$name])) { echo "has-error"; } ?>">
-			<label class="control-label col-sm-2" for="<?php echo $id; ?>"><?php echo $this->language->get('entry_'.$protocol.'_driver'); ?></label>
+			<label class="control-label col-sm-2 tooltips" for="<?php echo $id; ?>" ><?php echo $this->language->get('entry_'.$protocol.'_driver'); ?></label>
 			<div class="input-group col-sm-10 col-xs-12 row">
 				<?php
-					foreach($field as $fld){
+					foreach($field as $k=>$fld){
 						$fld->style = 'btn_switch';
-						echo '<div class="input-group-cell afield col-sm-3">'.$fld->label_text.' '.$fld.'</div>';
+						if($k == 'driver'){
+							$tooltip = ${'entry_'.$protocol.'_driver_tooltip'};
+						}else{
+							$tooltip = ${'entry_'.$k.'_tooltip'};
+						}
+						echo '<div class="input-group-cell afield col-sm-3 tooltips"
+									data-toggle="tooltip"
+									title="'.$tooltip.'">'.$fld->label_text.' '.$fld.'</div>';
 					} ?>
 			</div>
 		    <?php if (!empty($error[$name])) { ?>

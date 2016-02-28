@@ -376,8 +376,14 @@ class ControllerPagesSettingSetting extends AController {
 	public function im () {
 		$this->request->get['active'] = 'im';
 		$this->data['entry_storefront_sms_status'] = $this->language->get('text_storefront');
+		$this->data['entry_sms_driver_tooltip'] = $this->language->get('entry_sms_driver_tooltip');
 		$this->data['entry_admin_sms_status'] = $this->language->get('text_admin');
+
+		$this->data['entry_storefront_status_tooltip'] = $this->language->get('entry_storefront_status_tooltip');
+		$this->data['entry_admin_status_tooltip'] = $this->language->get('entry_admin_status_tooltip');
+
 		$this->main();
+
 	}
 
 	public function api () {
