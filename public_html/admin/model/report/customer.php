@@ -87,7 +87,7 @@ class ModelReportCustomer extends Model {
 	}
 	
 	public function getTotalOnlineCustomers($data = array()) {
-		return $this->getCustomersOnline($data, 'total_only');
+		return $this->getOnlineCustomers($data, 'total_only');
 	}
 
 
@@ -145,6 +145,7 @@ class ModelReportCustomer extends Model {
 
 		//If for total, we done bulding the query
 		if ($mode == 'total_only') {
+
 			$query = $this->db->query($sql);
 			return $query->row['total'];
 		}

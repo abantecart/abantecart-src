@@ -20,6 +20,11 @@
 if (! defined ( 'DIR_CORE' ) || !IS_ADMIN) {
 	header ( 'Location: static_pages/' );
 }
+
+/**
+ * Class ControllerResponsesListingGridReportCustomer
+ * @property ModelReportCustomer $model_report_customer
+ */
 class ControllerResponsesListingGridReportCustomer extends AController {
 	private $error = array();
 
