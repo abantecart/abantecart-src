@@ -617,7 +617,7 @@ class ModelToolGlobalSearch extends Model {
 								OR LOWER(s.`key`) like '%" . $needle . "%'
 								OR LOWER(s.`key`) like '%" . str_replace(' ','_',$needle) . "%'
 								OR LOWER(`value`) like '%" . str_replace(' ','_',$needle) . "%'
-								)
+								) AND s.`key` NOT IN ('encryption_key')
 							AND s.`store_id` ='".( int )$current_store_id."'
 						UNION
 						SELECT s.setting_id,
