@@ -120,7 +120,9 @@ final class AMessage {
 						    `date_added` = NOW()");
 			$msg_id = $this->db->getLastId();
 			//send notification
-			$this->im->send('system_messages', array($msg_id));
+			if(is_object($this->im)){
+				$this->im->send('system_messages', array ($msg_id));
+			}
 		}
 	}
 
