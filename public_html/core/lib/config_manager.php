@@ -627,6 +627,7 @@ class AConfigManager {
 			'options' => $order_statuses,
 			'style' => 'chosen'
 		));
+
 		$fields['expire_order_days'] = $form->getFieldHtml($props[] = array(
 			'type' => 'input',
 			'name' => 'config_expire_order_days',
@@ -1289,7 +1290,7 @@ class AConfigManager {
 	private function _filterField($fields, $props, $field_name) {
 		$output = array();
 		foreach ($props as $n => $properties) {
-			if ($field_name == $properties['name']
+			if (preformatTextID($field_name) == preformatTextID($properties['name'])
 					|| (is_int(strpos($field_name, 'config_description')) && is_int(strpos($properties['name'], 'config_description')))
 			) {
 				$names = array_keys($fields);

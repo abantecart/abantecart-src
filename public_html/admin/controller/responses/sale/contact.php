@@ -253,7 +253,9 @@ class ControllerResponsesSaleContact extends AController {
 				$incm_task['starter_name'] = $user_info['username']. ' '.$user_info['firstname']. ' '.$user_info['lastname'];
 				$step = current($steps);
 				$step_settings = $step['settings'];
-				$incm_task['subject'] = $step_settings['subject'];
+				if($step_settings['subject']){
+					$incm_task['subject'] = $step_settings['subject'];
+				}
 				$incm_task['message'] = mb_substr($step_settings['message'],0, 300);
 				$incm_task['date_added'] = dateISO2Display($incm_task['date_added'], $this->language->get('date_format_short').' '.$this->language->get('time_format'));
 				$incm_task['last_time_run'] = dateISO2Display($incm_task['last_time_run'], $this->language->get('date_format_short').' '.$this->language->get('time_format'));

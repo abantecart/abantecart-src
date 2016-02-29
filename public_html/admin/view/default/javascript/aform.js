@@ -797,7 +797,7 @@
                 }else{
                     doRadio(elem);
                 }
-            } else if (elem.is(":text, :password, input[type='email']")) {
+            } else if (elem.is(":text, :password, input[type='email'], input[type='tel']")) {
                 if (elem.is(":password") && $(elem).is('[name$="_confirm"]')) {
                     ;
                 } else if (elem.is(":password") && elem.hasClass('passwordset_element')) {
