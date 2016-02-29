@@ -186,7 +186,7 @@ $wrapper_id = randomWord(6);
 
 			var textarea, value;
 			textarea = $('#'+prevtab_id+ ' textarea');
-
+			
 			if(prevtab_id == 'visual_<?php echo $wrapper_id?>'){
 				value = tinyMCE.activeEditor.getContent();
 				value = visual2html(value);
@@ -197,13 +197,13 @@ $wrapper_id = randomWord(6);
 				$('#'+newtab_id+ ' textarea')
 						.val(textarea.val())
 						.removeAttr('disabled');
-				if(tinyMCE.activeEditor!=null) {
+				if(tinyMCE.activeEditor != null) {
 					value = textarea.val();
 					value = html2visual(value);
 					tinyMCE.activeEditor.setContent( value );
 				}
 			}
-
+			
 			//block previous textarea
 			textarea.attr('disabled','disabled');
 		});
