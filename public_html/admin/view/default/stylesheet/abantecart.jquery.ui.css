@@ -278,6 +278,7 @@
 	margin: -1px 0 0 0;
 	padding: 0;
 	text-align: left;
+	display: table;
 }
 
 .ui-jqgrid .ui-jqgrid-btable {
