@@ -194,8 +194,9 @@ class ModelReportCustomer extends Model {
 			$total_sql = 'SELECT COUNT(DISTINCT c.customer_id) as total';
 		}
 		else {
-			$total_sql = "SELECT 	c.customer_id, 
-									CONCAT(c.firstname, ' ', c.lastname) AS customer, 
+			$total_sql = "SELECT 	ct.customer_transaction_id,
+									c.customer_id,
+									CONCAT(c.firstname, ' ', c.lastname) AS customer,
 									ct.date_added,
 									c.status, 
 									ct.debit,
@@ -235,7 +236,7 @@ class ModelReportCustomer extends Model {
 		}
 
 		if (!empty($data['subsql_filter'])){
-			//$where .= " " . $data['subsql_filter'];
+			$where .= " " . $data['subsql_filter'];
 		}
 		
 		if ($where) {
@@ -248,7 +249,7 @@ class ModelReportCustomer extends Model {
 			return $query->row['total'];
 		}
 		
-		$sql .= " GROUP BY c.customer_id ";
+		//$sql .= " GROUP BY c.customer_id ";
 
 		$sort_data = array(
 		    'transaction_type' => 'ct.transaction_type',
