@@ -26,13 +26,15 @@ class ControllerResponsesExtensionDefaultTwilio extends AController {
 	public $data = array();
 
 	public function test() {
-
+		$this->registry->set('force_skip_errors', true);
 		$this->loadLanguage('default_twilio/default_twilio');
-
+		$this->loadModel('setting/setting');
 		include_once(DIR_EXT.'default_twilio/core/lib/Services/Twilio.php');
 
-	    $AccountSid = $this->config->get('default_twilio_username');
-	    $AuthToken = $this->config->get('default_twilio_token');
+
+		$cfg = $this->model_setting_setting->getSetting('default_twilio',(int)$this->session->data['current_store_id']);
+	    $AccountSid = $cfg['default_twilio_username'];
+	    $AuthToken = $cfg['default_twilio_token'];
 
 		$sender = new Services_Twilio($AccountSid, $AuthToken);
 
@@ -57,7 +59,7 @@ class ControllerResponsesExtensionDefaultTwilio extends AController {
 			}
 
 
-
+		$this->registry->set('force_skip_errors', false);
 		$json = array();
 
 		if(!$error_message){
