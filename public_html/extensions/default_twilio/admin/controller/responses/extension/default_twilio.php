@@ -52,7 +52,7 @@ class ControllerResponsesExtensionDefaultTwilio extends AController {
 						array ()
 				);
 
-			}catch(Services_Twilio_RestException $e){
+			}catch(Exception $e){
 				$error_message = $e->getMessage();
 			}
 
