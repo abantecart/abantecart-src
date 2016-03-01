@@ -715,6 +715,7 @@ $(document).on('click', ".task_run", function () {
         type: 'POST',
         dataType: 'json',
         data: send_data,
+        cache:false,
         success: runTaskUI,
         global: false,
         error: function (xhr, ajaxOptions, thrownError) {
