@@ -1,3 +1,8 @@
+ALTER TABLE `ac_task_steps`
+DROP PRIMARY KEY,
+ADD PRIMARY KEY (`step_id`),
+ADD INDEX `task_steps_idx` (`task_id` ASC);
+
 ALTER TABLE `ac_customer_groups`
 ADD COLUMN `tax_exempt` tinyint(1) NOT NULL DEFAULT '0';
 

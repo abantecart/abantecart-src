@@ -12464,5 +12464,6 @@ CREATE TABLE `ac_task_steps` (
   `settings` text DEFAULT '', -- serialized array with paramenters
   `date_added` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `date_modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`task_id`, `step_id`)
+  PRIMARY KEY (`step_id`),
+  KEY `task_steps_idx` (`task_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
