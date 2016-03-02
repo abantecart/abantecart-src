@@ -315,13 +315,13 @@ var loadSingle = function (type, wrapper_id, resource_id, field, meta) {
 					src = '<img class="img-responsive" src="' + item['thumbnail_url'] + '?t=' + t + '" title="' + item['name'] + '" />';
 				}
 				//add item properties for single mode for CKE
-				if($('#RlFrm_meta').length>0){
+				if($('#RlFrm_meta').length > 0){
 					var image_meta = $('#RlFrm_meta').val();
-					if(image_meta.length>0) {
+					if(image_meta.length > 0) {
 						item['meta'] = image_meta;
 					}
 					//check title to paste it into alt attribute
-					if(item['title'].length<1 && $('#RlFrm_title').val().length>0){
+					if(item['title'].length < 1 && $('#RlFrm_title').val().length > 0){
 						item['title'] = $('#RlFrm_title').val();
 					}
 				}else{
@@ -342,7 +342,7 @@ var loadSingle = function (type, wrapper_id, resource_id, field, meta) {
 						'><i class="fa fa-times"></i>&nbsp;<?php echo $button_remove?></a>';
 				html += '</div>';
 				var resource_uri = '';
-				if(item['resource_path'].length>0 && type=='image'){
+				if(item['resource_path'].length > 0 && type=='image'){
 					resource_uri = 'index.php?rt=r/common/resource/getImageThumbnail&resource_id='+item['resource_id'];
 					if(meta && meta!='') {
 						resource_uri += '&' + $.param(meta);
@@ -354,6 +354,7 @@ var loadSingle = function (type, wrapper_id, resource_id, field, meta) {
 						resource_uri = item['resource_id'];
 					}
 				}
+console.log(meta);
 				$('#' + field).val(resource_uri);
 				$('#'+field+'_resource_id').val(item['resource_id']);
 				$('#'+field+'_resource_code').val(item['resource_code']);

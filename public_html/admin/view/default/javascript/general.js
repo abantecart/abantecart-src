@@ -650,15 +650,15 @@ function textareaInsert(editor, text) {
 
 function html2visual(text) {
 	var output = '';
-    output = text.replace(new RegExp('\r?\n','g'), '<p class="abc-markup" hidden="">n<\/p>');
-    output = output.replace(new RegExp('\t','g'), '<p class="abc-markup" hidden="">t<\/p>');
+    output = text.replace(new RegExp('\r?\n','g'), '<!--n-->');
+    output = output.replace(new RegExp('\t','g'), '<!--t-->');
     return output;
 }
 
 function visual2html(text) {
     var output = '';
-    output = text.replace(new RegExp('(<p class="abc-markup" hidden="">n<\/p>)','g'), '\r\n');
-    output = output.replace(new RegExp('<p class="abc-markup" hidden="">t<\/p>','g'), '\t');
+    output = text.replace(new RegExp('(<!--n-->)','g'), '\r\n');
+    output = output.replace(new RegExp('<!--t-->','g'), '\t');
     return output;
 }
 

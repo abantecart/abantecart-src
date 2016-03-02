@@ -208,7 +208,7 @@ $wrapper_id = randomWord(6);
 			textarea.attr('disabled','disabled');
 		});
 
-		<?php if(is_int(strpos($value,'abc-markup'))){?>
+		<?php if( is_int(strpos($value,'<!--n-->')) || is_int(strpos($value,'<!--t-->')) ){?>
 		$('#<?php echo $wrapper_id; ?> a[href="#visual_<?php echo $wrapper_id; ?>"]').tab('show');
 		<?php } ?>
 
