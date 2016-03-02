@@ -36,7 +36,14 @@ class AIMManager extends AIM{
 	 * Some sendpoints have few text variables, for ex. order status and order status name
 	 * For additional sendpoints ( from extensions) you can store language keys wherever you want.
 	 */
-	public $admin_sendpoints = array ();
+	public $admin_sendpoints = array (
+			'account_update'       => array (
+					'cp' => 'im_account_update_text_to_admin',
+					'sf' => ''),
+			'system_messages' => array (
+					'sf' => '',
+					'cp' => 'im_system_messages_text_to_admin'),
+	);
 
 	//NOTE: This class is loaded in INIT for admin only
 	public function __construct(){

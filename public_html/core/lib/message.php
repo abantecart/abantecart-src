@@ -54,7 +54,6 @@ final class AMessage {
 		$this->db = $this->registry->get('db');
 		$this->html = $this->registry->get('html');
 		$this->session = $this->registry->get('session');
-		$this->im = $this->registry->get('im');
 	}
 
 	/**
@@ -119,10 +118,14 @@ final class AMessage {
 						    `status` = '" . $this->db->escape($status) . "',						    
 						    `date_added` = NOW()");
 			$msg_id = $this->db->getLastId();
+
 			//send notification
-			if(is_object($this->im)){
-				$this->im->send('system_messages', array ($msg_id));
+			$r = Registry::getInstance();
+			$im = $r->get('im');
+			if(is_object($im)){
+				$im->send('system_messages', array ($msg_id));
 			}
+
 		}
 	}
 

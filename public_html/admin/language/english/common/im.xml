@@ -28,7 +28,6 @@
 		<key>im_new_customer_text_to_admin</key>
 		<value><![CDATA[ New Customer #%s have been added!]]></value>
 	</definition>
-
   	<definition>
     	<key>im_sendpoint_name_account_update</key>
     	<value><![CDATA[User Account Update]]></value>
@@ -37,8 +36,6 @@
 		<key>im_account_update_text_to_admin</key>
 		<value><![CDATA[ New Customer #%s have been added!]]></value>
 	</definition>
-
-
   	<definition>
     	<key>im_sendpoint_name_customer_contact</key>
     	<value><![CDATA[Customer Enquiry]]></value>
@@ -64,12 +61,8 @@
 		<value><![CDATA[ System Messages ]]></value>
 	</definition>
   	<definition>
-    	<key>im_product_created_admin_text</key>
-    	<value><![CDATA[Added New Product with ID #%s]]></value>
-  	</definition>
-  	<definition>
-    	<key>im_product_updated_admin_text</key>
-    	<value><![CDATA[Product with ID #%s updated]]></value>
+    	<key>im_system_messages_text_to_admin</key>
+    	<value><![CDATA[im_system_messages_text_to_admin !!!!!]]></value>
   	</definition>
   	<definition>
     	<key>text_notification_for</key>

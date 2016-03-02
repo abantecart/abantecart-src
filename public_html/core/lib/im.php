@@ -191,7 +191,8 @@ class AIM {
 	}
 
 	public function send($sendpoint, $text_vars = array()){
-		if(!IS_ADMIN){
+		$this->log->write($sendpoint);
+		if(IS_ADMIN!==true){
 			$sendpoints_list = $this->sendpoints;
 			$this->load->model('account/customer');
 			$customer_im_settings = $this->getCustomerNotificationSettings();
