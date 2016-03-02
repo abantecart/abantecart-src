@@ -310,7 +310,8 @@ class ModelAccountCustomer extends Model {
       	                SET password = '" . $this->db->escape($password) . "'
       	                WHERE loginname = '" . $this->db->escape($loginname) . "'");
 		//send IM
-		$sql = "SELECT FROM " . $this->db->table("customers") . "
+		$sql = "SELECT customer_id
+ 				FROM " . $this->db->table("customers") . "
 		      	WHERE loginname = '" . $this->db->escape($loginname) . "'";
 		$result = $this->db->query($sql);
 		$customer_id = $result->row['customer_id'];
