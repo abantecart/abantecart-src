@@ -173,11 +173,16 @@ class ModelAccountCustomer extends Model {
 
 	/**
 	 * @param array $data
+	 * @param int $customer_id
 	 * @return bool
 	 */
-	public function editCustomerNotifications($data){
+	public function editCustomerNotifications($data, $customer_id = 0){
 		if(!$data){
 			return false;
+		}
+
+		if(!$customer_id){
+			$customer_id = (int)$this->customer->getId();
 		}
 
 		//get only active IM drivers
@@ -213,7 +218,7 @@ class ModelAccountCustomer extends Model {
 		$sql = "UPDATE ".$this->db->table('customers')."
 				SET ".implode(', ',$upd)."\n"
 				. $key_sql .
-				" WHERE customer_id = '" . (int)$this->customer->getId() . "'";
+				" WHERE customer_id = '" . $customer_id . "'";
 		$this->db->query($sql);
 		return true;
 	}

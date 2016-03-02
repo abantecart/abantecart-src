@@ -47,6 +47,7 @@ class ControllerPagesAccountCreate extends AController{
 				}
 
 				$this->data['customer_id'] = $this->model_account_customer->addCustomer($request_data);
+				$this->model_account_customer->editCustomerNotifications($request_data, $this->data['customer_id']);
 
 				unset($this->session->data['guest']);
 
