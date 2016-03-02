@@ -4,7 +4,7 @@
    <center>
    <small>
    	AbanteCart is a trademark of Belavier Commerce LLC<br /> Copyright (c) Belavier Commerce LLC
-   	<a href="http://www.abantecart.com" target="_blank">AbanteCart</a> &copy; 2009 - 2015 All Rights Reserved.
+   	<a href="http://www.abantecart.com" target="_blank">AbanteCart</a> &copy; 2009 - 2016 All Rights Reserved.
   </small>
   </center>
 </div>
