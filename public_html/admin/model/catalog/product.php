@@ -148,7 +148,6 @@ class ModelCatalogProduct extends Model{
 			}
 		}
 		$this->cache->delete('product');
-		$this->im->send('product_creates', array('product_id' => $product_id));
 		return $product_id;
 	}
 
@@ -310,7 +309,6 @@ class ModelCatalogProduct extends Model{
 		}
 
 		$this->cache->delete('product');
-		$this->im->send('product_updates', array('product_id' => $product_id));
 	}
 
 	/**
