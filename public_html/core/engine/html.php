@@ -1200,6 +1200,7 @@ class TextareaHtmlElement extends HtmlElement {
 				'required' => $this->required,
 				'style' => $this->style,
 				'placeholder' => $this->placeholder,
+				'label_text' => $this->label_text
 			)
 		);
 		if( is_object($this->data['registry']->get('language'))

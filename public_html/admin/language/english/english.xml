@@ -729,4 +729,8 @@
 		<key>text_storefront</key>
 		<value><![CDATA[Storefront]]></value>
 	</definition>
+	<definition>
+		<key>text_texteditor_extended_mode</key>
+		<value><![CDATA[<a class="texteditor_ext_mode" href="%s" ><i class="fa fa-external-link"></i> Edit in Extended Mode</a>]]></value>
+	</definition>
 </definitions>
