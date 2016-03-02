@@ -39,6 +39,7 @@ final class DefaultTwilio{
 			return null;
 		}
 		$to = '+'.ltrim($to,'+');
+		$text = strip_tags($text);
 		try{
 			if($this->config->get('default_twilio_test')){
 				//sandbox number without errors from api

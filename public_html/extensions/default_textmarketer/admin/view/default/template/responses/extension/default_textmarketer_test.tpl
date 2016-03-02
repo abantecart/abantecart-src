@@ -4,7 +4,8 @@
 	echo $this->html->buildElement( array(
 					'type' => 'phone',
 					'name' => 'to',
-					'placeholder' => 'place you phone number here'
+					'placeholder' => 'place you phone number here',
+					'style' => ' no-save '
 				));
 
 	 ?>

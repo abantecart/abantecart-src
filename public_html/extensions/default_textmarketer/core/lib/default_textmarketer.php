@@ -37,6 +37,7 @@ final class DefaultTextMarketer{
 			return null;
 		}
 		$to = '+'.ltrim($to,'+');
+		$text = strip_tags($text);
 		try{
 			$originator = $this->config->get('default_textmarketer_originator');
 			$originator = preg_replace('/[^a-zA-z]/','',$originator);
