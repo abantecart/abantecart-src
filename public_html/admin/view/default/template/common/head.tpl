@@ -85,7 +85,7 @@ var mcei = {
 	end_container_on_empty_block: true,
 	editimage_disable_captions: false,
 	editimage_html5_captions: true,
-	plugins: "charmap,colorpicker,hr,lists,media,paste,tabfocus,textcolor,fullscreen,fullpage,link",
+	plugins: "charmap,colorpicker,hr,lists,media,paste,tabfocus,textcolor,fullscreen,link",
 	selector: '',
 	resize: true,
 	menubar: false,
