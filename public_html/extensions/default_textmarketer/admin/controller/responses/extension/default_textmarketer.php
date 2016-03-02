@@ -27,7 +27,7 @@ class ControllerResponsesExtensionDefaultTextMarketer extends AController {
 
 	public function test() {
 		$this->registry->set('force_skip_errors', true);
-
+		$this->loadModel('setting/setting');
 		$this->loadLanguage('default_textmarketer/default_textmarketer');
 		$error_message = '';
 		$to = $this->request->get['to'];
@@ -39,15 +39,18 @@ class ControllerResponsesExtensionDefaultTextMarketer extends AController {
 
 		if(!$error_message){
 
+			$cfg = $this->model_setting_setting->getSetting('default_textmarketer',(int)$this->session->data['current_store_id']);
+			$username = $cfg['default_textmarketer_username'];
+			$userpass = $cfg['default_textmarketer_password'];
+			$testmode = $cfg['default_textmarketer_test'];
+			$originator = $cfg['default_textmarketer_originator'];
+
 			include_once(DIR_EXT . 'default_textmarketer/core/lib/textmarketer.php');
 
 			$result = null;
 			try{
-				$sender = new TextMarketer($this->config->get('default_textmarketer_username'),
-						$this->config->get('default_textmarketer_password'),
-						$this->config->get('default_textmarketer_test'));
+				$sender = new TextMarketer($username,$userpass,$testmode);
 
-				$originator = $this->config->get('default_textmarketer_originator');
 				$originator = preg_replace('/[^a-zA-z]/', '', $originator);
 				$result = $sender->send('test message', $to, $originator);
 

@@ -46,15 +46,18 @@ class ControllerPagesReportCustomerTransactions extends AController{
             // url to load data from
             'url' => $this->html->getSecureURL('listing_grid/report_customer/transactions'),
             // default sort column
-            'sortname' => 'date_added',
+            'sortname' => 'name',
+            'sortorder' => 'asc',
             'columns_search' => true,
             'multiselect' => 'false',
-			'actions' => array(
-			    'view' => array(
-			    	'text' => $this->language->get('text_view'),
-			    	'href' => $this->html->getSecureURL ( 'sale/customer_transaction','&customer_id=%ID%')
-			    )
-			),
+            // actions
+            'actions' => array(
+                'view' => array(
+                    'text' => $this->language->get('text_view'),
+                    'href' => $this->html->getSecureURL('listing_grid/customer_transaction/transaction', '&customer_transaction_id=%ID%'),
+                )
+            ),
+            'grid_ready' => 'updateViewButtons();',
         );
 
         $grid_settings['search_form'] = true;
@@ -74,6 +77,7 @@ class ControllerPagesReportCustomerTransactions extends AController{
                 'index' => 'date_added',
                 'width' => 110,
                 'align' => 'center',
+                'sortable' => true,
                 'search' => false,
             ),
             array(
@@ -82,6 +86,7 @@ class ControllerPagesReportCustomerTransactions extends AController{
                 'width' => 120,
                 'align' => 'center',
                 'sorttype' => 'string',
+                'sortable' => true,
                 'search' => true,
             ),
             array(
@@ -96,6 +101,7 @@ class ControllerPagesReportCustomerTransactions extends AController{
                 'index' => 'credit',
                 'width' => 100,
                 'align' => 'center',
+                'sortable' => true,
                 'search' => false,
             ),
             array(
@@ -103,6 +109,7 @@ class ControllerPagesReportCustomerTransactions extends AController{
                 'index' => 'transaction_type',
                 'width' => 120,
                 'align' => 'center',
+                'sortable' => true,
                 'search' => false,
             ),
             array(
@@ -110,6 +117,7 @@ class ControllerPagesReportCustomerTransactions extends AController{
                 'index' => 'created_by',
                 'width' => 120,
                 'align' => 'center',
+                'sortable' => true,
                 'search' => false,
             ),
         );

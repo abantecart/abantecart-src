@@ -160,10 +160,10 @@ class ControllerResponsesListingGridReportCustomer extends AController {
 	    $results = $this->model_report_customer->getCustomerTransactions($data);
 	    $i = 0;
 		foreach ($results as $result) {
-            $response->rows[$i]['id'] = $result['customer_id'];
+            $response->rows[$i]['id'] = $result[ 'customer_transaction_id' ];
             //mark inactive customers. 
             if ($result['status'] != 1) {
-				$response->userdata->classes[$result['customer_id']] = 'attention';
+				$response->userdata->classes[$result[ 'customer_transaction_id' ]] = 'attention';
 			}
 			$response->rows[$i]['cell'] = array(
 				$result['date_added'],

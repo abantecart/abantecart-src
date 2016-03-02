@@ -47,27 +47,39 @@
 	</div>
 
 </div>
+<?php echo $this->html->buildElement(
+		array('type' => 'modal',
+				'id' => 'transaction_modal',
+				'modal_type' => 'lg',
+				'data_source' => 'ajax'	));
+?>
 
 <script type="text/javascript"><!--
-$(document).ready(function() {
 
-	$(function() {
-		var dates = $( "#customer_transactions_grid_search_date_start, #customer_transactions_grid_search_date_end" ).datepicker({
-			defaultDate: "-1w",
-			dateFormat: '<?php echo $js_date_format?>',
-			changeMonth: false,
-			numberOfMonths: 1,
-			onSelect: function( selectedDate ) {
-				var option = this.id == "customer_transactions_grid_search_date_start" ? "minDate" : "maxDate",
-					instance = $( this ).data( "datepicker" ),
-					date = $.datepicker.parseDate(
-						instance.settings.dateFormat ||
-						$.datepicker._defaults.dateFormat,
-						selectedDate, instance.settings );
-				dates.not( this ).datepicker( "option", option, date );
-			}
+
+	var updateViewButtons = function(){
+		$('.grid_action_view[data-toggle!="modal"]').each(function(){
+			$(this).attr('data-toggle','modal'). attr('data-target','#transaction_modal');
+		});
+	};
+
+	$(document).ready(function() {
+		$(function() {
+			var dates = $( "#customer_transactions_grid_search_date_start, #customer_transactions_grid_search_date_end" ).datepicker({
+				defaultDate: "-1w",
+				dateFormat: '<?php echo $js_date_format?>',
+				changeMonth: false,
+				numberOfMonths: 1,
+				onSelect: function( selectedDate ) {
+					var option = this.id == "customer_transactions_grid_search_date_start" ? "minDate" : "maxDate",
+						instance = $( this ).data( "datepicker" ),
+						date = $.datepicker.parseDate(
+							instance.settings.dateFormat ||
+							$.datepicker._defaults.dateFormat,
+							selectedDate, instance.settings );
+					dates.not( this ).datepicker( "option", option, date );
+				}
+			});
 		});
 	});
-
-});
 //--></script>

@@ -56,6 +56,13 @@ class ModelSaleContact extends Model {
 		if($data['protocol']=='email'){
 			list($uris, $subscribers) = $this->_get_email_list($data);
 			$task_controller = 'task/sale/contact/sendEmail';
+
+			//if message does not contains html-tags replace breaklines to <br>
+			$decoded = html_entity_decode($data['message'],ENT_QUOTES,'UTF-8');
+			if( $decoded == strip_tags($decoded)) {
+				$data['message'] = nl2br($data['message']);
+			}
+
 		}elseif($data['protocol']=='sms'){
 			list($uris, $subscribers) = $this->_get_phone_list($data);
 			$task_controller = 'task/sale/contact/sendSms';
