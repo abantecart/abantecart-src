@@ -94,7 +94,7 @@
 	</definition>
 	<definition>
 		<key>text_no_results</key>
-		<value><![CDATA[No results found!]]></value>
+		<value><![CDATA[No result found.]]></value>
 	</definition>
 	<definition>
 		<key>text_separator</key>

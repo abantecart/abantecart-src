@@ -32,6 +32,7 @@
 				</thead>
 				<tbody>
 				<?php
+				if( $product_files && is_array($product_files) ) {
 					foreach ($product_files as $file) { ?>
 						<tr >
 							<td class="center"><?php echo $file['icon']; ?></td>
@@ -52,7 +53,15 @@
 								   href="<?php echo $file['push_to_customers']->href; ?>"><i class="fa <?php echo $file['push_to_customers']->icon?> fa-lg"></i></a>
 							</td>
 						</tr>
-					<?php } ?>
+					<?php
+						}
+					} else {
+					?>	
+						<tr >
+							<td colspan="6" class="center"><?php echo $text_no_results; ?></td>
+						</tr>
+					<?php
+					} ?>
 				</tbody>
 			</table>
 		</div>
