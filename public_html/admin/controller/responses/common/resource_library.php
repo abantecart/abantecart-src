@@ -477,7 +477,7 @@ class ControllerResponsesCommonResourceLibrary extends AController {
 			$info = $rm->getResource($this->request->post_or_get('resource_id'), $this->language->getContentLanguageID());
 			$this->data['type'] = $info['type_name'];
 		}elseif( $this->data['type']=='undefined' || empty($this->data['type']) ){
-			$this->data['type'] = is_array($this->data['types']) ? (string)$this->data['types'][0] : $this->data['types'];
+			$this->data['type'] = is_array($this->data['types']) ? (string)$this->data['types'][0]['type_name'] : $this->data['types'];
 		}
 
 		$this->data['object_name'] = $this->data['name'] = (string)$this->request->get['object_name'];
