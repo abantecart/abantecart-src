@@ -82,8 +82,30 @@ $(document).ready(function() {
             }
         }catch(e){}
 
-    });	
+    });
+
+	$('.lock-on-click').each(function () {
+	    	$btn = $(this);
+	    	$btn.attr('data-loading-text',"<i class='fa fa-refresh fa-spin'></i>");
+	    	$btn.on('click', function (event) {
+	    		//chrome submit fix
+	    		//If we detect child was clicked, and not the actual button, stop the propagation and trigger the "click" event on the button.
+	    		var $target = $( event.target );
+	  			if ( !$target.is("button") ) {
+	  			   event.stopPropagation();
+	  			   $target.closest("button").click();
+	  			   return;
+	  			}
+	    		$(this).button('loading');
+	    	});
+	    });
 });
+
+function resetLockBtn(){
+    $('.lock-on-click').each(function () {
+        $(this).button('reset');
+    });
+}
 
 //function to load modal for messages #msgModal
 // 1. header 2. Message body, 3. on close callback function 
