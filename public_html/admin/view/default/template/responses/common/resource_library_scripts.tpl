@@ -40,9 +40,15 @@ var rl_error_handler = function(jqXHR){
         window.location.reload();
         return;
     }
+    
+    //skip ajax aborted state error
+    if (jqXHR.status === 0 || jqXHR.readyState === 0) {
+        return;
+    }
 
 	try {
 		var err = $.parseJSON(jqXHR.responseText);
+
 		if (err.hasOwnProperty("error_text")) {
 			var errors = err.error_text;
 			var errlist = typeof errors === 'string' ? [errors] : errors;
