@@ -119,10 +119,10 @@ final class AMessage {
 						    `date_added` = NOW()");
 			$msg_id = $this->db->getLastId();
 
-			//send notification
+			//send notification for errors and warnings
 			$r = Registry::getInstance();
 			$im = $r->get('im');
-			if(is_object($im)){
+			if(is_object($im) && in_array($status, array('W', 'E'))){
 				$im->send('system_messages', array ($msg_id));
 			}
 
