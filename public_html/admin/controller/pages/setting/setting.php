@@ -200,8 +200,10 @@ class ControllerPagesSettingSetting extends AController {
 		$this->view->batchAssign($this->data);
 
 		if($this->data['active']=='im'){
+			$this->view->assign('attention', $this->language->get('text_im_settings_attention'));
 			$this->processTemplate('pages/setting/setting_im.tpl');
 		}else{
+
 			$this->processTemplate('pages/setting/setting.tpl');
 		}
 

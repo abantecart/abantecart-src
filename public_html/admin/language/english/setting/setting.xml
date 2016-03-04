@@ -943,4 +943,8 @@
 		<key>text_no_driver</key>
 		<value><![CDATA[ No IM Driver Found]]></value>
 	</definition>
+	<definition>
+		<key>text_im_settings_attention</key>
+		<value><![CDATA[These settings are for instant messages sent automatically during AbanteCart events in storefront and admin. ]]></value>
+	</definition>
 </definitions>
