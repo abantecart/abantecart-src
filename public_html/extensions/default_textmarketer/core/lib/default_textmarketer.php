@@ -38,6 +38,7 @@ final class DefaultTextMarketer{
 		}
 		$to = '+'.ltrim($to,'+');
 		$text = strip_tags($text);
+		$text = html_entity_decode($text, ENT_QUOTES, 'UTF-8');
 		try{
 			$originator = $this->config->get('default_textmarketer_originator');
 			$originator = preg_replace('/[^a-zA-z]/','',$originator);
