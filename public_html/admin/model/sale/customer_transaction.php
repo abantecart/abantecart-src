@@ -213,7 +213,8 @@ class ModelSaleCustomerTransaction extends Model {
                 $subject = sprintf($language->get('text_transaction_notification_subject'), $store_info['store_name']);
 
                 $url = html_entity_decode($store_info['config_url'] . 'index.php?rt=account/transactions', ENT_QUOTES, 'UTF-8');
-	            $amount = $this->currency->format($data['credit']);
+
+	            $amount = $this->currency->format($data['credit']-$data['debit']);
                 $message = sprintf($language->get('text_transaction_notification_message'),
                                     $store_info['store_name'],
                                     $amount,
