@@ -95,9 +95,6 @@
 														title="<?php echo $icon['title']; ?>"/></span>
 										<?php } else if (!empty($icon['resource_code'])){ ?>
 											<span class="payment_icon mr10"><?php echo $icon['resource_code']; ?></span>
-										<?php } elseif ($icon['image']){ ?>
-											<span class="payment_icon mr10"><img src="<?php echo $icon['image']; ?>"
-											                                     title="<?php echo $icon['title']; ?>"/></span>
 										<?php }
 									} ?>
 									<?php echo $payment_method['title']; ?>

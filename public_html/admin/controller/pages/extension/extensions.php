@@ -432,16 +432,13 @@ class ControllerPagesExtensionExtensions extends AController {
 						$data['resource_path'] = $item['value'];
 					}
 
-					$data['meta'] = html_entity_decode($this->config->get($data['name'].'_meta'), ENT_QUOTES,'UTF-8');
-					$data['meta'] = unserialize($data['meta']);
 					if (!$result['rl_scripts']) {
 						$scripts = $this->dispatch('responses/common/resource_library/get_resources_scripts',
 												array(
 													'object_name' => '',
 													'object_id' => '',
 													'types' => array($item['resource_type']),
-													'onload' => true,
-													'mode' => 'single'
+													'onload' => true
 												));
 						$result['rl_scripts'] = $scripts->dispatchGetOutput();
 						unset($scripts);

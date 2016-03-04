@@ -336,13 +336,11 @@ class ControllerResponsesSettingSettingQuickForm extends AController {
 				//get current template
 				$tsettings = $this->model_setting_setting->getSetting('appearance', $this->data['store_id']);
 				$this->data['current_tmpl_id'] = $tsettings['config_storefront_template'];
+				unset($tsettings);
 
 				//extract settings for template or default
 				$data = $this->model_setting_setting->getSetting($this->data['current_tmpl_id'], $this->data['store_id']);
-				$data['config_logo_meta'] = $tsettings['config_logo_meta'];
-				$data['config_icon_meta'] = $tsettings['config_icon_meta'];
-
-				unset($tsettings);
+				
 				//need to set template to be edited	
 				$data['tmpl_id'] = $this->data['current_tmpl_id'];
 			} else {

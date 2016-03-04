@@ -5,7 +5,7 @@
 <script type="text/javascript">
 	$(document).ready(function(){
 		try{
-			loadSingle('<?php echo $rl_type; ?>', '<?php echo $wrapper_id; ?>', '<?php echo $resource_id; ?>', '<?php echo $id; ?>', <?php echo $meta ?>);
+			loadSingle('<?php echo $rl_type; ?>', '<?php echo $wrapper_id; ?>', '<?php echo $resource_id; ?>', '<?php echo $id; ?>');
 		}catch(e){
 			console.log('js-function "loadSingle" not found in the page scope or something another syntax error');
 		}

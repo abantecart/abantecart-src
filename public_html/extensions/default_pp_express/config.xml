@@ -81,10 +81,6 @@
 			<resource_type>image</resource_type>
 			<default_value></default_value>
 		</item>
-	    <item id="default_pp_express_custom_logo_meta">
-            <type>hidden</type>
-            <default_value>a:2:{s:5:"width";i:190;s:6:"height";i:60;}</default_value>
-        </item>
 		<item id="default_pp_express_custom_bg_color">
 			<type>input</type>
 			<default_value></default_value>

@@ -1145,16 +1145,11 @@ function openTextEditRLModal(editor, cursorPosition){
 			var insert_html='';
 			if( item.resource_path != undefined && item.resource_path.length>0 ){
 				var type_name = item.type_name;
-				insert_html = 'index.php?rt=r/common/resource/getImageThumbnail&resource_id='+item.resource_id;
+				insert_html = 'resources/'+type_name+'/'+item.resource_path;
 				if(type_name=='image'){
                     var alt='';
                     if(item['title'].length>0){
                         alt = ' alt="'+encodeURIComponent(item['title'])+'"';
-                    }
-
-                    if(item.hasOwnProperty('meta') && item.meta.length>0){
-                        var size = item.meta.split('_');
-                        insert_html += '&width='+size[0]+'&height='+size[1];
                     }
 					insert_html = '<img src="'+insert_html+'"'+alt+'>';
 				}else{

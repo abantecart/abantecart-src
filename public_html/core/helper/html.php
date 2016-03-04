@@ -106,12 +106,7 @@ function buildStoreFrontMenuTree( $menu_array, $level = 0 ){
 		if($rl_id){
 			$resource = $ar->getResource($rl_id);
 			if($resource['resource_path'] && is_file(DIR_RESOURCE . 'image/'.$resource['resource_path'])){
-				$icon_meta = unserialize($registry->get('config')->get('config_menu_icon_meta'));
-				$href = 'index.php?rt=r/common/resource/getImageThumbnail&resource_id='.$rl_id;
-				if($icon_meta['width']){
-					$href .= '&width='.$icon_meta['width'].'&height='.$icon_meta['height'];
-				}
-				$result .= '<img class="menu_image" src="'. $href.'" alt="" />';
+				$result .= '<img class="menu_image" src="'. HTTPS_DIR_RESOURCE . 'image/'.$resource['resource_path'].'" alt="" />';
 			}elseif($resource['resource_code']){
 				$result .= $resource['resource_code'];
 			}

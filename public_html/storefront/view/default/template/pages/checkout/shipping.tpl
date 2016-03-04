@@ -71,9 +71,6 @@
 															title="<?php echo $icon['title']; ?>"/></span>
 											<?php } else if (!empty($icon['resource_code'])){ ?>
 												<span class="shipping_icon mr10"><?php echo $icon['resource_code']; ?></span>
-											<?php } elseif ($icon['image']){ ?>
-												<span class="shipping_icon mr10"><img src="<?php echo $icon['image']; ?>"
-												                                     title="<?php echo $icon['title']; ?>"/></span>
 											<?php }
 										} ?>
 										<?php echo $quote['title']; ?>

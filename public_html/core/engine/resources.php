@@ -162,27 +162,6 @@ class AResource {
 	    return $result;
     }
 
-
-	/**
-	 * @param string $uri
-	 * @return null|number
-	 */
-	public function getIdFromUri( $uri ) {
-	    if(strpos($uri, 'resource_id=') === false){ return null; }
-		if(strpos($uri, '&amp;')){
-			$uri = html_entity_decode($uri, ENT_QUOTES, 'UTF-8');
-		}
-
-		parse_str($uri,$parsed);
-
-		$result = $parsed['resource_id'];
-
-		if(gettype($result)!='int'){
-		//	return null;
-		}
-	    return $result;
-    }
-
 	/**
 	 * @param string $filename
 	 * @return int
@@ -201,7 +180,7 @@ class AResource {
 	 * @param int $language_id
 	 * @return array
 	 */
-	public function getResource ( $resource_id, $language_id = 0 ) {
+	public function getResource( $resource_id, $language_id = 0 ) {
 		//Return resource details
 		$resource_id = (int)$resource_id;
 	    if ( !$resource_id) {
@@ -252,7 +231,7 @@ class AResource {
         return $result;
 	}
 
-    public function getResourceThumb ( $resource_id, $width = '', $height = '', $language_id = '' ) {
+    public function getResourceThumb( $resource_id, $width = '', $height = '', $language_id = '' ) {
 
         if ( !$language_id ) {
             $language_id = $this->config->get('storefront_language_id');
@@ -347,7 +326,7 @@ class AResource {
 	 * @param string $mode full (with http and domain) or relative (from store url up)
 	 * @return array
 	 */
-    public function buildResourceURL ( $resource_path, $mode = 'full' ) {
+    public function buildResourceURL( $resource_path, $mode = 'full' ) {
 
 		if ( $mode == 'full') {
 			$this->extensions->hk_ProcessData($this, __FUNCTION__);
@@ -367,7 +346,7 @@ class AResource {
 	 * @param int $language_id
 	 * @return array
 	 */
-	public function getResources ( $object_name, $object_id, $language_id = 0 ) {
+	public function getResources( $object_name, $object_id, $language_id = 0 ) {
 		//Allow to load resources only for 1 object and id combination
 	    if ( !has_value($object_name) || !has_value($object_id) ) {
 			return array();

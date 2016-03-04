@@ -787,16 +787,14 @@ class AConfigManager {
 					'type' => 'resource',
 					'name' => 'config_logo',
 					'resource_id' => $data['config_logo'],
-					'rl_type' => 'image',
-					'meta'  => $data['config_logo_meta']
+					'rl_type' => 'image'
 				));			
 			} else {
 				$fields['logo'] = $form->getFieldHtml($props[] = array(
 					'type' => 'resource',
 					'name' => 'config_logo',
 					'resource_path' => htmlspecialchars($data['config_logo'], ENT_COMPAT, 'UTF-8'),
-					'rl_type' => 'image',
-					'meta'  => $data['config_logo_meta']
+					'rl_type' => 'image'
 				));
 			}
 			//see if we have resource id or path 
@@ -805,16 +803,14 @@ class AConfigManager {
 					'type' => 'resource',
 					'name' => 'config_icon',
 					'resource_id' => $data['config_icon'],
-					'rl_type' => 'image',
-					'meta'  => $data['config_icon_meta']
+					'rl_type' => 'image'
 				));			
 			} else {
 				$fields['icon'] = $form->getFieldHtml($props[] = array(
 					'type' => 'resource',
 					'name' => 'config_icon',
 					'resource_path' => htmlspecialchars($data['config_icon'], ENT_COMPAT, 'UTF-8'),
-					'rl_type' => 'image',
-					'meta'  => $data['config_icon_meta']
+					'rl_type' => 'image'
 				));			
 			}
 
