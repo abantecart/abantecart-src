@@ -36,6 +36,12 @@ class ControllerPagesSaleContact extends AController {
 	}
 
 	public function sms(){
+		$driver = $this->config->get('config_sms_driver');
+		//if sms driver not set or disabled - redirect
+		if(!$driver || !$this->config->get($driver.'_status')){
+			$this->redirect($this->html->getSecureURL('sale/contact/email'));
+		}
+
 		$this->data['protocol'] = 'sms';
 		$this->main();
 	}
@@ -202,12 +208,15 @@ class ControllerPagesSaleContact extends AController {
 			$db_filter['filter']['only_with_mobile_phones'] = 1;
 		}
 
-		$all_subscribers_count = $this->model_sale_customer->getTotalAllSubscribers($db_filter);
+		$newsletter_dbfilter = $db_filter;
+		$newsletter_dbfilter['filter']['newsletter_protocol'] = $this->data['protocol'];
+
+		$all_subscribers_count = $this->model_sale_customer->getTotalAllSubscribers($newsletter_dbfilter);
 		if($all_subscribers_count){
 			$options['all_subscribers'] = $this->language->get('text_all_subscribers') . ' ' . sprintf($this->language->get('text_total_to_be_sent'), $all_subscribers_count);
 		}
 
-		$only_subscribers_count = $this->model_sale_customer->getTotalOnlyNewsletterSubscribers($db_filter);
+		$only_subscribers_count = $this->model_sale_customer->getTotalOnlyNewsletterSubscribers($newsletter_dbfilter);
 		if($only_subscribers_count){
 			$options['only_subscribers'] = $this->language->get('text_subscribers_only') . ' ' . sprintf($this->language->get('text_total_to_be_sent'), $only_subscribers_count);
 		}
@@ -305,10 +314,14 @@ class ControllerPagesSaleContact extends AController {
 				'href'  => $this->html->getSecureURL('sale/contact/email'),
 				'icon' => 'mail'
 		);
-		$this->data['protocols']['sms'] = array(
-				'title' => $this->language->get('text_sms'),
-				'href'  => $this->html->getSecureURL('sale/contact/sms')
-		);
+		$driver = $this->config->get('config_sms_driver');
+		//if sms driver not set or disabled - redirect
+		if($driver && $this->config->get($driver.'_status')){
+			$this->data['protocols']['sms'] = array (
+					'title' => $this->language->get('text_sms'),
+					'href'  => $this->html->getSecureURL('sale/contact/sms')
+			);
+		}
 
 		//check for incompleted tasks
 		$tm = new ATaskManager();

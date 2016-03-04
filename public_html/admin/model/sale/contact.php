@@ -154,19 +154,22 @@ class ModelSaleContact extends Model {
 
 	}
 
-
 	private function _get_email_list($data){
 		$subscribers = $emails = array ();
 		// All customers by group
 		if (isset($data['recipient'])){
 			$results = array ();
 			if ($data['recipient'] == 'all_subscribers'){
-				$all_subscribers = $this->model_sale_customer->getAllSubscribers();
+				$all_subscribers = $this->model_sale_customer->getAllSubscribers(
+						array( 'filter' => array( 'newsletter_protocol' => 'email'))
+				);
 				$results = $this->_unify_customer_list('email',$all_subscribers);
 				$subscribers = $results;
 			} else
 			if ($data['recipient'] == 'only_subscribers'){
-				$only_subscribers = $this->model_sale_customer->getOnlyNewsletterSubscribers();
+				$only_subscribers = $this->model_sale_customer->getOnlyNewsletterSubscribers(
+						array( 'filter' => array( 'newsletter_protocol' => 'email'))
+				);
 				$results = $this->_unify_customer_list('email',$only_subscribers);
 				$subscribers = $results;
 			} else
@@ -212,12 +215,16 @@ class ModelSaleContact extends Model {
 		if (isset($data['recipient'])){
 			$results = array ();
 			if ($data['recipient'] == 'all_subscribers'){
-				$all_subscribers = $this->model_sale_customer->getAllSubscribers();
+				$all_subscribers = $this->model_sale_customer->getAllSubscribers(
+						array( 'filter' => array( 'newsletter_protocol' => 'sms'))
+				);
 				$results = $this->_unify_customer_list('sms',$all_subscribers);
 				$subscribers = $results;
 			} else
 			if ($data['recipient'] == 'only_subscribers'){
-				$only_subscribers = $this->model_sale_customer->getOnlyNewsletterSubscribers();
+				$only_subscribers = $this->model_sale_customer->getOnlyNewsletterSubscribers(
+						array( 'filter' => array( 'newsletter_protocol' => 'sms'))
+				);
 				$results = $this->_unify_customer_list('sms',$only_subscribers);
 				$subscribers = $results;
 			} else

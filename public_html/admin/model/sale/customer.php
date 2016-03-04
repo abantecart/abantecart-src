@@ -564,6 +564,16 @@ class ModelSaleCustomer extends Model {
 		if( $store_id!==null ) {
 			$implode[] =  "c.store_id = " . (int)$store_id;
 		}
+
+		if(($filter['all_subscribers'] || $filter['only_subscribers'])
+				&& $filter['newsletter_protocol']){
+			$sql .= "RIGHT JOIN ".$this->db->table('customer_notifications')." cn
+					ON (cn.customer_id = c.customer_id
+						AND cn.sendpoint='newsletter'
+						AND cn.status=1
+						AND cn.protocol = '".$this->db->escape($filter['newsletter_protocol'])."') ";
+
+		}
 		
 		if ($implode) {
 			$sql .= " WHERE " . implode(" AND ", $implode);
@@ -905,6 +915,7 @@ class ModelSaleCustomer extends Model {
 	 */
 	public function getOnlyNewsletterSubscribers($data=array(), $mode = 'default'){
 		$data['filter']['customer_group_id'] = $this->getSubscribersCustomerGroupId();
+		$data['filter']['only_subscribers'] = 1;
 		return $this->getCustomers($data, $mode);
 	}
 	/**
@@ -913,6 +924,7 @@ class ModelSaleCustomer extends Model {
 	 */
 	public function getTotalOnlyNewsletterSubscribers($data=array()){
 		$data['filter']['customer_group_id'] = $this->getSubscribersCustomerGroupId();
+		$data['filter']['only_subscribers'] = 1;
 		return $this->getCustomers($data, 'total_only');
 	}
 
