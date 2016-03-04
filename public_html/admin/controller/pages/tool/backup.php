@@ -257,6 +257,7 @@ class ControllerPagesToolBackup extends AController {
 		$this->data['restoreform']['file'] = $form->getFieldHtml(
 				array('type' => 'file',
 						'name' => 'restore',
+						'attr' => 'accept=".sql, .xml"'
 				));
 		$this->data['restoreform']['submit'] = $form->getFieldHtml(
 				array('type' => 'button',
@@ -278,6 +279,7 @@ class ControllerPagesToolBackup extends AController {
 		$this->data['xmlform']['file'] = $form->getFieldHtml(
 				array('type' => 'file',
 						'name' => 'import',
+                      'attr' => 'accept=".xml"'
 				));
 		$this->data['xmlform']['submit'] = $form->getFieldHtml(
 				array('type' => 'button',
