@@ -345,7 +345,7 @@ class ModelCheckoutOrder extends Model {
 			        FROM " . $this->db->table("products") . "
 					WHERE product_id = '" . (int)$product['product_id'] . "' AND subtract = 1";
 			$res = $this->db->query($sql);
-			if($res->row['quantity']<=0){
+			if($res->num_rows && $res->row['quantity']<=0){
 				$this->im->send('product_out_of_stock',array('product_id' => (int)$product['product_id']));
 			}
 
