@@ -113,22 +113,23 @@ class ControllerPagesProductCategory extends AController {
 				$limit = $this->config->get('config_catalog_limit');
 			}
 
-			if (isset($this->request->get['sort'])) {
-				$sorting_href = $this->request->get['sort'];
-			} else {
+			$url = '';
+			$sort = '';
+			$order = '';
+			$sorting_href = $this->request->get['sort'];
+			if(!$sorting_href) {
 				$sorting_href = $this->config->get('config_product_default_sort_order');
 			}
-
 			list($sort,$order) = explode("-",$sorting_href);
-
 			if($sort=='name'){
 				$sort = 'pd.'.$sort;
 			}elseif(in_array($sort,array('sort_order','price'))){
 				$sort = 'p.'.$sort;
 			}
 
-			$url = '&sort=' . $sort."-".$order;
-
+			if (isset($this->request->get['sort'])) {
+				$url = '&sort=' . $sort."-".$order;			
+			}
 			if (isset($this->request->get['order'])) {
 				$url .= '&order=' . $this->request->get['order'];
 			}

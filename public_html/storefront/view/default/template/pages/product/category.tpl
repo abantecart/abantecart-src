@@ -15,11 +15,11 @@
 	<ul class="thumbnails row">
 	    <?php for ($i = 0; $i < sizeof($categories); $i++) { ?>
 	     <li class="col-md-2 col-sm-2 col-xs-6 align_center">
-	    	<a href="<?php echo $categories[ $i ][ 'href' ]; ?>">
-	    		<?php echo $categories[ $i ][ 'thumb' ][ 'thumb_html' ]; ?>
+	    	<a href="<?php echo $categories[$i]['href']; ?>">
+	    		<?php echo $categories[$i]['thumb']['thumb_html']; ?>
 	    	</a>
 	    	<div class="mt10 align_center" style="height: 40px;">
-	    	<a href="<?php echo $categories[ $i ][ 'href' ]; ?>"><?php echo $categories[ $i ][ 'name' ]; ?></a>
+	    	<a href="<?php echo $categories[$i]['href']; ?>"><?php echo $categories[$i]['name']; ?></a>
 	    	</div>
 	    </li>
 	    <?php } ?>
