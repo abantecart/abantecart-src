@@ -1022,6 +1022,9 @@ final class AData {
 				foreach($sources['source_url'] as $source) {	
 					$image_basename = basename($source);
 					$target = DIR_RESOURCE . $rm->getTypeDir().'/' . $image_basename;
+					if (!is_dir(DIR_RESOURCE . $rm->getTypeDir())) {
+						@mkdir(DIR_RESOURCE . $rm->getTypeDir(), 0777);
+					}
 					if (($file = $fl->downloadFile($source)) === false) {	
 						$this->_status2array('error', "Unable to download file from $source");
 						continue;
@@ -1040,6 +1043,9 @@ final class AData {
 				foreach($sources['source_path'] as $source) {		
 					$image_basename = basename($source);
 					$target = DIR_RESOURCE . $rm->getTypeDir().'/' . $image_basename;
+					if (!is_dir(DIR_RESOURCE . $rm->getTypeDir())) {
+						@mkdir(DIR_RESOURCE . $rm->getTypeDir(), 0777);
+					}
 					if(!copy($source, $target)){
 						$this->_status2array('error', "Unable to copy $source to $target");					
 						continue;
