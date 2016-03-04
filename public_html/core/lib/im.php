@@ -109,6 +109,23 @@ class AIM {
 	}
 
 	/**
+	 * @param $section - can be admin or storefront
+	 * @return array
+	 */
+	public function getActiveProtocols($section){
+		if(!in_array($section, array('storefront','admin'))){
+			return array();
+		}
+		$protocols = array();
+		foreach($this->protocols as $protocol){
+			if($this->config->get('config_'.$section.'_'.$protocol.'_status')){
+				$protocols[] = $protocol;
+			}
+		}
+		return $protocols;
+	}
+
+	/**
 	 * @param string $name
 	 */
 	public function addProtocol($name){

@@ -70,7 +70,7 @@ class ControllerPagesAccountNotification extends AController {
                     'name' => 'imFrm',
                     'action' => $this->html->getSecureURL('account/notification') ));
 
-		$protocols = $this->im->getProtocols();
+		$protocols = $this->im->getActiveProtocols('storefront');
 		$im_drivers = $this->im->getIMDriverObjects();
 		//build protocol list
 		foreach($im_drivers as $name=>$driver){
@@ -110,7 +110,7 @@ class ControllerPagesAccountNotification extends AController {
 			    );
 			    //adds warning about empty IM address (URI)
 
-			    if(!$customer_info[$protocol]){
+			    if(!$customer_info[$protocol] ){
 					$point['warn'] .= $this->language->get('im_protocol_'.$protocol.'_empty_warn');
 			    }
 		    }
