@@ -37,8 +37,8 @@ if (!defined('DIR_CORE')) {
  */
 
 class AIM {
-	private $registry;
-	private $protocols = array('email', 'sms');
+	protected $registry;
+	protected $protocols = array('email', 'sms');
 	/**
 	 * @var array for StoreFront side ONLY!
 	 * NOTE:
@@ -191,7 +191,6 @@ class AIM {
 	}
 
 	public function send($sendpoint, $text_vars = array()){
-		$this->log->write($sendpoint);
 		if(IS_ADMIN!==true){
 			$sendpoints_list = $this->sendpoints;
 			$this->load->model('account/customer');
@@ -199,7 +198,7 @@ class AIM {
 			$this->registry->set('force_skip_errors', true);
 		}else{
 			$sendpoints_list = $this->admin_sendpoints;
-			//this method forbid to use for sending notifications to custromers from admin-side
+			//this method forbid to use for sending notifications to customers from admin-side
 			$customer_im_settings = array();
 		}
 		//check sendpoint
@@ -264,7 +263,7 @@ class AIM {
 					}
 
 					$driver = new $classname();
-				} catch(AException $e){	}
+				} catch(Exception $e){	}
 			}
 			//if driver cannot be initialized - skip protocol
 			if($driver===null){
@@ -362,7 +361,7 @@ class AIM {
 		return $settings;
 	}
 
-	private function _get_message_text($text_key, $text_vars, $for_admin=false){
+	protected function _get_message_text($text_key, $text_vars, $for_admin=false){
 		$text = $this->language->get($text_key);
 		//check is text_key have value. If does not - abort sending
 		if($text == $text_key){
@@ -396,16 +395,21 @@ class AIM {
 
 	/**
 	 * @param string $protocol
+	 * @param int $customer_id
 	 * @return string
 	 */
-	private function _get_customer_im_uri($protocol){
+	protected function _get_customer_im_uri($protocol, $customer_id=0){
 
-		$customer_id = (int)$this->customer->getId();
+		if(IS_ADMIN===true && $customer_id){
+			$customer_id = (int)$customer_id;
+		}else{
+			$customer_id = (int)$this->customer->getId();
+		}
 		//for registered customers - get adress from database
 		if($customer_id){
 			$sql = "SELECT *
 					FROM ".$this->db->table('customers')."
-					WHERE customer_id=".(int)$this->customer->getId();
+					WHERE customer_id=".$customer_id;
 			$customer_info = $this->db->query($sql, true);
 			return $customer_info->row[$protocol];
 		}elseif($this->session->data['order_id']){

@@ -347,7 +347,7 @@ class ControllerPagesExtensionEncryptionDataManager extends AController {
 		$this->view->batchAssign (  $this->language->getASet () );
 
 		//load tabs controller
-
+		$this->request->get['extension'] = 'encryption_data_manager';
 		$this->data['groups'][] = 'additional_settings';
 		$this->data['link_additional_settings'] = $this->html->getSecureURL('extension/encryption_data_manager');
 		$this->data['active_group'] = 'additional_settings';

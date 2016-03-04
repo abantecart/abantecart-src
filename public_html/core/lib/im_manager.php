@@ -37,12 +37,21 @@ class AIMManager extends AIM{
 	 * For additional sendpoints ( from extensions) you can store language keys wherever you want.
 	 */
 	public $admin_sendpoints = array (
+			'order_update'       => array (
+					'cp' => '',
+					'sf' => 'im_order_update_text_to_customer'),
 			'account_update'       => array (
 					'cp' => 'im_account_update_text_to_admin',
 					'sf' => ''),
 			'system_messages' => array (
 					'sf' => '',
 					'cp' => 'im_system_messages_text_to_admin'),
+			'customer_account_approved' => array(
+					'sf' => 'im_customer_account_approved_text_to_customer',
+					'cp' => ''),
+			'customer_account_update' => array(
+					'sf' => 'im_customer_account_update_text_to_customer',
+					'cp' => ''),
 	);
 
 	//NOTE: This class is loaded in INIT for admin only
@@ -55,6 +64,130 @@ class AIMManager extends AIM{
 
 	public function send($sendpoint, $text_vars = array ()){
 		return parent::send($sendpoint, $text_vars);
+	}
+
+	public function sendToCustomer($customer_id, $sendpoint, $text_vars = array ()){
+
+		if(!$customer_id){
+			return array();
+		}
+
+		$sendpoints_list = $this->admin_sendpoints;
+		$customer_im_settings = $this->getCustomerIMSettings($customer_id);
+		$this->registry->set('force_skip_errors', true);
+
+
+		//check sendpoint
+		if(!in_array($sendpoint,array_keys($sendpoints_list))){
+			$error = new AError('IM error: sendpoint '.$sendpoint.' not found in preset of IM class. Nothing sent.');
+			$error->toLog()->toMessages();
+			return false;
+		}
+		$sendpoint_info = $sendpoints_list[$sendpoint];
+
+		foreach($this->protocols as $protocol){
+			$driver = null;
+
+			//check protocol status
+			if($protocol=='email'){
+				//email notifications always enabled
+				$protocol_status = 1;
+			}elseif((int)$this->config->get('config_storefront_'.$protocol.'_status')
+					||
+					(int)$this->config->get('config_admin_'.$protocol.'_status')){
+				$protocol_status = 1;
+			}else{
+				$protocol_status = 0;
+			}
+
+			if(!$protocol_status){
+				continue;
+			}
+
+			if($protocol=='email'){
+				//see AMailAIM class in im.php
+				$driver = new AMailIM();
+			}else{
+				$driver_txt_id = $this->config->get('config_' . $protocol . '_driver');
+
+				//if driver not set - skip protocol
+				if (!$driver_txt_id){
+					continue;
+				}
+
+				if(!$this->config->get($driver_txt_id . '_status')){
+					$error = new AError('Cannot send notification. Communication driver '.$driver_txt_id.' is disabled!');
+					$error->toLog()->toMessages();
+					continue;
+				}
+
+				//use safe usage
+				$driver_file = DIR_EXT . $driver_txt_id . '/core/lib/' . $driver_txt_id . '.php';
+				if(!is_file($driver_file)){
+					$error = new AError('Cannot find file '.$driver_file.' to send notification.');
+					$error->toLog()->toMessages();
+					continue;
+				}
+				try{
+					include_once($driver_file);
+					//if class of driver
+					$classname = preg_replace('/[^a-zA-Z]/', '', $driver_txt_id);
+					if (!class_exists($classname)){
+						$error = new AError('IM-driver ' . $driver_txt_id . ' load error.');
+						$error->toLog()->toMessages();
+						continue;
+					}
+
+					$driver = new $classname();
+				} catch(Exception $e){	}
+			}
+			//if driver cannot be initialized - skip protocol
+			if($driver===null){
+				continue;
+			}
+
+			//send notification to customer
+			if($customer_im_settings[$sendpoint][$protocol]){
+				if ($this->config->get('config_storefront_' . $protocol . '_status') || $protocol == 'email'){
+					//check is notification for this protocol and sendpoint allowed
+
+					$text = $this->_get_message_text($sendpoint_info['sf'], $text_vars);
+					$to = $this->_get_customer_im_uri($protocol, $customer_id);
+
+					if ($text && $to){
+						//use safe call
+						try{
+							$driver->send($to, $text);
+						} catch(Exception $e){	}
+					}
+				}
+			}
+			unset($driver);
+		}
+		$this->registry->set('force_skip_errors', false);
+
+	}
+
+	public function getCustomerIMSettings($customer_id){
+		if(!$customer_id){
+			return array();
+		}
+
+		//get only active IM drivers
+		$im_protocols = $this->getProtocols();
+		$im_settings = array();
+		$sql = "SELECT *
+				FROM ".$this->db->table('customer_notifications')."
+				WHERE customer_id = ".(int)$customer_id;
+		$result = $this->db->query($sql);
+
+		foreach($result->rows as $row){
+			if(!in_array($row['protocol'], $im_protocols)){
+				continue;
+			}
+			$im_settings[$row['sendpoint']][$row['protocol']] = (int)$row['status'];
+		}
+		return $im_settings;
 	}
 
 	public function getUserIMs($user_id, $store_id){

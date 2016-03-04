@@ -34,7 +34,7 @@
 	</definition>
 	<definition>
 		<key>im_order_update_text_to_admin</key>
-		<value><![CDATA[ Order #%s have been updated! Order status ID %s]]></value>
+		<value><![CDATA[ Order #%s has been updated! Order status ID %s]]></value>
 	</definition>
 	<definition>
 		<key>im_order_update_text_to_customer</key>
@@ -43,11 +43,11 @@
 
 	<definition>
 		<key>im_new_order_text_to_admin</key>
-		<value><![CDATA[ New Order #%s have been placed!]]></value>
+		<value><![CDATA[ New Order #%s has been placed!]]></value>
 	</definition>
 	<definition>
 		<key>im_new_customer_text_to_admin</key>
-		<value><![CDATA[ New Customer #%s have been registered!]]></value>
+		<value><![CDATA[ New Customer #%s has been registered!]]></value>
 	</definition>
 	<definition>
 		<key>im_sendpoint_name_customer_account_update</key>
@@ -59,7 +59,7 @@
 	</definition>
 	<definition>
 		<key>im_customer_account_update_text_to_customer</key>
-		<value><![CDATA[ Your account have been updated! ]]></value>
+		<value><![CDATA[ Your account has been updated! ]]></value>
 	</definition>
 	<definition>
 		<key>im_customer_contact_admin_text</key>
@@ -75,7 +75,7 @@
 	</definition>
 	<definition>
 		<key>im_product_review_text_to_admin</key>
-		<value><![CDATA[ New product review have been added. See details #admin#rt=catalog/review/update&review_id=%s ]]></value>
+		<value><![CDATA[ New product review has been added. See details #admin#rt=catalog/review/update&review_id=%s ]]></value>
 	</definition>
 	<definition>
 		<key>im_product_out_of_stock_admin_text</key>

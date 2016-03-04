@@ -656,6 +656,16 @@ class ModelSaleOrder extends Model{
 				$mail->setSubject($subject);
 				$mail->setText(html_entity_decode($message, ENT_QUOTES, 'UTF-8'));
 				$mail->send();
+
+				$this->im->sendToCustomer(
+						$order_query->row['customer_id'],
+						'order_update',
+						array(
+								html_entity_decode($order_query->row['store_url'] . 'index.php?rt=account/invoice&order_id=' . $order_id, ENT_QUOTES, 'UTF-8'),
+								$order_id,
+								$order_query->row['store_name']
+						)
+				);
 			}
 		}
 	}

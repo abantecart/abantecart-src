@@ -337,5 +337,16 @@
         <key>warning_actonbehalf_additional_store</key>
         <value><![CDATA[To act on behalf of customer in additional store you should to login into another store's admin side. Continue?]]></value>
     </definition>
-
+    <definition>
+        <key>entry_notify</key>
+        <value><![CDATA[Notify Customer:]]></value>
+    </definition>
+    <definition>
+        <key>text_transaction_notification_subject</key>
+        <value><![CDATA[New transaction has been posted to your %s account]]></value>
+    </definition>
+    <definition>
+        <key>text_transaction_notification_message</key>
+        <value><![CDATA[New transaction has been posted to your %s account in the amount of %s. For more details, login to %s account]]></value>
+    </definition>
 </definitions>
