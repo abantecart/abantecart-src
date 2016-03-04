@@ -346,7 +346,11 @@ class ControllerPagesExtensionExtensions extends AController {
 			if($item['note']){
 				$data['note'] = $item['note'];
 			} else {
-				$note_text = $this->language->get($data['name']);
+				if($data['name'] == $extension.'_status' || $data['name'] == $extension.'_sort_order' ){
+					$note_text = $this->language->get(str_replace($extension . '_','text_',$data['name']), 'extension/extensions');
+				}else{
+					$note_text = $this->language->get($data['name']);
+				}
 				// if text definition not found - seek it in default settings definitions
 				if ($note_text == $data['name']) {
 					$new_text_key = str_replace($extension . '_','text_',$data['name']);
