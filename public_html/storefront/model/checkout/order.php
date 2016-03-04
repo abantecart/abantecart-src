@@ -133,7 +133,7 @@ class ModelCheckoutOrder extends Model {
 			}
 		}
 
-		if(!has_value($set_order_id) && (int)$this->config->get('config_start_order_id')){
+		if(!$set_order_id && (int)$this->config->get('config_start_order_id')){
 			$query = $this->db->query("SELECT MAX(order_id) AS order_id
 										FROM `" . $this->db->table("orders") . "`");
 			if($query->row['order_id'] && $query->row['order_id'] >= $this->config->get('config_start_order_id')){
