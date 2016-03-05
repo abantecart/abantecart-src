@@ -117,7 +117,7 @@ class ALanguage {
 	 * @param bool $silent
 	 * @return null|string - Definition value
 	 */
-	public function get($key, $block = '', $silent=false) {
+	public function get($key, $block = '', $silent = false) {
 		if (empty($key)) {
 			return null;
 		}
@@ -135,7 +135,7 @@ class ALanguage {
 				$caller_file_line = $backtrace[0]['line'];		
 				$return_text = $this->_get_last_language_value($key, $caller_file, $caller_file_line, $silent);
 			} else {
-				$return_text = $this->_get_last_language_value($key);			
+				$return_text = $this->_get_last_language_value($key, '', '', $silent);			
 			}			
 		}
 		if ( empty($return_text) ) {

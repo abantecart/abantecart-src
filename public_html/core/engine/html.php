@@ -1353,8 +1353,8 @@ class MultiSelectboxHtmlElement extends HtmlElement {
 				array(
 				'ajax_url' => $this->ajax_url, //if mode of data load is ajax based 
 				'option_attr' => $option_attr, //list of custom html5 attributes for options of selectbox
-				'text_continue_typing' => $registry->get('language')->get('text_continue_typing'),
-				'text_looking_for' => $registry->get('language')->get('text_looking_for'),				
+				'text_continue_typing' => $registry->get('language')->get('text_continue_typing','',true),
+				'text_looking_for' => $registry->get('language')->get('text_looking_for','',true),				
 				)
 			);
 			$return = $this->view->fetch('form/chosen_select.tpl');
