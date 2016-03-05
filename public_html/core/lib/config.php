@@ -117,7 +117,7 @@ final class AConfig {
 			foreach ($settings as &$setting) {
 				if($setting['key']=='config_url'){
 					$parsed_url = parse_url($setting['value']);
-					$setting['value'] = 'http://'.$parsed_url['host'].$parsed_url['path'];
+					$setting['value'] = $parsed_url['scheme'].'://'.$parsed_url['host'].$parsed_url['path'];
 				}
 				if($setting['key']=='config_ssl_url'){
 					$parsed_url = parse_url($setting['value']);
