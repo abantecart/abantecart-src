@@ -2057,7 +2057,7 @@ class PaginationHtmlElement extends HtmlElement {
 		$this->sts['total'] = 0;
 		$this->sts['page'] = 1;
 		$this->sts['limit'] = 20;
-		$this->sts['split'] = 5;
+		$this->sts['split'] = 10;
 		$this->sts['limits'] = array();
 		//max pages to show in pagination
 		$this->sts['num_links'] = 10;
@@ -2103,7 +2103,7 @@ class PaginationHtmlElement extends HtmlElement {
 			$s['limits'][0] = $x = ( $s['split'] ? $s['split'] : $registry->get('config')->get('config_catalog_limit') );
 			while( $x <= 50 ){
 				$s['limits'][] = $x;
-				$x += 10;
+				$x += $s['limits'][0];
 			}
 		}
 		
