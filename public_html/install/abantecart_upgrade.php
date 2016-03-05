@@ -38,5 +38,37 @@ $menu->insertMenuItem ( array (  "item_id" => "settings_im",
 								 "sort_order"=>"7")
 								);
 
-//TODO:
-//need to update settings with resource path value for new RL single mode (replace by uri to sf-controller)
+//update indexes for task_steps table
+
+//make all step_id values unique
+$sql = "SELECT max(step_id) as max FROM ".$this->db->table('task_steps');
+$result = $this->db->query($sql);
+$max_id = (int)$result->row['max']+1;
+
+
+$result = $this->db->query("SELECT step_id, count(task_id) as cnt
+							FROM ".$this->db->table('task_steps')."
+							GROUP BY step_id
+							HAVING count(task_id)>1;");
+
+foreach($result->rows as $row){
+	$sql = "SELECT task_id
+			FROM ".$this->db->table('task_steps')."
+			WHERE step_id='".$row['step_id']."';";
+	$r = $this->db->query($sql);
+	foreach($r->rows as $task){
+
+		$sql = "UPDATE ".$this->db->table('task_steps')."
+				SET step_id = '".$max_id."'
+				WHERE task_id='".$task['task_id']."';";
+		$this->db->query($sql);
+		$max_id++;
+	}
+}
+
+//update indexes
+$sql = "ALTER TABLE `".$this->db->table('task_steps')."`
+		DROP PRIMARY KEY,
+		ADD PRIMARY KEY (`step_id`),
+		ADD INDEX `task_steps_idx` (`task_id` ASC)";
+$this->db->query($sql);
