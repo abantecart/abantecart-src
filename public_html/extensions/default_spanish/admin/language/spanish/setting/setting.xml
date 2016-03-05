@@ -834,4 +834,65 @@ imagen</span>]]></value>
 		<value><![CDATA[Google reCAPTCHA Secret Key:<br /><span class="help">Añadir <a href="https://www.google.com/recaptcha" target="_blank">Google reCAPTCHA v2</a> para ayudar a sus visitantes con una mejor entrada captcha. Si habilita reCAPTCHA site/secret keys, Google reCAPTCHA v2 se activará en lugar de por defecto AbanteCart captcha 
 imagen</span>]]></value>
 	</definition>
+	<definition>
+		<key>text_setting_php_exceed</key>
+		<value><![CDATA[This value can not exceed your php.ini directive %s (<=%s) !!!!!]]></value>
+	</definition>
+	<definition>
+		<key>entry_start_order_id</key>
+		<value><![CDATA[Order Start No.:<br /><span class="help">Set the starting number the orders will begin from.</span> !!!!!]]></value>
+	</definition>
+	<definition>
+		<key>error_start_order_id</key>
+		<value><![CDATA[Order start number must be a numeric! !!!!!]]></value>
+	</definition>
+	<definition>
+		<key>error_starting_invoice_id</key>
+		<value><![CDATA[Invoice start number must be a numeric! !!!!!]]></value>
+	</definition>
+	<definition>
+		<key>entry_expire_order_days</key>
+		<value><![CDATA[
+			Incomplete Order Expiration:<br /><br /><span class="help">This value controls time interval in days before incomplete orders will be deleted. Empty value means that no orders will be to deleted.</span> !!!!!]]></value>
+	</definition>
+	<definition>
+		<key>error_expire_order_days</key>
+		<value><![CDATA[Incomplete Order Expiration value must be a numeric! !!!!!]]></value>
+	</definition>
+	<definition>
+		<key>text_storefront</key>
+		<value><![CDATA[Storefront !!!!!]]></value>
+	</definition>
+	<definition>
+		<key>text_im_driver</key>
+		<value><![CDATA[Driver !!!!!]]></value>
+	</definition>
+	<definition>
+		<key>text_im_protocol</key>
+		<value><![CDATA[IM Protocol !!!!!]]></value>
+	</definition>
+	<definition>
+		<key>entry_sms_driver</key>
+		<value><![CDATA[SMS Provider !!!!!]]></value>
+	</definition>
+	<definition>
+		<key>entry_sms_driver_tooltip</key>
+		<value><![CDATA[entry_sms_driver_tooltip !!!!! !!!!!]]></value>
+	</definition>
+	<definition>
+		<key>entry_storefront_status_tooltip</key>
+		<value><![CDATA[entry_storefront_status_tooltip !!!!! !!!!!]]></value>
+	</definition>
+	<definition>
+		<key>entry_admin_status_tooltip</key>
+		<value><![CDATA[entry_admin_status_tooltip !!!!! !!!!!]]></value>
+	</definition>
+	<definition>
+		<key>text_no_driver</key>
+		<value><![CDATA[ No IM Driver Found !!!!!]]></value>
+	</definition>
+	<definition>
+		<key>text_im_settings_attention</key>
+		<value><![CDATA[These settings are for instant messages sent automatically during AbanteCart events in storefront and admin.	!!!!!]]></value>
+	</definition>
 </definitions>

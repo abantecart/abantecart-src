@@ -1,0 +1,88 @@
+<?xml version="1.0"?>
+<definitions>
+	<definition>
+		<key>im_text_notification</key>
+		<value><![CDATA[ Notification  !!!!!]]></value>
+	</definition>
+	<definition>
+		<key>im_error_mail_address</key>
+		<value><![CDATA[ Email Address %s is not valid!  !!!!!]]></value>
+	</definition>
+	<definition>
+		<key>im_protocol_email_title</key>
+		<value><![CDATA[ E-mail  !!!!!]]></value>
+	</definition>
+	<definition>
+		<key>im_protocol_email_empty_warn</key>
+		<value><![CDATA[ im_protocol_email_empty_warn !!!!!  !!!!!]]></value>
+	</definition>
+	<definition>
+		<key>im_protocol_sms_title</key>
+		<value><![CDATA[ SMS  !!!!!]]></value>
+	</definition>
+	<definition>
+		<key>im_protocol_sms_empty_warn</key>
+		<value><![CDATA[ im_protocol_sms_empty_warn !!!!!  !!!!!]]></value>
+	</definition>
+	<definition>
+		<key>im_sendpoint_name_order_update</key>
+		<value><![CDATA[ Order Update  !!!!!]]></value>
+	</definition>
+	<definition>
+		<key>im_sendpoint_name_order_update_note</key>
+		<value><![CDATA[ im_sendpoint_name_order_update_note !!!!!  !!!!!]]></value>
+	</definition>
+	<definition>
+		<key>im_order_update_text_to_admin</key>
+		<value><![CDATA[ Order #%s has been updated! Order status ID %s !!!!!]]></value>
+	</definition>
+	<definition>
+		<key>im_order_update_text_to_customer</key>
+		<value><![CDATA[ Your order #%s Updated. New Order Status is %s  !!!!!]]></value>
+	</definition>
+
+	<definition>
+		<key>im_new_order_text_to_admin</key>
+		<value><![CDATA[ New Order #%s has been placed! !!!!!]]></value>
+	</definition>
+	<definition>
+		<key>im_new_customer_text_to_admin</key>
+		<value><![CDATA[ New Customer #%s has been registered! !!!!!]]></value>
+	</definition>
+	<definition>
+		<key>im_sendpoint_name_customer_account_update</key>
+		<value><![CDATA[ Account Update  !!!!!]]></value>
+	</definition>
+	<definition>
+		<key>im_sendpoint_name_customer_account_update_note</key>
+		<value><![CDATA[ im_sendpoint_name_customer_account_update_note !!!!!  !!!!!]]></value>
+	</definition>
+	<definition>
+		<key>im_customer_account_update_text_to_customer</key>
+		<value><![CDATA[ Your account has been updated!  !!!!!]]></value>
+	</definition>
+	<definition>
+		<key>im_customer_contact_admin_text</key>
+		<value><![CDATA[ You've got new enquiry from customer (%s, %s)!  !!!!!]]></value>
+	</definition>
+	<definition>
+		<key>im_sendpoint_name_newsletter</key>
+		<value><![CDATA[ Newsletters  !!!!!]]></value>
+	</definition>
+	<definition>
+		<key>im_sendpoint_name_newsletter_note</key>
+		<value><![CDATA[ im_sendpoint_name_newsletter_note !!!!!  !!!!!]]></value>
+	</definition>
+	<definition>
+		<key>im_product_review_text_to_admin</key>
+		<value><![CDATA[ New product review has been added. See details #admin#rt=catalog/review/update&review_id=%s  !!!!!]]></value>
+	</definition>
+	<definition>
+		<key>im_product_out_of_stock_admin_text</key>
+		<value><![CDATA[ Product with ID #%s is out of Stock.  !!!!!]]></value>
+	</definition>
+	<definition>
+		<key>im_system_messages_admin_text</key>
+		<value><![CDATA[ im_system_messages_admin_text !!!!!  !!!!!]]></value>
+	</definition>
+</definitions>

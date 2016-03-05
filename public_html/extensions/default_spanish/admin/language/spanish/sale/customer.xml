@@ -344,4 +344,16 @@
 		<key>entry_create_date</key>
 		<value><![CDATA[Fecha de Creación:]]></value>
 	</definition>
+	<definition>
+		<key>entry_notify</key>
+		<value><![CDATA[Notify Customer: !!!!!]]></value>
+	</definition>
+	<definition>
+		<key>text_transaction_notification_subject</key>
+		<value><![CDATA[New transaction has been posted to your %s account !!!!!]]></value>
+	</definition>
+	<definition>
+		<key>text_transaction_notification_message</key>
+		<value><![CDATA[New transaction has been posted to your %s account in the amount of %s. For more details, login to %s account !!!!!]]></value>
+	</definition>
 </definitions>
