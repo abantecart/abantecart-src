@@ -466,6 +466,10 @@ h1 a:hover, h2 a:hover, h3  a:hover {
     position: absolute;
     top: -6px;
 }
+/* in the grid */
+.ui-widget-content .dropdown-menu-sm:after {
+    left: 130px;
+}
 .dropdown-menu-sm ul {
 	margin: 0;
 	padding: 0 10px;

@@ -69,7 +69,6 @@ var mcei = {
 	},
 	forced_root_block : false,
 	cleanup : false,
-	cleanup_on_startup: false,
 	verify_html : false,
 	trim_span_elements: false,
 	fix_list_elements: false,
@@ -86,7 +85,6 @@ var mcei = {
 	editimage_disable_captions: false,
 	editimage_html5_captions: true,
 	plugins: "charmap,colorpicker,hr,lists,media,paste,tabfocus,textcolor,fullscreen,link",
-	selector: '',
 	resize: true,
 	menubar: false,
 	autop: true,
@@ -97,12 +95,14 @@ var mcei = {
 	//toolbar2: "formatselect,underline,alignjustify,forecolor,pastetext,removeformat,charmap,outdent,indent",
 	toolbar3: "",
 	toolbar4: "",
+	selector: '',
 	valid_elements : '*[*]',
+	invalid_elements : "...",
 	tabfocus_elements: "content-html,save-post",
 	body_class: "content post-type-post post-status-auto-draft post-format-standard locale-en-gb",
 	autoresize_on: true,
 	add_unload_trigger: false,
-	height: '262px'
+	height: '262px'	
 };
 
 
