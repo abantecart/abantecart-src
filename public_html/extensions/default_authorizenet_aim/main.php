@@ -18,6 +18,10 @@
    needs please refer to http://www.AbanteCart.com for more information.
 ------------------------------------------------------------------------------*/
 
+if(!class_exists('ExtensionDefaultAuthorizenetAim')){
+	include('core/default_authorizenet_aim.php');
+}
+
 $controllers = array(
     'storefront' => array('responses/extension/default_authorizenet_aim'),
     'admin' => array( ),

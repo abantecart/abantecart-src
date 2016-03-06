@@ -69,6 +69,7 @@
 			</variants>
         </item>
     </settings>
+	<help_link><![CDATA[https://support.authorize.net/authkb/index?page=home&resellerId=34073]]></help_link>	    
     <install>
 	    <sql></sql>
 	    <trigger></trigger>
