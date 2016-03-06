@@ -252,11 +252,13 @@
 					    	<i class="fa fa-refresh"></i>
 						</a>
 						<?php } ?>
-					<a class="remove btn btn-xs btn-danger-alt tooltips"
-					   data-original-title="<?php echo $button_delete; ?>"
-					   data-confirmation="delete" onclick="deleteTotal('<?php echo $total_row['order_total_id']; ?>');">
-						<i class="fa fa-minus-circle"></i>
-					</a>
+						<?php if ($total_key_count[$total_row['key']] == 1 ) { // do not alloe delete of duplicate keys?>
+						<a class="remove btn btn-xs btn-danger-alt tooltips"
+						   data-original-title="<?php echo $button_delete; ?>"
+						   data-confirmation="delete" onclick="deleteTotal('<?php echo $total_row['order_total_id']; ?>');">
+							<i class="fa fa-minus-circle"></i>
+						</a>
+						<?php } ?>
 					<?php } ?>
 				</span>
 				</td>

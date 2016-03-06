@@ -549,6 +549,12 @@ class ControllerPagesSaleOrder extends AController{
 				}		
 			}
 		}
+		//count duplicate keys to prevent delete od duplicate (such as tax)
+		//issue with recalc of deleted items if duplicate keys 
+       	$this->data['total_key_count'] = array();
+		foreach($this->data['totals'] as $t_old) {
+			$this->data['total_key_count'][$t_old['key']]++;
+		}
 
 		$this->data['form_title'] = $this->language->get('edit_title_details');
 		$this->data['update'] = $this->html->getSecureURL('listing_grid/order/update_field', '&id=' . $order_id);
