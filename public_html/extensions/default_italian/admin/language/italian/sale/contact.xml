@@ -86,86 +86,82 @@
 	</definition>
 	<definition>
 		<key>text_send_email</key>
-		<value><![CDATA[Send Mail !!!!!]]></value>
+		<value><![CDATA[Inviare una mail]]></value>
 	</definition>
 	<definition>
 		<key>text_send_sms</key>
-		<value><![CDATA[Send SMS !!!!!]]></value>
+		<value><![CDATA[Inviare SMS]]></value>
 	</definition>
 	<definition>
 		<key>text_customers_who_ordered</key>
-		<value><![CDATA[To customers who ordered selected products !!!!!]]></value>
+		<value><![CDATA[Per i clienti che hanno ordinato prodotti selezionati]]></value>
 	</definition>
 	<definition>
 		<key>text_customers_from_lookup</key>
-		<value><![CDATA[Start typing customer name to look up and select !!!!!]]></value>
+		<value><![CDATA[Iniziare a digitare il nome del cliente per ricerca e selezionare]]></value>
 	</definition>
 	<definition>
 		<key>text_products_from_lookup</key>
-		<value><![CDATA[Start typing product name to look up and select !!!!!]]></value>
+		<value><![CDATA[Inizia a digitare il nome del prodotto per ricerca e selezionare]]></value>
 	</definition>
 	<definition>
 		<key>text_email</key>
-		<value><![CDATA[Email !!!!!]]></value>
+		<value><![CDATA[E-mail]]></value>
 	</definition>
 	<definition>
 		<key>text_sms</key>
-		<value><![CDATA[SMS !!!!!]]></value>
+		<value><![CDATA[SMS]]></value>
 	</definition>
 	<definition>
 		<key>text_incompleted_tasks</key>
-		<value><![CDATA[Incompleted Tasks !!!!!]]></value>
+		<value><![CDATA[Attività non completate]]></value>
 	</definition>
 	<definition>
 		<key>text_task_id</key>
-		<value><![CDATA[Task ID: !!!!!]]></value>
+		<value><![CDATA[ID attività:]]></value>
 	</definition>
 	<definition>
 		<key>text_last_time_run</key>
-		<value><![CDATA[Last Time Run: !!!!!]]></value>
+		<value><![CDATA[L'ultima volta aperta:]]></value>
 	</definition>
 	<definition>
 		<key>text_date_added</key>
-		<value><![CDATA[Created: !!!!!]]></value>
-	</definition>
-	<definition>
-		<key>text_date_added</key>
-		<value><![CDATA[Created: !!!!!]]></value>
+		<value><![CDATA[Creato:]]></value>
 	</definition>
 	<definition>
 		<key>text_subject</key>
-		<value><![CDATA[Subject: !!!!!]]></value>
+		<value><![CDATA[Soggetto:]]></value>
 	</definition>
 	<definition>
 		<key>text_message</key>
-		<value><![CDATA[Message: !!!!!]]></value>
+		<value><![CDATA[Messaggio:]]></value>
 	</definition>
 	<definition>
 		<key>text_starter_name</key>
-		<value><![CDATA[Created by: !!!!!]]></value>
+		<value><![CDATA[Creato da:]]></value>
 	</definition>
 	<definition>
 		<key>text_restart</key>
-		<value><![CDATA[Restart !!!!!]]></value>
+		<value><![CDATA[Ricomincia]]></value>
 	</definition>
 	<definition>
 		<key>text_remove</key>
-		<value><![CDATA[Remove !!!!!]]></value>
+		<value><![CDATA[Cancella]]></value>
 	</definition>
 	<definition>
 		<key>error_no_recipients</key>
-		<value><![CDATA[Attention! No customers with mobile phone numbers.	!!!!!]]></value>
+		<value><![CDATA[Attenzione! Non ci sono i clienti con i numeri di cellulare.]]></value>
 	</definition>
 	<definition>
 		<key>text_success_abort</key>
-		<value><![CDATA[Task interrupted successfully. !!!!!]]></value>
+		<value><![CDATA[Task interrotto con successo.]]></value>
 	</definition>
 	<definition>
 		<key>text_success_sent</key>
-		<value><![CDATA[Messages have been sent. !!!!!]]></value>
+		<value><![CDATA[I messaggi sono stati inviati.]]></value>
 	</definition>
 	<definition>
 		<key>text_task_failed</key>
-		<value><![CDATA[Some errors occured during task process. Please see log for details or restart this task. !!!!!]]></value>
+		<value><![CDATA[Alcuni errori si sono verificati durante il processo di operazione. Si prega di consultare il login per i dettagli o riavviare questo compito.]]></value>
 	</definition>
 </definitions>

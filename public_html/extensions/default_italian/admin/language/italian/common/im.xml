@@ -2,86 +2,86 @@
 <definitions>
   	<definition>
     	<key>im_text_notification</key>
-    	<value><![CDATA[Notification !!!!!]]></value>
+    	<value><![CDATA[Notificazione]]></value>
   	</definition>
   	<definition>
     	<key>im_sendpoint_name_order_update</key>
-    	<value><![CDATA[Order Update !!!!!]]></value>
+    	<value><![CDATA[Ordine di aggiornamento]]></value>
   	</definition>
   	<definition>
     	<key>im_order_update_text_to_customer</key>
-    	<value><![CDATA[Your order <a href="%s">#%s</a> has been updated. For more details, login to %s account. !!!!!]]></value>
+    	<value><![CDATA[Il vostro ordine <a href="%s">#%s</a> è stato aggiornato. Per ulteriori informazioni, accedere al %s conto.]]></value>
   	</definition>
   	<definition>
     	<key>im_sendpoint_name_new_order</key>
-    	<value><![CDATA[New Order !!!!!]]></value>
+    	<value><![CDATA[Nuovo ordine]]></value>
   	</definition>
   	<definition>
     	<key>im_new_order_text_to_admin</key>
-    	<value><![CDATA[New Order <a href="#admin#rt=sale/order/details&order_id=%s">#%s</a> has been created! !!!!!]]></value>
+    	<value><![CDATA[Nuovo ordine <a href="#admin#rt=sale/order/details&order_id=%s">#%s</a> è stato creato]]></value>
   	</definition>
   	<definition>
     	<key>im_sendpoint_name_new_customer</key>
-    	<value><![CDATA[New Customer !!!!!]]></value>
+    	<value><![CDATA[Nuovo cliente]]></value>
   	</definition>
 	<definition>
 		<key>im_new_customer_text_to_admin</key>
-		<value><![CDATA[ New Customer #%s has been added! !!!!!]]></value>
+		<value><![CDATA[ Nuovo cliente #%s è stato aggiunto!]]></value>
 	</definition>
   	<definition>
     	<key>im_sendpoint_name_account_update</key>
-    	<value><![CDATA[User Account Update !!!!!]]></value>
+    	<value><![CDATA[Aggiornamento account utente]]></value>
   	</definition>
 	<definition>
 		<key>im_customer account_update_text_to_admin</key>
-		<value><![CDATA[ New Customer #%s has been updated! !!!!!]]></value>
+		<value><![CDATA[ Nuovo cliente #%s è stato aggiornato!]]></value>
 	</definition>
   	<definition>
     	<key>im_sendpoint_name_customer_contact</key>
-    	<value><![CDATA[Customer Enquiry !!!!!]]></value>
+    	<value><![CDATA[Richiesta informazioni!]]></value>
   	</definition>
   	<definition>
     	<key>im_sendpoint_name_account_update</key>
-    	<value><![CDATA[User Account Update !!!!!]]></value>
+    	<value><![CDATA[Aggiornamento account utente]]></value>
   	</definition>
   	<definition>
     	<key>im_sendpoint_name_product_out_of_stock</key>
-    	<value><![CDATA[Product Out of Stock !!!!!]]></value>
+    	<value><![CDATA[Prodotto Esaurito]]></value>
   	</definition>
   	<definition>
     	<key>im_sendpoint_name_product_review</key>
-    	<value><![CDATA[Added New Product Review !!!!!]]></value>
+    	<value><![CDATA[Aggiunto nuovo prodotto da recensire]]></value>
   	</definition>
 	<definition>
 		<key>im_sendpoint_name_newsletter</key>
-		<value><![CDATA[ Newsletters  !!!!!]]></value>
+		<value><![CDATA[ Newsletters ]]></value>
 	</definition>
 	<definition>
 		<key>im_sendpoint_name_system_messages</key>
-		<value><![CDATA[ System Messages  !!!!!]]></value>
+		<value><![CDATA[ Messaggi di sistema ]]></value>
 	</definition>
   	<definition>
     	<key>im_system_messages_text_to_admin</key>
-    	<value><![CDATA[im_system_messages_text_to_admin !!!!! !!!!!]]></value>
+    	<value><![CDATA[im_system_messages_text_to_admin !!!!!]]></value>
   	</definition>
   	<definition>
     	<key>im_customer_account_update_text_to_customer</key>
-    	<value><![CDATA[New transaction has been posted to your %s account in the amount of %s. For more details, login to %s account. !!!!!]]></value>
+    	<value><![CDATA[Nuova operazione è stata pubblicata per %s conto tuo nella quantità di %s. Per ulteriori informazioni, accedere al %s conto.]]></value>
   	</definition>
   	<definition>
     	<key>text_notification_for</key>
-    	<value><![CDATA[Notification for User %s !!!!!]]></value>
+    	<value><![CDATA[Di notifica per l'utente %s ]]></value>
   	</definition>
   	<definition>
     	<key>error_unknown_sendpoint</key>
-    	<value><![CDATA[Sendpoint %s does not found in sendpoints list! !!!!!]]></value>
+    	<value><![CDATA[Sendpoint %s non si trovano in lista sendpoints!]]></value>
   	</definition>
   	<definition>
     	<key>text_settings_success_saved</key>
-    	<value><![CDATA[Notification settings saved successfully! !!!!!]]></value>
+    	<value><![CDATA[Impostazioni di notifica salvate con successo]]></value>
   	</definition>
   	<definition>
     	<key>im_error_mail_address</key>
-    	<value><![CDATA[Email address %s looks like invalid! !!!!!]]></value>
+    	<value><![CDATA[Indirizzo email %s sembra non valida!]]></value>
   	</definition>
 </definitions>
