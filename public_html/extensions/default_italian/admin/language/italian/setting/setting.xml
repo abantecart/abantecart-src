@@ -822,44 +822,44 @@
 	</definition>
 	<definition>
 		<key>text_setting_php_exceed</key>
-		<value><![CDATA[This value can not exceed your php.ini directive %s (<=%s) !!!!!]]></value>
+		<value><![CDATA[Questo valore non può superare il direttiva php.ini %s (<=%s) ]]></value>
 	</definition>
 	<definition>
 		<key>entry_start_order_id</key>
-		<value><![CDATA[Order Start No.:<br /><span class="help">Set the starting number the orders will begin from.</span> !!!!!]]></value>
+		<value><![CDATA[Inizio ordine No.:<br /><span class="help">Impostare il numero iniziale gli ordini cominceranno da.</span>]]></value>
 	</definition>
 	<definition>
 		<key>error_start_order_id</key>
-		<value><![CDATA[Order start number must be a numeric! !!!!!]]></value>
+		<value><![CDATA[Numero di partenza Ordine deve essere una numerico!]]></value>
 	</definition>
 	<definition>
 		<key>error_starting_invoice_id</key>
-		<value><![CDATA[Invoice start number must be a numeric! !!!!!]]></value>
+		<value><![CDATA[Numero di partenza della fattura deve essere un numerica!]]></value>
 	</definition>
 	<definition>
 		<key>entry_expire_order_days</key>
 		<value><![CDATA[
-			Incomplete Order Expiration:<br /><br /><span class="help">This value controls time interval in days before incomplete orders will be deleted. Empty value means that no orders will be to deleted.</span> !!!!!]]></value>
+			Incompleta scadenza Order:<br /><br /><span class="help">Questo valore controlla intervallo di tempo in giorni prima verranno cancellati ordini incompleti. valore vuoto significa che nessun ordine sarà quello di eliminare.</span>]]></value>
 	</definition>
 	<definition>
 		<key>error_expire_order_days</key>
-		<value><![CDATA[Incomplete Order Expiration value must be a numeric! !!!!!]]></value>
+		<value><![CDATA[Valore di scadenza ordine incompleto deve essere un numerica!]]></value>
 	</definition>
 	<definition>
 		<key>text_storefront</key>
-		<value><![CDATA[Storefront !!!!!]]></value>
+		<value><![CDATA[Sito vetrina]]></value>
 	</definition>
 	<definition>
 		<key>text_im_driver</key>
-		<value><![CDATA[Driver !!!!!]]></value>
+		<value><![CDATA[Guidatore]]></value>
 	</definition>
 	<definition>
 		<key>text_im_protocol</key>
-		<value><![CDATA[IM Protocol !!!!!]]></value>
+		<value><![CDATA[protocollo MI]]></value>
 	</definition>
 	<definition>
 		<key>entry_sms_driver</key>
-		<value><![CDATA[SMS Provider !!!!!]]></value>
+		<value><![CDATA[SMS Provider]]></value>
 	</definition>
 	<definition>
 		<key>entry_sms_driver_tooltip</key>
@@ -875,10 +875,10 @@
 	</definition>
 	<definition>
 		<key>text_no_driver</key>
-		<value><![CDATA[ No IM Driver Found !!!!!]]></value>
+		<value><![CDATA[ Nessun MI driver trovato]]></value>
 	</definition>
 	<definition>
 		<key>text_im_settings_attention</key>
-		<value><![CDATA[These settings are for instant messages sent automatically during AbanteCart events in storefront and admin.	!!!!!]]></value>
+		<value><![CDATA[Queste impostazioni sono per i messaggi istantanei inviati automaticamente durante gli eventi AbanteCart in vetrina e admin.]]></value>
 	</definition>
 </definitions>

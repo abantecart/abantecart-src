@@ -110,6 +110,6 @@
 	</definition>
 	<definition>
 		<key>error_nothing_to_do</key>
-		<value><![CDATA[Warning: Please set what you want to backup or import! !!!!!]]></value>
+		<value><![CDATA[Avvertimento: Si prega di ottenere ciò che si desidera effettuare il backup o importare!]]></value>
 	</definition>
 </definitions>

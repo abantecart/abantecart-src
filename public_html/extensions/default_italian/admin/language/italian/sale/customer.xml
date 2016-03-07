@@ -338,14 +338,14 @@
 	</definition>
 	<definition>
 		<key>entry_notify</key>
-		<value><![CDATA[Notify Customer: !!!!!]]></value>
+		<value><![CDATA[Notifica dei clienti:]]></value>
 	</definition>
 	<definition>
 		<key>text_transaction_notification_subject</key>
-		<value><![CDATA[New transaction has been posted to your %s account !!!!!]]></value>
+		<value><![CDATA[Nuova operazione è stata pubblicata sul tuo %s conto]]></value>
 	</definition>
 	<definition>
 		<key>text_transaction_notification_message</key>
-		<value><![CDATA[New transaction has been posted to your %s account in the amount of %s. For more details, login to %s account !!!!!]]></value>
+		<value><![CDATA[Nuova operazione è stata pubblicata per conto tuo %s nella quantità di %s. Per maggiori dettagli, accedi al conto %s ]]></value>
 	</definition>
 </definitions>
