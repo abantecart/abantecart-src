@@ -301,6 +301,13 @@ class ControllerPagesCheckoutAddress extends AController{
 						'name'     => 'city',
 						'value'    => $this->request->post['city'],
 						'required' => true));
+
+		$this->data['form']['zone'] = $form->getFieldHtml(
+				array (
+						'type'     => 'selectbox',
+						'name'     => 'zone_id',
+						'required' => true));
+
 		$this->data['form']['postcode'] = $form->getFieldHtml(
 				array (
 						'type'     => 'input',
@@ -319,12 +326,6 @@ class ControllerPagesCheckoutAddress extends AController{
 						'name'     => 'country_id',
 						'options'  => $options,
 						'value'    => (isset($this->request->post['country_id']) ? $this->request->post['country_id'] : $this->config->get('config_country_id')),
-						'required' => true));
-
-		$this->data['form']['zone'] = $form->getFieldHtml(
-				array (
-						'type'     => 'selectbox',
-						'name'     => 'zone_id',
 						'required' => true));
 
 		$this->data['form']['continue'] = $form->getFieldHtml(

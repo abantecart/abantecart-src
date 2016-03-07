@@ -63,10 +63,10 @@ class ControllerPagesCheckoutGuestStep1 extends AController{
 			$this->session->data['guest']['company'] = $this->request->post['company'];
 			$this->session->data['guest']['address_1'] = $this->request->post['address_1'];
 			$this->session->data['guest']['address_2'] = $this->request->post['address_2'];
+			$this->session->data['guest']['zone_id'] = $this->request->post['zone_id'];
 			$this->session->data['guest']['postcode'] = $this->request->post['postcode'];
 			$this->session->data['guest']['city'] = $this->request->post['city'];
 			$this->session->data['guest']['country_id'] = $this->request->post['country_id'];
-			$this->session->data['guest']['zone_id'] = $this->request->post['zone_id'];
 
 			//IM addresses
 			$protocols = $this->im->getProtocols();
@@ -114,10 +114,10 @@ class ControllerPagesCheckoutGuestStep1 extends AController{
 				$this->session->data['guest']['shipping']['company'] = $this->request->post['shipping_company'];
 				$this->session->data['guest']['shipping']['address_1'] = $this->request->post['shipping_address_1'];
 				$this->session->data['guest']['shipping']['address_2'] = $this->request->post['shipping_address_2'];
+				$this->session->data['guest']['shipping']['zone_id'] = $this->request->post['shipping_zone_id'];
 				$this->session->data['guest']['shipping']['postcode'] = $this->request->post['shipping_postcode'];
 				$this->session->data['guest']['shipping']['city'] = $this->request->post['shipping_city'];
 				$this->session->data['guest']['shipping']['country_id'] = $this->request->post['shipping_country_id'];
-				$this->session->data['guest']['shipping']['zone_id'] = $this->request->post['shipping_zone_id'];
 
 				$shipping_country_info = $this->model_localisation_country->getCountry($this->request->post['shipping_country_id']);
 

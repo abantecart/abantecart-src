@@ -929,15 +929,15 @@
 	</definition>
 	<definition>
 		<key>entry_sms_driver_tooltip</key>
-		<value><![CDATA[entry_sms_driver_tooltip !!!!!]]></value>
+		<value><![CDATA[Select an extention for SMS service provider]]></value>
 	</definition>
 	<definition>
 		<key>entry_storefront_status_tooltip</key>
-		<value><![CDATA[entry_storefront_status_tooltip !!!!!]]></value>
+		<value><![CDATA[Enable SMS for customers]]></value>
 	</definition>
 	<definition>
 		<key>entry_admin_status_tooltip</key>
-		<value><![CDATA[entry_admin_status_tooltip !!!!!]]></value>
+		<value><![CDATA[Enable SMS for administrators]]></value>
 	</definition>
 	<definition>
 		<key>text_no_driver</key>

@@ -275,7 +275,7 @@ class AHtml extends AController {
 
 	/**
 	 * remove get parameters from url.
-	 * @deprecated since 1.1.4!!!!!!!!! Use filterQueryParams() instead
+	 * @deprecated since 1.1.4! Use filterQueryParams() instead
 	 * @param $url - url to process
 	 * @param $remove_vars
 	 * @internal param array|string $vars - single var or array of vars

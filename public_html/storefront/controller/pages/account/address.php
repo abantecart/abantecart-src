@@ -361,6 +361,27 @@ class ControllerPagesAccountAddress extends AController{
 				'value'    => $city,
 				'required' => true));
 
+		if (isset($this->request->post['zone_id'])){
+			$this->data['zone_id'] = $this->request->post['zone_id'];
+		} elseif (isset($address_info)){
+			$this->data['zone_id'] = $address_info['zone_id'];
+		} else{
+			$this->data['zone_id'] = 'FALSE';
+		}
+
+		$this->data['form']['fields']['zone'] = $form->getFieldHtml(array (
+				'type'     => 'selectbox',
+				'name'     => 'zone_id',
+				'value'    => $this->data['zone_id'],
+				'required' => true));
+		if (isset($this->request->post['default'])){
+			$default = $this->request->post['default'];
+		} elseif (isset($this->request->get['address_id'])){
+			$default = $this->customer->getAddressId() == $this->request->get['address_id'];
+		} else{
+			$default = false;
+		}
+
 		if (isset($this->request->post['postcode'])){
 			$postcode = $this->request->post['postcode'];
 		} elseif (isset($address_info)){
@@ -395,26 +416,6 @@ class ControllerPagesAccountAddress extends AController{
 				'required' => true));
 
 
-		if (isset($this->request->post['zone_id'])){
-			$this->data['zone_id'] = $this->request->post['zone_id'];
-		} elseif (isset($address_info)){
-			$this->data['zone_id'] = $address_info['zone_id'];
-		} else{
-			$this->data['zone_id'] = 'FALSE';
-		}
-
-		$this->data['form']['fields']['zone'] = $form->getFieldHtml(array (
-				'type'     => 'selectbox',
-				'name'     => 'zone_id',
-				'value'    => $this->data['zone_id'],
-				'required' => true));
-		if (isset($this->request->post['default'])){
-			$default = $this->request->post['default'];
-		} elseif (isset($this->request->get['address_id'])){
-			$default = $this->customer->getAddressId() == $this->request->get['address_id'];
-		} else{
-			$default = false;
-		}
 		$this->data['form']['default'] = $form->getFieldHtml(array (
 				'type'    => 'radio',
 				'name'    => 'default',
