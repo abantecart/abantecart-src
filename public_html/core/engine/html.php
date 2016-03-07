@@ -1851,8 +1851,11 @@ class PhoneHtmlElement extends HtmlElement {
 		 * @var $doc ADocument
 		 */
 		$doc = $this->data['registry']->get('document');
-		$doc->addScript($this->view->templateResource('/javascript/jquery.caret.js'));
-		$doc->addScript($this->view->templateResource('/javascript/jquery.mobilePhoneNumber.js'));
+		$doc->addScript($this->view->templateResource('/javascript/intl-tel-input/js/intlTelInput.min.js'));
+		$doc->addStyle(array (
+						'href' => RDIR_TEMPLATE . 'javascript/intl-tel-input/css/intlTelInput.css',
+						'rel'  => 'stylesheet'
+				));
 
 		$this->view->batchAssign(
 			array(

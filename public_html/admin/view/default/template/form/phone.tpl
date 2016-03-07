@@ -12,10 +12,10 @@
 <span class="input-group-addon"><span class="required">*</span></span>
 <?php } ?>
 
-<script>
-    jQuery(function($){
-      var input = $('#<?php echo $id ?>')
-      input.mobilePhoneNumber();
-      input.mobilePhoneNumber({allowPhoneWithoutPrefix: '+'});
+<script type="application/javascript" >
+    $('#<?php echo $id ?>').intlTelInput({
+        autoHideDialCode: false,
+        nationalMode: false,
+        utilsScript: "<?php echo $this->templateResource('/javascript/intl-tel-input/js/utils.js'); ?>"
     });
-  </script>
+</script>
