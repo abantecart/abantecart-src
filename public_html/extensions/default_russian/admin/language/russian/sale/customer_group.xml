@@ -46,10 +46,10 @@
 	</definition>
 	<definition>
 		<key>column_tax_exempt</key>
-		<value><![CDATA[Tax Exempt !!!!!]]></value>
+		<value><![CDATA[Освобождение от уплаты налогов]]></value>
 	</definition>
 	<definition>
 		<key>entry_tax_exempt</key>
-		<value><![CDATA[Exempt from all taxes: !!!!!]]></value>
+		<value><![CDATA[Освобождаются от всех налогов:]]></value>
 	</definition>
 </definitions>
