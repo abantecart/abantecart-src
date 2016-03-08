@@ -826,54 +826,54 @@
 	</definition>
 	<definition>
 		<key>entry_recaptcha_site_key</key>
-		<value><![CDATA[Google reCAPTCHA Secret Key:<br /><span class="help">Añadir <a href="https://www.google.com/recaptcha" target="_blank">Google reCAPTCHA v2</a> para ayudar a sus visitantes con una mejor entrada captcha. Si habilita reCAPTCHA site/secret keys, Google reCAPTCHA v2 se activará en lugar de por defecto AbanteCart captcha 
+		<value><![CDATA[Google reCAPTCHA Secret Key:<br /><span class="help">Añadir <a href="https://www.google.com/recaptcha" target="_blank">Google reCAPTCHA v2</a> para ayudar a sus visitantes con una mejor entrada captcha. Si habilita reCAPTCHA site/secret keys, Google reCAPTCHA v2 se activará en lugar de por defecto AbanteCart captcha
 imagen</span>]]></value>
 	</definition>
 	<definition>
 		<key>entry_recaptcha_secret_key</key>
-		<value><![CDATA[Google reCAPTCHA Secret Key:<br /><span class="help">Añadir <a href="https://www.google.com/recaptcha" target="_blank">Google reCAPTCHA v2</a> para ayudar a sus visitantes con una mejor entrada captcha. Si habilita reCAPTCHA site/secret keys, Google reCAPTCHA v2 se activará en lugar de por defecto AbanteCart captcha 
+		<value><![CDATA[Google reCAPTCHA Secret Key:<br /><span class="help">Añadir <a href="https://www.google.com/recaptcha" target="_blank">Google reCAPTCHA v2</a> para ayudar a sus visitantes con una mejor entrada captcha. Si habilita reCAPTCHA site/secret keys, Google reCAPTCHA v2 se activará en lugar de por defecto AbanteCart captcha
 imagen</span>]]></value>
 	</definition>
 	<definition>
 		<key>text_setting_php_exceed</key>
-		<value><![CDATA[This value can not exceed your php.ini directive %s (<=%s) !!!!!]]></value>
+		<value><![CDATA[Este valor no puede exceder su directiva php.ini %s (<=%s) ]]></value>
 	</definition>
 	<definition>
 		<key>entry_start_order_id</key>
-		<value><![CDATA[Order Start No.:<br /><span class="help">Set the starting number the orders will begin from.</span> !!!!!]]></value>
+		<value><![CDATA[No se de inicio del pedido.:<br /><span class="help">Establecer el número de partida de los pedidos comenzarán a partir.</span>]]></value>
 	</definition>
 	<definition>
 		<key>error_start_order_id</key>
-		<value><![CDATA[Order start number must be a numeric! !!!!!]]></value>
+		<value><![CDATA[Número de inicio del pedido debe ser un valor numérico!]]></value>
 	</definition>
 	<definition>
 		<key>error_starting_invoice_id</key>
-		<value><![CDATA[Invoice start number must be a numeric! !!!!!]]></value>
+		<value><![CDATA[Número de inicio de la factura debe ser un valor numérico!]]></value>
 	</definition>
 	<definition>
 		<key>entry_expire_order_days</key>
 		<value><![CDATA[
-			Incomplete Order Expiration:<br /><br /><span class="help">This value controls time interval in days before incomplete orders will be deleted. Empty value means that no orders will be to deleted.</span> !!!!!]]></value>
+			Incompleta de caducidad Orden:<br /><br /><span class="help">Este valor controla el intervalo de tiempo en días antes se eliminarán pedidos incompletos. valor vacío significa que no hay órdenes será a eliminar.</span> ]]></value>
 	</definition>
 	<definition>
 		<key>error_expire_order_days</key>
-		<value><![CDATA[Incomplete Order Expiration value must be a numeric! !!!!!]]></value>
+		<value><![CDATA[valor de caducidad Orden incompleta debe ser un valor numérico!]]></value>
 	</definition>
 	<definition>
 		<key>text_storefront</key>
-		<value><![CDATA[Storefront !!!!!]]></value>
+		<value><![CDATA[Escaparate]]></value>
 	</definition>
 	<definition>
 		<key>text_im_driver</key>
-		<value><![CDATA[Driver !!!!!]]></value>
+		<value><![CDATA[Conductor]]></value>
 	</definition>
 	<definition>
 		<key>text_im_protocol</key>
-		<value><![CDATA[IM Protocol !!!!!]]></value>
+		<value><![CDATA[MI Protocolo]]></value>
 	</definition>
 	<definition>
 		<key>entry_sms_driver</key>
-		<value><![CDATA[SMS Provider !!!!!]]></value>
+		<value><![CDATA[Proveedor de SMS]]></value>
 	</definition>
 	<definition>
 		<key>entry_sms_driver_tooltip</key>
@@ -889,10 +889,10 @@ imagen</span>]]></value>
 	</definition>
 	<definition>
 		<key>text_no_driver</key>
-		<value><![CDATA[ No IM Driver Found !!!!!]]></value>
+		<value><![CDATA[ Sin MI conductor Encontrado]]></value>
 	</definition>
 	<definition>
 		<key>text_im_settings_attention</key>
-		<value><![CDATA[These settings are for instant messages sent automatically during AbanteCart events in storefront and admin.	!!!!!]]></value>
+		<value><![CDATA[Estos ajustes son para los mensajes instantáneos enviados automáticamente durante eventos AbanteCart en tienda y de administración.]]></value>
 	</definition>
 </definitions>

@@ -98,6 +98,6 @@
 	</definition>
 	<definition>
 		<key>entry_tax_exempt_groups</key>
-		<value><![CDATA[Tax Exempt Groups<br /><span class="help">Select customer groups to exempt from this tax</span> !!!!!]]></value>
+		<value><![CDATA[Exentas de Impuestos Grupos<br /><span class="help">Seleccionar los grupos de clientes a exentos de este impuesto</span>]]></value>
 	</definition>
 </definitions>
