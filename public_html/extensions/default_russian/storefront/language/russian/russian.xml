@@ -322,6 +322,6 @@
 	</definition>
 	<definition>
 		<key>button_pay_with_balance</key>
-		<value><![CDATA[Pay With Balance !!!!!]]></value>
+		<value><![CDATA[Оплатить с баланса]]></value>
 	</definition>
 </definitions>

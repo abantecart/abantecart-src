@@ -2,22 +2,22 @@
 <definitions>
 	<definition>
 		<key>heading_title</key>
-		<value><![CDATA[Notifications and Newsletter !!!!!]]></value>
+		<value><![CDATA[Notificaciones y Newsletter]]></value>
 	</definition>
 	<definition>
 		<key>text_account</key>
-		<value><![CDATA[Account !!!!!]]></value>
+		<value><![CDATA[Cuenta]]></value>
 	</definition>
 	<definition>
 		<key>text_notifications</key>
-		<value><![CDATA[Notifications !!!!!]]></value>
+		<value><![CDATA[Notificaciones]]></value>
 	</definition>
 	<definition>
 		<key>text_success</key>
-		<value><![CDATA[Success: Your notification settings has been successfully updated! !!!!!]]></value>
+		<value><![CDATA[Éxito: los ajustes de notificación se ha actualizado correctamente!]]></value>
 	</definition>
 	<definition>
 		<key>text_sendpoint</key>
-		<value><![CDATA[SendPoint !!!!!]]></value>
+		<value><![CDATA[Enviar Point]]></value>
 	</definition>
 </definitions>

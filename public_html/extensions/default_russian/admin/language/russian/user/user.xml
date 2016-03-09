@@ -118,26 +118,26 @@
 	</definition>
 	<definition>
 		<key>entry_ims</key>
-		<value><![CDATA[Notifications !!!!!]]></value>
+		<value><![CDATA[Уведомления]]></value>
 	</definition>
 	<definition>
 		<key>entry_im_email</key>
-		<value><![CDATA[E-Mail:<span class="help">One or more comma separated email addresses</span> !!!!!]]></value>
+		<value><![CDATA[E-Mail:<span class="help">Один или несколько разделенных запятыми адресов электронной почты</span>]]></value>
 	</definition>
 	<definition>
 		<key>entry_im_sms</key>
-		<value><![CDATA[Mobile Phone:<span class="help">Phone number in international format. ex. +14566887777</span> !!!!!]]></value>
+		<value><![CDATA[Мобильный телефон:<span class="help">Номер телефона в международном формате. +14566887777</span>]]></value>
 	</definition>
 	<definition>
 		<key>text_edit_im</key>
-		<value><![CDATA[Edit Notifications !!!!!]]></value>
+		<value><![CDATA[Редактировать Уведомления]]></value>
 	</definition>
 	<definition>
 		<key>text_sendpoints</key>
-		<value><![CDATA[SendPoints !!!!!]]></value>
+		<value><![CDATA[SendPoints]]></value>
 	</definition>
 	<definition>
 		<key>text_change_im_addresses</key>
-		<value><![CDATA[Edit Notification Addresses for this SendPoint !!!!!]]></value>
+		<value><![CDATA[Редактировать Адрес Уведомления для этой точки]]></value>
 	</definition>
 </definitions>

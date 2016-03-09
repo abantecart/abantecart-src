@@ -2,63 +2,72 @@
 <definitions>
   	<definition>
     	<key>im_text_notification</key>
-    	<value><![CDATA[Notification !!!!!]]></value>
+    	<value><![CDATA[Уведомление]]></value>
   	</definition>
   	<definition>
     	<key>im_sendpoint_name_order_update</key>
-    	<value><![CDATA[Order Update !!!!!]]></value>
+    	<value><![CDATA[Порядок обновления]]></value>
   	</definition>
   	<definition>
     	<key>im_order_update_text_to_customer</key>
-    	<value><![CDATA[Your order <a href="%s">#%s</a> has been updated. For more details, login to %s account. !!!!!]]></value>
+    	<value><![CDATA[Ваш заказ <a href="%s">#%s</a> был обновлен. Для получения более подробной информации, войдите в %s аккаунт.]]></value>
   	</definition>
   	<definition>
     	<key>im_sendpoint_name_new_order</key>
-    	<value><![CDATA[New Order !!!!!]]></value>
+    	<value><![CDATA[Новый заказ]]></value>
   	</definition>
   	<definition>
     	<key>im_new_order_text_to_admin</key>
-    	<value><![CDATA[New Order <a href="#admin#rt=sale/order/details&order_id=%s">#%s</a> has been created! !!!!!]]></value>
+    	<value><![CDATA[Новый заказ <a href="#admin#rt=sale/order/details&order_id=%s">#%s</a> был создан!]]></value>
   	</definition>
   	<definition>
     	<key>im_sendpoint_name_new_customer</key>
-    	<value><![CDATA[New Customer !!!!!]]></value>
+    	<value><![CDATA[Новый клиент]]></value>
   	</definition>
 	<definition>
 		<key>im_new_customer_text_to_admin</key>
-		<value><![CDATA[ New Customer #%s has been added! !!!!!]]></value>
+		<value><![CDATA[ Новый клиент #%s был добавлен!]]></value>
 	</definition>
   	<definition>
     	<key>im_sendpoint_name_account_update</key>
-    	<value><![CDATA[User Account Update !!!!!]]></value>
+    	<value><![CDATA[Обновление учетных записей пользователей!]]></value>
   	</definition>
 	<definition>
+<<<<<<< HEAD
 		<key>im_customer_account_update_text_to_admin</key>
 		<value><![CDATA[ New Customer #%s has been updated! !!!!!]]></value>
+=======
+		<key>im_customer account_update_text_to_admin</key>
+		<value><![CDATA[ Новый клиент #%s обновлен!]]></value>
+>>>>>>> origin/1.2.6
 	</definition>
   	<definition>
     	<key>im_sendpoint_name_customer_contact</key>
-    	<value><![CDATA[Customer Enquiry !!!!!]]></value>
+    	<value><![CDATA[Запрос клиента]]></value>
   	</definition>
   	<definition>
     	<key>im_sendpoint_name_account_update</key>
-    	<value><![CDATA[User Account Update !!!!!]]></value>
+    	<value><![CDATA[Обновление учетных записей пользователей]]></value>
   	</definition>
   	<definition>
     	<key>im_sendpoint_name_product_out_of_stock</key>
-    	<value><![CDATA[Product Out of Stock !!!!!]]></value>
+    	<value><![CDATA[Продукта нет в запасе]]></value>
   	</definition>
   	<definition>
     	<key>im_sendpoint_name_product_review</key>
+<<<<<<< HEAD
     	<value><![CDATA[New Product Reviews !!!!!]]></value>
+=======
+    	<value><![CDATA[Добавлен Новый отзыв о продукте]]></value>
+>>>>>>> origin/1.2.6
   	</definition>
 	<definition>
 		<key>im_sendpoint_name_newsletter</key>
-		<value><![CDATA[ Newsletters  !!!!!]]></value>
+		<value><![CDATA[ Информационные бюллетени]]></value>
 	</definition>
 	<definition>
 		<key>im_sendpoint_name_system_messages</key>
-		<value><![CDATA[ System Messages  !!!!!]]></value>
+		<value><![CDATA[ Системные сообщения]]></value>
 	</definition>
   	<definition>
     	<key>im_system_messages_text_to_admin</key>
@@ -66,22 +75,22 @@
   	</definition>
   	<definition>
     	<key>im_customer_account_update_text_to_customer</key>
-    	<value><![CDATA[New transaction has been posted to your %s account in the amount of %s. For more details, login to %s account. !!!!!]]></value>
+    	<value><![CDATA[Новая транзакция была размещена на вашем %s счет в размере %s. Для получения более подробной информации, войдите в %s аккаунт.]]></value>
   	</definition>
   	<definition>
     	<key>text_notification_for</key>
-    	<value><![CDATA[Notification for User %s !!!!!]]></value>
+    	<value><![CDATA[Уведомление для пользователя %s ]]></value>
   	</definition>
   	<definition>
     	<key>error_unknown_sendpoint</key>
-    	<value><![CDATA[Sendpoint %s does not found in sendpoints list! !!!!!]]></value>
+    	<value><![CDATA[Sendpoint %s не найден в списке!]]></value>
   	</definition>
   	<definition>
     	<key>text_settings_success_saved</key>
-    	<value><![CDATA[Notification settings saved successfully! !!!!!]]></value>
+    	<value><![CDATA[Настройки уведомлений успешно сохранены!]]></value>
   	</definition>
   	<definition>
     	<key>im_error_mail_address</key>
-    	<value><![CDATA[Email address %s looks like invalid! !!!!!]]></value>
+    	<value><![CDATA[Адрес электронной почты %s выглядит недействительным!]]></value>
   	</definition>
 </definitions>

@@ -346,14 +346,14 @@
 	</definition>
 	<definition>
 		<key>entry_notify</key>
-		<value><![CDATA[Notify Customer: !!!!!]]></value>
+		<value><![CDATA[Notificará al cliente:]]></value>
 	</definition>
 	<definition>
 		<key>text_transaction_notification_subject</key>
-		<value><![CDATA[New transaction has been posted to your %s account !!!!!]]></value>
+		<value><![CDATA[Nueva transacción se ha registrado en su %s cuenta]]></value>
 	</definition>
 	<definition>
 		<key>text_transaction_notification_message</key>
-		<value><![CDATA[New transaction has been posted to your %s account in the amount of %s. For more details, login to %s account !!!!!]]></value>
+		<value><![CDATA[Nueva transacción se ha registrado en su %s en cuenta la cantidad de %s. Para más detalles, acceda a %s cuenta]]></value>
 	</definition>
 </definitions>

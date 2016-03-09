@@ -822,44 +822,44 @@
 	</definition>
 	<definition>
 		<key>text_setting_php_exceed</key>
-		<value><![CDATA[This value can not exceed your php.ini directive %s (<=%s) !!!!!]]></value>
+		<value><![CDATA[Это значение не может превышать вашу директиву php.ini %s (<=%s)]]></value>
 	</definition>
 	<definition>
 		<key>entry_start_order_id</key>
-		<value><![CDATA[Order Start No.:<br /><span class="help">Set the starting number the orders will begin from.</span> !!!!!]]></value>
+		<value><![CDATA[Стартовый Номер заказа.:<br /><span class="help">Установите начальный номер заказа</span>]]></value>
 	</definition>
 	<definition>
 		<key>error_start_order_id</key>
-		<value><![CDATA[Order start number must be a numeric! !!!!!]]></value>
+		<value><![CDATA[Стартовый номер заказа должен быть числовым!]]></value>
 	</definition>
 	<definition>
 		<key>error_starting_invoice_id</key>
-		<value><![CDATA[Invoice start number must be a numeric! !!!!!]]></value>
+		<value><![CDATA[Стартовый Номер счета-фактуры должен быть числовым!]]></value>
 	</definition>
 	<definition>
 		<key>entry_expire_order_days</key>
 		<value><![CDATA[
-			Incomplete Order Expiration:<br /><br /><span class="help">This value controls time interval in days before incomplete orders will be deleted. Empty value means that no orders will be to deleted.</span> !!!!!]]></value>
+			Срок Истечения Незавершённых Заказов:<br /><br /><span class="help">Эта величина определяет интервал времени в днях перед тем как незавершенные заказы будут удалены. Пустое значение означает, что никаких заказов не будет удалено.</span>]]></value>
 	</definition>
 	<definition>
 		<key>error_expire_order_days</key>
-		<value><![CDATA[Incomplete Order Expiration value must be a numeric! !!!!!]]></value>
+		<value><![CDATA[Значение Срока Истечения Незавершённых Заказов должно быть числовым!]]></value>
 	</definition>
 	<definition>
 		<key>text_storefront</key>
-		<value><![CDATA[Storefront !!!!!]]></value>
+		<value><![CDATA[Витрина]]></value>
 	</definition>
 	<definition>
 		<key>text_im_driver</key>
-		<value><![CDATA[Driver !!!!!]]></value>
+		<value><![CDATA[Драйвер]]></value>
 	</definition>
 	<definition>
 		<key>text_im_protocol</key>
-		<value><![CDATA[IM Protocol !!!!!]]></value>
+		<value><![CDATA[IM Protocol]]></value>
 	</definition>
 	<definition>
 		<key>entry_sms_driver</key>
-		<value><![CDATA[SMS Provider !!!!!]]></value>
+		<value><![CDATA[SMS Provider]]></value>
 	</definition>
 	<definition>
 		<key>entry_sms_driver_tooltip</key>
@@ -875,10 +875,10 @@
 	</definition>
 	<definition>
 		<key>text_no_driver</key>
-		<value><![CDATA[ No IM Driver Found !!!!!]]></value>
+		<value><![CDATA[ Не найдено драйвера МС]]></value>
 	</definition>
 	<definition>
 		<key>text_im_settings_attention</key>
-		<value><![CDATA[These settings are for instant messages sent automatically during AbanteCart events in storefront and admin.	!!!!!]]></value>
+		<value><![CDATA[Эти настройки предназначены для обмена мгновенными сообщениями, отправляемых автоматически во время событий AbanteCart в витрине магазина и администратора.]]></value>
 	</definition>
 </definitions>

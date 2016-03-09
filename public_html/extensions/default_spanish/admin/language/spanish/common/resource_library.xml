@@ -326,26 +326,26 @@
 	</definition>
 	<definition>
 		<key>error_delete</key>
-		<value><![CDATA[Cannot delete resource linked to multiple objects !!!!!]]></value>
+		<value><![CDATA[No se puede eliminar recurso vinculado a varios objetos]]></value>
 	</definition>
 	<definition>
 		<key>text_image_size</key>
-		<value><![CDATA[Image size: !!!!!]]></value>
+		<value><![CDATA[Tamaño de la imagen:]]></value>
 	</definition>
 	<definition>
 		<key>text_file_size</key>
-		<value><![CDATA[File size: !!!!!]]></value>
+		<value><![CDATA[Tamaño del archivo:]]></value>
 	</definition>
 	<definition>
 		<key>text_file_mime</key>
-		<value><![CDATA[MIME: !!!!!]]></value>
+		<value><![CDATA[MÍMICA:]]></value>
 	</definition>
 	<definition>
 		<key>text_file_path</key>
-		<value><![CDATA[File location: !!!!!]]></value>
+		<value><![CDATA[Ubicación del archivo:]]></value>
 	</definition>
 	<definition>
 		<key>text_file_url</key>
-		<value><![CDATA[Resource URL: !!!!!]]></value>
+		<value><![CDATA[URL del Recurso:]]></value>
 	</definition>
 </definitions>

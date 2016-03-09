@@ -622,6 +622,6 @@
 	</definition>
 	<definition>
 		<key>text_success_relation_set</key>
-		<value><![CDATA[Relations of selected products was set successfully! !!!!!]]></value>
+		<value><![CDATA[Las relaciones de los productos seleccionados se estableció con éxito!]]></value>
 	</definition>
 </definitions>

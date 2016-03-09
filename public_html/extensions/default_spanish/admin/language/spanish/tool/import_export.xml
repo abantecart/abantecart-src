@@ -122,6 +122,6 @@
 	</definition>
 	<definition>
 		<key>error_file_empty</key>
-		<value><![CDATA[File is empty. !!!!!]]></value>
+		<value><![CDATA[Archivo está vacío.]]></value>
 	</definition>
 </definitions>

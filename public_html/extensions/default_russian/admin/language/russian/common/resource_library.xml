@@ -330,26 +330,26 @@
 	</definition>
 	<definition>
 		<key>error_delete</key>
-		<value><![CDATA[Cannot delete resource linked to multiple objects !!!!!]]></value>
+		<value><![CDATA[Не удается удалить ресурс он связан с несколькими объектами]]></value>
 	</definition>
 	<definition>
 		<key>text_image_size</key>
-		<value><![CDATA[Image size: !!!!!]]></value>
+		<value><![CDATA[Размер изображения:]]></value>
 	</definition>
 	<definition>
 		<key>text_file_size</key>
-		<value><![CDATA[File size: !!!!!]]></value>
+		<value><![CDATA[Размер файла:]]></value>
 	</definition>
 	<definition>
 		<key>text_file_mime</key>
-		<value><![CDATA[MIME: !!!!!]]></value>
+		<value><![CDATA[MIME:]]></value>
 	</definition>
 	<definition>
 		<key>text_file_path</key>
-		<value><![CDATA[File location: !!!!!]]></value>
+		<value><![CDATA[Расположение файла:]]></value>
 	</definition>
 	<definition>
 		<key>text_file_url</key>
-		<value><![CDATA[Resource URL: !!!!!]]></value>
+		<value><![CDATA[URL ресурса:]]></value>
 	</definition>
 </definitions>

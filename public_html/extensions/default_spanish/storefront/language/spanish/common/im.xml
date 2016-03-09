@@ -2,15 +2,15 @@
 <definitions>
 	<definition>
 		<key>im_text_notification</key>
-		<value><![CDATA[ Notification  !!!!!]]></value>
+		<value><![CDATA[ Notificación]]></value>
 	</definition>
 	<definition>
 		<key>im_error_mail_address</key>
-		<value><![CDATA[ Email Address %s is not valid!  !!!!!]]></value>
+		<value><![CDATA[ Dirección de correo electrónico %s no es válido!]]></value>
 	</definition>
 	<definition>
 		<key>im_protocol_email_title</key>
-		<value><![CDATA[ E-mail  !!!!!]]></value>
+		<value><![CDATA[ E-mail]]></value>
 	</definition>
 	<definition>
 		<key>im_protocol_email_empty_warn</key>
@@ -18,7 +18,7 @@
 	</definition>
 	<definition>
 		<key>im_protocol_sms_title</key>
-		<value><![CDATA[ SMS  !!!!!]]></value>
+		<value><![CDATA[ SMS]]></value>
 	</definition>
 	<definition>
 		<key>im_protocol_sms_empty_warn</key>
@@ -26,7 +26,7 @@
 	</definition>
 	<definition>
 		<key>im_sendpoint_name_order_update</key>
-		<value><![CDATA[ Order Update  !!!!!]]></value>
+		<value><![CDATA[ Pedido de actualización]]></value>
 	</definition>
 	<definition>
 		<key>im_sendpoint_name_order_update_note</key>
@@ -34,24 +34,23 @@
 	</definition>
 	<definition>
 		<key>im_order_update_text_to_admin</key>
-		<value><![CDATA[ Order #%s has been updated! Order status ID %s !!!!!]]></value>
+		<value><![CDATA[ Orden #%s Ha sido actualizado! Solicitar ID de estado %s ]]></value>
 	</definition>
 	<definition>
 		<key>im_order_update_text_to_customer</key>
-		<value><![CDATA[ Your order #%s Updated. New Order Status is %s  !!!!!]]></value>
+		<value><![CDATA[ Su pedido #%s Actualizado. Nuevo Estado del pedido es %s ]]></value>
 	</definition>
-
 	<definition>
 		<key>im_new_order_text_to_admin</key>
-		<value><![CDATA[ New Order #%s has been placed! !!!!!]]></value>
+		<value><![CDATA[ Nuevo orden #%s ¡ha sido colocado!]]></value>
 	</definition>
 	<definition>
 		<key>im_new_customer_text_to_admin</key>
-		<value><![CDATA[ New Customer #%s has been registered! !!!!!]]></value>
+		<value><![CDATA[ Nuevo cliente #%s ha sido registrado!]]></value>
 	</definition>
 	<definition>
 		<key>im_sendpoint_name_customer_account_update</key>
-		<value><![CDATA[ Account Update  !!!!!]]></value>
+		<value><![CDATA[ Actualización de cuenta]]></value>
 	</definition>
 	<definition>
 		<key>im_sendpoint_name_customer_account_update_note</key>
@@ -59,15 +58,15 @@
 	</definition>
 	<definition>
 		<key>im_customer_account_update_text_to_customer</key>
-		<value><![CDATA[ Your account has been updated!  !!!!!]]></value>
+		<value><![CDATA[ ¡Tu cuenta ha sido actualizada!]]></value>
 	</definition>
 	<definition>
 		<key>im_customer_contact_admin_text</key>
-		<value><![CDATA[ You've got new enquiry from customer (%s, %s)!  !!!!!]]></value>
+		<value><![CDATA[ Tienes nueva investigación del cliente (%s, %s)!]]></value>
 	</definition>
 	<definition>
 		<key>im_sendpoint_name_newsletter</key>
-		<value><![CDATA[ Newsletters  !!!!!]]></value>
+		<value><![CDATA[ Boletines]]></value>
 	</definition>
 	<definition>
 		<key>im_sendpoint_name_newsletter_note</key>
@@ -75,10 +74,18 @@
 	</definition>
 	<definition>
 		<key>im_product_review_text_to_admin</key>
-		<value><![CDATA[ New product review has been added. See details #admin#rt=catalog/review/update&review_id=%s  !!!!!]]></value>
+		<value><![CDATA[ Nueva revisión del producto ha sido añadido. Ver detalles #admin#rt=catalog/review/update&review_id=%s ]]></value>
 	</definition>
 	<definition>
 		<key>im_product_out_of_stock_admin_text</key>
-		<value><![CDATA[ Product with ID #%s is out of Stock.  !!!!!]]></value>
+		<value><![CDATA[ Producto con el identificador #%s está agotado.]]></value>
+	</definition>
+<<<<<<< HEAD
+</definitions>
+=======
+	<definition>
+		<key>im_system_messages_admin_text</key>
+		<value><![CDATA[ im_system_messages_admin_text !!!!!  !!!!!]]></value>
 	</definition>
 </definitions>
+>>>>>>> origin/1.2.6
