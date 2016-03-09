@@ -8,7 +8,7 @@
 	<div class="panel-body panel-body-nopadding">
 		<div class="form-group">
 		<?php
-		$fields = array('task_id', 'starter_name', 'date_added', 'last_time_run', 'subject', 'message');
+		$fields = array('task_id', 'starter_name', 'date_added', 'last_time_run', 'subject', 'message', 'was_sent' );
 		if ($tasks) {
 			foreach ($tasks as $task){
 				foreach ($task as $key => $item){

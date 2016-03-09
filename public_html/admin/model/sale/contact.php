@@ -102,6 +102,15 @@ class ModelSaleContact extends Model {
 			return false;
 		}
 
+		$tm->updateTaskDetails($task_id,
+				array(
+					'created_by' => $this->user->getId(),
+					'settings'   => array(
+										'recipients_count' => sizeof($uris),
+										'sent'             => 0
+										)
+				)
+		);
 
 		//create steps for sending
 		$k=0;

@@ -286,6 +286,10 @@ class ATaskManager {
 		$task_id = (int)$task_id;
 		if(!$task_id){ return false;}
 
+		if(gettype($data['settings']) != 'string'){
+			$data['settings'] = serialize($data['settings']);
+		}
+
 		$sql = "SELECT * FROM ".$this->db->table('task_details')." WHERE task_id = ".$task_id;
 		$result = $this->db->query($sql);
 		if($result->num_rows){
@@ -403,6 +407,10 @@ class ATaskManager {
 			$output['steps'] = $this->getScheduledTaskSteps($output['task_id']);
 		}
 
+		if($output['settings']){
+			$output['settings'] = unserialize($output['settings']);
+		}
+
 		return $output;
 	}
 
@@ -418,6 +426,10 @@ class ATaskManager {
 		$output = $result->row;
 		if($output){
 			$output['steps'] = $this->getScheduledTaskSteps($output['task_id']);
+		}
+
+		if($output['settings']){
+			$output['settings'] = unserialize($output['settings']);
 		}
 
 		return $output;
@@ -475,9 +487,9 @@ class ATaskManager {
 	public function getTasks($data = array()){
 
 		$sql = "SELECT *
-				FROM ".$this->db->table('tasks')." t ";
-
-		$sql .= 'WHERE 1=1 ';
+				FROM ".$this->db->table('tasks')." t
+				LEFT JOIN ".$this->db->table('task_details')." td ON td.task_id = t.task_id
+				WHERE 1=1 ";
 
 		if (!empty($data['subsql_filter'])) {
 			$sql .= " AND " . $data['subsql_filter'];
@@ -520,6 +532,14 @@ class ATaskManager {
 
 
 		$result = $this->db->query($sql);
-		return $result->rows;
+		$output = $result->rows;
+		foreach($output as &$row){
+			if( $row['settings'] ){
+				$row['settings'] = unserialize($row['settings']);
+			}
+		}
+		unset($row);
+
+		return $output;
 	}
 }

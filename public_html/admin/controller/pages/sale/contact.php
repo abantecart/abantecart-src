@@ -240,6 +240,8 @@ class ControllerPagesSaleContact extends AController {
 		    'required' => true
 		));
 
+		$this->data['recipients_count_url'] = $this->html->getSecureURL('r/sale/contact/getRecipientsCount');
+
 		$this->data['form']['fields']['customers'] = $form->getFieldHtml( array(
 		    'type' => 'multiselectbox',
 		    'name' => 'to[]',

@@ -85,7 +85,7 @@ class ControllerResponsesSaleContact extends AController {
 		$task_result = $task_info['last_result'];
 		if($task_result){
 			$tm->deleteTask($task_id);
-			$result_text = $this->language->get('text_success_sent');
+			$result_text = sprintf($this->language->get('text_success_sent'),$task_info['settings']['sent']);
 			if(has_value($this->session->data['sale_contact_presave'])){
 				unset($this->session->data['sale_contact_presave']);
 			}
@@ -259,6 +259,7 @@ class ControllerResponsesSaleContact extends AController {
 				$incm_task['message'] = mb_substr($step_settings['message'],0, 300);
 				$incm_task['date_added'] = dateISO2Display($incm_task['date_added'], $this->language->get('date_format_short').' '.$this->language->get('time_format'));
 				$incm_task['last_time_run'] = dateISO2Display($incm_task['last_time_run'], $this->language->get('date_format_short').' '.$this->language->get('time_format'));
+				$incm_task['was_sent'] = sprintf($this->language->get('text_was_sent'),$incm_task['settings']['sent'], $incm_task['settings']['recipients_count']);
 
 				$this->data['tasks'][$k] = $incm_task;
 			}
@@ -304,6 +305,70 @@ class ControllerResponsesSaleContact extends AController {
 		} else {
 			return FALSE;
 		}
+	}
+
+	public function getRecipientsCount(){
+		$this->loadModel('sale/customer');
+
+		//init controller data
+		$this->extensions->hk_InitData($this,__FUNCTION__);
+
+		$recipient = $this->request->post['recipient'];
+		$protocol = $this->request->post['protocol'];
+
+		$db_filter = array('status' => 1, 'approved' => 1);
+		if($protocol == 'sms'){
+			$db_filter['filter']['only_with_mobile_phones'] = 1;
+		}
+
+		$newsletter_dbfilter = $db_filter;
+		$newsletter_dbfilter['filter']['newsletter_protocol'] = $protocol;
+
+		$count = 0;
+
+		switch($recipient){
+			case 'all_subscribers':
+				$count = $this->model_sale_customer->getTotalAllSubscribers($newsletter_dbfilter);
+				break;
+			case 'only_subscribers':
+				$count = $this->model_sale_customer->getTotalOnlyNewsletterSubscribers($newsletter_dbfilter);
+				break;
+			case 'only_customers':
+				$count = $this->model_sale_customer->getTotalOnlyCustomers($db_filter);
+				break;
+			case 'ordered':
+				$products = $this->request->post['products'];
+				if (is_array($products)){
+					$emails = array ();
+					foreach ($products as $product_id){
+						$results = $this->model_sale_customer->getCustomersByProduct($product_id);
+						foreach ($results as $result){
+							$emails[] = trim($result[$protocol]);
+						}
+					}
+				}
+				$count = sizeof(array_unique($emails));
+				break;
+		}
+
+		if($count){
+			$text = sprintf($this->language->get('text_attention_recipients_count'), $count);
+		}else{
+			$text = $this->language->get('error_'.$protocol.'_no_recipients');
+		}
+
+		$this->data['output'] = array(
+				'count' => (int)$count,
+				'text'  => $text
+		);
+
+
+		//update controller data
+    	$this->extensions->hk_UpdateData($this,__FUNCTION__);
+
+		$this->load->library('json');
+		$this->response->addJSONHeader();
+		$this->response->setOutput( AJson::encode($this->data['output']) );
 	}
 
 

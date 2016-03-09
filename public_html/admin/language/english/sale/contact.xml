@@ -145,8 +145,16 @@
 		<value><![CDATA[Remove]]></value>
 	</definition>
 	<definition>
-		<key>error_no_recipients</key>
+		<key>error_email_no_recipients</key>
+		<value><![CDATA[Attention! Message will not to be send. !!!!! ]]></value>
+	</definition>
+	<definition>
+		<key>error_sms_no_recipients</key>
 		<value><![CDATA[Attention! No customers with mobile phone numbers. ]]></value>
+	</definition>
+	<definition>
+		<key>text_attention_recipients_count</key>
+		<value><![CDATA[Attention! You will send message to %s customers. !!!!!]]></value>
 	</definition>
 	<definition>
 		<key>text_success_abort</key>
@@ -154,10 +162,14 @@
 	</definition>
 	<definition>
 		<key>text_success_sent</key>
-		<value><![CDATA[Messages have been sent.]]></value>
+		<value><![CDATA[%s messages have been sent.]]></value>
 	</definition>
 	<definition>
 		<key>text_task_failed</key>
 		<value><![CDATA[Some errors occured during task process. Please see log for details or restart this task.]]></value>
+	</definition>
+	<definition>
+		<key>text_was_sent</key>
+		<value><![CDATA[Message count was sent %s from %s !!!!!]]></value>
 	</definition>
 </definitions>

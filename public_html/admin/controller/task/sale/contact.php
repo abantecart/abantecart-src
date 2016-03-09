@@ -69,6 +69,8 @@ class ControllerTaskSaleContact extends AController{
 		}
 
 		$tm = new ATaskManager();
+		$task_info = $tm->getTaskById($task_id);
+		$sent = (int)$task_info['settings']['sent'];
 		$task_steps = $tm->getTaskSteps($task_id);
 		$step_info = array();
 		foreach($task_steps as $task_step){
@@ -127,9 +129,21 @@ class ControllerTaskSaleContact extends AController{
 			}
 
 			if($result){
+				//remove sent address from step
 				$k = array_search($to,$step_settings['to']);
 				unset($step_settings['to'][$k]);
 				$tm->updateStep($step_id, array('settings' => serialize($step_settings)));
+				//update task details to show them at the end
+				$sent++;
+				$tm->updateTaskDetails($task_id,
+						array(
+								'created_by' => $this->user->getId(),
+								'settings'   => array(
+													'recipients_count' => $task_info['settings']['recipients_count'],
+													'sent'             => $sent
+													)
+				));
+
 			}else{
 				$step_result = false;
 			}

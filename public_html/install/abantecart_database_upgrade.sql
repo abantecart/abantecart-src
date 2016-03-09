@@ -1,5 +1,4 @@
 
-
 ALTER TABLE `ac_customer_groups`
 ADD COLUMN `tax_exempt` tinyint(1) NOT NULL DEFAULT '0';
 

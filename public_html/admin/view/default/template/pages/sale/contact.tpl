@@ -96,6 +96,9 @@
 	</div>
 
 	<div class="panel-footer col-xs-12">
+		<div id="presend_attention" class="text-center">
+
+		</div>
 		<div class="text-center">
 			<button class="btn btn-primary task_run" data-run-task-url="<?php echo $form['build_task_url'] ?>"
 			        data-complete-task-url="<?php echo $form['complete_task_url'] ?>"
@@ -123,8 +126,40 @@
 				$('#sendFrm_to').attr('disabled', 'disabled').parents('div.form-group').fadeOut(500);
 				$('#sendFrm_products').attr('disabled', 'disabled').parents('div.form-group').fadeOut(500);
 			}
+
+			var value = $(this).val();
+			var senddata = {
+				recipient: value,
+				protocol: $('#sendFrm_protocol').val()
+			};
+			if(value == 'ordered'){
+				senddata['products'] = $('#sendFrm_products').chosen().val();
+			}
+
+			$.ajax({
+				type: "POST",
+				url: '<?php echo $recipients_count_url;?>',
+				data: senddata,
+				datatype: 'json',
+				beforeSend: function(){
+					$('#presend_attention').html('');
+				},
+				success: function(response){
+					if(!response.hasOwnProperty('text')){
+						return false;
+					}
+					if(response.count > 0){
+						$('#presend_attention').html('<div class="info alert alert-warning"><i class="fa fa fa-exclamation-triangle fa-fw"></i> ' + response.text +'</div>');
+					}else{
+						$('#presend_attention').html('<div class="warning alert alert-error alert-danger"><i class="fa fa-thumbs-down fa-fw"></i> ' + response.text +'</div>');
+					}
+				}
+			});
 		});
 		$('#sendFrm_recipient').change();
+		$('#sendFrm_products').chosen().change(function(){
+			$('#sendFrm_recipient').change();
+		});
 
 		$('.choose-protocol li>a').on('click', function () {
 			$.ajax({
@@ -151,6 +186,6 @@
 
 	$(document).on('click', 'a.restart_task', function(){
 		$('#incompleted_tasks_modal').modal('hide');
-	})
+	});
 
 </script>
