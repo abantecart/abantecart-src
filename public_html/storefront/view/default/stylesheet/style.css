@@ -4308,3 +4308,8 @@ paypal pro styles
     	display: none;
     }
 }
+
+/* phone input css*/
+.intl-tel-input .country-list{
+	z-index: 4 !important;
+}
