@@ -56,7 +56,6 @@ class ControllerPagesAccountEdit extends AController{
 				$this->model_account_customer->editCustomer($request_data);
 				$this->model_account_customer->editCustomerNotifications($request_data);
 				$this->session->data['success'] = $this->language->get('text_success');
-				$this->im->send('customer_account_update');
 				$this->extensions->hk_ProcessData($this);
 				$this->redirect($this->html->getSecureURL('account/account'));
 			}

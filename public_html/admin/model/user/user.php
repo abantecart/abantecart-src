@@ -42,6 +42,17 @@ class ModelUserUser extends Model {
 			if ( isset($data[$f]) )
 				$update[] = $f." = '".$this->db->escape($data[$f])."'";
 		}
+
+		if ( $data['password'] || $data['email'] || $data['username'] ) {
+			//notify admin user of important infoamtion change
+			$language = new ALanguage($this->registry);
+			$language->load('common/im');
+			$message_arr = array(
+				1 => array('message' =>  $language->get('im_sendpoint_name_account_update'))
+			);
+			$this->im->send('account_update', $message_arr);		
+		}
+
 		if ( !empty($data['password']) )
 				$update[] = "password = '". $this->db->escape(AEncryption::getHash($data['password'])) ."'";
 
@@ -49,7 +60,7 @@ class ModelUserUser extends Model {
 			$sql = "UPDATE " . $this->db->table("users") . " SET ". implode(',', $update) ." WHERE user_id = '" . (int)$user_id . "'";
 			$this->db->query( $sql );
 		}
-		$this->im->send('account_update', array($user_id));
+
 	}
 	
 	public function deleteUser($user_id) {

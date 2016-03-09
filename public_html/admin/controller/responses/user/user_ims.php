@@ -82,7 +82,7 @@ class ControllerResponsesUserUserIMs extends AController {
 		//mark error sendpoints
 	    if(!in_array($sendpoint, $all_sendpoints)){
 		    $this->data['error_warning'] = sprintf($this->language->get('error_unknown_sendpoint',$sendpoint));
-		    $this->log->write('IM sendpoint '.$sendpoint.' is not in sendpoints list! ');
+		    $this->log->write('IM send point '.$sendpoint.' is not in the send points list! ');
 	    }
 
 		$settings = $this->im->getUserSendPointSettings(

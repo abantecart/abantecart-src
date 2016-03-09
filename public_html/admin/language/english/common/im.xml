@@ -2,11 +2,11 @@
 <definitions>
   	<definition>
     	<key>im_text_notification</key>
-    	<value><![CDATA[Notification]]></value>
+    	<value><![CDATA[Notifications]]></value>
   	</definition>
   	<definition>
     	<key>im_sendpoint_name_order_update</key>
-    	<value><![CDATA[Order Update]]></value>
+    	<value><![CDATA[Order Updates]]></value>
   	</definition>
   	<definition>
     	<key>im_order_update_text_to_customer</key>
@@ -14,7 +14,7 @@
   	</definition>
   	<definition>
     	<key>im_sendpoint_name_new_order</key>
-    	<value><![CDATA[New Order]]></value>
+    	<value><![CDATA[New Orders]]></value>
   	</definition>
   	<definition>
     	<key>im_new_order_text_to_admin</key>
@@ -22,35 +22,31 @@
   	</definition>
   	<definition>
     	<key>im_sendpoint_name_new_customer</key>
-    	<value><![CDATA[New Customer]]></value>
+    	<value><![CDATA[Customer Registrations]]></value>
   	</definition>
 	<definition>
 		<key>im_new_customer_text_to_admin</key>
-		<value><![CDATA[ New Customer #%s has been added!]]></value>
+		<value><![CDATA[ New Customer #%s has been registered!]]></value>
 	</definition>
   	<definition>
     	<key>im_sendpoint_name_account_update</key>
-    	<value><![CDATA[User Account Update]]></value>
+    	<value><![CDATA[Your administrator user account details have been changed.]]></value>
   	</definition>
 	<definition>
-		<key>im_customer account_update_text_to_admin</key>
+		<key>im_customer_account_update_text_to_admin</key>
 		<value><![CDATA[ New Customer #%s has been updated!]]></value>
 	</definition>
   	<definition>
     	<key>im_sendpoint_name_customer_contact</key>
-    	<value><![CDATA[Customer Enquiry]]></value>
-  	</definition>
-  	<definition>
-    	<key>im_sendpoint_name_account_update</key>
-    	<value><![CDATA[User Account Update]]></value>
+    	<value><![CDATA[Customer Enquiries]]></value>
   	</definition>
   	<definition>
     	<key>im_sendpoint_name_product_out_of_stock</key>
-    	<value><![CDATA[Product Out of Stock]]></value>
+    	<value><![CDATA[Products Out of Stock]]></value>
   	</definition>
   	<definition>
     	<key>im_sendpoint_name_product_review</key>
-    	<value><![CDATA[Added New Product Review]]></value>
+    	<value><![CDATA[New Product Reviews]]></value>
   	</definition>
 	<definition>
 		<key>im_sendpoint_name_newsletter</key>
@@ -70,7 +66,7 @@
   	</definition>
   	<definition>
     	<key>text_notification_for</key>
-    	<value><![CDATA[Notification for User %s]]></value>
+    	<value><![CDATA[Notifications for User %s]]></value>
   	</definition>
   	<definition>
     	<key>error_unknown_sendpoint</key>

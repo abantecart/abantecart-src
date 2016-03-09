@@ -229,11 +229,12 @@ class ModelSaleCustomerTransaction extends Model {
                 $mail->setText(html_entity_decode($message, ENT_QUOTES, 'UTF-8'));
                 $mail->send();
 
-                $this->im->sendToCustomer(
-		                $data['customer_id'],
-		                'customer_account_update',
-		                array($store_info['store_name'], $amount, $store_info['store_name']));
-
+				//notify customer
+				$language->load('common/im');
+				$message_arr = array(
+		    		0 => array('message' =>  sprintf($language->get('im_customer_account_update_text_to_customer'),$store_info['store_name'],$amount,$store_info['store_name']))
+				);
+                $this->im->sendToCustomer($data['customer_id'],'customer_account_update',$message_arr);
             }
 
         }

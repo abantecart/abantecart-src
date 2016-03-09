@@ -81,8 +81,4 @@
 		<key>im_product_out_of_stock_admin_text</key>
 		<value><![CDATA[ Prodotto con ID #%s è esaurito.]]></value>
 	</definition>
-	<definition>
-		<key>im_system_messages_admin_text</key>
-		<value><![CDATA[ im_system_messages_admin_text !!!!!  !!!!!]]></value>
-	</definition>
 </definitions>

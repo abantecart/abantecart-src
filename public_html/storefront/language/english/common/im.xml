@@ -59,7 +59,19 @@
 	</definition>
 	<definition>
 		<key>im_customer_account_update_text_to_customer</key>
-		<value><![CDATA[ Your account has been updated! ]]></value>
+		<value><![CDATA[ Your account has been updated! If you did not do any changes, please contact site owner ]]></value>
+	</definition>
+	<definition>
+		<key>im_customer_account_update_email_to_customer</key>
+		<value><![CDATA[ Your account email address was changed to %s! If you did not do this change, please contact site owner ]]></value>
+	</definition>
+	<definition>
+		<key>im_customer_account_update_login_to_customer</key>
+		<value><![CDATA[ Your account login name was changed to %s! If you did not do this change, please contact site owner ]]></value>
+	</definition>
+	<definition>
+		<key>im_customer_account_update_password_to_customer</key>
+		<value><![CDATA[ Your account password has been changed! If you did not do this change, please contact site owner ]]></value>
 	</definition>
 	<definition>
 		<key>im_customer_contact_admin_text</key>
@@ -80,9 +92,5 @@
 	<definition>
 		<key>im_product_out_of_stock_admin_text</key>
 		<value><![CDATA[ Product with ID #%s is out of Stock. ]]></value>
-	</definition>
-	<definition>
-		<key>im_system_messages_admin_text</key>
-		<value><![CDATA[ im_system_messages_admin_text !!!!! ]]></value>
 	</definition>
 </definitions>

@@ -229,11 +229,11 @@ class ControllerTaskSaleContact extends AController{
 			$driver = new $classname();
 		} catch(AException $e){	}
 
-		if($driver===null){
+		if($driver === null){
 			return false;
 		}
 
-		$text = $data['message'];
+		$text = $this->config->get('store_name') . ": " .$data['message'];
 		$to = $phone;
 		$result = true;
 		if ($text && $to){

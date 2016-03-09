@@ -30,28 +30,35 @@ class AIMManager extends AIM{
 	 * * NOTE:
 	 * each key of array is text_id of sendpoint.
 	 * To get sendpoint title needs to request language definition in format im_sendpoint_name_{sendpoint_text_id}
-	 * All core sendpoint titles saved in common/im language block for both sides (admin & storefront)
+	 * All core/default sendpoint 'text_key' saved in common/im language block for both sides (admin & storefront)
 	 * Values of array is language definitions key that stores in the same block. This values can have %s that will be replaced by sendpoint text variables.
 	 * for ex. message have url to product page. Text will have #storefront#rt=product/product&product_id=%s and customer will receive full url to product.
 	 * Some sendpoints have few text variables, for ex. order status and order status name
 	 * For additional sendpoints ( from extensions) you can store language keys wherever you want.
+	 *
 	 */
 	public $admin_sendpoints = array (
-			'order_update'       => array (
-					'cp' => '',
-					'sf' => 'im_order_update_text_to_customer'),
-			'account_update'       => array (
-					'cp' => 'im_account_update_text_to_admin',
-					'sf' => ''),
-			'system_messages' => array (
-					'sf' => '',
-					'cp' => 'im_system_messages_text_to_admin'),
-			'customer_account_approved' => array(
-					'sf' => 'im_customer_account_approved_text_to_customer',
-					'cp' => ''),
-			'customer_account_update' => array(
-					'sf' => 'im_customer_account_update_text_to_customer',
-					'cp' => ''),
+		'order_update'	=> array (
+		    			0 => array('text_key' => 'im_order_update_text_to_customer', 'force_send' => array('email')),
+		    			1 => array()
+		    	),
+		'account_update'	=> array (
+		    			0 => array(),
+		    			1 => array('text_key' => 'im_account_update_text_to_admin', 'force_send' => array('email'))
+		    	),
+		'customer_account_approved' => array(
+		    			0 => array('text_key' => 'im_customer_account_approved_text_to_customer', 'force_send' => array('email')),
+		    			1 => array()
+		    	),
+		'customer_account_update' 	=> array(
+		    			0 => array('text_key' => 'im_customer_account_update_text_to_customer', 'force_send' => array('email')),
+		    			1 => array()
+		    	),
+		/* TODO: Need to decide how to hande system messages in respect to IM
+		'system_messages' 			=> array (
+		    	0 => array(),
+		    	1 => array('text_key' => 'im_system_messages_text_to_admin'),
+		*/
 	);
 
 	//NOTE: This class is loaded in INIT for admin only
@@ -66,8 +73,19 @@ class AIMManager extends AIM{
 		return parent::send($sendpoint, $text_vars);
 	}
 
-	public function sendToCustomer($customer_id, $sendpoint, $text_vars = array ()){
-
+	/**
+	 * $param int $customer_id
+	 * @param string $sendpoint 
+	 * @param array $msg_details
+	 * @return null
+	 
+	 	$msg_details structure:
+	 	array(
+	 		message => 'text',
+	 	);
+	 	notes: If message is not provided, message text will be takes from languages based on checkpoint text key.  
+	 */
+	public function sendToCustomer($customer_id, $sendpoint, $msg_details = array()){
 		if(!$customer_id){
 			return array();
 		}
@@ -76,14 +94,13 @@ class AIMManager extends AIM{
 		$customer_im_settings = $this->getCustomerIMSettings($customer_id);
 		$this->registry->set('force_skip_errors', true);
 
-
 		//check sendpoint
 		if(!in_array($sendpoint,array_keys($sendpoints_list))){
-			$error = new AError('IM error: sendpoint '.$sendpoint.' not found in preset of IM class. Nothing sent.');
+			$error = new AError('IM error: Invalid SendPoint '.$sendpoint.' was used in IM class. Nothing sent.');
 			$error->toLog()->toMessages();
 			return false;
 		}
-		$sendpoint_info = $sendpoints_list[$sendpoint];
+		$sendpoint_data = $sendpoints_list[$sendpoint];
 
 		foreach($this->protocols as $protocol){
 			$driver = null;
@@ -92,9 +109,9 @@ class AIMManager extends AIM{
 			if($protocol=='email'){
 				//email notifications always enabled
 				$protocol_status = 1;
-			}elseif((int)$this->config->get('config_storefront_'.$protocol.'_status')
-					||
-					(int)$this->config->get('config_admin_'.$protocol.'_status')){
+			}elseif(	(int)$this->config->get('config_storefront_'.$protocol.'_status') ||
+						(int)$this->config->get('config_admin_'.$protocol.'_status')
+					){
 				$protocol_status = 1;
 			}else{
 				$protocol_status = 0;
@@ -142,26 +159,39 @@ class AIMManager extends AIM{
 				} catch(Exception $e){	}
 			}
 			//if driver cannot be initialized - skip protocol
-			if($driver===null){
+			if($driver === null){
 				continue;
 			}
 
+			$store_name = $this->config->get('store_name') . ": ";
 			//send notification to customer
-			if($customer_im_settings[$sendpoint][$protocol]){
-				if ($this->config->get('config_storefront_' . $protocol . '_status') || $protocol == 'email'){
+			if(!empty($sendpoint_data[0])) {
+				//send notification to customer, check if selected or forced
+				$force_arr = $sendpoint_data[0]['force_send'];
+				$forced = false;
+				if(has_value($force_arr) && in_array($protocol, $force_arr)) {
+				    $forced = true;
+				}
+				if($customer_im_settings[$sendpoint][$protocol] || $forced){
 					//check is notification for this protocol and sendpoint allowed
-
-					$text = $this->_get_message_text($sendpoint_info['sf'], $text_vars);
-					$to = $this->_get_customer_im_uri($protocol, $customer_id);
-
-					if ($text && $to){
-						//use safe call
-						try{
-							$driver->send($to, $text);
-						} catch(Exception $e){	}
+					if ($this->config->get('config_storefront_' . $protocol . '_status') || $protocol == 'email'){
+						$message = $msg_details[0]['message'];
+						if(empty($message)) { 
+							//send default message. Not recommended
+							$message = $this->language->get($sendpoint_data[0]['text_key']);
+						}	
+						$message = $this->_process_message_text($message);
+						$to = $this->_get_customer_im_uri($protocol, $customer_id);
+						if ($message && $to){
+							//use safe call
+							try{
+								$driver->send($to, $store_name.$message);
+							} catch(Exception $e){	}
+						}
 					}
 				}
-			}
+			}		
+			
 			unset($driver);
 		}
 		$this->registry->set('force_skip_errors', false);

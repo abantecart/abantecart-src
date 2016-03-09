@@ -396,16 +396,10 @@ class ControllerPagesUserUser extends AController{
 
 		$this->data['cancel'] = $this->html->getSecureURL('user/user');
 
-
-
-
-
 		$this->loadLanguage('common/im');
 		$protocols = $this->im->getProtocols();
 
 		$sendpoints = array_merge( array_keys($this->im->sendpoints), array_keys($this->im->admin_sendpoints));
-
-		//$all_sendpoints = array_merge($sendpoints['admin'], $sendpoints['storefront']);
 
 		foreach($sendpoints as $sendpoint){
 			$ims = $this->im->getUserIMs($user_id, $this->session->data['current_store_id']);
@@ -417,16 +411,14 @@ class ControllerPagesUserUser extends AController{
 					$values[$row['protocol']] = $row['protocol'];
 				}
 			}
-			//when text for notification presents
-			if($this->im->sendpoints[$sendpoint]['cp'] || $this->im->admin_sendpoints[$sendpoint]['cp']){
+			//send notification id present for admin => 1
+			if(!empty($this->im->sendpoints[$sendpoint][1]) || !empty($this->im->admin_sendpoints[$sendpoint][1])){
 				$this->data['sendpoints'][$sendpoint] = array (
 						'id'     => $sendpoint,
 						'text'   => $this->language->get('im_sendpoint_name_' . preformatTextID($sendpoint)),
 						'values' => $values);
 			}
 		}
-
-
 
 		$this->data['im_settings_url'] = $this->html->getSecureURL('user/user_ims/settings', '&user_id=' . $user_id);
 		$this->data['text_change_im_addresses'] = $this->language->get('text_change_im_addresses');

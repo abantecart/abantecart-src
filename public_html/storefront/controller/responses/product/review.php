@@ -90,7 +90,14 @@ class ControllerResponsesProductReview extends AController {
 			$review_id = $this->model_catalog_review->addReview($product_id, $this->request->post);
 			unset($this->session->data['captcha']);
 			$json['success'] = $this->language->get('text_success');
-			$this->im->send('product_review',array('review_id' => $review_id));
+
+			//notify admin
+			$this->loadLanguage('common/im');
+			$message_arr = array(
+			    1 => array('message' =>  sprintf($this->language->get('im_product_review_text_to_admin'),$review_id)
+			    )
+			);
+			$this->im->send('product_review', $message_arr);
 		} else {
 			$json['error'] = $this->error['message'];
 		}

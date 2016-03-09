@@ -123,7 +123,7 @@ class ModelAccountCustomer extends Model {
 		//enable notification setting for newsletter via email
 		if($data['newsletter']){
 			$sql = "INSERT INTO " . $this->db->table('customer_notifications') . "
-					(customer_id, sendpoint,protocol,status, date_added)
+					(customer_id, sendpoint, protocol, status, date_added)
 				VALUES
 				('" . $customer_id . "',
 				'newsletter',
@@ -132,7 +132,16 @@ class ModelAccountCustomer extends Model {
 				NOW());";
 			$this->db->query($sql);
 		}
-		$this->im->send('new_customer', array($customer_id));
+		
+		//notify admin
+		$language = new ALanguage($this->registry);
+		$language->load('common/im');
+		$message_arr = array(
+		    	1 => array('message' =>  sprintf($this->language->get('im_new_customer_text_to_admin'),$customer_id)
+		    )
+		);
+		$this->im->send('new_customer', $message_arr);
+
 		return $customer_id;
 	}
 
@@ -151,11 +160,28 @@ class ModelAccountCustomer extends Model {
 			$key_sql = ", key_id = '" . (int)$data['key_id'] . "'";
 		}
 
+		$language = new ALanguage($this->registry);
+		$language->load('common/im');
+
     	//update login only if needed
     	$loginname = '';
     	if ( !empty($data['loginname'] ) ) {
     		$loginname = " loginname = '" . $this->db->escape($data['loginname'])  . "', ";
+			$message_arr = array(
+			    0 => array('message' =>  sprintf($language->get('im_customer_account_update_login_to_customer'), $data['loginname']))
+			);
+			$this->im->send('customer_account_update', $message_arr);
     	}
+		//get existing data and compare
+		$current_rec = $this->getCustomer((int)$this->customer->getId());
+		foreach($current_rec as $rec => $val) {
+			if ($rec == 'email' && $val != $data['email']) {
+				$message_arr = array(
+					0 => array('message' =>  sprintf($language->get('im_customer_account_update_email_to_customer'), $data['email']))
+				);
+				$this->im->send('customer_account_update', $message_arr);
+			}
+		}
 
 		$sql = "UPDATE " . $this->db->table("customers") . "
 			  SET 	firstname = '" . $this->db->escape($data['firstname']) . "',
@@ -167,7 +193,7 @@ class ModelAccountCustomer extends Model {
 			        " WHERE customer_id = '" . (int)$this->customer->getId() . "'";
 
 		$this->db->query($sql);
-		$this->im->send('customer_account_update', array((int)$this->customer->getId()));
+
 		return true;
 	}
 
@@ -207,7 +233,6 @@ class ModelAccountCustomer extends Model {
 		foreach($diff as $k){
 			unset($data[$k]);
 		}
-
 
 		$key_sql = '';
 		if ( $this->dcrypt->active ) {
@@ -274,7 +299,7 @@ class ModelAccountCustomer extends Model {
 			foreach($update as $sendpoint=>$row){
 				foreach($row as $protocol=>$status){
 					$sql = "INSERT INTO " . $this->db->table('customer_notifications') . "
-							(customer_id, sendpoint,protocol,status, date_added)
+							(customer_id, sendpoint, protocol, status, date_added)
 						VALUES
 						('" . $customer_id . "',
 						'" . $this->db->escape($sendpoint) . "',
@@ -316,7 +341,12 @@ class ModelAccountCustomer extends Model {
 		$result = $this->db->query($sql);
 		$customer_id = $result->row['customer_id'];
 		if($customer_id){
-			$this->im->send('customer_account_update', array ($customer_id));
+			$language = new ALanguage($this->registry);
+			$language->load('common/im');
+			$message_arr = array(
+			    0 => array('message' =>  $language->get('im_customer_account_update_password_to_customer'))
+			);
+			$this->im->send('customer_account_update', $message_arr);
 		}
 	}
 

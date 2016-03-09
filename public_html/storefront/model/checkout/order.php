@@ -345,8 +345,15 @@ class ModelCheckoutOrder extends Model {
 			        FROM " . $this->db->table("products") . "
 					WHERE product_id = '" . (int)$product['product_id'] . "' AND subtract = 1";
 			$res = $this->db->query($sql);
-			if($res->num_rows && $res->row['quantity']<=0){
-				$this->im->send('product_out_of_stock',array('product_id' => (int)$product['product_id']));
+			
+			if($res->num_rows && $res->row['quantity'] <= 0){
+				//notify admin with out of stock
+				$language = new ALanguage($this->registry);
+				$language->load('common/im');
+				$message_arr = array(
+				    1 => array('message' =>  sprintf($language->get('im_product_out_of_stock_admin_text'),$product['product_id']))
+				);
+				$this->im->send('product_out_of_stock', $message_arr);		
 			}
 
 			$order_option_query = $this->db->query("SELECT *
@@ -640,9 +647,12 @@ class ModelCheckoutOrder extends Model {
 		$msg = new AMessage();
 		$msg->saveNotice($language->get('text_new_order') . $order_id, $msg_text);
 
-		//send IM
-		$this->im->send('new_order', array('order_id'=>$order_id));
-		unset($im_text_vars);
+		$language = new ALanguage($this->registry);
+		$language->load('common/im');
+		$message_arr = array(
+		    1 => array('message' =>  sprintf($language->get('im_new_order_text_to_admin'),$order_id))
+		);
+		$this->im->send('new_order', $message_arr);
 
 		return true;
 	}
@@ -684,12 +694,17 @@ class ModelCheckoutOrder extends Model {
 													WHERE order_status_id = '" . (int)$order_status_id . "'
 														AND language_id = '" . (int)$order_row['language_id'] . "'");
 
-			$im_text_vars = array('order_id'=>$order_id);
+			$language = new ALanguage($this->registry);
+			$language->load('common/im');
+			$status_name = '';
 			if($order_status_query->row['name']){
-				$im_text_vars['order_status_id'] = $order_status_query->row['name'];
+				$status_name = $order_status_query->row['name'];
 			}
-			$this->im->send('order_update', $im_text_vars);
-			unset($im_text_vars);
+			$message_arr = array(
+			    0 => array('message' =>  sprintf($language->get('im_order_update_text_to_customer'),$order_id,$status_name)),
+			    1 => array('message' =>  sprintf($language->get('im_order_update_text_to_admin'),$order_id,$status_name))
+			);
+			$this->im->send('order_update', $message_arr);
 
 			//notify via email
 			if ($notify) {

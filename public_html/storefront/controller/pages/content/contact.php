@@ -94,7 +94,17 @@ class ControllerPagesContentContact extends AController{
 				$success_url = $this->html->getSecureURL('content/contact/success');
 			}
 
-			$this->im->send('customer_contact',array($this->request->post['email'], $this->request->post['first_name']));
+			//notify admin
+			$this->loadLanguage('common/im');
+			$message_arr = array(
+			    1 => array('message' =>  sprintf(
+			    	$this->language->get('im_customer_contact_admin_text'),
+			    	$this->request->post['email'],
+			    	$this->request->post['first_name']
+			    	)
+			    )
+			);
+			$this->im->send('customer_contact', $message_arr);
 
 			$this->extensions->hk_ProcessData($this);
 			$this->redirect($success_url);

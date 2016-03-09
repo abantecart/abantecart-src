@@ -85,31 +85,43 @@ class ControllerPagesAccountNotification extends AController {
 		$all_im_settings = $this->model_account_customer->getCustomerNotificationSettings();
 		$customer_info = $this->model_account_customer->getCustomer($this->customer->getId());
 
-	    foreach($sendpoints as $sendpoint=>$sendpoint_message){
-		    //skip sendpoint for admins
-		    if(!$sendpoint_message['sf']){
+	    foreach($sendpoints as $sendpoint => $sendpoint_data){
+		    //skip sendpoint for admins and use only storefront => 0
+		    if(!$sendpoint_data[0]){
 			    continue;
 		    }
 
 		    $imsettings = $all_im_settings[$sendpoint];
-
+			$force_arr = $sendpoint_data[0]['force_send'];
+				
 		    $point = array();
 		    $point['title'] = $this->language->get('im_sendpoint_name_'.preformatTextID($sendpoint));
 		    $point['note'] = $this->language->get('im_sendpoint_name_'.preformatTextID($sendpoint).'_note');
 		    $point['warn'] = '';
 
 		    foreach($protocols as $protocol){
+		    	$read_only = '';
+		    	$checked = false;
+		    	if($imsettings[$protocol]){
+		    		$checked = true;
+		    	}
+		    	if(!$customer_info[$protocol]) {
+		    		$read_only = ' disabled readonly ';
+		    	} else if(has_value($force_arr) && in_array($protocol, $force_arr)) {
+		    		$read_only = ' disabled readonly ';
+		    		$checked = true;
+		    	}
 			    $point['values'][$protocol] = $form->getFieldHtml(
 					    array(
 						    'type' => 'checkbox',
 				            'name' => 'settings['.$sendpoint.']['.$protocol.']',
 				            'value' => '1',
-				            'checked' => ($imsettings[$protocol] ? true : false),
-							'attr' => $customer_info[$protocol] ? '' : ' readonly="readonly" '
+				            'checked' => $checked,
+							'attr' => $read_only
 					    )
 			    );
+			    
 			    //adds warning about empty IM address (URI)
-
 			    if(!$customer_info[$protocol] ){
 					$point['warn'] .= $this->language->get('im_protocol_'.$protocol.'_empty_warn');
 			    }
@@ -117,7 +129,6 @@ class ControllerPagesAccountNotification extends AController {
 
 		    $this->data['form']['fields']['sendpoints'][$sendpoint] = $point;
 	    }
-
 
 		$this->data['form'][ 'continue' ] = $form->getFieldHtml( array(
                                                                        'type' => 'submit',

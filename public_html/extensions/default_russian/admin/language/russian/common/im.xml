@@ -33,7 +33,7 @@
     	<value><![CDATA[User Account Update !!!!!]]></value>
   	</definition>
 	<definition>
-		<key>im_customer account_update_text_to_admin</key>
+		<key>im_customer_account_update_text_to_admin</key>
 		<value><![CDATA[ New Customer #%s has been updated! !!!!!]]></value>
 	</definition>
   	<definition>
@@ -50,7 +50,7 @@
   	</definition>
   	<definition>
     	<key>im_sendpoint_name_product_review</key>
-    	<value><![CDATA[Added New Product Review !!!!!]]></value>
+    	<value><![CDATA[New Product Reviews !!!!!]]></value>
   	</definition>
 	<definition>
 		<key>im_sendpoint_name_newsletter</key>

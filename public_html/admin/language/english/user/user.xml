@@ -134,7 +134,7 @@
 	</definition>
 	<definition>
 		<key>text_sendpoints</key>
-		<value><![CDATA[SendPoints]]></value>
+		<value><![CDATA[Notification settings]]></value>
 	</definition>
 	<definition>
 		<key>text_change_im_addresses</key>

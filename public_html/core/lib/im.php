@@ -51,35 +51,45 @@ class AIM {
 	 * For additional sendpoints ( from extensions) you can store language keys wherever you want.
 	 */
 	public $sendpoints = array(
-
-
+		// 0 - storefront (customer) and 1 - Admin (user)
 		'newsletter' => array(
-				'sf' => 'im_newsletter_text_to_customer',
-				'cp' => ''),
+						0 => array('text_key' => 'im_newsletter_text_to_customer' ),
+						1 => array()
+					),
 		'product_review' => array(
-				'sf' => '',
-				'cp' => 'im_product_review_text_to_admin'),
+						0 => array(),
+						1 => array('text_key' => 'im_product_review_text_to_admin')
+					),
 		'product_out_of_stock' => array (
-				'sf' => '',
-				'cp' => 'im_product_out_of_stock_admin_text'),
+						0 => array(),
+						1 => array('text_key' => 'im_product_out_of_stock_admin_text')
+					),
 		'order_update' => array(
-				'sf' => 'im_order_update_text_to_customer',
-				'cp' => 'im_order_update_text_to_admin'),
+						0 => array('text_key' => 'im_order_update_text_to_customer', 'force_send' => array('email')),
+						1 => array('text_key' => 'im_order_update_text_to_admin')
+					),
 		'new_order' => array (
-				'sf' => '',
-				'cp' => 'im_new_order_text_to_admin'),
+						0 => array(),
+						1 => array('text_key' => 'im_new_order_text_to_admin'),
+					),
 		'new_customer' => array (
-				'sf' => '',
-				'cp' => 'im_new_customer_admin_text'),
+						0 => array(),
+						1 => array('text_key' => 'im_new_customer_admin_text'),
+					),
 		'customer_account_update' => array(
-				'sf' => 'im_customer_account_update_text_to_customer',
-				'cp' => ''),
+						0 => array('text_key' => 'im_customer_account_update_text_to_customer', 'force_send' => array('email')),
+						1 => array()
+					),
 		'customer_contact' => array (
-				'sf' => '',
-				'cp' => 'im_customer_contact_admin_text'),
+						0 => array(),
+						1 => array('text_key' => 'im_customer_contact_admin_text')
+					),
+		/* TODO: Need to decide how to hande system messages in respect to IM
 		'system_messages' => array (
-				'sf' => '',
-				'cp' => 'im_system_messages_admin_text'),
+						0 => '',
+						1 => array('text_key' => 'im_system_messages_admin_text'),
+					),
+		*/
 	);
 	public function __construct() {
 		$this->registry = Registry::getInstance();
@@ -193,51 +203,73 @@ class AIM {
 	}
 
 	/**
-	 * @param $name
+	 * @param string $name
+	 * @param array $data_array
 	 * @return bool
 	 */
-	public function addSendPoint($name){
+	public function addSendPoint($name, $data_array){
 		if($name && !in_array($name, $this->sendpoints)){
-			$this->sendpoints[] = $name;
+			$this->sendpoints[$name] = $data_array;
 		}else{
-			$error = new AError('SendPoint '.$name.' cannot be added into points list. Probably it already present there.');
+			$error = new AError('SendPoint '.$name.' cannot be added to the list.');
 			$error->toLog()->toMessages();
 			return false;
 		}
 		return true;
 	}
 
-	public function send($sendpoint, $text_vars = array()){
-		if(IS_ADMIN!==true){
+	/**
+	 * @param string $sendpoint 
+	 * @param array $msg_details
+	 * @return null
+	 
+	 	$msg_details structure:
+	 	array(
+	 		0 => array(
+	 			message => 'text',
+	 		)
+	 		1 => array(
+	 			message => 'text',
+	 		)
+	 	);
+	 	0 - storefront (customer) and 1 - Admin (user)
+	 	notes: If message is not provided, message text will be takes from languages based on checkpoint text key.  
+	 */
+	public function send( $sendpoint, $msg_details = array() ){
+		if( IS_ADMIN !== true ) {
 			$sendpoints_list = $this->sendpoints;
-			$this->load->model('account/customer');
-			$customer_im_settings = $this->getCustomerNotificationSettings();
+			//do have storefront sendpoint? 
+			if(!empty($sendpoints_list[$sendpoint][0])) {
+				$this->load->model('account/customer');
+				$customer_im_settings = $this->getCustomerNotificationSettings();			
+			}
 			$this->registry->set('force_skip_errors', true);
-		}else{
+		} else {
 			$sendpoints_list = $this->admin_sendpoints;
-			//this method forbid to use for sending notifications to customers from admin-side
+			//this method forbid sending notifications to customers from admin-side
 			$customer_im_settings = array();
 		}
 		//check sendpoint
-		if(!in_array($sendpoint,array_keys($sendpoints_list))){
-			$error = new AError('IM error: sendpoint '.$sendpoint.' not found in preset of IM class. Nothing sent.');
+		if(!in_array( $sendpoint,array_keys($sendpoints_list)) ){
+			$error = new AError('IM error: Unrecognized SendPoint '.$sendpoint.'. Nothing sent.');
 			$error->toLog()->toMessages();
 			return false;
 		}
-		$sendpoint_info = $sendpoints_list[$sendpoint];
+		
+		$sendpoint_data = $sendpoints_list[$sendpoint];
 
 		foreach($this->protocols as $protocol){
 			$driver = null;
 
 			//check protocol status
-			if($protocol=='email'){
+			if( $protocol=='email' ){
 				//email notifications always enabled
 				$protocol_status = 1;
-			}elseif((int)$this->config->get('config_storefront_'.$protocol.'_status')
-					||
-					(int)$this->config->get('config_admin_'.$protocol.'_status')){
+			} else if(	(int)$this->config->get('config_storefront_'.$protocol.'_status') ||
+						(int)$this->config->get('config_admin_'.$protocol.'_status')
+					) {
 				$protocol_status = 1;
-			}else{
+			} else {
 				$protocol_status = 0;
 			}
 
@@ -245,10 +277,10 @@ class AIM {
 				continue;
 			}
 
-			if($protocol=='email'){
+			if( $protocol=='email' ){
 				//see AMailAIM class below
 				$driver = new AMailIM();
-			}else{
+			} else {
 				$driver_txt_id = $this->config->get('config_' . $protocol . '_driver');
 
 				//if driver not set - skip protocol
@@ -283,38 +315,55 @@ class AIM {
 				} catch(Exception $e){	}
 			}
 			//if driver cannot be initialized - skip protocol
-			if($driver===null){
+			if($driver === null){
 				continue;
 			}
 
-			//send notification to customer
-			if($customer_im_settings[$sendpoint][$protocol]){
-				if ($this->config->get('config_storefront_' . $protocol . '_status') || $protocol == 'email'){
-					//check is notification for this protocol and sendpoint allowed
-
-					$text = $this->_get_message_text($sendpoint_info['sf'], $text_vars);
-					$to = $this->_get_customer_im_uri($protocol);
-
-					if ($text && $to){
-						//use safe call
-						try{
-							$driver->send($to, $text);
-						} catch(Exception $e){	}
-					}
+			$store_name = $this->config->get('store_name') . ": ";
+			if(!empty($sendpoint_data[0])) {
+				//send notification to customer, check if selected or forced
+				$force_arr = $sendpoint_data[0]['force_send'];
+				$forced = false;
+				if(has_value($force_arr) && in_array($protocol, $force_arr)) {
+				    $forced = true;
 				}
+				if($customer_im_settings[$sendpoint][$protocol] || $forced){
+					$message = $msg_details[0]['message'];
+					//check if notification for this protocol and sendpoint are allowed
+					if ($this->config->get('config_storefront_' . $protocol . '_status') || $protocol == 'email'){
+						if(empty($message)) { 
+							//send default message. Not recommended
+							$text = $this->language->get($sendpoint_data[0]['text_key']);
+						}			
+						$message =  $this->_process_message_text($message);
+						$to = $this->_get_customer_im_uri($protocol);
+						if ($message && $to){
+							//use safe call
+							try{
+								$driver->send($to, $store_name.$message);
+							}catch(Exception $e){	}
+						}
+					}
+				}	
 			}
 
-			//send notification to admins
-			if($this->config->get('config_admin_'.$protocol.'_status') || $protocol=='email'){
-				$text = $this->_get_message_text($sendpoint_info['cp'], $text_vars, true);
-				//NOTE! all admins will receipt IMs
-				$to = $this->_get_admin_im_uri($sendpoint, $protocol);
-
-				if ($text && $to){
-					//use safe call
-					try{
-						$driver->sendFew($to, $text);
-					}catch(Exception $e){}
+			if(!empty($sendpoint_data[1])) {
+				//send notification to admins
+				if($this->config->get('config_admin_'.$protocol.'_status') || $protocol == 'email'){
+					$message = $msg_details[1]['message'];
+					if(empty($message)) { 
+						//send default message. Not recommended
+						$message = $this->language->get($sendpoint_data[1]['text_key']);
+					}	
+					$message = $this->_process_message_text($message, true);
+					//NOTE! all admins will reveive IMs
+					$to = $this->_get_admin_im_uri($sendpoint, $protocol);
+					if ($message && $to){
+						//use safe call
+						try{
+							$driver->sendFew($to, $store_name.$message);
+						}catch(Exception $e){}
+					}
 				}
 			}
 
@@ -336,7 +385,7 @@ class AIM {
 			//get im settings for guest
 			$guest_data = $this->session->data['guest'];
 
-			foreach($sendpoints as $sendpoint=>$row){
+			foreach($sendpoints as $sendpoint => $row){
 				foreach($protocols as $protocol){
 					if( $guest_data[$protocol] ){
 						//allow to send notifications only when it allowed by global IM settings
@@ -378,36 +427,15 @@ class AIM {
 		return $settings;
 	}
 
-	protected function _get_message_text($text_key, $text_vars, $for_admin=false){
-		$text = $this->language->get($text_key);
-		//check is text_key have value. If does not - abort sending
-		if($text == $text_key){
+	protected function _process_message_text($message, $for_admin = false){
+		if( !$message ){
+			//If no text abort sending
 			return '';
 		}
-		//put text vars into language definitions (replace %s with given vars)
-		//check %s inside of text and compare it with text vars count to prevent error in vsprintf function below
-		$s_num = substr_count($text, '%s');
-		$text_var_count = sizeof($text_vars);
-		if($s_num != $text_var_count){
-			$diff = $s_num - $text_var_count;
-			if($diff>0){
-				while($diff>0){
-					$text_vars[] = '';
-					$diff--;
-				}
-			}else{
-				while($diff<0){
-					array_pop($text_vars);
-					$diff++;
-				}
-			}
-		}
-
-		$text = vsprintf($text,$text_vars);
 
 		//process formatted url like #storefront#rt=...
-		$text = $this->html->convertLinks($text,'',$for_admin);
-		return $text;
+		$message = $this->html->convertLinks($message,'',$for_admin);
+		return $message;
 	}
 
 	/**
@@ -474,8 +502,6 @@ class AIM {
 
 		return $output;
 	}
-
-
 
 }
 
