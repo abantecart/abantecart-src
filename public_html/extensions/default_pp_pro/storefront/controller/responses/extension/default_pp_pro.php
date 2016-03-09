@@ -258,13 +258,12 @@ class ControllerResponsesExtensionDefaultPPPro extends AController {
         curl_setopt($curl, CURLOPT_POSTFIELDS, http_build_query($payment_data));
 
 		$response = curl_exec($curl);
- 		
-		curl_close($curl);
+
  
 		if (!$response) {
 			exit('DoDirectPayment failed: ' . curl_error($curl) . '(' . curl_errno($curl) . ')');
 		}
- 
+		curl_close($curl);
  		$response_data = array();
 
 		parse_str($response, $response_data);

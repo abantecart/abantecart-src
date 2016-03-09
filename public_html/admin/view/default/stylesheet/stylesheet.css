@@ -3308,3 +3308,8 @@ body.stickyheader .sticky_left {
    display: table;
    white-space: nowrap;
 }
+
+/* phone input css*/
+.intl-tel-input .country-list{
+	z-index: 4 !important;
+}

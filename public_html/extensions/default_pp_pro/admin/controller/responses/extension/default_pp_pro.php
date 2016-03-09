@@ -21,6 +21,10 @@ if ( !IS_ADMIN || !defined ( 'DIR_CORE' )) {
 	header ( 'Location: static_pages/' );
 }
 
+/**
+ * Class ControllerResponsesExtensionDefaultPpPro
+ * @property ModelExtensionDefaultPPPro $model_extension_default_pp_pro
+ */
 class ControllerResponsesExtensionDefaultPpPro extends AController {
 
 	public $data = array();

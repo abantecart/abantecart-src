@@ -9,7 +9,7 @@
 				));
 
 	 ?>
-	<div class="input-group-btn">
+	<div class="input-group-btn" style="vertical-align: top;">
 			<?php
 			echo $this->html->buildElement( array(
 					'type' => 'button',
