@@ -53,9 +53,9 @@ echo $tabs;
 		</div>
 	</div>
 </div>
-
+<?php  echo $form['form_open']; ?>
 <div class="panel-body panel-body-nopadding tab-content <?php if ( $this->config->get('default_pp_standart_test') ) { echo 'status_test'; } ?>">
-	<?php  echo $form['form_open']; ?>
+
 
 		<label class="h4 heading"><?php echo $heading_required_settings; ?></label>
 		<?php foreach ($settings as $name => $field) {
