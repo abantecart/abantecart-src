@@ -33,13 +33,8 @@
     	<value><![CDATA[Обновление учетных записей пользователей!]]></value>
   	</definition>
 	<definition>
-<<<<<<< HEAD
-		<key>im_customer_account_update_text_to_admin</key>
-		<value><![CDATA[ New Customer #%s has been updated! !!!!!]]></value>
-=======
 		<key>im_customer account_update_text_to_admin</key>
 		<value><![CDATA[ Новый клиент #%s обновлен!]]></value>
->>>>>>> origin/1.2.6
 	</definition>
   	<definition>
     	<key>im_sendpoint_name_customer_contact</key>
@@ -55,11 +50,7 @@
   	</definition>
   	<definition>
     	<key>im_sendpoint_name_product_review</key>
-<<<<<<< HEAD
-    	<value><![CDATA[New Product Reviews !!!!!]]></value>
-=======
     	<value><![CDATA[Добавлен Новый отзыв о продукте]]></value>
->>>>>>> origin/1.2.6
   	</definition>
 	<definition>
 		<key>im_sendpoint_name_newsletter</key>

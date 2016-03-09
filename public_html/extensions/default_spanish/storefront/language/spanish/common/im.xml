@@ -80,12 +80,4 @@
 		<key>im_product_out_of_stock_admin_text</key>
 		<value><![CDATA[ Producto con el identificador #%s está agotado.]]></value>
 	</definition>
-<<<<<<< HEAD
 </definitions>
-=======
-	<definition>
-		<key>im_system_messages_admin_text</key>
-		<value><![CDATA[ im_system_messages_admin_text !!!!!  !!!!!]]></value>
-	</definition>
-</definitions>
->>>>>>> origin/1.2.6
