@@ -766,7 +766,6 @@ class ControllerPagesSaleOrder extends AController{
 			));
 		}
 
-
 		$this->data['form']['fields']['fax'] = $form->getFieldHtml(array(
 				'type'  => 'input',
 				'name'  => 'fax',

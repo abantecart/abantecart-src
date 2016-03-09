@@ -347,6 +347,21 @@ class ControllerPagesCheckoutGuestStep1 extends AController{
 						'value'    => $city,
 						'required' => true));
 
+		if (isset($this->request->post['zone_id'])){
+			$zone_id = $this->request->post['zone_id'];
+		} elseif (isset($this->session->data['guest']['zone_id'])){
+			$zone_id = $this->session->data['guest']['zone_id'];
+		} else{
+			$zone_id = 'FALSE';
+		}
+		$this->view->assign('zone_id', $zone_id);
+
+		$this->data['form']['fields']['address']['zone'] = $form->getFieldHtml(
+				array (
+						'type'     => 'selectbox',
+						'name'     => 'zone_id',
+						'required' => true));
+
 		if (isset($this->request->post['postcode'])){
 			$postcode = $this->request->post['postcode'];
 		} elseif (isset($this->session->data['guest']['postcode'])){
@@ -354,6 +369,7 @@ class ControllerPagesCheckoutGuestStep1 extends AController{
 		} else{
 			$postcode = '';
 		}
+		
 		$this->data['form']['fields']['address']['postcode'] = $form->getFieldHtml(
 				array (
 						'type'     => 'input',
@@ -382,21 +398,6 @@ class ControllerPagesCheckoutGuestStep1 extends AController{
 						'name'     => 'country_id',
 						'options'  => $options,
 						'value'    => $country_id,
-						'required' => true));
-
-		if (isset($this->request->post['zone_id'])){
-			$zone_id = $this->request->post['zone_id'];
-		} elseif (isset($this->session->data['guest']['zone_id'])){
-			$zone_id = $this->session->data['guest']['zone_id'];
-		} else{
-			$zone_id = 'FALSE';
-		}
-		$this->view->assign('zone_id', $zone_id);
-
-		$this->data['form']['fields']['address']['zone'] = $form->getFieldHtml(
-				array (
-						'type'     => 'selectbox',
-						'name'     => 'zone_id',
 						'required' => true));
 
 		$this->data['form']['shipping_indicator'] = $form->getFieldHtml(
@@ -475,6 +476,7 @@ class ControllerPagesCheckoutGuestStep1 extends AController{
 						'name'     => 'shipping_address_2',
 						'value'    => $shipping_address_2,
 						'required' => false));
+
 		if (isset($this->request->post['shipping_city'])){
 			$shipping_city = $this->request->post['shipping_city'];
 		} elseif (isset($this->session->data['guest']['shipping']['city'])){
@@ -488,6 +490,21 @@ class ControllerPagesCheckoutGuestStep1 extends AController{
 						'name'     => 'shipping_city',
 						'value'    => $shipping_city,
 						'required' => true));
+
+		if (isset($this->request->post['shipping_zone_id'])){
+			$shipping_zone_id = $this->request->post['shipping_zone_id'];
+		} elseif (isset($this->session->data['guest']['shipping']['zone_id'])){
+			$shipping_zone_id = $this->session->data['guest']['shipping']['zone_id'];
+		} else{
+			$shipping_zone_id = 'FALSE';
+		}
+		$this->view->assign('shipping_zone_id', $shipping_zone_id);
+		$this->data['form']['fields']['shipping']['zone'] = $form->getFieldHtml(
+				array (
+						'type'     => 'selectbox',
+						'name'     => 'shipping_zone_id',
+						'required' => true));
+
 		if (isset($this->request->post['shipping_postcode'])){
 			$shipping_postcode = $this->request->post['shipping_postcode'];
 		} elseif (isset($this->session->data['guest']['shipping']['postcode'])){
@@ -520,22 +537,6 @@ class ControllerPagesCheckoutGuestStep1 extends AController{
 						'options'  => $options,
 						'value'    => $shipping_country_id,
 						'required' => true));
-
-
-		if (isset($this->request->post['shipping_zone_id'])){
-			$shipping_zone_id = $this->request->post['shipping_zone_id'];
-		} elseif (isset($this->session->data['guest']['shipping']['zone_id'])){
-			$shipping_zone_id = $this->session->data['guest']['shipping']['zone_id'];
-		} else{
-			$shipping_zone_id = 'FALSE';
-		}
-		$this->view->assign('shipping_zone_id', $shipping_zone_id);
-		$this->data['form']['fields']['shipping']['zone'] = $form->getFieldHtml(
-				array (
-						'type'     => 'selectbox',
-						'name'     => 'shipping_zone_id',
-						'required' => true));
-
 
 		if (isset($this->request->post['shipping_indicator'])){
 			$this->view->assign('shipping_addr', true);

@@ -27,7 +27,7 @@
 		foreach ($form['fields']['general'] as $field_name=>$field) { ?>
 			<div class="form-group <?php if (${'error_'.$field_name}) echo 'has-error'; ?>">
 				<label class="control-label col-md-4"><?php echo ${'entry_'.$field_name}; ?></label>
-				<div class="input-group col-md-4">
+				<div class="input-group col-md-6">
 				    <?php echo $field; ?>
 				</div>
 				<span class="help-block"><?php echo ${'error_'.$field_name}; ?></span>
@@ -53,7 +53,7 @@
 			foreach ($form['fields']['address'] as $field_name=>$field) {?>
 			<div class="form-group <?php if (${'error_'.$field_name}) echo 'has-error'; ?>">
 				<label class="control-label col-md-4"><?php echo ${'entry_'.$field_name}; ?></label>
-				<div class="input-group col-md-4">
+				<div class="input-group col-md-6">
 				    <?php echo $field; ?>
 				</div>
 				<span class="help-block"><?php echo ${'error_'.$field_name}; ?></span>
@@ -63,7 +63,7 @@
 
 			<div class="form-group">
 				<label class="control-label col-md-4"></label>
-				<div class="input-group col-md-4">
+				<div class="input-group col-md-6">
 				    <?php echo $form['shipping_indicator']; ?>
 				</div>
 			</div>		
@@ -82,16 +82,16 @@
 								'address_1' => 'shipping_address_1', 
 								'address_2' => 'shipping_address_2', 
 								'city' => 'shipping_city',
+								'zone' => 'shipping_zone',
 								'postcode' => 'shipping_postcode',
 								'country' => 'shipping_country', 
-								'zone' => 'shipping_zone',
 								);
 			
 			foreach ($form['fields']['shipping'] as $field_name=>$field) {
 		?>
 			<div class="form-group <?php if (${'error_'.$field_id}) echo 'has-error'; ?>">
 				<label class="control-label col-md-4"><?php echo ${'entry_'.$field_name}; ?></label>
-				<div class="input-group col-md-4">
+				<div class="input-group col-md-6">
 					<?php
 				   		echo $field;
 				   	?>
