@@ -91,7 +91,6 @@ class ControllerPagesAccountInvoice extends AController{
 			$this->redirect($this->html->getSecureURL('account/history'));
 		}
 
-
 		//get info for registered customers
 		if (!$order_info){
 			$order_info = $this->model_account_order->getOrder($order_id);
@@ -134,7 +133,6 @@ class ControllerPagesAccountInvoice extends AController{
 			$this->data['success'] = $this->session->data['success'];
 			unset($this->session->data['success']);
 		}
-
 
 		if ($order_info){
 			$this->data['order_id'] = $order_id;

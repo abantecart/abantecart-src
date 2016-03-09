@@ -79,17 +79,15 @@
 			if (!country_id) {
 				country_id = '<?php echo $shipping_country_id; ?>';
 			}
-
-			$.ajax(
-					{
-						url: '<?php echo $common_zone; ?>&country_id=' + country_id + '&zone_id=<?php echo $shipping_zone_id; ?>&type=shipping_zone',
-						type: 'GET',
-						dataType: 'json',
-						success: function (data) {
-							result = data;
-							showZones(data);
-						}
-					});
+			$.ajax({
+			    url: '<?php echo $common_zone; ?>&country_id=' + country_id + '&zone_id=<?php echo $shipping_zone_id; ?>&type=shipping_zone',
+			    type: 'GET',
+			    dataType: 'json',
+			    success: function (data) {
+			    	result = data;
+			    	showZones(data);
+			    }
+			});
 		}
 
 		showZones = function (data) {
@@ -106,29 +104,24 @@
 			var selectObj = $('#orderFrm_shipping_zone_id');
 
 			selectObj.html(options);
-			var selected_name = $('#orderFrm_shipping_zone_id :selected').text();
-			selectObj.parent().find('span').text(selected_name);
-			selectObj.after('<input id="shipping_zone_name" name="shipping_zone" value="' + selected_name + '" type="hidden" />');
-
+			var selected_country = $('#orderFrm_shipping_country_id :selected').text();
+			var selected_zone = $('#orderFrm_shipping_zone_id :selected').text();
+			selectObj.parent().find('#shipping_zone_name').remove();
+			selectObj.parent().find('#shipping_country_name').remove();
+			selectObj.after('<input id="shipping_zone_name" name="shipping_zone" value="' + selected_zone + '" type="hidden" />');
+			selectObj.after('<input id="shipping_country_name" name="shipping_country" value="' + selected_country + '" type="hidden" />');
 		}
 
 		getZones();
 
 		$('#orderFrm_shipping_zone_id').on('change', function () {
-			$('#shipping_zone_name').val($('#shipping_zone select :selected').text());
+			$('#shipping_zone_name').val($('#orderFrm_shipping_zone_id option:selected').text());
 		});
 
 		$('#orderFrm_shipping_country_id').change(function () {
 			getZones($(this).val());
-			$('#shipping_zone select').aform({triggerChanged: false})
-
 		});
 
-
-		$('#orderFrm').submit(function () {
-			$('input[name="shipping_country"]', this).val($('#shipping_country option:selected').text());
-			$('input[name="shipping_zone"]', this).val($('#shipping_zone select option:selected').text());
-		});
 	});
 	-->
 </script>
