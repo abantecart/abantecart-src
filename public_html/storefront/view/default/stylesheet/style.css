@@ -875,6 +875,11 @@ ul.categorymenu > li ul > li img {
 	overflow: auto;
 }
 
+.list-inline > div {
+  padding-right: 5px;
+  padding-left: 5px;
+}
+
 .thumbnails .prdocutname {
 	font-size: 14px;
 	color: #5e626b;
@@ -896,7 +901,7 @@ ul.categorymenu > li ul > li img {
 
 .thumbnail .blurb {
 	max-height: 60px;
-	overflow: hidden;
+	overflow: scroll;
 	text-overflow: ellipsis;
 }
 

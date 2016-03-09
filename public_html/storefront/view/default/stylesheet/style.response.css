@@ -322,6 +322,11 @@ li.dropdown {
 	overflow: auto;
 }
 
+.list-inline > div {
+  padding-right: 5px;
+  padding-left: 5px;
+}
+
 .thumbnails .prdocutname {
 	font-size: 14px;
 	color: #5e626b;
