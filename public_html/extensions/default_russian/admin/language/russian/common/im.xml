@@ -33,7 +33,7 @@
     	<value><![CDATA[Обновление учетных записей пользователей!]]></value>
   	</definition>
 	<definition>
-		<key>im_customer account_update_text_to_admin</key>
+		<key>im_customer_account_update_text_to_admin</key>
 		<value><![CDATA[ Новый клиент #%s обновлен!]]></value>
 	</definition>
   	<definition>
