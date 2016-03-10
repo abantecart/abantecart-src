@@ -265,7 +265,7 @@ class ControllerResponsesExtensionDefaultPPPro extends AController {
 			$err = new AError('Paypal Pro Error: DoDirectPayment failed: ' . curl_error($curl) . '(' . curl_errno($curl) . ')');
 			$err->toLog()->toMessages()->toDebug();
 		}else{
-			curl_close($curl);
+
 			$response_data = array ();
 
 			parse_str($response, $response_data);
@@ -298,6 +298,7 @@ class ControllerResponsesExtensionDefaultPPPro extends AController {
 				$json['error'] = $response_data['L_LONGMESSAGE0'];
 			}
 		}
+		curl_close($curl);
 		$this->load->library('json');
 		$this->response->setOutput(AJson::encode($json));
 	}
