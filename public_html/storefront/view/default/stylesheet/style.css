@@ -895,7 +895,7 @@ ul.categorymenu > li ul > li img {
 
 .thumbnail .blurb {
 	max-height: 60px;
-	overflow: scroll;
+	overflow: auto;
 	text-overflow: ellipsis;
 }
 
