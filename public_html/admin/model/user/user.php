@@ -43,14 +43,15 @@ class ModelUserUser extends Model {
 				$update[] = $f." = '".$this->db->escape($data[$f])."'";
 		}
 
-		if ( $data['password'] || $data['email'] || $data['username'] ) {
+		if ( $data['password'] || $data['email'] || $data['username']) {
 			//notify admin user of important infoamtion change
-			$language = new ALanguage($this->registry);
+			$language = new ALanguage($this->registry,'',1);
 			$language->load('common/im');
 			$message_arr = array(
-				1 => array('message' =>  $language->get('im_sendpoint_name_account_update'))
+				1 => array('message' =>  $language->get('im_account_update_text_to_admin'))
 			);
-			$this->im->send('account_update', $message_arr);		
+
+			$this->im->sendToUser($user_id, 'account_update', $message_arr);
 		}
 
 		if ( !empty($data['password']) )

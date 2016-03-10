@@ -335,6 +335,10 @@ class ModelCheckoutOrder extends Model {
 												 FROM " . $this->db->table("order_products") . "
 												 WHERE order_id = '" . (int)$order_id . "'");
 		//update products inventory
+		// load language for IM
+		$language = new ALanguage($this->registry);
+		$language->load('common/im');
+
 		foreach ($order_product_query->rows as $product) {
 			$this->db->query("UPDATE " . $this->db->table("products") . "
 							  SET quantity = (quantity - " . (int)$product['quantity'] . ")
@@ -348,8 +352,7 @@ class ModelCheckoutOrder extends Model {
 			
 			if($res->num_rows && $res->row['quantity'] <= 0){
 				//notify admin with out of stock
-				$language = new ALanguage($this->registry);
-				$language->load('common/im');
+
 				$message_arr = array(
 				    1 => array('message' =>  sprintf($language->get('im_product_out_of_stock_admin_text'),$product['product_id']))
 				);
@@ -366,6 +369,18 @@ class ModelCheckoutOrder extends Model {
 								  SET quantity = (quantity - " . (int)$product['quantity'] . ")
 								  WHERE product_option_value_id = '" . (int)$option['product_option_value_id'] . "'
 								        AND subtract = 1");
+				$sql = "SELECT quantity
+				        FROM " . $this->db->table("product_option_values") . "
+						WHERE product_option_value_id = '" . (int)$option['product_option_value_id'] . "'
+							AND subtract = 1";
+				$res = $this->db->query($sql);
+				if($res->num_rows && $res->row['quantity'] <= 0){
+					//notify admin with out of stock
+					$message_arr = array(
+					    1 => array('message' =>  sprintf($language->get('im_product_out_of_stock_admin_text'),$product['product_id']))
+					);
+					$this->im->send('product_out_of_stock', $message_arr);
+				}
 			}
 
 			$this->cache->delete('product');
@@ -652,7 +667,7 @@ class ModelCheckoutOrder extends Model {
 		$message_arr = array(
 		    1 => array('message' =>  sprintf($language->get('im_new_order_text_to_admin'),$order_id))
 		);
-		$this->im->send('new_order', $message_arr);
+		$this->im->send('order_update', $message_arr);
 
 		return true;
 	}
@@ -694,15 +709,15 @@ class ModelCheckoutOrder extends Model {
 													WHERE order_status_id = '" . (int)$order_status_id . "'
 														AND language_id = '" . (int)$order_row['language_id'] . "'");
 
-			$language = new ALanguage($this->registry);
-			$language->load('common/im');
+			$language_im = new ALanguage($this->registry);
+			$language_im->load('common/im');
 			$status_name = '';
 			if($order_status_query->row['name']){
 				$status_name = $order_status_query->row['name'];
 			}
 			$message_arr = array(
-			    0 => array('message' =>  sprintf($language->get('im_order_update_text_to_customer'),$order_id,$status_name)),
-			    1 => array('message' =>  sprintf($language->get('im_order_update_text_to_admin'),$order_id,$status_name))
+			    0 => array('message' =>  sprintf($language_im->get('im_order_update_text_to_customer'),$order_id,$status_name)),
+			    1 => array('message' =>  sprintf($language_im->get('im_order_update_text_to_admin'),$order_id,$status_name))
 			);
 			$this->im->send('order_update', $message_arr);
 

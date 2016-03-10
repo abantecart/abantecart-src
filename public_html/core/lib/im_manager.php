@@ -69,21 +69,38 @@ class AIMManager extends AIM{
 		}
 	}
 
+
+	/**
+	 * @param string $name
+	 * @param array $data_array
+	 * @return bool
+	 */
+	public function addAdminSendPoint($name, $data_array){
+		if($name && !in_array($name, $this->admin_sendpoints)){
+			$this->admin_sendpoints[$name] = $data_array;
+		}else{
+			$error = new AError('Admin SendPoint '.$name.' cannot be added to the list.');
+			$error->toLog()->toMessages();
+			return false;
+		}
+		return true;
+	}
+
 	public function send($sendpoint, $text_vars = array ()){
 		return parent::send($sendpoint, $text_vars);
 	}
 
 	/**
 	 * $param int $customer_id
-	 * @param string $sendpoint 
+	 * @param string $sendpoint
 	 * @param array $msg_details
 	 * @return null
-	 
+
 	 	$msg_details structure:
 	 	array(
 	 		message => 'text',
 	 	);
-	 	notes: If message is not provided, message text will be takes from languages based on checkpoint text key.  
+	 	notes: If message is not provided, message text will be takes from languages based on checkpoint text key.
 	 */
 	public function sendToCustomer($customer_id, $sendpoint, $msg_details = array()){
 		if(!$customer_id){
@@ -176,10 +193,10 @@ class AIMManager extends AIM{
 					//check is notification for this protocol and sendpoint allowed
 					if ($this->config->get('config_storefront_' . $protocol . '_status') || $protocol == 'email'){
 						$message = $msg_details[0]['message'];
-						if(empty($message)) { 
+						if(empty($message)) {
 							//send default message. Not recommended
 							$message = $this->language->get($sendpoint_data[0]['text_key']);
-						}	
+						}
 						$message = $this->_process_message_text($message);
 						$to = $this->_get_customer_im_uri($protocol, $customer_id);
 						if ($message && $to){
@@ -190,8 +207,8 @@ class AIMManager extends AIM{
 						}
 					}
 				}
-			}		
-			
+			}
+
 			unset($driver);
 		}
 		$this->registry->set('force_skip_errors', false);
@@ -242,6 +259,124 @@ class AIMManager extends AIM{
 			$output[$section][$sendpoint][] = $row;
 		}
 		return $output;
+	}
+
+	/**
+	 * @param int $user_id
+	 * @param string $sendpoint
+	 * @param array $msg_details
+	 * @return null
+
+	 	$msg_details structure:
+	 	array(
+	 		message => 'text',
+	 	);
+	 	notes: If message is not provided, message text will be takes from languages based on checkpoint text key.
+	 */
+	public function sendToUser($user_id, $sendpoint, $msg_details = array()){
+		if(!$user_id){
+			return array();
+		}
+
+		$sendpoints_list = $this->admin_sendpoints;
+		$user_im_settings = $this->getUserSendPointSettings($user_id, 'admin', $sendpoint, 0);
+		$this->registry->set('force_skip_errors', true);
+
+		//check sendpoint
+		if(!in_array($sendpoint,array_keys($sendpoints_list))){
+			$error = new AError('IM error: Invalid SendPoint '.$sendpoint.' was used in IM class. Nothing sent.');
+			$error->toLog()->toMessages();
+			return false;
+		}
+		$sendpoint_data = $sendpoints_list[$sendpoint];
+
+		foreach($this->protocols as $protocol){
+			$driver = null;
+
+			//check protocol status
+			if($protocol=='email'){
+				//email notifications always enabled
+				$protocol_status = 1;
+			}elseif((int)$this->config->get('config_admin_'.$protocol.'_status')){
+				$protocol_status = 1;
+			}else{
+				$protocol_status = 0;
+			}
+
+			if(!$protocol_status){
+				continue;
+			}
+
+			if($protocol=='email'){
+				//see AMailAIM class in im.php
+				$driver = new AMailIM();
+			}else{
+				$driver_txt_id = $this->config->get('config_' . $protocol . '_driver');
+
+				//if driver not set - skip protocol
+				if (!$driver_txt_id){
+					continue;
+				}
+
+				if(!$this->config->get($driver_txt_id . '_status')){
+					$error = new AError('Cannot send notification. Communication driver '.$driver_txt_id.' is disabled!');
+					$error->toLog()->toMessages();
+					continue;
+				}
+
+				//use safe usage
+				$driver_file = DIR_EXT . $driver_txt_id . '/core/lib/' . $driver_txt_id . '.php';
+				if(!is_file($driver_file)){
+					$error = new AError('Cannot find file '.$driver_file.' to send notification.');
+					$error->toLog()->toMessages();
+					continue;
+				}
+				try{
+					include_once($driver_file);
+					//if class of driver
+					$classname = preg_replace('/[^a-zA-Z]/', '', $driver_txt_id);
+					if (!class_exists($classname)){
+						$error = new AError('IM-driver ' . $driver_txt_id . ' load error.');
+						$error->toLog()->toMessages();
+						continue;
+					}
+
+					$driver = new $classname();
+				} catch(Exception $e){	}
+			}
+			//if driver cannot be initialized - skip protocol
+			if($driver === null){
+				continue;
+			}
+
+			$store_name = $this->config->get('store_name') . ": ";
+			//send notification to user
+			if(!empty($sendpoint_data[1])) {
+
+				if($user_im_settings[$protocol]){
+					$to = $user_im_settings[$protocol];
+					//check is notification for this protocol and sendpoint allowed
+					$message = $msg_details[1]['message'];
+					if(empty($message)) {
+						//send default message. Not recommended
+						$message = $this->language->get($sendpoint_data[1]['text_key']);
+					}
+					$message = $this->_process_message_text($message);
+
+					if ($message){
+						//use safe call
+						try{
+							$driver->send($to, $store_name.$message);
+						} catch(Exception $e){	}
+					}
+
+				}
+			}
+
+			unset($driver);
+		}
+		$this->registry->set('force_skip_errors', false);
+
 	}
 
 	public function getUserSendPointSettings($user_id, $section, $sendpoint, $store_id){
