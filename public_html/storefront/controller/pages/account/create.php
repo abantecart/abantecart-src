@@ -124,6 +124,10 @@ class ControllerPagesAccountCreate extends AController{
 				}
 
 				$this->redirect($redirect_url);
+			}else{
+				if(!$this->errors['warning']){
+					$this->errors['warning'] = implode('<br>',$this->errors);
+				}
 			}
 		}
 
