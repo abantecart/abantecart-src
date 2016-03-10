@@ -157,6 +157,18 @@
 		<value><![CDATA[Удалить]]></value>
 	</definition>
 	<definition>
+		<key>error_email_no_recipients</key>
+		<value><![CDATA[Внимание! Сообщение не будет отправлено.]]></value>
+	</definition>
+	<definition>
+		<key>error_sms_no_recipients</key>
+		<value><![CDATA[Внимание! Нет клиентов с номерами мобильных телефонов. ]]></value>
+	</definition>
+	<definition>
+		<key>text_attention_recipients_count</key>
+		<value><![CDATA[Внимание! Сообщение будет отправлено %s клиентам.]]></value>
+	</definition>
+	<definition>
 		<key>error_no_recipients</key>
 		<value><![CDATA[Внимание! Нет клиентов с номерами мобильных телефонов.]]></value>
 	</definition>
@@ -166,10 +178,14 @@
 	</definition>
 	<definition>
 		<key>text_success_sent</key>
-		<value><![CDATA[Сообщения были посланы.]]></value>
+		<value><![CDATA[%s cообщений были посланы.]]></value>
 	</definition>
 	<definition>
 		<key>text_task_failed</key>
 		<value><![CDATA[Некоторые ошибки возникли во время исполнения задачи. Пожалуйста, смотрите подробности в логе ошибок или перезапустите эту задачу.]]></value>
+	</definition>
+	<definition>
+		<key>text_was_sent</key>
+		<value><![CDATA[ %s из %s сообщений отправлено]]></value>
 	</definition>
 </definitions>
