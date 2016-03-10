@@ -13,16 +13,12 @@
 		<value><![CDATA[ E-mail]]></value>
 	</definition>
 	<definition>
-		<key>im_protocol_email_empty_warn</key>
-		<value><![CDATA[ im_protocol_email_empty_warn !!!!!  !!!!!]]></value>
-	</definition>
-	<definition>
 		<key>im_protocol_sms_title</key>
 		<value><![CDATA[ SMS]]></value>
 	</definition>
 	<definition>
 		<key>im_protocol_sms_empty_warn</key>
-		<value><![CDATA[ im_protocol_sms_empty_warn !!!!!  !!!!!]]></value>
+		<value><![CDATA[ Notifiche SMS non sono possibili. Numero di cellulare non è salvato nel tuo account record. ]]></value>
 	</definition>
 	<definition>
 		<key>im_sendpoint_name_order_update</key>
