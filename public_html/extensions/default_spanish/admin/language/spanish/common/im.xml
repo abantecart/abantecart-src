@@ -61,10 +61,6 @@
 		<value><![CDATA[ Mensajes del sistema]]></value>
 	</definition>
   	<definition>
-    	<key>im_system_messages_text_to_admin</key>
-    	<value><![CDATA[im_system_messages_text_to_admin !!!!! !!!!!]]></value>
-  	</definition>
-  	<definition>
     	<key>im_customer_account_update_text_to_customer</key>
     	<value><![CDATA[Nueva transacción se ha registrado en su %s en cuenta la cantidad de %s. Para más detalles, ingrese a %s cuenta.]]></value>
   	</definition>

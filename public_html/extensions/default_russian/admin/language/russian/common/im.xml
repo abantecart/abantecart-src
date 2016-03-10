@@ -61,10 +61,6 @@
 		<value><![CDATA[ Системные сообщения]]></value>
 	</definition>
   	<definition>
-    	<key>im_system_messages_text_to_admin</key>
-    	<value><![CDATA[im_system_messages_text_to_admin !!!!! !!!!!]]></value>
-  	</definition>
-  	<definition>
     	<key>im_customer_account_update_text_to_customer</key>
     	<value><![CDATA[Новая транзакция была размещена на вашем %s счет в размере %s. Для получения более подробной информации, войдите в %s аккаунт.]]></value>
   	</definition>

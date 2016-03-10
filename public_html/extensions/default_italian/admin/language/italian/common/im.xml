@@ -61,10 +61,6 @@
 		<value><![CDATA[ Messaggi di sistema ]]></value>
 	</definition>
   	<definition>
-    	<key>im_system_messages_text_to_admin</key>
-    	<value><![CDATA[im_system_messages_text_to_admin !!!!!]]></value>
-  	</definition>
-  	<definition>
     	<key>im_customer_account_update_text_to_customer</key>
     	<value><![CDATA[Nuova operazione è stata pubblicata per %s conto tuo nella quantità di %s. Per ulteriori informazioni, accedere al %s conto.]]></value>
   	</definition>
