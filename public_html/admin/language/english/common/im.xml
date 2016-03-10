@@ -30,6 +30,10 @@
 	</definition>
   	<definition>
     	<key>im_sendpoint_name_account_update</key>
+    	<value><![CDATA[Administrator User Account Updates]]></value>
+  	</definition>
+  	<definition>
+    	<key>im_account_update_text_to_admin</key>
     	<value><![CDATA[Your administrator user account details have been changed.]]></value>
   	</definition>
 	<definition>

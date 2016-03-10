@@ -68,10 +68,6 @@ class AIM {
 						0 => array('text_key' => 'im_order_update_text_to_customer', 'force_send' => array('email')),
 						1 => array('text_key' => 'im_order_update_text_to_admin')
 					),
-		'new_order' => array (
-						0 => array(),
-						1 => array('text_key' => 'im_new_order_text_to_admin'),
-					),
 		'new_customer' => array (
 						0 => array(),
 						1 => array('text_key' => 'im_new_customer_admin_text'),
@@ -161,8 +157,9 @@ class AIM {
 		$extensions = $this->extensions->getExtensionsList( $filter );
 		$driver_list = array('email' => new AMailIM());
 
+		$active_drivers = array();
+
 		if($filter_arr['status']){
-			$active_drivers = array();
 			foreach($this->protocols as $protocol){
 				if($protocol=='email'){
 					continue;
@@ -195,7 +192,9 @@ class AIM {
 			if(!class_exists($classname)){
 				continue;
 			}
-
+			/**
+			 * @var $driver AMailIM
+			 */
 			$driver = new $classname();
 			$driver_list[$driver->getProtocol()] = $driver;
 		}
@@ -333,7 +332,7 @@ class AIM {
 					if ($this->config->get('config_storefront_' . $protocol . '_status') || $protocol == 'email'){
 						if(empty($message)) { 
 							//send default message. Not recommended
-							$text = $this->language->get($sendpoint_data[0]['text_key']);
+							$message = $this->language->get($sendpoint_data[0]['text_key']);
 						}			
 						$message =  $this->_process_message_text($message);
 						$to = $this->_get_customer_im_uri($protocol);
@@ -370,6 +369,7 @@ class AIM {
 			unset($driver);
 		}
 		$this->registry->set('force_skip_errors', false);
+		return true;
 	}
 
 	private function getCustomerNotificationSettings(){
@@ -481,6 +481,7 @@ class AIM {
 			return $this->session->data['guest'][$protocol];
 		}
 
+		return '';
 	}
 
 	private function _get_admin_im_uri($sendpoint, $protocol){
@@ -549,6 +550,7 @@ final class AMailIM{
 		$mail->send();
 		unset($mail);
 
+		return true;
 	}
 
 	/**
