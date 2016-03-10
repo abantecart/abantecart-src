@@ -55,9 +55,11 @@ class ControllerApiCheckoutCart extends AControllerAPI {
       	}
 
 		//request to remove
-      	if (isset($request['remove'])) {
+      	if (isset($request['remove']) && is_array($request['remove']) ) {
 	        foreach (array_keys($request['remove']) as $key) {
-            	$this->cart->remove($key);
+ 	        	if($key) {
+     	      		$this->cart->remove($key);
+     	      	}
 		    }
       	}
 				
@@ -128,13 +130,20 @@ class ControllerApiCheckoutCart extends AControllerAPI {
 	public function delete() {
 	    $request = $this->rest->getRequestParams();
       	
-      	if (isset($request['remove'])) {
+      	$count = 0;
+      	if (isset($request['remove']) && is_array($request['remove'])) {
 	        foreach (array_keys($request['remove']) as $key) {
-            	$this->cart->remove($key);
+	        	if($key) {
+            		$this->cart->remove($key);
+            		$count++;	        	
+	        	}
 		    }
       	}	
-	}	
 
+		$this->rest->setResponseData( array('success' => "$count removed" ) );
+		$this->rest->sendResponse(200);	
+		return null;
+	}	
 	
 	public function put() {
 	
