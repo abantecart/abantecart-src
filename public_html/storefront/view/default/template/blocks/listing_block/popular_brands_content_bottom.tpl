@@ -27,8 +27,6 @@
 		}
 		echo '</li>';
 		}
-
-
    ?>  
    </ul>
    <div class="clearfix"></div>

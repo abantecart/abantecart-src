@@ -1692,7 +1692,7 @@ class ResourceImageHtmlElement extends HtmlElement {
 
 		$this->view->batchAssign(array( 'url' => $this->url,
 			'width' => $this->width,
-			//'height' => $this->height, // disabled because when is set it will broke proportions for img tag
+			'height' => $this->height,
 			'attr' => $this->attr,
 		));
 

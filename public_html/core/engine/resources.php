@@ -545,9 +545,11 @@ class AResource {
 		$output = array();
 		if($result){
 			$output = array( 'origin' => $result['origin'],
-							 'thumb_html'=>$result['thumb_html'],
-							 'title'=>$result['title'],
-							 'description'=>$result['description']
+							 'thumb_html' => $result['thumb_html'],
+							 'title' => $result['title'],
+							 'description' => $result['description'],
+							 'width' => $width,
+							 'height' => $height
 			);
 			if($result['thumb_url']) $output['thumb_url'] = $result['thumb_url'];
 		}
@@ -567,10 +569,12 @@ class AResource {
 		$result =  $this->getResourceAllObjects($object_name, $object_id, $sizes,1, $noimage);
 		$output = array();
 		if($result){
-			$output = array( 'origin' => $result['origin'],
-							'main_html'=>$result['main_html'],
-							'description'=>$result['description'],
-							'title'=>$result['title']
+			$output = array('origin' => $result['origin'],
+							'main_html' => $result['main_html'],
+							'description' => $result['description'],
+							'title' => $result['title'],
+							'width' => $width,
+							'height' => $height
 			);
 			if($result['main_url']) $output['main_url'] = $result['main_url'];
 		}

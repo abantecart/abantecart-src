@@ -35,13 +35,17 @@
    										if ($scat['current']) {
     										$scat['current'] = ' class="current" '; 
     									}	
+    									$width = $this->config->get('config_image_category_width');
+    									$height = $this->config->get('config_image_category_height');
     								?>
      									<li <?php echo $scat['current']; ?>><a href="<?php echo $scat['href']; ?>">&nbsp;&nbsp;&nbsp;&nbsp;<?php echo $scat['name']; ?></a>
     									<img class="sub_cat_image"
-									         style="display:none; width: <?php echo $this->config->get('config_image_category_width')?>px; height: <?php echo $this->config->get('config_image_category_height')?>px;"
+									         style="display:none; width: <?php echo $width; ?>px; height: <?php echo $height; ?>px;"
 									         src="<?php echo $scat['thumb']; ?>"
     									     alt="<?php echo $scat['name']; ?>"
-    									     title="<?php echo $scat['name']; ?>">
+    									     title="<?php echo $scat['name']; ?>"
+    									     width="<?php echo $width; ?>"
+    									     height="<?php echo $height; ?>">
     									</li>
     								<?php } ?>
     							</ul>
@@ -49,17 +53,21 @@
     								<ul>
     									<li class="parent_cat_image" style="display:none">
 										    <img class="root_cat_image"
-										         style="display:block;  width: <?php echo $this->config->get('config_image_category_width')?>px; height: <?php echo $this->config->get('config_image_category_height')?>px;"
+										         style="display:block;  width: <?php echo $width; ?>px; height: <?php echo $height; ?>px;"
 										         src="<?php echo $category['thumb']; ?>"
     											 alt="<?php echo $category['name']; ?>"
-    											 title="<?php echo $category['name']; ?>">
+    											 title="<?php echo $category['name']; ?>"
+	    									     width="<?php echo $width; ?>"
+	    									     height="<?php echo $height; ?>">
     									</li>
     									<li class="cat_image">
 										    <img class="root_cat_image"
-										         style="display:block;  width: <?php echo $this->config->get('config_image_category_width')?>px; height: <?php echo $this->config->get('config_image_category_height')?>px;"
+										         style="display:block;  width: <?php echo $width; ?>px; height: <?php echo $height; ?>px;"
 										         src="<?php echo $category['thumb']; ?>"
     											 alt="<?php echo $category['name']; ?>"
-    											 title="<?php echo $category['name']; ?>">
+    											 title="<?php echo $category['name']; ?>"
+	    									     width="<?php echo $width; ?>"
+	    									     height="<?php echo $height; ?>">
     									</li>
     								</ul>
     							<?php } ?>
