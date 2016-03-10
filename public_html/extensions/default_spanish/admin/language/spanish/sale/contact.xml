@@ -165,6 +165,18 @@
 		<value><![CDATA[Retirar]]></value>
 	</definition>
 	<definition>
+		<key>error_email_no_recipients</key>
+		<value><![CDATA[¡Atención! Mensaje no será enviado]]></value>
+	</definition>
+	<definition>
+		<key>error_sms_no_recipients</key>
+		<value><![CDATA[¡Atención! No hay clientes con números de teléfono móvil. ]]></value>
+	</definition>
+	<definition>
+		<key>text_attention_recipients_count</key>
+		<value><![CDATA[¡Atención! El mensaje será enviado a nosotros los %s clientes.]]></value>
+	</definition>
+	<definition>
 		<key>error_no_recipients</key>
 		<value><![CDATA[¡Atención! No hay clientes con números de teléfono móvil.]]></value>
 	</definition>
@@ -174,10 +186,14 @@
 	</definition>
 	<definition>
 		<key>text_success_sent</key>
-		<value><![CDATA[Los mensajes han sido enviados.]]></value>
+		<value><![CDATA[%s los mensajes han sido enviados.]]></value>
 	</definition>
 	<definition>
 		<key>text_task_failed</key>
 		<value><![CDATA[Algunos errores durante el proceso de la tarea. Vean el registro de datos o reiniciar esta tarea.]]></value>
+	</definition>
+	<definition>
+		<key>text_was_sent</key>
+		<value><![CDATA[ %s de %s mensajes se envían]]></value>
 	</definition>
 </definitions>

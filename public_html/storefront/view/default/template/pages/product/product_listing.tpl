@@ -23,7 +23,7 @@
 			$icount = 0;
 	?>
 			<div class="clearfix"></div>
-	<?
+	<?php
 		}
 		$icount++;
 	?>

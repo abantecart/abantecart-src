@@ -149,6 +149,18 @@
 		<value><![CDATA[Cancella]]></value>
 	</definition>
 	<definition>
+		<key>error_email_no_recipients</key>
+		<value><![CDATA[Attenzione! Il messaggio non sarà inviato]]></value>
+	</definition>
+	<definition>
+		<key>error_sms_no_recipients</key>
+		<value><![CDATA[Attenzione! Non ci sono i clienti con i numeri di cellulare. ]]></value>
+	</definition>
+	<definition>
+		<key>text_attention_recipients_count</key>
+		<value><![CDATA[Attenzione! Il messaggio sarà inviato a %s clienti.]]></value>
+	</definition>
+	<definition>
 		<key>error_no_recipients</key>
 		<value><![CDATA[Attenzione! Non ci sono i clienti con i numeri di cellulare.]]></value>
 	</definition>
@@ -158,10 +170,14 @@
 	</definition>
 	<definition>
 		<key>text_success_sent</key>
-		<value><![CDATA[I messaggi sono stati inviati.]]></value>
+		<value><![CDATA[%s messaggi sono stati inviati.]]></value>
 	</definition>
 	<definition>
 		<key>text_task_failed</key>
 		<value><![CDATA[Alcuni errori si sono verificati durante il processo di operazione. Si prega di consultare il login per i dettagli o riavviare questo compito.]]></value>
+	</definition>
+	<definition>
+		<key>text_was_sent</key>
+		<value><![CDATA[ %s su %s i messaggi vengono inviati]]></value>
 	</definition>
 </definitions>
