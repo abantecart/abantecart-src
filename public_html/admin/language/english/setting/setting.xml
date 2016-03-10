@@ -929,7 +929,7 @@
 	</definition>
 	<definition>
 		<key>entry_sms_driver_tooltip</key>
-		<value><![CDATA[Select an extention for SMS service provider]]></value>
+		<value><![CDATA[Select an extension for SMS service provider]]></value>
 	</definition>
 	<definition>
 		<key>entry_storefront_status_tooltip</key>

@@ -30,7 +30,7 @@
 	</definition>
 	<definition>
 		<key>im_sendpoint_name_order_update_note</key>
-		<value><![CDATA[ im_sendpoint_name_order_update_note !!!!!  !!!!!]]></value>
+		<value><![CDATA[ Seleccione si desea recibir notificaciones acerca de las actualizaciones de sus órdenes]]></value>
 	</definition>
 	<definition>
 		<key>im_order_update_text_to_admin</key>
@@ -54,7 +54,7 @@
 	</definition>
 	<definition>
 		<key>im_sendpoint_name_customer_account_update_note</key>
-		<value><![CDATA[ im_sendpoint_name_customer_account_update_note !!!!!  !!!!!]]></value>
+		<value><![CDATA[ Seleccione si desea recibir notificaciones acerca de las actualizaciones de su cuenta.]]></value>
 	</definition>
 	<definition>
 		<key>im_customer_account_update_text_to_customer</key>
@@ -70,7 +70,7 @@
 	</definition>
 	<definition>
 		<key>im_sendpoint_name_newsletter_note</key>
-		<value><![CDATA[ im_sendpoint_name_newsletter_note !!!!!  !!!!!]]></value>
+		<value><![CDATA[ Seleccione si desea recibir notificaciones acerca de nuestros productos y actualizaciones de los servicios]]></value>
 	</definition>
 	<definition>
 		<key>im_product_review_text_to_admin</key>

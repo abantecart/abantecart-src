@@ -47,11 +47,11 @@
 	<definition>
 		<key>text_customers_from_lookup</key>
 		<value><![CDATA[Start typing customer name to look up and select]]></value>
-	</definition>		
+	</definition>
 	<definition>
 		<key>text_products_from_lookup</key>
 		<value><![CDATA[Start typing product name to look up and select]]></value>
-	</definition>		
+	</definition>
 	<definition>
 		<key>entry_subject</key>
 		<value><![CDATA[Subject:]]></value>
@@ -146,7 +146,7 @@
 	</definition>
 	<definition>
 		<key>error_email_no_recipients</key>
-		<value><![CDATA[Attention! Message will not to be send. !!!!! ]]></value>
+		<value><![CDATA[Attention! Message will not be sent.]]></value>
 	</definition>
 	<definition>
 		<key>error_sms_no_recipients</key>
@@ -154,7 +154,7 @@
 	</definition>
 	<definition>
 		<key>text_attention_recipients_count</key>
-		<value><![CDATA[Attention! You will send message to %s customers. !!!!!]]></value>
+		<value><![CDATA[Attention! The message will be sent to %s customers.]]></value>
 	</definition>
 	<definition>
 		<key>text_success_abort</key>
@@ -170,6 +170,6 @@
 	</definition>
 	<definition>
 		<key>text_was_sent</key>
-		<value><![CDATA[Message count was sent %s from %s !!!!!]]></value>
+		<value><![CDATA[ %s of %s messages are sent]]></value>
 	</definition>
 </definitions>

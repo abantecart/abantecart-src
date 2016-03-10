@@ -13,17 +13,19 @@
 <?php } ?>
 
 <script type="text/javascript">
-	$('#<?php echo $id ?>').datepicker({dateFormat:'<?php echo $dateformat ?>'});
-<?php if ( $highlight == 'pased' ) : ?>
-	var startdate = $('#<?php echo $id ?>').val();
-	if( (new Date(startdate).getTime() < new Date().getTime())) {
-		$('#<?php echo $id ?>').closest('.afield').addClass('focus');	
-	}
-<?php endif; ?>
-<?php if ( $highlight == 'future' ) : ?>
-	var startdate = $('#<?php echo $id ?>').val();
-	if( (new Date(startdate).getTime() > new Date().getTime())) {
-		$('#<?php echo $id ?>').closest('.afield').addClass('focus');	
-	}
-<?php endif; ?>
+	$(document).ready(function() {
+		$('#<?php echo $id ?>').datepicker({dateFormat: '<?php echo $dateformat ?>'});
+		<?php if ( $highlight == 'pased' ) : ?>
+		var startdate = $('#<?php echo $id ?>').val();
+		if ((new Date(startdate).getTime() < new Date().getTime())) {
+			$('#<?php echo $id ?>').closest('.afield').addClass('focus');
+		}
+		<?php endif; ?>
+		<?php if ( $highlight == 'future' ) : ?>
+		var startdate = $('#<?php echo $id ?>').val();
+		if ((new Date(startdate).getTime() > new Date().getTime())) {
+			$('#<?php echo $id ?>').closest('.afield').addClass('focus');
+		}
+		<?php endif; ?>
+	});
 </script>

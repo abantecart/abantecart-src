@@ -13,9 +13,11 @@
 <?php } ?>
 
 <script type="application/javascript" >
+$(document).ready(function(){
     $('#<?php echo $id ?>').intlTelInput({
         autoHideDialCode: false,
         nationalMode: false,
         utilsScript: "<?php echo $this->templateResource('/javascript/intl-tel-input/js/utils.js'); ?>"
     });
+});
 </script>
