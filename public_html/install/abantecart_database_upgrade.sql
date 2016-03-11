@@ -48,8 +48,8 @@ INSERT INTO `ac_settings` (`group`, `key`, `value`) VALUES
 
 
 ALTER TABLE `ac_orders`
-DROP INDEX `ac_orders_idx` ,
-ADD INDEX `ac_orders_idx`
+DROP INDEX ac_orders_idx,
+ADD INDEX ac_orders_idx
 	(`invoice_id` ASC,
 	`store_id` ASC,
 	`customer_group_id` ASC,
