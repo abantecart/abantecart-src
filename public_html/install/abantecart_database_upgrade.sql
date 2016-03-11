@@ -7,7 +7,7 @@ ADD COLUMN `tax_exempt_groups` text DEFAULT NULL;
 
 ALTER TABLE `ac_online_customers`
 CHANGE COLUMN `ip` `ip` VARCHAR(50) NOT NULL ,
-ADD INDEX `ac_online_customers_idx` (`date_added` ASC);
+ADD INDEX ac_online_customers_idx (`date_added` ASC);
 
 ALTER TABLE `ac_customers`
 ADD COLUMN `sms` VARCHAR(32) NULL COMMENT 'mobile phone number' AFTER `fax`;
