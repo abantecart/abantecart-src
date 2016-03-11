@@ -667,7 +667,7 @@ class ModelCheckoutOrder extends Model {
 		$message_arr = array(
 		    1 => array('message' =>  sprintf($language->get('im_new_order_text_to_admin'),$order_id))
 		);
-		$this->im->send('order_update', $message_arr);
+		$this->im->send('new_order', $message_arr);
 
 		return true;
 	}

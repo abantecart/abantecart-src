@@ -68,6 +68,10 @@ class AIM {
 						0 => array('text_key' => 'im_order_update_text_to_customer', 'force_send' => array('email')),
 						1 => array('text_key' => 'im_order_update_text_to_admin')
 					),
+		'new_order' => array (
+						0 => array(),
+						1 => array('text_key' => 'im_new_order_text_to_admin'),
+					),
 		'new_customer' => array (
 						0 => array(),
 						1 => array('text_key' => 'im_new_customer_admin_text'),
