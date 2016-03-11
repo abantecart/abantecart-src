@@ -54,6 +54,7 @@ a.abantecart-widget-cart {
 /**** product ******/
 .abantecart_image .product_thumb img {
 	width: 200px;
+	height: auto;
 }
 .abantecart_name {
 	text-align: center;
@@ -138,4 +139,9 @@ ul.abantecart-widget-container {
 }
 .abantecart-widget-container a {
 	text-decoration: none;
+}
+
+/* phone input css*/
+.intl-tel-input .country-list{
+	z-index: 4 !important;
 }

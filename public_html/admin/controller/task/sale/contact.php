@@ -107,7 +107,6 @@ class ControllerTaskSaleContact extends AController{
 		}
 
 		$send_data = array(
-				'sender' => $step_info['settings']['sender'],
 				'subject' => $step_info['settings']['subject'],
 				'message' => $step_info['settings']['message'],
 				'sender' => $step_info['settings']['store_name'],

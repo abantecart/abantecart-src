@@ -240,11 +240,14 @@ function check_php_configuraion($registry){
     switch($last) {
         // The 'G' modifier is available since PHP 5.1.0
         case 'g':
-	        $memory_limit *= 1024;
+	        $memory_limit *= (1024*1024*1024);
+		    break;
         case 'm':
-	        $memory_limit *= 1024;
+	        $memory_limit *= (1024*1024);
+		    break;
         case 'k':
 	        $memory_limit *= 1024;
+		    break;
     }
 
 	//Recommended minimal PHP memory size is 64mb

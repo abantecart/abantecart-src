@@ -2643,3 +2643,8 @@ paypal pro styles
         margin-top: 0;
     }
 }
+
+/* phone input css*/
+.intl-tel-input .country-list{
+	z-index: 4 !important;
+}

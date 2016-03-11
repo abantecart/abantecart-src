@@ -12,12 +12,18 @@
 <span class="input-group-addon"><span class="required">*</span></span>
 <?php } ?>
 
-<script type="application/javascript" >
-    $(document).ready(function(){
-        $('#<?php echo $id ?>').intlTelInput({
-            autoHideDialCode: false,
-            nationalMode: false,
-            utilsScript: "<?php echo $this->templateResource('/javascript/intl-tel-input/js/utils.js'); ?>"
-        });
-    });
+<script type="application/javascript">
+	$(document).ready(function () {
+		$('#<?php echo $id ?>').intlTelInput({
+			autoHideDialCode: false,
+			nationalMode: <?php echo $value ? 'false' : 'true'; ?>,
+			utilsScript: "<?php echo $this->templateResource('/javascript/intl-tel-input/js/utils.js'); ?>"
+		});
+
+		$('#<?php echo $id ?>').on("blur", function () {
+			var intlNumber = $(this).intlTelInput("getNumber");
+			intlNumber = intlNumber.replace(/[^0-9\+]+/g, '');
+			$(this).val(intlNumber);
+		});
+	});
 </script>

@@ -225,23 +225,23 @@ if ($action == 'list_object') {
     								</button>
     								<ul id="rl_list_sorting" role="menu" class="dropdown-menu">
     									<li><a href="<?php echo $no_sort_url; ?>&sort=date_added&order=DESC"><i
-    													class="fa fa-sort-amount-desc"></i> <?php $text_sorting_date_desc; ?>
+    													class="fa fa-sort-amount-desc"></i> <?php echo $text_sorting_date_desc; ?>
     										</a></li>
     									<li><a href="<?php echo $no_sort_url; ?>&sort=date_added&order=ASC"><i
-    													class="fa fa-sort-amount-asc"></i> <?php $text_sorting_date_asc; ?>
+    													class="fa fa-sort-amount-asc"></i> <?php echo $text_sorting_date_asc; ?>
     										</a></li>
     									<li><a href="<?php echo $no_sort_url; ?>&sort=name&order=ASC"><i
-    													class="fa fa-sort-alpha-asc"></i> <?php $text_sorting_name_asc; ?>
+    													class="fa fa-sort-alpha-asc"></i> <?php echo $text_sorting_name_asc; ?>
     										</a></li>
     									<li><a href="<?php echo $no_sort_url; ?>&sort=name&order=DESC"><i
-    													class="fa fa-sort-alpha-desc"></i> <?php $text_sorting_name_desc; ?>
+    													class="fa fa-sort-alpha-desc"></i> <?php echo $text_sorting_name_desc; ?>
     										</a></li>
     									<?php if($action=='list_object'){ ?>
     									<li><a href="<?php echo $no_sort_url; ?>&sort=sort_order&order=ASC"><i
-    													class="fa fa-sort-numeric-asc"></i> <?php $text_sorting_asc; ?>
+    													class="fa fa-sort-numeric-asc"></i> <?php echo $text_sorting_asc; ?>
     										</a></li>
     									<li><a href="<?php echo $no_sort_url; ?>&sort=sort_order&order=DESC"><i
-    													class="fa fa-sort-numeric-desc"></i> <?php $text_sorting_desc; ?>
+    													class="fa fa-sort-numeric-desc"></i> <?php echo $text_sorting_desc; ?>
     										</a></li>
     									<?php } ?>
     								</ul>

@@ -53,7 +53,7 @@ class ControllerApiAccountEdit extends AControllerAPI {
 			$this->data[ 'error_lastname' ] = $this->v_error[ 'lastname' ];
 			$this->data[ 'error_email' ] = $this->v_error[ 'email' ];
 			$this->data[ 'error_telephone' ] = $this->v_error[ 'telephone' ];
-			return $this->_build_responce();
+			return $this->_build_response();
 		}
 
 		$this->extensions->hk_UpdateData($this, __FUNCTION__);
@@ -71,10 +71,10 @@ class ControllerApiAccountEdit extends AControllerAPI {
 			return null;
 		}
 
-		return $this->_build_responce();
+		return $this->_build_response();
 	}
 
-	private function _build_responce() {
+	private function _build_response() {
 		//Get all required data fileds for registration. 
 		$this->loadLanguage('account/create');
 		$this->extensions->hk_InitData($this, __FUNCTION__);

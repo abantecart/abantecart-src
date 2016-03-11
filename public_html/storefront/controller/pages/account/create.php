@@ -117,6 +117,16 @@ class ControllerPagesAccountCreate extends AController{
 				$mail->send();
 
 				$this->extensions->hk_UpdateData($this, __FUNCTION__);
+
+				//set success text for non-approved customers on login page after redirect
+				if ($this->config->get('config_customer_approval')){
+					$this->loadLanguage('account/success');
+					$this->session->data['success'] = sprintf($this->language->get('text_approval','account_success'),
+															$this->config->get('store_name'),
+															$this->html->getSecureURL('content/contact'));
+				}
+
+
 				if ($this->config->get('config_customer_email_activation') || !$this->session->data['redirect']){
 					$redirect_url = $this->html->getSecureURL('account/success');
 				} else{

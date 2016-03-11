@@ -356,4 +356,28 @@
 		<key>text_file_url</key>
 		<value><![CDATA[URL risorsa:]]></value>
 	</definition>
+	<definition>
+		<key>text_sorting_date_asc</key>
+		<value><![CDATA[Data Vecchio &gt; Nuovo]]></value>
+	</definition>
+	<definition>
+		<key>text_sorting_date_desc</key>
+		<value><![CDATA[Data Nuovo &gt; Vecchio]]></value>
+	</definition>
+	<definition>
+		<key>text_sorting_name_asc</key>
+		<value><![CDATA[Nome A - Z]]></value>
+	</definition>
+	<definition>
+		<key>text_sorting_name_desc</key>
+		<value><![CDATA[Nome Z - A]]></value>
+	</definition>
+	<definition>
+		<key>text_sorting_asc</key>
+		<value><![CDATA[Ordine basso &gt; alto]]></value>
+	</definition>
+	<definition>
+		<key>text_sorting_desc</key>
+		<value><![CDATA[Ordine alto &gt; basso]]></value>
+	</definition>
 </definitions>

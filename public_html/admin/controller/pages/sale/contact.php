@@ -227,7 +227,7 @@ class ControllerPagesSaleContact extends AController {
 		}
 
 		if(sizeof($options)==1){
-			$this->data['error_warning'] = $this->language->get('error_no_recipients');
+			$this->data['error_warning'] = $this->language->get('error_'.$this->data['protocol'].'_no_recipients');
 		}
 
 		$options['ordered'] = $this->language->get('text_customers_who_ordered');

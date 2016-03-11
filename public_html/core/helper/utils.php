@@ -173,6 +173,7 @@ function getUniqueSeoKeyword($seo_key, $object_key_name='', $object_id=0){
 
 	$result = $db->query($sql);
 	if($result->num_rows){
+		$keywords = array();
 		foreach($result->rows as $row){
 			$keywords[] = $row['keyword'];
 		}
@@ -774,6 +775,12 @@ function compressTarGZ($tar_filename, $tar_dir, $compress_level = 5){
 	}
 }
 
+/**
+ * @param string $src
+ * @param int $level
+ * @param string|bool $dst
+ * @return bool
+ */
 function gzip($src, $level = 5, $dst = false){
     if($dst == false){
         $dst = $src.".gz";
@@ -791,10 +798,10 @@ function gzip($src, $level = 5, $dst = false){
             gzclose($dst_handle);
             return true;
         } else {
-            error_log("$dst already exists");
+            error_log($dst." already exists");
         }
     } else {
-        error_log("$src doesn't exist");
+        error_log($src." doesn't exist");
     }
     return false;
 }
@@ -1046,7 +1053,7 @@ function js_echo($text) {
 /**
  * Function output string with html-entities
  *
- * @param string $text
+ * @param string $html
  * @return string
 */
 function echo_html2view($html){
@@ -1056,9 +1063,10 @@ function echo_html2view($html){
 /**
  * Function to show readable file size
  *
- * @param string $text
+ * @param $bytes
+ * @param int $decimals
  * @return string
-*/
+ */
 function human_filesize($bytes, $decimals = 2) {
   $sz = 'BKMGTP';
   $factor = floor((strlen($bytes) - 1) / 3);
