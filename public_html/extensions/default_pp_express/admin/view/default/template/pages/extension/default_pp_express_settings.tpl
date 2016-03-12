@@ -171,7 +171,7 @@ echo $tabs;
 
 			<p style="text-align:left;">
                 <span style="font-family:Arial;font-size:13px;font-weight:normal;font-style:normal;text-decoration:none;color:#333333;"
-                    >By selecting PayPal, you also receive Bill Me Later &reg; absolutely FREE. Bill Me Later&reg; enables customers to pay you now and pay us later. Still not sure?</span>
+                    >By selecting PayPal, you also receive PayPal Credit Later &reg; absolutely FREE. PayPal Credit&reg; enables customers to pay you now and pay us later. Still not sure?</span>
 			</p>
 			<div>
                 <p style="text-align:left;">
