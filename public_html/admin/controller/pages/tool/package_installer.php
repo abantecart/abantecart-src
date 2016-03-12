@@ -591,6 +591,19 @@ class ControllerPagesToolPackageInstaller extends AController {
 					} else if(!is_writable($corefile_dir) && is_dir($corefile_dir)){
 							$ftp_mode = true; // enable ftp-mode
 							$non_writables[ ] = $corefile_dir;						
+					} else if(!is_writable($corefile_dir) && !is_dir($corefile_dir)){
+						//detect non-writable parent directory
+						$dir_part = explode('/', $corefile_dir);
+						$d = '';
+						while(!is_dir($d)){
+							array_pop($dir_part);
+							$d = implode('/',$dir_part);
+							if(is_dir($d) && !is_writable($d)){
+								$ftp_mode = true; // enable ftp-mode
+								$non_writables[ ] = $d;
+								break;
+							}
+						}
 					}
 				}
 			}
