@@ -30,7 +30,7 @@ $data['description'] = array($language_id => '');
 $resource_id = $rm->addResource($data);
 
 $menu->insertMenuItem ( array (  "item_id" => "settings_im",
-								 "parent_id"=>"settings",
+								 "parent_id"=>"setting",
 								 "item_text" => "text_settings_im",
 								 "item_url" => "setting/setting/im",
 								 "item_icon_rl_id" => $resource_id,
@@ -70,5 +70,5 @@ foreach($result->rows as $row){
 $sql = "ALTER TABLE `".$this->db->table('task_steps')."`
 		DROP PRIMARY KEY,
 		ADD PRIMARY KEY (`step_id`),
-		ADD INDEX `task_steps_idx` (`task_id` ASC)";
+		ADD INDEX ac_task_steps_idx (`task_id` ASC)";
 $this->db->query($sql);

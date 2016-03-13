@@ -165,6 +165,7 @@ class ControllerPagesProductSpecial extends AController {
                     'href'    		=> $this->html->getSEOURL('product/product','&product_id=' . $result['product_id'], '&encode'),
                     'add'    		=> $add,
                     'description'	=> html_entity_decode($result['description'], ENT_QUOTES, 'UTF-8'),
+                    'blurb'	        => $result['blurb'],
 					'track_stock' => $track_stock,
 					'in_stock'		=> $in_stock,
 					'no_stock_text' => $no_stock_text,
