@@ -12,7 +12,7 @@ New Features and improvements highlight:
 - Tax exemption
 
 Core:
-- Implement tax exemption for the group
+- Implemented tax exemption for the group
 - Added pdo_mysql Mysql driver
 - added silent mode into error_handlers
 - Fix for per page pagination
@@ -35,17 +35,19 @@ Admin:
 - Improvement to Resource Library UI
 - Resource library manager
 - CKEditor replaced by tinymce
+- Admin notification management to multiple emails and SMS
 - added deleting of resources from RL during category(manufacturer) removing
 - changes of sale/contact. Added message count that was sent.
-- disabled text editor inside modals (global search + quick setup)
-- grid ccs-fix
-- customers grid slow sql fix
-- added new multiaction "set related" to products grid.
+- Better grid responsiveness handling
+- Slow sql fix on a customers grid and dashboard
+- added new multi-action "set related" to products grid.
 - AConfigManager changes related to session_ttl config parameter. Added suggestion for session maxlifetime
 - usage db-driver fix in migration models
 - order details tab fix
 - Fix for latest 10 customer sorting order
 - Fix for slow select on admin main page load
+- Quick link to contact customer
+
 
 Extensions:
 - Textmarketer SMS integration 
