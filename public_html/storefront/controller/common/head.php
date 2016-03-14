@@ -26,12 +26,10 @@ class ControllerCommonHead extends AController {
         //init controller data
         $this->extensions->hk_InitData($this,__FUNCTION__);
 
-		//if enabled system check for all 0 or for storefront only 2
-		if(!$this->config->get('config_system_check') || $this->config->get('config_system_check') == 2 ) {
-			//run system check to make sure system is stable to run the request
-			//for storefront log messages. nothing is shown to users
-			run_system_check($this->registry, 'log');
-		}
+		//run system check to make sure system is stable to run the request
+		//for storefront log messages. nothing is shown to users
+		run_system_check($this->registry, 'log');
+
 		
 		$this->loadLanguage('common/header');
 		
