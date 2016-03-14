@@ -116,10 +116,11 @@
 <script type="text/javascript">
 	$(document).ready(function () {
 		$('#sendFrm_recipient').change(function () {
-			if ($(this).val() == '' || $(this).val() == 'FALSE') {
+			var recipient = $(this).val();
+			if (recipient == '' || recipient == 'FALSE') {
 				$('#sendFrm_to').removeAttr('disabled').parents('div.form-group').fadeIn(500);
 				$('#sendFrm_products').attr('disabled', 'disabled').parents('div.form-group').fadeOut(500);
-			} else if ($(this).val() == 'ordered') {
+			} else if (recipient == 'ordered') {
 				$('#sendFrm_to').attr('disabled', 'disabled').parents('div.form-group').fadeOut(500);
 				$('#sendFrm_products').removeAttr('disabled').parents('div.form-group').fadeIn(500);
 			} else {
@@ -127,34 +128,38 @@
 				$('#sendFrm_products').attr('disabled', 'disabled').parents('div.form-group').fadeOut(500);
 			}
 
-			var value = $(this).val();
 			var senddata = {
-				recipient: value,
+				recipient: recipient,
 				protocol: $('#sendFrm_protocol').val()
 			};
-			if(value == 'ordered'){
+			if(recipient == 'ordered'){
 				senddata['products'] = $('#sendFrm_products').chosen().val();
 			}
 
-			$.ajax({
-				type: "POST",
-				url: '<?php echo $recipients_count_url;?>',
-				data: senddata,
-				datatype: 'json',
-				beforeSend: function(){
-					$('#presend_attention').html('');
-				},
-				success: function(response){
-					if(!response.hasOwnProperty('text')){
-						return false;
+			//not manualy selected
+			if (recipient != '' && recipient != 'FALSE') {
+				$.ajax({
+					type: "POST",
+					url: '<?php echo $recipients_count_url;?>',
+					data: senddata,
+					datatype: 'json',
+					beforeSend: function(){
+						$('#presend_attention').html('');
+					},
+					success: function(response){
+						if(!response.hasOwnProperty('text')){
+							return false;
+						}
+						if(response.count > 0){
+							$('#presend_attention').html('<div class="info alert alert-warning"><i class="fa fa fa-exclamation-triangle fa-fw"></i> ' + response.text +'</div>');
+						}else{
+							$('#presend_attention').html('<div class="warning alert alert-error alert-danger"><i class="fa fa-thumbs-down fa-fw"></i> ' + response.text +'</div>');
+						}
 					}
-					if(response.count > 0){
-						$('#presend_attention').html('<div class="info alert alert-warning"><i class="fa fa fa-exclamation-triangle fa-fw"></i> ' + response.text +'</div>');
-					}else{
-						$('#presend_attention').html('<div class="warning alert alert-error alert-danger"><i class="fa fa-thumbs-down fa-fw"></i> ' + response.text +'</div>');
-					}
-				}
-			});
+				});
+			} else {
+				$('#presend_attention').html('');			
+			}
 		});
 		$('#sendFrm_recipient').change();
 		$('#sendFrm_products').chosen().change(function(){
