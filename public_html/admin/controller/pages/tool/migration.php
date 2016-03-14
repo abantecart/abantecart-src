@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2015 Belavier Commerce LLC
+  Copyright © 2011-2016 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -366,8 +366,9 @@ class ControllerPagesToolMigration extends AController {
 		//check db connection
 		if (!$this->error) {
 			try {
-				require_once DIR_DATABASE . 'mysql.php';
-				$connection = new Mysql($this->request->post['db_host'], $this->request->post['db_user'], $this->request->post['db_password'], $this->request->post['db_name'], true);
+				$db_driver = DB_DRIVER;
+				require_once DIR_DATABASE . $db_driver.'.php';
+				$connection = new $db_driver($this->request->post['db_host'], $this->request->post['db_user'], $this->request->post['db_password'], $this->request->post['db_name'], true);
 			} catch (AException $e) {
 				$this->error['warning'] = $this->language->get('error_db_connection');
 				$this->error['warning'] .= '<br>' . $e->getMessage();

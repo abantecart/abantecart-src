@@ -149,6 +149,8 @@ jQuery(document).ready(function() {
 		   }
 		   ajust_content_height();         
 		}
+		//trigger an event at the end
+   		body.trigger('leftpanelChanged');
    });
    
    // Right Side Panel 
@@ -297,6 +299,8 @@ jQuery(document).ready(function() {
 	}      
 	if($('body').hasClass('leftpanel-collapsed')) {
 		$('.nav-bracket .children').css({display: ''});
+		//need to triiger leftpanel resize evend to perform other adjustments 
+   		$('body').trigger('leftpanelChanged');
 	}      
 	$('.dropdown-menu').find('form').click(function (e) {
       e.stopPropagation();
@@ -502,7 +506,7 @@ function notice(text, autohide, elm, type, icon) {
 	if(elm == null){
 		elm = 'body';
 	}
-	var delay = 6000;
+	var delay = 2000;
 	if(autohide == null || autohide == 'false' || autohide == false) {
 		delay = 0;
 	}
@@ -515,9 +519,13 @@ function notice(text, autohide, elm, type, icon) {
 		z_index: 99999,
 		delay: delay,
     	type: type,
+    	placement: {
+    		from: 'top',
+    		align: 'left'
+    	},
 		animate: {
-			enter: 'animated fadeInDown',
-			exit: 'animated fadeOutRight'
+			enter: 'animated fadeInLeft',
+			exit: 'animated fadeOutLeft'
 		}	
 	});
 	return growl;
@@ -632,19 +640,40 @@ function formatQty(field) {
         thousandSeparator:numberSeparators.thousand});
 }
 
+function textareaInsert(editor, text) {
+	caretPos = editor.getCursorPosition();
+	var textAreaTxt = editor.val();
+	editor.val(textAreaTxt.substring(0, caretPos) + text + textAreaTxt.substring(caretPos) );
+	editor.setCursorPosition(caretPos + text.length);
+}
+
+
+function html2visual(text) {
+	var output = '';
+    output = text.replace(new RegExp('\r?\n','g'), '<!--n-->');
+    output = output.replace(new RegExp('\t','g'), '<!--t-->');
+    return output;
+}
+
+function visual2html(text) {
+    var output = '';
+    output = text.replace(new RegExp('(<!--n-->)','g'), '\r\n');
+    output = output.replace(new RegExp('<!--t-->','g'), '\t');
+    return output;
+}
 
 /*
  task run via ajax
  */
 
-
-var run_task_url, complete_task_url;
+var run_task_url, complete_task_url, abort_task_url;
 var task_fail = false;
 var task_complete_text = task_fail_text = ''; // You can set you own value inside tpl who runs interactive task. see admin/view/default/template/pages/tool/backup.tpl
 
 var defaultTaskMessages = {
     task_failed: 'Task Failed',
-    task_success: 'Task Success',
+    task_success: 'Task was completed',
+    task_abort: 'Task was aborted',
     complete: 'Complete',
     step: 'Step',
     failed: 'failed',
@@ -659,11 +688,11 @@ $(document).on('click', ".task_run", function () {
         '<div id="task_modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">' +
         '<div class="modal-dialog">' +
         '<div class="modal-content">' +
-        '<div class="modal-header">Task Run' +
+        '<div class="modal-header">' +
         '<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>' +
-        '<h4 class="modal-title" id="myModalLabel">&nbsp;</h4>' +
+        '<h4 class="modal-title">Task Run</h4>'+
         '</div>' +
-        '<div class="modal-body"></div>' +
+        '<div class="modal-body panel-body panel-body-nopadding"></div>' +
         '</div></div></div>';
     $("body").first().after(modal);
     var options = {"backdrop": "static", 'show': true};
@@ -673,12 +702,20 @@ $(document).on('click', ".task_run", function () {
 
     run_task_url = $(this).attr('data-run-task-url');
     complete_task_url = $(this).attr('data-complete-task-url');
+    abort_task_url = $(this).attr('data-abort-task-url');
+
+    //do the trick before form serialization
+    if(tinyMCE) {
+        tinyMCE.triggerSave();
+    }
+
     var send_data = $(this).parents('form').serialize();
     $.ajax({
         url: run_task_url,
         type: 'POST',
         dataType: 'json',
         data: send_data,
+        cache:false,
         success: runTaskUI,
         global: false,
         error: function (xhr, ajaxOptions, thrownError) {
@@ -707,127 +744,120 @@ var runTaskUI = function (data) {
     }
 }
 
+
+
 var runTaskStepsUI = function (task_details) {
     if (task_details.status != '1') {
         runTaskShowError('Cannot to run steps of task "' + task_details.name + '" because status of task is not "scheduled". Current status - ' + task_details.status);
 
     } else {
-        $('#task_modal .modal-body').html('<div class="progress-info"></div><div class="progress"><div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="2" aria-valuemin="0" aria-valuemax="100" style="width: 1%;">1%</div></div>');
-
-        var steps_cnt = Object.keys(task_details.steps).length;
-        var step_num = 1;
-        var def_timeout = $.ajaxSetup()['timemout'];
-        var stop_task = false;
-
-        for (var k in task_details.steps) {
-            if (stop_task == true) {
-                break;
-            } // interruption
-
-            var step = task_details.steps[k];
-
-            $('div.progress-info').html(defaultTaskMessages.processing_step +' #' + step_num);
-
-            var attempts = 3;// set attempts count for fail ajax call (for repeating request)
-
-            while (attempts >= 0) { // run each ajax call few times in case when we have unstable commention etc
-
-                var senddata = { rt: decodeURIComponent(step.controller),
-                                 token: getUrlParameter('token'),
-                                 s: getUrlParameter('s') };
-                for(var s in step.settings){
-                    senddata[s] = step.settings[s];
-                }
-                var timeout = 500;
-                if(step.hasOwnProperty('eta')){
-                    senddata['eta'] = step.eta;
-                    timeout = (step.eta + 10)*1000;
-                }
-                if(task_details.hasOwnProperty('backup_name')){
-                    senddata['backup_name'] = task_details.backup_name;
-                }
-
-                var step_ajax = $.ajax({
-                    type: "GET",
-                    async: false,
-                    timeout: timeout,
-                    url: window.location.protocol+'//'+window.location.host+window.location.pathname,
-                    data: senddata,
-                    dataType: 'json',
-                    global: false,
-                    success: function (data, textStatus, xhr) {
-                        //TODO: add check for php-syntax errors (if php-crashed we got HTTP200 and error handler fired)
-                        var prc = Math.round(step_num * 100 / steps_cnt);
-                        $('div.progress-bar').css('width', prc + '%').html(prc + '%');
-                        task_complete_text += '<div class="alert-success">'+defaultTaskMessages.step+' ' + step_num + ': '+defaultTaskMessages.success+'</div>';
-                        step_num++;
-                        if (step_num > steps_cnt) { //after last step start post-trigger of task
-                            $('div.progress-bar')
-                                .removeClass('active, progress-bar-striped')
-                                .css('width', '100%')
-                                .html('100%');
-                            $('div.progress-info').html(defaultTaskMessages.complete);
-                            runTaskComplete(task_details.task_id, senddata['backup_name']);
-                        }
-                        attempts = -1; //stop attempts of this task
-                    },
-                    error: function (xhr, status, error) {
-                        var error_txt;
-                        try { //when server response is json formatted string
-                            var err = $.parseJSON(xhr.responseText);
-                            if (err.hasOwnProperty("error_text")) {
-                                error_txt = err.error_text;
-                                attempts = 0; //if we got error from task-controller  - interrupt attemps
-                            } else {
-                                if(xhr.status==200){
-                                    error_txt = '('+xhr.responseText+')';
-                                }else{
-                                    error_txt = 'HTTP-status:' + xhr.status;
-                                }
-                                error_txt = 'Connection error occurred. ' + error_txt;
-                            }
-                        } catch (e) {
-                            if(xhr.status==200){
-                                error_txt = '('+xhr.responseText+')';
-                            }else{
-                                error_txt = 'HTTP-status:' + xhr.status;
-                            }
-                            error_txt = 'Connection error occurred. ' + error_txt;
-                        }
-
-                        //so.. if all attempts of this step are failed
-                        if (attempts == 0) {
-                            task_complete_text += '<div class="alert-danger">' + defaultTaskMessages.step + ' ' + step_num + ' - '+defaultTaskMessages.failed+'. ('+ error_txt +')</div>';
-                            //check interruption of task on step failure
-                            if (step.hasOwnProperty("settings") && step.settings!=null){
-                                if (step.settings.hasOwnProperty("interrupt_on_step_fault")) {
-                                    if (step.settings.interrupt_on_step_fault == true) {
-                                        stop_task = true;
-                                        runTaskComplete(task_details.task_id, senddata['backup_name']);
-                                    }
-                                }
-                            }
-                            task_fail = true;
-                            step_num++;
-                            //if last step failed
-                            if(step_num>steps_cnt){
-                                runTaskComplete(task_details.task_id, senddata['backup_name']);
-                            }
-                        }
-
-                        attempts--;
-                    }
-
-                });
-            }
+        var html = '<div class="progress-info"></div>' +
+                        '<div class="progress">' +
+                            '<div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="2" aria-valuemin="0" aria-valuemax="100" style="width: 1%;">1%</div>' +
+                    '</div>'
+        if(abort_task_url && abort_task_url.length>0){
+            html += '<div class="center">' +
+                                '<a class="abort btn btn-danger" title="Interrupt Task" ><i class="fa fa-times-circle-o"></i> Abort</a>' +
+                    '</div>';
         }
+        html += '</div>';
 
+        $('#task_modal .modal-body').html(html);
+        //then run sequental ajax calls
+        //note: all that calls must be asynchronous to be interruptable!
+        var ajaxes = {};
+        for(var k in task_details.steps){
+            var step = task_details.steps[k];
+            var senddata = { rt: decodeURIComponent(step.controller),
+                                             token: getUrlParameter('token'),
+                                             s: getUrlParameter('s'),
+                                             task_id: task_details.task_id,
+                                             step_id: step.step_id
+                            };
+            for(var s in step.settings){
+                senddata[s] = step.settings[s];
+            }
+            var timeout = 500;
+            if(step.hasOwnProperty('eta')){
+                senddata['eta'] = step.eta;
+                timeout = (step.eta + 10)*1000;
+            }
+
+            ajaxes[k] = {
+                task_id:task_details.task_id,
+                type:'GET',
+                timeout: timeout,
+                url: window.location.protocol+'//'+window.location.host+window.location.pathname,
+                data: senddata,
+                dataType: 'json',
+            };
+            if (step.hasOwnProperty("settings") && step.settings!=null
+                && step.settings.hasOwnProperty("interrupt_on_step_fault")
+                && step.settings.interrupt_on_step_fault == true) {
+                ajaxes[k]['interrupt_on_step_fault'] = true;
+            }
+            else{
+                ajaxes[k]['interrupt_on_step_fault'] = false;
+            }
+
+        }
+        do_seqAjax(ajaxes, 3);
+
+        //abort process
+
+        if(abort_task_url && abort_task_url.length>0){
+            $('#task_modal .modal-body').find('a.abort').on('click', function(){
+                $.xhrPool.abortAll();
+                $.ajax({
+                            type: "POST",
+                            url: abort_task_url,
+                            data: {task_id: task_details.task_id },
+                            datatype: 'json',
+                            global: false,
+                            success: function (data) {
+                                var mess = '';
+                                if(data.result_text){
+                                    mess = data.result_text
+                                }
+                                task_complete_text += '<div class="alert-success">' + mess + '</div>';
+                                // replace progressbar by result message
+                                $('#task_modal .modal-body').html(task_complete_text);
+                                task_complete_text = '';
+                            },
+                            error: function (xhr, ajaxOptions, thrownError) {
+                                var error_txt = '';
+                                try { //when server response is json formatted string
+                                    var err = $.parseJSON(xhr.responseText);
+                                    if (err.hasOwnProperty("error_text")) {
+                                        runTaskShowError(err.error_text);
+                                    } else {
+                                        if(xhr.status==200){
+                                            error_txt = '('+xhr.responseText+')';
+                                        }else{
+                                            error_txt = 'HTTP-status:' + xhr.status;
+                                        }
+                                        error_txt = 'Connection error occurred. ' + error_txt;
+                                        runTaskShowError(error_txt);
+                                    }
+                                } catch (e) {
+                                    if(xhr.status==200){
+                                        error_txt = '('+xhr.responseText+')';
+                                    }else{
+                                        error_txt = 'HTTP-status:' + xhr.status;
+                                    }
+                                    error_txt = 'Connection error occurred. ' + error_txt;
+                                    runTaskShowError(error_txt);
+                                }
+                            }
+                        });
+            });
+        }
     }
 }
 
 /* run post-trigger */
 
-var runTaskComplete = function (task_id, bkp_name) {
+var runTaskComplete = function (task_id) {
     if(task_fail){
         task_complete_text += '<div class="alert-danger">' + defaultTaskMessages.task_failed + '</div>';
         // replace progressbar by result message
@@ -838,7 +868,7 @@ var runTaskComplete = function (task_id, bkp_name) {
             type: "POST",
             async: false,
             url: complete_task_url,
-            data: {task_id: task_id, backup_name: bkp_name },
+            data: {task_id: task_id },
             datatype: 'json',
             global: false,
             success: function (data) {
@@ -881,11 +911,140 @@ var runTaskComplete = function (task_id, bkp_name) {
             }
         });
     }
+    $('#task_modal').data('bs.modal').options.backdrop = true;
 }
 
 
 var runTaskShowError = function (error_text) {
     $('#task_modal .modal-body').html('<div class="alert alert-danger" role="alert">' + error_text + '</div>');
+}
+
+   /**
+     * function for sequental ajax calls, one by one
+     * @param ajaxes - object with descriptions for ajax call
+     * @param attempts_count - number of attempts if ajax call failed
+     */
+
+function do_seqAjax(ajaxes, attempts_count){
+
+       $.xhrPool = [];
+       $.xhrPool.abortAll = function() {
+           $(this).each(function(i, jqXHR) {   //  cycle through list of recorded connection
+               jqXHR.abort();  //  aborts connection
+               $.xhrPool.splice(i, 1); //  removes from list by index
+           });
+       }
+
+        var current = 0,
+            current_key,
+            keys = [];
+        for(var k in ajaxes){
+            keys.push(k);
+        }
+        var steps_cnt = keys.length;
+        var attempts = attempts_count || 3;// set attempts count for fail ajax call (for repeating request)
+        var kill = false;
+
+        //declare your function to run AJAX requests
+        function do_ajax() {
+
+            //interrupt recursion when:
+            //kill task
+            // task complete
+            if (kill || current >= steps_cnt) {
+                $('div.progress-bar')
+                    .removeClass('active, progress-bar-striped')
+                    .css('width', '100%')
+                    .html('100%');
+                $('div.progress-info').html(defaultTaskMessages.complete);
+                runTaskComplete(ajaxes[current_key].task_id, ajaxes[current_key].data);
+                return;
+            }
+            current_key = keys[current];
+            //make the AJAX request with the given data from the `ajaxes` array of objects
+            ajaxes[current_key].data['t'] = new Date().getTime();
+            $.ajax({
+                type: ajaxes[current_key].type,
+                timeout: ajaxes[current_key].timeout,
+                url: ajaxes[current_key].url,
+                data: ajaxes[current_key].data,
+                dataType: ajaxes[current_key].dataType,
+                global: false,
+                cache: false,
+                beforeSend: function(jqXHR) {
+                    $.xhrPool.push(jqXHR);
+                },
+                success: function (data, textStatus, xhr) {
+                    var prc = Math.round((current+1) * 100 / steps_cnt);
+                    $('div.progress-bar').css('width', prc + '%').html(prc + '%');
+                    task_complete_text += '<div class="alert-success">'
+                        +defaultTaskMessages.step+' '
+                        + (current+1) + ': '
+                        +defaultTaskMessages.success+'</div>';
+
+                    attempts = 3;
+                    current++;
+                },
+                error: function (xhr, status, error) {
+                    var error_txt='';
+                    try { //when server response is json formatted string
+                        var err = $.parseJSON(xhr.responseText);
+                        if (err.hasOwnProperty("error_text")) {
+                            error_txt = err.error_text;
+                        } else {
+                            if(xhr.status==200){
+                                error_txt = '('+xhr.responseText+')';
+                            }else{
+                                error_txt = 'HTTP-status:' + xhr.status;
+                            }
+                            error_txt = 'Connection error occurred. ' + error_txt;
+                        }
+                    } catch (e) {
+                        if(xhr.status==200){
+                            error_txt = '('+xhr.responseText+')';
+                        }else{
+                            error_txt = 'HTTP-status:' + xhr.status;
+                        }
+                        error_txt = 'Connection error occurred. ' + error_txt;
+                    }
+
+                    //so.. if all attempts of this step are failed
+                    if (attempts == 0) {
+                        task_complete_text += '<div class="alert-danger">'
+                            + defaultTaskMessages.step + ' '
+                            + (current+1) + ' - '
+                            + defaultTaskMessages.failed
+                            +'. ('+ error_txt +')</div>';
+                        //check interruption of task on step failure
+                        if(ajaxes[current_key].interrupt_on_step_fault){
+                            kill=true;
+                            task_fail = true;
+                            xhr.abort();
+                        }else{
+                            task_fail = true;
+                            attempts = 3;
+                        }
+                        current++;
+                    }else {
+                        attempts--;
+                    }
+                },
+                complete: function(jqXHR, text_status){
+                    //  get index for current connection completed
+                    var i = $.xhrPool.indexOf(jqXHR);
+                    //  removes from list by index
+                    if (i > -1){
+                        $.xhrPool.splice(i, 1);
+                    }
+                    if(text_status!='abort') {
+                        do_ajax();
+                    }
+                }
+            });
+        }
+
+        //first run
+        do_ajax();
 }
 
 
@@ -963,34 +1122,19 @@ var loadAndShowData = function (url, $elem) {
     	url: url,
     	dataType: 'text',		
     	success: function(data) {
-    		console.log(data);
+    		//console.log(data);
     		$elem.html(data);
     	}
     });
 }
 		
-/*function adds Resource LIbrary Button into CKEditor
-* cke - CKEDITOR js instance
-* */
-function addRL2CKE(cke){
-    cke.addCommand("openCKRLModal", {
-        exec: function(edt) {
-            window.parent.openCKRLModal(cke);
-            return  null;
-        },
-        modes: { wysiwyg:1,source:1 }
-    });
+//function adds Resource LIbrary Button into WYSIWYG editor
 
-    cke.ui.addButton('ck_rl_button', {
-        label: "Resource Library",
-        command: 'openCKRLModal',
-        toolbar: 'abantecart'
-    });
-}
 
-function openCKRLModal(cke){
+function openTextEditRLModal(editor, cursorPosition){
 	modalscope.mode = 'single';
 	mediaDialog('image', 'list_library');
+	sideDialog('image', 'add');
 
 	$('#rl_modal').on('shown.bs.modal', function () {
 
@@ -1003,7 +1147,11 @@ function openCKRLModal(cke){
 				var type_name = item.type_name;
 				insert_html = 'resources/'+type_name+'/'+item.resource_path;
 				if(type_name=='image'){
-					insert_html = '<img src="'+insert_html+'">';
+                    var alt='';
+                    if(item['title'].length>0){
+                        alt = ' alt="'+encodeURIComponent(item['title'])+'"';
+                    }
+					insert_html = '<img src="'+insert_html+'"'+alt+'>';
 				}else{
 					//TODO : need to add other RL-types support
 					return null;
@@ -1012,24 +1160,96 @@ function openCKRLModal(cke){
 				insert_html = item.resource_code;
 			}
 
-            InsertHtml(cke, insert_html);
+            InsertHtml(editor, insert_html);
             modalscope.selected_resource = {};
 
             function InsertHtml(editor, value) {
                 if(!value || value.length<1){
-                    info_alert('Resource Library: Nothing was posted into editor.', true);
                     return null;
                 }
 
-                if (editor.mode == 'wysiwyg') {
-                     editor.insertHtml( value );
+                if (editor.hasOwnProperty('editorCommands')) {
+                     editor.execCommand('mceInsertContent',false, value );
                 } else { //for source mode
-                    var caretPos = jQuery('textarea.cke_source')[0].selectionStart;
-                    var textAreaTxt = jQuery('textarea.cke_source').val();
-                    jQuery('textarea.cke_source').val(textAreaTxt.substring(0, caretPos) + value + textAreaTxt.substring(caretPos) );
+                    var caretPos = cursorPosition;
+                    var textAreaTxt = editor.val();
+                    editor.val(textAreaTxt.substring(0, caretPos) + value + textAreaTxt.substring(caretPos) );
                 }
             }
 
 			});
 	});
 }
+
+//Jquery extention with textarea management
+jQuery.fn.extend({
+	setCursorPosition: function(position){
+		if(this.length == 0) return this;
+		return $(this).setSelection(position, position);
+	},
+
+	setSelection: function(selectionStart, selectionEnd) {
+		if(this.length == 0) return this;
+		input = this[0];
+
+		if (input.createTextRange) {
+			var range = input.createTextRange();
+			range.collapse(true);
+			range.moveEnd('character', selectionEnd);
+			range.moveStart('character', selectionStart);
+			range.select();
+		} else if (input.setSelectionRange) {
+			input.focus();
+			input.setSelectionRange(selectionStart, selectionEnd);
+		}
+
+		return this;
+	},
+
+	focusEnd: function(){
+		this.setCursorPosition(this.val().length);
+		return this;
+	},
+
+	getCursorPosition: function() {
+		var el = $(this).get(0);
+		var pos = 0;
+		if('selectionStart' in el) {
+			pos = el.selectionStart;
+		} else if('selection' in document) {
+			el.focus();
+			var Sel = document.selection.createRange();
+			var SelLength = document.selection.createRange().text.length;
+			Sel.moveStart('character', -el.value.length);
+			pos = Sel.text.length - SelLength;
+		}
+		return pos;
+	},
+
+	insertAtCursor: function(myValue) {
+		return this.each(function(i) {
+			if (document.selection) {
+			  //For browsers like Internet Explorer
+			  this.focus();
+			  sel = document.selection.createRange();
+			  sel.text = myValue;
+			  this.focus();
+			}
+			else if (this.selectionStart || this.selectionStart == '0') {
+			  //For browsers like Firefox and Webkit based
+			  var startPos = this.selectionStart;
+			  var endPos = this.selectionEnd;
+			  var scrollTop = this.scrollTop;
+			  this.value = this.value.substring(0, startPos) + myValue + 
+							this.value.substring(endPos,this.value.length);
+			  this.focus();
+			  this.selectionStart = startPos + myValue.length;
+			  this.selectionEnd = startPos + myValue.length;
+			  this.scrollTop = scrollTop;
+			} else {
+			  this.value += myValue;
+			  this.focus();
+			}
+	  	})
+	}
+})

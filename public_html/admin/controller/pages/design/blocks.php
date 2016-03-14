@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2015 Belavier Commerce LLC
+  Copyright © 2011-2016 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -450,8 +450,6 @@ class ControllerPagesDesignBlocks extends AController {
 				'separator' => ' :: '));
 
 		$this->data ['cancel'] = $this->html->getSecureURL('design/blocks');
-		$this->document->addScript(RDIR_TEMPLATE . 'javascript/ckeditor/ckeditor.js');
-
 
 		if (!isset ($this->request->get ['custom_block_id'])) {
 			$this->data ['action'] = $this->html->getSecureURL('design/blocks/insert');
@@ -596,10 +594,12 @@ class ControllerPagesDesignBlocks extends AController {
 				));
 		$this->data['form']['text']['block_description'] = $this->language->get('entry_block_description');
 
-		$this->data['form']['fields']['block_content'] = $form->getFieldHtml(array('type' => 'textarea',
-				'name' => 'block_content',
-				'value' => $this->data ['content'],
-				'multilingual' => true,
+		$this->data['form']['fields']['block_content'] = $form->getFieldHtml(
+				array(
+						'type' => 'texteditor',
+						'name' => 'block_content',
+						'value' => $this->data ['content'],
+						'multilingual' => true,
 		));
 		$this->data['form']['text']['block_content'] = $this->language->get('entry_block_content');
 

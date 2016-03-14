@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2015 Belavier Commerce LLC
+  Copyright © 2011-2016 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -21,7 +21,11 @@ if (! defined ( 'DIR_CORE' ) || !IS_ADMIN) {
 	header ( 'Location: static_pages/' );
 }
 class ModelReportSale extends Model {
-
+	/**
+	 * @param array $data
+	 * @param string $mode
+	 * @return array|int
+	 */
 	public function getSaleReport($data = array(), $mode = 'default') {
 		$filter = (isset($data['filter']) ? $data['filter'] : array());
 		if (isset($filter['group'])) {
@@ -122,16 +126,29 @@ class ModelReportSale extends Model {
 		
 		$query = $this->db->query($sql);
 		return $query->rows;
-	}	
-	
+	}
+
+	/**
+	 * @param array $data
+	 * @return array|int
+	 */
 	public function getSaleReportTotal($data = array()) {
 		return $this->getSaleReport($data, 'total_only');	
 	}
 
+	/**
+	 * @param array $data
+	 * @return array|int
+	 */
 	public function getSaleReportSummary($data = array()) {
 		return $this->getSaleReport($data, 'summary');	
 	}
 
+	/**
+	 * @param array $data
+	 * @param string $mode
+	 * @return array|int
+	 */
 	public function getTaxesReport($data = array(), $mode = 'default') {
 		$filter = (isset($data['filter']) ? $data['filter'] : array());
 		if (isset($filter['group'])) {
@@ -230,12 +247,21 @@ class ModelReportSale extends Model {
 		
 		$query = $this->db->query($sql);
 		return $query->rows;
-	}	
-	
+	}
+
+	/**
+	 * @param array $data
+	 * @return array|int
+	 */
 	public function getTaxesReportTotal($data = array()) {
 		return $this->getTaxesReport($data, 'total_only');	
 	}
 
+	/**
+	 * @param array $data
+	 * @param string $mode
+	 * @return array|int
+	 */
 	public function getShippingReport($data = array(), $mode = 'default') {
 		$filter = (isset($data['filter']) ? $data['filter'] : array());
 		if (isset($filter['group'])) {
@@ -334,12 +360,21 @@ class ModelReportSale extends Model {
 		
 		$query = $this->db->query($sql);
 		return $query->rows;
-	}	
-	
+	}
+
+	/**
+	 * @param array $data
+	 * @return array|int
+	 */
 	public function getShippingReportTotal($data = array()) {
 		return $this->getShippingReport($data, 'total_only');	
 	}
 
+	/**
+	 * @param array $data
+	 * @param string $mode
+	 * @return array|int
+	 */
 	public function getCouponsReport($data = array(), $mode = 'default') {
 		$filter = (isset($data['filter']) ? $data['filter'] : array());
 
@@ -357,11 +392,17 @@ class ModelReportSale extends Model {
 							COUNT(o.order_id) AS orders ";
 		}
 
+
 		$sql = "SELECT $total_sql FROM `" . $this->db->table("orders") . "` o 
-					LEFT JOIN `" . $this->db->table("coupons") . "` c ON (o.coupon_id = c.coupon_id) 
-					LEFT JOIN `" . $this->db->table("coupon_descriptions") . "` cd ON (c.coupon_id = cd.coupon_id) 
-					LEFT JOIN `" . $this->db->table("order_totals") . "` ot ON (o.order_id = ot.order_id) 
-					WHERE ot.type = 'discount' ";
+					LEFT JOIN `" . $this->db->table("coupons") . "` c ON (o.coupon_id = c.coupon_id)";
+
+		if ($mode == 'default'){
+			$sql .= "LEFT JOIN `" . $this->db->table("coupon_descriptions") . "` cd
+						ON (c.coupon_id = cd.coupon_id AND cd.language_id=".(int)$this->language->getContentLanguageID().")";
+		}
+
+		$sql .=	"LEFT JOIN `" . $this->db->table("order_totals") . "` ot ON (o.order_id = ot.order_id)
+				WHERE ot.type = 'discount' ";
 
 		if (isset($filter['date_start'])) {
 			$date_start = dateDisplay2ISO($filter['date_start'],$this->language->get('date_format_short'));
@@ -412,11 +453,14 @@ class ModelReportSale extends Model {
 		}
 		$query = $this->db->query($sql);
 		return $query->rows;
-	}	
-	
+	}
+
+	/**
+	 * @param array $data
+	 * @return array|int
+	 */
 	public function getCouponsReportTotal($data = array()) {
 		return $this->getCouponsReport($data, 'total_only');	
 	}
 
 }
-?>

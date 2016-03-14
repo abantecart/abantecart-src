@@ -23,7 +23,7 @@
 		<div class="primary_content_actions pull-left">
 			<div class="btn-group">
 				<button class="btn btn-default dropdown-toggle tooltips" data-original-title="<?php echo $text_edit_address; ?>" title="<?php echo $text_edit_address; ?>" type="button" data-toggle="dropdown">
-					<i class="fa fa-envelope-o"></i>
+					<i class="fa fa-book"></i>
 					<?php echo $current_address; ?><span class="caret"></span>
 				</button>
 				<ul class="dropdown-menu">
@@ -51,19 +51,28 @@
 				   href="<?php echo $button_orders_count->href; ?>"
 				   data-toggle="tooltip"
 				   title="<?php echo $button_orders_count->title; ?>"
-				   data-original-title="<?php echo $button_orders_count->title; ?>"><?php echo $button_orders_count->text; ?></a>
+				   data-original-title="<?php echo $button_orders_count->title; ?>"><?php echo $button_orders_count->text; ?>
+				</a>
+				<a target="_blank"
+				   class="btn btn-white tooltips"
+				   href="<?php echo $message->href; ?>"
+				   data-toggle="tooltip"
+				   title="<?php echo $message->text; ?>"
+				   data-original-title="<?php echo $message->text; ?>"><i class="fa fa-paper-plane-o "></i>
+				</a>
 				<a target="_blank"
 				   class="btn btn-white tooltips"
 				   href="<?php echo $actas->href; ?>"
 				   data-toggle="tooltip"
 				   title="<?php echo $actas->text; ?>"
-				<?php
-				//for additional store show warning about login in that store's admin (because of crossdomain restriction)
-				if($warning_actonbehalf){ ?>
-					data-confirmation="delete"
-					data-confirmation-text="<?php echo $warning_actonbehalf;?>"
-				<?php } ?>
-				   data-original-title="<?php echo $actas->text; ?>"><i class="fa fa-male"></i></a>
+					<?php
+					//for additional store show warning about login in that store's admin (because of crossdomain restriction)
+					if($warning_actonbehalf){ ?>
+						data-confirmation="delete"
+						data-confirmation-text="<?php echo $warning_actonbehalf;?>"
+					<?php } ?>
+				   data-original-title="<?php echo $actas->text; ?>"><i class="fa fa-male"></i>
+				</a>
 			</div>
 		</div>
 		<?php include($tpl_common_dir . 'content_buttons.tpl'); ?>	
@@ -100,6 +109,13 @@
 				   for="<?php echo $field->element_id; ?>"><?php echo ${'entry_' . $name}; ?></label>
 
 			<div class="input-group afield <?php echo $widthcasses; ?> <?php echo($name == 'description' ? 'ml_ckeditor' : '') ?>">
+				<?php if($name == 'email') { ?>
+				<span class="input-group-btn">
+					<a type="button" title="mailto" class="btn btn-info" href="mailto:<?php echo $field->value; ?>">
+					<i class="fa fa-envelope-o fa-fw"></i>
+					</a>
+				</span>
+				<?php } ?>
 				<?php echo $field; ?>
 			</div>
 			<?php if (!empty($error[$name])) { ?>

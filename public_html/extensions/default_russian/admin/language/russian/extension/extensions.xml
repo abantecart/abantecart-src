@@ -95,7 +95,7 @@
 	</definition>
 	<definition>
 		<key>error_required_field</key>
-		<value><![CDATA[Внимание: Пожалуйста, заполните необходимые поля!]]></value>
+		<value><![CDATA[Ошибка: Пожалуйста, заполните требуемые поля. Данные не были сохранены!]]></value>
 	</definition>
 	<definition>
 		<key>error_payment_uninstall</key>

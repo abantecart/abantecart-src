@@ -41,7 +41,7 @@
 	    </div>
 	  </div>
 
-	  <div class="row mt40">
+	  <div class="row mt20">
 	  <?php echo $form_output; ?>
 	  </div>
 	</div>

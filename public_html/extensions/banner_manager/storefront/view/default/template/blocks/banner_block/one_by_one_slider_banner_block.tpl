@@ -1,4 +1,5 @@
 <section class="slider">
+<h4 class="hidden">&nbsp;</h4>
   <div class="banner_conteiner">  		
 	<?php if ($content) { 
 		//first find banner_fallback

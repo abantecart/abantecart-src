@@ -1,10 +1,4 @@
 @charset "utf-8";
-@import url('bootstrap.min.css');
-@import url('flexslider.css');
-@import url('onebyone.css');
-@import url('print.css');
-@import url('font-awesome.min.css');
-
 /*
 AbanteCart storefront main CSS style.css
 
@@ -76,6 +70,10 @@ ul {
 	text-transform: uppercase;
 	padding: 0 14px 4px 0;
 	font-family: 'Crete Round', serif;
+}
+
+.hidden {
+	display: none;
 }
 
 .heading1 .subtext img {
@@ -757,9 +755,14 @@ ul.categorymenu > li ul > li img {
 .breadcrumb {
 	margin-bottom: 10px
 }
-
 .breadcrumb-separator {
 	padding: 0 5px 0 5px;
+}
+.breadcrumb > li + li::before {
+    color: #ccc;
+	font-family: FontAwesome;
+	content: "\f101"; 
+    padding: 0 5px;
 }
 
 /* ------------ Promo Section ------------ */
@@ -835,12 +838,6 @@ ul.categorymenu > li ul > li img {
 .addresses>section{
 	display: inline-block;
 }
-.addresses .old_address{
-	float: left;
-}
-.addresses .new_address{
-	float: right;
-}
 
 
 /* ------------ Featured Products ------------ */
@@ -872,6 +869,11 @@ ul.categorymenu > li ul > li img {
 	overflow: auto;
 }
 
+.list-inline > div {
+  padding-right: 5px;
+  padding-left: 5px;
+}
+
 .thumbnails .prdocutname {
 	font-size: 14px;
 	color: #5e626b;
@@ -893,7 +895,7 @@ ul.categorymenu > li ul > li img {
 
 .thumbnail .blurb {
 	max-height: 60px;
-	overflow: hidden;
+	overflow: auto;
 	text-overflow: ellipsis;
 }
 
@@ -1121,6 +1123,10 @@ a.compare>img{
 	width: 60px;
 }
 
+.container .jumbotron, .container-fluid .jumbotron {
+    border-radius: 0;
+}
+
 #featured .thumbnails li:hover .thumbnail img,
 #latest .thumbnails li:hover .thumbnail img,
 #bestseller .thumbnails li:hover .thumbnail img,
@@ -1327,8 +1333,10 @@ h1.pagetitle {
 .easyzoom img {
 	vertical-align: bottom;
 }
-.local_image img {
-	width: 340px;
+a.local_image {
+	min-width: 340px;
+	display: inline-block;
+	min-height: 340px;
 }
 .easyzoom.is-loading img {
 	cursor: progress;
@@ -1953,7 +1961,7 @@ ul.total li span.extra {
 	padding: 5px 5px 5px 5px;
 }
 
-.newcustomer, .returncustomer, .formbox {
+.newcustomer, .returncustomer {
 	width: 48%;
 	float: left;
 	border: 1px solid #E7E7E7;
@@ -2591,6 +2599,10 @@ label.error {
 /* fix for lable inside of input-group */
 .input-group label {
 	padding-top: 7px;
+	margin-right: 5px;
+}
+.input-group label>input[type="checkbox"]{
+	vertical-align: sub;
 }
 
 form .help-block {
@@ -3226,12 +3238,6 @@ paypal pro styles
 		display: inline-block;
 		width: 45% !important;
 	}
-	.addresses .old_address{
-		float: left;
-	}
-	.addresses .new_address{
-		float: right;
-	}
 	.cart-info .estimate{
 		float: right;
 	}
@@ -3474,11 +3480,6 @@ paypal pro styles
 		-o-transition: all 0.8s; /* Opera */
 	}
 
-	.formbox {
-		width: 85%;
-		margin-bottom: 10px;
-	}
-
 	.newcustomer, .returncustomer{
 		width: 97%;
 		margin-bottom: 10px;
@@ -3569,10 +3570,6 @@ paypal pro styles
 
 	.cart-info .coupon table {
 		border-right: 1px solid #E7E7E7 !important;
-	}
-
-	.formbox.ml10 {
-		margin-left: 0;
 	}
 
 	.block_frame_cart  .buttonwrap {
@@ -3824,11 +3821,6 @@ paypal pro styles
 		text-align: center;
 	}
 
-	.formbox {
-		width: 85%;
-		margin-bottom: 10px;
-	}
-
 	.newcustomer, .returncustomer{
 		width: 97%;
 		margin-bottom: 10px;
@@ -3845,6 +3837,34 @@ paypal pro styles
 /* END @media (max-width: 760px) */
 
 @media only screen and (min-width: 480px) and (max-width: 767px) {
+	.header-logo {
+		background: none;
+		width: auto;
+		height: auto;	
+		line-height: normal;
+		text-align: left;
+	}
+	.logo img {
+		background: white;
+		padding: 5px;
+	}
+
+	.headerstrip_blocks .block_4 {
+		float: left;
+	}
+	.headerdetails {
+		padding-top: 10px;
+	}
+	.headerdetails .block_8 {
+		float: left;
+	}
+	.heading1 .maintext, .heading2 {
+		font-size: 20px;
+	}
+
+	#product_details .thumbnail img {
+		max-width: 300px !important;
+	}
 
 	.payment_icon img{
 		max-width: 350px;
@@ -3873,10 +3893,6 @@ paypal pro styles
 
 	.sorting.well .pull-right {
 		margin-top: 0;
-	}
-
-	.formbox.ml10 {
-		margin-left: 0;
 	}
 
 	.returncustomer, .newcustomer {
@@ -4225,12 +4241,8 @@ paypal pro styles
 		margin-left: 37%;
 	}
 
-	.newcustomer, .returncustomer, .formbox {
+	.newcustomer, .returncustomer {
 		width: 100%;
-	}
-
-	.formbox.ml10 {
-		margin-left: 0;
 	}
 
 	.pagination.pull-right {
@@ -4294,4 +4306,9 @@ paypal pro styles
     #footer{
     	display: none;
     }
+}
+
+/* phone input css*/
+.intl-tel-input .country-list{
+	z-index: 4 !important;
 }

@@ -16,6 +16,7 @@
 <link href='//fonts.googleapis.com/css?family=Open+Sans:400,300italic,400italic,600,600italic' rel='stylesheet' type='text/css' />
 <link href='//fonts.googleapis.com/css?family=Crete+Round' rel='stylesheet' type='text/css' />
 <link href="<?php echo $this->templateResource('/stylesheet/style.response.css'); ?>" rel="stylesheet" type='text/css' />
+<link href="<?php echo $this->templateResource('/javascript/intl-tel-input/css/intlTelInput.css'); ?>" rel="stylesheet" type='text/css' />
 
 <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
 <!--[if lt IE 9]>
@@ -37,6 +38,7 @@ if (typeof jQuery == 'undefined') {
 <script type="text/javascript" src="<?php echo $this->templateResource('/javascript/bootstrap.min.js'); ?>"></script>
 <script type="text/javascript" src="<?php echo $this->templateResource('/javascript/jquery-migrate-1.2.1.min.js');?>"></script>
 <script type="text/javascript" src="<?php echo $this->templateResource('/javascript/common.js'); ?>"></script>
+<script type="text/javascript" src="<?php echo $this->templateResource('/javascript/intl-tel-input/js/intlTelInput.min.js'); ?>"></script>
 
 <?php foreach ($scripts as $script) { ?>
 <script type="text/javascript" src="<?php echo $script; ?>"></script>

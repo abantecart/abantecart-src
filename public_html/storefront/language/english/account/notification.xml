@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<definitions>
+	<definition>
+		<key>heading_title</key>
+		<value><![CDATA[Notifications and Newsletter]]></value>
+	</definition>
+	<definition>
+		<key>text_account</key>
+		<value><![CDATA[Account]]></value>
+	</definition>
+	<definition>
+		<key>text_notifications</key>
+		<value><![CDATA[Notifications]]></value>
+	</definition>
+	<definition>
+		<key>text_success</key>
+		<value><![CDATA[Success: Your notification settings has been successfully updated!]]></value>
+	</definition>
+	<definition>
+		<key>text_sendpoint</key>
+		<value><![CDATA[Notifications]]></value>
+	</definition>
+</definitions>

@@ -112,4 +112,8 @@
 		<key>backup_complete_text_dir</key>
 		<value><![CDATA[Directorio de backup-archivos es %s</a> ]]></value>
 	</definition>
+	<definition>
+		<key>error_nothing_to_do</key>
+		<value><![CDATA[Advertencia: Por favor, establece lo que desea hacer copia de seguridad o de importación!]]></value>
+	</definition>
 </definitions>

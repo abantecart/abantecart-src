@@ -8,10 +8,10 @@
 		<key>text_product</key>
 		<value><![CDATA[Prodotto]]></value>
 	</definition>
-    <definition>
-        <key>tab_media</key>
-        <value><![CDATA[Media]]></value>
-    </definition>
+	<definition>
+		<key>tab_media</key>
+		<value><![CDATA[Media]]></value>
+	</definition>
 	<definition>
 		<key>tab_shipping</key>
 		<value><![CDATA[Spedizione]]></value>
@@ -190,8 +190,7 @@
 	</definition>
 	<definition>
 		<key>entry_stock_status</key>
-		<value>
-			<![CDATA[Fuori dello stato degli stock:<br/><span class="help">Lo stato mostrato quando un prodotto è esaurito.</span>]]></value>
+		<value><![CDATA[Fuori dello stato degli stock:<br/><span class="help">Lo stato mostrato quando un prodotto è esaurito.</span>]]></value>
 	</definition>
 	<definition>
 		<key>entry_status</key>
@@ -397,11 +396,11 @@
 		<key>text_select_product</key>
 		<value><![CDATA[- Seleziona prodotto -]]></value>
 	</definition>
-    <definition>
+	<definition>
 		<key>text_option_name</key>
 		<value><![CDATA[Nome dell'opzione]]></value>
 	</definition>
-    <definition>
+	<definition>
 		<key>text_group_option</key>
 		<value><![CDATA[Opzione del gruppo]]></value>
 	</definition>
@@ -409,11 +408,11 @@
 		<key>text_option_type</key>
 		<value><![CDATA[Tipo di opzione]]></value>
 	</definition>
-    <definition>
+	<definition>
 		<key>text_option_values</key>
 		<value><![CDATA[Valori di opzione]]></value>
 	</definition>
-    <definition>
+	<definition>
 		<key>text_no_option_values</key>
 		<value><![CDATA[Nessun valore di opzioni]]></value>
 	</definition>
@@ -477,74 +476,74 @@
 		<key>text_add_new_option</key>
 		<value><![CDATA[- Aggiungi nuova opzione -]]></value>
 	</definition>
-    <definition>
-        <key>entry_required</key>
-        <value><![CDATA[Richiesto:]]></value>
-    </definition>
-    <definition>
-        <key>entry_element_type</key>
-        <value><![CDATA[Tipo di elemento:]]></value>
-    </definition>
-    <definition>
-        <key>entry_element_values</key>
-        <value><![CDATA[Valori dell'elemento:]]></value>
-    </definition>
 	<definition>
-        <key>text_expand</key>
-        <value><![CDATA[Espandi di +]]></value>
-    </definition>
+		<key>entry_required</key>
+		<value><![CDATA[Richiesto:]]></value>
+	</definition>
 	<definition>
-        <key>text_hide</key>
-        <value><![CDATA[- Nascondi]]></value>
-    </definition>
-    <definition>
+		<key>entry_element_type</key>
+		<value><![CDATA[Tipo di elemento:]]></value>
+	</definition>
+	<definition>
+		<key>entry_element_values</key>
+		<value><![CDATA[Valori dell'elemento:]]></value>
+	</definition>
+	<definition>
+		<key>text_expand</key>
+		<value><![CDATA[Espandi di +]]></value>
+	</definition>
+	<definition>
+		<key>text_hide</key>
+		<value><![CDATA[- Nascondi]]></value>
+	</definition>
+	<definition>
 		<key>entry_option_placeholder</key>
 		<value><![CDATA[Segnaposto:]]></value>
 	</definition>
 	<definition>
-        <key>entry_regexp_pattern</key>
-        <value><![CDATA[Modello regolare di espressione:]]></value>
-    </definition>
+		<key>entry_regexp_pattern</key>
+		<value><![CDATA[Modello regolare di espressione:]]></value>
+	</definition>
 	<definition>
-        <key>entry_error_text</key>
-        <value><![CDATA[Messaggio di errore a causa di un valore non valido:]]></value>
-    </definition>
+		<key>entry_error_text</key>
+		<value><![CDATA[Messaggio di errore a causa di un valore non valido:]]></value>
+	</definition>
 	<definition>
-        <key>text_product_condition</key>
-        <value><![CDATA[Condizioni del prodotto:]]></value>
-    </definition>
+		<key>text_product_condition</key>
+		<value><![CDATA[Condizioni del prodotto:]]></value>
+	</definition>
 	<definition>
-        <key>text_product_available</key>
-        <value><![CDATA[Disponibile]]></value>
-    </definition>
+		<key>text_product_available</key>
+		<value><![CDATA[Disponibile]]></value>
+	</definition>
 	<definition>
-        <key>text_product_disabled</key>
-        <value><![CDATA[Disabilitato]]></value>
-    </definition>
+		<key>text_product_disabled</key>
+		<value><![CDATA[Disabilitato]]></value>
+	</definition>
 	<definition>
-        <key>text_product_unavailable</key>
-        <value><![CDATA[Non disponibile]]></value>
-    </definition>
+		<key>text_product_unavailable</key>
+		<value><![CDATA[Non disponibile]]></value>
+	</definition>
 	<definition>
-        <key>text_product_out_of_stock</key>
-        <value><![CDATA[Esaurito]]></value>
-    </definition>
+		<key>text_product_out_of_stock</key>
+		<value><![CDATA[Esaurito]]></value>
+	</definition>
 	<definition>
-        <key>text_product_in_stock</key>
-        <value><![CDATA[Disponibile]]></value>
-    </definition>
+		<key>text_product_in_stock</key>
+		<value><![CDATA[Disponibile]]></value>
+	</definition>
 	<definition>
-        <key>text_product_option_out_of_stock</key>
-        <value><![CDATA[Opzione prodotto esaurito]]></value>
-    </definition>
+		<key>text_product_option_out_of_stock</key>
+		<value><![CDATA[Opzione prodotto esaurito]]></value>
+	</definition>
 	<definition>
-        <key>text_call_to_order</key>
-        <value><![CDATA[Chiama per ordinare]]></value>
-    </definition>
+		<key>text_call_to_order</key>
+		<value><![CDATA[Chiama per ordinare]]></value>
+	</definition>
 	<definition>
-        <key>entry_call_to_order</key>
-        <value><![CDATA[Prenota il prodotto:<br /><span class="help">Questo prodotto e solo prenotato e non è possibile ordinarlo. Contattateci per visualizzare il messaggio dell'ordine.</span>]]></value>
-    </definition>
+		<key>entry_call_to_order</key>
+		<value><![CDATA[Prenota il prodotto:<br /><span class="help">Questo prodotto e solo prenotato e non è possibile ordinarlo. Contattateci per visualizzare il messaggio dell'ordine.</span>]]></value>
+	</definition>
 	<definition>
 		<key>text_new_option</key>
 		<value><![CDATA[Nuova opzione]]></value>
@@ -580,5 +579,9 @@
 	<definition>
 		<key>entry_upload_dir</key>
 		<value><![CDATA[Carica il nome dellacartella<br>%s]]></value>
+	</definition>
+	<definition>
+		<key>text_success_relation_set</key>
+		<value><![CDATA[Relazioni di prodotti selezionati è stato inviato con successo!]]></value>
 	</definition>
 </definitions>

@@ -43,6 +43,10 @@ ul {
     padding: 0;
 }
 
+.hidden {
+	display: none;
+}
+
 .heading1 {
 	margin-bottom: 20px;
 	border-bottom: 1px solid #efefef;
@@ -288,12 +292,6 @@ li.dropdown {
 .addresses>section{
 	display: inline-block;
 }
-.addresses .old_address{
-	float: left;
-}
-.addresses .new_address{
-	float: right;
-}
 
 /* ------------ Featured Products ------------ */
 #categorymenu {
@@ -322,6 +320,11 @@ li.dropdown {
 	height: 50px;
 	margin: 0 -15px 0 0;
 	overflow: auto;
+}
+
+.list-inline > div {
+  padding-right: 5px;
+  padding-left: 5px;
 }
 
 .thumbnails .prdocutname {
@@ -1397,7 +1400,7 @@ ul.total li span.extra {
 	padding: 5px 5px 5px 5px;
 }
  
-.newcustomer, .returncustomer, .formbox {
+.newcustomer, .returncustomer {
 	padding: 10px;
 }
 
@@ -1913,7 +1916,6 @@ paypal pro styles
 }
 .nav-dash {
     list-style: none outside none;
-    margin: 0 -20px 20px;
     padding: 10px 0;
     text-align: center;
 }
@@ -2263,11 +2265,6 @@ paypal pro styles
 		-o-transition: all 0.8s; /* Opera */
 	}
 
-	.formbox {
-		width: 85%;
-		margin-bottom: 10px;
-	}
-
 	.newcustomer, .returncustomer{
 		margin-bottom: 10px;
 		margin-left: 0;
@@ -2283,10 +2280,6 @@ paypal pro styles
 
 	.cart-info .coupon table {
 		border-right: 1px solid #E7E7E7 !important;
-	}
-
-	.formbox.ml10 {
-		margin-left: 0;
 	}
 
 	.block_frame_cart  .buttonwrap {
@@ -2370,11 +2363,6 @@ paypal pro styles
 		text-align: center;
 	}
 
-	.formbox {
-		width: 85%;
-		margin-bottom: 10px;
-	}
-
 	.newcustomer, .returncustomer{
 		margin-bottom: 10px;
 		margin-left: 0;
@@ -2409,10 +2397,6 @@ paypal pro styles
 
 	.sorting.well .pull-right {
 		margin-top: 0;
-	}
-
-	.formbox.ml10 {
-		margin-left: 0;
 	}
 
 	.returncustomer {
@@ -2605,12 +2589,8 @@ paypal pro styles
 		margin-left: 37%;
 	}
 
-	.newcustomer, .returncustomer, .formbox {
+	.newcustomer, .returncustomer {
 		width: 100%;
-	}
-
-	.formbox.ml10 {
-		margin-left: 0;
 	}
 
 	.pagination.pull-right {
@@ -2662,4 +2642,9 @@ paypal pro styles
     .contentpanel{
         margin-top: 0;
     }
+}
+
+/* phone input css*/
+.intl-tel-input .country-list{
+	z-index: 4 !important;
 }

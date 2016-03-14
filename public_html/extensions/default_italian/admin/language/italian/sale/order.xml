@@ -350,8 +350,7 @@
 	</definition>
 	<definition>
 		<key>attention_check_total</key>
-		<value>
-			<![CDATA[Nota: I dettagli dell'ordine del prodotto son cambiati.Il totale è stato ricalcolato automaticamente. La recensione è richiesta.]]></value>
+		<value><![CDATA[Nota: I dettagli dell'ordine del prodotto son cambiati.Il totale è stato ricalcolato automaticamente. La recensione è richiesta.]]></value>
 	</definition>
 	<definition>
 		<key>text_order_total_add</key>
@@ -368,5 +367,9 @@
 	<definition>
 		<key>text_recalc</key>
 		<value><![CDATA[Ricalcola]]></value>
+	</definition>
+	<definition>
+		<key>entry_im</key>
+		<value><![CDATA[MI:]]></value>
 	</definition>
 </definitions>

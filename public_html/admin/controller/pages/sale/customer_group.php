@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2015 Belavier Commerce LLC
+  Copyright © 2011-2016 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -73,13 +73,20 @@ class ControllerPagesSaleCustomerGroup extends AController {
 
 		$grid_settings['colNames'] = array(
 			$this->language->get('column_name'),
+			$this->language->get('column_tax_exempt'),
 		);
 		$grid_settings['colModel'] = array(
 			array(
 				'name' => 'name',
 				'index' => 'name',
-				'width' => 700,
+				'width' => 600,
 				'align' => 'left',
+			),
+			array('name' => 'tax_exempt',
+			    'index' => 'tax_exempt',
+			    'width' => 100,
+			    'align' => 'center',
+			    'search' => false
 			),
 		);
 
@@ -167,10 +174,13 @@ class ControllerPagesSaleCustomerGroup extends AController {
 
 		if (isset($this->request->post['name'])) {
 			$this->data['name'] = $this->request->post['name'];
+			$this->data['tax_exempt'] = $this->request->post['tax_exempt'];
 		} elseif (isset($customer_group_info)) {
 			$this->data['name'] = $customer_group_info['name'];
+			$this->data['tax_exempt'] = $customer_group_info['tax_exempt'];
 		} else {
 			$this->data['name'] = '';
+			$this->data['tax_exempt'] = '';
 		}
 
 		if (!isset($this->request->get['customer_group_id'])) {
@@ -235,6 +245,14 @@ class ControllerPagesSaleCustomerGroup extends AController {
 			'name' => 'name',
 			'value' => $this->data['name'],
 			'required' => true,
+		));
+
+		$this->data['form']['fields']['tax_exempt'] = $form->getFieldHtml(array(
+			'type' => 'checkbox',
+			'name' => 'tax_exempt',
+			'value' => $this->data['tax_exempt'],
+			'style' => 'btn_switch',
+			'required' => false,
 		));
 
 		$this->view->assign('help_url', $this->gen_help_url('customer_group_edit') );

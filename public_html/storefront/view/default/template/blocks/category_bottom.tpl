@@ -1,5 +1,6 @@
 <div class="container-fluid">
 	<section id="categorymenu">
+	<h4 class="hidden">&nbsp;</h4>
 		<nav class="subnav">
 			<ul class="nav-pills categorymenu">
 				<li><a class="active menu_home" href="<?php echo $home_href; ?>"><?php echo $text_home; ?></a>

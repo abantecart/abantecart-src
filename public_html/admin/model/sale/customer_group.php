@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2015 Belavier Commerce LLC
+  Copyright © 2011-2016 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -22,13 +22,27 @@ if (! defined ( 'DIR_CORE' ) || !IS_ADMIN) {
 }
 class ModelSaleCustomerGroup extends Model {
 	public function addCustomerGroup($data) {
-		$this->db->query("INSERT INTO " . $this->db->table("customer_groups") . " SET name = '" . $this->db->escape($data['name']) . "'");
+		$this->db->query("INSERT INTO " . $this->db->table("customer_groups") . " 
+							SET name = '" . $this->db->escape($data['name']) . "',
+								tax_exempt = '" . $this->db->escape($data['tax_exempt']) . "'
+						");
 		return $this->db->getLastId();
 	}
 	
 	public function editCustomerGroup($customer_group_id, $data) {
-		if ( !empty($data['name']) )
-		$this->db->query("UPDATE " . $this->db->table("customer_groups") . " SET name = '" . $this->db->escape($data['name']) . "' WHERE customer_group_id = '" . (int)$customer_group_id . "'");
+		if ( !empty($data['name']) ) {
+			$this->db->query("UPDATE " . $this->db->table("customer_groups") . " 
+				SET 
+					name = '" . $this->db->escape($data['name']) . "'
+				WHERE customer_group_id = '" . (int)$customer_group_id . "'");
+		
+		}
+		if ( isset($data['tax_exempt']) ) {
+			$this->db->query("UPDATE " . $this->db->table("customer_groups") . " 
+				SET 
+					tax_exempt = '" . $this->db->escape($data['tax_exempt']) . "' 				
+				WHERE customer_group_id = '" . (int)$customer_group_id . "'");
+		}
 	}
 	
 	public function deleteCustomerGroup($customer_group_id) {

@@ -155,9 +155,21 @@ INSERT INTO `ac_coupon_descriptions` VALUES (6,1,'Coupon (-10.00)','Fixed Amount
 -- Dumping data for table `coupons`
 --
 
-INSERT INTO `ac_coupons` VALUES (4,'2222','P',10.0000,0,0,0.0000,'2012-01-27','2010-03-06',10,'10',1,'2015-06-12 09:56:24','2015-06-12 09:56:24');
-INSERT INTO `ac_coupons` VALUES (5,'3333','P',0.0000,0,1,100.0000,'2012-03-01','2015-08-31',10,'10',1,'2015-06-12 09:56:24','2015-06-12 09:56:24');
-INSERT INTO `ac_coupons` VALUES (6,'1111','F',10.0000,0,0,10.0000,'2012-01-01','2015-03-01',10,'10',1,'2015-06-12 09:56:24','2015-06-12 09:56:24');
+INSERT INTO `ac_coupons`
+  (`coupon_id`,`code`,`type`,`discount`,`logged`,`shipping`,`total`,`date_start`,`date_end`,`uses_total`,`uses_customer`,`status`,`date_added`)
+ VALUES
+  (  4,  '2222',  'P',  10.0000,  0,  0,  0.0000,  '2015-01-01',  '2016-01-01',  10,  '10',  1,  NOW());
+
+INSERT INTO `ac_coupons`
+(`coupon_id`,`code`,`type`,`discount`,`logged`,`shipping`,`total`,`date_start`,`date_end`,`uses_total`,`uses_customer`,`status`,`date_added`)
+VALUES
+ (5,  '3333',  'P',  0.0000,  0,  1,  100.0000,  '2015-01-01',  '2016-01-01',  10,  '10',  1,  NOW());
+
+INSERT INTO `ac_coupons`
+(`coupon_id`,`code`,`type`,`discount`,`logged`,`shipping`,`total`,`date_start`,`date_end`,`uses_total`,`uses_customer`,`status`,`date_added`)
+VALUES
+ ( 6, '1111', 'F', 10.0000, 0, 0, 10.0000, '2015-01-01', '2016-01-01', 10, '10', 1, NOW());
+
 
 --
 -- Dumping data for table `coupons_products`
@@ -206,7 +218,12 @@ VALUES
 (1929,	18,	17,	14,	1908,	20,	1,	NOW(),	NOW()),
 (1931,	18,	17,	13,	1908,	10,	1,	NOW(),	NOW()),
 (1933,	18,	17,	16,	1908,	30,	1,	NOW(),	NOW()),
-(1934,	18,	17,	15,	1908,	60,	1,	NOW(),	NOW());
+(1934,	18,	17,	15,	1908,	60,	1,	NOW(),	NOW()),
+(2030,	19,	17,	15,	2017,	80,	1,	NOW(),	NOW()),
+(2031,	19,	17,	14,	2019,	20,	1,	NOW(),	NOW()),
+(2032,	19,	17,	13,	2019,	10,	1,	NOW(),	NOW()),
+(2033,	19,	17,	16,	2019,	30,	1,	NOW(),	NOW()),
+(2034,	19,	17,	15,	2019,	60,	1,	NOW(),	NOW());
 --
 -- Dumping data for table `custom_blocks`
 --
@@ -253,18 +270,19 @@ INSERT INTO `ac_custom_lists` VALUES (10,12,'manufacturer_id',16,0,'2015-06-12 0
 --
 -- Dumping data for table `customers`
 --
-INSERT INTO `ac_customers` VALUES (2,0,'Juliana','Davis','julidavis@abantecart.com','julidavis@abantecart.com','(602) 141-7191','','6b006ba67f3c172e146991a2ad46d865','a:0:{}',NULL,0,1,1,1,1,'109.104.166.98','2013-08-31 14:25:37','2015-06-12 09:56:24');
-INSERT INTO `ac_customers` VALUES (3,0,'Keely','Mccoy','keelymccoy@abantecart.com','keelymccoy@abantecart.com','(602) 916-1822','','6b006ba67f3c172e146991a2ad46d865','a:0:{}',NULL,0,2,1,1,1,'109.104.166.98','2013-08-31 14:39:08','2015-06-12 09:56:24');
-INSERT INTO `ac_customers` VALUES (4,0,'Zelda','Weiss','zeldaweiss@abantecart.com','zeldaweiss@abantecart.com','(539) 838-9210','','6b006ba67f3c172e146991a2ad46d865','a:0:{}',NULL,0,3,1,1,1,'109.104.166.138','2013-08-31 14:42:58','2015-06-12 09:56:24');
-INSERT INTO `ac_customers` VALUES (5,0,'Gloria','Macias','gloriamacias@abantecart.com','gloriamacias@abantecart.com','(573) 500-2105','','6b006ba67f3c172e146991a2ad46d865','a:0:{}',NULL,0,4,1,1,1,'109.104.166.98','2013-08-31 14:46:58','2015-06-12 09:56:24');
-INSERT INTO `ac_customers` VALUES (6,0,'Bernard','Horne','bernardhorne@abantecart.com','bernardhorne@abantecart.com','(573) 500-2105','','6b006ba67f3c172e146991a2ad46d865','a:0:{}',NULL,0,5,1,1,1,'109.104.166.138','2013-08-31 14:50:27','2015-06-12 09:56:24');
-INSERT INTO `ac_customers` VALUES (7,0,'James','Curtis','jamescurtis@abantecart.com','jamescurtis@abantecart.com','(602) 916-1822','','6b006ba67f3c172e146991a2ad46d865','a:0:{}',NULL,0,6,1,1,1,'109.104.166.138','2013-08-31 15:00:03','2015-06-12 09:56:24');
-INSERT INTO `ac_customers` VALUES (8,0,'Bruce','Rosarini','brucerosarini@abantecart.com','brucerosarini@abantecart.com','(539) 838-9210','','6b006ba67f3c172e146991a2ad46d865','a:0:{}',NULL,0,7,1,1,1,'109.104.166.98','2013-08-31 15:08:23','2015-06-12 09:56:24');
-INSERT INTO `ac_customers` VALUES (9,0,'Carlos','Compton','carloscmpton@abantecart.com','carloscmpton@abantecart.com','(928) 205-0511','','6b006ba67f3c172e146991a2ad46d865','a:0:{}',NULL,0,8,1,1,1,'109.104.166.98','2013-08-31 15:13:14','2015-06-12 09:56:24');
-INSERT INTO `ac_customers` VALUES (10,0,'Garrison','Baxter','garrisonbaxter@abantecart.com','garrisonbaxter@abantecart.com','(803) 189-5001','','6b006ba67f3c172e146991a2ad46d865','a:0:{}',NULL,0,9,1,1,1,'109.104.166.138','2013-09-01 12:51:47','2015-06-12 09:56:24');
-INSERT INTO `ac_customers` VALUES (11,0,'Anthony','Blair','anthonyblair@abantecart.com','anthonyblair@abantecart.com','(402) 456-6398','','05ec6352a8b997363e5c6483aeffeb50','a:0:{}',NULL,0,10,1,1,1,'171.98.12.12','2013-09-01 12:54:26','2015-06-12 09:56:24');
-INSERT INTO `ac_customers` VALUES (12,0,'Allen','Waters','allenwaters@abantecart.com','allenwaters@abantecart.com','(417) 280-7406','','6b006ba67f3c172e146991a2ad46d865','a:0:{}',NULL,0,11,1,1,1,'109.104.166.98','2013-09-01 13:12:56','2015-06-12 09:56:24');
-INSERT INTO `ac_customers` VALUES (13,0,'qqqqqq','qqqqqq','1@abantecart','1@abantecart','55 555 5555 5555','','f73469b693cecf7fa70c3e39b6fde1f4','a:1:{s:3:\"97.\";i:1;}',NULL,0,12,1,1,1,'109.104.166.98','2013-09-08 15:28:20','2015-06-12 09:56:24');
+INSERT INTO `ac_customers` VALUES
+(2,0,'Juliana','Davis','julidavis@abantecart.com','julidavis@abantecart.com','(602) 141-7191','','','6b006ba67f3c172e146991a2ad46d865','a:0:{}',NULL,0,1,1,1,1,'109.104.166.98','2013-08-31 14:25:37','2015-06-12 09:56:24'),
+(3,0,'Keely','Mccoy','keelymccoy@abantecart.com','keelymccoy@abantecart.com','(602) 916-1822','','','6b006ba67f3c172e146991a2ad46d865','a:0:{}',NULL,0,2,1,1,1,'109.104.166.98','2013-08-31 14:39:08','2015-06-12 09:56:24'),
+(4,0,'Zelda','Weiss','zeldaweiss@abantecart.com','zeldaweiss@abantecart.com','(539) 838-9210','','','6b006ba67f3c172e146991a2ad46d865','a:0:{}',NULL,0,3,1,1,1,'109.104.166.138','2013-08-31 14:42:58','2015-06-12 09:56:24'),
+(5,0,'Gloria','Macias','gloriamacias@abantecart.com','gloriamacias@abantecart.com','(573) 500-2105','','','6b006ba67f3c172e146991a2ad46d865','a:0:{}',NULL,0,4,1,1,1,'109.104.166.98','2013-08-31 14:46:58','2015-06-12 09:56:24'),
+(6,0,'Bernard','Horne','bernardhorne@abantecart.com','bernardhorne@abantecart.com','(573) 500-2105','','','6b006ba67f3c172e146991a2ad46d865','a:0:{}',NULL,0,5,1,1,1,'109.104.166.138','2013-08-31 14:50:27','2015-06-12 09:56:24'),
+(7,0,'James','Curtis','jamescurtis@abantecart.com','jamescurtis@abantecart.com','(602) 916-1822','','','6b006ba67f3c172e146991a2ad46d865','a:0:{}',NULL,0,6,1,1,1,'109.104.166.138','2013-08-31 15:00:03','2015-06-12 09:56:24'),
+(8,0,'Bruce','Rosarini','brucerosarini@abantecart.com','brucerosarini@abantecart.com','(539) 838-9210','','','6b006ba67f3c172e146991a2ad46d865','a:0:{}',NULL,0,7,1,1,1,'109.104.166.98','2013-08-31 15:08:23','2015-06-12 09:56:24'),
+(9,0,'Carlos','Compton','carloscmpton@abantecart.com','carloscmpton@abantecart.com','(928) 205-0511','','','6b006ba67f3c172e146991a2ad46d865','a:0:{}',NULL,0,8,1,1,1,'109.104.166.98','2013-08-31 15:13:14','2015-06-12 09:56:24'),
+(10,0,'Garrison','Baxter','garrisonbaxter@abantecart.com','garrisonbaxter@abantecart.com','(803) 189-5001','','','6b006ba67f3c172e146991a2ad46d865','a:0:{}',NULL,0,9,1,1,1,'109.104.166.138','2013-09-01 12:51:47','2015-06-12 09:56:24'),
+(11,0,'Anthony','Blair','anthonyblair@abantecart.com','anthonyblair@abantecart.com','(402) 456-6398','','','6b006ba67f3c172e146991a2ad46d865','a:0:{}',NULL,0,10,1,1,1,'171.98.12.12','2013-09-01 12:54:26','2015-06-12 09:56:24'),
+(12,0,'Allen','Waters','allenwaters@abantecart.com','allenwaters@abantecart.com','(417) 280-7406','','','6b006ba67f3c172e146991a2ad46d865','a:0:{}',NULL,0,11,1,1,1,'109.104.166.98','2013-09-01 13:12:56','2015-06-12 09:56:24'),
+(13,0,'qqqqqq','qqqqqq','1@abantecart','1@abantecart','55 555 5555 5555','','','6b006ba67f3c172e146991a2ad46d865','a:1:{s:3:\"97.\";i:1;}',NULL,0,12,1,1,1,'109.104.166.98','2013-09-08 15:28:20','2015-06-12 09:56:24');
 
 --
 -- Dumping data for table `download_descriptions`
@@ -424,31 +442,34 @@ INSERT INTO `ac_order_history` VALUES (13,13,1,1,'','2012-03-15 14:05:40','2015-
 -- Dumping data for table `order_options`
 --
 
-INSERT INTO `ac_order_options` VALUES (1,1,2,588,'Memory','8GB',99.0000,'+',NULL);
-INSERT INTO `ac_order_options` VALUES (2,2,7,684,'Color','brown',10.0000,'+',NULL);
-INSERT INTO `ac_order_options` VALUES (3,3,9,651,'Size','33.8 oz',49.0000,'+',NULL);
-INSERT INTO `ac_order_options` VALUES (4,3,10,650,'Size','8 oz',19.0000,'+',NULL);
-INSERT INTO `ac_order_options` VALUES (5,3,15,646,'Color','Brown',20.0000,'-',NULL);
-INSERT INTO `ac_order_options` VALUES (6,4,16,613,'Color','Mandarin Sky',29.5000,'+',NULL);
-INSERT INTO `ac_order_options` VALUES (7,4,18,664,'Fragrance Size','3.4 oz',84.0000,'+',NULL);
-INSERT INTO `ac_order_options` VALUES (8,4,19,673,'Fragrance Size','6.7 oz',92.0000,'+',NULL);
-INSERT INTO `ac_order_options` VALUES (9,4,21,661,'Fragrance Size','150ml',45.0000,'+',NULL);
-INSERT INTO `ac_order_options` VALUES (10,5,23,627,'Color','Jade Fever',48.0000,'+',NULL);
-INSERT INTO `ac_order_options` VALUES (11,5,24,626,'Color','Gris Fatale',48.0000,'+',NULL);
-INSERT INTO `ac_order_options` VALUES (12,5,25,622,'Color','Shirelle',15.0000,'+',NULL);
-INSERT INTO `ac_order_options` VALUES (13,5,26,619,'Color','Lacewood',27.0000,'+',NULL);
-INSERT INTO `ac_order_options` VALUES (14,5,27,657,'Color','Light Bisque',30.5000,'+',NULL);
-INSERT INTO `ac_order_options` VALUES (15,5,30,651,'Size','33.8 oz',49.0000,'+',NULL);
-INSERT INTO `ac_order_options` VALUES (16,6,31,666,'Size','30 ml',30.0000,'+',NULL);
-INSERT INTO `ac_order_options` VALUES (17,7,33,649,'Fragrance Size','1.7 oz',88.0000,'+',NULL);
-INSERT INTO `ac_order_options` VALUES (18,7,34,660,'Fragrance Size','100ml',37.0000,'+',NULL);
-INSERT INTO `ac_order_options` VALUES (19,8,35,646,'Color','Brown',20.0000,'-',NULL);
-INSERT INTO `ac_order_options` VALUES (20,8,36,681,'Color','beige',10.0000,'+',NULL);
-INSERT INTO `ac_order_options` VALUES (21,12,45,721,'Size','Eau de Toilette',78.5000,'$',NULL);
-INSERT INTO `ac_order_options` VALUES (22,12,45,1,'Gift Wrapping','1',78.5000,'$',NULL);
-INSERT INTO `ac_order_options` VALUES (23,12,47,738,'Size','30ml',90.0000,'$',NULL);
-INSERT INTO `ac_order_options` VALUES (24,13,49,713,'Size','1.7 oz',72.0000,'$',NULL);
-INSERT INTO `ac_order_options` VALUES (25,13,49,1,'Gift Wrapping','1',72.0000,'$',NULL);
+INSERT INTO `ac_order_options`
+		(`order_option_id`, `order_id`, `order_product_id`, `product_option_value_id`, `name`, `value`, `price`, `prefix`, `settings`)
+VALUES
+ (1,1,2,588,'Memory','8GB',99.0000,'+',NULL),
+ (2,2,7,684,'Color','brown',10.0000,'+',NULL),
+ (3,3,9,651,'Size','33.8 oz',49.0000,'+',NULL),
+ (4,3,10,650,'Size','8 oz',19.0000,'+',NULL),
+ (5,3,15,646,'Color','Brown',20.0000,'-',NULL),
+ (6,4,16,613,'Color','Mandarin Sky',29.5000,'+',NULL),
+ (7,4,18,664,'Fragrance Size','3.4 oz',84.0000,'+',NULL),
+ (8,4,19,673,'Fragrance Size','6.7 oz',92.0000,'+',NULL),
+ (9,4,21,661,'Fragrance Size','150ml',45.0000,'+',NULL),
+ (10,5,23,627,'Color','Jade Fever',48.0000,'+',NULL),
+ (11,5,24,626,'Color','Gris Fatale',48.0000,'+',NULL),
+ (12,5,25,622,'Color','Shirelle',15.0000,'+',NULL),
+ (13,5,26,619,'Color','Lacewood',27.0000,'+',NULL),
+ (14,5,27,657,'Color','Light Bisque',30.5000,'+',NULL),
+ (15,5,30,651,'Size','33.8 oz',49.0000,'+',NULL),
+ (16,6,31,666,'Size','30 ml',30.0000,'+',NULL),
+ (17,7,33,649,'Fragrance Size','1.7 oz',88.0000,'+',NULL),
+ (18,7,34,660,'Fragrance Size','100ml',37.0000,'+',NULL),
+ (19,8,35,646,'Color','Brown',20.0000,'-',NULL),
+ (20,8,36,681,'Color','beige',10.0000,'+',NULL),
+ (21,12,45,721,'Size','Eau de Toilette',78.5000,'$',NULL),
+ (22,12,45,1,'Gift Wrapping','1',78.5000,'$',NULL),
+ (23,12,47,738,'Size','30ml',90.0000,'$',NULL),
+ (24,13,49,713,'Size','1.7 oz',72.0000,'$',NULL),
+ (25,13,49,1,'Gift Wrapping','1',72.0000,'$',NULL);
 
 INSERT INTO `ac_order_products` VALUES (6,2,97,'Eye Rejuvenating Serum','GRMBC004',126.0000,126.0000,8.5000,1,0);
 INSERT INTO `ac_order_products` VALUES (7,2,100,'Smooth silk lip pencils','GRMBC007',10.0000,40.0000,8.5000,4,0);
@@ -1587,7 +1608,7 @@ INSERT INTO `ac_resource_descriptions` VALUES (100144,1,'demo_product_18.jpg',''
 INSERT INTO `ac_resource_descriptions` VALUES (100145,1,'demo_product_37.jpg','','','18/73/1.jpg','','2015-06-12 09:56:25','2015-06-12 09:56:25');
 INSERT INTO `ac_resource_descriptions` VALUES (100146,1,'demo_product_49_1.png','','','18/73/2.png','','2015-06-12 09:56:25','2015-06-12 09:56:25');
 INSERT INTO `ac_resource_descriptions` VALUES (100147,1,'store_logo.png','','','18/73/3.png','','2015-06-12 09:56:25','2015-06-12 09:56:25');
-INSERT INTO `ac_resource_descriptions` VALUES (100148,1,'favicon.ico','','','18/73/4.ico','','2015-06-12 09:56:25','2015-06-12 09:56:25');
+INSERT INTO `ac_resource_descriptions` VALUES (100148,1,'favicon.png','','','18/73/4.png','','2015-06-12 09:56:25','2015-06-12 09:56:25');
 INSERT INTO `ac_resource_descriptions` VALUES (100150,1,'demo_product51.png','','','18/73/6.png','','2015-06-12 09:56:25','2015-06-12 09:56:25');
 INSERT INTO `ac_resource_descriptions` VALUES (100153,1,'demo_mf_gucci.jpg','','','18/73/9.jpg','','2015-06-12 09:56:25','2015-06-12 09:56:25');
 INSERT INTO `ac_resource_descriptions` VALUES (100154,1,'demo_product52_1.jpg','','','18/73/a.jpg','','2015-06-12 09:56:25','2015-06-12 09:56:25');

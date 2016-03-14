@@ -324,4 +324,52 @@
 		<key>text_map_success</key>
 		<value><![CDATA[Recursos vinculado con éxito]]></value>
 	</definition>
+	<definition>
+		<key>error_delete</key>
+		<value><![CDATA[No se puede eliminar recurso vinculado a varios objetos]]></value>
+	</definition>
+	<definition>
+		<key>text_image_size</key>
+		<value><![CDATA[Tamaño de la imagen:]]></value>
+	</definition>
+	<definition>
+		<key>text_file_size</key>
+		<value><![CDATA[Tamaño del archivo:]]></value>
+	</definition>
+	<definition>
+		<key>text_file_mime</key>
+		<value><![CDATA[MÍMICA:]]></value>
+	</definition>
+	<definition>
+		<key>text_file_path</key>
+		<value><![CDATA[Ubicación del archivo:]]></value>
+	</definition>
+	<definition>
+		<key>text_file_url</key>
+		<value><![CDATA[URL del Recurso:]]></value>
+	</definition>
+	<definition>
+		<key>text_sorting_date_asc</key>
+		<value><![CDATA[Fecha Viejo &gt; Nuevo]]></value>
+	</definition>
+	<definition>
+		<key>text_sorting_date_desc</key>
+		<value><![CDATA[Fecha Nueva &gt; Antiguo]]></value>
+	</definition>
+	<definition>
+		<key>text_sorting_name_asc</key>
+		<value><![CDATA[Nombre A - Z]]></value>
+	</definition>
+	<definition>
+		<key>text_sorting_name_desc</key>
+		<value><![CDATA[Nombre Z - A]]></value>
+	</definition>
+	<definition>
+		<key>text_sorting_asc</key>
+		<value><![CDATA[Orden de Clasificación Low &gt; Alto]]></value>
+	</definition>
+	<definition>
+		<key>text_sorting_desc</key>
+		<value><![CDATA[Orden de Clasificación Alto &gt; Bajo]]></value>
+	</definition>
 </definitions>

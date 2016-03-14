@@ -10,6 +10,6 @@
   </definition>
   <definition>
     <key>text_password</key>
-    <value><![CDATA[Your new password to is:]]></value>
+    <value><![CDATA[Your new password is:]]></value>
   </definition>
 </definitions>

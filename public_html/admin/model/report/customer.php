@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2015 Belavier Commerce LLC
+  Copyright © 2011-2016 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -87,7 +87,7 @@ class ModelReportCustomer extends Model {
 	}
 	
 	public function getTotalOnlineCustomers($data = array()) {
-		return $this->getCustomersOnline($data, 'total_only');
+		return $this->getOnlineCustomers($data, 'total_only');
 	}
 
 
@@ -145,6 +145,7 @@ class ModelReportCustomer extends Model {
 
 		//If for total, we done bulding the query
 		if ($mode == 'total_only') {
+
 			$query = $this->db->query($sql);
 			return $query->row['total'];
 		}
@@ -193,8 +194,9 @@ class ModelReportCustomer extends Model {
 			$total_sql = 'SELECT COUNT(DISTINCT c.customer_id) as total';
 		}
 		else {
-			$total_sql = "SELECT 	c.customer_id, 
-									CONCAT(c.firstname, ' ', c.lastname) AS customer, 
+			$total_sql = "SELECT 	ct.customer_transaction_id,
+									c.customer_id,
+									CONCAT(c.firstname, ' ', c.lastname) AS customer,
 									ct.date_added,
 									c.status, 
 									ct.debit,
@@ -234,7 +236,7 @@ class ModelReportCustomer extends Model {
 		}
 
 		if (!empty($data['subsql_filter'])){
-			//$where .= " " . $data['subsql_filter'];
+			$where .= " " . $data['subsql_filter'];
 		}
 		
 		if ($where) {
@@ -247,7 +249,7 @@ class ModelReportCustomer extends Model {
 			return $query->row['total'];
 		}
 		
-		$sql .= " GROUP BY c.customer_id ";
+		//$sql .= " GROUP BY c.customer_id ";
 
 		$sort_data = array(
 		    'transaction_type' => 'ct.transaction_type',

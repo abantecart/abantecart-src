@@ -149,14 +149,12 @@
 	position: relative;
 	margin: 0em;
 	padding: 0em;
-	overflow: hidden;
 	border: none;
 	background: none;
 }
 
 .ui-jqgrid .ui-jqgrid-hbox {
 	float: left;
-	padding-right: 20px;
 	border-bottom: 2px solid #DDDDDD;
 }
 
@@ -280,6 +278,7 @@
 	margin: -1px 0 0 0;
 	padding: 0;
 	text-align: left;
+	display: table;
 }
 
 .ui-jqgrid .ui-jqgrid-btable {

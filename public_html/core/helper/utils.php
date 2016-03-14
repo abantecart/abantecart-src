@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2015 Belavier Commerce LLC
+  Copyright © 2011-2016 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -173,6 +173,7 @@ function getUniqueSeoKeyword($seo_key, $object_key_name='', $object_id=0){
 
 	$result = $db->query($sql);
 	if($result->num_rows){
+		$keywords = array();
 		foreach($result->rows as $row){
 			$keywords[] = $row['keyword'];
 		}
@@ -774,6 +775,12 @@ function compressTarGZ($tar_filename, $tar_dir, $compress_level = 5){
 	}
 }
 
+/**
+ * @param string $src
+ * @param int $level
+ * @param string|bool $dst
+ * @return bool
+ */
 function gzip($src, $level = 5, $dst = false){
     if($dst == false){
         $dst = $src.".gz";
@@ -791,10 +798,10 @@ function gzip($src, $level = 5, $dst = false){
             gzclose($dst_handle);
             return true;
         } else {
-            error_log("$dst already exists");
+            error_log($dst." already exists");
         }
     } else {
-        error_log("$src doesn't exist");
+        error_log($src." doesn't exist");
     }
     return false;
 }
@@ -842,9 +849,8 @@ function compressZIP($zip_filename, $zip_dir){
 }
 
 function getMimeType($filename) {
-$filename = (string)$filename;
+	$filename = (string)$filename;
     $mime_types = array(
-
         'txt' => 'text/plain',
         'htm' => 'text/html',
         'html' => 'text/html',
@@ -871,6 +877,7 @@ $filename = (string)$filename;
 
         // archives
         'zip' => 'application/zip',
+        'gz' => 'application/gzip',
         'rar' => 'application/x-rar-compressed',
         'exe' => 'application/x-msdownload',
         'msi' => 'application/x-msdownload',
@@ -899,7 +906,9 @@ $filename = (string)$filename;
         'ods' => 'application/vnd.oasis.opendocument.spreadsheet',
     );
 
-    $ext = strtolower(array_pop(explode('.',$filename)));
+	$pieces = explode('.',$filename);
+	$ext = strtolower(array_pop($pieces));
+
     if (has_value($mime_types[$ext])) {
         return $mime_types[$ext];
     }elseif (function_exists('finfo_open')) {
@@ -1040,4 +1049,26 @@ function js_encode($text) {
 */
 function js_echo($text) {
 	echo js_encode($text);
+}
+/**
+ * Function output string with html-entities
+ *
+ * @param string $html
+ * @return string
+*/
+function echo_html2view($html){
+	echo htmlspecialchars($html,ENT_QUOTES,'UTF-8');
+}
+
+/**
+ * Function to show readable file size
+ *
+ * @param $bytes
+ * @param int $decimals
+ * @return string
+ */
+function human_filesize($bytes, $decimals = 2) {
+  $sz = 'BKMGTP';
+  $factor = floor((strlen($bytes) - 1) / 3);
+  return sprintf("%.{$decimals}f", $bytes / pow(1024, $factor)) . @$sz[$factor];
 }

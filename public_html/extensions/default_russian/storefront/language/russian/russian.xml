@@ -186,8 +186,7 @@
 	</definition>
 	<definition>
 		<key>notice_out_of_stock_body</key>
-		<value>
-			<![CDATA[Продукт &quot; %s &quot; достиг нулевой или отрицательной инвентаризации для основного продукта или его вариантов. <br> В результате настройки автоотключения, продукт ( %s ) был автоматически отключен!]]></value>
+		<value><![CDATA[Продукт &quot; %s &quot; достиг нулевой или отрицательной инвентаризации для основного продукта или его вариантов. <br> В результате настройки автоотключения, продукт ( %s ) был автоматически отключен!]]></value>
 	</definition>
 	<definition>
 		<key>no_payment_required</key>
@@ -320,5 +319,9 @@
 	<definition>
 		<key>text_unavailable</key>
 		<value><![CDATA[Недоступно]]></value>
+	</definition>
+	<definition>
+		<key>button_pay_with_balance</key>
+		<value><![CDATA[Оплатить с баланса]]></value>
 	</definition>
 </definitions>

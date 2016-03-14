@@ -13,7 +13,7 @@ Load your API credentials. You can locate API details in <a href="https://www.pa
 Once you provide API details you can press button to test connection.
 
 <br/><br/>
-Optionally, USA merchants can enabled Bill Me Later (BML) feature, that allows customers to purchase product with later payment option. Check PayPal to signup for this service. <a href="https://www.paypal.com/webapps/mpp/billmelater-productoverview?partner_id=V5VQZUVNK5RT6" target="_new">See here</a>
+Optionally, USA merchants can enabled PayPal Credit feature, that allows customers to purchase product with later payment option. Check PayPal to signup for this service. <a href="https://www.paypal.com/webapps/mpp/billmelater-productoverview?partner_id=V5VQZUVNK5RT6" target="_new">See here</a>
 
 <br/><br/>
 If BML is enabled, you have an option to include promotional PayPal banners on AbanteCart pages. These banners specifically designed to help customers with making quick payment choice and improve shopping cart sales. Banners can be enabled in the layout section   
@@ -27,6 +27,6 @@ Now you can provide the rest of the settings. Other settings are self explanator
 What to look for?
 <br/><br/>
 1. Customers on a storefront will see option to checkout at shopping cart page, bypassing normal checkout process <br />
-2. With BML option enabled customers on a storefront will see option to checkout at shopping cart with bill me later option<br/>
+2. With BML option enabled customers on a storefront will see option to checkout at shopping cart with PayPal Credit option<br/>
 
 It is recommended to have guest checkout enabled. If disabled, main feature of express checkout ( quick checkout without account) will not function.

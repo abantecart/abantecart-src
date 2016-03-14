@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2015 Belavier Commerce LLC
+  Copyright © 2011-2016 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -22,7 +22,7 @@ if (! defined ( 'DIR_CORE' )) {
 }
 
 /**
- * Class to handle file uploads
+ * Class to handle file downlaods and uploads
  *
  */
 /**
@@ -64,8 +64,6 @@ class AFile {
 	/**
 	 * @param $settings
 	 * @param array $data
-	 * @internal param int $product_id
-	 * @internal param int $option_id
 	 * @return array
 	 */
 	public function validateFileOption($settings, $data) {
@@ -145,4 +143,57 @@ class AFile {
 		return array('name' => $new_name, 'path' => $real_path);
 	}
 
+	/**
+	 * Download file
+	 * @param string $url
+	 * @return object/bool
+	 */	
+	public function downloadFile($url) {
+		$file = $this->_download($url);
+		if ($file->http_code == 200) {
+			return $file;
+		}
+		return false;
+
+	}
+
+	/**
+	 * Write Downloaded file
+	 * @param object $download
+	 * @return string $target
+	 * @return int
+	 */	
+	public function writeDownloadToFile($download, $target) {
+		if (is_dir($target)) return null;
+		if (function_exists("file_put_contents")) {
+			$bytes = @file_put_contents($target, $download->body);
+			return $bytes == $download->content_length;
+		}
+
+		$handle = @fopen($target, 'w+');
+		$bytes = fwrite($handle, $download->body);
+		@fclose($handle);
+
+		return $bytes == $download->content_length;
+	}
+
+	private function _download($uri) {
+		$ch = curl_init();
+
+		curl_setopt($ch, CURLOPT_URL, $uri);
+		curl_setopt($ch, CURLOPT_HEADER, 0);
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+
+		$response = new stdClass();
+
+		$response->body = curl_exec($ch);
+		$response->http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+		$response->content_type = curl_getinfo($ch, CURLINFO_CONTENT_TYPE);
+		$response->content_length = curl_getinfo($ch, CURLINFO_CONTENT_LENGTH_DOWNLOAD);
+		curl_close($ch);
+		
+		return $response;
+	}
+	
+	
 }

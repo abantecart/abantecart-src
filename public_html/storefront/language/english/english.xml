@@ -238,6 +238,10 @@
 		<value><![CDATA[Account Balance: ]]></value>
 	</definition>
 	<definition>
+		<key>button_pay_with_balance</key>
+		<value><![CDATA[Pay With Balance]]></value>
+	</definition>
+	<definition>
 		<key>button_apply_balance</key>
 		<value><![CDATA[Apply to Order]]></value>
 	</definition>

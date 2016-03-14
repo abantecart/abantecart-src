@@ -1,0 +1,92 @@
+<?xml version="1.0"?>
+<definitions>
+	<definition>
+		<key>im_text_notification</key>
+		<value><![CDATA[ Notification ]]></value>
+	</definition>
+	<definition>
+		<key>im_error_mail_address</key>
+		<value><![CDATA[ Email Address %s is not valid! ]]></value>
+	</definition>
+	<definition>
+		<key>im_protocol_email_title</key>
+		<value><![CDATA[ E-mail ]]></value>
+	</definition>
+	<definition>
+		<key>im_protocol_sms_title</key>
+		<value><![CDATA[ SMS ]]></value>
+	</definition>
+	<definition>
+		<key>im_protocol_sms_empty_warn</key>
+		<value><![CDATA[ SMS notifications are not possible. Mobile number is not saved in your account records. ]]></value>
+	</definition>
+	<definition>
+		<key>im_sendpoint_name_order_update</key>
+		<value><![CDATA[ Order Update ]]></value>
+	</definition>
+	<definition>
+		<key>im_sendpoint_name_order_update_note</key>
+		<value><![CDATA[ Select if like to receive notifications about your orders' updates.]]></value>
+	</definition>
+	<definition>
+		<key>im_order_update_text_to_admin</key>
+		<value><![CDATA[ Order #%s has been updated! Order status ID %s]]></value>
+	</definition>
+	<definition>
+		<key>im_order_update_text_to_customer</key>
+		<value><![CDATA[ Your order #%s Updated. New Order Status is %s ]]></value>
+	</definition>
+
+	<definition>
+		<key>im_new_order_text_to_admin</key>
+		<value><![CDATA[ New Order #%s has been placed!]]></value>
+	</definition>
+	<definition>
+		<key>im_new_customer_text_to_admin</key>
+		<value><![CDATA[ New Customer #%s has been registered!]]></value>
+	</definition>
+	<definition>
+		<key>im_sendpoint_name_customer_account_update</key>
+		<value><![CDATA[ Account Update ]]></value>
+	</definition>
+	<definition>
+		<key>im_sendpoint_name_customer_account_update_note</key>
+		<value><![CDATA[ Select if like to receive notifications about your account updates.]]></value>
+	</definition>
+	<definition>
+		<key>im_customer_account_update_text_to_customer</key>
+		<value><![CDATA[ Your account has been updated! If you did not do any changes, please contact site owner ]]></value>
+	</definition>
+	<definition>
+		<key>im_customer_account_update_email_to_customer</key>
+		<value><![CDATA[ Your account email address was changed to %s! If you did not do this change, please contact site owner ]]></value>
+	</definition>
+	<definition>
+		<key>im_customer_account_update_login_to_customer</key>
+		<value><![CDATA[ Your account login name was changed to %s! If you did not do this change, please contact site owner ]]></value>
+	</definition>
+	<definition>
+		<key>im_customer_account_update_password_to_customer</key>
+		<value><![CDATA[ Your account password has been changed! If you did not do this change, please contact site owner ]]></value>
+	</definition>
+	<definition>
+		<key>im_customer_contact_admin_text</key>
+		<value><![CDATA[ You've got new enquiry from customer (%s, %s)! ]]></value>
+	</definition>
+	<definition>
+		<key>im_sendpoint_name_newsletter</key>
+		<value><![CDATA[ Newsletters ]]></value>
+	</definition>
+	<definition>
+		<key>im_sendpoint_name_newsletter_note</key>
+		<value><![CDATA[ Select if like to receive notifications about our products and service updates.]]></value>
+	</definition>
+	<definition>
+		<key>im_product_review_text_to_admin</key>
+		<value><![CDATA[ New product review has been added. See details #admin#rt=catalog/review/update&review_id=%s ]]></value>
+	</definition>
+	<definition>
+		<key>im_product_out_of_stock_admin_text</key>
+		<value><![CDATA[ Product with ID #%s is out of Stock. ]]></value>
+	</definition>
+</definitions>

@@ -29,49 +29,138 @@
 
 	<?php echo $form['form_open']; ?>
 	<div class="panel-body panel-body-nopadding tab-content col-xs-12">
-			<?php foreach ($form['fields'] as $name => $field) {
-			if ($name == 'all_zones') {
-				continue;
-			}
-			$fld = is_array($field) ? $field[0] : $field;
-			//Logic to calculate fields width
-			$widthcasses = "col-sm-7";
-			if (is_int(stripos($fld->style, 'large-field'))) {
-				$widthcasses = "col-sm-7";
-			} else if (is_int(stripos($fld->style, 'medium-field')) || is_int(stripos($fld->style, 'date'))) {
-				$widthcasses = "col-sm-5";
-			} else if (is_int(stripos($fld->style, 'small-field')) || is_int(stripos($fld->style, 'btn_switch'))) {
-				$widthcasses = "col-sm-3";
-			} else if (is_int(stripos($fld->style, 'tiny-field'))) {
-				$widthcasses = "col-sm-2";
-			}
-			$widthcasses .= "";
-			if (in_array($name, array('rate', 'threshold_condition', 'threshold'))) {
-				$widthcasses = "col-sm-3 col-xs-12";
-			}
-			?>
-			<div id="container_<?php echo $name; ?>" class="form-group <?php if (!empty($error[$name])) {
-				echo "has-error";
-			} ?>">
-				<label class="control-label col-sm-3 col-xs-12"
-					   for="<?php echo $fld->element_id; ?>"><?php echo ${'entry_' . $name}; ?></label>
-
-				<div class="input-group afield <?php echo $widthcasses; ?> <?php echo($name == 'description' ? 'ml_ckeditor' : '') ?>">
-					<?php if ($name == 'zone') { ?>
-						<div class="dl-horizontal mb10">
-							<?php echo $form['fields']['all_zones'] ?>
-							<label for="cgFrm_all_zones"><?php echo $text_tax_all_zones; ?></label>
-						</div>
-					<?php
-					}
-					echo is_array($field) ? implode('', $field) : $field;    ?>
-				</div>
-				<?php if (!empty($error[$name])) { ?>
-					<span class="help-block field_err"><?php echo $error[$name]; ?></span>
-				<?php } ?>
+		<?php 
+			$name = 'location';
+			$fld = $form['fields'][$name];
+		?>
+		<div id="container_<?php echo $name; ?>" class="form-group <?php if (!empty($error[$name])) {
+			echo "has-error";
+		} ?>">
+			<label class="control-label col-sm-3 col-xs-12" for="<?php echo $fld->element_id; ?>"><?php echo ${'entry_' . $name}; ?></label>
+			<div class="input-group afield col-sm-5">
+				<?php echo $fld; ?>
 			</div>
-			<?php } ?><!-- <div class="fieldset"> -->
+			<?php if (!empty($error[$name])) { ?>
+			<span class="help-block field_err"><?php echo $error[$name]; ?></span>
+			<?php } ?>
+		</div>
+
+		<?php 
+			$name = 'zone';
+			$fld = $form['fields'][$name];
+		?>
+		<div id="container_<?php echo $name; ?>" class="form-group <?php if (!empty($error[$name])) {
+			echo "has-error";
+		} ?>">
+			<label class="control-label col-sm-3 col-xs-12" for="<?php echo $fld->element_id; ?>"><?php echo ${'entry_' . $name}; ?></label>
+			<div class="input-group afield col-sm-5">
+				<div class="dl-horizontal checkbox">
+					<label for="cgFrm_all_zones"><?php echo $form['fields']['all_zones'] ?> <?php echo $text_tax_all_zones; ?></label>							</div>
+				<?php echo $fld; ?>
+			</div>
+			<?php if (!empty($error[$name])) { ?>
+			<span class="help-block field_err"><?php echo $error[$name]; ?></span>
+			<?php } ?>
+		</div>
+	
+		<?php 
+			$name = 'description';
+			$fld = $form['fields'][$name];
+		?>
+		<div id="container_<?php echo $name; ?>" class="form-group <?php if (!empty($error[$name])) {
+			echo "has-error";
+		} ?>">
+			<label class="control-label col-sm-3 col-xs-12" for="<?php echo $fld->element_id; ?>"><?php echo ${'entry_' . $name}; ?></label>
+			<div class="input-group afield col-sm-7">
+				<?php echo $fld; ?>
+			</div>
+			<?php if (!empty($error[$name])) { ?>
+			<span class="help-block field_err"><?php echo $error[$name]; ?></span>
+			<?php } ?>
+		</div>
+	
+		<?php 
+			$name = 'rate';
+			$fld = $form['fields'][$name];
+		?>
+		<div id="container_<?php echo $name; ?>" class="form-group <?php if (!empty($error[$name])) {
+			echo "has-error";
+		} ?>">
+			<label class="control-label col-sm-3 col-xs-12" for="<?php echo $fld->element_id; ?>"><?php echo ${'entry_' . $name}; ?></label>
+			<div class="input-group afield col-sm-7">
+				<div class="row">
+				    <div class="col-sm-3">
+				    	<div class="input-group afield"><?php echo $fld[0]; ?></div>
+				    </div>
+				    <div class="col-sm-5">
+				    	<div class="input-group afield"><?php echo $fld[1]; ?></div>
+				    </div>
+				</div>
+			</div>
+			<?php if (!empty($error[$name])) { ?>
+			<span class="help-block field_err"><?php echo $error[$name]; ?></span>
+			<?php } ?>
+		</div>
+
+		<?php 
+			$name = 'tax_rate_threshold';
+			$fld = $form['fields'][$name];
+		?>
+		<div id="container_<?php echo $name; ?>" class="form-group <?php if (!empty($error[$name])) {
+			echo "has-error";
+		} ?>">
+			<label class="control-label col-sm-3 col-xs-12" for="<?php echo $fld->element_id; ?>"><?php echo ${'entry_' . $name}; ?></label>
+			<div class="input-group afield col-sm-7">
+				<div class="row">
+				    <div class="col-sm-2">
+				    	<div class="input-group afield"><?php echo $fld[0]; ?></div>
+				    </div>
+				    <div class="col-sm-5">
+				    	<div class="input-group afield"><?php echo $fld[1]; ?></div>
+				    </div>
+				</div>
+			</div>
+			<?php if (!empty($error[$name])) { ?>
+			<span class="help-block field_err"><?php echo $error[$name]; ?></span>
+			<?php } ?>
+		</div>
+
+		<?php 
+			$name = 'tax_exempt_groups';
+			$fld = $form['fields'][$name];
+		?>
+		<div id="container_<?php echo $name; ?>" class="form-group <?php if (!empty($error[$name])) {
+			echo "has-error";
+		} ?>">
+			<label class="control-label col-sm-3 col-xs-12" for="<?php echo $fld->element_id; ?>"><?php echo ${'entry_' . $name}; ?></label>
+			<div class="input-group afield col-sm-5">
+				<?php echo $fld; ?>
+			</div>
+			<?php if (!empty($error[$name])) { ?>
+			<span class="help-block field_err"><?php echo $error[$name]; ?></span>
+			<?php } ?>
+		</div>
+	
+		<?php 
+			$name = 'priority';
+			$fld = $form['fields'][$name];
+		?>
+		<div id="container_<?php echo $name; ?>" class="form-group <?php if (!empty($error[$name])) {
+			echo "has-error";
+		} ?>">
+			<label class="control-label col-sm-3 col-xs-12" for="<?php echo $fld->element_id; ?>"><?php echo ${'entry_' . $name}; ?></label>
+			<div class="input-group afield col-sm-2">
+				<?php echo $fld; ?>
+			</div>
+			<?php if (!empty($error[$name])) { ?>
+			<span class="help-block field_err"><?php echo $error[$name]; ?></span>
+			<?php } ?>
+		</div>
+	
+		<?php echo $this->getHookVar('tax_class_rate_form_fields'); ?>
+	
 	</div>
+
 	<div class="panel-footer col-xs-12">
 		<div class="text-center">
 			<button class="btn btn-primary lock-on-click">

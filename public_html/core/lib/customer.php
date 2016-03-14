@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2015 Belavier Commerce LLC
+  Copyright © 2011-2016 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -62,6 +62,14 @@ final class ACustomer{
 	 */
 	private $customer_group_id;
 	/**
+	 * @var string
+	 */
+	private $customer_group_name;
+	/**
+	 * @var bool
+	 */
+	private $customer_tax_exempt;
+	/**
 	 * @var int
 	 */
 	private $address_id;
@@ -108,7 +116,12 @@ final class ACustomer{
 
 
 		if(isset($this->session->data['customer_id'])){
-			$customer_query = $this->db->query("SELECT * FROM " . $this->db->table("customers") . " WHERE customer_id = '" . (int)$this->session->data['customer_id'] . "' AND status = '1'");
+			$customer_query = $this->db->query(
+				"SELECT c.*, cg.* FROM " . $this->db->table("customers") . " c
+					LEFT JOIN " . $this->db->table("customer_groups") . " cg on c.customer_group_id = cg.customer_group_id
+					WHERE customer_id = '" . (int)$this->session->data['customer_id'] . "' 
+					AND status = '1'"
+			);
 
 			if($customer_query->num_rows){
 				$this->customer_id = $customer_query->row['customer_id'];
@@ -126,6 +139,8 @@ final class ACustomer{
 				}
 				$this->newsletter = (int)$customer_query->row['newsletter'];
 				$this->customer_group_id = $customer_query->row['customer_group_id'];
+				$this->customer_group_name = $customer_query->row['name'];
+				$this->customer_tax_exempt = $customer_query->row['tax_exempt'];
 				$this->address_id = $customer_query->row['address_id'];
 
 			} else{
@@ -194,6 +209,7 @@ final class ACustomer{
 			}
 			$this->newsletter = $customer_query->row['newsletter'];
 			$this->customer_group_id = $customer_query->row['customer_group_id'];
+			
 			$this->address_id = $customer_query->row['address_id'];
 			$this->cache->delete('storefront_menu');
 
@@ -235,6 +251,8 @@ final class ACustomer{
 		$this->fax = '';
 		$this->newsletter = '';
 		$this->customer_group_id = '';
+		$this->customer_group_name = '';
+		$this->customer_tax_exempt = '';
 		$this->address_id = '';
 		$this->cache->delete('storefront_menu');
 
@@ -277,6 +295,17 @@ final class ACustomer{
 	 */
 	public function isLogged(){
 		return $this->customer_id;
+	}
+
+	/**
+	 * @return bool
+	 */
+	public function isTaxExempt(){
+		if($this->customer_tax_exempt) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 	/**

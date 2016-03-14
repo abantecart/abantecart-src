@@ -74,7 +74,7 @@
 	</definition>
 	<definition>
 		<key>default_pp_express_billmelater</key>
-		<value><![CDATA[Bill Me Later (sólo EE.UU.) <br/> <span class="help">Aumentar las ventas ofreciendo PayPal opción de financiación a sus clientes. Revise su cuenta de comerciante PayPal para obtener más detalles. </span>]]></value>
+		<value><![CDATA[PayPal Credit (sólo EE.UU.) <br/> <span class="help">Aumentar las ventas ofreciendo PayPal opción de financiación a sus clientes. Revise su cuenta de comerciante PayPal para obtener más detalles. </span>]]></value>
 	</definition>
 	<definition>
 		<key>default_pp_express_note</key>

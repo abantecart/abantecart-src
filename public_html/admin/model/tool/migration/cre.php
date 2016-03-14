@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2015 Belavier Commerce LLC
+  Copyright © 2011-2016 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -38,8 +38,9 @@ class Migration_Cre implements Migration {
 		 * @var ADB
 		 */
 		if ($migrate_data) {
-			require_once DIR_DATABASE . 'mysql.php';
-			$this->src_db = new Mysql($this->data['db_host'], $this->data['db_user'], $this->data['db_password'], $this->data['db_name'], true);
+			$db_driver = DB_DRIVER;
+			require_once DIR_DATABASE . $db_driver.'.php';
+			$this->src_db = new $db_driver($this->data['db_host'], $this->data['db_user'], $this->data['db_password'], $this->data['db_name'], true);
 		}
 	}
 

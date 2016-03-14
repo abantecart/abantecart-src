@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2015 Belavier Commerce LLC
+  Copyright © 2011-2016 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -42,6 +42,18 @@ class ModelUserUser extends Model {
 			if ( isset($data[$f]) )
 				$update[] = $f." = '".$this->db->escape($data[$f])."'";
 		}
+
+		if ( $data['password'] || $data['email'] || $data['username']) {
+			//notify admin user of important infoamtion change
+			$language = new ALanguage($this->registry,'',1);
+			$language->load('common/im');
+			$message_arr = array(
+				1 => array('message' =>  $language->get('im_account_update_text_to_admin'))
+			);
+
+			$this->im->sendToUser($user_id, 'account_update', $message_arr);
+		}
+
 		if ( !empty($data['password']) )
 				$update[] = "password = '". $this->db->escape(AEncryption::getHash($data['password'])) ."'";
 
@@ -49,6 +61,7 @@ class ModelUserUser extends Model {
 			$sql = "UPDATE " . $this->db->table("users") . " SET ". implode(',', $update) ." WHERE user_id = '" . (int)$user_id . "'";
 			$this->db->query( $sql );
 		}
+
 	}
 	
 	public function deleteUser($user_id) {

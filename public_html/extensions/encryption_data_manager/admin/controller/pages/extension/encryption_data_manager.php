@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2015 Belavier Commerce LLC
+  Copyright © 2011-2016 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   Lincence details is bundled with this package in the file LICENSE.txt.
@@ -134,7 +134,7 @@ class ControllerPagesExtensionEncryptionDataManager extends AController {
       		'separator' => FALSE
    		 ));
    		$this->document->addBreadcrumb( array ( 
-       		'href'      => $this->html->getSecureURL('eextension/extensions/extensions'),
+       		'href'      => $this->html->getSecureURL('extension/extensions/extensions'),
        		'text'      => $this->language->get('text_extensions'),
       		'separator' => ' :: '
    		 ));
@@ -347,9 +347,9 @@ class ControllerPagesExtensionEncryptionDataManager extends AController {
 		$this->view->batchAssign (  $this->language->getASet () );
 
 		//load tabs controller
-
+		$this->request->get['extension'] = 'encryption_data_manager';
 		$this->data['groups'][] = 'additional_settings';
-		$this->data['link_additional_settings'] = $this->data['add_sett']->href;
+		$this->data['link_additional_settings'] = $this->html->getSecureURL('extension/encryption_data_manager');
 		$this->data['active_group'] = 'additional_settings';
 
 		$tabs_obj = $this->dispatch('pages/extension/extension_tabs', array( $this->data ) );

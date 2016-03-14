@@ -1,0 +1,57 @@
+<?xml version="1.0"?>
+<definitions>
+	<definition>
+		<key>heading_title</key>
+		<value><![CDATA[Media Resource Library Manager]]></value>
+	</definition>
+	<definition>
+		<key>text_rl_latest</key>
+		<value><![CDATA[Latest added resources]]></value>
+	</definition>
+	<definition>
+		<key>text_rl_type</key>
+		<value><![CDATA[resource type]]></value>
+	</definition>
+	<definition>
+		<key>entry_type_name</key>
+		<value><![CDATA[Resource Type Key<br/><span class="help">This resource type key/name value can not be changed</span>]]></value>
+	</definition>
+	<definition>
+		<key>entry_default_directory</key>
+		<value><![CDATA[Resource directory<br/><span class="help">Directory locating resource for this type. If changed, existing resources will not be acceccible and will need to be copied to new directory!</span>]]></value>
+	</definition>
+	<definition>
+		<key>entry_default_icon</key>
+		<value><![CDATA[Default icon<br/><span class="help">Icon image to be shown in the listing of resources (Location: /image/... ).</span>]]></value>
+	</definition>
+	<definition>
+		<key>entry_file_types</key>
+		<value><![CDATA[Allowed file extensions<br/><span class="help">Regex with a list of allowed file extensions for this resource type</span>]]></value>
+	</definition>
+
+	<definition>
+		<key>text_success</key>
+		<value><![CDATA[Success: You have updated resource type!]]></value>
+	</definition>
+	<definition>
+		<key>error_missing_type_id</key>
+		<value><![CDATA[Error: Missing resource type ID!]]></value>
+	</definition>
+	<definition>
+		<key>error_type_name</key>
+		<value><![CDATA[Error: Resource type name needs to be between 2 and 40 charcters]]></value>
+	</definition>
+	<definition>
+		<key>error_default_directory</key>
+		<value><![CDATA[Error: Resource type directory needs to be between 2 and 64 charcters]]></value>
+	</definition>
+	<definition>
+		<key>error_default_icon</key>
+		<value><![CDATA[Error: Resource type icon needs to be between 2 and 64 charcters]]></value>
+	</definition>
+	<definition>
+		<key>error_file_types</key>
+		<value><![CDATA[Error: Resource type file extenions regex needs to be between 2 and 40 charcters]]></value>
+	</definition>
+
+</definitions>

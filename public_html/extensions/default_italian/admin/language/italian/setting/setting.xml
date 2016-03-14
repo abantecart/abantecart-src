@@ -820,4 +820,65 @@
 		<key>entry_recaptcha_secret_key</key>
 		<value><![CDATA[Google reCAPTCHA Site Key:<br /><span class="help">Aggiungere <a href="https://www.google.com/recaptcha" target="_blank">Google reCAPTCHA v2</a> per aiutare i vostri ospiti con una migliore entrata captcha. If you enable reCAPTCHA site/secret keys, Google reCAPTCHA v2 will be activated instead of default AbanteCart captcha image</span>]]></value>
 	</definition>
+	<definition>
+		<key>text_setting_php_exceed</key>
+		<value><![CDATA[Questo valore non può superare il direttiva php.ini %s (<=%s) ]]></value>
+	</definition>
+	<definition>
+		<key>entry_start_order_id</key>
+		<value><![CDATA[Inizio ordine No.:<br /><span class="help">Impostare il numero iniziale gli ordini cominceranno da.</span>]]></value>
+	</definition>
+	<definition>
+		<key>error_start_order_id</key>
+		<value><![CDATA[Numero di partenza Ordine deve essere una numerico!]]></value>
+	</definition>
+	<definition>
+		<key>error_starting_invoice_id</key>
+		<value><![CDATA[Numero di partenza della fattura deve essere un numerica!]]></value>
+	</definition>
+	<definition>
+		<key>entry_expire_order_days</key>
+		<value><![CDATA[
+			Incompleta scadenza Order:<br /><br /><span class="help">Questo valore controlla intervallo di tempo in giorni prima verranno cancellati ordini incompleti. valore vuoto significa che nessun ordine sarà quello di eliminare.</span>]]></value>
+	</definition>
+	<definition>
+		<key>error_expire_order_days</key>
+		<value><![CDATA[Valore di scadenza ordine incompleto deve essere un numerica!]]></value>
+	</definition>
+	<definition>
+		<key>text_storefront</key>
+		<value><![CDATA[Sito vetrina]]></value>
+	</definition>
+	<definition>
+		<key>text_im_driver</key>
+		<value><![CDATA[Guidatore]]></value>
+	</definition>
+	<definition>
+		<key>text_im_protocol</key>
+		<value><![CDATA[protocollo MI]]></value>
+	</definition>
+	<definition>
+		<key>entry_sms_driver</key>
+		<value><![CDATA[SMS Provider]]></value>
+	</definition>
+	<definition>
+		<key>entry_sms_driver_tooltip</key>
+		<value><![CDATA[Selezionare un'estensione per provider di servizi SMS]]></value>
+	</definition>
+	<definition>
+		<key>entry_storefront_status_tooltip</key>
+		<value><![CDATA[Abilita SMS per i clienti]]></value>
+	</definition>
+	<definition>
+		<key>entry_admin_status_tooltip</key>
+		<value><![CDATA[Abilita SMS per gli amministratori]]></value>
+	</definition>
+	<definition>
+		<key>text_no_driver</key>
+		<value><![CDATA[ Nessun MI driver trovato]]></value>
+	</definition>
+	<definition>
+		<key>text_im_settings_attention</key>
+		<value><![CDATA[Queste impostazioni sono per i messaggi istantanei inviati automaticamente durante gli eventi AbanteCart in vetrina e admin.]]></value>
+	</definition>
 </definitions>

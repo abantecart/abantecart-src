@@ -134,8 +134,7 @@
 	</definition>
 	<definition>
 		<key>entry_keyword</key>
-		<value>
-			<![CDATA[SEO ключевое слово:<br/><span class="help">SEO ключ, который будет отображаться в URL. Значение по умолчанию будет создано из названия продукта</span>]]></value>
+		<value><![CDATA[SEO ключевое слово:<br/><span class="help">SEO ключ, который будет отображаться в URL. Значение по умолчанию будет создано из названия продукта</span>]]></value>
 	</definition>
 	<definition>
 		<key>entry_model</key>
@@ -159,18 +158,15 @@
 	</definition>
 	<definition>
 		<key>entry_ship_individually</key>
-		<value>
-			<![CDATA[Индивидуальная доставка товара:<br/><span class="help">Товар будет упакован в отдельный пакет и дополнительная стоимость доставки будет добавлена при заказе нескольких единиц. Если включено то требуется указать фиксированную цену доставки.</span>]]></value>
+		<value><![CDATA[Индивидуальная доставка товара:<br/><span class="help">Товар будет упакован в отдельный пакет и дополнительная стоимость доставки будет добавлена при заказе нескольких единиц. Если включено то требуется указать фиксированную цену доставки.</span>]]></value>
 	</definition>
 	<definition>
 		<key>entry_shipping_price</key>
-		<value>
-			<![CDATA[Фиксированная цена доставки:<br/><span class="help">Главная настройка с фиксированной ценой доставки для этого товара.</span>]]></value>
+		<value><![CDATA[Фиксированная цена доставки:<br/><span class="help">Главная настройка с фиксированной ценой доставки для этого товара.</span>]]></value>
 	</definition>
 	<definition>
 		<key>entry_free_shipping</key>
-		<value>
-			<![CDATA[Бесплатная доставка:<br/><span class="help">Главная настройка для включения бесплатной доставки этого продукта.</span>]]></value>
+		<value><![CDATA[Бесплатная доставка:<br/><span class="help">Главная настройка для включения бесплатной доставки этого продукта.</span>]]></value>
 	</definition>
 	<definition>
 		<key>entry_date_available</key>
@@ -186,18 +182,15 @@
 	</definition>
 	<definition>
 		<key>entry_minimum</key>
-		<value>
-			<![CDATA[Минимальное количество:<br/><span class="help">Минимальная кол-во товара в заказе</span>]]></value>
+		<value><![CDATA[Минимальное количество:<br/><span class="help">Минимальная кол-во товара в заказе</span>]]></value>
 	</definition>
 	<definition>
 		<key>entry_maximum</key>
-		<value>
-			<![CDATA[Максимальное количество:<br/><span class="help">Установить ограничение на количество которое может быть заказано. 0 = без ограничений</span>]]></value>
+		<value><![CDATA[Максимальное количество:<br/><span class="help">Установить ограничение на количество которое может быть заказано. 0 = без ограничений</span>]]></value>
 	</definition>
 	<definition>
 		<key>entry_stock_status</key>
-		<value>
-			<![CDATA[Статус Нет на складе: <br/> <span class="help">Статус отображается, когда товар не в наличии</span>]]></value>
+		<value><![CDATA[Статус Нет на складе: <br/> <span class="help">Статус отображается, когда товар не в наличии</span>]]></value>
 	</definition>
 	<definition>
 		<key>entry_status</key>
@@ -209,8 +202,7 @@
 	</definition>
 	<definition>
 		<key>entry_cost</key>
-		<value>
-			<![CDATA[Стоимость: <br/> <span class="help">Оптовая стоимость, используемая для отчетности по прибыли</span>]]></value>
+		<value><![CDATA[Стоимость: <br/> <span class="help">Оптовая стоимость, используемая для отчетности по прибыли</span>]]></value>
 	</definition>
 	<definition>
 		<key>entry_price</key>
@@ -222,8 +214,7 @@
 	</definition>
 	<definition>
 		<key>entry_subtract</key>
-		<value>
-			<![CDATA[Отслеживать Наличие на складе:<br/><span class="help">ДА, если необходимо отслеживать количество штук для этого товара. Если используются опции товара то проверте настройки отслеживания наличия на складе для каждого значения опции</span>]]></value>
+		<value><![CDATA[Отслеживать Наличие на складе:<br/><span class="help">ДА, если необходимо отслеживать количество штук для этого товара. Если используются опции товара то проверте настройки отслеживания наличия на складе для каждого значения опции</span>]]></value>
 	</definition>
 	<definition>
 		<key>entry_weight_class</key>
@@ -255,8 +246,7 @@
 	</definition>
 	<definition>
 		<key>entry_image</key>
-		<value>
-			<![CDATA[Изображение:<br /><span class="help">Нажмите на изображение, чтобы его изменить.</span>]]></value>
+		<value><![CDATA[Изображение:<br /><span class="help">Нажмите на изображение, чтобы его изменить.</span>]]></value>
 	</definition>
 	<definition>
 		<key>entry_customer_group</key>
@@ -548,8 +538,7 @@
 	</definition>
 	<definition>
 		<key>entry_call_to_order</key>
-		<value>
-			<![CDATA[Заблокировать заказ продукта:<br /><span class="help">Установить продукт в режим отображения но без возможности на заказа. Будет отображаться сообщение Свяжитесь с нами для заказа.</span>]]></value>
+		<value><![CDATA[Заблокировать заказ продукта:<br /><span class="help">Установить продукт в режим отображения но без возможности на заказа. Будет отображаться сообщение Свяжитесь с нами для заказа.</span>]]></value>
 	</definition>
 	<definition>
 		<key>text_new_option</key>
@@ -590,5 +579,9 @@
 	<definition>
 		<key>text_product_in_stock</key>
 		<value><![CDATA[В наличии]]></value>
+	</definition>
+	<definition>
+		<key>text_success_relation_set</key>
+		<value><![CDATA[Связи выбранных видов продукции были установлены успешно!]]></value>
 	</definition>
 </definitions>

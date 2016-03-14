@@ -143,6 +143,8 @@ var initGrid_<?php echo $data['table_id'] ?> = function ($) {
 		altRows: <?php echo $data['altRows'] ?>,
 		height:'100%',
 		width: ($.browser.msie ? ($(window).width()-100) : '100%'),// memory leak in damn msie
+		shrinkToFit: false,
+		autowidth: true,
 		sortname:'<?php echo $data['sortname'] ?>',
 		sortorder:'<?php echo $data['sortorder'] ?>',
 		<?php if($data['expand_column']) { ?>
@@ -220,7 +222,7 @@ var initGrid_<?php echo $data['table_id'] ?> = function ($) {
 				$html_string .= "actions_urls['".$type."'] = '".$href."';\n";
 				$html_string .= ' actions += \'';
 				$has_children = sizeof($action['children']);
-				$html_btn = '<a class="btn btn-xs btn_grid tooltips grid_action_' . $type . '" title="' . $action['text'] . '" data-action-type="'.$type.'"';
+				$html_btn = '<a class="btn btn-xs btn_grid tooltips grid_action_' . $type . '" title="' . htmlentities($action['text'],ENT_QUOTES,'UTF-8') . '" data-action-type="'.$type.'"';
 				if($has_children){
 					$html_btn .= ' data-toggle="dropdown" aria-expanded="false"';
 				}
@@ -279,11 +281,10 @@ var initGrid_<?php echo $data['table_id'] ?> = function ($) {
 
 				//for dropdown
 				if($action['children']){
-					$html_children = '<div class="dropdown-menu dropdown-menu-sm dropdown-menu-right" role="menu"><h5 class="title">'.$text_select_from_list.'</h5><ul class="dropdown-list grid-dropdown">';
+					$html_children = '<div class="dropdown-menu dropdown-menu-sm dropdown-menu-right" role="menu"><h5 class="title">'.htmlentities($text_select_from_list,ENT_QUOTES,'UTF-8').'</h5><ul class="dropdown-list grid-dropdown">';
 					foreach($action['children'] as $child){
 						$href = has_value($child['href']) ? $child['href'] : '#';
-						$html_children .= '<li><a href="'.$href.'" rel="%ID%">'.$child['text'].'</a></li>';
-
+						$html_children .= '<li><a href="'.$href.'" rel="%ID%">'.htmlentities($child['text'],ENT_QUOTES,'UTF-8').'</a></li>';
 					}
 					$html_children .= '</ul></div>';
 					$html_btn = '<div class="btn-group">'.$html_btn.''.$html_children.'</div>';
@@ -505,7 +506,7 @@ if ($custom_buttons) {
 							$('#dData', dlgDiv).show();
 
 							selRowId = $(table_id).jqGrid('getGridParam', 'selrow'),
-								selRowCoordinates = $('#' + selRowId).offset();
+							selRowCoordinates = $('#' + selRowId).offset();
 							dlgDiv.css('top', selRowCoordinates.top);
 							dlgDiv.css('left', Math.round((parentDiv.width() - dlgDiv.width()) / 2) + "px");
 
@@ -548,9 +549,11 @@ if ($custom_buttons) {
 					}
 				});
 				break;
-			default:
+			case '':
 				alert(text_choose_action);
 				return;
+			default:
+				break;
 		}
 
 	});
@@ -585,16 +588,30 @@ if ($custom_buttons) {
 		}	
 	}
 
-
+	//resize jqgrid
 	var resize_the_grid = function() {
-		if($.browser.msie!=true){
-			$(table_id).fluidGrid({base:table_id + '_wrapper', offset:-10});
-		}
+	    // Get width of parent contentpanel
+	    $targetContainer = $(table_id).closest('.contentpanel'); 
+	    var width = $targetContainer.width() - 20;
+	    if(width < 750) {
+	    	//min grid width is 750px;
+	    	width = 750;
+	    }
+	    if (width > 0 && Math.abs(width - $(table_id).width()) > 5) {
+	        $(table_id).setGridWidth(width, true);
+	    }	
 	}
 
-	resize_the_grid();
-	$(window).resize(resize_the_grid);
-
+	//resize on load
+	resize_the_grid();	
+	$(window).bind('resize', function() {
+		//resize grid width on window resize
+		resize_the_grid();
+	}).trigger('resize');
+	//resize on left penel 
+	$('body').bind('leftpanelChanged', function() {
+		resize_the_grid();
+	});
 
 	// fix cursor on non-sortable columns
 	var cm = $(table_id)[0].p.colModel;
@@ -635,8 +652,8 @@ if ($custom_buttons) {
 <?php
 //run initialization if initialization on load enabled
 if ($init_onload) {
-	?>
+?>
 initGrid_<?php echo $data['table_id'] ?>($);
-	<?php } ?>
+<?php } ?>
 
 </script>

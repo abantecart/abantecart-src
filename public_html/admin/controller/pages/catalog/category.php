@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2015 Belavier Commerce LLC
+  Copyright © 2011-2016 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -419,7 +419,7 @@ class ControllerPagesCatalogCategory extends AController {
 						'multilingual' => true,
 				));
 		$this->data['form']['fields']['general']['description'] = $form->getFieldHtml(
-				array('type' => 'textarea',
+				array('type' => 'texteditor',
 						'name' => 'category_description[' . $content_language_id . '][description]',
 						'value' => $this->data['category_description'][$content_language_id]['description'],
 						'style' => 'xl-field',

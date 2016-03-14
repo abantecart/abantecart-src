@@ -283,23 +283,23 @@
 	<definition>
 		<key>error_captcha</key>
 		<value><![CDATA[Il codice di verifica non corrisponde all'immagine!]]></value>
-    </definition>
+	</definition>
 	<definition>
 		<key>entry_attached</key>
 		<value><![CDATA[Allegato]]></value>
-    </definition>
+	</definition>
 	<definition>
 		<key>text_call_to_order</key>
 		<value><![CDATA[Chiama per ordinare]]></value>
-    </definition>
+	</definition>
 	<definition>
 		<key>text_discount</key>
 		<value><![CDATA[Sconto]]></value>
-    </definition>
+	</definition>
 	<definition>
 		<key>text_download</key>
 		<value><![CDATA[Download]]></value>
-    </definition>
+	</definition>
 	<definition>
 		<key>text_free</key>
 		<value><![CDATA[Gratis]]></value>
@@ -311,9 +311,13 @@
 	<definition>
 		<key>text_unavailable</key>
 		<value><![CDATA[Non disponibile]]></value>
-	</definition>	
+	</definition>
 	<definition>
 		<key>error_unknown</key>
 		<value><![CDATA[Errore sconosciuto. Riprovare!]]></value>
-	</definition>    
+	</definition>
+	<definition>
+		<key>button_pay_with_balance</key>
+		<value><![CDATA[Paga con equilibrio]]></value>
+	</definition>
 </definitions>

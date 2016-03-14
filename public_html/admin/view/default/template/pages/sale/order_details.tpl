@@ -74,7 +74,27 @@
 		<?php if ($fax) { ?>
 			<div class="form-group">
 				<label class="control-label col-sm-5"><?php echo $entry_fax; ?></label>
-				<div class="input-group afield col-sm-7"><?php echo $form['fields']['fax']; ?></div>
+				<div class="input-group afield col-sm-7"><?php echo $fax; ?></div>
+			</div>
+		<?php }
+		if ($im) { ?>
+			<div class="form-group">
+				<label class="control-label col-sm-5"><?php echo $entry_im; ?></label>
+				<div class="input-group afield col-sm-7">
+					<p class="form-control-static"><?php
+						foreach($im as $protocol=>$uri){
+							switch($protocol){
+								case 'sms':
+									$icon = 'fa-mobile';
+									break;
+								default :
+									$icon = 'fa-'.$protocol;
+							}
+							?>
+							<i class="fa <?php echo $icon;?>"></i> <?php echo $uri;?>
+						<?php }
+					?></p>
+				</div>
 			</div>
 		<?php } ?>
 		<div class="form-group">
@@ -232,11 +252,13 @@
 					    	<i class="fa fa-refresh"></i>
 						</a>
 						<?php } ?>
-					<a class="remove btn btn-xs btn-danger-alt tooltips"
-					   data-original-title="<?php echo $button_delete; ?>"
-					   data-confirmation="delete" onclick="deleteTotal('<?php echo $total_row['order_total_id']; ?>');">
-						<i class="fa fa-minus-circle"></i>
-					</a>
+						<?php if ($total_key_count[$total_row['key']] == 1 ) { // do not alloe delete of duplicate keys?>
+						<a class="remove btn btn-xs btn-danger-alt tooltips"
+						   data-original-title="<?php echo $button_delete; ?>"
+						   data-confirmation="delete" onclick="deleteTotal('<?php echo $total_row['order_total_id']; ?>');">
+							<i class="fa fa-minus-circle"></i>
+						</a>
+						<?php } ?>
 					<?php } ?>
 				</span>
 				</td>
@@ -256,7 +278,7 @@
 			</tr>
 			<?php $order_total_row++ ?>
 		<?php } ?>
-		<?php if (count($totals_add)) { ?>
+		<?php if ($totals_add) {?>
 			<tr>
 				<td colspan="4" class="right"><span class="pull-right"><?php echo $text_add; ?></span></td>
 				<td>
@@ -296,6 +318,7 @@
 		</tbody>
 	</table>
 
+	<?php if($add_product){?>
 	<div class="container-fluid form-inline">
 		<div class="list-inline col-sm-12"><?php echo $entry_add_product; ?></div>
 		<div class="list-inline input-group afield col-sm-7 col-xs-9">
@@ -307,6 +330,7 @@
 				<i class="fa fa-plus-circle fa-lg"></i></a>
 		</div>
 	</div>
+	<?php } ?>
 	</div>
 
 	<div class="panel-footer col-xs-12">

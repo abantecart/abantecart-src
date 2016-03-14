@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2015 Belavier Commerce LLC
+  Copyright © 2011-2016 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -241,9 +241,16 @@ class ControllerPagesCatalogProduct extends AController {
 
 		$grid_settings['search_form'] = true;
 
+	    $grid_settings['multiaction_options']['delete'] = $this->language->get('text_delete_selected');
+	    $grid_settings['multiaction_options']['save'] = $this->language->get('text_save_selected');
+	    $grid_settings['multiaction_options']['relate'] = $this->language->get('text_set_related');
+
+	    $this->view->assign('relate_selected_url', $grid_settings['editurl'] );
+	    $this->view->assign('text_success_relation_set', $this->language->get('text_success_relation_set'));
+
 		$grid = $this->dispatch('common/listing_grid', array( $grid_settings ) );
 		$this->view->assign('listing_grid', $grid->dispatchGetOutput());
-		$this->view->assign ( 'search_form', $grid_search_form );
+		$this->view->assign('search_form', $grid_search_form );
 		$this->view->assign('form_language_switch', $this->html->getContentLanguageSwitcher());
 		$this->view->assign('form_store_switch', $this->html->getStoreSwitcher());
 
@@ -251,7 +258,7 @@ class ControllerPagesCatalogProduct extends AController {
 		$this->view->assign('help_url', $this->gen_help_url('product_listing') );
 		$this->processTemplate('pages/catalog/product_list.tpl' );
 
-          //update controller data
+        //update controller data
         $this->extensions->hk_UpdateData($this,__FUNCTION__);
 	}
 
@@ -595,7 +602,7 @@ class ControllerPagesCatalogProduct extends AController {
 			'multilingual' => true,
 		));
         $this->data['form']['fields']['general']['description'] = $form->getFieldHtml(array(
-			'type' => 'textarea',
+			'type' => 'texteditor',
 			'name' => 'product_description[description]',
 			'value' => $this->data['product_description']['description'],
 			'multilingual' => true,		

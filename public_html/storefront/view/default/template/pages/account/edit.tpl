@@ -24,24 +24,17 @@
 	<div class="registerbox form-horizontal">
 		<fieldset>
 		<?php
-			$field_list = array();
-			array_push($field_list, 'loginname', 'firstname', 'lastname', 'email', 'telephone', 'fax');
-			
-			foreach ($field_list as $field_name) {
-		?>
+			foreach ($form['fields'] as $field_name=>$field) { ?>
 			<div class="form-group <?php if (${'error_'.$field_name}) echo 'has-error'; ?>">
 				<label class="control-label col-md-4"><?php echo ${'entry_'.$field_name}; ?></label>
 				<div class="input-group col-md-4">
-				    <?php echo $form[$field_name]; ?>
+				    <?php echo $field; ?>
 				</div>
 				<span class="help-block"><?php echo ${'error_'.$field_name}; ?></span>
 			</div>		
 		<?php
 			}
-		?>	
-		
-		<?php echo $this->getHookVar('customer_attributes'); ?>
-	
+		echo $this->getHookVar('customer_attributes'); ?>
 		</fieldset>
 	</div>
 

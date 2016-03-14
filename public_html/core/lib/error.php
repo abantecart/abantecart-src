@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2015 Belavier Commerce LLC
+  Copyright © 2011-2016 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -133,9 +133,11 @@ class AError {
 
 	/**
 	 * add error message to JSON output
+	 * @param string $status_text_and_code  - any human readable text string with 3 digit at the end to represent HTTP response code
+	 * For ex.
+	 * VALIDATION_ERROR_406
 	 *
-	 * $status_text_and_code -> any human readable text string with 3 digit at the end to represent HTTP responce code
-	 * $err_data -> array with error text and params to control ajax
+	 * @param array $err_data - array with error text and params to control ajax
 	 *            error_code -> HTTP error code if missing in $status_text_and_code
 	 *            error_title -> Title for error dialog and header (error constant used be default)
 	 *            error_text -> Error message ( Class construct used by default )
@@ -143,8 +145,6 @@ class AError {
 	 *            reset_value -> true to reset values in a field (if applicable)
 	 *            reload_page -> true to reload page after dialog close
 	 *            TODO: Add redirect_url on dialog close
-	 * @param $status_text_and_code
-	 * @param array $err_data
 	 * @return mixed
 	 */
 	public function toJSONResponse($status_text_and_code, $err_data = array()) {

@@ -14,8 +14,7 @@
 	</definition>
 	<definition>
 		<key>text_confirm_delete</key>
-		<value>
-			<![CDATA[Некоторые ресурсы могут быть включены в текстовые описания. Мы не можем проверить это автоматически.	Удалить?]]></value>
+		<value><![CDATA[Некоторые ресурсы могут быть включены в текстовые описания. Мы не можем проверить это автоматически.	Удалить?]]></value>
 	</definition>
 	<definition>
 		<key>text_cant_delete_title</key>
@@ -159,8 +158,7 @@
 	</definition>
 	<definition>
 		<key>error_file_size</key>
-		<value>
-			<![CDATA[Внимание: файл слишком большой. Загрузите файл меньше 300Кб и не более 1000px высоту или ширину!]]></value>
+		<value><![CDATA[Внимание: файл слишком большой. Загрузите файл меньше 300Кб и не более 1000px высоту или ширину!]]></value>
 	</definition>
 	<definition>
 		<key>error_maxFileSize</key>
@@ -184,8 +182,7 @@
 	</definition>
 	<definition>
 		<key>error_emptyResult</key>
-		<value>
-			<![CDATA[Загружен пустой файл. Возможно, файл поврежден или слишком большой. Размер файла ограничен 16 Мб. Если размер файла меньше, чем лимит пожалуйста, проверьте настройки PHP upload_max_filesize и post_max_size]]></value>
+		<value><![CDATA[Загружен пустой файл. Возможно, файл поврежден или слишком большой. Размер файла ограничен 16 Мб. Если размер файла меньше, чем лимит пожалуйста, проверьте настройки PHP upload_max_filesize и post_max_size]]></value>
 	</definition>
 	<definition>
 		<key>error_1</key>
@@ -229,13 +226,11 @@
 	</definition>
 	<definition>
 		<key>error_not_added</key>
-		<value>
-			<![CDATA[Ресурс не добавляется. Пожалуйста, проверьте журнал ошибок для получения дополнительной информации]]></value>
+		<value><![CDATA[Ресурс не добавляется. Пожалуйста, проверьте журнал ошибок для получения дополнительной информации]]></value>
 	</definition>
 	<definition>
 		<key>error_ajax</key>
-		<value>
-			<![CDATA[Ошибка загрузки данных. Пожалуйста, проверьте журнал ошибок для получения дополнительной информации]]></value>
+		<value><![CDATA[Ошибка загрузки данных. Пожалуйста, проверьте журнал ошибок для получения дополнительной информации]]></value>
 	</definition>
 	<definition>
 		<key>error_permission</key>
@@ -279,8 +274,7 @@
 	</definition>
 	<definition>
 		<key>error_file size</key>
-		<value>
-			<![CDATA[Внимание: Максимальный размер файла для загрузки составляет %s . Вы можете увеличить это значение в php.ini.]]></value>
+		<value><![CDATA[Внимание: Максимальный размер файла для загрузки составляет %s . Вы можете увеличить это значение в php.ini.]]></value>
 	</definition>
 	<definition>
 		<key>text_product_option_value</key>
@@ -333,5 +327,53 @@
 	<definition>
 		<key>text_map_success</key>
 		<value><![CDATA[Ресурс успешно привязан.]]></value>
+	</definition>
+	<definition>
+		<key>error_delete</key>
+		<value><![CDATA[Не удается удалить ресурс он связан с несколькими объектами]]></value>
+	</definition>
+	<definition>
+		<key>text_image_size</key>
+		<value><![CDATA[Размер изображения:]]></value>
+	</definition>
+	<definition>
+		<key>text_file_size</key>
+		<value><![CDATA[Размер файла:]]></value>
+	</definition>
+	<definition>
+		<key>text_file_mime</key>
+		<value><![CDATA[MIME:]]></value>
+	</definition>
+	<definition>
+		<key>text_file_path</key>
+		<value><![CDATA[Расположение файла:]]></value>
+	</definition>
+	<definition>
+		<key>text_file_url</key>
+		<value><![CDATA[URL ресурса:]]></value>
+	</definition>
+	<definition>
+		<key>text_sorting_date_asc</key>
+		<value><![CDATA[по дате от старых к новым]]></value>
+	</definition>
+	<definition>
+		<key>text_sorting_date_desc</key>
+		<value><![CDATA[по дате от новых к старым]]></value>
+	</definition>
+	<definition>
+		<key>text_sorting_name_asc</key>
+		<value><![CDATA[по названию А - Я]]></value>
+	</definition>
+	<definition>
+		<key>text_sorting_name_desc</key>
+		<value><![CDATA[по названию Я - А]]></value>
+	</definition>
+	<definition>
+		<key>text_sorting_asc</key>
+		<value><![CDATA[по порядковому номеру ]]></value>
+	</definition>
+	<definition>
+		<key>text_sorting_desc</key>
+		<value><![CDATA[в обратном порядке]]></value>
 	</definition>
 </definitions>

@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2015 Belavier Commerce LLC
+  Copyright © 2011-2016 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -239,7 +239,7 @@ class ControllerPagesSaleOrder extends AController{
 	public function details(){
 
 		$this->data = array();
-		$fields = array('email', 'telephone', 'shipping_method', 'payment_method');
+		$fields = array('email', 'telephone', 'fax', 'shipping_method', 'payment_method');
 
 		//init controller data
 		$this->extensions->hk_InitData($this, __FUNCTION__);
@@ -279,16 +279,13 @@ class ControllerPagesSaleOrder extends AController{
 						}
 					}			
 					$this->redirect($this->html->getSecureURL(	'sale/order/recalc', 
-															'&order_id=' . $order_id.'&skip_recalc='.serialize($skip_recalc)));			
-				
-				} else {
-					//we just save with no reculculation 
-					$this->model_sale_order->editOrder($order_id, $this->request->post);
+															'&order_id=' . $order_id.'&skip_recalc='.serialize($skip_recalc)));
 				}
 			}
 		}
 
 		$order_info = $this->model_sale_order->getOrder($order_id);
+
 		$this->data['order_info'] = $order_info;
 
 		//set content language to order language ID.
@@ -405,6 +402,17 @@ class ControllerPagesSaleOrder extends AController{
 				'name'  => 'telephone',
 				'value' => $order_info['telephone']
 		));
+
+		$this->data['fax'] = $this->html->buildInput(array(
+				'name'  => 'fax',
+				'value' => $order_info['fax']
+		));
+
+		if(isset($order_info['im'])){
+			foreach($order_info['im'] as $protocol=>$setting){
+				$this->data['im'][$protocol] = $setting['uri'];
+			}
+		}
 
 		$this->loadModel('catalog/product');
 		$this->loadModel('catalog/category');
@@ -540,6 +548,12 @@ class ControllerPagesSaleOrder extends AController{
 					}
 				}		
 			}
+		}
+		//count duplicate keys to prevent delete od duplicate (such as tax)
+		//issue with recalc of deleted items if duplicate keys 
+       	$this->data['total_key_count'] = array();
+		foreach($this->data['totals'] as $t_old) {
+			$this->data['total_key_count'][$t_old['key']]++;
 		}
 
 		$this->data['form_title'] = $this->language->get('edit_title_details');
@@ -751,7 +765,6 @@ class ControllerPagesSaleOrder extends AController{
 					'value' => $this->data[$f],
 			));
 		}
-
 
 		$this->data['form']['fields']['fax'] = $form->getFieldHtml(array(
 				'type'  => 'input',

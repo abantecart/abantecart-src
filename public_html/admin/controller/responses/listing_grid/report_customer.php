@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2015 Belavier Commerce LLC
+  Copyright © 2011-2016 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -20,6 +20,11 @@
 if (! defined ( 'DIR_CORE' ) || !IS_ADMIN) {
 	header ( 'Location: static_pages/' );
 }
+
+/**
+ * Class ControllerResponsesListingGridReportCustomer
+ * @property ModelReportCustomer $model_report_customer
+ */
 class ControllerResponsesListingGridReportCustomer extends AController {
 	private $error = array();
 
@@ -155,10 +160,10 @@ class ControllerResponsesListingGridReportCustomer extends AController {
 	    $results = $this->model_report_customer->getCustomerTransactions($data);
 	    $i = 0;
 		foreach ($results as $result) {
-            $response->rows[$i]['id'] = $result['customer_id'];
+            $response->rows[$i]['id'] = $result[ 'customer_transaction_id' ];
             //mark inactive customers. 
             if ($result['status'] != 1) {
-				$response->userdata->classes[$result['customer_id']] = 'attention';
+				$response->userdata->classes[$result[ 'customer_transaction_id' ]] = 'attention';
 			}
 			$response->rows[$i]['cell'] = array(
 				$result['date_added'],

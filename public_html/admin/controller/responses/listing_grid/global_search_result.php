@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2015 Belavier Commerce LLC
+  Copyright © 2011-2016 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -93,6 +93,9 @@ class ControllerResponsesListingGridGlobalSearchResult extends AController {
 	}
 
 	public function suggest() {
+		//init controller data
+		$this->extensions->hk_InitData($this, __FUNCTION__);
+
 		$this->loadModel('tool/global_search');
 		$this->loadLanguage('tool/global_search');
 
@@ -129,7 +132,7 @@ class ControllerResponsesListingGridGlobalSearchResult extends AController {
 
 					if($item['controller'] == 'setting/setting'){
 						$a = explode('-',$item['active']);
-						if($a[0] == 'appearance'){
+						if($a[0] == 'appearance' || $a[0] == 'im'){
 							unset($result_controllers[ $tmp_id ]['response']);
 						}
 					}
@@ -150,6 +153,9 @@ class ControllerResponsesListingGridGlobalSearchResult extends AController {
 				}
 			}
 		}
+
+		//update controller data
+		$this->extensions->hk_UpdateData($this, __FUNCTION__);
 
 		$this->load->library('json');
 		$this->response->addJSONHeader();

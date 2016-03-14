@@ -5,7 +5,7 @@
    AbanteCart, Ideal OpenSource Ecommerce Solution
    http://www.AbanteCart.com
 
-   Copyright © 2011-2015 Belavier Commerce LLC
+   Copyright © 2011-2016 Belavier Commerce LLC
 
    This source file is subject to Open Software License (OSL 3.0)
    Lincence details is bundled with this package in the file LICENSE.txt.
@@ -24,10 +24,13 @@ if (!IS_ADMIN || !defined('DIR_CORE')){
 class ControllerResponsesExtensionDefaultFedex extends AController{
 
 	public $data = array ();
+	private $cfg = array();
 
 	public function test(){
 
 		$this->loadLanguage('default_fedex/default_fedex');
+		$this->loadModel('setting/setting');
+		$this->cfg = $this->model_setting_setting->getSetting('default_fedex',(int)$this->session->data['current_store_id']);
 		/**
 		 * @var ModelExtensionDefaultFedex $sf_model
 		 */
@@ -45,25 +48,25 @@ class ControllerResponsesExtensionDefaultFedex extends AController{
 		);
 		$address = array ();
 		foreach ($required_fields as $k => $fld){
-			if (!$this->config->get($fld)){
+			if (!$this->cfg[$fld]){
 				$json['error'] = true;
 				$json['message'] = 'Error: Please fill and save all required fields and try again.';
 				break;
 			}
-			if (in_array($fld, array ('default_fedex_country', 'default_fedex_state')) && strlen($this->config->get($fld)) > 2){
+			if (in_array($fld, array ('default_fedex_country', 'default_fedex_state')) && strlen($this->cfg[$fld]) > 2){
 				$json['error'] = true;
-				$json['message'] = 'Error: Please check "State" and "Country" settings values. It must be two-letters code. ( ' . $this->config->get($fld).' )';
+				$json['message'] = 'Error: Please check "State" and "Country" settings values. It must be two-letters code. ( ' . $this->cfg[$fld].' )';
 				break;
 			}
 
-			$address[$k] = $this->config->get($fld);
+			$address[$k] = $this->cfg[$fld];
 		}
 
 
 		if ($json['error'] != true){
 
 			$test_result = $this->_processRequest($address);
-
+			$test_mode = $this->cfg['default_fedex_test'] ? 'ON' : 'OFF';
 			if (!$test_result){
 				$json['error'] = true;
 				$json['message'] = 'Fedex Error: Wrong data was given. Please check your API Credentials and try again.' . "\n" . 'Also please note that Test mode is ' . $test_mode . '!';
@@ -84,7 +87,7 @@ class ControllerResponsesExtensionDefaultFedex extends AController{
 	private function _processRequest($address){
 		require_once(DIR_EXT . 'default_fedex/core/lib/fedex_func.php');
 
-		if ($this->config->get('default_fedex_test')){
+		if ($this->cfg['default_fedex_test']){
 			$path_to_wsdl = DIR_EXT . 'default_fedex/core/lib/RateService_v9_test.wsdl';
 		} else{
 			$path_to_wsdl = DIR_EXT . 'default_fedex/core/lib/RateService_v9.wsdl';
@@ -93,15 +96,15 @@ class ControllerResponsesExtensionDefaultFedex extends AController{
 
 
 		//Fedex Key
-		$fedex_key = $this->config->get('default_fedex_key');
+		$fedex_key = $this->cfg['default_fedex_key'];
 		//Fedex Password
-		$fedex_password = $this->config->get('default_fedex_password');
+		$fedex_password = $this->cfg['default_fedex_password'];
 		//Fedex Meter Id
-		$fedex_meter_id = $this->config->get('default_fedex_meter');
+		$fedex_meter_id = $this->cfg['default_fedex_meter'];
 		//Fedex Account
-		$fedex_account = $this->config->get('default_fedex_account');
+		$fedex_account = $this->cfg['default_fedex_account'];
 		//Quote Type Residential or commercial
-		$fedex_quote = $this->config->get('default_fedex_quote_type');
+		$fedex_quote = $this->cfg['default_fedex_quote_type'];
 
 		if ($fedex_quote == 'residential'){
 			$fedex_residential = true;
@@ -109,12 +112,12 @@ class ControllerResponsesExtensionDefaultFedex extends AController{
 			$fedex_residential = false;
 		}
 
-		$fedex_addr = $this->config->get('default_fedex_address');
-		$fedex_city = $this->config->get('default_fedex_city');
-		$fedex_state = $this->config->get('default_fedex_state');
-		$fedex_zip = $this->config->get('default_fedex_zip');
-		$fedex_country = $this->config->get('default_fedex_country');
-		$fedex_add_chrg = $this->config->get('default_fedex_add_chrg');
+		$fedex_addr = $this->cfg['default_fedex_address'];
+		$fedex_city = $this->cfg['default_fedex_city'];
+		$fedex_state = $this->cfg['default_fedex_state'];
+		$fedex_zip = $this->cfg['default_fedex_zip'];
+		$fedex_country = $this->cfg['default_fedex_country'];
+		$fedex_add_chrg = $this->cfg['default_fedex_add_chrg'];
 
 		//Recepient Info
 		$shipping_address = $address;

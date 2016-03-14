@@ -302,6 +302,10 @@
 		<value><![CDATA[Manufacturers]]></value>
 	</definition>
 	<definition>
+		<key>error_delete</key>
+		<value><![CDATA[Cannot delete resource linked to multiple objects]]></value>
+	</definition>
+	<definition>
 		<key>error_unmap</key>
 		<value><![CDATA[Cannot unlink resource. Object wasn't set.]]></value>
 	</definition>
@@ -324,5 +328,49 @@
 	<definition>
 		<key>button_save_n_apply</key>
 		<value><![CDATA[Save and Apply]]></value>
+	</definition>
+	<definition>
+		<key>text_image_size</key>
+		<value><![CDATA[Image size:]]></value>
+	</definition>
+	<definition>
+		<key>text_file_size</key>
+		<value><![CDATA[File size:]]></value>
+	</definition>
+	<definition>
+		<key>text_file_mime</key>
+		<value><![CDATA[MIME:]]></value>
+	</definition>
+	<definition>
+		<key>text_file_path</key>
+		<value><![CDATA[File location:]]></value>
+	</definition>
+	<definition>
+		<key>text_file_url</key>
+		<value><![CDATA[Resource URL:]]></value>
+	</definition>
+	<definition>
+		<key>text_sorting_date_asc</key>
+		<value><![CDATA[Date Old &gt; New]]></value>
+	</definition>
+	<definition>
+		<key>text_sorting_date_desc</key>
+		<value><![CDATA[Date New &gt; Old]]></value>
+	</definition>
+	<definition>
+		<key>text_sorting_name_asc</key>
+		<value><![CDATA[Name A - Z]]></value>
+	</definition>
+	<definition>
+		<key>text_sorting_name_desc</key>
+		<value><![CDATA[Name Z - A]]></value>
+	</definition>
+	<definition>
+		<key>text_sorting_asc</key>
+		<value><![CDATA[Sort Order Low &gt; High]]></value>
+	</definition>
+	<definition>
+		<key>text_sorting_desc</key>
+		<value><![CDATA[Sort Order High &gt; Low]]></value>
 	</definition>
 </definitions>

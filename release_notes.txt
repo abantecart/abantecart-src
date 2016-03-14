@@ -1,3 +1,66 @@
+
+AbanteCart version 1.2.6
+
+Release includes couple of new features and number of core improvements 
+
+New Features and improvements highlight:
+- IM (SMS) Notifications for administrators and customers
+- New Text and visual HTML editor 
+- Resource Library improvement and RL manager page 
+- Improved email bulk mailing, newsletter and SMS messaging
+- Improved site performance in the code and with provided Apache server side settings. 
+- Tax exemption
+
+Core:
+- Implemented tax exemption for the group
+- Added pdo_mysql Mysql driver
+- added silent mode into error_handlers
+- Fix for per page pagination
+- system check for cache files permissions fix
+- system check changes related to permissions of session.save_path
+- ACache fix related to warnings in log
+- JavaScript fixes for inline js related to defer attribute of script-tags
+- added new settings "start order number" and "incomplete orders expiration". + fix of start invoice number bug
+- css changes for width of scrollbox of checkboxgroup element
+- fix related to quotes inside js + phpdoc improvements
+
+Storefront:
+- Add separate layout for cart page
+- Layout install fix
+- Layout SQL improvement
+- Fix for storefront search with empty spaces.
+- Optimize HTML for better performance 
+
+Admin:
+- Improvement to Resource Library UI
+- Resource library manager
+- CKEditor replaced by tinymce
+- Admin notification management to multiple emails and SMS
+- added deleting of resources from RL during category(manufacturer) removing
+- changes of sale/contact. Added message count that was sent.
+- Better grid responsiveness handling
+- Slow sql fix on a customers grid and dashboard
+- added new multi-action "set related" to products grid.
+- AConfigManager changes related to session_ttl config parameter. Added suggestion for session maxlifetime
+- usage db-driver fix in migration models
+- order details tab fix
+- Fix for latest 10 customer sorting order
+- Fix for slow select on admin main page load
+- Quick link to contact customer
+
+
+Extensions:
+- Textmarketer SMS integration 
+- Twilio SMS integration
+- pp_default and pp_standart fix related to virtual products in the cartTranslatsions for IM
+
+API:
+- Fix for API cart delete with GET method
+
+
+------------------------------------------------------------
+
+
 AbanteCart version 1.2.5
 
 Release includes couple of new features and number of core improvements 

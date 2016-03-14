@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2015 Belavier Commerce LLC
+  Copyright © 2011-2016 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -155,6 +155,10 @@ class AResource {
 	    }else{
 		    $result = $this->_getIdByName($path);
 	    }
+		//function must return only integer!
+		if(!is_int($result)){
+			return null;
+		}
 	    return $result;
     }
 
@@ -168,7 +172,7 @@ class AResource {
                 WHERE name like '%".$this->db->escape($filename)."%'
                 ORDER BY language_id";
         $query = $this->db->query($sql);
-        return $query->row['resource_id'];
+        return (int)$query->row['resource_id'];
 	}
 
 	/**
@@ -176,7 +180,7 @@ class AResource {
 	 * @param int $language_id
 	 * @return array
 	 */
-	public function getResource ( $resource_id, $language_id = 0 ) {
+	public function getResource( $resource_id, $language_id = 0 ) {
 		//Return resource details
 		$resource_id = (int)$resource_id;
 	    if ( !$resource_id) {
@@ -227,7 +231,7 @@ class AResource {
         return $result;
 	}
 
-    public function getResourceThumb ( $resource_id, $width = '', $height = '', $language_id = '' ) {
+    public function getResourceThumb( $resource_id, $width = '', $height = '', $language_id = '' ) {
 
         if ( !$language_id ) {
             $language_id = $this->config->get('storefront_language_id');
@@ -322,7 +326,7 @@ class AResource {
 	 * @param string $mode full (with http and domain) or relative (from store url up)
 	 * @return array
 	 */
-    public function buildResourceURL ( $resource_path, $mode = 'full' ) {
+    public function buildResourceURL( $resource_path, $mode = 'full' ) {
 
 		if ( $mode == 'full') {
 			$this->extensions->hk_ProcessData($this, __FUNCTION__);
@@ -342,7 +346,7 @@ class AResource {
 	 * @param int $language_id
 	 * @return array
 	 */
-	public function getResources ( $object_name, $object_id, $language_id = 0 ) {
+	public function getResources( $object_name, $object_id, $language_id = 0 ) {
 		//Allow to load resources only for 1 object and id combination
 	    if ( !has_value($object_name) || !has_value($object_id) ) {
 			return array();
@@ -480,7 +484,7 @@ class AResource {
 					$thumb2_url = $this->model_tool_image->resize($result['resource_path'],$sizes['thumb2']['width'],$sizes['thumb2']['height']);
 				}
 
-				if($this->getTypeDir()=='image/'){
+				if($this->getType()=='image'){
 					if(!$sizes['main']){
 						$main_url = $this->getResourceThumb($result['resource_id'],$sizes['main']['width'],$sizes['main']['height']);
 					}else{ // return href for image with size as-is
@@ -541,9 +545,11 @@ class AResource {
 		$output = array();
 		if($result){
 			$output = array( 'origin' => $result['origin'],
-							 'thumb_html'=>$result['thumb_html'],
-							 'title'=>$result['title'],
-							 'description'=>$result['description']
+							 'thumb_html' => $result['thumb_html'],
+							 'title' => $result['title'],
+							 'description' => $result['description'],
+							 'width' => $width,
+							 'height' => $height
 			);
 			if($result['thumb_url']) $output['thumb_url'] = $result['thumb_url'];
 		}
@@ -563,10 +569,12 @@ class AResource {
 		$result =  $this->getResourceAllObjects($object_name, $object_id, $sizes,1, $noimage);
 		$output = array();
 		if($result){
-			$output = array( 'origin' => $result['origin'],
-							'main_html'=>$result['main_html'],
-							'description'=>$result['description'],
-							'title'=>$result['title']
+			$output = array('origin' => $result['origin'],
+							'main_html' => $result['main_html'],
+							'description' => $result['description'],
+							'title' => $result['title'],
+							'width' => $width,
+							'height' => $height
 			);
 			if($result['main_url']) $output['main_url'] = $result['main_url'];
 		}

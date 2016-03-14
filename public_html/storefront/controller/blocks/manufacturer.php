@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2015 Belavier Commerce LLC
+  Copyright © 2011-2016 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -28,7 +28,7 @@ class ControllerBlocksManufacturer extends AController {
 
 		$this->loadLanguage('blocks/manufacturer');
 
-		$this->view->assign('heading_title', $this->language->get('heading_title') );
+		$this->view->assign('heading_title', $this->language->get('heading_title', 'blocks_manufacturer') );
         $this->view->assign('text_select', $this->language->get('text_select') );
 
 		//For product page show only brand icon
@@ -68,6 +68,7 @@ class ControllerBlocksManufacturer extends AController {
 
 			$thumbnail_list = $this->cache->get('manufacturer.block.thumbnals','',(int)$this->config->get('config_store_id'));
 			$is_cache_exists = $this->cache->exists('manufacturer.block.thumbnals','',(int)$this->config->get('config_store_id'));
+			$thumbnails_cache = '';
 
 			$resource = new AResource('image');
 			foreach ($results as $result) {
@@ -80,6 +81,8 @@ class ControllerBlocksManufacturer extends AController {
 					$thumbnails_cache[$result['manufacturer_id']] = $thumbnail;
 				}else if(has_value($thumbnail_list[$result['manufacturer_id']])) {
 					$thumbnail = $thumbnail_list[$result['manufacturer_id']];
+				}else{
+					$thumbnail = '';
 				}
 			
 				$manufacturers[] = array(

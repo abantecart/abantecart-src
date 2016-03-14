@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2015 Belavier Commerce LLC
+  Copyright © 2011-2016 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   Lincence details is bundled with this package in the file LICENSE.txt.
@@ -75,6 +75,7 @@ class ControllerResponsesExtensionDefaultPPStandart extends AController {
 
 		$this->data['products'] = array();
 		$products = $this->cart->getProducts();
+
 		foreach ($products as $product) {
 			$option_data = array();
 
@@ -101,6 +102,21 @@ class ControllerResponsesExtensionDefaultPPStandart extends AController {
 				'weight'   => $product['weight']
 			);
 		}
+		//check for virtual product such as gift certificate
+		$cart_data = $this->customer->getCustomerCart();
+		if(isset($cart_data['virtual'])){
+			foreach($cart_data['virtual'] as $virtual){
+				$this->data['products'][] = array (
+						'name'     => 'Virtual Product',
+						'model'    => '',
+						'price'    => $this->currency->format($virtual['amount'], $order_info['currency'], $order_info['value'], false),
+						'quantity' => $virtual['quantity'],
+						'option'   => array(),
+						'weight'   => 0
+				);
+			}
+		}
+
 
 
 		$this->data['discount_amount_cart'] = 0;
@@ -120,6 +136,23 @@ class ControllerResponsesExtensionDefaultPPStandart extends AController {
 							'option'   => array(),
 							'weight'   => 0
 						);
+			}
+		}
+
+		//check for virtual product such as gift certificate, account credit etc
+		$virtual_products = $this->cart->getVirtualProducts();
+
+		if($virtual_products){
+			foreach($virtual_products as $k => $virtual){
+				$this->data['products'][] = array (
+						'name'     => ($virtual['name'] ? $virtual['name'] : 'Virtual Product'),
+						'model'    => '',
+						'price'    => $this->currency->format($virtual['amount'], $order_info['currency'], $order_info['value'], false),
+						'quantity' => ($virtual['quantity'] ? $virtual['quantity'] : 1),
+						'option'   => array(),
+						'weight'   => 0
+				);
+				$this->data['items_total'] += ($virtual['quantity'] ? $virtual['quantity'] : 1) * $this->currency->format($virtual['amount'], $order_info['currency'], $order_info['value'], false);
 			}
 		}
 

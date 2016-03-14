@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2015 Belavier Commerce LLC
+  Copyright © 2011-2016 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -42,7 +42,6 @@ class ControllerResponsesToolBackup extends AController {
 										));
 			}else{
 				$this->data['output']['task_details'] = $task_details;
-				$this->data['output']['task_details']['backup_name'] = "manual_backup_".date('Ymd_His');
 			}
 
 		}
@@ -66,11 +65,16 @@ class ControllerResponsesToolBackup extends AController {
 		$task_id = (int)$this->request->post['task_id'];
 		if($task_id){
 			$tm = new ATaskManager();
+			//get backup_name
+			$steps = $tm->getTaskSteps($task_id);
+			if($steps){
+				$step_info = current($steps);
+				$backup_name = $step_info['settings']['backup_name'];
+				$backup_name = !$backup_name ? 'manual_backup' : $backup_name;
+			}
 			$tm->deleteTask($task_id);
 			$install_upgrade_history = new ADataset('install_upgrade_history','admin');
 
-			$backup_name = $this->request->get_or_post('backup_name');
-			$backup_name = !$backup_name ? 'manual_backup' : $backup_name;
 
 			$display_name = '';
 			if(is_file(DIR_BACKUP.$backup_name.'.tar.gz')){

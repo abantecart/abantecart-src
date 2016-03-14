@@ -116,4 +116,28 @@
 		<key>error_email</key>
 		<value><![CDATA[Неверный адрес электронной почты!]]></value>
 	</definition>
+	<definition>
+		<key>entry_ims</key>
+		<value><![CDATA[Уведомления]]></value>
+	</definition>
+	<definition>
+		<key>entry_im_email</key>
+		<value><![CDATA[E-Mail:<span class="help">Один или несколько разделенных запятыми адресов электронной почты</span>]]></value>
+	</definition>
+	<definition>
+		<key>entry_im_sms</key>
+		<value><![CDATA[Мобильный телефон:<span class="help">Номер телефона в международном формате. +14566887777</span>]]></value>
+	</definition>
+	<definition>
+		<key>text_edit_im</key>
+		<value><![CDATA[Редактировать Уведомления]]></value>
+	</definition>
+	<definition>
+		<key>text_sendpoints</key>
+		<value><![CDATA[SendPoints]]></value>
+	</definition>
+	<definition>
+		<key>text_change_im_addresses</key>
+		<value><![CDATA[Редактировать Адрес Уведомления для этой точки]]></value>
+	</definition>
 </definitions>

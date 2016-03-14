@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2015 Belavier Commerce LLC
+  Copyright © 2011-2016 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -21,14 +21,13 @@ if (! defined ( 'DIR_CORE' )) {
 	header ( 'Location: static_pages/' );
 }
 class ControllerBlocksContent extends AController {
-	public $data=array();
+	public $data = array();
 	public function main() {
 
         //init controller data
         $this->extensions->hk_InitData($this,__FUNCTION__);
-        
-		$this->data = array();
-		$this->data['heading_title'] =  $this->language->get('heading_title');        
+
+		$this->data['heading_title'] =  $this->language->get('heading_title', 'blocks_content');
 		$this->data['text_home'] =  $this->language->get('text_home');
 		$this->loadLanguage('common/header');
 		// build static links

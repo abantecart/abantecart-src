@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2015 Belavier Commerce LLC
+  Copyright © 2011-2016 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -28,7 +28,7 @@ final class AConfig {
 	 * @var Registry
 	 */
 	private $registry;
-	public $groups = array( 'details', 'general', 'checkout', 'appearance', 'mail', 'api', 'system' );
+	public $groups = array( 'details', 'general', 'checkout', 'appearance', 'mail', 'im', 'api', 'system' );
 
 	public function __construct($registry) {
 		$this->registry = $registry;
@@ -117,7 +117,7 @@ final class AConfig {
 			foreach ($settings as &$setting) {
 				if($setting['key']=='config_url'){
 					$parsed_url = parse_url($setting['value']);
-					$setting['value'] = 'http://'.$parsed_url['host'].$parsed_url['path'];
+					$setting['value'] = $parsed_url['scheme'].'://'.$parsed_url['host'].$parsed_url['path'];
 				}
 				if($setting['key']=='config_ssl_url'){
 					$parsed_url = parse_url($setting['value']);

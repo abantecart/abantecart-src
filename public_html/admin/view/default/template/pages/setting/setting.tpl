@@ -158,13 +158,3 @@ jQuery(function () {
 });
 <?php } ?>
 //--></script>
-<script type="text/javascript"><!--
-$(document).ready(function () {
-
-    if ($('#settingFrm_config_description_<?php echo $content_language_id; ?>').length) {
-
-	    var ck = wrapCKEditor('settingFrm_config_description_<?php echo $content_language_id; ?>');
-	   	addRL2CKE(ck);
-    }
-});
-//--></script>

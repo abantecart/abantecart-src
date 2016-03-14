@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2015 Belavier Commerce LLC
+  Copyright © 2011-2016 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   Lincence details is bundled with this package in the file LICENSE.txt.
@@ -532,6 +532,9 @@ class ExtensionDefaultPPExpress extends Extension {
 		$order_id = $that->data['order_id'];
 		//are we logged in and in admin?
 	    if ( IS_ADMIN && $that->user->isLogged() ) {
+			if($that->data['payment_method_key'] != 'default_pp_express') {
+	    		return null;			
+			} 
 	    	//check if tab is not yet enabled.
 	    	if ( in_array('payment_details', $that->data['groups'])) {
 	    		return null;

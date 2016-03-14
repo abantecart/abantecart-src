@@ -78,7 +78,11 @@
   </definition>
   <definition>
     <key>entry_tax_rate_threshold</key>
-    <value><![CDATA[Apply this tax only if, taxed amount (product, shipping, subtotal, etc.) is ... ]]></value>
+    <value><![CDATA[Apply tax if<br /><span class="help">Apply this tax only if, taxed amount (product, shipping, subtotal, etc.) is ...</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_tax_exempt_groups</key>
+    <value><![CDATA[Tax Exempt Groups<br /><span class="help">Select customer groups to exempt from this tax</span>]]></value>
   </definition>
   <definition>
     <key>text_absolute</key>

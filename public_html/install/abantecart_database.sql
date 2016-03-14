@@ -670,6 +670,7 @@ CREATE TABLE `ac_customers` (
   `email` varchar(96) COLLATE utf8_general_ci NOT NULL DEFAULT '',
   `telephone` varchar(32) COLLATE utf8_general_ci NOT NULL DEFAULT '',
   `fax` varchar(32) COLLATE utf8_general_ci NOT NULL DEFAULT '',
+  `sms` varchar(32) COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT 'mobile phone number',
   `password` varchar(40) COLLATE utf8_general_ci NOT NULL DEFAULT '',
   `cart` text COLLATE utf8_general_ci,
   `wishlist` text COLLATE utf8_general_ci,
@@ -694,6 +695,7 @@ DROP TABLE IF EXISTS `ac_customer_groups`;
 CREATE TABLE `ac_customer_groups` (
   `customer_group_id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(32) COLLATE utf8_general_ci NOT NULL,
+  `tax_exempt` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`customer_group_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
 
@@ -701,11 +703,10 @@ CREATE TABLE `ac_customer_groups` (
 -- Dumping data for table `customer_groups`
 --
 
-INSERT INTO `ac_customer_groups` ( `name`) VALUES
-('Default'),
-('Wholesalers'),
-('Newsletter Subscribers');
-
+INSERT INTO `ac_customer_groups` ( `name`, `tax_exempt`) VALUES
+('Default', '0'),
+('Wholesalers', '1'),
+('Newsletter Subscribers', '0');
 
 --
 -- DDL for table table `ac_customer_transactions`
@@ -735,11 +736,12 @@ CREATE INDEX `ac_customer_transactions_idx` ON `ac_customer_transactions` ( `cus
 DROP TABLE IF EXISTS `ac_online_customers`;
 CREATE TABLE `ac_online_customers` (
   `customer_id` int(11) NOT NULL,
-  `ip` varchar(40) NOT NULL,
+  `ip` varchar(50) NOT NULL,
   `url` text NOT NULL,
   `referer` text NOT NULL,
   `date_added` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
-  PRIMARY KEY (`ip`)
+  PRIMARY KEY (`ip`),
+  KEY `ac_online_customers_idx` (`date_added`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 --
@@ -1150,6 +1152,11 @@ CREATE TABLE `ac_order_data_types` (
   `date_modified` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP, 
   PRIMARY KEY (`type_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
+
+-- write preinstalled IM protocols for guest checkout orders
+INSERT INTO `ac_order_data_types` (`language_id`, `name`, `date_added`) VALUES
+(1, 'email', NOW()),
+(1, 'sms', NOW());
 
 
 --
@@ -1609,6 +1616,12 @@ INSERT INTO `ac_settings` (`group`, `key`, `value`) VALUES
 ('general','config_embed_status',1),
 ('general','config_embed_click_action', 'modal'),
 ('general','config_product_default_sort_order','date_modified-ASC'),
+('general','config_account_create_captcha','0'),
+('general','config_recaptcha_site_key',''),
+('general','config_recaptcha_secret_key',''),
+('general','config_google_analytics_code',''),
+
+
 -- Checkout
 ('checkout','starting_invoice_id',001),
 ('checkout','invoice_prefix','IN#'),
@@ -1633,12 +1646,15 @@ INSERT INTO `ac_settings` (`group`, `key`, `value`) VALUES
 ('checkout','total_order_minimum',0),
 ('checkout','config_shipping_tax_estimate',1),
 ('checkout','config_coupon_on_cart_page',1),
+('checkout','config_expire_order_days',30),
+('checkout','config_customer_cancelation_order_status_id',''),
+('checkout','config_zero_customer_balance','0'),
 
 -- Appearance
 
 ('appearance','storefront_width','100%'),
 ('appearance','config_logo','image/18/73/3.png'),
-('appearance','config_icon','image/18/73/4.ico'),
+('appearance','config_icon','image/18/73/4.png'),
 ('appearance','config_image_thumb_width',380),
 ('appearance','config_image_thumb_height',380),
 ('appearance','config_image_popup_width',500),
@@ -1669,32 +1685,39 @@ INSERT INTO `ac_settings` (`group`, `key`, `value`) VALUES
 ('mail', 'config_smtp_port', '25'),
 ('mail', 'config_smtp_timeout', '5'),
 ('mail', 'config_alert_mail', '0'),
-('mail', 'config_alert_emails', ''),
+
+
+-- im
+('im', 'config_storefront_email_status', '1'),
+('im', 'config_admin_email_status', '1'),
+('im', 'config_im_guest_email_status', '1'),
+('im', 'config_im_guest_sms_status', '1'),
 
 -- system
-	('system','config_session_ttl',120),
-	('system','config_maintenance',0),
-	('system','encryption_key',12345),
-	('system','enable_seo_url',0),
-	('system','config_retina_enable',0),
-	('system','config_compression',0),
-	('system','config_cache_enable',1),
-	('system','config_error_display',1),
-	('system','config_error_log',1),
-	('system','config_debug',0),
-	('system','config_debug_level',0),
-	('system','storefront_template_debug',0),
-	('system','config_error_filename','error.txt'),
-	('system','config_upload_max_size',16000),
-	('system','config_voicecontrol', 1),
+('system','config_session_ttl',120),
+('system','config_maintenance',0),
+('system','encryption_key',12345),
+('system','enable_seo_url',0),
+('system','config_retina_enable',0),
+('system','config_compression',0),
+('system','config_cache_enable',1),
+('system','config_error_display',1),
+('system','config_error_log',1),
+('system','config_debug',0),
+('system','config_debug_level',0),
+('system','storefront_template_debug',0),
+('system','config_error_filename','error.txt'),
+('system','config_upload_max_size',16000),
+('system','config_voicecontrol', 1),
+('system','config_system_check', 3),
 
 -- API
-    ('api','config_storefront_api_status', '0'),
-    ('api','config_storefront_api_key',''),
-    ('api','config_storefront_api_stock_check',0),
-    ('api','config_admin_api_status',0),
-    ('api','config_admin_api_key',''),
-    ('api','config_admin_access_ip_list',''),
+('api','config_storefront_api_status', '0'),
+('api','config_storefront_api_key',''),
+('api','config_storefront_api_stock_check',0),
+('api','config_admin_api_status',0),
+('api','config_admin_api_key',''),
+('api','config_admin_access_ip_list',''),
 
 -- EXTENSIONS
 ('sub_total', 'sub_total_sort_order', '1'),
@@ -1835,6 +1858,7 @@ CREATE TABLE `ac_tax_rates` (
   `rate_prefix` char(1) COLLATE utf8_general_ci NOT NULL DEFAULT '%', -- % or $ 
   `threshold_condition` char(2) COLLATE utf8_general_ci NOT NULL, -- '<=', '>=', '==' or '<'
   `threshold` decimal(15,4) NOT NULL DEFAULT '0.0000',
+  `tax_exempt_groups` text DEFAULT NULL, 
   `date_added` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `date_modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`tax_rate_id`)
@@ -1923,6 +1947,31 @@ CREATE TABLE `ac_user_groups` (
 INSERT INTO `ac_user_groups` (`user_group_id`, `name`, `permission`) VALUES
 (1, 'Top Administrator', ''),
 (10, 'Demonstration', '');
+
+
+DROP TABLE IF EXISTS `ac_user_notifications`;
+CREATE TABLE `ac_user_notifications` (
+  `user_id` int(11) NOT NULL,
+  `store_id` int(11) NOT NULL,
+  `section` tinyint(1) NOT NULL COMMENT '1 - admin, 0 - storefront',
+  `sendpoint` varchar(255) NOT NULL,
+  `protocol` varchar(30) NOT NULL,
+  `uri` text NOT NULL,
+  `date_added` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `date_modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`user_id`,`store_id`,`section`,`sendpoint`,`protocol`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+DROP TABLE IF EXISTS `ac_customer_notifications`;
+CREATE TABLE `ac_customer_notifications` (
+  `customer_id` int(11) NOT NULL,
+  `sendpoint` varchar(255) NOT NULL,
+  `protocol` varchar(30) NOT NULL,
+  `status` int(1) NOT NULL DEFAULT '0',
+  `date_added` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `date_modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`customer_id`,`sendpoint`,`protocol`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 --
 -- DDL for table `weight_class`
@@ -4704,94 +4753,94 @@ INSERT INTO `ac_zones` (`zone_id`, `country_id`, `code`, `status`, `sort_order`)
 (2718,175,'VS',1,0),
 (2719,175,'VL',1,0),
 (2720,175,'VN',1,0),
-(2721,176,'AB',1,0),
-(2722,176,'AG',1,0),
-(2723,176,'AN',1,0),
-(2724,176,'AR',1,0),
-(2725,176,'AS',1,0),
-(2726,176,'BA',1,0),
-(2727,176,'BE',1,0),
-(2728,176,'BI',1,0),
-(2729,176,'BL',1,0),
-(2730,176,'BR',1,0),
-(2731,176,'CH',1,0),
-(2732,176,'CL',1,0),
-(2733,176,'CR',1,0),
-(2734,176,'CI',1,0),
-(2735,176,'DU',1,0),
-(2736,176,'EL',1,0),
-(2737,176,'GO',1,0),
-(2738,176,'GA',1,0),
-(2739,176,'GR',1,0),
-(2740,176,'IR',1,0),
-(2741,176,'IV',1,0),
-(2742,176,'IZ',1,0),
-(2743,176,'KA',1,0),
-(2744,176,'KL',1,0),
-(2745,176,'KS',1,0),
-(2746,176,'KZ',1,0),
-(2747,176,'KE',1,0),
-(2748,176,'KH',1,0),
-(2749,176,'KM',1,0),
-(2750,176,'KO',1,0),
-(2751,176,'KR',1,0),
-(2752,176,'KN',1,0),
-(2753,176,'KU',1,0),
-(2754,176,'KG',1,0),
-(2755,176,'KK',1,0),
-(2756,176,'KY',1,0),
-(2757,176,'LI',1,0),
-(2758,176,'MA',1,0),
-(2759,176,'MK',1,0),
-(2760,176,'MY',1,0),
-(2761,176,'MO',1,0),
-(2762,176,'MU',1,0),
-(2763,176,'NA',1,0),
-(2764,176,'NR',1,0),
-(2765,176,'NZ',1,0),
-(2766,176,'NI',1,0),
-(2767,176,'NO',1,0),
-(2768,176,'NV',1,0),
-(2769,176,'OM',1,0),
-(2770,176,'OR',1,0),
-(2771,176,'OE',1,0),
-(2772,176,'PA',1,0),
-(2773,176,'PE',1,0),
-(2774,176,'PR',1,0),
-(2775,176,'PK',1,0),
-(2776,176,'PT',1,0),
-(2777,176,'PS',1,0),
-(2778,176,'RO',1,0),
-(2779,176,'RY',1,0),
-(2780,176,'SL',1,0),
-(2781,176,'SA',1,0),
-(2782,176,'SR',1,0),
-(2783,176,'SV',1,0),
-(2784,176,'SM',1,0),
-(2785,176,'SP',1,0),
-(2786,176,'ST',1,0),
-(2787,176,'SY',1,0),
-(2788,176,'TA',1,0),
-(2789,176,'TO',1,0),
-(2790,176,'TU',1,0),
-(2791,176,'TR',1,0),
-(2792,176,'TV',1,0),
-(2793,176,'TY',1,0),
-(2794,176,'UF',1,0),
-(2795,176,'UL',1,0),
-(2796,176,'UU',1,0),
-(2797,176,'US',1,0),
-(2798,176,'VL',1,0),
-(2799,176,'VA',1,0),
-(2800,176,'VV',1,0),
-(2801,176,'VG',1,0),
-(2802,176,'VD',1,0),
-(2803,176,'VO',1,0),
-(2804,176,'VY',1,0),
-(2805,176,'YA',1,0),
-(2806,176,'YR',1,0),
-(2807,176,'YE',1,0),
-(2808,176,'YO',1,0),
+(2721,176,'KK',1,0),
+(2722,176,'AB',1,0),
+(2723,176,'CHU',1,0),
+(2724,176,'ARK',1,0),
+(2725,176,'AST',1,0),
+(2726,176,'ALT',1,0),
+(2727,176,'BEL',1,0),
+(2728,176,'YEV',1,0),
+(2729,176,'AMU',1,0),
+(2730,176,'BRY',1,0),
+(2731,176,'CU',1,0),
+(2732,176,'CHE',1,0),
+(2733,176,'KC',1,0),
+(2734,176,'ZAB',1,0),
+(2735,176,'TDN',1,0),
+(2736,176,'KL',1,0),
+(2737,176,'MOS',1,0),
+(2738,176,'AL',1,0),
+(2739,176,'CE',1,0),
+(2740,176,'IRK',1,0),
+(2741,176,'IVA',1,0),
+(2742,176,'UD',1,0),
+(2743,176,'KGD',1,0),
+(2744,176,'KLU',1,0),
+(2745,176,'KIR',1,0),
+(2746,176,'TA',1,0),
+(2747,176,'KEM',1,0),
+(2748,176,'KHA',1,0),
+(2749,176,'KHM',1,0),
+(2750,176,'KOS',1,0),
+(2751,176,'KDA',1,0),
+(2752,176,'KYA',1,0),
+(2753,176,'KPO',1,0),
+(2754,176,'KGN',1,0),
+(2755,176,'KRS',1,0),
+(2756,176,'TY',1,0),
+(2757,176,'LIP',1,0),
+(2758,176,'MAG',1,0),
+(2759,176,'DA',1,0),
+(2760,176,'AD',1,0),
+(2761,176,'MOW',1,0),
+(2762,176,'MUR',1,0),
+(2763,176,'KB',1,0),
+(2764,176,'NEN',1,0),
+(2765,176,'IN',1,0),
+(2766,176,'NIZ',1,0),
+(2767,176,'NGR',1,0),
+(2768,176,'NVS',1,0),
+(2769,176,'OMS',1,0),
+(2770,176,'ORL',1,0),
+(2771,176,'ORE',1,0),
+(2772,176,'LEN',1,0),
+(2773,176,'PNZ',1,0),
+(2774,176,'PER',1,0),
+(2775,176,'KAM',1,0),
+(2776,176,'KR',1,0),
+(2777,176,'PSK',1,0),
+(2778,176,'ROS',1,0),
+(2779,176,'RYA',1,0),
+(2780,176,'YAN',1,0),
+(2781,176,'SAM',1,0),
+(2782,176,'MO',1,0),
+(2783,176,'SAR',1,0),
+(2784,176,'SMO',1,0),
+(2785,176,'SPE',1,0),
+(2786,176,'STA',1,0),
+(2787,176,'KO',1,0),
+(2788,176,'TAM',1,0),
+(2789,176,'TOM',1,0),
+(2790,176,'TUL',1,0),
+(2791,176,'EO',1,0),
+(2792,176,'TVE',1,0),
+(2793,176,'TYU',1,0),
+(2794,176,'BA',1,0),
+(2795,176,'ULY',1,0),
+(2796,176,'BU',1,0),
+(2797,176,'UOB',1,0),
+(2798,176,'SE',1,0),
+(2799,176,'VLA',1,0),
+(2800,176,'PRI',1,0),
+(2801,176,'VGG',1,0),
+(2802,176,'VLG',1,0),
+(2803,176,'VOR',1,0),
+(2804,176,'SAK',1,0),
+(2805,176,'SA',1,0),
+(2806,176,'YAR',1,0),
+(2807,176,'SVE',1,0),
+(2808,176,'ME',1,0),
 (2809,177,'BU',1,0),
 (2810,177,'BY',1,0),
 (2811,177,'CY',1,0),
@@ -8650,94 +8699,94 @@ INSERT INTO `ac_zone_descriptions` (`zone_id`, `language_id`,`name`) VALUES
 (2718,1,'Vaslui'),
 (2719,1,'Valcea'),
 (2720,1,'Vrancea'),
-(2721,1,'Abakan'),
-(2722,1,'Aginskoye'),
-(2723,1,'Anadyr'),
-(2724,1,'Arkahangelsk'),
-(2725,1,'Astrakhan'),
-(2726,1,'Barnaul'),
-(2727,1,'Belgorod'),
-(2728,1,'Birobidzhan'),
-(2729,1,'Blagoveshchensk'),
-(2730,1,'Bryansk'),
-(2731,1,'Cheboksary'),
-(2732,1,'Chelyabinsk'),
-(2733,1,'Cherkessk'),
-(2734,1,'Chita'),
-(2735,1,'Dudinka'),
-(2736,1,'Elista'),
-(2737,1,'Gomo-Altaysk'),
-(2738,1,'Gorno-Altaysk'),
-(2739,1,'Groznyy'),
-(2740,1,'Irkutsk'),
-(2741,1,'Ivanovo'),
-(2742,1,'Izhevsk'),
-(2743,1,'Kalinigrad'),
-(2744,1,'Kaluga'),
-(2745,1,'Kasnodar'),
-(2746,1,'Kazan'),
-(2747,1,'Kemerovo'),
-(2748,1,'Khabarovsk'),
-(2749,1,'Khanty-Mansiysk'),
-(2750,1,'Kostroma'),
-(2751,1,'Krasnodar'),
-(2752,1,'Krasnoyarsk'),
-(2753,1,'Kudymkar'),
-(2754,1,'Kurgan'),
-(2755,1,'Kursk'),
-(2756,1,'Kyzyl'),
-(2757,1,'Lipetsk'),
-(2758,1,'Magadan'),
-(2759,1,'Makhachkala'),
-(2760,1,'Maykop'),
+(2721,1,'Republic of Khakassia'),
+(2722,1,'Aginsky Buryatsky AO'),
+(2723,1,'Chukotka Autonomous Okrug'),
+(2724,1,'Arkhangelsk Region'),
+(2725,1,'Astrakhan Oblast'),
+(2726,1,'Altai Krai'),
+(2727,1,'Belgorod Oblast'),
+(2728,1,'Jewish Autonomous Oblast'),
+(2729,1,'Amur Region'),
+(2730,1,'Bryansk Oblast'),
+(2731,1,'Chuvash Republic'),
+(2732,1,'Chelyabinsk Region'),
+(2733,1,'Karachay-Cherkess Republic'),
+(2734,1,'Zabaykalsky Krai'),
+(2735,1,'Taymyr Dolgano-Nenets Autonomous Okrug'),
+(2736,1,'Republic of Kalmykia'),
+(2737,1,'Moscow Oblast'),
+(2738,1,'Altai Republic'),
+(2739,1,'Chechen Republic'),
+(2740,1,'Irkutsk Oblast'),
+(2741,1,'Ivanovo Oblast'),
+(2742,1,'Udmurtia'),
+(2743,1,'Kaliningrad Oblast'),
+(2744,1,'Kaluzhskaya oblast'),
+(2745,1,'Kirov Oblast'),
+(2746,1,'Republic of Tatarstan'),
+(2747,1,'Kemerovo region'),
+(2748,1,'Khabarovsk Krai'),
+(2749,1,'Khanty–Mansi Autonomous Okrug – Yugra'),
+(2750,1,'Kostroma Oblast'),
+(2751,1,'Krasnodar Krai'),
+(2752,1,'Krasnoyarsk Krai'),
+(2753,1,'Komi-Permyatsky AO'),
+(2754,1,'Kurgan Oblast'),
+(2755,1,'Kursk Region'),
+(2756,1,'Respublika Tyva'),
+(2757,1,'Lipetsk Region'),
+(2758,1,'Magadan Oblast'),
+(2759,1,'Republic of Dagestan'),
+(2760,1,'Republic of Adygea'),
 (2761,1,'Moscow'),
-(2762,1,'Murmansk'),
-(2763,1,'Nalchik'),
-(2764,1,'Naryan Mar'),
-(2765,1,'Nazran'),
-(2766,1,'Nizhniy Novgorod'),
-(2767,1,'Novgorod'),
-(2768,1,'Novosibirsk'),
-(2769,1,'Omsk'),
-(2770,1,'Orel'),
-(2771,1,'Orenburg'),
-(2772,1,'Palana'),
-(2773,1,'Penza'),
-(2774,1,'Perm'),
-(2775,1,'Petropavlovsk-Kamchatskiy'),
-(2776,1,'Petrozavodsk'),
-(2777,1,'Pskov'),
-(2778,1,'Rostov-na-Donu'),
-(2779,1,'Ryazan'),
-(2780,1,'Salekhard'),
-(2781,1,'Samara'),
-(2782,1,'Saransk'),
-(2783,1,'Saratov'),
-(2784,1,'Smolensk'),
-(2785,1,'St. Petersburg'),
-(2786,1,'Stavropol'),
-(2787,1,'Syktyvkar'),
-(2788,1,'Tambov'),
-(2789,1,'Tomsk'),
-(2790,1,'Tula'),
-(2791,1,'Tura'),
-(2792,1,'Tver'),
-(2793,1,'Tyumen'),
-(2794,1,'Ufa'),
-(2795,1,'Ul\'yanovsk'),
-(2796,1,'Ulan-Ude'),
-(2797,1,'Ust\'-Ordynskiy'),
-(2798,1,'Vladikavkaz'),
-(2799,1,'Vladimir'),
-(2800,1,'Vladivostok'),
-(2801,1,'Volgograd'),
-(2802,1,'Vologda'),
-(2803,1,'Voronezh'),
-(2804,1,'Vyatka'),
-(2805,1,'Yakutsk'),
-(2806,1,'Yaroslavl'),
-(2807,1,'Yekaterinburg'),
-(2808,1,'Yoshkar-Ola'),
+(2762,1,'Murmansk Oblast'),
+(2763,1,'Kabardino-Balkar Republic'),
+(2764,1,'Nenets Autonomous Okrug'),
+(2765,1,'Republic of Ingushetia'),
+(2766,1,'Nizhegorodskaya oblast'),
+(2767,1,'Novgorod Oblast'),
+(2768,1,'Novosibirsk Oblast'),
+(2769,1,'Omsk Oblast'),
+(2770,1,'Oryol Oblast'),
+(2771,1,'Orenburg Oblast'),
+(2772,1,'Leningrad Oblast'),
+(2773,1,'Penza Oblast'),
+(2774,1,'Perm Krai'),
+(2775,1,'Kamchatka Krai'),
+(2776,1,'Republic of Karelia'),
+(2777,1,'Pskov Oblast'),
+(2778,1,'Rostov Region'),
+(2779,1,'Ryazan Oblast'),
+(2780,1,'Yamalo-Nenets Autonomous Okrug'),
+(2781,1,'Samara Region'),
+(2782,1,'Republic of Mordovia'),
+(2783,1,'Saratov Region'),
+(2784,1,'Smolensk Oblast'),
+(2785,1,'Saint Petersburg'),
+(2786,1,'Stavropol Krai'),
+(2787,1,'Komi Republic'),
+(2788,1,'Tambov Region'),
+(2789,1,'Tomsk Oblast'),
+(2790,1,'Tula Region'),
+(2791,1,'Evenkysky AO'),
+(2792,1,'Tver Oblast'),
+(2793,1,'Tyumen Oblast'),
+(2794,1,'Republic of Bashkortostan'),
+(2795,1,'Ulyanovsk Oblast'),
+(2796,1,'Republic of Buryatia'),
+(2797,1,'Ust-Orda Buryat Okrug'),
+(2798,1,'North Ossetia-Alania'),
+(2799,1,'Vladimir Oblast'),
+(2800,1,'Primorsky Krai'),
+(2801,1,'Volgograd Oblast'),
+(2802,1,'Vologda Oblast'),
+(2803,1,'Voronezh Oblast'),
+(2804,1,'Sakhalin Oblast'),
+(2805,1,'Sakha Republic'),
+(2806,1,'Yaroslavl Oblast'),
+(2807,1,'Sverdlovsk Oblast'),
+(2808,1,'Mari El Republic'),
 (2809,1,'Butare'),
 (2810,1,'Byumba'),
 (2811,1,'Cyangugu'),
@@ -9423,7 +9472,7 @@ INSERT INTO `ac_zone_descriptions` (`zone_id`, `language_id`,`name`) VALUES
 (3491,1,'Kherson'),
 (3492,1,'Luhans\'k'),
 (3493,1,'L\'viv'),
-(3494,1,'Mykolayiv'),
+(3494,1,'Mykolaiv'),
 (3495,1,'Odesa'),
 (3496,1,'Poltava'),
 (3497,1,'Rivne'),
@@ -9984,7 +10033,8 @@ INSERT INTO `ac_pages` (`page_id`, `parent_page_id`, `controller`, `key_param`, 
 (4, 0, 'pages/account/login', '', '', now() ),
 (5, 0, 'pages/product/product', '', '', now()),
 (10, 0, 'pages/index/maintenance', '', '', now() ),
-(11, 0, 'pages/account', '', '', now() );
+(11, 0, 'pages/account', '', '', now() ),
+(12, 0, 'pages/checkout/cart', '', '', now() );
 
 
 --
@@ -10173,7 +10223,6 @@ CREATE TABLE `ac_block_descriptions` (
   PRIMARY KEY (`block_description_id`, `custom_block_id`, `language_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
-
 --
 -- DDL for table `block_templates`
 --
@@ -10197,7 +10246,6 @@ INSERT INTO `ac_block_templates` (`block_id`, `parent_block_id`, `template`, `da
 (9, 6, 'blocks/category.tpl', now() ),
 (9, 7, 'blocks/category_bottom.tpl', now() ),
 (9, 8, 'blocks/category_bottom.tpl', now() ),
-
 (10, 3, 'blocks/manufacturer.tpl', now() ),
 (10, 6, 'blocks/manufacturer.tpl', now() ),
 (11, 3, 'blocks/content.tpl', now() ),
@@ -10272,8 +10320,7 @@ INSERT INTO `ac_block_templates` (`block_id`, `parent_block_id`, `template`, `da
 (30, 6, 'blocks/custom_form_block.tpl', NOW() ),
 (30, 7, 'blocks/custom_form_block_content.tpl', NOW() ),
 (30, 8, 'blocks/custom_form_block_header.tpl', NOW() ),
-(31, 0, 'blocks/customer.tpl', now() )
-;
+(31, 0, 'blocks/customer.tpl', now() );
 
 --
 -- DDL for table `layouts`
@@ -10298,8 +10345,8 @@ INSERT INTO `ac_layouts` (`layout_id`, `template_id`, `layout_type`, `layout_nam
 (15, 'default', 1, 'Checkout Pages', now()),
 (16, 'default', 1, 'Product Listing Page', now()),
 (17, 'default', 1, 'Maintanance Page', now()),
-(18, 'default', 1, 'Customer Account Pages', now())
-;
+(18, 'default', 1, 'Customer Account Pages', now()),
+(19, 'default', 1, 'Cart Page', now());
 
 --
 -- DDL for table `pages_layouts`
@@ -10312,19 +10359,14 @@ CREATE TABLE `ac_pages_layouts` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 INSERT INTO `ac_pages_layouts` (`layout_id`, `page_id`) VALUES
-(1, 1 ),
-(2, 2 ),
-(5, 4 ),
-(6, 5 ),
-(7, 3 ),
 (11, 1),
 (12, 2),
 (13, 4),
 (14, 5),
 (15, 3),
 (17, 10),
-(18, 11)
-;
+(18, 11),
+(19, 12);
 
 --
 -- DDL for table `block_layouts`
@@ -10345,129 +10387,35 @@ CREATE TABLE `ac_block_layouts` (
 CREATE UNIQUE INDEX `ac_block_layouts_idx`
 ON `ac_block_layouts` ( `instance_id`, `layout_id`, `block_id`, `parent_instance_id`,`custom_block_id` );
 
-INSERT INTO `ac_block_layouts` (`instance_id`, `layout_id`, `block_id`, `custom_block_id`, `parent_instance_id`, `position`, `status`, `date_added`) VALUES
-(1, 1, 1, 0, 0, 10, 1, now() ),
-(2, 1, 2, 0, 0, 20, 1, now() ),
-(3, 1, 3, 0, 0, 30, 1, now() ),
-(4, 1, 4, 0, 0, 40, 1, now() ),
-(5, 1, 5, 0, 0, 50, 1, now() ),
-(6, 1, 6, 0, 0, 60, 1, now() ),
-(7, 1, 7, 0, 0, 70, 1, now() ),
-(8, 1, 8, 0, 0, 80, 1, now() ),
-(9, 1, 9, 0, 3, 10, 1, now() ),
-(10, 1, 10, 0, 3, 20, 1, now() ),
-(11, 1, 11, 0, 3, 30, 1, now() ),
-(12, 1, 9, 0, 6, 30, 1, now() ),
-(13, 1, 10, 0, 6, 10, 1, now() ),
-(14, 1, 11, 0, 6, 20, 1, now() ),
-(35, 1, 13, 0, 1, 10, 1, now() ),
-(36, 1, 14, 0, 1, 20, 1, now() ),
-(37, 1, 15, 0, 1, 30, 1, now() ),
-(38, 1, 21, 0, 8, 10, 1, now() ),
-(172, 1, 24, 0, 8, 20, 1, now() );
-
--- Home page
-INSERT INTO `ac_block_layouts` (`instance_id`, `layout_id`, `block_id`, `custom_block_id`, `parent_instance_id`, `position`, `status`, `date_added`) VALUES
-(16, 2, 1, 0, 0, 10, 1, now() ),
-(17, 2, 2, 0, 0, 20, 1, now() ),
-(18, 2, 3, 0, 0, 30, 1, now() ),
-(19, 2, 4, 0, 0, 40, 1, now() ),
-(20, 2, 5, 0, 0, 50, 1, now() ),
-(21, 2, 6, 0, 0, 60, 1, now() ),
-(22, 2, 7, 0, 0, 70, 1, now() ),
-(23, 2, 8, 0, 0, 80, 1, now() ),
-(24, 2, 9, 0, 18, 10, 1, now() ),
-(25, 2, 10, 0, 18, 20, 1, now() ),
-(26, 2, 11, 0, 18, 30, 1, now() ),
-(27, 2, 12, 0, 20, 10, 1, now() ),
-(28, 2, 18, 0, 21, 10, 1, now() ),
-(29, 2, 19, 0, 21, 20, 1, now() ),
-(31, 2, 15, 0, 16, 30, 1, now() ),
-(32, 2, 13, 0, 16, 10, 1, now() ),
-(33, 2, 14, 0, 16, 20, 1, now() ),
-(39, 2, 21, 0, 23, 10, 1, now() ),
-(40, 2, 24, 0, 23, 20, 1, now() );
-
--- Login page
-INSERT INTO `ac_block_layouts` (`instance_id`, `layout_id`, `block_id`, `custom_block_id`, `parent_instance_id`, `position`, `status`, `date_added`) VALUES
-(56, 5, 13, 0, 55, 10, 1, now() ),
-(64, 5, 7, 0, 0, 70, 1, now() ),
-(63, 5, 6, 0, 0, 60, 0, now() ),
-(62, 5, 5, 0, 0, 50, 1, now() ),
-(61, 5, 4, 0, 0, 40, 1, now() ),
-(60, 5, 3, 0, 0, 30, 0, now() ),
-(59, 5, 2, 0, 0, 20, 1, now() ),
-(58, 5, 15, 0, 55, 30, 1, now() ),
-(57, 5, 14, 0, 55, 20, 1, now() ),
-(55, 5, 1, 0, 0, 10, 1, now() ),
-(65, 5, 8, 0, 0, 80, 1, now() ),
-(98, 5, 21, 0, 65, 10, 1, now() ),
-(99, 5, 24, 0, 65, 20, 1, now() );
--- Default Product page
-INSERT INTO `ac_block_layouts` (`instance_id`, `layout_id`, `block_id`, `custom_block_id`, `parent_instance_id`, `position`, `status`, `date_added`) VALUES
-(66, 6, 13, 0, 75, 10, 1, now() ),
-(67, 6, 7, 0, 0, 70, 1, now() ),
-(68, 6, 6, 0, 0, 60, 0, now() ),
-(69, 6, 5, 0, 0, 50, 1, now() ),
-(70, 6, 4, 0, 0, 40, 1, now() ),
-(71, 6, 3, 0, 0, 30, 0, now() ),
-(72, 6, 2, 0, 0, 20, 1, now() ),
-(73, 6, 15, 0, 75, 30, 1, now() ),
-(74, 6, 14, 0, 75, 20, 1, now() ),
-(75, 6, 1, 0, 0, 10, 1, now() ),
-(76, 6, 8, 0, 0, 80, 1, now() ),
-(95, 6, 21, 0, 76, 10, 1, now() ),
-(170, 6, 24, 0, 76, 20, 1, now() );
--- Checkout pages
-INSERT INTO `ac_block_layouts` (`instance_id`, `layout_id`, `block_id`, `custom_block_id`, `parent_instance_id`, `position`, `status`, `date_added`) VALUES
-(77, 7, 1, 0, 0, 10, 1, now() ),
-(78, 7, 7, 0, 0, 70, 1, now() ),
-(79, 7, 6, 0, 0, 60, 1, now() ),
-(80, 7, 5, 0, 0, 50, 1, now() ),
-(81, 7, 2, 0, 0, 20, 1, now() ),
-(82, 7, 3, 0, 0, 30, 0, now() ),
-(83, 7, 4, 0, 0, 40, 1, now() ),
-(87, 7, 8, 0, 0, 80, 1, now() ),
-(91, 7, 13, 0, 77, 10, 1, now() ),
-(92, 7, 14, 0, 77, 20, 1, now() ),
-(93, 7, 15, 0, 77, 30, 1, now() ),
-(94, 7, 16, 0, 79, 10, 1, now() ),
-(96, 7, 21, 0, 87, 10, 1, now() ),
-(171, 7, 24, 0, 87, 20, 1, now() );
-
-
 -- DEFAULT template's layouts
-INSERT INTO `ac_block_layouts` (`instance_id`,`layout_id`,`block_id`,`custom_block_id`,`parent_instance_id`,`position`,`status`,`date_added`,`date_modified`) VALUES
-(1839,	11,	25,	0,	337,	40,	1,	NOW(),	NOW()),	
-(338,	11,	9,	0,	3,		10,	1,	NOW(),	NOW()),	
-(337,	11,	8,	0,	0,		80,	1,	NOW(),	NOW()),	
-(336,	11,	7,	0,	0,		70,	1,	NOW(),	NOW()),	
-(335,	11,	6,	0,	0,		60,	1,	NOW(),	NOW()),	
-(334,	11,	5,	0,	0,		50,	1,	NOW(),	NOW()),	
-(333,	11,	4,	0,	0,		40,	1,	NOW(),	NOW()),	
-(332,	11,	3,	0,	0,		30,	1,	NOW(),	NOW()),	
-(331,	11,	2,	0,	0,		20,	1,	NOW(),	NOW()),
-(339,	11,	10,	0,	3,		20,	1,	NOW(),	NOW()),	
-(340,	11,	11,	0,	3,		30,	1,	NOW(),	NOW()),	
-(341,	11,	9,	0,	6,		30,	1,	NOW(),	NOW()),
-(1840,	11,	11,	0,	337,	50,	1,	NOW(),	NOW()),
-(348,	11,	24,	0,	8,		20,	1,	NOW(),	NOW()),	
-(347,	11,	21,	0,	8,		10,	1,	NOW(),	NOW()),	
-(346,	11,	15,	0,	1,		30,	1,	NOW(),	NOW()),	
-(345,	11,	14,	0,	1,		20,	1,	NOW(),	NOW()),	
-(344,	11,	13,	0,	1,		10,	1,	NOW(),	NOW()),	
-(343,	11,	11,	0,	6,		20,	1,	NOW(),	NOW()),	
-(342,	11,	10,	0,	6,		10,	1,	NOW(),	NOW()),	
+INSERT INTO `ac_block_layouts`
+(`instance_id`,`layout_id`,`block_id`,`custom_block_id`,`parent_instance_id`,`position`,`status`,`date_added`,`date_modified`)
+VALUES
 (330,	11,	1,	0,	0,		10,	1,	NOW(),	NOW()),	
-(1835,	11,	9,	0,	331,	10,	1,	NOW(),	NOW()),	
-(1842,	11,	24,	0,	337,	70,	1,	NOW(),	NOW()),	
-(1843,	11,	21,	0,	337,	80,	1,	NOW(),	NOW()),	
+(331,	11,	2,	0,	0,		20,	1,	NOW(),	NOW()),
+(332,	11,	3,	0,	0,		30,	1,	NOW(),	NOW()),	
+(333,	11,	4,	0,	0,		40,	1,	NOW(),	NOW()),	
+(334,	11,	5,	0,	0,		50,	1,	NOW(),	NOW()),	
+(335,	11,	6,	0,	0,		60,	1,	NOW(),	NOW()),	
+(336,	11,	7,	0,	0,		70,	1,	NOW(),	NOW()),	
+(337,	11,	8,	0,	0,		80,	1,	NOW(),	NOW()),	
+(1839,	11,	25,	0,	337,	40,	1,	NOW(),	NOW()),	
+(1840,	11,	11,	0,	337,	50,	1,	NOW(),	NOW()),
+(1835,	11,	9,	0,	331,	10,	1,	NOW(),	NOW()),
+(1842,	11,	24,	0,	337,	70,	1,	NOW(),	NOW()),
+(1843,	11,	21,	0,	337,	80,	1,	NOW(),	NOW()),
 (1844,	11,	31,	0,	330,	20,	1,	NOW(),	NOW()),	
 (1829,	11,	27,	0,	330,	30,	1,	NOW(),	NOW()),	
 (1830,	11,	26,	0,	330,	40,	1,	NOW(),	NOW()),	
 (1831,	11,	14,	0,	330,	60,	1,	NOW(),	NOW()),
 (1832,	11,	13,	0,	330,	50,	1,	NOW(),	NOW()),
 (1833,	11,	15,	0,	330,	70,	1,	NOW(),	NOW()),
+(1950,	11,	28,	0,	331,	20,	1,	NOW(),	NOW());
+
+-- Home page
+INSERT INTO `ac_block_layouts`
+(`instance_id`,`layout_id`,`block_id`,`custom_block_id`,`parent_instance_id`,`position`,`status`,`date_added`,`date_modified`)
+VALUES
 (1782,	12,	21,	0,	356,	80,	1,	NOW(),	NOW()),	
 (354,	12,	6,	0,	0,		60,	0,	NOW(),	NOW()),	
 (352,	12,	4,	0,	0,		40,	1,	NOW(),	NOW()),	
@@ -10477,17 +10425,6 @@ INSERT INTO `ac_block_layouts` (`instance_id`,`layout_id`,`block_id`,`custom_blo
 (1781,	12,	24,	0,	356,	70,	1,	NOW(),	NOW()),	
 (355,	12,	7,	0,	0,		70,	1,	NOW(),	NOW()),	
 (356,	12,	8,	0,	0,		80,	1,	NOW(),	NOW()),	
-(368,	12,	24,	0,	23,		20,	1,	NOW(),	NOW()),	
-(367,	12,	21,	0,	23,		10,	1,	NOW(),	NOW()),
-(365,	12,	14,	0,	16,		20,	1,	NOW(),	NOW()),	
-(364,	12,	13,	0,	16,		10,	1,	NOW(),	NOW()),	
-(363,	12,	15,	0,	16,		30,	1,	NOW(),	NOW()),	
-(362,	12,	19,	0,	21,		20,	1,	NOW(),	NOW()),	
-(361,	12,	18,	0,	21,		10,	1,	NOW(),	NOW()),	
-(360,	12,	12,	0,	20,		10,	1,	NOW(),	NOW()),	
-(359,	12,	11,	0,	18,		30,	1,	NOW(),	NOW()),	
-(358,	12,	10,	0,	18,		20,	1,	NOW(),	NOW()),	
-(357,	12,	9,	0,	18,		10,	1,	NOW(),	NOW()),	
 (349,	12,	1,	0,	0,		10,	1,	NOW(),	NOW()),
 (1763,	12,	14,	0,	349,	60,	1,	NOW(),	NOW()),	
 (1764,	12,	15,	0,	349,	70,	1,	NOW(),	NOW()),
@@ -10501,31 +10438,37 @@ INSERT INTO `ac_block_layouts` (`instance_id`,`layout_id`,`block_id`,`custom_blo
 (1769,	12,	19,	0,	353,	10,	1,	NOW(),	NOW()),	
 (1778,	12,	25,	0,	356,	40,	1,	NOW(),	NOW()),	
 (1845,	12,	31,	0,	349,	20,	1,	NOW(),	NOW()),	
-(1760,	12,	27,	0,	349,	30,	1,	NOW(),	NOW()),	
+(1760,	12,	27,	0,	349,	30,	1,	NOW(),	NOW());
+
+-- Login page
+INSERT INTO `ac_block_layouts`
+(`instance_id`,`layout_id`,`block_id`,`custom_block_id`,`parent_instance_id`,`position`,`status`,`date_added`,`date_modified`)
+VALUES
 (1846,	13,	31,	0,	378,	20,	1,	NOW(),	NOW()),	
 (1799,	13,	27,	0,	378,	30,	1,	NOW(),	NOW()),	
 (1810,	13,	11,	0,	379,	50,	1,	NOW(),	NOW()),	
 (1805,	13,	9,	0,	375,	10,	1,	NOW(),	NOW()),	
+(1951,	13,	28,	0,	375,	20,	1,	NOW(),	NOW()),	
 (1801,	13,	13,	0,	378,	50,	1,	NOW(),	NOW()),	
 (1813,	13,	21,	0,	379,	80,	1,	NOW(),	NOW()),	
 (1809,	13,	25,	0,	379,	40,	1,	NOW(),	NOW()),
 (1800,	13,	26,	0,	378,	40,	1,	NOW(),	NOW()),	
 (1812,	13,	24,	0,	379,	70,	1,	NOW(),	NOW()),	
-(369,	13,	13,	0,	55,		10,	1,	NOW(),	NOW()),	
 (1802,	13,	14,	0,	378,	60,	1,	NOW(),	NOW()),	
 (1803,	13,	15,	0,	378,	70,	1,	NOW(),	NOW()),
-(381,	13,	24,	0,	65,		20,	1,	NOW(),	NOW()),	
-(380,	13,	21,	0,	65,		10,	1,	NOW(),	NOW()),	
 (379,	13,	8,	0,	0,		80,	1,	NOW(),	NOW()),	
 (378,	13,	1,	0,	0,		10,	1,	NOW(),	NOW()),	
-(377,	13,	14,	0,	55,		20,	1,	NOW(),	NOW()),	
-(376,	13,	15,	0,	55,		30,	1,	NOW(),	NOW()),	
 (370,	13,	7,	0,	0,		70,	1,	NOW(),	NOW()),	
 (371,	13,	6,	0,	0,		60,	0,	NOW(),	NOW()),	
 (372,	13,	5,	0,	0,		50,	1,	NOW(),	NOW()),	
 (373,	13,	4,	0,	0,		40,	1,	NOW(),	NOW()),	
 (374,	13,	3,	0,	0,		30,	0,	NOW(),	NOW()),	
-(375,	13,	2,	0,	0,		20,	1,	NOW(),	NOW()),	
+(375,	13,	2,	0,	0,		20,	1,	NOW(),	NOW());
+
+-- Default Product page
+INSERT INTO `ac_block_layouts`
+(`instance_id`,`layout_id`,`block_id`,`custom_block_id`,`parent_instance_id`,`position`,`status`,`date_added`,`date_modified`)
+VALUES
 (1795,	14,	11,	0,	392,	50,	1,	NOW(),	NOW()),	
 (1794,	14,	25,	0,	392,	40,	1,	NOW(),	NOW()),
 (1790,	14,	12,	0,	387,	10,	1,	NOW(),	NOW()),
@@ -10535,6 +10478,7 @@ INSERT INTO `ac_block_layouts` (`instance_id`,`layout_id`,`block_id`,`custom_blo
 (1785,	14,	13,	0,	391,	50,	1,	NOW(),	NOW()),	
 (1786,	14,	14,	0,	391,	60,	1,	NOW(),	NOW()),	
 (1789,	14,	9,	0,	388,	10,	1,	NOW(),	NOW()),
+(1952,	14,	28,	0,	388,	20,	1,	NOW(),	NOW()),	
 (1787,	14,	15,	0,	391,	70,	1,	NOW(),	NOW()),	
 (1797,	14,	24,	0,	392,	70,	1,	NOW(),	NOW()),	
 (1798,	14,	21,	0,	392,	80,	1,	NOW(),	NOW()),	
@@ -10543,40 +10487,41 @@ INSERT INTO `ac_block_layouts` (`instance_id`,`layout_id`,`block_id`,`custom_blo
 (387,	14,	3,	0,	0,		30,	1,	NOW(),	NOW()),	
 (384,	14,	6,	0,	0,		60,	0,	NOW(),	NOW()),	
 (383,	14,	7,	0,	0,		70,	1,	NOW(),	NOW()),	
-(389,	14,	15,	0,	75,		30,	1,	NOW(),	NOW()),	
-(390,	14,	14,	0,	75,		20,	1,	NOW(),	NOW()),	
-(382,	14,	13,	0,	75,		10,	1,	NOW(),	NOW()),	
 (391,	14,	1,	0,	0,		10,	1,	NOW(),	NOW()),	
 (392,	14,	8,	0,	0,		80,	1,	NOW(),	NOW()),	
-(393,	14,	21,	0,	76,		10,	1,	NOW(),	NOW()),	
-(394,	14,	24,	0,	76,		20,	1,	NOW(),	NOW()),	
-(385,	14,	5,	0,	0,		50,	1,	NOW(),	NOW()),	
-(1827,	15,	24,	0,	403,	70,	1,	NOW(),	NOW()),	
-(1818,	15,	15,	0,	395,	70,	1,	NOW(),	NOW()),	
-(1817,	15,	14,	0,	395,	60,	1,	NOW(),	NOW()),	
-(1816,	15,	13,	0,	395,	50,	1,	NOW(),	NOW()),	
-(1828,	15,	21,	0,	403,	80,	1,	NOW(),	NOW()),	
-(1815,	15,	26,	0,	395,	40,	1,	NOW(),	NOW()),	
-(1848,	15,	31,	0,	395,	20,	1,	NOW(),	NOW()),	
-(1814,	15,	27,	0,	395,	30,	1,	NOW(),	NOW()),	
+(385,	14,	5,	0,	0,		50,	1,	NOW(),	NOW());
+
+-- Checkout pages
+INSERT INTO `ac_block_layouts`
+(`instance_id`,`layout_id`,`block_id`,`custom_block_id`,`parent_instance_id`,`position`,`status`,`date_added`,`date_modified`)
+VALUES
+(1827,	15,	24,	0,	403,	70,	1,	NOW(),	NOW()),
+(1818,	15,	15,	0,	395,	70,	1,	NOW(),	NOW()),
+(1817,	15,	14,	0,	395,	60,	1,	NOW(),	NOW()),
+(1816,	15,	13,	0,	395,	50,	1,	NOW(),	NOW()),
+(1828,	15,	21,	0,	403,	80,	1,	NOW(),	NOW()),
+(1815,	15,	26,	0,	395,	40,	1,	NOW(),	NOW()),
+(1848,	15,	31,	0,	395,	20,	1,	NOW(),	NOW()),
+(1814,	15,	27,	0,	395,	30,	1,	NOW(),	NOW()),
 (1820,	15,	9,	0,	399,	10,	1,	NOW(),	NOW()),
-(1825,	15,	11,	0,	403,	50,	1,	NOW(),	NOW()),	
-(402,	15,	5,	0,	0,		50,	1,	NOW(),	NOW()),	
-(401,	15,	4,	0,	0,		40,	1,	NOW(),	NOW()),	
-(400,	15,	3,	0,	0,		30,	0,	NOW(),	NOW()),	
-(399,	15,	2,	0,	0,		20,	1,	NOW(),	NOW()),	
-(398,	15,	5,	0,	0,		50,	1,	NOW(),	NOW()),	
-(397,	15,	6,	0,	0,		60,	1,	NOW(),	NOW()),	
+(1953,	15,	28,	0,	399,	20,	1,	NOW(),	NOW()),	
+(1825,	15,	11,	0,	403,	50,	1,	NOW(),	NOW()),
+(402,	15,	5,	0,	0,		50,	1,	NOW(),	NOW()),
+(401,	15,	4,	0,	0,		40,	1,	NOW(),	NOW()),
+(400,	15,	3,	0,	0,		30,	0,	NOW(),	NOW()),
+(399,	15,	2,	0,	0,		20,	1,	NOW(),	NOW()),
+(398,	15,	5,	0,	0,		50,	1,	NOW(),	NOW()),
+(397,	15,	6,	0,	0,		60,	1,	NOW(),	NOW()),
 (396,	15,	7,	0,	0,		70,	1,	NOW(),	NOW()),
-(395,	15,	1,	0,	0,		10,	1,	NOW(),	NOW()),	
+(395,	15,	1,	0,	0,		10,	1,	NOW(),	NOW()),
 (1824,	15,	25,	0,	403,	40,	1,	NOW(),	NOW()),
-(403,	15,	8,	0,	0,		80,	1,	NOW(),	NOW()),	
-(404,	15,	13,	0,	77,		10,	1,	NOW(),	NOW()),	
-(405,	15,	14,	0,	77,		20,	1,	NOW(),	NOW()),	
-(406,	15,	15,	0,	77,		30,	1,	NOW(),	NOW()),	
-(409,	15,	24,	0,	87,		20,	1,	NOW(),	NOW()),
-(408,	15,	21,	0,	87,		10,	1,	NOW(),	NOW()),	
-(407,	15,	16,	0,	79,		10,	1,	NOW(),	NOW()),	
+(2021,	15,	16,	0,	397,	10,	1,	NOW(),	NOW()),
+(403,	15,	8,	0,	0,		80,	1,	NOW(),	NOW());
+
+-- Maintenance Page
+INSERT INTO `ac_block_layouts`
+(`instance_id`,`layout_id`,`block_id`,`custom_block_id`,`parent_instance_id`,`position`,`status`,`date_added`,`date_modified`)
+VALUES
 (942,	17,	5,	0,	0,		50,	1,	NOW(),	NOW()),	
 (943,	17,	6,	0,	0,		60,	1,	NOW(),	NOW()),	
 (944,	17,	7,	0,	0,		70,	1,	NOW(),	NOW()),	
@@ -10584,9 +10529,10 @@ INSERT INTO `ac_block_layouts` (`instance_id`,`layout_id`,`block_id`,`custom_blo
 (940,	17,	3,	0,	0,		30,	1,	NOW(),	NOW()),	
 (939,	17,	2,	0,	0,		20,	1,	NOW(),	NOW()),	
 (938,	17,	1,	0,	0,		10,	1,	NOW(),	NOW()),	
-(941,	17,	4,	0,	0,		40,	1,	NOW(),	NOW());
+(941,	17,	4,	0,	0,		40,	1,	NOW(),	NOW()),
+(1954,	17,	28,	0,	939,	20,	1,	NOW(),	NOW());	
 
--- DEFAULT template's layouts
+-- Customer Account Pages
 INSERT INTO `ac_block_layouts` (`instance_id`,	 `layout_id`,	 `block_id`,	 `custom_block_id`,	 `parent_instance_id`,	 `position`,	 `status`,	 `date_added`,	`date_modified`) VALUES
 (1900,	18,	5,	0,	0,		50,	1,	NOW(),	NOW()),	
 (1901,	18,	4,	0,	0,		40,	1,	NOW(),	NOW()),	
@@ -10597,12 +10543,6 @@ INSERT INTO `ac_block_layouts` (`instance_id`,	 `layout_id`,	 `block_id`,	 `cust
 (1906,	18,	7,	0,	0,		70,	1,	NOW(),	NOW()),	
 (1907,	18,	1,	0,	0,		10,	1,	NOW(),	NOW()),	
 (1908,	18,	8,	0,	0,		80,	1,	NOW(),	NOW()),	
-(1909,	18,	13,	0,	77,		10,	1,	NOW(),	NOW()),	
-(1910,	18,	14,	0,	77,		20,	1,	NOW(),	NOW()),	
-(1911,	18,	15,	0,	77,		30,	1,	NOW(),	NOW()),	
-(1912,	18,	24,	0,	87,		20,	1,	NOW(),	NOW()),	
-(1913,	18,	21,	0,	87,		10,	1,	NOW(),	NOW()),	
-(1914,	18,	16,	0,	79,		10,	1,	NOW(),	NOW()),	
 (1920,	18,	24,	0,	1908,	70,	1,	NOW(),	NOW()),	
 (1921,	18,	15,	0,	1907,	70,	1,	NOW(),	NOW()),	
 (1922,	18,	14,	0,	1907,	60,	1,	NOW(),	NOW()),	
@@ -10612,19 +10552,36 @@ INSERT INTO `ac_block_layouts` (`instance_id`,	 `layout_id`,	 `block_id`,	 `cust
 (1849,	18,	31,	0,	1907,	20,	1,	NOW(),	NOW()),	
 (1926,	18,	27,	0,	1907,	30,	1,	NOW(),	NOW()),	
 (1927,	18,	9,	0,	1903,	10,	1,	NOW(),	NOW()),
+(1955,	18,	28,	0,	1903,	20,	1,	NOW(),	NOW()),
 (1930,	18,	11,	0,	1908,	50,	1,	NOW(),	NOW()),
 (1932,	18,	25,	0,	1908,	40,	1,	NOW(),	NOW()),
 (1935,	18,	29,	0,	1905,	10,	1,	NOW(),	NOW());
 
--- add breadcrumbs 
-INSERT INTO `ac_block_layouts` (`instance_id`,	 `layout_id`,	 `block_id`,	 `custom_block_id`,	 `parent_instance_id`,	 `position`,	 `status`,	 `date_added`,	`date_modified`) VALUES
-(1950,	11,	28,	0,	331,	20,	1,	NOW(),	NOW()),	
-(1951,	13,	28,	0,	375,	20,	1,	NOW(),	NOW()),	
-(1952,	14,	28,	0,	388,	20,	1,	NOW(),	NOW()),	
-(1953,	15,	28,	0,	399,	20,	1,	NOW(),	NOW()),	
-(1954,	17,	28,	0,	939,	20,	1,	NOW(),	NOW()),	
-(1955,	18,	28,	0,	1903,	20,	1,	NOW(),	NOW());
-
+-- Cart page
+INSERT INTO `ac_block_layouts`
+(`instance_id`,`layout_id`,`block_id`,`custom_block_id`,`parent_instance_id`,`position`,`status`,`date_added`,`date_modified`)
+VALUES
+(2000,	19,	24,	0,	2019,	70, 1, 	NOW(), 	NOW()),
+(2001,	19,	15,	0,	2017,	70, 1, 	NOW(), 	NOW()),
+(2002,	19,	14,	0,	2017,	60, 1, 	NOW(), 	NOW()),
+(2003,	19,	13,	0,	2017,	50, 1, 	NOW(), 	NOW()),
+(2004,	19,	21,	0,	2019,	80, 1, 	NOW(), 	NOW()),
+(2005,	19,	26,	0,	2017,	40, 1, 	NOW(), 	NOW()),
+(2006,	19,	31,	0,	2017,	20, 1, 	NOW(), 	NOW()),
+(2007,	19,	27,	0,	2017,	30, 1, 	NOW(), 	NOW()),
+(2008,	19,	9,	0,	2013,	10, 1, 	NOW(), 	NOW()),
+(2009,	19,	11,	0,	2019,	50, 1, 	NOW(), 	NOW()),
+(2010,	19,	5,	0,	0,		50, 1, 	NOW(), 	NOW()),
+(2011,	19,	4,	0,	0,		40, 1, 	NOW(), 	NOW()),
+(2012,	19,	3,	0,	0,		30, 0, 	NOW(), 	NOW()),
+(2013,	19,	2,	0,	0,		20, 1, 	NOW(), 	NOW()),
+(2014,	19,	5,	0,	0,		50, 1, 	NOW(), 	NOW()),
+(2015,	19,	6,	0,	0,		60, 1, 	NOW(), 	NOW()),
+(2016,	19,	7,	0,	0,		70, 1, 	NOW(), 	NOW()),
+(2017,	19,	1,	0,	0,		10, 1, 	NOW(), 	NOW()),
+(2018,	19,	25,	0,	2019,	40, 1, 	NOW(), 	NOW()),
+(2019,	19,	8, 	0,	0,		80, 1, 	NOW(), 	NOW()),
+(2020,	19,	28,	0,	2013,	20,	1,	NOW(),	NOW());
 
 --
 -- DDL for table `forms_pages`
@@ -10672,7 +10629,7 @@ INSERT INTO `ac_form_descriptions` VALUES (2,1,'Contact Us Form');
 --
 DROP TABLE IF EXISTS `ac_fields`;
 CREATE TABLE `ac_fields` (
-  `field_id` int(11) NOT NULL NULL auto_increment,
+  `field_id` int(11) NOT NULL auto_increment,
   `form_id` int(11) NOT NULL DEFAULT '0',
   `field_name` varchar(40) NOT NULL, 
   -- used to create css ID (form_name + field_name) and name for input tag tag
@@ -11043,7 +11000,7 @@ VALUES  (40,'200',1),
         (40,'206',7);
 
 --		
--- SUBMENU CATEGORY
+-- SUBMENU CATALOG
 -- ITEM_ID
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`) 
 VALUES  (10,'category',11),
@@ -11051,7 +11008,8 @@ VALUES  (10,'category',11),
         (10,'manufacturer',13),
         (10,'download',14),
         (10,'review',15),
-        (10,'attributes',16);
+        (10,'attributes',16),
+        (10,'rl_manager',220);
 -- ITEM_TEXT
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`) 
 VALUES  (11,'text_category',11),
@@ -11059,7 +11017,8 @@ VALUES  (11,'text_category',11),
         (11,'text_manufacturer',13),
         (11,'text_download',14),
         (11,'text_review',15),
-        (11,'text_attribute',16);
+        (11,'text_attribute',16),
+        (11,'text_rl_manager',220);
 -- ITEM_URL
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`) 
 VALUES  (12,'catalog/category',11),
@@ -11067,7 +11026,8 @@ VALUES  (12,'catalog/category',11),
         (12,'catalog/manufacturer',13),
         (12,'catalog/download',14),
         (12,'catalog/review',15),
-        (12,'catalog/attribute',16);
+        (12,'catalog/attribute',16),
+        (12,'tool/rl_manager',220);
 -- PARENT_ID
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`) 
 VALUES  (13,'catalog',11),
@@ -11075,7 +11035,8 @@ VALUES  (13,'catalog',11),
         (13,'catalog',13),
         (13,'catalog',14),
         (13,'catalog',15),
-        (13,'catalog',16);
+        (13,'catalog',16),
+        (13,'catalog',220);
 -- SORT_ORDER
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_integer`,`row_id`) 
 VALUES  (14,1,11),
@@ -11083,7 +11044,8 @@ VALUES  (14,1,11),
         (14,3,13),
         (14,4,14),
         (14,5,15),
-        (14,6,16);
+        (14,6,16),
+        (14,7,220);
 -- ITEM_TYPE
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`) 
 VALUES  (15,'core',11),
@@ -11091,7 +11053,8 @@ VALUES  (15,'core',11),
         (15,'core',13),
         (15,'core',14),
         (15,'core',15),
-        (15,'core',16);
+        (15,'core',16),
+        (15,'core',220);
 -- ITEM_RL_ID
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
 VALUES  (40,'207',11),
@@ -11099,7 +11062,8 @@ VALUES  (40,'207',11),
         (40,'209',13),
         (40,'210',14),
         (40,'211',15),
-        (40,'212',16);
+        (40,'212',16),
+        (40,'277',220);
 
 --
 -- SUBMENU EXTENSION
@@ -11468,6 +11432,7 @@ VALUES
 (10,'settings_checkout',194),
 (10,'settings_appearance',195),
 (10,'settings_mail',196),
+(10,'settings_im',219),
 (10,'settings_api',197),
 (10,'settings_system',198),
 (10,'settings_newstore',199);
@@ -11481,6 +11446,7 @@ VALUES
 (11,'text_settings_checkout',194),
 (11,'text_settings_appearance',195),
 (11,'text_settings_mail',196),
+(11,'text_settings_im',219),
 (11,'text_settings_api',197),
 (11,'text_settings_system',198),
 (11,'text_settings_newstore',199);
@@ -11494,6 +11460,7 @@ VALUES
 (12,'setting/setting/checkout',194),
 (12,'setting/setting/appearance',195),
 (12,'setting/setting/mail',196),
+(12,'setting/setting/im',219),
 (12,'setting/setting/api',197),
 (12,'setting/setting/system',198),
 (12,'setting/store/insert',199);
@@ -11506,6 +11473,7 @@ VALUES
 (13,'setting',194),
 (13,'setting',195),
 (13,'setting',196),
+(13,'setting',219),
 (13,'setting',197),
 (13,'setting',198),
 (13,'setting',199);
@@ -11518,9 +11486,10 @@ VALUES
 (14,4,194),
 (14,5,195),
 (14,6,196),
-(14,7,197),
-(14,8,198),
-(14,9,199);
+(14,7,219),
+(14,8,197),
+(14,9,198),
+(14,10,199);
 -- ITEM_TYPE
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`) 
 VALUES
@@ -11530,6 +11499,7 @@ VALUES
 (15,'core',194),
 (15,'core',195),
 (15,'core',196),
+(15,'core',219),
 (15,'core',197),
 (15,'core',198),
 (15,'core',199);
@@ -11542,6 +11512,7 @@ VALUES  (40,'247',191),
         (40,'250',194),
         (40,'251',195),
         (40,'252',196),
+        (40,'276',219),
         (40,'253',197),
         (40,'254',198),
         (40,'255',199);
@@ -11989,7 +11960,7 @@ VALUES  (20, NOW(),'1');
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
 VALUES  (21,'AbanteCart','1');
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
-VALUES  (22,'1.2.5','1');
+VALUES  (22,'1.2.6','1');
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
 VALUES  (23,'','1');
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
@@ -12019,7 +11990,7 @@ VALUES  (5,30,'date_added','timestamp',1),
 --
 DROP TABLE IF EXISTS `ac_resource_library`;
 CREATE TABLE `ac_resource_library` (
-  `resource_id` int(11) NOT NULL NULL auto_increment,
+  `resource_id` int(11) NOT NULL auto_increment,
   `type_id` int(11) NOT NULL,
   `date_added` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `date_modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
@@ -12144,7 +12115,9 @@ VALUES
   ( 272, 1, NOW() ),
   ( 273, 1, NOW() ),
   ( 274, 1, NOW() ),
-  ( 275, 1, NOW() );
+  ( 275, 1, NOW() ),
+  ( 276, 1, NOW() ),
+  ( 277, 1, NOW() );
 
 INSERT INTO `ac_resource_descriptions`
 (`resource_id`, `language_id`, `name`, `title`, `description`, `resource_path`, `resource_code`, `date_added`)
@@ -12224,7 +12197,9 @@ VALUES
   ( 272,1,'Icon Import export', '', '', '', '<i class="fa fa-exchange"></i>&nbsp;', NOW() ),
   ( 273,1,'Icon File uploads', '', '', '', '<i class="fa fa-download"></i>&nbsp;', NOW() ),
   ( 274,1,'Icon Installlog', '', '', '', '<i class="fa fa-history"></i>&nbsp;', NOW() ),
-  ( 275,1,'Icon Error log', '', '', '', '<i class="fa fa-exclamation-triangle"></i>&nbsp;', NOW() );
+  ( 275,1,'Icon Error log', '', '', '', '<i class="fa fa-exclamation-triangle"></i>&nbsp;', NOW() ),
+  ( 276,1,'Icon Settings IM', '', '', '', '<i class="fa fa-bullhorn"></i>&nbsp;', NOW() ),
+  ( 277,1,'Icon Resource Library', '', '', '', '<i class="fa fa-image"></i>&nbsp;', NOW() );
 
 
 --
@@ -12255,7 +12230,7 @@ INSERT INTO `ac_resource_types` (`type_id`, `type_name`, `default_icon`, `defaul
 --
 DROP TABLE IF EXISTS `ac_resource_map`;
 CREATE TABLE `ac_resource_map` (
-  `resource_id` int(11) NOT NULL NULL,
+  `resource_id` int(11) NOT NULL,
   `object_name` varchar(40) NOT NULl,
   `object_id` int(11) NOT NULL,  
   `default`tinyint(1) NOT NULL DEFAULT '0' COMMENT '0-no, 1-Yes', 
@@ -12483,5 +12458,6 @@ CREATE TABLE `ac_task_steps` (
   `settings` text DEFAULT '', -- serialized array with paramenters
   `date_added` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `date_modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`task_id`, `step_id`)
+  PRIMARY KEY (`step_id`),
+  KEY `task_steps_idx` (`task_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;

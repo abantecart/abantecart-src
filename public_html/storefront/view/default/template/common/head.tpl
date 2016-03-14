@@ -31,7 +31,24 @@
 
 <link href='//fonts.googleapis.com/css?family=Open+Sans:400,300italic,400italic,600,600italic' rel='stylesheet' type='text/css' />
 <link href='//fonts.googleapis.com/css?family=Crete+Round' rel='stylesheet' type='text/css' />
+<link href="<?php echo $this->templateResource('/stylesheet/bootstrap.min.css'); ?>" rel="stylesheet" type='text/css' />
+<link href="<?php echo $this->templateResource('/stylesheet/flexslider.css'); ?>" rel="stylesheet" type='text/css' />
+<link href="<?php echo $this->templateResource('/stylesheet/onebyone.css'); ?>" rel="stylesheet" type='text/css' />
+<link href="<?php echo $this->templateResource('/stylesheet/font-awesome.min.css'); ?>" rel="stylesheet" type='text/css' />
 <link href="<?php echo $this->templateResource('/stylesheet/style.css'); ?>" rel="stylesheet" type='text/css' />
+
+<style>
+/*
+* Basic print styles
+*/
+.visible-print  { display: inherit !important; }
+.hidden-print   { display: none !important; }
+
+a[href]:after {
+	content: none !important;
+}
+</style>
+
 
 <?php if ( $template_debug_mode ) {  ?>
 <link href="<?php echo $this->templateResource('/stylesheet/template_debug.css'); ?>" rel="stylesheet" />
@@ -48,21 +65,21 @@
 <?php } ?>
 
 <script type="text/javascript"
-        src="<?php echo $ssl ? 'https' : 'http'?>://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+        src="<?php echo $ssl ? 'https' : 'http'?>://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js" defer></script>
 <script type="text/javascript">
     if (typeof jQuery == 'undefined') {
         var include = '<script type="text/javascript" src="<?php echo $this->templateResource('/javascript/jquery-1.11.0.min.js'); ?>"><\/script>';
         document.write(include);
     }
 </script>
-<script type="text/javascript" src="<?php echo $this->templateResource('/javascript/jquery-migrate-1.2.1.min.js');?>"></script>
+<script type="text/javascript" src="<?php echo $this->templateResource('/javascript/jquery-migrate-1.2.1.min.js');?>" defer></script>
 
-<script type="text/javascript" src="<?php echo $this->templateResource('/javascript/common.js'); ?>"></script>
+<script type="text/javascript" src="<?php echo $this->templateResource('/javascript/common.js'); ?>" defer></script>
 
 <?php foreach ($scripts as $script) { ?>
-<script type="text/javascript" src="<?php echo $script; ?>"></script>
+<script type="text/javascript" src="<?php echo $script; ?>" defer></script>
 <?php } ?>
-<script type="text/javascript">
+<script type="text/javascript" defer>
 <?php if($retina){?>
 	if((window.devicePixelRatio===undefined?1:window.devicePixelRatio)>1) {
 		document.cookie = 'HTTP_IS_RETINA=1;path=/';
@@ -130,4 +147,3 @@ function search_submit () {
 }
 
 </script>
-

@@ -52,3 +52,38 @@
 	</div>
 
 </div>
+
+<script type="application/javascript">
+		$("#product_grid_go").on('click', function () {
+			//get all selected rows based on multiselect
+			var ids = $('#product_grid').jqGrid('getGridParam', 'selarrrow');
+			//get single selected row
+			ids.push($('#product_grid').jqGrid('getGridParam', 'selrow'));
+			if (!ids.length) {
+				return;
+			}
+
+			if ($('#product_grid_selected_action').val() == 'relate') {
+				var form_data = $('#product_grid_form').serializeArray();
+				form_data.push({name: 'id', value: ids});
+				form_data.push({name: 'oper', value: 'relate'});
+				$.ajax({
+					url: '<?php echo $relate_selected_url; ?>',
+					type: 'POST',
+					data: form_data,
+					success: function (msg) {
+						if (msg == '') {
+							jQuery('#product_grid').trigger("reloadGrid");
+							success_alert('<?php js_echo($text_success_relation_set);?>',true);
+						} else {
+							alert(msg);
+						}
+					},
+					error: function (jqXHR, textStatus, errorThrown) {
+						alert(textStatus + ": " + errorThrown);
+					}
+				});
+			}
+		});
+
+</script>

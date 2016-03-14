@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2015 Belavier Commerce LLC
+  Copyright © 2011-2016 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -266,9 +266,10 @@ try {
 	require_once(DIR_CORE . 'lib/filter.php');
 	require_once(DIR_CORE . 'lib/listing.php');
 	require_once(DIR_CORE . 'lib/task_manager.php');
+	require_once(DIR_CORE . 'lib/im.php');
 
 //Admin manager classes
-	if (IS_ADMIN) {
+	if (IS_ADMIN === true) {
 		require_once(DIR_CORE . 'lib/order_manager.php');
 		require_once(DIR_CORE . 'lib/layout_manager.php');
 		require_once(DIR_CORE . 'lib/content_manager.php');
@@ -283,6 +284,7 @@ try {
 		require_once(DIR_CORE . 'lib/backup.php');
 		require_once(DIR_CORE . 'lib/file_uploads_manager.php');
 		require_once(DIR_CORE . 'lib/admin_commands.php');
+		require_once(DIR_CORE . 'lib/im_manager.php');
 	}
 
 // Registry
@@ -324,7 +326,7 @@ try {
 	}
 
 // Set up HTTP and HTTPS based automatic and based on config
-	if (IS_ADMIN) {
+	if (IS_ADMIN === true) {
 		define('HTTP_DIR_NAME', rtrim(dirname($_SERVER['PHP_SELF']), '/.\\') );
 		// Admin HTTP
 		define('HTTP_SERVER', 'http://' . REAL_HOST . HTTP_DIR_NAME . '/');
@@ -333,7 +335,7 @@ try {
 		define('HTTP_EXT', HTTP_SERVER . 'extensions/');
 		define('HTTP_DIR_RESOURCE', HTTP_SERVER . 'resources/');
 		//Admin HTTPS
-		if (defined('HTTPS') && HTTPS) {
+		if (defined('HTTPS') && HTTPS===true) {
 			define('HTTPS_SERVER', 'https://' . REAL_HOST . HTTP_DIR_NAME . '/');
 			define('HTTPS_CATALOG', HTTPS_SERVER);
 			define('HTTPS_IMAGE', HTTPS_SERVER . 'image/');
@@ -363,7 +365,7 @@ try {
 		define('HTTP_EXT', HTTP_SERVER . 'extensions/');
 		define('HTTP_DIR_RESOURCE', HTTP_SERVER . 'resources/');
 		// Storefront HTTPS
-		if ($config->get('config_ssl')) {
+		if ($config->get('config_ssl') && HTTPS===true) {
 			$store_url = $config->get('config_url');
 			if ( $config->get('config_ssl_url') ) {
 				$store_url = $config->get('config_ssl_url');
@@ -409,7 +411,7 @@ try {
 
 // Extensions api
 	$extensions = new ExtensionsApi();
-	if (IS_ADMIN) {
+	if (IS_ADMIN === true) {
 		//for admin we load all available(installed) extensions. 
 		//This is a solution to make controllers and hooks available for extensions that are in the status off. 
 		$extensions->loadAvailableExtensions();
@@ -425,7 +427,7 @@ try {
 	unset($extensions);
 
 //check if we specify template directly
-	if (!IS_ADMIN && !empty($request->get['sf'])) {
+	if (IS_ADMIN !== true && !empty($request->get['sf'])) {
 		$template = preg_replace('/[^A-Za-z0-9_]+/', '', $request->get['sf']);
 		$dir = $template . DIR_EXT_STORE . DIR_EXT_TEMPLATE . $template;
 		if (in_array($template, $enabled_extensions) && is_dir(DIR_EXT . $dir)) {
@@ -437,7 +439,7 @@ try {
 
 	if (!$is_valid) {
 		//check template defined in settings
-		if (IS_ADMIN) {
+		if (IS_ADMIN===true) {
 			$template = $config->get('admin_template');
 			$dir = $template . DIR_EXT_ADMIN . DIR_EXT_TEMPLATE . $template;
 		} else {
@@ -462,7 +464,7 @@ try {
 		$template = 'default';
 	}
 
-	if (IS_ADMIN) {
+	if (IS_ADMIN === true) {
 		$config->set('original_admin_template', $config->get('admin_template'));
 		$config->set('admin_template', $template);
 		// Load language
@@ -488,6 +490,15 @@ try {
 
 //load order status class
 	$registry->set('order_status',new AOrderStatus());
+
+//IM
+	if(IS_ADMIN===true){
+		$registry->set('im', new AIMManager());
+	}else{
+		$registry->set('im', new AIM());
+	}
+
+
 } //eof try
 catch (AException $e) {
 	ac_exception_handler($e);

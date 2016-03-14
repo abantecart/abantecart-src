@@ -696,4 +696,48 @@
 		<key>text_system_notice</key>
 		<value><![CDATA[È stata riportata avviso di sistema. Controlla i <a target="_blank" href="%s">messaggi</a> di sistema]]></value>
 	</definition>
+	<definition>
+		<key>button_message</key>
+		<value><![CDATA[Prendere contatto con la clientela]]></value>
+	</definition>
+	<definition>
+		<key>tab_im</key>
+		<value><![CDATA[MI]]></value>
+	</definition>
+	<definition>
+		<key>text_type_download</key>
+		<value><![CDATA[File di download]]></value>
+	</definition>
+	<definition>
+		<key>text_set_related</key>
+		<value><![CDATA[Insieme correlato]]></value>
+	</definition>
+	<definition>
+		<key>tab_text</key>
+		<value><![CDATA[HTML/Testo]]></value>
+	</definition>
+	<definition>
+		<key>tab_visual</key>
+		<value><![CDATA[Visivo]]></value>
+	</definition>
+	<definition>
+		<key>button_add_media</key>
+		<value><![CDATA[Aggiungi media]]></value>
+	</definition>
+	<definition>
+		<key>text_view_more</key>
+		<value><![CDATA[Vedere altre]]></value>
+	</definition>
+	<definition>
+		<key>text_admin</key>
+		<value><![CDATA[Pannello di controllo]]></value>
+	</definition>
+	<definition>
+		<key>text_storefront</key>
+		<value><![CDATA[Sito vetrina]]></value>
+	</definition>
+	<definition>
+		<key>text_texteditor_extended_mode</key>
+		<value><![CDATA[<a class="texteditor_ext_mode" href="%s" ><i class="fa fa-external-link"></i> Modifica in modalità estesa</a>]]></value>
+	</definition>
 </definitions>

@@ -620,4 +620,8 @@
 		<key>text_product_in_stock</key>
 		<value><![CDATA[Disponible]]></value>
 	</definition>
+	<definition>
+		<key>text_success_relation_set</key>
+		<value><![CDATA[Las relaciones de los productos seleccionados se estableció con éxito!]]></value>
+	</definition>
 </definitions>

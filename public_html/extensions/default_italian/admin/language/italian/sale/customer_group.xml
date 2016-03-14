@@ -34,17 +34,22 @@
 	</definition>
 	<definition>
 		<key>error_default</key>
-		<value>
-			<![CDATA[Attenzione: Questo gruppo di clienti non può essere eliminato perchè è attualmente assegnato come gruppo di clienti predefinito nel negozio!]]></value>
+		<value><![CDATA[Attenzione: Questo gruppo di clienti non può essere eliminato perchè è attualmente assegnato come gruppo di clienti predefinito nel negozio!]]></value>
 	</definition>
 	<definition>
 		<key>error_store</key>
-		<value>
-			<![CDATA[ATTENZIONE: Questo gruppo di clienti non può essere eliminato in quanto è attualmente assegnato a %s negozi!]]></value>
+		<value><![CDATA[ATTENZIONE: Questo gruppo di clienti non può essere eliminato in quanto è attualmente assegnato a %s negozi!]]></value>
 	</definition>
 	<definition>
 		<key>error_customer</key>
-		<value>
-			<![CDATA[ATTENZIONE: Questo gruppo di clienti non può essere eliminato perchè è attualmente assegnato a %s clienti!]]></value>
+		<value><![CDATA[ATTENZIONE: Questo gruppo di clienti non può essere eliminato perchè è attualmente assegnato a %s clienti!]]></value>
+	</definition>
+	<definition>
+		<key>column_tax_exempt</key>
+		<value><![CDATA[Esentasse]]></value>
+	</definition>
+	<definition>
+		<key>entry_tax_exempt</key>
+		<value><![CDATA[Esenti da qualsiasi imposta:]]></value>
 	</definition>
 </definitions>

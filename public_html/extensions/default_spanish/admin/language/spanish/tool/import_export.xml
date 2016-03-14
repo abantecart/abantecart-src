@@ -120,4 +120,8 @@
 		<key>text_sort_by</key>
 		<value><![CDATA[Ordenar por: ]]></value>
 	</definition>
+	<definition>
+		<key>error_file_empty</key>
+		<value><![CDATA[Archivo está vacío.]]></value>
+	</definition>
 </definitions>

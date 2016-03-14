@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2015 Belavier Commerce LLC
+  Copyright © 2011-2016 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -147,6 +147,7 @@ final class ARequest {
           if(strlen( stristr($nua, $browsers[$i]) )>0){
            $agent["b_version"] = "";
            $agent["browser"] = $browsers[$i];
+	       $n = stristr($nua, $agent["browser"]);
            $j=strpos($nua, $agent["browser"])+$n+strlen($agent["browser"])+1;
            for (; $j<=$l; $j++){
              $s = substr ($nua, $j, 1);
@@ -213,5 +214,19 @@ final class ARequest {
 	 */
 	public function is_GET(){
 		return ($this->server['REQUEST_METHOD']=='GET' ? true : false);
+	}
+
+	/**
+	 * @param string $name
+	 * @return bool
+	 */
+	public function deleteCookie($name){
+		if(empty($name)){
+			return false;
+		}
+		$path =  dirname($this->server[ 'PHP_SELF' ]);
+		setcookie($name, null, -1, $path);
+		unset($this->cookie[$name], $_COOKIE[$name]);
+		return true;
 	}
 }

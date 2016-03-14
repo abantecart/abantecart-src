@@ -94,7 +94,7 @@
 	</definition>
 	<definition>
 		<key>text_no_results</key>
-		<value><![CDATA[No results found!]]></value>
+		<value><![CDATA[No result found.]]></value>
 	</definition>
 	<definition>
 		<key>text_separator</key>
@@ -237,6 +237,10 @@
 		<value><![CDATA[Act on behalf of]]></value>
 	</definition>
 	<definition>
+		<key>button_message</key>
+		<value><![CDATA[Contact this customer]]></value>
+	</definition>	
+	<definition>
 		<key>button_approve</key>
 		<value><![CDATA[Approve]]></value>
 	</definition>
@@ -267,6 +271,10 @@
 	<definition>
 		<key>tab_appearance</key>
 		<value><![CDATA[Appearance]]></value>
+	</definition>
+	<definition>
+		<key>tab_im</key>
+		<value><![CDATA[IM]]></value>
 	</definition>
 	<definition>
 		<key>tab_api</key>
@@ -379,7 +387,7 @@
 	</definition>
 	<definition>
 		<key>text_save_selected</key>
-		<value><![CDATA[save selected]]></value>
+		<value><![CDATA[Save Selected]]></value>
 	</definition>
 	<definition>
 		<key>text_save_all</key>
@@ -480,6 +488,10 @@
 	<definition>
 		<key>text_type_archive</key>
 		<value><![CDATA[Archive]]></value>
+	</definition>
+	<definition>
+		<key>text_type_download</key>
+		<value><![CDATA[Download File]]></value>
 	</definition>
 	<definition>
 		<key>button_unmap</key>
@@ -689,5 +701,36 @@
 		<key>text_system_notice</key>
 		<value><![CDATA[System notice has been reported. Check system <a target="_blank" href="%s">messages</a>]]></value>
 	</definition>
-	
+	<definition>
+		<key>text_set_related</key>
+		<value><![CDATA[Set Related]]></value>
+	</definition>
+	<definition>
+		<key>tab_text</key>
+		<value><![CDATA[HTML/Text]]></value>
+	</definition>
+	<definition>
+		<key>tab_visual</key>
+		<value><![CDATA[Visual]]></value>
+	</definition>
+	<definition>
+		<key>button_add_media</key>
+		<value><![CDATA[Add Media]]></value>
+	</definition>
+	<definition>
+		<key>text_view_more</key>
+		<value><![CDATA[View More]]></value>
+	</definition>
+	<definition>
+		<key>text_admin</key>
+		<value><![CDATA[Control Panel]]></value>
+	</definition>
+	<definition>
+		<key>text_storefront</key>
+		<value><![CDATA[Storefront]]></value>
+	</definition>
+	<definition>
+		<key>text_texteditor_extended_mode</key>
+		<value><![CDATA[<a class="texteditor_ext_mode" href="%s" ><i class="fa fa-external-link"></i> Edit in Extended Mode</a>]]></value>
+	</definition>
 </definitions>

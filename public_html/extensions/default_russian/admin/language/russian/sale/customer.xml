@@ -334,11 +334,22 @@
 	</definition>
 	<definition>
 		<key>warning_actonbehalf_additional_store</key>
-		<value>
-			<![CDATA[Чтобы действовать от имени покупателя в дополнительной магазине вы должны войти в контрольную панель этого магазина. Продолжить?]]></value>
+		<value><![CDATA[Чтобы действовать от имени покупателя в дополнительной магазине вы должны войти в контрольную панель этого магазина. Продолжить?]]></value>
 	</definition>
 	<definition>
 		<key>entry_update_date</key>
 		<value><![CDATA[Дата обновления:]]></value>
+	</definition>
+	<definition>
+		<key>entry_notify</key>
+		<value><![CDATA[Уведомить Клиента:]]></value>
+	</definition>
+	<definition>
+		<key>text_transaction_notification_subject</key>
+		<value><![CDATA[Новая транзакция была размещена на вашем %s аккаунте]]></value>
+	</definition>
+	<definition>
+		<key>text_transaction_notification_message</key>
+		<value><![CDATA[Новая транзакция была размещена на вашем %s счет в размере %s. Для получения более подробной информации, войдите в %s аккаунт]]></value>
 	</definition>
 </definitions>

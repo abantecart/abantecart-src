@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2015 Belavier Commerce LLC
+  Copyright © 2011-2016 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -60,6 +60,7 @@ class AOrderManager extends AOrder {
 	 * @throws AException
 	 * @return array
 	 * NOTE: Admin only method to recalculate existing order totals.
+	 * Considiration: This section needs to be simplified with SF process call. 
 	 */
   	public function recalcTotals($skip_totals = array(), $new_totals = array()) {
 		if (!IS_ADMIN) { // forbid for non admin calls
@@ -72,12 +73,19 @@ class AOrderManager extends AOrder {
 	     * @var $adm_order_mdl ModelSaleOrder
 	     */
   		$adm_order_mdl = $this->load->model('sale/order');
+  		$customer_gr_mdl = $this->load->model('sale/customer_group');
 		$customer_data = array();
 		$skip_recalc = array('handling', 'balance');
 
    		//load order details
        	$order_info = $adm_order_mdl->getOrder($this->order_id);
        	$original_totals = $adm_order_mdl->getOrderTotals($this->order_id);
+       	//identify totals with shared keys (example tax) and link to total ids
+       	$total2ids = array();
+		foreach($original_totals as $t_old) {
+			$total2ids[$t_old['key']][] = $t_old['order_total_id'];
+		}
+       	
 		//update total with new values passed and mark to skip recalc
 		if (!empty($new_totals)) {
 			//build new totals
@@ -97,13 +105,26 @@ class AOrderManager extends AOrder {
 			//reload original total as it has changed
 	       	$original_totals = $adm_order_mdl->getOrderTotals($this->order_id);		
 		}
-		
+
 		//This totals are skipped for calculation
 		if( $skip_totals ) {
 			foreach($skip_totals as $total_id) {
 				foreach($original_totals as $total) {
 					if($total_id == $total['order_total_id']){
-						$skip_recalc[] = $total['key'];
+						//check if this total is shared and all a skipped
+						if( sizeof($total2ids[$total['key']]) > 1 ){
+							$dup_cnt = 0;
+							foreach($total2ids[$total['key']] as $dup) {
+								if(in_array($dup, $skip_totals)) {
+									$dup_cnt++;
+								}
+							}
+							if(sizeof($total2ids[$total['key']]) == $dup_cnt){
+								$skip_recalc[] = $total['key'];
+							}
+						} else {
+							$skip_recalc[] = $total['key'];
+						}
 					}
 				}
 			}
@@ -116,6 +137,11 @@ class AOrderManager extends AOrder {
        	$customer_data['customer_id'] = $order_info['customer_id'];
        	//need to include customer_group_id to culculate promotions 
        	$customer_data['customer_group_id'] = $order_info['customer_group_id'];
+       	if($customer_data['customer_group_id']) {
+	       	//get csutomer data to pull taxexemption
+	       	$cust_info = $customer_gr_mdl->getCustomerGroup($customer_data['customer_group_id']);
+	       	$customer_data['tax_exempt'] = $cust_info['tax_exempt'];
+       	}
        	//get coupon code from coupon_id
        	if (has_value($order_info['coupon_id'])) {
 	        /**
@@ -270,34 +296,57 @@ class AOrderManager extends AOrder {
 				/**
 			 	* parameters are references!!!
 			 	*/
+
 				$sf_total_mdl->getTotal($total_data, $total, $taxes, $customer_data);
 				$sf_total_mdl = null;
 			}			
 		}
 
-		//Create totals update array 
+		//Create new totals, based on old order.
 		$is_missing_keys = false;
 		$upd_total = array('totals' => array());
-		foreach($original_totals as $t_old) {
+		$shift = 0;
+		foreach($original_totals as $i => $t_old) {
 			$found = false;
 			if ( empty($t_old['key']) ) {
 				$is_missing_keys = true;
 			}
-						
-			foreach($total_data as $t_new) {
-				if ($t_new['id'] == $t_old['key']) {
-					$found = true;
-					$upd_total['totals'][$t_old['order_total_id']] = $t_new['text'];
-					break;	
-				}
-			}
-			//check if this is removed total as result from total calculation brings nothing
-			// need to set value to 0
-			if(!$found){
+			//set shift back if new list is missing some total compare to old list.
+			$j = $i - $shift;
+			$t_new = $total_data[$j];			
+			if($t_new['id'] != $t_old['key']) {
+				// need to set text value to 0 for removed new total
 				$zero_text_val = $this->currency->format(0, $order_info['currency'], $order_info['value'], true);
-				$upd_total['totals'][$t_old['order_total_id']] = $zero_text_val;
-			}	
-		}		
+				$upd_total['totals'][$t_old['order_total_id']] = $zero_text_val;			
+				$shift++;
+			} else {		
+				$upd_total['totals'][$t_old['order_total_id']] = $t_new['text'];
+			}
+		}						
+
+		//check if this is a shared key total, correct totals to match on the title. 
+		//This will NOT work on multilingual sites if order originaly placed in diff language
+		foreach($total2ids as $key => $t2i) {
+			if( sizeof($t2i) > 1 ){
+				foreach($original_totals as $t_old) {
+					if(in_array($t_old['order_total_id'],$t2i)){
+						$found = false;
+						foreach($total_data as $t_new) {
+							//rely on title to match and if match update
+							if($t_new['id'] == $key && $t_new['title'] == $t_old['title']){
+								$upd_total['totals'][$t_old['order_total_id']] = $t_new['text'];
+								$found = true;
+							}
+						}
+						if(!$found){
+							$zero_text_val = $this->currency->format(0, $order_info['currency'], $order_info['value'], true);
+							$upd_total['totals'][$t_old['order_total_id']] = $zero_text_val;
+						}
+					}
+				}
+			}		
+		}
+
 		//update all totals at once
 		$adm_order_mdl->editOrder($this->order_id, $upd_total);
 		//do we have errors?

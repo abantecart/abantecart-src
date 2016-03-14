@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<extension>
+	<id>default_textmarketer</id>
+	<version>1.0.0</version>
+	<type>extension</type>
+	<category>Communication</category>
+	<cartversions>
+		<item>1.2</item>
+	</cartversions>
+	<priority>10</priority>
+	<dependencies></dependencies>
+	<settings>
+		<item id="default_textmarketer_status">
+			<type>checkbox</type>
+			<default_value>0</default_value>
+		</item>
+		<item id="default_textmarketer_username">
+			<type required="true">input</type>
+			<default_value></default_value>
+		</item>
+		<item id="default_textmarketer_password">
+			<type required="true">input</type>
+			<default_value></default_value>
+		</item>
+		<item id="default_textmarketer_originator">
+			<type required="true">input</type>
+			<default_value></default_value>
+		</item>
+		<item id="default_textmarketer_test">
+			<type>selectbox</type>
+			<variants>
+				<item>1</item>
+				<item>0</item>
+			</variants>
+			<default_value>1</default_value>
+		</item>
+		<item id="default_textmarketer_test_connection">
+			<type>html_template</type>
+			<template>responses/extension/default_textmarketer_test.tpl</template>
+			<default_value></default_value>
+		</item>
+		<item id="default_textmarketer_logging">
+			<type>checkbox</type>
+			<default_value>1</default_value>
+		</item>
+	</settings>
+	<note>true</note>
+	<help_file><![CDATA[help.txt]]></help_file>
+	<help_link><![CDATA[https://www.textmarketer.co.uk/abantecart]]></help_link>	
+</extension>

@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2015 Belavier Commerce LLC
+  Copyright © 2011-2016 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -41,10 +41,10 @@ class ControllerPagesAccountForgotten extends AController {
 		
 		$this->loadModel('account/customer');
 		
-		$cust_detatils = array();
-		if ($this->request->is_POST() && $this->_find_customer('password', $cust_detatils)) {
+		$cust_details = array();
+		if ($this->request->is_POST() && $this->_find_customer('password', $cust_details)) {
 			//extra check that we have csutomer details 
-			if (!empty($cust_detatils['email'])) {
+			if (!empty($cust_details['email'])) {
 				$this->loadLanguage('mail/account_forgotten');
 				
 				$password = substr(md5(rand()), 0, 7);
@@ -56,14 +56,14 @@ class ControllerPagesAccountForgotten extends AController {
 				$message .= $password;
 	
 				$mail = new AMail( $this->config );
-				$mail->setTo($cust_detatils['email']);
+				$mail->setTo($cust_details['email']);
 				$mail->setFrom($this->config->get('store_main_email'));
 				$mail->setSender($this->config->get('store_name'));
 				$mail->setSubject($subject);
 				$mail->setText(html_entity_decode($message, ENT_QUOTES, 'UTF-8'));
 				$mail->send();
 				
-				$this->model_account_customer->editPassword($cust_detatils['loginname'], $password);
+				$this->model_account_customer->editPassword($cust_details['loginname'], $password);
 				
 				$this->session->data['success'] = $this->language->get('text_success');
 				$this->redirect($this->html->getSecureURL('account/login'));				

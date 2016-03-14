@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+	<definition>
+		<key>default_textmarketer_name</key>
+		<value><![CDATA[TextMarketer]]></value>
+	</definition>
+	<definition>
+		<key>default_textmarketer_note</key>
+		<value><![CDATA[To enable sms-messaging go to System -> Settings -> <a href="#admin#rt=setting/setting/im" target="_im">IM</a> <br/>
+		and choose TextMarketer as default sms-driver. Do not forget to enable section where you wish to receive sms from (admin or storefront).<br/>
+		This extension will enable Mobile Phone field for admins and customers to provide. Remember that disabling of this extension will hide this field.
+		If added to existing store with customers, keep in mind that this information will be missing.
+		]]></value>
+	</definition>
+	<definition>
+		<key>default_textmarketer_username</key>
+		<value><![CDATA[API Username]]></value>
+	</definition>
+	<definition>
+		<key>default_textmarketer_password</key>
+		<value><![CDATA[API Password]]></value>
+	</definition>
+	<definition>
+		<key>default_textmarketer_originator</key>
+		<value><![CDATA[Originator: <span class="help">Who the message is from (the originator or sender ID). This can be 11 alpha-numeric or 16 numeric only characters.</span>]]></value>
+	</definition>
+	<definition>
+		<key>default_textmarketer_test</key>
+		<value><![CDATA[Test Mode]]></value>
+	</definition>
+	<definition>
+		<key>default_textmarketer_test_0</key>
+		<value><![CDATA[No]]></value>
+	</definition>
+	<definition>
+		<key>default_textmarketer_test_1</key>
+		<value><![CDATA[Yes]]></value>
+	</definition>
+	<definition>
+		<key>default_textmarketer_logging</key>
+		<value><![CDATA[Error Logging Status<span class="help">If you want to log all errors of TextMarketer extension turn this setting ON.</span>]]></value>
+	</definition>
+	<definition>
+		<key>entry_sms</key>
+		<value><![CDATA[ Mobile Phone ]]></value>
+	</definition>
+	<definition>
+		<key>default_textmarketer_test_connection</key>
+		<value><![CDATA[Test Your Connection:<span class="help">You can test if API credentials that you've entered are correct.</span>]]></value>
+	</definition>
+	<definition>
+		<key>text_test</key>
+		<value><![CDATA[ Test ]]></value>
+	</definition>
+	<definition>
+		<key>error_turn_extension_on</key>
+		<value><![CDATA[Error! Please check if extension is turned ON.]]></value>
+	</definition>
+	<definition>
+		<key>error_empty_test_phone_number</key>
+		<value><![CDATA[Error! Please place recipient phone number.]]></value>
+	</definition>
+	<definition>
+		<key>text_see_log</key>
+		<value><![CDATA[See error log for details.]]></value>
+	</definition>
+	<definition>
+		<key>text_connection_success</key>
+		<value><![CDATA[Connection is successful and API Credentials are configured correctly.]]></value>
+	</definition>
+</definitions>

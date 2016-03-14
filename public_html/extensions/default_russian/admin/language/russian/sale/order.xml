@@ -334,8 +334,7 @@
 	</definition>
 	<definition>
 		<key>attention_check_total</key>
-		<value>
-			<![CDATA[Внимание: Данные продукта заказа изменились. Суммы обновились автоматически и требуют проверки.]]></value>
+		<value><![CDATA[Внимание: Данные продукта заказа изменились. Суммы обновились автоматически и требуют проверки.]]></value>
 	</definition>
 	<definition>
 		<key>text_order_total_add</key>
@@ -372,5 +371,9 @@
 	<definition>
 		<key>text_edit_order_product</key>
 		<value><![CDATA[Редактировать продукт]]></value>
+	</definition>
+	<definition>
+		<key>entry_im</key>
+		<value><![CDATA[МС:]]></value>
 	</definition>
 </definitions>

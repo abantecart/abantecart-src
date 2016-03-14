@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2015 Belavier Commerce LLC
+  Copyright © 2011-2016 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -22,7 +22,7 @@ if (!defined('DIR_CORE')){
 }
 
 class ControllerPagesContentContact extends AController{
-	private $error = array ();
+	public $error = array ();
 	/**
 	 * @var AForm
 	 */
@@ -63,7 +63,7 @@ class ControllerPagesContentContact extends AController{
 			$template->data['enquiry'] = nl2br($this->request->post['enquiry'] . "\r\n");
 
 			$form_fields = $this->form->getFields();
-			$template->data['form_fields'] = array();
+			$template->data['form_fields'] = array ();
 			foreach ($form_fields as $field_name => $field_info){
 				if (has_value($this->request->post[$field_name]) && !in_array($field_name, array ('first_name', 'email', 'enquiry', 'captcha'))){
 					$field_details = $this->form->getField($field_name);
@@ -93,6 +93,20 @@ class ControllerPagesContentContact extends AController{
 			} else{
 				$success_url = $this->html->getSecureURL('content/contact/success');
 			}
+
+			//notify admin
+			$this->loadLanguage('common/im');
+			$message_arr = array(
+			    1 => array('message' =>  sprintf(
+			    	$this->language->get('im_customer_contact_admin_text'),
+			    	$this->request->post['email'],
+			    	$this->request->post['first_name']
+			    	)
+			    )
+			);
+			$this->im->send('customer_contact', $message_arr);
+
+			$this->extensions->hk_ProcessData($this);
 			$this->redirect($success_url);
 		}
 
@@ -104,17 +118,19 @@ class ControllerPagesContentContact extends AController{
 
 		$this->document->resetBreadcrumbs();
 
-		$this->document->addBreadcrumb(array (
-				'href'      => $this->html->getURL('index/home'),
-				'text'      => $this->language->get('text_home'),
-				'separator' => false
-		));
+		$this->document->addBreadcrumb(
+				array (
+						'href'      => $this->html->getURL('index/home'),
+						'text'      => $this->language->get('text_home'),
+						'separator' => false
+				));
 
-		$this->document->addBreadcrumb(array (
-				'href'      => $this->html->getURL('content/contact'),
-				'text'      => $this->language->get('heading_title'),
-				'separator' => $this->language->get('text_separator')
-		));
+		$this->document->addBreadcrumb(
+				array (
+						'href'      => $this->html->getURL('content/contact'),
+						'text'      => $this->language->get('heading_title'),
+						'separator' => $this->language->get('text_separator')
+				));
 
 		$this->view->assign('form_output', $this->form->getFormHtml());
 
@@ -139,17 +155,19 @@ class ControllerPagesContentContact extends AController{
 
 		$this->document->resetBreadcrumbs();
 
-		$this->document->addBreadcrumb(array (
-				'href'      => $this->html->getURL('index/home'),
-				'text'      => $this->language->get('text_home'),
-				'separator' => false
-		));
+		$this->document->addBreadcrumb(
+				array (
+						'href'      => $this->html->getURL('index/home'),
+						'text'      => $this->language->get('text_home'),
+						'separator' => false
+				));
 
-		$this->document->addBreadcrumb(array (
-				'href'      => $this->html->getURL('content/contact'),
-				'text'      => $this->language->get('heading_title'),
-				'separator' => $this->language->get('text_separator')
-		));
+		$this->document->addBreadcrumb(
+				array (
+						'href'      => $this->html->getURL('content/contact'),
+						'text'      => $this->language->get('heading_title'),
+						'separator' => $this->language->get('text_separator')
+				));
 
 		if ($this->config->get('embed_mode') == true){
 			$continue_url = $this->html->getURL('product/category');
@@ -159,10 +177,12 @@ class ControllerPagesContentContact extends AController{
 
 		$this->view->assign('continue', $continue_url);
 
-		$continue = HtmlElementFactory::create(array ('type'  => 'button',
-		                                              'name'  => 'continue_button',
-		                                              'text'  => $this->language->get('button_continue'),
-		                                              'style' => 'button'));
+		$continue = $this->html->buildElement(
+				array (
+						'type'  => 'button',
+						'name'  => 'continue_button',
+						'text'  => $this->language->get('button_continue'),
+						'style' => 'button'));
 		$this->view->assign('continue_button', $continue);
 
 		if ($this->config->get('embed_mode') == true){
@@ -183,6 +203,9 @@ class ControllerPagesContentContact extends AController{
 	 */
 	private function _validate(){
 		$this->error = array_merge($this->form->validateFormData($this->request->post), $this->error);
+
+		$this->extensions->hk_ValidateData($this);
+
 		if (!$this->error){
 			return true;
 		} else{

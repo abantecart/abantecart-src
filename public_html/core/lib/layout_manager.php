@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2015 Belavier Commerce LLC
+  Copyright © 2011-2016 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -44,8 +44,7 @@ class ALayoutManager{
 			'content_bottom',
 			'column_right',
 			'footer_top',
-			'footer',
-			'content'
+			'footer'
 	);
 	private $tmpl_id;
 	private $layout_id;
@@ -1078,7 +1077,7 @@ class ALayoutManager{
 								SET parent_page_id = '" . ( int )$data ['parent_page_id'] . "',
 									controller = '" . $this->db->escape($data ['controller']) . "',
 									key_param = '" . $this->db->escape($data ['key_param']) . "',
-									key_param = '" . $this->db->escape($data ['key_value']) . "',
+									key_value = '" . $this->db->escape($data ['key_value']) . "',
 									date_modified = NOW()
 								WHERE page_id = '" . ( int )$page_id . "'");
 

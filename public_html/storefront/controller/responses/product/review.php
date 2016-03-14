@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2015 Belavier Commerce LLC
+  Copyright © 2011-2016 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -87,9 +87,17 @@ class ControllerResponsesProductReview extends AController {
 		$this->loadModel('catalog/review');
 		$json = array();
 		if ($this->request->is_POST() && $this->_validate()) {
-			$this->model_catalog_review->addReview($product_id, $this->request->post);
+			$review_id = $this->model_catalog_review->addReview($product_id, $this->request->post);
 			unset($this->session->data['captcha']);
 			$json['success'] = $this->language->get('text_success');
+
+			//notify admin
+			$this->loadLanguage('common/im');
+			$message_arr = array(
+			    1 => array('message' =>  sprintf($this->language->get('im_product_review_text_to_admin'),$review_id)
+			    )
+			);
+			$this->im->send('product_review', $message_arr);
 		} else {
 			$json['error'] = $this->error['message'];
 		}

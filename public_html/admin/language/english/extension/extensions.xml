@@ -95,7 +95,7 @@
 	</definition>
 	<definition>
 		<key>error_required_field</key>
-		<value><![CDATA[Warning: Please fill required fields! ]]></value>
+		<value><![CDATA[Error: Please provide required fields. Nothing was updated! ]]></value>
 	</definition>
 	<definition>
 		<key>error_payment_uninstall</key>

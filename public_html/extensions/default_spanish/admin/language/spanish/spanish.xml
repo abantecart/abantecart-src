@@ -692,4 +692,48 @@
 		<key>button_retry</key>
 		<value><![CDATA[Reintente]]></value>
 	</definition>
+	<definition>
+		<key>button_message</key>
+		<value><![CDATA[Póngase en contacto con este cliente]]></value>
+	</definition>
+	<definition>
+		<key>tab_im</key>
+		<value><![CDATA[MI]]></value>
+	</definition>
+	<definition>
+		<key>text_type_download</key>
+		<value><![CDATA[Descargar archivo]]></value>
+	</definition>
+	<definition>
+		<key>text_set_related</key>
+		<value><![CDATA[Conjunto relacionado]]></value>
+	</definition>
+	<definition>
+		<key>tab_text</key>
+		<value><![CDATA[HTML/Texto]]></value>
+	</definition>
+	<definition>
+		<key>tab_visual</key>
+		<value><![CDATA[Visual]]></value>
+	</definition>
+	<definition>
+		<key>button_add_media</key>
+		<value><![CDATA[Agregar medios]]></value>
+	</definition>
+	<definition>
+		<key>text_view_more</key>
+		<value><![CDATA[Ver más]]></value>
+	</definition>
+	<definition>
+		<key>text_admin</key>
+		<value><![CDATA[Panel de control]]></value>
+	</definition>
+	<definition>
+		<key>text_storefront</key>
+		<value><![CDATA[Escaparate]]></value>
+	</definition>
+	<definition>
+		<key>text_texteditor_extended_mode</key>
+		<value><![CDATA[<a class="texteditor_ext_mode" href="%s" ><i class="fa fa-external-link"></i> Editar en modo extendido</a>]]></value>
+	</definition>
 </definitions>

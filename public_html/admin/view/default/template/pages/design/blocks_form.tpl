@@ -61,10 +61,3 @@
 
 </div><!-- <div class="tab-content"> -->
 <?php echo $resources_scripts; ?>
-<script type="text/javascript">
-	$(document).ready(function () {
-		var cke = wrapCKEditor('BlockFrm_block_content',{height: '480px'});
-		addRL2CKE(cke);
-	});
-
-</script>

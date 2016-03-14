@@ -376,4 +376,8 @@
 		<key>text_edit_order_product</key>
 		<value><![CDATA[Editar Producto]]></value>
 	</definition>
+	<definition>
+		<key>entry_im</key>
+		<value><![CDATA[MI:]]></value>
+	</definition>
 </definitions>

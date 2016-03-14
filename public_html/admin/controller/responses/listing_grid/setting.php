@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2015 Belavier Commerce LLC
+  Copyright © 2011-2016 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -70,8 +70,8 @@ class ControllerResponsesListingGridSetting extends AController {
 			}
 
 			$response->rows[ $i ][ 'id' ] = $result[ 'group' ] . '-' . $result[ 'key' ] . '-' . $result[ 'store_id' ];
-			if($result['group']=='appearance'){
-				$response->userdata->href[$response->rows[ $i ][ 'id' ]] = $this->html->getSecureURL('setting/setting/appearance');
+			if(in_array($result['group'], array('appearance','im'))){
+				$response->userdata->href[$response->rows[ $i ][ 'id' ]] = $this->html->getSecureURL('setting/setting/'.$result['group']);
 			}
 			$response->rows[ $i ][ 'cell' ] = array(
 				$result[ 'alias' ],

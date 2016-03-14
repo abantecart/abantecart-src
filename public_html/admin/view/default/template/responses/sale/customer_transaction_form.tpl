@@ -35,9 +35,8 @@
 	<div class="panel-footer">
 		<div class="row">
 			<div class="col-sm-6 col-sm-offset-3 center">
-
-				<button class="btn btn-primary">
-					<i class="fa fa-save"></i> <?php echo $form['submit']->text; ?>
+				<button class="btn btn-primary on_save_close lock-on-click">
+					<i class="fa fa-save"></i> <?php echo $button_save; ?>
 				</button>
 				&nbsp;
 				<a class="btn btn-default" data-dismiss="modal" href="<?php echo $cancel; ?>">
@@ -52,8 +51,6 @@
 </div>
 
 <script type="text/javascript">
-
-
 	$('#transaction_form_transaction_type0').on('change',function(){
 		if($(this).val()==''){
 			$('#transaction_form_transaction_type1').parents('div.form-group').fadeIn();
@@ -76,17 +73,16 @@
 					success: function (data) {
 						if (data.result == true) {
 							<?php
-
 							if(!$customer_transaction_id){?>
 							if ($('#transaction_modal')) {
 								$('#transaction_modal').modal('hide');
 							}
 							if ($('#transactions_grid')) {
 								$('#transactions_grid').trigger("reloadGrid");
-								success_alert(data.result_text);
+								success_alert(data.result_text, true);
 							}
 							<?php }else{ ?>
-							success_alert(data.result_text, false, "#transaction_modal");
+							success_alert(data.result_text, true, "#transaction_modal");
 							<?php } ?>
 						}
 					}

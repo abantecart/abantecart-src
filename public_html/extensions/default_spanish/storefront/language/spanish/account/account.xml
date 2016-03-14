@@ -55,5 +55,9 @@
 	<definition>
 		<key>text_account_wishlist</key>
 		<value><![CDATA[Su lista de deseos]]></value>
-	</definition>	
+	</definition>
+	<definition>
+		<key>text_my_notifications</key>
+		<value><![CDATA[Notificaciones]]></value>
+	</definition>
 </definitions>

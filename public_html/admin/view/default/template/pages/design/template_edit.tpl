@@ -134,7 +134,3 @@
 <?php
 	echo $resources_scripts 
 ?>
-
-<script type="text/javascript"><!--
-
-//--></script>

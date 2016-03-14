@@ -24,6 +24,7 @@
 			<td><?php echo $trn['credit']; ?></td>
 			<td class="col-md-4"><?php echo $trn['description']; ?></td>
 		</tr>
+		<?php echo $this->getHookVar('account_transactions_row_hook_var'); ?>
 	<?php } } ?>
 	</table>
 
@@ -38,7 +39,7 @@
 	<div class="pagination"><?php echo $pagination_bootstrap; ?></div>
 	
 </div>
-
+<?php echo $this->getHookVar('account_transactions_hook_var'); ?>
 
 <div class="container-fluid cart_total">
 	<div class="cart-info totals pull-right">
@@ -57,5 +58,6 @@
 	    	    <i class="fa fa-arrow-right"></i>
 	    	    <?php echo $button_continue->text ?>
 	    </a>
+		<?php echo $this->getHookVar('account_transactions_button_hook_var'); ?>
 	</div>
 </div>

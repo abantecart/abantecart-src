@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2015 Belavier Commerce LLC
+  Copyright © 2011-2016 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -44,7 +44,6 @@ class ControllerCommonHeader extends AController {
 		}
 
 		$this->view->assign('language_code', $this->session->data['language']);
-		$this->view->assign('languages', array());
 		$this->view->assign('languages', $this->language->getActiveLanguages());
 		$this->view->assign('content_language_id', $this->language->getContentLanguageID());
 		$this->view->assign('language_settings', $this->html->getSecureURL('localisation/language'));
@@ -78,7 +77,9 @@ class ControllerCommonHeader extends AController {
 				$this->view->assign('last_login', sprintf($this->language->get('text_welcome'), $this->user->getUserName()));
 			}
 			$this->view->assign('account_edit', $this->html->getSecureURL('index/edit_details', '', true));
-					
+			$this->view->assign('im_settings_edit', $this->html->getSecureURL('user/user/im', '&user_id='.$this->user->getId(), true));
+			$this->view->assign('text_edit_notifications', $this->language->get('text_edit_notifications'));
+
 			$stores = array();
 			$this->loadModel('setting/store');
 			$results = $this->model_setting_store->getStores();
@@ -97,7 +98,24 @@ class ControllerCommonHeader extends AController {
 
 			//Get surrent menu item
 			$menu = new AMenu('admin');
+
 			$current_menu = $menu->getMenuByRT($this->request->get['rt']);
+			if(!$current_menu && substr_count($this->request->get['rt'],'/')>=2){
+				$rt_parts = explode('/', $this->request->get['rt']);
+				if($rt_parts){
+					//remove p,a,r prefixes from rt
+					if( strlen($rt_parts[0])==1 ){
+						unset($rt_parts[0]);
+					}
+					//try to get icon from parent menu item
+					array_pop($rt_parts);
+					$menu_item = $menu->getMenuByRT(implode('/',$rt_parts));
+					if($menu_item['item_icon_rl_id']){
+						$current_menu = array('item_icon_rl_id' => $menu_item['item_icon_rl_id']);
+					}
+				}
+				unset($rt_parts,$menu_item);
+			}
 			if($current_menu ['item_icon_rl_id']) {
 				$rm = new AResourceManager();
 				$rm->setType('image');
@@ -119,6 +137,7 @@ class ControllerCommonHeader extends AController {
 		$this->view->assign('search_suggest_url', $this->html->getSecureURL('listing_grid/global_search_result/suggest'));		
 		$this->view->assign('latest_customers_url', $this->html->getSecureURL('common/tabs/latest_customers'));
 		$this->view->assign('latest_orders_url', $this->html->getSecureURL('common/tabs/latest_orders'));
+		$this->view->assign('rl_manager_url', $this->html->getSecureURL('tool/rl_manager'));
 
 		$this->view->assign('search_everywhere', $this->language->get('search_everywhere'));
 		$this->view->assign('text_all_matches', $this->language->get('text_all_matches'));

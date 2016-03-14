@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2015 Belavier Commerce LLC
+  Copyright © 2011-2016 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -28,7 +28,7 @@ class ControllerBlocksCurrency extends AController {
         $this->extensions->hk_InitData($this,__FUNCTION__);
 
 
-      	$this->data['heading_title'] = $this->language->get('heading_title');
+      	$this->data['heading_title'] = $this->language->get('heading_title','blocks_currency');
 		$this->data['currency_code'] = $this->currency->getCode();
 
 		$get_vars = $this->request->get;

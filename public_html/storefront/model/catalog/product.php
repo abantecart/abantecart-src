@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2015 Belavier Commerce LLC
+  Copyright © 2011-2016 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -368,6 +368,8 @@ class ModelCatalogProduct extends Model{
 	 * @return array
 	 */
 	public function getProductsByKeyword($keyword, $category_id = 0, $description = false, $model = false, $sort = 'p.sort_order', $order = 'ASC', $start = 0, $limit = 20){
+		//trim keyword
+		$keyword = trim($keyword);
 		if ($keyword){
 			$sql = "SELECT  *,
 							p.product_id,  

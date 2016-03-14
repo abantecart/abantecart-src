@@ -62,18 +62,15 @@
 	</definition>
 	<definition>
 		<key>error_upload</key>
-		<value>
-			<![CDATA[Предупреждение: Файл не был загружен. Проверьте post_max_size или file_upload директивы в файле php.ini.]]></value>
+		<value><![CDATA[Предупреждение: Файл не был загружен. Проверьте post_max_size или file_upload директивы в файле php.ini.]]></value>
 	</definition>
 	<definition>
 		<key>error_xml</key>
-		<value>
-			<![CDATA[Предупреждение: Загруженный файл не загружается как XML! Пожалуйста, см. лог-файл для подробностей]]></value>
+		<value><![CDATA[Предупреждение: Загруженный файл не загружается как XML! Пожалуйста, см. лог-файл для подробностей]]></value>
 	</definition>
 	<definition>
 		<key>backup_complete_text_file</key>
-		<value>
-			<![CDATA[Чтобы скачать резервную копию посетите страницу <a href="#admin#rt=tool/install_upgrade_history">Истории установок/обновлений</a> ]]></value>
+		<value><![CDATA[Чтобы скачать резервную копию посетите страницу <a href="#admin#rt=tool/install_upgrade_history">Истории установок/обновлений</a> ]]></value>
 	</definition>
 	<definition>
 		<key>backup_complete_text_dir</key>
@@ -85,18 +82,15 @@
 	</definition>
 	<definition>
 		<key>entry_backup_code</key>
-		<value>
-			<![CDATA[Копировать код (%s)<br/><span class="help">Подкаталоги с файлами кода кроме динамически изменяемых, таких как кеш, журнал, изображения, ресурсы и тп </span>]]></value>
+		<value><![CDATA[Копировать код (%s)<br/><span class="help">Подкаталоги с файлами кода кроме динамически изменяемых, таких как кеш, журнал, изображения, ресурсы и тп </span>]]></value>
 	</definition>
 	<definition>
 		<key>entry_backup_content</key>
-		<value>
-			<![CDATA[Копировать контент (%s)<br/><span class="help">Подкаталоги с динамически изменяемыми файлами, такими как кеш, журнал, изображения, ресурсы, загрузки и тп</span>]]></value>
+		<value><![CDATA[Копировать контент (%s)<br/><span class="help">Подкаталоги с динамически изменяемыми файлами, такими как кеш, журнал, изображения, ресурсы, загрузки и тп</span>]]></value>
 	</definition>
 	<definition>
 		<key>entry_compress_backup</key>
-		<value>
-			<![CDATA[Сжать директорию с резервной копией	%s ?<br/><span class="help">Будет создан архивный файл *.tar.gz.<br/> Примечание: процесс может занять долгое время. В противном случае Вы можете не использовать сжатие и найти копии файлов в директории %s</span>]]></value>
+		<value><![CDATA[Сжать директорию с резервной копией	%s ?<br/><span class="help">Будет создан архивный файл *.tar.gz.<br/> Примечание: процесс может занять долгое время. В противном случае Вы можете не использовать сжатие и найти копии файлов в директории %s</span>]]></value>
 	</definition>
 	<definition>
 		<key>button_backup_now</key>
@@ -112,12 +106,14 @@
 	</definition>
 	<definition>
 		<key>text_success_scheduled</key>
-		<value>
-			<![CDATA[Успех: Задание на резервное копирование успешно создано! <a href="%s">Подробнее...</a>]]></value>
+		<value><![CDATA[Успех: Задание на резервное копирование успешно создано! <a href="%s">Подробнее...</a>]]></value>
 	</definition>
 	<definition>
 		<key>text_fail_note</key>
-		<value>
-			<![CDATA[Примечание: выполнение этого процесса зависит от размера Ваших данных и объема виртуальной памяти вашего сервера. Если процесс завершится с ошибкой, проверьте права доступа к директории %s (выставьте -rw-rw-rw), а также <a href="http://php.net/manual/en/ini.core.php#ini.memory-limit" target="_blank">[PHP настроки памяти]</a>. Увеличьте размер выделенной памяти или запустите резервное копирование вручную, если процесс все равно прерывается.]]></value>
+		<value><![CDATA[Примечание: выполнение этого процесса зависит от размера Ваших данных и объема виртуальной памяти вашего сервера. Если процесс завершится с ошибкой, проверьте права доступа к директории %s (выставьте -rw-rw-rw), а также <a href="http://php.net/manual/en/ini.core.php#ini.memory-limit" target="_blank">[PHP настроки памяти]</a>. Увеличьте размер выделенной памяти или запустите резервное копирование вручную, если процесс все равно прерывается.]]></value>
+	</definition>
+	<definition>
+		<key>error_nothing_to_do</key>
+		<value><![CDATA[Внимание: Пожалуйста, выберите файл!]]></value>
 	</definition>
 </definitions>

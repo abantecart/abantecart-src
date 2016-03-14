@@ -60,4 +60,8 @@
 		<key>text_account_wishlist</key>
 		<value><![CDATA[La mia lista dei desideri]]></value>
 	</definition>
+	<definition>
+		<key>text_my_notifications</key>
+		<value><![CDATA[Notification]]></value>
+	</definition>
 </definitions>

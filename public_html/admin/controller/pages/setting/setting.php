@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2015 Belavier Commerce LLC
+  Copyright © 2011-2016 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -198,7 +198,14 @@ class ControllerPagesSettingSetting extends AController {
 		$this->view->assign('form_store_switch', $this->html->getStoreSwitcher());
 		$this->view->assign('help_url', $this->gen_help_url($this->data['active']));
 		$this->view->batchAssign($this->data);
-		$this->processTemplate('pages/setting/setting.tpl');
+
+		if($this->data['active']=='im'){
+			$this->view->assign('attention', $this->language->get('text_im_settings_attention'));
+			$this->processTemplate('pages/setting/setting_im.tpl');
+		}else{
+
+			$this->processTemplate('pages/setting/setting.tpl');
+		}
 
 		//update controller data
 		$this->extensions->hk_UpdateData($this, __FUNCTION__);
@@ -368,6 +375,19 @@ class ControllerPagesSettingSetting extends AController {
 		$this->main();
 	}
 
+	public function im () {
+		$this->request->get['active'] = 'im';
+		$this->data['entry_storefront_sms_status'] = $this->language->get('text_storefront');
+		$this->data['entry_sms_driver_tooltip'] = $this->language->get('entry_sms_driver_tooltip');
+		$this->data['entry_admin_sms_status'] = $this->language->get('text_admin');
+
+		$this->data['entry_storefront_status_tooltip'] = $this->language->get('entry_storefront_status_tooltip');
+		$this->data['entry_admin_status_tooltip'] = $this->language->get('entry_admin_status_tooltip');
+
+		$this->main();
+
+	}
+
 	public function api () {
 		$this->request->get['active'] = 'api';
 		$this->main();
@@ -445,6 +465,9 @@ class ControllerPagesSettingSetting extends AController {
 			case 'api' :
 				$this->data = array_merge_recursive($this->data, $this->_build_api($form, $this->data['settings']));
 				break;
+			case 'im' :
+				$this->data = array_merge_recursive($this->data, $this->_build_im($form, $this->data['settings']));
+				break;
 			case 'system':
 				$this->data = array_merge_recursive($this->data, $this->_build_system($form, $this->data['settings']));
 				break;
@@ -504,6 +527,16 @@ class ControllerPagesSettingSetting extends AController {
 	private function _build_mail($form, $data) {
 		$ret_data = array();
 		$ret_data['form'] = array('fields' => $this->conf_mngr->getFormFields('mail', $form, $data));
+		return $ret_data;
+	}
+    /**
+     * @param AForm $form
+     * @param $data
+     * @return array
+     */
+	private function _build_im($form, $data) {
+		$ret_data = array();
+		$ret_data['form'] = array('fields' => $this->conf_mngr->getFormFields('im', $form, $data));
 		return $ret_data;
 	}
     /**

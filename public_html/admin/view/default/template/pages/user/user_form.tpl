@@ -3,6 +3,16 @@
 
 	<div class="panel-heading col-xs-12">
 		<div class="primary_content_actions pull-left">
+			<div class="btn-group mr10 toolbar">
+				<?php if($edit_im_url){ ?>
+                <a class="btn btn-white tooltips"
+                   href="<?php echo $edit_im_url; ?>"
+                   data-toggle="tooltip"
+                   title="<?php echo $text_edit_im; ?>" data-original-title="<?php echo $text_edit_im; ?>">
+                <i class="fa fa-bullhorn"></i>
+                </a>
+				<?php } ?>
+		    </div>
 		</div>
 
 		<?php include($tpl_common_dir . 'content_buttons.tpl'); ?>	

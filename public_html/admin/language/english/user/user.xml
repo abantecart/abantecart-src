@@ -1,120 +1,143 @@
 <?xml version="1.0"?>
 <definitions>
-  <definition>
-    <key>heading_title</key>
-    <value><![CDATA[Users]]></value>
-  </definition>
-  <definition>
-    <key>text_edit_details</key>
-    <value><![CDATA[Edit Profile Details]]></value>
-  </definition>
-  <definition>
-    <key>text_user</key>
-    <value><![CDATA[User]]></value>
-  </definition>
-  <definition>
-    <key>text_success</key>
-    <value><![CDATA[Success: You have modified users!]]></value>
-  </definition>
-  <definition>
-    <key>text_success_details</key>
-    <value><![CDATA[Success: You have modified your profile!]]></value>
-  </definition>
-  <definition>
-    <key>column_username</key>
-    <value><![CDATA[Username]]></value>
-  </definition>
-  <definition>
-    <key>column_group</key>
-    <value><![CDATA[Group]]></value>
-  </definition>
-  <definition>
-    <key>column_status</key>
-    <value><![CDATA[Status]]></value>
-  </definition>
-  <definition>
-    <key>column_date_added</key>
-    <value><![CDATA[Date Added]]></value>
-  </definition>
-  <definition>
-    <key>column_action</key>
-    <value><![CDATA[Action]]></value>
-  </definition>
-  <definition>
-    <key>entry_username</key>
-    <value><![CDATA[Username:]]></value>
-  </definition>
-  <definition>
-    <key>entry_password</key>
-    <value><![CDATA[Password:]]></value>
-  </definition>
-  <definition>
-    <key>entry_confirm</key>
-    <value><![CDATA[Confirm:]]></value>
-  </definition>
-  <definition>
-    <key>entry_firstname</key>
-    <value><![CDATA[First Name:]]></value>
-  </definition>
-  <definition>
-    <key>entry_lastname</key>
-    <value><![CDATA[Last Name:]]></value>
-  </definition>
-  <definition>
-    <key>entry_email</key>
-    <value><![CDATA[E-Mail:]]></value>
-  </definition>
-  <definition>
-    <key>entry_user_group</key>
-    <value><![CDATA[User Group:]]></value>
-  </definition>
-  <definition>
-    <key>entry_status</key>
-    <value><![CDATA[Status:]]></value>
-  </definition>
-  <definition>
-    <key>entry_captcha</key>
-    <value><![CDATA[Enter the code in the box below:]]></value>
-  </definition>
-  <definition>
-    <key>error_permission</key>
-    <value><![CDATA[Warning: You do not have permission to modify users!]]></value>
-  </definition>
-  <definition>
-    <key>error_account</key>
-    <value><![CDATA[Warning: You can not delete your own account!]]></value>
-  </definition>
-  <definition>
-    <key>error_username</key>
-    <value><![CDATA[Username must be between 2 and 20 characters!]]></value>
-  </definition>
-  <definition>
-    <key>error_password</key>
-    <value><![CDATA[Password must be more than 3 characters!]]></value>
-  </definition>
-  <definition>
-    <key>error_confirm</key>
-    <value><![CDATA[Password and password confirmation do not match!]]></value>
-  </definition>
-  <definition>
-    <key>error_firstname</key>
-    <value><![CDATA[First Name must be between 2 and 32 characters!]]></value>
-  </definition>
-  <definition>
-    <key>error_lastname</key>
-    <value><![CDATA[Last Name must be between 2 and 32 characters!]]></value>
-  </definition>
-  <definition>
-    <key>error_email</key>
-    <value><![CDATA[E-Mail Address does not appear to be valid!]]></value>
-  </definition>  
-  <definition>
-    <key>error_captcha</key>
-    <value><![CDATA[Verification code does not match the image!]]></value>
-  </definition>
-  <definition>
-    <key>text_select_group</key>
-    <value><![CDATA[- Select Group -]]></value>
-  </definition>
-
+	<definition>
+		<key>heading_title</key>
+		<value><![CDATA[Users]]></value>
+	</definition>
+	<definition>
+		<key>text_edit_details</key>
+		<value><![CDATA[Edit Profile Details]]></value>
+	</definition>
+	<definition>
+		<key>text_user</key>
+		<value><![CDATA[User]]></value>
+	</definition>
+	<definition>
+		<key>text_success</key>
+		<value><![CDATA[Success: You have modified users!]]></value>
+	</definition>
+	<definition>
+		<key>text_success_details</key>
+		<value><![CDATA[Success: You have modified your profile!]]></value>
+	</definition>
+	<definition>
+		<key>column_username</key>
+		<value><![CDATA[Username]]></value>
+	</definition>
+	<definition>
+		<key>column_group</key>
+		<value><![CDATA[Group]]></value>
+	</definition>
+	<definition>
+		<key>column_status</key>
+		<value><![CDATA[Status]]></value>
+	</definition>
+	<definition>
+		<key>column_date_added</key>
+		<value><![CDATA[Date Added]]></value>
+	</definition>
+	<definition>
+		<key>column_action</key>
+		<value><![CDATA[Action]]></value>
+	</definition>
+	<definition>
+		<key>entry_username</key>
+		<value><![CDATA[Username:]]></value>
+	</definition>
+	<definition>
+		<key>entry_password</key>
+		<value><![CDATA[Password:]]></value>
+	</definition>
+	<definition>
+		<key>entry_confirm</key>
+		<value><![CDATA[Confirm:]]></value>
+	</definition>
+	<definition>
+		<key>entry_firstname</key>
+		<value><![CDATA[First Name:]]></value>
+	</definition>
+	<definition>
+		<key>entry_lastname</key>
+		<value><![CDATA[Last Name:]]></value>
+	</definition>
+	<definition>
+		<key>entry_email</key>
+		<value><![CDATA[E-Mail:]]></value>
+	</definition>
+	<definition>
+		<key>entry_user_group</key>
+		<value><![CDATA[User Group:]]></value>
+	</definition>
+	<definition>
+		<key>entry_status</key>
+		<value><![CDATA[Status:]]></value>
+	</definition>
+	<definition>
+		<key>entry_ims</key>
+		<value><![CDATA[Notifications]]></value>
+	</definition>
+	<definition>
+		<key>entry_captcha</key>
+		<value><![CDATA[Enter the code in the box below:]]></value>
+	</definition>
+	<definition>
+		<key>error_permission</key>
+		<value><![CDATA[Warning: You do not have permission to modify users!]]></value>
+	</definition>
+	<definition>
+		<key>error_account</key>
+		<value><![CDATA[Warning: You can not delete your own account!]]></value>
+	</definition>
+	<definition>
+		<key>error_username</key>
+		<value><![CDATA[Username must be between 2 and 20 characters!]]></value>
+	</definition>
+	<definition>
+		<key>error_password</key>
+		<value><![CDATA[Password must be more than 3 characters!]]></value>
+	</definition>
+	<definition>
+		<key>error_confirm</key>
+		<value><![CDATA[Password and password confirmation do not match!]]></value>
+	</definition>
+	<definition>
+		<key>error_firstname</key>
+		<value><![CDATA[First Name must be between 2 and 32 characters!]]></value>
+	</definition>
+	<definition>
+		<key>error_lastname</key>
+		<value><![CDATA[Last Name must be between 2 and 32 characters!]]></value>
+	</definition>
+	<definition>
+		<key>error_email</key>
+		<value><![CDATA[E-Mail Address does not appear to be valid!]]></value>
+	</definition>
+	<definition>
+		<key>error_captcha</key>
+		<value><![CDATA[Verification code does not match the image!]]></value>
+	</definition>
+	<definition>
+		<key>text_select_group</key>
+		<value><![CDATA[- Select Group -]]></value>
+	</definition>
+	<definition>
+		<key>entry_im_email</key>
+		<value><![CDATA[E-Mail:<span class="help">One or more comma separated email addresses</span>]]></value>
+	</definition>
+	<definition>
+		<key>entry_im_sms</key>
+		<value><![CDATA[Mobile Phone:<span class="help">Phone number in international format. ex. +14566887777</span>]]></value>
+	</definition>
+	<definition>
+		<key>text_edit_im</key>
+		<value><![CDATA[Edit Notifications]]></value>
+	</definition>
+	<definition>
+		<key>text_sendpoints</key>
+		<value><![CDATA[Notification settings]]></value>
+	</definition>
+	<definition>
+		<key>text_change_im_addresses</key>
+		<value><![CDATA[Edit Notification Addresses for this SendPoint]]></value>
+	</definition>
 </definitions>

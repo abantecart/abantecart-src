@@ -688,4 +688,48 @@
 		<key>button_retry</key>
 		<value><![CDATA[Повтор]]></value>
 	</definition>
+	<definition>
+		<key>button_message</key>
+		<value><![CDATA[Связаться с клиентом]]></value>
+	</definition>
+	<definition>
+		<key>tab_im</key>
+		<value><![CDATA[МС]]></value>
+	</definition>
+	<definition>
+		<key>text_type_download</key>
+		<value><![CDATA[Скачать файл]]></value>
+	</definition>
+	<definition>
+		<key>text_set_related</key>
+		<value><![CDATA[Установить сопутствующие]]></value>
+	</definition>
+	<definition>
+		<key>tab_text</key>
+		<value><![CDATA[HTML/Текст]]></value>
+	</definition>
+	<definition>
+		<key>tab_visual</key>
+		<value><![CDATA[Визуальный]]></value>
+	</definition>
+	<definition>
+		<key>button_add_media</key>
+		<value><![CDATA[Добавить]]></value>
+	</definition>
+	<definition>
+		<key>text_view_more</key>
+		<value><![CDATA[Просмотреть больше]]></value>
+	</definition>
+	<definition>
+		<key>text_admin</key>
+		<value><![CDATA[Панель управления]]></value>
+	</definition>
+	<definition>
+		<key>text_storefront</key>
+		<value><![CDATA[Витрина магазина]]></value>
+	</definition>
+	<definition>
+		<key>text_texteditor_extended_mode</key>
+		<value><![CDATA[<a class="texteditor_ext_mode" href="%s" ><i class="fa fa-external-link"></i> Редактирование в расширенном режиме</a>]]></value>
+	</definition>
 </definitions>

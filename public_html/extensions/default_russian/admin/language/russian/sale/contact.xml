@@ -85,15 +85,107 @@
 		<value><![CDATA[Поиск покупателей]]></value>
 	</definition>
 	<definition>
-		<key>text_select_category</key>
-		<value><![CDATA[- Выберите категорию -]]></value>
-	</definition>
-	<definition>
-		<key>text_select_product</key>
+		<key>text_select_products</key>
 		<value><![CDATA[- Выберите продукты -]]></value>
 	</definition>
 	<definition>
-		<key>text_select_customer</key>
+		<key>text_select_customers</key>
 		<value><![CDATA[- Выберите покупателей -]]></value>
+	</definition>
+	<definition>
+		<key>text_send_email</key>
+		<value><![CDATA[Отправить письма]]></value>
+	</definition>
+	<definition>
+		<key>text_send_sms</key>
+		<value><![CDATA[Отправить SMS]]></value>
+	</definition>
+	<definition>
+		<key>text_customers_who_ordered</key>
+		<value><![CDATA[Для клиентов, заказавших выбранные продукты]]></value>
+	</definition>
+	<definition>
+		<key>text_customers_from_lookup</key>
+		<value><![CDATA[Начните вводить имя клиента для поиска и выбера]]></value>
+	</definition>
+	<definition>
+		<key>text_products_from_lookup</key>
+		<value><![CDATA[Начните вводить название продукта для поиска и выбера]]></value>
+	</definition>
+	<definition>
+		<key>text_email</key>
+		<value><![CDATA[Email]]></value>
+	</definition>
+	<definition>
+		<key>text_sms</key>
+		<value><![CDATA[SMS]]></value>
+	</definition>
+	<definition>
+		<key>text_incompleted_tasks</key>
+		<value><![CDATA[Незавершенные задачи]]></value>
+	</definition>
+	<definition>
+		<key>text_task_id</key>
+		<value><![CDATA[Идентификатор задачи:]]></value>
+	</definition>
+	<definition>
+		<key>text_last_time_run</key>
+		<value><![CDATA[Время последнего запуска:]]></value>
+	</definition>
+	<definition>
+		<key>text_date_added</key>
+		<value><![CDATA[Создана:]]></value>
+	</definition>
+	<definition>
+		<key>text_subject</key>
+		<value><![CDATA[Тема:]]></value>
+	</definition>
+	<definition>
+		<key>text_message</key>
+		<value><![CDATA[Сообщение:]]></value>
+	</definition>
+	<definition>
+		<key>text_starter_name</key>
+		<value><![CDATA[Создано:]]></value>
+	</definition>
+	<definition>
+		<key>text_restart</key>
+		<value><![CDATA[Перезапуск]]></value>
+	</definition>
+	<definition>
+		<key>text_remove</key>
+		<value><![CDATA[Удалить]]></value>
+	</definition>
+	<definition>
+		<key>error_email_no_recipients</key>
+		<value><![CDATA[Внимание! Сообщение не будет отправлено.]]></value>
+	</definition>
+	<definition>
+		<key>error_sms_no_recipients</key>
+		<value><![CDATA[Внимание! Нет клиентов с номерами мобильных телефонов. ]]></value>
+	</definition>
+	<definition>
+		<key>text_attention_recipients_count</key>
+		<value><![CDATA[Внимание! Сообщение будет отправлено %s клиентам.]]></value>
+	</definition>
+	<definition>
+		<key>error_no_recipients</key>
+		<value><![CDATA[Внимание! Нет клиентов с номерами мобильных телефонов.]]></value>
+	</definition>
+	<definition>
+		<key>text_success_abort</key>
+		<value><![CDATA[Задача успешно прервана.]]></value>
+	</definition>
+	<definition>
+		<key>text_success_sent</key>
+		<value><![CDATA[%s cообщений были посланы.]]></value>
+	</definition>
+	<definition>
+		<key>text_task_failed</key>
+		<value><![CDATA[Некоторые ошибки возникли во время исполнения задачи. Пожалуйста, смотрите подробности в логе ошибок или перезапустите эту задачу.]]></value>
+	</definition>
+	<definition>
+		<key>text_was_sent</key>
+		<value><![CDATA[ %s из %s сообщений отправлено]]></value>
 	</definition>
 </definitions>

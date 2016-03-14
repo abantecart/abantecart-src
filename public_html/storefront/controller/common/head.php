@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2015 Belavier Commerce LLC
+  Copyright © 2011-2016 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -39,8 +39,13 @@ class ControllerCommonHead extends AController {
 		$this->view->assign('keywords', $this->document->getKeywords());
 		$this->view->assign('description', $this->document->getDescription());
 		$this->view->assign('template', $this->config->get('config_storefront_template'));
-		$this->view->assign('retina', $this->config->get('config_retina_enable'));
 
+		$retina = $this->config->get('config_retina_enable');
+		$this->view->assign('retina', $retina);
+		//remove cookie for retina
+		if(!$retina){
+			$this->request->deleteCookie('HTTP_IS_RETINA');
+		}
 		
 		if (isset($this->request->server['HTTPS']) && (($this->request->server['HTTPS'] == 'on') || ($this->request->server['HTTPS'] == '1'))) {
 			$this->view->assign('base', HTTPS_SERVER);
@@ -49,22 +54,23 @@ class ControllerCommonHead extends AController {
 		}
 		
 		$icon_rl = $this->config->get('config_icon');
+		//see if we have a resource ID or path
 		if($icon_rl){		
-			//see if we have a resource ID or path
 			if (is_numeric($icon_rl)) {
 				$resource = new AResource('image');
-			    $image_data = $resource->getResource( $icon_rl );
-			    if ( is_file(DIR_RESOURCE . $image_data['image']) ) {
-			    	$icon_rl = 'resources/'.$image_data['image'];
-			    } else {
-			    	$icon_rl = $image_data['resource_code'];
-			    }
+				$image_data = $resource->getResource( $icon_rl );
+				if ( is_file(DIR_RESOURCE . $image_data['image']) ) {
+					$icon_rl = 'resources/'.$image_data['image'];
+				} else {
+					$icon_rl = $image_data['resource_code'];
+				}
 			} else	
 			if(!is_file(DIR_RESOURCE.$icon_rl)){
 				$this->messages->saveWarning('Check favicon.','Warning: please check favicon in your store settings. Current path is "'.DIR_RESOURCE.$icon_rl.'" but file does not exists.');
 				$icon_rl ='';
 			}
 		}
+
 		$this->view->assign('icon', $icon_rl);
 		$this->view->assign('lang', $this->language->get('code'));
 		$this->view->assign('direction', $this->language->get('direction'));

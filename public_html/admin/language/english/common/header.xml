@@ -21,6 +21,10 @@
 		<value><![CDATA[Edit Profile Details]]></value>
 	</definition>
 	<definition>
+		<key>text_edit_notifications</key>
+		<value><![CDATA[Edit Notification Settings]]></value>
+	</definition>
+	<definition>
 		<key>text_catalog</key>
 		<value><![CDATA[Catalog]]></value>
 	</definition>
@@ -349,6 +353,10 @@
 		<value><![CDATA[Mail]]></value>
 	</definition>
 	<definition>
+		<key>text_settings_im</key>
+		<value><![CDATA[IM]]></value>
+	</definition>
+	<definition>
 		<key>text_settings_api</key>
 		<value><![CDATA[API]]></value>
 	</definition>
@@ -446,5 +454,8 @@
 		<key>text_today_reviews</key>
 		<value><![CDATA[New Reviews Today]]></value>
 	</definition>
-
+	<definition>
+		<key>text_rl_manager</key>
+		<value><![CDATA[Media Manager]]></value>
+	</definition>
 </definitions>

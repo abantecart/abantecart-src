@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<definitions>
+  <definition>
+    <key>entry_sms</key>
+    <value><![CDATA[Mobile Phone (SMS Notification)]]></value>
+  </definition>
+  <definition>
+    <key>default_textmarketer_protocol_title</key>
+    <value><![CDATA[ SMS ]]></value>
+  </definition>
+</definitions>

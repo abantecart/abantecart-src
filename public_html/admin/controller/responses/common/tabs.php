@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2015 Belavier Commerce LLC
+  Copyright © 2011-2016 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -52,12 +52,12 @@ class ControllerResponsesCommonTabs extends AController {
 		//10 new customers
 		$this->loadModel('sale/customer');		
 		$filter = array(
-			'sort'  => 'c.date_added',
+			'sort'  => 'date_added',
 			'order' => 'DESC',
 			'start' => 0,
 			'limit' => 10
 		);
-		$top_customers = $this->model_sale_customer->getCustomers($filter);
+		$top_customers = $this->model_sale_customer->getCustomers($filter, 'quick');
 		foreach( $top_customers as $indx => $customer) {
 			$top_customers[$indx]['url'] = $this->html->getSecureURL('sale/customer/update', '&customer_id='.$customer['customer_id']);
 		}

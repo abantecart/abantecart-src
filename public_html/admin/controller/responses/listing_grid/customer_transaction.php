@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2015 Belavier Commerce LLC
+  Copyright © 2011-2016 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -134,6 +134,7 @@ class ControllerResponsesListingGridCustomerTransaction extends AController {
 		$output['transaction_type'] = htmlentities($output['transaction_type'],ENT_QUOTES,'UTF-8');
 		$output['comment'] = htmlentities($data['comment'],ENT_QUOTES,'UTF-8');
 		$output['description'] = htmlentities($data['description'],ENT_QUOTES,'UTF-8');
+		$output['notify'] = (int)$data['notify'] ? 1 : 0;
 
 		$this->extensions->hk_ValidateData( $this );
 
@@ -271,6 +272,16 @@ class ControllerResponsesListingGridCustomerTransaction extends AController {
 																			'value' => (!in_array($info['transaction_type'],$types)? $info['transaction_type'] :''),
 																			'attr' => ($readonly ? 'disabled="disabled"' : '')
 																	));
+
+			if(!$readonly){
+				$this->data['form']['fields']['notify'] = $form->getFieldHtml(
+						array (
+								'type'   => 'checkbox',
+								'name'   => 'notify',
+								'value'  => 1,
+								'checked'=> false
+						));
+			}
 
 			$this->data['form']['fields']['transaction_comment'] = $form->getFieldHtml(array(
 																					'type' => 'textarea',

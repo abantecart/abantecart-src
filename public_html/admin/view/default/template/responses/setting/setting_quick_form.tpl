@@ -58,14 +58,14 @@
 	<div class="panel-footer">
 		<div class="row">
 		   <div class="center">
-			 <a class="btn btn-primary on_save_close">
+			 <a class="btn btn-primary on_save_close lock-on-click">
 			 <i class="fa fa-save"></i> <?php echo $button_save_and_close; ?>
 			 </a>&nbsp;
-			 <button class="btn btn-primary">
+			 <button class="btn btn-primary lock-on-click">
 			 <i class="fa fa-save"></i> <?php echo $button_save; ?>
 			 </button>&nbsp;
 			 <a class="btn btn-default" data-dismiss="modal" href="<?php echo $cancel; ?>">
-			 <i class="fa fa-refresh"></i> <?php echo $form['cancel']->text; ?>
+			 <i class="fa fa-arrow-left"></i> <?php echo $form['cancel']->text; ?>
 			 </a>
 		   </div>
 		</div>
@@ -100,10 +100,9 @@ $('#store_switcher_form').on('submit', function(){
 		data: that.serializeArray(),
 		success: function (data) {
 
-			that.parents('.modal-content')
-			        .removeData()
-			        .html('')
-			        .load('<?php echo $form['form_open']->action; ?>');
+			that.parents('.modal-content').removeData().html('').load('<?php echo $form['form_open']->action; ?>', function() {
+				spanHelp2Toggles();	
+			});
 		}
 	});
 
@@ -120,7 +119,10 @@ function save_changes(){
 	        if (data.result_text != '') {
 	        	success_alert(data.result_text, false, "#setting_form");
 	        }
-	    }
+	    },
+        complete: function(){
+                resetLockBtn();
+        }
 	});
 	return false;
 }

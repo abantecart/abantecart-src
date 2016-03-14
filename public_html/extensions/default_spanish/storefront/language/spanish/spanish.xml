@@ -316,4 +316,8 @@
 		<key>text_unavailable</key>
 		<value><![CDATA[Indisponible]]></value>
 	</definition>
+	<definition>
+		<key>button_pay_with_balance</key>
+		<value><![CDATA[Con el Balance de pagar]]></value>
+	</definition>
 </definitions>

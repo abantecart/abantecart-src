@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2015 Belavier Commerce LLC
+  Copyright © 2011-2016 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -28,6 +28,8 @@ class ModelCatalogProduct extends Model{
 	 * @return int
 	 */
 	public function addProduct($data){
+
+		$language_id = (int)$this->language->getContentLanguageID();
 
 		$this->db->query("INSERT INTO " . $this->db->table("products") . " 
 							SET model = '" . $this->db->escape($data['model']) . "',
@@ -62,7 +64,7 @@ class ModelCatalogProduct extends Model{
 		if(!is_int(key($data['product_description']))){
 			$update = array();
 			foreach($data['product_description'] as $field => $value){
-				$update[(int)$this->language->getContentLanguageID()][$field] = $value;
+				$update[$language_id][$field] = $value;
 			}
 			$this->language->replaceDescriptions('product_descriptions',
 					array('product_id' => (int)$product_id),
@@ -105,34 +107,43 @@ class ModelCatalogProduct extends Model{
 		if($seo_key){
 			$this->language->replaceDescriptions('url_aliases',
 					array('query' => "product_id=" . (int)$product_id),
-					array((int)$this->language->getContentLanguageID() => array('keyword' => $seo_key)));
+					array((int)$language_id => array('keyword' => $seo_key)));
 		} else{
 			$this->db->query("DELETE
 							FROM " . $this->db->table("url_aliases") . " 
 							WHERE query = 'product_id=" . (int)$product_id . "'
-								AND language_id = '" . (int)$this->language->getContentLanguageID() . "'");
+								AND language_id = '" . (int)$language_id . "'");
 		}
 
 		if($data['product_tags']){
 			if(is_string($data['product_tags'])){
 				$tags = (array)explode(',', $data['product_tags']);
+				$tags = array($language_id => $tags);
 			}elseif(is_array($data['product_tags'])){
 				$tags = $data['product_tags'];
+				//if cloning
+				if(!is_int(key($data['product_tags']))){
+					$tags = array($language_id => $tags);
+				}
+				foreach($tags as &$taglist){
+					$taglist = (array)explode(',', $taglist);
+				} unset($taglist);
 			}else{
 				$tags = (array)$data['product_tags'];
 			}
-			foreach($tags as &$tag){
-				$tag = trim($tag);
-			}
-			unset($tag);
-			$tags = array_unique($tags);
-			foreach($tags as $tag){
-				$tag = trim($tag);
-				if($tag){
-					$this->language->addDescriptions('product_tags',
-							array('product_id' => (int)$product_id,
-								  'tag'        => $this->db->escape($tag)),
-							array((int)$this->language->getContentLanguageID() => array('tag' => $tag)));
+
+			array_walk_recursive($tags,'trim');
+
+			foreach($tags as $lang_id=>$taglist){
+				$taglist = array_unique($taglist);
+				foreach ($taglist as $tag){
+					$tag = trim($tag);
+					if ($tag){
+						$this->language->addDescriptions('product_tags',
+								array ('product_id' => (int)$product_id,
+								       'tag'        => $this->db->escape($tag)),
+								array ((int)$lang_id => array ('tag' => $tag)));
+					}
 				}
 			}
 		}
@@ -399,6 +410,25 @@ class ModelCatalogProduct extends Model{
 			}
 		}
 		$this->cache->delete('product');
+		return true;
+	}
+
+	/**
+	 * @param array $product_ids
+	 * @return bool
+	 */
+	public function relateProducts($product_ids=array()){
+		if(!$product_ids || !is_array($product_ids)){ return false;}
+		foreach($product_ids as $product_id){
+			if ((int)$product_id){
+				foreach($product_ids as $related_id){
+					if ((int)$related_id && $related_id!=$product_id){
+						$this->db->query("DELETE FROM " . $this->db->table("products_related") . " WHERE product_id = '" . (int)$related_id . "' AND related_id = '" . (int)$product_id . "'");
+						$this->db->query("INSERT INTO " . $this->db->table("products_related") . " SET product_id = '" . (int)$related_id . "', related_id = '" . (int)$product_id . "'");
+					}
+				}
+			}
+		}
 		return true;
 	}
 
@@ -875,7 +905,9 @@ class ModelCatalogProduct extends Model{
 	 * @return bool
 	 */
 	public function copyProduct($product_id){
-		if(empty($product_id)) return false;
+		if(empty($product_id)){
+			return false;
+		}
 
 		$sql = "SELECT DISTINCT *, p.product_id
 				FROM " . $this->db->table("products") . " p
@@ -885,62 +917,62 @@ class ModelCatalogProduct extends Model{
 				WHERE p.product_id = '" . (int)$product_id . "'";
 		$query = $this->db->query($sql);
 
-		if($query->num_rows){
-			$data = $query->row;
-			$data = array_merge($data, array('product_description' => $this->getProductDescriptions($product_id)));
-			foreach($data['product_description'] as $lang => $desc){
-				$data['product_description'][$lang]['name'] .= ' ( Copy )';
-			}
-			$data = array_merge($data, array('product_option' => $this->getProductOptions($product_id)));
-			$data['keyword'] = '';
-
-			$data = array_merge($data, array('product_discount' => $this->getProductDiscounts($product_id)));
-			$data = array_merge($data, array('product_special' => $this->getProductSpecials($product_id)));
-			$data = array_merge($data, array('product_download' => $this->getProductDownloads($product_id)));
-			$data = array_merge($data, array('product_category' => $this->getProductCategories($product_id)));
-			$data = array_merge($data, array('product_store' => $this->getProductStores($product_id)));
-			$data = array_merge($data, array('product_related' => $this->getProductRelated($product_id)));
-			$data = array_merge($data, array('product_tags' => $this->getProductTags($product_id)));
-
-			//set status to off for cloned product
-			$data['status'] = 0;
-
-			//get product resources
-			$rm = new AResourceManager();
-			$resources = $rm->getResourcesList(
-					array(
-							'object_name' => 'products',
-							'object_id'   => $product_id,
-							'sort'        => 'sort_order'));
-
-			$new_product_id = $this->addProduct($data);
-
-			foreach($data['product_discount'] as $item){
-				$this->addProductDiscount($new_product_id, $item);
-			}
-			foreach($data['product_special'] as $item){
-				$this->addProductSpecial($new_product_id, $item);
-			}
-
-			$this->updateProductLinks($new_product_id, $data);
-			$this->_clone_product_options($new_product_id, $data);
-
-			foreach($resources as $r){
-				$rm->mapResource(
-						'products',
-						$new_product_id,
-						$r['resource_id']
-				);
-			}
-			$this->cache->delete('product');
-
-			//clone layout for the product if present
-			$this->_clone_product_layout($product_id, $new_product_id);
-
-			return array('name' => $data['name'], 'id' => $new_product_id);
+		if(!$query->num_rows){
+			return false;
 		}
 
-		return false;
+		$data = $query->row;
+		$data = array_merge($data, array('product_description' => $this->getProductDescriptions($product_id)));
+		foreach($data['product_description'] as $lang => $desc){
+			$data['product_description'][$lang]['name'] .= ' ( Copy )';
+		}
+		$data = array_merge($data, array('product_option' => $this->getProductOptions($product_id)));
+		$data['keyword'] = '';
+
+		$data = array_merge($data, array('product_discount' => $this->getProductDiscounts($product_id)));
+		$data = array_merge($data, array('product_special' => $this->getProductSpecials($product_id)));
+		$data = array_merge($data, array('product_download' => $this->getProductDownloads($product_id)));
+		$data = array_merge($data, array('product_category' => $this->getProductCategories($product_id)));
+		$data = array_merge($data, array('product_store' => $this->getProductStores($product_id)));
+		$data = array_merge($data, array('product_related' => $this->getProductRelated($product_id)));
+		$data = array_merge($data, array('product_tags' => $this->getProductTags($product_id)));
+
+		//set status to off for cloned product
+		$data['status'] = 0;
+
+		//get product resources
+		$rm = new AResourceManager();
+		$resources = $rm->getResourcesList(
+				array(
+						'object_name' => 'products',
+						'object_id'   => $product_id,
+						'sort'        => 'sort_order'));
+
+		$new_product_id = $this->addProduct($data);
+
+		foreach($data['product_discount'] as $item){
+			$this->addProductDiscount($new_product_id, $item);
+		}
+		foreach($data['product_special'] as $item){
+			$this->addProductSpecial($new_product_id, $item);
+		}
+
+		$this->updateProductLinks($new_product_id, $data);
+		$this->_clone_product_options($new_product_id, $data);
+
+		foreach($resources as $r){
+			$rm->mapResource(
+					'products',
+					$new_product_id,
+					$r['resource_id']
+			);
+		}
+		$this->cache->delete('product');
+
+		//clone layout for the product if present
+		$this->_clone_product_layout($product_id, $new_product_id);
+
+		return array('name' => $data['name'], 'id' => $new_product_id);
 	}
 
 	/**

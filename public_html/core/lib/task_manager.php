@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2015 Belavier Commerce LLC
+  Copyright © 2011-2016 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -107,6 +107,7 @@ class ATaskManager {
 		$steps_count = sizeof($steps); // total count of steps to calculate percentage (for future)
 		$k=0;
 		foreach($steps as $step){
+
 			$this->toLog('Tried to run step #'.$step['step_id'].' of task #'.$task_id);
 			//change status to active
 			$this->_update_step_state( $step['step_id'],
@@ -115,7 +116,8 @@ class ATaskManager {
 												'status' => 2) ); //change status of step to active while it run
 
 			try{
-				$dd = new ADispatcher($step['controller'],$step_settings['params']);
+
+				$dd = new ADispatcher($step['controller'],$step['settings']);
 				$response = $dd->dispatchGetOutput($step['controller']);
 			}catch(AException $e){	}
 
@@ -206,7 +208,7 @@ class ATaskManager {
 		}
 
 		$sql = "INSERT INTO ".$this->db->table('tasks')."
-				(`name`,`starter`,`status`,`start_time`,`last_time_run`,`progress`,`last_result`,`run_interval`,`max_execution_time`,`date_modified`)
+				(`name`,`starter`,`status`,`start_time`,`last_time_run`,`progress`,`last_result`,`run_interval`,`max_execution_time`,`date_added`)
 				VALUES ('".$this->db->escape($data['name'])."',
 						'".(int)$data['starter']."',
 						'".(int)$data['status']."',
@@ -283,6 +285,10 @@ class ATaskManager {
 	public function updateTaskDetails($task_id, $data = array()){
 		$task_id = (int)$task_id;
 		if(!$task_id){ return false;}
+
+		if(gettype($data['settings']) != 'string'){
+			$data['settings'] = serialize($data['settings']);
+		}
 
 		$sql = "SELECT * FROM ".$this->db->table('task_details')." WHERE task_id = ".$task_id;
 		$result = $this->db->query($sql);
@@ -401,6 +407,10 @@ class ATaskManager {
 			$output['steps'] = $this->getScheduledTaskSteps($output['task_id']);
 		}
 
+		if($output['settings']){
+			$output['settings'] = unserialize($output['settings']);
+		}
+
 		return $output;
 	}
 
@@ -416,6 +426,10 @@ class ATaskManager {
 		$output = $result->row;
 		if($output){
 			$output['steps'] = $this->getScheduledTaskSteps($output['task_id']);
+		}
+
+		if($output['settings']){
+			$output['settings'] = unserialize($output['settings']);
 		}
 
 		return $output;
@@ -461,8 +475,8 @@ class ATaskManager {
 			$sql .= " AND " . $data['subsql_filter'];
 		}
 
-		if (has_value($filter['name'])) {
-			$sql .= " AND (LCASE(t.name) LIKE '%" . $this->db->escape(mb_strtolower($filter['name'])) . "%'";
+		if (has_value($data['filter']['name'])) {
+			$sql .= " AND (LCASE(t.name) LIKE '%" . $this->db->escape(mb_strtolower($data['filter']['name'])) . "%'";
 		}
 
 
@@ -473,16 +487,16 @@ class ATaskManager {
 	public function getTasks($data = array()){
 
 		$sql = "SELECT *
-				FROM ".$this->db->table('tasks')." t ";
-
-		$sql .= 'WHERE 1=1 ';
+				FROM ".$this->db->table('tasks')." t
+				LEFT JOIN ".$this->db->table('task_details')." td ON td.task_id = t.task_id
+				WHERE 1=1 ";
 
 		if (!empty($data['subsql_filter'])) {
 			$sql .= " AND " . $data['subsql_filter'];
 		}
 
-		if (has_value($filter['name'])) {
-			$sql .= " AND (LCASE(t.name) LIKE '%" . $this->db->escape(mb_strtolower($filter['name'])) . "%'";
+		if (has_value($data['filter']['name'])) {
+			$sql .= " AND (LCASE(t.name) LIKE '%" . $this->db->escape(mb_strtolower($data['filter']['name'])) . "%')";
 		}
 
 		$sort_data = array(
@@ -518,6 +532,14 @@ class ATaskManager {
 
 
 		$result = $this->db->query($sql);
-		return $result->rows;
+		$output = $result->rows;
+		foreach($output as &$row){
+			if( $row['settings'] ){
+				$row['settings'] = unserialize($row['settings']);
+			}
+		}
+		unset($row);
+
+		return $output;
 	}
 }

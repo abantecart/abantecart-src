@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2015 Belavier Commerce LLC
+  Copyright © 2011-2016 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -111,7 +111,18 @@ class ModelCatalogManufacturer extends Model {
 		$this->db->query("DELETE FROM " . $this->db->table("url_aliases") . " WHERE query = 'manufacturer_id=" . (int)$manufacturer_id . "'");
 
 		$lm = new ALayoutManager();
-		$lm->deletePageLayout('pages/product/manufacturer','manufacturer_id',(int)$manufacturer_id);
+		$lm->deletePageLayout( 'pages/product/manufacturer', 'manufacturer_id', (int)$manufacturer_id );
+
+		//delete resources
+		$rm = new AResourceManager();
+		$resources = $rm->getResourcesList(	array( 'object_name' => 'manufacturers', 'object_id'   => (int)$manufacturer_id) );
+		foreach($resources as $r){
+			$rm->unmapResource(	'manufacturers',	$manufacturer_id, $r['resource_id'] );
+			//if resource became orphan - delete it
+			if(!$rm->isMapped($r['resource_id'])){
+				$rm->deleteResource($r['resource_id']);
+			}
+		}
 		$this->cache->delete('manufacturer');
 	}
 

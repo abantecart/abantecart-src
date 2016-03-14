@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2015 Belavier Commerce LLC
+  Copyright © 2011-2016 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -656,6 +656,17 @@ class ModelSaleOrder extends Model{
 				$mail->setSubject($subject);
 				$mail->setText(html_entity_decode($message, ENT_QUOTES, 'UTF-8'));
 				$mail->send();
+
+				//notify customer
+				$language->load('common/im');
+				$message_arr = array(
+		    		0 => array('message' =>  sprintf(
+		    			$language->get('im_order_update_text_to_customer'),
+		    			html_entity_decode($order_query->row['store_url'] . 'index.php?rt=account/invoice&order_id=' . $order_id, ENT_QUOTES, 'UTF-8'),
+		    			$order_id, $order_query->row['store_name'])
+		    			)
+				);
+                $this->im->sendToCustomer($order_query->row['customer_id'],'order_update',$message_arr);
 			}
 		}
 	}
@@ -771,6 +782,28 @@ class ModelSaleOrder extends Model{
 
 			if(has_value($order_row['payment_method_data'])){
 				$order_data['payment_method_data'] = $order_row['payment_method_data'];
+			}
+			if(!$order_data['customer_id']){
+				$protocols = $this->im->getProtocols();
+				$p = array();
+				foreach($protocols as $protocol){
+					$p[] = $this->db->escape($protocol);
+				}
+				$sql = "SELECT od.*, odt.name as type_name
+						FROM ".$this->db->table('order_data')." od
+						LEFT JOIN ".$this->db->table('order_data_types')." odt ON odt.type_id = od.type_id
+						WHERE od.order_id = ".(int)$order_data['order_id']."
+								AND od.type_id IN (
+											SELECT DISTINCT `type_id`
+											FROM ".$this->db->table('order_data_types')."
+											WHERE `name` IN ('".implode("', '",$p)."')) ";
+				$result = $this->db->query($sql);
+
+				foreach($result->rows as $row){
+					if($row['type_name']=='email'){continue;}
+					$order_data['im'][$row['type_name']] = unserialize($row['data']);
+				}
+
 			}
 
 			return $order_data;
@@ -962,10 +995,10 @@ class ModelSaleOrder extends Model{
 	public function generateInvoiceId($order_id){
 		$query = $this->db->query("SELECT MAX(invoice_id) AS invoice_id FROM `" . $this->db->table("orders") . "`");
 
-		if($query->row['invoice_id']){
+		if($query->row['invoice_id'] && $query->row['invoice_id'] >= $this->config->get('starting_invoice_id')){
 			$invoice_id = (int)$query->row['invoice_id'] + 1;
 		} elseif($this->config->get('starting_invoice_id')){
-			$invoice_id = $this->config->get('starting_invoice_id');
+			$invoice_id = (int)$this->config->get('starting_invoice_id');
 		} else{
 			$invoice_id = 1;
 		}

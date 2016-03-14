@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2015 Belavier Commerce LLC
+  Copyright © 2011-2016 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -23,6 +23,7 @@ if (! defined ( 'DIR_CORE' )) {
 /**
  * Class AData
  * @property ModelToolTableRelationships $model_tool_table_relationships
+ * @property ALanguageManager $language
  */
 final class AData {
 	/**
@@ -87,10 +88,10 @@ final class AData {
 
 	/**
 	 * @param array $request - See manual for more details
-	 * @param bool $skip_inner_ids - Exclude IDs for nested structured related to parent level
+	 * @param array $skip_inner_ids - Exclude IDs for nested structured related to parent level
 	 * @return array
 	 */
-	public function exportData( $request, $skip_inner_ids = true ) {
+	public function exportData( $request, $skip_inner_ids = array() ) {
 		$result_arr = array();
 		$result_arr['timestamp'] = date('m/d/Y H:i:s');
 		$result_arr['tables'] = array();
@@ -196,8 +197,7 @@ final class AData {
 	public function array2CSV($in_array, $fileName, $delimIndex = 0, $format = '.csv', $enclose = '"', $escape = '"', $asFile = false) {
 
 		if ( !is_dir(DIR_DATA) ) {
-			$res = mkdir(DIR_DATA);
-			chmod(DIR_DATA, 0777);
+			mkdir(DIR_DATA, 0777, true);
 		}
 
 		if (!is_dir(DIR_DATA) || !is_writable(DIR_DATA)) {
@@ -325,7 +325,7 @@ final class AData {
 	}
 
 	/**
-	 * generate 1 dimention aray per row of the main table
+	 * generate 1 dimention array per row of the main table
 	 * @param array $data_array
 	 * @param string $append
 	 * @param bool $root
@@ -415,8 +415,7 @@ final class AData {
 
 			$this->_filter_empty($this->nested_array);
 
-			for ($i; $i > 0; $i--)
-			{
+			for ($i; $i > 0; $i--){
 				$this->_filter_empty($this->nested_array);
 			}
 
@@ -780,8 +779,14 @@ final class AData {
 		}
 
 		$new_vals = array();
-
-		foreach ($data_arr['rows'] as $rnode){
+		
+		//Process new load of resources (add or replace)
+		if($table_name == 'resource_map' && $data_arr['rows'][0]['type']) {
+			$new_vals = $this->_do_all_resources($table_cfg, $data_arr, $parent_vals);
+			return $new_vals;
+		}
+		
+		foreach ($data_arr['rows'] as $count => $rnode){
 
 			$action = '';
 			//Set action for the row
@@ -982,6 +987,117 @@ final class AData {
 
 		return $results;
 	}
+
+	/**
+	 * Process resource library insert 
+	 * @param array $table_cfg
+	 * @param array $data_row
+	 * @param array $parent_vals
+	 * @return array
+	 */
+	private function _do_all_resources($table_cfg, $data, $parent_vals) {
+		$records = array();
+		foreach($data['rows'] as $row){
+			if($row['type']) {
+				if($row['source_url']) {
+					$records[$row['type']]['source_url'][] = $row['source_url']; 
+				} else if($row['source_path']) {
+					$records[$row['type']]['source_path'][] =  $row['source_path']; 
+				} else if($row['html_code']) {
+					$records[$row['type']]['html_code'][] =  $row['html_code']; 
+				}
+			}			
+		} 
+
+		foreach($records as $type => $sources) {
+			$rm = new AResourceManager();
+			$rm->setType($type);
+			//delete all resource of the type from library
+			$object_name = $table_cfg['special_relation']['object_name'];
+			$object_id = $parent_vals[$table_cfg['special_relation']['object_id']];
+			$resources = $rm->unmapAndDeleteResources($object_name,$object_id,$type);
+			//ad new media sources
+			if($sources['source_url']) {
+				$fl = new AFile();
+				foreach($sources['source_url'] as $source) {	
+					$image_basename = basename($source);
+					$target = DIR_RESOURCE . $rm->getTypeDir().'/' . $image_basename;
+					if (!is_dir(DIR_RESOURCE . $rm->getTypeDir())) {
+						@mkdir(DIR_RESOURCE . $rm->getTypeDir(), 0777);
+					}
+					if (($file = $fl->downloadFile($source)) === false) {	
+						$this->_status2array('error', "Unable to download file from $source");
+						continue;
+					}
+					if(!$fl->writeDownloadToFile($file, $target)){
+						$this->_status2array('error', "Unable to save download to $target");					
+						continue;
+					}	
+					if(!$this->_create_resource($rm, $object_name, $object_id, $image_basename)){
+						$this->_status2array('error', "Unable to create new media resource type $type for $image_basename");
+						continue;
+					}
+				}			
+			}
+			if($sources['source_path']) {
+				foreach($sources['source_path'] as $source) {		
+					$image_basename = basename($source);
+					$target = DIR_RESOURCE . $rm->getTypeDir().'/' . $image_basename;
+					if (!is_dir(DIR_RESOURCE . $rm->getTypeDir())) {
+						@mkdir(DIR_RESOURCE . $rm->getTypeDir(), 0777);
+					}
+					if(!copy($source, $target)){
+						$this->_status2array('error', "Unable to copy $source to $target");					
+						continue;
+					}	
+					if(!$this->_create_resource($rm, $object_name, $object_id, $image_basename)){
+						$this->_status2array('error', "Unable to create new media resource for $image_basename");
+						continue;
+					}						
+				}			
+			}
+			if($sources['html_code']) {
+				foreach($sources['html_code'] as $code) {		
+					if(!$this->_create_resource($rm, $object_name, $object_id, '', $code)){
+						$this->_status2array('error', "Unable to create new HTML code media resource type $type");
+						continue;
+					}						
+				}			
+			}		
+		}
+		
+		return array();
+	}
+
+	/**
+	 * @param AResourceManager $rm
+	 * @param $object_txt_id
+	 * @param $object_id
+	 * @param string $image_basename
+	 * @param string $code
+	 * @return null
+	 */
+	private function _create_resource($rm, $object_txt_id, $object_id, $image_basename = '', $code = '') {
+		$language_list = $this->language->getAvailableLanguages();
+		$resource = array(  'language_id' => $this->config->get('storefront_language_id'),
+		    				'name' => array(),
+		    				'title' => '',
+		    				'description' => '',
+		    				'resource_path' => $image_basename,
+		    				'resource_code' => $code );
+
+		foreach ($language_list as $lang) {
+		    $resource['name'][$lang['language_id']] = str_replace('%20',' ',$image_basename);
+		}
+		$resource_id = $rm->addResource($resource);
+		if ($resource_id) {
+		    $rm->mapResource($object_txt_id, $object_id, $resource_id);
+		    return $resource_id; 
+		} else {
+			return null;
+		}
+	}
+
 
 	/**
 	 * @param string $table_name
@@ -1501,7 +1617,7 @@ final class AData {
 	}
 
 	/**
-	 * get page_id and layout_id to be able to delete propper rows from database
+	 * get page_id and layout_id to be able to delete proper rows from database
 	 * @param string $key_param
 	 * @param string $key_value
 	 * @return array

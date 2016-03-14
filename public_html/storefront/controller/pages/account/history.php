@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2015 Belavier Commerce LLC
+  Copyright © 2011-2016 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -85,7 +85,7 @@ class ControllerPagesAccountHistory extends AController {
       		
 			foreach ($results as $result) {
         		$product_total = $this->model_account_order->getTotalOrderProductsByOrderId($result['order_id']);
-				$button = HtmlElementFactory::create( array (  'type' => 'button',
+				$button = $this->html->buildElement( array (  'type' => 'button',
 															   'name' => 'button_edit',
 															   'text'=> $this->language->get('button_view'),
 															   'style' => 'btn-default',
@@ -106,7 +106,7 @@ class ControllerPagesAccountHistory extends AController {
             $this->data['order_url'] = $this->html->getSecureURL('account/invoice');
 			$this->data['orders'] =$orders;
 
-			$this->data['pagination_bootstrap'] = HtmlElementFactory::create( array (
+			$this->data['pagination_bootstrap'] = $this->html->buildElement( array (
 										'type' => 'Pagination',
 										'name' => 'pagination',
 										'text'=> $this->language->get('text_pagination'),
@@ -127,7 +127,7 @@ class ControllerPagesAccountHistory extends AController {
 			$this->view->setTemplate('pages/error/not_found.tpl');
 		}
 
-		$this->data['button_continue'] = HtmlElementFactory::create( array ('type' => 'button',
+		$this->data['button_continue'] = $this->html->buildElement( array ('type' => 'button',
 																		   'name' => 'continue_button',
 																		   'text'=> $this->language->get('button_continue'),
 																		   'style' => 'button'));

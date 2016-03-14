@@ -70,8 +70,7 @@
 	</definition>
 	<definition>
 		<key>error_product</key>
-		<value>
-			<![CDATA[ATTENZIONE: Questa tipologia fiscale non può essere eliminata perchè è attualmente assegnata a %s prodotti!]]></value>
+		<value><![CDATA[ATTENZIONE: Questa tipologia fiscale non può essere eliminata perchè è attualmente assegnata a %s prodotti!]]></value>
 	</definition>
 	<definition>
 		<key>text_tax_all_zones</key>
@@ -88,5 +87,9 @@
 	<definition>
 		<key>text_percent</key>
 		<value><![CDATA[Percenuale]]></value>
+	</definition>
+	<definition>
+		<key>entry_tax_exempt_groups</key>
+		<value><![CDATA[Fiscali Gruppi esenti<br /><span class="help">Selezionare i gruppi di clienti di esentare da tale imposta</span>]]></value>
 	</definition>
 </definitions>

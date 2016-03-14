@@ -368,4 +368,8 @@
 		<key>text_recalc</key>
 		<value><![CDATA[Recalculate]]></value>
 	</definition>
+	<definition>
+		<key>entry_im</key>
+		<value><![CDATA[IM:]]></value>
+	</definition>
 </definitions>

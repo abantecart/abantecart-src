@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2015 Belavier Commerce LLC
+  Copyright © 2011-2016 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -29,18 +29,17 @@ class ControllerBlocksfeatured extends AController {
         //init controller data
         $this->extensions->hk_InitData($this,__FUNCTION__);
 
-      	$this->data['heading_title'] = $this->language->get('heading_title');
+      	$this->data['heading_title'] = $this->language->get('heading_title','blocks_featured');
 		
 		$this->loadModel('catalog/product');
 		$this->loadModel('catalog/review');
 		$this->loadModel('tool/image');
 		
 		$this->data['button_add_to_cart'] = $this->language->get('button_add_to_cart');
-			
 		$this->data['products'] = array();
 		
 		$results = $this->model_catalog_product->getfeaturedProducts($this->config->get('config_featured_limit'));
-		
+		$product_ids = array();
 		foreach($results as $result){
 			$product_ids[] = (int)$result['product_id'];
 		}
@@ -114,7 +113,8 @@ class ControllerBlocksfeatured extends AController {
 				'track_stock' => $track_stock,
 				'in_stock'		=> $in_stock,
 				'no_stock_text' => $no_stock_text,
-				'total_quantity'=> $total_quantity			
+				'total_quantity'=> $total_quantity,
+				'date_added'    => $result['date_added']
 			);
 		}
 

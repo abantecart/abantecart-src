@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2015 Belavier Commerce LLC
+  Copyright © 2011-2016 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -77,11 +77,29 @@ class AResourceManager extends AResource {
 		return array();
 	}
 
+    public function updateResourceType($data) {
+    	if(empty($data) || !has_value($data['type_id'])) {
+    		return null;
+    	}
+		$sql = "UPDATE ".$this->db->table('resource_types')."
+		    	SET type_name='".$this->db->escape($data['type_name'])."',
+		    		default_directory='".$this->db->escape($data['default_directory'])."',
+		    		default_icon='".$this->db->escape($data['default_icon'])."',
+		    		file_types='".$this->db->escape($data['file_types'])."'
+		    	WHERE type_id =  ".(int)$data['type_id'];
+		$this->db->query( $sql );
+
+        $this->cache->delete('resources.*');
+        return true;
+	}
+
+	/* not yet supported */
 	public function addResourceType () {
         $cache_name = 'resources.types';
         $this->cache->delete($cache_name,'',(int)$this->config->get('config_store_id'));
 	}
 
+	/* not yet supported */
     public function deleteResourceType() {
         $cache_name = 'resources.types';
         $this->cache->delete($cache_name,'',(int)$this->config->get('config_store_id'));
@@ -99,6 +117,9 @@ class AResourceManager extends AResource {
 			foreach ($directories as $directory) {
 				$path = $path . '/' . $directory;
 				if (!is_dir(DIR_RESOURCE . $this->type_dir . $path)) {
+					if (!is_dir(DIR_RESOURCE . $this->type_dir)) {
+						@mkdir(DIR_RESOURCE . $this->type_dir, 0777);
+					}
 					@mkdir(DIR_RESOURCE . $this->type_dir . $path, 0777);
 					chmod(DIR_RESOURCE . $this->type_dir . $path, 0777);
 				}
@@ -282,6 +303,27 @@ class AResourceManager extends AResource {
 
         return true;
     }
+	
+	/**
+	 * @param string $object_name
+	 * @param int $object_id
+	 * @param string $type
+	 * @return bool|null
+	 */
+	public function unmapAndDeleteResources($object_name, $object_id, $type='') {
+		if(!$object_name || !$object_id){
+			return null;
+		}
+		if($type) {
+			$this->setType($type);
+		}
+		$delete_ids = array();
+		$resources = $this->getResources($object_name, $object_id);
+		foreach($resources as $resource) {
+			$this->unmapResource($object_name, $object_id, $resource['resource_id']);
+			$this->deleteResource($resource['resource_id']);
+		}
+	}
 
 	/**
 	 * @param array $resource_ids
@@ -342,7 +384,7 @@ class AResourceManager extends AResource {
 	 * @param int $resource_id
 	 * @return null
 	 */
-	public function mapResource (  $object_name, $object_id, $resource_id ) {
+	public function mapResource($object_name, $object_id, $resource_id) {
 
         $resource = $this->getResource($resource_id);
         if ( empty($resource) ) {
@@ -384,7 +426,7 @@ class AResourceManager extends AResource {
 	 * @param int $object_id
 	 * @return bool|null
 	 */
-	public function mapResources (  $resource_ids, $object_name, $object_id ) {
+	public function mapResources($resource_ids, $object_name, $object_id) {
 		if(!$object_name && !(int)$object_id){ return null; }
 		if(!$resource_ids || !is_array($resource_ids)){
 			return null;
@@ -437,7 +479,7 @@ class AResourceManager extends AResource {
 	 * @param int $resource_id
 	 * @return bool
 	 */
-	public function unmapResource (  $object_name, $object_id, $resource_id ) {
+	public function unmapResource($object_name, $object_id, $resource_id) {
 
         $resource = $this->getResource($resource_id);
         if ( empty($resource) ) {
@@ -463,7 +505,7 @@ class AResourceManager extends AResource {
 	 * @param int $object_id
 	 * @return bool|null
 	 */
-	public function unmapResources ( $resource_ids, $object_name, $object_id ) {
+	public function unmapResources($resource_ids, $object_name, $object_id) {
 		if(!$object_name && !(int)$object_id){ return null; }
 		if(!$resource_ids || !is_array($resource_ids)){
 			return null;
@@ -494,7 +536,7 @@ class AResourceManager extends AResource {
 	 * @param int $object_id
 	 * @return bool
 	 */
-	public function updateSortOrder ( $data, $object_name, $object_id ) {
+	public function updateSortOrder($data, $object_name, $object_id) {
 		if(!$data || !is_array($data) ){
 			return false;
 		}
@@ -523,7 +565,7 @@ class AResourceManager extends AResource {
 	 * @param int $language_id
 	 * @return array|null
 	 */
-	public function getResource ( $resource_id, $language_id = 0 ) {
+	public function getResource($resource_id, $language_id = 0) {
         if ( !$resource_id ) {
 			return null;
 	    }

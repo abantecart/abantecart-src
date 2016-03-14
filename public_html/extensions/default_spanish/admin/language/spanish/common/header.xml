@@ -452,4 +452,16 @@
 		<key>text_voice_not_supported</key>
 		<value><![CDATA[Control por voz no es compatible con este navegador. <a href="//www.google.com/chrome" target="_new">Chrome</a> versión 25 o posterior.]]></value>
 	</definition>
+	<definition>
+		<key>text_edit_notifications</key>
+		<value><![CDATA[Editar configuración de notificación]]></value>
+	</definition>
+	<definition>
+		<key>text_settings_im</key>
+		<value><![CDATA[MI]]></value>
+	</definition>
+	<definition>
+		<key>text_rl_manager</key>
+		<value><![CDATA[Administrador de medios]]></value>
+	</definition>
 </definitions>

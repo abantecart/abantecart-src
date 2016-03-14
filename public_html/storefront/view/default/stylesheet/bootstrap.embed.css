@@ -117,6 +117,8 @@ button.abcmodal_close {
 	margin-top: -2px;
 }
 .abcmodal-header-store{
+	font-size: 14px;
+	font-weight: bold;
 	white-space: nowrap;
 	float: left;
 }

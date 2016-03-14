@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2015 Belavier Commerce LLC
+  Copyright © 2011-2016 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -685,11 +685,10 @@ final class ADataset {
 
 	/**
 	 * Function returns rows of dataset table by given search condition
-	 * @param array $condition
+	 * @param array $condition  - array("column_name"=>string, "operator"=>string,"value"=>string )
 	 * @param string $order_by
 	 * @param int $limit
 	 * @param int $offset
-	 * @internal param array $array $condition array("column_name"=>string, "operator"=>string,"value"=>string )
 	 * @return array|bool
 	 */
 	public function searchRows($condition = array(), $order_by = 'row_id:ASC', $limit = 1000, $offset = 0) {
@@ -753,8 +752,7 @@ final class ADataset {
 	}
 
 	/**
-	 * drop dataset with values and columnset
-	 * @internal param int $dataset_id
+	 * Drop dataset with values and columnset
 	 * @return boolean
 	 */
 	public function dropDataset() {

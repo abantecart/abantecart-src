@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2015 Belavier Commerce LLC
+  Copyright © 2011-2016 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -37,7 +37,7 @@ class ControllerPagesCheckoutConfirm extends AController {
 		$pmt_address_rt = 'checkout/address/payment';	
 		$shp_address_rt = 'checkout/address/shipping';				
 		$confirm_rt = 'checkout/confirm';
-		$sucess_rt = 'checkout/success';
+		$success_rt = 'checkout/success';
 		$product_rt = 'product/product';		
 		if($this->config->get('embed_mode') == true){
 			$cart_rt = 'r/checkout/cart/embed';
@@ -94,7 +94,7 @@ class ControllerPagesCheckoutConfirm extends AController {
 		if($order_id===false){
 			// preventing rebuilding order of already processed orders
 			//(by "back" button via browser history from external payment page(paypal, google_checkout etc))
-			$this->redirect($this->html->getSecureURL($sucess_rt));
+			$this->redirect($this->html->getSecureURL($success_rt));
 		}
 		$this->session->data['order_id'] = $order_id;
 

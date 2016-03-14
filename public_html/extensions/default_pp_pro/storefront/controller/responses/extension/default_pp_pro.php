@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2015 Belavier Commerce LLC
+  Copyright © 2011-2016 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   Lincence details is bundled with this package in the file LICENSE.txt.
@@ -258,45 +258,47 @@ class ControllerResponsesExtensionDefaultPPPro extends AController {
         curl_setopt($curl, CURLOPT_POSTFIELDS, http_build_query($payment_data));
 
 		$response = curl_exec($curl);
- 		
-		curl_close($curl);
- 
-		if (!$response) {
-			exit('DoDirectPayment failed: ' . curl_error($curl) . '(' . curl_errno($curl) . ')');
-		}
- 
- 		$response_data = array();
 
-		parse_str($response, $response_data);
 		$json = array();
-		if (($response_data['ACK'] == 'Success') || ($response_data['ACK'] == 'SuccessWithWarning')) {
-			$this->model_checkout_order->confirm($this->session->data['order_id'], $this->config->get('config_order_status_id'));
-			
-			$message = '';
-			
-			if (isset($response_data['AVSCODE'])) {
-				$message .= 'AVSCODE: ' . $response_data['AVSCODE'] . "\n";
+		if (!$response) {
+			$json['error'] = 'Cannot establish a connection to the server';
+			$err = new AError('Paypal Pro Error: DoDirectPayment failed: ' . curl_error($curl) . '(' . curl_errno($curl) . ')');
+			$err->toLog()->toMessages()->toDebug();
+		}else{
+
+			$response_data = array ();
+
+			parse_str($response, $response_data);
+
+			if (($response_data['ACK'] == 'Success') || ($response_data['ACK'] == 'SuccessWithWarning')){
+				$this->model_checkout_order->confirm($this->session->data['order_id'], $this->config->get('config_order_status_id'));
+
+				$message = '';
+
+				if (isset($response_data['AVSCODE'])){
+					$message .= 'AVSCODE: ' . $response_data['AVSCODE'] . "\n";
+				}
+
+				if (isset($response_data['CVV2MATCH'])){
+					$message .= 'CVV2MATCH: ' . $response_data['CVV2MATCH'] . "\n";
+				}
+
+				if (isset($response_data['TRANSACTIONID'])){
+					$message .= 'TRANSACTIONID: ' . $response_data['TRANSACTIONID'] . "\n";
+				}
+
+				$response_data['PAYMENTACTION'] = $payment_type;
+				$response_data['payment_method'] = 'default_pp_pro';
+
+				$this->model_checkout_order->updatePaymentMethodData($this->session->data['order_id'], serialize($response_data));
+				$this->model_checkout_order->update($this->session->data['order_id'], $this->config->get('default_pp_pro_order_status_id'), $message, false);
+
+				$json['success'] = $this->html->getSecureURL('checkout/success');
+			} else{
+				$json['error'] = $response_data['L_LONGMESSAGE0'];
 			}
-
-			if (isset($response_data['CVV2MATCH'])) {
-				$message .= 'CVV2MATCH: ' . $response_data['CVV2MATCH'] . "\n";
-			}
-
-			if (isset($response_data['TRANSACTIONID'])) {
-				$message .= 'TRANSACTIONID: ' . $response_data['TRANSACTIONID'] . "\n";
-			}
-
-			$response_data['PAYMENTACTION'] = $payment_type;
-			$response_data['payment_method'] = 'default_pp_pro';
-
-			$this->model_checkout_order->updatePaymentMethodData($this->session->data['order_id'], serialize($response_data));
-			$this->model_checkout_order->update($this->session->data['order_id'], $this->config->get('default_pp_pro_order_status_id'), $message, FALSE);
-		
-			$json['success'] = $this->html->getSecureURL('checkout/success');
-		} else {
-        	$json['error'] = $response_data['L_LONGMESSAGE0'];
-        }
-
+		}
+		curl_close($curl);
 		$this->load->library('json');
 		$this->response->setOutput(AJson::encode($json));
 	}
@@ -338,6 +340,22 @@ class ControllerResponsesExtensionDefaultPPPro extends AController {
 			$this->data['items_total'] += $price*$product['quantity'];
 		}
 
+		//check for virtual product such as gift certificate
+		$virtual_products = $this->cart->getVirtualProducts();
+
+		if($virtual_products){
+			foreach($virtual_products as $k => $virtual){
+				$this->data['products'][] = array (
+						'name'     => ($virtual['name'] ? $virtual['name'] : 'Virtual Product'),
+						'model'    => '',
+						'price'    => $this->currency->format($virtual['amount'], $order_info['currency'], $order_info['value'], false),
+						'quantity' => ($virtual['quantity'] ? $virtual['quantity'] : 1),
+						'option'   => array(),
+						'weight'   => 0
+				);
+				$this->data['items_total'] += ($virtual['quantity'] ? $virtual['quantity'] : 1) * $this->currency->format($virtual['amount'], $order_info['currency'], $order_info['value'], false);
+			}
+		}
 
 		$this->data['discount_amount_cart'] = 0;
 		$totals = $this->cart->buildTotalDisplay();

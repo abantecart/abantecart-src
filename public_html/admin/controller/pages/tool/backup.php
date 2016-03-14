@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2015 Belavier Commerce LLC
+  Copyright © 2011-2016 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -226,7 +226,7 @@ class ControllerPagesToolBackup extends AController {
 						'value' => 1
 				));
 
-		$this->data['entry_compress_backup'] = sprintf($this->language->get('entry_compress_backup'), str_replace(DIR_ROOT,'',DIR_BACKUP) ,DIR_BACKUP);
+		$this->data['entry_compress_backup'] = sprintf($this->language->get('entry_compress_backup'), str_replace(DIR_ROOT,'',DIR_BACKUP) ,str_replace(DIR_ROOT.'/','',DIR_BACKUP));
 
 		$this->data['form']['build_task_url'] = $this->html->getSecureURL('r/tool/backup/buildTask');
 		$this->data['form']['complete_task_url'] = $this->html->getSecureURL('r/tool/backup/complete');
@@ -257,6 +257,7 @@ class ControllerPagesToolBackup extends AController {
 		$this->data['restoreform']['file'] = $form->getFieldHtml(
 				array('type' => 'file',
 						'name' => 'restore',
+						'attr' => 'accept=".sql, .xml"'
 				));
 		$this->data['restoreform']['submit'] = $form->getFieldHtml(
 				array('type' => 'button',
@@ -278,6 +279,7 @@ class ControllerPagesToolBackup extends AController {
 		$this->data['xmlform']['file'] = $form->getFieldHtml(
 				array('type' => 'file',
 						'name' => 'import',
+                      'attr' => 'accept=".xml"'
 				));
 		$this->data['xmlform']['submit'] = $form->getFieldHtml(
 				array('type' => 'button',
@@ -301,6 +303,16 @@ class ControllerPagesToolBackup extends AController {
 	private function _validate() {
 		if (!$this->user->canModify('tool/backup')) {
 			$this->error['warning'] = $this->language->get('error_permission');
+		}
+
+		foreach($this->request->files as $k=>$file){
+			if($file['size']==0){
+				unset($this->request->files[$k]);
+			}
+		}
+
+		if(!$this->request->post && !$this->request->files){
+			$this->error['warning'] = $this->language->get('error_nothing_to_do');
 		}
 
 		if(has_value($this->request->post['do_backup'])){ // sign of backup form

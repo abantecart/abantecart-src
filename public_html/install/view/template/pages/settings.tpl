@@ -98,11 +98,11 @@ echo $header;
 								<tbody>
 								<tr>
 									<td>MySQL:</td>
-									<td><?php echo extension_loaded('mysql') || extension_loaded('mysqli')
+									<td><?php echo extension_loaded('mysql') || extension_loaded('mysqli') || extension_loaded('pdo_mysql')
 												? 'On'
 												: 'Off'; ?></td>
 									<td>On</td>
-									<td align="center"><?php echo extension_loaded('mysql') || extension_loaded('mysqli') ? $img_good : $img_bad; ?></td>
+									<td align="center"><?php echo extension_loaded('mysql') || extension_loaded('mysqli') || extension_loaded('pdo_mysql') ? $img_good : $img_bad; ?></td>
 								</tr>
 								<tr>
 									<td>GD:</td>

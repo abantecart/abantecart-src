@@ -24,8 +24,7 @@ $settings_order = array(
 );
 
 if (!$this->config->get('default_pp_express_custom_logo')) {
-	$custom_logo = 'resources/' . $this->config->get('config_logo');
-	$this->config->set('default_pp_express_custom_logo', $custom_logo);
+	$this->config->set('default_pp_express_custom_logo', $this->config->get('config_logo'));
 } else {
 	$custom_logo = $this->config->get('default_pp_express_custom_logo');
 }
@@ -84,9 +83,9 @@ echo $tabs;
 	</div>
 
 </div>
-
+<?php  echo $form['form_open']; ?>
 <div class="panel-body panel-body-nopadding tab-content <?php if ( $this->config->get('default_pp_express_test') ) { echo 'status_test'; } ?>">
-	<?php  echo $form['form_open']; ?>
+
 		<label class="h4 heading"><?php echo $this->config->get('default_pp_express_test') ? $text_api_credentials_sandbox : $text_api_credentials; ?></label>
 		<?php foreach ($settings as $name => $field) {
 			if ( !in_array($name, $settings_order['api']) ) {
@@ -172,7 +171,7 @@ echo $tabs;
 
 			<p style="text-align:left;">
                 <span style="font-family:Arial;font-size:13px;font-weight:normal;font-style:normal;text-decoration:none;color:#333333;"
-                    >By selecting PayPal, you also receive Bill Me Later &reg; absolutely FREE. Bill Me Later&reg; enables customers to pay you now and pay us later. Still not sure?</span>
+                    >By selecting PayPal, you also receive PayPal Credit Later &reg; absolutely FREE. PayPal Credit&reg; enables customers to pay you now and pay us later. Still not sure?</span>
 			</p>
 			<div>
                 <p style="text-align:left;">

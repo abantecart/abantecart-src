@@ -8,6 +8,7 @@
 	<div class="contentpanel">
 
 	<section class="mb10">
+	<h4 class="hidden">&nbsp;</h4>
 		<p></p>
 		<p><?php echo $success; ?></p>
 	</section>
@@ -15,7 +16,7 @@
 
 	<div class="form-group">
 		<div class="input-group">
-			<div class="pull-right col-md-2 mt10 mb40">
+			<div class="pull-left">
 				<?php echo $continue;?>
 			</div>
 		</div>

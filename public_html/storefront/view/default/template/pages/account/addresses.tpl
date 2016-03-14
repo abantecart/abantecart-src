@@ -20,6 +20,7 @@
 <div class="contentpanel">
 
 	<h4 class="heading4"><?php echo $text_address_book; ?></h4>
+	<?php echo $this->getHookvar('pre_address');?>
     <?php foreach ($addresses as $result) { ?>
     <div class="genericbox border-bottom">
       <table width="100%">	
@@ -35,12 +36,14 @@
       </table>
     </div>
     <?php } ?>
+	<?php echo $this->getHookvar('post_address');?>
 
 	<div class="col-md-12 col-xs-12 pull-right mt20 mb20">
 		<a href="<?php echo $back; ?>" class="btn btn-default mr10" title="<?php echo $button_back->text ?>">
 		    <i class="<?php echo $button_back->{'icon'}; ?>"></i>
 		    <?php echo $button_back->text ?>
 		</a>
+		<?php echo $this->getHookvar('address_buttons');?>
 		<a href="<?php echo $insert;  ?>" class="btn btn-orange pull-right" title="<?php echo $button_insert->text ?>">
 		    <i class="<?php echo $button_insert->{'icon'}; ?>"></i>
 		    <?php echo $button_insert->text ?>

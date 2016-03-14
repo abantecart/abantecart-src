@@ -116,4 +116,28 @@
 		<key>text_select_group</key>
 		<value><![CDATA[- Seleziona gruppo -]]></value>
 	</definition>
+	<definition>
+		<key>entry_ims</key>
+		<value><![CDATA[Notificazione]]></value>
+	</definition>
+	<definition>
+		<key>entry_im_email</key>
+		<value><![CDATA[E-Mail:<span class="help">Uno o più indirizzi e-mail separati da virgola</span>]]></value>
+	</definition>
+	<definition>
+		<key>entry_im_sms</key>
+		<value><![CDATA[Cellulare:<span class="help">Numero di telefono in formato internazionale. esempio. +14566887777</span>]]></value>
+	</definition>
+	<definition>
+		<key>text_edit_im</key>
+		<value><![CDATA[Modifica Notifiche]]></value>
+	</definition>
+	<definition>
+		<key>text_sendpoints</key>
+		<value><![CDATA[SendPoints]]></value>
+	</definition>
+	<definition>
+		<key>text_change_im_addresses</key>
+		<value><![CDATA[Modifica di notifica Indirizzi per questo SendPoint]]></value>
+	</definition>
 </definitions>

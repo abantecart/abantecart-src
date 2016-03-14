@@ -19,11 +19,11 @@
 	    </button>
 	  	<div class="dropdown-menu dropdown-menu-sm pull-right switcher">
 	  		<h5 class="title"><?php echo $cur_lang['name']; ?></h5>
-			<form method="get" id="content_language_form">
+			<form method="get" class="content_language_form">
 	    		<ul class="dropdown-list dropdown-list-sm">
 	    			<?php foreach ($languages as $language) { ?>
 	    				<li>
-	    					<a onClick="$('input[name=\'content_language_code\']').attr('value', '<?php echo $language['code']; ?>'); $('#content_language_form').submit();">
+	    					<a onClick="selectLangauge(event, '<?php echo $language['code']; ?>');">
 	    						<?php if ($language['image']) { ?>
 	    							<img src="<?php echo $language['image']; ?>"
 	    								 title="<?php echo $language['name']; ?>"/>
@@ -44,3 +44,14 @@
 	    </div>
 	</div>
 <?php } ?>
+<script type="text/javascript">
+if(typeof selectLangauge != 'function'){
+    function selectLangauge(event, lang_code) {
+    	var $form = $(event.target).closest('form');
+    	$form.find("input[name='content_language_code']").attr('value', lang_code);
+    	$form.submit();
+    	$form.closest('.content_language').removeClass('open');
+    	return false;	
+    }
+}		
+</script>

@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2015 Belavier Commerce LLC
+  Copyright © 2011-2016 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -129,8 +129,32 @@ class ControllerResponsesSettingSettingQuickForm extends AController {
 
         $this->data['form']['fields'] = $conf_mngr->getFormField($this->data['setting_key'], $form, $data,$this->data['store_id'], $this->data['group']);
 
-		$this->data['form_store_switch'] = $this->html->getStoreSwitcher();
+		//replace wyswyg text editor to textarea inside modal-mode!
+		foreach($this->data['form']['fields'] as &$field){
 
+			if($field->type != 'texteditor'){
+				continue;
+			}
+
+			$ext_url = $this->html->getSecureURL('setting/setting', '&active='.$this->data['group']).'#'.$field->element_id;
+			$label_text = sprintf($this->language->get('text_texteditor_extended_mode'), $ext_url);
+
+			$field = $form->getFieldHtml(
+					array(
+						'type' => 'textarea',
+						'name' => $field->name,
+						'value' => $field->value,
+						'ovalue' => $field->ovalue,
+						'style' => $field->style,
+						'attr' => $field->attr,
+						'required' => $field->required,
+						'placeholder' => $field->placeholder,
+						'label_text' => $label_text
+					)
+			);
+		}
+
+		$this->data['form_store_switch'] = $this->html->getStoreSwitcher();
 	    $this->data['template_image'] = $this->html->getSecureURL('setting/template_image');
 
         $this->data['form_title'] = $this->language->get('tab_'.$this->data['group']);
@@ -312,10 +336,11 @@ class ControllerResponsesSettingSettingQuickForm extends AController {
 				//get current template
 				$tsettings = $this->model_setting_setting->getSetting('appearance', $this->data['store_id']);
 				$this->data['current_tmpl_id'] = $tsettings['config_storefront_template'];
-				//extract settings for template or default
-				unset($tsettings);		
+				unset($tsettings);
 
+				//extract settings for template or default
 				$data = $this->model_setting_setting->getSetting($this->data['current_tmpl_id'], $this->data['store_id']);
+				
 				//need to set template to be edited	
 				$data['tmpl_id'] = $this->data['current_tmpl_id'];
 			} else {
@@ -360,13 +385,13 @@ class ControllerResponsesSettingSettingQuickForm extends AController {
 		$this->processTemplate('responses/setting/quick_start.tpl');
 	}
 
-	private function _getQuickStartForm($section, $settigs_data) {
-		if ($settigs_data['tmpl_id']) {
+	private function _getQuickStartForm($section, $settings_data) {
+		if ($settings_data['tmpl_id']) {
 			//template settings
 			$this->data['action'] = $this->html->getSecureURL('setting/setting_quick_form/quick_start_save_next',
-				'&active='.$section.'&store_id='.$this->data['store_id'].'&tmpl_id='.$settigs_data['tmpl_id']);
+				'&active='.$section.'&store_id='.$this->data['store_id'].'&tmpl_id='.$settings_data['tmpl_id']);
 			$this->data['update'] = $this->html->getSecureURL('listing_grid/setting/update_field',
-				'&group='.$settigs_data['tmpl_id'].'&store_id='.$this->data['store_id'].'&tmpl_id='.$settigs_data['tmpl_id']);
+				'&group='.$settings_data['tmpl_id'].'&store_id='.$this->data['store_id'].'&tmpl_id='.$settings_data['tmpl_id']);
 		} else {
 			$this->data['action'] = $this->html->getSecureURL('setting/setting_quick_form/quick_start_save_next',
 				'&active='.$section.'&store_id='.$this->data['store_id']);
@@ -404,9 +429,30 @@ class ControllerResponsesSettingSettingQuickForm extends AController {
 		$this->data['form']['fields'] = array();
         require_once(DIR_CORE . 'lib/config_manager.php');
         $conf_mngr = new AConfigManager();
-		$set_fields =  $conf_mngr->getFormFields($section, $form, $settigs_data);
-        foreach ($this->data['qs_fields'][$section] as $field) {
-       		$this->data['form']['fields'][$field] = $set_fields[$field];
+		$set_fields =  $conf_mngr->getFormFields($section, $form, $settings_data);
+        foreach ($this->data['qs_fields'][$section] as $field_name) {
+
+			$field = $set_fields[$field_name];
+
+			//replace wyswyg text editor to textarea inside modal-mode!
+			if($field->type == 'texteditor'){
+				$ext_url = $this->html->getSecureURL('setting/setting', '&active=' . $section).'#'.$field->element_id;
+				$label_text = sprintf($this->language->get('text_texteditor_extended_mode'), $ext_url);
+				$field = $form->getFieldHtml(
+						array (
+								'type'        => 'textarea',
+								'name'        => $field->name,
+								'value'       => $field->value,
+								'ovalue'      => $field->ovalue,
+								'style'       => $field->style,
+								'attr'        => $field->attr,
+								'required'    => $field->required,
+								'placeholder' => $field->placeholder,
+								'label_text'  => $label_text
+						)
+				);
+			}
+	        $this->data['form']['fields'][$field_name] = $field;
 		}
 		unset($set_fields);
 		

@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2015 Belavier Commerce LLC
+  Copyright © 2011-2016 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -49,8 +49,15 @@ class ModelSaleCustomer extends Model {
       	                    approved = '" . (int)$data['approved'] . "'"
       	                    .$key_sql . ",
       	                    date_added = NOW()");
-      	
-      	return $this->db->getLastId();
+		$customer_id = $this->db->getLastId();
+
+		//enable notification setting for newsletter via email
+		if($data['newsletter']){
+			$this->saveCustomerNotificationSettings($customer_id, array('newsletter'=>array('email'=>1)));
+		}
+
+		$this->editCustomerNotifications($customer_id, $data);
+      	return $customer_id;
 	}
 
 	/**
@@ -92,6 +99,7 @@ class ModelSaleCustomer extends Model {
 	public function editCustomer($customer_id, $data) {
 		//encrypt address data
 		$key_sql = '';
+		$this->editCustomerNotifications($customer_id, $data);
 		if ( $this->dcrypt->active ) {
 			$data = $this->dcrypt->encrypt_data($data, 'customers');
 			$key_sql = ", key_id = '" . (int)$data['key_id'] . "'";
@@ -116,6 +124,10 @@ class ModelSaleCustomer extends Model {
         	                  WHERE customer_id = '" . (int)$customer_id . "'");
       	}
 
+		if(isset($data['newsletter'])){
+			//enable notification setting for newsletter via email
+			$this->saveCustomerNotificationSettings($customer_id, array('newsletter'=>array('email'=>(int)$data['newsletter'])));
+		}
 	}
 
 	/**
@@ -169,21 +181,46 @@ class ModelSaleCustomer extends Model {
 	 * @param int $customer_id
 	 * @param string $field
 	 * @param mixed $value
+	 * @return bool
 	 */
 	public function editCustomerField($customer_id, $field, $value) {
+		if(!$customer_id || !$field){
+			return false;
+		}
 
-		$data = array('loginname', 'firstname', 'lastname', 'email', 'telephone', 'fax', 'newsletter', 'customer_group_id', 'status', 'approved' );
+		$data = array(
+				'loginname',
+				'firstname',
+				'lastname',
+				'email',
+				'telephone',
+				'fax',
+				'newsletter',
+				'customer_group_id',
+				'status',
+				'approved' );
+
+		//adds IM fields
+		//get only active IM drivers
+		$im_protocols = $this->im->getProtocols();
+		foreach ($im_protocols as $protocol){
+			if(!in_array($protocol, $data)){
+				$data[] = $protocol;
+			}
+		}
+
 		if ( in_array($field, $data) )
-
 			if ( $this->dcrypt->active && in_array($field, $this->dcrypt->getEcryptedFields("customers")) ) {
 				//check key_id to use 
-				$query_key = $this->db->query("select key_id from " . $this->db->table("customers") . "
-							  WHERE customer_id = '" . (int)$customer_id . "'");
+				$query_key = $this->db->query(
+									"SELECT key_id
+									 FROM " . $this->db->table("customers") . "
+							         WHERE customer_id = '" . (int)$customer_id . "'");
 				$key_id = $query_key->rows[0]['key_id'];		
 				$value = $this->dcrypt->encrypt_field($value, $key_id);
 			}
 			$this->db->query("UPDATE " . $this->db->table("customers") . "
-							  SET $field = '" . $this->db->escape($value) . "'
+							  SET ".$field." = '" . $this->db->escape($value) . "'
 							  WHERE customer_id = '" . (int)$customer_id . "'");
 
       	if ($field == 'password') {
@@ -191,6 +228,99 @@ class ModelSaleCustomer extends Model {
         	                  SET password = '" . $this->db->escape(AEncryption::getHash($value)) . "'
         	                  WHERE customer_id = '" . (int)$customer_id . "'");
       	}
+		if($field == 'newsletter'){
+			$this->saveCustomerNotificationSettings($customer_id, array('newsletter'=>array('email'=>(int)$value)));
+		}
+		return true;
+	}
+
+	public function editCustomerNotifications($customer_id, $data){
+		if(!$data || !$customer_id){
+			return false;
+		}
+
+		//get only active IM drivers
+		$im_protocols = $this->im->getProtocols();
+		foreach ($im_protocols as $protocol){
+			if(isset($data[$protocol])){
+				$upd[$protocol] = "`".$this->db->escape($protocol)."` = '".$this->db->escape($data[$protocol])."'";
+			}
+		}
+
+		//get all columns
+		$sql = "SELECT COLUMN_NAME
+				FROM INFORMATION_SCHEMA.COLUMNS
+				WHERE TABLE_SCHEMA = '".DB_DATABASE."' AND TABLE_NAME = '" . $this->db->table("customers") . "'";
+		$result = $this->db->query($sql);
+		$columns = array();
+		foreach($result->rows as $row){
+			$columns[] = $row['COLUMN_NAME'];
+		}
+
+		//remove not IM data
+		$diff = array_diff($im_protocols,$columns);
+		foreach($diff as $k){
+			unset($data[$k]);
+		}
+
+
+		$key_sql = '';
+		if ( $this->dcrypt->active ) {
+			$data = $this->dcrypt->encrypt_data($data, 'customers');
+			$key_sql = ", key_id = '" . (int)$data['key_id'] . "'";
+		}
+
+		$sql = "UPDATE ".$this->db->table('customers')."
+				SET ".implode(', ',$upd)."\n"
+				. $key_sql .
+				" WHERE customer_id = '" . (int)$customer_id . "'";
+		$this->db->query($sql);
+		return true;
+	}
+
+
+	public function saveCustomerNotificationSettings($customer_id, $settings=array()){
+
+		if(!$customer_id){
+			return null;
+		}
+
+		$sendpoints = array_keys($this->im->sendpoints);
+		$im_protocols = $this->im->getProtocols();
+
+		$update = array();
+		foreach($settings as $sendpoint=>$row){
+			if(!in_array($sendpoint, $sendpoints)){
+				continue;
+			}
+			foreach($im_protocols as $protocol){
+				$update[$sendpoint][$protocol] = (int)$settings[$sendpoint][$protocol];
+			}
+		}
+
+		if($update){
+			foreach($update as $sendpoint=>$row){
+				foreach($row as $protocol=>$status){
+
+					$sql = "DELETE FROM ".$this->db->table('customer_notifications')."
+							WHERE customer_id = ".$customer_id."
+								AND sendpoint = '" . $this->db->escape($sendpoint) . "'
+								AND protocol = '" . $this->db->escape($protocol) . "'";
+					$this->db->query($sql);
+
+					$sql = "INSERT INTO " . $this->db->table('customer_notifications') . "
+							(customer_id, sendpoint,protocol,status, date_added)
+						VALUES
+						('" . $customer_id . "',
+						'" . $this->db->escape($sendpoint) . "',
+						'" . $this->db->escape($protocol) . "',
+						'" . (int)$status . "',
+						NOW());";
+					$this->db->query($sql);
+				}
+			}
+		}
+		return true;
 	}
 
 	/**
@@ -294,6 +424,7 @@ class ModelSaleCustomer extends Model {
 	public function deleteCustomer($customer_id) {
 		$this->db->query("DELETE FROM " . $this->db->table("customers") . " WHERE customer_id = '" . (int)$customer_id . "'");
 		$this->db->query("DELETE FROM " . $this->db->table("addresses") . " WHERE customer_id = '" . (int)$customer_id . "'");
+		$this->db->query("DELETE FROM " . $this->db->table("customer_notifications") . " WHERE customer_id = '" . (int)$customer_id . "'");
 	}
 
 	/**
@@ -336,6 +467,7 @@ class ModelSaleCustomer extends Model {
   				c.lastname,
   				c.loginname,
   				c.email,
+  				c.sms,
   				c.status,
   				c.approved,
   				c.customer_group_id,
@@ -343,8 +475,10 @@ class ModelSaleCustomer extends Model {
 				cg.name AS customer_group
 				";
 		}
-		if ( $mode != 'total_only'){
-			$sql .= ", COUNT(o.order_id) as orders_count  ";
+		if ( $mode != 'total_only' && $mode != 'quick'){
+			$sql .= ", (SELECT COUNT(o.order_id) as cnt
+						FROM " . $this->db->table("orders") . " o
+						WHERE c.customer_id = o.customer_id AND o.order_status_id>0) as orders_count";
 		}
 
 		if ( $this->dcrypt->active ) {
@@ -352,10 +486,7 @@ class ModelSaleCustomer extends Model {
 		}
 
 		$sql .= " FROM " . $this->db->table("customers") . " c
-				LEFT JOIN " . $this->db->table("customer_groups") . " cg ON (c.customer_group_id = cg.customer_group_id) ";
-		if ( $mode != 'total_only'){
-			$sql .= " LEFT JOIN " . $this->db->table("orders") . " o ON (c.customer_id = o.customer_id AND o.order_status_id>0) ";
-		}
+					LEFT JOIN " . $this->db->table("customer_groups") . " cg ON (c.customer_group_id = cg.customer_group_id) ";
 
 		$implode = array();
 		$filter = (isset($data['filter']) ? $data['filter'] : array());
@@ -385,6 +516,9 @@ class ModelSaleCustomer extends Model {
 			if (has_value($filter['telephone'])) {
 				$implode[] = "c.telephone LIKE '%" . $this->db->escape($filter['telephone']) . "%' collate utf8_general_ci";
 			}
+			if (has_value($filter['sms'])) {
+				$implode[] = "c.sms LIKE '%" . $this->db->escape($filter['sms']) . "%' collate utf8_general_ci";
+			}
 		}
 		
 		if (has_value($filter['customer_group_id'])) {
@@ -400,7 +534,11 @@ class ModelSaleCustomer extends Model {
 		if (has_value($filter['only_customers'])) {
 			$implode[] = "cg.customer_group_id NOT IN (".(int)$this->getSubscribersCustomerGroupId().") ";
 		}
-		
+
+		if (has_value($filter['only_with_mobile_phones'])) {
+			$implode[] = " TRIM(COALESCE(c.sms,''))  <> '' ";
+		}
+
 		if (has_value($filter['status'])) {
 			$implode[] = "c.status = '" . (int)$filter['status'] . "'";
 		}	
@@ -412,8 +550,29 @@ class ModelSaleCustomer extends Model {
 		if (has_value($filter['date_added'])) {
 			$implode[] = "DATE(c.date_added) = DATE('" . $this->db->escape($filter['date_added']) . "')";
 		}
+
+		$store_id = null;
 		if( has_value($this->session->data['current_store_id']) ) {
-			$implode[] =  "c.store_id = " . (int)$this->session->data['current_store_id'];
+			$store_id = (int)$this->session->data['current_store_id'];
+		}
+
+		$this->load->model('setting/store');
+		if( !$store_id && !$this->model_setting_store->isDefaultStore() ) {
+			$store_id = $this->config->get('config_store_id');
+		}
+
+		if( $store_id!==null ) {
+			$implode[] =  "c.store_id = " . (int)$store_id;
+		}
+
+		if(($filter['all_subscribers'] || $filter['only_subscribers'])
+				&& $filter['newsletter_protocol']){
+			$sql .= "RIGHT JOIN ".$this->db->table('customer_notifications')." cn
+					ON (cn.customer_id = c.customer_id
+						AND cn.sendpoint='newsletter'
+						AND cn.status=1
+						AND cn.protocol = '".$this->db->escape($filter['newsletter_protocol'])."') ";
+
 		}
 		
 		if ($implode) {
@@ -431,6 +590,7 @@ class ModelSaleCustomer extends Model {
 				'loginname'         => 'c.loginname',
 				'lastname'          => 'c.lastname',
 				'email'             => 'c.email',
+				'sms'               => 'c.sms',
 				'customer_group'    => 'customer_group',
 				'status'            => 'c.status',
 				'approved'          => 'c.approved',
@@ -438,9 +598,6 @@ class ModelSaleCustomer extends Model {
 				'orders_count'      => 'orders_count'
 		);	
 
-		if ( $mode != 'total_only'){
-			$sql .= " GROUP BY c.customer_id ";
-		}
 
 		//Total culculation for encrypted mode 
 		// NOTE: Performance slowdown might be noticed or larger search results	
@@ -475,7 +632,10 @@ class ModelSaleCustomer extends Model {
 			}
 			if (has_value($filter['telephone'])) {
 				$result_rows = $this->_filter_by_encrypted_field($result_rows, 'telephone', $filter['telephone']);
-			}			
+			}
+			if (has_value($filter['sms'])) {
+				$result_rows = $this->_filter_by_encrypted_field($result_rows, 'sms', $filter['sms']);
+			}
 		}		
 
 		if ($mode == 'total_only') {
@@ -610,20 +770,25 @@ class ModelSaleCustomer extends Model {
 	 * @return array
 	 */
 	public function getCustomersByProduct($product_id) {
-		if ($product_id) {
-			$query = $this->db->query("SELECT DISTINCT `email`
-										FROM `" . $this->db->table("orders") . "` o
-										LEFT JOIN " . $this->db->table("order_products") . " op ON (o.order_id = op.order_id)
-										WHERE op.product_id = '" . (int)$product_id . "' AND o.order_status_id <> '0'");
-	
-			$result_rows = array();
-			foreach ($query->rows as $row) {
-				$result_rows[] = $this->dcrypt->decrypt_data($row, 'orders');	
-			}		
-			return $result_rows;
-		} else {
-			return array();	
+		if (!$product_id){
+			return array ();
 		}
+
+		$query = $this->db->query("SELECT *
+									FROM " . $this->db->table("customers") . "
+									WHERE customer_id IN (
+										SELECT DISTINCT `customer_id`
+										FROM `" . $this->db->table("orders") . "` o
+										INNER JOIN " . $this->db->table("order_products") . " op
+											ON (o.order_id = op.order_id AND op.product_id = '" . (int)$product_id . "')
+										WHERE o.order_status_id <> '0')");
+
+		$result_rows = array();
+		foreach ($query->rows as $row) {
+			$result_rows[] = $this->dcrypt->decrypt_data($row, 'customers');
+		}
+		return $result_rows;
+
 	}
 
 	/**
@@ -734,6 +899,14 @@ class ModelSaleCustomer extends Model {
 		$data['filter']['all_subscribers'] = 1;
 		return $this->getCustomers($data, $mode);
 	}
+	/**
+	 * @param array $data
+	 * @return array|int
+	 */
+	public function getTotalAllSubscribers($data=array()){
+		$data['filter']['all_subscribers'] = 1;
+		return $this->getCustomers($data, 'total_only');
+	}
 
 	/**
 	 * @param array $data
@@ -742,7 +915,17 @@ class ModelSaleCustomer extends Model {
 	 */
 	public function getOnlyNewsletterSubscribers($data=array(), $mode = 'default'){
 		$data['filter']['customer_group_id'] = $this->getSubscribersCustomerGroupId();
+		$data['filter']['only_subscribers'] = 1;
 		return $this->getCustomers($data, $mode);
+	}
+	/**
+	 * @param array $data
+	 * @return int
+	 */
+	public function getTotalOnlyNewsletterSubscribers($data=array()){
+		$data['filter']['customer_group_id'] = $this->getSubscribersCustomerGroupId();
+		$data['filter']['only_subscribers'] = 1;
+		return $this->getCustomers($data, 'total_only');
 	}
 
 	/**
@@ -753,6 +936,14 @@ class ModelSaleCustomer extends Model {
 	public function getOnlyCustomers($data=array(), $mode = 'default'){
 		$data['filter']['only_customers'] = 1;
 		return $this->getCustomers($data, $mode);
+	}
+	/**
+	 * @param array $data
+	 * @return int
+	 */
+	public function getTotalOnlyCustomers($data=array()){
+		$data['filter']['only_customers'] = 1;
+		return $this->getCustomers($data, 'total_only');
 	}
 
 	/**

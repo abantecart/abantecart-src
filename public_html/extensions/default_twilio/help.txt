@@ -1,0 +1,19 @@
+<b><a target="_new" href="http://www.twilio.com">Twilio</a> SMS Configuration</b>
+<br/><br/>
+
+With Twilio SMS service you can enable AbanteCart to send SMS notifications to administrators and customers.
+SMS can be sent to admin in event of new orders, low stock and some other events. Storefront customers can get SMS with order updates, specials and other events.<br>
+Notifications are managed in admin profile or in customer profile
+
+<br/><br/>
+
+1. To use this extension, you need to have active Twilio account. <br/>
+If you do not have Twilio account, please follow <a href="https://www.twilio.com/user/account" target="_blank">this link</a> to create an account <br/><br/>
+2. Fill in required fields (AccountSID/AuthToken ) with information provided by Twilio. To get API credentials visit <a href="https://www.twilio.com/user/account/settings" target="_blank">Twillio account settings</a> page.
+<br/><br/>
+3. Select Twilio as SMS provider in System -> Settings -> IM.<br/><br/>
+
+Now Twilio can be used in admin and storefront to send SMS notifications.  
+<br/><br/>
+
+<a target="_new" href="http://www.twilio.com">Access Twilio</a>

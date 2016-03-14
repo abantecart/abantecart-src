@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2015 Belavier Commerce LLC
+  Copyright © 2011-2016 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -371,6 +371,12 @@ class ModelToolGlobalSearch extends Model {
 		// two variants of needles for search: with and without html-entities
 		$needle = $this->db->escape(mb_strtolower(htmlentities($keyword, ENT_QUOTES)));
 		$needle2 = $this->db->escape(mb_strtolower($keyword));
+		if(is_int(strpos($needle,' '))){
+			$needle3 = str_replace(' ','_', $needle);
+		}else{
+			$needle3 = '';
+		}
+
 
 		if (isset($this->request->get ['page'])) {
 			$offset = (( int )$this->request->get ['page'] - 1) * ( int )$this->request->get ['rows'];
@@ -398,10 +404,14 @@ class ModelToolGlobalSearch extends Model {
 			case 'product_categories' :
 				$sql = "SELECT c.category_id, c.name as title, c.name as text, c.meta_keywords as text2, c.meta_description as text3, c.description as text4
 						FROM " . $this->db->table("category_descriptions") . " c 
-						WHERE (LOWER(c.name) like '%" . $needle . "%' OR LOWER(c.meta_keywords) like '%" . $needle . "%' 
-								OR LOWER(c.meta_description) like '%" . $needle . "%'	OR LOWER(c.description) like '%" . $needle . "%'
-							   OR LOWER(c.name) like '%" . $needle2 . "%' OR LOWER(c.meta_keywords) like '%" . $needle2 . "%'
-								OR LOWER(c.meta_description) like '%" . $needle2 . "%'	OR LOWER(c.description) like '%" . $needle2 . "%'
+						WHERE (LOWER(c.name) like '%" . $needle . "%'
+								OR LOWER(c.meta_keywords) like '%" . $needle . "%'
+								OR LOWER(c.meta_description) like '%" . $needle . "%'
+								OR LOWER(c.description) like '%" . $needle . "%'
+								OR LOWER(c.name) like '%" . $needle2 . "%'
+								OR LOWER(c.meta_keywords) like '%" . $needle2 . "%'
+								OR LOWER(c.meta_description) like '%" . $needle2 . "%'
+								OR LOWER(c.description) like '%" . $needle2 . "%'
 								)
 						AND c.language_id IN (" . (implode(",", $search_languages)) . ")
 						LIMIT " . $offset . "," . $rows_count;
@@ -414,7 +424,9 @@ class ModelToolGlobalSearch extends Model {
 						FROM " . $this->db->table("language_definitions") . " l						
 						WHERE (LOWER(l.language_value) like '%" . $needle . "%'
 									OR LOWER(l.language_value) like '%" . $needle2 . "%'
-									OR LOWER(l.language_key) like '%" . $needle . "%' )
+									OR LOWER(l.language_key) like '%" . $needle . "%'
+									OR LOWER(l.language_key) like '%" . str_replace(' ','_',$needle) . "%'
+									)
 							AND l.language_id IN (" . (implode(",", $search_languages)) . ")
 						LIMIT " . $offset . "," . $rows_count;
 
@@ -589,6 +601,7 @@ class ModelToolGlobalSearch extends Model {
 				break;
 
 			case "settings" :
+
 				$sql = "SELECT setting_id,
 								CONCAT(`group`,'-',s.`key`,'-',s.store_id) as active,
 								s.store_id,
@@ -601,7 +614,10 @@ class ModelToolGlobalSearch extends Model {
 										ON l.language_key like CONCAT(s.`key`,'%')
 						WHERE (LOWER(`value`) like '%" . $needle . "%'
 								OR LOWER(`value`) like '%" . $needle2 . "%'
-								OR LOWER(s.`key`) like '%" . $needle . "%')
+								OR LOWER(s.`key`) like '%" . $needle . "%'
+								OR LOWER(s.`key`) like '%" . str_replace(' ','_',$needle) . "%'
+								OR LOWER(`value`) like '%" . str_replace(' ','_',$needle) . "%'
+								) AND s.`key` NOT IN ('encryption_key')
 							AND s.`store_id` ='".( int )$current_store_id."'
 						UNION
 						SELECT s.setting_id,
@@ -613,7 +629,10 @@ class ModelToolGlobalSearch extends Model {
 						LEFT JOIN " . $this->db->table("settings") . " s ON l.language_key = CONCAT('entry_',REPLACE(s.`key`,'config_',''))
 						WHERE (LOWER(l.language_value) like '%" . $needle . "%'
 								OR LOWER(l.language_value) like '%" . $needle . "%'
-								OR LOWER(l.language_key) like '%" . $needle . "%' )
+								OR LOWER(l.language_key) like '%" . $needle . "%'
+								OR LOWER(l.language_key) like '%" . str_replace(' ','_',$needle) . "%'
+								OR LOWER(l.language_value) like '%" . str_replace(' ','_',$needle) . "%'
+								)
 							AND block='setting_setting' AND l.language_id ='".( int )$this->config->get('storefront_language_id')."'
 							AND s.`store_id` ='".( int )$current_store_id."'
 							AND setting_id>0
@@ -645,7 +664,8 @@ class ModelToolGlobalSearch extends Model {
 			case "extensions" :
 				$sql = "SELECT DISTINCT `key` as extension, `key` as title, `key` as text
 						FROM " . $this->db->table("extensions") . " e						
-						WHERE LOWER(`key`) like '%" . $needle . "%' AND `type` <> 'total'
+						WHERE ( LOWER(`key`) like '%" . $needle . "%'
+								OR LOWER(`key`) like '%" . str_replace(' ','_',$needle) . "%'	) AND `type` <> 'total'
 						LIMIT " . $offset . "," . $rows_count;
 
 				$result = $this->db->query($sql);
@@ -657,7 +677,9 @@ class ModelToolGlobalSearch extends Model {
 						FROM " . $this->db->table("downloads") . " d
 						LEFT JOIN " . $this->db->table("download_descriptions") . " dd
 							ON (d.download_id = dd.download_id AND dd.language_id IN (" . (implode(",", $search_languages)) . "))
-						WHERE ( LOWER(dd.name) like '%" . $needle . "%' OR LOWER(dd.name) like '%" . $needle2 . "%' )
+						WHERE ( LOWER(dd.name) like '%" . $needle . "%'
+								OR LOWER(dd.name) like '%" . $needle2 . "%'
+								OR LOWER(dd.name) like '%" . str_replace(' ','_',$needle) . "%' )
 						LIMIT " . $offset . "," . $rows_count;
 				$result = $this->db->query($sql);
 				$result = $result->rows;

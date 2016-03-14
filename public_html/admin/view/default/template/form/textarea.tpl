@@ -23,4 +23,8 @@
 	<span class="help_element"><a href="<?php echo $help_url; ?>" target="new"><i class="fa fa-question-circle fa-lg"></i></a></span>
 	<?php } ?>	
 	</span>
-<?php } ?>
+<?php }
+
+if($label_text){
+	echo $label_text;
+} ?>

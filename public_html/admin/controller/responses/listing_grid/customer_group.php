@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2015 Belavier Commerce LLC
+  Copyright © 2011-2016 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -32,7 +32,7 @@ class ControllerResponsesListingGridCustomerGroup extends AController {
 		$this->loadModel('sale/customer_group');
 
 		//Prepare filter config
-		$grid_filter_params = array( 'name' );
+		$grid_filter_params = array( 'name', 'tax_exempt' );
 		$filter = new AFilter(array( 'method' => 'post', 'grid_filter_params' => $grid_filter_params ));
 
 		$total = $this->model_sale_customer_group->getTotalCustomerGroups($filter->getFilterData());
@@ -43,12 +43,18 @@ class ControllerResponsesListingGridCustomerGroup extends AController {
 		$response->records = $total;
 		$results = $this->model_sale_customer_group->getCustomerGroups($filter->getFilterData());
 
-		$i = 0;
+		$i = 0;		
+		$yesno = array(
+			1 => $this->language->get('text_yes'),
+			0 => $this->language->get('text_no'),
+		);
+		
 		foreach ($results as $result) {
 
-			$response->rows[ $i ][ 'id' ] = $result[ 'customer_group_id' ];
-			$response->rows[ $i ][ 'cell' ] = array(
-				$result[ 'name' ] . (($result[ 'customer_group_id' ] == $this->config->get('config_customer_group_id')) ? $this->language->get('text_default') : NULL),
+			$response->rows[ $i ]['id'] = $result['customer_group_id'];
+			$response->rows[ $i ]['cell'] = array(
+				$result['name'] . (($result['customer_group_id'] == $this->config->get('config_customer_group_id')) ? $this->language->get('text_default') : NULL),
+				$yesno[(int)$result['tax_exempt']] 
 			);
 			$i++;
 		}
@@ -78,9 +84,9 @@ class ControllerResponsesListingGridCustomerGroup extends AController {
 		$this->loadModel('setting/store');
 		$this->loadModel('sale/customer');
 
-		switch ($this->request->post[ 'oper' ]) {
+		switch ($this->request->post['oper']) {
 			case 'del':
-				$ids = explode(',', $this->request->post[ 'id' ]);
+				$ids = explode(',', $this->request->post['id']);
 				if (!empty($ids))
 					foreach ($ids as $id) {
 
@@ -137,8 +143,8 @@ class ControllerResponsesListingGridCustomerGroup extends AController {
 		$this->loadLanguage('sale/customer_group');
 		$this->loadModel('sale/customer_group');
 
-		if (isset($this->request->get[ 'id' ])) {
-			$this->model_sale_customer_group->editCustomerGroup($this->request->get[ 'id' ], $this->request->post);
+		if (isset($this->request->get['id'])) {
+			$this->model_sale_customer_group->editCustomerGroup($this->request->get['id'], $this->request->post);
 		}
 
 		//update controller data

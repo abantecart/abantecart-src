@@ -84,10 +84,5 @@ $(document).ready(function () {
 		});
 	});
 
-	if (document.getElementById('productFrm_product_descriptiondescription')) {
-		var ck = wrapCKEditor('productFrm_product_descriptiondescription');
-		addRL2CKE(ck);
-	}
-
 });
 //--></script>

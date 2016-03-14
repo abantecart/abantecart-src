@@ -1,6 +1,7 @@
-<ul class="thumbnails list-inline">
+<div class="thumbnails list-inline">
 	<?php
 	if ($products) {
+		$icount = 0;
 		foreach ($products as $product) {
 			$item = array();
 			$item['image'] = $product['thumb']['thumb_html'];
@@ -20,8 +21,15 @@
 				$review = $item['rating'];
 			}
 
+			if($icount == 4) {
+				$icount = 0;
 			?>
-			<li class="col-md-3 col-sm-6 col-xs-12">
+				<div class="clearfix"></div>
+			<?php
+			}
+			$icount++;
+			?>
+			<div class="col-md-3 col-sm-6 col-xs-12">
 				<div class="fixed_wrapper">
 					<div class="fixed">
 						<a class="prdocutname" href="<?php echo $item['info_url'] ?>"
@@ -75,9 +83,9 @@
 					echo $this->getHookVar('product_price_hook_var_' . $product['product_id']);
 					?>
 				</div>
-			</li>
+			</div>
 		<?php
 		}
 	}
 	?>
-</ul>
+</div>

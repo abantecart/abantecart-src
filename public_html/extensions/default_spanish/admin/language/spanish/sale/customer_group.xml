@@ -1,47 +1,55 @@
 <?xml version="1.0"?>
 <definitions>
-  <definition>
-    <key>heading_title</key>
-    <value><![CDATA[Grupo de clientes]]></value>
-  </definition>
-  <definition>
-    <key>text_success</key>
-    <value><![CDATA[Ha modificado los grupos de clientes!]]></value>
-  </definition>
-  <definition>
-    <key>column_name</key>
-    <value><![CDATA[Nombre grupo de clientes]]></value>
-  </definition>
-  <definition>
-    <key>column_action</key>
-    <value><![CDATA[Accion]]></value>
-  </definition>
-  <definition>
-    <key>entry_name</key>
-    <value><![CDATA[Nombre grupo de clientes:]]></value>
-  </definition>
-  <definition>
-    <key>error_permission</key>
-    <value><![CDATA[Advertencia: No tiene permiso para modificar los grupos de clientes!]]></value>
-  </definition>
-  <definition>
-    <key>error_name</key>
-    <value><![CDATA[Nombre del grupo del cliente debe ser mayor de 2 y menor de 64 caracteres!]]></value>
-  </definition>
-  <definition>
-    <key>error_default</key>
-    <value><![CDATA[Warning: This customer group cannot be deleted as it is currently assigned as the default store customer group!]]></value>
-  </definition>
-  <definition>
-    <key>error_store</key>
-    <value><![CDATA[Advertencia: Este Grupo de clientes no puede suprimirse, ya que esta actualmente asignado a %s tiendas de!]]></value>
-  </definition>
-  <definition>
-    <key>error_customer</key>
-    <value><![CDATA[Advertencia: Este Grupo de clientes no puede suprimirse, ya que esta actualmente asignado a %s clientes!]]></value>
-  </definition>
-  <definition>
-    <key>breadcrumb_title</key>
-    <value><![CDATA[Customer Groups]]></value>
-  </definition>
+	<definition>
+		<key>heading_title</key>
+		<value><![CDATA[Grupo de clientes]]></value>
+	</definition>
+	<definition>
+		<key>text_success</key>
+		<value><![CDATA[Ha modificado los grupos de clientes!]]></value>
+	</definition>
+	<definition>
+		<key>column_name</key>
+		<value><![CDATA[Nombre grupo de clientes]]></value>
+	</definition>
+	<definition>
+		<key>column_action</key>
+		<value><![CDATA[Accion]]></value>
+	</definition>
+	<definition>
+		<key>entry_name</key>
+		<value><![CDATA[Nombre grupo de clientes:]]></value>
+	</definition>
+	<definition>
+		<key>error_permission</key>
+		<value><![CDATA[Advertencia: No tiene permiso para modificar los grupos de clientes!]]></value>
+	</definition>
+	<definition>
+		<key>error_name</key>
+		<value><![CDATA[Nombre del grupo del cliente debe ser mayor de 2 y menor de 64 caracteres!]]></value>
+	</definition>
+	<definition>
+		<key>error_default</key>
+		<value><![CDATA[Warning: This customer group cannot be deleted as it is currently assigned as the default store customer group!]]></value>
+	</definition>
+	<definition>
+		<key>error_store</key>
+		<value><![CDATA[Advertencia: Este Grupo de clientes no puede suprimirse, ya que esta actualmente asignado a %s tiendas de!]]></value>
+	</definition>
+	<definition>
+		<key>error_customer</key>
+		<value><![CDATA[Advertencia: Este Grupo de clientes no puede suprimirse, ya que esta actualmente asignado a %s clientes!]]></value>
+	</definition>
+	<definition>
+		<key>breadcrumb_title</key>
+		<value><![CDATA[Customer Groups]]></value>
+	</definition>
+	<definition>
+		<key>column_tax_exempt</key>
+		<value><![CDATA[Exentas de Impuestos]]></value>
+	</definition>
+	<definition>
+		<key>entry_tax_exempt</key>
+		<value><![CDATA[Exentos de todos los impuestos:]]></value>
+	</definition>
 </definitions>

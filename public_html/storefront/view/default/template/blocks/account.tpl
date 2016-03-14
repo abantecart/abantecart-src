@@ -37,8 +37,8 @@
 	      
       	  <?php echo $this->getHookVar('account_order_links'); ?>
 	      
-		  <li <?php if ( $newsletter == $current) echo 'class="selected"'; ?>>
-		  	<a href="<?php echo $newsletter; ?>"><i class="fa fa-bullhorn fa-fw"></i>&nbsp; <?php echo $text_newsletter; ?></a>
+		  <li <?php if ( $notification == $current) echo 'class="selected"'; ?>>
+		  	<a href="<?php echo $notification; ?>"><i class="fa fa-bullhorn fa-fw"></i>&nbsp; <?php echo $text_my_notifications; ?></a>
 		  </li>	  		
 
           <?php echo $this->getHookVar('account_newsletter_links'); ?>	      

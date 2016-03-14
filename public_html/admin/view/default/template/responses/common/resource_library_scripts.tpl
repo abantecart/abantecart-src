@@ -1,7 +1,7 @@
 <?php echo $this->html->buildElement(
 		array('type' => 'modal',
 				'id' => 'rl_modal',
-				'modal_type' => 'lg',
+				'modal_type' => 'xlg',
 				'data_source' => 'ajax',
 				'title' => $text_resource_library)); ?>
 
@@ -39,9 +39,15 @@ var rl_error_handler = function(jqXHR){
         window.location.reload();
         return;
     }
+    
+    //skip ajax aborted state error
+    if (jqXHR.status === 0 || jqXHR.readyState === 0) {
+        return;
+    }
 
 	try {
 		var err = $.parseJSON(jqXHR.responseText);
+
 		if (err.hasOwnProperty("error_text")) {
 			var errors = err.error_text;
 			var errlist = typeof errors === 'string' ? [errors] : errors;
@@ -63,6 +69,7 @@ var rl_error_handler = function(jqXHR){
 var mediaDialog = function (type, action, id) {
 	//reset content of modal
 	$('#rl_modal .modal-body').html('');
+		
 	var src = urls.resource_library + '&action=' + action + '&type=' + type + '&mode=' + modalscope.mode;
 	if (id) {
 		src += '&resource_id=' + id;
@@ -76,28 +83,74 @@ var mediaDialog = function (type, action, id) {
 	reloadModal(src);
 };
 
-var reloadModal = function (URL) {
-	//main ajax call to load rl content
+var sideDialog = function (type, action, id) {
+	//reset content of modal
+	$('#rl_dynamic_container').html('');
+	var src = urls.resource_library + '&action=' + action + '&type=' + type + '&mode=' + modalscope.mode;
+	if (id) {
+		src += '&resource_id=' + id;
+		//highlite resource in the list
+		$("#rl_container .thmb").removeClass('view_details');
+		$("#rl_container .thmb[data-rl-id='"+id+"']").addClass('view_details');
+	}
+	if(modalscope.wrapper_id!=undefined && modalscope.wrapper_id!=null){
+		src += '&wrapper_id='+modalscope.wrapper_id;
+	}
+	if(modalscope.field_id!=undefined && modalscope.field_id!=null){
+		src += '&field_id='+modalscope.field_id;
+	}
+	loadSection('#rl_dynamic_container', src);
+};
+
+var loadSection = function (section, URL) {
+	if(!section || !URL) {
+		return;
+	}
+	$(section).html('<div id="iframe_loading" class="center_div_abs"><i class="fa fa-spinner fa-spin fa-2x"></i></div>');
+	//ajax call to load dynamic rl side bar HTML
 	$.ajax({
 		url: URL,
 		type: 'GET',
 		dataType: 'html',
 		global: false,
 		success: function (html) {
+			//remove all open tooltips bootstrap work around
+			$(section + ' .tooltip.in').remove();
+			$(section).html('');
+			$(section).html(html);
+			//bind evend in the modal
+			bindCustomEvents(section);
+			bind_rl(section);
+		},
+		error: rl_error_handler
+	});
+}
+
+var reloadModal = function (URL) {
+	var section = '#rl_modal .modal-body';
+	//main ajax call to load rl content
+	$(section).html('<div id="iframe_loading" class="center_div_abs"><i class="fa fa-spinner fa-spin fa-2x"></i></div>');
+	
+	$.ajax({
+		url: URL,
+		type: 'GET',
+		dataType: 'html',
+		global: false,
+		async: false,
+		success: function (html) {
 			var $md = $('#rl_modal');
-			var mdb = '#rl_modal .modal-body';
 			//remove all open tooltips bootstrap work around
 			$('.tooltip.in').remove();
-			$(mdb).html('');
-			$(mdb).html(html);
+			$(section).html('');
+			$(section).html(html);
 			//if #rl_modal modal is not yet open, open and initilize close event
 			if (!isModalOpen('#rl_modal')) {
-				$(mdb).css({height: '560'});
+				$(section).css({height: '700'});
 				$md.modal('show');
 				$md.unbind('hidden.bs.modal').on('hidden.bs.modal', function () {
 					//reload original media list to show new selections
 					//not for URL mode
-					$(mdb).html('');
+					$(section).html('');
 					if (modalscope.mode != 'single') {
 						<?php 	foreach ($types as $type) { ?>
 						loadMedia('<?php echo $type['type_name']?>');
@@ -110,8 +163,8 @@ var reloadModal = function (URL) {
 				});
 			}
 			//bind evend in the modal
-			bindCustomEvents(mdb);
-			bind_rl(mdb);
+			bindCustomEvents(section);
+			bind_rl(section);
 		},
 
 		error: rl_error_handler
@@ -161,47 +214,67 @@ var loadMedia = function (type, wrapper) {
 
 			var html = '';
 			var t = new Date().getTime();
+			var data_mode = '';
+			if( !json.object_id ){
+				data_mode = ' data-mode="list_all" ';
+			}				
 			$(json.items).each(function (index, item) {
 				var src = '';
 				if (type == 'image' && item['resource_code']) {
-					src = item['thumbnail_url']
+					src = '<div class="html">' + item['thumbnail_url'] + '</div>';
 				} else {
 					<?php // variable t needs to prevent browser caching in case of replacement of file of resource?>
 					src = '<img class="img-responsive" src="' + item['thumbnail_url'] + '?t=' + t + '" title="' + item['name'] + '" />';
 				}
-				html += '<div class="col-md-1 reslibrary_block">';
+				
+				html += '<div class="col-md-1 col-sm-2 col-xs-6 reslibrary_block">';
 				html += '<div class="center thumbnail" id="image_row' + item['resource_id'] + '" >\
-                <a class="btn resource_edit" data-type="' + type + '" data-rl-id="' + item['resource_id'] + '">' + src + '</a></div>';
-
-				html += '<div class="caption center">';
-
-				html += '<a class="btn resource_edit tooltips" ' +
-						'data-type="' + type + '" ' +
-						'data-rl-id="' + item['resource_id'] + '" ' +
-						'data-original-title="<?php echo $button_edit ?>"><i class="fa fa-edit"></i></a>' +
-						'<a class="btn resource_unmap tooltips" ' +
-						'data-rl-id="' + item['resource_id'] + '" ' +
-						'data-original-title="<?php echo $button_unmap; ?>" ' +
-						'data-confirmation="delete" ' +
-						'data-confirmation-text="<?php echo $text_confirm_unmap ?>" ' +
-						'onclick="unmap_resource(' + item['resource_id'] + ',\'' + json.object_name + '\',\'' + json.object_id + '\');"><i class="fa fa-unlink"></i></a>';
-
-				if (item['can_delete'] == true) {
-					html += '<a class="btn resource_delete tooltips" data-rl-id="' + item['resource_id'] + '" ' +
-							'data-original-title="<?php echo $button_delete; ?>" ' +
+                <a class="btn resource_edit" '+data_mode+' data-type="' + type + '" data-rl-id="' + item['resource_id'] + '">' + src + '</a></div>';
+				
+				//do not show if no object id
+				if( json.object_id ){
+					html += '<div class="caption center">';
+					html += '<a class="btn resource_edit tooltips" ' +
+							'data-type="' + type + '" ' +
+							'data-rl-id="' + item['resource_id'] + '" ' +
+							'data-original-title="<?php echo_html2view($button_edit) ?>"><i class="fa fa-edit"></i></a>' +
+							'<a class="btn resource_unmap tooltips" ' +
+							'data-rl-id="' + item['resource_id'] + '" ' +
+							'data-original-title="<?php echo_html2view($button_unmap); ?>" ' +
 							'data-confirmation="delete" ' +
-							'data-confirmation-text="<?php echo $text_confirm_delete; ?>" ' +
-							'onclick="delete_resource(' + item['resource_id'] + ',\'' + json.object_name + '\',\'' + json.object_id + '\');"><i class="fa fa-trash-o"></i></a>';
+							'data-confirmation-text="<?php echo_html2view($text_confirm_unmap) ?>" ' +
+							'onclick="unmap_resource(' + item['resource_id'] + ',\'' + json.object_name + '\',\'' + json.object_id + '\');"><i class="fa fa-unlink"></i></a>';
+	
+					if (item['can_delete'] == true) {
+						html += '<a class="btn resource_delete tooltips" data-rl-id="' + item['resource_id'] + '" ' +
+								'data-original-title="<?php echo_html2view($button_delete); ?>" ' +
+								'data-confirmation="delete" ' +
+								'data-confirmation-text="<?php echo_html2view($text_confirm_delete); ?>" ' +
+								'onclick="delete_resource(' + item['resource_id'] + ',\'' + json.object_name + '\',\'' + json.object_id + '\');"><i class="fa fa-trash-o"></i></a>';
+					}
+					html += '</div>';
+				} else {
+					html += '<div class="caption center ellipsis"><a href="#" class="resource_edit" '+data_mode+' data-type="' + type + '" data-rl-id="' + item['resource_id'] + '">'+item['name']+'</a></div><br />';
 				}
-
-				html += '</div></div></div>';
+				html += '</div></div>';
 			});
 
-			html += '<div class="col-md-1 reslibrary_block">' +
+			//check if more available 
+			if(json.total > json.limit) {
+				html += '<div class="col-md-1 col-sm-2 col-xs-6 reslibrary_block">' +
+						'<div class="center thumbnail">';
+				html += '<a class="btn list_maped_resources tooltips transparent rl_large_icon" '+data_mode+' data-type="' + type + '" data-original-title="<?php echo_html2view($text_view_more) ?>"><i class="fa fa-folder-open"></i></a></div>';
+				html += '<div class="caption center ellipsis"><a href="#" class="list_maped_resources resource_edit" '+data_mode+' data-type="' + type + '"><?php echo_html2view($text_view_more) ?></a></div><br />';
+				html += '</div>';
+			}
+		
+			html += '<div class="col-md-1 col-sm-2 col-xs-6 reslibrary_block">' +
 					'<div class="center thumbnail fileupload_drag_area">' +
 					'<form action="<?php echo $rl_upload; ?>&type=' + type + '" method="POST" enctype="multipart/form-data"><input type="file" name="files[]" multiple="" class="hide">';
-			html += '<a class="btn resource_add tooltips transparent" data-type="' + type + '" data-original-title="<?php echo $text_add_media ?>"><img src="<?php echo $template_dir . 'image/icons/icon_add_media.png'; ?>" alt="<?php echo $text_add_media; ?>" width="100" /></a>';
-			html += '</form</div></div>';
+			html += '<a class="btn resource_add tooltips transparent rl_large_icon" '+data_mode+' data-type="' + type + '" data-original-title="<?php echo_html2view($text_add_media) ?>"><i class="fa fa-plus-circle"></i></a>';
+			html += '</form></div>';
+			html += '<div class="caption center ellipsis"><a href="#" class="resource_add" '+data_mode+' data-type="' + type + '"><?php echo_html2view($text_add_media) ?></a></div><br />';
+			html += '</div>';
 
 			$(wrapper).html(html);
 		},
@@ -245,15 +318,9 @@ var loadSingle = function (type, wrapper_id, resource_id, field) {
 					<?php // variable t needs to prevent browser caching in case of replacement of file of resource?>
 					src = '<img class="img-responsive" src="' + item['thumbnail_url'] + '?t=' + t + '" title="' + item['name'] + '" />';
 				}
-				//mark as changed
-				var changed = '';
-				if($('#'+field).attr('data-orgvalue') != item['type_name']+'/'+item['resource_path']) {
-					changed = ' changed';
-					$('#'+field).parents('form').prop('changed', 'true');
-				}
 
 				html += '<div class="resource_single col-sm-6 col-xs-12 text-center">';
-				html += '<div class="thumbnail fileupload_drag_area '+changed+'" id="image_row' + item['resource_id'] + '" >'+
+				html += '<div class="thumbnail fileupload_drag_area" id="image_row' + item['resource_id'] + '" >'+
 						'<a class="btn resource_edit" ' +
 								'data-mode="single" ' +
 								'data-type="' + type + '" ' +
@@ -262,14 +329,32 @@ var loadSingle = function (type, wrapper_id, resource_id, field) {
 								'data-rl-id="' + item['resource_id'] + '">' + src + '</a></div>';
 
 				html += '<a class="btn resource_delete tooltips" data-rl-id="' + item['resource_id'] + '" ' +
-						'data-original-title="<?php echo $button_delete ?>" ' +
-						'onclick="loadSingle(\'' + type + '\', \'' + wrapper_id + '\', null, \'' + field + '\');"><i class="fa fa-times"></i>&nbsp;<?php echo $button_remove?></a>';
+						'data-original-title="<?php echo_html2view($button_delete) ?>" ' +
+						'><i class="fa fa-times"></i>&nbsp;<?php echo $button_remove?></a>';
 				html += '</div>';
-
-				$('#'+field).val(item['resource_path'].length>0 ? item['type_name']+'/'+item['resource_path'] : '');
+				var resource_uri = '';
+				if(item['resource_path'].length > 0){
+					resource_uri =  item['type_name'] + '/' + item['resource_path'];
+				}else{
+					resource_uri = item['resource_id'];
+				}
+				$('#' + field).val(resource_uri);
 				$('#'+field+'_resource_id').val(item['resource_id']);
 				$('#'+field+'_resource_code').val(item['resource_code']);
+
+				//add item properties for single mode for CKE
+				if($('#RlFrm_image_size').length>0){
+					var dim = $('#RlFrm_image_size').val().split('_');
+					item['width'] = dim[0];
+					item['height'] = dim[1];
+					//check title to paste it into alt attribute
+					if(item['title'].length<1 && $('#RlFrm_title').val().length>0){
+						item['title'] = $('#RlFrm_title').val();
+					}
+				}
+
 				modalscope.selected_resource = item;
+
 			} else {
 				html = '<div class="resource_single col-sm-6 col-xs-12"><div class="center thumbnail fileupload_drag_area" >';
 				html += '<a class="btn resource_add tooltips transparent" ' +
@@ -277,7 +362,7 @@ var loadSingle = function (type, wrapper_id, resource_id, field) {
 						'data-type="' + type + '" ' +
 						'data-wrapper_id="' + wrapper_id + '" ' +
 						'data-field="' + field + '" ' +
-						'data-original-title="<?php echo $text_add_media ?>"><img src="<?php echo $template_dir . 'image/icons/icon_add_media.png'; ?>" alt="<?php echo $text_add_media; ?>" width="100" /></a>';
+						'data-original-title="<?php echo_html2view($text_add_media) ?>"><img src="<?php echo $template_dir . 'image/icons/icon_add_media.png'; ?>" alt="<?php echo_html2view($text_add_media); ?>" width="100" /></a>';
 				html += '</div></div>';
 
 				$('#'+field).val('');
@@ -286,6 +371,16 @@ var loadSingle = function (type, wrapper_id, resource_id, field) {
 				modalscope.selected_resource = {};
 			}
 			$('#' + wrapper_id).html(html);
+			$('#' + wrapper_id).find('.resource_delete').on('click', function(){
+				loadSingle(type, wrapper_id, null, field);
+			});
+			//mark as changed
+			var changed = '';
+			if($('#'+field).attr('data-orgvalue') != $('#'+field).val()) {
+				$('#' + wrapper_id).find('.resource_single .thumbnail').addClass('changed');
+				$('#'+field).parents('form').prop('changed', 'true');
+
+			}
 		},
 		error: rl_error_handler
 	});
@@ -301,10 +396,25 @@ jQuery(function () {
 		<?php }
 	}?>
 
+	//generic mode to list all resources
+	$(document).on("click", 'a.list_resources', function () {
+		mediaDialog($(this).attr('data-type'), 'list_library');
+		sideDialog($(this).attr('data-type'), 'add');
+		return false;
+	});
+
+	//mode to list maped resources
+	$(document).on("click", 'a.list_maped_resources', function () {
+		mediaDialog($(this).attr('data-type'), 'list_object');
+		sideDialog($(this).attr('data-type'), 'add');
+		return false;
+	});
+
 	$(document).on('click', 'a.resource_add', function () {
 		//set here mode based on link attribute (in case when we have a few RL single elements in the form)
 		modalscope.mode = $(this).attr('data-mode') ? $(this).attr('data-mode') : '';
-
+		var list_type = 'list_object';
+		
 		if(modalscope.mode=='single'){
 			if( $(this).attr('data-wrapper_id')){
 				modalscope.wrapper_id = $(this).attr('data-wrapper_id');
@@ -312,16 +422,22 @@ jQuery(function () {
 			if( $(this).attr('data-field') ){
 				modalscope.field_id = $(this).attr('data-field');
 			}
+			list_type = 'list_library';
+		} else if(modalscope.mode=='list_all'){
+			//list all resources mode
+			list_type = 'list_library';			
 		}
 
-		mediaDialog($(this).attr('data-type'), 'add');
+		mediaDialog($(this).attr('data-type'), list_type);
+		sideDialog($(this).attr('data-type'),'add');
 		return false;
 	});
 
 	$(document).on("click", 'a.resource_edit', function () {
 		//set here mode based on link attribute (in case when we have a few RL single elements in the form)
 		modalscope.mode = $(this).attr('data-mode') ? $(this).attr('data-mode') : '';
-
+		var list_type = 'list_object';
+		
 		if(modalscope.mode=='single'){
 			if( $(this).attr('data-wrapper_id')!=undefined ){
 				modalscope.wrapper_id = $(this).attr('data-wrapper_id');
@@ -329,40 +445,41 @@ jQuery(function () {
 			if( $(this).attr('data-field') ){
 				modalscope.field_id = $(this).attr('data-field');
 			}
+			list_type = 'list_library';
+		} else if(modalscope.mode=='list_all'){
+			//list all resources mode
+			list_type = 'list_library';			
 		}
-
-		mediaDialog($(this).attr('data-type'), 'update', $(this).attr('data-rl-id'));
+		if (!isModalOpen('#rl_modal')) {
+			//if new open of modal, load modal together with sidebar
+			mediaDialog($(this).attr('data-type'), list_type, $(this).attr('data-rl-id'));			
+		}
+		//load sidebar for edit
+		sideDialog($(this).attr('data-type'), 'update', $(this).attr('data-rl-id'));
 		return false;
 	});
 
-	$(document).on("click", '#resource', function () {
-		mediaDialog($(this).attr('data-type'), 'update', $(this).attr('data-rl-id'));
-		return false;
-	});
-
+	//List object resources
 	$(document).on("click", '#object', function () {
 		mediaDialog($(this).attr('data-type'), 'list_object', $(this).attr('data-rl-id'));
+		sideDialog($(this).attr('data-type'), 'add');
 		return false;
 	});
 
 	$(document).on("click", '#library', function () {
 		mediaDialog($(this).attr('data-type'), 'list_library', $(this).attr('data-rl-id'));
+		sideDialog($(this).attr('data-type'), 'add');
 		return false;
 	});
 
 	$(document).on("click", '.rl_pagination a', function () {
 		if (!$(this).parent().hasClass('disabled')) {
 			reloadModal($(this).attr('href'));
+			sideDialog($(this).attr('data-type'), 'add');
 		}
 		return false;
 	});
 
-	$(document).on('click', 'a.rl_add_file', function () {
-		$('#choose_resource_type').fadeOut("normal", function () {
-			$('#add_form, #file_subform').fadeIn("normal");
-		});
-		return false;
-	});
 	$(document).on('click', 'a.rl_add_code', function () {
 		$('#choose_resource_type').fadeOut("normal", function () {
 			$('#add_form, #code_subform, #add_resource_buttons').fadeIn("normal");
@@ -447,6 +564,7 @@ function delete_resource(rl_id, object_name, object_id) {
 					type = $('#library').attr('data-type');
 				}
 				mediaDialog(type, 'list_library');
+				sideDialog(type, 'add');
 			}
 			rl_success_alert(<?php js_echo($text_file_delete); ?>, true);
 		},
@@ -460,11 +578,11 @@ var bind_rl = function (elm) {
 	if (elm) {
 		$obj = $(elm);
 	} else {
-		$obj = $(document).find('html');
+		return false;
 	}
 
 	//bind form action if any
-	bindAform($("#rl_container input, #rl_container select, #rl_container textarea"));
+	bindAform($(elm+" input, "+elm+" select, "+elm+" textarea"));
 
 	$obj.find('.thmb').hover(function () {
 		var t = $(this);
@@ -525,17 +643,17 @@ var bind_rl = function (elm) {
 		}
 
 		if (this.checked) {
-			$('.thmb').each(function () {
-				$(this).find('input:checkbox').attr('checked', true);
-				$(this).addClass('checked');
-				$(this).find('.ckbox, .rl-group').show();
+			$('.thmb .checksign').each(function () {
+				$(this).attr('checked', true);
+				$(this).closest('.thmb').addClass('checked');
+				$(this).closest('.ckbox, .rl-group').show();
 			});
 			enable_menu($obj, true);
 		} else {
-			$('.thmb').each(function () {
-				$(this).find('input:checkbox').attr('checked', false);
-				$(this).removeClass('checked');
-				$(this).find('.ckbox, .rl-group').hide();
+			$('.thmb .checksign').each(function () {
+				$(this).attr('checked', false);
+				$(this).closest('.thmb').removeClass('checked');
+				$(this).closest('.ckbox, .rl-group').hide();
 			});
 			enable_menu($obj, false);
 		}
@@ -562,10 +680,12 @@ var bind_rl = function (elm) {
 		//reload modal dialog if only mapping. If need to save at the same time - just return false
 		if(!$(this).hasClass('rl_save')) {
 			if (tab_id == 'resource') {
-				mediaDialog(type, 'update', rl_id);
+				mediaDialog(type, 'list_object', rl_id);
+				sideDialog(type, 'update', rl_id);
 			} else {
 				//reload the same list with the filter
 				reloadModal(reload_url);
+				sideDialog($(this).attr('data-type'), 'update', rl_id);
 			}
 		}
 		return false;
@@ -585,14 +705,17 @@ var bind_rl = function (elm) {
 			return false;
 		}
 		var reload_url = $("#rl_container").attr('data-current-url');
+		var type = $('#library').attr('data-type');
 
 		unmap_resource(rl_id);
 		var tab = active_tab();
 		if (tab.attr('id') == 'resource') {
-			mediaDialog($(this).attr('data-type'), 'update', rl_id);
+			mediaDialog(type, 'list_object', rl_id);
+			sideDialog(type, 'update', rl_id);
 		} else {
 			//reload the same list with the filter
 			reloadModal(reload_url);
+			sideDialog(type, 'update', rl_id);
 		}
 
 		return false;
@@ -607,7 +730,7 @@ var bind_rl = function (elm) {
 		if (modalscope.mode == 'single') {	
 			var rl_id = $(this).attr('data-rl-id');
 			//reload media and mark for save
-			loadSingle($('#library').attr('data-type'), modalscope.wrapper_id, rl_id, modalscope.field_id, true);
+			loadSingle($('#library').attr('data-type'), modalscope.wrapper_id, rl_id, modalscope.field_id);
 
 			$('#rl_modal').modal('hide');
 			modalscope.mode = '';
@@ -652,7 +775,10 @@ var bind_rl = function (elm) {
 
 		//for button save and link (select)
 		if(!$(this).hasClass('rl_select')) {
-			mediaDialog(type, 'update', rid);
+			//reload listing page (whole modal)
+			reloadModal($("#rl_container").attr('data-current-url'));
+			//reload edit pane
+			sideDialog(type, 'update', rid);			
 		}
 		
 		return false;
@@ -685,7 +811,8 @@ var bind_rl = function (elm) {
 			},
 			error: rl_error_handler
 		});
-		$('#object').click(); // reload modal with object's resources
+		reloadModal($("#rl_container").attr('data-current-url'));
+		sideDialog(type, 'add');			
 		return false;
 	});
 
@@ -693,8 +820,18 @@ var bind_rl = function (elm) {
 		//reset rl details. 
 		var type = $('#RlFrm_type').val();
 		var rid = $('#RlFrm_resource_id').val();
-		mediaDialog(type, 'update', rid);
+		//see what tab is now active
+		var list_type = 'list_object';
+		if($('#library.active').attr('data-type')) {
+			list_type = 'list_library';
+		}
+		reloadModal($("#rl_container").attr('data-current-url'));
+		sideDialog(type, 'update', rid);
 		return false;
+	});
+
+	$obj.find('.rl_details').click(function () {
+		$(this).select();
 	});
 
 	<?php
@@ -710,39 +847,59 @@ var bind_rl = function (elm) {
 	});
 
 	$obj.find('.rl_edit').click(function () {
-		mediaDialog(type, 'update', $(this).attr('data-rl-id'));	// поменять на релоад
+		sideDialog(type, 'update', $(this).attr('data-rl-id'));
 		return false;
 	});
 
 	$('#add_resource').click(function () {
-		mediaDialog($(this).attr('data-type'), 'add');
+		//show add side window
+		sideDialog($(this).attr('data-type'), 'add');
 		return false;
 	});
 
-	$('#rlsearchform').submit(function () {
+	$obj.find('#rlsearchform').submit(function () {
 		var keyword = $(this).find('input[name=search]').val();
 		var type = $(this).find('select[name=rl_types] option:selected').text();
 		var url = $(this).attr('action') + '&keyword=' + keyword + '&type=' + type;
 		reloadModal(url);
+		sideDialog(type, 'add');
 		return false;
 	});
 
 	//hook to switch language
-	$('#content_language_form').submit(function () {
-		var $inputs = $('#content_language_form :input');
+	$obj.find('.content_language_form').one("submit", function (e) {
+		//grab the event and do not call default language submit
+		e.preventDefault(); 
+		var $elm = $obj.find('.content_language_form');
+    	$elm.closest('.content_language').removeClass('open');
+		var $inputs = $elm.find(':input');
 		var url = urls.resource_library;
 		$inputs.each(function () {
 			if (url.indexOf(this.name + '=' + $(this).val()) <= 0) {
 				url += '&' + this.name + '=' + $(this).val();
 			}
 		});
+		var type = $elm.find('input[name=type]').val();
+		var rl_id = $('#rl_edit_container').find('input[name=resource_id]').val();
 		reloadModal(url);
+		//reload side panel
+		if(rl_id) {
+			sideDialog(type, 'update', rl_id);		
+		} else {
+			sideDialog(type, 'add');
+		}
 		return false;
 	});
 
-	$('#resource_types_tabs a').click(function () {
+	$obj.find('#resource_types_tabs a').click(function () {
 		$('#resource_types_tabs li.active').removeClass('active');
 		$(this).parents('li').addClass('active');
+		//reload with new rl type on bad select
+		var new_type = $(this).parents('li').attr('data-type');
+		var url = $("#rl_container").attr('data-current-url')+ '&type=' + new_type;
+		reloadModal(url);
+		sideDialog(new_type, 'add');
+		
 		return false;
 	});
 	
@@ -767,7 +924,12 @@ var enable_menu = function ($obj, enable) {
 }
 
 var active_tab = function () {
-	return $('#rl_container ul.nav>li.active');
+	//detect active tab. Resource edit will have priority
+	if( $('#resource').length ){
+		return $('#resource');
+	} else {
+		return $('#rl_container ul.nav>li.active');
+	}
 }
 
 var multi_action = function (action) {
@@ -805,6 +967,7 @@ var multi_action = function (action) {
 	var reload_url = $("#rl_container").attr('data-current-url');
 	if(reload_url) {
 		reloadModal(reload_url);
+		sideDialog($(this).attr('data-type'), 'add');		
 	} else {
 		// reload modal with object's resources
 		active_tab().click(); 
@@ -841,7 +1004,6 @@ jQuery(function () {
 		if(!URL){
 			URL = urls.upload+'&type='+$('div.fileupload_drag_area').find('a.btn').attr('data-type');
 		}
-
 
 		var jqXHR = $.ajax({
 			xhr: function() {
@@ -885,8 +1047,8 @@ jQuery(function () {
 	var createStatusbar = function (obj) {
 		rowCount++;
 		this.statusbar = $('<div class="statusbar row"></div>');
-		this.filename = $('<div class="filename col-sm-6 ellipsis"></div>').appendTo(this.statusbar);
-		this.size = $('<div class="filesize col-sm-2"></div>').appendTo(this.statusbar);
+		this.filename = $('<div class="filename col-sm-4 ellipsis"></div>').appendTo(this.statusbar);
+		this.size = $('<div class="filesize col-sm-4"></div>').appendTo(this.statusbar);
 		this.progressBar = $('<div class="progress col-sm-4"><div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%;">loading</div></div>').appendTo(this.statusbar);
 		/*
 			TODO: Fix progress bar and upload abort feature
@@ -910,6 +1072,7 @@ jQuery(function () {
 			this.filename.html(name);
 			this.size.html(sizeStr);
 		}
+
 		this.setProgress = function (progress) {
 			var progressBarWidth = progress * this.progressBar.width() / 100;
 			this.progressBar.find('div').animate({ width: progressBarWidth }, 10).html(progress + "%&nbsp;");
@@ -956,18 +1119,26 @@ jQuery(function () {
 			rl_type = response.type;
 		}
 
+		var list_type = 'list_object';
+		if(modalscope.mode=='single' || modalscope.mode=='list_all'){
+			list_type = 'list_library';
+		}
+
 		if (e != files.length) {
 			if (files.length > 1) {
-				mediaDialog(rl_type, 'list_object');
+				mediaDialog(rl_type, list_type);
+				sideDialog(rl_type, 'add');
 			} else {
 				if( modalscope.mode=='single'){
 					loadSingle(rl_type, modalscope.wrapper_id, response.resource_id, modalscope.field_id);
 				}
-				mediaDialog(rl_type, 'update', response.resource_id);
+				mediaDialog(rl_type, list_type, response.resource_id);
+				sideDialog(rl_type, 'update', response.resource_id);
 			}
 		} else {
 			if (isModalOpen()) {
-				mediaDialog(rl_type, 'add');
+				mediaDialog(rl_type, list_type);
+				sideDialog(rl_type, 'add');
 			}
 		}
 	}
@@ -1058,6 +1229,4 @@ jQuery(function () {
 	});
 
 });
-
-
 </script>

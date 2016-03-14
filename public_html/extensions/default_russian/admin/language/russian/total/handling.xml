@@ -60,4 +60,8 @@
 		<key>entry_order_subtotal</key>
 		<value><![CDATA[Под-итог:]]></value>
 	</definition>
+	<definition>
+		<key>entry_total_palceholder</key>
+		<value><![CDATA[Текстовое Значение]]></value>
+	</definition>
 </definitions>

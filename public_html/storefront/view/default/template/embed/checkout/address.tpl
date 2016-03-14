@@ -19,11 +19,12 @@
 <?php } ?>
 
 <div class="contentpanel addresses">
-	<section class="formbox old_address">
+	<div class="col-md-6 col-xs-12">
+	<section class="old_address">
+	<h4 class="heading4"><?php echo $text_entries; ?></h4>
 	<?php if ($addresses) {
 	  echo  $form0['form_open'];
 	?>
-	<h4 class="heading4"><?php echo $text_entries; ?></h4>
 		<div class="registerbox form-horizontal">
 			<table class="table table-striped">
 			<?php foreach ($addresses as $address) { ?>		
@@ -45,12 +46,14 @@
 		</div>		
 	</form>
 	</section>
+	</div>
 	
-	<section class="formbox ml10 new_address">
+	<div class="col-md-6 col-xs-12">
+	<section class="new_address">
+	<h4 class="heading4"><?php echo $text_new_address; ?></h4>
 	<?php }
 	   echo $form['form_open'];
 	?>
-	<h4 class="heading4"><?php echo $text_new_address; ?></h4>
 	<div class="registerbox">
 		<fieldset>
 		<?php
@@ -60,9 +63,9 @@
 								'address_1' => 'address_1', 
 								'address_2' => 'address_2', 
 								'city' => 'city',
+								'zone' => 'zone',
 								'postcode' => 'postcode',
 								'country' => 'country_id', 
-								'zone' => 'zone',
 								);
 			
 			foreach ($field_list as $field_name => $field_id) {
@@ -90,6 +93,7 @@
 	</div>	
 	</form>
 	</section>
+	</div>
 
 </div>
 

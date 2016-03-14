@@ -62,28 +62,23 @@
 	</definition>
 	<definition>
 		<key>error_upload</key>
-		<value>
-			<![CDATA[ATTENZIONE: il file non è stato caricato. Controllare post_max_size o le direttive file_upload del file php.ini. ]]></value>
+		<value><![CDATA[ATTENZIONE: il file non è stato caricato. Controllare post_max_size o le direttive file_upload del file php.ini. ]]></value>
 	</definition>
 	<definition>
 		<key>error_xml</key>
-		<value>
-			<![CDATA[ATTENZIONE: Il file che hai caricato non è un file XML! Per favore vedere il registro dei file per dettagli.]]></value>
+		<value><![CDATA[ATTENZIONE: Il file che hai caricato non è un file XML! Per favore vedere il registro dei file per dettagli.]]></value>
 	</definition>
 	<definition>
 		<key>entry_backup_code</key>
-		<value>
-			<![CDATA[Backup Code (%s)<br/><span class="help">Sub-directories with code files excluding dynamic files such as cache, log files, images, resources etc </span>]]></value>
+		<value><![CDATA[Backup Code (%s)<br/><span class="help">Sub-directories with code files excluding dynamic files such as cache, log files, images, resources etc </span>]]></value>
 	</definition>
 	<definition>
 		<key>entry_backup_content</key>
-		<value>
-			<![CDATA[Backup Content (%s)<br/><span class="help">Sub-directories with dynamic files such as images, downloads, resources etc </span>]]></value>
+		<value><![CDATA[Backup Content (%s)<br/><span class="help">Sub-directories with dynamic files such as images, downloads, resources etc </span>]]></value>
 	</definition>
 	<definition>
 		<key>entry_compress_backup</key>
-		<value>
-			<![CDATA[Compress Backup Directory  %s ?<br/><span class="help">Archive *.tar.gz will be created.<br/> Note: it could to take a long time. Otherwise you can disable compression and find your backup in folder %s</span>]]></value>
+		<value><![CDATA[Compress Backup Directory	%s ?<br/><span class="help">Archive *.tar.gz will be created.<br/> Note: it could to take a long time. Otherwise you can disable compression and find your backup in folder %s</span>]]></value>
 	</definition>
 	<definition>
 		<key>button_backup_now</key>
@@ -99,21 +94,22 @@
 	</definition>
 	<definition>
 		<key>text_success_scheduled</key>
-		<value>
-			<![CDATA[Success: You have successfully created scheduled backup task! <a href="%s">See details</a>]]></value>
+		<value><![CDATA[Success: You have successfully created scheduled backup task! <a href="%s">See details</a>]]></value>
 	</definition>
 	<definition>
 		<key>text_fail_note</key>
-		<value>
-			<![CDATA[NOTE: This process execution depends on your AbanteCart data size as well as your server virtual memory size. If process terminates with errors, check directory %s permissions to be set to -rw-rw-rw and <a href="http://php.net/manual/en/ini.core.php#ini.memory-limit" target="_blank">[PHP memory setting]</a>. Increase memory setting or run backup manually if process still fail.]]></value>
+		<value><![CDATA[NOTE: This process execution depends on your AbanteCart data size as well as your server virtual memory size. If process terminates with errors, check directory %s permissions to be set to -rw-rw-rw and <a href="http://php.net/manual/en/ini.core.php#ini.memory-limit" target="_blank">[PHP memory setting]</a>. Increase memory setting or run backup manually if process still fail.]]></value>
 	</definition>
 	<definition>
 		<key>backup_complete_text_file</key>
-		<value>
-			<![CDATA[To download backup-file please visit <a href="#admin#rt=tool/install_upgrade_history">Install/Upgrade History</a> ]]></value>
+		<value><![CDATA[To download backup-file please visit <a href="#admin#rt=tool/install_upgrade_history">Install/Upgrade History</a> ]]></value>
 	</definition>
 	<definition>
 		<key>backup_complete_text_dir</key>
 		<value><![CDATA[Directory with backup-files is %s</a> ]]></value>
+	</definition>
+	<definition>
+		<key>error_nothing_to_do</key>
+		<value><![CDATA[Avvertimento: Si prega di ottenere ciò che si desidera effettuare il backup o importare!]]></value>
 	</definition>
 </definitions>

@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2015 Belavier Commerce LLC
+  Copyright © 2011-2016 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -103,6 +103,10 @@ function check_file_permissions($registry){
 		$cache_files = get_all_files_dirs(DIR_SYSTEM . 'cache/');
 		$cache_message = '';
 		foreach($cache_files as $file) {
+			if(!is_file($file)){
+				continue;
+			}
+			$cache_message = '';
 			if(in_array(basename($file), array('index.html', 'index.html','.','','..'))){
 				continue;
 			}
@@ -236,11 +240,14 @@ function check_php_configuraion($registry){
     switch($last) {
         // The 'G' modifier is available since PHP 5.1.0
         case 'g':
-	        $memory_limit *= 1024;
+	        $memory_limit *= (1024*1024*1024);
+		    break;
         case 'm':
-	        $memory_limit *= 1024;
+	        $memory_limit *= (1024*1024);
+		    break;
         case 'k':
 	        $memory_limit *= 1024;
+		    break;
     }
 
 	//Recommended minimal PHP memory size is 64mb
@@ -442,7 +449,8 @@ function run_critical_system_check($registry, $mode = 'log'){
  */
 function check_session_save_path(){
 	$savepath = ini_get('session.save_path');
-	if(!is_writable($savepath)){
+	//check for non-empty path (it can be on some fast-cgi php)
+	if($savepath && !is_writable($savepath)){
 		return array(
 			        'title' => 'Session save path is not writable! ',
 			        'body' => 'Your server is unable to create a session necessary for AbanteCart functionality. Check logs for exact error details and contact your hosting support administrator to resolve this error.'

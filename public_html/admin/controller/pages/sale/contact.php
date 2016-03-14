@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2015 Belavier Commerce LLC
+  Copyright © 2011-2016 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -29,12 +29,33 @@ class ControllerPagesSaleContact extends AController {
 	public $data = array();
 	public $error = array();
 
+
+	public function email(){
+		$this->data['protocol'] = 'email';
+		$this->main();
+	}
+
+	public function sms(){
+		$driver = $this->config->get('config_sms_driver');
+		//if sms driver not set or disabled - redirect
+		if(!$driver || !$this->config->get($driver.'_status')){
+			$this->redirect($this->html->getSecureURL('sale/contact/email'));
+		}
+
+		$this->data['protocol'] = 'sms';
+		$this->main();
+	}
+
 	public function main() {
 
 		//init controller data
 		$this->extensions->hk_InitData($this, __FUNCTION__);
 
-		$this->document->setTitle($this->language->get('heading_title'));
+		if(!has_value($this->data['protocol'])){
+			$this->data['protocol'] = 'email';
+		}
+
+		$this->document->setTitle($this->language->get('text_send_'.$this->data['protocol']));
 		$this->loadModel('sale/customer');
 
 		$this->data['token'] = $this->session->data['token'];
@@ -73,7 +94,7 @@ class ControllerPagesSaleContact extends AController {
 		));
 		$this->document->addBreadcrumb(array(
 				'href' => $this->html->getSecureURL('sale/contact'),
-				'text' => $this->language->get('heading_title'),
+				'text' => $this->language->get('text_send_'.$this->data['protocol']),
 				'separator' => ' :: ',
 				'current' => true
 		));
@@ -88,80 +109,74 @@ class ControllerPagesSaleContact extends AController {
 		$this->data['action'] = $this->html->getSecureURL('sale/contact');
 		$this->data['cancel'] = $this->html->getSecureURL('sale/contact');
 
-		if (isset($this->request->post['store_id'])) {
-			$this->data['store_id'] = $this->request->post['store_id'];
-		} else {
-			$this->data['store_id'] = 0;
-		}
-
+		//get store from main switcher and current config
+		$this->data['store_id'] = (int)$this->session->data['current_store_id'];
 
 		$this->data['customers'] = array();
-		if (isset($this->request->post['to']) && $this->request->post['to']) {
-			foreach ($this->request->post['to'] as $customer_id) {
+		$this->data['products'] = array();
+		$this->loadModel('catalog/product');
+		$customer_ids = $this->request->get_or_post('to');
+		if(!$customer_ids && has_value($this->session->data['sale_contact_presave']['to'])){
+			$customer_ids = $this->session->data['sale_contact_presave']['to'];
+		}
+		$product_ids = $this->request->get_or_post('products');
+		if(!$product_ids && has_value($this->session->data['sale_contact_presave']['products'])){
+			$product_ids = $this->session->data['sale_contact_presave']['products'];
+		}
+		
+		//process list of customer or product IDs to be notified
+		if (isset($customer_ids) && is_array($customer_ids)) {
+			foreach ($customer_ids as $customer_id) {
 				$customer_info = $this->model_sale_customer->getCustomer($customer_id);
-
 				if ($customer_info) {
-					$this->data['customers'][] = array(
-							'customer_id' => $customer_info['customer_id'],
-							'name' => $customer_info['firstname'] . ' ' . $customer_info['lastname'] . ' (' . $customer_info['email'] . ')'
-					);
+					$this->data['customers'][$customer_info['customer_id']] = $customer_info['firstname'] . ' ' . $customer_info['lastname'] . ' (' . $customer_info['email'] . ')';
+				}
+			}
+		} 
+		if (isset($product_ids) && is_array($product_ids)) {
+			foreach ($product_ids as $product_id) {
+				$product_info = $this->model_catalog_product->getProduct($product_id);
+				if ($product_info) {
+				$resource = new AResource('image');
+				$thumbnail = $resource->getMainThumb('products',
+						$product_id,
+						(int)$this->config->get('config_image_grid_width'),
+						(int)$this->config->get('config_image_grid_height'),
+						true
+				);
+				$this->data['products'][$product_id] = array(
+						'name' => $product_info['name'],
+						'image' =>	$thumbnail['thumb_html']
+															);
 				}
 			}
 		}
 
-		$this->loadModel('catalog/product');
-
-		$this->data['products'] = $this->model_catalog_product->getProducts();
-
-		if (isset($this->request->post['product'])) {
-			$this->data['product'] = $this->request->post['product'];
-		} else {
-			$this->data['product'] = '';
-		}
-
-		if (isset($this->request->post['recipient'])) {
-			$this->data['recipient'] = $this->request->post['recipient'];
-		} else {
-			$this->data['recipient'] = '';
-		}
-
-		if (isset($this->request->post['subject'])) {
-			$this->data['subject'] = $this->request->post['subject'];
-		} else {
-			$this->data['subject'] = '';
-		}
-
-		if (isset($this->request->post['message'])) {
-			$this->data['message'] = $this->request->post['message'];
-		} else {
-			$this->data['message'] = '';
-		}
-
-		$this->loadModel('catalog/category');
-		$categories = $this->model_catalog_category->getCategories(0);
-		$this->data['categories'][0] = $this->language->get('text_select_category');
-		foreach ($categories as $category) {
-			$this->data['categories'][$category['category_id']] = $category['name'];
+		foreach(array('recipient','subject','message') as $n){
+			$this->data[$n] = $this->request->post_or_get($n);
+			if (!$this->data[$n] && has_value($this->session->data['sale_contact_presave'][$n])){
+				$this->data[$n] = $this->session->data['sale_contact_presave'][$n];
+			}
 		}
 
 		$form = new AForm('ST');
 		$form->setForm(array(
-				'form_name' => 'mail_form',
+				'form_name' => 'sendFrm',
 				'update' => $this->data['update']
 		));
 
 		$this->data['form']['form_open'] = $form->getFieldHtml(
-				array('type' => 'form',
-						'name' => 'mail_form',
-						'action' => $this->html->getSecureURL('sale/contact/sendNewsletter'),
+				array(
+						'type' => 'form',
+						'name' => 'sendFrm',
+						'action' => '',
 						'attr' => 'data-confirm-exit="true" class="form-horizontal"',
 				));
-
 
 		$this->data['form']['submit'] = $form->getFieldHtml(array(
 				'type' => 'button',
 				'name' => 'submit',
-				'text' => $this->language->get('button_go'),
+				'text' => $this->language->get('button_send'),
 				'style' => 'button1',
 		));
 		$this->data['form']['cancel'] = $form->getFieldHtml(array(
@@ -171,75 +186,95 @@ class ControllerPagesSaleContact extends AController {
 				'style' => 'button2',
 		));
 
-		$this->loadModel('setting/store');
+		$this->data['form']['fields']['protocol'] = $form->getFieldHtml(array(
+				'type' => 'hidden',
+				'name' => 'protocol',
+				'value' => $this->data['protocol']
+		));
 
-		$stores = array(0 => $this->language->get('text_default'));
-		$allstores = $this->model_setting_store->getStores();
-		if ($allstores) {
-			foreach ($allstores as $item) {
-				$stores[$item['store_id']] = $item['name'];
-			}
+		$this->data['form']['build_task_url'] = $this->html->getSecureURL('r/sale/contact/buildTask');
+		$this->data['form']['complete_task_url'] = $this->html->getSecureURL('r/sale/contact/complete');
+		$this->data['form']['abort_task_url'] = $this->html->getSecureURL('r/sale/contact/abort');
+
+
+		//set store selector
+		$this->view->assign('form_store_switch', $this->html->getStoreSwitcher());
+
+		//build recipient filter
+		$options = array('' => $this->language->get('text_custom_send'));
+
+		$db_filter = array('status' => 1, 'approved' => 1);
+		if($this->data['protocol']=='sms'){
+			$db_filter['filter']['only_with_mobile_phones'] = 1;
 		}
 
+		$newsletter_dbfilter = $db_filter;
+		$newsletter_dbfilter['filter']['newsletter_protocol'] = $this->data['protocol'];
 
-		$this->data['form']['fields']['store'] = $form->getFieldHtml(array(
-				'type' => 'selectbox',
-				'name' => 'store_id',
-				'value' => $this->data['store_id'],
-				'options' => $stores,
-				'style' => 'large-field'
-		));
+		$all_subscribers_count = $this->model_sale_customer->getTotalAllSubscribers($newsletter_dbfilter);
+		if($all_subscribers_count){
+			$options['all_subscribers'] = $this->language->get('text_all_subscribers') . ' ' . sprintf($this->language->get('text_total_to_be_sent'), $all_subscribers_count);
+		}
 
-		$all_subscribers = $this->model_sale_customer->getAllSubscribers(array('status' => 1, 'approved' => 1));
-		$all_subscribers_count = sizeof($this->_unify_customer_list($all_subscribers));
+		$only_subscribers_count = $this->model_sale_customer->getTotalOnlyNewsletterSubscribers($newsletter_dbfilter);
+		if($only_subscribers_count){
+			$options['only_subscribers'] = $this->language->get('text_subscribers_only') . ' ' . sprintf($this->language->get('text_total_to_be_sent'), $only_subscribers_count);
+		}
 
-		$only_subscribers = $this->model_sale_customer->getOnlyNewsletterSubscribers(array('status' => 1, 'approved' => 1));
-		$only_subscribers_count = sizeof($this->_unify_customer_list($only_subscribers));
+		$only_customers_count = $this->model_sale_customer->getTotalOnlyCustomers($db_filter);
+		if($only_customers_count){
+			$options['only_customers']  = $this->language->get('text_customers_only') . ' ' . sprintf($this->language->get('text_total_to_be_sent'), $only_customers_count);
+		}
 
-		$only_customers = $this->model_sale_customer->getOnlyCustomers(array('status' => 1, 'approved' => 1));
-		$only_customers_count = sizeof($this->_unify_customer_list($only_customers));
+		if(sizeof($options)==1){
+			$this->data['error_warning'] = $this->language->get('error_'.$this->data['protocol'].'_no_recipients');
+		}
+
+		$options['ordered'] = $this->language->get('text_customers_who_ordered');
 
 		$this->data['form']['fields']['to'] = $form->getFieldHtml(array(
-				'type' => 'selectbox',
-				'name' => 'recipient',
-				'value' => $this->data['recipient'],
-				'options' => array('' => $this->language->get('text_custom_send'),
-						'all_subscribers' => $this->language->get('text_all_subscribers') . ' ' . sprintf($this->language->get('text_total_to_be_sent'), $all_subscribers_count),
-						'only_subscribers' => $this->language->get('text_subscribers_only') . ' ' . sprintf($this->language->get('text_total_to_be_sent'), $only_subscribers_count),
-						'only_customers' => $this->language->get('text_customers_only') . ' ' . sprintf($this->language->get('text_total_to_be_sent'), $only_customers_count)),
-				'required' => true
+		    'type' => 'selectbox',
+		    'name' => 'recipient',
+		    'value' => $this->data['recipient'],
+		    'options' => $options,
+		    'required' => true
 		));
 
-		$this->data['form']['customers'] = $form->getFieldHtml( array(
-		        'type' => 'multiselectbox',
-		        'name' => 'to[]',
-		        'value' => $this->data['to'],
-		        'options' => array(),
-		        'style' => 'chosen',
-		        'ajax_url' => $this->html->getSecureURL('r/listing_grid/customer/customers'),
-		        'placeholder' => $this->language->get('text_select_from_lookup')
-		));
+		$this->data['recipients_count_url'] = $this->html->getSecureURL('r/sale/contact/getRecipientsCount');
+
+		$this->data['form']['fields']['customers'] = $form->getFieldHtml( array(
+		    'type' => 'multiselectbox',
+		    'name' => 'to[]',
+		    'value' => $customer_ids,
+		    'options' => $this->data['customers'],
+		    'style' => 'chosen',
+		    'ajax_url' => $this->html->getSecureURL('r/listing_grid/customer/customers'),
+		    'placeholder' => $this->language->get('text_customers_from_lookup')
+		));	
 
 		$this->data['form']['fields']['product'] = $form->getFieldHtml( array(
-		        'type' => 'multiselectbox',
-		        'name' => 'product[]',
-		        'value' => '',
-		        'options' => array(),
-		        'style' => 'chosen',
-		        'ajax_url' => $this->html->getSecureURL('r/product/product/products'),
-		        'placeholder' => $this->language->get('text_select_from_lookup')
+		    'type' => 'multiselectbox',
+		    'name' => 'products[]',
+		    'value' => $product_ids,
+		    'options' => $this->data['products'],
+		    'style' => 'chosen',
+		    'ajax_url' => $this->html->getSecureURL('r/product/product/products'),
+		    'placeholder' => $this->language->get('text_products_from_lookup')
 		));
 
-		$this->data['form']['fields']['subject'] = $form->getFieldHtml(array(
-				'type' => 'input',
-				'name' => 'subject',
-				'value' => $this->request->post['subject'],
-				'required' => true
-		));
+		if($this->data['protocol']=='email'){
+			$this->data['form']['fields']['subject'] = $form->getFieldHtml(array (
+					'type'     => 'input',
+					'name'     => 'subject',
+					'value'    => $this->data['subject'],
+					'required' => true
+			));
+		}
+
 		$this->data['form']['fields']['message'] = $form->getFieldHtml(array(
-				'type' => 'textarea',
+				'type' => ($this->data['protocol']=='email' ? 'texteditor' : 'textarea'),
 				'name' => 'message',
-				'value' => $this->request->post['message'],
+				'value' => $this->data['message'],
 				'style' => 'ml_ckeditor',
 				'required' => true
 		));
@@ -249,198 +284,83 @@ class ControllerPagesSaleContact extends AController {
 			$this->data['emails'] = (array)$this->request->get['email'];
 		}
 
-
-
-
 		$this->data['category_products'] = $this->html->getSecureURL('product/product/category');
 		$this->data['customers_list'] = $this->html->getSecureURL('user/customers');
+		$this->data['presave_url'] = $this->html->getSecureURL('r/sale/contact/presave');
 
-		$this->data['help_url'] = $this->gen_help_url('mail');
+		$this->data['help_url'] = $this->gen_help_url('send_mail');
 
-		$resources_scripts = $this->dispatch(
-				'responses/common/resource_library/get_resources_scripts',
-				array(
-						'object_name' => 'contact',
-						'object_id' => '',
-						'types' => array('image'),
-				)
+		if($this->data['protocol'] == 'email'){
+			$resources_scripts = $this->dispatch(
+					'responses/common/resource_library/get_resources_scripts',
+					array (
+							'object_name' => 'contact',
+							'object_id'   => '',
+							'types'       => array ('image'),
+					)
+			);
+			$this->data['resources_scripts'] = $resources_scripts->dispatchGetOutput();
+			$this->data['rl'] = $this->html->getSecureURL('common/resource_library', '&action=list_library&object_name=&object_id&type=image&mode=single');
+		}
+
+		//load tabs controller
+		if($this->data['protocol']=='email' || !has_value($this->data['protocol'])){
+			$this->data['active'] = 'email';
+		}elseif($this->data['protocol']=='sms'){
+			$this->data['active'] = 'sms';
+		}
+
+		$this->data['protocols'] = array();
+		$this->data['protocols']['email'] = array(
+				'title' => $this->language->get('text_email'),
+				'href'  => $this->html->getSecureURL('sale/contact/email'),
+				'icon' => 'mail'
 		);
-		$this->data['resources_scripts'] = $resources_scripts->dispatchGetOutput();
-		$this->data['rl'] = $this->html->getSecureURL('common/resource_library', '&action=list_library&object_name=&object_id&type=image&mode=single');
+		$driver = $this->config->get('config_sms_driver');
+		//if sms driver not set or disabled - redirect
+		if($driver && $this->config->get($driver.'_status')){
+			$this->data['protocols']['sms'] = array (
+					'title' => $this->language->get('text_sms'),
+					'href'  => $this->html->getSecureURL('sale/contact/sms')
+			);
+		}
 
+		//check for incompleted tasks
+		$tm = new ATaskManager();
+		$incompleted = $tm->getTasks(array(
+				'filter' => array(
+						'name' => 'send_now'
+				)
+		));
+
+		foreach($incompleted as $incm_task){
+			//show all incompleted tasks for Top Administrator user group
+			if($this->user->getUserGroupId() != 1){
+				if ($incm_task['starter'] != $this->user->getId()){
+					continue;
+				}
+				//rename task to prevent colission with new
+				if($incm_task['name']=='send_now'){
+					$tm->updateTask($incm_task['task_id'],array('name' => 'send_now_'.date('YmdHis')));
+				}
+			}
+			//define incompleted tasks by last time run
+			$max_exec_time = (int)$incm_task['max_execution_time'];
+			if(!$max_exec_time){
+				//if no limitations for execution time for task - think it's 2 hours
+				$max_exec_time = 7200;
+			}
+			if( time() - dateISO2Int($incm_task['last_time_run']) > $max_exec_time ){
+				$this->data['incomplete_tasks_url'] = $this->html->getSecureURL('r/sale/contact/incompleted');
+				break;
+			}
+		}
 
 		$this->view->batchAssign($this->data);
 		$this->processTemplate('pages/sale/contact.tpl');
 
 		//update controller data
 		$this->extensions->hk_UpdateData($this, __FUNCTION__);
-	}
-
-	public function sendNewsletter() {
-
-		//init controller data
-		$this->extensions->hk_InitData($this, __FUNCTION__);
-		// this method can process only posting.
-		if ($this->request->is_GET() ) {
-			$this->redirect($this->html->getSecureURL('sale/contact'));
-		}
-
-		if (!$this->_validate()) {
-			$this->main();
-			return null;
-		}
-
-		$this->loadModel('sale/customer');
-		$this->loadModel('setting/store');
-		$store_info = $this->model_setting_store->getStore($this->request->post['store_id']);
-		if ($store_info) {
-			$store_name = $store_info['store_name'];
-		} else {
-			$store_name = $this->config->get('store_name');
-		}
-
-		$emails = array();
-
-		// All customers by group
-		if (isset($this->request->post['recipient'])) {
-			$customers = $results = array();
-			if ($this->request->post['recipient'] == 'all_subscribers') {
-				$all_subscribers = $this->model_sale_customer->getAllSubscribers();
-				$results = $this->_unify_customer_list($all_subscribers);
-			} else if ($this->request->post['recipient'] == 'only_subscribers') {
-				$only_subscribers = $this->model_sale_customer->getOnlyNewsletterSubscribers();
-				$results = $this->_unify_customer_list($only_subscribers);
-			} else if ($this->request->post['recipient'] == 'only_customers') {
-				$only_customers = $this->model_sale_customer->getOnlyCustomers(array('status' => 1, 'approved' => 1));
-				$results = $this->_unify_customer_list($only_customers);
-			}
-			foreach ($results as $result) {
-				$customer_id = $result['customer_id'];
-				$emails[$customer_id] = $customers[$customer_id] = trim($result['email']);
-			}
-		}
-
-		// All customers by name/email
-		if (isset($this->request->post['to']) && $this->request->post['to']) {
-			foreach ($this->request->post['to'] as $customer_id) {
-				$customer_info = $this->model_sale_customer->getCustomer($customer_id);
-				if ($customer_info) {
-					$emails[] = trim($customer_info['email']);
-				}
-			}
-		}
-
-		// All customers by product
-		if (isset($this->request->post['product'])) {
-			foreach ($this->request->post['product'] as $product_id) {
-				$results = $this->model_sale_customer->getCustomersByProduct($product_id);
-				if ($customers) {
-					$emails = array();
-				}
-				foreach ($results as $result) {
-					if ($customers && in_array($result['email'], $customers)) {
-						$emails[] = trim($result['email']);
-					}
-				}
-			}
-		}
-
-		// Prevent Duplicates
-		$emails = array_unique($emails);
-
-		if ($emails) {
-
-			// HTML Mail
-			$template = new ATemplate();
-			$template->data['lang_direction'] = $this->language->get('direction');
-			$template->data['lang_code'] = $this->language->get('code');
-			$template->data['subject'] = $this->request->post['subject'];
-
-			$text_unsubscribe = $this->language->get('text_unsubscribe');
-			$text_subject = $this->request->post['subject'];
-			$text_message = $this->request->post['message'];
-			$from = $this->config->get('store_main_email');
-
-			$mail = new AMail($this->config);
-			foreach ($emails as $email) {
-				$mail->setTo($email);
-				$mail->setFrom($from);
-				$mail->setSender($store_name);
-				$mail->setSubject($text_subject);
-
-				$message_body = $text_message;
-				if ($this->request->post['recipient'] == 'newsletter') {
-					if (($customer_id = array_search($email, $customers))) {
-						$message_body .= "\n\n<br><br>" . sprintf($text_unsubscribe,
-										$email,
-										$this->html->getCatalogURL('account/unsubscribe', '&email=' . $email . '&customer_id=' . $customer_id));
-					}
-				}
-
-				$template->data['body'] = html_entity_decode($message_body, ENT_QUOTES, 'UTF-8');
-				$html = $template->fetch('mail/contact.tpl');
-				$mail->setHtml($html);
-				$mail->send();
-				if ($mail->error) {
-					$this->error[] = 'Error: Emails does not sent! Please see error log for details.';
-					$this->main();
-					return null;
-				}
-			}
-			unset($mail);
-		}
-
-		$this->session->data['success'] = $this->language->get('text_success');
-		$this->redirect($this->html->getSecureURL('sale/contact'));
-
-
-		//update controller data
-		$this->extensions->hk_UpdateData($this, __FUNCTION__);
-	}
-
-
-	private function _validate() {
-		if (!$this->user->canModify('sale/contact')) {
-			$this->error['warning'] = $this->language->get('error_permission');
-		}
-
-		if (!$this->request->post['subject']) {
-			$this->error['subject'] = $this->language->get('error_subject');
-		}
-
-		if (!$this->request->post['message']) {
-			$this->error['message'] = $this->language->get('error_message');
-		}
-
-		if (!$this->request->post['recipient'] && !$this->request->post['to']) {
-			$this->error['recipient'] = $this->language->get('error_recipients');
-		}
-
-		$this->extensions->hk_ValidateData( $this );
-
-		if (!$this->error) {
-			return TRUE;
-		} else {
-			return FALSE;
-		}
-	}
-
-	/**
-	 * function filters customers list by unique email, to prevent duplicate emails
-	 * @param array $list
-	 * @return array|bool
-	 */
-	private function _unify_customer_list($list = array()) {
-		if (!is_array($list)) {
-			return array();
-		}
-		$output = array();
-		foreach ($list as $c) {
-			if (has_value($c['email'])) {
-				$output[$c['email']] = $c;
-			}
-		}
-		return $output;
 	}
 
 }

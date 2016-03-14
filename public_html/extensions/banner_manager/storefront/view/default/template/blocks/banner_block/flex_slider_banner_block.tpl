@@ -1,4 +1,5 @@
 <section class="slider">
+<h4 class="hidden">&nbsp;</h4>
   <div class="container-fluid">
     <div class="flexslider" id="mainslider">
       <ul class="slides banner">

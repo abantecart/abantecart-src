@@ -1,5 +1,6 @@
 <!-- Popular Brands-->
-<section id="popularbrands" class="container-fluid mt40">
+<section id="popularbrands" class="container-fluid mt20">
+<h4 class="hidden">&nbsp;</h4>
     <div class="container-fluid">
 <?php if ( $block_framed ) { ?>
 		<div class="block_frame block_frame_<?php echo $block_details['block_txt_id']; ?>"
@@ -26,8 +27,6 @@
 		}
 		echo '</li>';
 		}
-
-
    ?>  
    </ul>
    <div class="clearfix"></div>

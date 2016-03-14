@@ -85,6 +85,10 @@
 		<value><![CDATA[Data is empty or corrupted.]]></value>
 	</definition>
 	<definition>
+		<key>error_file_empty</key>
+		<value><![CDATA[File is empty.]]></value>
+	</definition>
+	<definition>
 		<key>error_writable_backup</key>
 		<value><![CDATA[Backup directory needs to be writable for CSV/TXT export to work.]]></value>
 	</definition>

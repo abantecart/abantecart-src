@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2015 Belavier Commerce LLC
+  Copyright © 2011-2016 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -275,7 +275,7 @@ class AHtml extends AController {
 
 	/**
 	 * remove get parameters from url.
-	 * @deprecated since 1.1.4!!!!!!!!! Use filterQueryParams() instead
+	 * @deprecated since 1.1.4! Use filterQueryParams() instead
 	 * @param $url - url to process
 	 * @param $remove_vars
 	 * @internal param array|string $vars - single var or array of vars
@@ -697,10 +697,11 @@ class AHtml extends AController {
 	 * @param $html - text that might contain internal links #admin# or #storefront#
 	 *           $mode  - 'href' create complete a tag or default just replace URL
 	 * @param string $type - can be 'message' to convert url into <a> tag or empty
+	 * @param bool $for_admin - force mode for converting links to admin side from storefront scope (see AIM-class etc)
 	 * @return string - html code with parsed internal URLs
 	 */
-	public function convertLinks($html, $type = '') {
-		$is_admin = IS_ADMIN===true ? true : false;
+	public function convertLinks($html, $type = '', $for_admin = false) {
+		$is_admin = (IS_ADMIN===true || $for_admin) ? true : false;
 		$route_sections = $is_admin ? array( "admin", "storefront" ) : array( "storefront" );
 		foreach ($route_sections as $rt_type) {
 			preg_match_all('/(#' . $rt_type . '#rt=){1}[a-z0-9\/_\-\?\&=\%#]{1,255}(\b|\")/', $html, $matches, PREG_OFFSET_CAPTURE);
@@ -709,6 +710,9 @@ class AHtml extends AController {
 					$href = str_replace('?', '&', $match[ 0 ]);
 
 					if ($rt_type == 'admin') {
+						if($for_admin && IS_ADMIN!==true){
+							$href .= '&s='.ADMIN_PATH;
+						}
 						$new_href = str_replace('#admin#', $this->getSecureURL('') . '&', $href);
 					} else {
 						$new_href = str_replace('#storefront#', $this->getCatalogURL('') . '&', $href);
@@ -1196,6 +1200,7 @@ class TextareaHtmlElement extends HtmlElement {
 				'required' => $this->required,
 				'style' => $this->style,
 				'placeholder' => $this->placeholder,
+				'label_text' => $this->label_text
 			)
 		);
 		if( is_object($this->data['registry']->get('language'))
@@ -1207,6 +1212,45 @@ class TextareaHtmlElement extends HtmlElement {
 		}
 
 		return $this->view->fetch('form/textarea.tpl');
+	}
+}
+
+/**
+ * Class TextEditorHtmlElement
+ */
+class TextEditorHtmlElement extends HtmlElement {
+	/**
+	 * @return string
+	 */
+	public function getHtml() {
+		$registry = $this->data['registry'];
+		$this->view->batchAssign(
+			array(
+				'name' => $this->name,
+				'id' => $this->element_id,
+				'value' => $this->value,
+				'ovalue' => htmlentities($this->value, ENT_QUOTES, 'UTF-8'),
+				'attr' => $this->attr,
+				'required' => $this->required,
+				'style' => $this->style,
+				'placeholder' => $this->placeholder
+			)
+		);
+		if( is_object($this->data['registry']->get('language'))){
+			$language = $this->data['registry']->get('language');
+			if (count($language->getActiveLanguages()) > 1){
+				$this->view->assign('multilingual', $this->multilingual);
+			}
+			$text = array();
+			$text['language_code'] = $registry->get('session')->data['content_language'];
+			$text['tab_text'] = $language->get('tab_text');
+			$text['tab_visual'] = $language->get('tab_visual');
+			$text['button_add_media'] = $language->get('button_add_media');
+
+			$this->view->batchAssign($text);
+		}
+
+		return $this->view->fetch('form/text_editor.tpl');
 	}
 }
 
@@ -1309,8 +1353,8 @@ class MultiSelectboxHtmlElement extends HtmlElement {
 				array(
 				'ajax_url' => $this->ajax_url, //if mode of data load is ajax based 
 				'option_attr' => $option_attr, //list of custom html5 attributes for options of selectbox
-				'text_continue_typing' => $registry->get('language')->get('text_continue_typing'),
-				'text_looking_for' => $registry->get('language')->get('text_looking_for'),				
+				'text_continue_typing' => $registry->get('language')->get('text_continue_typing','',true),
+				'text_looking_for' => $registry->get('language')->get('text_looking_for','',true),				
 				)
 			);
 			$return = $this->view->fetch('form/chosen_select.tpl');
@@ -1624,7 +1668,12 @@ class ResourceHtmlElement extends HtmlElement {
 		if($data['resource_id'] && !$data['resource_path']){
 			$r = new AResource($data['rl_type']);
 			$info = $r->getResource($data['resource_id']);
-			$data['resource_path'] = $data['rl_type'].'/'.$info['resource_path'];
+			if($info['resource_path']){
+				$data['resource_path'] = $data['rl_type'] . '/' . $info['resource_path'];
+			}else{
+				//for code-resources
+				$data['resource_path'] = $data['resource_id'];
+			}
 		}
 
 		$this->view->batchAssign($data);
@@ -1643,7 +1692,7 @@ class ResourceImageHtmlElement extends HtmlElement {
 
 		$this->view->batchAssign(array( 'url' => $this->url,
 			'width' => $this->width,
-			//'height' => $this->height, // disabled because when is set it will broke proportions for img tag
+			'height' => $this->height,
 			'attr' => $this->attr,
 		));
 
@@ -1791,17 +1840,32 @@ class PhoneHtmlElement extends HtmlElement {
 	 */
 	public function getHtml() {
 
-		if (!isset($this->default)) $this->default = '';
-		if ($this->value == '' && !empty($this->default)) $this->value = $this->default;
+		if (!isset($this->default)){
+			$this->default = '';
+		}
+		if ($this->value == '' && !empty($this->default)){
+			$this->value = $this->default;
+		}
+
+		/**
+		 * @var $doc ADocument
+		 */
+		$doc = $this->data['registry']->get('document');
+		$doc->addScript($this->view->templateResource('/javascript/intl-tel-input/js/intlTelInput.min.js'));
+		$doc->addStyle(array (
+						'href' => RDIR_TEMPLATE . 'javascript/intl-tel-input/css/intlTelInput.css',
+						'rel'  => 'stylesheet'
+				));
+
 		$this->view->batchAssign(
 			array(
 				'name' => $this->name,
 				'id' => $this->element_id,
-				'type' => 'text',
+				'type' => 'tel',
 				'value' => str_replace('"', '&quot;', $this->value),
 				'default' => $this->default,
 				//TODO: remove deprecated attribute aform_field_type
-				'attr' => 'aform_field_type="phone" ' . $this->attr.' data-aform-field-type="captcha"',
+				'attr' => $this->attr,
 				'required' => $this->required,
 				'style' => $this->style,
 				'placeholder' => $this->placeholder,
@@ -1813,7 +1877,7 @@ class PhoneHtmlElement extends HtmlElement {
 			$this->view->assign('help_url', $this->help_url);
 		}
 
-		return $this->view->fetch('form/input.tpl');
+		return $this->view->fetch('form/phone.tpl');
 	}
 }
 
@@ -1903,6 +1967,7 @@ class ZonesHtmlElement extends HtmlElement {
 		}
 
 		$this->zone_name = !$this->zone_name ? '' : urlencode($this->zone_name);
+		$this->default_zone_value = array();
 		$this->options = !$this->options ? array() : $this->options;
 		$this->element_id = preg_replace('/[\[+\]+]/', '_', $this->element_id);
 
@@ -1963,7 +2028,7 @@ class ZonesHtmlElement extends HtmlElement {
 				'url' => $url,
 				'zone_field_name' => $this->zone_field_name ? $this->zone_field_name : $this->default_zone_field_name,
 				'zone_name' => $this->zone_name ? $this->zone_name : $this->default_zone_name,
-				'zone_value' => $this->zone_value ? $this->zone_value : $this->default_zone_value,
+				'zone_value' => (array)($this->zone_value ? $this->zone_value : $this->default_zone_value),
 				'zone_options' => $this->zone_options,
 				'submit_mode' => $this->submit_mode,
 				'placeholder' => $this->placeholder
@@ -1995,7 +2060,7 @@ class PaginationHtmlElement extends HtmlElement {
 		$this->sts['total'] = 0;
 		$this->sts['page'] = 1;
 		$this->sts['limit'] = 20;
-		$this->sts['split'] = 5;
+		$this->sts['split'] = 10;
 		$this->sts['limits'] = array();
 		//max pages to show in pagination
 		$this->sts['num_links'] = 10;
@@ -2041,7 +2106,7 @@ class PaginationHtmlElement extends HtmlElement {
 			$s['limits'][0] = $x = ( $s['split'] ? $s['split'] : $registry->get('config')->get('config_catalog_limit') );
 			while( $x <= 50 ){
 				$s['limits'][] = $x;
-				$x += 10;
+				$x += $s['limits'][0];
 			}
 		}
 		

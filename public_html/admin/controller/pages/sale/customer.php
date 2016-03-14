@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2015 Belavier Commerce LLC
+  Copyright © 2011-2016 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -24,18 +24,7 @@ if (!defined('DIR_CORE') || !IS_ADMIN) {
 class ControllerPagesSaleCustomer extends AController {
 	public $data = array();
 	public $error = array();
-	private $fields = array(
-			'loginname',
-			'firstname',
-			'lastname',
-			'email',
-			'telephone',
-			'fax',
-			'newsletter',
-			'customer_group_id',
-			'status',
-			'approved',
-			'password');
+
 	/*
 	 * @var array - key -s field name mask, value - requirement
 	 */
@@ -381,7 +370,24 @@ class ControllerPagesSaleCustomer extends AController {
 		}
 		$this->data['add_address_url'] = $this->html->getSecureURL('sale/customer/update_address', '&customer_id=' . $customer_id);
 
-		foreach ($this->fields as $f) {
+		//allow to change this list via hook
+		$this->data['fields'] = array_merge(array(
+					'loginname' => 'required',
+					'firstname' => 'required',
+					'lastname'  => 'required',
+					'email'     => 'required',
+					'telephone' => 'required',
+					'fax'       => 'required',
+					'sms' => null,
+					'newsletter' => null,
+					'customer_group_id' => null,
+					'status' => null,
+					'approved' => null,
+					'password'  => 'required'),
+			(array)$this->data['fields']);
+
+		$fields = array_keys($this->data['fields']);
+		foreach ($fields as $f) {
 			if (isset ($this->request->post [$f])) {
 				$this->data [$f] = $this->request->post [$f];
 			} elseif (isset($customer_info)) {
@@ -447,6 +453,12 @@ class ControllerPagesSaleCustomer extends AController {
 				'href' => $this->html->getSecureURL('sale/customer/actonbehalf', '&customer_id=' . $customer_id),
 				'target' => 'new'
 		));
+		$this->data['message'] = $this->html->buildElement(array(
+				'type' => 'button',
+				'text' => $this->language->get('button_message'),
+				'href' => $this->html->getSecureURL('sale/contact', '&to[]=' . $customer_id),
+				'target' => 'new'
+		));
 
 		$form->setForm(array(
 				'form_name' => 'cgFrm',
@@ -484,7 +496,12 @@ class ControllerPagesSaleCustomer extends AController {
 				'style' => 'btn_switch',
 		));
 
-		$required_input = array('loginname', 'firstname', 'lastname', 'email', 'telephone', 'fax', 'password');
+		$required_input = array();
+		foreach($this->data['fields'] as $field_name=>$required){
+			if($required){
+				$required_input[] = $field_name;
+			}
+		}
 
 		foreach ($required_input as $f) {
 			$this->data['form']['fields']['details'][$f] = $form->getFieldHtml(array(
@@ -494,6 +511,20 @@ class ControllerPagesSaleCustomer extends AController {
 					'required' => (in_array($f, array('password', 'fax')) ? false : true),
 					'style' => ($f == 'password' ? 'small-field' : '')
 			));
+		}
+
+		//get only active IM drivers
+		$im_drivers = $this->im->getIMDriverObjects();
+		if ($im_drivers){
+			foreach ($im_drivers as $protocol => $driver_obj){
+				if (!is_object($driver_obj) || $protocol=='email'){
+					continue;
+				}
+				$fld = $driver_obj->getURIField($form, $this->data[$protocol]);
+				$this->data['form']['fields']['details'][$protocol] = $fld;
+				$this->data['entry_'.$protocol] = $fld->label_text;
+				$this->data['error_'.$protocol] = $this->error[$protocol];
+			}
 		}
 
 		$this->data['form']['fields']['details']['newsletter'] = $form->getFieldHtml(array(
@@ -875,40 +906,58 @@ class ControllerPagesSaleCustomer extends AController {
 			return FALSE;
 		}
 
+		$data = $this->request->post;
+
 		$login_name_pattern = '/^[\w._-]+$/i';
-		if ((mb_strlen($this->request->post['loginname']) < 5 || mb_strlen($this->request->post['loginname']) > 64)
-		    	|| (!preg_match($login_name_pattern, $this->request->post['loginname']) && $this->config->get('prevent_email_as_login'))
+		if ((mb_strlen($data['loginname']) < 5 || mb_strlen($data['loginname']) > 64)
+		    	|| (!preg_match($login_name_pattern, $data['loginname']) && $this->config->get('prevent_email_as_login'))
 		) {
 		    $this->error['loginname'] = $this->language->get('error_loginname');
 		    //check uniqunes of login name
-		} else if (!$this->model_sale_customer->is_unique_loginname($this->request->post['loginname'], $customer_id)) {
+		} else if (!$this->model_sale_customer->is_unique_loginname($data['loginname'], $customer_id)) {
 		    $this->error['loginname'] = $this->language->get('error_loginname_notunique');
 		}
 
-		if (mb_strlen($this->request->post['email']) > 96 || !preg_match(EMAIL_REGEX_PATTERN, $this->request->post['email'])) {
+		if (mb_strlen($data['email']) > 96 || !preg_match(EMAIL_REGEX_PATTERN, $data['email'])) {
 		    $this->error['email'] = $this->language->get('error_email');
 		}
 
-		if (mb_strlen($this->request->post['telephone']) > 32) {
+		if (mb_strlen($data['telephone']) > 32) {
 		    $this->error['telephone'] = $this->language->get('error_telephone');
 		}
 
-		if (($this->request->post['password']) || (!isset($this->request->get['customer_id']))) {
-		    if (mb_strlen($this->request->post['password']) < 4) {
+		if (($data['password']) || (!isset($this->request->get['customer_id']))) {
+		    if (mb_strlen($data['password']) < 4) {
 		    	$this->error['password'] = $this->language->get('error_password');
 		    }
 
-		    if (!$this->error['password'] && $this->request->post['password'] != $this->request->post['password_confirm']) {
+		    if (!$this->error['password'] && $data['password'] != $data['password_confirm']) {
 		    	$this->error['password'] = $this->language->get('error_confirm');
 		    }
 		}
 
-		if (mb_strlen($this->request->post['firstname']) < 1 || mb_strlen($this->request->post['firstname']) > 32) {
+		if (mb_strlen($data['firstname']) < 1 || mb_strlen($data['firstname']) > 32) {
 			$this->error['firstname'] = $this->language->get('error_firstname');
 		}
 
-		if (mb_strlen($this->request->post['lastname']) < 1 || mb_strlen($this->request->post['lastname']) > 32) {
+		if (mb_strlen($data['lastname']) < 1 || mb_strlen($data['lastname']) > 32) {
 			$this->error['lastname'] = $this->language->get('error_lastname');
+		}
+
+		//validate IM URIs
+		//get only active IM drivers
+		$im_drivers = $this->im->getIMDriverObjects();
+		if ($im_drivers){
+			foreach ($im_drivers as $protocol => $driver_obj){
+				if (!is_object($driver_obj) || $protocol=='email'){
+					continue;
+				}
+				$result = $driver_obj->validateURI($data[$protocol]);
+				if(!$result){
+					$this->error[$protocol] = implode('<br>',$driver_obj->errors);
+				}
+
+			}
 		}
 
 		$this->extensions->hk_ValidateData($this);

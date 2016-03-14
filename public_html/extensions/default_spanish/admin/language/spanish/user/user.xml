@@ -116,4 +116,28 @@
 		<key>error_email</key>
 		<value><![CDATA[Dirección E-Mail no parece ser válido!]]></value>
 	</definition>
+	<definition>
+		<key>entry_ims</key>
+		<value><![CDATA[Notificaciones]]></value>
+	</definition>
+	<definition>
+		<key>entry_im_email</key>
+		<value><![CDATA[E-Mail:<span class="help">Una o más direcciones de correo electrónico separados por comas</span>]]></value>
+	</definition>
+	<definition>
+		<key>entry_im_sms</key>
+		<value><![CDATA[Teléfono móvil:<span class="help">número de teléfono en formato internacional. ejemplo +14566887777</span>]]></value>
+	</definition>
+	<definition>
+		<key>text_edit_im</key>
+		<value><![CDATA[Editar notificaciones]]></value>
+	</definition>
+	<definition>
+		<key>text_sendpoints</key>
+		<value><![CDATA[Enviar Puntos]]></value>
+	</definition>
+	<definition>
+		<key>text_change_im_addresses</key>
+		<value><![CDATA[Direcciones de aviso de edición de este Enviar Punto]]></value>
+	</definition>
 </definitions>

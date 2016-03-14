@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2015 Belavier Commerce LLC
+  Copyright © 2011-2016 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -29,7 +29,7 @@ class ControllerPagesAccountSubscriber extends AController {
         $this->extensions->hk_InitData($this,__FUNCTION__);
 
 		if ($this->customer->isLogged()) {
-	  		$this->redirect($this->html->getSecureURL('account/newsletter'));
+	  		$this->redirect($this->html->getSecureURL('account/notification'));
     	}
 		$this->loadModel('account/customer');
     	$this->loadLanguage('account/create');
@@ -47,7 +47,7 @@ class ControllerPagesAccountSubscriber extends AController {
 				$request_data['password'] = md5(mt_rand(0,10000)); //random password
 				$request_data['loginname'] = md5(time()); // loginname must be unique!
 				$request_data['newsletter'] = 1; // sign of subscriber
-				$request_data['status'] = $request_data['approved'] = 0; //disable login ability for subscribers
+				$request_data['status'] = 0; //disable login ability for subscribers
 				$request_data['customer_group_id'] = $this->model_account_customer->getSubscribersCustomerGroupId();
 				$request_data['ip'] = $this->request->server['REMOTE_ADDR'];
 

@@ -1,8 +1,12 @@
 <?xml version="1.0"?>
 <definitions>
 	<definition>
-		<key>heading_title</key>
+		<key>text_send_email</key>
 		<value><![CDATA[Send Mail]]></value>
+	</definition>
+	<definition>
+		<key>text_send_sms</key>
+		<value><![CDATA[Send SMS]]></value>
 	</definition>
 	<definition>
 		<key>text_success</key>
@@ -14,7 +18,7 @@
 	</definition>
 	<definition>
 		<key>text_custom_send</key>
-		<value><![CDATA[Custom Send]]></value>
+		<value><![CDATA[Manualy selected customers]]></value>
 	</definition>
 	<definition>
 		<key>text_all_subscribers</key>
@@ -26,19 +30,27 @@
 	</definition>
 	<definition>
 		<key>text_customers_only</key>
-		<value><![CDATA[Only Customers]]></value>
+		<value><![CDATA[All Customers]]></value>
 	</definition>
 	<definition>
 		<key>entry_store</key>
-		<value><![CDATA[From:]]></value>
+		<value><![CDATA[From store:<span class="help">Store email address to send email from. Value is set in store settings</span>]]></value>
 	</definition>
 	<definition>
-		<key>entry_product</key>
-		<value><![CDATA[To customers who have ordered Products:]]></value>
+		<key>text_customers_who_ordered</key>
+		<value><![CDATA[To customers who ordered selected products]]></value>
 	</definition>
 	<definition>
 		<key>entry_to</key>
-		<value><![CDATA[To:]]></value>
+		<value><![CDATA[To:<span class="help">List of customers to receive this message. NOTE: Large customer lists will require long time to be processed and might require alternative methods. Refer to your web and email server configurations</span>]]></value>
+	</definition>
+	<definition>
+		<key>text_customers_from_lookup</key>
+		<value><![CDATA[Start typing customer name to look up and select]]></value>
+	</definition>
+	<definition>
+		<key>text_products_from_lookup</key>
+		<value><![CDATA[Start typing product name to look up and select]]></value>
 	</definition>
 	<definition>
 		<key>entry_subject</key>
@@ -46,27 +58,27 @@
 	</definition>
 	<definition>
 		<key>entry_message</key>
-		<value><![CDATA[Message:]]></value>
+		<value><![CDATA[Message body:]]></value>
 	</definition>
 	<definition>
 		<key>error_permission</key>
-		<value><![CDATA[Warning: You do not have permission to send E-Mail's!]]></value>
+		<value><![CDATA[Warning: You do not have permission to send emails!]]></value>
 	</definition>
 	<definition>
 		<key>error_subject</key>
-		<value><![CDATA[E-Mail Subject required!]]></value>
+		<value><![CDATA[Email subject is required!]]></value>
 	</definition>
 	<definition>
 		<key>error_message</key>
-		<value><![CDATA[E-Mail Message required!]]></value>
+		<value><![CDATA[Email message body is required!]]></value>
 	</definition>
 	<definition>
 		<key>error_recipients</key>
-		<value><![CDATA[Recipients required!]]></value>
+		<value><![CDATA[Recipients list, subscribers or products ordered are required!]]></value>
 	</definition>
 	<definition>
 		<key>error_not_sent</key>
-		<value><![CDATA['Error: Emails does not sent! Please see error log for details.']]></value>
+		<value><![CDATA['Error: No emails were sent! Please see error log for details.']]></value>
 	</definition>
 	<definition>
 		<key>text_unsubscribe</key>
@@ -77,11 +89,87 @@
 		<value><![CDATA[(Total to be sent to: %s )]]></value>
 	</definition>
 	<definition>
-		<key>text_select_product</key>
+		<key>text_select_products</key>
 		<value><![CDATA[- Select Products -]]></value>
 	</definition>
 	<definition>
-		<key>text_select_customer</key>
+		<key>text_select_customers</key>
 		<value><![CDATA[- Select Customers -]]></value>
+	</definition>
+	<definition>
+		<key>text_email</key>
+		<value><![CDATA[Email]]></value>
+	</definition>
+	<definition>
+		<key>text_sms</key>
+		<value><![CDATA[SMS]]></value>
+	</definition>
+	<definition>
+		<key>text_incompleted_tasks</key>
+		<value><![CDATA[Incompleted Tasks]]></value>
+	</definition>
+	<definition>
+		<key>text_task_id</key>
+		<value><![CDATA[Task ID:]]></value>
+	</definition>
+	<definition>
+		<key>text_last_time_run</key>
+		<value><![CDATA[Last Time Run:]]></value>
+	</definition>
+	<definition>
+		<key>text_date_added</key>
+		<value><![CDATA[Created:]]></value>
+	</definition>
+	<definition>
+		<key>text_date_added</key>
+		<value><![CDATA[Created:]]></value>
+	</definition>
+	<definition>
+		<key>text_subject</key>
+		<value><![CDATA[Subject:]]></value>
+	</definition>
+	<definition>
+		<key>text_message</key>
+		<value><![CDATA[Message:]]></value>
+	</definition>
+	<definition>
+		<key>text_starter_name</key>
+		<value><![CDATA[Created by:]]></value>
+	</definition>
+	<definition>
+		<key>text_restart</key>
+		<value><![CDATA[Restart]]></value>
+	</definition>
+	<definition>
+		<key>text_remove</key>
+		<value><![CDATA[Remove]]></value>
+	</definition>
+	<definition>
+		<key>error_email_no_recipients</key>
+		<value><![CDATA[Attention! Message will not be sent.]]></value>
+	</definition>
+	<definition>
+		<key>error_sms_no_recipients</key>
+		<value><![CDATA[Attention! No customers with mobile phone numbers. ]]></value>
+	</definition>
+	<definition>
+		<key>text_attention_recipients_count</key>
+		<value><![CDATA[Attention! The message will be sent to %s customers.]]></value>
+	</definition>
+	<definition>
+		<key>text_success_abort</key>
+		<value><![CDATA[Task interrupted successfully.]]></value>
+	</definition>
+	<definition>
+		<key>text_success_sent</key>
+		<value><![CDATA[%s messages have been sent.]]></value>
+	</definition>
+	<definition>
+		<key>text_task_failed</key>
+		<value><![CDATA[Some errors occured during task process. Please see log for details or restart this task.]]></value>
+	</definition>
+	<definition>
+		<key>text_was_sent</key>
+		<value><![CDATA[ %s of %s messages are sent]]></value>
 	</definition>
 </definitions>

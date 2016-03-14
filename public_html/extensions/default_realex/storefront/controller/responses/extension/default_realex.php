@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2015 Belavier Commerce LLC
+  Copyright © 2011-2016 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   Lincence details is bundled with this package in the file LICENSE.txt.
@@ -416,7 +416,7 @@ class ControllerResponsesExtensionDefaultRealex extends AController {
 			$signature_result = $this->model_extension_default_realex->verify3DSignature( $pd, $post['PaRes'] );
 
 			ADebug::checkpoint('Realex 3D processing');
-			ADebug::variable('Signature result:'.$signature_result);
+			ADebug::variable('Realex 3Dsignature result',$signature_result);
 			
 			$v3d = array();
 			if ($signature_result->result == '00' && (strtoupper($signature_result->threedsecure->status) == 'Y' || strtoupper($signature_result->threedsecure->status) == 'A')) {
@@ -484,7 +484,7 @@ class ControllerResponsesExtensionDefaultRealex extends AController {
 
 			$capture_result = $this->model_extension_default_realex->processPayment($pd, $v3d);
 
-			ADebug::variable('Capture result:'.$capture_result);
+			ADebug::variable('Realex Capture Result', $capture_result);
 
 			if ($capture_result->result != '00') {
 				$this->session->data['error'] = (string)$capture_result->message . ' (' . (int)$capture_result->result . ')';

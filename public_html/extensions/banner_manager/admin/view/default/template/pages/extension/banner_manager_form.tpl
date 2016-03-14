@@ -107,13 +107,6 @@
 <?php echo $resources_scripts; ?>
 <script type="text/javascript">
 $(document).ready(function() {
-	$('#BannerFrm_banner_group_name0').change();
-
-	if($('#BannerFrm_description').length){
-	    var cke = wrapCKEditor('BannerFrm_description', {height: '300px'} );
-		addRL2CKE(cke);
-	}
-
 	$('#BannerFrm_banner_group_name0').on('change',function(){
 	    if($(this).val()=='new'){
 	    	$('#BannerFrm_banner_group_name1').fadeIn().focus();
@@ -122,16 +115,6 @@ $(document).ready(function() {
 	    }
 	});
 
-	$('#BannerFrm_banner_group_name\\\[0\\\]').change( function(){
-		$(this).val() == 'new' ? $('#BannerFrm_banner_group_name\\\[1\\\]').show().parents('.aform').show() : $('#BannerFrm_banner_group_name\\\[1\\\]').hide().parents('.aform').hide();
-		!$('#BannerFrm_banner_group_name\\\[1\\\]').is(':visible') ? $('#BannerFrm_banner_group_name\\\[1\\\]').val('<?php echo $new_group_hint; ?>') : null;
-	});
-	$('#BannerFrm_banner_group_name\\\[1\\\]').click( function(){
-		$(this).val() == '<?php echo $new_group_hint; ?>' ? $(this).val('') : null;
-	});
+	$('#BannerFrm_banner_group_name0').change();
 });
-
-
-
-
 </script>

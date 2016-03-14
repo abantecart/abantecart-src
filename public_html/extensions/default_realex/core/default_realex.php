@@ -34,6 +34,9 @@ class ExtensionDefaultRealex extends Extension {
 		$order_id = $that->data['order_id'];
 		//are we logged in and in admin?
 	    if ( IS_ADMIN && $that->user->isLogged() ) {
+			if($that->data['payment_method_key'] != 'default_realex') {
+	    		return null;			
+			} 
 	    	//check if tab is not yet enabled. 
 	    	if ( in_array('payment_details', $that->data['groups'])) {
 	    		return null;

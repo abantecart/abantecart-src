@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2015 Belavier Commerce LLC
+  Copyright © 2011-2016 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -30,7 +30,7 @@ class ControllerBlocksOrderSummary extends AController {
         $this->extensions->hk_InitData($this,__FUNCTION__);
 
 		$this->loadModel('tool/seo_url');
-    	$this->view->assign('heading_title', $this->language->get('heading_title'));
+    	$this->view->assign('heading_title', $this->language->get('heading_title', 'blocks_order_summary'));
     	
 		$this->view->assign('text_subtotal', $this->language->get('text_subtotal'));
 		$this->view->assign('text_empty', $this->language->get('text_empty'));
@@ -64,6 +64,7 @@ class ControllerBlocksOrderSummary extends AController {
                 if($option['element_type']=='C' && in_array($value, array(0,1))){
                     $value = '';
                 }
+		        $title = '';
                 // strip long textarea value
                 if($option['element_type']=='T'){
                     $title = strip_tags($value);

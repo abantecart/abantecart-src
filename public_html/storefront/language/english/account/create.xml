@@ -175,7 +175,7 @@
 	</definition>
 	<definition>
 		<key>text_success_subscribe_heading</key>
-		<value><![CDATA[You have been subscribed successfully!]]></value>
+		<value><![CDATA[You have subscribed successfully!]]></value>
 	</definition>
 	<definition>
 		<key>text_success_subscribe</key>

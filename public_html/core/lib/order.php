@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2015 Belavier Commerce LLC
+  Copyright © 2011-2016 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -202,6 +202,14 @@ class AOrder {
 			$order_info['email'] = $indata['guest']['email'];
 			$order_info['telephone'] = $indata['guest']['telephone'];
 			$order_info['fax'] = $indata['guest']['fax'];
+
+			//IM addresses
+			$protocols = $this->im->getProtocols();
+			foreach($protocols as $protocol){
+				if(has_value($indata['guest'][$protocol]) && !has_value($order_info[$protocol])){
+					$order_info[$protocol] = $indata['guest'][$protocol];
+				}
+			}
 
 			if ($this->cart->hasShipping()) {
 				if (isset($indata['guest']['shipping'])) {

@@ -30,9 +30,9 @@
 								'address_1' => 'address_1', 
 								'address_2' => 'address_2', 
 								'city' => 'city',
+								'zone' => 'zone_id',
 								'postcode' => 'postcode',
 								'country' => 'country_id', 
-								'zone' => 'zone_id',
 								);
 			
 			foreach ($field_list as $field_name => $field_id) {

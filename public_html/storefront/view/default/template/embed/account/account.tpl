@@ -57,7 +57,7 @@
 	</li>
 	<?php } ?>
 	<li>
-	<a title="<?php echo $text_newsletter; ?>" data-toggle="tooltip" href="<?php echo $newsletter; ?>" data-original-title="<?php echo $text_newsletter; ?>">
+	<a title="<?php echo $text_my_notifications; ?>" data-toggle="tooltip" href="<?php echo $notification; ?>" data-original-title="<?php echo $text_my_notifications; ?>">
 	<i class="fa fa-bullhorn"></i>
 	</a>
 	</li>
@@ -69,7 +69,7 @@
 	</li>
 </ul>
 
-<div class="dash-tiles row">
+<div class="dash-tiles">
 	<div class="col-md-3 col-sm-6">
 	<a title="<?php echo $text_address; ?>" data-toggle="tooltip" href="<?php echo $address; ?>" data-original-title="<?php echo $text_address; ?>">
 		<div class="dash-tile dash-tile-ocean clearfix">

@@ -6,7 +6,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2015 Belavier Commerce LLC
+  Copyright © 2011-2016 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -112,18 +112,27 @@ class ControllerPagesInstall extends AController {
 				if(extension_loaded('mysqli')){
 					$options['amysqli'] = 'MySQLi';
 				}
+
+				if(extension_loaded('pdo_mysql')){
+					$options['apdomysql'] = 'PDO MySQL';
+				}
+
 				//regular mysql is not supported on PHP 5.5.+
 				if(extension_loaded('mysql') && version_compare(phpversion(), '5.5.0', '<') == TRUE ){
 					$options['mysql'] = 'MySQL';
 				}
-
-				$this->data[ 'form' ][ $field ] = $form->getFieldHtml(array(
-					'type' => 'selectbox',
-					'name' => $field,
-					'value' => $this->data[ $field ],
-					'options' => $options,
-					'required' => true
-				));
+				if($options){
+					$this->data['form'][$field] = $form->getFieldHtml(array (
+							'type'     => 'selectbox',
+							'name'     => $field,
+							'value'    => $this->data[$field],
+							'options'  => $options,
+							'required' => true
+					));
+				}else{
+					$this->data['form'][$field] = '';
+					$this->data['error'][$field] = 'No database support. Please install AMySQL or PDO_MySQL php extension.';
+				}
 
 			}
 		}

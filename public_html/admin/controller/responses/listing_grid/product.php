@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2015 Belavier Commerce LLC
+  Copyright © 2011-2016 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -167,10 +167,13 @@ class ControllerResponsesListingGridProduct extends AController {
 					}
 
 				break;
-
+			case 'relate':
+				$ids = explode(',', $this->request->post['id']);
+				if (!empty($ids)){
+					$this->model_catalog_product->relateProducts($ids);
+				}
+				break;
 			default:
-				//print_r($this->request->post);
-
 		}
 
 		//update controller data

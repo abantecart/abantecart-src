@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2015 Belavier Commerce LLC
+  Copyright © 2011-2016 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -33,6 +33,7 @@ if (!defined('DIR_CORE')) {
  * @property ASession $session
  * @property ALanguageManager $language
  * @property ALoader $load
+ * @property AIM $im
  *
  */
 class AConfigManager {
@@ -153,7 +154,7 @@ class AConfigManager {
 			'style' => 'large-field',
 		));
 		$fields['description'] = $form->getFieldHtml($props[] = array(
-			'type' => 'textarea',
+			'type' => 'texteditor',
 			'name' => 'config_description_' . $this->session->data['content_language_id'],
 			'value' => $data['config_description_' . $this->session->data['content_language_id']],
 			'style' => 'xl-field',
@@ -529,6 +530,12 @@ class AConfigManager {
 			'value' => $data['config_tax_customer'],
 			'options' => array($this->language->get('entry_tax_customer_0'), $this->language->get('entry_tax_customer_1')),
 		));
+		$fields['start_order_id'] = $form->getFieldHtml($props[] = array(
+			'type' => 'input',
+			'name' => 'config_start_order_id',
+			'value' => $data['config_start_order_id'],
+			'style' => 'small-field',
+		));
 		$fields['invoice'] = $form->getFieldHtml($props[] = array(
 			'type' => 'input',
 			'name' => 'starting_invoice_id',
@@ -619,6 +626,13 @@ class AConfigManager {
 			'value' => $data['config_customer_cancelation_order_status_id'] ? $data['config_customer_cancelation_order_status_id'] : array(),
 			'options' => $order_statuses,
 			'style' => 'chosen'
+		));
+
+		$fields['expire_order_days'] = $form->getFieldHtml($props[] = array(
+			'type' => 'input',
+			'name' => 'config_expire_order_days',
+			'value' => $data['config_expire_order_days'],
+			'style' => 'small-field',
 		));
 		$fields['cart_weight'] = $form->getFieldHtml($props[] = array(
 			'type' => 'checkbox',
@@ -1035,9 +1049,69 @@ class AConfigManager {
 	 * @param array $data
 	 * @return array
 	 */
+	private function _build_form_im($form, $data) {
+		$fields = array();
+
+		$protocols = $this->im->getProtocols();
+		$im_drivers = $this->im->getIMDriversList();
+
+
+		foreach($protocols as $protocol){
+			//skip email protocol. it cannot be disabled
+			if($protocol=='email'){
+				continue;
+			}
+
+			if($im_drivers[$protocol]){
+				$options = array_merge(array(''=> $this->language->get('text_select')), $im_drivers[$protocol]);
+				$no_driver = false;
+			}else{
+				$options = array('' => $this->language->get('text_no_driver'));
+				$no_driver = true;
+			}
+
+			$fields[$protocol]['driver'] = $form->getFieldHtml($props[] = array (
+					'type'    => 'selectbox',
+					'name'    => 'config_'.$protocol.'_driver',
+					'value'   => $data['config_sms_driver'],
+					'options' => $options,
+					'attr' => $no_driver ? 'disabled' :''
+			));
+
+			if(!$no_driver){
+				$fields[$protocol]['storefront_status'] = $form->getFieldHtml($props[] = array (
+						'type'       => 'checkbox',
+						'name'       => 'config_storefront_' . $protocol . '_status',
+						'value'      => 1,
+						'checked'    => $data['config_storefront_' . $protocol . '_status'] ? true : false,
+						'label_text' => $this->language->get('text_storefront'),
+					//'style' => 'btn_switch',
+				));
+
+				$fields[$protocol]['admin_status'] = $form->getFieldHtml($props[] = array (
+						'type'       => 'checkbox',
+						'name'       => 'config_admin_' . $protocol . '_status',
+						'value'      => 1,
+						'checked'    => $data['config_admin_' . $protocol . '_status'] ? true : false,
+						'label_text' => $this->language->get('text_admin'),
+					//'style' => 'btn_switch',
+				));
+			}
+
+		}
+
+
+		return $fields;
+	}
+
+	/**
+	 * @var AForm $form
+	 * @param array $data
+	 * @return array
+	 */
 	private function _build_form_api($form, $data) {
 		$fields = array();
-		//api section 
+		//api section
 		$fields['storefront_api_status'] = $form->getFieldHtml($props[] = array(
 			'type' => 'checkbox',
 			'name' => 'config_storefront_api_status',
@@ -1091,8 +1165,9 @@ class AConfigManager {
 		$fields['session_ttl'] = $form->getFieldHtml($props[] = array(
 			'type' => 'input',
 			'name' => 'config_session_ttl',
-			'value' => $data['config_session_ttl'],
-		));
+			'value' => $data['config_session_ttl']
+		)) . sprintf($this->language->get('text_setting_php_exceed'), 'session.gc_maxlifetime', (int)ini_get('session.gc_maxlifetime')/60);
+
 		$fields['maintenance'] = $form->getFieldHtml($props[] = array(
 			'type' => 'checkbox',
 			'name' => 'config_maintenance',
@@ -1141,7 +1216,7 @@ class AConfigManager {
 					'type' => 'input',
 					'name' => 'config_upload_max_size',
 					'value' => (int)$data['config_upload_max_size']
-				)) . 'This value can not exceed your php.ini setting (<= ' . ini_get('post_max_size') . ')';
+				)) . sprintf($this->language->get('text_setting_php_exceed'), 'post_max_size', (int)ini_get('post_max_size'));
 
 		$fields['error_display'] = $form->getFieldHtml($props[] = array(
 			'type' => 'checkbox',
@@ -1211,7 +1286,7 @@ class AConfigManager {
 	private function _filterField($fields, $props, $field_name) {
 		$output = array();
 		foreach ($props as $n => $properties) {
-			if ($field_name == $properties['name']
+			if (preformatTextID($field_name) == preformatTextID($properties['name'])
 					|| (is_int(strpos($field_name, 'config_description')) && is_int(strpos($properties['name'], 'config_description')))
 			) {
 				$names = array_keys($fields);
@@ -1323,6 +1398,16 @@ class AConfigManager {
 					break;
 
 				case 'checkout':
+					if ($field_name == 'config_start_order_id' && $field_value &&  !(int)$field_value) {
+						$error['start_order_id'] = $this->language->get('error_start_order_id');
+					}
+					if ($field_name == 'starting_invoice_id' && $field_value && !(int)$field_value) {
+						$error['starting_invoice_id'] = $this->language->get('error_starting_invoice_id');
+					}
+					if ($field_name == 'config_expire_order_days' && $field_value && !(int)$field_value) {
+						$error['expire_order_days'] = $this->language->get('error_expire_order_days');
+					}
+
 					break;
 
 				case 'api':

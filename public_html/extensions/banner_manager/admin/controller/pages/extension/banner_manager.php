@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2015 Belavier Commerce LLC
+  Copyright © 2011-2016 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -459,7 +459,7 @@ class ControllerPagesExtensionBannerManager extends AController {
 			$this->view->assign('rl', $this->html->getSecureURL('common/resource_library', '&object_name=banners&type=image'));
 		} else {
 			$this->data['form']['fields']['description'] = $form->getFieldHtml(array(
-				'type' => 'textarea',
+				'type' => 'texteditor',
 				'name' => 'description',
 				'value' => $this->data ['description'],
 				'attr' => '')
@@ -504,9 +504,8 @@ class ControllerPagesExtensionBannerManager extends AController {
 			}
 
 			if (!is_array($this->request->post['banner_group_name'])
-					|| (!$this->request->post['banner_group_name'][1] && in_array($this->request->post['banner_group_name'][0], array('0', 'new')))
-					|| trim($this->request->post['banner_group_name'][1]) == trim($this->language->get('text_put_new_group')) && in_array($this->request->post['banner_group_name'][0], array('0', 'new'))
-			) {
+					|| (!trim($this->request->post['banner_group_name'][1]) && in_array($this->request->post['banner_group_name'][0], array('0', 'new')))
+				) {
 
 				$this->error ['warning'] = $this->language->get('error_empty');
 				$this->session->data['warning'] = $this->language->get('error_empty');
@@ -536,8 +535,10 @@ class ControllerPagesExtensionBannerManager extends AController {
 			$this->request->post['banner_group_name'][1] = mb_ereg_replace('/^[0-9A-Za-z\ \. _\-]/', '', $this->request->post['banner_group_name'][1]);
 		}
 
-		if ($this->request->post['banner_group_name'][1] && $this->request->post['banner_group_name'][0] == 'new') {
+		if ($this->request->post['banner_group_name'][0] == 'new' && $this->request->post['banner_group_name'][1]) {
 			$this->request->post['banner_group_name'] = $this->request->post['banner_group_name'][1];
+		} elseif($this->request->post['banner_group_name'][0]=='0' && !$this->request->post['banner_group_name'][1]) {
+			unset($this->request->post['banner_group_name']);
 		} else {
 			$this->request->post['banner_group_name'] = $this->request->post['banner_group_name'][0];
 		}
@@ -939,7 +940,8 @@ class ControllerPagesExtensionBannerManager extends AController {
 				));
 		$this->data['form']['text']['block_framed'] = $this->language->get('entry_block_framed');
 
-		$this->data['form']['fields']['block_description'] = $form->getFieldHtml(array('type' => 'textarea',
+		$this->data['form']['fields']['block_description'] = $form->getFieldHtml(array(
+				'type' => 'textarea',
 				'name' => 'block_description',
 				'value' => $this->data ['description'],
 				'attr' => ' style="height: 50px;"',

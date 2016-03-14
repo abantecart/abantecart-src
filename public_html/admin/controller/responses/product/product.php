@@ -5,7 +5,7 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2015 Belavier Commerce LLC
+  Copyright © 2011-2016 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
   License details is bundled with this package in the file LICENSE.txt.
@@ -1227,11 +1227,11 @@ class ControllerResponsesProductProduct extends AController{
 	 * @return bool
 	 */
 	private function _validateDownloadForm($data = array()){
+		$this->error = array();
 		if(!$this->user->canModify('catalog/product_files')){
 			$this->error['warning'] = $this->language->get('error_permission');
 		}
 
-		$this->error = array();
 		$this->loadLanguage('catalog/files');
 		$this->loadModel('catalog/download');
 
@@ -1239,7 +1239,7 @@ class ControllerResponsesProductProduct extends AController{
 			$this->error['download_id'] = $this->language->get('error_download_exists');
 		}
 
-		if(mb_strlen($data['name']) < 2 || mb_strlen($data['name']) > 64){
+		if(mb_strlen($data['name']) < 2 || mb_strlen($data['name']) > 40){
 			$this->error['name'] = $this->language->get('error_download_name');
 		}
 
