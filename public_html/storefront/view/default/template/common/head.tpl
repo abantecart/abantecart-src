@@ -79,7 +79,7 @@ a[href]:after {
 <?php foreach ($scripts as $script) { ?>
 <script type="text/javascript" src="<?php echo $script; ?>" defer></script>
 <?php } ?>
-<script type="text/javascript" defer>
+<script type="text/javascript">
 <?php if($retina){?>
 	if((window.devicePixelRatio===undefined?1:window.devicePixelRatio)>1) {
 		document.cookie = 'HTTP_IS_RETINA=1;path=/';
