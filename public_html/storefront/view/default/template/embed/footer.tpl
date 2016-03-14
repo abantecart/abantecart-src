@@ -1,6 +1,6 @@
-<script type="text/javascript" src="<?php echo $this->templateResource('/javascript/easyzoom.js'); ?>"></script>
-<script type="text/javascript" src="<?php echo $this->templateResource('/javascript/jquery.validate.js'); ?>"></script>
-<script type="text/javascript" defer src="<?php echo $this->templateResource('/javascript/custom.response.js'); ?>"></script>
+<script type="text/javascript" src="<?php echo $this->templateResource('/javascript/easyzoom.js'); ?>" defer></script>
+<script type="text/javascript" src="<?php echo $this->templateResource('/javascript/jquery.validate.js'); ?>" defer></script>
+<script type="text/javascript" src="<?php echo $this->templateResource('/javascript/custom.response.js'); ?>" defer></script>
 
 <?php if ($google_analytics) {
 	$ga_data = $this->registry->get('google_analytics_data');
@@ -40,7 +40,7 @@
 <?php } ?>
 
 <?php foreach ($scripts_bottom as $script) { ?>
-	<script type="text/javascript" src="<?php echo $script; ?>"></script>
+	<script type="text/javascript" src="<?php echo $script; ?>" defer></script>
 <?php } ?>
 </body>
 </html>
