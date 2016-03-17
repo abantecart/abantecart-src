@@ -433,6 +433,10 @@
 		<value><![CDATA[Генерировать изображения для retina-дисплеев:<br /><span class="help">Для использования должен быть установлен модуль Apache mod-rewrite, также вы должны переименовать htaccess.txt в .htaccess<br>После включения следует очистить кеш изображений.</span>]]></value>
 	</definition>
 	<definition>
+		<key>entry_image_quality</key>
+		<value><![CDATA[Качество JPEG-Изображений:<br /><span class="help">от 1 до 100 (от худшего к лучшему)</span>]]></value>
+	</definition>
+	<definition>
 		<key>entry_compression</key>
 		<value><![CDATA[Уровень выходного сжатия:<br /><span class="help">GZIP для более эффективного перехода к клиентам. Уровень сжатия должен быть между 0 - 9</span>]]></value>
 	</definition>

@@ -103,19 +103,49 @@ final class AImage{
 		return $res_img;
 	}
 
-	/**
-	 * @param string $filename - full file name
-	 * @param int $quality
-	 * @return bool
-	 */
-	public function save($filename, $quality = 100){
+
+	public function resizeAndSave($filename, $width, $height, $options = array()){
 		if (!$filename){
 			return false;
 		}
+		$width = (int)$width;
+		$height = (int)$height;
+		$options = (array)$options;
+
+		$quality  = !isset($options['quality']) ? 90 : (int)$options['quality'];
+		$nofill  = !isset($options['nofill']) ? false : $options['nofill'];
+
+		//if size will change - resize it and save with GD2, otherwise - just copy file
+		if($this->info['width'] != $width && $this->info['height'] != $height ){
+			$this->resize($width,$height,$nofill);
+			$result = $this->save($filename,$quality);
+		}else{
+			$result = copy($this->file,$filename);
+		}
+
+		return $result;
+	}
+
+
+	/**
+	 * @param string $filename - full file name
+	 * @param int $quality - some number in range from 1 till 100
+	 * @return bool
+	 */
+	public function save($filename, $quality = 90){
+		if (!$filename){
+			return false;
+		}
+
+		$quality = (int)$quality;
+		$quality = $quality > 100 ? 100 : $quality;
+		$quality = $quality < 1 ? 1 : $quality;
+
 		$extension = pathinfo($filename, PATHINFO_EXTENSION);
 		if ($extension == 'jpeg' || $extension == 'jpg'){
 			imagejpeg($this->image, $filename, $quality);
 		} elseif ($extension == 'png'){
+			//use maximum compression for PNG
 			imagepng($this->image, $filename, 9, PNG_ALL_FILTERS);
 		} elseif ($extension == 'gif'){
 			imagegif($this->image, $filename);
@@ -152,6 +182,7 @@ final class AImage{
 		$xpos = (int)(($width - $new_width) / 2);
 		$ypos = (int)(($height - $new_height) / 2);
 
+
 		$image_old = $this->image;
 
 		$this->image = imagecreatetruecolor($width, $height);
@@ -177,6 +208,7 @@ final class AImage{
 
 		$this->info['width'] = $width;
 		$this->info['height'] = $height;
+
 		return true;
 	}
 

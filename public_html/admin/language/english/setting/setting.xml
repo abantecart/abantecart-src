@@ -469,6 +469,11 @@
 			<![CDATA[Generate high-res (retina) images:<br /><span class="help">To use this apache module mod-rewrite must be installed and you need to rename the htaccess.txt to .htaccess. Note: If abantecart not installed in the root of domain must be changed rewriteBase rule inside .htaccess file. <br>After enabling should clear the cache images. </span>]]></value>
 	</definition>
 	<definition>
+		<key>entry_image_quality</key>
+		<value>
+			<![CDATA[entry_image_quality!!!! (only for jpeg)]]></value>
+	</definition>
+	<definition>
 		<key>entry_compression</key>
 		<value>
 			<![CDATA[Output Compression Level:<br /><span class="help">GZIP for more efficient transfer to requesting clients. Compression level must be between 0 - 9</span>]]></value>

@@ -314,8 +314,12 @@ class AResource {
 			}
 
 			$image = new AImage($resource_filename);
-			$image->resize($width, $height);
-			$image->save(DIR_IMAGE . $filename);
+			$image->resizeAndSave(DIR_IMAGE . $filename,
+									$width,
+									$height,
+									array(
+											'quality' => $this->config->get('config_image_quality')
+									));
 			unset($image);
 		}
 	}

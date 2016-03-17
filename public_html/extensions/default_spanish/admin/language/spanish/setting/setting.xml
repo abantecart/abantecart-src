@@ -565,6 +565,10 @@
 		<value><![CDATA[Generar retina imágenes: <br/> <span class="help"> Para usar este módulo apache mod_rewrite debe estar instalado y hay que cambiar el nombre del htaccess.txt a .htaccess<br>Después de habilitar deben borrar. las imágenes de cache</span>]]></value>
 	</definition>
 	<definition>
+		<key>entry_image_quality</key>
+		<value><![CDATA[entry_image_quality !!!!!]]></value>
+	</definition>
+	<definition>
 		<key>entry_compression</key>
 		<value><![CDATA[Nivel compresion de salida:<br /><span class="help">Nivel de compresion debe estar entre 0 y 9</span>]]></value>
 	</definition>
