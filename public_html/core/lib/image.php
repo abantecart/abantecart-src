@@ -39,6 +39,11 @@ final class AImage{
 	private $info;
 
 	/**
+	 * @var
+	 */
+	private $registry;
+
+	/**
 	 * @param string $filename
 	 * @throws AException
 	 */
@@ -54,6 +59,7 @@ final class AImage{
 			);
 
 			$this->image = $this->create($filename);
+			$this->registry = Registry::getInstance();
 		} else{
 			throw new AException(AC_ERR_LOAD, 'Error: Cannot load image ' . $filename . '!');
 		}
@@ -126,13 +132,26 @@ final class AImage{
 		return $result;
 	}
 
-
 	/**
 	 * @param string $filename - full file name
 	 * @param int $quality - some number in range from 1 till 100
 	 * @return bool
 	 */
 	public function save($filename, $quality = 90){
+		if (is_object($this->registry)&& $this->registry->has('extensions')){
+			$result = $this->registry->get('extensions')->hk_save($this, $filename, $quality);
+		} else{
+			$result = $this->_save($filename, $quality);
+		}
+		return $result;
+	}
+
+	/**
+	 * @param string $filename - full file name
+	 * @param int $quality - some number in range from 1 till 100
+	 * @return bool
+	 */
+	public function _save($filename, $quality = 90){
 		if (!$filename){
 			return false;
 		}
