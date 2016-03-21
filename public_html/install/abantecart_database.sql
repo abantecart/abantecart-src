@@ -10281,7 +10281,7 @@ INSERT INTO `ac_block_templates` (`block_id`, `parent_block_id`, `template`, `da
 (20, 6, 'blocks/listing_block_column_right.tpl', now() ),
 (20, 7, 'blocks/listing_block_footer_top.tpl', now() ),
 (20, 8, 'blocks/listing_block_footer.tpl', now() ),
-(21, 0, 'blocks/donate.tpl', now() ),
+(21, 8, 'blocks/donate.tpl', now() ),
 (22, 3, 'blocks/special.tpl', now() ),
 (22, 5, 'blocks/special_home.tpl', now() ),
 (22, 6, 'blocks/special.tpl', now() ),
@@ -10310,8 +10310,9 @@ INSERT INTO `ac_block_templates` (`block_id`, `parent_block_id`, `template`, `da
 (27, 8, 'blocks/menu_bottom.tpl', now() ),
 (27, 3, 'blocks/menu.tpl', now() ),
 (27, 6, 'blocks/menu.tpl', now() ),
-(28, 0, 'blocks/breadcrumbs.tpl', now() ),
-(29, 0, 'blocks/account.tpl', now() ),
+(28, 2, 'blocks/breadcrumbs.tpl', now() ),
+(29, 3, 'blocks/account.tpl', now() ),
+(29, 6, 'blocks/account.tpl', now() ),
 (30, 1, 'blocks/custom_form_block_header.tpl', NOW() ),
 (30, 2, 'blocks/custom_form_block_content.tpl', NOW() ),
 (30, 3, 'blocks/custom_form_block.tpl', NOW() ),
@@ -10320,7 +10321,7 @@ INSERT INTO `ac_block_templates` (`block_id`, `parent_block_id`, `template`, `da
 (30, 6, 'blocks/custom_form_block.tpl', NOW() ),
 (30, 7, 'blocks/custom_form_block_content.tpl', NOW() ),
 (30, 8, 'blocks/custom_form_block_header.tpl', NOW() ),
-(31, 0, 'blocks/customer.tpl', now() );
+(31, 1, 'blocks/customer.tpl', now() );
 
 --
 -- DDL for table `layouts`
