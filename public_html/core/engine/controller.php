@@ -180,8 +180,8 @@ abstract class AController {
 				$param_string .= '&'.$key."=".$values[$key];
 			}
 			$param_string = md5($param_string);
-			//check OS filename size limitation: 255 max
-			$str_limit = 240 - strlen($cfile);
+			//check OS filename size limitation: 255 max - other file portion
+			$str_limit = 200;
 			if(strlen($param_string) > $str_limit) {
 				$param_string = substr($param_string, $str_limit);
 			}
@@ -189,7 +189,7 @@ abstract class AController {
 		//build HTML cache path
 		$lang_store_id  = $this->language->getLanguageCode()."_".$this->config->get('config_store_id');
 		$cdir = DIR_CACHE. "html_cache/".$lang_store_id."/".$this->controller;
-		$this->html_cache_file =  $cdir."_".$this->instance_id."_".$param_string.".thml";
+		$this->html_cache_file =  $cdir."_".$this->instance_id."_".$param_string.".html";
 		//check if can load HTML files and stop
 		return $this->view->checkHTMLCache($this->html_cache_file);
 	}
