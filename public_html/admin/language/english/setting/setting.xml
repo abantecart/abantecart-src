@@ -952,4 +952,8 @@
 		<key>text_im_settings_attention</key>
 		<value><![CDATA[These settings are for instant messages sent automatically during AbanteCart events in storefront and admin. ]]></value>
 	</definition>
+	<definition>
+		<key>entry_html_cache</key>
+		<value><![CDATA[HTML Cache enabled:<br /><span class="help">Please be careful</span>!!!!!]]></value>
+	</definition>
 </definitions>

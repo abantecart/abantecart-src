@@ -144,7 +144,7 @@ abstract class AController {
 		if ($this->layout) {
 			//Load Controller template and pass to view. This can be reset in controller as well
 			$this->view->setTemplate($this->layout->getBlockTemplate($this->instance_id));
-			//Load Children from layout if any. 'instance_id', 'contorller', 'block_text_id', 'template'
+			//Load Children from layout if any. 'instance_id', 'controller', 'block_text_id', 'template'
 			$this->block_details = $this->layout->getBlockDetails($this->instance_id);
 			$this->children = $this->layout->getChildren($this->instance_id);
 		}
@@ -167,7 +167,7 @@ abstract class AController {
 	//function to enable caching for this page/block
 	public function html_cache($params = array(), $values = array()) {
 		//check is HTML cache is enabled and it is storefront
-		if(!$this->config->get('html_cache_config') || IS_ADMIN) {
+		if(!$this->config->get('config_html_cache') || IS_ADMIN) {
 			return false;
 		}
 
@@ -189,7 +189,7 @@ abstract class AController {
 		//build HTML cache path
 		$lang_store_id  = $this->language->getLanguageCode()."_".$this->config->get('config_store_id');
 		$cdir = DIR_CACHE. "html_cache/".$lang_store_id."/".$this->controller;
-		$this->html_cache_file =  $cdir."_".$this->instance_id."_".$param_string.".html";
+		$this->html_cache_file =  $cdir."_".$this->instance_id."_".$param_string;
 		//check if can load HTML files and stop
 		return $this->view->checkHTMLCache($this->html_cache_file);
 	}

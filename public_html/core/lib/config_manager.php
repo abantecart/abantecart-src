@@ -1238,6 +1238,12 @@ class AConfigManager {
 			'value' => $data['config_cache_enable'],
 			'style' => 'btn_switch',
 		));
+		$fields['html_cache'] = $form->getFieldHtml($props[] = array(
+			'type' => 'checkbox',
+			'name' => 'config_html_cache',
+			'value' => $data['config_html_cache'],
+			'style' => 'btn_switch',
+		));
 		$fields['upload_max_size'] = $form->getFieldHtml($props[] = array(
 					'type' => 'input',
 					'name' => 'config_upload_max_size',

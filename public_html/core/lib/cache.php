@@ -86,7 +86,7 @@ final class ACache {
 						continue;
 					}
 				}
-				//build cache map as array {cache_file_name_without_timestamp=>expire_time}
+				//build cache map as array {cache_file_name_without_timestamp=>expiration time}
 				$ch_base = substr($file, 0, -11);
 				$this->cache_map[$ch_base] = $file_time + $this->expire;
 			}
@@ -99,6 +99,10 @@ final class ACache {
 	 */
 	private function _get_cache_files(){
 		$output = glob(DIR_CACHE . '*/*', GLOB_NOSORT);
+		if(is_dir(DIR_CACHE . 'html_cache/')){
+			$output = array_merge($output, glob(DIR_CACHE . 'html_cache/*/*/*', GLOB_NOSORT));
+		}
+
 		//do the trick for php v5.3.3. (php-bug in glob(). It returns false for empty folder).
 		if(is_writable(DIR_CACHE) && $output===false){
 			$output = array();
@@ -235,7 +239,11 @@ final class ACache {
 					$ch_base = substr($file,0,-11);
 					unset($this->cache_map[$ch_base]);
 				}
-    			}
+    		}
+		}
+		//remove all html-cache
+		if($key=='*'){
+			$this->delete_html_cache('*');
 		}
   	}
   	
@@ -275,22 +283,20 @@ final class ACache {
 		if(empty($file_path)) {
 			return '';
 		}
-		if(file_exists($file_path)){
-			//!!!!! add check for expriration of the file based on date and $expire. Both are system site. 
-			//if expired, remove and return empty string ''
+		// filepath + timestamp
+		$filename = $file_path .'.'.$this->cache_map[$file_path];
 
-
-
-			$h = fopen($file_path, 'r');
-			$html_cache = fread($h, filesize($file_path));
+		if(file_exists($filename)){
+			$h = fopen($filename, 'r');
+			$html_cache = fread($h, filesize($filename));
 			fclose($h);
 			return $html_cache;
 		}
-	
+		return '';
 	}
 
 	/**
-	 * Wrire HTML Cache file 
+	 * Write HTML Cache file
 	 * @param string $file_path
 	 * @param string $content
 	 * @return bool
@@ -302,17 +308,20 @@ final class ACache {
 			if(!is_writeable(DIR_CACHE)){
 				return false;
 			}
-			//create direcoty and set empty index.php to limit access
+			//create directory and set empty index.php to limit access
 			make_writable_dir($html_cache_dir);
 			touch($html_cache_dir.'index.php');
 		}	
 		if(is_writeable($html_cache_dir) && $file_path){
+			$timestamp = (time() + $this->expire);
+			$filename = $file_path.'.'.$timestamp;
 			//auto create all directories 
-			if(make_writable_path(dirname($file_path))){
-			    $h = fopen($file_path, 'w');
+			if(make_writable_path(dirname($filename))){
+			    $h = fopen($filename, 'w');
 			    fwrite($h, $content);				
 			    fclose($h);	
-			    chmod($file_path,0777);	
+			    chmod($filename,0777);
+				$this->cache_map[$file_path] = $timestamp;
 			    return true;		
 			} else {
 				return false;
@@ -320,11 +329,19 @@ final class ACache {
 		} else {
 			return false;
 		}
+
 	}
 
 	public function delete_html_cache($path){
+		if(!$path){
+			return false;
+		}
+		//if needs to delete all html-cache
+		if($path=='*'){
+
+		}
 		//!!!!!
-		//remove cache of specified path. This can be only oprtion of the path. Remove all under this path. 
+		//remove cache of specified path. This can be only option of the path. Remove all under this path.
 		
 	}
 

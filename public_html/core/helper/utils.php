@@ -1038,7 +1038,7 @@ function make_writable_dir($dir) {
 /**
  * Create (multiple level) dir if does not exists and/or make all missing writable
  *
- * @param string $dir 
+ * @param string $path
  * @return bool
 */
 function make_writable_path($path) {
@@ -1059,7 +1059,7 @@ function make_writable_path($path) {
 }
 
 /**
- * Qoutes encode a string for javascript using json_encode();
+ * Quotes encode a string for javascript using json_encode();
  *
  * @param string $text 
  * @return string

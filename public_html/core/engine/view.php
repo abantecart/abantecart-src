@@ -25,6 +25,7 @@ if (! defined ( 'DIR_CORE' )) {
  * @property AConfig $config
  * @property ExtensionsAPI $extensions
  * @property AResponse $response
+ * @property ACache $cache
  *
  */
 class AView {
@@ -316,7 +317,7 @@ class AView {
 			ADebug::checkpoint('fetch '.$filename.' end');
 			
 			//Write HTML Cache if we need and can write 
-			if($this->config->get('html_cache_config') && $this->html_cache_file ) {
+			if($this->config->get('config_html_cache') && $this->html_cache_file ) {
 				if($this->cache->save_html_cache($this->html_cache_file, $content) === false){
 					$error = new AError('Error: Cannot create HTML cache for file'.$this->html_cache_file.'! Directory to write cache is not writable', AC_ERR_LOAD);
 					$error->toDebug()->toLog();
@@ -341,7 +342,7 @@ class AView {
     	if ( !$filename ) {
     		return null;    	
     	}
-	    $output = '';
+	    $output = $http_path = '';
 		$res_arr = $this->_extensions_resource_map($filename);
 		//get first exact template extension resource or default template resource othewise.
 		if ( count($res_arr['original'])) {
@@ -397,6 +398,7 @@ class AView {
 			$this->response->setOutput($html_cache, $compression);
 			return true;
 		}
+		return false;
     }
 
 

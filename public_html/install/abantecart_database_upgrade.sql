@@ -13,3 +13,6 @@ WHERE `template` = 'blocks/donate.tpl' AND `block_id`=21 AND `parent_block_id` =
 UPDATE `ac_block_templates`
 SET `parent_block_id` = 2
 WHERE `template` = 'blocks/breadcrumbs.tpl' AND `block_id`=28 AND `parent_block_id` = 0;
+
+INSERT INTO `ac_settings` (`group`, `key`, `value`)
+VALUES ('system','config_html_cache',0);
