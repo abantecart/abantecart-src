@@ -789,7 +789,8 @@ class ExtensionsApi {
 		foreach ($extensions_lookup_list as $ext) {
 			//looking for active template tpl
 		    $f = DIR_EXT . $ext . $file;
-		    if ( in_array($route, $source[$ext][$section]) ) {
+			$ext_tpls = is_array($source[$ext][$section]) ? $source[$ext][$section] : array();
+		    if ( in_array($route, $ext_tpls) ) {
 		        if (is_file($f)) {
 		            $output[$ext] = array(
 		                'file' => $f,
@@ -832,7 +833,8 @@ class ExtensionsApi {
 
 			foreach ($this->enabled_extensions as $ext) {
 				$file = DIR_EXT . $ext . (IS_ADMIN ? DIR_EXT_ADMIN : DIR_EXT_STORE) . 'controller/' . $path_build . '.php';
-				if (in_array($path_build, $this->extension_controllers[$ext][$section]) && is_file($file)) {
+				$ext_controllers = is_array($this->extension_controllers[$ext][$section]) ? $this->extension_controllers[$ext][$section] : array();
+				if (in_array($path_build, $ext_controllers) && is_file($file)) {
 					//remove current node
 					array_shift($path_nodes);
 					//check for method
