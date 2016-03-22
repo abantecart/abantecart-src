@@ -24,7 +24,7 @@ class ControllerBlocksNewsLetterSignUp extends AController {
 	public $data=array();
 	public function main() {
 
-		if($this->html_cache(){
+		if($this->html_cache()){
 			return;
 		}
 		
