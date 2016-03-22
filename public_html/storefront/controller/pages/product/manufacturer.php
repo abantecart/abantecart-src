@@ -24,6 +24,7 @@ class ControllerPagesProductManufacturer extends AController {
 	public $data = array();
 	
 	public function main() {
+		$request = $this->request->get;
 
         //init controller data
         $this->extensions->hk_InitData($this,__FUNCTION__);
@@ -51,8 +52,13 @@ class ControllerPagesProductManufacturer extends AController {
         	'separator' => FALSE
       	 ));
 
-		if (isset($this->request->get['manufacturer_id'])) {
-			$manufacturer_id = $this->request->get['manufacturer_id'];
+		//important to load HTML cache after breadcrumbs
+		if($this->html_cache(array('manufacturer_id','page','limit','sort','order'), $request)){
+			return;
+		}
+
+		if (isset($request['manufacturer_id'])) {
+			$manufacturer_id = $request['manufacturer_id'];
 		} else {
 			$manufacturer_id = 0;
 		}
@@ -61,7 +67,7 @@ class ControllerPagesProductManufacturer extends AController {
 	
 		if ($manufacturer_info) {
       		$this->document->addBreadcrumb( array ( 
-        		'href'      => $this->html->getSEOURL('product/manufacturer','&manufacturer_id=' . $this->request->get['manufacturer_id'], '&encode'),
+        		'href'      => $this->html->getSEOURL('product/manufacturer','&manufacturer_id=' . $request['manufacturer_id'], '&encode'),
         		'text'      => $manufacturer_info['name'],
         		'separator' => $this->language->get('text_separator')
       		 ));
@@ -81,23 +87,23 @@ class ControllerPagesProductManufacturer extends AController {
 				$this->view->assign('manufacturer_icon', $thumbnail['thumb_url']); 
 			}	
 
-			$product_total = $this->model_catalog_product->getTotalProductsByManufacturerId($this->request->get['manufacturer_id']);
+			$product_total = $this->model_catalog_product->getTotalProductsByManufacturerId($request['manufacturer_id']);
 			
 			if ($product_total) {
-				if (isset($this->request->get['page'])) {
-					$page = $this->request->get['page'];
+				if (isset($request['page'])) {
+					$page = $request['page'];
 				} else {
 					$page = 1;
 				}
-				if (isset($this->request->get['limit'])) {
-					$limit = (int)$this->request->get['limit'];
+				if (isset($request['limit'])) {
+					$limit = (int)$request['limit'];
 					$limit = $limit>50 ? 50 : $limit;
 				} else {
 					$limit = $this->config->get('config_catalog_limit');
 				}
 
-				if (isset($this->request->get['sort'])) {
-					$sorting_href = $this->request->get['sort'];
+				if (isset($request['sort'])) {
+					$sorting_href = $request['sort'];
 				} else {
 					$sorting_href = $this->config->get('config_product_default_sort_order');
 				}
@@ -115,7 +121,7 @@ class ControllerPagesProductManufacturer extends AController {
 				
 				$product_ids = $products = array();
         		
-				$products_result = $this->model_catalog_product->getProductsByManufacturerId($this->request->get['manufacturer_id'],
+				$products_result = $this->model_catalog_product->getProductsByManufacturerId($request['manufacturer_id'],
 				                                                                     $sort,
 				                                                                     $order,
 				                                                                     ($page - 1) * $limit,
@@ -189,7 +195,7 @@ class ControllerPagesProductManufacturer extends AController {
 						'call_to_order'=> $result['call_to_order'],
             			'options' => $options,
 						'special' => $special,
-						'href'    => $this->html->getSEOURL('product/product','&manufacturer_id=' . $this->request->get['manufacturer_id'] . '&product_id=' . $result['product_id'], '&encode'),
+						'href'    => $this->html->getSEOURL('product/product','&manufacturer_id=' . $request['manufacturer_id'] . '&product_id=' . $result['product_id'], '&encode'),
 						'add'	  => $add,
 						'description'	=> html_entity_decode($result['description'], ENT_QUOTES, 'UTF-8'),
 						'track_stock' => $track_stock,
@@ -211,11 +217,11 @@ class ControllerPagesProductManufacturer extends AController {
 
 				$url = '';
 		
-				if (isset($this->request->get['page'])) {
-					$url .= '&page=' . $this->request->get['page'];
+				if (isset($request['page'])) {
+					$url .= '&page=' . $request['page'];
 				}
-                if (isset($this->request->get['limit'])) {
-					$url .= '&limit=' . $this->request->get['limit'];
+                if (isset($request['limit'])) {
+					$url .= '&limit=' . $request['limit'];
 				}
 				
 				$sorts = array();
@@ -223,55 +229,55 @@ class ControllerPagesProductManufacturer extends AController {
 				$sorts[] = array(
 					'text'  => $this->language->get('text_default'),
 					'value' => 'p.sort_order-ASC',
-					'href'  => $this->html->getSEOURL('product/manufacturer','&path=' . $this->request->get['manufacturer_id'] . '&sort=p.sort_order&order=ASC'.$url, '&encode')
+					'href'  => $this->html->getSEOURL('product/manufacturer','&path=' . $request['manufacturer_id'] . '&sort=p.sort_order&order=ASC'.$url, '&encode')
 				);
 				
 				$sorts[] = array(
 					'text'  => $this->language->get('text_sorting_name_asc'),
 					'value' => 'pd.name-ASC',
-					'href'  => $this->html->getSEOURL('product/manufacturer', '&manufacturer_id=' . $this->request->get['manufacturer_id'] . '&sort=pd.name&order=ASC'.$url, '&encode')
+					'href'  => $this->html->getSEOURL('product/manufacturer', '&manufacturer_id=' . $request['manufacturer_id'] . '&sort=pd.name&order=ASC'.$url, '&encode')
 				);  
  
 				$sorts[] = array(
 					'text'  => $this->language->get('text_sorting_name_desc'),
 					'value' => 'pd.name-DESC',
-					'href'  => $this->html->getSEOURL('product/manufacturer','&manufacturer_id=' . $this->request->get['manufacturer_id'] . '&sort=pd.name&order=DESC'.$url, '&encode')
+					'href'  => $this->html->getSEOURL('product/manufacturer','&manufacturer_id=' . $request['manufacturer_id'] . '&sort=pd.name&order=DESC'.$url, '&encode')
 				);  
 
 				$sorts[] = array(
 					'text'  => $this->language->get('text_sorting_price_asc'),
 					'value' => 'p.price-ASC',
-					'href'  => $this->html->getSEOURL('product/manufacturer','&manufacturer_id=' . $this->request->get['manufacturer_id'] . '&sort=p.price&order=ASC'.$url, '&encode')
+					'href'  => $this->html->getSEOURL('product/manufacturer','&manufacturer_id=' . $request['manufacturer_id'] . '&sort=p.price&order=ASC'.$url, '&encode')
 				); 
 
 				$sorts[] = array(
 					'text'  => $this->language->get('text_sorting_price_desc'),
 					'value' => 'p.price-DESC',
-					'href'  => $this->html->getSEOURL('product/manufacturer','&manufacturer_id=' . $this->request->get['manufacturer_id'] . '&sort=p.price&order=DESC'.$url, '&encode')
+					'href'  => $this->html->getSEOURL('product/manufacturer','&manufacturer_id=' . $request['manufacturer_id'] . '&sort=p.price&order=DESC'.$url, '&encode')
 				); 
 				
 				$sorts[] = array(
 					'text'  => $this->language->get('text_sorting_rating_desc'),
 					'value' => 'rating-DESC',
-					'href'  => $this->html->getSEOURL('product/manufacturer','&manufacturer_id=' . $this->request->get['manufacturer_id'] . '&sort=rating&order=DESC'.$url, '&encode')
+					'href'  => $this->html->getSEOURL('product/manufacturer','&manufacturer_id=' . $request['manufacturer_id'] . '&sort=rating&order=DESC'.$url, '&encode')
 				); 
 				
 				$sorts[] = array(
 					'text'  => $this->language->get('text_sorting_rating_asc'),
 					'value' => 'rating-ASC',
-					'href'  => $this->html->getSEOURL('product/manufacturer','&manufacturer_id=' . $this->request->get['manufacturer_id'] . '&sort=rating&order=ASC'.$url, '&encode')
+					'href'  => $this->html->getSEOURL('product/manufacturer','&manufacturer_id=' . $request['manufacturer_id'] . '&sort=rating&order=ASC'.$url, '&encode')
 				);
 
 				$sorts[] = array(
 					'text'  => $this->language->get('text_sorting_date_desc'),
 					'value' => 'date_modified-DESC',
-					'href'  => $this->html->getSEOURL('product/manufacturer','&manufacturer_id=' . $this->request->get['manufacturer_id'] . '&sort=date_modified&order=DESC', '&encode')
+					'href'  => $this->html->getSEOURL('product/manufacturer','&manufacturer_id=' . $request['manufacturer_id'] . '&sort=date_modified&order=DESC', '&encode')
 				);
 
 				$sorts[] = array(
 					'text'  => $this->language->get('text_sorting_date_asc'),
 					'value' => 'date_modified-ASC',
-					'href'  => $this->html->getSEOURL('product/manufacturer','&manufacturer_id=' . $this->request->get['manufacturer_id'] . '&sort=date_modified&order=ASC', '&encode')
+					'href'  => $this->html->getSEOURL('product/manufacturer','&manufacturer_id=' . $request['manufacturer_id'] . '&sort=date_modified&order=ASC', '&encode')
 				);
 				$options = array();
 				foreach($sorts as $item){
@@ -283,9 +289,9 @@ class ControllerPagesProductManufacturer extends AController {
 													 'value'=> $sort.'-'.$order
 													 ) );
 				$this->view->assign( 'sorting', $sorting );
-				$this->view->assign( 'url', $this->html->getSEOURL('product/manufacturer','&manufacturer_id=' . $this->request->get['manufacturer_id']) );
+				$this->view->assign( 'url', $this->html->getSEOURL('product/manufacturer','&manufacturer_id=' . $request['manufacturer_id']) );
 
-				$pagination_url = $this->html->getSEOURL('product/manufacturer', '&manufacturer_id=' . $this->request->get['manufacturer_id'] . '&sort=' . $sorting_href . '&page={page}' . '&limit=' . $limit, '&encode');
+				$pagination_url = $this->html->getSEOURL('product/manufacturer', '&manufacturer_id=' . $request['manufacturer_id'] . '&sort=' . $sorting_href . '&page={page}' . '&limit=' . $limit, '&encode');
 
 				$this->view->assign('pagination_bootstrap', $this->html->buildElement( array (
 											'type' => 'Pagination',
@@ -321,16 +327,16 @@ class ControllerPagesProductManufacturer extends AController {
     	} else {
 			$url = '';
 			
-			if (isset($this->request->get['sort'])) {
-				$url .= '&sort=' . $this->request->get['sort'];
+			if (isset($request['sort'])) {
+				$url .= '&sort=' . $request['sort'];
 			}	
 
-			if (isset($this->request->get['order'])) {
-				$url .= '&order=' . $this->request->get['order'];
+			if (isset($request['order'])) {
+				$url .= '&order=' . $request['order'];
 			}
 				
-			if (isset($this->request->get['page'])) {
-				$url .= '&page=' . $this->request->get['page'];
+			if (isset($request['page'])) {
+				$url .= '&page=' . $request['page'];
 			}	
 			
       		$this->document->addBreadcrumb( array ( 

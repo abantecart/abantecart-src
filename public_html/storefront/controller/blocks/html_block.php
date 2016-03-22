@@ -24,6 +24,10 @@ class ControllerBlocksHTMLBlock extends AController {
 	
 	public function main() {
 
+		if($this->html_cache()){
+			return;
+		}
+
         //init controller data
         $this->extensions->hk_InitData($this,__FUNCTION__);
 

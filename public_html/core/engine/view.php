@@ -71,6 +71,11 @@ class AView {
 	 */
 	protected $has_extensions;
 	/**
+	 * @var string
+	 */
+	protected $html_cache_file;
+	
+	/**
 	 * @param Registry $registry
 	 * @param int $instance_id
 	 */
@@ -83,6 +88,7 @@ class AView {
 		$this->data['template_dir'] = RDIR_TEMPLATE;
 		$this->data['tpl_common_dir'] = RDIR_TEMPLATE . '/template/common/';
 		$this->instance_id = $instance_id;
+		
 	}
 
 	public function __get($key) {
@@ -308,9 +314,18 @@ class AView {
 	            }
             }
 			ADebug::checkpoint('fetch '.$filename.' end');
+			
+			//Write HTML Cache if we need and can write 
+			if($this->config->get('html_cache_config') && $this->html_cache_file ) {
+				if($this->cache->save_html_cache($this->html_cache_file, $content) === false){
+					$error = new AError('Error: Cannot create HTML cache for file'.$this->html_cache_file.'! Directory to write cache is not writable', AC_ERR_LOAD);
+					$error->toDebug()->toLog();
+				}
+			}
+			
       		return $content;
     	} else {
-			$error = new AError('Error: Could not load template ' . $filename . '! File '.$file.' is missing or incorrect. Check blocks in the layout or enable debug mode to get more details. ', AC_ERR_LOAD);
+			$error = new AError('Error: Cannot load template ' . $filename . '! File '.$file.' is missing or incorrect. Check blocks in the layout or enable debug mode to get more details. ', AC_ERR_LOAD);
 			$error->toDebug()->toLog();
     	}
 
@@ -362,6 +377,28 @@ class AView {
     		return false;
     	}
     }
+
+	/**
+	 * Check if HTML Cache file present 
+	 * @param string $filepath
+	 * @return bool
+	 */
+	public function checkHTMLCache( $filepath ) {
+    	if ( !$filepath ) {
+    		return false;    	
+    	}
+		$this->html_cache_file = $filepath;
+		$html_cache = $this->cache->get_html_cache($filepath);
+		if($html_cache){
+     		$compression = '';
+     		if ($this->config) { 
+     			$compression = $this->config->get('config_compression');
+     		}
+			$this->response->setOutput($html_cache, $compression);
+			return true;
+		}
+    }
+
 
 	/**
 	 * full directory path

@@ -1027,7 +1027,31 @@ function make_writable_dir($dir) {
 	} else {
 		//Try to create directory
 		mkdir($dir,0777);
+		chmod($dir,0777);
 		return is_writable_dir($dir);	
+	}
+}
+
+/**
+ * Create (multiple level) dir if does not exists and/or make all missing writable
+ *
+ * @param string $dir 
+ * @return bool
+*/
+function make_writable_path($path) {
+	if (empty($path)){
+	    return false;
+	} else if(is_writable_dir($path)) {
+	    return true;
+	} else {
+		//recurse if parent directory does not exists
+		$parent = dirname($path);
+		if(strlen($parent) > 1 && !file_exists($parent) ) {
+			make_writable_path($parent);
+		}
+		mkdir($path,0777,true);
+		chmod($path,0777);
+	    return true;
 	}
 }
 

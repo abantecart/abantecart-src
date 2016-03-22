@@ -29,6 +29,12 @@ class ControllerBlocksBannerBlock extends AController {
 	
 	public function main() {
 
+		$request = $this->request->get;
+
+		if($this->html_cache()){
+			return;
+		}
+
         //init controller data
         $this->extensions->hk_InitData($this,__FUNCTION__);
 		

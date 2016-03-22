@@ -36,6 +36,9 @@ class ControllerPagesProductProduct extends AController{
 	}
 
 	public function main(){
+
+		$request = $this->request->get;
+
 		$this->_init();
 		//init controller data
 		$this->extensions->hk_InitData($this, __FUNCTION__);
@@ -51,10 +54,10 @@ class ControllerPagesProductProduct extends AController{
 		$this->loadModel('tool/seo_url');
 		$this->loadModel('catalog/category');
 
-		if(isset($this->request->get['path'])){
+		if(isset($request['path'])){
 			$path = '';
 
-			foreach(explode('_', $this->request->get['path']) as $path_id){
+			foreach(explode('_', $request['path']) as $path_id){
 				$category_info = $this->model_catalog_category->getCategory($path_id);
 
 				if(!$path){
@@ -75,43 +78,51 @@ class ControllerPagesProductProduct extends AController{
 
 		$this->loadModel('catalog/manufacturer');
 
-		if(isset($this->request->get['manufacturer_id'])){
-			$manufacturer_info = $this->model_catalog_manufacturer->getManufacturer($this->request->get['manufacturer_id']);
+		if(isset($request['manufacturer_id'])){
+			$manufacturer_info = $this->model_catalog_manufacturer->getManufacturer($request['manufacturer_id']);
 
 			if($manufacturer_info){
 				$this->document->addBreadcrumb(array(
-						'href'      => $this->html->getSEOURL('product/manufacturer', '&manufacturer_id=' . $this->request->get['manufacturer_id'], '&encode'),
+						'href'      => $this->html->getSEOURL('product/manufacturer', '&manufacturer_id=' . $request['manufacturer_id'], '&encode'),
 						'text'      => $manufacturer_info['name'],
 						'separator' => $this->language->get('text_separator')
 				));
 			}
 		}
 
-		if(isset($this->request->get['keyword'])){
+		if(isset($request['keyword'])){
 			$url = '';
 
-			if(isset($this->request->get['category_id'])){
-				$url .= '&category_id=' . $this->request->get['category_id'];
+			if(isset($request['category_id'])){
+				$url .= '&category_id=' . $request['category_id'];
 			}
 
-			if(isset($this->request->get['description'])){
-				$url .= '&description=' . $this->request->get['description'];
+			if(isset($request['description'])){
+				$url .= '&description=' . $request['description'];
 			}
 
 			$this->document->addBreadcrumb(array(
-					'href'      => $this->html->getURL('product/search', '&keyword=' . $this->request->get['keyword'] . $url, '&encode'),
+					'href'      => $this->html->getURL('product/search', '&keyword=' . $request['keyword'] . $url, '&encode'),
 					'text'      => $this->language->get('text_search'),
 					'separator' => $this->language->get('text_separator')
 			));
 		}
 
+		//HTML cache only for non-customer
+		if(!$this->customer->isLogged() && !$this->customer->isUnauthCustomer()){
+			//important to load HTML cache after breadcrumbs
+			if($this->html_cache(array('product_id','path','key','manufacturer_id','category_id','description','keyword'), $request)){
+				return;
+			}
+		}
+
 		$key = array(); //key of product from cart
 
-		if(has_value($this->request->get['key'])){
-			$key = explode(':', $this->request->get['key']);
+		if(has_value($request['key'])){
+			$key = explode(':', $request['key']);
 			$product_id = (int)$key[0];
-		} elseif(has_value($this->request->get['product_id'])){
-			$product_id = (int)$this->request->get['product_id'];
+		} elseif(has_value($request['product_id'])){
+			$product_id = (int)$request['product_id'];
 		} else{
 			$product_id = 0;
 		}
@@ -290,7 +301,7 @@ class ControllerPagesProductProduct extends AController{
 
 
 		if(!$product_info['call_to_order']){
-			$qnt = (int)$this->request->get['quantity'];
+			$qnt = (int)$request['quantity'];
 			if(!$qnt){
 				$qnt = ($product_info['minimum'] ? (int)$product_info['minimum'] : 1);
 			}
@@ -352,7 +363,7 @@ class ControllerPagesProductProduct extends AController{
 		//get info from cart if key presents
 		$cart_product_info = array();
 		if($key){
-			$cart_product_info = $this->cart->getProduct($this->request->get['key']);
+			$cart_product_info = $this->cart->getProduct($request['key']);
 		}
 
 		foreach($product_options as $option){
@@ -368,8 +379,8 @@ class ControllerPagesProductProduct extends AController{
 				$default_value = $option_value['default'] && !$default_value ? $option_value['product_option_value_id'] : $default_value;
 
 				// for case when trying to add to cart withot required options. we get option-array back inside _GET
-				if(has_value($this->request->get['option'][$option['product_option_id']])){
-					$default_value = $this->request->get['option'][$option['product_option_id']];
+				if(has_value($request['option'][$option['product_option_id']])){
+					$default_value = $request['option'][$option['product_option_id']];
 				}
 
 				$name = $option_value['name'];
@@ -682,24 +693,24 @@ class ControllerPagesProductProduct extends AController{
 
 	private function _build_url_params(){
 		$url = '';
-		if(isset($this->request->get['path'])){
-			$url .= '&path=' . $this->request->get['path'];
+		if(isset($request['path'])){
+			$url .= '&path=' . $request['path'];
 		}
 
-		if(isset($this->request->get['manufacturer_id'])){
-			$url .= '&manufacturer_id=' . $this->request->get['manufacturer_id'];
+		if(isset($request['manufacturer_id'])){
+			$url .= '&manufacturer_id=' . $request['manufacturer_id'];
 		}
 
-		if(isset($this->request->get['keyword'])){
-			$url .= '&keyword=' . $this->request->get['keyword'];
+		if(isset($request['keyword'])){
+			$url .= '&keyword=' . $request['keyword'];
 		}
 
-		if(isset($this->request->get['category_id'])){
-			$url .= '&category_id=' . $this->request->get['category_id'];
+		if(isset($request['category_id'])){
+			$url .= '&category_id=' . $request['category_id'];
 		}
 
-		if(isset($this->request->get['description'])){
-			$url .= '&description=' . $this->request->get['description'];
+		if(isset($request['description'])){
+			$url .= '&description=' . $request['description'];
 		}
 
 		return $url;

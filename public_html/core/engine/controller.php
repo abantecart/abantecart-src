@@ -112,6 +112,7 @@ abstract class AController {
 	public $view;
 	protected $config;
 	protected $languages = array();
+	protected $html_cache_file;
 
 	/**
 	 * @param $registry Registry
@@ -163,6 +164,36 @@ abstract class AController {
 		$this->clear();
 	}
 
+	//function to enable caching for this page/block
+	public function html_cache($params = array(), $values = array()) {
+		//check is HTML cache is enabled and it is storefront
+		if(!$this->config->get('html_cache_config') || IS_ADMIN) {
+			return false;
+		}
+
+		//build HTML cache file name
+		//build cache string based on params 
+		$param_string = '';
+		if(is_array($params) && $params) {
+			sort($params);
+			foreach ($params as $key) {
+				$param_string .= '&'.$key."=".$values[$key];
+			}
+			$param_string = md5($param_string);
+			//check OS filename size limitation: 255 max
+			$str_limit = 240 - strlen($cfile);
+			if(strlen($param_string) > $str_limit) {
+				$param_string = substr($param_string, $str_limit);
+			}
+		}
+		//build HTML cache path
+		$lang_store_id  = $this->language->getLanguageCode()."_".$this->config->get('config_store_id');
+		$cdir = DIR_CACHE. "html_cache/".$lang_store_id."/".$this->controller;
+		$this->html_cache_file =  $cdir."_".$this->instance_id."_".$param_string.".thml";
+		//check if can load HTML files and stop
+		return $this->view->checkHTMLCache($this->html_cache_file);
+	}
+
 	/*
 	* Quick access to controller name or rt
 	*/
@@ -170,7 +201,7 @@ abstract class AController {
 		return $this->controller;
 	}
 
-	// Clear funstion is public in case controller needs to be cleaned explicitly
+	// Clear function is public in case controller needs to be cleaned explicitly
 	public function clear() {
 		$vars = get_object_vars($this);
 		foreach ($vars as $key => $val) {

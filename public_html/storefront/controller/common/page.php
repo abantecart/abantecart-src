@@ -33,9 +33,9 @@ class ControllerCommonPage extends AController {
         $this->addChild('common/head', 'head', 'common/head.tpl');
 
 		foreach ($this->children as $block) {
-				if ( !empty($block['position']) ) {
-					$this->view->assign($block['block_txt_id'], $block['block_txt_id'].'_'.$block['instance_id']);
-				}
+			if ( !empty($block['position']) ) {
+				$this->view->assign($block['block_txt_id'], $block['block_txt_id'].'_'.$block['instance_id']);
+			}
 		}
 
 		$this->processTemplate('common/page.tpl');

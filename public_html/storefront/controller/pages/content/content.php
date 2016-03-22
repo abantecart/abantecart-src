@@ -22,6 +22,7 @@ if (! defined ( 'DIR_CORE' )) {
 }
 class ControllerPagesContentContent extends AController {
 	public function main() {
+		$request = $this->request->get;
 
         //init controller data
         $this->extensions->hk_InitData($this,__FUNCTION__);
@@ -35,9 +36,14 @@ class ControllerPagesContentContent extends AController {
         	'text'      => $this->language->get('text_home'),
         	'separator' => FALSE
       	 ));
+
+		//important to load HTML cache after breadcrumbs
+		if($this->html_cache(array('content_id'), $request)){
+			return;
+		}
 		
-		if (isset($this->request->get['content_id'])) {
-			$content_id = $this->request->get['content_id'];
+		if (isset($request['content_id'])) {
+			$content_id = $request['content_id'];
 		} else {
 			$content_id = 0;
 		}
@@ -47,7 +53,7 @@ class ControllerPagesContentContent extends AController {
 	  		$this->document->setTitle( $content_info['title'] );
 
       		$this->document->addBreadcrumb( array ( 
-        		'href'      => $this->html->getSEOURL('content/content', '&content_id=' . $this->request->get['content_id'], true),
+        		'href'      => $this->html->getSEOURL('content/content', '&content_id=' . $request['content_id'], true),
         		'text'      => $content_info['title'],
         		'separator' => $this->language->get('text_separator')
       		 ));		
@@ -67,7 +73,7 @@ class ControllerPagesContentContent extends AController {
             $this->view->setTemplate( 'pages/content/content.tpl' );
     	} else {
       		$this->document->addBreadcrumb( array ( 
-        		'href'      => $this->html->getSEOURL('content/content','&content_id=' . $this->request->get['content_id'], true),
+        		'href'      => $this->html->getSEOURL('content/content','&content_id=' . $request['content_id'], true),
         		'text'      => $this->language->get('text_error'),
         		'separator' => $this->language->get('text_separator')
       		 ));

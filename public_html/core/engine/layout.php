@@ -139,7 +139,7 @@ class ALayout {
 		$this->layout = $layouts[0];
 		$this->layout_id = $this->layout['layout_id'];
 
-		// Get all blacks for the page;
+		// Get all blocks for the page;
 		$blocks = $this->getlayoutBlocks($this->layout_id);
 		$this->blocks = $blocks;
 		return $this->page_id;

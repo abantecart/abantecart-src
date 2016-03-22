@@ -24,6 +24,10 @@ class ControllerBlocksNewsLetterSignUp extends AController {
 	public $data=array();
 	public function main() {
 
+		if($this->html_cache(){
+			return;
+		}
+		
 		$this->loadLanguage('blocks/newsletter_signup');
 
 		$form  =  new AForm();

@@ -27,6 +27,14 @@ class ControllerBlocksCategory extends AController {
 	protected $selected_root_id = array();
 
 	public function main() {
+		$request = $this->request->get;
+
+		//HTML cache only for non-customer
+		if(!$this->customer->isLogged() && !$this->customer->isUnauthCustomer()){
+			if($this->html_cache()){
+				return;
+			}
+		}
 
         //init controller data
         $this->extensions->hk_InitData($this,__FUNCTION__);
@@ -35,12 +43,12 @@ class ControllerBlocksCategory extends AController {
 		
 		$this->loadModel('catalog/category');
 		
-		if (isset($this->request->get['path'])) {
-			$this->path = explode('_', $this->request->get['path']);
+		if (isset($request['path'])) {
+			$this->path = explode('_', $request['path']);
 			$this->category_id = end($this->path);
 		}
 		$this->view->assign('selected_category_id', $this->category_id);
-		$this->view->assign('path', $this->request->get['path']);
+		$this->view->assign('path', $request['path']);
 		
 		//load main lavel categories
 		$all_categories = $this->model_catalog_category->getAllCategories();

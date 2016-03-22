@@ -265,6 +265,70 @@ final class ACache {
 		return isset($this->exists[$key.'_'.$language_id.'_'.$store_id]);
 	}
 
+	//HTML Cache related methods:
+	/**
+	 * Read HTML valid cache file
+	 * @param string $file_path
+	 * @return string
+	 */
+	public function get_html_cache($file_path){
+		if(empty($file_path)) {
+			return '';
+		}
+		if(file_exists($file_path)){
+			//!!!!! add check for expriration of the file based on date and $expire. Both are system site. 
+			//if expired, remove and return empty string ''
+
+
+
+			$h = fopen($file_path, 'r');
+			$html_cache = fread($h, filesize($file_path));
+			fclose($h);
+			return $html_cache;
+		}
+	
+	}
+
+	/**
+	 * Wrire HTML Cache file 
+	 * @param string $file_path
+	 * @param string $content
+	 * @return bool
+	 */
+	public function save_html_cache($file_path, $content){
+		$html_cache_dir = DIR_CACHE. "html_cache/"; 
+		//create html cache directory if not yet there. 
+		if(!is_dir($html_cache_dir)) {
+			if(!is_writeable(DIR_CACHE)){
+				return false;
+			}
+			//create direcoty and set empty index.php to limit access
+			make_writable_dir($html_cache_dir);
+			touch($html_cache_dir.'index.php');
+		}	
+		if(is_writeable($html_cache_dir) && $file_path){
+			//auto create all directories 
+			if(make_writable_path(dirname($file_path))){
+			    $h = fopen($file_path, 'w');
+			    fwrite($h, $content);				
+			    fclose($h);	
+			    chmod($file_path,0777);	
+			    return true;		
+			} else {
+				return false;
+			}
+		} else {
+			return false;
+		}
+	}
+
+	public function delete_html_cache($path){
+		//!!!!!
+		//remove cache of specified path. This can be only oprtion of the path. Remove all under this path. 
+		
+	}
+
+
 	/**
 	 * @param string $key
 	 * @void
@@ -278,7 +342,10 @@ final class ACache {
 		}
 		if (!is_file(DIR_CACHE . $section) && !is_dir(DIR_CACHE . $section)) {
 			mkdir(DIR_CACHE . $section, 0777, true);
-			$this->_chmod_dir(DIR_CACHE . $section, 0777); //change mode for nested directories
+			//change mode for nested directories
+			$this->_chmod_dir(DIR_CACHE . $section, 0777);
+			//prevent direct access to this directory
+			touch(DIR_CACHE . $section.'/index.php');
 		}
 	}
 

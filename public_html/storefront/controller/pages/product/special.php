@@ -25,6 +25,7 @@ class ControllerPagesProductSpecial extends AController {
     public $data = array();
 
 	public function main() {
+		$request = $this->request->get;
 
         //init controller data
         $this->extensions->hk_InitData($this,__FUNCTION__);
@@ -42,8 +43,8 @@ class ControllerPagesProductSpecial extends AController {
 
 		$url = '';
 
-		if (isset($this->request->get['page'])) {
-			$url .= '&page=' . $this->request->get['page'];
+		if (isset($request['page'])) {
+			$url .= '&page=' . $request['page'];
 		}
 			
    		$this->document->addBreadcrumb( array ( 
@@ -51,22 +52,27 @@ class ControllerPagesProductSpecial extends AController {
        		'text'      => $this->language->get('heading_title'),
       		'separator' => $this->language->get('text_separator')
    		 ));
+
+		//important to load HTML cache after breadcrumbs
+		if($this->html_cache(array('page','limit','sort','order'), $request)){
+			return;
+		}
 		
-    	if (isset($this->request->get['page'])) {
-			$page = $this->request->get['page'];
+    	if (isset($request['page'])) {
+			$page = $request['page'];
 		} else {
 			$page = 1;
 		}
 
-        if (isset($this->request->get['limit'])) {
-            $limit = (int)$this->request->get['limit'];
+        if (isset($request['limit'])) {
+            $limit = (int)$request['limit'];
             $limit = $limit>50 ? 50 : $limit;
         } else {
             $limit = $this->config->get('config_catalog_limit');
         }
 
-		if (isset($this->request->get['sort'])) {
-			$sorting_href = $this->request->get['sort'];
+		if (isset($request['sort'])) {
+			$sorting_href = $request['sort'];
 		} else {
 			$sorting_href = $this->config->get('config_product_default_sort_order');
 		}

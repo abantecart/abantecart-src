@@ -498,6 +498,9 @@ try {
 		$registry->set('im', new AIM());
 	}
 
+//!!!!! need to move to config setting
+$config->set('html_cache_config', true);
+
 
 } //eof try
 catch (AException $e) {

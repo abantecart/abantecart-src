@@ -42,6 +42,11 @@ class ControllerPagesContentSitemap extends AController {
         	'separator' => $this->language->get('text_separator')
       	 ));	
 		
+		//important to load HTML cache after breadcrumbs
+		if($this->html_cache(array(), array())){
+			return;
+		}
+
 		$this->loadModel('catalog/category');
 		$this->loadModel('tool/seo_url');
 		
