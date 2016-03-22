@@ -338,11 +338,25 @@ final class ACache {
 		}
 		//if needs to delete all html-cache
 		if($path=='*'){
+			$files = glob(DIR_CACHE . 'html_cache/*/*/*', GLOB_NOSORT);
 
+			if ($files) {
+	            foreach ($files as $file) {
+					if(pathinfo($file,PATHINFO_FILENAME) == 'index.html'){ continue; }
+	                    if (is_file($file)) {
+						$this->_remove($file);
+						//clear cache map
+						$ch_base = substr($file,0,-11);
+						unset($this->cache_map[$ch_base]);
+					}
+	            }
+			}
 		}
 		//!!!!!
 		//remove cache of specified path. This can be only option of the path. Remove all under this path.
-		
+
+
+		return true;
 	}
 
 
@@ -353,7 +367,7 @@ final class ACache {
 	private function _test_create_directory ($key) {
 		//get section by first part of the key
 		$section = substr($key, 0,strpos($key, '.'));
-		//if no match use key as seciton 
+		//if no match use key as section
 		if ( !$section ) {
 			$section = $key;
 		}
