@@ -1048,16 +1048,18 @@ class ControllerResponsesCommonResourceLibrary extends AController {
 
 		$this->request->post['resource_code'] = html_entity_decode($this->request->post['resource_code'], ENT_COMPAT, 'UTF-8');
 
+		$post_data = $this->request->post;
 		$rm = new AResourceManager();
-		$language_id = (int)$this->request->post['language_id'];
+		$language_id = (int)$post_data['language_id'];
 		$language_id = !$language_id ? $this->language->getContentLanguageID() : $language_id;
-		if(!is_array($this->request->post['name'])){
-			$this->request->post['name'] = array($language_id=>$this->request->post['name']);
-			$this->request->post['title'] = array($language_id=>$this->request->post['title']);
-			$this->request->post['description'] = array($language_id=>$this->request->post['description']);
+		$post_data['language_id'] = $language_id;
+		if(!is_array($post_data['name'])){
+			$post_data['name'] = array($language_id=>$post_data['name']);
+			$post_data['title'] = array($language_id=>$post_data['title']);
+			$post_data['description'] = array($language_id=>$post_data['description']);
 		}
 
-		$result = $rm->updateResource($this->request->get['resource_id'], $this->request->post);
+		$result = $rm->updateResource($this->request->get['resource_id'], $post_data);
 
 		//update controller data
 		$this->extensions->hk_UpdateData($this,__FUNCTION__);

@@ -106,6 +106,9 @@ function has_value($value) {
  * check that argument variable has value (even 0 is a value)  
  * */
 function is_serialized ($value) {
+	if(gettype($value) !== 'string'){
+		return false;
+	}
 	$test_data = @unserialize($value);
 	if ($value === 'b:0;' || $test_data !== false) {
 	    return true;
