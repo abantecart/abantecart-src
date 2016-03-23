@@ -233,7 +233,7 @@ final class ACache {
 		if ($files) {
     		foreach ($files as $file) {
 			if(pathinfo($file,PATHINFO_FILENAME) == 'index.html'){ continue; }
-      				if (file_exists($file)) {      				
+      			if (is_file($file)) {
 					$this->_remove($file);
 					//clear cache map
 					$ch_base = substr($file,0,-11);
@@ -423,10 +423,9 @@ final class ACache {
 	 * @void
 	 */
 	private function _remove($file){
-		if(empty($file)){
+		if(empty($file) || !is_file($file)){
 			return null;
 		}
-
 		unlink($file);
 		//double check that the cache file to be removed
 		if (file_exists($file)){

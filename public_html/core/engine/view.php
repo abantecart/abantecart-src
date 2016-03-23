@@ -316,8 +316,8 @@ class AView {
             }
 			ADebug::checkpoint('fetch '.$filename.' end');
 			
-			//Write HTML Cache if we need and can write 
-			if($this->config->get('config_html_cache') && $this->html_cache_file ) {
+			//Write HTML Cache if we need and can write
+			if($this->config && $this->config->get('config_html_cache') && $this->html_cache_file ) {
 				if($this->cache->save_html_cache($this->html_cache_file, $content) === false){
 					$error = new AError('Error: Cannot create HTML cache for file'.$this->html_cache_file.'! Directory to write cache is not writable', AC_ERR_LOAD);
 					$error->toDebug()->toLog();
