@@ -63,6 +63,10 @@ final class ACache {
 		}
 	}
 
+	/**
+	 * @param string $filename
+	 * @return bool
+	 */
 	private function _is_expired($filename){
 		if(!is_file($filename)){
 			return true;
@@ -75,7 +79,7 @@ final class ACache {
 			return true;
 		}
 
-		return (time() - filemtime($filename) > $this->expire);
+		return ( (time()-$mtime) > $this->expire );
 	}
 
 	/**
@@ -195,6 +199,9 @@ final class ACache {
             $res = $this->_remove($file);
 	        $result = !$res ? false : $result;
         }
+
+		$this->delete_html_cache();
+
 		return $result;
   	}
 
@@ -258,32 +265,33 @@ final class ACache {
 		} else {
 			return false;
 		}
-
 	}
 
-	public function delete_html_cache($path){
-		if(!$path){
-			return false;
-		}
-		//if needs to delete all html-cache
-		if($path=='*'){
-			$files = glob(DIR_CACHE . 'html_cache/*/*/*', GLOB_NOSORT);
+	public function delete_html_cache(){
+		$this->_remove_dir( DIR_CACHE . 'html_cache/' );
+	}
 
-			if ($files) {
-	            foreach ($files as $file) {
-					if(pathinfo($file,PATHINFO_FILENAME) == 'index.html'){ continue; }
-					$this->_remove($file);
-	            }
+	private function _remove_dir($dir = ''){
+		if (is_dir($dir)){
+			$objects = scandir($dir);
+			foreach ($objects as $obj){
+				if ($obj != "." && $obj != ".."){
+					chmod($dir . "/" . $obj, 0777);
+					$err = is_dir($dir . "/" . $obj) ? $this->_remove_dir($dir . "/" . $obj) : $this->_remove($dir . "/" . $obj);
+					if (!$err){
+						return false;
+					}
+				}
 			}
+			reset($objects);
+			rmdir($dir);
+			return true;
+		} else{
+			return $dir;
 		}
-
-		var_dump($this->registry->get('language'));
-		//!!!!!
-		//remove cache of specified path. This can be only option of the path. Remove all under this path.
-
-
-		return true;
 	}
+
+
 
 
 	/**
