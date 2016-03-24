@@ -33,25 +33,12 @@ final class ACache {
 	 * @var Registry
 	 */
 	private $registry;
-	/**
-	 * @var array
-	 */
-	private $empties = array();
-	/**
-	 * @var array
-	 */
-	private $exists = array();
-	/**
-	 * @var array
-	 */
-	private $cache_map = array();
 
 	public function __construct(){
 		$this->registry = Registry::getInstance();
 
-		$cache_files = $this->_get_cache_files();
-
-		if(!is_array($cache_files) || !is_writeable(DIR_CACHE)){
+		if(!is_writeable(DIR_CACHE)){
+			$error_text = '';
 			$log = $this->registry->get('log');
 			if(!is_object($log) || !method_exists($log, 'write')){
 				$error_text = 'Error: Unable to access or write to cache directory ' . DIR_CACHE;
@@ -73,41 +60,22 @@ final class ACache {
 				$db->query($sql);
 			}
 
-		} else{
-			foreach($cache_files as $file){
-				if(!is_file($file)){
-					continue;
-				}
-				//first of all check if file expired. delete it if needed
-				$file_time = filemtime($file);
-				if((time() - $file_time) > $this->expire){
-					if(file_exists($file)){
-						$this->_remove($file);
-						continue;
-					}
-				}
-				//build cache map as array {cache_file_name_without_timestamp=>expiration time}
-				$ch_base = substr($file, 0, -11);
-				$this->cache_map[$ch_base] = $file_time + $this->expire;
-			}
 		}
 	}
 
-	/**
-	 * returns array of full pathes of cache files
-	 * @return array
-	 */
-	private function _get_cache_files(){
-		$output = glob(DIR_CACHE . '*/*', GLOB_NOSORT);
-		if(is_dir(DIR_CACHE . 'html_cache/')){
-			$output = array_merge($output, glob(DIR_CACHE . 'html_cache/*/*/*', GLOB_NOSORT));
+	private function _is_expired($filename){
+		if(!is_file($filename)){
+			return true;
+		}
+		//check for modification
+		$ctime = filectime($filename);
+		$mtime = filemtime($filename);
+
+		if( $ctime && $mtime && $mtime != $ctime ){
+			return true;
 		}
 
-		//do the trick for php v5.3.3. (php-bug in glob(). It returns false for empty folder).
-		if(is_writable(DIR_CACHE) && $output===false){
-			$output = array();
-		}
-		return $output;
+		return (time() - filemtime($filename) > $this->expire);
 	}
 
 	/**
@@ -133,38 +101,27 @@ final class ACache {
 		//clean up if disabled cache
 		if (!$disabled_override && !$this->registry->get('config')->get('config_cache_enable')){
 			$this->delete($key, $language_id, $store_id );
-			unset($this->empties[$key.'_'.$language_id.'_'.$store_id]);
 			return null;
 		}
 		//load cache file name for the section (key)
-		$cache_filename =  $this->_build_name($key, $language_id, $store_id);
-		$cache_file_full_name = $cache_filename.'.'.$this->cache_map[$cache_filename];
+		$cache_file_full_name = $this->_build_name($key, $language_id, $store_id).'.cache';
 
 		//if file expired or not exists
-		if (!isset($this->cache_map[$cache_filename]) || $this->cache_map[$cache_filename] < time()) {
-			if (file_exists($cache_file_full_name)) {
-				$this->_remove($cache_file_full_name);
-				unset($this->cache_map[$cache_filename]);
-				unset($this->empties[$key.'_'.$language_id.'_'.$store_id]);
-			}
+		if ($this->_is_expired($cache_file_full_name) && file_exists($cache_file_full_name)) {
+			$this->_remove($cache_file_full_name);
 			return null;
-		}else{ // if all good
-			if(file_exists($cache_file_full_name)){
-				if(filesize($cache_file_full_name)>0){
-					$handle = fopen($cache_file_full_name, 'r');
-					$cache = fread($handle, filesize($cache_file_full_name));
-					fclose($handle);
-					$output = unserialize($cache);
-				}else{
-					$output = '';
-				}
-				$this->empties[$key.'_'.$language_id.'_'.$store_id] = !empty($output); // if not empty
-				$this->exists[$key.'_'.$language_id.'_'.$store_id] = true;
-				return $output;
+		}elseif(file_exists($cache_file_full_name)) { // if all good
+			if(filesize($cache_file_full_name)>0){
+				$handle = fopen($cache_file_full_name, 'r');
+				$cache = fread($handle, filesize($cache_file_full_name));
+				fclose($handle);
+				$output = unserialize($cache);
+			}else{
+				$output = '';
 			}
+			return $output;
 		}
 
-		unset($this->empties[$key.'_'.$language_id.'_'.$store_id]);
 		return null;
   	}
 
@@ -203,14 +160,11 @@ final class ACache {
     	}
 		if ($create_override || $this->registry->get('config')->get('config_cache_enable')){	
 			//build new cache file name
-			$ch_base = $this->_build_name($key, $language_id, $store_id);
-			$timestamp = (time() + $this->expire);
-			$file =  $ch_base . '.' . $timestamp;
-			// write into cache map
-			$this->cache_map[$ch_base] = $timestamp;
+			$filename = $this->_build_name($key, $language_id, $store_id).'.cache';
+
 			//create subdirectory if needed
 			$this->_test_create_directory($key);
-			$handle = fopen($file, 'w');
+			$handle = fopen($filename, 'w');
 		   	fwrite($handle, serialize($value));				
 		   	fclose($handle);
 		}
@@ -220,6 +174,7 @@ final class ACache {
 	 * @param string $key
 	 * @param mixed $language_id
 	 * @param mixed $store_id
+	 * @return bool
 	 */
 	public function delete($key, $language_id = '', $store_id = '') {
   		$section = substr($key, 0,strpos($key, '.'));
@@ -230,50 +185,20 @@ final class ACache {
   			//delete whole content of directory for section/key
   			$files = glob(DIR_CACHE . $key . '/*', GLOB_NOSORT);
   		}
-		if ($files) {
-    		foreach ($files as $file) {
+		if(!$files){
+			return true;
+		}
+
+		$result = true;
+        foreach ($files as $file) {
 			if(pathinfo($file,PATHINFO_FILENAME) == 'index.html'){ continue; }
-      			if (is_file($file)) {
-					$this->_remove($file);
-					//clear cache map
-					$ch_base = substr($file,0,-11);
-					unset($this->cache_map[$ch_base]);
-				}
-    		}
-		}
-		//remove all html-cache
-		if($key=='*'){
-			$this->delete_html_cache('*');
-		}
+            $res = $this->_remove($file);
+	        $result = !$res ? false : $result;
+        }
+		return $result;
   	}
-  	
-	/**
-	 * function check is empty cache data. Look php empty() function for details
-	 * @param string $key
-	 * @param string $language_id
-	 * @param string $store_id
-	 * @return bool
-	 */
-	public function isEmpty($key, $language_id = '', $store_id = ''){
-		if(isset($this->empties[$key.'_'.$language_id.'_'.$store_id])){
-			return $this->empties[$key.'_'.$language_id.'_'.$store_id];
-		}else{
-			return false;
-		}
-	}
 
-	/**
-	 * function checks is cache data exists. NOTE: Check will need run after get() method run!!!
-	 * @param string $key
-	 * @param string $language_id
-	 * @param string $store_id
-	 * @return bool
-	 */
-	public function exists($key, $language_id = '', $store_id = ''){
-		return isset($this->exists[$key.'_'.$language_id.'_'.$store_id]);
-	}
-
-	//HTML Cache related methods:
+//HTML Cache related methods:
 	/**
 	 * Read HTML valid cache file
 	 * @param string $file_path
@@ -283,10 +208,14 @@ final class ACache {
 		if(empty($file_path)) {
 			return '';
 		}
-		// filepath + timestamp
-		$filename = $file_path .'.'.$this->cache_map[$file_path];
+		// filepath
+		$filename = $file_path .'.html';
 
-		if(file_exists($filename)){
+		if($this->_is_expired($filename) && is_file($filename)){
+			$this->_remove($filename);
+		}
+
+		if( is_file($filename) ){
 			$h = fopen($filename, 'r');
 			$html_cache = fread($h, filesize($filename));
 			fclose($h);
@@ -313,15 +242,15 @@ final class ACache {
 			touch($html_cache_dir.'index.php');
 		}	
 		if(is_writeable($html_cache_dir) && $file_path){
-			$timestamp = (time() + $this->expire);
-			$filename = $file_path.'.'.$timestamp;
+			$filename = $file_path.'.html';
+			$this->_remove($filename);
 			//auto create all directories 
 			if(make_writable_path(dirname($filename))){
 			    $h = fopen($filename, 'w');
 			    fwrite($h, $content);				
 			    fclose($h);	
 			    chmod($filename,0777);
-				$this->cache_map[$file_path] = $timestamp;
+				touch($filename, time());
 			    return true;		
 			} else {
 				return false;
@@ -343,15 +272,12 @@ final class ACache {
 			if ($files) {
 	            foreach ($files as $file) {
 					if(pathinfo($file,PATHINFO_FILENAME) == 'index.html'){ continue; }
-	                    if (is_file($file)) {
-						$this->_remove($file);
-						//clear cache map
-						$ch_base = substr($file,0,-11);
-						unset($this->cache_map[$ch_base]);
-					}
+					$this->_remove($file);
 	            }
 			}
 		}
+
+		var_dump($this->registry->get('language'));
 		//!!!!!
 		//remove cache of specified path. This can be only option of the path. Remove all under this path.
 
@@ -389,7 +315,7 @@ final class ACache {
 	private function _build_name($key, $language_id = '', $store_id = ''){
 		//get section by first part of the key
 		$section = substr($key, 0,strpos($key, '.'));
-		$suffix = $this->_build_sufix($language_id, $store_id);
+		$suffix = $this->_build_suffix($language_id, $store_id);
 		//if no match use key as seciton 
 		if ( !$section ) {
 			$section = $key;	
@@ -402,7 +328,7 @@ final class ACache {
 	 * @param mixed $store_id
 	 * @return string
 	 */
-	private function _build_sufix($language_id = '', $store_id = ''){
+	private function _build_suffix($language_id = '', $store_id = ''){
 		$suffix = '';
 		if($language_id){
 			$language_id = (int)$language_id;
@@ -424,7 +350,7 @@ final class ACache {
 	 */
 	private function _remove($file){
 		if(empty($file) || !is_file($file)){
-			return null;
+			return false;
 		}
 		unlink($file);
 		//double check that the cache file to be removed
@@ -432,8 +358,9 @@ final class ACache {
 			$err_text = sprintf('Error: Cannot delete cache file: %s! Check file or directory permissions.', $file);
 			$error = new AError($err_text);
 			$error->toLog()->toDebug();
+			return false;
 		}
-		return null;
+		return true;
 	}
 
 	/**
