@@ -731,7 +731,11 @@ class ACart {
 		}
 
 	  	$this->total_data = $total_data;	
-  		$this->final_total = $total;  		
+  		$this->final_total = $total;
+		//if balance become less or 0 reapply partial
+		if($this->session->data['used_balance'] && $this->final_total){
+			$this->session->data['used_balance_full'] = false;
+		}
   		return $this->final_total;
   	}
 

@@ -21,7 +21,11 @@ if ( !defined ( 'DIR_CORE' )) {
 	header ( 'Location: static_pages/' );
 }
 
-
+/**
+ * Class ModelExtensionDefaultUps
+ * @property AWeight $weight
+ * @property ALength $length
+ */
 class ModelExtensionDefaultUps extends Model {
 	function getQuote($address) {
 		$this->load->language('default_ups/default_ups');
@@ -51,20 +55,23 @@ class ModelExtensionDefaultUps extends Model {
 			return $method_data;
 		}
 
+        $length = $width = $height = 0.00;
+
         $basic_products = $this->cart->basicShippingProducts();
         foreach($basic_products as $product){
-           $product_ids[] = $product['product_id'];
+            $product_ids[] = $product['product_id'];
+            $length += $this->length->convert($product['length'], $product['length_class'], 'in');
+            $width  += $this->length->convert($product['width'], $product['length_class'], 'in');
+            $height += $this->length->convert($product['height'], $product['length_class'], 'in');
         }
 
 		$weight = $this->weight->convert($this->cart->getWeight($product_ids), $this->config->get('config_weight_class'), $this->config->get('default_ups_weight_class'));
 
 		$weight = ($weight < 0.1 ? 0.1 : $weight);
 
-		$length = $this->length->convert($this->config->get('default_ups_length'), $this->config->get('config_length_class'), 'in');
-		$width = $this->length->convert($this->config->get('default_ups_width'), $this->config->get('config_length_class'), 'in');
-		$height = $this->length->convert($this->config->get('default_ups_height'), $this->config->get('config_length_class'), 'in');
-
-
+		$length = $length ? $length : $this->length->convert($this->config->get('default_ups_length'), $this->config->get('config_length_class'), 'in');
+		$width = $width ? $width : $this->length->convert($this->config->get('default_ups_width'), $this->config->get('config_length_class'), 'in');
+		$height = $height ? $height : $this->length->convert($this->config->get('default_ups_height'), $this->config->get('config_length_class'), 'in');
 
 		$request = $this->_buildRequest($address, $weight, $length, $width, $height);
 
