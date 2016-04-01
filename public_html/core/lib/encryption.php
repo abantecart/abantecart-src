@@ -94,7 +94,18 @@ final class AEncryption {
 		if(!self::_check_mcrypt()){
 			return '';
 		}
-		$output = mcrypt_encrypt(MCRYPT_RIJNDAEL_256, SALT, trim($string), MCRYPT_MODE_ECB, mcrypt_create_iv(mcrypt_get_iv_size(MCRYPT_RIJNDAEL_256, MCRYPT_MODE_ECB), MCRYPT_RAND));
+		$len = strlen(SALT);
+		if($len<=16){
+			$key = str_pad(SALT, 16, "\0", STR_PAD_RIGHT);
+		}elseif($len<=24){
+			$key = str_pad(SALT, 24, "\0", STR_PAD_RIGHT);
+		}elseif($len<=32){
+			$key = str_pad(SALT, 32, "\0", STR_PAD_RIGHT);
+		}else{
+			$key = substr(SALT, 0, 32);
+		}
+
+		$output = mcrypt_encrypt(MCRYPT_RIJNDAEL_256, $key, trim($string), MCRYPT_MODE_ECB, mcrypt_create_iv(mcrypt_get_iv_size(MCRYPT_RIJNDAEL_256, MCRYPT_MODE_ECB), MCRYPT_RAND));
 		return rtrim(strtr(base64_encode($output), '+/', '-_'), '=');
 	}
 
@@ -107,7 +118,17 @@ final class AEncryption {
 			return '';
 		}
 		$output = base64_decode(str_pad(strtr($hash, '-_', '+/'), strlen($hash) % 4, '=', STR_PAD_RIGHT));
-		return trim(mcrypt_decrypt( MCRYPT_RIJNDAEL_256, SALT, $output, MCRYPT_MODE_ECB, mcrypt_create_iv(mcrypt_get_iv_size(MCRYPT_RIJNDAEL_256, MCRYPT_MODE_ECB), MCRYPT_RAND)));
+		$len = strlen(SALT);
+		if($len<=16){
+			$key = str_pad(SALT, 16, "\0", STR_PAD_RIGHT);
+		}elseif($len<=24){
+			$key = str_pad(SALT, 24, "\0", STR_PAD_RIGHT);
+		}elseif($len<=32){
+			$key = str_pad(SALT, 32, "\0", STR_PAD_RIGHT);
+		}else{
+			$key = substr(SALT, 0, 32);
+		}
+		return trim(mcrypt_decrypt( MCRYPT_RIJNDAEL_256, $key, $output, MCRYPT_MODE_ECB, mcrypt_create_iv(mcrypt_get_iv_size(MCRYPT_RIJNDAEL_256, MCRYPT_MODE_ECB), MCRYPT_RAND)));
 	}
 
 	static function _check_mcrypt(){
