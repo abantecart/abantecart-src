@@ -596,6 +596,28 @@ final class ACustomer{
 	}
 
 	/**
+	 * Clear cart from database content
+	 * @return bool
+	 */
+	public function clearCustomerCart(){
+
+		$cart = array();
+		$customer_id = $this->customer_id;
+		if(!$customer_id){
+			$customer_id = $this->unauth_customer['customer_id'];
+		}
+		if(!$customer_id){
+			return false;
+		}
+		$this->db->query("UPDATE " . $this->db->table("customers") . "
+						SET
+							cart = '" . $this->db->escape(serialize($cart)) . "'
+						WHERE customer_id = '" . (int)$customer_id . "'");
+		return true;
+	}
+
+
+	/**
 	 * Recognize cart data format. New format is cart-per-store
 	 * @param array $cart_data
 	 * @return bool

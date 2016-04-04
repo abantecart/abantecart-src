@@ -69,6 +69,7 @@ class ControllerPagesCheckoutSuccess extends AController {
 									  'country'=> $order_data['shipping_country']	));
 
 			$this->cart->clear();
+			$this->customer->clearCustomerCart();
 
 			unset(  $this->session->data['shipping_method'],
 					$this->session->data['shipping_methods'],
