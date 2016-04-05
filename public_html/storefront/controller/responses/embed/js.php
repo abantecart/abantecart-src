@@ -126,8 +126,8 @@ class ControllerResponsesEmbedJS extends AController {
 		$resource = new AResource('image');
 		$product_info['thumbnail'] =  $resource->getMainThumb('products',
 				$product_id,
-			(int)$this->config->get('config_image_thumb_width'),
-			(int)$this->config->get('config_image_thumb_height'),
+			(int)$this->config->get('config_image_product_width'),
+			(int)$this->config->get('config_image_product_height'),
 		    true);
 
 
