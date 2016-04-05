@@ -111,10 +111,10 @@ class ModelCheckoutOrder extends Model {
 			}
 		} else {
 			//clean up based on setting
-			if((int)$this->config->get('config_order_expire_days')){
+			if((int)$this->config->get('config_expire_order_days')){
 				$query = $this->db->query("SELECT order_id
 										FROM " . $this->db->table("orders") . "
-										WHERE date_added < '" . date('Y-m-d', strtotime('-'.$this->config->get('config_order_expire_days').' days')) . "'
+										WHERE date_modified < '" . date('Y-m-d', strtotime('-'.(int)$this->config->get('config_expire_order_days').' days')) . "'
 											AND order_status_id = '0'");
 
 			}
