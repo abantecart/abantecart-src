@@ -52,7 +52,7 @@ class ACache {
 	private $enabled = false;
 
 	/**
-	 * Cache lock time, 0 - no cach locking
+	 * Cache lock time, 0 - no cache locking
 	 */
 	private $locktime = 10;
 
@@ -78,12 +78,12 @@ class ACache {
 	private $cache_hits = array();
 
 	/**
-	 * Number of times the cache was loaded from storage. Idealy, should be 1 for any key.
+	 * Number of times the cache was loaded from storage. Ideally, should be 1 for any key.
 	 */
 	private $cache_loads = array();
 
 	/**
-	 * Number of times the cache did not have data present. Idealy, should be 0 for any key.
+	 * Number of times the cache did not have data present. Ideally, should be 0 for any key.
 	 */
 	private $cache_misses = array();
 
@@ -550,7 +550,7 @@ class ACache {
 
 	/**
 	 * Read HTML cache file
-	 * @param string $file_path
+	 * @param string $key
 	 * @return string
 	 */
 	public function get_html_cache($key){
@@ -584,8 +584,8 @@ class ACache {
 
 	/**
 	 * Write HTML Cache file
-	 * @param string $file_path
-	 * @param string $content
+	 * @param string $key
+	 * @param string $data
 	 * @return bool
 	 */
 	public function save_html_cache($key, $data){
