@@ -31,19 +31,27 @@ class ControllerCommonHeader extends AController {
         $this->data['template'] = $this->config->get('config_storefront_template');
 		$this->data['breadcrumbs'] = $this->document->getBreadcrumbs();
 		$this->data['store'] = $this->config->get('store_name');
-
         $this->data['logo'] = $this->config->get('config_logo');
-
-		//see if we have a resource ID	
+		$logo_path = DIR_RESOURCE . $this->data['logo'];
+        
+		//see if we have a resource ID instead of path	
 		if (is_numeric($this->data['logo'])) {
 			$resource = new AResource('image');
 		    $image_data = $resource->getResource( $this->data['logo'] );
- 			if ( is_file(DIR_RESOURCE . $image_data['image']) ) {
- 				$this->data['logo'] = 'resources/'.$image_data['image'];
+			$img_sub_path = $image_data['type_name'].'/'.$image_data['resource_path'];
+ 			if ( is_file(DIR_RESOURCE . $img_sub_path) ) {
+ 				$this->data['logo'] = $img_sub_path;
+ 				$logo_path = DIR_RESOURCE . $img_sub_path;
 			} else {
 				$this->data['logo'] = $image_data['resource_code'];
 			}
 		}
+
+		//get logo image dimensions
+		$img_obj = new AImage($logo_path);
+		$info = $img_obj->getInfo();
+		$this->data['logo_width'] = $info['width'];
+		$this->data['logo_height'] = $info['height'];
         
 		$this->data['text_special'] = $this->language->get('text_special');
 		$this->data['text_contact'] = $this->language->get('text_contact');

@@ -15,9 +15,9 @@
 		if ($item[ 'resource_code' ]) {
 		    echo $item[ 'resource_code' ];
 		} else {
-		
+	
 		    if(!$item['resource_code']){
-		    	$image = '<img class="internal" src="'. $item['image']['thumb_url']. '" alt="'. $item['name'] . '" />';
+		    	$image = '<img class="internal" src="'. $item['image']['thumb_url']. '" width="'. $item['image']['width']. '" height="'. $item['image']['height']. '" alt="'. $item['name'] . '" />';
 		    	$image = '<a href="'. $item['href']. '">' . $image . '</a>';
 		    	echo '<div class="image">'. $image .'</div><div style="clear: both;"></div>';
 		    	if($item['image']['title']){

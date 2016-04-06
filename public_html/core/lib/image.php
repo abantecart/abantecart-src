@@ -58,7 +58,7 @@ final class AImage{
 					'channels' => $info['channels']
 			);
 
-			$this->image = $this->create($filename);
+			$this->image = $this->get_gd_resource($filename);
 			$this->registry = Registry::getInstance();
 		} else{
 			throw new AException(AC_ERR_LOAD, 'Error: Cannot load image ' . $filename . '!');
@@ -77,7 +77,7 @@ final class AImage{
 	 * @param string $filename
 	 * @return resource|string
 	 */
-	private function create($filename){
+	private function get_gd_resource($filename){
 		$mime = $this->info['mime'];
 
 		//some images processing can run out of original PHP memory limit size 
@@ -236,7 +236,7 @@ final class AImage{
 	 * @param string $position
 	 */
 	public function watermark($filename, $position = 'bottomright'){
-		$watermark = $this->create($filename);
+		$watermark = $this->get_gd_resource($filename);
 
 		$watermark_width = imagesx($watermark);
 		$watermark_height = imagesy($watermark);
@@ -320,7 +320,7 @@ final class AImage{
 	 * @param int $opacity
 	 */
 	public function merge($filename, $x = 0, $y = 0, $opacity = 100){
-		$merge = $this->create($filename);
+		$merge = $this->get_gd_resource($filename);
 
 		$merge_width = imagesx($merge);
 		$merge_height = imagesy($merge);
