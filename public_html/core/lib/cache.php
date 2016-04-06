@@ -52,7 +52,7 @@ class ACache {
 	private $enabled = false;
 
 	/**
-	 * Cache lock time, 0 - no cach locking
+	 * Cache lock time, 0 - no cache locking
 	 */
 	private $locktime = 10;
 
@@ -63,6 +63,7 @@ class ACache {
 
 	/**
 	 * Holds cache storage driver object
+	 * @var ACacheDriver
 	 */
 	private $cache_driver;
 
@@ -77,12 +78,12 @@ class ACache {
 	private $cache_hits = array();
 
 	/**
-	 * Number of times the cache was loaded from storage. Idealy, should be 1 for any key.
+	 * Number of times the cache was loaded from storage. Ideally, should be 1 for any key.
 	 */
 	private $cache_loads = array();
 
 	/**
-	 * Number of times the cache did not have data present. Idealy, should be 0 for any key.
+	 * Number of times the cache did not have data present. Ideally, should be 0 for any key.
 	 */
 	private $cache_misses = array();
 
@@ -418,7 +419,7 @@ class ACache {
 	/**
 	 * Unset lock cached item
 	 *
-	 * @param   string  $key	The cache data key
+	 * @param   string  $id	The cache data key
 	 * @param   string  $group	The cache data group
 	 *
 	 * @return  boolean
@@ -426,7 +427,6 @@ class ACache {
 	 * @since   1.2.7
 	 */
 	public function unlock($id, $group){
-		$unlock = false;
 
 		if($this->enabled && $this->cache_driver && $this->cache_driver->isSupported() ) {		
 			$unlocked = $this->cache_driver->unlock($id, $group);
@@ -438,7 +438,7 @@ class ACache {
 		}
 
 		//cleanup after cache unlock
-		$unlock = $this->cache_driver->remove($key.'_lc', $group);
+		$unlock = $this->cache_driver->remove($id.'_lc', $group);
 		return $unlock;
 	}
 
@@ -550,7 +550,7 @@ class ACache {
 
 	/**
 	 * Read HTML cache file
-	 * @param string $file_path
+	 * @param string $key
 	 * @return string
 	 */
 	public function get_html_cache($key){
@@ -584,8 +584,8 @@ class ACache {
 
 	/**
 	 * Write HTML Cache file
-	 * @param string $file_path
-	 * @param string $content
+	 * @param string $key
+	 * @param string $data
 	 * @return bool
 	 */
 	public function save_html_cache($key, $data){

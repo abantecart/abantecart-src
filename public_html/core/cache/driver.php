@@ -55,8 +55,8 @@ class ACacheDriver {
 	/**
 	 * Base Constructor
 	 *
-	 * @param in $expiration
-	 * @param in $lock_time
+	 * @param int $expiration
+	 * @param int $lock_time
 	 *
 	 * @since   1.2.7
 	 */
@@ -72,7 +72,7 @@ class ACacheDriver {
 	/**
 	 * Set cache expiration time 
 	 *
-	 * @param   int expiration time
+	 * @param   int $expire_time expiration time
 	 *
 	 * @return  true
 	 *

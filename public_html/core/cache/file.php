@@ -21,7 +21,7 @@ if (! defined ( 'DIR_CORE' )) {
 	header ( 'Location: static_pages/' );
 }
 
-//include abscract cache storage driver class
+//include abstract cache storage driver class
 include_once('driver.php');
 
 /**
@@ -49,8 +49,8 @@ class ACacheDriverFile extends ACacheDriver{
 	/**
 	 * Constructor
 	 *
-	 * @param in $expiration
-	 * @param in $lock_time
+	 * @param int $expiration
+	 * @param int $lock_time
 	 *
 	 * @since   1.2.7
 	 */
@@ -78,7 +78,7 @@ class ACacheDriverFile extends ACacheDriver{
 	 *
 	 * @param   string	$key	The cache data key
 	 * @param   string	$group	The cache data group
-	 * @param   boolean	$expire  True to verify cache time expiration
+	 * @param   boolean	$check_expire  True to verify cache time expiration
 	 *
 	 * @return  mixed  Boolean false on failure or a cached data string
 	 *
@@ -194,7 +194,7 @@ class ACacheDriverFile extends ACacheDriver{
 		$files = $this->_get_files($this->path, true, array('.svn', 'CVS', '.DS_Store', '__MACOSX', 'index.php'));
 		foreach ($files as $file){
 			$time = @filemtime($file);
-			if (($time + $this->expire) < $this->_now || empty($time)){
+			if (($time + $this->expire) < $this->now || empty($time)){
 				$result |= @unlink($file);
 			}
 		}
@@ -438,7 +438,7 @@ class ACacheDriverFile extends ACacheDriver{
 				if (is_dir($dir)){
 					//process directory
 					if ($recurse){
-						$arr = array();
+						//$arr = array();
 						if (is_int($recurse)){
 							$arr = $this->_get_files($dir, $recurse - 1);
 						} else {
@@ -458,7 +458,7 @@ class ACacheDriverFile extends ACacheDriver{
 	/**
 	 * Read the folders in a directory path.
 	 *
-	 * @param   string   $path           The path to direcotry.
+	 * @param   string   $path           The path to directory.
 	 * @param   mixed    $recurse        True to recursively search into sub-folders, or an integer to specify the maximum depth.
 	 * @param   array    $exclude        Array with names of folders which should not be shown in the result.
 	 * @param   array    $exclude_filter  Array with regular expressions matching folders which should not be shown in the result.
