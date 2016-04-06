@@ -223,7 +223,7 @@ class ACacheDriverFile extends ACacheDriver{
 		
 		$path = $this->_buildFilePath($key, $group);
 		//consider locked if file does not exists yet 
-		if (file_exists($path)){
+		if (!file_exists($path)){
 			$ret['locked'] = true;
 			return $ret;
 		}
