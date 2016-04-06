@@ -70,8 +70,8 @@ if (!defined('IS_ADMIN') || !IS_ADMIN ) { // storefront load
 	// Cart
 	$registry->set('cart', new ACart($registry));
 
-} else {// Admin load
-
+} else {
+	// Admin template load
 	// Relative paths and directories
 	define('RDIR_TEMPLATE',  'admin/view/default/');
 	
@@ -92,6 +92,10 @@ $router->processRoute(ROUTE);
 // Output
 $registry->get('response')->output();
 
+//Show cache stats if debugging
+ADebug::checkpoint('Cache statistics: ' . $registry->get('cache')->stats() . "\n");
+
+#$registry->get('cache')->stats();
 
 ADebug::checkpoint('app end');
 

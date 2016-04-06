@@ -802,4 +802,3 @@ class ModelCheckoutOrder extends Model {
 		);
 	}
 }
-

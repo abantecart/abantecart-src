@@ -104,8 +104,22 @@ final class AConfig {
 			$url = str_replace('install/', '', $url);
 		}
 
+		//enable cache storage based on configuration
+		if(defined('CACHE_ENABLE') && CACHE_ENABLE === true) {
+			$cache->enableCache(true);
+			//set configured driver. 
+			$cache_driver = 'file';
+			if(defined('CACHE_DRIVER')){
+				$cache_driver = CACHE_DRIVER;
+			}
+			if(!$cache->setCacheStorageDriver($cache_driver)){
+				$error = new AError ('Cache storage driver ' . $cache_driver . ' can not be loaded!');
+				$error->toMessages()->toLog()->toDebug();	
+			}
+		}
+
 		// Load default store settings
-		$settings = $cache->force_get('settings', '', 0);
+		$settings = $cache->get('settings');
 		if (empty($settings)) {
 			// set global settings (without extensions settings)
 			$sql = "SELECT se.*
@@ -128,7 +142,7 @@ final class AConfig {
 			unset($setting); //unset temp reference
 			//fix for rare issue on a database and creation of empty cache
 			if(!empty($settings)){			
-				$cache->force_set('settings', $settings, '', 0);
+				$cache->set('settings', $settings);
 			}
 		} else {
 			foreach ($settings as $setting) {
@@ -149,7 +163,7 @@ final class AConfig {
 		) { 
 			// if requested url not a default store URL - do check other stores.
 			$cache_name = 'settings.store.' . md5('http://' . $url);
-			$store_settings = $cache->force_get($cache_name);
+			$store_settings = $cache->get($cache_name);
 			if (empty($store_settings)) {
 				$sql = "SELECT se.`key`, se.`value`, st.store_id
 		   			  FROM " . $db->table('settings')." se
@@ -168,7 +182,7 @@ final class AConfig {
 				$store_settings = $query->rows;
 				//fix for rare issue on a database and creation of empty cache
 				if(!empty($store_settings)){
-					$cache->force_set($cache_name, $store_settings);
+					$cache->set($cache_name, $store_settings);
 				}
 			}
 			
@@ -215,7 +229,7 @@ final class AConfig {
 		
 		// load extension settings
 		$cache_suffix = IS_ADMIN ? 'admin' : $this->cnfg['config_store_id'];
-		$settings = $cache->force_get('settings.extension.' . $cache_suffix);
+		$settings = $cache->get('settings.extension.' . $cache_suffix);
 		if (empty($settings)) {
 			// all extensions settings of store
 			$sql = "SELECT se.*, e.type as extension_type, e.key as extension_txt_id
@@ -232,7 +246,7 @@ final class AConfig {
 			}
 			//fix for rare issue on a database and creation of empty cache
 			if(!empty($settings)){
-				$cache->force_set('settings.extension.' . $cache_suffix, $settings);
+				$cache->set('settings.extension.' . $cache_suffix, $settings);
 			}
 		}
 
@@ -244,6 +258,7 @@ final class AConfig {
 		foreach ($settings as $setting) {
 			$this->cnfg[ $setting['key']] = $setting['value'];
 		}
+		
 	}
 
 	private function _reload_settings( $store_id = 0 ) {

@@ -318,7 +318,7 @@ try {
 // Config
 	$config = new AConfig($registry);
 	$registry->set('config', $config);
-
+	
 // Session
 	$registry->set('session', new ASession(SESSION_ID) );
 	if($config->has('current_store_id')){

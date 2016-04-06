@@ -1232,12 +1232,6 @@ class AConfigManager {
 			'name' => 'config_compression',
 			'value' => $data['config_compression'],
 		));
-		$fields['cache_enable'] = $form->getFieldHtml($props[] = array(
-			'type' => 'checkbox',
-			'name' => 'config_cache_enable',
-			'value' => $data['config_cache_enable'],
-			'style' => 'btn_switch',
-		));
 		$fields['html_cache'] = $form->getFieldHtml($props[] = array(
 			'type' => 'checkbox',
 			'name' => 'config_html_cache',

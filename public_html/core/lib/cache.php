@@ -21,214 +21,565 @@ if (! defined ( 'DIR_CORE' )) {
 	header ( 'Location: static_pages/' );
 }
 /**
- * Class ACache
+ * Class ACache API
+ * @updated 1.2.7
+ *
+ * @link http://docs.abantecart.com/pages/developer/cache.html
+ *
+ * @package AbanteCart
+ * @subpackage ACache
+ *
+ * Core class that implements an object cache.
+ *
+ * The Object ACache is used to save on reads from the database. The
+ * Object Cache stores all of the cache data to memory and makes the cache
+ * contents available by using a cache key, which is used to name and later retrieve
+ * the cache contents.
+ *
+ * The Object Cache can be replaced by other caching mechanisms by updating CACHE_DRIVER in config.php file
+ *
  */
+class ACache {
 
-final class ACache {
 	/**
-	 * @var int
+	 * Default Expiration time set to 1 day
 	 */
-	private $expire = 86400; //one day
+	private $expire = 86400;
+
 	/**
-	 * @var Registry
+	 * Cache storage status 
 	 */
-	private $registry;
+	private $enabled = false;
 
-	public function __construct(){
-		$this->registry = Registry::getInstance();
+	/**
+	 * Cache lock time, 0 - no cach locking
+	 */
+	private $locktime = 10;
 
-		if(!is_writeable(DIR_CACHE)){
-			$error_text = '';
-			$log = $this->registry->get('log');
-			if(!is_object($log) || !method_exists($log, 'write')){
-				$error_text = 'Error: Unable to access or write to cache directory ' . DIR_CACHE;
-				$log = new ALog(DIR_SYSTEM . 'logs/error.txt');
-				$this->registry->set('log', $log);
-			}
-			$log->write($error_text);
-			//try to add message for admin (check if for install-process too)
-			$db = $this->registry->get('db');
+	/**
+	 * Holds the cached data.
+	 */
+	private $cache = array();
 
-			if(is_object($db) && method_exists($db, 'query')){
-				$error_text .= ' Cache feature was disabled. Check permissions on directory and enable setting back.';
-				$m = new AMessage();
-				$m->saveError('AbanteCart Warning', $error_text);
-				//also disable caching in config
-				$sql = "UPDATE ".$db->table('settings')."
-						SET `value` = '0'
-						WHERE `key` = 'config_cache_enable'";
-				$db->query($sql);
-			}
+	/**
+	 * Holds cache storage driver object
+	 */
+	private $cache_driver;
 
-		}
+	/**
+	 * Number of times the cache data was saved/updated.
+	 */
+	private $cache_saves = array();
+
+	/**
+	 * Number of times the cache data was accessed.
+	 */
+	private $cache_hits = array();
+
+	/**
+	 * Number of times the cache was loaded from storage. Idealy, should be 1 for any key.
+	 */
+	private $cache_loads = array();
+
+	/**
+	 * Number of times the cache did not have data present. Idealy, should be 0 for any key.
+	 */
+	private $cache_misses = array();
+
+	/**
+	 * Called upon object declaration, should be in INIT.
+	 */	 
+	public function __construct() {
 	}
 
 	/**
-	 * @param string $filename
-	 * @return bool
+	 * Called upon object destruction, should be when PHP ends.
+	 * @return true.
 	 */
-	private function _is_expired($filename){
-		if(!is_file($filename)){
-			return true;
-		}
-		//check for modification
-		$ctime = filectime($filename);
-		$mtime = filemtime($filename);
-
-		if( $ctime && $mtime && $mtime != $ctime ){
-			return true;
-		}
-
-		return ( (time()-$mtime) > $this->expire );
+	public function __destruct() {
+		return true;
 	}
 
 	/**
-	 * force to get cache data based on params and ignore disable cache setting
-	 * @param string $key
-	 * @param mixed $language_id
-	 * @param mixed $store_id
-	 * @return mixed|null
+	 * Enable caching is storage. Note, persistent in memory cache is always enabled
+	 *
+	 * @param   boolean  $enabled  True to enable caching
+	 *
+	 * @return  void
+	 *
+	 * @since  1.2.7
 	 */
-	public function force_get($key, $language_id = '', $store_id = '' ) {
-		return $this->get($key, $language_id, $store_id, true );
+	public function enableCache($enabled){
+		$this->enabled = $enabled;
+	}
+	
+	/**
+	 * Check if cache storage is enabled
+	 *
+	 * @return  boolean  Caching state
+	 *
+	 * @since  1.2.7
+	 */
+	public function isCacheEnabled(){
+		return $this->enabled;
 	}
 
 	/**
-	 * get cache data based on params.
-	 * @param string $key
-	 * @param mixed $language_id
-	 * @param mixed $store_id
-	 * @param bool $disabled_override
-	 * @return mixed|null
+	 * Set cache expiration to custom value
+	 *
+	 * @param int $expiration in seconds
+	 *
+	 * @return void
+	 *
+	 * @since  1.2.7
 	 */
-	public function get($key, $language_id = '', $store_id = '', $disabled_override = false) {
-		//clean up if disabled cache
-		if (!$disabled_override && !$this->registry->get('config')->get('config_cache_enable')){
-			$this->delete($key, $language_id, $store_id );
-			return null;
-		}
-		//load cache file name for the section (key)
-		$cache_file_full_name = $this->_build_name($key, $language_id, $store_id).'.cache';
-
-		//if file expired or not exists
-		if ($this->_is_expired($cache_file_full_name) && file_exists($cache_file_full_name)) {
-			$this->_remove($cache_file_full_name);
-			return null;
-		}elseif(file_exists($cache_file_full_name)) { // if all good
-			if(filesize($cache_file_full_name)>0){
-				$handle = fopen($cache_file_full_name, 'r');
-				$cache = fread($handle, filesize($cache_file_full_name));
-				fclose($handle);
-				$output = unserialize($cache);
-			}else{
-				$output = '';
-			}
-			return $output;
-		}
-
-		return null;
-  	}
+	public function setExpiration($expiration = 86400) {
+		$this->expire = $expiration;
+	}
 
 	/**
-	 * force to set cache data based on params and ignore disable cache setting
+	 * Set and load cache storage drivers.
 	 *
 	 * @param string $key
-	 * @param mixed $value
-	 * @param mixed $language_id
-	 * @param mixed $store_id
-	 * @return null
+	 *
+	 * @return bool
+	 *
+	 * @since 1.2.7
 	 */
-	public function force_set( $key, $value, $language_id = '', $store_id = '' ) {
-		return $this->set($key, $value, $language_id, $store_id, true );
+	public function setCacheStorageDriver( $driver ){
+		//validate driver for availablity
+		$all_drivers = $this->getCacheStorageDrivers();
+		$dr = $all_drivers[$driver];
+		if( isset($dr) && is_file($dr['file']) ) {
+			//try to load driver class
+			include_once($dr['file']);
+			
+			// If the class doesn't exist we have nothing else to do here.
+			if (!class_exists($dr['class'])) {
+				return false;
+			}
+			
+			//instantiate storage driver class
+			$this->cache_driver = new $dr['class']($this->expire, $this->locktime);
+			return true;
+		}
+		return false;	
+	}
+	
+	/**
+	 * Saves the data contents into the cache.
+	 *
+	 * @param string $key
+	 *
+	 * @param mixed $data
+	 *
+	 * @return bool
+	 */	 
+	public function push($key, $data) {
+		$ret = false;
+		if(!$key) {
+			return $ret;
+		}
+		
+		//get group name from the key Example: key=[group].text
+		$group = $this->_get_group($key);
+		$this->cache[$group][$key] = $data;
+		$this->cache_saves[$group][$key] += 1;
+		
+		if(!is_null($data) && $this->enabled && $this->cache_driver && $this->cache_driver->isSupported()) {
+			$data = serialize($data);
+			
+			$lock = $this->lock($key, $group);
+			if($lock['locked'] == false && $lock['waited'] == true){
+				//cache is released, try locking again. 
+				$lock = $this->lock($key, $group);
+			}
+			
+			$ret = $this->cache_driver->put($key, $group, $data);
+			
+			if($lock['locked'] == true){
+				//unlock if cache was locked
+				$this->unlock($key, $group);
+			}
+		}
+		return $ret;
+	}
+	
+	//Depricated. Old cahe compatibulity. Will be removed in 1.3
+	public function set($key, $data, $language_id = 0, $store_id = 0) {
+		if ($language_id || $store_id) {
+			$key = $key."_".$store_id."_".$language_id;
+		}
+		return $this->push($key, $data);			
 	}
 
 	/**
-	 * set cache parameter
+	 * Retrieves the cache contents.
+	 *
+	 * The contents will be first attempted to be retrieved by the key from the cache in memory data structure.
+	 * If the cache exists the content is returned
+	 *
+	 * On failure false is returned & the number of cache misses will be incremented for stats
 	 *
 	 * @param string $key
-	 * @param mixed $value
-	 * @param mixed $language_id
-	 * @param mixed $store_id
-	 * @param bool $create_override
-	 * @return null
+	 *
+	 * @return mixed|false
 	 */
-	public function set($key, $value, $language_id = '', $store_id = '', $create_override = false) {
-
-    	$this->delete($key, $language_id, $store_id );
-    	if($this->registry->get('request')->get['rt']=='tool/cache'){
-    		return null;
-    	}
-    	//validate key for / and \ 
-    	if(strstr($key, '/') || strstr($key, '\\') ){
-    		return null;    	
-    	}
-		if ($create_override || $this->registry->get('config')->get('config_cache_enable')){	
-			//build new cache file name
-			$filename = $this->_build_name($key, $language_id, $store_id).'.cache';
-
-			//create subdirectory if needed
-			$this->_test_create_directory($key);
-			$handle = fopen($filename, 'w');
-		   	fwrite($handle, serialize($value));				
-		   	fclose($handle);
+	public function pull($key) {
+		if(!$key) {
+			return false;
 		}
-  	}
+
+		$group = $this->_get_group($key);
+		if ( $this->_exists( $key, $group ) ) {
+			$this->cache_hits[$group][$key] += 1;
+			return $this->cache[$group][$key];
+		} 
+
+		if($this->enabled && $this->cache_driver && $this->cache_driver->isSupported()) {
+			//load cache from storage		
+			$data = $this->cache_driver->get($key, $group);
+			if($data === false){
+				//check if chache is locked
+				$lock = $this->lock($key, $group);
+				if($lock['locked'] == true && $lock['waited'] == true){
+					//try to get cache again 
+					$data = $this->cache_driver->get($key, $group);
+					$this->unlock($key, $group);
+				}			
+			}			
+			
+			if($data !== false){
+				$data = unserialize($data);
+				$this->cache[$group][$key] = $data;
+				$this->cache_loads[$group][$key] += 1;
+				return $data;	
+			}
+		}
+
+		$this->cache_misses[$group][$key] += 1;
+		return false;		
+	}
+	
+	//Depricated. Old cahe compatibulity. Will be removed in 1.3
+	public function get($key, $language_id = 0, $store_id = 0) {
+		if ($language_id || $store_id) {
+			$key = $key."_".$store_id."_".$language_id;
+		}	
+		$return = $this->pull($key);	
+		if($return === false){
+			//Should return false if no cache present.
+			//for legacy support we return NULL. Starting v1.3 FALSE will be returned. 
+			return null;		
+		} else {
+			return $return;
+		}
+	}
 
 	/**
+	 * Removes the contents of the cache key in the group.
+	 *
+	 * If the cache key does not exist in the group, then nothing will happen.
+	 *
 	 * @param string $key
-	 * @param mixed $language_id
-	 * @param mixed $store_id
-	 * @return bool
+	 * @return bool False if the contents weren't deleted and true on success.
 	 */
-	public function delete($key, $language_id = '', $store_id = '') {
-  		$section = substr($key, 0,strpos($key, '.'));
-  		if ($section) {
-  			//delete match within directory
-			$files = glob($this->_build_name($key, $language_id, $store_id) . '.*', GLOB_NOSORT);
-  		} else {
-  			//delete whole content of directory for section/key
-  			$files = glob(DIR_CACHE . $key . '/*', GLOB_NOSORT);
-  		}
-		if(!$files){
-			return true;
+	public function remove( $key ) {
+
+		$group = $this->_get_group($key);
+		if( trim($key) == '*' ) {
+			// clean all
+			$this->flush();	
+			if($this->enabled && $this->cache_driver && $this->cache_driver->isSupported()) {
+				if(!$this->cache_driver->clean('*')){
+					return false;
+				}
+			}
+		} else if($group == $key) {
+			//if group and key match, assume we remove whole group 
+			unset( $this->cache[$group] );
+			if($this->enabled && $this->cache_driver && $this->cache_driver->isSupported()) {
+				if(!$this->cache_driver->clean($group)){
+					return false;
+				}
+			}		
+		} else {
+			unset( $this->cache[$group][$key] );
+			if($this->enabled && $this->cache_driver && $this->cache_driver->isSupported()) {
+				if(!$this->cache_driver->remove($key, $group)){
+					return false;
+				}
+			}	
+		}
+		
+		return true;
+	}
+
+	//Depricated. Old cahe compatibulity. Will be removed in 1.3
+	public function delete( $key, $language_id = '', $store_id = '') {
+		if ($language_id) {
+			$key = $key."_".$language_id;
+		}	
+		if ($store_id) {
+			$key = $key."_".$store_id;
+		}
+		
+		return $this->remove($key);
+	}
+	
+	
+	/**
+	 * Serves as a utility function to determine whether a key exists in the memory cache.
+	 *
+	 * @param string $key   Cache key to check for existence.
+	 * @param string $group   Cache group.
+	 * @return bool, Whether the key exists in the cache for given group.
+	 */
+	protected function _exists( $key, $group ) {
+		return isset( $this->cache[$group] ) && 
+				( isset( $this->cache[$group][$key] ) 
+					|| array_key_exists( $key, $this->cache[$group] ) 
+				);
+	}
+
+	/**
+	 * Clears the object cache's all data.
+	 *
+	 * @return true.
+	 */
+	public function flush() {
+		$this->cache = array();
+		return true;
+	}
+
+
+	/**
+	 * Set lock on cached item to prevent data clash 
+	 *
+	 * @param   string  $key	The cache data key
+	 * @param   string  $group	The cache data group
+	 * @param   string  $locktime	The default locktime for locking the cache.
+	 *
+	 * @return  object  Properties are lock and locklooped
+	 *
+	 * @since   1.2.7
+	 */
+	public function lock($key, $group, $locktime = null) {
+		$ret = array();
+		$ret['waited'] = false;
+
+		$locktime = ($locktime) ? $locktime : $this->locktime;
+
+		//process lock in the cache driver
+		if($this->enabled && $this->cache_driver && $this->cache_driver->isSupported() && $locktime > 0) {		
+			$locked = $this->cache_driver->lock($key, $group, $locktime);
+			//false will be returned only if lock is not supported by driver (base class). 
+			if ($locked !== false){
+				return $locked;
+			}
+		} else {
+			$ret['locked'] = false;
+			return $ret;
+		}
+		
+		//Not supported in selected driver. Process lock generic way.  
+
+		//set short expiration time based on $locktime for the lock 
+		$this->cache_driver->setExpiration($locktime);
+
+		$looptime = $locktime * 10;
+		$lock_key = $key . '_lc';
+		$data_lock = $this->cache_driver->get($lock_key, $group);
+		//do we have existing lock?
+		if ($data_lock !== false) {
+			$lock_counter = 0;
+			// Loop till lock has been released.
+			// Once pull from other thread has been finished
+			while ($data_lock !== false){
+				if ($lock_counter > $looptime) {
+					$ret['locked'] = false;
+					$ret['waited'] = true;
+					break;
+				}
+				usleep(100);
+				$data_lock = $this->cache_driver->get($lock_key, $group);
+				$lock_counter++;
+			}
 		}
 
-		$result = true;
-        foreach ($files as $file) {
-			if(pathinfo($file,PATHINFO_FILENAME) == 'index.html'){ continue; }
-            $res = $this->_remove($file);
-	        $result = !$res ? false : $result;
-        }
+		$ret['locked'] = $this->cache_driver->put(1, $lock_key, $group);
 
-		$this->delete_html_cache();
+		//reset cache expiration time back 
+		$this->cache_driver->setExpiration($this->expire);
 
-		return $result;
-  	}
+		return $ret;
+	}
 
-//HTML Cache related methods:
 	/**
-	 * Read HTML valid cache file
+	 * Unset lock cached item
+	 *
+	 * @param   string  $key	The cache data key
+	 * @param   string  $group	The cache data group
+	 *
+	 * @return  boolean
+	 *
+	 * @since   1.2.7
+	 */
+	public function unlock($id, $group){
+		$unlock = false;
+
+		if($this->enabled && $this->cache_driver && $this->cache_driver->isSupported() ) {		
+			$unlocked = $this->cache_driver->unlock($id, $group);
+			if ($unlocked !== false){
+				return $unlocked;
+			}
+		} else {
+			return false;
+		}
+
+		//cleanup after cache unlock
+		$unlock = $this->cache_driver->remove($key.'_lc', $group);
+		return $unlock;
+	}
+
+	/**
+	 * Print the stats of the caching.
+	 *
+	 * Gives the cache hits, and cache misses. Also prints every cached group,
+	 * key and the data.
+	 *
+	 * @since 1.2.7
+	 */
+	public function stats() {
+		$kb_in_bytes = 1024;
+		$total_size = 0;
+		$stats = "<p>";
+		$stats .= "<strong>Cache usage report:</strong>";
+		$stats .= "</p>";
+		$stats .= "<ul>";
+		foreach ($this->cache as $group => $cache) {
+			$stats .= "<li>";
+			$stats .= "<strong>Cache group: $group</strong>";
+			$stats .= "</li>";
+			foreach ($cache as $key => $data) {
+			$size_in_bytes = strlen( serialize( $data ) );
+			$total_size += $size_in_bytes;
+			$text = '';
+			if($this->cache_saves[$group][$key] > 1){
+				$text .= "<b>--> Saves: ".$this->cache_saves[$group][$key] ."</b>, ";
+			} else if($this->cache_saves[$group][$key]) {
+				$text .= "Saves: ".$this->cache_saves[$group][$key] .", ";
+			} else {
+				$text .= "No saves, ";
+			}
+			if($this->cache_loads[$group][$key] > 1){
+				$text .= "<b>--> Loads: ".$this->cache_loads[$group][$key] ."</b>, ";
+			} else if($this->cache_loads[$group][$key]) {
+				$text .= "Loads: ".$this->cache_loads[$group][$key] .", ";
+			} else {
+				$text .= "No loads, ";
+			}
+			if($this->cache_hits[$group][$key]) {
+				$text .= "Hits: ".$this->cache_hits[$group][$key] .", ";
+			} else {
+				$text .= "No Hits, ";
+			}
+			if($this->cache_misses[$group][$key] > 1){
+				$text .= "<b>--> Misses: ".$this->cache_misses[$group][$key] ."</b> ";
+			} else if($this->cache_misses[$group][$key]) {
+				$text .= "Misses: ".$this->cache_misses[$group][$key] ." ";
+			} else {
+				$text .= "No Misses ";
+			}
+			
+			$stats .= "<li><strong>Key:</strong> 
+					$key - ( " . number_format( $size_in_bytes/$kb_in_bytes, 2 ) . "k ), ".$text."
+				  </li>";
+			}
+		}
+		$stats .= "</ul>";
+		$stats .= "<p>";
+		$stats .= "<strong>Total cache memory size: ".number_format( $total_size/$kb_in_bytes, 2 )."k</strong>";
+		$stats .= "</p>";
+		return $stats;
+	}
+
+	/**
+	 * Get all available cache storage drivers.
+	 *
+	 * @return  array An array of available storage drivers. No validation here is classes do exist
+	 *
+	 * @since 1.2.7
+	 */
+	public function getCacheStorageDrivers( ){
+		$drivers = array();
+
+		// Get an iterator and loop trough the driver php files.
+		$files = new DirectoryIterator(DIR_CORE . 'cache');
+		foreach ($files as $file) {
+		    //we need only php files.
+		    $file_name = $file->getFilename();
+		    if (!$file->isFile() || $file->getExtension() != 'php' || $file_name == 'index.php') {
+		    	continue;
+		    }
+		    //Build class name from the file name.
+		    $driver_name = str_ireplace('.php', '', strtolower(trim($file_name)));
+		    $class = 'ACacheDriver' . ucfirst($driver_name);
+		    $drivers[$driver_name] = array('class' => $class, 'file' => $file->getPathname());
+		}
+			
+		return $drivers;
+	}
+
+
+	private function _get_group($key){
+		if(!$key) {
+			return false;
+		}	
+		//match first word before dot 
+		$split_key = explode('.', $key);
+		$group = $split_key[0];
+		if(empty($group)) {
+			//nothing found, make key as a group 
+			$group = $key;
+		}
+		return $group;
+	}
+
+	// Special Case of HTML Cahce handling
+
+	/**
+	 * Read HTML cache file
 	 * @param string $file_path
 	 * @return string
 	 */
-	public function get_html_cache($file_path){
-		if(empty($file_path)) {
+	public function get_html_cache($key){
+		if(!$key) {
 			return '';
 		}
-		// filepath
-		$filename = $file_path .'.html';
 
-		if($this->_is_expired($filename) && is_file($filename)){
-			$this->_remove($filename);
+		$group = $this->_get_group($key);
+		if($this->enabled && $this->cache_driver && $this->cache_driver->isSupported()) {
+			//load cache from storage		
+			$data = $this->cache_driver->get($key, $group);
+			if($data === false){
+				//check if chache is locked
+				$lock = $this->lock($key, $group);
+				if($lock['locked'] == true && $lock['waited'] == true){
+					//try to get cache again 
+					$data = $this->cache_driver->get($key, $group);
+					$this->unlock($key, $group);
+				}			
+			}			
+			
+			if($data !== false){
+				$this->cache_loads[$group][$key] += 1;
+				return $data;	
+			}
 		}
 
-		if( is_file($filename) ){
-			$h = fopen($filename, 'r');
-			$html_cache = fread($h, filesize($filename));
-			fclose($h);
-			return $html_cache;
-		}
-		return '';
+		$this->cache_misses[$group][$key] += 1;
+		return '';		
 	}
 
 	/**
@@ -237,158 +588,29 @@ final class ACache {
 	 * @param string $content
 	 * @return bool
 	 */
-	public function save_html_cache($file_path, $content){
-		$html_cache_dir = DIR_CACHE. "html_cache/"; 
-		//create html cache directory if not yet there. 
-		if(!is_dir($html_cache_dir)) {
-			if(!is_writeable(DIR_CACHE)){
-				return false;
+	public function save_html_cache($key, $data){
+		$ret = false;
+		if(!$key) {
+			return false;
+		}
+
+		$group = $this->_get_group($key);
+		if(!is_null($data) && $this->enabled && $this->cache_driver && $this->cache_driver->isSupported()) {
+			
+			$lock = $this->lock($key, $group);
+			if($lock['locked'] == false && $lock['waited'] == true){
+				//cache is released, try locking again. 
+				$lock = $this->lock($key, $group);
 			}
-			//create directory and set empty index.php to limit access
-			make_writable_dir($html_cache_dir);
-			touch($html_cache_dir.'index.php');
-		}	
-		if(is_writeable($html_cache_dir) && $file_path){
-			$filename = $file_path.'.html';
-			$this->_remove($filename);
-			//auto create all directories 
-			if(make_writable_path(dirname($filename))){
-			    $h = fopen($filename, 'w');
-			    fwrite($h, $content);				
-			    fclose($h);	
-			    chmod($filename,0777);
-				touch($filename, time());
-			    return true;		
-			} else {
-				return false;
+			
+			$ret = $this->cache_driver->put($key, $group, $data);
+			
+			if($lock['locked'] == true){
+				//unlock if cache was locked
+				$this->unlock($key, $group);
 			}
-		} else {
-			return false;
 		}
+		return $ret;
 	}
-
-	public function delete_html_cache(){
-		$this->_remove_dir( DIR_CACHE . 'html_cache/' );
-	}
-
-	private function _remove_dir($dir = ''){
-		if (is_dir($dir)){
-			$objects = scandir($dir);
-			foreach ($objects as $obj){
-				if ($obj != "." && $obj != ".."){
-					chmod($dir . "/" . $obj, 0777);
-					$err = is_dir($dir . "/" . $obj) ? $this->_remove_dir($dir . "/" . $obj) : $this->_remove($dir . "/" . $obj);
-					if (!$err){
-						return false;
-					}
-				}
-			}
-			reset($objects);
-			rmdir($dir);
-			return true;
-		} else{
-			return $dir;
-		}
-	}
-
-
-
-
-	/**
-	 * @param string $key
-	 * @void
-	 */
-	private function _test_create_directory ($key) {
-		//get section by first part of the key
-		$section = substr($key, 0,strpos($key, '.'));
-		//if no match use key as section
-		if ( !$section ) {
-			$section = $key;
-		}
-		if (!is_file(DIR_CACHE . $section) && !is_dir(DIR_CACHE . $section)) {
-			mkdir(DIR_CACHE . $section, 0777, true);
-			//change mode for nested directories
-			$this->_chmod_dir(DIR_CACHE . $section, 0777);
-			//prevent direct access to this directory
-			touch(DIR_CACHE . $section.'/index.php');
-		}
-	}
-
-	/**
-	 * @param string $key
-	 * @param mixed $language_id
-	 * @param mixed $store_id
-	 * @return string
-	 */
-	private function _build_name($key, $language_id = '', $store_id = ''){
-		//get section by first part of the key
-		$section = substr($key, 0,strpos($key, '.'));
-		$suffix = $this->_build_suffix($language_id, $store_id);
-		//if no match use key as seciton 
-		if ( !$section ) {
-			$section = $key;	
-		}
-		return DIR_CACHE . $section . '/' . $key . ($suffix ? '.'.$suffix : '');
-	}
-
-	/**
-	 * @param mixed $language_id
-	 * @param mixed $store_id
-	 * @return string
-	 */
-	private function _build_suffix($language_id = '', $store_id = ''){
-		$suffix = '';
-		if($language_id){
-			$language_id = (int)$language_id;
-		}
-		if($store_id){
-			$store_id = (int)$store_id;
-		}
-		if($language_id || $store_id){
-			$suffix = $language_id.'_'.(int)$store_id;
-		}
-		return $suffix;
-  	}
-
-
-	/**
-	 * @param string $file
-	 * @return null
-	 * @void
-	 */
-	private function _remove($file){
-		if(empty($file) || !is_file($file)){
-			return false;
-		}
-		unlink($file);
-		//double check that the cache file to be removed
-		if (file_exists($file)){
-			$err_text = sprintf('Error: Cannot delete cache file: %s! Check file or directory permissions.', $file);
-			$error = new AError($err_text);
-			$error->toLog()->toDebug();
-			return false;
-		}
-		return true;
-	}
-
-	/**
-	 * Change mode recursive
-	 *
-	 * @param string $path
-	 * @param int $dirmode
-	 * @return bool
-	 */
-	private function _chmod_dir($path, $dirmode) {
-	    if (is_dir($path) ) {
-	        if (!chmod($path, $dirmode)) {
-	            $dirmode_str=decoct($dirmode);
-				$this->registry->get('log')->write("Failed applying filemode '".$dirmode_str."' on directory '".$path."'\n  -> the directory '".$path."' will be skipped from recursive chmod\n");
-	            return false;
-	        }
-	    } elseif (is_link($path)) {
-			$this->registry->get('log')->write("link '".$path."' is skipped\n");
-			return false;
-	    }
-		return true;
-	}
+	
 }

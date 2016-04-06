@@ -137,10 +137,6 @@
 		<value><![CDATA[Parámetros de correo:<span class="help">Cuando se utiliza 'Correo', los parámetros adicionales de correo se puede añadir aquí (por ejemplo "-femail@storeaddress.com".]]></value>
 	</definition>
 	<definition>
-		<key>entry_cache_enable</key>
-		<value><![CDATA[Caché habilitado:<br /><span class="help">Tenga cuidado al deshabilitar el almacenamiento en caché. Las páginas en caché no se vuelven a crear al menos hasta el presente ha transcurrido mucho tiempo. </span>]]></value>
-	</definition>
-	<definition>
 		<key>entry_upload_max_size</key>
 		<value><![CDATA[Biblioteca de Recursos Subir tamaño máximo de archivo, kB]]></value>
 	</definition>

@@ -493,11 +493,6 @@
 		<value><![CDATA[Enable Reviews:<br /><span class="help"></span>]]></value>
 	</definition>
 	<definition>
-		<key>entry_cache_enable</key>
-		<value>
-			<![CDATA[Cache enabled:<br /><span class="help">Please be careful when disable caching. Cached pages will not be re-created and site might start loading slow. </span>]]></value>
-	</definition>
-	<definition>
 		<key>entry_storefront_api_status</key>
 		<value><![CDATA[Storefront API status:]]></value>
 	</definition>
@@ -954,6 +949,6 @@
 	</definition>
 	<definition>
 		<key>entry_html_cache</key>
-		<value><![CDATA[HTML Cache enabled:<br /><span class="help">Please be careful</span>!!!!!]]></value>
+		<value><![CDATA[HTML Cache:<br /><span class="help">Enabled HTML pages and blocks caching to get better speed for your pages. This is aditional caching to regular data caching enabled in system/config.php file</span>]]></value>
 	</definition>
 </definitions>
