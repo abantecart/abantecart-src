@@ -112,7 +112,7 @@ abstract class AController {
 	public $view;
 	protected $config;
 	protected $languages = array();
-	protected $html_cache_file;
+	protected $html_cache_key;
 
 	/**
 	 * @param $registry Registry
@@ -171,7 +171,7 @@ abstract class AController {
 			return false;
 		}
 
-		//build HTML cache file name
+		//build HTML cache key
 		//build cache string based on params 
 		$param_string = '';
 		if(is_array($params) && $params) {
@@ -188,10 +188,13 @@ abstract class AController {
 		}
 		//build HTML cache path
 		$lang_store_id  = $this->language->getLanguageCode()."_".$this->config->get('config_store_id');
-		$cdir = DIR_CACHE. "html_cache/".$lang_store_id."/".$this->controller;
-		$this->html_cache_file =  $cdir."_".$this->instance_id."_".$param_string;
+		$this->html_cache_key = str_replace('/', '.', $this->controller).'.html_cache'.".".$lang_store_id."_".$this->instance_id;
+		//add specific params to the key
+		if($param_string) {
+			$this->html_cache_key .= "_".$param_string;
+		}
 		//check if can load HTML files and stop
-		return $this->view->checkHTMLCache($this->html_cache_file);
+		return $this->view->checkHTMLCache($this->html_cache_key);
 	}
 
 	/*

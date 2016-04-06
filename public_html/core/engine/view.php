@@ -74,7 +74,7 @@ class AView {
 	/**
 	 * @var string
 	 */
-	protected $html_cache_file;
+	protected $html_cache_key;
 	
 	/**
 	 * @param Registry $registry
@@ -317,9 +317,9 @@ class AView {
 			ADebug::checkpoint('fetch '.$filename.' end');
 			
 			//Write HTML Cache if we need and can write
-			if($this->config && $this->config->get('config_html_cache') && $this->html_cache_file ) {
-				if($this->cache->save_html_cache($this->html_cache_file, $content) === false){
-					$error = new AError('Error: Cannot create HTML cache for file'.$this->html_cache_file.'! Directory to write cache is not writable', AC_ERR_LOAD);
+			if($this->config && $this->config->get('config_html_cache') && $this->html_cache_key ) {
+				if($this->cache->save_html_cache($this->html_cache_key, $content) === false){
+					$error = new AError('Error: Cannot create HTML cache for file'.$this->html_cache_key.'! Directory to write cache is not writable', AC_ERR_LOAD);
 					$error->toDebug()->toLog();
 				}
 			}
@@ -384,12 +384,12 @@ class AView {
 	 * @param string $filepath
 	 * @return bool
 	 */
-	public function checkHTMLCache( $filepath ) {
-    	if ( !$filepath ) {
+	public function checkHTMLCache( $key ) {
+    	if ( !$key ) {
     		return false;    	
     	}
-		$this->html_cache_file = $filepath;
-		$html_cache = $this->cache->get_html_cache($filepath);
+		$this->html_cache_key = $key;
+		$html_cache = $this->cache->get_html_cache($key);
 		if($html_cache){
      		$compression = '';
      		if ($this->config) { 

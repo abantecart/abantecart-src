@@ -445,10 +445,6 @@
 		<value><![CDATA[Abilita recensioni:<br /><span class="help"></span>]]></value>
 	</definition>
 	<definition>
-		<key>entry_cache_enable</key>
-		<value><![CDATA[Cache abilitata:<br /><span class="help">Si prega di prestare attenzione quando si disabilita la memeorizzazione nella Cache. Le pagine memorizzate nella Cache non verranno ricreate e il sito potrebbe iniziare il caricamento lento. </span>]]></value>
-	</definition>
-	<definition>
 		<key>entry_storefront_api_status</key>
 		<value><![CDATA[Lo stato delle API del negozio:]]></value>
 	</definition>

@@ -113,7 +113,7 @@ function check_file_permissions($registry){
 	}
 
 	//if cache is enabled
-	if( $registry->get('config')->get('config_cache_enable') ) {
+	if( defined('CACHE_ENABLE') && CACHE_ENABLE === true) {
 		$cache_files = get_all_files_dirs(DIR_SYSTEM . 'cache/');
 		$cache_message = '';
 		foreach($cache_files as $file) {

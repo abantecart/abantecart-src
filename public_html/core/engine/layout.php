@@ -489,7 +489,7 @@ class ALayout {
 		if (!(int)$custom_block_id) {
 			return array();
 		}
-		$cache_name = 'layout.a.block.descriptions.' . $custom_block_id;
+		$cache_name = 'layout.block.descriptions.' . $custom_block_id;
 		$output = $this->cache->get($cache_name);
 		if (!is_null($output)) {
 			// return cached blocks

@@ -453,10 +453,6 @@
 		<value><![CDATA[Включить Отзывы: <br /><span class="help">Включает/выключает добавление новых отзывов и отображение существующих отзывов</span>]]></value>
 	</definition>
 	<definition>
-		<key>entry_cache_enable</key>
-		<value><![CDATA[Включить Кэш:<br /><span class="help">Пожалуйста, будьте осторожны, когда отключаете кэширование. Сайт может начать медленно загружаться.</span>]]></value>
-	</definition>
-	<definition>
 		<key>entry_storefront_api_status</key>
 		<value><![CDATA[Статус API витрины:]]></value>
 	</definition>
