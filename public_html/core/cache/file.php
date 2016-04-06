@@ -124,7 +124,6 @@ class ACacheDriverFile extends ACacheDriver{
 			@fwrite($fileopen, $data, $len);
 			$saved = true;
 		}
-		@fclose($fileopen);
 
 		// Data integrity check
 		if ($saved && ($data == file_get_contents($path))){
@@ -223,6 +222,12 @@ class ACacheDriverFile extends ACacheDriver{
 		}
 		
 		$path = $this->_buildFilePath($key, $group);
+		//consider locked if file does not exists yet 
+		if (file_exists($path)){
+			$ret['locked'] = true;
+			return $ret;
+		}
+		
 		$fileopen = @fopen($path, "r+b");
 		if ($fileopen){
 			$data_lock = @flock($fileopen, LOCK_EX);
@@ -245,7 +250,6 @@ class ACacheDriverFile extends ACacheDriver{
 			}
 		}
 		
-		@fclose($fileopen);
 		$ret['locked'] = $data_lock;
 		return $ret;
 	}
@@ -270,7 +274,6 @@ class ACacheDriverFile extends ACacheDriver{
 			// Expect true if $fileopen is false.
 			$ret = true;
 		}
-		@fclose($fileopen);
 		return $ret;
 	}
 
