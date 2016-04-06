@@ -194,7 +194,7 @@ class ACacheDriverFile extends ACacheDriver{
 		$files = $this->_get_files($this->path, true, array('.svn', 'CVS', '.DS_Store', '__MACOSX', 'index.php'));
 		foreach ($files as $file){
 			$time = @filemtime($file);
-			if (($time + $this->_lifetime) < $this->_now || empty($time)){
+			if (($time + $this->expire) < $this->_now || empty($time)){
 				$result |= @unlink($file);
 			}
 		}
@@ -499,7 +499,7 @@ class ACacheDriverFile extends ACacheDriver{
 						} else {
 							$arr = $this->_get_directories($dir, $recurse, $exclude, $exclude_filter);
 						}
-						$ret_arr = array_merge($ret_arr, $arr2);
+						$ret_arr = array_merge($ret_arr, $arr);
 					}
 				}
 			}
