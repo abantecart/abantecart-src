@@ -2,8 +2,8 @@
 	<button aria-hidden="true" data-dismiss="modal" class="close" type="button">&times;</button>
 	<h4 class="modal-title"><?php echo $text_get_product_embed_code; ?></h4>
 </div>
-<div class="tab-content">
-	<div class="panel-body panel-body-nopadding table-responsive">
+<div class="tab-content do_embed">
+	<div class="panel-body panel-body-nopadding">
 		<div class="col-sm-6 col-xs-12">
 			<div id="embed_container" class="embed_preview"></div>
 		</div>
@@ -48,6 +48,9 @@
 <div id="code" style="display:none;"></div>
 
 <script type="text/javascript"><!--
+	$(document).ready(function(){
+		$('.do_embed a').tooltip();
+	});
 	var options = {
 		'image': '<div class="abantecart_image"></div>\n',
 		'name': '<h3 class="abantecart_name"></h3>\n',
@@ -68,7 +71,7 @@
 		if(currency && currency.length > 0){
 			common_params += ' data-currency="'+currency+'"';
 		}
-		var html = '<script src="<?php echo $sf_js_embed_url; ?>" type="text/javascript"></script>\n';
+		var html = '<script src="<?php echo $sf_js_embed_url; ?>" type="text/javascript"><\/script>\n';
 			html += '<div style="display:none;" class="abantecart-widget-container" data-url="<?php echo $sf_base_url; ?>" data-css-url="<?php echo $sf_css_embed_url; ?>"'+common_params+'>\n';
 			html += '\t<div id="abc_<?php echo (int)(microtime()*1000);?>" class="abantecart_product" data-product-id="<?php echo $product_id; ?>">\n';
 
@@ -78,7 +81,7 @@
 			}
 		});
 	
-		html += '\t</div>\n</div>';
+		html += '\t<\/div>\n<\/div>';
 		return html;
 	}
 

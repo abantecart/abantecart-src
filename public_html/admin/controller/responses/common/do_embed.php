@@ -21,7 +21,6 @@ if (! defined ( 'DIR_CORE' ) || !IS_ADMIN) {
 	header ( 'Location: static_pages/' );
 }
 class ControllerResponsesCommonDoEmbed extends AController {
-	private $error = array();
 	public $data = array();
 	public function main() {}
 
@@ -86,7 +85,7 @@ class ControllerResponsesCommonDoEmbed extends AController {
 		));
 
 		$results = $this->language->getAvailableLanguages();
-		$languages = array();
+		$languages = $language_codes = array();
 		foreach ($results as $v) {
 			$languages[$v['code']] = $v['name'];
 			$lng_code = $this->language->getLanguageCodeByLocale($v['locale']);
@@ -135,6 +134,7 @@ class ControllerResponsesCommonDoEmbed extends AController {
 
 		$this->data['sf_js_embed_url'] = $remote_store_url.INDEX_FILE.'?rt=r/embed/js';
 		$this->data['sf_base_url'] = $remote_store_url;
+		$this->data['help_url'] = $this->gen_help_url('embed');
 
 		$this->data['sf_css_embed_url'] = $remote_store_url.'storefront/view/' . $this->config->get('config_storefront_template').'/stylesheet/embed.css';
 
@@ -185,7 +185,7 @@ class ControllerResponsesCommonDoEmbed extends AController {
 		));
 
 		$results = $this->language->getAvailableLanguages();
-		$languages = array();
+		$languages = $language_codes = array();
 		foreach ($results as $v) {
 			$languages[$v['code']] = $v['name'];
 			$lng_code = $this->language->getLanguageCodeByLocale($v['locale']);
@@ -224,7 +224,7 @@ class ControllerResponsesCommonDoEmbed extends AController {
 		$current_store_settings = $this->model_setting_store->getStore($this->config->get('config_store_id'));
 		$remote_store_url = $current_store_settings['config_url'];
 
-		$options = array();
+		$options = $subcategories = array();
 		//if embed for only one category
 		if( sizeof($category_id)==1 ){
 			$cat_id = current($category_id);
@@ -260,7 +260,7 @@ class ControllerResponsesCommonDoEmbed extends AController {
 		if( $subcategories ){
 			$options = array_merge($options,$subcategories);
 		}
-
+		$opt = array();
 		foreach($options as $cat){
 			$opt[$cat['category_id']] = $cat['name'];
 		}
@@ -284,6 +284,8 @@ class ControllerResponsesCommonDoEmbed extends AController {
 		$this->data['category_id'] = $this->request->get['category_id'];
 		$this->data['sf_js_embed_url'] = $remote_store_url.INDEX_FILE.'?rt=r/embed/js';
 		$this->data['sf_base_url'] = $remote_store_url;
+		$this->data['help_url'] = $this->gen_help_url('embed');
+
 
 		$this->data['sf_css_embed_url'] = $remote_store_url.'storefront/view/' . $this->config->get('config_storefront_template').'/stylesheet/embed.css';
 
@@ -334,7 +336,7 @@ class ControllerResponsesCommonDoEmbed extends AController {
 		));
 
 		$results = $this->language->getAvailableLanguages();
-		$languages = array();
+		$languages = $language_codes = array();
 		foreach ($results as $v) {
 			$languages[$v['code']] = $v['name'];
 			$lng_code = $this->language->getLanguageCodeByLocale($v['locale']);
@@ -377,7 +379,7 @@ class ControllerResponsesCommonDoEmbed extends AController {
 		}
 		reset($manufacturer_id);
 
-
+		$opt = array();
 		foreach($options as $m){
 			$opt[$m['manufacturer_id']] = $m['name'];
 		}
@@ -415,6 +417,7 @@ class ControllerResponsesCommonDoEmbed extends AController {
 		$this->data['manufacturer_id'] = $this->request->get['manufacturer_id'];
 		$this->data['sf_js_embed_url'] = $remote_store_url.INDEX_FILE.'?rt=r/embed/js';
 		$this->data['sf_base_url'] = $remote_store_url;
+		$this->data['help_url'] = $this->gen_help_url('embed');
 
 		$this->data['sf_css_embed_url'] = $remote_store_url.'storefront/view/' . $this->config->get('config_storefront_template').'/stylesheet/embed.css';
 
