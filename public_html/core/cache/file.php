@@ -49,8 +49,8 @@ class ACacheDriverFile extends ACacheDriver{
 	/**
 	 * Constructor
 	 *
-	 * @param in $expiration
-	 * @param in $lock_time
+	 * @param int $expiration
+	 * @param int $lock_time
 	 *
 	 * @since   1.2.7
 	 */
@@ -438,13 +438,13 @@ class ACacheDriverFile extends ACacheDriver{
 				if (is_dir($dir)){
 					//process directory
 					if ($recurse){
-						$arr = array();
+						//$arr = array();
 						if (is_int($recurse)){
 							$arr = $this->_get_files($dir, $recurse - 1);
 						} else {
 							$arr = $this->_get_files($dir, $recurse);
 						}
-						$ret_arr = array_merge($ret_arr, $arr);
+						$ret_arr = array_merge($ret_arr, $arr2);
 					}
 				} else {
 					$ret_arr[] = $path . '/' . $file;
@@ -499,7 +499,7 @@ class ACacheDriverFile extends ACacheDriver{
 						} else {
 							$arr = $this->_get_directories($dir, $recurse, $exclude, $exclude_filter);
 						}
-						$ret_arr = array_merge($ret_arr, $arr2);
+						$ret_arr = array_merge($ret_arr, $arr);
 					}
 				}
 			}
