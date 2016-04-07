@@ -36,10 +36,7 @@ class ModelCatalogManufacturer extends Model{
 	 * @return array
 	 */
 	public function getManufacturers($data = array ()){
-		if (!$data){
-			$manufacturer = $this->cache->get('manufacturer', '', (int)$this->config->get('config_store_id'));
-		}
-
+		$manufacturer = array();
 		if (isset($data['start']) || isset($data['limit'])){
 			if ($data['start'] < 0){
 				$data['start'] = 0;
@@ -47,6 +44,8 @@ class ModelCatalogManufacturer extends Model{
 			if ($data['limit'] < 1){
 				$data['limit'] = 0;
 			}
+		}else{
+			$manufacturer = $this->cache->pull('manufacturer.'.(int)$this->config->get('config_store_id') );
 		}
 
 		if (!$manufacturer){
@@ -63,7 +62,7 @@ class ModelCatalogManufacturer extends Model{
 			$query = $this->db->query($sql);
 			$manufacturer = $query->rows;
 			if (!$data['limit']){
-				$this->cache->set('manufacturer', $manufacturer, '', (int)$this->config->get('config_store_id'));
+				$this->cache->push('manufacturer.'.(int)$this->config->get('config_store_id'));
 			}
 		}
 		return $manufacturer;

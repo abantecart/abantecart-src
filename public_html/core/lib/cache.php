@@ -438,17 +438,17 @@ class ACache {
 	/**
 	 * Unset lock cached item
 	 *
-	 * @param   string  $id	The cache data key
+	 * @param   string  $key	The cache data key
 	 * @param   string  $group	The cache data group
 	 *
 	 * @return  boolean
 	 *
 	 * @since   1.2.7
 	 */
-	public function unlock($id, $group){
+	public function unlock($key, $group){
 
 		if($this->enabled && $this->cache_driver && $this->cache_driver->isSupported() ) {		
-			$unlocked = $this->cache_driver->unlock($id, $group);
+			$unlocked = $this->cache_driver->unlock($key, $group);
 			if ($unlocked !== false){
 				return $unlocked;
 			}
@@ -457,7 +457,7 @@ class ACache {
 		}
 
 		//cleanup after cache unlock
-		$unlock = $this->cache_driver->remove($id.'_lc', $group);
+		$unlock = $this->cache_driver->remove($key.'_lc', $group);
 		return $unlock;
 	}
 
@@ -565,7 +565,7 @@ class ACache {
 		return $group;
 	}
 
-	// Special Case of HTML Cahce handling
+	// Special Case of HTML Cache handling
 
 	/**
 	 * Read HTML cache file

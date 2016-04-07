@@ -77,9 +77,9 @@ class ModelLocalisationLanguageDefinitions extends Model {
 			$autotranslate
 			);
 
-		$this->cache->delete('lang');
-		$this->cache->delete('language_definitions');
-		$this->cache->delete('admin_menu');
+		$this->cache->remove('lang');
+		$this->cache->remove('language_definitions');
+		$this->cache->remove('admin_menu');
 
 		return true;
 	}
@@ -136,9 +136,9 @@ class ModelLocalisationLanguageDefinitions extends Model {
 				);
 		}
 
-		$this->cache->delete('lang');
-		$this->cache->delete('language_definitions');
-		$this->cache->delete('admin_menu');
+		$this->cache->remove('lang');
+		$this->cache->remove('language_definitions');
+		$this->cache->remove('admin_menu');
         return true;
 	}
 
@@ -155,9 +155,9 @@ class ModelLocalisationLanguageDefinitions extends Model {
 							  		AND `block` = '" . $row['block'] . "'
 							  		AND `language_key` = '" . $row['language_key'] . "'");
 		}
-		$this->cache->delete('lang');
-		$this->cache->delete('language_definitions');
-		$this->cache->delete('admin_menu');
+		$this->cache->remove('lang');
+		$this->cache->remove('language_definitions');
+		$this->cache->remove('admin_menu');
 	}
 
     /**
@@ -310,9 +310,8 @@ class ModelLocalisationLanguageDefinitions extends Model {
 
 			return $result;
 		} else {
-			$language_data = $this->cache->get('language_definitions');
-
-			if (!$language_data) {
+			$language_data = $this->cache->pull('language_definitions');
+			if ($language_data === false) {
 				$query = $this->db->query("SELECT *
 				                           FROM " . $this->db->table("language_definitions") . " 
 				                           WHERE language_id=" . (int)$this->config->get('admin_language_id') . "
@@ -329,9 +328,8 @@ class ModelLocalisationLanguageDefinitions extends Model {
 						'date_modified' => $result['date_modified'],
 					);
 				}
-				$this->cache->set('language_definitions', $language_data);
+				$this->cache->push('language_definitions', $language_data);
 			}
-
 
 			return $language_data;
 		}

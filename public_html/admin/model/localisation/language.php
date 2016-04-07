@@ -31,7 +31,7 @@ class ModelLocalisationLanguage extends Model {
 								sort_order = '" . $this->db->escape($data['sort_order']) . "',
 								status = '" . (int)$data['status'] . "'");
 		
-		$this->cache->delete('language');
+		$this->cache->remove('language');
 		
 		$language_id = $this->db->getLastId();
 		
@@ -50,7 +50,7 @@ class ModelLocalisationLanguage extends Model {
 		}
 		$this->db->query("UPDATE " . $this->db->table("languages") . " SET ".implode(',', $update_data)." WHERE language_id = '" . (int)$language_id . "'");
 				
-		$this->cache->delete('language');
+		$this->cache->remove('language');
 	}
 	
 	public function deleteLanguage($language_id) {
@@ -59,7 +59,7 @@ class ModelLocalisationLanguage extends Model {
 		$this->language->deleteAllLanguageEntries($language_id);
 
 		//too many changes and better clear all cache
-		$this->cache->delete('*');
+		$this->cache->remove('*');
 				
 		//delete menu items for given language
 		$menu = new AMenu_Storefront();
@@ -152,9 +152,9 @@ class ModelLocalisationLanguage extends Model {
 			}
 			return $result;
 		} else {
-			$language_data = $this->cache->get('language');
+			$language_data = $this->cache->pull('language');
 		
-			if (!$language_data) {
+			if ($language_data === false) {
 				$query = $this->db->query( "SELECT *
 											FROM " . $this->db->table("languages") . " 
 											ORDER BY sort_order, name");
@@ -178,7 +178,7 @@ class ModelLocalisationLanguage extends Model {
 						'status'      => $result['status']
       				);
     			}
-				$this->cache->set('language', $language_data);
+				$this->cache->push('language', $language_data);
 			}
 		
 			return $language_data;			

@@ -78,7 +78,7 @@ class ModelCatalogCategory extends Model {
 								AND language_id = '".(int)$this->language->getContentLanguageID()."'");
 		}
 
-		$this->cache->delete('category');
+		$this->cache->remove('category');
 
 		return $category_id;
 	}
@@ -143,7 +143,7 @@ class ModelCatalogCategory extends Model {
 
 		}
 
-		$this->cache->delete('category');
+		$this->cache->remove('category');
 
 	}
 
@@ -180,7 +180,7 @@ class ModelCatalogCategory extends Model {
 			$this->deleteCategory($result['category_id']);
 		}
 
-		$this->cache->delete('category');
+		$this->cache->remove('category');
 	}
 
 	/**
@@ -205,11 +205,10 @@ class ModelCatalogCategory extends Model {
 	 */
 	public function getCategories($parent_id, $store_id = null) {
 		$language_id = $this->language->getContentLanguageID();
-		$category_data = $this->cache->get('category.' . $parent_id . $store_id, $language_id);
+		$category_data = $this->cache->pull('category.' . $parent_id .'_'. $store_id.'_'.$language_id);
 
-		if (!$category_data) {
+		if ($category_data === false) {
 			$category_data = array();
-
 			$sql = "SELECT *
 					FROM " . $this->db->table("categories") . " c
 					LEFT JOIN " . $this->db->table("category_descriptions") . " cd
@@ -221,7 +220,6 @@ class ModelCatalogCategory extends Model {
 			$sql .=	"WHERE c.parent_id = '" . (int)$parent_id . "'
 						AND cd.language_id = '" . (int)$language_id . "'
 					ORDER BY c.sort_order, cd.name ASC";
-
 			$query = $this->db->query($sql);
 
 			foreach ($query->rows as $result) {
@@ -236,7 +234,7 @@ class ModelCatalogCategory extends Model {
 				$category_data = array_merge($category_data, $this->getCategories($result['category_id'], $store_id));
 			}
 
-			$this->cache->set('category.' . $parent_id . $store_id, $category_data, $language_id );
+			$this->cache->push('category.' . $parent_id .'_'. $store_id.'_'.$language_id, $category_data );
 		}
 
 		return $category_data;

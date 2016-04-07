@@ -34,7 +34,7 @@ class ModelLocalisationLengthClass extends Model {
 											 ) ));
 		}
 		
-		$this->cache->delete('length_class');
+		$this->cache->remove('length_class');
 
 		return $length_class_id;
 	}
@@ -60,14 +60,14 @@ class ModelLocalisationLengthClass extends Model {
 			}
 		}
 		
-		$this->cache->delete('length_class');	
+		$this->cache->remove('length_class');
 	}
 	
 	public function deleteLengthClass($length_class_id) {
 		$this->db->query("DELETE FROM " . $this->db->table("length_classes") . " WHERE length_class_id = '" . (int)$length_class_id . "'");
 		$this->db->query("DELETE FROM " . $this->db->table("length_class_descriptions") . " WHERE length_class_id = '" . (int)$length_class_id . "'");
 		
-		$this->cache->delete('length_class');
+		$this->cache->remove('length_class');
 	}
 	
 	public function getLengthClasses($data = array()) {
@@ -117,9 +117,9 @@ class ModelLocalisationLengthClass extends Model {
 	
 			return $query->rows;			
 		} else {
-			$length_class_data = $this->cache->get('length_class', $language_id);
+			$length_class_data = $this->cache->pull('length_class.'.$language_id);
 
-			if (!$length_class_data) {
+			if ($length_class_data ===false) {
 				$query = $this->db->query("SELECT *
 											FROM " . $this->db->table("length_classes") . " wc
 											LEFT JOIN " . $this->db->table("length_class_descriptions") . " wcd
@@ -127,7 +127,7 @@ class ModelLocalisationLengthClass extends Model {
 	
 				$length_class_data = $query->rows;
 			
-				$this->cache->set('length_class', $length_class_data, $language_id);
+				$this->cache->push('length_class.'.$language_id, $length_class_data);
 			}
 			
 			return $length_class_data;

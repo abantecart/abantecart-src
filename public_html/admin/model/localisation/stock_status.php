@@ -105,15 +105,15 @@ class ModelLocalisationStockStatus extends Model {
 		
 			return $query->rows;
 		} else {
-			$stock_status_data = $this->cache->get('stock_status', $language_id);
+			$stock_status_data = $this->cache->pull('stock_status.'. $language_id);
 		
-			if (!$stock_status_data) {
+			if ($stock_status_data === false) {
 				$query = $this->db->query( "SELECT stock_status_id, name
 											FROM " . $this->db->table("stock_statuses") . " 
 											WHERE language_id = '" . $language_id . "'
 											ORDER BY name");
 				$stock_status_data = $query->rows;
-				$this->cache->set('stock_status', $stock_status_data, $language_id);
+				$this->cache->push('stock_status.'.$language_id, $stock_status_data);
 			}	
 	
 			return $stock_status_data;			

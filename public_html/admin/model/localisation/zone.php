@@ -21,6 +21,10 @@ if (! defined ( 'DIR_CORE' ) || !IS_ADMIN) {
 	header ( 'Location: static_pages/' );
 }
 class ModelLocalisationZone extends Model {
+	/**
+	 * @param array $data
+	 * @return int
+	 */
 	public function addZone($data) {
 		$this->db->query("INSERT INTO " . $this->db->table("zones") . "
 						  SET status = '" . (int)$data['status'] . "',
@@ -37,10 +41,14 @@ class ModelLocalisationZone extends Model {
 											 )) );
 		}
 	
-		$this->cache->delete('zone');
+		$this->cache->remove('zone');
 		return $zone_id;
 	}
-	
+
+	/**
+	 * @param int $zone_id
+	 * @param array $data
+	 */
 	public function editZone($zone_id, $data) {
 		$fields = array('status', 'code', 'country_id', );
 		$update = array();
@@ -50,7 +58,7 @@ class ModelLocalisationZone extends Model {
 		}
 		if ( !empty($update) ) {
 			$this->db->query("UPDATE " . $this->db->table("zones") . " SET ". implode(',', $update) ." WHERE zone_id = '" . (int)$zone_id . "'");
-			$this->cache->delete('zone');
+			$this->cache->remove('zone');
 		}
 		
 		if ( count($data['zone_name']) ) {
@@ -62,19 +70,26 @@ class ModelLocalisationZone extends Model {
 												 )) );
 			}
 		}
-		$this->cache->delete('zone');
+		$this->cache->remove('zone');
 	}
-	
+
+	/**
+	 * @param int $zone_id
+	 */
 	public function deleteZone($zone_id) {
 		$this->db->query("DELETE FROM " . $this->db->table("zones") . " WHERE zone_id = '" . (int)$zone_id . "'");
 		$this->db->query("DELETE FROM " . $this->db->table("zone_descriptions") . " WHERE zone_id = '" . (int)$zone_id . "'");
 
-		$this->cache->delete('zone');	
+		$this->cache->remove('zone');
 	}
-	
+
+	/**
+	 * @param $zone_id
+	 * @return array
+	 */
 	public function getZone($zone_id) {
-		$language_id = $this->session->data['content_language_id'];
-		$default_lang_id = $this->language->getDefaultLanguageID();	
+		$language_id = $this->language->getContentLanguageID();
+		$language_id  = !$language_id ? $this->language->getDefaultLanguageID() : $language_id;
 
 		$query = $this->db->query("SELECT z.zone_id, 
 										  z.country_id, 
@@ -91,23 +106,28 @@ class ModelLocalisationZone extends Model {
 		return $ret_data;
 	}
 
+	/**
+	 * @param int $zone_id
+	 * @return array
+	 */
 	public function getZoneDescriptions($zone_id) {
 		$zone_data = array();
-		
 		$query = $this->db->query( "SELECT *
 									FROM " . $this->db->table("zone_descriptions") . " 
 									WHERE zone_id = '" . (int)$zone_id . "'");
-		
 		foreach ($query->rows as $result) {
 			$zone_data[$result['language_id']] = array('name' => $result['name']);
 		}
-		
 		return $zone_data;
 	}
 
-	
+	/**
+	 * @param array $data
+	 * @param string $mode
+	 * @return array
+	 */
 	public function getZones($data = array(), $mode = 'default') {
-		$language_id = $this->session->data['content_language_id'];
+		$language_id = $this->language->getContentLanguageID();
 		$default_language_id = $this->language->getDefaultLanguageID();
 		
 		if ($mode == 'total_only') {
@@ -176,17 +196,21 @@ class ModelLocalisationZone extends Model {
 		return $query->rows;
 	}
 
+	/**
+	 * @param array $data
+	 * @return array
+	 */
 	public function getTotalZones($data = array()) {
 		return $this->getZones($data, 'total_only');
 	}
 					
 	public function getZonesByCountryId($country_id) {
-		$language_id = $this->session->data['content_language_id'];
+		$language_id = $this->language->getContentLanguageID();
 		$default_language_id = $this->language->getDefaultLanguageID();
 		
-		$zone_data = $this->cache->get('zone.' . $country_id, $language_id);
+		$zone_data = $this->cache->pull('zone.'.$country_id.'.'.$language_id);
 	
-		if (!$zone_data) {
+		if ($zone_data === false) {
 			$query = $this->db->query( "SELECT *, COALESCE( zd1.name, zd2.name) as name 
 										FROM " . $this->db->table("zones") . " z
 										LEFT JOIN " . $this->db->table("zone_descriptions") . " zd1 ON (z.zone_id = zd1.zone_id AND zd1.language_id = '" . (int)$language_id . "') 
@@ -194,19 +218,23 @@ class ModelLocalisationZone extends Model {
 										WHERE z.country_id = '" . (int)$country_id . "'
 										ORDER BY zd1.name, zd2.name");
 			$zone_data = $query->rows;
-			$this->cache->set('zone.' . $country_id, $zone_data, $language_id);
+			$this->cache->push('zone.'.$country_id.'.'.$language_id, $zone_data);
 		}
 	
 		return $zone_data;
 	}
 
+	/**
+	 * @param int $location_id
+	 * @return array
+	 */
 	public function getZonesByLocationId($location_id) {
-		$language_id = $this->session->data['content_language_id'];
+		$language_id = $this->language->getContentLanguageID();
 		$default_language_id = $this->language->getDefaultLanguageID();
 
-		$zone_data = $this->cache->get('zone.location.' . $location_id, $language_id);
+		$zone_data = $this->cache->pull('zone.location.' . $location_id .'.'. $language_id);
 
-		if (!$zone_data) {
+		if ($zone_data === false) {
 			$query = $this->db->query( "SELECT z.*, COALESCE( zd1.name, zd2.name) as name
 										FROM " . $this->db->table("zones") . " z
 										LEFT JOIN " . $this->db->table("zone_descriptions") . " zd1 ON (z.zone_id = zd1.zone_id AND zd1.language_id = '" . (int)$language_id . "') 
@@ -215,22 +243,30 @@ class ModelLocalisationZone extends Model {
 											ON ( zl.zone_id = z.zone_id AND zl.location_id = '".(int)$location_id."' )
 										ORDER BY zd1.name, zd2.name");
 			$zone_data = $query->rows;
-			$this->cache->set('zone.location.' . $location_id, $zone_data, $language_id);
+			$this->cache->push('zone.location.' . $location_id .'.'. $language_id, $zone_data);
 		}
 
 		return $zone_data;
 	}
-	
+
+	/**
+	 * @param int $country_id
+	 * @return int
+	 */
 	public function getTotalZonesByCountryId($country_id) {
 		$query = $this->db->query( "SELECT count(*) AS total
 									FROM " . $this->db->table("zones") . " 
 									WHERE country_id = '" . (int)$country_id . "'");
 	
-		return $query->row['total'];
+		return (int)$query->row['total'];
 	}
 
+	/**
+	 * @param $name
+	 * @return int
+	 */
 	public function getCountryIdByName($name) {
-		$language_id = $this->session->data['content_language_id'];
+		$language_id = $this->language->getContentLanguageID();
 		$default_language_id = $this->language->getDefaultLanguageID();
 		
 		$query = $this->db->query("SELECT c.country_id FROM " . $this->db->table("countries") . " c
@@ -239,7 +275,7 @@ class ModelLocalisationZone extends Model {
 								   WHERE cd1.name = '" . $this->db->escape($name) . "' OR cd2.name = '" . $this->db->escape($name) . "' AND status = '1' LIMIT 1");
 
 		if ( $query->num_rows > 0 ) {
-			return $query->row['country_id'];
+			return (int)$query->row['country_id'];
 		}
 		return 0;
 	}

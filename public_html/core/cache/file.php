@@ -265,7 +265,6 @@ class ACacheDriverFile extends ACacheDriver{
 	 * @since   1.2.7
 	 */
 	public function unlock($key, $group = null) {
-		$ret = false;
 		$path = $this->_buildFilePath($key, $group);
 		$fileopen = @fopen($path, "r+b");
 		if ($fileopen){
@@ -438,7 +437,6 @@ class ACacheDriverFile extends ACacheDriver{
 				if (is_dir($dir)){
 					//process directory
 					if ($recurse){
-						//$arr = array();
 						if (is_int($recurse)){
 							$arr = $this->_get_files($dir, $recurse - 1);
 						} else {

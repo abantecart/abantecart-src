@@ -48,7 +48,7 @@ class ModelLocalisationCurrency extends Model {
 						          '" . (int)$data[ 'status' ] . "',
 						          NOW())");
 
-		$this->cache->delete('currency');
+		$this->cache->remove('currency');
 		return $this->db->getLastId();
 	}
 
@@ -82,7 +82,7 @@ class ModelLocalisationCurrency extends Model {
 			$this->db->query("UPDATE " . $this->db->table("currencies") . " 
 							  SET " . implode(',', $update) . "
 							  WHERE currency_id = '" . (int)$currency_id . "'");
-			$this->cache->delete('currency');
+			$this->cache->remove('currency');
 		}
 		return true;
 	}
@@ -98,7 +98,7 @@ class ModelLocalisationCurrency extends Model {
 		}
 		$this->db->query("DELETE FROM " . $this->db->table("currencies") . " 
 						  WHERE currency_id = '" . (int)$currency_id . "'");
-		$this->cache->delete('currency');
+		$this->cache->remove('currency');
 		return true;
 	}
 
@@ -158,9 +158,9 @@ class ModelLocalisationCurrency extends Model {
 
 			return $query->rows;
 		} else {
-			$currency_data = $this->cache->get('currency');
+			$currency_data = $this->cache->pull('currency');
 
-			if (!$currency_data) {
+			if ($currency_data === false) {
 				$query = $this->db->query("SELECT *
 											FROM " . $this->db->table("currencies") . " 
 											ORDER BY title ASC");
@@ -179,7 +179,7 @@ class ModelLocalisationCurrency extends Model {
 					);
 				}
 
-				$this->cache->set('currency', $currency_data);
+				$this->cache->push('currency', $currency_data);
 			}
 
 			return $currency_data;
@@ -223,7 +223,7 @@ class ModelLocalisationCurrency extends Model {
 							      date_modified = NOW()
 							  WHERE code = '" . $this->db->escape($this->config->get('config_currency')) . "'";
 			$this->db->query($sql);
-			$this->cache->delete('currency');
+			$this->cache->remove('currency');
 		}
 	}
 
@@ -231,7 +231,7 @@ class ModelLocalisationCurrency extends Model {
 	 * @return int
 	 */
 	public function getTotalCurrencies() {
-		$query = $this->db->query("SELECT COUNT(*) AS total FROM " . $this->db->table("currencies") . " ");
+		$query = $this->db->query("SELECT COUNT(*) AS total FROM " . $this->db->table("currencies") . ";");
 		return $query->row[ 'total' ];
 	}
 }
