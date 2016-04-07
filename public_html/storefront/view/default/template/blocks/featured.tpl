@@ -12,7 +12,7 @@ if ($products) {
         $item['image'] = $product['thumb']['thumb_url'];
         $item['title'] = $product['name'];
         $item['description'] = $product['model'];
-        $item['rating'] = ($product['rating']) ? "<img src='". $this->templateResource('/image/stars_'.$product['rating'].'.png') ."' alt='".$product['stars']."' />" : '';
+        $item['rating'] = ($product['rating']) ? "<img src='". $this->templateResource('/image/stars_'.$product['rating'].'.png') ."' alt='".$product['stars']."' width='64' height='12' />" : '';
                 
         $item['info_url'] = $product['href'];
         $item['buy_url'] = $product['add'];

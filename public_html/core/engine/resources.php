@@ -231,75 +231,88 @@ class AResource {
         return $result;
 	}
 
-    public function getResourceThumb( $resource_id, $width = '', $height = '', $language_id = '' ) {
-
-        if ( !$language_id ) {
-            $language_id = $this->config->get('storefront_language_id');
-        }
-
-        $resource = $this->getResource($resource_id, $language_id);
-	    //check is resource have descriptions. if not - try to get it for default language
-	    if(!$resource['name']){
+	public function getResourceThumb( $resource_id, $width = '', $height = '', $language_id = '' ) {
+		
+		if ( !$language_id ) {
+		    $language_id = $this->config->get('storefront_language_id');
+		}
+		
+		$resource = $this->getResource($resource_id, $language_id);
+		//check if resource have descriptions. if not - try to get it for default language
+		if(!$resource['name']){
 		    $resource = $this->getResource($resource_id, $this->language->getDefaultLanguageID());
-	    }
-
-        switch( $this->type ) {
-            case 'image' :
-                if(!$resource['default_icon']){
-                    $resource['default_icon'] = 'no_image.jpg';
-                }
-                break;
-            default :
-	            if(!$resource['default_icon']){
+		}
+		
+		switch( $this->type ) {
+		    case 'image' :
+		        if(!$resource['default_icon']){
 		            $resource['default_icon'] = 'no_image.jpg';
-	            }
-                $this->load->model('tool/image');
-                $this->model_tool_image->resize($resource['default_icon'], $width, $height);
-                return $this->model_tool_image->resize($resource['default_icon'], $width, $height);
-        }
-
-        if ( !empty($resource['resource_code']) ) {
-            return $resource['resource_code'];
-        }
-
-	    $old_image = DIR_RESOURCE . $this->type_dir . $resource['resource_path'];
-	    $info = pathinfo($old_image);
+		        }
+		        break;
+		    default :
+		        if(!$resource['default_icon']){
+		            $resource['default_icon'] = 'no_image.jpg';
+		        }
+		        $this->load->model('tool/image');
+		        $this->model_tool_image->resize($resource['default_icon'], $width, $height);
+		        return $this->model_tool_image->resize($resource['default_icon'], $width, $height);
+		}
+		
+		if ( !empty($resource['resource_code']) ) {
+		    return $resource['resource_code'];
+		}
+		
+		$old_image = DIR_RESOURCE . $this->type_dir . $resource['resource_path'];
+		$info = pathinfo($old_image);
 		$extension = $info['extension'];
 
-	    if($extension!='ico'){
-			if (!is_file($old_image)) {
-			    $this->load->model('tool/image');
-			    $this->model_tool_image->resize($resource['default_icon'], $width, $height);
-                return $this->model_tool_image->resize($resource['default_icon'], $width, $height);
-			}
+		// returns ico-file as is
+		if($extension == 'ico'){
+			return $this->buildResourceURL($resource['resource_path'], 'full');
+		}
 
-			$name = preg_replace('/[^a-zA-Z0-9]/', '_', $resource['name']);
-			//Build thumbnails path similar to resource library path
-			$new_image = 'thumbnails/' . dirname($resource['resource_path']) . '/' . $name . '-' . $resource['resource_id'] . '-' . $width . 'x' . $height . '.' . $extension;
-		    $this->_check_create_thumb($new_image, $old_image, $width, $height);
-
-		    //do retina version
-		    if($this->config->get('config_retina_enable')){
-			    $new_image2x = 'thumbnails/' . dirname($resource['resource_path']) . '/' . $name . '-' . $resource['resource_id'] . '-' . $width . 'x' . $height . '@2x.' . $extension;
-			    $this->_check_create_thumb($new_image2x, $old_image, $width*2, $height*2);
+		if (!is_file($old_image)) {
+		    $this->load->model('tool/image');
+		    $this->model_tool_image->resize($resource['default_icon'], $width, $height);
+		    return $this->model_tool_image->resize($resource['default_icon'], $width, $height);
+		}
+		
+		$name = preg_replace('/[^a-zA-Z0-9]/', '_', $resource['name']);
+		//Build thumbnails path similar to resource library path
+		$new_image = 'thumbnails/' . dirname($resource['resource_path']) . '/' . $name . '-' . $resource['resource_id'] . '-' . $width . 'x' . $height . '.' . $extension;
+		$this->_check_create_thumb($new_image, $old_image, $width, $height);
+		
+		//do retina version
+		if($this->config->get('config_retina_enable')){
+		    $new_image2x = 'thumbnails/' . dirname($resource['resource_path']) . '/' . $name . '-' . $resource['resource_id'] . '-' . $width . 'x' . $height . '@2x.' . $extension;
+		    $this->_check_create_thumb($new_image2x, $old_image, $width*2, $height*2);
+		}
+		
+		$this->extensions->hk_ProcessData($this, __FUNCTION__);
+		$http_path = $this->data['http_dir'];
+		if(!$http_path){
+		    if( HTTPS === true){
+		        $http_path = HTTPS_IMAGE;
+		    } else{
+		        $http_path = HTTP_IMAGE;
 		    }
+		}
+		
+		return $http_path . $new_image;
+	}
 
-		    $this->extensions->hk_ProcessData($this, __FUNCTION__);
-		    $http_path = $this->data['http_dir'];
-		    if(!$http_path){
-                if( HTTPS===true){
-                    $http_path = HTTPS_IMAGE;
-                } else{
-                    $http_path = HTTP_IMAGE;
-                }
-            }
-
-			return $http_path . $new_image;
-
-	    } else { // returns ico-file as is
-	    	return $this->buildResourceURL($resource['resource_path'], 'full');
-	    }
-    }
+	private function _get_image_size($filename){
+		$ret = array();
+		if(!is_file($filename)){
+			return $ret;
+		}
+		$image = new AImage($filename);
+		$info = $image->getInfo();
+		$ret['width'] = $info['width'];
+		$ret['height'] = $info['height'];
+		return $ret;
+	}
+    
 	private function _check_create_thumb($filename, $resource_filename, $width, $height){
 		if (!file_exists(DIR_IMAGE . $filename) || (filemtime($resource_filename) > filemtime(DIR_IMAGE . $filename))) {
 			$path = '';
@@ -452,7 +465,6 @@ class AResource {
 		}
 
 		$resources = array();
-
 		if(!$results && $noimage){
 			$results = array(array('resource_path'=>'no_image.jpg'));
 		}
@@ -472,45 +484,75 @@ class AResource {
 				if(!$http_path){
 					$http_path = HTTPS_DIR_RESOURCE;					
 				}
-				
-				if($sizes['thumb']){
-					$thumb_url = $this->getResourceThumb($result['resource_id'],$sizes['thumb']['width'],$sizes['thumb']['height']);
-				}
-
-				if(!$thumb_url && $sizes['thumb']){
-					$thumb_url = $this->model_tool_image->resize($result['resource_path'],$sizes['thumb']['width'],$sizes['thumb']['height']);
-				}
-				//thumb2 - big thumbnails
-				if($sizes['thumb2']){
-					$thumb2_url = $this->getResourceThumb($result['resource_id'],$sizes['thumb2']['width'],$sizes['thumb2']['height']);
-				}
-				if(!$thumb2_url && $sizes['thum2b']){
-					$thumb2_url = $this->model_tool_image->resize($result['resource_path'],$sizes['thumb2']['width'],$sizes['thumb2']['height']);
-				}
-
-				if($this->getType()=='image'){
-					if(!$sizes['main']){
-						$main_url = $this->getResourceThumb($result['resource_id'],$sizes['main']['width'],$sizes['main']['height']);
-					}else{ // return href for image with size as-is
+								
+				if($this->getType() == 'image'){
+					$res_full_path = DIR_RESOURCE.$this->getTypeDir().$result['resource_path'];
+					if($sizes['main']){				
+						$main_url = $this->getResourceThumb(
+								$result['resource_id'],
+								$sizes['main']['width'],
+								$sizes['main']['height']
+						);
+					} else { 
+						// return href for image with size as-is
 						$main_url = $http_path.$this->getTypeDir().$result['resource_path'];
+						//get original image size
+						$actual_sizes = $this->_get_image_size($res_full_path);
+						$sizes['main'] = $actual_sizes;
 					}
-				}else{
+					if($sizes['thumb']){
+						$thumb_url = $this->getResourceThumb(
+								$result['resource_id'],
+								$sizes['thumb']['width'],
+								$sizes['thumb']['height']
+						);
+					}
+	
+					if(!$thumb_url && $sizes['thumb']){
+						$thumb_url = $this->model_tool_image->resize(
+											$result['resource_path'],
+											$sizes['thumb']['width'],
+											$sizes['thumb']['height']
+									);
+					}
+					//thumb2 - big thumbnails
+					if($sizes['thumb2']){
+						$thumb2_url = $this->getResourceThumb(
+								$result['resource_id'],
+								$sizes['thumb2']['width'],
+								$sizes['thumb2']['height']
+						);
+					}
+					if(!$thumb2_url && $sizes['thum2b']){
+						$thumb2_url = $this->model_tool_image->resize(
+											$result['resource_path'],
+											$sizes['thumb2']['width'],
+											$sizes['thumb2']['height']
+						);
+					}
+
+				} else {
 					$main_url = $http_path.$this->getTypeDir().$result['resource_path'];
 				}
-
+				
 				$resources[$k] = array( 'origin' => $origin,
 										'main_url' => $main_url,
+										'main_width' => $sizes['main']['width'],
+										'main_height' => $sizes['main']['height'],
 										'main_html'=>$this->html->buildResourceImage( array('url' => $http_path.'image/'.$result['resource_path'],
 										                                                    'width' => $sizes['main']['width'],
 										                                                    'height' => $sizes['main']['height'],
 										                                                    'attr' => 'alt="' . $resource_info['title'] . '"') ),
 										'thumb_url' => $thumb_url,
+										'thumb_width' => $sizes['thumb']['width'],
+										'thumb_height' => $sizes['thumb']['height'],
 										'thumb_html' => $this->html->buildResourceImage( array('url' => $thumb_url,
 										                                                    'width' => $sizes['thumb']['width'],
 										                                                    'height' => $sizes['thumb']['height'],
 										                                                    'attr' => 'alt="' . $resource_info['title'] . '"') ));
 				if($sizes['thumb2']){
-					$resources[$k]['thumb2_url'] = $thumb2_url ;
+					$resources[$k]['thumb2_width'] = $sizes['thumb2']['width'];
+					$resources[$k]['thumb2_height'] = $sizes['thumb2']['height'];
 					$resources[$k]['thumb2_html'] = $this->html->buildResourceImage(array('url'    => $thumb2_url,
 										                                                  'width'  => $sizes['thumb2']['width'],
 										                                                  'height' => $sizes['thumb2']['height'],
@@ -518,8 +560,7 @@ class AResource {
 				}
 				$resources[$k]['description'] =  $resource_info['decription'];
 				$resources[$k]['title'] = $resource_info['title'];
-
-			}else{
+			} else {
 				$resources[$k] = array( 'origin' => $origin,
 										'main_html'=>$resource_info['resource_code'],
 										'thumb_html' => $resource_info['resource_code'],
