@@ -63,7 +63,7 @@ class ACache {
 
 	/**
 	 * Holds cache storage driver object
-	 * @var ACacheDriver
+	 * @var ACacheDriverFile |
 	 */
 	private $cache_driver;
 
@@ -141,27 +141,25 @@ class ACache {
 	/**
 	 * Set and load cache storage drivers.
 	 *
-	 * @param string $key
-	 *
+	 * @param string $driver
 	 * @return bool
-	 *
 	 * @since 1.2.7
 	 */
 	public function setCacheStorageDriver( $driver ){
 		//validate driver for availablity
 		$all_drivers = $this->getCacheStorageDrivers();
-		$dr = $all_drivers[$driver];
-		if( isset($dr) && is_file($dr['file']) ) {
+		$drv = $all_drivers[$driver];
+		if( isset($drv) && is_file($drv['file']) ) {
 			//try to load driver class
-			include_once($dr['file']);
+			include_once($drv['file']);
 			
 			// If the class doesn't exist we have nothing else to do here.
-			if (!class_exists($dr['class'])) {
+			if (!class_exists($drv['class'])) {
 				return false;
 			}
 			
 			//instantiate storage driver class
-			$this->cache_driver = new $dr['class']($this->expire, $this->locktime);
+			$this->cache_driver = new $drv['class']($this->expire, $this->locktime);
 			return true;
 		}
 		return false;	
@@ -205,8 +203,16 @@ class ACache {
 		}
 		return $ret;
 	}
-	
-	//Depricated. Old cahe compatibulity. Will be removed in 1.3
+
+	/**
+	 * Deprecated. Old cache compatibility. Will be removed in 1.3
+	 * @deprecated
+	 * @param $key
+	 * @param $data
+	 * @param int $language_id
+	 * @param int $store_id
+	 * @return bool
+	 */
 	public function set($key, $data, $language_id = 0, $store_id = 0) {
 		if ($language_id || $store_id) {
 			$key = $key."_".$store_id."_".$language_id;
@@ -223,7 +229,6 @@ class ACache {
 	 * On failure false is returned & the number of cache misses will be incremented for stats
 	 *
 	 * @param string $key
-	 *
 	 * @return mixed|false
 	 */
 	public function pull($key) {
@@ -261,8 +266,15 @@ class ACache {
 		$this->cache_misses[$group][$key] += 1;
 		return false;		
 	}
-	
-	//Depricated. Old cahe compatibulity. Will be removed in 1.3
+
+	/**
+	 * Deprecated. Old cache compatibility. Will be removed in 1.3
+	 * @deprecated
+	 * @param $key
+	 * @param int $language_id
+	 * @param int $store_id
+	 * @return false|mixed|null
+	 */
 	public function get($key, $language_id = 0, $store_id = 0) {
 		if ($language_id || $store_id) {
 			$key = $key."_".$store_id."_".$language_id;
@@ -316,7 +328,14 @@ class ACache {
 		return true;
 	}
 
-	//Depricated. Old cahe compatibulity. Will be removed in 1.3
+	/**
+	 *  Old cache compatibility. Will be removed in 1.3
+	 * @deprecated
+	 * @param $key
+	 * @param string $language_id
+	 * @param string $store_id
+	 * @return bool
+	 */
 	public function delete( $key, $language_id = '', $store_id = '') {
 		if ($language_id) {
 			$key = $key."_".$language_id;
