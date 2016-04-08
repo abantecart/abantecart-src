@@ -89,20 +89,20 @@ class AResourceManager extends AResource {
 		    	WHERE type_id =  ".(int)$data['type_id'];
 		$this->db->query( $sql );
 
-        $this->cache->delete('resources.*');
+        $this->cache->remove('resources');
         return true;
 	}
 
 	/* not yet supported */
+	//TODO
 	public function addResourceType () {
-        $cache_name = 'resources.types';
-        $this->cache->delete($cache_name,'',(int)$this->config->get('config_store_id'));
+        $this->cache->remove('resources.types');
 	}
 
 	/* not yet supported */
+	//TODO
     public function deleteResourceType() {
-        $cache_name = 'resources.types';
-        $this->cache->delete($cache_name,'',(int)$this->config->get('config_store_id'));
+        $this->cache->remove('resources.types');
     }
 
 	public function buildResourcePath($resource_id, $file_path){
@@ -188,7 +188,7 @@ class AResourceManager extends AResource {
 												 )) );
         }
 
-        $this->cache->delete('resources.'.$this->type);
+        $this->cache->remove('resources.'.$this->type);
 
         return $resource_id;
 
@@ -200,34 +200,30 @@ class AResourceManager extends AResource {
 	 * @return bool
 	 */
 	public function updateResource( $resource_id, $data ) {
-
 		$resource_id = (int)$resource_id;
 		if(!$resource_id){ return false;}
-
+		$_update = array();
         $resource = parent::getResource($resource_id);
         if ( isset($data['resource_code']) ){
             $_update['resource_code'] = $data['resource_code'];
 		}
-
         $fields = array('name', 'title', 'description');
 		if( $data['name'] ){
 			foreach ( $data['name'] as $language_id => $name ) {
 				if($this->config->get('translate_override_existing') && $language_id != $data['language_id'] ){
 					continue;
 				}
-
-				 $update = $_update;
-
+				$update = $_update;
 				foreach ( $fields as $f ) {
 					if ( isset($data[$f][$language_id]) )
 						$update[$f] = $data[$f][$language_id];
 				}
-
 				$this->language->replaceDescriptions('resource_descriptions',
 													 array('resource_id' => (int)$resource_id),
 													 array((int)$language_id => $update) );
 			}
 		}
+
 		if($data['resource_path']){
 			$sql = "UPDATE ".$this->db->table('resource_descriptions')."
 					SET resource_path='".$this->db->escape($data['resource_path'])."'
@@ -237,8 +233,8 @@ class AResourceManager extends AResource {
 		}
 
 
-        $this->cache->delete('resources.'. $resource_id);
-        $this->cache->delete('resources.'.$resource['type_name']);
+        $this->cache->remove('resources.'. $resource_id);
+        $this->cache->remove('resources.'.$resource['type_name']);
         return true;
     }
 
@@ -298,8 +294,8 @@ class AResourceManager extends AResource {
         $this->db->query("DELETE FROM " . $this->db->table("resource_descriptions") . " WHERE resource_id = '".(int)$resource_id."' ");
         $this->db->query("DELETE FROM " . $this->db->table("resource_library") . " WHERE resource_id = '".(int)$resource_id."' ");
 
-        $this->cache->delete('resources.'. $resource_id);
-        $this->cache->delete('resources.'. $resource['type_name']);
+        $this->cache->remove('resources.'. $resource_id);
+        $this->cache->remove('resources.'. $resource['type_name']);
 
         return true;
     }
@@ -317,7 +313,6 @@ class AResourceManager extends AResource {
 		if($type) {
 			$this->setType($type);
 		}
-		$delete_ids = array();
 		$resources = $this->getResources($object_name, $object_id);
 		foreach($resources as $resource) {
 			$this->unmapResource($object_name, $object_id, $resource['resource_id']);
@@ -358,7 +353,7 @@ class AResourceManager extends AResource {
 			}
 
 			$ids[] = $resource_id;
-			$this->cache->delete('resources.'. $resource_id);
+			$this->cache->remove('resources.'. $resource_id);
 
 			if ( $resource['resource_path'] && is_file( DIR_RESOURCE . $resource['type_name'] . '/' . $resource['resource_path']) ) {
 				unlink( DIR_RESOURCE.$resource['type_name'].'/'.$resource['resource_path'] );
@@ -374,7 +369,7 @@ class AResourceManager extends AResource {
 		$this->db->query("DELETE FROM " . $this->db->table("resource_descriptions") . " WHERE resource_id IN (".$ids.")");
 		$this->db->query("DELETE FROM " . $this->db->table("resource_library") . " WHERE resource_id IN (".$ids.")");
 
-        $this->cache->delete('resources.'. $resource['type_name']);
+        $this->cache->remove('resources');
         return $result;
     }
 
@@ -415,9 +410,9 @@ class AResourceManager extends AResource {
                         date_added = NOW()";
         $this->db->query($sql);
 
-        $this->cache->delete('resources.'. $resource_id);
-        $this->cache->delete('resources.'. $object_name.'.'.$resource_id);
-        $this->cache->delete('resources.'. $resource['type_name']);
+        $this->cache->remove('resources.'. $resource_id);
+        $this->cache->remove('resources.'. $object_name.'.'.$resource_id);
+        $this->cache->remove('resources.'. $resource['type_name']);
 	}
 
 	/**
@@ -448,9 +443,9 @@ class AResourceManager extends AResource {
 			if ( $result->num_rows ) { continue; }
 
 			$ids[] = (int)$id;
-			$this->cache->delete('resources.'. $id);
-			$this->cache->delete('resources.'. $object_name.'.'.$id);
-			$this->cache->delete('resources.'. $resource['type_name']);
+			$this->cache->remove('resources.'. $id);
+			$this->cache->remove('resources.'. $object_name.'.'.$id);
+			$this->cache->remove('resources.'. $resource['type_name']);
 		}
 
 		foreach( $ids as $resource_id ){
@@ -492,9 +487,9 @@ class AResourceManager extends AResource {
                         AND object_id = '".(int)$object_id."'";
         $this->db->query($sql);
 
-        $this->cache->delete('resources.'. $resource_id);
-		$this->cache->delete('resources.'. $object_name.'.'.$resource_id);
-        $this->cache->delete('resources.'. $resource['type_name']);
+        $this->cache->remove('resources.'. $resource_id);
+		$this->cache->remove('resources.'. $object_name.'.'.$resource_id);
+        $this->cache->remove('resources.'. $resource['type_name']);
 
 		return true;
 	}
@@ -517,9 +512,9 @@ class AResourceManager extends AResource {
 				continue;
 			}
 			$ids[] = (int)$id;
-			$this->cache->delete('resources.'. $id);
-			$this->cache->delete('resources.'. $object_name.'.'.$id);
-			$this->cache->delete('resources.'. $resource['type_name']);
+			$this->cache->remove('resources.'. $id);
+			$this->cache->remove('resources.'. $object_name.'.'.$id);
+			$this->cache->remove('resources.'. $resource['type_name']);
 		}
 
 		$sql = "DELETE FROM " . $this->db->table("resource_map") . " 
@@ -553,9 +548,9 @@ class AResourceManager extends AResource {
                             AND object_id = '".(int)$object_id."'";
             $this->db->query($sql);
 
-            $this->cache->delete('resources.'. $resource_id);
-			$this->cache->delete('resources.'. $object_name.'.'.$resource_id);
-            $this->cache->delete('resources.'. $resource['type_name']);
+            $this->cache->remove('resources.'. $resource_id);
+			$this->cache->remove('resources.'. $object_name.'.'.$resource_id);
+            $this->cache->remove('resources.'. $resource['type_name']);
         }
 		return true;
     }
@@ -620,14 +615,14 @@ class AResourceManager extends AResource {
         				  COALESCE(rd.resource_code,rdd.resource_code) as resource_code,
         				  (SELECT COUNT(resource_id) FROM " . $this->db->table("resource_map") . " rm1 WHERE rm1.resource_id = rd.resource_id) as mapped ";
 		}
-		$sql = $where = $join = '';		
+
+		$where = $join = '';
         $join = " LEFT JOIN " . $this->db->table("resource_descriptions") . " rd ON (rl.resource_id = rd.resource_id AND rd.language_id = '".$language_id."') ";
         $join .= " LEFT JOIN " . $this->db->table("resource_descriptions") . " rdd ON (rl.resource_id = rdd.resource_id AND rdd.language_id = '".$this->language->getDefaultLanguageID()."') ";
 
         if ( $data['sort'] == 'sort_order' || !empty($data['object_name']) || !empty($data['object_id']) ) {
             $top_sql .= ", rm.sort_order";
             $join .= " LEFT JOIN " . $this->db->table("resource_map") . " rm ON (rl.resource_id = rm.resource_id) ";
-            $order = " ORDER BY rm.sort_order, rl.resource_id";
         }
 
         if ( !empty($data['keyword']) ) {
@@ -683,11 +678,9 @@ class AResourceManager extends AResource {
 			if ($data['start'] < 0) {
 				$data['start'] = 0;
 			}
-
 			if ($data['limit'] < 1) {
 				$data['limit'] = 12;
 			}
-
 			$sql .= " LIMIT " . (int)$data['start'] . "," . (int)$data['limit'];
 		}
 
@@ -701,13 +694,10 @@ class AResourceManager extends AResource {
 	 * @return array
 	 */
 	public function getResourceObjects($resource_id, $language_id = 0) {
-
         $resource_objects = array();
-
         if ( !$language_id ) {
             $language_id = $this->language->getContentLanguageID();
         }
-
         $objects = $this->getAllObjects();
         foreach ( $objects as $object ) {
             if (is_callable(array($this, 'getResource'.$object))) {
@@ -719,7 +709,6 @@ class AResourceManager extends AResource {
 	            }
             }
         }
-
 		return $resource_objects;
     }
 
@@ -733,18 +722,16 @@ class AResourceManager extends AResource {
 		if (!has_value($resource_id)) {
 			return null;
 		}
-
 		if( ($object_name && !(int)$object_id)  || (!$object_name && (int)$object_id) ){
 			return null;
 		}
-
 		$sql = "SELECT count(*) as total
 				FROM " . $this->db->table('resource_map'). " rm
 				WHERE rm.resource_id = '".(int)$resource_id."'";
+
 		if($object_name){
 			$sql .=	" AND rm.object_name = '".$this->db->escape($object_name)."' AND object_id = ".(int)$object_id;
 		}
-		
 		$query = $this->db->query($sql);
 		if ($query->row['total'] > 0) {
 			return ($object_name ? true : (int)$query->row['total']);
@@ -759,23 +746,22 @@ class AResourceManager extends AResource {
 	 * @return array
 	 */
 	protected function getResourceProducts($resource_id, $language_id = 0) {
-
         if ( !$language_id ) {
             $language_id = $this->language->getContentLanguageID();
         }
-
-        $cache_name = 'resources.products.'. $resource_id;
-        $cache_name = preg_replace('/[^a-zA-Z0-9\.]/', '', $cache_name);
-        $resource_objects = $this->cache->get($cache_name, $language_id, (int)$this->config->get('config_store_id'));
-        if ( is_null($resource_objects) ) {
+        $cache_key = 'resources.products.'. $resource_id;
+        $cache_key = preg_replace('/[^a-zA-Z0-9\.]/', '', $cache_key).'.'.(int)$this->config->get('config_store_id').'_'.$language_id;
+        $resource_objects = $this->cache->pull($cache_key);
+        if ( $resource_objects === false ) {
             $sql = "SELECT rm.object_id, 'products' as object_name, pd.name
                     FROM " . $this->db->table("resource_map") . " rm
-                    LEFT JOIN " . $this->db->table("product_descriptions") . " pd ON ( rm.object_id = pd.product_id AND pd.language_id = '".(int)$language_id."')
+                    LEFT JOIN " . $this->db->table("product_descriptions") . " pd
+                        ON ( rm.object_id = pd.product_id AND pd.language_id = '".(int)$language_id."')
                     WHERE rm.resource_id = '".(int)$resource_id."'
                         AND rm.object_name = 'products'";
             $query = $this->db->query($sql);
             $resource_objects = $query->rows;
-            $this->cache->set($cache_name, $resource_objects, $language_id, (int)$this->config->get('config_store_id') );
+            $this->cache->push($cache_key, $resource_objects);
         }
 
         $result = array();
@@ -798,23 +784,26 @@ class AResourceManager extends AResource {
 	 */
 	protected function getResourceProduct_Option_Value($resource_id, $language_id = 0) {
 
-        if ( !$language_id ) {
+		if ( !$language_id ) {
             $language_id = $this->language->getContentLanguageID();
         }
 
-        $cache_name = 'resources.product_option_value.'. $resource_id;
-        $cache_name = preg_replace('/[^a-zA-Z0-9\.]/', '', $cache_name);
-        $resource_objects = $this->cache->get($cache_name, $language_id, (int)$this->config->get('config_store_id'));
-        if ( is_null($resource_objects) ) {
+        $cache_key = 'resources.product_option_value.'. $resource_id;
+        $cache_key = preg_replace('/[^a-zA-Z0-9\.]/', '', $cache_key).'.'.(int)$this->config->get('config_store_id').'_'.$language_id;
+
+        $resource_objects = $this->cache->pull($cache_key);
+        if ( $resource_objects === false ) {
             $sql = "SELECT rm.object_id, 'product_option_value' as object_name, pd.name, pov.product_id
                     FROM " . $this->db->table("resource_map") . " rm
-                    LEFT JOIN " . $this->db->table("product_option_value_descriptions") . " pd ON ( rm.object_id = pd.product_option_value_id )
-                    LEFT JOIN " . $this->db->table("product_option_values") . " pov ON ( pd.product_option_value_id = pov.product_option_value_id AND pd.language_id = '".(int)$language_id."')
+                    LEFT JOIN " . $this->db->table("product_option_value_descriptions") . " pd
+                        ON ( rm.object_id = pd.product_option_value_id )
+                    LEFT JOIN " . $this->db->table("product_option_values") . " pov
+                        ON ( pd.product_option_value_id = pov.product_option_value_id AND pd.language_id = '".(int)$language_id."')
                     WHERE rm.resource_id = '".(int)$resource_id."'
                         AND rm.object_name = 'product_option_value'";
             $query = $this->db->query($sql);
             $resource_objects = $query->rows;
-            $this->cache->set($cache_name, $resource_objects, $language_id, (int)$this->config->get('config_store_id') );
+            $this->cache->push($cache_key, $resource_objects);
         }
 
         $result = array();
@@ -842,18 +831,19 @@ class AResourceManager extends AResource {
             $language_id = $this->language->getContentLanguageID();
         }
 
-        $cache_name = 'resources.categories.'. $resource_id;
-        $cache_name = preg_replace('/[^a-zA-Z0-9\.]/', '', $cache_name);
-        $resource_objects = $this->cache->get($cache_name, $language_id, (int)$this->config->get('config_store_id'));
-        if ( is_null($resource_objects) ) {
+        $cache_key = 'resources.categories.'. $resource_id;
+        $cache_key = preg_replace('/[^a-zA-Z0-9\.]/', '', $cache_key).'.'.(int)$this->config->get('config_store_id').'_'.$language_id;
+        $resource_objects = $this->cache->pull($cache_key);
+        if ( $resource_objects === false ) {
             $sql = "SELECT rm.object_id, 'categories' as object_name, cd.name
                 FROM " . $this->db->table("resource_map") . " rm
-                LEFT JOIN " . $this->db->table("category_descriptions") . " cd ON ( rm.object_id = cd.category_id AND cd.language_id = '".(int)$language_id."')
+                LEFT JOIN " . $this->db->table("category_descriptions") . " cd
+                    ON ( rm.object_id = cd.category_id AND cd.language_id = '".(int)$language_id."')
                 WHERE rm.resource_id = '".(int)$resource_id."'
                     AND rm.object_name = 'categories'";
             $query = $this->db->query($sql);
             $resource_objects = $query->rows;
-            $this->cache->set($cache_name, $resource_objects, $language_id, (int)$this->config->get('config_store_id'));
+            $this->cache->push($cache_key, $resource_objects);
         }
 
         $result = array();
@@ -880,18 +870,19 @@ class AResourceManager extends AResource {
             $language_id = $this->language->getContentLanguageID();
         }
 
-        $cache_name = 'resources.manufacturers.'. $resource_id;
-        $cache_name = preg_replace('/[^a-zA-Z0-9\.]/', '', $cache_name);
-        $resource_objects = $this->cache->get($cache_name, $language_id, (int)$this->config->get('config_store_id'));
-        if ( is_null($resource_objects) ) {
+        $cache_key = 'resources.manufacturers.'. $resource_id;
+        $cache_key = preg_replace('/[^a-zA-Z0-9\.]/', '', $cache_key).'.'.(int)$this->config->get('config_store_id').'_'.$language_id;
+        $resource_objects = $this->cache->pull($cache_key);
+        if ( $resource_objects === false ) {
             $sql = "SELECT rm.object_id, 'manufacturers' as object_name, m.name
 					FROM " . $this->db->table("resource_map") . " rm
-					LEFT JOIN " . $this->db->table("manufacturers") . " m ON ( rm.object_id = m.manufacturer_id )
+					LEFT JOIN " . $this->db->table("manufacturers") . " m
+						ON ( rm.object_id = m.manufacturer_id )
 					WHERE rm.resource_id = '".(int)$resource_id."'
 						AND rm.object_name = 'manufacturers'";
             $query = $this->db->query($sql);
             $resource_objects = $query->rows;
-            $this->cache->set($cache_name, $resource_objects, $language_id, (int)$this->config->get('config_store_id') );
+            $this->cache->push($cache_key, $resource_objects);
         }
 
         $result = array();
@@ -906,5 +897,4 @@ class AResourceManager extends AResource {
 
         return $result;
     }
-	
 }

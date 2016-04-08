@@ -671,7 +671,7 @@ class APackageManager {
 	 */
 	public function upgradeCore($config) {
 		//clear all cache
-		$this->cache->delete('*');
+		$this->cache->remove('*');
 
 		$package_dirname = $this->session->data['package_info']['package_dir'];
 		$package_tmpdir = $this->session->data['package_info']['tmp_dir'];

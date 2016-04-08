@@ -208,19 +208,19 @@ class ModelToolMigration extends Model {
 	}
 
 	function clearCache() {
-		$this->cache->delete('category');
-		$this->cache->delete('category_description');
-		$this->cache->delete('manufacturer');
-		$this->cache->delete('product');
-		$this->cache->delete('product_image');
-		$this->cache->delete('product_option');
-		$this->cache->delete('product_option_description');
-		$this->cache->delete('product_option_value');
-		$this->cache->delete('product_option_value_description');
-		$this->cache->delete('product_to_category');
-		$this->cache->delete('url_alias');
-		$this->cache->delete('product_special');
-		$this->cache->delete('product_discount');
+		$this->cache->remove('category');
+		$this->cache->remove('category_description');
+		$this->cache->remove('manufacturer');
+		$this->cache->remove('product');
+		$this->cache->remove('product_image');
+		$this->cache->remove('product_option');
+		$this->cache->remove('product_option_description');
+		$this->cache->remove('product_option_value');
+		$this->cache->remove('product_option_value_description');
+		$this->cache->remove('product_to_category');
+		$this->cache->remove('url_alias');
+		$this->cache->remove('product_special');
+		$this->cache->remove('product_discount');
 	}
 
 	protected function getDefaultLanguageId() {

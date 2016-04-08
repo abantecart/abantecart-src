@@ -383,7 +383,7 @@ class ModelCheckoutOrder extends Model {
 				}
 			}
 
-			$this->cache->delete('product');
+			$this->cache->remove('product');
 
 		}
 		//build confirmation email
@@ -495,7 +495,7 @@ class ModelCheckoutOrder extends Model {
 			'country' => $order_row['shipping_country']
 		);
 
-		$template->data['shipping_address'] = $this->customer->getFormatedAdress($shipping_data, $order_row['shipping_address_format']);
+		$template->data['shipping_address'] = $this->customer->getFormattedAddress($shipping_data, $order_row['shipping_address_format']);
 		$zone_row = $this->model_localisation_zone->getZone($order_row['payment_zone_id']);
 		if ( $zone_row ) {
 			$zone_code = $zone_row['code'];
@@ -516,7 +516,7 @@ class ModelCheckoutOrder extends Model {
 			'country' => $order_row['payment_country']
 		);
 
-		$template->data['payment_address'] = $this->customer->getFormatedAdress($payment_data, $order_row['payment_address_format']);
+		$template->data['payment_address'] = $this->customer->getFormattedAddress($payment_data, $order_row['payment_address_format']);
 
 		if ( !has_value($this->data['products']) ) {
 			$this->data['products'] = array();

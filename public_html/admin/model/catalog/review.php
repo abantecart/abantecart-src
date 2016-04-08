@@ -34,8 +34,8 @@ class ModelCatalogReview extends Model{
 							  rating = '" . (int)$data['rating'] . "',
 							  status = '" . (int)$data['status'] . "',
 							  date_added = NOW()");
-		$this->cache->delete('product.reviews.totals');
-		$this->cache->delete('product.all_info');
+		$this->cache->remove('product.reviews.totals');
+		$this->cache->remove('product.all_info');
 		return $this->db->getLastId();
 	}
 
@@ -56,9 +56,9 @@ class ModelCatalogReview extends Model{
 		$this->db->query("UPDATE " . $this->db->table("reviews") . " 
 						  SET " . implode(',', $update_data) . "
 						  WHERE review_id = '" . (int)$review_id . "'");
-		$this->cache->delete('product.rating.' . (int)$review['product_id']);
-		$this->cache->delete('product.reviews.totals');
-		$this->cache->delete('product.all_info');
+		$this->cache->remove('product.rating.' . (int)$review['product_id']);
+		$this->cache->remove('product.reviews.totals');
+		$this->cache->remove('product.all_info');
 	}
 
 	/**
@@ -68,9 +68,9 @@ class ModelCatalogReview extends Model{
 	public function deleteReview($review_id){
 		$review = $this->getReview($review_id);
 		$this->db->query("DELETE FROM " . $this->db->table("reviews") . " WHERE review_id = '" . (int)$review_id . "'");
-		$this->cache->delete('product.rating.' . (int)$review['product_id']);
-		$this->cache->delete('product.reviews.totals');
-		$this->cache->delete('product.all_info');
+		$this->cache->remove('product.rating.' . (int)$review['product_id']);
+		$this->cache->remove('product.reviews.totals');
+		$this->cache->remove('product.all_info');
 	}
 
 	/**

@@ -364,7 +364,7 @@ class ControllerPagesInstall extends AController {
 		}
 		//clear earlier created cache by AConfig and ALanguage classes in previous step
 		$cache = new ACache();
-        $cache->delete('*');
+        $cache->remove('*');
 		return null;
 	}	
 

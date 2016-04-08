@@ -28,36 +28,43 @@ class ModelCatalogContent extends Model {
 	 */
 	public function getContent($content_id) {
 		$content_id = (int)$content_id;
-		$cache = $this->cache->get('contents.content.'.$content_id, $this->config->get('storefront_language_id'), $this->config->get('config_store_id') );
+		$store_id = (int)$this->config->get('config_store_id');
+		$language_id = (int)$this->config->get('storefront_language_id');
+		$cache_key = 'content.'.$content_id.'.'.$store_id.'_'.$language_id;
+		$cache = $this->cache->pull($cache_key );
 
-		if(is_null($cache)){
-			$cache = array();
-			$sql = "SELECT DISTINCT i.content_id, id.*
-					FROM " . $this->db->table("contents") . " i
-					LEFT JOIN " . $this->db->table("content_descriptions") . " id
-						ON (i.content_id = id.content_id
-							AND id.language_id = '" . (int)$this->config->get('storefront_language_id') . "')";
-			$sql .=	" LEFT JOIN " . $this->db->table("contents_to_stores") . " i2s ON (i.content_id = i2s.content_id)";
-			$sql .=	" WHERE i.content_id = '" . (int)$content_id . "' ";
-			$sql .= " AND COALESCE(i2s.store_id,0) = '" . (int)$this->config->get('config_store_id') . "'";
-			$sql .= " AND i.status = '1'";
-			$query = $this->db->query($sql);
-
-			if($query->num_rows){
-				$cache = $query->row;
-			}
-			$this->cache->set('contents.content.'.$content_id, $cache, $this->config->get('storefront_language_id'), $this->config->get('config_store_id') );
+		if($cache !== false){
+			return $cache;
 		}
-		return (array)$cache;
+
+		$cache = array();
+		$sql = "SELECT DISTINCT i.content_id, id.*
+				FROM " . $this->db->table("contents") . " i
+				LEFT JOIN " . $this->db->table("content_descriptions") . " id
+					ON (i.content_id = id.content_id AND id.language_id = '" . $language_id . "')
+				LEFT JOIN " . $this->db->table("contents_to_stores") . " i2s
+					ON (i.content_id = i2s.content_id)
+				WHERE i.content_id = '" . $content_id . "' AND COALESCE(i2s.store_id,0) = '" . $store_id . "' AND i.status = '1'";
+		$query = $this->db->query($sql);
+
+		if($query->num_rows){
+			$cache = $query->row;
+		}
+		$this->cache->push($cache_key, $cache);
+
+		return $cache;
 	}
 
 	/**
 	 * @return array
 	 */
 	public function getContents() {
-
-		$output = $this->cache->get('contents', $this->config->get('storefront_language_id'), $this->config->get('config_store_id') );
-		if(is_null($output)){
+		$store_id = (int)$this->config->get('config_store_id');
+		$language_id = (int)$this->config->get('storefront_language_id');
+		$cache_key = 'content.all.'.$store_id.'_'.$language_id;
+		$output = $this->cache->pull($cache_key );
+		if($output === false){
+			$output = array();
 			$sql = "SELECT i.*, id.*
 					FROM " . $this->db->table("contents") . " i
 					LEFT JOIN " . $this->db->table("content_descriptions") . " id
@@ -72,12 +79,10 @@ class ModelCatalogContent extends Model {
 			$query = $this->db->query($sql);
 
 			if($query->num_rows){
-				foreach($query->rows as $row){
-						$output[] = $row;
-				}
+				$output = $query->rows;
 			}
-			$this->cache->set('contents',$output, $this->config->get('storefront_language_id'), $this->config->get('config_store_id') );
+			$this->cache->push($cache_key,$output );
 		}
-		return (array)$output;
+		return $output;
 	}
 }

@@ -36,10 +36,10 @@ class AAttribute_Manager extends AAttribute {
 	}
 
     public function clearCache() {
-        $this->cache->delete('attribute.types');
-        $this->cache->delete('attribute.groups');
-        $this->cache->delete('attributes');
-        $this->cache->delete('attribute.values');
+        $this->cache->remove('attribute.types');
+        $this->cache->remove('attribute.groups');
+        $this->cache->remove('attributes');
+        $this->cache->remove('attribute.values');
     }
 
 	/**

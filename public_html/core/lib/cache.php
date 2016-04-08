@@ -336,12 +336,9 @@ class ACache {
 	 * @param string $store_id
 	 * @return bool
 	 */
-	public function delete( $key, $language_id = '', $store_id = '') {
-		if ($language_id) {
-			$key = $key."_".$language_id;
-		}	
-		if ($store_id) {
-			$key = $key."_".$store_id;
+	public function delete( $key, $language_id = 0, $store_id = 0) {
+		if ($language_id || $store_id) {
+			$key = $key."_".$store_id."_".$language_id;
 		}
 		
 		return $this->remove($key);

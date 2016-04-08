@@ -90,7 +90,7 @@ final class AConfig {
 
 	private function _load_settings() {
 		/**
-		 * @var ACache
+		 * @var ACache $cache
 		 */
 		$cache = $this->registry->get('cache');
 		/**
@@ -119,7 +119,7 @@ final class AConfig {
 		}
 
 		// Load default store settings
-		$settings = $cache->get('settings');
+		$settings = $cache->pull('settings');
 		if (empty($settings)) {
 			// set global settings (without extensions settings)
 			$sql = "SELECT se.*
@@ -142,7 +142,7 @@ final class AConfig {
 			unset($setting); //unset temp reference
 			//fix for rare issue on a database and creation of empty cache
 			if(!empty($settings)){			
-				$cache->set('settings', $settings);
+				$cache->push('settings', $settings);
 			}
 		} else {
 			foreach ($settings as $setting) {
@@ -163,7 +163,7 @@ final class AConfig {
 		) { 
 			// if requested url not a default store URL - do check other stores.
 			$cache_name = 'settings.store.' . md5('http://' . $url);
-			$store_settings = $cache->get($cache_name);
+			$store_settings = $cache->pull($cache_name);
 			if (empty($store_settings)) {
 				$sql = "SELECT se.`key`, se.`value`, st.store_id
 		   			  FROM " . $db->table('settings')." se
@@ -182,7 +182,7 @@ final class AConfig {
 				$store_settings = $query->rows;
 				//fix for rare issue on a database and creation of empty cache
 				if(!empty($store_settings)){
-					$cache->set($cache_name, $store_settings);
+					$cache->push($cache_name, $store_settings);
 				}
 			}
 			
@@ -229,7 +229,7 @@ final class AConfig {
 		
 		// load extension settings
 		$cache_suffix = IS_ADMIN ? 'admin' : $this->cnfg['config_store_id'];
-		$settings = $cache->get('settings.extension.' . $cache_suffix);
+		$settings = $cache->pull('settings.extension.' . $cache_suffix);
 		if (empty($settings)) {
 			// all extensions settings of store
 			$sql = "SELECT se.*, e.type as extension_type, e.key as extension_txt_id
@@ -246,7 +246,7 @@ final class AConfig {
 			}
 			//fix for rare issue on a database and creation of empty cache
 			if(!empty($settings)){
-				$cache->set('settings.extension.' . $cache_suffix, $settings);
+				$cache->push('settings.extension.' . $cache_suffix, $settings);
 			}
 		}
 

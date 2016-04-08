@@ -44,9 +44,9 @@ class ModelCatalogReview extends Model {
 		$msg = new AMessage();
 		$msg->saveNotice($language->get('text_new_review'), $msg_text);
 				
-		$this->cache->delete('product.rating.'.(int)$product_id);
-		$this->cache->delete('product.reviews.totals');
-		$this->cache->delete('product.reviews.totals.'.$product_id);
+		$this->cache->remove('product.rating.'.(int)$product_id);
+		$this->cache->remove('product.reviews.totals');
+		$this->cache->remove('product.reviews.totals.'.$product_id);
 
 		return $review_id;
 	}
@@ -85,14 +85,14 @@ class ModelCatalogReview extends Model {
 	 * @return int
 	 */
 	public function getAverageRating($product_id) {
-		$cache = $this->cache->get('product.rating.'.(int)$product_id);
-		if(is_null($cache)){
+		$cache = $this->cache->pull('product.rating.'.(int)$product_id);
+		if($cache === false){
 			$query = $this->db->query( "SELECT AVG(rating) AS total
 										FROM " . $this->db->table("reviews") . " 
 										WHERE status = '1' AND product_id = '" . (int)$product_id . "'
 										GROUP BY product_id");
 			$cache  = (int)$query->row['total'];
-			$this->cache->set('product.rating.'.(int)$product_id,$cache);
+			$this->cache->push('product.rating.'.(int)$product_id, $cache);
 		}
 		return $cache;
 	}
@@ -101,8 +101,8 @@ class ModelCatalogReview extends Model {
 	 * @return int
 	 */
 	public function getTotalReviews() {
-		$cache = $this->cache->get('product.reviews.totals');
-		if(is_null($cache)){
+		$cache = $this->cache->pull('product.reviews.totals');
+		if($cache === false){
 		$query = $this->db->query( "SELECT COUNT(*) AS total
 									FROM " . $this->db->table("reviews") . " r
 									LEFT JOIN " . $this->db->table("products") . " p ON (r.product_id = p.product_id)
@@ -110,7 +110,7 @@ class ModelCatalogReview extends Model {
 										AND p.status = '1'
 										AND r.status = '1'");
 			$cache = (int)$query->row['total'];
-			$this->cache->set('product.reviews.totals', $cache);
+			$this->cache->push('product.reviews.totals', $cache);
 		}
 		return $cache;
 	}
@@ -120,8 +120,10 @@ class ModelCatalogReview extends Model {
 	 * @return int
 	 */
 	public function getTotalReviewsByProductId($product_id) {
-		$cache = $this->cache->get('product.reviews.totals.'.$product_id, (int)$this->config->get('storefront_language_id'));
-		if(is_null($cache)){
+		$language_id = (int)$this->config->get('storefront_language_id');
+		$cache_key = 'product.reviews.totals.'.$product_id.'.'.$language_id;
+		$cache = $this->cache->pull($cache_key);
+		if($cache === false){
 			$query = $this->db->query( "SELECT COUNT(*) AS total
 										FROM " . $this->db->table("reviews") . " r
 										LEFT JOIN " . $this->db->table("products") . " p ON (r.product_id = p.product_id)
@@ -130,10 +132,10 @@ class ModelCatalogReview extends Model {
 											AND p.date_available <= NOW()
 											AND p.status = '1'
 											AND r.status = '1'
-											AND pd.language_id = '" . (int)$this->config->get('storefront_language_id') . "'");
+											AND pd.language_id = '" . $language_id . "'");
 
 			$cache = (int)$query->row['total'];
-			$this->cache->set('product.reviews.totals.'.$product_id, $cache, (int)$this->config->get('storefront_language_id'));
+			$this->cache->push($cache_key, $cache);
 		}
 		return $cache;
 	}

@@ -130,7 +130,7 @@ class ControllerResponsesProductProduct extends AController{
 		$this->extensions->hk_InitData($this, __FUNCTION__);
 
 		$this->loadModel('catalog/product');
-		$promoton = new APromotion($this->request->get['customer_group_id']);
+		$promotion = new APromotion($this->request->get['customer_group_id']);
 
 		if(isset($this->request->get['category_id'])){
 			$category_id = $this->request->get['category_id'];
@@ -142,12 +142,12 @@ class ControllerResponsesProductProduct extends AController{
 		$results = $this->model_catalog_product->getProductsByCategoryId($category_id);
 		foreach($results as $result){
 
-			$discount = $promoton->getProductDiscount($result['product_id']);
+			$discount = $promotion->getProductDiscount($result['product_id']);
 			if($discount){
 				$price = $discount;
 			} else{
 				$price = $result['price'];
-				$special = $promoton->getProductSpecial($result['product_id']);
+				$special = $promotion->getProductSpecial($result['product_id']);
 				if($special){
 					$price = $special;
 				}
