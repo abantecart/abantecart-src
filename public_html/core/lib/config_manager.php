@@ -30,11 +30,14 @@ if (!defined('DIR_CORE')) {
  * @property ModelLocalisationWeightClass $model_localisation_weight_class
  * @property ModelLocalisationStockStatus $model_localisation_stock_status
  * @property ModelLocalisationOrderStatus $model_localisation_order_status
+ * @property ModelSaleCustomerGroup $model_sale_customer_group
  * @property ASession $session
  * @property ALanguageManager $language
  * @property ALoader $load
  * @property AIMManager $im
  * @property AConfig $config
+ *
+ * @method array() _build_form_general $method_name
  *
  */
 class AConfigManager {
@@ -93,6 +96,7 @@ class AConfigManager {
 	 * @return array
 	 */
 	public function getFormFields($group, $form, $data) {
+
 		$method_name = "_build_form_" . $group;
 		if (!method_exists($this, $method_name)) {
 			return array();
@@ -857,6 +861,20 @@ class AConfigManager {
 				'style' => 'small-field',
 				'required' => true,
 			));
+			$fields['image_manufacturer_width'] = $form->getFieldHtml($props[] = array(
+				'type' => 'input',
+				'name' => 'config_image_manufacturer_width',
+				'value' => $data['config_image_manufacturer_width'],
+				'style' => 'small-field',
+				'required' => true,
+			));
+			$fields['image_manufacturer_height'] = $form->getFieldHtml($props[] = array(
+				'type' => 'input',
+				'name' => 'config_image_manufacturer_height',
+				'value' => $data['config_image_manufacturer_height'],
+				'style' => 'small-field',
+				'required' => true,
+			));
 			$fields['image_product_width'] = $form->getFieldHtml($props[] = array(
 				'type' => 'input',
 				'name' => 'config_image_product_width',
@@ -1332,7 +1350,7 @@ class AConfigManager {
 			return false;
 		}
 		$this->load->language('setting/setting');
-
+		$error = null;
 		foreach ($fields as $field_name => $field_value) {
 			switch ($group) {
 				case 'details':
@@ -1401,6 +1419,10 @@ class AConfigManager {
 
 					if (($field_name == 'config_image_category_width' && !$field_value) || ($field_name == 'config_image_category_height' && !$field_value)) {
 						$error['image_category_height'] = $this->language->get('error_image_category');
+					}
+
+					if (($field_name == 'config_image_manufacturer_width' && !$field_value) || ($field_name == 'config_image_manufacturer_height' && !$field_value)) {
+						$error['image_manufacturer_height'] = $this->language->get('error_image_manufacturer');
 					}
 
 					if (($field_name == 'config_image_product_width' && !$field_value) || ($field_name == 'config_image_product_height' && !$field_value)) {

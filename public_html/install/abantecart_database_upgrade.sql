@@ -16,3 +16,7 @@ WHERE `template` = 'blocks/breadcrumbs.tpl' AND `block_id`=28 AND `parent_block_
 
 INSERT INTO `ac_settings` (`group`, `key`, `value`)
 VALUES ('system','config_html_cache',0);
+
+INSERT INTO `ac_settings` (`group`, `key`, `value`) VALUES
+('appearance','config_image_manufacturer_height',56),
+('appearance','config_image_manufacturer_width',56);

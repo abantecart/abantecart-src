@@ -1671,6 +1671,8 @@ INSERT INTO `ac_settings` (`group`, `key`, `value`) VALUES
 ('appearance','config_image_grid_height',57),
 ('appearance','config_image_category_height',120),
 ('appearance','config_image_category_width',120),
+('appearance','config_image_manufacturer_height',56),
+('appearance','config_image_manufacturer_width',56),
 ('appearance','admin_template','default'),
 ('appearance','admin_width','100%'),
 ('appearance','config_storefront_template','default'),
