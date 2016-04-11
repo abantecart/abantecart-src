@@ -163,12 +163,12 @@ class ALayout {
 	 */
 	public function getPages($controller = '', $key_param = '', $key_value = '') {
 		$store_id = (int)$this->config->get('config_store_id');
-		$cache_name = 'layout.pages'
+		$cache_key = 'layout.pages'
 				. (!empty($controller) ? '.' . $controller : '')
 				. (!empty($key_param) ? '.' . $key_param : '')
 				. (!empty($key_value) ? '.' . $key_value : '');
-		$cache_name = preg_replace('/[^a-zA-Z0-9\.]/', '', $cache_name).'.'.$store_id;
-		$pages = $this->cache->pull( $cache_name );
+		$cache_key = preg_replace('/[^a-zA-Z0-9\.]/', '', $cache_key).'.store_'.$store_id;
+		$pages = $this->cache->pull( $cache_key );
 		if ($pages !== false) {
 			// return cached pages
 			return $pages;
@@ -203,7 +203,7 @@ class ALayout {
 				. "ORDER BY key_param DESC, key_value DESC, p.page_id ASC";
 		$query = $this->db->query($sql);
 		$pages = $query->rows;
-		$this->cache->push($cache_name, $pages);
+		$this->cache->push($cache_key, $pages);
 		return $pages;
 	}
 
@@ -239,9 +239,9 @@ class ALayout {
 	 */
 	public function getDefaultLayout() {
 		$store_id = (int)$this->config->get('config_store_id');
-		$cache_name = 'layout.default.' . $this->tmpl_id;
-		$cache_name = preg_replace('/[^a-zA-Z0-9\.]/', '', $cache_name).'.'.$store_id;
-		$layouts = $this->cache->pull($cache_name);
+		$cache_key = 'layout.default.' . $this->tmpl_id;
+		$cache_key = preg_replace('/[^a-zA-Z0-9\.]/', '', $cache_key).'.store_'.$store_id;
+		$layouts = $this->cache->pull($cache_key);
 
 		if ($layouts === false){
 			$where = "WHERE template_id = '" . $this->db->escape($this->tmpl_id) . "' AND layout_type = '0' ";
@@ -254,7 +254,7 @@ class ALayout {
 			$result = $this->db->query($sql);
 			$layouts = $result->rows;
 
-			$this->cache->push($cache_name, $layouts);
+			$this->cache->push($cache_key, $layouts);
 		}
 
 		return $layouts;
@@ -270,10 +270,10 @@ class ALayout {
 			return null;
 		}
 		$store_id = (int)$this->config->get('config_store_id');		
-		$cache_name = 'layout.layouts.' . $this->tmpl_id . '.' . $this->page_id
+		$cache_key = 'layout.layouts.' . $this->tmpl_id . '.' . $this->page_id
 				. (!empty($layout_type) ? '.' . $layout_type : '');
-		$cache_name = preg_replace('/[^a-zA-Z0-9\.]/', '', $cache_name).'.'.$store_id;
-		$layouts = $this->cache->pull($cache_name);
+		$cache_key = preg_replace('/[^a-zA-Z0-9\.]/', '', $cache_key).'.store_'.$store_id;
+		$layouts = $this->cache->pull($cache_key);
 		if ($layouts === false){
 
 			$where = 'WHERE template_id = "' . $this->db->escape($this->tmpl_id) . '" ';
@@ -299,7 +299,7 @@ class ALayout {
 
 			$query = $this->db->query($sql);
 			$layouts = $query->rows;
-			$this->cache->push($cache_name, $layouts);
+			$this->cache->push($cache_key, $layouts);
 		}
 
 		return $layouts;
@@ -315,9 +315,9 @@ class ALayout {
 			throw new AException(AC_ERR_LOAD_LAYOUT, 'No layout specified for getLayoutBlocks!'.$layout_id);
 		}
 		$store_id = (int)$this->config->get('config_store_id');
-		$cache_name = 'layout.blocks.' . $layout_id;
-		$cache_name = preg_replace('/[^a-zA-Z0-9\.]/', '', $cache_name).'.'.$store_id;
-		$blocks = $this->cache->pull($cache_name);
+		$cache_key = 'layout.blocks.' . $layout_id;
+		$cache_key = preg_replace('/[^a-zA-Z0-9\.]/', '', $cache_key).'.store_'.$store_id;
+		$blocks = $this->cache->pull($cache_key);
 		if ($blocks === false){
 			$where = "WHERE bl.layout_id = '" . $layout_id . "' ";
 			$where .= "AND bl.block_id = b.block_id AND bl.status = 1 ";
@@ -340,7 +340,7 @@ class ALayout {
 			$query = $this->db->query($sql);
 			$blocks = $query->rows;
 
-			$this->cache->push($cache_name, $blocks);
+			$this->cache->push($cache_key, $blocks);
 		}
 		return $blocks;
 	}
@@ -443,9 +443,9 @@ class ALayout {
 		}
 		if (!empty($block_id) && !empty($parent_block_id)) {
 
-			$cache_name = 'layout.block.template.' . $block_id . '.' . $parent_block_id;
-			$cache_name = preg_replace('/[^a-zA-Z0-9\.]/', '', $cache_name).'.'.$store_id;
-			$template = $this->cache->pull($cache_name);
+			$cache_key = 'layout.block.template.' . $block_id . '.' . $parent_block_id;
+			$cache_key = preg_replace('/[^a-zA-Z0-9\.]/', '', $cache_key).'.store_'.$store_id;
+			$template = $this->cache->pull($cache_key);
 			if ($template === false){
 
 				$where = 'WHERE bt.block_id = "' . (int)($block_id) . '" ';
@@ -464,7 +464,7 @@ class ALayout {
 
 				$query = $this->db->query($sql);
 				$template = (string)$query->row['template'];
-				$this->cache->push($cache_name, $template);
+				$this->cache->push($cache_key, $template);
 			}
 		}
 		return $template;
@@ -478,8 +478,8 @@ class ALayout {
 		if (!(int)$custom_block_id) {
 			return array();
 		}
-		$cache_name = 'layout.block.descriptions.' . $custom_block_id;
-		$output = $this->cache->pull($cache_name);
+		$cache_key = 'layout.block.descriptions.' . $custom_block_id;
+		$output = $this->cache->pull($cache_key);
 		if ($output !== false) {
 			// return cached blocks
 			return $output;
@@ -496,7 +496,7 @@ class ALayout {
 				$output[$row['language_id']] = $row;
 			}
 		}
-		$this->cache->push($cache_name, $output);
+		$this->cache->push($cache_key, $output);
 		return $output;
 	}
 

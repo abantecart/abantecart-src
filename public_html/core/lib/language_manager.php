@@ -146,7 +146,7 @@ class ALanguageManager extends Alanguage {
 			$is_default_definition_exists = $this->getDescriptions($table_name,$index,$default_lang_id);
 		}
 		// just use data for default language too
-		// special case for non-transation 
+		// special case for non-translation
 		if(!$is_default_definition_exists && $do_auto_translation){
 			if(!in_array($default_lang_id, array_keys($txt_data))){
 				$txt_data[$default_lang_id] = current($txt_data);
@@ -614,8 +614,8 @@ class ALanguageManager extends Alanguage {
 
 		//delete cash before loading
 		if (is_object($this->cache)) {
-			$this->cache->remove('lang');
-			$this->cache->remove('language_definitions');
+			$this->cache->remove('localization.lang');
+			$this->cache->remove('localization.language.definitions');
 			$this->cache->remove('storefront_menu');
 		}
 
@@ -775,7 +775,7 @@ class ALanguageManager extends Alanguage {
 			if (!$result_txt) {
 				$result_txt = $src_text;
 			}
-			ADebug::checkpoint("ALanguageManager: Translated text: $src_text from $source_lang_code to $dest_lang_code");
+			ADebug::checkpoint("ALanguageManager: Translated text:". $src_text." from ".$source_lang_code." to ".$dest_lang_code);
 		} else {
 			//fail over to default 'copy_source_text' method
 			$result_txt = $src_text;
@@ -973,7 +973,7 @@ class ALanguageManager extends Alanguage {
 				}
 			}
 			if ($tcount > 0) {
-				$this->cache->remove('lang');
+				$this->cache->remove('localization.lang');
 			}
 		}
 		return "Total: " . $tcount . " language entries cloned for table " . $table . "<br>";

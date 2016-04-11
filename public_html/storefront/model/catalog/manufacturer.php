@@ -36,7 +36,8 @@ class ModelCatalogManufacturer extends Model{
 	 * @return array
 	 */
 	public function getManufacturers($data = array ()){
-		$manufacturer = array();
+
+		$cache_key = 'manufacturer.store_'.(int)$this->config->get('config_store_id');
 		if (isset($data['start']) || isset($data['limit'])){
 			if ($data['start'] < 0){
 				$data['start'] = 0;
@@ -44,11 +45,12 @@ class ModelCatalogManufacturer extends Model{
 			if ($data['limit'] < 1){
 				$data['limit'] = 0;
 			}
+			$manufacturer = false;
 		}else{
-			$manufacturer = $this->cache->pull('manufacturer.'.(int)$this->config->get('config_store_id') );
+			$manufacturer = $this->cache->pull( $cache_key );
 		}
 
-		if (!$manufacturer){
+		if ($manufacturer === false){
 			$sql = "SELECT *
 					FROM " . $this->db->table("manufacturers") . " m
 					LEFT JOIN " . $this->db->table("manufacturers_to_stores") . " m2s ON (m.manufacturer_id = m2s.manufacturer_id)
@@ -62,7 +64,7 @@ class ModelCatalogManufacturer extends Model{
 			$query = $this->db->query($sql);
 			$manufacturer = $query->rows;
 			if (!$data['limit']){
-				$this->cache->push('manufacturer.'.(int)$this->config->get('config_store_id'));
+				$this->cache->push($cache_key, $manufacturer);
 			}
 		}
 		return $manufacturer;

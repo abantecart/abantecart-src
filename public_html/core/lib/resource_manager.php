@@ -749,8 +749,10 @@ class AResourceManager extends AResource {
         if ( !$language_id ) {
             $language_id = $this->language->getContentLanguageID();
         }
+		$store_id = (int)$this->config->get('config_store_id');
         $cache_key = 'resources.products.'. $resource_id;
-        $cache_key = preg_replace('/[^a-zA-Z0-9\.]/', '', $cache_key).'.'.(int)$this->config->get('config_store_id').'_'.$language_id;
+        $cache_key = preg_replace('/[^a-zA-Z0-9\.]/', '', $cache_key).'.store_'.$store_id.'_lang_'.$language_id;
+
         $resource_objects = $this->cache->pull($cache_key);
         if ( $resource_objects === false ) {
             $sql = "SELECT rm.object_id, 'products' as object_name, pd.name
@@ -787,9 +789,10 @@ class AResourceManager extends AResource {
 		if ( !$language_id ) {
             $language_id = $this->language->getContentLanguageID();
         }
+		$store_id = (int)$this->config->get('config_store_id');
 
         $cache_key = 'resources.product_option_value.'. $resource_id;
-        $cache_key = preg_replace('/[^a-zA-Z0-9\.]/', '', $cache_key).'.'.(int)$this->config->get('config_store_id').'_'.$language_id;
+        $cache_key = preg_replace('/[^a-zA-Z0-9\.]/', '', $cache_key).'.store_'.$store_id.'_lang_'.$language_id;
 
         $resource_objects = $this->cache->pull($cache_key);
         if ( $resource_objects === false ) {
@@ -830,9 +833,10 @@ class AResourceManager extends AResource {
         if ( !$language_id ) {
             $language_id = $this->language->getContentLanguageID();
         }
+		$store_id = (int)$this->config->get('config_store_id');
 
         $cache_key = 'resources.categories.'. $resource_id;
-        $cache_key = preg_replace('/[^a-zA-Z0-9\.]/', '', $cache_key).'.'.(int)$this->config->get('config_store_id').'_'.$language_id;
+        $cache_key = preg_replace('/[^a-zA-Z0-9\.]/', '', $cache_key).'.store_'.$store_id.'_lang_'.$language_id;
         $resource_objects = $this->cache->pull($cache_key);
         if ( $resource_objects === false ) {
             $sql = "SELECT rm.object_id, 'categories' as object_name, cd.name
@@ -869,9 +873,9 @@ class AResourceManager extends AResource {
         if ( !$language_id ) {
             $language_id = $this->language->getContentLanguageID();
         }
-
+		$store_id = (int)$this->config->get('config_store_id');
         $cache_key = 'resources.manufacturers.'. $resource_id;
-        $cache_key = preg_replace('/[^a-zA-Z0-9\.]/', '', $cache_key).'.'.(int)$this->config->get('config_store_id').'_'.$language_id;
+        $cache_key = preg_replace('/[^a-zA-Z0-9\.]/', '', $cache_key).'.store_'.$store_id.'_lang_'.$language_id;
         $resource_objects = $this->cache->pull($cache_key);
         if ( $resource_objects === false ) {
             $sql = "SELECT rm.object_id, 'manufacturers' as object_name, m.name

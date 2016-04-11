@@ -731,7 +731,7 @@ final class ADataEncryption {
 		$cache = $this->registry->get('cache'); 
 
 		$this->keys = array();
-        $cache_key = 'encryption.keys.'.(int)$config->get('config_store_id');
+        $cache_key = 'encryption.keys.store_'.(int)$config->get('config_store_id');
         $this->keys = $cache->pull($cache_key);
         if (empty($this->keys)) {
 			$db = $this->registry->get('db');

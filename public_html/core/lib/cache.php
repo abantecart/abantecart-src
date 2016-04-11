@@ -146,7 +146,7 @@ class ACache {
 	 * @since 1.2.7
 	 */
 	public function setCacheStorageDriver( $driver ){
-		//validate driver for availablity
+		//validate driver for availability
 		$all_drivers = $this->getCacheStorageDrivers();
 		$drv = $all_drivers[$driver];
 		if( isset($drv) && is_file($drv['file']) ) {
@@ -215,7 +215,13 @@ class ACache {
 	 */
 	public function set($key, $data, $language_id = 0, $store_id = 0) {
 		if ($language_id || $store_id) {
-			$key = $key."_".$store_id."_".$language_id;
+			if($language_id && $store_id){
+				$key = $key . ".store_" . $store_id . "_lang_" . $language_id;
+			}elseif($store_id){
+				$key = $key . ".store_" . $store_id;
+			}else{
+				$key = $key . ".lang_" . $language_id;
+			}
 		}
 		return $this->push($key, $data);			
 	}
@@ -246,7 +252,7 @@ class ACache {
 			//load cache from storage		
 			$data = $this->cache_driver->get($key, $group);
 			if($data === false){
-				//check if chache is locked
+				//check if cache is locked
 				$lock = $this->lock($key, $group);
 				if($lock['locked'] == true && $lock['waited'] == true){
 					//try to get cache again 
@@ -277,8 +283,14 @@ class ACache {
 	 */
 	public function get($key, $language_id = 0, $store_id = 0) {
 		if ($language_id || $store_id) {
-			$key = $key."_".$store_id."_".$language_id;
-		}	
+			if($language_id && $store_id){
+				$key = $key . ".store_" . $store_id . "_lang_" . $language_id;
+			}elseif($store_id){
+				$key = $key . ".store_" . $store_id;
+			}else{
+				$key = $key . ".lang_" . $language_id;
+			}
+		}
 		$return = $this->pull($key);	
 		if($return === false){
 			//Should return false if no cache present.
@@ -332,13 +344,19 @@ class ACache {
 	 *  Old cache compatibility. Will be removed in 1.3
 	 * @deprecated
 	 * @param $key
-	 * @param string $language_id
-	 * @param string $store_id
+	 * @param int|string $language_id
+	 * @param int|string $store_id
 	 * @return bool
 	 */
 	public function delete( $key, $language_id = 0, $store_id = 0) {
 		if ($language_id || $store_id) {
-			$key = $key."_".$store_id."_".$language_id;
+			if($language_id && $store_id){
+				$key = $key . ".store_" . $store_id . "_lang_" . $language_id;
+			}elseif($store_id){
+				$key = $key . ".store_" . $store_id;
+			}else{
+				$key = $key . ".lang_" . $language_id;
+			}
 		}
 		
 		return $this->remove($key);
@@ -579,7 +597,7 @@ class ACache {
 			//load cache from storage		
 			$data = $this->cache_driver->get($key, $group);
 			if($data === false){
-				//check if chache is locked
+				//check if cache is locked
 				$lock = $this->lock($key, $group);
 				if($lock['locked'] == true && $lock['waited'] == true){
 					//try to get cache again 

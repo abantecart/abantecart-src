@@ -98,7 +98,7 @@ class AResource {
 
     protected function _loadType() {
 		$cache_key = 'resources.'.$this->type;
-        $cache_key = preg_replace('/[^a-zA-Z0-9\.]/', '', $cache_key).'.'.(int)$this->config->get('config_store_id');
+        $cache_key = preg_replace('/[^a-zA-Z0-9\.]/', '', $cache_key).'.store_'.(int)$this->config->get('config_store_id');
         $type_data = $this->cache->pull($cache_key);
         if ($type_data=== false || empty($type_data['type_id'])) {
             $sql = "SELECT * "
@@ -200,11 +200,8 @@ class AResource {
         $cache_key = 'resources.'. $resource_id;
         $cache_key = preg_replace('/[^a-zA-Z0-9\.]/', '', $cache_key);
         $resource = $this->cache->pull($cache_key );
-
         if ($resource === false) {
-
             $where = "WHERE rl.resource_id = ". $this->db->escape($resource_id);
-
             $sql = "SELECT
                         rd.*,
                         COALESCE(rd.resource_path,rdd.resource_path) as resource_path,
@@ -390,11 +387,11 @@ class AResource {
             $language_id = $this->config->get('storefront_language_id');
         }
 
+		$store_id = (int)$this->config->get('config_store_id');
+
 		//attempt to load cache 
-        $cache_key = 'resources.'.$this->type
-                      .'.'. $object_name
-                      .'.'.$object_id;
-        $cache_key = preg_replace('/[^a-zA-Z0-9\.]/', '', $cache_key).'.'.(int)$this->config->get('config_store_id').'_'.$language_id;
+        $cache_key = 'resources.'.$this->type.'.'. $object_name.'.'.$object_id;
+        $cache_key = preg_replace('/[^a-zA-Z0-9\.]/', '', $cache_key).'.store_'.$store_id.'_lang_'.$language_id;
         $resources = $this->cache->pull($cache_key);
         if ($resources !== false) {
             return $resources;
@@ -434,9 +431,9 @@ class AResource {
 	 */
     public function getAllResourceTypes() {
         //attempt to load cache
-        $cache_key = 'resources.types.'.(int)$this->config->get('config_store_id');
+        $cache_key = 'resources.types.store_'.(int)$this->config->get('config_store_id');
         $types = $this->cache->pull($cache_key);
-        if ($types === false) {
+        if ($types !== false) {
             return $types;
         }
 

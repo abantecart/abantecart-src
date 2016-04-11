@@ -602,8 +602,10 @@ class ModelCatalogProduct extends Model{
 	 */
 	public function getLatestProducts($limit){
 		$limit = (int)$limit;
-		$cache_key = 'product.latest.' . $limit.'.'.(int)$this->config->get('config_store_id').'_'. $this->config->get('storefront_language_id');
+		$cache_key = 'product.latest.' . $limit
+				.'.store_'.(int)$this->config->get('config_store_id').'_lang_'. $this->config->get('storefront_language_id');
 		$cache = $this->cache->pull($cache_key);
+
 		if ($cache === false){
 			$sql = "SELECT *,
 					pd.name AS name,
@@ -663,7 +665,7 @@ class ModelCatalogProduct extends Model{
 		$limit = (int)$limit;
 		$language_id = (int)$this->config->get('storefront_language_id');
 		$store_id = (int)$this->config->get('config_store_id');
-		$cache_key = 'product.featured.' . $limit.'.'.$store_id.'_'.$language_id;
+		$cache_key = 'product.featured.' . $limit.'.store_'.$store_id.'_lang_'.$language_id;
 		$product_data = $this->cache->pull($cache_key);
 		if ($product_data === false){
 			$sql = "SELECT f.*, pd.*, ss.name AS stock, p.*
@@ -699,7 +701,7 @@ class ModelCatalogProduct extends Model{
 		$limit = (int)$limit;
 		$language_id = (int)$this->config->get('storefront_language_id');
 		$store_id = (int)$this->config->get('config_store_id');
-		$cache_key = 'product.bestseller.' . $limit.'.'.$store_id.'_'.$language_id;
+		$cache_key = 'product.bestseller.' . $limit.'.store_'.$store_id.'_lang_'.$language_id;
 
 		$product_data = $this->cache->pull($cache_key);
 		if ($product_data === false){
@@ -859,7 +861,7 @@ class ModelCatalogProduct extends Model{
 			return array ();
 		}
 		$language_id = (int)$this->config->get('storefront_language_id');
-		$cache_key = 'product.options.' . $product_id.'.'. $language_id;
+		$cache_key = 'product.options.' . $product_id.'.lang_'. $language_id;
 		$product_option_data = $this->cache->pull($cache_key);
 		$elements = HtmlElementFactory::getAvailableElements();
 		if ($product_option_data === false){
@@ -1206,7 +1208,7 @@ class ModelCatalogProduct extends Model{
 		}
 		$language_id = (int)$this->config->get('storefront_language_id');
 		$store_id = (int)$this->config->get('config_store_id');
-		$cache_key = 'product.all_info.' . md5(implode('', $products)) . '.' . $customer_group_id.'.'.$store_id.'_'. $language_id;
+		$cache_key = 'product.all_info.' . md5(implode('', $products)) . '.' . $customer_group_id.'.store_'.$store_id.'_lang_'. $language_id;
 
 		$output = $this->cache->pull($cache_key);
 		if ($output === false){ // if no cache
@@ -1458,16 +1460,17 @@ class ModelCatalogProduct extends Model{
 
 			return $query->rows;
 		} else{
-			$product_data = $this->cache->pull('product.'.$language_id);
+			$cache_key = 'product.lang_'.$language_id;
+			$product_data = $this->cache->pull($cache_key);
 
-			if (!$product_data){
+			if ($product_data === false){
 				$query = $this->db->query("SELECT *
 											FROM " . $this->db->table("products") . " p
 											LEFT JOIN " . $this->db->table("product_descriptions") . " pd ON (p.product_id = pd.product_id)
 											WHERE pd.language_id = '" . $language_id . "' AND p.date_available <= NOW() AND p.status = '1'
 											ORDER BY pd.name ASC");
 				$product_data = $query->rows;
-				$this->cache->push('product.'.$language_id, $product_data );
+				$this->cache->push($cache_key, $product_data );
 			}
 
 			return $product_data;

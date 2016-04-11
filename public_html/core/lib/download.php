@@ -28,6 +28,8 @@ if (! defined ( 'DIR_CORE' )) {
  * @property ACustomer $customer
  * @property AConfig $config
  * @property ALoader $load
+ * @property ExtensionsAPI $extensions
+ * @property ARequest $request
  */
 final class ADownload {
 
@@ -82,13 +84,12 @@ final class ADownload {
 
 	public function getDownloadInfo($download_id){
 		if(!(int)$download_id){ return array(); }
-		if(!$language_id){
-			if(IS_ADMIN===true){
-				$language_id = $this->language->getContentLanguageID();
-			}else{
-				$language_id = $this->language->getLanguageID();
-			}
+		if(IS_ADMIN===true){
+			$language_id = $this->language->getContentLanguageID();
+		}else{
+			$language_id = $this->language->getLanguageID();
 		}
+
 
 		$result = $this->db->query("SELECT dd.*, d.*
 									FROM ". $this->db->table('downloads')." d
@@ -253,8 +254,8 @@ final class ADownload {
 	/**
 	 * @param int $download_id
 	 * @param string $mode - can be "full" - all download attributes (with empty values too),
-	 * "to_customer" - download atributes with values that allowed to display for customers,
-	 * "to_display"  - all download atributes with values
+	 * "to_customer" - download attributes with values that allowed to display for customers,
+	 * "to_display"  - all download attributes with values
 	 * @return array
 	 */
 	public function getDownloadAttributesValues($download_id, $mode='full') {

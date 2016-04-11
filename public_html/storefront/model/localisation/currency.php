@@ -22,7 +22,7 @@ if (! defined ( 'DIR_CORE' )) {
 }
 class ModelLocalisationCurrency extends Model {
 	public function getCurrencies() {
-		$currency_data = $this->cache->pull('currency');
+		$currency_data = $this->cache->pull('localization.currency');
 
 		if ($currency_data === false) {
 			$query = $this->db->query("SELECT * FROM " . $this->db->table("currencies") . " ORDER BY title ASC");
@@ -41,7 +41,7 @@ class ModelLocalisationCurrency extends Model {
       			);
     		}	
 
-			$this->cache->push('currency', $currency_data);
+			$this->cache->push('localization.currency', $currency_data);
 		}
 
 		return $currency_data;	

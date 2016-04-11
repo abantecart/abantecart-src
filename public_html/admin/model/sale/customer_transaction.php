@@ -167,16 +167,13 @@ class ModelSaleCustomerTransaction extends Model {
      * @return float
      */
     public function getBalance($customer_id){
-        $cache_name = 'balance.'.$customer_id;
-        $balance = $this->cache->pull($cache_name);
-        if($balance === false){
-            $sql = "SELECT SUM(credit) - SUM(debit) as balance
-					FROM " . $this->db->table("customer_transactions") . "
-					WHERE customer_id=".(int)$customer_id;
-            $query = $this->db->query($sql);
-            $balance = (float)$query->row['balance'];
-			$this->cache->push($cache_name,$balance);
-        }
+        $customer_id = (int)$customer_id;
+        $sql = "SELECT SUM(credit) - SUM(debit) as balance
+                FROM " . $this->db->table("customer_transactions") . "
+                WHERE customer_id=".(int)$customer_id;
+        $query = $this->db->query($sql);
+        $balance = (float)$query->row['balance'];
+
         return $balance;
     }
 
@@ -204,7 +201,6 @@ class ModelSaleCustomerTransaction extends Model {
                         NOW()
                         )";
         $this->db->query($sql);
-        $this->cache->remove('balance.'.(int)$data['customer_id']);
         $transaction_id = $this->db->getLastId();
 
         if($data['notify']){
@@ -272,8 +268,8 @@ class ModelSaleCustomerTransaction extends Model {
         * @return array
         */
     public function getTransactionTypes(){
-        $cache_name = 'transaction_types';
-        $output = $this->cache->pull($cache_name);
+        $cache_key = 'transaction_types';
+        $output = $this->cache->pull($cache_key);
         if( $output === false ){
             $output = array();
             $sql = "SELECT DISTINCT `transaction_type`
@@ -283,7 +279,7 @@ class ModelSaleCustomerTransaction extends Model {
             foreach($result->rows as $row){
                 $output[$row['transaction_type']] = $row['transaction_type'];
             }
-            $this->cache->push($cache_name,$output);
+            $this->cache->push($cache_key,$output);
         }
         return $output;
     }

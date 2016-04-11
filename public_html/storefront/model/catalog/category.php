@@ -55,8 +55,8 @@ class ModelCatalogCategory extends Model {
 	 */
 	public function getCategories($parent_id = 0, $limit=0) {
 		$language_id = (int)$this->config->get('storefront_language_id');
-		$cache_name = 'category.list.'. $parent_id.'.'.$limit.'.'.(int)$this->config->get('config_store_id').'_'.$language_id;
-		$cache = $this->cache->pull($cache_name);
+		$cache_key = 'category.list.'. $parent_id.'.'.$limit.'.store_'.(int)$this->config->get('config_store_id').'_lang_'.$language_id;
+		$cache = $this->cache->pull($cache_key);
 
 		if($cache === false){
 			$query = $this->db->query("SELECT *
@@ -68,7 +68,7 @@ class ModelCatalogCategory extends Model {
 										ORDER BY c.sort_order, LCASE(cd.name)
 										".((int)$limit ? "LIMIT ".(int)$limit : '')." ");
 			$cache =  $query->rows;
-			$this->cache->push($cache_name, $cache);
+			$this->cache->push($cache_key, $cache);
 		}
 		return $cache;
 	}
@@ -217,7 +217,7 @@ class ModelCatalogCategory extends Model {
 		$store_id = (int)$this->config->get('config_store_id');
 
 		$resource = new AResource('image');
-		$cache_key = 'category.details.'.$parent_id.'.'.$store_id.'_'.$language_id;
+		$cache_key = 'category.details.'.$parent_id.'.store_'.$store_id.'_lang_'.$language_id;
 		$categories = $this->cache->pull( $cache_key );
 		if ( $categories !== false ) {
 			return $categories;

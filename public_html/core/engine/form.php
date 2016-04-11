@@ -140,11 +140,12 @@ class AForm {
 	 * @return null
 	 */
 	private function _loadForm($name) {
-		$language_id = (int)$this->config->get('config_store_id');
-		$cache_name = 'forms.' . $name;
-		$cache_name = preg_replace('/[^a-zA-Z0-9\.]/', '', $cache_name).'.'.(int)$this->config->get('config_store_id').'_'.$language_id;
-		$form = $this->cache->pull($cache_name );
-		if ($form!==false) {
+		$language_id = (int)$this->config->get('storefront_language_id');
+		$store_id = (int)$this->config->get('config_store_id');
+		$cache_key = 'forms.' . $name;
+		$cache_key = preg_replace('/[^a-zA-Z0-9\.]/', '', $cache_key).'.store_'.$store_id.'_lang_'.$language_id;
+		$form = $this->cache->pull($cache_key );
+		if ($form !== false) {
 			$this->form = $form;
 			return null;
 		}
@@ -162,7 +163,7 @@ class AForm {
 			$err->toDebug()->toLog();
 			return null;
 		}
-		$this->cache->push($cache_name, $query->row);
+		$this->cache->push($cache_key, $query->row);
 		$this->form = $query->row;
 	}
 
@@ -174,10 +175,10 @@ class AForm {
 	private function _loadFields() {
 
 		$language_id = (int)$this->config->get('storefront_language_id');
-
-		$cache_name = 'forms.' . $this->form['form_name'] . '.fields';
-		$cache_name = preg_replace('/[^a-zA-Z0-9\.]/', '', $cache_name).'.'.(int)$this->config->get('config_store_id').'_'.$language_id;
-		$fields = $this->cache->pull($cache_name);
+		$store_id = (int)$this->config->get('config_store_id');
+		$cache_key = 'forms.' . $this->form['form_name'] . '.fields';
+		$cache_key = preg_replace('/[^a-zA-Z0-9\.]/', '', $cache_key).'.store_'.$store_id.'_lang_'.$language_id;
+		$fields = $this->cache->pull($cache_key);
 		if ($fields !== false) {
 			$this->fields = $fields;
 			return null;
@@ -214,7 +215,7 @@ class AForm {
 				}
 			}
 		}
-		$this->cache->push($cache_name, $this->fields);
+		$this->cache->push($cache_key, $this->fields);
 	}
 
 	/**
@@ -236,10 +237,11 @@ class AForm {
 	 */
 	private function _loadGroups() {
 		$language_id = (int)$this->config->get('storefront_language_id');
-		$cache_name = 'forms.' . $this->form['form_name'] . '.groups';
-		$cache_name = preg_replace('/[^a-zA-Z0-9\.]/', '', $cache_name).'.'.(int)$this->config->get('config_store_id').'_'.$language_id;
-		$groups = $this->cache->pull($cache_name);
-		if ($groups !==false) {
+		$store_id = (int)$this->config->get('config_store_id');
+		$cache_key = 'forms.' . $this->form['form_name'] . '.groups';
+		$cache_key = preg_replace('/[^a-zA-Z0-9\.]/', '', $cache_key).'.store_'.$store_id.'_lang_'.$language_id;
+		$groups = $this->cache->pull($cache_key);
+		if ($groups !== false) {
 			$this->groups = $groups;
 			return null;
 		}
@@ -263,7 +265,7 @@ class AForm {
 				$this->groups[ $row['group_id'] ]['fields'][ ] = $row['field_id'];
 			}
 
-		$this->cache->push($cache_name, $this->groups);
+		$this->cache->push($cache_key, $this->groups);
 	}
 
 	/**
@@ -673,7 +675,7 @@ class AForm {
 	/**
 	 * process uploads of files from form file element
 	 * @param array $files - usually it's a $_FILES array
-	 * @return array - list of absolute pathes of moved files
+	 * @return array - list of absolute paths of moved files
 	 */
 	public function processFileUploads($files=array()){
 		if($this->fields){

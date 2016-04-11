@@ -162,8 +162,8 @@ final class AConfig {
 			!(is_int(strpos($url, $config_url))) 			
 		) { 
 			// if requested url not a default store URL - do check other stores.
-			$cache_name = 'settings.store.' . md5('http://' . $url);
-			$store_settings = $cache->pull($cache_name);
+			$cache_key = 'settings.store.' . md5('http://' . $url);
+			$store_settings = $cache->pull($cache_key);
 			if (empty($store_settings)) {
 				$sql = "SELECT se.`key`, se.`value`, st.store_id
 		   			  FROM " . $db->table('settings')." se
@@ -182,7 +182,7 @@ final class AConfig {
 				$store_settings = $query->rows;
 				//fix for rare issue on a database and creation of empty cache
 				if(!empty($store_settings)){
-					$cache->push($cache_name, $store_settings);
+					$cache->push($cache_key, $store_settings);
 				}
 			}
 			
@@ -250,7 +250,7 @@ final class AConfig {
 			}
 		}
 
-		//add encryption key to settings, overwise use from database (backwards compatability) 
+		//add encryption key to settings, otherwise use from database (backwards compatibility)
 		if (defined('ENCRYPTION_KEY')) {
 			$setting['encryption_key'] = ENCRYPTION_KEY;
 		}

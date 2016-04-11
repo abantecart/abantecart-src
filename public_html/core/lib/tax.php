@@ -116,7 +116,7 @@ final class ATax {
 		$language_id = $language->getLanguageID();
 		$default_lang_id = $language->getDefaultLanguageID();
 		
-		$cache_key = 'tax_class.'.$country_id.'.'.$zone_id.'.'.$language_id;
+		$cache_key = 'localization.tax_class.'.$country_id.'.'.$zone_id.'.lang_'.$language_id;
 		$results = $this->cache->pull($cache_key);
 
 		if($results === false){

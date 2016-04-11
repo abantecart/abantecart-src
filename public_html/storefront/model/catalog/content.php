@@ -30,7 +30,7 @@ class ModelCatalogContent extends Model {
 		$content_id = (int)$content_id;
 		$store_id = (int)$this->config->get('config_store_id');
 		$language_id = (int)$this->config->get('storefront_language_id');
-		$cache_key = 'content.'.$content_id.'.'.$store_id.'_'.$language_id;
+		$cache_key = 'content.'.$content_id.'.store_'.$store_id.'_lang_'.$language_id;
 		$cache = $this->cache->pull($cache_key );
 
 		if($cache !== false){
@@ -61,7 +61,7 @@ class ModelCatalogContent extends Model {
 	public function getContents() {
 		$store_id = (int)$this->config->get('config_store_id');
 		$language_id = (int)$this->config->get('storefront_language_id');
-		$cache_key = 'content.all.'.$store_id.'_'.$language_id;
+		$cache_key = 'content.all.store_'.$store_id.'_lang_'.$language_id;
 		$output = $this->cache->pull($cache_key );
 		if($output === false){
 			$output = array();

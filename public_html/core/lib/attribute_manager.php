@@ -23,11 +23,11 @@ if (! defined ( 'DIR_CORE' )) {
 
 /**
  * Class to handle access to global attributes
- * @property Asession $session
+ * @property ASession $session
  */
  
 class AAttribute_Manager extends AAttribute {
-	
+	public $error = array();
 	public function __construct($attribute_type = '', $language_id = 0 ) {
 		parent::__construct($attribute_type, $language_id );
 		if (!IS_ADMIN) { // forbid for non admin calls
@@ -611,7 +611,7 @@ class AAttribute_Manager extends AAttribute {
 			$sql .= " AND ga.attribute_type_id = ".(int)$data['attribute_type_id'];
 		}
 
-		//If for total, we done bulding the query
+		//If for total, we done building the query
 		if ($mode == 'total_only') {
 		    $query = $this->db->query($sql);
 		    return $query->row['total'];

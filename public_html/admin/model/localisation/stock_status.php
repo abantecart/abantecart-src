@@ -36,7 +36,7 @@ class ModelLocalisationStockStatus extends Model {
 											 )) );
 		}
 		
-		$this->cache->remove('stock_status');
+		$this->cache->remove('localization.stock_status');
 
 		return $stock_status_id;
 	}
@@ -52,13 +52,13 @@ class ModelLocalisationStockStatus extends Model {
 												 )) );
 
 		}
-		$this->cache->remove('stock_status');
+		$this->cache->remove('localization.stock_status');
 	}
 	
 	public function deleteStockStatus($stock_status_id) {
 		$this->db->query("DELETE FROM " . $this->db->table("stock_statuses") . " 
 						WHERE stock_status_id = '" . (int)$stock_status_id . "'");
-		$this->cache->remove('stock_status');
+		$this->cache->remove('localization.stock_status');
 	}
 		
 	public function getStockStatus($stock_status_id) {
@@ -105,7 +105,8 @@ class ModelLocalisationStockStatus extends Model {
 		
 			return $query->rows;
 		} else {
-			$stock_status_data = $this->cache->pull('stock_status.'. $language_id);
+			$cache_key = 'localization.stock_status.lang_'. $language_id;
+			$stock_status_data = $this->cache->pull($cache_key);
 		
 			if ($stock_status_data === false) {
 				$query = $this->db->query( "SELECT stock_status_id, name
@@ -113,7 +114,7 @@ class ModelLocalisationStockStatus extends Model {
 											WHERE language_id = '" . $language_id . "'
 											ORDER BY name");
 				$stock_status_data = $query->rows;
-				$this->cache->push('stock_status.'.$language_id, $stock_status_data);
+				$this->cache->push($cache_key, $stock_status_data);
 			}	
 	
 			return $stock_status_data;			

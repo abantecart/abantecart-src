@@ -1884,7 +1884,8 @@ class ModelCatalogProduct extends Model{
 
 			return $query->rows;
 		} else{
-			$product_data = $this->cache->pull('product.'.$language_id);
+			$cache_key = 'product.lang_'.$language_id;
+			$product_data = $this->cache->pull($cache_key);
 			if($product_data === false){
 				$query = $this->db->query("SELECT *, p.product_id
 											FROM " . $this->db->table("products") . " p
@@ -1892,7 +1893,7 @@ class ModelCatalogProduct extends Model{
 												ON (p.product_id = pd.product_id AND pd.language_id = '" . $language_id . "')
 											ORDER BY pd.name ASC");
 				$product_data = $query->rows;
-				$this->cache->push('product.'.$language_id, $product_data);
+				$this->cache->push($cache_key, $product_data);
 			}
 
 			return $product_data;

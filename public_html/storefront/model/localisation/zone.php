@@ -53,7 +53,8 @@ class ModelLocalisationZone extends Model {
 		$language_id = $this->language->getLanguageID();
 		$default_lang_id = $this->language->getDefaultLanguageID();
 
-		$zone_data = $this->cache->pull('zone.' . $country_id.'.'. $language_id);
+		$cache_key = 'localization.zone.' . $country_id.'.lang_'. $language_id;
+		$zone_data = $this->cache->pull($cache_key);
 
 		if ($zone_data === false) {
 			$query = $this->db->query("SELECT z.*, COALESCE(zd1.name,zd2.name) as name 
@@ -65,7 +66,7 @@ class ModelLocalisationZone extends Model {
 										WHERE z.country_id = '" . (int)$country_id . "' AND status = '1'
 										ORDER BY zd1.name,zd2.name");
 			$zone_data = $query->rows;
-			$this->cache->push('zone.' . $country_id.'.'. $language_id, $zone_data);
+			$this->cache->push($cache_key, $zone_data);
 		}
 		return $zone_data;
 	}

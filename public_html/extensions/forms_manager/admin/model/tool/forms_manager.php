@@ -139,7 +139,7 @@ class ModelToolFormsManager extends Model {
 
 			return $query->rows;
 		} else {
-			$cache_key = 'forms_manager.'. $language_id;
+			$cache_key = 'extensions.forms_manager.lang_'. $language_id;
 			$form_data = $this->cache->pull($cache_key);
 
 			if ($form_data === false) {
@@ -662,11 +662,11 @@ class ModelToolFormsManager extends Model {
 	}
 
 	private function _deleteCache($name = '') {
-		$cache_name = 'forms';
+		$cache_key = 'forms';
 		if ($name) {
-			$cache_name .= '.' . $name;
+			$cache_key .= '.' . $name;
 		}
-		$cache_name = preg_replace('/[^a-zA-Z0-9\.]/', '', $cache_name);
-		$this->cache->remove($cache_name);
+		$cache_key = preg_replace('/[^a-zA-Z0-9\.]/', '', $cache_key);
+		$this->cache->remove($cache_key);
 	}
 }

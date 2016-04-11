@@ -205,7 +205,8 @@ class ModelCatalogManufacturer extends Model {
 			return $query->rows;
 		} else {
 			// this slice of code is duplicate of storefront model for manufacturer
-			$manufacturer_data = $this->cache->pull('manufacturer.'.(int)$this->config->get('config_store_id'));
+			$cache_key = 'manufacturer.store_'.(int)$this->config->get('config_store_id');
+			$manufacturer_data = $this->cache->pull($cache_key);
 			if ($manufacturer_data === false) {
 				$query = $this->db->query( "SELECT *
 											FROM " . $this->db->table("manufacturers") . " m
@@ -213,9 +214,8 @@ class ModelCatalogManufacturer extends Model {
 												ON (m.manufacturer_id = m2s.manufacturer_id)
 											WHERE m2s.store_id = '" . (int)$this->config->get('config_store_id') . "'
 											ORDER BY sort_order, LCASE(m.name) ASC");
-	
 				$manufacturer_data = $query->rows;
-				$this->cache->push('manufacturer.'.(int)$this->config->get('config_store_id'), $manufacturer_data);
+				$this->cache->push($cache_key, $manufacturer_data);
 			}
 		 
 			return $manufacturer_data;

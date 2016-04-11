@@ -32,6 +32,7 @@ if (! defined ( 'DIR_CORE' )) {
  * @property ALoader $load
  * @property ALanguage $language
  * @property ModelCheckoutExtension $model_checkout_extension
+ * @property ADownload $download
  */
 class ACart {
 	/**
@@ -90,7 +91,7 @@ class ACart {
 		$this->customer = $registry->get('customer');
 		$this->session = $registry->get('session');
 		
-		//if nothing is passed (default) use session array. Customer session, can function on storefrnt only 
+		//if nothing is passed (default) use session array. Customer session, can function on storefront only
 		if ($c_data == null) {
 			$this->cust_data =& $this->session->data;  
 		} else {
@@ -216,7 +217,7 @@ class ACart {
   		$option_price = 0;
   		$option_data = array();
     	$groups = array();
-
+		$op_stock_trackable = 0;
   		//Process each option and value	
   		foreach ($options as $product_option_id => $product_option_value_id) {
     	    //skip empty values
@@ -226,6 +227,8 @@ class ACart {
 
             $option_query = $sf_product_mdl->getProductOption($product_id, $product_option_id);
             $element_type = $option_query['element_type'];
+		    $option_value_query = array();
+		    $option_value_queries = array();
 
     	    if (!in_array($element_type, $elements_with_options)) {
     	    	//This is single value element, get all values and expect only one	
@@ -236,7 +239,6 @@ class ACart {
     	    } else {
     	    	//is multivalue option type
     	    	if(is_array($product_option_value_id)){
-    	    		$option_value_queries = array();
     	    		foreach($product_option_value_id as $val_id){
     	    			$option_value_queries[$val_id] = $sf_product_mdl->getProductOptionValue($product_id, $val_id);
     	    		}
@@ -311,7 +313,7 @@ class ACart {
     	if ( !$price ) {
     	    $price = $this->promotion->getProductSpecial($product_id );
     	}
-    	//Still no special price, use regulr price
+    	//Still no special price, use regular price
     	if ( !$price ) {
     	    $price = $product_query['price'];
     	} 
@@ -522,7 +524,7 @@ class ACart {
 	}
 
 	/**
-	 * Products with no special settings for shippment
+	 * Products with no special settings for shipping
 	 * @return array
 	 */
 	public function basicShippingProducts() {
@@ -537,7 +539,7 @@ class ACart {
 	}
 
 	/**
-	 * Products with special settings for shippment
+	 * Products with special settings for shipping
 	 * @return array
 	 */
 	public function specialShippingProducts() {
@@ -599,7 +601,7 @@ class ACart {
   	}
 	
 	 /**
-	 * Get Sub Total amount for current built order wihout any tax or any promotion
+	 * Get Sub Total amount for current built order without any tax or any promotion
 	 * To force recalculate pass argument as TRUE
 	 * @param bool $recalculate
 	 * @return float
@@ -620,7 +622,7 @@ class ACart {
   	}
 	
 	/**
-	* candidate to be depricated
+	* candidate to be deprecated
 	* @return array
 	*/
 	public function getTaxes() {
@@ -669,7 +671,7 @@ class ACart {
 
 	 /**
 	 * Get Total amount for current built order with applicable taxes ( order value )
-	 * Can be used for total value in shipping insurace or to culculate total savings.
+	 * Can be used for total value in shipping insurance or to calculate total savings.
 	 * To force recalculate pass argument as TRUE
 	 * @param bool $recalculate
 	 * @return float

@@ -435,15 +435,10 @@ final class ACustomer{
 			return false;
 		}
 
-		$cache_key = 'balance.' . (int)$this->getId();
-		$balance = $this->cache->pull($cache_key);
-		if($balance === false){
-			$query = $this->db->query("SELECT sum(credit) - sum(debit) as balance
-										FROM " . $this->db->table("customer_transactions") . "
-										WHERE customer_id = '" . (int)$this->getId() . "'");
-			$balance = $query->row['balance'];
-			$this->cache->push($cache_key, $balance);
-		}
+		$query = $this->db->query("SELECT sum(credit) - sum(debit) as balance
+									FROM " . $this->db->table("customer_transactions") . "
+									WHERE customer_id = '" . (int)$this->getId() . "'");
+		$balance = (float)$query->row['balance'];
 		return $balance;
 	}
 
@@ -758,7 +753,7 @@ final class ACustomer{
 							section				= '" . ((int)$tr_details['section'] ? (int)$tr_details['section'] : 0) . "',
       	                    created_by 			= '" . (int)$tr_details['created_by'] . "',
       	                    date_added = NOW()");
-		$this->cache->remove('balance.' . (int)$this->getId());
+
 		if($this->db->getLastId()){
 			return true;
 		}

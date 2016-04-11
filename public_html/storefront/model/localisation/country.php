@@ -44,8 +44,9 @@ class ModelLocalisationCountry extends Model {
 	 */
 	public function getCountries() {
 		$language_id = $this->language->getLanguageID();
-		$default_language_id = $this->language->getDefaultLanguageID();		
-		$country_data = $this->cache->pull('country.'.$language_id);
+		$default_language_id = $this->language->getDefaultLanguageID();
+		$cache_key = 'localization.country.lang_'.$language_id;
+		$country_data = $this->cache->pull($cache_key);
 		
 		if ($country_data === false) {
 			if ($language_id == $default_language_id) {
@@ -70,7 +71,7 @@ class ModelLocalisationCountry extends Model {
 	
 			$country_data = $query->rows;
 		
-			$this->cache->push('country.'.$language_id, $country_data);
+			$this->cache->push($cache_key, $country_data);
 		}
 
 		return (array)$country_data;

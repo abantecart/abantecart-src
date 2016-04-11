@@ -4316,5 +4316,5 @@ $this->db->query("INSERT INTO ".$this->db->table('field_descriptions')."
 (11,'Nombre de pila:','El nombre debe tener entre 3 y 32 caractéres!', ".$new_language_id.");
 ");
 
-$this->cache->remove('language');
-$this->cache->remove('lang.es');
+$this->cache->remove('localization.language');
+$this->cache->remove('localization.lang.es');

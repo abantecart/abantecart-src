@@ -156,34 +156,33 @@ class ControllerPagesToolCache extends AController{
 						}
 						continue;
 					}else{
-						$keywords = explode(',', $cache);
-						if ($keywords){
-							$languages = $this->language->getActiveLanguages();
-							$this->loadModel('setting/store');
-							$stores = $this->model_setting_store->getStores();
-							foreach ($keywords as $keyword){
-								$key  = trim($keyword);
-								$this->cache->remove($key);
-								foreach($languages as $lang){
-									foreach($stores as $store){
-										$this->cache->remove($key."_".$store['store_id']."_".$lang['language_id']);
-									}
+					$keywords = explode(',', $cache);
+					if ($keywords){
+						$languages = $this->language->getActiveLanguages();
+						$this->loadModel('setting/store');
+						$stores = $this->model_setting_store->getStores();
+						foreach ($keywords as $keyword){
+							$key  = trim($keyword);
+							$this->cache->remove($key);
+							foreach($languages as $lang){
+								foreach($stores as $store){
+									$this->cache->remove($key."_".$store['store_id']."_".$lang['language_id']);
 								}
-
 							}
 						}
+					}
 					}
 				}
 			}
 			$this->session->data['success'] = $this->language->get('text_success');
-		} else if ($this->request->get_or_post('clear_all') == 'all'){
-			//delete entire cache
-			$this->cache->remove('*');
-			$this->session->data['success'] = $this->language->get('text_success');
-		}
-		//update controller data
-		$this->extensions->hk_UpdateData($this, __FUNCTION__);
-		$this->redirect($this->html->getSecureURL('tool/cache'));
+	} else if ($this->request->get_or_post('clear_all') == 'all'){
+		//delete entire cache
+		$this->cache->remove('*');
+		$this->session->data['success'] = $this->language->get('text_success');
+	}
+	//update controller data
+	$this->extensions->hk_UpdateData($this, __FUNCTION__);
+	$this->redirect($this->html->getSecureURL('tool/cache'));
 	}
 
 

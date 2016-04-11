@@ -54,7 +54,7 @@ class ModelLocalisationOrderStatus extends Model{
 				VALUES (" . $order_status_id . ", '" . $this->db->escape($status_text_id) . "');";
 		$this->db->query($sql);
 
-		$this->cache->remove('order_status');
+		$this->cache->remove('localization.order_status');
 		return $order_status_id;
 	}
 
@@ -84,7 +84,7 @@ class ModelLocalisationOrderStatus extends Model{
 			$this->db->query($sql);
 		}
 
-		$this->cache->remove('order_status');
+		$this->cache->remove('localization.order_status');
 	}
 
 	/**
@@ -101,7 +101,7 @@ class ModelLocalisationOrderStatus extends Model{
 		$this->db->query("DELETE FROM " . $this->db->table('order_status_ids') . "
 							WHERE order_status_id = '" . (int)$order_status_id . "'");
 
-		$this->cache->remove('order_status');
+		$this->cache->remove('localization.order_status');
 		return true;
 	}
 
@@ -155,7 +155,8 @@ class ModelLocalisationOrderStatus extends Model{
 			return $query->rows;
 
 		} else{
-			$order_status_data = $this->cache->pull('order_status.'.$language_id);
+			$cache_key = 'localization.order_status.lang_'.$language_id;
+			$order_status_data = $this->cache->pull($cache_key);
 
 			if ($order_status_data === false) {
 				$query = $this->db->query("SELECT os.order_status_id, os.`name`, osi.status_text_id
@@ -164,7 +165,7 @@ class ModelLocalisationOrderStatus extends Model{
 										   WHERE os.language_id = '" . $language_id . "'
 										   ORDER BY os.`name`");
 				$order_status_data = $query->rows;
-				$this->cache->push('order_status.'.$language_id, $order_status_data);
+				$this->cache->push($cache_key, $order_status_data);
 			}
 
 			return $order_status_data;

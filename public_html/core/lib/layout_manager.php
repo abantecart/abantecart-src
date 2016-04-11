@@ -245,7 +245,7 @@ class ALayoutManager{
 		if(( string )$layout_type == '0'){
 			$cache_key = 'layout.a.default.' . $this->tmpl_id;
 		}
-		$cache_key .= '.'.$store_id;
+		$cache_key .= '.store_'.$store_id;
 		$layouts = $this->cache->pull($cache_key);
 		if( $layouts!== false ){
 			// return cached layouts
@@ -328,8 +328,8 @@ class ALayoutManager{
 		$store_id = (int)$this->config->get('config_store_id');
 		$layout_id = !$layout_id ? $this->layout_id : $layout_id;
 
-		$cache_name = 'layout.a.blocks.' . $layout_id.'.'.$store_id;
-		$blocks = $this->cache->pull($cache_name);
+		$cache_key = 'layout.a.blocks.' . $layout_id.'.store_'.$store_id;
+		$blocks = $this->cache->pull($cache_key);
 		if( $blocks !== false){
 			// return cached blocks
 			return $blocks;
@@ -352,7 +352,7 @@ class ALayoutManager{
 		$query = $this->db->query($sql);
 		$blocks = $query->rows;
 
-		$this->cache->push($cache_name, $blocks);
+		$this->cache->push($cache_key, $blocks);
 
 		return $blocks;
 	}
@@ -363,8 +363,8 @@ class ALayoutManager{
 	public function getAllBlocks(){
 		$store_id = (int)$this->config->get('config_store_id');
 		$language_id = (int)$this->language->getContentLanguageID();
-		$cache_name = 'layout.a.blocks.all.' . $store_id.'_'.$language_id;
-		$blocks = $this->cache->pull($cache_name);
+		$cache_key = 'layout.a.blocks.all.store_' . $store_id.'_lang_'.$language_id;
+		$blocks = $this->cache->pull($cache_key);
 		if($blocks !== false){
 			// return cached blocks
 			return $blocks;
@@ -392,7 +392,7 @@ class ALayoutManager{
 			}
 		}
 
-		$this->cache->push($cache_name, $blocks);
+		$this->cache->push($cache_key, $blocks);
 		return $blocks;
 	}
 
@@ -1331,8 +1331,8 @@ class ALayoutManager{
 		if(!(int)$custom_block_id){
 			return array();
 		}
-		$cache_name = 'layout.a.block.descriptions.' . $custom_block_id;
-		$output = $this->cache->pull($cache_name);
+		$cache_key = 'layout.a.block.descriptions.' . $custom_block_id;
+		$output = $this->cache->pull($cache_key);
 		if($output !== false){
 			return $output;
 		}
@@ -1348,7 +1348,7 @@ class ALayoutManager{
 				$output[$row['language_id']] = $row;
 			}
 		}
-		$this->cache->push($cache_name, $output);
+		$this->cache->push($cache_key, $output);
 		return $output;
 	}
 

@@ -31,7 +31,7 @@ class ModelLocalisationLanguage extends Model {
 								sort_order = '" . $this->db->escape($data['sort_order']) . "',
 								status = '" . (int)$data['status'] . "'");
 		
-		$this->cache->remove('language');
+		$this->cache->remove('localization.language');
 		
 		$language_id = $this->db->getLastId();
 		
@@ -50,7 +50,7 @@ class ModelLocalisationLanguage extends Model {
 		}
 		$this->db->query("UPDATE " . $this->db->table("languages") . " SET ".implode(',', $update_data)." WHERE language_id = '" . (int)$language_id . "'");
 				
-		$this->cache->remove('language');
+		$this->cache->remove('localization.language');
 	}
 	
 	public function deleteLanguage($language_id) {
@@ -152,7 +152,7 @@ class ModelLocalisationLanguage extends Model {
 			}
 			return $result;
 		} else {
-			$language_data = $this->cache->pull('language');
+			$language_data = $this->cache->pull('localization.language');
 		
 			if ($language_data === false) {
 				$query = $this->db->query( "SELECT *
@@ -178,7 +178,7 @@ class ModelLocalisationLanguage extends Model {
 						'status'      => $result['status']
       				);
     			}
-				$this->cache->push('language', $language_data);
+				$this->cache->push('localization.language', $language_data);
 			}
 		
 			return $language_data;			

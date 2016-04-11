@@ -33,7 +33,8 @@ if (!defined('DIR_CORE')) {
  * @property ASession $session
  * @property ALanguageManager $language
  * @property ALoader $load
- * @property AIM $im
+ * @property AIMManager $im
+ * @property AConfig $config
  *
  */
 class AConfigManager {
@@ -195,7 +196,7 @@ class AConfigManager {
 
 
 		$results = $this->language->getAvailableLanguages();
-		$languages = array();
+		$languages = $language_codes = array();
 		foreach ($results as $v) {
 			$languages[$v['code']] = $v['name'];
 			$lng_code = $this->language->getLanguageCodeByLocale($v['locale']);
@@ -685,7 +686,7 @@ class AConfigManager {
 	private function _build_form_appearance($form, $data) {
 		$fields = array();
 
-		//this method ca build filds for general apearance or template specific
+		//this method ca build fields for general appearance or template specific
 		//for template settings, need to specify 'tmpl_id' as template_id for settings section
 		if( empty($data['tmpl_id']) ){
 			//general appearance section
@@ -1180,7 +1181,7 @@ class AConfigManager {
 			'value' => $data['config_voicecontrol'],
 			'style' => 'btn_switch',
 		));
-		//backwards compatability. Can remove in the future. 
+		//backwards compatibility. Can remove in the future.
 		if (!defined('ENCRYPTION_KEY')) {
 			$fields['encryption'] = $form->getFieldHtml($props[] = array(
 				'type' => 'input',

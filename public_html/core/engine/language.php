@@ -47,7 +47,7 @@ class ALanguage {
 	protected $loader;
 	protected $language_path;
 
-	protected $available_languages = array(); //Array of awailable languges configured in abantecart
+	protected $available_languages = array(); //Array of available languages configured in abantecart
 	protected $current_language = array(); //current used main language array data
 	/**
 	 * @param Registry $registry
@@ -107,7 +107,7 @@ class ALanguage {
 
 	/* Maim Language API methods */
 
-	// NOTE; Template language variables do not use ->get and loaded automaticaly in controller class. 
+	// NOTE; Template language variables do not use ->get and loaded automatically in controller class.
 	//		 There is no way to get acccess to used definitions and not possible to validate missing values  
 
 	/**
@@ -533,11 +533,11 @@ class ALanguage {
 		}
 
 		$block_name = str_replace('/', '_', $filename);
-		$cache_file = 'lang.' . $this->code . '.' . (($this->is_admin) ? 'a' : 's') . '.' . $filename;
+		$cache_key = 'localization.lang.' . $this->code . '.' . (($this->is_admin) ? 'a' : 's') . '.' . $filename;
+		$cache_key = str_replace('/', '_', $cache_key);
 
-		$cache_file = str_replace('/', '_', $cache_file);
 		if ($this->cache) {
-			$load_data = $this->cache->pull($cache_file);
+			$load_data = $this->cache->pull($cache_key);
 		}
 
 		if ($load_data === false) {
@@ -581,7 +581,7 @@ class ALanguage {
 
 			$load_data = $_;
 			if ($this->cache) {
-				$this->cache->push($cache_file, $load_data);
+				$this->cache->push($cache_key, $load_data);
 			}
 		}
 
@@ -736,7 +736,7 @@ class ALanguage {
 				&& $result = $this->registry->get('extensions')->isExtensionLanguageFile($filename, $language_dir_name, $this->is_admin)
 		) {
 			if (is_file($file_path)) {
-				$warning = new AWarning("Extension <b>{$result['extension']}</b> overrides language file <b>$filename</b>");
+				$warning = new AWarning("Extension <b>".$result['extension']."</b> overrides language file <b>".$filename."</b>");
 				$warning->toDebug();
 			}
 			$file_path = $result['file'];
@@ -867,8 +867,8 @@ class ALanguage {
                                 (`" . implode("`, `", array_keys($update_data)) . "`)
                                 VALUES ('" . implode("', '", $update_data) . "') ";
 				$this->db->query($sql);
-				$this->cache->remove('lang');
-				$this->cache->remove('language_definitions');
+				$this->cache->remove('localization.lang');
+				$this->cache->remove('localization.language.definitions');
 				$this->cache->remove('storefront_menu');
 			}
 		}

@@ -121,7 +121,7 @@ class ModelCatalogReview extends Model {
 	 */
 	public function getTotalReviewsByProductId($product_id) {
 		$language_id = (int)$this->config->get('storefront_language_id');
-		$cache_key = 'product.reviews.totals.'.$product_id.'.'.$language_id;
+		$cache_key = 'product.reviews.totals.'.$product_id.'.lang_'.$language_id;
 		$cache = $this->cache->pull($cache_key);
 		if($cache === false){
 			$query = $this->db->query( "SELECT COUNT(*) AS total

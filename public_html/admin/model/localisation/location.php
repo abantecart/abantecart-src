@@ -35,7 +35,7 @@ class ModelLocalisationLocation extends Model {
 			SET name = '" . $this->db->escape($data['name']) . "',
 				description = '" . $this->db->escape($data['description']) . "',
 				date_added = NOW()");
-        $this->cache->remove('location');
+        $this->cache->remove('localization.location');
 
         return $this->db->getLastId();
     }
@@ -61,8 +61,8 @@ class ModelLocalisationLocation extends Model {
         $sql .= implode(", \n", $temp) . ';';
         $this->db->query($sql);
 
-        $this->cache->remove('location');
-        $this->cache->remove('zone.location.' . (int)$location_id);
+        $this->cache->remove('localization.location');
+        $this->cache->remove('localization.zone.location.' . (int)$location_id);
 
         return $this->db->getLastId();
     }
@@ -80,8 +80,8 @@ class ModelLocalisationLocation extends Model {
         }
         if (!empty($update)) {
             $this->db->query("UPDATE " . $this->db->table("locations") . " SET " . implode(',', $update) . " WHERE location_id = '" . (int)$location_id . "'");
-            $this->cache->remove('location');
-            $this->cache->remove('zone.location.' . (int)$location_id);
+            $this->cache->remove('localization.location');
+            $this->cache->remove('localization.zone.location.' . (int)$location_id);
         }
     }
 
@@ -98,7 +98,7 @@ class ModelLocalisationLocation extends Model {
         }
         if (!empty($update)) {
             $this->db->query("UPDATE " . $this->db->table("zones_to_locations") . " SET " . implode(',', $update) . " WHERE zone_to_location_id = '" . (int)$zone_to_location_id . "'");
-            $this->cache->remove('location');
+            $this->cache->remove('localization.location');
         }
     }
 
@@ -108,7 +108,7 @@ class ModelLocalisationLocation extends Model {
     public function deleteLocation($location_id) {
         $this->db->query("DELETE FROM " . $this->db->table("locations") . " WHERE location_id = '" . (int)$location_id . "'");
         $this->db->query("DELETE FROM " . $this->db->table("zones_to_locations") . " WHERE location_id = '" . (int)$location_id . "'");
-        $this->cache->remove('location');
+        $this->cache->remove('localization.location');
     }
 
 	/**
@@ -116,7 +116,7 @@ class ModelLocalisationLocation extends Model {
 	 */
     public function deleteLocationZone($zone_to_location_id) {
         $this->db->query("DELETE FROM " . $this->db->table("zones_to_locations") . " WHERE zone_to_location_id = '" . (int)$zone_to_location_id . "'");
-        $this->cache->remove('location');
+        $this->cache->remove('localization.location');
     }
 
 	/**
@@ -181,14 +181,14 @@ class ModelLocalisationLocation extends Model {
 
             return $query->rows;
         } else {
-            $location_data = $this->cache->pull('location');
+            $location_data = $this->cache->pull('localization.location');
 
             if ($location_data === false) {
                 $query = $this->db->query("SELECT * FROM " . $this->db->table("locations") . " ORDER BY name ASC");
 
                 $location_data = $query->rows;
 
-                $this->cache->push('location', $location_data);
+                $this->cache->push('localization.location', $location_data);
             }
 
             return $location_data;

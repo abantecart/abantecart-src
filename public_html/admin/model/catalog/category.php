@@ -205,7 +205,8 @@ class ModelCatalogCategory extends Model {
 	 */
 	public function getCategories($parent_id, $store_id = null) {
 		$language_id = $this->language->getContentLanguageID();
-		$category_data = $this->cache->pull('category.' . $parent_id .'_'. $store_id.'_'.$language_id);
+		$cache_key = 'category.' . $parent_id .'.store_'. $store_id.'_lang_'.$language_id;
+		$category_data = $this->cache->pull($cache_key);
 
 		if ($category_data === false) {
 			$category_data = array();
@@ -234,7 +235,7 @@ class ModelCatalogCategory extends Model {
 				$category_data = array_merge($category_data, $this->getCategories($result['category_id'], $store_id));
 			}
 
-			$this->cache->push('category.' . $parent_id .'_'. $store_id.'_'.$language_id, $category_data );
+			$this->cache->push($cache_key, $category_data );
 		}
 
 		return $category_data;

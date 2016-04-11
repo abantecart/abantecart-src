@@ -41,7 +41,7 @@ class ModelLocalisationZone extends Model {
 											 )) );
 		}
 	
-		$this->cache->remove('zone');
+		$this->cache->remove('localization.zone');
 		return $zone_id;
 	}
 
@@ -58,7 +58,7 @@ class ModelLocalisationZone extends Model {
 		}
 		if ( !empty($update) ) {
 			$this->db->query("UPDATE " . $this->db->table("zones") . " SET ". implode(',', $update) ." WHERE zone_id = '" . (int)$zone_id . "'");
-			$this->cache->remove('zone');
+			$this->cache->remove('localization.zone');
 		}
 		
 		if ( count($data['zone_name']) ) {
@@ -70,7 +70,7 @@ class ModelLocalisationZone extends Model {
 												 )) );
 			}
 		}
-		$this->cache->remove('zone');
+		$this->cache->remove('localization.zone');
 	}
 
 	/**
@@ -80,7 +80,7 @@ class ModelLocalisationZone extends Model {
 		$this->db->query("DELETE FROM " . $this->db->table("zones") . " WHERE zone_id = '" . (int)$zone_id . "'");
 		$this->db->query("DELETE FROM " . $this->db->table("zone_descriptions") . " WHERE zone_id = '" . (int)$zone_id . "'");
 
-		$this->cache->remove('zone');
+		$this->cache->remove('localization.zone');
 	}
 
 	/**
@@ -207,18 +207,20 @@ class ModelLocalisationZone extends Model {
 	public function getZonesByCountryId($country_id) {
 		$language_id = $this->language->getContentLanguageID();
 		$default_language_id = $this->language->getDefaultLanguageID();
-		
-		$zone_data = $this->cache->pull('zone.'.$country_id.'.'.$language_id);
+		$cache_key = 'localization.zone.'.$country_id.'.lang_'.$language_id;
+		$zone_data = $this->cache->pull($cache_key);
 	
 		if ($zone_data === false) {
 			$query = $this->db->query( "SELECT *, COALESCE( zd1.name, zd2.name) as name 
 										FROM " . $this->db->table("zones") . " z
-										LEFT JOIN " . $this->db->table("zone_descriptions") . " zd1 ON (z.zone_id = zd1.zone_id AND zd1.language_id = '" . (int)$language_id . "') 
-										LEFT JOIN " . $this->db->table("zone_descriptions") . " zd2 ON (z.zone_id = zd2.zone_id AND zd2.language_id = '" . (int)$default_language_id . "') 
+										LEFT JOIN " . $this->db->table("zone_descriptions") . " zd1
+											ON (z.zone_id = zd1.zone_id AND zd1.language_id = '" . (int)$language_id . "')
+										LEFT JOIN " . $this->db->table("zone_descriptions") . " zd2
+											ON (z.zone_id = zd2.zone_id AND zd2.language_id = '" . (int)$default_language_id . "')
 										WHERE z.country_id = '" . (int)$country_id . "'
 										ORDER BY zd1.name, zd2.name");
 			$zone_data = $query->rows;
-			$this->cache->push('zone.'.$country_id.'.'.$language_id, $zone_data);
+			$this->cache->push($cache_key, $zone_data);
 		}
 	
 		return $zone_data;
@@ -232,7 +234,8 @@ class ModelLocalisationZone extends Model {
 		$language_id = $this->language->getContentLanguageID();
 		$default_language_id = $this->language->getDefaultLanguageID();
 
-		$zone_data = $this->cache->pull('zone.location.' . $location_id .'.'. $language_id);
+		$cache_key = 'localization.zone.location.' . $location_id .'.lang_'. $language_id;
+		$zone_data = $this->cache->pull($cache_key);
 
 		if ($zone_data === false) {
 			$query = $this->db->query( "SELECT z.*, COALESCE( zd1.name, zd2.name) as name
@@ -243,7 +246,7 @@ class ModelLocalisationZone extends Model {
 											ON ( zl.zone_id = z.zone_id AND zl.location_id = '".(int)$location_id."' )
 										ORDER BY zd1.name, zd2.name");
 			$zone_data = $query->rows;
-			$this->cache->push('zone.location.' . $location_id .'.'. $language_id, $zone_data);
+			$this->cache->push($cache_key, $zone_data);
 		}
 
 		return $zone_data;

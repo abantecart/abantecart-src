@@ -44,7 +44,7 @@ class ModelLocalisationTaxClass extends Model {
 											 )) );
 		}
 				
-		$this->cache->remove('tax_class');
+		$this->cache->remove('localization.tax_class');
 		return $tax_class_id;
 	}
 
@@ -77,7 +77,7 @@ class ModelLocalisationTaxClass extends Model {
 											 )) );
 		}
 						
-		$this->cache->remove('tax_class');
+		$this->cache->remove('localization.tax_class');
 		return $tax_rate_id;
 	}
 
@@ -111,7 +111,7 @@ class ModelLocalisationTaxClass extends Model {
 				}
 			}
 							  						  
-			$this->cache->remove('tax_class');
+			$this->cache->remove('localization.tax_class');
 		}
 	}
 
@@ -135,8 +135,8 @@ class ModelLocalisationTaxClass extends Model {
 								SET ". implode(',', $update) ."
 								WHERE tax_rate_id = '" . (int)$tax_rate_id . "'");
 
-			$this->cache->remove('tax_class');
-			$this->cache->remove('location');
+			$this->cache->remove('localization.tax_class');
+			$this->cache->remove('localization.location');
 		} 
 		if (count($data['tax_rate'])) {
 			foreach ($data['tax_rate'] as $language_id => $value) {
@@ -146,8 +146,8 @@ class ModelLocalisationTaxClass extends Model {
 													 'description' => $value['description'],
 												 )) );
 			}		
-			$this->cache->remove('tax_class');
-			$this->cache->remove('location');
+			$this->cache->remove('localization.tax_class');
+			$this->cache->remove('localization.location');
 		}
 	}
 
@@ -161,7 +161,7 @@ class ModelLocalisationTaxClass extends Model {
 							WHERE tax_class_id = '" . (int)$tax_class_id . "'");
 		$this->db->query("DELETE FROM " . $this->db->table("tax_rates") . " 
 							WHERE tax_class_id = '" . (int)$tax_class_id . "'");
-		$this->cache->remove('tax_class');
+		$this->cache->remove('localization.tax_class');
 	}
 
 	/**
@@ -172,7 +172,7 @@ class ModelLocalisationTaxClass extends Model {
 							WHERE tax_rate_id = '" . (int)$tax_rate_id . "'");
 		$this->db->query("DELETE FROM " . $this->db->table("tax_rate_descriptions") . " 
 							WHERE tax_rate_id = '" . (int)$tax_rate_id . "'");
-		$this->cache->remove('tax_class');
+		$this->cache->remove('localization.tax_class');
 	}
 
 	/**
@@ -292,7 +292,8 @@ class ModelLocalisationTaxClass extends Model {
 	  		$query = $this->db->query($sql);
 			return $query->rows;		
 		} else {
-			$tax_class_data = $this->cache->pull('tax_class.all.'.$language_id);
+		    $cache_key = 'localization.tax_class.all.lang_'.$language_id;
+			$tax_class_data = $this->cache->pull($cache_key);
 
 			if ($tax_class_data === false) {
 				if ($language_id == $default_language_id) {
@@ -313,7 +314,7 @@ class ModelLocalisationTaxClass extends Model {
 								");	
 				}								
 				$tax_class_data = $query->rows;
-				$this->cache->push('tax_class.all.'.$language_id, $tax_class_data);
+				$this->cache->push($cache_key, $tax_class_data);
 			}
 			
 			return $tax_class_data;			

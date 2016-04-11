@@ -48,7 +48,7 @@ class ModelLocalisationCurrency extends Model {
 						          '" . (int)$data[ 'status' ] . "',
 						          NOW())");
 
-		$this->cache->remove('currency');
+		$this->cache->remove('localization.currency');
 		return $this->db->getLastId();
 	}
 
@@ -82,7 +82,7 @@ class ModelLocalisationCurrency extends Model {
 			$this->db->query("UPDATE " . $this->db->table("currencies") . " 
 							  SET " . implode(',', $update) . "
 							  WHERE currency_id = '" . (int)$currency_id . "'");
-			$this->cache->remove('currency');
+			$this->cache->remove('localization.currency');
 		}
 		return true;
 	}
@@ -98,7 +98,7 @@ class ModelLocalisationCurrency extends Model {
 		}
 		$this->db->query("DELETE FROM " . $this->db->table("currencies") . " 
 						  WHERE currency_id = '" . (int)$currency_id . "'");
-		$this->cache->remove('currency');
+		$this->cache->remove('localization.currency');
 		return true;
 	}
 
@@ -158,7 +158,7 @@ class ModelLocalisationCurrency extends Model {
 
 			return $query->rows;
 		} else {
-			$currency_data = $this->cache->pull('currency');
+			$currency_data = $this->cache->pull('localization.currency');
 
 			if ($currency_data === false) {
 				$query = $this->db->query("SELECT *
@@ -179,7 +179,7 @@ class ModelLocalisationCurrency extends Model {
 					);
 				}
 
-				$this->cache->push('currency', $currency_data);
+				$this->cache->push('localization.currency', $currency_data);
 			}
 
 			return $currency_data;
@@ -223,7 +223,7 @@ class ModelLocalisationCurrency extends Model {
 							      date_modified = NOW()
 							  WHERE code = '" . $this->db->escape($this->config->get('config_currency')) . "'";
 			$this->db->query($sql);
-			$this->cache->remove('currency');
+			$this->cache->remove('localization.currency');
 		}
 	}
 

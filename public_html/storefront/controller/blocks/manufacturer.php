@@ -70,7 +70,7 @@ class ControllerBlocksManufacturer extends AController {
 			
 			$results = $this->model_catalog_manufacturer->getManufacturers();
 
-			$cache_key = 'manufacturer.block.thumbnails.'.(int)$this->config->get('config_store_id');
+			$cache_key = 'manufacturer.block.thumbnails.store_'.(int)$this->config->get('config_store_id');
 
 			$thumbnail_list = $this->cache->pull($cache_key);
 			$is_cache_exists = $thumbnail_list===false ? false : true;
