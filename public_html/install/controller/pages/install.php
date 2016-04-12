@@ -273,7 +273,7 @@ class ControllerPagesInstall extends AController {
 		$content .= "/**\n";
 		$content .= "	AbanteCart, Ideal OpenSource Ecommerce Solution\n";
 		$content .= "	http://www.AbanteCart.com\n";
-		$content .= "	Copyright © 2011-'.date('Y').' Belavier Commerce LLC\n\n";
+		$content .= "	Copyright © 2011-".date('Y')." Belavier Commerce LLC\n\n";
 		$content .= "	Released under the Open Software License (OSL 3.0)\n";
 		$content .= "*/\n";
 		$content .= "// Admin Section Configuration. You can change this value to any name. Will use ?s=name to access the admin\n";
