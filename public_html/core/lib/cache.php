@@ -490,48 +490,49 @@ class ACache {
 		$stats = "<p>";
 		$stats .= "<strong>Cache usage report:</strong>";
 		$stats .= "</p>";
-		$stats .= "<ul>";
+		$stats .= '<table>';
+		$stats .= '<tr><td></td><td width="9%"></td><td width="9%"></td><td width="9%"></td><td width="9%"></td><td width="9%"></td></tr>';
 		foreach ($this->cache as $group => $cache) {
-			$stats .= "<li>";
+			$stats .= "<tr><td colspan=6>";
 			$stats .= "<strong>Cache group: $group</strong>";
-			$stats .= "</li>";
+			$stats .= "</td></tr>";
 			foreach ($cache as $key => $data) {
 			$size_in_bytes = strlen( serialize( $data ) );
 			$total_size += $size_in_bytes;
 			$text = '';
 			if($this->cache_saves[$group][$key] > 1){
-				$text .= "<b>--> Saves: ".$this->cache_saves[$group][$key] ."</b>, ";
+				$text .= "<td><b>--> Saves: ".$this->cache_saves[$group][$key] ."</b></td>";
 			} else if($this->cache_saves[$group][$key]) {
-				$text .= "Saves: ".$this->cache_saves[$group][$key] .", ";
+				$text .= "<td>Saves: ".$this->cache_saves[$group][$key] ."</td>";
 			} else {
-				$text .= "No saves, ";
+				$text .= "<td>No saves</td>";
 			}
 			if($this->cache_loads[$group][$key] > 1){
-				$text .= "<b>--> Loads: ".$this->cache_loads[$group][$key] ."</b>, ";
+				$text .= "<td><b>--> Loads: ".$this->cache_loads[$group][$key] ."</b></td>";
 			} else if($this->cache_loads[$group][$key]) {
-				$text .= "Loads: ".$this->cache_loads[$group][$key] .", ";
+				$text .= "<td>Loads: ".$this->cache_loads[$group][$key] ."</td>";
 			} else {
-				$text .= "No loads, ";
+				$text .= "<td>No loads</td>";
 			}
 			if($this->cache_hits[$group][$key]) {
-				$text .= "Hits: ".$this->cache_hits[$group][$key] .", ";
+				$text .= "<td>Hits: ".$this->cache_hits[$group][$key] ."</td>";
 			} else {
-				$text .= "No Hits, ";
+				$text .= "<td>No Hits</td>";
 			}
 			if($this->cache_misses[$group][$key] > 1){
-				$text .= "<b>--> Misses: ".$this->cache_misses[$group][$key] ."</b> ";
+				$text .= "<td><b>--> Misses: ".$this->cache_misses[$group][$key] ."</b></td>";
 			} else if($this->cache_misses[$group][$key]) {
-				$text .= "Misses: ".$this->cache_misses[$group][$key] ." ";
+				$text .= "<td>Misses: <b class=\"danger\">".$this->cache_misses[$group][$key] ."</b></td>";
 			} else {
-				$text .= "No Misses ";
+				$text .= "<td>No Misses</td>";
 			}
 			
-			$stats .= "<li><strong>Key:</strong> 
-					$key - ( " . number_format( $size_in_bytes/$kb_in_bytes, 2 ) . "k ), ".$text."
-				  </li>";
+			$stats .= '<tr>
+						<td style="text-align:left; padding-left: 20px;">'.$key.'</td><td>' . number_format( $size_in_bytes/$kb_in_bytes, 2 ) . 'k</td> '.$text.'
+					</tr>';
 			}
 		}
-		$stats .= "</ul>";
+		$stats .= "</table>";
 		$stats .= "<p>";
 		$stats .= "<strong>Total cache memory size: ".number_format( $total_size/$kb_in_bytes, 2 )."k</strong>";
 		$stats .= "</p>";
@@ -646,5 +647,5 @@ class ACache {
 		}
 		return $ret;
 	}
-	
+
 }
