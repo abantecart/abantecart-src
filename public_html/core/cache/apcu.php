@@ -25,17 +25,17 @@ if (! defined ( 'DIR_CORE' )) {
 include_once('driver.php');
 
 /**
- * APC cache driver
+ * APCu cache driver
  *
  * NOTE: to use this driver put lines belong into your system/config.php
 
 define('CACHE_ENABLE', true);
-define('CACHE_DRIVER', 'apc');
+define('CACHE_DRIVER', 'apcu');
 define('CACHE_SECRET', 'your_secret_key');
 
  * @since  1.2.7
  */
-class ACacheDriverAPC extends ACacheDriver{
+class ACacheDriverAPCu extends ACacheDriver{
 
 	protected $secret = CACHE_SECRET;
 
@@ -55,6 +55,11 @@ class ACacheDriverAPC extends ACacheDriver{
 		parent::__construct($expiration, $lock_time);
 	}
 
+
+	protected function _getCacheId($key, $group){
+		return $this->secret . '-cache-'.$group . '.' . $this->_hashCacheKey($key, $group);
+	}
+
 	/**
 	 * Test to see if the cache directory is writable.
 	 *
@@ -63,16 +68,12 @@ class ACacheDriverAPC extends ACacheDriver{
 	 * @since   1.2.7
 	 */
 	public function isSupported(){
-		$supported = extension_loaded('apc') && ini_get('apc.enabled');
+		$supported = extension_loaded('apcu') && ini_get('apc.enabled');
 		// If on the CLI interface, the `apc.enable_cli` option must also be enabled
 		if ($supported && php_sapi_name() === 'cli'){
 			$supported = ini_get('apc.enable_cli');
 		}
 		return (bool)$supported;
-	}
-
-	protected function _getCacheId($key, $group){
-		return $this->secret . '-cache-'.$group . '.' . $this->_hashCacheKey($key, $group);
 	}
 
 	/**
@@ -88,7 +89,7 @@ class ACacheDriverAPC extends ACacheDriver{
 	 */
 	public function get($key, $group, $check_expire = true){
 		$cache_key = $this->_getCacheId($key, $group);
-		return apc_fetch($cache_key);
+		return apcu_fetch($cache_key);
 	}
 
 	/**
@@ -104,7 +105,7 @@ class ACacheDriverAPC extends ACacheDriver{
 	 */
 	public function put($key, $group, $data) {
 		$cache_key = $this->_getCacheId($key, $group);
-		return apc_store($cache_key, $data, $this->expire);
+		return apcu_store($cache_key, $data, $this->expire);
 	}
 
 	/**
@@ -119,7 +120,11 @@ class ACacheDriverAPC extends ACacheDriver{
 	 */
 	public function remove($key, $group){
 		$cache_key = $this->_getCacheId($key, $group);
-		return apc_delete($cache_key);
+		// The apcu_delete function returns false if the ID does not exist
+		if (apcu_exists($cache_key)){
+			return apcu_delete($cache_key);
+		}
+		return true;
 	}
 
 	/**
@@ -133,14 +138,14 @@ class ACacheDriverAPC extends ACacheDriver{
 	 */
 	public function clean($group){
 
-		$cache_info = apc_cache_info('user');
-		$keys       = $cache_info['cache_list'];
+		$cache_info = apcu_cache_info();
+		$keys    = $cache_info['cache_list'];
 
 		foreach ($keys as $key){
 			// If APCu is being used for this adapter, the internal key name changed with APCu 4.0.7 from key to info
 			$internalKey = isset($key['info']) ? $key['info'] : $key['key'];
 			if ($group == '*' || strpos($internalKey, $this->secret . '-cache-'.$group . '.') === 0 ){
-				apc_delete($internalKey);
+				apcu_delete($internalKey);
 			}
 		}
 		return true;
@@ -154,16 +159,15 @@ class ACacheDriverAPC extends ACacheDriver{
 	 * @since   1.2.7
 	 */
 	public function gc(){
-		$cache_info = apc_cache_info('user');
+		$cache_info = apcu_cache_info();
 		$keys    = $cache_info['cache_list'];
 		foreach ($keys as $key){
 			// If APCu is being used for this adapter, the internal key name changed with APCu 4.0.7 from key to info
 			$internalKey = isset($key['info']) ? $key['info'] : $key['key'];
-			if (strpos($internalKey, $this->secret . '-cache-') === 0){
-				apc_fetch($internalKey);
+			if (strpos($internalKey, $this->secret . '-cache-')){
+				apcu_fetch($internalKey);
 			}
 		}
-
 		return true;
 	}
 
@@ -187,7 +191,7 @@ class ACacheDriverAPC extends ACacheDriver{
 
 		$cache_key = $this->_getCacheId($key, $group).'_lock';
 
-		$data_lock = apc_add($cache_key, 1, $locktime);
+		$data_lock = apcu_add($cache_key, 1, $locktime);
 
 		if ($data_lock === false){
 			$lock_counter = 0;
@@ -200,7 +204,7 @@ class ACacheDriverAPC extends ACacheDriver{
 				}
 
 				usleep(100);
-				$data_lock = apc_add($cache_key, 1, $locktime);
+				$data_lock = apcu_add($cache_key, 1, $locktime);
 				$lock_counter++;
 			}
 		}
@@ -220,6 +224,11 @@ class ACacheDriverAPC extends ACacheDriver{
 	 * @since   1.2.7
 	 */
 	public function unlock($key, $group = null) {
-		return apc_delete($this->_getCacheId($key, $group).'_lock');
+		$cache_key = $this->_getCacheId($key, $group).'_lock';
+		// The apcu_delete function returns false if the ID does not exist
+		if (apcu_exists($cache_key)){
+			return apcu_delete($cache_key);
+		}
+		return true;
 	}
 }
