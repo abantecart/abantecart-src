@@ -25,23 +25,22 @@ if (!defined('DIR_CORE')){
 include_once('driver.php');
 
 /**
- * Memcache driver
+ * Memcached driver
  *
  * NOTE: to use this driver put lines belong into your system/config.php
 
 define('CACHE_ENABLE', true);
-define('CACHE_DRIVER', 'memcache');
+define('CACHE_DRIVER', 'memcached');
 define('CACHE_HOST', 'localhost');
 define('CACHE_PORT', 11211);
 define('CACHE_SECRET', 'your_secret_key');
 define('CACHE_PERSISTENT', false);
 define('CACHE_COMPRESS_LEVEL', 0);
 
-
   *
  * @since  1.2.7
  */
-class ACacheDriverMemcache extends ACacheDriver{
+class ACacheDriverMemcached extends ACacheDriver{
 
 	protected $hostname = CACHE_HOST;
 	protected $port = CACHE_PORT;
@@ -50,7 +49,7 @@ class ACacheDriverMemcache extends ACacheDriver{
 	protected $compress_level = CACHE_COMPRESS_LEVEL;
 
 	/**
-	 * @var $connect - Memcache connection object
+	 * @var $connect - Memcached connection object
 	 */
 	protected $connect;
 
@@ -70,19 +69,24 @@ class ACacheDriverMemcache extends ACacheDriver{
 		}
 		parent::__construct($expiration, $lock_time);
 
-
-		$this->connect = new Memcache;
-		$this->connect->addServer($this->hostname, $this->port, $this->persistent);
-		$test = @$this->connect->connect($this->hostname, $this->port);
-
-		if ($test == false){
-			throw new AException(AC_ERR_LOAD, 'Error: Could not connect to memcache server.');
+		// Create the memcache connection
+		if ($this->persistent){
+			$this->connect = new Memcached(session_id());
+		}else{
+			$this->connect = new Memcached;
 		}
 
+
+		$test = $this->connect->addServer($this->hostname, $this->port);
+
+		if ($test == false){
+			throw new AException(AC_ERR_LOAD, 'Error: Could not connect to memcached server.');
+		}
+		$this->connect->setOption(Memcached::OPT_COMPRESSION, $this->compress_level);
 		// Memcached has no list keys, we do our own accounting, initialise key index
 		if ($this->connect->get($this->secret . '-index') === false){
 			$empty = array ();
-			$this->connect->set($this->secret . '-index', $empty, $this->compress_level, 0);
+			$this->connect->set($this->secret . '-index', $empty, 0);
 		}
 
 	}
@@ -92,13 +96,13 @@ class ACacheDriverMemcache extends ACacheDriver{
 	 * @since   1.2.7
 	 */
 	public function isSupported(){
-		if ((extension_loaded('memcache') && class_exists('Memcache')) != true){
+		if ((extension_loaded('memcached') && class_exists('Memcached')) != true){
 			return false;
 		}
 
-		// Now check if we can connect to the specified Memcache server
-		$memcache = new Memcache;
-		return @$memcache->connect(CACHE_HOST, CACHE_PORT);
+		// Now check if we can connect to the specified Memcached server
+		$memcached = new Memcached;
+		return @$memcached->addServer(CACHE_HOST, CACHE_PORT);
 	}
 
 
@@ -148,12 +152,12 @@ class ACacheDriverMemcache extends ACacheDriver{
 		$temp_array->size = strlen($data);
 
 		$index[] = $temp_array;
-		$this->connect->replace($this->secret . '-index', $index, 0, 0);
+		$this->connect->replace($this->secret . '-index', $index, 0);
 		$this->_unlock_index();
 
 		// Prevent double writes, write only if it doesn't exist else replace
-		if (!$this->connect->replace($cache_id, $data, $this->compress_level, $this->expire)){
-			$this->connect->set($cache_id, $data, $this->compress_level, $this->expire);
+		if (!$this->connect->replace($cache_id, $data, $this->expire)){
+			$this->connect->set($cache_id, $data, $this->expire);
 		}
 		return true;
 	}
@@ -187,7 +191,7 @@ class ACacheDriverMemcache extends ACacheDriver{
 			break;
 		}
 
-		$this->connect->replace($this->secret . '-index', $index, 0, 0);
+		$this->connect->replace($this->secret . '-index', $index, 0);
 		$this->_unlock_index();
 
 		return $this->connect->delete($cache_id);
@@ -209,13 +213,11 @@ class ACacheDriverMemcache extends ACacheDriver{
 			return false;
 		}
 
-
 		if (!$this->_lock_index()){
 			return false;
 		}
 
 		$index = $this->connect->get($this->secret . '-index');
-
 		if ($index === false){
 			$index = array ();
 		}
@@ -227,7 +229,7 @@ class ACacheDriverMemcache extends ACacheDriver{
 			}
 		}
 
-		$this->connect->replace($this->secret . '-index', $index, 0, 0);
+		$this->connect->replace($this->secret . '-index', $index, 0);
 		$this->_unlock_index();
 		return true;
 	}
@@ -277,10 +279,10 @@ class ACacheDriverMemcache extends ACacheDriver{
 		$temp_array->name = $cache_id;
 		$temp_array->size = 1;
 		$index[] = $temp_array;
-		$this->connect->replace($this->secret . '-index', $index, 0, 0);
+		$this->connect->replace($this->secret . '-index', $index, 0);
 		$this->_unlock_index();
 
-		$data_lock = $this->connect->add($cache_id . '_lock', 1, false, $locktime);
+		$data_lock = $this->connect->add($cache_id . '_lock', 1, $locktime);
 
 		if ($data_lock === false){
 			$lock_counter = 0;
@@ -295,7 +297,7 @@ class ACacheDriverMemcache extends ACacheDriver{
 					break;
 				}
 				usleep(100);
-				$data_lock = $this->connect->add($cache_id . '_lock', 1, false, $locktime);
+				$data_lock = $this->connect->add($cache_id . '_lock', 1, $locktime);
 				$lock_counter++;
 			}
 		}
@@ -332,7 +334,7 @@ class ACacheDriverMemcache extends ACacheDriver{
 			break;
 		}
 
-		$this->connect->replace($this->secret . '-index', $index, 0, 0);
+		$this->connect->replace($this->secret . '-index', $index, 0);
 		$this->_unlock_index();
 		return $this->connect->delete($cache_id);
 	}
@@ -352,7 +354,7 @@ class ACacheDriverMemcache extends ACacheDriver{
 	protected function _lock_index(){
 
 		$loops = 300;
-		$data_lock = $this->connect->add($this->secret . '-index_lock', 1, false, 30);
+		$data_lock = $this->connect->add($this->secret . '-index_lock', 1, 30);
 
 		if ($data_lock === false){
 			$lock_counter = 0;
@@ -365,7 +367,7 @@ class ACacheDriverMemcache extends ACacheDriver{
 				}
 
 				usleep(100);
-				$data_lock = $this->connect->add($this->secret . '-index_lock', 1, false, 30);
+				$data_lock = $this->connect->add($this->secret . '-index_lock', 1, 30);
 				$lock_counter++;
 			}
 		}
