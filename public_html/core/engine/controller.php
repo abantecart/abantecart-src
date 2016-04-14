@@ -187,12 +187,12 @@ abstract class AController {
 			}
 		}
 		//build HTML cache path
-		$state_vars = array(
+		$cache_state_vars = array(
 				'store_id'      => $this->config->get('config_store_id'),
 				'language_id'   => $this->language->getLanguageID(),
 				'currency_code' => $this->currency->getCode()
 		);
-		$this->html_cache_key = str_replace('/', '.', $this->controller).'.html_cache'.".".implode('.',$state_vars)."_".$this->instance_id;
+		$this->html_cache_key = 'html_cache.'.str_replace('/', '.', $this->controller).".".implode('.',$cache_state_vars)."_".$this->instance_id;
 		//add specific params to the key
 		if($param_string) {
 			$this->html_cache_key .= "_".$param_string;

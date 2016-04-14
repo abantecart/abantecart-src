@@ -336,9 +336,10 @@ class AView {
 	/**
 	 * Storefront function to return path to the resource
 	 * @param $filename
+	 * @param $mode Mode to return format: http | file
 	 * @return string with relative path
 	 */
-    public function templateResource( $filename) {
+    public function templateResource( $filename, $mode = 'http') {
     	if ( !$filename ) {
     		return null;    	
     	}
@@ -359,7 +360,13 @@ class AView {
 		    $http_path = $this->data['http_dir'];
 	    }
 
-	    return $http_path.$output;
+		if($mode == 'http') {
+			return $http_path.$output;
+		} else if($mode == 'file') {
+			return DIR_ROOT."/".$output;
+		} else {
+			return '';
+		}
     }
 
 	/**
@@ -401,6 +408,80 @@ class AView {
 		return false;
     }
 
+	/**
+	 * Beta! 
+	 * Build or load minified CSS and return an output.
+	 * @param string $css_file css file with relative name
+	 * @param string $group CSS group name for caching 
+	 * @return string
+	 */
+	public function LoadMinifyCSS( $css_file, $group = 'css' ) {
+		if(empty($css_file)) {
+			return '';
+		}
+		//build hash key
+		$key = '';
+		//get file time stamp
+		$key .= $css_file."-".filemtime($this->templateResource($css_file, 'file'));		
+		$key = $group . "." . AEncryption::getHash($group . '-' . $key);
+		//check if hash is created and load 
+		$css_data = $this->cache->pull($key);
+		if($css_data === false) {
+			require_once(DIR_CORE . 'helper/html-css-js-minifier.php');
+			//build minified css and save
+			$path = dirname($this->templateResource($css_file, 'http'));
+			$new_content = file_get_contents($this->templateResource($css_file, 'file'));
+			//replace relative directories with full path
+			$css_data = preg_replace('/\.\.\//', $path.'/../', $new_content);
+			$css_data = minify_css($css_data);
+			$this->cache->push($key, $css_data);
+		}
+		return $css_data;
+	}
+
+	/**
+	 * Beta! 
+	 * Preload JavaScript and return an output.
+	 * @param string/array $js_file file(s) with relative name
+	 * @param string $group JS group name for caching 
+	 * @return string
+	 */
+	public function PerloadJS( $js_file, $group = 'js' ) {
+		if(empty($js_file)) {
+			return '';
+		}
+		//build hash key
+		$key = '';
+		//get file time stamp
+		if(is_array($js_file)) {
+			foreach($js_file as $js) {			
+				//get file time stamp
+				$key .= $js."-".filemtime($this->templateResource($js, 'file'));		
+			}	
+		} else {	
+			$key .= $js_file."-".filemtime($this->templateResource($js_file, 'file'));		
+		}
+
+		$key = $group . "." . AEncryption::getHash($group . '-' . $key);
+		//check if hash is created and load 
+		$js_data = $this->cache->pull($key);
+		if($js_data === false) {
+			//load js and save to cache
+			//TODO: Add stable minify method. minify_js in html-css-js-minifier.php is not stable  
+			$js_data = '';
+			if(is_array($js_file)) {
+				foreach($js_file as $file){
+					$js_data .= file_get_contents($this->templateResource($file, 'file')) . "\n";
+				}
+			}
+			else {
+				$js_data .= file_get_contents($this->templateResource($js_file, 'file'));
+			}
+			//$js_data = minify_js($js_data);
+			$this->cache->push($key, $js_data);
+		}
+		return $js_data;
+	}
 
 	/**
 	 * full directory path

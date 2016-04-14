@@ -108,14 +108,6 @@ class ControllerPagesProductProduct extends AController{
 			));
 		}
 
-		//HTML cache only for non-customer
-		if(!$this->customer->isLogged() && !$this->customer->isUnauthCustomer()){
-			//important to load HTML cache after breadcrumbs
-			if($this->html_cache(array('product_id','path','key','manufacturer_id','category_id','description','keyword'), $request)){
-				return;
-			}
-		}
-
 		$key = array(); //key of product from cart
 
 		if(has_value($request['key'])){
@@ -163,6 +155,14 @@ class ControllerPagesProductProduct extends AController{
 				'href' => $this->html->getSEOURL('product/product', '&product_id=' . $product_id, '&encode'),
 				'rel'  => 'canonical'
 		));
+
+		//HTML cache only for non-customer
+		if(!$this->customer->isLogged() && !$this->customer->isUnauthCustomer()){
+			//important to load HTML cache after breadcrumbs
+			if($this->html_cache(array('product_id','path','key','manufacturer_id','category_id','description','keyword'), $request)){
+				return;
+			}
+		}
 
 		$this->data['heading_title'] = $product_info['name'];
 		$this->data['minimum'] = $product_info['minimum'];

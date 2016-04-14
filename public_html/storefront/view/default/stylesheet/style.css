@@ -4274,7 +4274,28 @@ paypal pro styles
 
 	.transaction-table td:nth-child(2), .transaction-table th:nth-child(2){ display: none; }
 	.transaction-table td:nth-child(6), .transaction-table th:nth-child(6){ display: none; }
+
+	#popularbrands #prev {
+		left: -20px;
+		top: 30px
+	}
 	
+	#popularbrands #next {
+		right: -20px;
+		top: 30px
+	}
+	
+	.info_links_footer li {
+		padding: 5px;
+	}
+	
+	.contentpanel {
+    	padding: 5px;
+	}
+	.container-fluid .col-xs-12 {
+ 		padding-left: 5px;
+    	padding-right: 5px;	
+	}
 }
 
 /* END @media (max-width: 480px) */

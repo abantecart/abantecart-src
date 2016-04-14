@@ -6,7 +6,6 @@
 <?php } ?>
 
 <div id="product_details">
-		<!-- Product Details-->
 		<div class="row">
 			<!-- Left Image-->
 			<div class="col-md-6 text-center">

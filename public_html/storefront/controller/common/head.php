@@ -30,7 +30,6 @@ class ControllerCommonHead extends AController {
 		//for storefront log messages. nothing is shown to users
 		run_system_check($this->registry, 'log');
 
-		
 		$this->loadLanguage('common/header');
 		
 		$this->view->assign('title', $this->document->getTitle());
