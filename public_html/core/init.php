@@ -498,7 +498,6 @@ try {
 		$registry->set('im', new AIM());
 	}
 
-
 } //eof try
 catch (AException $e) {
 	ac_exception_handler($e);

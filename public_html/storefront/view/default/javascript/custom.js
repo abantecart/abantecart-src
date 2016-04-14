@@ -193,7 +193,7 @@ $(window).load(function () {
 
 });
 
-var process_thumbnails = function () {
+function process_thumbnails() {
     // Product thumbnails
     $('.thumbnail').each(function () {
         $(this).hover(
@@ -204,7 +204,6 @@ var process_thumbnails = function () {
                 $(this).children('.shortlinks').fadeOut()
             });
     });
-
 }
 
 $(window).scroll(function () {

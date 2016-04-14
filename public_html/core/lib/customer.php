@@ -211,7 +211,6 @@ final class ACustomer{
 			$this->customer_group_id = $customer_query->row['customer_group_id'];
 			
 			$this->address_id = $customer_query->row['address_id'];
-			$this->cache->delete('storefront_menu');
 
 			//set cookie for unauthenticated user (expire in 1 year)
 			$encryption = new AEncryption($this->config->get('encryption_key'));

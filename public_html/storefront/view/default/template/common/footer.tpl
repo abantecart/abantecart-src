@@ -1,6 +1,10 @@
-<!-- Footer -->
+<?php
+	/* Footer */
+?>
 <footer>
-	<!-- footer blocks placeholder -->
+<?php
+	/* footer blocks placeholder */
+?>
 	<section class="footersocial">
 	<h4 class="hidden">&nbsp;</h4>
 		<div class="container-fluid">
@@ -51,7 +55,7 @@
 	</section>
 	<a id="gotop" href="#">Back to top</a>
 </footer>
-</div><!-- container-fixed -->
+</div>
 
 <div id="msgModal" class="modal fade">
 <div class="modal-dialog">
@@ -71,19 +75,29 @@ AbanteCart is open source software and you are free to remove the Powered By Aba
 Please donate http://www.abantecart.com/donate
 //-->
 
-<!-- Placed at the end of the document so the pages load faster -->
+<?php
+/* 
+    Placed at the end of the document so the pages load faster
+    
+    For better rendering minifi all JavaScripts and merge all JavaScript files in to one singe file 
+    Example: <script type="text/javascript" src=".../javascript/footer.all.min.js" defer async></script>
+    
+    Check Dan Riti's blog for more fine tunning suggestion:
+    https://www.appneta.com/blog/bootstrap-pagespeed/
+*/
+?>
 <script type="text/javascript" src="<?php echo $this->templateResource('/javascript/bootstrap.min.js'); ?>" defer></script>
-<script type="text/javascript" src="<?php echo $this->templateResource('/javascript/respond.min.js'); ?>" defer></script>
-<script type="text/javascript" src="<?php echo $this->templateResource('/javascript/jquery.flexslider.js'); ?>" defer></script>
-<script type="text/javascript" src="<?php echo $this->templateResource('/javascript/easyzoom.js'); ?>" defer></script>
-<script type="text/javascript" src="<?php echo $this->templateResource('/javascript/jquery.validate.js'); ?>" defer></script>
-<script type="text/javascript" src="<?php echo $this->templateResource('/javascript/jquery.carouFredSel-6.1.0-packed.js'); ?>" defer></script>
-<script type="text/javascript" src="<?php echo $this->templateResource('/javascript/jquery.mousewheel.min.js'); ?>" defer></script>
-<script type="text/javascript" src="<?php echo $this->templateResource('/javascript/jquery.touchSwipe.min.js'); ?>" defer></script>
-<script type="text/javascript" src="<?php echo $this->templateResource('/javascript/jquery.ba-throttle-debounce.min.js'); ?>" defer></script>
-<script type="text/javascript" src="<?php echo $this->templateResource('/javascript/jquery.onebyone.min.js'); ?>" defer></script>
-<script type="text/javascript" src="<?php echo $this->templateResource('/javascript/custom.js'); ?>" defer></script>
-
+<script type="text/javascript" src="<?php echo $this->templateResource('/javascript/common.js'); ?>" defer async></script>
+<script type="text/javascript" src="<?php echo $this->templateResource('/javascript/respond.min.js'); ?>" defer async></script>
+<script type="text/javascript" src="<?php echo $this->templateResource('/javascript/jquery.flexslider.min.js'); ?>" defer async></script>
+<script type="text/javascript" src="<?php echo $this->templateResource('/javascript/easyzoom.js'); ?>" defer async></script>
+<script type="text/javascript" src="<?php echo $this->templateResource('/javascript/jquery.validate.min.js'); ?>" defer async></script>
+<script type="text/javascript" src="<?php echo $this->templateResource('/javascript/jquery.carouFredSel.min.js'); ?>" defer async></script>
+<script type="text/javascript" src="<?php echo $this->templateResource('/javascript/jquery.mousewheel.min.js'); ?>" defer async></script>
+<script type="text/javascript" src="<?php echo $this->templateResource('/javascript/jquery.touchSwipe.min.js'); ?>" defer async></script>
+<script type="text/javascript" src="<?php echo $this->templateResource('/javascript/jquery.ba-throttle-debounce.min.js'); ?>" defer async></script>
+<script type="text/javascript" src="<?php echo $this->templateResource('/javascript/jquery.onebyone.min.js'); ?>" defer async></script>
+<script type="text/javascript" src="<?php echo $this->templateResource('/javascript/custom.js'); ?>" defer async></script>
 
 <?php if ($google_analytics) {
 	$ga_data = $this->registry->get('google_analytics_data');

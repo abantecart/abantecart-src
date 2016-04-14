@@ -188,7 +188,7 @@ abstract class AController {
 		}
 		//build HTML cache path
 		$lang_store_id  = $this->language->getLanguageCode()."_".$this->config->get('config_store_id');
-		$this->html_cache_key = str_replace('/', '.', $this->controller).'.html_cache'.".".$lang_store_id."_".$this->instance_id;
+		$this->html_cache_key = 'html_cache.'.str_replace('/', '.', $this->controller).".".$lang_store_id."_".$this->instance_id;
 		//add specific params to the key
 		if($param_string) {
 			$this->html_cache_key .= "_".$param_string;

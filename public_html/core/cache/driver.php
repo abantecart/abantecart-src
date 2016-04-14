@@ -44,7 +44,7 @@ class ACacheDriver {
 	 * @var integer, cache lifetime
 	 * @since  1.2.7
 	 */
-	public $expire;
+	protected $expire;
 
 	/**
 	 * @var int  Lock period (0 - no lock)

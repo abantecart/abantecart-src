@@ -29,18 +29,39 @@
 <link href="<?php echo $link['href']; ?>" rel="<?php echo $link['rel']; ?>" />
 <?php } ?>
 
-<link href='//fonts.googleapis.com/css?family=Open+Sans:400,300italic,400italic,600,600italic' rel='stylesheet' type='text/css' />
-<link href='//fonts.googleapis.com/css?family=Crete+Round' rel='stylesheet' type='text/css' />
-<link href="<?php echo $this->templateResource('/stylesheet/bootstrap.min.css'); ?>" rel="stylesheet" type='text/css' />
-<link href="<?php echo $this->templateResource('/stylesheet/flexslider.css'); ?>" rel="stylesheet" type='text/css' />
-<link href="<?php echo $this->templateResource('/stylesheet/onebyone.css'); ?>" rel="stylesheet" type='text/css' />
-<link href="<?php echo $this->templateResource('/stylesheet/font-awesome.min.css'); ?>" rel="stylesheet" type='text/css' />
-<link href="<?php echo $this->templateResource('/stylesheet/style.css'); ?>" rel="stylesheet" type='text/css' />
-
-<style>
-/*
-* Basic print styles
+<?php 
+/* 
+	Set $faster_browser_rendering == true; for loafing tuning. For better rendering minify and include inline css.
+    Note: This will increase page size, but will improve HTML rendering. 
+    As alternative, you can merge all CSS files in to one singe file and minify 
+    Example: <link href=".../stylesheet/all.min.css" rel="stylesheet" type='text/css' />
+    
+    Check Dan Riti's blog for more fine tunning suggestion:
+    https://www.appneta.com/blog/bootstrap-pagespeed/
 */
+$faster_browser_rendering = false;
+
+if($faster_browser_rendering == true) {
+?>
+	<style><?php echo $this->LoadMinifyCSS('/stylesheet/bootstrap.min.css'); ?></style>
+	<style><?php echo $this->LoadMinifyCSS('/stylesheet/flexslider.css'); ?></style>
+	<style><?php echo $this->LoadMinifyCSS('/stylesheet/onebyone.css'); ?></style>
+	<style><?php echo $this->LoadMinifyCSS('/stylesheet/font-awesome.min.css'); ?></style>
+	<style><?php echo $this->LoadMinifyCSS('/stylesheet/fonts.google.css'); ?></style>
+	<style><?php echo $this->LoadMinifyCSS('/stylesheet/style.css'); ?></style>	
+<?php } else { ?>
+	<link href="<?php echo $this->templateResource('/stylesheet/bootstrap.min.css'); ?>" rel="stylesheet" type='text/css' />
+	<link href="<?php echo $this->templateResource('/stylesheet/flexslider.css'); ?>" rel="stylesheet" type='text/css' />
+	<link href="<?php echo $this->templateResource('/stylesheet/onebyone.css'); ?>" rel="stylesheet" type='text/css' />
+	<link href="<?php echo $this->templateResource('/stylesheet/font-awesome.min.css'); ?>" rel="stylesheet" type='text/css' />
+	<link href="<?php echo $this->templateResource('/stylesheet/fonts.google.css'); ?>" rel="stylesheet" type='text/css' />
+	<link href="<?php echo $this->templateResource('/stylesheet/style.css'); ?>" rel="stylesheet" type='text/css' />
+<?php } ?>
+
+<?php 
+/* Basic print styles */
+?>
+<style>
 .visible-print  { display: inherit !important; }
 .hidden-print   { display: none !important; }
 
@@ -49,43 +70,36 @@ a[href]:after {
 }
 </style>
 
-
 <?php if ( $template_debug_mode ) {  ?>
 <link href="<?php echo $this->templateResource('/stylesheet/template_debug.css'); ?>" rel="stylesheet" />
 <?php } ?>
-
-<!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
-<!--[if lt IE 9]>
-      <script type="text/javascript" src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
-<!-- fav -->
 
 <?php foreach ($styles as $style) { ?>
 <link rel="<?php echo $style['rel']; ?>" type="text/css" href="<?php echo $style['href']; ?>" media="<?php echo $style['media']; ?>" />
 <?php } ?>
 
-<script type="text/javascript"
-        src="<?php echo $ssl ? 'https' : 'http'?>://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
-<script type="text/javascript">
-    if (typeof jQuery == 'undefined') {
-        var include = '<script type="text/javascript" src="<?php echo $this->templateResource('/javascript/jquery-1.11.0.min.js'); ?>"><\/script>';
-        document.write(include);
-    }
-</script>
-<script type="text/javascript" src="<?php echo $this->templateResource('/javascript/jquery-migrate-1.2.1.min.js');?>" defer></script>
-
-<script type="text/javascript" src="<?php echo $this->templateResource('/javascript/common.js'); ?>" defer></script>
+<?php 
+if($faster_browser_rendering == true) {
+?>
+	<script type="text/javascript"><?php echo $this->PerloadJS('/javascript/jquery-1.11.0.min.js'); ?></script>
+	<script type="text/javascript"><?php echo $this->PerloadJS('/javascript/jquery-migrate-1.2.1.min.js'); ?></script>
+<?php } else { ?>
+	<script type="text/javascript" src="<?php echo $this->templateResource('/javascript/jquery-1.11.0.min.js'); ?>"></script>
+	<script type="text/javascript" src="<?php echo $this->templateResource('/javascript/jquery-migrate-1.2.1.min.js');?>"></script>
+<?php } ?>
 
 <?php foreach ($scripts as $script) { ?>
 <script type="text/javascript" src="<?php echo $script; ?>" defer></script>
 <?php } ?>
+
 <script type="text/javascript">
 <?php if($retina){?>
 	if((window.devicePixelRatio===undefined?1:window.devicePixelRatio)>1) {
 		document.cookie = 'HTTP_IS_RETINA=1;path=/';
 	}
 <?php } ?>
-<?php if($cart_ajax){ //event for adding product to cart by ajax ?>
+<?php if($cart_ajax){ 
+	//event for adding product to cart by ajax ?>
 	$(document).on('click', 'a.productcart', function() {
         var item = $(this);
         //check if href provided for product details access
@@ -123,8 +137,8 @@ $(document).on('click','a.call_to_order',function(){
 	return false;
 });
 
-
-<?php //search block form function ?>
+<?php 
+//search block form function ?>
 function search_submit () {
 
     var url = '<?php echo $search_url;?>';
@@ -145,5 +159,4 @@ function search_submit () {
 
 	return false;
 }
-
 </script>

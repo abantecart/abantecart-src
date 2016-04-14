@@ -303,7 +303,7 @@ class ACache {
 				if(!$this->cache_driver->clean($group)){
 					return false;
 				}
-			}		
+			}	
 		} else {
 			unset( $this->cache[$group][$key] );
 			if($this->enabled && $this->cache_driver && $this->cache_driver->isSupported()) {
@@ -312,6 +312,12 @@ class ACache {
 				}
 			}	
 		}
+ 
+		if( trim($key) != '*' && $group != 'html_cache') {
+			//remove HTML cache on any other cache clean up as data changed or expired
+			unset( $this->cache['html_cache'] );
+			$this->cache_driver->clean('html_cache');
+		}				
 		
 		return true;
 	}
@@ -557,7 +563,6 @@ class ACache {
 		if(!$key) {
 			return '';
 		}
-
 		$group = $this->_get_group($key);
 		if($this->enabled && $this->cache_driver && $this->cache_driver->isSupported()) {
 			//load cache from storage		
@@ -602,7 +607,7 @@ class ACache {
 				//cache is released, try locking again. 
 				$lock = $this->lock($key, $group);
 			}
-			
+			//TODO: Add stable minify method. minify_html in html-css-js-minifier.php is not stable as inline javascript is affected 
 			$ret = $this->cache_driver->put($key, $group, $data);
 			
 			if($lock['locked'] == true){
