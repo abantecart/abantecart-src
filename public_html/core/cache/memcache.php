@@ -70,9 +70,6 @@ class ACacheDriverMemcache extends ACacheDriver{
 		}
 		parent::__construct($expiration, $lock_time);
 
-		if (!$this->isSupported()){
-			throw new AException(AC_ERR_LOAD, 'Error: Could not load memcache driver. PHP memcache extension is not installed.');
-		}
 
 		$this->connect = new Memcache;
 		$this->connect->addServer($this->hostname, $this->port, $this->persistent);
