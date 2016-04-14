@@ -65,7 +65,7 @@ class ModelToolFormsManager extends Model {
 			if (!empty($data['subsql_filter'])) {
 				$sql .= " AND " . $data['subsql_filter'];;
 			}
-
+			$match = '';
 			if (isset($filter['match']) && !is_null($filter['match'])) {
 				$match = $filter['match'];
 			}
@@ -139,18 +139,17 @@ class ModelToolFormsManager extends Model {
 
 			return $query->rows;
 		} else {
-			$form_data = $this->cache->get('forms_manager', $language_id);
+			$cache_key = 'extensions.forms_manager.lang_'. $language_id;
+			$form_data = $this->cache->pull($cache_key);
 
-			if (!$form_data) {
+			if ($form_data === false) {
 				$query = $this->db->query("SELECT *
 											FROM " . $this->db->table("forms") . " f
 											LEFT JOIN " . $this->db->table("form_descriptions") . " fd ON (f.form_id = fd.form_id)
 											WHERE fd.language_id = '" . $language_id . "'
 											ORDER BY f.form_name ASC");
-
 				$form_data = $query->rows;
-
-				$this->cache->set('forms_manager', $form_data, $language_id);
+				$this->cache->push($cache_key, $form_data);
 			}
 
 			return $form_data;
@@ -338,7 +337,7 @@ class ModelToolFormsManager extends Model {
 		if (has_value($data['settings'])) {
 			$data['settings'] = $this->db->escape(serialize($data['settings']));
 		}
-
+		$update = array();
 		foreach ($columns as $colname) {
 			if(has_value($data[$colname])){
 				$update[] = $colname . " = '" . $data[$colname] . "'";
@@ -355,7 +354,7 @@ class ModelToolFormsManager extends Model {
 		}
 		$this->updateFieldDescription($data['field_id'], $data);
 		$this->_deleteCache();
-
+		return true;
 	}
 
 	public function updateFieldDescription($field_id, $data) {
@@ -386,6 +385,7 @@ class ModelToolFormsManager extends Model {
 		}
 
 		$this->_deleteCache();
+		return true;
 	}
 
 	public function updateFieldValues($data, $language_id) {
@@ -662,11 +662,11 @@ class ModelToolFormsManager extends Model {
 	}
 
 	private function _deleteCache($name = '') {
-		$cache_name = 'forms';
+		$cache_key = 'forms';
 		if ($name) {
-			$cache_name .= '.' . $name;
+			$cache_key .= '.' . $name;
 		}
-		$cache_name = preg_replace('/[^a-zA-Z0-9\.]/', '', $cache_name);
-		$this->cache->delete($cache_name);
+		$cache_key = preg_replace('/[^a-zA-Z0-9\.]/', '', $cache_key);
+		$this->cache->remove($cache_key);
 	}
 }

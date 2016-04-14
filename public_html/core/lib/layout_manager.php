@@ -29,10 +29,12 @@ if(!defined('DIR_CORE')){
  * @property ALog $log
  * @property AMessage $message
  * @property ALanguageManager $language
+ * @property ExtensionsApi $extensions
  */
 class ALayoutManager{
 	protected $registry;
 	private $pages = array();
+	private $page = array();
 	private $layouts = array();
 	private $blocks = array();
 	//Layout palaceholder parent blocks present in any template
@@ -187,9 +189,8 @@ class ALayoutManager{
 		if(!$template_id){
 			$template_id = $this->tmpl_id;
 		}
-		$store_id = (int)$this->config->get('config_store_id');
 
-		$language_id = $this->session->data['content_language_id'];
+		$language_id = $this->language->getContentLanguageID();
 		$where = "WHERE l.template_id = '" . $this->db->escape($template_id) . "' ";
 		if(!empty($controller)){
 			$where .= " AND p.controller = '" . $this->db->escape($controller) . "' ";
@@ -240,12 +241,13 @@ class ALayoutManager{
 	 */
 	public function getLayouts($layout_type = ''){
 		$store_id = (int)$this->config->get('config_store_id');
-		$cache_name = 'layout.a.layouts.' . $this->tmpl_id . '.' . $this->page_id . (!empty ($layout_type) ? '.' . $layout_type : '');
+		$cache_key = 'layout.a.layouts.' . $this->tmpl_id . '.' . $this->page_id . (!empty ($layout_type) ? '.' . $layout_type : '');
 		if(( string )$layout_type == '0'){
-			$cache_name = 'layout.a.default.' . $this->tmpl_id;
+			$cache_key = 'layout.a.default.' . $this->tmpl_id;
 		}
-		$layouts = $this->cache->get($cache_name, '', $store_id);
-		if(!empty ($layouts)){
+		$cache_key .= '.store_'.$store_id;
+		$layouts = $this->cache->pull($cache_key);
+		if( $layouts!== false ){
 			// return cached layouts
 			return $layouts;
 		}
@@ -280,7 +282,7 @@ class ALayoutManager{
 			$layouts = $query->rows;
 		}
 
-		$this->cache->set($cache_name, $layouts, '', $store_id);
+		$this->cache->push($cache_key, $layouts);
 
 		return $layouts;
 	}
@@ -326,9 +328,9 @@ class ALayoutManager{
 		$store_id = (int)$this->config->get('config_store_id');
 		$layout_id = !$layout_id ? $this->layout_id : $layout_id;
 
-		$cache_name = 'layout.a.blocks.' . $layout_id;
-		$blocks = $this->cache->get($cache_name, '', $store_id);
-		if(!empty ($blocks)){
+		$cache_key = 'layout.a.blocks.' . $layout_id.'.store_'.$store_id;
+		$blocks = $this->cache->pull($cache_key);
+		if( $blocks !== false){
 			// return cached blocks
 			return $blocks;
 		}
@@ -350,7 +352,7 @@ class ALayoutManager{
 		$query = $this->db->query($sql);
 		$blocks = $query->rows;
 
-		$this->cache->set($cache_name, $blocks, '', $store_id);
+		$this->cache->push($cache_key, $blocks);
 
 		return $blocks;
 	}
@@ -361,20 +363,20 @@ class ALayoutManager{
 	public function getAllBlocks(){
 		$store_id = (int)$this->config->get('config_store_id');
 		$language_id = (int)$this->language->getContentLanguageID();
-		$cache_name = 'layout.a.blocks.all.' . $language_id;
-		$blocks = $this->cache->get($cache_name, '', $store_id);
-		if(!empty ($blocks)){
+		$cache_key = 'layout.a.blocks.all.store_' . $store_id.'_lang_'.$language_id;
+		$blocks = $this->cache->pull($cache_key);
+		if($blocks !== false){
 			// return cached blocks
 			return $blocks;
 		}
 
 		$sql = "SELECT b.block_id as block_id, "
-				. "b.block_txt_id as block_txt_id, "
-				. "b.controller as controller, "
-				. "bt.parent_block_id as parent_block_id, "
-				. "bt.template as template, "
-				. "COALESCE(cb.custom_block_id,0) as custom_block_id, "
-				. "b.date_added as block_date_added "
+					. "b.block_txt_id as block_txt_id, "
+					. "b.controller as controller, "
+					. "bt.parent_block_id as parent_block_id, "
+					. "bt.template as template, "
+					. "COALESCE(cb.custom_block_id,0) as custom_block_id, "
+					. "b.date_added as block_date_added "
 				. "FROM " . $this->db->table("blocks") . " as b "
 				. "LEFT JOIN " . $this->db->table("block_templates") . " as bt ON (b.block_id = bt.block_id) "
 				. "LEFT JOIN " . $this->db->table("custom_blocks") . " as cb ON (b.block_id = cb.block_id ) "
@@ -390,7 +392,7 @@ class ALayoutManager{
 			}
 		}
 
-		$this->cache->set($cache_name, $blocks, '', $store_id);
+		$this->cache->push($cache_key, $blocks);
 		return $blocks;
 	}
 
@@ -749,7 +751,7 @@ class ALayoutManager{
 			}
 		}
 
-		$this->cache->delete('layout');
+		$this->cache->remove('layout');
 		return true;
 	}
 
@@ -759,7 +761,7 @@ class ALayoutManager{
 	 * @return bool
 	 */
 	public function savePageLayoutAsDraft($data){
-		$page = $this->page;
+
 		$layout = $this->active_layout;
 		$layout ['layout_type'] = self::LAYOUT_TYPE_DRAFT;
 
@@ -796,7 +798,7 @@ class ALayoutManager{
 			}
 		}
 
-		$this->cache->delete('layout');
+		$this->cache->remove('layout');
 
 		return $new_layout_id;
 	}
@@ -834,7 +836,7 @@ class ALayoutManager{
 		#clone blocks from source layout
 		$this->cloneLayoutBlocks($src_layout_id, $dest_layout_id);
 
-		$this->cache->delete('layout');
+		$this->cache->remove('layout');
 		return true;
 	}
 
@@ -855,7 +857,7 @@ class ALayoutManager{
 		$this->db->query("DELETE FROM " . $this->db->table("pages_layouts") . " WHERE layout_id = '" . (int)$layout_id . "' AND page_id = '" . (int)$page_id . "'");
 		$this->deleteAllLayoutBlocks($layout_id);
 
-		$this->cache->delete('layout');
+		$this->cache->remove('layout');
 		return true;
 	}
 
@@ -907,8 +909,8 @@ class ALayoutManager{
 										 WHERE instance_id = '" . ( int )$instance_id . "'");
 		}
 
-		$this->cache->delete('layout.a.blocks');
-		$this->cache->delete('layout.blocks');
+		$this->cache->remove('layout.a.blocks');
+		$this->cache->remove('layout.blocks');
 
 		return $instance_id;
 	}
@@ -927,8 +929,8 @@ class ALayoutManager{
 			$this->db->query("DELETE FROM " . $this->db->table("block_layouts") . " 
 								WHERE layout_id = '" . ( int )$layout_id . "' AND parent_instance_id = '" . ( int )$parent_instance_id . "'");
 
-			$this->cache->delete('layout.a.blocks');
-			$this->cache->delete('layout.blocks');
+			$this->cache->remove('layout.a.blocks');
+			$this->cache->remove('layout.blocks');
 		}
 		return true;
 	}
@@ -944,8 +946,8 @@ class ALayoutManager{
 			throw new AException (AC_ERR_LOAD, 'Error: Cannot to delete layout blocks. Missing layout ID!');
 		} else{
 			$this->db->query("DELETE FROM " . $this->db->table("block_layouts") . " WHERE layout_id = '" . ( int )$layout_id . "'");
-			$this->cache->delete('layout.a.blocks');
-			$this->cache->delete('layout.blocks');
+			$this->cache->remove('layout.a.blocks');
+			$this->cache->remove('layout.blocks');
 		}
 		return true;
 	}
@@ -973,11 +975,11 @@ class ALayoutManager{
 								WHERE layout_id = '" . ( int )$layout_id . "'");
 		}
 
-		$this->cache->delete('layout.a.default');
-		$this->cache->delete('layout.a.layouts');
-		$this->cache->delete('layout.default');
-		$this->cache->delete('layout.layouts');
-		$this->cache->delete('layout.a.block.descriptions');
+		$this->cache->remove('layout.a.default');
+		$this->cache->remove('layout.a.layouts');
+		$this->cache->remove('layout.default');
+		$this->cache->remove('layout.layouts');
+		$this->cache->remove('layout.a.block.descriptions');
 
 		return $layout_id;
 	}
@@ -1107,8 +1109,8 @@ class ALayoutManager{
 		}
 
 
-		$this->cache->delete('layout.a.pages');
-		$this->cache->delete('layout.pages');
+		$this->cache->remove('layout.a.pages');
+		$this->cache->remove('layout.pages');
 
 		return $page_id;
 	}
@@ -1199,8 +1201,8 @@ class ALayoutManager{
 			}
 		}
 
-		$this->cache->delete('layout.a.blocks');
-		$this->cache->delete('layout.blocks');
+		$this->cache->remove('layout.a.blocks');
+		$this->cache->remove('layout.blocks');
 
 		return $block_id;
 	}
@@ -1258,7 +1260,7 @@ class ALayoutManager{
 		$block_id = (int)$block_id;
 		$custom_block_id = (int)$custom_block_id;
 		if(!$description['language_id']){
-			$description['language_id'] = $this->session->data['content_language_id'];
+			$description['language_id'] = $this->language->getContentLanguageID();
 			$this->errors = 'Warning: block description does not provide language. Current language id '.$description['language_id'].' is used!';
 			$this->log->write($this->errors);
 		}
@@ -1290,9 +1292,9 @@ class ALayoutManager{
 						array((int)$description['language_id'] => $update));
 			}
 
-			$this->cache->delete('layout.a.block.descriptions.' . $custom_block_id);
-			$this->cache->delete('layout.a.blocks');
-			$this->cache->delete('layout.blocks');
+			$this->cache->remove('layout.a.block.descriptions.' . $custom_block_id);
+			$this->cache->remove('layout.a.blocks');
+			$this->cache->remove('layout.blocks');
 			return $custom_block_id;
 		} else{
 			if(!$block_id){
@@ -1313,9 +1315,9 @@ class ALayoutManager{
 							'content'       => $description ['content']
 					)));
 
-			$this->cache->delete('layout.a.block.descriptions.' . $custom_block_id);
-			$this->cache->delete('layout.a.blocks');
-			$this->cache->delete('layout.blocks');
+			$this->cache->remove('layout.a.block.descriptions.' . $custom_block_id);
+			$this->cache->remove('layout.a.blocks');
+			$this->cache->remove('layout.blocks');
 			return $custom_block_id;
 		}
 
@@ -1329,9 +1331,9 @@ class ALayoutManager{
 		if(!(int)$custom_block_id){
 			return array();
 		}
-		$cache_name = 'layout.a.block.descriptions.' . $custom_block_id;
-		$output = $this->cache->get($cache_name);
-		if(!is_null($output)){
+		$cache_key = 'layout.a.block.descriptions.' . $custom_block_id;
+		$output = $this->cache->pull($cache_key);
+		if($output !== false){
 			return $output;
 		}
 
@@ -1346,7 +1348,7 @@ class ALayoutManager{
 				$output[$row['language_id']] = $row;
 			}
 		}
-		$this->cache->set($cache_name, $output);
+		$this->cache->push($cache_key, $output);
 		return $output;
 	}
 
@@ -1409,9 +1411,9 @@ class ALayoutManager{
 		$this->db->query("DELETE FROM " . $this->db->table("custom_blocks") . " 
 								WHERE custom_block_id = '" . ( int )$custom_block_id . "'");
 
-		$this->cache->delete('layout.a.blocks');
-		$this->cache->delete('layout.blocks');
-		$this->cache->delete('layout.a.block.descriptions.' . $custom_block_id);
+		$this->cache->remove('layout.a.blocks');
+		$this->cache->remove('layout.blocks');
+		$this->cache->remove('layout.a.block.descriptions.' . $custom_block_id);
 		return true;
 	}
 
@@ -1430,8 +1432,8 @@ class ALayoutManager{
 				$sql .= " AND parent_block_id = '" . ( int )$parent_block_id . "'";
 			}
 			$this->db->query($sql);
-			$this->cache->delete('layout.a.blocks');
-			$this->cache->delete('layout.blocks');
+			$this->cache->remove('layout.a.blocks');
+			$this->cache->remove('layout.blocks');
 		}
 		return true;
 	}
@@ -1459,8 +1461,8 @@ class ALayoutManager{
 			$this->db->query("DELETE FROM " . $this->db->table("blocks") . " 
 								WHERE block_id = '" . ( int )$block_id . "'");
 
-			$this->cache->delete('layout.a.blocks');
-			$this->cache->delete('layout.blocks');
+			$this->cache->remove('layout.a.blocks');
+			$this->cache->remove('layout.blocks');
 			return true;
 		} else{
 			return false;
@@ -1556,7 +1558,7 @@ class ALayoutManager{
 			$this->db->query("DELETE FROM " . $this->db->table("block_layouts") . " 
 								WHERE layout_id = '" . $layout['layout_id'] . "' ");
 		}
-		$this->cache->delete('layout');
+		$this->cache->remove('layout');
 		return true;
 	}
 
@@ -1601,8 +1603,8 @@ class ALayoutManager{
 	}
 
 	/**
-	 * @param int $page_id
-	 * @param int $layout_id
+	 * @param int|string $page_id
+	 * @param int|string $layout_id
 	 */
 	private function _set_current_page($page_id = '', $layout_id = ''){
 		//find page used for this instance. If page_id is not specified for the instance, generic page/layout is used.
@@ -1615,7 +1617,7 @@ class ALayoutManager{
 			}
 		} else if(has_value($page_id)){
 			//we have page not related to any layout yet. need to pull differently
-			$language_id = $this->session->data['content_language_id'];
+			$language_id = $this->language->getContentLanguageID();
 			$sql = " SELECT p.page_id,
 							p.controller,
 							p.key_param,
@@ -1628,7 +1630,8 @@ class ALayoutManager{
 							pd.description,
 							pd.content
 					FROM " . $this->db->table("pages") . " p " . "
-					LEFT JOIN " . $this->db->table("page_descriptions") . " pd ON (p.page_id = pd.page_id AND pd.language_id = '" . (int)$language_id . "' )
+					LEFT JOIN " . $this->db->table("page_descriptions") . " pd
+						ON (p.page_id = pd.page_id AND pd.language_id = '" . (int)$language_id . "' )
 					WHERE p.page_id = '" . $page_id . "'";
 			$query = $this->db->query($sql);
 			$this->pages[] = $query->row;
@@ -1719,8 +1722,8 @@ class ALayoutManager{
 			} elseif($layout->action == 'insert'){
 
 				if($layout_id){
-					$errmessage = 'Layout XML load error: Cannot add new layout (layout name: "' . $layout->name . '") into database because it already exists.';
-					$error = new AError ($errmessage);
+					$error_text = 'Layout XML load error: Cannot add new layout (layout name: "' . $layout->name . '") into database because it already exists.';
+					$error = new AError ($error_text);
 					$error->toLog()->toDebug();
 					$this->errors = 1;
 					continue;
@@ -1744,8 +1747,8 @@ class ALayoutManager{
 
 			} else{ // layout update
 				if(!$layout_id){
-					$errmessage = 'Layout XML load error: Cannot update layout (layout name: "' . $layout->name . '") because it not exists.';
-					$error = new AError ($errmessage);
+					$error_text = 'Layout XML load error: Cannot update layout (layout name: "' . $layout->name . '") because it not exists.';
+					$error = new AError ($error_text);
 					$error->toLog()->toDebug();
 					$this->errors = 1;
 					continue;
@@ -1775,8 +1778,8 @@ class ALayoutManager{
 			// block manipulation
 			foreach($layout->blocks->block as $block){
 				if(!$block->block_txt_id){
-					$errmessage = 'Error: cannot process block because block_txt_id is empty.';
-					$error = new AError ($errmessage);
+					$error_text = 'Error: cannot process block because block_txt_id is empty.';
+					$error = new AError ($error_text);
 					$error->toLog()->toDebug();
 					$this->errors = 1;
 					continue;
@@ -1902,8 +1905,8 @@ class ALayoutManager{
 		} else if($action == 'insert'){
 			//If block exists with same block_txt_id, log error and continue					
 			if($block_id){
-				$errmessage = 'Layout ('.$layout_name.') XML error: Cannot insert block (block_txt_id: "' . $block->block_txt_id . '"). Block already exists!';
-				$error = new AError ($errmessage);
+				$error_text = 'Layout ('.$layout_name.') XML error: Cannot insert block (block_txt_id: "' . $block->block_txt_id . '"). Block already exists!';
+				$error = new AError ($error_text);
 				$error->toLog()->toDebug();
 				$this->errors = 1;
 			} else {
@@ -1911,8 +1914,8 @@ class ALayoutManager{
 				$sql = "INSERT INTO " . $this->db->table("blocks") . " (block_txt_id, controller, date_added) 
 						VALUES ('" . $this->db->escape($block->block_txt_id) . "', '" . $this->db->escape($block->controller) . "',NOW())";
 				if (!$block->controller) {
-					$errmessage = 'Layout ('.$layout_name.') XML error: Missing controller for new block (block_txt_id: "' . $block->block_txt_id . '"). This block might not function properly!';
-					$error = new AError ($errmessage);
+					$error_text = 'Layout ('.$layout_name.') XML error: Missing controller for new block (block_txt_id: "' . $block->block_txt_id . '"). This block might not function properly!';
+					$error = new AError ($error_text);
 					$error->toLog()->toDebug();
 					$this->errors = 1;				
 				}
@@ -2045,8 +2048,8 @@ class ALayoutManager{
 							$result = $this->db->query($query);
 							$exists = $result->row ? $result->row ['block_id'] : 0;
 							if(!$parent_block_id){
-								$errmessage = 'Layout ('.$layout_name.') XML error: block template "' . $block_template->template_name . '" (block_txt_id: "' . $block->block_txt_id . '") have not parent block!';
-								$error = new AError ($errmessage);
+								$error_text = 'Layout ('.$layout_name.') XML error: block template "' . $block_template->template_name . '" (block_txt_id: "' . $block->block_txt_id . '") have not parent block!';
+								$error = new AError ($error_text);
 								$error->toLog()->toDebug();
 								$this->errors = 1;
 							}
@@ -2071,8 +2074,8 @@ class ALayoutManager{
 				} else if (!$restricted) {
 					//log warning if try to update exsting block with new controller or template
 					if ($block->templates || $block->controller ) {					
-						$errmessage = 'Layout ('.$layout_name.') XML warning: Block (block_txt_id: "' . $block->block_txt_id . '") cannot be updated. This block is used by another template(s)! Will be linked to existing block';
-						$error = new AWarning ($errmessage);
+						$error_text = 'Layout ('.$layout_name.') XML warning: Block (block_txt_id: "' . $block->block_txt_id . '") cannot be updated. This block is used by another template(s)! Will be linked to existing block';
+						$error = new AWarning ($error_text);
 						$error->toLog()->toDebug();
 					}							
 				} // end of check for use
@@ -2145,8 +2148,8 @@ class ALayoutManager{
 
 		// if base block not found - break processing
 		if(!$block_id){
-			$errmessage = 'Layout XML load error: Cannot insert custom block (custom_block_txt_id: "' . $block->custom_block_txt_id . '") because block_id of type "' . $block->type . '" does not exists.';
-			$error = new AError ($errmessage);
+			$error_text = 'Layout XML load error: Cannot insert custom block (custom_block_txt_id: "' . $block->custom_block_txt_id . '") because block_id of type "' . $block->type . '" does not exists.';
+			$error = new AError ($error_text);
 			$error->toLog()->toDebug();
 			$this->errors = 1;
 			return false;
@@ -2181,6 +2184,9 @@ class ALayoutManager{
 				}
 				$this->custom_blocks[(string)$block->custom_block_txt_id] = $custom_block_id;
 			}
+
+			$parent_inst = array();
+
 			// if parent block exists
 			if($parent_instance_id){
 				$parent_inst[0] = $parent_instance_id;

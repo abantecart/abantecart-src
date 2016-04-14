@@ -125,7 +125,7 @@ class ControllerPagesProductProduct extends AController{
 		$this->view->assign('urls', $urls);
 
 		$this->loadModel('catalog/product');
-		$promoton = new APromotion();
+		$promotion = new APromotion();
 
 		$product_info = $this->model_catalog_product->getProduct($product_id);
 		//can not locate product? get out
@@ -248,7 +248,7 @@ class ControllerPagesProductProduct extends AController{
 
 		$product_price = $product_info['price'];
 
-		$discount = $promoton->getProductDiscount($product_id);
+		$discount = $promotion->getProductDiscount($product_id);
 
 		if($discount){
 			$product_price = $discount;
@@ -265,7 +265,7 @@ class ControllerPagesProductProduct extends AController{
 					(bool)$this->config->get('config_tax')
 			);
 
-			$special = $promoton->getProductSpecial($product_id);
+			$special = $promotion->getProductSpecial($product_id);
 
 			if($special){
 				$product_price = $special;
@@ -285,7 +285,7 @@ class ControllerPagesProductProduct extends AController{
 			$this->data['special'] = $this->currency->format($this->data['special_num']);
 		}
 
-		$product_discounts = $promoton->getProductDiscounts($product_id);
+		$product_discounts = $promotion->getProductDiscounts($product_id);
 
 		$discounts = array();
 
@@ -374,7 +374,7 @@ class ControllerPagesProductProduct extends AController{
 				$default_value = is_array($default_value) ? current($default_value) : (string)$default_value;
 			}
 			$preset_value = $default_value;
-
+			$opt_stock_message = '';
 			foreach($option['option_value'] as $option_value){
 				$default_value = $option_value['default'] && !$default_value ? $option_value['product_option_value_id'] : $default_value;
 
@@ -552,12 +552,12 @@ class ControllerPagesProductProduct extends AController{
 			}
 
 			$special = false;
-			$discount = $promoton->getProductDiscount($result['product_id']);
+			$discount = $promotion->getProductDiscount($result['product_id']);
 			if($discount){
 				$price = $this->currency->format($this->tax->calculate($discount, $result['tax_class_id'], (bool)$this->config->get('config_tax')));
 			} else{
 				$price = $this->currency->format($this->tax->calculate($result['price'], $result['tax_class_id'], (bool)$this->config->get('config_tax')));
-				$special = $promoton->getProductSpecial($result['product_id']);
+				$special = $promotion->getProductSpecial($result['product_id']);
 				if($special){
 					$special = $this->currency->format($this->tax->calculate($special, $result['tax_class_id'], (bool)$this->config->get('config_tax')));
 				}
@@ -621,6 +621,7 @@ class ControllerPagesProductProduct extends AController{
 			$dwn = new ADownload();
 			$download_list = $dwn->getDownloadsBeforeOrder($product_id);
 			if($download_list){
+				$downloads = array();
 
 				foreach($download_list as $download){
 					$href = $this->html->getURL('account/download/startdownload', '&download_id=' . $download['download_id']);

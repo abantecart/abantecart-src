@@ -53,20 +53,20 @@ class ModelLocalisationZone extends Model {
 		$language_id = $this->language->getLanguageID();
 		$default_lang_id = $this->language->getDefaultLanguageID();
 
-		$zone_data = $this->cache->get('zone.' . $country_id, $language_id);
+		$cache_key = 'localization.zone.' . $country_id.'.lang_'. $language_id;
+		$zone_data = $this->cache->pull($cache_key);
 
-		if (is_null($zone_data)) {
+		if ($zone_data === false) {
 			$query = $this->db->query("SELECT z.*, COALESCE(zd1.name,zd2.name) as name 
 										FROM " . $this->db->table("zones") . " z
 										LEFT JOIN " . $this->db->table("zone_descriptions") . " zd1
-										ON (z.zone_id = zd1.zone_id AND zd1.language_id = '" . (int)$language_id . "')		
+											ON (z.zone_id = zd1.zone_id AND zd1.language_id = '" . (int)$language_id . "')
 										LEFT JOIN " . $this->db->table("zone_descriptions") . " zd2
-										ON (z.zone_id = zd2.zone_id AND zd2.language_id = '" . (int)$default_lang_id . "')		
-										WHERE z.country_id = '" . (int)$country_id . "' AND status = '1' ORDER BY zd1.name,zd2.name");
-
+											ON (z.zone_id = zd2.zone_id AND zd2.language_id = '" . (int)$default_lang_id . "')
+										WHERE z.country_id = '" . (int)$country_id . "' AND status = '1'
+										ORDER BY zd1.name,zd2.name");
 			$zone_data = $query->rows;
-
-			$this->cache->set('zone.' . $country_id, $zone_data, $language_id);
+			$this->cache->push($cache_key, $zone_data);
 		}
 		return $zone_data;
 	}
@@ -91,15 +91,15 @@ class ModelLocalisationZone extends Model {
 		$language_id = $this->language->getLanguageID();
 		$default_language_id = $this->language->getDefaultLanguageID();
 		
-		$query = $this->db->query("SELECT c.country_id FROM " . $this->db->table("countries") . " c
-								   LEFT JOIN " . $this->db->table("country_descriptions") . " cd1 ON (c.country_id = cd1.country_id AND cd1.language_id = '" . (int)$language_id . "')
-								   LEFT JOIN " . $this->db->table("country_descriptions") . " cd2 ON (c.country_id = cd2.country_id AND cd2.language_id = '" . (int)$default_language_id . "')
-								   WHERE cd1.name = '" . $this->db->escape($name) . "' OR cd2.name = '" . $this->db->escape($name) . "' AND status = '1' LIMIT 1");
-
-		if ( $query->num_rows > 0 ) {
-			return $query->row['country_id'];
-		}
-		return 0;
+		$query = $this->db->query("SELECT c.country_id
+									FROM " . $this->db->table("countries") . " c
+									LEFT JOIN " . $this->db->table("country_descriptions") . " cd1
+										ON (c.country_id = cd1.country_id AND cd1.language_id = '" . (int)$language_id . "')
+									LEFT JOIN " . $this->db->table("country_descriptions") . " cd2
+										ON (c.country_id = cd2.country_id AND cd2.language_id = '" . (int)$default_language_id . "')
+									WHERE (cd1.name = '" . $this->db->escape($name) . "' OR cd2.name = '" . $this->db->escape($name) . "')
+										AND status = '1'
+									LIMIT 1");
+		return (int)$query->row['country_id'];
 	}
-	 
 }

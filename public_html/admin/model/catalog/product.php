@@ -147,7 +147,7 @@ class ModelCatalogProduct extends Model{
 				}
 			}
 		}
-		$this->cache->delete('product');
+		$this->cache->remove('product');
 		return $product_id;
 	}
 
@@ -174,7 +174,7 @@ class ModelCatalogProduct extends Model{
 					date_start = '" . $this->db->escape($data['date_start']) . "',
 					date_end = '" . $this->db->escape($data['date_end']) . "'");
 		$id = $this->db->getLastId();
-		$this->cache->delete('product');
+		$this->cache->remove('product');
 		return $id;
 	}
 
@@ -201,7 +201,7 @@ class ModelCatalogProduct extends Model{
 				date_start = '" . $this->db->escape($data['date_start']) . "',
 				date_end = '" . $this->db->escape($data['date_end']) . "'");
 		$id = $this->db->getLastId();
-		$this->cache->delete('product');
+		$this->cache->remove('product');
 		return $id;
 	}
 
@@ -308,7 +308,7 @@ class ModelCatalogProduct extends Model{
 					array((int)$language_id => array('tag' => array_unique($tags))));
 		}
 
-		$this->cache->delete('product');
+		$this->cache->remove('product');
 	}
 
 	/**
@@ -336,7 +336,7 @@ class ModelCatalogProduct extends Model{
 								SET " . implode(',', $update) . "
 								WHERE product_discount_id = '" . (int)$product_discount_id . "'");
 		}
-		$this->cache->delete('product');
+		$this->cache->remove('product');
 	}
 
 	/**
@@ -363,7 +363,7 @@ class ModelCatalogProduct extends Model{
 		if(!empty($update)){
 			$this->db->query("UPDATE `" . $this->db->table("product_specials`") . " SET " . implode(',', $update) . " WHERE product_special_id = '" . (int)$product_special_id . "'");
 		}
-		$this->cache->delete('product');
+		$this->cache->remove('product');
 	}
 
 	/**
@@ -409,7 +409,7 @@ class ModelCatalogProduct extends Model{
 				}
 			}
 		}
-		$this->cache->delete('product');
+		$this->cache->remove('product');
 		return true;
 	}
 
@@ -495,7 +495,7 @@ class ModelCatalogProduct extends Model{
 			$this->insertProductOptionValue($product_id, $product_option_id, '', '', array());
 		}
 
-		$this->cache->delete('product');
+		$this->cache->remove('product');
 		return $product_option_id;
 	}
 
@@ -521,7 +521,7 @@ class ModelCatalogProduct extends Model{
 
 		$this->_deleteProductOption($product_id, $product_option_id);
 
-		$this->cache->delete('product');
+		$this->cache->remove('product');
 	}
 
 	/**
@@ -610,7 +610,7 @@ class ModelCatalogProduct extends Model{
 			}
 		}
 
-		$this->cache->delete('product');
+		$this->cache->remove('product');
 		return $pd_opt_val_id;
 	}
 
@@ -832,7 +832,7 @@ class ModelCatalogProduct extends Model{
 			}
 		}
 
-		$this->cache->delete('product');
+		$this->cache->remove('product');
 	}
 
 	/**
@@ -857,7 +857,7 @@ class ModelCatalogProduct extends Model{
 			$this->_deleteProductOptionValue($product_id, $g_attribute['product_option_value_id'], $language_id);
 		}
 
-		$this->cache->delete('product');
+		$this->cache->remove('product');
 	}
 
 	/**
@@ -967,7 +967,7 @@ class ModelCatalogProduct extends Model{
 					$r['resource_id']
 			);
 		}
-		$this->cache->delete('product');
+		$this->cache->remove('product');
 
 		//clone layout for the product if present
 		$this->_clone_product_layout($product_id, $new_product_id);
@@ -1069,7 +1069,7 @@ class ModelCatalogProduct extends Model{
 				}
 			}
 		}
-		$this->cache->delete('product');
+		$this->cache->remove('product');
 	}
 
 
@@ -1183,7 +1183,7 @@ class ModelCatalogProduct extends Model{
 		$lm = new ALayoutManager();
 		$lm->deletePageLayout('pages/product/product', 'product_id', (int)$product_id);
 
-		$this->cache->delete('product');
+		$this->cache->remove('product');
 		return true;
 	}
 
@@ -1192,7 +1192,7 @@ class ModelCatalogProduct extends Model{
 	 */
 	public function deleteProductDiscount($product_discount_id){
 		$this->db->query("DELETE FROM " . $this->db->table("product_discounts") . " WHERE product_discount_id = '" . (int)$product_discount_id . "'");
-		$this->cache->delete('product');
+		$this->cache->remove('product');
 	}
 
 	/**
@@ -1201,7 +1201,7 @@ class ModelCatalogProduct extends Model{
 	public function deleteProductSpecial($product_special_id){
 		$this->db->query("DELETE FROM " . $this->db->table("product_specials") . " WHERE product_special_id='" . (int)$product_special_id . "'");
 
-		$this->cache->delete('product');
+		$this->cache->remove('product');
 	}
 
 	/**
@@ -1451,7 +1451,7 @@ class ModelCatalogProduct extends Model{
 					)));
 		}
 
-		$this->cache->delete('product');
+		$this->cache->remove('product');
 	}
 
 	/**
@@ -1521,7 +1521,7 @@ class ModelCatalogProduct extends Model{
 			}
 		}
 
-		$this->cache->delete('product');
+		$this->cache->remove('product');
 
 	}
 
@@ -1884,16 +1884,16 @@ class ModelCatalogProduct extends Model{
 
 			return $query->rows;
 		} else{
-			$product_data = $this->cache->get('product', $language_id);
-
-			if(!$product_data){
+			$cache_key = 'product.lang_'.$language_id;
+			$product_data = $this->cache->pull($cache_key);
+			if($product_data === false){
 				$query = $this->db->query("SELECT *, p.product_id
 											FROM " . $this->db->table("products") . " p
 											LEFT JOIN " . $this->db->table("product_descriptions") . " pd
 												ON (p.product_id = pd.product_id AND pd.language_id = '" . $language_id . "')
 											ORDER BY pd.name ASC");
 				$product_data = $query->rows;
-				$this->cache->set('product', $product_data, $language_id);
+				$this->cache->push($cache_key, $product_data);
 			}
 
 			return $product_data;

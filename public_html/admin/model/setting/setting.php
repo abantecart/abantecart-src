@@ -229,8 +229,8 @@ class ModelSettingSetting extends Model {
 				          NOW())";
 			$this->db->query($sql);
 		}
-		$this->cache->delete('settings');
-		$this->cache->delete('stores');
+		$this->cache->remove('settings');
+		$this->cache->remove('stores');
 	}
 
 	/**
@@ -243,7 +243,7 @@ class ModelSettingSetting extends Model {
 						  WHERE `group` = '" . $this->db->escape($group) . "'
 						  AND `store_id` = '".$store_id."'");
 
-		$this->cache->delete('settings');
-		$this->cache->delete('stores');
+		$this->cache->remove('settings');
+		$this->cache->remove('stores');
 	}
 }

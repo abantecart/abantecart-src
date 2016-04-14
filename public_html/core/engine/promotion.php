@@ -24,6 +24,9 @@ if (! defined ( 'DIR_CORE' )) {
  * Class APromotion
  * @property ACustomer $customer
  * @property ACart $cart
+ * @property AConfig $config
+ * @property ACache $cache
+ * @property ADB $db
  */
 class APromotion {
 	/**
@@ -144,8 +147,9 @@ class APromotion {
 	 * @return bool|float
 	 */
 	public function getProductDiscount($product_id) {
-		$cache = $this->cache->get('product.discount.'.$product_id.'.'.$this->customer_group_id);
-		if(is_null($cache)){
+		$cache_key = 'product.discount.'.(int)$product_id.'.'.$this->customer_group_id;
+		$cache = $this->cache->pull($cache_key);
+		if($cache === false){
 			$query = $this->db->query( "SELECT price
 										FROM " . $this->db->table("product_discounts") . "
 										WHERE product_id = '" . (int)$product_id . "'
@@ -160,7 +164,7 @@ class APromotion {
 			}else{
 				$cache = false;
 			}
-			$this->cache->set('product.discount.'.$product_id.'.'.$this->customer_group_id, $cache);
+			$this->cache->push($cache_key, $cache);
 		}
 		return $cache;
 	}
@@ -170,8 +174,9 @@ class APromotion {
 	 * @return array
 	 */
 	public function getProductDiscounts($product_id) {
-		$cache = $this->cache->get('product.discounts.'.$product_id.'.'.$this->customer_group_id);
-		if(is_null($cache)){
+		$cache_key = 'product.discounts.'.(int)$product_id.'.'.$this->customer_group_id;
+		$cache = $this->cache->pull($cache_key);
+		if($cache === false){
 		$query = $this->db->query("	SELECT *
 									FROM " . $this->db->table("product_discounts") . "
 									WHERE product_id = '" . (int)$product_id . "'
@@ -181,7 +186,7 @@ class APromotion {
 										AND (date_end = '0000-00-00' OR date_end > NOW()))
 									ORDER BY quantity ASC, priority ASC, price ASC");
 			$cache = $query->rows;
-			$this->cache->set('product.discounts.'.$product_id.'.'.$this->customer_group_id, $cache);
+			$this->cache->push($cache_key, $cache);
 		}
 		return $cache;
 	}
@@ -191,8 +196,9 @@ class APromotion {
 	 * @return bool|float
 	 */
 	public function getProductSpecial($product_id) {
-		$cache = $this->cache->get('product.special.'.$product_id.'.'.$this->customer_group_id);
-		if(is_null($cache)){
+		$cache_key = 'product.special.'.(int)$product_id.'.'.$this->customer_group_id;
+		$cache = $this->cache->pull($cache_key);
+		if($cache === false){
 			$query = $this->db->query( "SELECT price
 										FROM " . $this->db->table("product_specials") . "
 										WHERE product_id = '" . (int)$product_id . "'
@@ -203,9 +209,9 @@ class APromotion {
 			if ($query->num_rows) {
 				$cache =  $query->row['price'];
 			}else{
-				$cache = false;
+				$cache = null;
 			}
-			$this->cache->set('product.special.'.$product_id.'.'.$this->customer_group_id, $cache);
+			$this->cache->push($cache_key, $cache);
 		}
 		return $cache;
 	}

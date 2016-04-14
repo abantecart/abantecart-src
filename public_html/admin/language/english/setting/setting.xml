@@ -339,6 +339,14 @@
 		<value><![CDATA[Category List Height:]]></value>
 	</definition>
 	<definition>
+		<key>entry_image_manufacturer_width</key>
+		<value><![CDATA[Brand Icon List Width:]]></value>
+	</definition>
+	<definition>
+		<key>entry_image_manufacturer_height</key>
+		<value><![CDATA[Brand Icon List Height:]]></value>
+	</definition>
+	<definition>
 		<key>entry_image_product</key>
 		<value><![CDATA[Product List Size:]]></value>
 	</definition>
@@ -724,6 +732,10 @@
 	<definition>
 		<key>error_image_category</key>
 		<value><![CDATA[Category List Size dimensions required!]]></value>
+	</definition>
+	<definition>
+		<key>error_image_manufacturer</key>
+		<value><![CDATA[Brand Icon List Size dimensions required!]]></value>
 	</definition>
 	<definition>
 		<key>error_image_product</key>

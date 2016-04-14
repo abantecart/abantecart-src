@@ -22,9 +22,9 @@ if (! defined ( 'DIR_CORE' )) {
 }
 class ModelLocalisationCurrency extends Model {
 	public function getCurrencies() {
-		$currency_data = $this->cache->get('currency');
+		$currency_data = $this->cache->pull('localization.currency');
 
-		if (is_null($currency_data)) {
+		if ($currency_data === false) {
 			$query = $this->db->query("SELECT * FROM " . $this->db->table("currencies") . " ORDER BY title ASC");
 	
 			foreach ($query->rows as $result) {
@@ -41,11 +41,10 @@ class ModelLocalisationCurrency extends Model {
       			);
     		}	
 
-			$this->cache->set('currency', $currency_data);
+			$this->cache->push('localization.currency', $currency_data);
 		}
 
 		return $currency_data;	
 	}	
 
 }
-?>

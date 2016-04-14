@@ -348,8 +348,8 @@ class AExtensionManager {
 						SET `date_modified` = NOW()
 						WHERE  `key` = '" . $this->db->escape($extension_txt_id) . "'";
 		$this->db->query($sql);
-		$this->cache->delete('admin_menu');
-		$this->cache->delete('settings');
+		$this->cache->remove('admin_menu');
+		$this->cache->remove('settings');
 
 		return true;
 	}
@@ -361,8 +361,8 @@ class AExtensionManager {
 	public function deleteSetting($group) {
 		$this->db->query("DELETE FROM " . $this->db->table("settings") . " WHERE `group` = '" . $this->db->escape($group) . "';");
 		$this->db->query("DELETE FROM " . $this->db->table("language_definitions") . " WHERE `block` = '" . $this->db->escape($group) . "_" . $this->db->escape($group)."';");
-		$this->cache->delete('settings');
-		$this->cache->delete('language_definitions');
+		$this->cache->remove('settings');
+		$this->cache->remove('localization.language.definitions');
 	}
 
 	/**

@@ -402,7 +402,7 @@
 		var $select = $('input[name^=\'option\'], select[name^=\'option\']'); 
 		if ($select.length) {
 			//if no images for options are present, main product images will be used. 
-			//if atleast one image is present in the option, main images will be replaced.
+			//if at least one image is present in the option, main images will be replaced.
 			//????load_option_images($select.val());
 		}
 
@@ -448,7 +448,7 @@
 		
 		// Get an instance API
 		var api1 = $easyzoom.filter('.easyzoom--with-thumbnails').data('easyZoom');
-		//clean and reload esisting events 
+		//clean and reload existing events
 		api1.teardown();
 		api1._init();
 		

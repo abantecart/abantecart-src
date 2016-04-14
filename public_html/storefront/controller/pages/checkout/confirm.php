@@ -164,7 +164,7 @@ class ControllerPagesCheckoutConfirm extends AController {
 		$this->loadModel('account/address');
 		$shipping_address = $this->model_account_address->getAddress($this->session->data['shipping_address_id']);	
 		if ($this->cart->hasShipping()) {
-			$this->data['shipping_address'] = $this->customer->getFormatedAdress($shipping_address, $shipping_address[ 'address_format' ] );
+			$this->data['shipping_address'] = $this->customer->getFormattedAddress($shipping_address, $shipping_address[ 'address_format' ] );
 		} else {
 			$this->data['shipping_address'] = '';
 		}
@@ -176,7 +176,7 @@ class ControllerPagesCheckoutConfirm extends AController {
 
 		$payment_address = $this->model_account_address->getAddress($this->session->data['payment_address_id']);
 		if ($payment_address) {
-			$this->data['payment_address'] = $this->customer->getFormatedAdress($payment_address, $payment_address[ 'address_format' ] );
+			$this->data['payment_address'] = $this->customer->getFormattedAddress($payment_address, $payment_address[ 'address_format' ] );
 		} else {
 			$this->data['payment_address'] = '';
 		}

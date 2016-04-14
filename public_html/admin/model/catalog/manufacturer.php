@@ -59,7 +59,7 @@ class ModelCatalogManufacturer extends Model {
 								AND language_id = '".(int)$this->session->data['content_language_id']."'");
 		}
 
-		$this->cache->delete('manufacturer');
+		$this->cache->remove('manufacturer');
 
 		return $manufacturer_id;
 	}
@@ -99,7 +99,7 @@ class ModelCatalogManufacturer extends Model {
 			}
 		}
 		
-		$this->cache->delete('manufacturer');
+		$this->cache->remove('manufacturer');
 	}
 
 	/**
@@ -123,7 +123,7 @@ class ModelCatalogManufacturer extends Model {
 				$rm->deleteResource($r['resource_id']);
 			}
 		}
-		$this->cache->delete('manufacturer');
+		$this->cache->remove('manufacturer');
 	}
 
 	/**
@@ -157,8 +157,7 @@ class ModelCatalogManufacturer extends Model {
 
 			if ($mode == 'total_only') {
 				$total_sql = 'count(*) as total';
-			}
-			else {
+			}else {
 				$total_sql = 'ms.*, m.*';
 			}
 			$sql = "SELECT $total_sql FROM ".$this->db->table("manufacturers")." m
@@ -205,17 +204,18 @@ class ModelCatalogManufacturer extends Model {
 			$query = $this->db->query($sql);
 			return $query->rows;
 		} else {
-			// this slice of code is duplicate of storefron model for manufacturer
-			$manufacturer_data = $this->cache->get( 'manufacturer', '', (int)$this->config->get('config_store_id') );
-			if (is_null($manufacturer_data)) {
+			// this slice of code is duplicate of storefront model for manufacturer
+			$cache_key = 'manufacturer.store_'.(int)$this->config->get('config_store_id');
+			$manufacturer_data = $this->cache->pull($cache_key);
+			if ($manufacturer_data === false) {
 				$query = $this->db->query( "SELECT *
 											FROM " . $this->db->table("manufacturers") . " m
-											LEFT JOIN " . $this->db->table("manufacturers_to_stores") . " m2s ON (m.manufacturer_id = m2s.manufacturer_id)
+											LEFT JOIN " . $this->db->table("manufacturers_to_stores") . " m2s
+												ON (m.manufacturer_id = m2s.manufacturer_id)
 											WHERE m2s.store_id = '" . (int)$this->config->get('config_store_id') . "'
 											ORDER BY sort_order, LCASE(m.name) ASC");
-	
 				$manufacturer_data = $query->rows;
-				$this->cache->set('manufacturer', $manufacturer_data, '', (int)$this->config->get('config_store_id'));
+				$this->cache->push($cache_key, $manufacturer_data);
 			}
 		 
 			return $manufacturer_data;

@@ -123,7 +123,7 @@ class ControllerPagesCheckoutGuestStep3 extends AController {
 				$shipping_address = $this->session->data['guest'];
 			}
 			
-			$this->data['shipping_address'] = $this->customer->getFormatedAdress($shipping_address, $shipping_address[ 'address_format' ] );
+			$this->data['shipping_address'] = $this->customer->getFormattedAddress($shipping_address, $shipping_address[ 'address_format' ] );
 			
 		} else {
 			$this->data['shipping_address'] = '';
@@ -143,7 +143,7 @@ class ControllerPagesCheckoutGuestStep3 extends AController {
 		$payment_address = $this->session->data['guest'];
     	
 		if ($payment_address) {
-			$this->data['payment_address'] = $this->customer->getFormatedAdress($payment_address, $payment_address[ 'address_format' ] );
+			$this->data['payment_address'] = $this->customer->getFormattedAddress($payment_address, $payment_address[ 'address_format' ] );
 		} else {
 			$this->data['payment_address'] = '';
 		}

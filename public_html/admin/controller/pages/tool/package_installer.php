@@ -829,7 +829,7 @@ class ControllerPagesToolPackageInstaller extends AController {
 		if ($result === true) { // if all  was installed
 			// clean and redirect after install
 			$this->_removeTempFiles();
-            $this->cache->delete('*');
+            $this->cache->remove('*');
 			unset($this->session->data['package_info']);
 			$this->session->data['success'] = $this->language->get('text_success');
 			if ($extension_id) {

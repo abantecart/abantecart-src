@@ -48,13 +48,13 @@ class ControllerPagesToolCache extends AController{
 						'id'          => 'configuration',
 						'text'        => $this->language->get('text_configuration'),
 						'description' => $this->language->get('desc_configuration'),
-						'keywords'    => 'settings,store,stores,attribute,attributes,length_class,contents,tax_class,order_status,stock_status,weight_class,storefront_menu,tables' // separated by comma
+						'keywords'    => 'settings,extensions,store,stores,attribute,attributes,length_class,contents,tax_class,order_status,stock_status,weight_class,storefront_menu,tables'
 				),
 				array (
 						'id'          => 'layout',
 						'text'        => $this->language->get('text_layouts_blocks'),
 						'description' => $this->language->get('desc_layouts_blocks'),
-						'keywords'    => 'layout'
+						'keywords'    => 'layout, pages, blocks'
 				),
 				array (
 						'id'          => 'flexyforms',
@@ -103,12 +103,6 @@ class ControllerPagesToolCache extends AController{
 						'text'        => $this->language->get('text_error_log'),
 						'description' => $this->language->get('desc_error_log'),
 						'keywords'    => 'error_log'
-				),
-				array (
-						'id'          => 'html_cache',
-						'text'        => $this->language->get('text_html_cache'),
-						'description' => $this->language->get('desc_html_cache'),
-						'keywords'    => 'html_cache'
 				),
 		);
 
@@ -161,27 +155,34 @@ class ControllerPagesToolCache extends AController{
 							unlink(DIR_LOGS . $this->config->get('config_error_filename'));
 						}
 						continue;
-					}elseif($cache == 'html_cache'){
-						$this->cache->delete_html_cache('*');
 					}else{
-						$keywords = explode(',', $cache);
-						if ($keywords){
-							foreach ($keywords as $keyword){
-								$this->cache->delete(trim($keyword));
+					$keywords = explode(',', $cache);
+					if ($keywords){
+						$languages = $this->language->getActiveLanguages();
+						$this->loadModel('setting/store');
+						$stores = $this->model_setting_store->getStores();
+						foreach ($keywords as $keyword){
+							$key  = trim($keyword);
+							$this->cache->remove($key);
+							foreach($languages as $lang){
+								foreach($stores as $store){
+									$this->cache->remove($key."_".$store['store_id']."_".$lang['language_id']);
+								}
 							}
 						}
+					}
 					}
 				}
 			}
 			$this->session->data['success'] = $this->language->get('text_success');
-		} else if ($this->request->get_or_post('clear_all') == 'all'){
-			//delete entire cache
-			$this->cache->delete('*');
-			$this->session->data['success'] = $this->language->get('text_success');
-		}
-		//update controller data
-		$this->extensions->hk_UpdateData($this, __FUNCTION__);
-		$this->redirect($this->html->getSecureURL('tool/cache'));
+	} else if ($this->request->get_or_post('clear_all') == 'all'){
+		//delete entire cache
+		$this->cache->remove('*');
+		$this->session->data['success'] = $this->language->get('text_success');
+	}
+	//update controller data
+	$this->extensions->hk_UpdateData($this, __FUNCTION__);
+	$this->redirect($this->html->getSecureURL('tool/cache'));
 	}
 
 
@@ -194,7 +195,7 @@ class ControllerPagesToolCache extends AController{
 
 		$iterator = new RecursiveDirectoryIterator($path);
 		foreach (new RecursiveIteratorIterator($iterator, RecursiveIteratorIterator::CHILD_FIRST) as $file){
-			if (is_int(strpos($file->getPathname(), '/.svn')) || is_int(strpos($file->getPathname(), '/index.html'))){
+			if (is_int(strpos($file->getPathname(), '/index.html'))){
 				continue;
 			}
 			if ($file->isDir()){

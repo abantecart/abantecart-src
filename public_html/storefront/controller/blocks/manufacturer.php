@@ -70,8 +70,10 @@ class ControllerBlocksManufacturer extends AController {
 			
 			$results = $this->model_catalog_manufacturer->getManufacturers();
 
-			$thumbnail_list = $this->cache->get('manufacturer.block.thumbnals','',(int)$this->config->get('config_store_id'));
-			$is_cache_exists = $this->cache->exists('manufacturer.block.thumbnals','',(int)$this->config->get('config_store_id'));
+			$cache_key = 'manufacturer.block.thumbnails.store_'.(int)$this->config->get('config_store_id');
+
+			$thumbnail_list = $this->cache->pull($cache_key);
+			$is_cache_exists = $thumbnail_list===false ? false : true;
 			$thumbnails_cache = '';
 
 			$resource = new AResource('image');
@@ -98,7 +100,7 @@ class ControllerBlocksManufacturer extends AController {
 			}
 
 			if(!$is_cache_exists){
-				$this->cache->set('manufacturer.block.thumbnals',$thumbnails_cache, '',(int)$this->config->get('config_store_id'));
+				$this->cache->push($cache_key,$thumbnails_cache);
 			}
 	
 	        $this->view->assign('manufacturers', $manufacturers );

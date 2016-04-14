@@ -77,9 +77,9 @@ class ModelLocalisationLanguageDefinitions extends Model {
 			$autotranslate
 			);
 
-		$this->cache->delete('lang');
-		$this->cache->delete('language_definitions');
-		$this->cache->delete('admin_menu');
+		$this->cache->remove('localization.lang');
+		$this->cache->remove('localization.language.definitions');
+		$this->cache->remove('admin_menu');
 
 		return true;
 	}
@@ -136,9 +136,9 @@ class ModelLocalisationLanguageDefinitions extends Model {
 				);
 		}
 
-		$this->cache->delete('lang');
-		$this->cache->delete('language_definitions');
-		$this->cache->delete('admin_menu');
+		$this->cache->remove('localization.lang');
+		$this->cache->remove('localization.language.definitions');
+		$this->cache->remove('admin_menu');
         return true;
 	}
 
@@ -155,9 +155,9 @@ class ModelLocalisationLanguageDefinitions extends Model {
 							  		AND `block` = '" . $row['block'] . "'
 							  		AND `language_key` = '" . $row['language_key'] . "'");
 		}
-		$this->cache->delete('lang');
-		$this->cache->delete('language_definitions');
-		$this->cache->delete('admin_menu');
+		$this->cache->remove('localization.lang');
+		$this->cache->remove('localization.language.definitions');
+		$this->cache->remove('admin_menu');
 	}
 
     /**
@@ -249,7 +249,7 @@ class ModelLocalisationLanguageDefinitions extends Model {
 				$sql .= " AND LOWER(l.name) LIKE '%" . $this->db->escape(mb_strtolower($filter['name'])) . "%' ";
 			}
 
-			//If for total, we done bulding the query
+			//If for total, we done building the query
 			if ($mode == 'total_only') {
 				$query = $this->db->query($sql);
 				return $query->row['total'];
@@ -310,9 +310,9 @@ class ModelLocalisationLanguageDefinitions extends Model {
 
 			return $result;
 		} else {
-			$language_data = $this->cache->get('language_definitions');
-
-			if (!$language_data) {
+			$cache_key = 'localization.language.definitions';
+			$language_data = $this->cache->pull($cache_key);
+			if ($language_data === false) {
 				$query = $this->db->query("SELECT *
 				                           FROM " . $this->db->table("language_definitions") . " 
 				                           WHERE language_id=" . (int)$this->config->get('admin_language_id') . "
@@ -329,9 +329,8 @@ class ModelLocalisationLanguageDefinitions extends Model {
 						'date_modified' => $result['date_modified'],
 					);
 				}
-				$this->cache->set('language_definitions', $language_data);
+				$this->cache->push($cache_key, $language_data);
 			}
-
 
 			return $language_data;
 		}
@@ -357,6 +356,9 @@ class ModelLocalisationLanguageDefinitions extends Model {
 		$fields = array( 'language_key', 'language_value', 'block', 'section' );
 		$language_definition_id = $request->get['language_definition_id'];
 		$view_mode = 'all';
+
+		$main_block = false;
+
 		//if existing definition disable edit for some fields
 		$disable_attr = '';
 		if (has_value($language_definition_id)) {
@@ -378,7 +380,7 @@ class ModelLocalisationLanguageDefinitions extends Model {
 		$all_defs = array();
 		//!!!! ATTENTION: Important to understand this process flow. See comments
 		if (has_value($language_definition_id)) {
-			// 1. language_definition_id is provieded, load definition based on ID
+			// 1. language_definition_id is provided, load definition based on ID
 			$def_det = $this->getLanguageDefinition($language_definition_id);
 			if ( empty($def_det) ) {
 				//this is incorrect ID redirect to create new
@@ -387,7 +389,7 @@ class ModelLocalisationLanguageDefinitions extends Model {
 			}
 			
 			//special case then main file is edited (english, russian, etc ).
-			//Candidate for improvment. Rename these files to main.xml 			
+			//Candidate for improvement. Rename these files to main.xml
 			$main_block = $this->language->isMainBlock($def_det['block'], $def_det['language_id']);	
 
 			// 2. make sure we load all the langaues from XML in case they were not used yet.
@@ -558,7 +560,7 @@ class ModelLocalisationLanguageDefinitions extends Model {
      * @return array 
      */
 	public function LoadDefinitionSetEmpty( $section, $block, $lang_key, $lang_id) {
-		$ret_arr = array();
+
 		$ret_arr = $this->getLanguageDefinitions(
 		    array(
 		    	'subsql_filter' => "section = '" . $section . "'

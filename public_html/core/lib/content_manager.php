@@ -110,7 +110,7 @@ class AContentManager {
 			}
 		}
 
-		$this->cache->delete('contents');
+		$this->cache->remove('content');
         return $content_id;
 	}
 
@@ -171,7 +171,7 @@ class AContentManager {
 					$this->db->query($sql);
 			}
 		}
-		$this->cache->delete('contents');
+		$this->cache->remove('content');
 		return true;
 	}
 
@@ -227,6 +227,7 @@ class AContentManager {
 			case 'parent_content_id':
 				// prevent deleting while updating with parent_id==content_id
 				$value = (array)$value;
+				$tmp = array();
 				foreach($value as $k=>$v){
 					list($void,$parent_id) = explode('_',$v);
                     if($parent_id==$content_id){ continue; }
@@ -241,6 +242,8 @@ class AContentManager {
 							FROM " . $this->db->table("contents") . " 
 							WHERE content_id='" . $content_id . "'";
 				$result = $this->db->query($query);
+				$sort_orders = array();
+				$status = 0;
 				if ($result->num_rows) {
 					$status = $result->row[ 'status' ];
 					foreach($result->rows as $row){
@@ -278,7 +281,7 @@ class AContentManager {
 				break;
 		}
 
-		$this->cache->delete('contents');
+		$this->cache->remove('content');
 		return true;
 	}
 
@@ -294,7 +297,7 @@ class AContentManager {
 		$this->db->query("DELETE FROM " . $this->db->table("contents_to_stores") . " WHERE content_id = '" . ( int )$content_id . "'");
 		$this->db->query("DELETE FROM " . $this->db->table("url_aliases") . " WHERE `query` = 'content_id=" . ( int )$content_id . "'");
 
-		$this->cache->delete('contents');
+		$this->cache->remove('content');
 	}
 
 	/**
@@ -449,10 +452,11 @@ class AContentManager {
 		}
 
 		$query = $this->db->query($sql);
-		
+
+		$output = array();
+
 		if (!$parent_only) {
 			if ($query->num_rows) {
-				$output = array();
 				foreach ($query->rows as $row) {
 					$parent = (int)$row[ 'parent_content_id' ];
 					if (is_array($output[ (int)$row[ 'content_id' ] ][ 'parent_content_id' ])) {
@@ -565,7 +569,6 @@ class AContentManager {
 		if ($result->num_rows) {
 			foreach ($result->rows as $row) {
 				$output[ $row[ 'store_id' ] ][ $row[ 'content_id' ] ] = $row[ 'name' ];
-
 			}
 		}
 		return $output;

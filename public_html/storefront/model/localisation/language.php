@@ -22,9 +22,9 @@ if (! defined ( 'DIR_CORE' )) {
 }
 class ModelLocalisationLanguage extends Model {
 	public function getLanguages() {
-		$language_data = $this->cache->get('language');
+		$language_data = $this->cache->pull('localization.language');
 
-		if (is_null($language_data)) {
+		if ($language_data === false) {
 			$query = $this->db->query("SELECT * FROM " . $this->db->table("languages") . " WHERE status = 1 ORDER BY sort_order, name");
 
     		foreach ($query->rows as $result) {
@@ -46,10 +46,9 @@ class ModelLocalisationLanguage extends Model {
       			);
     		}
 
-			$this->cache->set('language', $language_data);
+			$this->cache->push('localization.language', $language_data);
 		}
 
 		return $language_data;
 	}
 }
-?>

@@ -30,11 +30,11 @@ class ALanguage {
 
 	protected $code = '';
 	/**
-	 * @var $db ADb
+	 * @var ADB
 	 */
 	protected $db;
 	/**
-	 * @var $cache ACache
+	 * @var ACache
 	 */
 	protected $cache;
 	/**
@@ -42,15 +42,15 @@ class ALanguage {
 	 */
 	protected $registry;
 	/**
-	 * @var $loader ALoader
+	 * @var ALoader
 	 */
 	protected $loader;
 	protected $language_path;
 
-	protected $available_languages = array(); //Array of awailable languges configured in abantecart
+	protected $available_languages = array(); //Array of available languages configured in abantecart
 	protected $current_language = array(); //current used main language array data
 	/**
-	 * @param $registry Registry
+	 * @param Registry $registry
 	 * @param string $code - two letter language code
 	 * @param int $section - 0(storefront) or 1 (admin)
 	 * @throws AException
@@ -107,7 +107,7 @@ class ALanguage {
 
 	/* Maim Language API methods */
 
-	// NOTE; Template language variables do not use ->get and loaded automaticaly in controller class. 
+	// NOTE; Template language variables do not use ->get and loaded automatically in controller class.
 	//		 There is no way to get acccess to used definitions and not possible to validate missing values  
 
 	/**
@@ -176,10 +176,10 @@ class ALanguage {
 	/**
 	 * Get all language definitions
 	 *
-	 * Note: If RT is not provided definition keys will be taken from main language section (ex: english.xml) if avaiblable
+	 * Note: If RT is not provided definition keys will be taken from main language section (ex: english.xml) if available
 	 *
 	 * @param string $block - RT (block) for corresponding key. Block will be loaded to memory if not yet loaded
-	 * @return array- Array with key/definision
+	 * @return array- Array with key/definition
 	 */
 	public function getASet($block = '') {
 		//if no specific area specified return main language set
@@ -195,11 +195,11 @@ class ALanguage {
 	 * Load language definitions for provided RT(block) into memory
 	 * Main method called by default from controllers to load language definitions per RT
 	 * wrapper for loading language via hook
-	 * Note: If RT(block) is not provided definition keys will be taken from main language section (ex: english.xml) if avaiblable
+	 * Note: If RT(block) is not provided definition keys will be taken from main language section (ex: english.xml) if available
 	 *
 	 * @param string $block - RT (block) for corresponding key.
-	 * @param string $mode - Load mode. silent - No error if XML file is misssing.
-	 * @return array|null - Array with key/definision loaded
+	 * @param string $mode - Load mode. silent - No error if XML file is missing.
+	 * @return array|null - Array with key/definition loaded
 	 */
 	public function load($block = '', $mode = '') {
 		//If $filename is not provided load current language main file
@@ -371,7 +371,7 @@ class ALanguage {
 			if (isset($request->get['content_language_code'])) {
 			    $cont_lang_code = $request->get['content_language_code'];
 			} else {
-			    $cont_lang_code = !isset($session->data['content_language']) ? $lang_code : $session->data['content_language'];
+			    $cont_lang_code = !isset($session->data['content_language']) ? $cont_lang_code : $session->data['content_language'];
 			}
 			$this->setCurrentContentLanguage('',$cont_lang_code);
 		}
@@ -470,7 +470,7 @@ class ALanguage {
 
 	/**
 	 * Check if block id a special case with main file (english, russian, etc ).
-	 * NOTE: Candidate for improvment. Rename these files to main.xml 
+	 * NOTE: Candidate for improvement. Rename these files to main.xml
 	 * @param string $block - block name
 	 * @param string $lang_id - language ID (optional) if missing check if main block in any language 
 	 * @return bool
@@ -492,7 +492,7 @@ class ALanguage {
 	}
 
 	/**
-	 * Read XML language file and return array with difinitions
+	 * Read XML language file and return array with definitions
 	 * @param string $file - Full file path to language XML file
 	 * @return array - Array with key/definition
 	 */
@@ -533,14 +533,14 @@ class ALanguage {
 		}
 
 		$block_name = str_replace('/', '_', $filename);
-		$cache_file = 'lang.' . $this->code . '.' . (($this->is_admin) ? 'a' : 's') . '.' . $filename;
+		$cache_key = 'localization.lang.' . $this->code . '.' . (($this->is_admin) ? 'a' : 's') . '.' . $filename;
+		$cache_key = str_replace('/', '_', $cache_key);
 
-		$cache_file = str_replace('/', '_', $cache_file);
 		if ($this->cache) {
-			$load_data = $this->cache->get($cache_file);
+			$load_data = $this->cache->pull($cache_key);
 		}
 
-		if (is_null($load_data)) {
+		if ($load_data === false) {
 
 			//Check that filename has proper name with no other special characters. 
 			if ( preg_match("/[\W]+/", $block_name) ) {
@@ -581,7 +581,7 @@ class ALanguage {
 
 			$load_data = $_;
 			if ($this->cache) {
-				$this->cache->set($cache_file, $load_data);
+				$this->cache->push($cache_key, $load_data);
 			}
 		}
 
@@ -593,7 +593,7 @@ class ALanguage {
 	}
 
 	/**
-	 * load all definisions for provided RT(block)
+	 * load all definitions for provided RT(block)
 	 * @param string $block
 	 * @return array
 	 */
@@ -647,7 +647,7 @@ class ALanguage {
 	}
 
 	/**
-	 * Check if block was laoded yet into memory
+	 * Check if block was loaded yet into memory
 	 * @param string $block
 	 * @return bool
 	 */
@@ -683,7 +683,7 @@ class ALanguage {
 
 	/**
 	 * @param $block
-	 * @param $lang_defns
+	 * @param  array $lang_defns
 	 * @return bool|void
 	 */
 	protected function _save_to_db($block, $lang_defns) {
@@ -736,7 +736,7 @@ class ALanguage {
 				&& $result = $this->registry->get('extensions')->isExtensionLanguageFile($filename, $language_dir_name, $this->is_admin)
 		) {
 			if (is_file($file_path)) {
-				$warning = new AWarning("Extension <b>{$result['extension']}</b> overrides language file <b>$filename</b>");
+				$warning = new AWarning("Extension <b>".$result['extension']."</b> overrides language file <b>".$filename."</b>");
 				$warning->toDebug();
 			}
 			$file_path = $result['file'];
@@ -867,9 +867,9 @@ class ALanguage {
                                 (`" . implode("`, `", array_keys($update_data)) . "`)
                                 VALUES ('" . implode("', '", $update_data) . "') ";
 				$this->db->query($sql);
-				$this->cache->delete('lang');
-				$this->cache->delete('language_definitions');
-				$this->cache->delete('storefront_menu');
+				$this->cache->remove('localization.lang');
+				$this->cache->remove('localization.language.definitions');
+				$this->cache->remove('storefront_menu');
 			}
 		}
 		if ($this->registry->get('config')->get('warn_lang_text_missing')) {

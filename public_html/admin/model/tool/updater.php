@@ -45,15 +45,15 @@ class ModelToolUpdater extends Model{
 	 */
 	public function check4Updates( $force = false ){
 		if(!$force){
-			$update_info = $this->cache->get('extensions.updates');
+			$update_info = $this->cache->pull('extensions.updates');
 		}else{
 			$update_info = null;
 		}
 
-		if (is_null($update_info)){
+		if ($update_info === false){
 			$update_info = $this->_getUpdateInfo();
 			if ($update_info){
-				$this->cache->set('extensions.updates', $update_info);
+				$this->cache->push('extensions.updates', $update_info);
 			}
 		}
 	}
@@ -61,9 +61,8 @@ class ModelToolUpdater extends Model{
 	private function getExtensionsList(){
 		$e = new AExtensionManager();
 		$extensions_list = $e->getExtensionsList();
-
+		$list = array();
 		$installed_extensions = $this->extensions->getInstalled('');
-
 		if ($extensions_list->num_rows){
 			foreach ($extensions_list->rows as $extension){
 				//skip default

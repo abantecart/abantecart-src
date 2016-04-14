@@ -157,7 +157,7 @@ class ControllerPagesAccountInvoice extends AController{
 					'country'   => $order_info['shipping_country']
 			);
 
-			$this->data['shipping_address'] = $this->customer->getFormatedAdress($shipping_data, $order_info['shipping_address_format']);
+			$this->data['shipping_address'] = $this->customer->getFormattedAddress($shipping_data, $order_info['shipping_address_format']);
 			$this->data['shipping_method'] = $order_info['shipping_method'];
 
 			$payment_data = array (
@@ -173,7 +173,7 @@ class ControllerPagesAccountInvoice extends AController{
 					'country'   => $order_info['payment_country']
 			);
 
-			$this->data['payment_address'] = $this->customer->getFormatedAdress($payment_data, $order_info['payment_address_format']);
+			$this->data['payment_address'] = $this->customer->getFormattedAddress($payment_data, $order_info['payment_address_format']);
 			$this->data['payment_method'] = $order_info['payment_method'];
 
 			$products = array ();

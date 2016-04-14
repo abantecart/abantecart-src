@@ -21,13 +21,20 @@ if (!defined('DIR_CORE')) {
     header('Location: static_pages/');
 }
 
+/**
+ * Class AFilter
+ * @property ARequest $request
+ * @property ADB $db
+ * @property AHtml $html
+ * @property ASession $session
+ */
 final class AFilter {
 
     private $registry;
     private $data = array();
     private $method;
 
-    //NOTE: Filter class automaticaly gets values from POST or GET on construct
+    //NOTE: Filter class automatically gets values from POST or GET on construct
     public function __construct($filter_conf) {
         $this->registry = Registry::getInstance();
         //build the a filter instance
@@ -69,7 +76,7 @@ final class AFilter {
             'content_language_id' => $this->session->data['content_language_id'],
         );
 
-        //Validate fileds that are allowed and build expected filter parameters
+        //Validate fields that are allowed and build expected filter parameters
         if (sizeof($filter_conf['filter_params'])) {
 
         	//support table name extension in fields 
@@ -112,7 +119,7 @@ final class AFilter {
             $this->data['sord'] = 'DESC';
         }
 
-        //Optional advanced filtering based on jQgrid filtering/search format and data formated from JSON string input
+        //Optional advanced filtering based on jqGrid filtering/search format and data formatted from JSON string input
         $adv_filter_str = $filter_conf['additional_filter_string'];
         $grid_lib = new AGrid($this->method, $this->data);
         $adv_filter_str = $grid_lib->filter($adv_filter_str, $filter_conf['grid_filter_params']);
@@ -120,7 +127,7 @@ final class AFilter {
         //Done Setting Filter Data
     }
 
-    //Culculate total number of pages based on total result and rows (result set to show)
+    //Calculate total number of pages based on total result and rows (result set to show)
     public function calcTotalPages($total_result) {
         if ($total_result > 0 && $this->data['rows'] > 0) {
             $total_pages = ceil($total_result / $this->data['rows']);
@@ -149,7 +156,7 @@ final class AFilter {
 	
 	//Build URI based on current filter params used
     public function buildFilterURI( $exclude_list = array() ) {
-        $uri = '';
+
         $process_array = array();
         //add input params from different parts of filter    
         foreach (array_keys( $this->data ) as $param) {
@@ -171,7 +178,7 @@ final class AFilter {
 	        }       
         }
         
-        //sort array to mintain the order
+        //sort array to maintain the order
         asort($process_array);                 
         $uri = $this->html->buildURI($process_array, $exclude_list);                             
         return $uri;
@@ -190,6 +197,7 @@ final class AFilter {
  * Class AGrid
  * @property ALoader $load
  * @property ARequest $request
+ * @property ADB $db
  */
 final class AGrid {
 	/**
@@ -239,7 +247,7 @@ final class AGrid {
 
         $allowedOperations = array('AND', 'OR');
         $search_param = array();
-
+        $op = '';
         if (isset($this->search) && $this->search == 'true') {
 
             $this->load->library('json');
@@ -254,7 +262,6 @@ final class AGrid {
                 foreach ($searchData['rules'] as $rule) {
 
             		// $allowedFields can be simple or key based array
-            		$field_name = '';
             		if ( is_assoc($allowedFields) ) {
             			if( !array_key_exists($rule['field'], $allowedFields) ) continue;
             			$field_name = $allowedFields[$rule['field']];

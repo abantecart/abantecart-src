@@ -287,7 +287,7 @@ class ControllerPagesCheckoutPayment extends AController{
 		$coupon_form = $this->dispatch('blocks/coupon_codes', array ('action' => $action));
 		$this->view->assign('coupon_form', $coupon_form->dispatchGetOutput());
 
-		$this->data['address'] = $this->customer->getFormatedAdress($payment_address, $payment_address['address_format']);
+		$this->data['address'] = $this->customer->getFormattedAddress($payment_address, $payment_address['address_format']);
 
 		$form = new AForm();
 		$form->setForm(array ('form_name' => 'payment'));

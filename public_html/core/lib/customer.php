@@ -253,7 +253,7 @@ final class ACustomer{
 		$this->customer_group_name = '';
 		$this->customer_tax_exempt = '';
 		$this->address_id = '';
-		$this->cache->delete('storefront_menu');
+		$this->cache->remove('storefront_menu');
 
 		//expire unauth cookie
 		unset($_COOKIE['customer']);
@@ -391,12 +391,21 @@ final class ACustomer{
 	}
 
 	/**
+	 * @deprecated
+	 * @since 1.2.7
+	 */
+	public function getFormatedAdress($data_array, $format = '', $locate = array()){
+		return $this->getFormattedAddress($data_array, $format, $locate);
+	}
+
+	/**
+	 * @since 1.2.7
 	 * @param array $data_array
 	 * @param string $format
 	 * @param array $locate
 	 * @return string
 	 */
-	public function getFormatedAdress($data_array, $format = '', $locate = array()){
+	public function getFormattedAddress($data_array, $format = '', $locate = array()){
 		$data_array = (array)$data_array;
 		// Set default format
 		if($format == ''){
@@ -416,7 +425,7 @@ final class ACustomer{
 
 	/**
 	 * Customer Transactions Section. Track account balance transactions.
-	 * Return customer account balance in customer currency based on debit/credit calcualtion
+	 * Return customer account balance in customer currency based on debit/credit calculation
 	 *
 	 * @return float|bool
 	 */
@@ -425,15 +434,10 @@ final class ACustomer{
 			return false;
 		}
 
-		$cache_name = 'balance.' . (int)$this->getId();
-		$balance = $this->cache->get($cache_name);
-		if(is_null($balance)){
-			$query = $this->db->query("SELECT sum(credit) - sum(debit) as balance
-										FROM " . $this->db->table("customer_transactions") . "
-										WHERE customer_id = '" . (int)$this->getId() . "'");
-			$balance = $query->row['balance'];
-			$this->cache->set($cache_name, $balance);
-		}
+		$query = $this->db->query("SELECT sum(credit) - sum(debit) as balance
+									FROM " . $this->db->table("customer_transactions") . "
+									WHERE customer_id = '" . (int)$this->getId() . "'");
+		$balance = (float)$query->row['balance'];
 		return $balance;
 	}
 
@@ -469,7 +473,9 @@ final class ACustomer{
 		}
 
 		//before write get cart-info from db to non-override cart for other stores of multistore
-		$result = $this->db->query("SELECT cart FROM " . $this->db->table("customers") . " WHERE customer_id = '" . (int)$customer_id . "' AND status = '1'");
+		$result = $this->db->query("SELECT cart
+									FROM " . $this->db->table("customers") . "
+									WHERE customer_id = '" . (int)$customer_id . "' AND status = '1'");
 		$cart = unserialize($result->row['cart']);
 		//check is format of cart old or new
 		$new = $this->_is_new_cart_format( $cart );
@@ -479,7 +485,9 @@ final class ACustomer{
 		}
 		$cart['store_' . $store_id] = $this->session->data['cart'];
 		$this->db->query("UPDATE " . $this->db->table("customers") . "
-       	                  SET cart = '" . $this->db->escape(serialize($cart)) . "', ip = '" . $this->db->escape($this->request->server['REMOTE_ADDR']) . "'
+       	                  SET
+       	                        cart = '" . $this->db->escape(serialize($cart)) . "',
+       	                        ip = '" . $this->db->escape($this->request->server['REMOTE_ADDR']) . "'
        	                  WHERE customer_id = '" . (int)$customer_id . "'");
 	}
 
@@ -638,7 +646,7 @@ final class ACustomer{
 
 
 	/**
-	 * Add item to wisth list
+	 * Add item to wishlist
 	 * @param int $product_id
 	 * @return null
 	 */
@@ -680,7 +688,11 @@ final class ACustomer{
 		if(!$customer_id){
 			return null;
 		}
-		$this->db->query("UPDATE " . $this->db->table("customers") . " SET wishlist = '" . $this->db->escape(serialize($whishlist)) . "', ip = '" . $this->db->escape($this->request->server['REMOTE_ADDR']) . "' WHERE customer_id = '" . (int)$customer_id . "'");
+		$this->db->query("UPDATE " . $this->db->table("customers") . "
+							SET
+								wishlist = '" . $this->db->escape(serialize($whishlist)) . "',
+								ip = '" . $this->db->escape($this->request->server['REMOTE_ADDR']) . "'
+							WHERE customer_id = '" . (int)$customer_id . "'");
 	}
 
 	/**
@@ -696,7 +708,9 @@ final class ACustomer{
 		if(!$customer_id){
 			return array();
 		}
-		$customer_query = $this->db->query("SELECT wishlist FROM " . $this->db->table("customers") . " WHERE customer_id = '" . (int)$customer_id . "' AND status = '1'");
+		$customer_query = $this->db->query("SELECT wishlist
+											FROM " . $this->db->table("customers") . "
+											WHERE customer_id = '" . (int)$customer_id . "' AND status = '1'");
 		if($customer_query->num_rows){
 			//load customer saved cart
 			if(($customer_query->row['wishlist']) && (is_string($customer_query->row['wishlist']))){
@@ -738,7 +752,7 @@ final class ACustomer{
 							section				= '" . ((int)$tr_details['section'] ? (int)$tr_details['section'] : 0) . "',
       	                    created_by 			= '" . (int)$tr_details['created_by'] . "',
       	                    date_added = NOW()");
-		$this->cache->delete('balance.' . (int)$this->getId());
+
 		if($this->db->getLastId()){
 			return true;
 		}

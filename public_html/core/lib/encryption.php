@@ -596,12 +596,21 @@ final class ADataEncryption {
 	}
 
 	/**
+	 * @deprecated
+	 * @since 1.2.7
+	 */
+	public function addEcryptedFields( $table, $fields ){
+		return $this->addEncryptedFields( $table, $fields );
+	}
+
+	/**
 	 * Add to the list of fields to existing tables containing encrypted data
+	 * @since 1.2.7
 	 * @param string $table
 	 * @param array $fields
 	 * @return null
 	 */
-	public function addEcryptedFields( $table, $fields ){
+	public function addEncryptedFields( $table, $fields ){
 		if ( empty($table) ) {
 			return null;
 		}
@@ -722,8 +731,8 @@ final class ADataEncryption {
 		$cache = $this->registry->get('cache'); 
 
 		$this->keys = array();
-        $cache_name = 'encryption.keys';
-        $this->keys = $cache->get($cache_name,'',(int)$config->get('config_store_id'));
+        $cache_key = 'encryption.keys.store_'.(int)$config->get('config_store_id');
+        $this->keys = $cache->pull($cache_key);
         if (empty($this->keys)) {
 			$db = $this->registry->get('db');
 			$query = $db->query( "SELECT * FROM " . $db->table('encryption_keys') . " WHERE status = 1" );
@@ -733,7 +742,7 @@ final class ADataEncryption {
         	foreach ($query->rows as $row) {
         		$this->keys[$row['key_id']] = $row['key_name'];
         	} 
-			$cache->set($cache_name, $this->keys,'',(int)$config->get('config_store_id'));
+			$cache->push($cache_key, $this->keys);
 		}
 	}
 

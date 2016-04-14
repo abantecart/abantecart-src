@@ -60,6 +60,7 @@ class ATaskManager {
 				continue;
 			}
 			$task_settings = unserialize($task['settings']);
+
 			$this->_run_steps($task['task_id'], $task_settings);
 			$this->toLog('task #'.$task['task_id'].' finished.');
 		}
@@ -130,9 +131,9 @@ class ATaskManager {
 															  'status'=>1) );
 
 			if(!$result){
-				$this->log->write('Sheduled step #'.$step['step_id'].' of task #'.$task_id.' failed during process');
+				$this->log->write('Scheduled step #'.$step['step_id'].' of task #'.$task_id.' failed during process');
 				//interrupt task if need
-				if($task_settings['interrupt_on_step_fault']===true){
+				if($step['settings']['interrupt_on_step_fault']===true){
 					$this->_update_task_state($task_id, array( 'result' => 1, // mark last result of task as "failed"
 															   'last_time_run' => date('Y-m-d H:i:s'),
 															   'status'=>1)//change status of task to sheduled for future run

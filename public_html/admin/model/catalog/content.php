@@ -22,20 +22,24 @@ if (! defined ( 'DIR_CORE' ) || !IS_ADMIN) {
 }
 
 class ModelCatalogContent extends Model {
-	
+	/**
+	 * @return array
+	 */
 	public function getContents() {
-		
 		$contents = array();
-		
-		$contentmanager = new AContentManager();
-        $results = $contentmanager->getContents();
-        $contents[] = array( 'content_id' => '0', 'title' => $this->language->get('text_none') );
+		$content_manager = new AContentManager();
+        $results = $content_manager->getContents();
+        $contents[] = array(
+                'content_id' => '0',
+                'title' => $this->language->get('text_none')
+        );
         foreach( $results as $r ) {
-			$contents[] = array( 'content_id' => $r['content_id'], 'title' => $r['title'] );
+			$contents[] = array(
+                                'content_id' => $r['content_id'],
+                                'title' => $r['title']
+            );
 		}
-		
 		return $contents;
-		
 	}
 		
 }

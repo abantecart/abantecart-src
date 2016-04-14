@@ -94,7 +94,7 @@ class ControllerPagesToolUpdater extends AController {
 
 		}else{
 			$this->data['mp_connected'] = true;
-			$updates = $this->cache->get('extensions.updates');
+			$updates = $this->cache->pull('extensions.updates');
 			$this->data['extensions'] = array ();
 
 			if (!empty($updates) && is_array($updates)){

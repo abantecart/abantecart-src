@@ -63,7 +63,7 @@ class ACache {
 
 	/**
 	 * Holds cache storage driver object
-	 * @var ACacheDriver
+	 * @var ACacheDriverFile |
 	 */
 	private $cache_driver;
 
@@ -141,27 +141,25 @@ class ACache {
 	/**
 	 * Set and load cache storage drivers.
 	 *
-	 * @param string $key
-	 *
+	 * @param string $driver
 	 * @return bool
-	 *
 	 * @since 1.2.7
 	 */
 	public function setCacheStorageDriver( $driver ){
-		//validate driver for availablity
+		//validate driver for availability
 		$all_drivers = $this->getCacheStorageDrivers();
-		$dr = $all_drivers[$driver];
-		if( isset($dr) && is_file($dr['file']) ) {
+		$drv = $all_drivers[$driver];
+		if( isset($drv) && is_file($drv['file']) ) {
 			//try to load driver class
-			include_once($dr['file']);
+			include_once($drv['file']);
 			
 			// If the class doesn't exist we have nothing else to do here.
-			if (!class_exists($dr['class'])) {
+			if (!class_exists($drv['class'])) {
 				return false;
 			}
 			
 			//instantiate storage driver class
-			$this->cache_driver = new $dr['class']($this->expire, $this->locktime);
+			$this->cache_driver = new $drv['class']($this->expire, $this->locktime);
 			return true;
 		}
 		return false;	
@@ -205,11 +203,25 @@ class ACache {
 		}
 		return $ret;
 	}
-	
-	//Depricated. Old cahe compatibulity. Will be removed in 1.3
+
+	/**
+	 * Deprecated. Old cache compatibility. Will be removed in 1.3
+	 * @deprecated
+	 * @param $key
+	 * @param $data
+	 * @param int $language_id
+	 * @param int $store_id
+	 * @return bool
+	 */
 	public function set($key, $data, $language_id = 0, $store_id = 0) {
 		if ($language_id || $store_id) {
-			$key = $key."_".$store_id."_".$language_id;
+			if($language_id && $store_id){
+				$key = $key . ".store_" . $store_id . "_lang_" . $language_id;
+			}elseif($store_id){
+				$key = $key . ".store_" . $store_id;
+			}else{
+				$key = $key . ".lang_" . $language_id;
+			}
 		}
 		return $this->push($key, $data);			
 	}
@@ -223,7 +235,6 @@ class ACache {
 	 * On failure false is returned & the number of cache misses will be incremented for stats
 	 *
 	 * @param string $key
-	 *
 	 * @return mixed|false
 	 */
 	public function pull($key) {
@@ -241,7 +252,7 @@ class ACache {
 			//load cache from storage		
 			$data = $this->cache_driver->get($key, $group);
 			if($data === false){
-				//check if chache is locked
+				//check if cache is locked
 				$lock = $this->lock($key, $group);
 				if($lock['locked'] == true && $lock['waited'] == true){
 					//try to get cache again 
@@ -261,12 +272,25 @@ class ACache {
 		$this->cache_misses[$group][$key] += 1;
 		return false;		
 	}
-	
-	//Depricated. Old cahe compatibulity. Will be removed in 1.3
+
+	/**
+	 * Deprecated. Old cache compatibility. Will be removed in 1.3
+	 * @deprecated
+	 * @param $key
+	 * @param int $language_id
+	 * @param int $store_id
+	 * @return false|mixed|null
+	 */
 	public function get($key, $language_id = 0, $store_id = 0) {
 		if ($language_id || $store_id) {
-			$key = $key."_".$store_id."_".$language_id;
-		}	
+			if($language_id && $store_id){
+				$key = $key . ".store_" . $store_id . "_lang_" . $language_id;
+			}elseif($store_id){
+				$key = $key . ".store_" . $store_id;
+			}else{
+				$key = $key . ".lang_" . $language_id;
+			}
+		}
 		$return = $this->pull($key);	
 		if($return === false){
 			//Should return false if no cache present.
@@ -322,13 +346,23 @@ class ACache {
 		return true;
 	}
 
-	//Depricated. Old cahe compatibulity. Will be removed in 1.3
-	public function delete( $key, $language_id = '', $store_id = '') {
-		if ($language_id) {
-			$key = $key."_".$language_id;
-		}	
-		if ($store_id) {
-			$key = $key."_".$store_id;
+	/**
+	 *  Old cache compatibility. Will be removed in 1.3
+	 * @deprecated
+	 * @param $key
+	 * @param int|string $language_id
+	 * @param int|string $store_id
+	 * @return bool
+	 */
+	public function delete( $key, $language_id = 0, $store_id = 0) {
+		if ($language_id || $store_id) {
+			if($language_id && $store_id){
+				$key = $key . ".store_" . $store_id . "_lang_" . $language_id;
+			}elseif($store_id){
+				$key = $key . ".store_" . $store_id;
+			}else{
+				$key = $key . ".lang_" . $language_id;
+			}
 		}
 		
 		return $this->remove($key);
@@ -425,17 +459,17 @@ class ACache {
 	/**
 	 * Unset lock cached item
 	 *
-	 * @param   string  $id	The cache data key
+	 * @param   string  $key	The cache data key
 	 * @param   string  $group	The cache data group
 	 *
 	 * @return  boolean
 	 *
 	 * @since   1.2.7
 	 */
-	public function unlock($id, $group){
+	public function unlock($key, $group){
 
 		if($this->enabled && $this->cache_driver && $this->cache_driver->isSupported() ) {		
-			$unlocked = $this->cache_driver->unlock($id, $group);
+			$unlocked = $this->cache_driver->unlock($key, $group);
 			if ($unlocked !== false){
 				return $unlocked;
 			}
@@ -444,7 +478,7 @@ class ACache {
 		}
 
 		//cleanup after cache unlock
-		$unlock = $this->cache_driver->remove($id.'_lc', $group);
+		$unlock = $this->cache_driver->remove($key.'_lc', $group);
 		return $unlock;
 	}
 
@@ -462,48 +496,49 @@ class ACache {
 		$stats = "<p>";
 		$stats .= "<strong>Cache usage report:</strong>";
 		$stats .= "</p>";
-		$stats .= "<ul>";
+		$stats .= '<table>';
+		$stats .= '<tr><td></td><td width="9%"></td><td width="9%"></td><td width="9%"></td><td width="9%"></td><td width="9%"></td></tr>';
 		foreach ($this->cache as $group => $cache) {
-			$stats .= "<li>";
+			$stats .= "<tr><td colspan=6>";
 			$stats .= "<strong>Cache group: $group</strong>";
-			$stats .= "</li>";
+			$stats .= "</td></tr>";
 			foreach ($cache as $key => $data) {
 			$size_in_bytes = strlen( serialize( $data ) );
 			$total_size += $size_in_bytes;
 			$text = '';
 			if($this->cache_saves[$group][$key] > 1){
-				$text .= "<b>--> Saves: ".$this->cache_saves[$group][$key] ."</b>, ";
+				$text .= "<td><b>--> Saves: ".$this->cache_saves[$group][$key] ."</b></td>";
 			} else if($this->cache_saves[$group][$key]) {
-				$text .= "Saves: ".$this->cache_saves[$group][$key] .", ";
+				$text .= "<td>Saves: ".$this->cache_saves[$group][$key] ."</td>";
 			} else {
-				$text .= "No saves, ";
+				$text .= "<td>No saves</td>";
 			}
 			if($this->cache_loads[$group][$key] > 1){
-				$text .= "<b>--> Loads: ".$this->cache_loads[$group][$key] ."</b>, ";
+				$text .= "<td><b>--> Loads: ".$this->cache_loads[$group][$key] ."</b></td>";
 			} else if($this->cache_loads[$group][$key]) {
-				$text .= "Loads: ".$this->cache_loads[$group][$key] .", ";
+				$text .= "<td>Loads: ".$this->cache_loads[$group][$key] ."</td>";
 			} else {
-				$text .= "No loads, ";
+				$text .= "<td>No loads</td>";
 			}
 			if($this->cache_hits[$group][$key]) {
-				$text .= "Hits: ".$this->cache_hits[$group][$key] .", ";
+				$text .= "<td>Hits: ".$this->cache_hits[$group][$key] ."</td>";
 			} else {
-				$text .= "No Hits, ";
+				$text .= "<td>No Hits</td>";
 			}
 			if($this->cache_misses[$group][$key] > 1){
-				$text .= "<b>--> Misses: ".$this->cache_misses[$group][$key] ."</b> ";
+				$text .= "<td><b>--> Misses: ".$this->cache_misses[$group][$key] ."</b></td>";
 			} else if($this->cache_misses[$group][$key]) {
-				$text .= "Misses: ".$this->cache_misses[$group][$key] ." ";
+				$text .= "<td>Misses: <b class=\"danger\">".$this->cache_misses[$group][$key] ."</b></td>";
 			} else {
-				$text .= "No Misses ";
+				$text .= "<td>No Misses</td>";
 			}
 			
-			$stats .= "<li><strong>Key:</strong> 
-					$key - ( " . number_format( $size_in_bytes/$kb_in_bytes, 2 ) . "k ), ".$text."
-				  </li>";
+			$stats .= '<tr>
+						<td style="text-align:left; padding-left: 20px;">'.$key.'</td><td>' . number_format( $size_in_bytes/$kb_in_bytes, 2 ) . 'k</td> '.$text.'
+					</tr>';
 			}
 		}
-		$stats .= "</ul>";
+		$stats .= "</table>";
 		$stats .= "<p>";
 		$stats .= "<strong>Total cache memory size: ".number_format( $total_size/$kb_in_bytes, 2 )."k</strong>";
 		$stats .= "</p>";
@@ -552,7 +587,7 @@ class ACache {
 		return $group;
 	}
 
-	// Special Case of HTML Cahce handling
+	// Special Case of HTML Cache handling
 
 	/**
 	 * Read HTML cache file
@@ -568,7 +603,7 @@ class ACache {
 			//load cache from storage		
 			$data = $this->cache_driver->get($key, $group);
 			if($data === false){
-				//check if chache is locked
+				//check if cache is locked
 				$lock = $this->lock($key, $group);
 				if($lock['locked'] == true && $lock['waited'] == true){
 					//try to get cache again 
@@ -617,5 +652,5 @@ class ACache {
 		}
 		return $ret;
 	}
-	
+
 }

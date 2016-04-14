@@ -536,7 +536,7 @@ class ModelSaleOrder extends Model{
 				WHERE order_id=" . $order_id . " AND type='total'";
 		$this->db->query($sql);
 
-		$this->cache->delete('product');
+		$this->cache->remove('product');
 
 	}
 

@@ -25,6 +25,12 @@ if (!defined('DIR_CORE')) {
 /** @noinspection PhpUndefinedClassInspection
  * @property ModelToolImage $model_tool_image
  * @property  ExtensionsAPI $extensions
+ * @property  ALoader $load
+ * @property  AHtml $html
+ * @property  AConfig $config
+ * @property  ACache $cache
+ * @property  ADB $db
+ * @property  ALanguageManager $language
  */
 class AResource {
 	/**
@@ -91,16 +97,16 @@ class AResource {
 	}
 
     protected function _loadType() {
-		$cache_name = 'resources.'.$this->type;
-        $cache_name = preg_replace('/[^a-zA-Z0-9\.]/', '', $cache_name);
-        $type_data = $this->cache->get($cache_name,'', (int)$this->config->get('config_store_id'));
-        if (empty($type_data['type_id'])) {
+		$cache_key = 'resources.'.$this->type;
+        $cache_key = preg_replace('/[^a-zA-Z0-9\.]/', '', $cache_key).'.store_'.(int)$this->config->get('config_store_id');
+        $type_data = $this->cache->pull($cache_key);
+        if ($type_data=== false || empty($type_data['type_id'])) {
             $sql = "SELECT * "
                  . "FROM ".$this->db->table("resource_types") . " "
                  . "WHERE type_name = '" . $this->db->escape($this->type) . "'";
             $query = $this->db->query($sql);
             $type_data = $query->row;
-            $this->cache->set($cache_name, $type_data,'', (int)$this->config->get('config_store_id') );
+            $this->cache->push($cache_key, $type_data);
         }
         $this->type_id = $type_data['type_id'];
         $this->type_dir = $type_data['default_directory'];
@@ -191,14 +197,11 @@ class AResource {
         }
 
 		//attempt to load cache 
-        $cache_name = 'resources.'. $resource_id;
-        $cache_name = preg_replace('/[^a-zA-Z0-9\.]/', '', $cache_name);
-        $resource = $this->cache->get($cache_name );
-
-        if (is_null($resource)) {
-
+        $cache_key = 'resources.'. $resource_id;
+        $cache_key = preg_replace('/[^a-zA-Z0-9\.]/', '', $cache_key);
+        $resource = $this->cache->pull($cache_key );
+        if ($resource === false) {
             $where = "WHERE rl.resource_id = ". $this->db->escape($resource_id);
-
             $sql = "SELECT
                         rd.*,
                         COALESCE(rd.resource_path,rdd.resource_path) as resource_path,
@@ -206,9 +209,12 @@ class AResource {
                         rt.type_name,
                         rt.default_icon
                     FROM " . $this->db->table("resource_library") . " rl " . "
-                    LEFT JOIN " . $this->db->table("resource_descriptions") . " rd ON (rl.resource_id = rd.resource_id)
-                    LEFT JOIN " . $this->db->table("resource_descriptions") . " rdd ON (rl.resource_id = rdd.resource_id AND rdd.language_id = '".$this->language->getDefaultLanguageID()."')
-                    LEFT JOIN " . $this->db->table("resource_types") . " rt ON (rl.type_id = rt.type_id )
+                    LEFT JOIN " . $this->db->table("resource_descriptions") . " rd
+                        ON (rl.resource_id = rd.resource_id)
+                    LEFT JOIN " . $this->db->table("resource_descriptions") . " rdd
+                        ON (rl.resource_id = rdd.resource_id AND rdd.language_id = '".$this->language->getDefaultLanguageID()."')
+                    LEFT JOIN " . $this->db->table("resource_types") . " rt
+                        ON (rl.type_id = rt.type_id )
                     " . $where;
 
             $query = $this->db->query($sql);
@@ -217,7 +223,7 @@ class AResource {
             foreach ( $result as $r ) {
                 $resource[ $r['language_id'] ] = $r;
             }
-            $this->cache->set($cache_name, $resource,'', (int)$this->config->get('config_store_id'));
+            $this->cache->push($cache_key, $resource);
         }
 
         $result = array();
@@ -231,7 +237,15 @@ class AResource {
         return $result;
 	}
 
-	public function getResourceThumb( $resource_id, $width = '', $height = '', $language_id = '' ) {
+	/**
+	 * @param int $resource_id
+	 * @param int $width
+	 * @param int $height
+	 * @param string|int $language_id
+	 * @return string
+	 * @throws AException
+	 */
+	public function getResourceThumb( $resource_id, $width, $height, $language_id = '' ) {
 		
 		if ( !$language_id ) {
 		    $language_id = $this->config->get('storefront_language_id');
@@ -373,13 +387,13 @@ class AResource {
             $language_id = $this->config->get('storefront_language_id');
         }
 
+		$store_id = (int)$this->config->get('config_store_id');
+
 		//attempt to load cache 
-        $cache_name = 'resources.'.$this->type
-                      .'.'. $object_name
-                      .'.'.$object_id;
-        $cache_name = preg_replace('/[^a-zA-Z0-9\.]/', '', $cache_name);
-        $resources = $this->cache->get($cache_name, $language_id, (int)$this->config->get('config_store_id'));
-        if (!is_null($resources)) {
+        $cache_key = 'resources.'.$this->type.'.'. $object_name.'.'.$object_id;
+        $cache_key = preg_replace('/[^a-zA-Z0-9\.]/', '', $cache_key).'.store_'.$store_id.'_lang_'.$language_id;
+        $resources = $this->cache->pull($cache_key);
+        if ($resources !== false) {
             return $resources;
         }
 
@@ -397,36 +411,44 @@ class AResource {
 					rm.default,
 					rm.sort_order	  
 				FROM " . $this->db->table("resource_library") . " rl " . "
-				LEFT JOIN " . $this->db->table("resource_map") . " rm ON rm.resource_id = rl.resource_id " . "
-				LEFT JOIN " . $this->db->table("resource_descriptions") . " rd ON (rl.resource_id = rd.resource_id AND rd.language_id = '".$language_id."')
-				LEFT JOIN " . $this->db->table("resource_descriptions") . " rdd ON (rl.resource_id = rdd.resource_id AND rdd.language_id = '".$this->language->getDefaultLanguageID()."')
+				LEFT JOIN " . $this->db->table("resource_map") . " rm
+					ON rm.resource_id = rl.resource_id " . "
+				LEFT JOIN " . $this->db->table("resource_descriptions") . " rd
+					ON (rl.resource_id = rd.resource_id AND rd.language_id = '".$language_id."')
+				LEFT JOIN " . $this->db->table("resource_descriptions") . " rdd
+					ON (rl.resource_id = rdd.resource_id AND rdd.language_id = '".$this->language->getDefaultLanguageID()."')
 				" . $where . "
 				ORDER BY rm.sort_order ASC";
 					
 		$query = $this->db->query($sql);
 		$resources = $query->rows;
-        $this->cache->set($cache_name, $resources, $language_id, (int)$this->config->get('config_store_id'));
-		
+        $this->cache->push($cache_key, $resources);
 		return $resources;
 	}
 
+	/**
+	 * @return array
+	 */
     public function getAllResourceTypes() {
         //attempt to load cache
-        $cache_name = 'resources.types';
-        $types = $this->cache->get($cache_name, '', (int)$this->config->get('config_store_id'));
-        if (!is_null($types)) {
+        $cache_key = 'resources.types.store_'.(int)$this->config->get('config_store_id');
+        $types = $this->cache->pull($cache_key);
+        if ($types !== false) {
             return $types;
         }
 
 		$sql = "SELECT * FROM " . $this->db->table("resource_types") . " ";
 		$query = $this->db->query($sql);
 		$types = $query->rows;
-        $this->cache->set($cache_name, $types, '', (int)$this->config->get('config_store_id'));
+        $this->cache->push($cache_key, $types);
 
 		return $types;
 	}
 
     //TODO: define where all object types will be kept and fetch them from storage
+	/**
+	 * @return array
+	 */
     public function getAllObjects() {
         return $this->obj_list;
     }
@@ -474,7 +496,7 @@ class AResource {
 		}
 
 		foreach ($results as $k=>$result) {
-
+			$thumb_url = $thumb2_url = '';
 			$resource_info = $result['resource_id'] ? $this->getResource($result['resource_id'], $this->config->get('storefront_language_id') ) : $result;
 		 	$origin = $resource_info['resource_path'] ? 'internal' : 'external';
 			
@@ -523,7 +545,7 @@ class AResource {
 								$sizes['thumb2']['height']
 						);
 					}
-					if(!$thumb2_url && $sizes['thum2b']){
+					if(!$thumb2_url && $sizes['thumb2']){
 						$thumb2_url = $this->model_tool_image->resize(
 											$result['resource_path'],
 											$sizes['thumb2']['width'],

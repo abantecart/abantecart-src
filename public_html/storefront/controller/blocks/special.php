@@ -40,13 +40,13 @@ class ControllerBlocksSpecial extends AController {
 		$this->loadModel('catalog/review');
 		$this->loadModel('tool/seo_url');
 		$this->loadModel('tool/image');
-		$promoton = new APromotion();
+		$promotion = new APromotion();
 		
 		$this->data['button_add_to_cart'] = $this->language->get('button_add_to_cart');
 		
 		$this->data['products'] = array();
 		
-		$results = $promoton->getProductSpecials('pd.name', 'ASC', 0, $this->config->get('config_special_limit'));
+		$results = $promotion->getProductSpecials('pd.name', 'ASC', 0, $this->config->get('config_special_limit'));
 
         $resource = new AResource('image');
 		foreach ($results as $result) {
@@ -63,14 +63,14 @@ class ControllerBlocksSpecial extends AController {
 
 			$special = FALSE;
 			
-			$discount = $promoton->getProductDiscount($result['product_id']);
+			$discount = $promotion->getProductDiscount($result['product_id']);
 			
 			if ($discount) {
 				$price = $this->currency->format($this->tax->calculate($discount, $result['tax_class_id'], $this->config->get('config_tax')));
 			} else {
 				$price = $this->currency->format($this->tax->calculate($result['price'], $result['tax_class_id'], $this->config->get('config_tax')));
 			
-				$special = $promoton->getProductSpecial($result['product_id']);
+				$special = $promotion->getProductSpecial($result['product_id']);
 			
 				if ($special) {
 					$special = $this->currency->format($this->tax->calculate($special, $result['tax_class_id'], $this->config->get('config_tax')));

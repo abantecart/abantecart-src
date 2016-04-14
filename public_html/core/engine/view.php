@@ -343,9 +343,9 @@ class AView {
     	if ( !$filename ) {
     		return null;    	
     	}
-	    $output = $http_path = '';
+	    $http_path = '';
 		$res_arr = $this->_extensions_resource_map($filename);
-		//get first exact template extension resource or default template resource othewise.
+		//get first exact template extension resource or default template resource otherwise.
 		if ( count($res_arr['original'])) {
 			$output = $res_arr['original'][0];
 		} else if(count($res_arr['default'])) {
@@ -388,7 +388,7 @@ class AView {
 
 	/**
 	 * Check if HTML Cache file present 
-	 * @param string $filepath
+	 * @param string $key
 	 * @return bool
 	 */
 	public function checkHTMLCache( $key ) {
@@ -536,7 +536,7 @@ class AView {
 	private function _get_template_path($path, $filename, $mode) {
 		//look into extensions first
 		$res_arr = $this->_extensions_resource_map($filename);
-		//get first exact template extension resource or default template resource othewise.
+		//get first exact template extension resource or default template resource otherwise.
 		if ( count($res_arr['original'])) {
 			return $res_arr['original'][0];
 		} else if(count($res_arr['default'])) {

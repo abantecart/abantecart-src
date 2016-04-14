@@ -92,7 +92,7 @@ class ACacheDriverFile extends ACacheDriver{
 			if (file_exists($path)){
 				$data = file_get_contents($path);
 				if ($data){
-					// Remove secutiry code line
+					// Remove security code line
 					$data = str_replace($this->security_code, '', $data);
 				}
 			}
@@ -148,7 +148,7 @@ class ACacheDriverFile extends ACacheDriver{
 	public function remove($key, $group)
 	{
 		$path = $this->_buildFilePath($key, $group);
-		if (!@unlink($path)){
+		if ($path && is_file($path) && !unlink($path)){
 			return false;
 		}
 		return true;
@@ -259,13 +259,10 @@ class ACacheDriverFile extends ACacheDriver{
 	 *
 	 * @param   string  $key  The cache data key
 	 * @param   string  $group  The cache data group
-	 *
 	 * @return  boolean
-	 *
 	 * @since   1.2.7
 	 */
 	public function unlock($key, $group = null) {
-		$ret = false;
 		$path = $this->_buildFilePath($key, $group);
 		$fileopen = @fopen($path, "r+b");
 		if ($fileopen){
@@ -335,9 +332,7 @@ class ACacheDriverFile extends ACacheDriver{
 	 * Fast delete of a folder with content files
 	 *
 	 * @param   string  $path Full path to the folder to delete.
-	 *
-	 * @return  boolean 
-	 *
+	 * @return  boolean
 	 * @since   1.2.7
 	 */
 	protected function _delete_directory($path){
@@ -438,7 +433,6 @@ class ACacheDriverFile extends ACacheDriver{
 				if (is_dir($dir)){
 					//process directory
 					if ($recurse){
-						//$arr = array();
 						if (is_int($recurse)){
 							$arr = $this->_get_files($dir, $recurse - 1);
 						} else {

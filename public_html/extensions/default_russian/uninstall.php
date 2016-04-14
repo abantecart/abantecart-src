@@ -37,5 +37,5 @@ $lm->deleteAllLanguageEntries($language_id);
 //delete langauge
 $this->db->query("DELETE FROM ".DB_PREFIX."languages WHERE `code`='".$language_code."'");
 
-$this->cache->delete('language');
-$this->cache->delete('lang.'.$language_code);
+$this->cache->remove('localization.language');
+$this->cache->remove('localization.lang.'.$language_code);
