@@ -479,7 +479,7 @@
 	<definition>
 		<key>entry_image_quality</key>
 		<value>
-			<![CDATA[entry_image_quality!!!! (only for jpeg)]]></value>
+			<![CDATA[Jpeg Images Compression Level]]></value>
 	</definition>
 	<definition>
 		<key>entry_compression</key>
@@ -499,6 +499,14 @@
 	<definition>
 		<key>entry_enable_reviews</key>
 		<value><![CDATA[Enable Reviews:<br /><span class="help"></span>]]></value>
+	</definition>
+	<definition>
+		<key>entry_cache_enable</key>
+		<value><![CDATA[Cache enabled:<br /><span class="help">Please be careful when disable caching. Cached pages will not be re-created and site might start loading slow. </span>]]></value>
+	</definition>
+	<definition>
+		<key>text_setting_cache_drivers</key>
+		<value><![CDATA[ Currently using cache <b>%s</b> driver. Other drivers available for configuration are <i>%s</i> ]]></value>
 	</definition>
 	<definition>
 		<key>entry_storefront_api_status</key>

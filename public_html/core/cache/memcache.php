@@ -29,7 +29,6 @@ include_once('driver.php');
  *
  * NOTE: to use this driver put lines belong into your system/config.php
 
-define('CACHE_ENABLE', true);
 define('CACHE_DRIVER', 'memcache');
 define('CACHE_HOST', 'localhost');
 define('CACHE_PORT', 11211);

@@ -1703,6 +1703,7 @@ INSERT INTO `ac_settings` (`group`, `key`, `value`) VALUES
 ('system','config_retina_enable',0),
 ('system','config_image_quality',90),
 ('system','config_compression',0),
+('system','config_cache_enable',1),
 ('system','config_html_cache',1),
 ('system','config_error_display',1),
 ('system','config_error_log',1),

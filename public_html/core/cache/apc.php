@@ -29,7 +29,6 @@ include_once('driver.php');
  *
  * NOTE: to use this driver put lines belong into your system/config.php
 
-define('CACHE_ENABLE', true);
 define('CACHE_DRIVER', 'apc');
 define('CACHE_SECRET', 'your_secret_key');
 

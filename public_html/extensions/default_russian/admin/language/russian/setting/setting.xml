@@ -434,7 +434,7 @@
 	</definition>
 	<definition>
 		<key>entry_image_quality</key>
-		<value><![CDATA[Качество JPEG-Изображений:<br /><span class="help">от 1 до 100 (от худшего к лучшему)</span>]]></value>
+		<value><![CDATA[Степень сжатия Jpeg изображений]]></value>
 	</definition>
 	<definition>
 		<key>entry_compression</key>
@@ -451,6 +451,14 @@
 	<definition>
 		<key>entry_enable_reviews</key>
 		<value><![CDATA[Включить Отзывы: <br /><span class="help">Включает/выключает добавление новых отзывов и отображение существующих отзывов</span>]]></value>
+	</definition>
+	<definition>
+		<key>entry_cache_enable</key>
+		<value><![CDATA[Включить Кэш:<br /><span class="help">Пожалуйста, будьте осторожны, когда отключаете кэширование. Сайт может начать медленно загружаться.</span>]]></value>
+	</definition>
+	<definition>
+		<key>text_setting_cache_drivers</key>
+		<value><![CDATA[ Текущий кеш-драйвер: <b>%s</b>. Также доступны для конфигурации драйверы: <i>%s</i> ]]></value>
 	</definition>
 	<definition>
 		<key>entry_storefront_api_status</key>

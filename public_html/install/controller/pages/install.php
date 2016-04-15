@@ -286,10 +286,7 @@ class ControllerPagesInstall extends AController {
 		$content .= "define('DB_DATABASE', '" . $this->session->data['install_step_data']['db_name'] . "');\n";
 		$content .= "define('DB_PREFIX', '" . DB_PREFIX . "');\n";		
 		$content .= "\n";		
-		$content .= "// Enable cache and driver\n";
-		$content .= "// Careful, disabling this setting. If disabled, cached pages will not be re-created and site might start loading slow. \n";
-		$content .= "define('CACHE_ENABLE', true);\n";		
-		$content .= "define('CACHE_DRIVER', 'file');\n";		
+		$content .= "define('CACHE_DRIVER', 'file');\n";
 		$content .= "// Unique AbanteCart store ID\n";
 		$content .= "define('UNIQUE_ID', '" . md5(time()) . "');\n";
 		$content .= "// Salt key for oneway encryption of passwords. NOTE: Change of SALT key will cause a loss of all existing users' and customers' passwords!\n";

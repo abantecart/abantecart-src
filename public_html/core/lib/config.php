@@ -105,18 +105,18 @@ final class AConfig {
 		}
 
 		//enable cache storage based on configuration
-		if(defined('CACHE_ENABLE') && CACHE_ENABLE === true) {
-			$cache->enableCache(true);
-			//set configured driver. 
-			$cache_driver = 'file';
-			if(defined('CACHE_DRIVER')){
-				$cache_driver = CACHE_DRIVER;
-			}
-			if(!$cache->setCacheStorageDriver($cache_driver)){
-				$error = new AError ('Cache storage driver ' . $cache_driver . ' can not be loaded!');
-				$error->toMessages()->toLog()->toDebug();	
-			}
+
+		$cache->enableCache();
+		//set configured driver.
+		$cache_driver = 'file';
+		if(defined('CACHE_DRIVER')){
+			$cache_driver = CACHE_DRIVER;
 		}
+		if(!$cache->setCacheStorageDriver($cache_driver)){
+			$error = new AError ('Cache storage driver ' . $cache_driver . ' can not be loaded!');
+			$error->toMessages()->toLog()->toDebug();
+		}
+
 
 		// Load default store settings
 		$settings = $cache->pull('settings');
@@ -141,7 +141,8 @@ final class AConfig {
 			}
 			unset($setting); //unset temp reference
 			//fix for rare issue on a database and creation of empty cache
-			if(!empty($settings)){			
+
+			if(!empty($settings) && $this->cnfg['config_cache_enable']){
 				$cache->push('settings', $settings);
 			}
 		} else {
@@ -180,10 +181,6 @@ final class AConfig {
 
 				$query = $db->query($sql);
 				$store_settings = $query->rows;
-				//fix for rare issue on a database and creation of empty cache
-				if(!empty($store_settings)){
-					$cache->push($cache_key, $store_settings);
-				}
 			}
 			
 			if ($store_settings) {
@@ -192,6 +189,12 @@ final class AConfig {
 					$value = $row['value'];
 					$this->cnfg[$row['key']] = $value;
 				}
+
+				//fix for rare issue on a database and creation of empty cache
+				if($this->cnfg['config_cache_enable']){
+					$cache->push($cache_key, $store_settings);
+				}
+
 				$this->cnfg['config_store_id'] = $store_settings[0]['store_id'];
 			} else {
 				$warning = new AWarning('Warning: Accessing store with unconfigured or unknown domain ( '.$url.' ).'."\n".' Check setting of your store domain URL in System Settings . Loading default store configuration for now.');
@@ -226,6 +229,11 @@ final class AConfig {
 		
 		//get template for storefront
 		$tmpl_id = $this->cnfg['config_storefront_template'];
+		//disable cache when it disabled in settings
+		//NOTE: see this setting changes in model
+		if(!$this->cnfg['config_cache_enable']){
+			$cache->disableCache();
+		}
 		
 		// load extension settings
 		$cache_suffix = IS_ADMIN ? 'admin' : $this->cnfg['config_store_id'];

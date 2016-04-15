@@ -137,6 +137,14 @@
 		<value><![CDATA[Parámetros de correo:<span class="help">Cuando se utiliza 'Correo', los parámetros adicionales de correo se puede añadir aquí (por ejemplo "-femail@storeaddress.com".]]></value>
 	</definition>
 	<definition>
+		<key>entry_cache_enable</key>
+		<value><![CDATA[Caché habilitado:<br /><span class="help">Tenga cuidado al deshabilitar el almacenamiento en caché. Las páginas en caché no se vuelven a crear al menos hasta el presente ha transcurrido mucho tiempo. </span>]]></value>
+	</definition>
+	<definition>
+		<key>text_setting_cache_drivers</key>
+		<value><![CDATA[En la actualidad, utilizando el controlador de caché <b>%s</b>. Otros controladores disponibles para la configuración se <i>%s</i>]]></value>
+	</definition>
+	<definition>
 		<key>entry_upload_max_size</key>
 		<value><![CDATA[Biblioteca de Recursos Subir tamaño máximo de archivo, kB]]></value>
 	</definition>
@@ -567,6 +575,10 @@
 	<definition>
 		<key>entry_compression</key>
 		<value><![CDATA[Nivel compresion de salida:<br /><span class="help">Nivel de compresion debe estar entre 0 y 9</span>]]></value>
+	</definition>
+	<definition>
+		<key>entry_image_quality</key>
+		<value><![CDATA[Jpeg Nivel Imágenes Compresión]]></value>
 	</definition>
 	<definition>
 		<key>entry_error_display</key>

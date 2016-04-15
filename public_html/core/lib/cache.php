@@ -104,14 +104,23 @@ class ACache {
 	/**
 	 * Enable caching is storage. Note, persistent in memory cache is always enabled
 	 *
-	 * @param   boolean  $enabled  True to enable caching
+	 * @return  void
+	 *
+	 * @since  1.2.7
+	 */
+	public function enableCache(){
+		$this->enabled = true;
+	}
+	/**
+	 *Disable caching is storage. Note, persistent in memory cache is always enabled
+	 *
 	 *
 	 * @return  void
 	 *
 	 * @since  1.2.7
 	 */
-	public function enableCache($enabled){
-		$this->enabled = $enabled;
+	public function disableCache(){
+		$this->enabled = false;
 	}
 	
 	/**
@@ -560,13 +569,13 @@ class ACache {
 		foreach ($files as $file) {
 		    //we need only php files.
 		    $file_name = $file->getFilename();
-		    if (!$file->isFile() || $file->getExtension() != 'php' || $file_name == 'index.php') {
+		    if (!$file->isFile() || $file->getExtension() != 'php' || $file_name == 'index.php' || $file_name == 'driver.php') {
 		    	continue;
 		    }
 		    //Build class name from the file name.
 		    $driver_name = str_ireplace('.php', '', strtolower(trim($file_name)));
 		    $class = 'ACacheDriver' . ucfirst($driver_name);
-		    $drivers[$driver_name] = array('class' => $class, 'file' => $file->getPathname());
+		    $drivers[$driver_name] = array('class' => $class, 'file' => $file->getPathname(), 'driver_name'=>$driver_name);
 		}
 			
 		return $drivers;

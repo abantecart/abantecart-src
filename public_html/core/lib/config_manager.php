@@ -1251,6 +1251,26 @@ class AConfigManager {
 			'name' => 'config_compression',
 			'value' => $data['config_compression'],
 		));
+
+		$all_cache_drivers = $this->registry->get('cache')->getCacheStorageDrivers();
+		$cache_drivers = array();
+		foreach($all_cache_drivers as $drv){
+			$name = strtoupper($drv['driver_name']);
+			$cache_drivers[$name] = $name;
+		}
+		sort($cache_drivers, SORT_STRING);
+		$current_cache_driver = strtoupper(defined('CACHE_DRIVER') ? CACHE_DRIVER : 'file');
+		unset($cache_drivers[$current_cache_driver]);
+
+		$fields['cache_enable'] = $form->getFieldHtml($props[] = array(
+					'type' => 'checkbox',
+					'name' => 'config_cache_enable',
+					'value' => $data['config_cache_enable'],
+					'style' => 'btn_switch',
+		)). sprintf($this->language->get('text_setting_cache_drivers'), $current_cache_driver, implode(', ', $cache_drivers));
+		;
+
+
 		$fields['html_cache'] = $form->getFieldHtml($props[] = array(
 			'type' => 'checkbox',
 			'name' => 'config_html_cache',

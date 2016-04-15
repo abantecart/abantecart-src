@@ -429,6 +429,10 @@
 		<value><![CDATA[Genera in alta risoluzione (retina) le immagini:<br /><span class="help">Per essere utilizzata, deve essere installato il modulo apache mod-rewrite ed è necessario rinominare il htaccess.txt in .htaccess. Nota: se AbanteCart non è installato nella root principale, (esempio in una sottocartella), è necessario modificare la regola RewriteBase nel file .htaccess. <br>Dopo aver abilitato dovresti cancellare la cache delle le immagini. </span>]]></value>
 	</definition>
 	<definition>
+		<key>entry_image_quality</key>
+		<value><![CDATA[Jpeg Livello Immagini Compressione]]></value>
+	</definition>
+	<definition>
 		<key>entry_compression</key>
 		<value><![CDATA[Uscita di livello di compressione:<br /><span class="help">GZIP per un trasferimento più efficace ai clienti richiedenti. Il livello di compressione deve essere tra 0 - 9</span>]]></value>
 	</definition>
@@ -443,6 +447,14 @@
 	<definition>
 		<key>entry_enable_reviews</key>
 		<value><![CDATA[Abilita recensioni:<br /><span class="help"></span>]]></value>
+	</definition>
+	<definition>
+		<key>entry_cache_enable</key>
+		<value><![CDATA[Cache abilitata:<br /><span class="help">Si prega di prestare attenzione quando si disabilita la memeorizzazione nella Cache. Le pagine memorizzate nella Cache non verranno ricreate e il sito potrebbe iniziare il caricamento lento. </span>]]></value>
+	</definition>
+	<definition>
+		<key>text_setting_cache_drivers</key>
+		<value><![CDATA[Attualmente utilizzando driver del <b>%s</b> di cache. Altri driver disponibili per la configurazione sono <i>%s</i> ]]></value>
 	</definition>
 	<definition>
 		<key>entry_storefront_api_status</key>

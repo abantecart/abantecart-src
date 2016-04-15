@@ -229,6 +229,11 @@ class ModelSettingSetting extends Model {
 				          NOW())";
 			$this->db->query($sql);
 		}
+		// if change cache status - flush cache
+		if(isset($data['config_cache_enable'])){
+			$this->cache->remove('*');
+		}
+
 		$this->cache->remove('settings');
 		$this->cache->remove('stores');
 	}
