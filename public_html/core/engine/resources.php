@@ -573,6 +573,7 @@ class AResource {
 										                                                    'height' => $sizes['thumb']['height'],
 										                                                    'attr' => 'alt="' . $resource_info['title'] . '"') ));
 				if($sizes['thumb2']){
+					$resources[$k]['thumb2_url'] = $thumb2_url;
 					$resources[$k]['thumb2_width'] = $sizes['thumb2']['width'];
 					$resources[$k]['thumb2_height'] = $sizes['thumb2']['height'];
 					$resources[$k]['thumb2_html'] = $this->html->buildResourceImage(array('url'    => $thumb2_url,
