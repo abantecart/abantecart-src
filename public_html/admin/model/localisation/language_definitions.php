@@ -77,8 +77,7 @@ class ModelLocalisationLanguageDefinitions extends Model {
 			$autotranslate
 			);
 
-		$this->cache->remove('localization.lang');
-		$this->cache->remove('localization.language.definitions');
+		$this->cache->remove('localization');
 		$this->cache->remove('admin_menu');
 
 		return true;
@@ -136,8 +135,7 @@ class ModelLocalisationLanguageDefinitions extends Model {
 				);
 		}
 
-		$this->cache->remove('localization.lang');
-		$this->cache->remove('localization.language.definitions');
+		$this->cache->remove('localization');
 		$this->cache->remove('admin_menu');
         return true;
 	}
@@ -155,8 +153,7 @@ class ModelLocalisationLanguageDefinitions extends Model {
 							  		AND `block` = '" . $row['block'] . "'
 							  		AND `language_key` = '" . $row['language_key'] . "'");
 		}
-		$this->cache->remove('localization.lang');
-		$this->cache->remove('localization.language.definitions');
+		$this->cache->remove('localization');
 		$this->cache->remove('admin_menu');
 	}
 

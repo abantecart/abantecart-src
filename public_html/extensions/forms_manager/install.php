@@ -65,5 +65,5 @@ if(!$result->num_rows){
 			(".$block_id.", 7, 'blocks/custom_form_block_content.tpl', NOW() ),
 			(".$block_id.", 8, 'blocks/custom_form_block_header.tpl', NOW() )";
 	$this->db->query($sql);
-	$this->cache->remove('layout.blocks');
+	$this->cache->remove('layout');
 }

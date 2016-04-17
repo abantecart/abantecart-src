@@ -34,7 +34,7 @@ class ModelLocalisationLengthClass extends Model {
 											 ) ));
 		}
 		
-		$this->cache->remove('localization.length_class');
+		$this->cache->remove('localization');
 
 		return $length_class_id;
 	}
@@ -60,14 +60,14 @@ class ModelLocalisationLengthClass extends Model {
 			}
 		}
 		
-		$this->cache->remove('localization.length_class');
+		$this->cache->remove('localization');
 	}
 	
 	public function deleteLengthClass($length_class_id) {
 		$this->db->query("DELETE FROM " . $this->db->table("length_classes") . " WHERE length_class_id = '" . (int)$length_class_id . "'");
 		$this->db->query("DELETE FROM " . $this->db->table("length_class_descriptions") . " WHERE length_class_id = '" . (int)$length_class_id . "'");
 		
-		$this->cache->remove('localization.length_class');
+		$this->cache->remove('localization');
 	}
 	
 	public function getLengthClasses($data = array()) {

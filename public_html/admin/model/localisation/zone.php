@@ -41,7 +41,7 @@ class ModelLocalisationZone extends Model {
 											 )) );
 		}
 	
-		$this->cache->remove('localization.zone');
+		$this->cache->remove('localization');
 		return $zone_id;
 	}
 
@@ -58,7 +58,7 @@ class ModelLocalisationZone extends Model {
 		}
 		if ( !empty($update) ) {
 			$this->db->query("UPDATE " . $this->db->table("zones") . " SET ". implode(',', $update) ." WHERE zone_id = '" . (int)$zone_id . "'");
-			$this->cache->remove('localization.zone');
+			$this->cache->remove('localization');
 		}
 		
 		if ( count($data['zone_name']) ) {
@@ -70,7 +70,7 @@ class ModelLocalisationZone extends Model {
 												 )) );
 			}
 		}
-		$this->cache->remove('localization.zone');
+		$this->cache->remove('localization');
 	}
 
 	/**
@@ -80,7 +80,7 @@ class ModelLocalisationZone extends Model {
 		$this->db->query("DELETE FROM " . $this->db->table("zones") . " WHERE zone_id = '" . (int)$zone_id . "'");
 		$this->db->query("DELETE FROM " . $this->db->table("zone_descriptions") . " WHERE zone_id = '" . (int)$zone_id . "'");
 
-		$this->cache->remove('localization.zone');
+		$this->cache->remove('localization');
 	}
 
 	/**

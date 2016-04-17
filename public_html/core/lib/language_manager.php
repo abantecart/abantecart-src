@@ -614,8 +614,7 @@ class ALanguageManager extends Alanguage {
 
 		//delete cash before loading
 		if (is_object($this->cache)) {
-			$this->cache->remove('localization.lang');
-			$this->cache->remove('localization.language.definitions');
+			$this->cache->remove('localization');
 			$this->cache->remove('storefront_menu');
 		}
 
@@ -973,7 +972,7 @@ class ALanguageManager extends Alanguage {
 				}
 			}
 			if ($tcount > 0) {
-				$this->cache->remove('localization.lang');
+				$this->cache->remove('localization');
 			}
 		}
 		return "Total: " . $tcount . " language entries cloned for table " . $table . "<br>";

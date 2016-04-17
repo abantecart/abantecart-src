@@ -362,7 +362,7 @@ class AExtensionManager {
 		$this->db->query("DELETE FROM " . $this->db->table("settings") . " WHERE `group` = '" . $this->db->escape($group) . "';");
 		$this->db->query("DELETE FROM " . $this->db->table("language_definitions") . " WHERE `block` = '" . $this->db->escape($group) . "_" . $this->db->escape($group)."';");
 		$this->cache->remove('settings');
-		$this->cache->remove('localization.language.definitions');
+		$this->cache->remove('localization');
 	}
 
 	/**

@@ -909,9 +909,7 @@ class ALayoutManager{
 										 WHERE instance_id = '" . ( int )$instance_id . "'");
 		}
 
-		$this->cache->remove('layout.a.blocks');
-		$this->cache->remove('layout.blocks');
-
+		$this->cache->remove('layout');
 		return $instance_id;
 	}
 
@@ -929,8 +927,7 @@ class ALayoutManager{
 			$this->db->query("DELETE FROM " . $this->db->table("block_layouts") . " 
 								WHERE layout_id = '" . ( int )$layout_id . "' AND parent_instance_id = '" . ( int )$parent_instance_id . "'");
 
-			$this->cache->remove('layout.a.blocks');
-			$this->cache->remove('layout.blocks');
+			$this->cache->remove('layout');
 		}
 		return true;
 	}
@@ -946,8 +943,7 @@ class ALayoutManager{
 			throw new AException (AC_ERR_LOAD, 'Error: Cannot to delete layout blocks. Missing layout ID!');
 		} else{
 			$this->db->query("DELETE FROM " . $this->db->table("block_layouts") . " WHERE layout_id = '" . ( int )$layout_id . "'");
-			$this->cache->remove('layout.a.blocks');
-			$this->cache->remove('layout.blocks');
+			$this->cache->remove('layout');
 		}
 		return true;
 	}
@@ -975,12 +971,7 @@ class ALayoutManager{
 								WHERE layout_id = '" . ( int )$layout_id . "'");
 		}
 
-		$this->cache->remove('layout.a.default');
-		$this->cache->remove('layout.a.layouts');
-		$this->cache->remove('layout.default');
-		$this->cache->remove('layout.layouts');
-		$this->cache->remove('layout.a.block.descriptions');
-
+		$this->cache->remove('layout');
 		return $layout_id;
 	}
 
@@ -1109,9 +1100,7 @@ class ALayoutManager{
 		}
 
 
-		$this->cache->remove('layout.a.pages');
-		$this->cache->remove('layout.pages');
-
+		$this->cache->remove('layout');
 		return $page_id;
 	}
 
@@ -1201,9 +1190,7 @@ class ALayoutManager{
 			}
 		}
 
-		$this->cache->remove('layout.a.blocks');
-		$this->cache->remove('layout.blocks');
-
+		$this->cache->remove('layout');
 		return $block_id;
 	}
 
@@ -1292,9 +1279,7 @@ class ALayoutManager{
 						array((int)$description['language_id'] => $update));
 			}
 
-			$this->cache->remove('layout.a.block.descriptions.' . $custom_block_id);
-			$this->cache->remove('layout.a.blocks');
-			$this->cache->remove('layout.blocks');
+			$this->cache->remove('layout');
 			return $custom_block_id;
 		} else{
 			if(!$block_id){
@@ -1315,9 +1300,7 @@ class ALayoutManager{
 							'content'       => $description ['content']
 					)));
 
-			$this->cache->remove('layout.a.block.descriptions.' . $custom_block_id);
-			$this->cache->remove('layout.a.blocks');
-			$this->cache->remove('layout.blocks');
+			$this->cache->remove('layout');
 			return $custom_block_id;
 		}
 
@@ -1411,9 +1394,7 @@ class ALayoutManager{
 		$this->db->query("DELETE FROM " . $this->db->table("custom_blocks") . " 
 								WHERE custom_block_id = '" . ( int )$custom_block_id . "'");
 
-		$this->cache->remove('layout.a.blocks');
-		$this->cache->remove('layout.blocks');
-		$this->cache->remove('layout.a.block.descriptions.' . $custom_block_id);
+		$this->cache->remove('layout');
 		return true;
 	}
 
@@ -1432,8 +1413,7 @@ class ALayoutManager{
 				$sql .= " AND parent_block_id = '" . ( int )$parent_block_id . "'";
 			}
 			$this->db->query($sql);
-			$this->cache->remove('layout.a.blocks');
-			$this->cache->remove('layout.blocks');
+			$this->cache->remove('layout');
 		}
 		return true;
 	}
@@ -1461,8 +1441,7 @@ class ALayoutManager{
 			$this->db->query("DELETE FROM " . $this->db->table("blocks") . " 
 								WHERE block_id = '" . ( int )$block_id . "'");
 
-			$this->cache->remove('layout.a.blocks');
-			$this->cache->remove('layout.blocks');
+			$this->cache->remove('layout');
 			return true;
 		} else{
 			return false;

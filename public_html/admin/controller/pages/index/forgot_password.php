@@ -176,8 +176,6 @@ class ControllerPagesIndexForgotPassword extends AController {
 			$mail->setText(sprintf($this->language->get('new_password_email_body'), $password));
 			$mail->send();
 
-			$this->cache->remove($this->request->get['hash']);
-
 			$this->redirect($this->html->getSecureURL('index/forgot_password/validate','&mail=sent'));
 
 		}

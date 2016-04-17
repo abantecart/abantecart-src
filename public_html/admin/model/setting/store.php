@@ -78,11 +78,9 @@ class ModelSettingStore extends Model {
 		$this->model_setting_setting->editSetting('details', array('config_ssl'=>$data['config_ssl']),$store_id);
 		$this->model_setting_setting->editSetting('details', array('config_ssl_url'=>$data['config_ssl_url']),$store_id);
 		
-		$this->cache->remove('settings.store');
+		$this->cache->remove('settings');
 		$this->cache->remove('stores');
 
-				
-		
 		return $store_id;
 	}
 
@@ -133,7 +131,7 @@ class ModelSettingStore extends Model {
             $this->model_setting_setting->editSetting('details',array('config_ssl'=>$data['config_ssl']),$store_id);
         }
 
-		$this->cache->remove('settings.store');
+		$this->cache->remove('settings');
 		$this->cache->remove('stores');
 	}
 
@@ -149,7 +147,7 @@ class ModelSettingStore extends Model {
 		$this->db->query("DELETE FROM " . $this->db->table("contents_to_stores") . " WHERE store_id = '" . (int)$store_id . "'");
 		$this->db->query("DELETE FROM " . $this->db->table("manufacturers_to_stores") . " WHERE store_id = '" . (int)$store_id . "'");
 	
-		$this->cache->remove('settings.store');
+		$this->cache->remove('settings');
 		$this->cache->remove('stores');
 	}
 

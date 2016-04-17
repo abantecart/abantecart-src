@@ -44,9 +44,7 @@ class ModelCatalogReview extends Model {
 		$msg = new AMessage();
 		$msg->saveNotice($language->get('text_new_review'), $msg_text);
 				
-		$this->cache->remove('product.rating.'.(int)$product_id);
-		$this->cache->remove('product.reviews.totals');
-		$this->cache->remove('product.reviews.totals.'.$product_id);
+		$this->cache->remove('product');
 
 		return $review_id;
 	}

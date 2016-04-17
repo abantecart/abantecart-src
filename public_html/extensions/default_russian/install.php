@@ -4333,5 +4333,4 @@ VALUES
 ");
 */
 
-$this->cache->remove('localization.language');
-$this->cache->remove('localization.lang.ru');
+$this->cache->remove('localization');

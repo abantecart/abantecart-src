@@ -867,8 +867,8 @@ class ALanguage {
                                 (`" . implode("`, `", array_keys($update_data)) . "`)
                                 VALUES ('" . implode("', '", $update_data) . "') ";
 				$this->db->query($sql);
-				$this->cache->remove('localization.lang');
-				$this->cache->remove('localization.language.definitions');
+				$this->cache->remove('localization');
+				$this->cache->remove('localization');
 				$this->cache->remove('storefront_menu');
 			}
 		}

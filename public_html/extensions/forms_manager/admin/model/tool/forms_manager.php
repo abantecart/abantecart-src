@@ -276,7 +276,7 @@ class ModelToolFormsManager extends Model {
 				$this->updateFormDescription($data['form_id'], $data['form_description']);
 			}
 
-			$this->_deleteCache($this->db->escape($data['form_name']));
+			$this->_deleteCache();
 
 			return true;
 		}
@@ -661,12 +661,7 @@ class ModelToolFormsManager extends Model {
 		return $data;
 	}
 
-	private function _deleteCache($name = '') {
-		$cache_key = 'forms';
-		if ($name) {
-			$cache_key .= '.' . $name;
-		}
-		$cache_key = preg_replace('/[^a-zA-Z0-9\.]/', '', $cache_key);
-		$this->cache->remove($cache_key);
+	private function _deleteCache() {
+		$this->cache->remove('forms');
 	}
 }

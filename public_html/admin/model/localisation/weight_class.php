@@ -35,7 +35,7 @@ class ModelLocalisationWeightClass extends Model {
 											 )) );
 		}
 		
-		$this->cache->remove('localization.weight_class');
+		$this->cache->remove('localization');
 		return $weight_class_id;
 	}
 	
@@ -57,14 +57,14 @@ class ModelLocalisationWeightClass extends Model {
 			}
 		}
 		
-		$this->cache->remove('localization.weight_class');
+		$this->cache->remove('localization');
 	}
 	
 	public function deleteWeightClass($weight_class_id) {
 		$this->db->query("DELETE FROM " . $this->db->table("weight_classes") . " WHERE weight_class_id = '" . (int)$weight_class_id . "'");
 		$this->db->query("DELETE FROM " . $this->db->table("weight_class_descriptions") . " WHERE weight_class_id = '" . (int)$weight_class_id . "'");
 		
-		$this->cache->remove('localization.weight_class');
+		$this->cache->remove('localization');
 	}
 	
 	public function getWeightClasses($data = array()) {

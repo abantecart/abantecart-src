@@ -34,5 +34,4 @@ if($xml){
 	$storefront_menu = new AMenu_Storefront();
 	$storefront_menu->addLanguage($new_language_id,$translates);
 }
-$this->cache->remove('localization.language');
-$this->cache->remove('localization.lang.it');
+$this->cache->remove('localization');

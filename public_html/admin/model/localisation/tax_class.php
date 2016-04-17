@@ -44,7 +44,7 @@ class ModelLocalisationTaxClass extends Model {
 											 )) );
 		}
 				
-		$this->cache->remove('localization.tax_class');
+		$this->cache->remove('localization');
 		return $tax_class_id;
 	}
 
@@ -77,7 +77,7 @@ class ModelLocalisationTaxClass extends Model {
 											 )) );
 		}
 						
-		$this->cache->remove('localization.tax_class');
+		$this->cache->remove('localization');
 		return $tax_rate_id;
 	}
 
@@ -111,7 +111,7 @@ class ModelLocalisationTaxClass extends Model {
 				}
 			}
 							  						  
-			$this->cache->remove('localization.tax_class');
+			$this->cache->remove('localization');
 		}
 	}
 
@@ -135,8 +135,7 @@ class ModelLocalisationTaxClass extends Model {
 								SET ". implode(',', $update) ."
 								WHERE tax_rate_id = '" . (int)$tax_rate_id . "'");
 
-			$this->cache->remove('localization.tax_class');
-			$this->cache->remove('localization.location');
+			$this->cache->remove('localization');
 		} 
 		if (count($data['tax_rate'])) {
 			foreach ($data['tax_rate'] as $language_id => $value) {
@@ -146,8 +145,7 @@ class ModelLocalisationTaxClass extends Model {
 													 'description' => $value['description'],
 												 )) );
 			}		
-			$this->cache->remove('localization.tax_class');
-			$this->cache->remove('localization.location');
+			$this->cache->remove('localization');
 		}
 	}
 
@@ -161,7 +159,7 @@ class ModelLocalisationTaxClass extends Model {
 							WHERE tax_class_id = '" . (int)$tax_class_id . "'");
 		$this->db->query("DELETE FROM " . $this->db->table("tax_rates") . " 
 							WHERE tax_class_id = '" . (int)$tax_class_id . "'");
-		$this->cache->remove('localization.tax_class');
+		$this->cache->remove('localization');
 	}
 
 	/**
@@ -172,7 +170,7 @@ class ModelLocalisationTaxClass extends Model {
 							WHERE tax_rate_id = '" . (int)$tax_rate_id . "'");
 		$this->db->query("DELETE FROM " . $this->db->table("tax_rate_descriptions") . " 
 							WHERE tax_rate_id = '" . (int)$tax_rate_id . "'");
-		$this->cache->remove('localization.tax_class');
+		$this->cache->remove('localization');
 	}
 
 	/**

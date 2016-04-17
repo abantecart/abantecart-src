@@ -50,7 +50,7 @@ class ControllerPagesExtensionEncryptionDataManager extends AController {
 
 		if ( $this->request->is_POST() && $this->_validate() ) {
 			
-			$this->cache->remove('encryption.keys');
+			$this->cache->remove('encryption');
 			$new_keys = array();
 			foreach ($this->request->post as $key => $value) {
 				$matches = array();

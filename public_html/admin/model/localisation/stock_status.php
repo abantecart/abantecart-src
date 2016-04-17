@@ -36,7 +36,7 @@ class ModelLocalisationStockStatus extends Model {
 											 )) );
 		}
 		
-		$this->cache->remove('localization.stock_status');
+		$this->cache->remove('localization');
 
 		return $stock_status_id;
 	}
@@ -52,13 +52,13 @@ class ModelLocalisationStockStatus extends Model {
 												 )) );
 
 		}
-		$this->cache->remove('localization.stock_status');
+		$this->cache->remove('localization');
 	}
 	
 	public function deleteStockStatus($stock_status_id) {
 		$this->db->query("DELETE FROM " . $this->db->table("stock_statuses") . " 
 						WHERE stock_status_id = '" . (int)$stock_status_id . "'");
-		$this->cache->remove('localization.stock_status');
+		$this->cache->remove('localization');
 	}
 		
 	public function getStockStatus($stock_status_id) {

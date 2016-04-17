@@ -48,7 +48,7 @@ class ModelLocalisationCurrency extends Model {
 						          '" . (int)$data[ 'status' ] . "',
 						          NOW())");
 
-		$this->cache->remove('localization.currency');
+		$this->cache->remove('localization');
 		return $this->db->getLastId();
 	}
 
@@ -82,7 +82,7 @@ class ModelLocalisationCurrency extends Model {
 			$this->db->query("UPDATE " . $this->db->table("currencies") . " 
 							  SET " . implode(',', $update) . "
 							  WHERE currency_id = '" . (int)$currency_id . "'");
-			$this->cache->remove('localization.currency');
+			$this->cache->remove('localization');
 		}
 		return true;
 	}
@@ -98,7 +98,7 @@ class ModelLocalisationCurrency extends Model {
 		}
 		$this->db->query("DELETE FROM " . $this->db->table("currencies") . " 
 						  WHERE currency_id = '" . (int)$currency_id . "'");
-		$this->cache->remove('localization.currency');
+		$this->cache->remove('localization');
 		return true;
 	}
 
@@ -223,7 +223,7 @@ class ModelLocalisationCurrency extends Model {
 							      date_modified = NOW()
 							  WHERE code = '" . $this->db->escape($this->config->get('config_currency')) . "'";
 			$this->db->query($sql);
-			$this->cache->remove('localization.currency');
+			$this->cache->remove('localization');
 		}
 	}
 

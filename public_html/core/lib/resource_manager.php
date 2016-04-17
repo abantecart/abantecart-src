@@ -96,13 +96,13 @@ class AResourceManager extends AResource {
 	/* not yet supported */
 	//TODO
 	public function addResourceType () {
-        $this->cache->remove('resources.types');
+        $this->cache->remove('resources');
 	}
 
 	/* not yet supported */
 	//TODO
     public function deleteResourceType() {
-        $this->cache->remove('resources.types');
+        $this->cache->remove('resources');
     }
 
 	public function buildResourcePath($resource_id, $file_path){
@@ -188,7 +188,7 @@ class AResourceManager extends AResource {
 												 )) );
         }
 
-        $this->cache->remove('resources.'.$this->type);
+        $this->cache->remove('resources');
 
         return $resource_id;
 
@@ -233,8 +233,7 @@ class AResourceManager extends AResource {
 		}
 
 
-        $this->cache->remove('resources.'. $resource_id);
-        $this->cache->remove('resources.'.$resource['type_name']);
+        $this->cache->remove('resources');
         return true;
     }
 
@@ -294,9 +293,7 @@ class AResourceManager extends AResource {
         $this->db->query("DELETE FROM " . $this->db->table("resource_descriptions") . " WHERE resource_id = '".(int)$resource_id."' ");
         $this->db->query("DELETE FROM " . $this->db->table("resource_library") . " WHERE resource_id = '".(int)$resource_id."' ");
 
-        $this->cache->remove('resources.'. $resource_id);
-        $this->cache->remove('resources.'. $resource['type_name']);
-
+        $this->cache->remove('resources');
         return true;
     }
 	
@@ -353,7 +350,7 @@ class AResourceManager extends AResource {
 			}
 
 			$ids[] = $resource_id;
-			$this->cache->remove('resources.'. $resource_id);
+			$this->cache->remove('resources');
 
 			if ( $resource['resource_path'] && is_file( DIR_RESOURCE . $resource['type_name'] . '/' . $resource['resource_path']) ) {
 				unlink( DIR_RESOURCE.$resource['type_name'].'/'.$resource['resource_path'] );
@@ -410,9 +407,7 @@ class AResourceManager extends AResource {
                         date_added = NOW()";
         $this->db->query($sql);
 
-        $this->cache->remove('resources.'. $resource_id);
-        $this->cache->remove('resources.'. $object_name.'.'.$resource_id);
-        $this->cache->remove('resources.'. $resource['type_name']);
+        $this->cache->remove('resources');
 	}
 
 	/**
@@ -443,9 +438,7 @@ class AResourceManager extends AResource {
 			if ( $result->num_rows ) { continue; }
 
 			$ids[] = (int)$id;
-			$this->cache->remove('resources.'. $id);
-			$this->cache->remove('resources.'. $object_name.'.'.$id);
-			$this->cache->remove('resources.'. $resource['type_name']);
+			$this->cache->remove('resources');
 		}
 
 		foreach( $ids as $resource_id ){
@@ -487,9 +480,7 @@ class AResourceManager extends AResource {
                         AND object_id = '".(int)$object_id."'";
         $this->db->query($sql);
 
-        $this->cache->remove('resources.'. $resource_id);
-		$this->cache->remove('resources.'. $object_name.'.'.$resource_id);
-        $this->cache->remove('resources.'. $resource['type_name']);
+        $this->cache->remove('resources');
 
 		return true;
 	}
@@ -512,9 +503,7 @@ class AResourceManager extends AResource {
 				continue;
 			}
 			$ids[] = (int)$id;
-			$this->cache->remove('resources.'. $id);
-			$this->cache->remove('resources.'. $object_name.'.'.$id);
-			$this->cache->remove('resources.'. $resource['type_name']);
+			$this->cache->remove('resources');
 		}
 
 		$sql = "DELETE FROM " . $this->db->table("resource_map") . " 
@@ -548,9 +537,7 @@ class AResourceManager extends AResource {
                             AND object_id = '".(int)$object_id."'";
             $this->db->query($sql);
 
-            $this->cache->remove('resources.'. $resource_id);
-			$this->cache->remove('resources.'. $object_name.'.'.$resource_id);
-            $this->cache->remove('resources.'. $resource['type_name']);
+            $this->cache->remove('resources');
         }
 		return true;
     }

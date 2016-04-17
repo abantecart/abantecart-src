@@ -54,7 +54,7 @@ class ModelLocalisationOrderStatus extends Model{
 				VALUES (" . $order_status_id . ", '" . $this->db->escape($status_text_id) . "');";
 		$this->db->query($sql);
 
-		$this->cache->remove('localization.order_status');
+		$this->cache->remove('localization');
 		return $order_status_id;
 	}
 
@@ -84,7 +84,7 @@ class ModelLocalisationOrderStatus extends Model{
 			$this->db->query($sql);
 		}
 
-		$this->cache->remove('localization.order_status');
+		$this->cache->remove('localization');
 	}
 
 	/**
@@ -101,7 +101,7 @@ class ModelLocalisationOrderStatus extends Model{
 		$this->db->query("DELETE FROM " . $this->db->table('order_status_ids') . "
 							WHERE order_status_id = '" . (int)$order_status_id . "'");
 
-		$this->cache->remove('localization.order_status');
+		$this->cache->remove('localization');
 		return true;
 	}
 

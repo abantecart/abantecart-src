@@ -19,14 +19,10 @@
 				</div>
 			</div>		
 			<div class="form-group col-xs-12 col-sm-3 col-lg-3">
-				<div class="input-group">
 				    <?php echo $description; ?>&nbsp;
-				</div>
 			</div>		
 			<div class="form-group col-xs-12 col-sm-3 col-lg-3">
-				<div class="input-group">
 				    <?php echo $model; ?>&nbsp;
-				</div>
 			</div>		
 			<div class="form-group col-xs-12 col-sm-2 col-lg-2">
 				<div class="input-group">

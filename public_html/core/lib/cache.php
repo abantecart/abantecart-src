@@ -341,7 +341,10 @@ class ACache {
 			unset( $this->cache[$group][$key] );
 			if($this->enabled && $this->cache_driver && $this->cache_driver->isSupported()) {
 				if(!$this->cache_driver->remove($key, $group)){
-					return false;
+					//can not delete this key, delete entire group (backwards compatibility)
+					if(!$this->cache_driver->clean($group)){
+						return false;
+					}
 				}
 			}	
 		}
