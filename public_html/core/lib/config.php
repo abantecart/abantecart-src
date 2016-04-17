@@ -105,7 +105,6 @@ final class AConfig {
 		}
 
 		//enable cache storage based on configuration
-
 		$cache->enableCache();
 		//set configured driver.
 		$cache_driver = 'file';
@@ -116,7 +115,6 @@ final class AConfig {
 			$error = new AError ('Cache storage driver ' . $cache_driver . ' can not be loaded!');
 			$error->toMessages()->toLog()->toDebug();
 		}
-
 
 		// Load default store settings
 		$settings = $cache->pull('settings');
@@ -141,10 +139,10 @@ final class AConfig {
 			}
 			unset($setting); //unset temp reference
 			//fix for rare issue on a database and creation of empty cache
-
 			if(!empty($settings) && $this->cnfg['config_cache_enable']){
 				$cache->push('settings', $settings);
 			}
+			
 		} else {
 			foreach ($settings as $setting) {
 				$this->cnfg[$setting['key']] = $setting['value'];
@@ -229,8 +227,8 @@ final class AConfig {
 		
 		//get template for storefront
 		$tmpl_id = $this->cnfg['config_storefront_template'];
+
 		//disable cache when it disabled in settings
-		//NOTE: see this setting changes in model
 		if(!$this->cnfg['config_cache_enable']){
 			$cache->disableCache();
 		}

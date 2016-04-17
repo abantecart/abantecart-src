@@ -31,6 +31,7 @@ class ControllerBlocksSearch extends AController {
 
 		$this->data['text_advanced'] = $this->language->get('text_advanced');
 		$this->data['entry_search'] = $this->language->get('entry_search');
+		$this->data['text_category'] = $this->language->get('text_category');
 		$this->data['search'] = $this->html->buildElement(
 												array ('type'=>'input',
 					                                    'name'=>'filter_keyword',
@@ -38,6 +39,10 @@ class ControllerBlocksSearch extends AController {
 														'placeholder' => $this->language->get('text_keyword')
 
 												));
+
+		//load top level categories
+		$this->load->model('catalog/category');
+		$this->data['top_categories'] = $this->model_catalog_category->getCategories(0);
 		$this->data['button_go'] = $this->language->get('button_go');
 
 		$this->view->batchAssign($this->data);

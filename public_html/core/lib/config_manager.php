@@ -1267,7 +1267,7 @@ class AConfigManager {
 					'name' => 'config_cache_enable',
 					'value' => $data['config_cache_enable'],
 					'style' => 'btn_switch',
-		)). sprintf($this->language->get('text_setting_cache_drivers'), $current_cache_driver, implode(', ', $cache_drivers));
+		)).'<br/>'.sprintf($this->language->get('text_setting_cache_drivers'), $current_cache_driver, implode(', ', $cache_drivers));
 		;
 
 

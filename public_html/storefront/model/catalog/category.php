@@ -55,7 +55,8 @@ class ModelCatalogCategory extends Model {
 	 */
 	public function getCategories($parent_id = 0, $limit=0) {
 		$language_id = (int)$this->config->get('storefront_language_id');
-		$cache_key = 'category.list.'. $parent_id.'.'.$limit.'.store_'.(int)$this->config->get('config_store_id').'_lang_'.$language_id;
+		$store_id = (int)$this->config->get('config_store_id');
+		$cache_key = 'category.list.'. $parent_id.'.'.$limit.'.store_'.$store_id.'_lang_'.$language_id;
 		$cache = $this->cache->pull($cache_key);
 
 		if($cache === false){
@@ -64,7 +65,7 @@ class ModelCatalogCategory extends Model {
 										LEFT JOIN " . $this->db->table("category_descriptions") . " cd ON (c.category_id = cd.category_id AND cd.language_id = '" . $language_id . "')
 										LEFT JOIN " . $this->db->table("categories_to_stores") . " c2s ON (c.category_id = c2s.category_id)
 										WHERE ".($parent_id<0 ? "" : "c.parent_id = '" . (int)$parent_id . "' AND ")."
-										     c2s.store_id = '" . (int)$this->config->get('config_store_id') . "' AND c.status = '1'
+										     c2s.store_id = '" . $store_id . "' AND c.status = '1'
 										ORDER BY c.sort_order, LCASE(cd.name)
 										".((int)$limit ? "LIMIT ".(int)$limit : '')." ");
 			$cache =  $query->rows;
