@@ -869,7 +869,6 @@ class ALanguage {
                                 VALUES ('" . implode("', '", $update_data) . "') ";
 				$this->db->query($sql);
 				$this->cache->remove('localization');
-				$this->cache->remove('localization');
 				$this->cache->remove('storefront_menu');
 			}
 		}
