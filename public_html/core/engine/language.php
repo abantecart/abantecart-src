@@ -283,6 +283,7 @@ class ALanguage {
 			if($browser_languages){
 				foreach ($browser_languages as $browser_language){
 					$browser_language = trim($browser_language);
+					$browser_language = preg_replace('[^a-zA-Z\-\_]','', $browser_language);
 					//validate and ignore browser data if causing warnings
 					if (!$browser_language || @preg_match("/".$browser_language."/i", '') === false){
 						continue;
