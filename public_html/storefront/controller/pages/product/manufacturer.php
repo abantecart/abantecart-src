@@ -52,11 +52,6 @@ class ControllerPagesProductManufacturer extends AController {
         	'separator' => FALSE
       	 ));
 
-		//important to load HTML cache after breadcrumbs
-		if($this->html_cache(array('manufacturer_id','page','limit','sort','order'), $request)){
-			return;
-		}
-
 		if (isset($request['manufacturer_id'])) {
 			$manufacturer_id = $request['manufacturer_id'];
 		} else {
@@ -73,6 +68,11 @@ class ControllerPagesProductManufacturer extends AController {
       		 ));
 					  		
 			$this->document->setTitle( $manufacturer_info['name'] );
+		
+			//important to load HTML cache after breadcrumbs
+			if($this->html_cache(array('manufacturer_id','page','limit','sort','order'), $request)){
+				return;
+			}
 									
             $this->view->assign('heading_title', $manufacturer_info['name'] );
             $this->view->assign('text_sort', $this->language->get('text_sort') );
@@ -88,7 +88,6 @@ class ControllerPagesProductManufacturer extends AController {
 			}	
 
 			$product_total = $this->model_catalog_product->getTotalProductsByManufacturerId($request['manufacturer_id']);
-			
 			if ($product_total) {
 				if (isset($request['page'])) {
 					$page = $request['page'];

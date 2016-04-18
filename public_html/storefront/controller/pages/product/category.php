@@ -85,13 +85,7 @@ class ControllerPagesProductCategory extends AController {
 			$category_id = 0;
 		}
 
-		//important to load HTML cache after breadcrumbs
-		if($this->html_cache(array('path','category_id','page','limit','sort','order'), $request)){
-			return;
-		}
-
 		$category_info = array();
-
 		if($category_id){
 			$category_info = $this->model_catalog_category->getCategory($category_id);
 		} elseif($this->config->get('embed_mode') == true){
@@ -102,6 +96,11 @@ class ControllerPagesProductCategory extends AController {
 	  		$this->document->setTitle( $category_info['name'] );
 			$this->document->setKeywords( $category_info['meta_keywords'] );
 			$this->document->setDescription( $category_info['meta_description'] );
+
+			//important to load HTML cache after breadcrumbs and document object setup
+			if($this->html_cache(array('path','category_id','page','limit','sort','order'), $request)){
+				return;
+			}
 			
             $this->view->assign('heading_title', $category_info['name'] );
 			$this->view->assign('description', html_entity_decode($category_info['description'], ENT_QUOTES, 'UTF-8') );
