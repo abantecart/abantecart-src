@@ -36,7 +36,7 @@ final class AImage{
 	/**
 	 * @var array
 	 */
-	private $info;
+	private $info = array();
 
 	/**
 	 * @var
@@ -57,11 +57,12 @@ final class AImage{
 					'mime'     => $info['mime'],
 					'channels' => $info['channels']
 			);
-
-			$this->image = $this->get_gd_resource($filename);
 			$this->registry = Registry::getInstance();
+			$this->image = $this->get_gd_resource($filename);
 		} else{
-			throw new AException(AC_ERR_LOAD, 'Error: Cannot load image ' . $filename . '!');
+			$error = new AError('Error: Cannot load image ' . $filename);
+			$error->toMessages()->toDebug()->toLog();
+			return false;
 		}
 		return true;
 	}
@@ -152,7 +153,7 @@ final class AImage{
 	 * @return bool
 	 */
 	public function _save($filename, $quality = 90){
-		if (!$filename){
+		if (!$filename || !$this->image){
 			return false;
 		}
 
@@ -183,7 +184,7 @@ final class AImage{
 	 * @return bool|null
 	 */
 	public function resize($width = 0, $height = 0, $nofill = false){
-		if (!$this->info['width'] || !$this->info['height']){
+		if(!$this->image || !$this->info['width'] || !$this->info['height']){
 			return false;
 		}
 		if ($width == 0 && $height == 0){
@@ -236,6 +237,9 @@ final class AImage{
 	 * @param string $position
 	 */
 	public function watermark($filename, $position = 'bottomright'){
+		if(!is_resource($this->image)){
+			return false;
+		}
 		$watermark = $this->get_gd_resource($filename);
 
 		$watermark_width = imagesx($watermark);
@@ -271,6 +275,10 @@ final class AImage{
 	 * @param int $bottom_y
 	 */
 	public function crop($top_x, $top_y, $bottom_x, $bottom_y){
+		if(!is_resource($this->image)){
+			return false;
+		}
+
 		$image_old = $this->image;
 		$this->image = imagecreatetruecolor($bottom_x - $top_x, $bottom_y - $top_y);
 
@@ -286,10 +294,12 @@ final class AImage{
 	 * @param string $color
 	 */
 	public function rotate($degree, $color = 'FFFFFF'){
+		if(!is_resource($this->image)){
+			return false;
+		}
+
 		$rgb = $this->html2rgb($color);
-
 		$this->image = imagerotate($this->image, $degree, imagecolorallocate($this->image, $rgb[0], $rgb[1], $rgb[2]));
-
 		$this->info['width'] = imagesx($this->image);
 		$this->info['height'] = imagesy($this->image);
 	}
@@ -298,7 +308,11 @@ final class AImage{
 	 * @param int $filter
 	 */
 	public function filter($filter){
+		if(!is_resource($this->image)){
+			return false;
+		}
 		imagefilter($this->image, $filter);
+		return true;
 	}
 
 	/**
@@ -309,8 +323,12 @@ final class AImage{
 	 * @param string $color
 	 */
 	public function text($text, $x = 0, $y = 0, $size = 5, $color = '000000'){
+		if(!is_resource($this->image)){
+			return false;
+		}
 		$rgb = $this->html2rgb($color);
 		imagestring($this->image, $size, $x, $y, $text, imagecolorallocate($this->image, $rgb[0], $rgb[1], $rgb[2]));
+		return true;
 	}
 
 	/**
@@ -320,12 +338,18 @@ final class AImage{
 	 * @param int $opacity
 	 */
 	public function merge($filename, $x = 0, $y = 0, $opacity = 100){
+
 		$merge = $this->get_gd_resource($filename);
+
+		if(!is_resource($this->image) || $merge){
+			return false;
+		}
 
 		$merge_width = imagesx($merge);
 		$merge_height = imagesy($merge);
 
 		imagecopymerge($this->image, $merge, $x, $y, 0, 0, $merge_width, $merge_height, $opacity);
+		return false;
 	}
 
 	/**

@@ -315,18 +315,6 @@ class AResource {
 		return $http_path . $new_image;
 	}
 
-	private function _get_image_size($filename){
-		$ret = array();
-		if(!is_file($filename)){
-			return $ret;
-		}
-		$image = new AImage($filename);
-		$info = $image->getInfo();
-		$ret['width'] = $info['width'];
-		$ret['height'] = $info['height'];
-		return $ret;
-	}
-    
 	private function _check_create_thumb($filename, $resource_filename, $width, $height){
 		if (!file_exists(DIR_IMAGE . $filename) || (filemtime($resource_filename) > filemtime(DIR_IMAGE . $filename))) {
 			$path = '';
@@ -519,7 +507,7 @@ class AResource {
 						// return href for image with size as-is
 						$main_url = $http_path.$this->getTypeDir().$result['resource_path'];
 						//get original image size
-						$actual_sizes = $this->_get_image_size($res_full_path);
+						$actual_sizes = get_image_size($res_full_path);
 						$sizes['main'] = $actual_sizes;
 					}
 					if($sizes['thumb']){

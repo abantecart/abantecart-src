@@ -48,8 +48,7 @@ class ControllerCommonHeader extends AController {
 		}
 
 		//get logo image dimensions
-		$img_obj = new AImage($logo_path);
-		$info = $img_obj->getInfo();
+		$info = get_image_size($logo_path);
 		$this->data['logo_width'] = $info['width'];
 		$this->data['logo_height'] = $info['height'];
         

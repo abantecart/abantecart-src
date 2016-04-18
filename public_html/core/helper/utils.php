@@ -1099,3 +1099,22 @@ function human_filesize($bytes, $decimals = 2) {
   $factor = floor((strlen($bytes) - 1) / 3);
   return sprintf("%.{$decimals}f", $bytes / pow(1024, $factor)) . @$sz[$factor];
 }
+
+/**
+ * Function returns image dimensions
+ * @param $filename
+ * @return array|bool
+ */
+function get_image_size($filename){
+	if (file_exists($filename) && ($info = getimagesize($filename))){
+		return array (
+					'width'    => $info[0],
+					'height'   => $info[1],
+					'mime'     => $info['mime']);
+	}
+	if($filename){
+		$error = new  AError('Error: Cannot get image size of file ' . $filename.'. File not found or it\'s not an image!');
+		$error->toLog()->toMessages()->toDebug();
+	}
+	return array();
+}
