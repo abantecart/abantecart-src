@@ -84,6 +84,7 @@ CREATE TABLE `ac_customers_enc` (
   `loginname` varchar(96) COLLATE utf8_bin NOT NULL DEFAULT '',  
   `email` text COLLATE utf8_bin NOT NULL DEFAULT '',
   `telephone` text COLLATE utf8_bin NOT NULL DEFAULT '',
+  `sms` varchar(32) COLLATE utf8_bin NOT NULL DEFAULT '' COMMENT 'mobile phone number',
   `fax` text COLLATE utf8_bin NOT NULL DEFAULT '',
   `password` varchar(40) COLLATE utf8_bin NOT NULL DEFAULT '',
   `cart` text COLLATE utf8_bin,
