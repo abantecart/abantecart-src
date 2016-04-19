@@ -102,7 +102,8 @@ if($faster_browser_rendering == true) {
 
 	function update_cart(product_id){
 
-		var senddata = {};
+		var senddata = {},
+			result = false;
 		if(product_id){
 			senddata['product_id'] = product_id;
 		}
@@ -111,23 +112,18 @@ if($faster_browser_rendering == true) {
                 type:'GET',
                 dataType:'json',
                 data: senddata,
+				async: false,
                 success:function (data) {
-	                if(product_id) {
-		                var alert_msg = '<div class="added_to_cart pull-right"> \
-                        <a href="<?php echo $cart_url ?>" title="<?php echo $text_add_cart_confirm; ?>"> \
-                        <i class="fa fa-check"></i></a> \
-                        </div>';
-		                item.closest('.thumbnail .pricetag').prepend(alert_msg);
-	                }
-
 					//top cart
 					$('.nav.topcart .dropdown-toggle span').first().html(data.item_count);
 					$('.nav.topcart .dropdown-toggle .cart_total').html(data.total);
 					if($('#top_cart_product_list')){
 						$('#top_cart_product_list').html(data.cart_details);
 					};
+	                result = true;
                 }
         });
+		return result;
 	}
 
 	//event for adding product to cart by ajax
@@ -137,9 +133,13 @@ if($faster_browser_rendering == true) {
         if ( item.attr('href') && item.attr('href') != '#') {
         	return true;
         }
-        
         if(item.attr('data-id')){
-	        update_cart(item.attr('data-id'))
+	        if( update_cart(item.attr('data-id')) == true ) {
+		        var alert_msg = '<div class="added_to_cart pull-right">'
+				        + '<a href="<?php echo $cart_url ?>" title="<?php echo $text_add_cart_confirm; ?>">'
+				        + '<i class="fa fa-check"></i></a></div>';
+		        item.closest('.thumbnail .pricetag').prepend(alert_msg);
+	        }
         }
     return false;
 });
