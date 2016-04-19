@@ -391,6 +391,15 @@ class AView {
 	 * @param string $key
 	 * @return bool
 	 */
+	public function setCacheKey( $key ) {
+		$this->html_cache_key = $key;
+	}
+	
+	/**
+	 * Check if HTML Cache file present 
+	 * @param string $key
+	 * @return bool
+	 */
 	public function checkHTMLCache( $key ) {
     	if ( !$key ) {
     		return false;    	

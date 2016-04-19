@@ -21,6 +21,14 @@ if (! defined ( 'DIR_CORE' )) {
 	header ( 'Location: static_pages/' );
 }
 class ControllerPagesContentContent extends AController {
+	/**
+	 * Check if HTML Cache is enabled for the method
+	 * @return array - array of data keys to be used for cache key building  
+	 */	
+	public static function main_cache_keys(){
+		return array('content_id');
+	}
+
 	public function main() {
 		$request = $this->request->get;
 
@@ -36,11 +44,6 @@ class ControllerPagesContentContent extends AController {
         	'text'      => $this->language->get('text_home'),
         	'separator' => FALSE
       	 ));
-
-		//important to load HTML cache after breadcrumbs
-		if($this->html_cache(array('content_id'), $request)){
-			return;
-		}
 		
 		if (isset($request['content_id'])) {
 			$content_id = $request['content_id'];

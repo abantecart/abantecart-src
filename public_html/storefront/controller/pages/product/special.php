@@ -24,6 +24,14 @@ class ControllerPagesProductSpecial extends AController {
 
     public $data = array();
 
+	/**
+	 * Check if HTML Cache is enabled for the method
+	 * @return array - array of data keys to be used for cache key building  
+	 */	
+	public static function main_cache_keys(){
+		return array('page','limit','sort','order');
+	}
+
 	public function main() {
 		$request = $this->request->get;
 
@@ -52,11 +60,6 @@ class ControllerPagesProductSpecial extends AController {
        		'text'      => $this->language->get('heading_title'),
       		'separator' => $this->language->get('text_separator')
    		 ));
-
-		//important to load HTML cache after breadcrumbs
-		if($this->html_cache(array('page','limit','sort','order'), $request)){
-			return;
-		}
 		
     	if (isset($request['page'])) {
 			$page = $request['page'];

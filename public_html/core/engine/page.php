@@ -60,10 +60,16 @@ final class APage {
 			 * @var ADispatcher $pre_dispatch
 			 */
 			$result = $pre_dispatch->dispatch();					
-			if ($result) {
-				//Something happened. Need to run different page
+			//Processing has finished, Example: we have cache generated. 
+			if($result == 'completed'){
+				return;
+			} else if ($result) {
+				//Something happened. Need to run different dispatcher
 				$dispatch_rt = $result;
-				break;
+				//Rule exception for SEO_URL. DO not break with pre_dispatch for SEO_URL 
+				if($pre_dispatch->getController() != 'common/seo_url') {
+					break;
+				}
 			}
 		}
 

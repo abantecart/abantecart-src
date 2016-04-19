@@ -22,6 +22,14 @@ if (! defined ( 'DIR_CORE' )) {
 }
 class ControllerPagesProductManufacturer extends AController {
 	public $data = array();
+
+	/**
+	 * Check if HTML Cache is enabled for the method
+	 * @return array - array of data keys to be used for cache key building  
+	 */	
+	public static function main_cache_keys(){
+		return array('manufacturer_id','page','limit','sort','order');
+	}
 	
 	public function main() {
 		$request = $this->request->get;
@@ -68,11 +76,6 @@ class ControllerPagesProductManufacturer extends AController {
       		 ));
 					  		
 			$this->document->setTitle( $manufacturer_info['name'] );
-		
-			//important to load HTML cache after breadcrumbs
-			if($this->html_cache(array('manufacturer_id','page','limit','sort','order'), $request)){
-				return;
-			}
 									
             $this->view->assign('heading_title', $manufacturer_info['name'] );
             $this->view->assign('text_sort', $this->language->get('text_sort') );

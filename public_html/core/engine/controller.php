@@ -165,12 +165,18 @@ abstract class AController {
 	}
 
 	//function to enable caching for this page/block
-	public function html_cache($params = array(), $values = array()) {
+	public function html_cache() {
 		//check is HTML cache is enabled and it is storefront
-		if(!$this->config->get('config_html_cache') || IS_ADMIN) {
+		if(!$this->config->get('config_html_cache') || IS_ADMIN ) {
 			return false;
 		}
+		$this->html_cache_key = $this->buildHTMLCacheKey();
+		//check if can load HTML files and stop
+		return $this->view->checkHTMLCache($this->html_cache_key);
+	}
 
+	//function to get html cache key
+	public function buildHTMLCacheKey($params = array(), $values = array(), $controller = '') {
 		//build HTML cache key
 		//build cache string based on params 
 		$param_string = '';
@@ -180,27 +186,55 @@ abstract class AController {
 				$param_string .= '&'.$key."=".$values[$key];
 			}
 			$param_string = md5($param_string);
-			//check OS filename size limitation: 255 max - other file portion
-			$str_limit = 200;
-			if(strlen($param_string) > $str_limit) {
-				$param_string = substr($param_string, $str_limit);
-			}
 		}
 		//build HTML cache path
 		$cache_state_vars = array(
+				'template' 		=> $this->config->get('config_storefront_template'),
 				'store_id'      => $this->config->get('config_store_id'),
 				'language_id'   => $this->language->getLanguageID(),
 				'currency_code' => $this->currency->getCode()
 		);
-		$this->html_cache_key = 'html_cache.'.str_replace('/', '.', $this->controller).".".implode('.',$cache_state_vars)."_".$this->instance_id;
+		if(!$controller) {
+			$controller = $this->controller;
+		}
+		$this->html_cache_key = 'html_cache.'.str_replace('/', '.',$controller).".".implode('.',$cache_state_vars)."_".$this->instance_id;
 		//add specific params to the key
 		if($param_string) {
 			$this->html_cache_key .= "_".$param_string;
 		}
-		//check if can load HTML files and stop
-		return $this->view->checkHTMLCache($this->html_cache_key);
+		//pass html_cache_key to view for future use
+		$this->view->setCacheKey($this->html_cache_key);
+		return $this->html_cache_key;
 	}
 
+	//function to get html cache key
+	public function getHTMLCacheKey() {
+		return $this->html_cache_key;
+	}
+
+	//Get cache key values for provided controller
+	public function getCacheKeyValues($controller) {
+		//check if requested controller allows HTML caching
+		//use dispatcher to get class and details
+		$ds = new ADispatcher($controller, array("instance_id" => "0"));	 
+		$rt_class = $ds->getClass();
+		$rt_file = $ds->getFile();
+		$rt_method = $ds->getMethod();
+		if ( !empty($rt_file) && !empty($rt_class) && !empty($rt_method) ) {
+		    require_once($rt_file);
+            if ( class_exists($rt_class) ) {
+            	$cache_keys = array();
+            	$static_method = $rt_method.'_cache_keys';
+            	if (method_exists( $rt_class, $static_method )) {
+            		//finaly get keys and build a cache key
+            		$cache_keys = call_user_func($rt_class.'::'.$static_method);
+					return $cache_keys;
+            	}
+            }
+		}
+		return false;
+	}
+	
 	/*
 	* Quick access to controller name or rt
 	*/
@@ -259,6 +293,11 @@ abstract class AController {
 
 	public function getChildren() {
 		//Check if we have children in layout
+		return $this->children;
+	}
+
+	public function resetChildren() {
+		$this->children = array();
 		return $this->children;
 	}
 
