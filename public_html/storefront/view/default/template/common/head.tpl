@@ -36,7 +36,7 @@
     As alternative, you can merge all CSS files in to one singe file and minify 
     Example: <link href=".../stylesheet/all.min.css" rel="stylesheet" type='text/css' />
     
-    Check Dan Riti's blog for more fine tunning suggestion:
+    Check Dan Riti's blog for more fine tuning suggestion:
     https://www.appneta.com/blog/bootstrap-pagespeed/
 */
 $faster_browser_rendering = false;
@@ -98,8 +98,39 @@ if($faster_browser_rendering == true) {
 		document.cookie = 'HTTP_IS_RETINA=1;path=/';
 	}
 <?php } ?>
-<?php if($cart_ajax){ 
-	//event for adding product to cart by ajax ?>
+<?php if($cart_ajax){ ?>
+
+	function update_cart(product_id){
+
+		var senddata = {};
+		if(product_id){
+			senddata['product_id'] = product_id;
+		}
+		$.ajax({
+                url:'<?php echo $cart_ajax_url; ?>',
+                type:'GET',
+                dataType:'json',
+                data: senddata,
+                success:function (data) {
+	                if(product_id) {
+		                var alert_msg = '<div class="added_to_cart pull-right"> \
+                        <a href="<?php echo $cart_url ?>" title="<?php echo $text_add_cart_confirm; ?>"> \
+                        <i class="fa fa-check"></i></a> \
+                        </div>';
+		                item.closest('.thumbnail .pricetag').prepend(alert_msg);
+	                }
+
+					//top cart
+					$('.nav.topcart .dropdown-toggle span').first().html(data.item_count);
+					$('.nav.topcart .dropdown-toggle .cart_total').html(data.total);
+					if($('#top_cart_product_list')){
+						$('#top_cart_product_list').html(data.cart_details);
+					};
+                }
+        });
+	}
+
+	//event for adding product to cart by ajax
 	$(document).on('click', 'a.productcart', function() {
         var item = $(this);
         //check if href provided for product details access
@@ -108,28 +139,12 @@ if($faster_browser_rendering == true) {
         }
         
         if(item.attr('data-id')){
-            $.ajax({
-                    url:'<?php echo $cart_ajax_url; ?>',
-                    type:'GET',
-                    dataType:'json',
-                    data: {product_id:  item.attr('data-id') },
-                    success:function (data) {
-                    	var alert_msg = '<div class="added_to_cart pull-right"> \
-                    		<a href="<?php echo $cart_url ?>" title="<?php echo $text_add_cart_confirm; ?>"> \
-                    		<i class="fa fa-check"></i></a> \
-                    		</div>';
-						item.closest('.thumbnail .pricetag').prepend(alert_msg);
-
-						//topcart
-						$('.nav.topcart .dropdown-toggle span').first().html(data.item_count);
-						$('.nav.topcart .dropdown-toggle .cart_total').html(data.total);
-						if($('#top_cart_product_list')){
-							$('#top_cart_product_list').html(data.cart_details);
-						};
-                    }
-            });
+	        update_cart(item.attr('data-id'))
         }
     return false;
+});
+$(window).on('load', function(){
+	update_cart();
 });
 <?php }?>
 $(document).on('click','a.call_to_order',function(){

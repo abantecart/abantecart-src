@@ -176,6 +176,7 @@ class ControllerPagesProductProduct extends AController{
 		$this->data['product_wishlist_add_url'] = $this->html->getURL('product/wishlist/add', '&product_id=' . $product_id);
 		$this->data['product_wishlist_remove_url'] = $this->html->getURL('product/wishlist/remove', '&product_id=' . $product_id);
 		$this->data['captcha_url'] = $this->html->getURL('common/captcha');
+		$this->data['update_view_count_url'] = $this->html->getURL('common/view_count/product', '&product_id=' . $product_id);
 
 		$this->loadModel('catalog/review');
 		$this->data['tab_review'] = sprintf($this->language->get('tab_review'), $this->model_catalog_review->getTotalReviewsByProductId($product_id));
@@ -601,8 +602,6 @@ class ControllerPagesProductProduct extends AController{
 			$display_price = false;
 		}
 		$this->data['display_price'] = $display_price;
-
-		$this->model_catalog_product->updateViewed($product_id);
 
 		$tags = array();
 		$results = $this->model_catalog_product->getProductTags($product_id);

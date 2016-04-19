@@ -642,4 +642,13 @@
 		});
 	}
 
+	$(document).ready(function(){
+
+		$.ajax({
+                url:'<?php echo $update_view_count_url; ?>',
+                type:'GET',
+                dataType:'json'
+        });
+	});
+
 	//--></script>

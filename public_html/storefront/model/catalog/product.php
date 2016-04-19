@@ -766,11 +766,12 @@ class ModelCatalogProduct extends Model{
 	 */
 	public function updateViewed($product_id){
 		if (empty($product_id)){
-			return null;
+			return false;
 		}
 		$this->db->query("UPDATE " . $this->db->table("products") . "
 						  SET viewed = viewed + 1
 						  WHERE product_id = '" . (int)$product_id . "'");
+		return true;
 	}
 
 	/**
@@ -1026,7 +1027,7 @@ class ModelCatalogProduct extends Model{
 
 
 	/**
-	 * Check if any of inputed options are required and provided
+	 * Check if any of input options are required and provided
 	 * @param int $product_id
 	 * @param array $input_options
 	 * @return array
@@ -1415,7 +1416,7 @@ class ModelCatalogProduct extends Model{
 				$sql .= " AND p.status = '" . (int)$filter['status'] . "'";
 			}
 
-			//If for total, we done bulding the query
+			//If for total, we done building the query
 			if ($mode == 'total_only'){
 				$query = $this->db->query($sql);
 				return $query->row['total'];
@@ -1494,8 +1495,8 @@ class ModelCatalogProduct extends Model{
 	 */
 	public function getProductSpecials($sort = 'p.sort_order', $order = 'ASC', $start = 0, $limit = 0){
 		$limit = (int)$limit;
-		$promoton = new APromotion();
-		$results = $promoton->getProductSpecials($sort, $order, $start, $limit);
+		$promotion = new APromotion();
+		$results = $promotion->getProductSpecials($sort, $order, $start, $limit);
 
 		return $results;
 	}
