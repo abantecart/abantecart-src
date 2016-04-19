@@ -26,7 +26,20 @@ class ControllerCommonPage extends AController {
 
 		//init controller data
 		$this->extensions->hk_InitData($this,__FUNCTION__);
-		
+
+		if($this->config->get('config_html_cache')) {
+			//HTML cache is only for non-customer, as customer pages are dynamic
+			if(!$this->customer->isLogged() && !$this->customer->isUnauthCustomer()){
+				//check if requested controller allows HTML caching
+				$rt_controller = $this->router->getController();
+				$cache_keys = $this->getCacheKeyValues($rt_controller);
+				if(is_array($cache_keys)){
+					//all good, now cache will be saved in a view class 			
+            		$this->buildHTMLCacheKey($cache_keys, $this->request->get, $rt_controller);					
+				}
+			}
+		}
+
 		$this->view->assign('lang', $this->language->get('code'));
 		$this->view->assign('direction', $this->language->get('direction'));
 

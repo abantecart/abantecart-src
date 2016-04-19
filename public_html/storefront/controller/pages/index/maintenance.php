@@ -22,6 +22,7 @@ if (! defined ( 'DIR_CORE' )) {
 }
 class ControllerPagesIndexMaintenance extends AController {
 	public $data;
+
 	public function main() {
 
         //init controller data

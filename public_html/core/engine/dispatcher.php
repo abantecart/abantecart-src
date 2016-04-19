@@ -270,8 +270,11 @@ final class ADispatcher {
 			    	$dispatch->dispatch();
 			    	return null;
 		    	}		    	
-		    } 
-
+		    } else if( $dispatch == 'completed') {
+				//Check if we have message completed in controller response.
+				//If completed. stop futher execution. 
+				return 'completed';
+			}
             /**
              * Load layout and process children controllers
              * @method AController getChildren()
@@ -305,7 +308,6 @@ final class ADispatcher {
 
             //add pre and post controllers output
             $this->response->setOutput( $output_pre . $this->response->getOutput() . $output_post );
-
 
 		    //clean up and destroy the object					
 		    unset($controller); 

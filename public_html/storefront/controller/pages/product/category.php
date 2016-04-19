@@ -22,6 +22,14 @@ if (! defined ( 'DIR_CORE' )) {
 }
 class ControllerPagesProductCategory extends AController {
 	public $data = array();
+
+	/**
+	 * Check if HTML Cache is enabled for the method
+	 * @return array - array of data keys to be used for cache key building  
+	 */	
+	public static function main_cache_keys(){
+		return array('path','category_id','page','limit','sort','order');
+	}
 	
 	public function main() {
 		$request = $this->request->get;
@@ -52,7 +60,6 @@ class ControllerPagesProductCategory extends AController {
 		if(!isset($request['path']) && isset($request['category_id']) ){
 			$request['path'] = $request['category_id'];
 		}
-
 
 		if (isset($request['path'])) {
 			$path = '';
@@ -96,11 +103,6 @@ class ControllerPagesProductCategory extends AController {
 	  		$this->document->setTitle( $category_info['name'] );
 			$this->document->setKeywords( $category_info['meta_keywords'] );
 			$this->document->setDescription( $category_info['meta_description'] );
-
-			//important to load HTML cache after breadcrumbs and document object setup
-			if($this->html_cache(array('path','category_id','page','limit','sort','order'), $request)){
-				return;
-			}
 			
             $this->view->assign('heading_title', $category_info['name'] );
 			$this->view->assign('description', html_entity_decode($category_info['description'], ENT_QUOTES, 'UTF-8') );
