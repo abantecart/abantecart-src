@@ -87,9 +87,9 @@ class ControllerPagesProductSpecial extends AController {
 		}
 	
 		$this->loadModel('catalog/product');
-		$promoton = new APromotion();
+		$promotion = new APromotion();
 			
-		$product_total = $promoton->getTotalProductSpecials();
+		$product_total = $promotion->getTotalProductSpecials();
 						
 		if ($product_total) {
 			$this->loadModel('catalog/review');
@@ -98,7 +98,7 @@ class ControllerPagesProductSpecial extends AController {
 			
 			$this->data['button_add_to_cart'] = $this->language->get('button_add_to_cart');
 
-			$results = $promoton->getProductSpecials($sort,
+			$results = $promotion->getProductSpecials($sort,
 			                                         $order,
 			                                         ($page - 1) * $limit,
 													 $limit);
@@ -120,14 +120,14 @@ class ControllerPagesProductSpecial extends AController {
 
                 $special = FALSE;
 
-                $discount = $promoton->getProductDiscount($result['product_id']);
+                $discount = $promotion->getProductDiscount($result['product_id']);
 
                 if ($discount) {
                     $price = $this->currency->format($this->tax->calculate($discount, $result['tax_class_id'], $this->config->get('config_tax')));
                 } else {
                     $price = $this->currency->format($this->tax->calculate($result['price'], $result['tax_class_id'], $this->config->get('config_tax')));
 
-                    $special = $promoton->getProductSpecial($result['product_id']);
+                    $special = $promotion->getProductSpecial($result['product_id']);
 
                     if ($special) {
                         $special = $this->currency->format($this->tax->calculate($special, $result['tax_class_id'], $this->config->get('config_tax')));

@@ -109,8 +109,8 @@ final class ARouter {
 
 	private function _route() {
         $path_nodes = explode('/', $this->rt);
-		//Identify what resource do we load explicitely. Page, Responce or API type        
-		//Check the path. If started with p/, r/ or a/ -> This is explicit call of page, responce or API
+		//Identify what resource do we load explicitly. Page, Response or API type
+		//Check the path. If started with p/, r/ or a/ -> This is explicit call of page, response or API
 		if ($path_nodes[0] == 'p' ) {
 			$this->request_type = 'page';	
 			$this->rt = preg_replace('/^p\//', '', $this->rt);

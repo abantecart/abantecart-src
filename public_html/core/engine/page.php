@@ -21,6 +21,11 @@ if (! defined ( 'DIR_CORE' )) {
 	header ( 'Location: static_pages/' );
 }
 
+/**
+ * Class APage
+ * @property ARouter $router
+ * @property ALayout $layout
+ */
 final class APage {
 	/**
 	 * @var Registry
@@ -73,7 +78,7 @@ final class APage {
 			}
 		}
 
-		//Process disparcher in while in case we have new dispatch back
+		//Process dispatcher in while in case we have new dispatch back
 		while ($dispatch_rt){
 			//Process main level controller			
 			// load page layout

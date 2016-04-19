@@ -120,9 +120,7 @@ class ControllerPagesProductCategory extends AController {
 				$limit = $this->config->get('config_catalog_limit');
 			}
 
-			$url = '';
-			$sort = '';
-			$order = '';
+			$url = $sort = $order = '';
 			$sorting_href = $request['sort'];
 			if(!$sorting_href) {
 				$sorting_href = $this->config->get('config_product_default_sort_order');

@@ -43,6 +43,8 @@ class ControllerPagesProductManufacturer extends AController {
 			//load special headers
 			$this->addChild('responses/embed/head', 'head');
 			$this->addChild('responses/embed/footer', 'footer');
+		}else{
+			$cart_rt = 'checkout/cart';
 		}
 
 		$this->loadLanguage('product/manufacturer');

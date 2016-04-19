@@ -335,8 +335,8 @@ class AView {
 
 	/**
 	 * Storefront function to return path to the resource
-	 * @param $filename
-	 * @param $mode Mode to return format: http | file
+	 * @param string $filename
+	 * @param string $mode Mode to return format: http | file
 	 * @return string with relative path
 	 */
     public function templateResource( $filename, $mode = 'http') {
@@ -455,7 +455,7 @@ class AView {
 	 * @param string $group JS group name for caching 
 	 * @return string
 	 */
-	public function PerloadJS( $js_file, $group = 'js' ) {
+	public function PreloadJS( $js_file, $group = 'js' ) {
 		if(empty($js_file)) {
 			return '';
 		}

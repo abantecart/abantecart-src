@@ -206,7 +206,7 @@ final class ADispatcher {
 	}
 
     /**
-     * @param string $parent_controller
+     * @param AController|string $parent_controller
      * @return null|string
      */
     public function dispatch($parent_controller = ''){
@@ -214,7 +214,7 @@ final class ADispatcher {
 
 		//Process the controller, layout and children
 		
-		//check if we have missing class or everithing  
+		//check if we have missing class or everything
         if ( empty($this->class) && has_value($this->file) ) {
 			#Build back trace of calling functions to provide more details
 			$backtrace = debug_backtrace();
@@ -276,13 +276,13 @@ final class ADispatcher {
 				return 'completed';
 			}
             /**
-             * Load layout and process children controllers
-             * @method AController getChildren()
-             */
+		        * Load layout and process children controllers
+		        * @method AController getChildren()
+		        */
 		    $children = $controller->getChildren();
 
 			ADebug::variable('Processing children of '.$this->controller, $children);
-			$block_uids = array();
+
 		    //Process each child controller
 		    foreach ($children as $child ) {
 		    	//???? Add highest Debug level here with backtrace to review this
