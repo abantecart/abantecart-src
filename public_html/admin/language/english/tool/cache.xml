@@ -104,7 +104,6 @@
 		<key>column_description</key>
 		<value><![CDATA[Description]]></value>
 	</definition>
-
 	<definition>
 		<key>text_html_cache</key>
 		<value><![CDATA[HTML-cache]]></value>

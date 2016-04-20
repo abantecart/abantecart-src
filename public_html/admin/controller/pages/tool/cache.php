@@ -104,6 +104,12 @@ class ControllerPagesToolCache extends AController{
 						'description' => $this->language->get('desc_error_log'),
 						'keywords'    => 'error_log'
 				),
+				array (
+						'id'          => 'html_cache',
+						'text'        => $this->language->get('text_html_cache'),
+						'description' => $this->language->get('desc_html_cache'),
+						'keywords'    => 'html_cache'
+				),
 		);
 
 		$form = new AForm('ST');
@@ -155,6 +161,8 @@ class ControllerPagesToolCache extends AController{
 							unlink(DIR_LOGS . $this->config->get('config_error_filename'));
 						}
 						continue;
+					}elseif($cache == 'html_cache'){
+						$this->cache->remove('html_cache');
 					}else{
 					$keywords = explode(',', $cache);
 					if ($keywords){
