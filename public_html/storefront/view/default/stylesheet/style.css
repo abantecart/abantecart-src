@@ -807,7 +807,7 @@ ul.categorymenu > li ul > li img {
 	clear: both;
 }
 
-#banner_banner_block_1773 .container-fluid{
+.banner_block_23_11 .container-fluid{
 	text-align: center;
 }
 
@@ -3330,10 +3330,10 @@ paypal pro styles
 		margin-left: 25px;
 	}
 
-	#banner_banner_block_1773 .container-fluid{
+	.banner_block_23_11 .container-fluid{
 		text-align: center;
 	}
-	#banner_banner_block_1773.container-fluid.mt20 .pull-left{
+	.banner_block_23_11.container-fluid.mt20 .pull-left{
 		display: inline-block;
 		float: none;
 		margin-left: 50px;
@@ -3592,15 +3592,15 @@ paypal pro styles
 		display: none;
 	}
 
-	#banner_banner_block_1773{
+	.banner_block_23_11{
 		padding-left: 0;
 	}
-	#banner_banner_block_1773 .container-fluid{
+	.banner_block_23_11 .container-fluid{
 		text-align: center;
 		padding-left: 0;
 		max-width: 700px;
 	}
-	#banner_banner_block_1773.container-fluid.mt20 .pull-left{
+	.banner_block_23_11.container-fluid.mt20 .pull-left{
 		display: inline-block;
 		float: none;
 		margin-left: 0;
@@ -3929,10 +3929,10 @@ paypal pro styles
 		margin-top: 0;
 	}
 
-	#banner_banner_block_1773 .container-fluid{
+	.banner_block_23_11 .container-fluid{
 		text-align: center;
 	}
-	#banner_banner_block_1773.container-fluid.mt20 .pull-left{
+	.banner_block_23_11.container-fluid.mt20 .pull-left{
 		display: inline-block;
 		float: none;
 		margin-left: 0;

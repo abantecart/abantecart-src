@@ -1,4 +1,6 @@
-<section id="banner_<?php echo $block_details['block_txt_id'] . '_' . $block_details['instance_id'] ?>" class="banner mt20">
+
+<section id="banner_<?php echo $block_details['block_txt_id'] . '_' . $block_details['instance_id'] ?>"
+         class="banner mt20 banner_block_<?php echo $block_details['block_id'] . '_' . $block_details['custom_block_id'] ?>">
 <h4 class="hidden">&nbsp;</h4>
     <div class="container-fluid">
 <?php if ( $block_framed ) { ?>
