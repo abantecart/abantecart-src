@@ -92,7 +92,9 @@ $router->processRoute(ROUTE);
 $registry->get('response')->output();
 
 //Show cache stats if debugging
-ADebug::variable('Cache statistics: ', $registry->get('cache')->stats() . "\n");
+if($registry->get('config')->get('config_debug')){
+    ADebug::variable('Cache statistics: ', $registry->get('cache')->stats() . "\n");
+}
 
 ADebug::checkpoint('app end');
 
