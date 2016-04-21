@@ -587,10 +587,10 @@ class ALanguage {
 		}
 
 		ADebug::checkpoint('ALanguage ' . $this->language_details['name'] . ' ' . $filename . ' is loaded');
-		$this->entries[$filename] = $load_data;
+		$this->entries[$block_name] = $load_data;
 		//add filename to scope
-		$this->current_languages_scope[] = $filename;
-		return $this->entries[$filename];
+		$this->current_languages_scope[] = $block_name;
+		return $this->entries[$block_name];
 	}
 
 	/**

@@ -93,8 +93,6 @@ class AIM {
 	);
 	public function __construct() {
 		$this->registry = Registry::getInstance();
-		$this->load->language('common/im');
-
 	}
 	/**
 	 * @param $key
@@ -520,7 +518,6 @@ final class AMailIM{
 	public function __construct(){
 		$this->registry = Registry::getInstance();
 		$this->language = $this->registry->get('language');
-		$this->language->load('common/im');
 		$this->config = $this->registry->get('config');
 	}
 
