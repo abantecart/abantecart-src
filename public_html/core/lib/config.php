@@ -122,8 +122,10 @@ final class AConfig {
 			// set global settings (without extensions settings)
 			$sql = "SELECT se.*
 					FROM " . $db->table("settings") . " se
-					LEFT JOIN " . $db->table("extensions") . " e ON TRIM(se.`group`) = TRIM(e.`key`)
-					WHERE se.store_id='0' AND e.extension_id IS NULL";
+					WHERE se.store_id='0'
+						AND TRIM(se.`group`) NOT IN
+							(SELECT TRIM(`key`) as `key`
+							FROM " . $db->table("extensions") . ")";
 			$query = $db->query($sql);
 			$settings = $query->rows;
 			foreach ($settings as &$setting) {
@@ -167,7 +169,6 @@ final class AConfig {
 				$sql = "SELECT se.`key`, se.`value`, st.store_id
 		   			  FROM " . $db->table('settings')." se
 		   			  RIGHT JOIN " . $db->table('stores')." st ON se.store_id=st.store_id
-		   			  LEFT JOIN " . $db->table('extensions')." e ON TRIM(se.`group`) = TRIM(e.`key`)
 		   			  WHERE se.store_id = (SELECT DISTINCT store_id FROM " . $db->table('settings')."
 		   			                       WHERE `group`='details'
 		   			                       AND
@@ -175,8 +176,10 @@ final class AConfig {
 		   			                       XOR
 		   			                       (`key` = 'config_ssl_url' AND (`value` LIKE '%" . $db->escape($url) . "')) )
 		                                   LIMIT 0,1)
-		   					AND st.status = 1 AND e.extension_id IS NULL";
-
+		   					AND st.status = 1
+		   					AND TRIM(se.`group`) NOT IN
+	                                                (SELECT TRIM(`key`) as `key`
+	                                                FROM " . $db->table("extensions") . ")";
 				$query = $db->query($sql);
 				$store_settings = $query->rows;
 			}
@@ -195,7 +198,7 @@ final class AConfig {
 
 				$this->cnfg['config_store_id'] = $store_settings[0]['store_id'];
 			} else {
-				$warning = new AWarning('Warning: Accessing store with unconfigured or unknown domain ( '.$url.' ).'."\n".' Check setting of your store domain URL in System Settings . Loading default store configuration for now.');
+				$warning = new AWarning('Warning: Accessing store with non-configured or unknown domain ( '.$url.' ).'."\n".' Check setting of your store domain URL in System Settings . Loading default store configuration for now.');
 				$warning->toLog()->toMessages();
 				//set config url to current domain
 				$this->cnfg['config_url'] = 'http://' . REAL_HOST . get_url_path($_SERVER['PHP_SELF']);
@@ -204,7 +207,6 @@ final class AConfig {
 			if (!$this->cnfg['config_url']) {
 				$this->cnfg['config_url'] = 'http://' . REAL_HOST . get_url_path($_SERVER['PHP_SELF']);
 			}
-
 		}
 
 		//still no store? load default store or session based
@@ -271,10 +273,10 @@ final class AConfig {
 		//we don't use cache here cause domain may be different and we cannot change cache from control panel
 		$db = $this->registry->get('db');
 		$sql = "SELECT se.`key`, se.`value`, st.store_id
-					  FROM " . $db->table('settings')." se
-					  RIGHT JOIN " . $db->table('stores')." st ON se.store_id=st.store_id
-					  LEFT JOIN " . $db->table('extensions')." e ON TRIM(se.`group`) = TRIM(e.`key`)
-					  WHERE se.store_id = $store_id AND st.status = 1 AND e.extension_id IS NULL";
+				FROM " . $db->table('settings')." se
+				RIGHT JOIN " . $db->table('stores')." st ON se.store_id=st.store_id
+				WHERE se.store_id = $store_id AND st.status = 1
+				AND TRIM(se.`group`) NOT IN (SELECT TRIM(`key`) as `key` FROM " . $db->table("extensions") . ");";
 
 		$query = $db->query($sql);
 		$store_settings = $query->rows;
