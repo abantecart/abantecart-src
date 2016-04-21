@@ -27,7 +27,7 @@ class ControllerBlocksSearch extends AController {
 		$this->extensions->hk_InitData($this,__FUNCTION__);
 		$this->loadLanguage('blocks/search');
 
-		$this->data['heading_title'] = $this->language->get('heading_title', 'blocks_search');
+		$this->data['heading_title'] = $this->language->get('heading_title', 'blocks/search');
 
 		$this->data['text_advanced'] = $this->language->get('text_advanced');
 		$this->data['entry_search'] = $this->language->get('entry_search');

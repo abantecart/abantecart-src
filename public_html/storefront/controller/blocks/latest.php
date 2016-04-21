@@ -33,7 +33,7 @@ class ControllerBlocksLatest extends AController {
 
 		$this->loadLanguage('blocks/latest');
 
-      	$this->view->assign('heading_title', $this->language->get('heading_title', 'blocks_latest') );
+      	$this->view->assign('heading_title', $this->language->get('heading_title', 'blocks/latest') );
 
 		$this->loadModel('catalog/product');
 		$this->loadModel('catalog/review');

@@ -39,7 +39,7 @@ class ControllerBlocksCategory extends AController {
         //init controller data
         $this->extensions->hk_InitData($this,__FUNCTION__);
 
-    	$this->view->assign('heading_title', $this->language->get('heading_title', 'blocks_category') );
+    	$this->view->assign('heading_title', $this->language->get('heading_title', 'blocks/category') );
 		
 		$this->loadModel('catalog/category');
 		

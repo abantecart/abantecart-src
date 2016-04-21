@@ -28,7 +28,7 @@ class ControllerBlocksAccount extends AController {
         $this->extensions->hk_InitData($this,__FUNCTION__);
 		if($this->customer->isLogged()){
 			$this->loadLanguage('account/account');
-			$this->view->assign('heading_title', $this->language->get('heading_title','account_account') );
+			$this->view->assign('heading_title', $this->language->get('heading_title','account/account') );
 
 			$this->loadLanguage('common/header');
 			$this->data['logout'] = $this->html->getSecureURL('account/logout');

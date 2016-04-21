@@ -34,7 +34,7 @@ class ControllerBlocksSpecial extends AController {
 
 		$this->loadLanguage('blocks/special');
 
-		$this->data['heading_title'] = $this->language->get('heading_title', 'blocks_special');
+		$this->data['heading_title'] = $this->language->get('heading_title', 'blocks/special');
 		
 		$this->loadModel('catalog/product');
 		$this->loadModel('catalog/review');
