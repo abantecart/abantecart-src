@@ -22,6 +22,7 @@ if(!defined('DIR_CORE') || !IS_ADMIN){
 }
 /**
  * @property ModelCatalogDownload $model_catalog_download
+ * @property ALanguageManager $language
  */
 class ModelCatalogProduct extends Model{
 	/** @param array $data
@@ -93,7 +94,7 @@ class ModelCatalogProduct extends Model{
 					'product_id',
 					$product_id);
 		} else{
-			//Default behavior to save SEO URL keword from product name in default language
+			//Default behavior to save SEO URL keyword from product name in default language
 			if(!is_int(key($data['product_description']))){ // when creates
 				$seo_key = SEOEncode($data['product_description']['name'],
 						'product_id',
@@ -121,10 +122,6 @@ class ModelCatalogProduct extends Model{
 				$tags = array($language_id => $tags);
 			}elseif(is_array($data['product_tags'])){
 				$tags = $data['product_tags'];
-				//if cloning
-				if(!is_int(key($data['product_tags']))){
-					$tags = array($language_id => $tags);
-				}
 				foreach($tags as &$taglist){
 					$taglist = (array)explode(',', $taglist);
 				} unset($taglist);
@@ -136,14 +133,15 @@ class ModelCatalogProduct extends Model{
 
 			foreach($tags as $lang_id=>$taglist){
 				$taglist = array_unique($taglist);
+
 				foreach ($taglist as $tag){
 					$tag = trim($tag);
-					if ($tag){
-						$this->language->addDescriptions('product_tags',
-								array ('product_id' => (int)$product_id,
-								       'tag'        => $this->db->escape($tag)),
-								array ((int)$lang_id => array ('tag' => $tag)));
-					}
+					if(!$tag){ continue; }
+					$sql = "INSERT INTO ".$this->db->table('product_tags')."
+							(product_id, language_id, tag)
+							VALUES
+							(".(int)$product_id.", ".(int)$lang_id.", '".$this->db->escape($tag)."');";
+					$this->db->query($sql);
 				}
 			}
 		}
@@ -544,7 +542,7 @@ class ModelCatalogProduct extends Model{
 				AND product_option_id = '" . (int)$product_option_id . "'");
 	}
 
-	//Add new product option value and value descriptions for all global atributes langauges or current language
+	//Add new product option value and value descriptions for all global attributes languages or current language
 	/**
 	 * @param int $product_id
 	 * @param int $option_id
@@ -762,7 +760,7 @@ class ModelCatalogProduct extends Model{
 	}
 
 	/**
-	 *    Update product option value and value descriptions for set langauge
+	 *    Update product option value and value descriptions for set language
 	 * @param int $product_id
 	 * @param int $pd_opt_val_id
 	 * @param array $data
@@ -981,7 +979,7 @@ class ModelCatalogProduct extends Model{
 	 */
 	private function _clone_product_options($product_id, $data){
 		//Do not use before close review.
-		//Note: This is done only after product clonning. This is not to be used on existing product.
+		//Note: This is done only after product cloning. This is not to be used on existing product.
 		$this->db->query("DELETE FROM " . $this->db->table("product_options") . " WHERE product_id = '" . (int)$product_id . "'");
 		$this->db->query("DELETE FROM " . $this->db->table("product_option_descriptions") . " WHERE product_id = '" . (int)$product_id . "'");
 		$this->db->query("DELETE FROM " . $this->db->table("product_option_values") . " WHERE product_id = '" . (int)$product_id . "'");
@@ -1513,7 +1511,7 @@ class ModelCatalogProduct extends Model{
 				//delete this option value for all languages
 				$this->deleteProductOptionValue($product_id, $opt_val_id);
 			} else if($status == 'new'){
-				// Need to create new oprion value
+				// Need to create new option value
 				$this->addProductOptionValueAndDescription($product_id, $option_id, $option_value_data);
 			} else{
 				//Existing need to update
@@ -1842,7 +1840,7 @@ class ModelCatalogProduct extends Model{
 				$sql .= " AND p.status = '" . (int)$filter['status'] . "'";
 			}
 
-			//If for total, we done bulding the query
+			//If for total, we done building the query
 			if($mode == 'total_only'){
 				$query = $this->db->query($sql);
 				return $query->row['total'];
@@ -2129,5 +2127,4 @@ class ModelCatalogProduct extends Model{
 
 		return $product_option_data;
 	}
-
 }
