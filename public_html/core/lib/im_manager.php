@@ -21,8 +21,12 @@ if (!defined('DIR_CORE')){
 	header('Location: static_pages/');
 }
 
+/**
+ * Class AIMManager
+ * @property Registry $registry
+ */
 class AIMManager extends AIM{
-	protected $registry;
+
 	public $errors = array ();
 	//add sendpoints list for admin-side
 	/**
@@ -54,7 +58,7 @@ class AIMManager extends AIM{
 		    			0 => array('text_key' => 'im_customer_account_update_text_to_customer', 'force_send' => array('email')),
 		    			1 => array()
 		    	),
-		/* TODO: Need to decide how to hande system messages in respect to IM
+		/* TODO: Need to decide how to handle system messages in respect to IM
 		'system_messages' 			=> array (
 		    	0 => array(),
 		    	1 => array('text_key' => 'im_system_messages_text_to_admin'),
@@ -91,16 +95,14 @@ class AIMManager extends AIM{
 	}
 
 	/**
-	 * $param int $customer_id
+	 * @param int $customer_id
 	 * @param string $sendpoint
-	 * @param array $msg_details
-	 * @return null
-
-	 	$msg_details structure:
-	 	array(
-	 		message => 'text',
-	 	);
-	 	notes: If message is not provided, message text will be takes from languages based on checkpoint text key.
+	 * @param array $msg_details  - structure:
+	 	 	array(
+	 	 		message => 'text',
+	 	 	);
+	 	 	notes: If message is not provided, message text will be takes from languages based on checkpoint text key.
+	 * @return array|bool
 	 */
 	public function sendToCustomer($customer_id, $sendpoint, $msg_details = array()){
 		if(!$customer_id){
@@ -163,6 +165,7 @@ class AIMManager extends AIM{
 					continue;
 				}
 				try{
+					/** @noinspection PhpIncludeInspection */
 					include_once($driver_file);
 					//if class of driver
 					$classname = preg_replace('/[^a-zA-Z]/', '', $driver_txt_id);
@@ -212,7 +215,7 @@ class AIMManager extends AIM{
 			unset($driver);
 		}
 		$this->registry->set('force_skip_errors', false);
-
+		return true;
 	}
 
 	public function getCustomerIMSettings($customer_id){
@@ -332,6 +335,7 @@ class AIMManager extends AIM{
 					continue;
 				}
 				try{
+					/** @noinspection PhpIncludeInspection */
 					include_once($driver_file);
 					//if class of driver
 					$classname = preg_replace('/[^a-zA-Z]/', '', $driver_txt_id);
@@ -376,7 +380,7 @@ class AIMManager extends AIM{
 			unset($driver);
 		}
 		$this->registry->set('force_skip_errors', false);
-
+		return true;
 	}
 
 	public function getUserSendPointSettings($user_id, $section, $sendpoint, $store_id){
@@ -422,6 +426,9 @@ class AIMManager extends AIM{
 			if (!in_array($protocol, $supported_protocols) || !$uri){
 				continue;
 			}
+			/**
+			 * @var AMailIM $driver
+			 */
 			$driver = $drivers[$protocol];
 			if (!$driver->validateURI($uri)){
 				$this->errors[$protocol] = implode('<br>', $driver->errors);
@@ -490,6 +497,7 @@ class AIMManager extends AIM{
 
 			//NOTE! all IM drivers MUST have class by these path
 			try{
+				/** @noinspection PhpIncludeInspection */
 				include_once(DIR_EXT . $driver_txt_id . '/core/lib/' . $driver_txt_id . '.php');
 			} catch(AException $e){
 			}
@@ -498,7 +506,9 @@ class AIMManager extends AIM{
 			if (!class_exists($classname)){
 				continue;
 			}
-
+			/**
+			 * @var AMailIM $driver
+			 */
 			$driver = new $classname();
 			$driver_list[$driver->getProtocol()][$driver_txt_id] = $driver->getName();
 		}
