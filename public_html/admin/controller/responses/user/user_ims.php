@@ -20,6 +20,11 @@
 if (! defined ( 'DIR_CORE' ) || !IS_ADMIN) {
 	header ( 'Location: static_pages/' );
 }
+
+/**
+ * Class ControllerResponsesUserUserIMs
+ * @property string $rt
+ */
 class ControllerResponsesUserUserIMs extends AController {
 	public $data = array();
 	public $error = array();
@@ -81,7 +86,7 @@ class ControllerResponsesUserUserIMs extends AController {
 
 		//mark error sendpoints
 	    if(!in_array($sendpoint, $all_sendpoints)){
-		    $this->data['error_warning'] = sprintf($this->language->get('error_unknown_sendpoint',$sendpoint));
+		    $this->data['error_warning'] = sprintf($this->language->get('error_unknown_sendpoint'),$sendpoint);
 		    $this->log->write('IM send point '.$sendpoint.' is not in the send points list! ');
 	    }
 

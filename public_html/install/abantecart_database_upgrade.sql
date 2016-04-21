@@ -1,3 +1,6 @@
+ALTER TABLE `ac_settings`
+ADD INDEX `ac_settings_idx` USING BTREE (`group` ASC, `key` ASC);
+
 INSERT INTO `ac_block_templates` (`block_id`, `parent_block_id`, `template`, `date_added`) VALUES
 (29, 3, 'blocks/account.tpl', now() ),
 (29, 6, 'blocks/account.tpl', now() );

@@ -115,6 +115,8 @@ final class AMySQLi {
     public function escape($value) {
 	    if(is_array($value)){
 		    $dump = var_export($value,true);
+		    $backtrace = debug_backtrace();
+		    $dump .= ' (file: '.$backtrace[1]['file'] .' line '.$backtrace[1]['line'].')';
 		    $message = 'aMySQLi class error: Try to escape non-string value: '.$dump;
 		    $error = new AError($message);
 		    $error->toLog()->toDebug()->toMessages();

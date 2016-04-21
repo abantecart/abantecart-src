@@ -1563,7 +1563,8 @@ CREATE TABLE `ac_settings` (
   `value` text COLLATE utf8_general_ci NOT NULL,
   `date_added` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `date_modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
- PRIMARY KEY (`setting_id`,`store_id`)
+ PRIMARY KEY (`setting_id`,`store_id`),
+ KEY `ac_settings_idx` (`group`,`key`) USING BTREE
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
 
 --
