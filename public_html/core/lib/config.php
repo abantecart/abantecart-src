@@ -122,7 +122,7 @@ final class AConfig {
 			// set global settings (without extensions settings)
 			$sql = "SELECT se.*
 					FROM " . $db->table("settings") . " se
-					LEFT JOIN " . $db->table("extensions") . " e ON TRIM(se.`group`) = TRIM(e.`key`)
+					LEFT JOIN " . $db->table("extensions") . " e ON se.`group` = e.`key`
 					WHERE se.store_id='0' AND e.extension_id IS NULL";
 			$query = $db->query($sql);
 			$settings = $query->rows;
@@ -166,8 +166,8 @@ final class AConfig {
 			if (empty($store_settings)) {
 				$sql = "SELECT se.`key`, se.`value`, st.store_id
 		   			  FROM " . $db->table('settings')." se
-		   			  RIGHT JOIN " . $db->table('stores')." st ON se.store_id=st.store_id
-		   			  LEFT JOIN " . $db->table('extensions')." e ON TRIM(se.`group`) = TRIM(e.`key`)
+		   			  RIGHT JOIN " . $db->table('stores')." st ON se.store_id = st.store_id
+		   			  LEFT JOIN " . $db->table('extensions')." e ON se.`group` = e.`key`
 		   			  WHERE se.store_id = (SELECT DISTINCT store_id FROM " . $db->table('settings')."
 		   			                       WHERE `group`='details'
 		   			                       AND
@@ -240,7 +240,7 @@ final class AConfig {
 			// all extensions settings of store
 			$sql = "SELECT se.*, e.type as extension_type, e.key as extension_txt_id
 					FROM " . $db->table('settings')." se
-					LEFT JOIN " . $db->table('extensions')." e ON (TRIM(se.`group`) = TRIM(e.`key`))
+					LEFT JOIN " . $db->table('extensions')." e ON se.`group` = e.`key`
 					WHERE se.store_id='" . (int)$this->cnfg['config_store_id'] . "' AND e.extension_id IS NOT NULL
 					ORDER BY se.store_id ASC, se.group ASC";
 
@@ -273,7 +273,7 @@ final class AConfig {
 		$sql = "SELECT se.`key`, se.`value`, st.store_id
 					  FROM " . $db->table('settings')." se
 					  RIGHT JOIN " . $db->table('stores')." st ON se.store_id=st.store_id
-					  LEFT JOIN " . $db->table('extensions')." e ON TRIM(se.`group`) = TRIM(e.`key`)
+					  LEFT JOIN " . $db->table('extensions')." e ON se.`group` = e.`key`
 					  WHERE se.store_id = $store_id AND st.status = 1 AND e.extension_id IS NULL";
 
 		$query = $db->query($sql);

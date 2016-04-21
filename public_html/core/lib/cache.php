@@ -576,9 +576,9 @@ class ACache {
 		    	continue;
 		    }
 		    //Build class name from the file name.
-		    $driver_name = str_ireplace('.php', '', strtolower(trim($file_name)));
+		    $driver_name = substr($file_name, 0 , (strrpos($file_name, ".")));
 		    $class = 'ACacheDriver' . ucfirst($driver_name);
-		    $drivers[$driver_name] = array('class' => $class, 'file' => $file->getPathname(), 'driver_name'=>$driver_name);
+		    $drivers[$driver_name] = array('class' => $class, 'file' => $file->getPathname(), 'driver_name' => $driver_name);
 		}
 			
 		return $drivers;
