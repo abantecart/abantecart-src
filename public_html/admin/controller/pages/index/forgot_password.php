@@ -27,6 +27,9 @@ class ControllerPagesIndexForgotPassword extends AController {
 	public $error = array();
 
 	public function main() {
+		if($this->user->isLogged()){
+			$this->user->logout();
+		}
 
 		//init controller data
 		$this->extensions->hk_InitData($this,__FUNCTION__);
@@ -41,9 +44,9 @@ class ControllerPagesIndexForgotPassword extends AController {
 			$link = $this->html->getSecureURL('index/forgot_password/validate','&hash='.$hash);
 	
 			//create a scratch data for future use 
-			$passreset = new ADataset ();
-			$passreset->createDataset('admin_pass_reset', $this->request->post['username']);
-			$passreset->setDatasetProperties(array( 
+			$password_reset = new ADataset ();
+			$password_reset->createDataset('admin_pass_reset', $this->request->post['username']);
+			$password_reset->setDatasetProperties(array(
 								'hash' => $hash,
 								'email' => $this->request->post['email'] )
 								);
@@ -156,6 +159,9 @@ class ControllerPagesIndexForgotPassword extends AController {
 	}
 
 	public function validate() {
+		if($this->user->isLogged()){
+			$this->user->logout();
+		}
 		//init controller data
 		$this->extensions->hk_InitData($this,__FUNCTION__);
 		$this->loadLanguage('common/forgot_password');
@@ -263,6 +269,7 @@ class ControllerPagesIndexForgotPassword extends AController {
 
 	private function _validate() {
 		if($this->config->get('config_recaptcha_secret_key')) {
+			/** @noinspection PhpIncludeInspection */
 			require_once DIR_VENDORS . '/google_recaptcha/autoload.php';
 			$recaptcha = new \ReCaptcha\ReCaptcha($this->config->get('config_recaptcha_secret_key'));
 			$resp = $recaptcha->verify(	$this->request->post['g-recaptcha-response'],
@@ -302,6 +309,7 @@ class ControllerPagesIndexForgotPassword extends AController {
 	private function _validateCaptcha() {
 
 		if($this->config->get('config_recaptcha_secret_key')) {
+			/** @noinspection PhpIncludeInspection */
 			require_once DIR_VENDORS . '/google_recaptcha/autoload.php';
 			$recaptcha = new \ReCaptcha\ReCaptcha($this->config->get('config_recaptcha_secret_key'));
 			$resp = $recaptcha->verify(	$this->request->post['g-recaptcha-response'],
@@ -322,8 +330,8 @@ class ControllerPagesIndexForgotPassword extends AController {
 			return FALSE;
 		}
 
-		$passreset = new ADataset('admin_pass_reset', $this->request->post['username'], 'silent');
-		$reset_data = $passreset->getDatasetProperties();
+		$password_reset = new ADataset('admin_pass_reset', $this->request->post['username'], 'silent');
+		$reset_data = $password_reset->getDatasetProperties();
 		$email = $reset_data['email'];
 		$hash = $reset_data['hash'];
 
@@ -342,8 +350,8 @@ class ControllerPagesIndexForgotPassword extends AController {
 		$this->extensions->hk_ValidateData($this);
 
 		if (!$this->error) {
-			//destroy stratch data
-			$passreset->dropDataset();
+			//destroy scratch data
+			$password_reset->dropDataset();
 			return TRUE;
 		} else {
 			return FALSE;
