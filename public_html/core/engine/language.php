@@ -113,7 +113,7 @@ class ALanguage {
 	/**
 	 * Get single language definition
 	 * @param string $key - Language definition key
-	 * @param string $block - RT (block) for corresponding key (optional). Block will be loaded to memory if not yet loaded
+	 * @param string $block - RT (block) for corresponding key (optional) with slash. Block will be loaded to memory if not yet loaded
 	 * @param bool $silent
 	 * @return null|string - Definition value
 	 */
