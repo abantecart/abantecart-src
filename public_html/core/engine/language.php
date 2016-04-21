@@ -527,13 +527,13 @@ class ALanguage {
 	public function _load($filename, $mode = '') {
 		if (empty($filename)) return null;
 		$load_data = null;
+
 		//Check if we already have language loaded. Skip and return the language set
 		if ($this->_is_loaded($filename)) {
 			$load_data = $this->_get_language_set($filename);
 			return $load_data;
 		}
 
-		$block_name = str_replace('/', '_', $filename);
 		$cache_key = 'localization.lang.' . $this->code . '.' . (($this->is_admin) ? 'a' : 's') . '.' . $filename;
 		$cache_key = str_replace('/', '_', $cache_key);
 
@@ -544,8 +544,9 @@ class ALanguage {
 		if ($load_data === false) {
 
 			//Check that filename has proper name with no other special characters. 
+			$block_name = str_replace('/', '_', $filename);
 			if ( preg_match("/[\W]+/", $block_name) ) {
-				$error = new AError('Error! Trying to load language with invalid path: "' . $block_name . '"!');
+				$error = new AError('Error! Trying to load language with invalid path: "' . $filename . '"!');
 				$error->toLog()->toDebug()->toMessages();		
 				return array();
 			}
@@ -553,11 +554,11 @@ class ALanguage {
 			$directory = $this->language_details['directory'];
 			// nothing in cache. Start loading
 			ADebug::checkpoint('ALanguage ' . $this->language_details['name'] . ' ' . $filename . ' no cache, so loading');
-			$_ = $this->_load_from_db($this->language_details['language_id'], $block_name, $this->is_admin);
+			$_ = $this->_load_from_db($this->language_details['language_id'], $filename, $this->is_admin);
 			if (!$_) {
 				// nothing in the database. This block (rt) was never accessed before for this language. Need to load definitions
 				$_ = $this->_load_from_xml($filename, $directory, $mode);
-				$this->_save_to_db($block_name, $_);
+				$this->_save_to_db($filename, $_);
 			} else {
 				//We have something in database, look for missing or new values.
 				//Do this silently in case language file is misssing, Not a big problem
@@ -587,10 +588,10 @@ class ALanguage {
 		}
 
 		ADebug::checkpoint('ALanguage ' . $this->language_details['name'] . ' ' . $filename . ' is loaded');
-		$this->entries[$block_name] = $load_data;
-		//add filename to scope
-		$this->current_languages_scope[] = $block_name;
-		return $this->entries[$block_name];
+		$this->entries[$filename] = $load_data;
+		//add 	filename to scope
+		$this->current_languages_scope[] = $filename;
+		return $this->entries[$filename];
 	}
 
 	/**
@@ -661,14 +662,15 @@ class ALanguage {
 
 	/**
 	 * @param int $language_id
-	 * @param string $block_name
+	 * @param string $filename 
 	 * @param int $section
 	 * @return array
 	 */
-	protected function _load_from_db($language_id, $block_name, $section) {
-		if (empty ($language_id) || empty($block_name)) {
+	protected function _load_from_db($language_id, $filename, $section) {
+		if (empty ($language_id) || empty($filename)) {
 			return array();
 		}
+		$block_name = str_replace('/', '_', $filename);
 		$lang_array = array();
 		$sql = "SELECT * FROM " . $this->db->table("language_definitions") . " 
                 WHERE language_id = '" . (int)$language_id . "'
@@ -683,13 +685,14 @@ class ALanguage {
 	}
 
 	/**
-	 * @param $block
+	 * @param $filename
 	 * @param  array $lang_defns
 	 * @return bool|void
 	 */
-	protected function _save_to_db($block, $lang_defns) {
+	protected function _save_to_db($filename, $lang_defns) {
 		if (!$lang_defns) return false;
 
+		$block = str_replace('/', '_', $filename);
 		ADebug::checkpoint('ALanguage ' . $this->language_details['name'] . ' ' . $block . ' saving to database');
 
 		$sql = "INSERT INTO " . $this->db->table("language_definitions") . " ";

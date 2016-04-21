@@ -33,7 +33,7 @@ class ControllerBlocksfeatured extends AController {
         //init controller data
         $this->extensions->hk_InitData($this,__FUNCTION__);
 
-      	$this->data['heading_title'] = $this->language->get('heading_title','blocks_featured');
+      	$this->data['heading_title'] = $this->language->get('heading_title','blocks/featured');
 		
 		$this->loadModel('catalog/product');
 		$this->loadModel('catalog/review');

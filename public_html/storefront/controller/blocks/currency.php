@@ -27,7 +27,7 @@ class ControllerBlocksCurrency extends AController {
         //init controller data
         $this->extensions->hk_InitData($this,__FUNCTION__);
 
-      	$this->data['heading_title'] = $this->language->get('heading_title','blocks_currency');
+      	$this->data['heading_title'] = $this->language->get('heading_title','blocks/currency');
 		$this->data['currency_code'] = $this->currency->getCode();
 
 		$get_vars = $this->request->get;

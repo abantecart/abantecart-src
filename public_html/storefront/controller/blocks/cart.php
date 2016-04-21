@@ -29,7 +29,7 @@ class ControllerBlocksCart extends AController {
 
 		$this->loadModel('tool/seo_url');
 		$this->loadLanguage('total/total');
-    	$this->data['heading_title'] = $this->language->get('heading_title', 'blocks_cart');
+    	$this->data['heading_title'] = $this->language->get('heading_title', 'blocks/cart');
     	
 		$this->data['text_subtotal'] = $this->language->get('text_subtotal');
 		$this->data['text_empty'] = $this->language->get('text_empty');

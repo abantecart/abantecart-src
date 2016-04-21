@@ -32,7 +32,7 @@ class ControllerBlocksManufacturer extends AController {
 
 		$this->loadLanguage('blocks/manufacturer');
 
-		$this->view->assign('heading_title', $this->language->get('heading_title', 'blocks_manufacturer') );
+		$this->view->assign('heading_title', $this->language->get('heading_title', 'blocks/manufacturer') );
         $this->view->assign('text_select', $this->language->get('text_select') );
 
 		//For product page show only brand icon

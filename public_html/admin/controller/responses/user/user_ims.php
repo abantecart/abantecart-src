@@ -38,7 +38,7 @@ class ControllerResponsesUserUserIMs extends AController {
 		$section = $this->request->get['section'];
 
 		$this->data['text_title'] = '"'.$this->language->get('im_sendpoint_name_'.preformatTextID($sendpoint)).'"';
-		$this->data['text_title'] .= ' '.sprintf($this->language->get('text_notification_for', 'common_im'),$user_info['username']);
+		$this->data['text_title'] .= ' '.sprintf($this->language->get('text_notification_for', 'common/im'),$user_info['username']);
 		if($section){
 			$this->data['text_title'] .= " (" . $this->language->get('text_' . $section) . ")";
 		}
