@@ -137,7 +137,7 @@ class ModelAccountCustomer extends Model {
 		$language = new ALanguage($this->registry);
 		$language->load('common/im');
 		$message_arr = array(
-		    	1 => array('message' =>  sprintf($this->language->get('im_new_customer_text_to_admin'),$customer_id)
+		    	1 => array('message' =>  sprintf($language->get('im_new_customer_text_to_admin'),$customer_id)
 		    )
 		);
 		$this->im->send('new_customer', $message_arr);

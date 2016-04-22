@@ -356,10 +356,12 @@ class AIM {
 				//send notification to admins
 				if($this->config->get('config_admin_'.$protocol.'_status') || $protocol == 'email'){
 					$message = $msg_details[1]['message'];
+					$this->log->write($message);
 					if(empty($message)) { 
 						//send default message. Not recommended
 						$message = $this->language->get($sendpoint_data[1]['text_key']);
-					}	
+					}
+					$this->log->write($message);
 					$message = $this->_process_message_text($message, true);
 					//NOTE! all admins will receive IMs
 					$to = $this->_get_admin_im_uri($sendpoint, $protocol);
