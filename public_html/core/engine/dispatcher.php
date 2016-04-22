@@ -125,7 +125,7 @@ final class ADispatcher {
 			}
 		}
 
-        //Last part is the method of funtion to call
+        //Last part is the method of function to call
 		$method_to_call = array_shift($path_nodes);				
 		if ($method_to_call) {
 			$this->method = $method_to_call;
@@ -159,7 +159,7 @@ final class ADispatcher {
 	}
 
 
-	// Clear funstion is public in case controller needs to be cleaned explicitly
+	// Clear function is public in case controller needs to be cleaned explicitly
 	public function clear(){
 		$vars = get_object_vars($this);
 		foreach($vars as $key => $val) 
@@ -272,7 +272,7 @@ final class ADispatcher {
 		    	}		    	
 		    } else if( $dispatch == 'completed') {
 				//Check if we have message completed in controller response.
-				//If completed. stop futher execution. 
+				//If completed. stop further execution.
 				return 'completed';
 			}
             /**
@@ -287,11 +287,11 @@ final class ADispatcher {
 		    foreach ($children as $child ) {
 		    	//???? Add highest Debug level here with backtrace to review this
 		    	ADebug::checkpoint( $child['controller'].' ( child of '.$this->controller.', instance_id: '.$child['instance_id'].' ) dispatch START');
-		    	//Process each child and create dispatch to call recurcive
+		    	//Process each child and create dispatch to call recursive
 		    	$dispatch = new ADispatcher($child['controller'], array( "instance_id" => $child['instance_id'] ));
 		    	$dispatch->dispatch($controller);
 		    	// Append output of child controller to current controller
-			    if($child['position']){ // maden for recognizing few custom_blocks in the same placeholder
+			    if($child['position']){ // made for recognizing few custom_blocks in the same placeholder
 		    	    $controller->view->assign($child['block_txt_id'].'_'.$child['instance_id'], $this->response->getOutput() );
 			    }else{
 				    $controller->view->assign($child['block_txt_id'], $this->response->getOutput() );

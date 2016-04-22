@@ -221,12 +221,12 @@ abstract class AController {
 		$rt_file = $ds->getFile();
 		$rt_method = $ds->getMethod();
 		if ( !empty($rt_file) && !empty($rt_class) && !empty($rt_method) ) {
-		    require_once($rt_file);
+			/** @noinspection PhpIncludeInspection */
+			require_once($rt_file);
             if ( class_exists($rt_class) ) {
-            	$cache_keys = array();
             	$static_method = $rt_method.'_cache_keys';
             	if (method_exists( $rt_class, $static_method )) {
-            		//finaly get keys and build a cache key
+            		//finally get keys and build a cache key
             		$cache_keys = call_user_func($rt_class.'::'.$static_method);
 					return $cache_keys;
             	}
