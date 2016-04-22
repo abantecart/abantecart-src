@@ -149,7 +149,7 @@ function SEOEncode($string_value, $object_key_name='', $object_id=0, $language_i
 		return $seo_key;
 	}else{
 		//if $object_key_name given - check is seo-key unique and return unique
-		return getUniqueSeoKeyword($seo_key, $object_key_name, $object_id, $language_id);
+		return getUniqueSeoKeyword($seo_key, $object_key_name, $object_id);
 	}
 }
 
@@ -287,7 +287,7 @@ function getTextUploadError($error) {
 }
 
 /*
- * DATETIME funtions
+ * DATETIME functions
  */
 
 /*
@@ -628,10 +628,10 @@ function startStorefrontSession($user_id, $data=array()){
 
 
 /**
- * Function to built array with sort_order equaly encremented
+ * Function to built array with sort_order equally incremented
  *
  * @param array $array to build sort order for
- * @param int $min - minimal sort order numer (start)
+ * @param int $min - minimal sort order number (start)
  * @param int $max - maximum sort order number (end)
  * @param string $sort_direction
  * @return array with sort order added.
@@ -675,7 +675,7 @@ function build_sort_order($array, $min, $max, $sort_direction = 'asc'){
 }
 
 /**
- * Function to test if array is assosiative array
+ * Function to test if array is associative array
  *
  * @param array $test_array
  * @return bool
@@ -973,7 +973,7 @@ function get_url_path( $url ) {
 }
 
 /*
-	Return formated execution back stack
+	Return formatted execution back stack
  *
  * @param $depth int/string  - depth of the trace back ('full' to get complete stack)
  * @return string
@@ -1013,7 +1013,7 @@ function is_writable_dir($dir) {
 }
 
 /**
- * Create (signle level) dir if does not exists and/or make dir writable
+ * Create (single level) dir if does not exists and/or make dir writable
  *
  * @param string $dir 
  * @return bool
@@ -1065,7 +1065,7 @@ function make_writable_path($path) {
  * @return string
 */
 function js_encode($text) {
-	return json_encode($text);
+	return json_encode($text,JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP | JSON_UNESCAPED_UNICODE);
 }
 
 /**
