@@ -253,7 +253,6 @@ final class ACustomer{
 		$this->customer_group_name = '';
 		$this->customer_tax_exempt = '';
 		$this->address_id = '';
-		$this->cache->remove('storefront_menu');
 
 		//expire unauth cookie
 		unset($_COOKIE['customer']);

@@ -197,7 +197,10 @@ class ExtensionCollection {
  * @package MyExtensionsApi
  */
 class ExtensionsApi {
-
+	/**
+	 * @var Registry
+	 */
+	protected $registry;
 	/**
 	 * @var array $extensions - array of extensions objects
 	 */
@@ -254,6 +257,7 @@ class ExtensionsApi {
 
 	public function __construct() {
 
+		$this->registry = Registry::getInstance();
 		$this->extensions_dir = array();
 		$this->db_extensions = array();
 		$this->missing_extensions = array();
@@ -268,10 +272,9 @@ class ExtensionsApi {
 			}
 		}
 
-		$registry = Registry::getInstance();
-		if ($registry->has('db')) {
+		if ($this->registry->has('db')) {
 
-			$this->db = $registry->get('db');
+			$this->db = $this->registry->get('db');
 
 			//get extensions from db
 			$query = $this->getExtensionsList();
@@ -299,10 +302,11 @@ class ExtensionsApi {
 					$data['version'] = $misext->getConfig('version');
 					$data['priority'] = $misext->getConfig('priority');
 					$data['category'] = $misext->getConfig('category');
-					$data['license_key'] = $registry->get('session')->data['package_info']['extension_key'];
+					$data['license_key'] = $this->registry->get('session')->data['package_info']['extension_key'];
 
-					if ($registry->has('extension_manager'))
-						$registry->get('extension_manager')->add($data);
+					if ($this->registry->has('extension_manager')) {					
+						$this->registry->get('extension_manager')->add($data);
+					}
 				}
 		}
 	}
@@ -381,7 +385,6 @@ class ExtensionsApi {
 		//Improvement
 		//Add cache for this static select if $data is not provided 
 		//Need to add clear cache every place ext added/updated
-		$registry = Registry::getInstance();
 		$sql = "SELECT DISTINCT
 		              e.extension_id,
                       e.type,
@@ -438,7 +441,7 @@ class ExtensionsApi {
 		if (has_value($data['store_id'])) {
 			$sql .= " AND COALESCE(s.`store_id`,0) = '" . (int)$data['store_id'] . "' ";
 		} else {
-			$sql .= " AND COALESCE(s.`store_id`,0) = '" . (int)$registry->get('config')->get('config_store_id') . "' ";
+			$sql .= " AND COALESCE(s.`store_id`,0) = '" . (int)$this->registry->get('config')->get('config_store_id') . "' ";
 		}
 
 		if (has_value($data['sort_order']) && $data['sort_order'][0] != 'name') {
@@ -480,9 +483,8 @@ class ExtensionsApi {
 			return false;
 		}
 		$name = '';
-		$registry = Registry::getInstance();
-		if (file_exists(DIR_EXT . $extension . '/admin/language/' . $registry->get('language')->language_details['directory'] . '/' . $extension . '/' . $extension . '.xml')) {
-			$filename = DIR_EXT . $extension . '/admin/language/' . $registry->get('language')->language_details['directory'] . '/' . $extension . '/' . $extension . '.xml';
+		if (file_exists(DIR_EXT . $extension . '/admin/language/' . $this->registry->get('language')->language_details['directory'] . '/' . $extension . '/' . $extension . '.xml')) {
+			$filename = DIR_EXT . $extension . '/admin/language/' . $this->registry->get('language')->language_details['directory'] . '/' . $extension . '/' . $extension . '.xml';
 		} else {
 			$filename = DIR_EXT . $extension . '/admin/language/english/' . $extension . '/' . $extension . '.xml';
 		}
@@ -634,7 +636,6 @@ class ExtensionsApi {
 		/**
 		 * @var Registry
 		 */
-		$registry = Registry::getInstance();
 		$ext_controllers = $ext_models = $ext_languages = $ext_templates = array();
 		$enabled_extensions = $extensions = array();
 
@@ -642,15 +643,15 @@ class ExtensionsApi {
 			//check if extension is enabled and not already in the picked list
 			if (
 				 //check if we need only available extensions with status 0
-				 ( ($force_enabled_off && has_value($registry->get('config')->get($ext . '_status')) )
-				 		|| $registry->get('config')->get($ext . '_status')
+				 ( ($force_enabled_off && has_value($this->registry->get('config')->get($ext . '_status')) )
+				 		|| $this->registry->get('config')->get($ext . '_status')
 				 )
 				  && !in_array($ext, $enabled_extensions)
 				  && has_value($ext)
 				) {
 
 				// run order is sort_order!
-				$priority = (int)$registry->get('config')->get($ext . '_sort_order');
+				$priority = (int)$this->registry->get('config')->get($ext . '_sort_order');
 				$enabled_extensions[$priority][] = $ext;
 
 				$controllers = $languages = $models = $templates = array(
@@ -705,8 +706,7 @@ class ExtensionsApi {
 	 * @return array|bool
 	 */
 	public function isExtensionLanguageFile($route, $language_name, $section) {
-		$registry = Registry::getInstance();
-		if (!$registry->has('config')) return false;
+		if (!$this->registry->has('config')) return false;
 
 		$file = ($section ? DIR_EXT_ADMIN : DIR_EXT_STORE) . 'language/' .
 				$language_name . '/' . $route . '.xml';
@@ -737,8 +737,7 @@ class ExtensionsApi {
 			$ext_status = 'enabled';
 		}
 
-		$registry = Registry::getInstance();
-		if (!$registry->has('config')) return false;
+		if (!$this->registry->has('config')) return false;
 
 		$ext_section = (IS_ADMIN ? DIR_EXT_ADMIN : DIR_EXT_STORE);
 		//mode to force load storefront model is loaded from admin
@@ -752,15 +751,15 @@ class ExtensionsApi {
 				$source = $this->extension_models;
 				break;
 			case 'L' :
-				$query = $registry->get('db')->query("SELECT directory FROM " . $this->db->table("languages") . " 
-                    WHERE code='" . $registry->get('session')->data['language'] . "'");
+				$query = $this->registry->get('db')->query("SELECT directory FROM " . $this->db->table("languages") . " 
+                    WHERE code='" . $this->registry->get('session')->data['language'] . "'");
 				$file = $ext_section . 'language/' .
 						$query->row['directory'] . '/' . $route . '.xml';
 				$source = $this->extension_languages;
 				break;
 			case 'T' :
-				$tmpl_id = IS_ADMIN ? $registry->get('config')->get('admin_template')
-						: $registry->get('config')->get('config_storefront_template');
+				$tmpl_id = IS_ADMIN ? $this->registry->get('config')->get('admin_template')
+						: $this->registry->get('config')->get('config_storefront_template');
 				$file = $ext_section . DIR_EXT_TEMPLATE . $tmpl_id . '/template/' . $route;
 				$source = $this->extension_templates;
 				break;
@@ -830,13 +829,12 @@ class ExtensionsApi {
 	 */
 	public function getAllPrePostTemplates($route){
 
-		$registry = Registry::getInstance();
-		if (!$registry->has('config')) return false;
+		if (!$this->registry->has('config')) return false;
 
 		$ext_section = (IS_ADMIN ? DIR_EXT_ADMIN : DIR_EXT_STORE);
 
-		$tmpl_id = IS_ADMIN ? $registry->get('config')->get('admin_template')
-				: $registry->get('config')->get('config_storefront_template');
+		$tmpl_id = IS_ADMIN ? $this->registry->get('config')->get('admin_template')
+				: $this->registry->get('config')->get('config_storefront_template');
 		$file = $ext_section . DIR_EXT_TEMPLATE . $tmpl_id . '/template/' . $route;
 		$source = $this->extension_templates;
 
@@ -953,7 +951,7 @@ class ExtensionsApi {
 	}
 
 	/**
-	 * @param string $method
+	 * @param string $method (hk_[function] calls)
 	 * @param array $args
 	 * @return mixed|null
 	 */

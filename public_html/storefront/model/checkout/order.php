@@ -344,10 +344,8 @@ class ModelCheckoutOrder extends Model {
 			        FROM " . $this->db->table("products") . "
 					WHERE product_id = '" . (int)$product['product_id'] . "' AND subtract = 1";
 			$res = $this->db->query($sql);
-			
 			if($res->num_rows && $res->row['quantity'] <= 0){
 				//notify admin with out of stock
-
 				$message_arr = array(
 				    1 => array('message' =>  sprintf($language->get('im_product_out_of_stock_admin_text'),$product['product_id']))
 				);
@@ -370,17 +368,18 @@ class ModelCheckoutOrder extends Model {
 							AND subtract = 1";
 				$res = $this->db->query($sql);
 				if($res->num_rows && $res->row['quantity'] <= 0){
-					//notify admin with out of stock
+					//notify admin with out of stock for option based product
 					$message_arr = array(
 					    1 => array('message' =>  sprintf($language->get('im_product_out_of_stock_admin_text'),$product['product_id']))
 					);
 					$this->im->send('product_out_of_stock', $message_arr);
 				}
 			}
-
-			$this->cache->remove('product');
-
 		}
+		
+		//clean product cache as stock might have changed.
+		$this->cache->remove('product');
+
 		//build confirmation email
 		$language = new ALanguage($this->registry, $order_row['code']);
 		$language->load($order_row['filename']);
