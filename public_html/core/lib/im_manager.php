@@ -108,7 +108,7 @@ class AIMManager extends AIM{
 		if(!$customer_id){
 			return array();
 		}
-
+		$this->load->language('common/im');
 		$sendpoints_list = $this->admin_sendpoints;
 		$customer_im_settings = $this->getCustomerIMSettings($customer_id);
 		$this->registry->set('force_skip_errors', true);
@@ -280,6 +280,8 @@ class AIMManager extends AIM{
 		if(!$user_id){
 			return array();
 		}
+
+		$this->load->language('common/im');
 
 		$sendpoints_list = $this->admin_sendpoints;
 		$user_im_settings = $this->getUserSendPointSettings($user_id, 'admin', $sendpoint, 0);
