@@ -70,6 +70,8 @@ class ModelExtensionBannerManager extends Model {
 						'description' => $data['description'],
 				)));
 
+		$this->cache->remove('banner');
+
 		return $banner_id;
 	}
 
@@ -167,6 +169,8 @@ class ModelExtensionBannerManager extends Model {
 		if ($tmp) {
 			$this->db->query($sql);
 		}
+		$this->cache->remove('banner');
+		return true;
 	}
 
 	/**
@@ -183,6 +187,7 @@ class ModelExtensionBannerManager extends Model {
 		foreach ($sql as $s) {
 			$this->db->query($s);
 		}
+		$this->cache->remove('banner');
 		return true;
 	}
 
