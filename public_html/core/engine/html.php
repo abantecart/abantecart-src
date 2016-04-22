@@ -21,16 +21,81 @@ if (!defined('DIR_CORE')) {
 	header('Location: static_pages/');
 }
 
+/**
+ * Class AHtml
+ * @method SelectboxHtmlElement buildSelectBox( array $data )
+ * @method MultiSelectboxHtmlElement buildMultiSelectBox( array $data )
+ * @method HiddenHtmlElement buildHidden( array $data )
+ * @method MultivalueHtmlElement buildMultivalue( array $data )
+ * @method MultivalueListHtmlElement buildMultivalueList( array $data )
+ * @method SubmitHtmlElement buildSubmit( array $data )
+ * @method InputHtmlElement buildInput( array $data )
+ * @method PasswordHtmlElement buildPassword( array $data )
+ * @method TextareaHtmlElement buildTextarea( array $data )
+ * @method TextEditorHtmlElement buildTextEditor( array $data )
+ * @method CheckboxHtmlElement buildCheckbox( array $data )
+ * @method CheckboxGroupHtmlElement buildCheckboxGroup( array $data )
+ * @method FileHtmlElement buildFile( array $data )
+ * @method RadioHtmlElement buildRadio( array $data )
+ * @method ButtonHtmlElement buildButton( array $data )
+ * @method RatingHtmlElement buildRating( array $data )
+ * @method CaptchaHtmlElement buildCaptcha( array $data )
+ * @method ReCaptchaHtmlElement buildReCaptcha( array $data )
+ * @method PasswordSetHtmlElement buildPasswordSet( array $data )
+ * @method ResourceHtmlElement buildResource( array $data )
+ * @method ResourceImageHtmlElement buildResourceImage( array $data )
+ * @method DateHtmlElement buildDate( array $data )
+ * @method EmailHtmlElement buildEmail( array $data )
+ * @method NumberHtmlElement buildNumber( array $data )
+ * @method PhoneHtmlElement buildPhone( array $data )
+ * @method IPaddressHtmlElement buildIPaddress( array $data )
+ * @method CountriesHtmlElement buildCountries( array $data )
+ * @method ZonesHtmlElement buildZones( array $data )
+ * @method PaginationHtmlElement buildPagination( array $data )
+ * @method ModalHtmlElement buildModal( array $data )
+ */
 class AHtml extends AController {
+	/**
+	 * @var Registry
+	 */
 	protected $registry;
+	/**
+	 * @var array
+	 */
 	protected $args = array();
-
+	/**
+	 * @var ARequest
+	 */
+	protected $request;
 	/**
 	 * @param Registry $registry
 	 * @param array $args
 	 */
 	public function __construct($registry, $args = array()) {
-		$this->registry = $registry;		
+		$this->registry = $registry;
+		$this->request = $this->registry->get('request');
+	}
+
+	/**
+	 * Magic method for html-element classes calls
+	 * @param $function_name
+	 * @param $args
+	 * @return null|string
+	 */
+	public function __call($function_name, $args){
+		$class_name = ltrim($function_name, 'build').'HtmlElement';
+		if(class_exists($class_name)){
+			/**
+			 * @var SelectboxHtmlElement|HiddenHtmlElement| $item
+			 */
+			$item = new $class_name($args[0]);
+			if(method_exists($item,'getHtml')){
+				return $item->getHtml();
+			}else{
+				unset($item);
+			}
+		}
+		return null;
 	}
 
 	/**
@@ -46,11 +111,11 @@ class AHtml extends AController {
 			$suburl .= '&s=' . ADMIN_PATH;
 		}
 		//add template if present
-		if (!empty($this->registry->get('request')->get['sf'])) {
-			$suburl .= '&sf=' . $this->registry->get('request')->get['sf'];
+		if (!empty($this->request->get['sf'])) {
+			$suburl .= '&sf=' . $this->request->get['sf'];
 		}
 		
-		//if in embed mode add respoce prefix
+		//if in embed mode add response prefix
 		if ($this->registry->get('config')->get('embed_mode') == true) {
 			$suburl .= '&embed_mode=1';
 			if(substr($rt, 0, 2) != 'r/'){
@@ -70,26 +135,26 @@ class AHtml extends AController {
 	 * @return string
 	 */
 	public function getURL($rt, $params = '', $encode = '') {
-		if (isset($this->registry->get('request')->server['HTTPS'])
-				&& (($this->registry->get('request')->server['HTTPS'] == 'on') || ($this->registry->get('request')->server['HTTPS'] == '1'))) {
+		if (isset($this->request->server['HTTPS'])
+				&& (($this->request->server['HTTPS'] == 'on') || ($this->request->server['HTTPS'] == '1'))) {
 			$server = HTTPS_SERVER;
 		} else {
 			//to prevent garbage session need to check constant HTTP_SERVER
 			$server = defined('HTTP_SERVER') ? HTTP_SERVER : 'http://' . REAL_HOST . get_url_path($_SERVER['PHP_SELF']);
 		}
 
-		if ($this->registry->get('config')->get('storefront_template_debug') 
-			&& isset($this->registry->get('request')->get['tmpl_debug'])
+		if ($this->registry->get('config')->get('storefront_template_debug')
+			&& isset($this->request->get['tmpl_debug'])
 			) {
-			$params .= '&tmpl_debug=' . $this->registry->get('request')->get['tmpl_debug'];
+			$params .= '&tmpl_debug=' . $this->request->get['tmpl_debug'];
 		}
-		// add session id for crossdomain transition in secure mode
+		// add session id for cross-domain transition in secure mode
 		if($this->registry->get('config')->get('config_shared_session')	&& HTTPS===true){
 			$params .= '&session_id='.session_id();
 		}
 
-		//add token for embed mode with forbidden 3dparty cookies
-		if($_SESSION['session_mode'] == 'embed_token'){
+		//add token for embed mode with forbidden 3d-party cookies
+		if($this->registry->get('session')->data['session_mode'] == 'embed_token'){
 			$params .= '&'.EMBED_TOKEN_NAME.'='.session_id();
 		}
 		$url = $server . INDEX_FILE . $this->url_encode($this->buildURL($rt, $params), $encode);
@@ -104,24 +169,26 @@ class AHtml extends AController {
 	 * @return string
 	 */
 	public function getSecureURL($rt, $params = '', $encode = '') {
-		// add session id for crossdomain transition in non-secure mode
-		if($this->registry->get('config')->get('config_shared_session')	&& HTTPS!==true){
+		$session = $this->registry->get('session');
+		$config = $this->registry->get('config');
+		// add session id for cross-domain transition in non-secure mode
+		if($config->get('config_shared_session')	&& HTTPS!==true){
 			$params .= '&session_id='.session_id();
 		}
 
 		$suburl = $this->buildURL($rt, $params);
 		//#PR Add session
-		if (isset($this->session->data['token']) && $this->session->data['token']) {
-			$suburl .= '&token=' . $this->session->data['token'];
+		if (isset($session->data['token']) && $session->data['token']) {
+			$suburl .= '&token=' . $this->registry->get('session')->data['token'];
 		}
 
-		//add token for embed mode with forbidden 3dparty cookies
-		if($_SESSION['session_mode'] == 'embed_token'){
+		//add token for embed mode with forbidden 3d-party cookies
+		if($session->data['session_mode'] == 'embed_token'){
 			$suburl .= '&'.EMBED_TOKEN_NAME.'='.session_id();
 		}
 
-		if ($this->registry->get('config')->get('storefront_template_debug') && isset($this->registry->get('request')->get['tmpl_debug'])) {
-			$suburl .= '&tmpl_debug=' . $this->registry->get('request')->get['tmpl_debug'];
+		if ($config->get('storefront_template_debug') && isset($this->request->get['tmpl_debug'])) {
+			$suburl .= '&tmpl_debug=' . $this->request->get['tmpl_debug'];
 		}
 
 		$url = HTTPS_SERVER . INDEX_FILE . $this->url_encode($suburl, $encode);
@@ -135,7 +202,7 @@ class AHtml extends AController {
 	 * @param string $encode
 	 * @return string
 	 */
-	public function getSEOURL($rt, $params = '', $encode = '') {
+	public function getSeoURL($rt, $params = '', $encode = '') {
 		//skip SEO for embed mode
 		if ($this->registry->get('config')->get('embed_mode') == true) {
 			return $this->getURL($rt, $params);
@@ -152,8 +219,8 @@ class AHtml extends AController {
 	 * @return string
 	 */
 	public function getSecureSEOURL($rt, $params = '', $encode = '') {
-		//add token for embed mode with forbidden 3dparty cookies
-		if($_SESSION['session_mode'] == 'embed_token'){
+		//add token for embed mode with forbidden 3d-party cookies
+		if($this->registry->get('session')->data['session_mode'] == 'embed_token'){
 			$params .= '&'.EMBED_TOKEN_NAME.'='.session_id();
 		}
 		//#PR Generate SEO URL based on standard URL
@@ -169,8 +236,8 @@ class AHtml extends AController {
 	 * @return string
 	 */
 	public function getCatalogURL($rt, $params = '', $encode = '', $ssl = false) {
-		//add token for embed mode with forbidden 3dparty cookies
-		if($_SESSION['session_mode'] == 'embed_token'){
+		//add token for embed mode with forbidden 3d-party cookies
+		if($this->registry->get('session')->data['session_mode'] == 'embed_token'){
 			$params .= '&'.EMBED_TOKEN_NAME.'='.session_id();
 		}
 		$suburl = '?' . ($rt ? 'rt=' . $rt : '') . $params;
@@ -182,7 +249,7 @@ class AHtml extends AController {
 	}
 
 	/**
-	 * encode URLfor & to be &amp
+	 * encode URL for & to be &amp
 	 * @param string $url
 	 * @param bool $encode
 	 * @return string
@@ -217,7 +284,7 @@ class AHtml extends AController {
 	}
 
 	/**
-	 * URI entrypt parameteres in URI
+	 * URI encrypt parameters in URI
 	 *
 	 * @param $uri
 	 * @internal param array $filter_params - array of vars to filter
@@ -291,18 +358,20 @@ class AHtml extends AController {
 	 * @param string $keyword
 	 * @return string
 	 */
-	public function isSEOkeywordExists($query,$keyword=''){
+	public function isSEOKeywordExists($query,$keyword=''){
 		if(!$keyword){
 			return '';
 		}
 		$seo_key = SEOEncode($keyword);
 
 		$db = $this->registry->get('db');
-		$sql = "SELECT * FROM ".DB_PREFIX."url_aliases WHERE query<>'".$db->escape($query)."' AND keyword='".$db->escape($seo_key)."'";
+		$sql = "SELECT *
+				FROM ".DB_PREFIX."url_aliases
+				WHERE query<>'".$db->escape($query)."' AND keyword='".$db->escape($seo_key)."'";
 		$result = $db->query($sql);
 		if($result->num_rows){
 			$url = HTTP_CATALOG.$seo_key;
-			return	sprintf($this->registry->get('language')->get('error_seo_keyword'),$url,$seo_key);
+			return	sprintf($this->language->get('error_seo_keyword'),$url,$seo_key);
 		}
 
 		return '';
@@ -325,273 +394,14 @@ class AHtml extends AController {
 		return HtmlElementFactory::create($data);
 	}
 
-	/**
-	 * @param  $data - array with element data
-	 * same format as for buildElement, except unnecessarily 'type'
-	 * @return string - html code
-	 */
-	public function buildHidden($data) {
-		$item = new HiddenHtmlElement($data);
-		return $item->getHtml();
-	}
-
-	/**
-	 * @param  $data - array with element data
-	 * same format as for buildElement, except unnecessarily 'type'
-	 * @return string - html code
-	 */
-	public function buildSubmit($data) {
-		$item = new SubmitHtmlElement($data);
-		return $item->getHtml();
-	}
-
-	/**
-	 * @param  $data - array with element data
-	 * same format as for buildElement, except unnecessarily 'type'
-	 * @return string - html code
-	 */
-	public function buildInput($data) {
-		$item = new InputHtmlElement($data);
-		return $item->getHtml();
-	}
-
-	/**
-	 * @param  $data - array with element data
-	 * same format as for buildElement, except unnecessarily 'type'
-	 * @return string - html code
-	 */
-	public function buildPassword($data) {
-		$item = new PasswordHtmlElement($data);
-		return $item->getHtml();
-	}
-
-	/**
-	 * @param  $data - array with element data
-	 * same format as for buildElement, except unnecessarily 'type'
-	 * @return string - html code
-	 */
-	public function buildTextarea($data) {
-		$item = new TextareaHtmlElement($data);
-		return $item->getHtml();
-	}
-
-	/**
-	 * @param  $data - array with element data
-	 * same format as for buildElement, except unnecessarily 'type'
-	 * @return string - html code
-	 */
-	public function buildSelectbox($data) {
-		$item = new SelectboxHtmlElement($data);
-		return $item->getHtml();
-	}
-
-	/**
-	 * @param  $data - array with element data
-	 * same format as for buildElement, except unnecessarily 'type'
-	 * @return string - html code
-	 */
-	public function buildMultiselectbox($data) {
-		$item = new MultiSelectboxHtmlElement($data);
-		return $item->getHtml();
-	}
-
-
-	/**
-	 * @param  $data - array with element data
-	 * same format as for buildElement, except unnecessarily 'type'
-	 * @return string - html code
-	 */
-	public function buildCheckbox($data) {
-		$item = new CheckboxHtmlElement($data);
-		return $item->getHtml();
-	}
-
-	/**
-	 * @param  $data - array with element data
-	 * same format as for buildElement, except unnecessarily 'type'
-	 * @return string - html code
-	 */
-	public function buildCheckboxGroup($data) {
-		$item = new CheckboxGroupHtmlElement($data);
-		return $item->getHtml();
-	}
-
-	/**
-	 * @param  $data - array with element data
-	 * same format as for buildElement, except unnecessarily 'type'
-	 * @return string - html code
-	 */
-	public function buildFile($data) {
-		$item = new FileHtmlElement($data);
-		return $item->getHtml();
-	}
-
-	/**
-	 * @param  $data - array with element data
-	 * same format as for buildElement, except unnecessarily 'type'
-	 * @return string - html code
-	 */
-	public function buildRadio($data) {
-		$item = new RadioHtmlElement($data);
-		return $item->getHtml();
-	}
-
-	/**
-	 * @param  $data - array with element data
-	 * same format as for buildElement, except unnecessarily 'type'
-	 * @return string - html code
-	 */
-	public function buildButton($data) {
-		$item = new ButtonHtmlElement($data);
-		return $item->getHtml();
-	}
-
-	/**
-	 * @param  $data - array with element data
-	 * same format as for buildElement, except unnecessarily 'type'
-	 * @return string - html code
-	 */
-	public function buildForm($data) {
-		$item = new FormHtmlElement($data);
-		return $item->getHtml();
-	}
-
-	/**
-	 * @param  $data - array with element data
-	 * same format as for buildElement, except unnecessarily 'type'
-	 * @return string - html code
-	 */
-	public function buildRating($data) {
-		$item = new RatingHtmlElement($data);
-		return $item->getHtml();
-	}
-
-	/**
-	 * @param  $data - array with element data
-	 * same format as for buildElement, except unnecessarily 'type'
-	 * @return string - html code
-	 */
-	public function buildCaptcha($data) {
-		$item = new CaptchaHtmlElement($data);
-		return $item->getHtml();
-	}
-
-	/**
-	 * @param  $data - array with element data
-	 * same format as for buildElement, except unnecessarily 'type'
-	 * @return string - html code
-	 */
-	public function buildReCaptcha($data) {
-		$item = new ReCaptchaHtmlElement($data);
-		return $item->getHtml();
-	}
-
-	/**
-	 * @param  $data - array with element data
-	 * same format as for buildElement, except unnecessarily 'type'
-	 * @return string - html code
-	 */
-	public function buildPasswordset($data) {
-		$item = new PasswordsetHtmlElement($data);
-		return $item->getHtml();
-	}
-
-	/**
-	 * @param  $data - array with element data
-	 * id, name, title, value(array with id of rows(or elements) which will be selected after popup content load)
-	 * content_url - url of popup content
-	 * postvars - associative array with POST variables for ajax request from popup
-	 *
-	 * @return string - html code
-	 */
-	public function buildMultivalueList($data) {
-		$item = new MultivalueListHtmlElement($data);
-		return $item->getHtml();
-	}
-
-	/**
-	 * @param array $data
-	 * @return string
-	 */
-	public function buildMultivalue($data) {
-		$item = new MultivalueHtmlElement($data);
-		return $item->getHtml();
-	}
-
-	/**
-	 * @param array $data
-	 * @return string
-	 */
-	public function buildResourceImage($data) {
-		$item = new ResourceImageHtmlElement($data);
-		return $item->getHtml();
-	}
-	/**
-	 * @param array $data
-	 * @return string
-	 */
-	public function buildDate($data) {
-		$item = new DateHtmlElement($data);
-		return $item->getHtml();
-	}
-	/**
-	 * @param array $data
-	 * @return string
-	 */
-	public function buildEmail($data) {
-		$item = new EmailHtmlElement($data);
-		return $item->getHtml();
-	}
-	/**
-	 * @param array $data
-	 * @return string
-	 */
-	public function buildNumber($data) {
-		$item = new NumberHtmlElement($data);
-		return $item->getHtml();
-	}
-	/**
-	 * @param array $data
-	 * @return string
-	 */
-	public function buildPhone($data) {
-		$item = new PhoneHtmlElement($data);
-		return $item->getHtml();
-	}
-	/**
-	 * @param array $data
-	 * @return string
-	 */
-	public function buildIPaddress($data) {
-		$item = new IPaddressHtmlElement($data);
-		return $item->getHtml();
-	}
-	/**
-	 * @param array $data
-	 * @return string
-	 */
-	public function buildCountries($data) {
-		$item = new CountriesHtmlElement($data);
-		return $item->getHtml();
-	}
-
-	/**
-	 * @param  $data - array with element data
-	 * method to build pagination HTML element
-	 * @return string - html code
-	 */
-	public function buildPagination($data) {
-		$item = new PaginationHtmlElement($data);
-		return $item->getHtml();
-	}
 
 	/**
 	 * @return string
 	 * @throws AException
 	 */
 	public function getStoreSwitcher() {
-		$registry = Registry::getInstance();
-		$view = new AView(Registry::getInstance(), 0);
+		$registry = $this->registry;
+		$view = new AView($this->registry, 0);
 		//check if store_id is passed or in the session 
 		$store_id = $registry->get('config')->get('config_store_id');
 		//set store selector
@@ -599,12 +409,17 @@ class AHtml extends AController {
 		$hidden = array();
 		$stores[0] = array('name' => $registry->get('language')->get('text_default'));
 		$registry->get('load')->model('setting/store');
+		/** @noinspection PhpUndefinedClassInspection */
+		/**
+		 * @var ModelSettingStore $model
+		 */
+		$model =  $registry->get('model_setting_store');
 		//if loaded not default store - hide store switcher
-		$default_store_settings = $registry->get('model_setting_store')->getStore(0);
+		$default_store_settings = $model->getStore(0);
 		if($this->registry->get('config')->get('config_url') != $default_store_settings['config_url']){
 			return '';
 		}
-		$result_stores = $registry->get('model_setting_store')->getStores();
+		$result_stores = $model->getStores();
 		if (sizeof($result_stores) > 0) {
 			foreach ($result_stores as $rs) {
 				$stores[$rs['store_id']] = array(
@@ -631,8 +446,8 @@ class AHtml extends AController {
 	 * @throws AException
 	 */
 	public function getContentLanguageSwitcher() {
-		$registry = Registry::getInstance();
-		$view = new AView(Registry::getInstance(), 0);
+		$registry = $this->registry;
+		$view = new AView($this->registry, 0);
 		$registry->get('load')->model('localisation/language');
 		$results = $registry->get('model_localisation_language')->getLanguages();
 		$template['languages'] = array();
@@ -647,7 +462,8 @@ class AHtml extends AController {
 			}
 		}
 		if (sizeof($template['languages']) > 1) {
-			$template['language_code'] = $registry->get('session')->data['content_language']; //selected in selectbox
+			//selected in selectbox
+			$template['language_code'] = $registry->get('language')->getContentLanguageCode();
 			foreach ($registry->get('request')->get as $name => $value) {
 				if ($name == 'content_language_code') continue;
 				$template['hiddens'][ $name ] = $value;
@@ -664,8 +480,8 @@ class AHtml extends AController {
 	 * @throws AException
 	 */
 	public function getContentLanguageFlags() {
-		$registry = Registry::getInstance();
-		$view = new AView(Registry::getInstance(), 0);
+		$registry = $this->registry;
+		$view = new AView($this->registry, 0);
 		$registry->get('load')->model('localisation/language');
 		$results = $registry->get('model_localisation_language')->getLanguages();
 		$template['languages'] = array();
@@ -680,7 +496,8 @@ class AHtml extends AController {
 			}
 		}
 		if (sizeof($template['languages']) > 1) {
-			$template['language_code'] = $registry->get('session')->data['content_language']; //selected in selectbox
+			//selected in selectbox
+			$template['language_code'] = $registry->get('language')->getContentLanguageCode();
 			foreach ($registry->get('request')->get as $name => $value) {
 				if ($name == 'content_language_code') continue;
 				$template['hiddens'][ $name ] = $value;
@@ -918,7 +735,7 @@ class HtmlElementFactory {
 
 	/**
 	 * @param $data
-	 * @return HiddenHtmlElement | MultivalueListHtmlElement | MultivalueHtmlElement | SubmitHtmlElement | InputHtmlElement | PasswordHtmlElement | PaginationHtmlElement | TextareaHtmlElement | SelectboxHtmlElement | MultiSelectboxHtmlElement | CheckboxHtmlElement | CheckboxGroupHtmlElement | FileHtmlElement | RadioHtmlElement | ButtonHtmlElement | FormHtmlElement | RatingHtmlElement | CaptchaHtmlElement | ReCaptchaHtmlElement | PasswordsetHtmlElement | ResourceHtmlElement | ResourceImageHtmlElement | DateHtmlElement | EmailHtmlElement | NumberHtmlElement | PhoneHtmlElement | IPaddressHtmlElement | CountriesHtmlElement | ZonesHtmlElement | ModalHtmlElement
+	 * @return HiddenHtmlElement | MultivalueListHtmlElement | MultivalueHtmlElement | SubmitHtmlElement | InputHtmlElement | PasswordHtmlElement | PaginationHtmlElement | TextareaHtmlElement | SelectboxHtmlElement | MultiSelectboxHtmlElement | CheckboxHtmlElement | CheckboxGroupHtmlElement | FileHtmlElement | RadioHtmlElement | ButtonHtmlElement | FormHtmlElement | RatingHtmlElement | CaptchaHtmlElement | ReCaptchaHtmlElement | PasswordSetHtmlElement | ResourceHtmlElement | ResourceImageHtmlElement | DateHtmlElement | EmailHtmlElement | NumberHtmlElement | PhoneHtmlElement | IPaddressHtmlElement | CountriesHtmlElement | ZonesHtmlElement | ModalHtmlElement
 	 * @throws AException
 	 */
 	static function create($data) {
@@ -936,27 +753,49 @@ class HtmlElementFactory {
  * Class HtmlElement
  */
 abstract class HtmlElement {
-
+	/**
+	 * @var array
+	 */
 	protected $data = array();
+	/**
+	 * @var AView
+	 */
 	protected $view;
+	/**
+	 * @var string
+	 */
 	public $element_id;
+	/**
+	 * @var Registry
+	 */
+	protected $registry;
+	/**
+	 * @var ALanguageManager
+	 */
+	protected $language;
 
 	/**
 	 * @param array $data
 	 */
 	function __construct($data) {
-		if (!isset($data['value'])) $data['value'] = '';
-		if (isset($data['required']) && $data['required'] == 1) $data['required'] = 'Y';
+		if(!isset($data['value'])){
+			$data['value'] = '';
+		}
+		if(isset($data['required']) && $data['required'] == 1){
+			$data['required'] = 'Y';
+		}
 		if (isset($data['attr'])) {
 			$data['attr'] = ' ' . htmlspecialchars_decode($data['attr']) . ' ';
 		}
-		$data['registry'] = Registry::getInstance();
-		$this->data = $data;
 
-		$this->view = new AView($data['registry'], 0);
+		$this->registry = Registry::getInstance();
+		$this->language = $this->registry->get('language');
+		$this->view = new AView($this->registry, 0);
+		$this->data = $data;
 		$this->element_id = preformatTextID($data['name']);
-		if (isset($data['form']))
+		if (isset($data['form'])){
 			$this->element_id = $data['form'] . '_' . $this->element_id;
+		}
 	}
 
 	/**
@@ -1001,6 +840,10 @@ abstract class HtmlElement {
 
 /**
  * Class HiddenHtmlElement
+ * @property string $element_id
+ * @property string $name
+ * @property string $value
+ * @property string $attr
  */
 class HiddenHtmlElement extends HtmlElement {
 	/**
@@ -1022,6 +865,17 @@ class HiddenHtmlElement extends HtmlElement {
 
 /**
  * Class MultivalueListHtmlElement
+ * @property string $element_id
+ * @property string $name
+ * @property array $values
+ * @property array $postvars
+ * @property string $content_url
+ * @property string $edit_url
+ * @property string $form
+ * @property string $multivalue_hidden_id
+ * @property string $return_to
+ * @property string $with_sorting
+ * @property string $text
  */
 class MultivalueListHtmlElement extends HtmlElement {
 	/**
@@ -1043,8 +897,8 @@ class MultivalueListHtmlElement extends HtmlElement {
 
 		$data['text']['delete'] = $this->text['delete'] ? $this->text['delete'] : 'delete';
 		$data['text']['delete_confirm'] = $this->text['delete_confirm'] ? $this->text['delete_confirm'] : 'Confirm to delete?';
-		$data['text']['column_action'] = $this->data['registry']->get('language')->get('column_action');
-		$data['text']['column_sort_order'] = $this->data['registry']->get('language')->get('text_sort_order');
+		$data['text']['column_action'] = $this->language->get('column_action');
+		$data['text']['column_sort_order'] = $this->language->get('text_sort_order');
 		$this->view->batchAssign($data);
 
 		return $this->view->fetch('form/multivalue_list.tpl');
@@ -1053,6 +907,20 @@ class MultivalueListHtmlElement extends HtmlElement {
 
 /**
  * Class MultivalueHtmlElement
+ * @property string $element_id
+ * @property string $name
+ * @property string $selected_name
+ * @property string $title
+ * @property string $selected
+ * @property string $content_url
+ * @property string $form
+ * @property string $return_to
+ * @property string $no_save
+ * @property string $text
+ * @property int $popup_height
+ * @property int $popup_width
+ * @property array $js
+ * @property array $postvars
  */
 class MultivalueHtmlElement extends HtmlElement {
 	/**
@@ -1072,7 +940,8 @@ class MultivalueHtmlElement extends HtmlElement {
 			'no_save' => (isset($this->no_save) ? (bool)$this->no_save : false),
 			'popup_height' => ((int)$this->popup_height ? (int)$this->popup_height : 620),
 			'popup_width' => ((int)$this->popup_width ? (int)$this->popup_width : 800),
-			'js' => array( // custom triggers for dialog events (custom fucntions calls)
+			// custom triggers for dialog events (custom functions calls)
+			'js' => array(
 				'apply' => $this->js['apply'],
 				'cancel' => $this->js['cancel'],
 			) );
@@ -1091,6 +960,12 @@ class MultivalueHtmlElement extends HtmlElement {
 
 /**
  * Class SubmitHtmlElement
+ * @property string $form,
+ * @property string $name
+ * @property string $value
+ * @property string $attr
+ * @property string $style
+ * @property string $icon
  */
 class SubmitHtmlElement extends HtmlElement {
 	/**
@@ -1114,6 +989,18 @@ class SubmitHtmlElement extends HtmlElement {
 
 /**
  * Class InputHtmlElement
+ * @property string $element_id
+ * @property string $default
+ * @property string $value
+ * @property string $name
+ * @property string $attr
+ * @property string $required
+ * @property string $style
+ * @property string $placeholder
+ * @property string $regexp_pattern
+ * @property string $error_text
+ * @property string $help_url
+ * @property bool $multilingual
  */
 class InputHtmlElement extends HtmlElement {
 	/**
@@ -1139,8 +1026,8 @@ class InputHtmlElement extends HtmlElement {
 				'error_text' => $this->error_text,
 			)
 		);
-		if( is_object($this->data['registry']->get('language')) 
-			&& count($this->data['registry']->get('language')->getActiveLanguages()) > 1 ) {
+		if( is_object($this->language)
+			&& count($this->language->getActiveLanguages()) > 1 ) {
 			$this->view->assign('multilingual', $this->multilingual);		
 		}
 		if (!empty($this->help_url)) {
@@ -1153,6 +1040,16 @@ class InputHtmlElement extends HtmlElement {
 
 /**
  * Class PasswordHtmlElement
+  * @property string $element_id
+  * @property string $default
+  * @property string $value
+  * @property string $name
+  * @property string $attr
+  * @property string $required
+  * @property string $style
+  * @property string $placeholder
+  * @property string $regexp_pattern
+  * @property string $error_text
  */
 class PasswordHtmlElement extends HtmlElement {
 	/**
@@ -1184,6 +1081,16 @@ class PasswordHtmlElement extends HtmlElement {
 
 /**
  * Class TextareaHtmlElement
+   * @property string $element_id
+   * @property string $value
+   * @property string $name
+   * @property string $attr
+   * @property string $required
+   * @property string $style
+   * @property string $placeholder
+   * @property string $label_text
+   * @property bool $multilingual
+   * @property string $help_url
  */
 class TextareaHtmlElement extends HtmlElement {
 	/**
@@ -1203,27 +1110,32 @@ class TextareaHtmlElement extends HtmlElement {
 				'label_text' => $this->label_text
 			)
 		);
-		if( is_object($this->data['registry']->get('language'))
-		 && count($this->data['registry']->get('language')->getActiveLanguages()) > 1 ) {
+		if( is_object($this->language) && count($this->language->getActiveLanguages()) > 1 ) {
 			$this->view->assign('multilingual', $this->multilingual);		
 		}
 		if (!empty($this->help_url)) {
 			$this->view->assign('help_url', $this->help_url);
 		}
-
 		return $this->view->fetch('form/textarea.tpl');
 	}
 }
 
 /**
  * Class TextEditorHtmlElement
+ * @property string $element_id
+ * @property string $value
+ * @property string $name
+ * @property string $attr
+ * @property string $required
+ * @property string $style
+ * @property string $placeholder
+ * @property bool $multilingual
  */
 class TextEditorHtmlElement extends HtmlElement {
 	/**
 	 * @return string
 	 */
 	public function getHtml() {
-		$registry = $this->data['registry'];
 		$this->view->batchAssign(
 			array(
 				'name' => $this->name,
@@ -1236,16 +1148,15 @@ class TextEditorHtmlElement extends HtmlElement {
 				'placeholder' => $this->placeholder
 			)
 		);
-		if( is_object($this->data['registry']->get('language'))){
-			$language = $this->data['registry']->get('language');
-			if (count($language->getActiveLanguages()) > 1){
+		if( is_object($this->language) ){
+			if (count($this->language->getActiveLanguages()) > 1){
 				$this->view->assign('multilingual', $this->multilingual);
 			}
 			$text = array();
-			$text['language_code'] = $registry->get('session')->data['content_language'];
-			$text['tab_text'] = $language->get('tab_text');
-			$text['tab_visual'] = $language->get('tab_visual');
-			$text['button_add_media'] = $language->get('button_add_media');
+			$text['language_code'] = $this->language->getContentLanguageCode();
+			$text['tab_text'] = $this->language->get('tab_text');
+			$text['tab_visual'] = $this->language->get('tab_visual');
+			$text['button_add_media'] = $this->language->get('button_add_media');
 
 			$this->view->batchAssign($text);
 		}
@@ -1256,6 +1167,17 @@ class TextEditorHtmlElement extends HtmlElement {
 
 /**
  * Class SelectboxHtmlElement
+ * @property string $element_id
+ * @property string $value
+ * @property string $name
+ * @property string $attr
+ * @property string $required
+ * @property string $style
+ * @property string $placeholder
+ * @property array $options
+ * @property string $ajax_url
+ * @property string $search_mode
+ * @property string $help_url
  */
 class SelectboxHtmlElement extends HtmlElement {
 	/**
@@ -1271,11 +1193,10 @@ class SelectboxHtmlElement extends HtmlElement {
 		}
 		unset($opt);
 
-		$registry = $this->data['registry'];
 		$text_continue_typing = $text_looking_for = '';
-		if(is_object($registry->get('language'))){
-			$text_continue_typing = $registry->get('language')->get('text_continue_typing','',true);
-			$text_looking_for = $registry->get('language')->get('text_looking_for','',true);
+		if(is_object($this->language)){
+			$text_continue_typing = $this->language->get('text_continue_typing','',true);
+			$text_looking_for = $this->language->get('text_looking_for','',true);
 		}
 
 		$text_continue_typing = !$text_continue_typing || $text_continue_typing=='text_continue_typing' ? 'Continue typing ...' : $text_continue_typing;
@@ -1319,6 +1240,18 @@ class SelectboxHtmlElement extends HtmlElement {
 
 /**
  * Class MultiSelectboxHtmlElement
+ * @property string $element_id
+ * @property array|mixed $value
+ * @property string $name
+ * @property string $attr
+ * @property string $required
+ * @property string $style
+ * @property string $placeholder
+ * @property array $options
+ * @property string $ajax_url
+ * @property string|array $option_attr
+ * @property string $help_url
+ * @property bool $disabled
  */
 class MultiSelectboxHtmlElement extends HtmlElement {
 	/**
@@ -1346,15 +1279,15 @@ class MultiSelectboxHtmlElement extends HtmlElement {
 		}
 
 		if( strpos($this->style,'chosen') !== false ) {
-			$registry = $this->data['registry'];
+
 			$option_attr = $this->option_attr && !is_array($this->option_attr) ? array($this->option_attr) : $this->option_attr;
 			$option_attr = !$option_attr ? array() : $option_attr;
 			$this->view->batchAssign(
 				array(
 				'ajax_url' => $this->ajax_url, //if mode of data load is ajax based 
 				'option_attr' => $option_attr, //list of custom html5 attributes for options of selectbox
-				'text_continue_typing' => $registry->get('language')->get('text_continue_typing','',true),
-				'text_looking_for' => $registry->get('language')->get('text_looking_for','',true),				
+				'text_continue_typing' => $this->language->get('text_continue_typing','',true),
+				'text_looking_for' => $this->language->get('text_looking_for','',true),
 				)
 			);
 			$return = $this->view->fetch('form/chosen_select.tpl');
@@ -1367,6 +1300,15 @@ class MultiSelectboxHtmlElement extends HtmlElement {
 
 /**
  * Class CheckboxHtmlElement
+ * @property string|int $value
+ * @property bool $checked
+ * @property string $element_id
+  * @property string $name
+  * @property string $attr
+  * @property string $required
+  * @property string $style
+  * @property string $label_text
+  * @property string $help_url
  */
 class CheckboxHtmlElement extends HtmlElement {
 	/**
@@ -1388,11 +1330,10 @@ class CheckboxHtmlElement extends HtmlElement {
 			$tpl = 'form/checkbox.tpl';
 		}
 
-		$registry = $this->data['registry'];
 		$text_on = $text_off = '';
-		if(is_object($registry->get('language'))){
-			$text_on = $registry->get('language')->get('text_on','',true);
-			$text_off = $registry->get('language')->get('text_off','',true);
+		if(is_object($this->language)){
+			$text_on = $this->language->get('text_on','',true);
+			$text_off = $this->language->get('text_off','',true);
 		}
 
 		$text_on = !$text_on || $text_on=='text_on' ? 'ON' : $text_on;
@@ -1419,6 +1360,19 @@ class CheckboxHtmlElement extends HtmlElement {
 	}
 }
 
+/**
+ * Class CheckboxGroupHtmlElement
+ * @property string|int $value
+ * @property array $options
+ * @property string $element_id
+ * @property string $name
+ * @property string $attr
+ * @property string $required
+ * @property string $style
+ * @property bool $scrollbox
+ * @property string $help_url
+ * @property string $placeholder
+ */
 class CheckboxGroupHtmlElement extends HtmlElement {
 
 	public function getHtml() {
@@ -1451,18 +1405,21 @@ class CheckboxGroupHtmlElement extends HtmlElement {
 }
 
 /**
- * Class FileHtmlElement
+  * Class FileHtmlElement
+  * @property string $element_id
+  * @property string $name
+  * @property string $attr
+  * @property string $required
+  * @property string $style
+  * @property string $help_url
+  * @property string $placeholder
  */
 class FileHtmlElement extends HtmlElement {
 	/**
 	 * @return string
 	 */
 	public function getHtml() {
-        /**
-         * @var $registry Registry
-         */
-        $registry = $this->data['registry'];
-	
+
 		$this->view->batchAssign(
 			array(
 				'name' => $this->name,
@@ -1470,8 +1427,8 @@ class FileHtmlElement extends HtmlElement {
 				'attr' => $this->attr,
 				'required' => $this->required,
 				'style' => $this->style,
-				'default_text' => $registry->get('language')->get('text_click_browse_file'),
-				'text_browse' => $registry->get('language')->get('text_browse'),
+				'default_text' => $this->language->get('text_click_browse_file'),
+				'text_browse' => $this->language->get('text_browse'),
 				'placeholder' => $this->placeholder,
 			)
 		);
@@ -1484,6 +1441,17 @@ class FileHtmlElement extends HtmlElement {
 	}
 }
 
+/**
+ * Class RadioHtmlElement
+  * @property string $value
+  * @property string $element_id
+  * @property string $name
+  * @property string $attr
+  * @property string $required
+  * @property string $style
+  * @property array $options
+  * @property string $help_url
+ */
 class RadioHtmlElement extends HtmlElement {
 
 	public function getHtml() {
@@ -1506,6 +1474,18 @@ class RadioHtmlElement extends HtmlElement {
 	}
 }
 
+/**
+ * Class ButtonHtmlElement
+ * @property string $element_id
+ * @property string $text
+ * @property string $title
+ * @property string $attr
+ * @property string $href
+ * @property string $style
+ * @property string $href_class
+ * @property string $icon
+ * @property string $target
+ */
 class ButtonHtmlElement extends HtmlElement {
 
 	public function getHtml() {
@@ -1527,6 +1507,14 @@ class ButtonHtmlElement extends HtmlElement {
 	}
 }
 
+/**
+ * Class FormHtmlElement
+  * @property string $name
+  * @property string $action
+  * @property string $attr
+  * @property string $method
+  * @property string $style
+ */
 class FormHtmlElement extends HtmlElement {
 
 	public function getHtml() {
@@ -1546,15 +1534,23 @@ class FormHtmlElement extends HtmlElement {
 	}
 }
 
+/**
+ * Class RatingHtmlElement
+ * @property string $element_id
+ * @property string $name
+ * @property string $value
+ * @property array $options
+ * @property bool $required
+ */
 class RatingHtmlElement extends HtmlElement {
 
 	function __construct($data) {
 		parent::__construct($data);
-		if (!$this->data['registry']->has('star-rating')) {
+		if (!$this->registry->has('star-rating')) {
 			/**
 			 * @var $doc ADocument
 			 */
-			$doc = $this->data['registry']->get('document');
+			$doc = $this->registry->get('document');
 			$doc->addScript($this->view->templateResource('/javascript/jquery/star-rating/jquery.MetaData.js'));
 			$doc->addScript($this->view->templateResource('/javascript/jquery/star-rating/jquery.rating.pack.js'));
 
@@ -1564,7 +1560,7 @@ class RatingHtmlElement extends HtmlElement {
 				'media' => 'screen',
 			));
 
-			$this->data['registry']->set('star-rating', 1);
+			$this->registry->set('star-rating', 1);
 		}
 	}
 
@@ -1584,7 +1580,15 @@ class RatingHtmlElement extends HtmlElement {
 	}
 }
 
-
+/**
+ * Class CaptchaHtmlElement
+  * @property string $element_id
+  * @property string $name
+  * @property string $style
+  * @property string $attr
+  * @property bool $required
+  * @property string $placeholder
+ */
 class CaptchaHtmlElement extends HtmlElement {
 
 	public function getHtml() {
@@ -1596,7 +1600,7 @@ class CaptchaHtmlElement extends HtmlElement {
 				'attr' => 'aform_field_type="captcha" '.$this->attr.' data-aform-field-type="captcha"',
 				'style' => $this->style,
 				'required' => $this->required,
-				'captcha_url' => $this->data['registry']->get('html')->getURL('common/captcha'),
+				'captcha_url' => $this->registry->get('html')->getURL('common/captcha'),
 				'placeholder' => $this->placeholder
 			)
 		);
@@ -1604,6 +1608,14 @@ class CaptchaHtmlElement extends HtmlElement {
 	}
 }
 
+/**
+ * Class ReCaptchaHtmlElement
+ * @property string $element_id
+ * @property string $name
+ * @property string $attr
+ * @property string $language_code
+ * @property string $recaptcha_site_key
+ */
 class ReCaptchaHtmlElement extends HtmlElement {
 
 	public function getHtml() {
@@ -1620,6 +1632,16 @@ class ReCaptchaHtmlElement extends HtmlElement {
 	}
 }
 
+/**
+ * Class PasswordsetHtmlElement
+ * @property string $element_id
+ * @property string $name
+ * @property string $value
+ * @property string $style
+ * @property string $attr
+ * @property bool $required
+ * @property string $placeholder
+ */
 class PasswordsetHtmlElement extends HtmlElement {
 
 	public function getHtml() {
@@ -1631,7 +1653,7 @@ class PasswordsetHtmlElement extends HtmlElement {
 				'attr' => $this->attr,
 				'style' => $this->style,
 				'required' => $this->required,
-				'text_confirm_password' => $this->data['registry']->get('language')->get('text_confirm_password'),
+				'text_confirm_password' => $this->language->get('text_confirm_password'),
 				'placeholder' => $this->placeholder,
 			)
 		);
@@ -1639,6 +1661,18 @@ class PasswordsetHtmlElement extends HtmlElement {
 	}
 }
 
+/**
+ * Class ResourceHtmlElement
+ * @property string $rl_type - image or audio or pdf etc
+ * @property string $element_id
+ * @property string $name
+ * @property string $resource_path
+ * @property int $resource_id
+ * @property string $object_name
+ * @property string $object_id
+ * @property bool $hide - sign to hide image preview
+ * @property string $placeholder
+ */
 class ResourceHtmlElement extends HtmlElement {
 
 	function __construct($data) {
@@ -1653,12 +1687,12 @@ class ResourceHtmlElement extends HtmlElement {
 			'id' => $this->element_id,
 			'wrapper_id' => $this->element_id.'_wrapper',
 			'name' => $this->name,
-			'resource_path' => $this->resource_path, //path
-			'resource_id'=>$this->resource_id, //resource_id
+			'resource_path' => $this->resource_path,
+			'resource_id'=>$this->resource_id,
 			'object_name'=> $this->object_name,
 			'object_id'=> $this->object_id,
-			'rl_type'=> $this->rl_type, // image or audio or pdf etc
-			'hide'=> ($this->hide ? true : false) // hide image preview
+			'rl_type'=> $this->rl_type,
+			'hide'=> ($this->hide ? true : false)
 		);
 		if(!$data['resource_id'] && $data['resource_path']){
 			$path = ltrim($data['resource_path'], $data['rl_type'].'/');
@@ -1677,11 +1711,17 @@ class ResourceHtmlElement extends HtmlElement {
 		}
 
 		$this->view->batchAssign($data);
-
 		return $this->view->fetch('form/resource.tpl');
 	}
 }
 
+/**
+ * Class ResourceImageHtmlElement
+ * @property int $width
+ * @property int $height
+ * @property string $attr
+ * @property string $url
+ */
 class ResourceImageHtmlElement extends HtmlElement {
 
 	function __construct($data) {
@@ -1689,28 +1729,41 @@ class ResourceImageHtmlElement extends HtmlElement {
 	}
 
 	public function getHtml() {
-
-		$this->view->batchAssign(array( 'url' => $this->url,
-			'width' => $this->width,
-			'height' => $this->height,
-			'attr' => $this->attr,
-		));
-
+		$this->view->batchAssign(
+				array(
+						'url' => $this->url,
+						'width' => $this->width,
+						'height' => $this->height,
+						'attr' => $this->attr
+				)
+		);
 		return $this->view->fetch('common/resource_image.tpl');
 	}
 
 }
 
+/**
+ * Class DateHtmlElement
+ * @property string $element_id
+ * @property string $name
+ * @property string $value
+ * @property string $default
+ * @property string $style
+ * @property string $attr
+ * @property bool $required
+ * @property string $dateformat
+ * @property string $highlight
+ */
 class DateHtmlElement extends HtmlElement {
 
 	function __construct($data) {
 		parent::__construct($data);
-		if (!$this->data['registry']->has('date-field')) {
+		if (!$this->registry->has('date-field')) {
 
-			$doc = $this->data['registry']->get('document');
+			$doc = $this->registry->get('document');
 			$doc->addScript($this->view->templateResource('/javascript/jquery-ui/js/jquery-ui-1.10.4.custom.min.js'));
 			$doc->addScript($this->view->templateResource('/javascript/jquery-ui/js/jquery.ui.datepicker.js'));
-			if(IS_ADMIN===true){
+			if(IS_ADMIN === true){
 				$doc->addStyle(array(
 					'href' => $this->view->templateResource('/javascript/jquery-ui/js/css/ui-lightness/ui.all.css'),
 					'rel' => 'stylesheet',
@@ -1724,20 +1777,19 @@ class DateHtmlElement extends HtmlElement {
 				));
 			}
 
-			$this->data['registry']->set('date-field', 1);
+			$this->registry->set('date-field', 1);
 		}
 	}
-
 	/**
 	 * @return string
 	 */
 	public function getHtml() {
 
 		if (!isset($this->default)) $this->default = '';
-		if ($this->value == '' && !empty($this->default)) $this->value = $this->default;
-
+		if ($this->value == '' && !empty($this->default)){
+			$this->value = $this->default;
+		}
 		$this->element_id = preg_replace('/[\[+\]+]/', '_', $this->element_id);
-
 		$this->view->batchAssign(
 			array(
 				'name' => $this->name,
@@ -1749,29 +1801,42 @@ class DateHtmlElement extends HtmlElement {
 				'attr' => 'aform_field_type="date" ' . $this->attr.' data-aform-field-type="captcha"',
 				'required' => $this->required,
 				'style' => $this->style,
-				'dateformat' => $this->dateformat ? $this->dateformat : format4Datepicker($this->data['registry']->get('language')->get('date_format_short')),
+				'dateformat' => $this->dateformat ? $this->dateformat : format4Datepicker($this->language->get('date_format_short')),
 				'highlight' => $this->highlight
 			)
 		);
 		if (!empty($this->help_url)) {
 			$this->view->assign('help_url', $this->help_url);
 		}
-
 		return $this->view->fetch('form/date.tpl');
 	}
 }
 
 /**
  * Class EmailHtmlElement
+ * @property string $element_id
+ * @property string $name
+ * @property string $value
+ * @property string $default
+ * @property string $style
+ * @property string $attr
+ * @property bool $required
+ * @property string $placeholder
+ * @property string $regexp_pattern
+ * @property string $error_text
+ * @property string $help_url
  */
 class EmailHtmlElement extends HtmlElement {
 	/**
 	 * @return string
 	 */
 	public function getHtml() {
-
-		if (!isset($this->default)) $this->default = '';
-		if ($this->value == '' && !empty($this->default)) $this->value = $this->default;
+		if (!isset($this->default)){
+			$this->default = '';
+		}
+		if ($this->value == '' && !empty($this->default)){
+			$this->value = $this->default;
+		}
 		$this->view->batchAssign(
 			array(
 				'name' => $this->name,
@@ -1798,6 +1863,17 @@ class EmailHtmlElement extends HtmlElement {
 
 /**
  * Class NumberHtmlElement
+ * @property string $element_id
+ * @property string $name
+ * @property string $value
+ * @property string $default
+ * @property string $style
+ * @property string $attr
+ * @property bool $required
+ * @property string $placeholder
+ * @property string $regexp_pattern
+ * @property string $error_text
+ * @property string $help_url
  */
 class NumberHtmlElement extends HtmlElement {
 	/**
@@ -1805,8 +1881,12 @@ class NumberHtmlElement extends HtmlElement {
 	 */
 	public function getHtml() {
 
-		if (!isset($this->default)) $this->default = '';
-		if ($this->value == '' && !empty($this->default)) $this->value = $this->default;
+		if (!isset($this->default)){
+			$this->default = '';
+		}
+		if ($this->value == '' && !empty($this->default)){
+			$this->value = $this->default;
+		}
 		$this->view->batchAssign(
 			array(
 				'name' => $this->name,
@@ -1833,6 +1913,17 @@ class NumberHtmlElement extends HtmlElement {
 
 /**
  * Class PhoneHtmlElement
+ * @property string $element_id
+ * @property string $name
+ * @property string $value
+ * @property string $default
+ * @property string $style
+ * @property string $attr
+ * @property bool $required
+ * @property string $placeholder
+ * @property string $regexp_pattern
+ * @property string $error_text
+ * @property string $help_url
  */
 class PhoneHtmlElement extends HtmlElement {
 	/**
@@ -1850,7 +1941,7 @@ class PhoneHtmlElement extends HtmlElement {
 		/**
 		 * @var $doc ADocument
 		 */
-		$doc = $this->data['registry']->get('document');
+		$doc = $this->registry->get('document');
 		$doc->addScript($this->view->templateResource('/javascript/intl-tel-input/js/intlTelInput.min.js'));
 		$doc->addStyle(array (
 						'href' => RDIR_TEMPLATE . 'javascript/intl-tel-input/css/intlTelInput.css',
@@ -1864,7 +1955,6 @@ class PhoneHtmlElement extends HtmlElement {
 				'type' => 'tel',
 				'value' => str_replace('"', '&quot;', $this->value),
 				'default' => $this->default,
-				//TODO: remove deprecated attribute aform_field_type
 				'attr' => $this->attr,
 				'required' => $this->required,
 				'style' => $this->style,
@@ -1881,6 +1971,12 @@ class PhoneHtmlElement extends HtmlElement {
 	}
 }
 
+/**
+ * Class IPaddressHtmlElement
+ * @property string $element_id
+ * @property string $name
+ * @property string $attr
+ */
 class IPaddressHtmlElement extends HtmlElement {
 
 	public function getHtml() {
@@ -1898,12 +1994,24 @@ class IPaddressHtmlElement extends HtmlElement {
 	}
 }
 
+/**
+ * Class CountriesHtmlElement
+ * @property string $element_id
+ * @property string $name
+ * @property string $value
+ * @property array $options
+ * @property string $style
+ * @property string $attr
+ * @property bool $required
+ * @property string $placeholder
+ * @property string $help_url
+ */
 class CountriesHtmlElement extends HtmlElement {
 
 	public function __construct($data) {
 		parent::__construct($data);
-		$this->data['registry']->get('load')->model('localisation/country');
-		$results = $this->data['registry']->get('model_localisation_country')->getCountries();
+		$this->registry->get('load')->model('localisation/country');
+		$results = $this->registry->get('model_localisation_country')->getCountries();
 		$this->options = array();
 		foreach ($results as $c) {
 			$this->options[ $c['name'] ] = $c['name'];
@@ -1912,10 +2020,10 @@ class CountriesHtmlElement extends HtmlElement {
 
 	public function getHtml() {
 
-		if (!is_array($this->value)) $this->value = array( $this->value => (string)$this->value );
-
+		if (!is_array($this->value)){
+			$this->value = array( $this->value => (string)$this->value );
+		}
 		$this->options = !$this->options ? array() : $this->options;
-
 		$this->view->batchAssign(
 			array(
 				'name' => $this->name,
@@ -1931,22 +2039,42 @@ class CountriesHtmlElement extends HtmlElement {
 		if (!empty($this->help_url)) {
 			$this->view->assign('help_url', $this->help_url);
 		}
-
 		return $this->view->fetch('form/selectbox.tpl');
 	}
-
 }
 
+/**
+ * Class ZonesHtmlElement
+ *
+ * @property string $element_id
+ * @property string $name
+ * @property string $value
+ * @property string $submit_mode
+ * @property int|array $default_value
+ * @property string $zone_field_name
+ * @property string $default_zone_field_name
+ * @property string $default_zone_name
+ * @property array $default_zone_value
+ * @property string $zone_name
+ * @property array $options
+ * @property array $zone_options
+ * @property array|string|int $zone_value
+ * @property string $style
+ * @property string $attr
+ * @property bool $required
+ * @property string $placeholder
+ * @property string $help_url
+ */
 class ZonesHtmlElement extends HtmlElement {
 	//private $default_zone_value, $default_value;
 	public function __construct($data) {
 		parent::__construct($data);
-		$this->data['registry']->get('load')->model('localisation/country');
-		$results = $this->data['registry']->get('model_localisation_country')->getCountries();
+		$this->registry->get('load')->model('localisation/country');
+		$results = $this->registry->get('model_localisation_country')->getCountries();
 		$this->options = array();
 		$this->zone_options = array();
 		$this->default_zone_field_name = 'zone_id';
-		$config_country_id = $this->data['registry']->get('config')->get('config_country_id');
+		$config_country_id = $this->registry->get('config')->get('config_country_id');
 		foreach ($results as $c) {
 			if($c['country_id']== $config_country_id){
 				$this->default_value = $this->submit_mode == 'id' ? array($config_country_id) : array($c['name']=>$c['name']);
@@ -1971,7 +2099,7 @@ class ZonesHtmlElement extends HtmlElement {
 		$this->options = !$this->options ? array() : $this->options;
 		$this->element_id = preg_replace('/[\[+\]+]/', '_', $this->element_id);
 
-		$html = new AHtml($this->data['registry']);
+		$html = new AHtml($this->registry);
 		
 		if ($this->submit_mode == 'id') {
 			$url = $html->getSecureURL('common/zone');
@@ -1979,29 +2107,31 @@ class ZonesHtmlElement extends HtmlElement {
 			$url = $html->getSecureURL('common/zone/names');
 		}
 
-
-		$this->data['registry']->get('load')->model('localisation/zone');
-
-		$results = array();
+		$this->registry->get('load')->model('localisation/zone');
+		/** @noinspection PhpUndefinedClassInspection */
+		/**
+		 * @var ModelLocalisationZone $model_zone
+		 */
+		$model_zone = $this->registry->get('model_localisation_zone');
+		$config_country_id = $this->registry->get('config')->get('config_country_id');
 		if($this->submit_mode=='id'){
-			$id = $this->value ? key($this->value) : $this->data['registry']->get('config')->get('config_country_id');
-			$results = $this->data['registry']->get('model_localisation_zone')->getZonesByCountryId($id);
-
+			$id = $this->value ? key($this->value) : $config_country_id;
+			$results = $model_zone->getZonesByCountryId($id);
 		}else{
 			if($this->value){
 				$name = current($this->value);
 			}else{
-				$this->data['registry']->get('load')->model('localisation/country');
-				$temp = $this->data['registry']->get('model_localisation_country')->getCountry($this->data['registry']->get('config')->get('config_country_id'));
+				$this->registry->get('load')->model('localisation/country');
+				$temp = $this->registry->get('model_localisation_country')->getCountry($config_country_id);
 				$name = $temp['name'];
 			}
-			$results = $this->data['registry']->get('model_localisation_zone')->getZonesByCountryName($name);
+			$results = $model_zone->getZonesByCountryName($name);
 		}
 
 		if (!is_array($this->zone_value)){
-			$this->zone_value = $this->zone_value ? array( $this->zone_value => (string)$this->zone_value ) : array();
+			$this->zone_value = $this->zone_value ? array( (string)$this->zone_value => (string)$this->zone_value ) : array();
 		}
-		$config_zone_id = $this->data['registry']->get('config')->get('config_zone_id');
+		$config_zone_id = $this->registry->get('config')->get('config_zone_id');
 		foreach ($results as $result) {
 			// default zone_id is zone of shop
 			if($result['zone_id']== $config_zone_id){
@@ -2086,11 +2216,11 @@ class PaginationHtmlElement extends HtmlElement {
 	 * @return string
 	 */
 	public function getHtml() {
-		//Build pagination data and dysplay
+		//Build pagination data and display
 		/**
 		 * @var $registry Registry
 		 */
-		$registry = $this->data['registry'];
+		$registry = $this->registry;
 		$html = new AHtml($registry);
 		$s = $this->sts;
 		//some more defaults		
@@ -2196,6 +2326,15 @@ class PaginationHtmlElement extends HtmlElement {
 
 /**
  * Class ModalHtmlElement
+ * @property string $id
+ * @property string $title
+ * @property string $modal_type
+ * @property string $content
+ * @property string $footer
+ * @property string $data_source
+ * @property string $js_onshow
+ * @property string $js_onload
+ * @property string $js_onclose
  */
 class ModalHtmlElement extends HtmlElement {
 	/**
