@@ -122,10 +122,8 @@ final class AConfig {
 			// set global settings (without extensions settings)
 			$sql = "SELECT se.*
 					FROM " . $db->table("settings") . " se
-					WHERE se.store_id='0'
-						AND TRIM(se.`group`) NOT IN
-							(SELECT TRIM(`key`) as `key`
-							FROM " . $db->table("extensions") . ")";
+					WHERE se.store_id = '0'
+						AND se.`group` NOT IN (SELECT `key` FROM " . $db->table("extensions") . ")";
 			$query = $db->query($sql);
 			$settings = $query->rows;
 			foreach ($settings as &$setting) {
@@ -168,7 +166,7 @@ final class AConfig {
 			if (empty($store_settings)) {
 				$sql = "SELECT se.`key`, se.`value`, st.store_id
 		   			  FROM " . $db->table('settings')." se
-		   			  RIGHT JOIN " . $db->table('stores')." st ON se.store_id=st.store_id
+		   			  RIGHT JOIN " . $db->table('stores')." st ON se.store_id = st.store_id
 		   			  WHERE se.store_id = (SELECT DISTINCT store_id FROM " . $db->table('settings')."
 		   			                       WHERE `group`='details'
 		   			                       AND
@@ -242,7 +240,7 @@ final class AConfig {
 			// all extensions settings of store
 			$sql = "SELECT se.*, e.type as extension_type, e.key as extension_txt_id
 					FROM " . $db->table('settings')." se
-					LEFT JOIN " . $db->table('extensions')." e ON (TRIM(se.`group`) = TRIM(e.`key`))
+					LEFT JOIN " . $db->table('extensions')." e ON se.`group` = e.`key`
 					WHERE se.store_id='" . (int)$this->cnfg['config_store_id'] . "' AND e.extension_id IS NOT NULL
 					ORDER BY se.store_id ASC, se.group ASC";
 
@@ -273,11 +271,10 @@ final class AConfig {
 		//we don't use cache here cause domain may be different and we cannot change cache from control panel
 		$db = $this->registry->get('db');
 		$sql = "SELECT se.`key`, se.`value`, st.store_id
-				FROM " . $db->table('settings')." se
-				RIGHT JOIN " . $db->table('stores')." st ON se.store_id=st.store_id
-				WHERE se.store_id = $store_id AND st.status = 1
-				AND TRIM(se.`group`) NOT IN (SELECT TRIM(`key`) as `key` FROM " . $db->table("extensions") . ");";
-
+					FROM " . $db->table('settings')." se
+					RIGHT JOIN " . $db->table('stores')." st ON se.store_id = st.store_id
+					WHERE se.store_id = $store_id AND st.status = 1
+					AND se.`group` NOT IN (SELECT `key` FROM " . $db->table("extensions") . ");";
 		$query = $db->query($sql);
 		$store_settings = $query->rows;
 		foreach ($store_settings as $row) {
