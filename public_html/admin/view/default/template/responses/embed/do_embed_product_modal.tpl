@@ -8,19 +8,31 @@
 			<div id="embed_container" class="embed_preview"></div>
 		</div>
 		<div id="code_options" class="col-sm-6 col-xs-12">
-
+			<?php if (!empty ($help_url)) { ?>
+				<div class="btn-group pull-right mr20">
+				        <a class="btn btn-white tooltips"
+				           href="<?php echo $help_url; ?>"
+				           target="_ext_help"
+				           data-toggle="tooltip"
+				           title="<?php echo $text_external_help; ?>"
+				           data-original-title="<?php echo $text_external_help; ?>">
+				            <i class="fa fa-question-circle fa-lg"></i>
+				        </a>
+				</div>
+		    <?php } ?>
 			<label class="h4 heading"></label>
 			<?php echo $form['form_open']; ?>
 				<?php foreach ($fields as $field) {
-				$widthclass = 'col-sm-4 col-sm-offset-2 col-xs-6';
-				?>
-				<div class="form-group">
-					<?php if(${'entry_' . $field->name}){?>
+				$widthclass = 'col-sm-6 col-xs-12';
+				$label = ${'entry_' . str_replace(array('[', ']'), '', $field->name)};?>
+				<div class="form-group col-md-12 col-xs-12">
+					<?php if($label){?>
 					<label class="control-label col-md-6 col-xs-6" for="<?php echo $field->element_id; ?>">
-						<?php echo ${'entry_' . $field->name}; ?>
+						<?php echo $label; ?>
 					</label>
 					<?php }else{
-						$widthclass = 'col-sm-4 col-sm-offset-2 col-xs-6';
+						$widthclass = 'col-sm-12 col-xs-6';
+
 					} ?>
 					<div class="input-group input-group-sm afield <?php echo $widthclass; ?>">
 						<?php echo $field; ?>
@@ -39,8 +51,6 @@
 				    <?php echo $text_area;?>
 			    </form>
 			  </div>
-
-
 		</div>
 	</div>
 </div>
