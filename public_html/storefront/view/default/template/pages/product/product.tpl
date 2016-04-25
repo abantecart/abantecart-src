@@ -391,32 +391,32 @@
 
 <script type="text/javascript"><!--
 
-	var orig_imgs = $('div.bigimage').html();
-	var orig_thumbs = $('ul.smallimage').html();
+var orig_imgs = $('div.bigimage').html();
+var orig_thumbs = $('ul.smallimage').html();
 
-	jQuery(function ($) {
+$(window).load(function(){
 
-		start_easyzoom();
+	start_easyzoom();
 
-		//if have product options, load select option images 
-		var $select = $('input[name^=\'option\'], select[name^=\'option\']'); 
-		if ($select.length) {
-			//if no images for options are present, main product images will be used. 
-			//if at least one image is present in the option, main images will be replaced.
-			//????load_option_images($select.val());
-		}
+	//if have product options, load select option images
+	var $select = $('input[name^=\'option\'], select[name^=\'option\']');
+	if ($select.length) {
+		//if no images for options are present, main product images will be used.
+		//if at least one image is present in the option, main images will be replaced.
+		//????load_option_images($select.val());
+	}
 
-		display_total_price();
+	display_total_price();
 
-		$('#current_reviews .pagination a').on('click', function () {
-			$('#current_reviews').slideUp('slow');
-			$('#current_reviews').load(this.href);
-			$('#current_reviews').slideDown('slow');
-			return false;
-		});
-
-		reload_review('<?php echo $product_review_url; ?>');
+	$('#current_reviews .pagination a').on('click', function () {
+		$('#current_reviews').slideUp('slow');
+		$('#current_reviews').load(this.href);
+		$('#current_reviews').slideDown('slow');
+		return false;
 	});
+
+	reload_review('<?php echo $product_review_url; ?>');
+
 
 	$('#product_add_to_cart').click(function () {
 		$('#product').submit();
@@ -442,23 +442,29 @@
 	});
 
 
+	$.ajax({
+            url:'<?php echo $update_view_count_url; ?>',
+            type:'GET',
+            dataType:'json'
+    });
+
 	function start_easyzoom() {
-		// Instantiate EasyZoom instances
-		var $easyzoom = $('.easyzoom').easyZoom();
-		
-		// Get an instance API
-		var api1 = $easyzoom.filter('.easyzoom--with-thumbnails').data('easyZoom');
-		//clean and reload existing events
-		api1.teardown();
-		api1._init();
-		
-		// Setup thumbnails
-		$('.thumbnails .producthtumb').on('click', 'a', function(e) {
-		   var $this = $(this);
-		   e.preventDefault();
-		   // Use EasyZoom's `swap` method
-		   api1.swap($this.data('standard'), $this.attr('href'));
-		});
+			// Instantiate EasyZoom instances
+			var $easyzoom = $('.easyzoom').easyZoom();
+
+			// Get an instance API
+			var api1 = $easyzoom.filter('.easyzoom--with-thumbnails').data('easyZoom');
+			//clean and reload existing events
+			api1.teardown();
+			api1._init();
+
+			// Setup thumbnails
+			$('.thumbnails .producthtumb').on('click', 'a', function(e) {
+			   var $this = $(this);
+			   e.preventDefault();
+			   // Use EasyZoom's `swap` method
+			   api1.swap($this.data('standard'), $this.attr('href'));
+			});
 	}
 
 	function load_option_images( attribute_value_id ) {
@@ -469,17 +475,17 @@
 			success: function (data) {
 				var html1 = '';
 				var html2 = '';
-				
+
 				if (data.main) {
 					if (data.main.origin == 'external') {
 						html1 = '<a class="html_with_image">';
-						html1 += data.main.main_html + '</a>';						
+						html1 += data.main.main_html + '</a>';
 					} else {
-				    	html1 = '<a href="' + data.main.main_url + '">';
-				    	html1 += '<img src="' + data.main.thumb_url + '" />';
-				    	html1 += '<i class="fa fa-arrows"></i></a>';
-				    }			
-				}				
+				        html1 = '<a href="' + data.main.main_url + '">';
+				        html1 += '<img src="' + data.main.thumb_url + '" />';
+				        html1 += '<i class="fa fa-arrows"></i></a>';
+				    }
+				}
 				if (data.images) {
 					for (img in data.images) {
 						html2 += '<li class="producthtumb">';
@@ -548,11 +554,11 @@
 				$('#review_button').attr('disabled', '');
 				$('.wait').remove();
 				<?php if ($review_recaptcha) { ?>
-    				grecaptcha.reset();
-    			<?php } ?>
+                    grecaptcha.reset();
+                <?php } ?>
 			},
             error: function (jqXHR, exception) {
-            	var text = jqXHR.statusText + ": " + jqXHR.responseText;
+                var text = jqXHR.statusText + ": " + jqXHR.responseText;
 				$('#review .alert').remove();
 				$('#review_title').after('<div class="alert alert-error alert-danger">' + dismiss + text + '</div>');
 			},
@@ -589,7 +595,7 @@
 				$('.wait').remove();
 			},
             error: function (jqXHR, exception) {
-            	var text = jqXHR.statusText + ": " + jqXHR.responseText;
+                var text = jqXHR.statusText + ": " + jqXHR.responseText;
 				$('.wishlist .alert').remove();
 				$('.wishlist').after('<div class="alert alert-error alert-danger">' + dismiss + text + '</div>');
 				$('.wishlist_add').show();
@@ -609,46 +615,40 @@
 	}
 
 	function wishlist_remove() {
-		var dismiss = '<button type="button" class="close" data-dismiss="alert">&times;</button>';
-		$.ajax({
-			type: 'POST',
-			url: '<?php echo $product_wishlist_remove_url; ?>',
-			dataType: 'json',
-			beforeSend: function () {
-				$('.success, .warning').remove();
-				$('.wishlist_remove').hide();
-				$('.wishlist').after('<div class="wait"><i class="fa fa-spinner fa-spin"></i> <?php echo $text_wait; ?></div>');
-			},
-			complete: function () {
-				$('.wait').remove();
-			},
-            error: function (jqXHR, exception) {
-            	var text = jqXHR.statusText + ": " + jqXHR.responseText;
-				$('.wishlist .alert').remove();
-				$('.wishlist').after('<div class="alert alert-error alert-danger">' + dismiss + text + '</div>');
-				$('.wishlist_remove').show();
-			},
-			success: function (data) {
-				if (data.error) {
-					$('.wishlist .alert').remove();
-					$('.wishlist').after('<div class="alert alert-error alert-danger">' + dismiss + data.error + '</div>');
-					$('.wishlist_remove').show();
-				} else {
-					$('.wishlist .alert').remove();
-					//$('.wishlist').after('<div class="alert alert-success">' + dismiss + data.success + '</div>');
-					$('.wishlist_add').show();
-				}
+				var dismiss = '<button type="button" class="close" data-dismiss="alert">&times;</button>';
+				$.ajax({
+					type: 'POST',
+					url: '<?php echo $product_wishlist_remove_url; ?>',
+					dataType: 'json',
+					beforeSend: function () {
+						$('.success, .warning').remove();
+						$('.wishlist_remove').hide();
+						$('.wishlist').after('<div class="wait"><i class="fa fa-spinner fa-spin"></i> <?php echo $text_wait; ?></div>');
+					},
+					complete: function () {
+						$('.wait').remove();
+					},
+		            error: function (jqXHR, exception) {
+		            	var text = jqXHR.statusText + ": " + jqXHR.responseText;
+						$('.wishlist .alert').remove();
+						$('.wishlist').after('<div class="alert alert-error alert-danger">' + dismiss + text + '</div>');
+						$('.wishlist_remove').show();
+					},
+					success: function (data) {
+						if (data.error) {
+							$('.wishlist .alert').remove();
+							$('.wishlist').after('<div class="alert alert-error alert-danger">' + dismiss + data.error + '</div>');
+							$('.wishlist_remove').show();
+						} else {
+							$('.wishlist .alert').remove();
+							//$('.wishlist').after('<div class="alert alert-success">' + dismiss + data.success + '</div>');
+							$('.wishlist_add').show();
+						}
+					}
+				});
 			}
-		});
-	}
+});
 
-	$(document).ready(function(){
 
-		$.ajax({
-                url:'<?php echo $update_view_count_url; ?>',
-                type:'GET',
-                dataType:'json'
-        });
-	});
 
 	//--></script>
