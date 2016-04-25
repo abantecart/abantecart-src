@@ -135,6 +135,24 @@ class ACache {
 	}
 
 	/**
+	 * Function returns string based on multidimensional array. Used for cache key building.
+	 * @param array $data
+	 * @return string
+	 * @since 1.2.7
+	 */
+	public function paramsToString($data = array()){
+		$output = '';
+		foreach ($data as $key => $val) {
+			if(gettype($val) == 'array'){
+				$output .= $this->paramsToString($val);
+			}else{
+				$output .= '.' . $key . "=" . $val;
+			}
+		}
+		return $output;
+	}
+
+	/**
 	 * Set cache expiration to custom value
 	 *
 	 * @param int $expiration in seconds

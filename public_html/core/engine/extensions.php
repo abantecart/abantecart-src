@@ -318,7 +318,7 @@ class ExtensionsApi {
 	 * @return array
 	 */
 	public function getInstalled($type = '') {
-
+		$cache_key = '';
 		if ( $this->cache && $this->cache->isCacheEnabled() ) {
 			$cache_key = 'extensions.installed';
 			if($type) {
@@ -371,10 +371,10 @@ class ExtensionsApi {
 	 * @return array
 	 */
 	public function getExtensionInfo($key = '') {
-
+		$cache_key = '';
 		if ( $this->cache && $this->cache->isCacheEnabled() ) {
 			$cache_key = 'extensions.details';
-			if($type) {
+			if($key) {
 				$cache_key .= ".key=".$key;
 			}
 			$load_data = $this->cache->pull($cache_key);
@@ -415,15 +415,13 @@ class ExtensionsApi {
 	 * @return bool|stdClass object array of extensions
 	 */
 	public function getExtensionsList($data = array()) {
-
+		$cache_key = '';
 		if ( $this->cache && $this->cache->isCacheEnabled() ) {
 			$cache_key = 'extensions.list';
 			if(!empty($data)) {
-				sort($data);
-				foreach ($data as $key => $val) {
-					$cache_key .= '.'.$key."=".$val;
-				}
+				$cache_key .= $this->cache->paramsToString($data);
 			}
+
 			$load_data = $this->cache->pull($cache_key);
 			if ($load_data !== false) {
 				//if we have cache, return
