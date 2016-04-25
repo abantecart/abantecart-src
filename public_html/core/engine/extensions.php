@@ -186,6 +186,7 @@ class ExtensionCollection {
  *
  * long description.
  * @property ADb $db
+ * @property ACache $cache
  * @method hk_InitData(object $baseObject, string $baseObjectMethod)
  * @method hk_UpdateData(object $baseObject, string $baseObjectMethod)
  * @method hk_ProcessData(object $baseObject, string $point_name='')
@@ -258,6 +259,7 @@ class ExtensionsApi {
 	public function __construct() {
 
 		$this->registry = Registry::getInstance();
+		$this->cache = $this->registry->get('cache');
 		$this->extensions_dir = array();
 		$this->db_extensions = array();
 		$this->missing_extensions = array();
@@ -316,6 +318,19 @@ class ExtensionsApi {
 	 * @return array
 	 */
 	public function getInstalled($type = '') {
+
+		if ( $this->cache && $this->cache->isCacheEnabled() ) {
+			$cache_key = 'extensions.installed';
+			if($type) {
+				$cache_key .= ".type=".$type;
+			}
+			$load_data = $this->cache->pull($cache_key);
+			if ($load_data !== false) {
+				//if we have cache, return
+				return $load_data;
+			}
+		}
+
 		$type = (string)$type;
 		$extension_data = array();
 		if (in_array($type, $this->extension_types)) {
@@ -344,6 +359,10 @@ class ExtensionsApi {
 			}
 		}
 
+		if ( $this->cache && $this->cache->isCacheEnabled() ) {
+			$this->cache->push($cache_key, $extension_data);
+		}
+
 		return $extension_data;
 	}
 
@@ -352,6 +371,18 @@ class ExtensionsApi {
 	 * @return array
 	 */
 	public function getExtensionInfo($key = '') {
+
+		if ( $this->cache && $this->cache->isCacheEnabled() ) {
+			$cache_key = 'extensions.details';
+			if($type) {
+				$cache_key .= ".key=".$key;
+			}
+			$load_data = $this->cache->pull($cache_key);
+			if ($load_data !== false) {
+				//if we have cache, return
+				return $load_data;
+			}
+		}
 
 		$sql = "SELECT * FROM " . DB_PREFIX . "extensions
 				" . ($key ? "WHERE `key` = '" . $this->db->escape($key) . "'" : '');
@@ -367,6 +398,9 @@ class ExtensionsApi {
 			}
 		}
 
+		if ( $this->cache && $this->cache->isCacheEnabled() ) {
+			$this->cache->push($cache_key, $extension_data);
+		}
 		return $extension_data;
 	}
 
@@ -382,9 +416,21 @@ class ExtensionsApi {
 	 */
 	public function getExtensionsList($data = array()) {
 
-		//Improvement
-		//Add cache for this static select if $data is not provided 
-		//Need to add clear cache every place ext added/updated
+		if ( $this->cache && $this->cache->isCacheEnabled() ) {
+			$cache_key = 'extensions.list';
+			if(!empty($data)) {
+				sort($data);
+				foreach ($data as $key => $val) {
+					$cache_key .= '.'.$key."=".$val;
+				}
+			}
+			$load_data = $this->cache->pull($cache_key);
+			if ($load_data !== false) {
+				//if we have cache, return
+				return $load_data;
+			}
+		}
+
 		$sql = "SELECT DISTINCT
 		              e.extension_id,
                       e.type,
@@ -401,7 +447,7 @@ class ExtensionsApi {
 		              s.value as status
 				FROM " . $this->db->table("extensions") . " e
 				LEFT JOIN " . $this->db->table("settings") . " s
-					ON ( TRIM(s.`group`) = TRIM(e.`key`) AND TRIM(s.`key`) = CONCAT(TRIM(e.`key`),'_status') )
+					ON ( s.`group` = e.`key` AND s.`key` = CONCAT(e.`key`,'_status') )
 				LEFT JOIN " . $this->db->table("stores") . " st ON st.store_id = s.store_id
 				WHERE e.`type` ";
 
@@ -415,9 +461,9 @@ class ExtensionsApi {
 
 			$keys = array();
 			$ext_list = $this->getExtensionsList(array('filter' => $data['filter']));
-
 			if ($ext_list->total) {
-				foreach ($ext_list->rows as $extension) { // searching ext by name
+				foreach ($ext_list->rows as $extension) { 
+					// searching ext by name
 					$name = $this->getExtensionName($extension['key']);
 					if (stripos($name, $data['search']) !== false) {
 						$keys[] = $extension['key'];
@@ -470,7 +516,9 @@ class ExtensionsApi {
 		}
 
 		$result->total = $total ? $total->num_rows : $result->num_rows;
-
+		if ( $this->cache && $this->cache->isCacheEnabled() ) {
+			$this->cache->push($cache_key, $result);
+		}
 		return $result;
 	}
 

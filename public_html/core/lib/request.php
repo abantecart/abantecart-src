@@ -38,7 +38,7 @@ final class ARequest {
   	public function __construct() {
 		$_GET = $this->clean($_GET);
 		$_POST = $this->clean($_POST);
-		$_COOKIE = $this->clean($_COOKIE);
+		//$_COOKIE = $this->clean($_COOKIE);
 		$_FILES = $this->clean($_FILES);
 		//$_SERVER = $this->clean($_SERVER);
 		
@@ -95,7 +95,6 @@ final class ARequest {
     	if (is_array($data)) {
 	  		foreach ($data as $key => $value) {
 				unset($data[$key]);
-				
 	    		$data[$this->clean($key)] = $this->clean($value);
 	  		}
 		} else { 

@@ -110,6 +110,9 @@ class AExtensionManager {
 							 `version` = '" . $this->db->escape($version) . "',
 							 `license_key` = '" . $this->db->escape($license_key) . "',
 							 `date_added` = NOW()");
+
+		$this->cache->remove('extensions');
+
 		return $this->db->getLastId();
 	}
 
@@ -166,6 +169,9 @@ class AExtensionManager {
 							VALUES ('" . $extension_id . "', '" . $extension_parent_id . "')";
 			$this->db->query($sql);
 		}
+
+		$this->cache->remove('extensions');
+
 		return true;
 	}
 
@@ -196,6 +202,8 @@ class AExtensionManager {
 		}
 		$sql .= implode(' AND ', $where);
 		$this->db->query($sql);
+
+		$this->cache->remove('extensions');
 
 		return true;
 	}
@@ -350,6 +358,7 @@ class AExtensionManager {
 		$this->db->query($sql);
 		$this->cache->remove('admin_menu');
 		$this->cache->remove('settings');
+		$this->cache->remove('extensions');
 
 		return true;
 	}
@@ -362,6 +371,7 @@ class AExtensionManager {
 		$this->db->query("DELETE FROM " . $this->db->table("settings") . " WHERE `group` = '" . $this->db->escape($group) . "';");
 		$this->db->query("DELETE FROM " . $this->db->table("language_definitions") . " WHERE `block` = '" . $this->db->escape($group) . "_" . $this->db->escape($group)."';");
 		$this->cache->remove('settings');
+		$this->cache->remove('extensions');
 		$this->cache->remove('localization');
 	}
 
@@ -439,7 +449,6 @@ class AExtensionManager {
 		// refresh data about updates
 		$this->load->model('tool/updater');
 		$this->model_tool_updater->check4updates();
-
 
 		//save default settings for all stores
 		$this->load->model('setting/store');
@@ -542,6 +551,8 @@ class AExtensionManager {
 		// refresh data about updates
 		$this->load->model('tool/updater');
 		$this->model_tool_updater->check4updates();
+
+		$this->cache->remove('extensions');
 		return true;
 	}
 
