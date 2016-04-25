@@ -338,7 +338,7 @@ class ACart {
 		// product downloads
     	$download_data = $this->download->getProductOrderDownloads($product_id);
     	
-    	//check if we need to check main product stock. Do only if no stock trakable options selected
+    	//check if we need to check main product stock. Do only if no stock trackable options selected
     	if ( !$op_stock_trackable && $product_query['subtract'] && $product_query['quantity'] < $quantity ) {
     	    $stock = FALSE;
     	}
@@ -727,6 +727,7 @@ class ACart {
 			$sf_total_mdl = $this->load->model('total/' . $extn['key'], 'storefront');
 			/**
 			 * parameters are references!!!
+			 * @var ModelTotalTotal|ModelTotalBalance|ModelTotalCoupon|ModelTotalHandling|ModelTotalLowOrderFee|ModelTotalShipping|ModelTotalSubTotal|ModelTotalTax $sf_total_mdl
 			 */
 			$sf_total_mdl->getTotal($total_data, $total, $taxes, $this->cust_data);
 			$sf_total_mdl = null;

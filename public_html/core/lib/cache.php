@@ -143,7 +143,7 @@ class ACache {
 	public function paramsToString($data = array()){
 		$output = '';
 		foreach ($data as $key => $val) {
-			if(gettype($val) == 'array'){
+			if(is_array($val)){
 				$output .= $this->paramsToString($val);
 			}else{
 				$output .= '.' . $key . "=" . $val;
