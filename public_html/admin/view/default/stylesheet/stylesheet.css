@@ -3313,3 +3313,11 @@ body.stickyheader .sticky_left {
 .intl-tel-input .country-list{
 	z-index: 4 !important;
 }
+
+#getEmbedFrm{
+   display: table-row-group;
+}
+
+#getEmbedFrm .control-label{
+   padding-top: 2px;
+}

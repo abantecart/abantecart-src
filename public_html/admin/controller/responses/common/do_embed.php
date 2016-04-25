@@ -38,7 +38,7 @@ class ControllerResponsesCommonDoEmbed extends AController {
 		$this->data['form']['form_open'] = $form->getFieldHtml(array(
 					'type' => 'form',
 					'name' => 'getEmbedFrm',
-					'attr' => 'class="aform"',
+					'attr' => 'class="aform form-horizontal"',
 				));
 
 		$this->data['fields'][] = $form->getFieldHtml(array(
@@ -161,7 +161,7 @@ class ControllerResponsesCommonDoEmbed extends AController {
 		$this->data['form']['form_open'] = $form->getFieldHtml(array(
 					'type' => 'form',
 					'name' => 'getEmbedFrm',
-					'attr' => 'class="aform"',
+					'attr' => 'class="aform form-horizontal"',
 				));
 
 		$this->data['fields'][] = $form->getFieldHtml(array(
@@ -312,7 +312,7 @@ class ControllerResponsesCommonDoEmbed extends AController {
 		$this->data['form']['form_open'] = $form->getFieldHtml(array(
 					'type' => 'form',
 					'name' => 'getEmbedFrm',
-					'attr' => 'class="aform"',
+					'attr' => 'class="aform form-horizontal"',
 				));
 
 		$this->data['fields'][] = $form->getFieldHtml(array(
