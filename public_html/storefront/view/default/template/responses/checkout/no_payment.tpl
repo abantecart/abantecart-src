@@ -6,7 +6,7 @@
 	    </a>
 	    <button id="<?php echo $button_confirm->name ?>" class="btn btn-orange lock-on-click pull-right" title="<?php echo $button_confirm->name ?>" type="submit">
 	        <i class="fa fa-check"></i>
-	        <?php echo $button_confirm->name; ?>
+	        <?php echo $button_confirm->text; ?>
 	    </button>
     </div>
 </div>
