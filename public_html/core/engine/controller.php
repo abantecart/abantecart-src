@@ -164,13 +164,20 @@ abstract class AController {
 		$this->clear();
 	}
 
-	//function to enable caching for this page/block
+	/**
+	 * Function to enable caching for this page/block
+	 * @param none
+	 * @return true/false
+	 */
 	public function html_cache() {
 		//check is HTML cache is enabled and it is storefront
 		if(!$this->config->get('config_html_cache') || IS_ADMIN ) {
 			return false;
 		}
-		$this->html_cache_key = $this->buildHTMLCacheKey();
+		//build HTML cache key if not yet built for this controller. 
+		if(!$this->html_cache_key){
+			$this->html_cache_key = $this->buildHTMLCacheKey();
+		}
 		//check if can load HTML files and stop
 		return $this->view->checkHTMLCache($this->html_cache_key);
 	}
