@@ -20,6 +20,11 @@
 if (! defined ( 'DIR_CORE' )) {
 	header ( 'Location: static_pages/' );
 }
+
+/**
+ * Class ControllerResponsesExtensionBannerManager
+ * @property ModelExtensionBannerManager $model_extension_banner_manager
+ */
 class ControllerResponsesExtensionBannerManager extends AController {
 	public $data = array();
 	
@@ -49,7 +54,7 @@ class ControllerResponsesExtensionBannerManager extends AController {
 	public function click() {
 		//controller function to register click and redirect
 		//NOTE: Work only for banners with target_url
-		//For security reson, do not allow URL as parameter for this redirect
+		//For security reason, do not allow URL as parameter for this redirect
         //init controller data
         $this->extensions->hk_InitData($this,__FUNCTION__);
 
