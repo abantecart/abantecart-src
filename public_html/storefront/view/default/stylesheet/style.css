@@ -1077,7 +1077,7 @@ ul.productpagecart .nostock {
 }
 
 .thumbnail .shortlinks a.compare {
-	background-position: 0 -462px
+	background-position: 0 -462px;
 }
 
 a.compare>img{
@@ -2188,6 +2188,10 @@ ul.side_prd_list li img {
 	margin: -5px 5px 10px 0;
 	padding: 5px;
 	background: #fff;
+}
+ul.side_prd_list li img.rating {
+	padding: 0;
+	margin: 5px 5px 0 0;
 }
 
 .sidebanner {
