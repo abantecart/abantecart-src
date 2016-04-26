@@ -21,19 +21,16 @@ if (! defined ( 'DIR_CORE' )) {
 	header ( 'Location: static_pages/' );
 }
 class ControllerResponsesCommonViewCount extends AController {
-	private $error = array(); 
 
 	public function main(){}
-
   	public function product() {
 
 		//init controller data
         $this->extensions->hk_InitData($this,__FUNCTION__);
 		$product_id = $this->request->get['product_id'];
-		if ( $product_id && !$this->session->data['viewed']['products'][$product_id]) {
+		if ( $product_id ) {
 			$this->loadModel('catalog/product');
 	    	$this->model_catalog_product->updateViewed($product_id);
-			$this->session->data['viewed']['products'][$product_id] = $product_id;
 		}
         //init controller data
         $this->extensions->hk_InitData($this,__FUNCTION__);

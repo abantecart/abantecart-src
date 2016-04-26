@@ -447,7 +447,7 @@ $(window).load(function(){
             type:'GET',
             dataType:'json'
     });
-
+});
 	function start_easyzoom() {
 			// Instantiate EasyZoom instances
 			var $easyzoom = $('.easyzoom').easyZoom();
@@ -647,6 +647,6 @@ $(window).load(function(){
 					}
 				});
 			}
-});
+
 
 </script>

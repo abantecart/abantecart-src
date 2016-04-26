@@ -78,7 +78,7 @@ class ModelExtensionBannerManager extends Model {
 		} else {
 			$language_id = (int)$this->config->get('storefront_language_id');
 		}
-		$ret_data = array();
+
 		$cache_key = 'banner.group.block_id_'.$custom_block_id.'_store_'.(int)$this->config->get('config_store_id').'_lang_'.$language_id;
 		$ret_data = $this->cache->pull($cache_key);
 		if($ret_data !== false){
@@ -141,6 +141,8 @@ class ModelExtensionBannerManager extends Model {
 						'" .(int) $this->config->get('config_store_id') . "',
 						'" . $this->db->escape(serialize($user_info)) . "')";
 		$this->db->query($sql);
+
+
 		return true;
 	}
 }
