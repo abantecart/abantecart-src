@@ -89,26 +89,64 @@ class ModelCatalogProduct extends Model{
 			$this->setFeatured($product_id, true);
 		}
 
+		$seo_keys = array();
 		if($data['keyword']){
-			$seo_key = SEOEncode($data['keyword'],
-					'product_id',
-					$product_id);
+			if(is_string($data['keyword'])){
+				$seo_keys = array (
+						$language_id => array (
+								'keyword' => SEOEncode($data['keyword'], 'product_id', $product_id)
+						));
+			}
+			//when cloning
+			else if(is_array($data['keyword'])){
+				$all_languages = $this->language->getAvailableLanguages();
+				$all_ids = array();
+				foreach($all_languages as $l){
+					$all_ids[] = $l['language_id'];
+				}
+				foreach($data['keyword'] as $lang_id=>$seo_key){
+					if(!in_array($lang_id, $all_ids)){
+						continue;
+					}
+					$seo_keys[(int)$lang_id ]  = array(
+												'keyword' => SEOEncode($seo_key,'product_id', $product_id)
+					);
+				}
+			}
 		} else{
 			//Default behavior to save SEO URL keyword from product name in default language
-			if(!is_int(key($data['product_description']))){ // when creates
-				$seo_key = SEOEncode($data['product_description']['name'],
-						'product_id',
-						$product_id);
+			// when new product
+			if(!is_int(key($data['product_description']))){
+				$seo_keys = array(
+							$language_id => array(
+												'keyword' => SEOEncode($data['product_description']['name'],'product_id', $product_id)
+							));
 			} else{ // when clones
-				$seo_key = SEOEncode($data['product_description'][$this->language->getDefaultLanguageID()]['name'],
-						'product_id',
-						$product_id);
+				$product_seo_keys = $this->getProductSEOKeywords($product_id);
+
+				$all_languages = $this->language->getAvailableLanguages();
+				$all_ids = array();
+				foreach($all_languages as $l){
+					$all_ids[] = $l['language_id'];
+				}
+				foreach($product_seo_keys as $lang_id=>$seo_key){
+					if(!in_array($lang_id, $all_ids)){
+						continue;
+					}
+					$seo_keys[(int)$lang_id ]  = array(
+												'keyword' => SEOEncode($seo_key,'product_id', $product_id)
+					);
+				}
 			}
 		}
-		if($seo_key){
-			$this->language->replaceDescriptions('url_aliases',
-					array('query' => "product_id=" . (int)$product_id),
-					array((int)$language_id => array('keyword' => $seo_key)));
+		if($seo_keys){
+			foreach($seo_keys as $lang_id => $seo_key){
+				$this->language->replaceDescriptions('url_aliases',
+						array ('query'       => "product_id=" . (int)$product_id,
+						       'language_id' => $lang_id),
+						array($lang_id  => $seo_key)
+				);
+			}
 		} else{
 			$this->db->query("DELETE
 							FROM " . $this->db->table("url_aliases") . " 
@@ -934,6 +972,7 @@ class ModelCatalogProduct extends Model{
 		$data = array_merge($data, array('product_store' => $this->getProductStores($product_id)));
 		$data = array_merge($data, array('product_related' => $this->getProductRelated($product_id)));
 		$data = array_merge($data, array('product_tags' => $this->getProductTags($product_id)));
+		$data = array_merge($data, array('keyword' => $this->getProductSEOKeywords($product_id)));
 
 		//set status to off for cloned product
 		$data['status'] = 0;
@@ -1744,6 +1783,29 @@ class ModelCatalogProduct extends Model{
 			return $product_tag_data[$language_id];
 		} else{
 			return $product_tag_data;
+		}
+	}
+	/**
+	 * @param int $product_id
+	 * @param int $language_id
+	 * @return array
+	 */
+	public function getProductSEOKeywords($product_id, $language_id = 0){
+		$language_id = (int)$language_id;
+		$product_seo_keys = array();
+
+		$query = $this->db->query("SELECT *
+								   FROM " . $this->db->table("url_aliases") . "
+								   WHERE `query` = 'product_id=".(int)$product_id . "'");
+
+		foreach($query->rows as $result){
+			$product_seo_keys[$result['language_id']] = $result['keyword'];
+		}
+
+		if($language_id){
+			return $product_seo_keys[$language_id];
+		} else{
+			return $product_seo_keys;
 		}
 	}
 
