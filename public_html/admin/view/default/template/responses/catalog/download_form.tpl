@@ -108,7 +108,7 @@
 		<?php echo $form['cancel']; ?>
 		<button type="submit" class="btn_standard"><?php echo $form['submit']; ?></button>
 	</div>
-	<script type="text/javascript"><!--
+	<script type="text/javascript">
 		$(document).ready(function () {
 			$('#downloadFrm<?php echo $download_id; ?>_activate').change();
 		});
@@ -142,7 +142,7 @@
 			return false;
 		});
 
-		//--></script>
+	</script>
 
 	</form>
 </div>

@@ -22,4 +22,4 @@ foreach ($languages as $language) {
 			); ?>
 		</div>
 	</div>
-<?php } ?><!-- <div class="fieldset"> -->
+<?php } ?>

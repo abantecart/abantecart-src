@@ -8,7 +8,7 @@ echo $this->html->buildElement( array(
 )); ?>
 
 <script type="text/javascript">
-	<!--
+
 	<?php if ( $this->config->get('default_twilio_test')){ ?>
 		$('.panel-body.panel-body-nopadding.tab-content').addClass('status_test');
 	<?php }else{ ?>
@@ -41,6 +41,4 @@ echo $this->html->buildElement( array(
 		return false;
 	});
 
-
--->
 </script>

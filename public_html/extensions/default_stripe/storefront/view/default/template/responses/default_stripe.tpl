@@ -140,7 +140,7 @@
 </div>
 </div>  
 
-<script type="text/javascript"><!--
+<script type="text/javascript">
 
 $('#enter_card').hover(function() {
 	$(this).tooltip('show');
@@ -192,4 +192,5 @@ function confirmSubmit($form, url) {
 		}				
 	});
 }
-//--></script>
+
+</script>

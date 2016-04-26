@@ -84,7 +84,7 @@
 	</form>
 </div><!-- <div class="tab-content"> -->
 
-<script type="text/javascript"><!--
+<script type="text/javascript">
 var zone_id = '<?php echo $zone_id; ?>';
 jQuery(function ($) {
 
@@ -145,4 +145,4 @@ jQuery(function ($) {
 		//$('#tables').find('.afield').removeClass('checked');
 	}
 
-//--></script>
+</script>

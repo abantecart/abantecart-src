@@ -121,7 +121,8 @@
 
 <?php echo $resources_scripts ?>
 
-<script type="text/javascript"><!--
+<script type="text/javascript">
+
 jQuery(function ($) {
     $('#template').load('<?php echo $template_image; ?>&template=' + encodeURIComponent($('select[name=\'config_storefront_template\']').attr('value')));
     
@@ -157,4 +158,5 @@ jQuery(function () {
 
 });
 <?php } ?>
-//--></script>
+
+</script>

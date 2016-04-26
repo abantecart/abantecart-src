@@ -23,7 +23,7 @@
 <script type="text/javascript" src="<?php echo RDIR_TEMPLATE; ?>javascript/jquery/flot/excanvas.js"></script>
 <![endif]-->
 <script type="text/javascript" src="<?php echo RDIR_TEMPLATE; ?>javascript/jquery/flot/jquery.flot.js"></script>
-<script type="text/javascript"><!--
+<script type="text/javascript">
 function getSalesChart(range) {
 	$.ajax({
 		type: 'GET',
@@ -60,4 +60,4 @@ getSalesChart($('#range').val());
 $('#range').change(function(){
 	getSalesChart($(this).val());
 });
-//--></script>
+</script>

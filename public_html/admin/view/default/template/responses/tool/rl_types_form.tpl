@@ -33,7 +33,7 @@
 				<span class="help-block field_err"><?php echo $error[$name]; ?></span>
 				<?php } ?>
 			</div>
-		<?php }  ?><!-- <div class="fieldset"> -->
+		<?php }  ?>
 	</div>
 
 		<div class="panel-footer">

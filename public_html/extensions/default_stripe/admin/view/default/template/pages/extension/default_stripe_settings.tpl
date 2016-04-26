@@ -102,9 +102,3 @@ echo $tabs;?>
 	</form>
 	<?php } ?>
 </div>
-
-<script type="text/javascript"><!--
-jQuery(function($){
-
-});
-//--></script>

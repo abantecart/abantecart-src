@@ -223,7 +223,7 @@ if($quick_start_url){
 <script type="text/javascript" src="<?php echo RDIR_TEMPLATE; ?>javascript/jquery/flot/excanvas.js"></script>
 <![endif]-->
 <script type="text/javascript" src="<?php echo RDIR_TEMPLATE; ?>javascript/jquery/flot/jquery.flot.js"></script>
-<script type="text/javascript"><!--
+<script type="text/javascript">
 
 <?php
 // Quick start guide
@@ -346,4 +346,4 @@ function showTooltip(x, y, contents) {
 		}).appendTo("body").fadeIn(200);
 }
 
-//--></script>
+</script>

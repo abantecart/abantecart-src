@@ -204,6 +204,7 @@ abstract class AController {
 		if(!$controller) {
 			$controller = $this->controller;
 		}
+		//NOTE: Blocks are cached based on unique instanced ID
 		$this->html_cache_key = 'html_cache.'.str_replace('/', '.',$controller).".".implode('.',$cache_state_vars)."_".$this->instance_id;
 		//add specific params to the key
 		if($param_string) {

@@ -672,7 +672,9 @@ class ACache {
 				//cache is released, try locking again. 
 				$lock = $this->lock($key, $group);
 			}
-			//TODO: Add stable minify method. minify_html in html-css-js-minifier.php is not stable as inline javascript is affected 
+			//Minify HTML before saving to cache
+			require_once(DIR_CORE . 'helper/html-css-js-minifier.php');
+			$data = minify_html($data);
 			$ret = $this->cache_driver->put($key, $group, $data);
 			
 			if($lock['locked'] == true){

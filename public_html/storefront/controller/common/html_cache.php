@@ -32,7 +32,7 @@ class ControllerCommonHTMLCache extends AController {
 				$cache_keys = $this->getCacheKeyValues($rt_controller);
 				if(is_array($cache_keys)){
 					//all good, see if we can load cache with the key 			
-            		$this->buildHTMLCacheKey($cache_keys, $this->request->get, $rt_controller);					
+            		$this->buildHTMLCacheKey($cache_keys, $this->request->get, $rt_controller);			
 					if($this->html_cache()){
 						//return complete status to dispatcher
 						return 'completed';

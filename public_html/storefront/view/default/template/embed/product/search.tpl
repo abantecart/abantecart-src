@@ -40,24 +40,19 @@
 
 		<h4 class="heading4"><?php echo $text_search; ?></h4>
 		<?php if($products){ ?>
-			<!-- Sorting + pagination-->
 			<div class="sorting well">
 				<form class=" form-inline pull-left">
 					<?php echo $text_sort; ?>&nbsp;&nbsp;<?php echo $sorting; ?>
 				</form>
 			</div>
-			<!-- end sorting-->
 
 			<?php include($this->templateResource('/template/pages/product/product_listing.tpl')) ?>
 
-			<!-- Sorting + pagination-->
 			<div class="sorting well">
 				<?php echo $pagination_bootstrap; ?>
 				<div class="btn-group pull-right">
 				</div>
 			</div>
-			<!-- end sorting-->
-
 
 		<?php } else{ ?>
 			<div>
@@ -67,7 +62,7 @@
 
 	</div>
 
-	<script type="text/javascript"><!--
+	<script type="text/javascript">
 		$('#keyword').keydown(function (e) {
 			if (e.keyCode == 13) {
 				contentSearch();
@@ -107,5 +102,5 @@
 
 			location = url;
 		}
-		//--></script>
+	</script>
 <?php echo $footer; ?>

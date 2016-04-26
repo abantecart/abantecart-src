@@ -76,7 +76,7 @@
 		    <span class="help-block field_err"><?php echo $error[$name]; ?></span>
 		    <?php } ?>
 		</div>
-			<?php }  ?><!-- <div class="fieldset"> -->
+			<?php }  ?>
 		
 		<?php if($banner_type == 1) { ?>
 		</div>
@@ -103,7 +103,7 @@
 	</div>
 	</form>
 
-</div><!-- <div class="tab-content"> -->
+</div>
 <?php echo $resources_scripts; ?>
 <script type="text/javascript">
 $(document).ready(function() {

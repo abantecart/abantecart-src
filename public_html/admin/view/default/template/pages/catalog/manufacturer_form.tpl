@@ -92,11 +92,11 @@
 
 </div>
 
-<script type="text/javascript"><!--
+<script type="text/javascript">
 	$('#editFrm_generate_seo_keyword').click(function(){
 		var seo_name = $('#editFrm_name').val().replace('%','');
 		$.get('<?php echo $generate_seo_url;?>&seo_name='+seo_name, function(data){
 			$('#editFrm_keyword').val(data).change();
 		});
 	});
-//--></script>
+</script>

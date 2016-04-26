@@ -9,7 +9,6 @@
 <div class="contentpanel">
 
 	<?php if ($products) { ?>
-	<!-- Sorting + pagination-->
 	<div class="sorting well">
 	  <form class=" form-inline pull-left">
 	    <?php echo $text_sort; ?>&nbsp;&nbsp;<?php echo $sorting; ?>
@@ -20,24 +19,20 @@
 	    <button class="btn btn-orange" id="grid"><i class="fa fa-th"></i></button>
 	  </div>
 	</div>
-	<!-- end sorting-->
 
 	<?php include( $this->templateResource('/template/pages/product/product_listing.tpl') ) ?>
 		
-	<!-- Sorting + pagination-->
 	<div class="sorting well">
 		<?php echo $pagination_bootstrap; ?>
 		<div class="btn-group pull-right">
 		</div>
 	</div>
-	<!-- end sorting-->
 	
 <?php } ?>		
-
 		
 </div>
 
-<script type="text/javascript"><!--
+<script type="text/javascript">
 
 $('#sort').change(function () {
 	Resort();
@@ -49,4 +44,4 @@ function Resort() {
 	url += '&limit=' + $('#limit').val();
 	location = url;
 }
-//--></script>
+</script>

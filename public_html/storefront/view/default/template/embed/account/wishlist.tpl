@@ -87,7 +87,7 @@
 	</div>
 
 </div>
-<script type="text/javascript"><!--
+<script type="text/javascript">
 
 	function wishlist_remove(product_id) {
 		var wclass = '.wishlist_'+product_id;
@@ -123,6 +123,5 @@
 		});
 	}
 
-//--></script>
-
+</script>
 <?php echo $footer; ?>

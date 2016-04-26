@@ -92,7 +92,7 @@ echo $tabs;?>
 </div>
 
 
-<script type="text/javascript"><!--
+<script type="text/javascript">
 jQuery(function($){
 	$('#editFrm_default_ups_origin').on('change', function() {
 		$('#service div.service_group').hide();
@@ -101,4 +101,4 @@ jQuery(function($){
 
 	$('#editFrm_default_ups_origin').change();
 });
-//--></script>
+</script>

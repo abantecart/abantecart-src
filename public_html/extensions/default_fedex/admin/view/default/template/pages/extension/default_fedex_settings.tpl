@@ -246,7 +246,6 @@ echo $this->html->buildElement(
 ?>
 
 <script type="text/javascript">
-	<!--
 
 	$("#store_id").change(function () {
 		goTo('<?php echo $target_url;?>&store_id=' + $(this).val());
@@ -288,5 +287,4 @@ echo $this->html->buildElement(
 		return false;
 	});
 
-	-->
 </script>

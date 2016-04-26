@@ -389,7 +389,7 @@
 	</div>
 </div>
 
-<script type="text/javascript"><!--
+<script type="text/javascript">
 
 var orig_imgs = $('div.bigimage').html();
 var orig_thumbs = $('ul.smallimage').html();
@@ -649,6 +649,4 @@ $(window).load(function(){
 			}
 });
 
-
-
-	//--></script>
+</script>

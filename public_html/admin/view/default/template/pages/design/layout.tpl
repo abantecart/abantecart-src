@@ -103,7 +103,7 @@ foreach ($pages as $page) {
 
 </div>
 
-<script type="text/javascript"><!--
+<script type="text/javascript">
 
 $('.delete_page_layout').click(function(e) {
   e.stopPropagation();
@@ -115,4 +115,4 @@ $('.delete_page_layout').click(function(e) {
   }
 });
 
---></script>
+</script>

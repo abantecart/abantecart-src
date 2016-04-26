@@ -182,7 +182,6 @@ echo $this->html->buildElement(
 ?>
 
 <script type="text/javascript">
-	<!--
 
 	$("#<?php echo $extension['id']; ?>_test").attr('reload_on_save', 'true');
 
@@ -205,5 +204,4 @@ echo $this->html->buildElement(
 
 	});
 
--->
 </script>

@@ -40,7 +40,7 @@
 						<?php echo $field; ?>
 					</div>
 				</div>
-			<?php }  ?><!-- <div class="fieldset"> -->
+			<?php }  ?>
 			</form>
 
 		</div>
@@ -61,7 +61,7 @@
 
 <div id="code" style="display:none;"></div>
 
-<script type="text/javascript"><!--
+<script type="text/javascript">
 
 	var options = {
 		'image': '<span class="abantecart_image"></span>\n',
@@ -151,4 +151,4 @@
 
 	});
 
-//--></script>
+</script>

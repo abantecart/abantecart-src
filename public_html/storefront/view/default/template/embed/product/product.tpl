@@ -390,7 +390,7 @@
 	</div>
 </div>
 
-<script type="text/javascript"><!--
+<script type="text/javascript">
 
 	var orig_imgs = $('ul.bigimage').html();
 	var orig_thumbs = $('ul.smallimage').html();
@@ -642,5 +642,5 @@
 		});
 	}
 
-//--></script>
+</script>
 <?php echo $footer; ?>	

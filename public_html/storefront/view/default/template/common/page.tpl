@@ -68,10 +68,9 @@ echo ${$header}; ?>
 		<?php echo ${$column_right}; ?>
 		</div>
 		<?php } ?>
-	</div><!-- content container -->
+	</div>
 
 </div>
-<!-- /maincontainer -->
 
 <?php if ( !empty( ${$footer_top} ) ) { ?>
 <!-- footer top blocks placeholder -->

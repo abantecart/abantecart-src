@@ -191,7 +191,7 @@ echo $form['form_open'];
 	    </div>
 	</div>
 </div>
-<script type="text/javascript"><!--
+<script type="text/javascript">
 
 		jQuery(function ($) {
 
@@ -301,5 +301,5 @@ echo $form['form_open'];
 			$(parent_element).before(html);
 		}
 
-//--></script>
+</script>
 <?php echo $footer; ?>

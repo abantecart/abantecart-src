@@ -71,7 +71,7 @@
 </div>
 </div>  
 
-<script type="text/javascript"><!--
+<script type="text/javascript">
 //validate submit
 $('form').submit(function(event) {
 	event.preventDefault();
@@ -116,4 +116,4 @@ function confirmSubmit() {
 		}				
 	});
 }
-//--></script>
+</script>

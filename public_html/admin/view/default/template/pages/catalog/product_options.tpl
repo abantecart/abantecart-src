@@ -103,7 +103,7 @@ echo $this->html->buildElement(
 ?>
 
 <?php echo $resources_scripts; ?>
-<script type="text/javascript"><!--
+<script type="text/javascript">
 
 var setRLparams = function (attr_val_id) {
 	urls = {
@@ -392,4 +392,4 @@ jQuery(function ($) {
 		return false;
 	}
 
-//--></script>
+</script>

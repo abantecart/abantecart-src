@@ -20,7 +20,7 @@
     	</a>
     </div>
 </div>
-<script type="text/javascript"><!--
+<script type="text/javascript">
 function confirmSubmit() {
 	$('body').css('cursor','wait');
 	$.ajax({
@@ -41,4 +41,4 @@ function confirmSubmit() {
 		}				
 	});
 }
-//--></script>
+</script>

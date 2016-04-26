@@ -173,7 +173,7 @@ echo $this->html->buildElement(
 				'content' => $modal_content));
 ?>
 
-<script type="text/javascript"><!--
+<script type="text/javascript">
 
 var text = {
 	error_attribute_not_selected: <?php js_echo($error_attribute_not_selected); ?>,
@@ -390,4 +390,4 @@ $(document).ready(function () {
 	$('#new_fieldFrm_field_id').change();
 	<?php } ?>
 });
-//--></script>
+</script>
