@@ -2194,6 +2194,15 @@ ul.side_prd_list li img.rating {
 	margin: 5px 5px 0 0;
 }
 
+img.rating{
+	border: none !important;
+	padding: 0;
+}
+
+a.compare img.rating{
+	margin-bottom: 3px;
+}
+
 .sidebanner {
 	background: none repeat scroll 0 0 #FFFFFF;
 	border-radius: 4px 4px 4px 4px;
