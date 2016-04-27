@@ -3404,10 +3404,7 @@ paypal pro styles
 
 @media (max-width: 979px) {
 	.header-logo {
-		width: 250px;
-	}
-	.logo img {
-		max-width: 240px;
+		width: 270px;
 	}
 
 	#categorymenu {
@@ -3866,7 +3863,9 @@ paypal pro styles
 	}
 	.logo img {
 		background: white;
-		padding: 5px;
+	}
+	.logo {
+		padding: 10px;
 	}
 
 	.headerstrip_blocks .block_4 {
