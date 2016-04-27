@@ -63,12 +63,6 @@ class ControllerPagesToolCache extends AController{
 						'keywords'    => 'forms'
 				),
 				array (
-						'id'          => 'translation',
-						'text'        => $this->language->get('text_translations'),
-						'description' => $this->language->get('desc_translations'),
-						'keywords'    => 'lang'
-				),
-				array (
 						'id'          => 'image',
 						'text'        => $this->language->get('text_images'),
 						'description' => $this->language->get('desc_images'),
@@ -96,7 +90,7 @@ class ControllerPagesToolCache extends AController{
 						'id'          => 'localisation',
 						'text'        => $this->language->get('text_localisations'),
 						'description' => $this->language->get('desc_localisations'),
-						'keywords'    => 'currency,country,zone,language'
+						'keywords'    => 'localization'
 				),
 				array (
 						'id'          => 'error_log',

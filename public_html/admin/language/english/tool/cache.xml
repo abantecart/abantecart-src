@@ -17,10 +17,6 @@
 		<value><![CDATA[Layouts &amp; Blocks]]></value>
 	</definition>
 	<definition>
-		<key>text_translations</key>
-		<value><![CDATA[Translations]]></value>
-	</definition>
-	<definition>
 		<key>text_flexyforms</key>
 		<value><![CDATA[Flexy Forms]]></value>
 	</definition>
@@ -63,10 +59,6 @@
 	<definition>
 		<key>desc_layouts_blocks</key>
 		<value><![CDATA[Pages, page layouts, blocks]]></value>
-	</definition>
-	<definition>
-		<key>desc_translations</key>
-		<value><![CDATA[Language translation data]]></value>
 	</definition>
 	<definition>
 		<key>desc_flexyforms</key>

@@ -17,10 +17,6 @@
 		<value><![CDATA[Макеты и Блоки]]></value>
 	</definition>
 	<definition>
-		<key>text_translations</key>
-		<value><![CDATA[Переводы]]></value>
-	</definition>
-	<definition>
 		<key>text_flexyforms</key>
 		<value><![CDATA[Флекси Формы]]></value>
 	</definition>
@@ -59,10 +55,6 @@
 	<definition>
 		<key>desc_layouts_blocks</key>
 		<value><![CDATA[Страницы, макеты страниц, блоки]]></value>
-	</definition>
-	<definition>
-		<key>desc_translations</key>
-		<value><![CDATA[Данные перевода]]></value>
 	</definition>
 	<definition>
 		<key>desc_flexyforms</key>
