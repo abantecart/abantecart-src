@@ -40,57 +40,7 @@ class ExtensionFormsManager extends Extension {
 	}
 
 	public function onControllerPagesDesignBlocks_InitData() {
-
-		if($this->baseObject_method=='insert' || $this->baseObject_method=='main' ){
-			$lm = new ALayoutManager();
-			$this->baseObject->loadLanguage('forms_manager/forms_manager');
-			$this->baseObject->loadLanguage('design/blocks');
-			$block = $lm->getBlockByTxtId('custom_form_block');
-			$block_id = $block['block_id'];
-
-			$this->baseObject->data['tabs'][] = array(
-														'href'=> $this->html->getSecureURL('tool/forms_manager/insert_block', '&block_id=' . $block_id),
-														'text' => $this->language->get('custom_forms_block'),
-														'active'=>false);
-
-		}elseif($this->baseObject_method=='edit'){
-			$lm = new ALayoutManager();
-			$blocks = $lm->getAllBlocks();
-
-			foreach ($blocks as $block) {
-				if ($block[ 'custom_block_id' ] == (int)$this->request->get['custom_block_id']) {
-					$block_txt_id = $block[ 'block_txt_id' ];
-					break;
-				}
-			}
-
-			if($block_txt_id=='custom_form_block'){
-				header('Location: ' .$this->html->getSecureURL('tool/forms_manager/edit_block', '&custom_block_id=' . (int)$this->request->get['custom_block_id']));
-				exit;
-			}
-		}
-	}
-
-	public function onControllerPagesExtensionBannerManager_InitData() {
-		if($this->baseObject_method == 'insert_block'){
-			$this->baseObject->loadLanguage('forms_manager/forms_manager');
-			$this->baseObject->loadLanguage('design/blocks');
-		}
-	}
-	public function onControllerPagesExtensionBannerManager_UpdateData() {
-
-		if($this->baseObject_method=='insert_block'){
-			$lm = new ALayoutManager();
-
-			$block = $lm->getBlockByTxtId('custom_form_block');
-			$block_id = $block['block_id'];
-
-			$this->baseObject->data['tabs'][1001] = array(
-				'href'=> $this->html->getSecureURL('tool/forms_manager/insert_block', '&block_id=' . $block_id),
-				'text' => $this->language->get('custom_forms_block'),
-				'active'=>false);
-			$this->baseObject->view->assign('tabs', $this->baseObject->data['tabs']);
-		}
+		$this->baseObject->loadLanguage('forms_manager/forms_manager');
 		if($this->baseObject_method=='edit'){
 			$lm = new ALayoutManager();
 			$blocks = $lm->getAllBlocks();
@@ -108,4 +58,61 @@ class ExtensionFormsManager extends Extension {
 			}
 		}
 	}
+
+	public function onControllerPagesDesignBlocks_UpdateData() {
+		$method_name = $this->baseObject_method;
+		$that = $this->baseObject;
+		if($method_name!='main'){ return null; }
+		$lm = new ALayoutManager();
+		$block = $lm->getBlockByTxtId('custom_form_block');
+		$block_id = $block['block_id'];
+
+		$inserts = $that->view->getData('inserts');
+		$inserts[] = array(
+				'text' => $that->language->get('custom_forms_block'),
+				'href' => $that->html->getSecureURL('tool/forms_manager/insert_block', '&block_id=' . $block_id),
+		);
+		$that->view->assign('inserts', $inserts);
+	}
+
+
+	public function onControllerPagesExtensionBannerManager_UpdateData() {
+
+		if($this->baseObject_method=='edit'){
+			$lm = new ALayoutManager();
+			$blocks = $lm->getAllBlocks();
+
+			foreach ($blocks as $block) {
+				if ($block[ 'custom_block_id' ] == (int)$this->request->get['custom_block_id']) {
+					$block_txt_id = $block[ 'block_txt_id' ];
+					break;
+				}
+			}
+
+			if($block_txt_id=='custom_form_block'){
+				header('Location: ' .$this->html->getSecureURL('tool/forms_manager/edit_block', '&custom_block_id=' . (int)$this->request->get['custom_block_id']));
+				exit;
+			}
+		}
+	}
+
+
+	public function onControllerResponsesCommonTabs_InitData() {
+
+		if($this->baseObject->parent_controller =='design/blocks'){
+			$that = $this->baseObject;
+			$lm = new ALayoutManager();
+			$that->loadLanguage('forms_manager/forms_manager');
+			$that->loadLanguage('design/blocks');
+			$block = $lm->getBlockByTxtId('custom_form_block');
+			$block_id = $block['block_id'];
+			$that->data['tabs'][] = array(
+								'name' => $block_id,
+								'text' => $that->language->get('custom_forms_block'),
+								'href' => $that->html->getSecureURL('tool/forms_manager/insert_block', '&block_id=' . $block_id),
+								'active' => ($block_id == $this->request->get['block_id'] ? true : false),
+								'sort_order' => 4);
+		}
+	}
+
 }

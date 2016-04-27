@@ -166,7 +166,7 @@
 	</definition>
 	<definition>
 		<key>text_create_block</key>
-		<value><![CDATA[Create Block]]></value>
+		<value><![CDATA[Create Form Block]]></value>
 	</definition>
 	<definition>
 		<key>entry_no_set_values</key>
