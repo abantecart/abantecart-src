@@ -17,9 +17,9 @@
 		<table class="table table-striped">
 			<thead>
 			<tr>
-				<th class="center"><input id="checkall" type='checkbox'/></th>
-				<th><?php echo $column_type; ?></th>
-				<th class="left"><?php echo $column_description; ?></th>
+				<td class="center"><input id="checkall" type='checkbox'/></td>
+				<td class="panel-title"><?php echo $column_type; ?></td>
+				<td class="panel-title"><?php echo $column_description; ?></td>
 			</tr>
 			</thead>
 			<tbody>
