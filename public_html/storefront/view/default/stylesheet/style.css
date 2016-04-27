@@ -3395,6 +3395,13 @@ paypal pro styles
 
 /* END @media FULL */
 
+@media (max-width: 850px) {
+	#customernav {
+		display: none;
+	}
+}	
+
+
 @media (max-width: 979px) {
 	.header-logo {
 		width: 250px;
@@ -3634,7 +3641,7 @@ paypal pro styles
 
 /* END @media (max-width: 979px) */
 
-@media (max-width: 760px) {
+@media (max-width: 768px) {
 	.smbanner {
 		width: auto;
 	}
@@ -3667,13 +3674,9 @@ paypal pro styles
 		text-transform: none;
 	}
 
-	.top-search {
-		margin-top: -5px
-	}
-
 	#topnav {
 		width: auto;
-		text-align: center
+		text-align: center;
 	}
 
 	#topnav ul {
@@ -3692,7 +3695,7 @@ paypal pro styles
 	}
 
 	.footerlinks {
-		text-align: center
+		text-align: center;
 	}
 
 	.footerlinks .info, #social_icons, .social_icons {
@@ -3953,7 +3956,6 @@ paypal pro styles
 		text-align: center;
 	}
 
-
 	.addresses>section{
 		display: inline-block;
 		width: 88%;
@@ -3985,6 +3987,21 @@ paypal pro styles
 		margin-top: 10px;
 	}
 
+	.search-bar {
+		position: absolute;
+		z-index: 1000;
+	}
+
+	#customernav {
+		display: block;
+		width: 200px;
+	}
+	#customernav.navbar{
+		margin-bottom: 5px;
+	}
+	#customernav .navbar-nav{
+		margin: 0;
+	}
 }
 
 @media only screen and (max-width: 480px) {
