@@ -120,8 +120,25 @@ class ControllerPagesDesignBlocks extends AController {
 		}
 
 		$this->view->batchAssign($this->language->getASet());
-		$this->initTabs();
-		$this->view->assign('inserts', $this->data['tabs']);
+
+		//build dropdown menu
+		$blocks = array();
+		$lm = new ALayoutManager();
+		foreach ($this->data['custom_block_types'] as $txt_id) {
+			$block = $lm->getBlockByTxtId($txt_id);
+			if ($block['block_id']) {
+				$blocks[$block['block_id']] = $this->language->get('text_' . $txt_id);
+			}
+		}
+
+		$inserts = array();
+		foreach ($blocks as $block_id => $block_text) {
+			$inserts[] = array(
+					'text' => $block_text,
+					'href' => $this->html->getSecureURL('design/blocks/insert', '&block_id=' . $block_id),
+			);
+		}
+		$this->view->assign('inserts', $inserts);
 
 		$this->view->assign('form_language_switch', $this->html->getContentLanguageSwitcher());
 		$this->view->assign('help_url', $this->gen_help_url('block_listing'));
@@ -246,14 +263,14 @@ class ControllerPagesDesignBlocks extends AController {
 
 		// if we need to save new block in layout - keep parameters in session
 		if (!isset($this->session->data['layout_params']) && isset($this->request->get['layout_id'])) {
-			$this->session->data['layout_params']['layout_id'] = $this->request->get['layout_id'];
-			$this->session->data['layout_params']['page_id'] = $this->request->get['page_id'] ? $this->request->get['page_id'] : 1;
-			$this->session->data['layout_params']['tmpl_id'] = $this->request->get['tmpl_id'];
-			$this->session->data['layout_params']['parent_block_id'] = $this->request->get['parent_block_id'];
-
+			$this->session->data['layout_params'] = array(
+					'layout_id' => $this->request->get['layout_id'],
+					'page_id' => ($this->request->get['page_id'] ? $this->request->get['page_id'] : 1),
+					'tmpl_id' => $this->request->get['tmpl_id'],
+					'parent_block_id' => $this->request->get['parent_block_id']);
 		}
 
-		$this->initTabs();
+		$this->_init_tabs();
 		switch ($block_txt_id) {
 			case 'listing_block':
 				$this->_getListingForm();
@@ -368,10 +385,22 @@ class ControllerPagesDesignBlocks extends AController {
 			$this->data[$k] = $v;
 		}
 
-		$this->data['tabs'][0] = array('href' => '',
-				'text' => $this->language->get('text_' . $block_txt_id),
-				'active' => true);
+		$tabs = array(
+					array(
+						'name' => '',
+						'text' => $this->language->get('text_' . $block_txt_id),
+						'href' => '',
+						'active' => true,
+						'sort_order' => 0
+					)
+		);
+		$obj = $this->dispatch('responses/common/tabs',
+				array(
+					'design/blocks/edit_block', //parent controller. Use customer group to use for other extensions that will add tabs via their hooks
+					array('tabs'=>$tabs))
+					);
 
+		$this->data['tabs'] = $obj->dispatchGetOutput();
 		switch ($block_txt_id) {
 			case 'listing_block':
 				$this->_getListingForm();
@@ -384,10 +413,7 @@ class ControllerPagesDesignBlocks extends AController {
 		$this->extensions->hk_UpdateData($this, __FUNCTION__);
 	}
 
-	public function initTabs() {
-
-		//init controller data
-		$this->extensions->hk_InitData($this, __FUNCTION__);
+	private function _init_tabs() {
 
 		$blocks = array();
 		$lm = new ALayoutManager();
@@ -404,16 +430,23 @@ class ControllerPagesDesignBlocks extends AController {
 
 		$this->request->get['block_id'] = !(int)$this->request->get['block_id'] ? $default_block_type : $this->request->get['block_id'];
 		$i = 0;
+		$tabs = array();
 		foreach ($blocks as $block_id => $block_text) {
-			$this->data['tabs'][$i] = array(
-					'href' => $this->html->getSecureURL('design/blocks/insert', '&block_id=' . $block_id),
+			$tabs[] = array(
+					'name' => $block_id,
 					'text' => $block_text,
-					'active' => ($block_id == $this->request->get['block_id'] ? true : false));
+					'href' => $this->html->getSecureURL('design/blocks/insert', '&block_id=' . $block_id),
+					'active' => ($block_id == $this->request->get['block_id'] ? true : false),
+					'sort_order' => $i);
 			$i++;
 		}
-		ksort($this->data['tabs']);
-		//update controller data
-		$this->extensions->hk_UpdateData($this, __FUNCTION__);
+
+		$obj = $this->dispatch('responses/common/tabs',array(
+															'design/blocks', //parent controller. Use customer group to use for other extensions that will add tabs via their hooks
+															array('tabs'=>$tabs))
+															);
+
+		$this->data['tabs'] = $obj->dispatchGetOutput();
 	}
 
 	public function delete() {

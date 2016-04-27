@@ -1,4 +1,5 @@
-<?php include($tpl_common_dir . 'action_confirm.tpl'); ?>
+<?php include($tpl_common_dir . 'action_confirm.tpl');
+echo $tabs;?>
 
 <div id="content" class="panel panel-default">
 

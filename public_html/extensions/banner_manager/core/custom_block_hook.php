@@ -75,20 +75,27 @@ class ExtensionBannerManager extends Extension {
 		}
 	}
 
-	public function onControllerPagesDesignBlocks_InitData() {
+	public function onControllerPagesDesignBlocks_UpdateData() {
 		$method_name = $this->baseObject_method;
+		$that = $this->baseObject;
+		if($method_name!='main'){ return null; }
+		$lm = new ALayoutManager();
+		$block = $lm->getBlockByTxtId('banner_block');
+		$block_id = $block['block_id'];
 
-		if($method_name=='insert' || $method_name=='main' ){
-			$lm = new ALayoutManager();
-			$this->baseObject->loadLanguage('banner_manager/banner_manager');
-			$this->baseObject->loadLanguage('design/blocks');
-			$block = $lm->getBlockByTxtId('banner');
-			$block_id = $block['block_id'];
+		$inserts = $that->view->getData('inserts');
+		$inserts[] = array(
+				'text' => $that->language->get('text_banner_block'),
+				'href' => $that->html->getSecureURL('extension/banner_manager/insert_block', '&block_id=' . $block_id),
+		);
+		$that->view->assign('inserts', $inserts);
+	}
 
-			$this->baseObject->data['tabs'][1000] = array( 'href'=> $this->html->getSecureURL('extension/banner_manager/insert_block', '&block_id=' . $block_id),
-														   'text' => $this->language->get('text_banner_block'),
-														   'active'=>false);
-		}elseif($method_name=='edit'){
+	public function onControllerPagesDesignBlocks_InitData() {
+
+		$this->baseObject->loadLanguage('banner_manager/banner_manager');
+		$method_name = $this->baseObject_method;
+		if($method_name=='edit'){
 			$lm = new ALayoutManager();
 			$blocks = $lm->getAllBlocks();
 
@@ -103,6 +110,23 @@ class ExtensionBannerManager extends Extension {
 				header('Location: ' .$this->html->getSecureURL('extension/banner_manager/edit_block', '&custom_block_id=' . (int)$this->request->get['custom_block_id']));
 				exit;
 			}
+		}
+	}
+
+	public function onControllerResponsesCommonTabs_InitData() {
+		if($this->baseObject->parent_controller =='design/blocks'){
+			$that = $this->baseObject;
+			$lm = new ALayoutManager();
+			$that->loadLanguage('banner_manager/banner_manager');
+			$that->loadLanguage('design/blocks');
+			$block = $lm->getBlockByTxtId('banner_block');
+			$block_id = $block['block_id'];
+			$that->data['tabs'][] = array(
+								'name' => $block_id,
+								'text' => $that->language->get('text_banner_block'),
+								'href' => $that->html->getSecureURL('extension/banner_manager/insert_block', '&block_id=' . $block_id),
+								'active' => ($block_id == $this->request->get['block_id'] ? true : false),
+								'sort_order' => 3);
 		}
 	}
 
