@@ -1,6 +1,6 @@
 $(window).load(function() {
     //register all banner view after page load
-    $('.banner[data-banner-id], .banner a[data-banner-id]').each(function(){
+    $('.banner [data-banner-id], .banner[data-banner-id], .banner a[data-banner-id]').each(function(){
         var banner_id = $(this).attr("data-banner-id");
         //need give absolute url to ajax (related to CDN)
         var href = window.location.href;

@@ -1,6 +1,6 @@
 <section class="slider">
 <h4 class="hidden">&nbsp;</h4>
-  <div class="banner_conteiner">  		
+  <div class="banner_container">
 	<?php if ($content) { 
 		//first find banner_fallback
 		foreach ($content as $banner) {
