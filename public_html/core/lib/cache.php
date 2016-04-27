@@ -142,6 +142,10 @@ class ACache {
 	 */
 	public function paramsToString($data = array()){
 		$output = '';
+		if(empty($data)) {
+			return '';
+		}
+		asort($data);
 		foreach ($data as $key => $val) {
 			if(is_array($val)){
 				$output .= $this->paramsToString($val);

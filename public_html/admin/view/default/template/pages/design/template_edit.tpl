@@ -11,8 +11,8 @@
 					<?php echo $current_template; ?>
 					<span class="caret"></span>
 				</button>
+				<?php if (is_array($templates) && count($templates) > 0) { ?>
 				<ul class="dropdown-menu">
-				<?php if (is_array($templates)) { ?>
 					<?php foreach ($templates as $tmpl) { ?>
 						<?php 
 							if($tmpl['name'] == $default_template ) {
@@ -27,8 +27,8 @@
 						</a>
 						</li>
 					<?php } ?>
-				<?php } ?>
 				</ul>
+				<?php } ?>
 			</div>
 
 			<div class="btn-group mr10 toolbar">

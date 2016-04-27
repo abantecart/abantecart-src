@@ -29,15 +29,18 @@ class ControllerBlocksCategory extends AController {
 	public function main() {
 		$request = $this->request->get;
 
+        //init controller data
+        $this->extensions->hk_InitData($this,__FUNCTION__);
+
 		//HTML cache only for non-customer
 		if(!$this->customer->isLogged() && !$this->customer->isUnauthCustomer()){
+			$allowed_cache_keys = array('path');
+			$cache_val = array('path' => $request['path']);
+			$this->buildHTMLCacheKey($allowed_cache_keys, $cache_val);
 			if($this->html_cache()){
 				return;
 			}
 		}
-
-        //init controller data
-        $this->extensions->hk_InitData($this,__FUNCTION__);
 
     	$this->view->assign('heading_title', $this->language->get('heading_title', 'blocks/category') );
 		
