@@ -23,7 +23,7 @@ if (! defined ( 'DIR_CORE' ) || !IS_ADMIN) {
 class ControllerPagesExtensionExtensionSummary extends AController {
 	public $data = array();
   	public function main() {
-		//Load input argumets for gid settings
+		//Load input arguments for gid settings
 	    $this->data = func_get_arg(0);
           //init controller data
         $this->extensions->hk_InitData($this,__FUNCTION__);

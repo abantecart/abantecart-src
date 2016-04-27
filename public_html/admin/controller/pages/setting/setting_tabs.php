@@ -26,7 +26,7 @@ class ControllerPagesSettingSettingTabs extends AController {
      
   	public function main() {
 
-        //Load input argumets for gid settings
+        //Load input arguments for gid settings
         $this->data = func_get_arg(0);
         if (!is_array($this->data)) {
             throw new AException (AC_ERR_LOAD, 'Error: Could not create grid. Grid definition is not array.');
