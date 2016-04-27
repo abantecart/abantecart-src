@@ -183,17 +183,20 @@ abstract class AController {
 	}
 
 	//function to get html cache key
-	public function buildHTMLCacheKey($params = array(), $values = array(), $controller = '') {
+	public function buildHTMLCacheKey($allowed_params = array(), $values = array(), $controller = '') {
 		//build HTML cache key
-		//build cache string based on params 
-		$param_string = '';
-		if(is_array($params) && $params) {
-			sort($params);
-			foreach ($params as $key) {
-				$param_string .= '&'.$key."=".$values[$key];
+		//build cache string based on allowed params 
+		$cache_params = array();
+		if(is_array($allowed_params) && $allowed_params) {
+			sort($allowed_params);
+			foreach ($allowed_params as $key) {
+				if(has_value($values[$key])){
+					$cache_params[$key] = $values[$key];
+				}
 			}
-			$param_string = md5($param_string);
 		}
+		//build unique key based on params
+		$param_string = md5($this->cache->paramsToString($cache_params));
 		//build HTML cache path
 		$cache_state_vars = array(
 				'template' 		=> $this->config->get('config_storefront_template'),
