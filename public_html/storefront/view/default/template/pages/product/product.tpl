@@ -41,7 +41,8 @@
 				    $thumb_url = $image_main['thumb_url'];
 				?>
 				    <a class="local_image" href="<?php echo $image_url; ?>" target="_blank" title="<?php echo $image_main['title']; ?>">
-				    	<img style="width: <?php echo $this->config->get('config_image_thumb_width').'px'; ?>; height: <?php echo $this->config->get('config_image_thumb_height').'px'; ?>;"
+				    	<img width="<?php echo $this->config->get('config_image_thumb_width'); ?>"
+				    		 height="<?php echo $this->config->get('config_image_thumb_height'); ?>"
 							 src="<?php echo $thumb_url; ?>"
 							 alt="<?php echo $image['title']; ?>"
 							 title="<?php echo $image['title']; ?>" />

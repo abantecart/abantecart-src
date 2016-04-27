@@ -4011,14 +4011,15 @@ paypal pro styles
 		line-height: normal;
 		text-align: left;
 	}
+	.logo img {
+		background: white;
+	}
+	.logo {
+		padding: 0px;
+	}
 
 	.payment_icon img{
 		max-width: 200px;
-	}
-
-	.logo img {
-		background: white;
-		padding: 5px;
 	}
 
 	.headerstrip_blocks .block_4 {
@@ -4324,6 +4325,9 @@ paypal pro styles
 	.container-fluid .col-xs-12 {
  		padding-left: 5px;
     	padding-right: 5px;	
+	}
+	.mainimage.bigimage img {
+		width: 300px;
 	}
 }
 
