@@ -373,9 +373,9 @@ class ControllerPagesDesignBlocks extends AController {
 		// end of saving
 
 		$info = $layout->getBlockDescriptions($custom_block_id);
-
-		if (isset($info[$this->session->data['content_language_id']])) {
-			$info = $info[$this->session->data['content_language_id']];
+		$lang_id = $this->language->getContentLanguageID();
+		if (isset($info[$lang_id])) {
+			$info = $info[$lang_id];
 		} else {
 			$info = current($info);
 			unset($info['name'], $info['title'], $info['description']);
@@ -877,6 +877,7 @@ class ControllerPagesDesignBlocks extends AController {
 		$this->view->batchAssign($this->language->getASet());
 		$this->view->batchAssign($this->data);
 		$this->view->assign('form_language_switch', $this->html->getContentLanguageSwitcher());
+		$this->view->assign('form_store_switch', $this->html->getStoreSwitcher());
 		$this->view->assign('language_code', $this->session->data['language']);
 		$this->view->assign('help_url', $this->gen_help_url('block_edit'));
 		$this->view->assign('rl', $this->html->getSecureURL('common/resource_library', '&object_name=custom_block&type=image&mode=url'));
