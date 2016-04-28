@@ -29,6 +29,7 @@ class ControllerPagesIndexForgotPassword extends AController {
 	public function main() {
 		if($this->user->isLogged()){
 			$this->user->logout();
+			unset($this->session->data['token']);
 		}
 
 		//init controller data
@@ -161,6 +162,7 @@ class ControllerPagesIndexForgotPassword extends AController {
 	public function validate() {
 		if($this->user->isLogged()){
 			$this->user->logout();
+			unset($this->session->data['token']);
 		}
 		//init controller data
 		$this->extensions->hk_InitData($this,__FUNCTION__);
