@@ -38,9 +38,9 @@ final class ARequest {
   	public function __construct() {
 		$_GET = $this->clean($_GET);
 		$_POST = $this->clean($_POST);
-		//$_COOKIE = $this->clean($_COOKIE);
-		//$_FILES = $this->clean($_FILES);
-		//$_SERVER = $this->clean($_SERVER);
+		$_COOKIE = $this->clean($_COOKIE);
+		$_FILES = $this->clean($_FILES);
+		$_SERVER = $this->clean($_SERVER);
 		
 		$this->get = $_GET;
 		$this->post = $_POST;
@@ -88,6 +88,7 @@ final class ARequest {
 	}
 
 	/**
+	 * Prevent hacks and non-browser requests with non-encoded data.
 	 * @param string|array $data
 	 * @return array|string
 	 */
@@ -100,7 +101,6 @@ final class ARequest {
 		} else { 
 	  		$data = htmlspecialchars($data, ENT_COMPAT, 'UTF-8');
 		}
-
 		return $data;
 	}
 
@@ -120,60 +120,49 @@ final class ARequest {
     	return $parms;	
 	} 
 
-    private function _detectBrowser() {
+	private function _detectBrowser() {
 
-        $nua = strToLower( $_SERVER['HTTP_USER_AGENT']);
+		$nua = strToLower( $_SERVER['HTTP_USER_AGENT']);
+		
+		$agent['http'] = isset($nua) ? $nua : "";
+		$agent['version'] = 'unknown';
+		$agent['browser'] = 'unknown';
+		$agent['platform'] = 'unknown';
+		$agent['device_type'] = '';
+		
+		$oss = array('win', 'mac', 'linux', 'unix');
+		foreach ($oss as $os) {
+			if (strstr($agent['http'], $os)) {
+				$agent['platform'] = $os;
+				break;
+			}
+		}
 
-        $agent['http'] = isset($_SERVER["HTTP_USER_AGENT"]) ? strtolower($_SERVER["HTTP_USER_AGENT"]) : "";
-        $agent['version'] = 'unknown';
-        $agent['browser'] = 'unknown';
-        $agent['b_version'] = 0;
-        $agent['platform'] = 'unknown';
-        $agent['device_type'] = '';
+		$browsers = array("mozilla","msie","gecko","firefox","konqueror","safari","netscape","navigator","opera","mosaic","lynx","amaya","omniweb");
 
-        $oss = array('win', 'mac', 'linux', 'unix');
-        foreach ($oss as $os) {
-        	if (strstr($agent['http'], $os)) {
-        		$agent['platform'] = $os;
-        		break;
-        	}
-        }
+		for ($i=0; $i<count($browsers); $i++){
+			if(strlen( stristr($nua, $browsers[$i]) )>0){
+				$agent["browser"] = $browsers[$i];
+				$n = stristr($nua, $agent["browser"]);
+				$j=strpos($nua, $agent["browser"])+$n+strlen($agent["browser"])+1;
+			}
+		}
 
-        $browsers = array("mozilla","msie","gecko","firefox","konqueror","safari","netscape","navigator","opera","mosaic","lynx","amaya","omniweb");
-
-        $l = strlen($nua);
-        for ($i=0; $i<count($browsers); $i++){
-          if(strlen( stristr($nua, $browsers[$i]) )>0){
-           $agent["b_version"] = "";
-           $agent["browser"] = $browsers[$i];
-	       $n = stristr($nua, $agent["browser"]);
-           $j=strpos($nua, $agent["browser"])+$n+strlen($agent["browser"])+1;
-           for (; $j<=$l; $j++){
-             $s = substr ($nua, $j, 1);
-             if(is_numeric($agent["b_version"].$s) )
-             $agent["b_version"] .= $s;
-             else
-             break;
-           }
-          }
-        }
-
-        //http://en.wikipedia.org/wiki/List_of_user_agents_for_mobile_phones - list of useragents
-        $devices = array("iphone","android","blackberry","ipod","ipad","htc","symbian","webos","opera mini", "windows phone os", "iemobile");
-
-        for ($i=0; $i<count($devices); $i++){
-           if (stristr($nua, $devices[$i])) {
-           	  $agent["device_type"] = $devices[$i];
-        	  break;
-           }
-        }
-
-        $this->browser = $agent['browser'];
-        $this->browser_version = $agent['b_version'];
-        $this->device_type = $agent['device_type'];
-        $this->http = $agent['http'];
-        $this->platform = $agent['platform'];
-        $this->version = $agent['version'];
+		//http://en.wikipedia.org/wiki/List_of_user_agents_for_mobile_phones - list of useragents
+		$devices = array("iphone","android","blackberry","ipod","ipad","htc","symbian","webos","opera mini", "windows phone os", "iemobile");
+		
+		for ($i=0; $i<count($devices); $i++){
+		   if (stristr($nua, $devices[$i])) {
+		   	  $agent["device_type"] = $devices[$i];
+			  break;
+		   }
+		}
+		
+		$this->browser = $agent['browser'];
+		$this->device_type = $agent['device_type'];
+		$this->http = $agent['http'];
+		$this->platform = $agent['platform'];
+		$this->version = $agent['version'];
 
     }
 

@@ -177,9 +177,8 @@ class ACache {
 	 * @since 1.2.7
 	 */
 	public function setCacheStorageDriver( $driver ){
-		//validate driver for availability
-		$all_drivers = $this->getCacheStorageDrivers();
-		$drv = $all_drivers[$driver];
+		//get and validate driver for availability
+		$drv = $this->getCacheStorageDriver($driver);
 		if( isset($drv) && is_file($drv['file']) ) {
 			//try to load driver class
 			include_once($drv['file']);
@@ -580,13 +579,30 @@ class ACache {
 	}
 
 	/**
-	 * Get all available cache storage drivers.
+	 * Get/validate storage driver details.
 	 *
-	 * @return  array An array of available storage drivers. No validation here is classes do exist
+	 * @return  array An array with storage driver details. No validation if class DO exist in the file!
 	 *
 	 * @since 1.2.7
 	 */
-	public function getCacheStorageDrivers( ){
+	public function getCacheStorageDriver($driver_name){
+		$driver = array();
+		$file_path = DIR_CORE . 'cache/'.$driver_name.'.php';
+		if(file_exists($file_path)) {
+		    $class = 'ACacheDriver' . ucfirst($driver_name);
+		    $driver = array('class' => $class, 'file' => $file_path, 'driver_name' => $driver_name);	
+		}
+		return $driver;
+	}
+
+	/**
+	 * Get all available cache storage drivers.
+	 *
+	 * @return  array An array of available storage drivers. No validation if classes DO exist!
+	 *
+	 * @since 1.2.7
+	 */
+	public function getCacheStorageDrivers(){
 		$drivers = array();
 
 		// Get an iterator and loop trough the driver php files.

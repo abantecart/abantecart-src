@@ -118,7 +118,7 @@ final class AConfig {
 
 		// Load default store settings
 		$settings = $cache->pull('settings');
-		if (empty($settings)) {
+		if(empty($settings)) {
 			// set global settings (without extensions settings)
 			$sql = "SELECT se.*
 					FROM " . $db->table("settings") . " se
@@ -138,6 +138,7 @@ final class AConfig {
 				$this->cnfg[$setting['key']] = $setting['value'];
 			}
 			unset($setting); //unset temp reference
+
 			//fix for rare issue on a database and creation of empty cache
 			if(!empty($settings) && $this->cnfg['config_cache_enable']){
 				$cache->push('settings', $settings);
@@ -148,6 +149,8 @@ final class AConfig {
 				$this->cnfg[$setting['key']] = $setting['value'];
 			}
 		}
+		//set current store id as default 0 for now. It will be reset if other store detected below
+		$this->cnfg['config_store_id'] = 0;
 
 		// if storefront and not default store try to load setting for given URL
 		/* Example: 
@@ -207,22 +210,24 @@ final class AConfig {
 			}
 		}
 
-		//still no store? load default store or session based
-		if (is_null($this->cnfg['config_store_id'])) {
-			$this->cnfg['config_store_id'] = 0;			
-			if (IS_ADMIN) {
-				//if admin and specific store selected 
-				$session = $this->registry->get('session');
-				$store_id = $this->registry->get('request')->get['store_id'];
-				if (has_value($store_id)) {
-					$this->cnfg['current_store_id'] = $this->cnfg['config_store_id'] = (int)$store_id;
-				} else if(has_value($session->data['current_store_id'])) {
-					$this->cnfg['config_store_id'] = $session->data['current_store_id'];	
-				}
+		//load specific store if admin and set current_store_id for admin operation on store
+		if (IS_ADMIN) {
+			//Check if admin has specific store in session or selected
+			$session = $this->registry->get('session');
+			$store_id = $this->registry->get('request')->get['store_id'];
+			if (has_value($store_id)) {
+			    $this->cnfg['current_store_id'] = (int)$store_id;
+			} else if(has_value($session->data['current_store_id'])) {
+			    $this->cnfg['current_store_id'] = $session->data['current_store_id'];	
+			} else {
+				//nothing to do 
+			    $this->cnfg['current_store_id'] = $session->data['config_store_id'];				
 			}
-			$this->_reload_settings($this->cnfg['config_store_id']);
-		}else{
-			$this->cnfg['current_store_id'] = $this->cnfg['config_store_id'];
+			//reload store settings if not what is loaded now
+			if( $this->cnfg['current_store_id'] != $this->cnfg['config_store_id'] ) {
+				$this->_reload_settings($this->cnfg['current_store_id']);		
+				$this->cnfg['config_store_id'] = $this->cnfg['current_store_id'];
+			}
 		}
 		
 		//get template for storefront
