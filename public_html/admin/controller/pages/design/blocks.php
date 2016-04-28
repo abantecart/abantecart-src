@@ -491,7 +491,7 @@ class ControllerPagesDesignBlocks extends AController {
 
 		if (!isset ($this->request->get ['custom_block_id'])) {
 			$this->data ['action'] = $this->html->getSecureURL('design/blocks/insert');
-			$this->data ['heading_title'] = $this->language->get('text_create');
+			$this->data ['heading_title'] = $this->language->get('text_create','design/blocks');
 			$this->data ['update'] = '';
 			$form = new AForm ('ST');
 		} else {
@@ -699,7 +699,7 @@ class ControllerPagesDesignBlocks extends AController {
 
 		if (!isset ($this->request->get ['custom_block_id'])) {
 			$this->data ['action'] = $this->html->getSecureURL('design/blocks/insert');
-			$this->data ['heading_title'] = $this->language->get('text_create');
+			$this->data ['heading_title'] = $this->language->get('text_create','design/blocks');
 			$this->data ['update'] = '';
 			$form = new AForm ('ST');
 		} else {
