@@ -14,15 +14,15 @@
     	if($top_categories){
     		array_unshift($top_categories, array('category_id' => 0, 'name' => $text_category, 'parent_id' => 0));
     ?>
-    	<ul class="dropdown dropdown-menu col-md-2 noclose">
+    	<ul  id="search-category" class="dropdown dropdown-menu col-md-2 noclose">
     		<li class="active"><a id="category_selected"><?php echo $top_categories[0]['name']?></a></li>
     		<li class="divider"></li>
-    		<span id="search-category">
     		<?php foreach($top_categories as $category){
 				if($category['parent_id'] > 0){ continue;} ?>
-    			<li><a id="category_<?php echo $category['category_id']?>"><?php echo $category['name']?></a></li>
+    			<li class="search-category">
+				    <a id="category_<?php echo $category['category_id']?>"><?php echo $category['name']?></a>
+			    </li>
     		<?php } ?>
-    		</span>
     	</ul>
     <?php } ?>
     </div>

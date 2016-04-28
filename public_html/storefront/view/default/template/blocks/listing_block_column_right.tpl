@@ -9,12 +9,13 @@
 		<?php
 		if ($content) {
 			foreach ($content as $item) {
+				$item['title'] = $item['name'] ? $item['name'] : $item['thumb']['title'];
 				if( $item['thumb']['origin']=='internal'){
-					$item['image'] = '<img class="thumbnail_small" src="'. $item['thumb']['thumb_url'].'"/>';
+					$item['image'] = '<img alt="'.$item['title'].'" class="thumbnail_small" src="'. $item['thumb']['thumb_url'].'"/>';
 				}else{
 					$item['image'] = $item['thumb']['thumb_html'];
 				}
-				$item['title'] = $item['name'] ? $item['name'] : $item['thumb']['title'];
+
 				$item['description'] = $item['model'];
 				$item['rating'] = ($item['rating']) ? "<img class=\"rating\"  src='" . $this->templateResource('/image/stars_' . $item['rating'] . '.png') . "' alt='" . $item['stars'] . "' width='64' height='12' />" : '';
 
