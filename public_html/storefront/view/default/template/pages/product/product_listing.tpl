@@ -90,7 +90,7 @@
 		$item = array();
 		$item['image'] = $product['thumb']['thumb_html'];
 		$item['title'] = $product['name'];
-		$item['rating'] = ($product['rating']) ? "<img src='" . $this->templateResource('/image/stars_' . $product['rating'] . '.png') . "' alt='" . $product['stars'] . "' />" : '';
+		$item['rating'] = ($product['rating']) ? "<img class=\"rating\" src='" . $this->templateResource('/image/stars_' . $product['rating'] . '.png') . "' alt='" . $product['stars'] . "' />" : '';
 
 		$item['info_url'] = $product['href'];
 		$item['buy_url'] = $product['add'];
