@@ -39,7 +39,7 @@ final class ARequest {
 		$_GET = $this->clean($_GET);
 		$_POST = $this->clean($_POST);
 		//$_COOKIE = $this->clean($_COOKIE);
-		$_FILES = $this->clean($_FILES);
+		//$_FILES = $this->clean($_FILES);
 		//$_SERVER = $this->clean($_SERVER);
 		
 		$this->get = $_GET;
