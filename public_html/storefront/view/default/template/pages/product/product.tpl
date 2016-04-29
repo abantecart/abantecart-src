@@ -474,27 +474,29 @@ $(window).load(function(){
 			url: '<?php echo $option_resources_url; ?>&attribute_value_id=' + attribute_value_id,
 			dataType: 'json',
 			success: function (data) {
-				var html1 = '';
-				var html2 = '';
+				var html1 = '',
+				html2 = '',
+				main_image = data.main;
 
-				if (data.main) {
-					if (data.main.origin == 'external') {
+				if (main_image) {
+					if (main_image.origin == 'external') {
 						html1 = '<a class="html_with_image">';
-						html1 += data.main.main_html + '</a>';
+						html1 += main_image.main_html + '</a>';
 					} else {
-				        html1 = '<a href="' + data.main.main_url + '">';
-				        html1 += '<img src="' + data.main.thumb_url + '" />';
+				        html1 = '<a href="' + main_image.main_url + '">';
+				        html1 += '<img style="width:'+main_image.thumb_width+'px; height:'+main_image.thumb_height+'px;" src="' + main_image.thumb_url + '" />';
 				        html1 += '<i class="fa fa-arrows"></i></a>';
 				    }
 				}
 				if (data.images) {
 					for (img in data.images) {
+						var image = data.images[img];
 						html2 += '<li class="producthtumb">';
-						var img_url = data.images[img].main_url;
-						var tmb_url = data.images[img].thumb_url;
-						var tmb2_url = data.images[img].thumb2_url;
-						if (data.images[img].origin != 'external') {
-							html2 += '<a href="'+img_url+'" data-standard="'+tmb2_url+'"><img src="' + tmb_url + '" alt="' + data.images[img].title + '" title="' + data.images[img].title + '" /></a>';
+						var img_url = image.main_url;
+						var tmb_url = image.thumb_url;
+						var tmb2_url = image.thumb2_url;
+						if (image.origin != 'external') {
+							html2 += '<a href="'+img_url+'" data-standard="'+tmb2_url+'"><img style="width:'+image.thumb_width+'px; height:'+image.thumb_height+'px;" src="' + tmb_url + '" alt="' + image.title + '" title="' + image.title + '" /></a>';
 						}
 						html2 += '</li>';
 					}

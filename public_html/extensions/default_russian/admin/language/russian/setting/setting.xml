@@ -889,4 +889,20 @@
 		<key>text_im_settings_attention</key>
 		<value><![CDATA[Эти настройки предназначены для обмена мгновенными сообщениями, отправляемых автоматически во время событий AbanteCart в витрине магазина и администратора.]]></value>
 	</definition>
+	<definition>
+		<key>entry_image_manufacturer_width</key>
+		<value><![CDATA[Ширина лого производителя в списке:]]></value>
+	</definition>
+	<definition>
+		<key>entry_image_manufacturer_height</key>
+		<value><![CDATA[Высота лого производителя в списке:]]></value>
+	</definition>
+	<definition>
+		<key>error_image_manufacturer</key>
+		<value><![CDATA[Требуются размеры лого производителя в списках!]]></value>
+	</definition>
+	<definition>
+		<key>entry_html_cache</key>
+		<value><![CDATA[HTML кеш:<br/><span class="help">Включение кеширования HTML страниц и блоков увеличивает скорость загрузки.</span>]]></value>
+	</definition>
 </definitions>

@@ -889,4 +889,20 @@
 		<key>text_im_settings_attention</key>
 		<value><![CDATA[Queste impostazioni sono per i messaggi istantanei inviati automaticamente durante gli eventi AbanteCart in vetrina e admin.]]></value>
 	</definition>
+	<definition>
+		<key>entry_image_manufacturer_width</key>
+		<value><![CDATA[Marca Icona Lista Larghezza:]]></value>
+	</definition>
+	<definition>
+		<key>entry_image_manufacturer_height</key>
+		<value><![CDATA[Marca Icona Lista Altezza:]]></value>
+	</definition>
+	<definition>
+		<key>error_image_manufacturer</key>
+		<value><![CDATA[Marca Elenco Icona dimensioni formato richiesto!]]></value>
+	</definition>
+	<definition>
+		<key>entry_html_cache</key>
+		<value><![CDATA[Cache HTML: <br/><span class="help">pagine HTML attivato e blocca caching per ottenere una migliore velocità per le pagine. Questo si aggiunge la cache di regolare la cache dei dati abilitata nel system/config.php </span>]]></value>
+	</definition>
 </definitions>

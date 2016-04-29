@@ -683,7 +683,7 @@
 	<definition>
 		<key>entry_system_check</key>
 		<value>
-			<![CDATA[System Check:<br /><span class="help">Enable this setting if you want to check your system condition in respect to AbanteCart functionlaity. System issues effecting AbanteCart will be reported as messages visible in admin.</span>]]></value>
+			<![CDATA[System Check:<br /><span class="help">Enable this setting if you want to check your system condition in respect to AbanteCart functionality. System issues effecting AbanteCart will be reported as messages visible in admin.</span>]]></value>
 	</definition>
 	<definition>
 		<key>button_add_store</key>
@@ -969,6 +969,6 @@
 	</definition>
 	<definition>
 		<key>entry_html_cache</key>
-		<value><![CDATA[HTML Cache:<br /><span class="help">Enabled HTML pages and blocks caching to get better speed for your pages. This is aditional caching to regular data caching enabled in system/config.php file</span>]]></value>
+		<value><![CDATA[HTML Cache:<br /><span class="help">Enabled HTML pages and blocks caching to get better speed for your pages. This is additional caching to regular data caching enabled in system/config.php file</span>]]></value>
 	</definition>
 </definitions>

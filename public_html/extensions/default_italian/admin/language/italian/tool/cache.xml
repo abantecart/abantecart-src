@@ -96,4 +96,12 @@
 		<key>column_description</key>
 		<value><![CDATA[Descrizione]]></value>
 	</definition>
+	<definition>
+		<key>text_html_cache</key>
+		<value><![CDATA[HTML-cache]]></value>
+	</definition>
+	<definition>
+		<key>desc_html_cache</key>
+		<value><![CDATA[Pagine HTML memorizzate nella cache e blocchi]]></value>
+	</definition>
 </definitions>
