@@ -102,6 +102,6 @@
 	</definition>
 	<definition>
 		<key>desc_html_cache</key>
-		<value><![CDATA[desc_html_cache !!!!!]]></value>
+		<value><![CDATA[Cached HTML pages and blocks]]></value>
 	</definition>
 </definitions>

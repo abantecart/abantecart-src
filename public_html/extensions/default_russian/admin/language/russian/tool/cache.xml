@@ -96,4 +96,12 @@
 		<key>text_clear_all_cache</key>
 		<value><![CDATA[Очистить весь кеш]]></value>
 	</definition>
+	<definition>
+		<key>text_html_cache</key>
+		<value><![CDATA[HTML-кеш]]></value>
+	</definition>
+	<definition>
+		<key>desc_html_cache</key>
+		<value><![CDATA[Кеш HTML страниц и блоков]]></value>
+	</definition>
 </definitions>

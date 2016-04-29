@@ -104,4 +104,12 @@
 		<key>text_clear_all_cache</key>
 		<value><![CDATA[Borrar todos caché]]></value>
 	</definition>
+	<definition>
+		<key>text_html_cache</key>
+		<value><![CDATA[HTML-caché]]></value>
+	</definition>
+	<definition>
+		<key>desc_html_cache</key>
+		<value><![CDATA[Páginas HTML y bloques de caché]]></value>
+	</definition>
 </definitions>

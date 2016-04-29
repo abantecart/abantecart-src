@@ -570,7 +570,7 @@
 	</definition>
 	<definition>
 		<key>entry_image_quality</key>
-		<value><![CDATA[entry_image_quality !!!!!]]></value>
+		<value><![CDATA[Jpeg Nivel Imágenes Compresión]]></value>
 	</definition>
 	<definition>
 		<key>entry_compression</key>
@@ -906,5 +906,21 @@ imagen</span>]]></value>
 	<definition>
 		<key>text_im_settings_attention</key>
 		<value><![CDATA[Estos ajustes son para los mensajes instantáneos enviados automáticamente durante eventos AbanteCart en tienda y de administración.]]></value>
+	</definition>
+	<definition>
+		<key>entry_image_manufacturer_width</key>
+		<value><![CDATA[Icono de marca Lista Ancho:]]></value>
+	</definition>
+	<definition>
+		<key>entry_image_manufacturer_height</key>
+		<value><![CDATA[Lista de iconos de marca Altura:]]></value>
+	</definition>
+	<definition>
+		<key>error_image_manufacturer</key>
+		<value><![CDATA[Marca la lista de iconos dimensiones tamaño requerido!]]></value>
+	</definition>
+	<definition>
+		<key>entry_html_cache</key>
+		<value><![CDATA[Caché HTML: <br/><span class="help">Páginas HTML y bloques de almacenamiento en caché permitió obtener una mejor velocidad para sus páginas. Este es el almacenamiento en caché adicional para el almacenamiento en caché de datos regular habilitada en el system/config.php</span>]]></value>
 	</definition>
 </definitions>
