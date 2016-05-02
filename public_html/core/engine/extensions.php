@@ -831,7 +831,7 @@ class ExtensionsApi {
 
 		foreach ($extensions_lookup_list as $ext) {
 		    $f = DIR_EXT . $ext . $file;
-		    if ( $ext_status == 'all' || in_array($route, $source[$ext][$section]) ) {
+		    if ( $ext_status == 'all' || (is_array($source[$ext][$section]) && in_array($route, $source[$ext][$section])) ) {
 		    	if (is_file($f)) {
 		    		return array(
 		    			'file' => $f,
