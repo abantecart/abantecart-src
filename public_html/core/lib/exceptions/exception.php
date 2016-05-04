@@ -22,15 +22,18 @@ if (! defined ( 'DIR_CORE' )) {
 }
 class AException extends Exception {
 
+	public $registry = null;
     protected $error;
 
-    public function __construct($errno = 0, $errstr = '', $file = '', $line = '')
-    {
+    public function __construct($errno = 0, $errstr = '', $file = '', $line = ''){
         parent::__construct();
         $this->code = $errno ? $errno : $this->code;
         $this->message = $errstr ? $errstr : $this->message;
         $this->file = $file ? $file : $this->file;
         $this->line = $line ? $line : $this->line;
+		if(class_exists('Registry')){
+			$this->registry = Registry::getInstance();		
+		}	
 
         $this->error = new AError( $this->message, $this->code );
         //update message
@@ -40,40 +43,46 @@ class AException extends Exception {
         $this->error->msg = ob_get_clean();
     }
 
-    public function displayError()
-    {
+    public function errorCode(){
+    	return $this->code;
+	}
+
+    public function errorMessage(){
+    	return $this->error->msg;
+	}
+
+    public function displayError(){
         $this->error->toDebug();
         //Fatal error
         if ( $this->code >= 10000 && !defined('INSTALL') ) {
-            $_SESSION['exception_msg'] = $this->error->msg;
-            $this->_redirect();
-        }
+        	if ( $this->registry && $this->registry->get('session')) {
+        		$this->registry->get('session')->data['exception_msg'] = $this->error->msg;    
+        	} else {
+        		//Fatal error happened before session is started, show to the screen and exit
+    			echo $this->error->msg;
+    			exit;    	
+        	}
+		}
     }
 
-    public function logError()
-    {
+    public function logError(){
         $this->error->toLog();
-        //Fatal error
-        if ( $this->code >= 10000 && !defined('INSTALL') ) {
-            $this->_redirect();
-        }
     }
 
-    public function mailError()
-    {
+    public function mailError(){
         $this->error->toMail();
     }
 
-    private function  _redirect() {
-        $registry = Registry::getInstance();
-        if ( $registry->has('router') && $registry->get('router')->getRequestType() != 'page' ) {
-            $router = new ARouter($registry);
+    public function showErrorPage() {
+        if ( $this->registry && $this->registry->has('router') && $this->registry->get('router')->getRequestType() != 'page' ) {
+            $router = new ARouter($this->registry);
 		    $router->processRoute('error/ajaxerror');
-            $registry->get('response')->output();
+            $this->registry->get('response')->output();
             exit();
         }
-        header('Location: static_pages/index.php');
+        $url = "static_pages/index.php";
+        $url .= (IS_ADMIN === true) ? '?mode=admin' : '';  
+        header("Location: $url");
         exit();
     }
-
 }
