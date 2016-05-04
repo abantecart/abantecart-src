@@ -99,11 +99,11 @@ final class AMySQLi {
 				return TRUE;
 			}
 		} else {
+			$this->error = 'SQL Error: '.mysqli_error($this->connection).'<br />Error No: '.mysqli_errno($this->connection).'<br />SQL: '.$sql;
 			if($noexcept){
-				$this->error = 'AbanteCart Error: ' . $result->error . '<br />' . $sql;
 				return FALSE;
 			}else{
-				throw new AException(AC_ERR_MYSQL, 'Error: ' . $result->error . '<br />' . $sql);
+				throw new AException(AC_ERR_MYSQL, $this->error);
 			}
     	}
   	}

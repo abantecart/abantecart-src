@@ -37,24 +37,38 @@ define('DIR_ABANTECART', str_replace('\'', '/', realpath(DIR_APP_SECTION . '../'
 
 // Startup
 require_once(DIR_ABANTECART . 'system/config.php');
-// New Installation
+// New Installation? Redirect to install
 if (!defined('DB_DATABASE')) {
 	header('Location: ../install/index.php');
 	exit;
 }
-session_start();
-$error = 'Please check AbanteCart and webserver error logs for more details. You can check error log in the control panel if it is functional. Otherwise, refer to error log located on your web server';
-if ( !empty($_SESSION['exception_msg']) ) {
-	$error =  $_SESSION['exception_msg'];
-	unset($_SESSION['exception_msg']);
-}
 
 //check if this is admin and show option to report this issue 
 $from_admin = false;
+$session_id = '';
+if(isset($_GET['mode']) && $_GET['mode'] == 'admin') {
+	$from_admin = true;
+}
 foreach(array_keys($_COOKIE) as $key) {
-	if ( preg_match("/^AC_CP/", $key) ) {
-		$from_admin = true;
+	if ( $from_admin === true && preg_match("/^AC_CP/", $key) ) {
+		$session_id = $key;
+		break;
 	}
+	if ( $from_admin !== true && preg_match("/^AC_SF/", $key) ) {
+		$session_id = $key;
+		break;
+	}
+}
+define('SESSION_ID', $session_id);
+
+//try to start session. 
+require_once(DIR_CORE . 'lib/session.php');
+$session = new ASession(SESSION_ID);
+
+$error = 'Please check AbanteCart and webserver error logs for more details. You can check error log in the control panel if it is functional. Otherwise, refer to error log located on your web server';
+if($session && $session->data['exception_msg']){
+	$error = $session->data['exception_msg'];
+	$session->data['exception_msg'] = '';
 }
 
 if($from_admin){
