@@ -246,12 +246,12 @@ class APackageManager {
             ftp_close($fconnect);
 		} else {
 			foreach ($corefiles as $core_filename) {
-				if (file_exists(DIR_ROOT . '/' . $core_filename)) {
+				if (is_file(DIR_ROOT . '/' . $core_filename)) {
 					unlink(DIR_ROOT . '/' . $core_filename);
 				}
 				//check is target directory exists before copying
 				$dir = pathinfo(DIR_ROOT . '/' . $core_filename, PATHINFO_DIRNAME);
-				if (!file_exists($dir)) {
+				if (!is_dir($dir)) {
 					mkdir($dir, 0777, true);
 				}
 
