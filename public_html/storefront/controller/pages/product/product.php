@@ -440,12 +440,6 @@ class ControllerPagesProductProduct extends AController{
 				if(!has_value($value)){
 					if(has_value($default_value)){
 						$value = $default_value;
-					} else{
-						if(in_array($option['element_type'], $elements_with_options) && $option['element_type'] != 'S'){
-							//set first from the list to default
-							reset($values);
-							$value = key($values);
-						}
 					}
 				}
 

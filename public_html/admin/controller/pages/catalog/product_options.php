@@ -36,9 +36,12 @@ class ControllerPagesCatalogProductOptions extends AController {
         $this->attribute_manager = new AAttribute_Manager();
 
         if ($this->request->is_POST() && $this->_validateForm() ) {
-            $this->model_catalog_product->addProductOption($this->request->get['product_id'], $this->request->post);
+        	$product_id = $this->request->get['product_id'];
+            $product_option_id = $this->model_catalog_product->addProductOption($product_id, $this->request->post);
             $this->session->data['success'] = $this->language->get('text_success');
-            $this->redirect($this->html->getSecureURL('catalog/product_options', '&product_id=' . $this->request->get['product_id'] ));
+            $this->redirect(
+            	$this->html->getSecureURL('catalog/product_options','&product_id='.$product_id.'&product_option_id='.$product_option_id )
+            );
         }
 
         $product_info = $this->model_catalog_product->getProduct($this->request->get['product_id']);
@@ -149,11 +152,11 @@ class ControllerPagesCatalogProductOptions extends AController {
 		foreach ($product_options as $option) {
 			$product_opt[$option['product_option_id']] = $option['language'][$content_language_id]['name'];
 		}
-
+		$product_option_id = $this->request->get['product_option_id'] ? $this->request->get['product_option_id'] : $this->data['product_option_id'];
 		$this->data['options'] = $form->getFieldHtml(array(
 						'type' => 'selectbox',
 						'name' => 'option',
-						'value' => $this->data['product_option_id'],
+						'value' => $product_option_id,
 			            'options' => $product_opt,
 					));
 
