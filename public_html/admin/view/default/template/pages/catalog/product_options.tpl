@@ -328,7 +328,12 @@ jQuery(function ($) {
 
 
 	//select option and load data for it
-	$('#option option:first-child').attr("selected", "selected").change();
+	var $selected = $('#option option:selected');
+	if($selected.length){
+		$selected.change();
+	} else {
+		$('#option option:first-child').attr("selected", "selected").change();
+	}
 
 	$(document).on('click','#update_option', function () {
 		editOption('#update_option');

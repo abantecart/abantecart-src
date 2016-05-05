@@ -1,4 +1,5 @@
-<?php foreach ( (array)$options as $v => $text ) {
+<?php 
+	foreach ( (array)$options as $v => $text ) {
     $radio_id = preg_replace('/[^a-zA-Z0-9\.-_]/', '', $id . $v);
 ?>
     <label for="<?php echo $radio_id ?>">
