@@ -47,16 +47,23 @@ class ControllerBlocksCart extends AController {
 		$products = array();
 
 		$qty = 0;
+		$cart_products = $this->cart->getProducts();
+		$product_ids = array();
+		foreach($cart_products as $product){
+			$product_ids[] = $product['product_id'];
+		}
 
 		$resource = new AResource('image');
+		$thumbnails = $resource->getMainThumbList(
+						'products',
+						$product_ids,
+						$this->config->get('config_image_additional_width'),
+						$this->config->get('config_image_additional_width')
+						);
 
-    	foreach ($this->cart->getProducts() as $result) {
+    	foreach ($cart_products as $result) {
         	$option_data = array();
-
-			$thumbnail = $resource->getMainThumb('products',
-			                                     $result['product_id'],
-			                                     $this->config->get('config_image_additional_width'),
-			                                     $this->config->get('config_image_additional_width'),true);
+			$thumbnail = $thumbnails[ $result['product_id'] ];
 
         	foreach ($result['option'] as $option) {
 		        if($option['element_type']=='H'){ continue;} //hide hidden options

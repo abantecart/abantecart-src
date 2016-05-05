@@ -59,14 +59,21 @@ class ControllerResponsesListingGridProduct extends AController {
 		$response->userdata->classes = array();
 		$results = $this->model_catalog_product->getProducts($data);
 
+		$product_ids = array();
+		foreach($results as $result){
+			$product_ids[] = (int)$result['product_id'];
+		}
+
 		$resource = new AResource('image');
+		$thumbnails = $resource->getMainThumbList(
+						'products',
+						$product_ids,
+						$this->config->get('config_image_grid_width'),
+						$this->config->get('config_image_grid_height')
+		);
 		$i = 0;
 		foreach ($results as $result) {
-			$thumbnail = $resource->getMainThumb('products',
-												$result['product_id'],
-												(int)$this->config->get('config_image_grid_width'),
-												(int)$this->config->get('config_image_grid_height'),
-												true);
+			$thumbnail = $thumbnails[ $result['product_id'] ];
 
 			$response->rows[ $i ]['id'] = $result['product_id'];
 			if( dateISO2Int($result['date_available'])> time()){

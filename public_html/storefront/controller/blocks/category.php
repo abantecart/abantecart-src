@@ -25,6 +25,7 @@ class ControllerBlocksCategory extends AController {
 	protected $category_id = 0;
 	protected $path = array();
 	protected $selected_root_id = array();
+	protected $thumbnails = array();
 
 	public function main() {
 		$request = $this->request->get;
@@ -55,14 +56,25 @@ class ControllerBlocksCategory extends AController {
 		
 		//load main lavel categories
 		$all_categories = $this->model_catalog_category->getAllCategories();
+		//build thumbnails list
+		$category_ids = array();
+		foreach($all_categories as $category){
+			$category_ids[] = $category['category_id'];
+		}
+		$resource = new AResource('image');
+
+		$this->thumbnails = $resource->getMainThumbList(
+				                'categories',
+				                $category_ids,
+				                $this->config->get('config_image_category_width'),
+				                $this->config->get('config_image_category_height')
+				                );
+
 		$this->view->assign('category_list', $this->_buildCategoryTree($all_categories));
 
 		// framed needs to show frames for generic block.
 		//If tpl used by listing block framed was set by listing block settings
 		$this->view->assign('block_framed',true);
-
-		//Load nested categories and with all details based on whole categories list array in $this->data
-		$this->data['resource_obj'] = new AResource('image');
 		$this->view->assign('home_href', $this->html->getSEOURL('index/home'));
 		$this->view->assign('categories', $this->_buildNestedCategoryList());
 		
@@ -86,15 +98,18 @@ class ControllerBlocksCategory extends AController {
 			if($parent_id!=$category['parent_id']){ continue; }
 			$category['path'] = $path ? $path.'_'.$category['category_id'] : $category['category_id'];
 			$category['parents'] = explode("_",$category['path']);
-			$category['level'] = sizeof($category['parents'])-1; //digin' level
-			if($category['category_id']==$this->category_id){ //mark root
+			//dig into level
+			$category['level'] = sizeof($category['parents'])-1;
+			if($category['category_id']==$this->category_id){
+				//mark root
 				$this->selected_root_id = $category['parents'][0];
 			}
 			$output[] = $category;
 			$output = array_merge($output,$this->_buildCategoryTree($all_categories,$category['category_id'], $category['path']));
 		}
 		if($parent_id==0){
-			$this->data['all_categories'] = $output; //place result into memory for future usage (for menu. see below)
+			//place result into memory for future usage (for menu. see below)
+			$this->data['all_categories'] = $output;
 			// cut list and expand only selected tree branch
 			$cutted_tree = array();
 			foreach($output as $category){
@@ -108,27 +123,20 @@ class ControllerBlocksCategory extends AController {
 		}
 	}
 
-	/** Function builds one multi-dimentional (nested) category tree for menu
+	/** Function builds one multi-dimensional (nested) category tree for menu
 	 *
 	 * @param int $parent_id
 	 * @return array
 	 */
 	private function _buildNestedCategoryList($parent_id=0){
-		/**
-		 * @var $resource AResource
-		 */
-		$resource = $this->data['resource_obj'];
+
 		$output = array();
 		foreach($this->data['all_categories'] as $category){
 			if( $category['parent_id'] != $parent_id ){ continue; }
 			$category['children'] = $this->_buildNestedCategoryList($category['category_id']);
-			$thumbnail = $resource->getMainThumb( 'categories',
-													$category['category_id'],
-													(int)$this->config->get('config_image_category_width'),
-													(int)$this->config->get('config_image_category_height'),
-													true);
+			$thumbnail = $this->thumbnails[ $category['category_id'] ];
 			$category['thumb'] = $thumbnail['thumb_url'];
-
+			//NOTE: product and brand count contains nested categories!  $category['parents'] is array.
 			$category['product_count'] = $this->model_catalog_category->getCategoriesProductsCount($category['parents']);
 			$category['brands'] = $this->model_catalog_category->getCategoriesBrands($category['parents']);
 			$category['href'] = $this->html->getSEOURL('product/category', '&path=' . $category['path'], '&encode');

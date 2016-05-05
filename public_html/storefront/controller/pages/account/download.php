@@ -79,7 +79,18 @@ class ControllerPagesAccountDownload extends AController {
 			$downloads = array();
 			//get only enabled, not expired, which have remaining count > 0 and available
 			$customer_downloads = $this->download->getCustomerDownloads(($page-1) * $limit, $limit);
+			$product_ids = array();
+			foreach($customer_downloads as $result){
+				$product_ids[] = (int)$result['product_id'];
+			}
 			$resource = new AResource('image');
+			$thumbnails = $resource->getMainThumbList(
+							'products',
+							$product_ids,
+							$this->config->get('config_image_cart_width'),
+							$this->config->get('config_image_cart_height'),
+							false);
+
 			foreach ($customer_downloads as $download_info) {
 				$text_status = $this->download->getTextStatusForOrderDownload($download_info);
 
@@ -101,13 +112,15 @@ class ControllerPagesAccountDownload extends AController {
 					$i++;
 				}
 				if(!$text_status){
-					$download_button = HtmlElementFactory::create(
+					$download_button = $this->html->buildElement(
 							array ( 'type' => 'button',
 									'name' => 'download_button_'.$download_info['order_download_id'],
 									'title'=> $this->language->get('text_download'),
 									'text' => $this->language->get('text_download'),
 									'style' => 'button',
-									'href' => $this->html->getSecureURL('account/download/startdownload','&order_download_id='. $download_info['order_download_id']),
+									'href' => $this->html->getSecureURL(
+												'account/download/startdownload',
+												'&order_download_id='. $download_info['order_download_id']),
 									'icon' => 'fa fa-download-alt'
 									)
 					);
@@ -115,11 +128,7 @@ class ControllerPagesAccountDownload extends AController {
 					$download_text = $text_status;
 				}
 
-				$thumbnail = $resource->getMainThumb( 'products',
-													  $download_info['product_id'],
-													  $this->config->get('config_image_cart_width'),
-													  $this->config->get('config_image_cart_height'),
-													  false );
+				$thumbnail = $thumbnails[$download_info['product_id']];
 				$attributes = $this->download->getDownloadAttributesValuesForCustomer($download_info['download_id']);
 
 				$downloads[] = array(

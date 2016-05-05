@@ -43,15 +43,22 @@ class ControllerResponsesListingGridManufacturer extends AController {
 		$response->records = $total;
 		$results = $this->model_catalog_manufacturer->getManufacturers($filter_data);
 
-		$resource = new AResource('image');
+		//build thumbnails list
+        $ids = array();
+        foreach($results as $result){
+            $ids[] = $result['manufacturer_id'];
+        }
+        $resource = new AResource('image');
+        $thumbnails = $resource->getMainThumbList(
+                                'manufacturers',
+                                $ids,
+                                $this->config->get('config_image_grid_width'),
+                                $this->config->get('config_image_grid_height')
+        );
+
 		$i = 0;
 		foreach ($results as $result) {
-			$thumbnail = $resource->getMainThumb('manufacturers',
-				$result[ 'manufacturer_id' ],
-				(int)$this->config->get('config_image_grid_width'),
-				(int)$this->config->get('config_image_grid_height'),
-				true);
-
+			$thumbnail = $thumbnails[ $result[ 'manufacturer_id' ] ];
 			$response->rows[ $i ][ 'id' ] = $result[ 'manufacturer_id' ];
 			$response->rows[ $i ][ 'cell' ] = array(
 				$thumbnail[ 'thumb_html' ],
@@ -196,13 +203,20 @@ class ControllerResponsesListingGridManufacturer extends AController {
 							);
 			$results = $this->model_catalog_manufacturer->getManufacturers($filter);
 
-			$resource = new AResource('image');
+			//build thumbnails list
+	        $ids = array();
+	        foreach($results as $result){
+	            $ids[] = $result['manufacturer_id'];
+	        }
+	        $resource = new AResource('image');
+	        $thumbnails = $resource->getMainThumbList(
+	                                'manufacturers',
+	                                $ids,
+	                                $this->config->get('config_image_grid_width'),
+	                                $this->config->get('config_image_grid_height')
+	        );
 			foreach ($results as $item) {
-				$thumbnail = $resource->getMainThumb('manufacturers',
-												$item['manufacturer_id'],
-												(int)$this->config->get('config_image_grid_width'),
-												(int)$this->config->get('config_image_grid_height'),
-												true);
+				$thumbnail = $thumbnails[ $item['manufacturer_id'] ];
 
 				$output[ ] = array(
 					'image' => $icon = $thumbnail['thumb_html'] ? $thumbnail['thumb_html'] : '<i class="fa fa-code fa-4x"></i>&nbsp;',

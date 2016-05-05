@@ -825,17 +825,19 @@ class ControllerPagesExtensionBannerManager extends AController {
 				$ids = array_keys($options_list);
 				$assigned_banners = $this->model_extension_banner_manager->getBanners(array('subsql_filter' => 'b.banner_id IN ('.implode(', ',$ids).')'));
 
-				$rm = new AResourceManager();
-				$rm->setType('image');
+				$resource = new AResource('image');
+				$thumbnails = $resource->getMainThumbList(
+								'banners',
+								$ids,
+								$this->config->get('config_image_grid_width'),
+								$this->config->get('config_image_grid_height'),
+								false
+				);
 
 				foreach($assigned_banners as $banner){
 					$id = $banner['banner_id'];
 					if(in_array($id, $ids)){
-						$thumbnail = $rm->getMainThumb('banners',
-														$banner['banner_id'],
-														(int)$this->config->get('config_image_grid_width'),
-														(int)$this->config->get('config_image_grid_height'),
-														false);
+						$thumbnail = $thumbnails[ $banner['banner_id'] ];
 						$icon = $thumbnail['thumb_html'] ? $thumbnail['thumb_html'] : '<i class="fa fa-code fa-4x"></i>&nbsp;';
 						$options_list[$id] = array(
 														'image' => $icon,

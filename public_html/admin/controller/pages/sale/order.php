@@ -1372,15 +1372,21 @@ class ControllerPagesSaleOrder extends AController{
 		$order_downloads = $this->model_sale_order->getOrderDownloads($this->request->get['order_id']);
 
 		if($order_downloads){
-			$rl = new AResource('image');
+			//get thumbnails by one pass
+            $resource = new AResource('image');
+            $thumbnails = $resource->getMainThumbList(
+                    'products',
+		            array_keys($order_downloads),
+                    $this->config->get('config_image_grid_width'),
+                    $this->config->get('config_image_grid_height')
+            );
+
 			$this->loadModel('catalog/download');
 			foreach($order_downloads as $product_id => $order_download){
 				$downloads = (array)$order_download['downloads'];
 				$this->data['order_downloads'][$product_id]['product_name'] = $order_download['product_name'];
-				$this->data['order_downloads'][$product_id]['product_thumbnail'] = $rl->getMainThumb('products',
-						$product_id,
-						$this->config->get('config_image_grid_width'),
-						$this->config->get('config_image_grid_height'));
+				$this->data['order_downloads'][$product_id]['product_thumbnail'] = $thumbnails[ $product_id ];
+
 				foreach($downloads as $download_info){
 					$download_info['order_status_id'] = $order_info['order_status_id'];
 					$attributes = $this->download->getDownloadAttributesValuesForDisplay($download_info['download_id']);

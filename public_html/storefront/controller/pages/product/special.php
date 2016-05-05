@@ -102,16 +102,22 @@ class ControllerPagesProductSpecial extends AController {
 			                                         $order,
 			                                         ($page - 1) * $limit,
 													 $limit);
-			$resource = new AResource('image');
+
+			$product_ids = array();
+			foreach($results as $result){
+				$product_ids[] = (int)$result['product_id'];
+			}
+
+			//Format product data specific for confirmation page
+	        $resource = new AResource('image');
+			$thumbnails = $resource->getMainThumbList(
+							'products',
+							$product_ids,
+							$this->config->get('config_image_product_width'),
+							$this->config->get('config_image_product_height')
+			);
             foreach ($results as $result) {
-
-                $thumbnail = $resource->getMainThumb('products',
-			                                    $result['product_id'],
-			                                    (int)$this->config->get('config_image_product_width'),
-			                                    (int)$this->config->get('config_image_product_height'),
-												true);
-
-
+                $thumbnail = $thumbnails[$result['product_id']];
                 if ($this->config->get('enable_reviews')) {
                     $rating = $this->model_catalog_review->getAverageRating($result['product_id']);
                 } else {

@@ -73,15 +73,24 @@ class ControllerApiCheckoutCart extends AControllerAPI {
 			$this->loadModel('tool/image');
 			
       		$products = array();
-			$resource = new AResource('image');
+		    $cart_products = $this->cart->getProducts();
 
-      		foreach ($this->cart->getProducts() as $result) {
+            $product_ids = array();
+            foreach($cart_products as $result){
+                $product_ids[] = (int)$result['product_id'];
+            }
+
+            $resource = new AResource('image');
+            $thumbnails = $resource->getMainThumbList(
+                            'products',
+                            $product_ids,
+                            $this->config->get('config_image_cart_width'),
+                            $this->config->get('config_image_cart_height')
+            );
+
+      		foreach ($cart_products as $result) {
         		$option_data = array();
-			    $thumbnail = $resource->getMainThumb('products',
-			                                     $result['product_id'],
-			                                     $this->config->get('config_image_cart_width'),
-			                                     $this->config->get('config_image_cart_height'),true);
-
+		        $thumbnail = $thumbnails[ $result['product_id'] ];
 
         		foreach ($result['option'] as $option) {
           			$option_data[] = array(

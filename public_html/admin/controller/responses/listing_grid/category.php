@@ -60,15 +60,23 @@ class ControllerResponsesListingGridCategory extends AController {
 	    $response->userdata = new stdClass();
 	    $results = $this->model_catalog_category->getCategoriesData($filter_data);
 
+	    //build thumbnails list
+        $category_ids = array();
+        foreach($results as $category){
+            $category_ids[] = $category['category_id'];
+        }
+        $resource = new AResource('image');
+
+        $thumbnails = $resource->getMainThumbList(
+                                'categories',
+                                $category_ids,
+                                $this->config->get('config_image_grid_width'),
+                                $this->config->get('config_image_grid_height')
+        );
+
 	    $i = 0;
-
-	    $resource = new AResource('image');
 	    foreach ($results as $result) {
-		    $thumbnail = $resource->getMainThumb('categories',
-			                                     $result['category_id'],
-			                                     (int)$this->config->get('config_image_grid_width'),
-			                                     (int)$this->config->get('config_image_grid_height'),true);
-
+		    $thumbnail = $thumbnails[$result['category_id']];
             $response->rows[$i]['id'] = $result['category_id'];
             $cnt = $this->model_catalog_category->getCategoriesData(array('parent_id'=>$result['category_id']),'total_only');
 
@@ -281,15 +289,20 @@ class ControllerResponsesListingGridCategory extends AController {
 												OR cd.meta_keywords LIKE '%".$this->request->post['term']."%'"
 							);
 			$results = $this->model_catalog_category->getCategoriesData($filter);
-
-			$resource = new AResource('image');
+			//build thumbnails list
+	        $category_ids = array();
+	        foreach($results as $category){
+	            $category_ids[] = $category['category_id'];
+	        }
+	        $resource = new AResource('image');
+	        $thumbnails = $resource->getMainThumbList(
+	                                'categories',
+	                                $category_ids,
+	                                $this->config->get('config_image_grid_width'),
+	                                $this->config->get('config_image_grid_height')
+	        );
 			foreach ($results as $item) {
-				$thumbnail = $resource->getMainThumb('categories',
-												$item['category_id'],
-												(int)$this->config->get('config_image_grid_width'),
-												(int)$this->config->get('config_image_grid_height'),
-												true);
-
+				$thumbnail = $thumbnails[ $item['category_id'] ];
 				$output[ ] = array(
 					'image' => $icon = $thumbnail['thumb_html'] ? $thumbnail['thumb_html'] : '<i class="fa fa-code fa-4x"></i>&nbsp;',
 					'id' => $item['category_id'],

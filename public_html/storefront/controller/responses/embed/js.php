@@ -124,12 +124,13 @@ class ControllerResponsesEmbedJS extends AController {
 		$product_info['name'] = htmlentities(html_entity_decode($product_info['name'],ENT_QUOTES,'UTF-8'),ENT_QUOTES,'UTF-8');
 
 		$resource = new AResource('image');
-		$product_info['thumbnail'] =  $resource->getMainThumb('products',
+		$product_info['thumbnail'] =  $resource->getMainThumb(
+				'products',
 				$product_id,
-			(int)$this->config->get('config_image_product_width'),
-			(int)$this->config->get('config_image_product_height'),
-		    true);
-
+				(int)$this->config->get('config_image_product_width'),
+				(int)$this->config->get('config_image_product_height'),
+			    true
+		);
 
 		if ($product_info['final_price'] && $product_info['final_price']!=$product_info['price']) {
 			$product_info['special'] = $this->currency->format($product_info['final_price']);
@@ -235,16 +236,24 @@ class ControllerResponsesEmbedJS extends AController {
 			return null;
 		}
 
+		$ids = array();
+		foreach($categories as $result){
+			$ids[] = (int)$result['category_id'];
+		}
+
+		//get thumbnails by one pass
 		$resource = new AResource('image');
+		$thumbnails = $resource->getMainThumbList(
+				'categories',
+				$ids,
+				$this->config->get('config_image_category_width'),
+				$this->config->get('config_image_category_height')
+		);
 
 		foreach($categories as &$category){
 			//deal with quotes
 			$category['name'] = htmlentities(html_entity_decode($category['name'],ENT_QUOTES,'UTF-8'),ENT_QUOTES,'UTF-8');
-			$category['thumbnail'] =  $resource->getMainThumb('categories',
-							$category['category_id'],
-						(int)$this->config->get('config_image_category_width'),
-						(int)$this->config->get('config_image_category_height'),
-					    true);
+			$category['thumbnail'] =  $thumbnails[ $category['category_id'] ];
 			$rt = $this->config->get('config_embed_click_action')=='modal' ? 'r/product/category' : 'product/category';
 			$category['details_url'] = $this->html->getURL( $rt, '&category_id=' .$category['category_id']);
 
@@ -292,16 +301,24 @@ class ControllerResponsesEmbedJS extends AController {
 			return null;
 		}
 
+		$ids = array();
+		foreach($manufacturers as $result){
+			$ids[] = (int)$result['manufacturer_id'];
+		}
+
+		//get thumbnails by one pass
 		$resource = new AResource('image');
+		$thumbnails = $resource->getMainThumbList(
+				'manufacturers',
+				$ids,
+				$this->config->get('config_image_category_width'),
+				$this->config->get('config_image_category_height')
+		);
 
 		foreach($manufacturers as &$manufacturer){
 			//deal with quotes
 			$manufacturer['name'] = htmlentities(html_entity_decode($manufacturer['name'],ENT_QUOTES,'UTF-8'),ENT_QUOTES,'UTF-8');
-			$manufacturer['thumbnail'] =  $resource->getMainThumb('manufacturers',
-							$manufacturer['manufacturer_id'],
-						(int)$this->config->get('config_image_category_width'),
-						(int)$this->config->get('config_image_category_height'),
-					    true);
+			$manufacturer['thumbnail'] = $thumbnails[$manufacturer['manufacturer_id']];
 			$rt = $this->config->get('config_embed_click_action')=='modal' ? 'r/product/manufacturer' : 'product/manufacturer';
 			$manufacturer['details_url'] = $this->html->getURL( $rt, '&manufacturer_id=' .$manufacturer['manufacturer_id']);
 

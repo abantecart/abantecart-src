@@ -47,13 +47,20 @@ class ControllerBlocksSpecial extends AController {
 		$this->data['products'] = array();
 		
 		$results = $promotion->getProductSpecials('pd.name', 'ASC', 0, $this->config->get('config_special_limit'));
-
+		$product_ids = array();
+		foreach($results as $result){
+			$product_ids[] = (int)$result['product_id'];
+		}
+        //get thumbnails by one pass
         $resource = new AResource('image');
+        $thumbnails = $resource->getMainThumbList(
+                'products',
+                $product_ids,
+                $this->config->get('config_image_product_width'),
+                $this->config->get('config_image_product_height')
+                );
 		foreach ($results as $result) {
-			$thumbnail = $resource->getMainThumb('products',
-			                                     $result['product_id'],
-			                                     $this->config->get('config_image_product_width'),
-			                                     $this->config->get('config_image_product_height'),true);
+			$thumbnail = $thumbnails[ $result['product_id'] ];
            	
 			if ($this->config->get('enable_reviews')) {
 				$rating = $this->model_catalog_review->getAverageRating($result['product_id']);	

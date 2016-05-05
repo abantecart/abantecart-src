@@ -134,16 +134,21 @@ class ControllerPagesSaleContact extends AController {
 			}
 		} 
 		if (isset($product_ids) && is_array($product_ids)) {
+			//get thumbnails by one pass
+			$resource = new AResource('image');
+			$thumbnails = $resource->getMainThumbList(
+					'products',
+					$product_ids,
+					$this->config->get('config_image_grid_width'),
+					$this->config->get('config_image_grid_height')
+					);
+
+
+
 			foreach ($product_ids as $product_id) {
 				$product_info = $this->model_catalog_product->getProduct($product_id);
 				if ($product_info) {
-				$resource = new AResource('image');
-				$thumbnail = $resource->getMainThumb('products',
-						$product_id,
-						(int)$this->config->get('config_image_grid_width'),
-						(int)$this->config->get('config_image_grid_height'),
-						true
-				);
+				$thumbnail = $thumbnails[ $product_id ];
 				$this->data['products'][$product_id] = array(
 						'name' => $product_info['name'],
 						'image' =>	$thumbnail['thumb_html']

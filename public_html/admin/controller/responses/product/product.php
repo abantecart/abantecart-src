@@ -58,13 +58,22 @@ class ControllerResponsesProductProduct extends AController{
 							'match' => 'all'
 			                ));
 			$products = $this->model_catalog_product->getProducts($filter);
+
+			$product_ids = array();
+			foreach($products as $result){
+				$product_ids[] = (int)$result['product_id'];
+			}
+
 			$resource = new AResource('image');
+			$thumbnails = $resource->getMainThumbList(
+							'products',
+							$product_ids,
+							$this->config->get('config_image_grid_width'),
+							$this->config->get('config_image_grid_height')
+			);
+
 			foreach($products as $pdata){
-				$thumbnail = $resource->getMainThumb('products',
-						$pdata['product_id'],
-						(int)$this->config->get('config_image_grid_width'),
-						(int)$this->config->get('config_image_grid_height'),
-						true);
+				$thumbnail = $thumbnails[ $pdata['product_id'] ];
 
 				if($this->request->get['currency_code']){
 					$price = round($this->currency->convert($pdata['price'],

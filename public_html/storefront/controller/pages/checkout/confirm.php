@@ -192,8 +192,20 @@ class ControllerPagesCheckoutConfirm extends AController {
 		$this->loadModel('tool/seo_url');
 		$this->loadModel('tool/image');
 
+		$product_ids = array();
+		foreach($this->data['products'] as $result){
+			$product_ids[] = (int)$result['product_id'];
+		}
+
+		$resource = new AResource('image');
+		$thumbnails = $resource->getMainThumbList(
+						'products',
+						$product_ids,
+						$this->config->get('config_image_cart_width'),
+						$this->config->get('config_image_cart_height')
+		);
+
 		//Format product data specific for confirmation page
-        $resource = new AResource('image');
         for($i = 0; $i < sizeof( $this->data['products'] ); $i++){
         	$product_id = $this->data['products'][$i]['product_id'];
 			$opts = $this->data['products'][$i]['option'];
@@ -225,11 +237,7 @@ class ControllerPagesCheckoutConfirm extends AController {
 
 	        $this->data['products'][$i]['option'] = $options;
 
-	        $thumbnail = $resource->getMainThumb('products',
-			                                    $product_id,
-												(int)$this->config->get('config_image_cart_width'),
-												(int)$this->config->get('config_image_cart_height'),
-												true);
+	        $thumbnail = $thumbnails[ $product_id ];
 			$tax = $this->tax->calcTotalTaxAmount($this->data['products'][$i]['total'], $this->data['products'][$i]['tax_class_id']);
       		$this->data['products'][$i] = array_merge( 
       			$this->data['products'][$i], 

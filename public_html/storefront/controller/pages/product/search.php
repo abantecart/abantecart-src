@@ -209,15 +209,24 @@ class ControllerPagesProductSearch extends AController {
 					$this->redirect($this->html->getSEOURL('product/product','&product_id=' . key($products_result), '&encode'));		
 				}
 
-				$resource = new AResource('image');
-				
 				if (is_array($products_result) && $products_result) {
+
+					$product_ids = array();
+					foreach($products_result as $result){
+						$product_ids[] = (int)$result['product_id'];
+					}
+
+					//Format product data specific for confirmation page
+			        $resource = new AResource('image');
+					$thumbnails = $resource->getMainThumbList(
+									'products',
+									$product_ids,
+									$this->config->get('config_image_product_width'),
+									$this->config->get('config_image_product_height')
+					);
+
 					foreach ($products_result as $result) {
-						$thumbnail = $resource->getMainThumb('products',
-				                                     $result['product_id'],
-				                                     $this->config->get('config_image_product_width'),
-				                                     $this->config->get('config_image_product_height'),true);
-	
+						$thumbnail = $thumbnails[$result['product_id']];
 						if ($this->config->get('enable_reviews')) {
 							$rating = $this->model_catalog_review->getAverageRating($result['product_id']);	
 						} else {

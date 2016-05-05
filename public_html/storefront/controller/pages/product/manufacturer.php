@@ -134,21 +134,17 @@ class ControllerPagesProductManufacturer extends AController {
 					$product_ids[] = (int)$result['product_id'];
 				}
 				$products_info = $this->model_catalog_product->getProductsAllInfo($product_ids);
+				$thumbnails = $resource->getMainThumbList('products',
+															$product_ids,
+					                                        (int)$this->config->get('config_image_product_width'),
+															(int)$this->config->get('config_image_product_height')
+				);
 
         		foreach ($products_result as $result) {
-					$thumbnail = $resource->getMainThumb('products',
-			                                    $result['product_id'],
-			                                    (int)$this->config->get('config_image_product_width'),
-												(int)$this->config->get('config_image_product_height'),
-												true);
-
-					
+					$thumbnail = $thumbnails[$result['product_id']];
 					$rating = $products_info[$result['product_id']]['rating'];
-					
 					$special = FALSE;
-					
 					$discount = $products_info[$result['product_id']]['discount'];
- 					
 					if ($discount) {
 						$price = $this->currency->format($this->tax->calculate($discount, $result['tax_class_id'], $this->config->get('config_tax')));
 					} else {

@@ -148,26 +148,34 @@ class ControllerPagesProductCategory extends AController {
         		$categories = array();
         		
 				$results = $this->model_catalog_category->getCategories($category_id);
-				$resource = new AResource('image');
+				$category_ids = array();
+				foreach($results as $result){
+					$category_ids[] = (int)$result['category_id'];
+				}
+		        //get thumbnails by one pass
+		        $resource = new AResource('image');
+		        $thumbnails = $resource->getMainThumbList(
+		                'categories',
+		                $category_ids,
+		                $this->config->get('config_image_category_width'),
+		                $this->config->get('config_image_category_height')
+		                );
 
         		foreach ($results as $result) {
-			        $thumbnail = $resource->getMainThumb('categories',
-			                                     $result['category_id'],
-			                                     (int)$this->config->get('config_image_category_width'),
-			                                     (int)$this->config->get('config_image_category_height'),true);
+			        $thumbnail = $thumbnails[ $result['category_id'] ];
 
-						$categories[] = array(
-            			'name'  => $result['name'],
-            			'href'  => $this->html->getSEOURL('product/category', '&path=' . $request['path'] . '_' . $result['category_id'] . $url, '&encode'),
-            			'thumb' => $thumbnail);
+					$categories[] = array(
+	                    'name'  => $result['name'],
+	                    'href'  => $this->html->getSEOURL('product/category', '&path=' . $request['path'] . '_' . $result['category_id'] . $url, '&encode'),
+	                    'thumb' => $thumbnail
+					);
         		}
                 $this->view->assign('categories', $categories );
-		
 				$this->loadModel('catalog/review');
 				
 				$this->view->assign('button_add_to_cart', $this->language->get('button_add_to_cart'));
 				
-				$product_ids = $products = array();
+				$category_ids = $products = array();
 
 				$products_result = $this->model_catalog_product->getProductsByCategoryId($category_id,
 				                                                                 $sort,
@@ -175,17 +183,22 @@ class ControllerPagesProductCategory extends AController {
 				                                                                 ($page - 1) * $limit,
 				                                                                 $limit);
 				foreach($products_result as $p){
-					$product_ids[] = (int)$p['product_id'];
+					$category_ids[] = (int)$p['product_id'];
 				}
-				$products_info = $this->model_catalog_product->getProductsAllInfo($product_ids);
+				$products_info = $this->model_catalog_product->getProductsAllInfo($category_ids);
+				$product_ids = array();
+				foreach($products_result as $result){
+					$product_ids[] = (int)$result['product_id'];
+				}
+				$thumbnails = $resource->getMainThumbList(
+								'products',
+								$product_ids,
+								$this->config->get('config_image_product_width'),
+								$this->config->get('config_image_product_height')
+				);
 
         		foreach ($products_result as $result) {
-
-			        $thumbnail = $resource->getMainThumb('products',
-			                                     $result['product_id'],
-			                                     (int)$this->config->get('config_image_product_width'),
-			                                     (int)$this->config->get('config_image_product_height'),true);
-					
+			        $thumbnail = $thumbnails[ $result['product_id'] ];
 					$rating = $products_info[$result['product_id']]['rating'];
 					$special = FALSE;
 					
