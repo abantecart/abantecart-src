@@ -113,7 +113,7 @@ final class ACustomer{
 		$this->request = $registry->get('request');
 		$this->session = $registry->get('session');
 		$this->dcrypt = $registry->get('dcrypt');
-
+		$this->load = $registry->get('load');
 
 		if(isset($this->session->data['customer_id'])){
 			$customer_query = $this->db->query(
@@ -167,6 +167,29 @@ final class ACustomer{
 				$this->mergeCustomerCart($saved_cart);
 			}
 		}
+		
+		//Update online customers' activity
+		$ip = '';
+		if (isset($this->request->server['REMOTE_ADDR'])) {
+		        $ip = $this->request->server['REMOTE_ADDR'];
+		}
+		$url = '';
+		if (isset($this->request->server['HTTP_HOST']) && isset($this->request->server['REQUEST_URI'])) {
+		        $url = 'http://' . $this->request->server['HTTP_HOST'] . $this->request->server['REQUEST_URI'];
+		}
+		$referer = '';
+		if (isset($this->request->server['HTTP_REFERER'])) {
+		        $referer = $this->request->server['HTTP_REFERER'];
+		}		
+		$customer_id = '';
+		if($this->isLogged()) {
+			$customer_id = $this->getId();		
+		} else if($this->isUnauthCustomer()){
+			$customer_id = $this->isUnauthCustomer();
+		}	
+		$this->load->model('tool/online_now');		
+		$registry->get('model_tool_online_now')->setOnline($ip, $customer_id, $url, $referer);
+		//EOF Custmer Construct				
 	}
 
 	/**
