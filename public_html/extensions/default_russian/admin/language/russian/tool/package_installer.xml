@@ -218,7 +218,17 @@
 	</definition>
 	<definition>
 		<key>text_core_upgrade_attention</key>
-		<value><![CDATA[Внимание! AbanteCart будет обновлен до версии %s! Автоматически будет создана полная резервная копия. Рекомендуется попробовать обновить на тестовом сайте.]]></value>
+		<value><![CDATA[Внимание! AbanteCart будет обновлен до версии %s!]]></value>
+	</definition>
+	<definition>
+		<key>text_core_upgrade_title</key>
+		<value><![CDATA[ Обновление ядра Abantecart ]]></value>
+	</definition>
+	<definition>
+		<key>text_core_upgrade_warning</key>
+		<value><![CDATA[ После начала процесса обновления будет невозможно отменить изменения автоматически.
+Найстойчиво рекомендуем сделать полное резервное копирование базы данных и файлов.
+Протестируйте обновление сначала на тестовом сайте. Обновление без теста на рабочем сайте не рекомендуется. ]]></value>
 	</definition>
 	<definition>
 		<key>error_notconnected</key>

@@ -94,7 +94,7 @@ class ExtensionDefaultPPExpress extends Extension {
             $amount = $that->cart->getFinalTotal();
             if ( 	(has_value( $min ) && $amount < $min )
                 ||  (has_value( $max ) && $amount > $max )
-				|| !$that->config->get('config_guest_checkout')) {
+				|| (!$that->config->get('config_guest_checkout') && !$that->customer->isLogged())) {
                 return null;
             }
 

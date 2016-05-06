@@ -25,3 +25,5 @@ VALUES
 INSERT INTO `ac_settings` (`group`, `key`, `value`) VALUES
 ('appearance','config_image_manufacturer_height',56),
 ('appearance','config_image_manufacturer_width',56);
+
+DELETE FROM `ac_language_definitions` WHERE `section` = 1 AND `block`='tool_package_installer';

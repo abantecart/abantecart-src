@@ -10,7 +10,17 @@
 	<div class="panel-body panel-body-nopadding">
 		<label class="h4 heading"><?php echo $heading_title; ?></label>
 		<div id="license" class="pre-scrollable">
-			<div class="col-sm-7 col-sm-offset-3"><?php echo $agreement_text; ?></div>
+			<div class="col-sm-7 col-sm-offset-3">
+				<?php
+				if($attention_text){ ?>
+					<div class="info alert alert-warning"><i class="fa fa fa-exclamation-triangle fa-fw"></i> <?php echo $attention_text; ?></div>
+				<?php }
+				if($warning_text){?>
+					<div class="warning alert alert-error alert-danger"><i class="fa fa-exclamation-triangle fa-fw"></i> <?php echo $warning_text; ?></div>
+				<?php }
+				echo $agreement_text;
+				?>
+			</div>
 		</div>
 	</div>
 
