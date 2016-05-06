@@ -76,6 +76,59 @@ class ModelCatalogProduct extends Model{
 		}
 		return $track_status;
 	}
+	/**
+	 * Returns array with stock information
+	 * @since 1.2.7
+	 * @param array $product_ids
+	 * @return array
+	 */
+	public function getProductsStockInfo($product_ids = array()){
+		if (!$product_ids || !is_array($product_ids)){
+			return false;
+		}
+
+		$ids = array();
+		foreach($product_ids as $id){
+			$id = (int)$id;
+			if(!$id){ continue;}
+			$ids[] = $id;
+		}
+
+		if(!$ids){
+			return false;
+		}
+
+		$cache_key = 'product.stock_info.' . md5(implode('',$ids));
+		$cache = $this->cache->pull($cache_key);
+		if($cache !== false){
+			return $cache;
+		}
+
+		$sql = "SELECT p.product_id,
+						p.subtract,
+						SUM(COALESCE(pov.subtract,0)) as option_subtract,
+						p.quantity,
+						SUM(COALESCE(pov.quantity,0)) as option_quantity
+				FROM " . $this->db->table("products") . " p
+				LEFT JOIN " . $this->db->table("product_options") . " po
+					ON (po.product_id = p.product_id)
+				LEFT JOIN  " . $this->db->table("product_option_values") . " pov
+					ON (po.product_option_id = pov.product_option_id)
+				WHERE p.product_id IN (".implode(', ',$ids).")
+				GROUP BY p.product_id";
+		$query = $this->db->query($sql);
+		$output = array();
+		foreach($query->rows as $row){
+			$output[$row['product_id']] = array(
+						'subtract' => ( ((int)$row['subtract'] + (int)$row['option_subtract'])>0 ? true : false),
+						'quantity' => ((int)$row['quantity'] + (int)$row['option_quantity'])
+			);
+		}
+		$this->cache->push($cache_key, $output);
+
+		return $output;
+
+	}
 
 	/**
 	 *

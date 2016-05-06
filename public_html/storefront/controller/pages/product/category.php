@@ -192,6 +192,7 @@ class ControllerPagesProductCategory extends AController {
 								$this->config->get('config_image_product_width'),
 								$this->config->get('config_image_product_height')
 				);
+				$stock_info = $this->model_catalog_product->getProductsStockInfo($product_ids);
 
         		foreach ($products_result as $result) {
 			        $thumbnail = $thumbnails[ $result['product_id'] ];
@@ -229,9 +230,9 @@ class ControllerPagesProductCategory extends AController {
 					$in_stock = false;
 					$no_stock_text = $result['stock'];
 					$total_quantity = 0;
-					if ( $this->model_catalog_product->isStockTrackable($result['product_id']) ) {
+					if ( $stock_info[$result['product_id']]['subtract'] ) {
 						$track_stock = true;
-		    			$total_quantity = $this->model_catalog_product->hasAnyStock($result['product_id']);
+		    			$total_quantity = $stock_info[$result['product_id']]['quantity'];
 		    			//we have stock or out of stock checkout is allowed
 		    			if ($total_quantity > 0 || $this->config->get('config_stock_checkout')) {
 			    			$in_stock = true;
@@ -241,19 +242,19 @@ class ControllerPagesProductCategory extends AController {
 					$products[] = array(
             			'product_id' 	=> $result['product_id'],
 						'name'    	 	=> $result['name'],
-						'blurb' => $result['blurb'],
+						'blurb'         => $result['blurb'],
 						'model'   	 	=> $result['model'],
             			'rating'  	 	=> $rating,
 						'stars'   	 	=> sprintf($this->language->get('text_stars'), $rating),
 						'thumb'   	 	=> $thumbnail,
             			'price'   	 	=> $price,
-            			'call_to_order'=> $result['call_to_order'],
+            			'call_to_order' => $result['call_to_order'],
             			'options' 	 	=> $options,
 						'special' 	 	=> $special,
 						'href'    	 	=> $this->html->getSEOURL('product/product','&path=' . $request['path'] . '&product_id=' . $result['product_id'], '&encode'),
 						'add'	  	 	=> $add,
 						'description'	=> html_entity_decode($result['description'], ENT_QUOTES, 'UTF-8'),
-						'track_stock' => $track_stock,
+						'track_stock'   => $track_stock,
 						'in_stock'		=> $in_stock,
 						'no_stock_text' => $no_stock_text,
 						'total_quantity'=> $total_quantity,
