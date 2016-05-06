@@ -748,7 +748,7 @@ class AResource{
 
 		$store_id = (int)$this->config->get('config_store_id');
 		//attempt to load cache
-		$cache_key = 'resources.list.' . $this->type . '.' . $object_name . '.' . md5(implode('.', $object_ids));
+		$cache_key = 'resources.list.' . $this->type . '.' . $object_name . '.' .$width.'x'.$height.'.'. md5(implode('.', $object_ids));
 		$cache_key = preg_replace('/[^a-zA-Z0-9\.]/', '', $cache_key) . '.store_' . $store_id . '_lang_' . $language_id;
 		$output = $this->cache->pull($cache_key);
 		if ($output !== false){

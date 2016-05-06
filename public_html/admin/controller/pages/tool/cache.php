@@ -146,33 +146,36 @@ class ControllerPagesToolCache extends AController{
 		$selected = $this->request->get_or_post('selected');
 
 		if (is_array($selected) && count($selected) && $this->_validateDelete()){
-			foreach ($selected as $cache){
-				if ($cache == 'image'){
-					$this->deleteThumbnails();
-				} else{
-					if ($cache == 'error_log'){
-						if (is_file(DIR_LOGS . $this->config->get('config_error_filename'))){
-							unlink(DIR_LOGS . $this->config->get('config_error_filename'));
-						}
-						continue;
-					}elseif($cache == 'html_cache'){
-						$this->cache->remove('html_cache');
-					}else{
-					$keywords = explode(',', $cache);
-					if ($keywords){
-						$languages = $this->language->getActiveLanguages();
-						$this->loadModel('setting/store');
-						$stores = $this->model_setting_store->getStores();
-						foreach ($keywords as $keyword){
-							$key  = trim($keyword);
-							$this->cache->remove($key);
+
+			$languages = $this->language->getActiveLanguages();
+			$this->loadModel('setting/store');
+			$stores = $this->model_setting_store->getStores();
+
+			foreach ($selected as $cache_groups_str){
+				$cache_groups = explode(',', $cache_groups_str);
+				array_walk($cache_groups,'trim');
+				foreach($cache_groups as $group){
+
+					switch($group){
+						case 'image':
+							$this->deleteThumbnails();
+							break;
+						case 'error_log':
+							$file = DIR_LOGS . $this->config->get('config_error_filename');
+							if (is_file($file)){
+								unlink($file);
+							}
+							break;
+						case 'html_cache':
+							$this->cache->remove('html_cache');
+							break;
+						default:
+							$this->cache->remove($group);
 							foreach($languages as $lang){
 								foreach($stores as $store){
-									$this->cache->remove($key."_".$store['store_id']."_".$lang['language_id']);
+									$this->cache->remove($group."_".$store['store_id']."_".$lang['language_id']);
 								}
 							}
-						}
-					}
 					}
 				}
 			}
