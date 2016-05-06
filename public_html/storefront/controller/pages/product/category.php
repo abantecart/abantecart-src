@@ -174,22 +174,18 @@ class ControllerPagesProductCategory extends AController {
 				$this->loadModel('catalog/review');
 				
 				$this->view->assign('button_add_to_cart', $this->language->get('button_add_to_cart'));
-				
-				$category_ids = $products = array();
 
 				$products_result = $this->model_catalog_product->getProductsByCategoryId($category_id,
 				                                                                 $sort,
 				                                                                 $order,
 				                                                                 ($page - 1) * $limit,
 				                                                                 $limit);
-				foreach($products_result as $p){
-					$category_ids[] = (int)$p['product_id'];
-				}
-				$products_info = $this->model_catalog_product->getProductsAllInfo($category_ids);
-				$product_ids = array();
+				$product_ids = $products = array();
 				foreach($products_result as $result){
 					$product_ids[] = (int)$result['product_id'];
 				}
+				$products_info = $this->model_catalog_product->getProductsAllInfo($product_ids);
+
 				$thumbnails = $resource->getMainThumbList(
 								'products',
 								$product_ids,

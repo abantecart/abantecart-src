@@ -111,7 +111,7 @@ class ModelCatalogCategory extends Model {
 						  	WHERE p2c.category_id = c.category_id AND p.status = '1') as products_count ";
 		}
         $where = (isset($data['parent_id']) ? " c.parent_id = '" . (int)$data['parent_id'] . "'" : '' );
-		//filter result by givem ids array
+		//filter result by given ids array
 		if( $data['filter_ids'] ){
 			$ids = array();
 			foreach( $data['filter_ids']  as $id){
@@ -137,7 +137,7 @@ class ModelCatalogCategory extends Model {
 			$sql .= ($where ? " AND " : 'WHERE ').$data['subsql_filter'];
 		}
 
-		//If for total, we done bulding the query
+		//If for total, we done building the query
 		if ($mode == 'total_only') {
 		    $query = $this->db->query($sql);
 		    return $query->row['total'];
@@ -264,7 +264,7 @@ class ModelCatalogCategory extends Model {
 			$thumbnail = $resource->getMainThumb('categories',
 			                                     $result['category_id'],
 			                                     $this->config->get('config_image_category_width'),
-			                                     $this->config->get('config_image_category_height'),true);
+			                                     $this->config->get('config_image_category_height'));
 			
 			$categories[] = array(
 			        'category_id' => $result['category_id'],

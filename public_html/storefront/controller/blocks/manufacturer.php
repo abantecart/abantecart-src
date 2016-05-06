@@ -47,8 +47,7 @@ class ControllerBlocksManufacturer extends AController {
 			$thumbnail = $resource->getMainThumb('manufacturers',
 				$manuf_detls['manufacturer_id'],
 				(int)$this->config->get('config_image_grid_width'),
-				(int)$this->config->get('config_image_grid_height'),
-				true);			
+				(int)$this->config->get('config_image_grid_height'));
 			$manufacturer = array(
 				'manufacturer_id' => $manuf_detls['manufacturer_id'],
 				'name'            => $manuf_detls['name'],

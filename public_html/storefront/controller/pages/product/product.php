@@ -349,8 +349,8 @@ class ControllerPagesProductProduct extends AController{
 		$thumbnail = $resource->getMainThumb('manufacturers',
 				$product_info['manufacturer_id'],
 				(int)$this->config->get('config_image_grid_width'),
-				(int)$this->config->get('config_image_grid_height'),
-				true);
+				(int)$this->config->get('config_image_grid_height')
+		);
 		if(!preg_match('/no_image/', $thumbnail['thumb_url'])){
 			$this->data['manufacturer_icon'] = $thumbnail['thumb_url'];
 		}

@@ -128,8 +128,7 @@ class ControllerResponsesEmbedJS extends AController {
 				'products',
 				$product_id,
 				(int)$this->config->get('config_image_product_width'),
-				(int)$this->config->get('config_image_product_height'),
-			    true
+				(int)$this->config->get('config_image_product_height')
 		);
 
 		if ($product_info['final_price'] && $product_info['final_price']!=$product_info['price']) {

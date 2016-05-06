@@ -66,7 +66,7 @@ class ControllerApiProductCategory extends AControllerAPI {
 		$thumbnail = $resource->getMainThumb('categories',
 			                                     $category_id,
 			                                     $this->config->get('config_image_category_width'),
-			                                     $this->config->get('config_image_category_height'),true);
+			                                     $this->config->get('config_image_category_height'));
 		$category_info['thumbnail'] = $category_info['tumbnail'] = $thumbnail['thumb_url'];
 
 		//Process data for category 
