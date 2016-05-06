@@ -70,13 +70,15 @@ class ControllerBlocksCategory extends AController {
 				                $this->config->get('config_image_category_height')
 				                );
 
-		$this->view->assign('category_list', $this->_buildCategoryTree($all_categories));
+		//Build category tree
+		$this->_buildCategoryTree($all_categories);
+		$categories = $this->_buildNestedCategoryList();
+		$this->view->assign('categories', $categories);
 
-		// framed needs to show frames for generic block.
+		//Framed needs to show frames for generic block.
 		//If tpl used by listing block framed was set by listing block settings
 		$this->view->assign('block_framed',true);
 		$this->view->assign('home_href', $this->html->getSEOURL('index/home'));
-		$this->view->assign('categories', $this->_buildNestedCategoryList());
 		
 		$this->processTemplate();
 
@@ -91,29 +93,28 @@ class ControllerBlocksCategory extends AController {
 	 * @param string $path
 	 * @return array
 	 */
-
-	private function _buildCategoryTree($all_categories = array(), $parent_id=0, $path=''){
+	private function _buildCategoryTree($all_categories = array(), $parent_id = 0, $path = ''){
 		$output = array();
 		foreach($all_categories as $category){
-			if($parent_id!=$category['parent_id']){ continue; }
+			if($parent_id != $category['parent_id']){ continue; }
 			$category['path'] = $path ? $path.'_'.$category['category_id'] : $category['category_id'];
 			$category['parents'] = explode("_",$category['path']);
 			//dig into level
-			$category['level'] = sizeof($category['parents'])-1;
-			if($category['category_id']==$this->category_id){
+			$category['level'] = sizeof($category['parents']) - 1;
+			if($category['category_id'] == $this->category_id){
 				//mark root
 				$this->selected_root_id = $category['parents'][0];
 			}
 			$output[] = $category;
 			$output = array_merge($output,$this->_buildCategoryTree($all_categories,$category['category_id'], $category['path']));
 		}
-		if($parent_id==0){
+		if($parent_id == 0){
 			//place result into memory for future usage (for menu. see below)
 			$this->data['all_categories'] = $output;
 			// cut list and expand only selected tree branch
 			$cutted_tree = array();
 			foreach($output as $category){
-				if($category['parent_id']!=0 && !in_array($this->selected_root_id,$category['parents'])){ continue; }
+				if($category['parent_id'] != 0 && !in_array($this->selected_root_id,$category['parents'])){ continue; }
 				$category['href'] = $this->html->getSEOURL('product/category', '&path='.$category['path'], '&encode');
 				$cutted_tree[] = $category;
 			}
@@ -128,7 +129,7 @@ class ControllerBlocksCategory extends AController {
 	 * @param int $parent_id
 	 * @return array
 	 */
-	private function _buildNestedCategoryList($parent_id=0){
+	private function _buildNestedCategoryList($parent_id = 0){
 
 		$output = array();
 		foreach($this->data['all_categories'] as $category){
@@ -136,9 +137,12 @@ class ControllerBlocksCategory extends AController {
 			$category['children'] = $this->_buildNestedCategoryList($category['category_id']);
 			$thumbnail = $this->thumbnails[ $category['category_id'] ];
 			$category['thumb'] = $thumbnail['thumb_url'];
-			//NOTE: product and brand count contains nested categories!  $category['parents'] is array.
-			$category['product_count'] = $this->model_catalog_category->getCategoriesProductsCount($category['parents']);
-			$category['brands'] = $this->model_catalog_category->getCategoriesBrands($category['parents']);
+			//get product counts from children levels. 
+			if(count($category['children'])) {
+				foreach($category['children'] as $child){
+					$category['product_count'] += $child['product_count'];
+				}
+			}
 			$category['href'] = $this->html->getSEOURL('product/category', '&path=' . $category['path'], '&encode');
 			//mark current category
 			if(in_array($category['category_id'], $this->path)) {
