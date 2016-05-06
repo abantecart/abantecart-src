@@ -132,6 +132,10 @@ if($from_admin){
 	}
 ?>	
 		<div>
+			<b><a href="http://docs.abantecart.com/pages/tips/troubleshooting.html" target="_docs">AbanteCart Troubleshooting Guide</a></b>
+		</div>
+		<br>
+		<div>
 			<a href="<?php echo HTTP_ABANTECART; ?>">Go to main page</a>
 		</div>
 	</center>
