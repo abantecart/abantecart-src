@@ -227,6 +227,8 @@ class ControllerPagesInstall extends AController {
 		} elseif ($step == 3) {
 			//NOTE: Create config as late as possible. This will prevent triggering finished installation 
 			$this->_configure();
+			//wait for end of writing of file on disk (for slow hdd)
+			sleep(3);
 			$this->session->data['finish'] = 'false';
 			$this->response->addJSONHeader();
 			return AJson::encode(array( 'ret_code' => 100 ));
