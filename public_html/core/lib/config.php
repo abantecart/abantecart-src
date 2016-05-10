@@ -129,11 +129,17 @@ final class AConfig {
 			foreach ($settings as &$setting) {
 				if($setting['key']=='config_url'){
 					$parsed_url = parse_url($setting['value']);
+					if(empty($parsed_url['scheme'])){
+						$parsed_url['scheme'] = "http";
+					}
 					$setting['value'] = $parsed_url['scheme'].'://'.$parsed_url['host'].$parsed_url['path'];
 				}
 				if($setting['key']=='config_ssl_url'){
 					$parsed_url = parse_url($setting['value']);
-					$setting['value'] = 'https://'.$parsed_url['host'].$parsed_url['path'];
+					if(empty($parsed_url['scheme'])){
+						$parsed_url['scheme'] = "https";
+					}
+					$setting['value'] = $parsed_url['scheme'].'://'.$parsed_url['host'].$parsed_url['path'];
 				}
 				$this->cnfg[$setting['key']] = $setting['value'];
 			}
