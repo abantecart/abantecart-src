@@ -198,15 +198,18 @@ class ControllerPagesToolCache extends AController{
 
 		$path = DIR_IMAGE . 'thumbnails/';
 
-		$iterator = new RecursiveDirectoryIterator($path);
-		foreach (new RecursiveIteratorIterator($iterator, RecursiveIteratorIterator::CHILD_FIRST) as $file){
-			if (is_int(strpos($file->getPathname(), '/index.html'))){
+		$iter = new RecursiveIteratorIterator(
+			        new RecursiveDirectoryIterator($path, RecursiveDirectoryIterator::SKIP_DOTS),
+			        RecursiveIteratorIterator::CHILD_FIRST );
+
+		foreach ($iter as $file=>$dir){
+			if (basename($file)=='index.html'){
 				continue;
 			}
-			if ($file->isDir()){
-				rmdir($file->getPathname());
+			if (is_dir($file)){
+				rmdir($file);
 			} else{
-				unlink($file->getPathname());
+				unlink($file);
 			}
 		}
 		//update controller data
