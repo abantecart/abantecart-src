@@ -124,7 +124,8 @@ final class ADB {
 						$query = str_replace("`ac_", "`" . DB_PREFIX, $query);
 						$result = $this->_query($query);
 						if (!$result) {
-							$this->error = mysql_error();
+							$err = $this->driver->getDBError();
+							$this->error = $err['error_text'];
                             return null;
 						}
 						$query = '';

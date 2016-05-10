@@ -155,4 +155,11 @@ final class MySQL {
 			mysql_close($this->connection);
 		}
 	}
+
+	public function getDBError(){
+		return array(
+				'error_text' => mysql_error($this->connection),
+				'errno'      => mysql_errno($this->connection)
+		);
+	}
 }

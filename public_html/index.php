@@ -24,6 +24,10 @@ if (version_compare(phpversion(), MIN_PHP_VERSION, '<') == TRUE) {
     die( MIN_PHP_VERSION . '+ Required for AbanteCart to work properly! Please contact your system administrator or host service provider.');
 }
 
+if (!function_exists('simplexml_load_file')) {
+    exit("simpleXML functions are not available. Please contact your system administrator or host service provider.");
+}
+
 // Load Configuration
 // Real path (operating system web root) to the directory where abantecart is installed
 $root_path = dirname(__FILE__);

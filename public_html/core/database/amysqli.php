@@ -142,4 +142,11 @@ final class AMySQLi {
     public function __destruct() {
 	    $this->connection->close();
 	}
+
+	public function getDBError(){
+		return array(
+				'error_text' => mysqli_error($this->connection),
+				'errno'      => mysqli_errno($this->connection)
+		);
+	}
 }

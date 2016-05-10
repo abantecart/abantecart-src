@@ -216,4 +216,11 @@ final class PostgreSQL {
 			pg_close($this->connection);
 		}
 	}
+
+	public function getDBError(){
+		return array(
+				'error_text' => ($this->error ? $this->error : pg_result_error($this->connection)),
+				'errno'      => null
+		);
+	}
 }

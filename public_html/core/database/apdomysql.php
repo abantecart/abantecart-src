@@ -129,4 +129,11 @@ final class APDOMySQL{
 	public function __destruct(){
 		$this->connection = null;
 	}
+
+	public function getTextDBError(){
+		return array(
+				'error_text' => '',
+				'errno'      => ''
+		);
+	}
 }
