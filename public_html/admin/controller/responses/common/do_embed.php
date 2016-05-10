@@ -312,7 +312,7 @@ class ControllerResponsesCommonDoEmbed extends AController {
 		$this->data['form']['form_open'] = $form->getFieldHtml(array(
 					'type' => 'form',
 					'name' => 'getEmbedFrm',
-					'attr' => 'class="aform form-horizontal"',
+					'attr' => 'class="aform form-horizontal col-sm-12"',
 				));
 
 		$this->data['fields'][] = $form->getFieldHtml(array(
