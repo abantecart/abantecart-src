@@ -144,6 +144,24 @@ function check_file_permissions($registry){
 	    	'type' => 'W'	    
 	    );
 	}
+	//check resource directories
+	$resource_files = get_all_files_dirs(DIR_ROOT . '/resources/');
+	$resource_message = '';
+	foreach($resource_files as $file) {
+		if(in_array(basename($file), array('index.html', 'index.html','.','','..'))){
+			continue;
+		}
+	    if (!is_writable($file)) {
+	    	$resource_message .= $file."<br/>";
+	    }	
+	}
+	if($resource_message){
+	    $ret_array[] = array(
+	    	'title' => 'Incorrect resource files permissions',
+	    	'body' => "Following files(folders) do not have write permissions. AbanteCart Media Manager will not function properly. <br/>" . $resource_message,
+	    	'type' => 'W'	    
+	    );	
+	}
 
 	$image_files = get_all_files_dirs(DIR_ROOT . '/image/thumbnails/');
 	$image_message = '';
@@ -153,14 +171,14 @@ function check_file_permissions($registry){
 		}
 	    if (!is_writable($file)) {
 	    	$image_message .= $file."<br/>";
-	    }	
+	    }
 	}
 	if($image_message){
 	    $ret_array[] = array(
 	    	'title' => 'Incorrect image files permissions',
 	    	'body' => "Following files do not have write permissions. AbanteCart thumbnail images will not function properly. <br/>" . $image_message,
-	    	'type' => 'W'	    
-	    );	
+	    	'type' => 'W'
+	    );
 	}
 
 	if (!is_writable(DIR_ROOT . '/admin/system')) {
