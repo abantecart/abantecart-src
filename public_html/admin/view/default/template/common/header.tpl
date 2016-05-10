@@ -164,8 +164,7 @@
 										<?php } ?>
 									</ul>
 									<input type="hidden" name="language_code" value=""/>
-									<input type="hidden" name="redirect"
-										   value="<?php echo str_replace('&', '&amp;', $redirect); ?>"/>
+									<input type="hidden" name="redirect" value="<?php echo $redirect; ?>"/>
 								</form>
 							</div>
 						</div>
