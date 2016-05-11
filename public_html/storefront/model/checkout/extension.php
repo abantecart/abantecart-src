@@ -37,7 +37,7 @@ class ModelCheckoutExtension extends Model {
 		$query = $this->db->query("SELECT e.*, s.value as status
 									FROM " . $this->db->table("extensions") . " e
 									LEFT JOIN " . $this->db->table("settings") . " s
-										ON ( TRIM(s.`group`) = TRIM(e.`key`) AND TRIM(s.`key`) = CONCAT(TRIM(e.`key`),'_status') )
+										ON ( s.`group` = e.`key` AND s.`key` = CONCAT(e.`key`,'_status') )
 									WHERE e.`type` = '" . $this->db->escape($type) . "'
 										AND s.`value`='1' AND s.store_id = '".$store_id."'");
 		if($query->rows){

@@ -253,7 +253,7 @@ class APromotion {
 		$store_id = (int)$this->config->get('config_store_id');
 		$customer_group_id = (int)$this->customer_group_id;
 
-		$cache_key = 'product.specials.'.$customer_group_id.'.'.md5($sort.$order.$start.$limit).'store_'.$store_id.'.lang_'.$language_id;
+		$cache_key = 'product.specials.'.$customer_group_id.'.'.$sort.$order.(int)$start.(int)$limit.'store_'.$store_id.'.lang_'.$language_id;
 		$cache = $this->cache->pull($cache_key);
 		if($cache !== false){
 			return $cache;
