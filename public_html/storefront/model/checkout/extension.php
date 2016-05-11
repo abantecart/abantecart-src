@@ -21,20 +21,29 @@ if (! defined ( 'DIR_CORE' )) {
 	header ( 'Location: static_pages/' );
 }
 class ModelCheckoutExtension extends Model {
-	public function getExtensions($type, $sort_order = '') {
-		$output = array();
+	/**
+	 * @param string $type
+	 * @return array
+	 */
+	public function getExtensions($type) {
+		$store_id = (int)$this->config->get('config_store_id');
+		$cache_key = 'extensions.list.type.'.md5($type).'.store_'.$store_id;
+
+		$output = $this->cache->pull($cache_key);
+		if($output !== false){
+			return $output;
+		}
+
 		$query = $this->db->query("SELECT e.*, s.value as status
 									FROM " . $this->db->table("extensions") . " e
-									LEFT JOIN " . $this->db->table("settings") . " s ON ( TRIM(s.`group`) = TRIM(e.`key`) AND TRIM(s.`key`) = CONCAT(TRIM(e.`key`),'_status') )
+									LEFT JOIN " . $this->db->table("settings") . " s
+										ON ( TRIM(s.`group`) = TRIM(e.`key`) AND TRIM(s.`key`) = CONCAT(TRIM(e.`key`),'_status') )
 									WHERE e.`type` = '" . $this->db->escape($type) . "'
-										AND s.`value`='1' AND s.store_id = '".$this->config->get('config_store_id')."'");
+										AND s.`value`='1' AND s.store_id = '".$store_id."'");
 		if($query->rows){
-
 			foreach($query->rows as $row){
 				$sort_order = $this->config->get($row['key'].'_sort_order');
-
 				$sort_order = empty($sort_order) ? 1000 : (int)$sort_order;
-
 				while(isset($output[$sort_order])){
 					$sort_order++;
 				}
@@ -42,6 +51,7 @@ class ModelCheckoutExtension extends Model {
 			}
 		}
 		ksort($output,SORT_NUMERIC);
+		$this->cache->push($cache_key,$output);
 		return $output;
 	}
 	
@@ -117,4 +127,3 @@ class ModelCheckoutExtension extends Model {
 	}
 
 }
-?>

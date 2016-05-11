@@ -235,6 +235,7 @@ class ModelSettingSetting extends Model {
 		}
 
 		$this->cache->remove('settings');
+		$this->cache->remove('extensions');
 		$this->cache->remove('stores');
 	}
 
@@ -249,6 +250,7 @@ class ModelSettingSetting extends Model {
 						  AND `store_id` = '".$store_id."'");
 
 		$this->cache->remove('settings');
+		$this->cache->remove('extensions');
 		$this->cache->remove('stores');
 	}
 }

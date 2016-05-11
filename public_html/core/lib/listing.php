@@ -21,16 +21,36 @@ if (!defined('DIR_CORE')){
 	header('Location: static_pages/');
 }
 
+/**
+ * Class AListing
+ * @property ACache $cache
+ * @property ADB $db
+ */
 class AListing{
+	/**
+	 * @var Registry
+	 */
 	protected $registry;
+	/**
+	 * @var int
+	 */
 	public $errors = 0;
+	/**
+	 * @var int
+	 */
 	protected $custom_block_id;
+	/**
+	 * @var array
+	 */
 	public $data_sources = array ();
 
+	/**
+	 * @param int $custom_block_id
+	 */
 	public function __construct($custom_block_id){
 		$this->registry = Registry::getInstance();
 		$this->custom_block_id = (int)$custom_block_id;
-		// datasources hardcode
+		// datasources
 		$this->data_sources = Array (
 				'catalog_product_getPopularProducts' => array (
 						'text'                 => 'text_products_popular',
@@ -152,11 +172,19 @@ class AListing{
 		if (!$this->custom_block_id){
 			return array ();
 		}
+		$custom_block_id = $this->custom_block_id;
+		$cache_key = 'blocks.custom.'.$custom_block_id;
+		$output = $this->cache->pull($cache_key);
+		if($output !== false){
+			return $output;
+		}
 		$result = $this->db->query("SELECT *
 									FROM `" . $this->db->table('custom_lists') . "`
 									WHERE custom_block_id = '" . $this->custom_block_id . "'
 									ORDER BY sort_order");
-		return $result->rows;
+		$output = $result->rows;
+		$this->cache->push($cache_key, $output);
+		return $output;
 	}
 
 	/**
@@ -181,14 +209,14 @@ class AListing{
 		unset($this->data_sources[$key]);
 	}
 
-	//method returns argument fors call_user_func function usage when call storefront model to get list
+	//method returns argument for call_user_func function usage when call storefront model to get list
 	/**
 	 * @param string $model
 	 * @param string $method
 	 * @param array $args
 	 * @return array
 	 */
-	public function getlistingArguments($model, $method, $args = array ()){
+	public function getListingArguments($model, $method, $args = array ()){
 		if (!$method || !$model || !$args){
 			return false;
 		}
