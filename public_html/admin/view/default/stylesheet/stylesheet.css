@@ -1100,6 +1100,7 @@ p {
 #rl_modal .modal-body {
 	padding: 5px;
 	overflow: hidden;
+	overflow-y: auto;
 }
 
 .tab-content.rl-content {
