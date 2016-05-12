@@ -148,7 +148,7 @@ function check_file_permissions($registry){
 	$resource_files = get_all_files_dirs(DIR_ROOT . '/resources/');
 	$resource_message = '';
 	foreach($resource_files as $file) {
-		if(in_array(basename($file), array('index.html', 'index.html','.','','..'))){
+		if(in_array(basename($file), array('.htaccess','index.php','index.html','.','','..'))){
 			continue;
 		}
 	    if (!is_writable($file)) {
@@ -166,7 +166,7 @@ function check_file_permissions($registry){
 	$image_files = get_all_files_dirs(DIR_ROOT . '/image/thumbnails/');
 	$image_message = '';
 	foreach($image_files as $file) {
-		if(in_array(basename($file), array('index.html', 'index.html','.','','..'))){
+		if(in_array(basename($file), array('index.php', 'index.html','.','','..'))){
 			continue;
 		}
 	    if (!is_writable($file)) {

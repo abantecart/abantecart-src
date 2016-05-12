@@ -45,8 +45,16 @@ class ControllerBlocksSpecial extends AController {
 		$this->data['button_add_to_cart'] = $this->language->get('button_add_to_cart');
 		
 		$this->data['products'] = array();
-		
-		$results = $promotion->getProductSpecials('pd.name', 'ASC', 0, $this->config->get('config_special_limit'));
+
+		$results = $promotion->getSpecialProducts(
+				array(
+						'sort'       => 'pd.name',
+						'order'      => 'ASC',
+						'start'      => 0,
+						'limit'      => $this->config->get('config_special_limit'),
+						'avg_rating' => $this->config->get('enable_reviews')
+				)
+		);
 		$product_ids = array();
 		foreach($results as $result){
 			$product_ids[] = (int)$result['product_id'];
@@ -62,28 +70,18 @@ class ControllerBlocksSpecial extends AController {
 		$stock_info = $this->model_catalog_product->getProductsStockInfo($product_ids);
 		foreach ($results as $result) {
 			$thumbnail = $thumbnails[ $result['product_id'] ];
-           	
-			if ($this->config->get('enable_reviews')) {
-				$rating = $this->model_catalog_review->getAverageRating($result['product_id']);	
-			} else {
-				$rating = false;
-			}
-
-			$special = FALSE;
-			
-			$discount = $promotion->getProductDiscount($result['product_id']);
-			
+           	$special = FALSE;
+			$discount = $result['discount_price'];
 			if ($discount) {
-				$price = $this->currency->format($this->tax->calculate($discount, $result['tax_class_id'], $this->config->get('config_tax')));
+				$price = $discount;
 			} else {
-				$price = $this->currency->format($this->tax->calculate($result['price'], $result['tax_class_id'], $this->config->get('config_tax')));
-			
+				$price = $result['price'];
 				$special = $promotion->getProductSpecial($result['product_id']);
-			
 				if ($special) {
 					$special = $this->currency->format($this->tax->calculate($special, $result['tax_class_id'], $this->config->get('config_tax')));
 				}						
 			}
+			$price = $this->currency->format($this->tax->calculate($price, $result['tax_class_id'], $this->config->get('config_tax')));
 			
 			$options = $this->model_catalog_product->getProductOptions($result['product_id']);
 			
@@ -112,24 +110,24 @@ class ControllerBlocksSpecial extends AController {
 			}
 			
 			$this->data['products'][] = array(
-				'product_id'    => $result['product_id'],
-				'name'    		=> $result['name'],
-				'blurb' => $result['blurb'],
-				'model'   		=> $result['model'],
-				'rating'  		=> $rating,
-				'stars'   		=> sprintf($this->language->get('text_stars'), $rating),
-				'price'   		=> $price,
-				'call_to_order'=> $result['call_to_order'],
-				'options'   	=> $options,
-				'special' 		=> $special,
-				'thumb'   		=> $thumbnail,
-				'href'    		=> $this->html->getSEOURL('product/product','&product_id=' . $result['product_id'],'&encode'),
-				'add'    		=> $add,
-				'track_stock' => $track_stock,
-				'in_stock'		=> $in_stock,
-				'no_stock_text' => $no_stock_text,
-				'total_quantity'=> $total_quantity,
-				'date_added'    => $result['date_added']
+							'product_id'    => $result['product_id'],
+							'name'    		=> $result['name'],
+							'blurb'         => $result['blurb'],
+							'model'   		=> $result['model'],
+							'rating'  		=> (int)$result['rating'],
+							'stars'   		=> sprintf($this->language->get('text_stars'), (int)$result['rating']),
+							'price'   		=> $price,
+							'call_to_order' => $result['call_to_order'],
+							'options'   	=> $options,
+							'special' 		=> $special,
+							'thumb'   		=> $thumbnail,
+							'href'    		=> $this->html->getSEOURL('product/product','&product_id=' . $result['product_id'],'&encode'),
+							'add'    		=> $add,
+							'track_stock'   => $track_stock,
+							'in_stock'		=> $in_stock,
+							'no_stock_text' => $no_stock_text,
+							'total_quantity'=> $total_quantity,
+							'date_added'    => $result['date_added']
 			);
 		}
 
