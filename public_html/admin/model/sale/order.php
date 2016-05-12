@@ -100,10 +100,6 @@ class ModelSaleOrder extends Model{
 			return null;
 		}
 		$value = preformatFloat($data['text'], $this->language->get('decimal_point'));
-		//check if number is negative. disount
-		if ( preg_match("/^\s*-/", $data['text']) ) {
-			$value *= -1;
-		}
 
 		$this->db->query("INSERT INTO " . $this->db->table("order_totals") . "
 		    			SET `order_id` = '" . (int)$order_id . "',

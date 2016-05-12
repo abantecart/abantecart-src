@@ -8,7 +8,7 @@ New Features and improvements highlight:
 - SQL load improvement and reduction of database requests in disabled-cache mode. 
 - Profiling and PHP execution time optimization. 
 - Improvement for image resizing
-- PHP 7 support test
+- PHP 7 tuning and testing
 
 Core:
 - PackageManager minor fix
