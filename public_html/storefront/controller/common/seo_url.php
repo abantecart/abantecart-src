@@ -29,15 +29,15 @@ class ControllerCommonSeoUrl extends AController {
 		if (isset($this->request->get['_route_'])) {
 			$parts = explode('/', $this->request->get['_route_']);
 
-			//Possible area for improvment. Only need to check last node in the path			
+			//Possible area for improvement. Only need to check last node in the path
 			foreach ($parts as $part) {
-				$query = $this->db->query("SELECT *
-											FROM " . DB_PREFIX . "url_aliases
+				$query = $this->db->query("SELECT query
+											FROM " . $this->db->table('url_aliases') . "
 											WHERE keyword = '" . $this->db->escape($part) . "'");
-				//Add cacheing of the result. 
+				//Add caching of the result.
 				
 				if ($query->num_rows) {
-					//Note: query is a field contaning area=id to identify location  
+					//Note: query is a field containing area=id to identify location
 					$url = explode('=', $query->row['query']);
 					
 					if ($url[0] == 'product_id') {
