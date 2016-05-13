@@ -88,6 +88,7 @@ class ModelCatalogManufacturer extends Model {
 		if (isset($data['keyword'])) {
 			$data['keyword'] =  SEOEncode($data['keyword'],'manufacturer_id',$manufacturer_id);
 			if($data['keyword']){
+				//NOTE: Even though we only support 1 languges for manufacture, we still need to save SEO keword for every language. 
 				$this->language->replaceDescriptions('url_aliases',
 														array('query' => "manufacturer_id=" . (int)$manufacturer_id),
 														array((int)$this->session->data['content_language_id'] => array('keyword' => $data['keyword'])));
