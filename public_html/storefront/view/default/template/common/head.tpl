@@ -36,7 +36,7 @@
     As alternative, you can merge all CSS files in to one singe file and minify 
     Example: <link href=".../stylesheet/all.min.css" rel="stylesheet" type='text/css' />
     
-    Check Dan Riti's blog for more fine tuning suggestion:
+    Check Dan Riti's blog for more fine tuning suggestions:
     https://www.appneta.com/blog/bootstrap-pagespeed/
 */
 $faster_browser_rendering = false;
@@ -81,8 +81,8 @@ a[href]:after {
 <?php 
 if($faster_browser_rendering == true) {
 ?>
-	<script type="text/javascript"><?php echo $this->PerloadJS('/javascript/jquery-1.11.0.min.js'); ?></script>
-	<script type="text/javascript"><?php echo $this->PerloadJS('/javascript/jquery-migrate-1.2.1.min.js'); ?></script>
+	<script type="text/javascript"><?php echo $this->PreloadJS('/javascript/jquery-1.11.0.min.js'); ?></script>
+	<script type="text/javascript"><?php echo $this->PreloadJS('/javascript/jquery-migrate-1.2.1.min.js'); ?></script>
 <?php } else { ?>
 	<script type="text/javascript" src="<?php echo $this->templateResource('/javascript/jquery-1.11.0.min.js'); ?>"></script>
 	<script type="text/javascript" src="<?php echo $this->templateResource('/javascript/jquery-migrate-1.2.1.min.js');?>"></script>
