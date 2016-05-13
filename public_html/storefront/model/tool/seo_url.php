@@ -115,25 +115,36 @@ class ModelToolSeoUrl extends Model {
 		$language_id = (int)$language_id;
 		$param_value = (int)$param_value;
 
-		$cache_key = $object_name.'.url_aliases.lang_'.(int)$language_id;
-		$aliases = $this->cache->pull($cache_key);
-		//if no cache - push
-		if($aliases === false){
-			$aliases = array();
-			$sql = "SELECT query, keyword
+		if($this->config->get('config_cache_enable')){
+			$cache_key = $object_name . '.url_aliases.lang_' . (int)$language_id;
+			$aliases = $this->cache->pull($cache_key);
+			//if no cache - push
+			if ($aliases === false){
+				$aliases = array ();
+				$sql = "SELECT query, keyword
 					FROM " . $this->db->table('url_aliases') . "
-					WHERE `query` LIKE '".$this->db->escape($param_key)."=%'
-						AND language_id='".$language_id."'";
-			$result = $this->db->query($sql);
+					WHERE `query` LIKE '" . $this->db->escape($param_key) . "=%'
+						AND language_id='" . $language_id . "'";
+				$result = $this->db->query($sql);
 
-			foreach($result->rows as $row){
-				$seo_query = $row['query'];
-				$parts = explode('=', $seo_query);
-				$aliases[$parts[1]] = $row['keyword'];
+				foreach ($result->rows as $row){
+					$seo_query = $row['query'];
+					$parts = explode('=', $seo_query);
+					$aliases[$parts[1]] = $row['keyword'];
+				}
+				$this->cache->push($cache_key, $aliases);
 			}
-			$this->cache->push($cache_key, $aliases);
+			$output = isset($aliases[$param_value]) ? $aliases[$param_value] : '';
+
+		}else{
+			$sql = "SELECT keyword
+					FROM " . $this->db->table('url_aliases') . "
+					WHERE `query`='" . $this->db->escape($param_key) . "=".$param_value."'
+						AND language_id='" . $language_id . "'";
+			$result = $this->db->query($sql);
+			$output = $result->row ? $result->row['keyword'] : '';
 		}
 
-		return isset($aliases[$param_value]) ? $aliases[$param_value] : '';
+		return $output;
 	}
 }
