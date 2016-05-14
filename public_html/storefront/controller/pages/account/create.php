@@ -121,7 +121,7 @@ class ControllerPagesAccountCreate extends AController{
 				//set success text for non-approved customers on login page after redirect
 				if ($this->config->get('config_customer_approval')){
 					$this->loadLanguage('account/success');
-					$this->session->data['success'] = sprintf($this->language->get('text_approval','account_success'),
+					$this->session->data['success'] = sprintf($this->language->get('text_approval','account/success'),
 															$this->config->get('store_name'),
 															$this->html->getSecureURL('content/contact'));
 				}

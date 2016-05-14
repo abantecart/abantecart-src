@@ -388,7 +388,7 @@ class ControllerPagesUserUser extends AController{
 
 		$this->document->addBreadcrumb(array (
 				'href'      => $this->html->getSecureURL('user/user/update','&user='.$user_id),
-				'text'      => sprintf($this->language->get('text_notification_for', 'common_im'),$user_info['username']),
+				'text'      => sprintf($this->language->get('text_notification_for', 'common/im'),$user_info['username']),
 				'separator' => ' :: ',
 				'current'   => true
 		));

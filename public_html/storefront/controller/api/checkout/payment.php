@@ -140,7 +140,7 @@ class ControllerApiCheckoutPayment extends AControllerAPI {
 		}
 		$this->data['success'] = $this->session->data[ 'success' ];
 		$this->data[ 'coupon' ] = isset($request[ 'coupon' ]) ? $request[ 'coupon' ] : $this->session->data[ 'coupon' ];
-		$this->data[ 'address' ] = $this->customer->getFormatedAdress($payment_address, $payment_address[ 'address_format' ] );
+		$this->data[ 'address' ] = $this->customer->getFormattedAddress($payment_address, $payment_address[ 'address_format' ] );
 		$this->data['payment_methods'] = $this->session->data[ 'payment_methods' ];
 		if( $this->data['payment_methods']){
 			$this->data['payment_method'] = isset($request[ 'payment_method' ]) ? $request[ 'payment_method' ] : $this->session->data[ 'payment_method' ][ 'id' ];

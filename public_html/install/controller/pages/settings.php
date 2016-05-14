@@ -90,6 +90,10 @@ class ControllerPagesSettings extends AController {
 			$this->error['warning'] = 'Warning: MySQL extension needs to be loaded for AbanteCart to work!';
 		}
 
+		if (!function_exists('simplexml_load_file')) {
+			$this->error['warning'] = 'Warning: SimpleXML functions needs to be available in PHP!';
+		}
+
 		if (!extension_loaded('gd')) {
 			$this->error['warning'] = 'Warning: GD extension needs to be loaded for AbanteCart to work!';
 		}

@@ -3,7 +3,7 @@
 	foreach ($tabs as $tab) {
 		if($tab['active'] ){
 			$classname = 'active';
-		}elseif($tab['active']){
+		}elseif($tab['inactive']){
 			$classname = 'inactive'; //tab will be shown but disabled for click
 		}else{
 			$classname = '';

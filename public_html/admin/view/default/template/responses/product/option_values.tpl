@@ -91,9 +91,9 @@
 				<tr>
 					<?php if($with_default){?>
 					<th class="left">
-						<span title="click to uncheck default value" class="uncheck">
-							<?php echo $text_default; ?>
-						</span>
+						<a href="#" title="Click to uncheck default value" class="uncheck tooltips">
+							<?php echo $text_default; ?>&nbsp;&nbsp;<i class="fa fa-refresh"></i>
+						</a>
 					</th>
 					<?php }
 					if($option_data['element_type']!='U'){ ?>

@@ -807,6 +807,10 @@ ul.categorymenu > li ul > li img {
 	clear: both;
 }
 
+.banner_block_23_11 .container-fluid{
+	text-align: center;
+}
+
 /* ------------ newsletter ------------ */
 #newslettersignup .pull-right {
 	margin-top: 15px
@@ -1073,7 +1077,7 @@ ul.productpagecart .nostock {
 }
 
 .thumbnail .shortlinks a.compare {
-	background-position: 0 -462px
+	background-position: 0 -462px;
 }
 
 a.compare>img{
@@ -2184,6 +2188,19 @@ ul.side_prd_list li img {
 	margin: -5px 5px 10px 0;
 	padding: 5px;
 	background: #fff;
+}
+ul.side_prd_list li img.rating {
+	padding: 0;
+	margin: 5px 5px 0 0;
+}
+
+img.rating{
+	border: none !important;
+	padding: 0;
+}
+
+a.compare img.rating{
+	margin-bottom: 3px;
 }
 
 .sidebanner {
@@ -3326,10 +3343,10 @@ paypal pro styles
 		margin-left: 25px;
 	}
 
-	#banner_banner_block_1773 .container-fluid{
+	.banner_block_23_11 .container-fluid{
 		text-align: center;
 	}
-	#banner_banner_block_1773.container-fluid.mt20 .pull-left{
+	.banner_block_23_11.container-fluid.mt20 .pull-left{
 		display: inline-block;
 		float: none;
 		margin-left: 50px;
@@ -3378,12 +3395,16 @@ paypal pro styles
 
 /* END @media FULL */
 
+@media (max-width: 850px) {
+	#customernav {
+		display: none;
+	}
+}	
+
+
 @media (max-width: 979px) {
 	.header-logo {
-		width: 250px;
-	}
-	.logo img {
-		max-width: 240px;
+		width: 270px;
 	}
 
 	#categorymenu {
@@ -3588,15 +3609,15 @@ paypal pro styles
 		display: none;
 	}
 
-	#banner_banner_block_1773{
+	.banner_block_23_11{
 		padding-left: 0;
 	}
-	#banner_banner_block_1773 .container-fluid{
+	.banner_block_23_11 .container-fluid{
 		text-align: center;
 		padding-left: 0;
 		max-width: 700px;
 	}
-	#banner_banner_block_1773.container-fluid.mt20 .pull-left{
+	.banner_block_23_11.container-fluid.mt20 .pull-left{
 		display: inline-block;
 		float: none;
 		margin-left: 0;
@@ -3617,7 +3638,7 @@ paypal pro styles
 
 /* END @media (max-width: 979px) */
 
-@media (max-width: 760px) {
+@media (max-width: 768px) {
 	.smbanner {
 		width: auto;
 	}
@@ -3650,13 +3671,9 @@ paypal pro styles
 		text-transform: none;
 	}
 
-	.top-search {
-		margin-top: -5px
-	}
-
 	#topnav {
 		width: auto;
-		text-align: center
+		text-align: center;
 	}
 
 	#topnav ul {
@@ -3675,7 +3692,7 @@ paypal pro styles
 	}
 
 	.footerlinks {
-		text-align: center
+		text-align: center;
 	}
 
 	.footerlinks .info, #social_icons, .social_icons {
@@ -3846,7 +3863,9 @@ paypal pro styles
 	}
 	.logo img {
 		background: white;
-		padding: 5px;
+	}
+	.logo {
+		padding: 10px;
 	}
 
 	.headerstrip_blocks .block_4 {
@@ -3925,17 +3944,16 @@ paypal pro styles
 		margin-top: 0;
 	}
 
-	#banner_banner_block_1773 .container-fluid{
+	.banner_block_23_11 .container-fluid{
 		text-align: center;
 	}
-	#banner_banner_block_1773.container-fluid.mt20 .pull-left{
+	.banner_block_23_11.container-fluid.mt20 .pull-left{
 		display: inline-block;
 		float: none;
 		margin-left: 0;
 		margin-top: 10px;
 		text-align: center;
 	}
-
 
 	.addresses>section{
 		display: inline-block;
@@ -3954,7 +3972,7 @@ paypal pro styles
 		border-right: 1px solid #E7E7E7 !important;
 	}
 
-	.cart-info .coupon button, .cart-info .estimate button {
+	.cart-info .coupon button, .cart-info {
 		margin-top: 10px;
 	}
 
@@ -3968,6 +3986,21 @@ paypal pro styles
 		margin-top: 10px;
 	}
 
+	.search-bar {
+		position: absolute;
+		z-index: 1000;
+	}
+
+	#customernav {
+		display: block;
+		width: 200px;
+	}
+	#customernav.navbar{
+		margin-bottom: 5px;
+	}
+	#customernav .navbar-nav{
+		margin: 0;
+	}
 }
 
 @media only screen and (max-width: 480px) {
@@ -3978,14 +4011,15 @@ paypal pro styles
 		line-height: normal;
 		text-align: left;
 	}
+	.logo img {
+		background: white;
+	}
+	.logo {
+		padding: 0px;
+	}
 
 	.payment_icon img{
 		max-width: 200px;
-	}
-
-	.logo img {
-		background: white;
-		padding: 5px;
 	}
 
 	.headerstrip_blocks .block_4 {
@@ -4270,7 +4304,31 @@ paypal pro styles
 
 	.transaction-table td:nth-child(2), .transaction-table th:nth-child(2){ display: none; }
 	.transaction-table td:nth-child(6), .transaction-table th:nth-child(6){ display: none; }
+
+	#popularbrands #prev {
+		left: -20px;
+		top: 30px
+	}
 	
+	#popularbrands #next {
+		right: -20px;
+		top: 30px
+	}
+	
+	.info_links_footer li {
+		padding: 5px;
+	}
+	
+	.contentpanel {
+    	padding: 5px;
+	}
+	.container-fluid .col-xs-12 {
+ 		padding-left: 5px;
+    	padding-right: 5px;	
+	}
+	.mainimage.bigimage img {
+		width: 300px;
+	}
 }
 
 /* END @media (max-width: 480px) */

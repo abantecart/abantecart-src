@@ -2,31 +2,43 @@
 	<button aria-hidden="true" data-dismiss="modal" class="close" type="button">&times;</button>
 	<h4 class="modal-title"><?php echo $text_get_product_embed_code; ?></h4>
 </div>
-<div class="tab-content">
-	<div class="panel-body panel-body-nopadding table-responsive">
+<div class="tab-content do_embed">
+	<div class="panel-body panel-body-nopadding">
 		<div class="col-sm-6 col-xs-12">
 			<div id="embed_container" class="embed_preview"></div>
 		</div>
 		<div id="code_options" class="col-sm-6 col-xs-12">
-
+			<?php if (!empty ($help_url)) { ?>
+				<div class="btn-group pull-right mr20">
+				        <a class="btn btn-white tooltips"
+				           href="<?php echo $help_url; ?>"
+				           target="_ext_help"
+				           data-toggle="tooltip"
+				           title="<?php echo $text_external_help; ?>"
+				           data-original-title="<?php echo $text_external_help; ?>">
+				            <i class="fa fa-question-circle fa-lg"></i>
+				        </a>
+				</div>
+		    <?php } ?>
 			<label class="h4 heading"></label>
 			<?php echo $form['form_open']; ?>
 				<?php foreach ($fields as $field) {
-				$widthclass = 'col-sm-4 col-sm-offset-2 col-xs-6';
-				?>
-				<div class="form-group">
-					<?php if(${'entry_' . $field->name}){?>
+				$widthclass = 'col-sm-6 col-xs-12';
+				$label = ${'entry_' . str_replace(array('[', ']'), '', $field->name)};?>
+				<div class="form-group col-md-12 col-xs-12">
+					<?php if($label){?>
 					<label class="control-label col-md-6 col-xs-6" for="<?php echo $field->element_id; ?>">
-						<?php echo ${'entry_' . $field->name}; ?>
+						<?php echo $label; ?>
 					</label>
 					<?php }else{
-						$widthclass = 'col-sm-4 col-sm-offset-2 col-xs-6';
+						$widthclass = 'col-sm-12 col-xs-6';
+
 					} ?>
 					<div class="input-group input-group-sm afield <?php echo $widthclass; ?>">
 						<?php echo $field; ?>
 					</div>
 				</div>
-			<?php }  ?><!-- <div class="fieldset"> -->
+			<?php }  ?>
 			</form>
 
 		</div>	
@@ -39,15 +51,16 @@
 				    <?php echo $text_area;?>
 			    </form>
 			  </div>
-
-
 		</div>
 	</div>
 </div>
 
 <div id="code" style="display:none;"></div>
 
-<script type="text/javascript"><!--
+<script type="text/javascript">
+	$(document).ready(function(){
+		$('.do_embed a').tooltip();
+	});
 	var options = {
 		'image': '<div class="abantecart_image"></div>\n',
 		'name': '<h3 class="abantecart_name"></h3>\n',
@@ -68,7 +81,7 @@
 		if(currency && currency.length > 0){
 			common_params += ' data-currency="'+currency+'"';
 		}
-		var html = '<script src="<?php echo $sf_js_embed_url; ?>" type="text/javascript"></script>\n';
+		var html = '<script src="<?php echo $sf_js_embed_url; ?>" type="text/javascript"><\/script>\n';
 			html += '<div style="display:none;" class="abantecart-widget-container" data-url="<?php echo $sf_base_url; ?>" data-css-url="<?php echo $sf_css_embed_url; ?>"'+common_params+'>\n';
 			html += '\t<div id="abc_<?php echo (int)(microtime()*1000);?>" class="abantecart_product" data-product-id="<?php echo $product_id; ?>">\n';
 
@@ -78,7 +91,7 @@
 			}
 		});
 	
-		html += '\t</div>\n</div>';
+		html += '\t<\/div>\n<\/div>';
 		return html;
 	}
 
@@ -122,4 +135,4 @@
 		});
 
 	});
-//--></script>
+</script>

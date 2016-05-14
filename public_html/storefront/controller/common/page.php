@@ -26,16 +26,29 @@ class ControllerCommonPage extends AController {
 
 		//init controller data
 		$this->extensions->hk_InitData($this,__FUNCTION__);
-		
+
+		if($this->config->get('config_html_cache')) {
+			//HTML cache is only for non-customer, as customer pages are dynamic
+			if(!$this->customer->isLogged() && !$this->customer->isUnauthCustomer()){
+				//check if requested controller allows HTML caching
+				$rt_controller = $this->router->getController();
+				$cache_keys = $this->getCacheKeyValues($rt_controller);
+				if(is_array($cache_keys)){
+					//all good, now cache will be saved in a view class 			
+            		$this->buildHTMLCacheKey($cache_keys, $this->request->get, $rt_controller);					
+				}
+			}
+		}
+
 		$this->view->assign('lang', $this->language->get('code'));
 		$this->view->assign('direction', $this->language->get('direction'));
 
         $this->addChild('common/head', 'head', 'common/head.tpl');
 
 		foreach ($this->children as $block) {
-				if ( !empty($block['position']) ) {
-					$this->view->assign($block['block_txt_id'], $block['block_txt_id'].'_'.$block['instance_id']);
-				}
+			if ( !empty($block['position']) ) {
+				$this->view->assign($block['block_txt_id'], $block['block_txt_id'].'_'.$block['instance_id']);
+			}
 		}
 
 		$this->processTemplate('common/page.tpl');
@@ -51,18 +64,18 @@ class ControllerCommonPage extends AController {
 		}
 		
 		$layout_css_suffix = '';
-		$comumns_count= 3;
+		$columns_count= 3;
 		if($col_left && !$col_right) {
 			$layout_css_suffix = '-right';
-			$comumns_count = 2;
+			$columns_count = 2;
 		} else if($col_right && !$col_left) {
 			$layout_css_suffix = '-left';
-			$comumns_count = 2;
+			$columns_count = 2;
 		} else if(!$col_left && !$col_right) {
 			$layout_css_suffix = '-long';
-			$comumns_count = 1;
+			$columns_count = 1;
 		}
-		$this->view->assign('layout_columns', $comumns_count);
+		$this->view->assign('layout_columns', $columns_count);
 		$this->view->assign('layout_css_suffix', $layout_css_suffix);
 		$this->view->assign('layout_width', $this->config->get('storefront_width'));
 		$this->view->assign('rnk_link',base64_decode('aHR0cDovL3d3dy5hYmFudGVjYXJ0LmNvbQ=='));

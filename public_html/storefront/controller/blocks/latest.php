@@ -24,12 +24,16 @@ class ControllerBlocksLatest extends AController {
 	public $data;
 	public function main() {
 
+		if($this->html_cache()){
+			return;
+		}
+
         //init controller data
         $this->extensions->hk_InitData($this,__FUNCTION__);
 
 		$this->loadLanguage('blocks/latest');
 
-      	$this->view->assign('heading_title', $this->language->get('heading_title', 'blocks_latest') );
+      	$this->view->assign('heading_title', $this->language->get('heading_title', 'blocks/latest') );
 
 		$this->loadModel('catalog/product');
 		$this->loadModel('catalog/review');
@@ -46,13 +50,18 @@ class ControllerBlocksLatest extends AController {
 
 		$products_info = $this->model_catalog_product->getProductsAllInfo($product_ids);
 
+        //get thumbnails by one pass
         $resource = new AResource('image');
+        $thumbnails = $resource->getMainThumbList(
+                        'products',
+                        $product_ids,
+                        $this->config->get('config_image_product_width'),
+                        $this->config->get('config_image_product_height')
+        );
+        $stock_info = $this->model_catalog_product->getProductsStockInfo($product_ids);
 
 		foreach ($results as $result) {
-			$thumbnail = $resource->getMainThumb('products',
-			                                     $result['product_id'],
-			                                     $this->config->get('config_image_product_width'),
-			                                     $this->config->get('config_image_product_height'),true);
+			$thumbnail = $thumbnails[ $result['product_id'] ];
 
 			$rating = $products_info[$result['product_id']]['rating'];
 
@@ -87,9 +96,9 @@ class ControllerBlocksLatest extends AController {
 			$in_stock = false;
 			$no_stock_text = $result['stock'];
 			$total_quantity = 0;
-			if ( $this->model_catalog_product->isStockTrackable($result['product_id']) ) {
+			if ( $stock_info[$result['product_id']]['subtract'] ) {
 				$track_stock = true;
-    			$total_quantity = $this->model_catalog_product->hasAnyStock($result['product_id']);
+    			$total_quantity = $stock_info[$result['product_id']]['quantity'];
     			//we have stock or out of stock checkout is allowed
     			if ($total_quantity > 0 || $this->config->get('config_stock_checkout')) {
 	    			$in_stock = true;

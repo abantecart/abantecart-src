@@ -23,13 +23,19 @@ if (! defined ( 'DIR_CORE' )) {
 class ControllerBlocksManufacturer extends AController {
 	public function main() {
 
+		if($this->html_cache()){
+			return;
+		}
+
         //init controller data
         $this->extensions->hk_InitData($this,__FUNCTION__);
 
 		$this->loadLanguage('blocks/manufacturer');
 
-		$this->view->assign('heading_title', $this->language->get('heading_title', 'blocks_manufacturer') );
+		$this->view->assign('heading_title', $this->language->get('heading_title', 'blocks/manufacturer') );
         $this->view->assign('text_select', $this->language->get('text_select') );
+
+		$resource = new AResource('image');
 
 		//For product page show only brand icon
 		if (isset($this->request->get['product_id']) && is_int($this->request->get['product_id'])) {
@@ -37,12 +43,11 @@ class ControllerBlocksManufacturer extends AController {
 			$this->view->assign('product_id', $product_id );
 			$result = $this->model_catalog_manufacturer->getManufacturerByProductId($product_id);
 			$manuf_detls = $result[0];
-			$resource = new AResource('image');
+
 			$thumbnail = $resource->getMainThumb('manufacturers',
 				$manuf_detls['manufacturer_id'],
 				(int)$this->config->get('config_image_grid_width'),
-				(int)$this->config->get('config_image_grid_height'),
-				true);			
+				(int)$this->config->get('config_image_grid_height'));
 			$manufacturer = array(
 				'manufacturer_id' => $manuf_detls['manufacturer_id'],
 				'name'            => $manuf_detls['name'],
@@ -59,42 +64,29 @@ class ControllerBlocksManufacturer extends AController {
 				$manufacturer_id = 0;
 			}
 	        $this->view->assign('manufacturer_id', $manufacturer_id );
-			
 			$this->loadModel('catalog/manufacturer');
 			 
-			$manufacturers = array();
-			
+			$manufacturers = $manufacturer_ids = array();
 			$results = $this->model_catalog_manufacturer->getManufacturers();
+			foreach($results as $result){
+				$manufacturer_ids[] = (int)$result['manufacturer_id'];
+			}
 
-			$thumbnail_list = $this->cache->get('manufacturer.block.thumbnals','',(int)$this->config->get('config_store_id'));
-			$is_cache_exists = $this->cache->exists('manufacturer.block.thumbnals','',(int)$this->config->get('config_store_id'));
-			$thumbnails_cache = '';
-
-			$resource = new AResource('image');
+			$thumbnails = $resource->getMainThumbList(
+									'manufacturers',
+					                $manufacturer_ids,
+					                $this->config->get('config_image_grid_width'),
+					                $this->config->get('config_image_grid_height')
+			);
 			foreach ($results as $result) {
-				if(!$is_cache_exists){
-					$thumbnail = $resource->getMainThumb('manufacturers',
-															$result['manufacturer_id'],
-															(int)$this->config->get('config_image_grid_width'),
-															(int)$this->config->get('config_image_grid_height'),
-															true);
-					$thumbnails_cache[$result['manufacturer_id']] = $thumbnail;
-				}else if(has_value($thumbnail_list[$result['manufacturer_id']])) {
-					$thumbnail = $thumbnail_list[$result['manufacturer_id']];
-				}else{
-					$thumbnail = '';
-				}
-			
+
+				$thumbnail = $thumbnails[ $result['manufacturer_id'] ];
 				$manufacturers[] = array(
 					'manufacturer_id' => $result['manufacturer_id'],
 					'name'            => $result['name'],
 					'href'            => $this->html->getSEOURL('product/manufacturer', '&manufacturer_id=' . $result['manufacturer_id'], '&encode'),
 					'icon'			  => $thumbnail				
 				);
-			}
-
-			if(!$is_cache_exists){
-				$this->cache->set('manufacturer.block.thumbnals',$thumbnails_cache, '',(int)$this->config->get('config_store_id'));
 			}
 	
 	        $this->view->assign('manufacturers', $manufacturers );

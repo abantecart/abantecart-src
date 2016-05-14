@@ -54,8 +54,7 @@
 				'data_source' => 'ajax'	));
 ?>
 
-<script type="text/javascript"><!--
-
+<script type="text/javascript">
 
 	var updateViewButtons = function(){
 		$('.grid_action_view[data-toggle!="modal"]').each(function(){
@@ -82,4 +81,4 @@
 			});
 		});
 	});
-//--></script>
+</script>

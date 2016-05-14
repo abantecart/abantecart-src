@@ -157,7 +157,7 @@ class ControllerPagesAccountInvoice extends AController{
 					'country'   => $order_info['shipping_country']
 			);
 
-			$this->data['shipping_address'] = $this->customer->getFormatedAdress($shipping_data, $order_info['shipping_address_format']);
+			$this->data['shipping_address'] = $this->customer->getFormattedAddress($shipping_data, $order_info['shipping_address_format']);
 			$this->data['shipping_method'] = $order_info['shipping_method'];
 
 			$payment_data = array (
@@ -173,24 +173,31 @@ class ControllerPagesAccountInvoice extends AController{
 					'country'   => $order_info['payment_country']
 			);
 
-			$this->data['payment_address'] = $this->customer->getFormatedAdress($payment_data, $order_info['payment_address_format']);
+			$this->data['payment_address'] = $this->customer->getFormattedAddress($payment_data, $order_info['payment_address_format']);
 			$this->data['payment_method'] = $order_info['payment_method'];
 
 			$products = array ();
-
 			$order_products = $this->model_account_order->getOrderProducts($order_id);
+
+			$product_ids = array();
+			foreach($order_products as $product){
+				$product_ids[] = (int)$product['product_id'];
+			}
+
+			//get thumbnails by one pass
 			$resource = new AResource('image');
+			$thumbnails = $resource->getMainThumbList(
+					'products',
+					$product_ids,
+					$this->config->get('config_image_cart_width'),
+					$this->config->get('config_image_cart_width'),
+					false
+			);
+
 			foreach ($order_products as $product){
 				$options = $this->model_account_order->getOrderOptions($order_id, $product['order_product_id']);
-
-				$thumbnail = $resource->getMainThumb('products',
-						$product['product_id'],
-						$this->config->get('config_image_cart_width'),
-						$this->config->get('config_image_cart_height'),
-						false);
-
+				$thumbnail = $thumbnails[ $product['product_id'] ];
 				$option_data = array ();
-
 				foreach ($options as $option){
 					if ($option['element_type'] == 'H'){
 						continue;

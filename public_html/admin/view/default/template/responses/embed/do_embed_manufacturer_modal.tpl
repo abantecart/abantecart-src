@@ -2,13 +2,24 @@
 	<button aria-hidden="true" data-dismiss="modal" class="close" type="button">&times;</button>
 	<h4 class="modal-title"><?php echo $text_get_manufacturer_embed_code; ?></h4>
 </div>
-<div class="tab-content">
-	<div class="panel-body panel-body-nopadding table-responsive">
+<div class="tab-content do_embed">
+	<div class="panel-body panel-body-nopadding">
 		<div class="col-sm-6 col-xs-12">
 			<div id="embed_container" class="embed_preview"></div>
 		</div>
 		<div id="code_options" class="col-sm-6 col-xs-12">
-
+			<?php if (!empty ($help_url)) { ?>
+				<div class="btn-group pull-right mr20">
+				        <a class="btn btn-white tooltips"
+				           href="<?php echo $help_url; ?>"
+				           target="_ext_help"
+				           data-toggle="tooltip"
+				           title="<?php echo $text_external_help; ?>"
+				           data-original-title="<?php echo $text_external_help; ?>">
+				            <i class="fa fa-question-circle fa-lg"></i>
+				        </a>
+				</div>
+		    <?php } ?>
 			<label class="h4 heading"></label>
 			<?php echo $form['form_open']; ?>
 				<?php foreach ($fields as $field) {
@@ -29,7 +40,7 @@
 						<?php echo $field; ?>
 					</div>
 				</div>
-			<?php }  ?><!-- <div class="fieldset"> -->
+			<?php }  ?>
 			</form>
 
 		</div>
@@ -50,7 +61,10 @@
 
 <div id="code" style="display:none;"></div>
 
-<script type="text/javascript"><!--
+<script type="text/javascript">
+	$(document).ready(function(){
+		$('.do_embed a').tooltip();
+	});
 	var options = {
 		'image': '<span class="abantecart_image"></span>\n',
 		'name': '<h3 class="abantecart_name"></h3>\n',
@@ -68,7 +82,7 @@
 			common_params += ' data-currency="'+currency+'"';
 		}
 
-		var html = '<script src="<?php echo $sf_js_embed_url; ?>" type="text/javascript"></script>\n';
+		var html = '<script src="<?php echo $sf_js_embed_url; ?>" type="text/javascript"><\/script>\n';
 			html += '<ul style="display:none;" class="abantecart-widget-container" data-url="<?php echo $sf_base_url; ?>" data-css-url="<?php echo $sf_css_embed_url; ?>"'+common_params+'>\n';
 
 		var d = new Date();
@@ -81,9 +95,9 @@
 					html += '\t\t'+options[$(this).attr('name')];
 				}
 			});
-			html += '\t</li>\n';
+			html += '\t<\/li>\n';
 		});
-		html += '</ul>';
+		html += '<\/ul>';
 		return html;
 	}
 
@@ -133,4 +147,4 @@
 		    });
 		});
 	});
-//--></script>
+</script>

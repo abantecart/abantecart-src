@@ -76,14 +76,23 @@ class ControllerPagesCheckoutPayment extends AController{
 				if ($balance >= $order_total){
 					$this->session->data['used_balance'] = $order_total;
 					$this->session->data['used_balance_full'] = true;
-					//if enough  -redirect on confirmation page
-					$this->redirect($this->html->getSecureURL('checkout/confirm'));
+
 				} else{ //partial pay
 					$this->session->data['used_balance'] = $balance;
 					$this->session->data['used_balance_full'] = false;
 				}
 			}
+
 			unset($this->request->get['balance']);
+			//if balance enough to cover order amount
+			if($this->session->data['used_balance_full']){
+				$this->session->data['payment_method'] = array (
+						'id'    => 'no_payment_required',
+						'title' => $this->language->get('no_payment_required')
+				);
+				//if enough  -redirect on confirmation page
+				$this->redirect($this->html->getSecureURL('checkout/confirm'));
+			}
 		}
 		if ($this->request->get['balance'] == 'disapply'){
 			unset($this->session->data['used_balance'], $this->request->get['balance'], $this->session->data['used_balance_full']);
@@ -287,7 +296,7 @@ class ControllerPagesCheckoutPayment extends AController{
 		$coupon_form = $this->dispatch('blocks/coupon_codes', array ('action' => $action));
 		$this->view->assign('coupon_form', $coupon_form->dispatchGetOutput());
 
-		$this->data['address'] = $this->customer->getFormatedAdress($payment_address, $payment_address['address_format']);
+		$this->data['address'] = $this->customer->getFormattedAddress($payment_address, $payment_address['address_format']);
 
 		$form = new AForm();
 		$form->setForm(array ('form_name' => 'payment'));
@@ -328,7 +337,7 @@ class ControllerPagesCheckoutPayment extends AController{
 								'style' => 'btn btn-default'
 						));
 
-				//if balance cover all order amount - butil button for contunie checkout
+				//if balance cover all order amount - build button for continue checkout
 				if ($this->session->data['used_balance_full']){
 					$this->data['balance_continue_button'] = $this->html->buildElement(
 							array (

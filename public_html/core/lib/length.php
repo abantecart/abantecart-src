@@ -18,14 +18,15 @@
    needs please refer to http://www.AbanteCart.com for more information.
 ------------------------------------------------------------------------------*/
 
-if (! defined ( 'DIR_CORE' )) {
-	header ( 'Location: static_pages/' );
+if (!defined('DIR_CORE')){
+	header('Location: static_pages/');
 }
+
 /**
  * Class ALength
  */
-final class ALength {
-	private $lengths = array();
+final class ALength{
+	private $lengths = array ();
 	/**
 	 * @var ADB
 	 */
@@ -34,28 +35,38 @@ final class ALength {
 	 * @var AConfig
 	 */
 	private $config;
+
 	/**
 	 * @param $registry Registry
 	 */
-	public function __construct($registry) {
+	public function __construct($registry){
 		$this->db = $registry->get('db');
 		$this->config = $registry->get('config');
 
-		$length_class_query = $this->db->query("SELECT *
-												FROM " . $this->db->table("length_classes") . " mc
-												LEFT JOIN " . $this->db->table("length_class_descriptions") . " mcd
-													ON (mc.length_class_id = mcd.length_class_id)
-												WHERE mcd.language_id = '" . (int)$this->config->get('storefront_language_id') . "'");
-    
-    	foreach ($length_class_query->rows as $result) {
-      		$this->lengths[strtolower($result['unit'])] = array(
-				'length_class_id' => $result['length_class_id'],
-        		'unit'            => $result['unit'],
-        		'title'           => $result['title'],
-				'value'           => $result['value']
-      		);
-    	}
-  	}
+		$cache = $registry->get('cache');
+		$language_id = (int)$registry->get('language')->getLanguageID();
+		$cache_key = 'localization.length_classes.lang_' . $language_id;
+		$cache_data = $cache->pull($cache_key);
+		if ($cache_data !== false){
+			$this->lengths = $cache_data;
+		} else{
+			$sql = "SELECT *
+					FROM " . $this->db->table("length_classes") . " mc
+					LEFT JOIN " . $this->db->table("length_class_descriptions") . " mcd
+						ON (mc.length_class_id = mcd.length_class_id)
+					WHERE mcd.language_id = '" . $language_id . "'";
+			$length_class_query = $this->db->query( $sql );
+			foreach ($length_class_query->rows as $result){
+				$this->lengths[strtolower($result['unit'])] = array (
+						'length_class_id' => $result['length_class_id'],
+						'unit'            => $result['unit'],
+						'title'           => $result['title'],
+						'value'           => $result['value']
+				);
+			}
+			$cache->push($cache_key, $this->lengths);
+		}
+	}
 
 	/**
 	 * convert length unit based
@@ -64,26 +75,28 @@ final class ALength {
 	 * @param string $unit_to
 	 * @return float
 	 */
-	public function convert($value, $unit_from, $unit_to) {
-		if ($unit_from == $unit_to || is_null($unit_to) || is_null($unit_from)) {
-      		return $value;
+	public function convert($value, $unit_from, $unit_to){
+		if ($unit_from == $unit_to || is_null($unit_to) || is_null($unit_from)){
+			return $value;
 		}
-        if(empty($value)) return 0.0;
-		
-		if (isset($this->lengths[strtolower($unit_from)])) {
+		if (empty($value)){
+			return 0.0;
+		}
+
+		if (isset($this->lengths[strtolower($unit_from)])){
 			$from = $this->lengths[strtolower($unit_from)]['value'];
-		} else {
+		} else{
 			$from = 0;
 		}
-		
-		if (isset($this->lengths[strtolower($unit_to)])) {
+
+		if (isset($this->lengths[strtolower($unit_to)])){
 			$to = $this->lengths[strtolower($unit_to)]['value'];
-		} else {
+		} else{
 			$to = 0;
-		}		
-		
-      	return $value * ($to / $from);
-  	}
+		}
+
+		return $value * ($to / $from);
+	}
 
 	/**
 	 * convert length id based
@@ -93,8 +106,8 @@ final class ALength {
 	 * @return float
 	 */
 
-	public function convertByID($value, $from_id, $to_id) {
-		return $this->convert( $value, $this->getUnit($from_id), $this->getUnit($to_id) );
+	public function convertByID($value, $from_id, $to_id){
+		return $this->convert($value, $this->getUnit($from_id), $this->getUnit($to_id));
 	}
 
 	/**
@@ -105,13 +118,13 @@ final class ALength {
 	 * @param string $thousand_point
 	 * @return string
 	 */
-	public function format($value, $unit, $decimal_point = '.', $thousand_point = ',') {
-		if ( isset( $this->lengths[$unit]['unit']) ) {		
-    		return number_format($value, 2, $decimal_point, $thousand_point) . $this->lengths[$unit]['unit'];
-    	} else {
-    		return number_format($value, 2, $decimal_point, $thousand_point);
-    	}
-  	}
+	public function format($value, $unit, $decimal_point = '.', $thousand_point = ','){
+		if (isset($this->lengths[$unit]['unit'])){
+			return number_format($value, 2, $decimal_point, $thousand_point) . $this->lengths[$unit]['unit'];
+		} else{
+			return number_format($value, 2, $decimal_point, $thousand_point);
+		}
+	}
 
 	/**
 	 * convert format id based
@@ -121,7 +134,7 @@ final class ALength {
 	 * @param string $thousand_point
 	 * @return string
 	 */
-	public function formatByID($value, $length_class_id, $decimal_point = '.', $thousand_point = ',') {
+	public function formatByID($value, $length_class_id, $decimal_point = '.', $thousand_point = ','){
 		return $this->format($value, $this->getUnit($length_class_id), $decimal_point, $thousand_point);
 	}
 
@@ -130,24 +143,24 @@ final class ALength {
 	 * @param int $length_class_id
 	 * @return string
 	 */
-	public function getUnit($length_class_id) {
-		foreach ($this->lengths as $lth) {
-			if (isset($lth[$length_class_id])) {
-    			return $lth['unit'];
-			}		
+	public function getUnit($length_class_id){
+		foreach ($this->lengths as $lth){
+			if (isset($lth[$length_class_id])){
+				return $lth['unit'];
+			}
 		}
 		return '';
-	}	  	
+	}
 
 	/**
 	 * get length_class_id based on unit code
 	 * @param string $length_unit
 	 * @return string
 	 */
-	public function getClassID($length_unit) {
-		if (isset($this->lengths[$length_unit])) {
-    		return $this->lengths[$length_unit]['length_class_id'];
-		} else {
+	public function getClassID($length_unit){
+		if (isset($this->lengths[$length_unit])){
+			return $this->lengths[$length_unit]['length_class_id'];
+		} else{
 			return '';
 		}
 	}

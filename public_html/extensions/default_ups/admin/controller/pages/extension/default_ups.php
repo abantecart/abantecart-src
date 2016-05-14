@@ -288,12 +288,14 @@ class ControllerPagesExtensionDefaultUPS extends AController {
 		    'name' => 'default_ups_state',
 		    'value' => $this->data['default_ups_state'],
 			'required' => true,
+			'attr' => ' maxlength="2" '
 	    ));
 		$this->data['form']['fields']['country'] = $form->getFieldHtml(array(
 		    'type' => 'input',
 		    'name' => 'default_ups_country',
 		    'value' => $this->data['default_ups_country'],
 			'required' => true,
+		    'attr' => ' maxlength="2" '
 	    ));
 		$this->data['form']['fields']['postcode'] = $form->getFieldHtml(array(
 		    'type' => 'input',

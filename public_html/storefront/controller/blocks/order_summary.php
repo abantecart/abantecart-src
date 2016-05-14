@@ -30,7 +30,7 @@ class ControllerBlocksOrderSummary extends AController {
         $this->extensions->hk_InitData($this,__FUNCTION__);
 
 		$this->loadModel('tool/seo_url');
-    	$this->view->assign('heading_title', $this->language->get('heading_title', 'blocks_order_summary'));
+    	$this->view->assign('heading_title', $this->language->get('heading_title', 'blocks/order_summary'));
     	
 		$this->view->assign('text_subtotal', $this->language->get('text_subtotal'));
 		$this->view->assign('text_empty', $this->language->get('text_empty'));

@@ -123,7 +123,7 @@ class ControllerPagesCheckoutGuestStep3 extends AController {
 				$shipping_address = $this->session->data['guest'];
 			}
 			
-			$this->data['shipping_address'] = $this->customer->getFormatedAdress($shipping_address, $shipping_address[ 'address_format' ] );
+			$this->data['shipping_address'] = $this->customer->getFormattedAddress($shipping_address, $shipping_address[ 'address_format' ] );
 			
 		} else {
 			$this->data['shipping_address'] = '';
@@ -143,7 +143,7 @@ class ControllerPagesCheckoutGuestStep3 extends AController {
 		$payment_address = $this->session->data['guest'];
     	
 		if ($payment_address) {
-			$this->data['payment_address'] = $this->customer->getFormatedAdress($payment_address, $payment_address[ 'address_format' ] );
+			$this->data['payment_address'] = $this->customer->getFormattedAddress($payment_address, $payment_address[ 'address_format' ] );
 		} else {
 			$this->data['payment_address'] = '';
 		}
@@ -160,25 +160,33 @@ class ControllerPagesCheckoutGuestStep3 extends AController {
     	$this->data['checkout_payment_address'] = $this->html->getSecureURL('checkout/guest_step_1');
 		
 		$this->loadModel('tool/seo_url');
-		$this->loadModel('tool/image');
+
+		$product_ids = array();
+		foreach($this->data['products'] as $result){
+			$product_ids[] = (int)$result['product_id'];
+		}
 
 		//Format product data specific for confirmation page
         $resource = new AResource('image');
+		$thumbnails = $resource->getMainThumbList(
+						'products',
+						$product_ids,
+						$this->config->get('config_image_cart_width'),
+						$this->config->get('config_image_cart_height')
+						);
+
         for($i = 0; $i < sizeof( $this->data['products'] ); $i++){
         	$product_id = $this->data['products'][$i]['product_id'];
-	        $thumbnail = $resource->getMainThumb('products',
-			                                     $product_id,
-			                                     $this->config->get('config_image_cart_width'),
-			                                     $this->config->get('config_image_cart_height'),true);
+	        $thumbnail = $thumbnails[$product_id];
 			$tax = $this->tax->calcTotalTaxAmount($this->data['products'][$i]['total'], $this->data['products'][$i]['tax_class_id']);
       		$this->data['products'][$i] = array_merge( 
 												$this->data['products'][$i],
-													array(
-														'thumb'    => $thumbnail,
-														'tax'        => $this->currency->format($tax),
-														'price'      => $this->currency->format($this->data['products'][$i]['price']),
-														'total'      => $this->currency->format($this->data['products'][$i]['total']),
-														'href'       => $this->html->getSEOURL('product/product', '&product_id=' . $product_id, true )
+												array(
+													'thumb'    => $thumbnail,
+													'tax'        => $this->currency->format($tax),
+													'price'      => $this->currency->format($this->data['products'][$i]['price']),
+													'total'      => $this->currency->format($this->data['products'][$i]['total']),
+													'href'       => $this->html->getSEOURL('product/product', '&product_id=' . $product_id, true )
       		)); 
         }
 

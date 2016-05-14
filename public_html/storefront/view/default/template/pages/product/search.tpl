@@ -19,14 +19,10 @@
 				</div>
 			</div>		
 			<div class="form-group col-xs-12 col-sm-3 col-lg-3">
-				<div class="input-group">
 				    <?php echo $description; ?>&nbsp;
-				</div>
 			</div>		
 			<div class="form-group col-xs-12 col-sm-3 col-lg-3">
-				<div class="input-group">
 				    <?php echo $model; ?>&nbsp;
-				</div>
 			</div>		
 			<div class="form-group col-xs-12 col-sm-2 col-lg-2">
 				<div class="input-group">
@@ -38,7 +34,6 @@
 			
 	<h4 class="heading4"><?php echo $text_search; ?></h4>
 	<?php if ($products) { ?>
-	<!-- Sorting + pagination-->
 	<div class="sorting well">
 	  <form class=" form-inline pull-left">
 	    <?php echo $text_sort; ?>&nbsp;&nbsp;<?php echo $sorting; ?>
@@ -49,18 +44,14 @@
 	    <button class="btn btn-orange" id="grid"><i class="fa fa-th"></i></button>
 	  </div>
 	</div>
-	<!-- end sorting-->
 
 	<?php include( $this->templateResource('/template/pages/product/product_listing.tpl') ) ?>
 		
-	<!-- Sorting + pagination-->
 	<div class="sorting well">
 		<?php echo $pagination_bootstrap; ?>
 		<div class="btn-group pull-right">
 		</div>
 	</div>
-	<!-- end sorting-->
-				
 	
 <?php } else { ?>
 		<div>
@@ -70,7 +61,7 @@
 
 </div>
 
-<script type="text/javascript"><!--
+<script type="text/javascript">
 $('#keyword').keydown(function (e) {
 	if (e.keyCode == 13) {
 		contentSearch();
@@ -110,4 +101,4 @@ function contentSearch() {
 
 	location = url;
 }
-//--></script>
+</script>

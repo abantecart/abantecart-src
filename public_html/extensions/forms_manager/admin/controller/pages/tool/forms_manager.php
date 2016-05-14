@@ -8,7 +8,7 @@
   Copyright © 2011-2016 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
-  Lincence details is bundled with this package in the file LICENSE.txt.
+  License details is bundled with this package in the file LICENSE.txt.
   It is also available at this URL:
   <http://www.opensource.org/licenses/OSL-3.0>
 
@@ -201,7 +201,7 @@ class ControllerPagesToolFormsManager extends AController {
 
 	private function _getForm() {
 
-		//check is set sender anme and email for settings
+		//check is set sender name and email for settings
 		if(!$this->config->get('forms_manager_default_sender_name') || !$this->config->get('forms_manager_default_sender_email')){
 			$this->data['error_warning'] = $this->html->convertLinks($this->language->get('forms_manager_error_empty_sender'));
 		}
@@ -377,7 +377,7 @@ class ControllerPagesToolFormsManager extends AController {
 		$element_types = array('' => $this->language->get('text_select_field_type'));
 		foreach ($results as $key => $type) {
 			// file and multivalue element types disabled for now, 
-			//J = reCaptcha is not selectable, it will be used automaticaly if instead of captcha if enabled 
+			//J = reCaptcha is not selectable, it will be used automatically if instead of captcha if enabled
 			if (!in_array($key, array('P', 'L', 'J'))) 
 				$element_types[$key] = $type['type'];
 		}
@@ -580,22 +580,7 @@ class ControllerPagesToolFormsManager extends AController {
 		}
 
 
-		$blocks = array();
-		$custom_block_types = array('html_block', 'listing_block');
-		foreach ($custom_block_types as $txt_id) {
-			$block = $lm->getBlockByTxtId($txt_id);
-			if ($block['block_id']) {
-				$blocks[$block['block_id']] = $this->language->get('text_' . $txt_id);
-			}
-		}
-		foreach ($blocks as $block_text) {
-			$this->data['tabs'][] = array('href' => $this->html->getSecureURL('design/blocks/insert', '&block_id=' . $this->data['block_id']),
-					'text' => $block_text,
-					'active' => false);
-		}
-		$this->data['tabs'][] = array('href' => $this->html->getSecureURL('tool/forms_manager/insert_block', '&block_id=' . $this->data['block_id']),
-				'text' => $this->language->get('custom_forms_block'),
-				'active' => true);
+		$this->_init_tabs();
 
 		$this->_getBlockForm();
 
@@ -619,7 +604,25 @@ class ControllerPagesToolFormsManager extends AController {
 		if (!$custom_block_id) {
 			$this->redirect($this->html->getSecureURL('tool/forms_manager/insert_block'));
 		}
-		$layout = new ALayoutManager();
+
+
+		$tabs = array(
+					array(
+						'name' => '',
+						'text' => $this->language->get('custom_forms_block'),
+						'href' => '',
+						'active' => true,
+						'sort_order' => 0
+					)
+		);
+		$obj = $this->dispatch('responses/common/tabs',
+				array(
+					'tool/forms_manager/edit_block', //parent controller. Use customer group to use for other extensions that will add tabs via their hooks
+					array('tabs'=>$tabs))
+					);
+
+		$this->data['tabs'] = $obj->dispatchGetOutput();
+
 		if ($this->request->is_POST() && $this->_validateBlockForm()) {
 
 			// get form html
@@ -630,7 +633,7 @@ class ControllerPagesToolFormsManager extends AController {
 			$content = serialize($content);
 
 			// saving
-			$layout->saveBlockDescription($this->data['block_id'],
+			$lm->saveBlockDescription($this->data['block_id'],
 					$custom_block_id,
 					array(
 							'name' => $this->request->post['block_name'],
@@ -643,7 +646,7 @@ class ControllerPagesToolFormsManager extends AController {
 					)
 			);
 
-			$layout->editBlockStatus((int)$this->request->post['block_status'], $this->data['block_id'], $custom_block_id);
+			$lm->editBlockStatus((int)$this->request->post['block_status'], $this->data['block_id'], $custom_block_id);
 
 			// save list if it is custom
 			$this->request->post['selected'] = json_decode(html_entity_decode($this->request->post['selected'][0]), true);
@@ -745,7 +748,7 @@ class ControllerPagesToolFormsManager extends AController {
 
 		if (!$custom_block_id) {
 			$this->data ['action'] = $this->html->getSecureURL('tool/forms_manager/insert_block');
-			$this->data ['form_title'] = $this->language->get('text_create_block');
+			$this->data ['form_title'] = $this->language->get('text_create_block', 'forms_manager/forms_manager');
 			$this->data ['update'] = '';
 			$form = new AForm ('ST');
 		} else {
@@ -927,6 +930,42 @@ class ControllerPagesToolFormsManager extends AController {
 		} else {
 			return FALSE;
 		}
+	}
+
+
+	private function _init_tabs() {
+
+		$blocks = array();
+		$lm = new ALayoutManager();
+		$default_block_type = '';
+		foreach (array('html_block', 'listing_block') as $txt_id) {
+			$block = $lm->getBlockByTxtId($txt_id);
+			if ($block['block_id']) {
+				$blocks[$block['block_id']] = $this->language->get('text_' . $txt_id);
+			}
+			if ($txt_id == 'html_block') {
+				$default_block_type = $block['block_id'];
+			}
+		}
+
+		$this->data['block_id'] = !(int)$this->request->get['block_id'] ? $default_block_type : $this->request->get['block_id'];
+		$i = 0;
+		$tabs = array();
+		foreach ($blocks as $block_id => $block_text) {
+			$tabs[] = array(
+					'name' => $block_id,
+					'text' => $block_text,
+					'href' => $this->html->getSecureURL('design/blocks/insert', '&block_id=' . $block_id),
+					'active' => ($block_id == $this->data['block_id'] ? true : false),
+					'sort_order' => $i);
+			$i++;
+		}
+
+		$obj = $this->dispatch('responses/common/tabs',array(
+															'design/blocks', //parent controller. Use customer group to use for other extensions that will add tabs via their hooks
+															array('tabs'=>$tabs))
+															);
+		$this->data['tabs'] = $obj->dispatchGetOutput();
 	}
 
 }

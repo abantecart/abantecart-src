@@ -11,8 +11,8 @@
 					<?php echo $current_template; ?>
 					<span class="caret"></span>
 				</button>
+				<?php if (is_array($templates) && count($templates) > 0) { ?>
 				<ul class="dropdown-menu">
-				<?php if (is_array($templates)) { ?>
 					<?php foreach ($templates as $tmpl) { ?>
 						<?php 
 							if($tmpl['name'] == $default_template ) {
@@ -27,12 +27,12 @@
 						</a>
 						</li>
 					<?php } ?>
-				<?php } ?>
 				</ul>
+				<?php } ?>
 			</div>
 
 			<div class="btn-group mr10 toolbar">
-			    <a class="btn btn-white tooltips" href="<?php echo $clone_button->href; ?>" title="<?php echo $clone_button->text; ?>" <?php echo $clone_button->attr;?> >
+			    <a class="btn btn-white tooltips" href="<?php echo $clone_button->href; ?>" title="<?php echo $clone_button->text; ?>" target="<?php echo $clone_button->target;?>" >
 			    	<i class="fa fa-clone fa-lg"></i>
 			    </a>
 				<?php echo $this->getHookVar('template_edit_toolbar_buttons'); ?>

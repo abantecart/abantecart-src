@@ -221,12 +221,20 @@ Solución ideal para comercio electrónico OpenSource ]]></value>
 	<definition>
 		<key>error_move_backup</key>
 		<value><![CDATA[ Error: No se puede copia de seguridad de los archivos antes de la actualización. Compruebe los permisos de escritura del directorio: ]]></value>
+	</definition><definition>
+		<key>text_core_upgrade_title</key>
+		<value><![CDATA[ Actualización Abantecart Core ]]></value>
 	</definition>
 	<definition>
 		<key>text_core_upgrade_attention</key>
 		<value><![CDATA[ ¡Atención!
-				AbanteCart está a punto de ser actualizado a la versión %s!
-				Copia de seguridad completa automática se creará. Se recomienda probar la actualización en el sitio de la primera prueba. ]]></value>
+AbanteCart está a punto de ser actualizado a la versión %s!]]></value>
+	</definition>
+	<definition>
+		<key>text_core_upgrade_warning</key>
+		<value><![CDATA[ No se puede deshacer después de comenzar el proceso de actualización.
+Completa base de datos y copia de seguridad de código es muy recomendable.
+Actualización de prueba en sitios no vivos primeros. Actualizar los sitios en vivo no se recomienda. ]]></value>
 	</definition>
 	<definition>
 		<key>error_notconnected</key>

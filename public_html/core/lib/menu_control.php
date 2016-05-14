@@ -244,7 +244,7 @@ class AMenu {
 		$result = $this->dataset->addRows(array( $item ));
 		// rebuild menu var after changing
 		$this->_build_menu($this->dataset->getRows());
-		$this->registry->get('cache')->delete('admin_menu');
+		$this->registry->get('cache')->remove('admin_menu');
 		return $result;
 	}
 
@@ -258,7 +258,7 @@ class AMenu {
 		//
 		$this->dataset->deleteRows(array( "column_name" => "item_id", "operator" => "=", "value" => $item_id ));
 		$this->_build_menu($this->dataset->getRows());
-		$this->registry->get('cache')->delete('admin_menu');
+		$this->registry->get('cache')->remove('admin_menu');
 		return true;
 	}
 
@@ -276,7 +276,7 @@ class AMenu {
 
 		$this->dataset->updateRows(array( "column_name" => "item_id", "operator" => "=", "value" => $item_id ), $new_values);
 		$this->_build_menu($this->dataset->getRows());
-		$this->registry->get('cache')->delete('admin_menu');
+		$this->registry->get('cache')->remove('admin_menu');
 		return true;
 	}
 }

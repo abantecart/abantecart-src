@@ -24,6 +24,10 @@ if (!defined('DIR_CORE') || !IS_ADMIN){
 class ControllerPagesDesignTemplate extends AController{
 	public $data = array ();
 	public $error = array ();
+	/**
+	 * @var AConfigManager
+	 */
+	private $conf_mngr;
 
 	public function main(){
 		//use to init controller data
@@ -87,6 +91,7 @@ class ControllerPagesDesignTemplate extends AController{
 		$tmpls = $conf_mngr->getTemplates('storefront');
 		$settings = $this->model_setting_setting->getSetting('appearance', $this->data['store_id']);
 		$this->data['default_template'] = $settings['config_storefront_template'];
+		$templates = array();
 
 		foreach ($tmpls as $tmpl){
 			$templates[$tmpl] = array (
@@ -97,8 +102,10 @@ class ControllerPagesDesignTemplate extends AController{
 			);
 
 			//button for template cloning
+			$target = '';
 			if (is_null($dev_tools['status'])){
-				$href = "http://www.abantecart.com/extension-developer-tools";
+				$href = $this->gen_help_url('template_dev_tools');
+				$target = '_blank';
 			} elseif ($dev_tools['status'] == 1){
 				$href = $this->html->getSecureURL('tool/developer_tools/create', '&template=' . $tmpl);
 			} else{
@@ -110,6 +117,7 @@ class ControllerPagesDesignTemplate extends AController{
 								'type' => 'button',
 								'name' => 'clone_button',
 								'href' => $href,
+								'target'=> $target,
 								'text' => $this->language->get('text_clone_template')
 						)
 				);
@@ -164,11 +172,10 @@ class ControllerPagesDesignTemplate extends AController{
 
 		$this->loadModel('setting/setting');
 
-		$store_id = 0;
 		if ($this->request->get['store_id']){
-			$store_id = $this->request->get['store_id'];
+			$store_id = (int)$this->request->get['store_id'];
 		} else{
-			$store_id = $this->config->get('config_store_id');
+			$store_id = (int)$this->config->get('config_store_id');
 		}
 
 		if ($this->request->get['tmpl_id']){
@@ -262,6 +269,7 @@ class ControllerPagesDesignTemplate extends AController{
 
 		//set control buttons
 		$tmpls = $this->conf_mngr->getTemplates('storefront');
+		$templates = array();
 		foreach ($tmpls as $tmpl){
 			//skip current template
 			if ($tmpl != $tmpl_id){
@@ -277,8 +285,10 @@ class ControllerPagesDesignTemplate extends AController{
 		$this->loadLanguage('setting/setting');
 		//button for template cloning
 		$dev_tools = $this->extensions->getExtensionsList(array ('search' => 'developer_tools'))->row;
+		$target = '';
 		if (is_null($dev_tools['status'])){
-			$href = "http://www.abantecart.com/extension-developer-tools";
+			$href = $this->gen_help_url('template_dev_tools');
+			$target = '_blank';
 		} elseif ($dev_tools['status'] == 1){
 			$href = $this->html->getSecureURL('tool/developer_tools/create');
 		} else{
@@ -290,6 +300,7 @@ class ControllerPagesDesignTemplate extends AController{
 						'type' => 'button',
 						'name' => 'clone_button',
 						'href' => $href,
+						'target' => $target,
 						'text' => $this->language->get('text_clone_template')
 				)
 		);

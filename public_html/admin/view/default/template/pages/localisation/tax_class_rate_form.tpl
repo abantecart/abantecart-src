@@ -179,7 +179,7 @@
 
 
 <?php if (isset($zone_id)) { ?>
-	<script type="text/javascript"><!--
+	<script type="text/javascript">
 
 		jQuery(function ($) {
 			var zone_id = '<?php echo $zone_id; ?>';
@@ -234,5 +234,5 @@
 			});
 
 		});
-		//--></script>
+		</script>
 <?php } ?>

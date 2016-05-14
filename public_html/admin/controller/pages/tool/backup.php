@@ -71,7 +71,7 @@ class ControllerPagesToolBackup extends AController {
 			}
 
 			if ($content) {
-				$this->cache->delete('*');
+				$this->cache->remove('*');
 				if ($filetype == 'sql') {
 					$this->model_tool_backup->restore($content);
 					$this->session->data['success'] = $this->language->get('text_success');

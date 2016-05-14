@@ -56,7 +56,7 @@ if (!defined('DIR_CORE')) {
  * @property ModelToolBackup $model_tool_backup
  * @property ModelToolGlobalSearch $model_tool_global_search
  * @property ModelToolMigration $model_tool_migration
- * @property ModelToolDatasetsManager $model_tool_datasets_manager
+ * @property ModelToolDatasetManager $model_tool_dataset_manager
  * @property ModelToolInstallUpgradeHistory $model_tool_install_upgrade_history
  * @property ModelToolMessageManager $model_tool_message_manager
  * @property ModelReportPurchased $model_report_purchased
@@ -108,10 +108,11 @@ abstract class AController {
 	protected $parent_controller;
 	protected $children = array();
 	protected $block_details = array();
-	public $dispatcher;
-	public $view;
+	public    $dispatcher;
+	public    $view;
 	protected $config;
 	protected $languages = array();
+	protected $html_cache_key;
 
 	/**
 	 * @param $registry Registry
@@ -143,7 +144,7 @@ abstract class AController {
 		if ($this->layout) {
 			//Load Controller template and pass to view. This can be reset in controller as well
 			$this->view->setTemplate($this->layout->getBlockTemplate($this->instance_id));
-			//Load Children from layout if any. 'instance_id', 'contorller', 'block_text_id', 'template'
+			//Load Children from layout if any. 'instance_id', 'controller', 'block_text_id', 'template'
 			$this->block_details = $this->layout->getBlockDetails($this->instance_id);
 			$this->children = $this->layout->getChildren($this->instance_id);
 		}
@@ -163,6 +164,88 @@ abstract class AController {
 		$this->clear();
 	}
 
+	/**
+	 * Function to enable caching for this page/block
+	 * @param none
+	 * @return true/false
+	 */
+	public function html_cache() {
+		//check is HTML cache is enabled and it is storefront
+		if(!$this->config->get('config_html_cache') || IS_ADMIN ) {
+			return false;
+		}
+		//build HTML cache key if not yet built for this controller. 
+		if(!$this->html_cache_key){
+			$this->html_cache_key = $this->buildHTMLCacheKey();
+		}
+		//check if can load HTML files and stop
+		return $this->view->checkHTMLCache($this->html_cache_key);
+	}
+
+	//function to get html cache key
+	public function buildHTMLCacheKey($allowed_params = array(), $values = array(), $controller = '') {
+		//build HTML cache key
+		//build cache string based on allowed params 
+		$cache_params = array();
+		if(is_array($allowed_params) && $allowed_params) {
+			sort($allowed_params);
+			foreach ($allowed_params as $key) {
+				if(has_value($values[$key])){
+					$cache_params[$key] = $values[$key];
+				}
+			}
+		}
+		//build unique key based on params
+		$param_string = md5($this->cache->paramsToString($cache_params));
+		//build HTML cache path
+		$cache_state_vars = array(
+				'template' 		=> $this->config->get('config_storefront_template'),
+				'store_id'      => $this->config->get('config_store_id'),
+				'language_id'   => $this->language->getLanguageID(),
+				'currency_code' => $this->currency->getCode()
+		);
+		if(!$controller) {
+			$controller = $this->controller;
+		}
+		//NOTE: Blocks are cached based on unique instanced ID
+		$this->html_cache_key = 'html_cache.'.str_replace('/', '.',$controller).".".implode('.',$cache_state_vars)."_".$this->instance_id;
+		//add specific params to the key
+		if($param_string) {
+			$this->html_cache_key .= "_".$param_string;
+		}
+		//pass html_cache_key to view for future use
+		$this->view->setCacheKey($this->html_cache_key);
+		return $this->html_cache_key;
+	}
+
+	//function to get html cache key
+	public function getHTMLCacheKey() {
+		return $this->html_cache_key;
+	}
+
+	//Get cache key values for provided controller
+	public function getCacheKeyValues($controller) {
+		//check if requested controller allows HTML caching
+		//use dispatcher to get class and details
+		$ds = new ADispatcher($controller, array("instance_id" => "0"));	 
+		$rt_class = $ds->getClass();
+		$rt_file = $ds->getFile();
+		$rt_method = $ds->getMethod();
+		if ( !empty($rt_file) && !empty($rt_class) && !empty($rt_method) ) {
+			/** @noinspection PhpIncludeInspection */
+			require_once($rt_file);
+            if ( class_exists($rt_class) ) {
+            	$static_method = $rt_method.'_cache_keys';
+            	if (method_exists( $rt_class, $static_method )) {
+            		//finally get keys and build a cache key
+            		$cache_keys = call_user_func($rt_class.'::'.$static_method);
+					return $cache_keys;
+            	}
+            }
+		}
+		return false;
+	}
+	
 	/*
 	* Quick access to controller name or rt
 	*/
@@ -170,7 +253,7 @@ abstract class AController {
 		return $this->controller;
 	}
 
-	// Clear funstion is public in case controller needs to be cleaned explicitly
+	// Clear function is public in case controller needs to be cleaned explicitly
 	public function clear() {
 		$vars = get_object_vars($this);
 		foreach ($vars as $key => $val) {
@@ -186,19 +269,19 @@ abstract class AController {
 		$this->registry->set($key, $value);
 	}
 
-	//Load language and store to veiw
+	//Load language and store to view
 	public function loadLanguage($rt, $mode = '') {
 		if (empty ($rt) || !method_exists($this->language, 'load')) return null;
-		// strip off pages or responce
+		// strip off pages or response
 		$rt = preg_replace('/^(api|pages|responses)\//', '', $rt);
 		$this->languages[ ] = $rt;
-		//load all tranlations to the view
+		//load all translations to the view
 		$this->view->batchAssign($this->language->load($rt, $mode));
 	}
 
 	public function loadModel($rt, $mode = '') {
 		if (empty ($rt) || !method_exists($this->load, 'model')) return null;
-		// strip off pages or responce
+		// strip off pages or response
 		$rt = preg_replace('/^(pages|responses)\//', '', $rt);
 		return $this->load->model($rt, $mode);
 	}
@@ -224,17 +307,22 @@ abstract class AController {
 		return $this->children;
 	}
 
+	public function resetChildren() {
+		$this->children = array();
+		return $this->children;
+	}
+
 	public function setChildren($children) {
 		$this->children = $children;
 	}
 
 	public function getChildrenBlocks() {
 		$blocks = array();
-		// Look into all blocks that are loaded from latyout database or have position set for them
+		// Look into all blocks that are loaded from layout database or have position set for them
 		// Hardcoded children with blocks require manual inclusion to the templates.
 		foreach ($this->children as $block) {
 			if (!empty($block['position'])) {
-				//assign count based on possition (currently div. by 10)
+				//assign count based on position (currently div. by 10)
 				if( (int)$block['position'] % 10 == 0 ) {
 					$blocks[ (int)($block['position']/10 - 1)] = $block['block_txt_id'] . '_' . (int)$block['instance_id'];
 				} else {
@@ -256,7 +344,7 @@ abstract class AController {
 		$new_block['block_txt_id'] = $block_text_id;
 		$new_block['template'] = $new_template;
 		// This it to position element to the placeholder.
-		// If not set emenet will not be displayed in place holder.
+		// If not set element will not be displayed in place holder.
 		// To use manual inclusion to parent template ignore this parameter
 		$new_block['position'] = $template_position;
 		array_push($this->children, $new_block);
@@ -297,7 +385,10 @@ abstract class AController {
 					$this->session->data['tmpl_debug'] = isset($this->request->get['tmpl_debug']);
 				}
 
-				if ((isset($this->session->data['tmpl_debug']) && isset($this->request->get['tmpl_debug'])) && ($this->session->data['tmpl_debug'] == $this->request->get['tmpl_debug'])) {
+				if ((isset($this->session->data['tmpl_debug'])
+						&& isset($this->request->get['tmpl_debug']))
+						&& ($this->session->data['tmpl_debug'] == $this->request->get['tmpl_debug'])
+				) {
 
 					$block_details = $this->layout->getBlockDetails($this->instance_id);
 					$excluded_blocks = array( 'common/head' );
@@ -333,13 +424,13 @@ abstract class AController {
 	}
 
 	//Set of functions to access parent controller and exchange information
-	public function addToParentByName($parant_controller_name, $variable, $value) {
-		if ($parant_controller_name == $this->instance_id) {
+	public function addToParentByName($parent_controller_name, $variable, $value) {
+		if ($parent_controller_name == $this->instance_id) {
 			$this->view->append($variable, $value);
 		} else if (!empty ($this->parent_controller)) {
-			$this->parent_controller->AddToParentByName($parant_controller_name, $variable, $value);
+			$this->parent_controller->AddToParentByName($parent_controller_name, $variable, $value);
 		} else {
-			$wrn = new AWarning('Call to unknown parent controller ' . $parant_controller_name . ' in ' . get_class($this));
+			$wrn = new AWarning('Call to unknown parent controller ' . $parent_controller_name . ' in ' . get_class($this));
 			$wrn->toDebug();
 		}
 
@@ -363,7 +454,7 @@ abstract class AController {
 		//Future stronger security permissions validation
 		//validate session token and login
 		// Dispatch to login if failed
-		// validate access rights for current controller or parent with $parent_controller->can_accesss()
+		// validate access rights for current controller or parent with $parent_controller->can_access()
 		// If both have no access rights dispatch to no rights page
 
 		// NOTEs: Need to skip for some common controllers.

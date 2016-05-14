@@ -25,35 +25,60 @@ class ControllerBlocksCategory extends AController {
 	protected $category_id = 0;
 	protected $path = array();
 	protected $selected_root_id = array();
+	protected $thumbnails = array();
 
 	public function main() {
+		$request = $this->request->get;
 
         //init controller data
         $this->extensions->hk_InitData($this,__FUNCTION__);
 
-    	$this->view->assign('heading_title', $this->language->get('heading_title', 'blocks_category') );
+		//HTML cache only for non-customer
+		if(!$this->customer->isLogged() && !$this->customer->isUnauthCustomer()){
+			$allowed_cache_keys = array('path');
+			$cache_val = array('path' => $request['path']);
+			$this->buildHTMLCacheKey($allowed_cache_keys, $cache_val);
+			if($this->html_cache()){
+				return;
+			}
+		}
+
+    	$this->view->assign('heading_title', $this->language->get('heading_title', 'blocks/category') );
 		
 		$this->loadModel('catalog/category');
 		
-		if (isset($this->request->get['path'])) {
-			$this->path = explode('_', $this->request->get['path']);
+		if (isset($request['path'])) {
+			$this->path = explode('_', $request['path']);
 			$this->category_id = end($this->path);
 		}
 		$this->view->assign('selected_category_id', $this->category_id);
-		$this->view->assign('path', $this->request->get['path']);
+		$this->view->assign('path', $request['path']);
 		
 		//load main lavel categories
 		$all_categories = $this->model_catalog_category->getAllCategories();
-		$this->view->assign('category_list', $this->_buildCategoryTree($all_categories));
+		//build thumbnails list
+		$category_ids = array();
+		foreach($all_categories as $category){
+			$category_ids[] = $category['category_id'];
+		}
+		$resource = new AResource('image');
 
-		// framed needs to show frames for generic block.
+		$this->thumbnails = $resource->getMainThumbList(
+				                'categories',
+				                $category_ids,
+				                $this->config->get('config_image_category_width'),
+				                $this->config->get('config_image_category_height')
+				                );
+
+		//Build category tree
+		$this->_buildCategoryTree($all_categories);
+		$categories = $this->_buildNestedCategoryList();
+		$this->view->assign('categories', $categories);
+
+		//Framed needs to show frames for generic block.
 		//If tpl used by listing block framed was set by listing block settings
 		$this->view->assign('block_framed',true);
-
-		//Load nested categories and with all details based on whole categories list array in $this->data
-		$this->data['resource_obj'] = new AResource('image');
 		$this->view->assign('home_href', $this->html->getSEOURL('index/home'));
-		$this->view->assign('categories', $this->_buildNestedCategoryList());
 		
 		$this->processTemplate();
 
@@ -68,26 +93,28 @@ class ControllerBlocksCategory extends AController {
 	 * @param string $path
 	 * @return array
 	 */
-
-	private function _buildCategoryTree($all_categories = array(), $parent_id=0, $path=''){
+	private function _buildCategoryTree($all_categories = array(), $parent_id = 0, $path = ''){
 		$output = array();
 		foreach($all_categories as $category){
-			if($parent_id!=$category['parent_id']){ continue; }
+			if($parent_id != $category['parent_id']){ continue; }
 			$category['path'] = $path ? $path.'_'.$category['category_id'] : $category['category_id'];
 			$category['parents'] = explode("_",$category['path']);
-			$category['level'] = sizeof($category['parents'])-1; //digin' level
-			if($category['category_id']==$this->category_id){ //mark root
+			//dig into level
+			$category['level'] = sizeof($category['parents']) - 1;
+			if($category['category_id'] == $this->category_id){
+				//mark root
 				$this->selected_root_id = $category['parents'][0];
 			}
 			$output[] = $category;
 			$output = array_merge($output,$this->_buildCategoryTree($all_categories,$category['category_id'], $category['path']));
 		}
-		if($parent_id==0){
-			$this->data['all_categories'] = $output; //place result into memory for future usage (for menu. see below)
+		if($parent_id == 0){
+			//place result into memory for future usage (for menu. see below)
+			$this->data['all_categories'] = $output;
 			// cut list and expand only selected tree branch
 			$cutted_tree = array();
 			foreach($output as $category){
-				if($category['parent_id']!=0 && !in_array($this->selected_root_id,$category['parents'])){ continue; }
+				if($category['parent_id'] != 0 && !in_array($this->selected_root_id,$category['parents'])){ continue; }
 				$category['href'] = $this->html->getSEOURL('product/category', '&path='.$category['path'], '&encode');
 				$cutted_tree[] = $category;
 			}
@@ -97,29 +124,25 @@ class ControllerBlocksCategory extends AController {
 		}
 	}
 
-	/** Function builds one multi-dimentional (nested) category tree for menu
+	/** Function builds one multi-dimensional (nested) category tree for menu
 	 *
 	 * @param int $parent_id
 	 * @return array
 	 */
-	private function _buildNestedCategoryList($parent_id=0){
-		/**
-		 * @var $resource AResource
-		 */
-		$resource = $this->data['resource_obj'];
+	private function _buildNestedCategoryList($parent_id = 0){
+
 		$output = array();
 		foreach($this->data['all_categories'] as $category){
 			if( $category['parent_id'] != $parent_id ){ continue; }
 			$category['children'] = $this->_buildNestedCategoryList($category['category_id']);
-			$thumbnail = $resource->getMainThumb( 'categories',
-													$category['category_id'],
-													(int)$this->config->get('config_image_category_width'),
-													(int)$this->config->get('config_image_category_height'),
-													true);
+			$thumbnail = $this->thumbnails[ $category['category_id'] ];
 			$category['thumb'] = $thumbnail['thumb_url'];
-
-			$category['product_count'] = $this->model_catalog_category->getCategoriesProductsCount($category['parents']);
-			$category['brands'] = $this->model_catalog_category->getCategoriesBrands($category['parents']);
+			//get product counts from children levels. 
+			if(count($category['children'])) {
+				foreach($category['children'] as $child){
+					$category['product_count'] += $child['product_count'];
+				}
+			}
 			$category['href'] = $this->html->getSEOURL('product/category', '&path=' . $category['path'], '&encode');
 			//mark current category
 			if(in_array($category['category_id'], $this->path)) {

@@ -6,7 +6,6 @@
 <?php } ?>
 
 <div id="product_details">
-		<!-- Product Details-->
 		<div class="row">
 			<!-- Left Image-->
 			<div class="col-md-6 text-center">
@@ -42,7 +41,8 @@
 				    $thumb_url = $image_main['thumb_url'];
 				?>
 				    <a class="local_image" href="<?php echo $image_url; ?>" target="_blank" title="<?php echo $image_main['title']; ?>">
-				    	<img style="width: <?php echo $this->config->get('config_image_thumb_width').'px'; ?>; height: <?php echo $this->config->get('config_image_thumb_height').'px'; ?>;"
+				    	<img width="<?php echo $this->config->get('config_image_thumb_width'); ?>"
+				    		 height="<?php echo $this->config->get('config_image_thumb_height'); ?>"
 							 src="<?php echo $thumb_url; ?>"
 							 alt="<?php echo $image['title']; ?>"
 							 title="<?php echo $image['title']; ?>" />
@@ -341,7 +341,7 @@
 					<div class="tab-pane" id="relatedproducts">
 						<ul class="row side_prd_list">
 						<?php foreach ($related_products as $related_product) {
-								$item['rating'] = ($related_product['rating']) ? "<img src='" . $this->templateResource('/image/stars_' . $related_product['rating'] . '.png') . "' alt='" . $related_product['stars'] . "' />" : '';
+								$item['rating'] = ($related_product['rating']) ? "<img src='" . $this->templateResource('/image/stars_' . $related_product['rating'] . '.png') . "' alt='" . $related_product['stars'] . "' width='64' height='12' />" : '';
 								if (!$display_price) {
 									$related_product['price'] = $related_product['special'] = '';
 								}
@@ -390,34 +390,34 @@
 	</div>
 </div>
 
-<script type="text/javascript"><!--
+<script type="text/javascript">
 
-	var orig_imgs = $('div.bigimage').html();
-	var orig_thumbs = $('ul.smallimage').html();
+var orig_imgs = $('div.bigimage').html();
+var orig_thumbs = $('ul.smallimage').html();
 
-	jQuery(function ($) {
+$(window).load(function(){
 
-		start_easyzoom();
+	start_easyzoom();
 
-		//if have product options, load select option images 
-		var $select = $('input[name^=\'option\'], select[name^=\'option\']'); 
-		if ($select.length) {
-			//if no images for options are present, main product images will be used. 
-			//if atleast one image is present in the option, main images will be replaced.
-			//????load_option_images($select.val());
-		}
+	//if have product options, load select option images
+	var $select = $('input[name^=\'option\'], select[name^=\'option\']');
+	if ($select.length) {
+		//if no images for options are present, main product images will be used.
+		//if at least one image is present in the option, main images will be replaced.
+		//????load_option_images($select.val());
+	}
 
-		display_total_price();
+	display_total_price();
 
-		$('#current_reviews .pagination a').on('click', function () {
-			$('#current_reviews').slideUp('slow');
-			$('#current_reviews').load(this.href);
-			$('#current_reviews').slideDown('slow');
-			return false;
-		});
-
-		reload_review('<?php echo $product_review_url; ?>');
+	$('#current_reviews .pagination a').on('click', function () {
+		$('#current_reviews').slideUp('slow');
+		$('#current_reviews').load(this.href);
+		$('#current_reviews').slideDown('slow');
+		return false;
 	});
+
+	reload_review('<?php echo $product_review_url; ?>');
+
 
 	$('#product_add_to_cart').click(function () {
 		$('#product').submit();
@@ -443,23 +443,29 @@
 	});
 
 
+	$.ajax({
+            url:'<?php echo $update_view_count_url; ?>',
+            type:'GET',
+            dataType:'json'
+    });
+});
 	function start_easyzoom() {
-		// Instantiate EasyZoom instances
-		var $easyzoom = $('.easyzoom').easyZoom();
-		
-		// Get an instance API
-		var api1 = $easyzoom.filter('.easyzoom--with-thumbnails').data('easyZoom');
-		//clean and reload esisting events 
-		api1.teardown();
-		api1._init();
-		
-		// Setup thumbnails
-		$('.thumbnails .producthtumb').on('click', 'a', function(e) {
-		   var $this = $(this);
-		   e.preventDefault();
-		   // Use EasyZoom's `swap` method
-		   api1.swap($this.data('standard'), $this.attr('href'));
-		});
+			// Instantiate EasyZoom instances
+			var $easyzoom = $('.easyzoom').easyZoom();
+
+			// Get an instance API
+			var api1 = $easyzoom.filter('.easyzoom--with-thumbnails').data('easyZoom');
+			//clean and reload existing events
+			api1.teardown();
+			api1._init();
+
+			// Setup thumbnails
+			$('.thumbnails .producthtumb').on('click', 'a', function(e) {
+			   var $this = $(this);
+			   e.preventDefault();
+			   // Use EasyZoom's `swap` method
+			   api1.swap($this.data('standard'), $this.attr('href'));
+			});
 	}
 
 	function load_option_images( attribute_value_id ) {
@@ -468,27 +474,29 @@
 			url: '<?php echo $option_resources_url; ?>&attribute_value_id=' + attribute_value_id,
 			dataType: 'json',
 			success: function (data) {
-				var html1 = '';
-				var html2 = '';
-				
-				if (data.main) {
-					if (data.main.origin == 'external') {
+				var html1 = '',
+				html2 = '',
+				main_image = data.main;
+
+				if (main_image) {
+					if (main_image.origin == 'external') {
 						html1 = '<a class="html_with_image">';
-						html1 += data.main.main_html + '</a>';						
+						html1 += main_image.main_html + '</a>';
 					} else {
-				    	html1 = '<a href="' + data.main.main_url + '">';
-				    	html1 += '<img src="' + data.main.thumb_url + '" />';
-				    	html1 += '<i class="fa fa-arrows"></i></a>';
-				    }			
-				}				
+				        html1 = '<a href="' + main_image.main_url + '">';
+				        html1 += '<img style="width:'+main_image.thumb_width+'px; height:'+main_image.thumb_height+'px;" src="' + main_image.thumb_url + '" />';
+				        html1 += '<i class="fa fa-arrows"></i></a>';
+				    }
+				}
 				if (data.images) {
 					for (img in data.images) {
+						var image = data.images[img];
 						html2 += '<li class="producthtumb">';
-						var img_url = data.images[img].main_url;
-						var tmb_url = data.images[img].thumb_url;
-						var tmb2_url = data.images[img].thumb2_url;
-						if (data.images[img].origin != 'external') {
-							html2 += '<a href="'+img_url+'" data-standard="'+tmb2_url+'"><img src="' + tmb_url + '" alt="' + data.images[img].title + '" title="' + data.images[img].title + '" /></a>';
+						var img_url = image.main_url;
+						var tmb_url = image.thumb_url;
+						var tmb2_url = image.thumb2_url;
+						if (image.origin != 'external') {
+							html2 += '<a href="'+img_url+'" data-standard="'+tmb2_url+'"><img style="width:'+image.thumb_width+'px; height:'+image.thumb_height+'px;" src="' + tmb_url + '" alt="' + image.title + '" title="' + image.title + '" /></a>';
 						}
 						html2 += '</li>';
 					}
@@ -549,11 +557,11 @@
 				$('#review_button').attr('disabled', '');
 				$('.wait').remove();
 				<?php if ($review_recaptcha) { ?>
-    				grecaptcha.reset();
-    			<?php } ?>
+                    grecaptcha.reset();
+                <?php } ?>
 			},
             error: function (jqXHR, exception) {
-            	var text = jqXHR.statusText + ": " + jqXHR.responseText;
+                var text = jqXHR.statusText + ": " + jqXHR.responseText;
 				$('#review .alert').remove();
 				$('#review_title').after('<div class="alert alert-error alert-danger">' + dismiss + text + '</div>');
 			},
@@ -590,7 +598,7 @@
 				$('.wait').remove();
 			},
             error: function (jqXHR, exception) {
-            	var text = jqXHR.statusText + ": " + jqXHR.responseText;
+                var text = jqXHR.statusText + ": " + jqXHR.responseText;
 				$('.wishlist .alert').remove();
 				$('.wishlist').after('<div class="alert alert-error alert-danger">' + dismiss + text + '</div>');
 				$('.wishlist_add').show();
@@ -610,37 +618,38 @@
 	}
 
 	function wishlist_remove() {
-		var dismiss = '<button type="button" class="close" data-dismiss="alert">&times;</button>';
-		$.ajax({
-			type: 'POST',
-			url: '<?php echo $product_wishlist_remove_url; ?>',
-			dataType: 'json',
-			beforeSend: function () {
-				$('.success, .warning').remove();
-				$('.wishlist_remove').hide();
-				$('.wishlist').after('<div class="wait"><i class="fa fa-spinner fa-spin"></i> <?php echo $text_wait; ?></div>');
-			},
-			complete: function () {
-				$('.wait').remove();
-			},
-            error: function (jqXHR, exception) {
-            	var text = jqXHR.statusText + ": " + jqXHR.responseText;
-				$('.wishlist .alert').remove();
-				$('.wishlist').after('<div class="alert alert-error alert-danger">' + dismiss + text + '</div>');
-				$('.wishlist_remove').show();
-			},
-			success: function (data) {
-				if (data.error) {
-					$('.wishlist .alert').remove();
-					$('.wishlist').after('<div class="alert alert-error alert-danger">' + dismiss + data.error + '</div>');
-					$('.wishlist_remove').show();
-				} else {
-					$('.wishlist .alert').remove();
-					//$('.wishlist').after('<div class="alert alert-success">' + dismiss + data.success + '</div>');
-					$('.wishlist_add').show();
-				}
+				var dismiss = '<button type="button" class="close" data-dismiss="alert">&times;</button>';
+				$.ajax({
+					type: 'POST',
+					url: '<?php echo $product_wishlist_remove_url; ?>',
+					dataType: 'json',
+					beforeSend: function () {
+						$('.success, .warning').remove();
+						$('.wishlist_remove').hide();
+						$('.wishlist').after('<div class="wait"><i class="fa fa-spinner fa-spin"></i> <?php echo $text_wait; ?></div>');
+					},
+					complete: function () {
+						$('.wait').remove();
+					},
+		            error: function (jqXHR, exception) {
+		            	var text = jqXHR.statusText + ": " + jqXHR.responseText;
+						$('.wishlist .alert').remove();
+						$('.wishlist').after('<div class="alert alert-error alert-danger">' + dismiss + text + '</div>');
+						$('.wishlist_remove').show();
+					},
+					success: function (data) {
+						if (data.error) {
+							$('.wishlist .alert').remove();
+							$('.wishlist').after('<div class="alert alert-error alert-danger">' + dismiss + data.error + '</div>');
+							$('.wishlist_remove').show();
+						} else {
+							$('.wishlist .alert').remove();
+							//$('.wishlist').after('<div class="alert alert-success">' + dismiss + data.success + '</div>');
+							$('.wishlist_add').show();
+						}
+					}
+				});
 			}
-		});
-	}
 
-	//--></script>
+
+</script>

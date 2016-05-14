@@ -25,6 +25,7 @@ if (! defined ( 'DIR_CORE' )) {
  * @property AConfig $config
  * @property ExtensionsAPI $extensions
  * @property AResponse $response
+ * @property ACache $cache
  *
  */
 class AView {
@@ -71,6 +72,11 @@ class AView {
 	 */
 	protected $has_extensions;
 	/**
+	 * @var string
+	 */
+	protected $html_cache_key;
+	
+	/**
 	 * @param Registry $registry
 	 * @param int $instance_id
 	 */
@@ -83,6 +89,7 @@ class AView {
 		$this->data['template_dir'] = RDIR_TEMPLATE;
 		$this->data['tpl_common_dir'] = RDIR_TEMPLATE . '/template/common/';
 		$this->instance_id = $instance_id;
+		
 	}
 
 	public function __get($key) {
@@ -308,9 +315,18 @@ class AView {
 	            }
             }
 			ADebug::checkpoint('fetch '.$filename.' end');
+			
+			//Write HTML Cache if we need and can write
+			if($this->config && $this->config->get('config_html_cache') && $this->html_cache_key ) {
+				if($this->cache->save_html_cache($this->html_cache_key, $content) === false){
+					$error = new AError('Error: Cannot create HTML cache for file '.$this->html_cache_key.'! Directory to write cache is not writable', AC_ERR_LOAD);
+					$error->toDebug()->toLog();
+				}
+			}
+			
       		return $content;
     	} else {
-			$error = new AError('Error: Could not load template ' . $filename . '! File '.$file.' is missing or incorrect. Check blocks in the layout or enable debug mode to get more details. ', AC_ERR_LOAD);
+			$error = new AError('Error: Cannot load template ' . $filename . '! File '.$file.' is missing or incorrect. Check blocks in the layout or enable debug mode to get more details. ', AC_ERR_LOAD);
 			$error->toDebug()->toLog();
     	}
 
@@ -319,16 +335,17 @@ class AView {
 
 	/**
 	 * Storefront function to return path to the resource
-	 * @param $filename
+	 * @param string $filename
+	 * @param string $mode Mode to return format: http | file
 	 * @return string with relative path
 	 */
-    public function templateResource( $filename) {
+    public function templateResource( $filename, $mode = 'http') {
     	if ( !$filename ) {
     		return null;    	
     	}
-	    $output = '';
+	    $http_path = '';
 		$res_arr = $this->_extensions_resource_map($filename);
-		//get first exact template extension resource or default template resource othewise.
+		//get first exact template extension resource or default template resource otherwise.
 		if ( count($res_arr['original'])) {
 			$output = $res_arr['original'][0];
 		} else if(count($res_arr['default'])) {
@@ -343,7 +360,13 @@ class AView {
 		    $http_path = $this->data['http_dir'];
 	    }
 
-	    return $http_path.$output;
+		if($mode == 'http') {
+			return $http_path.$output;
+		} else if($mode == 'file') {
+			return DIR_ROOT."/".$output;
+		} else {
+			return '';
+		}
     }
 
 	/**
@@ -362,6 +385,112 @@ class AView {
     		return false;
     	}
     }
+
+	/**
+	 * Check if HTML Cache file present 
+	 * @param string $key
+	 * @return bool
+	 */
+	public function setCacheKey( $key ) {
+		$this->html_cache_key = $key;
+	}
+	
+	/**
+	 * Check if HTML Cache file present 
+	 * @param string $key
+	 * @return bool
+	 */
+	public function checkHTMLCache( $key ) {
+    	if ( !$key ) {
+    		return false;    	
+    	}
+		$this->html_cache_key = $key;
+		$html_cache = $this->cache->get_html_cache($key);
+		if($html_cache){
+     		$compression = '';
+     		if ($this->config) { 
+     			$compression = $this->config->get('config_compression');
+     		}
+			$this->response->setOutput($html_cache, $compression);
+			return true;
+		}
+		return false;
+    }
+
+	/**
+	 * Beta! 
+	 * Build or load minified CSS and return an output.
+	 * @param string $css_file css file with relative name
+	 * @param string $group CSS group name for caching 
+	 * @return string
+	 */
+	public function LoadMinifyCSS( $css_file, $group = 'css' ) {
+		if(empty($css_file)) {
+			return '';
+		}
+		//build hash key
+		$key = '';
+		//get file time stamp
+		$key .= $css_file."-".filemtime($this->templateResource($css_file, 'file'));		
+		$key = $group . "." . AEncryption::getHash($group . '-' . $key);
+		//check if hash is created and load 
+		$css_data = $this->cache->pull($key);
+		if($css_data === false) {
+			require_once(DIR_CORE . 'helper/html-css-js-minifier.php');
+			//build minified css and save
+			$path = dirname($this->templateResource($css_file, 'http'));
+			$new_content = file_get_contents($this->templateResource($css_file, 'file'));
+			//replace relative directories with full path
+			$css_data = preg_replace('/\.\.\//', $path.'/../', $new_content);
+			$css_data = minify_css($css_data);
+			$this->cache->push($key, $css_data);
+		}
+		return $css_data;
+	}
+
+	/**
+	 * Beta! 
+	 * Preload JavaScript and return an output.
+	 * @param string/array $js_file file(s) with relative name
+	 * @param string $group JS group name for caching 
+	 * @return string
+	 */
+	public function PreloadJS( $js_file, $group = 'js' ) {
+		if(empty($js_file)) {
+			return '';
+		}
+		//build hash key
+		$key = '';
+		//get file time stamp
+		if(is_array($js_file)) {
+			foreach($js_file as $js) {			
+				//get file time stamp
+				$key .= $js."-".filemtime($this->templateResource($js, 'file'));		
+			}	
+		} else {	
+			$key .= $js_file."-".filemtime($this->templateResource($js_file, 'file'));		
+		}
+
+		$key = $group . "." . AEncryption::getHash($group . '-' . $key);
+		//check if hash is created and load 
+		$js_data = $this->cache->pull($key);
+		if($js_data === false) {
+			//load js and save to cache
+			//TODO: Add stable minify method. minify_js in html-css-js-minifier.php is not stable  
+			$js_data = '';
+			if(is_array($js_file)) {
+				foreach($js_file as $file){
+					$js_data .= file_get_contents($this->templateResource($file, 'file')) . "\n";
+				}
+			}
+			else {
+				$js_data .= file_get_contents($this->templateResource($js_file, 'file'));
+			}
+			//$js_data = minify_js($js_data);
+			$this->cache->push($key, $js_data);
+		}
+		return $js_data;
+	}
 
 	/**
 	 * full directory path
@@ -416,7 +545,7 @@ class AView {
 	private function _get_template_path($path, $filename, $mode) {
 		//look into extensions first
 		$res_arr = $this->_extensions_resource_map($filename);
-		//get first exact template extension resource or default template resource othewise.
+		//get first exact template extension resource or default template resource otherwise.
 		if ( count($res_arr['original'])) {
 			return $res_arr['original'][0];
 		} else if(count($res_arr['default'])) {

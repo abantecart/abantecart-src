@@ -119,7 +119,7 @@
 	</div>
 	</form>
 </div>
-<script type="text/javascript"><!--
+<script type="text/javascript">
 
 	$('input[name^=\'payment_method\']').change(function () {
 		var $form = $(this).closest('form');
@@ -141,5 +141,5 @@
 		}		
 	});
 
-//--></script>
+</script>
 <?php echo $footer; ?>

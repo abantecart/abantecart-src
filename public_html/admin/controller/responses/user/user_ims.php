@@ -20,6 +20,11 @@
 if (! defined ( 'DIR_CORE' ) || !IS_ADMIN) {
 	header ( 'Location: static_pages/' );
 }
+
+/**
+ * Class ControllerResponsesUserUserIMs
+ * @property string $rt
+ */
 class ControllerResponsesUserUserIMs extends AController {
 	public $data = array();
 	public $error = array();
@@ -31,6 +36,7 @@ class ControllerResponsesUserUserIMs extends AController {
 		$user_id = $this->request->get['user_id'];
 		$this->loadModel('user/user');
 		$this->loadLanguage('user/user');
+		$this->loadLanguage('common/im');
 		$user_info = $this->model_user_user->getUser($user_id);
 
 		$this->data['user_id'] = $user_id;
@@ -38,7 +44,7 @@ class ControllerResponsesUserUserIMs extends AController {
 		$section = $this->request->get['section'];
 
 		$this->data['text_title'] = '"'.$this->language->get('im_sendpoint_name_'.preformatTextID($sendpoint)).'"';
-		$this->data['text_title'] .= ' '.sprintf($this->language->get('text_notification_for', 'common_im'),$user_info['username']);
+		$this->data['text_title'] .= ' '.sprintf($this->language->get('text_notification_for', 'common/im'),$user_info['username']);
 		if($section){
 			$this->data['text_title'] .= " (" . $this->language->get('text_' . $section) . ")";
 		}
@@ -81,7 +87,7 @@ class ControllerResponsesUserUserIMs extends AController {
 
 		//mark error sendpoints
 	    if(!in_array($sendpoint, $all_sendpoints)){
-		    $this->data['error_warning'] = sprintf($this->language->get('error_unknown_sendpoint',$sendpoint));
+		    $this->data['error_warning'] = sprintf($this->language->get('error_unknown_sendpoint'),$sendpoint);
 		    $this->log->write('IM send point '.$sendpoint.' is not in the send points list! ');
 	    }
 
@@ -134,6 +140,7 @@ class ControllerResponsesUserUserIMs extends AController {
 
 
 	public function saveIMSettings(){
+		$this->loadLanguage('common/im');
 
 		if (!$this->user->canModify($this->rt)) {
 			$error = new AError('');

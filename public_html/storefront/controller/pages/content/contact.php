@@ -49,7 +49,8 @@ class ControllerPagesContentContact extends AController{
 
 			$mail = new AMail($this->config);
 			$mail->setTo($this->config->get('store_main_email'));
-			$mail->setFrom($this->request->post['email']);
+			$mail->setFrom($this->config->get('store_main_email'));
+			$mail->setReplyTo($this->request->post['email']);
 			$mail->setSender($this->request->post['first_name']);
 			$mail->setSubject($subject);
 

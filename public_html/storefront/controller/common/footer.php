@@ -59,8 +59,7 @@ class ControllerCommonFooter extends AController {
 		
 		$this->data['text_project_label'] = $this->language->get('text_powered_by') . ' ' . project_base();
 
-		$this->view->assign('scripts_bottom', $this->document->getScriptsBottom());		
-
+		$this->view->assign('scripts_bottom', $this->document->getScriptsBottom());
 		$this->view->batchAssign($this->data);
 		$this->processTemplate('common/footer.tpl');
 

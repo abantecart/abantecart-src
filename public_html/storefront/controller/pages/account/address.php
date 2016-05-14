@@ -162,7 +162,7 @@ class ControllerPagesAccountAddress extends AController{
 		$results = $this->model_account_address->getAddresses();
 
 		foreach ($results as $result){
-			$formated_address = $this->customer->getFormatedAdress($result, $result['address_format']);
+			$formated_address = $this->customer->getFormattedAddress($result, $result['address_format']);
 
 			$edit = $this->html->buildElement(
 					array (

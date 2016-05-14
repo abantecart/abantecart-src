@@ -26,13 +26,10 @@ class ControllerCommonHead extends AController {
         //init controller data
         $this->extensions->hk_InitData($this,__FUNCTION__);
 
-		//if enabled system check for all 0 or for storefront only 2
-		if(!$this->config->get('config_system_check') || $this->config->get('config_system_check') == 2 ) {
-			//run system check to make sure system is stable to run the request
-			//for storefront log messages. nothing is shown to users
-			run_system_check($this->registry, 'log');
-		}
-		
+		//run system check to make sure system is stable to run the request
+		//for storefront log messages. nothing is shown to users
+		run_system_check($this->registry, 'log');
+
 		$this->loadLanguage('common/header');
 		
 		$this->view->assign('title', $this->document->getTitle());
@@ -94,26 +91,6 @@ class ControllerCommonHead extends AController {
 		$this->view->assign('template_debug_mode', $this->config->get('storefront_template_debug'));
 
 		$this->processTemplate('common/head.tpl');
-
-		//Log Online Customers
-		$ip = '';
-		if (isset($this->request->server['REMOTE_ADDR'])) {
-		        $ip = $this->request->server['REMOTE_ADDR'];
-		}
-		$url = '';
-		if (isset($this->request->server['HTTP_HOST']) && isset($this->request->server['REQUEST_URI'])) {
-		        $url = 'http://' . $this->request->server['HTTP_HOST'] . $this->request->server['REQUEST_URI'];
-		}
-		$referer = '';
-		if (isset($this->request->server['HTTP_REFERER'])) {
-		        $referer = $this->request->server['HTTP_REFERER'];
-		}
-		$customer_id = '';
-		if ( is_object($this->customer)) {
-			$customer_id = $this->customer->getId();
-		}
-		$this->loadModel('tool/online_now');		
-		$this->model_tool_online_now->setOnline($ip, $customer_id, $url, $referer);
  
         //init controller data
         $this->extensions->hk_UpdateData($this,__FUNCTION__);

@@ -1,107 +1,107 @@
 <?xml version="1.0"?>
 <definitions>
-  <definition>
-    <key>heading_title</key>
-    <value><![CDATA[Cache Management]]></value>
-  </definition>
-  <definition>
-    <key>text_success</key>
-    <value><![CDATA[Success: You have successfully deleted the cache files!]]></value>
-  </definition>
-  <definition>
-    <key>text_configuration</key>
-    <value><![CDATA[Configuration]]></value>
-  </definition>
-  <definition>
-    <key>text_layouts_blocks</key>
-    <value><![CDATA[Layouts &amp; Blocks]]></value>
-  </definition>
-  <definition>
-    <key>text_translations</key>
-    <value><![CDATA[Translations]]></value>
-  </definition>
-  <definition>
-    <key>text_flexyforms</key>
-    <value><![CDATA[Flexy Forms]]></value>
-  </definition>
-  <definition>
-    <key>text_images</key>
-    <value><![CDATA[Images]]></value>
-  </definition>
-  <definition>
-    <key>text_products</key>
-    <value><![CDATA[Products]]></value>
-  </definition>
-  <definition>
-    <key>text_categories</key>
-    <value><![CDATA[Categories]]></value>
-  </definition>
-  <definition>
-    <key>text_manufacturers</key>
-    <value><![CDATA[Manufacturers]]></value>
-  </definition>
-  <definition>
-    <key>text_localisations</key>
-    <value><![CDATA[Localisations]]></value>
-  </definition>
-    <definition>
-    <key>text_error_log</key>
-    <value><![CDATA[Error Log]]></value>
-  </definition>
-    <definition>
-    <key>text_clear_cache</key>
-    <value><![CDATA[Clear Selected Cache]]></value>
-  </definition>
-    <definition>
-    <key>text_clear_all_cache</key>
-    <value><![CDATA[Clear All Cache]]></value>
-  </definition>
-  <definition>
-    <key>desc_configuration</key>
-    <value><![CDATA[System and store configurations]]></value>
-  </definition>
-  <definition>
-    <key>desc_layouts_blocks</key>
-    <value><![CDATA[Pages, page layouts, blocks]]></value>
-  </definition>
-  <definition>
-    <key>desc_translations</key>
-    <value><![CDATA[Language translation data]]></value>
-  </definition>
+	<definition>
+		<key>heading_title</key>
+		<value><![CDATA[Cache Management]]></value>
+	</definition>
+	<definition>
+		<key>text_success</key>
+		<value><![CDATA[Success: You have successfully deleted the cache files!]]></value>
+	</definition>
+	<definition>
+		<key>text_configuration</key>
+		<value><![CDATA[Configuration]]></value>
+	</definition>
+	<definition>
+		<key>text_layouts_blocks</key>
+		<value><![CDATA[Layouts &amp; Blocks]]></value>
+	</definition>
+	<definition>
+		<key>text_flexyforms</key>
+		<value><![CDATA[Flexy Forms]]></value>
+	</definition>
+	<definition>
+		<key>text_images</key>
+		<value><![CDATA[Images]]></value>
+	</definition>
+	<definition>
+		<key>text_products</key>
+		<value><![CDATA[Products]]></value>
+	</definition>
+	<definition>
+		<key>text_categories</key>
+		<value><![CDATA[Categories]]></value>
+	</definition>
+	<definition>
+		<key>text_manufacturers</key>
+		<value><![CDATA[Manufacturers]]></value>
+	</definition>
+	<definition>
+		<key>text_localisations</key>
+		<value><![CDATA[Localisations]]></value>
+	</definition>
+	<definition>
+		<key>text_error_log</key>
+		<value><![CDATA[Error Log]]></value>
+	</definition>
+	<definition>
+		<key>text_clear_cache</key>
+		<value><![CDATA[Clear Selected Cache]]></value>
+	</definition>
+	<definition>
+		<key>text_clear_all_cache</key>
+		<value><![CDATA[Clear All Cache]]></value>
+	</definition>
+	<definition>
+		<key>desc_configuration</key>
+		<value><![CDATA[System and store configurations]]></value>
+	</definition>
+	<definition>
+		<key>desc_layouts_blocks</key>
+		<value><![CDATA[Pages, page layouts, blocks]]></value>
+	</definition>
 	<definition>
 		<key>desc_flexyforms</key>
 		<value><![CDATA[Flexy forms data]]></value>
 	</definition>
-  <definition>
-    <key>desc_images</key>
-    <value><![CDATA[Image thumbnails]]></value>
-  </definition>
-  <definition>
-    <key>desc_products</key>
-    <value><![CDATA[Product data]]></value>
-  </definition>
-  <definition>
-    <key>desc_categories</key>
-    <value><![CDATA[Category data]]></value>
-  </definition>
-  <definition>
-    <key>desc_manufacturers</key>
-    <value><![CDATA[Manufacturer data]]></value>
-  </definition>
-  <definition>
-    <key>desc_localisations</key>
-    <value><![CDATA[Currency, Language, Country, Zone, Length, Weight, &amp; other]]></value>
-  </definition>
-  <definition>
-    <key>desc_error_log</key>
-    <value><![CDATA[Error Log]]></value>
-  </definition>
-  <definition>
-    <key>column_type</key>
-    <value><![CDATA[Cache Type]]></value>
-  </definition>
-  <definition>
-    <key>column_description</key>
-    <value><![CDATA[Description]]></value>
-  </definition>
+	<definition>
+		<key>desc_images</key>
+		<value><![CDATA[Image thumbnails]]></value>
+	</definition>
+	<definition>
+		<key>desc_products</key>
+		<value><![CDATA[Product data]]></value>
+	</definition>
+	<definition>
+		<key>desc_categories</key>
+		<value><![CDATA[Category data]]></value>
+	</definition>
+	<definition>
+		<key>desc_manufacturers</key>
+		<value><![CDATA[Manufacturer data]]></value>
+	</definition>
+	<definition>
+		<key>desc_localisations</key>
+		<value><![CDATA[Currency, Language, Country, Zone, Length, Weight, &amp; other]]></value>
+	</definition>
+	<definition>
+		<key>desc_error_log</key>
+		<value><![CDATA[Error Log]]></value>
+	</definition>
+	<definition>
+		<key>column_type</key>
+		<value><![CDATA[Cache Type]]></value>
+	</definition>
+	<definition>
+		<key>column_description</key>
+		<value><![CDATA[Description]]></value>
+	</definition>
+	<definition>
+		<key>text_html_cache</key>
+		<value><![CDATA[HTML-cache]]></value>
+	</definition>
+	<definition>
+		<key>desc_html_cache</key>
+		<value><![CDATA[Cached HTML pages and blocks]]></value>
+	</definition>
 </definitions>

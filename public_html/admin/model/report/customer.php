@@ -26,7 +26,7 @@ class ModelReportCustomer extends Model {
 	public function getOnlineCustomers($data = array(), $mode = 'default') {
 
 		if ($mode == 'total_only') {
-			$total_sql = 'SELECT count(*) as total';
+			$total_sql = 'SELECT co.ip, co.customer_id as total';
 		}
 		else {
 			$total_sql = "SELECT	c.status, 
@@ -51,7 +51,14 @@ class ModelReportCustomer extends Model {
 		//If for total, we done bulding the query
 		if ($mode == 'total_only') {
 			$query = $this->db->query($sql);
-			return $query->row['total'];
+			$total = 0;
+			//prevent duplicates of logged customers by different ip's
+			foreach($query->rows as $row){
+				if(!isset($total[$row['customer_id']]) || !$total[$row['customer_id']]){
+					$total++;
+				}
+			}
+			return $total;
 		}
 
 		$sort_data = array(

@@ -22,6 +22,8 @@ if (!defined('DIR_CORE')) {
 }
 /**
  * Class ModelCheckoutOrder
+ * @property  ModelLocalisationCountry $model_localisation_country
+ * @property  ModelLocalisationZone $model_localisation_zone
  */
 
 class ModelCheckoutOrder extends Model {
@@ -108,28 +110,21 @@ class ModelCheckoutOrder extends Model {
 				if ($query->num_rows) {
 					return false;
 				}
-			}
-		} else {
-			//clean up based on setting
-			if((int)$this->config->get('config_order_expire_days')){
-				$query = $this->db->query("SELECT order_id
-										FROM " . $this->db->table("orders") . "
-										WHERE date_added < '" . date('Y-m-d', strtotime('-'.$this->config->get('config_order_expire_days').' days')) . "'
-											AND order_status_id = '0'");
-
+			//remove
+			}else{
+				$this->_remove_order($query->row['order_id']);
 			}
 		}
 
-		//remove already created or abandoned orders
-		if($query->rows){
+		//clean up based on setting (remove already created or abandoned orders)
+		if((int)$this->config->get('config_expire_order_days')){
+			$query = $this->db->query(
+					"SELECT order_id
+					FROM " . $this->db->table("orders") . "
+					WHERE date_modified < '" . date('Y-m-d', strtotime('-'.(int)$this->config->get('config_expire_order_days').' days')) . "'
+						AND order_status_id = '0'");
 			foreach ($query->rows as $result){
-				$this->db->query("DELETE FROM `" . $this->db->table("orders") . "` WHERE order_id = '" . (int)$result['order_id'] . "'");
-				$this->db->query("DELETE FROM " . $this->db->table("order_history") . " WHERE order_id = '" . (int)$result['order_id'] . "'");
-				$this->db->query("DELETE FROM " . $this->db->table("order_products") . " WHERE order_id = '" . (int)$result['order_id'] . "'");
-				$this->db->query("DELETE FROM " . $this->db->table("order_options") . " WHERE order_id = '" . (int)$result['order_id'] . "'");
-				$this->db->query("DELETE FROM " . $this->db->table("order_downloads") . " WHERE order_id = '" . (int)$result['order_id'] . "'");
-				$this->db->query("DELETE FROM " . $this->db->table("order_totals") . " WHERE order_id = '" . (int)$result['order_id'] . "'");
-				$this->db->query("DELETE FROM " . $this->db->table("order_data") . " WHERE order_id = '" . (int)$result['order_id'] . "'");
+				$this->_remove_order($result['order_id']);
 			}
 		}
 
@@ -237,11 +232,11 @@ class ModelCheckoutOrder extends Model {
 			}
 
 			foreach ($product['download'] as $download) {
-				$download['expire_days'] = (int)$download['expire_days'] > 0 ? $download['expire_days'] : 0; // if expire days not setted - set 20 years as "unexpired"
+				// if expire days not set - 0  as unexpired
+				$download['expire_days'] = (int)$download['expire_days'] > 0 ? $download['expire_days'] : 0;
 				$download['max_downloads'] = ((int)$download['max_downloads'] ? (int)$download['max_downloads'] * $product['quantity'] : '');
 				$download['status'] = $download['activate']=='manually' ? 0 : 1; //disable download for manual mode for customer
 				$download['attributes_data'] = serialize($this->download->getDownloadAttributesValues($download['download_id']));
-
 				$this->download->addProductDownloadToOrder($order_product_id, $order_id, $download);
 			}
 		}
@@ -349,10 +344,8 @@ class ModelCheckoutOrder extends Model {
 			        FROM " . $this->db->table("products") . "
 					WHERE product_id = '" . (int)$product['product_id'] . "' AND subtract = 1";
 			$res = $this->db->query($sql);
-			
 			if($res->num_rows && $res->row['quantity'] <= 0){
 				//notify admin with out of stock
-
 				$message_arr = array(
 				    1 => array('message' =>  sprintf($language->get('im_product_out_of_stock_admin_text'),$product['product_id']))
 				);
@@ -375,17 +368,18 @@ class ModelCheckoutOrder extends Model {
 							AND subtract = 1";
 				$res = $this->db->query($sql);
 				if($res->num_rows && $res->row['quantity'] <= 0){
-					//notify admin with out of stock
+					//notify admin with out of stock for option based product
 					$message_arr = array(
 					    1 => array('message' =>  sprintf($language->get('im_product_out_of_stock_admin_text'),$product['product_id']))
 					);
 					$this->im->send('product_out_of_stock', $message_arr);
 				}
 			}
-
-			$this->cache->delete('product');
-
 		}
+		
+		//clean product cache as stock might have changed.
+		$this->cache->remove('product');
+
 		//build confirmation email
 		$language = new ALanguage($this->registry, $order_row['code']);
 		$language->load($order_row['filename']);
@@ -495,7 +489,7 @@ class ModelCheckoutOrder extends Model {
 			'country' => $order_row['shipping_country']
 		);
 
-		$template->data['shipping_address'] = $this->customer->getFormatedAdress($shipping_data, $order_row['shipping_address_format']);
+		$template->data['shipping_address'] = $this->customer->getFormattedAddress($shipping_data, $order_row['shipping_address_format']);
 		$zone_row = $this->model_localisation_zone->getZone($order_row['payment_zone_id']);
 		if ( $zone_row ) {
 			$zone_code = $zone_row['code'];
@@ -516,7 +510,7 @@ class ModelCheckoutOrder extends Model {
 			'country' => $order_row['payment_country']
 		);
 
-		$template->data['payment_address'] = $this->customer->getFormatedAdress($payment_data, $order_row['payment_address_format']);
+		$template->data['payment_address'] = $this->customer->getFormattedAddress($payment_data, $order_row['payment_address_format']);
 
 		if ( !has_value($this->data['products']) ) {
 			$this->data['products'] = array();
@@ -577,14 +571,15 @@ class ModelCheckoutOrder extends Model {
 		}
 
 		$text .= "\n";
-
 		$text .= $language->get('text_total') . "\n";
 
+		$result_text = '';
 		foreach ($order_total_query->rows as $result) {
 			$text .= $result['title'] . ' ' . html_entity_decode($result['text'], ENT_NOQUOTES, 'UTF-8') . "\n";
+			$result_text = $result['text'];
 		}
 
-		$order_total = $result['text'];
+		$order_total = $result_text;
 
 		$text .= "\n";
 
@@ -801,5 +796,25 @@ class ModelCheckoutOrder extends Model {
 				WHERE order_id = "' . (int) $order_id . '"'
 		);
 	}
-}
 
+	/**
+	 * @param $order_id
+	 * @return bool
+	 */
+	private function _remove_order($order_id){
+		$order_id = (int)$order_id;
+		if(!$order_id){
+			return false;
+		}
+
+		$this->db->query("DELETE FROM `" . $this->db->table("orders") . "` WHERE order_id = '" . $order_id . "'");
+		$this->db->query("DELETE FROM `" . $this->db->table("order_history") . "` WHERE order_id = '" . $order_id . "'");
+		$this->db->query("DELETE FROM `" . $this->db->table("order_products") . "` WHERE order_id = '" . $order_id . "'");
+		$this->db->query("DELETE FROM `" . $this->db->table("order_options") . "` WHERE order_id = '" . $order_id . "'");
+		$this->db->query("DELETE FROM `" . $this->db->table("order_downloads") . "` WHERE order_id = '" . $order_id . "'");
+		$this->db->query("DELETE FROM `" . $this->db->table("order_totals") . "` WHERE order_id = '" . $order_id . "'");
+		$this->db->query("DELETE FROM `" . $this->db->table("order_data") . "` WHERE order_id = '" . $order_id . "'");
+
+		return true;
+	}
+}

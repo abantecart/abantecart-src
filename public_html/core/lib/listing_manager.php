@@ -22,12 +22,28 @@ if (!defined('DIR_CORE')) {
 }
 
 class AListingManager extends AListing {
+	/**
+	 * @var Registry
+	 */
 	protected $registry;
+	/**
+	 * @var int
+	 */
 	public    $errors = 0;
+	/**
+	 * @var int
+	 */
 	protected   $custom_block_id;
+	/**
+	 * @var array
+	 */
 	public    $data_sources;
 
 	//NOTE: This class is loaded in INIT for admin only
+	/**
+	 * @param int $custom_block_id
+	 * @throws AException
+	 */
 	public function __construct($custom_block_id) {
 		parent::__construct($custom_block_id);
 		if (!IS_ADMIN) { // forbid for non admin calls
@@ -35,6 +51,10 @@ class AListingManager extends AListing {
 		}
 	}
 
+	/**
+	 * @param array $data
+	 * @return bool
+	 */
 	public function saveCustomListItem($data) {
 		$custom_block_id = (int)$this->custom_block_id;
 		if( !isset($data['data_type']) && isset( $data['listing_datasource'] ) ){
@@ -69,27 +89,37 @@ class AListingManager extends AListing {
 								      NOW())");
 		}
 
+		$this->cache->remove('blocks.custom.'.$custom_block_id);
 		return true;
 	}
 	
 	// delete one item from custom list of custom listing block
+	/**
+	 * @param array $data
+	 */
 	public function deleteCustomListItem($data) {
 
 		$listing_properties = $this->getListingDataSources();
 		if( !isset($data['data_type']) && isset( $data['listing_datasource'] ) ){
 			$data['data_type'] = $listing_properties[$data['listing_datasource']]['data_type'];
 		}
+		$custom_block_id = (int)$this->custom_block_id;
 
 		$sql = "DELETE FROM  " . $this->db->table("custom_lists") . " 
-									WHERE custom_block_id = '".(int)$this->custom_block_id."'
+									WHERE custom_block_id = '".$custom_block_id."'
 											AND id='".$data['id']."'
 											AND data_type='".$data['data_type']."'";
 		$this->db->query( $sql);
+		$this->cache->remove('blocks.custom.'.$custom_block_id);
 	}
 
 	// delete all custom list of custom listing block
+
 	public function deleteCustomListing() {
-		$sql = "DELETE FROM  " . $this->db->table("custom_lists") . " WHERE custom_block_id = '".(int)$this->custom_block_id."'";
+		$custom_block_id = (int)$this->custom_block_id;
+		$sql = "DELETE FROM  " . $this->db->table("custom_lists") . "
+				WHERE custom_block_id = '".$custom_block_id."'";
 		$this->db->query( $sql );
+		$this->cache->remove('blocks.custom.'.$custom_block_id);
 	}
 }

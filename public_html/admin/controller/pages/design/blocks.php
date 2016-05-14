@@ -120,8 +120,25 @@ class ControllerPagesDesignBlocks extends AController {
 		}
 
 		$this->view->batchAssign($this->language->getASet());
-		$this->initTabs();
-		$this->view->assign('inserts', $this->data['tabs']);
+
+		//build dropdown menu
+		$blocks = array();
+		$lm = new ALayoutManager();
+		foreach ($this->data['custom_block_types'] as $txt_id) {
+			$block = $lm->getBlockByTxtId($txt_id);
+			if ($block['block_id']) {
+				$blocks[$block['block_id']] = $this->language->get('text_' . $txt_id);
+			}
+		}
+
+		$inserts = array();
+		foreach ($blocks as $block_id => $block_text) {
+			$inserts[] = array(
+					'text' => $block_text,
+					'href' => $this->html->getSecureURL('design/blocks/insert', '&block_id=' . $block_id),
+			);
+		}
+		$this->view->assign('inserts', $inserts);
 
 		$this->view->assign('form_language_switch', $this->html->getContentLanguageSwitcher());
 		$this->view->assign('help_url', $this->gen_help_url('block_listing'));
@@ -138,6 +155,7 @@ class ControllerPagesDesignBlocks extends AController {
 		$this->document->setTitle($this->language->get('heading_title'));
 
 		$block_id = (int)$this->request->get['block_id'] ? (int)$this->request->get['block_id'] : (int)$this->request->post['block_id'];
+		$block_txt_id = '';
 		// now need to know what custom block is this
 		$lm = new ALayoutManager();
 		$blocks = $lm->getAllBlocks();
@@ -150,6 +168,8 @@ class ControllerPagesDesignBlocks extends AController {
 
 		if ($this->request->is_POST() && $this->_validateForm()) {
 			if (isset($this->session->data['layout_params'])) {
+				$parent_instance_id = null;
+				$position = 0;
 				$layout = new ALayoutManager($this->session->data['layout_params']['tmpl_id'],
 						$this->session->data['layout_params']['page_id'],
 						$this->session->data['layout_params']['layout_id']);
@@ -176,7 +196,7 @@ class ControllerPagesDesignBlocks extends AController {
 				$layout = new ALayoutManager();
 			}
 
-
+			$content = '';
 			switch ($block_txt_id) {
 				case 'listing_block':
 					$content = array('listing_datasource' => $this->request->post['listing_datasource']);
@@ -243,14 +263,14 @@ class ControllerPagesDesignBlocks extends AController {
 
 		// if we need to save new block in layout - keep parameters in session
 		if (!isset($this->session->data['layout_params']) && isset($this->request->get['layout_id'])) {
-			$this->session->data['layout_params']['layout_id'] = $this->request->get['layout_id'];
-			$this->session->data['layout_params']['page_id'] = $this->request->get['page_id'] ? $this->request->get['page_id'] : 1;
-			$this->session->data['layout_params']['tmpl_id'] = $this->request->get['tmpl_id'];
-			$this->session->data['layout_params']['parent_block_id'] = $this->request->get['parent_block_id'];
-
+			$this->session->data['layout_params'] = array(
+					'layout_id' => $this->request->get['layout_id'],
+					'page_id' => ($this->request->get['page_id'] ? $this->request->get['page_id'] : 1),
+					'tmpl_id' => $this->request->get['tmpl_id'],
+					'parent_block_id' => $this->request->get['parent_block_id']);
 		}
 
-		$this->initTabs();
+		$this->_init_tabs();
 		switch ($block_txt_id) {
 			case 'listing_block':
 				$this->_getListingForm();
@@ -280,6 +300,7 @@ class ControllerPagesDesignBlocks extends AController {
 		// now need to know what custom block is this
 		$lm = new ALayoutManager();
 		$blocks = $lm->getAllBlocks();
+		$block_txt_id = '';
 		foreach ($blocks as $block) {
 			if ($block['custom_block_id'] == $custom_block_id) {
 				$block_txt_id = $block['block_txt_id'];
@@ -288,6 +309,7 @@ class ControllerPagesDesignBlocks extends AController {
 		}
 
 		$layout = new ALayoutManager();
+		$content = '';
 
 		// saving
 		if ($this->request->is_POST() && $this->_validateForm()) {
@@ -351,9 +373,9 @@ class ControllerPagesDesignBlocks extends AController {
 		// end of saving
 
 		$info = $layout->getBlockDescriptions($custom_block_id);
-
-		if (isset($info[$this->session->data['content_language_id']])) {
-			$info = $info[$this->session->data['content_language_id']];
+		$lang_id = $this->language->getContentLanguageID();
+		if (isset($info[$lang_id])) {
+			$info = $info[$lang_id];
 		} else {
 			$info = current($info);
 			unset($info['name'], $info['title'], $info['description']);
@@ -363,10 +385,22 @@ class ControllerPagesDesignBlocks extends AController {
 			$this->data[$k] = $v;
 		}
 
-		$this->data['tabs'][0] = array('href' => '',
-				'text' => $this->language->get('text_' . $block_txt_id),
-				'active' => true);
+		$tabs = array(
+					array(
+						'name' => '',
+						'text' => $this->language->get('text_' . $block_txt_id),
+						'href' => '',
+						'active' => true,
+						'sort_order' => 0
+					)
+		);
+		$obj = $this->dispatch('responses/common/tabs',
+				array(
+					'design/blocks/edit_block', //parent controller. Use customer group to use for other extensions that will add tabs via their hooks
+					array('tabs'=>$tabs))
+					);
 
+		$this->data['tabs'] = $obj->dispatchGetOutput();
 		switch ($block_txt_id) {
 			case 'listing_block':
 				$this->_getListingForm();
@@ -379,14 +413,11 @@ class ControllerPagesDesignBlocks extends AController {
 		$this->extensions->hk_UpdateData($this, __FUNCTION__);
 	}
 
-	public function initTabs() {
-
-		//init controller data
-		$this->extensions->hk_InitData($this, __FUNCTION__);
+	private function _init_tabs() {
 
 		$blocks = array();
 		$lm = new ALayoutManager();
-
+		$default_block_type = '';
 		foreach ($this->data['custom_block_types'] as $txt_id) {
 			$block = $lm->getBlockByTxtId($txt_id);
 			if ($block['block_id']) {
@@ -399,16 +430,23 @@ class ControllerPagesDesignBlocks extends AController {
 
 		$this->request->get['block_id'] = !(int)$this->request->get['block_id'] ? $default_block_type : $this->request->get['block_id'];
 		$i = 0;
+		$tabs = array();
 		foreach ($blocks as $block_id => $block_text) {
-			$this->data['tabs'][$i] = array(
-					'href' => $this->html->getSecureURL('design/blocks/insert', '&block_id=' . $block_id),
+			$tabs[] = array(
+					'name' => $block_id,
 					'text' => $block_text,
-					'active' => ($block_id == $this->request->get['block_id'] ? true : false));
+					'href' => $this->html->getSecureURL('design/blocks/insert', '&block_id=' . $block_id),
+					'active' => ($block_id == $this->request->get['block_id'] ? true : false),
+					'sort_order' => $i);
 			$i++;
 		}
-		ksort($this->data['tabs']);
-		//update controller data
-		$this->extensions->hk_UpdateData($this, __FUNCTION__);
+
+		$obj = $this->dispatch('responses/common/tabs',array(
+															'design/blocks', //parent controller. Use customer group to use for other extensions that will add tabs via their hooks
+															array('tabs'=>$tabs))
+															);
+
+		$this->data['tabs'] = $obj->dispatchGetOutput();
 	}
 
 	public function delete() {
@@ -453,7 +491,7 @@ class ControllerPagesDesignBlocks extends AController {
 
 		if (!isset ($this->request->get ['custom_block_id'])) {
 			$this->data ['action'] = $this->html->getSecureURL('design/blocks/insert');
-			$this->data ['heading_title'] = $this->language->get('text_create');
+			$this->data ['heading_title'] = $this->language->get('text_create','design/blocks');
 			$this->data ['update'] = '';
 			$form = new AForm ('ST');
 		} else {
@@ -493,6 +531,7 @@ class ControllerPagesDesignBlocks extends AController {
 			$this->data['entry_block_status_note'] = $this->html->convertLinks($this->language->get('entry_block_status_note'));
 		}
 
+		$default_block_type = '';
 		$lm = new ALayoutManager();
 		foreach ($this->data['custom_block_types'] as $txt_id) {
 			$block = $lm->getBlockByTxtId($txt_id);
@@ -572,26 +611,32 @@ class ControllerPagesDesignBlocks extends AController {
 		ksort($this->data['block_wrappers']);
 		array_unshift($this->data['block_wrappers'], $this->language->get('text_automatic'));
 
-		$this->data['form']['fields']['block_wrapper'] = $form->getFieldHtml(array('type' => 'selectbox',
-				'name' => 'block_wrapper',
-				'options' => $this->data['block_wrappers'],
-				'value' => $this->data['block_wrapper'],
-				));
+		$this->data['form']['fields']['block_wrapper'] = $form->getFieldHtml(
+				array(
+						'type' => 'selectbox',
+						'name' => 'block_wrapper',
+						'options' => $this->data['block_wrappers'],
+						'value' => $this->data['block_wrapper'],
+		));
 		$this->data['form']['text']['block_wrapper'] = $this->language->get('entry_block_wrapper');
 
-		$this->data['form']['fields']['block_framed'] = $form->getFieldHtml(array('type' => 'checkbox',
-				'name' => 'block_framed',
-				'value' => $this->data['block_framed'],
-				'style' => 'btn_switch',
+		$this->data['form']['fields']['block_framed'] = $form->getFieldHtml(
+				array(
+						'type' => 'checkbox',
+						'name' => 'block_framed',
+						'value' => $this->data['block_framed'],
+						'style' => 'btn_switch',
 				));
 		$this->data['form']['text']['block_framed'] = $this->language->get('entry_block_framed');
 
-		$this->data['form']['fields']['block_description'] = $form->getFieldHtml(array('type' => 'textarea',
-				'name' => 'block_description',
-				'value' => $this->data ['description'],
-				'attr' => ' style="height: 50px;"',
-				'multilingual' => true,
-				));
+		$this->data['form']['fields']['block_description'] = $form->getFieldHtml(
+				array(
+						'type' => 'textarea',
+						'name' => 'block_description',
+						'value' => $this->data ['description'],
+						'attr' => ' style="height: 50px;"',
+						'multilingual' => true,
+		));
 		$this->data['form']['text']['block_description'] = $this->language->get('entry_block_description');
 
 		$this->data['form']['fields']['block_content'] = $form->getFieldHtml(
@@ -600,6 +645,7 @@ class ControllerPagesDesignBlocks extends AController {
 						'name' => 'block_content',
 						'value' => $this->data ['content'],
 						'multilingual' => true,
+						'style' => 'no-save'
 		));
 		$this->data['form']['text']['block_content'] = $this->language->get('entry_block_content');
 
@@ -653,7 +699,7 @@ class ControllerPagesDesignBlocks extends AController {
 
 		if (!isset ($this->request->get ['custom_block_id'])) {
 			$this->data ['action'] = $this->html->getSecureURL('design/blocks/insert');
-			$this->data ['heading_title'] = $this->language->get('text_create');
+			$this->data ['heading_title'] = $this->language->get('text_create','design/blocks');
 			$this->data ['update'] = '';
 			$form = new AForm ('ST');
 		} else {
@@ -696,6 +742,7 @@ class ControllerPagesDesignBlocks extends AController {
 			$this->data['form']['text']['block_status_note'] = $this->html->convertLinks($this->language->get('entry_block_status_note'));
 		}
 
+		$default_block_type = '';
 		$lm = new ALayoutManager();
 		foreach ($this->data['custom_block_types'] as $txt_id) {
 			$block = $lm->getBlockByTxtId($txt_id);
@@ -708,7 +755,7 @@ class ControllerPagesDesignBlocks extends AController {
 		}
 
 		if (isset($this->request->get['custom_block_id'])) {
-			// need to khow what type of listing is that
+			// need to know what type of listing is that
 			$this->data['content'] = unserialize($this->data['content']);
 			$this->data['autoload'] = 'load_subform({\'listing_datasource\': \'' . $this->data['content']['listing_datasource'] . '\'});';
 		}
@@ -830,6 +877,7 @@ class ControllerPagesDesignBlocks extends AController {
 		$this->view->batchAssign($this->language->getASet());
 		$this->view->batchAssign($this->data);
 		$this->view->assign('form_language_switch', $this->html->getContentLanguageSwitcher());
+		$this->view->assign('form_store_switch', $this->html->getStoreSwitcher());
 		$this->view->assign('language_code', $this->session->data['language']);
 		$this->view->assign('help_url', $this->gen_help_url('block_edit'));
 		$this->view->assign('rl', $this->html->getSecureURL('common/resource_library', '&object_name=custom_block&type=image&mode=url'));
@@ -842,26 +890,26 @@ class ControllerPagesDesignBlocks extends AController {
 			$this->session->data['warning'] = $this->error ['warning'] = $this->language->get('error_permission');
 		}
 
-		if ($this->request->post) {
-			$required = array('block_name', 'block_title');
+
+		if ($this->request->post){
+			$required = array ('block_name', 'block_title');
 			// if insert - add block_id (custom block type) in check array
-			if (!isset($this->request->get['custom_block_id'])) {
+			if (!isset($this->request->get['custom_block_id'])){
 				$required[] = 'block_id';
 			}
 
-			foreach ($this->request->post as $name => $value) {
-				if (in_array($name, $required) && empty($value)) {
+			foreach ($this->request->post as $name => $value){
+				if (in_array($name, $required) && empty($value)){
 					$this->error ['warning'] = $this->language->get('error_empty');
 					$this->session->data['warning'] = $this->language->get('error_empty');
 					break;
 				}
 			}
-		}
 
-		foreach ($required as $name) {
-			if (!in_array($name, array_keys($this->request->post))) {
-
-				return false;
+			foreach ($required as $name){
+				if (!in_array($name, array_keys($this->request->post))){
+					return false;
+				}
 			}
 		}
 

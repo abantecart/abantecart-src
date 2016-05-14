@@ -90,7 +90,7 @@ final class AConfig {
 
 	private function _load_settings() {
 		/**
-		 * @var ACache
+		 * @var ACache $cache
 		 */
 		$cache = $this->registry->get('cache');
 		/**
@@ -104,37 +104,59 @@ final class AConfig {
 			$url = str_replace('install/', '', $url);
 		}
 
+		//enable cache storage based on configuration
+		$cache->enableCache();
+		//set configured driver.
+		$cache_driver = 'file';
+		if(defined('CACHE_DRIVER')){
+			$cache_driver = CACHE_DRIVER;
+		}
+		if(!$cache->setCacheStorageDriver($cache_driver)){
+			$error = new AError ('Cache storage driver ' . $cache_driver . ' can not be loaded!');
+			$error->toMessages()->toLog()->toDebug();
+		}
+
 		// Load default store settings
-		$settings = $cache->force_get('settings', '', 0);
-		if (empty($settings)) {
+		$settings = $cache->pull('settings');
+		if(empty($settings)) {
 			// set global settings (without extensions settings)
 			$sql = "SELECT se.*
 					FROM " . $db->table("settings") . " se
-					LEFT JOIN " . $db->table("extensions") . " e ON TRIM(se.`group`) = TRIM(e.`key`)
-					WHERE se.store_id='0' AND e.extension_id IS NULL";
+					WHERE se.store_id = '0'
+						AND se.`group` NOT IN (SELECT `key` FROM " . $db->table("extensions") . ")";
 			$query = $db->query($sql);
 			$settings = $query->rows;
 			foreach ($settings as &$setting) {
 				if($setting['key']=='config_url'){
 					$parsed_url = parse_url($setting['value']);
+					if(empty($parsed_url['scheme'])){
+						$parsed_url['scheme'] = "http";
+					}
 					$setting['value'] = $parsed_url['scheme'].'://'.$parsed_url['host'].$parsed_url['path'];
 				}
 				if($setting['key']=='config_ssl_url'){
 					$parsed_url = parse_url($setting['value']);
-					$setting['value'] = 'https://'.$parsed_url['host'].$parsed_url['path'];
+					if(empty($parsed_url['scheme'])){
+						$parsed_url['scheme'] = "https";
+					}
+					$setting['value'] = $parsed_url['scheme'].'://'.$parsed_url['host'].$parsed_url['path'];
 				}
 				$this->cnfg[$setting['key']] = $setting['value'];
 			}
 			unset($setting); //unset temp reference
+
 			//fix for rare issue on a database and creation of empty cache
-			if(!empty($settings)){			
-				$cache->force_set('settings', $settings, '', 0);
+			if(!empty($settings) && $this->cnfg['config_cache_enable']){
+				$cache->push('settings', $settings);
 			}
+			
 		} else {
 			foreach ($settings as $setting) {
 				$this->cnfg[$setting['key']] = $setting['value'];
 			}
 		}
+		//set current store id as default 0 for now. It will be reset if other store detected below
+		$this->cnfg['config_store_id'] = 0;
 
 		// if storefront and not default store try to load setting for given URL
 		/* Example: 
@@ -148,13 +170,12 @@ final class AConfig {
 			!(is_int(strpos($url, $config_url))) 			
 		) { 
 			// if requested url not a default store URL - do check other stores.
-			$cache_name = 'settings.store.' . md5('http://' . $url);
-			$store_settings = $cache->force_get($cache_name);
+			$cache_key = 'settings.store.' . md5('http://' . $url);
+			$store_settings = $cache->pull($cache_key);
 			if (empty($store_settings)) {
 				$sql = "SELECT se.`key`, se.`value`, st.store_id
 		   			  FROM " . $db->table('settings')." se
-		   			  RIGHT JOIN " . $db->table('stores')." st ON se.store_id=st.store_id
-		   			  LEFT JOIN " . $db->table('extensions')." e ON TRIM(se.`group`) = TRIM(e.`key`)
+		   			  RIGHT JOIN " . $db->table('stores')." st ON se.store_id = st.store_id
 		   			  WHERE se.store_id = (SELECT DISTINCT store_id FROM " . $db->table('settings')."
 		   			                       WHERE `group`='details'
 		   			                       AND
@@ -162,14 +183,12 @@ final class AConfig {
 		   			                       XOR
 		   			                       (`key` = 'config_ssl_url' AND (`value` LIKE '%" . $db->escape($url) . "')) )
 		                                   LIMIT 0,1)
-		   					AND st.status = 1 AND e.extension_id IS NULL";
-
+		   					AND st.status = 1
+		   					AND TRIM(se.`group`) NOT IN
+	                                                (SELECT TRIM(`key`) as `key`
+	                                                FROM " . $db->table("extensions") . ")";
 				$query = $db->query($sql);
 				$store_settings = $query->rows;
-				//fix for rare issue on a database and creation of empty cache
-				if(!empty($store_settings)){
-					$cache->force_set($cache_name, $store_settings);
-				}
 			}
 			
 			if ($store_settings) {
@@ -178,9 +197,15 @@ final class AConfig {
 					$value = $row['value'];
 					$this->cnfg[$row['key']] = $value;
 				}
+
+				//fix for rare issue on a database and creation of empty cache
+				if($this->cnfg['config_cache_enable']){
+					$cache->push($cache_key, $store_settings);
+				}
+
 				$this->cnfg['config_store_id'] = $store_settings[0]['store_id'];
 			} else {
-				$warning = new AWarning('Warning: Accessing store with unconfigured or unknown domain ( '.$url.' ).'."\n".' Check setting of your store domain URL in System Settings . Loading default store configuration for now.');
+				$warning = new AWarning('Warning: Accessing store with non-configured or unknown domain ( '.$url.' ).'."\n".' Check setting of your store domain URL in System Settings . Loading default store configuration for now.');
 				$warning->toLog()->toMessages();
 				//set config url to current domain
 				$this->cnfg['config_url'] = 'http://' . REAL_HOST . get_url_path($_SERVER['PHP_SELF']);
@@ -189,38 +214,44 @@ final class AConfig {
 			if (!$this->cnfg['config_url']) {
 				$this->cnfg['config_url'] = 'http://' . REAL_HOST . get_url_path($_SERVER['PHP_SELF']);
 			}
-
 		}
 
-		//still no store? load default store or session based
-		if (is_null($this->cnfg['config_store_id'])) {
-			$this->cnfg['config_store_id'] = 0;			
-			if (IS_ADMIN) {
-				//if admin and specific store selected 
-				$session = $this->registry->get('session');
-				$store_id = $this->registry->get('request')->get['store_id'];
-				if (has_value($store_id)) {
-					$this->cnfg['current_store_id'] = $this->cnfg['config_store_id'] = (int)$store_id;
-				} else if(has_value($session->data['current_store_id'])) {
-					$this->cnfg['config_store_id'] = $session->data['current_store_id'];	
-				}
+		//load specific store if admin and set current_store_id for admin operation on store
+		if (IS_ADMIN) {
+			//Check if admin has specific store in session or selected
+			$session = $this->registry->get('session');
+			$store_id = $this->registry->get('request')->get['store_id'];
+			if (has_value($store_id)) {
+			    $this->cnfg['current_store_id'] = (int)$store_id;
+			} else if(has_value($session->data['current_store_id'])) {
+			    $this->cnfg['current_store_id'] = $session->data['current_store_id'];	
+			} else {
+				//nothing to do 
+			    $this->cnfg['current_store_id'] = $session->data['config_store_id'];				
 			}
-			$this->_reload_settings($this->cnfg['config_store_id']);
-		}else{
-			$this->cnfg['current_store_id'] = $this->cnfg['config_store_id'];
+			//reload store settings if not what is loaded now
+			if( $this->cnfg['current_store_id'] != $this->cnfg['config_store_id'] ) {
+				$this->_reload_settings($this->cnfg['current_store_id']);		
+				$this->cnfg['config_store_id'] = $this->cnfg['current_store_id'];
+			}
 		}
 		
 		//get template for storefront
 		$tmpl_id = $this->cnfg['config_storefront_template'];
+
+		//disable cache when it disabled in settings
+		if(!$this->cnfg['config_cache_enable']){
+			$cache->disableCache();
+		}
 		
 		// load extension settings
 		$cache_suffix = IS_ADMIN ? 'admin' : $this->cnfg['config_store_id'];
-		$settings = $cache->force_get('settings.extension.' . $cache_suffix);
+		$settings = $cache->pull('settings.extension.' . $cache_suffix);
 		if (empty($settings)) {
 			// all extensions settings of store
 			$sql = "SELECT se.*, e.type as extension_type, e.key as extension_txt_id
 					FROM " . $db->table('settings')." se
-					LEFT JOIN " . $db->table('extensions')." e ON (TRIM(se.`group`) = TRIM(e.`key`))
+					LEFT JOIN " . $db->table('extensions')." e ON se.`group` = e.`key`
 					WHERE se.store_id='" . (int)$this->cnfg['config_store_id'] . "' AND e.extension_id IS NOT NULL
 					ORDER BY se.store_id ASC, se.group ASC";
 
@@ -232,11 +263,11 @@ final class AConfig {
 			}
 			//fix for rare issue on a database and creation of empty cache
 			if(!empty($settings)){
-				$cache->force_set('settings.extension.' . $cache_suffix, $settings);
+				$cache->push('settings.extension.' . $cache_suffix, $settings);
 			}
 		}
 
-		//add encryption key to settings, overwise use from database (backwards compatability) 
+		//add encryption key to settings, otherwise use from database (backwards compatibility)
 		if (defined('ENCRYPTION_KEY')) {
 			$setting['encryption_key'] = ENCRYPTION_KEY;
 		}
@@ -244,17 +275,17 @@ final class AConfig {
 		foreach ($settings as $setting) {
 			$this->cnfg[ $setting['key']] = $setting['value'];
 		}
+		
 	}
 
 	private function _reload_settings( $store_id = 0 ) {
 		//we don't use cache here cause domain may be different and we cannot change cache from control panel
 		$db = $this->registry->get('db');
 		$sql = "SELECT se.`key`, se.`value`, st.store_id
-					  FROM " . $db->table('settings')." se
-					  RIGHT JOIN " . $db->table('stores')." st ON se.store_id=st.store_id
-					  LEFT JOIN " . $db->table('extensions')." e ON TRIM(se.`group`) = TRIM(e.`key`)
-					  WHERE se.store_id = $store_id AND st.status = 1 AND e.extension_id IS NULL";
-
+					FROM " . $db->table('settings')." se
+					RIGHT JOIN " . $db->table('stores')." st ON se.store_id = st.store_id
+					WHERE se.store_id = $store_id AND st.status = 1
+					AND se.`group` NOT IN (SELECT `key` FROM " . $db->table("extensions") . ");";
 		$query = $db->query($sql);
 		$store_settings = $query->rows;
 		foreach ($store_settings as $row) {

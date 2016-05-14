@@ -278,11 +278,11 @@ class ControllerPagesToolImportExport extends AController{
 			#TODO: Need to add test for the file in case of 'application/octet-stream'
 			$csv_array = $this->handler->CSV2ArrayFromFile($file['tmp_name'], $this->request->post['options']['delimiter']);
 			$results = $this->handler->importData($csv_array, $run_mode);
-			$this->cache->delete('*');
+			$this->cache->remove('*');
 		} elseif($file['type'] == 'text/xml'){
 			$xml_array = $this->handler->XML2ArrayFromFile($file['tmp_name']);
 			$results = $this->handler->importData($xml_array, $run_mode);
-			$this->cache->delete('*');
+			$this->cache->remove('*');
 		} else{
 			$this->session->data['error'] = $this->language->get('error_file_format');
 		}

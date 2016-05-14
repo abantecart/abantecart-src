@@ -26,7 +26,7 @@ class ControllerPagesExtensionExtensionTabs extends AController {
      
   	public function main() {
 
-        //Load input argumets for gid settings
+        //Load input arguments for gid settings
         $this->data = func_get_arg(0);
 
         //init controller data

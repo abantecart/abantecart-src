@@ -17,5 +17,4 @@ $language_id = $this->db->query("SELECT language_id FROM ".DB_PREFIX."languages 
 $language_id = $this->db->row['language_id'];
 $storefront_menu = new AMenu_Storefront();
 $storefront_menu->deleteLanguage($language_id);
-$this->cache->delete('language');
-$this->cache->delete('lang.it');
+$this->cache->remove('localization');

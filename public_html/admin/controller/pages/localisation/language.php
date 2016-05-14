@@ -225,7 +225,7 @@ class ControllerPagesLocalisationLanguage extends AController {
 		if ($this->request->post['source_language']) {
 			$this->session->data['success'] = $this->language->fillMissingLanguageEntries( $this->request->get['language_id'], $this->request->post['source_language'], $this->request->post['translate_method']);
 			//This update effect cross system data. Clean whole cache
-			$this->cache->delete('*');
+			$this->cache->remove('*');
 		}
 		$this->redirect($this->html->getSecureURL('localisation/language/update', '&language_id=' . $this->request->get['language_id'] ));
         $this->extensions->hk_UpdateData($this,__FUNCTION__);

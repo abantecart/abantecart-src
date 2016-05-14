@@ -1,4 +1,5 @@
 <?php
+
 //unique id
 $wrapper_id = randomWord(6);
 ?>
@@ -208,7 +209,7 @@ $wrapper_id = randomWord(6);
 			textarea.attr('disabled','disabled');
 		});
 
-		<?php if( is_int(strpos($value,'<!--n-->')) || is_int(strpos($value,'<!--t-->')) ){?>
+		<?php if( is_int(strpos($value,'&lt;!--n--&gt;&lt;')) || is_int(strpos($value,'&lt;!--t--&gt;&lt;')) ){?>
 		$('#<?php echo $wrapper_id; ?> a[href="#visual_<?php echo $wrapper_id; ?>"]').tab('show');
 		<?php } ?>
 

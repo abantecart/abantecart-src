@@ -235,27 +235,35 @@ class ControllerPagesCheckoutCart extends AController{
 
 			$this->loadModel('tool/seo_url', 'storefront');
 
-			$products = array ();
-			$resource = new AResource('image');
-
 			$form = new AForm();
 			$form->setForm(array ('form_name' => 'cart'));
 			$this->data['form']['form_open'] = $form->getFieldHtml(
 					array (
 							'type'   => 'form',
 							'name'   => 'cart',
-							'action' => $this->html->getSecureURL($cart_rt)));
+							'action' => $this->html->getSecureURL($cart_rt)
+					)
+			);
 
 			$cart_products = $this->cart->getProducts();
 
+			$product_ids = array();
+			foreach($cart_products as $result){
+				$product_ids[] = (int)$result['product_id'];
+			}
+
+			$resource = new AResource('image');
+			$thumbnails = $resource->getMainThumbList(
+							'products',
+							$product_ids,
+							$this->config->get('config_image_cart_width'),
+							$this->config->get('config_image_cart_height')
+			);
+
+			$products = array ();
 			foreach ($cart_products as $result){
 				$option_data = array ();
-				$thumbnail = $resource->getMainThumb('products',
-						$result['product_id'],
-						(int)$this->config->get('config_image_cart_width'),
-						(int)$this->config->get('config_image_cart_height'), true);
-
-
+				$thumbnail = $thumbnails[ $result['product_id'] ];
 				foreach ($result['option'] as $option){
 					$title = '';
 					if ($option['element_type'] == 'H'){

@@ -169,17 +169,26 @@ class ControllerResponsesProductProduct extends AController {
 		if(!$this->view->isTemplateExists('responses/checkout/cart_details.tpl')){
 			return '';
 		}
+
+		$cart_products = $this->cart->getProducts();
+
+		$product_ids = array();
+		foreach($cart_products as $result){
+			$product_ids[] = (int)$result['product_id'];
+		}
+
 		$resource = new AResource('image');
-		foreach ($this->cart->getProducts() as $result) {
+		$thumbnails = $resource->getMainThumbList(
+						'products',
+						$product_ids,
+						$this->config->get('config_image_product_width'),
+						$this->config->get('config_image_product_height')
+		);
+
+		foreach ($cart_products as $result) {
 			$option_data = array();
-
-			$thumbnail = $resource->getMainThumb('products',
-				$result['product_id'],
-				$this->config->get('config_image_product_width'),
-				$this->config->get('config_image_product_height'), true);
-
+			$thumbnail = $thumbnails[ $result['product_id'] ];
 			foreach ($result['option'] as $option) {
-
 				$value = $option['value'];
                 // hide binary value for checkbox
                 if($option['element_type']=='C' && in_array($value, array(0,1))){

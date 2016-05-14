@@ -121,7 +121,7 @@
 	</form>
 </div>
 
-<script type="text/javascript"><!--
+<script type="text/javascript">
 
 $('#guestFrm_shipping_indicator').change( function(){
 	(this.checked) ? $('#shipping_details').show() : $('#shipping_details').hide();
@@ -137,4 +137,5 @@ $('#guestFrm_shipping_country_id').change(function() {
 	$('select[name=\'shipping_zone_id\']').load('<?php echo $cz_url;?>&country_id=' + $(this).val());
 });
 $('select[name=\'shipping_zone_id\']').load('<?php echo $cz_url;?>&country_id='+$('#guestFrm_shipping_country_id').val());
-//--></script>
+
+</script>

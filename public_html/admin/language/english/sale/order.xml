@@ -366,7 +366,7 @@
 	</definition>
 	<definition>
 		<key>text_recalc</key>
-		<value><![CDATA[Recalculate]]></value>
+		<value><![CDATA[Recalculate using settings]]></value>
 	</definition>
 	<definition>
 		<key>entry_im</key>

@@ -33,6 +33,14 @@ class ModelExtensionBannerManager extends Model {
 		if (!$language_id) {
 			$language_id = (int)$this->config->get('storefront_language_id');
 		}
+		
+		$cache_key = 'banner.banner_id_'.$banner_id.'_store_'.(int)$this->config->get('config_store_id').'_lang_'.$language_id;
+		$ret_data = $this->cache->pull($cache_key);
+		if($ret_data !== false){
+			//return result 
+			return $ret_data;
+		}
+		
 		// check is description presents
 		$sql = "SELECT DISTINCT language_id
 				FROM " . $this->db->table("banner_descriptions") . " 
@@ -41,17 +49,19 @@ class ModelExtensionBannerManager extends Model {
 		$result = $this->db->query($sql);
 		$counts = array();
 		foreach ($result->rows as $row) {
-			$counts[ ] = $row[ 'language_id' ];
+			$counts[] = $row['language_id'];
 		}
 		if (!in_array($language_id, $counts)) {
-			$language_id = $counts[ 0 ];
+			$language_id = $counts[0];
 		}
 
 		$sql = "SELECT  *
 				FROM " . $this->db->table("banners") . "  b
-				LEFT JOIN " . $this->db->table("banner_descriptions") . " bd ON bd.banner_id = b.banner_id AND bd.language_id = '" . $language_id . "'
+				LEFT JOIN " . $this->db->table("banner_descriptions") . " bd 
+					 ON bd.banner_id = b.banner_id AND bd.language_id = '" . $language_id . "'
 				WHERE b.banner_id='" . $banner_id . "'";
 		$result = $this->db->query($sql);
+		$this->cache->push($cache_key, $result->row);
 		return $result->row;
 	}
 
@@ -68,13 +78,16 @@ class ModelExtensionBannerManager extends Model {
 		} else {
 			$language_id = (int)$this->config->get('storefront_language_id');
 		}
+
+		$cache_key = 'banner.group.block_id_'.$custom_block_id.'_store_'.(int)$this->config->get('config_store_id').'_lang_'.$language_id;
+		$ret_data = $this->cache->pull($cache_key);
+		if($ret_data !== false){
+			//return result 
+			return $ret_data['banners'];
+		}
+		
 		// get block info
 		$block_info = (array)$this->layout->getBlockDescriptions($custom_block_id);
-		if ( is_array($block_info[$language_id]) && count($block_info[$language_id]) ) {
-			foreach ($block_info[$language_id] as $k => $v) {
-				$this->data[ $k ] = $v;
-			}	
-		}
 		$content = $block_info[ $language_id ][ 'content' ];
 		if ($content) {
 			$content = unserialize($content);
@@ -83,7 +96,6 @@ class ModelExtensionBannerManager extends Model {
 			$content = unserialize($content[ 'content' ]);
 		}
 		$banner_group_name = $content[ 'banner_group_name' ];
-
 
 		$sql = "SELECT *
 				FROM " . $this->db->table("banners") . " b
@@ -103,8 +115,8 @@ class ModelExtensionBannerManager extends Model {
 								    WHERE custom_block_id = '" . $custom_block_id . "' AND data_type='banner_id'))
 				ORDER BY `banner_group_name` ASC, b.sort_order ASC";
 		$result = $this->db->query($sql);
+		$this->cache->push($cache_key, array('banners' => $result->rows));
 		return $result->rows;
-
 	}
 
 	/**
@@ -129,6 +141,8 @@ class ModelExtensionBannerManager extends Model {
 						'" .(int) $this->config->get('config_store_id') . "',
 						'" . $this->db->escape(serialize($user_info)) . "')";
 		$this->db->query($sql);
+
+
 		return true;
 	}
 }

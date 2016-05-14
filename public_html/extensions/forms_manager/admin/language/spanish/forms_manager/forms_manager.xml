@@ -165,6 +165,10 @@
 		<value><![CDATA[Agregar nuevo formulario]]></value>
 	</definition>
 	<definition>
+		<key>text_create_block</key>
+		<value><![CDATA[Crear forma de bloque]]></value>
+	</definition>
+	<definition>
 		<key>note_create_form_block</key>
 		<value><![CDATA[NOTA: Para ver el formulario que aparece en escaparate, crear el bloque forma en Diseño-><a href="%s">Bloques</a> y agregarlo a la página correspondiente en Diseño-><a href="%s">Diseños</a> page.]]></value>
 	</definition>

@@ -94,11 +94,11 @@
 	</div>
 	</form>
 </div>
-<script type="text/javascript"><!--
+<script type="text/javascript">
 
 	$('input[name^=\'shipping_method\']').change(function () {
 		$(this).closest('form').submit(); return false;
 	});
 
-//--></script>
+</script>
 <?php echo $footer; ?>

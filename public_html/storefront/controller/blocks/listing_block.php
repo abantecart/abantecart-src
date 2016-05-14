@@ -25,6 +25,10 @@ class ControllerBlocksListingBlock extends AController {
 	public $data;
 	public function main() {
 
+		if($this->html_cache()){
+			return;
+		}
+
         //init controller data
         $this->extensions->hk_InitData($this,__FUNCTION__);
 
@@ -44,6 +48,8 @@ class ControllerBlocksListingBlock extends AController {
 				break;
 			}
 		}
+
+		$template_overrided = false;
 
 		if($block_data){
 			if(!$exists || !$this->data['controller']){
@@ -245,19 +251,34 @@ class ControllerBlocksListingBlock extends AController {
 		$data_sources = $listing->getListingDataSources();
 		$data_source = $data_sources[$content['listing_datasource']];
 
-		if(strpos($content['listing_datasource'],'custom_')===FALSE){ // for auto listings
+		// for auto listings
+		if(strpos($content['listing_datasource'],'custom_') === false){
 			$route = $content['listing_datasource'];
 			$limit = $content['limit'];
 
 			// for resource library
 			if($route=='media'){
 				$rl = new AResource($content['resource_type']);
+				$image_sizes = array(
+								'main' => array(
+											'width'=>$this->config->get('config_image_popup_width'),
+											'height'=>$this->config->get('config_image_popup_height')
+								)
+				);
 
 				if(isset($this->request->get['product_id'])){
 					$object_name = 'products';
 					$object_id = $this->request->get['product_id'];
+					$image_sizes['thumb'] = array(
+							'width'=>$this->config->get('config_image_product_width'),
+							'height'=>$this->config->get('config_image_product_height')
+					);
 				}elseif( isset($this->request->get['category_id']) || isset($this->request->get['path'])){
 					$object_name = 'categories';
+					$image_sizes['thumb'] = array(
+												'width'=>$this->config->get('config_image_category_width'),
+												'height'=>$this->config->get('config_image_category _height')
+					);
 					if(isset($this->request->get['category_id'])){
 						$object_id = $this->request->get['product_id'];
 					}else{
@@ -265,21 +286,31 @@ class ControllerBlocksListingBlock extends AController {
 						end($temp);
 						$object_id = current($temp);
 					}
-
 				}elseif( isset($this->request->get['manufacturer_id']) ){
 					$object_name = 'manufacturers';
 					$object_id = $this->request->get['manufacturer_id'];
+					$image_sizes['thumb'] = array(
+									'width'=>$this->config->get('config_image_manufacturer_width'),
+									'height'=>$this->config->get('config_image_manufacturer_height')
+					);
+				}else{
+					$image_sizes['thumb'] = array(
+							'width'=>$this->config->get('config_image_product_width'),
+							'height'=>$this->config->get('config_image_product_height')
+					);
 				}
+
+
 
 				$resources = $rl->getResourceAllObjects( $object_name,
 														 $object_id,
 														 array('main'=>array(
-					                                                         'width'=>$this->config->get('config_image_popup_width'),
-					                                                         'height'=>$this->config->get('config_image_popup_height')),
+					                                                         'width' => $image_sizes['main']['width'],
+					                                                         'height' => $image_sizes['main']['height']),
 
 				                                               'thumb'=>array(
-					                                                          'width'=>$this->config->get('config_image_product_width'),
-					                                                          'height'=>$this->config->get('config_image_product_height'))),
+					                                                          'width' => $image_sizes['thumb']['width'],
+					                                                          'height' => $image_sizes['thumb']['height'])),
 														$limit,
 														false);
 				if(!$resources){ return null;}
@@ -301,6 +332,8 @@ class ControllerBlocksListingBlock extends AController {
 													 'main_html'=>$resource['main_html'],
 						                             'thumb_url'=>$resource['thumb_url'],
 						                             'thumb_html'=>$resource['thumb_html'],
+						                             'width' => $image_sizes['thumb']['width'],
+                                                     'height' => $image_sizes['thumb']['height'],
 						                             'title' => $title,
 													 'resource_type' => $content['resource_type'],
 													 'origin' => 'internal');
@@ -367,18 +400,60 @@ class ControllerBlocksListingBlock extends AController {
 		if(!$data_source['rl_object_name'] ){ return $result; }
 		$resource = new AResource('image');
 		if($result){
-			foreach($result as $k=>$item){
-				if($data_source['rl_object_name'] ){
 
-					$thumbnail = $resource->getMainThumb($data_source['rl_object_name'],
-			                                     $item[$data_source['data_type']],
-			                                     $this->config->get('config_image_product_width'),
-			                                     $this->config->get('config_image_product_height'),true);
-
-					$result[$k]['image'] = $result[$k]['thumb'] = $thumbnail;
-
+			if ($data_source['rl_object_name']){
+				switch($data_source['rl_object_name']){
+					case 'products':
+						$image_sizes = array (
+								'thumb' => array (
+										'width'  => $this->config->get('config_image_product_width'),
+										'height' => $this->config->get('config_image_product_height')
+								)
+						);
+						break;
+					case 'categories':
+						$image_sizes = array (
+								'thumb' => array (
+										'width'  => $this->config->get('config_image_category_width'),
+										'height' => $this->config->get('config_image_category_height')
+								)
+						);
+						break;
+					case 'manufacturers':
+						$image_sizes = array (
+								'thumb' => array (
+										'width'  => $this->config->get('config_image_manufacturer_width'),
+										'height' => $this->config->get('config_image_manufacturer_height')
+								)
+						);
+						break;
+					default:
+						$image_sizes = array (
+								'thumb' => array (
+										'width'  => $this->config->get('config_image_product_width'),
+										'height' => $this->config->get('config_image_product_height')
+								)
+						);
 				}
-				if(isset($item['price']) && preg_match('/^[0-9\.]/',$item['price'])){
+			}
+
+			//build list of ids
+			$ids = array();
+			foreach ($result as $k => $item){
+				$ids[] = $item[$data_source['data_type']];
+			}
+
+			$thumbnails = $resource->getMainThumbList(
+							$data_source['rl_object_name'],
+							$ids,
+							$image_sizes['thumb']['width'],
+							$image_sizes['thumb']['height']
+			);
+
+			foreach ($result as $k => $item){
+				$thumbnail = $thumbnails[ $item[$data_source['data_type']] ];
+				$result[$k]['image'] = $result[$k]['thumb'] = $thumbnail;
+				if (isset($item['price']) && preg_match('/^[0-9\.]/', $item['price'])){
 					$result[$k]['price'] = $this->currency->format($this->tax->calculate($item['price'], $item['tax_class_id'], $this->config->get('config_tax')));
 				}
 			}

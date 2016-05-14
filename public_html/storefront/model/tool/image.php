@@ -77,14 +77,24 @@ class ModelToolImage extends Model{
 				}
 			}
 			$image = new AImage($old_image_filepath);
-			$image->resize($width, $height);
-			$image->save($new_image_filepath);
+			$quality = $this->config->get('config_image_quality');
+			$image->resizeAndSave($new_image_filepath,
+								$width,
+								$height,
+								array(
+										'quality' => $quality
+								));
+
 			unset($image);
 
 			if ($this->config->get('config_retina_enable')){
 				$image = new AImage($old_image_filepath);
-				$image->resize($width * 2, $height * 2);
-				$image->save($new_image_filepath2x);
+				$image->resizeAndSave($new_image_filepath2x,
+										$width * 2,
+										$height * 2,
+										array(
+												'quality' => $quality
+										));
 				unset($image);
 			}
 		}

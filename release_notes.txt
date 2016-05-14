@@ -1,3 +1,79 @@
+AbanteCart version 1.2.7
+
+Release includes new caching system, substential performance boost and some features
+
+New Features and improvements highlight:
+- New high performance caching system with support for APC, APCu Memcache, Memcached and Xcache 
+- HTML Cache for high traffic storefront support
+- SQL load improvement and reduction of database requests in disabled-cache mode. 
+- Profiling and PHP execution time optimization. 
+- Improvement for image resizing
+- PHP 7 tuning and testing
+
+Core:
+- PackageManager minor fix
+- database drivers error reporting improvement
+- AHtml refactoring + phpdoc comments
+- database drivers error reporting improvement
+- AConfig sql optimization
+- ADataset refactoring + phpdoc comments
+- changes related to cache debugging
+- extensions classes typos and phpdoc comments
+- created new function get_image_size() in Utils.php
+- replacements of deprecated ACache methods (get, set) calls + phpdoc comments
+- ALanguage minor changes related to language recognition
+- changes related to setting for cache enabling
+- added apc, apcu, memcache, memcached, xcache drivers
+- added config-setting and expiration for html-cache.
+- minor fix related to warnings in logs
+- fix in is_serialized() inside utils.php
+- added hook call on save method in AImage
+- AImage changes related to resize and save of images
+- improve INI load time
+- Language load optimization fix
+- New Caching system.
+- Cache, config and request exec time improvments
+- Improve exception error handling and display
+- New logo update
+
+Admin:
+- fix related to seo-keywords during product cloning
+- minor fix of dev tools url
+- clear cache page changes relates to new aCache
+- added lang-pack into tinymce
+- added fix of updating resource description in RL (related to auto-translation)
+- Add link to troubleshooting page
+
+Storefront:
+- Optimized HTML for faster browser rendering. 
+- Storefront template load optimization
+- css fix of rating stars view in left column block
+storefront: added ajax updates for cart menu block after page loaded + ajax update for product view count + fixes of typos etc
+- fix of wrong balance applying after new product adding to the cart Extensions: UPS fix related to estimate based on dimensions of productsfix #541
+- Pages and blocks HTML cache implementation (beta)
+- Default multi-value options section fix. 
+- Implement banner cache
+- SQL-queries optimization. Added caching into AWeight, ALength and ACurrency libs
+- SQL-queries optimization. removed calls isTrackable and hasAnyStock inside products loops
+- SQL-queries optimization. (Resource thumbnails).
+- Optimization for categories and menu building
+- Category product count optimization
+
+install: 
+- added config_image_quality setting value
+- config_image_quality now set in 95%
+- optimize large demo jpg files
+- optimize large demo png images
+- block_templates demo data fix
+- changes of system_check() calls related to install directory check
+
+Extensions/Upgrade:
+- FTP Install/Upgrade fix for some rare cases.
+
+Various bug fixes and improvements
+
+------------------------------------------------------------
+
 
 AbanteCart version 1.2.6
 

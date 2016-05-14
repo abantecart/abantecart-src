@@ -132,7 +132,8 @@ class APackageManager {
 		$exit_code = 0;
 		if(class_exists('PharData') ){
 			//remove destination folder first
-			$this->removeDir($dst_dir . pathinfo(pathinfo($tar_filename,PATHINFO_FILENAME),PATHINFO_FILENAME) ); //run pathinfo twice for tar.gz. files
+			//run pathinfo twice for tar.gz. files
+			$this->removeDir($dst_dir . pathinfo(pathinfo($tar_filename,PATHINFO_FILENAME),PATHINFO_FILENAME) ); 
 			try {
 				$phar = new PharData($tar_filename);
 				$phar->extractTo($dst_dir, null, true);
@@ -224,7 +225,6 @@ class APackageManager {
 			foreach ($corefiles as $core_filename) {
 				$remote_file = pathinfo($this->session->data['package_info']['ftp_path'] . $core_filename, PATHINFO_BASENAME);
 				$remote_dir = pathinfo($this->session->data['package_info']['ftp_path'] . $core_filename, PATHINFO_DIRNAME).'/';
-
 				$src_dir = (string)$this->session->data['package_info']['tmp_dir'] . $this->session->data['package_info']['package_dir'] . '/code/' . $core_filename;
 				$result = $this->ftp_move($fconnect, $src_dir, $remote_file, $remote_dir);
 				if ($result) {
@@ -244,15 +244,14 @@ class APackageManager {
 				}
 			}// end of loop
             ftp_close($fconnect);
-
 		} else {
 			foreach ($corefiles as $core_filename) {
-				if (file_exists(DIR_ROOT . '/' . $core_filename)) {
+				if (is_file(DIR_ROOT . '/' . $core_filename)) {
 					unlink(DIR_ROOT . '/' . $core_filename);
 				}
 				//check is target directory exists before copying
 				$dir = pathinfo(DIR_ROOT . '/' . $core_filename, PATHINFO_DIRNAME);
-				if (!file_exists($dir)) {
+				if (!is_dir($dir)) {
 					mkdir($dir, 0777, true);
 				}
 
@@ -380,16 +379,16 @@ class APackageManager {
 	 * @param int $ftp_port
 	 * @return bool
 	 */
-	public function checkFTP($ftp_user, $ftp_password = '', $ftp_host = '', $ftp_path = '', $ftp_port=21) {
+	public function checkFTP($ftp_user, $ftp_password = '', $ftp_host = '', $ftp_path = '', $ftp_port = 21) {
 		$this->load->language('tool/package_installer');
 		if (!$ftp_host) {
 			$ftp_host = 'localhost';
-		} else { // looking for port number
+		} else { 
+			// looking for port number in the host
             $ftp_host = explode(':',$ftp_host);
             $ftp_port = (int)$ftp_host[1];
             $ftp_host = $ftp_host[0];
-				}
-
+		}
 		$ftp_port = !$ftp_port ? 21 : $ftp_port;
 
 		if (!$ftp_user) {
@@ -401,9 +400,9 @@ class APackageManager {
 			return false;
 		}
 
-
 		$fconnect = ftp_connect($ftp_host, $ftp_port);
-		if(!$fconnect && $ftp_host=='localhost'){ //check dns perversion :-)
+		if(!$fconnect && $ftp_host == 'localhost'){ 
+			//check dns perversion :-)
 			$ftp_host = '127.0.0.1';
 			$fconnect = ftp_connect($ftp_host, $ftp_port);
 		}
@@ -416,7 +415,6 @@ class APackageManager {
 			}
 
 			$ftp_path = !$ftp_path ? $this->_ftp_find_app_root($fconnect) : $ftp_path;
-
 			// if all fine  - write ftp parameters into session
 			$this->session->data['package_info']['ftp'] = true;
 			$this->session->data['package_info']['ftp_user'] = $ftp_user;
@@ -435,6 +433,7 @@ class APackageManager {
 	}
 
 	/**
+	 * Try to guess an installation location in the server via FTP
 	 * @param resource $fconnect
 	 * @return string|bool
 	 */
@@ -442,35 +441,44 @@ class APackageManager {
 		if (!$fconnect) {
 			return false;
 		}
+
+		// Turn passive mode on
+		if (@ftp_pasv($fconnect, true) === false) {
+			return false;
+		}
+
         $abs_path = pathinfo($_SERVER[ 'DOCUMENT_ROOT' ].$_SERVER[ 'PHP_SELF' ],PATHINFO_DIRNAME);
+
 		$ftp_dir_list = array();
-        // first fo all try to change directory
-        //(for case when ftp-user does not locked in his ftp root directory)
-        if(ftp_chdir($fconnect, $abs_path)){
+
+        // first fo all try to change directory to absolute server path 
+        //(for case when ftp-user does not locked in ftp root directory)
+        if(@ftp_chdir($fconnect, $abs_path) === true){
             return $abs_path.'/';
-        }else{
+        } else {
             //for ftp chrooted users
             //get list of directories
-            if ($files = ftp_nlist($fconnect,'.')){
+            if ($files = @ftp_nlist($fconnect,'.')){       
+            	//get only directories     
                 foreach ($files as $file) {
                     if (ftp_size($fconnect, $file) == "-1"){
                         $ftp_dir_list[] = $file;
-			}
+					}
 				}
-                //find ftp-directory name inside absolute path
+                //find ftp-directory name inside absolute server path
                 $target_dir = null;
                 if($ftp_dir_list){
                     foreach($ftp_dir_list as $dir){
                         if(is_int($pos = strpos($abs_path,$dir))){
                             $target_dir = substr($abs_path,$pos);
                             break;
+						}
+					}
+					if($target_dir){
+                		return '/'.trim($target_dir,'/').'/';
 					}
 				}
-                    if($target_dir){
-                        return trim($target_dir,'/').'/';
 			}
-		}
-	}
         }
         return false;
 	}
@@ -494,34 +502,29 @@ class APackageManager {
 		}
 
 		// if destination folder does not exists - try to create
-		if (!@ftp_chdir($fconnect, $remote_dir)) {
+		if (@ftp_chdir($fconnect, $remote_dir) === false) {
 			$result = ftp_mkdir($fconnect, $remote_dir);
 			if (!$result) {
 				$this->error .= "\nCannot to create directory ".$remote_dir." via ftp.";
 				return false;
 			}
-            if(!ftp_chmod($fconnect, 0777, $remote_dir)){
+            if(!ftp_chmod($fconnect, 0755, $remote_dir)){
                 $error = new AError('Cannot to change mode for directory '.$remote_dir);
                 $error->toLog()->toDebug();
             }
-
+            //change current directory to newly created
+			@ftp_chdir($fconnect, $remote_dir);
 		}
-		@ftp_chdir($fconnect, $remote_dir);
 
 		if (is_dir($local)) {
 			$this->ftp_put_dir($fconnect, $local, $remote_dir);
-
 		} else {
 			if (!ftp_put($fconnect, $remote_file, $local, FTP_BINARY)) {
 				$this->error .= "\nCannot to put file ".$remote_file." via ftp.";
 				return false;
 			}
             $remote_file = $remote_dir . pathinfo($local, PATHINFO_BASENAME);
-			if(pathinfo($remote_file,PATHINFO_BASENAME)=='index.php'){
-				$chmod_result = ftp_chmod($fconnect, 0755, $remote_file);
-			}else{
-				$chmod_result = ftp_chmod($fconnect, 0777, $remote_file);
-			}
+			$chmod_result = ftp_chmod($fconnect, 0755, $remote_file);
             if(!$chmod_result){
                 $error = new AError('Cannot to change mode for file '.$remote_file);
                 $error->toLog()->toDebug();
@@ -538,22 +541,23 @@ class APackageManager {
 	 */
 	private function ftp_put_dir($conn_id, $src_dir, $dst_dir) {
 		$d = dir($src_dir);
-		while ($file = $d->read()) { // do this for each file in the directory
-			if ($file != "." && $file != "..") { // to prevent an infinite loop
-				if (is_dir($src_dir . "/" . $file)) { // do the following if it is a directory
+		// do this for each file in the directory
+		while ($file = $d->read()) { 
+			// Stay only with in current directory
+			if ($file != "." && $file != "..") { 
+				// do the following if it is a directory
+				if (is_dir($src_dir . "/" . $file)) { 
 					if (!@ftp_chdir($conn_id, $dst_dir . "/" . $file)) {
-						ftp_mkdir($conn_id, $dst_dir . "/" . $file); // create directories that do not yet exist
-						ftp_chmod($conn_id, 0777, $dst_dir . "/" . $file);
-					}
-					$this->ftp_put_dir($conn_id, $src_dir . "/" . $file, $dst_dir . "/" . $file); // recursive part
-				} else {
-					ftp_put($conn_id, $dst_dir . "/" . $file, $src_dir . "/" . $file, FTP_BINARY); // put the files
-					// for index.php do not set 777 permissions because hosting providers will ban it
-					if(pathinfo($file,PATHINFO_BASENAME)=='index.php'){
+						// create directories that do not yet exist
+						ftp_mkdir($conn_id, $dst_dir . "/" . $file); 
 						ftp_chmod($conn_id, 0755, $dst_dir . "/" . $file);
-					}else{
-						ftp_chmod($conn_id, 0777, $dst_dir . "/" . $file);
 					}
+					// recursive part
+					$this->ftp_put_dir($conn_id, $src_dir . "/" . $file, $dst_dir . "/" . $file); 
+				} else {
+					// put the files
+					ftp_put($conn_id, $dst_dir . "/" . $file, $src_dir . "/" . $file, FTP_BINARY); 
+					ftp_chmod($conn_id, 0755, $dst_dir . "/" . $file);
 				}
 			}
 		}
@@ -671,7 +675,7 @@ class APackageManager {
 	 */
 	public function upgradeCore($config) {
 		//clear all cache
-		$this->cache->delete('*');
+		$this->cache->remove('*');
 
 		$package_dirname = $this->session->data['package_info']['package_dir'];
 		$package_tmpdir = $this->session->data['package_info']['tmp_dir'];

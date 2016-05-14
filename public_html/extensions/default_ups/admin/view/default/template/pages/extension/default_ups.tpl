@@ -37,7 +37,9 @@ echo $tabs;?>
 			<?php	foreach($field as $group => $flds){	?>
 						<div id="<?php echo $group;?>" class="service_group input-group afield col-sm-12 col-xs-12">
 								<?php foreach((array)$flds as $k=>$f){
-									$f->style = 'btn_switch'; ?>
+									if(is_object($f)){
+										$f->style = 'btn_switch';
+									}	?>
 									<div class="form-group input-group afield"><?php echo $f.' &nbsp;' .${'text_'.$k}; ?></div>
 							<?php } ?>
 						</div>
@@ -90,7 +92,7 @@ echo $tabs;?>
 </div>
 
 
-<script type="text/javascript"><!--
+<script type="text/javascript">
 jQuery(function($){
 	$('#editFrm_default_ups_origin').on('change', function() {
 		$('#service div.service_group').hide();
@@ -99,4 +101,4 @@ jQuery(function($){
 
 	$('#editFrm_default_ups_origin').change();
 });
-//--></script>
+</script>

@@ -17,10 +17,6 @@
 		<value><![CDATA[Макеты и Блоки]]></value>
 	</definition>
 	<definition>
-		<key>text_translations</key>
-		<value><![CDATA[Переводы]]></value>
-	</definition>
-	<definition>
 		<key>text_flexyforms</key>
 		<value><![CDATA[Флекси Формы]]></value>
 	</definition>
@@ -61,10 +57,6 @@
 		<value><![CDATA[Страницы, макеты страниц, блоки]]></value>
 	</definition>
 	<definition>
-		<key>desc_translations</key>
-		<value><![CDATA[Данные перевода]]></value>
-	</definition>
-	<definition>
 		<key>desc_flexyforms</key>
 		<value><![CDATA[Данные флекси форм]]></value>
 	</definition>
@@ -103,5 +95,13 @@
 	<definition>
 		<key>text_clear_all_cache</key>
 		<value><![CDATA[Очистить весь кеш]]></value>
+	</definition>
+	<definition>
+		<key>text_html_cache</key>
+		<value><![CDATA[HTML-кеш]]></value>
+	</definition>
+	<definition>
+		<key>desc_html_cache</key>
+		<value><![CDATA[Кеш HTML страниц и блоков]]></value>
 	</definition>
 </definitions>

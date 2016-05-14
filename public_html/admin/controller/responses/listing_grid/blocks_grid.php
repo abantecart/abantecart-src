@@ -338,17 +338,19 @@ class ControllerResponsesListingGridBlocksGrid extends AController {
 					}
 
 
-					$rm = new AResourceManager();
-					$rm->setType('image');
+					//get thumbnails by one pass
+		            $resource = new AResource('image');
+		            $thumbnails = $resource->getMainThumbList(
+				            $rl_object_name,
+		                    $ids,
+		                    $this->config->get('config_image_grid_width'),
+		                    $this->config->get('config_image_grid_height'),
+		                    false);
 
 					foreach($results as $item){
 						$id = $item[$id_name];
 						if(in_array($id, $ids)){
-							$thumbnail = $rm->getMainThumb($rl_object_name,
-															$id,
-															(int)$this->config->get('config_image_grid_width'),
-															(int)$this->config->get('config_image_grid_height'),
-															false);
+							$thumbnail = $thumbnails[ $id ];
 							$icon = $thumbnail['thumb_html'] ? $thumbnail['thumb_html'] : '<i class="fa fa-code fa-4x"></i>&nbsp;';
 							$options_list[$id] = array(
 															'image' => $icon,

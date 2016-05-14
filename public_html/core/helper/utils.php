@@ -106,6 +106,9 @@ function has_value($value) {
  * check that argument variable has value (even 0 is a value)  
  * */
 function is_serialized ($value) {
+	if(gettype($value) !== 'string'){
+		return false;
+	}
 	$test_data = @unserialize($value);
 	if ($value === 'b:0;' || $test_data !== false) {
 	    return true;
@@ -146,7 +149,7 @@ function SEOEncode($string_value, $object_key_name='', $object_id=0, $language_i
 		return $seo_key;
 	}else{
 		//if $object_key_name given - check is seo-key unique and return unique
-		return getUniqueSeoKeyword($seo_key, $object_key_name, $object_id, $language_id);
+		return getUniqueSeoKeyword($seo_key, $object_key_name, $object_id);
 	}
 }
 
@@ -284,7 +287,7 @@ function getTextUploadError($error) {
 }
 
 /*
- * DATETIME funtions
+ * DATETIME functions
  */
 
 /*
@@ -625,10 +628,10 @@ function startStorefrontSession($user_id, $data=array()){
 
 
 /**
- * Function to built array with sort_order equaly encremented
+ * Function to built array with sort_order equally incremented
  *
  * @param array $array to build sort order for
- * @param int $min - minimal sort order numer (start)
+ * @param int $min - minimal sort order number (start)
  * @param int $max - maximum sort order number (end)
  * @param string $sort_direction
  * @return array with sort order added.
@@ -672,7 +675,7 @@ function build_sort_order($array, $min, $max, $sort_direction = 'asc'){
 }
 
 /**
- * Function to test if array is assosiative array
+ * Function to test if array is associative array
  *
  * @param array $test_array
  * @return bool
@@ -970,7 +973,7 @@ function get_url_path( $url ) {
 }
 
 /*
-	Return formated execution back stack
+	Return formatted execution back stack
  *
  * @param $depth int/string  - depth of the trace back ('full' to get complete stack)
  * @return string
@@ -1010,7 +1013,7 @@ function is_writable_dir($dir) {
 }
 
 /**
- * Create (signle level) dir if does not exists and/or make dir writable
+ * Create (single level) dir if does not exists and/or make dir writable
  *
  * @param string $dir 
  * @return bool
@@ -1027,18 +1030,42 @@ function make_writable_dir($dir) {
 	} else {
 		//Try to create directory
 		mkdir($dir,0777);
+		chmod($dir,0777);
 		return is_writable_dir($dir);	
 	}
 }
 
 /**
- * Qoutes encode a string for javascript using json_encode();
+ * Create (multiple level) dir if does not exists and/or make all missing writable
+ *
+ * @param string $path
+ * @return bool
+*/
+function make_writable_path($path) {
+	if (empty($path)){
+	    return false;
+	} else if(is_writable_dir($path)) {
+	    return true;
+	} else {
+		//recurse if parent directory does not exists
+		$parent = dirname($path);
+		if(strlen($parent) > 1 && !file_exists($parent) ) {
+			make_writable_path($parent);
+		}
+		mkdir($path,0777,true);
+		chmod($path,0777);
+	    return true;
+	}
+}
+
+/**
+ * Quotes encode a string for javascript using json_encode();
  *
  * @param string $text 
  * @return string
 */
 function js_encode($text) {
-	return json_encode($text);
+	return json_encode($text,JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP | JSON_UNESCAPED_UNICODE);
 }
 
 /**
@@ -1071,4 +1098,23 @@ function human_filesize($bytes, $decimals = 2) {
   $sz = 'BKMGTP';
   $factor = floor((strlen($bytes) - 1) / 3);
   return sprintf("%.{$decimals}f", $bytes / pow(1024, $factor)) . @$sz[$factor];
+}
+
+/**
+ * Function returns image dimensions
+ * @param $filename
+ * @return array|bool
+ */
+function get_image_size($filename){
+	if (file_exists($filename) && ($info = getimagesize($filename))){
+		return array (
+					'width'    => $info[0],
+					'height'   => $info[1],
+					'mime'     => $info['mime']);
+	}
+	if($filename){
+		$error = new  AError('Error: Cannot get image size of file ' . $filename.'. File not found or it\'s not an image!');
+		$error->toLog()->toMessages()->toDebug();
+	}
+	return array();
 }

@@ -1,15 +1,5 @@
-<?php include($tpl_common_dir . 'action_confirm.tpl'); ?>
-
-<?php if ($tabs) { ?>
-	<ul class="nav nav-tabs nav-justified nav-profile">
-		<?php foreach($tabs as $tab){?>
-		<li <?php echo ($tab['active'] ? 'class="active"' : '') ?>>
-		<a href="<?php echo $tab['href'] ? $tab['href'] : 'Javascript:void(0);'; ?>"><span><?php echo $tab['text']; ?></span></a></li>
-		<li>
-		<?php } ?>
-		<?php echo $this->getHookVar('extension_tabs'); ?>
-	</ul>
-<?php } ?>
+<?php include($tpl_common_dir . 'action_confirm.tpl');
+echo $tabs; ?>
 
 <div class="tab-content">
 	<div class="panel-heading">
@@ -51,7 +41,7 @@
 		    <span class="help-block field_err"><?php echo $error[$name]; ?></span>
 		    <?php } ?>
 		</div>
-			<?php }  ?><!-- <div class="fieldset"> -->
+			<?php }  ?>
 	</div>
 
 	<div class="panel-footer">
@@ -68,10 +58,6 @@
 	</div>
 	</form>
 
-</div><!-- <div class="tab-content"> -->
-
+</div>
 
 <?php echo $autoload;?>
-
-
-

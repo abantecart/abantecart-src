@@ -26,12 +26,19 @@ if (! defined ( 'DIR_CORE' ) || !IS_ADMIN) {
  * @property ModelSettingStore $model_setting_store
  */
 class ModelSaleCustomerTransaction extends Model {
-		
+    /**
+     * @param int $customer_transaction_id
+     */
 	public function deleteCustomerTransaction($customer_transaction_id) {
-		$this->db->query("DELETE FROM " . DB_PREFIX . "customer_transactions
+		$this->db->query("DELETE FROM " . $this->db->table('customer_transactions')."
 		                 WHERE customer_transaction_id = '" . (int)$customer_transaction_id . "'");
 	}
 
+    /**
+     * @param int $customer_transaction_id
+     * @return array
+     * @throws AException
+     */
     public function getCustomerTransaction($customer_transaction_id=0){
         if(!(int)$customer_transaction_id) return array();
 
@@ -55,6 +62,12 @@ class ModelSaleCustomerTransaction extends Model {
         return $row;
     }
 
+    /**
+     * @param array $data
+     * @param string $mode
+     * @return mixed
+     * @throws AException
+     */
     public function getCustomerTransactions($data=array(), $mode=''){
         // get decrypted customer name first
         $this->load->model('sale/customer');
@@ -141,29 +154,40 @@ class ModelSaleCustomerTransaction extends Model {
         return $query->rows;
     }
 
+    /**
+     * @param array $data
+     * @return mixed
+     */
     public function getTotalCustomerTransactions($data){
         return $this->getCustomerTransactions($data,'total_only');
     }
 
+    /**
+     * @param int $customer_id
+     * @return float
+     */
     public function getBalance($customer_id){
-        $cache_name = 'balance.'.$customer_id;
-        $balance = $this->cache->get($cache_name);
-        if(is_null($balance)){
-            $sql = "SELECT SUM(credit) - SUM(debit) as balance
-					FROM " . $this->db->table("customer_transactions") . "
-					WHERE customer_id=".(int)$customer_id;
-            $query = $this->db->query($sql);
-            $balance = (float)$query->row['balance'];
-			$this->cache->set($cache_name,$balance);
-        }
+        $customer_id = (int)$customer_id;
+        $sql = "SELECT SUM(credit) - SUM(debit) as balance
+                FROM " . $this->db->table("customer_transactions") . "
+                WHERE customer_id=".(int)$customer_id;
+        $query = $this->db->query($sql);
+        $balance = (float)$query->row['balance'];
+
         return $balance;
     }
 
+    /**
+     * @param array $data
+     * @return bool|int
+     * @throws AException
+     */
     public function addCustomerTransaction($data=array()){
         if((!(float)$data['credit'] && !(float)$data['debit']) || !(int)$data['customer_id']){
             return false;
         }
-        $sql = "INSERT INTO " . $this->db->table("customer_transactions") . " (`customer_id`,`order_id`,`created_by`,`credit`,`debit`,`section`, `transaction_type`,`comment`,`description`,`date_added`)
+        $sql = "INSERT INTO " . $this->db->table("customer_transactions") . "
+                    (`customer_id`,`order_id`,`created_by`,`credit`,`debit`,`section`, `transaction_type`,`comment`,`description`,`date_added`)
                 VALUES (
                         '".(int)$data['customer_id']."',
                         '".(int)$data['order_id']."',
@@ -177,7 +201,6 @@ class ModelSaleCustomerTransaction extends Model {
                         NOW()
                         )";
         $this->db->query($sql);
-        $this->cache->delete('balance.'.(int)$data['customer_id']);
         $transaction_id = $this->db->getLastId();
 
         if($data['notify']){
@@ -236,27 +259,29 @@ class ModelSaleCustomerTransaction extends Model {
 				);
                 $this->im->sendToCustomer($data['customer_id'],'customer_account_update',$message_arr);
             }
-
         }
-
 
         return $transaction_id;
     }
 
-
+    /**
+        * @return array
+        */
     public function getTransactionTypes(){
-        $cache_name = 'transaction_types';
-        $output = $this->cache->get($cache_name);
-        if(is_null($output)){
-            $sql = "SELECT DISTINCT `transaction_type` FROM " . $this->db->table("customer_transactions") . " ORDER BY `transaction_type` ASC";
+        $cache_key = 'transaction_types';
+        $output = $this->cache->pull($cache_key);
+        if( $output === false ){
+            $output = array();
+            $sql = "SELECT DISTINCT `transaction_type`
+                    FROM " . $this->db->table("customer_transactions") . "
+                    ORDER BY `transaction_type` ASC";
             $result = $this->db->query($sql);
             foreach($result->rows as $row){
                 $output[$row['transaction_type']] = $row['transaction_type'];
             }
-            $this->cache->set($cache_name,$output);
+            $this->cache->push($cache_key,$output);
         }
         return $output;
     }
-
 
 }

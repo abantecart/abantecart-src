@@ -22,8 +22,11 @@ if (! defined ( 'DIR_CORE' )) {
 }
 class ControllerPagesProductSearch extends AController {
 	private $category;
+	private $path;
 	public $data = array();
 	public function main() {
+		$request = $this->request->get;
+		$this->path = explode(',',$request['category_id']);
 
 		//is this an embed mode
 		if($this->config->get('embed_mode') == true){
@@ -47,35 +50,35 @@ class ControllerPagesProductSearch extends AController {
 
 		$url = '';
 		
-		if (isset($this->request->get['keyword'])) {
-			$url .= '&keyword=' . $this->request->get['keyword'];
+		if (isset($request['keyword'])) {
+			$url .= '&keyword=' . $request['keyword'];
 		}
 		
-		if (isset($this->request->get['category_id'])) {
-			$url .= '&category_id=' . $this->request->get['category_id'];
+		if (isset($request['category_id'])) {
+			$url .= '&category_id=' . $request['category_id'];
 		}
 		
-		if (isset($this->request->get['description'])) {
-			$url .= '&description=' . $this->request->get['description'];
+		if (isset($request['description'])) {
+			$url .= '&description=' . $request['description'];
 		}
 		
-		if (isset($this->request->get['model'])) {
-			$url .= '&model=' . $this->request->get['model'];
+		if (isset($request['model'])) {
+			$url .= '&model=' . $request['model'];
 		}
 
-		if (isset($this->request->get['sort'])) {
-			$url .= '&sort=' . $this->request->get['sort'];
+		if (isset($request['sort'])) {
+			$url .= '&sort=' . $request['sort'];
 		}	
 
-		if (isset($this->request->get['order'])) {
-			$url .= '&order=' . $this->request->get['order'];
+		if (isset($request['order'])) {
+			$url .= '&order=' . $request['order'];
 		}
 				
-		if (isset($this->request->get['page'])) {
-			$url .= '&page=' . $this->request->get['page'];
+		if (isset($request['page'])) {
+			$url .= '&page=' . $request['page'];
 		}
-        if (isset($this->request->get['limit'])) {
-            $url .= '&limit=' . $this->request->get['limit'];
+        if (isset($request['limit'])) {
+            $url .= '&limit=' . $request['limit'];
         }
 			
    		$this->document->addBreadcrumb( array ( 
@@ -84,14 +87,14 @@ class ControllerPagesProductSearch extends AController {
       		'separator' => $this->language->get('text_separator')
    		 ));
 
-  		if (isset($this->request->get['page'])) {
-			$page = $this->request->get['page'];
+  		if (isset($request['page'])) {
+			$page = $request['page'];
 		} else {
 			$page = 1;
 		}
 
-		if (isset($this->request->get['sort'])) {
-			$sorting_href = $this->request->get['sort'];
+		if (isset($request['sort'])) {
+			$sorting_href = $request['sort'];
 		} else {
 			$sorting_href = $this->config->get('config_product_default_sort_order');
 		}
@@ -106,7 +109,7 @@ class ControllerPagesProductSearch extends AController {
 		$this->data['keyword'] = $this->html->buildElement(
 				array ( 'type' => 'input',
 			            'name'=>'keyword',
-			            'value'=> $this->request->get['keyword'],
+			            'value'=> $request['keyword'],
 		        ));
 
 		$this->loadModel('catalog/category');
@@ -120,13 +123,13 @@ class ControllerPagesProductSearch extends AController {
 		$this->data['category'] = $this->html->buildElement( array ( 'type' => 'selectbox',
 																	   'name' => 'category_id',
 																	   'options'=> $options,
-																	   'value'=> $this->request->get['category_id'],
+																	   'value'=> $request['category_id'],
 															 ) );
 
 		$this->data['description'] = $this->html->buildElement( array('type' => 'checkbox',
 																		'id' => 'description',
 																		'name' => 'description',
-																		'checked' => (int)$this->request->get['description'],
+																		'checked' => (int)$request['description'],
 																		'value' => 1,
 																		'label_text' => $this->language->get('entry_description')
 																   ));
@@ -134,7 +137,7 @@ class ControllerPagesProductSearch extends AController {
 		$this->data['model'] = $this->html->buildElement( array(     'type' => 'checkbox',
 														'id' => 'model',
 														'name' => 'model',
-														'checked' => (bool)$this->request->get['model'],
+														'checked' => (bool)$request['model'],
 														'value' => 1,
 			                                            'label_text' => $this->language->get('entry_model')
 		                                           ));
@@ -148,11 +151,11 @@ class ControllerPagesProductSearch extends AController {
 
 
 
-		if (isset($this->request->get['keyword'])) {
+		if (isset($request['keyword'])) {
 			$this->loadModel('catalog/product');
-			$promoton = new APromotion();
-			if(isset($this->request->get['category_id'])){
-				$category_id = explode(',',$this->request->get['category_id']);
+			$promotion = new APromotion();
+			if(isset($request['category_id'])){
+				$category_id = explode(',',$request['category_id']);
 				end($category_id);
 				$category_id = current($category_id);
 			}else{
@@ -160,29 +163,29 @@ class ControllerPagesProductSearch extends AController {
 			}
 
 
-			$product_total = $this->model_catalog_product->getTotalProductsByKeyword($this->request->get['keyword'],
+			$product_total = $this->model_catalog_product->getTotalProductsByKeyword($request['keyword'],
 			                                                                         $category_id,
-			                                                                         isset($this->request->get['description']) ? $this->request->get['description'] : '',
-			                                                                         isset($this->request->get['model']) ? $this->request->get['model'] : '');
+			                                                                         isset($request['description']) ? $request['description'] : '',
+			                                                                         isset($request['model']) ? $request['model'] : '');
 
 			if ($product_total) {
 				$url = '';
 
-				if (isset($this->request->get['category_id'])) {
-					$url .= '&category_id=' . $this->request->get['category_id'];
+				if (isset($request['category_id'])) {
+					$url .= '&category_id=' . $request['category_id'];
 				}
 		
-				if (isset($this->request->get['description'])) {
-					$url .= '&description=' . $this->request->get['description'];
+				if (isset($request['description'])) {
+					$url .= '&description=' . $request['description'];
 				}
 				
-				if (isset($this->request->get['model'])) {
-					$url .= '&model=' . $this->request->get['model'];
+				if (isset($request['model'])) {
+					$url .= '&model=' . $request['model'];
 				}
 
                 $limit = $this->config->get('config_catalog_limit');
-                if (isset($this->request->get['limit']) && intval($this->request->get['limit']) > 0 ) {
-					$limit = intval($this->request->get['limit']);
+                if (isset($request['limit']) && intval($request['limit']) > 0 ) {
+					$limit = intval($request['limit']);
                     if ( $limit > 50 ) $limit = 50;
 				}
 				
@@ -191,10 +194,10 @@ class ControllerPagesProductSearch extends AController {
 				
         		$products = array();
 
-                $products_result = $this->model_catalog_product->getProductsByKeyword(  $this->request->get['keyword'],
+                $products_result = $this->model_catalog_product->getProductsByKeyword(  $request['keyword'],
 																				$category_id,
-																				isset($this->request->get['description']) ? $this->request->get['description'] : '',
-																				isset($this->request->get['model']) ? $this->request->get['model'] : '',
+																				isset($request['description']) ? $request['description'] : '',
+																				isset($request['model']) ? $request['model'] : '',
 																				$sort,
 																				$order,
 																				($page - 1) * $limit,
@@ -206,15 +209,25 @@ class ControllerPagesProductSearch extends AController {
 					$this->redirect($this->html->getSEOURL('product/product','&product_id=' . key($products_result), '&encode'));		
 				}
 
-				$resource = new AResource('image');
-				
 				if (is_array($products_result) && $products_result) {
+
+					$product_ids = array();
+					foreach($products_result as $result){
+						$product_ids[] = (int)$result['product_id'];
+					}
+
+					//Format product data specific for confirmation page
+			        $resource = new AResource('image');
+					$thumbnails = $resource->getMainThumbList(
+									'products',
+									$product_ids,
+									$this->config->get('config_image_product_width'),
+									$this->config->get('config_image_product_height')
+					);
+					$stock_info = $this->model_catalog_product->getProductsStockInfo($product_ids);
+
 					foreach ($products_result as $result) {
-						$thumbnail = $resource->getMainThumb('products',
-				                                     $result['product_id'],
-				                                     $this->config->get('config_image_product_width'),
-				                                     $this->config->get('config_image_product_height'),true);
-	
+						$thumbnail = $thumbnails[$result['product_id']];
 						if ($this->config->get('enable_reviews')) {
 							$rating = $this->model_catalog_review->getAverageRating($result['product_id']);	
 						} else {
@@ -223,13 +236,13 @@ class ControllerPagesProductSearch extends AController {
 						
 						$special = FALSE;
 						
-						$discount = $promoton->getProductDiscount($result['product_id']);
+						$discount = $promotion->getProductDiscount($result['product_id']);
 	 					
 						if ($discount) {
 							$price = $this->currency->format($this->tax->calculate($discount, $result['tax_class_id'], $this->config->get('config_tax')));
 						} else {
 							$price = $this->currency->format($this->tax->calculate($result['price'], $result['tax_class_id'], $this->config->get('config_tax')));
-							$special = $promoton->getProductSpecial($result['product_id']);
+							$special = $promotion->getProductSpecial($result['product_id']);
 							if ($special) {
 								$special = $this->currency->format($this->tax->calculate($special, $result['tax_class_id'], $this->config->get('config_tax')));
 							}					
@@ -251,9 +264,9 @@ class ControllerPagesProductSearch extends AController {
 						$in_stock = false;
 						$no_stock_text = $result['stock'];
 						$total_quantity = 0;
-						if ( $this->model_catalog_product->isStockTrackable($result['product_id']) ) {
+						if ( $stock_info[$result['product_id']]['subtract']  ) {
 							$track_stock = true;
-			    			$total_quantity = $this->model_catalog_product->hasAnyStock($result['product_id']);
+			    			$total_quantity = $stock_info[$result['product_id']]['quantity'];
 			    			//we have stock or out of stock checkout is allowed
 			    			if ($total_quantity > 0 || $this->config->get('config_stock_checkout')) {
 				    			$in_stock = true;
@@ -272,7 +285,7 @@ class ControllerPagesProductSearch extends AController {
 							'call_to_order'=> $result['call_to_order'],
 	            			'options' => $options,
 							'special' => $special,
-							'href'    => $this->html->getSEOURL('product/product','&keyword=' . $this->request->get['keyword'] . $url . '&product_id=' . $result['product_id'], '&encode'),
+							'href'    => $this->html->getSEOURL('product/product','&keyword=' . $request['keyword'] . $url . '&product_id=' . $result['product_id'], '&encode'),
 							'add'	  => $add,
 							'description'	=> html_entity_decode($result['description'], ENT_QUOTES, 'UTF-8'),
 							'track_stock' => $track_stock,
@@ -296,27 +309,27 @@ class ControllerPagesProductSearch extends AController {
 				
 				$url = '';
 				
-				if (isset($this->request->get['keyword'])) {
-					$url .= '&keyword=' . $this->request->get['keyword'];
+				if (isset($request['keyword'])) {
+					$url .= '&keyword=' . $request['keyword'];
 				}
 				
-				if (isset($this->request->get['category_id'])) {
-					$url .= '&category_id=' . $this->request->get['category_id'];
+				if (isset($request['category_id'])) {
+					$url .= '&category_id=' . $request['category_id'];
 				}
 				
-				if (isset($this->request->get['description'])) {
-					$url .= '&description=' . $this->request->get['description'];
+				if (isset($request['description'])) {
+					$url .= '&description=' . $request['description'];
 				}
 				
-				if (isset($this->request->get['model'])) {
-					$url .= '&model=' . $this->request->get['model'];
+				if (isset($request['model'])) {
+					$url .= '&model=' . $request['model'];
 				}
 
-				if (isset($this->request->get['page'])) {
-					$url .= '&page=' . $this->request->get['page'];
+				if (isset($request['page'])) {
+					$url .= '&page=' . $request['page'];
 				}
-                if (isset($this->request->get['limit'])) {
-                    $url .= '&limit=' . $this->request->get['limit'];
+                if (isset($request['limit'])) {
+                    $url .= '&limit=' . $request['limit'];
                 }
 				
 				$sorts = array();
@@ -391,30 +404,30 @@ class ControllerPagesProductSearch extends AController {
 
 				$url = '';
 
-				if (isset($this->request->get['keyword'])) {
-					$url .= '&keyword=' . $this->request->get['keyword'];
+				if (isset($request['keyword'])) {
+					$url .= '&keyword=' . $request['keyword'];
 				}
-				if (isset($this->request->get['category_id'])) {
-					$url .= '&category_id=' . $this->request->get['category_id'];
-				}
-				
-				if (isset($this->request->get['description'])) {
-					$url .= '&description=' . $this->request->get['description'];
+				if (isset($request['category_id'])) {
+					$url .= '&category_id=' . $request['category_id'];
 				}
 				
-				if (isset($this->request->get['model'])) {
-					$url .= '&model=' . $this->request->get['model'];
+				if (isset($request['description'])) {
+					$url .= '&description=' . $request['description'];
 				}
 				
-				if (isset($this->request->get['sort'])) {
-					$url .= '&sort=' . $this->request->get['sort'];
+				if (isset($request['model'])) {
+					$url .= '&model=' . $request['model'];
+				}
+				
+				if (isset($request['sort'])) {
+					$url .= '&sort=' . $request['sort'];
 				}	
 
-				if (isset($this->request->get['order'])) {
-					$url .= '&order=' . $this->request->get['order'];
+				if (isset($request['order'])) {
+					$url .= '&order=' . $request['order'];
 				}
-                if (isset($this->request->get['limit'])) {
-                    $url .= '&limit=' . $this->request->get['limit'];
+                if (isset($request['limit'])) {
+                    $url .= '&limit=' . $request['limit'];
                 }
 
 				$this->data['pagination_bootstrap'] = $this->html->buildElement( array (
@@ -448,11 +461,9 @@ class ControllerPagesProductSearch extends AController {
 		end($cat_id); 
 		$results = $this->model_catalog_category->getCategories(current($cat_id));
 
-		$path = explode(',',$this->request->get['category_id']);
-
 		foreach ($results as $result) {
 
-			if(in_array($result['category_id'],$path)){
+			if(in_array($result['category_id'],$this->path)){
 				$this->category = $result['category_id'];
 			}else{
 				$this->category = 0;
@@ -462,7 +473,7 @@ class ControllerPagesProductSearch extends AController {
 				'category_id' => $parent_id.','.$result['category_id'],
 				'name'        => str_repeat('&nbsp;&nbsp;&nbsp;', $level) . $result['name']
 			);
-
+			$children = array();
 			if($this->category){
 				$children = $this->_getCategories($parent_id.','.$result['category_id'], $level);
 			}

@@ -11,22 +11,18 @@
     		   data-toggle="dropdown"/>
     	 <div class="button-in-search" title="<?php echo $button_go; ?>"><i class="fa fa-search"></i></div>
     <?php
-    	$categories = $this->cache->get('category.list.-1.0', (int)$this->config->get('storefront_language_id'), (int)$this->config->get('config_store_id'));
-    	if($categories){
-    		array_unshift($categories, array('category_id'=>0, 'name'=>'All Categories', 'parent_id'=>0));
+    	if($top_categories){
+    		array_unshift($top_categories, array('category_id' => 0, 'name' => $text_category, 'parent_id' => 0));
     ?>
-    	<ul class="dropdown dropdown-menu col-md-2 noclose">
-    		<!-- dropdown menu links -->
-    		<li class="active"><a id="category_selected"><?php echo $categories[0]['name']?></a></li>
+    	<ul  id="search-category" class="dropdown dropdown-menu col-md-2 noclose">
+    		<li class="active"><a id="category_selected"><?php echo $top_categories[0]['name']?></a></li>
     		<li class="divider"></li>
-			<li>
-				<ul id="search-category">
-				<?php foreach($categories as $category){
-					if($category['parent_id']>0){ continue;} ?>
-					<li><a id="category_<?php echo $category['category_id']?>"><?php echo $category['name']?></a></li>
-				<?php } ?>
-				</ul>
-			</li>
+    		<?php foreach($top_categories as $category){
+				if($category['parent_id'] > 0){ continue;} ?>
+    			<li class="search-category">
+				    <a id="category_<?php echo $category['category_id']?>"><?php echo $category['name']?></a>
+			    </li>
+    		<?php } ?>
     	</ul>
     <?php } ?>
     </div>

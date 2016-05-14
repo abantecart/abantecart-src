@@ -53,7 +53,7 @@ final class APDOMySQL{
 		$result = false;
 
 		$time_start = microtime(true);
-		try{
+		try {
 			if ($this->statement && $this->statement->execute($params)){
 				$data = array ();
 				if ($this->statement->columnCount()){
@@ -67,15 +67,12 @@ final class APDOMySQL{
 					$result->num_rows = $this->statement->rowCount();
 				}
 			}
-		} catch(PDOException $e){
+		} catch(PDOException $e) {
+			$this->error = 'SQL Error: ' . $e->getMessage() . '<br />Error No: ' . $e->getCode() . '<br />SQL:' . $sql;	
 			if ($noexcept){
-				$this->error = 'AbanteCart Error: ' . $result->error . '<br />' . $sql;
 				return false;
-			} else{
-				$er = new AError(var_export($this->statement->rowCount(), true));
-				$er->toLog();
-
-				throw new AException(AC_ERR_MYSQL, 'Error: ' . $e->getMessage() . '<br />Error No: ' . $e->getCode() . '<br />' . $sql);
+			} else {
+				throw new AException(AC_ERR_MYSQL, $this->error);
 			}
 		}
 
@@ -103,7 +100,9 @@ final class APDOMySQL{
 	public function escape($value){
 
 		if (is_array($value)){
-			$dump = var_export($value, true);
+			$dump = var_export($value,true);
+		    $backtrace = debug_backtrace();
+		    $dump .= ' (file: '.$backtrace[1]['file'] .' line '.$backtrace[1]['line'].')';
 			$message = 'aMySQLi class error: Try to escape non-string value: ' . $dump;
 			$error = new AError($message);
 			$error->toLog()->toDebug()->toMessages();
@@ -129,5 +128,12 @@ final class APDOMySQL{
 
 	public function __destruct(){
 		$this->connection = null;
+	}
+
+	public function getTextDBError(){
+		return array(
+				'error_text' => '',
+				'errno'      => ''
+		);
 	}
 }

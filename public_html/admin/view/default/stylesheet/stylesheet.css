@@ -1100,6 +1100,7 @@ p {
 #rl_modal .modal-body {
 	padding: 5px;
 	overflow: hidden;
+	overflow-y: auto;
 }
 
 .tab-content.rl-content {
@@ -3312,4 +3313,12 @@ body.stickyheader .sticky_left {
 /* phone input css*/
 .intl-tel-input .country-list{
 	z-index: 4 !important;
+}
+
+#getEmbedFrm{
+   display: table-row-group;
+}
+
+#getEmbedFrm .control-label{
+   padding-top: 2px;
 }

@@ -22,12 +22,11 @@ if (! defined ( 'DIR_CORE' ) || !IS_ADMIN) {
 }
 class ModelLocalisationWeightClass extends Model {
 	public function addWeightClass($data) {
-		$this->db->query("INSERT INTO " . $this->db->table("weight_classes") . " SET value = '" . (float)$data['value'] . "'");
+		$this->db->query("INSERT INTO " . $this->db->table("weight_classes") . "
+							SET value = '" . (float)$data['value'] . "'");
 		
 		$weight_class_id = $this->db->getLastId();
-		
 		foreach ($data['weight_class_description'] as $language_id => $value) {
-
 			$this->language->replaceDescriptions('weight_class_descriptions',
 											 array('weight_class_id' => (int)$weight_class_id),
 											 array($language_id => array(
@@ -36,14 +35,14 @@ class ModelLocalisationWeightClass extends Model {
 											 )) );
 		}
 		
-		$this->cache->delete('weight_class');
-
+		$this->cache->remove('localization');
 		return $weight_class_id;
 	}
 	
 	public function editWeightClass($weight_class_id, $data) {
 		if ( isset($data['value']) )
-			$this->db->query("UPDATE " . $this->db->table("weight_classes") . " SET value = '" . (float)$data['value'] . "' WHERE weight_class_id = '" . (int)$weight_class_id . "'");
+			$this->db->query("UPDATE " . $this->db->table("weight_classes") . "
+							SET value = '" . (float)$data['value'] . "' WHERE weight_class_id = '" . (int)$weight_class_id . "'");
 
 		if ( isset($data['weight_class_description']) ) {
 			foreach ($data['weight_class_description'] as $language_id => $value) {
@@ -58,14 +57,14 @@ class ModelLocalisationWeightClass extends Model {
 			}
 		}
 		
-		$this->cache->delete('weight_class');	
+		$this->cache->remove('localization');
 	}
 	
 	public function deleteWeightClass($weight_class_id) {
 		$this->db->query("DELETE FROM " . $this->db->table("weight_classes") . " WHERE weight_class_id = '" . (int)$weight_class_id . "'");
 		$this->db->query("DELETE FROM " . $this->db->table("weight_class_descriptions") . " WHERE weight_class_id = '" . (int)$weight_class_id . "'");
 		
-		$this->cache->delete('weight_class');
+		$this->cache->remove('localization');
 	}
 	
 	public function getWeightClasses($data = array()) {
@@ -116,16 +115,17 @@ class ModelLocalisationWeightClass extends Model {
 	
 			return $query->rows;			
 		} else {
-			$weight_class_data = $this->cache->get('weight_class', $language_id);
+			$cache_key = 'localization.weight_class.lang_'. $language_id;
+			$weight_class_data = $this->cache->pull($cache_key);
 
-			if (!$weight_class_data) {
+			if ($weight_class_data === false) {
 				$query = $this->db->query(
 					"SELECT *, wc.weight_class_id
 					FROM " . $this->db->table("weight_classes") . " wc
 					LEFT JOIN " . $this->db->table("weight_class_descriptions") . " wcd
 						ON (wc.weight_class_id = wcd.weight_class_id AND wcd.language_id = '" . $language_id . "')");
 				$weight_class_data = $query->rows;
-				$this->cache->set('weight_class', $weight_class_data, $language_id);
+				$this->cache->push($cache_key, $weight_class_data);
 			}
 			return $weight_class_data;
 		}
@@ -137,7 +137,6 @@ class ModelLocalisationWeightClass extends Model {
 								   LEFT JOIN " . $this->db->table("weight_class_descriptions") . " wcd
 								        ON (wc.weight_class_id = wcd.weight_class_id AND wcd.language_id = '" . (int)$this->session->data['content_language_id'] . "')
 								   WHERE wc.weight_class_id = '" . (int)$weight_class_id . "'");
-		
 		return $query->row;
 	}
 
@@ -173,4 +172,3 @@ class ModelLocalisationWeightClass extends Model {
 		return $query->row['total'];
 	}		
 }
-?>

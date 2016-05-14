@@ -22,16 +22,29 @@ if (! defined ( 'DIR_CORE' )) {
 }
 class ModelLocalisationLanguage extends Model {
 	public function getLanguages() {
-		$language_data = $this->cache->get('language');
-
-		if (is_null($language_data)) {
+	
+		$language_data = $this->cache->pull('localization.language');
+		if ($language_data === false) {
 			$query = $this->db->query("SELECT * FROM " . $this->db->table("languages") . " WHERE status = 1 ORDER BY sort_order, name");
 
     		foreach ($query->rows as $result) {
+    			$rel_image_path = '';
 				if(empty($result['image'])){
-					if(file_exists(DIR_ROOT.'/storefront/language/'.$result['directory'].'/flag.png')){
-						$result['image'] = 'storefront/language/'.$result['directory'].'/flag.png';
+					$rel_image_path = 'storefront/language/'.$result['directory'].'/flag.png';
+					if(file_exists(DIR_ROOT.'/'.$rel_image_path)){
+						$sizes = get_image_size(DIR_ROOT.'/'.$rel_image_path);
+						$result['image'] = $rel_image_path;
+						$result['image_width'] = $sizes['width'];
+						$result['image_height'] = $sizes['height'];						
 					}
+				} else {
+					$rel_image_path = $result['image'];
+					if(file_exists(DIR_ROOT.'/'.$rel_image_path)){
+						$sizes = get_image_size(DIR_ROOT.'/'.$rel_image_path);
+						$result['image'] = $rel_image_path;
+						$result['image_width'] = $sizes['width'];
+						$result['image_height'] = $sizes['height'];						
+					}				
 				}
       			$language_data[$result['language_id']] = array(
         			'language_id' => $result['language_id'],
@@ -39,6 +52,8 @@ class ModelLocalisationLanguage extends Model {
         			'code'        => $result['code'],
 					'locale'      => $result['locale'],
 					'image'       => $result['image'],
+					'image_width' => $result['image_width'],
+					'image_height'=> $result['image_height'],
 					'directory'   => $result['directory'],
 					'filename'    => $result['filename'],
 					'sort_order'  => $result['sort_order'],
@@ -46,10 +61,9 @@ class ModelLocalisationLanguage extends Model {
       			);
     		}
 
-			$this->cache->set('language', $language_data);
+			$this->cache->push('localization.language', $language_data);
 		}
 
 		return $language_data;
 	}
 }
-?>

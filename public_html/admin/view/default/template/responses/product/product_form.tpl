@@ -38,7 +38,7 @@
 							<?php echo $field; ?>
 						</div>
 					</div>
-						<?php }  ?><!-- <div class="fieldset"> -->
+						<?php }  ?>
 			</div>
 		</div>
 

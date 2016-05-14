@@ -8,7 +8,7 @@
   Copyright © 2011-2016 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
-  Lincence details is bundled with this package in the file LICENSE.txt.
+  License details is bundled with this package in the file LICENSE.txt.
   It is also available at this URL:
   <http://www.opensource.org/licenses/OSL-3.0>
 
@@ -65,7 +65,7 @@ class ModelToolFormsManager extends Model {
 			if (!empty($data['subsql_filter'])) {
 				$sql .= " AND " . $data['subsql_filter'];;
 			}
-
+			$match = '';
 			if (isset($filter['match']) && !is_null($filter['match'])) {
 				$match = $filter['match'];
 			}
@@ -99,7 +99,7 @@ class ModelToolFormsManager extends Model {
 				$sql .= " AND f.status = '" . (int)$filter['status'] . "'";
 			}
 
-			//If for total, we done bulding the query
+			//If for total, we done building the query
 			if ($mode == 'total_only') {
 				$query = $this->db->query($sql);
 				return $query->row['total'];
@@ -139,18 +139,17 @@ class ModelToolFormsManager extends Model {
 
 			return $query->rows;
 		} else {
-			$form_data = $this->cache->get('forms_manager', $language_id);
+			$cache_key = 'extensions.forms_manager.lang_'. $language_id;
+			$form_data = $this->cache->pull($cache_key);
 
-			if (!$form_data) {
+			if ($form_data === false) {
 				$query = $this->db->query("SELECT *
 											FROM " . $this->db->table("forms") . " f
 											LEFT JOIN " . $this->db->table("form_descriptions") . " fd ON (f.form_id = fd.form_id)
 											WHERE fd.language_id = '" . $language_id . "'
 											ORDER BY f.form_name ASC");
-
 				$form_data = $query->rows;
-
-				$this->cache->set('forms_manager', $form_data, $language_id);
+				$this->cache->push($cache_key, $form_data);
 			}
 
 			return $form_data;
@@ -277,7 +276,7 @@ class ModelToolFormsManager extends Model {
 				$this->updateFormDescription($data['form_id'], $data['form_description']);
 			}
 
-			$this->_deleteCache($this->db->escape($data['form_name']));
+			$this->_deleteCache();
 
 			return true;
 		}
@@ -338,7 +337,7 @@ class ModelToolFormsManager extends Model {
 		if (has_value($data['settings'])) {
 			$data['settings'] = $this->db->escape(serialize($data['settings']));
 		}
-
+		$update = array();
 		foreach ($columns as $colname) {
 			if(has_value($data[$colname])){
 				$update[] = $colname . " = '" . $data[$colname] . "'";
@@ -355,7 +354,7 @@ class ModelToolFormsManager extends Model {
 		}
 		$this->updateFieldDescription($data['field_id'], $data);
 		$this->_deleteCache();
-
+		return true;
 	}
 
 	public function updateFieldDescription($field_id, $data) {
@@ -386,6 +385,7 @@ class ModelToolFormsManager extends Model {
 		}
 
 		$this->_deleteCache();
+		return true;
 	}
 
 	public function updateFieldValues($data, $language_id) {
@@ -661,12 +661,7 @@ class ModelToolFormsManager extends Model {
 		return $data;
 	}
 
-	private function _deleteCache($name = '') {
-		$cache_name = 'forms';
-		if ($name) {
-			$cache_name .= '.' . $name;
-		}
-		$cache_name = preg_replace('/[^a-zA-Z0-9\.]/', '', $cache_name);
-		$this->cache->delete($cache_name);
+	private function _deleteCache() {
+		$this->cache->remove('forms');
 	}
 }

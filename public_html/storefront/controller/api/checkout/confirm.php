@@ -84,7 +84,7 @@ class ControllerApiCheckoutConfirm extends AControllerAPI {
 		$this->loadModel('account/address');
 		$shipping_address = $this->model_account_address->getAddress($this->session->data['shipping_address_id']);	
 		if ($this->cart->hasShipping()) {
-			$this->data['shipping_address'] = $this->customer->getFormatedAdress($shipping_address, $shipping_address[ 'address_format' ] );
+			$this->data['shipping_address'] = $this->customer->getFormattedAddress($shipping_address, $shipping_address[ 'address_format' ] );
 		} else {
 			$this->data['shipping_address'] = '';
 		}
@@ -93,7 +93,7 @@ class ControllerApiCheckoutConfirm extends AControllerAPI {
     	
     	$payment_address = $this->model_account_address->getAddress($this->session->data['payment_address_id']);
 		if ($payment_address) {
-			$this->data['payment_address'] = $this->customer->getFormatedAdress($payment_address, $payment_address[ 'address_format' ] );
+			$this->data['payment_address'] = $this->customer->getFormattedAddress($payment_address, $payment_address[ 'address_format' ] );
 		} else {
 			$this->data['payment_address'] = '';
 		}
@@ -107,14 +107,23 @@ class ControllerApiCheckoutConfirm extends AControllerAPI {
 		$this->loadModel('tool/seo_url');
 		$this->loadModel('tool/image');
 
-		//Format product data specific for confirmation responce
-        $resource = new AResource('image');
+		$product_ids = array();
+		foreach($this->data['products'] as $result){
+			$product_ids[] = (int)$result['product_id'];
+		}
+
+		$resource = new AResource('image');
+		$thumbnails = $resource->getMainThumbList(
+						'products',
+						$product_ids,
+						$this->config->get('config_image_cart_width'),
+						$this->config->get('config_image_cart_height')
+		);
+
+		//Format product data specific for confirmation response
         for($i = 0; $i < sizeof( $this->data['products'] ); $i++){
         	$product_id = $this->data['products'][$i]['product_id'];
-	        $thumbnail = $resource->getMainThumb('products',
-			                                     $product_id,
-			                                     $this->config->get('config_image_cart_width'),
-			                                     $this->config->get('config_image_cart_height'),true);
+	        $thumbnail = $thumbnails[ $product_id ];
 	        
 			$tax = $this->tax->calcTotalTaxAmount($this->data['products'][$i]['total'], $this->data['products'][$i]['tax_class_id']);
       		$this->data['products'][$i] = array_merge( 

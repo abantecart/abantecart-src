@@ -22,7 +22,7 @@
 </a>
 <?php } ?>
 
-<script type="text/javascript"><!--
+<script type="text/javascript">
 $('#checkout').click(function() {
 	$('body').css('cursor','wait');
 	$.ajax({ 
@@ -33,4 +33,4 @@ $('#checkout').click(function() {
 		}		
 	});
 });
-//--></script>
+</script>

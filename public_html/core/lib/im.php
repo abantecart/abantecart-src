@@ -84,7 +84,7 @@ class AIM {
 						0 => array(),
 						1 => array('text_key' => 'im_customer_contact_admin_text')
 					),
-		/* TODO: Need to decide how to hande system messages in respect to IM
+		/* TODO: Need to decide how to handle system messages in respect to IM
 		'system_messages' => array (
 						0 => '',
 						1 => array('text_key' => 'im_system_messages_admin_text'),
@@ -93,8 +93,6 @@ class AIM {
 	);
 	public function __construct() {
 		$this->registry = Registry::getInstance();
-		$this->load->language('common/im');
-
 	}
 	/**
 	 * @param $key
@@ -189,6 +187,7 @@ class AIM {
 
 			//NOTE! all IM drivers MUST have class by these path
 			try{
+				/** @noinspection PhpIncludeInspection */
 				include_once(DIR_EXT . $driver_txt_id . '/core/lib/' . $driver_txt_id . '.php');
 			}catch(AException $e){	}
 			$classname = preg_replace('/[^a-zA-Z]/','',$driver_txt_id);
@@ -239,6 +238,8 @@ class AIM {
 	 	notes: If message is not provided, message text will be takes from languages based on checkpoint text key.  
 	 */
 	public function send( $sendpoint, $msg_details = array() ){
+		$this->load->language('common/im');
+		$customer_im_settings = array();
 		if( IS_ADMIN !== true ) {
 			$sendpoints_list = $this->sendpoints;
 			//do have storefront sendpoint? 
@@ -305,6 +306,7 @@ class AIM {
 					continue;
 				}
 				try{
+					/** @noinspection PhpIncludeInspection */
 					include_once($driver_file);
 					//if class of driver
 					$classname = preg_replace('/[^a-zA-Z]/', '', $driver_txt_id);
@@ -357,9 +359,9 @@ class AIM {
 					if(empty($message)) { 
 						//send default message. Not recommended
 						$message = $this->language->get($sendpoint_data[1]['text_key']);
-					}	
+					}
 					$message = $this->_process_message_text($message, true);
-					//NOTE! all admins will reveive IMs
+					//NOTE! all admins will receive IMs
 					$to = $this->_get_admin_im_uri($sendpoint, $protocol);
 					if ($message && $to){
 						//use safe call
@@ -379,7 +381,7 @@ class AIM {
 	private function getCustomerNotificationSettings(){
 		$settings = array();
 		$protocols = $this->protocols;
-		//todo: in the future should to create separate configurable sendpoints list for guests
+		//TODO: in the future should to create separate configurable sendpoints list for guests
 		$sendpoints = $this->sendpoints;
 		if($this->customer->isLogged()){
 			$settings = $this->model_account_customer->getCustomerNotificationSettings();
@@ -454,7 +456,7 @@ class AIM {
 		}else{
 			$customer_id = (int)$this->customer->getId();
 		}
-		//for registered customers - get adress from database
+		//for registered customers - get address from database
 		if($customer_id){
 			$sql = "SELECT *
 					FROM ".$this->db->table('customers')."
@@ -520,8 +522,8 @@ final class AMailIM{
 	public function __construct(){
 		$this->registry = Registry::getInstance();
 		$this->language = $this->registry->get('language');
-		$this->language->load('common/im');
 		$this->config = $this->registry->get('config');
+		$this->load = $this->registry->get('load');
 	}
 
 	public function getProtocol(){
@@ -529,6 +531,7 @@ final class AMailIM{
 	}
 
 	public function getProtocolTitle(){
+		$this->load->language('common/im');
 		return $this->language->get('im_protocol_email_title') ;
 	}
 
@@ -537,7 +540,7 @@ final class AMailIM{
 	}
 
 	public function send($to, $text){
-
+		$this->load->language('common/im');
 		$to = trim($to);
 		$text = trim($text);
 		if(!$to || !$text){
@@ -568,6 +571,7 @@ final class AMailIM{
 	}
 
 	public function validateURI($emails){
+		$this->load->language('common/im');
 		$this->errors = array();
 		$emails = explode(',',$emails);
 		foreach($emails as $email){
@@ -591,7 +595,8 @@ final class AMailIM{
 	 * @param string $value
 	 * @return object
 	 */
-	public function getURIField($form, $value=''){
+	public function getURIField(
+			$form, $value=''){
 		return '';
 	}
 }

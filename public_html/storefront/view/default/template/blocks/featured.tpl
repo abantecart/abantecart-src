@@ -12,7 +12,7 @@ if ($products) {
         $item['image'] = $product['thumb']['thumb_url'];
         $item['title'] = $product['name'];
         $item['description'] = $product['model'];
-        $item['rating'] = ($product['rating']) ? "<img src='". $this->templateResource('/image/stars_'.$product['rating'].'.png') ."' alt='".$product['stars']."' />" : '';
+        $item['rating'] = ($product['rating']) ? "<img class=\"rating\" src='". $this->templateResource('/image/stars_'.$product['rating'].'.png') ."' alt='".$product['stars']."' width='64' height='12' />" : '';
                 
         $item['info_url'] = $product['href'];
         $item['buy_url'] = $product['add'];
@@ -24,7 +24,9 @@ if ($products) {
 	    
 ?>      
               <li class="col-xs-12">
-              	<a href="<?php echo $item['info_url']?>"><img class="thumbnail_small" src="<?php echo $item['image']?>"/></a>
+              	<a href="<?php echo $item['info_url']?>">
+	                <img alt="<?php echo $item['title']?>" class="thumbnail_small" src="<?php echo $item['image']?>"/>
+                </a>
               	<a class="productname" href="<?php echo $item['info_url']?>"><?php echo $item['title']?></a>
               	<?php if ($review_status) { ?>
                 <span class="procategory"><?php echo $item['rating']?></span>

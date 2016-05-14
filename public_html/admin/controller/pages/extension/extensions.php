@@ -482,7 +482,7 @@ class ControllerPagesExtensionExtensions extends AController {
 		//check if we restore settings to default values
 		if (has_value($this->request->get['reload'])) {
 			$this->extension_manager->editSetting($extension, $ext->getDefaultSettings());
-			$this->cache->delete('settings.extension');
+			$this->cache->remove('settings');
 			$this->session->data['success'] = $this->language->get('text_restore_success');
 			$this->redirect($this->data['target_url']);
 		}
@@ -498,7 +498,7 @@ class ControllerPagesExtensionExtensions extends AController {
 
 			$save_data['store_id'] = $store_id;
 			$this->extension_manager->editSetting($extension, $save_data);
-			$this->cache->delete('settings.extension');
+			$this->cache->remove('settings');
 			$this->session->data['success'] = $this->language->get('text_save_success');
 			$this->redirect($this->data['target_url']);
 		}
@@ -591,7 +591,7 @@ class ControllerPagesExtensionExtensions extends AController {
 		}
 
 		//info about available updates
-		$upd = $this->cache->get('extensions.updates');
+		$upd = $this->cache->pull('extensions.updates');
 		if( is_array($upd) && in_array($extension,array_keys($upd)) ){
 			$this->data['info'] = sprintf(  $this->language->get('text_update_available'),
 											$upd[$extension]['version'],

@@ -49,7 +49,7 @@ class ControllerApiProductProduct extends AControllerAPI {
 		$thumbnail = $resource->getMainThumb('products',
 			                                 $product_id,
 			                                 $this->config->get('config_image_thumb_width'),
-			                                 $this->config->get('config_image_thumb_height'),true);
+			                                 $this->config->get('config_image_thumb_height'));
 		$product_info['thumbnail'] = $thumbnail['thumb']['thumb_url'];
 
 		if ($this->config->get('config_customer_price') || $this->customer->isLogged() ) {

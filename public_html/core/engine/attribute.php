@@ -28,6 +28,9 @@ if (! defined ( 'DIR_CORE' )) {
  * @property ADB $db
  * @property ACache $cache
  * @property AConfig $config
+ * @property ARequest $request
+ * @property ASession $session
+ * @property ALoader $load
  */
 class AAttribute {
 	/**
@@ -44,6 +47,10 @@ class AAttribute {
 														'responses/catalog/attribute/getDownloadAttributeSubform'
 													);
 
+	/**
+	 * @param string $attribute_type
+	 * @param int $language_id
+	 */
 	public function __construct($attribute_type = '', $language_id = 0 ) {
 		$this->registry = Registry::getInstance();
         $this->errors = array();
@@ -76,13 +83,14 @@ class AAttribute {
 	 * @return bool
 	 */
 	private function _load_attribute_types($language_id =0) {
-		//Load attrribute types from DB or cache.
+		//Load attribute types from DB or cache.
 		if ( !$language_id ) {
 			$language_id = (int)$this->config->get('storefront_language_id');
 		}
-        $cache_name = 'attribute.types.'.(int)$language_id;
-        $attribute_types = $this->cache->get($cache_name,'',(int)$this->config->get('config_store_id'));
-        if (!is_null($attribute_types)) {
+		$store_id = (int)$this->config->get('config_store_id');
+        $cache_key = 'attribute.types.store_'.$store_id.'_lang_'.(int)$language_id;
+        $attribute_types = $this->cache->pull($cache_key);
+        if ($attribute_types !== false) {
             $this->attribute_types = $attribute_types;
             return false;
         }
@@ -95,7 +103,7 @@ class AAttribute {
             return false;
         }
 
-        $this->cache->set($cache_name, $query->rows,'',(int)$this->config->get('config_store_id'));
+        $this->cache->push($cache_key, $query->rows);
 
         $this->attribute_types = $query->rows;
 		return true;
@@ -114,31 +122,27 @@ class AAttribute {
         if ( !$language_id ) {
             $language_id = $this->config->get('storefront_language_id');
         }
+		$store_id = (int)$this->config->get('config_store_id');
 
-        $cache_name = 'attributes.'.$attribute_type_id;
-        $cache_name = preg_replace('/[^a-zA-Z0-9\.]/', '', $cache_name);
-        $attributes = $this->cache->get($cache_name, (int)$language_id, (int)$this->config->get('config_store_id'));
-        if (!empty($attributes)) {
+        $cache_key = 'attributes.'.$attribute_type_id;
+        $cache_key = preg_replace('/[^a-zA-Z0-9\.]/', '', $cache_key).'.store_'.$store_id.'_lang_'.(int)$language_id;
+        $attributes = $this->cache->pull($cache_key);
+        if ($attributes !== false) {
             $this->attributes = $attributes;
             return false;
         }
 
-        $query = $this->db->query("
-            SELECT ga.*, gad.name
-            FROM " . $this->db->table("global_attributes") . " ga
-            LEFT JOIN " . $this->db->table("global_attributes_descriptions") . " gad
-				ON ( ga.attribute_id = gad.attribute_id AND gad.language_id = '" . (int)$language_id . "' )
-            WHERE ga.attribute_type_id = '" . $this->db->escape( $attribute_type_id ) . "' AND ga.status = 1
-            ORDER BY ga.sort_order");
-
-        if ( !$query->num_rows ) {
-            return false;
-        }
+        $query = $this->db->query(" SELECT ga.*, gad.name
+						            FROM " . $this->db->table("global_attributes") . " ga
+						            LEFT JOIN " . $this->db->table("global_attributes_descriptions") . " gad
+										ON ( ga.attribute_id = gad.attribute_id AND gad.language_id = '" . (int)$language_id . "' )
+						            WHERE ga.attribute_type_id = '" . $this->db->escape( $attribute_type_id ) . "' AND ga.status = 1
+						            ORDER BY ga.sort_order");
 		foreach($query->rows as $row){
 			$this->attributes[$row['attribute_id']] = $row;
 		}
 
-        $this->cache->set($cache_name, $this->attributes, (int)$language_id, (int)$this->config->get('config_store_id'));
+        $this->cache->push($cache_key, $this->attributes);
 		return true;
 	}
 
@@ -316,11 +320,12 @@ class AAttribute {
 		if(!(int)$language_id){
 			$language_id = $this->language->getLanguageID();
 		}
-		//get attrib values
-        $cache_name = 'attribute.values.'.$attribute_id.'.'.$language_id;
-        $cache_name = preg_replace('/[^a-zA-Z0-9\.]/', '', $cache_name);
-        $attribute_vals = $this->cache->get($cache_name,'',(int)$this->config->get('config_store_id'));
-        if (!is_null($attribute_vals)) {
+		$store_id = (int)$this->config->get('config_store_id');
+		//get attribute values
+        $cache_key = 'attribute.values.'.$attribute_id;
+        $cache_key = preg_replace('/[^a-zA-Z0-9\.]/', '', $cache_key).'.store_'.$store_id.'_lang_'.$language_id;
+        $attribute_vals = $this->cache->pull($cache_key);
+        if ($attribute_vals !== false) {
             return $attribute_vals;
         }
 
@@ -332,12 +337,9 @@ class AAttribute {
             WHERE gav.attribute_id = '" . $this->db->escape( $attribute_id ) . "'
             order by gav.sort_order"
         );
-
-        if ( !$query->num_rows ) {
-            return array();
-        }
-        $this->cache->set($cache_name, $query->rows,'',(int)$this->config->get('config_store_id'));
-        return $query->rows;		
+		$attribute_vals = $query->rows;
+        $this->cache->push($cache_key, $attribute_vals);
+        return $attribute_vals;
 	}
 
 	/**

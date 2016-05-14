@@ -24,6 +24,7 @@ if (! defined ( 'DIR_CORE' )) {
 /**
  * Class ModelCatalogCategory
  * @property ModelCatalogProduct $model_catalog_product
+ * @property ModelCatalogManufacturer $model_catalog_manufacturer
  */
 class ModelCatalogCategory extends Model {
 	/**
@@ -52,21 +53,27 @@ class ModelCatalogCategory extends Model {
 	 * @param int $limit
 	 * @return array
 	 */
-	public function getCategories($parent_id = 0, $limit=0) {
+	public function getCategories($parent_id = 0, $limit = 0) {
 		$language_id = (int)$this->config->get('storefront_language_id');
-		$cache_name = 'category.list.'. $parent_id.'.'.$limit;
-		$cache = $this->cache->get($cache_name, $language_id, (int)$this->config->get('config_store_id'));
-		if(is_null($cache)){
-			$query = $this->db->query("SELECT *
+		$store_id = (int)$this->config->get('config_store_id');
+		$cache_key = 'category.list.'. $parent_id.'.'.$limit.'.store_'.$store_id.'_lang_'.$language_id;
+		$cache = $this->cache->pull($cache_key);
+
+		if($cache === false){
+			$query = $this->db->query("SELECT *, 
+										(	SELECT count(*)
+						  					FROM ".$this->db->table('products_to_categories')." p2c
+						  					INNER JOIN " . $this->db->table('products')." p ON p.product_id = p2c.product_id
+						  					WHERE p2c.category_id = c.category_id AND p.status = '1') as product_count
 										FROM " . $this->db->table("categories") . " c
 										LEFT JOIN " . $this->db->table("category_descriptions") . " cd ON (c.category_id = cd.category_id AND cd.language_id = '" . $language_id . "')
 										LEFT JOIN " . $this->db->table("categories_to_stores") . " c2s ON (c.category_id = c2s.category_id)
-										WHERE ".($parent_id<0 ? "" : "c.parent_id = '" . (int)$parent_id . "' AND ")."
-										     c2s.store_id = '" . (int)$this->config->get('config_store_id') . "' AND c.status = '1'
+										WHERE ".($parent_id < 0 ? "" : "c.parent_id = '" . (int)$parent_id . "' AND ")."
+										     c2s.store_id = '" . $store_id . "' AND c.status = '1'
 										ORDER BY c.sort_order, LCASE(cd.name)
-										".((int)$limit ? "LIMIT ".(int)$limit : '')."										");
+										".((int)$limit ? "LIMIT ".(int)$limit : '')." ");
 			$cache =  $query->rows;
-			$this->cache->set($cache_name, $cache, $language_id, (int)$this->config->get('config_store_id'));
+			$this->cache->push($cache_key, $cache);
 		}
 		return $cache;
 	}
@@ -104,7 +111,7 @@ class ModelCatalogCategory extends Model {
 						  	WHERE p2c.category_id = c.category_id AND p.status = '1') as products_count ";
 		}
         $where = (isset($data['parent_id']) ? " c.parent_id = '" . (int)$data['parent_id'] . "'" : '' );
-		//filter result by givem ids array
+		//filter result by given ids array
 		if( $data['filter_ids'] ){
 			$ids = array();
 			foreach( $data['filter_ids']  as $id){
@@ -130,7 +137,7 @@ class ModelCatalogCategory extends Model {
 			$sql .= ($where ? " AND " : 'WHERE ').$data['subsql_filter'];
 		}
 
-		//If for total, we done bulding the query
+		//If for total, we done building the query
 		if ($mode == 'total_only') {
 		    $query = $this->db->query($sql);
 		    return $query->row['total'];
@@ -213,14 +220,16 @@ class ModelCatalogCategory extends Model {
 	public function getCategoriesDetails($parent_id = 0, $path = '') {
 		$language_id = (int)$this->config->get('storefront_language_id');
 		$store_id = (int)$this->config->get('config_store_id');
-		$this->load->model('catalog/product');
-		$this->load->model('catalog/manufacturer');
+
 		$resource = new AResource('image');
-		$cash_name = 'category.details.'.$parent_id;
-		$categories = $this->cache->get( $cash_name, $language_id, $store_id );
-		if ( count($categories) ) {
+		$cache_key = 'category.details.'.$parent_id.'.store_'.$store_id.'_lang_'.$language_id;
+		$categories = $this->cache->pull( $cache_key );
+		if ( $categories !== false ) {
 			return $categories;
 		}
+
+		$this->load->model('catalog/product');
+		$this->load->model('catalog/manufacturer');
 		
 		$results = $this->getCategories($parent_id);
 		
@@ -231,7 +240,7 @@ class ModelCatalogCategory extends Model {
 			        $new_path = $path . '_' . $result['category_id'];
 			}
 			
-			$brands = array();
+			$prods = $brands = array();
 			
 			if($parent_id == 0) {
 
@@ -244,7 +253,6 @@ class ModelCatalogCategory extends Model {
 			    foreach( $prods as $prod ) {
 			        if( $prod['manufacturer_id'] ) {
 			                $brand = $this->model_catalog_manufacturer->getManufacturer($prod['manufacturer_id']);
-			        
 			                $brands[$prod['manufacturer_id']] = array(
 			                        'name' => $brand['name'],
 			                        'href' => $this->html->getSEOURL('product/manufacturer', '&manufacturer_id=' .$brand['manufacturer_id'], '&encode')
@@ -256,7 +264,7 @@ class ModelCatalogCategory extends Model {
 			$thumbnail = $resource->getMainThumb('categories',
 			                                     $result['category_id'],
 			                                     $this->config->get('config_image_category_width'),
-			                                     $this->config->get('config_image_category_height'),true);
+			                                     $this->config->get('config_image_category_height'));
 			
 			$categories[] = array(
 			        'category_id' => $result['category_id'],
@@ -268,11 +276,12 @@ class ModelCatalogCategory extends Model {
 			        'thumb' => $thumbnail['thumb_url'],
 			);
 		}
-		$this->cache->set( $cash_name, $categories, $language_id, $store_id );
+		$this->cache->push( $cache_key, $categories );
 		return $categories;
 	}
 
 	/**
+	 * Get Total products in categories
 	 * @param array $categories
 	 * @return int
 	 */
@@ -282,37 +291,46 @@ class ModelCatalogCategory extends Model {
 			$val = (int)$val;
 		} unset($val);
 		$categories = array_unique($categories);
-
-		$query = $this->db->query("SELECT COUNT(DISTINCT p2c.product_id) AS total
-									FROM " . $this->db->table("products_to_categories") . " p2c
-									INNER JOIN " . $this->db->table('products')." p ON p.product_id = p2c.product_id
-									WHERE p.status = '1' AND p2c.category_id IN (".implode(', ',$categories).");");
-
-		return (int)$query->row['total'];
+		if($categories){
+			$query = $this->db->query( "SELECT COUNT(DISTINCT p2c.product_id) AS total
+										FROM " . $this->db->table("products_to_categories") . " p2c
+										INNER JOIN " . $this->db->table('products') . " p
+											ON p.product_id = p2c.product_id
+										WHERE p.status = '1' AND p2c.category_id IN (" . implode(', ', $categories) . ");");
+			$output = (int)$query->row['total'];
+		}else{
+			$output = 0;
+		}
+		return $output;
 	}
 
 
 	/**
+	 * Get Manufactures for specified categories
 	 * @param array $categories
 	 * @return array
 	 */
-	public function getCategoriesBrands($categories=array()){
+	public function getCategoriesBrands( $categories = array() ){
 		$categories = (array)$categories;
 		foreach($categories as &$val){
 			$val = (int)$val;
 		} unset($val);
-		$categories = array_unique($categories);
 
-		$sql = "SELECT DISTINCT p.manufacturer_id, m.name
-				FROM ".$this->db->table('products')." p
-				LEFT JOIN ".$this->db->table('manufacturers')." m ON p.manufacturer_id = m.manufacturer_id
+		$categories = array_unique($categories);
+		if($categories){
+			$sql = "SELECT DISTINCT p.manufacturer_id, m.name
+				FROM " . $this->db->table('products') . " p
+				LEFT JOIN " . $this->db->table('manufacturers') . " m ON p.manufacturer_id = m.manufacturer_id
 				WHERE p.product_id IN (SELECT DISTINCT p2c.product_id
 									   FROM " . $this->db->table('products_to_categories') . " p2c
-									   INNER JOIN " . $this->db->table('products')." p ON p.product_id = p2c.product_id
-									   WHERE p.status = '1' AND p2c.category_id IN (".implode(', ',$categories)."));";
-
-		$query = $this->db->query($sql);
-		return $query->rows;
+									   INNER JOIN " . $this->db->table('products') . " p ON p.product_id = p2c.product_id
+									   WHERE p.status = '1' AND p2c.category_id IN (" . implode(', ', $categories) . "));";
+			$query = $this->db->query($sql);
+			$output = $query->rows;
+		}else{
+			$output = array();
+		}
+		return $output;
 	}
 
 	/**

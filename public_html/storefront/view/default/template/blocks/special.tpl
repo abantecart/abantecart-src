@@ -10,13 +10,13 @@ if ($products) {
     foreach ($products as $product) {
         $item = array();
 		if( $product['thumb']['origin']=='internal'){
-			$item['image'] = '<img class="thumbnail_small" src="'. $product['thumb']['thumb_url'].'"/>';
+			$item['image'] = '<img alt="'.$product['name'].'" class="thumbnail_small" src="'. $product['thumb']['thumb_url'].'"/>';
 		}else{
 			$item['image'] = $product['thumb']['thumb_html'];
 		}
         $item['title'] = $product['name'];
         $item['description'] = $product['model'];
-        $item['rating'] = ($product['rating']) ? "<img src='". $this->templateResource('/image/stars_'.$product['rating'].'.png') ."' alt='".$product['stars']."' />" : '';
+        $item['rating'] = ($product['rating']) ? "<img class=\"rating\"  src='". $this->templateResource('/image/stars_'.$product['rating'].'.png') ."' alt='".$product['stars']."' width='64' height='12' />" : '';
                 
         $item['info_url'] = $product['href'];
         $item['buy_url'] = $product['add'];

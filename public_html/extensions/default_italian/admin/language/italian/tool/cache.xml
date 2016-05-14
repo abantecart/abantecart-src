@@ -17,10 +17,6 @@
 		<value><![CDATA[Impaginazione &amp; Blocchi]]></value>
 	</definition>
 	<definition>
-		<key>text_translations</key>
-		<value><![CDATA[Traduzioni]]></value>
-	</definition>
-	<definition>
 		<key>text_flexyforms</key>
 		<value><![CDATA[Flexy Forms]]></value>
 	</definition>
@@ -65,10 +61,6 @@
 		<value><![CDATA[Pagine, imapaginazioni, blocchi.]]></value>
 	</definition>
 	<definition>
-		<key>desc_translations</key>
-		<value><![CDATA[Dati di traduzione della lingua]]></value>
-	</definition>
-	<definition>
 		<key>desc_flexyforms</key>
 		<value><![CDATA[Flexy forms data]]></value>
 	</definition>
@@ -103,5 +95,13 @@
 	<definition>
 		<key>column_description</key>
 		<value><![CDATA[Descrizione]]></value>
+	</definition>
+	<definition>
+		<key>text_html_cache</key>
+		<value><![CDATA[HTML-cache]]></value>
+	</definition>
+	<definition>
+		<key>desc_html_cache</key>
+		<value><![CDATA[Pagine HTML memorizzate nella cache e blocchi]]></value>
 	</definition>
 </definitions>

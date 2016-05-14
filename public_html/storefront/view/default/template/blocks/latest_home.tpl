@@ -1,3 +1,4 @@
+<?php if($products){?>
 <section id="latest" class="row mt20">
 <h4 class="hidden">&nbsp;</h4>
 	<div class="container-fluid">
@@ -15,3 +16,4 @@
 	<?php } ?>
 	</div>
 </section>
+<?php } ?>

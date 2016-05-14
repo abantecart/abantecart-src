@@ -33,13 +33,22 @@ if (!defined('DIR_CORE')) {
 
 function run_system_check($registry, $mode = 'log'){
 	$mlog = $counts = array();
-	
-	$mlog[] = check_install_directory($registry);
-	$mlog = array_merge($mlog, check_file_permissions($registry));	
-	$mlog = array_merge($mlog, check_php_configuraion($registry));	
-	$mlog = array_merge($mlog, check_server_configuration($registry));	
-	$mlog = array_merge($mlog, check_order_statuses($registry));
-	$mlog = array_merge($mlog, check_web_access());
+	//run anyway
+	$mlog[] = check_install_directory();
+
+	if( //run on admin side
+		( IS_ADMIN === true && (!$registry->get('config')->get('config_system_check') || $registry->get('config')->get('config_system_check') == 1))
+		||
+		//run on storefront side
+		(IS_ADMIN !== true && (!$registry->get('config')->get('config_system_check') || $registry->get('config')->get('config_system_check') == 2))
+	){
+
+		$mlog = array_merge($mlog, check_file_permissions($registry));
+		$mlog = array_merge($mlog, check_php_configuraion());
+		$mlog = array_merge($mlog, check_server_configuration($registry));
+		$mlog = array_merge($mlog, check_order_statuses($registry));
+		$mlog = array_merge($mlog, check_web_access());
+	}
 
 	$counts['error_count'] = $counts['warning_count'] = $counts['notice_count'] = 0;
 	foreach($mlog as $message){
@@ -67,7 +76,7 @@ function run_system_check($registry, $mode = 'log'){
 	return array($mlog, $counts);
 }
 
-function check_install_directory($registry){
+function check_install_directory(){
 	//check if install dir existing. warn
 	if (file_exists(DIR_ROOT . '/install')) {
 	    return array(
@@ -76,8 +85,13 @@ function check_install_directory($registry){
 	    	'type' => 'W'
 	    );
 	}
+	return array();
 }
 
+/**
+ * @param Registry $registry
+ * @return array
+ */
 function check_file_permissions($registry){
 	//check file permissions. 
 	$ret_array = array();
@@ -99,7 +113,7 @@ function check_file_permissions($registry){
 	}
 
 	//if cache is enabled
-	if( $registry->get('config')->get('config_cache_enable') ) {
+	if( $registry->get('config')->get('config_cache_enable') && CACHE_DRIVER == 'file') {
 		$cache_files = get_all_files_dirs(DIR_SYSTEM . 'cache/');
 		$cache_message = '';
 		foreach($cache_files as $file) {
@@ -130,23 +144,41 @@ function check_file_permissions($registry){
 	    	'type' => 'W'	    
 	    );
 	}
+	//check resource directories
+	$resource_files = get_all_files_dirs(DIR_ROOT . '/resources/');
+	$resource_message = '';
+	foreach($resource_files as $file) {
+		if(in_array(basename($file), array('.htaccess','index.php','index.html','.','','..'))){
+			continue;
+		}
+	    if (!is_writable($file)) {
+	    	$resource_message .= $file."<br/>";
+	    }	
+	}
+	if($resource_message){
+	    $ret_array[] = array(
+	    	'title' => 'Incorrect resource files permissions',
+	    	'body' => "Following files(folders) do not have write permissions. AbanteCart Media Manager will not function properly. <br/>" . $resource_message,
+	    	'type' => 'W'	    
+	    );	
+	}
 
 	$image_files = get_all_files_dirs(DIR_ROOT . '/image/thumbnails/');
 	$image_message = '';
 	foreach($image_files as $file) {
-		if(in_array(basename($file), array('index.html', 'index.html','.','','..'))){
+		if(in_array(basename($file), array('index.php', 'index.html','.','','..'))){
 			continue;
 		}
 	    if (!is_writable($file)) {
 	    	$image_message .= $file."<br/>";
-	    }	
+	    }
 	}
 	if($image_message){
 	    $ret_array[] = array(
 	    	'title' => 'Incorrect image files permissions',
 	    	'body' => "Following files do not have write permissions. AbanteCart thumbnail images will not function properly. <br/>" . $image_message,
-	    	'type' => 'W'	    
-	    );	
+	    	'type' => 'W'
+	    );
 	}
 
 	if (!is_writable(DIR_ROOT . '/admin/system')) {
@@ -184,13 +216,13 @@ function check_file_permissions($registry){
 	return $ret_array;
 }
 
-function check_php_configuraion($registry){
+function check_php_configuraion(){
 	//check if all modules and settings on PHP side are OK.
 	$ret_array = array();
 
 	if (!extension_loaded('mysql') && !extension_loaded('mysqli')) {
 	    $ret_array[] = array(
-	    	'title' => 'MySQL extension is missging',
+	    	'title' => 'MySQL extension is missing',
 	    	'body' => 'MySQL extension needs to be enabled on PHP for AbanteCart to work!',
 	    	'type' => 'E'	    
 	    );
@@ -263,6 +295,10 @@ function check_php_configuraion($registry){
 	return $ret_array;
 }
 
+/**
+ * @param Registry $registry
+ * @return array
+ */
 function check_server_configuration($registry){
 	//check server configurations. 
 	$ret_array = array();
@@ -417,7 +453,7 @@ function check_web_access(){
 
 
 /**
- * @param $registry
+ * @param Registry $registry
  * @param string $mode
  * @return array
  */
@@ -425,7 +461,7 @@ function check_web_access(){
 function run_critical_system_check($registry, $mode = 'log'){
 
 	$mlog = array();
-	$mlog[] =  check_session_save_path($registry);
+	$mlog[] =  check_session_save_path();
 
 	$output = array();
 

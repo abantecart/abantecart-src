@@ -19,56 +19,68 @@
 ------------------------------------------------------------------------------*/
 
 class ControllerResponsesCheckoutNoPayment extends AController {
+	public $data = array();
 	public function main() {
+		//init controller data
+		$this->extensions->hk_InitData($this, __FUNCTION__);
 
-		$item = HtmlElementFactory::create( array( 'type' => 'button',
+		$this->data['button_back'] = $this->html->buildElement( array( 'type' => 'button',
 		                                          'name' => 'back',
 			                                      'style' => 'button mr10',
 		                                          'text' => $this->language->get('button_back'),
 												  'icon' => 'fa fa-arrow-left'));
-		$this->view->assign('button_back', $item);
 
-		$item = HtmlElementFactory::create( array( 'type' => 'button',
+		$this->data['button_confirm'] = $this->html->buildElement( array( 'type' => 'button',
 		                                          'name' => 'checkout',
 			                                      'style' => 'button btn-orange pull-right',
 		                                          'text' => $this->language->get('button_confirm'),
 												  'icon' => 'fa fa-check'));
-		$this->view->assign('button_confirm', $item);
 
-		$this->view->assign('continue', $this->html->getSecureURL('checkout/success'));
+		$this->data['continue'] = $this->html->getSecureURL('checkout/success');
 
 		if ($this->request->get['rt'] != 'checkout/guest_step_3') {
-			$this->view->assign('back', $this->html->getSecureURL('checkout/cart'));
+			$this->data['back'] = $this->html->getSecureURL('checkout/cart');
 		} else {
-			$this->view->assign('back', $this->html->getSecureURL('checkout/guest_step_2'));
+			$this->data['back'] = $this->html->getSecureURL('checkout/guest_step_2');
 		}
-		
+
+		$this->extensions->hk_UpdateData($this,__FUNCTION__);
+		$this->view->batchAssign($this->data);
 		$this->processTemplate('responses/checkout/no_payment.tpl' );
 	}
 
 	public function api() {
-		$data = array();
-		
-		$data['text_note'] = $this->language->get('text_note');
-		$data['process_rt'] = 'checkout/no_payment/api_confirm';
+		//init controller data
+		$this->extensions->hk_InitData($this, __FUNCTION__);
 
+		$this->data['text_note'] = $this->language->get('text_note');
+		$this->data['process_rt'] = 'checkout/no_payment/api_confirm';
+
+		$this->extensions->hk_UpdateData($this,__FUNCTION__);
 		$this->load->library('json');
-		$this->response->setOutput(AJson::encode($data));
+		$this->response->setOutput(AJson::encode($this->data));
 	}
 
 
 	public function api_confirm() {
-		$data = array();
-			
+		//init controller data
+		$this->extensions->hk_InitData($this, __FUNCTION__);
+
 		$this->confirm();
-		$data[ 'success' ] = 'completed';
+		$this->data[ 'success' ] = 'completed';
+
+		$this->extensions->hk_UpdateData($this,__FUNCTION__);
 
 		$this->load->library('json');
-		$this->response->setOutput(AJson::encode($data));
+		$this->response->setOutput(AJson::encode($this->data));
 	}
 	
 	public function confirm() {
+		//init controller data
+		$this->extensions->hk_InitData($this, __FUNCTION__);
+
 		$this->load->model('checkout/order');
 		$this->model_checkout_order->confirm($this->session->data['order_id'], $this->config->get('config_order_status_id'));
+		$this->extensions->hk_UpdateData($this,__FUNCTION__);
 	}
 }

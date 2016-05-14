@@ -43,21 +43,19 @@ final class ALog {
 			throw new AException (AC_ERR_LOAD, 'Error: Log directory '.DIR_LOGS.' is non-writable. Please change permissions.');
 		}
 
-		//check is log-file writable
 		//1.create file if it not exists
-		$handle = @fopen($filename, 'a+');
-		@fclose($handle);
-		//2. then change mode to 777
-		if(is_file($filename) && decoct(fileperms($filename) & 0777) != 777){
-			chmod($filename,0777);
-			//3.if log-file non-writable create new one
-			if(!is_writable($filename)){
-				$this->filename = DIR_LOGS.'error_0.txt';
-				$handle = @fopen($this->filename, 'a+');
-				@fclose($handle);
-			}
+		if(!file_exists($this->filename)){
+			$handle = @fopen($this->filename, 'a+');
+			@fclose($handle);	
+		} else if(!is_writable($this->filename)){	
+		//create second log file if original is not writable	
+			$this->filename = DIR_LOGS.'error_0.txt';
+			$handle = @fopen($this->filename, 'a+');
+			@fclose($handle);
 		}
-		if(class_exists('Registry')){// for disabling via settings
+	
+		if(class_exists('Registry')){
+			// for disabling via settings
 			$registry = Registry::getInstance();
 			if(is_object($registry->get('config'))){
 				$this->mode = $registry->get('config')->get('config_error_log') ? true : false;

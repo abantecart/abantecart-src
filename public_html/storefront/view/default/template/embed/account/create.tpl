@@ -151,13 +151,14 @@
 </div>
 </div>  
 
-<script type="text/javascript"><!--
+<script type="text/javascript">
+
 <?php $cz_url = $this->html->getURL('common/zone', '&zone_id='. $zone_id); ?>
 $('#AccountFrm_country_id').change( function(){
     $('select[name=\'zone_id\']').load('<?php echo $cz_url;?>&country_id=' + $(this).val());
 });
 $('select[name=\'zone_id\']').load('<?php echo $cz_url;?>&country_id='+ $('#AccountFrm_country_id').val());
 
-//--></script>
+</script>
 
 <?php echo $footer; ?>

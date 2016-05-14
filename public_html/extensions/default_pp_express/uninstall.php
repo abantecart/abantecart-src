@@ -15,9 +15,7 @@ foreach($custom_blocks as $block) {
 	if(in_array($block['block_name'], $block_names)) {
 		$this->db->query ("DELETE FROM " . DB_PREFIX . "block_layouts
 						   WHERE custom_block_id = '" . ( int ) $block['custom_block_id'] . "'");
-		$this->cache->delete ( 'layout.a.blocks' );
-		$this->cache->delete ( 'layout.blocks' );
-
+		$this->cache->remove ( 'layout' );
 		$lm->deleteCustomBlock($block['custom_block_id']);
 	}
 }

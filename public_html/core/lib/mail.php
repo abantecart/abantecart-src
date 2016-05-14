@@ -22,9 +22,22 @@ if (!defined('DIR_CORE')) {
 }
 
 final class AMail {
+	/**
+	 * @var string email-address
+	 */
 	protected $to;
+	/**
+	 * @var string email-address of sender
+	 */
 	protected $from;
+	/**
+	 * @var string sender's name
+	 */
 	protected $sender;
+	/**
+	 * @var string email-address
+	 */
+	protected $reply_to;
 	protected $subject;
 	protected $text;
 	protected $html;
@@ -68,34 +81,67 @@ final class AMail {
 		$this->messages = $registry->get('messages');
 	}
 
+	/**
+	 * @param string $to - email address
+	 */
 	public function setTo($to) {
 		$this->to = $to;
 	}
 
+	/**
+	 * @param string $from - email address
+	 */
 	public function setFrom($from) {
 		$this->from = $from;
 	}
 
-	public function addheader($header, $value) {
+	/**
+	 * @param string $header
+	 * @param string $value
+	 */
+	public function addHeader($header, $value) {
 		$this->headers[$header] = $value;
 	}
 
+	/**
+	 * @param string $sender - sender's name
+	 */
 	public function setSender($sender) {
 		$this->sender = $sender;
 	}
 
+	/**
+	 * @param string $reply_to - email address
+	 */
+	public function setReplyTo($reply_to) {
+		$this->reply_to = $reply_to;
+	}
+
+	/**
+	 * @param string $subject
+	 */
 	public function setSubject($subject) {
 		$this->subject = $subject;
 	}
 
+	/**
+	 * @param string $text
+	 */
 	public function setText($text) {
 		$this->text = $text;
 	}
 
+	/**
+	 * @param string $html
+	 */
 	public function setHtml($html) {
 		$this->html = $html;
 	}
 
+	/**
+	 * @param string $file - full path to file
+	 * @param string $filename
+	 */
 	public function addAttachment($file, $filename = '') {
 		if (!$filename) {
 			$filename = md5(pathinfo($file, PATHINFO_FILENAME)) . '.' . pathinfo($file, PATHINFO_EXTENSION);
@@ -107,6 +153,9 @@ final class AMail {
 		);
 	}
 
+	/**
+	 * @return bool
+	 */
 	public function send() {
 
 		if (defined('IS_DEMO') && IS_DEMO) {
@@ -170,7 +219,7 @@ final class AMail {
 
 		$header .= 'Date: ' . date('D, d M Y H:i:s O') . $this->newline;
 		$header .= 'From: ' . '=?UTF-8?B?' . base64_encode($this->sender) . '?=' . '<' . $this->from . '>' . $this->newline;
-		$header .= 'Reply-To: ' . '=?UTF-8?B?' . base64_encode($this->sender) . '?=' . '<' . $this->from . '>' . $this->newline;
+		$header .= 'Reply-To: ' . '=?UTF-8?B?' . base64_encode($this->sender) . '?=' . '<' . ($this->reply_to ? $this->reply_to : $this->from) . '>' . $this->newline;
 
 		$header .= 'Return-Path: ' . $this->from . $this->newline;
 		$header .= 'X-Mailer: PHP/' . phpversion() . $this->newline;
@@ -480,6 +529,9 @@ final class AMail {
 		}
 		if ($this->error) {
 			$this->messages->saveError('Mailer error!', 'Can\'t send emails. Please see log for details and check your mail settings.');
+			return false;
 		}
+
+		return true;
 	}
 }

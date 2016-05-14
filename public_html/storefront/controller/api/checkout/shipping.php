@@ -140,7 +140,7 @@ class ControllerApiCheckoutShipping extends AControllerAPI {
 			$this->data[ 'error_warning' ] = $this->language->get('error_no_shipping');
 		}
 
-		$this->data[ 'address' ] = $this->customer->getFormatedAdress($shipping_address, $shipping_address[ 'address_format' ] );		
+		$this->data[ 'address' ] = $this->customer->getFormattedAddress($shipping_address, $shipping_address[ 'address_format' ] );
 		$this->data[ 'shipping_methods' ] = $this->session->data[ 'shipping_methods' ] 	? $this->session->data[ 'shipping_methods' ] : array();
 		$this->data[ 'comment' ] = isset($request[ 'comment' ]) ? $request[ 'comment' ] : $this->session->data[ 'comment' ];
 		

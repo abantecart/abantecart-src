@@ -23,8 +23,8 @@ if (!defined('DIR_CORE')) {
 
 class AMenu_Storefront extends AMenu {
 
-	protected $dataset_decription;
-	protected $dataset_decription_rows;
+	protected $dataset_description;
+	protected $dataset_description_rows;
 
 	public function __construct() {
 
@@ -32,7 +32,7 @@ class AMenu_Storefront extends AMenu {
 		$this->db = $this->registry->get('db');
 
 		$this->dataset = new ADataset ('menu', 'storefront');
-		$this->dataset_decription = new ADataset ('menu', 'storefront_description');
+		$this->dataset_description = new ADataset ('menu', 'storefront_description');
 
 		$this->_buildMenu();
 	}
@@ -40,14 +40,14 @@ class AMenu_Storefront extends AMenu {
 	protected function _buildMenu() {
 
 		$this->dataset_rows = (array)$this->dataset->getRows();
-		$this->dataset_decription_rows = (array)$this->dataset_decription->getRows();
+		$this->dataset_description_rows = (array)$this->dataset_description->getRows();
 
 		// need to resort by sort_order property
 		$offset = 0; // it needs for process repeating sort numbers
 		$tmp = $this->item_ids = array();
 		foreach ($this->dataset_rows as $item) {
 
-			foreach ($this->dataset_decription_rows as $description_item) {
+			foreach ($this->dataset_description_rows as $description_item) {
 				if ($description_item['item_id'] == $item['item_id']) {
 					$item['item_text'][ $description_item['language_id'] ] = $description_item['item_text'];
 				}
@@ -92,7 +92,7 @@ class AMenu_Storefront extends AMenu {
 			}
 		}
 		// add text data
-		foreach ($this->dataset_decription_rows as $item) {
+		foreach ($this->dataset_description_rows as $item) {
 			if ($item_id == $item ['item_id']) {
 				$menu_item['item_text'][ $item['language_id'] ] = $item['item_text'];
 			}
@@ -181,11 +181,11 @@ class AMenu_Storefront extends AMenu {
 				'item_text' => $text,
 			);
 		}
-		$this->dataset_decription->addRows($item_text);
+		$this->dataset_description->addRows($item_text);
 
 		// rebuild menu var after changing
 		$this->_buildMenu();
-		$this->registry->get('cache')->delete('storefront_menu');
+		$this->registry->get('cache')->remove('storefront_menu');
 		return $result;
 	}
 
@@ -201,14 +201,14 @@ class AMenu_Storefront extends AMenu {
 		}
 		//
 		$this->dataset->deleteRows(array( "column_name" => "item_id", "operator" => "=", "value" => $item_id ));
-		$this->dataset_decription->deleteRows(array( "column_name" => "item_id", "operator" => "=", "value" => $item_id ));
+		$this->dataset_description->deleteRows(array( "column_name" => "item_id", "operator" => "=", "value" => $item_id ));
 		$this->_buildMenu();
-		$this->registry->get('cache')->delete('storefront_menu');
+		$this->registry->get('cache')->remove('storefront_menu');
 		return true;
 	}
 
 	/*
-	 * Мethod update menu item by condition (see ADataset->updateRow) 
+	 * Method update menu item by condition (see ADataset->updateRow)
 	 *
 	 * @param string $item_name
 	 * @return boolean
@@ -234,7 +234,7 @@ class AMenu_Storefront extends AMenu {
 			//insert language data in storefront_description
 			// not possible to get data for certain item id and lang id
 			// get all languages for item and update them
-			$item_text = $this->dataset_decription->searchRows(array( "column_name" => "item_id", "operator" => "=", "value" => $item_id ));
+			$item_text = $this->dataset_description->searchRows(array( "column_name" => "item_id", "operator" => "=", "value" => $item_id ));
 
 			foreach ($new_values['item_text'] as $language_id => $text) {
 				foreach ($item_text as $id => $item) {
@@ -244,13 +244,13 @@ class AMenu_Storefront extends AMenu {
 					}
 				}
 			}
-			$this->dataset_decription->deleteRows(array( "column_name" => "item_id", "operator" => "=", "value" => $item_id ));
-			$this->dataset_decription->addRows($item_text);
+			$this->dataset_description->deleteRows(array( "column_name" => "item_id", "operator" => "=", "value" => $item_id ));
+			$this->dataset_description->addRows($item_text);
 
 		}
 
 		$this->_buildMenu();
-		$this->registry->get('cache')->delete('storefront_menu');
+		$this->registry->get('cache')->remove('storefront_menu');
 		return true;
 	}
 
@@ -271,13 +271,14 @@ class AMenu_Storefront extends AMenu {
 		}
 
 		$config = $this->registry->get('config');
+		$item_rt = array();
 		foreach ($this->dataset_rows as $item) {
 			$item_rt[ $item['item_id'] ] = $item['item_url'];
 		}
 
 		//insert language data in storefront_description
 		$item_text = array();
-		foreach ($this->dataset_decription_rows as $row) {
+		foreach ($this->dataset_description_rows as $row) {
 			if ($row['language_id'] == $config->get('storefront_language_id')) {
 				if (isset($data[ $item_rt[ $row['item_id'] ] ])) {
 					$text = $data[ $item_rt[ $row['item_id'] ] ];
@@ -292,8 +293,8 @@ class AMenu_Storefront extends AMenu {
 			}
 		}
 
-		$this->dataset_decription->addRows($item_text);
-		$this->registry->get('cache')->delete('storefront_menu');
+		$this->dataset_description->addRows($item_text);
+		$this->registry->get('cache')->remove('storefront_menu');
 	}
 
 	/**
@@ -307,8 +308,8 @@ class AMenu_Storefront extends AMenu {
 		if (!IS_ADMIN) { // forbid for non admin calls
 			throw new AException (AC_ERR_LOAD, 'Error: permission denied to change menu');
 		}
-		$this->dataset_decription->deleteRows(array( "column_name" => "language_id", "operator" => "=", "value" => $language_id ));
-		$this->registry->get('cache')->delete('storefront_menu');
+		$this->dataset_description->deleteRows(array( "column_name" => "language_id", "operator" => "=", "value" => $language_id ));
+		$this->registry->get('cache')->remove('storefront_menu');
 	}
 
 }

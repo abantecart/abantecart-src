@@ -24,7 +24,16 @@ class ControllerPagesProductSpecial extends AController {
 
     public $data = array();
 
+	/**
+	 * Check if HTML Cache is enabled for the method
+	 * @return array - array of data keys to be used for cache key building  
+	 */	
+	public static function main_cache_keys(){
+		return array('page','limit','sort','order');
+	}
+
 	public function main() {
+		$request = $this->request->get;
 
         //init controller data
         $this->extensions->hk_InitData($this,__FUNCTION__);
@@ -42,8 +51,8 @@ class ControllerPagesProductSpecial extends AController {
 
 		$url = '';
 
-		if (isset($this->request->get['page'])) {
-			$url .= '&page=' . $this->request->get['page'];
+		if (isset($request['page'])) {
+			$url .= '&page=' . $request['page'];
 		}
 			
    		$this->document->addBreadcrumb( array ( 
@@ -52,21 +61,21 @@ class ControllerPagesProductSpecial extends AController {
       		'separator' => $this->language->get('text_separator')
    		 ));
 		
-    	if (isset($this->request->get['page'])) {
-			$page = $this->request->get['page'];
+    	if (isset($request['page'])) {
+			$page = $request['page'];
 		} else {
 			$page = 1;
 		}
 
-        if (isset($this->request->get['limit'])) {
-            $limit = (int)$this->request->get['limit'];
+        if (isset($request['limit'])) {
+            $limit = (int)$request['limit'];
             $limit = $limit>50 ? 50 : $limit;
         } else {
             $limit = $this->config->get('config_catalog_limit');
         }
 
-		if (isset($this->request->get['sort'])) {
-			$sorting_href = $this->request->get['sort'];
+		if (isset($request['sort'])) {
+			$sorting_href = $request['sort'];
 		} else {
 			$sorting_href = $this->config->get('config_product_default_sort_order');
 		}
@@ -78,9 +87,9 @@ class ControllerPagesProductSpecial extends AController {
 		}
 	
 		$this->loadModel('catalog/product');
-		$promoton = new APromotion();
+		$promotion = new APromotion();
 			
-		$product_total = $promoton->getTotalProductSpecials();
+		$product_total = $promotion->getTotalProductSpecials();
 						
 		if ($product_total) {
 			$this->loadModel('catalog/review');
@@ -89,20 +98,27 @@ class ControllerPagesProductSpecial extends AController {
 			
 			$this->data['button_add_to_cart'] = $this->language->get('button_add_to_cart');
 
-			$results = $promoton->getProductSpecials($sort,
+			$results = $promotion->getProductSpecials($sort,
 			                                         $order,
 			                                         ($page - 1) * $limit,
 													 $limit);
-			$resource = new AResource('image');
+
+			$product_ids = array();
+			foreach($results as $result){
+				$product_ids[] = (int)$result['product_id'];
+			}
+
+			//Format product data specific for confirmation page
+	        $resource = new AResource('image');
+			$thumbnails = $resource->getMainThumbList(
+							'products',
+							$product_ids,
+							$this->config->get('config_image_product_width'),
+							$this->config->get('config_image_product_height')
+			);
+			$stock_info = $this->model_catalog_product->getProductsStockInfo($product_ids);
             foreach ($results as $result) {
-
-                $thumbnail = $resource->getMainThumb('products',
-			                                    $result['product_id'],
-			                                    (int)$this->config->get('config_image_product_width'),
-			                                    (int)$this->config->get('config_image_product_height'),
-												true);
-
-
+                $thumbnail = $thumbnails[$result['product_id']];
                 if ($this->config->get('enable_reviews')) {
                     $rating = $this->model_catalog_review->getAverageRating($result['product_id']);
                 } else {
@@ -111,14 +127,14 @@ class ControllerPagesProductSpecial extends AController {
 
                 $special = FALSE;
 
-                $discount = $promoton->getProductDiscount($result['product_id']);
+                $discount = $promotion->getProductDiscount($result['product_id']);
 
                 if ($discount) {
                     $price = $this->currency->format($this->tax->calculate($discount, $result['tax_class_id'], $this->config->get('config_tax')));
                 } else {
                     $price = $this->currency->format($this->tax->calculate($result['price'], $result['tax_class_id'], $this->config->get('config_tax')));
 
-                    $special = $promoton->getProductSpecial($result['product_id']);
+                    $special = $promotion->getProductSpecial($result['product_id']);
 
                     if ($special) {
                         $special = $this->currency->format($this->tax->calculate($special, $result['tax_class_id'], $this->config->get('config_tax')));
@@ -142,9 +158,9 @@ class ControllerPagesProductSpecial extends AController {
 				$in_stock = false;
 				$no_stock_text = $result['stock'];
 				$total_quantity = 0;
-				if ( $this->model_catalog_product->isStockTrackable($result['product_id']) ) {
+				if ( $stock_info[$result['product_id']]['subtract'] ) {
 				    $track_stock = true;
-			        $total_quantity = $this->model_catalog_product->hasAnyStock($result['product_id']);
+			        $total_quantity = $stock_info[$result['product_id']]['quantity'];
 			        //we have stock or out of stock checkout is allowed
 			        if ($total_quantity > 0 || $this->config->get('config_stock_checkout')) {
 				    	$in_stock = true;

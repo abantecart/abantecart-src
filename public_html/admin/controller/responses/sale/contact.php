@@ -325,6 +325,7 @@ class ControllerResponsesSaleContact extends AController {
 		$newsletter_dbfilter['filter']['newsletter_protocol'] = $protocol;
 
 		$count = 0;
+		$emails = array ();
 
 		switch($recipient){
 			case 'all_subscribers':
@@ -339,7 +340,6 @@ class ControllerResponsesSaleContact extends AController {
 			case 'ordered':
 				$products = $this->request->post['products'];
 				if (is_array($products)){
-					$emails = array ();
 					foreach ($products as $product_id){
 						$results = $this->model_sale_customer->getCustomersByProduct($product_id);
 						foreach ($results as $result){

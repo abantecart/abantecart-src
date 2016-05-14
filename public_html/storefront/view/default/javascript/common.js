@@ -9,7 +9,7 @@ $(document).ready(function() {
 		return search_submit();
 	});
 		
-    $('#search-category li').click(function(e){
+    $('#search-category li.search-category').click(function(e){
         var cat_id = $(this).find('a').attr('id').replace('category_','0,');
         $('#filter_category_id').val(cat_id);
         $('#category_selected').hide().fadeIn('slow');

@@ -10,31 +10,26 @@
 	<div class="content container-fluid">
 
 		<?php if($products){ ?>
-			<!-- Sorting + pagination-->
 			<div class="sorting well">
 				<form class=" form-inline pull-left">
 					<?php echo $text_sort; ?>&nbsp;&nbsp;<?php echo $sorting; ?>
 				</form>
 
 			</div>
-			<!-- end sorting-->
 
 			<?php include($this->templateResource('/template/pages/product/product_listing.tpl')) ?>
 
-			<!-- Sorting + pagination-->
 			<div class="sorting well">
 				<?php echo $pagination_bootstrap; ?>
 				<div class="btn-group pull-right">
 				</div>
 			</div>
-			<!-- end sorting-->
 
 		<?php } ?>
 
-
 	</div>
 
-	<script type="text/javascript"><!--
+	<script type="text/javascript">
 
 		$('#sort').on('change', Resort);
 
@@ -44,5 +39,6 @@
 			url += '&limit=' + $('#limit').val();
 			location = url;
 		}
-		//--></script>
+		
+	</script>
 <?php echo $footer; ?>

@@ -25,53 +25,63 @@ class ControllerBlocksSpecial extends AController {
 	public $data;
 	public function main() {
 
+		if($this->html_cache()){
+			return;
+		}
+
         //init controller data
         $this->extensions->hk_InitData($this,__FUNCTION__);
 
 		$this->loadLanguage('blocks/special');
 
-		$this->data['heading_title'] = $this->language->get('heading_title', 'blocks_special');
+		$this->data['heading_title'] = $this->language->get('heading_title', 'blocks/special');
 		
 		$this->loadModel('catalog/product');
 		$this->loadModel('catalog/review');
 		$this->loadModel('tool/seo_url');
 		$this->loadModel('tool/image');
-		$promoton = new APromotion();
+		$promotion = new APromotion();
 		
 		$this->data['button_add_to_cart'] = $this->language->get('button_add_to_cart');
 		
 		$this->data['products'] = array();
-		
-		$results = $promoton->getProductSpecials('pd.name', 'ASC', 0, $this->config->get('config_special_limit'));
 
+		$results = $promotion->getSpecialProducts(
+				array(
+						'sort'       => 'pd.name',
+						'order'      => 'ASC',
+						'start'      => 0,
+						'limit'      => $this->config->get('config_special_limit'),
+						'avg_rating' => $this->config->get('enable_reviews')
+				)
+		);
+		$product_ids = array();
+		foreach($results as $result){
+			$product_ids[] = (int)$result['product_id'];
+		}
+        //get thumbnails by one pass
         $resource = new AResource('image');
+        $thumbnails = $resource->getMainThumbList(
+                'products',
+                $product_ids,
+                $this->config->get('config_image_product_width'),
+                $this->config->get('config_image_product_height')
+        );
+		$stock_info = $this->model_catalog_product->getProductsStockInfo($product_ids);
 		foreach ($results as $result) {
-			$thumbnail = $resource->getMainThumb('products',
-			                                     $result['product_id'],
-			                                     $this->config->get('config_image_product_width'),
-			                                     $this->config->get('config_image_product_height'),true);
-           	
-			if ($this->config->get('enable_reviews')) {
-				$rating = $this->model_catalog_review->getAverageRating($result['product_id']);	
-			} else {
-				$rating = false;
-			}
-
-			$special = FALSE;
-			
-			$discount = $promoton->getProductDiscount($result['product_id']);
-			
+			$thumbnail = $thumbnails[ $result['product_id'] ];
+           	$special = FALSE;
+			$discount = $result['discount_price'];
 			if ($discount) {
-				$price = $this->currency->format($this->tax->calculate($discount, $result['tax_class_id'], $this->config->get('config_tax')));
+				$price = $discount;
 			} else {
-				$price = $this->currency->format($this->tax->calculate($result['price'], $result['tax_class_id'], $this->config->get('config_tax')));
-			
-				$special = $promoton->getProductSpecial($result['product_id']);
-			
+				$price = $result['price'];
+				$special = $promotion->getProductSpecial($result['product_id']);
 				if ($special) {
 					$special = $this->currency->format($this->tax->calculate($special, $result['tax_class_id'], $this->config->get('config_tax')));
 				}						
 			}
+			$price = $this->currency->format($this->tax->calculate($price, $result['tax_class_id'], $this->config->get('config_tax')));
 			
 			$options = $this->model_catalog_product->getProductOptions($result['product_id']);
 			
@@ -90,9 +100,9 @@ class ControllerBlocksSpecial extends AController {
 			$in_stock = false;
 			$no_stock_text = $result['stock'];
 			$total_quantity = 0;
-			if ( $this->model_catalog_product->isStockTrackable($result['product_id']) ) {
+			if ( $stock_info[$result['product_id']]['subtract'] ) {
 				$track_stock = true;
-    			$total_quantity = $this->model_catalog_product->hasAnyStock($result['product_id']);
+    			$total_quantity = $stock_info[$result['product_id']]['quantity'];
     			//we have stock or out of stock checkout is allowed
     			if ($total_quantity > 0 || $this->config->get('config_stock_checkout')) {
 	    			$in_stock = true;
@@ -100,24 +110,24 @@ class ControllerBlocksSpecial extends AController {
 			}
 			
 			$this->data['products'][] = array(
-				'product_id'    => $result['product_id'],
-				'name'    		=> $result['name'],
-				'blurb' => $result['blurb'],
-				'model'   		=> $result['model'],
-				'rating'  		=> $rating,
-				'stars'   		=> sprintf($this->language->get('text_stars'), $rating),
-				'price'   		=> $price,
-				'call_to_order'=> $result['call_to_order'],
-				'options'   	=> $options,
-				'special' 		=> $special,
-				'thumb'   		=> $thumbnail,
-				'href'    		=> $this->html->getSEOURL('product/product','&product_id=' . $result['product_id'],'&encode'),
-				'add'    		=> $add,
-				'track_stock' => $track_stock,
-				'in_stock'		=> $in_stock,
-				'no_stock_text' => $no_stock_text,
-				'total_quantity'=> $total_quantity,
-				'date_added'    => $result['date_added']
+							'product_id'    => $result['product_id'],
+							'name'    		=> $result['name'],
+							'blurb'         => $result['blurb'],
+							'model'   		=> $result['model'],
+							'rating'  		=> (int)$result['rating'],
+							'stars'   		=> sprintf($this->language->get('text_stars'), (int)$result['rating']),
+							'price'   		=> $price,
+							'call_to_order' => $result['call_to_order'],
+							'options'   	=> $options,
+							'special' 		=> $special,
+							'thumb'   		=> $thumbnail,
+							'href'    		=> $this->html->getSEOURL('product/product','&product_id=' . $result['product_id'],'&encode'),
+							'add'    		=> $add,
+							'track_stock'   => $track_stock,
+							'in_stock'		=> $in_stock,
+							'no_stock_text' => $no_stock_text,
+							'total_quantity'=> $total_quantity,
+							'date_added'    => $result['date_added']
 			);
 		}
 

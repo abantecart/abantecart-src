@@ -36,7 +36,12 @@ final class AImage{
 	/**
 	 * @var array
 	 */
-	private $info;
+	private $info = array();
+
+	/**
+	 * @var
+	 */
+	private $registry;
 
 	/**
 	 * @param string $filename
@@ -52,10 +57,12 @@ final class AImage{
 					'mime'     => $info['mime'],
 					'channels' => $info['channels']
 			);
-
-			$this->image = $this->create($filename);
+			$this->registry = Registry::getInstance();
+			$this->image = $this->get_gd_resource($filename);
 		} else{
-			throw new AException(AC_ERR_LOAD, 'Error: Cannot load image ' . $filename . '!');
+			$error = new AError('Error: Cannot load image ' . $filename);
+			$error->toMessages()->toDebug()->toLog();
+			return false;
 		}
 		return true;
 	}
@@ -71,7 +78,7 @@ final class AImage{
 	 * @param string $filename
 	 * @return resource|string
 	 */
-	private function create($filename){
+	private function get_gd_resource($filename){
 		$mime = $this->info['mime'];
 
 		//some images processing can run out of original PHP memory limit size 
@@ -103,19 +110,62 @@ final class AImage{
 		return $res_img;
 	}
 
-	/**
-	 * @param string $filename - full file name
-	 * @param int $quality
-	 * @return bool
-	 */
-	public function save($filename, $quality = 100){
+
+	public function resizeAndSave($filename, $width, $height, $options = array()){
 		if (!$filename){
 			return false;
 		}
+		$width = (int)$width;
+		$height = (int)$height;
+		$options = (array)$options;
+
+		$quality  = !isset($options['quality']) ? 90 : (int)$options['quality'];
+		$nofill  = !isset($options['nofill']) ? false : $options['nofill'];
+
+		//if size will change - resize it and save with GD2, otherwise - just copy file
+		if($this->info['width'] != $width && $this->info['height'] != $height ){
+			$this->resize($width,$height,$nofill);
+			$result = $this->save($filename,$quality);
+		}else{
+			$result = copy($this->file,$filename);
+		}
+
+		return $result;
+	}
+
+	/**
+	 * @param string $filename - full file name
+	 * @param int $quality - some number in range from 1 till 100
+	 * @return bool
+	 */
+	public function save($filename, $quality = 90){
+		if (is_object($this->registry)&& $this->registry->has('extensions')){
+			$result = $this->registry->get('extensions')->hk_save($this, $filename, $quality);
+		} else{
+			$result = $this->_save($filename, $quality);
+		}
+		return $result;
+	}
+
+	/**
+	 * @param string $filename - full file name
+	 * @param int $quality - some number in range from 1 till 100
+	 * @return bool
+	 */
+	public function _save($filename, $quality = 90){
+		if (!$filename || !$this->image){
+			return false;
+		}
+
+		$quality = (int)$quality;
+		$quality = $quality > 100 ? 100 : $quality;
+		$quality = $quality < 1 ? 1 : $quality;
+
 		$extension = pathinfo($filename, PATHINFO_EXTENSION);
 		if ($extension == 'jpeg' || $extension == 'jpg'){
 			imagejpeg($this->image, $filename, $quality);
 		} elseif ($extension == 'png'){
+			//use maximum compression for PNG
 			imagepng($this->image, $filename, 9, PNG_ALL_FILTERS);
 		} elseif ($extension == 'gif'){
 			imagegif($this->image, $filename);
@@ -134,7 +184,7 @@ final class AImage{
 	 * @return bool|null
 	 */
 	public function resize($width = 0, $height = 0, $nofill = false){
-		if (!$this->info['width'] || !$this->info['height']){
+		if(!$this->image || !$this->info['width'] || !$this->info['height']){
 			return false;
 		}
 		if ($width == 0 && $height == 0){
@@ -151,6 +201,7 @@ final class AImage{
 		$new_height = (int)round($this->info['height'] * $scale, 0);
 		$xpos = (int)(($width - $new_width) / 2);
 		$ypos = (int)(($height - $new_height) / 2);
+
 
 		$image_old = $this->image;
 
@@ -177,6 +228,7 @@ final class AImage{
 
 		$this->info['width'] = $width;
 		$this->info['height'] = $height;
+
 		return true;
 	}
 
@@ -185,7 +237,10 @@ final class AImage{
 	 * @param string $position
 	 */
 	public function watermark($filename, $position = 'bottomright'){
-		$watermark = $this->create($filename);
+		if(!is_resource($this->image)){
+			return false;
+		}
+		$watermark = $this->get_gd_resource($filename);
 
 		$watermark_width = imagesx($watermark);
 		$watermark_height = imagesy($watermark);
@@ -220,6 +275,10 @@ final class AImage{
 	 * @param int $bottom_y
 	 */
 	public function crop($top_x, $top_y, $bottom_x, $bottom_y){
+		if(!is_resource($this->image)){
+			return false;
+		}
+
 		$image_old = $this->image;
 		$this->image = imagecreatetruecolor($bottom_x - $top_x, $bottom_y - $top_y);
 
@@ -235,10 +294,12 @@ final class AImage{
 	 * @param string $color
 	 */
 	public function rotate($degree, $color = 'FFFFFF'){
+		if(!is_resource($this->image)){
+			return false;
+		}
+
 		$rgb = $this->html2rgb($color);
-
 		$this->image = imagerotate($this->image, $degree, imagecolorallocate($this->image, $rgb[0], $rgb[1], $rgb[2]));
-
 		$this->info['width'] = imagesx($this->image);
 		$this->info['height'] = imagesy($this->image);
 	}
@@ -247,7 +308,11 @@ final class AImage{
 	 * @param int $filter
 	 */
 	public function filter($filter){
+		if(!is_resource($this->image)){
+			return false;
+		}
 		imagefilter($this->image, $filter);
+		return true;
 	}
 
 	/**
@@ -258,8 +323,12 @@ final class AImage{
 	 * @param string $color
 	 */
 	public function text($text, $x = 0, $y = 0, $size = 5, $color = '000000'){
+		if(!is_resource($this->image)){
+			return false;
+		}
 		$rgb = $this->html2rgb($color);
 		imagestring($this->image, $size, $x, $y, $text, imagecolorallocate($this->image, $rgb[0], $rgb[1], $rgb[2]));
+		return true;
 	}
 
 	/**
@@ -269,12 +338,18 @@ final class AImage{
 	 * @param int $opacity
 	 */
 	public function merge($filename, $x = 0, $y = 0, $opacity = 100){
-		$merge = $this->create($filename);
+
+		$merge = $this->get_gd_resource($filename);
+
+		if(!is_resource($this->image) || $merge){
+			return false;
+		}
 
 		$merge_width = imagesx($merge);
 		$merge_height = imagesy($merge);
 
 		imagecopymerge($this->image, $merge, $x, $y, 0, 0, $merge_width, $merge_height, $opacity);
+		return false;
 	}
 
 	/**

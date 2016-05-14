@@ -185,6 +185,8 @@ final class PostgreSQL {
 
 	    if(is_array($value)){
 		    $dump = var_export($value,true);
+            $backtrace = debug_backtrace();
+            $dump .= ' (file: '.$backtrace[1]['file'] .' line '.$backtrace[1]['line'].')';
 		    $message = 'PostreSQL class error: Try to escape non-string value: '.$dump;
 		    $error = new AError($message);
 		    $error->toLog()->toDebug()->toMessages();
@@ -213,5 +215,12 @@ final class PostgreSQL {
 		if(is_resource($this->connection)){
 			pg_close($this->connection);
 		}
+	}
+
+	public function getDBError(){
+		return array(
+				'error_text' => ($this->error ? $this->error : pg_result_error($this->connection)),
+				'errno'      => null
+		);
 	}
 }

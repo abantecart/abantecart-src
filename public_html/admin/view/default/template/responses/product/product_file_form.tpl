@@ -107,7 +107,7 @@
 								</dl>
 						<?php } ?>
 						</div>
-						<?php }  ?><!-- <div class="fieldset"> -->
+						<?php }  ?>
 						<?php }  ?>
 					</div>
 					<div class="panel-footer">

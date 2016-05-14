@@ -1,6 +1,6 @@
 <section class="slider">
 <h4 class="hidden">&nbsp;</h4>
-  <div class="banner_conteiner">  		
+  <div class="banner_container">
 	<?php if ($content) { 
 		//first find banner_fallback
 		foreach ($content as $banner) {
@@ -10,7 +10,7 @@
 			} else {
 				foreach ($banner['images'] as $img) {
 					echo '<div class="banner banner_fallback" data-banner-id="'.$banner['banner_id'].'"><a  href="' . $banner['target_url'] . '" ' . ($banner['blank'] ? ' target="_blank" ' : '') . '>';
-					echo '<img src="' . $img['main_url'] . '" title="' . $img['title'] . '" alt="' . $img['title'] . '">';
+					echo '<img src="'.$img['main_url'].'" width="'.$img['main_width'].'" height="'.$img['main_height'].'" title="'.$img['title'].'" alt="'.$img['title'].'">';
 					echo '</a></div>';
 				}
 				break;	
@@ -31,7 +31,7 @@
 				foreach ($banner['images'] as $img) {
 					echo '<a href="' . $banner['target_url'] . '" ' . ($banner['blank'] ? ' target="_blank" ' : '') . '>';
 					if ($img['origin'] == 'internal') {
-						echo '<img src="' . $img['main_url'] . '" title="' . $img['title'] . '" alt="' . $img['title'] . '">';
+						echo '<img src="'.$img['main_url'].'" width="'.$img['main_width'].'" height="'.$img['main_height'].'" title="'.$img['title'].'" alt="'.$img['title'].'">';
 					} else {
 						echo $img['main_html'];
 					}

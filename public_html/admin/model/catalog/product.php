@@ -22,6 +22,7 @@ if(!defined('DIR_CORE') || !IS_ADMIN){
 }
 /**
  * @property ModelCatalogDownload $model_catalog_download
+ * @property ALanguageManager $language
  */
 class ModelCatalogProduct extends Model{
 	/** @param array $data
@@ -88,26 +89,64 @@ class ModelCatalogProduct extends Model{
 			$this->setFeatured($product_id, true);
 		}
 
+		$seo_keys = array();
 		if($data['keyword']){
-			$seo_key = SEOEncode($data['keyword'],
-					'product_id',
-					$product_id);
+			if(is_string($data['keyword'])){
+				$seo_keys = array (
+						$language_id => array (
+								'keyword' => SEOEncode($data['keyword'], 'product_id', $product_id)
+						));
+			}
+			//when cloning
+			else if(is_array($data['keyword'])){
+				$all_languages = $this->language->getAvailableLanguages();
+				$all_ids = array();
+				foreach($all_languages as $l){
+					$all_ids[] = $l['language_id'];
+				}
+				foreach($data['keyword'] as $lang_id=>$seo_key){
+					if(!in_array($lang_id, $all_ids)){
+						continue;
+					}
+					$seo_keys[(int)$lang_id ]  = array(
+												'keyword' => SEOEncode($seo_key,'product_id', $product_id)
+					);
+				}
+			}
 		} else{
-			//Default behavior to save SEO URL keword from product name in default language
-			if(!is_int(key($data['product_description']))){ // when creates
-				$seo_key = SEOEncode($data['product_description']['name'],
-						'product_id',
-						$product_id);
+			//Default behavior to save SEO URL keyword from product name in default language
+			// when new product
+			if(!is_int(key($data['product_description']))){
+				$seo_keys = array(
+							$language_id => array(
+												'keyword' => SEOEncode($data['product_description']['name'],'product_id', $product_id)
+							));
 			} else{ // when clones
-				$seo_key = SEOEncode($data['product_description'][$this->language->getDefaultLanguageID()]['name'],
-						'product_id',
-						$product_id);
+				$product_seo_keys = $this->getProductSEOKeywords($product_id);
+
+				$all_languages = $this->language->getAvailableLanguages();
+				$all_ids = array();
+				foreach($all_languages as $l){
+					$all_ids[] = $l['language_id'];
+				}
+				foreach($product_seo_keys as $lang_id=>$seo_key){
+					if(!in_array($lang_id, $all_ids)){
+						continue;
+					}
+					$seo_keys[(int)$lang_id ]  = array(
+												'keyword' => SEOEncode($seo_key,'product_id', $product_id)
+					);
+				}
 			}
 		}
-		if($seo_key){
-			$this->language->replaceDescriptions('url_aliases',
-					array('query' => "product_id=" . (int)$product_id),
-					array((int)$language_id => array('keyword' => $seo_key)));
+		if($seo_keys){
+			foreach($seo_keys as $lang_id => $seo_key){
+				$this->language->replaceDescriptions('url_aliases',
+						array ('query'       => "product_id=" . (int)$product_id,
+						       'language_id' => $lang_id),
+						array($lang_id  => $seo_key)
+				);
+			}
 		} else{
 			$this->db->query("DELETE
 							FROM " . $this->db->table("url_aliases") . " 
@@ -121,10 +160,6 @@ class ModelCatalogProduct extends Model{
 				$tags = array($language_id => $tags);
 			}elseif(is_array($data['product_tags'])){
 				$tags = $data['product_tags'];
-				//if cloning
-				if(!is_int(key($data['product_tags']))){
-					$tags = array($language_id => $tags);
-				}
 				foreach($tags as &$taglist){
 					$taglist = (array)explode(',', $taglist);
 				} unset($taglist);
@@ -136,18 +171,19 @@ class ModelCatalogProduct extends Model{
 
 			foreach($tags as $lang_id=>$taglist){
 				$taglist = array_unique($taglist);
+
 				foreach ($taglist as $tag){
 					$tag = trim($tag);
-					if ($tag){
-						$this->language->addDescriptions('product_tags',
-								array ('product_id' => (int)$product_id,
-								       'tag'        => $this->db->escape($tag)),
-								array ((int)$lang_id => array ('tag' => $tag)));
-					}
+					if(!$tag){ continue; }
+					$sql = "INSERT INTO ".$this->db->table('product_tags')."
+							(product_id, language_id, tag)
+							VALUES
+							(".(int)$product_id.", ".(int)$lang_id.", '".$this->db->escape($tag)."');";
+					$this->db->query($sql);
 				}
 			}
 		}
-		$this->cache->delete('product');
+		$this->cache->remove('product');
 		return $product_id;
 	}
 
@@ -174,7 +210,7 @@ class ModelCatalogProduct extends Model{
 					date_start = '" . $this->db->escape($data['date_start']) . "',
 					date_end = '" . $this->db->escape($data['date_end']) . "'");
 		$id = $this->db->getLastId();
-		$this->cache->delete('product');
+		$this->cache->remove('product');
 		return $id;
 	}
 
@@ -201,7 +237,7 @@ class ModelCatalogProduct extends Model{
 				date_start = '" . $this->db->escape($data['date_start']) . "',
 				date_end = '" . $this->db->escape($data['date_end']) . "'");
 		$id = $this->db->getLastId();
-		$this->cache->delete('product');
+		$this->cache->remove('product');
 		return $id;
 	}
 
@@ -308,7 +344,7 @@ class ModelCatalogProduct extends Model{
 					array((int)$language_id => array('tag' => array_unique($tags))));
 		}
 
-		$this->cache->delete('product');
+		$this->cache->remove('product');
 	}
 
 	/**
@@ -336,7 +372,7 @@ class ModelCatalogProduct extends Model{
 								SET " . implode(',', $update) . "
 								WHERE product_discount_id = '" . (int)$product_discount_id . "'");
 		}
-		$this->cache->delete('product');
+		$this->cache->remove('product');
 	}
 
 	/**
@@ -363,7 +399,7 @@ class ModelCatalogProduct extends Model{
 		if(!empty($update)){
 			$this->db->query("UPDATE `" . $this->db->table("product_specials`") . " SET " . implode(',', $update) . " WHERE product_special_id = '" . (int)$product_special_id . "'");
 		}
-		$this->cache->delete('product');
+		$this->cache->remove('product');
 	}
 
 	/**
@@ -409,7 +445,7 @@ class ModelCatalogProduct extends Model{
 				}
 			}
 		}
-		$this->cache->delete('product');
+		$this->cache->remove('product');
 		return true;
 	}
 
@@ -495,7 +531,7 @@ class ModelCatalogProduct extends Model{
 			$this->insertProductOptionValue($product_id, $product_option_id, '', '', array());
 		}
 
-		$this->cache->delete('product');
+		$this->cache->remove('product');
 		return $product_option_id;
 	}
 
@@ -521,7 +557,7 @@ class ModelCatalogProduct extends Model{
 
 		$this->_deleteProductOption($product_id, $product_option_id);
 
-		$this->cache->delete('product');
+		$this->cache->remove('product');
 	}
 
 	/**
@@ -544,7 +580,7 @@ class ModelCatalogProduct extends Model{
 				AND product_option_id = '" . (int)$product_option_id . "'");
 	}
 
-	//Add new product option value and value descriptions for all global atributes langauges or current language
+	//Add new product option value and value descriptions for all global attributes languages or current language
 	/**
 	 * @param int $product_id
 	 * @param int $option_id
@@ -610,7 +646,7 @@ class ModelCatalogProduct extends Model{
 			}
 		}
 
-		$this->cache->delete('product');
+		$this->cache->remove('product');
 		return $pd_opt_val_id;
 	}
 
@@ -762,7 +798,7 @@ class ModelCatalogProduct extends Model{
 	}
 
 	/**
-	 *    Update product option value and value descriptions for set langauge
+	 *    Update product option value and value descriptions for set language
 	 * @param int $product_id
 	 * @param int $pd_opt_val_id
 	 * @param array $data
@@ -832,7 +868,7 @@ class ModelCatalogProduct extends Model{
 			}
 		}
 
-		$this->cache->delete('product');
+		$this->cache->remove('product');
 	}
 
 	/**
@@ -857,7 +893,7 @@ class ModelCatalogProduct extends Model{
 			$this->_deleteProductOptionValue($product_id, $g_attribute['product_option_value_id'], $language_id);
 		}
 
-		$this->cache->delete('product');
+		$this->cache->remove('product');
 	}
 
 	/**
@@ -936,6 +972,7 @@ class ModelCatalogProduct extends Model{
 		$data = array_merge($data, array('product_store' => $this->getProductStores($product_id)));
 		$data = array_merge($data, array('product_related' => $this->getProductRelated($product_id)));
 		$data = array_merge($data, array('product_tags' => $this->getProductTags($product_id)));
+		$data = array_merge($data, array('keyword' => $this->getProductSEOKeywords($product_id)));
 
 		//set status to off for cloned product
 		$data['status'] = 0;
@@ -967,7 +1004,7 @@ class ModelCatalogProduct extends Model{
 					$r['resource_id']
 			);
 		}
-		$this->cache->delete('product');
+		$this->cache->remove('product');
 
 		//clone layout for the product if present
 		$this->_clone_product_layout($product_id, $new_product_id);
@@ -981,7 +1018,7 @@ class ModelCatalogProduct extends Model{
 	 */
 	private function _clone_product_options($product_id, $data){
 		//Do not use before close review.
-		//Note: This is done only after product clonning. This is not to be used on existing product.
+		//Note: This is done only after product cloning. This is not to be used on existing product.
 		$this->db->query("DELETE FROM " . $this->db->table("product_options") . " WHERE product_id = '" . (int)$product_id . "'");
 		$this->db->query("DELETE FROM " . $this->db->table("product_option_descriptions") . " WHERE product_id = '" . (int)$product_id . "'");
 		$this->db->query("DELETE FROM " . $this->db->table("product_option_values") . " WHERE product_id = '" . (int)$product_id . "'");
@@ -1069,7 +1106,7 @@ class ModelCatalogProduct extends Model{
 				}
 			}
 		}
-		$this->cache->delete('product');
+		$this->cache->remove('product');
 	}
 
 
@@ -1183,7 +1220,7 @@ class ModelCatalogProduct extends Model{
 		$lm = new ALayoutManager();
 		$lm->deletePageLayout('pages/product/product', 'product_id', (int)$product_id);
 
-		$this->cache->delete('product');
+		$this->cache->remove('product');
 		return true;
 	}
 
@@ -1192,7 +1229,7 @@ class ModelCatalogProduct extends Model{
 	 */
 	public function deleteProductDiscount($product_discount_id){
 		$this->db->query("DELETE FROM " . $this->db->table("product_discounts") . " WHERE product_discount_id = '" . (int)$product_discount_id . "'");
-		$this->cache->delete('product');
+		$this->cache->remove('product');
 	}
 
 	/**
@@ -1201,7 +1238,7 @@ class ModelCatalogProduct extends Model{
 	public function deleteProductSpecial($product_special_id){
 		$this->db->query("DELETE FROM " . $this->db->table("product_specials") . " WHERE product_special_id='" . (int)$product_special_id . "'");
 
-		$this->cache->delete('product');
+		$this->cache->remove('product');
 	}
 
 	/**
@@ -1451,7 +1488,7 @@ class ModelCatalogProduct extends Model{
 					)));
 		}
 
-		$this->cache->delete('product');
+		$this->cache->remove('product');
 	}
 
 	/**
@@ -1513,7 +1550,7 @@ class ModelCatalogProduct extends Model{
 				//delete this option value for all languages
 				$this->deleteProductOptionValue($product_id, $opt_val_id);
 			} else if($status == 'new'){
-				// Need to create new oprion value
+				// Need to create new option value
 				$this->addProductOptionValueAndDescription($product_id, $option_id, $option_value_data);
 			} else{
 				//Existing need to update
@@ -1521,7 +1558,7 @@ class ModelCatalogProduct extends Model{
 			}
 		}
 
-		$this->cache->delete('product');
+		$this->cache->remove('product');
 
 	}
 
@@ -1748,6 +1785,29 @@ class ModelCatalogProduct extends Model{
 			return $product_tag_data;
 		}
 	}
+	/**
+	 * @param int $product_id
+	 * @param int $language_id
+	 * @return array
+	 */
+	public function getProductSEOKeywords($product_id, $language_id = 0){
+		$language_id = (int)$language_id;
+		$product_seo_keys = array();
+
+		$query = $this->db->query("SELECT *
+								   FROM " . $this->db->table("url_aliases") . "
+								   WHERE `query` = 'product_id=".(int)$product_id . "'");
+
+		foreach($query->rows as $result){
+			$product_seo_keys[$result['language_id']] = $result['keyword'];
+		}
+
+		if($language_id){
+			return $product_seo_keys[$language_id];
+		} else{
+			return $product_seo_keys;
+		}
+	}
 
 	/**
 	 * @param array $data
@@ -1842,7 +1902,7 @@ class ModelCatalogProduct extends Model{
 				$sql .= " AND p.status = '" . (int)$filter['status'] . "'";
 			}
 
-			//If for total, we done bulding the query
+			//If for total, we done building the query
 			if($mode == 'total_only'){
 				$query = $this->db->query($sql);
 				return $query->row['total'];
@@ -1884,16 +1944,16 @@ class ModelCatalogProduct extends Model{
 
 			return $query->rows;
 		} else{
-			$product_data = $this->cache->get('product', $language_id);
-
-			if(!$product_data){
+			$cache_key = 'product.lang_'.$language_id;
+			$product_data = $this->cache->pull($cache_key);
+			if($product_data === false){
 				$query = $this->db->query("SELECT *, p.product_id
 											FROM " . $this->db->table("products") . " p
 											LEFT JOIN " . $this->db->table("product_descriptions") . " pd
 												ON (p.product_id = pd.product_id AND pd.language_id = '" . $language_id . "')
 											ORDER BY pd.name ASC");
 				$product_data = $query->rows;
-				$this->cache->set('product', $product_data, $language_id);
+				$this->cache->push($cache_key, $product_data);
 			}
 
 			return $product_data;
@@ -2129,5 +2189,4 @@ class ModelCatalogProduct extends Model{
 
 		return $product_option_data;
 	}
-
 }

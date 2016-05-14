@@ -166,7 +166,7 @@
 	</definition>
 	<definition>
 		<key>text_create_block</key>
-		<value><![CDATA[Создать блок]]></value>
+		<value><![CDATA[Создать блок формы]]></value>
 	</definition>
 	<definition>
 		<key>entry_no_set_values</key>

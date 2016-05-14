@@ -127,7 +127,7 @@ class ALanguageManager extends Alanguage {
 
 	/**
 	 * Insert or Update definitions and translate if configured
-	 * More stable aproach, but add extra select. If sure that you do update use updateDescriptions
+	 * More stable approach, but add extra select. If sure that you do update use updateDescriptions
 	 * @param string $table_name  - database table name with no prefix
 	 * @param array $index - unique index to perform select (associative array with column name as key)
 	 * @param array $txt_data - text data array. Format: [language id][key] => [value]
@@ -146,7 +146,7 @@ class ALanguageManager extends Alanguage {
 			$is_default_definition_exists = $this->getDescriptions($table_name,$index,$default_lang_id);
 		}
 		// just use data for default language too
-		// special case for non-transation 
+		// special case for non-translation
 		if(!$is_default_definition_exists && $do_auto_translation){
 			if(!in_array($default_lang_id, array_keys($txt_data))){
 				$txt_data[$default_lang_id] = current($txt_data);
@@ -201,7 +201,7 @@ class ALanguageManager extends Alanguage {
 
 	/**
 	 * Insert or Update definitions and translate if configured based on array of values
-	 * This is the case when unique index represents multiple [key] => [value] conbinations
+	 * This is the case when unique index represents multiple [key] => [value] combinations
 	 * Example: product_tags table
 	 * @param string $table_name  - database table name with no prefix
 	 * @param array $index - unique index to perform select (associative array with column name as key)
@@ -495,7 +495,7 @@ class ALanguageManager extends Alanguage {
 	}
 
 	/**
-	 * Clone record to all availabe langauges from specified language ID.
+	 * Clone record to all available languages from specified language ID.
 	 * @param string $table
 	 * @param int $source_language
 	 * @return string
@@ -614,9 +614,8 @@ class ALanguageManager extends Alanguage {
 
 		//delete cash before loading
 		if (is_object($this->cache)) {
-			$this->cache->delete('lang');
-			$this->cache->delete('language_definitions');
-			$this->cache->delete('storefront_menu');
+			$this->cache->remove('localization');
+			$this->cache->remove('storefront_menu');
 		}
 
 		//get list of lang blocks for every language
@@ -775,7 +774,7 @@ class ALanguageManager extends Alanguage {
 			if (!$result_txt) {
 				$result_txt = $src_text;
 			}
-			ADebug::checkpoint("AlangugeManager: Translated text: $src_text from $source_lang_code to $dest_lang_code");
+			ADebug::checkpoint("ALanguageManager: Translated text:". $src_text." from ".$source_lang_code." to ".$dest_lang_code);
 		} else {
 			//fail over to default 'copy_source_text' method
 			$result_txt = $src_text;
@@ -859,7 +858,7 @@ class ALanguageManager extends Alanguage {
 	/**
 	 * PR: Duplicate row from default language to new and translate if needed
 	 * @param string $table
-	 * @param $pkeys
+	 * @param array $pkeys
 	 * @param int $new_language
 	 * @param int $from_language
 	 * @param string $specific_sql
@@ -871,8 +870,8 @@ class ALanguageManager extends Alanguage {
 			return null;
 		}
 		// Locate autoincrement column
-		$autoincrenent_sql = "SHOW COLUMNS FROM " . $table . " where Extra = 'auto_increment'";
-		$autoincrement = $this->db->query($autoincrenent_sql);
+		$autoincrement_sql = "SHOW COLUMNS FROM " . $table . " WHERE Extra = 'auto_increment'";
+		$autoincrement = $this->db->query($autoincrement_sql);
 		$auto_column = $autoincrement->row[ 'Field' ];
 
 		//get all fields that are translatable
@@ -887,7 +886,9 @@ class ALanguageManager extends Alanguage {
 			}
 			$keys_str .= "$key ";
 		}
-		$sql = "SELECT " . $keys_str . " FROM " . $table . " WHERE language_id = " . $from_language . $specific_sql;
+		$sql = "SELECT " . $keys_str . "
+				FROM " . $table . "
+				WHERE language_id = " . $from_language . $specific_sql;
 		$tables_query = $this->db->query($sql);
 		if ($tables_query->num_rows) {
 			$langs = array();
@@ -971,14 +972,15 @@ class ALanguageManager extends Alanguage {
 				}
 			}
 			if ($tcount > 0) {
-				$this->cache->delete('lan.*');
+				$this->cache->remove('localization');
 			}
 		}
 		return "Total: " . $tcount . " language entries cloned for table " . $table . "<br>";
 	}
 
 	/**
-	 * Public method to get multilingual tables
+	 * Probably useless!
+	 * @deprecated
 	 * @return array
 	 */
 	private function getMultilingualTables() {
@@ -990,10 +992,10 @@ class ALanguageManager extends Alanguage {
 	 * @return array
 	 */
 	private function _get_language_based_tables() {
-		$cache_file = 'tables.language_based_tables';
+		$cache_key = 'tables.language_based_tables';
 		$load_data = array();
 		if ($this->cache) {
-			$load_data = $this->cache->get($cache_file);
+			$load_data = $this->cache->pull($cache_key);
 		}
 		if (!$load_data) {
 			$sql = "SELECT DISTINCT table_name 
@@ -1002,7 +1004,7 @@ class ALanguageManager extends Alanguage {
 			$load_sql = $this->db->query($sql);
 			$load_data = $load_sql->rows;
 			if ($this->cache) {
-				$this->cache->set($cache_file, $load_data);
+				$this->cache->push($cache_key, $load_data);
 			}
 		}
 		return $load_data;
@@ -1010,20 +1012,20 @@ class ALanguageManager extends Alanguage {
 
 	/**
 	 * #PR select all fields for the table that can be translated
-	 * @param $table_name
+	 * @param string $table_name
 	 * @return array
 	 */
 	private function _get_translatable_fields($table_name) {
 		if (empty($table_name)) return array();
 
-		$cache_file = "tables.translatable.$table_name";
+		$cache_key = "tables.translatable.".$table_name;
 		$load_data = array();
 		// check memory first and cache next
 		if ($this->translatable_fields[$table_name]) {
 			return $this->translatable_fields[$table_name];
 		}
 		else if ($this->cache) {
-			$load_data = $this->cache->get($cache_file);
+			$load_data = $this->cache->pull($cache_key);
 		}
 		if ($load_data) {
 			//save to memory
@@ -1033,7 +1035,8 @@ class ALanguageManager extends Alanguage {
 			$result = array();
 			$sql = "SELECT column_name
 			    	FROM information_schema.columns 
-			    	WHERE table_name='" . $this->db->escape($table_name) . "' and column_comment='translatable' group by column_name";
+			    	WHERE table_name='" . $this->db->escape($table_name) . "' AND column_comment='translatable'
+			    	GROUP BY column_name";
 			$load_sql = $this->db->query($sql);
 			$load_data = $load_sql->rows;
 			//transform to single dimention
@@ -1042,7 +1045,7 @@ class ALanguageManager extends Alanguage {
 			}
 			//save cache
 			if ($this->cache) {
-				$this->cache->set($cache_file, $result);
+				$this->cache->push($cache_key, $result);
 			}
 			//save to memory
 			$this->translatable_fields[$table_name] = $result;

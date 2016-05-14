@@ -433,6 +433,10 @@
 		<value><![CDATA[Генерировать изображения для retina-дисплеев:<br /><span class="help">Для использования должен быть установлен модуль Apache mod-rewrite, также вы должны переименовать htaccess.txt в .htaccess<br>После включения следует очистить кеш изображений.</span>]]></value>
 	</definition>
 	<definition>
+		<key>entry_image_quality</key>
+		<value><![CDATA[Степень сжатия Jpeg изображений]]></value>
+	</definition>
+	<definition>
 		<key>entry_compression</key>
 		<value><![CDATA[Уровень выходного сжатия:<br /><span class="help">GZIP для более эффективного перехода к клиентам. Уровень сжатия должен быть между 0 - 9</span>]]></value>
 	</definition>
@@ -451,6 +455,10 @@
 	<definition>
 		<key>entry_cache_enable</key>
 		<value><![CDATA[Включить Кэш:<br /><span class="help">Пожалуйста, будьте осторожны, когда отключаете кэширование. Сайт может начать медленно загружаться.</span>]]></value>
+	</definition>
+	<definition>
+		<key>text_setting_cache_drivers</key>
+		<value><![CDATA[ Текущий кеш-драйвер: <b>%s</b>. Также доступны для конфигурации драйверы: <i>%s</i> ]]></value>
 	</definition>
 	<definition>
 		<key>entry_storefront_api_status</key>
@@ -880,5 +888,21 @@
 	<definition>
 		<key>text_im_settings_attention</key>
 		<value><![CDATA[Эти настройки предназначены для обмена мгновенными сообщениями, отправляемых автоматически во время событий AbanteCart в витрине магазина и администратора.]]></value>
+	</definition>
+	<definition>
+		<key>entry_image_manufacturer_width</key>
+		<value><![CDATA[Ширина лого производителя в списке:]]></value>
+	</definition>
+	<definition>
+		<key>entry_image_manufacturer_height</key>
+		<value><![CDATA[Высота лого производителя в списке:]]></value>
+	</definition>
+	<definition>
+		<key>error_image_manufacturer</key>
+		<value><![CDATA[Требуются размеры лого производителя в списках!]]></value>
+	</definition>
+	<definition>
+		<key>entry_html_cache</key>
+		<value><![CDATA[HTML кеш:<br/><span class="help">Включение кеширования HTML страниц и блоков увеличивает скорость загрузки.</span>]]></value>
 	</definition>
 </definitions>

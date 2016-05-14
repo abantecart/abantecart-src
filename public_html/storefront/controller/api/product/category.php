@@ -66,8 +66,8 @@ class ControllerApiProductCategory extends AControllerAPI {
 		$thumbnail = $resource->getMainThumb('categories',
 			                                     $category_id,
 			                                     $this->config->get('config_image_category_width'),
-			                                     $this->config->get('config_image_category_height'),true);
-		$category_info['tumbnail'] = $thumbnail['thumb_url'];
+			                                     $this->config->get('config_image_category_height'));
+		$category_info['thumbnail'] = $category_info['tumbnail'] = $thumbnail['thumb_url'];
 
 		//Process data for category 
 		$category_info['description'] = html_entity_decode($category_info['description'], ENT_QUOTES, 'UTF-8'); 
@@ -86,13 +86,23 @@ class ControllerApiProductCategory extends AControllerAPI {
 
         $this->extensions->hk_InitData($this,__FUNCTION__);
 		$this->loadModel('catalog/category');
-		$resource = new AResource('image');	
 		$results = $this->model_catalog_category->getCategories($parent_categ_id);
+
+		$category_ids = array();
+		foreach($results as $result){
+			$category_ids[] = (int)$result['category_id'];
+		}
+        //get thumbnails by one pass
+        $resource = new AResource('image');
+        $thumbnails = $resource->getMainThumbList(
+                'categories',
+                $category_ids,
+                $this->config->get('config_image_category_width'),
+                $this->config->get('config_image_category_height')
+        );
+
 		foreach ($results as $result) {
-				$thumbnail = $resource->getMainThumb('categories',
-			                                     $result['category_id'],
-			                                     $this->config->get('config_image_category_width'),
-			                                     $this->config->get('config_image_category_height'),true);
+				$thumbnail = $thumbnails[ $result['category_id'] ];
 				
 				$categories[] = array(
             			'name'  => $result['name'],

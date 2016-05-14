@@ -125,7 +125,7 @@ final class ADispatcher {
 			}
 		}
 
-        //Last part is the method of funtion to call
+        //Last part is the method of function to call
 		$method_to_call = array_shift($path_nodes);				
 		if ($method_to_call) {
 			$this->method = $method_to_call;
@@ -159,7 +159,7 @@ final class ADispatcher {
 	}
 
 
-	// Clear funstion is public in case controller needs to be cleaned explicitly
+	// Clear function is public in case controller needs to be cleaned explicitly
 	public function clear(){
 		$vars = get_object_vars($this);
 		foreach($vars as $key => $val) 
@@ -206,7 +206,7 @@ final class ADispatcher {
 	}
 
     /**
-     * @param string $parent_controller
+     * @param AController|string $parent_controller
      * @return null|string
      */
     public function dispatch($parent_controller = ''){
@@ -214,7 +214,7 @@ final class ADispatcher {
 
 		//Process the controller, layout and children
 		
-		//check if we have missing class or everithing  
+		//check if we have missing class or everything
         if ( empty($this->class) && has_value($this->file) ) {
 			#Build back trace of calling functions to provide more details
 			$backtrace = debug_backtrace();
@@ -270,25 +270,28 @@ final class ADispatcher {
 			    	$dispatch->dispatch();
 			    	return null;
 		    	}		    	
-		    } 
-
+		    } else if( $dispatch == 'completed') {
+				//Check if we have message completed in controller response.
+				//If completed. stop further execution.
+				return 'completed';
+			}
             /**
-             * Load layout and process children controllers
-             * @method AController getChildren()
-             */
+		        * Load layout and process children controllers
+		        * @method AController getChildren()
+		        */
 		    $children = $controller->getChildren();
 
 			ADebug::variable('Processing children of '.$this->controller, $children);
-			$block_uids = array();
+
 		    //Process each child controller
 		    foreach ($children as $child ) {
 		    	//???? Add highest Debug level here with backtrace to review this
 		    	ADebug::checkpoint( $child['controller'].' ( child of '.$this->controller.', instance_id: '.$child['instance_id'].' ) dispatch START');
-		    	//Process each child and create dispatch to call recurcive
+		    	//Process each child and create dispatch to call recursive
 		    	$dispatch = new ADispatcher($child['controller'], array( "instance_id" => $child['instance_id'] ));
 		    	$dispatch->dispatch($controller);
 		    	// Append output of child controller to current controller
-			    if($child['position']){ // maden for recognizing few custom_blocks in the same placeholder
+			    if($child['position']){ // made for recognizing few custom_blocks in the same placeholder
 		    	    $controller->view->assign($child['block_txt_id'].'_'.$child['instance_id'], $this->response->getOutput() );
 			    }else{
 				    $controller->view->assign($child['block_txt_id'], $this->response->getOutput() );
@@ -305,7 +308,6 @@ final class ADispatcher {
 
             //add pre and post controllers output
             $this->response->setOutput( $output_pre . $this->response->getOutput() . $output_post );
-
 
 		    //clean up and destroy the object					
 		    unset($controller); 

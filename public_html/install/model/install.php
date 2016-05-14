@@ -73,10 +73,14 @@ class ModelInstall extends Model {
 		
         //clear cache dir in case of reinstall
         $cache = new ACache();
-        $cache->delete('*');
+        $cache->remove('*');
 
 	}
 
+	/**
+	 * @param ADB $db
+	 * @param string $database_name
+	 */
 	private function create_triggers($db, $database_name) {
 		$tables_sql = "
 			SELECT DISTINCT TABLE_NAME 

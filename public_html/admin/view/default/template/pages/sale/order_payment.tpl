@@ -71,7 +71,7 @@
 	</form>
 </div><!-- <div class="tab-content"> -->
 
-<script type="text/javascript"><!--
+<script type="text/javascript">
 	jQuery(function ($) {
 
 		getZones = function (country_id) {
@@ -125,5 +125,5 @@
 		});
 
 	});
-	-->
+
 </script>

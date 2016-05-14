@@ -42,7 +42,7 @@ class ModelLocalisationCountry extends Model {
 											 )) );
 		}
 	
-		$this->cache->delete('country');
+		$this->cache->remove('localization');
 		return $country_id;
 	}
 
@@ -60,7 +60,7 @@ class ModelLocalisationCountry extends Model {
 		}
 		if ( !empty($update) ) {
 			$this->db->query("UPDATE " . $this->db->table("countries") . " SET ". implode(',', $update) ." WHERE country_id = '" . (int)$country_id . "'");
-			$this->cache->delete('country');
+			$this->cache->remove('localization');
 		}
 
 		if ( count($data['country_name']) ) {
@@ -80,7 +80,7 @@ class ModelLocalisationCountry extends Model {
 	public function deleteCountry($country_id) {
 		$this->db->query("DELETE FROM " . $this->db->table("countries") . " WHERE country_id = '" . (int)$country_id . "'");
 		$this->db->query("DELETE FROM " . $this->db->table("country_descriptions") . " WHERE country_id = '" . (int)$country_id . "'");		
-		$this->cache->delete('country');
+		$this->cache->remove('localization');
 	}
 
 	/**
@@ -188,9 +188,10 @@ class ModelLocalisationCountry extends Model {
 
 			return $query->rows;
 		} else {
-			$country_data = $this->cache->get('country', $language_id);
+			$cache_key = 'localization.country.lang_'.$language_id;
+			$country_data = $this->cache->pull($cache_key);
 		
-			if (!$country_data) {
+			if ($country_data === false) {
 				if ($language_id == $default_language_id) {
 					$query = $this->db->query( "SELECT *
 											FROM " . $this->db->table("countries") . " c
@@ -211,7 +212,7 @@ class ModelLocalisationCountry extends Model {
 	
 				$country_data = $query->rows;
 			
-				$this->cache->set('country', $country_data, $language_id);
+				$this->cache->push($cache_key, $country_data);
 			}
 
 			return $country_data;			

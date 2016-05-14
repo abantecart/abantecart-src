@@ -143,16 +143,16 @@ font:13px 'PT Sans', Arial, Tahoma, Verdana, Sans-Serif;color:#393939;
 #banner_slides .oneByOne_item span.txt_right2 {margin-left:605px;}
 #banner_slides .oneByOne_item span.short {width:290px;margin-top:20px;}
 
-.banner_conteiner .oneByOneSlide { background:#00A1CB url(../image/banner_shadow.png) center top no-repeat; }
-.banner_conteiner #banner_slides .oneByOne_item span.txt1, .banner_conteiner #banner_slides .oneByOne_item span.txt2, .banner_conteiner #banner_slides .oneByOne_item span.txt3 {color:#fff;}
-.banner_conteiner #banner_slides .oneByOne_item span.txt1 {margin-top:60px;}
-.banner_conteiner #banner_slides .oneByOne_item span.txt1.blue {margin-top:46px;}
-.banner_conteiner #banner_slides .oneByOne_item span.blue {background:#fff;color:#3fa3c9;}
-.banner_conteiner #banner_slides .oneByOne_item span.txt4up {margin-top:30px;}
-.banner_conteiner #banner_slides .oneByOne_item .slide1_bot {margin-top:10px;}
-.banner_conteiner #banner_slides .oneByOne_item .slide2_bot {margin-top:15px;}
-.banner_conteiner #banner_slides .oneByOne_item .slide3_bot {margin-top:5px;}
-.banner_conteiner .arrowButton .prevArrow, .banner_conteiner .arrowButton .nextArrow {top:140px;}
+.banner_container .oneByOneSlide { background:#00A1CB url(../image/banner_shadow.png) center top no-repeat; }
+.banner_container #banner_slides .oneByOne_item span.txt1, .banner_container #banner_slides .oneByOne_item span.txt2, .banner_container #banner_slides .oneByOne_item span.txt3 {color:#fff;}
+.banner_container #banner_slides .oneByOne_item span.txt1 {margin-top:60px;}
+.banner_container #banner_slides .oneByOne_item span.txt1.blue {margin-top:46px;}
+.banner_container #banner_slides .oneByOne_item span.blue {background:#fff;color:#3fa3c9;}
+.banner_container #banner_slides .oneByOne_item span.txt4up {margin-top:30px;}
+.banner_container #banner_slides .oneByOne_item .slide1_bot {margin-top:10px;}
+.banner_container #banner_slides .oneByOne_item .slide2_bot {margin-top:15px;}
+.banner_container #banner_slides .oneByOne_item .slide3_bot {margin-top:5px;}
+.banner_container .arrowButton .prevArrow, .banner_container .arrowButton .nextArrow {top:140px;}
 
 #banner_slides .oneByOne_item span.wp1{
 	clear: left;

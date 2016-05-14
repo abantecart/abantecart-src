@@ -58,13 +58,22 @@ class ControllerResponsesProductProduct extends AController{
 							'match' => 'all'
 			                ));
 			$products = $this->model_catalog_product->getProducts($filter);
+
+			$product_ids = array();
+			foreach($products as $result){
+				$product_ids[] = (int)$result['product_id'];
+			}
+
 			$resource = new AResource('image');
+			$thumbnails = $resource->getMainThumbList(
+							'products',
+							$product_ids,
+							$this->config->get('config_image_grid_width'),
+							$this->config->get('config_image_grid_height')
+			);
+
 			foreach($products as $pdata){
-				$thumbnail = $resource->getMainThumb('products',
-						$pdata['product_id'],
-						(int)$this->config->get('config_image_grid_width'),
-						(int)$this->config->get('config_image_grid_height'),
-						true);
+				$thumbnail = $thumbnails[ $pdata['product_id'] ];
 
 				if($this->request->get['currency_code']){
 					$price = round($this->currency->convert($pdata['price'],
@@ -130,7 +139,7 @@ class ControllerResponsesProductProduct extends AController{
 		$this->extensions->hk_InitData($this, __FUNCTION__);
 
 		$this->loadModel('catalog/product');
-		$promoton = new APromotion($this->request->get['customer_group_id']);
+		$promotion = new APromotion($this->request->get['customer_group_id']);
 
 		if(isset($this->request->get['category_id'])){
 			$category_id = $this->request->get['category_id'];
@@ -142,12 +151,12 @@ class ControllerResponsesProductProduct extends AController{
 		$results = $this->model_catalog_product->getProductsByCategoryId($category_id);
 		foreach($results as $result){
 
-			$discount = $promoton->getProductDiscount($result['product_id']);
+			$discount = $promotion->getProductDiscount($result['product_id']);
 			if($discount){
 				$price = $discount;
 			} else{
 				$price = $result['price'];
-				$special = $promoton->getProductSpecial($result['product_id']);
+				$special = $promotion->getProductSpecial($result['product_id']);
 				if($special){
 					$price = $special;
 				}

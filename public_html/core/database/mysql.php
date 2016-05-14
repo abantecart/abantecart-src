@@ -126,6 +126,8 @@ final class MySQL {
 
 	    if(is_array($value)){
 		    $dump = var_export($value,true);
+            $backtrace = debug_backtrace();
+            $dump .= ' (file: '.$backtrace[1]['file'] .' line '.$backtrace[1]['line'].')';
 		    $message = 'MySQL class error: Try to escape non-string value: '.$dump;
 		    $error = new AError($message);
 		    $error->toLog()->toDebug()->toMessages();
@@ -152,5 +154,12 @@ final class MySQL {
 		if(is_resource($this->connection)){
 			mysql_close($this->connection);
 		}
+	}
+
+	public function getDBError(){
+		return array(
+				'error_text' => mysql_error($this->connection),
+				'errno'      => mysql_errno($this->connection)
+		);
 	}
 }

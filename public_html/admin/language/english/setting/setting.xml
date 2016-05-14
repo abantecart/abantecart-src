@@ -339,6 +339,14 @@
 		<value><![CDATA[Category List Height:]]></value>
 	</definition>
 	<definition>
+		<key>entry_image_manufacturer_width</key>
+		<value><![CDATA[Brand Icon List Width:]]></value>
+	</definition>
+	<definition>
+		<key>entry_image_manufacturer_height</key>
+		<value><![CDATA[Brand Icon List Height:]]></value>
+	</definition>
+	<definition>
 		<key>entry_image_product</key>
 		<value><![CDATA[Product List Size:]]></value>
 	</definition>
@@ -469,6 +477,11 @@
 			<![CDATA[Generate high-res (retina) images:<br /><span class="help">To use this apache module mod-rewrite must be installed and you need to rename the htaccess.txt to .htaccess. Note: If abantecart not installed in the root of domain must be changed rewriteBase rule inside .htaccess file. <br>After enabling should clear the cache images. </span>]]></value>
 	</definition>
 	<definition>
+		<key>entry_image_quality</key>
+		<value>
+			<![CDATA[Jpeg Images Compression Level]]></value>
+	</definition>
+	<definition>
 		<key>entry_compression</key>
 		<value>
 			<![CDATA[Output Compression Level:<br /><span class="help">GZIP for more efficient transfer to requesting clients. Compression level must be between 0 - 9</span>]]></value>
@@ -489,8 +502,11 @@
 	</definition>
 	<definition>
 		<key>entry_cache_enable</key>
-		<value>
-			<![CDATA[Cache enabled:<br /><span class="help">Please be careful when disable caching. Cached pages will not be re-created and site might start loading slow. </span>]]></value>
+		<value><![CDATA[Cache enabled:<br /><span class="help">Please be careful when disable caching. Cached pages will not be re-created and site might start loading slow. </span>]]></value>
+	</definition>
+	<definition>
+		<key>text_setting_cache_drivers</key>
+		<value><![CDATA[ Currently using cache <b>%s</b> driver. Other drivers available for configuration are <i>%s</i> ]]></value>
 	</definition>
 	<definition>
 		<key>entry_storefront_api_status</key>
@@ -667,7 +683,7 @@
 	<definition>
 		<key>entry_system_check</key>
 		<value>
-			<![CDATA[System Check:<br /><span class="help">Enable this setting if you want to check your system condition in respect to AbanteCart functionlaity. System issues effecting AbanteCart will be reported as messages visible in admin.</span>]]></value>
+			<![CDATA[System Check:<br /><span class="help">Enable this setting if you want to check your system condition in respect to AbanteCart functionality. System issues effecting AbanteCart will be reported as messages visible in admin.</span>]]></value>
 	</definition>
 	<definition>
 		<key>button_add_store</key>
@@ -724,6 +740,10 @@
 	<definition>
 		<key>error_image_category</key>
 		<value><![CDATA[Category List Size dimensions required!]]></value>
+	</definition>
+	<definition>
+		<key>error_image_manufacturer</key>
+		<value><![CDATA[Brand Icon List Size dimensions required!]]></value>
 	</definition>
 	<definition>
 		<key>error_image_product</key>
@@ -946,5 +966,9 @@
 	<definition>
 		<key>text_im_settings_attention</key>
 		<value><![CDATA[These settings are for instant messages sent automatically during AbanteCart events in storefront and admin. ]]></value>
+	</definition>
+	<definition>
+		<key>entry_html_cache</key>
+		<value><![CDATA[HTML Cache:<br /><span class="help">Enabled HTML pages and blocks caching to get better speed for your pages. This is additional caching to regular data caching enabled in system/config.php file</span>]]></value>
 	</definition>
 </definitions>

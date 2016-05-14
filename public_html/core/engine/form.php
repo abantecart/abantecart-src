@@ -140,11 +140,12 @@ class AForm {
 	 * @return null
 	 */
 	private function _loadForm($name) {
-
-		$cache_name = 'forms.' . $name;
-		$cache_name = preg_replace('/[^a-zA-Z0-9\.]/', '', $cache_name);
-		$form = $this->cache->get($cache_name, (int)$this->config->get('storefront_language_id'), (int)$this->config->get('config_store_id'));
-		if (isset($form)) {
+		$language_id = (int)$this->config->get('storefront_language_id');
+		$store_id = (int)$this->config->get('config_store_id');
+		$cache_key = 'forms.' . $name;
+		$cache_key = preg_replace('/[^a-zA-Z0-9\.]/', '', $cache_key).'.store_'.$store_id.'_lang_'.$language_id;
+		$form = $this->cache->pull($cache_key );
+		if ($form !== false) {
 			$this->form = $form;
 			return null;
 		}
@@ -152,7 +153,7 @@ class AForm {
 		$query = $this->db->query("SELECT f.*, fd.description
                                     FROM " . $this->db->table("forms") . " f
                                     LEFT JOIN " . $this->db->table("form_descriptions") . " fd
-                                        ON ( f.form_id = fd.form_id AND fd.language_id = '" . (int)$this->config->get('storefront_language_id') . "' )
+                                        ON ( f.form_id = fd.form_id AND fd.language_id = '" . $language_id . "' )
                                     WHERE f.form_name = '" . $this->db->escape($name) . "'
                                             AND f.status = 1 "
 		);
@@ -162,7 +163,7 @@ class AForm {
 			$err->toDebug()->toLog();
 			return null;
 		}
-		$this->cache->set($cache_name, $query->row, (int)$this->config->get('storefront_language_id'), (int)$this->config->get('config_store_id'));
+		$this->cache->push($cache_key, $query->row);
 		$this->form = $query->row;
 	}
 
@@ -173,10 +174,12 @@ class AForm {
 	 */
 	private function _loadFields() {
 
-		$cache_name = 'forms.' . $this->form['form_name'] . '.fields';
-		$cache_name = preg_replace('/[^a-zA-Z0-9\.]/', '', $cache_name);
-		$fields = $this->cache->get($cache_name, (int)$this->config->get('storefront_language_id'), (int)$this->config->get('config_store_id'));
-		if (!is_null($fields)) {
+		$language_id = (int)$this->config->get('storefront_language_id');
+		$store_id = (int)$this->config->get('config_store_id');
+		$cache_key = 'forms.' . $this->form['form_name'] . '.fields';
+		$cache_key = preg_replace('/[^a-zA-Z0-9\.]/', '', $cache_key).'.store_'.$store_id.'_lang_'.$language_id;
+		$fields = $this->cache->pull($cache_key);
+		if ($fields !== false) {
 			$this->fields = $fields;
 			return null;
 		}
@@ -185,11 +188,10 @@ class AForm {
             SELECT f.*, fd.name, fd.description, fd.error_text
             FROM " . $this->db->table("fields") . " f
             LEFT JOIN " . $this->db->table("field_descriptions") . " fd
-                ON ( f.field_id = fd.field_id AND fd.language_id = '" . (int)$this->config->get('storefront_language_id') . "' )
+                ON ( f.field_id = fd.field_id AND fd.language_id = '" . $language_id . "' )
             WHERE f.form_id = '" . $this->form['form_id'] . "'
                 AND f.status = 1
-            ORDER BY f.sort_order"
-		);
+            ORDER BY f.sort_order");
 		$this->fields = array();
 		if ($query->num_rows) {
 			foreach ($query->rows as $row) {
@@ -201,10 +203,8 @@ class AForm {
 					SELECT *
 					FROM " . $this->db->table("field_values") . " 
 					WHERE field_id = '" . $row['field_id'] . "'
-					AND language_id = '" . (int)$this->config->get('storefront_language_id') . "'"
-				);
+					AND language_id = '" . $language_id . "'");
 				if ($query->num_rows) {
-
 					$values = unserialize($query->row['value']);
 					usort($values, array( 'self', '_sort_by_sort_order' ));
 					foreach ($values as $value) {
@@ -215,7 +215,7 @@ class AForm {
 				}
 			}
 		}
-		$this->cache->set($cache_name, $this->fields, (int)$this->config->get('storefront_language_id'), (int)$this->config->get('config_store_id'));
+		$this->cache->push($cache_key, $this->fields);
 	}
 
 	/**
@@ -236,11 +236,12 @@ class AForm {
 	 * @return void
 	 */
 	private function _loadGroups() {
-
-		$cache_name = 'forms.' . $this->form['form_name'] . '.groups';
-		$cache_name = preg_replace('/[^a-zA-Z0-9\.]/', '', $cache_name);
-		$groups = $this->cache->get($cache_name, (int)$this->config->get('storefront_language_id'), (int)$this->config->get('config_store_id'));
-		if (isset($groups)) {
+		$language_id = (int)$this->config->get('storefront_language_id');
+		$store_id = (int)$this->config->get('config_store_id');
+		$cache_key = 'forms.' . $this->form['form_name'] . '.groups';
+		$cache_key = preg_replace('/[^a-zA-Z0-9\.]/', '', $cache_key).'.store_'.$store_id.'_lang_'.$language_id;
+		$groups = $this->cache->pull($cache_key);
+		if ($groups !== false) {
 			$this->groups = $groups;
 			return null;
 		}
@@ -249,7 +250,8 @@ class AForm {
             SELECT fg.*, fgd.name, fgd.description
             FROM " . $this->db->table("form_groups") . " g
                 LEFT JOIN " . $this->db->table("fields_groups") . " fg ON ( g.group_id = fg.group_id)
-                LEFT JOIN " . $this->db->table("fields_group_descriptions") . " fgd ON ( fg.group_id = fgd.group_id AND fgd.language_id = '" . (int)$this->config->get('storefront_language_id') . "' )
+                LEFT JOIN " . $this->db->table("fields_group_descriptions") . " fgd
+                    ON ( fg.group_id = fgd.group_id AND fgd.language_id = '" . $language_id . "' )
             WHERE g.form_id = '" . $this->form['form_id'] . "'
                 AND g.status = 1
             ORDER BY g.sort_order, fg.sort_order"
@@ -263,7 +265,7 @@ class AForm {
 				$this->groups[ $row['group_id'] ]['fields'][ ] = $row['field_id'];
 			}
 
-		$this->cache->set($cache_name, $this->groups, (int)$this->config->get('storefront_language_id'), (int)$this->config->get('config_store_id'));
+		$this->cache->push($cache_key, $this->groups);
 	}
 
 	/**
@@ -673,7 +675,7 @@ class AForm {
 	/**
 	 * process uploads of files from form file element
 	 * @param array $files - usually it's a $_FILES array
-	 * @return array - list of absolute pathes of moved files
+	 * @return array - list of absolute paths of moved files
 	 */
 	public function processFileUploads($files=array()){
 		if($this->fields){

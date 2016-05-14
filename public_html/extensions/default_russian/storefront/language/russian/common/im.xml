@@ -76,4 +76,16 @@
 		<key>im_product_out_of_stock_admin_text</key>
 		<value><![CDATA[ Продукта с ID #%s нет в наличии.]]></value>
 	</definition>
+	<definition>
+		<key>im_customer_account_update_email_to_customer</key>
+		<value><![CDATA[ Ваш адрес электронной почты был изменен на %s! Если это сделали не Вы, пожалуйста обратитесь к владельцу сайта.]]></value>
+	</definition>
+	<definition>
+		<key>im_customer_account_update_login_to_customer</key>
+		<value><![CDATA[ Ваше имя учетной записи почты было изменено на %s! Если это сделали не Вы, пожалуйста обратитесь к владельцу сайта.]]></value>
+	</definition>
+	<definition>
+		<key>im_customer_account_update_password_to_customer</key>
+		<value><![CDATA[  Ваш пароль учетной записи был изменен! Если это сделали не Вы, пожалуйста обратитесь к владельцу сайта.]]></value>
+	</definition>
 </definitions>

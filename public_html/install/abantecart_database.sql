@@ -1563,7 +1563,8 @@ CREATE TABLE `ac_settings` (
   `value` text COLLATE utf8_general_ci NOT NULL,
   `date_added` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `date_modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
- PRIMARY KEY (`setting_id`,`store_id`)
+ PRIMARY KEY (`setting_id`,`store_id`),
+ KEY `ac_settings_idx` (`group`,`key`) USING BTREE
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
 
 --
@@ -1671,6 +1672,8 @@ INSERT INTO `ac_settings` (`group`, `key`, `value`) VALUES
 ('appearance','config_image_grid_height',57),
 ('appearance','config_image_category_height',120),
 ('appearance','config_image_category_width',120),
+('appearance','config_image_manufacturer_height',56),
+('appearance','config_image_manufacturer_width',56),
 ('appearance','admin_template','default'),
 ('appearance','admin_width','100%'),
 ('appearance','config_storefront_template','default'),
@@ -1699,8 +1702,10 @@ INSERT INTO `ac_settings` (`group`, `key`, `value`) VALUES
 ('system','encryption_key',12345),
 ('system','enable_seo_url',0),
 ('system','config_retina_enable',0),
+('system','config_image_quality',95),
 ('system','config_compression',0),
 ('system','config_cache_enable',1),
+('system','config_html_cache',0),
 ('system','config_error_display',1),
 ('system','config_error_log',1),
 ('system','config_debug',0),
@@ -10281,7 +10286,7 @@ INSERT INTO `ac_block_templates` (`block_id`, `parent_block_id`, `template`, `da
 (20, 6, 'blocks/listing_block_column_right.tpl', now() ),
 (20, 7, 'blocks/listing_block_footer_top.tpl', now() ),
 (20, 8, 'blocks/listing_block_footer.tpl', now() ),
-(21, 0, 'blocks/donate.tpl', now() ),
+(21, 8, 'blocks/donate.tpl', now() ),
 (22, 3, 'blocks/special.tpl', now() ),
 (22, 5, 'blocks/special_home.tpl', now() ),
 (22, 6, 'blocks/special.tpl', now() ),
@@ -10310,8 +10315,9 @@ INSERT INTO `ac_block_templates` (`block_id`, `parent_block_id`, `template`, `da
 (27, 8, 'blocks/menu_bottom.tpl', now() ),
 (27, 3, 'blocks/menu.tpl', now() ),
 (27, 6, 'blocks/menu.tpl', now() ),
-(28, 0, 'blocks/breadcrumbs.tpl', now() ),
-(29, 0, 'blocks/account.tpl', now() ),
+(28, 2, 'blocks/breadcrumbs.tpl', now() ),
+(29, 3, 'blocks/account.tpl', now() ),
+(29, 6, 'blocks/account.tpl', now() ),
 (30, 1, 'blocks/custom_form_block_header.tpl', NOW() ),
 (30, 2, 'blocks/custom_form_block_content.tpl', NOW() ),
 (30, 3, 'blocks/custom_form_block.tpl', NOW() ),
@@ -10320,7 +10326,7 @@ INSERT INTO `ac_block_templates` (`block_id`, `parent_block_id`, `template`, `da
 (30, 6, 'blocks/custom_form_block.tpl', NOW() ),
 (30, 7, 'blocks/custom_form_block_content.tpl', NOW() ),
 (30, 8, 'blocks/custom_form_block_header.tpl', NOW() ),
-(31, 0, 'blocks/customer.tpl', now() );
+(31, 1, 'blocks/customer.tpl', now() );
 
 --
 -- DDL for table `layouts`
@@ -11960,7 +11966,7 @@ VALUES  (20, NOW(),'1');
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
 VALUES  (21,'AbanteCart','1');
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
-VALUES  (22,'1.2.6','1');
+VALUES  (22,'1.2.7','1');
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
 VALUES  (23,'','1');
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)

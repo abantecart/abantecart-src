@@ -72,7 +72,7 @@
 <?php echo $resources_scripts; ?>
 
 
-<script type="text/javascript"><!--
+<script type="text/javascript">
 jQuery(function($){
 
 	$('#link_category').click(function(){
@@ -137,4 +137,4 @@ jQuery(function($){
 	$('input[name="item_url"]').change(preselect);
 });
 
-//--></script>
+</script>

@@ -21,7 +21,16 @@ if (! defined ( 'DIR_CORE' )) {
 	header ( 'Location: static_pages/' );
 }
 class ControllerPagesContentContent extends AController {
+	/**
+	 * Check if HTML Cache is enabled for the method
+	 * @return array - array of data keys to be used for cache key building  
+	 */	
+	public static function main_cache_keys(){
+		return array('content_id');
+	}
+
 	public function main() {
+		$request = $this->request->get;
 
         //init controller data
         $this->extensions->hk_InitData($this,__FUNCTION__);
@@ -36,8 +45,8 @@ class ControllerPagesContentContent extends AController {
         	'separator' => FALSE
       	 ));
 		
-		if (isset($this->request->get['content_id'])) {
-			$content_id = $this->request->get['content_id'];
+		if (isset($request['content_id'])) {
+			$content_id = $request['content_id'];
 		} else {
 			$content_id = 0;
 		}
@@ -47,7 +56,7 @@ class ControllerPagesContentContent extends AController {
 	  		$this->document->setTitle( $content_info['title'] );
 
       		$this->document->addBreadcrumb( array ( 
-        		'href'      => $this->html->getSEOURL('content/content', '&content_id=' . $this->request->get['content_id'], true),
+        		'href'      => $this->html->getSEOURL('content/content', '&content_id=' . $request['content_id'], true),
         		'text'      => $content_info['title'],
         		'separator' => $this->language->get('text_separator')
       		 ));		
@@ -67,7 +76,7 @@ class ControllerPagesContentContent extends AController {
             $this->view->setTemplate( 'pages/content/content.tpl' );
     	} else {
       		$this->document->addBreadcrumb( array ( 
-        		'href'      => $this->html->getSEOURL('content/content','&content_id=' . $this->request->get['content_id'], true),
+        		'href'      => $this->html->getSEOURL('content/content','&content_id=' . $request['content_id'], true),
         		'text'      => $this->language->get('text_error'),
         		'separator' => $this->language->get('text_separator')
       		 ));

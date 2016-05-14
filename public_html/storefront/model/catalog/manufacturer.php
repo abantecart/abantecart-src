@@ -21,14 +21,27 @@ if (!defined('DIR_CORE')){
 	header('Location: static_pages/');
 }
 class ModelCatalogManufacturer extends Model{
+	/**
+	 * @param $manufacturer_id
+	 * @return array
+	 */
 	public function getManufacturer($manufacturer_id){
+		$manufacturer_id = (int)$manufacturer_id;
+		$store_id = (int)$this->config->get('config_store_id');
+		$cache_key = 'manufacturer.'.$manufacturer_id.'.store_'.$store_id;
+		$output = $this->cache->pull($cache_key);
+		if($output !== false){
+			return $output;
+		}
 		$query = $this->db->query("SELECT *
 									FROM " . $this->db->table("manufacturers") . " m
-									LEFT JOIN " . $this->db->table("manufacturers_to_stores") . " m2s ON (m.manufacturer_id = m2s.manufacturer_id)
-									WHERE m.manufacturer_id = '" . (int)$manufacturer_id . "'
-										AND m2s.store_id = '" . (int)$this->config->get('config_store_id') . "'");
-
-		return $query->row;
+									LEFT JOIN " . $this->db->table("manufacturers_to_stores") . " m2s
+										ON (m.manufacturer_id = m2s.manufacturer_id)
+									WHERE m.manufacturer_id = '" . $manufacturer_id . "'
+										AND m2s.store_id = '" . $store_id . "'");
+		$output = $query->row;
+		$this->cache->push($cache_key,$output);
+		return $output;
 	}
 
 	/**
@@ -36,9 +49,7 @@ class ModelCatalogManufacturer extends Model{
 	 * @return array
 	 */
 	public function getManufacturers($data = array ()){
-		if (!$data){
-			$manufacturer = $this->cache->get('manufacturer', '', (int)$this->config->get('config_store_id'));
-		}
+		$store_id = (int)$this->config->get('config_store_id');
 
 		if (isset($data['start']) || isset($data['limit'])){
 			if ($data['start'] < 0){
@@ -49,24 +60,27 @@ class ModelCatalogManufacturer extends Model{
 			}
 		}
 
-		if (!$manufacturer){
-			$sql = "SELECT *
-					FROM " . $this->db->table("manufacturers") . " m
-					LEFT JOIN " . $this->db->table("manufacturers_to_stores") . " m2s ON (m.manufacturer_id = m2s.manufacturer_id)
-					WHERE m2s.store_id = '" . (int)$this->config->get('config_store_id') . "'
-					ORDER BY sort_order, LCASE(m.name) ASC";
+		$cache_key = 'manufacturer.list.'.md5((int)$data['start'].(int)$data['limit']).'.store_'.$store_id;
+		$output = $this->cache->pull( $cache_key );
 
-			if ($data['limit']){
-				$sql .= " LIMIT " . (int)$data['start'] . "," . (int)$data['limit'];
-			}
-
-			$query = $this->db->query($sql);
-			$manufacturer = $query->rows;
-			if (!$data['limit']){
-				$this->cache->set('manufacturer', $manufacturer, '', (int)$this->config->get('config_store_id'));
-			}
+		if ($output !== false){
+			return $output;
 		}
-		return $manufacturer;
+
+		$sql = "SELECT *
+				FROM " . $this->db->table("manufacturers") . " m
+				LEFT JOIN " . $this->db->table("manufacturers_to_stores") . " m2s
+					ON (m.manufacturer_id = m2s.manufacturer_id)
+				WHERE m2s.store_id = '" . $store_id . "'
+				ORDER BY sort_order, LCASE(m.name) ASC";
+
+		if ($data['limit']){
+			$sql .= " LIMIT " . (int)$data['start'] . "," . (int)$data['limit'];
+		}
+		$query = $this->db->query($sql);
+		$output = $query->rows;
+		$this->cache->push($cache_key, $output);
+		return $output;
 	}
 
 	/**

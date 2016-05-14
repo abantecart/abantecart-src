@@ -81,7 +81,7 @@
 
 </div><!-- <div class="tab-content"> -->
 
-<script type="text/javascript"><!--
+<script type="text/javascript">
 
 $(document).ready(function(){
 	$('#editFrm_generate_seo_keyword').click(function(){
@@ -92,4 +92,5 @@ $(document).ready(function(){
 	});
 
 });
-//--></script>
+
+</script>

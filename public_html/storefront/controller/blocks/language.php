@@ -39,7 +39,7 @@ class ControllerBlocksLanguage extends AController {
 			}
     	}
 
-      	$this->data['heading_title'] = $this->language->get('heading_title','blocks_language');
+      	$this->data['heading_title'] = $this->language->get('heading_title','blocks/language');
 		$this->data['language_code'] = $this->session->data['language'];
 		
 		$this->data['languages'] = $this->language->getActiveLanguages();

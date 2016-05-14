@@ -60,19 +60,24 @@ class ControllerResponsesListingGridBannerManager extends AController {
 		$response->page = $page;
 		$response->total = $total_pages;
 		$response->records = $total;
+
+		$ids = array();
+		foreach($results as $result){
+			$ids[] = (int)$result['banner_id'];
+		}
 		$resource = new AResource('image');
+		$thumbnails = $resource->getMainThumbList(
+						'banners',
+						$ids,
+						$this->config->get('config_image_grid_width'),
+						$this->config->get('config_image_grid_height')
+		);
+
 		$i = 0;
 		foreach ($results as $result) {
 
 			$response->rows[$i]['id'] = $result['banner_id'];
-
-			$thumbnail = $resource->getMainThumb('banners',
-				$result['banner_id'],
-				$this->config->get('config_image_grid_width'),
-				$this->config->get('config_image_grid_height'),
-				true);
-			$thumbnail = $thumbnail['thumb_html'];
-
+			$thumbnail = $thumbnails[ $result['banner_id'] ]['thumb_html'];
 			//check if banner is active based on dates and update status
 			$now = time();
 			if (dateISO2Int($result['start_date']) > $now ) {
@@ -342,8 +347,21 @@ class ControllerResponsesListingGridBannerManager extends AController {
 		$response->total = $total_pages;
 		$response->records = $total;
 
-		$i = 0;
+		$ids = array();
+		foreach($results as $result){
+			if($result['banner_type'] == 1){
+				$ids[] = (int)$result['banner_id'];
+			}
+		}
 		$resource = new AResource('image');
+		$thumbnails = $resource->getMainThumbList(
+						'banners',
+						$ids,
+						27,
+						27
+		);
+
+		$i = 0;
 		foreach ($results as $result) {
 
 			if (in_array($result['banner_id'], $id_list)) {
@@ -357,12 +375,7 @@ class ControllerResponsesListingGridBannerManager extends AController {
 
 			$response->rows[$i]['id'] = $result['banner_id'];
 			if ($result['banner_type'] == 1) {
-				$thumbnail = $resource->getMainThumb('banners',
-					$result['banner_id'],
-					27,
-					27,
-					true);
-				$thumbnail = $thumbnail['thumb_html'];
+				$thumbnail = $thumbnails[ $result['banner_id'] ]['thumb_html'];
 			} else {
 				$thumbnail = '';
 			}
@@ -405,13 +418,21 @@ class ControllerResponsesListingGridBannerManager extends AController {
 							'limit' => 20 );
 			$banners = $this->model_extension_banner_manager->getBanners($filter);
 
+			$ids = array();
+			foreach($banners as $result){
+				$ids[] = (int)$result['banner_id'];
+			}
+			$resource = new AResource('image');
+			$thumbnails = $resource->getMainThumbList(
+							'banners',
+							$ids,
+							$this->config->get('config_image_grid_width'),
+							$this->config->get('config_image_grid_height'),
+							false
+			);
 
 			foreach ($banners as $banner) {
-				$thumbnail = $rm->getMainThumb('banners',
-												$banner['banner_id'],
-												(int)$this->config->get('config_image_grid_width'),
-												(int)$this->config->get('config_image_grid_height'),
-												false);
+				$thumbnail = $thumbnails[ $banner['banner_id'] ];
 				$icon = $thumbnail['thumb_html'] ? $thumbnail['thumb_html'] : '<i class="fa fa-code fa-4x"></i>&nbsp;';
 
 				$banners_data[ ] = array(

@@ -30,10 +30,14 @@ if (!defined('DIR_CORE')) {
  * @property ModelLocalisationWeightClass $model_localisation_weight_class
  * @property ModelLocalisationStockStatus $model_localisation_stock_status
  * @property ModelLocalisationOrderStatus $model_localisation_order_status
+ * @property ModelSaleCustomerGroup $model_sale_customer_group
  * @property ASession $session
  * @property ALanguageManager $language
  * @property ALoader $load
- * @property AIM $im
+ * @property AIMManager $im
+ * @property AConfig $config
+ *
+ * @method array() _build_form_general $method_name
  *
  */
 class AConfigManager {
@@ -92,6 +96,7 @@ class AConfigManager {
 	 * @return array
 	 */
 	public function getFormFields($group, $form, $data) {
+
 		$method_name = "_build_form_" . $group;
 		if (!method_exists($this, $method_name)) {
 			return array();
@@ -195,7 +200,7 @@ class AConfigManager {
 
 
 		$results = $this->language->getAvailableLanguages();
-		$languages = array();
+		$languages = $language_codes = array();
 		foreach ($results as $v) {
 			$languages[$v['code']] = $v['name'];
 			$lng_code = $this->language->getLanguageCodeByLocale($v['locale']);
@@ -685,7 +690,7 @@ class AConfigManager {
 	private function _build_form_appearance($form, $data) {
 		$fields = array();
 
-		//this method ca build filds for general apearance or template specific
+		//this method ca build fields for general appearance or template specific
 		//for template settings, need to specify 'tmpl_id' as template_id for settings section
 		if( empty($data['tmpl_id']) ){
 			//general appearance section
@@ -853,6 +858,20 @@ class AConfigManager {
 				'type' => 'input',
 				'name' => 'config_image_category_height',
 				'value' => $data['config_image_category_height'],
+				'style' => 'small-field',
+				'required' => true,
+			));
+			$fields['image_manufacturer_width'] = $form->getFieldHtml($props[] = array(
+				'type' => 'input',
+				'name' => 'config_image_manufacturer_width',
+				'value' => $data['config_image_manufacturer_width'],
+				'style' => 'small-field',
+				'required' => true,
+			));
+			$fields['image_manufacturer_height'] = $form->getFieldHtml($props[] = array(
+				'type' => 'input',
+				'name' => 'config_image_manufacturer_height',
+				'value' => $data['config_image_manufacturer_height'],
 				'style' => 'small-field',
 				'required' => true,
 			));
@@ -1180,7 +1199,7 @@ class AConfigManager {
 			'value' => $data['config_voicecontrol'],
 			'style' => 'btn_switch',
 		));
-		//backwards compatability. Can remove in the future. 
+		//backwards compatibility. Can remove in the future.
 		if (!defined('ENCRYPTION_KEY')) {
 			$fields['encryption'] = $form->getFieldHtml($props[] = array(
 				'type' => 'input',
@@ -1201,15 +1220,61 @@ class AConfigManager {
 			'value' => $data['config_retina_enable'],
 			'style' => 'btn_switch',
 		));
+		$fields['image_quality'] = $form->getFieldHtml($props[] = array(
+			'type' => 'selectbox',
+			'name' => 'config_image_quality',
+			'options' => array (
+					10  => '10%',
+					15  => '15%',
+					20  => '20%',
+					25  => '25%',
+					30  => '30%',
+					35  => '35%',
+					40  => '40%',
+					45  => '45%',
+					50  => '50%',
+					55  => '55%',
+					60  => '60%',
+					65  => '65%',
+					70  => '70%',
+					75  => '75%',
+					80  => '80%',
+					85  => '85%',
+					90  => '90%',
+					95  => '95%',
+					100 => '100%'),
+			'value' => $data['config_image_quality']
+		));
+
 		$fields['compression'] = $form->getFieldHtml($props[] = array(
 			'type' => 'input',
 			'name' => 'config_compression',
 			'value' => $data['config_compression'],
 		));
+
+		$all_cache_drivers = $this->registry->get('cache')->getCacheStorageDrivers();
+		$cache_drivers = array();
+		foreach($all_cache_drivers as $drv){
+			$name = strtoupper($drv['driver_name']);
+			$cache_drivers[$name] = $name;
+		}
+		sort($cache_drivers, SORT_STRING);
+		$current_cache_driver = strtoupper(defined('CACHE_DRIVER') ? CACHE_DRIVER : 'file');
+		unset($cache_drivers[$current_cache_driver]);
+
 		$fields['cache_enable'] = $form->getFieldHtml($props[] = array(
+					'type' => 'checkbox',
+					'name' => 'config_cache_enable',
+					'value' => $data['config_cache_enable'],
+					'style' => 'btn_switch',
+		)).'<br/>'.sprintf($this->language->get('text_setting_cache_drivers'), $current_cache_driver, implode(', ', $cache_drivers));
+		;
+
+
+		$fields['html_cache'] = $form->getFieldHtml($props[] = array(
 			'type' => 'checkbox',
-			'name' => 'config_cache_enable',
-			'value' => $data['config_cache_enable'],
+			'name' => 'config_html_cache',
+			'value' => $data['config_html_cache'],
 			'style' => 'btn_switch',
 		));
 		$fields['upload_max_size'] = $form->getFieldHtml($props[] = array(
@@ -1305,7 +1370,7 @@ class AConfigManager {
 			return false;
 		}
 		$this->load->language('setting/setting');
-
+		$error = null;
 		foreach ($fields as $field_name => $field_value) {
 			switch ($group) {
 				case 'details':
@@ -1374,6 +1439,10 @@ class AConfigManager {
 
 					if (($field_name == 'config_image_category_width' && !$field_value) || ($field_name == 'config_image_category_height' && !$field_value)) {
 						$error['image_category_height'] = $this->language->get('error_image_category');
+					}
+
+					if (($field_name == 'config_image_manufacturer_width' && !$field_value) || ($field_name == 'config_image_manufacturer_height' && !$field_value)) {
+						$error['image_manufacturer_height'] = $this->language->get('error_image_manufacturer');
 					}
 
 					if (($field_name == 'config_image_product_width' && !$field_value) || ($field_name == 'config_image_product_height' && !$field_value)) {

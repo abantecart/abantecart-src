@@ -26,10 +26,14 @@ class ControllerBlocksBestSeller extends AController {
 
 	public function main() {
 
+		if($this->html_cache()){
+			return;
+		}
+
         //init controller data
         $this->extensions->hk_InitData($this,__FUNCTION__);
 
-      	$this->data['heading_title'] = $this->language->get('heading_title', 'blocks_bestseller');
+      	$this->data['heading_title'] = $this->language->get('heading_title', 'blocks/bestseller');
 		
 		$this->loadModel('catalog/product');
 		$this->loadModel('catalog/review');
@@ -40,27 +44,29 @@ class ControllerBlocksBestSeller extends AController {
 		$this->data['products'] = array();
 
 		$results = $this->model_catalog_product->getBestSellerProducts($this->config->get('config_bestseller_limit'));
+		$product_ids = array();
 		foreach($results as $result){
 			$product_ids[] = (int)$result['product_id'];
 		}
 
 		$products_info = $this->model_catalog_product->getProductsAllInfo($product_ids);
 
+		//get thumbnails by one pass
 		$resource = new AResource('image');
+		$thumbnails = $resource->getMainThumbList(
+				'products',
+				$product_ids,
+				$this->config->get('config_image_product_width'),
+				$this->config->get('config_image_product_height')
+				);
+
+		$stock_info = $this->model_catalog_product->getProductsStockInfo($product_ids);
 
 		foreach ($results as $result) {
-			$thumbnail = $resource->getMainThumb('products',
-			                                     $result['product_id'],
-			                                     $this->config->get('config_image_product_width'),
-			                                     $this->config->get('config_image_product_height'),true);
-			
+			$thumbnail = $thumbnails[ $result['product_id'] ];
 			$rating = $products_info[$result['product_id']]['rating'];
-
 			$special = FALSE;
-			
-
 			$discount = $products_info[$result['product_id']]['discount'];
-
 			if ($discount) {
 				$price = $this->currency->format($this->tax->calculate($discount, $result['tax_class_id'], $this->config->get('config_tax')));
 			} else {
@@ -88,9 +94,9 @@ class ControllerBlocksBestSeller extends AController {
 			$in_stock = false;
 			$no_stock_text = $result['stock'];
 			$total_quantity = 0;
-			if ( $this->model_catalog_product->isStockTrackable($result['product_id']) ) {
+			if ( $stock_info[$result['product_id']]['subtract'] ) {
 				$track_stock = true;
-    			$total_quantity = $this->model_catalog_product->hasAnyStock($result['product_id']);
+    			$total_quantity = $stock_info[$result['product_id']]['quantity'];
     			//we have stock or out of stock checkout is allowed
     			if ($total_quantity > 0 || $this->config->get('config_stock_checkout')) {
 	    			$in_stock = true;

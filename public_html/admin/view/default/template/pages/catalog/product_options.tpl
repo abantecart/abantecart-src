@@ -103,7 +103,7 @@ echo $this->html->buildElement(
 ?>
 
 <?php echo $resources_scripts; ?>
-<script type="text/javascript"><!--
+<script type="text/javascript">
 
 var setRLparams = function (attr_val_id) {
 	urls = {
@@ -328,7 +328,12 @@ jQuery(function ($) {
 
 
 	//select option and load data for it
-	$('#option option:first-child').attr("selected", "selected").change();
+	var $selected = $('#option option:selected');
+	if($selected.length){
+		$selected.change();
+	} else {
+		$('#option option:first-child').attr("selected", "selected").change();
+	}
 
 	$(document).on('click','#update_option', function () {
 		editOption('#update_option');
@@ -392,4 +397,4 @@ jQuery(function ($) {
 		return false;
 	}
 
-//--></script>
+</script>
