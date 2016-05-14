@@ -1,6 +1,6 @@
 AbanteCart version 1.2.7
 
-Release includes new caching system, substential performance boost and some features
+Release includes new caching system, substantial performance boost and some features
 
 New Features and improvements highlight:
 - New high performance caching system with support for APC, APCu Memcache, Memcached and Xcache 
