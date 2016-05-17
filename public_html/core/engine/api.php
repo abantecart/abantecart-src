@@ -74,7 +74,7 @@ final class AAPI {
 			}
 		}
 
-		//Process disparcher in while if we have new dispatch back
+		//Process dispatcher in while if we have new dispatch back
 		while ($dispatch_rt){
 			//Process main level controller
 			//filter in case we have responses set already
