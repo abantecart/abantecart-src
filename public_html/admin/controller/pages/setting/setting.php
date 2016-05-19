@@ -622,7 +622,11 @@ class ControllerPagesSettingSetting extends AController {
 	}
 
 	public function phpinfo(){
-		phpinfo();
+		if (defined('IS_DEMO') && IS_DEMO) {
+			echo "Not supported in the demo mode";
+		} else {
+			phpinfo();
+		}
 		exit;
 	}
 
