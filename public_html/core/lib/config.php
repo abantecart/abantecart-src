@@ -284,7 +284,7 @@ final class AConfig {
 		$sql = "SELECT se.`key`, se.`value`, st.store_id
 					FROM " . $db->table('settings')." se
 					RIGHT JOIN " . $db->table('stores')." st ON se.store_id = st.store_id
-					WHERE se.store_id = $store_id AND st.status = 1
+					WHERE se.store_id = ".(int)$store_id." AND st.status = 1
 					AND se.`group` NOT IN (SELECT `key` FROM " . $db->table("extensions") . ");";
 		$query = $db->query($sql);
 		$store_settings = $query->rows;
