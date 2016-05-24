@@ -265,7 +265,9 @@ class ControllerPagesAccountCreate extends AController{
 
 		$this->loadModel('localisation/country');
 		$countries = $this->model_localisation_country->getCountries();
-		$options = array ("FALSE" => $this->language->get('text_select'));
+		if(count($countries) > 1) {
+			$options = array ("FALSE" => $this->language->get('text_select'));		
+		}
 		foreach ($countries as $item){
 			$options[$item['country_id']] = $item['name'];
 		}
