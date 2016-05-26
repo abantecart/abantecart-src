@@ -672,8 +672,8 @@ CREATE TABLE `ac_customers` (
   `fax` varchar(32) COLLATE utf8_general_ci NOT NULL DEFAULT '',
   `sms` varchar(32) COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT 'mobile phone number',
   `password` varchar(40) COLLATE utf8_general_ci NOT NULL DEFAULT '',
-  `cart` text COLLATE utf8_general_ci,
-  `wishlist` text COLLATE utf8_general_ci,
+  `cart` LONGTEXT COLLATE utf8_general_ci,
+  `wishlist` LONGTEXT COLLATE utf8_general_ci,
   `newsletter` int(1) NOT NULL DEFAULT '0',
   `address_id` int(11) NOT NULL DEFAULT '0',
   `status` int(1) NOT NULL,
@@ -861,7 +861,7 @@ CREATE TABLE `ac_banner_descriptions` (
   `banner_id` int(11) NOT NULL,
   `language_id` int(11) NOT NULL,
   `name` varchar(255) NOT NULL COMMENT 'translatable',
-  `description` text COLLATE utf8_general_ci NOT NULL COMMENT 'translatable',
+  `description` LONGTEXT COLLATE utf8_general_ci NOT NULL COMMENT 'translatable',
   `meta` text(1500) DEFAULT '' COMMENT 'translatable',
   `date_added` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `date_modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
@@ -1101,7 +1101,7 @@ CREATE TABLE `ac_order_downloads` (
   `sort_order` int(11) NOT NULL,
   `activate` VARCHAR(64) NOT NULL,
   `activate_order_status_id` int(11) NOT NULL DEFAULT '0', 
-  `attributes_data` text COLLATE utf8_general_ci  DEFAULT NULL,  -- serialized values 
+  `attributes_data` longtext COLLATE utf8_general_ci  DEFAULT NULL,  -- serialized values
   `date_added` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `date_modified` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP, 
   PRIMARY KEY (`order_download_id`)
@@ -1190,7 +1190,7 @@ CREATE TABLE `ac_order_options` (
   `value` text COLLATE utf8_general_ci NOT NULL,
   `price` decimal(15,4) NOT NULL DEFAULT '0.0000',
   `prefix` char(1) COLLATE utf8_general_ci NOT NULL DEFAULT '',
-  `settings` text COLLATE utf8_general_ci,
+  `settings` longtext COLLATE utf8_general_ci,
   PRIMARY KEY (`order_option_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
 
@@ -1344,7 +1344,7 @@ CREATE TABLE `ac_product_descriptions` (
   `name` varchar(255) COLLATE utf8_general_ci NOT NULL COMMENT 'translatable',
   `meta_keywords` varchar(255) COLLATE utf8_general_ci NOT NULL COMMENT 'translatable',
   `meta_description` varchar(255) COLLATE utf8_general_ci NOT NULL COMMENT 'translatable',
-  `description` text COLLATE utf8_general_ci NOT NULL COMMENT 'translatable',
+  `description` longtext COLLATE utf8_general_ci NOT NULL COMMENT 'translatable',
   `blurb` text COLLATE utf8_general_ci NOT NULL COMMENT 'translatable',
   PRIMARY KEY (`product_id`,`language_id`),
   KEY `name` (`name`)
@@ -1540,7 +1540,7 @@ CREATE TABLE `ac_reviews` (
   `product_id` int(11) NOT NULL,
   `customer_id` int(11) NOT NULL,
   `author` varchar(64) COLLATE utf8_general_ci NOT NULL DEFAULT '',
-  `text` text COLLATE utf8_general_ci NOT NULL,
+  `text` longtext COLLATE utf8_general_ci NOT NULL,
   `rating` int(1) NOT NULL,
   `status` int(1) NOT NULL DEFAULT '0',
   `date_added` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
@@ -1813,7 +1813,7 @@ DROP TABLE IF EXISTS `ac_store_descriptions`;
 CREATE TABLE `ac_store_descriptions` (
   `store_id` int(11) NOT NULL,
   `language_id` int(11) NOT NULL,
-  `description` text COLLATE utf8_general_ci NOT NULL COMMENT 'translatable',
+  `description` longtext COLLATE utf8_general_ci NOT NULL COMMENT 'translatable',
   PRIMARY KEY (`store_id`,`language_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
@@ -1939,7 +1939,7 @@ DROP TABLE IF EXISTS `ac_user_groups`;
 CREATE TABLE `ac_user_groups` (
   `user_group_id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(64) COLLATE utf8_general_ci NOT NULL,
-  `permission` text COLLATE utf8_general_ci NOT NULL,
+  `permission` longtext COLLATE utf8_general_ci NOT NULL,
   `date_added` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `date_modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`user_group_id`)
@@ -10103,7 +10103,7 @@ CREATE TABLE `ac_content_descriptions` (
   `name` varchar(255) NOT NULL COMMENT 'translatable',
   `title` varchar(255) NOT NULL COMMENT 'translatable',
   `description` varchar(255) NOT NULL DEFAULT '' COMMENT 'translatable',
-  `content` text NOT NULL COMMENT 'translatable', -- Contain the page details if custom content
+  `content` longtext NOT NULL COMMENT 'translatable', -- Contain the page details if custom content
   `date_added` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `date_modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`content_id`,`language_id`)
@@ -10222,7 +10222,7 @@ CREATE TABLE `ac_block_descriptions` (
   `name` varchar(255) NOT NULL COMMENT 'translatable',
   `title` varchar(255) NOT NULL COMMENT 'translatable',  
   `description` varchar(255) NOT NULL DEFAULT '' COMMENT 'translatable',
-  `content` text NOT NULL DEFAULT '', -- Contain the block details if custom content
+  `content` longtext NOT NULL DEFAULT '', -- Contain the block details if custom content
   `date_added` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `date_modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`block_description_id`, `custom_block_id`, `language_id`)
@@ -10760,7 +10760,7 @@ CREATE TABLE `ac_ant_messages` (
   `viewed` int(11) NOT NULL default '0',
   `title` varchar(255) DEFAULT NULL,
   `description` text,
-  `html` text,
+  `html` longtext,
   `url` text,
   `language_code` varchar(2) NOT NULL DEFAULT 'en',
   `date_modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
@@ -12445,7 +12445,7 @@ DROP TABLE IF EXISTS `ac_task_details`;
 CREATE TABLE `ac_task_details` (
   `task_id` int(11) NOT NULL AUTO_INCREMENT,
   `created_by` varchar(255) DEFAULT '', -- task owner name
-  `settings` text DEFAULT '', -- serialized array with paramenters
+  `settings` LONGTEXT DEFAULT '', -- serialized array with paramenters
   `date_added` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `date_modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`task_id`)
@@ -12461,7 +12461,7 @@ CREATE TABLE `ac_task_steps` (
   `last_result` int(11) NOT NULL DEFAULT '0', -- 0 - success, 1 - failed, 2 - interrupted
   `max_execution_time` int(11) DEFAULT '0', -- maximum execution time for this task
   `controller` varchar(255) DEFAULT '',
-  `settings` text DEFAULT '', -- serialized array with paramenters
+  `settings` LONGTEXT DEFAULT '', -- serialized array with paramenters
   `date_added` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `date_modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`step_id`),
