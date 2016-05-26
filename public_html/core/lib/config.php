@@ -225,7 +225,7 @@ final class AConfig {
 			    $this->cnfg['current_store_id'] = (int)$store_id;
 			} else if(has_value($session->data['current_store_id'])) {
 			    $this->cnfg['current_store_id'] = $session->data['current_store_id'];	
-			} else {
+			} elseif(isset($session->data['config_store_id'])) {
 				//nothing to do 
 			    $this->cnfg['current_store_id'] = $session->data['config_store_id'];				
 			}
