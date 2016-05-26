@@ -173,7 +173,7 @@ class AResource{
 	 * @param string $filename
 	 * @return int
 	 */
-	private function _getIdByName($filename){
+	protected function _getIdByName($filename){
 		$sql = "SELECT resource_id
                 FROM " . $this->db->table("resource_descriptions") . " 
                 WHERE name like '%" . $this->db->escape($filename) . "%'
@@ -418,7 +418,7 @@ class AResource{
 		return $http_path . $new_image;
 	}
 
-	private function _check_create_thumb($filename, $resource_filename, $width, $height){
+	protected function _check_create_thumb($filename, $resource_filename, $width, $height){
 		if (!file_exists(DIR_IMAGE . $filename) || (filemtime($resource_filename) > filemtime(DIR_IMAGE . $filename))){
 			$path = '';
 			$directories = explode('/', dirname(str_replace('../', '', $filename)));
@@ -732,6 +732,7 @@ class AResource{
 		if (!$object_name || !$object_ids || !is_array($object_ids) || !$width || !$height){
 			return array ();
 		}
+
 		//cleanup ids
 		$tmp = array ();
 		foreach ($object_ids as $object_id){
@@ -742,6 +743,10 @@ class AResource{
 		}
 		$object_ids = array_unique($tmp);
 		unset($tmp);
+
+		if(!$object_ids){
+			return array();
+		}
 
 		$language_id = $this->language->getLanguageID();
 		$default_language_id = $this->language->getDefaultLanguageID();

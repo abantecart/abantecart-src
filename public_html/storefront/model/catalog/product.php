@@ -163,7 +163,38 @@ class ModelCatalogProduct extends Model{
 			return array ();
 		}
 		$query = $this->db->query(
-				"SELECT *, wcd.unit AS weight_class, mcd.unit AS length_class
+				"SELECT p.product_id,
+						p.model,
+						p.sku,
+						p.location,
+						p.quantity,
+						p.stock_status_id,
+						p.manufacturer_id,
+						p.shipping,
+						p.ship_individually,
+						p.free_shipping,
+						p.shipping_price,
+						p.price,
+						p.tax_class_id,
+						p.date_available,
+						p.weight,
+						p.weight_class_id,
+						p.length,
+						p.width,
+						p.height,
+						p.length_class_id,
+						p.status,
+						p.viewed,
+						p.sort_order,
+						p.subtract,
+						p.minimum,
+						p.maximum,
+						p.cost,
+						p.call_to_order,
+						p.date_added,
+						p.date_modified,
+						wcd.unit AS weight_class,
+						mcd.unit AS length_class
                 FROM " . $this->db->table("products") . " p
                 LEFT JOIN " . $this->db->table("product_descriptions") . " pd
                     ON (p.product_id = pd.product_id
