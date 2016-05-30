@@ -171,7 +171,12 @@ final class AImage{
 			imagegif($this->image, $filename);
 		}
 		if (is_file($filename)){
-			chmod($filename, 0777);
+			$result = chmod($filename, 0777);
+			if(!$result){
+				$error_text = "AImage: cannot to change permissions for ".$filename;
+				$err = new AError($error_text);
+				$err->toLog();
+			}
 		}
 		imagedestroy($this->image);
 		return true;
@@ -235,6 +240,7 @@ final class AImage{
 	/**
 	 * @param $filename
 	 * @param string $position
+	 * @return bool
 	 */
 	public function watermark($filename, $position = 'bottomright'){
 		if(!is_resource($this->image)){
@@ -266,6 +272,7 @@ final class AImage{
 		}
 		imagecopy($this->image, $watermark, $watermark_pos_x, $watermark_pos_y, 0, 0, 120, 40);
 		imagedestroy($watermark);
+		return true;
 	}
 
 	/**
@@ -273,6 +280,7 @@ final class AImage{
 	 * @param int $top_y
 	 * @param int $bottom_x
 	 * @param int $bottom_y
+	 * @return bool
 	 */
 	public function crop($top_x, $top_y, $bottom_x, $bottom_y){
 		if(!is_resource($this->image)){
@@ -287,11 +295,13 @@ final class AImage{
 
 		$this->info['width'] = $bottom_x - $top_x;
 		$this->info['height'] = $bottom_y - $top_y;
+		return true;
 	}
 
 	/**
 	 * @param float $degree
 	 * @param string $color
+	 * @return bool
 	 */
 	public function rotate($degree, $color = 'FFFFFF'){
 		if(!is_resource($this->image)){
@@ -302,10 +312,12 @@ final class AImage{
 		$this->image = imagerotate($this->image, $degree, imagecolorallocate($this->image, $rgb[0], $rgb[1], $rgb[2]));
 		$this->info['width'] = imagesx($this->image);
 		$this->info['height'] = imagesy($this->image);
+		return true;
 	}
 
 	/**
 	 * @param int $filter
+	 * @return bool
 	 */
 	public function filter($filter){
 		if(!is_resource($this->image)){
@@ -321,6 +333,7 @@ final class AImage{
 	 * @param int $y
 	 * @param int $size
 	 * @param string $color
+	 * @return bool
 	 */
 	public function text($text, $x = 0, $y = 0, $size = 5, $color = '000000'){
 		if(!is_resource($this->image)){
@@ -336,6 +349,7 @@ final class AImage{
 	 * @param int $x
 	 * @param int $y
 	 * @param int $opacity
+	 * @return bool
 	 */
 	public function merge($filename, $x = 0, $y = 0, $opacity = 100){
 
