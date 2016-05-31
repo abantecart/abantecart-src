@@ -44,18 +44,18 @@ class ModelToolMPAPI extends Model {
 		}
 
 		$params =  array( 'rt' => 'a/account/authorize/disconnect',
-							   'mp_token' => $mp_token
-							 );
+						  'mp_token' => $mp_token
+						);
 		$connect = new AConnect();
 		$connect->connect_method = 'curl';
-		$responce = $this->send( $connect, $params );
-		return $responce;
+		$response = $this->send( $connect, $params );
+		return $response;
 	}
 	
 	/**
+	 * Standalone API call to validate token authentication
 	 * @param string $mp_token
 	 * @return bool
-	 * Standalone API call to validate token authentication
 	 */	
 	public function authorize($mp_token){
 		if(!$mp_token){		
@@ -71,6 +71,8 @@ class ModelToolMPAPI extends Model {
 		$auth = $this->send( $connect, $auth_params );
 
 		if($auth['status']){
+			//remove cache info about updates
+			$this->cache->remove('extensions');
 			return true;
 		} else {
 			return false;			
@@ -78,10 +80,10 @@ class ModelToolMPAPI extends Model {
 	}
 
 	/**
+	 * Standalone API call to get purchased extensions
 	 * @param string $mp_token
 	 * @return array
-	 * Standalone API call to get purchased extensions
-	 */	
+	 */
 	public function getMyExtensions($mp_token){
 		if(!$mp_token){		
 			return array();			
@@ -89,12 +91,10 @@ class ModelToolMPAPI extends Model {
 
 		$connect = new AConnect(true);
 		$connect->connect_method = 'curl';
-
-		$params =  array(	'rt' => 'a/account/account/get_extensions',
+		$params =  array(	'rt' => 'a/account/account_mp/get_extensions',
 							'mp_token' => $mp_token
 		    			);
 		$response = $this->send( $connect, $params	);
-
 		return $response;
 	}
 
@@ -219,8 +219,7 @@ class ModelToolMPAPI extends Model {
 		}
 
 		$GET = array_merge($params,$GET);
-
-		$href .= '?'.http_build_query($GET);
+		$href = '?'.http_build_query($GET);
 
 		$response = $connect->getResponse($this->getMPURL().$href);
 		return $response;

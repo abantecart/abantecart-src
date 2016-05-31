@@ -47,11 +47,12 @@ class ModelToolUpdater extends Model{
 		if(!$force){
 			$update_info = $this->cache->pull('extensions.updates');
 		}else{
-			$update_info = null;
+			$update_info = false;
 		}
 
 		if ($update_info === false){
 			$update_info = $this->_getUpdateInfo();
+
 			if ($update_info){
 				$this->cache->push('extensions.updates', $update_info);
 			}
@@ -95,26 +96,50 @@ class ModelToolUpdater extends Model{
 		$el = $this->getExtensionsList();
 
 		$this->load->model('tool/mp_api');
-
 		$url = $this->model_tool_mp_api->getMPURL() . '?rt=a/product/updates';
 		$url .= "&store_id=" . UNIQUE_ID;
 		$url .= "&store_ip=" . $_SERVER ['SERVER_ADDR'];
 		$url .= "&store_url=" . HTTP_SERVER;
 		$url .= "&software_name=AbanteCart";
 		$url .= "&software_version=" . VERSION;
-		$url .= "&language_code=" . $this->request->cookie ['language'];
+		$url .= "&language_code=" . $this->language->getLanguageCode();
 		foreach ($el as $key => $extension){
 			$url .= '&extensions[' . $key . ']=' . $extension['version'];
+			$installed[$key] = $extension['version'];
 		}
 		//do connect without any http-redirects
 		$pack = new AConnect(true, true);
 		$info = $pack->getData($url);
 
 		// get array with updates information
-		if ($info){
-			return $info;
+		if (!$info){
+			return array();
 		}
-		return array ();
-	}
 
+		//filter data
+		$output = array();
+		foreach($info as $key=>$versions){
+			foreach($versions as $version=>$version_info){
+				//skip not installed
+				if(!isset($installed[$key])){
+					continue 1;
+				}
+				//skip not supported by cart
+				if(!in_array(VERSION, $version_info['cart_versions'])){
+					continue;
+				}
+				//skip old or current versions
+				if (versionCompare($installed[$key], $version, '>=')){
+					continue;
+				}
+				//if we have 2 or more versions for cart version
+				if(!isset($output[$key][$version])
+					|| versionCompare($installed[$key], $version, '<')){
+					$version_info['version'] = $version;
+					$output[$key] = $version_info;
+				}
+			}
+		}
+		return $output;
+	}
 }

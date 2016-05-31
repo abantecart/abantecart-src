@@ -132,6 +132,7 @@ class ControllerResponsesToolExtensionsStore extends AController {
 				$setting = array('mp_token' => '');
 				$this->model_setting_setting->editSetting('api', $setting);
 				$return = 'success';
+				unset($this->session->data['ready_to_install']);
 			} else {
 				$return = 'error';			
 			}

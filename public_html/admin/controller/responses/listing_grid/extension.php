@@ -125,7 +125,7 @@ class ControllerResponsesListingGridExtension extends AController {
 		}
 
 		$rows = array_merge( $to_install, $extensions->rows);
-		$upd = $this->cache->pull('extensions.updates');
+		$updates = $this->cache->pull('extensions.updates');
 
 		foreach ($rows as $row) {
 			$extension = $row['key'];
@@ -151,15 +151,15 @@ class ControllerResponsesListingGridExtension extends AController {
 				$icon = '<img src="' . RDIR_TEMPLATE . 'image/default_extension.png' . '" alt="" border="0" />';
 				$name = sprintf($this->language->get('text_missing_extension'),$extension);
 				$category = $status = '';
-				$row['date_modified'] = date('Y-m-d H:i:s', time()); // change it for show it in list first by default sorting
-
+				// change it for show it in list first by default sorting
+				$row['date_modified'] = date('Y-m-d H:i:s', time());
 			} elseif (!file_exists(DIR_EXT . $extension . '/main.php') || !file_exists(DIR_EXT . $extension . '/config.xml')) {
 				$response->userdata->classes[$id] = 'warning disable-edit disable-install disable-uninstall disable-remote-install';
 				$icon = '<img src="' . RDIR_TEMPLATE . 'image/default_extension.png' . '" alt="" border="0" />';
 				$name = sprintf($this->language->get('text_broken_extension'), $extension);
 				$category = $status = '';
-				$row['date_modified'] = date('Y-m-d H:i:s', time()); // change it for show it in list first by default sorting
-
+				// change it for show it in list first by default sorting
+				$row['date_modified'] = date('Y-m-d H:i:s', time());
 			} else {
 				if (!$this->config->has($extension . '_status')) {
 					$response->userdata->classes[$id] = 'disable-edit disable-uninstall disable-remote-install';
@@ -173,7 +173,6 @@ class ControllerResponsesListingGridExtension extends AController {
 					));
 				}
 
-
 				$icon_ext_img_url = HTTP_CATALOG . 'extensions/' . $extension . '/image/icon.png';
 				$icon_ext_dir = DIR_EXT . $extension . '/image/icon.png';
 				$icon = (is_file($icon_ext_dir) ? $icon_ext_img_url : RDIR_TEMPLATE . 'image/default_extension.png');
@@ -183,19 +182,20 @@ class ControllerResponsesListingGridExtension extends AController {
 					$icon = '<a href="' . $this->html->getSecureURL('extension/extensions/edit', $this->data['url'] . '&extension=' . $extension) . '"><img src="' . $icon . '" alt="" border="0" /></a>';
 				}
 
-
 				$category = $row['category'];
-
 				// if update available
-				if( is_array($upd) && in_array($extension,array_keys($upd)) ){
+				if( is_array($updates) && in_array($extension,array_keys($updates)) ){
+					if($updates[$extension]['installation_key']){
+						$update_now_url = $this->html->getSecureURL('tool/package_installer', '&extension_key=' . $updates[$extension]['installation_key']);
+					}else{
+						$update_now_url = $updates[$extension]['url'];
+					}
 					$name = '<p class="alert-info">' . $name . '<br>' . sprintf(  $this->language->get('text_update_available'),
-																$upd[$extension]['version'],
-																$this->html->getSecureURL('tool/package_installer', '&extension_key=' . $upd[$extension]['installation_key'])) . '</p>';
+																$updates[$extension]['version'],
+																$update_now_url) . '</p>';
 					$push[] = $i;
 				}
-
 			}
-
 
 			$response->rows[$i]['cell'] = array(
 				$icon,
