@@ -1279,9 +1279,9 @@ class ControllerResponsesProductProduct extends AController{
 		$downloads = array();
 		$this->loadModel('catalog/download');
 		if($this->request->post['id']){
-			$this->request->post['id'] = (array)$this->request->post['id'];
+			$post_ids = (array)$this->request->post['id'];
 			$ids = array();
-			foreach($this->request->post['id'] as $id){
+			foreach($post_ids as $id){
 				$ids[] = (int)$id;
 			}
 			$downloads = $this->model_catalog_download->getDownloads(
