@@ -1279,7 +1279,16 @@ class ControllerResponsesProductProduct extends AController{
 		$downloads = array();
 		$this->loadModel('catalog/download');
 		if($this->request->post['id']){
-			$downloads = $this->model_catalog_download->getDownloads(array('subsql_filter' => ' shared = 1 AND d.download_id IN (' . implode(',', $this->request->post['id']) . ')'));
+			$this->request->post['id'] = (array)$this->request->post['id'];
+			$ids = array();
+			foreach($this->request->post['id'] as $id){
+				$ids[] = (int)$id;
+			}
+			$downloads = $this->model_catalog_download->getDownloads(
+					array(
+							'subsql_filter' => ' shared = 1 AND d.download_id IN (' . implode(',', $ids) . ')'
+					)
+			);
 		}
 
 		$download_data = array();
