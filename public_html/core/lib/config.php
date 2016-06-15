@@ -172,6 +172,7 @@ final class AConfig {
 			// if requested url not a default store URL - do check other stores.
 			$cache_key = 'settings.store.' . md5('http://' . $url);
 			$store_settings = $cache->pull($cache_key);
+
 			if (empty($store_settings)) {
 				$sql = "SELECT se.`key`, se.`value`, st.store_id
 		   			  FROM " . $db->table('settings')." se
@@ -204,6 +205,7 @@ final class AConfig {
 				}
 
 				$this->cnfg['config_store_id'] = $store_settings[0]['store_id'];
+				$this->cnfg['current_store_id'] = $this->cnfg['config_store_id'];
 			} else {
 				$warning = new AWarning('Warning: Accessing store with non-configured or unknown domain ( '.$url.' ).'."\n".' Check setting of your store domain URL in System Settings . Loading default store configuration for now.');
 				$warning->toLog()->toMessages();
@@ -235,7 +237,7 @@ final class AConfig {
 				$this->cnfg['config_store_id'] = $this->cnfg['current_store_id'];
 			}
 		}
-		
+
 		//get template for storefront
 		$tmpl_id = $this->cnfg['config_storefront_template'];
 
