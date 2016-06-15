@@ -34,7 +34,7 @@ class ControllerApiProductCategory extends AControllerAPI {
 			$this->rest->sendResponse(200);
 			return null;
 		}
-		
+	
 		if (isset($this->request->get['path']) && $this->request->get['path'] != 0) {		
 			$parts = explode('_', $this->request->get['path']);		
 			$category_id = array_pop($parts);
@@ -67,7 +67,8 @@ class ControllerApiProductCategory extends AControllerAPI {
 			                                     $category_id,
 			                                     $this->config->get('config_image_category_width'),
 			                                     $this->config->get('config_image_category_height'));
-		$category_info['thumbnail'] = $category_info['tumbnail'] = $thumbnail['thumb_url'];
+		$category_info['thumbnail'] = $category_info['thumbnail'] = $thumbnail['thumb_url'];
+		
 
 		//Process data for category 
 		$category_info['description'] = html_entity_decode($category_info['description'], ENT_QUOTES, 'UTF-8'); 
