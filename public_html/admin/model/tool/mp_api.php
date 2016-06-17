@@ -91,7 +91,7 @@ class ModelToolMPAPI extends Model {
 
 		$connect = new AConnect(true);
 		$connect->connect_method = 'curl';
-		$params =  array(	'rt' => 'a/account/account_mp/get_extensions',
+		$params =  array(	'rt' => 'a/account/account/get_extensions',
 							'mp_token' => $mp_token
 		    			);
 		$response = $this->send( $connect, $params	);
@@ -220,7 +220,6 @@ class ModelToolMPAPI extends Model {
 
 		$GET = array_merge($params,$GET);
 		$href = '?'.http_build_query($GET);
-
 		$response = $connect->getResponse($this->getMPURL().$href);
 		return $response;
 	}
