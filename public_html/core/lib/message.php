@@ -344,6 +344,7 @@ final class AMessage {
 									FROM " . $this->db->table("messages") . " 
 									WHERE viewed<'1'
 									GROUP BY status");
+		$total = 0;
 		foreach ($result->rows as $row) {
 			$output['count'][$row['status']] = ( int )$row['count'];
 			$total += ( int )$row['count'];
