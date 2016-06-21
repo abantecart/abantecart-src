@@ -156,13 +156,18 @@ class AResource{
 			return null;
 		}
 		if (strpos($path, '/') !== false){
-			$ext = pathinfo($path, PATHINFO_EXTENSION);
+			//find first in file to solve tar.gz problem
+            if (preg_match("/\.tar\.gz$/i", $path)) {
+                $ext = 'tar.gz';
+            } else {
+                $ext = pathinfo($path,PATHINFO_EXTENSION);
+            }
 			$path = str_replace(array ('.' . $ext, '/'), '', $path);
 			$result = hexdec($path);
 		} else{
 			$result = $this->_getIdByName($path);
 		}
-		//function must return only integer!
+
 		if (!is_int($result)){
 			return null;
 		}

@@ -1455,6 +1455,10 @@ class FileHtmlElement extends HtmlElement {
 class RadioHtmlElement extends HtmlElement {
 
 	public function getHtml() {
+		//if no option provided, default to value
+		if(empty($this->options) && has_value($this->value)) {
+			$this->options = array($this->value => $this->value);
+		}
 		$this->view->batchAssign(
 			array(
 				'name' => $this->name,
