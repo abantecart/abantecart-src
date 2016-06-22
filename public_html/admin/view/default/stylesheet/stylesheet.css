@@ -1410,6 +1410,11 @@ p {
 .reslibrary-options .confirm_popover.dropdown-menu {
 	bottom: auto;
 }
+
+.confirm_popover.dropdown-menu{
+   z-index: 2001;
+}
+
 .thumbnail .rl_large_icon {
 	height: 114px;
 }
