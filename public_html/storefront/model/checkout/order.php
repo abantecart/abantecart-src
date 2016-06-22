@@ -97,6 +97,7 @@ class ModelCheckoutOrder extends Model {
 	 * @return bool|int
 	 */
 	public function create($data, $set_order_id = '') {
+		$set_order_id = (int)$set_order_id;
 		//reuse same order_id or unused one order_status_id = 0
 		if ($set_order_id) {
 			$query = $this->db->query( "SELECT order_id
@@ -141,7 +142,7 @@ class ModelCheckoutOrder extends Model {
 		}
 
 		if($set_order_id){
-			$set_order_id = "order_id = '" . $this->db->escape($set_order_id) . "', ";
+			$set_order_id = "order_id = '" . (int)$set_order_id . "', ";
 		}else{
 			$set_order_id = '';
 		}
