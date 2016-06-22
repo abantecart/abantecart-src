@@ -16,7 +16,7 @@
   	for ($i = $start; $i <= $end; $i++) {
   			if ($page == $i) {
   	?> 
-    	<li class="disabled"><a><?php echo $i ?></a></li>
+    	<li class="disabled"><span><?php echo $i ?></span></li>
   	<?php 	} else { ?>  	
     	<li><a href="<?php echo str_replace('{page}', $i, $url) ?>"><?php echo $i ?></a></li>
   	<?php 	}
