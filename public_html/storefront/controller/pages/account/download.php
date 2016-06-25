@@ -153,10 +153,10 @@ class ControllerPagesAccountDownload extends AController {
 										'name' => 'pagination',
 										'text'=> $this->language->get('text_pagination'),
 										'text_limit' => $this->language->get('text_per_page'),
-										'total'	=> sizeof($downloads),
+										'total'	=> $this->download->getTotalDownloads(),
 										'page'	=> $page,
 										'limit'	=> $limit,
-										'url' => $this->html->getURL('account/download&page={page}', '&encode'),
+										'url'   => $this->html->getURL('account/download&limit='.$limit.'&page={page}', '&encode'),
 										'style' => 'pagination'));
 
 
