@@ -51,7 +51,35 @@ class ControllerApiCheckoutAddress extends AControllerAPI {
 		$this->loadModel('account/address');
 		
 		if ( $request['mode'] == 'shipping' ) {
+	if ( $request['action'] == 'remove' ) {
+	  if ( isset($request['address_id']) ){
+		  if ($this->model_account_address->getTotalAddresses() == 1){
+					$this->error['warning'] = $this->language->get('error_delete');
+				}
+				if ($this->customer->getAddressId() == $this->request->get['address_id']){
+					$this->error['warning'] = $this->language->get('error_default');
+				}
+				if (!$this->error){
+					$this->model_account_address->deleteAddress( $request['address_id'] );
+				 $this->rest->sendResponse( 200, array('status' => 1, 'error' => 'address removed') );
+				 return null;
+				} else{
+	 		 $this->rest->sendResponse( 200, array('status' => 0, 'error' => 'deletion of default address not allowed') );
+				 return null;
+				}
 
+
+				$this->model_account_address->deleteAddress( $request['address_id'] );
+				$this->rest->sendResponse( 200, array('status' => 1, 'success' => 'address removed ') );
+			  return null;
+			}
+else if(!isset($request['address_id']))
+{
+	$this->rest->sendResponse( 200, array('status' => 0, 'error' => 'address id missing ') );
+	return null;
+
+}
+			}
 			if (!$this->cart->hasShipping()) {
 				$this->rest->sendResponse( 200, array('status' => 0, 'shipping' => 'products do not require shipping') );
 				return null;
@@ -95,7 +123,35 @@ class ControllerApiCheckoutAddress extends AControllerAPI {
 
 		}
 		else if ( $request['mode'] == 'payment' ) {
-		
+			if ( $request['action'] == 'remove' ) {
+	  if ( isset($request['address_id']) ){
+		  if ($this->model_account_address->getTotalAddresses() == 1){
+					$this->error['warning'] = $this->language->get('error_delete');
+				}
+				if ($this->customer->getAddressId() == $this->request->get['address_id']){
+					$this->error['warning'] = $this->language->get('error_default');
+				}
+				if (!$this->error){
+					$this->model_account_address->deleteAddress( $request['address_id'] );
+				 $this->rest->sendResponse( 200, array('status' => 1, 'error' => 'address removed') );
+				 return null;
+				} else{
+	 		 $this->rest->sendResponse( 200, array('status' => 0, 'error' => 'deletion of default address not allowed') );
+				 return null;
+				}
+
+
+				$this->model_account_address->deleteAddress( $request['address_id'] );
+				$this->rest->sendResponse( 200, array('status' => 1, 'success' => 'address removed ') );
+			  return null;
+			}
+else if(!isset($request['address_id']))
+{
+	$this->rest->sendResponse( 200, array('status' => 0, 'error' => 'address id missing ') );
+	return null;
+
+}
+			}
 	    	if ( isset($request['address_id']) ) {
 				$this->session->data['payment_address_id'] = $request['address_id'];
 		  		
