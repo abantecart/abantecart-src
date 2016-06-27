@@ -20,6 +20,11 @@
 if (! defined ( 'DIR_CORE' ) || !IS_ADMIN) {
 	header ( 'Location: static_pages/' );
 }
+
+/**
+ * Class ControllerResponsesToolExtensionsStore
+ * @property ModelToolMPAPI $model_tool_mp_api
+ */
 class ControllerResponsesToolExtensionsStore extends AController {
 	private $error = array();
 	public function main() {
@@ -161,4 +166,3 @@ class ControllerResponsesToolExtensionsStore extends AController {
 		$this->response->setOutput($html);
 	}		
 }
-?>
