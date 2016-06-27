@@ -85,7 +85,7 @@ else if(!isset($request['address_id']))
 				return null;
 			}
 		
-			if ( isset($request['address_id'])) {
+			if ( isset($request['address_id']) &&$request['action'] == 'select' ) {
 				$this->session->data['shipping_address_id'] = $request['address_id'];
 				unset($this->session->data['shipping_methods']);
 				unset($this->session->data['shipping_method']);
@@ -117,7 +117,19 @@ else if(!isset($request['address_id']))
 					return null;
 				}
 			}
-			
+				if (isset($request['address_id']) && $request['action'] == 'update' ) {
+			$this->error = $this->model_account_address->validateAddressData($request);
+				if ( !$this->error ) {
+				$this->session->data['shipping_address_id'] = $this->model_account_address->editAddress($request['address_id'], $request );
+			//	unset($this->session->data['shipping_methods']);
+				//unset($this->session->data['shipping_method']);
+
+
+
+				$this->rest->sendResponse( 200, array('status' => 1, 'shipping' => 'shipping address updated') );
+				return null;
+}
+		}
 			$this->data['selected_address_id'] = $this->session->data['shipping_address_id'];	
 			$this->_build_responce_data( $request );
 
