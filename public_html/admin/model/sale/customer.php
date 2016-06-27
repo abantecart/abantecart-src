@@ -471,6 +471,8 @@ class ModelSaleCustomer extends Model {
   				c.status,
   				c.approved,
   				c.customer_group_id,
+  				c.date_added,
+  				c.date_modified,
 				CONCAT(c.firstname, ' ', c.lastname) AS name,
 				cg.name AS customer_group
 				";
