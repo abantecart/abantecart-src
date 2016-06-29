@@ -811,11 +811,9 @@ class ControllerResponsesCommonResourceLibrary extends AController {
 		);
 
 		foreach ($result['items'] as $key => $item) {
-			$result['items'][$key]['thumbnail_url'] = $rm->getResourceThumb(
-				$item['resource_id'],
+			$result['items'][$key]['thumbnail_url'] = $rm->getResizedImageURL( $item,
 				$this->thumb_sizes['width'],
-				$this->thumb_sizes['height'],
-				$item['language_id']
+				$this->thumb_sizes['height']
 			);
 			$result['items'][$key]['url'] = $rm->buildResourceURL($item['resource_path'], 'full');
 			$result['items'][$key]['relative_url'] = $rm->buildResourceURL($item['resource_path'], 'relative');

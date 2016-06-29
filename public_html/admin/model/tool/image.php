@@ -34,40 +34,19 @@ class ModelToolImage extends Model {
 
 		$info = pathinfo($filename);
 		$extension = $info['extension'];
-		if($extension=='ico'){
+		if($extension == 'ico'){
 			$new_image = $filename;
-		}else{
-			$old_image = $filename;
+		} else {
+			$orig_image = $filename;
 			$new_image = 'thumbnails/' . substr($filename, 0, strrpos($filename, '.')) . '-' . $width . 'x' . $height . '.' . $extension;
-
-			if (!is_file(DIR_IMAGE . $new_image) || (filemtime(DIR_IMAGE . $old_image) > filemtime(DIR_IMAGE . $new_image))) {
-				$path = '';
-
-				$directories = explode('/', dirname(str_replace('../', '', $new_image)));
-
-				foreach ($directories as $directory) {
-					$path = $path . '/' . $directory;
-
-					if (!file_exists(DIR_IMAGE . $path)) {
-						@mkdir(DIR_IMAGE . $path, 0777);
-						chmod(DIR_IMAGE . $path, 0777);
-					}
-				}
-
-				$image = new AImage(DIR_IMAGE . $old_image);
-				$image->resizeAndSave(DIR_IMAGE . $new_image,
-										$width,
-										$height,
-										array(
-												'quality' => $this->config->get('config_image_quality')
-										));
-
-				unset($image);
+			if(!check_resize_image($orig_image, $new_image, $width, $height, $this->config->get('config_image_quality'))) {
+				//???? report error and return
 			}
 		}
 
-
-		if (isset($this->request->server['HTTPS']) && (($this->request->server['HTTPS'] == 'on') || ($this->request->server['HTTPS'] == '1'))) {
+		if(isset($this->request->server['HTTPS']) &&
+			(($this->request->server['HTTPS'] == 'on') || ($this->request->server['HTTPS'] == '1'))
+			) {
 			return HTTPS_IMAGE . $new_image;
 		} else {
 			return HTTP_IMAGE . $new_image;

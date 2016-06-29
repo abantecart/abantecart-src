@@ -1118,3 +1118,46 @@ function get_image_size($filename){
 	}
 	return array();
 }
+
+/**
+ * Function to resize image if needed and put to new location
+ * NOTE: Resource Library handles resize by itself
+ * @param $orig_image (full path)
+ * @param $new_image (relative path start from DIR_IMAGE)
+ * @param $width
+ * @param $height
+ * @return string / path to new image
+ */
+function check_resize_image($orig_image, $new_image, $width, $height, $quality) {
+    if (!is_file($orig_image) || empty($new_image)) {
+    	return null;
+    }
+
+    //if new file not yet present, check directory
+	if (!file_exists(DIR_IMAGE . $new_image)){
+	    $path = '';
+	    $directories = explode('/', dirname(str_replace('../', '', $new_image)));
+	    foreach ($directories as $directory){
+	    	$path = $path . '/' . $directory;
+	    	//do we have directory?
+	    	if (!file_exists(DIR_IMAGE . $path)){
+	    		// Make sure the index file is there
+	    		$indexFile = DIR_IMAGE . $path . '/index.php';
+	    		@mkdir(DIR_IMAGE . $path, 0775) && file_put_contents($indexFile, "<?php die('Restricted Access!'); ?>");
+	    	}
+	    }
+	}
+
+	if (!file_exists(DIR_IMAGE . $new_image) || (filemtime($orig_image) > filemtime(DIR_IMAGE . $new_image))){
+	    $image = new AImage($orig_image);
+	    $image->resizeAndSave(DIR_IMAGE . $new_image,
+	    		$width,
+	    		$height,
+	    		array (
+	    				'quality' => $quality
+	    		));
+	    unset($image);
+	}
+
+	return $new_image;
+}
