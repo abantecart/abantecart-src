@@ -51,7 +51,20 @@ class ControllerApiCheckoutAddress extends AControllerAPI {
 		$this->loadModel('account/address');
 		
 		if ( $request['mode'] == 'shipping' ) {
+	if ( $request['action'] == 'remove' ) {
+	if ( !isset($request['address_id'])) {
 
+		$this->rest->sendResponse( 200, array('status' => 0, 'error' => 'address_id Missing') );
+		return null;
+	}
+				$this->model_account_address->deleteAddress( $request['address_id'] );
+
+
+
+			 $this->rest->sendResponse( 200, array('status' => 1, 'success' => 'address removed ') );
+			 return null;
+
+			}
 			if (!$this->cart->hasShipping()) {
 				$this->rest->sendResponse( 200, array('status' => 0, 'shipping' => 'products do not require shipping') );
 				return null;
@@ -95,7 +108,20 @@ class ControllerApiCheckoutAddress extends AControllerAPI {
 
 		}
 		else if ( $request['mode'] == 'payment' ) {
-		
+			if ( $request['action'] == 'remove' ) {
+	if ( !isset($request['address_id'])) {
+
+		$this->rest->sendResponse( 200, array('status' => 0, 'error' => 'address_id Missing') );
+		return null;
+	}
+				$this->model_account_address->deleteAddress( $request['address_id'] );
+
+
+
+			 $this->rest->sendResponse( 200, array('status' => 1, 'success' => 'address removed ') );
+			 return null;
+
+			}
 	    	if ( isset($request['address_id']) ) {
 				$this->session->data['payment_address_id'] = $request['address_id'];
 		  		
