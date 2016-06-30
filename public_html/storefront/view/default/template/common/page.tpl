@@ -87,4 +87,5 @@ echo ${$header}; ?>
 	<?php echo ${$footer}; ?>
 </div>
 
+</div>
 </body></html>
