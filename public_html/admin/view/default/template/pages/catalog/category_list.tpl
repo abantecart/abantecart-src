@@ -45,7 +45,15 @@
 		<?php echo $listing_grid; ?>
 	</div>
 </div>
-
+<?php echo $this->html->buildElement(
+		array(
+				'type' => 'modal',
+				'id' => 'viewport_modal',
+				'modal_type' => 'lg',
+                'data_source' =>'ajax',
+				'title' => 'Category Preview',
+		));
+?>
 <script type="text/javascript">
     $('#category_grid_wrapper a.grid_action_expand').click(function(){
         var new_url = '<?php echo $grid_url; ?>&'+$(this).attr('rel');
@@ -63,5 +71,13 @@
 			}
 		});
 		$('a[data-target="#embed_modal"]').attr('href', url);
+
+		//do modal edit for action button in grid
+		$("td[aria-describedby=category_grid_action] ul.grid-dropdown>li>a").each(function(){
+			var url = $(this).attr('href');
+			$(this).attr('href', url+'&viewport=modal');
+			$(this).attr('data-toggle','modal'). attr('data-target','#viewport_modal');
+
+		})
 	}
 </script>

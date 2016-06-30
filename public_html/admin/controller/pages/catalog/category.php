@@ -504,7 +504,13 @@ class ControllerPagesCatalogCategory extends AController {
 
 		$this->view->assign('current_url', $this->html->currentURL());
 
-		$this->processTemplate('pages/catalog/category_form.tpl');
+		if($this->request->get['_rt_']){
+			$tpl = 'responses/viewport/catalog/category_form.tpl';
+		}else{
+			$tpl = 'pages/catalog/category_form.tpl';
+		}
+
+		$this->processTemplate($tpl);
 	}
 
 	private function _validateForm() {

@@ -21,6 +21,10 @@ if (! defined ( 'DIR_CORE' )) {
 	header ( 'Location: static_pages/' );
 }
 
+/**
+ * Class ARouter
+ * @property ARequest $request
+ */
 final class ARouter {
 	/**
 	 * @var Registry
@@ -72,7 +76,7 @@ final class ARouter {
 			throw new AException(AC_ERR_LOAD, 'Error: Route is undefined!');
 		}
 	
-		return $this->_route();
+		$this->_route();
 	}
 
 	/**
@@ -135,7 +139,14 @@ final class ARouter {
 			else if ( $this->_detect_controller("api") ){
 				$this->request_type = 'api';		
 			}
-		} 		
+		}
+
+		//run modal response-wrapper for page-controller if needed
+		if( $this->request_type == 'page' && $this->request->get['viewport']){
+			$this->request_type = 'response';
+			$this->request->get['_rt_'] = $this->rt;
+			$this->rt = 'common/viewport';
+		}
 
 		if ( $this->request_type == 'page' ){			
 			$page_controller = new APage($this->registry);			
