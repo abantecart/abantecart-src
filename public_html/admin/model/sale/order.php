@@ -597,6 +597,10 @@ class ModelSaleOrder extends Model{
       		                        date_added = NOW()");
 		}
 
+		/*
+		 * Send Email with merchant comment.
+		 * Note IM-notification not needed here.
+		 * */
 		if($data['notify']){
 			$order_query = $this->db->query("SELECT *, os.name AS status
         	                                FROM `" . $this->db->table("orders") . "` o
@@ -652,17 +656,6 @@ class ModelSaleOrder extends Model{
 				$mail->setSubject($subject);
 				$mail->setText(html_entity_decode($message, ENT_QUOTES, 'UTF-8'));
 				$mail->send();
-
-				//notify customer
-				$language->load('common/im');
-				$message_arr = array(
-		    		0 => array('message' =>  sprintf(
-		    			$language->get('im_order_update_text_to_customer'),
-		    			html_entity_decode($order_query->row['store_url'] . 'index.php?rt=account/invoice&order_id=' . $order_id, ENT_QUOTES, 'UTF-8'),
-		    			$order_id, $order_query->row['store_name'])
-		    			)
-				);
-                $this->im->sendToCustomer($order_query->row['customer_id'],'order_update',$message_arr);
 			}
 		}
 	}
