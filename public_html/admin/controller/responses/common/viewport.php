@@ -22,28 +22,27 @@ if (! defined ( 'DIR_CORE' ) || !IS_ADMIN) {
 }
 class ControllerResponsesCommonViewPort extends AController {
 
-  	public function main() {
+	public function main(){
+		$this->modal();
+	}
+
+  	public function modal() {
         //init controller data
         $this->extensions->hk_InitData($this,__FUNCTION__);
-		$output = '';
-	    /*
-	     *   _rt_ - request parameter goes from ARouter.
-	     *  You can use it as sign inside requested page-controller to define what template use
-	     * */
-	    if( $this->request->get['_rt_'] ){
-		    //remove viewport variable from request to prevent loop in ARouter
-		    unset($this->request->get['viewport']);
-		    $dd = new ADispatcher('pages/'.$this->request->get['_rt_']);
-		    $output = $dd->dispatchGetOutput('pages/'.$this->request->get['_rt_']);
+
+	    $page_rt = $this->request->get['viewport_rt'];
+
+	    $output = '';
+	    if( $page_rt ){
+		    $page_rt = preg_replace('/^p\//', '', $page_rt);
+		    //send sign about viewport mode via arguments to use it for template selection
+		    $dd = new ADispatcher('pages/'.$page_rt, array(array('viewport_mode' => 'modal')) );
+		    $output = $dd->dispatchGetOutput($page_rt);
 	    }else{
 		    $err = new AError('Viewport Router Error! Request Params are: '.var_export($this->request->get, true));
 		    $err->toLog()->toDebug();
 	    }
 
-	    $get = $this->request->get;
-	    unset($get['_rt_'], $get['rt'], $get['s'], $get['token']);
-	    $this->view->assign('full_mode_url', $this->html->getSecureURL($this->request->get['_rt_'], '&'.http_build_query($get)));
-	    $this->view->assign('title','Preview');
 	    $this->view->assign('content',$output);
 	    $this->processTemplate('responses/common/viewport_modal.tpl');
   	}

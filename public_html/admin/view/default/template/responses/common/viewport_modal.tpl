@@ -6,5 +6,5 @@
 	<?php echo $content;?>
 </div>
 <div class="modal-footer">
-	<a class="btn btn-default" href="<?php echo $full_mode_url;?>" target="_new"><i class="fa fa-expand"></i>
+	<a class="btn btn-default expand" href="" target="_new"><i class="fa fa-expand"></i>
 </div>

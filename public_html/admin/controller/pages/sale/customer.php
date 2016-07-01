@@ -288,6 +288,7 @@ class ControllerPagesSaleCustomer extends AController {
 	}
 
 	public function update() {
+		$args = func_get_args();
 
 		//init controller data
 		$this->extensions->hk_InitData($this, __FUNCTION__);
@@ -319,13 +320,13 @@ class ControllerPagesSaleCustomer extends AController {
 			$this->redirect( $redirect_url );
 		}
 
-		$this->_getForm();
+		$this->_getForm($args);
 
 		//update controller data
 		$this->extensions->hk_UpdateData($this, __FUNCTION__);
 	}
 
-	private function _getForm( ) {
+	private function _getForm($args) {
 
 		$customer_id = $this->request->get['customer_id'];
 
@@ -351,7 +352,7 @@ class ControllerPagesSaleCustomer extends AController {
 					array(
 							'type' => 'button',
 							'name' => 'view orders',
-							'text' => $this->language->get('text_order') . ': ' . $customer_info['orders_count'],
+							'text' => $this->language->get('text_total_order') . ' ' . $customer_info['orders_count'],
 							'style' => 'button2',
 							'href' => $this->html->getSecureURL('sale/order', '&customer_id=' . $customer_id),
 							'title' => $this->language->get('text_view') . ' ' . $this->language->get('tab_history')
@@ -562,7 +563,15 @@ class ControllerPagesSaleCustomer extends AController {
 		$this->data['balance'] = $this->language->get('text_balance') . ' ' . $currency['symbol_left'] . round($balance, 2) . $currency['symbol_right'];
 		$this->view->batchAssign($this->data);
 
-		$this->processTemplate('pages/sale/customer_form.tpl');
+
+		if($args[0]['viewport_mode']=='modal'){
+			$tpl = 'responses/viewport/modal/sale/customer_form.tpl';
+		}else{
+			$tpl = 'pages/sale/customer_form.tpl';
+		}
+
+		$this->processTemplate($tpl);
+
 	}
 
 	public function insert_address() {
@@ -657,7 +666,7 @@ class ControllerPagesSaleCustomer extends AController {
 					array(
 							'type' => 'button',
 							'name' => 'view orders',
-							'text' => $this->language->get('text_order') . ': ' . $customer_info['orders_count'],
+							'text' => $this->language->get('text_total_order') . ' ' . $customer_info['orders_count'],
 							'style' => 'button2',
 							'href' => $this->html->getSecureURL('sale/order', '&customer_id=' . $customer_id),
 							'title' => $this->language->get('text_view') . ' ' . $this->language->get('tab_history')

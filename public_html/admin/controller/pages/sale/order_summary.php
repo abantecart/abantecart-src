@@ -54,7 +54,7 @@ class ControllerPagesSaleOrderSummary extends AController {
 		
 			$this->data['order'] = array(
 				'order_id' => '#'.$order_info['order_id'],
-				'name' => $order_info['firstname'] .' '.$order_info['lastname'],
+				'customer_name' => $order_info['firstname'] .' '.$order_info['lastname'],
 				'email' => $order_info['email'],
 				'telephone' => $order_info['telephone'],
 				'date_added' => dateISO2Display($order_info['date_added'], $this->language->get('date_format_short').' '.$this->language->get('time_format')),
@@ -65,7 +65,12 @@ class ControllerPagesSaleOrderSummary extends AController {
 			);
 
 			if ($order_info['customer_id']) {
-				$this->data['order']['name'] = '<a href="'.$this->html->getSecureURL('sale/customer/update', '&customer_id=' . $order_info['customer_id']).'">'.$this->data['order']['name'].'</a>';
+				$this->data['customer'] = array(
+						'name' => $this->data['order']['customer_name'],
+						'href' => $this->html->getSecureURL('sale/customer/update', '&customer_id=' . $order_info['customer_id']),
+						//viewport URL
+						'vhref' => $this->html->getSecureURL('r/common/viewport','&viewport_rt=sale/customer/update&customer_id=' . $order_info['customer_id'])
+				);
 			}
 
 			$this->loadModel('localisation/order_status');

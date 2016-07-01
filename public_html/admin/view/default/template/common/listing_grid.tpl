@@ -218,7 +218,12 @@ var initGrid_<?php echo $data['table_id'] ?> = function ($) {
 		if (!empty($data['actions'])) {
 			foreach ($data['actions'] as $type => $action) {
 				$html_string = '';
-				$href = has_value($action['href']) ? $action['href'] : '#';
+				$href = 'href="'.(has_value($action['href']) ? $action['href'] : '#').'"';
+				//for viewport mode
+				if($action['vhref']){
+					$href .= ' data-viewport-href="'.$action['vhref'].'"';
+				}
+
 				$html_string .= "actions_urls['".$type."'] = '".$href."';\n";
 				$html_string .= ' actions += \'';
 				$has_children = sizeof($action['children']);
@@ -228,50 +233,50 @@ var initGrid_<?php echo $data['table_id'] ?> = function ($) {
 				}
 				switch ($type) {
 					case 'edit':
-						$html_btn .= ' href="'.$href.'" rel="%ID%"><i class="fa fa-edit fa-lg"></i>';
+						$html_btn .= ' '.$href.' rel="%ID%"><i class="fa fa-edit fa-lg"></i>';
 						break;
 					case 'delete':
-						if($href!='#'){
-							$html_btn .= ' href="'.$href.'" rel="%ID%" data-confirmation="delete"><i class="fa fa-trash-o fa-lg"></i>';
+						if($href!='href="#"'){
+							$html_btn .= ' '.$href.' rel="%ID%" data-confirmation="delete"><i class="fa fa-trash-o fa-lg"></i>';
 						}else{
-							$html_btn .= ' href="#" rel="%ID%"><i class="fa fa-trash-o fa-lg"></i>';
+							$html_btn .= ' '.$href.' rel="%ID%"><i class="fa fa-trash-o fa-lg"></i>';
 						}
 						break;
 					case 'save':
-						$html_btn .= ' href="'.$href.'" rel="%ID%"><i class="fa fa-save fa-lg"></i>';
+						$html_btn .= ' '.$href.' rel="%ID%"><i class="fa fa-save fa-lg"></i>';
 						break;
 					case 'expand':
-						$html_btn .= ' href="'.$href.'" rel="%ID%"><i class="fa fa-plus-square-o fa-lg"></i>';
+						$html_btn .= ' '.$href.' rel="%ID%"><i class="fa fa-plus-square-o fa-lg"></i>';
 						break;
 					case 'restart':
-						$html_btn .= ' href="'.$href.'" rel="%ID%"><i class="fa fa-repeat fa-lg"></i>';
+						$html_btn .= ' '.$href.' rel="%ID%"><i class="fa fa-repeat fa-lg"></i>';
 						break;
 					case 'run':
-						$html_btn .= ' href="'.$href.'" rel="%ID%"><i class="fa fa-play fa-lg"></i>';
+						$html_btn .= ' '.$href.' rel="%ID%"><i class="fa fa-play fa-lg"></i>';
 						break;
 					case 'approve':
-						$html_btn .= ' href="'.$href.'" rel="%ID%"><i class="fa fa-check-square-o fa-lg"></i>';
+						$html_btn .= ' '.$href.' rel="%ID%"><i class="fa fa-check-square-o fa-lg"></i>';
 						break;
 					case 'actonbehalfof':
-						$html_btn .= ' href="'.$href.'" target="_blank" rel="%ID%"><i class="fa fa-male fa-lg"></i>';
+						$html_btn .= ' '.$href.' target="_blank" rel="%ID%"><i class="fa fa-male fa-lg"></i>';
 						break;
 					case 'clone':
-						$html_btn .= ' href="'.$href.'" rel="%ID%"><i class="fa fa-clone fa-lg"></i>';
+						$html_btn .= ' '.$href.' rel="%ID%"><i class="fa fa-clone fa-lg"></i>';
 						break;
 					case 'remote_install':
-						$html_btn .= ' href="'.$href.'" rel="%ID%"><i class="fa fa-play fa-lg"></i>';
+						$html_btn .= ' '.$href.' rel="%ID%"><i class="fa fa-play fa-lg"></i>';
 						break;
 					case 'install':
-						$html_btn .= ' href="'.$href.'" rel="%ID%"><i class="fa fa-play fa-lg"></i>';
+						$html_btn .= ' '.$href.' rel="%ID%"><i class="fa fa-play fa-lg"></i>';
 						break;
 					case 'uninstall':
-						$html_btn .= ' href="'.$href.'" rel="%ID%" data-confirmation="delete"><i class="fa fa-times fa-lg"></i>';
+						$html_btn .= ' '.$href.' rel="%ID%" data-confirmation="delete"><i class="fa fa-times fa-lg"></i>';
 						break;
 					case 'view':
-						$html_btn .= ' href="'.$href.'" rel="%ID%"><i class="fa fa-eye fa-lg"></i>';
+						$html_btn .= ' '.$href.' rel="%ID%"><i class="fa fa-eye fa-lg"></i>';
 						break;
 					default:
-						$html_btn .= ' href="' . $action['href'] . '" id="action_' . $type . '_%ID%"  ' . (!empty($action['target']) ? 'target="' . $action['target'] . '"' : '') . '><i class="fa fa-' . $type . ' fa-lg"></i>';
+						$html_btn .= ' '.$href.' id="action_' . $type . '_%ID%"  ' . (!empty($action['target']) ? 'target="' . $action['target'] . '"' : '') . '><i class="fa fa-' . $type . ' fa-lg"></i>';
 				}
 
 				if($has_children){
@@ -283,8 +288,12 @@ var initGrid_<?php echo $data['table_id'] ?> = function ($) {
 				if($action['children']){
 					$html_children = '<div class="dropdown-menu dropdown-menu-sm dropdown-menu-right" role="menu"><h5 class="title">'.htmlentities($text_select_from_list,ENT_QUOTES,'UTF-8').'</h5><ul class="dropdown-list grid-dropdown">';
 					foreach($action['children'] as $child){
-						$href = has_value($child['href']) ? $child['href'] : '#';
-						$html_children .= '<li><a href="'.$href.'" rel="%ID%">'.htmlentities($child['text'],ENT_QUOTES,'UTF-8').'</a></li>';
+						$href = 'href="'.(has_value($child['href']) ? $child['href'] : '#').'"';
+						//for viewport mode
+						if($child['vhref']){
+							$href .= ' data-viewport-href="'.$child['vhref'].'"';
+						}
+						$html_children .= '<li><a '.$href.' rel="%ID%">'.htmlentities($child['text'],ENT_QUOTES,'UTF-8').'</a></li>';
 					}
 					$html_children .= '</ul></div>';
 					$html_btn = '<div class="btn-group">'.$html_btn.''.$html_children.'</div>';

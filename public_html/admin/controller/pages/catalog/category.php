@@ -71,6 +71,8 @@ class ControllerPagesCatalogCategory extends AController {
 							                'general' => array(
 										                'text' => $this->language->get('tab_general'),
 										                'href' => $this->html->getSecureURL('catalog/category/update', '&category_id=%ID%'),
+								                        //viewport URL
+										                'vhref' => $this->html->getSecureURL('r/common/viewport/modal','&viewport_rt=catalog/category/update&category_id=%ID%'),
 						                                ),
 							                'data' => array(
 										                'text' => $this->language->get('tab_data'),
@@ -248,6 +250,8 @@ class ControllerPagesCatalogCategory extends AController {
 
 	public function update() {
 
+		$args = func_get_args();
+
 		//init controller data
 		$this->extensions->hk_InitData($this, __FUNCTION__);
 
@@ -267,13 +271,15 @@ class ControllerPagesCatalogCategory extends AController {
 			$this->session->data['success'] = $this->language->get('text_success');
 			$this->redirect($this->html->getSecureURL('catalog/category/update', '&category_id=' . $this->request->get['category_id']));
 		}
-		$this->_getForm();
+
+
+		$this->_getForm($args);
 
 		//update controller data
 		$this->extensions->hk_UpdateData($this, __FUNCTION__);
 	}
 
-	private function _getForm() {
+	private function _getForm($args) {
 
 		$content_language_id = $this->language->getContentLanguageID();
 
@@ -504,8 +510,8 @@ class ControllerPagesCatalogCategory extends AController {
 
 		$this->view->assign('current_url', $this->html->currentURL());
 
-		if($this->request->get['_rt_']){
-			$tpl = 'responses/viewport/catalog/category_form.tpl';
+		if($args[0]['viewport_mode']=='modal'){
+			$tpl = 'responses/viewport/modal/catalog/category_form.tpl';
 		}else{
 			$tpl = 'pages/catalog/category_form.tpl';
 		}
