@@ -164,6 +164,11 @@ class ModelCatalogProduct extends Model{
 		}
 		$query = $this->db->query(
 				"SELECT p.product_id,
+						pd.name,
+						pd.meta_keywords,
+						pd.meta_description,
+						pd.description,
+						pd.blurb,
 						p.model,
 						p.sku,
 						p.location,
