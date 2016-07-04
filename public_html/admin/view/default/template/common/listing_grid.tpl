@@ -316,11 +316,11 @@ var initGrid_<?php echo $data['table_id'] ?> = function ($) {
 			$('#viewport_modal').on('shown.bs.modal', function(e){
 				var target = $(e.relatedTarget);
 				$(this).find('.modal-header a.btn').attr('href',target.attr('data-fullmode-href'));
-			})
+			});
 			$('#viewport_modal').on('hidden.bs.modal', function (e) {
 				//reload grid
-				$('#<?php echo $data['table_id'] ?>').trigger("reloadGrid");
-			})
+				$('#<?php echo $data['table_id'] ?>').trigger("reloadGrid",[{current:true}]);
+			});
 		<?php			
 		} // end of action 		
 		?>
@@ -356,7 +356,7 @@ var initGrid_<?php echo $data['table_id'] ?> = function ($) {
 							data: data,
 							success:function (msg) {
 								if (msg == '' || msg==null) {
-									jQuery(table_id).trigger("reloadGrid");
+									jQuery(table_id).trigger("reloadGrid",[{current:true}]);
 								} else {
 									alert(msg);
 								}
@@ -393,7 +393,7 @@ var initGrid_<?php echo $data['table_id'] ?> = function ($) {
 					var new_url = '<?php echo $data["url"] ?>&' + $(this).attr('rel');
 					$(table_id)
 						.jqGrid('setGridParam', {url:new_url})
-						.trigger("reloadGrid");
+						.trigger("reloadGrid",[{current:true}]);
 					return false;
 				});
 
@@ -458,14 +458,41 @@ var initGrid_<?php echo $data['table_id'] ?> = function ($) {
 				$(table_id + " tr").css('cursor', 'default');
 			}
 			<?php } ?>
-			$(table_id).jqGrid('setGridParam').trigger("reloadGrid");
+			$(table_id).jqGrid('setGridParam').trigger("reloadGrid",[{current:true}]);
 		},
 		ondblClickRow:function (row_id) {
-			var url = $('#' + row_id + ' .btn-group a').attr('href');
-			$(location).attr('href', url);
+			// quickview modal
+			var lnk = $('#' + row_id).find("td[aria-describedby$='_action']").find('[data-fullmode-href]');
+			//edit link
+			if(lnk.length == 0){
+				lnk = $('#' + row_id).find("td[aria-describedby$='_action']").find('.dropdown-menu [data-action-type="edit"]');
+			}
+			//view link
+			if(lnk.length == 0){
+				lnk = $('#' + row_id).find("td[aria-describedby$='_action']").find('.dropdown-menu [data-action-type="view"]');
+			}
+
+			if(lnk.length>0){
+				if(lnk.attr('data-toggle').length){
+					lnk.click();
+				}else {
+					location = lnk.attr('href');
+				}
+			}
+
+			return false;
+
 		}
 	});
-	$(table_id).jqGrid('navGrid', table_id + '_pager', {edit:false, add:false, del:false, search:false});
+	$(table_id).jqGrid('navGrid',
+						table_id + '_pager',
+						{   edit:false,
+							add:false,
+							del:false,
+							search:false,
+							refreshstate: "current"
+						});
+
 <?php    if ($data['hidden_head']) { ?>
 	$('.ui-jqgrid-hdiv').hide();
 	<?php
@@ -494,7 +521,7 @@ if ($custom_buttons) {
 		var new_url = '<?php echo $data["url"] ?>&' + $(this).serialize();
 		$(table_id)
 			.jqGrid('setGridParam', {url:new_url, page:1})
-			.trigger("reloadGrid");
+			.trigger("reloadGrid",[{current:true}]);
 		return false;
 	});
 	//reset
@@ -503,7 +530,7 @@ if ($custom_buttons) {
 		var new_url = '<?php echo $data["url"] ?>';
 		$(table_id)
 			.jqGrid('setGridParam', {url:new_url})
-			.trigger("reloadGrid");
+			.trigger("reloadGrid",[{current:true}]);
 		return false;
 	});
 	<?php } ?>
@@ -567,7 +594,7 @@ if ($custom_buttons) {
 					data:form_data,
 					success:function (msg) {
 						if (msg == '') {
-							jQuery(table_id).trigger("reloadGrid");
+							jQuery(table_id).trigger("reloadGrid",[{current:true}]);
 						} else {
 							alert(msg);
 						}
@@ -604,7 +631,7 @@ if ($custom_buttons) {
 				data:form_data,
 				success:function (msg) {
 					if (msg == '') {
-						$(table_id).trigger("reloadGrid");
+						$(table_id).trigger("reloadGrid",[{current:true}]);
 					} else {
 						alert(msg);
 					}

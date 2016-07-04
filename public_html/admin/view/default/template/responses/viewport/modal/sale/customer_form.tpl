@@ -1,3 +1,9 @@
+<div class="modal-header">
+	<button aria-hidden="true" data-dismiss="modal" class="close" type="button">&times;</button>
+	<a aria-hidden="true" class="btn btn-default" type="button" href="" target="_new"><i class="fa fa-arrow-right fa-fw"></i><?php echo $text_more_new; ?></a>
+	<a aria-hidden="true" class="btn btn-default" type="button" href=""><i class="fa fa-arrow-down fa-fw"></i><?php echo $text_more_current; ?></a>
+	<h4 class="modal-title"><?php echo $heading_title; ?></h4>
+</div>
 
 <div id="content" class="panel panel-default">
 	<?php if ($customer_id) { ?>
@@ -85,22 +91,14 @@
 	</div>
 <?php } ?>
 
-	<div class="panel-footer col-xs-12">
-		<div class="text-center">
-			<button class="btn btn-primary lock-on-click">
-			<i class="fa fa-save fa-fw"></i> <?php echo $form['submit']->text; ?>
-			</button>
-			<button class="btn btn-default" type="reset">
-			<i class="fa fa-refresh fa-fw"></i> <?php echo $button_reset; ?>
-			</button>
-			<?php if($form['delete']){?>
-				<a class="btn btn-danger" data-confirmation="delete"
-				   href="<?php echo $form['delete']->href; ?>">
-					<i class="fa fa-trash-o"></i> <?php echo $form['delete']->text; ?>
-				</a>
-			<?php } ?>
-		</div>
-	</div>	
-	</form>
+</form>
 
 </div>
+<script language="JavaScript" type="application/javascript">
+
+	$('#viewport_modal').on('shown.bs.modal', function(e){
+		var target = $(e.relatedTarget);
+		$(this).find('.modal-header a.btn').attr('href',target.attr('data-fullmode-href'));
+	});
+
+</script>

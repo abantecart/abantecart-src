@@ -71,6 +71,12 @@ class ControllerPagesCatalogProduct extends AController {
                     'text' => $this->language->get('text_edit'),
 				    'href' => $this->html->getSecureURL('catalog/product/update', '&product_id=%ID%'),
 	                'children' => array_merge(array(
+			                'quickview' => array(
+                                            'text' => $this->language->get('text_quick_view'),
+                                            'href' => $this->html->getSecureURL('catalog/product/update', '&product_id=%ID%'),
+                                            //quick view port URL
+                                            'vhref' => $this->html->getSecureURL('r/common/viewport/modal','&viewport_rt=catalog/product/update&product_id=%ID%'),
+                                            ),
 			                'general' => array(
 							                'text' => $this->language->get('tab_general'),
 							                'href' => $this->html->getSecureURL('catalog/product/update', '&product_id=%ID%'),
@@ -284,6 +290,8 @@ class ControllerPagesCatalogProduct extends AController {
 
   	public function update() {
 
+	    $args = func_get_args();
+
         //init controller data
         $this->extensions->hk_InitData($this,__FUNCTION__);
 
@@ -305,7 +313,8 @@ class ControllerPagesCatalogProduct extends AController {
 			$this->session->data['success'] = $this->language->get('text_success');
 			$this->redirect($this->html->getSecureURL('catalog/product/update', '&product_id='.$this->request->get['product_id']));
 		}
-    	$this->_getForm();
+
+    	$this->_getForm($args);
 
         //update controller data
         $this->extensions->hk_UpdateData($this,__FUNCTION__);
@@ -332,7 +341,8 @@ class ControllerPagesCatalogProduct extends AController {
         $this->extensions->hk_UpdateData($this,__FUNCTION__);
   	}
 
-  	private function _getForm() {
+  	private function _getForm($args) {
+
 		if (isset($this->request->get['product_id']) && $this->request->is_GET()) {
 			$product_id = $this->request->get['product_id'];
       		$product_info = $this->model_catalog_product->getProduct($product_id);
@@ -601,12 +611,14 @@ class ControllerPagesCatalogProduct extends AController {
 			'value' => $this->data['product_description']['blurb'],
 			'multilingual' => true,
 		));
-        $this->data['form']['fields']['general']['description'] = $form->getFieldHtml(array(
-			'type' => 'texteditor',
-			'name' => 'product_description[description]',
-			'value' => $this->data['product_description']['description'],
-			'multilingual' => true,		
-		));
+	    if( $args[0]['viewport_mode'] != 'modal' ){
+		    $this->data['form']['fields']['general']['description'] = $form->getFieldHtml(array (
+				    'type'         => 'texteditor',
+				    'name'         => 'product_description[description]',
+				    'value'        => $this->data['product_description']['description'],
+				    'multilingual' => true,
+		    ));
+	    }
         $this->data['form']['fields']['general']['meta_keywords'] = $form->getFieldHtml(array(
 			'type' => 'textarea',
 			'name' => 'product_description[meta_keywords]',
@@ -871,21 +883,26 @@ class ControllerPagesCatalogProduct extends AController {
 	    $this->data['language_code'] = $this->session->data['language'];
 	    $this->data['help_url'] = $this->gen_help_url('product_edit');
 
-	    $this->addChild('responses/common/resource_library/get_resources_html', 'resources_html', 'responses/common/resource_library_scripts.tpl');
-        $resources_scripts = $this->dispatch(
-                'responses/common/resource_library/get_resources_scripts',
-                array(
-                        'object_name' => '',
-                        'object_id' => '',
-                        'types' => array('image'),
-                )
-        );
-        $this->data['resources_scripts'] =  $resources_scripts->dispatchGetOutput();
-        $this->data['rl'] = $this->html->getSecureURL('common/resource_library', '&action=list_library&object_name=&object_id&type=image&mode=single');
+	    if( $args[0]['viewport_mode'] == 'modal' ){
+            $tpl = 'responses/viewport/modal/catalog/product_form.tpl';
+        }else{
+		    $this->addChild('responses/common/resource_library/get_resources_html', 'resources_html', 'responses/common/resource_library_scripts.tpl');
+			$resources_scripts = $this->dispatch(
+			       'responses/common/resource_library/get_resources_scripts',
+			       array(
+			               'object_name' => '',
+			               'object_id' => '',
+			               'types' => array('image'),
+			       )
+			);
+			$this->data['resources_scripts'] =  $resources_scripts->dispatchGetOutput();
+			$this->data['rl'] = $this->html->getSecureURL('common/resource_library', '&action=list_library&object_name=&object_id&type=image&mode=single');
+
+            $tpl = 'pages/catalog/product_form.tpl';
+        }
 
 	    $this->view->batchAssign( $this->data );
-
-		$this->processTemplate('pages/catalog/product_form.tpl' );
+        $this->processTemplate($tpl);
   	}
 
   	private function _validateForm() {

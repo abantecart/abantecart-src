@@ -359,7 +359,8 @@ class ControllerPagesSaleOrder extends AController{
 		$this->data['total'] = $this->currency->format($order_info['total'], $order_info['currency'], $order_info['value']);
 		$this->data['date_added'] = dateISO2Display($order_info['date_added'], $this->language->get('date_format_short') . ' ' . $this->language->get('time_format'));
 		if($order_info['customer_id']){
-			$this->data['customer_url'] = $this->html->getSecureURL('sale/customer/update', '&customer_id=' . $order_info['customer_id']);
+			$this->data['customer_href'] = $this->html->getSecureURL('sale/customer/update', '&customer_id=' . $order_info['customer_id']);
+			$this->data['customer_vhref'] = $this->html->getSecureURL('r/common/viewport/modal', '&viewport_rt=sale/customer/update&customer_id=' . $order_info['customer_id']);
 		}
 
 		$this->loadModel('localisation/order_status');

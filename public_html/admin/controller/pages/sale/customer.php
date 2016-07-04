@@ -505,6 +505,9 @@ class ControllerPagesSaleCustomer extends AController {
 		}
 
 		foreach ($required_input as $f) {
+			if($args[0]['viewport_mode']=='modal' && in_array($f, array('password'))){
+				continue;
+			}
 			$this->data['form']['fields']['details'][$f] = $form->getFieldHtml(array(
 					'type' => ($f == 'password' ? 'passwordset' : 'input'),
 					'name' => $f,
