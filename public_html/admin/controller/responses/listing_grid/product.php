@@ -206,9 +206,10 @@ class ControllerResponsesListingGridProduct extends AController {
 		}
 
 		$this->loadLanguage('catalog/product');
-
 		$this->loadModel('catalog/product');
-		if (isset($this->request->get['id'])) {
+
+		$product_id = (int)$this->request->get['id'];
+		if ($product_id) {
 			//request sent from edit form. ID in url
 			foreach ($this->request->post as $key => $value) {
 				$err = $this->_validateField($key, $value);
@@ -220,8 +221,8 @@ class ControllerResponsesListingGridProduct extends AController {
                     $value = dateDisplay2ISO($value);
                 }
                 $data = array( $key => $value );
-				$this->model_catalog_product->updateProduct($this->request->get['id'], $data);
-				$this->model_catalog_product->updateProductLinks($this->request->get['id'], $data);
+				$this->model_catalog_product->updateProduct($product_id, $data);
+				$this->model_catalog_product->updateProductLinks($product_id, $data);
 			}
 			return null;
 		}
