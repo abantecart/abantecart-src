@@ -24,6 +24,18 @@
 
 	</form>
 </div>
+<?php 
+	//load quick view port modal
+	echo $this->html->buildElement(
+		array(
+				'type' => 'modal',
+				'id' => 'viewport_modal',
+				'modal_type' => 'lg',
+                'data_source' =>'ajax',
+				'title' => 'Category Preview',
+		)
+	);
+?>
 <script type="text/javascript" src="<?php echo $template_dir; ?>javascript/jqgrid/plugins/jquery.tablednd.js"></script>
 <script type="text/javascript">
 
@@ -219,10 +231,6 @@ var initGrid_<?php echo $data['table_id'] ?> = function ($) {
 			foreach ($data['actions'] as $type => $action) {
 				$html_string = '';
 				$href = 'href="'.(has_value($action['href']) ? $action['href'] : '#').'"';
-				//for viewport mode
-				if($action['vhref']){
-					$href .= ' data-viewport-href="'.$action['vhref'].'"';
-				}
 
 				$html_string .= "actions_urls['".$type."'] = '".$href."';\n";
 				$html_string .= ' actions += \'';
@@ -288,22 +296,33 @@ var initGrid_<?php echo $data['table_id'] ?> = function ($) {
 				if($action['children']){
 					$html_children = '<div class="dropdown-menu dropdown-menu-sm dropdown-menu-right" role="menu"><h5 class="title">'.htmlentities($text_select_from_list,ENT_QUOTES,'UTF-8').'</h5><ul class="dropdown-list grid-dropdown">';
 					foreach($action['children'] as $child){
-						$href = 'href="'.(has_value($child['href']) ? $child['href'] : '#').'"';
+						$href = has_value($child['href']) ? $child['href'] : '#';				
 						//for viewport mode
 						if($child['vhref']){
-							$href .= ' data-viewport-href="'.$child['vhref'].'"';
+							$href = 'data-toggle="modal" data-target="#viewport_modal" href="'.$child['vhref'].'" data-fullmode-href="'.$href.'"';					
+						} else {
+							$href = 'href="'.$href.'"';
 						}
 						$html_children .= '<li><a '.$href.' rel="%ID%">'.htmlentities($child['text'],ENT_QUOTES,'UTF-8').'</a></li>';
 					}
 					$html_children .= '</ul></div>';
 					$html_btn = '<div class="btn-group">'.$html_btn.''.$html_children.'</div>';
-
 				}
-
 
 				echo $html_string.$html_btn."'; \r\n";
 			}
-		}
+		?>
+			//viewport_modal modal open and close events 
+			$('#viewport_modal').on('shown.bs.modal', function(e){
+				var target = $(e.relatedTarget);
+				$(this).find('.modal-header a.btn').attr('href',target.attr('data-fullmode-href'));
+			})
+			$('#viewport_modal').on('hidden.bs.modal', function (e) {
+				//reload grid
+				$('#<?php echo $data['table_id'] ?>').trigger("reloadGrid");
+			})
+		<?php			
+		} // end of action 		
 		?>
 			if (actions != '') {
 				var ids = jQuery(table_id).jqGrid('getDataIDs');
@@ -442,7 +461,7 @@ var initGrid_<?php echo $data['table_id'] ?> = function ($) {
 			$(table_id).jqGrid('setGridParam').trigger("reloadGrid");
 		},
 		ondblClickRow:function (row_id) {
-			var url = $('#action_edit_' + row_id).attr('href');
+			var url = $('#' + row_id + ' .btn-group a').attr('href');
 			$(location).attr('href', url);
 		}
 	});

@@ -68,11 +68,15 @@ class ControllerPagesCatalogCategory extends AController {
 								'text' => $this->language->get('text_edit'),
 								'href' => $this->html->getSecureURL('catalog/category/update', '&category_id=%ID%'),
 								'children' => array_merge(array(
+							                'quickview' => array(
+										                'text' => $this->language->get('text_quick_view'),
+										                'href' => $this->html->getSecureURL('catalog/category/update', '&category_id=%ID%'),
+								                        //quick view port URL
+										                'vhref' => $this->html->getSecureURL('r/common/viewport/modal','&viewport_rt=catalog/category/update&category_id=%ID%'),
+						                                ),
 							                'general' => array(
 										                'text' => $this->language->get('tab_general'),
 										                'href' => $this->html->getSecureURL('catalog/category/update', '&category_id=%ID%'),
-								                        //viewport URL
-										                'vhref' => $this->html->getSecureURL('r/common/viewport/modal','&viewport_rt=catalog/category/update&category_id=%ID%'),
 						                                ),
 							                'data' => array(
 										                'text' => $this->language->get('tab_data'),
@@ -424,13 +428,16 @@ class ControllerPagesCatalogCategory extends AController {
 						'attr' => ' maxlength="255" ',
 						'multilingual' => true,
 				));
-		$this->data['form']['fields']['general']['description'] = $form->getFieldHtml(
+		//no description edit for modal view
+		if($args[0]['viewport_mode'] !='modal'){
+			$this->data['form']['fields']['general']['description'] = $form->getFieldHtml(
 				array('type' => 'texteditor',
 						'name' => 'category_description[' . $content_language_id . '][description]',
 						'value' => $this->data['category_description'][$content_language_id]['description'],
 						'style' => 'xl-field',
 						'multilingual' => true,	
 				));
+		}		
 		$this->data['form']['fields']['data']['meta_keywords'] = $form->getFieldHtml(
 				array('type' => 'textarea',
 						'name' => 'category_description[' . $content_language_id . '][meta_keywords]',

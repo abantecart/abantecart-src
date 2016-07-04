@@ -34,16 +34,23 @@ class ControllerResponsesCommonViewPort extends AController {
 
 	    $output = '';
 	    if( $page_rt ){
+	    	//make sure we have page controller explicitly, we have passed router already
 		    $page_rt = preg_replace('/^p\//', '', $page_rt);
-		    //send sign about viewport mode via arguments to use it for template selection
+		    //send viewport mode via arguments to use it for template selection
 		    $dd = new ADispatcher('pages/'.$page_rt, array(array('viewport_mode' => 'modal')) );
-		    $output = $dd->dispatchGetOutput($page_rt);
+			//return output to view port
+			$this->response->setOutput($dd->dispatchGetOutput($page_rt));
 	    }else{
-		    $err = new AError('Viewport Router Error! Request Params are: '.var_export($this->request->get, true));
+	    	//Missing RT
+	    	$error = 'Viewport Router Error! Request Params are: '.var_export($this->request->get, true);
+		    $err = new AError($error);
 		    $err->toLog()->toDebug();
+		    //show error in modal
+	    	$this->view->assign('title',"Error!");
+			$message_link = $this->html->getSecureURL('tool/message_manager');
+			$logs_link = $this->html->getSecureURL('tool/error_log');    	
+	    	$this->view->assign('content', sprintf($this->language->get('text_system_error'), $message_link, $logs_link));
+	    	$this->processTemplate('responses/common/viewport_modal.tpl');
 	    }
-
-	    $this->view->assign('content',$output);
-	    $this->processTemplate('responses/common/viewport_modal.tpl');
   	}
 }

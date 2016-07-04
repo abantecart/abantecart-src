@@ -45,15 +45,6 @@
 		<?php echo $listing_grid; ?>
 	</div>
 </div>
-<?php echo $this->html->buildElement(
-		array(
-				'type' => 'modal',
-				'id' => 'viewport_modal',
-				'modal_type' => 'lg',
-                'data_source' =>'ajax',
-				'title' => 'Category Preview',
-		));
-?>
 <script type="text/javascript">
     $('#category_grid_wrapper a.grid_action_expand').click(function(){
         var new_url = '<?php echo $grid_url; ?>&'+$(this).attr('rel');
@@ -72,23 +63,5 @@
 		});
 		$('a[data-target="#embed_modal"]').attr('href', url);
 
-		//do modal edit for action button in grid
-		$("td[aria-describedby=category_grid_action] ul.grid-dropdown>li>a").each(function(){
-			var viewport_url = $(this).attr('data-viewport-href');
-			if(!viewport_url){ return null; }
-			$(this).attr('data-fullmode-href', $(this).attr('href'));
-			$(this).removeAttr('data-viewport-href');
-			$(this).attr('href', viewport_url)
-					.attr('data-toggle','modal')
-					.attr('data-target','#viewport_modal');
-		})
 	}
-	$('#viewport_modal').on('shown.bs.modal', function(e){
-		var target = $(e.relatedTarget);
-
-		$(this).find('.modal-footer a.btn.expand').attr('href',target.attr('data-fullmode-href'));
-		var category_name = target.parents('tr').find('td[aria-describedby="category_grid_name"] label').text();
-		var title = '<?php echo $update_title;?> - '+ category_name;
-		$(this).find('.modal-title').html(title);
-	})
 </script>
