@@ -127,6 +127,12 @@ class ControllerPagesSaleCustomer extends AController {
 								'text' => $this->language->get('text_edit'),
 								'href' => $this->html->getSecureURL('sale/customer/update', '&customer_id=%ID%'),
 								'children' => array_merge(array(
+										'quickview' => array(
+										                'text' => $this->language->get('text_quick_view'),
+										                'href' => $this->html->getSecureURL('sale/customer/update', '&customer_id=%ID%'),
+								                        //quick view port URL
+										                'vhref' => $this->html->getSecureURL('r/common/viewport/modal','&viewport_rt=sale/customer/update&customer_id=%ID%'),
+														),
 						                'details' => array(
 										                'text' => $this->language->get('tab_customer_details'),
 										                'href' => $this->html->getSecureURL('sale/customer/update', '&customer_id=%ID%'),

@@ -90,6 +90,12 @@ class ControllerPagesSaleOrder extends AController{
 								'text'     => $this->language->get('text_edit'),
 								'href'     => $this->html->getSecureURL('sale/order/update', '&order_id=%ID%'),
 								'children' => array_merge(array(
+										'quickview' => array(
+								                'text' => $this->language->get('text_quick_view'),
+								                'href' => $this->html->getSecureURL('sale/order/details', '&order_id=%ID%'),
+						                        //quick view port URL
+								                'vhref' => $this->html->getSecureURL('r/common/viewport/modal','&viewport_rt=sale/order/details&order_id=%ID%'),
+				                                ),
 										'details'  => array(
 												'text' => $this->language->get('tab_order_details'),
 												'href' => $this->html->getSecureURL('sale/order/details', '&order_id=%ID%'),
@@ -238,6 +244,7 @@ class ControllerPagesSaleOrder extends AController{
 
 	public function details(){
 
+		$args = func_get_args();
 		$this->data = array();
 		$fields = array('email', 'telephone', 'fax', 'shipping_method', 'payment_method');
 
@@ -345,7 +352,9 @@ class ControllerPagesSaleOrder extends AController{
 		$this->data['action'] = $this->html->getSecureURL('sale/order/details', '&order_id=' . $order_id);
 		$this->data['cancel'] = $this->html->getSecureURL('sale/order');
 
-		$this->_initTabs('order_details');
+		if($args[0]['viewport_mode'] != 'modal'){
+			$this->_initTabs('order_details');
+		}
 
 		// These only change for insert, not edit. To be added later
 		$this->data['ip'] = $order_info['ip'];
@@ -621,12 +630,17 @@ class ControllerPagesSaleOrder extends AController{
 		$this->data['edit_order_total'] = $this->html->getSecureURL('sale/order/recalc', '&order_id=' . $order_id);
 		$this->data['delete_order_total'] = $this->html->getSecureURL('sale/order/delete_total', '&order_id=' . $order_id);
 
-		$this->addChild('pages/sale/order_summary', 'summary_form', 'pages/sale/order_summary.tpl');
-
 		$this->view->batchAssign($this->data);
 		$this->view->assign('help_url', $this->gen_help_url('order_details'));
 
-		$this->processTemplate('pages/sale/order_details.tpl');
+		if($args[0]['viewport_mode']=='modal'){
+			$tpl = 'responses/viewport/modal/sale/order_details.tpl';
+		}else{
+			$this->addChild('pages/sale/order_summary', 'summary_form', 'pages/sale/order_summary.tpl');
+			$tpl = 'pages/sale/order_details.tpl';
+		}
+
+		$this->processTemplate($tpl);
 
 		//update controller data
 		$this->extensions->hk_UpdateData($this, __FUNCTION__);

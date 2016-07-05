@@ -329,7 +329,7 @@ class ControllerPagesCatalogManufacturer extends AController {
 		));
 
 		$this->view->assign('help_url', $this->gen_help_url('manufacturer_edit') );
-var_dump($args[0]['viewport_mode']);
+
 		if( $args[0]['viewport_mode'] != 'modal' ){
 			$this->addChild('responses/common/resource_library/get_resources_html', 'resources_html', 'responses/common/resource_library_scripts.tpl');
 			$resources_scripts = $this->dispatch(
