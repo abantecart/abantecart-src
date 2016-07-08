@@ -2,8 +2,9 @@
 
 $dirname = dirname(__FILE__);
 $dirname = dirname($dirname);
-$dirname = dirname($dirname).'/public_html';
+define('ABC_TEST_SRC_PATH', $dirname);
 
+$dirname = dirname($dirname).'/public_html';
 define('ABC_TEST_ROOT_PATH', $dirname);
 define('ABC_TEST_HTTP_HOST', 'travis-ci.org');
 define('ABC_TEST_PHP_SELF',  'abantecart/abantecart-src/public_html/index.php');
