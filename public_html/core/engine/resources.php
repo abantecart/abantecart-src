@@ -180,9 +180,9 @@ class AResource{
 	 */
 	public function getIdByName($filename){
 		$sql = "SELECT resource_id
-                FROM " . $this->db->table("resource_descriptions") . " 
-                WHERE name like '%" . $this->db->escape($filename) . "%'
-                ORDER BY language_id";
+				FROM " . $this->db->table("resource_descriptions") . " 
+				WHERE name like '%" . $this->db->escape($filename) . "%'
+				ORDER BY language_id";
 		$query = $this->db->query($sql);
 		return (int)$query->row['resource_id'];
 	}
@@ -209,19 +209,19 @@ class AResource{
 		if ($resource === false){
 			$where = "WHERE rl.resource_id = " . $this->db->escape($resource_id);
 			$sql = "SELECT
-                        rd.*,
-                        COALESCE(rd.resource_path,rdd.resource_path) as resource_path,
-				        COALESCE(rd.resource_code,rdd.resource_code) as resource_code,
-                        rt.type_name,
-                        rt.default_icon
-                    FROM " . $this->db->table("resource_library") . " rl " . "
-                    LEFT JOIN " . $this->db->table("resource_descriptions") . " rd
-                        ON (rl.resource_id = rd.resource_id)
-                    LEFT JOIN " . $this->db->table("resource_descriptions") . " rdd
-                        ON (rl.resource_id = rdd.resource_id AND rdd.language_id = '" . $this->language->getDefaultLanguageID() . "')
-                    LEFT JOIN " . $this->db->table("resource_types") . " rt
-                        ON (rl.type_id = rt.type_id )
-                    " . $where;
+						rd.*,
+						COALESCE(rd.resource_path,rdd.resource_path) as resource_path,
+						COALESCE(rd.resource_code,rdd.resource_code) as resource_code,
+						rt.type_name,
+						rt.default_icon
+					FROM " . $this->db->table("resource_library") . " rl " . "
+					LEFT JOIN " . $this->db->table("resource_descriptions") . " rd
+						ON (rl.resource_id = rd.resource_id)
+					LEFT JOIN " . $this->db->table("resource_descriptions") . " rdd
+						ON (rl.resource_id = rdd.resource_id AND rdd.language_id = '" . $this->language->getDefaultLanguageID() . "')
+					LEFT JOIN " . $this->db->table("resource_types") . " rt
+						ON (rl.type_id = rt.type_id )
+					" . $where;
 
 			$query = $this->db->query($sql);
 			$result = $query->rows;
