@@ -1,7 +1,7 @@
 <phpunit>
   <testsuites>
     <testsuite name="core_libs">
-      <file>tests/phpunit/core/lib/AConfigTest.php</file>
+      <file>core/lib/AConfigTest.php</file>
     </testsuite>
   </testsuites>
 </phpunit>
