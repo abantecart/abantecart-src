@@ -40,8 +40,9 @@ before_script:
 
 # omitting "script:" will default to phpunit
 # use the $DB env variable to determine the phpunit.xml to use
-script: phpunit --configuration ./xxtests/phpunit/phpunit_mysql.xml --coverage-text
+script: phpunit --configuration tests/phpunit/phpunit_$DB.xml --coverage-text
 
 # configure notifications (email, IRC, campfire etc)
 notifications:
   email: "dsuprunenko@abantecart.com"
+  email: "projkov@abantecart.com"
