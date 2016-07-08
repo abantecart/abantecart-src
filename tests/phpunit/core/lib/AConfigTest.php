@@ -92,7 +92,7 @@ class AConfigTest extends AbanteCartTest{
 
 			$this->abc_object = new AConfig($this->registry);
 			$expected = (int)$this->abc_object->get('config_store_id');
-			$this->assertEquals($store['store_id'], $expected);
+			$this->assertEquals($store['store_id'], 'ww'.$expected);
 		}
 		$this->abc_object = null;
 	}
