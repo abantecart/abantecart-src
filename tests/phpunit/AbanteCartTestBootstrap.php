@@ -110,35 +110,5 @@ class AbanteCartTest extends PHPUnit_Framework_TestCase {
 		return $property->getValue($this->response);
 		
 	}	
-	
-/*	public function dispatchAction($route) {
-		
-		// Router
-		if (!empty($route)) {
-			$action = new Action($route);
-		} else {
-			$action = new Action('common/home');
-		}
-		
-		// Dispatch
-		$this->front->dispatch($action, new Action('error/not_found'));
-		
-		return $this->response;
-	}
-	
-	public function loadModelByRoute($route) {
-		$this->load->model($route);		
-		$parts = explode("/",$route);
-		
-		$model = 'model';
-				
-		foreach ($parts as $part) {
-			$model .= "_" . $part;
-		}
-		
-		return $this->$model;
-		
-	}*/
-	
-		
+
 }

@@ -5,7 +5,8 @@ $dirname = dirname($dirname);
 $dirname = dirname($dirname).'/public_html';
 
 define('ABC_TEST_ROOT_PATH', $dirname);
-define('ABC_TEST_PHP_SELF',  '/public_html/index.php');
+define('ABC_TEST_HTTP_HOST', 'travis-ci.org');
+define('ABC_TEST_PHP_SELF',  'abantecart/abantecart-src/public_html/index.php');
 
 //check abantecart config.php
 if(!filesize($dirname.'/system/config.php')){
