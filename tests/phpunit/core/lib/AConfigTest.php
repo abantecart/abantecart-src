@@ -1,6 +1,6 @@
 <?php
 //build environment
-require('AbanteCartTestBootstrap.php');
+require('/home/travis/build/abantecart/abantecart-src/tests/phpunit/AbanteCartTestBootstrap.php');
 
 class AConfigTest extends AbanteCartTest{
 	/**
