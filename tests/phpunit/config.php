@@ -2,7 +2,6 @@
 
 $dirname = dirname(__FILE__);
 $dirname = dirname($dirname);
-define('ABC_TEST_SRC_PATH', $dirname);
 
 $dirname = dirname($dirname).'/public_html';
 define('ABC_TEST_ROOT_PATH', $dirname);

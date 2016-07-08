@@ -1,6 +1,6 @@
 <?php
 //build environment
-require(ABC_TEST_SRC_PATH.'/tests/phpunit/AbanteCartTestBootstrap.php');
+require('../../AbanteCartTestBootstrap.php');
 
 class AConfigTest extends AbanteCartTest{
 	/**
