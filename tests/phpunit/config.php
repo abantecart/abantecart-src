@@ -35,7 +35,7 @@ if(!filesize($dirname.'/system/config.php')){
 	$content .= "// Salt key for oneway encryption of passwords. NOTE: Change of SALT key will cause a loss of all existing users' and customers' passwords!\n";
 	$content .= "define('SALT', 'unit');\n";
 	$content .= "// Encryption key for protecting sensitive information. NOTE: Change of this key will cause a loss of all existing encrypted information!\n";
-	$content .= "define('ENCRYPTION_KEY', '" . randomWord(6) . "');\n";
+	$content .= "define('ENCRYPTION_KEY', '12345');\n";
 
 	$file = fopen($dirname . '/system/config.php', 'w');
 	fwrite($file, $content);
