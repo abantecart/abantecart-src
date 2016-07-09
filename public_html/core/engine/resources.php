@@ -361,11 +361,7 @@ class AResource{
 			//prepend URL and return
 			$http_path = $this->data['http_dir'];
 			if (!$http_path){
-				if (HTTPS === true){
-					$http_path = HTTPS_IMAGE;
-				} else{
-					$http_path = HTTP_IMAGE;
-				}
+				$http_path = HTTPS_IMAGE;
 			}
 			return $http_path . $new_image;
 		}

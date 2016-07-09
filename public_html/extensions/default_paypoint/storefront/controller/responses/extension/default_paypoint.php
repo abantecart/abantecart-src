@@ -102,7 +102,7 @@ class ControllerResponsesExtensionDefaultPaypoint extends AController {
 	
 		$template_data['title'] = sprintf($this->language->get('heading_title'), $this->config->get('store_name'));
 
-		if (!isset($this->request->server['HTTPS']) || ($this->request->server['HTTPS'] != 'on')) {
+		if (HTTPS === true) {
 			$template_data['base'] = HTTP_SERVER;
 		} else {
 			$template_data['base'] = HTTPS_SERVER;

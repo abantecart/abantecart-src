@@ -149,7 +149,7 @@ var init = function() {
 							'<div class="abcmodal-content">' +
 								'<div class="abcmodal-header">' +
 									'<div class="abcmodal-header-store">' +
-									'<?php if($icon) { ?><img src="<?php echo HTTPS_SERVER; ?>resources/<?php echo $icon; ?>"/>&nbsp;<?php } ?>&nbsp;<?php echo $store_name; ?>' +
+									'<?php if($icon) { ?><img src="<?php echo AUTO_SERVER; ?>resources/<?php echo $icon; ?>"/>&nbsp;<?php } ?>&nbsp;<?php echo $store_name; ?>' +
 									'</div><div class="abcmodal-header-menu">' +
 									'<a class="abcmodal-reload" href="#" data-href="<?php echo $account;?>"><?php echo $text_account;?></a>&nbsp;&nbsp;' +
 									'|&nbsp;<a class="abcmodal-reload" href="#" data-href="<?php echo $cart;?>"><?php echo $text_cart;?></a>&nbsp;&nbsp;' +

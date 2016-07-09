@@ -44,7 +44,7 @@ class ControllerCommonHead extends AController {
 			$this->request->deleteCookie('HTTP_IS_RETINA');
 		}
 		
-		if (isset($this->request->server['HTTPS']) && (($this->request->server['HTTPS'] == 'on') || ($this->request->server['HTTPS'] == '1'))) {
+		if (HTTPS === true) {
 			$this->view->assign('base', HTTPS_SERVER);
 		} else {
 			$this->view->assign('base', HTTP_SERVER);

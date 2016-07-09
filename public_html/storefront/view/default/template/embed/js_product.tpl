@@ -30,7 +30,7 @@ if($product['price']){?>
 if($product['rating']){?>
 	html ='';
 	if($('<?php echo $target;?> .abantecart_rating')){
-		html = '<?php echo '<img src="' .HTTPS_SERVER. $this->templateResource('/image/stars_' . (int)$product['rating'] . '.png') . '" alt="' . $product['stars'] . '" />'?>';
+		html = '<?php echo '<img src="' .AUTO_SERVER. $this->templateResource('/image/stars_' . (int)$product['rating'] . '.png') . '" alt="' . $product['stars'] . '" />'?>';
 		$('#<?php echo $target;?> .abantecart_rating').html(html);
 	}
 <?php

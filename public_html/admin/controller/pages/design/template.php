@@ -136,7 +136,7 @@ class ControllerPagesDesignTemplate extends AController{
 			if (is_file(DIR_EXT . $preview_file)){
 				$preview_img = HTTPS_EXT . $preview_file;
 			} else if (is_file('storefront/view/' . $tmpl . '/image/preview.jpg')){
-				$preview_img = HTTPS_SERVER . 'storefront/view/' . $tmpl . '/image/preview.jpg';
+				$preview_img = AUTO_SERVER . 'storefront/view/' . $tmpl . '/image/preview.jpg';
 			} else{
 				$preview_img = HTTPS_IMAGE . 'no_image.jpg';
 			}
@@ -331,7 +331,7 @@ class ControllerPagesDesignTemplate extends AController{
 		if (is_file(DIR_EXT . $preview_file)){
 			$preview_img = HTTPS_EXT . $preview_file;
 		} else if (is_file('storefront/view/' . $tmpl_id . '/image/preview.jpg')){
-			$preview_img = HTTPS_SERVER . 'storefront/view/' . $tmpl_id . '/image/preview.jpg';
+			$preview_img = AUTO_SERVER . 'storefront/view/' . $tmpl_id . '/image/preview.jpg';
 		} else{
 			$preview_img = HTTPS_IMAGE . 'no_image.jpg';
 		}
