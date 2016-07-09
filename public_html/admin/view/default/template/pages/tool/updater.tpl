@@ -79,7 +79,7 @@ if (!$mp_connected){
 	echo $this->html->buildElement(
 			array ('type'       => 'modal',
 			       'id'         => 'amp_modal',
-			       'modal_type' => 'md',
+			       'modal_type' => 'lg',
 			       'title'      => $text_marketplace_connect,
 			       'content'    => '<iframe id="amp_frame" width="100%" height="400px" frameBorder="0"></iframe>
 							<div id="iframe_loading" class="center_div"><i class="fa fa-spinner fa-spin fa-2x"></i></div>
