@@ -1,6 +1,6 @@
 <?php
 //build environment
-require('../../AbanteCartTestBootstrap.php');
+require('/home/travis/build/abantecart/abantecart-src/tests/phpunit/AbanteCartTestBootstrap.php');
 
 class AConfigTest extends AbanteCartTest{
 	/**
@@ -93,8 +93,8 @@ class AConfigTest extends AbanteCartTest{
 			$this->abc_object = new AConfig($this->registry);
 			$expected = (int)$this->abc_object->get('config_store_id');
 			$this->assertEquals($store['store_id'], $expected);
+			$this->abc_object = null;
 		}
-		$this->abc_object = null;
 	}
 
 }

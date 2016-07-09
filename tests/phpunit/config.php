@@ -2,10 +2,11 @@
 
 $dirname = dirname(__FILE__);
 $dirname = dirname($dirname);
-$dirname = dirname($dirname).'/public_html';
 
+$dirname = dirname($dirname).'/public_html';
 define('ABC_TEST_ROOT_PATH', $dirname);
-define('ABC_TEST_PHP_SELF',  '/public_html/index.php');
+define('ABC_TEST_HTTP_HOST', 'travis-ci.org');
+define('ABC_TEST_PHP_SELF',  'abantecart/abantecart-src/public_html/index.php');
 
 //check abantecart config.php
 if(!filesize($dirname.'/system/config.php')){
@@ -34,7 +35,7 @@ if(!filesize($dirname.'/system/config.php')){
 	$content .= "// Salt key for oneway encryption of passwords. NOTE: Change of SALT key will cause a loss of all existing users' and customers' passwords!\n";
 	$content .= "define('SALT', 'unit');\n";
 	$content .= "// Encryption key for protecting sensitive information. NOTE: Change of this key will cause a loss of all existing encrypted information!\n";
-	$content .= "define('ENCRYPTION_KEY', '" . randomWord(6) . "');\n";
+	$content .= "define('ENCRYPTION_KEY', '12345');\n";
 
 	$file = fopen($dirname . '/system/config.php', 'w');
 	fwrite($file, $content);

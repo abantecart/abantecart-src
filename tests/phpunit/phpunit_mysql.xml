@@ -1,7 +1,9 @@
-<phpunit>
-  <testsuites>
-    <testsuite name="core_libs">
-      <file>tests/phpunit/core/lib/AConfigTest.php</file>
-    </testsuite>
-  </testsuites>
+<phpunit
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		xsi:noNamespaceSchemaLocation="http://schema.phpunit.de/4.5/phpunit.xsd">
+	<testsuites>
+		<testsuite name="core_libs">
+			<file>core/lib/AConfigTest.php</file>
+		</testsuite>
+	</testsuites>
 </phpunit>
