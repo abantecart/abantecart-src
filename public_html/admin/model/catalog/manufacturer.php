@@ -27,6 +27,8 @@ class ModelCatalogManufacturer extends Model {
 	 * @return int
 	 */
 	public function addManufacturer($data) {
+		$language_id = (int)$this->language->getContentLanguageID();
+
       	$this->db->query("INSERT INTO " . $this->db->table("manufacturers") . " SET name = '" . $this->db->escape($data['name']) . "', sort_order = '" . (int)$data['sort_order'] . "'");
 		
 		$manufacturer_id = $this->db->getLastId();
@@ -37,27 +39,51 @@ class ModelCatalogManufacturer extends Model {
 			}
 		}
 		
-		if ($data['keyword']) {
-			$seo_key = SEOEncode($data['keyword'],
-								'manufacturer_id',
-								$manufacturer_id);
-		}else {
-			//Default behavior to save SEO URL keword from manufacturer name 
-			$seo_key = SEOEncode( $data['name'],
-									'manufacturer_id',
-									$manufacturer_id);
+		if ( $data['keyword'] && !is_array($data['keyword']) ) {
+			$seo_keys = array (
+						$language_id => array (
+								'keyword' => SEOEncode($data['keyword'],'manufacturer_id', $manufacturer_id)
+						));
+
+		}else if( is_array($data['keyword']) ){
+			$all_languages = $this->language->getAvailableLanguages();
+			$all_ids = array();
+			foreach($all_languages as $l){
+				$all_ids[] = $l['language_id'];
+			}
+			foreach($data['keyword'] as $lang_id=>$seo_key){
+				if(!in_array($lang_id, $all_ids)){
+					continue;
+				}
+				$seo_keys[(int)$lang_id ]  = array(
+											'keyword' => SEOEncode($seo_key,'manufacturer_id', $manufacturer_id)
+				);
+			}
+		}else{
+			$seo_keys = array (
+					$language_id => array (
+							'keyword' => SEOEncode($data['name'],'manufacturer_id', $manufacturer_id)
+					));
 		}
 
-		if($seo_key){
-			$this->language->replaceDescriptions('url_aliases',
-												array('query' => "manufacturer_id=" . (int)$manufacturer_id),
-												array((int)$this->session->data['content_language_id'] => array('keyword'=>$seo_key)));
-		}else{
+
+		if($seo_keys){
+			foreach($seo_keys as $lang_id => $seo_key){
+				$this->language->replaceDescriptions('url_aliases',
+						array ('query'       => "manufacturer_id=" . (int)$manufacturer_id,
+						       'language_id' => $lang_id),
+						array($lang_id  => $seo_key)
+				);
+			}
+		} else{
 			$this->db->query("DELETE
-							FROM " . $this->db->table("url_aliases") . " 
+							FROM " . $this->db->table("url_aliases") . "
 							WHERE query = 'manufacturer_id=" . (int)$manufacturer_id . "'
-								AND language_id = '".(int)$this->session->data['content_language_id']."'");
+								AND language_id = '" . (int)$language_id . "'");
 		}
+
+
+
 
 		$this->cache->remove('manufacturer');
 

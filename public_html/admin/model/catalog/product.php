@@ -84,7 +84,6 @@ class ModelCatalogProduct extends Model{
 			reset($data['product_description']);
 		}
 
-
 		if($data['featured']){
 			$this->setFeatured($product_id, true);
 		}

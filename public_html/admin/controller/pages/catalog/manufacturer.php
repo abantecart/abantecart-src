@@ -191,6 +191,8 @@ class ControllerPagesCatalogManufacturer extends AController {
 
 	private function _getForm( $args = array() ) {
 
+		$viewport_mode = isset($args[0]['viewport_mode']) ? $args[0]['viewport_mode'] : '';
+
 		$this->view->assign('token', $this->session->data['token']);
  		$this->view->assign('error_warning', $this->error['warning']);
  		$this->view->assign('error_name', $this->error['name']);
@@ -330,7 +332,7 @@ class ControllerPagesCatalogManufacturer extends AController {
 
 		$this->view->assign('help_url', $this->gen_help_url('manufacturer_edit') );
 
-		if( $args[0]['viewport_mode'] != 'modal' ){
+		if( $viewport_mode != 'modal' ){
 			$this->addChild('responses/common/resource_library/get_resources_html', 'resources_html', 'responses/common/resource_library_scripts.tpl');
 			$resources_scripts = $this->dispatch(
 					'responses/common/resource_library/get_resources_scripts',

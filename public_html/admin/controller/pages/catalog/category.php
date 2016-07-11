@@ -284,7 +284,7 @@ class ControllerPagesCatalogCategory extends AController {
 	}
 
 	private function _getForm($args = array()) {
-
+		$viewport_mode = isset($args[0]['viewport_mode']) ? $args[0]['viewport_mode'] : '';
 		$content_language_id = $this->language->getContentLanguageID();
 
 		$this->view->assign('error_warning', $this->error['warning']);
@@ -429,7 +429,7 @@ class ControllerPagesCatalogCategory extends AController {
 						'multilingual' => true,
 				));
 		//no description edit for modal view
-		if($args[0]['viewport_mode'] !='modal'){
+		if($viewport_mode !='modal'){
 			$this->data['form']['fields']['general']['description'] = $form->getFieldHtml(
 				array('type' => 'texteditor',
 						'name' => 'category_description[' . $content_language_id . '][description]',
@@ -517,7 +517,7 @@ class ControllerPagesCatalogCategory extends AController {
 
 		$this->view->assign('current_url', $this->html->currentURL());
 
-		if($args[0]['viewport_mode']=='modal'){
+		if($viewport_mode == 'modal'){
 			$tpl = 'responses/viewport/modal/catalog/category_form.tpl';
 		}else{
 			$tpl = 'pages/catalog/category_form.tpl';

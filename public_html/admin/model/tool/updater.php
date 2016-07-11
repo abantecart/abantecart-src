@@ -125,7 +125,7 @@ class ModelToolUpdater extends Model{
 					continue 1;
 				}
 				//skip not supported by cart
-				if(!in_array(VERSION, $version_info['cart_versions'])){
+				if(!$version_info['cart_versions'] || !in_array(VERSION, $version_info['cart_versions'])){
 					continue;
 				}
 				//skip old or current versions

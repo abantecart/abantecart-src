@@ -167,8 +167,7 @@ function getUniqueSeoKeyword($seo_key, $object_key_name='', $object_id=0){
 	$db = $registry->get('db');
 	$sql = "SELECT `keyword`
 			FROM ".$db->table('url_aliases')."
-			WHERE query like '".$db->escape($object_key_name)."=%'
-					AND `keyword` like '".$db->escape($seo_key)."%'";
+			WHERE `keyword` like '".$db->escape($seo_key)."%'";
 	if($object_id){
 		// exclude keyword of given object (product, category, content etc)
 		$sql .= " AND query<>'".$db->escape($object_key_name)."=".$object_id."'";

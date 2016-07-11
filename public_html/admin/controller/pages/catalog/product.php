@@ -343,6 +343,8 @@ class ControllerPagesCatalogProduct extends AController {
 
   	private function _getForm($args = array()) {
 
+	    $viewport_mode = isset($args[0]['viewport_mode']) ? $args[0]['viewport_mode'] : '';
+
 		if (isset($this->request->get['product_id']) && $this->request->is_GET()) {
 			$product_id = $this->request->get['product_id'];
       		$product_info = $this->model_catalog_product->getProduct($product_id);
@@ -611,7 +613,7 @@ class ControllerPagesCatalogProduct extends AController {
 			'value' => $this->data['product_description']['blurb'],
 			'multilingual' => true,
 		));
-	    if( $args[0]['viewport_mode'] != 'modal' ){
+	    if( $viewport_mode != 'modal' ){
 		    $this->data['form']['fields']['general']['description'] = $form->getFieldHtml(array (
 				    'type'         => 'texteditor',
 				    'name'         => 'product_description[description]',
@@ -883,7 +885,7 @@ class ControllerPagesCatalogProduct extends AController {
 	    $this->data['language_code'] = $this->session->data['language'];
 	    $this->data['help_url'] = $this->gen_help_url('product_edit');
 
-	    if( $args[0]['viewport_mode'] == 'modal' ){
+	    if( $viewport_mode == 'modal' ){
             $tpl = 'responses/viewport/modal/catalog/product_form.tpl';
         }else{
 		    $this->addChild('responses/common/resource_library/get_resources_html', 'resources_html', 'responses/common/resource_library_scripts.tpl');

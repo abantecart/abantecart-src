@@ -245,6 +245,8 @@ class ControllerPagesSaleOrder extends AController{
 	public function details(){
 
 		$args = func_get_args();
+		$viewport_mode = isset($args[0]['viewport_mode']) ? $args[0]['viewport_mode'] : '';
+
 		$this->data = array();
 		$fields = array('email', 'telephone', 'fax', 'shipping_method', 'payment_method');
 
@@ -352,7 +354,7 @@ class ControllerPagesSaleOrder extends AController{
 		$this->data['action'] = $this->html->getSecureURL('sale/order/details', '&order_id=' . $order_id);
 		$this->data['cancel'] = $this->html->getSecureURL('sale/order');
 
-		if($args[0]['viewport_mode'] != 'modal'){
+		if($viewport_mode != 'modal'){
 			$this->_initTabs('order_details');
 		}
 
@@ -633,7 +635,7 @@ class ControllerPagesSaleOrder extends AController{
 		$this->view->batchAssign($this->data);
 		$this->view->assign('help_url', $this->gen_help_url('order_details'));
 
-		if($args[0]['viewport_mode']=='modal'){
+		if($viewport_mode == 'modal'){
 			$tpl = 'responses/viewport/modal/sale/order_details.tpl';
 		}else{
 			$this->addChild('pages/sale/order_summary', 'summary_form', 'pages/sale/order_summary.tpl');

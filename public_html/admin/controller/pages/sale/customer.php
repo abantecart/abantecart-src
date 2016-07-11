@@ -332,8 +332,8 @@ class ControllerPagesSaleCustomer extends AController {
 		$this->extensions->hk_UpdateData($this, __FUNCTION__);
 	}
 
-	private function _getForm($args) {
-
+	private function _getForm($args = array()) {
+		$viewport_mode = isset($args[0]['viewport_mode']) ? $args[0]['viewport_mode'] : '';
 		$customer_id = $this->request->get['customer_id'];
 
 		$this->data['token'] = $this->session->data['token'];
@@ -511,7 +511,7 @@ class ControllerPagesSaleCustomer extends AController {
 		}
 
 		foreach ($required_input as $f) {
-			if($args[0]['viewport_mode']=='modal' && in_array($f, array('password'))){
+			if($viewport_mode=='modal' && in_array($f, array('password'))){
 				continue;
 			}
 			$this->data['form']['fields']['details'][$f] = $form->getFieldHtml(array(
@@ -573,7 +573,7 @@ class ControllerPagesSaleCustomer extends AController {
 		$this->view->batchAssign($this->data);
 
 
-		if($args[0]['viewport_mode']=='modal'){
+		if($viewport_mode == 'modal'){
 			$tpl = 'responses/viewport/modal/sale/customer_form.tpl';
 		}else{
 			$tpl = 'pages/sale/customer_form.tpl';
