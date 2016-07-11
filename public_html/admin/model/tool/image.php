@@ -40,7 +40,8 @@ class ModelToolImage extends Model {
 			$orig_image = $filename;
 			$new_image = 'thumbnails/' . substr($filename, 0, strrpos($filename, '.')) . '-' . $width . 'x' . $height . '.' . $extension;
 			if(!check_resize_image($orig_image, $new_image, $width, $height, $this->config->get('config_image_quality'))) {
-				//???? report error and return
+				$err = new AError('Image Resize Error: file "'.$filename.'" does not exists or new filename is empty!');
+				$err->toLog()->toDebug()->toMessages();
 			}
 		}
 
