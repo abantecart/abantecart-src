@@ -341,7 +341,7 @@ class ControllerPagesCatalogProduct extends AController {
         $this->extensions->hk_UpdateData($this,__FUNCTION__);
   	}
 
-  	private function _getForm($args) {
+  	private function _getForm($args = array()) {
 
 		if (isset($this->request->get['product_id']) && $this->request->is_GET()) {
 			$product_id = $this->request->get['product_id'];

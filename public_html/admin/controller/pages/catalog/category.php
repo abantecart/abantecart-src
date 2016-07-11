@@ -283,7 +283,7 @@ class ControllerPagesCatalogCategory extends AController {
 		$this->extensions->hk_UpdateData($this, __FUNCTION__);
 	}
 
-	private function _getForm($args) {
+	private function _getForm($args = array()) {
 
 		$content_language_id = $this->language->getContentLanguageID();
 

@@ -189,7 +189,7 @@ class ControllerPagesCatalogManufacturer extends AController {
         $this->extensions->hk_UpdateData($this,__FUNCTION__);
   	}
 
-	private function _getForm($args) {
+	private function _getForm( $args = array() ) {
 
 		$this->view->assign('token', $this->session->data['token']);
  		$this->view->assign('error_warning', $this->error['warning']);
