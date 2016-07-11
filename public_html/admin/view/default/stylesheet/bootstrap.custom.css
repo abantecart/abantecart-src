@@ -772,6 +772,9 @@ h4, .h4 {
 .modal-dialog {
    border: 0;
 }
+.modal-dialog.modal-lg {
+   width: 1000px;
+}
 
 .modal-content {
    -moz-border-radius: 2px;

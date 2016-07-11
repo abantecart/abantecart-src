@@ -9,6 +9,31 @@
 	<?php if ($customer_id) { ?>
 	<div class="panel-heading col-xs-12">
 		<div class="primary_content_actions pull-left">
+		
+			<div class="btn-group">
+				<button class="btn btn-default dropdown-toggle tooltips" data-original-title="<?php echo $text_edit_address; ?>" title="<?php echo $text_edit_address; ?>" type="button" data-toggle="dropdown">
+					<i class="fa fa-book"></i>
+					<?php echo $current_address; ?><span class="caret"></span>
+				</button>
+				<ul class="dropdown-menu">
+					<?php foreach ($addresses as $address) { ?>
+						<li><a href="<?php echo $address['href'] ?>"
+							   class="<?php echo $address['title'] == $current_address ? 'disabled' : ''; ?>">
+							   <?php if ($address['default']) { ?>
+							   <i class="fa fa-check"></i> 
+							   <?php } ?>
+							   <?php echo $address['title'] ?>
+							   </a>
+						</li>
+					<?php } ?>
+				</ul>
+			</div>
+			<div class="btn-group mr20 toolbar">
+				<a class="actionitem btn btn-primary tooltips" href="<?php echo $add_address_url; ?>" title="<?php echo $text_add_address; ?>">
+				<i class="fa fa-plus fa-fw"></i>
+				</a>
+			</div>	
+					
 			<div class="btn-group mr10 toolbar">
 				<a class="btn btn-white disabled"><?php echo $balance; ?></a>
 				<a target="_blank"
@@ -31,10 +56,9 @@
 				   data-toggle="tooltip"
 				   title="<?php echo $actas->text; ?>"
 					<?php
-					//for additional store show warning about login in that store's admin (because of crossdomain restriction)
-					if($warning_actonbehalf){ ?>
+					if( $warning_actonbehalf ){ ?>
 						data-confirmation="delete"
-						data-confirmation-text="<?php echo $warning_actonbehalf;?>"
+						data-confirmation-text="<?php echo $warning_actonbehalf; ?>"
 					<?php } ?>
 				   data-original-title="<?php echo $actas->text; ?>"><i class="fa fa-male"></i>
 				</a>
@@ -87,13 +111,25 @@
 				<span class="help-block field_err"><?php echo $error[$name]; ?></span>
 			<?php } ?>
 		</div>
-		<?php } ?><!-- <div class="fieldset"> -->
+		<?php } ?>
 	</div>
 <?php } ?>
+
+	<div class="panel-footer col-xs-12">
+		<div class="text-center">
+			<a class="btn btn-primary on_save_close">
+				<i class="fa fa-save"></i> <?php echo $button_save_and_close; ?>
+			</a>&nbsp;
+			<a class="btn btn-default" data-dismiss="modal" href="<?php echo $cancel; ?>">
+				<i class="fa fa-close"></i> <?php echo $button_close; ?>
+			</a>
+		</div>
+	</div>
 
 </form>
 
 </div>
+
 <script language="JavaScript" type="application/javascript">
 
 	$('#viewport_modal').on('shown.bs.modal', function(e){
@@ -101,4 +137,27 @@
 		$(this).find('.modal-header a.btn').attr('href',target.attr('data-fullmode-href'));
 	});
 
+	$('#<?php echo $form['form_open']->name; ?>').submit(function () {
+		save_changes();
+		return false;
+	});
+	//save and close modal
+	$('.on_save_close').on('click', function () {
+		var $btn = $(this);
+		save_changes();
+		$btn.closest('.modal').modal('hide');
+		return false;
+	});
+
+	function save_changes() {
+		$.ajax({
+			url: '<?php echo $update; ?>',
+			type: 'POST',
+			data: $('#<?php echo $form['form_open']->name; ?>').serializeArray(),
+			dataType: 'json',
+			success: function (data) {
+				success_alert(<?php js_echo($text_saved); ?>, true);
+			}
+		});
+	}
 </script>

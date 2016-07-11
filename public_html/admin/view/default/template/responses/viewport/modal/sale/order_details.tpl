@@ -24,8 +24,7 @@
 				<?php if ($invoice_id) {
 					echo $invoice_id;
 				} else {
-					$button_invoice->style = 'btn btn-info';
-					echo $button_invoice;
+					echo '--';
 				} ?>
 			</p></div>
 		</div>
@@ -149,7 +148,6 @@
 	<table id="products" class="table ">
 		<thead>
 		<tr>
-			<td></td>
 			<td class="left"><?php echo $column_product; ?></td>
 			<td class="right"><?php echo $column_quantity; ?></td>
 			<td class="right"><?php echo $column_price; ?></td>
@@ -161,29 +159,9 @@
 		<?php foreach ($order_products as $order_product) { ?>
 			<tbody id="product_<?php echo $order_product_row; ?>">
 			<tr <?php if (!$order_product['product_status']) { ?>class="alert alert-warning"<?php } ?>>
-				<td>
-					<a class="remove btn btn-xs btn-danger-alt tooltips"
-					   data-original-title="<?php echo $button_delete; ?>"
-					   data-order-product-row="<?php echo $order_product_row; ?>">
-						<i class="fa fa-minus-circle"></i>
-					</a>
-					<?php if ($order_product['product_status']) { ?>
-					<a class="edit_product btn btn-xs btn-info-alt tooltips"
-					   data-original-title="<?php echo $text_edit; ?>"
-					   data-order-product-id="<?php echo $order_product['order_product_id']; ?>">
-						<i class="fa fa-pencil"></i>
-					</a>
-					<?php } ?>
-				</td>
 				<td class="left">
 					<a target="_blank" href="<?php echo $order_product['href']; ?>"><?php echo $order_product['name']; ?>
 						(<?php echo $order_product['model']; ?>)</a>
-					<input type="hidden"
-						   name="product[<?php echo $order_product_row; ?>][order_product_id]"
-						   value="<?php echo $order_product['order_product_id']; ?>"/>
-					<input type="hidden"
-						   name="product[<?php echo $order_product_row; ?>][product_id]"
-						   value="<?php echo $order_product['product_id']; ?>"/>
 					<?php
 					if($order_product['option']){ ?>
 						<dl class="dl-horizontal product-options-list-sm">
@@ -192,22 +170,11 @@
 						<dt><small title="<?php echo $option['title']?>">- <?php echo $option['name']; ?></small></dt><dd><small title="<?php echo $option['title']?>"><?php echo $option['value']; ?></small></dd>
 					<?php }?>
 						</dl>
-					<?php } ?></td>
-				<td class="right">
-						<input class="afield no-save" type="text"
-						<?php if (!$order_product['product_status']) { ?>
-							readonly
-						<?php } ?>
-							name="product[<?php echo $order_product_row; ?>][quantity]"
-							value="<?php echo $order_product['quantity']; ?>"
-							size="4"/></td>
-				<td><input class="no-save pull-right" type="text"
-				           readonly
-						   name="product[<?php echo $order_product_row; ?>][price]"
-						   value="<?php echo $order_product['price']; ?>"/></td>
-				<td><input readonly class="no-save pull-right" type="text"
-						   name="product[<?php echo $order_product_row; ?>][total]"
-						   value="<?php echo $order_product['total']; ?>"/></td>
+					<?php } ?>
+				</td>
+				<td class="right"><?php echo $order_product['quantity']; ?></td>
+				<td><?php echo $order_product['price']; ?></td>
+				<td><?php echo $order_product['total']; ?></td>
 			</tr>
 			</tbody>
 			<?php $order_product_row++ ?>
@@ -221,96 +188,27 @@
 		$total = count($totals); ?>
 		<?php foreach ($totals as $total_row) { ?>
 			<tr>
-				<td colspan="4" class="right">
+				<td colspan="3" class="right">
 				<span class="pull-right">
 					<?php echo $total_row['title']; ?>
-					<?php if (!in_array($total_row['type'] , array('subtotal','total'))) { ?>
-						<?php if (!$total_row['unavailable']) { ?>
-						<a class="reculc_total btn btn-xs btn-info-alt tooltips"
-						   	data-original-title="<?php echo $text_recalc; ?>"
-					   		data-order-total-id="<?php echo $total_row['order_total_id']; ?>">
-					    	<i class="fa fa-refresh"></i>
-						</a>
-						<?php } ?>
-						<?php if ($total_key_count[$total_row['key']] == 1 ) { // do not alloe delete of duplicate keys?>
-						<a class="remove btn btn-xs btn-danger-alt tooltips"
-						   data-original-title="<?php echo $button_delete; ?>"
-						   data-confirmation="delete" onclick="deleteTotal('<?php echo $total_row['order_total_id']; ?>');">
-							<i class="fa fa-minus-circle"></i>
-						</a>
-						<?php } ?>
-					<?php } ?>
 				</span>
 				</td>
 				<td>
 					<?php if (!in_array($total_row['type'] , array('total'))) { ?>
-						<input type="text" class="col-sm-2 col-xs-12 no-save <?php echo $total_row['type']; ?>"
-									   name="totals[<?php echo $total_row['order_total_id']; ?>]"
-									   value="<?php echo $total_row['text']; ?>"/>
+						<?php echo $total_row['text']; ?>
 					<?php } else { ?>
-					<b class="<?php echo $total_row['type']; ?>" rel="totals[<?php echo $total_row['order_total_id']; ?>]"><?php echo $total_row['text']; ?>
-					</b>	
-					<input type="hidden" class="hidden_<?php echo $total_row['type']; ?>" name="totals[<?php echo $total_row['order_total_id']; ?>]" value="<?php echo $total_row['text']; ?>"/>
+						<b class="<?php echo $total_row['type']; ?>" rel="totals[<?php echo $total_row['order_total_id']; ?>]">
+							<?php echo $total_row['text']; ?>
+						</b>	
 					<?php } ?>
-					
 					<?php $count++; ?>
 				</td>
 			</tr>
 			<?php $order_total_row++ ?>
 		<?php } ?>
-		<?php if ($totals_add) {?>
-			<tr>
-				<td colspan="4" class="right"><span class="pull-right"><?php echo $text_add; ?></span></td>
-				<td>
-					<b rel="totals[<?php echo $total_row['order_total_id']; ?>]">
-					<a class="add_totals btn btn-xs btn-info-alt tooltips"
-					   data-original-title="<?php echo $text_add; ?>"
-					   data-order-id="<?php echo $order_id; ?>">
-					    <i class="fa fa-plus-circle"></i>
-					    
-					    <?php foreach ($totals_add as $total_row) { ?>
-					    <div class="hidden <?php echo $total_row['key']; ?>">
-					    	<div class="row">
-					    	<input type="hidden" name="key" value="<?php echo $total_row['key']; ?>"/>
-					    	<input type="hidden" name="type" value="<?php echo $total_row['type']; ?>"/>
-					    	<input type="hidden" name="sort_order" value="<?php echo $total_row['sort_order']; ?>"/>
-					    	<div class="col-sm-3 col-xs-12">
-					    		<span class="pull-right"><?php echo $text_order_total_title; ?></span>
-					    	</div>
-					    	<div class="col-sm-4 col-xs-12">
-					    		<input type="text" class="col-sm-2 col-xs-12 no-save"
-					    		   name="title" value="<?php echo $total_row['title']; ?>"/>
-					    	</div>
-					    	<div class="col-sm-2 col-xs-12">
-					    		<span class="pull-right"><?php echo $text_order_total_amount; ?></span>
-					    	</div>
-					    	<div class="col-sm-3 col-xs-12">
-					    		<input type="text" class="col-sm-2 col-xs-12 no-save"
-					    		   name="text" value="<?php echo $total_row['text']; ?>"/>
-					    	</div>
-					    	</div>
-					    </div>
-					    <?php } ?>
-					</a>
-				</td>
-			</tr>
-		<?php } ?>		
 		</tbody>
 	</table>
 
-	<?php if($add_product){?>
-	<div class="container-fluid form-inline">
-		<div class="list-inline col-sm-12"><?php echo $entry_add_product; ?></div>
-		<div class="list-inline input-group afield col-sm-7 col-xs-9">
-			<?php echo $add_product;?>
-		</div>
-		<div class="list-inline input-group afield col-sm-offset-0 col-sm-3 col-xs-1">
-			<a class="add btn btn-success tooltips"
-			   data-original-title="<?php echo $text_add; ?>">
-				<i class="fa fa-plus-circle fa-lg"></i></a>
-		</div>
-	</div>
-	<?php } ?>
 	</div>
 
 	<div class="panel-footer col-xs-12">
@@ -318,15 +216,38 @@
 			<a class="btn btn-primary on_save_close">
 				<i class="fa fa-save"></i> <?php echo $button_save_and_close; ?>
 			</a>&nbsp;
-			<button class="btn btn-primary">
-				<i class="fa fa-save"></i> <?php echo $form['submit']->text; ?>
-			</button>
-			&nbsp;
 			<a class="btn btn-default" data-dismiss="modal" href="<?php echo $cancel; ?>">
-				<i class="fa fa-refresh"></i> <?php echo $form['cancel']->text; ?>
+				<i class="fa fa-close"></i> <?php echo $button_close; ?>
 			</a>
 		</div>
 	</div>
 	</form>
 
 </div>
+
+<script language="JavaScript" type="application/javascript">
+
+	$('#<?php echo $form['form_open']->name; ?>').submit(function () {
+		save_changes();
+		return false;
+	});
+	//save and close modal
+	$('.on_save_close').on('click', function () {
+		var $btn = $(this);
+		save_changes();
+		$btn.closest('.modal').modal('hide');
+		return false;
+	});
+
+	function save_changes() {
+		$.ajax({
+			url: '<?php echo $update; ?>',
+			type: 'POST',
+			data: $('#<?php echo $form['form_open']->name; ?>').serializeArray(),
+			dataType: 'json',
+			success: function (data) {
+				success_alert(<?php js_echo($text_saved); ?>, true);
+			}
+		});
+	}
+</script>

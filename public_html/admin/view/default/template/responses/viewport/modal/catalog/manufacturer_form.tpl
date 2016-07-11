@@ -54,12 +54,8 @@
 			<a class="btn btn-primary on_save_close">
 				<i class="fa fa-save"></i> <?php echo $button_save_and_close; ?>
 			</a>&nbsp;
-			<button class="btn btn-primary">
-				<i class="fa fa-save"></i> <?php echo $form['submit']->text; ?>
-			</button>
-			&nbsp;
 			<a class="btn btn-default" data-dismiss="modal" href="<?php echo $cancel; ?>">
-				<i class="fa fa-refresh"></i> <?php echo $form['cancel']->text; ?>
+				<i class="fa fa-close"></i> <?php echo $button_close; ?>
 			</a>
 		</div>
 	</div>
@@ -94,7 +90,7 @@
 			data: $('#<?php echo $form['form_open']->name; ?>').serializeArray(),
 			dataType: 'json',
 			success: function (data) {
-				success_alert(<?php js_echo($text_saved); ?>);
+				success_alert(<?php js_echo($text_saved); ?>, true);
 			}
 		});
 	}
