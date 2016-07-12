@@ -159,6 +159,7 @@ class ControllerPagesCheckoutSuccess extends AController{
 			unset($this->session->data['processed_order_id']);
 
 			$text_message = sprintf($this->language->get('text_message_account'),
+										$order_id,
 										$this->html->getSecureURL('account/invoice','&order_id='.$order_id),
 										$this->html->getURL('content/contact'));
 
