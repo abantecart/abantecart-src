@@ -518,7 +518,7 @@ class ControllerPagesSaleCustomer extends AController {
 					'type' => ($f == 'password' ? 'passwordset' : 'input'),
 					'name' => $f,
 					'value' => $this->data[$f],
-					'required' => (in_array($f, array('password', 'fax')) ? false : true),
+					'required' => (in_array($f, array('password', 'fax','telephone')) ? false : true),
 					'style' => ($f == 'password' ? 'small-field' : '')
 			));
 		}
