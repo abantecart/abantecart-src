@@ -347,13 +347,15 @@ class AResource{
 			$sub_path = 'thumbnails/'.dirname($rsrc_info['resource_path']).'/'.$name.'-'.$resource_id.'-'.$width.'x'.$height;
 			$new_image = $sub_path.'.'.$extension;
 			if(!check_resize_image($origin_path, $new_image, $width, $height, $this->config->get('config_image_quality'))){
-				//????? report error
+				$err= new AError('Resize image error. File: '.$origin_path);
+				$err->toLog()->toDebug()->toMessages();
 			}
 			//do retina version
 			if ($this->config->get('config_retina_enable')){
 				$new_image2x = $sub_path.'@2x.'.$extension;
 				if(!check_resize_image($origin_path, $new_image2x, $width * 2, $height * 2, $this->config->get('config_image_quality'))) {
-					//????? report error
+					$err= new AError('Resize image error. File: '.$origin_path);
+					$err->toLog()->toDebug()->toMessages();
 				}
 			}
 			//hook here to affect this image
