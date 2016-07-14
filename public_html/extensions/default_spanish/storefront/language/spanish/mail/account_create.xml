@@ -26,9 +26,7 @@
 	</definition>
 	<definition>
 		<key>text_activate</key>
-		<value><![CDATA[Antes de poder activar su cuenta un último paso se debe tomar para completar su registro.
-		Tenga en cuenta - debe completar este último paso para convertirse en un usuario registrado. Usted sólo tendrá que visitar este URL una vez para activar tu cuenta.
-		Para completar su registro, visite la URL:
-		%s ]]></value>
+		<value><![CDATA[Antes de poder activar su cuenta un último paso se debe tomar para completar el registro. <br>
+		Debe completar este último paso para convertirse en un usuario registrado. Por favor, haga clic en el siguiente enlace para activar su cuenta %s ]]></value>
 	</definition>
 </definitions>
