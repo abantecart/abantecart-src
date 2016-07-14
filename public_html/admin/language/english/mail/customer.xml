@@ -14,10 +14,10 @@
   </definition>
   <definition>
     <key>text_services</key>
-    <value><![CDATA[Upon logging in, you will be able to access other services including reviewing past orders, printing invoices and editing your account information.]]></value>
+    <value><![CDATA[Once you logging in, you will be able to access, your wishlist, order history, printing invoices and editing your account information.]]></value>
   </definition>
   <definition>
     <key>text_thanks</key>
-    <value><![CDATA[Thanks,]]></value>
+    <value><![CDATA[Thank you,]]></value>
   </definition>
 </definitions>

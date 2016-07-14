@@ -14,7 +14,7 @@
   </definition>
   <definition>
     <key>text_activate</key>
-    <value><![CDATA[<p>Thank you for registering with %s!</p><p>You will be notified by email about your account activation.</p><p>If you have ANY questions about the operation of this online shop, please <a href="%s">contact the store owner</a>.</p>]]></value>
+    <value><![CDATA[<p>Thank you for registering with %s!</p><p>You will be notified via email with your account activation instructions. You must click the link ptovided in the email to activate your account. If you do not recieve enail, please check in your junk or spam folders. </p><p>If you have ANY questions about the operation of this online shop, please <a href="%s">contact the store owner</a>.</p>]]></value>
   </definition>
   <definition>
     <key>text_account</key>
