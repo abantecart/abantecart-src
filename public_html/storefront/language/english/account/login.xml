@@ -70,6 +70,6 @@
   </definition>
   <definition>
     <key>text_resend_activation_email</key>
-    <value><![CDATA[Error: Your activation code not found. To send new code please click this <a href=" %s ">link</a>]]></value>
+    <value><![CDATA[Error: Your email address was not yet confirmed. To resend new confirmation email please click this <a href=" %s ">link</a>]]></value>
   </definition>
 </definitions>

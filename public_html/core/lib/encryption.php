@@ -74,6 +74,23 @@ final class AEncryption {
 	}
 
 	/*
+	* Generate random token
+	* Note: Starting PHP7 random_bytes() can be used
+	*/
+	static function genToken($chars = 32){	
+		$token = '';
+		$codeAlphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+		$codeAlphabet.= "abcdefghijklmnopqrstuvwxyz";
+		$codeAlphabet.= "0123456789";
+		$max = strlen($codeAlphabet) - 1;
+		for ($i = 0; $i < $chars; $i++) {
+		    $token .= $codeAlphabet[mt_rand(0, $max)];
+		}
+		return $token;
+	}
+
+
+	/*
 	* Encoding of URL for marketplace access
 	*/
 	static function addEncoded_stid($url){

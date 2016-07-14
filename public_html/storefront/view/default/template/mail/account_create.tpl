@@ -15,16 +15,29 @@
 		<td><?php echo $text_welcome;?></td>
 	</tr>
 	<tr>
-		<td><?php
-			echo $text_activate.'<br>';
-			echo $text_login.'<br>';
-			echo $text_approval.'<br>';
-			echo '<br>'.$text_login_later.'<br>';
-			echo '<br>'.$text_thanks.'<br>';
-			echo $store_name.'<br>';
-
-
-			?></td>
+		<td>&nbsp;</td>
+	</tr>
+	<tr>
+		<td>
+		<?php
+			if ($text_activate) { echo $text_activate.'<br>'; }
+			if ($text_login) { echo $text_login.'<br>'; }
+			if ($text_approval) { echo $text_approval.'<br>'; }
+			if ($text_login_later) { echo '<br>'.$text_login_later.'<br>'; }
+			if ($text_services) { echo '<br>'.$text_services.'<br>'; }
+		?>
+		</td>
+	</tr>
+	<tr>
+		<td>&nbsp;</td>
+	</tr>
+	<tr>
+		<td>
+		<?php
+			echo $text_thanks.'<br>';
+			echo $store_name.'<br>';		
+		?>
+		</td>
 	</tr>
 
 

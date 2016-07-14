@@ -20,8 +20,7 @@
 	</definition>
 	<definition>
 		<key>text_activate</key>
-		<value><![CDATA[Prima di poter attivare il tuo account è necessario completare la registrazione. Si prega di notare - è necessario compilare questo ultimo passo per poter diventare un nostro cliente. Hai solo bisogno di visitare solo una volta questo URL per attivare l'account. Per completare la registrazione, clicca sul link seguente:
-    %s ]]></value>
+		<value><![CDATA[Prima di poter attivare il tuo account un ultimo passo deve essere presa per completare la registrazione.<br> È necessario completare questo ultimo passo per diventare un utente registrato. Si prega di fare clic sul seguente link per attivare l'account %s .]]></value>
 	</definition>
 	<definition>
 		<key>text_services</key>

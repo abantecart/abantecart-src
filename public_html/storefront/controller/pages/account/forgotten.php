@@ -94,7 +94,6 @@ class ControllerPagesAccountForgotten extends AController {
 		$this->view->assign('action', $this->html->getSecureURL('account/forgotten') );
         $this->view->assign('back', $this->html->getSecureURL('account/account') );
 
-
 		$form = new AForm();
         $form->setForm(array( 'form_name' => 'forgottenFrm' ));
         $this->data['form'][ 'form_open' ] = $form->getFieldHtml(
@@ -102,7 +101,6 @@ class ControllerPagesAccountForgotten extends AController {
                                                                        'type' => 'form',
                                                                        'name' => 'forgottenFrm',
                                                                        'action' => $this->html->getSecureURL('account/forgotten/password')));
-		
 		
 		//verify loginname if non email login used or data encryption is ON
 		if( $this->config->get('prevent_email_as_login') || $this->dcrypt->active ){

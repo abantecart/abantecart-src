@@ -14,7 +14,7 @@
   </definition>
   <definition>
     <key>text_services</key>
-    <value><![CDATA[Despues de ingresar, usted podre acceder a otros servicios, como la revision de pedidos anteriores, la impresion de facturas o la edicion de informacion de su cuenta.]]></value>
+    <value><![CDATA[Una vez que iniciar la sesión, usted será capaz de acceder a su lista, su historial de pedidos, facturas, impresión y edición de la información de su cuenta.]]></value>
   </definition>
   <definition>
     <key>text_thanks</key>
