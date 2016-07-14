@@ -80,6 +80,8 @@ class ControllerPagesSaleCustomer extends AController {
 				'text' => $this->language->get('heading_title'),
 				'current' => true
 		));
+		//add phone validation js for quick preview modal
+		$this->document->addScript($this->view->templateResource('/javascript/intl-tel-input/js/intlTelInput.min.js'));
 
 		//set store selector
 		$this->view->assign('form_store_switch', $this->html->getStoreSwitcher());
