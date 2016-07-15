@@ -17,40 +17,39 @@
    versions in the future. If you wish to customize AbanteCart for your
    needs please refer to http://www.AbanteCart.com for more information.
 ------------------------------------------------------------------------------*/
-if (! defined ( 'DIR_CORE' ) || !IS_ADMIN) {
-	header ( 'Location: static_pages/' );
+if (!defined('DIR_CORE') || !IS_ADMIN){
+	header('Location: static_pages/');
 }
-class ModelToolImage extends Model {
+
+class ModelToolImage extends Model{
 	/**
 	 * @param string $filename
 	 * @param int $width
 	 * @param int $height
 	 * @return null|string
 	 */
-	function resize($filename, $width, $height) {
-		if (!is_file(DIR_IMAGE . $filename)) {
-			return null;
-		}
+	function resize($filename, $width, $height){
+		$orig_image_filepath = is_file(DIR_IMAGE . $filename) ? DIR_IMAGE . $filename : '';
+		$orig_image_filepath = $orig_image_filepath == '' && is_file(DIR_RESOURCE . 'image/' . $filename) ? DIR_RESOURCE . 'image/' . $filename : $orig_image_filepath;
 
 		$info = pathinfo($filename);
 		$extension = $info['extension'];
-		if($extension == 'ico'){
+		if ($extension == 'ico'){
 			$new_image = $filename;
-		} else {
-			$orig_image = $filename;
+		} else{
 			$new_image = 'thumbnails/' . substr($filename, 0, strrpos($filename, '.')) . '-' . $width . 'x' . $height . '.' . $extension;
-			if(!check_resize_image($orig_image, $new_image, $width, $height, $this->config->get('config_image_quality'))) {
-				$err = new AError('Image Resize Error: file "'.$filename.'" does not exists or new filename is empty!');
+			if (!check_resize_image($orig_image_filepath, $new_image, $width, $height, $this->config->get('config_image_quality'))){
+				$err = new AError('Image Resize Error: file "' . $filename . '" does not exists or new filename is empty!' . var_export());
 				$err->toLog()->toDebug()->toMessages();
 			}
 		}
 
-		if(isset($this->request->server['HTTPS']) &&
-			(($this->request->server['HTTPS'] == 'on') || ($this->request->server['HTTPS'] == '1'))
-			) {
+		if (isset($this->request->server['HTTPS']) &&
+				(($this->request->server['HTTPS'] == 'on') || ($this->request->server['HTTPS'] == '1'))
+		){
 			return HTTPS_IMAGE . $new_image;
-		} else {
+		} else{
 			return HTTP_IMAGE . $new_image;
-		}	
+		}
 	}
 }
