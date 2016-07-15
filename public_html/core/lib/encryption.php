@@ -29,15 +29,59 @@ final class AEncryption {
         $this->key = $key;
 	}
 	
+	/**
+	 * Encode function
+	 * @param string $str
+	 * @return string
+	 */
+	function encrypt($str) {
 		if (!$this->key) { 
+			return $str;
 		}
 		
+		$enc_str = '';
+		if(!$this->_check_mcrypt()) {
+			//non-mcrypt basic encryption
+			for ($i = 0; $i < strlen($str); $i++) {
+				$char = substr($str, $i, 1);
+				$keychar = substr($this->key, ($i % strlen($this->key)) - 1, 1);
+				$char = chr(ord($char) + ord($keychar));
+				$enc_str .= $char;
+			} 
+	        $enc_str = base64_encode($enc_str);
+		} else {
+			$hash = hash('sha256', $this->key, true);
+			$enc_str = base64_encode(mcrypt_encrypt(MCRYPT_RIJNDAEL_256, $hash, $str, MCRYPT_MODE_ECB));
+		}
+		return strtr($enc_str, '+/=', '-_,');
 	}
 	
+	/**
+	 * Decode function
+	 * @param string $string
+	 * @return string
+	 */
+	function decrypt($enc_str) {
 		if (!$this->key) { 
+			return $enc_str;
 		}
 		
+		$str = '';
+		$enc_str = base64_decode(strtr($enc_str, '-_,', '+/='));
+		if(!$this->_check_mcrypt()) {
+			//non-mcrypt basic decryption
+			for ($i = 0; $i < strlen($enc_str); $i++) {
+				$char = substr($enc_str, $i, 1);
+				$keychar = substr($this->key, ($i % strlen($this->key)) - 1, 1);
+				$char = chr(ord($char) - ord($keychar));
+				$str .= $char;
+			}
+		} else {
+			$hash = hash('sha256', $this->key, true);
+			$str = mcrypt_decrypt(MCRYPT_RIJNDAEL_256, $hash, $enc_str, MCRYPT_MODE_ECB);
+		}		
 		
+		return trim($str);
 	}
 
 	/*
@@ -47,22 +91,9 @@ final class AEncryption {
 		return md5($keyword.SALT);
 	}
 
-	/**
-	 * @param string $string
-	 * @return string
-	 */
-			return '';
-		}
-	}
-
-	/**
-	 * @return string
-	 */
-			return '';
-		}
-	}
-
+	private function _check_mcrypt(){
 		if(!function_exists('mcrypt_encrypt')){
+			$error_text = 'MCrypt php-library did not load. It is recommended to enable PHP mcrypt for system to function properly.';
 			$registry = Registry::getInstance();
 			$log = $registry->get('log');
 			if(!is_object($log) || !method_exists($log, 'write')){
