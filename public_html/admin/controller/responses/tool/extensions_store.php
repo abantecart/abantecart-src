@@ -78,7 +78,9 @@ class ControllerResponsesToolExtensionsStore extends AController {
 			for($i = 0; $i < count($orig_hrefs[0]); $i++ ) {
 				$replace = $orig_hrefs[0][$i];
 				$ohref = $orig_hrefs[2][$i];
+				/* ????? Add new button here for latest MP	
 				$link1 = 'href="'.AEncryption::addEncoded_stid($ohref).(MP_AFFILIATE_ID ? '&aff_id='. MP_AFFILIATE_ID : '').'"';
+				*/
 				$link2 = 'href="'.$this->html->getSecureUrl('tool/extensions_store','&path='.$ohref.(MP_AFFILIATE_ID ? '&aff_id='. MP_AFFILIATE_ID : '')).'"';
 				if( substr($ohref,0,4)=='http' || substr($ohref,0,1)=='#'){
 					$html = str_replace($replace, $link1, $html);

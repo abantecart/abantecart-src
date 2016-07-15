@@ -42,11 +42,12 @@ class ControllerPagesAccountInvoice extends AController{
 		$this->loadModel('account/order');
 
 		$guest = false;
+		$enc = new AEncryption($this->config->get('encryption_key'));
 		if (isset($this->request->get['ot']) && $this->config->get('config_guest_checkout')){
 			//try to decrypt order token
 			$ot = $this->request->get['ot'];
-			$decrypted = AEncryption::mcrypt_decode($ot);
-			list($order_id, $email) = explode('~~~', $decrypted);
+			$decrypted = $enc->decode($ot);
+			list($order_id, $email) = explode('::', $decrypted);
 
 			$order_id = (int)$order_id;
 			if (!$decrypted || !$order_id || !$email){
@@ -68,7 +69,7 @@ class ControllerPagesAccountInvoice extends AController{
 
 			$order_id = $this->request->post['order_id'];
 			$email = $this->request->post['email'];
-			$ot = AEncryption::mcrypt_encode($order_id . '~~~' . $email);
+			$ot = $enc->encode($order_id . '::' . $email);
 			$order_info = $this->model_account_order->getOrder($order_id, '', 'view');
 
 			//compare emails
@@ -396,8 +397,9 @@ class ControllerPagesAccountInvoice extends AController{
 		$guest = false;
 		if (isset($this->request->get['ot']) && $this->config->get('config_guest_checkout')){
 			//try to decrypt order token
-			$decrypted = AEncryption::mcrypt_decode($this->request->get['ot']);
-			list($order_id, $email) = explode('~~~', $decrypted);
+			$enc = new AEncryption($this->config->get('encryption_key'));
+			$decrypted = $enc->decode($this->request->get['ot']);
+			list($order_id, $email) = explode('::', $decrypted);
 
 			$order_id = (int)$order_id;
 			if (!$decrypted || !$order_id || !$email){

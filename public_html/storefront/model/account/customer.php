@@ -835,14 +835,14 @@ class ModelAccountCustomer extends Model {
 			
 		//encrypt token and data			
 		$enc = new AEncryption($this->config->get('encryption_key'));	
-		$code = $enc->genToken();
+		$code = genToken();
 		//store activation code
 		$customer_data['data']['email_activation'] = $code;
 		$this->updateOtherData($customer_id, $customer_data['data']);			
 
-		$ac = $enc->encrypt($customer_id.':'.$code);			
+		$ac = $enc->encrypt($customer_id.'::'.$code);			
 		$activate_url = $this->html->getSecureURL('account/login', '&ac='.$ac);
-		
+	
 		//build welcome email
 		$this->language->load('mail/account_create');
 		$subject = sprintf($this->language->get('text_subject'), $this->config->get('store_name'));

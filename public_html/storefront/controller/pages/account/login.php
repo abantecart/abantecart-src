@@ -73,11 +73,13 @@ class ControllerPagesAccountLogin extends AController{
 		} elseif( has_value($this->request->get['ac']) ){
 			//activation of account via email-code. 
 			$enc = new AEncryption($this->config->get('encryption_key'));	
-			list($customer_id, $activation_code) = explode(":", $enc->decrypt($this->request->get['ac']));
+			list($customer_id, $activation_code) = explode("::", $enc->decrypt($this->request->get['ac']));
+echo_array(array($customer_id, $activation_code));			
 			if($customer_id && $activation_code) {
 				//get customer 
 				$this->loadModel('account/customer');
 				$customer_info = $this->model_account_customer->getCustomer((int)$customer_id);			
+echo_array($customer_info);
 				if($customer_info) {
 					//if activation code presents in data and matching
 					if ($activation_code == $customer_info['data']['email_activation']){			
@@ -230,7 +232,7 @@ class ControllerPagesAccountLogin extends AController{
 				if($customer_info && !$customer_info['status'] && $customer_info['data']['email_activation']) {
 					//show link for resend activation code to email
 					$enc = new AEncryption($this->config->get('encryption_key'));
-					$rid = $enc->encrypt($customer_info['customer_id'].':'.$customer_info['data']['email_activation']);			
+					$rid = $enc->encrypt($customer_info['customer_id'].'::'.$customer_info['data']['email_activation']);			
 					$this->error['message'] .= sprintf($this->language->get('text_resend_activation_email'),
 							"\n" . $this->html->getSecureURL('account/create/resend', '&rid=' . $rid)
 					);

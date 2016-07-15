@@ -841,6 +841,26 @@ function randomWord($length = 4){
     return $newcode;
 }
 
+
+/**
+ * Generate random token
+ * Note: Starting PHP7 random_bytes() can be used
+ *
+ * @param $chars int  - {token length}
+ * @return string
+ */
+function genToken($chars = 32){	
+    $token = '';
+    $codeAlphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    $codeAlphabet.= "abcdefghijklmnopqrstuvwxyz";
+    $codeAlphabet.= "0123456789";
+    $max = strlen($codeAlphabet) - 1;
+    for ($i = 0; $i < $chars; $i++) {
+        $token .= $codeAlphabet[mt_rand(0, $max)];
+    }
+    return $token;
+}
+
 /**
  * TODO: in the future
  * @param $zip_filename

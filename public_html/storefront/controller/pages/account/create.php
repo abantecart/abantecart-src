@@ -37,7 +37,6 @@ class ControllerPagesAccountCreate extends AController{
 		$this->document->setTitle($this->language->get('heading_title'));
 		$this->loadModel('account/customer');
 		$request_data = $this->request->post;
-
 		if ($this->request->is_POST()){
 			$this->errors = array_merge($this->errors, $this->model_account_customer->validateRegistrationData($request_data));
 			if (!$this->errors){
@@ -350,7 +349,7 @@ class ControllerPagesAccountCreate extends AController{
 
 		$this->loadModel('account/customer');
 		$enc = new AEncryption($this->config->get('encryption_key'));	
-		list($customer_id, $activation_code) = explode(":", $enc->decrypt($this->request->get['rid']));
+		list($customer_id, $activation_code) = explode("::", $enc->decrypt($this->request->get['rid']));
 		if($customer_id && $activation_code) {
 
 			$this->model_account_customer->emailActivateLink($customer_id);

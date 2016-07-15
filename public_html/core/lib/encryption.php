@@ -23,47 +23,21 @@ if (! defined ( 'DIR_CORE' )) {
 
 final class AEncryption {
 	private $key;
+	private $hash;
 	
 	function __construct($key) {
         $this->key = $key;
 	}
 	
-	function encrypt($value) {
 		if (!$this->key) { 
-			return $value;
 		}
 		
-		$stdout = '';
-		
-		for ($i = 0; $i < strlen($value); $i++) {
-			$char = substr($value, $i, 1);
-			$keychar = substr($this->key, ($i % strlen($this->key)) - 1, 1);
-			$char = chr(ord($char) + ord($keychar));
-			
-			$stdout .= $char;
-		} 
-		
-        return base64_encode($stdout); 
 	}
 	
-	function decrypt($value) {
 		if (!$this->key) { 
-			return $value;
 		}
 		
-		$stdout = '';
 		
-		$value = base64_decode($value);
-		
-		for ($i = 0; $i < strlen($value); $i++) {
-			$char = substr($value, $i, 1);
-			$keychar = substr($this->key, ($i % strlen($this->key)) - 1, 1);
-			$char = chr(ord($char) - ord($keychar));
-			
-			$stdout .= $char;
-		}
-		
-		return $stdout;
 	}
 
 	/*
@@ -73,88 +47,25 @@ final class AEncryption {
 		return md5($keyword.SALT);
 	}
 
-	/*
-	* Generate random token
-	* Note: Starting PHP7 random_bytes() can be used
-	*/
-	static function genToken($chars = 32){	
-		$token = '';
-		$codeAlphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-		$codeAlphabet.= "abcdefghijklmnopqrstuvwxyz";
-		$codeAlphabet.= "0123456789";
-		$max = strlen($codeAlphabet) - 1;
-		for ($i = 0; $i < $chars; $i++) {
-		    $token .= $codeAlphabet[mt_rand(0, $max)];
-		}
-		return $token;
-	}
-
-
-	/*
-	* Encoding of URL for marketplace access
-	*/
-	static function addEncoded_stid($url){
-		$text = UNIQUE_ID.'***'.$_SERVER ['SERVER_ADDR'];
-		$encrypt = trim(base64_encode(mcrypt_encrypt(MCRYPT_RIJNDAEL_256, 'tracetnaba', $text, MCRYPT_MODE_ECB, mcrypt_create_iv(mcrypt_get_iv_size(MCRYPT_RIJNDAEL_256, MCRYPT_MODE_ECB), MCRYPT_RAND))));
-
-		$url = str_replace('&amp;','&',$url);
-		$url = $url.(strpos($url,'?')===false? '?' : '&amp;').'stid='.rawurlencode($encrypt);
-	return $url;
-	}
-
 	/**
-	 * URL-safe encode function
 	 * @param string $string
 	 * @return string
 	 */
-	static function mcrypt_encode($string){
-		if(!self::_check_mcrypt()){
 			return '';
 		}
-		$len = strlen(SALT);
-		if($len<=16){
-			$key = str_pad(SALT, 16, "\0", STR_PAD_RIGHT);
-		}elseif($len<=24){
-			$key = str_pad(SALT, 24, "\0", STR_PAD_RIGHT);
-		}elseif($len<=32){
-			$key = str_pad(SALT, 32, "\0", STR_PAD_RIGHT);
-		}else{
-			$key = substr(SALT, 0, 32);
-		}
-
-		$output = mcrypt_encrypt(MCRYPT_RIJNDAEL_256, $key, trim($string), MCRYPT_MODE_ECB, mcrypt_create_iv(mcrypt_get_iv_size(MCRYPT_RIJNDAEL_256, MCRYPT_MODE_ECB), MCRYPT_RAND));
-		return rtrim(strtr(base64_encode($output), '+/', '-_'), '=');
 	}
 
 	/**
-	 * @param string $hash
 	 * @return string
 	 */
-	static function mcrypt_decode($hash){
-		if(!self::_check_mcrypt()){
 			return '';
 		}
-		$output = base64_decode(str_pad(strtr($hash, '-_', '+/'), strlen($hash) % 4, '=', STR_PAD_RIGHT));
-		$len = strlen(SALT);
-		if($len<=16){
-			$key = str_pad(SALT, 16, "\0", STR_PAD_RIGHT);
-		}elseif($len<=24){
-			$key = str_pad(SALT, 24, "\0", STR_PAD_RIGHT);
-		}elseif($len<=32){
-			$key = str_pad(SALT, 32, "\0", STR_PAD_RIGHT);
-		}else{
-			$key = substr(SALT, 0, 32);
-		}
-		return trim(mcrypt_decrypt( MCRYPT_RIJNDAEL_256, $key, $output, MCRYPT_MODE_ECB, mcrypt_create_iv(mcrypt_get_iv_size(MCRYPT_RIJNDAEL_256, MCRYPT_MODE_ECB), MCRYPT_RAND)));
 	}
 
-	static function _check_mcrypt(){
 		if(!function_exists('mcrypt_encrypt')){
-			$error_text = 'MCrypt php-library not loaded. Please enable it to use encryption.';
 			$registry = Registry::getInstance();
 			$log = $registry->get('log');
 			if(!is_object($log) || !method_exists($log, 'write')){
-				$error_text = 'Error: Unable to access or write to cache directory ' . DIR_CACHE;
 				$log = new ALog(DIR_SYSTEM . 'logs/error.txt');
 				$registry->set('log', $log);
 			}

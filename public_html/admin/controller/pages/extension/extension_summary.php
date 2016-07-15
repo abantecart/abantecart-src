@@ -55,6 +55,7 @@ class ControllerPagesExtensionExtensionSummary extends AController {
 
 	    if (isset($this->session->data['extension_updates'][$extension])) {
 
+			/* ????? Add new button here for latest MP			
             $this->data['upgrade_button'] = $this->html->buildElement(
                                 array(  'type'=> 'button',
                                         'name' => 'btn_upgrade',
@@ -62,6 +63,7 @@ class ControllerPagesExtensionExtensionSummary extends AController {
                                         'href' => AEncryption::addEncoded_stid($this->session->data['extension_updates'][$extension]['url']),
                                         'text' => $this->language->get('button_upgrade')
                                 ));
+            */
         }
 
         $this->data['extension_info']['license'] = $this->data['extension_info']['license_key'];
