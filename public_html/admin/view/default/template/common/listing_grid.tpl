@@ -479,6 +479,9 @@ var initGrid_<?php echo $data['table_id'] ?> = function ($) {
 					var newhref = lnk.attr('href');
 					if(newhref.length>0) {
 						location = lnk.attr('href');
+					}else{
+						console.log('listing_grid double click issue. New href is empty.');
+						console.log(lnk);
 					}
 				}
 			}
