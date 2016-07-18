@@ -476,7 +476,10 @@ var initGrid_<?php echo $data['table_id'] ?> = function ($) {
 				if(lnk.attr('data-toggle').length){
 					lnk.click();
 				}else {
-					location = lnk.attr('href');
+					var newhref = lnk.attr('href');
+					if(newhref.length>0) {
+						location = lnk.attr('href');
+					}
 				}
 			}
 
