@@ -42,10 +42,14 @@ class ControllerBlocksMenu extends AController {
 		if($this->menu_items === false){
 			$menu = new AMenu_Storefront();
 			$this->menu_items = $menu->getMenuItems();
-			$this->menu_items = $this->_buildMenu('');
+
 			//writes into cache result of calling _buildMenu func!
 			$this->cache->push($cache_key, $this->menu_items);
 		}
+
+		//build menu structure after caching. related to http/https urls
+		$this->menu_items = $this->_buildMenu('');
+
 		$storefront_menu = $this->menu_items;
 		$this->session->data['storefront_menu'] = $storefront_menu;
 		$this->data['storemenu'] = $storefront_menu;
