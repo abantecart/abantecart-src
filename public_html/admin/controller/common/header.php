@@ -21,7 +21,11 @@ if (!defined('DIR_CORE') || !IS_ADMIN) {
 	header('Location: static_pages/');
 }
 
-/** @noinspection PhpUndefinedClassInspection */
+/**
+ * Class ControllerCommonHeader
+ * @property ModelToolOnlineNow $model_tool_online_now
+ *
+ */
 class ControllerCommonHeader extends AController {
 	public function main() {
 
@@ -29,7 +33,6 @@ class ControllerCommonHeader extends AController {
 		$this->extensions->hk_InitData($this, __FUNCTION__);
 
 		$this->load->helper('html');
-
 		$this->view->assign('breadcrumbs', $this->document->getBreadcrumbs());
 
 		if ($this->request->is_POST() && isset($this->request->post['language_code'])) {
@@ -160,7 +163,7 @@ class ControllerCommonHeader extends AController {
 		
 		$this->loadModel('report/sale');
 	    $data = array('filter' =>
-			                  array(
+			                  array('order_status' => 'confirmed',
 									'date_start' => dateISO2Display(date('Y-m-d', time()) ,$this->language->get('date_format_short')),
 									'date_end' => dateISO2Display(date('Y-m-d', time()) ,$this->language->get('date_format_short'))
 			)

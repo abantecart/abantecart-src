@@ -61,13 +61,15 @@ class ModelReportSale extends Model {
 			$total_sql = "MIN(date_added) AS date_start, MAX(date_added) AS date_end, COUNT(*) AS orders, SUM(total) AS total ";
 		}
 
-		$sql = "SELECT $total_sql FROM `" . $this->db->table("orders") . "`";
+		$sql = "SELECT " . $total_sql . " FROM `" . $this->db->table("orders") . "`";
 
-		if (has_value($filter['order_status'])) {
+		if ($filter['order_status'] == 'confirmed') {
+			$sql .= " WHERE order_status_id > 0 ";
+		}elseif ((int)$filter['order_status']) {
 			$sql .= " WHERE order_status_id = " . (int)$filter['order_status'] . " ";
 		} else {
 			//all orders
-			$sql .= " WHERE order_status_id >= 0";		
+			$sql .= " WHERE order_status_id >= 0";
 		}
 		if (isset($filter['date_start'])) {
 			$date_start = dateDisplay2ISO($filter['date_start'],$this->language->get('date_format_short'));
