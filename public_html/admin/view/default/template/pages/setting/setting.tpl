@@ -81,8 +81,8 @@
 					case 'template_debug':
 						echo $field;
 						if ($storefront_debug_url) {
-							echo '( <a onClick="window.open(\'' . $storefront_debug_url . '\');">' . $text_front . '</a> |
-								<a onClick="window.open(\'' . $admin_debug_url . '\');">' . $text_admin . '</a> )';
+							echo '( <a href="Javascript:void(0);" onclick="window.open(\'' . $storefront_debug_url . '\');">' . $text_front . '</a> |
+								<a href="Javascript:void(0);" onclick="window.open(\'' . $admin_debug_url . '\');">' . $text_admin . '</a> )';
 						}
 						break;
 					default:
