@@ -27,7 +27,7 @@
 			} ?>
 			</ul>
 
-			<div class="mainimage bigimage easyzoom easyzoom--overlay easyzoom--with-thumbnails">
+			<div class="hidden-xs hidden-sm mainimage bigimage easyzoom easyzoom--overlay easyzoom--with-thumbnails">
 			<?php if (sizeof($images) > 0) {
 				//NOTE: ZOOM is not supported for embeded image tags
 				if ($image_main['origin'] == 'external') {
@@ -47,6 +47,30 @@
 							 alt="<?php echo $image['title']; ?>"
 							 title="<?php echo $image['title']; ?>" />
 				    <i class="fa fa-arrows"></i></a>
+				<?php }
+				} ?>
+			</div>
+			<!-- for mobile devices-->
+			<div class="mainimage bigimage hidden-lg hidden-md">
+			<?php if (sizeof($images) > 0) {
+				//NOTE: ZOOM is not supported for embeded image tags
+				if ($image_main['origin'] == 'external') {
+				?>
+				    <a class="html_with_image">
+				    <?php echo $image_main['main_html'];	?>
+				    </a>
+				<?php
+				} else {
+				    $image_url = $image_main['main_url'];
+				    $thumb_url = $image_main['thumb_url'];
+				?>
+				    <a class="local_image" href="<?php echo $image_url; ?>" target="_blank" title="<?php echo $image_main['title']; ?>">
+				        <img width="<?php echo $this->config->get('config_image_thumb_width'); ?>"
+				             height="<?php echo $this->config->get('config_image_thumb_height'); ?>"
+							 src="<?php echo $thumb_url; ?>"
+							 alt="<?php echo $image['title']; ?>"
+							 title="<?php echo $image['title']; ?>" />
+				    </a>
 				<?php }
 				} ?>
 			</div>
@@ -465,6 +489,7 @@ $(window).load(function(){
 			   e.preventDefault();
 			   // Use EasyZoom's `swap` method
 			   api1.swap($this.data('standard'), $this.attr('href'));
+				$('.mainimage.bigimage.hidden-lg').find('img').attr('src', $this.attr('href'));
 			});
 	}
 
@@ -504,8 +529,8 @@ $(window).load(function(){
 					html1 = orig_imgs;
 					html2 = orig_thumbs;
 				}
-				$('div.bigimage').html(html1);
-				$('ul.smallimage').html(html2);
+				$('div.bigimage').each(function(){$(this).html(html1)});
+				$('ul.smallimage').each(function(){$(this).html(html2)});
 				start_easyzoom();
 			}
 		});

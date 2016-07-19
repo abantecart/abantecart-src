@@ -4327,7 +4327,7 @@ paypal pro styles
     	padding-right: 5px;	
 	}
 	.mainimage.bigimage img {
-		width: 300px;
+		width: auto;
 	}
 }
 
