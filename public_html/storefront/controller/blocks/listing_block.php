@@ -258,6 +258,9 @@ class ControllerBlocksListingBlock extends AController {
 
 			// for resource library
 			if($route=='media'){
+				if(!$content['resource_type']){
+					return false;
+				}
 				$rl = new AResource($content['resource_type']);
 				$image_sizes = array(
 								'main' => array(
@@ -323,7 +326,7 @@ class ControllerBlocksListingBlock extends AController {
 						$result[$k]['resource_code'] = $resource['thumb_html'];
 					}else{
 						if($content['resource_type']!='image'){
-							$title = $resource['title'] .'<br>dowload';
+							$title = $resource['title'];
 						}else{
 							$title = $resource['title'];
 						}

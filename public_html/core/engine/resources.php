@@ -79,7 +79,8 @@ class AResource{
 		}
 
 		if (!$this->type_id){
-			$message = "Error: Incorrect or missing resource type ";
+			$backtrace = debug_backtrace();
+			$message = "Error: Incorrect or missing resource type.". $backtrace[0]['file'].":".$backtrace[0]['line'];
 			$error = new AError ($message);
 			$error->toLog()->toDebug();
 		}
@@ -537,6 +538,11 @@ class AResource{
 
 				} else{
 					$main_url = $direct_url;
+					$thumb_url = $this->getResizedImageURL(
+										$result,
+										$sizes['thumb']['width'],
+										$sizes['thumb']['height']
+					);
 				}
 
 				$resources[$k] = array ('origin'       => $origin,
