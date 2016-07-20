@@ -754,31 +754,38 @@ class ControllerResponsesCommonResourceLibrary extends AController {
 		//init controller data
         $this->extensions->hk_InitData($this,__FUNCTION__);
 
+		$resource_type = $this->request->get['type'];
+		$object_name = $this->request->get['object_name'];
+		$object_id = $this->request->get['object_id'];
+		$keyword = $this->request->get['keyword'];
+		$language_id = $this->request->get['language_id'];
+		$limit = (int)$this->request->get['limit'];
+
 		$rm = new AResourceManager();
-		$rm->setType($this->request->get['type']);
+		$rm->setType($resource_type);
 		$list_limit = 12;
 		
-		$uri = '&type=' . $this->request->get['type'] . '&language_id=' . $this->request->get['language_id'];
+		$uri = '&type=' . $resource_type . '&language_id=' . $language_id;
 
 		$filter_data = array(
 			'type_id' => $rm->getTypeId(),
-			'language_id' => $this->request->get['language_id'],
+			'language_id' => $language_id,
 		);
-		if (!empty($this->request->get['keyword'])) {
-			$filter_data['keyword'] = $this->request->get['keyword'];
-			$uri .= '&keyword=' . $this->request->get['keyword'];
+		if (!empty($keyword)) {
+			$filter_data['keyword'] = $keyword;
+			$uri .= '&keyword=' . $keyword;
 		}
-		if (!empty($this->request->get['object_name'])) {
-			$filter_data['object_name'] = $this->request->get['object_name'];
-			$uri .= '&object_name=' . $this->request->get['object_name'];
+		if (!empty($object_name)) {
+			$filter_data['object_name'] = $object_name;
+			$uri .= '&object_name=' . $object_name;
 		}
-		if (!empty($this->request->get['object_id'])) {
-			$filter_data['object_id'] = $this->request->get['object_id'];
-			$uri .= '&object_id=' . $this->request->get['object_id'];
+		if (!empty($object_id)) {
+			$filter_data['object_id'] = $object_id;
+			$uri .= '&object_id=' . $object_id;
 		}
 
-		if (isset($this->request->get['limit'])) {
-			$filter_data['limit'] = $this->request->get['limit'];
+		if ($limit) {
+			$filter_data['limit'] = $limit;
 		}		
 		
 		if (isset($this->request->get['page'])) {
@@ -806,15 +813,19 @@ class ControllerResponsesCommonResourceLibrary extends AController {
 			'pagination' => '',
 			'total'	=> $resources_total,
 			'limit' => $list_limit,
-			'object_name' => $this->request->get['object_name'],
-			'object_id' => $this->request->get['object_id']
+			'object_name' => $object_name,
+			'object_id' => $object_id
 		);
 
 		foreach ($result['items'] as $key => $item) {
-			$result['items'][$key]['thumbnail_url'] = $rm->getResizedImageURL( $item,
-				$this->thumb_sizes['width'],
-				$this->thumb_sizes['height']
-			);
+			if($resource_type == 'image'){
+				$result['items'][$key]['thumbnail_url'] = $rm->getResizedImageURL($item,
+						$this->thumb_sizes['width'],
+						$this->thumb_sizes['height']
+				);
+			}else{
+				$result['items'][$key]['thumbnail_url'] = '';
+			}
 			$result['items'][$key]['url'] = $rm->buildResourceURL($item['resource_path'], 'full');
 			$result['items'][$key]['relative_url'] = $rm->buildResourceURL($item['resource_path'], 'relative');
 			$result['items'][$key]['can_delete'] = $result['items'][$key]['mapped']==1 ? true : false;

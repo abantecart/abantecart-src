@@ -221,7 +221,9 @@ var loadMedia = function (type, wrapper) {
 			$(json.items).each(function (index, item) {
 				var src = '';
 				if (type == 'image' && item['resource_code']) {
-					src = '<div class="html">' + item['thumbnail_url'] + '</div>';
+					src = '<div class="html rl_large_icon">' + item['thumbnail_url'] + '</div>';
+				}else if(item['resource_code']){
+					src = '<div class="html rl_large_icon"><i class="fa fa-code fa-lg"></i></div>';
 				} else {
 					<?php // variable t needs to prevent browser caching in case of replacement of file of resource?>
 					src = '<img class="img-responsive" src="' + item['thumbnail_url'] + '?t=' + t + '" title="' + item['name'] + '" />';
