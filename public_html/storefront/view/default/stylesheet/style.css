@@ -3767,8 +3767,7 @@ paypal pro styles
 	}
 
 	.cart-info.product-list table tr td:nth-child(3), .cart-info.product-list table tr th:nth-child(3),
-	.cart-info.product-list table tr td:nth-child(4), .cart-info.product-list table tr th:nth-child(4),
-	.cart-info.product-list table tr td:nth-child(6), .cart-info.product-list table tr th:nth-child(6) {
+	.cart-info.product-list table tr td:nth-child(5), .cart-info.product-list table tr th:nth-child(5){
 		display: none !important;
 		visibility: hidden !important;
 	}
@@ -4218,9 +4217,9 @@ paypal pro styles
 		margin-bottom: 10px;
 	}
 
+	.cart-info.product-list table tr td:nth-child(1), .cart-info.product-list table tr th:nth-child(1),
 	.cart-info.product-list table tr td:nth-child(3), .cart-info.product-list table tr th:nth-child(3),
-	.cart-info.product-list table tr td:nth-child(4), .cart-info.product-list table tr th:nth-child(4),
-	.cart-info.product-list table tr td:nth-child(6), .cart-info.product-list table tr th:nth-child(6),
+	.cart-info.product-list table tr td:nth-child(5), .cart-info.product-list table tr th:nth-child(5),
 	.invoice_products table tr td:nth-child(2), .invoice_products table tr th:nth-child(2) {
 		display: none !important;
 		visibility: hidden !important;
