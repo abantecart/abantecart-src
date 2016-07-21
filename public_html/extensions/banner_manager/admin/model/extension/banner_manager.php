@@ -123,6 +123,7 @@ class ModelExtensionBannerManager extends Model {
 	/**
 	 * @param int $banner_id
 	 * @param array $data
+	 * @return bool
 	 */
 	public function editBanner($banner_id, $data) {
 		$banner_id = (int)$banner_id;
@@ -323,5 +324,30 @@ class ModelExtensionBannerManager extends Model {
 		}
 
 		return $output;
+	}
+
+	/**
+	 * @param int $banner_id
+	 * @param array $data
+	 * @return bool
+	 */
+	public function deleteStatistic($banner_id=0, $data = array()){
+		$banner_id = (int)$banner_id;
+
+		$sql = "DELETE	FROM " . $this->db->table("banner_stat")." WHERE 1=1";
+		if($banner_id){
+			$sql .= " AND `banner_id` = ".$banner_id;
+		}
+
+		if($data['store_id']){
+			$sql .= " AND `store_id` = ".(int)$data['store_id'];
+		}
+
+		if($data['store_id']){
+			$sql .= " AND `store_id` = ".(int)$data['store_id'];
+		}
+
+		$this->db->query($sql);
+		return true;
 	}
 }

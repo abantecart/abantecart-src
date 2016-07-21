@@ -9,7 +9,7 @@
 		<value><![CDATA[
 		Para gestionar los banners siga el menú <b>Design->Banner Administrado</b> después de la extensión está habilitada
 		]]></value>
-	</definition>	
+	</definition>
 	<definition>
 		<key>banner_manager_name</key>
 		<value><![CDATA[Banner Administrador]]></value>
@@ -169,5 +169,9 @@
 	<definition>
 		<key>text_count</key>
 		<value><![CDATA[ contar ]]></value>
+	</definition>
+	<definition>
+		<key>text_delete_statistic</key>
+		<value><![CDATA[ Eliminar Estadística ]]></value>
 	</definition>
 </definitions>
