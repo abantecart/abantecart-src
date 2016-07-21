@@ -2062,9 +2062,21 @@ class ModelCatalogProduct extends Model{
 			return array();
 		}
 
-		$sql = "SELECT p.*, p.quantity as base_quantity, p.subtract as base_subtract, pov.*
+		$language_id = (int)$this->language->getContentLanguageID();
+
+		$sql = "SELECT p.*,
+					   p.quantity as base_quantity,
+					   p.subtract as base_subtract,
+					   pov.*,
+					   pod.name as option_name,
+					   povd.name as option_value_name
 				FROM " . $this->db->table('products') . " p
-				LEFT JOIN " . $this->db->table('product_option_values') . " pov ON pov.product_id = p.product_id
+				LEFT JOIN " . $this->db->table('product_option_values') . " pov
+					ON pov.product_id = p.product_id
+				LEFT JOIN " . $this->db->table('product_option_value_descriptions') . " povd
+					ON (povd.product_option_value_id = pov.product_option_value_id AND povd.language_id = ".$language_id.")
+				LEFT JOIN " . $this->db->table('product_option_descriptions') . " pod
+					ON (pod.product_option_id = pov.product_option_id AND pod.language_id = ".$language_id.")
 				WHERE p.product_id = " . $product_id;
 		$result = $this->db->query($sql);
 
@@ -2083,9 +2095,12 @@ class ModelCatalogProduct extends Model{
 		if($result->row['base_subtract'] && $result->row['base_quantity'] <= 0){
 			$output[] = $this->language->get('text_product_out_of_stock');
 		}
-		foreach($result->rows as $row){
+
+		foreach($result->rows as $k=>$row){
 			if($row['subtract'] && $row['quantity'] <= 0){
-				$output[] = $this->language->get('text_product_option_out_of_stock');
+				$text = $this->language->get('text_product_option_out_of_stock');
+				$text .= ' ('.$row['option_name'].' => '.$row['option_value_name'].')';
+				$output[] = $text;
 				break;
 			}
 		}
