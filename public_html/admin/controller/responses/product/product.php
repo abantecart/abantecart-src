@@ -329,173 +329,185 @@ class ControllerResponsesProductProduct extends AController{
 		$this->view->assign('success', $this->session->data['success']);
 		unset($this->session->data['success']);
 
-		$this->data['option_data'] = $this->model_catalog_product->getProductOption(
-				$this->request->get['product_id'],
-				$this->request->get['option_id']
-		);
+		$product_id = (int)$this->request->get['product_id'];
+		$option_id = (int)$this->request->get['option_id'];
 
-		$this->data['language_id'] = $this->language->getContentLanguageID();
-		$this->data['element_types'] = HtmlElementFactory::getAvailableElements();
-		$this->data['elements_with_options'] = HtmlElementFactory::getElementsWithOptions();
-		$this->data['selectable'] = in_array($this->data['option_data']['element_type'], $this->data['elements_with_options']) ? 1 : 0;
-		$this->data['option_type'] = $this->data['element_types'][$this->data['option_data']['element_type']]['type'];
+		$this->data['option_data'] = $this->model_catalog_product->getProductOption($product_id, $option_id);
 
-		$this->attribute_manager = new AAttribute_Manager('product_option');
+		if($this->data['option_data']){
 
-		$this->data['action'] = $this->html->getSecureURL('product/product/update_option_values', '&product_id=' . $this->request->get['product_id'] . '&option_id=' . $this->request->get['option_id']);
+			$language_id = $this->language->getContentLanguageID();
+			$this->data['language_id'] = $language_id;
 
-		$this->data['option_values'] = $this->model_catalog_product->getProductOptionValues(
-				$this->request->get['product_id'],
-				$this->request->get['option_id']
-		);
+			$this->data['element_types'] = HtmlElementFactory::getAvailableElements();
+			$this->data['elements_with_options'] = HtmlElementFactory::getElementsWithOptions();
+			$this->data['selectable'] = in_array($this->data['option_data']['element_type'], $this->data['elements_with_options']) ? 1 : 0;
+			$this->data['option_type'] = $this->data['element_types'][$this->data['option_data']['element_type']]['type'];
 
-		$this->data['option_name'] = $this->html->buildElement(array(
-				'type'  => 'input',
-				'name'  => 'name',
-				'value' => $this->data['option_data']['language'][$this->data['language_id']]['name'],
-				'style' => 'medium-field'
-		));
+			$this->attribute_manager = new AAttribute_Manager('product_option');
 
-		if(in_array($this->data['option_data']['element_type'], HtmlElementFactory::getElementsWithPlaceholder())){
-			$this->data['option_placeholder'] = $this->html->buildElement(array(
+			$this->data['action'] = $this->html->getSecureURL(
+					'product/product/update_option_values',
+					'&product_id=' . $product_id . '&option_id=' . $option_id);
+
+			$this->data['option_values'] = $this->model_catalog_product->getProductOptionValues($product_id, $option_id);
+
+			$this->data['option_name'] = $this->html->buildElement(array (
 					'type'  => 'input',
-					'name'  => 'option_placeholder',
-					'value' => $this->data['option_data']['language'][$this->data['language_id']]['option_placeholder'],
-					'style' => 'medium-field'
-			));
-		}
-
-		$this->data['status'] = $this->html->buildElement(array(
-				'type'  => 'checkbox',
-				'name'  => 'status',
-				'value' => $this->data['option_data']['status'],
-				'style' => 'btn_switch btn-group-xs',
-		));
-		$this->data['option_sort_order'] = $this->html->buildElement(array(
-				'type'  => 'input',
-				'name'  => 'sort_order',
-				'value' => $this->data['option_data']['sort_order'],
-				'style' => 'tiny-field'
-		));
-		$this->data['required'] = $this->html->buildElement(array(
-				'type'  => 'checkbox',
-				'name'  => 'required',
-				'value' => $this->data['option_data']['required'],
-				'style' => 'btn_switch btn-group-xs',
-		));
-//for file-option
-		if($this->data['option_data']['element_type'] == 'U'){
-			$option_settings = unserialize($this->data['option_data']['settings']);
-
-			$this->data['extensions'] = $this->html->buildElement(array(
-					'type'  => 'input',
-					'name'  => 'settings[extensions]',
-					'value' => $option_settings['extensions'],
-					'style' => 'no-save'
-			));
-
-			$this->data['min_size'] = $this->html->buildElement(array(
-					'type'  => 'input',
-					'name'  => 'settings[min_size]',
-					'value' => $option_settings['min_size'],
-					'style' => 'small-field no-save'
-			));
-			$this->data['max_size'] = $this->html->buildElement(array(
-					'type'  => 'input',
-					'name'  => 'settings[max_size]',
-					'value' => $option_settings['max_size'],
-					'style' => 'small-field no-save'
-			));
-			$this->data['directory'] = $this->html->buildElement(array(
-					'type'  => 'input',
-					'name'  => 'settings[directory]',
-					'value' => $option_settings['directory'],
-					'style' => 'no-save'
-			));
-
-			$this->data['entry_upload_dir'] = sprintf($this->language->get('entry_upload_dir'), 'admin/system/uploads/');
-
-		} else{
-
-			$this->data['option_regexp_pattern'] = $this->html->buildElement(array(
-					'type'  => 'input',
-					'name'  => 'regexp_pattern',
-					'value' => $this->data['option_data']['regexp_pattern'],
+					'name'  => 'name',
+					'value' => $this->data['option_data']['language'][$language_id]['name'],
 					'style' => 'medium-field'
 			));
 
-			$this->data['option_error_text'] = $this->html->buildElement(array(
-					'type'  => 'input',
-					'name'  => 'error_text',
-					'value' => $this->data['option_data']['language'][$this->data['language_id']]['error_text'],
-					'style' => 'medium-field'
+			if (in_array($this->data['option_data']['element_type'], HtmlElementFactory::getElementsWithPlaceholder())){
+				$this->data['option_placeholder'] = $this->html->buildElement(array (
+						'type'  => 'input',
+						'name'  => 'option_placeholder',
+						'value' => $this->data['option_data']['language'][$language_id]['option_placeholder'],
+						'style' => 'medium-field'
+				));
+			}
+
+			$this->data['status'] = $this->html->buildElement(array (
+					'type'  => 'checkbox',
+					'name'  => 'status',
+					'value' => $this->data['option_data']['status'],
+					'style' => 'btn_switch btn-group-xs',
 			));
+			$this->data['option_sort_order'] = $this->html->buildElement(array (
+					'type'  => 'input',
+					'name'  => 'sort_order',
+					'value' => $this->data['option_data']['sort_order'],
+					'style' => 'tiny-field'
+			));
+			$this->data['required'] = $this->html->buildElement(array (
+					'type'  => 'checkbox',
+					'name'  => 'required',
+					'value' => $this->data['option_data']['required'],
+					'style' => 'btn_switch btn-group-xs',
+			));
+			//for file-option
+			if ($this->data['option_data']['element_type'] == 'U'){
+				$option_settings = unserialize($this->data['option_data']['settings']);
+
+				$this->data['extensions'] = $this->html->buildElement(array (
+						'type'  => 'input',
+						'name'  => 'settings[extensions]',
+						'value' => $option_settings['extensions'],
+						'style' => 'no-save'
+				));
+
+				$this->data['min_size'] = $this->html->buildElement(array (
+						'type'  => 'input',
+						'name'  => 'settings[min_size]',
+						'value' => $option_settings['min_size'],
+						'style' => 'small-field no-save'
+				));
+				$this->data['max_size'] = $this->html->buildElement(array (
+						'type'  => 'input',
+						'name'  => 'settings[max_size]',
+						'value' => $option_settings['max_size'],
+						'style' => 'small-field no-save'
+				));
+				$this->data['directory'] = $this->html->buildElement(array (
+						'type'  => 'input',
+						'name'  => 'settings[directory]',
+						'value' => $option_settings['directory'],
+						'style' => 'no-save'
+				));
+
+				$this->data['entry_upload_dir'] = sprintf($this->language->get('entry_upload_dir'), 'admin/system/uploads/');
+			} else{
+				$this->data['option_regexp_pattern'] = $this->html->buildElement(array (
+						'type'  => 'input',
+						'name'  => 'regexp_pattern',
+						'value' => $this->data['option_data']['regexp_pattern'],
+						'style' => 'medium-field'
+				));
+
+				$this->data['option_error_text'] = $this->html->buildElement(array (
+						'type'  => 'input',
+						'name'  => 'error_text',
+						'value' => $this->data['option_data']['language'][$language_id]['error_text'],
+						'style' => 'medium-field'
+				));
+			}
+
+			$this->data['remove_option'] = $this->html->getSecureURL(
+					'product/product/del_option',
+					'&product_id='.$product_id.'&option_id=' . $option_id);
+
+			$this->data['button_remove_option'] = $this->html->buildElement(array (
+					'type'  => 'button',
+					'text'  => $this->language->get('button_remove_option'),
+					'style' => 'button3',
+					'href'  => $this->data['remove_option']
+			));
+			$this->data['button_save'] = $this->html->buildElement(array (
+					'type'  => 'button',
+					'text'  => $this->language->get('button_save'),
+					'style' => 'button1',
+			));
+			$this->data['button_reset'] = $this->html->buildElement(array (
+					'type'  => 'button',
+					'text'  => $this->language->get('button_reset'),
+					'style' => 'button2',
+			));
+
+			$this->data['update_option_values'] = $this->html->getSecureURL('product/product/update_option_values', '&product_id='.$product_id.'&option_id='.$option_id);
+
+			// form of option values list
+			$form = new AForm('HT');
+			$form->setForm(
+					array(
+						'form_name' => 'update_option_values'
+					)
+			);
+			$this->data['form']['id'] = 'update_option_values';
+			$this->data['update_option_values_form']['open'] = $form->getFieldHtml(
+					array (
+					'type'   => 'form',
+					'name'   => 'update_option_values',
+					'attr'   => 'data-confirm-exit="true" class="form-horizontal"',
+					'action' => $this->data['update_option_values']
+					)
+			);
+
+			//form of option
+			$form = new AForm('HT');
+			$form->setForm(array (
+					'form_name' => 'option_value_form',
+			));
+
+			$this->data['form']['id'] = 'option_value_form';
+			$this->data['form']['form_open'] = $form->getFieldHtml(array (
+					'type'   => 'form',
+					'name'   => 'option_value_form',
+					'attr'   => 'data-confirm-exit="true"',
+					'action' => $this->data['update_option_values']
+			));
+
+			//Load option values rows
+			foreach ($this->data['option_values'] as $key => $item){
+				$this->request->get['product_option_value_id'] = $item['product_option_value_id'];
+				$this->data['option_values'][$key]['row'] = $this->_option_value_form($form);
+			}
+
+			$this->data['new_option_row'] = '';
+			if (in_array($this->data['option_data']['element_type'], $this->data['elements_with_options'])){
+				$this->request->get['product_option_value_id'] = null;
+				$this->data['new_option_row'] = $this->_option_value_form($form);
+			}
+
+			$this->view->batchAssign($this->data);
 		}
-
-		$this->data['remove_option'] = $this->html->getSecureURL('product/product/del_option', '&product_id=' . $this->request->get['product_id'] . '&option_id=' . $this->request->get['option_id']);
-
-		$this->data['button_remove_option'] = $this->html->buildElement(array(
-				'type'  => 'button',
-				'text'  => $this->language->get('button_remove_option'),
-				'style' => 'button3',
-				'href'  => $this->data['remove_option']
-		));
-		$this->data['button_save'] = $this->html->buildElement(array(
-				'type'  => 'button',
-				'text'  => $this->language->get('button_save'),
-				'style' => 'button1',
-		));
-		$this->data['button_reset'] = $this->html->buildElement(array(
-				'type'  => 'button',
-				'text'  => $this->language->get('button_reset'),
-				'style' => 'button2',
-		));
-
-
-		$this->data['update_option_values'] = $this->html->getSecureURL('product/product/update_option_values', '&product_id=' . $this->request->get['product_id'] . '&option_id=' . $this->request->get['option_id']);
-
-		// form of option values list
-		$form = new AForm('HT');
-		$form->setForm(array('form_name' => 'update_option_values'));
-		$this->data['form']['id'] = 'update_option_values';
-		$this->data['update_option_values_form']['open'] = $form->getFieldHtml(array(
-				'type'   => 'form',
-				'name'   => 'update_option_values',
-				'attr'   => 'data-confirm-exit="true" class="form-horizontal"',
-				'action' => $this->data['update_option_values']));
-
-		//form of option
-		$form = new AForm('HT');
-		$form->setForm(array(
-				'form_name' => 'option_value_form',
-		));
-
-		$this->data['form']['id'] = 'option_value_form';
-		$this->data['form']['form_open'] = $form->getFieldHtml(array(
-				'type'   => 'form',
-				'name'   => 'option_value_form',
-				'attr'   => 'data-confirm-exit="true"',
-				'action' => $this->data['update_option_values']
-		));
-
-		//Load option values rows
-		foreach($this->data['option_values'] as $key => $item){
-			$this->request->get['product_option_value_id'] = $item['product_option_value_id'];
-			$this->data['option_values'][$key]['row'] = $this->_option_value_form($form);
-		}
-
-		$this->data['new_option_row'] = '';
-		if(in_array($this->data['option_data']['element_type'], $this->data['elements_with_options'])){
-			$this->request->get['product_option_value_id'] = null;
-			$this->data['new_option_row'] = $this->_option_value_form($form);
-		}
-
-		$this->view->batchAssign($this->data);
-
 		//update controller data
 		$this->extensions->hk_UpdateData($this, __FUNCTION__);
-
-		$this->processTemplate('responses/product/option_values.tpl');
+		if($this->data['option_data']){
+			$this->processTemplate('responses/product/option_values.tpl');
+		}else{
+			$this->response->setOutput('');
+		}
 	}
 
 	public function del_option(){

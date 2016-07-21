@@ -1,11 +1,9 @@
 <?php include($tpl_common_dir . 'action_confirm.tpl'); ?>
 
 <?php echo $summary_form; ?>
-
 <?php echo $product_tabs ?>
 
 <div id="content" class="panel panel-default">
-
 	<div class="panel-heading col-xs-12">
 		<div class="primary_content_actions pull-left form-inline">
 		<?php if(sizeof($options->options)){?>
@@ -312,7 +310,13 @@ jQuery(function ($) {
 			type: 'GET',
 			data: { option_id: current_option_id },
 			success: function (html) {
-				$('#option_values').html(html);
+				if(html.length>0) {
+					$('#option_values').html(html);
+				}else{
+					$('#option_values').html('');
+					$('select#option').parents('.primary_content_actions').find('label').remove();
+					$('select#option').remove();
+				}
 			},
 			global: false,
 			error: function (jqXHR, textStatus, errorThrown) {
