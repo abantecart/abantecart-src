@@ -99,6 +99,12 @@ class ControllerPagesToolCache extends AController{
 						'keywords'    => 'error_log'
 				),
 				array (
+						'id'          => 'install_upgrade_history',
+						'text'        => $this->language->get('text_install_upgrade_history'),
+						'description' => $this->language->get('desc_install_upgrade_history'),
+						'keywords'    => 'install_upgrade_history'
+				),
+				array (
 						'id'          => 'html_cache',
 						'text'        => $this->language->get('text_html_cache'),
 						'description' => $this->language->get('desc_html_cache'),
@@ -153,8 +159,8 @@ class ControllerPagesToolCache extends AController{
 
 			foreach ($selected as $cache_groups_str){
 				$cache_groups = explode(',', $cache_groups_str);
-				array_walk($cache_groups,'trim');
-				foreach($cache_groups as $group){
+				array_walk($cache_groups, 'trim');
+				foreach ($cache_groups as $group){
 
 					switch($group){
 						case 'image':
@@ -166,30 +172,33 @@ class ControllerPagesToolCache extends AController{
 								unlink($file);
 							}
 							break;
+						case 'install_upgrade_history':
+							$this->loadModel('tool/install_upgrade_history');
+							$this->model_tool_install_upgrade_history->deleteData();
+							break;
 						case 'html_cache':
 							$this->cache->remove('html_cache');
 							break;
 						default:
 							$this->cache->remove($group);
-							foreach($languages as $lang){
-								foreach($stores as $store){
-									$this->cache->remove($group."_".$store['store_id']."_".$lang['language_id']);
+							foreach ($languages as $lang){
+								foreach ($stores as $store){
+									$this->cache->remove($group . "_" . $store['store_id'] . "_" . $lang['language_id']);
 								}
 							}
 					}
 				}
 			}
 			$this->session->data['success'] = $this->language->get('text_success');
-	} else if ($this->request->get_or_post('clear_all') == 'all'){
-		//delete entire cache
-		$this->cache->remove('*');
-		$this->session->data['success'] = $this->language->get('text_success');
+		} else if ($this->request->get_or_post('clear_all') == 'all'){
+			//delete entire cache
+			$this->cache->remove('*');
+			$this->session->data['success'] = $this->language->get('text_success');
+		}
+		//update controller data
+		$this->extensions->hk_UpdateData($this, __FUNCTION__);
+		$this->redirect($this->html->getSecureURL('tool/cache'));
 	}
-	//update controller data
-	$this->extensions->hk_UpdateData($this, __FUNCTION__);
-	$this->redirect($this->html->getSecureURL('tool/cache'));
-	}
-
 
 	public function deleteThumbnails(){
 
@@ -199,11 +208,11 @@ class ControllerPagesToolCache extends AController{
 		$path = DIR_IMAGE . 'thumbnails/';
 
 		$iter = new RecursiveIteratorIterator(
-			        new RecursiveDirectoryIterator($path, RecursiveDirectoryIterator::SKIP_DOTS),
-			        RecursiveIteratorIterator::CHILD_FIRST );
+				new RecursiveDirectoryIterator($path, RecursiveDirectoryIterator::SKIP_DOTS),
+				RecursiveIteratorIterator::CHILD_FIRST);
 
-		foreach ($iter as $file=>$dir){
-			if (basename($file)=='index.html'){
+		foreach ($iter as $file => $dir){
+			if (basename($file) == 'index.html'){
 				continue;
 			}
 			if (is_dir($file)){
