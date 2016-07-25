@@ -458,4 +458,8 @@
 		<key>text_rl_manager</key>
 		<value><![CDATA[Media Manager]]></value>
 	</definition>
+	<definition>
+		<key>text_server_time</key>
+		<value><![CDATA[Server Time]]></value>
+	</definition>
 </definitions>
