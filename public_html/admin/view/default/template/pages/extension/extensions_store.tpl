@@ -200,9 +200,6 @@
 		  						?>  
 	  						<?php
 	  							} else {
-	  							//
-	  						?>  
-		  						<?php
 	  								if($item['in_other_store']) {
 		  						?>  
 	        					<div class="ext_icons">
@@ -214,7 +211,7 @@
 		  							}
 		  						?>  
 	        					<div class="ext_icons">
-	        						<a href="#" data-toggle="modal" data-target="#amp_order_modal" class="productcart tooltips" data-id="<?php echo $item['product_id']; ?>" title="<?php echo $text_marketplace_buy; ?>">
+	        						<a href="#" data-toggle="modal" data-target="<?php echo !$mp_connected ? '#amp_modal' : '#amp_order_modal';?>" class="productcart tooltips" data-id="<?php echo $item['product_id']; ?>" title="<?php echo $text_marketplace_buy; ?>">
 	        						<i class="fa fa-shopping-cart"></i>
 	        						</a>
 	        					</div>
