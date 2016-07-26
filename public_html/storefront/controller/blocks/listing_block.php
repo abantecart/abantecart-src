@@ -25,8 +25,10 @@ class ControllerBlocksListingBlock extends AController {
 	public $data;
 	public function main() {
 
-		if($this->html_cache()){
-			return;
+		//disable cache when login display price setting is off or enabled showing of prices with taxes
+		if( ($this->config->get('config_customer_price') && !$this->config->get('config_tax'))
+			&&	$this->html_cache()	){
+			return null;
 		}
 
         //init controller data
