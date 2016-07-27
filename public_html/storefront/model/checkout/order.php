@@ -269,7 +269,7 @@ class ModelCheckoutOrder extends Model {
 				if(has_value($data[$row['protocol']])){
 					$type_id = (int)$row['type_id'];
 					$im_data = serialize(array('uri'=>$data[$row['protocol']], 'status' => $this->config->get('config_im_guest_'.$row['protocol'].'_status')));
-					$sql = "INSERT INTO ".$this->db->table('order_data')."
+					$sql = "REPLACE INTO ".$this->db->table('order_data')."
 							(`order_id`, `type_id`, `data`, `date_added`)
 							VALUES (".(int)$order_id.", ".(int)$type_id.", '".$this->db->escape($im_data)."', NOW() )";
 					$this->db->query($sql);
