@@ -459,6 +459,7 @@ class ControllerPagesSaleOrder extends AController{
 				}elseif($option['element_type']=='C' && $value==1){
 					$value = '';
 				}
+				$title = '';
 				// strip long textarea value
                 if($option['element_type']=='T'){
                     $title = strip_tags($value);
@@ -548,7 +549,7 @@ class ControllerPagesSaleOrder extends AController{
 			if ($total_ext->rows) {
 				foreach ($total_ext->rows as $extn) {
 					if(!$extn['status']) {
-						//is total in this order missing? do not allow resulculate 
+						//is total in this order missing? do not allow recalculate
 						if(str_replace('_', '', $ototal['key']) == str_replace('_', '', $extn['key']) ){
 							$this->data['no_recalc_allowed'] = true;
 						}
@@ -1407,7 +1408,6 @@ class ControllerPagesSaleOrder extends AController{
 				foreach($downloads as $download_info){
 					$download_info['order_status_id'] = $order_info['order_status_id'];
 					$attributes = $this->download->getDownloadAttributesValuesForDisplay($download_info['download_id']);
-					$order_product_id = $download_info['order_product_id'];
 					$is_file = $this->download->isFileAvailable($download_info['filename']);
 					foreach($download_info['download_history'] as &$h){
 						$h['time'] = dateISO2Display($h['time'], $this->language->get('date_format_short') . ' ' . $this->language->get('time_format'));
@@ -1478,7 +1478,7 @@ class ControllerPagesSaleOrder extends AController{
 
 	/**
 	 * Response controller to recalculate an order in admin
-	 * IMPORTANT: To prevent conflict of models, call indipendantly
+	 * IMPORTANT: To prevent conflict of models, call independently
 	 * @void
  	*/
 	public function recalc() {
@@ -1516,7 +1516,6 @@ class ControllerPagesSaleOrder extends AController{
 			$new_total = $this->request->post;
 	  		$order_total_id = $adm_order_mdl->addOrderTotal($order_id, $new_total);
 			$skip_recalc[] = $order_total_id;
-			//$log_msg .= "Added  ". $new_total['key']."/".$new_total['title'].": ".$new_total['text']."\n";
 		}
   				
 		$order = new AOrderManager( $order_id );
@@ -1532,6 +1531,7 @@ class ControllerPagesSaleOrder extends AController{
 
 		//update controller data
 		$this->extensions->hk_UpdateData($this, __FUNCTION__);
+		return true;
 	}	
 
 	public function delete_total() {
@@ -1557,9 +1557,8 @@ class ControllerPagesSaleOrder extends AController{
 			if(empty($tobe_deleted)) {
 				$this->session->data['error'] = "Error deleting total!";			
 			} else {
-		  		$adm_order_mdl->deleteOrderTotal($order_id, $order_total_id);	
-		  		//$log_msg .= "Deleted  ". $tobe_deleted['key']."/".$tobe_deleted['title'].": ".$tobe_deleted['text']."\n";
-		  		//recalc order total
+		  		$adm_order_mdl->deleteOrderTotal($order_id, $order_total_id);
+		  		//recalculate order total
 		  		$order = new AOrderManager( $order_id );
 				$t_ret = $order->recalcTotals();
 				if( !$t_ret || $t_ret['error'] ) {
