@@ -39,3 +39,13 @@ ADD COLUMN `data` text DEFAULT null;
 
 ALTER TABLE `ac_customers`
 ADD COLUMN `salt` varchar(32) COLLATE utf8_general_ci NOT NULL DEFAULT '';
+
+
+
+#global search speedup
+ALTER TABLE `ac_settings` DROP INDEX `ac_settings_idx` ;
+ALTER TABLE `ac_settings` DROP PRIMARY KEY, ADD PRIMARY KEY (`setting_id`, `store_id`, `group`, `key`);
+ALTER TABLE `ac_settings` ADD FULLTEXT INDEX `ac_settings_idx` (`value` ASC);
+ALTER TABLE `ac_language_definitions` DROP INDEX `ac_lang_definition_idx` ;
+ALTER TABLE `ac_language_definitions` DROP PRIMARY KEY, ADD PRIMARY KEY (`language_definition_id`, `language_id`, `section`, `block`, `language_key`);
+ALTER TABLE `ac_language_definitions` ADD FULLTEXT INDEX `ac_lang_definition_idx` (`language_value` ASC);

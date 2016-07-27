@@ -73,7 +73,7 @@ CREATE TABLE `ac_countries` (
   `iso_code_3` varchar(3) COLLATE utf8_general_ci NOT NULL DEFAULT '',
   `address_format` text COLLATE utf8_general_ci NOT NULL,
   `status` int(1) NOT NULL DEFAULT '1',
-  `sort_order` int(3) NOT NULL DEFAULT '0',  
+  `sort_order` int(3) NOT NULL DEFAULT '0',
   PRIMARY KEY (`country_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
 CREATE INDEX `ac_countries_idx` ON `ac_countries` ( `iso_code_2`, `iso_code_3`, `status`  );
@@ -636,7 +636,7 @@ CREATE TABLE `ac_currencies` (
   `currency_id` int(11) NOT NULL AUTO_INCREMENT,
   `title` varchar(32) COLLATE utf8_general_ci NOT NULL DEFAULT '',
   `code` varchar(3) COLLATE utf8_general_ci NOT NULL DEFAULT '',
-  `symbol_left` varchar(12) COLLATE utf8_general_ci NOT NULL,	
+  `symbol_left` varchar(12) COLLATE utf8_general_ci NOT NULL,
   `symbol_right` varchar(12) COLLATE utf8_general_ci NOT NULL,
   `decimal_place` char(1) COLLATE utf8_general_ci NOT NULL,
   `value` decimal(15,8) NOT NULL,
@@ -754,9 +754,9 @@ CREATE TABLE `ac_downloads` (
   `download_id` int(11) NOT NULL AUTO_INCREMENT,
   `filename` varchar(128) COLLATE utf8_general_ci NOT NULL DEFAULT '',
   `mask` varchar(128) COLLATE utf8_general_ci NOT NULL DEFAULT '',
-  `max_downloads` int(11) DEFAULT NULL, -- remaining, NULL -> No limit 
+  `max_downloads` int(11) DEFAULT NULL, -- remaining, NULL -> No limit
   `expire_days` int(11) DEFAULT NULL,  -- default to NULL -> No expiration
-  `sort_order` int(11) NOT NULL,  
+  `sort_order` int(11) NOT NULL,
   `activate` varchar(64) NOT NULL,
   `activate_order_status_id` int(11) NOT NULL DEFAULT '0',
   `shared` int(1) NOT NULL DEFAULT '0', -- if used by other products set to 1
@@ -941,10 +941,9 @@ CREATE TABLE `ac_language_definitions` (
   `language_value` text NOT NULL COMMENT 'translatable',
   `date_added` timestamp NOT NULL default '0000-00-00 00:00:00',
   `date_modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY  (`language_definition_id`)
+  PRIMARY KEY  (`language_definition_id`, `language_id`, `section`, `block`, `language_key`),
+	FULLTEXT INDEX `ac_lang_definition_idx` (`language_value` ASC)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
-CREATE UNIQUE INDEX `ac_lang_definition_idx`
-ON `ac_language_definitions` ( `section`,`block`,`language_id`,`language_key` );
 
 --
 -- DDL for table `length_class`
@@ -1095,17 +1094,17 @@ CREATE TABLE `ac_order_downloads` (
   `name` varchar(64) COLLATE utf8_general_ci NOT NULL DEFAULT '',
   `filename` varchar(128) COLLATE utf8_general_ci NOT NULL DEFAULT '',
   `mask` varchar(128) COLLATE utf8_general_ci NOT NULL DEFAULT '',
-  `download_id` int(11) NOT NULL, 
+  `download_id` int(11) NOT NULL,
   `status` int(1) NOT NULL DEFAULT '0',
   `remaining_count` int(11) DEFAULT NULL,
   `percentage` int(11) DEFAULT '0',
   `expire_date` datetime NULL,
   `sort_order` int(11) NOT NULL,
   `activate` VARCHAR(64) NOT NULL,
-  `activate_order_status_id` int(11) NOT NULL DEFAULT '0', 
+  `activate_order_status_id` int(11) NOT NULL DEFAULT '0',
   `attributes_data` longtext COLLATE utf8_general_ci  DEFAULT NULL,  -- serialized values
   `date_added` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `date_modified` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP, 
+  `date_modified` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP,
   PRIMARY KEY (`order_download_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
 
@@ -1141,7 +1140,7 @@ CREATE TABLE `ac_order_data` (
   `type_id` int(11) NOT NULL,
   `data` text COLLATE utf8_general_ci DEFAULT NULL,  -- serialized values
   `date_added` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `date_modified` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP, 
+  `date_modified` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP,
   PRIMARY KEY (`order_id`, `type_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
@@ -1151,7 +1150,7 @@ CREATE TABLE `ac_order_data_types` (
   `language_id` int(11) NOT NULL,
   `name` varchar(64) COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT 'translatable',
   `date_added` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `date_modified` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP, 
+  `date_modified` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP,
   PRIMARY KEY (`type_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
 
@@ -1431,10 +1430,10 @@ CREATE TABLE `ac_product_option_values` (
   `quantity` int(4) NOT NULL DEFAULT '0',
   `subtract` int(1) NOT NULL DEFAULT '0',
   `price` decimal(15,4) NOT NULL,
-  `prefix` char(1) COLLATE utf8_general_ci NOT NULL, -- % or $ 
+  `prefix` char(1) COLLATE utf8_general_ci NOT NULL, -- % or $
   `weight` decimal(15,8) NOT NULL,
   `weight_type` varchar(3) COLLATE utf8_general_ci NOT NULL, -- lbs or %
-  `attribute_value_id` int(11),  
+  `attribute_value_id` int(11),
   `grouped_attribute_data` text DEFAULT NULL,
   `sort_order` int(3) NOT NULL,
   `default` smallint DEFAULT 0,
@@ -1453,7 +1452,7 @@ CREATE TABLE `ac_product_option_value_descriptions` (
   `language_id` int(11) NOT NULL,
   `product_id` int(11) NOT NULL,
   `name` text COLLATE utf8_general_ci DEFAULT NULL COMMENT 'translatable',
-  `grouped_attribute_names` text COLLATE utf8_general_ci DEFAULT NULL,  
+  `grouped_attribute_names` text COLLATE utf8_general_ci DEFAULT NULL,
   PRIMARY KEY (`product_option_value_id`,`language_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 CREATE INDEX `ac_product_option_value_descriptions_idx` ON `ac_product_option_value_descriptions` ( `product_id` );
@@ -1565,8 +1564,8 @@ CREATE TABLE `ac_settings` (
   `value` text COLLATE utf8_general_ci NOT NULL,
   `date_added` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `date_modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
- PRIMARY KEY (`setting_id`,`store_id`),
- KEY `ac_settings_idx` (`group`,`key`) USING BTREE
+ PRIMARY KEY (`setting_id`, `store_id`, `group`, `key`),
+ FULLTEXT INDEX `ac_settings_idx` (`value` ASC)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
 
 --
@@ -1862,10 +1861,10 @@ CREATE TABLE `ac_tax_rates` (
   `tax_class_id` int(11) NOT NULL,
   `priority` int(5) NOT NULL DEFAULT '1',
   `rate` decimal(15,4) NOT NULL DEFAULT '0.0000',
-  `rate_prefix` char(1) COLLATE utf8_general_ci NOT NULL DEFAULT '%', -- % or $ 
+  `rate_prefix` char(1) COLLATE utf8_general_ci NOT NULL DEFAULT '%', -- % or $
   `threshold_condition` char(2) COLLATE utf8_general_ci NOT NULL, -- '<=', '>=', '==' or '<'
   `threshold` decimal(15,4) NOT NULL DEFAULT '0.0000',
-  `tax_exempt_groups` text DEFAULT NULL, 
+  `tax_exempt_groups` text DEFAULT NULL,
   `date_added` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `date_modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`tax_rate_id`)
@@ -2032,7 +2031,7 @@ CREATE TABLE `ac_zones` (
   `country_id` int(11) NOT NULL,
   `code` varchar(32) COLLATE utf8_general_ci NOT NULL DEFAULT '',
   `status` int(1) NOT NULL DEFAULT '1',
-  `sort_order` int(3) NOT NULL DEFAULT '0',  
+  `sort_order` int(3) NOT NULL DEFAULT '0',
   PRIMARY KEY (`zone_id`, `country_id` )
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
 
@@ -10018,9 +10017,9 @@ VALUES
 DROP TABLE IF EXISTS `ac_pages`;
 CREATE TABLE `ac_pages` (
   `page_id` int(10) NOT NULL auto_increment,
-  `parent_page_id` int(10) NOT NULL DEFAULT '0',  
+  `parent_page_id` int(10) NOT NULL DEFAULT '0',
   `controller` varchar(100) NOT NULL,
-  `key_param` varchar(40) NOT NULL default '', -- Example product_id=10 identifies uniqe product page  
+  `key_param` varchar(40) NOT NULL default '', -- Example product_id=10 identifies uniqe product page
   `key_value` varchar(40) NOT NULL default '', -- Example product_id=10 identifies uniqe product page
   `date_added` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `date_modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
@@ -10222,7 +10221,7 @@ CREATE TABLE `ac_block_descriptions` (
   `block_wrapper` varchar(255) NOT NULL default '0',
   `block_framed` tinyint(1) DEFAULT '1',
   `name` varchar(255) NOT NULL COMMENT 'translatable',
-  `title` varchar(255) NOT NULL COMMENT 'translatable',  
+  `title` varchar(255) NOT NULL COMMENT 'translatable',
   `description` varchar(255) NOT NULL DEFAULT '' COMMENT 'translatable',
   `content` longtext NOT NULL DEFAULT '', -- Contain the block details if custom content
   `date_added` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
@@ -10382,10 +10381,10 @@ INSERT INTO `ac_pages_layouts` (`layout_id`, `page_id`) VALUES
 DROP TABLE IF EXISTS `ac_block_layouts`;
 CREATE TABLE `ac_block_layouts` (
   `instance_id` int(10) NOT NULL auto_increment,
-  `layout_id` int(10) NOT NULL default '0',  
+  `layout_id` int(10) NOT NULL default '0',
   `block_id` int(10) NOT NULL default '0',
-  `custom_block_id` int(10) NOT NULL default '0',  
-  `parent_instance_id` int(10) NOT NULL default '0', -- 0 for main level block 
+  `custom_block_id` int(10) NOT NULL default '0',
+  `parent_instance_id` int(10) NOT NULL default '0', -- 0 for main level block
   `position` smallint(5) NOT NULL default '0',
   `status` smallint(1) NOT NULL default '0',
   `date_added` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
@@ -10639,15 +10638,15 @@ DROP TABLE IF EXISTS `ac_fields`;
 CREATE TABLE `ac_fields` (
   `field_id` int(11) NOT NULL auto_increment,
   `form_id` int(11) NOT NULL DEFAULT '0',
-  `field_name` varchar(40) NOT NULL, 
+  `field_name` varchar(40) NOT NULL,
   -- used to create css ID (form_name + field_name) and name for input tag tag
   `element_type` char(1) NOT NULL DEFAULT 'I',
-  -- I - text input, T - Text area, S - Select, M - multivalue select, C - Checkbox, R - radio buttons, U - File upload, H - Hidden, G -Checkbox Group, D - Date, E - time, K - Captcha 
+  -- I - text input, T - Text area, S - Select, M - multivalue select, C - Checkbox, R - radio buttons, U - File upload, H - Hidden, G -Checkbox Group, D - Date, E - time, K - Captcha
   `sort_order` int(3) NOT NULL,
   `attributes` varchar(255) NOT NULL,
   `settings` text COLLATE utf8_general_ci NOT NULL DEFAULT '',
   `required` char(1) NOT NULL DEFAULT 'N',
-  -- N - Not required, Y - required  
+  -- N - Not required, Y - required
   `status` smallint(1) NOT NULL default '0',
   `regexp_pattern` varchar(255) NOT NULL DEFAULT '',
   PRIMARY KEY (`field_id`),
@@ -11839,7 +11838,7 @@ INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
 VALUES  (40,'222',214),
         (40,'221',215),
         (40,'260',216);
-        
+
 --
 -- SUBMENU REPORTS->PRODUCTS
 -- ITEM_ID
@@ -11876,7 +11875,7 @@ VALUES
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
 VALUES  (40,'235',217),
         (40,'236',218);
-                
+
 --
 -- Storefront menu names inserts
 --
@@ -12240,9 +12239,9 @@ DROP TABLE IF EXISTS `ac_resource_map`;
 CREATE TABLE `ac_resource_map` (
   `resource_id` int(11) NOT NULL,
   `object_name` varchar(40) NOT NULl,
-  `object_id` int(11) NOT NULL,  
-  `default`tinyint(1) NOT NULL DEFAULT '0' COMMENT '0-no, 1-Yes', 
-  `sort_order` int(3) NOT NULL DEFAULT '0',  
+  `object_id` int(11) NOT NULL,
+  `default`tinyint(1) NOT NULL DEFAULT '0' COMMENT '0-no, 1-Yes',
+  `sort_order` int(3) NOT NULL DEFAULT '0',
   `date_added` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `date_modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 	PRIMARY KEY ( `resource_id`, `object_name`, `object_id` )
@@ -12306,7 +12305,7 @@ CREATE TABLE `ac_global_attributes_value_descriptions` (
   `attribute_value_id` int(11) NOT NULL,
   `attribute_id` int(11) NOT NULL,
   `language_id`	int(11) NOT NULL,
-  `value` text COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT 'translatable', 
+  `value` text COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT 'translatable',
   PRIMARY KEY (`attribute_value_id`, `attribute_id`, `language_id` )
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;	 
 
@@ -12367,7 +12366,7 @@ VALUES
 DROP TABLE IF EXISTS `ac_product_filters`;
 CREATE TABLE `ac_product_filters` (
   `filter_id` int(11) NOT NULL AUTO_INCREMENT,
-  `filter_type` char(1) NOT NULL DEFAULT '',  -- M - manufacture/brand, C - Category  based, F - Feature based, O - Option based, P - Price based 
+  `filter_type` char(1) NOT NULL DEFAULT '',  -- M - manufacture/brand, C - Category  based, F - Feature based, O - Option based, P - Price based
   `categories_hash` text NOT NULL, -- Hash with selected categories, that are used. Default ALL categories.
   `feature_id` int(11),
   `sort_order` int(3) NOT NULL DEFAULT '0',
@@ -12419,8 +12418,8 @@ DROP TABLE IF EXISTS `ac_encryption_keys`;
 CREATE TABLE `ac_encryption_keys` (
   `key_id` int(3) NOT NULL AUTO_INCREMENT,
   `key_name` varchar(32) COLLATE utf8_general_ci NOT NULL DEFAULT '',
-  `status` int(1) NOT NULL,  
-  `comment` text COLLATE utf8_general_ci NOT NULL,  
+  `status` int(1) NOT NULL,
+  `comment` text COLLATE utf8_general_ci NOT NULL,
   PRIMARY KEY (`key_id`),
   UNIQUE KEY `encryption_keys_key_name` (`key_name`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
