@@ -62,7 +62,7 @@ class ControllerPagesExtensionExtensionSummary extends AController {
                 $update_now_url = $updates[$extension]['url'];
             }
 
-			/* ????? Add new button here for latest MP			
+
             $this->data['upgrade_button'] = $this->html->buildElement(
                                 array(  'type'=> 'button',
                                         'name' => 'btn_upgrade',
@@ -70,7 +70,6 @@ class ControllerPagesExtensionExtensionSummary extends AController {
                                         'href' => $update_now_url,
                                         'text' => $this->language->get('button_upgrade')
                                 ));
-            */
         }
 
         $this->data['extension_info']['license'] = $this->data['extension_info']['license_key'];
