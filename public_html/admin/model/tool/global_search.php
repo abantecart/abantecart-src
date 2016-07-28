@@ -275,10 +275,9 @@ class ModelToolGlobalSearch extends Model {
 						LEFT JOIN " . $this->db->table("page_descriptions") . " b 
 							ON (p.page_id = b.page_id AND b.language_id	IN (" . (implode(",", $search_languages)) . "))
 						WHERE
-							OR (LOWER(b.name) like '%" . $needle . "%')
+							((LOWER(b.name) like '%" . $needle . "%')
 							OR (LOWER(b.title) like '%" . $needle . "%')
-							OR (LOWER(b.keywords) like '%" . $needle . "%')
-							)";
+							OR (LOWER(b.keywords) like '%" . $needle . "%'))";
 				$result = $this->db->query($sql);
 				$output = $result->row ['total'];
 				break;
