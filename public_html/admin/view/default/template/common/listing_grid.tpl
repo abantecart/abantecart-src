@@ -300,14 +300,16 @@ var initGrid_<?php echo $data['table_id'] ?> = function ($) {
 				if($action['children']){
 					$html_children = '<div class="dropdown-menu dropdown-menu-sm dropdown-menu-right" role="menu"><h5 class="title">'.htmlentities($text_select_from_list,ENT_QUOTES,'UTF-8').'</h5><ul class="dropdown-list grid-dropdown">';
 					foreach($action['children'] as $child){
+						$li_class = '';
 						$href = has_value($child['href']) ? $child['href'] : '#';				
 						//for viewport mode
 						if($child['vhref']){
-							$href = 'data-toggle="modal" data-target="#viewport_modal" href="'.$child['vhref'].'" data-fullmode-href="'.$href.'"';					
+							$li_class = "hidden-xs hidden-sm hidden-md";
+							$href = 'data-toggle="modal" data-target="#viewport_modal" href="'.$child['vhref'].'" data-fullmode-href="'.$href.'"';
 						} else {
 							$href = 'href="'.$href.'"';
 						}
-						$html_children .= '<li><a '.$href.' rel="%ID%">'.htmlentities($child['text'],ENT_QUOTES,'UTF-8').'</a></li>';
+						$html_children .= '<li class="'.$li_class.'"><a '.$href.' rel="%ID%">'.htmlentities($child['text'],ENT_QUOTES,'UTF-8').'</a></li>';
 					}
 					$html_children .= '</ul></div>';
 					$html_btn = '<div class="btn-group">'.$html_btn.''.$html_children.'</div>';
