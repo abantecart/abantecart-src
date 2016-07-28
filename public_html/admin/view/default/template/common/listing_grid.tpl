@@ -32,13 +32,17 @@
 				'id' => 'viewport_modal',
 				'modal_type' => 'lg',
                 'data_source' =>'ajax',
-				'title' => 'Category Preview',
+				'js_onload' => "
+						var url = $(this).data('bs.modal').options.fullmodeHref;
+						$('#viewport_modal .modal-header a.btn').attr('href',url);
+						",
+				'js_onclose' => "$('#".$data['table_id']."').trigger('reloadGrid',[{current:true}]);"
 		)
 	);
 ?>
+
 <script type="text/javascript" src="<?php echo $template_dir; ?>javascript/jqgrid/plugins/jquery.tablednd.js"></script>
 <script type="text/javascript">
-
 
 var initGrid_<?php echo $data['table_id'] ?> = function ($) {
 
@@ -311,17 +315,7 @@ var initGrid_<?php echo $data['table_id'] ?> = function ($) {
 
 				echo $html_string.$html_btn."'; \r\n";
 			}
-		?>
-			//viewport_modal modal open and close events 
-			$('#viewport_modal').on('shown.bs.modal', function(e){
-				var target = $(e.relatedTarget);
-				$(this).find('.modal-header a.btn').attr('href',target.attr('data-fullmode-href'));
-			});
-			$('#viewport_modal').on('hidden.bs.modal', function (e) {
-				//reload grid
-				$('#<?php echo $data['table_id'] ?>').trigger("reloadGrid",[{current:true}]);
-			});
-		<?php			
+
 		} // end of action 		
 		?>
 			if (actions != '') {
