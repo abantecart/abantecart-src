@@ -2095,15 +2095,21 @@ class ModelCatalogProduct extends Model{
 		if($result->row['base_subtract'] && $result->row['base_quantity'] <= 0){
 			$output[] = $this->language->get('text_product_out_of_stock');
 		}
-
+		$out_of_stock = false;
+		$error_txt = array();
 		foreach($result->rows as $k=>$row){
 			if($row['subtract'] && $row['quantity'] <= 0){
-				$text = $this->language->get('text_product_option_out_of_stock');
-				$text .= ' ('.$row['option_name'].' => '.$row['option_value_name'].')';
-				$output[] = $text;
-				break;
+				$error_txt[] = $row['option_name'].' => '.$row['option_value_name'];
+				$out_of_stock = true;
 			}
 		}
+
+		if($out_of_stock){
+			$output[] = $this->language->get('text_product_option_out_of_stock');
+			$output = array_merge($output, $error_txt);
+		}
+
+
 		return $output;
 	}
 
