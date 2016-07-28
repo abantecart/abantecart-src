@@ -304,7 +304,6 @@ var initGrid_<?php echo $data['table_id'] ?> = function ($) {
 						$href = has_value($child['href']) ? $child['href'] : '#';				
 						//for viewport mode
 						if($child['vhref']){
-							$li_class = "hidden-xs hidden-sm hidden-md";
 							$href = 'data-toggle="modal" data-target="#viewport_modal" href="'.$child['vhref'].'" data-fullmode-href="'.$href.'"';
 						} else {
 							$href = 'href="'.$href.'"';

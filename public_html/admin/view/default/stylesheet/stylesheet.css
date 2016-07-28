@@ -2596,6 +2596,10 @@ body.stickyheader .sticky_left {
    .fixed-noleft .topnav {
       float: none;
    }
+
+   .modal-dialog.modal-lg {
+      width: 99%;
+   }
 }
 
 @media screen and (max-width: 767px) {
@@ -2638,6 +2642,10 @@ body.stickyheader .sticky_left {
    
    .panel-email .col-sm-3 {
       display: none;
+   }
+
+   .modal-dialog.modal-lg {
+      width: 99%;
    }
 }
 
@@ -2775,6 +2783,9 @@ body.stickyheader .sticky_left {
       content: '';
    }
 
+   .modal-dialog.modal-lg {
+      width: 99%;
+   }
 }
 
 @media screen and (max-width: 480px) {
@@ -2859,7 +2870,11 @@ body.stickyheader .sticky_left {
 
    .common_content_actions {
    		padding-top: 20px;
-   }   
+   }
+
+   .modal-dialog.modal-lg {
+      width: 99%;
+   }
    
 }
 
@@ -2920,7 +2935,10 @@ body.stickyheader .sticky_left {
    
    .common_content_actions {
    		padding-top: 20px;
-   }   
+   }
+   .modal-dialog.modal-lg {
+      width: 99%;
+   }
 }
 
 @media screen and (max-width: 320px) {
@@ -2931,6 +2949,10 @@ body.stickyheader .sticky_left {
    
    .common_content_actions {
    		padding-top: 20px;
+   }
+
+   .modal-dialog.modal-lg {
+      width: 99%;
    }
      
 }
