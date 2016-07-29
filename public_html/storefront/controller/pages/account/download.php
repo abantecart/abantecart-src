@@ -188,24 +188,30 @@ class ControllerPagesAccountDownload extends AController {
 		//init controller data
 		$this->extensions->hk_InitData($this,__FUNCTION__);
 
-		if(!$this->config->get('config_download') && !$this->request->get['download_id']){ // if downloads not allowed
+		$download_id = (int)$this->request->get['download_id'];
+		$order_download_id = (int)$this->request->get['order_download_id'];
+		$resource_id = (int)$this->request->get['resource_id'];
+
+
+		if(!$this->config->get('config_download') && !$resource_id ){
 			$this->redirect($this->html->getSecureURL('account/account'));
 		}
-
-		if (has_value($this->request->get['download_id'])) {
-			$download_info = $this->download->getDownloadinfo((int)$this->request->get['download_id']);
-		} elseif(has_value($this->request->get['order_download_id'])) {
+		//send downloads before order
+		if ($download_id) {
+			$download_info = $this->download->getDownloadinfo($download_id);
+		//send purchased downloads
+		} elseif($order_download_id) {
 			// check is customer logged
 			if (!$this->customer->isLogged()) {
 				$this->session->data['redirect'] = $this->html->getSecureURL('account/download');
 				$this->redirect($this->html->getSecureURL('account/login'));
 			}
-			$download_info = $this->download->getOrderDownloadInfo($this->request->get['order_download_id']);
+			$download_info = $this->download->getOrderDownloadInfo($order_download_id);
 		}
-		//download process for resources with type "download"
-		elseif (has_value($this->request->get['resource_id'])) {
+		//resources
+		elseif ($resource_id) {
 			$resource = new AResource('download');
-			$resource_info = $resource->getResource( (int)$this->request->get['resource_id'], $this->language->getLanguageID());
+			$resource_info = $resource->getResource( $resource_id, $this->language->getLanguageID());
 			if( $resource_info){
 				$download_info = array(
 					'filename' => 'download/'.$resource_info['resource_path'],
@@ -215,7 +221,6 @@ class ControllerPagesAccountDownload extends AController {
 			}else{
 				$this->redirect($this->html->getSecureURL('error/not_found'));
 			}
-
 		}else{
 			$download_info = array();
 		}
