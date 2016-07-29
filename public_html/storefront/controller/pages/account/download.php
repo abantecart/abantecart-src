@@ -188,7 +188,7 @@ class ControllerPagesAccountDownload extends AController {
 		//init controller data
 		$this->extensions->hk_InitData($this,__FUNCTION__);
 
-		if(!$this->config->get('config_download')){ // if downloads not allowed
+		if(!$this->config->get('config_download') && !$this->request->get['download_id']){ // if downloads not allowed
 			$this->redirect($this->html->getSecureURL('account/account'));
 		}
 
@@ -201,7 +201,22 @@ class ControllerPagesAccountDownload extends AController {
 				$this->redirect($this->html->getSecureURL('account/login'));
 			}
 			$download_info = $this->download->getOrderDownloadInfo($this->request->get['order_download_id']);
-		}else {
+		}
+		//download process for resources with type "download"
+		elseif (has_value($this->request->get['resource_id'])) {
+			$resource = new AResource('download');
+			$resource_info = $resource->getResource( (int)$this->request->get['resource_id'], $this->language->getLanguageID());
+			if( $resource_info){
+				$download_info = array(
+					'filename' => 'download/'.$resource_info['resource_path'],
+					'mask' => ( $resource_info['name'] ? $resource_info['name'] : basename($resource_info['resource_path']) ) ,
+					'activate' => 'before_order'
+				);
+			}else{
+				$this->redirect($this->html->getSecureURL('error/not_found'));
+			}
+
+		}else{
 			$download_info = array();
 		}
 

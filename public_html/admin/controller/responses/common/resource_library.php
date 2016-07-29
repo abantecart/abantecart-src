@@ -818,14 +818,12 @@ class ControllerResponsesCommonResourceLibrary extends AController {
 		);
 
 		foreach ($result['items'] as $key => $item) {
-			if($resource_type == 'image'){
+
 				$result['items'][$key]['thumbnail_url'] = $rm->getResizedImageURL($item,
 						$this->thumb_sizes['width'],
 						$this->thumb_sizes['height']
 				);
-			}else{
-				$result['items'][$key]['thumbnail_url'] = '';
-			}
+
 			$result['items'][$key]['url'] = $rm->buildResourceURL($item['resource_path'], 'full');
 			$result['items'][$key]['relative_url'] = $rm->buildResourceURL($item['resource_path'], 'relative');
 			$result['items'][$key]['can_delete'] = $result['items'][$key]['mapped']==1 ? true : false;

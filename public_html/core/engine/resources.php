@@ -470,7 +470,7 @@ class AResource{
 		}
 
 		$resources = array ();
-		if (!$results && $noimage){
+		if (!$results && $noimage && $this->getType() == 'image'){
 			$results = array (array ('resource_path' => 'no_image.jpg'));
 		}
 
@@ -537,6 +537,7 @@ class AResource{
 					}
 
 				} else{
+					$direct_url = $this->html->getSecureURL('account/download/startdownload','&resource_id='.$result['resource_id']);
 					$main_url = $direct_url;
 					$thumb_url = $this->getResizedImageURL(
 										$result,

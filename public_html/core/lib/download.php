@@ -343,7 +343,7 @@ final class ADownload {
 
 		$file = DIR_RESOURCE . $download_info['filename'];
 		$mask = basename($download_info['mask']);
-		$mime = 'application/octet-stream';
+		$mime = getMimeType($file);
 		$encoding = 'binary';
 
 		if (!headers_sent()) {

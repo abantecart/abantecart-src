@@ -305,8 +305,6 @@ class ControllerBlocksListingBlock extends AController {
 					);
 				}
 
-
-
 				$resources = $rl->getResourceAllObjects( $object_name,
 														 $object_id,
 														 array('main'=>array(
@@ -317,7 +315,8 @@ class ControllerBlocksListingBlock extends AController {
 					                                                          'width' => $image_sizes['thumb']['width'],
 					                                                          'height' => $image_sizes['thumb']['height'])),
 														$limit,
-														false);
+														true);
+
 				if(!$resources){ return null;}
 				if($limit==1){
 					$resources = array($resources);
