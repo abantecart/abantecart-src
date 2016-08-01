@@ -154,17 +154,23 @@ class AResourceManager extends AResource {
 
         if ( !empty($resource['resource_path']) ) {
 			$resource_path = $this->buildResourcePath($resource_id, $resource['resource_path']);
-			if($resource_path===false){
+			if($resource_path === false){
 				$message = "Error: Incorrect or missing resource path. Please set correct path to build internal path of resource. ";
 				$error = new AError ( $message );
 				$error->toLog()->toDebug();
+				//remove resource on fail
+				$this->deleteResource($resource_id);
 				return false;
 			}
-
-            if ( !rename(DIR_RESOURCE . $this->type_dir . $resource['resource_path'], DIR_RESOURCE . $this->type_dir . $resource_path ) ) {
-                $message = "Error: Cannot move resource to resources directory.";
+			//move file
+	        $result = rename(DIR_RESOURCE . $this->type_dir . $resource['resource_path'],
+			                 DIR_RESOURCE . $this->type_dir . $resource_path );
+            if (!$result) {
+                $message = "Error: Cannot move resource to resources directory. Please check permissions of ".dirname(DIR_RESOURCE . $this->type_dir . $resource_path).' directory!';
                 $error = new AError ( $message );
                 $error->toLog()->toDebug();
+	            //remove resource on fail
+	            $this->deleteResource($resource_id);
                 return false;
             }
         } else {

@@ -511,7 +511,6 @@ class ControllerResponsesCommonResourceLibrary extends AController {
         $this->extensions->hk_InitData($this,__FUNCTION__);
 
 		$rm = new AResourceManager();
-
 		$rm->setType($this->request->get['type']);
 
 		$upload_handler = new ResourceUploadHandler(
@@ -560,7 +559,6 @@ class ControllerResponsesCommonResourceLibrary extends AController {
 			$data['description'][$data['language_id']] = '';
 
 			$resource_id = $rm->addResource($data);
-
 			if ($resource_id) {
 				$info = $rm->getResource($resource_id, $data['language_id']);
 
@@ -569,10 +567,10 @@ class ControllerResponsesCommonResourceLibrary extends AController {
 				$result[$k]->language_id = $data['language_id'];
 				$result[$k]->resource_detail_url = $this->html->getSecureURL('common/resource_library/update_resource_details', '&resource_id=' . $resource_id);
 				$result[$k]->resource_path = $info['resource_path'];
-				$result[$k]->thumbnail_url = $rm->getResourceThumb(
-					$resource_id,
-					$this->config->get('config_image_grid_width'),
-					$this->config->get('config_image_grid_height')
+				$result[$k]->thumbnail_url = $rm->getResizedImageURL(
+														$info,
+														$this->config->get('config_image_grid_width'),
+														$this->config->get('config_image_grid_height')
 				);
 				if (!empty($this->request->get['object_name']) && !empty($this->request->get['object_id'])) {
 					$rm->mapResource($this->request->get['object_name'], $this->request->get['object_id'], $resource_id);
