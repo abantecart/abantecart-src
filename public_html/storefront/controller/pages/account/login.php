@@ -78,12 +78,10 @@ class ControllerPagesAccountLogin extends AController{
 			//activation of account via email-code. 
 			$enc = new AEncryption($this->config->get('encryption_key'));	
 			list($customer_id, $activation_code) = explode("::", $enc->decrypt($this->request->get['ac']));
-echo_array(array($customer_id, $activation_code));	//?????
 			if($customer_id && $activation_code) {
 				//get customer 
 				$this->loadModel('account/customer');
 				$customer_info = $this->model_account_customer->getCustomer((int)$customer_id);			
-echo_array($customer_info); // ?????
 				if($customer_info) {
 					//if activation code presents in data and matching
 					if ($activation_code == $customer_info['data']['email_activation']){			
@@ -127,7 +125,7 @@ echo_array($customer_info); // ?????
 		$this->document->addBreadcrumb(
 				array (
 						'href'      => $this->html->getSecureURL('account/login'),
-						'text'      => $this->language->get('text_login'),
+						'text'      => $this->language->get('text_login', 'account/login'),
 						'separator' => $this->language->get('text_separator')
 				));
 
