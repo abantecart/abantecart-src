@@ -508,7 +508,7 @@ $(window).load(function(){
 						html1 = '<a class="html_with_image">';
 						html1 += main_image.main_html + '</a>';
 					} else {
-				        html1 = '<a href="' + main_image.main_url + '">';
+				        html1 = '<a class="local_image">';
 				        html1 += '<img style="width:'+main_image.thumb_width+'px; height:'+main_image.thumb_height+'px;" src="' + main_image.thumb_url + '" />';
 				        html1 += '<i class="fa fa-arrows"></i></a>';
 				    }
