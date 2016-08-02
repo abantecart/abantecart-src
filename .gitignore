@@ -18,3 +18,5 @@ public_html/image/thumbnails/
 public_html/admin/view/default/template/pages/catalog/product_files.tpl
 
 *.swp
+
+public_html/storefront/controller/pages/account/download.php
