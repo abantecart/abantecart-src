@@ -191,33 +191,35 @@ class ControllerPagesAccountDownload extends AController {
 		$download_id = (int)$this->request->get['download_id'];
 		$order_download_id = (int)$this->request->get['order_download_id'];
 		$resource_id = (int)$this->request->get['resource_id'];
-		$object_id = (int)$this->request->get['object_id'];
-		$object_name = $this->request->get['object_name'];
-
 
 		if(!$this->config->get('config_download') && !$resource_id ){
 			$this->redirect($this->html->getSecureURL('account/account'));
 		}
+
+		$can_access = false;
+
 		//send downloads before order
 		if ($download_id) {
 			$download_info = $this->download->getDownloadinfo($download_id);
 			//do not allow download after orders by download_id
-			if($download_info && $download_info['activate'] != 'before_order'){
-				$download_info = array();
+			if($download_info && $download_info['activate'] == 'before_order'){
+				$can_access = true;
 			}
+		}
 		//send purchased downloads only for logged customers
-		} elseif($order_download_id && $this->customer->isLogged()) {
+		elseif($order_download_id && $this->customer->isLogged()) {
 			$download_info = $this->download->getOrderDownloadInfo($order_download_id);
 			if($download_info){
 				//check is customer can this download
-				$customer_downloads = $this->getCustomerDownloads();
-				if (!in_array($download_info['order_download_id'], array_keys($customer_downloads))){
-					$download_info = array();
+				$customer_downloads = $this->download->getCustomerDownloads();
+				if (in_array($order_download_id, array_keys($customer_downloads))){
+					$can_access = true;
 				}
 			}
 		}
-		// allow download resources only for admin side
-		elseif ($resource_id ) {
+
+		// allow "download-type" resources only for admin side
+		elseif ($resource_id && IS_ADMIN === true) {
 			$resource = new AResource('download');
 			$resource_info = $resource->getResource( $resource_id, $this->language->getLanguageID());
 			//override resource_type property of aresource instance
@@ -225,35 +227,19 @@ class ControllerPagesAccountDownload extends AController {
 				$resource = new AResource($resource_info['type_name']);
 			}
 			//allow to download any resource for admin
-			if( $resource_info && IS_ADMIN === true){
+			if( $resource_info ){
 				$download_info = array(
 					'filename' => $resource->getTypeDir().'/'.$resource_info['resource_path'],
 					'mask' => ( $resource_info['name'] ? $resource_info['name'] : basename($resource_info['resource_path']) ) ,
 					'activate' => 'before_order'
 				);
+				$can_access = true;
 			}
-			//for storefront allow to get resource only for id and object assistance except download-resources
-			elseif($resource_info && $resource_info['type_name'] != 'download' && $object_id && $object_name){
-				$obj_resources = $resource->getResources($object_name, $object_id);
-				foreach($obj_resources as $res){
-					if($res['resource_id'] == $resource_id){
-						$download_info = array(
-							'filename' => $resource->getTypeDir().'/'.$resource_info['resource_path'],
-							'mask' => ( $resource_info['name'] ? $resource_info['name'] : basename($resource_info['resource_path']) ) ,
-							'activate' => 'before_order'
-						);
-						break;
-					}
-				}
-			}else{
-				$download_info = array();
-			}
-		}else{
-			$download_info = array();
 		}
 
+
 		//if info presents - send file to output
-		if ($download_info && is_array($download_info)) {
+		if ($can_access && $download_info && is_array($download_info)) {
 			//if it's ok - send file and exit, otherwise do nothing
 			$this->download->sendDownload($download_info);
         }

@@ -537,10 +537,6 @@ class AResource{
 					}
 
 				} else{
-					$direct_url = $this->html->getSecureURL(
-							'account/download/startdownload',
-							'&resource_id='.$result['resource_id'].'&object_name='.$object_name.'&object_id='.$object_id
-					);
 
 					$main_url = $direct_url;
 					$thumb_url = $this->getResizedImageURL(

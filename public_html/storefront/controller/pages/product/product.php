@@ -616,8 +616,7 @@ class ControllerPagesProductProduct extends AController{
 
 		//downloads before order if allowed
 		if($this->config->get('config_download')){
-			$dwn = new ADownload();
-			$download_list = $dwn->getDownloadsBeforeOrder($product_id);
+			$download_list = $this->download->getDownloadsBeforeOrder($product_id);
 			if($download_list){
 				$downloads = array();
 

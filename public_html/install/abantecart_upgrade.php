@@ -11,3 +11,5 @@ if($result){
 			, true);
 }
 
+//TODO move all resources with type archives to resources/archive directory!
+//
