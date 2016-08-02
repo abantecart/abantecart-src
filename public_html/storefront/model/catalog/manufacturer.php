@@ -52,6 +52,9 @@ class ModelCatalogManufacturer extends Model{
 		$store_id = (int)$this->config->get('config_store_id');
 
 		if (isset($data['start']) || isset($data['limit'])){
+			$data['start'] = (int)$data['start'];
+			$data['limit'] = (int)$data['limit'];
+
 			if ($data['start'] < 0){
 				$data['start'] = 0;
 			}
