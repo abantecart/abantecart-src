@@ -202,19 +202,18 @@ class ControllerPagesAccountDownload extends AController {
 		$can_access = false;
 		$download_info = array();
 
-		//send downloads before order
 		if ($download_id) {
+			//downloads before order
 			$download_info = $this->download->getDownloadinfo($download_id);
-			//do not allow download after orders by download_id
+			//allow $download_id based downloads only for 'before_order' type download
 			if($download_info && $download_info['activate'] == 'before_order'){
 				$can_access = true;
 			}
-		}
-		//send purchased downloads only for logged customers
-		elseif($order_download_id && $this->customer->isLogged()) {
+		} else if ($order_download_id && $this->customer->isLogged()) {
+			//verify purchased downloads only for logged customers
 			$download_info = $this->download->getOrderDownloadInfo($order_download_id);
 			if($download_info){
-				//check is customer can this download
+				//check is customer has requested download in his order
 				$customer_downloads = $this->download->getCustomerDownloads();
 				if (in_array($order_download_id, array_keys($customer_downloads))){
 					$can_access = true;
@@ -222,7 +221,7 @@ class ControllerPagesAccountDownload extends AController {
 			}
 		}
 
-		//if info presents - send file to output
+		//if can access and info presents - retrieve file and output 
 		if ($can_access && $download_info && is_array($download_info)) {
 			//if it's ok - send file and exit, otherwise do nothing
 			$this->download->sendDownload($download_info);
