@@ -111,6 +111,9 @@ class ControllerPagesAccountDownload extends AController {
 					$size = $size / 1024;
 					$i++;
 				}
+
+				$download_text = $download_button = '';
+
 				if(!$text_status){
 					$download_button = $this->html->buildElement(
 							array ( 'type' => 'button',
@@ -139,8 +142,8 @@ class ControllerPagesAccountDownload extends AController {
 					'name'       => $download_info['name'],
 					'remaining'  => $download_info['remaining_count'],
 					'size'       => round(substr($size, 0, strpos($size, '.') + 4), 2) . $suffix[$i],
-					'button'	=> $download_button,
-					'text'	=> $download_text,
+					'button'	 => $download_button,
+					'text'	     => $download_text,
 					'expire_date'=> dateISO2Display($download_info['expire_date'], $this->language->get('date_format_short').' '.$this->language->get('time_format_short'))
 				);
 
@@ -148,18 +151,19 @@ class ControllerPagesAccountDownload extends AController {
 
 			$this->data['downloads'] = $downloads;
 
-			$this->data['pagination_bootstrap'] = HtmlElementFactory::create( array (
-										'type' => 'Pagination',
-										'name' => 'pagination',
-										'text'=> $this->language->get('text_pagination'),
-										'text_limit' => $this->language->get('text_per_page'),
-										'total'	=> $this->download->getTotalDownloads(),
-										'page'	=> $page,
-										'limit'	=> $limit,
-										'url'   => $this->html->getURL('account/download&limit='.$limit.'&page={page}', '&encode'),
-										'style' => 'pagination'));
-
-
+			$this->data['pagination_bootstrap'] = $this->html->buildElement(
+					array (
+							'type' => 'Pagination',
+							'name' => 'pagination',
+							'text'=> $this->language->get('text_pagination'),
+							'text_limit' => $this->language->get('text_per_page'),
+							'total'	=> $this->download->getTotalDownloads(),
+							'page'	=> $page,
+							'limit'	=> $limit,
+							'url'   => $this->html->getURL('account/download&limit='.$limit.'&page={page}', '&encode'),
+							'style' => 'pagination'
+					)
+			);
 
 			if($downloads){
 				$template = 'pages/account/download.tpl';
@@ -190,13 +194,13 @@ class ControllerPagesAccountDownload extends AController {
 
 		$download_id = (int)$this->request->get['download_id'];
 		$order_download_id = (int)$this->request->get['order_download_id'];
-		$resource_id = (int)$this->request->get['resource_id'];
 
-		if(!$this->config->get('config_download') && !$resource_id ){
+		if(!$this->config->get('config_download') ){
 			$this->redirect($this->html->getSecureURL('account/account'));
 		}
 
 		$can_access = false;
+		$download_info = array();
 
 		//send downloads before order
 		if ($download_id) {
@@ -217,26 +221,6 @@ class ControllerPagesAccountDownload extends AController {
 				}
 			}
 		}
-
-		// allow "download-type" resources only for admin side
-		elseif ($resource_id && IS_ADMIN === true) {
-			$resource = new AResource('download');
-			$resource_info = $resource->getResource( $resource_id, $this->language->getLanguageID());
-			//override resource_type property of aresource instance
-			if($resource_info['type_name']!='download'){
-				$resource = new AResource($resource_info['type_name']);
-			}
-			//allow to download any resource for admin
-			if( $resource_info ){
-				$download_info = array(
-					'filename' => $resource->getTypeDir().'/'.$resource_info['resource_path'],
-					'mask' => ( $resource_info['name'] ? $resource_info['name'] : basename($resource_info['resource_path']) ) ,
-					'activate' => 'before_order'
-				);
-				$can_access = true;
-			}
-		}
-
 
 		//if info presents - send file to output
 		if ($can_access && $download_info && is_array($download_info)) {
