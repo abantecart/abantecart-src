@@ -151,13 +151,20 @@ class ControllerPagesCheckoutSuccess extends AController{
 
 		$this->view->assign('heading_title', $this->language->get('heading_title'));
 
-		if ($this->session->data['account'] == 'guest'){
-			$this->view->assign('text_message',
-					sprintf($this->language->get('text_message_guest'), $this->html->getURL('content/contact')));
-		} else{
-			$order_id = $this->session->data['processed_order_id'];
-			unset($this->session->data['processed_order_id']);
+		$order_id = $this->session->data['processed_order_id'];
+		unset($this->session->data['processed_order_id']);
 
+		if ($this->session->data['account'] == 'guest'){
+			$this->loadModel('checkout/order');
+			$order_info = $this->model_checkout_order->getOrder($order_id);
+			//give link on order page for quest
+			$enc = new AEncryption($this->config->get('encryption_key'));
+			$order_token = $enc->encrypt($order_id.'::'.$order_info['email']);
+			$order_url = $this->html->getSecureURL('account/invoice', '&ot=' . $order_token);
+			$this->view->assign('text_message',
+					sprintf($this->language->get('text_message_guest'), $order_url, $this->html->getURL('content/contact'))
+			);
+		}else{
 			$text_message = sprintf($this->language->get('text_message_account'),
 										$order_id,
 										$this->html->getSecureURL('account/invoice','&order_id='.$order_id),
