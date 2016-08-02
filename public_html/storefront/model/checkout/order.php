@@ -415,6 +415,8 @@ class ModelCheckoutOrder extends Model {
 		$template->data['text_invoice'] = $language->get('text_invoice');
 		$template->data['text_date_added'] = $language->get('text_date_added');
 		$template->data['text_telephone'] = $language->get('text_telephone');
+		$template->data['text_mobile_phone'] = $language->get('text_mobile_phone');
+
 		$template->data['text_email'] = $language->get('text_email');
 		$template->data['text_ip'] = $language->get('text_ip');
 		$template->data['text_fax'] = $language->get('text_fax');
@@ -462,6 +464,8 @@ class ModelCheckoutOrder extends Model {
 		$template->data['payment_method'] = $order_row['payment_method'];
 		$template->data['customer_email'] = $order_row['email'];
 		$template->data['customer_telephone'] = $order_row['telephone'];
+		$template->data['customer_mobile_phone'] = $this->im->getCustomerURI('sms', (int)$order_row['customer_id'], $order_id);
+		$template->data['customer_fax'] = $order_row['fax'];
 		$template->data['customer_ip'] = $order_row['ip'];
 		$template->data['comment'] = trim(nl2br($order_row['comment']));
 

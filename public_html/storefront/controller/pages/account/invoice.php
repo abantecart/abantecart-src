@@ -141,6 +141,9 @@ class ControllerPagesAccountInvoice extends AController{
 
 			$this->data['email'] = $order_info['email'];
 			$this->data['telephone'] = $order_info['telephone'];
+
+			$this->data['mobile_phone'] = $this->im->getCustomerURI('sms', (int)$order_info['customer_id'], $order_id);
+
 			$this->data['fax'] = $order_info['fax'];
 
 			$this->data['status'] = $this->model_account_order->getOrderStatus($order_id);

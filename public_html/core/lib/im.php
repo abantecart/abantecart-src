@@ -341,7 +341,8 @@ class AIM {
 							$message = $this->language->get($sendpoint_data[0]['text_key']);
 						}			
 						$message =  $this->_process_message_text($message);
-						$to = $this->_get_customer_im_uri($protocol);
+
+						$to = $this->getCustomerURI($protocol, (int)$this->customer->getId());
 						if ($message && $to){
 							//use safe call
 							try{
@@ -444,18 +445,17 @@ class AIM {
 		return $message;
 	}
 
+
 	/**
 	 * @param string $protocol
 	 * @param int $customer_id
+	 * @param int $order_id -  to get uri from guest checkout order data
 	 * @return string
 	 */
-	protected function _get_customer_im_uri($protocol, $customer_id=0){
+	public function getCustomerURI($protocol, $customer_id=0, $order_id = 0){
+		$customer_id = (int)$customer_id;
+		$order_id = (int)$order_id ? (int)$order_id : (int)$this->session->data['order_id'];
 
-		if(IS_ADMIN===true && $customer_id){
-			$customer_id = (int)$customer_id;
-		}else{
-			$customer_id = (int)$this->customer->getId();
-		}
 		//for registered customers - get address from database
 		if($customer_id){
 			$sql = "SELECT *
@@ -463,7 +463,7 @@ class AIM {
 					WHERE customer_id=".$customer_id;
 			$customer_info = $this->db->query($sql, true);
 			return $customer_info->row[$protocol];
-		}elseif($this->session->data['order_id']){
+		}elseif($order_id){
 			//if guests - get im-data from order_data tables
 
 			$sql = "SELECT *
@@ -471,7 +471,7 @@ class AIM {
 					WHERE `type_id` in ( SELECT DISTINCT type_id
 										 FROM ".$this->db->table('order_data_types')."
 										 WHERE `name`='".$this->db->escape($protocol)."' )
-						AND order_id = '".(int)$this->session->data['order_id']."'";
+						AND order_id = '".$order_id."'";
 			$result = $this->db->query($sql);
 
 			if($result->row['data']){

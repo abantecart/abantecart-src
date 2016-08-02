@@ -34,7 +34,13 @@
 			<br/>
 			<?php echo $text_email; ?> <strong><?php echo $customer_email; ?></strong><br/>
 			<?php echo $text_telephone; ?> <strong><?php echo $customer_telephone; ?></strong><br/>
-			<?php echo $text_ip; ?> <strong><?php echo $customer_ip; ?></strong>
+			<?php if ($customer_mobile_phone) {
+				  echo $text_mobile_phone; ?><strong><?php echo $customer_mobile_phone; ?></strong><br/>
+			<?php } ?>
+			<?php if ($customer_fax) {
+				  echo $text_fax; ?><strong><?php echo $customer_fax; ?></strong><br/>
+			<?php }
+			echo $text_ip; ?> <strong><?php echo $customer_ip; ?></strong>
 		</td>
 	</tr>
 	<tr>

@@ -201,7 +201,7 @@ class AIMManager extends AIM{
 							$message = $this->language->get($sendpoint_data[0]['text_key']);
 						}
 						$message = $this->_process_message_text($message);
-						$to = $this->_get_customer_im_uri($protocol, $customer_id);
+						$to = $this->getCustomerURI($protocol, $customer_id);
 						if ($message && $to){
 							//use safe call
 							try{

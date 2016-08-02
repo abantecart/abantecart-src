@@ -33,6 +33,11 @@
 						<?php echo $telephone; ?><br/>
 						<br/>
 					<?php } ?>
+					<?php if ($mobile_phone) { ?>
+						<b><?php echo $text_mobile_phone; ?></b><br/>
+						<?php echo $mobile_phone; ?><br/>
+						<br/>
+					<?php } ?>
 					<?php if ($fax) { ?>
 						<b><?php echo $text_fax; ?></b><br/>
 						<?php echo $fax; ?><br/>
