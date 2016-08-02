@@ -191,6 +191,8 @@ class ControllerPagesAccountDownload extends AController {
 		$download_id = (int)$this->request->get['download_id'];
 		$order_download_id = (int)$this->request->get['order_download_id'];
 		$resource_id = (int)$this->request->get['resource_id'];
+		$object_id = (int)$this->request->get['object_id'];
+		$object_name = $this->request->get['object_name'];
 
 
 		if(!$this->config->get('config_download') && !$resource_id ){
@@ -199,43 +201,65 @@ class ControllerPagesAccountDownload extends AController {
 		//send downloads before order
 		if ($download_id) {
 			$download_info = $this->download->getDownloadinfo($download_id);
-		//send purchased downloads
-		} elseif($order_download_id) {
-			// check is customer logged
-			if (!$this->customer->isLogged()) {
-				$this->session->data['redirect'] = $this->html->getSecureURL('account/download');
-				$this->redirect($this->html->getSecureURL('account/login'));
+			//do not allow download after orders by download_id
+			if($download_info && $download_info['activate'] != 'before_order'){
+				$download_info = array();
 			}
+		//send purchased downloads only for logged customers
+		} elseif($order_download_id && $this->customer->isLogged()) {
 			$download_info = $this->download->getOrderDownloadInfo($order_download_id);
+			if($download_info){
+				//check is customer can this download
+				$customer_downloads = $this->getCustomerDownloads();
+				if (!in_array($download_info['order_download_id'], array_keys($customer_downloads))){
+					$download_info = array();
+				}
+			}
 		}
-		//resources
-		elseif ($resource_id) {
+		// allow download resources only for admin side
+		elseif ($resource_id ) {
 			$resource = new AResource('download');
 			$resource_info = $resource->getResource( $resource_id, $this->language->getLanguageID());
-			if( $resource_info){
+			//override resource_type property of aresource instance
+			if($resource_info['type_name']!='download'){
+				$resource = new AResource($resource_info['type_name']);
+			}
+			//allow to download any resource for admin
+			if( $resource_info && IS_ADMIN === true){
 				$download_info = array(
-					'filename' => 'download/'.$resource_info['resource_path'],
+					'filename' => $resource->getTypeDir().'/'.$resource_info['resource_path'],
 					'mask' => ( $resource_info['name'] ? $resource_info['name'] : basename($resource_info['resource_path']) ) ,
 					'activate' => 'before_order'
 				);
+			}
+			//for storefront allow to get resource only for id and object assistance except download-resources
+			elseif($resource_info && $resource_info['type_name'] != 'download' && $object_id && $object_name){
+				$obj_resources = $resource->getResources($object_name, $object_id);
+				foreach($obj_resources as $res){
+					if($res['resource_id'] == $resource_id){
+						$download_info = array(
+							'filename' => $resource->getTypeDir().'/'.$resource_info['resource_path'],
+							'mask' => ( $resource_info['name'] ? $resource_info['name'] : basename($resource_info['resource_path']) ) ,
+							'activate' => 'before_order'
+						);
+						break;
+					}
+				}
 			}else{
-				$this->redirect($this->html->getSecureURL('error/not_found'));
+				$download_info = array();
 			}
 		}else{
 			$download_info = array();
 		}
 
-		$this->extensions->hk_UpdateData($this,__FUNCTION__);
+		//if info presents - send file to output
+		if ($download_info && is_array($download_info)) {
+			//if it's ok - send file and exit, otherwise do nothing
+			$this->download->sendDownload($download_info);
+        }
 
-		if ($download_info) {
-			$result = $this->download->sendDownload($download_info);
-			if($result===false){
-				$this->redirect($this->html->getSecureURL('account/download'));
-			}
-        } else {
-			$this->session->data['warning'] = $this->language->get('error_download_not_exists');
-			$this->redirect($this->html->getSecureURL('account/download'));
-		}
+		$this->session->data['warning'] = $this->language->get('error_download_not_exists');
+		$this->redirect($this->html->getSecureURL('account/download'));
 	}
 
 }

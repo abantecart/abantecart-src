@@ -27,7 +27,7 @@ if (! defined ( 'DIR_CORE' )) {
  * @property ALanguageManager $language
  * @property ACustomer $customer
  * @property AConfig $config
- * @property ALoader $load
+ * @property ALog $log
  * @property ExtensionsAPI $extensions
  * @property ARequest $request
  */
@@ -325,6 +325,9 @@ final class ADownload {
 	public function sendDownload($download_info=array()){
 		// do checks
 		if(!$download_info || !$this->isFileAvailable($download_info['filename'])){
+			$error_text = 'Unable to download file '.DIR_RESOURCE . $download_info['filename'].'! File is unavailable. Please check permissions.';
+			$err = new AError($error_text);
+			$err->toMessages()->toDebug()->toLog();
 			return false;
 		}
 		if($download_info['remaining_count']!='' && $download_info['remaining_count']<1){
@@ -332,13 +335,6 @@ final class ADownload {
 		}
 		if($download_info['expire_date']!='' && dateISO2Int($download_info['expire_date']) < time()){
 			return false;
-		}
-
-		if( $this->customer->isLogged() && $download_info['activate']!='before_order'){
-			$customer_downloads = $this->getCustomerDownloads();
-			if(!in_array($download_info['order_download_id'],array_keys($customer_downloads))){
-				return false;
-			}
 		}
 
 		$file = DIR_RESOURCE . $download_info['filename'];
