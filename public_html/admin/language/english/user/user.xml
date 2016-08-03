@@ -117,6 +117,10 @@
 		<value><![CDATA[Verification code does not match the image!]]></value>
 	</definition>
 	<definition>
+		<key>error_user_group</key>
+		<value><![CDATA[You have no permissions to change user group.]]></value>
+	</definition>
+	<definition>
 		<key>text_select_group</key>
 		<value><![CDATA[- Select Group -]]></value>
 	</definition>
