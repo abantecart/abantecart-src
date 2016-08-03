@@ -773,8 +773,9 @@ class ModelSaleOrder extends Model{
 			if(has_value($order_row['payment_method_data'])){
 				$order_data['payment_method_data'] = $order_row['payment_method_data'];
 			}
+
+			$protocols = $this->im->getProtocols();
 			if(!$order_data['customer_id']){
-				$protocols = $this->im->getProtocols();
 				$p = array();
 				foreach($protocols as $protocol){
 					$p[] = $this->db->escape($protocol);
@@ -794,6 +795,12 @@ class ModelSaleOrder extends Model{
 					$order_data['im'][$row['type_name']] = unserialize($row['data']);
 				}
 
+			}else{
+				foreach($protocols as $protocol){
+					if($protocol == 'email'){continue;}
+					$uri = $this->im->getCustomerURI($protocol,$order_data['customer_id'], $order_id);
+					$order_data['im'][$protocol] = array('uri' => $uri);
+				}
 			}
 
 			return $order_data;

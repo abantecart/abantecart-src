@@ -74,6 +74,10 @@ class ControllerPagesSaleOrderSummary extends AController {
 						//viewport URL
 						'vhref' => $this->html->getSecureURL('r/common/viewport','&viewport_rt=sale/customer/update&customer_id=' . $order_info['customer_id'])
 				);
+			}else{
+				$this->data['customer'] = array(
+						'name' => $this->data['order']['customer_name']
+				);
 			}
 
 			$this->loadModel('localisation/order_status');

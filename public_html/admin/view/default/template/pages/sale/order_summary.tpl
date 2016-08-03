@@ -19,11 +19,14 @@
 			<tr>
 				<td class="summary_label"><?php echo $entry_customer; ?></td>
 				<td class="summary_value">
+					<?php if($customer['href']){ ?>
 					<a data-toggle="modal"
 					   data-target="#viewport_modal"
 					   href="<?php echo $customer['vhref'] ?>"
 					   data-fullmode-href="<?php echo $customer['href'] ?>">
-					<?php	echo $customer['name'];?></a>
+					<?php }
+					echo $customer['name'];?>
+					<?php echo $customer['href']? '</a>' : '';?>
 				</td>
 				<td class="summary_label"><?php echo $entry_email; ?></td>
 				<td class="summary_value"><?php echo $order['email']; ?></td>
