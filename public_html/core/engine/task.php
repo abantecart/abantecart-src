@@ -58,7 +58,9 @@ final class ATypeTask {
 			/**
 			 * @var $pre_dispatch ADispatcher
 			 */
-			$result = $pre_dispatch->dispatch();					
+
+			$result = $pre_dispatch->dispatch();
+
 			if ($result) {
 				//Something happened. Need to run different page
 				$dispatch_rt = $result;
@@ -67,14 +69,13 @@ final class ATypeTask {
 		}
 
 		//Process dispatcher in while if we have new dispatch back
-		while ($dispatch_rt){
+		while ($dispatch_rt && $dispatch_rt != 'completed'){
 			//Process main level controller
 			//filter in case we have responses set already
 			$dispatch_rt = preg_replace('/^(task)\//', '', $dispatch_rt);
             $dispatch = new ADispatcher('task/'.$dispatch_rt, array("instance_id" => "0"));
 			$dispatch_rt = $dispatch->dispatch();
-
-		}	
+		}
 			
 		unset($dispatch); 
   	}

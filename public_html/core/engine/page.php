@@ -79,7 +79,7 @@ final class APage {
 		}
 
 		//Process dispatcher in while in case we have new dispatch back
-		while ($dispatch_rt){
+		while ($dispatch_rt && $dispatch_rt != 'completed'){
 			//Process main level controller			
 			// load page layout
 			if ($this->layout) {
@@ -96,7 +96,6 @@ final class APage {
 			//Do the magic
             $dispatch = new ADispatcher($dispatch_rt, array("instance_id" => "0"));
 			$dispatch_rt = $dispatch->dispatch();
-
 		}	
 			
 		unset($dispatch); 
