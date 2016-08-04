@@ -226,19 +226,41 @@ jQuery(function ($) {
 		}
 		return false;
 	});
-
+	var lock_a = false;
 	$(document).on('click',"#option_values_tbl a.expandRow",function () {
-
 		var row_id = $(this).parents('tr').attr('id');
 		var additional_row = $('#add_'+row_id +'div.additionalRow');
 		var icon = $(this).find('i');
+
+		<?php //do recursive call and close all expanded additional rows ?>
+		if(lock_a == false) {
+			lock_a = true;
+			$.each($('#option_values_tbl tr').find('a.expandRow'),
+					function (k, v) {
+						v = $(v);
+						if (row_id != v.parents('tr').attr('id') && v.find('i').hasClass('fa-compress')) {
+							v.click();
+						}
+					}
+			);
+			lock_a = false;
+		}
+
 		if (icon.hasClass("fa-expand")) {
 			$(this).attr('title', text.text_hide);
 			icon.removeClass('fa-expand').addClass('fa-compress');
-			setRLparams($(this).attr('id'));
-			$('#panel_image>div.panel-heading>div.panel-btns').remove();
-			loadMedia('image','#add_'+row_id+' div.type_blocks');
-			$('#add_'+row_id).find('#type_image').show();
+			//if row is not new
+			if(row_id.search("new") < 0) {
+				setRLparams($(this).attr('id'));
+				$('#panel_image>div.panel-heading>div.panel-btns').remove();
+				loadMedia('image','#add_'+row_id+' div.type_blocks');
+
+				$('#add_' + row_id).find('#type_image').show();
+				$('#add_' + row_id).find('#panel_image').show();
+			//do not show images for new rows
+			}else{
+				$('#add_' + row_id).find('#panel_image').hide();
+			}
 		} else {
 			$(this).attr('title', text.text_expand);
 			icon.removeClass('fa-compress').addClass('fa-expand');
