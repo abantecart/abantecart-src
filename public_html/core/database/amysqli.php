@@ -45,7 +45,9 @@ final class AMySQLi {
     public function __construct($hostname, $username, $password, $database, $new_link=false) {
 		$connection = new mysqli($hostname, $username, $password, $database);
 		if ($connection->connect_error) {
-            throw new AException(AC_ERR_MYSQL, 'Error: Could not make a database connection to database ' . $database.' using ' . $username . '@' . $hostname);
+			$err = new AError('Cannot establish database connection to ' . $database.' using ' . $username . '@' . $hostname);
+			$err->toLog();
+            throw new AException(AC_ERR_MYSQL, 'Cannot establish database connection. Check your database setting in configuration file.');
     	}
 
 	    $connection->query("SET NAMES 'utf8'");
