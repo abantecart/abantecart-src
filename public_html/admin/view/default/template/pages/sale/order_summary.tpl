@@ -53,7 +53,12 @@
 				'id' => 'viewport_modal',
 				'modal_type' => 'lg',
                 'data_source' =>'ajax',
-				'title' => 'Category Preview',
+				'title' => '',
+				//run script after modal content load. Test it on slow connections in chrome
+				'js_onload' => "
+								var url = $(this).data('bs.modal').options.fullmodeHref;
+								$('#viewport_modal .modal-header a.btn').attr('href',url);
+								"
 		));
 ?>
 
