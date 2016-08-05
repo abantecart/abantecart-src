@@ -849,7 +849,7 @@ class ModelAccountCustomer extends Model {
 		$this->language->load('mail/account_create');
 		$subject = sprintf($this->language->get('text_subject'), $this->config->get('store_name'));
 		$txt_body = sprintf($this->language->get('text_welcome'), $this->config->get('store_name')) . "\n\n";
-		$txt_body .= sprintf($this->language->get('text_activate'), $activate_url . "\n") . "\n";
+		$txt_body .= sprintf(strip_tags($this->language->get('text_activate')), "\n". $activate_url . "\n") . "\n";
 		$txt_body .= $this->language->get('text_thanks') . "\n";
 		$txt_body .= $this->config->get('store_name');		
 
