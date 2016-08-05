@@ -29,7 +29,6 @@ class ControllerPagesAccountDownload extends AController {
 
 		if (!$this->customer->isLogged()) {
 			$this->session->data['redirect'] = $this->html->getSecureURL('account/download');
-
 			$this->redirect($this->html->getSecureURL('account/login'));
 		}
          
@@ -181,6 +180,11 @@ class ControllerPagesAccountDownload extends AController {
 														'icon' => 'fa fa-arrow-right',
 			                                           'href' => $this->html->getSecureURL('account/account')));
 		$this->data['button_continue'] = $continue;
+
+		if( $this->session->data['warning'] ){
+			$this->data['error_warning'] = $this->session->data['warning'];
+			unset($this->session->data['warning']);
+		}
 		$this->view->batchAssign($this->data);
         $this->processTemplate($template);
 
