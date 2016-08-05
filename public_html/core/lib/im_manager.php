@@ -43,7 +43,7 @@ class AIMManager extends AIM{
 	 */
 	public $admin_sendpoints = array (
 		'order_update'	=> array (
-		    			0 => array('text_key' => 'im_order_update_text_to_customer', 'force_send' => array('email')),
+		    			0 => array('text_key' => 'im_order_update_text_to_customer'),
 		    			1 => array()
 		    	),
 		'account_update'	=> array (

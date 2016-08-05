@@ -630,7 +630,7 @@ class ModelSaleOrder extends Model{
 				//give link on order page for quest
 				elseif($this->config->get('config_guest_checkout') && $order_query->row['email']){
 					$enc = new AEncryption($this->config->get('encryption_key'));
-					$order_token = $enc->encode($order_id.'::'.$order_query->row['email']);
+					$order_token = $enc->encrypt($order_id.'::'.$order_query->row['email']);
 					if($order_token){
 						$message .= $language->get('text_invoice') . "\n";
 						$message .= html_entity_decode($order_query->row['store_url'] . 'index.php?rt=account/invoice&ot=' . $order_token, ENT_QUOTES, 'UTF-8') . "\n\n";
@@ -657,6 +657,27 @@ class ModelSaleOrder extends Model{
 				$mail->setSubject($subject);
 				$mail->setText(html_entity_decode($message, ENT_QUOTES, 'UTF-8'));
 				$mail->send();
+
+
+				//send IMs except emails.
+				//TODO: add notifications for guest checkout
+				$language->load('common/im');
+
+				if ($order_query->row['customer_id']) {
+					$invoice_url =  $order_query->row['store_url'] . 'index.php?rt=account/invoice&order_id=' . $order_id;
+
+					//disable email protocol to prevent duplicates emails
+					$this->im->removeProtocol('email');
+					$message_arr = array(
+					    0 => array('message' =>  sprintf($language->get('im_order_update_text_to_customer'),
+							    $invoice_url,
+							    $order_id,
+							    html_entity_decode($order_query->row['store_url'] . 'index.php?rt=account/account')),
+					    )
+					);
+					$this->im->sendToCustomer($order_query->row['customer_id'], 'order_update', $message_arr);
+					$this->im->addProtocol('email');
+				}
 			}
 		}
 	}
