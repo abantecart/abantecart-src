@@ -681,6 +681,10 @@ class AResource{
 		$object_ids = array_unique($tmp);
 		unset($tmp);
 
+		if(!$object_ids){
+			return array();
+		}
+
 		$language_id = $this->language->getLanguageID();
 		$default_language_id = $this->language->getDefaultLanguageID();
 
