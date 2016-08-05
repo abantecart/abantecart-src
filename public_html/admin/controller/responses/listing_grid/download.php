@@ -151,13 +151,14 @@ class ControllerResponsesListingGridDownload extends AController {
 
 		if (isset($this->request->get[ 'id' ])) {
 			$download_id = (int)$this->request->get[ 'id' ];
+			$error = '';
 			//request sent from edit form. ID in url
 			foreach ($this->request->post as $key => $value) {
 				if (!in_array($key, $allowedFields)) continue;
 				// check first
 				if($key=='name' && (mb_strlen($value)<2 || mb_strlen($value)>64) ) {
 					$error = $this->language->get('error_download_name');
-				}elseif($key=='activate' && !in_array($data[ 'activate' ],array('before_order','immediately','order_status','manually')) ) {
+				}elseif($key=='activate' && !in_array($value,array('before_order','immediately','order_status','manually')) ) {
 					$error = $this->language->get('error_activate');
 				}elseif($key=='attributes'){
 					$attr_mngr = new AAttribute_Manager('download_attribute');
@@ -165,6 +166,8 @@ class ControllerResponsesListingGridDownload extends AController {
 					if($attr_errors){
 						$error = $this->language->get('error_download_attributes').'<br>&nbsp;&nbsp;&nbsp;'. implode('<br>&nbsp;&nbsp;&nbsp;',$attr_errors);
 					}
+				}elseif($key=='mask'){
+					$value = str_replace(' ','_',$value);
 				}
 
 				if(!$error){
