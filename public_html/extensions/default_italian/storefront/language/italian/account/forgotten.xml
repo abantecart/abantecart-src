@@ -37,7 +37,7 @@
 	</definition>
 	<definition>
 		<key>text_success</key>
-		<value><![CDATA[Una nuova password è stata inviata al tuo indirizzo email.]]></value>
+		<value><![CDATA[Successo: Password link di reimpostazione è stato inviato al tuo indirizzo di posta elettronica.]]></value>
 	</definition>
 	<definition>
 		<key>text_success_loginname</key>

@@ -14,7 +14,7 @@
   </definition>
   <definition>
     <key>text_password_reset</key>
-    <value><![CDATA[Your password was successfuly reset on %s.]]></value>
+    <value><![CDATA[Your password was successfully reset on %s.]]></value>
   </definition>
   <definition>
     <key>text_new_password</key>

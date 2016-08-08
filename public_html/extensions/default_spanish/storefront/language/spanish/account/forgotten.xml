@@ -37,7 +37,7 @@
 	</definition>
 	<definition>
 		<key>text_success</key>
-		<value><![CDATA[Exito: Una nueva contraseña se le ha enviado por correo electrónico.]]></value>
+		<value><![CDATA[Éxito: Contraseña enlace de restablecimiento ha sido enviada a su dirección de correo electrónico.]]></value>
 	</definition>
 	<definition>
 		<key>text_success_loginname</key>

@@ -34,7 +34,7 @@
   </definition>
   <definition>
     <key>text_success</key>
-    <value><![CDATA[Новый пароль был отправлен на Ваш адрес электронной почты.]]></value>
+    <value><![CDATA[Успешно: Ссылка сброса пароля отправлена на ваш адрес электронной почты.]]></value>
   </definition>
   <definition>
     <key>text_success_loginname</key>
