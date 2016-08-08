@@ -34,7 +34,21 @@ class Controllerpagesneowizedashboard extends AController {
 			}
 
 			// set page title
-			$this->document->setTitle( 'Neowize Insights' );
+			$title = 'Neowize Insights';
+			$this->document->setTitle($title);
+	
+			$this->document->initBreadcrumb(array(
+					'href' => $this->html->getSecureURL('index/home'),
+					'text' => $this->language->get('text_home'),
+					'separator' => FALSE
+			));
+			$this->document->addBreadcrumb(array(
+					'href' => $this->html->getSecureURL('neowize/dashboard'),
+					'text' => $title,
+					'separator' => ' :: ',
+					'current' => true
+			));
+
 
 			// get Neowize settings
 			$settings = NeowizeUtils::getConfig();
