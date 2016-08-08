@@ -30,7 +30,6 @@ class ModelToolMPAPI extends Model {
 	protected $data = array();
 	protected $mp_url = 'bWFya2V0cGxhY2UuYWJhbnRlY2FydC5jb20v';
 	public function getMPURL(){
-		//return (HTTPS===true ? 'https://' : 'http://') . 'mp_test.abantecart.com//';  
 		return (HTTPS===true ? 'https://' : 'http://') . base64_decode($this->mp_url);
 	}
 
