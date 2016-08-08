@@ -428,6 +428,9 @@ class ModelCheckoutOrder extends Model {
 		$template->data['text_powered_by'] = $language->get('text_powered_by');
 		$template->data['text_project_label'] = $language->get('text_powered_by')  . ' ' .  project_base();
 
+		$template->data['text_total'] = $language->get('text_total');
+		$template->data['text_footer'] = $language->get('text_footer');
+
 		$template->data['column_product'] = $language->get('column_product');
 		$template->data['column_model'] = $language->get('column_model');
 		$template->data['column_quantity'] = $language->get('column_quantity');
@@ -561,61 +564,14 @@ class ModelCheckoutOrder extends Model {
 
 		$html = $template->fetch('mail/order_confirm.tpl');
 
-		// Text Mail
-		$text = sprintf($language->get('text_greeting'), html_entity_decode($order_row['store_name'], ENT_QUOTES, 'UTF-8')) . "\n\n";
-		$text .= $language->get('text_order_id') . ' ' . $order_id . "\n";
-		$text .= $language->get('text_date_added') . ' ' . dateISO2Display($order_row['date_added'], $language->get('date_format_short')) . "\n";
-		$text .= $language->get('text_order_status') . ' ' . $order_status_query->row['name'] . "\n\n";
-		$text .= $language->get('text_product') . "\n";
+		//text email
+		$text = $template->fetch('mail/order_confirm_text.tpl');
+		$text = html_entity_decode($text, ENT_QUOTES, 'UTF-8');
+		//remove html-tags
+		$breaks = array("<br />","<br>","<br/>");
+		$text = str_ireplace($breaks, "\r\n", $text);
 
-		foreach ($order_product_query->rows as $result) {
-			$text .= $result['quantity'] . 'x ' . $result['name'] . ' (' . $result['model'] . ') ' . html_entity_decode($this->currency->format($result['total'], $order_row['currency'], $order_row['value']), ENT_NOQUOTES, 'UTF-8') . "\n";
-			$order_option_query = $this->db->query("SELECT * FROM " . $this->db->table("order_options") . " WHERE order_id = '" . (int)$order_id . "' AND order_product_id = '" . $result['order_product_id'] . "'");
-			foreach ($order_option_query->rows as $option) {
-				$text .= chr(9) . '-' . $option['name'] . ' ' . $option['value'] . "\n";
-			}
-		}
 
-		$text .= "\n";
-		$text .= $language->get('text_total') . "\n";
-
-		$result_text = '';
-		foreach ($order_total_query->rows as $result) {
-			$text .= $result['title'] . ' ' . html_entity_decode($result['text'], ENT_NOQUOTES, 'UTF-8') . "\n";
-			$result_text = $result['text'];
-		}
-
-		$order_total = $result_text;
-
-		$text .= "\n";
-
-		if ($order_row['customer_id']) {
-			$text .= $language->get('text_invoice') . "\n";
-			$text .= $order_row['store_url'] . 'index.php?rt=account/invoice&order_id=' . $order_id . "\n\n";
-		}
-		//give link on order page for quest
-		elseif($this->config->get('config_guest_checkout') && $order_row['email']){
-			if($order_token){
-				$text .= $language->get('text_invoice') . "\n";
-				$text .= $order_row['store_url'] . 'index.php?rt=account/invoice&ot=' . $order_token . "\n\n";
-			}
-		}
-
-		if ($order_download_query->num_rows) {
-			$text .= $language->get('text_download') . "\n";
-			$text .= $order_row['store_url'] . 'index.php?rt=account/download' . "\n\n";
-		}
-
-		if ($order_row['comment'] != '') {
-			$comment = ($order_row['comment'] . "\n\n" . $comment);
-		}
-
-		if ($comment) {
-			$text .= $language->get('text_comment') . "\n\n";
-			$text .= $comment . "\n\n";
-		}
-
-		$text .= $language->get('text_footer');
 
 		$mail = new AMail($this->config);
 		$mail->setTo($order_row['email']);
@@ -623,7 +579,7 @@ class ModelCheckoutOrder extends Model {
 		$mail->setSender($order_row['store_name']);
 		$mail->setSubject($subject);
 		$mail->setHtml($html);
-		$mail->setText(html_entity_decode($text, ENT_QUOTES, 'UTF-8'));
+		$mail->setText($text);
 		$mail->addAttachment(DIR_RESOURCE . $this->config->get('config_logo'),
 				md5(pathinfo($this->config->get('config_logo'), PATHINFO_FILENAME)) . '.' . pathinfo($this->config->get('config_logo'), PATHINFO_EXTENSION));
 
@@ -635,14 +591,31 @@ class ModelCheckoutOrder extends Model {
 			$template->data['text_greeting'] = $language->get('text_received') . "\n\n";
 			$template->data['invoice'] = '';
 			$template->data['text_invoice'] = '';
+			$template->data['text_footer'] = '';
 
 			$html = $template->fetch('mail/order_confirm.tpl');
+
+			//text email
+			$text = $template->fetch('mail/order_confirm_text.tpl');
+			$text = html_entity_decode($text, ENT_QUOTES, 'UTF-8');
+			//remove html-tags
+			$breaks = array("<br />","<br>","<br/>");
+			$text = str_ireplace($breaks, "\r\n", $text);
+
+			$order_total = '';
+			foreach($order_total_query->rows as $row){
+				if($row['key'] == 'total'){
+					$order_total = $row['text'];
+					break;
+				}
+			}
 
 			$subject = sprintf($language->get('text_subject'), html_entity_decode($this->config->get('store_name'), ENT_QUOTES, 'UTF-8'), $order_id . ' (' . $order_total . ')');
 
 			$mail->setSubject($subject);
 			$mail->setTo($this->config->get('store_main_email'));
 			$mail->setHtml($html);
+			$mail->setText($text);
 			$mail->send();
 
 			// Send to additional alert emails
