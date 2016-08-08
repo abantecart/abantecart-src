@@ -74,6 +74,9 @@ class ALanguage {
 
 		$result = $this->loader->model('localisation/language', 'silent');
 		if ($result !== FALSE) {
+			/**
+			 * @var ModelLocalisationLanguage $model
+			 */
 			$model = $registry->get('model_localisation_language');
 			$this->available_languages = $model->getLanguages();
 		} else {
