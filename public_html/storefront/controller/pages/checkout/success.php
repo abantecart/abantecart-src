@@ -160,6 +160,7 @@ class ControllerPagesCheckoutSuccess extends AController{
 			//give link on order page for quest
 			$enc = new AEncryption($this->config->get('encryption_key'));
 			$order_token = $enc->encrypt($order_id.'::'.$order_info['email']);
+			$order_token = urlencode($order_token);
 			$order_url = $this->html->getSecureURL('account/invoice', '&ot=' . $order_token);
 			$this->view->assign('text_message',
 					sprintf($this->language->get('text_message_guest'), $order_url, $this->html->getURL('content/contact'))
