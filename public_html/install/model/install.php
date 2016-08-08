@@ -55,8 +55,8 @@ class ModelInstall extends Model {
 					user_group_id = '1',
 					email = '".$db->escape($data['email'])."',
 				    username = '" . $db->escape($data['username']) . "',
-					salt = '" . $this->db->escape($salt_key) . "', 
-					password = '" . $this->db->escape(sha1($salt_key.sha1($salt_key.sha1($data['password'])))) . "',
+					salt = '" . $db->escape($salt_key) . "', 
+					password = '" . $db->escape(sha1($salt_key.sha1($salt_key.sha1($data['password'])))) . "',
 				    status = '1',
 				    date_added = NOW();");
 
