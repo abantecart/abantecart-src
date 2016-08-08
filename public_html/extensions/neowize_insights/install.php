@@ -25,6 +25,7 @@ $resource_menu_icon_id = $rm->addResource($data);
 
 // create NeoWize admin menu button
 $menu = new AMenu ( "admin" );
+try { $menu->deleteMenuItem('neowize_insights'); } catch (Exception $e) {}
 $menu->insertMenuItem ( array (
 						 "item_id" => "neowize_insights",
 						 "parent_id" => null,
