@@ -84,10 +84,23 @@ final class AUser {
      * @return bool
      */
     public function login($username, $password) {
+		//Supports older passords for upgraded/migrated stores prior to 1.2.8
+		$add_pass_sql = '';
+		if(defined('SALT')){
+			$add_pass_sql = "OR password = '" . $this->db->escape(md5($password.SALT)) . "'";
+		}
+		
 		$user_query = $this->db->query("SELECT *
-    	                                FROM " . $this->db->table("users") . " 
-    	                                WHERE username = '" . $this->db->escape($username) . "'
-    	                                AND password = '" . $this->db->escape(AEncryption::getHash($password)) . "'");
+			FROM " . $this->db->table("users") . "
+			WHERE username = '" . $this->db->escape($username) . "'
+			AND (
+			    password = 	SHA1(CONCAT(salt, 
+			    			SHA1(CONCAT(salt, SHA1('" . $this->db->escape(htmlspecialchars($password, ENT_QUOTES)) . "')))
+			    		))
+			    ".$add_pass_sql."
+			)
+			AND status = 1
+		");
 
 		if ($user_query->num_rows) {
 			$this->session->data['user_id'] = $user_query->row['user_id'];

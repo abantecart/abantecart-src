@@ -37,9 +37,10 @@ CHANGE COLUMN `html` `html` LONGTEXT NULL DEFAULT NULL ;
 ALTER TABLE `ac_customers`
 ADD COLUMN `data` text DEFAULT null;
 
-ALTER TABLE `ac_customers`
-ADD COLUMN `salt` varchar(32) COLLATE utf8_general_ci NOT NULL DEFAULT '';
+ALTER TABLE `ac_customers` ADD COLUMN `salt` varchar(8) COLLATE utf8_general_ci NOT NULL DEFAULT '';
 
+ALTER TABLE `ac_users` ADD COLUMN `salt` varchar(8) COLLATE utf8_general_ci NOT NULL DEFAULT '';
+ALTER TABLE `ac_users` MODIFY `password` varchar(40);
 
 
 #global search speedup

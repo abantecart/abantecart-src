@@ -68,7 +68,7 @@ class ModelAccountCustomer extends Model {
 			$this->db->query("DELETE FROM " . $this->db->table("addresses") . " WHERE customer_id = '" . (int)$row['customer_id'] . "'");
 		}
 
-    
+    	$salt_key = genToken(8);
       	$sql = "INSERT INTO " . $this->db->table("customers") . "
 			  SET	store_id = '" . (int)$this->config->get('config_store_id') . "',
 					loginname = '" . $this->db->escape($data['loginname']) . "',
@@ -77,7 +77,8 @@ class ModelAccountCustomer extends Model {
 					email = '" . $this->db->escape($data['email']) . "',
 					telephone = '" . $this->db->escape($data['telephone']) . "',
 					fax = '" . $this->db->escape($data['fax']) . "',
-					password = '" . $this->db->escape(AEncryption::getHash($data['password'])) . "',
+					salt = '" . $this->db->escape($salt_key) . "', 
+					password = '" . $this->db->escape(sha1($salt_key.sha1($salt_key.sha1($data['password'])))) . "',
 					newsletter = '" . (int)$data['newsletter'] . "',
 					customer_group_id = '" .(int)$data['customer_group_id'] . "',
 					approved = '".(int)$data['approved']."',
@@ -331,9 +332,11 @@ class ModelAccountCustomer extends Model {
 	 * @param string $password
 	 */
 	public function editPassword($loginname, $password) {
-		$password = AEncryption::getHash($password);
+    	$salt_key = genToken(8);
       	$this->db->query("UPDATE " . $this->db->table("customers") . "
-      	                SET password = '" . $this->db->escape($password) . "'
+      	                SET
+							salt = '" . $this->db->escape($salt_key) . "', 
+							password = '" . $this->db->escape(sha1($salt_key.sha1($salt_key.sha1($password)))) . "'
       	                WHERE loginname = '" . $this->db->escape($loginname) . "'");
 		//send IM
 		$sql = "SELECT customer_id

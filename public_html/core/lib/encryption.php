@@ -84,13 +84,6 @@ final class AEncryption {
 		return trim($str);
 	}
 
-	/*
-	* MD5 based encoding used for passwords 
-	*/
-	static function getHash($keyword){	
-		return md5($keyword.SALT);
-	}
-
 	private function _check_mcrypt(){
 		if(!function_exists('mcrypt_encrypt')){
 			$error_text = 'MCrypt php-library did not load. It is recommended to enable PHP mcrypt for system to function properly.';
@@ -106,6 +99,18 @@ final class AEncryption {
 		return true;
 	}
 
+	/*
+	* Deprecated!!! Do not use as this function will be removed in v1.3!!!!!
+	* MD5 based encoding used for passwords. , only used for older passords in upgraded/migraded stores 
+	*/
+	static function getHash($keyword){	
+		if(!defined('SALT')) {
+			//backwards compatimility for extensions prior to 1.2.8
+			return md5($keyword.'SALT');
+		} else {
+			return md5($keyword.SALT);
+		}
+	}
 }
 
 // SSL Based encryption class PHP 5.3 >

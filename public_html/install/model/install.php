@@ -48,13 +48,15 @@ class ModelInstall extends Model {
 
 			$db->query("SET CHARACTER SET utf8;");
 			$db->query("SET @@session.sql_mode = 'MYSQL40';");
+			$salt_key = genToken(8);
 			$db->query(
 				"INSERT INTO `" . $data['db_prefix'] . "users`
 				SET user_id = '1',
 					user_group_id = '1',
 					email = '".$db->escape($data['email'])."',
 				    username = '" . $db->escape($data['username']) . "',
-				    password = '" . $db->escape(AEncryption::getHash($data['password'])) . "',
+					salt = '" . $this->db->escape($salt_key) . "', 
+					password = '" . $this->db->escape(sha1($salt_key.sha1($salt_key.sha1($data['password'])))) . "',
 				    status = '1',
 				    date_added = NOW();");
 

@@ -432,7 +432,7 @@ class AView {
 		$key = '';
 		//get file time stamp
 		$key .= $css_file."-".filemtime($this->templateResource($css_file, 'file'));		
-		$key = $group . "." . AEncryption::getHash($group . '-' . $key);
+		$key = $group . "." . md5($group . '-' . $key);
 		//check if hash is created and load 
 		$css_data = $this->cache->pull($key);
 		if($css_data === false) {
@@ -471,7 +471,7 @@ class AView {
 			$key .= $js_file."-".filemtime($this->templateResource($js_file, 'file'));		
 		}
 
-		$key = $group . "." . AEncryption::getHash($group . '-' . $key);
+		$key = $group . "." . md5($group . '-' . $key);
 		//check if hash is created and load 
 		$js_data = $this->cache->pull($key);
 		if($js_data === false) {

@@ -116,32 +116,32 @@ final class ACustomer{
 		$this->load = $registry->get('load');
 
 		if(isset($this->session->data['customer_id'])){
-			$customer_query = $this->db->query(
+			$customer_data = $this->db->query(
 				"SELECT c.*, cg.* FROM " . $this->db->table("customers") . " c
 					LEFT JOIN " . $this->db->table("customer_groups") . " cg on c.customer_group_id = cg.customer_group_id
 					WHERE customer_id = '" . (int)$this->session->data['customer_id'] . "' 
 					AND status = '1'"
 			);
 
-			if($customer_query->num_rows){
-				$this->customer_id = $customer_query->row['customer_id'];
-				$this->loginname = $customer_query->row['loginname'];
-				$this->firstname = $customer_query->row['firstname'];
-				$this->lastname = $customer_query->row['lastname'];
+			if($customer_data->num_rows){
+				$this->customer_id = $customer_data->row['customer_id'];
+				$this->loginname = $customer_data->row['loginname'];
+				$this->firstname = $customer_data->row['firstname'];
+				$this->lastname = $customer_data->row['lastname'];
 				if($this->dcrypt->active){
-					$this->email = $this->dcrypt->decrypt_field($customer_query->row['email'], $customer_query->row['key_id']);
-					$this->telephone = $this->dcrypt->decrypt_field($customer_query->row['telephone'], $customer_query->row['key_id']);
-					$this->fax = $this->dcrypt->decrypt_field($customer_query->row['fax'], $customer_query->row['key_id']);
+					$this->email = $this->dcrypt->decrypt_field($customer_data->row['email'], $customer_data->row['key_id']);
+					$this->telephone = $this->dcrypt->decrypt_field($customer_data->row['telephone'], $customer_data->row['key_id']);
+					$this->fax = $this->dcrypt->decrypt_field($customer_data->row['fax'], $customer_data->row['key_id']);
 				} else{
-					$this->email = $customer_query->row['email'];
-					$this->telephone = $customer_query->row['telephone'];
-					$this->fax = $customer_query->row['fax'];
+					$this->email = $customer_data->row['email'];
+					$this->telephone = $customer_data->row['telephone'];
+					$this->fax = $customer_data->row['fax'];
 				}
-				$this->newsletter = (int)$customer_query->row['newsletter'];
-				$this->customer_group_id = $customer_query->row['customer_group_id'];
-				$this->customer_group_name = $customer_query->row['name'];
-				$this->customer_tax_exempt = $customer_query->row['tax_exempt'];
-				$this->address_id = $customer_query->row['address_id'];
+				$this->newsletter = (int)$customer_data->row['newsletter'];
+				$this->customer_group_id = $customer_data->row['customer_group_id'];
+				$this->customer_group_name = $customer_data->row['name'];
+				$this->customer_tax_exempt = $customer_data->row['tax_exempt'];
+				$this->address_id = $customer_data->row['address_id'];
 
 			} else{
 				$this->logout();
@@ -204,13 +204,24 @@ final class ACustomer{
 			$approved_only = " AND approved = '1'";
 		}
 
-		$customer_query = $this->db->query("SELECT *
+
+		//Supports older passords for upgraded/migrated stores prior to 1.2.8
+		$add_pass_sql = '';
+		if(defined('SALT')){
+			$add_pass_sql = "OR password = '" . $this->db->escape(md5($password.SALT)) . "'";
+		}
+		$customer_data = $this->db->query("SELECT *
 											FROM " . $this->db->table("customers") . "
 											WHERE LOWER(loginname)  = LOWER('" . $this->db->escape($loginname) . "')
-											AND password = '" . $this->db->escape(AEncryption::getHash($password)) . "'
+											AND (
+												password = 	SHA1(CONCAT(salt, 
+															SHA1(CONCAT(salt, SHA1('" . $this->db->escape($password) . "')))
+														))
+												".$add_pass_sql."
+											)
 											AND status = '1'" . $approved_only);
-		if($customer_query->num_rows){
-			$this->customer_id = $this->session->data['customer_id'] = $customer_query->row['customer_id'];
+		if($customer_data->num_rows){
+			$this->customer_id = $this->session->data['customer_id'] = $customer_data->row['customer_id'];
 
 			//load customer saved cart and merge with session cart before login
 			$cart = $this->getCustomerCart();
@@ -219,21 +230,21 @@ final class ACustomer{
 			$this->saveCustomerCart();
 
 			$this->loginname = $loginname;
-			$this->firstname = $customer_query->row['firstname'];
-			$this->lastname = $customer_query->row['lastname'];
+			$this->firstname = $customer_data->row['firstname'];
+			$this->lastname = $customer_data->row['lastname'];
 			if($this->dcrypt->active){
-				$this->email = $this->dcrypt->decrypt_field($customer_query->row['email'], $customer_query->row['key_id']);
-				$this->telephone = $this->dcrypt->decrypt_field($customer_query->row['telephone'], $customer_query->row['key_id']);
-				$this->fax = $this->dcrypt->decrypt_field($customer_query->row['fax'], $customer_query->row['key_id']);
+				$this->email = $this->dcrypt->decrypt_field($customer_data->row['email'], $customer_data->row['key_id']);
+				$this->telephone = $this->dcrypt->decrypt_field($customer_data->row['telephone'], $customer_data->row['key_id']);
+				$this->fax = $this->dcrypt->decrypt_field($customer_data->row['fax'], $customer_data->row['key_id']);
 			} else{
-				$this->email = $customer_query->row['email'];
-				$this->telephone = $customer_query->row['telephone'];
-				$this->fax = $customer_query->row['fax'];
+				$this->email = $customer_data->row['email'];
+				$this->telephone = $customer_data->row['telephone'];
+				$this->fax = $customer_data->row['fax'];
 			}
-			$this->newsletter = $customer_query->row['newsletter'];
-			$this->customer_group_id = $customer_query->row['customer_group_id'];
+			$this->newsletter = $customer_data->row['newsletter'];
+			$this->customer_group_id = $customer_data->row['customer_group_id'];
 			
-			$this->address_id = $customer_query->row['address_id'];
+			$this->address_id = $customer_data->row['address_id'];
 
 			//set cookie for unauthenticated user (expire in 1 year)
 			$encryption = new AEncryption($this->config->get('encryption_key'));
@@ -730,13 +741,13 @@ final class ACustomer{
 		if(!$customer_id){
 			return array();
 		}
-		$customer_query = $this->db->query("SELECT wishlist
+		$customer_data = $this->db->query("SELECT wishlist
 											FROM " . $this->db->table("customers") . "
 											WHERE customer_id = '" . (int)$customer_id . "' AND status = '1'");
-		if($customer_query->num_rows){
+		if($customer_data->num_rows){
 			//load customer saved cart
-			if(($customer_query->row['wishlist']) && (is_string($customer_query->row['wishlist']))){
-				return unserialize($customer_query->row['wishlist']);
+			if(($customer_data->row['wishlist']) && (is_string($customer_data->row['wishlist']))){
+				return unserialize($customer_data->row['wishlist']);
 			}
 		}
 		return array();

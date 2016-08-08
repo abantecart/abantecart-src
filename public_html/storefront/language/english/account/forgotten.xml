@@ -37,7 +37,7 @@
 	</definition>
 	<definition>
 		<key>text_success</key>
-		<value><![CDATA[Success: A new password has been sent to your e-mail address.]]></value>
+		<value><![CDATA[Success: Password reset link has been sent to your e-mail address.]]></value>
 	</definition>
 	<definition>
 		<key>text_success_loginname</key>

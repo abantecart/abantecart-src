@@ -48,7 +48,7 @@ class ControllerPagesIndexLogin extends AController {
 		));
 
 		if ($this->request->is_POST() && $this->_validate()) {
-			$this->session->data['token'] = AEncryption::getHash(mt_rand());
+			$this->session->data['token'] = genToken(32);
 			$this->session->data['checkupdates'] = true; // sign to run ajax-request to check for updates. see common/head for details
 			//login is sussessful redirect to originaly requested page
 			if (isset($this->request->post['redirect']) && !preg_match("/rt=index\/login/i", $this->request->post['redirect'])) {

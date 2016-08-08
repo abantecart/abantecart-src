@@ -148,6 +148,9 @@ class ControllerResponsesListingGridUser extends AController {
 		if ( isset( $this->request->get['id'] ) ) {
 		    //request sent from edit form. ID in url
 		    foreach ($this->request->post as $key => $value ) {
+			    if( $key == 'password_confirm' ){
+			    	continue;
+			    }
 			    if( $key == 'user_group_id' ){
 		            $user_info = $this->model_user_user->getUser($this->request->get['id']);
 		            if($user_info['user_group_id'] != $value){
