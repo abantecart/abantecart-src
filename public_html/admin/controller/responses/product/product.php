@@ -844,6 +844,10 @@ class ControllerResponsesProductProduct extends AController{
 				$post_data['shared'] = 1;
 			}
 
+			if($post_data['mask']){
+				$post_data['mask'] = str_replace(' ', '_',$post_data['mask']);
+			}
+
 			if((int)$this->request->get['download_id']){
 				$this->model_catalog_download->editDownload($this->request->get['download_id'], $post_data);
 				$download_id = (int)$this->request->get['download_id'];

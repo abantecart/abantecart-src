@@ -34,6 +34,7 @@ if (!defined('DIR_CORE')) {
  * @property AConfig $config
  * @property ModelAccountCustomer $model_account_customer
  * @property AResponse $response
+ *@property  array() $admin_sendpoints
  */
 
 class AIM {
@@ -117,6 +118,23 @@ class AIM {
 	}
 
 	/**
+	 * @param string $protocol
+	 * @return array
+	 */
+	public function removeProtocol($protocol = ''){
+		unset($this->protocols[$protocol]);
+	}
+
+	/**
+	 * @param string $name
+	 */
+	public function addProtocol($name){
+		if($name && !in_array($name, $this->protocols)){
+			$this->protocols[$name] = $name;
+		}
+	}
+
+	/**
 	 * @param $section - can be admin or storefront
 	 * @return array
 	 */
@@ -127,20 +145,12 @@ class AIM {
 		$protocols = array();
 		foreach($this->protocols as $protocol){
 			if($this->config->get('config_'.$section.'_'.$protocol.'_status')){
-				$protocols[] = $protocol;
+				$protocols[$protocol] = $protocol;
 			}
 		}
 		return $protocols;
 	}
 
-	/**
-	 * @param string $name
-	 */
-	public function addProtocol($name){
-		if($name && !in_array($name, $this->protocols)){
-			$this->protocols[] = $name;
-		}
-	}
 
 	/**
 	 * Note: method can be called from admin side

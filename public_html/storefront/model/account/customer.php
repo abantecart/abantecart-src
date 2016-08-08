@@ -802,7 +802,8 @@ class ModelAccountCustomer extends Model {
 			$txt_body .= $this->language->get('text_login') . "\n";	
 			$txt_body .= $login_url . "\n\n";	
 		} else {
-			$txt_body .= $this->language->get('text_approval') . "\n";
+			$txt_body .= $this->language->get('text_approval') . "\n\n";
+			$txt_body .= $login_url . "\n\n";
 		}
 		$txt_body .= $this->language->get('text_services') . "\n\n";
 		$txt_body .= $this->language->get('text_thanks') . "\n";
@@ -817,7 +818,8 @@ class ModelAccountCustomer extends Model {
 			$template->data['text_login_later'] = '<a href="' . $login_url . '">' . $login_url . '</a>';
 			$template->data['text_services'] = $this->language->get('text_services');
 		} else {
-			$template->data['text_approval'] = $this->language->get('text_approval');	
+			$template->data['text_approval'] = $this->language->get('text_approval');
+			$template->data['text_login_later'] = '<a href="' . $login_url . '">' . $login_url . '</a>';
 		}
 		$store_logo = md5(pathinfo($this->config->get('config_logo'), PATHINFO_FILENAME)) . '.' . pathinfo($this->config->get('config_logo'), PATHINFO_EXTENSION);
 		$template->data['logo'] = 'cid:' . $store_logo;
@@ -850,7 +852,7 @@ class ModelAccountCustomer extends Model {
 		$this->language->load('mail/account_create');
 		$subject = sprintf($this->language->get('text_subject'), $this->config->get('store_name'));
 		$txt_body = sprintf($this->language->get('text_welcome'), $this->config->get('store_name')) . "\n\n";
-		$txt_body .= sprintf($this->language->get('text_activate'), $activate_url . "\n") . "\n";
+		$txt_body .= sprintf(strip_tags($this->language->get('text_activate')), "\n". $activate_url . "\n") . "\n";
 		$txt_body .= $this->language->get('text_thanks') . "\n";
 		$txt_body .= $this->config->get('store_name');		
 

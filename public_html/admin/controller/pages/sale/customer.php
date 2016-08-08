@@ -1046,25 +1046,51 @@ class ControllerPagesSaleCustomer extends AController {
 			$store_info = $this->model_setting_store->getStore($customer_info['store_id']);
 
 			if ($store_info) {
-				$store_name = $store_info['store_name'];
-				$store_url = $store_info['config_url'] . 'index.php?rt=account/login';
+				$store_name = $store_info[ 'store_name' ];
+				$store_url = $store_info[ 'config_url' ] . 'index.php?rt=account/login';
+				$store_logo_file = DIR_RESOURCE . $store_info['config_logo'];
+				$store_logo = md5(pathinfo($store_info['config_logo'], PATHINFO_FILENAME)) . '.' . pathinfo($store_info['config_logo'], PATHINFO_EXTENSION);
 			} else {
 				$store_name = $this->config->get('store_name');
 				$store_url = $this->config->get('config_url') . 'index.php?rt=account/login';
+				$store_logo = md5(pathinfo($this->config->get('config_logo'), PATHINFO_FILENAME)) . '.' . pathinfo($this->config->get('config_logo'), PATHINFO_EXTENSION);
+				$store_logo_file = DIR_RESOURCE . $this->config->get('config_logo');
 			}
 
-			$message = sprintf($this->language->get('text_welcome'), $store_name) . "\n\n";;
-			$message .= $this->language->get('text_login') . "\n";
-			$message .= $store_url . "\n\n";
-			$message .= $this->language->get('text_services') . "\n\n";
-			$message .= $this->language->get('text_thanks') . "\n";
-			$message .= $store_name;
+			$plain_text = sprintf($this->language->get('text_welcome'), $store_name) . "\n\n";
+
+			$plain_text .= $this->language->get('text_login') . "\n";
+			$plain_text .= $store_url . "\n\n";
+			$plain_text .= $this->language->get('text_services') . "\n\n";
+			$plain_text .= $this->language->get('text_thanks') . "\n";
+			$plain_text .= $store_name;
+
+
+			//build HTML message with the template
+			$template = new ATemplate();
+			$template->data['text_welcome'] = sprintf($this->language->get('text_welcome'), $store_name) . "\n\n";
+
+			$template->data['text_login'] = $this->language->get('text_login');
+			$template->data['text_login_later'] = '<a href="' . $store_url . '">' . $store_url . '</a>';
+			$template->data['text_services'] = $this->language->get('text_services');
+
+
+			$template->data['logo'] = 'cid:' . $store_logo;
+			$template->data['store_name'] = $store_name;
+			$template->data['store_url'] = $store_url;
+			$template->data['text_thanks'] = $this->language->get('text_thanks');
+
+			$template->data['text_project_label'] = project_base();
+			$html_body = $template->fetch('mail/account_create.tpl');
+
 			$mail = new AMail($this->config);
-			$mail->setTo($customer_info['email']);
+			$mail->setTo($customer_info[ 'email' ]);
 			$mail->setFrom($this->config->get('store_main_email'));
 			$mail->setSender($store_name);
 			$mail->setSubject(sprintf($this->language->get('text_subject'), $store_name));
-			$mail->setText(html_entity_decode($message, ENT_QUOTES, 'UTF-8'));
+			$mail->setText(html_entity_decode($plain_text, ENT_QUOTES, 'UTF-8'));
+			$mail->setHtml($html_body);
+			$mail->addAttachment($store_logo_file, $store_logo);
 			$mail->send();
 		}
 	}

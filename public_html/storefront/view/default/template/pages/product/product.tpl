@@ -499,6 +499,7 @@ $(window).load(function(){
 			url: '<?php echo $option_resources_url; ?>&attribute_value_id=' + attribute_value_id,
 			dataType: 'json',
 			success: function (data) {
+				if(data.length == 0){ return false;}
 				var html1 = '',
 				html2 = '',
 				main_image = data.main;
