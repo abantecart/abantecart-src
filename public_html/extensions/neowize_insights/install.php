@@ -29,7 +29,7 @@ $menu->insertMenuItem ( array (
 						 "item_id" => "neowize_insights",
 						 "parent_id" => null,
 						 "item_icon_rl_id" => $resource_menu_icon_id,
-						 "item_text" => "NeoWize Insights",
+						 "item_text" => "Analytics & Insights",
 						 "item_url" => "neowize/dashboard",
 						 "item_type"=>"extension",
 						 "sort_order"=>"0"
@@ -61,10 +61,6 @@ $block_data = array(
 			'parent_block_txt_id' => 'content_bottom',
 			'template' => 'blocks/neowize_insights.tpl',
 		),
-		array(
-			'parent_block_txt_id' => 'header_bottom',
-			'template' => 'blocks/neowize_insights.tpl',
-		),
 	)
 );
 
@@ -76,6 +72,16 @@ $sql = "SELECT layout_id FROM " . $this->db->table("layouts") . " ORDER BY layou
 $result = $this->db->query($sql);
 $layouts = $result->rows;
 
+// get the block ids for all the root blocks we want to add NeoWize to (footer_top, content_top, content_bottom...)
+$sql = "SELECT block_id FROM " . $this->db->table("blocks") . " WHERE block_txt_id IN ('footer_top', 'content_top', 'content_bottom')";
+$result = $this->db->query($sql);
+$parent_block_ids = array();
+foreach ($result->rows as $row)
+{
+	array_push($parent_block_ids, $row['block_id']);
+}
+$parent_block_ids = implode(", ", $parent_block_ids);
+
 // add our block to all layouts (in 'block_layouts' table)
 foreach($layouts as $layout){
 
@@ -86,11 +92,11 @@ foreach($layouts as $layout){
     $position = 10;
 
     // get parent instance id for this layout - the root block that has no parent_instance_id is the instance_id we take as our own parent.
-    $sql = "SELECT instance_id FROM " . $this->db->table("block_layouts") . " WHERE layout_id='" . (int)$layout_id . "' AND parent_instance_id='0'";
+    $sql = "SELECT instance_id FROM " . $this->db->table("block_layouts") . " WHERE layout_id='" . (int)$layout_id . "' AND parent_instance_id='0' AND block_id IN (" . $parent_block_ids . ")";
     $result = $this->db->query($sql);
     $parent_instance_id = $result->rows[0]['instance_id'];
 
-    // then insert block into placeholder
+    // add out block to this layout with the parent instance we found
     $sql = "INSERT INTO " . $this->db->table("block_layouts") . " (" .
                                          "layout_id, " .
                                          "block_id, " .
