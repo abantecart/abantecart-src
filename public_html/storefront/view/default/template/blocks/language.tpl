@@ -15,7 +15,10 @@
 <?php foreach ($languages as $language) { ?>
       <li>
       <a href="<?php echo $language['href']; ?>">
-      <?php if($language[ 'image' ]){ ?>
+      <?php if($language[ 'image' ]){
+          $language['image_width'] = !$language['image_width'] ? 16 : $language['image_width'];
+          $language['image_height'] = !$language['image_height'] ? 11 : $language['image_height'];
+          ?>
       <img src="<?php echo $language['image']; ?>" width="<?php echo $language['image_width']; ?>" height="<?php echo $language['image_height']; ?>" alt="<?php echo $language['name']; ?>"/>
       <?php }else{ echo '&nbsp;';} ?>&nbsp;&nbsp;<?php echo $language['name']; ?>
       </a>
