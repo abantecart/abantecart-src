@@ -34,7 +34,7 @@ class Controllerpagesneowizedashboard extends AController {
 			}
 
 			// set page title
-			$title = 'Neowize Insights';
+			$title = 'Analytics & Insights';
 			$this->document->setTitle($title);
 	
 			$this->document->initBreadcrumb(array(
