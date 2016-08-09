@@ -28,7 +28,7 @@
 	<definition>
 		<key>text_loginname_email</key>
 		<value>
-			<![CDATA[Enter the login name and e-mail address associated with your account. Click submit to have your password emailed to you]]></value>
+			<![CDATA[Enter the login name and e-mail address associated with your account. Click submit to request password reset]]></value>
 	</definition>
 	<definition>
 		<key>text_lastname_email</key>
