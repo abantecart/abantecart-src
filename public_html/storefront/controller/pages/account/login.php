@@ -225,8 +225,7 @@ class ControllerPagesAccountLogin extends AController{
 	}
 
 	private function _validate($loginname, $password){
-		if (!$this->customer->login($loginname, $password)){
-								
+		if ($this->customer->login($loginname, $password) !== TRUE){
 			if ($this->config->get('config_customer_email_activation')){	
 				//check if account is not confirmed in the email. 
 				$this->loadModel('account/customer');
@@ -239,10 +238,10 @@ class ControllerPagesAccountLogin extends AController{
 					$this->error['message'] .= sprintf($this->language->get('text_resend_activation_email'),
 							"\n" . $this->html->getSecureURL('account/create/resend', '&rid=' . $rid)
 					);
+					return false;
 				}
-			} else {
-				$this->error['message'] = $this->language->get('error_login');		
 			}
+			$this->error['message'] = $this->language->get('error_login');		
 						
 		} else{
 			$this->loadModel('account/address');
