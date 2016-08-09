@@ -716,7 +716,7 @@ class ModelCheckoutOrder extends Model {
 				//give link on order page for quest
 				elseif($this->config->get('config_guest_checkout') && $order_row['email']){
 					$enc = new AEncryption($this->config->get('encryption_key'));
-					$order_token = $enc->encode($order_id.'::'.$order_row['email']);
+					$order_token = $enc->encrypt($order_id.'::'.$order_row['email']);
 					if($order_token){
 						$message .= $language->get('text_invoice') . "\n";
 						$message .= $order_row['store_url'] . 'index.php?rt=account/invoice&ot=' . $order_token . "\n\n";

@@ -69,7 +69,7 @@ class ControllerPagesAccountInvoice extends AController{
 
 			$order_id = $this->request->post['order_id'];
 			$email = $this->request->post['email'];
-			$ot = $enc->encode($order_id . '::' . $email);
+			$ot = $enc->encrypt($order_id . '::' . $email);
 			$order_info = $this->model_account_order->getOrder($order_id, '', 'view');
 
 			//compare emails
