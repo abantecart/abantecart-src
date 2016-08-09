@@ -453,10 +453,7 @@ class ModelCheckoutOrder extends Model {
 		if($this->config->get('config_guest_checkout') && $order_row['email']){
 			$enc = new AEncryption($this->config->get('encryption_key'));
 			$order_token = $enc->encrypt($order_id.'::'.$order_row['email']);
-			if($order_token){
-				$order_token = urlencode($order_token);
-				$template->data['invoice'] = $order_row['store_url'] . 'index.php?rt=account/invoice&ot=' . $order_token . "\n\n";
-			}
+			$template->data['invoice'] = $order_row['store_url'] . 'index.php?rt=account/invoice&ot=' . $order_token . "\n\n";
 		}//give link on order for registered customers
 		elseif($order_row['customer_id']){
 			$template->data['invoice'] = $order_row['store_url'] . 'index.php?rt=account/invoice&order_id=' . $order_id;

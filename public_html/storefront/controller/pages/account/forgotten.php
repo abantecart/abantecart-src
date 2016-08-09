@@ -54,7 +54,6 @@ class ControllerPagesAccountForgotten extends AController {
 				//build reset link 
 				$enc = new AEncryption($this->config->get('encryption_key'));
 				$rtoken = $enc->encrypt($customer_id.'::'.$code);
-				$rtoken = urlencode($rtoken);
 				$link = $this->html->getSecureURL('account/forgotten/reset','&rtoken='.$rtoken);
 		
 				$subject = sprintf($this->language->get('text_subject'), $this->config->get('store_name'));				

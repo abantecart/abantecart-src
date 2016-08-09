@@ -234,7 +234,6 @@ class ControllerPagesAccountLogin extends AController{
 					//show link for resend activation code to email
 					$enc = new AEncryption($this->config->get('encryption_key'));
 					$rid = $enc->encrypt($customer_info['customer_id'].'::'.$customer_info['data']['email_activation']);
-					$rid = urlencode($rid);
 					$this->error['message'] .= sprintf($this->language->get('text_resend_activation_email'),
 							"\n" . $this->html->getSecureURL('account/create/resend', '&rid=' . $rid)
 					);

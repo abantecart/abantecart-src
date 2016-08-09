@@ -631,11 +631,8 @@ class ModelSaleOrder extends Model{
 				elseif($this->config->get('config_guest_checkout') && $order_query->row['email']){
 					$enc = new AEncryption($this->config->get('encryption_key'));
 					$order_token = $enc->encrypt($order_id.'::'.$order_query->row['email']);
-					if($order_token){
-						$order_token = urlencode($order_token);
-						$message .= $language->get('text_invoice') . "\n";
-						$message .= html_entity_decode($order_query->row['store_url'] . 'index.php?rt=account/invoice&ot=' . $order_token, ENT_QUOTES, 'UTF-8') . "\n\n";
-					}
+					$message .= $language->get('text_invoice') . "\n";
+					$message .= html_entity_decode($order_query->row['store_url'] . 'index.php?rt=account/invoice&ot=' . $order_token, ENT_QUOTES, 'UTF-8') . "\n\n";
 				}
 
 				if($data['comment']){

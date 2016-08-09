@@ -44,7 +44,6 @@ class ControllerPagesIndexForgotPassword extends AController {
 			$hash = genToken(32);
 			$enc = new AEncryption($this->config->get('encryption_key'));
 			$rtoken = $enc->encrypt($this->request->post['username'].'::'.$hash);
-			$rtoken = urlencode($rtoken);
 			$link = $this->html->getSecureURL('index/forgot_password/validate','&rtoken='.$rtoken);
 	
 			//create a scratch data for future use 

@@ -36,7 +36,7 @@ class ControllerResponsesExtensionDefaultPaymate extends AController {
 		
 		$encryption = new AEncryption($this->config->get('encryption_key'));
 
-		$template_data['return'] = $this->html->getSecureURL('extension/paymate/callback', '&oid=' . base64_encode($encryption->encrypt($order_info['order_id'])) . '&conf=' . base64_encode($encryption->encrypt($order_info['payment_firstname'] . $order_info['payment_lastname'])));
+		$template_data['return'] = $this->html->getSecureURL('extension/paymate/callback', '&oid=' . $encryption->encrypt($order_info['order_id']) . '&conf=' . $encryption->encrypt($order_info['payment_firstname'] . $order_info['payment_lastname']));
 
 		if ($this->config->get('default_paymate_include_order')) {
 			$template_data['ref'] = html_entity_decode($this->config->get('store_name'), ENT_QUOTES, 'UTF-8') . " (#" . $order_info['order_id'] . ")";
@@ -98,13 +98,13 @@ class ControllerResponsesExtensionDefaultPaymate extends AController {
 					
 					$encryption = new AEncryption($this->config->get('encryption_key'));
 
-					$order_id = $encryption->decrypt(base64_decode($this->request->get['oid']));
+					$order_id = $encryption->decrypt($this->request->get['oid']);
 
 					$this->load->model('checkout/order');
 					
 					$order_info = $this->model_checkout_order->getOrder($order_id);
 
-					if((isset($order_info['payment_firstname']) && isset($order_info['payment_lastname'])) && strcmp($encryption->decrypt(base64_decode($this->request->get['conf'])),$order_info['payment_firstname'] . $order_info['payment_lastname']) == 0) {
+					if((isset($order_info['payment_firstname']) && isset($order_info['payment_lastname'])) && strcmp($encryption->decrypt($this->request->get['conf']),$order_info['payment_firstname'] . $order_info['payment_lastname']) == 0) {
 						$this->model_checkout_order->confirm($order_id, $this->config->get('default_paymate_order_status_id'));
 					} else {
 						$error = $this->language->get('text_unable');

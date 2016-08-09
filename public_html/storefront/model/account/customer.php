@@ -846,7 +846,6 @@ class ModelAccountCustomer extends Model {
 		$this->updateOtherData($customer_id, $customer_data['data']);			
 
 		$ac = $enc->encrypt($customer_id.'::'.$code);
-		$ac = urlencode($ac);
 		$activate_url = $this->html->getSecureURL('account/login', '&ac='.$ac);
 	
 		//build welcome email

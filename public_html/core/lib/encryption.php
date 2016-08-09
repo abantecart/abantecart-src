@@ -53,7 +53,7 @@ final class AEncryption {
 			$hash = hash('sha256', $this->key, true);
 			$enc_str = base64_encode(mcrypt_encrypt(MCRYPT_RIJNDAEL_256, $hash, $str, MCRYPT_MODE_ECB));
 		}
-		return strtr($enc_str, '+/=', '-_,');
+		return str_replace('==', '', strtr($enc_str, '+/', '-_'));
 	}
 	
 	/**
@@ -67,7 +67,7 @@ final class AEncryption {
 		}
 		
 		$str = '';
-		$enc_str = base64_decode(strtr($enc_str, '-_,', '+/='));
+		$enc_str = base64_decode(strtr($enc_str, '-_', '+/').'==');
 		if(!$this->_check_mcrypt()) {
 			//non-mcrypt basic decryption
 			for ($i = 0; $i < strlen($enc_str); $i++) {
