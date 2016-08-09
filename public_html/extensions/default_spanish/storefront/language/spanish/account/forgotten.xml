@@ -28,7 +28,7 @@
 	<definition>
 		<key>text_loginname_email</key>
 		<value>
-			<![CDATA[Introduzca el nombre de usuario y dirección de correo electrónico asociada a tu cuenta. Haga clic en enviar para que su contraseña por correo electrónico]]></value>
+			<![CDATA[Introduzca el nombre de usuario y dirección de correo electrónico asociada con su cuenta. Haga clic en Enviar para solicitar restablecimiento de contraseña]]></value>
 	</definition>
 	<definition>
 		<key>text_lastname_email</key>
