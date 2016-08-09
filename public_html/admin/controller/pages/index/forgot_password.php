@@ -301,12 +301,11 @@ class ControllerPagesIndexForgotPassword extends AController {
 	private function _validateToken($reset_data, $check_hash) {
 		$email = $reset_data['email'];
 		$hash = $reset_data['hash'];
-
 		if ( empty($email) || empty($hash) || $hash != $check_hash) {
 			$this->error['warning'] =  $this->language->get('error_hash');
 		} else {
 			$this->loadModel('user/user');
-			$users = $this->model_user_user->getUsers( array( 'search' => "email = '".$this->db->escape($email)."'" ) );
+			$users = $this->model_user_user->getUsers( array( 'subsql_filter' => "email = '".$this->db->escape($email)."'" ) );
 			if ( empty( $users ) ) {
 				$this->error['warning'] =  $this->language->get('error_hash');
 			} else {
