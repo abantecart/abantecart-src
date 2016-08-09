@@ -12,7 +12,7 @@ include_once('core/hooks.php');
 
 // controllers
 $controllers = array(
-    'storefront' => array('blocks/neowize_insights'),
+    'storefront' => array(),
     'admin' => array('pages/neowize/dashboard'));
 
 // models
@@ -22,7 +22,7 @@ $models = array(
 
 // templates
 $templates = array(
-	'storefront' => array('blocks/neowize_insights.tpl'),
+	'storefront' => array('common/footer_top.post.tpl'),
 	'admin' => array('pages/neowize/dashboard.tpl'));
 
 //languages

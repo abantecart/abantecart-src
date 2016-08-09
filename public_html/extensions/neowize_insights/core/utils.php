@@ -64,16 +64,6 @@ class NeowizeUtils {
         return $settings;
     }
 
-    // get the neowize block id
-    public static function getNeowizeBlockId() {
-
-        // get installation data
-        $neowize_data = new ADataset('neowize','neowize_install_data');
-        $data = $neowize_data->getDatasetProperties();
-
-        // return block id
-        return $data['block_id'];
-    }
 
     // a shortcut to get just the api key.
     public static function getApiKey() {
@@ -130,70 +120,4 @@ class NeowizeUtils {
 		}
 	}
 
-	// make sure neowize blocks are injected to all layouts in all templates
-	// this function is used in case users change template etc and we want to make sure we are still active.
-	// @param $caller should be the block / controller that called this action, with access to db and cache.
-	// note: this will only write to db if we detect layouts that are missing Neowize block. So don't worry about calling
-	// this function unneeded (but also don't call it from storefront because its still db access..)
-	public static function reinstallNeowizeBlocks($caller)
-	{
-	    // get neowize block id
-        $block_id = NeowizeUtils::getNeowizeBlockId();
-
-        // get all layout ids
-        $sql = "SELECT layout_id FROM " . $caller->db->table("layouts") . " ORDER BY layout_id ASC";
-        $result = $caller->db->query($sql);
-        $layouts = $result->rows;
-
-        // add our block to all layouts (in 'block_layouts' table)
-        foreach($layouts as $layout){
-
-            // get layout id
-            $layout_id = $layout['layout_id'];
-
-            // set default position
-            $position = 10;
-
-            // get parent instance id for this layout - the root block that has no parent_instance_id is the instance_id we take as our own parent.
-            $sql = "SELECT instance_id FROM " . $caller->db->table("block_layouts") . " WHERE layout_id='" . (int)$layout_id . "' AND parent_instance_id='0'";
-            $result = $caller->db->query($sql);
-            $parent_instance_id = $result->rows[0]['instance_id'];
-
-            // first, make sure not already exist
-            $sql = "SELECT count(1) FROM " . $caller->db->table("block_layouts") . " WHERE " .
-                                                                                "layout_id='" . $layout_id . "' AND " .
-                                                                                "block_id='" . $block_id . "' AND " .
-                                                                                "parent_instance_id='" . $parent_instance_id . "'";
-            $result = $caller->db->query($sql);
-            $count = ( int )$result->rows[0]['count(1)'];
-            if ($count > 0)
-            {
-                continue;
-            }
-
-            // then insert block into placeholder
-            $sql = "INSERT INTO " . $caller->db->table("block_layouts") . " (" .
-                                                 "layout_id, " .
-                                                 "block_id, " .
-                                                 "parent_instance_id, " .
-                                                 "position, " .
-                                                 "status, " .
-                                                 "date_added, " .
-                                                 "date_modified) " .
-                "VALUES ('" . ( int )$layout_id . "', " .
-                        "'" . ( int )$block_id . "', " .
-                        "'" . ( int )$parent_instance_id . "', " .
-                        "'" . ( int )$position . "', " .
-                        "'1', " .
-                      "NOW(), " .
-                      "NOW()) ";
-            $caller->db->query($sql);
-        }
-
-        // clear layouts cache
-        if (isset($caller->cache->remove))
-        {
-            $caller->cache->remove('layout');
-        }
-	}
 }

@@ -22,17 +22,6 @@ class Controllerpagesneowizedashboard extends AController {
 			// init controller data
 			$this->extensions->hk_InitData($this, __FUNCTION__);
 
-			// call the function to reinstall neowize blocks
-			// this is to handle cases where user replace templates etc.
-			try
-			{
-				NeowizeUtils::reinstallNeowizeBlocks($this);
-			}
-			catch (Exception $e)
-			{
-				NeowizeUtils::reportException(__FUNCTION__, $e);
-			}
-
 			// set page title
 			$title = 'Neowize Insights';
 			$this->document->setTitle($title);

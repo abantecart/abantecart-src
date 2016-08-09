@@ -8,6 +8,6 @@ if (! defined ( 'DIR_CORE' )) {
 header ( 'Location: static_pages/' );
 }
 
-// delete the custom block
-$layout = new ALayoutManager();
-$layout->deleteBlock('neowize_insights');
+//delete menu item
+$menu = new AMenu ( "admin" );
+$menu->deleteMenuItem ("neowize_insights");

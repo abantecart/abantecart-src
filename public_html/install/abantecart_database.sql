@@ -1763,6 +1763,11 @@ INSERT INTO `ac_settings` (`group`, `key`, `value`) VALUES
 ('banner_manager','store_id',0),
 ('banner_manager','banner_manager_status',1),
 
+('neowize_insights','neowize_insights_priority',10),
+('neowize_insights','neowize_insights_date_installed', NOW()),
+('neowize_insights','store_id',0),
+('neowize_insights','neowize_insights_status',1),
+
 ('forms_manager','forms_manager_priority',10),
 ('forms_manager','forms_manager_date_installed', NOW()),
 ('forms_manager','store_id',0),
@@ -11278,36 +11283,42 @@ INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
 VALUES  (10,'report_sale',91),
         (10,'report_customer',92),
         (10,'report_product',93),
+        (10,'report_analytics',221),
         (10,'banner_manager_stat',94 );
 -- ITEM_TEXT
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`) 
 VALUES  (11,'text_report_sale',91),
         (11,'text_customer',92),
         (11,'text_product',93),
+        (11,'text_analytics',221),
         (11,'banner_manager_name_stat',94);
 -- ITEM_URL
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`) 
 VALUES  (12,'',91),
         (12,'',92),
         (12,'',93),
+        (12,'',221),
         (12,'extension/banner_manager_stat',94);
 -- PARENT_ID
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`) 
 VALUES  (13,'reports',91),
         (13,'reports',92),
         (13,'reports',93),
+        (13,'reports',221),
         (13,'reports',94);
 -- SORT_ORDER
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_integer`,`row_id`) 
 VALUES  (14,1,91),
         (14,2,92),
         (14,3,93),
-        (14,4,94);
+        (14,4,221),
+        (14,5,94);
 -- ITEM_TYPE
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`) 
 VALUES  (15,'core',91),
         (15,'core',92),
         (15,'core',93),
+        (15,'core',221),
         (15,'extension',94);
 
 -- ITEM_RL_ID
@@ -11315,6 +11326,7 @@ INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
 VALUES  (40,'234',91),
         (40,'222',92),
         (40,'208',93),
+        (40,'234',221),
         (40,'237',94);
 
 --
@@ -11371,8 +11383,8 @@ VALUES  (10,'template',131),
         (10,'blocks',133),
         (10,'menu',134),
         (10,'content',135),
-		(10,'banner_manager',136),
-		(10,'forms_manager',200);
+		    (10,'banner_manager',136),
+		    (10,'forms_manager',200);
 -- ITEM_TEXT
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`) 
 VALUES  (11,'text_templates',131),
@@ -11877,6 +11889,33 @@ INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
 VALUES  (40,'235',217),
         (40,'236',218);
 
+
+--
+-- SUBMENU REPORTS->ANALYTICS
+-- ITEM_ID
+INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
+VALUES
+(10,'neowize_insights',222);
+-- ITEM_TEXT
+INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
+VALUES (11,'NeoWize Insights',222);
+-- ITEM_URL
+INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
+VALUES (12,'neowize/dashboard',222);
+-- PARENT_ID
+INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
+VALUES (13,'report_analytics',222);
+-- SORT_ORDER
+INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_integer`,`row_id`)
+VALUES (14,2,222);
+-- ITEM_TYPE
+INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
+VALUES (15,'core',222);
+-- ITEM_RL_ID
+INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
+VALUES  (40,'278',222);
+
+
 --
 -- Storefront menu names inserts
 --
@@ -12207,7 +12246,8 @@ VALUES
   ( 274,1,'Icon Installlog', '', '', '', '<i class="fa fa-history"></i>&nbsp;', NOW() ),
   ( 275,1,'Icon Error log', '', '', '', '<i class="fa fa-exclamation-triangle"></i>&nbsp;', NOW() ),
   ( 276,1,'Icon Settings IM', '', '', '', '<i class="fa fa-bullhorn"></i>&nbsp;', NOW() ),
-  ( 277,1,'Icon Resource Library', '', '', '', '<i class="fa fa-image"></i>&nbsp;', NOW() );
+  ( 277,1,'Icon Resource Library', '', '', '', '<i class="fa fa-image"></i>&nbsp;', NOW() ),
+  ( 278,1,'Icon Analytics & Insights', '', '', '', '<i class="fa fa-signal"></i>&nbsp;', NOW() );
 
 
 --

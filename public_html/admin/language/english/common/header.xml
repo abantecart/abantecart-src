@@ -169,6 +169,10 @@
 		<value><![CDATA[Sales]]></value>
 	</definition>
 	<definition>
+		<key>text_analytics</key>
+		<value><![CDATA[Analytics & Insights]]></value>
+	</definition>
+	<definition>
 		<key>text_report_viewed</key>
 		<value><![CDATA[Products Viewed]]></value>
 	</definition>
