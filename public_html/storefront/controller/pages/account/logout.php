@@ -57,24 +57,24 @@ class ControllerPagesAccountLogout extends AController {
 		$this->document->resetBreadcrumbs();
 
       	$this->document->addBreadcrumb( array ( 
-        	'href'      => $this->html->getURL('index/home'),
+        	'href'      => $this->html->getNonSecureURL('index/home'),
         	'text'      => $this->language->get('text_home'),
         	'separator' => FALSE
       	 ));
       	
 		$this->document->addBreadcrumb( array ( 
-        	'href'      => $this->html->getURL('account/account'),
+        	'href'      => $this->html->getSecureURL('account/account'),
         	'text'      => $this->language->get('text_account'),
         	'separator' => $this->language->get('text_separator')
       	 ));
 		
       	$this->document->addBreadcrumb( array ( 
-        	'href'      => $this->html->getURL('account/logout'),
+        	'href'      => $this->html->getSecureURL('account/logout'),
         	'text'      => $this->language->get('text_logout'),
         	'separator' => $this->language->get('text_separator')
       	 ));	
 		
-    	$this->view->assign('continue', $this->html->getURL('index/home') );
+    	$this->view->assign('continue', $this->html->getNonSecureURL('index/home') );
 		$continue = $this->html->buildElement( array ('type' => 'button',
 		                                               'name' => 'continue_button',
 			                                           'text'=> $this->language->get('button_continue'),

@@ -103,28 +103,28 @@ class ControllerPagesAccountInvoice extends AController{
 
 		$this->document->addBreadcrumb(
 				array (
-						'href'      => $this->html->getURL('index/home'),
+						'href'      => $this->html->getNonSecureURL('index/home'),
 						'text'      => $this->language->get('text_home'),
 						'separator' => false
 				));
 
 		$this->document->addBreadcrumb(
 				array (
-						'href'      => $this->html->getURL('account/account'),
+						'href'      => $this->html->getSecureURL('account/account'),
 						'text'      => $this->language->get('text_account'),
 						'separator' => $this->language->get('text_separator')
 				));
 		if (!$guest){
 			$this->document->addBreadcrumb(
 					array (
-							'href'      => $this->html->getURL('account/history'),
+							'href'      => $this->html->getSecureURL('account/history'),
 							'text'      => $this->language->get('text_history'),
 							'separator' => $this->language->get('text_separator')
 					));
 		}
 
 		$this->document->addBreadcrumb(array (
-				'href'      => $this->html->getURL('account/invoice', '&order_id=' . $order_id),
+				'href'      => $this->html->getSecureURL('account/invoice', '&order_id=' . $order_id),
 				'text'      => $this->language->get('text_invoice'),
 				'separator' => $this->language->get('text_separator')
 		));
@@ -259,7 +259,7 @@ class ControllerPagesAccountInvoice extends AController{
 			$this->data['historys'] = $historys;
 
 			if ($guest){
-				$this->data['continue'] = $this->html->getSecureURL('index/home');
+				$this->data['continue'] = $this->html->getNonSecureURL('index/home');
 			} else{
 				$this->data['continue'] = $this->html->getSecureURL('account/history');
 			}
@@ -293,7 +293,7 @@ class ControllerPagesAccountInvoice extends AController{
 			$this->view->setTemplate('pages/account/invoice.tpl');
 		} else{
 			if ($guest){
-				$this->data['continue'] = $this->html->getSecureURL('index/home');
+				$this->data['continue'] = $this->html->getNonSecureURL('index/home');
 			} else{
 				$this->data['continue'] = $this->html->getSecureURL('account/account');
 			}
@@ -318,19 +318,19 @@ class ControllerPagesAccountInvoice extends AController{
 		$this->document->resetBreadcrumbs();
 
 		$this->document->addBreadcrumb(array (
-				'href'      => $this->html->getURL('index/home'),
+				'href'      => $this->html->getNonSecureURL('index/home'),
 				'text'      => $this->language->get('text_home'),
 				'separator' => false
 		));
 
 		$this->document->addBreadcrumb(array (
-				'href'      => $this->html->getURL('account/account'),
+				'href'      => $this->html->getSecureURL('account/account'),
 				'text'      => $this->language->get('text_account'),
 				'separator' => $this->language->get('text_separator')
 		));
 
 		$this->document->addBreadcrumb(array (
-				'href'      => $this->html->getURL('account/invoice'),
+				'href'      => $this->html->getSecureURL('account/invoice'),
 				'text'      => $this->language->get('heading_title'),
 				'separator' => $this->language->get('text_separator')
 		));

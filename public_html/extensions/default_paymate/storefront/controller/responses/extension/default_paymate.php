@@ -123,7 +123,7 @@ class ControllerResponsesExtensionDefaultPaymate extends AController {
 			$template_data['heading_title'] = $this->language->get('text_failed');
 			$template_data['text_message'] = sprintf($this->language->get('text_failed_message'), $error, $this->html->getURL('content/contact'));
 			$template_data['button_continue'] = $this->language->get('button_continue');
-			$template_data['continue'] = $this->html->getURL('index/home');
+			$template_data['continue'] = $this->html->getNonSecureURL('index/home');
 
 			$this->view->batchAssign( $template_data );
             $this->processTemplate($this->config->get('config_storefront_template') . 'common/success.tpl' );

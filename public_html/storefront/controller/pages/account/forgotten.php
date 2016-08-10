@@ -77,19 +77,19 @@ class ControllerPagesAccountForgotten extends AController {
       	$this->document->resetBreadcrumbs();
 
       	$this->document->addBreadcrumb( array ( 
-        	'href'      => $this->html->getURL('index/home'),
+        	'href'      => $this->html->getNonSecureURL('index/home'),
         	'text'      => $this->language->get('text_home'),
         	'separator' => FALSE
       	 )); 
 
       	$this->document->addBreadcrumb( array ( 
-        	'href'      => $this->html->getURL('account/account'),
+        	'href'      => $this->html->getSecureURL('account/account'),
         	'text'      => $this->language->get('text_account'),
         	'separator' => $this->language->get('text_separator')
       	 ));
 		
       	$this->document->addBreadcrumb( array ( 
-        	'href'      => $this->html->getURL('account/forgotten/password'),
+        	'href'      => $this->html->getSecureURL('account/forgotten/password'),
         	'text'      => $this->language->get('text_forgotten'),
         	'separator' => $this->language->get('text_separator')
       	 ));
@@ -193,7 +193,7 @@ class ControllerPagesAccountForgotten extends AController {
       	$this->document->resetBreadcrumbs();
 
       	$this->document->addBreadcrumb( array ( 
-        	'href'      => $this->html->getURL('index/home'),
+        	'href'      => $this->html->getNonSecureURL('index/home'),
         	'text'      => $this->language->get('text_home'),
         	'separator' => FALSE
       	 )); 
@@ -302,19 +302,19 @@ class ControllerPagesAccountForgotten extends AController {
       	$this->document->resetBreadcrumbs();
 
       	$this->document->addBreadcrumb( array ( 
-        	'href'      => $this->html->getURL('index/home'),
+        	'href'      => $this->html->getNonSecureURL('index/home'),
         	'text'      => $this->language->get('text_home'),
         	'separator' => FALSE
       	 )); 
 
       	$this->document->addBreadcrumb( array ( 
-        	'href'      => $this->html->getURL('account/account'),
+        	'href'      => $this->html->getSecureURL('account/account'),
         	'text'      => $this->language->get('text_account'),
         	'separator' => $this->language->get('text_separator')
       	 ));
 		
       	$this->document->addBreadcrumb( array ( 
-        	'href'      => $this->html->getURL('account/forgotten/loginname'),
+        	'href'      => $this->html->getSecureURL('account/forgotten/loginname'),
         	'text'      => $this->language->get('text_forgotten_loginname'),
         	'separator' => $this->language->get('text_separator')
       	 ));

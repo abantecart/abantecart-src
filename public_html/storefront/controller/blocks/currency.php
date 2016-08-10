@@ -57,7 +57,7 @@ class ControllerBlocksCurrency extends AController {
 						'title' => $result['title'],
 						'code'  => $result['code'],
 						'symbol' => ( !empty( $result['symbol_left'] ) ? $result['symbol_left'] : $result['symbol_right'] ),
-						'href'  => $this->html->getSEOURL($rt, $URI.'&currency='.$result['code'],true)
+						'href'  => $this->html->getURL($rt, $URI.'&currency='.$result['code'],true)
 					);
 				}
 			}

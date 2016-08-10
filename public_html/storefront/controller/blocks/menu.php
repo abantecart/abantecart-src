@@ -68,7 +68,7 @@ class ControllerBlocksMenu extends AController {
 			if( preg_match ( "/^http/i", $item ['item_url'] ) ){
 				$href = $item ['item_url'];
 			} else {
-				$href = $this->html->getURL ( $item ['item_url'] );
+				$href = $this->html->getSecureURL( $item ['item_url'] );
 			}
 			$menu[] = array(
 				'id' => $item['item_id'],

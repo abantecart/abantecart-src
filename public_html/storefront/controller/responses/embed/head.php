@@ -40,6 +40,7 @@ class ControllerResponsesEmbedHead extends AController {
 		
 		if (HTTPS === true) {
 			$this->view->assign('base', HTTPS_SERVER);
+		    $this->view->assign('ssl', 1);
 		} else {
 			$this->view->assign('base', HTTP_SERVER);
 		}
@@ -51,13 +52,11 @@ class ControllerResponsesEmbedHead extends AController {
 		$this->view->assign('scripts', $this->document->getScripts());		
 		
 		$this->view->assign('store', $this->config->get('store_name'));
-        if (isset($this->request->server['HTTPS']) && (($this->request->server['HTTPS'] == 'on') || ($this->request->server['HTTPS'] == '1'))) {
-		    $this->view->assign('ssl', 1);
-        }
-		$this->view->assign('cart_url', $this->html->getURL($cart_rt));
+		$this->view->assign('cart_url', $this->html->getSecureURL($cart_rt));
         $this->view->assign('cart_ajax', (int) $this->config->get('config_cart_ajax'));
+        //URL protocol should be automatic for CORS
         $this->view->assign('cart_ajax_url', $this->html->getURL('r/product/product/addToCart'));
-        $this->view->assign('search_url', $this->html->getURL('product/search'));
+        $this->view->assign('search_url', $this->html->getNonSecureURL('product/search'));
 
         $this->view->assign('call_to_order_url', $this->html->getURL('content/contact'));
 

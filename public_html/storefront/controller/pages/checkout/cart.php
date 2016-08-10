@@ -215,14 +215,14 @@ class ControllerPagesCheckoutCart extends AController{
 
 		$this->document->addBreadcrumb(
 				array (
-						'href'      => $this->html->getURL('index/home'),
+						'href'      => $this->html->getNonSecureURL('index/home'),
 						'text'      => $this->language->get('text_home'),
 						'separator' => false
 				));
 
 		$this->document->addBreadcrumb(
 				array (
-						'href'      => $this->html->getURL('checkout/cart'),
+						'href'      => $this->html->getSecureURL('checkout/cart'),
 						'text'      => $this->language->get('text_basket'),
 						'separator' => $this->language->get('text_separator')
 				));
@@ -348,7 +348,7 @@ class ControllerPagesCheckoutCart extends AController{
 				$this->data['continue'] = str_replace('&amp;', '&', $this->session->data['redirect']);
 				unset($this->session->data['redirect']);
 			} else{
-				$this->data['continue'] = $this->html->getURL($home_rt);
+				$this->data['continue'] = $this->html->getNonSecureURL($home_rt);
 			}
 			$this->data['form']['continue_shopping'] = $form->getFieldHtml(
 					array (
@@ -466,10 +466,10 @@ class ControllerPagesCheckoutCart extends AController{
 							'name'  => 'continue',
 							'type'  => 'button',
 							'text'  => $this->language->get('button_continue'),
-							'href'  => $this->html->getURL($home_rt),
+							'href'  => $this->html->getNonSecureURL($home_rt),
 							'style' => 'button'));
 			if ($this->config->get('embed_mode') == true){
-				$this->data['back_url'] = $this->html->getURL('r/product/category');
+				$this->data['back_url'] = $this->html->getNonSecureURL('r/product/category');
 			}
 
 			$this->view->setTemplate('pages/error/not_found.tpl');

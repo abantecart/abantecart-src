@@ -121,7 +121,7 @@ class ControllerPagesContentContact extends AController{
 
 		$this->document->addBreadcrumb(
 				array (
-						'href'      => $this->html->getURL('index/home'),
+						'href'      => $this->html->getNonSecureURL('index/home'),
 						'text'      => $this->language->get('text_home'),
 						'separator' => false
 				));
@@ -158,7 +158,7 @@ class ControllerPagesContentContact extends AController{
 
 		$this->document->addBreadcrumb(
 				array (
-						'href'      => $this->html->getURL('index/home'),
+						'href'      => $this->html->getNonSecureURL('index/home'),
 						'text'      => $this->language->get('text_home'),
 						'separator' => false
 				));
@@ -171,9 +171,9 @@ class ControllerPagesContentContact extends AController{
 				));
 
 		if ($this->config->get('embed_mode') == true){
-			$continue_url = $this->html->getURL('product/category');
+			$continue_url = $this->html->getNonSecureURL('product/category');
 		} else{
-			$continue_url = $this->html->getURL('index/home');
+			$continue_url = $this->html->getNonSecureURL('index/home');
 		}
 
 		$this->view->assign('continue', $continue_url);

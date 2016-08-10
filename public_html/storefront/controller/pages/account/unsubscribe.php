@@ -51,7 +51,7 @@ class ControllerPagesAccountUnsubscribe extends AController{
 		$this->document->resetBreadcrumbs();
 		$this->document->addBreadcrumb(
 				array (
-						'href'      => $this->html->getURL('index/home'),
+						'href'      => $this->html->getNonSecureURL('index/home'),
 						'text'      => $this->language->get('text_home'),
 						'separator' => false
 				));
@@ -63,7 +63,7 @@ class ControllerPagesAccountUnsubscribe extends AController{
 
 
 		$this->data['button_continue'] = $this->language->get('button_continue');
-		$this->data['continue'] = $this->html->getURL('index/home');
+		$this->data['continue'] = $this->html->getNonSecureURL('index/home');
 
 		$continue = $this->html->buildElement(
 				array (

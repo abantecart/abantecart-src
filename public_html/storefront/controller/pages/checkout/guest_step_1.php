@@ -160,13 +160,13 @@ class ControllerPagesCheckoutGuestStep1 extends AController{
 		$this->document->resetBreadcrumbs();
 		$this->document->addBreadcrumb(
 				array (
-						'href'      => $this->html->getURL('index/home'),
+						'href'      => $this->html->getNonSecureURL('index/home'),
 						'text'      => $this->language->get('text_home'),
 						'separator' => false
 				));
 		$this->document->addBreadcrumb(
 				array (
-						'href'      => $this->html->getURL($cart_rt),
+						'href'      => $this->html->getSecureURL($cart_rt),
 						'text'      => $this->language->get('text_cart'),
 						'separator' => $this->language->get('text_separator')
 				));
@@ -569,7 +569,7 @@ class ControllerPagesCheckoutGuestStep1 extends AController{
 		//end of trick
 
 
-		$this->view->assign('back', $this->html->getURL($cart_rt));
+		$this->view->assign('back', $this->html->getSecureURL($cart_rt));
 
 		$this->data['form']['back'] = $form->getFieldHtml(
 				array (

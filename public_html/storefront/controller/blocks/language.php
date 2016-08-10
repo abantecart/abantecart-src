@@ -35,7 +35,7 @@ class ControllerBlocksLanguage extends AController {
 			if (isset($this->request->post['redirect'])) {
 				$this->redirect($this->request->post['redirect']);
 			} else {
-				$this->redirect($this->html->getURL('index/home'));
+				$this->redirect($this->html->getNonSecureURL('index/home'));
 			}
     	}
 

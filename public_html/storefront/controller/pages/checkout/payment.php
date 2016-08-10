@@ -247,28 +247,28 @@ class ControllerPagesCheckoutPayment extends AController{
 
 		$this->document->addBreadcrumb(
 				array (
-						'href'      => $this->html->getURL('index/home'),
+						'href'      => $this->html->getNonSecureURL('index/home'),
 						'text'      => $this->language->get('text_home'),
 						'separator' => false
 				));
 
 		$this->document->addBreadcrumb(
 				array (
-						'href'      => $this->html->getURL($cart_rt),
+						'href'      => $this->html->getSecureURL($cart_rt),
 						'text'      => $this->language->get('text_basket'),
 						'separator' => $this->language->get('text_separator')
 				));
 
 		$this->document->addBreadcrumb(
 				array (
-						'href'      => $this->html->getURL($checkout_rt),
+						'href'      => $this->html->getSecureURL($checkout_rt),
 						'text'      => $this->language->get('entry_shipping'),
 						'separator' => $this->language->get('text_separator')
 				));
 
 		$this->document->addBreadcrumb(
 				array (
-						'href'      => $this->html->getURL($payment_rt),
+						'href'      => $this->html->getSecureURL($payment_rt),
 						'text'      => $this->language->get('entry_payment'),
 						'separator' => $this->language->get('text_separator')
 				));

@@ -33,21 +33,21 @@ class ControllerPagesAccountSuccess extends AController{
 
 		$this->document->addBreadcrumb(
 				array (
-						'href'      => $this->html->getURL('index/home'),
+						'href'      => $this->html->getNonSecureURL('index/home'),
 						'text'      => $this->language->get('text_home'),
 						'separator' => false
 				));
 
 		$this->document->addBreadcrumb(
 				array (
-						'href'      => $this->html->getURL('account/account'),
+						'href'      => $this->html->getSecureURL('account/account'),
 						'text'      => $this->language->get('text_account'),
 						'separator' => $this->language->get('text_separator')
 				));
 
 		$this->document->addBreadcrumb(
 				array (
-						'href'      => $this->html->getURL('account/success'),
+						'href'      => $this->html->getSecureURL('account/success'),
 						'text'      => $this->language->get('text_success'),
 						'separator' => $this->language->get('text_separator')
 				));
@@ -69,9 +69,9 @@ class ControllerPagesAccountSuccess extends AController{
 			unset($this->session->data['redirect']);
 		} else{
 			if ($this->cart->hasProducts()){
-				$this->view->assign('continue', $this->html->getURL('checkout/cart'));
+				$this->view->assign('continue', $this->html->getSecureURL('checkout/cart'));
 			} else{
-				$this->view->assign('continue', $this->html->getURL('account/account'));
+				$this->view->assign('continue', $this->html->getSecureURL('account/account'));
 			}
 		}
 

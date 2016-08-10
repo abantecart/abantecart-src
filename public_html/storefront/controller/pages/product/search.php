@@ -43,7 +43,7 @@ class ControllerPagesProductSearch extends AController {
 		$this->document->resetBreadcrumbs();
 
    		$this->document->addBreadcrumb( array (  
-       		'href'      => $this->html->getURL('index/home'),
+       		'href'      => $this->html->getNonSecureURL('index/home'),
        		'text'      => $this->language->get('text_home'),
       		'separator' => FALSE
    		 ));
@@ -82,7 +82,7 @@ class ControllerPagesProductSearch extends AController {
         }
 			
    		$this->document->addBreadcrumb( array ( 
-       		'href'      => $this->html->getURL('product/search',  $url),
+       		'href'      => $this->html->getNonSecureURL('product/search',  $url),
        		'text'      => $this->language->get('heading_title'),
       		'separator' => $this->language->get('text_separator')
    		 ));

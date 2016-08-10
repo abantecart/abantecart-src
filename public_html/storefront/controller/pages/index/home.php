@@ -55,7 +55,7 @@ class ControllerPagesIndexHome extends AController {
 			}
 		}
 
-		$this->view->assign('special', $this->html->getURL('product/special') );
+		$this->view->assign('special', $this->html->getNonSecureURL('product/special') );
 
 		$this->processTemplate();
 

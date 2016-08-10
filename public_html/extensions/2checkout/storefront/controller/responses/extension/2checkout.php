@@ -104,7 +104,7 @@ class ControllerResponsesExtension2Checkout extends AController {
 
 	public function callback() {
 		if ($this->request->is_GET()) {
-			$this->redirect($this->html->getURL('index/home'));
+			$this->redirect($this->html->getNonSecureURL('index/home'));
 		}
 
 		$this->load->model('checkout/order');
@@ -135,7 +135,7 @@ class ControllerResponsesExtension2Checkout extends AController {
 			$order_status_id = $this->model_extension_2checkout->getOrderStatusIdByName('complete');
 			$this->model_checkout_order->update((int)$post['vendor_order_id'], $order_status_id,'Status changed by 2Checkout INS');
 		} else {
-			$this->redirect($this->html->getURL('checkout/confirm'));
+			$this->redirect($this->html->getSecureURL('checkout/confirm'));
 		}
 	}
 }

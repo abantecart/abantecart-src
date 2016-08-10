@@ -39,13 +39,13 @@ class ControllerPagesContentSitemap extends AController {
       	$this->document->resetBreadcrumbs();
 
       	$this->document->addBreadcrumb( array ( 
-        	'href'      => $this->html->getURL('index/home'),
+        	'href'      => $this->html->getNonSecureURL('index/home'),
         	'text'      => $this->language->get('text_home'),
         	'separator' => FALSE
       	 ));
 
       	$this->document->addBreadcrumb( array ( 
-        	'href'      => $this->html->getURL('content/sitemap'),
+        	'href'      => $this->html->getNonSecureURL('content/sitemap'),
         	'text'      => $this->language->get('heading_title'),
         	'separator' => $this->language->get('text_separator')
       	 ));	
@@ -54,17 +54,17 @@ class ControllerPagesContentSitemap extends AController {
 		$this->loadModel('tool/seo_url');
 		
 		$this->view->assign('categories_html', $this->_buildCategoriesTree(0));
-        $this->view->assign('special', $this->html->getSEOURL('product/special'));
-        $this->view->assign('account', $this->html->getSEOURL('account/account'));
-        $this->view->assign('edit',    $this->html->getSEOURL('account/edit'));
-        $this->view->assign('password',$this->html->getSEOURL('account/password'));
-        $this->view->assign('address', $this->html->getSEOURL('account/address'));
-        $this->view->assign('history', $this->html->getSEOURL('account/history'));
-        $this->view->assign('download',$this->html->getSEOURL('account/download'));
-        $this->view->assign('checkout',$this->html->getSEOURL('checkout/shipping'));
+        $this->view->assign('special', $this->html->getNonSecureURL('product/special'));
+        $this->view->assign('account', $this->html->getSecureURL('account/account'));
+        $this->view->assign('edit',    $this->html->getSecureURL('account/edit'));
+        $this->view->assign('password',$this->html->getSecureURL('account/password'));
+        $this->view->assign('address', $this->html->getSecureURL('account/address'));
+        $this->view->assign('history', $this->html->getSecureURL('account/history'));
+        $this->view->assign('download',$this->html->getSecureURL('account/download'));
+        $this->view->assign('checkout',$this->html->getSecureURL('checkout/shipping'));
 
         $this->view->assign('cart',    $this->html->getSecureURL('checkout/cart'));
-        $this->view->assign('search',  $this->html->getURL('product/search'));
+        $this->view->assign('search',  $this->html->getNonSecureURL('product/search'));
         $this->view->assign('contact', $this->html->getSecureURL('content/contact'));
 
 		$this->loadModel('catalog/content');

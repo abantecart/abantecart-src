@@ -40,14 +40,14 @@ class ControllerBlocksOrderSummary extends AController {
 		$this->view->assign('text_checkout', $this->language->get('text_checkout'));
 		$this->view->assign('text_items', $this->language->get('text_items'));
 		
-		$this->view->assign('view', $this->html->getURL('checkout/cart'));
+		$this->view->assign('view', $this->html->getSecureURL('checkout/cart'));
 
         $rt = $this->request->get['rt'];
         if ( strpos($rt, 'checkout') !== false && $rt != 'checkout/cart' ) {
             $this->view->assign('checkout', '');
         } else {
 			if ( $this->cart->hasMinRequirement() && $this->cart->hasMaxRequirement() ) {
-            	$this->view->assign('checkout', $this->html->getURL('checkout/shipping'));
+            	$this->view->assign('checkout', $this->html->getSecureURL('checkout/shipping'));
 			}	
         }
 

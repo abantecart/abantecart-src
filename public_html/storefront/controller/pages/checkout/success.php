@@ -100,44 +100,44 @@ class ControllerPagesCheckoutSuccess extends AController{
 		$this->document->resetBreadcrumbs();
 
 		$this->document->addBreadcrumb(array (
-				'href'      => $this->html->getURL('index/home'),
+				'href'      => $this->html->getNonSecureURL('index/home'),
 				'text'      => $this->language->get('text_home'),
 				'separator' => false
 		));
 
 		$this->document->addBreadcrumb(array (
-				'href'      => $this->html->getURL('checkout/cart'),
+				'href'      => $this->html->getSecureURL('checkout/cart'),
 				'text'      => $this->language->get('text_basket'),
 				'separator' => $this->language->get('text_separator')
 		));
 
 		if ($this->customer->isLogged()){
 			$this->document->addBreadcrumb(array (
-					'href'      => $this->html->getURL('checkout/shipping'),
+					'href'      => $this->html->getSecureURL('checkout/shipping'),
 					'text'      => $this->language->get('text_shipping'),
 					'separator' => $this->language->get('text_separator')
 			));
 
 			$this->document->addBreadcrumb(array (
-					'href'      => $this->html->getURL('checkout/payment'),
+					'href'      => $this->html->getSecureURL('checkout/payment'),
 					'text'      => $this->language->get('text_payment'),
 					'separator' => $this->language->get('text_separator')
 			));
 
 			$this->document->addBreadcrumb(array (
-					'href'      => $this->html->getURL('checkout/confirm'),
+					'href'      => $this->html->getSecureURL('checkout/confirm'),
 					'text'      => $this->language->get('text_confirm'),
 					'separator' => $this->language->get('text_separator')
 			));
 		} else{
 			$this->document->addBreadcrumb(array (
-					'href'      => $this->html->getURL('checkout/guest'),
+					'href'      => $this->html->getSecureURL('checkout/guest'),
 					'text'      => $this->language->get('text_guest'),
 					'separator' => $this->language->get('text_separator')
 			));
 
 			$this->document->addBreadcrumb(array (
-					'href'      => $this->html->getURL('checkout/guest/confirm'),
+					'href'      => $this->html->getSecureURL('checkout/guest/confirm'),
 					'text'      => $this->language->get('text_confirm'),
 					'separator' => $this->language->get('text_separator')
 			));
@@ -173,7 +173,7 @@ class ControllerPagesCheckoutSuccess extends AController{
 			$this->view->assign( 'text_message', $text_message );
 		}
 		$this->view->assign('button_continue', $this->language->get('button_continue'));
-		$this->view->assign('continue', $this->html->getURL('index/home'));
+		$this->view->assign('continue', $this->html->getNonSecureURL('index/home'));
 		$continue = $this->html->buildElement(
 				array (
 						'type'  => 'button',

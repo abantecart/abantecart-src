@@ -39,25 +39,25 @@ class ControllerPagesAccountNotification extends AController {
 		if ($this->request->is_POST()) {
 			$this->model_account_customer->saveCustomerNotificationSettings($this->request->post['settings']);
 			$this->session->data['success'] = $this->language->get('text_success');
-			$this->redirect($this->html->getURL('account/account'));
+			$this->redirect($this->html->getSecureURL('account/account'));
 		}
 
       	$this->document->resetBreadcrumbs();
 
       	$this->document->addBreadcrumb( array ( 
-        	'href'      => $this->html->getURL('index/home'),
+        	'href'      => $this->html->getNonSecureURL('index/home'),
         	'text'      => $this->language->get('text_home'),
         	'separator' => FALSE
       	 )); 
 
       	$this->document->addBreadcrumb( array ( 
-        	'href'      => $this->html->getURL('account/account'),
+        	'href'      => $this->html->getSecureURL('account/account'),
         	'text'      => $this->language->get('text_account'),
         	'separator' => $this->language->get('text_separator')
       	 ));
 		
       	$this->document->addBreadcrumb( array ( 
-        	'href'      => $this->html->getURL('account/notification'),
+        	'href'      => $this->html->getSecureURL('account/notification'),
         	'text'      => $this->language->get('text_notifications'),
         	'separator' => $this->language->get('text_separator')
       	 ));
@@ -135,7 +135,7 @@ class ControllerPagesAccountNotification extends AController {
                                                                        'icon' => 'fa fa-check',
 		                                                               'name' => $this->language->get('button_continue') ));
 
-       	$this->data['back'] = $this->html->getURL('account/account');
+       	$this->data['back'] = $this->html->getSecureURL('account/account');
 		$back = HtmlElementFactory::create( array ('type' => 'button',
 		                                           'name' => 'back',
 			                                       'text'=> $this->language->get('button_back'),

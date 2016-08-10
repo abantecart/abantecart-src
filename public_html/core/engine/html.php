@@ -127,16 +127,32 @@ class AHtml extends AController {
 		return $suburl;
 	}
 
+
 	/**
-	 * Build non-secure URL
+	 * Get non secure URL. Read note below.
 	 * @param string $rt
 	 * @param string $params
 	 * @param string $encode
 	 * @return string
+	 *
+	 * Note: Non secure URL is base on store_url setting. If this setting is using https URL, all URLs will be secure
 	 */
-	public function getURL($rt, $params = '', $encode = '') {
-		if (isset($this->request->server['HTTPS'])
-				&& (($this->request->server['HTTPS'] == 'on') || ($this->request->server['HTTPS'] == '1'))) {
+	public function getNonSecureURL($rt, $params = '', $encode = '') {
+		return $this->getURL($rt, $params, $encode, true);
+	}
+
+	/**
+	 * Get URL with auto detection for protocol
+	 * @param string $rt
+	 * @param string $params
+	 * @param string $encode
+	 * @param bool $nonsecure - force to be non secure
+	 * @return string
+	 */
+	public function getURL($rt, $params = '', $encode = '', $nonsecure = false) {
+		//detect if request is using HTTPS
+		$https = $this->request->server['HTTPS'];
+		if($nonsecure === false && HTTPS === true) {
 			$server = HTTPS_SERVER;
 		} else {
 			//to prevent garbage session need to check constant HTTP_SERVER
@@ -172,7 +188,7 @@ class AHtml extends AController {
 		$session = $this->registry->get('session');
 		$config = $this->registry->get('config');
 		// add session id for cross-domain transition in non-secure mode
-		if($config->get('config_shared_session')	&& HTTPS!==true){
+		if($config->get('config_shared_session') && HTTPS!==true){
 			$params .= '&session_id='.session_id();
 		}
 
@@ -207,9 +223,10 @@ class AHtml extends AController {
 		if ($this->registry->get('config')->get('embed_mode') == true) {
 			return $this->getURL($rt, $params);
 		}
-		//#PR Generate SEO URL based on standard URL
 		$this->loadModel('tool/seo_url');
-		return $this->url_encode($this->model_tool_seo_url->rewrite($this->getURL($rt, $params)), $encode);
+		//#PR Generate SEO URL based on standard URL
+		//NOTE: SEO URL is non secure url
+		return $this->url_encode($this->model_tool_seo_url->rewrite($this->getNonSecureURL($rt, $params)), $encode);
 	}
 	/**
 	 * Build secure SEO URL

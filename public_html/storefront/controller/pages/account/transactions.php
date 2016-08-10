@@ -45,21 +45,21 @@ class ControllerPagesAccountTransactions extends AController{
 
 		$this->document->addBreadcrumb(
 				array (
-						'href'      => $this->html->getURL('index/home'),
+						'href'      => $this->html->getNonSecureURL('index/home'),
 						'text'      => $this->language->get('text_home'),
 						'separator' => false
 				));
 
 		$this->document->addBreadcrumb(
 				array (
-						'href'      => $this->html->getURL('account/account'),
+						'href'      => $this->html->getSecureURL('account/account'),
 						'text'      => $this->language->get('text_account'),
 						'separator' => $this->language->get('text_separator')
 				));
 
 		$this->document->addBreadcrumb(
 				array (
-						'href'      => $this->html->getURL('account/transactions'),
+						'href'      => $this->html->getSecureURL('account/transactions'),
 						'text'      => $this->language->get('text_transactions'),
 						'separator' => $this->language->get('text_separator')
 				));
@@ -72,7 +72,7 @@ class ControllerPagesAccountTransactions extends AController{
 		$this->data['balance_amount'] = $this->currency->format($balance);
 
 		if ($trans_total){
-			$this->data['action'] = $this->html->getURL('account/transactions');
+			$this->data['action'] = $this->html->getSecureURL('account/transactions');
 
 			if (isset($this->request->get['page'])){
 				$page = $this->request->get['page'];
@@ -115,7 +115,7 @@ class ControllerPagesAccountTransactions extends AController{
 							'total'      => $trans_total,
 							'page'       => $page,
 							'limit'      => $limit,
-							'url'        => $this->html->getURL('account/transactions', '&limit=' . $limit . '&page={page}'),
+							'url'        => $this->html->getSecureURL('account/transactions', '&limit=' . $limit . '&page={page}'),
 							'style'      => 'pagination'));
 
 
