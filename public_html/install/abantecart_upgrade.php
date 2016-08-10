@@ -99,7 +99,13 @@ if($resource_type_id && $result){
 
 		$new_file_path = DIR_RESOURCE.'archive/'.$row['resource_path'];
 
-		if(is_file($new_file_path)){ continue;}
+		if(is_file($new_file_path)){ continue; }
+
+		//check is directory exists
+		$dest_dir = dirname($new_file_path);
+		if(!is_dir($dest_dir)){
+			mkdir($dest_dir,755,true);
+		}
 
 		$res = copy($file, $new_file_path);
 		if($res){
