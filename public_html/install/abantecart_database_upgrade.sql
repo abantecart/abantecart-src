@@ -34,8 +34,6 @@ CHANGE COLUMN `content` `content` LONGTEXT NULL DEFAULT NULL ;
 ALTER TABLE `ac_ant_messages`
 CHANGE COLUMN `html` `html` LONGTEXT NULL DEFAULT NULL ;
 
-ALTER TABLE `ac_customers`
-ADD COLUMN `data` text DEFAULT null;
 
 ALTER TABLE `ac_customers` ADD COLUMN `salt` varchar(8) COLLATE utf8_general_ci NOT NULL DEFAULT '';
 
