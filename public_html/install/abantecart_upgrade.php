@@ -104,7 +104,7 @@ if($resource_type_id && $result){
 		//check is directory exists
 		$dest_dir = dirname($new_file_path);
 		if(!is_dir($dest_dir)){
-			mkdir($dest_dir,755,true);
+			mkdir($dest_dir,0775,true);
 		}
 
 		$res = copy($file, $new_file_path);
