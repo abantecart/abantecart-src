@@ -46,7 +46,7 @@
 							 src="<?php echo $thumb_url; ?>"
 							 alt="<?php echo $image['title']; ?>"
 							 title="<?php echo $image['title']; ?>" />
-				    <i class="fa fa-arrows"></i></a>
+				    <i class="fa fa-arrows hidden-xs hidden-sm"></i></a>
 				<?php }
 				} ?>
 			</div>
@@ -509,9 +509,9 @@ $(window).load(function(){
 						html1 = '<a class="html_with_image">';
 						html1 += main_image.main_html + '</a>';
 					} else {
-				        html1 = '<a class="local_image">';
+				        html1 = '<a class="local_image" href="' + main_image.main_url + '">';
 				        html1 += '<img style="width:'+main_image.thumb_width+'px; height:'+main_image.thumb_height+'px;" src="' + main_image.thumb_url + '" />';
-				        html1 += '<i class="fa fa-arrows"></i></a>';
+				        html1 += '<i class="fa fa-arrows  hidden-xs hidden-sm"></i></a>';
 				    }
 				}
 				if (data.images) {
