@@ -86,8 +86,8 @@ if(!is_dir(DIR_RESOURCE.'archive/')){
 
 if($resource_type_id && $result){
 	$resources = $this->db->query(
-			"SELECT DISTINCT r.resource_id, rd.resourece_path
-			 FROM ". $this->db->table('resources')." r
+			"SELECT DISTINCT r.resource_id, rd.resource_path
+			 FROM ". $this->db->table('resource_library')." r
 			 LEFT JOIN  ". $this->db->table('resource_descriptions')." rd
 			    ON (rd.resource_id = r.resource_id)
 			 WHERE r.type_id= '".$resource_type_id."'");
@@ -98,6 +98,9 @@ if($resource_type_id && $result){
 		if(!is_file($file)){ continue;}
 
 		$new_file_path = DIR_RESOURCE.'archive/'.$row['resource_path'];
+
+		if(is_file($new_file_path)){ continue;}
+
 		$res = copy($file, $new_file_path);
 		if($res){
 			unlink($file);
@@ -113,7 +116,7 @@ if($resource_type_id && $result){
 
 	// update resource type directory
 	$sql = "UPDATE " . $this->db->table('resource_types') . "
-		SET directory = '" . $this->db->escape('archive/') . "'
+		SET default_directory = '" . $this->db->escape('archive/') . "'
 		WHERE type_name= 'archive'";
 	$result = $this->db->query($sql);
 }
