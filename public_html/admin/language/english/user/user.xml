@@ -114,7 +114,7 @@
 	</definition>
 	<definition>
 		<key>error_captcha</key>
-		<value><![CDATA[Verification code does not match the image!]]></value>
+		<value><![CDATA[Human Verification Failed!]]></value>
 	</definition>
 	<definition>
 		<key>error_user_group</key>
