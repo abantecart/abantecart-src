@@ -187,7 +187,7 @@
 	</definition>
 	<definition>
 		<key>gen_data_entry_error</key>
-		<value><![CDATA[Oops, there is an error with infomation provided!]]></value>
+		<value><![CDATA[Oops, there is an error with information provided!]]></value>
 	</definition>
 	<definition>
 		<key>text_sorting_name_asc</key>
@@ -287,7 +287,7 @@
 	</definition>
 	<definition>
 		<key>error_captcha</key>
-		<value><![CDATA[Human verification has failed! Please try agan.]]></value>
+		<value><![CDATA[Human verification has failed! Please try again.]]></value>
     </definition>
 	<definition>
 		<key>entry_attached</key>
@@ -316,9 +316,9 @@
 	<definition>
 		<key>text_unavailable</key>
 		<value><![CDATA[Unavailable]]></value>
-	</definition>	
+	</definition>
 	<definition>
 		<key>error_unknown</key>
 		<value><![CDATA[Unknown error encountered. Please try again!]]></value>
-    </definition>    
+    </definition>
 </definitions>
