@@ -41,17 +41,3 @@ ALTER TABLE `ac_users` ADD COLUMN `salt` varchar(8) COLLATE utf8_general_ci NOT 
 ALTER TABLE `ac_users` MODIFY `password` varchar(40);
 
 
-
-
-
-#enable neowize
-REPLACE INTO `ac_extensions`
-(`type`, `key`, `category`, `status`, `priority`, `version`, `license_key`, `date_installed`, `date_modified`, `date_added`)
-VALUES
-('extensions', 'neowize_insights', 'extensions', 1, 1, '1.0.5', null, NOW(), NOW(), NOW() );
-
-REPLACE INTO `ac_settings` (`group`, `key`, `value`) VALUES
-('neowize_insights','neowize_insights_priority',10),
-('neowize_insights','neowize_insights_date_installed', NOW()),
-('neowize_insights','store_id',0),
-('neowize_insights','neowize_insights_status',1);

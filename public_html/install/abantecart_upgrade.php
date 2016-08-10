@@ -50,17 +50,69 @@ $menu->insertMenuItem ( array (
 						 "sort_order"=>"4"
 						)
 					);
-// create NeoWize admin menu button
-$menu->insertMenuItem ( array (
-						 "item_id" => "neowize_insights",
-						 "parent_id" => 'report_analytics',
-						 "item_icon_rl_id" => 234,
-						 "item_text" => "NeoWize Insights",
-						 "item_url" => "neowize/dashboard",
-						 "item_type"=>"extension",
-						 "sort_order"=>"0"
-						)
-					);
+
+//save settings for neowize extension
+
+//if already installed
+if($this->config->has('neowize_insights_status')){
+	$status = $this->config->get('neowize_insights_status');
+	$sql = "REPLACE INTO `".$this->db->table('extensions')."`
+				( `type`, `key`, `category`, `status`, `priority`, `version`, `license_key`, `date_installed`, `date_modified`, `date_added`)
+		VALUES ( 'extensions', 'neowize_insights', 'extensions', '".$status."', 1, '1.0.5', null, NOW(), NOW(), NOW() )";
+	$this->db->query($sql, true);
+//otherwise
+}else{
+	$sql = "REPLACE INTO `".$this->db->table('extensions')."`
+				( `type`, `key`, `category`, `status`, `priority`, `version`, `license_key`, `date_installed`, `date_modified`, `date_added`)
+		VALUES ( 'extensions', 'neowize_insights', 'extensions', 1, 1, '1.0.5', null, NOW(), NOW(), NOW() )";
+	$this->db->query($sql, true);
+
+	$sql = "REPLACE INTO `".$this->db->table('settings')."`
+				(`group`, `key`, `value`)
+			VALUES
+				('neowize_insights','neowize_insights_priority',10),
+				('neowize_insights','neowize_insights_date_installed', NOW()),
+				('neowize_insights','store_id',0),
+				('neowize_insights','neowize_insights_status',1);";
+	$this->db->query($sql, true);
+
+	// create NeoWize admin menu item
+	//do the trick
+	$result = $this->db->query("SELECT max(row_id) as max
+								FROM ".$this->db->table('dataset_values')."
+								WHERE dataset_column_id=10");
+	$row_id = (int)$result->row['max']+1;
+
+
+	$sql = array();
+	$sql[] = "INSERT INTO ".$this->db->table('dataset_values')." (`dataset_column_id`, `value_varchar`,`row_id`)
+			VALUES (10,'neowize_insights', ".$row_id.");";
+
+	$sql[] = "INSERT INTO ".$this->db->table('dataset_values')."  (`dataset_column_id`, `value_varchar`,`row_id`)
+	VALUES (11,'NeoWize Insights', ".$row_id.");";
+
+	$sql[] = "INSERT INTO ".$this->db->table('dataset_values')."  (`dataset_column_id`, `value_varchar`,`row_id`)
+	VALUES (12,'neowize/dashboard', ".$row_id.");";
+
+	$sql[] = "INSERT INTO ".$this->db->table('dataset_values')."  (`dataset_column_id`, `value_varchar`,`row_id`)
+	VALUES (13,'report_analytics', ".$row_id.");";
+
+	$sql[] = "INSERT INTO ".$this->db->table('dataset_values')."  (`dataset_column_id`, `value_integer`,`row_id`)
+	VALUES (14,2, ".$row_id.");";
+
+	$sql[] = "INSERT INTO ".$this->db->table('dataset_values')."  (`dataset_column_id`, `value_varchar`,`row_id`)
+	VALUES (15,'core', ".$row_id.");";
+
+	$sql[] = "INSERT INTO ".$this->db->table('dataset_values')."  (`dataset_column_id`, `value_varchar`,`row_id`)
+	VALUES  (40,'278', ".$row_id.");";
+
+	foreach($sql as $s){
+		$this->db->query($s, true);
+	}
+
+}
+
+
 
 //move all resources with type archives to resources/archive directory!
 

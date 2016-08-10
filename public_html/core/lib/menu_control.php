@@ -217,7 +217,7 @@ class AMenu {
 			return 'Error: Cannot to add menu item because item array is wrong.';
 		}
 
-		if ($item [ 'parent_id' ] && !isset ($this->menu_items [ $item [ 'parent_id' ] ])) {
+		if ($item [ 'parent_id' ] && !in_array( $item [ 'parent_id' ], $this->item_ids )) {
 			return 'Error: Cannot to add menu item because parent "' . $item [ 'parent_id' ] . '" is not exists';
 		}
 
