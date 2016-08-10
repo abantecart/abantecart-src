@@ -76,16 +76,21 @@
 		
 		// add header
 		var header = document.createElement("h2");
-		header.textContent = "Unable to load NeoWize dashboard";
+		header.textContent = "Unable to reach NeoWize dashboard";
 		parentNode.appendChild(header);
 
 		// add text
 		var p = document.createElement("p");
-		p.textContent = "Neowize is a third party component that provide analytics and insights for eCommerce sites." + 
-						" There seems to be a temporary problem with Neowize service, for support please contact support@neowize.com.";
+		p.innerHTML = "Please refresh and check your internet connection. If that doesn't work, please try again later or contact our support at <a href='mailto:support@neowize.com?Subject=Error:%20Unable%20to%20reach%20NeoWize%20dashboard'>support@neowize.com</a>.";
 		parentNode.appendChild(p);
 		
-	}, 6000 );
+		// add bottom text
+		var p = document.createElement("p");
+		p.style.color = "#aaa";
+		p.innerHTML = "[Neowize is a third party component that provide analytics and insights for eCommerce sites.]";
+		parentNode.appendChild(p);
+		
+	}, 12000 );
 	
 	// function to call when neowize successfully loads
 	function neowize_loaded()

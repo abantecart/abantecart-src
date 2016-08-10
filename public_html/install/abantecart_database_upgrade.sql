@@ -50,3 +50,16 @@ ALTER TABLE `ac_settings` ADD FULLTEXT INDEX `ac_settings_idx` (`value` ASC);
 ALTER TABLE `ac_language_definitions` DROP INDEX `ac_lang_definition_idx` ;
 ALTER TABLE `ac_language_definitions` DROP PRIMARY KEY, ADD PRIMARY KEY (`language_definition_id`, `language_id`, `section`, `block`, `language_key`);
 ALTER TABLE `ac_language_definitions` ADD FULLTEXT INDEX `ac_lang_definition_idx` (`language_value` ASC);
+
+
+#enable neowize
+REPLACE INTO `ac_extensions`
+(`type`, `key`, `category`, `status`, `priority`, `version`, `license_key`, `date_installed`, `date_modified`, `date_added`)
+VALUES
+('extensions', 'neowize_insights', 'extensions', 1, 1, '1.0.2', null, NOW(), NOW(), NOW() );
+
+REPLACE INTO `ac_settings` (`group`, `key`, `value`) VALUES
+('neowize_insights','neowize_insights_priority',10),
+('neowize_insights','neowize_insights_date_installed', NOW()),
+('neowize_insights','store_id',0),
+('neowize_insights','neowize_insights_status',1);
