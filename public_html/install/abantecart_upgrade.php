@@ -11,6 +11,33 @@ if($result){
 			, true);
 }
 
+//improve global search
+$sql = "ALTER TABLE ".$this->db->table('settings')." DROP INDEX `ac_settings_idx`;";
+$this->db->query($sql, true);
+
+$sql = "ALTER TABLE ".$this->db->table('settings')." DROP INDEX `".DB_PREFIX."settings_idx`;";
+$this->db->query($sql, true);
+
+$sql ="ALTER TABLE ".$this->db->table('settings')." DROP PRIMARY KEY, ADD PRIMARY KEY (`setting_id`, `store_id`, `group`, `key`);";
+$this->db->query($sql, true);
+
+$sql = "ALTER TABLE ".$this->db->table('settings')." ADD FULLTEXT INDEX `".DB_PREFIX."settings_idx` (`value` ASC);";
+$this->db->query($sql, true);
+
+$sql = "ALTER TABLE ".$this->db->table('language_definitions')." DROP INDEX `ac_lang_definition_idx`;";
+$this->db->query($sql, true);
+
+$sql = "ALTER TABLE ".$this->db->table('language_definitions')." DROP INDEX `".DB_PREFIX."lang_definition_idx`;";
+$this->db->query($sql, true);
+
+$sql ="ALTER TABLE ".$this->db->table('language_definitions')." DROP PRIMARY KEY, ADD PRIMARY KEY (`language_definition_id`, `language_id`, `section`, `block`, `language_key`);";
+$this->db->query($sql, true);
+
+$sql ="ALTER TABLE ".$this->db->table('language_definitions')." ADD FULLTEXT INDEX `ac_lang_definition_idx` (`language_value` ASC);";
+$this->db->query($sql, true);
+
+
+
 //create reports->analytics menu item
 $menu = new AMenu ( "admin" );
 $menu->insertMenuItem ( array (
