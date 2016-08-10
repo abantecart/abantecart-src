@@ -38,10 +38,6 @@ class ExtensionNeowizeInsights extends Extension{
 				return null;
 			}
 
-			if ($this->registry->get('neowize_already_init')){
-				return null;
-			}
-
 			$data = array ();
 			$data['neowize_api_key'] = NeowizeUtils::getApiKey();
 			// get current product id (relevant for product pages)
