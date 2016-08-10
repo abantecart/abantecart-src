@@ -42,7 +42,7 @@ class ControllerPagesAccountDownload extends AController {
       	$this->document->resetBreadcrumbs();
 
       	$this->document->addBreadcrumb( array ( 
-        	'href'      => $this->html->getSecureURL('index/home'),
+        	'href'      => $this->html->getNonSecureURL('index/home'),
         	'text'      => $this->language->get('text_home'),
         	'separator' => FALSE
       	 )); 
