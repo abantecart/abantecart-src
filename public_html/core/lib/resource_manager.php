@@ -795,14 +795,14 @@ class AResourceManager extends AResource{
 		$cache_key = 'resources.product_option_value.' . $resource_id;
 		$cache_key = preg_replace('/[^a-zA-Z0-9\.]/', '', $cache_key) . '.store_' . $store_id . '_lang_' . $language_id;
 
-		$resource_objects = $this->cache->pull($cache_key);
+		$resource_objects = false;//$this->cache->pull($cache_key);
 		if ($resource_objects === false){
-			$sql = "SELECT rm.object_id, 'product_option_value' as object_name, pd.name, pov.product_id
+			$sql = "SELECT rm.object_id, 'product_option_value' as object_name, pd.name, pov.product_id, pov.product_option_id
                     FROM " . $this->db->table("resource_map") . " rm
                     LEFT JOIN " . $this->db->table("product_option_value_descriptions") . " pd
-                        ON ( rm.object_id = pd.product_option_value_id )
+                        ON ( rm.object_id = pd.product_option_value_id AND pd.language_id = '" . (int)$language_id . "')
                     LEFT JOIN " . $this->db->table("product_option_values") . " pov
-                        ON ( pd.product_option_value_id = pov.product_option_value_id AND pd.language_id = '" . (int)$language_id . "')
+                        ON ( pd.product_option_value_id = pov.product_option_value_id )
                     WHERE rm.resource_id = '" . (int)$resource_id . "'
                         AND rm.object_name = 'product_option_value'";
 			$query = $this->db->query($sql);
@@ -812,12 +812,12 @@ class AResourceManager extends AResource{
 
 		$result = array ();
 		foreach ($resource_objects as $row){
-			$result[] = array (
+			$result[$row['product_option_id']] = array (
 					'object_id'    => $row['object_id'],
 					'object_name'  => $row['object_name'],
 					'object_title' => $this->language->get('text_product_option_value'),
 					'name'         => $row['name'],
-					'url'          => $this->html->getSecureURL('catalog/product_options', '&product_id=' . $row['product_id'])
+					'url'          => $this->html->getSecureURL('catalog/product_options', '&product_id=' . $row['product_id'].'&product_option_id='.$row['product_option_id'])
 			);
 		}
 
