@@ -132,4 +132,8 @@
 		<key>text_order_cancelation_message_body</key>
 		<value><![CDATA[Сliente %s ha solicitado la cancelación orden para la orden #%s . Para comentario Ir a %s]]></value>
 	</definition>
+	<definition>
+		<key>text_mobile_phone</key>
+		<value><![CDATA[Mobile Phone: !!!!!]]></value>
+	</definition>
 </definitions>

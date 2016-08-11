@@ -104,4 +104,12 @@
 		<key>desc_html_cache</key>
 		<value><![CDATA[Кеш HTML страниц и блоков]]></value>
 	</definition>
+	<definition>
+		<key>text_install_upgrade_history</key>
+		<value><![CDATA[Install/Upgrade History !!!!!]]></value>
+	</definition>
+	<definition>
+		<key>desc_install_upgrade_history</key>
+		<value><![CDATA[Clear All Install/Upgrade History !!!!!]]></value>
+	</definition>
 </definitions>

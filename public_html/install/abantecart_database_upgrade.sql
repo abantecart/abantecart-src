@@ -42,4 +42,6 @@ ALTER TABLE `ac_customers` ADD COLUMN `salt` varchar(8) COLLATE utf8_general_ci 
 ALTER TABLE `ac_users` ADD COLUMN `salt` varchar(8) COLLATE utf8_general_ci NOT NULL DEFAULT '';
 ALTER TABLE `ac_users` MODIFY `password` varchar(40);
 
-
+DELETE FROM `ac_language_definitions` WHERE `section` = 0 AND `block`='account_forgotten';
+DELETE FROM `ac_language_definitions` WHERE `section` = 0 AND `block`='mail_account_forgotten';
+DELETE FROM `ac_language_definitions` WHERE `section` = 0 AND `block`='mail_account_forgotten_login';

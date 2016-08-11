@@ -6,13 +6,11 @@
 	</definition>
 	<definition>
 		<key>text_message</key>
-		<value>
-			<![CDATA[<p>Il tuo ordine è stato inoltrato!</p><p>Puoi vedere la cronologia degli ordini andando a <a href="%s">Il mio account</a> pagina e cliccando su <a href="%s">Cronologia</a>.</p><p>Per qualsiasi domanda contatta <a href="%s">il proprietario del negozio</a>.</p><p>Grazie per aver acquistato i nostri prodotti!</p>]]></value>
+		<value><![CDATA[<p>Il tuo ordine è stato inoltrato!</p><p>Puoi vedere la cronologia degli ordini andando a <a href="%s">Il mio account</a> pagina e cliccando su <a href="%s">Cronologia</a>.</p><p>Per qualsiasi domanda contatta <a href="%s">il proprietario del negozio</a>.</p><p>Grazie per aver acquistato i nostri prodotti!</p>]]></value>
 	</definition>
 	<definition>
 		<key>text_message_guest</key>
-		<value>
-			<![CDATA[<p>Il tuo ordine è stato inoltrato!</p><p>Per ogni informazione contata <a href="%s">il proprietario del negozio</a>.</p><p>Grazie per aver acquistato i nostri prodotti!</p>]]></value>
+		<value><![CDATA[<p>Il tuo ordine è stato inoltrato!</p><p>Per ogni informazione contata <a href="%s">il proprietario del negozio</a>.</p><p>Grazie per aver acquistato i nostri prodotti!</p>]]></value>
 	</definition>
 	<definition>
 		<key>text_basket</key>
@@ -37,5 +35,13 @@
 	<definition>
 		<key>text_success</key>
 		<value><![CDATA[Successo]]></value>
+	</definition>
+	<definition>
+		<key>text_message_account</key>
+		<value><![CDATA[
+			<p>Your order #%s has been created!</p>
+			<p>You can view your order invoice by going to the <a href="%s">Order Invoice</a> page.</p>
+			<p>Please direct any questions you have to the <a href="%s">store owner</a>.</p>
+			<p>Thanks for shopping with us online!</p> !!!!!]]></value>
 	</definition>
 </definitions>

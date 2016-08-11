@@ -356,4 +356,8 @@
 		<key>text_transaction_notification_message</key>
 		<value><![CDATA[Nueva transacción se ha registrado en su %s en cuenta la cantidad de %s. Para más detalles, acceda a %s cuenta]]></value>
 	</definition>
+	<definition>
+		<key>text_total_order</key>
+		<value><![CDATA[Total Orders: !!!!!]]></value>
+	</definition>
 </definitions>

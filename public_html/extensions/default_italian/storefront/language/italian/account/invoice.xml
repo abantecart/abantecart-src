@@ -128,4 +128,8 @@
 		<key>text_order_cancelation_message_body</key>
 		<value><![CDATA[Сliente %s ha chiesto l'annullamento dell'ordine per ordine #%s . Per rivedere vai a %s]]></value>
 	</definition>
+	<definition>
+		<key>text_mobile_phone</key>
+		<value><![CDATA[Mobile Phone: !!!!!]]></value>
+	</definition>
 </definitions>

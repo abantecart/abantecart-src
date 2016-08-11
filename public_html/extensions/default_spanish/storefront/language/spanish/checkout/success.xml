@@ -1,39 +1,47 @@
 <?xml version="1.0"?>
 <definitions>
-  <definition>
-    <key>heading_title</key>
-    <value><![CDATA[Su pedido ha sido procesado!]]></value>
-  </definition>
-  <definition>
-    <key>text_message</key>
-    <value><![CDATA[<p>Su pedido ha sido procesado satisfactoriamente! Sus productos llegarán a su destino entre 2-5 días laborables.</p><p>Recuerde que si su pedido se ha pagado por transferencia bancaria, el envio se realizará a partir de la recepción de la transferencia.</p><p>Puede hacer un seguimiento del pedido en <a href="%s">Mi Cuenta</a> y haciendo click en <a href="%s">Historia</a>.</p><p>Estamos totalmente a su disposición. Por favor, dirija cualquier duda que tenga a <a href="%s">ATENCIÓN CLIENTE</a>.</p><p>Gracias por su compra !</p>]]></value>
-  </definition>
-  <definition>
-    <key>text_message_guest</key>
-    <value><![CDATA[<p>Su pedido ha sido procesado con éxito!</p><p>Por favor, dirija cualquier pregunta que tenga con el <a href="%s">dueño de la tienda</a>.</p><p>Gracias por hacer compras con nosotros!</p>]]></value>
-  </definition>
-  <definition>
-    <key>text_basket</key>
-    <value><![CDATA[Cesta]]></value>
-  </definition>
-  <definition>
-    <key>text_shipping</key>
-    <value><![CDATA[Envio]]></value>
-  </definition>
-  <definition>
-    <key>text_payment</key>
-    <value><![CDATA[Pago]]></value>
-  </definition>
-  <definition>
-    <key>text_guest</key>
-    <value><![CDATA[Comprar como invitado]]></value>
-  </definition>
-  <definition>
-    <key>text_confirm</key>
-    <value><![CDATA[Confirme]]></value>
-  </definition>
-  <definition>
-    <key>text_success</key>
-    <value><![CDATA[Exito]]></value>
-  </definition>
+	<definition>
+		<key>heading_title</key>
+		<value><![CDATA[Su pedido ha sido procesado!]]></value>
+	</definition>
+	<definition>
+		<key>text_message</key>
+		<value><![CDATA[<p>Su pedido ha sido procesado satisfactoriamente! Sus productos llegarán a su destino entre 2-5 días laborables.</p><p>Recuerde que si su pedido se ha pagado por transferencia bancaria, el envio se realizará a partir de la recepción de la transferencia.</p><p>Puede hacer un seguimiento del pedido en <a href="%s">Mi Cuenta</a> y haciendo click en <a href="%s">Historia</a>.</p><p>Estamos totalmente a su disposición. Por favor, dirija cualquier duda que tenga a <a href="%s">ATENCIÓN CLIENTE</a>.</p><p>Gracias por su compra !</p>]]></value>
+	</definition>
+	<definition>
+		<key>text_message_guest</key>
+		<value><![CDATA[<p>Su pedido ha sido procesado con éxito!</p><p>Por favor, dirija cualquier pregunta que tenga con el <a href="%s">dueño de la tienda</a>.</p><p>Gracias por hacer compras con nosotros!</p>]]></value>
+	</definition>
+	<definition>
+		<key>text_basket</key>
+		<value><![CDATA[Cesta]]></value>
+	</definition>
+	<definition>
+		<key>text_shipping</key>
+		<value><![CDATA[Envio]]></value>
+	</definition>
+	<definition>
+		<key>text_payment</key>
+		<value><![CDATA[Pago]]></value>
+	</definition>
+	<definition>
+		<key>text_guest</key>
+		<value><![CDATA[Comprar como invitado]]></value>
+	</definition>
+	<definition>
+		<key>text_confirm</key>
+		<value><![CDATA[Confirme]]></value>
+	</definition>
+	<definition>
+		<key>text_success</key>
+		<value><![CDATA[Exito]]></value>
+	</definition>
+	<definition>
+		<key>text_message_account</key>
+		<value><![CDATA[
+			<p>Your order #%s has been created!</p>
+			<p>You can view your order invoice by going to the <a href="%s">Order Invoice</a> page.</p>
+			<p>Please direct any questions you have to the <a href="%s">store owner</a>.</p>
+			<p>Thanks for shopping with us online!</p> !!!!!]]></value>
+	</definition>
 </definitions>

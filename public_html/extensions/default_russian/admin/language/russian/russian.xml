@@ -732,4 +732,16 @@
 		<key>text_texteditor_extended_mode</key>
 		<value><![CDATA[<a class="texteditor_ext_mode" href="%s" ><i class="fa fa-external-link"></i> Редактирование в расширенном режиме</a>]]></value>
 	</definition>
+	<definition>
+		<key>text_quick_view</key>
+		<value><![CDATA[Quick View !!!!!]]></value>
+	</definition>
+	<definition>
+		<key>text_more_current</key>
+		<value><![CDATA[Full page edit !!!!!]]></value>
+	</definition>
+	<definition>
+		<key>text_more_new</key>
+		<value><![CDATA[New tab edit !!!!!]]></value>
+	</definition>
 </definitions>

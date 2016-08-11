@@ -140,4 +140,8 @@
 		<key>text_change_im_addresses</key>
 		<value><![CDATA[Direcciones de aviso de edición de este Enviar Punto]]></value>
 	</definition>
+	<definition>
+		<key>error_user_group</key>
+		<value><![CDATA[You have no permissions to change user group. !!!!!]]></value>
+	</definition>
 </definitions>
