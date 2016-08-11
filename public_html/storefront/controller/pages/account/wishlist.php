@@ -55,7 +55,7 @@ class ControllerPagesAccountWishlist extends AController {
       	$this->document->resetBreadcrumbs();
 
       	$this->document->addBreadcrumb( array ( 
-        	'href'      => $this->html->getNonSecureURL('index/home'),
+        	'href'      => $this->html->getHomeURL(),
         	'text'      => $this->language->get('text_home'),
         	'separator' => FALSE
       	 )); 
@@ -117,7 +117,7 @@ class ControllerPagesAccountWishlist extends AController {
 				$this->data['continue'] = str_replace('&amp;','&',$this->session->data['redirect']);
 				unset($this->session->data['redirect']);
 			} else {
-                $this->data['continue'] = $this->html->getNonSecureURL('index/home');
+                $this->data['continue'] = $this->html->getHomeURL();
 			}
 			
 			$this->view->assign('error', '' );
@@ -145,7 +145,7 @@ class ControllerPagesAccountWishlist extends AController {
 		    $this->data['button_continue'] = HtmlElementFactory::create( array('name' => 'continue',
 																			   'type' => 'button',
 																			   'text' =>  $this->language->get('button_continue'),
-																			   'href' =>  $this->html->getNonSecureURL('index/home'),
+																			   'href' =>  $this->html->getHomeURL(),
 																			   'style' => 'button' ));
 
             $this->view->setTemplate( 'pages/error/not_found.tpl' );

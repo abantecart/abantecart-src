@@ -80,7 +80,7 @@ class ControllerBlocksCategory extends AController {
 		//Framed needs to show frames for generic block.
 		//If tpl used by listing block framed was set by listing block settings
 		$this->view->assign('block_framed',true);
-		$this->view->assign('home_href', $this->html->getNonSecureURL('index/home'));
+		$this->view->assign('home_href', $this->html->getHomeURL());
 		
 		$this->processTemplate();
 

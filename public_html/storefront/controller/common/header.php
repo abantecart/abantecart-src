@@ -29,7 +29,7 @@ class ControllerCommonHeader extends AController {
 
 		$this->data['store'] = $this->config->get('store_name');
         $this->data['logo'] = $this->config->get('config_logo');
-        $this->data['homepage'] = $this->html->getNonSecureURL('index/home');
+        $this->data['homepage'] = $this->html->getHomeURL();
 		$logo_path = DIR_RESOURCE . $this->data['logo'];
         
 		//see if we have a resource ID instead of path	

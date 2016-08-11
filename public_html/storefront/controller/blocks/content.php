@@ -45,7 +45,7 @@ class ControllerBlocksContent extends AController {
     	$this->data['text_cart'] =  $this->language->get('text_cart');
     	$this->data['text_checkout'] =  $this->language->get('text_checkout');
 		
-		$this->data['home'] =  $this->html->getNonSecureURL('index/home');
+		$this->data['home'] =  $this->html->getHomeURL();
 		$this->data['special'] =  $this->html->getNonSecureURL('product/special');
 		$this->data['contact'] =  $this->html->getNonSecureURL('content/contact');
     	$this->data['sitemap'] =  $this->html->getNonSecureURL('content/sitemap');

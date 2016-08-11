@@ -160,7 +160,7 @@ class ControllerPagesCheckoutGuestStep1 extends AController{
 		$this->document->resetBreadcrumbs();
 		$this->document->addBreadcrumb(
 				array (
-						'href'      => $this->html->getNonSecureURL('index/home'),
+						'href'      => $this->html->getHomeURL(),
 						'text'      => $this->language->get('text_home'),
 						'separator' => false
 				));

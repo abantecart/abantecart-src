@@ -129,6 +129,24 @@ class AHtml extends AController {
 
 
 	/**
+	 * Get non secure home URL.
+	 * @param string $rt
+	 * @param string $params
+	 * @param string $encode
+	 * @return string
+	 *
+	 * Note: Non secure URL is base on store_url setting. If this setting is using https URL, all URLs will be secure
+	 */
+	public function getHomeURL() {
+		//get config_url first 
+		$home_url = $this->registry->get('config')->get('config_url');
+		if(!$home_url) {
+			$home_url = defined('HTTP_SERVER') ? HTTP_SERVER : 'http://' . REAL_HOST . get_url_path($_SERVER['PHP_SELF']);
+		}
+		return $home_url;
+	}
+
+	/**
 	 * Get non secure URL. Read note below.
 	 * @param string $rt
 	 * @param string $params

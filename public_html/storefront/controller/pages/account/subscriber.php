@@ -58,7 +58,7 @@ class ControllerPagesAccountSubscriber extends AController {
     	}
 
       	$this->document->initBreadcrumb( array (
-        	'href'      => $this->html->getNonSecureURL('index/home'),
+        	'href'      => $this->html->getHomeURL(),
         	'text'      => $this->language->get('text_home'),
         	'separator' => FALSE
       	 )); 
@@ -78,7 +78,7 @@ class ControllerPagesAccountSubscriber extends AController {
 		if($this->request->get['success']){
 			$this->data['success'] = $this->language->get('text_success_subscribe');
 			$this->data['continue'] =  $this->html->buildButton( array( 'name' => 'continue',
-																		'href' => $this->html->getNonSecureURL('index/home'),
+																		'href' => $this->html->getHomeURL(),
 																		'text' => $this->language->get('button_continue'),
 																		'icon' => 'fa fa-arrow-right'
 																	));

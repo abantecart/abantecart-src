@@ -54,7 +54,7 @@ class ControllerPagesProductProduct extends AController{
 		$this->document->resetBreadcrumbs();
 
 		$this->document->addBreadcrumb(array(
-				'href'      => $this->html->getNonSecureURL('index/home'),
+				'href'      => $this->html->getHomeURL(),
 				'text'      => $this->language->get('text_home'),
 				'separator' => false
 		));
@@ -681,7 +681,7 @@ class ControllerPagesProductProduct extends AController{
 		                                             'text'  => $this->language->get('button_continue'),
 		                                             'style' => 'button'));
 		$this->view->assign('button_continue', $continue);
-		$this->data['continue'] = $this->html->getNonSecureURL('index/home');
+		$this->data['continue'] = $this->html->getHomeURL();
 
 		$this->view->setTemplate('pages/error/not_found.tpl');
 

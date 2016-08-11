@@ -30,7 +30,7 @@ class ControllerCommonFooter extends AController {
 		$this->loadLanguage('common/header');
 		$this->data['text_copy'] = $this->config->get('store_name') .' &copy; '. date('Y', time());
 		
-		$this->data['home'] =  $this->html->getNonSecureURL('index/home');
+		$this->data['home'] =  $this->html->getHomeURL();
 		$this->data['special'] =  $this->html->getNonSecureURL('product/special');
 		$this->data['contact'] =  $this->html->getURL('content/contact');
     	$this->data['sitemap'] =  $this->html->getNonSecureURL('content/sitemap');

@@ -35,7 +35,6 @@ class ControllerPagesCheckoutCart extends AController{
 		$cart_rt = 'checkout/cart';
 		$product_rt = 'product/product';
 		$checkout_rt = 'checkout/shipping';
-		$home_rt = 'index/home';
 		//is this an embed mode	
 		if ($this->config->get('embed_mode') == true){
 			$cart_rt = 'r/checkout/cart/embed';
@@ -215,7 +214,7 @@ class ControllerPagesCheckoutCart extends AController{
 
 		$this->document->addBreadcrumb(
 				array (
-						'href'      => $this->html->getNonSecureURL('index/home'),
+						'href'      => $this->html->getHomeURL(),
 						'text'      => $this->language->get('text_home'),
 						'separator' => false
 				));
@@ -348,7 +347,7 @@ class ControllerPagesCheckoutCart extends AController{
 				$this->data['continue'] = str_replace('&amp;', '&', $this->session->data['redirect']);
 				unset($this->session->data['redirect']);
 			} else{
-				$this->data['continue'] = $this->html->getNonSecureURL($home_rt);
+				$this->data['continue'] = $this->html->getHomeURL();
 			}
 			$this->data['form']['continue_shopping'] = $form->getFieldHtml(
 					array (
@@ -466,7 +465,7 @@ class ControllerPagesCheckoutCart extends AController{
 							'name'  => 'continue',
 							'type'  => 'button',
 							'text'  => $this->language->get('button_continue'),
-							'href'  => $this->html->getNonSecureURL($home_rt),
+							'href'  => $this->html->getHomeURL(),
 							'style' => 'button'));
 			if ($this->config->get('embed_mode') == true){
 				$this->data['back_url'] = $this->html->getNonSecureURL('r/product/category');

@@ -33,7 +33,6 @@ class ControllerPagesCheckoutConfirm extends AController {
 		$checkout_rt = 'checkout/shipping';		
 		$payment_rt = 'checkout/payment';	
 		$login_rt = 'account/login';
-		$home_rt = 'index/home';	
 		$pmt_address_rt = 'checkout/address/payment';	
 		$shp_address_rt = 'checkout/address/shipping';				
 		$confirm_rt = 'checkout/confirm';
@@ -104,7 +103,7 @@ class ControllerPagesCheckoutConfirm extends AController {
 		$this->document->resetBreadcrumbs();
 
       	$this->document->addBreadcrumb( array ( 
-        	'href'      => $this->html->getNonSecureURL('index/home'),
+        	'href'      => $this->html->getHomeURL(),
         	'text'      => $this->language->get('text_home'),
         	'separator' => FALSE
       	 )); 

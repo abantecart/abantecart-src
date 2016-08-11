@@ -103,7 +103,7 @@ class ControllerPagesAccountInvoice extends AController{
 
 		$this->document->addBreadcrumb(
 				array (
-						'href'      => $this->html->getNonSecureURL('index/home'),
+						'href'      => $this->html->getHomeURL(),
 						'text'      => $this->language->get('text_home'),
 						'separator' => false
 				));
@@ -259,7 +259,7 @@ class ControllerPagesAccountInvoice extends AController{
 			$this->data['historys'] = $historys;
 
 			if ($guest){
-				$this->data['continue'] = $this->html->getNonSecureURL('index/home');
+				$this->data['continue'] = $this->html->getHomeURL();
 			} else{
 				$this->data['continue'] = $this->html->getSecureURL('account/history');
 			}
@@ -293,7 +293,7 @@ class ControllerPagesAccountInvoice extends AController{
 			$this->view->setTemplate('pages/account/invoice.tpl');
 		} else{
 			if ($guest){
-				$this->data['continue'] = $this->html->getNonSecureURL('index/home');
+				$this->data['continue'] = $this->html->getHomeURL();
 			} else{
 				$this->data['continue'] = $this->html->getSecureURL('account/account');
 			}
@@ -318,7 +318,7 @@ class ControllerPagesAccountInvoice extends AController{
 		$this->document->resetBreadcrumbs();
 
 		$this->document->addBreadcrumb(array (
-				'href'      => $this->html->getNonSecureURL('index/home'),
+				'href'      => $this->html->getHomeURL(),
 				'text'      => $this->language->get('text_home'),
 				'separator' => false
 		));
@@ -335,7 +335,7 @@ class ControllerPagesAccountInvoice extends AController{
 				'separator' => $this->language->get('text_separator')
 		));
 
-		$this->data['back'] = $this->html->getSecureURL('index/home');
+		$this->data['back'] = $this->html->getHomeURL();
 
 		$form = new AForm();
 		$form->setForm(array ('form_name' => 'CheckOrderFrm'));

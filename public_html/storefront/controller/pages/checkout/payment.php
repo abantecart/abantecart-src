@@ -34,7 +34,6 @@ class ControllerPagesCheckoutPayment extends AController{
 		$checkout_rt = 'checkout/shipping';
 		$payment_rt = 'checkout/payment';
 		$login_rt = 'account/login';
-		$home_rt = 'index/home';
 		$address_rt = 'checkout/address/payment';
 		$confirm_rt = 'checkout/confirm';
 		if ($this->config->get('embed_mode') == true){
@@ -247,7 +246,7 @@ class ControllerPagesCheckoutPayment extends AController{
 
 		$this->document->addBreadcrumb(
 				array (
-						'href'      => $this->html->getNonSecureURL('index/home'),
+						'href'      => $this->html->getHomeURL(),
 						'text'      => $this->language->get('text_home'),
 						'separator' => false
 				));
