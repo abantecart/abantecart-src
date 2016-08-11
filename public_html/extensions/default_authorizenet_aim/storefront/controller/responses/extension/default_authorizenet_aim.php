@@ -85,19 +85,26 @@ class ControllerResponsesExtensionDefaultAuthorizeNetAim extends AController {
 			    'style' => 'short input-small' 
 			));
 
-		$back = $this->request->get['rt'] != 'checkout/guest_step_3' ? $this->html->getSecureURL('checkout/payment')
-				: $this->html->getSecureURL('checkout/guest_step_2');
-		$data['back'] = HtmlElementFactory::create(array( 'type' => 'button',
-		                                                  'name' => 'back',
-		                                                  'text' => $this->language->get('button_back'),
-		                                                  'style' => 'button',
-		                                                  'href' => $back 
-		                                           ));
-		$data['submit'] = HtmlElementFactory::create(array( 'type' => 'button',
-			                                                  'name' => 'authorizenet_button',
-		                                                      'text' => $this->language->get('button_confirm'),
-			                                                  'style' => 'button'
-		                                             ));
+		if ($this->request->get['rt'] == 'checkout/guest_step_3') {
+			$back_url = $this->html->getSecureURL('checkout/guest_step_2','&mode=edit',true);
+		} else {
+			$back_url = $this->html->getSecureURL('checkout/payment','&mode=edit',true);
+		}
+
+		$data['back'] = $this->html->buildElement(
+				array(
+					'type' => 'button',
+			        'name' => 'back',
+			        'text' => $this->language->get('button_back'),
+			        'style' => 'button',
+			        'href' => $back_url
+		));
+		$data['submit'] = $this->html->buildElement(
+				array( 'type' => 'button',
+                          'name' => 'authorizenet_button',
+                          'text' => $this->language->get('button_confirm'),
+                          'style' => 'button'
+                 ));
 		$this->view->batchAssign($data);
 
 		//init controller data
