@@ -17,121 +17,122 @@
    versions in the future. If you wish to customize AbanteCart for your
    needs please refer to http://www.AbanteCart.com for more information.  
 ------------------------------------------------------------------------------*/
-if (! defined ( 'DIR_CORE' )) {
-	header ( 'Location: static_pages/' );
+if (!defined('DIR_CORE')){
+	header('Location: static_pages/');
 }
-final class ADB {
-    /**
-     * @var MySql|AMySQLi
-     */
-    private $driver;
-	public $error='';
+
+final class ADB{
+	/**
+	 * @var MySql|AMySQLi
+	 */
+	private $driver;
+	public $error = '';
 	public $registry;
 
-    /**
-     * @param string $driver
-     * @param string $hostname
-     * @param string $username
-     * @param string $password
-     * @param string $database
-     * @throws AException
-     */
-    public function __construct($driver, $hostname, $username, $password, $database) {
-        $filename = DIR_DATABASE . $driver . '.php';
-		if (file_exists($filename)) {
-            /** @noinspection PhpIncludeInspection */
-            require_once($filename);
-		} else {
+	/**
+	 * @param string $driver
+	 * @param string $hostname
+	 * @param string $username
+	 * @param string $password
+	 * @param string $database
+	 * @throws AException
+	 */
+	public function __construct($driver, $hostname, $username, $password, $database){
+		$filename = DIR_DATABASE . $driver . '.php';
+		if (file_exists($filename)){
+			/** @noinspection PhpIncludeInspection */
+			require_once($filename);
+		} else{
 			throw new AException(AC_ERR_MYSQL, 'Error: Could not load database file ' . $driver . '!');
 		}
-				
+
 		$this->driver = new $driver($hostname, $username, $password, $database);
-		
+
 		$this->registry = Registry::getInstance();
 	}
 
-    /**
-     * @param string $sql
-     * @param bool $noexcept
-     * @return bool|stdClass
-     */
-    public function query($sql,$noexcept=false) {
-  		
-        if ( $this->registry->has('extensions') ) {
-	        $result = $this->registry->get('extensions')->hk_query($this, $sql,$noexcept);
-        } else {
-        	$result = $this->_query($sql,$noexcept);
-        }
-		if($noexcept && $result===false){
+	/**
+	 * @param string $sql
+	 * @param bool $noexcept
+	 * @return bool|stdClass
+	 */
+	public function query($sql, $noexcept = false){
+
+		if ($this->registry->has('extensions')){
+			$result = $this->registry->get('extensions')->hk_query($this, $sql, $noexcept);
+		} else{
+			$result = $this->_query($sql, $noexcept);
+		}
+		if ($noexcept && $result === false){
 			$this->error = $this->driver->error;
 		}
 		return $result;
-    }
+	}
 
-    /**
-     * @param string $table_name
-     * @return string
-     */
-    public function table($table_name){
+	/**
+	 * @param string $table_name
+	 * @return string
+	 */
+	public function table($table_name){
 		//detect if encryption is enabled
 		$postfix = '';
-		if ( is_object($this->registry->get('dcrypt')) ) {
+		if (is_object($this->registry->get('dcrypt'))){
 			$postfix = $this->registry->get('dcrypt')->posfix($table_name);
 		}
 		return DB_PREFIX . $table_name . $postfix;
 	}
 
-    /**
-     * @param string $sql
-     * @param bool $noexcept
-     * @return bool|stdClass
-     */
-    public function _query($sql, $noexcept=false) {
-		return $this->driver->query($sql,$noexcept);
-  	}
-  	
-	public function escape($value) {
+	/**
+	 * @param string $sql
+	 * @param bool $noexcept
+	 * @return bool|stdClass
+	 */
+	public function _query($sql, $noexcept = false){
+		return $this->driver->query($sql, $noexcept);
+	}
+
+	public function escape($value){
 		return $this->driver->escape($value);
 	}
 
-    /**
-     * @return int
-     */
-    public function countAffected() {
+	/**
+	 * @return int
+	 */
+	public function countAffected(){
 		return $this->driver->countAffected();
-  	}
+	}
 
-    /**
-     * @return int
-     */
-    public function getLastId() {
+	/**
+	 * @return int
+	 */
+	public function getLastId(){
 		return $this->driver->getLastId();
-  	}
+	}
 
-    /**
-     * @param $file
-     * @return null
-     */
-    public function performSql($file){
+	/**
+	 * @param $file
+	 * @return null
+	 */
+	public function performSql($file){
 
-        if ($sql = file($file)) {
+		if ($sql = file($file)){
 			$query = '';
-			foreach($sql as $line) {
+			foreach ($sql as $line){
 				$tsl = trim($line);
-				if (($sql != '') && (substr($tsl, 0, 2) != "--") && (substr($tsl, 0, 1) != '#')) {
+				if (($sql != '') && (substr($tsl, 0, 2) != "--") && (substr($tsl, 0, 1) != '#')){
 					$query .= $line;
-					if (preg_match('/;\s*$/', $line)) {
+					if (preg_match('/;\s*$/', $line)){
 						$query = str_replace("`ac_", "`" . DB_PREFIX, $query);
 						$result = $this->_query($query);
-						if (!$result) {
+						if (!$result){
 							$err = $this->driver->getDBError();
 							$this->error = $err['error_text'];
-                            return null;
+							return null;
 						}
 						$query = '';
 					}
 				}
 			}
-        }
-    }
+		}
+	}
 }

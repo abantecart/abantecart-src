@@ -33,7 +33,6 @@ class AFormManager{
 	private $form_field_groups = array ();
 	private $field_types = array ('I', 'T', 'C', 'H', 'S', 'M', 'R', 'G'); // array for check field element type
 
-
 	public function __construct($form_name = ''){
 		if (!IS_ADMIN){ // forbid for non admin calls
 			throw new AException (AC_ERR_LOAD, 'Error: permission denied to change forms');
@@ -247,7 +246,6 @@ class AFormManager{
 				}
 				continue; // well done
 
-
 			} elseif ($form->action == 'insert'){
 				// if form exists
 				if ($this->form_id){
@@ -294,8 +292,7 @@ class AFormManager{
 				}
 			} else{ // update form info
 
-
-				$query = "UPDATE " . $this->db->table("forms") . " 
+				$query = "UPDATE " . $this->db->table("forms") . "
 							SET `form_name` = '" . $this->db->escape($form->form_name) . "',
 								 `controller`='" . $this->db->escape($form->controller) . "',
 								 `success_page` = '" . $this->db->escape($form->success_page) . "',
@@ -600,7 +597,6 @@ class AFormManager{
 		}
 
 		//then process fields in that group
-
 
 		if ($field_group->fields->field){
 			foreach ($field_group->fields->field as $field){

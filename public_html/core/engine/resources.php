@@ -80,7 +80,7 @@ class AResource{
 
 		if (!$this->type_id){
 			$backtrace = debug_backtrace();
-			$message = "Error: Incorrect or missing resource type.". $backtrace[0]['file'].":".$backtrace[0]['line'];
+			$message = "Error: Incorrect or missing resource type." . $backtrace[0]['file'] . ":" . $backtrace[0]['line'];
 			$error = new AError ($message);
 			$error->toLog()->toDebug();
 		}
@@ -424,11 +424,11 @@ class AResource{
 		$output = array ();
 		if ($result){
 			$output = array ('origin'      => $result['origin'],
-			                 'thumb_html'  => $result['thumb_html'],
-			                 'title'       => $result['title'],
-			                 'description' => $result['description'],
-			                 'width'       => $width,
-			                 'height'      => $height
+							 'thumb_html'  => $result['thumb_html'],
+							 'title'       => $result['title'],
+							 'description' => $result['description'],
+							 'width'       => $width,
+							 'height'      => $height
 			);
 			if ($result['thumb_url']) $output['thumb_url'] = $result['thumb_url'];
 		}
@@ -461,11 +461,11 @@ class AResource{
 		if (!$sizes || !is_array($sizes['main']) || !is_array($sizes['thumb'])){
 			if (!is_array($sizes['main'])){
 				$sizes['main'] = array ('width'  => $this->config->get('config_image_product_width'),
-				                        'height' => $this->config->get('config_image_product_height'));
+										'height' => $this->config->get('config_image_product_height'));
 			}
 			if (!is_array($sizes['thumb'])){
 				$sizes['thumb'] = array ('width'  => $this->config->get('config_image_thumb_width'),
-				                         'height' => $this->config->get('config_image_thumb_height'));
+										 'height' => $this->config->get('config_image_thumb_height'));
 			}
 		}
 
@@ -540,45 +540,45 @@ class AResource{
 
 					$main_url = $direct_url;
 					$thumb_url = $this->getResizedImageURL(
-										$result,
-										$sizes['thumb']['width'],
-										$sizes['thumb']['height']
+							$result,
+							$sizes['thumb']['width'],
+							$sizes['thumb']['height']
 					);
 				}
 
 				$resources[$k] = array ('origin'       => $origin,
-				                        'direct_url'   => $direct_url,
-				                        'main_url'     => $main_url,
-				                        'main_width'   => $sizes['main']['width'],
-				                        'main_height'  => $sizes['main']['height'],
-				                        'main_html'    => $this->html->buildResourceImage(array ('url'    => $http_path . 'image/' . $result['resource_path'],
-				                                                                                 'width'  => $sizes['main']['width'],
-				                                                                                 'height' => $sizes['main']['height'],
-				                                                                                 'attr'   => 'alt="' . $rsrc_info['title'] . '"')),
-				                        'thumb_url'    => $thumb_url,
-				                        'thumb_width'  => $sizes['thumb']['width'],
-				                        'thumb_height' => $sizes['thumb']['height'],
-				                        'thumb_html'   => $this->html->buildResourceImage(array ('url'    => $thumb_url,
-				                                                                                 'width'  => $sizes['thumb']['width'],
-				                                                                                 'height' => $sizes['thumb']['height'],
-				                                                                                 'attr'   => 'alt="' . $rsrc_info['title'] . '"')));
+										'direct_url'   => $direct_url,
+										'main_url'     => $main_url,
+										'main_width'   => $sizes['main']['width'],
+										'main_height'  => $sizes['main']['height'],
+										'main_html'    => $this->html->buildResourceImage(array ('url'    => $http_path . 'image/' . $result['resource_path'],
+																								 'width'  => $sizes['main']['width'],
+																								 'height' => $sizes['main']['height'],
+																								 'attr'   => 'alt="' . $rsrc_info['title'] . '"')),
+										'thumb_url'    => $thumb_url,
+										'thumb_width'  => $sizes['thumb']['width'],
+										'thumb_height' => $sizes['thumb']['height'],
+										'thumb_html'   => $this->html->buildResourceImage(array ('url'    => $thumb_url,
+																								 'width'  => $sizes['thumb']['width'],
+																								 'height' => $sizes['thumb']['height'],
+																								 'attr'   => 'alt="' . $rsrc_info['title'] . '"')));
 				if ($sizes['thumb2']){
 					$resources[$k]['thumb2_url'] = $thumb2_url;
 					$resources[$k]['thumb2_width'] = $sizes['thumb2']['width'];
 					$resources[$k]['thumb2_height'] = $sizes['thumb2']['height'];
 					$resources[$k]['thumb2_html'] = $this->html->buildResourceImage(array ('url'    => $thumb2_url,
-					                                                                       'width'  => $sizes['thumb2']['width'],
-					                                                                       'height' => $sizes['thumb2']['height'],
-					                                                                       'attr'   => 'alt="' . $rsrc_info['title'] . '"'));
+																						   'width'  => $sizes['thumb2']['width'],
+																						   'height' => $sizes['thumb2']['height'],
+																						   'attr'   => 'alt="' . $rsrc_info['title'] . '"'));
 				}
 				$resources[$k]['description'] = $rsrc_info['description'];
 				$resources[$k]['title'] = $rsrc_info['title'];
 			} else{
 				$resources[$k] = array ('origin'      => $origin,
-				                        'main_html'   => $rsrc_info['resource_code'],
-				                        'thumb_html'  => $rsrc_info['resource_code'],
-				                        'title'       => $rsrc_info['title'],
-				                        'description' => $rsrc_info['description']);
+										'main_html'   => $rsrc_info['resource_code'],
+										'thumb_html'  => $rsrc_info['resource_code'],
+										'title'       => $rsrc_info['title'],
+										'description' => $rsrc_info['description']);
 			}
 		}
 
@@ -681,8 +681,8 @@ class AResource{
 		$object_ids = array_unique($tmp);
 		unset($tmp);
 
-		if(!$object_ids){
-			return array();
+		if (!$object_ids){
+			return array ();
 		}
 
 		$language_id = $this->language->getLanguageID();
@@ -801,11 +801,11 @@ class AResource{
 		$output = array ();
 		if ($result){
 			$output = array ('origin'      => $result['origin'],
-			                 'main_html'   => $result['main_html'],
-			                 'description' => $result['description'],
-			                 'title'       => $result['title'],
-			                 'width'       => $width,
-			                 'height'      => $height
+							 'main_html'   => $result['main_html'],
+							 'description' => $result['description'],
+							 'title'       => $result['title'],
+							 'width'       => $width,
+							 'height'      => $height
 			);
 			if ($result['main_url']) $output['main_url'] = $result['main_url'];
 		}

@@ -17,14 +17,14 @@
    versions in the future. If you wish to customize AbanteCart for your
    needs please refer to http://www.AbanteCart.com for more information.
 ------------------------------------------------------------------------------*/
-if (!defined('DIR_CORE')) {
+if (!defined('DIR_CORE')){
 	header('Location: static_pages/');
 }
 
 /**
  * Class ADocument
  */
-final class ADocument {
+final class ADocument{
 	private $title;
 	private $description;
 	private $keywords;
@@ -32,23 +32,23 @@ final class ADocument {
 	private $charset = 'utf-8';
 	private $language = 'en-gb';
 	private $direction = 'ltr';
-	private $links = array();
-	private $styles = array();
-	private $scripts = array();
-	private $scripts_bottom = array();
-	private $breadcrumbs = array();
+	private $links = array ();
+	private $styles = array ();
+	private $scripts = array ();
+	private $scripts_bottom = array ();
+	private $breadcrumbs = array ();
 
 	/**
 	 * @param string $title
 	 */
-	public function setTitle($title) {
+	public function setTitle($title){
 		$this->title = $title;
 	}
 
 	/**
 	 * @return string
 	 */
-	public function getTitle() {
+	public function getTitle(){
 		return $this->title;
 	}
 
@@ -56,92 +56,92 @@ final class ADocument {
 	 * @param string $description
 	 * @void
 	 */
-	public function setDescription($description) {
+	public function setDescription($description){
 		$this->description = $description;
 	}
 
 	/**
 	 * @return string
 	 */
-	public function getDescription() {
+	public function getDescription(){
 		return $this->description;
 	}
 
 	/**
 	 * @param string $keywords
 	 */
-	public function setKeywords($keywords) {
+	public function setKeywords($keywords){
 		$this->keywords = $keywords;
 	}
 
 	/**
 	 * @return string
 	 */
-	public function getKeywords() {
+	public function getKeywords(){
 		return $this->keywords;
 	}
 
 	/**
 	 * @param string $base
 	 */
-	public function setBase($base) {
+	public function setBase($base){
 		$this->base = $base;
 	}
 
 	/**
 	 * @return string
 	 */
-	public function getBase() {
+	public function getBase(){
 		return $this->base;
 	}
 
 	/**
 	 * @param string $charset
 	 */
-	public function setCharset($charset) {
+	public function setCharset($charset){
 		$this->charset = $charset;
 	}
 
 	/**
 	 * @return string
 	 */
-	public function getCharset() {
+	public function getCharset(){
 		return $this->charset;
 	}
 
 	/**
 	 * @param string $language
 	 */
-	public function setLanguage($language) {
+	public function setLanguage($language){
 		$this->language = $language;
 	}
 
 	/**
 	 * @return string
 	 */
-	public function getLanguage() {
+	public function getLanguage(){
 		return $this->language;
 	}
 
 	/**
 	 * @param string $direction
 	 */
-	public function setDirection($direction) {
+	public function setDirection($direction){
 		$this->direction = $direction;
 	}
 
 	/**
 	 * @return string
 	 */
-	public function getDirection() {
+	public function getDirection(){
 		return $this->direction;
 	}
 
 	/**
 	 * @void
 	 */
-	public function resetLinks() {
-		$this->links = array();
+	public function resetLinks(){
+		$this->links = array ();
 	}
 
 	/**
@@ -151,24 +151,24 @@ final class ADocument {
 	 * Examples: href => 'www.google.com', 'rel'  => 'canonical'
 	 * @void
 	 */
-	public function addLink($link_item = array()) {
-		if ($link_item[ "href" ]) {
-			$this->links[ ] = $link_item;
+	public function addLink($link_item = array ()){
+		if ($link_item["href"]){
+			$this->links[] = $link_item;
 		}
 	}
 
 	/**
 	 * @return array
 	 */
-	public function getLinks() {
+	public function getLinks(){
 		return $this->links;
 	}
 
 	/**
 	 * @void
 	 */
-	public function resetStyles() {
-		$this->styles = array();
+	public function resetStyles(){
+		$this->styles = array ();
 	}
 
 	/**
@@ -178,24 +178,24 @@ final class ADocument {
 	 * Examples: href => 'www.google.com', $rel = 'stylesheet', $media = 'screen'
 	 * @return null
 	 */
-	public function addStyle($style_item = array()) {
-		if ($style_item[ "href" ]) {
-			$this->styles[ ] = $style_item;
+	public function addStyle($style_item = array ()){
+		if ($style_item["href"]){
+			$this->styles[] = $style_item;
 		}
 	}
 
 	/**
 	 * @return array
 	 */
-	public function getStyles() {
+	public function getStyles(){
 		return $this->styles;
 	}
 
 	/**
 	 * @void
 	 */
-	public function resetScripts() {
-		$this->scripts = array();
+	public function resetScripts(){
+		$this->scripts = array ();
 	}
 
 	/**
@@ -205,18 +205,18 @@ final class ADocument {
 	 * Examples: /javascript/bootstrap.js or http//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js
 	 * @return void
 	 */
-	public function addScript($script) {
-		if ($script) {
-			$this->scripts[ ] = $script;
+	public function addScript($script){
+		if ($script){
+			$this->scripts[] = $script;
 		}
 	}
 
 	/**
 	 * @return array
 	 */
-	public function getScripts() {
+	public function getScripts(){
 		//Need to have only unique scripts to avoid duplicates
-		return array_unique ( $this->scripts );
+		return array_unique($this->scripts);
 	}
 
 	/**
@@ -226,28 +226,28 @@ final class ADocument {
 	 * Examples: /javascript/bootstrap.js or http//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js
 	 * @void
 	 */
-	public function addScriptBottom($script) {
-		$this->scripts_bottom[ ] = $script;
+	public function addScriptBottom($script){
+		$this->scripts_bottom[] = $script;
 	}
 
 	/**
 	 * @return array
 	 */
-	public function getScriptsBottom() {
+	public function getScriptsBottom(){
 		//Need to have only unique scripts to avoid duplicates
-		return array_unique ( $this->scripts_bottom );
+		return array_unique($this->scripts_bottom);
 	}
 
-	public function resetScriptsBottom() {
-		$this->scripts_bottom = array();
+	public function resetScriptsBottom(){
+		$this->scripts_bottom = array ();
 	}
 
 	/**
 	 * method to reset breadcrumbs array
 	 * @void
 	 */
-	public function resetBreadcrumbs() {
-		$this->breadcrumbs = array();
+	public function resetBreadcrumbs(){
+		$this->breadcrumbs = array ();
 	}
 
 	/**
@@ -256,7 +256,7 @@ final class ADocument {
 	 * @param array $breadcrumb_item ("href"=>"", "text"=>"", "separator"=>)
 	 * @void
 	 */
-	public function initBreadcrumb($breadcrumb_item = array()) {
+	public function initBreadcrumb($breadcrumb_item = array ()){
 		$this->resetBreadcrumbs();
 
 		$this->addBreadcrumb($breadcrumb_item);
@@ -268,19 +268,18 @@ final class ADocument {
 	 * @param array $breadcrumb_item ("href"=>"", "text"=>"", "separator"=>)
 	 * @void
 	 */
-	public function addBreadcrumb($breadcrumb_item = array()) {
-		if ($breadcrumb_item[ "href" ]) {
-			$this->breadcrumbs[ ] = $breadcrumb_item;
+	public function addBreadcrumb($breadcrumb_item = array ()){
+		if ($breadcrumb_item["href"]){
+			$this->breadcrumbs[] = $breadcrumb_item;
 		}
 	}
 
 	/**
 	 * @return array
 	 */
-	public function getBreadcrumbs() {
+	public function getBreadcrumbs(){
 		return $this->breadcrumbs;
 	}
-
 
 	/**
 	 * trims text with set length and ellipes
@@ -290,14 +289,14 @@ final class ADocument {
 	 * @param bool $strip_html if html tags are to be stripped
 	 * @return string
 	 */
-	public function trimText($input, $length, $ellipses = true, $strip_html = false) {
+	public function trimText($input, $length, $ellipses = true, $strip_html = false){
 		//strip tags, if desired
-		if ($strip_html) {
+		if ($strip_html){
 			$input = strip_tags($input);
 		}
 
 		//no need to trim, already shorter than trim length
-		if (strlen($input) <= $length) {
+		if (strlen($input) <= $length){
 			return $input;
 		}
 
@@ -306,7 +305,7 @@ final class ADocument {
 		$trimmed_text = substr($input, 0, $last_space);
 
 		//add ellipses (...)
-		if ($ellipses) {
+		if ($ellipses){
 			$trimmed_text .= '...';
 		}
 

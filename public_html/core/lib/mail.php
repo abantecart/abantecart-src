@@ -17,11 +17,11 @@
    versions in the future. If you wish to customize AbanteCart for your
    needs please refer to http://www.AbanteCart.com for more information.
 ------------------------------------------------------------------------------*/
-if (!defined('DIR_CORE')) {
+if (!defined('DIR_CORE')){
 	header('Location: static_pages/');
 }
 
-final class AMail {
+final class AMail{
 	/**
 	 * @var string email-address
 	 */
@@ -41,8 +41,8 @@ final class AMail {
 	protected $subject;
 	protected $text;
 	protected $html;
-	protected $attachments = array();
-	protected $headers = array();
+	protected $attachments = array ();
+	protected $headers = array ();
 	/**
 	 * @var AMessage
 	 */
@@ -59,14 +59,14 @@ final class AMail {
 	protected $timeout = 5;
 	public $newline = "\n";
 	public $crlf = "\r\n";
-	public $verp = FALSE;
+	public $verp = false;
 	public $parameter = '';
-	public $error = array();
+	public $error = array ();
 
 	/**
 	 * @param null | AConfig $config
 	 */
-	public function __construct($config = null) {
+	public function __construct($config = null){
 		$registry = Registry::getInstance();
 		$config = is_object($config) ? $registry->get('config') : $config;
 		//set default configuration values
@@ -84,14 +84,14 @@ final class AMail {
 	/**
 	 * @param string $to - email address
 	 */
-	public function setTo($to) {
+	public function setTo($to){
 		$this->to = $to;
 	}
 
 	/**
 	 * @param string $from - email address
 	 */
-	public function setFrom($from) {
+	public function setFrom($from){
 		$this->from = $from;
 	}
 
@@ -99,42 +99,42 @@ final class AMail {
 	 * @param string $header
 	 * @param string $value
 	 */
-	public function addHeader($header, $value) {
+	public function addHeader($header, $value){
 		$this->headers[$header] = $value;
 	}
 
 	/**
 	 * @param string $sender - sender's name
 	 */
-	public function setSender($sender) {
+	public function setSender($sender){
 		$this->sender = $sender;
 	}
 
 	/**
 	 * @param string $reply_to - email address
 	 */
-	public function setReplyTo($reply_to) {
+	public function setReplyTo($reply_to){
 		$this->reply_to = $reply_to;
 	}
 
 	/**
 	 * @param string $subject
 	 */
-	public function setSubject($subject) {
+	public function setSubject($subject){
 		$this->subject = $subject;
 	}
 
 	/**
 	 * @param string $text
 	 */
-	public function setText($text) {
+	public function setText($text){
 		$this->text = $text;
 	}
 
 	/**
 	 * @param string $html
 	 */
-	public function setHtml($html) {
+	public function setHtml($html){
 		$this->html = $html;
 	}
 
@@ -142,27 +142,27 @@ final class AMail {
 	 * @param string $file - full path to file
 	 * @param string $filename
 	 */
-	public function addAttachment($file, $filename = '') {
-		if (!$filename) {
+	public function addAttachment($file, $filename = ''){
+		if (!$filename){
 			$filename = md5(pathinfo($file, PATHINFO_FILENAME)) . '.' . pathinfo($file, PATHINFO_EXTENSION);
 		}
 
-		$this->attachments[] = array(
-			'filename' => $filename,
-			'file' => $file
+		$this->attachments[] = array (
+				'filename' => $filename,
+				'file'     => $file
 		);
 	}
 
 	/**
 	 * @return bool
 	 */
-	public function send() {
+	public function send(){
 
-		if (defined('IS_DEMO') && IS_DEMO) {
+		if (defined('IS_DEMO') && IS_DEMO){
 			return null;
 		}
 
-		if (!$this->to) {
+		if (!$this->to){
 
 			$error = 'Error: E-Mail to required!';
 			$this->log->write($error);
@@ -171,7 +171,7 @@ final class AMail {
 			return false;
 		}
 
-		if (!$this->from) {
+		if (!$this->from){
 			$error = 'Error: E-Mail from required!';
 			$this->log->write($error);
 			$this->error[] = $error;
@@ -179,7 +179,7 @@ final class AMail {
 			return false;
 		}
 
-		if (!$this->sender) {
+		if (!$this->sender){
 			$error = 'Error: E-Mail sender required!';
 			$this->log->write($error);
 			$this->error[] = $error;
@@ -187,7 +187,7 @@ final class AMail {
 			return false;
 		}
 
-		if (!$this->subject) {
+		if (!$this->subject){
 			$error = 'Error: E-Mail subject required!';
 			$this->log->write($error);
 			$this->error[] = $error;
@@ -195,7 +195,7 @@ final class AMail {
 			return false;
 		}
 
-		if ((!$this->text) && (!$this->html)) {
+		if ((!$this->text) && (!$this->html)){
 			$error = 'Error: E-Mail message required!';
 			$this->log->write($error);
 			$this->error[] = $error;
@@ -203,16 +203,16 @@ final class AMail {
 			return false;
 		}
 
-		if (is_array($this->to)) {
+		if (is_array($this->to)){
 			$to = implode(',', $this->to);
-		} else {
+		} else{
 			$to = $this->to;
 		}
 
 		$boundary = '----=_NextPart_' . md5(rand());
 
 		$header = '';
-		if ($this->protocol != 'mail') {
+		if ($this->protocol != 'mail'){
 			$header .= 'To: ' . $to . $this->newline;
 			$header .= 'Subject: ' . '=?UTF-8?B?' . base64_encode($this->subject) . '?=' . $this->newline;
 		}
@@ -226,21 +226,21 @@ final class AMail {
 		$header .= 'MIME-Version: 1.0' . $this->newline;
 		$header .= 'Content-Type: multipart/related; boundary="' . $boundary . '"' . $this->newline . $this->newline;
 
-		if (!$this->html) {
+		if (!$this->html){
 			$message = '--' . $boundary . $this->newline;
 			$message .= 'Content-Type: text/plain; charset="utf-8"' . $this->newline;
 			$message .= 'Content-Transfer-Encoding: 8bit' . $this->newline . $this->newline;
 			$message .= $this->text . $this->newline;
-		} else {
+		} else{
 			$message = '--' . $boundary . $this->newline;
 			$message .= 'Content-Type: multipart/alternative; boundary="' . $boundary . '_alt"' . $this->newline . $this->newline;
 			$message .= '--' . $boundary . '_alt' . $this->newline;
 			$message .= 'Content-Type: text/plain; charset="utf-8"' . $this->newline;
 			$message .= 'Content-Transfer-Encoding: 8bit' . $this->newline . $this->newline;
 
-			if ($this->text) {
+			if ($this->text){
 				$message .= $this->text . $this->newline;
-			} else {
+			} else{
 				$message .= 'This is a HTML email and your email client software does not support HTML email!' . $this->newline;
 			}
 
@@ -251,8 +251,8 @@ final class AMail {
 			$message .= '--' . $boundary . '_alt--' . $this->newline;
 		}
 
-		foreach ($this->attachments as $attachment) {
-			if (file_exists($attachment['file'])) {
+		foreach ($this->attachments as $attachment){
+			if (file_exists($attachment['file'])){
 				$handle = fopen($attachment['file'], 'r');
 				$content = fread($handle, filesize($attachment['file']));
 
@@ -270,65 +270,65 @@ final class AMail {
 
 		$message .= '--' . $boundary . '--' . $this->newline;
 
-		if ($this->protocol == 'mail') {
+		if ($this->protocol == 'mail'){
 			ini_set('sendmail_from', $this->from);
 
-			if ($this->parameter) {
+			if ($this->parameter){
 				mail($to, '=?UTF-8?B?' . base64_encode($this->subject) . '?=', $message, $header, $this->parameter);
-			} else {
+			} else{
 				mail($to, '=?UTF-8?B?' . base64_encode($this->subject) . '?=', $message, $header);
 			}
 
-		} elseif ($this->protocol == 'smtp') {
+		} elseif ($this->protocol == 'smtp'){
 			$handle = fsockopen($this->hostname, (int)$this->port, $errno, $errstr, (int)$this->timeout);
 
-			if (!$handle) {
+			if (!$handle){
 				$error = 'Error: ' . $errstr . ' (' . $errno . ')';
 				$this->log->write($error);
 				$this->error[] = $error;
-			} else {
-				if (substr(PHP_OS, 0, 3) != 'WIN') {
+			} else{
+				if (substr(PHP_OS, 0, 3) != 'WIN'){
 					socket_set_timeout($handle, $this->timeout, 0);
 				}
 
-				while ($line = fgets($handle, 515)) {
-					if (substr($line, 3, 1) == ' ') {
+				while ($line = fgets($handle, 515)){
+					if (substr($line, 3, 1) == ' '){
 						break;
 					}
 				}
 
-				if (substr($this->hostname, 0, 3) == 'tls') {
+				if (substr($this->hostname, 0, 3) == 'tls'){
 					fputs($handle, 'STARTTLS' . $this->crlf);
 					$reply = '';
-					while ($line = fgets($handle, 515)) {
+					while ($line = fgets($handle, 515)){
 						$reply .= $line;
 
-						if (substr($line, 3, 1) == ' ') {
+						if (substr($line, 3, 1) == ' '){
 							break;
 						}
 					}
 
-					if (substr($reply, 0, 3) != 220) {
+					if (substr($reply, 0, 3) != 220){
 						$error = 'Error: STARTTLS not accepted from server!';
 						$this->log->write($error);
 						$this->error[] = $error;
 					}
 				}
 
-				if (!empty($this->username) && !empty($this->password)) {
+				if (!empty($this->username) && !empty($this->password)){
 					fputs($handle, 'EHLO ' . getenv('SERVER_NAME') . $this->crlf);
 
 					$reply = '';
 
-					while ($line = fgets($handle, 515)) {
+					while ($line = fgets($handle, 515)){
 						$reply .= $line;
 
-						if (substr($line, 3, 1) == ' ') {
+						if (substr($line, 3, 1) == ' '){
 							break;
 						}
 					}
 
-					if (substr($reply, 0, 3) != 250) {
+					if (substr($reply, 0, 3) != 250){
 						$error = 'Error: EHLO not accepted from server!';
 						$this->log->write($error);
 						$this->error[] = $error;
@@ -338,15 +338,15 @@ final class AMail {
 
 					$reply = '';
 
-					while ($line = fgets($handle, 515)) {
+					while ($line = fgets($handle, 515)){
 						$reply .= $line;
 
-						if (substr($line, 3, 1) == ' ') {
+						if (substr($line, 3, 1) == ' '){
 							break;
 						}
 					}
 
-					if (substr($reply, 0, 3) != 334) {
+					if (substr($reply, 0, 3) != 334){
 						$error = 'Error: AUTH LOGIN not accepted from server!';
 						$this->log->write($error);
 						$this->error[] = $error;
@@ -356,15 +356,15 @@ final class AMail {
 
 					$reply = '';
 
-					while ($line = fgets($handle, 515)) {
+					while ($line = fgets($handle, 515)){
 						$reply .= $line;
 
-						if (substr($line, 3, 1) == ' ') {
+						if (substr($line, 3, 1) == ' '){
 							break;
 						}
 					}
 
-					if (substr($reply, 0, 3) != 334) {
+					if (substr($reply, 0, 3) != 334){
 						$error = 'Error: Username not accepted from server!';
 						$this->log->write($error);
 						$this->error[] = $error;
@@ -374,94 +374,94 @@ final class AMail {
 
 					$reply = '';
 
-					while ($line = fgets($handle, 515)) {
+					while ($line = fgets($handle, 515)){
 						$reply .= $line;
 
-						if (substr($line, 3, 1) == ' ') {
+						if (substr($line, 3, 1) == ' '){
 							break;
 						}
 					}
 
-					if (substr($reply, 0, 3) != 235) {
+					if (substr($reply, 0, 3) != 235){
 						$error = 'Error: Password not accepted from server!';
 						$this->log->write($error);
 						$this->error[] = $error;
 					}
-				} else {
+				} else{
 					fputs($handle, 'HELO ' . getenv('SERVER_NAME') . $this->crlf);
 
 					$reply = '';
 
-					while ($line = fgets($handle, 515)) {
+					while ($line = fgets($handle, 515)){
 						$reply .= $line;
 
-						if (substr($line, 3, 1) == ' ') {
+						if (substr($line, 3, 1) == ' '){
 							break;
 						}
 					}
 
-					if (substr($reply, 0, 3) != 250) {
+					if (substr($reply, 0, 3) != 250){
 						$error = 'Error: HELO not accepted from server!';
 						$this->log->write($error);
 						$this->error[] = $error;
 					}
 				}
 
-				if ($this->verp) {
+				if ($this->verp){
 					fputs($handle, 'MAIL FROM: <' . $this->from . '>XVERP' . $this->crlf);
-				} else {
+				} else{
 					fputs($handle, 'MAIL FROM: <' . $this->from . '>' . $this->crlf);
 				}
 
 				$reply = '';
 
-				while ($line = fgets($handle, 515)) {
+				while ($line = fgets($handle, 515)){
 					$reply .= $line;
 
-					if (substr($line, 3, 1) == ' ') {
+					if (substr($line, 3, 1) == ' '){
 						break;
 					}
 				}
 
-				if (substr($reply, 0, 3) != 250) {
+				if (substr($reply, 0, 3) != 250){
 					$error = 'Error: MAIL FROM not accepted from server!';
 					$this->log->write($error);
 					$this->error[] = $error;
 				}
 
-				if (!is_array($this->to)) {
+				if (!is_array($this->to)){
 					fputs($handle, 'RCPT TO: <' . $this->to . '>' . $this->crlf);
 
 					$reply = '';
 
-					while ($line = fgets($handle, 515)) {
+					while ($line = fgets($handle, 515)){
 						$reply .= $line;
 
-						if (substr($line, 3, 1) == ' ') {
+						if (substr($line, 3, 1) == ' '){
 							break;
 						}
 					}
 
-					if ((substr($reply, 0, 3) != 250) && (substr($reply, 0, 3) != 251)) {
+					if ((substr($reply, 0, 3) != 250) && (substr($reply, 0, 3) != 251)){
 						$error = 'Error: RCPT TO not accepted from server!';
 						$this->log->write($error);
 						$this->error[] = $error;
 					}
-				} else {
-					foreach ($this->to as $recipient) {
+				} else{
+					foreach ($this->to as $recipient){
 						fputs($handle, 'RCPT TO: <' . $recipient . '>' . $this->crlf);
 
 						$reply = '';
 
-						while ($line = fgets($handle, 515)) {
+						while ($line = fgets($handle, 515)){
 							$reply .= $line;
 
-							if (substr($line, 3, 1) == ' ') {
+							if (substr($line, 3, 1) == ' '){
 								break;
 							}
 						}
 
-						if ((substr($reply, 0, 3) != 250) && (substr($reply, 0, 3) != 251)) {
+						if ((substr($reply, 0, 3) != 250) && (substr($reply, 0, 3) != 251)){
 							$error = 'Error: RCPT TO not accepted from server!';
 							$this->log->write($error);
 							$this->error[] = $error;
@@ -473,15 +473,15 @@ final class AMail {
 
 				$reply = '';
 
-				while ($line = fgets($handle, 515)) {
+				while ($line = fgets($handle, 515)){
 					$reply .= $line;
 
-					if (substr($line, 3, 1) == ' ') {
+					if (substr($line, 3, 1) == ' '){
 						break;
 					}
 				}
 
-				if (substr($reply, 0, 3) != 354) {
+				if (substr($reply, 0, 3) != 354){
 					$error = 'Error: DATA not accepted from server!';
 					$this->log->write($error);
 					$this->error[] = $error;
@@ -492,15 +492,15 @@ final class AMail {
 
 				$reply = '';
 
-				while ($line = fgets($handle, 515)) {
+				while ($line = fgets($handle, 515)){
 					$reply .= $line;
 
-					if (substr($line, 3, 1) == ' ') {
+					if (substr($line, 3, 1) == ' '){
 						break;
 					}
 				}
 
-				if (substr($reply, 0, 3) != 250) {
+				if (substr($reply, 0, 3) != 250){
 					$error = 'Error: DATA not accepted from server!';
 					$this->log->write($error);
 					$this->error[] = $error;
@@ -510,15 +510,15 @@ final class AMail {
 
 				$reply = '';
 
-				while ($line = fgets($handle, 515)) {
+				while ($line = fgets($handle, 515)){
 					$reply .= $line;
 
-					if (substr($line, 3, 1) == ' ') {
+					if (substr($line, 3, 1) == ' '){
 						break;
 					}
 				}
 
-				if (substr($reply, 0, 3) != 221) {
+				if (substr($reply, 0, 3) != 221){
 					$error = 'Error: QUIT not accepted from server!';
 					$this->log->write($error);
 					$this->error[] = $error;
@@ -527,7 +527,7 @@ final class AMail {
 				fclose($handle);
 			}
 		}
-		if ($this->error) {
+		if ($this->error){
 			$this->messages->saveError('Mailer error!', 'Can\'t send emails. Please see log for details and check your mail settings.');
 			return false;
 		}

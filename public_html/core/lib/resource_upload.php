@@ -206,8 +206,6 @@ class ResourceUploadHandler{
 		$file->size = intval($size);
 		$file->type = $type;
 
-
-
 		// error check
 		if ($error){
 			$error_text = getTextUploadError($error);
@@ -227,7 +225,7 @@ class ResourceUploadHandler{
 			}
 			$rs_dir = DIR_RESOURCE . $this->options['upload_dir'];
 			if (!is_dir($rs_dir) || !is_writeable($rs_dir)){
-				$error_text = "Please check 'resources' folder permissions. (".$rs_dir.")";
+				$error_text = "Please check 'resources' folder permissions. (" . $rs_dir . ")";
 			}
 		}
 		if (!$error_text && $file->name){
@@ -265,10 +263,10 @@ class ResourceUploadHandler{
 			} else if ($this->options['discard_aborted_uploads']){
 				unlink($file_path);
 				$file->error = 'Failed! Check error log for details.';
-				if(!$file_size){
+				if (!$file_size){
 					$error_text = 'Unable to save file on disk! Please check "resources" folder permissions!';
-				}else{
-					$error_text = 'Unable to save file '.basename($file_path).' on disk! Integrity check error!';
+				} else{
+					$error_text = 'Unable to save file ' . basename($file_path) . ' on disk! Integrity check error!';
 				}
 			}
 			$file->size = $file_size;
@@ -278,7 +276,7 @@ class ResourceUploadHandler{
 			$file->error = $error_text;
 		}
 
-		if($error_text){
+		if ($error_text){
 			$error = new AError($error_text);
 			$error->toLog();
 		}

@@ -17,9 +17,10 @@
    versions in the future. If you wish to customize AbanteCart for your
    needs please refer to http://www.AbanteCart.com for more information.
 ------------------------------------------------------------------------------*/
-if (!defined('DIR_CORE')) {
+if (!defined('DIR_CORE')){
 	header('Location: static_pages/');
 }
+
 /**
  * @property AConfig $config
  * @property ADB $db
@@ -49,31 +50,31 @@ if (!defined('DIR_CORE')) {
  * @property AOrderStatus $order_status
  * @property AIMManager $im
  */
-abstract class Model {
+abstract class Model{
 
 	public $registry;
 
 	/**
 	 * @param $registry Registry
 	 */
-	public function __construct($registry) {
+	public function __construct($registry){
 		$this->registry = $registry;
 	}
 
-	public function __get($key) {
+	public function __get($key){
 		return $this->registry->get($key);
 	}
 
-	public function __set($key, $value) {
+	public function __set($key, $value){
 		$this->registry->set($key, $value);
 	}
 
-	public function __call($method, $args) {
-		if (!$this->registry->has('extensions')) {
+	public function __call($method, $args){
+		if (!$this->registry->has('extensions')){
 			return null;
 		}
 		array_unshift($args, $this);
-		$return = call_user_func_array(array( $this->extensions, $method ), $args);
+		$return = call_user_func_array(array ($this->extensions, $method), $args);
 		return $return;
 	}
 }

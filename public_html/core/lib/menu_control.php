@@ -17,11 +17,11 @@
    versions in the future. If you wish to customize AbanteCart for your
    needs please refer to http://www.AbanteCart.com for more information.  
 ------------------------------------------------------------------------------*/
-if (!defined('DIR_CORE')) {
+if (!defined('DIR_CORE')){
 	header('Location: static_pages/');
 }
 
-class AMenu {
+class AMenu{
 	/**
 	 * registry to provide access to cart objects
 	 *
@@ -39,29 +39,29 @@ class AMenu {
 	/**
 	 * @var array
 	 */
-	protected $menu_items = array();
+	protected $menu_items = array ();
 	/**
 	 * array form quick search menu item without dig in menu levels
 	 *
 	 * @var array
 	 */
-	protected $dataset_rows = array();
+	protected $dataset_rows = array ();
 	/**
 	 * array for checking for unique menu item id
 	 * @var array
 	 */
-	protected $item_ids = array();
+	protected $item_ids = array ();
 
-	public function __construct($menu_name = '') {
+	public function __construct($menu_name = ''){
 		// check for admin
-		if (!IS_ADMIN) {
+		if (!IS_ADMIN){
 			throw new AException (AC_ERR_LOAD, 'Error: Could not initialize AMenu class! Permission denied.');
 		}
 
 		$this->registry = Registry::getInstance();
 		$this->db = $this->registry->get('db');
 		//check for correct menu name
-		if (!in_array($menu_name, array( 'admin', 'storefront' ))) {
+		if (!in_array($menu_name, array ('admin', 'storefront'))){
 			throw new AException (AC_ERR_LOAD, 'Error: Could not initialize AMenu class! Unknown menu name: "' . $menu_name . '"');
 		}
 
@@ -70,35 +70,36 @@ class AMenu {
 
 	}
 
-	protected function _build_menu($values) {
+	protected function _build_menu($values){
 
 		// need to resort by sort_order property
 		$offset = 0; // it needs for process repeating sort numbers
-		$tmp = $this->item_ids = array();
-		if (is_array($values)) {
+		$tmp = $this->item_ids = array ();
+		if (is_array($values)){
 			$rm = new AResourceManager();
 			$rm->setType('image');
 			$language_id = $this->registry->get('language')->getContentLanguageID();
 
-			foreach ($values as &$item) {
-				if($item['item_icon_rl_id']) {
+			foreach ($values as &$item){
+				if ($item['item_icon_rl_id']){
 					$r = $rm->getResource($item['item_icon_rl_id'], $language_id);
 					$item['item_icon_code'] = $r['resource_code'];
 				}
-				if (isset ($tmp [ $item [ 'parent_id' ] ] [ $item [ 'sort_order' ] ])) {
+				if (isset ($tmp [$item ['parent_id']] [$item ['sort_order']])){
 					$offset++;
 				}
-				$tmp [ $item [ 'parent_id' ] ] [ $item [ 'sort_order' ] + $offset ] = $item;
-				$this->item_ids [ ] = $item [ 'item_id' ];
+				$tmp [$item ['parent_id']] [$item ['sort_order'] + $offset] = $item;
+				$this->item_ids [] = $item ['item_id'];
 			}
-		} unset($item);
+		}
+		unset($item);
 
 		$this->dataset_rows = $values;
 
-		$menu = array();
-		foreach ($tmp as $key => $item) {
+		$menu = array ();
+		foreach ($tmp as $key => $item){
 			ksort($item);
-			$menu [ $key ] = $item;
+			$menu [$key] = $item;
 		}
 		return $menu;
 	}
@@ -107,7 +108,7 @@ class AMenu {
 	 * method return menu array with levels
 	 * @return array
 	 */
-	public function getMenuItems() {
+	public function getMenuItems(){
 		return $this->menu_items;
 	}
 
@@ -117,9 +118,9 @@ class AMenu {
 	 * @param string $item_id
 	 * @return boolean|array
 	 */
-	public function getMenuItem($item_id) {
-		foreach ($this->dataset_rows as $item) {
-			if ($item_id == $item [ 'item_id' ]) {
+	public function getMenuItem($item_id){
+		foreach ($this->dataset_rows as $item){
+			if ($item_id == $item ['item_id']){
 				return $item;
 			}
 		}
@@ -132,9 +133,9 @@ class AMenu {
 	 * @param $rt string
 	 * @return boolean|array
 	 */
-	public function getMenuByRT($rt) {
-		foreach ($this->dataset_rows as $item) {
-			if ($rt == $item ['item_url']) {
+	public function getMenuByRT($rt){
+		foreach ($this->dataset_rows as $item){
+			if ($rt == $item ['item_url']){
 				return $item;
 			}
 		}
@@ -146,7 +147,7 @@ class AMenu {
 	 *
 	 * @return ADataset|object
 	 */
-	public function getDataset() {
+	public function getDataset(){
 		return $this->dataset;
 	}
 
@@ -155,7 +156,7 @@ class AMenu {
 	 *
 	 * @return array
 	 */
-	public function getItemIds() {
+	public function getItemIds(){
 		return $this->item_ids;
 	}
 
@@ -165,14 +166,14 @@ class AMenu {
 	 * @param string $parent_id
 	 * @return boolean | array
 	 */
-	public function getMenuChildren($parent_id) {
-		if (!$this->dataset_rows) {
+	public function getMenuChildren($parent_id){
+		if (!$this->dataset_rows){
 			return false;
 		}
-		$result = array();
-		foreach ($this->dataset_rows as $item) {
-			if ($item [ 'parent_id' ] == $parent_id) {
-				$result [ ] = $item;
+		$result = array ();
+		foreach ($this->dataset_rows as $item){
+			if ($item ['parent_id'] == $parent_id){
+				$result [] = $item;
 			}
 		}
 		return $result;
@@ -183,14 +184,14 @@ class AMenu {
 	 *
 	 * @return array
 	 */
-	public function getMenuParentIds() {
-		if (!$this->dataset_rows) {
+	public function getMenuParentIds(){
+		if (!$this->dataset_rows){
 			return false;
 		}
-		$result = array();
-		foreach ($this->dataset_rows as $item) {
-			if (!in_array($item [ 'parent_id' ], $result)) {
-				$result [ ] = $item [ 'parent_id' ];
+		$result = array ();
+		foreach ($this->dataset_rows as $item){
+			if (!in_array($item ['parent_id'], $result)){
+				$result [] = $item ['parent_id'];
 			}
 		}
 		return $result;
@@ -199,49 +200,49 @@ class AMenu {
 	/**
 	 * method inserts new item to the end of menu level
 	 *
-	 * @param array $item("item_id"=>"","parent_id"=>"","item_text"=>,"rt"=>"","sort_order"=>"", "item_type" => "")
+	 * @param array $item ("item_id"=>"","parent_id"=>"","item_text"=>,"rt"=>"","sort_order"=>"", "item_type" => "")
 	 * @return boolean
 	 */
-	public function insertMenuItem($item = array()) {
+	public function insertMenuItem($item = array ()){
 
-		$check_array = array( "item_id", "item_text", "item_url", "parent_id", "sort_order", "item_type", "item_icon_rl_id" );
+		$check_array = array ("item_id", "item_text", "item_url", "parent_id", "sort_order", "item_type", "item_icon_rl_id");
 
 		//clean text id 
-		$item [ "item_id" ] = preformatTextID($item [ "item_id" ]);
+		$item ["item_id"] = preformatTextID($item ["item_id"]);
 
-		if (!$item [ 'item_type' ]) {
-			$item [ 'item_type' ] = 'extension';
+		if (!$item ['item_type']){
+			$item ['item_type'] = 'extension';
 		}
 
-		if (!$item [ "item_id" ] || !$item [ "item_text" ] || sizeof(array_intersect($check_array, array_keys($item))) < 6) {
+		if (!$item ["item_id"] || !$item ["item_text"] || sizeof(array_intersect($check_array, array_keys($item))) < 6){
 			return 'Error: Cannot to add menu item because item array is wrong.';
 		}
 
-		if ($item [ 'parent_id' ] && !in_array( $item [ 'parent_id' ], $this->item_ids )) {
-			return 'Error: Cannot to add menu item because parent "' . $item [ 'parent_id' ] . '" is not exists';
+		if ($item ['parent_id'] && !in_array($item ['parent_id'], $this->item_ids)){
+			return 'Error: Cannot to add menu item because parent "' . $item ['parent_id'] . '" is not exists';
 		}
 
 		// then insert
 		//when autosorting
-		if (!$item [ "sort_order" ]) {
+		if (!$item ["sort_order"]){
 			// we need to know last order number of children and set new for new item... yet
-			$brothers = $this->getMenuChildren($item [ "parent_id" ]);
+			$brothers = $this->getMenuChildren($item ["parent_id"]);
 			$new_sort_order = 0;
-			if ($brothers) {
-				foreach ($brothers as $brother) {
-					$new_sort_order = $brother [ 'sort_order' ] > $new_sort_order ? $brother [ 'sort_order' ] : $new_sort_order;
+			if ($brothers){
+				foreach ($brothers as $brother){
+					$new_sort_order = $brother ['sort_order'] > $new_sort_order ? $brother ['sort_order'] : $new_sort_order;
 				}
 			}
 			$new_sort_order++;
-			$item [ "sort_order" ] = $new_sort_order;
+			$item ["sort_order"] = $new_sort_order;
 
 		}
 
 		// checks for unique item_id				
-		if (in_array($item [ "item_id" ], $this->item_ids)) {
-			return 'Error: Cannot to add menu item because item with item_id "' . $item [ "item_id" ] . '" is already exists.';
+		if (in_array($item ["item_id"], $this->item_ids)){
+			return 'Error: Cannot to add menu item because item with item_id "' . $item ["item_id"] . '" is already exists.';
 		}
-		$result = $this->dataset->addRows(array( $item ));
+		$result = $this->dataset->addRows(array ($item));
 		// rebuild menu var after changing
 		$this->_build_menu($this->dataset->getRows());
 		$this->registry->get('cache')->remove('admin_menu');
@@ -254,9 +255,9 @@ class AMenu {
 	 * @param string $item_name
 	 * @return boolean
 	 */
-	public function deleteMenuItem($item_id) {
+	public function deleteMenuItem($item_id){
 		//
-		$this->dataset->deleteRows(array( "column_name" => "item_id", "operator" => "=", "value" => $item_id ));
+		$this->dataset->deleteRows(array ("column_name" => "item_id", "operator" => "=", "value" => $item_id));
 		$this->_build_menu($this->dataset->getRows());
 		$this->registry->get('cache')->remove('admin_menu');
 		return true;
@@ -268,13 +269,13 @@ class AMenu {
 	 * @param string $item_name
 	 * @return boolean
 	 */
-	public function updateMenuItem($item_id, $new_values) {
+	public function updateMenuItem($item_id, $new_values){
 
-		if (empty ($new_values) || !$item_id) {
+		if (empty ($new_values) || !$item_id){
 			return false;
 		}
 
-		$this->dataset->updateRows(array( "column_name" => "item_id", "operator" => "=", "value" => $item_id ), $new_values);
+		$this->dataset->updateRows(array ("column_name" => "item_id", "operator" => "=", "value" => $item_id), $new_values);
 		$this->_build_menu($this->dataset->getRows());
 		$this->registry->get('cache')->remove('admin_menu');
 		return true;

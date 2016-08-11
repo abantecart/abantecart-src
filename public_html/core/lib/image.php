@@ -36,7 +36,7 @@ final class AImage{
 	/**
 	 * @var array
 	 */
-	private $info = array();
+	private $info = array ();
 
 	/**
 	 * @var
@@ -110,8 +110,7 @@ final class AImage{
 		return $res_img;
 	}
 
-
-	public function resizeAndSave($filename, $width, $height, $options = array()){
+	public function resizeAndSave($filename, $width, $height, $options = array ()){
 		if (!$filename){
 			return false;
 		}
@@ -119,15 +118,15 @@ final class AImage{
 		$height = (int)$height;
 		$options = (array)$options;
 
-		$quality  = !isset($options['quality']) ? 90 : (int)$options['quality'];
-		$nofill  = !isset($options['nofill']) ? false : $options['nofill'];
+		$quality = !isset($options['quality']) ? 90 : (int)$options['quality'];
+		$nofill = !isset($options['nofill']) ? false : $options['nofill'];
 
 		//if size will change - resize it and save with GD2, otherwise - just copy file
-		if($this->info['width'] != $width && $this->info['height'] != $height ){
-			$this->resize($width,$height,$nofill);
-			$result = $this->save($filename,$quality);
-		}else{
-			$result = copy($this->file,$filename);
+		if ($this->info['width'] != $width && $this->info['height'] != $height){
+			$this->resize($width, $height, $nofill);
+			$result = $this->save($filename, $quality);
+		} else{
+			$result = copy($this->file, $filename);
 		}
 
 		return $result;
@@ -139,7 +138,7 @@ final class AImage{
 	 * @return bool
 	 */
 	public function save($filename, $quality = 90){
-		if (is_object($this->registry)&& $this->registry->has('extensions')){
+		if (is_object($this->registry) && $this->registry->has('extensions')){
 			$result = $this->registry->get('extensions')->hk_save($this, $filename, $quality);
 		} else{
 			$result = $this->_save($filename, $quality);
@@ -172,8 +171,8 @@ final class AImage{
 		}
 		if (is_file($filename)){
 			$result = chmod($filename, 0777);
-			if(!$result){
-				$error_text = "AImage: cannot to change permissions for ".$filename;
+			if (!$result){
+				$error_text = "AImage: cannot to change permissions for " . $filename;
 				$err = new AError($error_text);
 				$err->toLog();
 			}
@@ -189,7 +188,7 @@ final class AImage{
 	 * @return bool|null
 	 */
 	public function resize($width = 0, $height = 0, $nofill = false){
-		if(!$this->image || !$this->info['width'] || !$this->info['height']){
+		if (!$this->image || !$this->info['width'] || !$this->info['height']){
 			return false;
 		}
 		if ($width == 0 && $height == 0){
@@ -206,7 +205,6 @@ final class AImage{
 		$new_height = (int)round($this->info['height'] * $scale, 0);
 		$xpos = (int)(($width - $new_width) / 2);
 		$ypos = (int)(($height - $new_height) / 2);
-
 
 		$image_old = $this->image;
 
@@ -243,7 +241,7 @@ final class AImage{
 	 * @return bool
 	 */
 	public function watermark($filename, $position = 'bottomright'){
-		if(!is_resource($this->image)){
+		if (!is_resource($this->image)){
 			return false;
 		}
 		$watermark = $this->get_gd_resource($filename);
@@ -283,7 +281,7 @@ final class AImage{
 	 * @return bool
 	 */
 	public function crop($top_x, $top_y, $bottom_x, $bottom_y){
-		if(!is_resource($this->image)){
+		if (!is_resource($this->image)){
 			return false;
 		}
 
@@ -304,7 +302,7 @@ final class AImage{
 	 * @return bool
 	 */
 	public function rotate($degree, $color = 'FFFFFF'){
-		if(!is_resource($this->image)){
+		if (!is_resource($this->image)){
 			return false;
 		}
 
@@ -320,7 +318,7 @@ final class AImage{
 	 * @return bool
 	 */
 	public function filter($filter){
-		if(!is_resource($this->image)){
+		if (!is_resource($this->image)){
 			return false;
 		}
 		imagefilter($this->image, $filter);
@@ -336,7 +334,7 @@ final class AImage{
 	 * @return bool
 	 */
 	public function text($text, $x = 0, $y = 0, $size = 5, $color = '000000'){
-		if(!is_resource($this->image)){
+		if (!is_resource($this->image)){
 			return false;
 		}
 		$rgb = $this->html2rgb($color);
@@ -355,7 +353,7 @@ final class AImage{
 
 		$merge = $this->get_gd_resource($filename);
 
-		if(!is_resource($this->image) || $merge){
+		if (!is_resource($this->image) || $merge){
 			return false;
 		}
 

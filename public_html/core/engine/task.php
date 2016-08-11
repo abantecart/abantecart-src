@@ -18,50 +18,50 @@
    versions in the future. If you wish to customize AbanteCart for your
    needs please refer to http://www.AbanteCart.com for more information.
 ------------------------------------------------------------------------------*/
-if (! defined ( 'DIR_CORE' )) {
-	header ( 'Location: static_pages/' );
+if (!defined('DIR_CORE')){
+	header('Location: static_pages/');
 }
 
-final class ATypeTask {
+final class ATypeTask{
 	/**
 	 * @var Registry
 	 */
 	protected $registry;
-	protected $pre_dispatch = array();
+	protected $pre_dispatch = array ();
 	protected $error;
 	private $recursion_limit = 0;
-	
-	public function __construct($registry) {
+
+	public function __construct($registry){
 		$this->registry = $registry;
 	}
 
-	public function __destruct() {
+	public function __destruct(){
 	}
 
-    public function __get($key) {
+	public function __get($key){
 		return $this->registry->get($key);
 	}
 
-	public function __set($key, $value) {
+	public function __set($key, $value){
 		$this->registry->set($key, $value);
 	}
-	
-	public function addPreDispatch($dispatch_rt) {
-		$this->pre_dispatch[] = new ADispatcher($dispatch_rt, array("instance_id" => "0"));
-	}
-	
-  	public function build($dispatch_rt) {
-		$dispatch = '';
- 		$this->recursion_limit = 0;
 
-		foreach ($this->pre_dispatch as $pre_dispatch) {
+	public function addPreDispatch($dispatch_rt){
+		$this->pre_dispatch[] = new ADispatcher($dispatch_rt, array ("instance_id" => "0"));
+	}
+
+	public function build($dispatch_rt){
+		$dispatch = '';
+		$this->recursion_limit = 0;
+
+		foreach ($this->pre_dispatch as $pre_dispatch){
 			/**
 			 * @var $pre_dispatch ADispatcher
 			 */
 
 			$result = $pre_dispatch->dispatch();
 
-			if ($result) {
+			if ($result){
 				//Something happened. Need to run different page
 				$dispatch_rt = $result;
 				break;
@@ -73,10 +73,10 @@ final class ATypeTask {
 			//Process main level controller
 			//filter in case we have responses set already
 			$dispatch_rt = preg_replace('/^(task)\//', '', $dispatch_rt);
-            $dispatch = new ADispatcher('task/'.$dispatch_rt, array("instance_id" => "0"));
+			$dispatch = new ADispatcher('task/' . $dispatch_rt, array ("instance_id" => "0"));
 			$dispatch_rt = $dispatch->dispatch();
 		}
-			
-		unset($dispatch); 
-  	}
+
+		unset($dispatch);
+	}
 }

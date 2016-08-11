@@ -17,12 +17,11 @@
    versions in the future. If you wish to customize AbanteCart for your
    needs please refer to http://www.AbanteCart.com for more information.
 ------------------------------------------------------------------------------*/
-if (!defined('DIR_CORE')) {
+if (!defined('DIR_CORE')){
 	header('Location: static_pages/');
 }
 
-
-class AError {
+class AError{
 
 	/**
 	 * error code
@@ -60,18 +59,18 @@ class AError {
 	 * @param  $msg - error message
 	 * @param  $code - error code
 	 */
-	public function __construct($msg, $code = AC_ERR_USER_ERROR) {
+	public function __construct($msg, $code = AC_ERR_USER_ERROR){
 
 		$backtrace = debug_backtrace();
 
 		$this->code = $code;
-		$this->msg = $msg . ' in ' . $backtrace[ 0 ][ 'file' ] . ' on line ' . $backtrace[ 0 ][ 'line' ];
+		$this->msg = $msg . ' in ' . $backtrace[0]['file'] . ' on line ' . $backtrace[0]['line'];
 
-		if (class_exists('Registry')) {
+		if (class_exists('Registry')){
 			$this->registry = Registry::getInstance();
 		}
 		//TODO: use registry object instead?? what if registry not accessible?
-		$this->error_descriptions = $GLOBALS[ 'error_descriptions' ];
+		$this->error_descriptions = $GLOBALS['error_descriptions'];
 
 		$this->version = 'AbanteCart core v.' . VERSION;
 	}
@@ -81,8 +80,8 @@ class AError {
 	 *
 	 * @return AError
 	 */
-	public function toDebug() {
-		ADebug::error($this->error_descriptions[ $this->code ], $this->code, $this->msg);
+	public function toDebug(){
+		ADebug::error($this->error_descriptions[$this->code], $this->code, $this->msg);
 		return $this;
 	}
 
@@ -90,19 +89,19 @@ class AError {
 	 * write error message to log file
 	 * @return AError
 	 */
-	public function toLog() {
-		if (!is_object($this->registry) || !$this->registry->has('log')) {
-			if (class_exists('ALog')) {
+	public function toLog(){
+		if (!is_object($this->registry) || !$this->registry->has('log')){
+			if (class_exists('ALog')){
 				$log = new ALog(DIR_SYSTEM . 'logs/error.txt');
-			} else {
+			} else{
 				//we have error way a head of system start
-				echo $this->error_descriptions[ $this->code ] . ':  ' . $this->msg;
+				echo $this->error_descriptions[$this->code] . ':  ' . $this->msg;
 				return $this;
 			}
-		} else {
+		} else{
 			$log = $this->registry->get('log');
 		}
-		$log->write($this->error_descriptions[ $this->code ] . ':  ' . $this->version . ' ' . $this->msg);
+		$log->write($this->error_descriptions[$this->code] . ':  ' . $this->version . ' ' . $this->msg);
 		return $this;
 	}
 
@@ -110,13 +109,13 @@ class AError {
 	 * add error message to messages     *
 	 * @return AError
 	 */
-	public function toMessages() {
-		if (is_object($this->registry) && $this->registry->has('messages')) {
+	public function toMessages(){
+		if (is_object($this->registry) && $this->registry->has('messages')){
 			/**
 			 * @var $messages AMessage
 			 */
 			$messages = $this->registry->get('messages');
-			$messages->saveError($this->error_descriptions[ $this->code ], $this->msg);
+			$messages->saveError($this->error_descriptions[$this->code], $this->msg);
 		}
 		return $this;
 	}
@@ -126,14 +125,14 @@ class AError {
 	 *
 	 * @return AError
 	 */
-	public function toMail() {
+	public function toMail(){
 		//This is for future development
 		return $this;
 	}
 
 	/**
 	 * add error message to JSON output
-	 * @param string $status_text_and_code  - any human readable text string with 3 digit at the end to represent HTTP response code
+	 * @param string $status_text_and_code - any human readable text string with 3 digit at the end to represent HTTP response code
 	 * For ex.
 	 * VALIDATION_ERROR_406
 	 *
@@ -147,26 +146,26 @@ class AError {
 	 *            TODO: Add redirect_url on dialog close
 	 * @return mixed
 	 */
-	public function toJSONResponse($status_text_and_code, $err_data = array()) {
+	public function toJSONResponse($status_text_and_code, $err_data = array ()){
 		//detect HTTP responce status code based on readable text status
 		preg_match('/(\d+)$/', $status_text_and_code, $match);
-		if (!$match[ 0 ]) {
-			if (empty($err_data[ 'error_code' ])) {
-				$err_data[ 'error_code' ] = 400;
+		if (!$match[0]){
+			if (empty($err_data['error_code'])){
+				$err_data['error_code'] = 400;
 			}
-		} else {
-			$err_data[ 'error_code' ] = (int)$match[ 0 ];
+		} else{
+			$err_data['error_code'] = (int)$match[0];
 		}
 
-		if (empty($err_data[ 'error_title' ])) {
-			$err_data[ 'error_title' ] = $this->error_descriptions[ $this->code ];
+		if (empty($err_data['error_title'])){
+			$err_data['error_title'] = $this->error_descriptions[$this->code];
 		}
-		if (empty($err_data[ 'error_text' ])) {
-			$err_data[ 'error_text' ] = $this->msg;
+		if (empty($err_data['error_text'])){
+			$err_data['error_text'] = $this->msg;
 		}
-		$http_header_txt = 'HTTP/1.1 ' . (int)$err_data[ 'error_code' ] . ' ' . $err_data[ 'error_title' ];
+		$http_header_txt = 'HTTP/1.1 ' . (int)$err_data['error_code'] . ' ' . $err_data['error_title'];
 
-		if (is_object($this->registry) && $this->registry->has('response')) {
+		if (is_object($this->registry) && $this->registry->has('response')){
 			/**
 			 * @var $response AResponse
 			 */
@@ -179,7 +178,7 @@ class AError {
 			$response->addJSONHeader();
 			$load->library('json');
 			return $response->setOutput(AJson::encode($err_data));
-		} else {
+		} else{
 			//for some reason we do not have reqistery. do direct output and exit
 			header($http_header_txt);
 			header('Content-Type: application/json');

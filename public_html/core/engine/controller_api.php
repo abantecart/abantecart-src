@@ -17,23 +17,23 @@
    versions in the future. If you wish to customize AbanteCart for your
    needs please refer to http://www.AbanteCart.com for more information.
 ------------------------------------------------------------------------------*/
-if (! defined ( 'DIR_CORE' )) {
-	header ( 'Location: static_pages/' );
+if (!defined('DIR_CORE')){
+	header('Location: static_pages/');
 }
 
-class AControllerAPI extends AController {
+class AControllerAPI extends AController{
 	protected $rest;
-	protected $error = array();
-	protected $data = array();
+	protected $error = array ();
+	protected $data = array ();
 
-	public function __construct($registry, $instance_id, $controller, $parent_controller = '') {
+	public function __construct($registry, $instance_id, $controller, $parent_controller = ''){
 		parent::__construct($registry, $instance_id, $controller, $parent_controller);
 		$this->rest = new ARest;
 	}
 
-	public function main() {
+	public function main(){
 		//call methods based on REST re	quest type
-		switch($this->rest->getRequestMethod() ) {
+		switch($this->rest->getRequestMethod()){
 			case 'get':
 				return $this->get();
 				break;
@@ -42,7 +42,7 @@ class AControllerAPI extends AController {
 				break;
 			case 'put':
 				return $this->put();
-            	break;
+				break;
 			case 'delete':
 				return $this->delete();
 				break;
@@ -50,26 +50,26 @@ class AControllerAPI extends AController {
 				$this->rest->sendResponse(405);
 				return null;
 				break;
-		}		
+		}
 	}
 
 	//Abstract Methods
-	public function get() {
+	public function get(){
 		$this->rest->sendResponse(405);
 		return null;
 	}
-	
-	public function post() {
+
+	public function post(){
 		$this->rest->sendResponse(405);
 		return null;
 	}
-	
-	public function put() {
+
+	public function put(){
 		$this->rest->sendResponse(405);
 		return null;
 	}
-	
-	public function delete() {
+
+	public function delete(){
 		$this->rest->sendResponse(405);
 		return null;
 	}

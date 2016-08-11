@@ -416,12 +416,12 @@ class AExtensionManager{
 		//write info about install into install log
 		$install_upgrade_history = new ADataset('install_upgrade_history', 'admin');
 		$install_upgrade_history->addRows(array ('date_added'  => date("Y-m-d H:i:s", time()),
-												 'name'        => $name,
-												 'version'     => $settings[$name . '_version'],
-												 'backup_file' => '',
-												 'backup_date' => '',
-												 'type'        => 'install',
-												 'user'        => $this->user->getUsername()));
+		                                         'name'        => $name,
+		                                         'version'     => $settings[$name . '_version'],
+		                                         'backup_file' => '',
+		                                         'backup_date' => '',
+		                                         'type'        => 'install',
+		                                         'user'        => $this->user->getUsername()));
 
 		// add dependencies into database for required extensions only
 		if (isset($config->dependencies->item)){
@@ -490,12 +490,12 @@ class AExtensionManager{
 
 		$install_upgrade_history = new ADataset('install_upgrade_history', 'admin');
 		$install_upgrade_history->addRows(array ('date_added'  => date("Y-m-d H:i:s", time()),
-												 'name'        => $name,
-												 'version'     => $info['version'],
-												 'backup_file' => '',
-												 'backup_date' => '',
-												 'type'        => 'uninstall',
-												 'user'        => $this->user->getUsername()));
+		                                         'name'        => $name,
+		                                         'version'     => $info['version'],
+		                                         'backup_file' => '',
+		                                         'backup_date' => '',
+		                                         'type'        => 'uninstall',
+		                                         'user'        => $this->user->getUsername()));
 
 		if (isset($config->uninstall->sql)){
 			$file = DIR_EXT . str_replace('../', '', $name) . '/' . (string)$config->uninstall->sql;
@@ -531,12 +531,12 @@ class AExtensionManager{
 		$info = $this->extensions->getExtensionInfo($extension_txt_id);
 		$install_upgrade_history = new ADataset('install_upgrade_history', 'admin');
 		$install_upgrade_history->addRows(array ('date_added'  => date("Y-m-d H:i:s", time()),
-												 'name'        => $extension_txt_id,
-												 'version'     => $info['version'],
-												 'backup_file' => '',
-												 'backup_date' => '',
-												 'type'        => 'delete',
-												 'user'        => $this->user->getUsername()));
+		                                         'name'        => $extension_txt_id,
+		                                         'version'     => $info['version'],
+		                                         'backup_file' => '',
+		                                         'backup_date' => '',
+		                                         'type'        => 'delete',
+		                                         'user'        => $this->user->getUsername()));
 		$this->db->query("DELETE FROM " . $this->db->table("extensions") . " WHERE `type` = '" . $info['type'] . "' AND `key` = '" . $this->db->escape($extension_txt_id) . "'");
 		$this->deleteDependant($extension_txt_id);
 

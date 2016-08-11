@@ -17,9 +17,10 @@
    versions in the future. If you wish to customize AbanteCart for your
    needs please refer to http://www.AbanteCart.com for more information.
 ------------------------------------------------------------------------------*/
-if (! defined ( 'DIR_CORE' )) {
-	header ( 'Location: static_pages/' );
+if (!defined('DIR_CORE')){
+	header('Location: static_pages/');
 }
+
 /**
  * Class ATax
  * @property ASession $session
@@ -27,8 +28,8 @@ if (! defined ( 'DIR_CORE' )) {
  * @property ACache $cache
  * @property ADB $db
  */
-final class ATax {
-	private $taxes = array();
+final class ATax{
+	private $taxes = array ();
 	/**
 	 * @var Registry
 	 */
@@ -42,35 +43,35 @@ final class ATax {
 	 * @param $registry Registry
 	 * @param null|array $c_data
 	 */
-	public function __construct($registry, &$c_data = null) {
+	public function __construct($registry, &$c_data = null){
 		$this->registry = $registry;
 
 		//if nothing is passed (default) use session array. Customer session, can function on storefront only
-		if ($c_data == null) {
+		if ($c_data == null){
 			$this->customer_data =& $this->session->data;
-		} else {
+		} else{
 			$this->customer_data =& $c_data;
 		}
 
-		if (isset($this->customer_data['country_id']) && isset($this->customer_data['zone_id'])) {
+		if (isset($this->customer_data['country_id']) && isset($this->customer_data['zone_id'])){
 			$country_id = $this->customer_data['country_id'];
-	 		$zone_id = $this->customer_data['zone_id'];
-		} else {
-			if($this->config->get('config_tax_store')){
+			$zone_id = $this->customer_data['zone_id'];
+		} else{
+			if ($this->config->get('config_tax_store')){
 				$country_id = $this->config->get('config_country_id');
 				$zone_id = $this->config->get('config_zone_id');
-			}else{
+			} else{
 				$country_id = $zone_id = 0;
 			}
 		}
 		$this->setZone($country_id, $zone_id);
-  	}
+	}
 
-	public function __get($key) {
+	public function __get($key){
 		return $this->registry->get($key);
 	}
-	
-	public function __set($key, $value) {
+
+	public function __set($key, $value){
 		$this->registry->set($key, $value);
 	}
 
@@ -80,22 +81,22 @@ final class ATax {
 	 * @param int $country_id
 	 * @param int $zone_id
 	 */
-	public function setZone($country_id, $zone_id) {
+	public function setZone($country_id, $zone_id){
 		$country_id = (int)$country_id;
 		$zone_id = (int)$zone_id;
 		$results = $this->getTaxes($country_id, $zone_id);
-		$this->taxes = array();
-		foreach ($results as $result) {
-      		$this->taxes[$result['tax_class_id']][] = array(
-        		'rate'        => $result['rate'],
-				'rate_prefix'    => $result['rate_prefix'],
-				'threshold_condition'    => $result['threshold_condition'],
-				'threshold'    => $result['threshold'],
-        		'description' => $result['description'],
-        		'tax_exempt_groups' => unserialize($result['tax_exempt_groups']),
-				'priority'    => $result['priority']
-      		);
-    	}
+		$this->taxes = array ();
+		foreach ($results as $result){
+			$this->taxes[$result['tax_class_id']][] = array (
+					'rate'                => $result['rate'],
+					'rate_prefix'         => $result['rate_prefix'],
+					'threshold_condition' => $result['threshold_condition'],
+					'threshold'           => $result['threshold'],
+					'description'         => $result['description'],
+					'tax_exempt_groups'   => unserialize($result['tax_exempt_groups']),
+					'priority'            => $result['priority']
+			);
+		}
 
 		$this->customer_data['country_id'] = $country_id;
 		$this->customer_data['zone_id'] = $zone_id;
@@ -111,15 +112,15 @@ final class ATax {
 	public function getTaxes($country_id, $zone_id){
 		$country_id = (int)$country_id;
 		$zone_id = (int)$zone_id;
-		
+
 		$language = $this->registry->get('language');
 		$language_id = $language->getLanguageID();
 		$default_lang_id = $language->getDefaultLanguageID();
-		
-		$cache_key = 'localization.tax_class.'.$country_id.'.'.$zone_id.'.lang_'.$language_id;
+
+		$cache_key = 'localization.tax_class.' . $country_id . '.' . $zone_id . '.lang_' . $language_id;
 		$results = $this->cache->pull($cache_key);
 
-		if($results === false){
+		if ($results === false){
 			//Note: Default language text is picked up if no selected language available
 			$sql = "SELECT tr.tax_class_id,
 							tr.rate AS rate, tr.rate_prefix AS rate_prefix, 
@@ -149,74 +150,74 @@ final class ATax {
 											   FROM " . $this->db->table("zones_to_locations") . " z2l, " . $this->db->table("locations") . " l
 											   WHERE z2l.location_id = l.location_id and z2l.zone_id = '" . $zone_id . "')
 					ORDER BY tr.priority ASC";
-			$tax_rate_query = $this->db->query( $sql );
+			$tax_rate_query = $this->db->query($sql);
 			$results = $tax_rate_query->rows;
-			$this->cache->push($cache_key,$results);
+			$this->cache->push($cache_key, $results);
 		}
 
 		return $results;
 	}
-	
+
 	/**
-	* Add Calculated tax based on provided $tax_class_id
-	* If $calculate switch passed as false skip tax calculation. 
-	* This is used in display of product price with tax added or not (based on config_tax )
-	* @param float $value
- 	* @param int $tax_class_id
- 	* @param bool $calculate
- 	* @return float
-	*/
-	public function calculate($value, $tax_class_id, $calculate = TRUE) {
-		if (($calculate) && (isset($this->taxes[$tax_class_id])))  {
-      		return $value + $this->calcTotalTaxAmount($value, $tax_class_id);
-    	} else {
-    		//skip calculation
-      		return $value;
-    	}
-  	}
-        
+	 * Add Calculated tax based on provided $tax_class_id
+	 * If $calculate switch passed as false skip tax calculation.
+	 * This is used in display of product price with tax added or not (based on config_tax )
+	 * @param float $value
+	 * @param int $tax_class_id
+	 * @param bool $calculate
+	 * @return float
+	 */
+	public function calculate($value, $tax_class_id, $calculate = true){
+		if (($calculate) && (isset($this->taxes[$tax_class_id]))){
+			return $value + $this->calcTotalTaxAmount($value, $tax_class_id);
+		} else{
+			//skip calculation
+			return $value;
+		}
+	}
+
 	/**
 	 * Calculate total applicable tax amount based on the amount provided
 	 * @param float $amount
 	 * @param int $tax_class_id
 	 * @return float
 	 */
-	public function calcTotalTaxAmount($amount, $tax_class_id) {
+	public function calcTotalTaxAmount($amount, $tax_class_id){
 		$total_tax_amount = 0.0;
-		if (isset($this->taxes[$tax_class_id])) {
-			foreach ($this->taxes[$tax_class_id] as $tax_rate) {
-				$total_tax_amount += $this->calcTaxAmount($amount, $tax_rate);			
-			}					
+		if (isset($this->taxes[$tax_class_id])){
+			foreach ($this->taxes[$tax_class_id] as $tax_rate){
+				$total_tax_amount += $this->calcTaxAmount($amount, $tax_rate);
+			}
 		}
-    	return $total_tax_amount;
+		return $total_tax_amount;
 	}
-	
+
 	/**
 	 * Calculate applicable tax amount based on the amount and tax rate record provided
 	 * @param float $amount
 	 * @param array $tax_rate
 	 * @return float
 	 */
-	public function calcTaxAmount($amount, $tax_rate = array() ) {
+	public function calcTaxAmount($amount, $tax_rate = array ()){
 		$tax_amount = 0.0;
-		if (!empty($tax_rate) && isset($tax_rate['rate'])) {
+		if (!empty($tax_rate) && isset($tax_rate['rate'])){
 			//Validate tax class rules if condition present and see if applicable
-			if ( $tax_rate['threshold_condition'] && is_numeric($tax_rate['threshold']) ) {
-			    if ( !$this->_compare($amount, $tax_rate['threshold'], $tax_rate['threshold_condition']) ) {
-			    	//does not match. get out
-			    	return 0.0;
-			    }
+			if ($tax_rate['threshold_condition'] && is_numeric($tax_rate['threshold'])){
+				if (!$this->_compare($amount, $tax_rate['threshold'], $tax_rate['threshold_condition'])){
+					//does not match. get out
+					return 0.0;
+				}
 			}
 
-			if ( $tax_rate['rate_prefix'] == '$'  ) {
-			    //this is absolute value rate in default currency 
-			    $tax_amount = $tax_rate['rate'];
-			} else {
-			    //This is percent based rate
-			    $tax_amount = $amount * $tax_rate['rate'] / 100;
+			if ($tax_rate['rate_prefix'] == '$'){
+				//this is absolute value rate in default currency
+				$tax_amount = $tax_rate['rate'];
+			} else{
+				//This is percent based rate
+				$tax_amount = $amount * $tax_rate['rate'] / 100;
 			}
 		}
-    	return $tax_amount;
+		return $tax_amount;
 	}
 
 	/**
@@ -238,27 +239,27 @@ final class ATax {
 	 * @param $tax_class_id
 	 * @return array
 	 */
-	public function getApplicableRates($amount, $tax_class_id) {
-  		$rates = array();
-		if (isset($this->taxes[$tax_class_id])) {
-			foreach ($this->taxes[$tax_class_id] as $tax_rate) {
-				if (!empty($tax_rate) && isset($tax_rate['rate'])) {
-					if ( $tax_rate['threshold_condition'] && is_numeric($tax_rate['threshold']) ) {
-						if ( !$this->_compare($amount, $tax_rate['threshold'], $tax_rate['threshold_condition']) ) {
+	public function getApplicableRates($amount, $tax_class_id){
+		$rates = array ();
+		if (isset($this->taxes[$tax_class_id])){
+			foreach ($this->taxes[$tax_class_id] as $tax_rate){
+				if (!empty($tax_rate) && isset($tax_rate['rate'])){
+					if ($tax_rate['threshold_condition'] && is_numeric($tax_rate['threshold'])){
+						if (!$this->_compare($amount, $tax_rate['threshold'], $tax_rate['threshold_condition'])){
 							continue;
 						}
 					}
-					if ( $tax_rate['rate_prefix'] == '$'  ) {
-					    $rates['absolute'][] = $tax_rate['rate'];   
-					} else {
-					    $rates['percent'][] = $tax_rate['rate'];  
-					}					
+					if ($tax_rate['rate_prefix'] == '$'){
+						$rates['absolute'][] = $tax_rate['rate'];
+					} else{
+						$rates['percent'][] = $tax_rate['rate'];
+					}
 				}
 			}
 		}
 		return $rates;
 	}
-		
+
 	/**
 	 * Get accumulative tax rate (deprecated)
 	 * @deprecated
@@ -266,16 +267,16 @@ final class ATax {
 	 * @param int $tax_class_id
 	 * @return float
 	 */
-	public function getRate($tax_class_id) {
-		if (isset($this->taxes[$tax_class_id])) {
+	public function getRate($tax_class_id){
+		if (isset($this->taxes[$tax_class_id])){
 			$rate = 0.0;
-			foreach ($this->taxes[$tax_class_id] as $tax_rate) {
+			foreach ($this->taxes[$tax_class_id] as $tax_rate){
 				$rate += $tax_rate['rate'];
 			}
-			
+
 			return $rate;
-		} else {
-    		return 0.0;
+		} else{
+			return 0.0;
 		}
 	}
 
@@ -283,17 +284,17 @@ final class ATax {
 	 * @param int $tax_class_id
 	 * @return array
 	 */
-	public function getDescription($tax_class_id) {
-		return (isset($this->taxes[$tax_class_id]) ? $this->taxes[$tax_class_id] : array());
-  	}
+	public function getDescription($tax_class_id){
+		return (isset($this->taxes[$tax_class_id]) ? $this->taxes[$tax_class_id] : array ());
+	}
 
 	/**
 	 * @param int $tax_class_id
 	 * @return bool
 	 */
-	public function has($tax_class_id) {
+	public function has($tax_class_id){
 		return isset($this->taxes[$tax_class_id]);
-  	}
+	}
 
 	/**
 	 * @param float $value1
@@ -301,29 +302,29 @@ final class ATax {
 	 * @param string $operator
 	 * @return bool
 	 */
-	private function _compare($value1, $value2, $operator) {
-        switch ($operator) {
-            case 'eq':
-                return ($value1 == $value2);
-                break;
-            case 'ne':
-                return ($value1 != $value2);
-                break;
-            case 'le':
-                return ($value1 <= $value2);
-                break;
-            case 'ge':
-                return ($value1 >= $value2);
-                break;
-            case 'lt':
-                return ($value1 < $value2);
-                break;
-            case 'gt':
-                return ($value1 > $value2);
-                break;
-            default:
-                return false;
-                break;
-        }
-    }
+	private function _compare($value1, $value2, $operator){
+		switch($operator){
+			case 'eq':
+				return ($value1 == $value2);
+				break;
+			case 'ne':
+				return ($value1 != $value2);
+				break;
+			case 'le':
+				return ($value1 <= $value2);
+				break;
+			case 'ge':
+				return ($value1 >= $value2);
+				break;
+			case 'lt':
+				return ($value1 < $value2);
+				break;
+			case 'gt':
+				return ($value1 > $value2);
+				break;
+			default:
+				return false;
+				break;
+		}
+	}
 }
