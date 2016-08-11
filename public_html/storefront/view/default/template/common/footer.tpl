@@ -102,7 +102,7 @@
 <?php if ($google_analytics){
 	$ga_data = $this->registry->get('google_analytics_data');
 	?>
-	<script type="text/javascript" defer>
+	<script type="text/javascript">
 
 		var _gaq = _gaq || [];
 		_gaq.push(['_setAccount', '<?php echo $google_analytics;?>']);
