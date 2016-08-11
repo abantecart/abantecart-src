@@ -412,11 +412,12 @@ class ExtensionsApi {
 	 *  category - search extensions by category
 	 *  page - page number ( limit should be defined also )
 	 *  limit - number of rows in page ( page should be defined also )
+	 * @param string $mode - can be "force" to prevent cache load
 	 * @return bool|stdClass object array of extensions
 	 */
-	public function getExtensionsList($data = array()) {
+	public function getExtensionsList($data = array(), $mode = '') {
 		$cache_key = '';
-		if ( $this->cache && $this->cache->isCacheEnabled() ) {
+		if ($mode=='' &&  $this->cache && $this->cache->isCacheEnabled() ) {
 			$cache_key = 'extensions.list';
 			if(!empty($data)) {
 				$cache_key .= $this->cache->paramsToString($data);
