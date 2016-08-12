@@ -428,7 +428,7 @@ $(window).load(function(){
 	if ($select.length) {
 		//if no images for options are present, main product images will be used.
 		//if at least one image is present in the option, main images will be replaced.
-		//????load_option_images($select.val());
+		load_option_images($select.val(), '<?php echo $product_id; ?>');
 	}
 
 	display_total_price();
@@ -458,7 +458,7 @@ $(window).load(function(){
 
 	/* Process images for product options */
 	$('input[name^=\'option\'], select[name^=\'option\']').change(function () {
-		load_option_images($(this).val());
+		load_option_images($(this).val(), '<?php echo $product_id; ?>');
 		display_total_price();
 	});
 
@@ -493,10 +493,10 @@ $(window).load(function(){
 			});
 	}
 
-	function load_option_images( attribute_value_id ) {
+	function load_option_images( attribute_value_id, product_id ) {
 		$.ajax({
 			type: 'POST',
-			url: '<?php echo $option_resources_url; ?>&attribute_value_id=' + attribute_value_id,
+			url: '<?php echo $option_resources_url; ?>&attribute_value_id='+attribute_value_id+'&product_id='+product_id,
 			dataType: 'json',
 			success: function (data) {
 				if(data.length == 0){ return false;}
