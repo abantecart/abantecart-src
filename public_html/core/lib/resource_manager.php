@@ -795,7 +795,7 @@ class AResourceManager extends AResource{
 		$cache_key = 'resources.product_option_value.' . $resource_id;
 		$cache_key = preg_replace('/[^a-zA-Z0-9\.]/', '', $cache_key) . '.store_' . $store_id . '_lang_' . $language_id;
 
-		$resource_objects = false;//$this->cache->pull($cache_key);
+		$resource_objects = $this->cache->pull($cache_key);
 		if ($resource_objects === false){
 			$sql = "SELECT rm.object_id, 'product_option_value' as object_name, pd.name, pov.product_id, pov.product_option_id
                     FROM " . $this->db->table("resource_map") . " rm
