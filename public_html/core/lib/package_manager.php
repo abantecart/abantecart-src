@@ -112,19 +112,19 @@ class APackageManager{
 	 */
 	public function unpack($tar_filename, $dst_dir){
 		if (!file_exists($tar_filename)){
-			$this->error = 'Error: Can\'t unpack file "' . $tar_filename . '" because it does not exists.';
+			$this->error = 'Error: Cannot unpack file "' . $tar_filename . '" because it does not exists.';
 			$error = new AError ($this->error);
 			$error->toLog()->toDebug();
 			return false;
 		}
 		if (!file_exists($dst_dir) || !is_dir($dst_dir)){
-			$this->error = 'Error: Can\'t unpack file "' . $tar_filename . '" because destination directory "' . $dst_dir . '" does not exists.';
+			$this->error = 'Error: Cannot unpack file "' . $tar_filename . '" because destination directory "' . $dst_dir . '" does not exists.';
 			$error = new AError ($this->error);
 			$error->toLog()->toDebug();
 			return false;
 		}
 		if (!is_writable($dst_dir)){
-			$this->error = 'Error: Can\'t unpack file "' . $tar_filename . '" because destination directory "' . $dst_dir . '" have no write permission.';
+			$this->error = 'Error: Cannot unpack file "' . $tar_filename . '" because destination directory "' . $dst_dir . '" have no write permission.';
 			$error = new AError ($this->error);
 			$error->toLog()->toDebug();
 			return false;
@@ -140,7 +140,7 @@ class APackageManager{
 			} catch(Exception $e){
 				$error = new AError($e->getMessage());
 				$error->toLog()->toDebug();
-				$this->error = 'Error: Cannot to unpack file "' . $tar_filename . '". Please, see error log for details. ';
+				$this->error = 'Error: Cannot unpack file "' . $tar_filename . '". Please, see error log for details. ';
 				return false;
 			}
 		} else{
@@ -237,7 +237,7 @@ class APackageManager{
 					                                         'type'        => 'upgrade',
 					                                         'user'        => $this->user->getUsername()));
 				} else{
-					$this->error .= "Error: Can't upgrade file : '" . $core_filename . "\n";
+					$this->error .= " Error: Cannot upgrade file : '" . $core_filename . "\n";
 					$this->messages->saveNotice('Error', $this->error);
 					$error = new AError ($this->error);
 					$error->toLog()->toDebug();
@@ -256,7 +256,7 @@ class APackageManager{
 				}
 
 				if (!is_dir($dir) || !is_writable($dir)){
-					$this->error .= "Error: Can't upgrade file : '" . $core_filename . "\n Destination folder " . $dir . " is not writable or does not exists";
+					$this->error .= " Error: Cannot upgrade file : '" . $core_filename . "\n Destination folder " . $dir . " is not writable or does not exists";
 					$this->messages->saveNotice('Error', $this->error);
 					$error = new AError ($this->error);
 					$error->toLog()->toDebug();
@@ -281,7 +281,7 @@ class APackageManager{
 					                                         'type'        => 'upgrade',
 					                                         'user'        => $this->user->getUsername()));
 				} else{
-					$this->error .= "Error: Can't upgrade file : '" . $core_filename . "\n";
+					$this->error .= " Error: Cannot upgrade file : '" . $core_filename . "\n";
 					$this->messages->saveNotice('Error', $this->error);
 					$error = new AError ($this->error);
 					$error->toLog()->toDebug();
@@ -305,7 +305,7 @@ class APackageManager{
 						chmod($dir . "/" . $obj, 0777);
 						$err = is_dir($dir . "/" . $obj) ? $this->removeDir($dir . "/" . $obj) : unlink($dir . "/" . $obj);
 						if (!$err){
-							$this->error = "Error: Can't to delete file or directory: '" . $dir . "/" . $obj . "'.";
+							$this->error = "Error: Cannot delete file or directory: '" . $dir . "/" . $obj . "'.";
 							$this->messages->saveNotice('Error', $this->error);
 							$error = new AError ($this->error);
 							$error->toLog()->toDebug();
@@ -511,11 +511,11 @@ class APackageManager{
 			}
 			$result = $this->ftp_mksubdirs($fconnect, $basedir, $sub_dirs);
 			if (!$result){
-				$this->error .= "\nCannot to create directory " . $remote_dir . " via ftp. ";
+				$this->error .= "\nCannot create directory " . $remote_dir . " via ftp. ";
 				return false;
 			}
 			if (!ftp_chmod($fconnect, 0755, $remote_dir)){
-				$error = new AError('Cannot to change mode for directory ' . $remote_dir);
+				$error = new AError('Cannot change mode for directory ' . $remote_dir);
 				$error->toLog()->toDebug();
 			}
 			//change current directory to newly created
@@ -526,13 +526,13 @@ class APackageManager{
 			$this->ftp_put_dir($fconnect, $local, $remote_dir);
 		} else{
 			if (!ftp_put($fconnect, $remote_file, $local, FTP_BINARY)){
-				$this->error .= "\nCannot to put file " . $remote_file . " via ftp.";
+				$this->error .= "\nCannot put file " . $remote_file . " via ftp.";
 				return false;
 			}
 			$remote_file = $remote_dir . pathinfo($local, PATHINFO_BASENAME);
 			$chmod_result = ftp_chmod($fconnect, 0755, $remote_file);
 			if (!$chmod_result){
-				$error = new AError('Cannot to change mode for file ' . $remote_file);
+				$error = new AError('Cannot change mode for file ' . $remote_file);
 				$error->toLog()->toDebug();
 			}
 		}
