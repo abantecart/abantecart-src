@@ -354,6 +354,6 @@
 	</definition>
 	<definition>
 		<key>text_total_order</key>
-		<value><![CDATA[Total Orders: !!!!!]]></value>
+		<value><![CDATA[Всего заказов:]]></value>
 	</definition>
 </definitions>

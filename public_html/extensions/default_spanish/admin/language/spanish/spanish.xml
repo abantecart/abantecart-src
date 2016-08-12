@@ -738,14 +738,14 @@
 	</definition>
 	<definition>
 		<key>text_quick_view</key>
-		<value><![CDATA[Quick View !!!!!]]></value>
+		<value><![CDATA[Vista rápida]]></value>
 	</definition>
 	<definition>
 		<key>text_more_current</key>
-		<value><![CDATA[Full page edit !!!!!]]></value>
+		<value><![CDATA[Página completa]]></value>
 	</definition>
 	<definition>
 		<key>text_more_new</key>
-		<value><![CDATA[New tab edit !!!!!]]></value>
+		<value><![CDATA[Nueva pestaña]]></value>
 	</definition>
 </definitions>

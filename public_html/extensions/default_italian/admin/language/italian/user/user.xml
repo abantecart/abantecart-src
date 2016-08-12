@@ -142,6 +142,6 @@
 	</definition>
 	<definition>
 		<key>error_user_group</key>
-		<value><![CDATA[You have no permissions to change user group. !!!!!]]></value>
+		<value><![CDATA[Non hai i permessi per cambiare gruppo di utenti.]]></value>
 	</definition>
 </definitions>

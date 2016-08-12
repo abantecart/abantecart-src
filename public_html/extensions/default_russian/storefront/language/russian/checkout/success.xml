@@ -39,9 +39,9 @@
 	<definition>
 		<key>text_message_account</key>
 		<value><![CDATA[
-			<p>Your order #%s has been created!</p>
-			<p>You can view your order invoice by going to the <a href="%s">Order Invoice</a> page.</p>
-			<p>Please direct any questions you have to the <a href="%s">store owner</a>.</p>
-			<p>Thanks for shopping with us online!</p> !!!!!]]></value>
+			<p>Ваш заказ #%s был создан!</p>
+			<p>Вы можете просмотреть счет заказа, перейдя на <a href="%s">страница заказа</a></p>
+			<p>Пожалуйста, направляйте все вопросы <a href="%s">владелецу магазина</a>.</p>
+			<p>Спасибо за покупку!</p>]]></value>
 	</definition>
 </definitions>

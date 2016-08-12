@@ -66,6 +66,6 @@
 	</definition>
 	<definition>
 		<key>error_download_not_exists</key>
-		<value><![CDATA[Requested file does not exists! !!!!!]]></value>
+		<value><![CDATA[Il file richiesto non esiste!]]></value>
 	</definition>
 </definitions>

@@ -114,10 +114,10 @@
 	</definition>
 	<definition>
 		<key>text_install_upgrade_history</key>
-		<value><![CDATA[Install/Upgrade History !!!!!]]></value>
+		<value><![CDATA[Instalar / Actualizar Historia]]></value>
 	</definition>
 	<definition>
 		<key>desc_install_upgrade_history</key>
-		<value><![CDATA[Clear All Install/Upgrade History !!!!!]]></value>
+		<value><![CDATA[Borrar todo Instalar / Actualizar Historia]]></value>
 	</definition>
 </definitions>

@@ -358,6 +358,6 @@
 	</definition>
 	<definition>
 		<key>text_total_order</key>
-		<value><![CDATA[Total Orders: !!!!!]]></value>
+		<value><![CDATA[El total de pedidos:]]></value>
 	</definition>
 </definitions>
