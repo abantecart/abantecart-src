@@ -581,7 +581,8 @@ class ACache{
 	/**
 	 * Get/validate storage driver details.
 	 *
-	 * @return  array An array with storage driver details. No validation if class DO exist in the file!
+	 * @param string $driver_name
+	 * @return array An array with storage driver details. No validation if class DO exist in the file!
 	 *
 	 * @since 1.2.7
 	 */

@@ -22,7 +22,7 @@ if (!defined('DIR_CORE')){
 }
 
 /**
- * Class to handle file downlaods and uploads
+ * Class to handle file downloads and uploads
  *
  */
 
@@ -160,7 +160,7 @@ class AFile{
 	/**
 	 * Write Downloaded file
 	 * @param object $download
-	 * @return string $target
+	 * @param string $target
 	 * @return int
 	 */
 	public function writeDownloadToFile($download, $target){

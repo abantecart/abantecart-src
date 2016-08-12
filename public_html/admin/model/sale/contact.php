@@ -272,9 +272,9 @@ class ModelSaleContact extends Model {
 		return array($phones, $subscribers);
 	}
 
-
 	/**
 	 * function filters customers list by unique email, to prevent duplicate emails
+	 * @param string $field_name
 	 * @param array $list
 	 * @return array|bool
 	 */

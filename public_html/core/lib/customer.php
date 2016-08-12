@@ -424,6 +424,10 @@ final class ACustomer{
 	/**
 	 * @deprecated
 	 * @since 1.2.7
+	 * @param array $data_array
+	 * @param string $format
+	 * @param array $locate
+	 * @return string
 	 */
 	public function getFormatedAdress($data_array, $format = '', $locate = array ()){
 		return $this->getFormattedAddress($data_array, $format, $locate);

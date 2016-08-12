@@ -666,6 +666,8 @@ final class AConnect{
 
 	/**
 	 * getter
+	 * @param string $key
+	 * @return mixed
 	 */
 	public function __get($key){
 		return $this->registry->get($key);

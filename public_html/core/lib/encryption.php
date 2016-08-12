@@ -58,7 +58,7 @@ final class AEncryption{
 
 	/**
 	 * Decode function
-	 * @param string $string
+	 * @param string $enc_str
 	 * @return string
 	 */
 	function decrypt($enc_str){
@@ -559,6 +559,9 @@ final class ADataEncryption{
 	/**
 	 * @deprecated
 	 * @since 1.2.7
+	 * @param $table
+	 * @param $fields
+	 * @return null
 	 */
 	public function addEcryptedFields($table, $fields){
 		return $this->addEncryptedFields($table, $fields);

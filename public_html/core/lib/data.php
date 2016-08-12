@@ -988,7 +988,7 @@ final class AData{
 	/**
 	 * Process resource library insert
 	 * @param array $table_cfg
-	 * @param array $data_row
+	 * @param array $data
 	 * @param array $parent_vals
 	 * @return array
 	 */

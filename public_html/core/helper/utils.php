@@ -1141,10 +1141,11 @@ function get_image_size($filename){
 /**
  * Function to resize image if needed and put to new location
  * NOTE: Resource Library handles resize by itself
- * @param $orig_image (full path)
- * @param $new_image (relative path start from DIR_IMAGE)
- * @param $width
- * @param $height
+ * @param string $orig_image (full path)
+ * @param string $new_image (relative path start from DIR_IMAGE)
+ * @param int $width
+ * @param int $height
+ * @param int $quality
  * @return string / path to new image
  */
 function check_resize_image($orig_image, $new_image, $width, $height, $quality) {
