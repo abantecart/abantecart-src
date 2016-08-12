@@ -135,12 +135,17 @@ class AHtml extends AController{
 	 * Note: Non secure URL is base on store_url setting. If this setting is using https URL, all URLs will be secure
 	 */
 	public function getHomeURL(){
-		//get config_url first 
-		$home_url = $this->registry->get('config')->get('config_url');
-		if (!$home_url){
-			$home_url = defined('HTTP_SERVER') ? HTTP_SERVER : 'http://' . REAL_HOST . get_url_path($_SERVER['PHP_SELF']);
+		//for embed mode get home link with getURL
+		if ($this->registry->get('config')->get('embed_mode') == true){
+			return $this->getURL('index/home'); 
+		} else {	
+			//get config_url first 
+			$home_url = $this->registry->get('config')->get('config_url');
+			if (!$home_url){
+				$home_url = defined('HTTP_SERVER') ? HTTP_SERVER : 'http://' . REAL_HOST . get_url_path($_SERVER['PHP_SELF']);
+			}
+			return $home_url;	
 		}
-		return $home_url;
 	}
 
 	/**
