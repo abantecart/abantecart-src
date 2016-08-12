@@ -20,7 +20,6 @@
 if (!defined('DIR_CORE')){
 	header('Location: static_pages/');
 }
-
 /**
  * @property  AExtensionManager $extension_manager
  * @property  AMessage $messages
@@ -504,9 +503,15 @@ class APackageManager{
 
 		// if destination folder does not exists - try to create
 		if (@ftp_chdir($fconnect, $remote_dir) === false){
-			$result = ftp_mkdir($fconnect, $remote_dir);
+			$basedir = $this->session->data['package_info']['ftp_path'];
+			//relative subdirs
+			$sub_dirs = str_replace($basedir, '', $remote_dir);
+			if(substr($sub_dirs, 0,1)=='/'){
+				$sub_dirs = substr($sub_dirs, 1);
+			}
+			$result = $this->ftp_mksubdirs($fconnect, $basedir, $sub_dirs);
 			if (!$result){
-				$this->error .= "\nCannot to create directory " . $remote_dir . " via ftp.";
+				$this->error .= "\nCannot to create directory " . $remote_dir . " via ftp. ";
 				return false;
 			}
 			if (!ftp_chmod($fconnect, 0755, $remote_dir)){
@@ -529,6 +534,28 @@ class APackageManager{
 			if (!$chmod_result){
 				$error = new AError('Cannot to change mode for file ' . $remote_file);
 				$error->toLog()->toDebug();
+			}
+		}
+		return true;
+	}
+
+	/**
+	 * @param $fconnect
+	 * @param $ftpbasedir
+	 * @param $ftpath
+	 * @return bool
+	 */
+	private function ftp_mksubdirs($fconnect, $ftpbasedir, $ftpath){
+		@ftp_chdir($fconnect, $ftpbasedir); // /var/www/uploads
+		$parts = explode('/', $ftpath); // 2013/06/11/username
+		foreach ($parts as $part){
+			if (!@ftp_chdir($fconnect, $part)){
+				ftp_mkdir($fconnect, $part);
+				$result = ftp_chdir($fconnect, $part);
+				if(!$result){
+					return false;
+				}
+				ftp_chmod($fconnect, 0755, $part);
 			}
 		}
 		return true;
