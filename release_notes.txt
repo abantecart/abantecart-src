@@ -1,3 +1,85 @@
+AbanteCart version 1.2.8
+
+New Features and improvements highlight:
+- Improved password encryption and simplified process of password reset. 
+- Usability improvement in admin with quick data access    
+- Cleaning for install/upgrade history
+- Customers' analytics provided by NeoWize  
+- General performance, user and customer experiences improvements
+
+Core:
+- added force mode for getting extensions list
+- changed message in case unable to connect to database
+- controllers chain-calls fix. 
+- listing_grid/product minor changes
+- Changes related to viewport (page-response for modal view)
+- AResources optimization and speedup
+- ALanguage optimization and speedup
+- ahtml and arescource improvements
+- Amessage minor change
+- AConfig fix
+- XSS fix and changes of ARequest. Added xss_clean method.
+- fix related to ssl-mode
+- AImage minor improvement
+- fix of settings in multi-store
+- sql fix of AResource
+- AConfig fix
+- refactoring of AHtml class
+- Password security update and reset process improvement.
+- Rare case rounding issue fix
+
+Admin:
+- product_option page. fix related to rl-images for option values when all rows expanded
+- user edit form improvement.
+- upgrade now button on extension edit page
+- cleanup of sale/order page controller
+- extension store fix related to non-connected store and loggedin customer on MP-side
+- added cleaning of install/upgrade history into cache management and history page
+- clean of response controller of extensions store + changed upgrade button on ext.page
+- added error reporting to AResource
+- minor changes related to warnings in log
+- added error logging into image model
+- menu items sorting fix
+- model sale/customer improvement
+- css fix of delete confirmation popover
+- mp_api model revert
+- code improvements related to subsql_filter
+- Marketplace product listing and purchase improvment
+- added hook_var into product summary tpl
+- Enable import/export controller to be hook-able.
+- Filtering data for encrypted params.
+
+Storefront:
+- css fix for additional images on product page.
+- sql fix of saving order data of IM related to guest checkout
+- Added redirect from non-secure login page to secure when ssl is on
+- added link to newly created order invoice on success page
+- model checkout order improvement
+- account/downloads pagination fix
+- added hook call into seo_url common controller
+- Fix for current page pagination click
+- API thumbnail fix from ravdeepsingh22
+- Fix for options selection and images load
+- HTTP and HTTPS links improvements
+- Storefront header controller cleanup, removal of backwards compatibility prior to 1.2
+- Account creation, preselect if only one country
+- New getHomeURL() method for storefront
+
+install: 
+- db-changes related to longtext instead text column type
+- added constant SERVER_NAME (needed for scheduled tasks that will be run by cron)
+- Discontinue global SALT usage 
+- Fix in upgrade process to handle new empty directories. 
+
+Extensions:
+- neowize_insights analytics
+
+Various bug fixes and improvements
+
+
+------------------------------------------------------------
+
+
 AbanteCart version 1.2.7
 
 Release includes new caching system, substantial performance boost and some features
