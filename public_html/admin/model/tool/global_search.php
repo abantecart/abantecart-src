@@ -141,7 +141,13 @@ class ModelToolGlobalSearch extends Model {
 	 * @return int
 	 */
 	public function getTotal($search_category, $keyword) {
+
+		// two variants of needles for search: with and without html-entities
 		$needle = $this->db->escape(mb_strtolower(htmlentities($keyword, ENT_QUOTES)));
+		$needle2 = $this->db->escape(mb_strtolower($keyword));
+
+		$language_id = (int)$this->config->get('storefront_language_id');
+
 		$all_languages = $this->language->getActiveLanguages();
 		$current_store_id = !isset($this->session->data['current_store_id']) ? 0 : $this->session->data['current_store_id'];
 		$search_languages = array();
@@ -156,8 +162,8 @@ class ModelToolGlobalSearch extends Model {
 			case 'product_categories' :
 				$sql = "SELECT count(*) as total
 						FROM " . $this->db->table("category_descriptions") . " c 
-						WHERE (LOWER(c.name) like '%" . $needle . "%' OR LOWER(c.meta_keywords) like '%" . $needle . "%' 
-								OR LOWER(c.meta_description) like '%" . $needle . "%'	OR LOWER(c.description) like '%" . $needle . "%')
+						WHERE (LOWER(c.name) like '%" . $needle . "%'
+								OR LOWER(c.name) like '%" . $needle2 . "%' )
 						AND c.language_id IN (" . (implode(",", $search_languages)) . ");";
 				$result = $this->db->query($sql);
 				$output = $result->row ['total'];
@@ -166,11 +172,13 @@ class ModelToolGlobalSearch extends Model {
 			case 'languages' :
 				$sql = "SELECT count(*) as total
 						FROM " . $this->db->table("language_definitions") . " l						
-						WHERE (LOWER(l.language_value) like '%" . $needle . "%' OR LOWER(l.language_key) like '%" . $needle . "%')
+						WHERE (LOWER(l.language_value) like '%" . $needle . "%'
+								OR LOWER(l.language_value) like '%" . $needle2 . "%'
+								OR LOWER(l.language_key) like '%" . $needle . "%'
+								OR LOWER(l.language_key) like '%" . str_replace(' ','_',$needle) . "%' )
 							AND l.language_id IN (" . implode(",", $search_languages) . ")";
 				$result = $this->db->query($sql);
 				$output = $result->row ['total'];
-
 				break;
 
 			case 'products' :
@@ -178,27 +186,26 @@ class ModelToolGlobalSearch extends Model {
 						FROM " . $this->db->table("products") . " a
 						LEFT JOIN " . $this->db->table("product_descriptions") . " b 
 							ON (b.product_id = a.product_id AND b.language_id IN (" . (implode(",", $search_languages)) . "))
-						WHERE LOWER(a.model) like '%" . $needle . "%'
+						WHERE LOWER(a.model) like '%" . $needle . "%' OR LOWER(a.model) like '%" . $needle2 . "%'
 						UNION
 						SELECT product_id
-						FROM " . $this->db->table("product_descriptions") . " 
-						WHERE ( ( LOWER(name) like '%" . $needle . "%' )
-								OR ( LOWER(meta_keywords) like '%" . $needle . "%' )
-								OR ( LOWER(meta_description) like '%" . $needle . "%' )
-								OR ( LOWER(description) like '%" . $needle . "%' ))
-							AND language_id	IN (" . (implode(",", $search_languages)) . ")
+						FROM " . $this->db->table("product_descriptions") . " pd1
+						WHERE ( LOWER(pd1.name) like '%" . $needle . "%' OR LOWER(pd1.name) like '%" . $needle2 . "%' )
+							AND pd1.language_id	IN (" . (implode(",", $search_languages)) . ")
 						UNION					
 						SELECT DISTINCT a.product_id
 						FROM " . $this->db->table("product_option_value_descriptions") . " a
 						LEFT JOIN " . $this->db->table("product_descriptions") . " b 
 							ON (b.product_id = a.product_id AND b.language_id	IN (" . (implode(",", $search_languages)) . "))
-						WHERE LOWER(a.name) like '%" . $needle . "%' AND a.language_id IN (" . (implode(",", $search_languages)) . ")
+						WHERE ( LOWER(a.name) like '%" . $needle . "%' OR LOWER(a.name) like '%" . $needle2 . "%' )
+							AND a.language_id IN (" . (implode(",", $search_languages)) . ")
 						UNION 						
 						SELECT DISTINCT a.product_id
 						FROM " . $this->db->table("product_tags") . " a
 						LEFT JOIN " . $this->db->table("product_descriptions") . " b 
 							ON (b.product_id = a.product_id AND b.language_id	IN (" . (implode(",", $search_languages)) . "))
-						WHERE LOWER(a.tag) like '%" . $needle . "%' AND a.language_id = " . ( int )$this->config->get('storefront_language_id');
+						WHERE ( LOWER(a.tag) like '%" . $needle . "%' OR LOWER(a.tag) like '%" . $needle2 . "%' )
+							AND a.language_id = " . $language_id;
 
 				$result = $this->db->query($sql);
 				if ($result->num_rows) {
@@ -212,7 +219,8 @@ class ModelToolGlobalSearch extends Model {
 			case 'reviews' :
 				$sql = "SELECT DISTINCT product_id
 						FROM " . $this->db->table("reviews") . " r
-						WHERE (LOWER(`text`) like '%" . $needle . "%')  OR (LOWER(r.`author`) LIKE '%" . $needle . "%') ";
+						WHERE (LOWER(`text`) like '%" . $needle . "%')
+								OR (LOWER(r.`author`) LIKE '%" . $needle . "%') ";
 
 				$result = $this->db->query($sql);
 				if ($result->num_rows) {
@@ -238,34 +246,13 @@ class ModelToolGlobalSearch extends Model {
 						WHERE ((LOWER(invoice_prefix) like '%" . $needle . "%')
 							OR (LOWER(firstname) like '%" . $needle . "%')
 							OR (LOWER(lastname) like '%" . $needle . "%')
-							OR (LOWER(telephone) like '%" . $needle . "%')
-							OR (LOWER(fax) like '%" . $needle . "%')
-							OR (LOWER(email) like '%" . $needle . "%')
-							OR (LOWER(shipping_firstname) like '%" . $needle . "%')
-							OR (LOWER(shipping_lastname) like '%" . $needle . "%')
-							OR (LOWER(shipping_firstname) like '%" . $needle . "%')
-							OR (LOWER(shipping_company) like '%" . $needle . "%')
+							OR (LOWER(email) like '" . $needle . "%')
 							OR (LOWER(shipping_address_1) like '%" . $needle . "%')
 							OR (LOWER(shipping_address_2) like '%" . $needle . "%')
-							OR (LOWER(shipping_city) like '%" . $needle . "%')
-							OR (LOWER(shipping_postcode) like '%" . $needle . "%')
-							OR (LOWER(shipping_zone) like '%" . $needle . "%')
-							OR (LOWER(shipping_country) like '%" . $needle . "%')
-							OR (LOWER(shipping_method) like '%" . $needle . "%')
-							OR (LOWER(payment_firstname) like '%" . $needle . "%')
-							OR (LOWER(payment_lastname) like '%" . $needle . "%')
-							OR (LOWER(payment_firstname) like '%" . $needle . "%')
-							OR (LOWER(payment_company) like '%" . $needle . "%')
 							OR (LOWER(payment_address_1) like '%" . $needle . "%')
 							OR (LOWER(payment_address_2) like '%" . $needle . "%')
-							OR (LOWER(payment_city) like '%" . $needle . "%')
-							OR (LOWER(payment_postcode) like '%" . $needle . "%')
-							OR (LOWER(payment_zone) like '%" . $needle . "%')
-							OR (LOWER(payment_country) like '%" . $needle . "%')
-							OR (LOWER(payment_method) like '%" . $needle . "%')
-							OR (LOWER(comment) like '%" . $needle . "%')
 							)
-						AND language_id = " . ( int )$this->config->get('storefront_language_id');
+						AND language_id = " . $language_id;
 				$result = $this->db->query($sql);
 				$output = $result->row ['total'];
 
@@ -275,10 +262,7 @@ class ModelToolGlobalSearch extends Model {
 						FROM " . $this->db->table("customers") . " 
 						WHERE ((LOWER(firstname) like '%" . $needle . "%')
 							OR (LOWER(lastname) like '%" . $needle . "%')
-							OR (LOWER(telephone) like '%" . $needle . "%')
-							OR (LOWER(fax) like '%" . $needle . "%')
 							OR (LOWER(email) like '%" . $needle . "%')
-							OR (LOWER(cart) like '%" . $needle . "%')
 							)";
 
 				$result = $this->db->query($sql);
@@ -290,14 +274,10 @@ class ModelToolGlobalSearch extends Model {
 						FROM " . $this->db->table("pages") . " p 
 						LEFT JOIN " . $this->db->table("page_descriptions") . " b 
 							ON (p.page_id = b.page_id AND b.language_id	IN (" . (implode(",", $search_languages)) . "))
-						WHERE ((LOWER(p.key_param) like '%" . $needle . "%')
-							OR (LOWER(p.key_value) like '%" . $needle . "%')
-							OR (LOWER(b.name) like '%" . $needle . "%')
+						WHERE
+							((LOWER(b.name) like '%" . $needle . "%')
 							OR (LOWER(b.title) like '%" . $needle . "%')
-							OR (LOWER(b.keywords) like '%" . $needle . "%')
-							OR (LOWER(b.description) like '%" . $needle . "%')
-							OR (LOWER(b.content) like '%" . $needle . "%')
-							)";
+							OR (LOWER(b.keywords) like '%" . $needle . "%'))";
 				$result = $this->db->query($sql);
 				$output = $result->row ['total'];
 				break;
@@ -320,10 +300,11 @@ class ModelToolGlobalSearch extends Model {
 								OR LOWER(l.language_value) like '%" . $needle . "%'
 								OR LOWER(l.language_key) like '%" . $needle . "%' )
 							AND block='setting_setting'
-							AND l.language_id ='".( int )$this->config->get('storefront_language_id')."'
+							AND l.language_id ='".$language_id."'
 							AND s.`store_id` ='".( int )$current_store_id."'
 							AND setting_id>0";
 				$result = $this->db->query($sql);
+				$output = 0;
 				foreach($result->rows as $row){
 					$output += (int)$row['total'];
 				}
@@ -368,29 +349,26 @@ class ModelToolGlobalSearch extends Model {
 	 */
 	public function getResult($search_category, $keyword, $mode = 'listing') {
 
+		$language_id = (int)$this->config->get('storefront_language_id');
+
 		// two variants of needles for search: with and without html-entities
 		$needle = $this->db->escape(mb_strtolower(htmlentities($keyword, ENT_QUOTES)));
 		$needle2 = $this->db->escape(mb_strtolower($keyword));
-		if(is_int(strpos($needle,' '))){
-			$needle3 = str_replace(' ','_', $needle);
-		}else{
-			$needle3 = '';
-		}
 
+		$page = (int)$this->request->get_or_post('page');
+		$rows = (int)$this->request->get_or_post('rows');
 
-		if (isset($this->request->get ['page'])) {
-			$offset = (( int )$this->request->get ['page'] - 1) * ( int )$this->request->get ['rows'];
-			$rows_count = ( int )$this->request->get ['rows'];
-		} elseif (isset($this->request->post ['page'])) {
-			$offset = (( int )$this->request->post ['page'] - 1) * ( int )$this->request->post ['rows'];
-			$rows_count = ( int )$this->request->post ['rows'];
+		if ($page) {
+			$page = !$page ? 1 : $page;
+			$offset = ($page - 1) * $rows;
+			$rows_count = $rows;
 		} else {
 			$offset = 0;
 			$rows_count = $mode == 'listing' ? 10 : 3;
 		}
 
 		$all_languages = $this->language->getActiveLanguages();
-		$current_store_id = !isset($this->session->data['current_store_id']) ? 0 : $this->session->data['current_store_id'];
+		$current_store_id = (int)$this->session->data['current_store_id'];
 		$search_languages = array();
 		foreach($all_languages as $l){
 			$search_languages[] = (int)$l['language_id'];
@@ -402,18 +380,17 @@ class ModelToolGlobalSearch extends Model {
 				break;
 
 			case 'product_categories' :
-				$sql = "SELECT c.category_id, c.name as title, c.name as text, c.meta_keywords as text2, c.meta_description as text3, c.description as text4
+				$sql = "SELECT
+							c.category_id,
+							c.name as title,
+							c.name as text,
+							c.meta_keywords as text2,
+							c.meta_description as text3,
+							c.description as text4
 						FROM " . $this->db->table("category_descriptions") . " c 
 						WHERE (LOWER(c.name) like '%" . $needle . "%'
-								OR LOWER(c.meta_keywords) like '%" . $needle . "%'
-								OR LOWER(c.meta_description) like '%" . $needle . "%'
-								OR LOWER(c.description) like '%" . $needle . "%'
-								OR LOWER(c.name) like '%" . $needle2 . "%'
-								OR LOWER(c.meta_keywords) like '%" . $needle2 . "%'
-								OR LOWER(c.meta_description) like '%" . $needle2 . "%'
-								OR LOWER(c.description) like '%" . $needle2 . "%'
-								)
-						AND c.language_id IN (" . (implode(",", $search_languages)) . ")
+								OR LOWER(c.name) like '%" . $needle2 . "%' )
+							AND c.language_id IN (" . (implode(",", $search_languages)) . ")
 						LIMIT " . $offset . "," . $rows_count;
 				$result = $this->db->query($sql);
 				$result = $result->rows;
@@ -422,14 +399,12 @@ class ModelToolGlobalSearch extends Model {
 			case 'languages' :
 				$sql = "SELECT l.language_definition_id, l.language_key as title, CONCAT_WS('  ',l.language_key,l.language_value) as text, language_id
 						FROM " . $this->db->table("language_definitions") . " l						
-						WHERE (LOWER(l.language_value) like '%" . $needle . "%'
-									OR LOWER(l.language_value) like '%" . $needle2 . "%'
-									OR LOWER(l.language_key) like '%" . $needle . "%'
-									OR LOWER(l.language_key) like '%" . str_replace(' ','_',$needle) . "%'
-									)
+						WHERE ( LOWER(l.language_value) like '%" . $needle . "%'
+								OR LOWER(l.language_value) like '%" . $needle2 . "%'
+								OR l.language_key like '%" . str_replace(' ','_',$needle) . "%'
+						)
 							AND l.language_id IN (" . (implode(",", $search_languages)) . ")
 						LIMIT " . $offset . "," . $rows_count;
-
 				$result = $this->db->query($sql);
 				$result = $result->rows;
 				break;
@@ -440,44 +415,58 @@ class ModelToolGlobalSearch extends Model {
 						FROM " . $this->db->table("products") . " a
 						LEFT JOIN " . $this->db->table("product_descriptions") . " b 
 							ON (b.product_id = a.product_id AND b.language_id	IN (" . (implode(",", $search_languages)) . "))
-						WHERE LOWER(a.model) like '%" . $needle . "%' OR LOWER(a.model) like '%" . $needle2 . "%'
-						
+						WHERE LOWER(a.model) like '%" . $needle . "%'
+						";
+				if($needle != $needle2){
+					$sql .= " OR LOWER(a.model) like '%" . $needle2 . "%' ";
+				}
+				$sql .= "
 						UNION
-						
 						SELECT pd1.product_id, pd1.name as title, pd1.name as text
 						FROM " . $this->db->table("product_descriptions") . " pd1
-						WHERE ( LOWER(pd1.name) like '%" . $needle . "%' OR LOWER(pd1.name) like '%" . $needle2 . "%' ) AND pd1.language_id IN (" . (implode(",", $search_languages)) . ")
+						WHERE ( LOWER(pd1.name) like '%" . $needle . "%'
+						";
+				if($needle != $needle2){
+					$sql .= " OR LOWER(pd1.name) like '%" . $needle2 . "%' ";
+				}
+				$sql .= " )
+							AND pd1.language_id IN (" . (implode(",", $search_languages)) . ")
 						UNION
-						 						
-						SELECT pd2.product_id, pd2.name as title, pd2.meta_keywords as text
-						FROM " . $this->db->table("product_descriptions") . " pd2
-						WHERE ( LOWER(pd2.meta_keywords) like '%" . $needle . "%' OR LOWER(pd2.meta_keywords) like '%" . $needle2 . "%' ) AND pd2.language_id IN (" . (implode(",", $search_languages)) . ")
-						UNION 						
-						SELECT pd3.product_id, pd3.name as title, pd3.meta_description as text
-						FROM " . $this->db->table("product_descriptions") . " pd3
-						WHERE ( LOWER(pd3.meta_description) like '%" . $needle . "%' OR LOWER(pd3.meta_description) like '%" . $needle2 . "%')  AND pd3.language_id IN (" . (implode(",", $search_languages)) . ")
-						UNION 						
-						SELECT pd4.product_id, pd4.name as title, pd4.description as text
-						FROM " . $this->db->table("product_descriptions") . " pd4
-						WHERE ( LOWER(pd4.description) like '%" . $needle . "%' OR LOWER(pd4.description) like '%" . $needle2 . "%') AND pd4.language_id IN (" . (implode(",", $search_languages)) . ")
-						UNION 						
 						SELECT a.product_id, b.name as title, a.name as text
 						FROM " . $this->db->table("product_option_descriptions") . " a
 						LEFT JOIN " . $this->db->table("product_descriptions") . " b 
 							ON (b.product_id = a.product_id AND b.language_id	IN (" . (implode(",", $search_languages)) . "))
-						WHERE ( LOWER(a.name) like '%" . $needle . "%' OR LOWER(a.name) like '%" . $needle2 . "%' ) AND a.language_id IN (" . (implode(",", $search_languages)) . ")
-						UNION 						
+						WHERE ( LOWER(a.name) like '%" . $needle . "%'
+						";
+				if($needle != $needle2){
+					$sql .= " OR LOWER(a.name) like '%" . $needle2 . "%' ";
+				}
+				$sql .= ")
+							AND a.language_id IN (" . (implode(",", $search_languages)) . ")
+						UNION
 						SELECT a.product_id, b.name as title, a.name as text
 						FROM " . $this->db->table("product_option_value_descriptions") . " a
-						LEFT JOIN " . $this->db->table("product_descriptions") . " b 
+						LEFT JOIN " . $this->db->table("product_descriptions") . " b
 							ON (b.product_id = a.product_id AND b.language_id	IN (" . (implode(",", $search_languages)) . "))
-						WHERE ( LOWER(a.name) like '%" . $needle . "%' OR LOWER(a.name) like '%" . $needle2 . "%' ) AND a.language_id IN (" . (implode(",", $search_languages)) . ")
-						UNION 						
+						WHERE ( LOWER(a.name) like '%" . $needle . "%'
+						";
+				if($needle != $needle2){
+					$sql .= " OR LOWER(a.name) like '%" . $needle2 . "%' ";
+				}
+				$sql .= " )
+							AND a.language_id IN (" . (implode(",", $search_languages)) . ")
+						UNION
 						SELECT a.product_id, b.name as title, a.tag as text
 						FROM " . $this->db->table("product_tags") . " a
 						LEFT JOIN " . $this->db->table("product_descriptions") . " b 
 							ON (b.product_id = a.product_id AND b.language_id	IN (" . (implode(",", $search_languages)) . "))
-						WHERE ( LOWER(a.tag) like '%" . $needle . "%' OR LOWER(a.tag) like '%" . $needle2 . "%' ) AND a.language_id IN (" . (implode(",", $search_languages)) . ")
+						WHERE ( a.tag like '" . $needle . "%'
+						";
+				if($needle != $needle2){
+					$sql .= " OR a.tag like '" . $needle2 . "%' ";
+				}
+				$sql .= " )
+							AND a.language_id IN (" . (implode(",", $search_languages)) . ")
 						LIMIT " . $offset . "," . $rows_count;
 
 				$result = $this->db->query($sql);
@@ -497,9 +486,14 @@ class ModelToolGlobalSearch extends Model {
 						FROM " . $this->db->table("reviews") . " r
 						LEFT JOIN " . $this->db->table("product_descriptions") . " pd
 							ON (pd.product_id = r.product_id AND pd.language_id	IN (" . (implode(",", $search_languages)) . "))
-						WHERE ( LOWER(r.`text`) LIKE '%" . $needle . "%') OR (LOWER(r.`author`) LIKE '%" . $needle . "%' OR LOWER(r.`text`) LIKE '%" . $needle2 . "%') OR (LOWER(r.`author`) LIKE '%" . $needle2 . "%' )
-						LIMIT " . $offset . "," . $rows_count;
-
+						WHERE ( LOWER(r.`text`) LIKE '%" . $needle . "%'
+								OR LOWER(r.`author`) LIKE '%" . $needle . "%'
+						";
+				if($needle != $needle2){
+					$sql .= " OR LOWER(r.`text`) LIKE '%" . $needle2 . "%'
+							  OR LOWER(r.`author`) LIKE '%" . $needle2 . "%' ";
+				}
+				$sql .= ") LIMIT " . $offset . "," . $rows_count;
 				$result = $this->db->query($sql);
 				$result = $result->rows;
 				break;
@@ -508,65 +502,35 @@ class ModelToolGlobalSearch extends Model {
 						FROM " . $this->db->table("manufacturers") . " 
 						WHERE (LOWER(name) like '%" . $needle . "%' OR LOWER(name) like '%" . $needle2 . "%' )
 						LIMIT " . $offset . "," . $rows_count;
-
 				$result = $this->db->query($sql);
 				$result = $result->rows;
 				break;
 			case "orders" :
 				$sql = "SELECT order_id, CONCAT('order #', order_id) as title,
-							CONCAT(invoice_prefix,' ',firstname,' ',lastname,' ',telephone,' ',fax,' ',email,' ',shipping_firstname,' ',shipping_lastname,' ',shipping_firstname,' ',
-							shipping_company,' ',shipping_address_1,' ',shipping_address_2,' ',shipping_city,' ',shipping_postcode,' ', shipping_zone,' ',shipping_country,' ',
-							shipping_method,' ',payment_firstname,' ',payment_lastname,' ',payment_firstname,' ',payment_company,' ',payment_address_1,' ',payment_address_2,' ',
-							payment_city,' ',payment_postcode,' ',payment_zone,' ',payment_country,' ',payment_method,' ',comment)  as text 
+							CONCAT(invoice_prefix,' ',firstname,' ',lastname,' ',email)  as text
 						FROM " . $this->db->table("orders") . " 
 						WHERE ((LOWER(invoice_prefix) like '%" . $needle . "%')
 							OR (LOWER(firstname) like '%" . $needle . "%')
 							OR (LOWER(lastname) like '%" . $needle . "%')
-							OR (LOWER(telephone) like '%" . $needle . "%')
-							OR (LOWER(fax) like '%" . $needle . "%')
 							OR (LOWER(email) like '%" . $needle . "%')
-							OR (LOWER(shipping_firstname) like '%" . $needle . "%')
-							OR (LOWER(shipping_lastname) like '%" . $needle . "%')
-							OR (LOWER(shipping_firstname) like '%" . $needle . "%')
-							OR (LOWER(shipping_company) like '%" . $needle . "%')
 							OR (LOWER(shipping_address_1) like '%" . $needle . "%')
 							OR (LOWER(shipping_address_2) like '%" . $needle . "%')
-							OR (LOWER(shipping_city) like '%" . $needle . "%')
-							OR (LOWER(shipping_postcode) like '%" . $needle . "%')
-							OR (LOWER(shipping_zone) like '%" . $needle . "%')
-							OR (LOWER(shipping_country) like '%" . $needle . "%')
-							OR (LOWER(shipping_method) like '%" . $needle . "%')
-							OR (LOWER(payment_firstname) like '%" . $needle . "%')
-							OR (LOWER(payment_lastname) like '%" . $needle . "%')
-							OR (LOWER(payment_firstname) like '%" . $needle . "%')
-							OR (LOWER(payment_company) like '%" . $needle . "%')
 							OR (LOWER(payment_address_1) like '%" . $needle . "%')
 							OR (LOWER(payment_address_2) like '%" . $needle . "%')
-							OR (LOWER(payment_city) like '%" . $needle . "%')
-							OR (LOWER(payment_postcode) like '%" . $needle . "%')
-							OR (LOWER(payment_zone) like '%" . $needle . "%')
-							OR (LOWER(payment_country) like '%" . $needle . "%')
-							OR (LOWER(payment_method) like '%" . $needle . "%')
-							OR (LOWER(comment) like '%" . $needle . "%')
 							)
-						AND language_id = " . ( int )$this->config->get('storefront_language_id') . "
+						AND language_id = " . $language_id . "
 						LIMIT " . $offset . "," . $rows_count;
-
 				$result = $this->db->query($sql);
 				$result = $result->rows;
 				break;
 
 			case "customers" :
 				$sql = "SELECT customer_id, CONCAT('" . ($mode == 'listing' ? "customer: " : "") . "', firstname,' ',lastname) as title,
-							CONCAT(firstname,' ',lastname,' ',telephone,' ',fax,' ',email,' ',cart)  as text 
+							CONCAT(firstname,' ',lastname,' ',email)  as text
 						FROM " . $this->db->table("customers") . " 
 						WHERE ((LOWER(firstname) like '%" . $needle . "%')
 							OR (LOWER(lastname) like '%" . $needle . "%')
-							OR (LOWER(telephone) like '%" . $needle . "%')
-							OR (LOWER(fax) like '%" . $needle . "%')
-							OR (LOWER(email) like '%" . $needle . "%')
-							OR (LOWER(cart) like '%" . $needle . "%')
-							)
+							OR (LOWER(email) like '%" . $needle . "%')	)
 						LIMIT " . $offset . "," . $rows_count;
 				$result = $this->db->query($sql);
 				$result = $result->rows;
@@ -574,7 +538,7 @@ class ModelToolGlobalSearch extends Model {
 			case "pages" :
 				$sql = "SELECT p.page_id,
 								b.name as title,
-								CONCAT(p.key_param, ' ',p.key_value, ' ', b.name, ' ',b.title, ' ',b.keywords, ' ',b.description, ' ',b.content) as text,
+								CONCAT(b.name, ' ',b.title, ' ',b.keywords) as text,
 								pl.layout_id, l.template_id as tmpl_id
 						FROM " . $this->db->table("pages") . " p 
 						LEFT JOIN " . $this->db->table("page_descriptions") . " b 
@@ -586,14 +550,9 @@ class ModelToolGlobalSearch extends Model {
 						 	                         WHERE template_id = '" . $this->config->get('config_storefront_template') . "'
 						 	                                AND layout_type='1'))
 						LEFT JOIN " . $this->db->table("layouts") . " l ON  l.layout_id = pl.layout_id
-						WHERE ((LOWER(p.key_param) like '%" . $needle . "%')
-							OR (LOWER(p.key_value) like '%" . $needle . "%')
-							OR (LOWER(b.name) like '%" . $needle . "%')
+						WHERE (LOWER(b.name) like '%" . $needle . "%')
 							OR (LOWER(b.title) like '%" . $needle . "%')
 							OR (LOWER(b.keywords) like '%" . $needle . "%')
-							OR (LOWER(b.description) like '%" . $needle . "%')
-							OR (LOWER(b.content) like '%" . $needle . "%')
-							)
 						LIMIT " . $offset . "," . $rows_count;
 
 				$result = $this->db->query($sql);
@@ -612,12 +571,15 @@ class ModelToolGlobalSearch extends Model {
 						LEFT JOIN " . $this->db->table("extensions") . " e ON s.`group` = e.`key`
 						LEFT JOIN " . $this->db->table("language_definitions") . " l
 										ON l.language_key like CONCAT(s.`key`,'%')
-						WHERE (LOWER(`value`) like '%" . $needle . "%'
-								OR LOWER(`value`) like '%" . $needle2 . "%'
-								OR LOWER(s.`key`) like '%" . $needle . "%'
-								OR LOWER(s.`key`) like '%" . str_replace(' ','_',$needle) . "%'
-								OR LOWER(`value`) like '%" . str_replace(' ','_',$needle) . "%'
-								) AND s.`key` NOT IN ('encryption_key')
+						WHERE (LOWER(s.`value`) like '%" . $needle . "%'
+								OR s.`key` like '%" . str_replace(' ','_',$needle) . "%' ";
+
+				if($needle != $needle2){
+					$sql .= "	OR LOWER(s.`value`) like '%" . $needle2 . "%'
+								OR s.`key` like '%" . str_replace(' ','_',$needle) . "%' ";
+				}
+
+				$sql .= " ) AND s.`key` NOT IN ('encryption_key')
 							AND s.`store_id` ='".( int )$current_store_id."'
 						UNION
 						SELECT s.setting_id,
@@ -626,18 +588,23 @@ class ModelToolGlobalSearch extends Model {
 								CONCAT(`group`,' -> ',COALESCE( l.language_value,s.`key` )) as title,
 						CONCAT_WS(' >> ',l.language_value) as text, '', 'core'
 						FROM " . $this->db->table("language_definitions") . " l
-						LEFT JOIN " . $this->db->table("settings") . " s ON l.language_key = CONCAT('entry_',REPLACE(s.`key`,'config_',''))
-						WHERE (LOWER(l.language_value) like '%" . $needle . "%'
-								OR LOWER(l.language_value) like '%" . $needle . "%'
-								OR LOWER(l.language_key) like '%" . $needle . "%'
-								OR LOWER(l.language_key) like '%" . str_replace(' ','_',$needle) . "%'
-								OR LOWER(l.language_value) like '%" . str_replace(' ','_',$needle) . "%'
-								)
-							AND block='setting_setting' AND l.language_id ='".( int )$this->config->get('storefront_language_id')."'
+						LEFT JOIN " . $this->db->table("settings") . " s
+							ON l.language_key = CONCAT('entry_',REPLACE(s.`key`,'config_',''))
+						WHERE ( LOWER(l.language_value) like '%" . $needle . "%'
+								OR l.language_key like '%" . str_replace(' ','_',$needle) . "%'
+							";
+
+				if($needle != $needle2){
+					$sql .= "   OR LOWER(l.language_value) like '%" . $needle2 . "%'
+								OR l.language_key like '%" . str_replace(' ','_',$needle2) . "%'
+							";
+				}
+
+				$sql .= " )
+							AND block='setting_setting' AND l.language_id ='".$language_id."'
 							AND s.`store_id` ='".( int )$current_store_id."'
 							AND setting_id>0
 						LIMIT " . $offset . "," . $rows_count;
-
 				$result = $this->db->query($sql);
 				$rows = $result->rows;
 				$result=array();
@@ -655,19 +622,22 @@ class ModelToolGlobalSearch extends Model {
 			case "messages" :
 				$sql = "SELECT DISTINCT msg_id, title as title, `message` as text
 						FROM " . $this->db->table("messages") . " 
-						WHERE ( LOWER(`title`) like '%" . $needle . "%' OR LOWER(`message`) like '%" . $needle . "%' OR LOWER(`title`) like '%" . $needle2 . "%' OR LOWER(`message`) like '%" . $needle2 . "%' )
+						WHERE ( LOWER(`title`) like '%" . $needle . "%'
+								OR LOWER(`message`) like '%" . $needle . "%'
+								OR LOWER(`title`) like '%" . $needle2 . "%'
+								OR LOWER(`message`) like '%" . $needle2 . "%' )
 						LIMIT " . $offset . "," . $rows_count;
-
 				$result = $this->db->query($sql);
 				$result = $result->rows;
 				break;
+
 			case "extensions" :
 				$sql = "SELECT DISTINCT `key` as extension, `key` as title, `key` as text
 						FROM " . $this->db->table("extensions") . " e						
 						WHERE ( LOWER(`key`) like '%" . $needle . "%'
-								OR LOWER(`key`) like '%" . str_replace(' ','_',$needle) . "%'	) AND `type` <> 'total'
+								OR LOWER(`key`) like '%" . str_replace(' ','_',$needle) . "%'	)
+									AND `type` <> 'total'
 						LIMIT " . $offset . "," . $rows_count;
-
 				$result = $this->db->query($sql);
 				$result = $result->rows;
 				break;
@@ -677,9 +647,7 @@ class ModelToolGlobalSearch extends Model {
 						FROM " . $this->db->table("downloads") . " d
 						LEFT JOIN " . $this->db->table("download_descriptions") . " dd
 							ON (d.download_id = dd.download_id AND dd.language_id IN (" . (implode(",", $search_languages)) . "))
-						WHERE ( LOWER(dd.name) like '%" . $needle . "%'
-								OR LOWER(dd.name) like '%" . $needle2 . "%'
-								OR LOWER(dd.name) like '%" . str_replace(' ','_',$needle) . "%' )
+						WHERE ( LOWER(dd.name) like '%" . $needle . "%' )
 						LIMIT " . $offset . "," . $rows_count;
 				$result = $this->db->query($sql);
 				$result = $result->rows;

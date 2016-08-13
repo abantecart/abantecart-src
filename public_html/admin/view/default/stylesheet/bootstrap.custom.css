@@ -772,6 +772,9 @@ h4, .h4 {
 .modal-dialog {
    border: 0;
 }
+.modal-dialog.modal-lg {
+   width: 1000px;
+}
 
 .modal-content {
    -moz-border-radius: 2px;
@@ -790,6 +793,11 @@ h4, .h4 {
 
 .modal-header .close {
    margin-top: 4px;
+}
+.modal-header a.btn {
+	float: right;
+	line-height: 1;	
+	margin: 4px 10px 0 5px;
 }
 
 .modal-backdrop.in {

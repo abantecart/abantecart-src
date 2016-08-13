@@ -64,4 +64,8 @@
 		<key>text_reached_limit</key>
 		<value><![CDATA[Limite raggiunto]]></value>
 	</definition>
+	<definition>
+		<key>error_download_not_exists</key>
+		<value><![CDATA[Il file richiesto non esiste!]]></value>
+	</definition>
 </definitions>

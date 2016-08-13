@@ -18,7 +18,9 @@ final class APDOMySQL{
 		try{
 			$this->connection = new PDO("mysql:host=" . $hostname . ";port=" . $port . ";dbname=" . $database, $username, $password, array (PDO::ATTR_PERSISTENT => true));
 		} catch(AException $e){
-			throw new AException(AC_ERR_MYSQL, 'Error: Could not make a database connection to database ' . $database . ' using ' . $username . '@' . $hostname);
+			$err = new AError('Cannot establish database connection to ' . $database.' using ' . $username . '@' . $hostname);
+			$err->toLog();
+            throw new AException(AC_ERR_MYSQL, 'Cannot establish database connection. Check your database setting in configuration file.');
 		}
 		$this->registry = Registry::getInstance();
 

@@ -35,6 +35,7 @@ class ModelSaleCustomer extends Model {
 			$data = $this->dcrypt->encrypt_data($data, 'customers');
 			$key_sql = ", key_id = '" . (int)$data['key_id'] . "'";
 		}
+		$salt_key = genToken(8);
       	$this->db->query("INSERT INTO " . $this->db->table("customers") . "
       	                SET loginname = '" . $this->db->escape($data['loginname']) . "',
       	                	firstname = '" . $this->db->escape($data['firstname']) . "',
@@ -44,7 +45,8 @@ class ModelSaleCustomer extends Model {
       	                    fax = '" . $this->db->escape($data['fax']) . "',
       	                    newsletter = '" . (int)$data['newsletter'] . "',
       	                    customer_group_id = '" . (int)$data['customer_group_id'] . "',
-      	                    password = '" . $this->db->escape(AEncryption::getHash($data['password'])) . "',
+							salt = '" . $this->db->escape($salt_key) . "', 
+							password = '" . $this->db->escape(sha1($salt_key.sha1($salt_key.sha1($data['password'])))) . "',
       	                    status = '" . (int)$data['status'] . "',
       	                    approved = '" . (int)$data['approved'] . "'"
       	                    .$key_sql . ",
@@ -119,8 +121,11 @@ class ModelSaleCustomer extends Model {
 						WHERE customer_id = '" . (int)$customer_id . "'");
 	
       	if ($data['password']) {
+	     	$salt_key = genToken(8);
         	$this->db->query("UPDATE " . $this->db->table("customers") . "
-        	                  SET password = '" . $this->db->escape(AEncryption::getHash($data['password'])) . "'
+      	                		SET
+									salt = '" . $this->db->escape($salt_key) . "', 
+									password = '" . $this->db->escape(sha1($salt_key.sha1($salt_key.sha1($data['password'])))) . "'
         	                  WHERE customer_id = '" . (int)$customer_id . "'");
       	}
 
@@ -224,8 +229,11 @@ class ModelSaleCustomer extends Model {
 							  WHERE customer_id = '" . (int)$customer_id . "'");
 
       	if ($field == 'password') {
+      		$salt_key = genToken(8);
         	$this->db->query("UPDATE " . $this->db->table("customers") . "
-        	                  SET password = '" . $this->db->escape(AEncryption::getHash($value)) . "'
+        	                  SET 
+								salt = '" . $this->db->escape($salt_key) . "', 
+								password = '" . $this->db->escape(sha1($salt_key.sha1($salt_key.sha1($value)))) . "'
         	                  WHERE customer_id = '" . (int)$customer_id . "'");
       	}
 		if($field == 'newsletter'){
@@ -471,6 +479,8 @@ class ModelSaleCustomer extends Model {
   				c.status,
   				c.approved,
   				c.customer_group_id,
+  				c.date_added,
+  				c.date_modified,
 				CONCAT(c.firstname, ' ', c.lastname) AS name,
 				cg.name AS customer_group
 				";

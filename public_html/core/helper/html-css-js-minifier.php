@@ -1,8 +1,9 @@
 <?php
 /**
-	PHP Function to Minify HTML, CSS and JavaScript 
-**/
-
+	PHP Function to Minify HTML, CSS and JavaScript
+ * @param string $input
+ * @return string
+ */
 // HTML Minifier
 function minify_html($input) {
     if(trim($input) === "") return $input;
@@ -50,7 +51,11 @@ function minify_html($input) {
     $input);
 }
 
-// CSS Minifier => http://ideone.com/Q5USEF + improvement(s)
+/**
+ * CSS Minifier => http://ideone.com/Q5USEF + improvement(s)
+ * @param string $input
+ * @return string
+ */
 function minify_css($input) {
     if(trim($input) === "") return $input;
     return preg_replace(
@@ -93,7 +98,11 @@ function minify_css($input) {
     $input);
 }
 
-// JavaScript Minifier
+/**
+ * JavaScript Minifier
+ * @param string $input
+ * @return string
+ */
 function minify_js($input) {
     if(trim($input) === "") return $input;
     return preg_replace(

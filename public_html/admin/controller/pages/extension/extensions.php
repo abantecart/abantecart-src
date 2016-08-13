@@ -650,7 +650,8 @@ class ControllerPagesExtensionExtensions extends AController {
 				$actions = array();
 
 				if($this->config->has($id . '_status')){
-					$status = $this->language->get('text_installed') .' ('.$this->language->get('text_enabled').')';
+					$lang_key = $this->config->get($id . '_status') ? 'text_enabled' : 'text_disabled';
+					$status = $this->language->get('text_installed') .' ('.$this->language->get( $lang_key ).')';
 				}else{
 					$status =  $this->language->get('text_not_installed').' ('.$this->language->get('text_disabled').')';
 				}

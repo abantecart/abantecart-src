@@ -17,44 +17,55 @@
    versions in the future. If you wish to customize AbanteCart for your
    needs please refer to http://www.AbanteCart.com for more information.
 ------------------------------------------------------------------------------*/
-if (!defined('DIR_CORE') || !IS_ADMIN) {
+if (!defined('DIR_CORE') || !IS_ADMIN){
 	header('Location: static_pages/');
 }
-class ModelToolInstallUpgradeHistory extends Model {
 
+class ModelToolInstallUpgradeHistory extends Model{
+	/**
+	 * @param array $data
+	 * @return array
+	 */
+	public function getLog($data = array ()){
 
-	public function getLog($data = array()) {
-
-		if (!isset($data[ 'sort' ])) {
-			$data[ 'sort' ] = 'date_added';
+		if (!isset($data['sort'])){
+			$data['sort'] = 'date_added';
 		}
 
-		if ($data[ 'offset' ] < 0) {
-			$data[ 'offset' ] = 0;
+		if ($data['offset'] < 0){
+			$data['offset'] = 0;
 		}
 
-		if ($data[ 'limit' ] < 1) {
-			$data[ 'limit' ] = 10;
+		if ($data['limit'] < 1){
+			$data['limit'] = 10;
 		}
 		$dataset = new ADataset('install_upgrade_history', 'admin');
-		$rows = $dataset->getRows(array(), $data[ 'sort' ], $data[ 'limit' ], $data[ 'offset' ]);
-
+		$rows = $dataset->getRows(array (), $data['sort'], $data['limit'], $data['offset']);
 
 		return $rows;
 	}
 
-	public function getTotalRows($filter = array()) {
+	/**
+	 * @param array $filter
+	 * @return int
+	 */
+	public function getTotalRows($filter = array ()){
 
-		if ($filter) {
-			$filter[ 'column_name' ] = 'name';
-			$filter[ 'operator' ] = 'like';
-
+		if ($filter){
+			$filter['column_name'] = 'name';
+			$filter['operator'] = 'like';
 		}
 
 		$dataset = new ADataset('install_upgrade_history', 'admin');
 		$rows = $dataset->getTotalRows($filter);
 		return $rows;
 	}
-}
 
-?>
+	/**
+	 * @return bool
+	 */
+	public function deleteData(){
+		$dataset = new ADataset('install_upgrade_history', 'admin');
+		return $dataset->deleteData();
+	}
+}

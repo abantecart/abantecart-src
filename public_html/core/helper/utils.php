@@ -167,8 +167,7 @@ function getUniqueSeoKeyword($seo_key, $object_key_name='', $object_id=0){
 	$db = $registry->get('db');
 	$sql = "SELECT `keyword`
 			FROM ".$db->table('url_aliases')."
-			WHERE query like '".$db->escape($object_key_name)."=%'
-					AND `keyword` like '".$db->escape($seo_key)."%'";
+			WHERE `keyword` like '".$db->escape($seo_key)."%'";
 	if($object_id){
 		// exclude keyword of given object (product, category, content etc)
 		$sql .= " AND query<>'".$db->escape($object_key_name)."=".$object_id."'";
@@ -842,6 +841,26 @@ function randomWord($length = 4){
     return $newcode;
 }
 
+
+/**
+ * Generate random token
+ * Note: Starting PHP7 random_bytes() can be used
+ *
+ * @param $chars int  - {token length}
+ * @return string
+ */
+function genToken($chars = 32){	
+    $token = '';
+    $codeAlphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    $codeAlphabet.= "abcdefghijklmnopqrstuvwxyz";
+    $codeAlphabet.= "0123456789";
+    $max = strlen($codeAlphabet) - 1;
+    for ($i = 0; $i < $chars; $i++) {
+        $token .= $codeAlphabet[mt_rand(0, $max)];
+    }
+    return $token;
+}
+
 /**
  * TODO: in the future
  * @param $zip_filename
@@ -1117,4 +1136,48 @@ function get_image_size($filename){
 		$error->toLog()->toMessages()->toDebug();
 	}
 	return array();
+}
+
+/**
+ * Function to resize image if needed and put to new location
+ * NOTE: Resource Library handles resize by itself
+ * @param string $orig_image (full path)
+ * @param string $new_image (relative path start from DIR_IMAGE)
+ * @param int $width
+ * @param int $height
+ * @param int $quality
+ * @return string / path to new image
+ */
+function check_resize_image($orig_image, $new_image, $width, $height, $quality) {
+    if (!is_file($orig_image) || empty($new_image)) {
+    	return null;
+    }
+
+    //if new file not yet present, check directory
+	if (!file_exists(DIR_IMAGE . $new_image)){
+	    $path = '';
+	    $directories = explode('/', dirname(str_replace('../', '', $new_image)));
+	    foreach ($directories as $directory){
+	    	$path = $path . '/' . $directory;
+	    	//do we have directory?
+	    	if (!file_exists(DIR_IMAGE . $path)){
+	    		// Make sure the index file is there
+	    		$indexFile = DIR_IMAGE . $path . '/index.php';
+	    		@mkdir(DIR_IMAGE . $path, 0775) && file_put_contents($indexFile, "<?php die('Restricted Access!'); ?>");
+	    	}
+	    }
+	}
+
+	if (!file_exists(DIR_IMAGE . $new_image) || (filemtime($orig_image) > filemtime(DIR_IMAGE . $new_image))){
+	    $image = new AImage($orig_image);
+	    $image->resizeAndSave(DIR_IMAGE . $new_image,
+	    		$width,
+	    		$height,
+	    		array (
+	    				'quality' => $quality
+	    		));
+	    unset($image);
+	}
+
+	return $new_image;
 }

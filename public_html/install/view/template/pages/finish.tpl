@@ -19,12 +19,6 @@
 	
 		<div class="warning alert alert-error alert-danger"><?php echo $message; ?></div>
 
-		<?php if($salt){?>
-			<div class="warning alert alert-error alert-danger">
-				Keep this secure key in save place.<br>This key is used to encrypt customers's secure data.<br>You will need this key if you move data to different shopping cart installation.<br>
-				<h3><?php echo $salt; ?></h3></div>
-		<?php }  ?>
-
 		<p>Congratulations! You have successfully installed AbanteCart eCommerce application. See access to your store front and control panel sections below. Bookmark or remember your control panel link and keep it save.</p>
 		<p>Thank you for this choice, and enjoy many features AbanteCart has to offer.</p> 
 		<p>Your comments and contributions are very welcome.</p>

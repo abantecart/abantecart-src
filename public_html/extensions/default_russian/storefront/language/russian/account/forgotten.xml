@@ -26,7 +26,7 @@
   </definition>
   <definition>
     <key>text_loginname_email</key>
-    <value><![CDATA[Введите имя пользователя и адрес электронной почты, указанный в вашей учетной записи. Нажмите Продолжить, чтобы получить ваш пароль по электронной почте]]></value>
+    <value><![CDATA[Введите Логин и адрес электронной почты, связанный с вашей учетной записью. Нажмите Продолжить, чтобы отправить запрос на сброс пароля]]></value>
   </definition>
   <definition>
     <key>text_lastname_email</key>
@@ -34,7 +34,7 @@
   </definition>
   <definition>
     <key>text_success</key>
-    <value><![CDATA[Новый пароль был отправлен на Ваш адрес электронной почты.]]></value>
+    <value><![CDATA[Успешно: Ссылка сброса пароля отправлена на ваш адрес электронной почты.]]></value>
   </definition>
   <definition>
     <key>text_success_loginname</key>

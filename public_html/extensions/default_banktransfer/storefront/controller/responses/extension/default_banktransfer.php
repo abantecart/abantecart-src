@@ -45,10 +45,10 @@ class ControllerResponsesExtensionDefaultBanktransfer extends AController {
 		$this->view->assign('instructions', nl2br($instructions) );
 		$this->view->assign('continue', $this->html->getSecureURL('checkout/success'));		
 
-		if ($this->request->get['rt'] != 'checkout/guest_step_3') {
-			$this->view->assign('back', $this->html->getSecureURL('checkout/payment','',true));
+		if ($this->request->get['rt'] == 'checkout/guest_step_3') {
+			$this->view->assign('back', $this->html->getSecureURL('checkout/guest_step_2','&mode=edit',true));
 		} else {
-			$this->view->assign('back', $this->html->getSecureURL('checkout/guest_step_2','',true));
+			$this->view->assign('back', $this->html->getSecureURL('checkout/payment','',true));
 		}
 		
 		//check total for to meat min requirement 

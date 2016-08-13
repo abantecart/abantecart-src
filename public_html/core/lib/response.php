@@ -17,17 +17,18 @@
    versions in the future. If you wish to customize AbanteCart for your
    needs please refer to http://www.AbanteCart.com for more information.
 ------------------------------------------------------------------------------*/
-if (! defined ( 'DIR_CORE' )) {
-	header ( 'Location: static_pages/' );
+if (!defined('DIR_CORE')){
+	header('Location: static_pages/');
 }
+
 /**
  * Class AResponse
  */
-final class AResponse {
+final class AResponse{
 	/**
 	 * @var array http-headers
 	 */
-	private $headers = array();
+	private $headers = array ();
 	/**
 	 * @var string
 	 */
@@ -41,28 +42,28 @@ final class AResponse {
 	 */
 	private $registry;
 
-    public function __construct() {
-	    $this->registry = Registry::getInstance();
-        $this->output = '';
-    }
+	public function __construct(){
+		$this->registry = Registry::getInstance();
+		$this->output = '';
+	}
 
 	/**
 	 * @param string $header
 	 */
-	public function addHeader($header) {
-		$header_name = explode(":",$header);
-		$header_name = strtolower( trim ($header_name[0]));
+	public function addHeader($header){
+		$header_name = explode(":", $header);
+		$header_name = strtolower(trim($header_name[0]));
 		$this->headers[$header_name] = $header;
 	}
 
-	public function addJSONHeader() {
+	public function addJSONHeader(){
 		$this->headers['Content-Type'] = 'Content-Type: application/json;';
 	}
 
 	/**
 	 * @param string $url
 	 */
-	public function redirect($url) {
+	public function redirect($url){
 		header('Location: ' . $url);
 		exit;
 	}
@@ -71,10 +72,10 @@ final class AResponse {
 	 * @param string $stdout
 	 * @param null|int $level
 	 */
-	public function setOutput($stdout, $level = null) {
+	public function setOutput($stdout, $level = null){
 		$this->output = $stdout;
-		if(is_null($level)){
-			$level =  $this->registry->get('config') ? (int)$this->registry->get('config')->get('config_compression') : 0;
+		if (is_null($level)){
+			$level = $this->registry->get('config') ? (int)$this->registry->get('config')->get('config_compression') : 0;
 		}
 		$this->level = $level;
 	}
@@ -82,11 +83,11 @@ final class AResponse {
 	/**
 	 * @return string
 	 */
-	public function getOutput() {
+	public function getOutput(){
 		return $this->output;
 	}
 
-	public function cleanOutput() {
+	public function cleanOutput(){
 		unset($this->output);
 	}
 
@@ -95,28 +96,28 @@ final class AResponse {
 	 * @param int $level
 	 * @return string
 	 */
-	private function compress($data, $level = 0) {
-		if (isset($_SERVER['HTTP_ACCEPT_ENCODING']) && (strpos($_SERVER['HTTP_ACCEPT_ENCODING'], 'gzip') !== FALSE)) {
+	private function compress($data, $level = 0){
+		if (isset($_SERVER['HTTP_ACCEPT_ENCODING']) && (strpos($_SERVER['HTTP_ACCEPT_ENCODING'], 'gzip') !== false)){
 			$encoding = 'gzip';
-		} 
+		}
 
-		if (isset($_SERVER['HTTP_ACCEPT_ENCODING']) && (strpos($_SERVER['HTTP_ACCEPT_ENCODING'], 'x-gzip') !== FALSE)) {
+		if (isset($_SERVER['HTTP_ACCEPT_ENCODING']) && (strpos($_SERVER['HTTP_ACCEPT_ENCODING'], 'x-gzip') !== false)){
 			$encoding = 'x-gzip';
 		}
 
-		if (!isset($encoding)) {
+		if (!isset($encoding)){
 			return $data;
 		}
 
-		if (!extension_loaded('zlib') || ini_get('zlib.output_compression')) {
+		if (!extension_loaded('zlib') || ini_get('zlib.output_compression')){
 			return $data;
 		}
 
-		if (headers_sent()) {
+		if (headers_sent()){
 			return $data;
 		}
 
-		if (connection_status()) { 
+		if (connection_status()){
 			return $data;
 		}
 
@@ -125,19 +126,19 @@ final class AResponse {
 		return gzencode($data, (int)$level);
 	}
 
-	public function output() {
-		if ($this->level && $this->registry->get('config')) {
+	public function output(){
+		if ($this->level && $this->registry->get('config')){
 			$output = $this->compress($this->output, $this->level);
-		} else {
+		} else{
 			$output = $this->output;
-		}	
-			
-		if (!headers_sent()) {
-			foreach ($this->headers as $header) {
-				header($header, TRUE);
+		}
+
+		if (!headers_sent()){
+			foreach ($this->headers as $header){
+				header($header, true);
 			}
 		}
-		
+
 		echo $output;
 	}
 }

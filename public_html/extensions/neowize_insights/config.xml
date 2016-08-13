@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<extension>
+  <id>neowize_insights</id>
+  <version>1.0.5</version>
+  <type>extensions</type>
+  <category>Analytics</category>
+  <cartversions>
+    <item>1.2.0</item>
+  </cartversions>
+  <priority>10</priority>
+  <dependencies></dependencies>
+  <settings>
+    <item id="neowize_insights_status">
+      <type>checkbox</type>
+      <default_value>0</default_value>
+    </item>
+  </settings>
+  <install>
+    <sql>install.sql</sql>
+    <trigger>install.php</trigger>
+  </install>
+  <uninstall>
+    <sql>uninstall.sql</sql>
+    <trigger>uninstall.php</trigger>
+  </uninstall>
+  <preview>
+      <item>main.jpg</item>
+      <item>screen1.jpg</item>
+      <item>screen2.jpg</item>
+      <item>screen3.jpg</item>
+      <item>screen4.jpg</item>
+      <item>screen5.jpg</item>
+      <item>screen6.jpg</item>
+  </preview>
+  <help_link><![CDATA[http://www.neowize.com]]></help_link>
+</extension>

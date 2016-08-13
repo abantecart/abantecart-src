@@ -238,7 +238,7 @@ class ControllerPagesInstall extends AController {
 				$this->_load_demo_data();
 			}	
 			//Clean session for configurations. We do not need them any more
-			unset($this->session->data['install_step_data'], $this->session->data['SALT']);		
+			unset($this->session->data['install_step_data']);		
 			$this->session->data['finish'] = 'false';
 			$this->response->addJSONHeader();
 			return AJson::encode(array( 'ret_code' => 150 ));
@@ -277,7 +277,8 @@ class ControllerPagesInstall extends AController {
 		$content .= "	http://www.AbanteCart.com\n";
 		$content .= "	Copyright © 2011-".date('Y')." Belavier Commerce LLC\n\n";
 		$content .= "	Released under the Open Software License (OSL 3.0)\n";
-		$content .= "*/\n";
+		$content .= "*/\n\n";
+		$content .= "define('SERVER_NAME', '" . getenv('SERVER_NAME') . "');\n";
 		$content .= "// Admin Section Configuration. You can change this value to any name. Will use ?s=name to access the admin\n";
 		$content .= "define('ADMIN_PATH', '" . $this->session->data['install_step_data'][ 'admin_path' ] . "');\n\n";
 		$content .= "// Database Configuration\n";
@@ -291,8 +292,6 @@ class ControllerPagesInstall extends AController {
 		$content .= "define('CACHE_DRIVER', 'file');\n";
 		$content .= "// Unique AbanteCart store ID\n";
 		$content .= "define('UNIQUE_ID', '" . md5(time()) . "');\n";
-		$content .= "// Salt key for oneway encryption of passwords. NOTE: Change of SALT key will cause a loss of all existing users' and customers' passwords!\n";
-		$content .= "define('SALT', '" . SALT . "');\n";
 		$content .= "// Encryption key for protecting sensitive information. NOTE: Change of this key will cause a loss of all existing encrypted information!\n";
 		$content .= "define('ENCRYPTION_KEY', '" . randomWord(6) . "');\n";
 

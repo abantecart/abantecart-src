@@ -3,6 +3,13 @@
 	<span class="subtext"></span>
 </h1>
 
+<?php if ($error_warning) { ?>
+<div class="alert alert-error alert-danger">
+<button type="button" class="close" data-dismiss="alert">&times;</button>
+<?php echo $error_warning; ?>
+</div>
+<?php } ?>
+
 <div class="contentpanel">
 
 	<?php foreach ($downloads as $download) { ?>

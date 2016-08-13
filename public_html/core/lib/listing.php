@@ -155,7 +155,6 @@ class AListing{
 		);
 	}
 
-
 	public function __get($key){
 		return $this->registry->get($key);
 	}
@@ -163,7 +162,6 @@ class AListing{
 	public function __set($key, $value){
 		$this->registry->set($key, $value);
 	}
-
 
 	/**
 	 * @return array
@@ -173,9 +171,9 @@ class AListing{
 			return array ();
 		}
 		$custom_block_id = $this->custom_block_id;
-		$cache_key = 'blocks.custom.'.$custom_block_id;
+		$cache_key = 'blocks.custom.' . $custom_block_id;
 		$output = $this->cache->pull($cache_key);
-		if($output !== false){
+		if ($output !== false){
 			return $output;
 		}
 		$result = $this->db->query("SELECT *

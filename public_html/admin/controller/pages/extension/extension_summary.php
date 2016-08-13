@@ -52,14 +52,22 @@ class ControllerPagesExtensionExtensionSummary extends AController {
             $this->data['extension_info']['date_added'] =  dateISO2Display($this->data['extension_info']['date_added'], $datetime_format );
         }
 
+        $updates = $this->cache->pull('extensions.updates');
 
-	    if (isset($this->session->data['extension_updates'][$extension])) {
+        // if update available
+        if( is_array($updates) && in_array($extension,array_keys($updates)) ){
+            if ($updates[$extension]['installation_key']){
+                $update_now_url = $this->html->getSecureURL('tool/package_installer', '&extension_key=' . $updates[$extension]['installation_key']);
+            } else{
+                $update_now_url = $updates[$extension]['url'];
+            }
+
 
             $this->data['upgrade_button'] = $this->html->buildElement(
                                 array(  'type'=> 'button',
                                         'name' => 'btn_upgrade',
                                         'id' => 'upgradenow',
-                                        'href' => AEncryption::addEncoded_stid($this->session->data['extension_updates'][$extension]['url']),
+                                        'href' => $update_now_url,
                                         'text' => $this->language->get('button_upgrade')
                                 ));
         }

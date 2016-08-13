@@ -464,4 +464,12 @@
 		<key>text_rl_manager</key>
 		<value><![CDATA[Administrador de medios]]></value>
 	</definition>
+	<definition>
+		<key>text_analytics</key>
+		<value><![CDATA[Analytics & Insights]]></value>
+	</definition>
+	<definition>
+		<key>text_server_time</key>
+		<value><![CDATA[Tiempo de Servidor]]></value>
+	</definition>
 </definitions>

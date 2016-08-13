@@ -68,7 +68,7 @@ class ModelAccountCustomer extends Model {
 			$this->db->query("DELETE FROM " . $this->db->table("addresses") . " WHERE customer_id = '" . (int)$row['customer_id'] . "'");
 		}
 
-    
+    	$salt_key = genToken(8);
       	$sql = "INSERT INTO " . $this->db->table("customers") . "
 			  SET	store_id = '" . (int)$this->config->get('config_store_id') . "',
 					loginname = '" . $this->db->escape($data['loginname']) . "',
@@ -77,12 +77,14 @@ class ModelAccountCustomer extends Model {
 					email = '" . $this->db->escape($data['email']) . "',
 					telephone = '" . $this->db->escape($data['telephone']) . "',
 					fax = '" . $this->db->escape($data['fax']) . "',
-					password = '" . $this->db->escape(AEncryption::getHash($data['password'])) . "',
+					salt = '" . $this->db->escape($salt_key) . "', 
+					password = '" . $this->db->escape(sha1($salt_key.sha1($salt_key.sha1($data['password'])))) . "',
 					newsletter = '" . (int)$data['newsletter'] . "',
 					customer_group_id = '" .(int)$data['customer_group_id'] . "',
 					approved = '".(int)$data['approved']."',
 					status = '".(int)$data['status']."'". $key_sql . ",
 					ip = '". $this->db->escape($data['ip']) ."',
+					data = '". $this->db->escape(serialize($data['data'])) ."',
 					date_added = NOW()";
 		$this->db->query($sql);
 		$customer_id = $this->db->getLastId();
@@ -330,9 +332,11 @@ class ModelAccountCustomer extends Model {
 	 * @param string $password
 	 */
 	public function editPassword($loginname, $password) {
-		$password = AEncryption::getHash($password);
+    	$salt_key = genToken(8);
       	$this->db->query("UPDATE " . $this->db->table("customers") . "
-      	                SET password = '" . $this->db->escape($password) . "'
+      	                SET
+							salt = '" . $this->db->escape($salt_key) . "', 
+							password = '" . $this->db->escape(sha1($salt_key.sha1($salt_key.sha1($password)))) . "'
       	                WHERE loginname = '" . $this->db->escape($loginname) . "'");
 		//send IM
 		$sql = "SELECT customer_id
@@ -378,6 +382,20 @@ class ModelAccountCustomer extends Model {
 	}
 
 	/**
+	 * @param $customer_id
+	 * @param $data
+	 * @return bool
+	 */
+	public function updateOtherData($customer_id, $data) {
+		$customer_id = (int)$customer_id;
+		if(!$customer_id){ return false; }
+		$this->db->query( "UPDATE " . $this->db->table("customers") . "
+						   SET data = '" . $this->db->escape(serialize($data)) . "'
+						   WHERE customer_id = '" . $customer_id . "'" );
+		return true;
+	}
+
+	/**
 	 * @param int $customer_id
 	 * @return array
 	 */
@@ -387,6 +405,7 @@ class ModelAccountCustomer extends Model {
 				FROM " . $this->db->table("customers") . "
 				WHERE customer_id = '" . (int)$customer_id . "'");
 		$result_row = $this->dcrypt->decrypt_data($query->row, 'customers');
+		$result_row['data'] = unserialize($result_row['data']);
 		return $result_row;
 	}
 
@@ -424,15 +443,23 @@ class ModelAccountCustomer extends Model {
 
 	/**
 	 * @param string $loginname
+	 * @return array
+	 */
+	public function getCustomerByLoginname($loginname) {
+		$query = $this->db->query("SELECT *
+									FROM " . $this->db->table("customers") . "
+									WHERE LOWER(`loginname`) = LOWER('" . $this->db->escape($loginname) . "')");
+		return $this->dcrypt->decrypt_data($query->row, 'customers');
+	}
+
+	/**
+	 * @param string $loginname
 	 * @param string $email
 	 * @return array
 	 */
 	public function getCustomerByLoginnameAndEmail($loginname, $email) {
-		$query = $this->db->query("SELECT *
-									FROM " . $this->db->table("customers") . "
-									WHERE LOWER(`loginname`) = LOWER('" . $this->db->escape($loginname) . "')");
+		$result_row = $this->getCustomerByLoginname($loginname);
 		//validate it is correct row by matchign decrypted email;
-		$result_row = $this->dcrypt->decrypt_data($query->row, 'customers');		
 		if ( strtolower($result_row['email']) == strtolower($email) ) {
 			return $result_row;
 		} else {
@@ -762,4 +789,101 @@ class ModelAccountCustomer extends Model {
 		return $result;
 	}
 
+	public function sendWelcomeEmail($email, $activated) {
+		if(!$email) {
+			return null;
+		}
+		//build welcome email in text format
+		$login_url = $this->html->getSecureURL('account/login');
+		$this->language->load('mail/account_create');
+		$subject = sprintf($this->language->get('text_subject'), $this->config->get('store_name'));
+		$txt_body = sprintf($this->language->get('text_welcome'), $this->config->get('store_name')) . "\n\n";
+		if($activated){
+			$txt_body .= $this->language->get('text_login') . "\n";	
+			$txt_body .= $login_url . "\n\n";	
+		} else {
+			$txt_body .= $this->language->get('text_approval') . "\n\n";
+			$txt_body .= $login_url . "\n\n";
+		}
+		$txt_body .= $this->language->get('text_services') . "\n\n";
+		$txt_body .= $this->language->get('text_thanks') . "\n";
+		$txt_body .= $this->config->get('store_name');		
+
+		//build HTML message with the template
+		$template = new ATemplate();
+		$template->data['text_welcome'] = sprintf($this->language->get('text_welcome'), $this->config->get('store_name')) . "\n\n";
+		$template->data['text_thanks'] = $this->language->get('text_thanks');		
+		if($activated){
+			$template->data['text_login'] = $this->language->get('text_login');
+			$template->data['text_login_later'] = '<a href="' . $login_url . '">' . $login_url . '</a>';
+			$template->data['text_services'] = $this->language->get('text_services');
+		} else {
+			$template->data['text_approval'] = $this->language->get('text_approval');
+			$template->data['text_login_later'] = '<a href="' . $login_url . '">' . $login_url . '</a>';
+		}
+		$store_logo = md5(pathinfo($this->config->get('config_logo'), PATHINFO_FILENAME)) . '.' . pathinfo($this->config->get('config_logo'), PATHINFO_EXTENSION);
+		$template->data['logo'] = 'cid:' . $store_logo;
+		$template->data['store_name'] = $this->config->get('store_name');
+		$template->data['store_url'] = $this->config->get('config_url');
+		$template->data['text_project_label'] = project_base();
+		$html_body = $template->fetch('mail/account_create.tpl');
+		
+		$this->_send_email($email, $subject, $txt_body, $html_body, $store_logo);
+		return true;
+	}
+
+	public function emailActivateLink($customer_id) {
+		if(!$customer_id) {
+			return null;
+		}
+		$customer_data  = $this->getCustomer($customer_id);
+			
+		//encrypt token and data			
+		$enc = new AEncryption($this->config->get('encryption_key'));	
+		$code = genToken();
+		//store activation code
+		$customer_data['data']['email_activation'] = $code;
+		$this->updateOtherData($customer_id, $customer_data['data']);			
+
+		$ac = $enc->encrypt($customer_id.'::'.$code);
+		$activate_url = $this->html->getSecureURL('account/login', '&ac='.$ac);
+	
+		//build welcome email
+		$this->language->load('mail/account_create');
+		$subject = sprintf($this->language->get('text_subject'), $this->config->get('store_name'));
+		$txt_body = sprintf($this->language->get('text_welcome'), $this->config->get('store_name')) . "\n\n";
+		$txt_body .= sprintf(strip_tags($this->language->get('text_activate')), "\n". $activate_url . "\n") . "\n";
+		$txt_body .= $this->language->get('text_thanks') . "\n";
+		$txt_body .= $this->config->get('store_name');		
+
+		//build HTML message with the template
+		$template = new ATemplate();
+		$template->data['text_welcome'] = sprintf($this->language->get('text_welcome'), $this->config->get('store_name')) . "\n\n";
+		$template->data['text_thanks'] = $this->language->get('text_thanks');		
+		$template->data['text_activate'] = sprintf($this->language->get('text_activate'), '<a href="' . $activate_url . '">' . $activate_url . '</a>');
+		$store_logo = md5(pathinfo($this->config->get('config_logo'), PATHINFO_FILENAME)) . '.' . pathinfo($this->config->get('config_logo'), PATHINFO_EXTENSION);
+		$template->data['logo'] = 'cid:' . $store_logo;
+		$template->data['store_name'] = $this->config->get('store_name');
+		$template->data['store_url'] = $this->config->get('config_url');
+		$template->data['text_project_label'] = project_base();
+		$html_body = $template->fetch('mail/account_create.tpl');
+		
+		$this->_send_email($customer_data['email'], $subject, $txt_body, $html_body, $store_logo);
+		return true;
+	}
+	
+	private function _send_email($email, $subject, $txt_body, $html_body, $store_logo) {
+	
+		$mail = new AMail($this->config);
+		$mail->setTo($email);
+		$mail->setFrom($this->config->get('store_main_email'));
+		$mail->setSender($this->config->get('store_name'));
+		$mail->setSubject($subject);
+		$mail->setText(html_entity_decode($txt_body, ENT_QUOTES, 'UTF-8'));
+				
+		$mail->addAttachment(DIR_RESOURCE . $this->config->get('config_logo'), $store_logo);
+		$mail->setHtml($html_body);
+		$mail->send();	
+	}
+	
 }

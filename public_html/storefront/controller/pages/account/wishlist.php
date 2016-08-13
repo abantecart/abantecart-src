@@ -55,19 +55,19 @@ class ControllerPagesAccountWishlist extends AController {
       	$this->document->resetBreadcrumbs();
 
       	$this->document->addBreadcrumb( array ( 
-        	'href'      => $this->html->getURL('index/home'),
+        	'href'      => $this->html->getHomeURL(),
         	'text'      => $this->language->get('text_home'),
         	'separator' => FALSE
       	 )); 
 
 		$this->document->addBreadcrumb(array(
-			'href' => $this->html->getURL('account/account'),
+			'href' => $this->html->getSecureURL('account/account'),
 			'text' => $this->language->get('text_account'),
 			'separator' => $this->language->get('text_separator')
 		));
 
       	$this->document->addBreadcrumb( array ( 
-        	'href'      => $this->html->getURL('account/wishlist'),
+        	'href'      => $this->html->getSecureURL('account/wishlist'),
         	'text'      => $this->language->get('heading_title'),
         	'separator' => $this->language->get('text_separator')
       	 ));
@@ -117,7 +117,7 @@ class ControllerPagesAccountWishlist extends AController {
 				$this->data['continue'] = str_replace('&amp;','&',$this->session->data['redirect']);
 				unset($this->session->data['redirect']);
 			} else {
-                $this->data['continue'] = $this->html->getURL('index/home');
+                $this->data['continue'] = $this->html->getHomeURL();
 			}
 			
 			$this->view->assign('error', '' );
@@ -145,7 +145,7 @@ class ControllerPagesAccountWishlist extends AController {
 		    $this->data['button_continue'] = HtmlElementFactory::create( array('name' => 'continue',
 																			   'type' => 'button',
 																			   'text' =>  $this->language->get('button_continue'),
-																			   'href' =>  $this->html->getURL('index/home'),
+																			   'href' =>  $this->html->getHomeURL(),
 																			   'style' => 'button' ));
 
             $this->view->setTemplate( 'pages/error/not_found.tpl' );

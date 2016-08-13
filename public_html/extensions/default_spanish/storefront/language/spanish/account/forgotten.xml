@@ -28,7 +28,7 @@
 	<definition>
 		<key>text_loginname_email</key>
 		<value>
-			<![CDATA[Introduzca el nombre de usuario y dirección de correo electrónico asociada a tu cuenta. Haga clic en enviar para que su contraseña por correo electrónico]]></value>
+			<![CDATA[Introduzca el nombre de usuario y dirección de correo electrónico asociada con su cuenta. Haga clic en Enviar para solicitar restablecimiento de contraseña]]></value>
 	</definition>
 	<definition>
 		<key>text_lastname_email</key>
@@ -37,7 +37,7 @@
 	</definition>
 	<definition>
 		<key>text_success</key>
-		<value><![CDATA[Exito: Una nueva contraseña se le ha enviado por correo electrónico.]]></value>
+		<value><![CDATA[Éxito: Contraseña enlace de restablecimiento ha sido enviada a su dirección de correo electrónico.]]></value>
 	</definition>
 	<definition>
 		<key>text_success_loginname</key>

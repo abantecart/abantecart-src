@@ -81,13 +81,13 @@ class ControllerPagesCheckoutGuestStep3 extends AController {
 		$this->document->resetBreadcrumbs();
 
       	$this->document->addBreadcrumb( array ( 
-        	'href'      => $this->html->getURL('index/home'),
+        	'href'      => $this->html->getHomeURL(),
         	'text'      => $this->language->get('text_home'),
         	'separator' => FALSE
       	 )); 
 
       	$this->document->addBreadcrumb( array ( 
-        	'href'      => $this->html->getURL($cart_rt),
+        	'href'      => $this->html->getSecureURL($cart_rt),
         	'text'      => $this->language->get('text_basket'),
         	'separator' => $this->language->get('text_separator')
       	 ));
@@ -195,7 +195,7 @@ class ControllerPagesCheckoutGuestStep3 extends AController {
 			$content_info = $this->model_catalog_content->getContent($this->config->get('config_checkout_id'));
 			if ($content_info) {
 				$this->data['text_accept_agree'] = $this->language->get('text_accept_agree');
-				$this->data['text_accept_agree_href'] = $this->html->getSEOURL('r/content/content/loadInfo','&content_id=' . $this->config->get('config_checkout_id'), true);
+				$this->data['text_accept_agree_href'] = $this->html->getURL('r/content/content/loadInfo','&content_id=' . $this->config->get('config_checkout_id'), true);
 				$this->data['text_accept_agree_href_link'] = $content_info['title'];
 			} else {
 				$this->data['text_accept_agree'] = '';

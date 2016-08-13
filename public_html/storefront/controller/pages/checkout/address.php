@@ -55,28 +55,28 @@ class ControllerPagesCheckoutAddress extends AController{
 
 		$this->document->addBreadcrumb(
 				array (
-						'href'      => $this->html->getURL('index/home'),
+						'href'      => $this->html->getHomeURL(),
 						'text'      => $this->language->get('text_home'),
 						'separator' => false
 				));
 
 		$this->document->addBreadcrumb(
 				array (
-						'href'      => $this->html->getURL($cart_rt),
+						'href'      => $this->html->getSecureURL($cart_rt),
 						'text'      => $this->language->get('text_basket'),
 						'separator' => $this->language->get('text_separator')
 				));
 
 		$this->document->addBreadcrumb(
 				array (
-						'href'      => $this->html->getURL('checkout/shipping'),
+						'href'      => $this->html->getSecureURL('checkout/shipping'),
 						'text'      => $this->language->get('text_shipping'),
 						'separator' => $this->language->get('text_separator')
 				));
 
 		$this->document->addBreadcrumb(
 				array (
-						'href'      => $this->html->getURL('checkout/address/shipping'),
+						'href'      => $this->html->getSecureURL('checkout/address/shipping'),
 						'text'      => $this->language->get('text_address'),
 						'separator' => $this->language->get('text_separator')
 				));
@@ -148,14 +148,14 @@ class ControllerPagesCheckoutAddress extends AController{
 
 		$this->document->addBreadcrumb(
 				array (
-						'href'      => $this->html->getURL('index/home'),
+						'href'      => $this->html->getHomeURL(),
 						'text'      => $this->language->get('text_home'),
 						'separator' => false
 				));
 
 		$this->document->addBreadcrumb(
 				array (
-						'href'      => $this->html->getURL($cart_rt),
+						'href'      => $this->html->getSecureURL($cart_rt),
 						'text'      => $this->language->get('text_basket'),
 						'separator' => $this->language->get('text_separator')
 				));
@@ -163,7 +163,7 @@ class ControllerPagesCheckoutAddress extends AController{
 		if ($this->cart->hasShipping()){
 			$this->document->addBreadcrumb(
 					array (
-							'href'      => $this->html->getURL('checkout/shipping'),
+							'href'      => $this->html->getSecureURL('checkout/shipping'),
 							'text'      => $this->language->get('text_shipping'),
 							'separator' => $this->language->get('text_separator')
 					));
@@ -171,14 +171,14 @@ class ControllerPagesCheckoutAddress extends AController{
 
 		$this->document->addBreadcrumb(
 				array (
-						'href'      => $this->html->getURL('checkout/payment'),
+						'href'      => $this->html->getSecureURL('checkout/payment'),
 						'text'      => $this->language->get('text_payment'),
 						'separator' => $this->language->get('text_separator')
 				));
 
 		$this->document->addBreadcrumb(
 				array (
-						'href'      => $this->html->getURL('checkout/address/payment'),
+						'href'      => $this->html->getSecureURL('checkout/address/payment'),
 						'text'      => $this->language->get('text_address'),
 						'separator' => $this->language->get('text_separator')
 				));

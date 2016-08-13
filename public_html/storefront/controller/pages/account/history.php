@@ -42,19 +42,19 @@ class ControllerPagesAccountHistory extends AController {
       	$this->document->resetBreadcrumbs();
 
       	$this->document->addBreadcrumb( array ( 
-        	'href'      => $this->html->getURL('index/home'),
+        	'href'      => $this->html->getHomeURL(),
         	'text'      => $this->language->get('text_home'),
         	'separator' => FALSE
       	 )); 
 
       	$this->document->addBreadcrumb( array ( 
-        	'href'      => $this->html->getURL('account/account'),
+        	'href'      => $this->html->getSecureURL('account/account'),
         	'text'      => $this->language->get('text_account'),
         	'separator' => $this->language->get('text_separator')
       	 ));
 		
       	$this->document->addBreadcrumb( array ( 
-        	'href'      => $this->html->getURL('account/history'),
+        	'href'      => $this->html->getSecureURL('account/history'),
         	'text'      => $this->language->get('text_history'),
         	'separator' => $this->language->get('text_separator')
       	 ));
@@ -64,7 +64,7 @@ class ControllerPagesAccountHistory extends AController {
 		$order_total = $this->model_account_order->getTotalOrders();
 		
 		if ($order_total) {
-			$this->data['action'] = $this->html->getURL('account/history');
+			$this->data['action'] = $this->html->getSecureURL('account/history');
 			
 			if (isset($this->request->get['page'])) {
 				$page = $this->request->get['page'];
@@ -114,7 +114,7 @@ class ControllerPagesAccountHistory extends AController {
 										'total'	=> $order_total,
 										'page'	=> $page,
 										'limit'	=> $limit,
-										'url' => $this->html->getURL('account/history', '&limit=' . $limit . '&page={page}'),
+										'url' => $this->html->getSecureURL('account/history', '&limit=' . $limit . '&page={page}'),
 										'style' => 'pagination'));
 
 

@@ -1,29 +1,47 @@
-ALTER TABLE `ac_settings`
-ADD INDEX `ac_settings_idx` USING BTREE (`group` ASC, `key` ASC);
+ALTER TABLE `ac_task_details`
+CHANGE COLUMN `settings` `settings` LONGTEXT NULL DEFAULT NULL ;
 
-INSERT INTO `ac_block_templates` (`block_id`, `parent_block_id`, `template`, `date_added`) VALUES
-(29, 3, 'blocks/account.tpl', now() ),
-(29, 6, 'blocks/account.tpl', now() );
+ALTER TABLE `ac_task_steps`
+CHANGE COLUMN `settings` `settings` LONGTEXT NULL DEFAULT NULL ;
 
-UPDATE `ac_block_templates`
-SET `parent_block_id` = 1
-WHERE `template` = 'blocks/customer.tpl' AND `block_id`=31 AND `parent_block_id` = 0;
+ALTER TABLE `ac_customers`
+CHANGE COLUMN `cart` `cart` LONGTEXT NULL DEFAULT NULL ;
 
-UPDATE `ac_block_templates`
-SET `parent_block_id` = 8
-WHERE `template` = 'blocks/donate.tpl' AND `block_id`=21 AND `parent_block_id` = 0;
+ALTER TABLE `ac_order_downloads`
+CHANGE COLUMN `attributes_data` `attributes_data` LONGTEXT NULL DEFAULT NULL ;
 
-UPDATE `ac_block_templates`
-SET `parent_block_id` = 2
-WHERE `template` = 'blocks/breadcrumbs.tpl' AND `block_id`=28 AND `parent_block_id` = 0;
+ALTER TABLE `ac_order_options`
+CHANGE COLUMN `settings` `settings` LONGTEXT NULL DEFAULT NULL ;
 
-INSERT INTO `ac_settings` (`group`, `key`, `value`)
-VALUES
-('system','config_html_cache',0),
-('system','config_image_quality',95);
+ALTER TABLE `ac_product_descriptions`
+CHANGE COLUMN `description` `description` LONGTEXT NULL DEFAULT NULL ;
 
-INSERT INTO `ac_settings` (`group`, `key`, `value`) VALUES
-('appearance','config_image_manufacturer_height',56),
-('appearance','config_image_manufacturer_width',56);
+ALTER TABLE `ac_reviews`
+CHANGE COLUMN `text` `text` LONGTEXT NULL DEFAULT NULL ;
 
-DELETE FROM `ac_language_definitions` WHERE `section` = 1 AND `block`='tool_package_installer';
+ALTER TABLE `ac_store_descriptions`
+CHANGE COLUMN `description` `description` LONGTEXT NULL DEFAULT NULL ;
+
+ALTER TABLE `ac_user_groups`
+CHANGE COLUMN `permission` `permission` LONGTEXT NULL DEFAULT NULL ;
+
+ALTER TABLE `ac_content_descriptions`
+CHANGE COLUMN `content` `content` LONGTEXT NULL DEFAULT NULL ;
+
+ALTER TABLE `ac_block_descriptions`
+CHANGE COLUMN `content` `content` LONGTEXT NULL DEFAULT NULL ;
+
+ALTER TABLE `ac_ant_messages`
+CHANGE COLUMN `html` `html` LONGTEXT NULL DEFAULT NULL ;
+
+ALTER TABLE `ac_customers`
+ADD COLUMN `data` text DEFAULT null;
+
+ALTER TABLE `ac_customers` ADD COLUMN `salt` varchar(8) COLLATE utf8_general_ci NOT NULL DEFAULT '';
+
+ALTER TABLE `ac_users` ADD COLUMN `salt` varchar(8) COLLATE utf8_general_ci NOT NULL DEFAULT '';
+ALTER TABLE `ac_users` MODIFY `password` varchar(40);
+
+DELETE FROM `ac_language_definitions` WHERE `section` = 0 AND `block`='account_forgotten';
+DELETE FROM `ac_language_definitions` WHERE `section` = 0 AND `block`='mail_account_forgotten';
+DELETE FROM `ac_language_definitions` WHERE `section` = 0 AND `block`='mail_account_forgotten_login';

@@ -17,14 +17,14 @@
    versions in the future. If you wish to customize AbanteCart for your
    needs please refer to http://www.AbanteCart.com for more information.
 ------------------------------------------------------------------------------*/
-if (!defined('DIR_CORE')) {
+if (!defined('DIR_CORE')){
 	header('Location: static_pages/');
 }
 
 /**
  * Class AMessage
  */
-final class AMessage {
+final class AMessage{
 	/**
 	 * @var ADB
 	 */
@@ -49,7 +49,7 @@ final class AMessage {
 	/**
 	 *
 	 */
-	public function __construct() {
+	public function __construct(){
 		$this->registry = Registry::getInstance();
 		$this->db = $this->registry->get('db');
 		$this->html = $this->registry->get('html');
@@ -64,7 +64,7 @@ final class AMessage {
 	 * @param bool $repetition_group - sign to group repetitions of message based on same title of message
 	 * @void
 	 */
-	public function saveNotice($title, $message, $repetition_group = true) {
+	public function saveNotice($title, $message, $repetition_group = true){
 		$this->_saveMessage($title, $message, 'N', $repetition_group);
 	}
 
@@ -76,7 +76,7 @@ final class AMessage {
 	 * @param bool $repetition_group - sign to group repetitions of message based on same title of message
 	 * @void
 	 */
-	public function saveWarning($title, $message, $repetition_group = true) {
+	public function saveWarning($title, $message, $repetition_group = true){
 		$this->_saveMessage($title, $message, 'W', $repetition_group);
 	}
 
@@ -88,7 +88,7 @@ final class AMessage {
 	 * @param bool $repetition_group - sign to group repetitions of message based on same title of message
 	 * @void
 	 */
-	public function saveError($title, $message, $repetition_group = true) {
+	public function saveError($title, $message, $repetition_group = true){
 		$this->_saveMessage($title, $message, 'E', $repetition_group);
 	}
 
@@ -101,17 +101,17 @@ final class AMessage {
 	 * @param bool $repetition_group - sign to group repetitions of message based on same title of message
 	 * @void
 	 */
-	private function _saveMessage($title, $message, $status, $repetition_group = true) {
+	private function _saveMessage($title, $message, $status, $repetition_group = true){
 		$last_message = $this->getLikeMessage($title);
 		// if last message equal new - update it's repeated. 
 		// update counter and update message body as last one can be different	
-		if ($last_message['title'] == $title && $repetition_group) {
+		if ($last_message['title'] == $title && $repetition_group){
 			$this->db->query("UPDATE " . $this->db->table("messages") . " 
 								SET `repeated` = `repeated` + 1, 
 									`viewed`='0', 
 									`message` = '" . $this->db->escape($message) . "'
 								WHERE msg_id = '" . $last_message['msg_id'] . "'");
-		} else {
+		} else{
 			$this->db->query("INSERT INTO " . $this->db->table("messages") . " 
 						    SET `title` = '" . $this->db->escape($title) . "',
 						    `message` = '" . $this->db->escape($message) . "',
@@ -124,7 +124,7 @@ final class AMessage {
 	/**
 	 * @param int $msg_id
 	 */
-	public function deleteMessage($msg_id) {
+	public function deleteMessage($msg_id){
 		$this->db->query("DELETE FROM " . $this->db->table("messages") . " WHERE `msg_id` = " . (int)$msg_id);
 	}
 
@@ -132,11 +132,11 @@ final class AMessage {
 	 * @param int $msg_id
 	 * @return array
 	 */
-	public function getMessage($msg_id) {
+	public function getMessage($msg_id){
 		$this->markAsRead($msg_id);
 		$query = $this->db->query("SELECT * FROM " . $this->db->table("messages") . " WHERE msg_id = " . (int)$msg_id);
 		$row = $query->row;
-		if ($row) {
+		if ($row){
 			// replace html-links in message
 			$row['message'] = $this->html->convertLinks($row['message'], 'message');
 		}
@@ -150,10 +150,10 @@ final class AMessage {
 	 * @param string $order
 	 * @return array
 	 */
-	public function getMessages($start = 0, $limit = 0, $sort = '', $order = 'DESC') {
+	public function getMessages($start = 0, $limit = 0, $sort = '', $order = 'DESC'){
 		$sort = !$sort ? 'viewed' : $this->db->escape($sort);
 		$limit_str = '';
-		if ($limit > 0) {
+		if ($limit > 0){
 			$limit_str = "LIMIT " . (int)$start . ", " . (int)$limit;
 		}
 		$sql = "SELECT * FROM " . $this->db->table("messages") . " ORDER BY " . $sort . " " . $order . ", date_modified DESC, msg_id DESC " . $limit_str;
@@ -165,7 +165,7 @@ final class AMessage {
 	 * @param string $title
 	 * @return array
 	 */
-	public function getLikeMessage($title) {
+	public function getLikeMessage($title){
 		$query = $this->db->query("SELECT * FROM " . $this->db->table("messages") . " WHERE title='" . $this->db->escape($title) . "'");
 		return $query->row;
 	}
@@ -173,7 +173,7 @@ final class AMessage {
 	/**
 	 * @return int
 	 */
-	public function getTotalMessages() {
+	public function getTotalMessages(){
 		$query = $this->db->query("SELECT COUNT(*) AS total FROM " . $this->db->table("messages") . " ");
 		return (int)$query->row['total'];
 	}
@@ -182,7 +182,7 @@ final class AMessage {
 	 * @param int $msg_id
 	 * @return bool
 	 */
-	public function markAsRead($msg_id) {
+	public function markAsRead($msg_id){
 		$this->db->query("UPDATE " . $this->db->table("messages") . " SET viewed = viewed + 1 WHERE `msg_id` = '" . $this->db->escape($msg_id) . "'");
 		return true;
 	}
@@ -191,12 +191,12 @@ final class AMessage {
 	 * @param int $msg_id
 	 * @return bool
 	 */
-	public function markAsUnRead($msg_id) {
+	public function markAsUnRead($msg_id){
 		$msg_info = $this->getMessage($msg_id);
-		if ($msg_info['viewed']) {
+		if ($msg_info['viewed']){
 			$this->db->query("UPDATE " . $this->db->table("messages") . " SET viewed = 0 WHERE `msg_id` = '" . $this->db->escape($msg_id) . "'");
 			return true;
-		} else {
+		} else{
 			return false;
 		}
 	}
@@ -206,16 +206,16 @@ final class AMessage {
 	 * @param string $message
 	 * @param string $status
 	 */
-	public function saveForDisplay($title, $message, $status) {
-		$this->session->data['ac_messages'][] = array($title, $message, $status);
+	public function saveForDisplay($title, $message, $status){
+		$this->session->data['ac_messages'][] = array ($title, $message, $status);
 	}
 
 	/**
 	 * @return array
 	 */
-	public function getForDisplay() {
-		$messages = array();
-		if (!empty($this->session->data['ac_messages'])) {
+	public function getForDisplay(){
+		$messages = array ();
+		if (!empty($this->session->data['ac_messages'])){
 			$messages = $this->session->data['ac_messages'];
 			unset($this->session->data['ac_messages']);
 		}
@@ -226,10 +226,10 @@ final class AMessage {
 	 * @param array $no_delete
 	 * @return bool
 	 */
-	public function purgeANTMessages($no_delete = array()) {
+	public function purgeANTMessages($no_delete = array ()){
 		if (!$no_delete || !is_array($no_delete)) return false;
-		$ids = array();
-		foreach ($no_delete as $id) {
+		$ids = array ();
+		foreach ($no_delete as $id){
 			$ids[] = $this->db->escape($id);
 		}
 		$ids = "'" . implode("', '", $ids) . "'";
@@ -242,8 +242,8 @@ final class AMessage {
 	 * @param array $data
 	 * @return null
 	 */
-	public function saveANTMessage($data = array()) {
-		if (!$data || !$data['message_id']) {
+	public function saveANTMessage($data = array ()){
+		if (!$data || !$data['message_id']){
 			return null;
 		}
 
@@ -256,10 +256,10 @@ final class AMessage {
 		         ORDER BY viewed_date ASC";
 		$result = $this->db->query($sql);
 
-		$exists = array();
+		$exists = array ();
 		$viewed = 0;
-		if ($result->num_rows) {
-			foreach ($result->rows as $row) {
+		if ($result->num_rows){
+			foreach ($result->rows as $row){
 				$exists[] = "'" . $row['id'] . "'";
 				$viewed += $row['viewed'];
 				$last_view = $row['viewed_date'];
@@ -296,7 +296,7 @@ final class AMessage {
 	/**
 	 * @return string
 	 */
-	public function getANTMessage() {
+	public function getANTMessage(){
 
 		// delete expired banners first
 		$this->db->query("DELETE FROM " . $this->db->table("ant_messages") . " 
@@ -310,11 +310,11 @@ final class AMessage {
 		         ORDER BY viewed_date ASC, priority DESC, COALESCE(language_code,'') DESC, COALESCE(url,'') DESC";
 
 		$result = $this->db->query($sql);
-		if ($result->num_rows) {
+		if ($result->num_rows){
 			$output = $result->row['html'] ? $result->row['html'] : $result->row['description'];
 			//$this->markViewedANT($result->row['id'],$result->row['language_code']);
 		}
-		return array('id' => $result->row['id'], 'viewed' => $result->row['viewed'], 'html' => $output);
+		return array ('id' => $result->row['id'], 'viewed' => $result->row['viewed'], 'html' => $output);
 	}
 
 	/**
@@ -322,8 +322,8 @@ final class AMessage {
 	 * @param string $language_code
 	 * @return string
 	 */
-	public function markViewedANT($message_id, $language_code) {
-		if (!has_value($message_id) || !has_value($language_code)) {
+	public function markViewedANT($message_id, $language_code){
+		if (!has_value($message_id) || !has_value($language_code)){
 			return null;
 		}
 		$sql = "UPDATE  " . $this->db->table("ant_messages") . " 
@@ -337,14 +337,15 @@ final class AMessage {
 	/**
 	 * @return array
 	 */
-	public function getShortList() {
+	public function getShortList(){
 
-		$output = array();
+		$output = array ();
 		$result = $this->db->query("SELECT UPPER(status) as status, COUNT(msg_id) as count
 									FROM " . $this->db->table("messages") . " 
 									WHERE viewed<'1'
 									GROUP BY status");
-		foreach ($result->rows as $row) {
+		$total = 0;
+		foreach ($result->rows as $row){
 			$output['count'][$row['status']] = ( int )$row['count'];
 			$total += ( int )$row['count'];
 		}

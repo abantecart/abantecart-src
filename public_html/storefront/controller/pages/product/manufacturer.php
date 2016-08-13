@@ -57,7 +57,7 @@ class ControllerPagesProductManufacturer extends AController {
 		$this->document->resetBreadcrumbs();
 		
       	$this->document->addBreadcrumb( array ( 
-        	'href'      => $this->html->getURL('index/home'),
+        	'href'      => $this->html->getHomeURL(),
         	'text'      => $this->language->get('text_home'),
         	'separator' => FALSE
       	 ));
@@ -321,7 +321,7 @@ class ControllerPagesProductManufacturer extends AController {
 			                                           'style' => 'button'));
 				$this->view->assign('button_continue', $continue);
 
-                $this->view->assign('continue',  $this->html->getURL('index/home') );
+                $this->view->assign('continue',  $this->html->getHomeURL() );
 
                 $this->view->setTemplate( 'pages/error/not_found.tpl' );
       		}
@@ -355,7 +355,7 @@ class ControllerPagesProductManufacturer extends AController {
 			                                           'text'=> $this->language->get('button_continue'),
 			                                           'style' => 'button'));
 			$this->view->assign('button_continue', $continue);
-      		$this->view->assign('continue',  $this->html->getURL('index/home') );
+      		$this->view->assign('continue',  $this->html->getHomeURL() );
 
             $this->view->setTemplate( 'pages/error/not_found.tpl' );
 		}

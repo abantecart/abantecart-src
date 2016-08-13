@@ -34,7 +34,6 @@ class ControllerPagesFinish extends AController {
 
 		$message = "Keep your ecommmerce secure! <br /> Delete directory " . DIR_ABANTECART . "install from your AbanteCart installation!";
 		$this->view->assign('message', $message);
-		$this->view->assign('salt', SALT);
 
 		$this->addChild('common/header', 'header', 'common/header.tpl');
 		$this->addChild('common/footer', 'footer', 'common/footer.tpl');

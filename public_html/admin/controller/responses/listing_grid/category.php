@@ -196,7 +196,6 @@ class ControllerResponsesListingGridCategory extends AController {
      * @return void
      */
     public function update_field() {
-
 		//init controller data
         $this->extensions->hk_InitData($this,__FUNCTION__);
 
@@ -210,24 +209,24 @@ class ControllerResponsesListingGridCategory extends AController {
 		}
 
         $this->loadModel('catalog/category');
-
-	    if ( isset( $this->request->get['id'] ) ) {
+		$category_id = $this->request->get['id'];
+	    if ( isset( $category_id ) ) {
 		    //request sent from edit form. ID in url
 		    foreach ($this->request->post as $field => $value ) {
 				if($field=='keyword'){
-					if($err = $this->html->isSEOkeywordExists('category_id='.$this->request->get['id'], $value)){
+					if($err = $this->html->isSEOkeywordExists('category_id='.$category_id, $value)){
 						$error = new AError('');
 						return $error->toJSONResponse('VALIDATION_ERROR_406', array( 'error_text' => $err ));
 					}
 				}
 
-				$err = $this->_validateField($field, $value);
+				$err = $this->_validateField($category_id, $field, $value);
 				if (!empty($err)) {
 					$error = new AError('');
 					return $error->toJSONResponse('VALIDATION_ERROR_406', array( 'error_text' => $err ));
 				}
 
-				$this->model_catalog_category->editCategory($this->request->get['id'], array($field => $value) );
+				$this->model_catalog_category->editCategory($category_id, array($field => $value) );
 			}
 		    return null;
 	    }
@@ -251,7 +250,7 @@ class ControllerResponsesListingGridCategory extends AController {
 	}
 
 
-	private function _validateField($field, $value) {
+	private function _validateField($category_id, $field, $value) {
 
 		$err = '';
 		switch ($field) {
@@ -268,7 +267,7 @@ class ControllerResponsesListingGridCategory extends AController {
 				}
 				break;
 			case 'keyword' :
-				$err = $this->html->isSEOkeywordExists('product_id='.$this->request->get['id'], $value);
+				$err = $this->html->isSEOkeywordExists('category_id='.$category_id, $value);
 				break;
 		}
 		return $err;

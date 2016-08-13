@@ -37,14 +37,14 @@ class ControllerCommonMenu extends AController {
 		// need to resort by sort_order property and exlude disabled extension items
 		$enabled_extension = $this->extensions->getEnabledExtensions();
 
-		$offset = 0; // it needs for process repeating order numbers
+
 		$tmp = array();
 		foreach ($this->data['menu_items'] as $i => $item) {
-			if ($i > 0) {
-				if ($this->data['menu_items'][ $i - 1 ]['parent_id'] != $item ['parent_id']) {
-					$offset = 0;
-				}
+			$offset=0;
+			while($offset<20 || isset ($tmp [ $item ['parent_id'] ] [ $item ['sort_order'] + $offset ])){
+				$offset++;
 			}
+
 			//checks for disabled extension
 			if ($item ['item_type'] == 'extension') {
 
@@ -57,9 +57,6 @@ class ControllerCommonMenu extends AController {
 						$item['language'] = $item ['item_id'] . '/' . $item ['item_id'];
 					}
 				}
-			}
-			if (isset ($tmp [ $item ['parent_id'] ] [ $item ['sort_order'] ])) {
-				$offset++;
 			}
 
 			$tmp [ $item ['parent_id'] ] [ $item ['sort_order'] + $offset ] = $item;

@@ -38,8 +38,10 @@ class ControllerBlocksCategory extends AController {
 			$allowed_cache_keys = array('path');
 			$cache_val = array('path' => $request['path']);
 			$this->buildHTMLCacheKey($allowed_cache_keys, $cache_val);
-			if($this->html_cache()){
-				return;
+			//disable cache when login display price setting is off or enabled showing of prices with taxes
+			if( ($this->config->get('config_customer_price') && !$this->config->get('config_tax'))
+				&&	$this->html_cache()	){
+				return null;
 			}
 		}
 
@@ -78,7 +80,7 @@ class ControllerBlocksCategory extends AController {
 		//Framed needs to show frames for generic block.
 		//If tpl used by listing block framed was set by listing block settings
 		$this->view->assign('block_framed',true);
-		$this->view->assign('home_href', $this->html->getSEOURL('index/home'));
+		$this->view->assign('home_href', $this->html->getHomeURL());
 		
 		$this->processTemplate();
 

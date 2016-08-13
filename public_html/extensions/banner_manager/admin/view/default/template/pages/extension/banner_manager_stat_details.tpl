@@ -5,6 +5,13 @@
 	<div class="panel-heading col-xs-12">
 		<div class="primary_content_actions pull-left">
 			<div class="btn-group mr10 toolbar">
+				<a class="btn btn-primary actionitem tooltips"
+				   title="<?php echo $delete_button->title; ?>"
+				   href="<?php echo $delete_button->href; ?>"
+				   data-confirmation="delete"
+					><i class="fa fa-trash-o fa-fw"></i> <?php echo $delete_button->title; ?></a>
+			</div>
+			<div class="btn-group mr10 toolbar">
 				<?php echo $select_range;?>
 			</div>
 		</div>

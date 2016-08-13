@@ -57,6 +57,10 @@
     <value><![CDATA[Telephone:]]></value>
   </definition>
   <definition>
+    <key>text_mobile_phone</key>
+    <value><![CDATA[Mobile Phone:]]></value>
+  </definition>
+  <definition>
     <key>text_fax</key>
     <value><![CDATA[Fax:]]></value>
   </definition>

@@ -238,12 +238,12 @@ class ControllerPagesCheckoutGuestStep2 extends AController{
 
 		$this->document->resetBreadcrumbs();
 		$this->document->addBreadcrumb(array (
-				'href'      => $this->html->getURL('index/home'),
+				'href'      => $this->html->getHomeURL(),
 				'text'      => $this->language->get('text_home'),
 				'separator' => false
 		));
 		$this->document->addBreadcrumb(array (
-				'href'      => $this->html->getURL($cart_rt),
+				'href'      => $this->html->getSecureURL($cart_rt),
 				'text'      => $this->language->get('text_cart'),
 				'separator' => $this->language->get('text_separator')
 		));

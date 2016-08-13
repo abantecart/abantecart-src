@@ -329,24 +329,24 @@ try {
 	if (IS_ADMIN === true) {
 		define('HTTP_DIR_NAME', rtrim(dirname($_SERVER['PHP_SELF']), '/.\\') );
 		// Admin HTTP
-		define('HTTP_SERVER', 'http://' . REAL_HOST . HTTP_DIR_NAME . '/');
+		define('AUTO_SERVER', '//' . REAL_HOST . HTTP_DIR_NAME . '/');
+		define('HTTP_SERVER', 'http:' . AUTO_SERVER);
 		define('HTTP_CATALOG', HTTP_SERVER);
-		define('HTTP_IMAGE', HTTP_SERVER . 'image/');
 		define('HTTP_EXT', HTTP_SERVER . 'extensions/');
+		define('HTTP_IMAGE', HTTP_SERVER . 'image/');
 		define('HTTP_DIR_RESOURCE', HTTP_SERVER . 'resources/');
+		//we use Protocol-relative URLs here
+		define('HTTPS_IMAGE', AUTO_SERVER . 'image/');
+		define('HTTPS_DIR_RESOURCE', AUTO_SERVER . 'resources/');
 		//Admin HTTPS
-		if (defined('HTTPS') && HTTPS===true) {
-			define('HTTPS_SERVER', 'https://' . REAL_HOST . HTTP_DIR_NAME . '/');
+		if ( HTTPS === true) {
+			define('HTTPS_SERVER', 'https:' . AUTO_SERVER);
 			define('HTTPS_CATALOG', HTTPS_SERVER);
-			define('HTTPS_IMAGE', HTTPS_SERVER . 'image/');
 			define('HTTPS_EXT', HTTPS_SERVER . 'extensions/');
-			define('HTTPS_DIR_RESOURCE', HTTPS_SERVER . 'resources/');
 		} else {
 			define('HTTPS_SERVER', HTTP_SERVER);
 			define('HTTPS_CATALOG', HTTP_CATALOG);
-			define('HTTPS_IMAGE', HTTP_IMAGE);
 			define('HTTPS_EXT', HTTP_EXT);
-			define('HTTPS_DIR_RESOURCE', HTTP_DIR_RESOURCE);
 		}		
 	
 		//Admin specific loads
@@ -360,26 +360,28 @@ try {
 	    }
 	} else {
 		// Storefront HTTP
-		define('HTTP_SERVER', $config->get('config_url'));
+		$store_url = $config->get('config_url');
+		define('HTTP_SERVER', $store_url);
 		define('HTTP_IMAGE', HTTP_SERVER . 'image/');
 		define('HTTP_EXT', HTTP_SERVER . 'extensions/');
 		define('HTTP_DIR_RESOURCE', HTTP_SERVER . 'resources/');
 		// Storefront HTTPS
-		if ($config->get('config_ssl') && HTTPS===true) {
-			$store_url = $config->get('config_url');
+		if ($config->get('config_ssl') || HTTPS === true) {
 			if ( $config->get('config_ssl_url') ) {
 				$store_url = $config->get('config_ssl_url');
 			}
-			define('HTTPS_SERVER', 'https://' . preg_replace('/\w+:\/\//','', $store_url));
-			define('HTTPS_IMAGE', HTTPS_SERVER . 'image/');
+			define('AUTO_SERVER', '//' . preg_replace('/\w+:\/\//','', $store_url));
+			define('HTTPS_SERVER', 'https:' . AUTO_SERVER);
 			define('HTTPS_EXT', HTTPS_SERVER . 'extensions/');
-			define('HTTPS_DIR_RESOURCE', HTTPS_SERVER . 'resources/');
 		} else {
+			define('AUTO_SERVER', '//' . preg_replace('/\w+:\/\//','', $store_url));
 			define('HTTPS_SERVER', HTTP_SERVER);
-			define('HTTPS_IMAGE', HTTP_IMAGE);	
 			define('HTTPS_EXT', HTTP_EXT);
-			define('HTTPS_DIR_RESOURCE', HTTP_DIR_RESOURCE);
 		}
+		//we use Protocol-relative URLs here
+		define('HTTPS_DIR_RESOURCE', AUTO_SERVER . 'resources/');
+		define('HTTPS_IMAGE', AUTO_SERVER . 'image/');
+		
 		//set internal sign of shared ssl domains
 		if(preg_replace('/\w+:\/\//','',HTTPS_SERVER) != preg_replace('/\w+:\/\//','',HTTP_SERVER) ){
 			$registry->get('config')->set('config_shared_session',true);

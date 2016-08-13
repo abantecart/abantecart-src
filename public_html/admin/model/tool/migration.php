@@ -279,6 +279,7 @@ class ModelToolMigration extends Model {
 				$loginname = 'gen_'.md5(microtime());
 			}
 
+			$salt_key = genToken(8);
 			$sql = "INSERT INTO " . DB_PREFIX . "customers
 					SET store_id = '" . $store_id . "',
 						firstname = '" . $this->db->escape($data['firstname']) . "',
@@ -287,7 +288,8 @@ class ModelToolMigration extends Model {
 						loginname = '" . $this->db->escape($loginname) . "',
 						telephone = '" . $this->db->escape($data['telephone']) . "',
 						fax = '" . $this->db->escape($data['fax']) . "',
-						password = '" . $this->db->escape(AEncryption::getHash($data['password'])) . "',
+						salt = '" . $this->db->escape($salt_key) . "', 
+						password = '" . $this->db->escape(sha1($salt_key.sha1($salt_key.sha1($data['password'])))) . "',
 						newsletter = '" . $this->db->escape($data['newsletter']) . "',
 						ip = '" . $this->db->escape($data['ip']) . "',
 						customer_group_id = '" . (int)$this->config->get('config_customer_group_id') . "',

@@ -17,11 +17,11 @@
    versions in the future. If you wish to customize AbanteCart for your
    needs please refer to http://www.AbanteCart.com for more information.
 ------------------------------------------------------------------------------*/
-if (!defined('DIR_CORE')) {
+if (!defined('DIR_CORE')){
 	header('Location: static_pages/');
 }
 
-class AWarning extends AError {
+class AWarning extends AError{
 
 	/**
 	 * warning constructor.
@@ -29,10 +29,10 @@ class AWarning extends AError {
 	 * @param  $msg - warning message
 	 * @param  $code - warning code
 	 */
-	public function __construct($msg, $code = AC_ERR_USER_WARNING) {
+	public function __construct($msg, $code = AC_ERR_USER_WARNING){
 		parent::__construct($msg, $code);
 		$backtrace = debug_backtrace();
-		$this->msg = $msg . ' in ' . $backtrace[ 0 ][ 'file' ] . ' on line ' . $backtrace[ 0 ][ 'line' ];
+		$this->msg = $msg . ' in ' . $backtrace[0]['file'] . ' on line ' . $backtrace[0]['line'];
 	}
 
 	/**
@@ -40,8 +40,8 @@ class AWarning extends AError {
 	 *
 	 * @return ADebug
 	 */
-	public function toDebug() {
-		ADebug::warning($this->error_descriptions[ $this->code ], $this->code, $this->msg);
+	public function toDebug(){
+		ADebug::warning($this->error_descriptions[$this->code], $this->code, $this->msg);
 		return $this;
 	}
 
@@ -49,16 +49,15 @@ class AWarning extends AError {
 	 * add warning message to messages
 	 * @return ADebug
 	 */
-	public function toMessages() {
-		if (is_object($this->registry) && $this->registry->has('messages')) {
+	public function toMessages(){
+		if (is_object($this->registry) && $this->registry->has('messages')){
 			/**
 			 * @var $messages AMessage
 			 */
 			$messages = $this->registry->get('messages');
-			$messages->saveWarning($this->error_descriptions[ $this->code ], $this->msg);
+			$messages->saveWarning($this->error_descriptions[$this->code], $this->msg);
 		}
 		return $this;
 	}
-
 
 }

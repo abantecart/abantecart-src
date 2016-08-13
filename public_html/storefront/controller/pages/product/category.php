@@ -49,7 +49,7 @@ class ControllerPagesProductCategory extends AController {
 		$this->document->resetBreadcrumbs();
 
    		$this->document->addBreadcrumb( array ( 
-      		'href'      => $this->html->getURL('index/home'),
+      		'href'      => $this->html->getHomeURL(),
        		'text'      => $this->language->get('text_home'),
        		'separator' => FALSE
    		 ));	
@@ -372,7 +372,7 @@ class ControllerPagesProductCategory extends AController {
         		$this->view->assign('heading_title', $category_info['name']);
         		$this->view->assign('text_error', $this->language->get('text_empty'));
         		$this->view->assign('button_continue', $this->language->get('button_continue'));
-        		$this->view->assign('continue', $this->html->getURL('index/home'));
+        		$this->view->assign('continue', $this->html->getHomeURL());
                 $this->view->assign('categories', array());
 				$this->data['products'] = array();
 				$this->view->setTemplate( 'pages/product/category.tpl' );
@@ -414,7 +414,7 @@ class ControllerPagesProductCategory extends AController {
 			                                           'text'=> $this->language->get('button_continue'),
 			                                           'style' => 'button')));
 
-      		$this->view->assign('continue',  $this->html->getURL('index/home') );
+      		$this->view->assign('continue',  $this->html->getHomeURL() );
 
             $this->view->setTemplate( 'pages/error/not_found.tpl' );
 		}

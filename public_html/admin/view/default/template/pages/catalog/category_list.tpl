@@ -45,7 +45,6 @@
 		<?php echo $listing_grid; ?>
 	</div>
 </div>
-
 <script type="text/javascript">
     $('#category_grid_wrapper a.grid_action_expand').click(function(){
         var new_url = '<?php echo $grid_url; ?>&'+$(this).attr('rel');
@@ -63,5 +62,6 @@
 			}
 		});
 		$('a[data-target="#embed_modal"]').attr('href', url);
+
 	}
 </script>

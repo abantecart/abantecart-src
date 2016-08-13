@@ -24,9 +24,25 @@
 
 	</form>
 </div>
+<?php 
+	//load quick view port modal
+	echo $this->html->buildElement(
+		array(
+				'type' => 'modal',
+				'id' => 'viewport_modal',
+				'modal_type' => 'lg',
+                'data_source' =>'ajax',
+				'js_onload' => "
+						var url = $(this).data('bs.modal').options.fullmodeHref;
+						$('#viewport_modal .modal-header a.btn').attr('href',url);
+						",
+				'js_onclose' => "$('#".$data['table_id']."').trigger('reloadGrid',[{current:true}]);"
+		)
+	);
+?>
+
 <script type="text/javascript" src="<?php echo $template_dir; ?>javascript/jqgrid/plugins/jquery.tablednd.js"></script>
 <script type="text/javascript">
-
 
 var initGrid_<?php echo $data['table_id'] ?> = function ($) {
 
@@ -218,7 +234,8 @@ var initGrid_<?php echo $data['table_id'] ?> = function ($) {
 		if (!empty($data['actions'])) {
 			foreach ($data['actions'] as $type => $action) {
 				$html_string = '';
-				$href = has_value($action['href']) ? $action['href'] : '#';
+				$href = 'href="'.(has_value($action['href']) ? $action['href'] : '#').'"';
+
 				$html_string .= "actions_urls['".$type."'] = '".$href."';\n";
 				$html_string .= ' actions += \'';
 				$has_children = sizeof($action['children']);
@@ -228,50 +245,50 @@ var initGrid_<?php echo $data['table_id'] ?> = function ($) {
 				}
 				switch ($type) {
 					case 'edit':
-						$html_btn .= ' href="'.$href.'" rel="%ID%"><i class="fa fa-edit fa-lg"></i>';
+						$html_btn .= ' '.$href.' rel="%ID%"><i class="fa fa-edit fa-lg"></i>';
 						break;
 					case 'delete':
-						if($href!='#'){
-							$html_btn .= ' href="'.$href.'" rel="%ID%" data-confirmation="delete"><i class="fa fa-trash-o fa-lg"></i>';
+						if($href!='href="#"'){
+							$html_btn .= ' '.$href.' rel="%ID%" data-confirmation="delete"><i class="fa fa-trash-o fa-lg"></i>';
 						}else{
-							$html_btn .= ' href="#" rel="%ID%"><i class="fa fa-trash-o fa-lg"></i>';
+							$html_btn .= ' '.$href.' rel="%ID%"><i class="fa fa-trash-o fa-lg"></i>';
 						}
 						break;
 					case 'save':
-						$html_btn .= ' href="'.$href.'" rel="%ID%"><i class="fa fa-save fa-lg"></i>';
+						$html_btn .= ' '.$href.' rel="%ID%"><i class="fa fa-save fa-lg"></i>';
 						break;
 					case 'expand':
-						$html_btn .= ' href="'.$href.'" rel="%ID%"><i class="fa fa-plus-square-o fa-lg"></i>';
+						$html_btn .= ' '.$href.' rel="%ID%"><i class="fa fa-plus-square-o fa-lg"></i>';
 						break;
 					case 'restart':
-						$html_btn .= ' href="'.$href.'" rel="%ID%"><i class="fa fa-repeat fa-lg"></i>';
+						$html_btn .= ' '.$href.' rel="%ID%"><i class="fa fa-repeat fa-lg"></i>';
 						break;
 					case 'run':
-						$html_btn .= ' href="'.$href.'" rel="%ID%"><i class="fa fa-play fa-lg"></i>';
+						$html_btn .= ' '.$href.' rel="%ID%"><i class="fa fa-play fa-lg"></i>';
 						break;
 					case 'approve':
-						$html_btn .= ' href="'.$href.'" rel="%ID%"><i class="fa fa-check-square-o fa-lg"></i>';
+						$html_btn .= ' '.$href.' rel="%ID%"><i class="fa fa-check-square-o fa-lg"></i>';
 						break;
 					case 'actonbehalfof':
-						$html_btn .= ' href="'.$href.'" target="_blank" rel="%ID%"><i class="fa fa-male fa-lg"></i>';
+						$html_btn .= ' '.$href.' target="_blank" rel="%ID%"><i class="fa fa-male fa-lg"></i>';
 						break;
 					case 'clone':
-						$html_btn .= ' href="'.$href.'" rel="%ID%"><i class="fa fa-clone fa-lg"></i>';
+						$html_btn .= ' '.$href.' rel="%ID%"><i class="fa fa-clone fa-lg"></i>';
 						break;
 					case 'remote_install':
-						$html_btn .= ' href="'.$href.'" rel="%ID%"><i class="fa fa-play fa-lg"></i>';
+						$html_btn .= ' '.$href.' rel="%ID%"><i class="fa fa-play fa-lg"></i>';
 						break;
 					case 'install':
-						$html_btn .= ' href="'.$href.'" rel="%ID%"><i class="fa fa-play fa-lg"></i>';
+						$html_btn .= ' '.$href.' rel="%ID%"><i class="fa fa-play fa-lg"></i>';
 						break;
 					case 'uninstall':
-						$html_btn .= ' href="'.$href.'" rel="%ID%" data-confirmation="delete"><i class="fa fa-times fa-lg"></i>';
+						$html_btn .= ' '.$href.' rel="%ID%" data-confirmation="delete"><i class="fa fa-times fa-lg"></i>';
 						break;
 					case 'view':
-						$html_btn .= ' href="'.$href.'" rel="%ID%"><i class="fa fa-eye fa-lg"></i>';
+						$html_btn .= ' '.$href.' rel="%ID%"><i class="fa fa-eye fa-lg"></i>';
 						break;
 					default:
-						$html_btn .= ' href="' . $action['href'] . '" id="action_' . $type . '_%ID%"  ' . (!empty($action['target']) ? 'target="' . $action['target'] . '"' : '') . '><i class="fa fa-' . $type . ' fa-lg"></i>';
+						$html_btn .= ' '.$href.' id="action_' . $type . '_%ID%"  ' . (!empty($action['target']) ? 'target="' . $action['target'] . '"' : '') . '><i class="fa fa-' . $type . ' fa-lg"></i>';
 				}
 
 				if($has_children){
@@ -283,18 +300,24 @@ var initGrid_<?php echo $data['table_id'] ?> = function ($) {
 				if($action['children']){
 					$html_children = '<div class="dropdown-menu dropdown-menu-sm dropdown-menu-right" role="menu"><h5 class="title">'.htmlentities($text_select_from_list,ENT_QUOTES,'UTF-8').'</h5><ul class="dropdown-list grid-dropdown">';
 					foreach($action['children'] as $child){
-						$href = has_value($child['href']) ? $child['href'] : '#';
-						$html_children .= '<li><a href="'.$href.'" rel="%ID%">'.htmlentities($child['text'],ENT_QUOTES,'UTF-8').'</a></li>';
+						$li_class = '';
+						$href = has_value($child['href']) ? $child['href'] : '#';				
+						//for viewport mode
+						if($child['vhref']){
+							$href = 'data-toggle="modal" data-target="#viewport_modal" href="'.$child['vhref'].'" data-fullmode-href="'.$href.'"';
+						} else {
+							$href = 'href="'.$href.'"';
+						}
+						$html_children .= '<li class="'.$li_class.'"><a '.$href.' rel="%ID%">'.htmlentities($child['text'],ENT_QUOTES,'UTF-8').'</a></li>';
 					}
 					$html_children .= '</ul></div>';
 					$html_btn = '<div class="btn-group">'.$html_btn.''.$html_children.'</div>';
-
 				}
-
 
 				echo $html_string.$html_btn."'; \r\n";
 			}
-		}
+
+		} // end of action 		
 		?>
 			if (actions != '') {
 				var ids = jQuery(table_id).jqGrid('getDataIDs');
@@ -328,7 +351,7 @@ var initGrid_<?php echo $data['table_id'] ?> = function ($) {
 							data: data,
 							success:function (msg) {
 								if (msg == '' || msg==null) {
-									jQuery(table_id).trigger("reloadGrid");
+									jQuery(table_id).trigger("reloadGrid",[{current:true}]);
 								} else {
 									alert(msg);
 								}
@@ -365,7 +388,7 @@ var initGrid_<?php echo $data['table_id'] ?> = function ($) {
 					var new_url = '<?php echo $data["url"] ?>&' + $(this).attr('rel');
 					$(table_id)
 						.jqGrid('setGridParam', {url:new_url})
-						.trigger("reloadGrid");
+						.trigger("reloadGrid",[{current:true}]);
 					return false;
 				});
 
@@ -430,14 +453,47 @@ var initGrid_<?php echo $data['table_id'] ?> = function ($) {
 				$(table_id + " tr").css('cursor', 'default');
 			}
 			<?php } ?>
-			$(table_id).jqGrid('setGridParam').trigger("reloadGrid");
+			$(table_id).jqGrid('setGridParam').trigger("reloadGrid",[{current:true}]);
 		},
 		ondblClickRow:function (row_id) {
-			var url = $('#action_edit_' + row_id).attr('href');
-			$(location).attr('href', url);
+			// quickview modal
+			var lnk = $('#' + row_id).find("td[aria-describedby$='_action']").find('[data-fullmode-href]');
+			//edit link
+			if(lnk.length == 0){
+				lnk = $('#' + row_id).find("td[aria-describedby$='_action']").find('.dropdown-menu [data-action-type="edit"]');
+			}
+			//view link
+			if(lnk.length == 0){
+				lnk = $('#' + row_id).find("td[aria-describedby$='_action']").find('.dropdown-menu [data-action-type="view"]');
+			}
+
+			if(lnk.length>0){
+				if(lnk.attr('data-toggle').length){
+					lnk.click();
+				}else {
+					var newhref = lnk.attr('href');
+					if(newhref.length>0) {
+						location = lnk.attr('href');
+					}else{
+						console.log('listing_grid double click issue. New href is empty.');
+						console.log(lnk);
+					}
+				}
+			}
+
+			return false;
+
 		}
 	});
-	$(table_id).jqGrid('navGrid', table_id + '_pager', {edit:false, add:false, del:false, search:false});
+	$(table_id).jqGrid('navGrid',
+						table_id + '_pager',
+						{   edit:false,
+							add:false,
+							del:false,
+							search:false,
+							refreshstate: "current"
+						});
+
 <?php    if ($data['hidden_head']) { ?>
 	$('.ui-jqgrid-hdiv').hide();
 	<?php
@@ -466,7 +522,7 @@ if ($custom_buttons) {
 		var new_url = '<?php echo $data["url"] ?>&' + $(this).serialize();
 		$(table_id)
 			.jqGrid('setGridParam', {url:new_url, page:1})
-			.trigger("reloadGrid");
+			.trigger("reloadGrid",[{current:true}]);
 		return false;
 	});
 	//reset
@@ -475,7 +531,7 @@ if ($custom_buttons) {
 		var new_url = '<?php echo $data["url"] ?>';
 		$(table_id)
 			.jqGrid('setGridParam', {url:new_url})
-			.trigger("reloadGrid");
+			.trigger("reloadGrid",[{current:true}]);
 		return false;
 	});
 	<?php } ?>
@@ -539,7 +595,7 @@ if ($custom_buttons) {
 					data:form_data,
 					success:function (msg) {
 						if (msg == '') {
-							jQuery(table_id).trigger("reloadGrid");
+							jQuery(table_id).trigger("reloadGrid",[{current:true}]);
 						} else {
 							alert(msg);
 						}
@@ -576,7 +632,7 @@ if ($custom_buttons) {
 				data:form_data,
 				success:function (msg) {
 					if (msg == '') {
-						$(table_id).trigger("reloadGrid");
+						$(table_id).trigger("reloadGrid",[{current:true}]);
 					} else {
 						alert(msg);
 					}

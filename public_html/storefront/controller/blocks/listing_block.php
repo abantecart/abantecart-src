@@ -25,8 +25,10 @@ class ControllerBlocksListingBlock extends AController {
 	public $data;
 	public function main() {
 
-		if($this->html_cache()){
-			return;
+		//disable cache when login display price setting is off or enabled showing of prices with taxes
+		if( ($this->config->get('config_customer_price') && !$this->config->get('config_tax'))
+			&&	$this->html_cache()	){
+			return null;
 		}
 
         //init controller data
@@ -258,6 +260,9 @@ class ControllerBlocksListingBlock extends AController {
 
 			// for resource library
 			if($route=='media'){
+				if(!$content['resource_type']){
+					return false;
+				}
 				$rl = new AResource($content['resource_type']);
 				$image_sizes = array(
 								'main' => array(
@@ -300,8 +305,6 @@ class ControllerBlocksListingBlock extends AController {
 					);
 				}
 
-
-
 				$resources = $rl->getResourceAllObjects( $object_name,
 														 $object_id,
 														 array('main'=>array(
@@ -312,7 +315,8 @@ class ControllerBlocksListingBlock extends AController {
 					                                                          'width' => $image_sizes['thumb']['width'],
 					                                                          'height' => $image_sizes['thumb']['height'])),
 														$limit,
-														false);
+														true);
+
 				if(!$resources){ return null;}
 				if($limit==1){
 					$resources = array($resources);
@@ -323,7 +327,7 @@ class ControllerBlocksListingBlock extends AController {
 						$result[$k]['resource_code'] = $resource['thumb_html'];
 					}else{
 						if($content['resource_type']!='image'){
-							$title = $resource['title'] .'<br>dowload';
+							$title = $resource['title'];
 						}else{
 							$title = $resource['title'];
 						}

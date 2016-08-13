@@ -94,36 +94,57 @@ class ControllerPagesToolUpdater extends AController {
 
 		}else{
 			$this->data['mp_connected'] = true;
-			$updates = $this->cache->pull('extensions.updates');
-			$this->data['extensions'] = array ();
+		}
 
-			if (!empty($updates) && is_array($updates)){
-				foreach ($updates as $key => $upd){
-					$ext_info = $this->extensions->getExtensionInfo($key);
-					$this->data['extensions'][$key]['installed_version'] = $ext_info['version'];
-					$this->data['extensions'][$key]['new_version'] = $upd['version'];
-					$this->data['extensions'][$key]['type'] = $ext_info['type'];
-					$this->data['extensions'][$key]['category'] = $ext_info['category'];
-					$this->data['extensions'][$key]['status'] = $this->html->buildCheckbox(array (
-							'id'    => $key . '_status',
-							'name'  => $key . '_status',
-							'value' => $ext_info['status'],
-							'style' => 'btn_switch btn-group-xs disabled',
-							'attr'  => 'readonly="true" data-edit-url="' . $this->html->getSecureURL('extension/extensions/edit', '&extension=' . $key) . '"'
-					));
+		$updates = $this->cache->pull('extensions.updates');
 
-					$this->data['extensions'][$key]['mp_url'] = $upd['url'];
-					if ($upd['installation_key']){
-						$this->data['extensions'][$key]['install_url'] = $this->html->getSecureURL('tool/package_installer', '&extension_key=' . $upd['installation_key']);
-					}
-					$this->data['extensions'][$key]['name'] = $this->extensions->getExtensionName($key);
+		$this->data['extensions'] = array ();
+
+		if (!empty($updates) && is_array($updates)){
+			foreach ($updates as $key => $version_info){
+				$ext_info = $this->extensions->getExtensionInfo($key);
+
+				$current_version = $ext_info['version'];
+				$new_version = $version_info['version'];
+
+				//skip old or current versions
+				if (versionCompare($current_version, $new_version, '>=')){
+					continue;
 				}
-			}
 
-			if (!$this->data['extensions']){
-				$this->data['text_nothing_todo'] = $this->language->get('text_nothing_todo');
+				//skip versions that not supported by current cart version
+				if (!in_array(VERSION, $version_info['cart_versions'])){
+					continue;
+				}
+
+				$this->data['extensions'][$key]['installed_version'] = $current_version;
+				$this->data['extensions'][$key]['new_version'] = $new_version;
+				$this->data['extensions'][$key]['type'] = $ext_info['type'];
+				$this->data['extensions'][$key]['category'] = $ext_info['category'];
+				$this->data['extensions'][$key]['status'] = $this->html->buildElement(
+						array (
+								'type'  => 'checkbox',
+								'id'    => $key . '_status',
+								'name'  => $key . '_status',
+								'value' => $ext_info['status'],
+								'style' => 'btn_switch btn-group-xs disabled',
+								'attr'  => 'readonly="true" data-edit-url="' . $this->html->getSecureURL('extension/extensions/edit', '&extension=' . $key) . '"'
+						));
+
+				if ($version_info['installation_key']){
+					$this->data['extensions'][$key]['install_url'] = $this->html->getSecureURL('tool/package_installer', '&extension_key=' . $version_info['installation_key']);
+				}else{
+					$this->data['extensions'][$key]['install_url'] = $version_info['url'];
+				}
+				$this->data['extensions'][$key]['name'] = $this->extensions->getExtensionName($key);
+
 			}
 		}
+
+		if (!$this->data['extensions']){
+			$this->data['text_nothing_todo'] = $this->language->get('text_nothing_todo');
+		}
+
 		$this->view->assign('help_url', $this->gen_help_url() );
 		$this->view->batchAssign($this->data);
 		$this->processTemplate('pages/tool/updater.tpl');

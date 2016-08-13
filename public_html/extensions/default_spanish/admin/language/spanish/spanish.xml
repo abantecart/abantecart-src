@@ -736,4 +736,16 @@
 		<key>text_texteditor_extended_mode</key>
 		<value><![CDATA[<a class="texteditor_ext_mode" href="%s" ><i class="fa fa-external-link"></i> Editar en modo extendido</a>]]></value>
 	</definition>
+	<definition>
+		<key>text_quick_view</key>
+		<value><![CDATA[Vista rápida]]></value>
+	</definition>
+	<definition>
+		<key>text_more_current</key>
+		<value><![CDATA[Página completa]]></value>
+	</definition>
+	<definition>
+		<key>text_more_new</key>
+		<value><![CDATA[Nueva pestaña]]></value>
+	</definition>
 </definitions>

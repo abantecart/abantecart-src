@@ -17,7 +17,7 @@
 	<definition>
 		<key>text_activate</key>
 		<value>
-			<![CDATA[<p>Grazie per esserti registrato con %s!</p><p>Riceverai una notifica via e-mail circa l'attivazione dell'account.</p><p>Se avete domande sul funzionamento di questo negozio on-line, si prega di <a href="%s">contattarci</a>.</p>]]></value>
+			<![CDATA[<p>Grazie per esserti registrato con %s!</p><p>Riceverai una notifica via e-mail con le vostre istruzioni per l'attivazione dell'account. È necessario fare clic sul link fornito nell'e-mail per attivare l'account. Se non ricevi e-mail, si prega di controllare nei vostri junk o spam cartelle. </p><p>Se avete domande sul funzionamento di questo negozio on-line, si prega <a href="%s">contattare il proprietario del negozio</a>.</p>]]></value>
 	</definition>
 	<definition>
 		<key>text_account</key>

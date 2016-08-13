@@ -17,11 +17,12 @@
    versions in the future. If you wish to customize AbanteCart for your
    needs please refer to http://www.AbanteCart.com for more information.
 ------------------------------------------------------------------------------*/
-if (! defined ( 'DIR_CORE' ) || !IS_ADMIN) {
-	header ( 'Location: static_pages/' );
+if (!defined('DIR_CORE') || !IS_ADMIN){
+	header('Location: static_pages/');
 }
-class ModelLocalisationLanguage extends Model {
-	public function addLanguage($data) {
+
+class ModelLocalisationLanguage extends Model{
+	public function addLanguage($data){
 		$this->db->query("INSERT INTO " . $this->db->table("languages") . " 
 							SET name = '" . $this->db->escape($data['name']) . "',
 								code = '" . $this->db->escape($data['code']) . "',
@@ -30,162 +31,161 @@ class ModelLocalisationLanguage extends Model {
 								filename = '" . $this->db->escape($data['directory']) . "',
 								sort_order = '" . $this->db->escape($data['sort_order']) . "',
 								status = '" . (int)$data['status'] . "'");
-		
+
 		$this->cache->remove('localization');
-		
+
 		$language_id = $this->db->getLastId();
-		
+
 		//add menu items for new language
 		$menu = new AMenu_Storefront();
-		$menu->addLanguage( (int)$language_id );
+		$menu->addLanguage((int)$language_id);
 
 		//language data is copied/translated in a seprate process.
 		return $language_id;
 	}
-	
-	public function editLanguage($language_id, $data) {
-		$update_data = array();
-		foreach ( $data as $key => $val ) {
+
+	public function editLanguage($language_id, $data){
+		$update_data = array ();
+		foreach ($data as $key => $val){
 			$update_data[] = "`$key` = '" . $this->db->escape($val) . "' ";
 		}
-		$this->db->query("UPDATE " . $this->db->table("languages") . " SET ".implode(',', $update_data)." WHERE language_id = '" . (int)$language_id . "'");
-				
+		$this->db->query("UPDATE " . $this->db->table("languages") . " SET " . implode(',', $update_data) . " WHERE language_id = '" . (int)$language_id . "'");
+
 		$this->cache->remove('localization');
 	}
-	
-	public function deleteLanguage($language_id) {
+
+	public function deleteLanguage($language_id){
 		$this->db->query("DELETE FROM " . $this->db->table("languages") . " WHERE language_id = '" . (int)$language_id . "'");
-		
+
 		$this->language->deleteAllLanguageEntries($language_id);
 
 		//too many changes and better clear all cache
 		$this->cache->remove('*');
-				
+
 		//delete menu items for given language
 		$menu = new AMenu_Storefront();
-		$menu->deleteLanguage( (int)$language_id );
+		$menu->deleteLanguage((int)$language_id);
 	}
-	
-	public function getLanguage($language_id) {
+
+	public function getLanguage($language_id){
 		$query = $this->db->query("SELECT DISTINCT * FROM " . $this->db->table("languages") . " WHERE language_id = '" . (int)$language_id . "'");
 		$result = $query->row;
-		if(!$result['image']){
-			if(file_exists(DIR_ROOT.'/admin/language/'.$result['directory'].'/flag.png')){
-				$result['image'] = HTTP_ABANTECART.'admin/language/'.$result['directory'].'/flag.png';
+		if (!$result['image']){
+			if (file_exists(DIR_ROOT . '/admin/language/' . $result['directory'] . '/flag.png')){
+				$result['image'] = HTTP_ABANTECART . 'admin/language/' . $result['directory'] . '/flag.png';
 			}
-		}else{
-			$result['image'] = HTTP_ABANTECART.$result['image'];
+		} else{
+			$result['image'] = HTTP_ABANTECART . $result['image'];
 		}
 		return $query->row;
 	}
 
-	public function getLanguages($data = array(), $mode = 'default') {
-        if ($data || $mode == 'total_only') {
-        	$filter = (isset($data['filter']) ? $data['filter'] : array());
-			if ($mode == 'total_only') {
+	public function getLanguages($data = array (), $mode = 'default'){
+		if ($data || $mode == 'total_only'){
+			$filter = (isset($data['filter']) ? $data['filter'] : array ());
+			if ($mode == 'total_only'){
 				$sql = "SELECT count(*) as total FROM " . $this->db->table("languages") . " ";
-			}
-			else {
+			} else{
 				$sql = "SELECT * FROM " . $this->db->table("languages") . " ";
 			}
-			
-			if (isset($filter['status']) && !is_null($filter['status'])) { 
-				$sql .= " WHERE `status` = '".$this->db->escape( $filter['status'] )."' ";			
-			} else {
-				$sql .= " WHERE `status` like '%' ";			
+
+			if (isset($filter['status']) && !is_null($filter['status'])){
+				$sql .= " WHERE `status` = '" . $this->db->escape($filter['status']) . "' ";
+			} else{
+				$sql .= " WHERE `status` like '%' ";
 			}
 
-			if (isset($filter['name']) && !is_null($filter['name'])) {
-				$sql .= " AND `name` LIKE '%".$this->db->escape( $filter['name'] )."%' ";
+			if (isset($filter['name']) && !is_null($filter['name'])){
+				$sql .= " AND `name` LIKE '%" . $this->db->escape($filter['name']) . "%' ";
 			}
-			
-			if ( !empty($data['subsql_filter']) ) {
-				$sql .= " AND ".$data['subsql_filter'];
+
+			if (!empty($data['subsql_filter'])){
+				$sql .= " AND " . $data['subsql_filter'];
 			}
 
 			//If for total, we done bulding the query
-			if ($mode == 'total_only') {
-			    $query = $this->db->query($sql);
-		    	return $query->row['total'];
+			if ($mode == 'total_only'){
+				$query = $this->db->query($sql);
+				return $query->row['total'];
 			}
 
-			$sort_data = array(
-				'name',
-				'code',
-				'sort_order'
-			);	
-			
-			if (isset($data['sort']) && in_array($data['sort'], $sort_data)) {
-				$sql .= " ORDER BY " . $data['sort'];	
-			} else {
-				$sql .= " ORDER BY sort_order, name";	
+			$sort_data = array (
+					'name',
+					'code',
+					'sort_order'
+			);
+
+			if (isset($data['sort']) && in_array($data['sort'], $sort_data)){
+				$sql .= " ORDER BY " . $data['sort'];
+			} else{
+				$sql .= " ORDER BY sort_order, name";
 			}
-			
-			if (isset($data['order']) && (strtoupper($data['order']) == 'DESC')) {
+
+			if (isset($data['order']) && (strtoupper($data['order']) == 'DESC')){
 				$sql .= " DESC";
-			} else {
+			} else{
 				$sql .= " ASC";
 			}
-			
-			if (isset($data['start']) || isset($data['limit'])) {
-				if ($data['start'] < 0) {
-					$data['start'] = 0;
-				}					
 
-				if ($data['limit'] < 1) {
+			if (isset($data['start']) || isset($data['limit'])){
+				if ($data['start'] < 0){
+					$data['start'] = 0;
+				}
+
+				if ($data['limit'] < 1){
 					$data['limit'] = 20;
-				}	
-			
+				}
+
 				$sql .= " LIMIT " . (int)$data['start'] . "," . (int)$data['limit'];
 			}
-			
+
 			$query = $this->db->query($sql);
 			$result = $query->rows;
-			foreach($result as $i=>$row){
-				if(empty($row['image'])){
-					if(file_exists(DIR_ROOT.'/admin/language/'.$row['directory'].'/flag.png')){
-						$result[$i]['image'] = 'admin/language/'.$row['directory'].'/flag.png';
+			foreach ($result as $i => $row){
+				if (empty($row['image'])){
+					if (file_exists(DIR_ROOT . '/admin/language/' . $row['directory'] . '/flag.png')){
+						$result[$i]['image'] = 'admin/language/' . $row['directory'] . '/flag.png';
 					}
-				}else{
+				} else{
 					$result[$i]['image'] = $row['image'];
 				}
 			}
 			return $result;
-		} else {
-			$language_data = $this->cache->pull('localization.language');
-		
-			if ($language_data === false) {
-				$query = $this->db->query( "SELECT *
+		} else{
+			$language_data = $this->cache->pull('localization.language.admin');
+
+			if ($language_data === false){
+				$query = $this->db->query("SELECT *
 											FROM " . $this->db->table("languages") . " 
 											ORDER BY sort_order, name");
-	
-    			foreach ($query->rows as $result) {
-					if(empty($result['image'])){
-						if(file_exists(DIR_ROOT.'/admin/language/'.$result['directory'].'/flag.png')){
-							$result['image'] = 'admin/language/'.$result['directory'].'/flag.png';
+
+				foreach ($query->rows as $result){
+					if (empty($result['image'])){
+						if (file_exists(DIR_ROOT . '/admin/language/' . $result['directory'] . '/flag.png')){
+							$result['image'] = 'admin/language/' . $result['directory'] . '/flag.png';
 						}
 					}
 
-      				$language_data[$result['code']] = array(
-        				'language_id' => $result['language_id'],
-        				'name'        => $result['name'],
-        				'code'        => $result['code'],
-						'locale'      => $result['locale'],
-						'image'       => $result['image'],
-						'directory'   => $result['directory'],
-						'filename'    => $result['filename'],
-						'sort_order'  => $result['sort_order'],
-						'status'      => $result['status']
-      				);
-    			}
-				$this->cache->push('localization.language', $language_data);
+					$language_data[$result['code']] = array (
+							'language_id' => $result['language_id'],
+							'name'        => $result['name'],
+							'code'        => $result['code'],
+							'locale'      => $result['locale'],
+							'image'       => $result['image'],
+							'directory'   => $result['directory'],
+							'filename'    => $result['filename'],
+							'sort_order'  => $result['sort_order'],
+							'status'      => $result['status']
+					);
+				}
+				$this->cache->push('localization.language.admin', $language_data);
 			}
-		
-			return $language_data;			
+
+			return $language_data;
 		}
 	}
 
-	public function getTotalLanguages( $data = array() ) {
-		return $this->getLanguages( $data, 'total_only' );
+	public function getTotalLanguages($data = array ()){
+		return $this->getLanguages($data, 'total_only');
 	}
 }

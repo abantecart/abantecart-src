@@ -1410,6 +1410,11 @@ p {
 .reslibrary-options .confirm_popover.dropdown-menu {
 	bottom: auto;
 }
+
+.confirm_popover.dropdown-menu{
+   z-index: 2001;
+}
+
 .thumbnail .rl_large_icon {
 	height: 114px;
 }
@@ -2591,6 +2596,10 @@ body.stickyheader .sticky_left {
    .fixed-noleft .topnav {
       float: none;
    }
+
+   .modal-dialog.modal-lg {
+      width: 99%;
+   }
 }
 
 @media screen and (max-width: 767px) {
@@ -2633,6 +2642,10 @@ body.stickyheader .sticky_left {
    
    .panel-email .col-sm-3 {
       display: none;
+   }
+
+   .modal-dialog.modal-lg {
+      width: 99%;
    }
 }
 
@@ -2770,6 +2783,9 @@ body.stickyheader .sticky_left {
       content: '';
    }
 
+   .modal-dialog.modal-lg {
+      width: 99%;
+   }
 }
 
 @media screen and (max-width: 480px) {
@@ -2854,7 +2870,11 @@ body.stickyheader .sticky_left {
 
    .common_content_actions {
    		padding-top: 20px;
-   }   
+   }
+
+   .modal-dialog.modal-lg {
+      width: 99%;
+   }
    
 }
 
@@ -2915,7 +2935,10 @@ body.stickyheader .sticky_left {
    
    .common_content_actions {
    		padding-top: 20px;
-   }   
+   }
+   .modal-dialog.modal-lg {
+      width: 99%;
+   }
 }
 
 @media screen and (max-width: 320px) {
@@ -2926,6 +2949,10 @@ body.stickyheader .sticky_left {
    
    .common_content_actions {
    		padding-top: 20px;
+   }
+
+   .modal-dialog.modal-lg {
+      width: 99%;
    }
      
 }

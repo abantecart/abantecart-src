@@ -559,7 +559,7 @@ class ControllerPagesSettingSetting extends AController {
 		$ret_data = array();
 
 		if ($data['storefront_template_debug']) {
-			$this->session->data['tmpl_debug'] = AEncryption::getHash(mt_rand());
+			$this->session->data['tmpl_debug'] = genToken(16);
 			$ret_data['storefront_debug_url'] = $this->html->getCatalogURL('index/home', '&tmpl_debug=' . $this->session->data['tmpl_debug']);
 			$ret_data['admin_debug_url'] = $this->html->getSecureURL('index/home', '&tmpl_debug=' . $this->session->data['tmpl_debug']);
 		} else {
@@ -622,7 +622,11 @@ class ControllerPagesSettingSetting extends AController {
 	}
 
 	public function phpinfo(){
-		phpinfo();
+		if (defined('IS_DEMO') && IS_DEMO) {
+			echo "Not supported in the demo mode";
+		} else {
+			phpinfo();
+		}
 		exit;
 	}
 

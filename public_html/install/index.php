@@ -54,16 +54,6 @@ if (file_exists(DIR_SYSTEM . 'config.php')){
 	require_once(DIR_SYSTEM . 'config.php');
 }
 
-if(isset($_SESSION['SALT']) && strlen($_SESSION['SALT'])==4){
-	define('SALT',$_SESSION['SALT']);
-}
-
-//generate salt
-if(!defined('SALT')){
-	DEFINE('SALT',randomWord(4));
-	$_SESSION['SALT'] = SALT;
-}
-
 $data_exist = false;
 if ( defined('DB_HOSTNAME') && DB_HOSTNAME ) {
 	$db = new ADB(DB_DRIVER, DB_HOSTNAME, DB_USERNAME, DB_PASSWORD, DB_DATABASE);

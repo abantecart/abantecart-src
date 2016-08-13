@@ -80,6 +80,8 @@ class ControllerPagesSaleCustomer extends AController {
 				'text' => $this->language->get('heading_title'),
 				'current' => true
 		));
+		//add phone validation js for quick preview modal
+		$this->document->addScript($this->view->templateResource('/javascript/intl-tel-input/js/intlTelInput.min.js'));
 
 		//set store selector
 		$this->view->assign('form_store_switch', $this->html->getStoreSwitcher());
@@ -127,6 +129,12 @@ class ControllerPagesSaleCustomer extends AController {
 								'text' => $this->language->get('text_edit'),
 								'href' => $this->html->getSecureURL('sale/customer/update', '&customer_id=%ID%'),
 								'children' => array_merge(array(
+										'quickview' => array(
+										                'text' => $this->language->get('text_quick_view'),
+										                'href' => $this->html->getSecureURL('sale/customer/update', '&customer_id=%ID%'),
+								                        //quick view port URL
+										                'vhref' => $this->html->getSecureURL('r/common/viewport/modal','&viewport_rt=sale/customer/update&customer_id=%ID%'),
+														),
 						                'details' => array(
 										                'text' => $this->language->get('tab_customer_details'),
 										                'href' => $this->html->getSecureURL('sale/customer/update', '&customer_id=%ID%'),
@@ -288,6 +296,7 @@ class ControllerPagesSaleCustomer extends AController {
 	}
 
 	public function update() {
+		$args = func_get_args();
 
 		//init controller data
 		$this->extensions->hk_InitData($this, __FUNCTION__);
@@ -319,14 +328,14 @@ class ControllerPagesSaleCustomer extends AController {
 			$this->redirect( $redirect_url );
 		}
 
-		$this->_getForm();
+		$this->_getForm($args);
 
 		//update controller data
 		$this->extensions->hk_UpdateData($this, __FUNCTION__);
 	}
 
-	private function _getForm( ) {
-
+	private function _getForm($args = array()) {
+		$viewport_mode = isset($args[0]['viewport_mode']) ? $args[0]['viewport_mode'] : '';
 		$customer_id = $this->request->get['customer_id'];
 
 		$this->data['token'] = $this->session->data['token'];
@@ -351,7 +360,7 @@ class ControllerPagesSaleCustomer extends AController {
 					array(
 							'type' => 'button',
 							'name' => 'view orders',
-							'text' => $this->language->get('text_order') . ': ' . $customer_info['orders_count'],
+							'text' => $this->language->get('text_total_order') . ' ' . $customer_info['orders_count'],
 							'style' => 'button2',
 							'href' => $this->html->getSecureURL('sale/order', '&customer_id=' . $customer_id),
 							'title' => $this->language->get('text_view') . ' ' . $this->language->get('tab_history')
@@ -504,11 +513,14 @@ class ControllerPagesSaleCustomer extends AController {
 		}
 
 		foreach ($required_input as $f) {
+			if($viewport_mode=='modal' && in_array($f, array('password'))){
+				continue;
+			}
 			$this->data['form']['fields']['details'][$f] = $form->getFieldHtml(array(
 					'type' => ($f == 'password' ? 'passwordset' : 'input'),
 					'name' => $f,
 					'value' => $this->data[$f],
-					'required' => (in_array($f, array('password', 'fax')) ? false : true),
+					'required' => (in_array($f, array('password', 'fax','telephone')) ? false : true),
 					'style' => ($f == 'password' ? 'small-field' : '')
 			));
 		}
@@ -562,7 +574,15 @@ class ControllerPagesSaleCustomer extends AController {
 		$this->data['balance'] = $this->language->get('text_balance') . ' ' . $currency['symbol_left'] . round($balance, 2) . $currency['symbol_right'];
 		$this->view->batchAssign($this->data);
 
-		$this->processTemplate('pages/sale/customer_form.tpl');
+
+		if($viewport_mode == 'modal'){
+			$tpl = 'responses/viewport/modal/sale/customer_form.tpl';
+		}else{
+			$tpl = 'pages/sale/customer_form.tpl';
+		}
+
+		$this->processTemplate($tpl);
+
 	}
 
 	public function insert_address() {
@@ -657,7 +677,7 @@ class ControllerPagesSaleCustomer extends AController {
 					array(
 							'type' => 'button',
 							'name' => 'view orders',
-							'text' => $this->language->get('text_order') . ': ' . $customer_info['orders_count'],
+							'text' => $this->language->get('text_total_order') . ' ' . $customer_info['orders_count'],
 							'style' => 'button2',
 							'href' => $this->html->getSecureURL('sale/order', '&customer_id=' . $customer_id),
 							'title' => $this->language->get('text_view') . ' ' . $this->language->get('tab_history')
@@ -1026,25 +1046,51 @@ class ControllerPagesSaleCustomer extends AController {
 			$store_info = $this->model_setting_store->getStore($customer_info['store_id']);
 
 			if ($store_info) {
-				$store_name = $store_info['store_name'];
-				$store_url = $store_info['config_url'] . 'index.php?rt=account/login';
+				$store_name = $store_info[ 'store_name' ];
+				$store_url = $store_info[ 'config_url' ] . 'index.php?rt=account/login';
+				$store_logo_file = DIR_RESOURCE . $store_info['config_logo'];
+				$store_logo = md5(pathinfo($store_info['config_logo'], PATHINFO_FILENAME)) . '.' . pathinfo($store_info['config_logo'], PATHINFO_EXTENSION);
 			} else {
 				$store_name = $this->config->get('store_name');
 				$store_url = $this->config->get('config_url') . 'index.php?rt=account/login';
+				$store_logo = md5(pathinfo($this->config->get('config_logo'), PATHINFO_FILENAME)) . '.' . pathinfo($this->config->get('config_logo'), PATHINFO_EXTENSION);
+				$store_logo_file = DIR_RESOURCE . $this->config->get('config_logo');
 			}
 
-			$message = sprintf($this->language->get('text_welcome'), $store_name) . "\n\n";;
-			$message .= $this->language->get('text_login') . "\n";
-			$message .= $store_url . "\n\n";
-			$message .= $this->language->get('text_services') . "\n\n";
-			$message .= $this->language->get('text_thanks') . "\n";
-			$message .= $store_name;
+			$plain_text = sprintf($this->language->get('text_welcome'), $store_name) . "\n\n";
+
+			$plain_text .= $this->language->get('text_login') . "\n";
+			$plain_text .= $store_url . "\n\n";
+			$plain_text .= $this->language->get('text_services') . "\n\n";
+			$plain_text .= $this->language->get('text_thanks') . "\n";
+			$plain_text .= $store_name;
+
+
+			//build HTML message with the template
+			$template = new ATemplate();
+			$template->data['text_welcome'] = sprintf($this->language->get('text_welcome'), $store_name) . "\n\n";
+
+			$template->data['text_login'] = $this->language->get('text_login');
+			$template->data['text_login_later'] = '<a href="' . $store_url . '">' . $store_url . '</a>';
+			$template->data['text_services'] = $this->language->get('text_services');
+
+
+			$template->data['logo'] = 'cid:' . $store_logo;
+			$template->data['store_name'] = $store_name;
+			$template->data['store_url'] = $store_url;
+			$template->data['text_thanks'] = $this->language->get('text_thanks');
+
+			$template->data['text_project_label'] = project_base();
+			$html_body = $template->fetch('mail/account_create.tpl');
+
 			$mail = new AMail($this->config);
-			$mail->setTo($customer_info['email']);
+			$mail->setTo($customer_info[ 'email' ]);
 			$mail->setFrom($this->config->get('store_main_email'));
 			$mail->setSender($store_name);
 			$mail->setSubject(sprintf($this->language->get('text_subject'), $store_name));
-			$mail->setText(html_entity_decode($message, ENT_QUOTES, 'UTF-8'));
+			$mail->setText(html_entity_decode($plain_text, ENT_QUOTES, 'UTF-8'));
+			$mail->setHtml($html_body);
+			$mail->addAttachment($store_logo_file, $store_logo);
 			$mail->send();
 		}
 	}

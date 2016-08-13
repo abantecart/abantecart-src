@@ -73,7 +73,7 @@ class ControllerCommonSeoUrl extends AController {
 			} elseif (isset($this->request->get['content_id'])) {
 				$this->request->get['rt'] = 'pages/content/content';
 			}
-
+			$this->extensions->hk_ProcessData($this,'seo_url');
 			if (isset($this->request->get['rt'])) {
 				$rt = $this->request->get['rt'];
 				//remove pages prefix from rt for use in new generated urls

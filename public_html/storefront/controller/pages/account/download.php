@@ -29,7 +29,6 @@ class ControllerPagesAccountDownload extends AController {
 
 		if (!$this->customer->isLogged()) {
 			$this->session->data['redirect'] = $this->html->getSecureURL('account/download');
-
 			$this->redirect($this->html->getSecureURL('account/login'));
 		}
          
@@ -43,7 +42,7 @@ class ControllerPagesAccountDownload extends AController {
       	$this->document->resetBreadcrumbs();
 
       	$this->document->addBreadcrumb( array ( 
-        	'href'      => $this->html->getSecureURL('index/home'),
+        	'href'      => $this->html->getHomeURL(),
         	'text'      => $this->language->get('text_home'),
         	'separator' => FALSE
       	 )); 
@@ -111,6 +110,9 @@ class ControllerPagesAccountDownload extends AController {
 					$size = $size / 1024;
 					$i++;
 				}
+
+				$download_text = $download_button = '';
+
 				if(!$text_status){
 					$download_button = $this->html->buildElement(
 							array ( 'type' => 'button',
@@ -139,8 +141,8 @@ class ControllerPagesAccountDownload extends AController {
 					'name'       => $download_info['name'],
 					'remaining'  => $download_info['remaining_count'],
 					'size'       => round(substr($size, 0, strpos($size, '.') + 4), 2) . $suffix[$i],
-					'button'	=> $download_button,
-					'text'	=> $download_text,
+					'button'	 => $download_button,
+					'text'	     => $download_text,
 					'expire_date'=> dateISO2Display($download_info['expire_date'], $this->language->get('date_format_short').' '.$this->language->get('time_format_short'))
 				);
 
@@ -148,18 +150,19 @@ class ControllerPagesAccountDownload extends AController {
 
 			$this->data['downloads'] = $downloads;
 
-			$this->data['pagination_bootstrap'] = HtmlElementFactory::create( array (
-										'type' => 'Pagination',
-										'name' => 'pagination',
-										'text'=> $this->language->get('text_pagination'),
-										'text_limit' => $this->language->get('text_per_page'),
-										'total'	=> sizeof($downloads),
-										'page'	=> $page,
-										'limit'	=> $limit,
-										'url' => $this->html->getURL('account/download&page={page}', '&encode'),
-										'style' => 'pagination'));
-
-
+			$this->data['pagination_bootstrap'] = $this->html->buildElement(
+					array (
+							'type' => 'Pagination',
+							'name' => 'pagination',
+							'text'=> $this->language->get('text_pagination'),
+							'text_limit' => $this->language->get('text_per_page'),
+							'total'	=> $this->download->getTotalDownloads(),
+							'page'	=> $page,
+							'limit'	=> $limit,
+							'url'   => $this->html->getURL('account/download&limit='.$limit.'&page={page}', '&encode'),
+							'style' => 'pagination'
+					)
+			);
 
 			if($downloads){
 				$template = 'pages/account/download.tpl';
@@ -177,6 +180,11 @@ class ControllerPagesAccountDownload extends AController {
 														'icon' => 'fa fa-arrow-right',
 			                                           'href' => $this->html->getSecureURL('account/account')));
 		$this->data['button_continue'] = $continue;
+
+		if( $this->session->data['warning'] ){
+			$this->data['error_warning'] = $this->session->data['warning'];
+			unset($this->session->data['warning']);
+		}
 		$this->view->batchAssign($this->data);
         $this->processTemplate($template);
 
@@ -188,34 +196,43 @@ class ControllerPagesAccountDownload extends AController {
 		//init controller data
 		$this->extensions->hk_InitData($this,__FUNCTION__);
 
-		if(!$this->config->get('config_download')){ // if downloads not allowed
+		$download_id = (int)$this->request->get['download_id'];
+		$order_download_id = (int)$this->request->get['order_download_id'];
+
+		if(!$this->config->get('config_download') ){
 			$this->redirect($this->html->getSecureURL('account/account'));
 		}
 
-		if (has_value($this->request->get['download_id'])) {
-			$download_info = $this->download->getDownloadinfo((int)$this->request->get['download_id']);
-		} elseif(has_value($this->request->get['order_download_id'])) {
-			// check is customer logged
-			if (!$this->customer->isLogged()) {
-				$this->session->data['redirect'] = $this->html->getSecureURL('account/download');
-				$this->redirect($this->html->getSecureURL('account/login'));
+		$can_access = false;
+		$download_info = array();
+
+		if ($download_id) {
+			//downloads before order
+			$download_info = $this->download->getDownloadinfo($download_id);
+			//allow $download_id based downloads only for 'before_order' type download
+			if($download_info && $download_info['activate'] == 'before_order'){
+				$can_access = true;
 			}
-			$download_info = $this->download->getOrderDownloadInfo($this->request->get['order_download_id']);
-		}else {
-			$download_info = array();
+		} else if ($order_download_id && $this->customer->isLogged()) {
+			//verify purchased downloads only for logged customers
+			$download_info = $this->download->getOrderDownloadInfo($order_download_id);
+			if($download_info){
+				//check is customer has requested download in his order
+				$customer_downloads = $this->download->getCustomerDownloads();
+				if (in_array($order_download_id, array_keys($customer_downloads))){
+					$can_access = true;
+				}
+			}
 		}
 
-		$this->extensions->hk_UpdateData($this,__FUNCTION__);
+		//if can access and info presents - retrieve file and output 
+		if ($can_access && $download_info && is_array($download_info)) {
+			//if it's ok - send file and exit, otherwise do nothing
+			$this->download->sendDownload($download_info);
+        }
 
-		if ($download_info) {
-			$result = $this->download->sendDownload($download_info);
-			if($result===false){
-				$this->redirect($this->html->getSecureURL('account/download'));
-			}
-        } else {
-			$this->session->data['warning'] = $this->language->get('error_download_not_exists');
-			$this->redirect($this->html->getSecureURL('account/download'));
-		}
+		$this->session->data['warning'] = $this->language->get('error_download_not_exists');
+		$this->redirect($this->html->getSecureURL('account/download'));
 	}
 
 }

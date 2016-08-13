@@ -16,7 +16,7 @@
 	<definition>
 		<key>text_services</key>
 		<value>
-			<![CDATA[Una volta effettuato l'accesso, potrai accedere ad altri servizi tra cui la revisione dei dati precedenti, la stampa delle fatture e la possibilità di modificare le informazioni del tuo account.]]></value>
+			<![CDATA[Una volta effettuato l'accesso, si sarà in grado di accedere, wishlist, la cronologia degli ordini, fatture di stampa e modifica le informazioni dell'account.]]></value>
 	</definition>
 	<definition>
 		<key>text_thanks</key>

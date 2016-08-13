@@ -73,6 +73,6 @@
 	<definition>
 		<key>text_resend_activation_email</key>
 		<value>
-			<![CDATA[Errore: Il codice di attivazione non è stato trovato. Per inviare un nuovo codice clicca a questo <a href=" %s ">link</a>]]></value>
+			<![CDATA[Errore: Il tuo indirizzo e-mail non è stato ancora confermato. Per inviare nuovamente nuova email di conferma cliccare questo <a href=" %s ">link</a>]]></value>
 	</definition>
 </definitions>

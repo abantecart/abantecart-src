@@ -349,4 +349,8 @@
         <key>text_transaction_notification_message</key>
         <value><![CDATA[New transaction has been posted to your %s account in the amount of %s. For more details, login to %s account]]></value>
     </definition>
+	<definition>
+		<key>text_total_order</key>
+		<value><![CDATA[Total Orders:]]></value>
+	</definition>
 </definitions>

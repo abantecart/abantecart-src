@@ -17,38 +17,38 @@
    versions in the future. If you wish to customize AbanteCart for your
    needs please refer to http://www.AbanteCart.com for more information.
 ------------------------------------------------------------------------------*/
-if (! defined ( 'DIR_CORE' )) {
-	header ( 'Location: static_pages/' );
+if (!defined('DIR_CORE')){
+	header('Location: static_pages/');
 }
 
 /**
- * Class to handle file downlaods and uploads
+ * Class to handle file downloads and uploads
  *
  */
+
 /**
  * @property ALanguageManager $language
  * @property ADB $db
  * @property ACache $cache
  * @property AConfig $config
  */
-
-class AFile {
+class AFile{
 
 	/**
 	 * @var registry - access to application registry
 	 */
 	protected $registry;
 
-	public function __construct() {
+	public function __construct(){
 		$this->registry = Registry::getInstance();
-		$this->errors = array();
+		$this->errors = array ();
 	}
 
 	/**
 	 * @param  $key - key to load data from registry
 	 * @return mixed  - data from registry
 	 */
-	public function __get($key) {
+	public function __get($key){
 		return $this->registry->get($key);
 	}
 
@@ -57,7 +57,7 @@ class AFile {
 	 * @param  mixed $value - key to save data in registry
 	 * @return mixed  - data from registry
 	 */
-	public function __set($key, $value) {
+	public function __set($key, $value){
 		$this->registry->set($key, $value);
 	}
 
@@ -66,43 +66,43 @@ class AFile {
 	 * @param array $data
 	 * @return array
 	 */
-	public function validateFileOption($settings, $data) {
+	public function validateFileOption($settings, $data){
 
-		$errors = array();
+		$errors = array ();
 
-		if ( empty($data['name']) ) {
+		if (empty($data['name'])){
 			$errors[] = $this->language->get('error_empty_file_name');
 		}
 
-		if ( !empty($settings['extensions']) ) {
+		if (!empty($settings['extensions'])){
 			$allowed_extensions = explode(',', str_replace(' ', '', $settings['extensions']));
 			$extension = substr(strrchr($data['name'], '.'), 1);
 
-			if ( !in_array($extension, $allowed_extensions) ) {
-				$errors[] = sprintf($this->language->get('error_file_extension'), $settings['extensions']).' ('.$data['name'].')';
+			if (!in_array($extension, $allowed_extensions)){
+				$errors[] = sprintf($this->language->get('error_file_extension'), $settings['extensions']) . ' (' . $data['name'] . ')';
 			}
 
 		}
 
-		if ( (int) $settings['min_size'] > 0 ) {
+		if ((int)$settings['min_size'] > 0){
 			$min_size_kb = $settings['min_size'];
-			if ( (int) $data['size'] / 1024 < $min_size_kb ) {
-				$errors[] = sprintf($this->language->get('error_min_file_size'), $min_size_kb).' ('.$data['name'].')';
+			if ((int)$data['size'] / 1024 < $min_size_kb){
+				$errors[] = sprintf($this->language->get('error_min_file_size'), $min_size_kb) . ' (' . $data['name'] . ')';
 			}
 		}
 
 		//convert all to Kb and check the limits on abantecart and php side
 		$abc_upload_limit = (int)$this->config->get('config_upload_max_size'); //comes in Kb
 		$php_upload_limit = (int)ini_get('upload_max_filesize') * 1024; //comes in Mb
-		$max_size_kb = $abc_upload_limit <  $php_upload_limit ? $abc_upload_limit : $php_upload_limit;
+		$max_size_kb = $abc_upload_limit < $php_upload_limit ? $abc_upload_limit : $php_upload_limit;
 
 		//check limit for attribute if set
-		if ( (int) $settings['max_size'] > 0 ) {
-			$max_size_kb = (int) $settings['max_size'] < $max_size_kb ? (int) $settings['max_size'] : $max_size_kb;
+		if ((int)$settings['max_size'] > 0){
+			$max_size_kb = (int)$settings['max_size'] < $max_size_kb ? (int)$settings['max_size'] : $max_size_kb;
 		}
 
-		if ( $max_size_kb < (int) $data['size'] / 1024 ) {
-			$errors[] = sprintf($this->language->get('error_max_file_size'), $max_size_kb).' ('.$data['name'].')';
+		if ($max_size_kb < (int)$data['size'] / 1024){
+			$errors[] = sprintf($this->language->get('error_max_file_size'), $max_size_kb) . ' (' . $data['name'] . ')';
 		}
 
 		return $errors;
@@ -113,10 +113,10 @@ class AFile {
 	 * @param string $upload_sub_dir
 	 * @param string $file_name
 	 * @return array
-	 */	
-	public function getUploadFilePath($upload_sub_dir, $file_name) {
-		if ( empty($file_name)) {
-			return array();
+	 */
+	public function getUploadFilePath($upload_sub_dir, $file_name){
+		if (empty($file_name)){
+			return array ();
 		}
 		$uplds_dir = DIR_ROOT . '/admin/system/uploads';
 		make_writable_dir($uplds_dir);
@@ -128,10 +128,10 @@ class AFile {
 
 		$i = '';
 		$real_path = '';
-		do {
-			if ( $i ) {
+		do{
+			if ($i){
 				$new_name = $file_name . '_' . $i . $ext;
-			} else {
+			} else{
 				$new_name = $file_name . $ext;
 				$i = 0;
 			}
@@ -140,17 +140,17 @@ class AFile {
 			$i++;
 		} while (file_exists($real_path));
 
-		return array('name' => $new_name, 'path' => $real_path);
+		return array ('name' => $new_name, 'path' => $real_path);
 	}
 
 	/**
 	 * Download file
 	 * @param string $url
 	 * @return object/bool
-	 */	
-	public function downloadFile($url) {
+	 */
+	public function downloadFile($url){
 		$file = $this->_download($url);
-		if ($file->http_code == 200) {
+		if ($file->http_code == 200){
 			return $file;
 		}
 		return false;
@@ -160,12 +160,12 @@ class AFile {
 	/**
 	 * Write Downloaded file
 	 * @param object $download
-	 * @return string $target
+	 * @param string $target
 	 * @return int
-	 */	
-	public function writeDownloadToFile($download, $target) {
+	 */
+	public function writeDownloadToFile($download, $target){
 		if (is_dir($target)) return null;
-		if (function_exists("file_put_contents")) {
+		if (function_exists("file_put_contents")){
 			$bytes = @file_put_contents($target, $download->body);
 			return $bytes == $download->content_length;
 		}
@@ -177,7 +177,7 @@ class AFile {
 		return $bytes == $download->content_length;
 	}
 
-	private function _download($uri) {
+	private function _download($uri){
 		$ch = curl_init();
 
 		curl_setopt($ch, CURLOPT_URL, $uri);
@@ -191,9 +191,8 @@ class AFile {
 		$response->content_type = curl_getinfo($ch, CURLINFO_CONTENT_TYPE);
 		$response->content_length = curl_getinfo($ch, CURLINFO_CONTENT_LENGTH_DOWNLOAD);
 		curl_close($ch);
-		
+
 		return $response;
 	}
-	
-	
+
 }

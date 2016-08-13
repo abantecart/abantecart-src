@@ -42,16 +42,21 @@
 				    $image_url = $image_main['main_url'];
 				    $thumb_url = $image_main['thumb_url'];
 				?>
-				    <a class="local_image" href="<?php echo $image_url; ?>" target="_blank" title="<?php echo $image_main['title']; ?>">
-				    	<img src="<?php echo $thumb_url; ?>" alt="<?php echo $image['title']; ?>" title="<?php echo $image['title']; ?>" />
-				    <i class="fa fa-arrows"></i>
+				    <a class="local_image"
+				       href="<?php echo $image_url; ?>"
+				       target="_blank"
+				       title="<?php echo $image_main['title']; ?>">
+				    	<img width="<?php echo $this->config->get('config_image_thumb_width'); ?>"
+				    	    height="<?php echo $this->config->get('config_image_thumb_height'); ?>"
+							src="<?php echo $thumb_url; ?>"
+							alt="<?php echo $image['title']; ?>"
+							title="<?php echo $image['title']; ?>" />
+				        <i class="fa fa-arrows"></i>
 				    </a>
-				<?php } ?>
-				<?php
-				} 
-				?>
+				<?php }
+				} ?>
 			</div>
-			</div>
+		</div>
 			
 			<!-- Right Details-->
 			<div class="col-md-6 col-sm-6">
@@ -404,7 +409,7 @@
 		if ($select.length) {
 			//if no images for options are present, main product images will be used. 
 			//if atleast one image is present in the option, main images will be replaced.
-			load_option_images($select.val());
+			load_option_images($select.val(), '<?php echo $product_id; ?>');
 		}
 
 		display_total_price();
@@ -434,7 +439,7 @@
 
 	/* Process images for product options */
 	$('input[name^=\'option\'], select[name^=\'option\']').change(function () {
-		load_option_images($(this).val());
+		load_option_images($(this).val(), '<?php echo $product_id; ?>');
 		display_total_price();
 	});
 
@@ -461,10 +466,10 @@
 		});
 	}
 
-	function load_option_images( attribute_value_id ) {
+	function load_option_images( attribute_value_id, product_id ) {
 		$.ajax({
 			type: 'POST',
-			url: '<?php echo $option_resources_url; ?>&attribute_value_id=' + attribute_value_id,
+			url: '<?php echo $option_resources_url; ?>&attribute_value_id='+attribute_value_id+'&product_id='+product_id,
 			dataType: 'json',
 			success: function (data) {
 				var html1 = '';
@@ -476,7 +481,7 @@
 						html1 += data.main.main_html + '</a>';						
 					} else {
 				    	html1 = '<a href="' + data.main.main_url + '">';
-				    	html1 += '<img src="' + data.main.thumb_url + '" />';
+				    	html1 += '<img src="' + data.main.thumb_url + '" style="width:'+data.main.thumb_width+'px; height:'+data.main.thumb_height+'px;"/>';
 				    	html1 += '<i class="fa fa-arrows"></i></a>';
 				    }			
 				}				

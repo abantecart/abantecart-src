@@ -17,43 +17,42 @@
    versions in the future. If you wish to customize AbanteCart for your
    needs please refer to http://www.AbanteCart.com for more information.
 ------------------------------------------------------------------------------*/
-if (! defined ( 'DIR_CORE' )) {
-	header ( 'Location: static_pages/' );
+if (!defined('DIR_CORE')){
+	header('Location: static_pages/');
 }
 
-final class ATemplate {
-	public $data = array();
+final class ATemplate{
+	public $data = array ();
 	private $config;
 
-	public function fetch($filename) {
+	public function fetch($filename){
 
-        $registry = Registry::getInstance();
-        $this->config = $registry->get('config');
+		$registry = Registry::getInstance();
+		$this->config = $registry->get('config');
 
 		//#PR Build the path to the template file
-		if (file_exists(DIR_TEMPLATE . $this->config->get('config_storefront_template') . '/template/'.  $filename)) {
-            $filename = $this->config->get('config_storefront_template') . '/template/'.  $filename;
-        } else {
-            $filename = 'default/template/'.  $filename;
-        }
-	
+		if (file_exists(DIR_TEMPLATE . $this->config->get('config_storefront_template') . '/template/' . $filename)){
+			$filename = $this->config->get('config_storefront_template') . '/template/' . $filename;
+		} else{
+			$filename = 'default/template/' . $filename;
+		}
+
 		$file = DIR_TEMPLATE . $filename;
-    
-		if (file_exists($file)) {
+
+		if (file_exists($file)){
 			extract($this->data);
-			
-      		ob_start();
-      
-	  		include($file);
-      
-	  		$content = ob_get_contents();
 
-      		ob_end_clean();
+			ob_start();
 
-      		return $content;
-    	} else {
-            throw new AException(AC_ERR_LOAD, 'Error: Could not load template ' . $file . '!');
-    	}	
+			include($file);
+
+			$content = ob_get_contents();
+
+			ob_end_clean();
+
+			return $content;
+		} else{
+			throw new AException(AC_ERR_LOAD, 'Error: Could not load template ' . $file . '!');
+		}
 	}
 }
-?>

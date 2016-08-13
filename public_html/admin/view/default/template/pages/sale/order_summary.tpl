@@ -18,7 +18,16 @@
 			</tr>
 			<tr>
 				<td class="summary_label"><?php echo $entry_customer; ?></td>
-				<td class="summary_value"><?php echo $order['name']; ?></td>
+				<td class="summary_value">
+					<?php if($customer['href']){ ?>
+					<a data-toggle="modal"
+					   data-target="#viewport_modal"
+					   href="<?php echo $customer['vhref'] ?>"
+					   data-fullmode-href="<?php echo $customer['href'] ?>">
+					<?php }
+					echo $customer['name'];?>
+					<?php echo $customer['href']? '</a>' : '';?>
+				</td>
 				<td class="summary_label"><?php echo $entry_email; ?></td>
 				<td class="summary_value"><?php echo $order['email']; ?></td>
 			</tr>
@@ -38,3 +47,26 @@
 		</table>
 	</div>
 </div>
+<?php echo $this->html->buildElement(
+		array(
+				'type' => 'modal',
+				'id' => 'viewport_modal',
+				'modal_type' => 'lg',
+                'data_source' =>'ajax',
+				'title' => '',
+				//run script after modal content load. Test it on slow connections in chrome
+				'js_onload' => "
+								var url = $(this).data('bs.modal').options.fullmodeHref;
+								$('#viewport_modal .modal-header a.btn').attr('href',url);
+								"
+		));
+?>
+
+<script language="JavaScript" type="application/javascript">
+	$('#viewport_modal').on('shown.bs.modal', function(e){
+		var target = $(e.relatedTarget);
+		$(this).find('.modal-footer a.btn.expand').attr('href',target.attr('data-fullmode-href'));
+		var title = 'Customer - '+ '<?php	echo $customer['name'];?>';
+		$(this).find('.modal-title').html(title);
+	})
+</script>

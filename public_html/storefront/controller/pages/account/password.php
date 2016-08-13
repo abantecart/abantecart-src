@@ -47,21 +47,21 @@ class ControllerPagesAccountPassword extends AController{
 
 		$this->document->addBreadcrumb(
 				array (
-						'href'      => $this->html->getURL('index/home'),
+						'href'      => $this->html->getHomeURL(),
 						'text'      => $this->language->get('text_home'),
 						'separator' => false
 				));
 
 		$this->document->addBreadcrumb(
 				array (
-						'href'      => $this->html->getURL('account/account'),
+						'href'      => $this->html->getSecureURL('account/account'),
 						'text'      => $this->language->get('text_account'),
 						'separator' => $this->language->get('text_separator')
 				));
 
 		$this->document->addBreadcrumb(
 				array (
-						'href'      => $this->html->getURL('account/password'),
+						'href'      => $this->html->getSecureURL('account/password'),
 						'text'      => $this->language->get('heading_title'),
 						'separator' => $this->language->get('text_separator')
 				));

@@ -2,14 +2,26 @@
 <definitions>
   <definition>
     <key>text_subject</key>
-    <value><![CDATA[%s - New Password]]></value>
+    <value><![CDATA[%s - Password reset]]></value>
   </definition>
   <definition>
     <key>text_greeting</key>
-    <value><![CDATA[A new password was requested from %s.]]></value>
+    <value><![CDATA[A password reset was requested from %s.]]></value>
   </definition>
   <definition>
     <key>text_password</key>
-    <value><![CDATA[Your new password is:]]></value>
+    <value><![CDATA[To reset your password click link below:]]></value>
+  </definition>
+  <definition>
+    <key>text_password_reset</key>
+    <value><![CDATA[Your password was successfully reset on %s.]]></value>
+  </definition>
+  <definition>
+    <key>text_new_password</key>
+    <value><![CDATA[Enter your new password below:]]></value>
+  </definition>
+  <definition>
+    <key>error_reset_token</key>
+    <value><![CDATA[Incorrect link for password request. Try to reset one more time and use link from most recent email.]]></value>
   </definition>
 </definitions>

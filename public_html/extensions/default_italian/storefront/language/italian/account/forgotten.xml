@@ -28,7 +28,7 @@
 	<definition>
 		<key>text_loginname_email</key>
 		<value>
-			<![CDATA[Inserisci il nome utente e la email associati al tuo account. Clicca su Invia per ricevere la tua password tramite email.]]></value>
+			<![CDATA[Inserire il nome di login e indirizzo e-mail associato al tuo account. Fare clic su Invia per richiedere la reimpostazione della password]]></value>
 	</definition>
 	<definition>
 		<key>text_lastname_email</key>
@@ -37,7 +37,7 @@
 	</definition>
 	<definition>
 		<key>text_success</key>
-		<value><![CDATA[Una nuova password è stata inviata al tuo indirizzo email.]]></value>
+		<value><![CDATA[Successo: Password link di reimpostazione è stato inviato al tuo indirizzo di posta elettronica.]]></value>
 	</definition>
 	<definition>
 		<key>text_success_loginname</key>

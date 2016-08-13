@@ -40,6 +40,14 @@
             <h4><?php echo $today_review_count; ?></h4>
         </div>
     </li>
+    <li>
+    	<div class="icon"><i class="fa fa-clock-o fa-2x fa-fw"></i></div>
+        <div class="stats_info">
+            <span class="text-muted"><?php echo $text_server_time; ?></span>
+            <h4><?php echo $server_date .'<br>'.$server_time; ?></h4>
+            <span class="text-muted"><?php echo ini_get('date.timezone'); ?></span>
+        </div>
+    </li>
     <?php echo $this->getHookVar('side_summary_li'); ?>
 </ul>
 <?php echo $this->getHookVar('side_summary_bottom'); ?>

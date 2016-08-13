@@ -27,7 +27,7 @@
 			} ?>
 			</ul>
 
-			<div class="mainimage bigimage easyzoom easyzoom--overlay easyzoom--with-thumbnails">
+			<div class="hidden-xs hidden-sm mainimage bigimage easyzoom easyzoom--overlay easyzoom--with-thumbnails">
 			<?php if (sizeof($images) > 0) {
 				//NOTE: ZOOM is not supported for embeded image tags
 				if ($image_main['origin'] == 'external') {
@@ -46,7 +46,31 @@
 							 src="<?php echo $thumb_url; ?>"
 							 alt="<?php echo $image['title']; ?>"
 							 title="<?php echo $image['title']; ?>" />
-				    <i class="fa fa-arrows"></i></a>
+				    <i class="fa fa-arrows hidden-xs hidden-sm"></i></a>
+				<?php }
+				} ?>
+			</div>
+			<!-- for mobile devices-->
+			<div class="mainimage bigimage hidden-lg hidden-md">
+			<?php if (sizeof($images) > 0) {
+				//NOTE: ZOOM is not supported for embeded image tags
+				if ($image_main['origin'] == 'external') {
+				?>
+				    <a class="html_with_image">
+				    <?php echo $image_main['main_html'];	?>
+				    </a>
+				<?php
+				} else {
+				    $image_url = $image_main['main_url'];
+				    $thumb_url = $image_main['thumb_url'];
+				?>
+				    <a class="local_image">
+				        <img width="<?php echo $this->config->get('config_image_thumb_width'); ?>"
+				             height="<?php echo $this->config->get('config_image_thumb_height'); ?>"
+							 src="<?php echo $thumb_url; ?>"
+							 alt="<?php echo $image['title']; ?>"
+							 title="<?php echo $image['title']; ?>" />
+				    </a>
 				<?php }
 				} ?>
 			</div>
@@ -404,7 +428,7 @@ $(window).load(function(){
 	if ($select.length) {
 		//if no images for options are present, main product images will be used.
 		//if at least one image is present in the option, main images will be replaced.
-		//????load_option_images($select.val());
+		load_option_images($select.val(), '<?php echo $product_id; ?>');
 	}
 
 	display_total_price();
@@ -434,7 +458,7 @@ $(window).load(function(){
 
 	/* Process images for product options */
 	$('input[name^=\'option\'], select[name^=\'option\']').change(function () {
-		load_option_images($(this).val());
+		load_option_images($(this).val(), '<?php echo $product_id; ?>');
 		display_total_price();
 	});
 
@@ -465,15 +489,17 @@ $(window).load(function(){
 			   e.preventDefault();
 			   // Use EasyZoom's `swap` method
 			   api1.swap($this.data('standard'), $this.attr('href'));
+				$('.mainimage.bigimage.hidden-lg').find('img').attr('src', $this.attr('href'));
 			});
 	}
 
-	function load_option_images( attribute_value_id ) {
+	function load_option_images( attribute_value_id, product_id ) {
 		$.ajax({
 			type: 'POST',
-			url: '<?php echo $option_resources_url; ?>&attribute_value_id=' + attribute_value_id,
+			url: '<?php echo $option_resources_url; ?>&attribute_value_id='+attribute_value_id+'&product_id='+product_id,
 			dataType: 'json',
 			success: function (data) {
+				if(data.length == 0){ return false;}
 				var html1 = '',
 				html2 = '',
 				main_image = data.main;
@@ -483,9 +509,9 @@ $(window).load(function(){
 						html1 = '<a class="html_with_image">';
 						html1 += main_image.main_html + '</a>';
 					} else {
-				        html1 = '<a href="' + main_image.main_url + '">';
+				        html1 = '<a class="local_image" href="' + main_image.main_url + '">';
 				        html1 += '<img style="width:'+main_image.thumb_width+'px; height:'+main_image.thumb_height+'px;" src="' + main_image.thumb_url + '" />';
-				        html1 += '<i class="fa fa-arrows"></i></a>';
+				        html1 += '<i class="fa fa-arrows  hidden-xs hidden-sm"></i></a>';
 				    }
 				}
 				if (data.images) {
@@ -504,8 +530,8 @@ $(window).load(function(){
 					html1 = orig_imgs;
 					html2 = orig_thumbs;
 				}
-				$('div.bigimage').html(html1);
-				$('ul.smallimage').html(html2);
+				$('div.bigimage').each(function(){$(this).html(html1)});
+				$('ul.smallimage').each(function(){$(this).html(html2)});
 				start_easyzoom();
 			}
 		});

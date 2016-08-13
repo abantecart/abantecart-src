@@ -54,7 +54,7 @@ class ControllerPagesProductProduct extends AController{
 		$this->document->resetBreadcrumbs();
 
 		$this->document->addBreadcrumb(array(
-				'href'      => $this->html->getURL('index/home'),
+				'href'      => $this->html->getHomeURL(),
 				'text'      => $this->language->get('text_home'),
 				'separator' => false
 		));
@@ -251,8 +251,14 @@ class ControllerPagesProductProduct extends AController{
 
 		$discount = $promotion->getProductDiscount($product_id);
 
+    	//Need to round price after discounts and specials 
+    	//round main price to currency decimal_place setting (most common 2, but still...)
+		$currency = $this->registry->get('currency')->getCurrency();
+		$decimal_place = (int)$currency['decimal_place'];
+		$decimal_place = !$decimal_place ? 2 : $decimal_place;
+
 		if($discount){
-			$product_price = $discount;
+			$product_price = round($discount, $decimal_place);
 			$this->data['price_num'] = $this->tax->calculate(
 					$discount,
 					$product_info['tax_class_id'],
@@ -260,16 +266,16 @@ class ControllerPagesProductProduct extends AController{
 			);
 			$this->data['special'] = false;
 		} else{
+			$product_price = round($product_info['price'], $decimal_place);
 			$this->data['price_num'] = $this->tax->calculate(
-					$product_info['price'],
+					$product_price,
 					$product_info['tax_class_id'],
 					(bool)$this->config->get('config_tax')
 			);
 
 			$special = $promotion->getProductSpecial($product_id);
-
 			if($special){
-				$product_price = $special;
+				$product_price = round($special, $decimal_place);
 				$this->data['special_num'] = $this->tax->calculate(
 						$special,
 						$product_info['tax_class_id'],
@@ -279,7 +285,7 @@ class ControllerPagesProductProduct extends AController{
 				$this->data['special'] = false;
 			}
 		}
-
+				
 		$this->data['price'] = $this->currency->format($this->data['price_num']);
 
 		if(isset($this->data['special_num'])){
@@ -529,7 +535,6 @@ class ControllerPagesProductProduct extends AController{
 
 		$products = array();
 		$results = $this->model_catalog_product->getProductRelated($product_id);
-
 		foreach($results as $result){
 
 			// related product image
@@ -611,8 +616,7 @@ class ControllerPagesProductProduct extends AController{
 
 		//downloads before order if allowed
 		if($this->config->get('config_download')){
-			$dwn = new ADownload();
-			$download_list = $dwn->getDownloadsBeforeOrder($product_id);
+			$download_list = $this->download->getDownloadsBeforeOrder($product_id);
 			if($download_list){
 				$downloads = array();
 
@@ -677,7 +681,7 @@ class ControllerPagesProductProduct extends AController{
 		                                             'text'  => $this->language->get('button_continue'),
 		                                             'style' => 'button'));
 		$this->view->assign('button_continue', $continue);
-		$this->data['continue'] = $this->html->getURL('index/home');
+		$this->data['continue'] = $this->html->getHomeURL();
 
 		$this->view->setTemplate('pages/error/not_found.tpl');
 

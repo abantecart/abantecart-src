@@ -20,8 +20,14 @@
 if (! defined ( 'DIR_CORE' )) {
 	header ( 'Location: static_pages/' );
 }
+
+/**
+ * Class ControllerBlocksCustomFormBlock
+ * @property ModelToolFormsManager $model_tool_forms_manager
+ */
 class ControllerBlocksCustomFormBlock extends AController {
 
+	public $data = array();
 	protected $validators = '';
 	protected $validated_types;
 
@@ -48,6 +54,8 @@ class ControllerBlocksCustomFormBlock extends AController {
 		$this->view->assign('stat_url', $this->html->getURL('r/extension/banner_manager') );
 		$this->view->assign('error_required', $this->language->get('error_required'));
 		$this->view->assign('template_dir', RDIR_TEMPLATE);
+
+		$this->view->batchAssign($this->data);
 
 		if($block_data['content']){
 
@@ -88,10 +96,8 @@ class ControllerBlocksCustomFormBlock extends AController {
 			return array();
 		}
 
-		$field_types = $this->model_tool_forms_manager->getFieldTypes($content['form_id']);
-
-
 		$form = new AForm();
+		$this->data['form_name'] = $form_data['form_name'];
 		$form->loadFromDb($form_data['form_name']);
 
 		$form_info = $form->getForm();

@@ -40,9 +40,9 @@ class ControllerBlocksCart extends AController {
 		$this->data['text_items'] = $this->language->get('text_items');
 		$this->data['text_total'] = $this->language->get('text_total');
 
-		$this->data['view'] = $this->html->getURL('checkout/cart');
+		$this->data['view'] = $this->html->getSecureURL('checkout/cart');
+		$this->data['checkout'] = $this->html->getSecureURL('checkout/shipping');
 		$this->data['remove'] = $this->html->getURL('r/checkout/cart');
-		$this->data['checkout'] = $this->html->getURL('checkout/shipping');
 		
 		$products = array();
 

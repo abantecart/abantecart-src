@@ -25,7 +25,7 @@ class ControllerPagesToolImportExport extends AController{
 	public $tabs = array('export', 'import');
 	public $error;
 	public $success = '';
-	private $data = array();
+	public $data = array();
 	/**
 	 * @var AData
 	 */

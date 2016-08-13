@@ -68,6 +68,12 @@ class ControllerPagesCatalogCategory extends AController {
 								'text' => $this->language->get('text_edit'),
 								'href' => $this->html->getSecureURL('catalog/category/update', '&category_id=%ID%'),
 								'children' => array_merge(array(
+							                'quickview' => array(
+										                'text' => $this->language->get('text_quick_view'),
+										                'href' => $this->html->getSecureURL('catalog/category/update', '&category_id=%ID%'),
+								                        //quick view port URL
+										                'vhref' => $this->html->getSecureURL('r/common/viewport/modal','&viewport_rt=catalog/category/update&category_id=%ID%'),
+						                                ),
 							                'general' => array(
 										                'text' => $this->language->get('tab_general'),
 										                'href' => $this->html->getSecureURL('catalog/category/update', '&category_id=%ID%'),
@@ -248,6 +254,8 @@ class ControllerPagesCatalogCategory extends AController {
 
 	public function update() {
 
+		$args = func_get_args();
+
 		//init controller data
 		$this->extensions->hk_InitData($this, __FUNCTION__);
 
@@ -267,14 +275,16 @@ class ControllerPagesCatalogCategory extends AController {
 			$this->session->data['success'] = $this->language->get('text_success');
 			$this->redirect($this->html->getSecureURL('catalog/category/update', '&category_id=' . $this->request->get['category_id']));
 		}
-		$this->_getForm();
+
+
+		$this->_getForm($args);
 
 		//update controller data
 		$this->extensions->hk_UpdateData($this, __FUNCTION__);
 	}
 
-	private function _getForm() {
-
+	private function _getForm($args = array()) {
+		$viewport_mode = isset($args[0]['viewport_mode']) ? $args[0]['viewport_mode'] : '';
 		$content_language_id = $this->language->getContentLanguageID();
 
 		$this->view->assign('error_warning', $this->error['warning']);
@@ -418,13 +428,16 @@ class ControllerPagesCatalogCategory extends AController {
 						'attr' => ' maxlength="255" ',
 						'multilingual' => true,
 				));
-		$this->data['form']['fields']['general']['description'] = $form->getFieldHtml(
+		//no description edit for modal view
+		if($viewport_mode !='modal'){
+			$this->data['form']['fields']['general']['description'] = $form->getFieldHtml(
 				array('type' => 'texteditor',
 						'name' => 'category_description[' . $content_language_id . '][description]',
 						'value' => $this->data['category_description'][$content_language_id]['description'],
 						'style' => 'xl-field',
 						'multilingual' => true,	
 				));
+		}		
 		$this->data['form']['fields']['data']['meta_keywords'] = $form->getFieldHtml(
 				array('type' => 'textarea',
 						'name' => 'category_description[' . $content_language_id . '][meta_keywords]',
@@ -504,7 +517,13 @@ class ControllerPagesCatalogCategory extends AController {
 
 		$this->view->assign('current_url', $this->html->currentURL());
 
-		$this->processTemplate('pages/catalog/category_form.tpl');
+		if($viewport_mode == 'modal'){
+			$tpl = 'responses/viewport/modal/catalog/category_form.tpl';
+		}else{
+			$tpl = 'pages/catalog/category_form.tpl';
+		}
+
+		$this->processTemplate($tpl);
 	}
 
 	private function _validateForm() {

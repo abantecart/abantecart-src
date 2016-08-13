@@ -157,8 +157,13 @@ class ControllerPagesCatalogProductRelations extends AController {
 		$resource = new AResource('image');
 		$this->data['products'] = array();
 		if (count($this->data['product_related'])) {
+            $ids = array();
+            foreach($this->data['product_related'] as $id){
+                $ids[] = (int)$id;
+            }
+
 			$this->loadModel('catalog/product');
-			$filter = array('subsql_filter' => 'p.product_id in (' . implode(',', $this->data['product_related']) . ')' );
+			$filter = array('subsql_filter' => 'p.product_id in (' . implode(',', $ids) . ')' );
 			$results = $this->model_catalog_product->getProducts($filter);
 
 			$product_ids = array();

@@ -200,9 +200,6 @@
 		  						?>  
 	  						<?php
 	  							} else {
-	  							//
-	  						?>  
-		  						<?php
 	  								if($item['in_other_store']) {
 		  						?>  
 	        					<div class="ext_icons">
@@ -214,7 +211,7 @@
 		  							}
 		  						?>  
 	        					<div class="ext_icons">
-	        						<a href="#" data-toggle="modal" data-target="#amp_order_modal" class="productcart tooltips" data-id="<?php echo $item['product_id']; ?>" title="<?php echo $text_marketplace_buy; ?>">
+	        						<a href="#" data-toggle="modal" data-target="<?php echo !$mp_connected ? '#amp_modal' : '#amp_order_modal';?>" class="productcart tooltips" data-id="<?php echo $item['product_id']; ?>" title="<?php echo $text_marketplace_buy; ?>">
 	        						<i class="fa fa-shopping-cart"></i>
 	        						</a>
 	        					</div>
@@ -272,7 +269,7 @@
 	echo $this->html->buildElement(
 		array('type' => 'modal',
 				'id' => 'amp_modal',
-				'modal_type' => 'md',
+				'modal_type' => 'lg',
 				'title' => $text_marketplace_connect,
 				'content' =>'<iframe id="amp_frame" width="100%" height="400px" frameBorder="0"></iframe>
 								<div id="iframe_loading" class="center_div"><i class="fa fa-spinner fa-spin fa-2x"></i></div>

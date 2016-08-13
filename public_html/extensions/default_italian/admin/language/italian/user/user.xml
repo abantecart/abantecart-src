@@ -140,4 +140,8 @@
 		<key>text_change_im_addresses</key>
 		<value><![CDATA[Modifica di notifica Indirizzi per questo SendPoint]]></value>
 	</definition>
+	<definition>
+		<key>error_user_group</key>
+		<value><![CDATA[Non hai i permessi per cambiare gruppo di utenti.]]></value>
+	</definition>
 </definitions>

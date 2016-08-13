@@ -597,6 +597,10 @@ class ModelSaleOrder extends Model{
       		                        date_added = NOW()");
 		}
 
+		/*
+		 * Send Email with merchant comment.
+		 * Note IM-notification not needed here.
+		 * */
 		if($data['notify']){
 			$order_query = $this->db->query("SELECT *, os.name AS status
         	                                FROM `" . $this->db->table("orders") . "` o
@@ -625,11 +629,10 @@ class ModelSaleOrder extends Model{
 				}
 				//give link on order page for quest
 				elseif($this->config->get('config_guest_checkout') && $order_query->row['email']){
-					$order_token = AEncryption::mcrypt_encode($order_id.'~~~'.$order_query->row['email']);
-					if($order_token){
-						$message .= $language->get('text_invoice') . "\n";
-						$message .= html_entity_decode($order_query->row['store_url'] . 'index.php?rt=account/invoice&ot=' . $order_token, ENT_QUOTES, 'UTF-8') . "\n\n";
-					}
+					$enc = new AEncryption($this->config->get('encryption_key'));
+					$order_token = $enc->encrypt($order_id.'::'.$order_query->row['email']);
+					$message .= $language->get('text_invoice') . "\n";
+					$message .= html_entity_decode($order_query->row['store_url'] . 'index.php?rt=account/invoice&ot=' . $order_token, ENT_QUOTES, 'UTF-8') . "\n\n";
 				}
 
 				if($data['comment']){
@@ -653,16 +656,26 @@ class ModelSaleOrder extends Model{
 				$mail->setText(html_entity_decode($message, ENT_QUOTES, 'UTF-8'));
 				$mail->send();
 
-				//notify customer
+
+				//send IMs except emails.
+				//TODO: add notifications for guest checkout
 				$language->load('common/im');
-				$message_arr = array(
-		    		0 => array('message' =>  sprintf(
-		    			$language->get('im_order_update_text_to_customer'),
-		    			html_entity_decode($order_query->row['store_url'] . 'index.php?rt=account/invoice&order_id=' . $order_id, ENT_QUOTES, 'UTF-8'),
-		    			$order_id, $order_query->row['store_name'])
-		    			)
-				);
-                $this->im->sendToCustomer($order_query->row['customer_id'],'order_update',$message_arr);
+
+				if ($order_query->row['customer_id']) {
+					$invoice_url =  $order_query->row['store_url'] . 'index.php?rt=account/invoice&order_id=' . $order_id;
+
+					//disable email protocol to prevent duplicates emails
+					$this->im->removeProtocol('email');
+					$message_arr = array(
+					    0 => array('message' =>  sprintf($language->get('im_order_update_text_to_customer'),
+							    $invoice_url,
+							    $order_id,
+							    html_entity_decode($order_query->row['store_url'] . 'index.php?rt=account/account')),
+					    )
+					);
+					$this->im->sendToCustomer($order_query->row['customer_id'], 'order_update', $message_arr);
+					$this->im->addProtocol('email');
+				}
 			}
 		}
 	}
@@ -779,8 +792,9 @@ class ModelSaleOrder extends Model{
 			if(has_value($order_row['payment_method_data'])){
 				$order_data['payment_method_data'] = $order_row['payment_method_data'];
 			}
+
+			$protocols = $this->im->getProtocols();
 			if(!$order_data['customer_id']){
-				$protocols = $this->im->getProtocols();
 				$p = array();
 				foreach($protocols as $protocol){
 					$p[] = $this->db->escape($protocol);
@@ -800,6 +814,12 @@ class ModelSaleOrder extends Model{
 					$order_data['im'][$row['type_name']] = unserialize($row['data']);
 				}
 
+			}else{
+				foreach($protocols as $protocol){
+					if($protocol == 'email'){continue;}
+					$uri = $this->im->getCustomerURI($protocol,$order_data['customer_id'], $order_id);
+					$order_data['im'][$protocol] = array('uri' => $uri);
+				}
 			}
 
 			return $order_data;

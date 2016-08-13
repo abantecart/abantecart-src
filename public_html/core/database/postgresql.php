@@ -49,7 +49,9 @@ final class PostgreSQL {
     public function __construct($hostname, $username, $password, $database, $new_link=false) {
 		$connection = pg_connect("host=".$hostname." user=".$username." password=".$password." dbname=".$database."  options='--client_encoding=UTF8'");
 		if (!$connection) {
-            throw new AException(AC_ERR_MYSQL, 'Error: Could not make a database connection using ' . $username . '@' . $hostname);
+			$err = new AError('Cannot establish database connection to ' . $database.' using ' . $username . '@' . $hostname);
+			$err->toLog();
+            throw new AException(AC_ERR_MYSQL, 'Cannot establish database connection. Check your database setting in configuration file.');
     	}
 
         $this->registry = Registry::getInstance();

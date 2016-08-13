@@ -352,4 +352,8 @@
 		<key>text_transaction_notification_message</key>
 		<value><![CDATA[Новая транзакция была размещена на вашем %s счет в размере %s. Для получения более подробной информации, войдите в %s аккаунт]]></value>
 	</definition>
+	<definition>
+		<key>text_total_order</key>
+		<value><![CDATA[Всего заказов:]]></value>
+	</definition>
 </definitions>

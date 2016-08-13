@@ -55,7 +55,7 @@ final class ALength{
 					LEFT JOIN " . $this->db->table("length_class_descriptions") . " mcd
 						ON (mc.length_class_id = mcd.length_class_id)
 					WHERE mcd.language_id = '" . $language_id . "'";
-			$length_class_query = $this->db->query( $sql );
+			$length_class_query = $this->db->query($sql);
 			foreach ($length_class_query->rows as $result){
 				$this->lengths[strtolower($result['unit'])] = array (
 						'length_class_id' => $result['length_class_id'],

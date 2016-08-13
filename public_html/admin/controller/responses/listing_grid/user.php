@@ -148,6 +148,27 @@ class ControllerResponsesListingGridUser extends AController {
 		if ( isset( $this->request->get['id'] ) ) {
 		    //request sent from edit form. ID in url
 		    foreach ($this->request->post as $key => $value ) {
+			    if( $key == 'password_confirm' ){
+			    	continue;
+			    }
+			    if( $key == 'user_group_id' ){
+		            $user_info = $this->model_user_user->getUser($this->request->get['id']);
+		            if($user_info['user_group_id'] != $value){
+			            if( //cannot to change group for yourself
+					        $this->request->get['id'] == $this->user->getId()
+							//or current user is not admin
+					       || $this->user->getUserGroupId() != 1 ){
+
+				            $error = new AError('');
+				            return $error->toJSONResponse(
+						            'NO_PERMISSIONS_402',
+						            array ('error_text'  => $this->language->get('error_user_group'),
+						                   'reset_value' => true
+						            ));
+			            }
+		            }
+		        }
+
 				$data = array( $key => $value );
 				$this->model_user_user->editUser($this->request->get['id'], $data);
 			}

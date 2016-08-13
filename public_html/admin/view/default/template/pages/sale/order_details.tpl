@@ -46,11 +46,17 @@
 			<label class="control-label col-sm-5"><?php echo $entry_customer; ?></label>
 			<div class="input-group afield col-sm-7">
 				<p class="form-control-static">
-				<?php if ($customer_url) { ?>
-					<a href="<?php echo $customer_url; ?>"><?php echo $firstname; ?> <?php echo $lastname; ?></a>
+				<?php if ($customer_href) { ?>
+					<a class="btn btn-default"
+					   data-toggle="modal"
+					   data-target="#viewport_modal"
+					   href="<?php echo $customer_vhref; ?>"
+					   data-fullmode-href="<?php echo $customer_href ?>">
+						<i class="fa fa-eye"></i>
+						<?php echo $firstname.' '.$lastname; ?></a>
 				<?php
 				} else {
-					echo $firstname; ?> <?php echo $lastname;
+					echo $firstname.' '.$lastname;
 				} ?>
 				</p>
 			</div>

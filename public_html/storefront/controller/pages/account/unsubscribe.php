@@ -40,10 +40,10 @@ class ControllerPagesAccountUnsubscribe extends AController{
 				$this->model_account_customer->editNewsletter(0, (int)$this->request->get['customer_id']);
 			} else{
 				//othewise - redirect to index page
-				$this->html->redirect($this->html->getSecureURL('index/home'));
+				$this->html->redirect($this->html->getHomeURL());
 			}
 		} else{
-			$this->html->redirect($this->html->getSecureURL('index/home'));
+			$this->html->redirect($this->html->getHomeURL());
 		}
 
 
@@ -51,7 +51,7 @@ class ControllerPagesAccountUnsubscribe extends AController{
 		$this->document->resetBreadcrumbs();
 		$this->document->addBreadcrumb(
 				array (
-						'href'      => $this->html->getURL('index/home'),
+						'href'      => $this->html->getHomeURL(),
 						'text'      => $this->language->get('text_home'),
 						'separator' => false
 				));
@@ -63,7 +63,7 @@ class ControllerPagesAccountUnsubscribe extends AController{
 
 
 		$this->data['button_continue'] = $this->language->get('button_continue');
-		$this->data['continue'] = $this->html->getURL('index/home');
+		$this->data['continue'] = $this->html->getHomeURL();
 
 		$continue = $this->html->buildElement(
 				array (

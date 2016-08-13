@@ -137,19 +137,19 @@ class ControllerPagesAccountAddress extends AController{
 
 	private function getList(){
 		$this->document->addBreadcrumb(array (
-				'href'      => $this->html->getURL('index/home'),
+				'href'      => $this->html->getHomeURL(),
 				'text'      => $this->language->get('text_home'),
 				'separator' => false
 		));
 
 		$this->document->addBreadcrumb(array (
-				'href'      => $this->html->getURL('account/account'),
+				'href'      => $this->html->getSecureURL('account/account'),
 				'text'      => $this->language->get('text_account'),
 				'separator' => $this->language->get('text_separator')
 		));
 
 		$this->document->addBreadcrumb(array (
-				'href'      => $this->html->getURL('account/address'),
+				'href'      => $this->html->getSecureURL('account/address'),
 				'text'      => $this->language->get('heading_title'),
 				'separator' => $this->language->get('text_separator')
 		));
@@ -220,32 +220,32 @@ class ControllerPagesAccountAddress extends AController{
 		$this->document->resetBreadcrumbs();
 
 		$this->document->addBreadcrumb(array (
-				'href'      => $this->html->getURL('index/home'),
+				'href'      => $this->html->getHomeURL(),
 				'text'      => $this->language->get('text_home'),
 				'separator' => false
 		));
 
 		$this->document->addBreadcrumb(array (
-				'href'      => $this->html->getURL('account/account'),
+				'href'      => $this->html->getSecureURL('account/account'),
 				'text'      => $this->language->get('text_account'),
 				'separator' => $this->language->get('text_separator')
 		));
 
 		$this->document->addBreadcrumb(array (
-				'href'      => $this->html->getURL('account/address'),
+				'href'      => $this->html->getSecureURL('account/address'),
 				'text'      => $this->language->get('heading_title'),
 				'separator' => $this->language->get('text_separator')
 		));
 
 		if (!isset($this->request->get['address_id'])){
 			$this->document->addBreadcrumb(array (
-					'href'      => $this->html->getURL('account/address/insert'),
+					'href'      => $this->html->getSecureURL('account/address/insert'),
 					'text'      => $this->language->get('text_edit_address'),
 					'separator' => $this->language->get('text_separator')
 			));
 		} else{
 			$this->document->addBreadcrumb(array (
-					'href'      => $this->html->getURL('account/address/update', 'address_id=' . $this->request->get['address_id']),
+					'href'      => $this->html->getSecureURL('account/address/update', 'address_id=' . $this->request->get['address_id']),
 					'text'      => $this->language->get('text_edit_address'),
 					'separator' => $this->language->get('text_separator')
 			));

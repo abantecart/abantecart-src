@@ -232,12 +232,6 @@ class ControllerPagesUserUser extends AController{
 				'separator' => ' :: '
 		));
 
-		$this->loadModel('user/user_group');
-		$user_groups = array ('' => $this->language->get('text_select_group'),);
-		$results = $this->model_user_user_group->getUserGroups();
-		foreach ($results as $r){
-			$user_groups[$r['user_group_id']] = $r['name'];
-		}
 
 		$this->data['cancel'] = $this->html->getSecureURL('user/user');
 
@@ -325,11 +319,38 @@ class ControllerPagesUserUser extends AController{
 			));
 		}
 
+
+		//forbid to downgrade permissions
+		// if user admin and only one
+		$attr = '';
+		//user cannot to change group for himself
+		if($user_id == $this->user->getId()){
+			$attr = ' disabled="disabled" ';
+		}
+		//non-admin cannot too
+		if($user_id && $this->user->getUserGroupId() != 1){
+			$attr = ' disabled="disabled" ';
+		}
+
+
+		$this->loadModel('user/user_group');
+		$user_groups = array ('' => $this->language->get('text_select_group'),);
+		$results = $this->model_user_user_group->getUserGroups();
+
+		foreach ($results as $r){
+			//do not show top-admin-group for non-admin for new user form
+			if(!$user_id && $this->user->getUserGroupId() != 1 && $r['user_group_id']==1){
+				continue;
+			}
+			$user_groups[$r['user_group_id']] = $r['name'];
+		}
+
 		$this->data['form']['fields']['user_group'] = $form->getFieldHtml(array (
 				'type'    => 'selectbox',
 				'name'    => 'user_group_id',
 				'value'   => $this->data['user_group_id'],
 				'options' => $user_groups,
+				'attr' => $attr
 		));
 
 		$this->data['form']['fields']['email'] = $form->getFieldHtml(array (
@@ -460,6 +481,18 @@ class ControllerPagesUserUser extends AController{
 
 			if ($this->request->post['password'] != $this->request->post['password_confirm']){
 				$this->error['password_confirm'] = $this->language->get('error_confirm');
+			}
+		}
+
+		if( $this->request->post['user_group_id']){
+			$user_info = $this->model_user_user->getUser($this->request->get['user_id']);
+			if($user_info['user_group_id'] != $this->request->post['user_group_id']){
+				if( //cannot to change group for yourself
+			        $this->request->get['id'] == $this->user->getId()
+					//or current user is not admin
+			       || $this->user->getUserGroupId() != 1 ){
+					$this->error['user_group'] = $this->language->get('error_user_group');
+				}
 			}
 		}
 

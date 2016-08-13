@@ -22,21 +22,22 @@ if (! defined ( 'DIR_CORE' ) || !IS_ADMIN) {
 }
 class ModelUserUser extends Model {
 	public function addUser($data) {
+		$salt_key = genToken(8);
 		$this->db->query("INSERT INTO " . $this->db->table("users") . " 
 						  SET username = '" . $this->db->escape($data['username']) . "',
-						      password = '" . $this->db->escape(AEncryption::getHash($data['password'])) . "',
 						      firstname = '" . $this->db->escape($data['firstname']) . "',
 						      lastname = '" . $this->db->escape($data['lastname']) . "',
 						      email = '" . $this->db->escape($data['email']) . "',
 						      user_group_id = '" . (int)$data['user_group_id'] . "',
 						      status = '" . (int)$data['status'] . "',
+							  salt = '" . $this->db->escape($salt_key) . "', 
+						      password = '" . $this->db->escape(sha1($salt_key.sha1($salt_key.sha1($data['password']))))  . "',
 						      date_added = NOW()");
 		return $this->db->getLastId();
 	}
 	
 	public function editUser($user_id, $data) {
-
-		$fields = array('username', 'firstname', 'lastname', 'email', 'user_group_id', 'status',);
+		$fields = array('username', 'firstname', 'lastname', 'email', 'user_group_id', 'status');
 		$update = array();
 		foreach ( $fields as $f ) {
 			if ( isset($data[$f]) )
@@ -44,7 +45,7 @@ class ModelUserUser extends Model {
 		}
 
 		if ( $data['password'] || $data['email'] || $data['username']) {
-			//notify admin user of important infoamtion change
+			//notify admin user of important information change
 			$language = new ALanguage($this->registry,'',1);
 			$language->load('common/im');
 			$message_arr = array(
@@ -54,14 +55,16 @@ class ModelUserUser extends Model {
 			$this->im->sendToUser($user_id, 'account_update', $message_arr);
 		}
 
-		if ( !empty($data['password']) )
-				$update[] = "password = '". $this->db->escape(AEncryption::getHash($data['password'])) ."'";
+		if ( $data['password'] ) {
+			$salt_key = genToken(8);
+			$update[] = "salt = '" . $this->db->escape($salt_key) . "'"; 
+			$update[] = "password = '". $this->db->escape(sha1($salt_key.sha1($salt_key.sha1($data['password'])))) ."'";		
+		}
 
 		if ( !empty($update) ){
 			$sql = "UPDATE " . $this->db->table("users") . " SET ". implode(',', $update) ." WHERE user_id = '" . (int)$user_id . "'";
 			$this->db->query( $sql );
 		}
-
 	}
 	
 	public function deleteUser($user_id) {

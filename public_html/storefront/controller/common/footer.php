@@ -30,15 +30,15 @@ class ControllerCommonFooter extends AController {
 		$this->loadLanguage('common/header');
 		$this->data['text_copy'] = $this->config->get('store_name') .' &copy; '. date('Y', time());
 		
-		$this->data['home'] =  $this->html->getURL('index/home');
-		$this->data['special'] =  $this->html->getURL('product/special');
+		$this->data['home'] =  $this->html->getHomeURL();
+		$this->data['special'] =  $this->html->getNonSecureURL('product/special');
 		$this->data['contact'] =  $this->html->getURL('content/contact');
-    	$this->data['sitemap'] =  $this->html->getURL('content/sitemap');
+    	$this->data['sitemap'] =  $this->html->getNonSecureURL('content/sitemap');
     	$this->data['account'] =  $this->html->getSecureURL('account/account');
 		$this->data['logged'] =  $this->customer->isLogged();
 		$this->data['login'] =  $this->html->getSecureURL('account/login');
-		$this->data['logout'] =  $this->html->getURL('account/logout');
-    	$this->data['cart'] =  $this->html->getURL('checkout/cart');
+		$this->data['logout'] =  $this->html->getSecureURL('account/logout');
+    	$this->data['cart'] =  $this->html->getSecureURL('checkout/cart');
 		$this->data['checkout'] =  $this->html->getSecureURL('checkout/shipping');
 
 		if ($this->config->get('config_google_analytics_code')) {

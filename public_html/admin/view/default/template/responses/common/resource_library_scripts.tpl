@@ -153,7 +153,7 @@ var reloadModal = function (URL) {
 					$(section).html('');
 					if (modalscope.mode != 'single') {
 						<?php 	foreach ($types as $type) { ?>
-						loadMedia('<?php echo $type['type_name']?>');
+						loadMedia('<?php echo $type['type_name']?>', modalscope.wrapper_id);
 						<?php 	} ?>
 					}
 					//if any other modal is open, make it active
@@ -162,7 +162,7 @@ var reloadModal = function (URL) {
 					}
 				});
 			}
-			//bind evend in the modal
+			//bind event in the modal
 			bindCustomEvents(section);
 			bind_rl(section);
 		},
@@ -221,7 +221,9 @@ var loadMedia = function (type, wrapper) {
 			$(json.items).each(function (index, item) {
 				var src = '';
 				if (type == 'image' && item['resource_code']) {
-					src = '<div class="html">' + item['thumbnail_url'] + '</div>';
+					src = '<div class="html rl_large_icon">' + item['thumbnail_url'] + '</div>';
+				}else if(item['resource_code']){
+					src = '<div class="html rl_large_icon"><i class="fa fa-code fa-lg"></i></div>';
 				} else {
 					<?php // variable t needs to prevent browser caching in case of replacement of file of resource?>
 					src = '<img class="img-responsive" src="' + item['thumbnail_url'] + '?t=' + t + '" title="' + item['name'] + '" />';
@@ -433,7 +435,7 @@ jQuery(function () {
 		return false;
 	});
 
-	$(document).on("click", 'a.resource_edit', function () {
+	$(document).on("click", 'a.resource_edit', function (e) {
 		//set here mode based on link attribute (in case when we have a few RL single elements in the form)
 		modalscope.mode = $(this).attr('data-mode') ? $(this).attr('data-mode') : '';
 		var list_type = 'list_object';
@@ -449,7 +451,10 @@ jQuery(function () {
 		} else if(modalscope.mode=='list_all'){
 			//list all resources mode
 			list_type = 'list_library';			
+		} else{
+			modalscope.wrapper_id = $(e.relatedTarget).parents('.type_blocks');
 		}
+
 		if (!isModalOpen('#rl_modal')) {
 			//if new open of modal, load modal together with sidebar
 			mediaDialog($(this).attr('data-type'), list_type, $(this).attr('data-rl-id'));			
@@ -837,8 +842,7 @@ var bind_rl = function (elm) {
 	<?php
 	   //NOTE! all events for deleting of resource see inside resource_library.tpl and resource_library_edit.tpl in attribute "onclick"
 	   // It maden so because user must to confirm action by another js-click-event
-	   ?>
-
+	?>
 	$obj.find('.rl_download').click(function () {
 		var rl_id = $(this).attr('data-rl-id');
 		var url = urls.download + '&resource_id=' + rl_id;

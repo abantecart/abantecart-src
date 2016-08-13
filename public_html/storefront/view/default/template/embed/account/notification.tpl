@@ -20,7 +20,7 @@
 
 <?php echo $form['form_open']; ?>
 <div class="contentpanel">
-	<table class="table table-striped transaction-table">
+	<table class="table table-striped notification-table">
 		<thead>
 			<tr>
 

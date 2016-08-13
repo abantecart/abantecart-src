@@ -6,8 +6,7 @@
 	</definition>
 	<definition>
 		<key>text_greeting</key>
-		<value>
-			<![CDATA[Grazie per aver scelto questi %s prodotti. Il tuo ordine è stato ricevuto e verrà confermato dopo l'effettivo pagamento.]]></value>
+		<value><![CDATA[Grazie per aver scelto questi %s prodotti. Il tuo ordine è stato ricevuto e verrà confermato dopo l'effettivo pagamento.]]></value>
 	</definition>
 	<definition>
 		<key>text_received</key>
@@ -75,8 +74,7 @@
 	</definition>
 	<definition>
 		<key>text_download</key>
-		<value>
-			<![CDATA[Una volta che il pagamento è stato confermato è possibile fare clic sul link qui sotto per accedere ai prodotti scaricabili:]]></value>
+		<value><![CDATA[Una volta che il pagamento è stato confermato è possibile fare clic sul link qui sotto per accedere ai prodotti scaricabili:]]></value>
 	</definition>
 	<definition>
 		<key>text_comment</key>
@@ -117,5 +115,9 @@
 	<definition>
 		<key>column_total</key>
 		<value><![CDATA[Totale]]></value>
+	</definition>
+	<definition>
+		<key>text_mobile_phone</key>
+		<value><![CDATA[Cellulare:]]></value>
 	</definition>
 </definitions>

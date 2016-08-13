@@ -42,11 +42,12 @@ class ControllerPagesAccountInvoice extends AController{
 		$this->loadModel('account/order');
 
 		$guest = false;
+		$enc = new AEncryption($this->config->get('encryption_key'));
 		if (isset($this->request->get['ot']) && $this->config->get('config_guest_checkout')){
 			//try to decrypt order token
 			$ot = $this->request->get['ot'];
-			$decrypted = AEncryption::mcrypt_decode($ot);
-			list($order_id, $email) = explode('~~~', $decrypted);
+			$decrypted = $enc->decrypt($ot);
+			list($order_id, $email) = explode('::', $decrypted);
 
 			$order_id = (int)$order_id;
 			if (!$decrypted || !$order_id || !$email){
@@ -68,7 +69,7 @@ class ControllerPagesAccountInvoice extends AController{
 
 			$order_id = $this->request->post['order_id'];
 			$email = $this->request->post['email'];
-			$ot = AEncryption::mcrypt_encode($order_id . '~~~' . $email);
+			$ot = $enc->encrypt($order_id . '::' . $email);
 			$order_info = $this->model_account_order->getOrder($order_id, '', 'view');
 
 			//compare emails
@@ -102,28 +103,28 @@ class ControllerPagesAccountInvoice extends AController{
 
 		$this->document->addBreadcrumb(
 				array (
-						'href'      => $this->html->getURL('index/home'),
+						'href'      => $this->html->getHomeURL(),
 						'text'      => $this->language->get('text_home'),
 						'separator' => false
 				));
 
 		$this->document->addBreadcrumb(
 				array (
-						'href'      => $this->html->getURL('account/account'),
+						'href'      => $this->html->getSecureURL('account/account'),
 						'text'      => $this->language->get('text_account'),
 						'separator' => $this->language->get('text_separator')
 				));
 		if (!$guest){
 			$this->document->addBreadcrumb(
 					array (
-							'href'      => $this->html->getURL('account/history'),
+							'href'      => $this->html->getSecureURL('account/history'),
 							'text'      => $this->language->get('text_history'),
 							'separator' => $this->language->get('text_separator')
 					));
 		}
 
 		$this->document->addBreadcrumb(array (
-				'href'      => $this->html->getURL('account/invoice', '&order_id=' . $order_id),
+				'href'      => $this->html->getSecureURL('account/invoice', '&order_id=' . $order_id),
 				'text'      => $this->language->get('text_invoice'),
 				'separator' => $this->language->get('text_separator')
 		));
@@ -140,6 +141,9 @@ class ControllerPagesAccountInvoice extends AController{
 
 			$this->data['email'] = $order_info['email'];
 			$this->data['telephone'] = $order_info['telephone'];
+
+			$this->data['mobile_phone'] = $this->im->getCustomerURI('sms', (int)$order_info['customer_id'], $order_id);
+
 			$this->data['fax'] = $order_info['fax'];
 
 			$this->data['status'] = $this->model_account_order->getOrderStatus($order_id);
@@ -255,7 +259,7 @@ class ControllerPagesAccountInvoice extends AController{
 			$this->data['historys'] = $historys;
 
 			if ($guest){
-				$this->data['continue'] = $this->html->getSecureURL('index/home');
+				$this->data['continue'] = $this->html->getHomeURL();
 			} else{
 				$this->data['continue'] = $this->html->getSecureURL('account/history');
 			}
@@ -289,7 +293,7 @@ class ControllerPagesAccountInvoice extends AController{
 			$this->view->setTemplate('pages/account/invoice.tpl');
 		} else{
 			if ($guest){
-				$this->data['continue'] = $this->html->getSecureURL('index/home');
+				$this->data['continue'] = $this->html->getHomeURL();
 			} else{
 				$this->data['continue'] = $this->html->getSecureURL('account/account');
 			}
@@ -314,24 +318,24 @@ class ControllerPagesAccountInvoice extends AController{
 		$this->document->resetBreadcrumbs();
 
 		$this->document->addBreadcrumb(array (
-				'href'      => $this->html->getURL('index/home'),
+				'href'      => $this->html->getHomeURL(),
 				'text'      => $this->language->get('text_home'),
 				'separator' => false
 		));
 
 		$this->document->addBreadcrumb(array (
-				'href'      => $this->html->getURL('account/account'),
+				'href'      => $this->html->getSecureURL('account/account'),
 				'text'      => $this->language->get('text_account'),
 				'separator' => $this->language->get('text_separator')
 		));
 
 		$this->document->addBreadcrumb(array (
-				'href'      => $this->html->getURL('account/invoice'),
+				'href'      => $this->html->getSecureURL('account/invoice'),
 				'text'      => $this->language->get('heading_title'),
 				'separator' => $this->language->get('text_separator')
 		));
 
-		$this->data['back'] = $this->html->getSecureURL('index/home');
+		$this->data['back'] = $this->html->getHomeURL();
 
 		$form = new AForm();
 		$form->setForm(array ('form_name' => 'CheckOrderFrm'));
@@ -396,8 +400,9 @@ class ControllerPagesAccountInvoice extends AController{
 		$guest = false;
 		if (isset($this->request->get['ot']) && $this->config->get('config_guest_checkout')){
 			//try to decrypt order token
-			$decrypted = AEncryption::mcrypt_decode($this->request->get['ot']);
-			list($order_id, $email) = explode('~~~', $decrypted);
+			$enc = new AEncryption($this->config->get('encryption_key'));
+			$decrypted = $enc->decrypt($this->request->get['ot']);
+			list($order_id, $email) = explode('::', $decrypted);
 
 			$order_id = (int)$order_id;
 			if (!$decrypted || !$order_id || !$email){

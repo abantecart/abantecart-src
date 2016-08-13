@@ -33,7 +33,8 @@ class ControllerPagesIndexHome extends AController {
 		$this->loadLanguage('common/header');
 		$this->loadLanguage('common/home');
 
-		$this->document->setTitle( $this->language->get('heading_title') );
+		$this->document->setTitle( $this->language->get('heading_title','common/home' ));
+
 		
 		$this->document->resetBreadcrumbs();
 
@@ -163,7 +164,7 @@ class ControllerPagesIndexHome extends AController {
 			$action = array();
 			$action[] = array(
 				'text' => $this->language->get('text_edit'),
-				'href' => $this->html->getSecureURL('sale/order/update', '&order_id=' . $result['order_id'])
+				'href' => $this->html->getSecureURL('sale/order/details', '&order_id=' . $result['order_id'])
 			);
 					
 			$orders[] = array(
@@ -199,8 +200,6 @@ class ControllerPagesIndexHome extends AController {
 			$this->view->assign('no_payment_installed', $no_payment_installed);
 			$this->loadLanguage('common/tips');
 			$tip_content = $this->html->convertLinks($this->language->get('no_enabled_payments_tip'));
-
-			$tip_content = sprintf($tip_content, $api_response_html);
 			$this->view->assign('tip_content', $tip_content);
 		}
 

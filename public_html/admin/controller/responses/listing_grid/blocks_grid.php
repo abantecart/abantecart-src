@@ -254,6 +254,7 @@ class ControllerResponsesListingGridBlocksGrid extends AController {
 		$types = $rl->getResourceTypes();
 		$resource_types[''] = $this->language->get('text_select');
 		foreach ($types as $type) {
+			if($type['type_name']=='download'){ continue; }
 			$resource_types[$type['type_name']] = $type['type_name'];
 		}
 		$view = new AView($this->registry, 0);

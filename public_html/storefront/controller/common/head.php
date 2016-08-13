@@ -44,8 +44,9 @@ class ControllerCommonHead extends AController {
 			$this->request->deleteCookie('HTTP_IS_RETINA');
 		}
 		
-		if (isset($this->request->server['HTTPS']) && (($this->request->server['HTTPS'] == 'on') || ($this->request->server['HTTPS'] == '1'))) {
+		if (HTTPS === true) {
 			$this->view->assign('base', HTTPS_SERVER);
+		    $this->view->assign('ssl', 1);
 		} else {
 			$this->view->assign('base', HTTP_SERVER);
 		}
@@ -77,13 +78,11 @@ class ControllerCommonHead extends AController {
 		$this->view->assign('breadcrumbs', $this->document->getBreadcrumbs());
 		
 		$this->view->assign('store', $this->config->get('store_name'));
-        if (isset($this->request->server['HTTPS']) && (($this->request->server['HTTPS'] == 'on') || ($this->request->server['HTTPS'] == '1'))) {
-		    $this->view->assign('ssl', 1);
-        }
-		$this->view->assign('cart_url', $this->html->getURL('checkout/cart'));
+		$this->view->assign('cart_url', $this->html->getSecureURL('checkout/cart'));
         $this->view->assign('cart_ajax', (int) $this->config->get('config_cart_ajax'));
+        //URL should be automatic for CORS
         $this->view->assign('cart_ajax_url', $this->html->getURL('r/product/product/addToCart'));
-        $this->view->assign('search_url', $this->html->getURL('product/search'));
+        $this->view->assign('search_url', $this->html->getNonSecureURL('product/search'));
 
         $this->view->assign('call_to_order_url', $this->html->getURL('content/contact'));
 

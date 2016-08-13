@@ -67,6 +67,7 @@ class ControllerApiProductCategory extends AControllerAPI {
 			                                     $category_id,
 			                                     $this->config->get('config_image_category_width'),
 			                                     $this->config->get('config_image_category_height'));
+		//typo fix with backwards compatibility
 		$category_info['thumbnail'] = $category_info['tumbnail'] = $thumbnail['thumb_url'];
 
 		//Process data for category 

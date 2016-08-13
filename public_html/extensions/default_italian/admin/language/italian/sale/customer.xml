@@ -348,4 +348,8 @@
 		<key>text_transaction_notification_message</key>
 		<value><![CDATA[Nuova operazione è stata pubblicata per conto tuo %s nella quantità di %s. Per maggiori dettagli, accedi al conto %s ]]></value>
 	</definition>
+	<definition>
+		<key>text_total_order</key>
+		<value><![CDATA[Gli ordini totali:]]></value>
+	</definition>
 </definitions>

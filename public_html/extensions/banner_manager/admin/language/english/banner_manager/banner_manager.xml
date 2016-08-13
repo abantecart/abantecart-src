@@ -10,7 +10,7 @@
 		To manage banners follow menu <b>Design -> Banner Mannger</b> after extension is enabled <br>
 		To see banner statistic follow <b>Reports -> Banner Statistic</b> after extension is enabled and banners created
 		]]></value>
-	</definition>		
+	</definition>
 	<definition>
 		<key>banner_manager_list</key>
 		<value><![CDATA[Banner List]]></value>
@@ -174,5 +174,13 @@
 	<definition>
 		<key>text_banners</key>
 		<value><![CDATA[ Banners ]]></value>
+	</definition>
+	<definition>
+		<key>text_delete_statistic</key>
+		<value><![CDATA[ Delete Statistic ]]></value>
+	</definition>
+	<definition>
+		<key>text_delete_success</key>
+		<value><![CDATA[ Statistic have been successfully deleted! ]]></value>
 	</definition>
 </definitions>

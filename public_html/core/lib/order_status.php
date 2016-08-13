@@ -17,13 +17,14 @@
    versions in the future. If you wish to customize AbanteCart for your
    needs please refer to http://www.AbanteCart.com for more information.
 ------------------------------------------------------------------------------*/
-if (! defined ( 'DIR_CORE' )) {
-	header ( 'Location: static_pages/' );
+if (!defined('DIR_CORE')){
+	header('Location: static_pages/');
 }
+
 /**
  * Class AOrderStatus
  */
-class AOrderStatus {
+class AOrderStatus{
 	/**
 	 * @var Registry
 	 */
@@ -48,13 +49,13 @@ class AOrderStatus {
 	/**
 	 * @var array
 	 */
-	protected $statuses = array();
+	protected $statuses = array ();
 
-  	public function __construct() {
-	    $this->statuses = $this->base_statuses;
+	public function __construct(){
+		$this->statuses = $this->base_statuses;
 	}
 
-	public function __get($key) {
+	public function __get($key){
 		return $this->registry->get($key);
 	}
 
@@ -63,16 +64,16 @@ class AOrderStatus {
 		//preformat text_id at first
 		$status_text_id = preformatTextID($status_text_id);
 
-		if(in_array($order_status_id, array_keys($this->statuses)) || in_array($status_text_id, $this->statuses)){
-			$error_text = 'Error: Cannot add new order status with id '.$order_status_id.' and text id '. $status_text_id.' into AOrderStatus class.';
-			$e =  new AError($error_text);
+		if (in_array($order_status_id, array_keys($this->statuses)) || in_array($status_text_id, $this->statuses)){
+			$error_text = 'Error: Cannot add new order status with id ' . $order_status_id . ' and text id ' . $status_text_id . ' into AOrderStatus class.';
+			$e = new AError($error_text);
 			$e->toLog()->toDebug();
 			return false;
 		}
 
-		if(!$status_text_id){
-			$error_text = 'Error: Cannot add new order status with id '.$order_status_id.' and empty text id' ;
-			$e =  new AError($error_text);
+		if (!$status_text_id){
+			$error_text = 'Error: Cannot add new order status with id ' . $order_status_id . ' and empty text id';
+			$e = new AError($error_text);
 			$e->toLog()->toDebug();
 			return false;
 		}
@@ -81,13 +82,12 @@ class AOrderStatus {
 		return true;
 	}
 
-	
-	public function getStatusByTextId( $order_status_text_id ) {
+	public function getStatusByTextId($order_status_text_id){
 		$flipped = array_flip($this->statuses);
 		return $flipped[$order_status_text_id];
 	}
 
-	public function getStatusById( $order_status_id ) {
+	public function getStatusById($order_status_id){
 		return $this->statuses[$order_status_id];
 	}
 
@@ -98,5 +98,5 @@ class AOrderStatus {
 	public function getBaseStatuses(){
 		return $this->base_statuses;
 	}
-   	  	
+
 }

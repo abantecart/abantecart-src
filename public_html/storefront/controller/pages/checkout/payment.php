@@ -34,7 +34,6 @@ class ControllerPagesCheckoutPayment extends AController{
 		$checkout_rt = 'checkout/shipping';
 		$payment_rt = 'checkout/payment';
 		$login_rt = 'account/login';
-		$home_rt = 'index/home';
 		$address_rt = 'checkout/address/payment';
 		$confirm_rt = 'checkout/confirm';
 		if ($this->config->get('embed_mode') == true){
@@ -210,6 +209,8 @@ class ControllerPagesCheckoutPayment extends AController{
 		if ($this->request->is_POST() && !isset($this->request->post['coupon']) && $this->_validate()){
 			$this->session->data['payment_method'] = $this->session->data['payment_methods'][$this->request->post['payment_method']];
 
+			$this->session->data['comment'] = strip_tags($this->request->post['comment']);
+
 			$this->extensions->hk_ProcessData($this, 'confirm');
 			$this->redirect($this->html->getSecureURL($confirm_rt));
 		}
@@ -245,28 +246,28 @@ class ControllerPagesCheckoutPayment extends AController{
 
 		$this->document->addBreadcrumb(
 				array (
-						'href'      => $this->html->getURL('index/home'),
+						'href'      => $this->html->getHomeURL(),
 						'text'      => $this->language->get('text_home'),
 						'separator' => false
 				));
 
 		$this->document->addBreadcrumb(
 				array (
-						'href'      => $this->html->getURL($cart_rt),
+						'href'      => $this->html->getSecureURL($cart_rt),
 						'text'      => $this->language->get('text_basket'),
 						'separator' => $this->language->get('text_separator')
 				));
 
 		$this->document->addBreadcrumb(
 				array (
-						'href'      => $this->html->getURL($checkout_rt),
+						'href'      => $this->html->getSecureURL($checkout_rt),
 						'text'      => $this->language->get('entry_shipping'),
 						'separator' => $this->language->get('text_separator')
 				));
 
 		$this->document->addBreadcrumb(
 				array (
-						'href'      => $this->html->getURL($payment_rt),
+						'href'      => $this->html->getSecureURL($payment_rt),
 						'text'      => $this->language->get('entry_payment'),
 						'separator' => $this->language->get('text_separator')
 				));

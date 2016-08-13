@@ -33,21 +33,21 @@ class ControllerPagesAccountSuccess extends AController{
 
 		$this->document->addBreadcrumb(
 				array (
-						'href'      => $this->html->getURL('index/home'),
+						'href'      => $this->html->getHomeURL(),
 						'text'      => $this->language->get('text_home'),
 						'separator' => false
 				));
 
 		$this->document->addBreadcrumb(
 				array (
-						'href'      => $this->html->getURL('account/account'),
+						'href'      => $this->html->getSecureURL('account/account'),
 						'text'      => $this->language->get('text_account'),
 						'separator' => $this->language->get('text_separator')
 				));
 
 		$this->document->addBreadcrumb(
 				array (
-						'href'      => $this->html->getURL('account/success'),
+						'href'      => $this->html->getSecureURL('account/success'),
 						'text'      => $this->language->get('text_success'),
 						'separator' => $this->language->get('text_separator')
 				));
@@ -69,9 +69,9 @@ class ControllerPagesAccountSuccess extends AController{
 			unset($this->session->data['redirect']);
 		} else{
 			if ($this->cart->hasProducts()){
-				$this->view->assign('continue', $this->html->getURL('checkout/cart'));
+				$this->view->assign('continue', $this->html->getSecureURL('checkout/cart'));
 			} else{
-				$this->view->assign('continue', $this->html->getURL('account/account'));
+				$this->view->assign('continue', $this->html->getSecureURL('account/account'));
 			}
 		}
 
@@ -98,44 +98,4 @@ class ControllerPagesAccountSuccess extends AController{
 		unset($this->session->data['success']);
 	}
 
-	public function sendCode(){
-		//init controller data
-		$this->extensions->hk_InitData($this, __FUNCTION__);
-
-		$this->loadModel('account/customer');
-		$customer_info = $this->model_account_customer->getCustomerByEmail($this->request->get['email']);
-		//if can not find
-		if (!$customer_info){
-			$this->redirect($this->html->getSecureURL('account/create'));
-		}
-		$customer_id = $customer_info['customer_id'];
-		$email = $customer_info['email'];
-
-		$this->loadLanguage('mail/account_create');
-		$subject = sprintf($this->language->get('text_subject'), $this->config->get('store_name'));
-		$message = sprintf($this->language->get('text_welcome'), $this->config->get('store_name')) . "\n\n";
-
-		$code = md5(mt_rand(1, 3000));
-
-		$this->session->data['activation'] = array (
-				'customer_id' => $customer_id,
-				'code'        => $code,
-				'email'       => $email);
-
-		$message .= sprintf($this->language->get('text_activate'), "\n" . $this->html->getSecureURL('account/login', '&activation=' . $code . '&email=' . $email)) . "\n";
-
-		$message .= $this->language->get('text_thanks') . "\n";
-		$message .= $this->config->get('store_name');
-
-		$mail = new AMail($this->config);
-		$mail->setTo($email);
-		$mail->setFrom($this->config->get('store_main_email'));
-		$mail->setSender($this->config->get('store_name'));
-		$mail->setSubject($subject);
-		$mail->setText(html_entity_decode($message, ENT_QUOTES, 'UTF-8'));
-		$mail->send();
-
-		$this->extensions->hk_UpdateData($this, __FUNCTION__);
-		$this->redirect($this->html->getSecureURL('account/success'));
-	}
 }

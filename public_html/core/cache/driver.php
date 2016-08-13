@@ -213,7 +213,7 @@ class ACacheDriver {
 	 * @since   1.2.7
 	 */
 	protected function _hashCacheKey($key, $group){
-		return AEncryption::getHash($group . '-' . $key);
+		return md5($group . '-' . $key);
 	}
 
 }

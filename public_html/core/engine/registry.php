@@ -17,41 +17,43 @@
    versions in the future. If you wish to customize AbanteCart for your
    needs please refer to http://www.AbanteCart.com for more information.
 ------------------------------------------------------------------------------*/
-if (!defined('DIR_CORE')) {
+if (!defined('DIR_CORE')){
 	header('Location: static_pages/');
 }
 
-final class Registry {
-	private $data = array();
-	static private $instance = NULL;
+final class Registry{
+	private $data = array ();
+	static private $instance = null;
 
 	/**
 	 * @return Registry
 	 */
-	static function getInstance() {
-		if (self::$instance == NULL) {
+	static function getInstance(){
+		if (self::$instance == null){
 			self::$instance = new Registry();
 		}
 		return self::$instance;
 	}
 
-	private function __construct() {}
+	private function __construct(){
+	}
 
-	private function __clone() {}
+	private function __clone(){
+	}
 
 	/**
 	 * @param $key string
 	 * @return ARequest|ALoader|ADocument|ADB|AConfig|AHtml|ExtensionsApi|AExtensionManager|ALanguageManager|ASession|ACache|AMessage|ALog|AResponse|AUser|ARouter| ACurrency |ModelLocalisationLanguageDefinitions| ModelLocalisationCountry | ModelSettingSetting | ADataEncryption | ModelInstall | ADownload|AOrderStatus|AIMManager
 	 */
-	public function get($key) {
-		return (isset($this->data[$key]) ? $this->data[$key] : NULL);
+	public function get($key){
+		return (isset($this->data[$key]) ? $this->data[$key] : null);
 	}
 
 	/**
 	 * @param $key string
 	 * @param $value mixed
 	 */
-	public function set($key, $value) {
+	public function set($key, $value){
 		$this->data[$key] = $value;
 	}
 
@@ -59,7 +61,7 @@ final class Registry {
 	 * @param $key string
 	 * @return bool
 	 */
-	public function has($key) {
+	public function has($key){
 		return isset($this->data[$key]);
 	}
 }

@@ -45,15 +45,15 @@ class ControllerBlocksContent extends AController {
     	$this->data['text_cart'] =  $this->language->get('text_cart');
     	$this->data['text_checkout'] =  $this->language->get('text_checkout');
 		
-		$this->data['home'] =  $this->html->getURL('index/home');
-		$this->data['special'] =  $this->html->getURL('product/special');
-		$this->data['contact'] =  $this->html->getURL('content/contact');
-    	$this->data['sitemap'] =  $this->html->getURL('content/sitemap');
+		$this->data['home'] =  $this->html->getHomeURL();
+		$this->data['special'] =  $this->html->getNonSecureURL('product/special');
+		$this->data['contact'] =  $this->html->getNonSecureURL('content/contact');
+    	$this->data['sitemap'] =  $this->html->getNonSecureURL('content/sitemap');
     	$this->data['account'] =  $this->html->getSecureURL('account/account');
 		$this->data['logged'] =  $this->customer->isLogged();
 		$this->data['login'] =  $this->html->getSecureURL('account/login','',true);
-		$this->data['logout'] =  $this->html->getURL('account/logout');
-    	$this->data['cart'] =  $this->html->getURL('checkout/cart');
+		$this->data['logout'] =  $this->html->getSecureURL('account/logout');
+    	$this->data['cart'] =  $this->html->getSecureURL('checkout/cart');
 		$this->data['checkout'] =  $this->html->getSecureURL('checkout/shipping');
 
 
@@ -63,7 +63,7 @@ class ControllerBlocksContent extends AController {
 
 		$this->data['contents'] = $this->_buildTree($this->model_catalog_content->getContents());
 		$this->data['contact'] = $this->html->getURL('content/contact');
-		$this->data['sitemap'] = $this->html->getURL('content/sitemap');
+		$this->data['sitemap'] = $this->html->getNonSecureURL('content/sitemap');
 
 		$this->view->batchAssign($this->data);
 		$this->processTemplate();

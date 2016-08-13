@@ -45,7 +45,9 @@ final class MySQL {
     public function __construct($hostname, $username, $password, $database, $new_link=false) {
 		$connection = mysql_connect($hostname, $username, $password, $new_link);
 		if (!$connection) {
-            throw new AException(AC_ERR_MYSQL, 'Error: Could not make a database connection using ' . $username . '@' . $hostname);
+			$err = new AError('Cannot establish database connection to ' . $database.' using ' . $username . '@' . $hostname);
+			$err->toLog();
+            throw new AException(AC_ERR_MYSQL, 'Cannot establish database connection. Check your database setting in configuration file.');
     	}
 
     	if (!mysql_select_db($database, $connection)) {

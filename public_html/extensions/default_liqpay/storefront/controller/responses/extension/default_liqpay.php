@@ -82,14 +82,17 @@ class ControllerResponsesExtensionDefaultLiqPay extends AController{
 			));
 		}
 
-		$back = $this->request->get['rt'] != 'checkout/guest_step_3' ? $this->html->getSecureURL('checkout/payment')
-																	 : $this->html->getSecureURL('checkout/guest_step_2');
-
+		if ($this->request->get['rt'] == 'checkout/guest_step_3'){
+			$back_url = $this->html->getSecureURL('checkout/guest_step_2', '&mode=edit', true);
+		} else{
+			$back_url = $this->html->getSecureURL('checkout/payment', '&mode=edit', true);
+		}
+		
 		$data['form']['back'] = $form->getFieldHtml(array('type'  => 'button',
 														  'name'  => 'back',
 														  'text'  => $this->language->get('button_back'),
 														  'style' => 'button',
-														  'href'  => $back
+														  'href'  => $back_url
 		));
 		$data['form']['submit'] = $form->getFieldHtml(array('type' => 'submit',
 															'name' => $this->language->get('button_confirm')

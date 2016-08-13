@@ -20,6 +20,11 @@
 if (!defined('DIR_CORE') || !IS_ADMIN) {
 	header('Location: static_pages/');
 }
+
+/**
+ * Class ModelCatalogDownload
+ * @property ModelLocalisationOrderStatus $model_localisation_order_status
+ */
 class ModelCatalogDownload extends Model {
 	/**
 	 * @param array $data
@@ -35,16 +40,16 @@ class ModelCatalogDownload extends Model {
 		}
 
 		$this->db->query("INSERT INTO " . $this->db->table('downloads') . "
-        	              SET filename  = '" . $this->db->escape($data[ 'filename' ]) . "',
-        	                  mask = '" . $this->db->escape($data[ 'mask' ]) . "',
-      	                  	  max_downloads = " .( (int)$data[ 'max_downloads' ] ? "'".(int)$data[ 'max_downloads' ]."'" : 'NULL' ). ",
-      	                  	  ".(isset($data['shared']) ? "shared = ".(int)$data['shared'].", " : '')."
-      	                  	  expire_days = " . ((int)$data[ 'expire_days' ]? "'".(int)$data[ 'expire_days' ]."'" : 'NULL'). ",
-      	                  	  sort_order = '" . (int)$data[ 'sort_order' ] . "',
-      	                  	  activate = '" . $this->db->escape($data[ 'activate' ]) . "',
-      	                  	  activate_order_status_id = '" . (int)$data[ 'activate_order_status_id' ] . "',
-      	                  	  status = '" . (int)$data[ 'status' ] . "',
-      	                  	  date_added = NOW()");
+						  SET filename  = '" . $this->db->escape($data[ 'filename' ]) . "',
+							  mask = '" . $this->db->escape($data[ 'mask' ]) . "',
+							  max_downloads = " .( (int)$data[ 'max_downloads' ] ? "'".(int)$data[ 'max_downloads' ]."'" : 'NULL' ). ",
+							  ".(isset($data['shared']) ? "shared = ".(int)$data['shared'].", " : '')."
+							  expire_days = " . ((int)$data[ 'expire_days' ]? "'".(int)$data[ 'expire_days' ]."'" : 'NULL'). ",
+							  sort_order = '" . (int)$data[ 'sort_order' ] . "',
+							  activate = '" . $this->db->escape($data[ 'activate' ]) . "',
+							  activate_order_status_id = '" . (int)$data[ 'activate_order_status_id' ] . "',
+							  status = '" . (int)$data[ 'status' ] . "',
+							  date_added = NOW()");
 
 		$download_id = $this->db->getLastId();
 
@@ -127,6 +132,7 @@ class ModelCatalogDownload extends Model {
 		if (isset($data['product_id'])) {
 			$this->mapDownload($download_id,$data['product_id']);
 		}
+		$this->cache->remove('html_cache');
 		return true;
 	}
 
@@ -151,6 +157,7 @@ class ModelCatalogDownload extends Model {
 								product_id = '" . (int)$product_id . "',
 								download_id = '" . (int)$download_id . "'");
 
+		$this->cache->remove('html_cache');
 		return $this->db->getLastId();
 	}
 
@@ -169,6 +176,7 @@ class ModelCatalogDownload extends Model {
 		$this->db->query("DELETE FROM " . $this->db->table('products_to_downloads') . "
 						  WHERE product_id = '" . (int)$product_id . "'
 							AND download_id = '" . (int)$download_id."'");
+		$this->cache->remove('html_cache');
 		return true;
 	}
 
@@ -184,6 +192,7 @@ class ModelCatalogDownload extends Model {
 
 		$this->db->query("DELETE FROM " . $this->db->table('products_to_downloads') . "
 						  WHERE product_id = '" . (int)$product_id . "'");
+		$this->cache->remove('html_cache');
 		return true;
 	}
 
@@ -232,7 +241,7 @@ class ModelCatalogDownload extends Model {
 		$this->db->query("DELETE FROM " . $this->db->table("download_descriptions") . " WHERE download_id = '" . (int)$download_id . "'");
 		$this->db->query("DELETE FROM " . $this->db->table("download_attribute_values") . " WHERE download_id = '" . (int)$download_id . "'");
 		$this->db->query("DELETE FROM " . $this->db->table("products_to_downloads") . " WHERE download_id = '" . (int)$download_id . "'");
-
+		$this->cache->remove('html_cache');
 	}
 
 	/**
@@ -248,14 +257,14 @@ class ModelCatalogDownload extends Model {
 										  filename,
 										  mask,
 										  max_downloads,
-		      	                  	  	  expire_days,
-		      	                  	  	  sort_order,
-		      	                  	  	  activate,
-		      	                  	      activate_order_status_id,
-		      	                  	  	  status,
-		      	                  	  	  shared,
-		      	                  	      date_added,
-		      	                  	      date_modified
+										  expire_days,
+										  sort_order,
+										  activate,
+										  activate_order_status_id,
+										  status,
+										  shared,
+										  date_added,
+										  date_modified
 									FROM " . $this->db->table('downloads') . " d
 									LEFT JOIN ".$this->db->table('download_descriptions')." dc
 										ON d.download_id=dc.download_id AND dc.language_id = '".(int)$this->language->getContentLanguageID()."'
@@ -276,8 +285,8 @@ class ModelCatalogDownload extends Model {
 							 FROM " . $this->db->table("products_to_downloads") . " p2d
 							 LEFT JOIN " . $this->db->table("downloads") . " d ON (p2d.download_id = d.download_id)
 							 LEFT JOIN " . $this->db->table("download_descriptions") . " dd
-							 	ON (d.download_id = dd.download_id
-							 			AND dd.language_id = '" . (int)$this->language->getContentLanguageID() . "')
+								ON (d.download_id = dd.download_id
+										AND dd.language_id = '" . (int)$this->language->getContentLanguageID() . "')
 							 WHERE p2d.product_id = '" . (int)$product_id . "'";
 		if (!empty($data[ 'subsql_filter' ])){
 			$sql .= " " . $data[ 'subsql_filter' ];
@@ -310,8 +319,8 @@ class ModelCatalogDownload extends Model {
 
 		$sql = "SELECT $total_sql
 				FROM " . $this->db->table("downloads") . " d
-                LEFT JOIN " . $this->db->table("download_descriptions") . " dd
-                	ON (d.download_id = dd.download_id AND dd.language_id = '" . $language_id . "')";
+				LEFT JOIN " . $this->db->table("download_descriptions") . " dd
+					ON (d.download_id = dd.download_id AND dd.language_id = '" . $language_id . "')";
 
 		if (!empty($data[ 'subsql_filter' ])){
 			$sql .= " WHERE " . $data[ 'subsql_filter' ];
@@ -375,6 +384,7 @@ class ModelCatalogDownload extends Model {
 	 * @return array
 	 */
 	public function getDownloadDescriptions($download_id) {
+		$download_id = (int)$download_id;
 		$download_description_data = array();
 
 		$query = $this->db->query("SELECT *
@@ -393,6 +403,7 @@ class ModelCatalogDownload extends Model {
 	 * @param array $data
 	 */
 	public function addDownloadAttributeValues($download_id, $data) {
+		$download_id = (int)$download_id;
 		$attr_mngr = new AAttribute_Manager('download_attribute');
 		$attribute_info = $attr_mngr->getAttributeTypeInfo('download_attribute');
 		$attributes = $attr_mngr->getAttributes(array('attribute_type_id'=>$attribute_info['attribute_type_id'],'limit'=>null));
@@ -404,6 +415,7 @@ class ModelCatalogDownload extends Model {
 								 VALUES ('".$attribute['attribute_id']."', '".$download_id."', '".$value."')");
 			}
 		}
+		$this->cache->remove('html_cache');
 	}
 
 	/**
@@ -411,6 +423,7 @@ class ModelCatalogDownload extends Model {
 	 * @param array $data
 	 */
 	public function editDownloadAttributes($download_id, $data) {
+		$download_id = (int)$download_id;
 		$attr_mngr = new AAttribute_Manager('download_attribute');
 		$attribute_info = $attr_mngr->getAttributeTypeInfo('download_attribute');
 		$attributes = $attr_mngr->getAttributes(array('attribute_type_id'=>$attribute_info['attribute_type_id'],'limit'=>null));
@@ -429,6 +442,7 @@ class ModelCatalogDownload extends Model {
 									download_id = '".$download_id."'");
 			}
 		}
+		$this->cache->remove('html_cache');
 	}
 
 	/**
@@ -436,6 +450,7 @@ class ModelCatalogDownload extends Model {
 	 * @return array
 	 */
 	public function getDownloadAttributes($download_id) {
+		$download_id = (int)$download_id;
 		$attr_mngr = new AAttribute_Manager('download_attribute');
 		$attribute_info = $attr_mngr->getAttributeTypeInfo('download_attribute');
 		$attributes = $attr_mngr->getAttributes(
@@ -446,7 +461,7 @@ class ModelCatalogDownload extends Model {
 												'limit'=>null)
 												);
 
-		$ids = array();
+		$output = $ids = array();
 		foreach($attributes as $attribute){
 			$ids[] = (int)$attribute['attribute_id'];
 			$attribute['values'] = $attr_mngr->getAttributeValues($attribute['attribute_id']);
@@ -499,6 +514,7 @@ class ModelCatalogDownload extends Model {
 							  SET ".implode(', ',$update)."
 							  WHERE order_download_id='".(int)$order_download_id."'");
 		}
+		$this->cache->remove('html_cache');
 		return true;
 	}
 
@@ -532,6 +548,8 @@ class ModelCatalogDownload extends Model {
 	 * @return int
 	 */
 	public function getTotalOrdersWithProduct($product_id, $download_id = ''){
+		$product_id = (int)$product_id;
+		$download_id = (int)$download_id;
 		return sizeof($this->getOrdersWithProduct($product_id, $download_id));
 	}
 
@@ -541,31 +559,31 @@ class ModelCatalogDownload extends Model {
 	 */
 	public function getTextStatusForOrderDownload($download_info){
 
-			$text_status = array();
+		$text_status = array();
 
-			if( dateISO2Int($download_info['expire_date']) < time()){
-				$text_status[] = $this->language->get('text_download_expired');
-			}
-
-			if( $download_info['remaining_count'] == '0' ) {
-				$text_status[] = $this->language->get('text_download_remaining_count').': 0';
-			}
-
-			if((int)$download_info['activate_order_status_id']>0){
-				if((int)$download_info['activate_order_status_id'] != (int)$download_info['order_status_id']){
-					$this->load->model('localisation/order_status');
-					$order_status_info = $this->model_localisation_order_status->getOrderStatus($download_info['activate_order_status_id']);
-					$text_status[] = sprintf($this->language->get('text_order_status_required'),$order_status_info['name']);
-				}
-			}
-
-			//2. check is file exists
-			$download_info['filename'] = trim($download_info['filename']);
-			if(!$this->download->isFileAvailable($download_info['filename'])){
-				$text_status[] = $this->language->get('text_missing_file');
-			}
-
-			return $text_status;
+		if( dateISO2Int($download_info['expire_date']) < time()){
+			$text_status[] = $this->language->get('text_download_expired');
 		}
+
+		if( $download_info['remaining_count'] == '0' ) {
+			$text_status[] = $this->language->get('text_download_remaining_count').': 0';
+		}
+
+		if((int)$download_info['activate_order_status_id']>0){
+			if((int)$download_info['activate_order_status_id'] != (int)$download_info['order_status_id']){
+				$this->load->model('localisation/order_status');
+				$order_status_info = $this->model_localisation_order_status->getOrderStatus($download_info['activate_order_status_id']);
+				$text_status[] = sprintf($this->language->get('text_order_status_required'),$order_status_info['name']);
+			}
+		}
+
+		// check is file exists
+		$download_info['filename'] = trim($download_info['filename']);
+		if(!$this->download->isFileAvailable($download_info['filename'])){
+			$text_status[] = $this->language->get('text_missing_file');
+		}
+
+		return $text_status;
+	}
 
 }

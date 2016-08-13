@@ -4,6 +4,10 @@ if ( !defined ( 'DIR_CORE' )) {
 	header ( 'Location: static_pages/' );
 }
 
+/**
+ * Class ModelExtensionDefaultStripe
+ * @property ModelCheckoutOrder $model_checkout_order
+ */
 class ModelExtensionDefaultStripe extends Model {
 
 	public function getMethod($address) {
@@ -189,7 +193,7 @@ class ModelExtensionDefaultStripe extends Model {
 			return $response;		
 		}
 						
-		$message .= 'Order id: ' . (string)$pd['order_id'] . "\n";
+		$message = 'Order id: ' . (string)$pd['order_id'] . "\n";
 		$message .= 'Charge id: ' . (string)$response['id'] . "\n";
 		$message .= 'Transaction Timestamp: ' . (string)date('m/d/Y H:i:s', $response['created']);
 

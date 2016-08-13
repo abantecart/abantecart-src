@@ -26,6 +26,10 @@ class ControllerPagesAccountLogin extends AController{
 	public $data = array ();
 
 	public function main(){
+		//do redirect to secure page when ssl is enabled
+		if( $this->config->get('config_ssl') &&  $this->config->get('config_ssl_url') && HTTPS !== true){
+			$this->redirect($this->html->getSecureURL('account/login'));
+		}
 
 		//init controller data
 		$this->extensions->hk_InitData($this, __FUNCTION__);
@@ -69,63 +73,59 @@ class ControllerPagesAccountLogin extends AController{
 				$this->extensions->hk_ProcessData($this);
 				$this->redirect($redirect_url);
 			}
-			// activation of account via email-code
-		} elseif (has_value($this->request->get['activation'])){
-			if ($this->session->data['activation']){
-				$customer_id = (int)$this->session->data['activation']['customer_id'];
-				//if activation code presents in session
-				if ($this->request->get['activation'] == $this->session->data['activation']['code']){
-					$this->loadModel('account/customer');
-					$customer_info = $this->model_account_customer->getCustomer($customer_id);
-
-					// if account exists
-					if ($customer_info){
-						if (!$customer_info['status']){ //if disabled - activate!
-							$this->model_account_customer->editStatus($customer_id, 1);
-							$this->session->data['success'] = $this->language->get('text_success_activated');
+			
+		} elseif( has_value($this->request->get['ac']) ){
+			//activation of account via email-code. 
+			$enc = new AEncryption($this->config->get('encryption_key'));	
+			list($customer_id, $activation_code) = explode("::", $enc->decrypt($this->request->get['ac']));
+			if($customer_id && $activation_code) {
+				//get customer 
+				$this->loadModel('account/customer');
+				$customer_info = $this->model_account_customer->getCustomer((int)$customer_id);			
+				if($customer_info) {
+					//if activation code presents in data and matching
+					if ($activation_code == $customer_info['data']['email_activation']){			
+						unset($customer_info['data']['email_activation']);	
+						if (!$customer_info['status']){ 
+							//activate now!
+						    $this->model_account_customer->editStatus($customer_id, 1);
+						    //update data and remove email_activation code
+						    $this->model_account_customer->updateOtherData($customer_id, $customer_info['data']);
+						    //send welcome email
+						    $this->model_account_customer->sendWelcomeEmail($customer_info['email'], true);
+						    $this->session->data['success'] = $this->language->get('text_success_activated');
 						} else{
-							$this->session->data['success'] = $this->language->get('text_already_activated');
-						}
+						    //update data and remove email_activation code
+						    $this->model_account_customer->updateOtherData($customer_id, $customer_info['data']);
+						    $this->session->data['success'] = $this->language->get('text_already_activated');
+						}						
+					} elseif(!$customer_info['data']['email_activation'] && $customer_info['status']) {
+						$this->session->data['success'] = $this->language->get('text_already_activated');			
 					}
-				} else{
-					if ($this->request->get['email']){
-						$this->error['message'] = sprintf($this->language->get('text_resend_activation_email'),
-								"\n" . $this->html->getSecureURL('account/success/sendcode',
-										'&email=' . $this->request->get['email'])
-						);
-					}
-				}
-			} elseif (has_value($this->request->get['email'])){ // if session expired - show link for resend activation code to email
-				if ($this->request->get['email']){
-					$this->error['message'] = sprintf($this->language->get('text_resend_activation_email'),
-							"\n" . $this->html->getSecureURL('account/success/sendcode',
-									'&email=' . $this->request->get['email'])
-					);
 				}
 			}
-
 		}
 
 		$this->document->resetBreadcrumbs();
 
 		$this->document->addBreadcrumb(
 				array (
-						'href'      => $this->html->getURL('index/home'),
+						'href'      => $this->html->getHomeURL(),
 						'text'      => $this->language->get('text_home'),
 						'separator' => false
 				));
 
 		$this->document->addBreadcrumb(
 				array (
-						'href'      => $this->html->getURL('account/account'),
+						'href'      => $this->html->getSecureURL('account/account'),
 						'text'      => $this->language->get('text_account'),
 						'separator' => $this->language->get('text_separator')
 				));
 
 		$this->document->addBreadcrumb(
 				array (
-						'href'      => $this->html->getURL('account/login'),
-						'text'      => $this->language->get('text_login'),
+						'href'      => $this->html->getSecureURL('account/login'),
+						'text'      => $this->language->get('text_login', 'account/login'),
 						'separator' => $this->language->get('text_separator')
 				));
 
@@ -225,8 +225,23 @@ class ControllerPagesAccountLogin extends AController{
 	}
 
 	private function _validate($loginname, $password){
-		if (!$this->customer->login($loginname, $password)){
-			$this->error['message'] = $this->language->get('error_login');
+		if ($this->customer->login($loginname, $password) !== TRUE){
+			if ($this->config->get('config_customer_email_activation')){	
+				//check if account is not confirmed in the email. 
+				$this->loadModel('account/customer');
+				$customer_info = $this->model_account_customer->getCustomerByLoginname($loginname);			
+				if($customer_info && !$customer_info['status'] && $customer_info['data']['email_activation']) {
+					//show link for resend activation code to email
+					$enc = new AEncryption($this->config->get('encryption_key'));
+					$rid = $enc->encrypt($customer_info['customer_id'].'::'.$customer_info['data']['email_activation']);
+					$this->error['message'] .= sprintf($this->language->get('text_resend_activation_email'),
+							"\n" . $this->html->getSecureURL('account/create/resend', '&rid=' . $rid)
+					);
+					return false;
+				}
+			}
+			$this->error['message'] = $this->language->get('error_login');		
+						
 		} else{
 			$this->loadModel('account/address');
 			$address = $this->model_account_address->getAddress($this->customer->getAddressId());

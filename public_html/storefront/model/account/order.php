@@ -27,7 +27,9 @@ class ModelAccountOrder extends Model {
 	/**
 	 * @param int $order_id
 	 * @param string $order_status_id
+	 * @param string $mode
 	 * @return array|bool
+	 * @throws AException
 	 */
 	public function getOrder($order_id, $order_status_id = '', $mode = '') {
 		if ( $order_status_id == '') {

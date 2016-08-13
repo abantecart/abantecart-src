@@ -114,8 +114,7 @@
 	</definition>
 	<definition>
 		<key>text_order_cancelation_confirm</key>
-		<value>
-			<![CDATA[Отмена заказа в некотоых случаях невозможна по некоторым причинам, например, когда товар отправлен покупателю. Продолжить?]]></value>
+		<value><![CDATA[Отмена заказа в некотоых случаях невозможна по некоторым причинам, например, когда товар отправлен покупателю. Продолжить?]]></value>
 	</definition>
 	<definition>
 		<key>text_order_cancelation_success</key>
@@ -128,5 +127,9 @@
 	<definition>
 		<key>text_order_cancelation_message_body</key>
 		<value><![CDATA[Покупатель %s запросил отмену заказа №%s . Чтобы посмотреть перейдите %s]]></value>
+	</definition>
+	<definition>
+		<key>text_mobile_phone</key>
+		<value><![CDATA[Мобильный телефон:]]></value>
 	</definition>
 </definitions>
