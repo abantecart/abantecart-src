@@ -308,92 +308,112 @@ INSERT INTO `ac_downloads` VALUES (2,'download/18/76/5.mp3','sample.mp3',NULL,NU
 -- Dumping data for table `global_attributes`
 --
 
-INSERT INTO `ac_global_attributes` VALUES (1,0,0,1,'S',1,1,'',1,NULL);
-INSERT INTO `ac_global_attributes` VALUES (2,0,0,1,'C',0,0,'',1,NULL);
-INSERT INTO `ac_global_attributes` VALUES (5,0,0,1,'G',1,1,'',1,NULL);
-INSERT INTO `ac_global_attributes` VALUES (6,0,0,1,'S',0,0,'a:4:{s:10:\"extensions\";s:0:\"\";s:8:\"min_size\";s:0:\"\";s:8:\"max_size\";s:0:\"\";s:9:\"directory\";s:0:\"\";}',1,'');
-INSERT INTO `ac_global_attributes` VALUES (7,6,0,1,'S',0,0,'a:4:{s:10:\"extensions\";s:0:\"\";s:8:\"min_size\";s:0:\"\";s:8:\"max_size\";s:0:\"\";s:9:\"directory\";s:0:\"\";}',1,'');
-INSERT INTO `ac_global_attributes` VALUES (8,6,0,1,'S',0,0,'a:4:{s:10:\"extensions\";s:0:\"\";s:8:\"min_size\";s:0:\"\";s:8:\"max_size\";s:0:\"\";s:9:\"directory\";s:0:\"\";}',1,'');
+INSERT INTO `ac_global_attributes`
+(`attribute_id`,
+`attribute_parent_id`,
+`attribute_group_id`,
+`attribute_type_id`,
+`element_type`,
+`sort_order`,
+`required`,
+`settings`,
+`status`,
+`regexp_pattern`)
+VALUES
+(1,0,0,1,'S',1,1,'',1,NULL),
+(2,0,0,1,'C',0,0,'',1,NULL),
+(5,0,0,1,'G',1,1,'',1,NULL),
+(6,0,0,1,'S',0,0,'a:4:{s:10:\"extensions\";s:0:\"\";s:8:\"min_size\";s:0:\"\";s:8:\"max_size\";s:0:\"\";s:9:\"directory\";s:0:\"\";}',1,''),
+(7,6,0,1,'S',0,0,'a:4:{s:10:\"extensions\";s:0:\"\";s:8:\"min_size\";s:0:\"\";s:8:\"max_size\";s:0:\"\";s:9:\"directory\";s:0:\"\";}',1,''),
+(8,6,0,1,'S',0,0,'a:4:{s:10:\"extensions\";s:0:\"\";s:8:\"min_size\";s:0:\"\";s:8:\"max_size\";s:0:\"\";s:9:\"directory\";s:0:\"\";}',1,'');
 
 
 --
 -- Dumping data for table `global_attributes_descriptions`
 --
 
-INSERT INTO `ac_global_attributes_descriptions` VALUES (1,1,'Size','');
-INSERT INTO `ac_global_attributes_descriptions` VALUES (2,1,'Gift Wrapping','');
-INSERT INTO `ac_global_attributes_descriptions` VALUES (5,1,'Fragrance Type','');
-INSERT INTO `ac_global_attributes_descriptions` VALUES (6,1,'Color&amp;Size','');
-INSERT INTO `ac_global_attributes_descriptions` VALUES (7,1,'UK Size','');
-INSERT INTO `ac_global_attributes_descriptions` VALUES (8,1,'Color','');
+INSERT INTO `ac_global_attributes_descriptions`
+(`attribute_id`, `language_id`, `name`, `error_text`)
+VALUES
+(1,1,'Size',''),
+(2,1,'Gift Wrapping',''),
+(5,1,'Fragrance Type',''),
+(6,1,'Color&amp;Size',''),
+(7,1,'UK Size',''),
+(8,1,'Color','');
 
 --
 -- Dumping data for table `global_attributes_values`
 --
 
-INSERT INTO `ac_global_attributes_values` VALUES (53,1,0);
-INSERT INTO `ac_global_attributes_values` VALUES (52,1,0);
-INSERT INTO `ac_global_attributes_values` VALUES (51,1,0);
-INSERT INTO `ac_global_attributes_values` VALUES (50,1,0);
-INSERT INTO `ac_global_attributes_values` VALUES (49,1,0);
-INSERT INTO `ac_global_attributes_values` VALUES (48,1,0);
-INSERT INTO `ac_global_attributes_values` VALUES (47,1,0);
-INSERT INTO `ac_global_attributes_values` VALUES (46,1,0);
-INSERT INTO `ac_global_attributes_values` VALUES (45,1,0);
-INSERT INTO `ac_global_attributes_values` VALUES (32,2,0);
-INSERT INTO `ac_global_attributes_values` VALUES (43,1,0);
-INSERT INTO `ac_global_attributes_values` VALUES (44,1,0);
-INSERT INTO `ac_global_attributes_values` VALUES (76,5,0);
-INSERT INTO `ac_global_attributes_values` VALUES (77,5,0);
-INSERT INTO `ac_global_attributes_values` VALUES (75,5,0);
-INSERT INTO `ac_global_attributes_values` VALUES (78,6,0);
-INSERT INTO `ac_global_attributes_values` VALUES (79,7,0);
-INSERT INTO `ac_global_attributes_values` VALUES (80,7,0);
-INSERT INTO `ac_global_attributes_values` VALUES (81,7,0);
-INSERT INTO `ac_global_attributes_values` VALUES (82,7,0);
-INSERT INTO `ac_global_attributes_values` VALUES (83,7,0);
-INSERT INTO `ac_global_attributes_values` VALUES (84,7,0);
-INSERT INTO `ac_global_attributes_values` VALUES (85,7,0);
-INSERT INTO `ac_global_attributes_values` VALUES (86,7,0);
-INSERT INTO `ac_global_attributes_values` VALUES (87,7,0);
-INSERT INTO `ac_global_attributes_values` VALUES (88,8,0);
-INSERT INTO `ac_global_attributes_values` VALUES (89,8,0);
-INSERT INTO `ac_global_attributes_values` VALUES (90,8,0);
-INSERT INTO `ac_global_attributes_values` VALUES (91,8,0);
-INSERT INTO `ac_global_attributes_values` VALUES (92,8,0);
+INSERT INTO `ac_global_attributes_values`
+(`attribute_value_id`, `attribute_id`, `sort_order`)
+VALUES
+(53,1,0),
+(52,1,0),
+(51,1,0),
+(50,1,0),
+(49,1,0),
+(48,1,0),
+(47,1,0),
+(46,1,0),
+(45,1,0),
+(32,2,0),
+(43,1,0),
+(44,1,0),
+(76,5,0),
+(77,5,0),
+(75,5,0),
+(78,6,0),
+(79,7,0),
+(80,7,0),
+(81,7,0),
+(82,7,0),
+(83,7,0),
+(84,7,0),
+(85,7,0),
+(86,7,0),
+(87,7,0),
+(88,8,0),
+(89,8,0),
+(90,8,0),
+(91,8,0),
+(92,8,0);
 
-
-INSERT INTO `ac_global_attributes_value_descriptions` VALUES (53,1,1,'1 oz');
-INSERT INTO `ac_global_attributes_value_descriptions` VALUES (52,1,1,'75ml');
-INSERT INTO `ac_global_attributes_value_descriptions` VALUES (51,1,1,'50ml');
-INSERT INTO `ac_global_attributes_value_descriptions` VALUES (50,1,1,'30ml');
-INSERT INTO `ac_global_attributes_value_descriptions` VALUES (49,1,1,'2.5 oz');
-INSERT INTO `ac_global_attributes_value_descriptions` VALUES (48,1,1,'1.5 oz');
-INSERT INTO `ac_global_attributes_value_descriptions` VALUES (47,1,1,'33.8 oz');
-INSERT INTO `ac_global_attributes_value_descriptions` VALUES (46,1,1,'15.2 oz');
-INSERT INTO `ac_global_attributes_value_descriptions` VALUES (45,1,1,'8.45 oz');
-INSERT INTO `ac_global_attributes_value_descriptions` VALUES (32,2,1,'');
-INSERT INTO `ac_global_attributes_value_descriptions` VALUES (42,1,1,'1.7 oz');
-INSERT INTO `ac_global_attributes_value_descriptions` VALUES (43,1,1,'3.4 oz');
-INSERT INTO `ac_global_attributes_value_descriptions` VALUES (44,1,1,'100ml');
-INSERT INTO `ac_global_attributes_value_descriptions` VALUES (76,5,1,'Eau de Toilette');
-INSERT INTO `ac_global_attributes_value_descriptions` VALUES (77,5,1,'Eau de Cologne');
-INSERT INTO `ac_global_attributes_value_descriptions` VALUES (75,5,1,'Eau de Parfum');
-INSERT INTO `ac_global_attributes_value_descriptions` VALUES (78,6,1,'');
-INSERT INTO `ac_global_attributes_value_descriptions` VALUES (79,7,1,'UK 3');
-INSERT INTO `ac_global_attributes_value_descriptions` VALUES (80,7,1,'UK 3.5');
-INSERT INTO `ac_global_attributes_value_descriptions` VALUES (81,7,1,'UK 4');
-INSERT INTO `ac_global_attributes_value_descriptions` VALUES (82,7,1,'UK 4.5');
-INSERT INTO `ac_global_attributes_value_descriptions` VALUES (83,7,1,'UK 5');
-INSERT INTO `ac_global_attributes_value_descriptions` VALUES (84,7,1,'UK 5.5');
-INSERT INTO `ac_global_attributes_value_descriptions` VALUES (85,7,1,'UK 6');
-INSERT INTO `ac_global_attributes_value_descriptions` VALUES (86,7,1,'UK 7');
-INSERT INTO `ac_global_attributes_value_descriptions` VALUES (87,7,1,'UK 8');
-INSERT INTO `ac_global_attributes_value_descriptions` VALUES (88,8,1,'Red');
-INSERT INTO `ac_global_attributes_value_descriptions` VALUES (89,8,1,'White');
-INSERT INTO `ac_global_attributes_value_descriptions` VALUES (90,8,1,'Black');
-INSERT INTO `ac_global_attributes_value_descriptions` VALUES (91,8,1,'Blue');
-INSERT INTO `ac_global_attributes_value_descriptions` VALUES (92,8,1,'Green');
+INSERT INTO `ac_global_attributes_value_descriptions`
+(`attribute_value_id`, `attribute_id`, `language_id`, `value`)
+VALUES
+(53,1,1,'1 oz'),
+(52,1,1,'75ml'),
+(51,1,1,'50ml'),
+(50,1,1,'30ml'),
+(49,1,1,'2.5 oz'),
+(48,1,1,'1.5 oz'),
+(47,1,1,'33.8 oz'),
+(46,1,1,'15.2 oz'),
+(45,1,1,'8.45 oz'),
+(32,2,1,''),
+(42,1,1,'1.7 oz'),
+(43,1,1,'3.4 oz'),
+(44,1,1,'100ml'),
+(76,5,1,'Eau de Toilette'),
+(77,5,1,'Eau de Cologne'),
+(75,5,1,'Eau de Parfum'),
+(78,6,1,''),
+(79,7,1,'UK 3'),
+(80,7,1,'UK 3.5'),
+(81,7,1,'UK 4'),
+(82,7,1,'UK 4.5'),
+(83,7,1,'UK 5'),
+(84,7,1,'UK 5.5'),
+(85,7,1,'UK 6'),
+(86,7,1,'UK 7'),
+(87,7,1,'UK 8'),
+(88,8,1,'Red'),
+(89,8,1,'White'),
+(90,8,1,'Black'),
+(91,8,1,'Blue'),
+(92,8,1,'Green');
 
 --
 -- Dumping data for table `manufacturers`

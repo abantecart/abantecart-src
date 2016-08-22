@@ -12327,6 +12327,7 @@ CREATE TABLE `ac_global_attributes_descriptions` (
   `attribute_id` 		int(11) NOT NULL,
   `language_id` 		int(11) NOT NULL,
   `name` 				varchar(64) COLLATE utf8_general_ci NOT NULL COMMENT 'translatable',
+  `placeholder` varchar(255) COLLATE utf8_general_ci DEFAULT '' COMMENT 'translatable',
   `error_text` 	varchar(255) COLLATE utf8_general_ci NOT NULL COMMENT 'translatable',
   PRIMARY KEY (`attribute_id`,`language_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;

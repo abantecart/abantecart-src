@@ -476,12 +476,16 @@ class ModelCatalogProduct extends Model{
 
 		$am = new AAttribute_Manager();
 		$attribute = $am->getAttribute($data['attribute_id']);
+
 		if($attribute){
 			$data['element_type'] = $attribute['element_type'];
 			$data['required'] = $attribute['required'];
 			$data['regexp_pattern'] = $attribute['regexp_pattern'];
+			$data['placeholder'] = $attribute['placeholder'];
 			$data['sort_order'] = $attribute['sort_order'];
 			$data['settings'] = $attribute['settings'];
+		}else{
+			$data['placeholder'] = $data['option_placeholder'];
 		}
 
 		$this->db->query(
@@ -508,19 +512,25 @@ class ModelCatalogProduct extends Model{
 		$product_option_id = $this->db->getLastId();
 
 		if(!empty($data['option_name'])){
-			$attributeDescriptions = array($this->language->getContentLanguageID() => array(
-					'name'       => $data['option_name'],
-					'error_text' => $data['error_text']));
+			$attributeDescriptions = array(
+					$this->language->getContentLanguageID() => array(
+											'name'       => $data['option_name'],
+											'error_text' => $data['error_text'],
+											'placeholder' => $data['placeholder']
+					)
+			);
 		} else{
 			$attributeDescriptions = $am->getAttributeDescriptions($data['attribute_id']);
 		}
+
 		foreach($attributeDescriptions as $language_id => $descr){
 			$this->language->replaceDescriptions('product_option_descriptions',
 					array('product_option_id' => (int)$product_option_id,
 						  'product_id'        => (int)$product_id),
 					array($language_id => array(
 							'name'       => $descr['name'],
-							'error_text' => $descr['error_text']
+							'error_text' => $descr['error_text'],
+							'option_placeholder' => $data['placeholder']
 					)));
 		}
 
@@ -546,9 +556,10 @@ class ModelCatalogProduct extends Model{
 		if(count($group_attribute)){
 			//delete children options/values
 			$children = $this->db->query(
-					"SELECT product_option_id FROM " . $this->db->table("product_options") . "
-				WHERE product_id = '" . (int)$product_id . "'
-					AND group_id = '" . (int)$product_option_id . "'");
+					"SELECT product_option_id
+					FROM " . $this->db->table("product_options") . "
+					WHERE product_id = '" . (int)$product_id . "'
+						AND group_id = '" . (int)$product_option_id . "'");
 			foreach($children->rows as $g_attribute){
 				$this->_deleteProductOption($product_id, $g_attribute['product_option_id']);
 			}
@@ -571,12 +582,12 @@ class ModelCatalogProduct extends Model{
 
 		$this->db->query(
 				"DELETE FROM " . $this->db->table("product_options") . "
-			WHERE product_id = '" . (int)$product_id . "'
-				AND product_option_id = '" . (int)$product_option_id . "'");
+				WHERE product_id = '" . (int)$product_id . "'
+					AND product_option_id = '" . (int)$product_option_id . "'");
 		$this->db->query(
 				"DELETE FROM " . $this->db->table("product_option_descriptions") . "
-			WHERE product_id = '" . (int)$product_id . "'
-				AND product_option_id = '" . (int)$product_option_id . "'");
+				WHERE product_id = '" . (int)$product_id . "'
+					AND product_option_id = '" . (int)$product_option_id . "'");
 	}
 
 	//Add new product option value and value descriptions for all global attributes languages or current language
@@ -1052,7 +1063,9 @@ class ModelCatalogProduct extends Model{
 								  'product_id'        => (int)$product_id),
 							array($language_id => array(
 									'name'       => $language['name'],
-									'error_text' => $language['error_text'])
+									'error_text' => $language['error_text'],
+									'placeholder' => $language['placeholder'],
+									)
 							));
 				}
 
@@ -1434,8 +1447,8 @@ class ModelCatalogProduct extends Model{
 
 		$product_option_description = $this->db->query(
 				"SELECT *
-			FROM " . $this->db->table("product_option_descriptions") . " 
-			WHERE product_option_id = '" . (int)$option_id . "'");
+				FROM " . $this->db->table("product_option_descriptions") . "
+				WHERE product_option_id = '" . (int)$option_id . "'");
 		$product_option_description_data = array();
 		foreach($product_option_description->rows as $result){
 			$product_option_description_data[$result['language_id']] = array(
