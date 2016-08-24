@@ -1986,9 +1986,10 @@ class PhoneHtmlElement extends HtmlElement{
 		$doc = $this->registry->get('document');
 		$doc->addScript($this->view->templateResource('/javascript/intl-tel-input/js/intlTelInput.min.js'));
 		$doc->addStyle(array (
-				'href' => RDIR_TEMPLATE . 'javascript/intl-tel-input/css/intlTelInput.css',
+				'href' => $this->view->templateResource('/javascript/intl-tel-input/css/intlTelInput.css'),
 				'rel'  => 'stylesheet'
 		));
+		
 
 		$this->view->batchAssign(
 				array (
