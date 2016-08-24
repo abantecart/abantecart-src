@@ -12470,14 +12470,14 @@ DROP TABLE IF EXISTS `ac_tasks`;
 CREATE TABLE `ac_tasks` (
   `task_id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL DEFAULT '',
-  `starter` int(11) DEFAULT NULL, -- 0 - storefront, 1 - admin side, 2 - any
-  `status` int(11) DEFAULT '0', -- 0 - disabled, 1 - scheduled, 2 - active
+  `starter` int(11) DEFAULT NULL COMMENT '0 - storefront, 1 - admin side, 2 - any',
+  `status` int(11) DEFAULT '0' COMMENT '0 - disabled, 1 - ready, 2 - running, 3 - failed, 4 - scheduled, 5 - completed',
   `start_time` datetime DEFAULT NULL,
   `last_time_run` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `progress` int(11) NOT NULL DEFAULT '0', -- percentage of progress
-  `last_result` int(11) NOT NULL DEFAULT '0', -- 0 - success, 1 - failed, 2 - interrupted
-  `run_interval` INT(11) NOT NULL DEFAULT '0', -- interval in seconds since last run, 0 - without interval
-  `max_execution_time` int(11) DEFAULT '0', -- maximum execution time for this task
+  `progress` int(11) NOT NULL DEFAULT '0' COMMENT 'percentage of progress',
+  `last_result` int(11) NOT NULL DEFAULT '0' COMMENT '1 - success, 0 - failed',
+  `run_interval` INT(11) NOT NULL DEFAULT '0' COMMENT 'interval in seconds since last run, 0 - without interval',
+  `max_execution_time` int(11) DEFAULT '0',
   `date_added` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `date_modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`task_id`),
@@ -12487,8 +12487,8 @@ CREATE TABLE `ac_tasks` (
 DROP TABLE IF EXISTS `ac_task_details`;
 CREATE TABLE `ac_task_details` (
   `task_id` int(11) NOT NULL AUTO_INCREMENT,
-  `created_by` varchar(255) DEFAULT '', -- task owner name
-  `settings` LONGTEXT DEFAULT '', -- serialized array with paramenters
+  `created_by` varchar(255) DEFAULT '',
+  `settings` LONGTEXT DEFAULT '',
   `date_added` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `date_modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`task_id`)
@@ -12499,12 +12499,12 @@ CREATE TABLE `ac_task_steps` (
   `step_id` int(11) NOT NULL AUTO_INCREMENT,
   `task_id` int(11) NOT NULL,
   `sort_order` int(11) DEFAULT '0',
-  `status` int(11) DEFAULT '0', -- 0 - disabled, 1 - scheduled, 2 - active
+  `status` int(11) DEFAULT '0' COMMENT '0 - disabled, 1 - ready, 2 - running, 3 - failed, 4 - scheduled, 5 - completed',
   `last_time_run` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `last_result` int(11) NOT NULL DEFAULT '0', -- 0 - success, 1 - failed, 2 - interrupted
-  `max_execution_time` int(11) DEFAULT '0', -- maximum execution time for this task
+  `last_result` int(11) NOT NULL DEFAULT '0' COMMENT '1 - success, 0 - failed',
+  `max_execution_time` int(11) DEFAULT '0',
   `controller` varchar(255) DEFAULT '',
-  `settings` LONGTEXT DEFAULT '', -- serialized array with paramenters
+  `settings` LONGTEXT DEFAULT '',
   `date_added` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `date_modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`step_id`),

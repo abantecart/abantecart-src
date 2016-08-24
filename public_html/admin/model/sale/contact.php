@@ -86,7 +86,7 @@ class ModelSaleContact extends Model {
 				array ('name'               => $task_name,
 				       'starter'            => 1, //admin-side is starter
 				       'created_by'         => $this->user->getId(), //get starter id
-				       'status'             => 1, // shedule it!
+				       'status'             => $tm::STATUS_READY,
 				       'start_time'         => date('Y-m-d H:i:s', mktime(0, 0, 0, date('m'), date('d') + 1, date('Y'))),
 				       'last_time_run'      => '0000-00-00 00:00:00',
 				       'progress'           => '0',
@@ -148,6 +148,8 @@ class ModelSaleContact extends Model {
 		}
 
 		$task_details = $tm->getTaskById($task_id);
+
+
 		if($task_details){
 			foreach($this->eta as $step_id => $eta){
 				$task_details['steps'][$step_id]['eta'] = $eta;

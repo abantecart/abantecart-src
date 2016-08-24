@@ -77,15 +77,28 @@ class ControllerResponsesListingGridTask extends AController {
 				switch($status){
 					case -1: // stuck
 						$response->userdata->classes[ $id ] = 'warning disable-run disable-edit';
-						$text_status = $this->language->get('text_active');
+						$text_status = $this->language->get('text_stuck');
 						break;
-					case 1: // scheduled
+					case $tm::STATUS_READY:
+						$response->userdata->classes[ $id ] = 'success disable-restart disable-edit';
+						$text_status = $this->language->get('text_ready');
+						break;
+					case $tm::STATUS_RUNNING:
+						//disable all buttons for running tasks
+						$response->userdata->classes[ $id ] = 'attention disable-run disable-restart disable-edit disable-delete';
+						$text_status = $this->language->get('text_running');
+						break;
+					case $tm::STATUS_FAILED:
+						$response->userdata->classes[ $id ] = 'attention disable-run';
+						$text_status = $this->language->get('text_failed');
+						break;
+					case $tm::STATUS_SCHEDULED:
 						$response->userdata->classes[ $id ] = 'success disable-restart disable-edit';
 						$text_status = $this->language->get('text_scheduled');
 						break;
-					case 2: //disable all buttons for active tasks
-						$response->userdata->classes[ $id ] = 'attention disable-run disable-restart disable-edit disable-delete';
-						$text_status = $this->language->get('text_active');
+					case $tm::STATUS_COMPLETED:
+						$response->userdata->classes[ $id ] = 'disable-run disable-edit';
+						$text_status = $this->language->get('text_completed');
 						break;
 					default: // disabled
 						$response->userdata->classes[ $id ] = 'attention disable-run disable-restart disable-edit disable-delete';
@@ -124,15 +137,14 @@ class ControllerResponsesListingGridTask extends AController {
 			$task = $tm->getTaskById($this->request->post_or_get('task_id'));
 
 			//check
-			if($task && $task['status'] == 2 && time() - dateISO2Int($task['start_time']) > 1800){
+			if($task && in_array($task['status'], array($tm::STATUS_RUNNING, $tm::STATUS_FAILED,$tm::STATUS_COMPLETED))){
 				foreach($task['steps'] as $step){
-					$tm->updateStep($step['step_id'], array('status'=>1));
+					$tm->updateStep($step['step_id'], array('status'=> $tm::STATUS_READY));
 				}
 				$tm->updateTask($task['task_id'], array(
-													'status' => 1, //scheduled
-													'start_time' => date('Y-m-d H:i:s'),
-													'last_result' => 2 //interrupted
-														));
+													'status' => $tm::STATUS_READY,
+													'start_time' => date('Y-m-d H:i:s')
+													));
 			}
 			$this->_run_task();
 		}else{
@@ -154,7 +166,7 @@ class ControllerResponsesListingGridTask extends AController {
 			$tm = new ATaskManager();
 			$task = $tm->getTaskById($this->request->post_or_get('task_id'));
 			//check
-			if($task && $task['status'] == 1){
+			if($task && $task['status'] == $tm::STATUS_READY){
 				$tm->updateTask($task['task_id'], array(
 													'start_time' => date('Y-m-d H:i:s'),
 														));
@@ -170,11 +182,15 @@ class ControllerResponsesListingGridTask extends AController {
 	}
 
 	//
-	private function _run_task(){
+	private function _run_task($task_id = 0){
 
 		$connect = new AConnect(true);
-		$url = $this->config->get('config_url').'task.php';
+		$url = $this->config->get('config_url').'task.php?mode=start';
+		if( $task_id ){
+			$url .= '&task_id='.$task_id;
+		}
 		$connect->getDataHeaders( $url );
+		session_write_close();
 	}
 
 
