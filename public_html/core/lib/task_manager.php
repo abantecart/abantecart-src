@@ -220,22 +220,24 @@ class ATaskManager{
 		);
 
 		if (!$result){
-			$this->toLog('Error: Scheduled step #' . $step_id . ' of task #' . $task_id . ' failed during process.');
-			//interrupt task if need
-			if ($step_details['settings']['interrupt_on_step_fault'] === true){
-				$this->_update_task_state(
-						$task_id,
-						array (
-							// mark last result of task as "failed"
-							'result'        => 0,
-							'status'        => self::STATUS_FAILED)
-				);
-				return false;
-			}
 			$this->toLog('Error: Step #' . $step_id . ' of task #' . $task_id . ' failed.');
 		}
 		$this->toLog('Step #' . $step_id . ' of task #' . $task_id . ' finished.');
-		return true;
+
+
+		//set task status
+		if($this->isLastStep($task_id, $step_id)){
+			if($result){
+				$task_status = self::STATUS_COMPLETED;
+			}else{
+				$task_status = self::STATUS_FAILED;
+			}
+		}else{
+			$task_status = self::STATUS_INCOMPLETE;
+		}
+		$this->updateTask($task_id, array('status' => $task_status));
+
+		return $result;
 	}
 
 	/**
@@ -267,19 +269,15 @@ class ATaskManager{
 			$step_result = $this->runStep($step_details);
 			if(!$step_result){
 				$task_result = false;
-				break;
+				//interrupt task process when step failed
+				if($step_details['interrupt_on_step_fault'] === true){
+					break;
+				}
 			}
 			$this->_update_task_state($task_id, array ('progress' => ceil($k * 100 / $steps_count)));
 			$k++;
 		}
 
-		$this->_update_task_state(
-				$task_id,
-				array (
-						'result'        => (int)$task_result,
-						'status'        => (!$task_result ? self::STATUS_FAILED : self::STATUS_COMPLETED)
-						)
-		);
 		return $task_result;
 	}
 
