@@ -44,6 +44,7 @@ class ATaskManager{
 	const STATUS_FAILED = 3;
 	const STATUS_SCHEDULED = 4;
 	const STATUS_COMPLETED = 5;
+	const STATUS_INCOMPLETE = 6;
 
 	public function __construct(){
 
@@ -106,9 +107,9 @@ class ATaskManager{
 			return false;
 		}
 		$task_settings = unserialize($task['settings']);
-		$this->_run_steps($task['task_id'], $task_settings);
+		$task_result = $this->_run_steps($task['task_id'], $task_settings);
 		$this->toLog('task #' . $task_id . ' finished.');
-		return true;
+		return $task_result;
 	}
 
 	/**
@@ -149,6 +150,33 @@ class ATaskManager{
 		}
 
 		return true;
+	}
+
+	/**
+	 * @param $task_id
+	 * @param $step_id
+	 * @return bool
+	 */
+	public function isLastStep($task_id, $step_id){
+		$task_id = (int)$task_id;
+		$step_id = (int)$step_id;
+		if(!$step_id || !$task_id){
+			$this->toLog('Error: Tried to check is step #' . $step_id . ' of task #' . $task_id." last, but fail!");
+			return false;
+		}
+
+		$all_steps = $this->getTaskSteps($task_id);
+		if(!$all_steps){
+			$this->toLog('Error: Tried to check is step #' . $step_id . ' of task #' . $task_id." last, but steps list empty!");
+			return false;
+		}
+
+		$last_step = array_pop($all_steps);
+		if($last_step['step_id'] == $step_id && $last_step['task_id'] == $task_id){
+			return true;
+		}else{
+			return false;
+		}
 	}
 
 	/**
@@ -252,7 +280,7 @@ class ATaskManager{
 						'status'        => (!$task_result ? self::STATUS_FAILED : self::STATUS_COMPLETED)
 						)
 		);
-		return true;
+		return $task_result;
 	}
 
 	/**
@@ -324,7 +352,7 @@ class ATaskManager{
 		$res = $this->db->query($sql);
 		if ($res->num_rows){
 			$this->deleteTask($res->row['task_id']);
-			$this->toLog('Error: Task with name "' . $data['name'] . '" is already exists. Overrided!');
+			$this->toLog('Error: Task with name "' . $data['name'] . '" is already exists. Override!');
 		}
 
 		$sql = "INSERT INTO " . $this->db->table('tasks') . "

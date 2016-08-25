@@ -102,12 +102,24 @@ if($mode == 'start' && !$task_id){
 	$tm->updateTask($task_id, array(
 			'status' => $tm::STATUS_READY,
 			'start_time' => date('Y-m-d H:i:s')));
+	//run all steps of task and change it's status after
 	$tm->runTask($task_id);
 
 }elseif ($mode == 'start' && $task_id && $step_id){
 	if($tm->canStepRun($task_id, $step_id)){
 		$step_details = $tm->getTaskStep($task_id, $step_id);
-		$tm->runStep($step_details);
+		$step_result = $tm->runStep($step_details);
+		//set task status
+		if($tm->isLastStep($task_id, $step_id)){
+			if($step_result){
+				$task_status = $tm::STATUS_COMPLETED;
+			}else{
+				$task_status = $tm::STATUS_FAILED;
+			}
+		}else{
+			$task_status = $tm::STATUS_INCOMPLETE;
+		}
+		$tm->updateTask($task_id, array('status' => $task_status));
 	}
 }
 
