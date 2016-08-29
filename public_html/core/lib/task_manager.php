@@ -191,7 +191,6 @@ class ATaskManager{
 			return false;
 		}
 
-		$this->toLog('Started step #' . $step_id . ' of task #' . $task_id);
 		//change status to active
 		$this->_update_step_state(
 				$step_id,
@@ -206,7 +205,19 @@ class ATaskManager{
 			$dd = new ADispatcher($step_details['controller'], $step_details['settings']);
 			// waiting for result array from step's controller
 			$response = $dd->dispatchGetOutput($step_details['controller']);
-			$result = $response['result'] == true ? true : false;
+
+			//check is result have json-formatted string
+			$json = json_decode($response, true);
+			if(json_last_error() == JSON_ERROR_NONE){
+				$response = $json;
+			}
+
+			$result = isset($response['result']) && $response['result'] == true ? true : false;
+			if($result){
+				$response_message = isset($response['message']) ? $response['message'] : '';
+			}else{
+				$response_message = isset($response['error_text']) ? $response['error_text'] : '';
+			}
 		} catch(AException $e){
 			$result = false;
 		}
@@ -220,9 +231,10 @@ class ATaskManager{
 		);
 
 		if (!$result){
-			$this->toLog('Error: Step #' . $step_id . ' of task #' . $task_id . ' failed.');
+			$this->toLog('Task #' . $task_id . ' : Step #' . $step_id . ' - Failed. ' . $response_message, 0);
+		}else{
+			$this->toLog('Task #' . $task_id . ' : Step #' . $step_id . ' - Ok. ' . $response_message, 1);
 		}
-		$this->toLog('Step #' . $step_id . ' of task #' . $task_id . ' finished.');
 
 
 		//set task status
@@ -328,9 +340,10 @@ class ATaskManager{
 
 	/**
 	 * @param $message
+	 * @param int $msg_code - can be 0 - fail, 1 -success
 	 */
-	public function toLog($message){
-		$this->run_log .= $message."\n";
+	public function toLog($message, $msg_code = 1){
+		$this->run_log .= '<p style="color: '.($msg_code?'green': 'red').'">'.$message."</p>";
 		$this->task_log->write($message);
 	}
 
