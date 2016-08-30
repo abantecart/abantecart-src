@@ -29,7 +29,7 @@ class ModelToolGlobalSearch extends Model {
 	public $registry;
 	
 	/**
-	 * commans awaialable in the system
+	 * commands available in the system
 	 *
 	 * @var array
 	 */
@@ -155,6 +155,8 @@ class ModelToolGlobalSearch extends Model {
 			$search_languages[] = (int)$l['language_id'];
 		}
 
+		$output = array();
+
 		switch ($search_category) {
 			case 'commands' :
 				$output = $this->_possibleCommands($needle, 'total');
@@ -251,6 +253,7 @@ class ModelToolGlobalSearch extends Model {
 							OR (LOWER(shipping_address_2) like '%" . $needle . "%')
 							OR (LOWER(payment_address_1) like '%" . $needle . "%')
 							OR (LOWER(payment_address_2) like '%" . $needle . "%')
+							OR order_id= '".(int)$needle. "'
 							)
 						AND language_id = " . $language_id;
 				$result = $this->db->query($sql);
@@ -517,6 +520,7 @@ class ModelToolGlobalSearch extends Model {
 							OR (LOWER(shipping_address_2) like '%" . $needle . "%')
 							OR (LOWER(payment_address_1) like '%" . $needle . "%')
 							OR (LOWER(payment_address_2) like '%" . $needle . "%')
+							OR order_id= '".(int)$needle. "'
 							)
 						AND language_id = " . $language_id . "
 						LIMIT " . $offset . "," . $rows_count;
@@ -672,11 +676,11 @@ class ModelToolGlobalSearch extends Model {
 			$row['controller'] = $this->results_controllers[$search_category]['page'];
 			//shorten text for suggestion
 			if ($mode != 'listing') {
-				$dectext = htmlentities($row['text'], ENT_QUOTES);
-				$len = mb_strlen($dectext);
+				$dec_text = htmlentities($row['text'], ENT_QUOTES);
+				$len = mb_strlen($dec_text);
 				if( $len > 100 ) {
 						$ellipsis = '...';
-						$row['text'] = mb_substr($dectext, 0, 100).$ellipsis;
+						$row['text'] = mb_substr($dec_text, 0, 100).$ellipsis;
 				}
 			}
 		}
@@ -780,9 +784,9 @@ class ModelToolGlobalSearch extends Model {
 	 */
 	private function _possibleCommands($keyword, $mode = '') {
 	
-		$comds_obj = new AdminCommands();
-		$this->commands = $comds_obj->commands;
-		$result = $comds_obj->getCommands($keyword);
+		$commands_obj = new AdminCommands();
+		$this->commands = $commands_obj->commands;
+		$result = $commands_obj->getCommands($keyword);
 
 		if($mode == 'total'){
 			return count($result['found_actions']);
@@ -790,11 +794,11 @@ class ModelToolGlobalSearch extends Model {
 
 		$ret = array();
 		if($result['found_actions']) {
-			foreach($result['found_actions'] as $comnd) {
+			foreach($result['found_actions'] as $command) {
 				$ret[] = array(
-					'text' => $result['command']." ".$comnd['title']." ".$result['request'],
-					'title' => $result['command']." ".$comnd['title']." ".$result['request'],
-					'url' => $comnd['url']
+					'text' => $result['command']." ".$command['title']." ".$result['request'],
+					'title' => $result['command']." ".$command['title']." ".$result['request'],
+					'url' => $command['url']
 				);						
 			}
 		}
