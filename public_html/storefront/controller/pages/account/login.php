@@ -189,7 +189,7 @@ class ControllerPagesAccountLogin extends AController{
 						'name'  => 'loginname',
 						'value' => $loginname
 				));
-		//support old email based loging. Remove in the future
+		//support old email based logging. Remove in the future
 		$this->data['form2']['email'] = $form->getFieldHtml(
 				array (
 						'type'  => 'input',
@@ -230,7 +230,10 @@ class ControllerPagesAccountLogin extends AController{
 				//check if account is not confirmed in the email. 
 				$this->loadModel('account/customer');
 				$customer_info = $this->model_account_customer->getCustomerByLoginname($loginname);			
-				if($customer_info && !$customer_info['status'] && $customer_info['data']['email_activation']) {
+				if($customer_info
+						&& !$customer_info['status']
+						&& isset($customer_info['data']['email_activation'])
+						&& $customer_info['data']['email_activation']) {
 					//show link for resend activation code to email
 					$enc = new AEncryption($this->config->get('encryption_key'));
 					$rid = $enc->encrypt($customer_info['customer_id'].'::'.$customer_info['data']['email_activation']);
