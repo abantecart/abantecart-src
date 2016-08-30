@@ -144,7 +144,34 @@ if( $command_line !== true && !$step_id) {
 <html lang="en_gb" dir="auto" >
 <head>
 <meta charset="utf-8">
-<title>Task Running ...</title>
+<title>Task Run</title>
+<style>
+	.loading {
+	  font-size: 20px;
+	}
+
+	.loading:after {
+	  overflow: hidden;
+	  display: inline-block;
+	  vertical-align: bottom;
+	  -webkit-animation: ellipsis steps(4,end) 900ms infinite;
+	  animation: ellipsis steps(4,end) 900ms infinite;
+	  content: "\2026"; /* ascii code for the ellipsis character */
+	  width: 0px;
+	}
+
+	@keyframes ellipsis {
+	  to {
+	    width: 1.25em;
+	  }
+	}
+
+	@-webkit-keyframes ellipsis {
+	  to {
+	    width: 1.25em;
+	  }
+	}
+</style>
 <script src="https://code.jquery.com/jquery-1.12.4.min.js" integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ="   crossorigin="anonymous"></script>
 <script defer type="text/javascript">
 	/*
@@ -176,6 +203,7 @@ if( $command_line !== true && !$step_id) {
 	    if (data.hasOwnProperty("error") && data.error == true) {
 	        runTaskShowError('Creation of new task failed! Please check error log for details. \n' + data.error_text);
 	    } else {
+		    $('body').append('<div class="loading">Running</div>');
 	        runTaskStepsUI(data.task_details);
 	    }
 	}
@@ -211,8 +239,7 @@ if( $command_line !== true && !$step_id) {
 	            if (step.hasOwnProperty("settings") && step.settings!=null
 	                && step.settings.hasOwnProperty("interrupt_on_step_fault")
 	                && step.settings.interrupt_on_step_fault == true) {
-	                ajaxes[k]['interrupt_on_step_fault'] = true;
-	            }
+	                ajaxes[k]['interrupt_on_step_fault'] = true;	            }
 	            else{
 	                ajaxes[k]['interrupt_on_step_fault'] = false;
 	            }
@@ -243,11 +270,17 @@ if( $command_line !== true && !$step_id) {
 	        var kill = false;
 
 	        //declare your function to run AJAX requests
-	        function do_ajax() {
+	        var do_ajax = function() {
 
-	            //interrupt recursion when:
-	            //kill task
-	            // task complete
+		        //interrupt recursion when:
+                //kill task
+                // task complete
+
+                if (kill || current >= steps_cnt) {
+	                $('body').append('Run Complete');
+	                $('div.loading').remove();
+                    return;
+                }
 
 	            if (current >= steps_cnt) {
 	                return;
@@ -267,7 +300,7 @@ if( $command_line !== true && !$step_id) {
 	                    $.xhrPool.push(jqXHR);
 	                },
 	                success: function (data, textStatus, xhr) {
-		                document.write(data);
+		                $('body').append(data);
 	                    attempts = 3;
 	                    current++;
 	                },
