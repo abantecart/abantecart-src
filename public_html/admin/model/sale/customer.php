@@ -22,8 +22,12 @@ if (! defined ( 'DIR_CORE' ) || !IS_ADMIN) {
 }
 /**
  * Class ModelSaleCustomer
+ * @property ModelSettingStore $model_setting_store
+ * @property ModelLocalisationZone $model_localisation_zone
+ * @property ModelLocalisationCountry $model_localisation_country
  */
 class ModelSaleCustomer extends Model {
+	public $data = array();
 	/**
 	 * @param $data
 	 * @return int
@@ -167,6 +171,7 @@ class ModelSaleCustomer extends Model {
 								country_id = '" . (int)$address['country_id'] . "'"
 								.$key_sql . ",
 								zone_id = '" . (int)$address['zone_id'] . "'");
+		return true;
 	}
 
 	/**
@@ -180,6 +185,7 @@ class ModelSaleCustomer extends Model {
 		}
 
 		$this->db->query("DELETE FROM " . $this->db->table("addresses") . " WHERE customer_id = '" . (int)$customer_id . "' AND address_id = '".(int)$address_id."'");
+		return true;
 	}
 
 	/**
@@ -247,6 +253,7 @@ class ModelSaleCustomer extends Model {
 			return false;
 		}
 
+		$upd = array();
 		//get only active IM drivers
 		$im_protocols = $this->im->getProtocols();
 		foreach ($im_protocols as $protocol){
@@ -589,7 +596,7 @@ class ModelSaleCustomer extends Model {
 			$sql .= " WHERE " . implode(" AND ", $implode);
 		}
 
-		//If for total, we done bulding the query
+		//If for total, we done building the query
 		if ($mode == 'total_only' && !$this->dcrypt->active) {
 			$query = $this->db->query($sql);
 			return $query->row['total'];
@@ -609,7 +616,7 @@ class ModelSaleCustomer extends Model {
 		);	
 
 
-		//Total culculation for encrypted mode 
+		//Total calculation for encrypted mode
 		// NOTE: Performance slowdown might be noticed or larger search results	
 		if ( $mode != 'total_only' ) {
 
@@ -652,7 +659,7 @@ class ModelSaleCustomer extends Model {
 			//we get here only if in data encryption mode
 			return count($result_rows);
 		}
-		//finaly decrypt data and return result
+		//finally decrypt data and return result
 		for ($i = 0; $i < count($result_rows); $i++) {
 			$result_rows[$i] = $this->dcrypt->decrypt_data($result_rows[$i], 'customers');	
 		}
@@ -676,11 +683,11 @@ class ModelSaleCustomer extends Model {
 		$result_rows = array(); 
 		foreach ($data as $result) {
 			if ( $this->dcrypt->active ) {
-				$fvalue = $this->dcrypt->decrypt_field($result[$field], $result['key_id']);
+				$f_value = $this->dcrypt->decrypt_field($result[$field], $result['key_id']);
 			} else {
-				$fvalue = $result[$field];
+				$f_value = $result[$field];
 			}
-			if ( !(strpos (strtolower($fvalue), strtolower($value)) === false) ) {
+			if ( !(strpos (strtolower($f_value), strtolower($value)) === false) ) {
 				$result_rows[] = $result;
 			}
 		}	
@@ -754,6 +761,7 @@ class ModelSaleCustomer extends Model {
 		}
 
 		$emails = (array)$emails;
+		$where = array();
 		if ($emails) {
 			$sql = "SELECT *
 				   FROM " . $this->db->table("customers") . "
@@ -826,7 +834,7 @@ class ModelSaleCustomer extends Model {
 		if( empty($loginname) ) {
 			return false;
 		}
-		//exclude diven customer from checking
+		//exclude given customer from checking
 		$not_current_customer = '';
 		if ( has_value($customer_id) ) {
 			$not_current_customer = "AND customer_id <> '$customer_id'";
@@ -966,6 +974,73 @@ class ModelSaleCustomer extends Model {
 									LIMIT 0,1");
 		$result = !$query->row['customer_group_id'] ? (int)$this->config->get('config_customer_group_id') :  $query->row['customer_group_id'];
 		return $result;
+	}
+
+	/**
+	 * @param int $customer_id - customer_id
+	 */
+	public function sendApproveMail($customer_id) {
+
+		// send email to customer
+		$customer_info = $this->getCustomer($customer_id);
+
+		if ($customer_info && !$customer_info[ 'approved' ]) {
+
+			$this->load->language('mail/customer');
+			$this->load->model('setting/store');
+
+			$store_info = $this->model_setting_store->getStore($customer_info['store_id']);
+
+			if ($store_info) {
+				$store_name = $store_info[ 'store_name' ];
+				$store_url = $store_info[ 'config_url' ] . 'index.php?rt=account/login';
+				$store_logo_file = DIR_RESOURCE . $store_info['config_logo'];
+				$store_logo = md5(pathinfo($store_info['config_logo'], PATHINFO_FILENAME)) . '.' . pathinfo($store_info['config_logo'], PATHINFO_EXTENSION);
+			} else {
+				$store_name = $this->config->get('store_name');
+				$store_url = $this->config->get('config_url') . 'index.php?rt=account/login';
+				$store_logo = md5(pathinfo($this->config->get('config_logo'), PATHINFO_FILENAME)) . '.' . pathinfo($this->config->get('config_logo'), PATHINFO_EXTENSION);
+				$store_logo_file = DIR_RESOURCE . $this->config->get('config_logo');
+			}
+
+			//build plain text email
+			$this->data['mail_plain_text'] = sprintf($this->language->get('text_welcome'), $store_name) . "\n\n";
+			$this->data['mail_plain_text'] .= $this->language->get('text_login') . "\n";
+			$this->data['mail_plain_text'] .= $store_url . "\n\n";
+			$this->data['mail_plain_text'] .= $this->language->get('text_services') . "\n\n";
+			$this->data['mail_plain_text'] .= $this->language->get('text_thanks') . "\n";
+			$this->data['mail_plain_text'] .= $store_name;
+
+			//build HTML message with the template
+			$this->data['mail_template_data']['text_welcome'] = sprintf($this->language->get('text_welcome'), $store_name) . "\n\n";
+			$this->data['mail_template_data']['text_login'] = $this->language->get('text_login');
+			$this->data['mail_template_data']['text_login_later'] = '<a href="' . $store_url . '">' . $store_url . '</a>';
+			$this->data['mail_template_data']['text_services'] = $this->language->get('text_services');
+			$this->data['mail_template_data']['logo'] = 'cid:' . $store_logo;
+			$this->data['mail_template_data']['store_name'] = $store_name;
+			$this->data['mail_template_data']['store_url'] = $store_url;
+			$this->data['mail_template_data']['text_thanks'] = $this->language->get('text_thanks');
+			$this->data['mail_template_data']['text_project_label'] = project_base();
+
+			$this->data['mail_template'] = 'mail/account_create.tpl';
+
+			//allow to change email data from extensions
+			$this->extensions->hk_ProcessData($this, 'cp_customer_approve_mail');
+
+			$view = new AView($this->registry,0);
+			$view->batchAssign($this->data['mail_template_data']);
+			$html_body = $view->fetch($this->data['mail_template']);
+
+			$mail = new AMail($this->config);
+			$mail->setTo($customer_info[ 'email' ]);
+			$mail->setFrom($this->config->get('store_main_email'));
+			$mail->setSender($store_name);
+			$mail->setSubject(sprintf($this->language->get('text_subject'), $store_name));
+			$mail->setText(html_entity_decode($this->data['mail_plain_text'], ENT_QUOTES, 'UTF-8'));
+			$mail->setHtml($html_body);
+			$mail->addAttachment($store_logo_file, $store_logo);
+			$mail->send();
+		}
 	}
 
 }

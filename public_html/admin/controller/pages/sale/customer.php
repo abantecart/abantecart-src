@@ -109,7 +109,7 @@ class ControllerPagesSaleCustomer extends AController {
 				'table_id' => 'customer_grid',
 			// url to load data from
 				'url' => $this->html->getSecureURL('listing_grid/customer'),
-				'editurl' => $this->html->getSecureURL('listing_grid/customer/update'),
+				'editurl' => $this->html->getSecureURL('listing_grid/customer/update_field'),
 				'update_field' => $this->html->getSecureURL('listing_grid/customer/update_field'),
 				'sortname' => 'name',
 				'sortorder' => 'asc',
@@ -318,7 +318,7 @@ class ControllerPagesSaleCustomer extends AController {
 			if( (int)$this->request->post['approved']) {
 			    $customer_info = $this->model_sale_customer->getCustomer($customer_id);
 			    if (!$customer_info['approved']) {
-			    	$this->_sendMail($customer_id);
+			    	$this->model_sale_customer->sendApproveMail($customer_id);
 			    }
 			}
 			$this->model_sale_customer->editCustomer($this->request->get['customer_id'], $this->request->post);
@@ -529,6 +529,9 @@ class ControllerPagesSaleCustomer extends AController {
 		$im_drivers = $this->im->getIMDriverObjects();
 		if ($im_drivers){
 			foreach ($im_drivers as $protocol => $driver_obj){
+				/**
+				 * @var AMailIM $driver_obj
+				 */
 				if (!is_object($driver_obj) || $protocol=='email'){
 					continue;
 				}
@@ -606,7 +609,7 @@ class ControllerPagesSaleCustomer extends AController {
 			$this->redirect($redirect_url);
 		}
 
-		$this->_getAdressForm();
+		$this->_getAddressForm();
 
 		//update controller data
 		$this->extensions->hk_UpdateData($this, __FUNCTION__);
@@ -642,13 +645,13 @@ class ControllerPagesSaleCustomer extends AController {
 			$this->redirect( $redirect_url );
 		}
 
-		$this->_getAdressForm();
+		$this->_getAddressForm();
 
 		//update controller data
 		$this->extensions->hk_UpdateData($this, __FUNCTION__);
 	}
 
-	private function _getAdressForm() {
+	private function _getAddressForm() {
 
 		$address_id = $this->request->get['address_id'];
 		$customer_id = $this->request->get['customer_id'];
@@ -845,7 +848,7 @@ class ControllerPagesSaleCustomer extends AController {
 		}
 
 		$this->model_sale_customer->editCustomerField($this->request->get['customer_id'], 'approved', true);
-		$this->_sendMail($this->request->get['customer_id']);
+		$this->model_sale_customer->sendApproveMail($this->request->get['customer_id']);
 
 		//update controller data
 		$this->extensions->hk_UpdateData($this, __FUNCTION__);
@@ -858,7 +861,7 @@ class ControllerPagesSaleCustomer extends AController {
 		$this->extensions->hk_InitData($this, __FUNCTION__);
 		if (isset($this->request->get['customer_id'])) {
 			//NOTE: if need to act on additional store - redirect to it's admin side.
-			// and then to storefront because crossdomain restriction for session cookie
+			// and then to storefront because cross-domain restriction for session cookie
 			$this->loadModel('setting/store');
 			$store_settings = $this->model_setting_store->getStore($this->session->data['current_store_id']);
 			if($this->config->get('config_url') != $this->model_setting_store->getStoreURL($this->session->data['current_store_id'])){
@@ -904,7 +907,7 @@ class ControllerPagesSaleCustomer extends AController {
 			$customer_info = $this->model_sale_customer->getCustomer($customer_id);
 			if ($customer_info['address_id'] == $address_id) {
 				$this->error['warning'] = $this->language->get('error_delete_default');
-				$this->_getAdressForm();
+				$this->_getAddressForm();
 			} else {
 				$this->loadModel('sale/customer_group');
 				$this->model_sale_customer->deleteAddress($customer_id,$address_id);
@@ -933,7 +936,7 @@ class ControllerPagesSaleCustomer extends AController {
 		    	|| (!preg_match($login_name_pattern, $data['loginname']) && $this->config->get('prevent_email_as_login'))
 		) {
 		    $this->error['loginname'] = $this->language->get('error_loginname');
-		    //check uniqunes of login name
+		    //check uniqueness of login name
 		} else if (!$this->model_sale_customer->is_unique_loginname($data['loginname'], $customer_id)) {
 		    $this->error['loginname'] = $this->language->get('error_loginname_notunique');
 		}
@@ -969,6 +972,9 @@ class ControllerPagesSaleCustomer extends AController {
 		$im_drivers = $this->im->getIMDriverObjects();
 		if ($im_drivers){
 			foreach ($im_drivers as $protocol => $driver_obj){
+				/**
+				 * @var AMailIM $driver_obj
+				 */
 				if (!is_object($driver_obj) || $protocol=='email'){
 					continue;
 				}
@@ -1023,76 +1029,10 @@ class ControllerPagesSaleCustomer extends AController {
 		$this->extensions->hk_ValidateData($this);
 
 		if (!$this->error) {
-			return TRUE;
+			return true;
 		} else {
 			$this->error['warning'] = implode('<br>',$this->error);
-			return FALSE;
+			return false;
 		}
 	}
-
-	/**
-	 * @param int $id - customer_id
-	 */
-	private function _sendMail($id) {
-
-		// send email to customer
-		$customer_info = $this->model_sale_customer->getCustomer($id);
-
-		if ($customer_info) {
-
-			$this->loadLanguage('mail/customer');
-			$this->loadModel('setting/store');
-
-			$store_info = $this->model_setting_store->getStore($customer_info['store_id']);
-
-			if ($store_info) {
-				$store_name = $store_info[ 'store_name' ];
-				$store_url = $store_info[ 'config_url' ] . 'index.php?rt=account/login';
-				$store_logo_file = DIR_RESOURCE . $store_info['config_logo'];
-				$store_logo = md5(pathinfo($store_info['config_logo'], PATHINFO_FILENAME)) . '.' . pathinfo($store_info['config_logo'], PATHINFO_EXTENSION);
-			} else {
-				$store_name = $this->config->get('store_name');
-				$store_url = $this->config->get('config_url') . 'index.php?rt=account/login';
-				$store_logo = md5(pathinfo($this->config->get('config_logo'), PATHINFO_FILENAME)) . '.' . pathinfo($this->config->get('config_logo'), PATHINFO_EXTENSION);
-				$store_logo_file = DIR_RESOURCE . $this->config->get('config_logo');
-			}
-
-			$plain_text = sprintf($this->language->get('text_welcome'), $store_name) . "\n\n";
-
-			$plain_text .= $this->language->get('text_login') . "\n";
-			$plain_text .= $store_url . "\n\n";
-			$plain_text .= $this->language->get('text_services') . "\n\n";
-			$plain_text .= $this->language->get('text_thanks') . "\n";
-			$plain_text .= $store_name;
-
-
-			//build HTML message with the template
-			$template = new ATemplate();
-			$template->data['text_welcome'] = sprintf($this->language->get('text_welcome'), $store_name) . "\n\n";
-
-			$template->data['text_login'] = $this->language->get('text_login');
-			$template->data['text_login_later'] = '<a href="' . $store_url . '">' . $store_url . '</a>';
-			$template->data['text_services'] = $this->language->get('text_services');
-
-
-			$template->data['logo'] = 'cid:' . $store_logo;
-			$template->data['store_name'] = $store_name;
-			$template->data['store_url'] = $store_url;
-			$template->data['text_thanks'] = $this->language->get('text_thanks');
-
-			$template->data['text_project_label'] = project_base();
-			$html_body = $template->fetch('mail/account_create.tpl');
-
-			$mail = new AMail($this->config);
-			$mail->setTo($customer_info[ 'email' ]);
-			$mail->setFrom($this->config->get('store_main_email'));
-			$mail->setSender($store_name);
-			$mail->setSubject(sprintf($this->language->get('text_subject'), $store_name));
-			$mail->setText(html_entity_decode($plain_text, ENT_QUOTES, 'UTF-8'));
-			$mail->setHtml($html_body);
-			$mail->addAttachment($store_logo_file, $store_logo);
-			$mail->send();
-		}
-	}
-
 }

@@ -159,10 +159,14 @@ class ControllerResponsesListingGridCustomer extends AController {
 																					'reset_value' => false
 																				));
 						}
-						$err = $this->_validateForm('approved', $this->request->post[ 'approved' ][ $id ], $id);
+						$do_approve = $this->request->post[ 'approved' ][ $id ];
+						$err = $this->_validateForm('approved', $do_approve, $id);
 						if (!$err) {
-							$this->model_sale_customer->editCustomerField($id, 'approved', $this->request->post[ 'approved' ][ $id ]);
-							$this->_sendMail($id, $this->request->post[ 'approved' ][ $id ]);
+							if($do_approve){
+								//send email when customer was not approved
+								$this->model_sale_customer->sendApproveMail($id);
+							}
+							$this->model_sale_customer->editCustomerField($id, 'approved', $do_approve);
 						} else {
 							$error = new AError('');
 							return $error->toJSONResponse('VALIDATION_ERROR_406',
@@ -220,14 +224,17 @@ class ControllerResponsesListingGridCustomer extends AController {
 															'reset_value' => true
 														));
 		    	}			
-		    	//paswords do match, save 
+		    	//passwords do match, save
 		    	$this->model_sale_customer->editCustomerField($customer_id, 'password', $post_data['password']);
 			} else {
 				foreach ($post_data as $field => $value) {
 					$err = $this->_validateForm($field, $value, $customer_id);
 					if (!$err) {
 						if($field == 'approved') {
-							$this->_sendMail($customer_id, $value);
+							//send email when customer was not approved
+							if($value){
+								$this->model_sale_customer->sendApproveMail($customer_id);
+							}
 						}
 						if($field == 'default' && $address_id) {
 							$this->model_sale_customer->setDefaultAddress($customer_id, $address_id);
@@ -258,15 +265,18 @@ class ControllerResponsesListingGridCustomer extends AController {
 				$err = $this->_validateForm($field, $v);
 				if (!$err) {
 					if ($field == 'approved') {
-						$this->_sendMail(key($value), current($value));
+						if($v){
+							//send email when customer was not approved
+							$this->model_sale_customer->sendApproveMail($k);
+						}
 					}
 					$this->model_sale_customer->editCustomerField($k, $field, $v);
 				} else {
 					$error = new AError('');
 					return $error->toJSONResponse('VALIDATION_ERROR_406',
-																		array('error_text' => $err,
-																			'reset_value' => false
-																		));
+													array('error_text' => $err,
+														'reset_value' => false
+													));
 				}
 			}
 		}
@@ -284,7 +294,7 @@ class ControllerResponsesListingGridCustomer extends AController {
    		 		if ( mb_strlen($value) < 5 || mb_strlen($value) > 64
    		 			|| (!preg_match($login_name_pattern, $value) && $this->config->get('prevent_email_as_login')) ) {	
    		   			$this->error = $this->language->get('error_loginname');
-   				//check uniqunes of loginname
+   				//check uniqueness of loginname
    		 		} else if ( !$this->model_sale_customer->is_unique_loginname($value, $customer_id) ) {
    		   			$this->error = $this->language->get('error_loginname_notunique');
    		 		}			
@@ -334,67 +344,6 @@ class ControllerResponsesListingGridCustomer extends AController {
 		$this->extensions->hk_ValidateData($this);
 
 		return $this->error;
-	}
-
-	private function _sendMail($id, $approved) {
-
-		// send email to customer
-		$customer_info = $this->model_sale_customer->getCustomer($id);
-		if ($customer_info && !$customer_info[ 'approved' ] && $approved) {
-
-			$this->loadLanguage('mail/customer');
-			$this->loadModel('setting/store');
-
-			$store_info = $this->model_setting_store->getStore($customer_info[ 'store_id' ]);
-
-			if ($store_info) {
-				$store_name = $store_info[ 'store_name' ];
-				$store_url = $store_info[ 'config_url' ] . 'index.php?rt=account/login';
-				$store_logo_file = DIR_RESOURCE . $store_info['config_logo'];
-				$store_logo = md5(pathinfo($store_info['config_logo'], PATHINFO_FILENAME)) . '.' . pathinfo($store_info['config_logo'], PATHINFO_EXTENSION);
-			} else {
-				$store_name = $this->config->get('store_name');
-				$store_url = $this->config->get('config_url') . 'index.php?rt=account/login';
-				$store_logo = md5(pathinfo($this->config->get('config_logo'), PATHINFO_FILENAME)) . '.' . pathinfo($this->config->get('config_logo'), PATHINFO_EXTENSION);
-				$store_logo_file = DIR_RESOURCE . $this->config->get('config_logo');
-			}
-
-			$plain_text = sprintf($this->language->get('text_welcome'), $store_name) . "\n\n";
-
-			$plain_text .= $this->language->get('text_login') . "\n";
-			$plain_text .= $store_url . "\n\n";
-			$plain_text .= $this->language->get('text_services') . "\n\n";
-			$plain_text .= $this->language->get('text_thanks') . "\n";
-			$plain_text .= $store_name;
-
-
-			//build HTML message with the template
-			$template = new ATemplate();
-			$template->data['text_welcome'] = sprintf($this->language->get('text_welcome'), $store_name) . "\n\n";
-
-			$template->data['text_login'] = $this->language->get('text_login');
-			$template->data['text_login_later'] = '<a href="' . $store_url . '">' . $store_url . '</a>';
-			$template->data['text_services'] = $this->language->get('text_services');
-
-
-			$template->data['logo'] = 'cid:' . $store_logo;
-			$template->data['store_name'] = $store_name;
-			$template->data['store_url'] = $store_url;
-			$template->data['text_thanks'] = $this->language->get('text_thanks');
-
-			$template->data['text_project_label'] = project_base();
-			$html_body = $template->fetch('mail/account_create.tpl');
-
-			$mail = new AMail($this->config);
-			$mail->setTo($customer_info[ 'email' ]);
-			$mail->setFrom($this->config->get('store_main_email'));
-			$mail->setSender($store_name);
-			$mail->setSubject(sprintf($this->language->get('text_subject'), $store_name));
-			$mail->setText(html_entity_decode($plain_text, ENT_QUOTES, 'UTF-8'));
-			$mail->setHtml($html_body);
-			$mail->addAttachment($store_logo_file, $store_logo);
-			$mail->send();
-		}
 	}
 
 	public function customers() {
