@@ -22,7 +22,7 @@ if (!defined('DIR_CORE') || !IS_ADMIN){
 }
 
 class ControllerTaskSaleContact extends AController{
-
+	public $data = array();
 	private $protocol;
 	public function sendSms(){
 		//for aborting process
@@ -175,37 +175,39 @@ class ControllerTaskSaleContact extends AController{
 		}
 
 		// HTML Mail
-		$template = new ATemplate();
-		$template->data['lang_direction'] = $this->language->get('direction');
-		$template->data['lang_code'] = $this->language->get('code');
-		$text_subject = $data['subject'];
-		$template->data['subject'] = $text_subject;
+		$this->data['mail_template_data']['lang_direction'] = $this->language->get('direction');
+		$this->data['mail_template_data']['lang_code'] = $this->language->get('code');
+		$this->data['mail_template_data']['subject'] = $data['subject'];
 
 		$text_unsubscribe = $this->language->get('text_unsubscribe');
-
-		$text_message = $data['message'];
-
-		$mail = new AMail($this->config);
-
-		$mail->setTo($email);
-		$mail->setFrom($data['from']);
-		$mail->setSender($data['sender']);
-		$mail->setSubject($text_subject);
-
-		$message_body = $text_message;
+		$message_body = $data['message'];
 		if ($data['subscriber']) {
 			$customer_info = $this->model_sale_customer->getCustomersByEmails(array($email));
 			$customer_id = $customer_info[0]['customer_id'];
 			if($customer_id){
 				$message_body .= "\n\n<br><br>" . sprintf($text_unsubscribe,
-								$email,
-								$this->html->getCatalogURL('account/notification', '&email=' . $email . '&customer_id=' . $customer_id));
+												$email,
+												$this->html->getCatalogURL('account/notification',
+																			'&email=' . $email . '&customer_id=' . $customer_id));
 			}
 		}
 
-		$template->data['body'] = html_entity_decode($message_body, ENT_QUOTES, 'UTF-8');
-		$html = $template->fetch('mail/contact.tpl');
-		$mail->setHtml($html);
+		$this->data['mail_template_data']['body'] = html_entity_decode($message_body, ENT_QUOTES, 'UTF-8');
+		$this->data['mail_template'] = 'mail/contact.tpl';
+
+		//allow to change email data from extensions
+		$this->extensions->hk_ProcessData($this, 'cp_sale_contact_mail');
+
+		$view = new AView($this->registry,0);
+		$view->batchAssign($this->data['mail_template_data']);
+		$html_body = $view->fetch($this->data['mail_template']);
+
+		$mail = new AMail($this->config);
+		$mail->setTo($email);
+		$mail->setFrom($data['from']);
+		$mail->setSender($data['sender']);
+		$mail->setSubject($this->data['mail_template_data']['subject']);
+		$mail->setHtml($html_body);
 		$mail->send();
 		if ($mail->error) {
 			return false;
