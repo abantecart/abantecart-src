@@ -22,6 +22,7 @@ if (!defined('DIR_CORE')){
 }
 
 class ControllerPagesContentContact extends AController{
+	public $data = array();
 	public $error = array ();
 	/**
 	 * @var AForm
@@ -40,54 +41,64 @@ class ControllerPagesContentContact extends AController{
 		$form = $this->form->getForm();
 
 		if ($this->request->is_POST() && $this->_validate()){
+
+			$post_data = $this->request->post;
+
 			// move all uploaded files to their directories
-			$file_pathes = $this->form->processFileUploads($this->request->files);
-			$template = new ATemplate();
+			$file_paths = $this->form->processFileUploads($this->request->files);
 
-			$subject = sprintf($this->language->get('email_subject'), $this->request->post['name']);
-			$template->data['subject'] = $subject;
-
-			$mail = new AMail($this->config);
-			$mail->setTo($this->config->get('store_main_email'));
-			$mail->setFrom($this->config->get('store_main_email'));
-			$mail->setReplyTo($this->request->post['email']);
-			$mail->setSender($this->request->post['first_name']);
-			$mail->setSubject($subject);
+			$subject = sprintf($this->language->get('email_subject'), $post_data['name']);
+			$this->data['mail_template_data']['subject'] = $subject;
 
 			$store_logo = md5(pathinfo($this->config->get('config_logo'), PATHINFO_FILENAME)) . '.' . pathinfo($this->config->get('config_logo'), PATHINFO_EXTENSION);
-			$template->data['logo'] = 'cid:' . $store_logo;
-			$template->data['store_name'] = $this->config->get('store_name');
-			$template->data['store_url'] = $this->config->get('config_url');
-			$template->data['text_project_label'] = project_base();
-			$template->data['entry_enquiry'] = $msg = $this->language->get('entry_enquiry');
-			$msg .= "\r\n" . $this->request->post['enquiry'] . "\r\n";
-			$template->data['enquiry'] = nl2br($this->request->post['enquiry'] . "\r\n");
+			$this->data['mail_template_data']['logo'] = 'cid:' . $store_logo;
+			$this->data['mail_template_data']['store_name'] = $this->config->get('store_name');
+			$this->data['mail_template_data']['store_url'] = $this->config->get('config_url');
+			$this->data['mail_template_data']['text_project_label'] = project_base();
+			$this->data['mail_template_data']['entry_enquiry'] = $this->data['mail_plain_text'] = $this->language->get('entry_enquiry');
+			$this->data['mail_plain_text'] .= "\r\n" . $post_data['enquiry'] . "\r\n";
+			$this->data['mail_template_data']['enquiry'] = nl2br($post_data['enquiry'] . "\r\n");
 
 			$form_fields = $this->form->getFields();
-			$template->data['form_fields'] = array ();
+			$this->data['mail_template_data']['form_fields'] = array ();
 			foreach ($form_fields as $field_name => $field_info){
-				if (has_value($this->request->post[$field_name]) && !in_array($field_name, array ('first_name', 'email', 'enquiry', 'captcha'))){
+				if (has_value($post_data[$field_name]) && !in_array($field_name, array ('first_name', 'email', 'enquiry', 'captcha'))){
 					$field_details = $this->form->getField($field_name);
-					$msg .= "\r\n" . rtrim($field_details['name'], ':') . ":\t" . $this->request->post[$field_name];
-					$template->data['form_fields'][rtrim($field_details['name'], ':')] = $this->request->post[$field_name];
+					$this->data['mail_plain_text'] .= "\r\n" . rtrim($field_details['name'], ':') . ":\t" . $post_data[$field_name];
+					$this->data['mail_template_data']['form_fields'][rtrim($field_details['name'], ':')] = $post_data[$field_name];
 				}
 			}
 
-			if ($file_pathes){
-				$msg .= "\r\n" . $this->language->get('entry_attached') . ": \r\n";
-				foreach ($file_pathes as $file_info){
+			$mail = new AMail($this->config);
+			if ($file_paths){
+				$this->data['mail_plain_text'] .= "\r\n" . $this->language->get('entry_attached') . ": \r\n";
+				foreach ($file_paths as $file_info){
 					$basename = pathinfo(str_replace(' ', '_', $file_info['path']), PATHINFO_BASENAME);
-					$msg .= "\t" . $file_info['display_name'] . ': ' . $basename . " (" . round(filesize($file_info['path']) / 1024, 2) . "Kb)\r\n";
+					$this->data['mail_plain_text'] .= "\t" . $file_info['display_name'] . ': ' . $basename . " (" . round(filesize($file_info['path']) / 1024, 2) . "Kb)\r\n";
 					$mail->addAttachment($file_info['path'], $basename);
-					$template->data['form_fields'][$file_info['display_name']] = $basename . " (" . round(filesize($file_info['path']) / 1024, 2) . "Kb)";
+					$this->data['mail_template_data']['form_fields'][$file_info['display_name']] = $basename . " (" . round(filesize($file_info['path']) / 1024, 2) . "Kb)";
 				}
 			}
-			$mail_html = $template->fetch('mail/contact.tpl');
-			$mail->setHtml($mail_html);
-			$mail->addAttachment(DIR_RESOURCE . $this->config->get('config_logo'), $store_logo);
 
-			$mail->setText(strip_tags(html_entity_decode($msg, ENT_QUOTES, 'UTF-8')));
+			$this->data['mail_template'] = 'mail/contact.tpl';
+
+			//allow to change email data from extensions
+			$this->extensions->hk_ProcessData($this, 'sf_contact_us_mail');
+
+			$view = new AView($this->registry,0);
+			$view->batchAssign($this->data['mail_template_data']);
+			$html_body = $view->fetch($this->data['mail_template']);
+
+			$mail->setTo($this->config->get('store_main_email'));
+			$mail->setFrom($this->config->get('store_main_email'));
+			$mail->setReplyTo($post_data['email']);
+			$mail->setSender($post_data['first_name']);
+			$mail->setSubject($subject);
+			$mail->setHtml($html_body);
+			$mail->setText(strip_tags(html_entity_decode($this->data['mail_plain_text'], ENT_QUOTES, 'UTF-8')));
+			$mail->addAttachment(DIR_RESOURCE . $this->config->get('config_logo'), $store_logo);
 			$mail->send();
+
 			//get success_page
 			if ($form['success_page']){
 				$success_url = $this->html->getSecureURL($form['success_page']);
@@ -100,8 +111,8 @@ class ControllerPagesContentContact extends AController{
 			$message_arr = array(
 			    1 => array('message' =>  sprintf(
 			    	$this->language->get('im_customer_contact_admin_text'),
-			    	$this->request->post['email'],
-			    	$this->request->post['first_name']
+			    	$post_data['email'],
+			    	$post_data['first_name']
 			    	)
 			    )
 			);
