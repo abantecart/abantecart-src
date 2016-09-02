@@ -1,4 +1,5 @@
 <?php
+
 /*
 ------------------------------------------------------------------------------
   $Id$
@@ -20,27 +21,141 @@
 ------------------------------------------------------------------------------  
 */
 
-class ModelInstall extends Model {
-	public function RunSQL($data) {
-		$db = new ADB($data['db_driver'],$data['db_host'], $data['db_user'], $data['db_password'], $data['db_name']);
+class ModelInstall extends Model{
+	public $error;
+
+	/**
+	 * @param array $data
+	 * @return bool
+	 */
+	public function validateSettings($data){
+		if (!$data['admin_path']){
+			$this->error['admin_path'] = 'Admin unique name is required!';
+		} else if (preg_match('/[^A-Za-z0-9_]/', $data['admin_path'])){
+			$this->error['admin_path'] = 'Admin unique name contains non-alphanumeric characters!';
+		}
+
+		if (!$data['db_driver']){
+			$this->error['db_driver'] = 'Driver required!';
+		}
+		if (!$data['db_host']){
+			$this->error['db_host'] = 'Host required!';
+		}
+
+		if (!$data['db_user']){
+			$this->error['db_user'] = 'User required!';
+		}
+
+		if (!$data['db_name']){
+			$this->error['db_name'] = 'Database Name required!';
+		}
+
+		if (!$data['username']){
+			$this->error['username'] = 'Username required!';
+		}
+
+		if (!$data['password']){
+			$this->error['password'] = 'Password required!';
+		}
+		if ($data['password'] != $data['password_confirm']){
+			$this->error['password_confirm'] = 'Password does not match the confirm password!';
+		}
+
+		$pattern = '/^([a-z0-9])(([-a-z0-9._])*([a-z0-9]))*\@([a-z0-9])(([a-z0-9-])*([a-z0-9]))+(\.([a-z0-9])([-a-z0-9_-])?([a-z0-9])+)+$/i';
+
+		if (!preg_match($pattern, $data['email'])){
+			$this->error['email'] = 'Invalid E-Mail!';
+		}
+
+		if (!empty($data['db_prefix']) && preg_match('/[^A-Za-z0-9_]/', $data['db_prefix'])){
+			$this->error['db_prefix'] = 'DB prefix contains non-alphanumeric characters!';
+		}
+
+		if ($data['db_driver']
+				&& $data['db_host']
+				&& $data['db_user']
+				&& $data['db_password']
+				&& $data['db_name']
+		){
+			try{
+				new ADB($data['db_driver'],
+						$data['db_host'],
+						$data['db_user'],
+						$data['db_password'],
+						$data['db_name']);
+			} catch(AException $exception){
+				$this->error['warning'] = $exception->getMessage();
+			}
+		}
+
+		if (!is_writable(DIR_ABANTECART . 'system/config.php')){
+			$this->error['warning'] = 'Error: Could not write to config.php please check you have set the correct permissions on: ' . DIR_ABANTECART . 'system/config.php!';
+		}
+
+		if (!$this->error){
+			return true;
+		} else{
+			return false;
+		}
+	}
+
+	public function configure($data){
+		if (!$data){
+			return false;
+		}
+
+		define('DB_PREFIX', $data['db_prefix']);
+
+		$content = "<?php\n";
+		$content .= "/**\n";
+		$content .= "	AbanteCart, Ideal OpenSource Ecommerce Solution\n";
+		$content .= "	http://www.AbanteCart.com\n";
+		$content .= "	Copyright © 2011-" . date('Y') . " Belavier Commerce LLC\n\n";
+		$content .= "	Released under the Open Software License (OSL 3.0)\n";
+		$content .= "*/\n\n";
+		$content .= "define('SERVER_NAME', '" . getenv('SERVER_NAME') . "');\n";
+		$content .= "// Admin Section Configuration. You can change this value to any name. Will use ?s=name to access the admin\n";
+		$content .= "define('ADMIN_PATH', '" . $data['admin_path'] . "');\n\n";
+		$content .= "// Database Configuration\n";
+		$content .= "define('DB_DRIVER', '" . $data['db_driver'] . "');\n";
+		$content .= "define('DB_HOSTNAME', '" . $data['db_host'] . "');\n";
+		$content .= "define('DB_USERNAME', '" . $data['db_user'] . "');\n";
+		$content .= "define('DB_PASSWORD', '" . $data['db_password'] . "');\n";
+		$content .= "define('DB_DATABASE', '" . $data['db_name'] . "');\n";
+		$content .= "define('DB_PREFIX', '" . DB_PREFIX . "');\n";
+		$content .= "\n";
+		$content .= "define('CACHE_DRIVER', 'file');\n";
+		$content .= "// Unique AbanteCart store ID\n";
+		$content .= "define('UNIQUE_ID', '" . md5(time()) . "');\n";
+		$content .= "// Encryption key for protecting sensitive information. NOTE: Change of this key will cause a loss of all existing encrypted information!\n";
+		$content .= "define('ENCRYPTION_KEY', '" . randomWord(6) . "');\n";
+
+		$file = fopen(DIR_ABANTECART . 'system/config.php', 'w');
+		fwrite($file, $content);
+		fclose($file);
+		return null;
+	}
+
+	public function RunSQL($data){
+		$db = new ADB($data['db_driver'], $data['db_host'], $data['db_user'], $data['db_password'], $data['db_name']);
 
 		$file = DIR_APP_SECTION . 'abantecart_database.sql';
-		if ($sql = file($file)) {
+		if ($sql = file($file)){
 			$query = '';
 
-			foreach($sql as $line) {
+			foreach ($sql as $line){
 				$tsl = trim($line);
 
-				if (($sql != '') && (substr($tsl, 0, 2) != "--") && (substr($tsl, 0, 1) != '#')) {
+				if (($sql != '') && (substr($tsl, 0, 2) != "--") && (substr($tsl, 0, 1) != '#')){
 					$query .= $line;
-  
-					if (preg_match('/;\s*$/', $line)) {
+
+					if (preg_match('/;\s*$/', $line)){
 						$query = str_replace("DROP TABLE IF EXISTS `ac_", "DROP TABLE IF EXISTS `" . $data['db_prefix'], $query);
 						$query = str_replace("CREATE TABLE `ac_", "CREATE TABLE `" . $data['db_prefix'], $query);
 						$query = str_replace("INSERT INTO `ac_", "INSERT INTO `" . $data['db_prefix'], $query);
 						$query = str_replace("ON `ac_", "ON `" . $data['db_prefix'], $query);
 
-                        $db->query($query); //no silence mode! if error - will throw to exception
+						$db->query($query); //no silence mode! if error - will throw to exception
 						$query = '';
 					}
 				}
@@ -50,13 +165,13 @@ class ModelInstall extends Model {
 			$db->query("SET @@session.sql_mode = 'MYSQL40';");
 			$salt_key = genToken(8);
 			$db->query(
-				"INSERT INTO `" . $data['db_prefix'] . "users`
+					"INSERT INTO `" . $data['db_prefix'] . "users`
 				SET user_id = '1',
 					user_group_id = '1',
-					email = '".$db->escape($data['email'])."',
+					email = '" . $db->escape($data['email']) . "',
 				    username = '" . $db->escape($data['username']) . "',
 					salt = '" . $db->escape($salt_key) . "', 
-					password = '" . $db->escape(sha1($salt_key.sha1($salt_key.sha1($data['password'])))) . "',
+					password = '" . $db->escape(sha1($salt_key . sha1($salt_key . sha1($data['password'])))) . "',
 				    status = '1',
 				    date_added = NOW();");
 
@@ -69,13 +184,13 @@ class ModelInstall extends Model {
 			//process triggers
 			//$this->create_triggers($db, $data['db_name']);
 
-			//run descructor and close db-connection
+			//run destructor and close db-connection
 			unset($db);
 		}
-		
-        //clear cache dir in case of reinstall
-        $cache = new ACache();
-        $cache->remove('*');
+
+		//clear cache dir in case of reinstall
+		$cache = new ACache();
+		$cache->remove('*');
 
 	}
 
@@ -83,22 +198,22 @@ class ModelInstall extends Model {
 	 * @param ADB $db
 	 * @param string $database_name
 	 */
-	private function create_triggers($db, $database_name) {
+	private function create_triggers($db, $database_name){
 		$tables_sql = "
 			SELECT DISTINCT TABLE_NAME 
 		    FROM INFORMATION_SCHEMA.COLUMNS
 		    WHERE COLUMN_NAME IN ('date_added')
 		    AND TABLE_SCHEMA='" . $database_name . "'";
-		
-		$query = $db->query( $tables_sql);
-		foreach ($query->rows as $t) {
+
+		$query = $db->query($tables_sql);
+		foreach ($query->rows as $t){
 			$table_name = $t['TABLE_NAME'];
 			$triger_name = $table_name . "_date_add_trg";
-		
+
 			$triger_checker = $db->query("SELECT TRIGGER_NAME
 								FROM information_schema.triggers
 								WHERE TRIGGER_SCHEMA = '" . $database_name . "' AND TRIGGER_NAME = '$triger_name'");
-			if (!$query->row[0]) {
+			if (!$query->row[0]){
 				//create trigger
 				$sql = "
 				CREATE TRIGGER `$triger_name` BEFORE INSERT ON `$table_name` FOR EACH ROW
@@ -108,28 +223,72 @@ class ModelInstall extends Model {
 				";
 				$db->query($sql);
 			}
-		}	
+		}
 	}
 
-    public function getLanguages() {
-        $query = $this->db->query( "SELECT *
+	/**
+	 * @param Registry $registry
+	 * @return null
+	 */
+	public function loadDemoData($registry){
+		$db = $registry->get('db');
+		$db->query("SET NAMES 'utf8'");
+		$db->query("SET CHARACTER SET utf8");
+
+		$file = DIR_APP_SECTION . 'abantecart_sample_data.sql';
+
+		if ($sql = file($file)){
+			$query = '';
+
+			foreach ($sql as $line){
+				$tsl = trim($line);
+
+				if (($sql != '') && (substr($tsl, 0, 2) != "--") && (substr($tsl, 0, 1) != '#')){
+					$query .= $line;
+
+					if (preg_match('/;\s*$/', $line)){
+						$query = str_replace("DROP TABLE IF EXISTS `ac_", "DROP TABLE IF EXISTS `" . DB_PREFIX, $query);
+						$query = str_replace("CREATE TABLE `ac_", "CREATE TABLE `" . DB_PREFIX, $query);
+						$query = str_replace("INSERT INTO `ac_", "INSERT INTO `" . DB_PREFIX, $query);
+
+						$result = $db->query($query);
+
+						if (!$result || $db->error){
+							die($db->error . '<br>' . $query);
+						}
+
+						$query = '';
+					}
+				}
+			}
+			$db->query("SET CHARACTER SET utf8");
+			$db->query("SET @@session.sql_mode = 'MYSQL40'");
+		}
+		//clear earlier created cache by AConfig and ALanguage classes in previous step
+		$cache = new ACache();
+		$cache->remove('*');
+		return null;
+	}
+
+	public function getLanguages(){
+		$query = $this->db->query("SELECT *
                                     FROM " . DB_PREFIX . "languages
                                     ORDER BY sort_order, name");
-	    $language_data= array();
+		$language_data = array ();
 
-        foreach ($query->rows as $result) {
-            $language_data[$result['code']] = array(
-                'language_id' => $result['language_id'],
-                'name'        => $result['name'],
-                'code'        => $result['code'],
-                'locale'      => $result['locale'],
-                'directory'   => $result['directory'],
-                'filename'    => $result['filename'],
-                'sort_order'  => $result['sort_order'],
-                'status'      => $result['status']
-            );
-        }
+		foreach ($query->rows as $result){
+			$language_data[$result['code']] = array (
+					'language_id' => $result['language_id'],
+					'name'        => $result['name'],
+					'code'        => $result['code'],
+					'locale'      => $result['locale'],
+					'directory'   => $result['directory'],
+					'filename'    => $result['filename'],
+					'sort_order'  => $result['sort_order'],
+					'status'      => $result['status']
+			);
+		}
 
-    return $language_data;
-    }
+		return $language_data;
+	}
 }
