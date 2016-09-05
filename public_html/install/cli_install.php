@@ -296,8 +296,13 @@ function checkRequirements($options){
 	$options['password_confirm'] = $options['password'];
 	$registry = Registry::getInstance();
 	$registry->get('load')->model('install');
-	$registry->get('model_install')->validateSettings($options);
-	return $registry->get('model_install')->error;
+	$registry->get('model_install')->validateRequirements();
+	$errors = $registry->get('model_install')->error;
+	if(!$errors){
+		$registry->get('model_install')->validateSettings($options);
+		$errors = $registry->get('model_install')->error;
+	}
+	return $errors;
 }
 
 function setupDB($data){
