@@ -280,8 +280,11 @@ function validateOptions($options){
 function install($options){
 	$errors = checkRequirements($options);
 	if (!$errors){
-		setupDB($options);
 		writeConfigFile($options);
+		if (file_exists(DIR_SYSTEM . 'config.php')){
+			require_once(DIR_SYSTEM . 'config.php');
+		}
+		setupDB($options);
 		$cache = new ACache();
 		$cache->setCacheStorageDriver('file');
 		$cache->enableCache();
@@ -335,4 +338,6 @@ function writeConfigFile($options){
 	$registry = Registry::getInstance();
 	$registry->get('load')->model('install');
 	$registry->get('model_install')->configure($options);
+
+
 }
