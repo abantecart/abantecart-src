@@ -41,7 +41,10 @@ before_script:
 # omitting "script:" will default to phpunit
 # use the $DB env variable to determine the phpunit.xml to use
 script: phpunit --verbose --configuration tests/phpunit/phpunit_$DB.xml
-        ls /home/travis/build/abantecart/abantecart-src/tests/
+
+script: ls tests
+
+script: ls tests/phpunit
 
 
 #script: php /home/travis/build/abantecart/abantecart-src/tests/coverage-checker.php /home/travis/build/abantecart/abantecart-src/tests/phpunit/clover.xml 100
