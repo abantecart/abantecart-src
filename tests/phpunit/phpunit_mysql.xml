@@ -7,8 +7,13 @@
 			<file>core/lib/AConfigTest.php</file>
 		</testsuite>
 	</testsuites>
+	<filter>
+        <whitelist addUncoveredFilesFromWhitelist="true">
+            <directory suffix=".php">./core</directory>
+        </whitelist>
+    </filter>
     <logging>
         <!-- and this is where your report will be written -->
-        <log type="coverage-html" target="/home/travis/build/abantecart/abantecart-src/logs/clover.html"/>
+        <log type="coverage-xml" target="/home/travis/build/abantecart/abantecart-src/logs/clover.xml"/>
     </logging>
 </phpunit>
