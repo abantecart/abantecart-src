@@ -43,7 +43,7 @@ before_script:
 script: phpunit --configuration tests/phpunit/phpunit_$DB.xml
 script: ls /home/travis/build/abantecart/abantecart-src/tests/
 script: ls /home/travis/build/abantecart/abantecart-src/
-script: ls /home/travis/build/abantecart/
+
 
 #script: php /home/travis/build/abantecart/abantecart-src/tests/coverage-checker.php /home/travis/build/abantecart/abantecart-src/tests/phpunit/clover.xml 100
 
