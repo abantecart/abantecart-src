@@ -21,6 +21,7 @@ php:
 # optionally specify a list of environments, for example to test different RDBMS
 env:
   - DB=mysql
+  - PRJ_PATH=/home/travis/build/abantecart/abantecart-src/
 
 # optionally set up exclutions and allowed failures in the matrix
 matrix:
@@ -35,13 +36,13 @@ matrix:
 before_script:
   - if [[ "$DB" == "mysql" ]]; then mysql -e "DROP database IF EXISTS abantecart_test_build;" -uroot; fi
   - if [[ "$DB" == "mysql" ]]; then mysql -e "create database IF NOT EXISTS abantecart_test_build;" -uroot; fi
-  - mysql -uroot abantecart_test_build < /home/travis/build/abantecart/abantecart-src/public_html/install/abantecart_database.sql
+  - mysql -uroot abantecart_test_build < $PRJ_PATHpublic_html/install/abantecart_database.sql
 
 
 # omitting "script:" will default to phpunit
 # use the $DB env variable to determine the phpunit.xml to use
 script: phpunit --configuration tests/phpunit/phpunit_$DB.xml
-script: php coverage-checker.php clover.xml 100
+script: php $PRJ_PATHtests/coverage-checker.php clover.xml 100
 
 # configure notifications (email, IRC, campfire etc)
 notifications:
