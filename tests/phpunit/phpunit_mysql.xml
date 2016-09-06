@@ -9,6 +9,6 @@
 	</testsuites>
     <logging>
         <!-- and this is where your report will be written -->
-        <log type="coverage-clover" target="/home/travis/build/abantecart/abantecart-src/logs/clover.xml"/>
+        <log type="coverage-html" target="/home/travis/build/abantecart/abantecart-src/logs/clover.html"/>
     </logging>
 </phpunit>

@@ -43,7 +43,7 @@ before_script:
 script:
 
   - mkdir -p logs
-  - phpunit -v --debug --coverage-clover /home/travis/build/abantecart/abantecart-src/logs/clover.xml -c tests/phpunit/phpunit_mysql.xml
+  - phpunit -v --debug -c tests/phpunit/phpunit_mysql.xml
 
   - ls /home/travis/build/abantecart/abantecart-src/logs
 
