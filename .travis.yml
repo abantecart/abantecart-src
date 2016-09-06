@@ -40,9 +40,9 @@ before_script:
 
 # omitting "script:" will default to phpunit
 # use the $DB env variable to determine the phpunit.xml to use
-script: phpunit --configuration tests/phpunit/phpunit_$DB.xml --coverage-clover /home/travis/build/abantecart/abantecart-src/tests/phpunit/clover.xml
-
-script: php /home/travis/build/abantecart/abantecart-src/tests/coverage-checker.php /home/travis/build/abantecart/abantecart-src/tests/phpunit/clover.xml 100
+script:
+      - phpunit --configuration tests/phpunit/phpunit_$DB.xml --coverage-clover /home/travis/build/abantecart/abantecart-src/tests/phpunit/clover.xml
+      - php /home/travis/build/abantecart/abantecart-src/tests/coverage-checker.php /home/travis/build/abantecart/abantecart-src/tests/phpunit/clover.xml 100
 
 # configure notifications (email, IRC, campfire etc)
 notifications:
