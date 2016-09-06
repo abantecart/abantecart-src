@@ -23,13 +23,13 @@ env:
   - DB=mysql
 
 # optionally set up exclutions and allowed failures in the matrix
-#matrix:
-#  exclude:
-#    - php: hhvm
-#      env: DB=pgsql  # PDO driver for pgsql is unsupported by HHVM (3rd party install for support)
-#  allow_failures:
-#    - php: 7.0
-#    - php: hhvm
+matrix:
+  exclude:
+    - php: hhvm
+      env: DB=pgsql  # PDO driver for pgsql is unsupported by HHVM (3rd party install for support)
+  allow_failures:
+    - php: 7.0
+    - php: hhvm
 
 # execute any number of scripts before the test run, custom env's are available as variables
 before_script:
@@ -43,11 +43,11 @@ before_script:
 script:
 
   - mkdir -p logs
-  - phpunit -v -c tests/phpunit/phpunit_mysql.xml --coverage-text
+  - phpunit -v -c tests/phpunit/phpunit_mysql.xml
 
-#  - ls /home/travis/build/abantecart/abantecart-src/logs
+  - ls /home/travis/build/abantecart/abantecart-src/logs
 
-#      - less /home/travis/build/abantecart/abantecart-src/logs/clover.xml
+  - less /home/travis/build/abantecart/abantecart-src/logs/clover.xml
 #      - php /home/travis/build/abantecart/abantecart-src/tests/coverage-checker.php /home/travis/build/abantecart/abantecart-src/logs/clover.xml 100
 
 # configure notifications (email, IRC, campfire etc)

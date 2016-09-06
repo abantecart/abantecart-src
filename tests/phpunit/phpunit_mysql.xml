@@ -16,6 +16,6 @@
         </whitelist>
     </filter>
     <logging>
-        <log type="coverage-xml" target="/home/travis/build/abantecart/abantecart-src/logs/clover.xml"/>
+        <log type="coverage-xml" target="./logs/clover.xml"/>
     </logging>
 </phpunit>
