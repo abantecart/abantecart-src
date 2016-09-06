@@ -1,39 +1,11 @@
 <?php
 
 class AbanteCartTest extends PHPUnit_Framework_TestCase {
-	
 	protected $registry;
-
-	
-	public function __get($key) {
-		return $this->registry->get($key);
-	}
-	
-	public function __set($key, $value) {
-		$this->registry->set($key, $value);
-	}	
-	
-	public function loadConfiguration($path) {
-
-
-		// Configuration
-		if (file_exists($path) && filesize($path)) {
-			require_once($path);
-		} else {
-			exit($path);
-			throw new Exception('AbanteCart has to be installed first!');
-		}
-
-		// New Installation
-		if (!defined('DB_DATABASE')) {
-			throw new Exception('AbanteCart has to be installed first!');
-		}
-	}
-	
 	public function __construct() {
 
 		$GLOBALS[ 'error_descriptions' ] = 'Abantecart PhpUnit test';
-		require('config.php');
+		require_once('/home/travis/build/abantecart/abantecart-src/tests/phpunit/build_config.php');
 		$_SERVER['HTTP_HOST'] = ABC_TEST_HTTP_HOST;
 		$_SERVER['PHP_SELF'] = ABC_TEST_PHP_SELF;
 
@@ -85,7 +57,32 @@ class AbanteCartTest extends PHPUnit_Framework_TestCase {
 
 		// Registry
 		$this->registry = Registry::getInstance();
-	}	
+	}
+
+	public function __get($key) {
+		return $this->registry->get($key);
+	}
+
+	public function __set($key, $value) {
+		$this->registry->set($key, $value);
+	}
+
+	public function loadConfiguration($path) {
+
+
+		// Configuration
+		if (file_exists($path) && filesize($path)) {
+			require_once($path);
+		} else {
+			exit($path);
+			throw new Exception('AbanteCart has to be installed first!');
+		}
+
+		// New Installation
+		if (!defined('DB_DATABASE')) {
+			throw new Exception('AbanteCart has to be installed first!');
+		}
+	}
 	
 	public function customerLogin($user,$password,$override=false) {
 		$logged = $this->customer->login($user,$password,$override);		
