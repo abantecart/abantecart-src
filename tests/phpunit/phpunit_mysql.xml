@@ -9,7 +9,7 @@
 	</testsuites>
 	<filter>
         <whitelist addUncoveredFilesFromWhitelist="true">
-            <directory suffix=".php">./core</directory>
+            <directory suffix=".php">./lib</directory>
         </whitelist>
     </filter>
     <logging>
