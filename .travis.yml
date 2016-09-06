@@ -42,9 +42,7 @@ before_script:
 # use the $DB env variable to determine the phpunit.xml to use
 script:
       - mkdir -p logs
-      - chmod 777 logs
-      - ls
-      - sudo phpunit -c tests/phpunit/phpunit_$DB.xml --coverage-clover /home/travis/build/abantecart/abantecart-src/logs/clover.xml
+      - phpunit --coverage-clover /home/travis/build/abantecart/abantecart-src/logs/clover.xml -c tests/phpunit/phpunit_mysql.xml
       - less /home/travis/build/abantecart/abantecart-src/logs/clover.xml
       - php /home/travis/build/abantecart/abantecart-src/tests/coverage-checker.php /home/travis/build/abantecart/abantecart-src/logs/clover.xml 100
 
