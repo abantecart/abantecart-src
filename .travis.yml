@@ -33,6 +33,7 @@ matrix:
 
 # execute any number of scripts before the test run, custom env's are available as variables
 before_script:
+  - phpenv config-add xdebug.ini
   - if [[ "$DB" == "mysql" ]]; then mysql -e "DROP database IF EXISTS abantecart_test_build;" -uroot; fi
   - if [[ "$DB" == "mysql" ]]; then mysql -e "create database IF NOT EXISTS abantecart_test_build;" -uroot; fi
   - mysql -uroot abantecart_test_build < /home/travis/build/abantecart/abantecart-src/public_html/install/abantecart_database.sql
@@ -41,9 +42,9 @@ before_script:
 # omitting "script:" will default to phpunit
 # use the $DB env variable to determine the phpunit.xml to use
 script:
-      - mkdir -p logs
-      - phpunit --help
-#      - phpunit --coverage-clover /home/travis/build/abantecart/abantecart-src/logs/clover.xml -c tests/phpunit/phpunit_mysql.xml
+  - php -i
+  - mkdir -p logs
+  - phpunit --coverage-clover /home/travis/build/abantecart/abantecart-src/logs/clover.xml -c tests/phpunit/phpunit_mysql.xml
 #      - less /home/travis/build/abantecart/abantecart-src/logs/clover.xml
 #      - php /home/travis/build/abantecart/abantecart-src/tests/coverage-checker.php /home/travis/build/abantecart/abantecart-src/logs/clover.xml 100
 
