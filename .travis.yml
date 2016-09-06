@@ -18,6 +18,8 @@ php:
   # aliased to a recent hhvm version
   #- hhvm
 
+install: composer install --dev
+
 # optionally specify a list of environments, for example to test different RDBMS
 env:
   - DB=mysql
@@ -43,11 +45,9 @@ before_script:
 script:
 
   - mkdir -p logs
-  - touch logs/clover.xml
-  - phpunit -v --debug --coverage-clover /home/travis/build/abantecart/abantecart-src/logs/clover.xml  -c tests/phpunit/phpunit_mysql.xml --coverage-text
+  - phpunit -v -c tests/phpunit/phpunit_mysql.xml --coverage-text
 
   - ls /home/travis/build/abantecart/abantecart-src/logs
-  - less /home/travis/build/abantecart/abantecart-src/logs/clover.xml
 
 #      - less /home/travis/build/abantecart/abantecart-src/logs/clover.xml
 #      - php /home/travis/build/abantecart/abantecart-src/tests/coverage-checker.php /home/travis/build/abantecart/abantecart-src/logs/clover.xml 100
