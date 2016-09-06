@@ -9,7 +9,8 @@
 	</testsuites>
 	<filter>
         <whitelist addUncoveredFilesFromWhitelist="true">
-            <directory>./lib</directory>
+            <directory>core/helper</directory>
+            <directory>core/lib</directory>
         </whitelist>
     </filter>
     <logging>
