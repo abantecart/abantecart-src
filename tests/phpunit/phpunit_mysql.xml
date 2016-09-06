@@ -9,11 +9,10 @@
 	</testsuites>
 	<filter>
         <whitelist addUncoveredFilesFromWhitelist="true">
-            <directory suffix=".php">./lib</directory>
+            <directory>./lib</directory>
         </whitelist>
     </filter>
     <logging>
-        <!-- and this is where your report will be written -->
         <log type="coverage-xml" target="/home/travis/build/abantecart/abantecart-src/logs/clover.xml"/>
     </logging>
 </phpunit>
