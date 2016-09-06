@@ -40,7 +40,8 @@ before_script:
 
 # omitting "script:" will default to phpunit
 # use the $DB env variable to determine the phpunit.xml to use
-script: phpunit --configuration="tests/phpunit/phpunit_$DB.xml"
+#script: phpunit --configuration tests/phpunit/phpunit_$DB.xml
+script: phpunit core/helper/UtilsTest.php
 
 # configure notifications (email, IRC, campfire etc)
 notifications:
