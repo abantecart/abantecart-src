@@ -44,7 +44,7 @@ script:
 
   - mkdir -p logs
   - touch logs/clover.xml
-  - phpunit -v --debug --coverage-clover /home/travis/build/abantecart/abantecart-src/logs/clover.xml  -c tests/phpunit/phpunit_mysql.xml
+  - phpunit -v --debug --coverage-clover /home/travis/build/abantecart/abantecart-src/logs/clover.xml  -c tests/phpunit/phpunit_mysql.xml --coverage-text
 
   - ls /home/travis/build/abantecart/abantecart-src/logs
   - less /home/travis/build/abantecart/abantecart-src/logs/clover.xml

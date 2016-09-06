@@ -1,6 +1,9 @@
 <phpunit
 		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-		xsi:noNamespaceSchemaLocation="http://schema.phpunit.de/4.5/phpunit.xsd">
+		xsi:noNamespaceSchemaLocation="http://schema.phpunit.de/4.5/phpunit.xsd"
+		codecoverage="true"
+		haltonfailure="true"
+		haltonerror="true">
 	<testsuites>
 		<testsuite name="core_libs">
 			<file>core/helper/UtilsTest.php</file>
