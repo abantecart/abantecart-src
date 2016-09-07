@@ -42,5 +42,3 @@ notifications:
     recipients:
       - dsuprunenko@abantecart.com
      #- projkov@abantecart.com
-  on_success: always
-  on_failure: always
