@@ -1,7 +1,7 @@
 <phpunit
 		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 		xsi:noNamespaceSchemaLocation="http://schema.phpunit.de/4.5/phpunit.xsd"
-		codecoverage="true"
+		codecoverage="false"
 		haltonfailure="true"
 		haltonerror="true">
 	<testsuites>
@@ -16,4 +16,8 @@
         </whitelist>
     </filter>
     <logging></logging>
+	<php>
+	  <ini name="display_startup_errors" value="On"/>
+	  <ini name="display_errors" value="On"/>
+	</php>
 </phpunit>
