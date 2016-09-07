@@ -52,7 +52,7 @@ class TaskTest extends AbanteCartTest{
 		list($step_id1, $step_id2) = array_keys($this->task_details['steps']);
 		exec('php '.DIR_ROOT.'/task.php '.$task_id.' '.$step_id1, $output);
 
-		$expected = array(
+		$expected = array('ddd',
 							"Running command line",
 							"Task #".$task_id." : Step #".$step_id1." - Ok."
 		);
