@@ -31,13 +31,14 @@ if (!defined('DIR_CORE')){
 class ATaskManager{
 	protected $registry;
 	public $errors = array (); // errors during process
-	private $starter;
+	protected $starter;
 	/**
 	 * @var ALog
 	 */
-	private $task_log;
-	public  $run_log = '';
+	protected $task_log;
+	private $mode = 'html';
 
+	public  $run_log = '';
 	const STATUS_DISABLED = 0;
 	const STATUS_READY = 1;
 	const STATUS_RUNNING = 2;
@@ -46,8 +47,11 @@ class ATaskManager{
 	const STATUS_COMPLETED = 5;
 	const STATUS_INCOMPLETE = 6;
 
-	public function __construct(){
-
+	/**
+	 * @param string $mode  Can be html or cli. Needed for run log format
+	 */
+	public function __construct($mode='html'){
+		$this->mode = in_array($mode, array('html', 'cli')) ? $mode : 'html';
 		$this->registry = Registry::getInstance();
 		// who is initiator of process, admin or storefront
 		$this->starter = IS_ADMIN === true ? 1 : 0;
@@ -70,7 +74,7 @@ class ATaskManager{
 		// run loop tasks
 		foreach ($task_list as $task){
 			//check interval and skip task
-			$this->toLog('Started to run task #' . $task['task_id']);
+			$this->toLog('Task #' . $task['task_id'] ." state - running.");
 			if ($task['interval'] > 0
 					&&
 				(time() - dateISO2Int($task['last_time_run']) >= $task['interval'] || is_null($task['last_time_run']))){
@@ -80,7 +84,7 @@ class ATaskManager{
 			$task_settings = unserialize($task['settings']);
 
 			$this->_run_steps($task['task_id'], $task_settings);
-			$this->toLog('task #' . $task['task_id'] . ' finished.');
+			$this->toLog('Task #' . $task['task_id'] . ' state - finished.');
 		}
 	}
 
@@ -96,7 +100,7 @@ class ATaskManager{
 			return false;
 		}
 
-		$this->toLog('Started task #' . $task_id . '.');
+		$this->toLog('Task #' . $task_id . ' state - running.');
 
 		//check interval and skip task
 		//check if task ran first time or
@@ -108,7 +112,7 @@ class ATaskManager{
 		}
 		$task_settings = unserialize($task['settings']);
 		$task_result = $this->_run_steps($task['task_id'], $task_settings);
-		$this->toLog('task #' . $task_id . ' finished.');
+		$this->toLog('Task #' . $task_id . ' state - finished.');
 		return $task_result;
 	}
 
@@ -343,7 +347,11 @@ class ATaskManager{
 	 * @param int $msg_code - can be 0 - fail, 1 -success
 	 */
 	public function toLog($message, $msg_code = 1){
-		$this->run_log .= '<p style="color: '.($msg_code?'green': 'red').'">'.$message."</p>";
+		if($this->mode=='html'){
+			$this->run_log .= '<p style="color: ' . ($msg_code ? 'green' : 'red') . '">' . $message . "</p>";
+		}else{
+			$this->run_log .= $message."\n";
+		}
 		$this->task_log->write($message);
 	}
 

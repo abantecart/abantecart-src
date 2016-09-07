@@ -65,6 +65,9 @@ class AbanteCartTest extends PHPUnit_Framework_TestCase {
 
 		// Registry
 		$this->registry = Registry::getInstance();
+		//add admin in scope
+		$this->registry->get('session')->data['user_id'] = 1;
+		$this->registry->set('user', new AUser($this->registry));
 	}
 
 	public function __get($key) {

@@ -92,7 +92,7 @@ ADebug::checkpoint('init end');
 $registry->set('currency', new ACurrency($registry));
 
 //ok... let's start tasks
-$tm = new ATaskManager();
+$tm = new ATaskManager(($command_line ? 'cli' : 'html'));
 
 //if task_id is not presents
 if($mode == 'start' && !$task_id){
@@ -114,7 +114,6 @@ if($mode == 'start' && !$task_id){
 	);
 
 	$task_details = $tm->getTaskById($task_id);
-
 	foreach($task_details['steps'] as $step){
 		$tm->updateStep($step['step_id'], array('status'=> $tm::STATUS_READY));
 	}
@@ -123,6 +122,7 @@ if($mode == 'start' && !$task_id){
 
 	//run all steps of task and change it's status after
 	$data = array('task_details' => $task_details);
+	$tm->runTask($task_id);
 	session_write_close();
 }
 
@@ -378,4 +378,3 @@ if( $command_line !== true && !$step_id) {
 </html>
 <?php }
 exit;
-?>
