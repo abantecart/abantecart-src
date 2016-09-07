@@ -1,6 +1,6 @@
 <?php
 //build environment
-require_once('../../AbanteCartTestBootstrap.php');
+require_once('../../../AbanteCartTestBootstrap.php');
 
 /**
  * Class SystemCheckTest
