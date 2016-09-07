@@ -5,7 +5,15 @@ class AbanteCartTest extends PHPUnit_Framework_TestCase {
 	public function __construct() {
 
 		$GLOBALS[ 'error_descriptions' ] = 'Abantecart PhpUnit test';
-		require_once('/home/travis/build/abantecart/abantecart-src/tests/phpunit/build_config.php');
+
+		$dirname = dirname(__FILE__);
+		$dirname = dirname($dirname);
+
+		$dirname = dirname($dirname).'/public_html';
+		define('ABC_TEST_ROOT_PATH', $dirname);
+		define('ABC_TEST_HTTP_HOST', 'travis-ci.org');
+		define('ABC_TEST_PHP_SELF',  'abantecart/abantecart-src/public_html/index.php');
+
 		$_SERVER['HTTP_HOST'] = ABC_TEST_HTTP_HOST;
 		$_SERVER['PHP_SELF'] = ABC_TEST_PHP_SELF;
 
@@ -74,7 +82,6 @@ class AbanteCartTest extends PHPUnit_Framework_TestCase {
 		if (file_exists($path) && filesize($path)) {
 			require_once($path);
 		} else {
-			exit($path);
 			throw new Exception('AbanteCart has to be installed first!');
 		}
 
