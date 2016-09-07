@@ -6,8 +6,7 @@
 		haltonerror="true">
 	<testsuites>
 		<testsuite name="core_libs">
-			<file>tests/phpunit/core/helper/UtilsTest.php</file>
-			<file>tests/phpunit/core/lib/AConfigTest.php</file>
+			<directory>core</directory>
 		</testsuite>
 	</testsuites>
 	<filter>
