@@ -1,17 +1,22 @@
 <phpunit
 		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-		xsi:noNamespaceSchemaLocation="http://schema.phpunit.de/4.5/phpunit.xsd"
-		processIsolation="false"
-		stopOnError="true"
-		stopOnFailure="true">
+		xsi:noNamespaceSchemaLocation="http://schema.phpunit.de/4.5/phpunit.xsd">
 	<php>
 	  <ini name="display_startup_errors" value="On"/>
 	  <ini name="display_errors" value="On"/>
 	</php>
 	<testsuites>
 		<testsuite name="core_libs">
-			<directory>core</directory>
-			<directory>lib</directory>
+			<file>core/helper/UtilsTest.php</file>
+			<file>core/lib/AConfigTest.php</file>
 		</testsuite>
 	</testsuites>
+	<filter>
+        <whitelist addUncoveredFilesFromWhitelist="true">
+            <directory>./</directory>
+        </whitelist>
+    </filter>
+    <logging>
+        <log type="coverage-xml" target="/home/travis/build/abantecart/abantecart-src/logs/clover.xml"/>
+    </logging>
 </phpunit>
