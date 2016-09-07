@@ -44,13 +44,13 @@ before_script:
 script:
 
   - mkdir -p logs
-#  - phpunit -v --coverage-clover /home/travis/build/abantecart/abantecart-src/logs/clover.xml -c tests/phpunit/phpunit_mysql.xml
+  - phpunit -v --coverage-clover logs/clover.xml -c tests/phpunit/phpunit_mysql.xml
 #  - phpunit -v -c tests/phpunit/phpunit_mysql.xml --coverage-text --debug
-  - phpunit -v tests/phpunit/core/helper/UtilsTest.php
+#  - phpunit -v tests/phpunit/core/helper/UtilsTest.php
 
-#  - less /home/travis/build/abantecart/abantecart-src/public_html/system/config.php
+  - less /home/travis/build/abantecart/abantecart-src/public_html/system/config.php
 #  - less /home/travis/build/abantecart/abantecart-src/logs/clover.xml
-#      - php /home/travis/build/abantecart/abantecart-src/tests/coverage-checker.php /home/travis/build/abantecart/abantecart-src/logs/clover.xml 100
+  - php /home/travis/build/abantecart/abantecart-src/tests/coverage-checker.php /home/travis/build/abantecart/abantecart-src/logs/clover.xml 100
 
 # configure notifications (email, IRC, campfire etc)
 notifications:
