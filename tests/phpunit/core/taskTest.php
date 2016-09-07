@@ -1,6 +1,7 @@
 <?php
 //build environment
-require_once('/home/travis/build/abantecart/abantecart-src/tests/phpunit/AbanteCartTestBootstrap.php');
+//require_once('/home/travis/build/abantecart/abantecart-src/tests/phpunit/AbanteCartTestBootstrap.php');
+require_once('/home/desss/github/129/tests/phpunit/AbanteCartTestBootstrap.php');
 
 /**
  * Class SystemCheckTest
@@ -45,6 +46,18 @@ class TaskTest extends AbanteCartTest{
 							"Task #".$task_id." : Step #".$step_id1." - Ok.",
 							"Task #".$task_id." : Step #".$step_id2." - Ok.",
 							"Task #".$task_id." state - finished."
+		);
+
+		$this->assertEquals($expected, $output);
+	}
+	public function testTaskStepRunCLI(){
+		$task_id = $this->task_details['task_id'];
+		list($step_id1, $step_id2) = array_keys($this->task_details['steps']);
+		exec('php '.DIR_ROOT.'/task.php '.$task_id.' '.$step_id1, $output);
+
+		$expected = array(
+							"Running command line",
+							"Task #".$task_id." : Step #".$step_id1." - Ok."
 		);
 
 		$this->assertEquals($expected, $output);
