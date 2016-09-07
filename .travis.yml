@@ -37,7 +37,7 @@ before_script:
   - if [[ "$DB" == "mysql" ]]; then mysql -e "create database IF NOT EXISTS abantecart_test_build;" -uroot; fi
 # run CLI installation script of AbanteCart
   - php ./public_html/install/cli_install.php install --db_host=localhost --db_user=root --db_password= --db_name=abantecart_test_build  --db_driver=amysqli  --db_prefix=abc_ --admin_path=admin  --username=admin  --password=admin  --email=abolabo@gmail.com  --http_server=http://abolabo.hopto.org/github/129/public_html --with-sample-data
-  - mkdir -p reports
+
 
 # omitting "script:" will default to phpunit
 script:
@@ -45,8 +45,9 @@ script:
 
 # configure notifications (email, IRC, campfire etc)
 notifications:
-  recipients:
-   - dsuprunenko@abantecart.com
-   #- projkov@abantecart.com
+  email:
+    recipients:
+     - dsuprunenko@abantecart.com
+     #- projkov@abantecart.com
   on_success: always
   on_failure: always

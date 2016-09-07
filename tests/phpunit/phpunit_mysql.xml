@@ -15,7 +15,5 @@
             <directory>./</directory>
         </whitelist>
     </filter>
-    <logging>
-        <log type="coverage-xml" target="../../reports/clover"/>
-    </logging>
+    <logging></logging>
 </phpunit>
