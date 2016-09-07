@@ -7,8 +7,7 @@
 	</php>
 	<testsuites>
 		<testsuite name="core_libs">
-			<directory>core/helper</directory>
-			<directory>core/lib</directory>
+			<directory>core</directory>
 		</testsuite>
 	</testsuites>
 </phpunit>
