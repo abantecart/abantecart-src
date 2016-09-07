@@ -31,21 +31,18 @@ matrix:
     - php: 7.0
     - php: hhvm
 
-# execute any number of scripts before the test run, custom env's are available as variables
+
 before_script:
   - if [[ "$DB" == "mysql" ]]; then mysql -e "DROP database IF EXISTS abantecart_test_build;" -uroot; fi
   - if [[ "$DB" == "mysql" ]]; then mysql -e "create database IF NOT EXISTS abantecart_test_build;" -uroot; fi
+# run CLI installation script of AbanteCart
   - php ./public_html/install/cli_install.php install --db_host=localhost --db_user=root --db_password= --db_name=abantecart_test_build  --db_driver=amysqli  --db_prefix=abc_ --admin_path=admin  --username=admin  --password=admin  --email=abolabo@gmail.com  --http_server=http://abolabo.hopto.org/github/129/public_html --with-sample-data
 
 
 # omitting "script:" will default to phpunit
-# use the $DB env variable to determine the phpunit.xml to use
 script:
-
   - mkdir -p reports
-  - phpunit -v -c tests/phpunit/phpunit_mysql.xml
-  - ls reports/clover
-# - php /home/travis/build/abantecart/abantecart-src/tests/coverage-checker.php /home/travis/build/abantecart/abantecart-src/logs/clover.xml 100
+  - phpunit -v -c tests/phpunit/phpunit_$DB.xml
 
 # configure notifications (email, IRC, campfire etc)
 notifications:
