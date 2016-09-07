@@ -16,6 +16,6 @@
         </whitelist>
     </filter>
     <logging>
-        <log type="coverage-xml" target="../../reports/clover.xml"/>
+        <log type="coverage-xml" target="../../reports/clover"/>
     </logging>
 </phpunit>
