@@ -7,16 +7,8 @@
 	</php>
 	<testsuites>
 		<testsuite name="core_libs">
-			<file>core/helper/UtilsTest.php</file>
-			<file>core/lib/AConfigTest.php</file>
+			<directory>core/helper</directory>
+			<directory>core/lib</directory>
 		</testsuite>
 	</testsuites>
-	<filter>
-        <whitelist addUncoveredFilesFromWhitelist="true">
-            <directory>./</directory>
-        </whitelist>
-    </filter>
-    <logging>
-        <log type="coverage-xml" target="/home/travis/build/abantecart/abantecart-src/logs/clover.xml"/>
-    </logging>
 </phpunit>
