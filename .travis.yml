@@ -44,7 +44,7 @@ script:
 
   - mkdir -p reports
   - phpunit -v -c tests/phpunit/phpunit_mysql.xml
-
+  - less reports/clover.xml
 # - php /home/travis/build/abantecart/abantecart-src/tests/coverage-checker.php /home/travis/build/abantecart/abantecart-src/logs/clover.xml 100
 
 # configure notifications (email, IRC, campfire etc)
