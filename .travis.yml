@@ -46,5 +46,6 @@ script:
 
 # configure notifications (email, IRC, campfire etc)
 notifications:
-  email: "dsuprunenko@abantecart.com"
-#  email: "projkov@abantecart.com"
+  recipients:
+   - dsuprunenko@abantecart.com
+   - projkov@abantecart.com
