@@ -36,21 +36,16 @@ before_script:
   - if [[ "$DB" == "mysql" ]]; then mysql -e "DROP database IF EXISTS abantecart_test_build;" -uroot; fi
   - if [[ "$DB" == "mysql" ]]; then mysql -e "create database IF NOT EXISTS abantecart_test_build;" -uroot; fi
   - php ./public_html/install/cli_install.php install --db_host=localhost --db_user=root --db_password= --db_name=abantecart_test_build  --db_driver=amysqli  --db_prefix=abc_ --admin_path=admin  --username=admin  --password=admin  --email=abolabo@gmail.com  --http_server=http://abolabo.hopto.org/github/129/public_html --with-sample-data
-#  - mysql -uroot abantecart_test_build < /home/travis/build/abantecart/abantecart-src/public_html/install/abantecart_database.sql
 
 
 # omitting "script:" will default to phpunit
 # use the $DB env variable to determine the phpunit.xml to use
 script:
 
-  - mkdir -p logs
-  - phpunit -v --coverage-clover logs/clover.xml -c tests/phpunit/phpunit_mysql.xml
-#  - phpunit -v -c tests/phpunit/phpunit_mysql.xml --coverage-text --debug
-#  - phpunit -v tests/phpunit/core/helper/UtilsTest.php
+  - mkdir -p reports
+  - phpunit -v -c tests/phpunit/phpunit_mysql.xml
 
-#  - less /home/travis/build/abantecart/abantecart-src/public_html/system/config.php
-#  - less /home/travis/build/abantecart/abantecart-src/logs/clover.xml
-  - php /home/travis/build/abantecart/abantecart-src/tests/coverage-checker.php /home/travis/build/abantecart/abantecart-src/logs/clover.xml 100
+# - php /home/travis/build/abantecart/abantecart-src/tests/coverage-checker.php /home/travis/build/abantecart/abantecart-src/logs/clover.xml 100
 
 # configure notifications (email, IRC, campfire etc)
 notifications:

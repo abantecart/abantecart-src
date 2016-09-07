@@ -7,6 +7,7 @@
 	<testsuites>
 		<testsuite name="core_libs">
 			<directory>core</directory>
+			<directory>lib</directory>
 		</testsuite>
 	</testsuites>
 	<filter>
@@ -15,6 +16,6 @@
         </whitelist>
     </filter>
     <logging>
-        <log type="coverage-xml" target="/home/travis/build/abantecart/abantecart-src/logs/clover.xml"/>
+        <log type="coverage-xml" target="../../reports/clover.xml"/>
     </logging>
 </phpunit>
