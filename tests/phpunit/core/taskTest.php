@@ -1,6 +1,6 @@
 <?php
 //build environment
-require_once('/home/travis/build/abantecart/abantecart-src/tests/phpunit/AbanteCartTestBootstrap.php');
+require_once(__DIR__ . '../../AbanteCartTestBootstrap.php');
 
 /**
  * Class SystemCheckTest
