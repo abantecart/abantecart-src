@@ -41,10 +41,12 @@ before_script:
 
 # omitting "script:" will default to phpunit
 script:
-  - phpunit -v -c tests/phpunit/phpunit_$DB.xml
+  - phpunit -c tests/phpunit/phpunit_$DB.xml
 
 # configure notifications (email, IRC, campfire etc)
 notifications:
   recipients:
    - dsuprunenko@abantecart.com
-   - projkov@abantecart.com
+   #- projkov@abantecart.com
+  on_success: always
+  on_failure: always
