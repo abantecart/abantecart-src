@@ -1,6 +1,6 @@
 <?php
 //build environment
-require_once('/home/travis/build/abantecart/abantecart-src/tests/phpunit/AbanteCartTestBootstrap.php');
+require_once('../AbanteCartTestBootstrap.php');
 
 /**
  * Class UtilsTest
@@ -50,6 +50,6 @@ class UtilsTest extends AbanteCartTest{
 
 		$result = getUniqueSeoKeyword('phpunit', 'manufacturer', 10001);
 		$this->assertEquals($result, 'phpunit_10001_10001');
-		//$this->assertTrue(false);
+		$this->assertTrue(false);
 	}
 }
