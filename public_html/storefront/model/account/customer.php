@@ -589,7 +589,9 @@ class ModelAccountCustomer extends Model {
 			$this->error['zone'] = $this->language->get('error_zone');
 		}
 
-		if ((mb_strlen($data['password']) < 4) || (mb_strlen($data['password']) > 20)) {
+		//check passwrod length considering html entitied (sepcial case for characters " > < & )
+		$pass_len = mb_strlen(htmlspecialchars_decode($data['password']));
+		if ($pass_len < 4 || $pass_len > 20){
 			$this->error['password'] = $this->language->get('error_password');
 		}
 

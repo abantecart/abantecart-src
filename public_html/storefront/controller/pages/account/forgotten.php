@@ -404,12 +404,15 @@ class ControllerPagesAccountForgotten extends AController {
 
 	private function _validatePassword() {
 		$this->loadLanguage('account/password');
+		$post = $this->request->post;
 
-		if (mb_strlen($this->request->post['password']) < 4 || mb_strlen($this->request->post['password']) > 20){
+		//check passwrod length considering html entities (sepcial case for characters " > < & )
+		$pass_len = mb_strlen(htmlspecialchars_decode($post['password']));
+		if ($pass_len < 4 || $pass_len > 20){
 			$this->error['password'] = $this->language->get('error_password');
 		}
 
-		if ($this->request->post['confirm'] != $this->request->post['password']){
+		if ($post['confirm'] != $post['password']){
 			$this->error['confirm'] = $this->language->get('error_confirm');
 		}
 

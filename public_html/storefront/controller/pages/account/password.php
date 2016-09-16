@@ -126,17 +126,20 @@ class ControllerPagesAccountPassword extends AController{
 	}
 
 	private function _validate(){
-		if (empty($this->request->post['current_password'])
-				|| !$this->customer->login($this->customer->getLoginName(), $this->request->post['current_password'])
+		$post = $this->request->post;
+		if (empty($post['current_password'])
+				|| !$this->customer->login($this->customer->getLoginName(), $post['current_password'])
 		){
 			$this->error['current_password'] = $this->language->get('error_current_password');
 		}
-
-		if (mb_strlen($this->request->post['password']) < 4 || mb_strlen($this->request->post['password']) > 20){
+		
+		//check passwrod length considering html entities (sepcial case for characters " > < & )
+		$pass_len = mb_strlen(htmlspecialchars_decode($post['password']));
+		if ($pass_len < 4 || $pass_len > 20){
 			$this->error['password'] = $this->language->get('error_password');
 		}
 
-		if ($this->request->post['confirm'] != $this->request->post['password']){
+		if ($post['confirm'] != $post['password']){
 			$this->error['confirm'] = $this->language->get('error_confirm');
 		}
 
