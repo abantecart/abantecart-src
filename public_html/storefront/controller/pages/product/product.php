@@ -361,7 +361,7 @@ class ControllerPagesProductProduct extends AController{
 			$this->data['manufacturer_icon'] = $thumbnail['thumb_url'];
 		}
 
-		// Preapare options and values for display 
+		// Prepare options and values for display
 		$elements_with_options = HtmlElementFactory::getElementsWithOptions();
 		$options = array();
 		$product_options = $this->model_catalog_product->getProductOptions($product_id);
@@ -385,7 +385,7 @@ class ControllerPagesProductProduct extends AController{
 			foreach($option['option_value'] as $option_value){
 				$default_value = $option_value['default'] && !$default_value ? $option_value['product_option_value_id'] : $default_value;
 
-				// for case when trying to add to cart withot required options. we get option-array back inside _GET
+				// for case when trying to add to cart without required options. we get option-array back inside _GET
 				if(has_value($request['option'][$option['product_option_id']])){
 					$default_value = $request['option'][$option['product_option_id']];
 				}
