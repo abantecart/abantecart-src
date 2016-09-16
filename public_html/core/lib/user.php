@@ -96,7 +96,7 @@ final class AUser{
 			WHERE username = '" . $this->db->escape($username) . "'
 			AND (
 				password = 	SHA1(CONCAT(salt,
-							SHA1(CONCAT(salt, SHA1('" . $this->db->escape(htmlspecialchars($password, ENT_QUOTES)) . "')))
+							SHA1(CONCAT(salt, SHA1('" . $this->db->escape($password) . "')))
 						))
 				" . $add_pass_sql . "
 			)
