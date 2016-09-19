@@ -406,7 +406,7 @@ class ControllerPagesAccountForgotten extends AController {
 		$this->loadLanguage('account/password');
 		$post = $this->request->post;
 
-		//check passwrod length considering html entities (sepcial case for characters " > < & )
+		//check password length considering html entities (special case for characters " > < & )
 		$pass_len = mb_strlen(htmlspecialchars_decode($post['password']));
 		if ($pass_len < 4 || $pass_len > 20){
 			$this->error['password'] = $this->language->get('error_password');
