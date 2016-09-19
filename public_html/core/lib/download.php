@@ -29,6 +29,7 @@ if (!defined('DIR_CORE')){
  * @property ACustomer $customer
  * @property AConfig $config
  * @property ALog $log
+ * @property ALoader $load
  * @property ExtensionsAPI $extensions
  * @property ARequest $request
  */
