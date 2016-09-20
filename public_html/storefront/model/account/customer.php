@@ -25,6 +25,7 @@ if (! defined ( 'DIR_CORE' )) {
  * Class ModelAccountCustomer
  * @property ModelCatalogContent $model_catalog_content
  * @property AIM $im
+ * @property ModelAccountOrder $model_account_order
  */
 class ModelAccountCustomer extends Model {
 	public $data = array();
@@ -589,7 +590,7 @@ class ModelAccountCustomer extends Model {
 			$this->error['zone'] = $this->language->get('error_zone');
 		}
 
-		//check passwrod length considering html entitied (sepcial case for characters " > < & )
+		//check password length considering html entities (special case for characters " > < & )
 		$pass_len = mb_strlen(htmlspecialchars_decode($data['password']));
 		if ($pass_len < 4 || $pass_len > 20){
 			$this->error['password'] = $this->language->get('error_password');
@@ -924,6 +925,31 @@ class ModelAccountCustomer extends Model {
 		$mail->addAttachment(DIR_RESOURCE . $this->config->get('config_logo'), $data['store_logo']);
 		$mail->setHtml($data['html_body']);
 		$mail->send();	
+	}
+
+	public function parseOrderToken($ot){
+		if(!$ot || !$this->config->get('config_guest_checkout')){
+			return array();
+		}
+
+		//try to decrypt order token
+		$enc = new AEncryption($this->config->get('encryption_key'));
+		$decrypted = $enc->decrypt($ot);
+		list($order_id, $email) = explode('::', $decrypted);
+
+		$order_id = (int)$order_id;
+		if (!$decrypted || !$order_id || !$email){
+			return array();
+		}
+		$this->load->model('account/order');
+		$order_info = $this->model_account_order->getOrder($order_id, '', 'view');
+
+		//compare emails
+		if ($order_info['email'] != $email){
+			return array();
+		}
+
+		return array($order_id,$email);
 	}
 	
 }

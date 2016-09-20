@@ -483,15 +483,15 @@ final class ADownload{
 		return $downloads;
 	}
 
-
 	/**
 	 * @param int $order_id
+	 * @param int $customer_id
 	 * @return array
 	 */
-	public function getCustomerOrderDownloads($order_id){
-		$customer_id = (int)$this->customer->getId();
+	public function getCustomerOrderDownloads($order_id, $customer_id){
+		$customer_id = (int)$customer_id;
 		$order_id = (int)$order_id;
-		if (!$customer_id || !$order_id){
+		if (!$order_id){
 			return array ();
 		}
 		$sql = "SELECT o.order_id,
@@ -512,7 +512,8 @@ final class ADownload{
 			   INNER JOIN " . $this->db->table("orders") . " o ON (od.order_id = o.order_id)
 			   LEFT JOIN " . $this->db->table("downloads") . " d ON (d.download_id = od.download_id)
 			   LEFT JOIN " . $this->db->table("order_products") . " op ON (op.order_product_id = od.order_product_id)
-			   WHERE o.customer_id = '" . $customer_id . "' AND o.order_id = '".$order_id."'
+			   WHERE o.order_id = '" . $order_id . "'
+			   " . ($customer_id ? " AND o.customer_id = '" . $customer_id . "'" : "") . "
 			   ORDER BY  o.date_added DESC, od.sort_order ASC ";
 
 		$query = $this->db->query($sql);
@@ -532,10 +533,11 @@ final class ADownload{
 
 	/**
 	 * @param int $order_id
+	 * @param int $customer_id
 	 * @return mixed
 	 */
-	public function getTotalOrderDownloads($order_id){
-		return sizeof($this->getCustomerOrderDownloads($order_id));
+	public function getTotalOrderDownloads($order_id, $customer_id){
+		return sizeof($this->getCustomerOrderDownloads($order_id, $customer_id));
 	}
 
 	/**

@@ -39,37 +39,30 @@ class ControllerPagesAccountInvoice extends AController{
 			$order_id = 0;
 		}
 
-		$this->loadModel('account/order');
+		$this->loadModel('account/customer');
 
 		$guest = false;
 		$enc = new AEncryption($this->config->get('encryption_key'));
 		if (isset($this->request->get['ot']) && $this->config->get('config_guest_checkout')){
 			//try to decrypt order token
-			$ot = $this->request->get['ot'];
-			$decrypted = $enc->decrypt($ot);
-			list($order_id, $email) = explode('::', $decrypted);
-
-			$order_id = (int)$order_id;
-			if (!$decrypted || !$order_id || !$email){
-				if ($order_id){
-					$this->session->data['redirect'] = $this->html->getSecureURL('account/invoice', '&order_id=' . $order_id);
+			$order_token = $this->request->get['ot'];
+			if ($order_token){
+				list($order_id,$email) = $this->model_account_customer->parseOrderToken($order_token);
+				if($order_id && $email){
+					$guest = true;
 				}
-				$this->redirect($this->html->getSecureURL('account/login'));
 			}
-			$order_info = $this->model_account_order->getOrder($order_id, '', 'view');
-			//compare emails
-			if ($order_info['email'] != $email){
-				$this->redirect($this->html->getSecureURL('account/login'));
-			}
-			$guest = true;
 		}
 
 		if ($this->request->is_POST() && $this->_validate()){
+
 			$guest = true;
 
 			$order_id = $this->request->post['order_id'];
 			$email = $this->request->post['email'];
-			$ot = $enc->encrypt($order_id . '::' . $email);
+			$order_token = $enc->encrypt($order_id . '::' . $email);
+
+			$this->loadModel('account/order');
 			$order_info = $this->model_account_order->getOrder($order_id, '', 'view');
 
 			//compare emails
@@ -95,6 +88,7 @@ class ControllerPagesAccountInvoice extends AController{
 		//get info for registered customers
 		if (!$order_info){
 			$order_info = $this->model_account_order->getOrder($order_id);
+
 		}
 
 		$this->document->setTitle($this->language->get('heading_title'));
@@ -247,16 +241,16 @@ class ControllerPagesAccountInvoice extends AController{
 			$this->data['comment'] = $order_info['comment'];
 			$this->data['product_link'] = $this->html->getSecureURL('product/product', '&product_id=%ID%');
 
-			$historys = array ();
+			$histories = array ();
 			$results = $this->model_account_order->getOrderHistories($order_id);
 			foreach ($results as $result){
-				$historys[] = array (
+				$histories[] = array (
 						'date_added' => dateISO2Display($result['date_added'], $this->language->get('date_format_short') . ' ' . $this->language->get('time_format')),
 						'status'     => $result['status'],
 						'comment'    => nl2br($result['comment'])
 				);
 			}
-			$this->data['historys'] = $historys;
+			$this->data['historys'] = $histories;
 
 			if ($guest){
 				$this->data['continue'] = $this->html->getHomeURL();
@@ -284,9 +278,21 @@ class ControllerPagesAccountInvoice extends AController{
 					if (!$guest){
 						$this->data['order_cancelation_url'] = $this->html->getSecureURL('account/invoice/CancelOrder', '&order_id=' . $order_id);
 					} else{
-						$this->data['order_cancelation_url'] = $this->html->getSecureURL('account/invoice/CancelOrder', '&ot=' . $ot);
+						$this->data['order_cancelation_url'] = $this->html->getSecureURL('account/invoice/CancelOrder', '&ot=' . $order_token);
 					}
 				}
+			}
+
+			if ($guest && $this->download->getTotalOrderDownloads($order_id,0)){
+				$this->loadLanguage('account/download');
+				$this->data['button_download'] = $this->html->buildElement(
+									array (
+											'type'  => 'button',
+									       'name'  => 'download_button',
+										   'href' => $this->html->getSecureURL('account/download', '&ot=' . $order_token),
+									       'text'  => $this->language->get('text_downloads'),
+									       'icon'  => 'fa fa-download fa-fw',
+									       'style' => 'button'));
 			}
 
 
@@ -461,7 +467,7 @@ class ControllerPagesAccountInvoice extends AController{
 			);
 		} else{
 			//when new order status id is null by some unexpected reason - just redirect on the same page
-			$this->log->write('Error: Unknown cancelation order status id. Probably integrity code problem. Check is file /core/lib/order_status.php exists.');
+			$this->log->write('Error: Unknown cancellation order status id. Probably integrity code problem. Check is file /core/lib/order_status.php exists.');
 		}
 
 		//update controller data
