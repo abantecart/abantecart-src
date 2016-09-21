@@ -1125,7 +1125,10 @@ class ControllerPagesSaleOrder extends AController{
 		$results = $this->model_sale_order->getOrderHistory($this->request->get['order_id']);
 		foreach($results as $result){
 			$this->data['histories'][] = array(
-					'date_added' => dateISO2Display($result['date_added'], $this->language->get('date_format_short')),
+					'date_added' => dateISO2Display(
+							$result['date_added'],
+							$this->language->get('date_format_short').' '.$this->language->get('time_format')
+					),
 					'status'     => $result['status'],
 					'comment'    => nl2br($result['comment']),
 					'notify'     => $result['notify'] ? $this->language->get('text_yes') : $this->language->get('text_no')
