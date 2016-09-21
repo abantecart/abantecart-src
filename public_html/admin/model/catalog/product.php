@@ -271,7 +271,8 @@ class ModelCatalogProduct extends Model{
 				"length_class_id",
 				"status",
 				"tax_class_id",
-				"sort_order");
+				"sort_order",
+				"settings");
 		$preformat_fields = array(
 				"shipping_price",
 				"price",
