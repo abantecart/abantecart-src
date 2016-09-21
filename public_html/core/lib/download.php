@@ -541,6 +541,15 @@ final class ADownload{
 	}
 
 	/**
+	 * @param int $order_id
+	 * @return int
+	 */
+	public function OrderHasDownloads($order_id){
+		$customer = (int)$this->customer->getId();
+		return $this->getTotalOrderDownloads($order_id, $customer);
+	}
+
+	/**
 	 * @param string $resource_path
 	 * @return bool
 	 */
