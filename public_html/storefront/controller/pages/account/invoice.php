@@ -284,13 +284,13 @@ class ControllerPagesAccountInvoice extends AController{
 			}
 
 			if ($guest && $this->download->getTotalOrderDownloads($order_id,0)){
-				$this->loadLanguage('account/download');
+
 				$this->data['button_download'] = $this->html->buildElement(
 									array (
 											'type'  => 'button',
 									       'name'  => 'download_button',
 										   'href' => $this->html->getSecureURL('account/download', '&ot=' . $order_token),
-									       'text'  => $this->language->get('text_downloads'),
+									       'text'  => $this->language->get('text_downloads', 'account/download'),
 									       'icon'  => 'fa fa-download fa-fw',
 									       'style' => 'button'));
 			}
