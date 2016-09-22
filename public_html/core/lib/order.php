@@ -34,6 +34,7 @@ if (!defined('DIR_CORE')){
  * @property ModelAccountAddress $model_account_address
  * @property ModelCheckoutExtension $model_checkout_extension
  * @property ModelCheckoutOrder $model_checkout_order
+ * @property AIM $im
  *
  */
 class AOrder{
@@ -58,15 +59,16 @@ class AOrder{
 		$this->load->model('checkout/order', 'storefront');
 		$this->load->model('account/order', 'storefront');
 
-		//if nothing is passed use session array. Customer session, can function on storefrnt only 
+		//if nothing is passed use session array. Customer session, can function on storefront only
 		if (!has_value($order_id)){
 			$this->order_id = (int)$this->session->data['order_id'];
 		} else{
 			$this->order_id = (int)$order_id;
 		}
 
-		if (class_exists($this->registry->customer)){
-			$this->customer_id = $this->registry->customer->getId();
+		if (is_object($this->registry->get('customer'))){
+			$this->customer = $this->registry->get('customer');
+			$this->customer_id = $this->customer->getId();
 		} else{
 			$this->customer = new ACustomer($registry);
 		}
@@ -128,6 +130,11 @@ class AOrder{
 		}
 
 		array_multisort($sort_order, SORT_ASC, $total_data);
+
+		if($indata['order_id']){
+			$order_info['order_id'] = (int)$indata['order_id'];
+			$this->order_id = $order_info['order_id'];
+		}
 
 		$order_info['store_id'] = $this->config->get('config_store_id');
 		$order_info['store_name'] = $this->config->get('store_name');
@@ -330,6 +337,7 @@ class AOrder{
 		}
 
 		$order_info['ip'] = $this->request->server['REMOTE_ADDR'];
+
 		$this->order_data = $order_info;
 		return $this->order_data;
 	}
