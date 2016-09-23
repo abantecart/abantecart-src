@@ -61,6 +61,7 @@ if($product['blurb']){?>
 	if($('#<?php echo $target;?> .abantecart_blurb')){
 		$('#<?php echo $target;?> .abantecart_blurb').html('<?php echo $product['blurb']?>');
 	}
-<?php }?>
-
+<?php }
+echo $this->getHookVar('embed_product_js');
+?>
 })();
