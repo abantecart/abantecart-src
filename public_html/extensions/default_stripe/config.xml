@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <extension>
     <id>default_stripe</id>
-    <version>1.0.0</version>
+    <version>1.0.1</version>
 	<type>payment</type>
 	<category>payment</category>
     <cartversions>
