@@ -548,6 +548,8 @@ class ALanguage{
 
 			//Check that filename has proper name with no other special characters. 
 			$block_name = str_replace('/', '_', $filename);
+			//prevent error for pre and post controllers
+			$block_name = str_replace('.', '_', $block_name);
 			if (preg_match("/[\W]+/", $block_name)){
 				$error = new AError('Error! Trying to load language with invalid path: "' . $filename . '"!');
 				$error->toLog()->toDebug()->toMessages();
