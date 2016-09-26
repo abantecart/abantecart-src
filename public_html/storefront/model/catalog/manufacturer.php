@@ -61,9 +61,11 @@ class ModelCatalogManufacturer extends Model{
 			if ($data['limit'] < 1){
 				$data['limit'] = 0;
 			}
+			$cache_key = 'manufacturer.list.'.md5((int)$data['start'].(int)$data['limit']).'.store_'.$store_id;
+		} else {
+			$cache_key = 'manufacturer.list.store_'.$store_id;		
 		}
 
-		$cache_key = 'manufacturer.list.'.md5((int)$data['start'].(int)$data['limit']).'.store_'.$store_id;
 		$output = $this->cache->pull( $cache_key );
 
 		if ($output !== false){
