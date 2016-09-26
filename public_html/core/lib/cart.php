@@ -203,6 +203,8 @@ class ACart{
 			return array ();
 		}
 
+		$options = !is_array($options) ? array() : $options;
+
 		$stock = true;
 		/**
 		 * @var $sf_product_mdl ModelCatalogProduct
