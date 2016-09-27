@@ -31,10 +31,13 @@ class ModelSettingExtension extends Model {
 		return $query->rows;
 	}
 
+	/*
+	* Get enabled payment extensions that support handler class. New arch. 
+	*/
 	public function getPaymentsWithHandler() {
 		$query = $this->db->query("SELECT *
 								   FROM " . $this->db->table("extensions") . "
-								   WHERE `type` = 'payment'");
+								   WHERE `type` = 'payment' and status = 1");
 		$output = array();
 		foreach($query->rows as $row){
 			if(file_exists(DIR_EXT.$row['key'].DIR_EXT_CORE.'lib/handler.php')){
