@@ -65,7 +65,7 @@ class ControllerApiCheckoutProcess extends AControllerAPI {
 			return null;
 		}
 		//we process only responce type payment extensions
-		$payment_controller = $this->dispatch( 'responses/extension/' . $this->session->data['process_rt'] );
+		$payment_controller = $this->dispatch( 'responses/extension/' . $this->session->data['process_rt'], array($request));
 		$this->load->library('json');
 		$this->data = AJson::decode( $payment_controller->dispatchGetOutput(), TRUE );
 

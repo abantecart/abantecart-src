@@ -39,13 +39,18 @@ class ControllerApiAccountHistory extends AControllerAPI {
 		$order_total = $this->model_account_order->getTotalOrders();
 		
 		if ($order_total) {			
-			if (isset($request_data['page'])) {
-				$page = $request_data['page'];
+			if (isset($request_data['page']) && is_integer($request_data['page'])) {
+				$page = (int)$request_data['page'];
 			} else {
 				$page = 1;
 			}
 
-            $this->data['limit'] = $this->config->get('config_catalog_limit');			
+			if (isset($request_data['limit']) && is_integer($request_data['limit'])) {
+				$this->data['limit'] = (int)$request_data['limit'];
+			} else {           
+				$this->data['limit'] = $this->config->get('config_catalog_limit');   
+			}
+
       		$orders = array();
 			$results = $this->model_account_order->getOrders(($page - 1) * $this->data['limit'], $this->data['limit']);
       		

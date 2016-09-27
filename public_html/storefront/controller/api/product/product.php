@@ -52,9 +52,10 @@ class ControllerApiProductProduct extends AControllerAPI {
 			                                 $this->config->get('config_image_thumb_height'));
 		$product_info['thumbnail'] = $thumbnail['thumb_url'];
 
+		$promotion = new APromotion();
 		if ($this->config->get('config_customer_price') || $this->customer->isLogged() ) {
 			$product_price = $product_info['price'];
-			$discount = $this->model_catalog_product->getProductDiscount($product_id);
+			$discount = $promotion->getProductDiscount($product_id);
 			if ($discount) {
 				$product_price = $discount;
 				$product_info['price'] = $this->currency->format($this->tax->calculate($discount,
@@ -77,7 +78,7 @@ class ControllerApiProductProduct extends AControllerAPI {
 					$product_info['special'] = FALSE;
 				}
 			}
-			$product_discounts = $this->model_catalog_product->getProductDiscounts($product_id);
+			$product_discounts = $promotion->getProductDiscounts($product_id);
 			$discounts = array();
 			if($product_discounts){
 				foreach ($product_discounts as $discount) {

@@ -109,7 +109,9 @@ class ControllerApiProductCategory extends AControllerAPI {
             			'name'  => $result['name'],
             			'category_id'	=> $result['category_id'],
             			'sort_order'	=> $result['sort_order'],
-            			'thumb' => $thumbnail['thumb_url']);
+            			'thumb' => $thumbnail['thumb_url'],
+            			'total_subcategories' => $this->model_catalog_category->getTotalCategoriesByCategoryId($result['category_id'])
+            			);
 		}
 	
         $this->extensions->hk_UpdateData($this,__FUNCTION__);
