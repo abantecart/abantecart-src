@@ -1129,6 +1129,7 @@ class ModelCatalogProduct extends Model{
 		}
 		$product_options = $this->getProductOptions($product_id);
 		if (is_array($product_options) && $product_options){
+			$this->load->language('checkout/cart');
 			foreach ($product_options as $option){
 
 				if ($option['required']){
