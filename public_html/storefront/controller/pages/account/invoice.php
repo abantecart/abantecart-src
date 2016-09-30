@@ -40,6 +40,7 @@ class ControllerPagesAccountInvoice extends AController{
 		}
 
 		$this->loadModel('account/customer');
+		$this->loadModel('account/order');
 
 		$guest = false;
 		$enc = new AEncryption($this->config->get('encryption_key'));
@@ -50,6 +51,7 @@ class ControllerPagesAccountInvoice extends AController{
 				list($order_id,$email) = $this->model_account_customer->parseOrderToken($order_token);
 				if($order_id && $email){
 					$guest = true;
+					$order_info = $this->model_account_order->getOrder($order_id, '', 'view');
 				}
 			}
 		}
@@ -61,8 +63,6 @@ class ControllerPagesAccountInvoice extends AController{
 			$order_id = $this->request->post['order_id'];
 			$email = $this->request->post['email'];
 			$order_token = $enc->encrypt($order_id . '::' . $email);
-
-			$this->loadModel('account/order');
 			$order_info = $this->model_account_order->getOrder($order_id, '', 'view');
 
 			//compare emails
@@ -74,9 +74,7 @@ class ControllerPagesAccountInvoice extends AController{
 		$this->view->assign('error', $this->error);
 
 		if (!$this->customer->isLogged() && !$guest){
-
 			$this->session->data['redirect'] = $this->html->getSecureURL('account/invoice', '&order_id=' . $order_id);
-
 			$this->getForm();
 			return null;
 		}
@@ -88,7 +86,6 @@ class ControllerPagesAccountInvoice extends AController{
 		//get info for registered customers
 		if (!$order_info){
 			$order_info = $this->model_account_order->getOrder($order_id);
-
 		}
 
 		$this->document->setTitle($this->language->get('heading_title'));
