@@ -39,6 +39,7 @@ class ModelSettingExtension extends Model {
 								   FROM " . $this->db->table("extensions") . "
 								   WHERE `type` = 'payment' and status = 1");
 		$output = array();
+		$output[] = array('' => '');
 		foreach($query->rows as $row){
 			if(file_exists(DIR_EXT.$row['key'].DIR_EXT_CORE.'lib/handler.php')){
 				$output[] = $row;

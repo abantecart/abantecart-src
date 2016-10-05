@@ -36,6 +36,28 @@ final class PaymentHandler{
 		return false;
 	}
 
+	public function id(){
+		return 'default_stripe';
+	}
+
+	public function is_avaialable($payment_address){
+		$this->load->model('extension/' . $this->id());
+		$details = $this->{'model_extension_' . $this->id()}->getMethod($payment_address);
+		if($details){
+		    return true;
+		} else {
+		    return false;
+		}					
+	}
+
+	public function details($payment_address){
+		return array(
+		    'id'         => 'default_stripe',
+		    'title'      => $this->language->get('text_title'),
+		    'sort_order' => $this->config->get('default_stripe_sort_order')
+		);
+	}
+
 	public function validate_payment_details($data = array ()){
 		$this->load->language('default_stripe/default_stripe');
 
