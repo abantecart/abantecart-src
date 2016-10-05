@@ -187,6 +187,7 @@ class ControllerResponsesEmbedJS extends AController {
 							'attr' => ' data-href="'. $this->data['product_details_url'].'"  data-id="'. $product_id.'" data-html="true" data-target="#abc_embed_modal" data-toggle="abcmodal" '
 					)
 			);
+			$product_info['options'] = $product_options;
 		}
 
 		$product_info['quantity'] = $this->html->buildElement(
