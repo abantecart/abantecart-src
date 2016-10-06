@@ -50,7 +50,7 @@ final class PaymentHandler{
 		}					
 	}
 
-	public function details($payment_address){
+	public function details(){
 		return array(
 		    'id'         => 'default_stripe',
 		    'title'      => $this->language->get('text_title'),
