@@ -145,34 +145,36 @@ class ControllerPagesCheckoutGuestStep2 extends AController{
 		$total = $this->cart->buildTotalDisplay();
 		$this->data['order_totals'] = $total;
 		$method_data = array ();
+		$psettings = array();
 		$results = $this->model_checkout_extension->getExtensions('payment');
 		foreach ($results as $result){
 			#filter only allowed payment methods based on total min/max
-			$ext_setgs = $this->model_checkout_extension->getSettings($result['key']);
-			$min = $ext_setgs[$result['key'] . "_payment_minimum_total"];
-			$max = $ext_setgs[$result['key'] . "_payment_maximum_total"];
+			$pkey = $result['key'];
+			$psettings[$pkey] = $this->model_checkout_extension->getSettings($pkey);
+			$min = $psettings[$pkey][$pkey."_payment_minimum_total"];
+			$max = $ext_setgs[$pkey][$pkey."_payment_maximum_total"];
 			if ((has_value($min) && $total['total'] < $min)
 					|| (has_value($max) && $total['total'] > $max)
 			){
 				continue;
 			}
 
-			$this->loadModel('extension/' . $result['key']);
-			$method = $this->{'model_extension_' . $result['key']}->getMethod($this->session->data['guest']);
+			$this->loadModel('extension/' . $pkey);
+			$method = $this->{'model_extension_'.$pkey}->getMethod($this->session->data['guest']);
 			if ($method){
-				$method_data[$result['key']] = $method;
-				$method_data[$result['key']]['extension_id'] = $result['extension_id'];
+				$method_data[$pkey] = $method;
+				$method_data[$pkey]['extension_id'] = $result['extension_id'];
 
 				//# Add storefront icon if available
-				$icon = $ext_setgs[$result['key'] . "_payment_storefront_icon"];
+				$icon = $psettings[$pkey][$pkey . "_payment_storefront_icon"];
 				if (has_value($icon)){
 					$icon_data = $this->model_checkout_extension->getSettingImage($icon);
 					$icon_data['image'] = $icon;
 					$method_data[$result['key']]['icon'] = $icon_data;
 				}
 				//check if this is a redirect type of the payment
-				if ($ext_setgs[$result['key'] . "_redirect_payment"]){
-					$method_data[$result['key']]['is_redirect_payment'] = true;
+				if ($psettings[$pkey][$pkey . "_redirect_payment"]){
+					$method_data[$pkey]['is_redirect_payment'] = true;
 				}
 			}
 		}
@@ -225,14 +227,12 @@ class ControllerPagesCheckoutGuestStep2 extends AController{
 			if (count($ac_payments) == 1){
 				//set only method
 				$only_method = $ac_payments;
-				foreach ($only_method as $method_name => $value){
-					#Check config if we allowed to set this payment and skip the step
-					$ext_config = $this->model_checkout_extension->getSettings($method_name);
-					if ($ext_config[$method_name . "_autoselect"] && $skip_step){
-						$this->session->data['payment_method'] = $only_method[$method_name];
-						$this->redirect($this->html->getSecureURL('checkout/guest_step_3'));
-					}
-				}
+				reset($only_method);
+				$pkey = key($only_method);
+				if($psettings[$pkey][$pkey."_autoselect"]  && $skip_step){
+					$this->session->data['payment_method'] = $only_method[$pkey];
+					$this->redirect($this->html->getSecureURL('checkout/guest_step_3'));
+				}				
 			}
 		}
 
@@ -357,24 +357,36 @@ class ControllerPagesCheckoutGuestStep2 extends AController{
 						$ac_payments = $this->session->data['payment_methods'];
 					}
 					foreach ($ac_payments as $key => $value){
+						$selected = false;
+						if ($payment == $value['id']) {
+							$selected = true;
+						} else if ($psettings[$key][$key."_autoselect"]) {
+							$selected = true;
+						}
 						$this->data['payment_methods'][$method_name][$key] = $value;
 						$this->data['payment_methods'][$method_name][$key]['radio'] = $form->getFieldHtml(array (
 								'type'    => 'radio',
 								'name'    => 'payment_method',
 								'options' => array ($value['id'] => ''),
-								'value'   => ($payment == $value['id'] ? true : false)
+								'value'   => $selected
 						));
 					}
 				}
 			} else{
 				//no shipping available show one set of payments
 				foreach ($this->session->data['payment_methods'] as $key => $value){
+					$selected = false;
+					if ($payment == $value['id']) {
+					    $selected = true;
+					} else if ($psettings[$key][$key."_autoselect"]) {
+					    $selected = true;
+					}
 					$this->data['payment_methods']['no_shipping'][$key] = $value;
 					$this->data['payment_methods']['no_shipping'][$key]['radio'] = $form->getFieldHtml(array (
 							'type'    => 'radio',
 							'name'    => 'payment_method',
 							'options' => array ($value['id'] => ''),
-							'value'   => ($payment == $value['id'] ? true : false)
+							'value'   => $selected
 					));
 				}
 			}

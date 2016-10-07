@@ -94,16 +94,6 @@
 		<value><![CDATA[ FEDEX Ground  ]]></value>
 	</definition>
 	<definition>
-		<key>default_fedex_autoselect</key>
-		<value>
-			<![CDATA[Автоматический выбор:<br /><span class="help">Включить, чтобы пропустить по страницу выбора доставки, если есть только один вариант доставки. Этот метод доставка будет выбран автоматически</span>]]></value>
-	</definition>
-	<definition>
-		<key>default_fedex_accept_payments</key>
-		<value>
-			<![CDATA[Допустимые методы оплаты:<br /><span class="help">В случае если необходимы только конкретные способы оплаты для этого способа доставки, выберите здесь. Если ничего не выбрано, все доступные способы оплаты будут показаны</span>]]></value>
-	</definition>
-	<definition>
 		<key>error_permission</key>
 		<value><![CDATA[Внимание: Вы не имеете прав на изменение доставки FEDEX!]]></value>
 	</definition>

@@ -40,13 +40,4 @@
     <key>error_permission</key>
     <value><![CDATA[Atecion: No tienes permiso para modificar Tarifa Plana!]]></value>
   </definition>
-  <definition>
-    <key>default_flat_rate_shipping_autoselect</key>
-    <value><![CDATA[Selección automática:<br /><span class="help">Se puede configurar para que omita página de envío selección si sólo hay una opción de envío. Este método de envío se seleccionará automáticamente</span>]]></value>  
-  </definition>
-  <definition>
-    <key>default_flat_rate_shipping_accept_payments</key>
-    <value><![CDATA[Acepte los siguientes pagos:<br /><span class="help">Si sólo los métodos de pago específicos son necesarios para este envío, seleccione aquí. Si no hay nada seleccionado, todos los métodos de pago disponibles se mostrará</span>]]></value>
-  </definition>
-
 </definitions>

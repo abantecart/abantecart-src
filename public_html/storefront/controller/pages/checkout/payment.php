@@ -89,7 +89,7 @@ class ControllerPagesCheckoutPayment extends AController{
 						'id'    => 'no_payment_required',
 						'title' => $this->language->get('no_payment_required')
 				);
-				//if enough  -redirect on confirmation page
+				//if enough -redirect on confirmation page
 				$this->redirect($this->html->getSecureURL('checkout/confirm'));
 			}
 		}
@@ -175,31 +175,33 @@ class ControllerPagesCheckoutPayment extends AController{
 			$ac_payments = $results;
 		}
 
+		$psettings = array();
 		foreach ($ac_payments as $result){
 			//#filter only allowed payment methods based on total min/max
-			$ext_setgs = $this->model_checkout_extension->getSettings($result['key']);
-			$min = $ext_setgs[$result['key'] . "_payment_minimum_total"];
-			$max = $ext_setgs[$result['key'] . "_payment_maximum_total"];
+			$pkey = $result['key'];
+			$psettings[$pkey] = $this->model_checkout_extension->getSettings($pkey);
+			$min = $psettings[$pkey][$pkey."_payment_minimum_total"];
+			$max = $psettings[$pkey][$pkey."_payment_maximum_total"];
 			if ((has_value($min) && $total['total'] < $min)
 					|| (has_value($max) && $total['total'] > $max)
 			){
 				continue;
 			}
 
-			$this->loadModel('extension/' . $result['key']);
-			$method = $this->{'model_extension_' . $result['key']}->getMethod($payment_address);
+			$this->loadModel('extension/'.$pkey);
+			$method = $this->{'model_extension_'.$pkey}->getMethod($payment_address);
 			if ($method){
-				$method_data[$result['key']] = $method;
+				$method_data[$pkey] = $method;
 				//# Add storefront icon if available
-				$icon = $ext_setgs[$result['key'] . "_payment_storefront_icon"];
+				$icon = $psettings[$pkey][$pkey."_payment_storefront_icon"];
 				if (has_value($icon)){
 					$icon_data = $this->model_checkout_extension->getSettingImage($icon);
 					$icon_data['image'] = $icon;
-					$method_data[$result['key']]['icon'] = $icon_data;
+					$method_data[$pkey]['icon'] = $icon_data;
 				}
 				//check if this is a redirect type of the payment
-				if ($ext_setgs[$result['key'] . "_redirect_payment"]){
-					$method_data[$result['key']]['is_redirect_payment'] = true;
+				if ($psettings[$pkey][$pkey."_redirect_payment"]){
+					$method_data[$pkey]['is_redirect_payment'] = true;
 				}
 			}
 		}
@@ -229,16 +231,12 @@ class ControllerPagesCheckoutPayment extends AController{
 		if (count($this->session->data['payment_methods']) == 1 && $this->request->get['mode'] != 'edit'){
 			//set only method
 			$only_method = $this->session->data['payment_methods'];
-			foreach ($only_method as $key => $value){
-				$method_name = $key;
-				#Check config if we allowed to set this payment and skip the step
-				$ext_config = $this->model_checkout_extension->getSettings($method_name);
-				$autoselect = $ext_config[$method_name . "_autoselect"];
-				if ($autoselect){
-					$this->session->data['payment_method'] = $only_method[$method_name];
-					$this->redirect($this->html->getSecureURL($confirm_rt));
-				}
-			}
+			reset($only_method);
+			$pkey = key($only_method);
+			if($psettings[$pkey][$pkey."_autoselect"]){
+				$this->session->data['payment_method'] = $only_method[$pkey];
+				$this->redirect($this->html->getSecureURL($confirm_rt));			
+			}			
 		}
 
 		$this->document->setTitle($this->language->get('heading_title'));
@@ -363,9 +361,12 @@ class ControllerPagesCheckoutPayment extends AController{
 			foreach ($this->data['payment_methods'] as $k => $v){
 				//check if we have only one method and select by default if was selected before
 				$selected = false;
+				$autoselect = $psettings[$k][$k."_autoselect"];
 				if (count($this->data['payment_methods']) == 1){
 					$selected = true;
 				} else if ($payment == $v['id']){
+					$selected = true;
+				} else if($autoselect) {
 					$selected = true;
 				}
 
