@@ -321,10 +321,8 @@ class ACart{
 		}
 
 		//Need to round price after discounts and specials
-		//round main price to currency decimal_place setting (most common 2, but still...)
-		$currency = $this->registry->get('currency')->getCurrency();
-		$decimal_place = (int)$currency['decimal_place'];
-		$decimal_place = !$decimal_place ? 2 : $decimal_place;
+		//round base currency price to 2 decimal place
+		$decimal_place = 2;
 		$price = round($price, $decimal_place);
 
 		foreach ($option_data as $item){
@@ -642,7 +640,11 @@ class ACart{
 		if (has_value($this->taxes) && !$recalculate){
 			return $this->taxes;
 		}
-		$this->taxes = array ();
+
+		//round base currency price culculation to 2 decimal place
+		$decimal_place = 2;
+
+		$this->taxes = array();
 		// taxes for products
 		$products = $this->getProducts();
 		foreach ($products as $product){
@@ -655,6 +657,7 @@ class ACart{
 					$this->taxes[$product['tax_class_id']]['total'] += $product['total'];
 					$this->taxes[$product['tax_class_id']]['tax'] += $this->tax->calcTotalTaxAmount($product['total'], $product['tax_class_id']);
 				}
+				$this->taxes[$product['tax_class_id']]['tax'] = round($this->taxes[$product['tax_class_id']]['tax'], $decimal_place);
 			}
 		}
 		//tax for shipping
@@ -666,7 +669,10 @@ class ACart{
 			} else{
 				$this->taxes[$tax_id]['tax'] += $this->tax->calcTotalTaxAmount($cost, $tax_id);
 			}
+			//round
+			$this->taxes[$tax_id]['tax'] = round($this->taxes[$tax_id]['tax'], $decimal_place);
 		}
+		
 		return $this->taxes;
 	}
 
@@ -759,6 +765,8 @@ class ACart{
 
 	/**
 	 * Function to build total display based on enabled extensions/settings for total section
+	 * Amounts are automaticaly converted to currency selected in getFinalTotal(). 
+	 * Internal currency price is present in [value] fields
 	 * To force recalculate pass argument as TRUE
 	 * @param bool $recalculate
 	 * @return array
@@ -768,7 +776,6 @@ class ACart{
 		$taxes = $this->getAppliedTaxes($recalculate);
 		$total = $this->getFinalTotal($recalculate);
 		$total_data = $this->getFinalTotalData();
-
 		#sort data for view			  
 		$sort_order = array ();
 		foreach ($total_data as $key => $value){

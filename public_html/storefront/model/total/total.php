@@ -26,10 +26,28 @@ class ModelTotalTotal extends Model {
 			$this->load->language('total/total');
 		 	$this->load->model('localisation/currency');
 
+			//currency based reculculation for all totals 
+			$converted_sum = 0;
+			foreach($total_data as $total_record) {
+				$converted_sum += $this->currency->format_number($total_record['value']);
+			}
+			//if there is a conversion fractional loss, adjust total base currency price. 
+			//This is not ideal solution, need to address in the future. 
+			$converted_total = $this->currency->format_number($total);
+			if($converted_total != $converted_sum) {
+				$curr = $this->currency->getCurrency();
+				//calculate adjusted total with no rounding
+				$total = $converted_sum / $curr['value'];
+			} 
+
+			//currency display value
+			$converted_total_txt = $this->currency->format(max(0,$converted_sum), '', 1);
+
 			$total_data[] = array(
         		'id'	     => 'total',
         		'title'      => $this->language->get('text_total'),
-        		'text'       => $this->currency->format(max(0,$total)),
+        		'text'     	 => $converted_total_txt,
+        		'converted'  => $converted_total,
         		'value'      => max(0,$total),
 				'sort_order' => 1000,
 				'total_type' => $this->config->get('total_total_type')
