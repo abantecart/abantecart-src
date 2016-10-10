@@ -36,18 +36,18 @@ class ModelTotalTotal extends Model {
 			$converted_total = $this->currency->format_number($total);
 			if($converted_total != $converted_sum) {
 				$curr = $this->currency->getCurrency();
-				//calculate adjusted total with no rounding
+				//calculate adjusted total without rounding
 				$total = $converted_sum / $curr['value'];
 			} 
 
 			//currency display value
-			$converted_total_txt = $this->currency->format(max(0,$converted_sum), '', 1);
+			$converted_sum_txt = $this->currency->format(max(0,$converted_sum), '', 1);
 
 			$total_data[] = array(
         		'id'	     => 'total',
         		'title'      => $this->language->get('text_total'),
-        		'text'     	 => $converted_total_txt,
-        		'converted'  => $converted_total,
+        		'text'     	 => $converted_sum_txt,
+        		'converted'  => $converted_sum,
         		'value'      => max(0,$total),
 				'sort_order' => 1000,
 				'total_type' => $this->config->get('total_total_type')
