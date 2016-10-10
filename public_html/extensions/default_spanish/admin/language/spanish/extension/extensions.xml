@@ -322,7 +322,7 @@
 	</definition>
 	<definition>
 		<key>text_autoselect_payment</key>
-		<value><![CDATA[Selección automática:<br/><span class="help"> Puede configurar para pasar página de selección de pago si sólo hay una opción de pago. Esta forma de pago se seleccionará automáticamente </span>]]></value>
+		<value><![CDATA[Selección automática:<br/><span class="help">Puede establecer este pago para ser seleccionado por defecto. Esta forma de pago será pre seleccionado para varios pagos. Si esta es la única opción de pago disponible, se omitirá la opción de pago etapa de selección.</span>]]></value>
 	</definition>
 	<definition>
 		<key>text_autoselect_shipping</key>
