@@ -331,7 +331,7 @@
 	<definition>
 		<key>text_autoselect_payment</key>
 		<value>
-			<![CDATA[seleziona automaticamente:<span class="help">È possibile impostare che puoi saltare la pagina di selezione pagamento, se c'è una sola opzione di pagamento. Questo metodo di pagamento verrà selezionato automaticamente.</span>]]></value>
+			<![CDATA[Seleziona automaticamente:<span class="help">È possibile impostare il pagamento deve essere selezionata per impostazione predefinita. Questo metodo di pagamento sarà pre selezionati per pagamenti multipli. Se questa è l'unica opzione di pagamento disponibili, opzione di pagamento fase di selezione verrà saltata.</span>]]></value>
 	</definition>
 	<definition>
 		<key>text_autoselect_shipping</key>
