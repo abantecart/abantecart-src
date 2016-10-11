@@ -30,8 +30,9 @@ class ControllerPagesCheckoutSuccess extends AController{
 		$this->extensions->hk_InitData($this, __FUNCTION__);
 
 		if (isset($this->session->data['order_id'])){
-
-			$amount = $this->session->data['used_balance']; // in default currency
+			
+			// in default currency
+			$amount = $this->session->data['used_balance']; 
 			if ($amount){
 				$transaction_data = array (
 						'order_id'         => (int)$this->session->data['order_id'],
@@ -44,36 +45,10 @@ class ControllerPagesCheckoutSuccess extends AController{
 				$this->customer->debitTransaction($transaction_data);
 			}
 
-			// google analytics data for js-script in footer.tpl
-
-			$order = new AOrder($this->registry);
-			$order_data = $order->buildOrderData($this->session->data);
-			$order_tax = $order_total = $order_shipping = 0.0;
-			foreach ($order_data['totals'] as $total){
-				if ($total['total_type'] == 'total'){
-					$order_total += $total['value'];
-				} elseif ($total['total_type'] == 'tax'){
-					$order_tax += $total['value'];
-				} elseif ($total['total_type'] == 'shipping'){
-					$order_shipping += $total['value'];
-				}
-			}
-
-			$this->registry->set('google_analytics_data',
-					array ('transaction_id' => (int)$this->session->data['order_id'],
-						   'store_name'     => $this->config->get('store_name'),
-						   'currency_code'  => $order_data['currency'],
-						   'total'          => $order_total,
-						   'tax'            => $order_tax,
-						   'shipping'       => $order_shipping,
-						   'city'           => $order_data['shipping_city'],
-						   'state'          => $order_data['shipping_zone'],
-						   'country'        => $order_data['shipping_country']));
-
 			$this->cart->clear();
 			$this->customer->clearCustomerCart();
 
-			//save order_id into sassion to show link on it in history
+			//save order_id into session as processed order to allow one resirect
 			$this->session->data['processed_order_id'] = (int)$this->session->data['order_id'];
 
 			unset($this->session->data['shipping_method'],
@@ -89,7 +64,7 @@ class ControllerPagesCheckoutSuccess extends AController{
 
 			$this->extensions->hk_ProcessData($this);
 
-			//Redirect back. Fix for clearing shopping cart content
+			//Redirect back to load new page with cleared shopping cart content
 			$this->redirect($this->html->getSecureURL('checkout/success'));
 		}
 
@@ -152,11 +127,18 @@ class ControllerPagesCheckoutSuccess extends AController{
 		$this->view->assign('heading_title', $this->language->get('heading_title'));
 
 		$order_id = $this->session->data['processed_order_id'];
+		//only one time load, reset
 		unset($this->session->data['processed_order_id']);
+		if(!$order_id) {
+			$this->redirect($this->html->getURL('index/home'));
+		}
 
+		$this->loadModel('account/order');
+		$order_info = $this->model_account_order->getOrder($order_id);
+		$order_totals = $this->model_account_order->getOrderTotals($order_id);
+		$this->_google_analytics($order_info, $order_totals);
+			
 		if ($this->session->data['account'] == 'guest'){
-			$this->loadModel('checkout/order');
-			$order_info = $this->model_checkout_order->getOrder($order_id);
 			//give link on order page for quest
 			$enc = new AEncryption($this->config->get('encryption_key'));
 			$order_token = $enc->encrypt($order_id.'::'.$order_info['email']);
@@ -164,7 +146,7 @@ class ControllerPagesCheckoutSuccess extends AController{
 			$this->view->assign('text_message',
 					sprintf($this->language->get('text_message_guest'), $order_url, $this->html->getURL('content/contact'))
 			);
-		}else{
+		} else {
 			$text_message = sprintf($this->language->get('text_message_account'),
 										$order_id,
 										$this->html->getSecureURL('account/invoice','&order_id='.$order_id),
@@ -194,4 +176,46 @@ class ControllerPagesCheckoutSuccess extends AController{
 		//init controller data
 		$this->extensions->hk_UpdateData($this, __FUNCTION__);
 	}
+	
+	private function _google_analytics( $order_data, $order_totals ){
+
+		// google analytics data for js-script in success.tpl
+		$order_tax = $order_total = $order_shipping = 0.0;
+		foreach ($order_totals as $i => $total){
+		    if ($total['type'] == 'total'){
+		    	$order_total += $total['value'];
+		    } elseif ($total['type'] == 'tax'){
+		    	$order_tax += $total['value'];
+		    } elseif ($total['type'] == 'shipping'){
+		    	$order_shipping += $total['value'];
+		    }
+		}
+
+		$addr = array();
+		if (!$order_data['shipping_city']) {
+			$addr = array(
+				'city'           => $order_data['payment_city'],
+				'state'          => $order_data['payment_zone'],
+				'country'        => $order_data['payment_country']
+			);					
+		} else {
+			$addr = array(
+				'city'           => $order_data['shipping_city'],
+				'state'          => $order_data['shipping_zone'],
+				'country'        => $order_data['shipping_country']
+			);		
+		}
+		
+		$this->registry->set('google_analytics_data',
+		    	array_merge (
+		    		array ('transaction_id' => (int)$order_data['order_id'],
+		    		   'store_name'     => $this->config->get('store_name'),
+		    		   'currency_code'  => $order_data['currency'],
+		    		   'total'          => $this->currency->format_number($order_total),
+		    		   'tax'            => $this->currency->format_number($order_tax),
+		    		   'shipping'       => $this->currency->format_number($order_shipping)
+		    		   ), $addr )
+		);
+	}
+		
 }
