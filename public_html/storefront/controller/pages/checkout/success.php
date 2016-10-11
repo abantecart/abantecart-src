@@ -48,7 +48,7 @@ class ControllerPagesCheckoutSuccess extends AController{
 			$this->cart->clear();
 			$this->customer->clearCustomerCart();
 
-			//save order_id into session as processed order to allow one resirect
+			//save order_id into session as processed order to allow one redirect
 			$this->session->data['processed_order_id'] = (int)$this->session->data['order_id'];
 
 			unset($this->session->data['shipping_method'],
@@ -67,8 +67,6 @@ class ControllerPagesCheckoutSuccess extends AController{
 			//Redirect back to load new page with cleared shopping cart content
 			$this->redirect($this->html->getSecureURL('checkout/success'));
 		}
-
-		//Show message
 
 		$this->document->setTitle($this->language->get('heading_title'));
 
@@ -179,7 +177,7 @@ class ControllerPagesCheckoutSuccess extends AController{
 	
 	private function _google_analytics( $order_data, $order_totals ){
 
-		// google analytics data for js-script in success.tpl
+		// google analytics data for js-script in footer.tpl
 		$order_tax = $order_total = $order_shipping = 0.0;
 		foreach ($order_totals as $i => $total){
 		    if ($total['type'] == 'total'){
