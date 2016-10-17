@@ -23,7 +23,7 @@ if (! defined ( 'DIR_CORE' ) || !IS_ADMIN) {
 class ControllerPagesIndexEditDetails extends AController {
 
 	public $data = array();
-	private $error = array();
+	public $error = array();
 
 	public function main() {
 

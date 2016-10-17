@@ -23,7 +23,7 @@ if (!defined('DIR_CORE') || !IS_ADMIN) {
 
 class ControllerPagesDesignBlocks extends AController {
 	public $data = array('custom_block_types' => array('html_block', 'listing_block'));
-	private $error = array();
+	public $error = array();
 
 	public function main() {
 

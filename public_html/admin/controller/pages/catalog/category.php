@@ -25,7 +25,7 @@ if (!defined('DIR_CORE') || !IS_ADMIN) {
  * Class ControllerPagesCatalogCategory
  */
 class ControllerPagesCatalogCategory extends AController {
-	private $error = array();
+	public $error = array();
 	public $data = array();
 	private $fields = array('category_description', 'status', 'parent_id', 'category_store', 'keyword', 'sort_order');
 

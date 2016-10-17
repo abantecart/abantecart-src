@@ -21,7 +21,7 @@ if (! defined ( 'DIR_CORE' ) || !IS_ADMIN) {
 	header ( 'Location: static_pages/' );
 }
 class ControllerPagesCatalogReview extends AController {
-	private $error = array();
+	public $error = array();
 	public $data = array();
 	private $fields = array('status', 'rating', 'text', 'author');
  
