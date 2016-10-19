@@ -160,9 +160,9 @@ class AView{
 
 	/**
 	 * @param string $key - optional parameter for better access from hook that called by "_UpdateData".
-	 * @return array | mixed
+	 * @return array | mixed - reference to $this->data
 	 */
-	public function getData($key = ''){
+	public function &getData($key = ''){
 		if ($key){
 			return $this->data[$key];
 		} else{
