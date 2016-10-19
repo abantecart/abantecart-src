@@ -109,6 +109,7 @@
 			<p class="form-control-static"><?php echo $ip; ?></p>
 			</div>
 		</div>
+		<?php echo $this->getHookVar('order_details_left'); ?>
 	</div>
 	<div class="col-sm-6 col-xs-12">
 		<div class="form-group">
@@ -153,6 +154,7 @@
 			<p class="form-control-static"><a target="_blank" href="<?php echo $history; ?>"><?php echo $order_status; ?></a></p>
 			</div>
 		</div>
+		<?php echo $this->getHookVar('order_details_right'); ?>
 	</div>
 	</div>
 	
