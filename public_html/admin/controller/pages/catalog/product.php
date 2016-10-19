@@ -278,7 +278,7 @@ class ControllerPagesCatalogProduct extends AController {
             $product_data = $this->_prepareData($this->request->post);
             $product_id = $this->model_catalog_product->addProduct($product_data);
             $this->model_catalog_product->updateProductLinks($product_id, $product_data);
-
+		    $this->extensions->hk_ProcessData($this,'product_insert');
 			$this->session->data['success'] = $this->language->get('text_success');
 			$this->redirect($this->html->getSecureURL('catalog/product/update', '&product_id='.$product_id));
     	}
@@ -310,6 +310,7 @@ class ControllerPagesCatalogProduct extends AController {
             $product_data = $this->_prepareData($this->request->post);
 			$this->model_catalog_product->updateProduct($this->request->get['product_id'], $product_data);
             $this->model_catalog_product->updateProductLinks($this->request->get['product_id'], $product_data);
+		    $this->extensions->hk_ProcessData($this,'product_update');
 			$this->session->data['success'] = $this->language->get('text_success');
 			$this->redirect($this->html->getSecureURL('catalog/product/update', '&product_id='.$this->request->get['product_id']));
 		}
