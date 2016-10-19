@@ -277,6 +277,7 @@ class ControllerPagesCatalogProduct extends AController {
     	if ($this->request->is_POST() && $this->_validateForm()) {
             $product_data = $this->_prepareData($this->request->post);
             $product_id = $this->model_catalog_product->addProduct($product_data);
+		    $this->data['product_id'] = $product_id;
             $this->model_catalog_product->updateProductLinks($product_id, $product_data);
 		    $this->extensions->hk_ProcessData($this,'product_insert');
 			$this->session->data['success'] = $this->language->get('text_success');
@@ -306,13 +307,14 @@ class ControllerPagesCatalogProduct extends AController {
 			unset($this->session->data['success']);
 		}
 
-    	if ($this->request->is_POST() && $this->_validateForm()) {
+	    if ($this->request->is_POST() && $this->_validateForm()) {
             $product_data = $this->_prepareData($this->request->post);
-			$this->model_catalog_product->updateProduct($this->request->get['product_id'], $product_data);
-            $this->model_catalog_product->updateProductLinks($this->request->get['product_id'], $product_data);
+		    $product_id = $this->data['product_id'] = (int)$this->request->get['product_id'];
+			$this->model_catalog_product->updateProduct($product_id, $product_data);
+            $this->model_catalog_product->updateProductLinks($product_id, $product_data);
 		    $this->extensions->hk_ProcessData($this,'product_update');
 			$this->session->data['success'] = $this->language->get('text_success');
-			$this->redirect($this->html->getSecureURL('catalog/product/update', '&product_id='.$this->request->get['product_id']));
+			$this->redirect($this->html->getSecureURL('catalog/product/update', '&product_id='.$product_id));
 		}
 
     	$this->_getForm($args);
@@ -328,10 +330,11 @@ class ControllerPagesCatalogProduct extends AController {
 
     	$this->document->setTitle($this->language->get('heading_title'));
 		if (isset($this->request->get['product_id']) && $this->_validateCopy()) {
-			$new_product = $this->model_catalog_product->copyProduct($this->request->get['product_id']);
-			if ( $new_product ) {
-				$this->session->data['success'] = sprintf($this->language->get('text_success_copy'), $new_product['name']);
-				$this->redirect($this->html->getSecureURL('catalog/product/update', '&product_id='.$new_product['id']));
+			$this->data['new_product'] = $this->model_catalog_product->copyProduct($this->request->get['product_id']);
+			$this->extensions->hk_ProcessData($this,'product_copy');
+			if ( $this->data['new_product'] ) {
+				$this->session->data['success'] = sprintf($this->language->get('text_success_copy'), $this->data['new_product']['name']);
+				$this->redirect($this->html->getSecureURL('catalog/product/update', '&product_id='.$this->data['new_product']['id']));
 			} else {			
 				$this->session->data['success'] = $this->language->get('text_error_copy');
 				$this->redirect($this->html->getSecureURL('catalog/product'));
