@@ -30,6 +30,7 @@ if (!defined('DIR_CORE')){
  * @property ARequest $request
  * @property ALoader $load
  * @property ASession $session
+ * @property ExtensionsAPI $extensions
  * @property ModelAccountOrder $model_account_order
  * @property ModelAccountAddress $model_account_address
  * @property ModelCheckoutExtension $model_checkout_extension
@@ -52,6 +53,10 @@ class AOrder{
 	protected $order_id;
 	protected $customer;
 	protected $order_data;
+	/**
+	 * @var array public property. needs to use inside hooks
+	 */
+	public    $data = array();
 
 	public function __construct($registry, $order_id = ''){
 		$this->registry = $registry;
@@ -88,7 +93,9 @@ class AOrder{
 		}
 		//get order details for specific status. NOTE: Customer ID need to be set in customer class
 		$this->order_data = $this->model_account_order->getOrder($this->order_id, $order_status_id);
-		return $this->order_data;
+		$this->extensions->hk_ProcessData($this,'load_order_data');
+		$output = $this->data + $this->order_data;
+		return $output;
 	}
 
 	/**
@@ -298,9 +305,10 @@ class AOrder{
 
 		$product_data = array ();
 
-		foreach ($this->cart->getProducts() as $product){
+		foreach ($this->cart->getProducts() as $key=>$product){
 
 			$product_data[] = array (
+					'key'        => $key,
 					'product_id' => $product['product_id'],
 					'name'       => $product['name'],
 					'model'      => $product['model'],
@@ -339,18 +347,27 @@ class AOrder{
 		$order_info['ip'] = $this->request->server['REMOTE_ADDR'];
 
 		$this->order_data = $order_info;
-		return $this->order_data;
+
+		$this->extensions->hk_ProcessData($this,'build_order_data', $order_info);
+		// merge two arrays. $this-> data can be changed by hooks.
+		$output = $this->data + $this->order_data;
+
+		return $output;
 	}
 
 	public function getOrderData(){
-		return $this->order_data;
+		$this->extensions->hk_ProcessData($this,'get_order_data');
+		$output = $this->data + $this->order_data;
+		return $output;
 	}
 
 	public function saveOrder(){
 		if (empty($this->order_data)){
 			return null;
 		}
-		$this->order_id = $this->model_checkout_order->create($this->order_data, $this->order_id);
+		$this->extensions->hk_ProcessData($this,'save_order');
+		$output = $this->data + $this->order_data;
+		$this->order_id = $this->model_checkout_order->create($output, $this->order_id);
 		return $this->order_id;
 	}
 

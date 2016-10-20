@@ -39,47 +39,47 @@ class ACart{
 	/**
 	 * @var Registry
 	 */
-	private $registry;
+	protected $registry;
 	/**
 	 * @var array
 	 */
-	private $cart_data = array ();
+	protected $cart_data = array ();
 	/**
 	 * @var array
 	 */
-	private $cust_data = array ();
+	protected $cust_data = array ();
 	/**
 	 * @var float
 	 */
-	private $sub_total;
+	protected $sub_total;
 	/**
 	 * @var array
 	 */
-	private $taxes = array ();
+	protected $taxes = array ();
 	/**
 	 * @var float
 	 */
-	private $total_value;
+	protected $total_value;
 	/**
 	 * @var array
 	 */
-	private $final_total;
+	protected $final_total;
 	/**
 	 * @var array
 	 */
-	private $total_data;
+	protected $total_data;
 	/**
 	 * @var ACustomer
 	 */
-	private $customer;
+	protected $customer;
 	/**
 	 * @var AAttribute
 	 */
-	private $attribute;
+	protected $attribute;
 	/**
 	 * @var APromotion
 	 */
-	private $promotion;
+	protected $promotion;
 
 	/**
 	 * @param $registry Registry
@@ -641,7 +641,7 @@ class ACart{
 			return $this->taxes;
 		}
 
-		//round base currency price culculation to 2 decimal place
+		//round base currency price calculation to 2 decimal place
 		$decimal_place = 2;
 
 		$this->taxes = array();
@@ -765,7 +765,7 @@ class ACart{
 
 	/**
 	 * Function to build total display based on enabled extensions/settings for total section
-	 * Amounts are automaticaly converted to currency selected in getFinalTotal(). 
+	 * Amounts are automatically converted to currency selected in getFinalTotal().
 	 * Internal currency price is present in [value] fields
 	 * To force recalculate pass argument as TRUE
 	 * @param bool $recalculate
