@@ -25,6 +25,7 @@
 
 	<div class="container-fluid">
 	<div class="col-sm-6 col-xs-12">
+		<?php echo $this->getHookVar('order_details_left_pre'); ?>
 		<div class="form-group">
 			<label class="control-label col-sm-5"><?php echo $entry_order_id; ?></label>
 			<div class="input-group afield col-sm-7">
@@ -109,9 +110,10 @@
 			<p class="form-control-static"><?php echo $ip; ?></p>
 			</div>
 		</div>
-		<?php echo $this->getHookVar('order_details_left'); ?>
+		<?php echo $this->getHookVar('order_details_left_post'); ?>
 	</div>
 	<div class="col-sm-6 col-xs-12">
+		<?php echo $this->getHookVar('order_details_right_pre'); ?>
 		<div class="form-group">
 			<label class="control-label col-sm-5"><?php echo $entry_store_name; ?></label>
 			<div class="input-group afield col-sm-7">
@@ -154,7 +156,7 @@
 			<p class="form-control-static"><a target="_blank" href="<?php echo $history; ?>"><?php echo $order_status; ?></a></p>
 			</div>
 		</div>
-		<?php echo $this->getHookVar('order_details_right'); ?>
+		<?php echo $this->getHookVar('order_details_right_post'); ?>
 	</div>
 	</div>
 	

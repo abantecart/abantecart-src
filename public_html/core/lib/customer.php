@@ -24,84 +24,88 @@ if (!defined('DIR_CORE')){
 /**
  * Class ACustomer
  */
-final class ACustomer{
+class ACustomer{
 	/**
 	 * @var int
 	 */
-	private $customer_id;
+	protected $customer_id;
 	/**
 	 * @var string
 	 */
-	private $loginname;
+	protected $loginname;
 	/**
 	 * @var string
 	 */
-	private $firstname;
+	protected $firstname;
 	/**
 	 * @var string
 	 */
-	private $lastname;
+	protected $lastname;
 	/**
 	 * @var string
 	 */
-	private $email;
+	protected $email;
 	/**
 	 * @var string
 	 */
-	private $telephone;
+	protected $telephone;
 	/**
 	 * @var string
 	 */
-	private $fax;
+	protected $fax;
 	/**
 	 * @var int
 	 */
-	private $newsletter;
+	protected $newsletter;
 	/**
 	 * @var int
 	 */
-	private $customer_group_id;
+	protected $customer_group_id;
 	/**
 	 * @var string
 	 */
-	private $customer_group_name;
+	protected $customer_group_name;
 	/**
 	 * @var bool
 	 */
-	private $customer_tax_exempt;
+	protected $customer_tax_exempt;
 	/**
 	 * @var int
 	 */
-	private $address_id;
+	protected $address_id;
 	/**
 	 * @var AConfig
 	 */
-	private $config;
+	protected $config;
 	/**
 	 * @var ACache
 	 */
-	private $cache;
+	protected $cache;
 	/**
 	 * @var ADB
 	 */
-	private $db;
+	protected $db;
 	/**
 	 * @var ARequest
 	 */
-	private $request;
+	protected $request;
 	/**
 	 * @var ASession
 	 */
-	private $session;
+	protected $session;
 	/**
 	 * @var ADataEncryption
 	 */
-	private $dcrypt;
+	protected $dcrypt;
+	/**
+	 * @var ExtensionsApi
+	 */
+	protected $extensions;
 
 	/**
 	 * @var Array (unauthenticated customer details)
 	 */
-	private $unauth_customer = array ();
+	protected $unauth_customer = array ();
 
 	/**
 	 * @param  Registry $registry
@@ -189,7 +193,8 @@ final class ACustomer{
 		}
 		$this->load->model('tool/online_now');
 		$registry->get('model_tool_online_now')->setOnline($ip, $customer_id, $url, $referer);
-		//EOF Custmer Construct				
+		//call hooks
+		$this->extensions->hk_processData($this, 'constructor', $customer_id);
 	}
 
 	/**
@@ -261,9 +266,10 @@ final class ACustomer{
 					(defined('HTTPS') && HTTPS),
 					true
 			);
-
+			$this->extensions->hk_processData($this, 'login_success', $cutomer_data);
 			return true;
 		} else{
+			$this->extensions->hk_processData($this, 'login_failed');
 			return false;
 		}
 	}
@@ -290,6 +296,7 @@ final class ACustomer{
 		//expire unauth cookie
 		unset($_COOKIE['customer']);
 		setcookie('customer', '', time() - 3600, dirname($this->request->server['PHP_SELF']));
+		$this->extensions->hk_processData($this, 'logout');
 	}
 
 	/**
@@ -663,7 +670,7 @@ final class ACustomer{
 	 * @param array $cart_data
 	 * @return bool
 	 */
-	private function _is_new_cart_format($cart_data = array ()){
+	protected function _is_new_cart_format($cart_data = array ()){
 		if (empty($cart_data)){
 			return false;
 		}
@@ -758,7 +765,7 @@ final class ACustomer{
 	 * @param array $tr_details - amount, order_id, transaction_type, description, comments, creator
 	 * @return bool
 	 */
-	private function _record_transaction($type, $tr_details){
+	protected function _record_transaction($type, $tr_details){
 
 		if (!$this->isLogged()){
 			return false;
