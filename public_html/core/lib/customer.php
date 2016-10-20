@@ -118,6 +118,8 @@ class ACustomer{
 		$this->session = $registry->get('session');
 		$this->dcrypt = $registry->get('dcrypt');
 		$this->load = $registry->get('load');
+		$this->extensions = $registry->get('extensions');
+
 
 		if (isset($this->session->data['customer_id'])){
 			$customer_data = $this->db->query(
