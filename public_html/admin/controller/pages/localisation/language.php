@@ -198,8 +198,8 @@ class ControllerPagesLocalisationLanguage extends AController {
 
         //init controller data
         $this->extensions->hk_InitData($this,__FUNCTION__);
-
-		if(!$this->request->get['language_id']){
+		$language_id = (int)$this->request->get['language_id'];
+		if(!$language_id){
 			$this->redirect($this->html->getSecureURL('localisation/language'));
 		}
 		
@@ -210,9 +210,9 @@ class ControllerPagesLocalisationLanguage extends AController {
 
 		$this->document->setTitle( $this->language->get('heading_title') );
 		if ($this->request->is_POST() && $this->_validateForm()) {
-			$this->model_localisation_language->editLanguage($this->request->get['language_id'], $this->request->post);
+			$this->model_localisation_language->editLanguage($language_id, $this->request->post);
 			$this->session->data['success'] = $this->language->get('text_success');			
-			$this->redirect($this->html->getSecureURL('localisation/language/update', '&language_id=' . $this->request->get['language_id'] ));
+			$this->redirect($this->html->getSecureURL('localisation/language/update', '&language_id=' . $language_id ));
 		}
 		$this->_getForm();
 
@@ -222,13 +222,20 @@ class ControllerPagesLocalisationLanguage extends AController {
 
 	public function loadlanguageData() {
         $this->extensions->hk_InitData($this,__FUNCTION__);
-		if ($this->request->post['source_language']) {
-			$this->session->data['success'] = $this->language->fillMissingLanguageEntries( $this->request->get['language_id'], $this->request->post['source_language'], $this->request->post['translate_method']);
+		$source_language = (int)$this->request->post['source_language'];
+		if ($source_language) {
+			$language_id = (int)$this->request->get['language_id'];
+			$this->session->data['success'] = $this->language->fillMissingLanguageEntries(
+					$language_id,
+					$source_language,
+					$this->request->post['translate_method']
+			);
 			//This update effect cross system data. Clean whole cache
 			$this->cache->remove('*');
 		}
-		$this->redirect($this->html->getSecureURL('localisation/language/update', '&language_id=' . $this->request->get['language_id'] ));
-        $this->extensions->hk_UpdateData($this,__FUNCTION__);
+
+		$this->extensions->hk_UpdateData($this,__FUNCTION__);
+		$this->redirect($this->html->getSecureURL('localisation/language/update', '&language_id=' . $language_id ));
 	}
 
 	private function _getForm() {

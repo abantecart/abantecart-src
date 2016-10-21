@@ -502,6 +502,7 @@ class ALanguageManager extends Alanguage{
 	 * @return string
 	 */
 	public function cloneToAllLanguages($table, $source_language){
+		$source_language = (int)$source_language;
 		$ret_str = '';
 		// for each langauge Call _clone_language_rows
 		foreach ($this->available_languages as $lng){
@@ -550,12 +551,14 @@ class ALanguageManager extends Alanguage{
 	 * @return null|string
 	 */
 	public function fillMissingLanguageEntries($language_id, $source_language_id = 1, $translate_method = ''){
+		$language_id = (int)$language_id;
+		$source_language_id = (int)$source_language_id;
 		if (empty($language_id)){
 			return null;
 		}
 
 		//First make sure source language definition XML files are all loaded to database
-		$this->definitionAutoLoad((int)$source_language_id, 'all', 'all');
+		$this->definitionAutoLoad($source_language_id, 'all', 'all');
 		//Now make sure destination language definition XML files are all loaded to database
 		$this->definitionAutoLoad((int)$language_id, 'all', 'all');
 
@@ -728,6 +731,8 @@ class ALanguageManager extends Alanguage{
 	 * @return null|string
 	 */
 	public function cloneMissingDefinitions($block, $language_id, $source_language){
+		$language_id = (int)$language_id;
+		$source_language = (int)$source_language;
 		$pkeys = array ();
 		ADebug::checkpoint('ALanguage ' . $this->language_details['name'] . ' ' . $block . ' clone missing text from ' . $source_language);
 		array_push($pkeys, 'language_definition_id', 'language_id', 'section', 'block', 'language_key');
@@ -864,6 +869,10 @@ class ALanguageManager extends Alanguage{
 	 * @return null|string
 	 */
 	private function _clone_language_rows($table, $pkeys, $new_language, $from_language = 1, $specific_sql = '', $translate_method = ''){
+
+		$new_language = (int)$new_language;
+		$from_language = (int)$from_language;
+
 		if (empty($table) || empty ($pkeys) || empty($new_language)){
 			return null;
 		}

@@ -200,11 +200,10 @@ class ModelToolBackup extends Model {
 			$sql = "SELECT SUM(data_length + index_length - data_free) AS 'db_size'
 					FROM information_schema.TABLES
 					WHERE information_schema.TABLES.table_schema = '".DB_DATABASE."'
-						AND TABLE_NAME IN ('".implode("','",$data['table_list'])."')	";
+						AND TABLE_NAME IN ('".implode("','",$table_list)."')	";
 
 			$result = $this->db->query($sql);
 			$db_size = $result->row['db_size']; //size in bytes
-
 
 			$step_id = $tm->addStep( array(
 				'task_id' => $task_id,

@@ -27,8 +27,10 @@ if (defined('IS_WINDOWS')) {
 define('DIR_ROOT', $root_path); 
 
 // HTTP
-define('HTTP_SERVER', 'http://' . $_SERVER['HTTP_HOST'] . rtrim(dirname($_SERVER['PHP_SELF']), '/.\\') . '/');
-define('HTTP_ABANTECART', 'http://' . $_SERVER['HTTP_HOST'] . rtrim(rtrim(dirname($_SERVER['PHP_SELF']), 'static_pages'), '/.\\'). '/');
+$dirname = rtrim(dirname($_SERVER['PHP_SELF']), '/.\\');
+$dirname = strip_tags(html_entity_decode($dirname,ENT_QUOTES,'UTF-8'));
+define('HTTP_SERVER', 'http://' . $_SERVER['HTTP_HOST'] . $dirname);
+define('HTTP_ABANTECART', 'http://' . $_SERVER['HTTP_HOST'] . trim($dirname,'static_pages'));
 
 // DIR
 define('DIR_APP_SECTION', str_replace('\'', '/', realpath(dirname(__FILE__))) . '/');
@@ -44,6 +46,7 @@ if (!defined('DB_DATABASE')) {
 }
 session_start();
 $message = 'This feature or page is not available in the demo mode. We apologize for this inconvenience. <br> You can install full version of AbanteCart and get it fully functional.';
+
 ?>
 <?php echo '<?xml version="1.0" encoding="UTF-8"?>'; ?>
 <html xmlns="http://www.w3.org/1999/xhtml" dir="ltr" lang="en" xml:lang="en">
