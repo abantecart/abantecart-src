@@ -53,6 +53,12 @@ abstract class Extension{
 	protected $baseObject_method = '';
 	const REPLACED_METHOD = 'Indicates that a method with void return has been replaced';
 
+	// Redirect to new page. Used by hooks
+	protected function redirect($url){
+		header('Location: ' . str_replace('&amp;', '&', $url));
+		exit;
+	}
+
 	/**
 	 * Load the current object being plugged into.
 	 * @param object $object The current object being plugged into.
@@ -146,6 +152,15 @@ class ExtensionCollection{
 			}
 
 			$tmp_return = call_user_func_array(array ($extension, $method), $args);
+			//when around method hook - returns ONLY first result
+			if (strpos($method, 'around') === 0 && method_exists($extension, $method)){
+				$return = $tmp_return;
+				//for avoid functions
+				if($return === null){
+					$return = Extension::REPLACED_METHOD;
+				}
+				return $return;
+			}
 			if ($tmp_return !== null){
 				$return = $tmp_return;
 			}
@@ -164,9 +179,14 @@ class ExtensionCollection{
 	public function __call($method, $args){
 		$return = $this->dispatchMethod($method, $args);
 		if (strpos($method, 'around') === 0){
+			//when no result from around-hook - set result to true to continue call-chain and run base method
 			if ($return === null){
+				//set canrun to true
 				$return = true;
-			} elseif ($return === Extension::REPLACED_METHOD){
+			}
+			//when hook has been called - return null to prevent run base method later
+			//case for avoid methods and
+			elseif ($return === Extension::REPLACED_METHOD || $return === true){
 				$return = null;
 			}
 		}

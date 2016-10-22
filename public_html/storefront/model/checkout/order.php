@@ -93,10 +93,20 @@ class ModelCheckoutOrder extends Model{
 
 	/**
 	 * @param array $data
+	 * @param int $set_order_id
+	 */
+	public function create($data, $set_order_id = '') {
+		$result = $this->extensions->hk_create($this, $data, $set_order_id);
+		if($result !== null ){
+			return $result;
+		}
+	}
+	/**
+	 * @param array $data
 	 * @param int|string $set_order_id
 	 * @return bool|int
 	 */
-	public function create($data, $set_order_id = ''){
+	public function _create($data, $set_order_id = '') {
 		$set_order_id = (int)$set_order_id;
 		//reuse same order_id or unused one order_status_id = 0
 		if ($set_order_id){
@@ -516,12 +526,14 @@ class ModelCheckoutOrder extends Model{
 			$option_data = array ();
 
 			$order_option_query = $this->db->query(
-					"SELECT oo.*, po.element_type
+					"SELECT oo.*, po.element_type, p.sku, p.product_id
 					FROM " . $this->db->table("order_options") . " oo
 					LEFT JOIN " . $this->db->table("product_option_values") . " pov
 						ON pov.product_option_value_id = oo.product_option_value_id
 					LEFT JOIN " . $this->db->table("product_options") . " po
 						ON po.product_option_id = pov.product_option_id
+					LEFT JOIN " . $this->db->table("products") . " p
+						ON p.product_id = po.product_id
 					WHERE oo.order_id = '" . (int)$order_id . "' AND oo.order_product_id = '" . (int)$product['order_product_id'] . "'");
 
 			foreach ($order_option_query->rows as $option){
@@ -539,6 +551,8 @@ class ModelCheckoutOrder extends Model{
 
 			$this->data['products'][] = array (
 					'name'     => $product['name'],
+					'product_id' => $product['product_id'],
+				    'sku'       => $product['sku'],
 					'model'    => $product['model'],
 					'option'   => $option_data,
 					'quantity' => $product['quantity'],

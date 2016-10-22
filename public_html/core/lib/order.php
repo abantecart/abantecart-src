@@ -138,11 +138,6 @@ class AOrder{
 
 		array_multisort($sort_order, SORT_ASC, $total_data);
 
-		if($indata['order_id']){
-			$order_info['order_id'] = (int)$indata['order_id'];
-			$this->order_id = $order_info['order_id'];
-		}
-
 		$order_info['store_id'] = $this->config->get('config_store_id');
 		$order_info['store_name'] = $this->config->get('store_name');
 		$order_info['store_url'] = $this->config->get('config_url');
