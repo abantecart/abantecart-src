@@ -287,8 +287,12 @@ class ControllerPagesSaleOrder extends AController{
 							$skip_recalc[] = $key;
 						}
 					}			
-					$this->redirect($this->html->getSecureURL(	'sale/order/recalc', 
-															'&order_id=' . $order_id.'&skip_recalc='.serialize($skip_recalc)));
+
+					$enc = new AEncryption($this->config->get('encryption_key'));
+					$this->redirect($this->html->getSecureURL(	'sale/order/recalc',
+															'&order_id=' . $order_id.'&skip_recalc='.$enc->encrypt(serialize($skip_recalc))
+																)
+					);
 				}
 			}
 		}
@@ -1503,7 +1507,8 @@ class ControllerPagesSaleOrder extends AController{
     	
 		//do we have to skip recalc for some totals?
 		if($this->request->get['skip_recalc']) {
-			$skip_recalc = unserialize($this->request->get['skip_recalc']);
+			$enc = new AEncryption($this->config->get('encryption_key'));
+			$skip_recalc = unserialize($enc->decrypt($this->request->get['skip_recalc']));
 		}
 		//do we have total values passed?
 		if($this->request->post['totals']) {
