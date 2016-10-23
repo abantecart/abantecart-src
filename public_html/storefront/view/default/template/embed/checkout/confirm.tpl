@@ -174,7 +174,7 @@
 			</table>
 		</div>
 		
-		<div class="col-md-6 col-md-offset-1 payment_confirmation mt10">
+		<div class="col-md-7 payment_confirmation mt10">
 			<?php echo $this->getHookVar('payment_pre'); ?>
 			<div id="payment"><?php echo $payment; ?></div>
 			<?php echo $this->getHookVar('payment_post'); ?>	
