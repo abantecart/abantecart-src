@@ -672,9 +672,19 @@ class ModelCheckoutOrder extends Model{
 	 * @param int $order_id
 	 * @param int $order_status_id
 	 * @param string $comment
+	 * @param bool|false $notify
+	 * @return mixed
+	 */
+	public function update($order_id, $order_status_id, $comment = '', $notify = FALSE) {
+		$this->extensions->hk_update($this, $order_id, $order_status_id, $comment, $notify);
+	}
+	/**
+	 * @param int $order_id
+	 * @param int $order_status_id
+	 * @param string $comment
 	 * @param bool $notify
 	 */
-	public function update($order_id, $order_status_id, $comment = '', $notify = false){
+	public function _update($order_id, $order_status_id, $comment = '', $notify = FALSE) {
 		$order_query = $this->db->query("SELECT *
 										 FROM `" . $this->db->table("orders") . "` o
 										 LEFT JOIN " . $this->db->table("languages") . " l ON (o.language_id = l.language_id)

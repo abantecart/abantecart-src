@@ -55,18 +55,18 @@ class ControllerPagesCheckoutGuestStep1 extends AController{
 		}
 
 		if ($this->request->is_POST() && $this->_validate()){
-			$this->session->data['guest']['firstname'] = $this->request->post['firstname'];
-			$this->session->data['guest']['lastname'] = $this->request->post['lastname'];
-			$this->session->data['guest']['email'] = $this->request->post['email'];
-			$this->session->data['guest']['telephone'] = $this->request->post['telephone'];
-			$this->session->data['guest']['fax'] = $this->request->post['fax'];
-			$this->session->data['guest']['company'] = $this->request->post['company'];
-			$this->session->data['guest']['address_1'] = $this->request->post['address_1'];
-			$this->session->data['guest']['address_2'] = $this->request->post['address_2'];
-			$this->session->data['guest']['zone_id'] = $this->request->post['zone_id'];
-			$this->session->data['guest']['postcode'] = $this->request->post['postcode'];
-			$this->session->data['guest']['city'] = $this->request->post['city'];
-			$this->session->data['guest']['country_id'] = $this->request->post['country_id'];
+			$this->session->data['guest']['firstname'] = trim($this->request->post['firstname']);
+			$this->session->data['guest']['lastname'] = trim($this->request->post['lastname']);
+			$this->session->data['guest']['email'] = trim($this->request->post['email']);
+			$this->session->data['guest']['telephone'] = trim($this->request->post['telephone']);
+			$this->session->data['guest']['fax'] = trim($this->request->post['fax']);
+			$this->session->data['guest']['company'] = trim($this->request->post['company']);
+			$this->session->data['guest']['address_1'] = trim($this->request->post['address_1']);
+			$this->session->data['guest']['address_2'] = trim($this->request->post['address_2']);
+			$this->session->data['guest']['zone_id'] = (int)$this->request->post['zone_id'];
+			$this->session->data['guest']['postcode'] = trim($this->request->post['postcode']);
+			$this->session->data['guest']['city'] = trim($this->request->post['city']);
+			$this->session->data['guest']['country_id'] = (int)$this->request->post['country_id'];
 
 			//IM addresses
 			$protocols = $this->im->getProtocols();
@@ -76,12 +76,9 @@ class ControllerPagesCheckoutGuestStep1 extends AController{
 				}
 			}
 
-			//if ($this->cart->hasShipping()) {
 			$this->tax->setZone($this->request->post['country_id'], $this->request->post['zone_id']);
-			//}
 
 			$this->loadModel('localisation/country');
-
 			$country_info = $this->model_localisation_country->getCountry($this->request->post['country_id']);
 
 			if ($country_info){
