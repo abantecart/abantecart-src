@@ -70,60 +70,73 @@
 </div>  
 
 <script type="text/javascript">
-//validate submit
-$('form').submit(function(event) {
-	event.preventDefault();
-	if( !$.aCCValidator.validate($('form.validate-creditcard')) ){
-		return false;
-	} else {
-		confirmSubmit();
-	}
-});
+jQuery(document).ready(function() {
 
-function confirmSubmit() {		
-	$.ajax({
-		type: 'POST',
-		url: '<?php echo $this->html->getURL('extension/default_realex/send'); ?>',
-		data: $('#realex :input'),
-		dataType: 'json',		
-		beforeSend: function() {
-			$('.alert').remove();
-			$('#realex .action-buttons').hide(); 
-			$('#realex .action-buttons').before('<div class="wait alert alert-info text-center"><i class="fa fa-refresh fa-spin"></i> <?php echo $text_wait; ?></div>');
-		},
-		success: function(data) {
-			if (!data) {
-				$('.wait').remove();
-				$('#realex .action-buttons').show(); 
-				$('#realex').before('<div class="alert alert-danger"><i class="fa fa-bug"></i> <?php echo $error_unknown; ?></div>');
+	var submitSent = false;
+	
+	//validate submit
+	$('form').submit(function(event) {
+		event.preventDefault();
+		if(submitSent !== true) {	
+			submitSent = true;
+			if( !$.aCCValidator.validate($('form.validate-creditcard')) ){
+				submitSent = false;
+				return false;
 			} else {
-	      		//if 3d required
-				if (data.ACSURL) {
-				  $('#3dauth').remove();
-				  var dhtml  = '<form action="' + data.ACSURL + '" method="post" id="3dauth">';
-				  dhtml += '  <input type="hidden" name="MD" value="' + data.MD + '" />';
-				  dhtml += '  <input type="hidden" name="PaReq" value="' + data.PaReq + '" />';
-				  dhtml += '  <input type="hidden" name="TermUrl" value="' + data.TermUrl + '" />';
-				  dhtml += '</form>';
-				  $('#realex').after(dhtml);
-				  $('#3dauth').submit();
-				}
-					  			
-				if (data.error) {
+				confirmSubmit();
+			}
+		}
+	});
+	
+	function confirmSubmit() {		
+		$.ajax({
+			type: 'POST',
+			url: '<?php echo $this->html->getURL('extension/default_realex/send'); ?>',
+			data: $('#realex :input'),
+			dataType: 'json',		
+			beforeSend: function() {
+				$('.alert').remove();
+				$('#realex .action-buttons').hide(); 
+				$('#realex .action-buttons').before('<div class="wait alert alert-info text-center"><i class="fa fa-refresh fa-spin"></i> <?php echo $text_wait; ?></div>');
+			},
+			success: function(data) {
+				if (!data) {
 					$('.wait').remove();
 					$('#realex .action-buttons').show(); 
-					$('#realex').before('<div class="alert alert-warning"><i class="fa fa-exclamation"></i> '+data.error+'</div>');
-				}	
-				if (data.success) {			
-					location = data.success;
+					$('#realex').before('<div class="alert alert-danger"><i class="fa fa-bug"></i> <?php echo $error_unknown; ?></div>');
+					submitSent = false;
+				} else {
+		      		//if 3d required
+					if (data.ACSURL) {
+					  $('#3dauth').remove();
+					  var dhtml  = '<form action="' + data.ACSURL + '" method="post" id="3dauth">';
+					  dhtml += '  <input type="hidden" name="MD" value="' + data.MD + '" />';
+					  dhtml += '  <input type="hidden" name="PaReq" value="' + data.PaReq + '" />';
+					  dhtml += '  <input type="hidden" name="TermUrl" value="' + data.TermUrl + '" />';
+					  dhtml += '</form>';
+					  $('#realex').after(dhtml);
+					  $('#3dauth').submit();
+					  submitSent = false;
+					}
+						  			
+					if (data.error) {
+						$('.wait').remove();
+						$('#realex .action-buttons').show(); 
+						$('#realex').before('<div class="alert alert-warning"><i class="fa fa-exclamation"></i> '+data.error+'</div>');
+						submitSent = false;
+					}	
+					if (data.success) {			
+						location = data.success;
+					}
 				}
-			}
-		},
-		error: function (jqXHR, textStatus, errorThrown) {
-			$('.wait').remove();
-			$('#realex .action-buttons').show(); 
-			$('#realex').before('<div class="alert alert-danger"><i class="fa fa-exclamation"></i> '+textStatus+' '+errorThrown+'</div>');
-		}				
-	});
-}
+			},
+			error: function (jqXHR, textStatus, errorThrown) {
+				$('.wait').remove();
+				$('#realex .action-buttons').show(); 
+				$('#realex').before('<div class="alert alert-danger"><i class="fa fa-exclamation"></i> '+textStatus+' '+errorThrown+'</div>');
+				submitSent = false;
+			}				
+		});
+	}
+});
 </script>
