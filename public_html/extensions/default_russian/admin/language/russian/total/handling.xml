@@ -61,7 +61,7 @@
 		<value><![CDATA[Под-итог:]]></value>
 	</definition>
 	<definition>
-		<key>entry_total_palceholder</key>
+		<key>entry_total_placeholder</key>
 		<value><![CDATA[Текстовое Значение]]></value>
 	</definition>
 </definitions>

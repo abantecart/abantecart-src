@@ -21,7 +21,7 @@
 		<value><![CDATA[Order Total:<span class="help">Minimum order amount to be reached to apply fee</span>]]></value>
 	</definition>
 	<definition>
-		<key>entry_total_palceholder</key>
+		<key>entry_total_placeholder</key>
 		<value><![CDATA[Text Value]]></value>
 	</definition>
 	<definition>
