@@ -70,12 +70,14 @@ $modal_content = '<div class="add-option-modal" >
 	        <div class="panel-body panel-body-nopadding">
 	            <div class="mt10 options_buttons" id="option_name_block">
                     <div class=" afield ">'.$this->html->buildElement(
-                    		array('type' => 'textarea',
+                    		array(
+				                    'type' => 'textarea',
                     				'id' => 'option_textarea_value',
+                    				'name' => 'option_textarea_value',
                     				'value' => $form['fields']['option_value']->value,
                     				'style' => 'col-sm-12',
                     				'attr' => 'row="10"'
-                    				)).'
+                    		)).'
                     </div>
 	            </div>
 	        </div>
@@ -97,7 +99,8 @@ echo $this->html->buildElement(
 				'id' => 'option_value_modal',
 				'modal_type' => 'lg',
 				'title' => $text_edit_option_values,
-				'content' => $modal_content));
+				'content' => $modal_content,
+				'js_onshow' => '$(\'#option_textarea_value\').focus();'));
 ?>
 
 <script type="application/javascript">
@@ -108,7 +111,9 @@ echo $this->html->buildElement(
 	});
 
 	$(document).ready(function(){
-		$('tr.optionRow').find('textarea').attr('readonly','readonly');
+		$('tr.optionRow').find('textarea').attr('readonly','readonly').on('click', function(){
+			$('a[data-target="#option_value_modal"]').click();
+		});
 	});
 
 </script>
