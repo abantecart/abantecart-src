@@ -53,12 +53,6 @@ abstract class Extension{
 	protected $baseObject_method = '';
 	const REPLACED_METHOD = 'Indicates that a method with void return has been replaced';
 
-	// Redirect to new page. Used by hooks
-	protected function redirect($url){
-		header('Location: ' . str_replace('&amp;', '&', $url));
-		exit;
-	}
-
 	/**
 	 * Load the current object being plugged into.
 	 * @param object $object The current object being plugged into.

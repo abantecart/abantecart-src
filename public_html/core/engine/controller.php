@@ -292,9 +292,12 @@ abstract class AController{
 	}
 
 	// Redirect to new page
+	/**
+	 * @deprecated since v1.2.9
+	 * @param $url
+	 */
 	protected function redirect($url){
-		header('Location: ' . str_replace('&amp;', '&', $url));
-		die();
+		redirect($url);
 	}
 
 	public function getInstance(){

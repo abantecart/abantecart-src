@@ -50,7 +50,7 @@ final class ASession{
 			){
 				// last request was more than 30 minutes ago
 				$this->clear();
-				header('Location: ' . $this->registry->get('html')->currentURL(array ('token')));
+				redirect($this->registry->get('html')->currentURL(array ('token')));
 			}
 		}
 		// update last activity time stamp

@@ -107,8 +107,7 @@ class ExtensionBannerManager extends Extension {
 			}
 
 			if($block_txt_id=='banner_block'){
-				header('Location: ' .$this->html->getSecureURL('extension/banner_manager/edit_block', '&custom_block_id=' . (int)$this->request->get['custom_block_id']));
-				exit;
+				redirect($this->html->getSecureURL('extension/banner_manager/edit_block', '&custom_block_id=' . (int)$this->request->get['custom_block_id']));
 			}
 		}
 	}
