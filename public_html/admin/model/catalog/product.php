@@ -1870,6 +1870,22 @@ class ModelCatalogProduct extends Model{
 				$match = $filter['match'];
 			}
 
+			if(isset($filter['exclude']['product_id'])){
+				$exclude = $filter['exclude']['product_id'];
+				$excludes = array();
+				if(is_array($exclude)){
+					foreach($exclude as $ex){
+						$excludes[] = (int)$ex;
+					};
+				}elseif((int)$exclude){
+					$excludes = array((int)$exclude);
+				}
+
+				if($excludes){
+					$sql .= " AND p.product_id NOT IN (".implode(',', $excludes).") ";
+				}
+			}
+
 			if(isset($filter['keyword']) && !is_null($filter['keyword'])){
 				$keywords = explode(' ', $filter['keyword']);
 

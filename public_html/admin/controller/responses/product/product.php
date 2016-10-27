@@ -28,18 +28,17 @@ class ControllerResponsesProductProduct extends AController{
 	/**
 	 * @var AAttribute_Manager
 	 */
-	private $attribute_manager;
+	protected $attribute_manager;
 
 	public function products(){
-
-		$products = array ();
 		$products_data = array ();
-
+		$post =& $this->request->post;
+		$get =& $this->request->get;
 		//init controller data
 		$this->extensions->hk_InitData($this, __FUNCTION__);
 		$this->loadModel('catalog/product');
-		if (isset($this->request->post['coupon_product'])){
-			$products = $this->request->post['coupon_product'];
+		if (isset($post['coupon_product'])){
+			$products = $post['coupon_product'];
 			foreach ($products as $product_id){
 				$product_info = $this->model_catalog_product->getProduct($product_id);
 				if ($product_info){
@@ -51,12 +50,13 @@ class ControllerResponsesProductProduct extends AController{
 					);
 				}
 			}
-		} else if (isset($this->request->post['term'])){
+		} else if (isset($post['term'])){
 			$filter = array ('limit'               => 20,
-			                 'content_language_id' => $this->session->data['content_language_id'],
+			                 'content_language_id' => $this->language->getContentLanguageID(),
 			                 'filter'              => array (
-					                 'keyword' => $this->request->post['term'],
-					                 'match'   => 'all'
+					                 'keyword' => $post['term'],
+					                 'match'   => 'all',
+					                 'exclude' => array('product_id' => $post['exclude'])
 			                 ));
 			$products = $this->model_catalog_product->getProducts($filter);
 
@@ -76,16 +76,16 @@ class ControllerResponsesProductProduct extends AController{
 			foreach ($products as $pdata){
 				$thumbnail = $thumbnails[$pdata['product_id']];
 
-				if ($this->request->get['currency_code']){
+				if ($get['currency_code']){
 					$price = round($this->currency->convert($pdata['price'],
 							$this->config->get('config_currency'),
-							$this->request->get['currency_code']), 2);
+							$get['currency_code']), 2);
 				} else{
 					$price = $pdata['price'];
 				}
 
-				$frmt_price = $this->currency->format($pdata['price'], ($this->request->get['currency_code']
-						? $this->request->get['currency_code']
+				$frmt_price = $this->currency->format($pdata['price'], ($get['currency_code']
+						? $get['currency_code']
 						: $this->config->get('config_currency')));
 
 				$products_data[] = array (
@@ -568,7 +568,7 @@ class ControllerResponsesProductProduct extends AController{
 		//update controller data
 		$this->extensions->hk_UpdateData($this, __FUNCTION__);
 
-		$this->redirect($this->html->getSecureURL('product/product/load_option', '&product_id=' . $this->request->get['product_id'] . '&option_id=' . $this->request->get['option_id']));
+		redirect($this->html->getSecureURL('product/product/load_option', '&product_id=' . $this->request->get['product_id'] . '&option_id=' . $this->request->get['option_id']));
 	}
 
 	/**
@@ -655,7 +655,7 @@ class ControllerResponsesProductProduct extends AController{
 		}
 
 		if (isset($this->data['option_attribute']['group'])){
-			//process grouped (parent/chiled) options
+			//process grouped (parent/child) options
 			$this->data['form']['fields']['option_value'] = '';
 			foreach ($this->data['option_attribute']['group'] as $attribute_id => $data){
 				$this->data['form']['fields']['option_value'] .= '<span style="white-space: nowrap;">' . $data['name'] . '' . $form->getFieldHtml(array (
@@ -1175,7 +1175,7 @@ class ControllerResponsesProductProduct extends AController{
 					continue;
 				}
 				$values = $value = array ();
-				//values that was setted
+				//values that has been set
 				if (in_array($attribute['element_type'], $html_elements_with_options) && $attribute['element_type'] != 'R'){
 					if (is_array($attribute['selected_values'])){
 						foreach ($attribute['selected_values'] as $val){
@@ -1508,14 +1508,14 @@ class ControllerResponsesProductProduct extends AController{
 						'attr'           => ' data-option-id ="' . $option['product_option_id'] . '"'
 				);
 				if ($option['element_type'] == 'C'){
-					// note: 0 and 1 must be stirng to prevent collision with 'yes'. (in php 'yes'==1) ;-)
+					// note: 0 and 1 must be string to prevent collision with 'yes'. (in php 'yes'==1) ;-)
 					$option_data['label_text'] = !in_array($value, array ('0', '1')) ? $value : '';
 					$option_data['checked'] = $preset_value ? true : false;
 				}
 
 				$options[] = array (
 						'name' => $option['name'],
-						'html' => $form->getFieldHtml($option_data),  // not a string!!! it's object!
+						'html' => $form->getFieldHtml($option_data),
 				);
 			}
 		}
