@@ -269,6 +269,7 @@ class ModelInstall extends Model{
 
 			$db->query("UPDATE `" . $data['db_prefix'] . "settings` SET value = '" . $db->escape($data['email']) . "' WHERE `key` = 'store_main_email'; ");
 			$db->query("UPDATE `" . $data['db_prefix'] . "settings` SET value = '" . $db->escape(HTTP_ABANTECART) . "' WHERE `key` = 'config_url'; ");
+			$db->query("UPDATE `" . $data['db_prefix'] . "settings` SET value = '" . $db->escape(genToken(16)) . "' WHERE `key` = 'task_api_key'; ");
 			$db->query("INSERT INTO `" . $data['db_prefix'] . "settings` SET `group` = 'config', `key` = 'install_date', value = NOW(); ");
 
 			$db->query("UPDATE `" . $data['db_prefix'] . "products` SET `viewed` = '0';");

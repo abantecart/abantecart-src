@@ -69,9 +69,6 @@ if (php_sapi_name() == "cli"){
 }else{
 
 	// add to settings API et task_api_key
-	// генерить при установке
-	//
-	//
 	$task_api_key = $config->get('task_api_key');
 	if(!$task_api_key || $task_api_key != (string)$_GET['task_api_key']){
 		exit('Authorize to access.');
