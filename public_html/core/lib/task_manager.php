@@ -361,6 +361,9 @@ class ATaskManager{
 	 * @param int $msg_code - can be 0 - fail, 1 -success
 	 */
 	public function toLog($message, $msg_code = 1){
+		if(!$message){
+			return null;
+		}
 		if($this->mode=='html'){
 			$this->run_log[] = '<p style="color: ' . ($msg_code ? 'green' : 'red') . '">' . $message . "</p>";
 		}else{
