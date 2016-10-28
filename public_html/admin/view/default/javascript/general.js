@@ -768,12 +768,12 @@ var runTaskStepsUI = function (task_details) {
         var ajaxes = {};
         for(var k in task_details.steps){
             var step = task_details.steps[k];
-            var senddata = { rt: decodeURIComponent(step.controller),
-                                             token: getUrlParameter('token'),
-                                             s: getUrlParameter('s'),
-                                             task_id: task_details.task_id,
-                                             step_id: step.step_id
-                            };
+            var senddata = {
+                task_api_key: task_details.task_api_key,
+                mode: 'ajax',
+                task_id: task_details.task_id,
+                step_id: step.step_id
+            };
             for(var s in step.settings){
                 senddata[s] = step.settings[s];
             }
@@ -787,7 +787,7 @@ var runTaskStepsUI = function (task_details) {
                 task_id:task_details.task_id,
                 type:'GET',
                 timeout: timeout,
-                url: window.location.protocol+'//'+window.location.host+window.location.pathname,
+                url: task_details.url,
                 data: senddata,
                 dataType: 'json',
             };

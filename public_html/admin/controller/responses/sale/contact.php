@@ -41,6 +41,7 @@ class ControllerResponsesSaleContact extends AController {
 		if ($this->request->is_POST() && $this->_validate()) {
 			$this->loadModel('sale/contact');
 			$task_details = $this->model_sale_contact->createTask('send_now_'.date('Ymd-H:i:s'), $this->request->post);
+			$task_api_key = $this->config->get('task_api_key');
 
 			if(!$task_details){
 				$this->errors = array_merge($this->errors,$this->model_sale_contact->errors);
@@ -49,7 +50,15 @@ class ControllerResponsesSaleContact extends AController {
 										array( 'error_text' => implode(' ', $this->errors),
 												'reset_value' => true
 										));
+			}elseif(!$task_api_key){
+				$error = new AError('files backup error');
+				return $error->toJSONResponse('APP_ERROR_402',
+										array( 'error_text' => 'Please set up Task API Key in the settings!',
+											   'reset_value' => true
+										));
 			}else{
+				$task_details['task_api_key'] = $task_api_key;
+				$task_details['url'] = HTTPS_SERVER.'task.php';
 				$this->data['output']['task_details'] = $task_details;
 			}
 
@@ -92,9 +101,6 @@ class ControllerResponsesSaleContact extends AController {
 		}else{
 			$result_text = $this->language->get('text_task_failed');
 		}
-
-
-
 
 		//update controller data
         $this->extensions->hk_UpdateData($this,__FUNCTION__);
@@ -151,6 +157,7 @@ class ControllerResponsesSaleContact extends AController {
 		$this->extensions->hk_InitData($this,__FUNCTION__);
 
 		$task_id = (int)$this->request->get_or_post('task_id');
+		$task_api_key = $this->config->get('task_api_key');
 		$etas = array();
 		if ($task_id) {
 			$tm= new ATaskManager();
@@ -177,12 +184,21 @@ class ControllerResponsesSaleContact extends AController {
 										array( 'error_text' => $error_text,
 												'reset_value' => true
 										));
+			}elseif(!$task_api_key){
+				$error = new AError('files backup error');
+				return $error->toJSONResponse('APP_ERROR_402',
+										array( 'error_text' => 'Please set up Task API Key in the settings!',
+											   'reset_value' => true
+										));
+			}else{
+				$task_details['task_api_key'] = $task_api_key;
+				$task_details['url'] = HTTPS_SERVER . 'task.php';
 			}
-
 
 			foreach ($etas as $step_id => $eta){
 				$task_details['steps'][$step_id]['eta'] = $eta;
 			}
+
 			$this->data['output']['task_details'] = $task_details;
 
 		}else{
@@ -214,28 +230,35 @@ class ControllerResponsesSaleContact extends AController {
 		$this->extensions->hk_UpdateData($this,__FUNCTION__);
 	}
 
+	/**
+	 * @deprecated since 1.2.9
+	 */
 	public function incompleted(){
+		return $this->incomplete();
+	}
+
+	public function incomplete(){
 		//init controller data
 		$this->extensions->hk_InitData($this,__FUNCTION__);
 		$this->loadModel('user/user');
 		$this->data = $this->language->getASet('sale/contact');
 
 		$tm = new ATaskManager();
-		$incompleted = $tm->getTasks(array(
+		$incomplete = $tm->getTasks(array(
 				'filter' => array(
 						'name' => 'send_now'
 				)
 		));
 
 		$k = 0;
-		foreach($incompleted as $incm_task){
-			//show all incompleted tasks for Top Administrator user group
+		foreach($incomplete as $incm_task){
+			//show all incomplete tasks for Top Administrator user group
 			if($this->user->getUserGroupId() != 1){
 				if ($incm_task['starter'] != $this->user->getId()){
 					continue;
 				}
 			}
-			//define incompleted tasks by last time run
+			//define incomplete tasks by last time run
 			$max_exec_time = (int)$incm_task['max_execution_time'];
 			if(!$max_exec_time){
 				//if no limitations for execution time for task - think it's 2 hours
@@ -272,7 +295,7 @@ class ControllerResponsesSaleContact extends AController {
 		$this->data['abort_task_url'] = $this->html->getSecureURL('r/sale/contact/abort');
 
 		$this->view->batchAssign($this->data);
-		$this->processTemplate('responses/sale/contact_incompleted.tpl');
+		$this->processTemplate('responses/sale/contact_incomplete.tpl');
 		//update controller data
 		$this->extensions->hk_UpdateData($this,__FUNCTION__);
 
@@ -321,18 +344,18 @@ class ControllerResponsesSaleContact extends AController {
 			$db_filter['filter']['only_with_mobile_phones'] = 1;
 		}
 
-		$newsletter_dbfilter = $db_filter;
-		$newsletter_dbfilter['filter']['newsletter_protocol'] = $protocol;
+		$newsletter_db_filter = $db_filter;
+		$newsletter_db_filter['filter']['newsletter_protocol'] = $protocol;
 
 		$count = 0;
 		$emails = array ();
 
 		switch($recipient){
 			case 'all_subscribers':
-				$count = $this->model_sale_customer->getTotalAllSubscribers($newsletter_dbfilter);
+				$count = $this->model_sale_customer->getTotalAllSubscribers($newsletter_db_filter);
 				break;
 			case 'only_subscribers':
-				$count = $this->model_sale_customer->getTotalOnlyNewsletterSubscribers($newsletter_dbfilter);
+				$count = $this->model_sale_customer->getTotalOnlyNewsletterSubscribers($newsletter_db_filter);
 				break;
 			case 'only_customers':
 				$count = $this->model_sale_customer->getTotalOnlyCustomers($db_filter);
