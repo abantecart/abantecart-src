@@ -230,7 +230,7 @@ class ControllerPagesAccountInvoice extends AController{
 						'option'    => $option_data,
 						'quantity'  => $product['quantity'],
 						'price'     => $this->currency->format($product['price'], $order_info['currency'], $order_info['value']),
-						'total'     => $this->currency->format($product['total'], $order_info['currency'], $order_info['value'])
+						'total'     => $this->currency->format_total($product['price'], $product['quantity'], $order_info['currency'], $order_info['value'])
 				);
 			}
 			$this->data['products'] = $products;

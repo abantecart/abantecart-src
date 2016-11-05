@@ -290,7 +290,7 @@ class ControllerResponsesProductProduct extends AController {
 				$result['tax_class_id'],
 				(int)$this->config->get('config_tax')
 			);
-			$output['total'] = $this->currency->format($output['total']);
+			$output['total'] = $this->currency->format_total($output['price'], $quantity);
 			$output['price'] = $this->currency->format($output['price']);
 		}
 

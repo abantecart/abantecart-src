@@ -557,7 +557,7 @@ class ModelCheckoutOrder extends Model{
 					'option'   => $option_data,
 					'quantity' => $product['quantity'],
 					'price'    => $this->currency->format($product['price'], $order_row['currency'], $order_row['value']),
-					'total'    => $this->currency->format($product['total'], $order_row['currency'], $order_row['value'])
+					'total'    => $this->currency->format_total($product['price'], $product['quantity'], $order_row['currency'], $order_row['value'])
 			);
 		}
 		$this->data['mail_template_data']['products'] = $this->data['products'];

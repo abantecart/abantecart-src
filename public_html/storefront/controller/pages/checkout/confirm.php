@@ -238,13 +238,15 @@ class ControllerPagesCheckoutConfirm extends AController {
 
 	        $thumbnail = $thumbnails[ $product_id ];
 			$tax = $this->tax->calcTotalTaxAmount($this->data['products'][$i]['total'], $this->data['products'][$i]['tax_class_id']);
+			$price = $this->data['products'][$i]['price'];
+			$qtty = $this->data['products'][$i]['quantity'];
       		$this->data['products'][$i] = array_merge( 
       			$this->data['products'][$i], 
       			array(
         		'thumb'      => $thumbnail,
 				'tax'        => $this->currency->format($tax),
-        		'price'      => $this->currency->format($this->data['products'][$i]['price']),
-        		'total'      => $this->currency->format($this->data['products'][$i]['total']),
+        		'price'      => $this->currency->format($price),
+        		'total'      => $this->currency->format_total($price, $qtty),
 				'href'       => $this->html->getSEOURL($product_rt, '&product_id=' . $product_id, true )
       		)); 
         }

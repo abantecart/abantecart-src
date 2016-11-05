@@ -99,6 +99,7 @@ class ControllerApiCheckoutCart extends AControllerAPI {
           			);
         		}
 
+				$price_with_tax = $this->tax->calculate($result['price'], $result['tax_class_id'], $this->config->get('config_tax'));
         		$products[] = array(
           			'key'      => $result['key'],
           			'name'     => $result['name'],
@@ -107,8 +108,8 @@ class ControllerApiCheckoutCart extends AControllerAPI {
           			'option'   => $option_data,
           			'quantity' => $result['quantity'],
           			'stock'    => $result['stock'],
-					'price'    => $this->currency->format($this->tax->calculate($result['price'], $result['tax_class_id'], $this->config->get('config_tax'))),
-					'total'    => $this->currency->format($this->tax->calculate($result['total'], $result['tax_class_id'], $this->config->get('config_tax')))
+					'price'    => $this->currency->format($price_with_tax),
+					'total'    => $this->currency->format_total($price_with_tax, $result['quantity'])
         		);
       		}
             $this->data['products'] =  $products ;

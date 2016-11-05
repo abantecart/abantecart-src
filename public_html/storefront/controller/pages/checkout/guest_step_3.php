@@ -179,13 +179,15 @@ class ControllerPagesCheckoutGuestStep3 extends AController {
         	$product_id = $this->data['products'][$i]['product_id'];
 	        $thumbnail = $thumbnails[$product_id];
 			$tax = $this->tax->calcTotalTaxAmount($this->data['products'][$i]['total'], $this->data['products'][$i]['tax_class_id']);
+			$price = $this->data['products'][$i]['price'];
+			$quantity = $this->data['products'][$i]['quantity'];			
       		$this->data['products'][$i] = array_merge( 
 												$this->data['products'][$i],
 												array(
 													'thumb'    => $thumbnail,
 													'tax'        => $this->currency->format($tax),
-													'price'      => $this->currency->format($this->data['products'][$i]['price']),
-													'total'      => $this->currency->format($this->data['products'][$i]['total']),
+													'price'      => $this->currency->format($price),
+													'total'      => $this->currency->format_total($price, $quantity),
 													'href'       => $this->html->getSEOURL('product/product', '&product_id=' . $product_id, true )
       		)); 
         }

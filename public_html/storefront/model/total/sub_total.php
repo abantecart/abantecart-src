@@ -31,7 +31,8 @@ class ModelTotalSubTotal extends Model {
 			$products = $this->cart->getProducts();
 			foreach ($products as $product){
 				$subtotal += $product['total'];
-				$converted_sum += $this->currency->format_number($product['total']);
+				//correct way to calc total with currency conversion. 
+				$converted_sum += $this->currency->format_number($product['price']) * (int)$product['quantity'];
 			}
 
 			//if there is a conversion fractional loss, adjust subtotal base currency price. 

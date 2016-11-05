@@ -501,7 +501,7 @@ class ControllerPagesSaleOrder extends AController{
 					'option'           => $option_data,
 					'quantity'         => $order_product['quantity'],
 					'price'            => $this->currency->format($order_product['price'], $order_info['currency'], $order_info['value']),
-					'total'            => $this->currency->format($order_product['total'], $order_info['currency'], $order_info['value']),
+					'total'            => $this->currency->format_total($order_product['price'], $order_product['quantity'], $order_info['currency'], $order_info['value']),
 					'href'             => $this->html->getSecureURL('catalog/product/update', '&product_id=' . $order_product['product_id'])
 			);			
 			
