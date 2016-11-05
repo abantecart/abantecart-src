@@ -74,8 +74,8 @@ class ModelAccountCustomer extends Model {
       	$sql = "INSERT INTO " . $this->db->table("customers") . "
 			  SET	store_id = '" . (int)$this->config->get('config_store_id') . "',
 					loginname = '" . $this->db->escape($data['loginname']) . "',
-					firstname = '" . $this->db->escape($data['firstname']) . "',
-					lastname = '" . $this->db->escape($data['lastname']) . "',
+					firstname = '" . $this->db->escape(trim($data['firstname'])) . "',
+					lastname = '" . $this->db->escape(trim($data['lastname'])) . "',
 					email = '" . $this->db->escape($data['email']) . "',
 					telephone = '" . $this->db->escape($data['telephone']) . "',
 					fax = '" . $this->db->escape($data['fax']) . "',
@@ -185,6 +185,11 @@ class ModelAccountCustomer extends Model {
 				);
 				$this->im->send('customer_account_update', $message_arr);
 			}
+		}
+
+		//trim and remove double whitespaces
+		foreach(array('firstname', 'lastname') as $f){
+			$data[$f] = str_replace('  ', ' ', trim($data[$f]));
 		}
 
 		$sql = "UPDATE " . $this->db->table("customers") . "

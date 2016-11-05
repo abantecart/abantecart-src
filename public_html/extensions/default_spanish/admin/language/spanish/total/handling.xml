@@ -61,7 +61,7 @@
 		<value><![CDATA[Subtotal de Orden:]]></value>
 	</definition>
 	<definition>
-		<key>entry_total_palceholder</key>
+		<key>entry_total_placeholder</key>
 		<value><![CDATA[Valor de texto]]></value>
 	</definition>
 </definitions>

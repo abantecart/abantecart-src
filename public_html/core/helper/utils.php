@@ -1181,3 +1181,10 @@ function check_resize_image($orig_image, $new_image, $width, $height, $quality) 
 
 	return $new_image;
 }
+
+
+function redirect($url){
+	if(!$url){ return false; }
+	header('Location: ' . str_replace('&amp;', '&', $url));
+	exit;
+}

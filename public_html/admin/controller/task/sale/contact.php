@@ -136,7 +136,8 @@ class ControllerTaskSaleContact extends AController{
 				$sent++;
 				$tm->updateTaskDetails($task_id,
 						array(
-								'created_by' => $this->user->getId(),
+								//set 1 as "admin"
+								'created_by' => 1,
 								'settings'   => array(
 													'recipients_count' => $task_info['settings']['recipients_count'],
 													'sent'             => $sent

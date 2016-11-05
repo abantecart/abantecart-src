@@ -61,7 +61,7 @@
 		<value><![CDATA[ATTENZIONE: Il totale ordine e spese di gestione deve essere espresso con un numero!]]></value>
 	</definition>
 	<definition>
-		<key>entry_total_palceholder</key>
+		<key>entry_total_placeholder</key>
 		<value><![CDATA[Valore di testo]]></value>
 	</definition>
 </definitions>

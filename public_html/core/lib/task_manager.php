@@ -36,9 +36,16 @@ class ATaskManager{
 	 * @var ALog
 	 */
 	protected $task_log;
+	/**
+	 * @var string - can be 'html' for running task.php directly from browser, 'ajax' - for running task by ajax-requests and 'cli' - shell run
+	 */
 	private $mode = 'html';
 
-	public  $run_log = '';
+	protected $run_log = array();
+	/**
+	 * @var string can be 'simple' or 'detailed'
+	 */
+	protected $log_level = 'simple';
 	const STATUS_DISABLED = 0;
 	const STATUS_READY = 1;
 	const STATUS_RUNNING = 2;
@@ -51,13 +58,12 @@ class ATaskManager{
 	 * @param string $mode  Can be html or cli. Needed for run log format
 	 */
 	public function __construct($mode='html'){
-		$this->mode = in_array($mode, array('html', 'cli')) ? $mode : 'html';
+		$this->mode = in_array($mode, array('html', 'ajax', 'cli')) ? $mode : 'html';
 		$this->registry = Registry::getInstance();
 		// who is initiator of process, admin or storefront
 		$this->starter = IS_ADMIN === true ? 1 : 0;
 
 		$this->task_log = new ALog(DIR_LOGS . 'task_log.txt');
-
 	}
 
 	public function __get($key){
@@ -68,8 +74,12 @@ class ATaskManager{
 		$this->registry->set($key, $value);
 	}
 
+	public function setRunLogLevel($level = 'simple'){
+		$this->log_level = $level;
+	}
+
 	public function runTasks(){
-		$this->run_log = '';
+		$this->run_log = array();
 		$task_list = $this->_getReadyTasks();
 		// run loop tasks
 		foreach ($task_list as $task){
@@ -289,6 +299,10 @@ class ATaskManager{
 				if($step_details['interrupt_on_step_fault'] === true){
 					break;
 				}
+			}else{
+				if($this->log_level == 'detailed'){
+					$this->log_level['steps'][$step_details['step_id']] = $step_result;
+				}
 			}
 			$this->_update_task_state($task_id, array ('progress' => ceil($k * 100 / $steps_count)));
 			$k++;
@@ -302,7 +316,7 @@ class ATaskManager{
 	 * @param array $state
 	 * @return bool
 	 */
-	private function _update_task_state($task_id, $state = array ()){
+	protected function _update_task_state($task_id, $state = array ()){
 		$task_id = (int)$task_id;
 		if (!$task_id){
 			return false;
@@ -327,7 +341,7 @@ class ATaskManager{
 	 * @param array $state
 	 * @return bool
 	 */
-	private function _update_step_state($step_id, $state = array ()){
+	protected function _update_step_state($step_id, $state = array ()){
 		$upd_flds = array (
 				'task_id',
 				'last_result',
@@ -345,12 +359,16 @@ class ATaskManager{
 	/**
 	 * @param $message
 	 * @param int $msg_code - can be 0 - fail, 1 -success
+	 * @return null
 	 */
 	public function toLog($message, $msg_code = 1){
+		if(!$message){
+			return null;
+		}
 		if($this->mode=='html'){
-			$this->run_log .= '<p style="color: ' . ($msg_code ? 'green' : 'red') . '">' . $message . "</p>";
+			$this->run_log[] = '<p style="color: ' . ($msg_code ? 'green' : 'red') . '">' . $message . "</p>";
 		}else{
-			$this->run_log .= $message."\n";
+			$this->run_log[] = $message;
 		}
 		$this->task_log->write($message);
 	}
@@ -818,5 +836,9 @@ class ATaskManager{
 		unset($row);
 
 		return $output;
+	}
+
+	public function getRunLog(){
+		return $this->run_log;
 	}
 }

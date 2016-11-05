@@ -193,8 +193,7 @@ class ExtensionDefaultPPExpress extends Extension {
 					'discount' => $amount-$that->cart->getSubTotal()
 				);
 			} else {
-				header('Location:' . $that->html->getSecureURL('checkout/cart'));
-				die();
+				redirect($that->html->getSecureURL('checkout/cart'));
 			}
 
 			if (!$that->config->get('default_pp_express_test')) {
@@ -293,19 +292,16 @@ class ExtensionDefaultPPExpress extends Extension {
 
 			if ( isset($ec_settings['TOKEN']) ) {
 				if ( !$that->config->get('default_pp_express_test') ) {
-					header('Location: https://www.paypal.com/webscr?cmd=_express-checkout&token=' . urlencode($ec_settings['TOKEN']) . '&useraction=commit');
-					die();
+					redirect('https://www.paypal.com/webscr?cmd=_express-checkout&token=' . urlencode($ec_settings['TOKEN']) . '&useraction=commit');
 				} else {
-					header('Location: https://www.sandbox.paypal.com/webscr?cmd=_express-checkout&token=' . urlencode($ec_settings['TOKEN']) . '&useraction=commit');
-					die();
+					redirect('https://www.sandbox.paypal.com/webscr?cmd=_express-checkout&token=' . urlencode($ec_settings['TOKEN']) . '&useraction=commit');
 				}
 			} else {
 				$warning = new AWarning('PayPal Express Checkout Error: ' . $ec_settings['L_LONGMESSAGE0'] . '. Test mode = ' . $that->config->get('default_pp_express_test') .'.');
 				$warning->toLog()->toDebug();
 				$that->loadLanguage('default_pp_express/default_pp_express');
 				$that->session->data['pp_express_checkout_error'] = $that->language->get('service_error');
-				header('Location: ' . $that->html->getSecureURL('extension/default_pp_express/error'));
-				die();
+				redirect($that->html->getSecureURL('extension/default_pp_express/error'));
 			}
 		}
 	}
@@ -393,8 +389,7 @@ class ExtensionDefaultPPExpress extends Extension {
 					'value' => ''
 				);
 			} else {
-				header('Location:' . $that->html->getSecureURL('checkout/cart'));
-				die();
+				redirect($that->html->getSecureURL('checkout/cart'));
 			}
 
 			if (!$that->config->get('default_pp_express_test')) {
@@ -506,19 +501,16 @@ class ExtensionDefaultPPExpress extends Extension {
 
 			if ( isset($ec_settings['TOKEN']) ) {
 				if ( !$that->config->get('default_pp_express_test') ) {
-					header('Location: https://www.paypal.com/webscr?cmd=_express-checkout&token=' . urlencode($ec_settings['TOKEN']) . '&useraction=commit');
-					die();
+					redirect('https://www.paypal.com/webscr?cmd=_express-checkout&token=' . urlencode($ec_settings['TOKEN']) . '&useraction=commit');
 				} else {
-					header('Location: https://www.sandbox.paypal.com/webscr?cmd=_express-checkout&token=' . urlencode($ec_settings['TOKEN']) . '&useraction=commit');
-					die();
+					redirect('https://www.sandbox.paypal.com/webscr?cmd=_express-checkout&token=' . urlencode($ec_settings['TOKEN']) . '&useraction=commit');
 				}
 			} else {
 				$warning = new AWarning('PayPal Express Checkout Error: ' . $ec_settings['L_LONGMESSAGE0'] . '. Test mode = ' . $that->config->get('default_pp_express_test') .'.');
 				$warning->toLog()->toDebug()->toMessages();
 				$that->loadLanguage('default_pp_express/default_pp_express');
 				$that->session->data['pp_express_checkout_error'] = $that->language->get('service_error');
-				header('Location: ' . $that->html->getSecureURL('extension/default_pp_express/error'));
-				die();
+				redirect($that->html->getSecureURL('extension/default_pp_express/error'));
 			}
 
 		}

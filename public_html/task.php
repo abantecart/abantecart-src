@@ -63,15 +63,12 @@ if (php_sapi_name() == "cli"){
 	//command line
 	echo "Running command line \n";
 	$command_line = true;
-	$mode = 'start';
+	$mode = 'cli';
 	$task_id = $argv[1];
 	$step_id = $argv[2];
 }else{
 
 	// add to settings API et task_api_key
-	// генерить при установке
-	//
-	//
 	$task_api_key = $config->get('task_api_key');
 	if(!$task_api_key || $task_api_key != (string)$_GET['task_api_key']){
 		exit('Authorize to access.');
@@ -82,7 +79,7 @@ if (php_sapi_name() == "cli"){
 }
 
 if(!$mode && !$command_line){
-	exit("Error: Unknown mode!");
+	$mode = 'html';
 }
 
 
@@ -92,21 +89,35 @@ ADebug::checkpoint('init end');
 $registry->set('currency', new ACurrency($registry));
 
 //ok... let's start tasks
-$tm = new ATaskManager(($command_line ? 'cli' : 'html'));
+if($command_line){
+	$tm_mode = 'cli';
+}elseif($mode == 'json'){
+	$tm_mode = 'json';
+}else{
+	$tm_mode = 'html';
+}
+$tm = new ATaskManager($tm_mode);
+//set detailed log level for json-requests from admin-side
+if($tm_mode == 'json'){
+	$tm->setRunLogLevel('detailed');
+}
 
 //if task_id is not presents
-if($mode == 'start' && !$task_id){
+//start all scheduled tasks one by one
+if($mode && !$task_id){
 	//try to remove execution time limitation (can not work on some hosts!)
 	ini_set("max_execution_time", "0");
-	//start all scheduled tasks one by one
 	$tm->runTasks();
-
-}elseif ($mode == 'start' && $task_id && $step_id){
+}
+//when start only task step
+elseif ($mode && $task_id && $step_id){
 	if($tm->canStepRun($task_id, $step_id)){
 		$step_details = $tm->getTaskStep($task_id, $step_id);
 		$tm->runStep($step_details);
 	}
-}elseif ($mode == 'start' && $task_id && !$step_id){
+}
+//when start whole task
+elseif ($mode && $task_id && !$step_id){
 
 	$tm->updateTask($task_id, array(
 			'status' => $tm::STATUS_READY,
@@ -118,8 +129,6 @@ if($mode == 'start' && !$task_id){
 		$tm->updateStep($step['step_id'], array('status'=> $tm::STATUS_READY));
 	}
 
-
-
 	//run all steps of task and change it's status after
 	$data = array('task_details' => $task_details);
 	$tm->runTask($task_id);
@@ -127,18 +136,31 @@ if($mode == 'start' && !$task_id){
 }
 
 //get log for each task ans steps
-$run_log = $command_line ? $tm->run_log : nl2br($tm->run_log);
+$run_log = $tm->getRunLog();
+if($command_line){
+	$run_log_text = implode("\n", $run_log);
+}elseif($mode=='html'){
+	$run_log_text = nl2br(implode("<br/>", $run_log));
+}
+
+
 ob_flush();
-echo $run_log;
-
-ADebug::checkpoint('app end');
-
-//display debug info
-ADebug::display();
+if($command_line){
+	echo $run_log_text;
+	exit;
+}elseif($mode == 'ajax'){
+	$registry->get('load')->library('json');
+	header('Content-Type: application/json;');
+	echo AJson::encode($run_log);
+	exit;
+}elseif($mode == 'html' && $command_line !== true && $step_id){
+	echo $run_log_text;
+	exit;
+}
 
 //add html to run task in browser with ajax calls (for task step split run)
-
-if( $command_line !== true && !$step_id) {
+if( $command_line !== true && $mode!='ajax' && !$step_id) {
+	$registry->get('load')->library('json');
 ?>
 <!DOCTYPE html>
 <html lang="en_gb" dir="auto" >
@@ -172,13 +194,15 @@ if( $command_line !== true && !$step_id) {
 	  }
 	}
 </style>
-<script src="https://code.jquery.com/jquery-1.12.4.min.js" integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ="   crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-1.12.4.min.js"
+        integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ="
+        crossorigin="anonymous"></script>
 <script defer type="text/javascript">
 	/*
 	 task run via ajax
 	 */
 	jQuery(document).ready(function() {
-		var data = <?php echo json_encode($data); ?>;
+		var data = <?php echo AJson::encode($data); ?>;
 		runTaskUI(data);
 	});
 
@@ -219,7 +243,7 @@ if( $command_line !== true && !$step_id) {
 	        for(var k in task_details.steps){
 	            var step = task_details.steps[k];
 	            var senddata = {
-					mode: 'start',
+					mode: 'html',
 	                task_api_key: '<?php echo $task_api_key; ?>',
 					task_id: task_details.task_id,
 					step_id: step.step_id
@@ -376,5 +400,10 @@ if( $command_line !== true && !$step_id) {
 </head>
 <body></body>
 </html>
-<?php }
+<?php
+
+ADebug::checkpoint('app end');
+//display debug info
+ADebug::display();
+}
 exit;

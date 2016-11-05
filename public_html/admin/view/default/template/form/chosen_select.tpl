@@ -27,7 +27,7 @@ if(is_array($options)){
 <?php } ?>
 
 
-<?php if ( strpos($style,'chosen') !== false ) {  //for chosen we puplate HTML into options  ?>
+<?php if ( strpos($style,'chosen') !== false ) {  //for chosen we populate HTML into options  ?>
 <script type="text/javascript">
 $(document).ready(function () {
 <?php 
@@ -58,6 +58,7 @@ $(document).ready(function () {
 	    url: '<?php echo $ajax_url; ?>',
 	    dataType: 'json',
 		jsonTermKey: "term",
+		data: {'exclude': $("#<?php echo $id ?>").chosen().val()},
 		keepTypingMsg: "<?php echo $text_continue_typing; ?>",
 		lookingForMsg: "<?php echo $text_looking_for; ?>"   
 	}, function (data) {
@@ -73,7 +74,7 @@ $(document).ready(function () {
 	    		html += '&nbsp;(' + val.meta + ')';
 	    	}
 	    	html += '</span>';
-		    <?php // process custom html-atributes for "option"-tag
+		    <?php // process custom html-attributes for "option"-tag
 		        $oa = '';
 
 		        if($option_attr){
