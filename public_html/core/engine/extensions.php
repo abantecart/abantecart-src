@@ -503,6 +503,9 @@ class ExtensionsApi{
 				$data['sort_order'][0] = '`key`';
 			}
 			$sql .= "\n ORDER BY " . implode(' ', $data['sort_order']);
+		} else {
+			//default extension sorting based on priority provided. High number is higher priority 
+			$sql .= "\n ORDER BY e.priority desc";		
 		}
 		$total = null;
 		if (has_value($data['page']) && has_value($data['limit'])){
@@ -693,7 +696,7 @@ class ExtensionsApi{
 		 * @var Registry
 		 */
 		$ext_controllers = $ext_models = $ext_languages = $ext_templates = array ();
-		$enabled_extensions = $extensions = array ();
+		$enabled_extensions = $hook_extensions = array ();
 
 		foreach ($this->db_extensions as $ext){
 			//check if extension is enabled and not already in the picked list
@@ -705,10 +708,10 @@ class ExtensionsApi{
 					&& !in_array($ext, $enabled_extensions)
 					&& has_value($ext)
 			){
-
-				// run order is sort_order!
-				$priority = (int)$this->registry->get('config')->get($ext . '_sort_order');
-				$enabled_extensions[$priority][] = $ext;
+				
+				//priority for extension execution is set in the <priority> tag of extension configuration
+				//order for prioriry is already set here
+				$enabled_extensions[] = $ext;
 
 				$controllers = $languages = $models = $templates = array (
 						'storefront' => array (),
@@ -725,18 +728,12 @@ class ExtensionsApi{
 
 				$class = 'Extension' . preg_replace('/[^a-zA-Z0-9]/', '', $ext);
 				if (class_exists($class)){
-					$extensions[] = $class;
+					$hook_extensions[] = $class;
 				}
 			}
 		}
-
-		$this->setExtensionCollection(new ExtensionCollection($extensions));
-		$this->enabled_extensions = array ();
-		//sort extensions list by sort_order by ascending (sort_order)
-		ksort($enabled_extensions);
-		foreach ($enabled_extensions as $exts){
-			$this->enabled_extensions = array_merge($this->enabled_extensions, $exts);
-		}
+		$this->enabled_extensions = $enabled_extensions;
+		$this->setExtensionCollection(new ExtensionCollection($hook_extensions));
 
 		ADebug::variable('List of loaded extensions', $enabled_extensions);
 
