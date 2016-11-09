@@ -24,7 +24,7 @@ if (! defined ( 'DIR_CORE' )) {
 	header ( 'Location: static_pages/' );
 }
 
-//before install validate it is unique 
+//before install validate it is unique
 $lng_code = 'ru';
 $lng_name = 'Русский';
 $lng_directory = 'russian';
@@ -314,7 +314,7 @@ $this->db->query( "INSERT INTO ".$this->db->table('country_descriptions')." (`co
 
 
 $this->db->query("INSERT INTO ".$this->db->table('zone_descriptions')."
-(`zone_id`,`language_id`, `name`) VALUES  
+(`zone_id`,`language_id`, `name`) VALUES
 (1, ".$new_language_id.",'Бадахшанской'),
 (2, ".$new_language_id.",'Бадгис'),
 (3, ".$new_language_id.",'Баглан'),
@@ -3778,7 +3778,7 @@ $this->db->query("INSERT INTO ".$this->db->table('zone_descriptions')."
 (3481, ".$new_language_id.",'Чернигов'),
 (3482, ".$new_language_id.",'Черновцы'),
 (3483, ".$new_language_id.",'Крым'),
-(3484, ".$new_language_id.",'Днепропетровск'),
+(3484, ".$new_language_id.",'Днепр'),
 (3485, ".$new_language_id.",'Донецк'),
 (3486, ".$new_language_id.",'Ивано-Франковск'),
 (3487, ".$new_language_id.",'Харьков'),
@@ -4252,29 +4252,29 @@ $this->db->query("INSERT INTO ".$this->db->table('zone_descriptions')."
 ");
 
 $this->db->query("INSERT INTO ".$this->db->table('stock_statuses')."
-(`stock_status_id`,`language_id`, `name`) VALUES  
+(`stock_status_id`,`language_id`, `name`) VALUES
 (1, ".$new_language_id.",'На складе'),
 (2, ".$new_language_id.",'Распродано'),
 (3, ".$new_language_id.",'Предварительный заказ');
 ");
 
 $this->db->query("INSERT INTO ".$this->db->table('length_class_descriptions')."
-(`length_class_id`, `language_id`, `title`, `unit`) VALUES 
+(`length_class_id`, `language_id`, `title`, `unit`) VALUES
 (1, ".$new_language_id.",'Сантиметр','см'),
 (2, ".$new_language_id.",'Миллиметр','мм'),
 (3, ".$new_language_id.",'Дюйм','дм');
 ");
 
-$this->db->query("INSERT INTO ".$this->db->table('weight_class_descriptions')." 
-(`weight_class_id`, `language_id`, `title`, `unit`) VALUES 
+$this->db->query("INSERT INTO ".$this->db->table('weight_class_descriptions')."
+(`weight_class_id`, `language_id`, `title`, `unit`) VALUES
 (1, ".$new_language_id.",'Килограмм','кг'),
 (2, ".$new_language_id.",'Грамм','г'),
 (5, ".$new_language_id.",'Фунт','фт'),
 (6, ".$new_language_id.",'Унция','ун');
 ");
 
-$this->db->query("INSERT INTO ".$this->db->table('order_statuses')." 
-(`order_status_id`, `language_id`, `name`) VALUES 
+$this->db->query("INSERT INTO ".$this->db->table('order_statuses')."
+(`order_status_id`, `language_id`, `name`) VALUES
 (10, ".$new_language_id.", 'Не удалось'),
 (9, ".$new_language_id.", 'Отменен'),
 (8, ".$new_language_id.", 'Отказано'),
@@ -4289,8 +4289,8 @@ $this->db->query("INSERT INTO ".$this->db->table('order_statuses')."
 (13, ".$new_language_id.", 'Chargeback');
 ");
 
-$this->db->query("INSERT INTO ".$this->db->table('page_descriptions')." 
-(`page_id`, `language_id`, `name`, `title`, `seo_url`, `keywords`, `description`, `content`, `date_added`) VALUES 
+$this->db->query("INSERT INTO ".$this->db->table('page_descriptions')."
+(`page_id`, `language_id`, `name`, `title`, `seo_url`, `keywords`, `description`, `content`, `date_added`) VALUES
 (1, ".$new_language_id.", 'Все другие страницы','','','','','',now() ),
 (2, ".$new_language_id.", 'Главная страница','','','','','',now() ),
 (3, ".$new_language_id.", 'Страницы Оформления заказа','','','','','',now()),
@@ -4301,18 +4301,18 @@ $this->db->query("INSERT INTO ".$this->db->table('page_descriptions')."
 ");
 
 $this->db->query("INSERT INTO ".$this->db->table('global_attributes_type_descriptions')."
-(`attribute_type_id`, `language_id`, `type_name`, `date_added`) VALUES 
+(`attribute_type_id`, `language_id`, `type_name`, `date_added`) VALUES
 (1, ".$new_language_id.", 'Атрибуты Продуктов', NOW()),
 (2, ".$new_language_id.", 'Атрибуты Файлов', NOW());
 ");
 
 $this->db->query("INSERT INTO ".$this->db->table('form_descriptions')."
-(`form_id`, `language_id`, `description`) VALUES 
+(`form_id`, `language_id`, `description`) VALUES
 (2, ".$new_language_id.",'Свяжитесь с Нами');
 ");
 
 $this->db->query("INSERT INTO ".$this->db->table('field_descriptions')."
-(`field_id`, `name`, `error_text`, `language_id`) VALUES 
+(`field_id`, `name`, `error_text`, `language_id`) VALUES
 (11,'Имя:','Имя должно быть от 3 до 32 символов!',".$new_language_id."),
 (12,'E-mail:','E-Mail, кажется, не действует!',".$new_language_id."),
 (13,'Запрос:','Запрос должен быть между 10 и 3000 символов!',".$new_language_id."),
@@ -4320,15 +4320,15 @@ $this->db->query("INSERT INTO ".$this->db->table('field_descriptions')."
 
 // part of content probably no need to load ???
 /*
-$this->db->query("INSERT INTO ".DB_PREFIX."tax_rate_descriptions 
+$this->db->query("INSERT INTO ".DB_PREFIX."tax_rate_descriptions
 (`tax_rate_id`,`language_id`, `description`)
-VALUES 
+VALUES
 (1, ".$new_language_id.",'Розничная 8,5%');
 ");
 
-$this->db->query("INSERT INTO ".DB_PREFIX."tax_class_descriptions 
+$this->db->query("INSERT INTO ".DB_PREFIX."tax_class_descriptions
 (`tax_class_id`,`language_id`, `title`, `description`)
-VALUES 
+VALUES
 (1, ".$new_language_id.",'Налогооблагаемые Товары','Облагаемые налогом товары');
 ");
 */
