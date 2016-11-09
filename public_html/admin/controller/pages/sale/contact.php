@@ -330,16 +330,16 @@ class ControllerPagesSaleContact extends AController {
 			);
 		}
 
-		//check for incompleted tasks
+		//check for incomplete tasks
 		$tm = new ATaskManager();
-		$incompleted = $tm->getTasks(array(
+		$incomplete = $tm->getTasks(array(
 				'filter' => array(
 						'name' => 'send_now'
 				)
 		));
 
-		foreach($incompleted as $incm_task){
-			//show all incompleted tasks for Top Administrator user group
+		foreach($incomplete as $incm_task){
+			//show all incomplete tasks for Top Administrator user group
 			if($this->user->getUserGroupId() != 1){
 				if ($incm_task['starter'] != $this->user->getId()){
 					continue;
@@ -349,14 +349,14 @@ class ControllerPagesSaleContact extends AController {
 					$tm->updateTask($incm_task['task_id'],array('name' => 'send_now_'.date('YmdHis')));
 				}
 			}
-			//define incompleted tasks by last time run
+			//define incomplete tasks by last time run
 			$max_exec_time = (int)$incm_task['max_execution_time'];
 			if(!$max_exec_time){
 				//if no limitations for execution time for task - think it's 2 hours
 				$max_exec_time = 7200;
 			}
 			if( time() - dateISO2Int($incm_task['last_time_run']) > $max_exec_time ){
-				$this->data['incomplete_tasks_url'] = $this->html->getSecureURL('r/sale/contact/incompleted');
+				$this->data['incomplete_tasks_url'] = $this->html->getSecureURL('r/sale/contact/incomplete');
 				break;
 			}
 		}

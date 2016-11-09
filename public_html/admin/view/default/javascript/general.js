@@ -697,6 +697,10 @@ $(document).on('click', ".task_run", function () {
     $("body").first().after(modal);
     var options = {"backdrop": "static", 'show': true};
     $('#task_modal').modal(options);
+    $('#task_modal').on('hidden.bs.modal', function(e){
+            $.xhrPool.abortAll();
+        }
+    );
 
     $('#task_modal .modal-body').html('Building Task...');
 
@@ -859,9 +863,10 @@ var runTaskStepsUI = function (task_details) {
 
 var runTaskComplete = function (task_id) {
     if(task_fail){
-        task_complete_text += '<div class="alert-danger">' + defaultTaskMessages.task_failed + '</div>';
-        // replace progressbar by result message
-        $('#task_modal .modal-body').html(task_fail_text + task_complete_text);
+        $('#task_modal div.progress-info').append('<div class="alert-danger" data-toggle="collapse" href="#tsk_result_details" aria-expanded="false" aria-controls="tsk_result_details">' + defaultTaskMessages.task_failed + '</div>');
+        // add result message
+        $('#task_modal .modal-body').append('<div class="collapse panel-collapse task_result_message" role="tabpanel" id="tsk_result_details" aria-expanded="false"></div>');
+        $('#tsk_result_details').html(task_fail_text + task_complete_text);
         task_fail_text = task_complete_text = '';
     }else{
         $.ajax({
@@ -879,9 +884,10 @@ var runTaskComplete = function (task_id) {
                     mess = defaultTaskMessages.task_success;
                 }
 
-                task_complete_text += '<div class="alert-success">' + mess + '</div>';
-                // replace progressbar by result message
-                $('#task_modal .modal-body').html(task_complete_text);
+                $('#task_modal div.progress-info').append('<div class="alert-success" data-toggle="collapse" href="#tsk_result_details" aria-expanded="false" aria-controls="tsk_result_details">' + mess + '</div>');
+                // add result message
+                $('#task_modal .modal-body').append('<div class="collapse panel-collapse task_result_message" role="tabpanel" id="tsk_result_details" aria-expanded="false"></div>');
+                $('#tsk_result_details').html(task_complete_text);
                 task_complete_text = '';
             },
             error: function (xhr, ajaxOptions, thrownError) {
@@ -977,11 +983,12 @@ function do_seqAjax(ajaxes, attempts_count){
                 success: function (data, textStatus, xhr) {
                     var prc = Math.round((current+1) * 100 / steps_cnt);
                     $('div.progress-bar').css('width', prc + '%').html(prc + '%');
-                    task_complete_text += '<div class="alert-success">'
-                        +defaultTaskMessages.step+' '
-                        + (current+1) + ': '
-                        +defaultTaskMessages.success+'</div>';
-
+                    //task.php returns array of messages. so when one step called - take first
+                    var msg = defaultTaskMessages.step+' '
+                            + (current+1) + ': '
+                            +defaultTaskMessages.success
+                            + '<br/>' +data[0];
+                    task_complete_text += '<div class="alert-success">'+msg+'</div>';
                     attempts = 3;
                     current++;
                 },
@@ -1021,6 +1028,8 @@ function do_seqAjax(ajaxes, attempts_count){
                             task_fail = true;
                             xhr.abort();
                         }else{
+                            var prc = Math.round((current+1) * 100 / steps_cnt);
+                            $('div.progress-bar').css('width', prc + '%').html(prc + '%');
                             task_fail = true;
                             attempts = 3;
                         }

@@ -3330,6 +3330,11 @@ body.stickyheader .sticky_left {
    padding: 3px;
 
 }
+#task_modal .modal-body div.task_result_message{
+   overflow-y: auto;
+   max-height: 450px;
+
+}
 
 .input-group-cell{
    float: left;

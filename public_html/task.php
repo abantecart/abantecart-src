@@ -59,6 +59,7 @@ unset($_GET['s']);
 
 //detect run mode
 $command_line = false;
+$step_result = null;
 if (php_sapi_name() == "cli"){
 	//command line
 	echo "Running command line \n";
@@ -113,7 +114,7 @@ if($mode && !$task_id){
 elseif ($mode && $task_id && $step_id){
 	if($tm->canStepRun($task_id, $step_id)){
 		$step_details = $tm->getTaskStep($task_id, $step_id);
-		$tm->runStep($step_details);
+		$step_result = $tm->runStep($step_details);
 	}
 }
 //when start whole task
@@ -151,6 +152,16 @@ if($command_line){
 }elseif($mode == 'ajax'){
 	$registry->get('load')->library('json');
 	header('Content-Type: application/json;');
+	if($step_result === false){
+		//set response to null to prevent silent output
+		$registry->set('response', null);
+		//use AError class to send fail-response in ajax-mode
+		$err = new AError('task run error');
+		$err->toJSONResponse('APP_ERROR_402',
+							array( 'error_text' => nl2br(implode("\n", $run_log))
+							));
+		exit;
+	}
 	echo AJson::encode($run_log);
 	exit;
 }elseif($mode == 'html' && $command_line !== true && $step_id){
