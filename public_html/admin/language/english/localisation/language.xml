@@ -172,4 +172,8 @@
 		<key>text_task_title</key>
 		<value><![CDATA[Translation of Descriptions From %s to %s]]></value>
 	</definition>
+	<definition>
+		<key>error_nothing_to_do</key>
+		<value><![CDATA[Error: Please Set Source Language and Translation Method!]]></value>
+	</definition>
 </definitions>

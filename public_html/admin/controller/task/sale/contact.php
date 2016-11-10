@@ -25,6 +25,7 @@ class ControllerTaskSaleContact extends AController{
 	public $data = array();
 	private $protocol;
 	public function sendSms(){
+		$this->load->library('json');
 		//for aborting process
 		ignore_user_abort(false);
 		session_write_close();
@@ -37,10 +38,12 @@ class ControllerTaskSaleContact extends AController{
 		//update controller data
 		$this->extensions->hk_UpdateData($this, __FUNCTION__);
 
+		$this->response->setOutput(AJson::encode(array ('result' => $result, 'message' => '')));
 		return $result;
 	}
 
 	public function sendEmail(){
+		$this->load->library('json');
 		//for aborting process
 		ignore_user_abort(false);
 		session_write_close();
@@ -53,7 +56,7 @@ class ControllerTaskSaleContact extends AController{
 
 		//update controller data
 		$this->extensions->hk_UpdateData($this, __FUNCTION__);
-
+		$this->response->setOutput(AJson::encode(array ('result' => $result, 'message' => '')));
 		return $result;
 	}
 	private function _send(){

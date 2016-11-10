@@ -29,8 +29,9 @@ class ControllerResponsesLocalisationLanguageDescription extends AController{
 		//init controller data
 		$this->extensions->hk_InitData($this, __FUNCTION__);
 		$this->data['output'] = array ();
+		$this->loadLanguage('localisation/language');
 
-		if ($this->request->is_POST() && $this->_validate()){
+		if ($this->_validate()){
 			$this->loadModel('localisation/language');
 			$task_name = 'translation' . $this->request->post['source_language'] . '_' . $this->request->post['language_id'];
 			$task_details = $this->model_localisation_language->createTask($task_name, $this->request->post);
@@ -38,13 +39,13 @@ class ControllerResponsesLocalisationLanguageDescription extends AController{
 
 			if (!$task_details){
 				$this->errors = array_merge($this->errors, $this->model_localisation_language->errors);
-				$error = new AError('files backup error');
+				$error = new AError('translation task error');
 				return $error->toJSONResponse('APP_ERROR_402',
 						array ('error_text'  => implode(' ', $this->errors),
 						       'reset_value' => true
 						));
 			} elseif (!$task_api_key){
-				$error = new AError('files backup error');
+				$error = new AError('translation task error');
 				return $error->toJSONResponse('APP_ERROR_402',
 						array ('error_text'  => 'Please set up Task API Key in the settings!',
 						       'reset_value' => true
@@ -55,6 +56,12 @@ class ControllerResponsesLocalisationLanguageDescription extends AController{
 				$this->data['output']['task_details'] = $task_details;
 			}
 
+		}else{
+			$error = new AError('translation task error');
+			return $error->toJSONResponse('APP_ERROR_402',
+									array ('error_text'  => implode(' ', $this->errors),
+									       'reset_value' => true
+									));
 		}
 
 		//update controller data
@@ -64,6 +71,24 @@ class ControllerResponsesLocalisationLanguageDescription extends AController{
 		$this->response->addJSONHeader();
 		$this->response->setOutput(AJson::encode($this->data['output']));
 
+	}
+
+	private function _validate(){
+		if (!$this->user->canModify('localisation/language')){
+			$this->errors['warning'] = $this->language->get('error_permission');
+		}
+
+		if (!$this->request->post['source_language'] || !$this->request->post['translate_method']){
+			$this->errors['warning'] = $this->language->get('error_nothing_to_do');
+		}
+
+		$this->extensions->hk_ValidateData($this);
+
+		if (!$this->errors){
+			return true;
+		} else{
+			return false;
+		}
 	}
 
 	/**
@@ -256,21 +281,5 @@ class ControllerResponsesLocalisationLanguageDescription extends AController{
 
 	}
 
-	private function _validate(){
-		if (!$this->user->canModify('localisation/language')){
-			$this->errors['warning'] = $this->language->get('error_permission');
-		}
 
-		if (!$this->request->post['source_language'] || !$this->request->post['translate_method']){
-			$this->errors['warning'] = $this->language->get('error_nothing_to_do');
-		}
-
-		$this->extensions->hk_ValidateData($this);
-
-		if (!$this->errors){
-			return true;
-		} else{
-			return false;
-		}
-	}
 }
