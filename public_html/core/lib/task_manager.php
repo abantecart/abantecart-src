@@ -202,6 +202,7 @@ class ATaskManager{
 		$task_id = (int)$step_details['task_id'];
 		$step_id = (int)$step_details['step_id'];
 		if(!$step_id || !$task_id){
+
 			return false;
 		}
 
@@ -218,15 +219,14 @@ class ATaskManager{
 		try{
 			$dd = new ADispatcher($step_details['controller'], $step_details['settings']);
 			// waiting for result array from step's controller
-			$response = $dd->dispatchGetOutput($step_details['controller']);
+			$response = $dd->dispatchGetOutput();
 
 			//check is result have json-formatted string
 			$json = json_decode($response, true);
 			if(json_last_error() == JSON_ERROR_NONE){
 				$response = $json;
 			}
-
-			$result = isset($response['result']) && $response['result'] == true ? true : false;
+			$result = isset($response['result']) && $response['result'] ? true : false;
 			if($result){
 				$response_message = isset($response['message']) ? $response['message'] : '';
 			}else{
@@ -234,6 +234,7 @@ class ATaskManager{
 			}
 		} catch(AException $e){
 			$result = false;
+
 		}
 
 		$this->_update_step_state(
@@ -366,7 +367,7 @@ class ATaskManager{
 			return null;
 		}
 		if($this->mode=='html'){
-			$this->run_log[] = '<p style="color: ' . ($msg_code ? 'green' : 'red') . '">' . $message . "</p>";
+			$this->run_log[] = '<i style="color: ' . ($msg_code ? 'green' : 'red') . '">' . $message . "</i>";
 		}else{
 			$this->run_log[] = $message;
 		}
@@ -771,7 +772,7 @@ class ATaskManager{
 	 */
 	public function getTasks($data = array ()){
 
-		$sql = "SELECT *
+		$sql = "SELECT td.*, t.*
 				FROM " . $this->db->table('tasks') . " t
 				LEFT JOIN " . $this->db->table('task_details') . " td ON td.task_id = t.task_id
 				WHERE 1=1 ";

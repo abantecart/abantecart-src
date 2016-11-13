@@ -105,8 +105,8 @@
 		<value><![CDATA[SMS]]></value>
 	</definition>
 	<definition>
-		<key>text_incompleted_tasks</key>
-		<value><![CDATA[Incompleted Tasks]]></value>
+		<key>text_incomplete_tasks</key>
+		<value><![CDATA[Incomplete Tasks]]></value>
 	</definition>
 	<definition>
 		<key>text_task_id</key>

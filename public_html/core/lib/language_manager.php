@@ -172,7 +172,7 @@ class ALanguageManager extends Alanguage{
 
 	/**
 	 * Insert or Update definitions and translate if configured of serialized data by given keys
-	 * More stable aproach, but add extra select. If sure that you do update use updateDescriptionsSerialized
+	 * More stable approach, but add extra select. If sure that you do update use updateDescriptionsSerialized
 	 * @param string $table_name - database table name with no prefix
 	 * @param array $index - unique index to perform select (associative array with column name as key)
 	 * @param array $txt_data - text data array. Format: [language id][key] => [value]
@@ -248,17 +248,17 @@ class ALanguageManager extends Alanguage{
 				//translate all active languages
 				foreach ($this->getActiveLanguages() as $lang){
 					$language_id = $lang['language_id'];
-					//skip source language and just inputed languages (updated before)
+					//skip source language and just added languages (updated before)
 					if ($lang['code'] == $src_lang_code || !empty($txt_data[$language_id])){
 						continue;
 					}
 					$dest_lang_code = $this->getLanguageCodeByLocale($lang['locale']);
 					//get existing data and check if we create or update
-					$newindex = array_merge($index, array ('language_id' => $language_id));
-					$descriptions = $this->getDescriptions($table_name, $newindex);
+					$new_index = array_merge($index, array ('language_id' => $language_id));
+					$descriptions = $this->getDescriptions($table_name, $new_index);
 					if (count($descriptions) && $config->get('translate_override_existing')){
 						//clean up if we need to translate again
-						$this->deleteDescriptions($table_name, $newindex);
+						$this->deleteDescriptions($table_name, $new_index);
 						$descriptions = array ();
 					}
 
@@ -415,19 +415,19 @@ class ALanguageManager extends Alanguage{
 			$language_id = $lang['language_id'];
 			$new_txt_data = array ();
 			$update_txt_data = array ();
-			//skip source language and just inputed languages (updated before)
+			//skip source language and just added languages (updated before)
 			if ($lang['code'] == $src_lang_code || !empty($txt_data[$language_id])){
 				continue;
 			}
 			$dest_lang_code = $this->getLanguageCodeByLocale($lang['locale']);
 			//get existing data and check if we create or update
-			$newindex = array_merge($index, array ('language_id' => $language_id));
-			$descriptions = $this->getDescriptions($table_name, $newindex);
+			$new_index = array_merge($index, array ('language_id' => $language_id));
+			$descriptions = $this->getDescriptions($table_name, $new_index);
 			if (count($descriptions)){
 				//updates expect only 1 row per this index
 				foreach ($descriptions[0] as $key => $value){
 					$txt_to_translate = $txt_data[$src_lang_id][$key];
-					//check if force override settings is enabled and skip if transltion esits
+					//check if force override settings is enabled and skip if translation exists
 					if (($config->get('translate_override_existing') && !empty($txt_to_translate))
 							|| (empty($value) && !empty($txt_to_translate))
 					){
@@ -464,7 +464,7 @@ class ALanguageManager extends Alanguage{
 				}
 			}
 
-			//we have somethign to save
+			//we have something to save
 			if (count($new_txt_data)){
 				$this->_do_insert_descriptions($table_name, $index, $new_txt_data);
 			}
@@ -485,7 +485,7 @@ class ALanguageManager extends Alanguage{
 	public function deleteAllLanguageEntries($language_id){
 		if (empty($language_id)) return null;
 
-		$tables = $this->_get_language_based_tables();
+		$tables = $this->getLanguageBasedTables();
 		foreach ($tables as $table_name){
 			//Skip history based tables
 			if (strstr($table_name['table_name'], 'orders')){
@@ -504,14 +504,14 @@ class ALanguageManager extends Alanguage{
 	public function cloneToAllLanguages($table, $source_language){
 		$source_language = (int)$source_language;
 		$ret_str = '';
-		// for each langauge Call _clone_language_rows
+		// for each language call cloneLanguageRows
 		foreach ($this->available_languages as $lng){
 			$language_id = $lng['language_id'];
 			if ($language_id == $source_language){
 				continue;
 			}
-			$pkeys = $this->_get_primary_keys($table);
-			$ret_str .= $this->_clone_language_rows($table, $pkeys, $language_id, $source_language);
+			$pkeys = $this->getPrimaryKeys($table);
+			$ret_str .= $this->cloneLanguageRows($table, $pkeys, $language_id, $source_language);
 		}
 		return $ret_str;
 	}
@@ -563,7 +563,7 @@ class ALanguageManager extends Alanguage{
 		$this->definitionAutoLoad((int)$language_id, 'all', 'all');
 
 		$ret_str = '';
-		$tables = $this->_get_language_based_tables();
+		$tables = $this->getLanguageBasedTables();
 		foreach ($tables as $table_name){
 			$pkeys = array ();
 			//Set special case table
@@ -574,10 +574,10 @@ class ALanguageManager extends Alanguage{
 				continue;
 			} else{
 				#get primary keys
-				$pkeys = $this->_get_primary_keys($table_name['table_name']);
+				$pkeys = $this->getPrimaryKeys($table_name['table_name']);
 			}
 
-			$ret_str .= $this->_clone_language_rows($table_name['table_name'], $pkeys, $language_id, $source_language_id, '', $translate_method);
+			$ret_str .= $this->cloneLanguageRows($table_name['table_name'], $pkeys, $language_id, $source_language_id, '', $translate_method);
 		}
 		return $ret_str;
 	}
@@ -724,7 +724,7 @@ class ALanguageManager extends Alanguage{
 	/**
 	 * @deprecated
 	 * Clone language_definition text that is present in source language and missing in destination
-	 * Possibly USLESS NOW ????
+	 * Possibly USELESS NOW ????
 	 * @param $block
 	 * @param $language_id
 	 * @param $source_language
@@ -738,7 +738,7 @@ class ALanguageManager extends Alanguage{
 		array_push($pkeys, 'language_definition_id', 'language_id', 'section', 'block', 'language_key');
 		$section = $this->is_admin ? 1 : 0;
 		$specific_sql = " AND block = '" . $block . "' AND section = '" . $section . "'";
-		return $this->_clone_language_rows(DB_PREFIX . 'language_definitions', $pkeys, $language_id, $source_language, $specific_sql);
+		return $this->cloneLanguageRows(DB_PREFIX . 'language_definitions', $pkeys, $language_id, $source_language, $specific_sql);
 	}
 
 	/**
@@ -868,7 +868,7 @@ class ALanguageManager extends Alanguage{
 	 * @param string $translate_method
 	 * @return null|string
 	 */
-	private function _clone_language_rows($table, $pkeys, $new_language, $from_language = 1, $specific_sql = '', $translate_method = ''){
+	public function cloneLanguageRows($table, $pkeys, $new_language, $from_language = 1, $specific_sql = '', $translate_method = ''){
 
 		$new_language = (int)$new_language;
 		$from_language = (int)$from_language;
@@ -882,7 +882,7 @@ class ALanguageManager extends Alanguage{
 		$auto_column = $autoincrement->row['Field'];
 
 		//get all fields that are translatable
-		$translatable_fields = $this->_get_translatable_fields($table);
+		$translatable_fields = $this->getTranslatableFields($table);
 
 		//Build a keys string for select
 		$keys_str = '';
@@ -896,6 +896,7 @@ class ALanguageManager extends Alanguage{
 		$sql = "SELECT " . $keys_str . "
 				FROM " . $table . "
 				WHERE language_id = " . $from_language . $specific_sql;
+
 		$tables_query = $this->db->query($sql);
 		if ($tables_query->num_rows){
 			$langs = array ();
@@ -912,11 +913,11 @@ class ALanguageManager extends Alanguage{
 					//Skip language_id and autoincrement from the key. autoincrement is unique by itself.
 					if ($key != 'language_id' && $key != $auto_column){
 						if (in_array($row[$key], $langs)){
-							$where_sql_1 .= " AND $key = '" . $langs[$new_language] . "'";
-							$where_sql_2 .= " AND $key = '" . $langs[$from_language] . "'";
+							$where_sql_1 .= " AND ".$key." = '" . $this->db->escape($langs[$new_language]) . "'";
+							$where_sql_2 .= " AND ".$key." = '" . $this->db->escape($langs[$from_language]) . "'";
 						} else{
-							$where_sql_1 .= " AND $key = '" . $row[$key] . "'";
-							$where_sql_2 .= " AND $key = '" . $row[$key] . "'";
+							$where_sql_1 .= " AND ".$key." = '" . $this->db->escape($row[$key]) . "'";
+							$where_sql_2 .= " AND ".$key." = '" . $this->db->escape($row[$key]) . "'";
 						}
 					}
 				}
@@ -951,28 +952,30 @@ class ALanguageManager extends Alanguage{
 					}
 
 					if (!empty($insert_data)){
-						$insrt_sql = "INSERT INTO " . $table . "(" . implode(',', array_keys($insert_data)) . ") VALUES ('" . implode("','", $insert_data) . "')";
-						ADebug::variable('class ALanguage cloning data: ', $insrt_sql);
+						$insert_sql = "REPLACE INTO " . $table . "
+											(" . implode(',', array_keys($insert_data)) . ")
+										VALUES ('" . implode("','", $insert_data) . "')";
+						ADebug::variable('class ALanguage cloning data: ', $insert_sql);
 
-						if ($table == DB_PREFIX . 'language_definitions'){
+						if ($table == $this->db->table('language_definitions')){
 							//#PR There are some key condition in definitions that can be duplicate (CASE: block = 'english' main language ) skip
 							//We assume that main language XML need to be present 
 							//TODO rename main language file to common.xml
 							if (!$this->_is_definition_in_db($insert_data)){
-								$this->db->query($insrt_sql);
+								$this->db->query($insert_sql);
 							} else{
 								continue;
 							}
-						} else if ($table == DB_PREFIX . 'product_tags'){
+						} else if ($table == $this->db->table('product_tags')){
 							// TODO. ac_product_tags still an issue. Will be clonned as duplication on each translation. 
 							//		 Issue. Can not check if translation is present because of no IDs present in ac_product_tags
 							// Offset duplicate error for now. 
-							if (!$this->db->query($insrt_sql, true)){
+							if (!$this->db->query($insert_sql, true)){
 								//skip count on error
 								continue;
 							}
 						} else{
-							$this->db->query($insrt_sql);
+							$this->db->query($insert_sql);
 						}
 						$tcount++;
 					}
@@ -986,19 +989,10 @@ class ALanguageManager extends Alanguage{
 	}
 
 	/**
-	 * Probably useless!
-	 * @deprecated
-	 * @return array
-	 */
-	private function getMultilingualTables(){
-		$this->_get_language_based_tables();
-	}
-
-	/**
 	 * #PR select all tables that use language_id field and related to language
 	 * @return array
 	 */
-	private function _get_language_based_tables(){
+	public function getLanguageBasedTables(){
 		$cache_key = 'tables.language_based_tables';
 		$load_data = array ();
 		if ($this->cache){
@@ -1022,7 +1016,7 @@ class ALanguageManager extends Alanguage{
 	 * @param string $table_name
 	 * @return array
 	 */
-	private function _get_translatable_fields($table_name){
+	public function getTranslatableFields($table_name){
 		if (empty($table_name)) return array ();
 
 		$cache_key = "tables.translatable." . $table_name;
@@ -1045,7 +1039,7 @@ class ALanguageManager extends Alanguage{
 			    	GROUP BY column_name";
 			$load_sql = $this->db->query($sql);
 			$load_data = $load_sql->rows;
-			//transform to single dimention
+			//transform to single dimension
 			foreach ($load_data as $row){
 				$result[] = $row['column_name'];
 			}
@@ -1064,7 +1058,7 @@ class ALanguageManager extends Alanguage{
 	 * @param $table_name
 	 * @return array
 	 */
-	private function _get_primary_keys($table_name){
+	public function getPrimaryKeys($table_name){
 		$pkeys = array ();
 		#get primary keys
 		$sql = "SHOW INDEX FROM " . $table_name . "

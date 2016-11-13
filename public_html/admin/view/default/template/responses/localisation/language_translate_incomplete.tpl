@@ -8,15 +8,14 @@
 	<div class="panel-body panel-body-nopadding">
 		<div class="form-group">
 		<?php
-		$fields = array('task_id', 'starter_name', 'date_added', 'last_time_run', 'subject', 'message', 'was_sent' );
+		$fields = array('task_id', 'title', 'starter_name', 'date_added', 'last_time_run');
 		if ($tasks) {
 			foreach ($tasks as $task){
-				foreach ($task as $key => $item){
+				foreach ($fields as $key){
 					if(!in_array($key,$fields)){
 						continue;
 					}
-					echo '<dl class="dl-horizontal"><dt>' . $this->language->get('text_' . $key) . '</dt><dd>' . $item . '</dd></dl>';
-
+					echo '<dl class="dl-horizontal"><dt>' . $this->language->get('text_' . $key) . '</dt><dd>' . $task[$key] . '</dd></dl>';
 				}
 				echo '<dl class="dl-horizontal"><dt></dt><dd>
 					<a class="restart_task btn btn-primary task_run"

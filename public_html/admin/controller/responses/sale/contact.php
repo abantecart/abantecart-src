@@ -193,6 +193,9 @@ class ControllerResponsesSaleContact extends AController {
 			}else{
 				$task_details['task_api_key'] = $task_api_key;
 				$task_details['url'] = HTTPS_SERVER . 'task.php';
+				//change task status
+				$task_details['status'] = $tm::STATUS_READY;
+				$tm->updateTask($task_id, array('status' => $tm::STATUS_READY));
 			}
 
 			foreach ($etas as $step_id => $eta){
@@ -228,13 +231,6 @@ class ControllerResponsesSaleContact extends AController {
 
 		//update controller data
 		$this->extensions->hk_UpdateData($this,__FUNCTION__);
-	}
-
-	/**
-	 * @deprecated since 1.2.9
-	 */
-	public function incompleted(){
-		return $this->incomplete();
 	}
 
 	public function incomplete(){

@@ -6,7 +6,21 @@
 		<div class="primary_content_actions pull-left">
 		</div>
 
-		<?php include($tpl_common_dir . 'content_buttons.tpl'); ?>	
+		<?php
+		if($incomplete_tasks_url){
+			$common_content_buttons[] = '<a class="btn btn-danger"
+											href="'.$incomplete_tasks_url.'"
+											data-toggle="modal"
+											data-target="#incomplete_tasks_modal"
+											title="'.$text_incomplete_tasks.'">
+											<i class="fa fa-exclamation-triangle fa-lg"></i> '.$text_incomplete_tasks.'</a>';
+			echo $this->html->buildElement(
+					array('type' => 'modal',
+							'id' => 'incomplete_tasks_modal',
+							'title' => $text_incomplete_tasks,
+							'data_source' => 'ajax'));
+		}
+		include($tpl_common_dir . 'content_buttons.tpl'); ?>
 	</div>
 
 	<?php echo $form['form_open']; ?>
@@ -57,8 +71,11 @@
 	<div class="panel-body panel-body-nopadding tab-content col-xs-12">
 
 		<label class="h4 heading"><?php echo $load_language_title; ?></label>
-			<?php foreach ($form2['fields'] as $name => $field) { ?>
-			<?php
+			<?php foreach ($form2['fields'] as $name => $field) {
+				if($field->type == 'hidden'){
+					echo  $field;
+					continue;
+				}
 				//Logic to calculate fields width
 				$widthcasses = "col-sm-7";
 				if ( is_int(stripos($field->style, 'large-field')) ) {
@@ -89,7 +106,9 @@
 	
 	<div class="panel-footer col-xs-12">
 		<div class="text-center">
-		  <button class="btn btn-primary lock-on-click">
+		  <button class="btn btn-primary task_run"
+		        data-run-task-url="<?php echo $form2['build_task_url']?>"
+		  		data-complete-task-url="<?php echo $form2['complete_task_url']?>">
 		  <i class="fa fa-save"></i> <?php echo $form2['load_data']->text; ?>
 		  </button>
 		</div>
@@ -98,3 +117,21 @@
 <?php } ?>
 
 </div>
+
+<script language="JavaScript" type="application/javascript">
+	function removeTask(elm){
+		$.ajax({
+			type: "POST",
+			url: '<?php echo $form['abort_task_url'];?>',
+			data: {task_id: $(elm).attr('data-task_id')},
+			datatype: 'json',
+			complete: function(){
+				location.reload();
+			}
+		});
+	}
+
+	$(document).on('click', 'a.restart_task', function(){
+		$('#incomplete_tasks_modal').modal('hide');
+	});
+</script>
