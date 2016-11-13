@@ -1,5 +1,6 @@
 
-# AbanteCart
+# AbanteCart eCommerce Platform [![Build Status](https://travis-ci.org/abantecart/abantecart-src.svg?branch=master)](https://travis-ci.org/abantecart/abantecart-src)
+
 
 ## Overview
 
