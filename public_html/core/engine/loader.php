@@ -64,15 +64,15 @@ final class ALoader{
 	}
 
 	/**
-	 * @param string $model
-	 * @param string $mode
-	 * @return bool
+	 * @param string $model - rt to model class
+	 * @param string $mode - can be 'storefront','force'
+	 * @return bool | object
 	 * @throws AException
 	 */
 	public function model($model, $mode = ''){
 
-		//force mode alows to load models for ALL extensions to bypass extension enabled only status
-		//This might be helpful in storefront. In admin all installed extenions are available 
+		//force mode allows to load models for ALL extensions to bypass extension enabled only status
+		//This might be helpful in storefront. In admin all installed extensions are available
 		$force = '';
 		if ($mode == 'force'){
 			$force = 'all';
@@ -96,7 +96,7 @@ final class ALoader{
 		$class = 'Model' . preg_replace('/[^a-zA-Z0-9]/', '', $model);
 		$obj_name = 'model_' . str_replace('/', '_', $model);
 
-		//if modal is loaded return it back 
+		//if model is loaded return it back
 		if (is_object($this->registry->get($obj_name))){
 			return $this->registry->get($obj_name);
 		} else if (file_exists($file)){
