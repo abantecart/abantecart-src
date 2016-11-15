@@ -52,9 +52,16 @@
 			<label class="control-label col-sm-3 col-xs-12"><?php echo $field[0]; ?></label> 
 			<div id="<?php echo $name?>_wrp" class="input-group afield form-inline col-sm-9">
 				<div class="input-group input-group-sm afield col-sm-2"><?php echo $field[1]; ?></div>	
-				<div class="input-group input-group-sm col-sm-3 text-right"><?php echo $field[2]; ?></div>			
+				<div class="input-group input-group-sm col-sm-3 text-right">
+				<label class="control-label">
+					<?php echo $field[2]; ?></div>
+				</label>	
 				<div class="input-group input-group-sm afield col-sm-1"><?php echo $field[3]; ?></div>			
-				<div class="input-group input-group-sm col-sm-1 text-right"><?php echo $field[4]; ?></div>			
+				<div class="input-group input-group-sm col-sm-1 text-right">
+				<label class="control-label">
+					<?php echo $field[4]; ?>
+				</label>	
+				</div>			
 				<div class="input-group input-group-sm afield col-sm-1"><?php echo $field[5]; ?></div>			
 				<div class="input-group input-group-sm afield col-sm-1"><?php echo $field[6]; ?></div>			
 			</div>

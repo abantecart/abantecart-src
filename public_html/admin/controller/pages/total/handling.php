@@ -201,7 +201,7 @@ class ControllerPagesTotalHandling extends AController {
 							'value' => $this->data['handling_per_payment']['handling_payment_subtotal'][$i],
 							'style' => 'small-field'
 					)),
-					$this->language->get('entry_fee'),
+					$this->language->get('entry_payment_fee'),
 					$form->getFieldHtml(array(
 							'type' => 'selectbox',
 							'name' => 'handling_payment_prefix[' . $product_option_value_id . ']',
