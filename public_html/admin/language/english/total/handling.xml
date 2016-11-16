@@ -18,19 +18,19 @@
 	</definition>
 	<definition>
 		<key>entry_total</key>
-		<value><![CDATA[Order Total:<span class="help">Minimum order amount to be reached to apply the fee. If customer order total will exceed this amount, handling feee will not be applied. This value is overriden with payment specific setting.</span>]]></value>
+		<value><![CDATA[Order Total:<span class="help">Minimum order amount to be reached to apply the fee. If customer order total will exceed this amount, handling feee will not be applied. This value is overridden with payment specific setting.</span>]]></value>
 	</definition>
 	<definition>
 		<key>entry_total_placeholder</key>
-		<value><![CDATA[Text Value]]></value>
+		<value><![CDATA[Order Amount]]></value>
 	</definition>
 	<definition>
 		<key>entry_fee</key>
-		<value><![CDATA[Fee:<span class="help">Free to be added to order total if minimum amount condifion is not met. This amount is overriden by payment specific setting</span>]]></value>
+		<value><![CDATA[Fee:<span class="help">Free to be added to order total if minimum amount condition is not met. This amount is overridden by payment specific setting</span>]]></value>
 	</definition>
 	<definition>
 		<key>entry_payment_fee</key>
-		<value><![CDATA[Fee:<span class="help">Free to be added to order total if minimum sub-total amount condition is not met. This amount overrids main fee setting</span>]]></value>
+		<value><![CDATA[Fee:<span class="help">Free to be added to order total if minimum sub-total amount condition is not met. This amount override main fee setting</span>]]></value>
 	</definition>
 	<definition>
 		<key>entry_payment</key>
@@ -42,7 +42,7 @@
 	</definition>
 	<definition>
 		<key>entry_tax</key>
-		<value><![CDATA[Tax Class::<span class="help">Select if you need tax to be applied ontop of the handling fee</span>]]></value>
+		<value><![CDATA[Tax Class:<span class="help">Select if you need tax to be applied on-top of the handling fee</span>]]></value>
 	</definition>
 	<definition>
 		<key>entry_status</key>
