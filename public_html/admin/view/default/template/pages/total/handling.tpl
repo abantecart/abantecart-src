@@ -63,7 +63,10 @@
 				</label>	
 				</div>			
 				<div class="input-group input-group-sm afield col-sm-1"><?php echo $field[5]; ?></div>			
-				<div class="input-group input-group-sm afield col-sm-1"><?php echo $field[6]; ?></div>			
+				<div class="input-group input-group-sm afield col-sm-1"><?php echo $field[6]; ?></div>
+				<div class="input-group input-group-sm afield col-sm-1">
+					<a class="remove btn btn-xs btn-danger-alt" title="Remove"><i class="fa fa-minus-circle"></i></a>
+				</div>
 			</div>
 		<?php } ?>	
 		</div>
@@ -92,10 +95,15 @@
 		var btn = '<a class="add btn btn-success" title="<?php echo $text_add?>" href="#"><i class="fa fa-plus-circle fa-lg"></i></a>';
 		$('div[id*="payment_fee"]').last().parents('.form-group').after('<div class="form-group"><label class="control-label col-sm-3 col-xs-12"></label><div class="input-group afield">'+btn+'</div></div>');
 
-		$('a.add').click(function(){
+		$('.panel-body').on('click', 'a.add',function(){
 			var new_row = $('div[id*="payment_fee"]').last().parents('.form-group').clone();
 			$('div[id*="payment_fee"]').last().parents('.form-group').after(new_row);
 			return false;
 		});
+
+		$('.panel-body').on('click', 'a.remove', function(){
+			$(this).closest('.form-group').remove();
+		});
+
 	});
 </script>
