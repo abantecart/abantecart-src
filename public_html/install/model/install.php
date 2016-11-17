@@ -283,8 +283,9 @@ class ModelInstall extends Model{
 
 		//clear cache dir in case of reinstall
 		$cache = new ACache();
+		$cache->setCacheStorageDriver('file');
+		$cache->enableCache();
 		$cache->remove('*');
-
 	}
 
 	/**
@@ -296,20 +297,20 @@ class ModelInstall extends Model{
 			SELECT DISTINCT TABLE_NAME 
 		    FROM INFORMATION_SCHEMA.COLUMNS
 		    WHERE COLUMN_NAME IN ('date_added')
-		    AND TABLE_SCHEMA='" . $database_name . "'";
+		    AND TABLE_SCHEMA='" . $db->escape($database_name) . "'";
 
 		$query = $db->query($tables_sql);
 		foreach ($query->rows as $t){
 			$table_name = $t['TABLE_NAME'];
-			$triger_name = $table_name . "_date_add_trg";
+			$trigger_name = $table_name . "_date_add_trg";
 
-			$triger_checker = $db->query("SELECT TRIGGER_NAME
+			$trigger_checker = $db->query("SELECT TRIGGER_NAME
 								FROM information_schema.triggers
-								WHERE TRIGGER_SCHEMA = '" . $database_name . "' AND TRIGGER_NAME = '$triger_name'");
+								WHERE TRIGGER_SCHEMA = '" . $db->escape($database_name) . "' AND TRIGGER_NAME = '".$db->escape($trigger_name)."'");
 			if (!$query->row[0]){
 				//create trigger
 				$sql = "
-				CREATE TRIGGER `$triger_name` BEFORE INSERT ON `$table_name` FOR EACH ROW
+				CREATE TRIGGER `".$db->escape($trigger_name)."` BEFORE INSERT ON `".$db->escape($table_name)."` FOR EACH ROW
 				BEGIN
 		    		SET NEW.date_added = NOW();
 				END;
@@ -359,6 +360,8 @@ class ModelInstall extends Model{
 		}
 		//clear earlier created cache by AConfig and ALanguage classes in previous step
 		$cache = new ACache();
+		$cache->setCacheStorageDriver('file');
+		$cache->enableCache();
 		$cache->remove('*');
 		return null;
 	}
