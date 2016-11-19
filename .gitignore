@@ -3,6 +3,7 @@
 *.iml
 *.ipr
 *.iws
+*.swp
 
 #abantecart files
 public_html/admin/system/updates.xml
@@ -13,10 +14,3 @@ public_html/system/cache/*
 public_html/system/logs/*
 public_html/system/config.php
 public_html/image/thumbnails/
-
-
-public_html/admin/view/default/template/pages/catalog/product_files.tpl
-
-*.swp
-
-public_html/storefront/controller/pages/account/download.php
