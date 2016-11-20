@@ -529,12 +529,14 @@ class ModelToolGlobalSearch extends Model {
 				break;
 
 			case "customers" :
+			    $customer_needle = '+"'.implode('" +"', explode(' ', $needle)).'"';
 				$sql = "SELECT customer_id, CONCAT('" . ($mode == 'listing' ? "customer: " : "") . "', firstname,' ',lastname) as title,
 							CONCAT(firstname,' ',lastname,' ',email)  as text
 						FROM " . $this->db->table("customers") . " 
-						WHERE ((LOWER(firstname) like '%" . $needle . "%')
-							OR (LOWER(lastname) like '%" . $needle . "%')
-							OR (LOWER(email) like '%" . $needle . "%')	)
+						WHERE (
+							    MATCH(firstname, lastname) AGAINST ('".$customer_needle."' IN BOOLEAN MODE)
+							OR  (LOWER(email) like '%" . $needle . "%')
+							)
 						LIMIT " . $offset . "," . $rows_count;
 				$result = $this->db->query($sql);
 				$result = $result->rows;

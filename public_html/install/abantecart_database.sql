@@ -689,7 +689,7 @@ CREATE TABLE `ac_customers` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
 
 CREATE INDEX `ac_customers_idx` ON `ac_customers` ( `store_id`, `address_id`, `customer_group_id` );
-
+CREATE FULLTEXT INDEX `ac_customers_name_idx` ON `ac_customers` (`firstname`, `lastname`);
 --
 -- DDL for table `customer_groups`
 --
