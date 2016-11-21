@@ -424,7 +424,12 @@ class ControllerPagesCheckoutPayment extends AController{
 		}
 
 		$this->data['agree'] = $this->request->post['agree'];
-		$this->data['back'] = $this->cart->hasShipping() ? $this->html->getSecureURL($checkout_rt) : $this->data['back'] = $this->html->getSecureURL($cart_rt);
+        //check return URL. If no or only one shipping go back to cart page
+        if( $this->request->get['back'] == 'cart' || !$this->cart->hasShipping() ) {
+            $this->data['back'] =  $this->html->getSecureURL($cart_rt);
+        } else {
+            $this->data['back'] = $this->html->getSecureURL($checkout_rt);
+        }
 
 		$this->data['form']['back'] = $form->getFieldHtml(array ('type'  => 'button',
 		                                                         'name'  => 'back',

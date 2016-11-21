@@ -73,7 +73,7 @@ class ControllerPagesCheckoutShipping extends AController{
 			unset($this->session->data['shipping_methods']);
 
 			$this->tax->setZone($this->session->data['country_id'], $this->session->data['zone_id']);
-			$this->redirect($this->html->getSecureURL($payment_rt));
+			$this->redirect($this->html->getSecureURL($payment_rt, "&back=cart"));
 		}
 
 		//If no shipping address is set yet, use default
@@ -153,7 +153,7 @@ class ControllerPagesCheckoutShipping extends AController{
 				if ($autoselect){
 					if (sizeof($only_method[$method_name]['quote']) == 1){
 						$this->session->data['shipping_method'] = current($only_method[$method_name]['quote']);
-						$this->redirect($this->html->getSecureURL($payment_rt));
+						$this->redirect($this->html->getSecureURL($payment_rt,"&back=cart"));
 					}
 				}
 			}
