@@ -123,6 +123,10 @@
 		<value><![CDATA[Success: Your coupon discount has been applied!]]></value>
 	</definition>
 	<definition>
+		<key>text_coupon_removal</key>
+		<value><![CDATA[Success: Coupon has been removed!]]></value>
+	</definition>
+	<definition>
 		<key>error_quantity_maximum</key>
 		<value><![CDATA[Allowed product's quantity exceeds. Quantity was set to maximum.]]></value>
 	</definition>

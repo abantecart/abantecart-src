@@ -46,15 +46,24 @@ class ControllerPagesCheckoutPayment extends AController{
 		}
 
 		//Selections are posted, validate and apply
-		if ($this->request->is_POST() && isset($this->request->post['coupon']) && $this->_validateCoupon()){
-			$this->session->data['coupon'] = $this->request->post['coupon'];
-			$this->session->data['success'] = $this->language->get('text_success');
+        if ($this->request->is_POST() && isset($this->request->post['coupon'])) {
+            if(isset($this->request->post['reset_coupon'])) {
+                //remove coupon
+                unset($this->session->data['coupon']);
+                $this->session->data['success'] = $this->language->get('text_coupon_removal');
 
-			//process data
-			$this->extensions->hk_ProcessData($this, 'apply_coupon');
+                //process data
+                $this->extensions->hk_ProcessData($this, 'reset_coupon');
+                $this->redirect($this->html->getSecureURL($payment_rt));
+            } else if($this->_validateCoupon()) {
+                $this->session->data['coupon'] = $this->request->post['coupon'];
+                $this->session->data['success'] = $this->language->get('text_success');
 
-			$this->redirect($this->html->getSecureURL($payment_rt));
-		}
+                //process data
+                $this->extensions->hk_ProcessData($this, 'apply_coupon');
+                $this->redirect($this->html->getSecureURL($payment_rt));
+            }
+        }
 
 		$order_totals = $this->cart->buildTotalDisplay(true);
 		$order_total = $order_totals['total'];
@@ -291,9 +300,12 @@ class ControllerPagesCheckoutPayment extends AController{
 
 		$this->data['change_address_href'] = $this->html->getSecureURL($address_rt);
 
-		$this->view->assign('coupon_status', $this->config->get('coupon_status'));
-		$coupon_form = $this->dispatch('blocks/coupon_codes', array ('action' => $action));
-		$this->view->assign('coupon_form', $coupon_form->dispatchGetOutput());
+        if($this->config->get('coupon_status')) {
+            $this->view->assign('coupon_status', $this->config->get('coupon_status'));
+            $coupon_form = $this->dispatch('blocks/coupon_codes', array ('action' => $action));
+            $this->view->assign('coupon_form', $coupon_form->dispatchGetOutput());
+            unset($coupon_form);
+        }
 
 		$this->data['address'] = $this->customer->getFormattedAddress($payment_address, $payment_address['address_format']);
 

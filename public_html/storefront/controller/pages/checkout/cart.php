@@ -77,13 +77,23 @@ class ControllerPagesCheckoutCart extends AController{
 		} else if ($this->request->is_POST()){
 
 			//if this is coupon, validate and apply
-			if (isset($this->request->post['coupon']) && $this->_validateCoupon()){
+            if(isset($this->request->post['reset_coupon'])) {
+                //remove coupon
+                unset($this->session->data['coupon']);
+                $this->data['success'] = $this->language->get('text_coupon_removal');
+                unset($this->session->data['success']);
+
+                //process data
+                $this->extensions->hk_ProcessData($this, 'reset_coupon');
+
+            } else if (isset($this->request->post['coupon']) && $this->_validateCoupon()){
 				$this->session->data['coupon'] = $this->request->post['coupon'];
-				$this->data['success'] = $this->session->data['success'] = $this->language->get('text_coupon_success');
+				$this->data['success'] = $this->language->get('text_coupon_success');
 				unset($this->session->data['success']);
 				//process data
 				$this->extensions->hk_ProcessData($this, 'apply_coupon');
 			}
+
 			if ($this->error['error_warning']){
 				$error_msg[] = $this->error['error_warning'];
 			}
