@@ -70,7 +70,7 @@ final class ABackup{
 		$this->backup_dir = DIR_BACKUP . $this->backup_name . '/';
 
 		if (!is_dir($this->backup_dir) && $create_subfolders){
-			$result = mkdir($this->backup_dir, 0777, true);
+			$result = mkdir($this->backup_dir, 0755, true);
 
 			if (!$result){
 				$error_text = "Error: Can't create directory " . $this->backup_dir . " during backup.";
@@ -78,18 +78,18 @@ final class ABackup{
 				$this->error[] = $error_text;
 				$this->backup_dir = $this->backup_name = null;
 			}
-			chmod($this->backup_dir, 0777);
+			chmod($this->backup_dir, 0755);
 		}
 
 		if ($this->backup_dir && $create_subfolders){
 			if (!is_dir($this->backup_dir . 'files')){
 				mkdir($this->backup_dir . 'files');
-				chmod($this->backup_dir . 'files', 0777);
+				chmod($this->backup_dir . 'files', 0755);
 			}
 
 			if (!is_dir($this->backup_dir . 'data')){
 				mkdir($this->backup_dir . 'data');
-				chmod($this->backup_dir . 'data', 0777);
+				chmod($this->backup_dir . 'data', 0755);
 			}
 		}
 	}
@@ -352,7 +352,7 @@ final class ABackup{
 
 		if (!is_dir($this->backup_dir . 'files/' . $path)){
 			// it need for nested dirs, for example files/extensions
-			mkdir($this->backup_dir . 'files/' . $path, 0777, true);
+			mkdir($this->backup_dir . 'files/' . $path, 0755, true);
 		}
 
 		if (file_exists($this->backup_dir . 'files/' . $path)){
@@ -409,7 +409,8 @@ final class ABackup{
 
 		if ($path){ //if nested folders presents in path
 			if (!file_exists($this->backup_dir . 'files/' . $path)){
-				$result = mkdir($this->backup_dir . 'files/' . $path, 0777, true); // create dir with nested folders
+				// create dir with nested folders
+				$result = mkdir($this->backup_dir . 'files/' . $path, 0755, true);
 			} else{
 				$result = true;
 			}
@@ -466,7 +467,7 @@ final class ABackup{
 			$this->log->write($log_text);
 			return false;
 		} else{
-			@chmod($archive_filename, 0777);
+			@chmod($archive_filename, 0644);
 		}
 		//remove source folder after compress
 		$this->_removeDir($src_dir . $filename);
