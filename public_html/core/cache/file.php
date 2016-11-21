@@ -264,6 +264,9 @@ class ACacheDriverFile extends ACacheDriver{
 	 */
 	public function unlock($key, $group = null) {
 		$path = $this->_buildFilePath($key, $group);
+		if(!is_file($path)){
+			return true;
+		}
 		$fileopen = @fopen($path, "r+b");
 		if ($fileopen){
 			$ret = @flock($fileopen, LOCK_UN);
