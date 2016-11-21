@@ -24,6 +24,7 @@ if (!defined('DIR_CORE') || !IS_ADMIN){
 class ControllerTaskSaleContact extends AController{
 	public $data = array();
 	private $protocol;
+	private $sent_count;
 	public function sendSms(){
 		$this->load->library('json');
 		//for aborting process
@@ -34,11 +35,12 @@ class ControllerTaskSaleContact extends AController{
 		$this->extensions->hk_InitData($this, __FUNCTION__);
 
 		$this->protocol = 'sms';
+		$this->sent_count = 0;
 		$result = $this->_send();
 		//update controller data
 		$this->extensions->hk_UpdateData($this, __FUNCTION__);
 
-		$this->response->setOutput(AJson::encode(array ('result' => $result, 'message' => '')));
+		$this->response->setOutput(AJson::encode(array ('result' => $result, 'message' => $this->sent_count. ' sms sent.')));
 		return $result;
 	}
 
@@ -52,11 +54,12 @@ class ControllerTaskSaleContact extends AController{
 		$this->extensions->hk_InitData($this, __FUNCTION__);
 
 		$this->protocol = 'email';
+		$this->sent_count = 0;
 		$result = $this->_send();
 
 		//update controller data
 		$this->extensions->hk_UpdateData($this, __FUNCTION__);
-		$this->response->setOutput(AJson::encode(array ('result' => $result, 'message' => '')));
+		$this->response->setOutput(AJson::encode(array ('result' => $result, 'message' => $this->sent_count. ' emails sent.')));
 		return $result;
 	}
 	private function _send(){
@@ -131,6 +134,7 @@ class ControllerTaskSaleContact extends AController{
 			}
 
 			if($result){
+				$this->sent_count++;
 				//remove sent address from step
 				$k = array_search($to,$step_settings['to']);
 				unset($step_settings['to'][$k]);

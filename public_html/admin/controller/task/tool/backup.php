@@ -58,7 +58,7 @@ class ControllerTaskToolBackup extends AController {
 		if($result){
 			$this->load->library('json');
 			$this->response->addJSONHeader();
-			$output = array('result' => true);
+			$output = array('result' => true, 'message' => sizeof($table_list). ' tables dumped.');
 			$this->response->setOutput( AJson::encode($output) );
 		}else{
 			$error = new AError('dump tables error');
@@ -96,7 +96,7 @@ class ControllerTaskToolBackup extends AController {
 		if($result){
 			$this->load->library('json');
 			$this->response->addJSONHeader();
-			$output = array('result' => true);
+			$output = array('result' => true, 'message' => '( backup content files )');
 			$this->response->setOutput( AJson::encode($output) );
 		}else{
 			$error = new AError('files backup error');
@@ -128,11 +128,14 @@ class ControllerTaskToolBackup extends AController {
 		$files = array_merge(glob(DIR_ROOT.'/.*'), glob(DIR_ROOT.'/*'));
 
 		foreach($files as $file){
-			if(in_array(basename($file), array('.','..'))){ continue; } //those filenames give glob for hidden files (see above)
+			//those filenames give glob for hidden files (see above)
+			if(in_array(basename($file), array('.','..'))){ continue; }
 			$res = true;
 			if(is_file($file)){
 				$res = $bkp->backupFile($file, false);
-			}else if(is_dir($file) && in_array(basename($file),$code_dirs)){ //only dirs from white list
+			}
+			//only dirs from white list
+			else if(is_dir($file) && in_array(basename($file),$code_dirs)){
 				$res = $bkp->backupDirectory($file, false);
 			}
 			$result = !$res ? $res : $result;
@@ -141,7 +144,7 @@ class ControllerTaskToolBackup extends AController {
 		if($result){
 			$this->load->library('json');
 			$this->response->addJSONHeader();
-			$output = array('result' => true);
+			$output = array('result' => true, 'message' => ' Backup code files('.sizeof($files).' directories)');
 			$this->response->setOutput( AJson::encode($output) );
 		}else{
 			$error = new AError('files backup error');
@@ -161,7 +164,7 @@ class ControllerTaskToolBackup extends AController {
 		$bkp = new ABackup($backup_name);
 		$result = $bkp->backupFile(DIR_ROOT . '/system/config.php', false);
 
-		$output = array('result' => $result ? true : false);
+		$output = array('result' => ($result ? true : false), 'message' => '( backup config file )');
 
 		$this->load->library('json');
 		$this->response->addJSONHeader();
@@ -189,7 +192,11 @@ class ControllerTaskToolBackup extends AController {
 		if($result){
 			$this->load->library('json');
 			$this->response->addJSONHeader();
-			$output = array('result' => true, 'filename' => $bkp->getBackupName());
+			$output = array(
+					'result' => true,
+					'filename' => $bkp->getBackupName(),
+					'message' => '( compressing )'
+			);
 			$this->response->setOutput( AJson::encode($output) );
 		}else{
 			$error = new AError('compress backup error');
