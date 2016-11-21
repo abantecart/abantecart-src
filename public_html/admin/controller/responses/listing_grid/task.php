@@ -181,11 +181,11 @@ class ControllerResponsesListingGridTask extends AController {
 		$this->extensions->hk_UpdateData($this,__FUNCTION__);
 	}
 
-	//
+	// run task in separate process
 	private function _run_task($task_id = 0){
 
 		$connect = new AConnect(true);
-		$url = $this->config->get('config_url').'task.php?mode=start';
+		$url = $this->config->get('config_url').'task.php?mode=html&task_api_key='.$this->config->get('task_api_key');
 		if( $task_id ){
 			$url .= '&task_id='.$task_id;
 		}
