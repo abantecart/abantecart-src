@@ -59,6 +59,8 @@ final class Atargz{
 			gzwrite($gz, $Tar);
 			gzclose($gz);
 		} else{
+			$error = new AError( 'Targz-lib compressing error: Unable to create file '.$dest );
+			$error->toLog();
 			return false;
 		}
 	}
@@ -204,5 +206,3 @@ final class Atargz{
 		} else return false;
 	}
 }
-
-?>

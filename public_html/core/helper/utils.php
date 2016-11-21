@@ -753,17 +753,21 @@ function compressTarGZ($tar_filename, $tar_dir, $compress_level = 5){
 	if(class_exists('PharData') ){
 		try{
 			$a = new PharData($tar );
-			$a->buildFromDirectory($tar_dir); // this code creates tar-file
-			if(file_exists($tar)){ // remove tar-file after zipping
+			//creates tar-file
+			$a->buildFromDirectory($tar_dir);
+			// remove tar-file after zipping
+			if(file_exists($tar)){
 				gzip($tar, $compress_level);
 				unlink($tar);
 			}
 		}catch (Exception $e){
-			$error = new AError( $e->getMessage() );
+			$error = new AError( 'Tar GZ compressing error: '. $e->getMessage() );
 			$error->toLog()->toDebug();
 			$exit_code =1;
 		}
 	}else{
+		//class pharData does not exists.
+		//set mark to use targz-lib
 		$exit_code =1;
 	}
 

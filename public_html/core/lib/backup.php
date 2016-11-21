@@ -461,8 +461,9 @@ final class ABackup{
 
 		if (!file_exists($archive_filename)){
 			$error_text = 'Error: cannot to pack ' . $archive_filename . "\n Please see error log for details.";
-			$this->log->write($error_text);
 			$this->error[] = $error_text;
+			$log_text = 'Error: cannot to pack ' . $archive_filename . "\n";
+			$this->log->write($log_text);
 			return false;
 		} else{
 			@chmod($archive_filename, 0777);
