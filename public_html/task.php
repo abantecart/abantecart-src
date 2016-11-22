@@ -152,7 +152,9 @@ if($command_line){
 	exit;
 }elseif($mode == 'ajax'){
 	$registry->get('load')->library('json');
-	header('Content-Type: application/json;');
+	if(!headers_sent()){
+		header('Content-Type: application/json;');
+	}
 	if($step_result === false){
 		//set response to null to prevent silent output
 		$registry->set('response', null);
