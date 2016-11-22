@@ -29,7 +29,7 @@ if (!defined('DIR_CORE')){
  * @property ModelToolBackup $model_tool_backup
  * @property ExtensionsAPI $extensions
  */
-final class ABackup{
+class ABackup{
 	/**
 	 * @var string - mode of sql dump. can be "data_only" and "recreate"
 	 */
@@ -47,9 +47,9 @@ final class ABackup{
 
 	/**
 	 * @param string $name
-	 * @param bool $create_subfolders - sign for creating temp folder for backup. set false if only validate
+	 * @param bool $create_subdirs - sign for creating temp folder for backup. set false if only validate
 	 */
-	public function __construct($name, $create_subfolders = true){
+	public function __construct($name, $create_subdirs = true){
 		/**
 		 * @var Registry
 		 */
@@ -69,7 +69,7 @@ final class ABackup{
 		//Create subdirectory /files and  /data
 		$this->backup_dir = DIR_BACKUP . $this->backup_name . '/';
 
-		if (!is_dir($this->backup_dir) && $create_subfolders){
+		if (!is_dir($this->backup_dir) && $create_subdirs){
 			$result = mkdir($this->backup_dir, 0755, true);
 
 			if (!$result){
@@ -81,7 +81,7 @@ final class ABackup{
 			chmod($this->backup_dir, 0755);
 		}
 
-		if ($this->backup_dir && $create_subfolders){
+		if ($this->backup_dir && $create_subdirs){
 			if (!is_dir($this->backup_dir . 'files')){
 				mkdir($this->backup_dir . 'files');
 				chmod($this->backup_dir . 'files', 0755);
@@ -220,7 +220,7 @@ final class ABackup{
 			if ($table_info['size'] > $memory_limit && !$small_table){// for tables greater than 20 MB
 				//max allowed rows count for safe fetching
 				$limit = 10000;
-				//break export aparts to prevent memory overflow
+				//break apart export to prevent memory overflow
 				$stop = $column_min + $limit;
 				$small_table = false;
 			} else{ // for small table get data by one pass
@@ -389,7 +389,7 @@ final class ABackup{
 
 		//Copy directory with content to the directory(s) with the same path starting from $this->backup_dir . '/files/'
 		// Call $this->backupFile if needed. 
-		//generate errors: No space on device (log to message as error too), No permissons, Others  
+		//generate errors: No space on device (log to message as error too), No permissions, Others
 		//return Success or failed.
 		return true;
 	}
@@ -455,7 +455,7 @@ final class ABackup{
 	public function archive($archive_filename, $src_dir, $filename){
 		//Archive the backup to DIR_BACKUP, delete tmp files in directory $this->backup_dir 
 		//And create record in the database for created archive. 
-		//generate errors: No space on device (log to message as error too), No permissons, Others 
+		//generate errors: No space on device (log to message as error too), No permissions, Others
 		//return Success or failed.
 
 		compressTarGZ($archive_filename, $src_dir . $filename, 1);
@@ -511,13 +511,13 @@ final class ABackup{
 	}
 
 	/**
-	 * Recursive function for copiing of directory with nested
+	 * Recursive function for coping of directory with nested
 	 *
 	 * @param string $src
 	 * @param string $dest
 	 * @return bool
 	 */
-	function _copyDir($src, $dest){
+	public function _copyDir($src, $dest){
 		// If source is not a directory stop processing
 		if (!is_dir($src)) return false;
 		//prevent recursive copying
@@ -556,10 +556,10 @@ final class ABackup{
 	/**
 	 * Method for checks before backup
 	 */
-	function validate(){
+	public function validate(){
 		//reset errors array before validation
 		$this->error = array ();
-		//1. check is backdirectory is writable
+		//1. check is backup directory is writable
 		if (!is_writable(DIR_BACKUP)){
 			$this->error[] = 'Directory ' . DIR_BACKUP . ' is non-writable. It is recommended to set write mode for it.';
 		}
@@ -573,7 +573,7 @@ final class ABackup{
 		if ($result === false && DB_DRIVER == 'mysql'){
 			$this->error[] = 'Probably error will occur. Please change db-driver to "amysqli" in your /system/config.php file.';
 		} elseif ($result === false){
-			$this->error[] = 'Cannot get tables list. Please check privilegies of mysql database user.';
+			$this->error[] = 'Cannot get tables list. Please check privileges of mysql database user.';
 		}
 
 		//3. check already created backup directories

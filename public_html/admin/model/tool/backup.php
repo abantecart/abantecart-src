@@ -160,7 +160,7 @@ class ModelToolBackup extends Model {
 		}
 
 		//NOTE: remove temp backup dir before process to prevent progressive increment of directory date if some backup-steps will be failed
-		$bkp = new ABackup('manual_backup');
+		$bkp = new ABackup("manual_backup_".date('Ymd_His'));
 		$bkp->removeBackupDirectory();
 		unset($bkp);
 
@@ -169,9 +169,11 @@ class ModelToolBackup extends Model {
 		//1. create new task
 		$task_id = $tm->addTask(
 			array( 'name' => $task_name,
-					'starter' => 1, //admin-side is starter
-					'created_by' => $this->user->getId(), //get starter id
-					'status' => 1, // shedule it!
+				    //admin-side is starter
+					'starter' => 1,
+					'created_by' => $this->user->getId(),
+					// schedule it!
+					'status' => 1,
 					'start_time' => date('Y-m-d H:i:s', mktime(0,0,0, date('m'), date('d')+1, date('Y')) ),
 					'last_time_run' => '0000-00-00 00:00:00',
 					'progress' => '0',
@@ -240,7 +242,7 @@ class ModelToolBackup extends Model {
 
 			$dirs_size = $this->getCodeSize();
 
-			//// get eta in seconds. 28468838 - "bytes per seconds" of copiing of files for SATA III hdd
+			//// get eta in seconds. 28468838 - "bytes per seconds" of coping of files for SATA III hdd
 			$eta = ceil($dirs_size/28468838);
 			$max_eta = ini_get('max_execution_time');
 			$eta = $eta<$max_eta ? $max_eta : $eta;
@@ -272,7 +274,7 @@ class ModelToolBackup extends Model {
 		if($data['backup_content']){
 			//calculate estimate time for copying of content files
 			$dirs_size = $this->getContentSize();
-			//// get eta in seconds. 28468838 - "bytes per seconds" of copiing of files for SATA III hdd
+			//// get eta in seconds. 28468838 - "bytes per seconds" of coping of files for SATA III hdd
 			$eta = ceil($dirs_size/28468838);
 			$max_eta = ini_get('max_execution_time');
 			$eta = $eta<$max_eta ? $max_eta : $eta;
@@ -433,8 +435,8 @@ class ModelToolBackup extends Model {
 
 			if($filename != ".." && $filename != "."){
 				if(is_dir($dir . "/" . $filename)){
-					$new_dirsize = $this->_get_directory_size($dir . "/" . $filename);
-					$count_size = $count_size + $new_dirsize;
+					$new_dir_size = $this->_get_directory_size($dir . "/" . $filename);
+					$count_size = $count_size + $new_dir_size;
 				} else if(is_file($dir . "/" . $filename)){
 					$count_size = $count_size + filesize($dir . "/" . $filename);
 					$count++;

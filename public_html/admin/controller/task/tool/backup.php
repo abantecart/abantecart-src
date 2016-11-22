@@ -24,10 +24,15 @@ class ControllerTaskToolBackup extends AController {
 	private $error = array();
 
 	public function dumpTables(){
-		if($this->request->get['eta']>30){
-			set_time_limit((int)$this->request->get['eta']*2);
-		}
+
 		$backup_name = preg_replace('[^0-9A-z_\.]','', $this->request->get['backup_name']);
+		if(!$backup_name){
+			$args = func_get_args();
+			if(isset($args[2])){
+				$backup_name = $args[2];
+			}
+		}
+
 		$backup_name = !$backup_name ? 'manual_backup' : $backup_name;
 		$bkp = new ABackup($backup_name);
 
@@ -71,11 +76,17 @@ class ControllerTaskToolBackup extends AController {
 	}
 
 	public function backupContentFiles(){
-		if($this->request->get['eta']>30){
-			set_time_limit((int)$this->request->get['eta']+30);
-		}
+
 		$backup_name = preg_replace('[^0-9A-z_\.]','', $this->request->get['backup_name']);
+		if(!$backup_name){
+			$args = func_get_args();
+			if(isset($args[1])){
+				$backup_name = $args[1];
+			}
+		}
+
 		$backup_name = !$backup_name ? 'manual_backup' : $backup_name;
+
 		$bkp = new ABackup($backup_name);
 		$content_dirs = array( // white list
 					'resources',
@@ -109,10 +120,13 @@ class ControllerTaskToolBackup extends AController {
 	}
 
 	public function backupCodeFiles(){
-		if($this->request->get['eta']>30){
-			set_time_limit((int)$this->request->get['eta']+30);
-		}
 		$backup_name = preg_replace('[^0-9A-z_\.]','', $this->request->get['backup_name']);
+		if(!$backup_name){
+			$args = func_get_args();
+			if(isset($args[1])){
+				$backup_name = $args[1];
+			}
+		}
 		$backup_name = !$backup_name ? 'manual_backup' : $backup_name;
 		$bkp = new ABackup($backup_name);
 		$code_dirs = array( // white list
@@ -128,7 +142,7 @@ class ControllerTaskToolBackup extends AController {
 		$files = array_merge(glob(DIR_ROOT.'/.*'), glob(DIR_ROOT.'/*'));
 
 		foreach($files as $file){
-			//those filenames give glob for hidden files (see above)
+			//those file names give glob for hidden files (see above)
 			if(in_array(basename($file), array('.','..'))){ continue; }
 			$res = true;
 			if(is_file($file)){
@@ -158,8 +172,16 @@ class ControllerTaskToolBackup extends AController {
 
 
 	public function backupConfig(){
-
 		$backup_name = preg_replace('[^0-9A-z_\.]','', $this->request->get['backup_name']);
+		if(!$backup_name){
+			$args = func_get_args();
+			$this->log->write('bkp config');
+			$this->log->write(var_export($args, true));
+			if(isset($args[2])){
+				$backup_name = $args[2];
+			}
+		}
+
 		$backup_name = !$backup_name ? 'manual_backup' : $backup_name;
 		$bkp = new ABackup($backup_name);
 		$result = $bkp->backupFile(DIR_ROOT . '/system/config.php', false);
@@ -172,10 +194,14 @@ class ControllerTaskToolBackup extends AController {
 	}
 
 	public function CompressBackup(){
-		if($this->request->get['eta']>30){
-			set_time_limit((int)$this->request->get['eta']+30);
-		}
+
 		$backup_name = preg_replace('[^0-9A-z_\.]','', $this->request->get['backup_name']);
+		if(!$backup_name){
+			$args = func_get_args();
+			if(isset($args[1])){
+				$backup_name = $args[1];
+			}
+		}
 		$backup_name = !$backup_name ? 'manual_backup' : $backup_name;
 		$bkp = new ABackup($backup_name);
 
