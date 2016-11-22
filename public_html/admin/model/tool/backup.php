@@ -205,13 +205,18 @@ class ModelToolBackup extends Model {
 			$result = $this->db->query($sql);
 			$db_size = $result->row['db_size']; //size in bytes
 
+			// get eta in seconds. 2794843 - "bytes per seconds" of dumping for Pentium(R) Dual-Core CPU E5200 @ 2.50GHz × 2
+			$eta = ceil($db_size/2794843)*4;
+			$max_eta = ini_get('max_execution_time');
+			$eta =  $eta<$max_eta ? $max_eta : $eta;
+
 			$step_id = $tm->addStep( array(
 				'task_id' => $task_id,
 				'sort_order' => 1,
 				'status' => 1,
 				'last_time_run' => '0000-00-00 00:00:00',
 				'last_result' => '0',
-				'max_execution_time' => ceil($db_size/2794843)*4,
+				'max_execution_time' => $eta,
 				'controller' => 'task/tool/backup/dumptables',
 				'settings' => array(
 								'table_list' => $data['table_list'],
@@ -224,8 +229,7 @@ class ModelToolBackup extends Model {
 				$this->errors = array_merge($this->errors,$tm->errors);
 				return false;
 			}else{
-				// get eta in seconds. 2794843 - "bytes per seconds" of dumping for Pentium(R) Dual-Core CPU E5200 @ 2.50GHz × 2
-				$this->eta[$step_id] = ceil($db_size/2794843)*4;
+				$this->eta[$step_id] = $eta;
 				$this->est_backup_size += ceil($db_size*1.61); // size of sql-file of output
 			}
 		}
@@ -235,13 +239,19 @@ class ModelToolBackup extends Model {
 			//calculate estimate time for copying of code
 
 			$dirs_size = $this->getCodeSize();
+
+			//// get eta in seconds. 28468838 - "bytes per seconds" of copiing of files for SATA III hdd
+			$eta = ceil($dirs_size/28468838);
+			$max_eta = ini_get('max_execution_time');
+			$eta = $eta<$max_eta ? $max_eta : $eta;
+
 			$step_id = $tm->addStep( array(
 										'task_id' => $task_id,
 										'sort_order' => 2,
 										'status' => 1,
 										'last_time_run' => '0000-00-00 00:00:00',
 										'last_result' => '0',
-										'max_execution_time' => ceil($dirs_size/28468838),
+										'max_execution_time' => $eta,
 										'controller' => 'task/tool/backup/backupCodeFiles',
 										'settings' => array(
 												'interrupt_on_step_fault' =>false,
@@ -253,8 +263,7 @@ class ModelToolBackup extends Model {
 				$this->errors = array_merge($this->errors,$tm->errors);
 				return false;
 			}else{
-				//// get eta in seconds. 28468838 - "bytes per seconds" of copiing of files for SATA III hdd
-				$this->eta[$step_id] = ceil($dirs_size/28468838);
+				$this->eta[$step_id] = $eta;
 				$this->est_backup_size += $dirs_size;
 			}
 
@@ -262,15 +271,19 @@ class ModelToolBackup extends Model {
 		//create step for content-files backup
 		if($data['backup_content']){
 			//calculate estimate time for copying of content files
-
 			$dirs_size = $this->getContentSize();
+			//// get eta in seconds. 28468838 - "bytes per seconds" of copiing of files for SATA III hdd
+			$eta = ceil($dirs_size/28468838);
+			$max_eta = ini_get('max_execution_time');
+			$eta = $eta<$max_eta ? $max_eta : $eta;
+
 			$step_id = $tm->addStep( array(
 										'task_id' => $task_id,
 										'sort_order' => 3,
 										'status' => 1,
 										'last_time_run' => '0000-00-00 00:00:00',
 										'last_result' => '0',
-										'max_execution_time' => ceil($dirs_size/28468838),
+										'max_execution_time' => $eta,
 										'controller' => 'task/tool/backup/backupContentFiles',
 										'settings' => array(
 												'interrupt_on_step_fault' =>false,
@@ -282,9 +295,7 @@ class ModelToolBackup extends Model {
 				$this->errors = array_merge($this->errors,$tm->errors);
 				return false;
 			}else{
-
-				//// get eta in seconds. 28468838 - "bytes per seconds" of copiing of files for SATA III hdd
-				$this->eta[$step_id] = ceil($dirs_size/28468838);
+				$this->eta[$step_id] = 	$eta;
 				$this->est_backup_size += $dirs_size;
 			}
 
@@ -293,13 +304,19 @@ class ModelToolBackup extends Model {
 
 		//create last step for compressing backup
 		if($data['compress_backup']){
+			//// get eta in seconds. 18874368 - "bytes per seconds" of gz-compression, level 1 on
+			// AMD mobile Athlon XP2400+ 512 MB RAM Linux 2.6.12-rc4 gzip 1.3.3
+			$eta = ceil($this->est_backup_size/18874368);
+			$max_eta = ini_get('max_execution_time');
+			$eta = $eta<$max_eta ? $max_eta : $eta;
+
 			$step_id = $tm->addStep(array(
 					'task_id'            => $task_id,
 					'sort_order'         => 4,
 					'status'             => 1,
 					'last_time_run'      => '0000-00-00 00:00:00',
 					'last_result'        => '0',
-					'max_execution_time' => ceil($this->est_backup_size/18874368),
+					'max_execution_time' => $eta,
 					'controller'         => 'task/tool/backup/compressbackup',
 					'settings' => array(
 										'interrupt_on_step_fault' =>false,
@@ -310,9 +327,7 @@ class ModelToolBackup extends Model {
 				$this->errors = array_merge($this->errors, $tm->errors);
 				return false;
 			}else{
-				//// get eta in seconds. 18874368 - "bytes per seconds" of gz-compression, level 1 on
-				// AMD mobile Athlon XP2400+ 512 MB RAM Linux 2.6.12-rc4 gzip 1.3.3
-				$this->eta[$step_id] = ceil($this->est_backup_size/18874368);
+				$this->eta[$step_id] = $eta;
 			}
 		}
 
