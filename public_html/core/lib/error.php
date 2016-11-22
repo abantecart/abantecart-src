@@ -147,7 +147,7 @@ class AError{
 	 * @return mixed
 	 */
 	public function toJSONResponse($status_text_and_code, $err_data = array ()){
-		//detect HTTP responce status code based on readable text status
+		//detect HTTP response status code based on readable text status
 		preg_match('/(\d+)$/', $status_text_and_code, $match);
 		if (!$match[0]){
 			if (empty($err_data['error_code'])){
@@ -174,14 +174,17 @@ class AError{
 			 * @var $load ALoader
 			 */
 			$load = $this->registry->get('load');
-			$response->addheader($http_header_txt);
+			$response->addHeader($http_header_txt);
 			$response->addJSONHeader();
 			$load->library('json');
-			return $response->setOutput(AJson::encode($err_data));
+			$response->setOutput(AJson::encode($err_data));
+			return null;
 		} else{
-			//for some reason we do not have reqistery. do direct output and exit
-			header($http_header_txt);
-			header('Content-Type: application/json');
+			//for some reason we do not have registry. do direct output and exit
+			if(!headers_sent()){
+				header($http_header_txt);
+				header('Content-Type: application/json');
+			}
 			include_once(DIR_CORE . 'lib/json.php');
 			echo AJson::encode($err_data);
 			exit;
