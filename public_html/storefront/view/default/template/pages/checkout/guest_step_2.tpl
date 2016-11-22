@@ -19,18 +19,11 @@
 
 <div class="contentpanel">
 
-	<?php if ($coupon_status){ ?>
-		<h4 class="heading4"><?php echo $text_coupon; ?></h4>
-		<div class="registerbox">
-			<?php echo $form0['form_open']; ?>
-			<div class="form-inline">
-				<label class="checkbox"><?php echo $entry_coupon; ?></label>
-				<?php echo $form0['coupon']; ?>
-				<?php echo $form0['submit']; ?>
-			</div>
-			</form>
-		</div>
-	<?php } ?>
+	<?php
+	if ($coupon_status){
+		echo $coupon_form;
+	}
+	?>
 
 	<?php echo $form['form_open']; ?>
 

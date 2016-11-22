@@ -68,19 +68,31 @@ class ControllerPagesCheckoutGuestStep2 extends AController{
 
 		$this->document->setTitle($this->language->get('heading_title'));
 
-		if ($this->request->is_POST() && isset($this->request->post['coupon']) && $this->_validateCoupon()){
-			$this->session->data['coupon'] = $this->request->post['coupon'];
-			$this->session->data['success'] = $this->language->get('text_success');
-			if ($this->cart->getFinalTotal() == 0 && $this->request->get['mode'] != 'edit'){
-				$this->session->data['payment_method'] = array (
-						'id'    => 'no_payment_required',
-						'title' => $this->language->get('no_payment_required')
-				);
-			}
-			//process data
-			$this->extensions->hk_ProcessData($this, 'apply_coupon');
-			$this->redirect($this->html->getSecureURL('checkout/guest_step_3'));
-		}
+        if ($this->request->is_POST() && isset($this->request->post['coupon'])) {
+            if(isset($this->request->post['reset_coupon'])) {
+                //remove coupon
+                unset($this->session->data['coupon']);
+                $this->session->data['success'] = $this->language->get('text_coupon_removal');
+
+                //process data
+                $this->extensions->hk_ProcessData($this, 'reset_coupon');
+                $this->redirect($this->html->getSecureURL('checkout/guest_step_3'));
+            } else if($this->_validateCoupon()) {
+                $this->session->data['coupon'] = $this->request->post['coupon'];
+                $this->session->data['success'] = $this->language->get('text_success');
+
+                if ($this->cart->getFinalTotal() == 0 && $this->request->get['mode'] != 'edit'){
+                    $this->session->data['payment_method'] = array (
+                        'id'    => 'no_payment_required',
+                        'title' => $this->language->get('no_payment_required')
+                    );
+                }
+
+                //process data
+                $this->extensions->hk_ProcessData($this, 'apply_coupon');
+                $this->redirect($this->html->getSecureURL('checkout/guest_step_3'));
+            }
+        }
 
 		if (($this->request->is_POST()) && !isset($this->request->post['coupon']) && $this->validate()){
 			if (isset($this->request->post['shipping_method'])){
@@ -278,7 +290,12 @@ class ControllerPagesCheckoutGuestStep2 extends AController{
 
 		$action = $this->html->getSecureURL('checkout/guest_step_2', ($this->request->get['mode'] ? '&mode=' . $this->request->get['mode'] : ''), true);
 
-		$this->data['coupon_status'] = $this->config->get('coupon_status');
+        if($this->config->get('coupon_status')) {
+            $this->data['coupon_status'] = $this->config->get('coupon_status');
+            $coupon_form = $this->dispatch('blocks/coupon_codes', array ('action' => $action));
+            $this->data['coupon_form'] = $coupon_form->dispatchGetOutput();
+            unset($coupon_form);
+        }
 
 		$item = $this->html->buildElement(
 				array (
@@ -288,23 +305,6 @@ class ControllerPagesCheckoutGuestStep2 extends AController{
 						'text'  => $this->language->get('button_change_address')
 				));
 		$this->data['change_address'] = $item->getHTML();
-
-
-		$form = new AForm();
-		$form->setForm(array ('form_name' => 'coupon'));
-		$this->data['form0']['form_open'] = $form->getFieldHtml(
-				array ('type'   => 'form',
-				       'name'   => 'coupon',
-				       'action' => $action));
-		$this->data['form0']['coupon'] = $form->getFieldHtml(array (
-				'type'  => 'input',
-				'name'  => 'coupon',
-				'value' => (isset($this->request->post['coupon']) ? $this->request->post['coupon'] : $this->session->data['coupon'])
-		));
-		$this->data['form0']['submit'] = $form->getFieldHtml(array (
-				'type' => 'submit',
-				'name' => $this->language->get('button_coupon')));
-
 
 		if (isset($this->session->data['shipping_methods']) && !$this->session->data['shipping_methods']){
 			$this->view->assign('error_warning', $this->language->get('error_no_shipping'));

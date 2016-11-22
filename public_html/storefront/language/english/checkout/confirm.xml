@@ -99,6 +99,6 @@
 	</definition>
 	<definition>
 		<key>text_add_coupon</key>
-		<value><![CDATA[Add Coupon]]></value>
+		<value><![CDATA[Edit Coupon]]></value>
 	</definition>
 </definitions>
