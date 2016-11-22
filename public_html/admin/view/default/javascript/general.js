@@ -977,7 +977,7 @@ function do_seqAjax(ajaxes, attempts_count){
                     var msg = defaultTaskMessages.step+' '
                             + (current+1) + ': '
                             +defaultTaskMessages.success
-                            + '<br/>' +data[0];
+                            + '<br/>' + (data ? data[0] :'unknown result');
                     task_complete_text += '<div class="alert-success">'+msg+'</div>';
                     attempts = 3;
                     current++;

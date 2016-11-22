@@ -268,7 +268,9 @@ class ALanguageManager extends Alanguage{
 							foreach ($values as $value){
 								if (!empty($value)){
 									$new_value = $this->translate($src_lang_code, $value, $dest_lang_code);
-									$this->_do_insert_descriptions($table_name, $index, array ($language_id => array ($key => $new_value)));
+									if ($new_value !== null){
+										$this->_do_insert_descriptions($table_name, $index, array ($language_id => array ($key => $new_value)));
+									}
 								}
 							}
 						}
@@ -440,7 +442,10 @@ class ALanguageManager extends Alanguage{
 								$update_txt_data[$language_id][$key] = $txt_to_translate;
 							}
 						} else{
-							$update_txt_data[$language_id][$key] = $this->translate($src_lang_code, $txt_to_translate, $dest_lang_code);
+							$new_value = $this->translate($src_lang_code, $txt_to_translate, $dest_lang_code);
+							if ($new_value !== null){
+								$update_txt_data[$language_id][$key] = $new_value;
+							}
 						}
 					}
 				}
@@ -458,7 +463,10 @@ class ALanguageManager extends Alanguage{
 								$new_txt_data[$language_id][$key] = $value;
 							}
 						} else{
-							$new_txt_data[$language_id][$key] = $this->translate($src_lang_code, $value, $dest_lang_code);
+							$new_value = $this->translate($src_lang_code, $value, $dest_lang_code);
+							if ($new_value !== null){
+								$new_txt_data[$language_id][$key] = $new_value;
+							}
 						}
 					}
 				}
@@ -772,17 +780,16 @@ class ALanguageManager extends Alanguage{
 				throw new AException(AC_ERR_LOAD, 'Error: Could not load translations class ' . $ex_class . '!');
 			}
 
-			/** @noinspection PhpUndefinedClassInspection */
 			$translate_driver = new translator($this->registry->get('config'));
-			/** @noinspection PhpUndefinedMethodInspection */
 			$result_txt = $translate_driver->translate($source_lang_code, $src_text, $dest_lang_code);
-			if (!$result_txt){
-				$result_txt = $src_text;
+			//extension driver cannot respond the source text!
+			if (!$result_txt || $result_txt == $src_text){
+				$result_txt = null;
 			}
 			ADebug::checkpoint("ALanguageManager: Translated text:" . $src_text . " from " . $source_lang_code . " to " . $dest_lang_code);
 		} else{
 			//fail over to default 'copy_source_text' method
-			$result_txt = $src_text;
+			$result_txt = (string)$src_text;
 		}
 		$this->registry->get('extensions')->hk_UpdateData($this, __FUNCTION__);
 		return $result_txt;
@@ -913,11 +920,11 @@ class ALanguageManager extends Alanguage{
 					//Skip language_id and autoincrement from the key. autoincrement is unique by itself.
 					if ($key != 'language_id' && $key != $auto_column){
 						if (in_array($row[$key], $langs)){
-							$where_sql_1 .= " AND ".$key." = '" . $this->db->escape($langs[$new_language]) . "'";
-							$where_sql_2 .= " AND ".$key." = '" . $this->db->escape($langs[$from_language]) . "'";
+							$where_sql_1 .= " AND " . $key . " = '" . $this->db->escape($langs[$new_language]) . "'";
+							$where_sql_2 .= " AND " . $key . " = '" . $this->db->escape($langs[$from_language]) . "'";
 						} else{
-							$where_sql_1 .= " AND ".$key." = '" . $this->db->escape($row[$key]) . "'";
-							$where_sql_2 .= " AND ".$key." = '" . $this->db->escape($row[$key]) . "'";
+							$where_sql_1 .= " AND " . $key . " = '" . $this->db->escape($row[$key]) . "'";
+							$where_sql_2 .= " AND " . $key . " = '" . $this->db->escape($row[$key]) . "'";
 						}
 					}
 				}
@@ -946,7 +953,13 @@ class ALanguageManager extends Alanguage{
 										$value,
 										$this->_get_language_code($new_language),
 										$translate_method);
+								//if one of translation is null - means that translation failed
+								// interrupt translation
+								if ($value === null){
+									return "Translation skipped for table " . $table . "<br>";
+								}
 							}
+
 							$insert_data[$fld_name] = $this->db->escape($value);
 						}
 					}
@@ -955,6 +968,7 @@ class ALanguageManager extends Alanguage{
 						$insert_sql = "REPLACE INTO " . $table . "
 											(" . implode(',', array_keys($insert_data)) . ")
 										VALUES ('" . implode("','", $insert_data) . "')";
+
 						ADebug::variable('class ALanguage cloning data: ', $insert_sql);
 
 						if ($table == $this->db->table('language_definitions')){
