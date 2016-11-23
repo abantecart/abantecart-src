@@ -24,7 +24,7 @@ if (!defined('DIR_CORE') || !IS_ADMIN){
 class ControllerTaskSaleContact extends AController{
 	public $data = array();
 	private $protocol;
-	private $sent_count;
+	private $sent_count = 0;
 	public function sendSms(){
 		$this->load->library('json');
 		//for aborting process
@@ -77,6 +77,7 @@ class ControllerTaskSaleContact extends AController{
 		}else{
 			$output['error_text'] = $this->sent_count . ' emails sent.';
 		}
+		$this->response->setOutput(AJson::encode( $output ));
 		return $result;
 	}
 
@@ -114,7 +115,7 @@ class ControllerTaskSaleContact extends AController{
 
 		$tm->updateStep($step_id, array('last_time_run' => date('Y-m-d H:i:s')));
 
-		if(!$step_info['settings'] || !$step_info['settings']['to']){
+		if(!$step_info['settings'] ){
 			$error_text = 'Cannot run task step #'.$step_id.'. Unknown settings for it.';
 			$this->_return_error($error_text);
 		}
@@ -152,7 +153,7 @@ class ControllerTaskSaleContact extends AController{
 			}
 
 			if($result){
-				$this->sent_count++;
+				$this->sent_count ++;
 				//remove sent address from step
 				$k = array_search($to,$step_settings['to']);
 				unset($step_settings['to'][$k]);
@@ -235,7 +236,10 @@ class ControllerTaskSaleContact extends AController{
 		$mail->setSubject($this->data['mail_template_data']['subject']);
 		$mail->setHtml($html_body);
 		$mail->send();
+
 		if ($mail->error) {
+			$error = new AError('AMail Errors: '.implode("\n", $mail->error));
+			$error->toLog()->toDebug();
 			return false;
 		}
 
