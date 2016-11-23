@@ -49,6 +49,10 @@
 		<value><![CDATA[ Failed]]></value>
 	</definition>
 	<definition>
+		<key>text_incomplete</key>
+		<value><![CDATA[ Incomplete]]></value>
+	</definition>
+	<definition>
 		<key>text_completed</key>
 		<value><![CDATA[ Completed]]></value>
 	</definition>

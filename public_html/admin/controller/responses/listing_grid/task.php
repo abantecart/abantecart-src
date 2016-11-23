@@ -100,6 +100,10 @@ class ControllerResponsesListingGridTask extends AController {
 						$response->userdata->classes[ $id ] = 'disable-run disable-edit';
 						$text_status = $this->language->get('text_completed');
 						break;
+					case $tm::STATUS_INCOMPLETE:
+						$response->userdata->classes[ $id ] = 'disable-run disable-edit';
+						$text_status = $this->language->get('text_incomplete');
+						break;
 					default: // disabled
 						$response->userdata->classes[ $id ] = 'attention disable-run disable-restart disable-edit disable-delete';
 						$text_status = $this->language->get('text_disabled');
@@ -137,7 +141,7 @@ class ControllerResponsesListingGridTask extends AController {
 			$task = $tm->getTaskById($this->request->post_or_get('task_id'));
 
 			//check
-			if($task && in_array($task['status'], array($tm::STATUS_RUNNING, $tm::STATUS_FAILED,$tm::STATUS_COMPLETED))){
+			if($task && in_array($task['status'], array($tm::STATUS_RUNNING, $tm::STATUS_FAILED,$tm::STATUS_COMPLETED,$tm::STATUS_INCOMPLETE))){
 				foreach($task['steps'] as $step){
 					$tm->updateStep($step['step_id'], array('status'=> $tm::STATUS_READY));
 				}
