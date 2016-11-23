@@ -2330,17 +2330,21 @@ class PaginationHtmlElement extends HtmlElement{
 				$s['limits'][] = $s['limit'];
 				sort($s['limits']);
 			}
-			$options = array ();
+			$options = array();
 			foreach ($s['limits'] as $item){
 				$options[$item] = $item;
 			}
 
-			$limit_select = $html->buildSelectbox(array (
+			$limit_url = str_replace('{page}', 1, $s['url']);
+			$limit_url = str_replace('&amp;limit='.$s['limit'], '', $limit_url);
+
+			$limit_select = $html->buildSelectbox(
+					array (
 							'name'    => 'limit',
 							'value'   => $s['limit'],
 							'options' => $options,
 							'style'   => 'input-mini',
-							'attr'    => ' onchange="location=\'' . str_replace('{page}', 1, $s['url']) . '&limit=\'+this.value;"',
+							'attr'    => ' onchange="location=\'' . $limit_url . '&limit=\'+this.value;"',
 					)
 			);
 
