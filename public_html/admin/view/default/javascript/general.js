@@ -1005,6 +1005,11 @@ function do_seqAjax(ajaxes, attempts_count){
                         error_txt = 'Connection error occurred. ' + error_txt;
                     }
 
+                    if(!error_txt && status === 'timeout'){
+                        error_txt = 'Connection error occurred. Timeout exceeded.';
+                    }
+
+
                     //so.. if all attempts of this step are failed
                     if (attempts == 0) {
                         task_complete_text += '<div class="alert-danger">'
