@@ -974,10 +974,16 @@ function do_seqAjax(ajaxes, attempts_count){
                     var prc = Math.round((current+1) * 100 / steps_cnt);
                     $('div.progress-bar').css('width', prc + '%').html(prc + '%');
                     //task.php returns array of messages. so when one step called - take first
+                    var result_text = data[0] ? data[0] : '';
+                    if(!result_text && data.error_text.length>0){
+                        result_text = data.error_text;
+                    }
+
                     var msg = defaultTaskMessages.step+' '
                             + (current+1) + ': '
                             +defaultTaskMessages.success
-                            + '<br/>' + (data ? data[0] :'unknown result');
+                            + '<br/>' + result_text;
+
                     task_complete_text += '<div class="alert-success">'+msg+'</div>';
                     attempts = 3;
                     current++;

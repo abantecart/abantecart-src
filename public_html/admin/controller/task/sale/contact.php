@@ -37,11 +37,20 @@ class ControllerTaskSaleContact extends AController{
 		$this->protocol = 'sms';
 		$this->sent_count = 0;
 		$result = $this->_send();
+		if(!$this->sent_count){
+			$result = false;
+		}
 		//update controller data
 		$this->extensions->hk_UpdateData($this, __FUNCTION__);
 
-		$this->response->setOutput(AJson::encode(array ('result' => $result, 'message' => $this->sent_count. ' sms sent.')));
-		return $result;
+		$output = array('result'  => $result);
+		if($result){
+			$output['message'] = $this->sent_count . ' sms sent.';
+		}else{
+			$output['error_text'] = $this->sent_count . ' sms sent.';
+		}
+
+		$this->response->setOutput(AJson::encode( $output ));
 	}
 
 	public function sendEmail(){
@@ -56,16 +65,25 @@ class ControllerTaskSaleContact extends AController{
 		$this->protocol = 'email';
 		$this->sent_count = 0;
 		$result = $this->_send();
+		if(!$this->sent_count){
+			$result = false;
+		}
 
 		//update controller data
 		$this->extensions->hk_UpdateData($this, __FUNCTION__);
-		$this->response->setOutput(AJson::encode(array ('result' => $result, 'message' => $this->sent_count. ' emails sent.')));
+		$output = array('result'  => $result);
+		if($result){
+			$output['message'] = $this->sent_count . ' emails sent.';
+		}else{
+			$output['error_text'] = $this->sent_count . ' emails sent.';
+		}
 		return $result;
 	}
+
+
 	private function _send(){
 
 		$this->loadLanguage('sale/contact');
-
 		$task_id = (int)$this->request->get['task_id'];
 		$step_id = (int)$this->request->get['step_id'];
 

@@ -145,7 +145,6 @@ if($command_line){
 	$run_log_text = nl2br(implode("<br/>", $run_log));
 }
 
-flush();
 ob_flush();
 if($command_line){
 	echo $run_log_text;
