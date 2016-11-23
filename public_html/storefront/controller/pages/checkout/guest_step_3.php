@@ -35,36 +35,36 @@ class ControllerPagesCheckoutGuestStep3 extends AController {
 		}
 
 		if (!$this->cart->hasProducts() || (!$this->cart->hasStock() && !$this->config->get('config_stock_checkout'))) {
-	  		$this->redirect($this->html->getSecureURL($cart_rt));
+	  		redirect($this->html->getSecureURL($cart_rt));
     	}
 
 		//validate if order min/max are met
 		if (!$this->cart->hasMinRequirement() || !$this->cart->hasMaxRequirement()) {
-			$this->redirect($this->html->getSecureURL($cart_rt));
+			redirect($this->html->getSecureURL($cart_rt));
 		}
 		
 		if ($this->customer->isLogged()) {
-	  		$this->redirect($this->html->getSecureURL('checkout/shipping'));
+	  		redirect($this->html->getSecureURL('checkout/shipping'));
     	} 
 
 		if (!isset($this->session->data['guest'])) {
-	  		$this->redirect($this->html->getSecureURL('checkout/guest_step_1'));
+	  		redirect($this->html->getSecureURL('checkout/guest_step_1'));
     	} 
 
     	if ($this->cart->hasShipping()) {
 			if (!isset($this->session->data['shipping_method'])) {
-	  			$this->redirect($this->html->getSecureURL('checkout/guest_step_2'));
+	  			redirect($this->html->getSecureURL('checkout/guest_step_2'));
     		}
 		} else {
-			unset($this->session->data['shipping_method']);
-			unset($this->session->data['shipping_methods']);
-			
-			//$this->tax->setZone($this->config->get('config_country_id'), $this->config->get('config_zone_id'));
+			unset(
+				$this->session->data['shipping_method'],
+				$this->session->data['shipping_methods']
+			);
 		    $this->tax->setZone($this->session->data['country_id'], $this->session->data['zone_id']);
 		}
 		
 		if (!isset($this->session->data['payment_method'])) {
-	  		$this->redirect($this->html->getSecureURL('checkout/guest_step_2'));
+	  		redirect($this->html->getSecureURL('checkout/guest_step_2'));
     	}
 		
 
@@ -204,6 +204,10 @@ class ControllerPagesCheckoutGuestStep3 extends AController {
 			}
 		} else {
 			$this->data['text_accept_agree'] = '';
+		}
+
+		if($this->config->get('coupon_status')){
+			$this->data['coupon_status'] = $this->config->get('coupon_status');
 		}
 
 		if($this->session->data['payment_method']['id'] != 'no_payment_required'){
