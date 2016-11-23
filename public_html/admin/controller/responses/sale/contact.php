@@ -302,18 +302,18 @@ class ControllerResponsesSaleContact extends AController {
 		if (!$this->user->canModify('sale/contact')) {
 			$this->errors['warning'] = $this->language->get('error_permission');
 		}
-
-		if($this->request->post['protocol']=='email'){
-			if (!$this->request->post['subject']){
+		$post = $this->request->post;
+		if($post['protocol'] == 'email'){
+			if (!$post['subject']){
 				$this->errors['subject'] = $this->language->get('error_subject');
 			}
 		}
 
-		if (!$this->request->post['message']) {
-			$this->errors['message'] = $this->language->get('error_message');
+		if (!$post['message']) {
+			$this->errors['message'] = $this->language->get('error_message_'.$post['protocol']);
 		}
 
-		if (!$this->request->post['recipient'] && !$this->request->post['to'] && !$this->request->post['products']) {
+		if (!$post['recipient'] && !$post['to'] && !$post['products']) {
 			$this->errors['recipient'] = $this->language->get('error_recipients');
 		}
 
