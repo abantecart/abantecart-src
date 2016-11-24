@@ -25,15 +25,10 @@ class ControllerTaskToolBackup extends AController {
 
 	public function dumpTables(){
 
-		$backup_name = preg_replace('[^0-9A-z_\.]','', $this->request->get['backup_name']);
-		if(!$backup_name){
-			$args = func_get_args();
-			if(isset($args[2])){
-				$backup_name = $args[2];
-			}
-		}
-
+		list($task_id,$step_id,$settings) = func_get_args();
+		$backup_name = preg_replace('[^0-9A-z_\.]','', $settings['backup_name']);
 		$backup_name = !$backup_name ? 'manual_backup' : $backup_name;
+
 		$bkp = new ABackup($backup_name);
 
 		if(has_value($this->request->get['sql_dump_mode'])){
@@ -77,14 +72,8 @@ class ControllerTaskToolBackup extends AController {
 
 	public function backupContentFiles(){
 
-		$backup_name = preg_replace('[^0-9A-z_\.]','', $this->request->get['backup_name']);
-		if(!$backup_name){
-			$args = func_get_args();
-			if(isset($args[1])){
-				$backup_name = $args[1];
-			}
-		}
-
+		list($task_id,$step_id,$settings) = func_get_args();
+		$backup_name = preg_replace('[^0-9A-z_\.]','', $settings['backup_name']);
 		$backup_name = !$backup_name ? 'manual_backup' : $backup_name;
 
 		$bkp = new ABackup($backup_name);
@@ -120,13 +109,8 @@ class ControllerTaskToolBackup extends AController {
 	}
 
 	public function backupCodeFiles(){
-		$backup_name = preg_replace('[^0-9A-z_\.]','', $this->request->get['backup_name']);
-		if(!$backup_name){
-			$args = func_get_args();
-			if(isset($args[1])){
-				$backup_name = $args[1];
-			}
-		}
+		list($task_id,$step_id,$settings) = func_get_args();
+		$backup_name = preg_replace('[^0-9A-z_\.]','', $settings['backup_name']);
 		$backup_name = !$backup_name ? 'manual_backup' : $backup_name;
 		$bkp = new ABackup($backup_name);
 
@@ -170,16 +154,8 @@ class ControllerTaskToolBackup extends AController {
 
 
 	public function backupConfig(){
-		$backup_name = preg_replace('[^0-9A-z_\.]','', $this->request->get['backup_name']);
-		if(!$backup_name){
-			$args = func_get_args();
-			$this->log->write('bkp config');
-			$this->log->write(var_export($args, true));
-			if(isset($args[2])){
-				$backup_name = $args[2];
-			}
-		}
-
+		list($task_id,$step_id,$settings) = func_get_args();
+		$backup_name = preg_replace('[^0-9A-z_\.]','', $settings['backup_name']);
 		$backup_name = !$backup_name ? 'manual_backup' : $backup_name;
 		$bkp = new ABackup($backup_name);
 		$result = $bkp->backupFile(DIR_ROOT . '/system/config.php', false);
@@ -193,14 +169,10 @@ class ControllerTaskToolBackup extends AController {
 
 	public function CompressBackup(){
 
-		$backup_name = preg_replace('[^0-9A-z_\.]','', $this->request->get['backup_name']);
-		if(!$backup_name){
-			$args = func_get_args();
-			if(isset($args[1])){
-				$backup_name = $args[1];
-			}
-		}
+		list($task_id,$step_id,$settings) = func_get_args();
+		$backup_name = preg_replace('[^0-9A-z_\.]','', $settings['backup_name']);
 		$backup_name = !$backup_name ? 'manual_backup' : $backup_name;
+
 		$bkp = new ABackup($backup_name);
 
 		$arc_basename =  DIR_BACKUP . $bkp->getBackupName();

@@ -149,8 +149,9 @@ class ControllerResponsesListingGridTask extends AController {
 													'status' => $tm::STATUS_READY,
 													'start_time' => date('Y-m-d H:i:s')
 													));
+				$task_id = $task['task_id'];
 			}
-			$this->_run_task();
+			$this->_run_task($task_id);
 		}else{
 			$this->response->setOutput(AJson::encode(array('result'=> false)));
 		}
@@ -174,8 +175,9 @@ class ControllerResponsesListingGridTask extends AController {
 				$tm->updateTask($task['task_id'], array(
 													'start_time' => date('Y-m-d H:i:s'),
 														));
+				$task_id = $task['task_id'];
 			}
-			$this->_run_task();
+			$this->_run_task($task_id);
 		}else{
 			$this->response->setOutput(AJson::encode(array('result'=> false)));
 		}

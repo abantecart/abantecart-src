@@ -202,7 +202,6 @@ class ATaskManager{
 		$task_id = (int)$step_details['task_id'];
 		$step_id = (int)$step_details['step_id'];
 		if(!$step_id || !$task_id){
-
 			return false;
 		}
 
@@ -217,7 +216,7 @@ class ATaskManager{
 		);
 
 		try{
-			$dd = new ADispatcher($step_details['controller'], $step_details['settings']);
+			$dd = new ADispatcher($step_details['controller'], array($task_id, $step_id, $step_details['settings']));
 			// waiting for result array from step's controller
 			$response = $dd->dispatchGetOutput();
 

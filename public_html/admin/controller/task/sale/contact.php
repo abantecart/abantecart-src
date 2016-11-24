@@ -26,6 +26,7 @@ class ControllerTaskSaleContact extends AController{
 	private $protocol;
 	private $sent_count = 0;
 	public function sendSms(){
+		list($task_id,$step_id,) = func_get_args();
 		$this->load->library('json');
 		//for aborting process
 		ignore_user_abort(false);
@@ -36,7 +37,7 @@ class ControllerTaskSaleContact extends AController{
 
 		$this->protocol = 'sms';
 		$this->sent_count = 0;
-		$result = $this->_send();
+		$result = $this->_send($task_id,$step_id);
 		if(!$this->sent_count){
 			$result = false;
 		}
@@ -54,6 +55,8 @@ class ControllerTaskSaleContact extends AController{
 	}
 
 	public function sendEmail(){
+		list($task_id,$step_id,) = func_get_args();
+
 		$this->load->library('json');
 		//for aborting process
 		ignore_user_abort(false);
@@ -64,7 +67,7 @@ class ControllerTaskSaleContact extends AController{
 
 		$this->protocol = 'email';
 		$this->sent_count = 0;
-		$result = $this->_send();
+		$result = $this->_send($task_id,$step_id);
 		if(!$this->sent_count){
 			$result = false;
 		}
@@ -82,11 +85,9 @@ class ControllerTaskSaleContact extends AController{
 	}
 
 
-	private function _send(){
+	private function _send($task_id, $step_id){
 
 		$this->loadLanguage('sale/contact');
-		$task_id = (int)$this->request->get['task_id'];
-		$step_id = (int)$this->request->get['step_id'];
 
 		if (!$task_id || !$step_id){
 			$error_text = 'Cannot run task step. Task_id (or step_id) has not been set.';
@@ -141,7 +142,16 @@ class ControllerTaskSaleContact extends AController{
 		$step_settings =  $step_info['settings'];
 		$cnt = 0;
 		$step_result = true;
-		foreach($step_info['settings']['to'] as $to){
+		$send_to = $step_info['settings']['to'];
+		//remove step if no recipients
+		if(!$send_to){
+			$tm->deleteStep($step_id);
+			if(sizeof($task_steps)==1){
+				$tm->deleteTask($task_id);
+			}
+			return true;
+		}
+		foreach($send_to as $to){
 			$send_data['subscriber'] = in_array($to,$step_info['settings']['subscribers']) ? true: false;
 
 			if($this->protocol=='email'){
@@ -179,7 +189,7 @@ class ControllerTaskSaleContact extends AController{
 		$tm->updateStep($step_id, array('last_result' => $step_result));
 
 		if(!$step_result){
-			$this->_return_error('Some errors during step run. See log for details.');
+			$this->_return_error('Some errors during step run.');
 		}
 		return $step_result;
 	}

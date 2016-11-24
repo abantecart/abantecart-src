@@ -28,9 +28,8 @@ class ControllerTaskLocalisationLanguage extends AController{
 	}
 
 	public function translate(){
+		list($task_id,$step_id,) = func_get_args();
 		$this->load->library('json');
-		$task_id = (int)$this->request->get['task_id'];
-		$step_id = (int)$this->request->get['step_id'];
 
 		if (!$task_id || !$step_id){
 			$error_text = 'Cannot run task step. Task_id (or step_id) has not been set.';
