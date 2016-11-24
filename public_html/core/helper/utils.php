@@ -1167,7 +1167,11 @@ function check_resize_image($orig_image, $new_image, $width, $height, $quality) 
 	    	if (!file_exists(DIR_IMAGE . $path)){
 	    		// Make sure the index file is there
 	    		$indexFile = DIR_IMAGE . $path . '/index.php';
-	    		@mkdir(DIR_IMAGE . $path, 0775) && file_put_contents($indexFile, "<?php die('Restricted Access!'); ?>");
+	    		$result = mkdir(DIR_IMAGE . $path, 0775) && file_put_contents($indexFile, "<?php die('Restricted Access!'); ?>");
+			    if(!$result){
+				    $error = new AError('Cannot to create directory '.DIR_IMAGE. $path. '. Please check permissions for '.DIR_IMAGE);
+				    $error->toLog();
+			    }
 	    	}
 	    }
 	}
