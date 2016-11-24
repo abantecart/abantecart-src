@@ -8,14 +8,18 @@
 	<div class="panel-body panel-body-nopadding">
 		<div class="form-group">
 		<?php
-		$fields = array('task_id', 'starter_name', 'date_added', 'last_time_run', 'subject', 'message', 'was_sent' );
+		$fields = array('task_id', 'starter_name', 'date_added', 'last_time_run', 'subject', 'message', 'sent' );
 		if ($tasks) {
 			foreach ($tasks as $task){
 				foreach ($task as $key => $item){
 					if(!in_array($key,$fields)){
 						continue;
 					}
-					echo '<dl class="dl-horizontal"><dt>' . $this->language->get('text_' . $key) . '</dt><dd>' . $item . '</dd></dl>';
+					$text = $this->language->get('text_' . $key);
+					if($key=='sent'){
+						$text = '';
+					}
+					echo '<dl class="dl-horizontal"><dt>' . $text . '</dt><dd>' . $item . '</dd></dl>';
 
 				}
 				echo '<dl class="dl-horizontal"><dt></dt><dd>
@@ -29,7 +33,7 @@
 						onclick="removeTask(this);"
 						data-confirmation="delete">
 						<i class="fa fa-minus-circle fa-lg"></i> '.$text_remove.'</a>
-				</dd></dl>';
+				</dd></dl><br>';
 			}
 		}
 ?>
