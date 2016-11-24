@@ -40,7 +40,7 @@ class ControllerResponsesListingGridCategory extends AController {
 	    $filter_data['parent_id'] = ( isset( $this->request->get['parent_id'] ) ? $this->request->get['parent_id'] : 0 );
 	    $new_level = 0;
 		//get all leave categories 
-		$leafnodes = $this->model_catalog_category->getLeafCategories();
+		$leaf_nodes = $this->model_catalog_category->getLeafCategories();
 	    if ($this->request->post['nodeid'] ) {
 	    	$sort = $filter_data['sort'];
 	    	$order = $filter_data['order'];
@@ -75,6 +75,9 @@ class ControllerResponsesListingGridCategory extends AController {
         );
 
 	    $i = 0;
+	    $language_id = $this->language->getContentLanguageID();
+	    $title = $this->language->get('text_view').' '.$this->language->get('tab_product');
+
 	    foreach ($results as $result) {
 		    $thumbnail = $thumbnails[$result['category_id']];
             $response->rows[$i]['id'] = $result['category_id'];
@@ -88,17 +91,17 @@ class ControllerResponsesListingGridCategory extends AController {
 																'name' => 'view products',
 																'text' => $result[ 'products_count' ],
 																'href'=> $this->html->getSecureURL('catalog/product','&category='.$result['category_id']),
-																'title' => $this->language->get('text_view').' '.$this->language->get('tab_product')
+																'title' => $title
 															));
 			}
 
             //tree grid structure
             if ( $this->config->get('config_show_tree_data') ) {
-            	$name_lable = '<label style="white-space: nowrap;">'.$result['basename'].'</label>';
+            	$name_label = '<label class="grid-parent-category" >'.$result['basename'].'</label>';
             } else {
-            	$name_lable = '<label style="white-space: nowrap;">'.(str_replace($result['basename'],'',$result['name'])).'</label>'
+            	$name_label = '<label class="grid-parent-category">'.(str_replace($result['basename'],'',$result['name'])).'</label>'
 			     .$this->html->buildInput(array(
-                    'name'  => 'category_description['.$result['category_id'].']['.$this->session->data['content_language_id'].'][name]',
+                    'name'  => 'category_description['.$result['category_id'].']['.$language_id.'][name]',
                     'value' => $result['basename'],
 				    'attr' => ' maxlength="32" '
                 ));
@@ -106,7 +109,7 @@ class ControllerResponsesListingGridCategory extends AController {
 
 			$response->rows[$i]['cell'] = array(
                 $thumbnail['thumb_html'],
-                $name_lable,
+                $name_label,
                 $this->html->buildInput(array(
                     'name'  => 'sort_order['.$result['category_id'].']',
                     'value' => $result['sort_order'],
@@ -125,7 +128,7 @@ class ControllerResponsesListingGridCategory extends AController {
                  'action',
                  $new_level,
                  ( $filter_data['parent_id'] ? $filter_data['parent_id'] : NULL ),
-                 ( $result['category_id'] == $leafnodes[$result['category_id']] ? true : false ),
+                 ( $result['category_id'] == $leaf_nodes[$result['category_id']] ? true : false ),
                  false              
 			);
 			$i++;
@@ -169,6 +172,7 @@ class ControllerResponsesListingGridCategory extends AController {
 					//resort required. 
 					if(  $this->request->post['resort'] == 'yes' ) {
 						//get only ids we need
+						$array = array();
 						foreach($ids as $id){
 							$array[$id] = $this->request->post['sort_order'][$id];
 						}
