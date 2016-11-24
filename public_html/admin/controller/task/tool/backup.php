@@ -129,13 +129,11 @@ class ControllerTaskToolBackup extends AController {
 		}
 		$backup_name = !$backup_name ? 'manual_backup' : $backup_name;
 		$bkp = new ABackup($backup_name);
-		$code_dirs = array( // white list
-			'admin',
-			'core',
-			'storefront',
-			'extensions',
-			'system',
-			'static_pages'
+
+		$content_dirs = array(
+			'resources',
+			'image',
+			'download'
 		);
 
 		$result = true;
@@ -149,7 +147,7 @@ class ControllerTaskToolBackup extends AController {
 				$res = $bkp->backupFile($file, false);
 			}
 			//only dirs from white list
-			else if(is_dir($file) && in_array(basename($file),$code_dirs)){
+			else if(is_dir($file) && !in_array(basename($file),$content_dirs)){
 				$res = $bkp->backupDirectory($file, false);
 			}
 			$result = !$res ? $res : $result;
