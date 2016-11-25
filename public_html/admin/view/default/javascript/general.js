@@ -857,17 +857,16 @@ var runTaskComplete = function (task_id) {
             datatype: 'json',
             global: false,
             success: function (data) {
-                var mess = '';
+                var message = '';
                 if(data.result_text){
-                    mess = defaultTaskMessages.task_success + '<br>'+data.result_text
+                    message = defaultTaskMessages.task_success + '<br>'+data.result_text
                 }else{
-                    mess = defaultTaskMessages.task_success;
+                    message = defaultTaskMessages.task_success;
                 }
 
                 $('#task_modal div.progress-info').append('<div class="alert-success">'
-                    + mess
-                    + '<a class="pull-right collapsed" data-toggle="collapse" href="#tsk_result_details" aria-expanded="false" aria-controls="tsk_result_details">' +
-                    + ' see details </a></div>');
+                    + message
+                    + '<a class="pull-right collapsed" data-toggle="collapse" href="#tsk_result_details" aria-expanded="false" aria-controls="tsk_result_details"> see details </a></div>');
                 // add result message
                 $('#task_modal div.progress-info').append('<div class="collapse panel-collapse task_result_message" role="tabpanel" id="tsk_result_details" aria-expanded="false"></div>');
                 $('#tsk_result_details').html(task_complete_text);
