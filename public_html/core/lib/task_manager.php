@@ -84,17 +84,17 @@ class ATaskManager{
 		// run loop tasks
 		foreach ($task_list as $task){
 			//check interval and skip task
-			$this->toLog('Task #' . $task['task_id'] ." state - running.");
+			$this->toLog('Task_id: ' . $task['task_id'] ." state - running.");
 			if ($task['interval'] > 0
 					&&
 				(time() - dateISO2Int($task['last_time_run']) >= $task['interval'] || is_null($task['last_time_run']))){
-				$this->toLog('Task #' . $task['task_id'] . ' skipped.');
+				$this->toLog('Task_id: ' . $task['task_id'] . ' skipped.');
 				continue;
 			}
 			$task_settings = unserialize($task['settings']);
 
 			$this->_run_steps($task['task_id'], $task_settings);
-			$this->toLog('Task #' . $task['task_id'] . ' state - finished.');
+			$this->toLog('Task_id: ' . $task['task_id'] . ' state - finished.');
 		}
 	}
 
@@ -110,19 +110,19 @@ class ATaskManager{
 			return false;
 		}
 
-		$this->toLog('Task #' . $task_id . ' state - running.');
+		$this->toLog('Task_id: ' . $task_id . ' state - running.');
 
 		//check interval and skip task
 		//check if task ran first time or
 		if ($task['interval'] > 0
 				&& (is_null($task['last_time_run'] || time() - dateISO2Int($task['last_time_run']) >= $task['interval']))
 		){
-			$this->toLog('Warning: Task #' . $task_id . ' skipped. Task interval.');
+			$this->toLog('Warning: task_id ' . $task_id . ' skipped. Task interval.');
 			return false;
 		}
 		$task_settings = unserialize($task['settings']);
 		$task_result = $this->_run_steps($task['task_id'], $task_settings);
-		$this->toLog('Task #' . $task_id . ' state - finished.');
+		$this->toLog('Task_id: ' . $task_id . ' state - finished.');
 		return $task_result;
 	}
 
@@ -175,13 +175,13 @@ class ATaskManager{
 		$task_id = (int)$task_id;
 		$step_id = (int)$step_id;
 		if(!$step_id || !$task_id){
-			$this->toLog('Error: Tried to check is step #' . $step_id . ' of task #' . $task_id." last, but fail!");
+			$this->toLog('Error: Tried to check is step_id: ' . $step_id . ' of task_id: ' . $task_id." last, but fail!");
 			return false;
 		}
 
 		$all_steps = $this->getTaskSteps($task_id);
 		if(!$all_steps){
-			$this->toLog('Error: Tried to check is step #' . $step_id . ' of task #' . $task_id." last, but steps list empty!");
+			$this->toLog('Error: Tried to check is step_id: ' . $step_id . ' of task_id: ' . $task_id." last, but steps list empty!");
 			return false;
 		}
 
@@ -245,9 +245,9 @@ class ATaskManager{
 		);
 
 		if (!$result){
-			$this->toLog('Task #' . $task_id . ' : Step #' . $step_id . ' - Failed. ' . $response_message, 0);
+			$this->toLog('Task_id: ' . $task_id . ' : step_id: ' . $step_id . ' - Failed. ' . $response_message, 0);
 		}else{
-			$this->toLog('Task #' . $task_id . ' : Step #' . $step_id . ' - Ok. ' . $response_message, 1);
+			$this->toLog('Task_id: ' . $task_id . ' : step_id: ' . $step_id . '. ' . $response_message, 1);
 		}
 
 

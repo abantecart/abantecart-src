@@ -750,19 +750,16 @@ var runTaskUI = function (data) {
     }
 }
 
-
-
 var runTaskStepsUI = function (task_details) {
     if (task_details.status != '1') {
-        runTaskShowError('Cannot to run steps of task "' + task_details.name + '" because status of task is not "scheduled". Current status - ' + task_details.status);
-
+        runTaskShowError('Cannot run task "' + task_details.name + '" steps because task is not yet "scheduled". Current status - ' + task_details.status);
     } else {
         var html = '<div class="progress">' +
                             '<div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="2" aria-valuemin="0" aria-valuemax="100" style="width: 1%;">1%</div>' +
                     '</div>'
             +'<div class="progress-info"></div>';
 
-        if(abort_task_url && abort_task_url.length>0){
+        if(abort_task_url && abort_task_url.length > 0){
             html += '<div class="center abort_button">' +
                                 '<a class="abort btn btn-danger" title="Interrupt Task" ><i class="fa fa-times-circle-o"></i> Abort</a>' +
                     '</div>';
@@ -811,7 +808,7 @@ var runTaskStepsUI = function (task_details) {
         do_seqAjax(ajaxes, 3);
 
         //abort process
-        if(abort_task_url && abort_task_url.length>0){
+        if(abort_task_url && abort_task_url.length > 0){
             $('#task_modal .modal-body').find('a.abort').on('click', function(){
                 $.xhrPool.abortAll();
                 $.ajax({
@@ -848,10 +845,10 @@ var runTaskComplete = function (task_id) {
         $('#tsk_result_details').html(task_fail_text + task_complete_text);
         task_fail_text = task_complete_text = '';
         //remove abort button
-        if($('#task_modal .abort_button').length>0) {
+        if($('#task_modal .abort_button').length > 0) {
             $('#task_modal .abort_button').remove();
         }
-    }else{
+    } else {
         $.ajax({
             type: "POST",
             async: false,
@@ -867,14 +864,16 @@ var runTaskComplete = function (task_id) {
                     mess = defaultTaskMessages.task_success;
                 }
 
-                $('#task_modal div.progress-info').append('<div class="alert-success">'+ mess
-                    + '<a class="pull-right collapsed" data-toggle="collapse" href="#tsk_result_details" aria-expanded="false" aria-controls="tsk_result_details">see details </a></div>');
+                $('#task_modal div.progress-info').append('<div class="alert-success">'
+                    + mess
+                    + '<a class="pull-right collapsed" data-toggle="collapse" href="#tsk_result_details" aria-expanded="false" aria-controls="tsk_result_details">' +
+                    + ' see details </a></div>');
                 // add result message
-                $('#task_modal .modal-body').append('<div class="collapse panel-collapse task_result_message" role="tabpanel" id="tsk_result_details" aria-expanded="false"></div>');
+                $('#task_modal div.progress-info').append('<div class="collapse panel-collapse task_result_message" role="tabpanel" id="tsk_result_details" aria-expanded="false"></div>');
                 $('#tsk_result_details').html(task_complete_text);
                 task_complete_text = '';
                 //remove abort button
-                if($('#task_modal .abort_button').length>0) {
+                if($('#task_modal .abort_button').length > 0) {
                     $('#task_modal .abort_button').remove();
                 }
             },
@@ -951,8 +950,7 @@ function do_seqAjax(ajaxes, attempts_count){
                 $('div.progress-bar')
                     .removeClass('active, progress-bar-striped')
                     .css('width', '100%')
-                    .html('100%');
-                $('div.progress-info').html(defaultTaskMessages.complete);
+                    .html(defaultTaskMessages.complete + ' 100%');
                 runTaskComplete(ajaxes[current_key].task_id, ajaxes[current_key].data);
                 return;
             }
