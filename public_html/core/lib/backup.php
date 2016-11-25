@@ -374,7 +374,6 @@ class ABackup{
 			$result = rename($dir_path, $this->backup_dir . 'files/' . $path);
 		} else{
 			$result = $this->_copyDir($dir_path, $this->backup_dir . 'files/' . $path);
-
 		}
 
 		if (!$result){
@@ -547,10 +546,23 @@ class ABackup{
 			if ($f->isFile()){
 				copy($real_path, "$dest/" . $f->getFilename());
 			} else if (!$f->isDot() && $f->isDir()){
-				$this->_copyDir($real_path, "$dest/$f");
+				$this->_copyDir($real_path, $dest."/".$f);
+				$this->_add_empty_index_file($dest."/".$f);
 			}
 		}
+
+		$this->_add_empty_index_file($dest);
 		return true;
+	}
+
+	private function _add_empty_index_file($dir){
+		//if empty directory - creates new empty file to prevent
+		// excluding directory during tar.gz compression via PharData class
+		$fi = new FilesystemIterator($dir, FilesystemIterator::SKIP_DOTS);
+		$files_count = iterator_count($fi);
+		if(!$files_count){
+			touch($dir."/index.html");
+		}
 	}
 
 	/**
