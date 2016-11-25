@@ -12,7 +12,7 @@
 
 Options +FollowSymlinks
 
-# Prevent Directoy listing 
+# Prevent Directory listing
 Options -Indexes
 
 # Prevent Direct Access to files
@@ -39,10 +39,10 @@ RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteRule ^(.*)\?*$ index.php?_route_=$1 [L,QSA]
 
-# SITE PERFORMANCE TUNNING # 
+# SITE PERFORMANCE TUNING #
 # Browser Caching, Compression and Headers cache control
 # This is to manage browser cache and improve site loading 
-# NOTE: If you do active development disable this as you will need to clear your browser cache manualy
+# NOTE: If you do active development disable this as you will need to clear your browser cache manually
 
 # Enable Compression
 <IfModule mod_deflate.c>
