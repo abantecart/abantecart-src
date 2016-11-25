@@ -167,7 +167,7 @@ class ControllerPagesDesignTemplate extends AController{
 
 		if (!$this->user->canModify('design/template')){
 			$this->session->data['warning'] = $this->language->get('error_permission');
-			$this->redirect($this->html->getSecureURL('design/template'));
+			redirect($this->html->getSecureURL('design/template'));
 		}
 
 		$this->loadModel('setting/setting');
@@ -188,7 +188,7 @@ class ControllerPagesDesignTemplate extends AController{
 			$this->session->data['warning'] = $this->language->get('text_error');
 		}
 
-		$this->redirect($this->html->getSecureURL('design/template'));
+		redirect($this->html->getSecureURL('design/template'));
 
 		//update controller data
 		$this->extensions->hk_UpdateData($this, __FUNCTION__);
@@ -205,30 +205,31 @@ class ControllerPagesDesignTemplate extends AController{
 
 		if (!$tmpl_id){
 			$this->session->data['warning'] = $this->language->get('text_error');
-			$this->redirect($this->html->getSecureURL('design/template'));
+			redirect($this->html->getSecureURL('design/template'));
 		}
 		$this->data['group'] = $this->data['tmpl_id'] == 'default' ? 'appearance' : $this->data['tmpl_id'];
 
 		if ($this->request->is_POST() && $this->_validate('appearance')){
-			if (has_value($this->request->post['config_logo'])){
-				$this->request->post['config_logo'] = html_entity_decode($this->request->post['config_logo'], ENT_COMPAT, 'UTF-8');
-			} else if (!$this->request->post['config_logo'] && isset($this->request->post['config_logo_resource_id'])){
+			$post = $this->request->post;
+			if (has_value($post['config_logo'])){
+				$post['config_logo'] = html_entity_decode($post['config_logo'], ENT_COMPAT, 'UTF-8');
+			} else if (!$post['config_logo'] && isset($post['config_logo_resource_id'])){
 				//we save resource ID vs resource path
-				$this->request->post['config_logo'] = $this->request->post['config_logo_resource_id'];
+				$post['config_logo'] = $post['config_logo_resource_id'];
 			}
-			if (has_value($this->request->post['config_icon'])){
-				$this->request->post['config_icon'] = html_entity_decode($this->request->post['config_icon'], ENT_COMPAT, 'UTF-8');
-			} else if (!$this->request->post['config_icon'] && isset($this->request->post['config_icon_resource_id'])){
+			if (has_value($post['config_icon'])){
+				$post['config_icon'] = html_entity_decode($post['config_icon'], ENT_COMPAT, 'UTF-8');
+			} else if (!$post['config_icon'] && isset($post['config_icon_resource_id'])){
 				//we save resource ID vs resource path
-				$this->request->post['config_icon'] = $this->request->post['config_icon_resource_id'];
+				$post['config_icon'] = $post['config_icon_resource_id'];
 			}
 
-			$this->model_setting_setting->editSetting($this->data['group'], $this->request->post, $this->request->get['store_id']);
+			$this->model_setting_setting->editSetting($this->data['group'], $post, $this->request->get['store_id']);
 
 			$this->session->data['success'] = $this->language->get('text_success');
 
 			$redirect_url = $this->html->getSecureURL('design/template/edit', '&tmpl_id=' . $tmpl_id);
-			$this->redirect($redirect_url);
+			redirect($redirect_url);
 		}
 
 		$this->data['store_id'] = 0;

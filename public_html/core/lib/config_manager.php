@@ -179,41 +179,26 @@ class AConfigManager{
 					break;
 
 				case 'appearance':
-					if (($field_name == 'config_image_thumb_width' && !$field_value) || ($field_name == 'config_image_thumb_height' && !$field_value)){
-						$error['image_thumb_width'] = $error['image_thumb_height'] = $this->language->get('error_image_thumb');
+					$item_name = array(
+							'thumb',
+							'popup',
+							'category',
+							'manufacturer',
+							'product',
+							'additional',
+							'related',
+							'cart',
+							'grid'
+					);
+
+					foreach($item_name as $key){
+						foreach(array('width', 'height') as $dim){
+							if ($field_name == 'config_image_'.$key.'_'.$dim && !$field_value){
+								$error['image_'.$key.'_'.$dim] = $this->language->get('error_image_'.$key);
+							}
+						}
 					}
 
-					if (($field_name == 'config_image_popup_width' && !$field_value) || ($field_name == 'config_image_popup_height' && !$field_value)){
-						$error['image_popup_height'] = $error['image_popup_width'] = $this->language->get('error_image_popup');
-					}
-
-					if (($field_name == 'config_image_category_width' && !$field_value) || ($field_name == 'config_image_category_height' && !$field_value)){
-						$error['image_category_height'] = $this->language->get('error_image_category');
-					}
-
-					if (($field_name == 'config_image_manufacturer_width' && !$field_value) || ($field_name == 'config_image_manufacturer_height' && !$field_value)){
-						$error['image_manufacturer_height'] = $this->language->get('error_image_manufacturer');
-					}
-
-					if (($field_name == 'config_image_product_width' && !$field_value) || ($field_name == 'config_image_product_height' && !$field_value)){
-						$error['image_product_height'] = $this->language->get('error_image_product');
-					}
-
-					if (($field_name == 'config_image_additional_width' && !$field_value) || ($field_name == 'config_image_additional_height' && !$field_value)){
-						$error['image_additional_height'] = $this->language->get('error_image_additional');
-					}
-
-					if (($field_name == 'config_image_related_width' && !$field_value) || ($field_name == 'config_image_related_height' && !$field_value)){
-						$error['image_related_height'] = $this->language->get('error_image_related');
-					}
-
-					if (($field_name == 'config_image_cart_width' && !$field_value) || ($field_name == 'config_image_cart_height' && !$field_value)){
-						$error['image_cart_height'] = $this->language->get('error_image_cart');
-					}
-
-					if (($field_name == 'config_image_grid_width' && !$field_value) || ($field_name == 'config_image_grid_height' && !$field_value)){
-						$error['image_grid_height'] = $this->language->get('error_image_grid');
-					}
 					break;
 
 				case 'checkout':
