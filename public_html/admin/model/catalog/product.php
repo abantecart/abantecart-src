@@ -950,6 +950,10 @@ class ModelCatalogProduct extends Model{
 					'product_option_value',
 					$pd_opt_val_id,
 					$r['resource_id']);
+			//remove if orphan
+			if(!$rm->isMapped($r['resource_id'])){
+				$rm->deleteResource($r['resource_id']);
+			}
 		}
 		return true;
 	}
