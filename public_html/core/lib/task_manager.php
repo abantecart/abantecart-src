@@ -247,7 +247,7 @@ class ATaskManager{
 		if (!$result){
 			$this->toLog('Task_id: ' . $task_id . ' : step_id: ' . $step_id . ' - Failed. ' . $response_message, 0);
 		}else{
-			$this->toLog('Task_id: ' . $task_id . ' : step_id: ' . $step_id . ' - Ok. ' . $response_message, 1);
+			$this->toLog('Task_id: ' . $task_id . ' : step_id: ' . $step_id . '. ' . $response_message, 1);
 		}
 
 
