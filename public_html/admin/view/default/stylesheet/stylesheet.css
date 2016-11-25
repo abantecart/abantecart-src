@@ -3311,10 +3311,10 @@ body.stickyheader .sticky_left {
 }
 
 #task_modal .modal-body div{
-   font-size: 16px;
+   font-size: 14px;
    margin: 5px;
    padding: 5px;
-   line-height: 27px;
+   line-height: 21px;
 }
 
 #task_modal .modal-body div.progress, #task_modal .modal-body div.progress-bar{

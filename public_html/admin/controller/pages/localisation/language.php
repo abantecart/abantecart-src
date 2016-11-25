@@ -347,7 +347,7 @@ class ControllerPagesLocalisationLanguage extends AController {
 		));
 
 		if(isset($this->request->get['language_id']) && sizeof($this->language->getAvailableLanguages())>1){
-			$form2 = new AForm('HT');
+			$form2 = new AForm();
 			$form2->setForm(array(
 				'form_name' => 'languageLoadFrm',
 			));
