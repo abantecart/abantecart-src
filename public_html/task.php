@@ -159,9 +159,10 @@ if($command_line){
 		$registry->set('response', null);
 		//use AError class to send fail-response in ajax-mode
 		$err = new AError('task run error');
-		$err->toJSONResponse('APP_ERROR_402',
-							array( 'error_text' => nl2br(implode("\n", $run_log))
-							));
+		$err->toJSONResponse(
+			'APP_ERROR_402',
+			array( 'error_text' => nl2br(implode("\n", $run_log)))
+		);
 		exit;
 	}
 	echo AJson::encode($run_log);

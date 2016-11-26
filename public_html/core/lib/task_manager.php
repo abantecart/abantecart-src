@@ -228,12 +228,12 @@ class ATaskManager{
 			$result = isset($response['result']) && $response['result'] ? true : false;
 			if($result){
 				$response_message = isset($response['message']) ? $response['message'] : '';
-			}else{
+			} else {
 				$response_message = isset($response['error_text']) ? $response['error_text'] : '';
 			}
 		} catch(AException $e){
+            $this->log->write($e);
 			$result = false;
-
 		}
 
 		$this->_update_step_state(
@@ -245,11 +245,15 @@ class ATaskManager{
 		);
 
 		if (!$result){
-			$this->toLog('Task_id: ' . $task_id . ' : step_id: ' . $step_id . ' - Failed. ' . $response_message, 0);
+            //write to AbanteCart log
+            $error_msg = 'Task_id: ' . $task_id . ' : step_id: ' . $step_id . ' - Failed. ' . $response_message;
+            $this->log->write($error_msg);
+            //write to task log
+			$this->toLog($error_msg, 0);
 		}else{
+            //write to task log
 			$this->toLog('Task_id: ' . $task_id . ' : step_id: ' . $step_id . '. ' . $response_message, 1);
 		}
-
 
 		//set task status
 		if($this->isLastStep($task_id, $step_id)){

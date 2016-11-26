@@ -48,14 +48,14 @@ class ControllerTaskLocalisationLanguage extends AController{
 		}
 
 		if (!$step_info){
-			$error_text = 'Cannot run task step. Looks like task #' . $task_id . ' does not contain step #' . $step_id;
+			$error_text = 'Cannot run task step. Looks like task_id ' . $task_id . ' does not contain step_id ' . $step_id;
 			$this->_return_error($error_text);
 		}
 
 		$tm->updateStep($step_id, array ('last_time_run' => date('Y-m-d H:i:s')));
 
 		if (!$step_info['settings']){
-			$error_text = 'Cannot run task step #' . $step_id . '. Unknown settings for it.';
+			$error_text = 'Cannot run task step_id' . $step_id . '. Unknown settings for it.';
 			$this->_return_error($error_text);
 		}
 
