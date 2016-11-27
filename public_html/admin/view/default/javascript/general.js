@@ -741,6 +741,7 @@ $(document).on('click', ".task_run", function () {
 
     return false;
 });
+
 /**/
 var runTaskUI = function (data) {
     if (data.hasOwnProperty("error") && data.error == true) {
@@ -835,13 +836,13 @@ var runTaskStepsUI = function (task_details) {
 }
 
 /* run post-trigger */
-
 var runTaskComplete = function (task_id) {
+    var collapse_btn = '<a class="pull-right details-button collapsed" data-toggle="collapse" href="#tsk_result_details" aria-expanded="false" aria-controls="tsk_result_details"></a>';
+    var collapse_pnl = '<div class="collapse panel-collapse task_result_message" role="tabpanel" id="tsk_result_details" aria-expanded="false"></div>';
+
     if(task_fail){
-        $('#task_modal div.progress-info').append('<div class="alert-danger" >' + defaultTaskMessages.task_failed
-            + '<a class="pull-right collapsed" data-toggle="collapse" href="#tsk_result_details" aria-expanded="false" aria-controls="tsk_result_details">see details </a></div>');
         // add result message
-        $('#task_modal .modal-body').append('<div class="collapse panel-collapse task_result_message" role="tabpanel" id="tsk_result_details" aria-expanded="false"></div>');
+        $('#task_modal div.progress-info').addClass('alert-danger').append(defaultTaskMessages.task_failed + collapse_btn + collapse_pnl);
         $('#tsk_result_details').html(task_fail_text + task_complete_text);
         task_fail_text = task_complete_text = '';
         //remove abort button
@@ -863,12 +864,8 @@ var runTaskComplete = function (task_id) {
                 }else{
                     message = defaultTaskMessages.task_success;
                 }
-
-                $('#task_modal div.progress-info').append('<div class="alert-success">'
-                    + message
-                    + '<a class="pull-right collapsed" data-toggle="collapse" href="#tsk_result_details" aria-expanded="false" aria-controls="tsk_result_details"> see details </a></div>');
                 // add result message
-                $('#task_modal div.progress-info').append('<div class="collapse panel-collapse task_result_message" role="tabpanel" id="tsk_result_details" aria-expanded="false"></div>');
+                $('#task_modal div.progress-info').addClass('alert-success').append(message + collapse_btn + collapse_pnl);
                 $('#tsk_result_details').html(task_complete_text);
                 task_complete_text = '';
                 //remove abort button
