@@ -22,6 +22,7 @@ if (! defined ( 'DIR_CORE' )) {
 }
 class ModelTotalBalance extends Model {
 	public function getTotal(&$total_data, &$total, &$taxes, &$cust_data) {
+
 		if ($this->config->get('balance_status')) {
 			if((float)$cust_data['used_balance']){
 				$total_data[] = array(

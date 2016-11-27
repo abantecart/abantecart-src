@@ -713,7 +713,12 @@ class ACart{
 
 		$total_data = array ();
 		$calc_order = array ();
-		$total = 0;
+		$total = 0.0;
+
+        //if cart is empty, nothing to do.
+        if(!$this->getProducts()) {
+            return $total;
+        }
 
 		$taxes = $this->getAppliedTaxes($recalculate);
 		//force storefront load (if called from admin)

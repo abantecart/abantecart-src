@@ -29,7 +29,7 @@ class ControllerPagesAccountLogout extends AController {
     	if ($this->customer->isLogged() || $this->customer->isUnauthCustomer()) {
       		$this->customer->logout();
 	  		$this->cart->clear();
-			
+
 			unset($this->session->data['shipping_address_id']);
 			unset($this->session->data['shipping_method']);
 			unset($this->session->data['shipping_methods']);
@@ -40,6 +40,8 @@ class ControllerPagesAccountLogout extends AController {
 			unset($this->session->data['order_id']);
 			unset($this->session->data['coupon']);
 			unset($this->session->data['merchant']);
+            unset($this->session->data['used_balance']);
+            unset($this->session->data['used_balance_full']);
 
 		    if($this->config->get('config_tax_store')){
 				$country_id = $this->config->get('config_country_id');
