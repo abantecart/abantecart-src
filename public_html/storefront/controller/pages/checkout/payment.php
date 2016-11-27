@@ -47,6 +47,12 @@ class ControllerPagesCheckoutPayment extends AController{
 
 		//Selections are posted, validate and apply
         if ($this->request->is_POST() && isset($this->request->post['coupon'])) {
+            //reload and re-apply balance if was requested
+            $param = '';
+            if(isset($this->session->data['used_balance'])) {
+                $param = '&balance=reapply';
+            }
+
             if(isset($this->request->post['reset_coupon'])) {
                 //remove coupon
                 unset($this->session->data['coupon']);
@@ -54,63 +60,29 @@ class ControllerPagesCheckoutPayment extends AController{
 
                 //process data
                 $this->extensions->hk_ProcessData($this, 'reset_coupon');
-                $this->redirect($this->html->getSecureURL($payment_rt));
+                $this->redirect($this->html->getSecureURL($payment_rt, $param));
             } else if($this->_validateCoupon()) {
                 $this->session->data['coupon'] = $this->request->post['coupon'];
                 $this->session->data['success'] = $this->language->get('text_success');
 
                 //process data
                 $this->extensions->hk_ProcessData($this, 'apply_coupon');
-                $this->redirect($this->html->getSecureURL($payment_rt));
+                $this->redirect($this->html->getSecureURL($payment_rt, $param));
             }
         }
 
-		$order_totals = $this->cart->buildTotalDisplay(true);
-		$order_total = $order_totals['total'];
-
-		//process balance
-		if ($this->request->get['balance'] == 'apply'){
-			$balance = $this->currency->convert($this->customer->getBalance(), $this->config->get('config_currency'), $this->session->data['currency']);
-			if ($this->session->data['used_balance']){
-				#check if we still have balance. 
-				if ($this->session->data['used_balance'] <= $balance){
-					$this->session->data['used_balance_full'] = true;
-				} else{
-					//if balance become less or 0 reapply partial
-					$this->session->data['used_balance'] = $balance;
-					$this->session->data['used_balance_full'] = false;
-				}
-			} else if ($balance > 0){
-				if ($balance >= $order_total){
-					$this->session->data['used_balance'] = $order_total;
-					$this->session->data['used_balance_full'] = true;
-
-				} else{ //partial pay
-					$this->session->data['used_balance'] = $balance;
-					$this->session->data['used_balance_full'] = false;
-				}
-			}
-
-			unset($this->request->get['balance']);
-			//if balance enough to cover order amount
-			if($this->session->data['used_balance_full']){
-				$this->session->data['payment_method'] = array (
-						'id'    => 'no_payment_required',
-						'title' => $this->language->get('no_payment_required')
-				);
-				//if enough -redirect on confirmation page
-				$this->redirect($this->html->getSecureURL('checkout/confirm'));
-			}
-		}
-		if ($this->request->get['balance'] == 'disapply'){
-			unset($this->session->data['used_balance'], $this->request->get['balance'], $this->session->data['used_balance_full']);
-			$order_totals = $this->cart->buildTotalDisplay(true);
-			$order_total = $order_totals['total'];
-		}
-		//we might have some uncleaned session. Show only if comes together with used balance  
+        if(isset($this->request->get['balance'])){
+            //process balance
+            $this->_process_balance($this->request->get['balance']);
+            unset($this->request->get['balance']);
+        }
+		//we might have some uncleaned session. Show only if comes together with used balance
 		if ($this->session->data['used_balance']){
 			$this->data['used_balance_full'] = $this->session->data['used_balance_full'];
 		}
+
+        $order_totals = $this->cart->buildTotalDisplay(true);
+        $order_total = $order_totals['total'];
 
 		if (!$this->cart->hasProducts() || (!$this->cart->hasStock() && !$this->config->get('config_stock_checkout'))){
 			$this->redirect($this->html->getSecureURL($cart_rt));
@@ -457,6 +429,45 @@ class ControllerPagesCheckoutPayment extends AController{
 		$this->extensions->hk_UpdateData($this, __FUNCTION__);
 
 	}
+
+    private function _process_balance($action){
+        if ($action == 'disapply' || $action == 'reapply'){
+            unset($this->session->data['used_balance'], $this->request->get['balance'], $this->session->data['used_balance_full']);
+        }
+        if ($action == 'apply' || $action == 'reapply'){
+            $balance = $this->currency->convert($this->customer->getBalance(), $this->config->get('config_currency'), $this->session->data['currency']);
+            $order_totals = $this->cart->buildTotalDisplay(true);
+            $order_total = $order_totals['total'];
+            if ($this->session->data['used_balance']){
+                #check if we still have balance.
+                if ($this->session->data['used_balance'] <= $balance){
+                    $this->session->data['used_balance_full'] = true;
+                } else{
+                    //if balance become less or 0 reapply partial
+                    $this->session->data['used_balance'] = $balance;
+                    $this->session->data['used_balance_full'] = false;
+                }
+            } else if ($balance > 0){
+                if ($balance >= $order_total){
+                    $this->session->data['used_balance'] = $order_total;
+                    $this->session->data['used_balance_full'] = true;
+
+                } else{ //partial pay
+                    $this->session->data['used_balance'] = $balance;
+                    $this->session->data['used_balance_full'] = false;
+                }
+            }
+            //if balance enough to cover order amount
+            if($this->session->data['used_balance_full']){
+                $this->session->data['payment_method'] = array (
+                    'id'    => 'no_payment_required',
+                    'title' => $this->language->get('no_payment_required')
+                );
+                //if enough -redirect on confirmation page
+                $this->redirect($this->html->getSecureURL('checkout/confirm'));
+            }
+        }
+    }
 
 	private function _validate(){
 		if ($this->cart->getFinalTotal()){
