@@ -1218,24 +1218,12 @@ class ModelCatalogProduct extends Model{
 			$this->model_catalog_download->deleteDownload($d['download_id']);
 		}
 
-		$this->db->query("DELETE FROM " . $this->db->table("product_options") . " WHERE product_id = '" . (int)$product_id . "'");
-		$this->db->query("DELETE FROM " . $this->db->table("product_option_descriptions") . " WHERE product_id = '" . (int)$product_id . "'");
-		$sql = "SELECT product_option_value_id FROM " . $this->db->table("product_option_values") . " WHERE product_id = '" . (int)$product_id . "'";
-		$result = $this->db->query($sql);
-		foreach ($result->rows as $row){
-			$pd_opt_val_id = $row['product_option_value_id'];
-			$resources = $rm->getResourcesList(array (
-					'object_name' => 'product_option_value',
-					'object_id'   => (int)$pd_opt_val_id));
-			foreach ($resources as $r){
-				$rm->unmapResource(
-						'product_option_value',
-						$pd_opt_val_id,
-						$r['resource_id']);
-			}
+		//cascade removing product options with values and their images
+		$options = $this->getProductOptions($product_id);
+		foreach($options as $option){
+			$this->_deleteProductOption($product_id, $option['product_option_id']);
 		}
-		$this->db->query("DELETE FROM " . $this->db->table("product_option_values") . " WHERE product_id = '" . (int)$product_id . "'");
-		$this->db->query("DELETE FROM " . $this->db->table("product_option_value_descriptions") . " WHERE product_id = '" . (int)$product_id . "'");
+
 		$this->db->query("DELETE FROM " . $this->db->table("product_discounts") . " WHERE product_id = '" . (int)$product_id . "'");
 		$this->db->query("DELETE FROM " . $this->db->table("products_related") . " WHERE product_id = '" . (int)$product_id . "'");
 		$this->db->query("DELETE FROM " . $this->db->table("products_to_downloads") . " WHERE product_id = '" . (int)$product_id . "'");
