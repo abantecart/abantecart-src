@@ -102,6 +102,11 @@ class ModelToolGlobalSearch extends Model {
 			'alias' => 'download',
 			'id' => 'download_id',
 			'page' => 'catalog/download/update',
+			'response' => ''),
+		"contents" => array(
+			'alias' => 'content',
+			'id' => 'content_id',
+			'page' => 'design/content/update',
 			'response' => '')
 	);
 
@@ -332,6 +337,20 @@ class ModelToolGlobalSearch extends Model {
 						RIGHT JOIN " . $this->db->table("download_descriptions") . " dd
 							ON (d.download_id = dd.download_id AND dd.language_id IN (" . (implode(",", $search_languages)) . "))
 						WHERE (LOWER(`name`) like '%" . $needle . "%')";
+				$result = $this->db->query($sql);
+				$output = $result->row ['total'];
+				break;
+			case "contents" :
+				$sql = "SELECT COUNT( DISTINCT c.content_id) as total
+						FROM " . $this->db->table("contents") . " c
+						RIGHT JOIN " . $this->db->table("content_descriptions") . " cd
+							ON (c.content_id = cd.content_id AND cd.language_id IN (" . (implode(",", $search_languages)) . "))
+						WHERE 
+							(LOWER(`name`) like '%" . $needle . "%')
+							OR (LOWER(`title`) like '%" . $needle . "%')
+							OR (LOWER(`description`) like '%" . $needle . "%')
+							OR (LOWER(`content`) like '%" . $needle . "%')						
+						";
 				$result = $this->db->query($sql);
 				$output = $result->row ['total'];
 				break;
@@ -654,6 +673,21 @@ class ModelToolGlobalSearch extends Model {
 						LEFT JOIN " . $this->db->table("download_descriptions") . " dd
 							ON (d.download_id = dd.download_id AND dd.language_id IN (" . (implode(",", $search_languages)) . "))
 						WHERE ( LOWER(dd.name) like '%" . $needle . "%' )
+						LIMIT " . $offset . "," . $rows_count;
+				$result = $this->db->query($sql);
+				$result = $result->rows;
+				break;
+
+			case "contents" :
+				$sql = "SELECT c.content_id, name as title, name  as text
+						FROM " . $this->db->table("contents") . " c
+						RIGHT JOIN " . $this->db->table("content_descriptions") . " cd
+							ON (c.content_id = cd.content_id AND cd.language_id IN (" . (implode(",", $search_languages)) . "))
+						WHERE 
+							(LOWER(`name`) like '%" . $needle . "%')
+							OR (LOWER(`title`) like '%" . $needle . "%')
+							OR (LOWER(`description`) like '%" . $needle . "%')
+							OR (LOWER(`content`) like '%" . $needle . "%')
 						LIMIT " . $offset . "," . $rows_count;
 				$result = $this->db->query($sql);
 				$result = $result->rows;
