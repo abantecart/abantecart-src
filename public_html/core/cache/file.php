@@ -130,7 +130,9 @@ class ACacheDriverFile extends ACacheDriver{
 			return true;
 		} else {
 			//something happen and data was not saved completely, need to remove file and fail.
-			@unlink($path);
+			if(file_exists($path)){
+				unlink($path);
+			}
 			return false;
 		}
 	}
@@ -195,7 +197,9 @@ class ACacheDriverFile extends ACacheDriver{
 		foreach ($files as $file){
 			$time = @filemtime($file);
 			if (($time + $this->expire) < $this->now || empty($time)){
-				$result |= @unlink($file);
+				if(file_exists($file)){
+					$result |= @unlink($file);
+				}
 			}
 		}
 		return $result;
@@ -208,7 +212,7 @@ class ACacheDriverFile extends ACacheDriver{
 	 * @param   string   $group The cache data group
 	 * @param   integer  $locktime Cached item max lock time
 	 *
-	 * @return  boolean
+	 * @return  array
 	 *
 	 * @since   1.2.7
 	 */
@@ -408,7 +412,7 @@ class ACacheDriverFile extends ACacheDriver{
 	 * @param   array    $exclude        Array with names of files which should be skipped
 	 * @param   array    $exclude_filter  Array of folder names to skip
 	 *
-	 * @return  array    Files in the given folder.
+	 * @return  array|false    Files in the given folder.
 	 *
 	 * @since   1.2.7
 	 */
@@ -460,7 +464,7 @@ class ACacheDriverFile extends ACacheDriver{
 	 * @param   array    $exclude        Array with names of folders which should not be shown in the result.
 	 * @param   array    $exclude_filter  Array with regular expressions matching folders which should not be shown in the result.
 	 *
-	 * @return  array  with full path sub-directories.
+	 * @return  array|false  with full path sub-directories.
 	 *
 	 * @since   1.2.7
 	 */
