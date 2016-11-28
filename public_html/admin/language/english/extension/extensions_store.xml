@@ -189,4 +189,8 @@
 		<key>error_mp_connection</key>
 		<value><![CDATA[Oops, can not connect to AbanteCart MarketPlace. Please try to check later or ask your hosting service provider for help.]]></value>
 	</definition>
+	<definition>
+		<key>text_search</key>
+		<value><![CDATA[search]]></value>
+	</definition>
 </definitions>

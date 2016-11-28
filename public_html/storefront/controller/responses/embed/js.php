@@ -114,6 +114,7 @@ class ControllerResponsesEmbedJS extends AController {
 		}
 
 		$this->loadModel('catalog/product');
+		$this->loadLanguage('product/product');
 		$product_info = $this->model_catalog_product->getProduct($product_id);
 
 		//can not locate product? get out
