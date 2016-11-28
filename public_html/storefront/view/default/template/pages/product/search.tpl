@@ -97,7 +97,9 @@ function contentSearch() {
 	if ($('#model').is(':checked')) {
 		url += '&model=1';
 	}
-	url += '&sort=' + $('#sort').val();
+	if($('#sort').val()) {
+		url += '&sort=' + $('#sort').val();
+	}
 
 	location = url;
 }
