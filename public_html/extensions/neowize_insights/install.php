@@ -29,7 +29,7 @@ $menu->insertMenuItem ( array (
 						 "item_id" => "neowize_insights",
 						 "parent_id" => 'report_analytics',
 						 "item_icon_rl_id" => $resource_menu_icon_id,
-						 "item_text" => "NeoWize Insights",
+						 "item_text" => "neowize_insights_name",
 						 "item_url" => "neowize/dashboard",
 						 "item_type"=>"extension",
 						 "sort_order"=>"0"

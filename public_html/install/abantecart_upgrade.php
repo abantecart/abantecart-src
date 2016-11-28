@@ -18,3 +18,9 @@ if(!$task_api_key){
 			VALUES ( '".$store_id."', 'api', 'task_api_key', '".$this->db->escape(genToken(16))."')";
 	$result = $this->db->query($sql);
 }
+
+// fix for menu
+if($this->config->get('neowize_insights_status')){
+	$sql = "UPDATE ".$this->db->table('extensions')." SET status=1 WHERE `key` = 'neowize_insights'";
+	$result = $this->db->query($sql, true);
+}
