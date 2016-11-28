@@ -79,7 +79,7 @@ class ControllerPagesSettingSetting extends AController {
             }
 			$redirect_url = $this->html->getSecureURL('setting/setting',
 					'&active=' . $this->request->get['active'] . '&store_id=' . (int)$this->request->get['store_id']);
-			$this->redirect($redirect_url);
+			redirect($redirect_url);
 		}
 
 		$this->data['store_id'] = 0;
@@ -458,6 +458,25 @@ class ControllerPagesSettingSetting extends AController {
 				break;
 			case 'appearance' :
 				$this->data = array_merge_recursive($this->data, $this->_build_appearance($form, $this->data['settings']));
+				//when opens page for looking setting of template (from settings grid or search)
+				if(isset($this->request->get['active'])){
+					$parts = explode('-',$this->request->get['active']);
+					$field_names = array();
+					foreach ($this->data['form']['fields'] as $fld){
+						$field_names[] = $fld->name;
+					}
+					//if we cannot find setting on page - redirect to template edit page
+					if(!in_array($parts[1],$field_names)){
+						//use template id if set.
+						// otherwise use default
+						$tmpl_id = $this->request->get['tmpl_id'];
+						if(!$tmpl_id){
+							$tmpl_id = $this->config->get('config_storefront_template');
+						}
+						redirect($this->html->getSecureURL('design/template/edit','&tmpl_id='.$tmpl_id));
+					}
+				}
+
 				break;
 			case 'mail' :
 				$this->data = array_merge_recursive($this->data, $this->_build_mail($form, $this->data['settings']));

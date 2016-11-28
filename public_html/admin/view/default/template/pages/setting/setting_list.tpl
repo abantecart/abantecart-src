@@ -54,7 +54,8 @@ echo $this->html->buildElement(
 			$('.grid_action_edit').each(function () {
 				if ($(this).is('[href*=appearance]') || $(this).is('[href*=im&]')) {
 					var id = $(this).parents('tr').attr('id');
-					$(this).attr('href', data.userdata.href[id]).attr('target', '_blank');
+					var new_href = data.userdata.href[id]+ '&active='+$(this).attr('rel');
+					$(this).attr('href', new_href).attr('target', '_blank');
 				} else {
 					$(this).attr('data-toggle', 'modal').attr('data-target', '#setting_modal');
 				}
