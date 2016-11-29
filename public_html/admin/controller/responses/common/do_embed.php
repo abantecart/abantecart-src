@@ -136,7 +136,15 @@ class ControllerResponsesCommonDoEmbed extends AController {
 		$this->data['sf_base_url'] = $remote_store_url;
 		$this->data['help_url'] = $this->gen_help_url('embed');
 
-		$this->data['sf_css_embed_url'] = $remote_store_url.'storefront/view/' . $this->config->get('config_storefront_template').'/stylesheet/embed.css';
+		$template_name = $this->config->get('config_storefront_template');
+		$this->data['sf_css_embed_url'] = $remote_store_url.'storefront/view/default/stylesheet/embed.css';
+		//override css url for extension templates
+		if($template_name != 'default'){
+			$css_file = DIR_ROOT . '/extensions/' . $template_name . '/storefront/view/' . $template_name . '/stylesheet/embed.css';
+			if (is_file($css_file)){
+				$this->data['sf_css_embed_url'] = $remote_store_url . 'extensions/' . $template_name . '/storefront/view/' . $template_name . '/stylesheet/embed.css';
+			}
+		}
 
 		//update controller data
 		$this->extensions->hk_UpdateData($this,__FUNCTION__);
