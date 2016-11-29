@@ -12,7 +12,7 @@
 	}
 
 <?php
-if($product['price']){?>
+if($product['price'] && $display_price){?>
 	html ='';
 	if($('<?php echo $target;?> .abantecart_price')){
 	<?php if ($product['special']) { ?>
