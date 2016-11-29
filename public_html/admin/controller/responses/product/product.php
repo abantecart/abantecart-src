@@ -34,6 +34,11 @@ class ControllerResponsesProductProduct extends AController{
 		$products_data = array ();
 		$post =& $this->request->post;
 		$get =& $this->request->get;
+		$exclude = (array)$post['exclude'];
+		if(isset($get['exclude'])){
+			$get['exclude'] = (array)$get['exclude'];
+			$exclude = array_merge($get['exclude'],$exclude);
+		}
 		//init controller data
 		$this->extensions->hk_InitData($this, __FUNCTION__);
 		$this->loadModel('catalog/product');
@@ -56,7 +61,7 @@ class ControllerResponsesProductProduct extends AController{
 			                 'filter'              => array (
 					                 'keyword' => $post['term'],
 					                 'match'   => 'all',
-					                 'exclude' => array('product_id' => $post['exclude'])
+					                 'exclude' => array('product_id' => $exclude)
 			                 ));
 			$products = $this->model_catalog_product->getProducts($filter);
 

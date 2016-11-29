@@ -28,28 +28,29 @@ class ControllerPagesCatalogProductRelations extends AController {
 
         //init controller data
         $this->extensions->hk_InitData($this, __FUNCTION__);
+		$product_id = (int)$this->request->get['product_id'];
+	    $language_id = $this->language->getContentLanguageID();
 
         $this->loadLanguage('catalog/product');
         $this->document->setTitle($this->language->get('heading_title'));
         $this->loadModel('catalog/product');
 		
 
-        if (isset($this->request->get['product_id']) && ($this->request->is_GET())) {
-            $product_info = $this->model_catalog_product->getProduct($this->request->get['product_id']);
+        if ($product_id && ($this->request->is_GET())) {
+            $product_info = $this->model_catalog_product->getProduct($product_id);
             if (!$product_info) {
                 $this->session->data['warning'] = $this->language->get('error_product_not_found');
-                $this->redirect($this->html->getSecureURL('catalog/product'));
+                redirect($this->html->getSecureURL('catalog/product'));
             }
         }
 
         if ( $this->request->is_POST() ) {
-
-            $this->model_catalog_product->updateProductLinks($this->request->get['product_id'], $this->request->post);
+            $this->model_catalog_product->updateProductLinks($product_id, $this->request->post);
             $this->session->data['success'] = $this->language->get('text_success');
-            $this->redirect($this->html->getSecureURL('catalog/product_relations', '&product_id=' . $this->request->get['product_id']));
+            redirect($this->html->getSecureURL('catalog/product_relations', '&product_id=' . $product_id));
         }
 
-        $this->data['product_description'] = $this->model_catalog_product->getProductDescriptions($this->request->get['product_id']);
+        $this->data['product_description'] = $this->model_catalog_product->getProductDescriptions($product_id);
 
         $this->view->assign('error_warning', $this->error['warning']);
         $this->view->assign('success', $this->session->data['success']);
@@ -68,12 +69,12 @@ class ControllerPagesCatalogProductRelations extends AController {
             'separator' => ' :: '
         ));
         $this->document->addBreadcrumb(array(
-            'href' => $this->html->getSecureURL('catalog/product/update', '&product_id=' . $this->request->get['product_id']),
-            'text' => $this->language->get('text_edit') . '&nbsp;' . $this->language->get('text_product') . ' - ' . $this->data['product_description'][$this->session->data['content_language_id']]['name'],
+            'href' => $this->html->getSecureURL('catalog/product/update', '&product_id=' . $product_id),
+            'text' => $this->language->get('text_edit') . '&nbsp;' . $this->language->get('text_product') . ' - ' . $this->data['product_description'][$language_id]['name'],
             'separator' => ' :: '
         ));
         $this->document->addBreadcrumb(array(
-            'href' => $this->html->getSecureURL('catalog/product_relations', '&product_id=' . $this->request->get['product_id']),
+            'href' => $this->html->getSecureURL('catalog/product_relations', '&product_id=' . $product_id),
             'text' => $this->language->get('tab_relations'),
             'separator' => ' :: ',
 			'current' => true
@@ -93,9 +94,9 @@ class ControllerPagesCatalogProductRelations extends AController {
         	$this->data['stores'][$r['store_id']] = $r['name'];
         }
 
-        $this->data['product_category'] = $this->model_catalog_product->getProductCategories($this->request->get['product_id']);
-        $this->data['product_store'] = $this->model_catalog_product->getProductStores($this->request->get['product_id']);
-        $this->data['product_related'] = $this->model_catalog_product->getProductRelated($this->request->get['product_id']);
+        $this->data['product_category'] = $this->model_catalog_product->getProductCategories($product_id);
+        $this->data['product_store'] = $this->model_catalog_product->getProductStores($product_id);
+        $this->data['product_related'] = $this->model_catalog_product->getProductRelated($product_id);
 
         $this->data['active'] = 'relations';
 		//load tabs controller
@@ -105,9 +106,9 @@ class ControllerPagesCatalogProductRelations extends AController {
 
         $this->data['category_products'] = $this->html->getSecureURL('product/product/category');
         $this->data['related_products'] = $this->html->getSecureURL('product/product/related');
-        $this->data['action'] = $this->html->getSecureURL('catalog/product_relations', '&product_id=' . $this->request->get['product_id']);
+        $this->data['action'] = $this->html->getSecureURL('catalog/product_relations', '&product_id=' . $product_id);
         $this->data['form_title'] = $this->language->get('text_edit') . '&nbsp;' . $this->language->get('text_product');
-        $this->data['update'] = $this->html->getSecureURL('listing_grid/product/update_relations_field', '&id=' . $this->request->get['product_id']);
+        $this->data['update'] = $this->html->getSecureURL('listing_grid/product/update_relations_field', '&id=' . $product_id);
         $form = new AForm('HS');
 
         $form->setForm(array(
@@ -130,7 +131,7 @@ class ControllerPagesCatalogProductRelations extends AController {
         ));
         $this->data['form']['cancel'] = $form->getFieldHtml(array(
             'type' => 'button',
-			'href' => $this->html->getSecureURL('catalog/product/update','&product_id='.$this->request->get['product_id']),
+			'href' => $this->html->getSecureURL('catalog/product/update','&product_id='.$product_id),
             'name' => 'cancel',
             'text' => $this->language->get('button_cancel'),
             'style' => 'button2',
@@ -153,8 +154,7 @@ class ControllerPagesCatalogProductRelations extends AController {
 		    	'style' => 'chosen',
 		    	'placeholder' => $this->language->get('text_select_category'),
 		));
-		//load only prior saved products 
-		$resource = new AResource('image');
+		//load only prior saved products
 		$this->data['products'] = array();
 		if (count($this->data['product_related'])) {
             $ids = array();
@@ -192,7 +192,7 @@ class ControllerPagesCatalogProductRelations extends AController {
 		    	'value' => $this->data['product_related'],
 		    	'options' => $this->data['products'],
 		    	'style' => 'chosen',
-		    	'ajax_url' => $this->html->getSecureURL('r/product/product/products'),
+		    	'ajax_url' => $this->html->getSecureURL('r/product/product/products', '&exclude[]='.$product_id),
 		    	'placeholder' => $this->language->get('text_select_from_lookup'),
 		));
 
@@ -204,7 +204,7 @@ class ControllerPagesCatalogProductRelations extends AController {
 	            'style' => 'chosen',
         ));
 	    if($this->config->get('config_embed_status')){
-		    $this->data['embed_url'] = $this->html->getSecureURL('common/do_embed/product', '&product_id=' . $this->request->get['product_id']);
+		    $this->data['embed_url'] = $this->html->getSecureURL('common/do_embed/product', '&product_id=' . $product_id);
 	    }
         $this->addChild('pages/catalog/product_summary', 'summary_form', 'pages/catalog/product_summary.tpl');
         $this->view->assign('help_url', $this->gen_help_url('product_relations'));
