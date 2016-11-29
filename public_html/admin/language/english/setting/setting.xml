@@ -139,7 +139,7 @@
 	</definition>
 	<definition>
 		<key>entry_admin_language</key>
-		<value><![CDATA[Administration Language:]]></value>
+		<value><![CDATA[Administration Language: <span class="help">NOTE: works if no user preferred language is found in the browser</span>]]></value>
 	</definition>
 	<definition>
 		<key>entry_currency</key>
