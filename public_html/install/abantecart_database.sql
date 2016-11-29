@@ -11901,7 +11901,7 @@ VALUES
 (10,'neowize_insights',222);
 -- ITEM_TEXT
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
-VALUES (11,'NeoWize Insights',222);
+VALUES (11,'neowize_insights_name',222);
 -- ITEM_URL
 INSERT INTO `ac_dataset_values` (`dataset_column_id`, `value_varchar`,`row_id`)
 VALUES (12,'neowize/dashboard',222);
