@@ -36,6 +36,7 @@ class ABackup{
 	public $sql_dump_mode = 'data_only';
 	private $backup_name;
 	private $backup_dir;
+	private $slash;
 	/**
 	 * @var Registry
 	 */
@@ -54,7 +55,7 @@ class ABackup{
 		 * @var Registry
 		 */
 		$this->registry = Registry::getInstance();
-
+		$this->slash = IS_WINDOWS === true ? '\\' : '/';
 		//first of all check backup directory create or set writable permissions
 		// Before backup process need to call validate() method! (see below)
 		if (!make_writable_dir(DIR_BACKUP)){
@@ -537,17 +538,19 @@ class ABackup{
 		foreach ($i as $f){
 			$real_path = $f->getRealPath();
 			//skip backup, cache and logs
-			if (is_int(strpos($real_path, '/backup')) || is_int(strpos($real_path, '/cache')) || is_int(strpos($real_path, '/logs'))){
+			if (is_int(strpos($real_path, $this->slash.'backup'))
+					|| is_int(strpos($real_path, $this->slash.'cache'))
+					|| is_int(strpos($real_path, $this->slash.'logs'))){
 				continue;
 			}
 			/**
 			 * @var $f DirectoryIterator
 			 */
 			if ($f->isFile()){
-				copy($real_path, "$dest/" . $f->getFilename());
+				copy($real_path, $dest . $this->slash. $f->getFilename());
 			} else if (!$f->isDot() && $f->isDir()){
-				$this->_copyDir($real_path, $dest."/".$f);
-				$this->_add_empty_index_file($dest."/".$f);
+				$this->_copyDir($real_path, $dest . $this->slash . $f);
+				$this->_add_empty_index_file($dest . $this->slash . $f);
 			}
 		}
 
@@ -561,7 +564,7 @@ class ABackup{
 		$fi = new FilesystemIterator($dir, FilesystemIterator::SKIP_DOTS);
 		$files_count = iterator_count($fi);
 		if(!$files_count){
-			touch($dir."/index.html");
+			touch($dir.$this->slash."index.html");
 		}
 	}
 
@@ -589,7 +592,7 @@ class ABackup{
 		}
 
 		//3. check already created backup directories
-		foreach (array ($this->backup_dir, $this->backup_dir . "files/", $this->backup_dir . "data/") as $dir){
+		foreach (array ($this->backup_dir, $this->backup_dir . "files".$this->slash, $this->backup_dir . "data".$this->slash) as $dir){
 			if (is_dir($dir) && !is_writable($dir)){
 				$this->error[] = 'Directory ' . $dir . ' already exists and it is non-writable. It is recommended to set write mode for it.';
 			}
