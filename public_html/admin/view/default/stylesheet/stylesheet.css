@@ -3373,3 +3373,7 @@ body.stickyheader .sticky_left {
 #getEmbedFrm .control-label{
    padding-top: 2px;
 }
+
+img.extension-summary-icon{
+	width: 57px;
+}

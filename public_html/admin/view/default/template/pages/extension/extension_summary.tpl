@@ -5,7 +5,7 @@
 	<div class="panel-body panel-body-nopadding">
 		<div class="row">
 			<div class="col-md-1">
-				<img src="<?php echo $extension_info['icon'] ?>" alt="<?php echo $exrension['name'] ?>" />
+				<img class="extension-summary-icon" src="<?php echo $extension_info['icon'] ?>" alt="<?php echo $extension['name'] ?>"/>
 			</div>
 			<?php if ($extension_info['version']) { ?>
 				<div class="col-md-2"><?php echo $text_version . ': <br/>' . $extension_info['version']; ?></div>
