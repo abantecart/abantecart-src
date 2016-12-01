@@ -17,7 +17,7 @@
    versions in the future. If you wish to customize AbanteCart for your
    needs please refer to http://www.AbanteCart.com for more information.
 ------------------------------------------------------------------------------*/
-if (!defined('DIR_CORE') || !IS_ADMIN) {
+if (!defined('DIR_CORE') || !IS_ADMIN){
 	header('Location: static_pages/');
 }
 
@@ -25,18 +25,18 @@ if (!defined('DIR_CORE') || !IS_ADMIN) {
  * Class ModelSaleContact
  * @property ModelSettingStore $model_setting_store
  * @property ModelSaleCustomer $model_sale_customer
+ * @property ModelSaleOrder $model_sale_order
  */
-class ModelSaleContact extends Model {
-	public $errors = array();
-	private $eta = array();
-
+class ModelSaleContact extends Model{
+	public $errors = array ();
+	private $eta = array ();
 
 	/**
 	 * @param string $task_name
 	 * @param array $data
 	 * @return array|bool
 	 */
-	public function createTask($task_name, $data = array()){
+	public function createTask($task_name, $data = array ()){
 
 		if (!$task_name){
 			$this->errors[] = 'Can not to create task. Empty task name has been given.';
@@ -53,17 +53,18 @@ class ModelSaleContact extends Model {
 		}
 
 		//get URIs of recipients
-		if($data['protocol']=='email'){
+		$uris = $subscribers = $task_controller = '';
+		if ($data['protocol'] == 'email'){
 			list($uris, $subscribers) = $this->_get_email_list($data);
 			$task_controller = 'task/sale/contact/sendEmail';
 
-			//if message does not contains html-tags replace breaklines to <br>
-			$decoded = html_entity_decode($data['message'],ENT_QUOTES,'UTF-8');
-			if( $decoded == strip_tags($decoded)) {
+			//if message does not contains html-tags replace line breaks to <br>
+			$decoded = html_entity_decode($data['message'], ENT_QUOTES, 'UTF-8');
+			if ($decoded == strip_tags($decoded)){
 				$data['message'] = nl2br($data['message']);
 			}
 
-		}elseif($data['protocol']=='sms'){
+		} elseif ($data['protocol'] == 'sms'){
 			list($uris, $subscribers) = $this->_get_phone_list($data);
 			$task_controller = 'task/sale/contact/sendSms';
 		}
@@ -92,8 +93,8 @@ class ModelSaleContact extends Model {
 				       'progress'           => '0',
 				       'last_result'        => '1', // think all fine until some failed step will set 0 here
 				       'run_interval'       => '0',
-						//think that task will execute with some connection errors
-				       'max_execution_time' => (sizeof($uris) * $time_per_send * 2)
+					//think that task will execute with some connection errors
+					   'max_execution_time' => (sizeof($uris) * $time_per_send * 2)
 
 				)
 		);
@@ -103,18 +104,18 @@ class ModelSaleContact extends Model {
 		}
 
 		$tm->updateTaskDetails($task_id,
-				array(
-					'created_by' => $this->user->getId(),
-					'settings'   => array(
-										'recipients_count' => sizeof($uris),
-										'sent'             => 0
-										)
+				array (
+						'created_by' => $this->user->getId(),
+						'settings'   => array (
+								'recipients_count' => sizeof($uris),
+								'sent'             => 0
+						)
 				)
 		);
 
 		//create steps for sending
-		$k=0;
-		$sort_order =1;
+		$k = 0;
+		$sort_order = 1;
 		while ($steps_count > 0){
 			$uri_list = array_slice($uris, $k, $divider);
 			$step_id = $tm->addStep(array (
@@ -123,43 +124,42 @@ class ModelSaleContact extends Model {
 					'status'             => 1,
 					'last_time_run'      => '0000-00-00 00:00:00',
 					'last_result'        => '0',
-					//think that task will execute with some connection errors
-					'max_execution_time' => ($time_per_send*$divider*2),
+				//think that task will execute with some connection errors
+					'max_execution_time' => ($time_per_send * $divider * 2),
 					'controller'         => $task_controller,
 					'settings'           => array (
-							'to'            => $uri_list,
-							'subject'       => $data['subject'],
-							'message'       => $data['message'],
-							'store_name'    => $store_name,
-							'subscribers'   => $subscribers
+							'to'          => $uri_list,
+							'subject'     => $data['subject'],
+							'message'     => $data['message'],
+							'store_name'  => $store_name,
+							'subscribers' => $subscribers
 					)
 			));
 
-			if(!$step_id){
+			if (!$step_id){
 				$this->errors = array_merge($this->errors, $tm->errors);
 				return false;
-			}else{
+			} else{
 				// get eta in seconds
 				$this->eta[$step_id] = ($time_per_send * $divider);
 			}
 			$steps_count--;
-			$k = $k+$divider;
+			$k = $k + $divider;
 			$sort_order++;
 		}
 
 		$task_details = $tm->getTaskById($task_id);
 
-
-		if($task_details){
-			foreach($this->eta as $step_id => $eta){
+		if ($task_details){
+			foreach ($this->eta as $step_id => $eta){
 				$task_details['steps'][$step_id]['eta'] = $eta;
 				//remove settings from output json array. We will take it from database on execution.
-				$task_details['steps'][$step_id]['settings'] = array();
+				$task_details['steps'][$step_id]['settings'] = array ();
 			}
 			return $task_details;
-		}else{
+		} else{
 			$this->errors[] = 'Can not to get task details for execution';
-			$this->errors = array_merge($this->errors,$tm->errors);
+			$this->errors = array_merge($this->errors, $tm->errors);
 			return false;
 		}
 
@@ -172,22 +172,22 @@ class ModelSaleContact extends Model {
 			$results = array ();
 			if ($data['recipient'] == 'all_subscribers'){
 				$all_subscribers = $this->model_sale_customer->getAllSubscribers(
-						array( 'filter' => array( 'newsletter_protocol' => 'email'))
+						array ('filter' => array ('newsletter_protocol' => 'email'))
 				);
-				$results = $this->_unify_customer_list('email',$all_subscribers);
+				$results = $this->_unify_customer_list('email', $all_subscribers);
 				$subscribers = $results;
 			} else
-			if ($data['recipient'] == 'only_subscribers'){
-				$only_subscribers = $this->model_sale_customer->getOnlyNewsletterSubscribers(
-						array( 'filter' => array( 'newsletter_protocol' => 'email'))
-				);
-				$results = $this->_unify_customer_list('email',$only_subscribers);
-				$subscribers = $results;
-			} else
-			if ($data['recipient'] == 'only_customers'){
-				$only_customers = $this->model_sale_customer->getOnlyCustomers(array ('status' => 1, 'approved' => 1));
-				$results = $this->_unify_customer_list('email',$only_customers);
-			}
+				if ($data['recipient'] == 'only_subscribers'){
+					$only_subscribers = $this->model_sale_customer->getOnlyNewsletterSubscribers(
+							array ('filter' => array ('newsletter_protocol' => 'email'))
+					);
+					$results = $this->_unify_customer_list('email', $only_subscribers);
+					$subscribers = $results;
+				} else
+					if ($data['recipient'] == 'only_customers'){
+						$only_customers = $this->model_sale_customer->getOnlyCustomers(array ('status' => 1, 'approved' => 1));
+						$results = $this->_unify_customer_list('email', $only_customers);
+					}
 			foreach ($results as $result){
 				$customer_id = $result['customer_id'];
 				$emails[$customer_id] = trim($result['email']);
@@ -206,18 +206,26 @@ class ModelSaleContact extends Model {
 		// All customers by product
 		if (isset($data['products']) && is_array($data['products'])){
 			$emails = array ();
+			$this->load->model('sale_order');
 			foreach ($data['products'] as $product_id){
+				// fore registered customers
 				$results = $this->model_sale_customer->getCustomersByProduct($product_id);
 				foreach ($results as $result){
 					$emails[] = trim($result['email']);
 				}
+				//guest customers
+				$results = $this->model_sale_order->getGuestOrdersWithProduct($product_id);
+				foreach ($results as $result){
+					$emails[] = trim($result['email']);
+				}
+
 			}
 		}
 
 		// Prevent Duplicates
 		$emails = array_unique($emails);
 
-		return array($emails, $subscribers);
+		return array ($emails, $subscribers);
 	}
 
 	private function _get_phone_list($data){
@@ -227,22 +235,22 @@ class ModelSaleContact extends Model {
 			$results = array ();
 			if ($data['recipient'] == 'all_subscribers'){
 				$all_subscribers = $this->model_sale_customer->getAllSubscribers(
-						array( 'filter' => array( 'newsletter_protocol' => 'sms'))
+						array ('filter' => array ('newsletter_protocol' => 'sms'))
 				);
-				$results = $this->_unify_customer_list('sms',$all_subscribers);
+				$results = $this->_unify_customer_list('sms', $all_subscribers);
 				$subscribers = $results;
 			} else
-			if ($data['recipient'] == 'only_subscribers'){
-				$only_subscribers = $this->model_sale_customer->getOnlyNewsletterSubscribers(
-						array( 'filter' => array( 'newsletter_protocol' => 'sms'))
-				);
-				$results = $this->_unify_customer_list('sms',$only_subscribers);
-				$subscribers = $results;
-			} else
-			if ($data['recipient'] == 'only_customers'){
-				$only_customers = $this->model_sale_customer->getOnlyCustomers(array ('status' => 1, 'approved' => 1));
-				$results = $this->_unify_customer_list('sms',$only_customers);
-			}
+				if ($data['recipient'] == 'only_subscribers'){
+					$only_subscribers = $this->model_sale_customer->getOnlyNewsletterSubscribers(
+							array ('filter' => array ('newsletter_protocol' => 'sms'))
+					);
+					$results = $this->_unify_customer_list('sms', $only_subscribers);
+					$subscribers = $results;
+				} else
+					if ($data['recipient'] == 'only_customers'){
+						$only_customers = $this->model_sale_customer->getOnlyCustomers(array ('status' => 1, 'approved' => 1));
+						$results = $this->_unify_customer_list('sms', $only_customers);
+					}
 			foreach ($results as $result){
 				$customer_id = $result['customer_id'];
 				$phones[$customer_id] = trim($result['sms']);
@@ -261,17 +269,33 @@ class ModelSaleContact extends Model {
 		}
 		// All customers by product
 		if (isset($data['products']) && is_array($data['products']) && $data['products']){
+			$this->load->model('sale/order');
 			foreach ($data['products'] as $product_id){
+				//for registered customers
 				$results = $this->model_sale_customer->getCustomersByProduct($product_id);
 				foreach ($results as $result){
 					$phones[] = trim($result['sms']);
+				}
+				//for guest customers
+				$results = $this->model_sale_order->getGuestOrdersWithProduct($product_id);
+
+				foreach ($results as $result){
+					$order_id = (int)$result['order_id'];
+					if (!$order_id){
+						continue;
+					}
+
+					$uri = $this->im->getCustomerURI('sms', 0, $order_id);
+					if ($uri){
+						$phones[] = $uri;
+					}
 				}
 			}
 		}
 
 		// Prevent Duplicates
 		$phones = array_unique($phones);
-		return array($phones, $subscribers);
+		return array ($phones, $subscribers);
 	}
 
 	/**
@@ -280,18 +304,17 @@ class ModelSaleContact extends Model {
 	 * @param array $list
 	 * @return array|bool
 	 */
-	private function _unify_customer_list($field_name='email', $list = array()) {
-		if (!is_array($list)) {
-			return array();
+	private function _unify_customer_list($field_name = 'email', $list = array ()){
+		if (!is_array($list)){
+			return array ();
 		}
-		$output = array();
-		foreach ($list as $c) {
-			if (has_value($c[$field_name])) {
+		$output = array ();
+		foreach ($list as $c){
+			if (has_value($c[$field_name])){
 				$output[$c[$field_name]] = $c;
 			}
 		}
 		return $output;
 	}
-
 
 }
