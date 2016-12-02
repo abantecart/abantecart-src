@@ -1253,4 +1253,32 @@ class ModelSaleOrder extends Model{
 									WHERE COALESCE(o.customer_id,0) = '0' AND op.product_id='" . (int)$product_id . "'");
 		return $query->rows;
 	}
+
+	/**
+	 * @param array $customers_ids
+	 * @return int
+	 */
+	public function getCountOrdersByCustomerIds($customers_ids){
+		$customers_ids = (array)$customers_ids;
+		$ids = array();
+		foreach($customers_ids as $cid){
+			$cid = (int)$cid;
+			if($cid){
+				$ids[] = $cid;
+			}
+		}
+
+		if(!$ids){
+			return array();
+		}
+		$query = $this->db->query("SELECT customer_id, COUNT(*) AS total
+      	                            FROM `" . $this->db->table("orders") . "`
+      	                            WHERE customer_id IN (" . implode(",",$ids) .") AND order_status_id > '0'
+      	                            GROUP BY customer_id");
+		$output = array();
+		foreach($query->rows as $row){
+			$output[$row['customer_id']] = (int)$row['total'];
+		}
+		return $output;
+	}
 }

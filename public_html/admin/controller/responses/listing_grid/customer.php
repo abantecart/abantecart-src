@@ -36,10 +36,10 @@ class ControllerResponsesListingGridCustomer extends AController {
 			0 => $this->language->get('text_no'),
 		);
 
-		$page = $this->request->post[ 'page' ]; // get the requested page
+		$page = $this->request->post[ 'page' ];  // get the requested page
 		$limit = $this->request->post[ 'rows' ]; // get how many rows we want to have into the grid
-		$sidx = $this->request->post[ 'sidx' ]; // get index row - i.e. user click to sort
-		$sord = $this->request->post[ 'sord' ]; // get the direction
+		$sidx = $this->request->post[ 'sidx' ];  // get index row - i.e. user click to sort
+		$sord = $this->request->post[ 'sord' ];  // get the direction
 
 		$data = array(
 			'sort' => $sidx,
@@ -81,10 +81,29 @@ class ControllerResponsesListingGridCustomer extends AController {
 		$response->total = $total_pages;
 		$response->records = $total;
 
-		$results = $this->model_sale_customer->getCustomers($data);
+		if($sidx == 'orders_count'){
+			$mode = '';
+		}else{
+			$mode = 'quick';
+		}
+
+		$results = $this->model_sale_customer->getCustomers($data, $mode);
+		if($mode){
+			//get orders count for customers list by separate request to prevent slow sql issue
+			$customers_ids = array ();
+			foreach ($results as $result){
+				$customers_ids[] = $result['customer_id'];
+			}
+			$this->loadModel('sale/order');
+			$orders_count = $this->model_sale_order->getCountOrdersByCustomerIds($customers_ids);
+		}
 		$i = 0;
 		foreach ($results as $result) {
-
+			if($mode){
+				$order_cnt = (int)$orders_count[$result['customer_id']];
+			}else{
+				$order_cnt = (int)$result['orders_count'];
+			}
 			$response->rows[ $i ][ 'id' ] = $result[ 'customer_id' ];
 			$response->rows[ $i ][ 'cell' ] = array(
 				$result[ 'name' ],
@@ -100,10 +119,10 @@ class ControllerResponsesListingGridCustomer extends AController {
 					'value' => $result[ 'approved' ],
 					'options' => $approved,
 				)),
-				($result[ 'orders_count' ] > 0 ?
+				($order_cnt > 0 ?
 				$this->html->buildButton(array(
 					'name' => 'view orders',
-					'text' => $result[ 'orders_count' ],
+					'text' => $order_cnt,
 					'style' => 'btn btn-default btn-xs',
 					'href'=> $this->html->getSecureURL('sale/order','&customer_id='.$result['customer_id']),
 					'title' => $this->language->get('text_view').' '.$this->language->get('tab_history'),
