@@ -651,8 +651,8 @@ CREATE TABLE `ac_currencies` (
 
 INSERT INTO `ac_currencies` (`currency_id`, `title`, `code`, `symbol_left`, `symbol_right`, `decimal_place`, `value`, `status`, `date_modified`) VALUES
 (1, 'US Dollar', 'USD', '$', '', '2', 1.00, 1, '2011-06-20 21:00:00'),
-(2, 'Euro', 'EUR', '', '€', '2', 0.76775432 , 1, '2011-06-20 21:00:00'),
-(3, 'Pound Sterling', 'GBP', '£', '', '2', 0.64524455, 1, '2011-06-20 21:00:00');
+(2, 'Euro', 'EUR', '', '€', '2', 0.93850000 , 1, '2011-06-20 21:00:00'),
+(3, 'Pound Sterling', 'GBP', '£', '', '2', 0.79330000, 1, '2011-06-20 21:00:00');
 
 --
 -- DDL for table `customers`

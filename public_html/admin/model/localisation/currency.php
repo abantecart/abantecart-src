@@ -228,6 +228,29 @@ class ModelLocalisationCurrency extends Model {
 	}
 
 	/**
+	 * @param string $new_currency_code
+	 * @return bool
+	 */
+	public function switchConfigCurrency($new_currency_code){
+		$new_currency_code = mb_strtoupper(trim($new_currency_code));
+		$all_currencies = $this->getCurrencies();
+		$new_currency = $all_currencies[$new_currency_code];
+		if(!$new_currency_code || !$new_currency){
+			return false;
+		}
+		$scale = 1/$new_currency['value'];
+		foreach($all_currencies as $code => $currency){
+			if($code == $new_currency_code){
+				$new_value = 1.00000;
+			}else{
+				$new_value = $currency['value']*$scale;
+			}
+			$this->editCurrency($currency['currency_id'], array('value' => $new_value));
+		}
+	}
+
+
+	/**
 	 * @return int
 	 */
 	public function getTotalCurrencies() {
