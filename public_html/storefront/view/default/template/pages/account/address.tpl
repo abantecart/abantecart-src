@@ -42,7 +42,7 @@
 			<?php echo $this->getHookVar('address_edit_sections'); ?>
 			<div class="form-group">
 				<div class="col-md-12">
-					<button class="btn btn-orange pull-right" title="<?php echo $form['submit']->name ?>" type="submit">
+					<button class="btn btn-orange pull-right lock-on-click" title="<?php echo $form['submit']->name ?>" type="submit">
 					    <i class="<?php echo $form['submit']->{'icon'}; ?>"></i>
 					    <?php echo $form['submit']->name ?>
 					</button>

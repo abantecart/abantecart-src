@@ -27,7 +27,7 @@
 	
 	<div class="form-group action-buttons">
 	    <div class="col-md-12">
-	   	<button class="btn btn-orange pull-right" title="<?php echo $form['submit']->name ?>" type="submit">
+	   	<button class="btn btn-orange pull-right lock-on-click" title="<?php echo $form['submit']->name ?>" type="submit">
 	   	    <i class="fa fa-check"></i>
 	   	    <?php echo $form['submit']->name; ?>
 	   	</button>

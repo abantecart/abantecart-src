@@ -53,7 +53,7 @@
 	    	<i class="fa fa-arrow-left"></i>
 	    	<?php echo $back->text ?>
 	    </a>
-	    <button id="<?php echo $submit->name ?>" class="btn btn-orange" title="<?php echo $submit->text ?>" type="submit">
+	    <button id="<?php echo $submit->name ?>" class="btn btn-orange lock-on-click" title="<?php echo $submit->text ?>" type="submit">
 	        <i class="fa fa-check"></i>
 	        <?php echo $submit->text; ?>
 	    </button>
@@ -114,7 +114,10 @@ jQuery(document).ready(function() {
 				$('#paypal .action-buttons').show(); 
 				$('#paypal').before('<div class="alert alert-danger"><i class="fa fa-exclamation"></i> '+textStatus+' '+errorThrown+'</div>');
 				submitSent = false;	
-			}				
+			},
+			complete: function(){
+				try { resetLockBtn(); } catch (e){}
+			}
 		});
 	}
 });

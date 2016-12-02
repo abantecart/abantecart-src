@@ -105,7 +105,7 @@
 			<i class="fa fa-arrow-left"></i>
 			<?php echo $back->text ?>
 		</a>
-		<button id="<?php echo $submit->name ?>" class="btn btn-orange" title="<?php echo $submit->text ?>" type="submit">
+		<button id="<?php echo $submit->name ?>" class="btn btn-orange lock-on-click" title="<?php echo $submit->text ?>" type="submit">
 			<i class="fa fa-check"></i>
 			<?php echo $submit->text; ?>
 		</button>
@@ -149,6 +149,7 @@ jQuery(document).ready(function() {
 			var $form = $(this);
 			if( !$.aCCValidator.validate($form) ){
 				submitSent = false;
+				try { resetLockBtn(); } catch (e){}
 				return false;
 			} else {
 				confirmSubmit($form, '<?php echo $this->html->getURL('extension/default_stripe/send');?>');
@@ -191,7 +192,10 @@ jQuery(document).ready(function() {
 				$form.find('.action-buttons').show(); 
 				$form.before('<div class="alert alert-danger"><i class="fa fa-exclamation fa-fw"></i> '+textStatus+' '+errorThrown+'</div>');
 				submitSent = false;
-			}				
+			},
+			complete: function () {
+				try { resetLockBtn(); } catch (e){}
+			}
 		});
 	}
 });

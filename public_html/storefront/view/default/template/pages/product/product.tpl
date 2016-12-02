@@ -353,8 +353,10 @@
 											<label class="control-label col-md-3">
 												<img src="<?php echo $captcha_url; ?>" id="captcha_img" alt=""/>
 											</label>
-											<?php echo $review_captcha; ?>
-											&nbsp;&nbsp;<?php echo $review_button; ?>
+											<?php
+											echo $review_captcha;
+											$review_button->style .= ' lock-on-click';
+											echo $review_button; ?>
 										</div>
 									</div>
 								<?php } ?>
@@ -609,6 +611,7 @@
 				<?php if ($review_recaptcha) { ?>
 				grecaptcha.reset();
 				<?php } ?>
+				try { resetLockBtn(); } catch (e){}
 			},
 			error: function (jqXHR, exception) {
 				var text = jqXHR.statusText + ": " + jqXHR.responseText;

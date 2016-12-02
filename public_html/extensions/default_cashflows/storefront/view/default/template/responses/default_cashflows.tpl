@@ -34,7 +34,7 @@
 	    	<i class="fa fa-arrow-left"></i>
 	    	<?php echo $back->text ?>
 	    </a>
-	    <button id="<?php echo $submit->name ?>" class="btn btn-orange" title="<?php echo $submit->text ?>" type="submit">
+	    <button id="<?php echo $submit->name ?>" class="btn btn-orange lock-on-click" title="<?php echo $submit->text ?>" type="submit">
 	        <i class="fa fa-check"></i>
 	        <?php echo $submit->text; ?>
 	    </button>
@@ -70,6 +70,7 @@ jQuery(document).ready(function() {
 			submitSent = true;
 			if( !$.aCCValidator.validate($('form.validate-creditcard')) ){
 				submitSent = false;
+				try { resetLockBtn(); } catch (e){}
 				return false;
 			} else {
 				confirmSubmit();
@@ -111,7 +112,10 @@ jQuery(document).ready(function() {
 				$('#cashflows .action-buttons').show(); 
 				$('#cashflows').before('<div class="alert alert-danger"><i class="fa fa-exclamation"></i> '+textStatus+' '+errorThrown+'</div>');
 				submitSent = false;	
-			}				
+			},
+			complete: function () {
+				try { resetLockBtn(); } catch (e){}
+			}
 		});
 	}
 });
