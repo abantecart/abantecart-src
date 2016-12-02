@@ -23,6 +23,7 @@ if (!defined('DIR_CORE') || !IS_ADMIN) {
 
 /**
  * Class ModelLocalisationCurrency
+ * @property ModelSettingSetting $model_setting_setting
  */
 class ModelLocalisationCurrency extends Model {
 	/**
@@ -187,15 +188,20 @@ class ModelLocalisationCurrency extends Model {
 	}
 
 	/**
+	 * NOTE: Update of currency values works only for default store!
+	 *
 	 * @throws AException
 	 */
 	public function updateCurrencies() {
 		if (extension_loaded('curl')) {
+			$this->load->model('setting/setting');
+			$settings = $this->model_setting_setting->getSetting('details', 0);
+			$base_currency_code = $settings['config_currency'];
 			$data = array();
 
 			$query = $this->db->query("SELECT *
 									   FROM " . $this->db->table("currencies") . " 
-									   WHERE code != '" . $this->db->escape($this->config->get('config_currency')) . "'
+									   WHERE code != '" . $this->db->escape($base_currency_code) . "'
 									        AND date_modified > '" . date(strtotime('-1 day')) . "'");
 
 			foreach ($query->rows as $result) {
@@ -210,18 +216,17 @@ class ModelLocalisationCurrency extends Model {
 			foreach ($lines as $line) {
 				$currency = substr($line, 4, 3);
 				$value = substr($line, 11, 6);
-
 				if ((float)$value) {
 					$sql = "UPDATE " . $this->db->table("currencies") . " 
-									  SET value = '" . (float)$value . "', date_modified = NOW()
-									  WHERE code = '" . $this->db->escape($currency) . "'";
+							SET value = '" . (float)$value . "', date_modified = NOW()
+							WHERE code = '" . $this->db->escape($currency) . "'";
 					$this->db->query($sql);
 				}
 			}
 			$sql = "UPDATE " . $this->db->table("currencies") . " 
 							  SET value = '1.00000',
 							      date_modified = NOW()
-							  WHERE code = '" . $this->db->escape($this->config->get('config_currency')) . "'";
+							  WHERE code = '" . $this->db->escape($base_currency_code) . "'";
 			$this->db->query($sql);
 			$this->cache->remove('localization');
 		}

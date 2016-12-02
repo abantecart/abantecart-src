@@ -130,8 +130,9 @@ class ControllerResponsesListingGridSetting extends AController {
 					$data['store_name'] = html_entity_decode($data['store_name'], ENT_COMPAT, 'UTF-8');
 				}
 
-				//when change default currency change values for all currencies in database before saving
-				if (has_value($data['config_currency'])
+				//when change base currency for default store also change values for all currencies in database before saving
+				if (!(int)$this->request->get[ 'store_id' ]
+						&& has_value($data['config_currency'])
 						&& $data['config_currency'] != $this->config->get('config_currency')
 				){
 					$this->loadModel('localisation/currency');

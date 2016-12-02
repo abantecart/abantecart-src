@@ -66,8 +66,9 @@ class ControllerPagesSettingSetting extends AController {
 				$this->request->post['store_name'] = html_entity_decode($this->request->post['store_name'], ENT_COMPAT, 'UTF-8');
 			}
 
-			//when change default currency change values for all currencies in database before saving
-			if (has_value($this->request->post['config_currency'])
+			//when change base currency for default store also change values for all currencies in database before saving
+			if (!(int)$this->request->get['store_id']
+					&& has_value($this->request->post['config_currency'])
 					&& $this->request->post['config_currency'] != $this->config->get('config_currency')
 			){
 				$this->loadModel('localisation/currency');

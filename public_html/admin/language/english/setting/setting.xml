@@ -144,7 +144,7 @@
 	<definition>
 		<key>entry_currency</key>
 		<value>
-			<![CDATA[Currency:<span class="help">Warning: Changing of base currency will not change your base prices. You will need to review and adjust all the prices if needed. </span>]]></value>
+			<![CDATA[Base Currency:<span class="help">This is a base currency for all stores. Do not change if you do not understand what will happen. Warning: Changing of base currency will not change your base prices for products. You will need to review and adjust all the prices if needed. Base currency exchange rate will be set to 1.00 and all other currencies exchange rates will be adjusted in respect to new base currency.</span>]]></value>
 	</definition>
 	<definition>
 		<key>entry_currency_auto</key>
