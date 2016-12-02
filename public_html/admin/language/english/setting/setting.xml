@@ -144,7 +144,7 @@
 	<definition>
 		<key>entry_currency</key>
 		<value>
-			<![CDATA[Currency:<span class="help">NOTE: Changing default currency does not convert all product prices</span>]]></value>
+			<![CDATA[Currency:<span class="help">Warning: Changing of base currency will not change your base prices. You will need to review and adjust all the prices if needed. </span>]]></value>
 	</definition>
 	<definition>
 		<key>entry_currency_auto</key>
