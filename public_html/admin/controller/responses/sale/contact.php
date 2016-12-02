@@ -328,6 +328,7 @@ class ControllerResponsesSaleContact extends AController {
 
 	public function getRecipientsCount(){
 		$this->loadModel('sale/customer');
+		$this->loadModel('sale/order');
 
 		//init controller data
 		$this->extensions->hk_InitData($this,__FUNCTION__);
@@ -363,6 +364,22 @@ class ControllerResponsesSaleContact extends AController {
 						$results = $this->model_sale_customer->getCustomersByProduct($product_id);
 						foreach ($results as $result){
 							$emails[] = trim($result[$protocol]);
+						}
+						//for guests
+						$results = $this->model_sale_order->getGuestOrdersWithProduct($product_id);
+						foreach ($results as $result){
+							if($protocol == 'email'){
+								$emails[] = trim($result[$protocol]);
+							}elseif($protocol == 'sms'){
+								$order_id = (int)$result['order_id'];
+								if (!$order_id){
+									continue;
+								}
+								$uri = $this->im->getCustomerURI('sms', 0, $order_id);
+								if ($uri){
+									$emails[] = $uri;
+								}
+							}
 						}
 					}
 				}
