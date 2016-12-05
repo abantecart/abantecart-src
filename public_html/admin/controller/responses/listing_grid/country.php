@@ -21,7 +21,7 @@ if (!defined('DIR_CORE') || !IS_ADMIN) {
 	header('Location: static_pages/');
 }
 class ControllerResponsesListingGridCountry extends AController {
-
+	public $data = array ();
 	public function main() {
 
 		//init controller data
@@ -31,7 +31,7 @@ class ControllerResponsesListingGridCountry extends AController {
 		$this->loadModel('localisation/country');
 
 		//Prepare filter config
-		$grid_filter_params = array( 'name' => 'cd.name', 'iso_code_2' => 'c.iso_code_2', 'iso_code_3' => 'c.iso_code_3' );
+		$grid_filter_params = array_merge(array ('name' => 'cd.name', 'iso_code_2' => 'c.iso_code_2', 'iso_code_3' => 'c.iso_code_3'), (array)$this->data['grid_filter_params']);
 		$filter = new AFilter(array( 'method' => 'post', 'grid_filter_params' => $grid_filter_params ));
 
 		$total = $this->model_localisation_country->getTotalCountries($filter->getFilterData());
@@ -68,11 +68,11 @@ class ControllerResponsesListingGridCountry extends AController {
 			);
 			$i++;
 		}
-
+		$this->data['response'] = $response;
 		//update controller data
 		$this->extensions->hk_UpdateData($this, __FUNCTION__);
 		$this->load->library('json');
-		$this->response->setOutput(AJson::encode($response));
+		$this->response->setOutput(AJson::encode($this->data['response']));
 	}
 
 	public function update() {
@@ -109,12 +109,12 @@ class ControllerResponsesListingGridCountry extends AController {
 					}
 				break;
 			case 'save':
-				$fields = array( 'iso_code_2', 'iso_code_3', 'status' );
+				$allowedFields = array_merge(array ('iso_code_2', 'iso_code_3', 'status'), (array)$this->data['allowed_fields']);
 				$ids = explode(',', $this->request->post[ 'id' ]);
 				
 				if (!empty($ids))
 					foreach ($ids as $id) {
-						foreach ($fields as $f) {
+						foreach ($allowedFields as $f) {
 
 							if ($f == 'status' && !isset($this->request->post[ 'status' ][ $id ]))
 								$this->request->post[ 'status' ][ $id ] = 0;
