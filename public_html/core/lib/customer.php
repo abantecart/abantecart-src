@@ -103,7 +103,7 @@ class ACustomer{
 	protected $extensions;
 
 	/**
-	 * @var Array (unauthenticated customer details)
+	 * @var array (unauthenticated customer details)
 	 */
 	protected $unauth_customer = array ();
 
@@ -196,7 +196,7 @@ class ACustomer{
 		$this->load->model('tool/online_now');
 		$registry->get('model_tool_online_now')->setOnline($ip, $customer_id, $url, $referer);
 		//call hooks
-		$this->extensions->hk_processData($this, 'constructor', $customer_id);
+		$this->extensions->hk_ProcessData($this, 'constructor', $customer_id);
 	}
 
 	/**
@@ -211,7 +211,7 @@ class ACustomer{
 			$approved_only = " AND approved = '1'";
 		}
 
-		//Supports older passords for upgraded/migrated stores prior to 1.2.8
+		//Supports older passwords for upgraded/migrated stores prior to 1.2.8
 		$add_pass_sql = '';
 		if (defined('SALT')){
 			$add_pass_sql = "OR password = '" . $this->db->escape(md5($password . SALT)) . "'";
@@ -228,6 +228,7 @@ class ACustomer{
 											AND status = '1'" . $approved_only);
 		if ($customer_data->num_rows){
 			$this->customer_id = $this->session->data['customer_id'] = $customer_data->row['customer_id'];
+
 
 			//load customer saved cart and merge with session cart before login
 			$cart = $this->getCustomerCart();
@@ -254,26 +255,39 @@ class ACustomer{
 
 			//set cookie for unauthenticated user (expire in 1 year)
 			$encryption = new AEncryption($this->config->get('encryption_key'));
-			$cutomer_data = $encryption->encrypt(serialize(array (
+			$customer_data = $encryption->encrypt(serialize(array (
 					'first_name'  => $this->firstname,
 					'customer_id' => $this->customer_id,
 					'script_name' => $this->request->server['SCRIPT_NAME']
 			)));
 			//Set cookie for this customer to track unauthenticated activity, expire in 1 year
 			setcookie('customer',
-					$cutomer_data,
+					$customer_data,
 					time() + 60 * 60 * 24 * 365,
 					dirname($this->request->server['PHP_SELF']),
 					null,
 					(defined('HTTPS') && HTTPS),
 					true
 			);
-			$this->extensions->hk_processData($this, 'login_success', $cutomer_data);
+			//set date of login
+			$this->setLastLogin($this->customer_id);
+			$this->extensions->hk_ProcessData($this, 'login_success', $customer_data);
 			return true;
 		} else{
-			$this->extensions->hk_processData($this, 'login_failed');
+			$this->extensions->hk_ProcessData($this, 'login_failed');
 			return false;
 		}
+	}
+
+	public function setLastLogin($customer_id){
+		$customer_id = (int)$customer_id;
+		if(!$customer_id) { return false; }
+
+		//insert new record
+		$this->db->query("UPDATE `" . $this->db->table("customers") . "`
+                        SET `last_login` = NOW()
+                        WHERE customer_id = ".$customer_id);
+		return true;
 	}
 
 	/**
@@ -298,7 +312,7 @@ class ACustomer{
 		//expire unauth cookie
 		unset($_COOKIE['customer']);
 		setcookie('customer', '', time() - 3600, dirname($this->request->server['PHP_SELF']));
-		$this->extensions->hk_processData($this, 'logout');
+		$this->extensions->hk_ProcessData($this, 'logout');
 	}
 
 	/**
@@ -455,7 +469,7 @@ class ACustomer{
 		if ($format == ''){
 			$format = '{firstname} {lastname}' . "\n" . '{company}' . "\n" . '{address_1}' . "\n" . '{address_2}' . "\n" . '{city} {postcode}' . "\n" . '{zone}' . "\n" . '{country}';
 		}
-		//Set default varialble to be set for address based on the data
+		//Set default variable to be set for address based on the data
 		if (count($locate) <= 0){
 			$locate = array ();
 			foreach ($data_array as $key => $value){
@@ -728,13 +742,14 @@ class ACustomer{
 			$customer_id = $this->unauth_customer['customer_id'];
 		}
 		if (!$customer_id){
-			return null;
+			return false;
 		}
 		$this->db->query("UPDATE " . $this->db->table("customers") . "
 							SET
 								wishlist = '" . $this->db->escape(serialize($whishlist)) . "',
 								ip = '" . $this->db->escape($this->request->server['REMOTE_ADDR']) . "'
 							WHERE customer_id = '" . (int)$customer_id . "'");
+		return true;
 	}
 
 	/**

@@ -285,7 +285,7 @@ class ControllerPagesSaleCustomer extends AController{
 			$customer_id = $this->model_sale_customer->addCustomer($this->request->post);
 			$redirect_url = $this->html->getSecureURL('sale/customer/insert_address', '&customer_id=' . $customer_id);
 			$this->session->data['success'] = $this->language->get('text_success');
-			$this->redirect($redirect_url);
+			redirect($redirect_url);
 		}
 		$this->_getForm();
 
@@ -323,7 +323,7 @@ class ControllerPagesSaleCustomer extends AController{
 			$redirect_url = $this->html->getSecureURL('sale/customer/update', '&customer_id=' . $customer_id);
 
 			$this->session->data['success'] = $this->language->get('text_success');
-			$this->redirect($redirect_url);
+			redirect($redirect_url);
 		}
 
 		$this->_getForm($args);
@@ -365,6 +365,12 @@ class ControllerPagesSaleCustomer extends AController{
 					)
 			);
 			$this->data['addresses'] = $this->model_sale_customer->getAddressesByCustomerId($customer_id);
+			if($customer_info['last_login']){
+				$date =  dateISO2Display($customer_info['last_login'],$this->language->get('date_format_short').' '.$this->language->get('time_format'));
+			}else{
+				$date = $this->language->get('text_never');
+			}
+			$this->data['last_login'] = $this->language->get('text_last_login').' '.$date;
 		}
 
 		foreach ($this->data['addresses'] as &$a){
@@ -603,7 +609,7 @@ class ControllerPagesSaleCustomer extends AController{
 			}
 
 			$this->session->data['success'] = $this->language->get('text_success');
-			$this->redirect($redirect_url);
+			redirect($redirect_url);
 		}
 
 		$this->_getAddressForm();
@@ -639,7 +645,7 @@ class ControllerPagesSaleCustomer extends AController{
 			$redirect_url = $this->html->getSecureURL('sale/customer/update_address', '&customer_id=' . $customer_id . '&address_id=' . $address_id);
 
 			$this->session->data['success'] = $this->language->get('text_success');
-			$this->redirect($redirect_url);
+			redirect($redirect_url);
 		}
 
 		$this->_getAddressForm();
@@ -837,11 +843,11 @@ class ControllerPagesSaleCustomer extends AController{
 
 		if (!$this->user->canModify('sale/customer')){
 			$this->session->data['error'] = $this->language->get('error_permission');
-			$this->redirect($this->html->getSecureURL('sale/customer'));
+			redirect($this->html->getSecureURL('sale/customer'));
 		}
 
 		if (!isset($this->request->get['customer_id'])){
-			$this->redirect($this->html->getSecureURL('sale/customer'));
+			redirect($this->html->getSecureURL('sale/customer'));
 		}
 
 		$this->model_sale_customer->editCustomerField($this->request->get['customer_id'], 'approved', true);
@@ -850,7 +856,7 @@ class ControllerPagesSaleCustomer extends AController{
 		//update controller data
 		$this->extensions->hk_UpdateData($this, __FUNCTION__);
 
-		$this->redirect($this->html->getSecureURL('sale/customer'));
+		redirect($this->html->getSecureURL('sale/customer'));
 	}
 
 	public function actonbehalf(){
@@ -868,21 +874,21 @@ class ControllerPagesSaleCustomer extends AController{
 					} else{
 						$add_store_url = $store_settings['config_url'] . '?s=' . ADMIN_PATH . '&rt=sale/customer/actonbehalf&customer_id=' . $this->request->get['customer_id'];
 					}
-					$this->redirect($add_store_url);
+					redirect($add_store_url);
 				}
 			} else{
 				startStorefrontSession($this->user->getId(), array ('customer_id' => $this->request->get['customer_id']));
 				if ($store_settings['config_ssl']){
-					$this->redirect($this->html->getCatalogURL('account/account', '', '', true));
+					redirect($this->html->getCatalogURL('account/account', '', '', true));
 				} else{
-					$this->redirect($this->html->getCatalogURL('account/account'));
+					redirect($this->html->getCatalogURL('account/account'));
 				}
 			}
 		}
 
 		$this->extensions->hk_UpdateData($this, __FUNCTION__);
 
-		$this->redirect($this->html->getSecureURL('sale/customer'));
+		redirect($this->html->getSecureURL('sale/customer'));
 	}
 
 	public function delete_address(){
@@ -909,7 +915,7 @@ class ControllerPagesSaleCustomer extends AController{
 				$this->loadModel('sale/customer_group');
 				$this->model_sale_customer->deleteAddress($customer_id, $address_id);
 				$this->session->data['success'] = $this->language->get('text_success');
-				$this->redirect($this->html->getSecureURL('sale/customer/update', '&customer_id=' . $customer_id));
+				redirect($this->html->getSecureURL('sale/customer/update', '&customer_id=' . $customer_id));
 			}
 		}
 

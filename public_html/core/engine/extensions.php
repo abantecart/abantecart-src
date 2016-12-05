@@ -198,7 +198,7 @@ class ExtensionCollection{
  * @property ACache $cache
  * @method hk_InitData(object $baseObject, string $baseObjectMethod)
  * @method hk_UpdateData(object $baseObject, string $baseObjectMethod)
- * @method hk_ProcessData(object $baseObject, string $point_name = '')
+ * @method hk_ProcessData(object $baseObject, string $point_name = '', mixed $array = null)
  * @method hk_ValidateData(object $baseObject)
  * @method hk_confirm(object $baseObject, int $order_id, int $order_status_id, string $comment)
  * @method hk_query(object $baseObject, string $sql, bool $noexcept)
