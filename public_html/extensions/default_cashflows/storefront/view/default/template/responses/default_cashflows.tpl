@@ -94,13 +94,15 @@ jQuery(document).ready(function() {
 					$('.wait').remove();
 					$('#cashflows .action-buttons').show(); 
 					$('#cashflows').before('<div class="alert alert-danger"><i class="fa fa-bug"></i> <?php echo $error_unknown; ?></div>');
-					submitSent = false;	
+					submitSent = false;
+					try { resetLockBtn(); } catch (e){}
 				} else {					  			
 					if (data.error) {
 						$('.wait').remove();
 						$('#cashflows .action-buttons').show(); 
 						$('#cashflows').before('<div class="alert alert-warning"><i class="fa fa-exclamation"></i> '+data.error+'</div>');
-						submitSent = false;	
+						submitSent = false;
+						try { resetLockBtn(); } catch (e){}
 					}	
 					if (data.success) {			
 						location = data.success;
@@ -111,9 +113,7 @@ jQuery(document).ready(function() {
 				$('.wait').remove();
 				$('#cashflows .action-buttons').show(); 
 				$('#cashflows').before('<div class="alert alert-danger"><i class="fa fa-exclamation"></i> '+textStatus+' '+errorThrown+'</div>');
-				submitSent = false;	
-			},
-			complete: function () {
+				submitSent = false;
 				try { resetLockBtn(); } catch (e){}
 			}
 		});

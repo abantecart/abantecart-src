@@ -174,13 +174,15 @@ jQuery(document).ready(function() {
 					$('.wait').remove();
 					$form.find('.action-buttons').show(); 
 					$form.before('<div class="alert alert-danger"><i class="fa fa-bug fa-fw"></i> <?php echo $error_unknown; ?></div>');
-					submitSent = false;	
+					submitSent = false;
+					try { resetLockBtn(); } catch (e){}
 				} else {					  			
 					if (data.error) {
 						$('.wait').remove();
 						$form.find('.action-buttons').show(); 
 						$form.before('<div class="alert alert-warning"><i class="fa fa-exclamation fa-fw"></i> '+data.error+'</div>');
-						submitSent = false;		
+						submitSent = false;
+						try { resetLockBtn(); } catch (e){}
 					}	
 					if (data.success) {			
 						location = data.success;
@@ -192,8 +194,6 @@ jQuery(document).ready(function() {
 				$form.find('.action-buttons').show(); 
 				$form.before('<div class="alert alert-danger"><i class="fa fa-exclamation fa-fw"></i> '+textStatus+' '+errorThrown+'</div>');
 				submitSent = false;
-			},
-			complete: function () {
 				try { resetLockBtn(); } catch (e){}
 			}
 		});

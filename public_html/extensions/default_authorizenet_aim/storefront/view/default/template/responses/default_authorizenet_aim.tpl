@@ -83,6 +83,7 @@ jQuery(document).ready(function() {
 			submitSent = true;
 			if( !$.aCCValidator.validate($('form.validate-creditcard')) ){
 				submitSent = false;
+				try { resetLockBtn(); } catch (e){}
 				return false;
 			} else {
 				confirmSubmit();
@@ -107,12 +108,14 @@ jQuery(document).ready(function() {
 					$('#authorizenet .action-buttons').show(); 
 					$('#authorizenet').before('<div class="alert alert-danger"><i class="fa fa-bug"></i> <?php echo $error_unknown; ?></div>');
 					submitSent = false;
+					try { resetLockBtn(); } catch (e){}
 				} else {					  			
 					if (data.error) {
 						$('.wait').remove();
 						$('#authorizenet .action-buttons').show(); 
 						$('#authorizenet').before('<div class="alert alert-warning"><i class="fa fa-exclamation"></i> '+data.error+'</div>');
 						submitSent = false;
+						try { resetLockBtn(); } catch (e){}
 					}	
 					if (data.success) {			
 						location = data.success;
@@ -124,7 +127,8 @@ jQuery(document).ready(function() {
 				$('#authorizenet .action-buttons').show(); 
 				$('#authorizenet').before('<div class="alert alert-danger"><i class="fa fa-exclamation"></i> '+textStatus+' '+errorThrown+'</div>');
 				submitSent = false;
-			}				
+				try { resetLockBtn(); } catch (e){}
+			}
 		});
 	}
 });

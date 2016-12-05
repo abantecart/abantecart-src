@@ -38,8 +38,6 @@ function confirmSubmit() {
 			alert(textStatus + ' ' + errorThrown);
 			$('.wait').remove();
 			$('.action-buttons').show();
-		},
-		complete: function () {
 			try { resetLockBtn(); } catch (e){}
 		}
 	});

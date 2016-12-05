@@ -31,7 +31,7 @@ $('#checkout').click(function() {
 		success: function() {
 			goTo('<?php echo $continue; ?>');
 		},
-		complete: function(){
+		error: function(){
 			try { resetLockBtn(); } catch (e){}
 		}
 	});
