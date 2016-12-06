@@ -365,7 +365,7 @@ class ControllerPagesSaleCustomer extends AController{
 					)
 			);
 			$this->data['addresses'] = $this->model_sale_customer->getAddressesByCustomerId($customer_id);
-			if($customer_info['last_login']){
+			if($customer_info['last_login'] && !in_array($customer_info['last_login'], array('0000-00-00 00:00:00', '1970-01-01 00:00:00'))){
 				$date =  dateISO2Display($customer_info['last_login'],$this->language->get('date_format_short').' '.$this->language->get('time_format'));
 			}else{
 				$date = $this->language->get('text_never');
