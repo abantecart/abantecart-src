@@ -74,11 +74,12 @@ jQuery(document).ready(function() {
 				return false;
 			} else {
 				confirmSubmit();
+				return false;
 			}
 		}
 	});
 	
-	function confirmSubmit() {		
+	function confirmSubmit() {
 		$.ajax({
 			type: 'POST',
 			url: '<?php echo $this->html->getURL('extension/default_cashflows/send');?>',
@@ -104,7 +105,7 @@ jQuery(document).ready(function() {
 						submitSent = false;
 						try { resetLockBtn(); } catch (e){}
 					}	
-					if (data.success) {			
+					if (data.success) {
 						location = data.success;
 					}
 				}

@@ -153,6 +153,7 @@ jQuery(document).ready(function() {
 				return false;
 			} else {
 				confirmSubmit($form, '<?php echo $this->html->getURL('extension/default_stripe/send');?>');
+				return false;
 			}
 		}
 	});

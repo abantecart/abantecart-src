@@ -85,13 +85,11 @@
 				submitSent = true;
 				if (!$.aCCValidator.validate($('form.validate-creditcard'))) {
 					submitSent = false;
-					try {
-						resetLockBtn();
-					} catch (e) {
-					}
+					try { resetLockBtn(); } catch (e) {}
 					return false;
 				} else {
 					confirmSubmit();
+					return false;
 				}
 			}
 		});
