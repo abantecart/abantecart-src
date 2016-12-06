@@ -39,7 +39,7 @@ class ControllerPagesSaleContact extends AController {
 		$driver = $this->config->get('config_sms_driver');
 		//if sms driver not set or disabled - redirect
 		if(!$driver || !$this->config->get($driver.'_status')){
-			$this->redirect($this->html->getSecureURL('sale/contact/email'));
+			redirect($this->html->getSecureURL('sale/contact/email'));
 		}
 
 		$this->data['protocol'] = 'sms';
@@ -213,15 +213,15 @@ class ControllerPagesSaleContact extends AController {
 			$db_filter['filter']['only_with_mobile_phones'] = 1;
 		}
 
-		$newsletter_dbfilter = $db_filter;
-		$newsletter_dbfilter['filter']['newsletter_protocol'] = $this->data['protocol'];
+		$newsletter_db_filter = $db_filter;
+		$newsletter_db_filter['filter']['newsletter_protocol'] = $this->data['protocol'];
 
-		$all_subscribers_count = $this->model_sale_customer->getTotalAllSubscribers($newsletter_dbfilter);
+		$all_subscribers_count = $this->model_sale_customer->getTotalAllSubscribers($newsletter_db_filter);
 		if($all_subscribers_count){
 			$options['all_subscribers'] = $this->language->get('text_all_subscribers') . ' ' . sprintf($this->language->get('text_total_to_be_sent'), $all_subscribers_count);
 		}
 
-		$only_subscribers_count = $this->model_sale_customer->getTotalOnlyNewsletterSubscribers($newsletter_dbfilter);
+		$only_subscribers_count = $this->model_sale_customer->getTotalOnlyNewsletterSubscribers($newsletter_db_filter);
 		if($only_subscribers_count){
 			$options['only_subscribers'] = $this->language->get('text_subscribers_only') . ' ' . sprintf($this->language->get('text_total_to_be_sent'), $only_subscribers_count);
 		}
@@ -229,10 +229,6 @@ class ControllerPagesSaleContact extends AController {
 		$only_customers_count = $this->model_sale_customer->getTotalOnlyCustomers($db_filter);
 		if($only_customers_count){
 			$options['only_customers']  = $this->language->get('text_customers_only') . ' ' . sprintf($this->language->get('text_total_to_be_sent'), $only_customers_count);
-		}
-
-		if(sizeof($options)==1){
-			$this->data['error_warning'] = $this->language->get('error_'.$this->data['protocol'].'_no_recipients');
 		}
 
 		$options['ordered'] = $this->language->get('text_customers_who_ordered');
@@ -344,7 +340,7 @@ class ControllerPagesSaleContact extends AController {
 				if ($incm_task['starter'] != $this->user->getId()){
 					continue;
 				}
-				//rename task to prevent colission with new
+				//rename task to prevent collision with new
 				if($incm_task['name']=='send_now'){
 					$tm->updateTask($incm_task['task_id'],array('name' => 'send_now_'.date('YmdHis')));
 				}
