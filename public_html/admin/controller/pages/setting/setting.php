@@ -48,63 +48,63 @@ class ControllerPagesSettingSetting extends AController {
 
 		$this->document->setTitle($this->language->get('heading_title'));
 		$group = $this->request->get['active'];
-		if ($this->request->is_POST() && $this->_validate($this->request->get['active'])) {
-			if (has_value($this->request->post['config_logo'])) {
-				$this->request->post['config_logo'] = html_entity_decode($this->request->post['config_logo'], ENT_COMPAT, 'UTF-8');
-			} else if(!$this->request->post['config_logo'] && isset($this->request->post['config_logo_resource_id'])) {
-				//we save resource ID vs resource path
-				$this->request->post['config_logo'] = $this->request->post['config_logo_resource_id'];
-			} 
-			if (has_value($this->request->post['config_icon'])) {
-				$this->request->post['config_icon'] = html_entity_decode($this->request->post['config_icon'], ENT_COMPAT, 'UTF-8');
-			} else if(!$this->request->post['config_icon'] && isset($this->request->post['config_icon_resource_id'])) {
-				//we save resource ID vs resource path
-				$this->request->post['config_icon'] = $this->request->post['config_icon_resource_id'];
+		$post = (array)$this->request->post;
+		$get = (array)$this->request->get;
+
+		if ($this->request->is_POST() && $this->_validate($get['active'])) {
+			foreach( array('config_logo', 'config_icon') as $n){
+				if (has_value($post[$n])) {
+					$post[$n] = html_entity_decode($post[$n], ENT_COMPAT, 'UTF-8');
+				} else if(!$post[$n] && isset($post[$n.'_resource_id'])) {
+					//we save resource ID vs resource path
+					$post[$n] = $post[$n.'_resource_id'];
+				}
 			}
+
 			//html decode store name
-			if (has_value($this->request->post['store_name'])) {
-				$this->request->post['store_name'] = html_entity_decode($this->request->post['store_name'], ENT_COMPAT, 'UTF-8');
+			if (has_value($post['store_name'])) {
+				$post['store_name'] = html_entity_decode($post['store_name'], ENT_COMPAT, 'UTF-8');
 			}
 
 			//when change base currency for default store also change values for all currencies in database before saving
-			if (!(int)$this->request->get['store_id']
-					&& has_value($this->request->post['config_currency'])
-					&& $this->request->post['config_currency'] != $this->config->get('config_currency')
+			if (!(int)$get['store_id']
+					&& has_value($post['config_currency'])
+					&& $post['config_currency'] != $this->config->get('config_currency')
 			){
 				$this->loadModel('localisation/currency');
-				$this->model_localisation_currency->switchConfigCurrency($this->request->post['config_currency']);
+				$this->model_localisation_currency->switchConfigCurrency($post['config_currency']);
 			}
 
-			$this->model_setting_setting->editSetting( $group, $this->request->post, $this->request->get['store_id']);
+			$this->model_setting_setting->editSetting( $group, $post, $get['store_id']);
 			if ($this->config->get('config_currency_auto')) {
 				$this->loadModel('localisation/currency');
 				$this->model_localisation_currency->updateCurrencies();
 			}
 
 			$this->session->data['success'] = $this->language->get('text_success');
-            if(has_value($this->request->post['config_maintenance']) && $this->request->post['config_maintenance']){
+            if(has_value($post['config_maintenance']) && $post['config_maintenance']){
                 //mark storefront session as merchant session
                 startStorefrontSession($this->user->getId());
             }
 			$redirect_url = $this->html->getSecureURL('setting/setting',
-					'&active=' . $this->request->get['active'] . '&store_id=' . (int)$this->request->get['store_id']);
+					'&active=' . $get['active'] . '&store_id=' . (int)$get['store_id']);
 			redirect($redirect_url);
 		}
 
 		$this->data['store_id'] = 0;
-		if ($this->request->get['store_id']) {
-			$this->data['store_id'] = $this->request->get['store_id'];
+		if ($get['store_id']) {
+			$this->data['store_id'] = $get['store_id'];
 		} else {
 			$this->data['store_id'] = $this->session->data['current_store_id'];
 		}
 
 
 		$this->data['groups'] = $this->groups;
-		if (isset($this->request->get['active']) && strpos($this->request->get['active'], '-') !== false) {
-			$this->request->get['active'] = substr($this->request->get['active'], 0, strpos($this->request->get['active'], '-'));
+		if (isset($get['active']) && strpos($get['active'], '-') !== false) {
+			$get['active'] = substr($get['active'], 0, strpos($get['active'], '-'));
 		}
-		$this->data['active'] = isset($this->request->get['active']) && in_array($this->request->get['active'], $this->data['groups']) ?
-			$this->request->get['active'] : $this->data['groups'][0];
+		$this->data['active'] = isset($get['active']) && in_array($get['active'], $this->data['groups']) ?
+			$get['active'] : $this->data['groups'][0];
 
 
 		$this->data['token'] = $this->session->data['token'];
@@ -182,8 +182,8 @@ class ControllerPagesSettingSetting extends AController {
 		$this->data['settings'] = $this->model_setting_setting->getSetting($group, $this->data['store_id']);
 		unset($this->data['settings']['one_field']); //remove sign of single form field
 		foreach ($this->data['settings'] as $key => $value) {
-			if (isset($this->request->post[$key])) {
-				$this->data['settings'][$key] = $this->request->post[$key];
+			if (isset($post[$key])) {
+				$this->data['settings'][$key] = $post[$key];
 			}
 		}
 		$this->loadModel('setting/store');

@@ -86,6 +86,7 @@ class AConfigManager{
 			$data['tmpl_id'] = 'default';
 		}
 		$data['one_field'] = $setting_key;
+
 		$fields = $this->getFormFields($group, $form, $data);
 		return $fields;
 	}
@@ -249,6 +250,8 @@ class AConfigManager{
 	 * @return array
 	 */
 	private function _build_form_details($form, $data){
+
+		$language_id = $this->language->getContentLanguageID();
 		$fields = $props = array ();
 		// details section
 		$fields['name'] = $form->getFieldHtml($props[] = array (
@@ -280,27 +283,27 @@ class AConfigManager{
 		));
 		$fields['title'] = $form->getFieldHtml($props[] = array (
 				'type'     => 'input',
-				'name'     => 'config_title',
-				'value'    => $data['config_title'],
+				'name'     => 'config_title_'.$language_id,
+				'value'    => $data['config_title_'.$language_id],
 				'required' => true,
 				'style'    => 'large-field',
 		));
 		$fields['meta_description'] = $form->getFieldHtml($props[] = array (
 				'type'  => 'textarea',
-				'name'  => 'config_meta_description',
-				'value' => $data['config_meta_description'],
+				'name'  => 'config_meta_description_'.$language_id,
+				'value' => $data['config_meta_description_'.$language_id],
 				'style' => 'large-field',
 		));
 		$fields['meta_keywords'] = $form->getFieldHtml($props[] = array (
 				'type'  => 'textarea',
-				'name'  => 'config_meta_keywords',
-				'value' => $data['config_meta_keywords'],
+				'name'  => 'config_meta_keywords_'.$language_id,
+				'value' => $data['config_meta_keywords_'.$language_id],
 				'style' => 'large-field',
 		));
 		$fields['description'] = $form->getFieldHtml($props[] = array (
 				'type'  => 'texteditor',
-				'name'  => 'config_description_' . $this->session->data['content_language_id'],
-				'value' => $data['config_description_' . $this->session->data['content_language_id']],
+				'name'  => 'config_description_' . $language_id,
+				'value' => $data['config_description_' . $language_id],
 				'style' => 'xl-field',
 		));
 		$fields['owner'] = $form->getFieldHtml($props[] = array (
@@ -459,8 +462,12 @@ class AConfigManager{
 	private function _filterField($fields, $props, $field_name){
 		$output = array ();
 		foreach ($props as $n => $properties){
+			//for multilingual settings
 			if (preformatTextID($field_name) == preformatTextID($properties['name'])
 					|| (is_int(strpos($field_name, 'config_description')) && is_int(strpos($properties['name'], 'config_description')))
+					|| (is_int(strpos($field_name, 'config_title')) && is_int(strpos($properties['name'], 'config_title')))
+					|| (is_int(strpos($field_name, 'config_meta_description')) && is_int(strpos($properties['name'], 'config_meta_description')))
+					|| (is_int(strpos($field_name, 'config_meta_keywords')) && is_int(strpos($properties['name'], 'config_meta_keywords')))
 			){
 				$names = array_keys($fields);
 				$name = $names[$n];

@@ -1587,9 +1587,9 @@ INSERT INTO `ac_settings` (`group`, `key`, `value`) VALUES
 ('details','store_main_email','admin@abantecart.com'),
 ('details','config_telephone',123456789),
 ('details','config_fax',''),
-('details','config_title','Your Store'),
-('details','config_meta_description','Web Store Meta Description'),
-('details','config_meta_keywords','keyword1,keyword2,keyword3'),
+('details','config_title_1','Your Store'),
+('details','config_meta_description_1','Web Store Meta Description'),
+('details','config_meta_keywords_1','keyword1,keyword2,keyword3'),
 ('details','config_description_1','Welcome to web store!'),
 ('details','config_country_id',223),
 ('details','config_zone_id',3655),
@@ -1603,7 +1603,6 @@ INSERT INTO `ac_settings` (`group`, `key`, `value`) VALUES
 ('details','translate_src_lang_code','en'),
 ('details','translate_override_existing',0),
 ('details','warn_lang_text_missing',0),
-('details','config_description_9','Welcome to web store!'),
 -- general
 ('general','config_admin_limit',20),
 ('general','config_catalog_limit',20),
@@ -1823,7 +1822,10 @@ DROP TABLE IF EXISTS `ac_store_descriptions`;
 CREATE TABLE `ac_store_descriptions` (
   `store_id` int(11) NOT NULL,
   `language_id` int(11) NOT NULL,
-  `description` longtext COLLATE utf8_general_ci NOT NULL COMMENT 'translatable',
+  `description` longtext NOT NULL COMMENT 'translatable',
+  `title` longtext NOT NULL COMMENT 'translatable',
+  `meta_description` longtext NOT NULL COMMENT 'translatable',
+  `meta_keywords` longtext NOT NULL COMMENT 'translatable',
   PRIMARY KEY (`store_id`,`language_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 

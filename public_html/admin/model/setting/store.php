@@ -73,10 +73,13 @@ class ModelSettingStore extends Model {
 		unset($data['store_description']);
 
 		//Copy some data to details 
-		$this->model_setting_setting->editSetting('details', array('config_url'=>$data['config_url']),$store_id);
-		$this->model_setting_setting->editSetting('details', array('store_name'=>$data['name']),$store_id);
-		$this->model_setting_setting->editSetting('details', array('config_ssl'=>$data['config_ssl']),$store_id);
-		$this->model_setting_setting->editSetting('details', array('config_ssl_url'=>$data['config_ssl_url']),$store_id);
+		$this->model_setting_setting->editSetting('details',
+													array(
+															'config_url'    =>$data['config_url'],
+															'store_name'    =>$data['name'],
+															'config_ssl'    =>$data['config_ssl'],
+															'config_ssl_url'=>$data['config_ssl_url']),
+													$store_id);
 		
 		$this->cache->remove('settings');
 		$this->cache->remove('stores');
@@ -92,7 +95,6 @@ class ModelSettingStore extends Model {
 
 		if ( !empty($data['store_description']) ) {
 			foreach ($data['store_description'] as $language_id => $value) {
-				
 				if ( isset($value['description']) ){
 					$this->language->replaceDescriptions('store_descriptions',
 														 array('store_id' => (int)$store_id),

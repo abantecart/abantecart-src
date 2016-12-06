@@ -35,16 +35,18 @@ class ControllerPagesIndexHome extends AController {
 		//init controller data
 		$this->extensions->hk_InitData($this,__FUNCTION__);
 
-		$this->document->setTitle( $this->config->get('config_title') );
-		$this->document->setDescription( $this->config->get('config_meta_description') );
-		$this->document->setKeywords( $this->config->get('config_meta_keywords') );
+		$language_id = $this->config->get('storefront_language_id');
+
+		$this->document->setTitle( $this->config->get('config_title_'.$language_id) );
+		$this->document->setDescription( $this->config->get('config_meta_description_'.$language_id) );
+		$this->document->setKeywords( $this->config->get('config_meta_keywords_'.$language_id) );
 
 		$this->view->assign('heading_title', sprintf($this->language->get('heading_title'), $this->config->get('store_name')) );
 
 		$this->loadModel('setting/store');
 
 		if (!$this->config->get('config_store_id')) {
-			$this->view->assign('welcome', html_entity_decode($this->config->get('config_description_' . $this->config->get('storefront_language_id')), ENT_QUOTES, 'UTF-8') );
+			$this->view->assign('welcome', html_entity_decode($this->config->get('config_description_' .$language_id ), ENT_QUOTES, 'UTF-8') );
 		} else {
 			$store_info = $this->model_setting_store->getStore($this->config->get('config_store_id'));
 

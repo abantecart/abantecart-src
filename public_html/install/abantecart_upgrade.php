@@ -24,3 +24,7 @@ if($this->config->get('neowize_insights_status')){
 	$sql = "UPDATE ".$this->db->table('extensions')." SET status=1 WHERE `key` = 'neowize_insights'";
 	$result = $this->db->query($sql, true);
 }
+
+/*
+ * TODO moving config_title etc multilingual settings
+ */
