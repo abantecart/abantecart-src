@@ -205,7 +205,7 @@ class ModelLocalisationCurrency extends Model {
 									        AND date_modified > '" . date(strtotime('-1 day')) . "'");
 
 			foreach ($query->rows as $result) {
-				$data[ ] = $this->config->get('config_currency') . $result[ 'code' ] . '=X';
+				$data[ ] = $base_currency_code . $result[ 'code' ] . '=X';
 			}
 
 			$url = 'http://download.finance.yahoo.com/d/quotes.csv?s=' . implode(',', $data) . '&f=sl1&e=.csv';
@@ -250,8 +250,12 @@ class ModelLocalisationCurrency extends Model {
 			}else{
 				$new_value = $currency['value']*$scale;
 			}
+
+			$this->log->write(var_export($currency['code'].' - '.$new_value));
+
 			$this->editCurrency($currency['currency_id'], array('value' => $new_value));
 		}
+		return true;
 	}
 
 
