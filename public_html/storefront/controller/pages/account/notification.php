@@ -29,7 +29,7 @@ class ControllerPagesAccountNotification extends AController {
 
 		if (!$this->customer->isLogged()) {
 	  		$this->session->data['redirect'] = $this->html->getSecureURL('account/notification');
-	  		$this->redirect($this->html->getSecureURL('account/login'));
+	  		redirect($this->html->getSecureURL('account/login'));
     	} 
 		
 		$this->document->setTitle( $this->language->get('heading_title') );
@@ -39,7 +39,7 @@ class ControllerPagesAccountNotification extends AController {
 		if ($this->request->is_POST()) {
 			$this->model_account_customer->saveCustomerNotificationSettings($this->request->post['settings']);
 			$this->session->data['success'] = $this->language->get('text_success');
-			$this->redirect($this->html->getSecureURL('account/account'));
+			redirect($this->html->getSecureURL('account/account'));
 		}
 
       	$this->document->resetBreadcrumbs();
@@ -107,6 +107,7 @@ class ControllerPagesAccountNotification extends AController {
 		    	}
 		    	if(!$customer_info[$protocol]) {
 		    		$read_only = ' disabled readonly ';
+				    $checked = false;
 		    	} else if(has_value($force_arr) && in_array($protocol, $force_arr)) {
 		    		$read_only = ' disabled readonly ';
 		    		$checked = true;
