@@ -206,7 +206,7 @@ class ModelSaleContact extends Model{
 		// All customers by product
 		if (isset($data['products']) && is_array($data['products'])){
 			$emails = array ();
-			$this->load->model('sale_order');
+			$this->load->model('sale/order');
 			foreach ($data['products'] as $product_id){
 				// fore registered customers
 				$results = $this->model_sale_customer->getCustomersByProduct($product_id);
