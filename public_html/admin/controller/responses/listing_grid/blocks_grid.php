@@ -37,7 +37,7 @@ class ControllerResponsesListingGridBlocksGrid extends AController{
 
 		//process custom search form
 		$grid_filter_params = array_merge(array ('block_txt_id', 'name'), (array)$this->data['grid_filter_params']);
-		$custom_block_types = array_merge(array ('html_block', 'listing_block'), $this->data['custom_block_types']);
+		$custom_block_types = array_merge(array ('html_block', 'listing_block'), (array)$this->data['custom_block_types']);
 
 		$filter_grid = new AFilter(array ('method' => 'post', 'grid_filter_params' => $grid_filter_params));
 
