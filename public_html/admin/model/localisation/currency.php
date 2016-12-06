@@ -250,9 +250,6 @@ class ModelLocalisationCurrency extends Model {
 			}else{
 				$new_value = $currency['value']*$scale;
 			}
-
-			$this->log->write(var_export($currency['code'].' - '.$new_value));
-
 			$this->editCurrency($currency['currency_id'], array('value' => $new_value));
 		}
 		return true;
