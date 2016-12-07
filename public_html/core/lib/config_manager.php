@@ -287,24 +287,28 @@ class AConfigManager{
 				'value'    => $data['config_title_'.$language_id],
 				'required' => true,
 				'style'    => 'large-field',
+				'multilingual' => true
 		));
 		$fields['meta_description'] = $form->getFieldHtml($props[] = array (
 				'type'  => 'textarea',
 				'name'  => 'config_meta_description_'.$language_id,
 				'value' => $data['config_meta_description_'.$language_id],
 				'style' => 'large-field',
+				'multilingual' => true
 		));
 		$fields['meta_keywords'] = $form->getFieldHtml($props[] = array (
 				'type'  => 'textarea',
 				'name'  => 'config_meta_keywords_'.$language_id,
 				'value' => $data['config_meta_keywords_'.$language_id],
 				'style' => 'large-field',
+				'multilingual' => true
 		));
 		$fields['description'] = $form->getFieldHtml($props[] = array (
 				'type'  => 'texteditor',
 				'name'  => 'config_description_' . $language_id,
 				'value' => $data['config_description_' . $language_id],
 				'style' => 'xl-field',
+				'multilingual' => true
 		));
 		$fields['owner'] = $form->getFieldHtml($props[] = array (
 				'type'     => 'input',
