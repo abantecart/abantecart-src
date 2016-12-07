@@ -355,7 +355,6 @@
 											</label>
 											<?php
 											echo $review_captcha;
-											$review_button->style .= ' lock-on-click';
 											echo $review_button; ?>
 										</div>
 									</div>

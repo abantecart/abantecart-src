@@ -231,7 +231,7 @@ class ControllerPagesProductProduct extends AController{
 						'type'  => 'button',
 						'name'  => 'review_submit',
 						'text'  => $this->language->get('button_submit'),
-						'style' => 'btn-primary',
+						'style' => 'btn-primary lock-on-click',
 						'icon'  => 'fa fa-comment'
 				));
 
@@ -245,9 +245,6 @@ class ControllerPagesProductProduct extends AController{
 						'type'   => 'form',
 						'name'   => 'product',
 						'action' => $this->html->getSecureURL($this->routes['cart_rt'])));
-
-
-		$product_price = $product_info['price'];
 
 		$discount = $promotion->getProductDiscount($product_id);
 
@@ -510,7 +507,7 @@ class ControllerPagesProductProduct extends AController{
 				$msg = new AMessage();
 				$msg->saveNotice($message_ttl, $message_txt);
 				$this->model_catalog_product->updateStatus($product_id, 0);
-				$this->redirect($this->html->getSEOURL('product/product', '&product_id=' . $product_info['product_id'], '&encode'));
+				redirect($this->html->getSEOURL('product/product', '&product_id=' . $product_info['product_id'], '&encode'));
 			}
 		}
 
