@@ -54,7 +54,9 @@
 				</a>
 			</div>			
 			<div class="btn-group mr10 toolbar">
+				<?php if($last_login){?>
 				<a class="btn btn-white disabled"><?php echo $last_login; ?></a>
+				<?php } ?>
 				<a class="btn btn-white disabled"><?php echo $balance; ?></a>
 				<a target="_blank"
 				   class="btn btn-white tooltips"
