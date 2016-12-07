@@ -104,7 +104,7 @@ final class ASession{
 		//check if session can not be started. Try one more time with new generated session ID
 		$is_session_ok = session_start();
 		if (!$is_session_ok){
-			//autogenerate session id and try to start session again
+			//auto generating session id and try to start session again
 			$final_session_id = $this->_prepare_session_id();
 			session_id($final_session_id);
 			setcookie($session_name, $final_session_id, 0, $path, null, (defined('HTTPS') && HTTPS));
@@ -129,27 +129,6 @@ final class ASession{
 		session_unset();
 		session_destroy();
 		$_SESSION = array ();
-	}
-
-	/**
-	 * This function is to prevent session attacks
-	 * Validate that IP and User agent did not change for same session.
-	 * @return bool
-	 */
-	private function _prevent_hijacking(){
-
-		$_SESSION['IPaddress'] = !isset($_SESSION['IPaddress']) ? $_SERVER['REMOTE_ADDR'] : $_SESSION['IPaddress'];
-		$_SESSION['userAgent'] = !isset($_SESSION['userAgent']) ? $_SERVER['HTTP_USER_AGENT'] : $_SESSION['userAgent'];
-
-		if ($_SESSION['IPaddress'] != $_SERVER['REMOTE_ADDR']){
-			return false;
-		}
-
-		if ($_SESSION['userAgent'] != $_SERVER['HTTP_USER_AGENT']){
-			return false;
-		}
-
-		return true;
 	}
 
 	/**

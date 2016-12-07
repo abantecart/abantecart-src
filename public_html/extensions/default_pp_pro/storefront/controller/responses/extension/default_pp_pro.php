@@ -8,7 +8,7 @@
   Copyright © 2011-2016 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
-  Lincence details is bundled with this package in the file LICENSE.txt.
+  Licence details is bundled with this package in the file LICENSE.txt.
   It is also available at this URL:
   <http://www.opensource.org/licenses/OSL-3.0>
 
@@ -202,7 +202,7 @@ class ControllerResponsesExtensionDefaultPPPro extends AController{
 				'LASTNAME'       => $order_info['payment_lastname'],
 				'EMAIL'          => $order_info['email'],
 				'PHONENUM'       => $order_info['telephone'],
-				'IPADDRESS'      => $this->request->server['REMOTE_ADDR'],
+				'IPADDRESS'      => $this->request->getRemoteIP(),
 				'STREET'         => $order_info['payment_address_1'],
 				'CITY'           => $order_info['payment_city'],
 				'STATE'          => ($order_info['payment_iso_code_2'] != 'US') ? $order_info['payment_zone'] : $order_info['payment_zone_code'],

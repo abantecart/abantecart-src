@@ -633,7 +633,7 @@ class AForm{
 				if ($this->config->get('config_recaptcha_secret_key')){
 					require_once DIR_VENDORS . '/google_recaptcha/autoload.php';
 					$recaptcha = new \ReCaptcha\ReCaptcha($this->config->get('config_recaptcha_secret_key'));
-					$resp = $recaptcha->verify($data['g-recaptcha-response'], $this->request->server['REMOTE_ADDR']);
+					$resp = $recaptcha->verify($data['g-recaptcha-response'], $this->request->getRemoteIP());
 					if (!$resp->isSuccess() && $resp->getErrorCodes()){
 						$errors[$field['field_name']] = $this->language->get('error_captcha');
 					}

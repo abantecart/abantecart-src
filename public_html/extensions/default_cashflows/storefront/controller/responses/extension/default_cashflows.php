@@ -152,7 +152,7 @@ class ControllerResponsesExtensionDefaultCashflows extends AController{
 				'cust_country'  => $order_info['payment_iso_code_2'],
 				'cust_postcode' => $order_info['payment_postcode'],
 				'cust_tel'      => $order_info['telephone'],
-				'cust_ip'       => $this->request->server['REMOTE_ADDR'],
+				'cust_ip'       => $this->request->getRemoteIP(),
 				'cust_email'    => $order_info['email'],
 				'tran_ref'      => $order_info['order_id'],
 				'tran_amount'   => $this->currency->format($order_info['total'], $order_info['currency'], 1.00000, false),
@@ -176,7 +176,7 @@ class ControllerResponsesExtensionDefaultCashflows extends AController{
 		$response = curl_exec($curl);
 
 		curl_close($curl);
-
+		$json = array();
 		if ($response){
 			$data = explode('|', $response);
 

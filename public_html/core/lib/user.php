@@ -60,7 +60,7 @@ final class AUser{
 				$this->user_group_id = (int)$user_query->row['user_group_id'];
 
 				$this->db->query("UPDATE " . $this->db->table("users") . " 
-								  SET ip = '" . $this->db->escape($this->request->server['REMOTE_ADDR']) . "'
+								  SET ip = '" . $this->db->escape($this->request->getRemoteIP()) . "'
 								  WHERE user_id = '" . (int)$this->session->data['user_id'] . "'");
 
 				$user_group_query = $this->db->query("SELECT permission
@@ -85,7 +85,7 @@ final class AUser{
 	 * @return bool
 	 */
 	public function login($username, $password){
-		//Supports older passords for upgraded/migrated stores prior to 1.2.8
+		//Supports older passwords for upgraded/migrated stores prior to 1.2.8
 		$add_pass_sql = '';
 		if (defined('SALT')){
 			$add_pass_sql = "OR password = '" . $this->db->escape(md5($password . SALT)) . "'";
@@ -146,7 +146,7 @@ final class AUser{
 	 * @return bool
 	 */
 	public function hasPermission($key, $value){
-		//If top_admin allow all permisson. Make sure Top Admin Group is set to ID 1
+		//If top_admin allow all permission. Make sure Top Admin Group is set to ID 1
 		if ($this->user_group_id == 1){
 			return true;
 		} else if (isset($this->permission[$key])){

@@ -2027,7 +2027,7 @@ class IPaddressHtmlElement extends HtmlElement{
 				array (
 						'id'    => $this->element_id,
 						'name'  => $this->name,
-						'value' => $_SERVER['REMOTE_ADDR'],
+						'value' => $this->registry->get('request')->getRemoteIP(),
 					//TODO: remove deprecated attribute aform_field_type
 						'attr'  => 'aform_field_type="ipaddress" ' . $this->attr . ' data-aform-field-type="captcha"',
 				)

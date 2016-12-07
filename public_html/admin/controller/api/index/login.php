@@ -54,7 +54,7 @@ class ControllerApiIndexLogin extends AControllerAPI {
 	private function _validate($username, $password) {
 		if (isset($username) && isset($password) && !$this->user->login($username, $password)) {
 			$this->loadLanguage('common/login');
-			$this->messages->saveNotice("API " . $this->language->get('error_login_message').$this->request->server['REMOTE_ADDR'],$this->language->get('error_login_message_text').$username);
+			$this->messages->saveNotice("API " . $this->language->get('error_login_message').$this->request->getRemoteIP(),$this->language->get('error_login_message_text').$username);
 			return FALSE;			
 		} else {
 			return TRUE;		
@@ -72,4 +72,3 @@ class ControllerApiIndexLogin extends AControllerAPI {
 	}
 	
 }  
-?>

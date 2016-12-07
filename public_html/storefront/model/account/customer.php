@@ -531,7 +531,7 @@ class ModelAccountCustomer extends Model {
 				require_once DIR_VENDORS . '/google_recaptcha/autoload.php';
 				$recaptcha = new \ReCaptcha\ReCaptcha($this->config->get('config_recaptcha_secret_key'));
 				$resp = $recaptcha->verify(	$data['g-recaptcha-response'],
-											$this->request->server['REMOTE_ADDR']);
+											$this->request->getRemoteIP());
 				if (!$resp->isSuccess() && $resp->getErrorCodes()) {
 					$this->error['captcha'] = $this->language->get('error_captcha');
 				}
@@ -651,7 +651,7 @@ class ModelAccountCustomer extends Model {
 			require_once DIR_VENDORS . '/google_recaptcha/autoload.php';
 			$recaptcha = new \ReCaptcha\ReCaptcha($this->config->get('config_recaptcha_secret_key'));
 			$resp = $recaptcha->verify(	$data['g-recaptcha-response'],
-										$this->request->server['REMOTE_ADDR']);
+										$this->request->getRemoteIP());
 			if (!$resp->isSuccess() && $resp->getErrorCodes()) {
 				$this->error['captcha'] = $this->language->get('error_captcha');
 			}

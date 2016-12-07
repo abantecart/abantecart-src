@@ -191,6 +191,17 @@ final class ARequest{
 		return $this->version;
 	}
 
+	public function getRemoteIP(){
+		if (!empty($this->server['HTTP_CLIENT_IP'])) {
+		    $ip = $this->server['HTTP_CLIENT_IP'];
+		} elseif (!empty($this->server['HTTP_X_FORWARDED_FOR'])) {
+		    $ip = $this->server['HTTP_X_FORWARDED_FOR'];
+		} else {
+		    $ip = $this->server['REMOTE_ADDR'];
+		}
+		return $ip;
+	}
+
 	/**
 	 * @return bool
 	 */

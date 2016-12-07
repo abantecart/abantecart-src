@@ -339,7 +339,7 @@ class AOrder{
 			$order_info['coupon_id'] = 0;
 		}
 
-		$order_info['ip'] = $this->request->server['REMOTE_ADDR'];
+		$order_info['ip'] = $this->request->getRemoteIP();
 
 		$this->order_data = $order_info;
 

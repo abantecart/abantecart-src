@@ -50,13 +50,13 @@ class ControllerPagesIndexLogin extends AController {
 		if ($this->request->is_POST() && $this->_validate()) {
 			$this->session->data['token'] = genToken(32);
 			$this->session->data['checkupdates'] = true; // sign to run ajax-request to check for updates. see common/head for details
-			//login is sussessful redirect to originaly requested page
+			//login is successful redirect to originally requested page
 			if (isset($this->request->post['redirect']) && !preg_match("/rt=index\/login/i", $this->request->post['redirect'])) {
 				$redirect = $this->html->filterQueryParams( $this->request->post['redirect'], array('token')  );
 				$redirect .=  "&token=".$this->session->data['token'];
-				$this->redirect($redirect);
+				redirect($redirect);
 			} else {
-				$this->redirect($this->html->getSecureURL('index/home'));
+				redirect($this->html->getSecureURL('index/home'));
 				
 			}
 		}
@@ -107,7 +107,7 @@ class ControllerPagesIndexLogin extends AController {
 			);
 		}
 
-		//run critial system check
+		//run critical system check
 		$check_result = run_critical_system_check($this->registry);
 
 		if($check_result){
@@ -156,7 +156,7 @@ class ControllerPagesIndexLogin extends AController {
 		if (!$this->error) {
 			return TRUE;
 		} else {		
-			$this->messages->saveNotice($this->language->get('error_login_message').$this->request->server['REMOTE_ADDR'],$this->language->get('error_login_message_text').$this->request->post['username']);
+			$this->messages->saveNotice($this->language->get('error_login_message').$this->request->getRemoteIP(),$this->language->get('error_login_message_text').$this->request->post['username']);
 			return FALSE;
 		}
 	}

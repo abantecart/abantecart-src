@@ -175,10 +175,7 @@ class ACustomer{
 		}
 
 		//Update online customers' activity
-		$ip = '';
-		if (isset($this->request->server['REMOTE_ADDR'])){
-			$ip = $this->request->server['REMOTE_ADDR'];
-		}
+		$ip = $this->request->getRemoteIP();
 		$url = '';
 		if (isset($this->request->server['HTTP_HOST']) && isset($this->request->server['REQUEST_URI'])){
 			$url = 'http://' . $this->request->server['HTTP_HOST'] . $this->request->server['REQUEST_URI'];
@@ -545,7 +542,7 @@ class ACustomer{
 		$this->db->query("UPDATE " . $this->db->table("customers") . "
        	                  SET
        	                        cart = '" . $this->db->escape(serialize($cart)) . "',
-       	                        ip = '" . $this->db->escape($this->request->server['REMOTE_ADDR']) . "'
+       	                        ip = '" . $this->db->escape($this->request->getRemoteIP()) . "'
        	                  WHERE customer_id = '" . (int)$customer_id . "'");
 	}
 
@@ -747,7 +744,7 @@ class ACustomer{
 		$this->db->query("UPDATE " . $this->db->table("customers") . "
 							SET
 								wishlist = '" . $this->db->escape(serialize($whishlist)) . "',
-								ip = '" . $this->db->escape($this->request->server['REMOTE_ADDR']) . "'
+								ip = '" . $this->db->escape($this->request->getRemoteIP()) . "'
 							WHERE customer_id = '" . (int)$customer_id . "'");
 		return true;
 	}
