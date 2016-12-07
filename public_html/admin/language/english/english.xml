@@ -745,4 +745,8 @@
 		<key>text_more_new</key>
 		<value><![CDATA[New tab edit]]></value>
 	</definition>
+	<definition>
+		<key>text_back_to_list</key>
+		<value><![CDATA[Back to listing]]></value>
+	</definition>
 </definitions>

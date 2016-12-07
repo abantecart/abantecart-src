@@ -14,6 +14,15 @@
 
 	<div class="panel-heading col-xs-12">
 		<div class="primary_content_actions pull-left">
+
+			<?php if (!empty ($list_url)) { ?>
+			<div class="btn-group">
+				<a class="btn btn-white tooltips" href="<?php echo $list_url; ?>" data-toggle="tooltip" data-original-title="<?php echo $text_back_to_list; ?>">
+					<i class="fa fa-arrow-left fa-lg"></i>
+				</a>
+			</div>
+			<?php } ?>
+
 			<div class="actionitem btn-group mr10 toolbar">
 				<a class="btn btn-primary lock-on-click tooltips" href="<?php echo $insert; ?>" title="<?php echo $button_add; ?>">
 				<i class="fa fa-plus"></i>

@@ -178,6 +178,15 @@ class ControllerPagesCatalogProduct extends AController {
 		    'form_name' => 'product_grid_search',
 	    ));
 
+        //get search filter from cookie if requeted
+        $search_params = array();
+        if($this->request->get['saved_list']) {
+            $grid_search_form = json_decode(html_entity_decode($this->request->cookie['grid_search_form']));
+            if($grid_search_form->table_id == $grid_settings['table_id']) {
+                parse_str($grid_search_form->params, $search_params);
+            }
+        }
+
 	    $grid_search_form = array();
         $grid_search_form['id'] = 'product_grid_search';
         $grid_search_form['form_open'] = $form->getFieldHtml(array(
@@ -201,12 +210,13 @@ class ControllerPagesCatalogProduct extends AController {
 		$grid_search_form['fields']['keyword'] = $form->getFieldHtml(array(
 		    'type' => 'input',
 		    'name' => 'keyword',
-			'value' => '',
+			'value' => $search_params['keyword'],
 			'placeholder' => $this->language->get('filter_product')
 	    ));
 		$grid_search_form['fields']['match'] = $form->getFieldHtml(array(
 		    'type' => 'selectbox',
 		    'name' => 'match',
+            'value' => $search_params['match'],
             'options' => array(
                 'any'	=> $this->language->get('filter_any_word'),
 				'all'   => $this->language->get('filter_all_words'),
@@ -216,28 +226,34 @@ class ControllerPagesCatalogProduct extends AController {
 		$grid_search_form['fields']['pfrom'] = $form->getFieldHtml(array(
 		    'type' => 'input',
 		    'name' => 'pfrom',
-			'value' => '',
+            'value' => $search_params['pfrom'],
 			'placeholder' => '0',
 			'style' => 'small-field'
 	    ));
 		$grid_search_form['fields']['pto'] = $form->getFieldHtml(array(
 		    'type' => 'input',
 		    'name' => 'pto',
-			'value' => '',
+            'value' => $search_params['pto'],
 			'placeholder' => $this->language->get('filter_price_max'),
 			'style' => 'small-field'
 	    ));
+
+        if($this->request->get['category']) {
+            $search_params['category'] = $this->request->get['category'];
+        }
+
 	    $grid_search_form['fields']['category'] = $form->getFieldHtml(array(
 		    'type' => 'selectbox',
 		    'name' => 'category',
             'options' => $this->data['categories'],
 			'style' =>'chosen',
-			'value' => $this->request->get['category'],
+			'value' => $search_params['category'],
 			'placeholder' => $this->language->get('text_select_category'),
 	    ));
 		$grid_search_form['fields']['status'] = $form->getFieldHtml(array(
 		    'type' => 'selectbox',
 		    'name' => 'status',
+            'value' => $search_params['status'],
 		    'placeholder' => $this->language->get('text_select_status'),
             'options' => array(
                 1 => $this->language->get('text_enabled'),
@@ -888,6 +904,10 @@ class ControllerPagesCatalogProduct extends AController {
 	    $this->data['language_id'] = $this->session->data['content_language_id'];
 	    $this->data['language_code'] = $this->session->data['language'];
 	    $this->data['help_url'] = $this->gen_help_url('product_edit');
+        $saved_list_data = json_decode(html_entity_decode($this->request->cookie['grid_params']));
+        if($saved_list_data->table_id == 'product_grid') {
+            $this->data['list_url'] = $this->html->getSecureURL('catalog/product', '&saved_list=product_grid');
+        }
 
 	    if( $viewport_mode == 'modal' ){
             $tpl = 'responses/viewport/modal/catalog/product_form.tpl';

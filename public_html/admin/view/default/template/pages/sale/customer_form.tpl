@@ -21,6 +21,15 @@
 	<?php if ($customer_id) { ?>
 	<div class="panel-heading col-xs-12">
 		<div class="primary_content_actions pull-left">
+
+			<?php if (!empty ($list_url)) { ?>
+			<div class="btn-group">
+				<a class="btn btn-white tooltips" href="<?php echo $list_url; ?>" data-toggle="tooltip" data-original-title="<?php echo $text_back_to_list; ?>">
+					<i class="fa fa-arrow-left fa-lg"></i>
+				</a>
+			</div>
+			<?php } ?>
+
 			<div class="btn-group">
 				<button class="btn btn-default dropdown-toggle tooltips" data-original-title="<?php echo $text_edit_address; ?>" title="<?php echo $text_edit_address; ?>" type="button" data-toggle="dropdown">
 					<i class="fa fa-book"></i>

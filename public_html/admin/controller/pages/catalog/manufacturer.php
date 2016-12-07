@@ -332,6 +332,11 @@ class ControllerPagesCatalogManufacturer extends AController {
 
 		$this->view->assign('help_url', $this->gen_help_url('manufacturer_edit') );
 
+        $saved_list_data = json_decode(html_entity_decode($this->request->cookie['grid_params']));
+        if($saved_list_data->table_id == 'manufacturer_grid') {
+            $this->data['list_url'] = $this->html->getSecureURL('catalog/manufacturer', '&saved_list=manufacturer_grid');
+        }
+
 		if( $viewport_mode != 'modal' ){
 			$this->addChild('responses/common/resource_library/get_resources_html', 'resources_html', 'responses/common/resource_library_scripts.tpl');
 			$resources_scripts = $this->dispatch(

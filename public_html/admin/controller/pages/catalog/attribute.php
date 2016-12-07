@@ -394,6 +394,11 @@ class ControllerPagesCatalogAttribute extends AController{
 		$this->data['text_parent_note'] = $this->language->get('text_parent_note');
 		$this->data['help_url'] = $this->gen_help_url('global_attributes_edit');
 
+        $saved_list_data = json_decode(html_entity_decode($this->request->cookie['grid_params']));
+        if($saved_list_data->table_id == 'attribute_grid') {
+            $this->data['list_url'] = $this->html->getSecureURL('catalog/attribute', '&saved_list=attribute_grid');
+        }
+
 		$this->view->batchAssign($this->data);
 		$this->processTemplate('pages/catalog/attribute_form.tpl');
 	}
