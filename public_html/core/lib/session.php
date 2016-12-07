@@ -111,15 +111,6 @@ final class ASession{
 			session_start();
 		}
 
-		/*
-		NOTE: You can enable this section if you need extra security to prevent session attacks. 
-		We recommend to use of SSL on all admin pages and customer related storefront pages.
-		if(!$this->_prevent_hijacking()){
-			$this->clear();
-			session_name($this->ses_name);
-			session_start();
-		}
-		*/
 		$_SESSION['session_mode'] = $session_mode;
 	}
 
