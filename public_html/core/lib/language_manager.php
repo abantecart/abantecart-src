@@ -935,10 +935,10 @@ class ALanguageManager extends Alanguage{
 				$check_query = $this->db->query($sql1);
 				if ($check_query->num_rows <= 0){
 					ADebug::variable('class ALanguage missing language data: ', $sql1);
-					//we have no data, clone it
-					$insert_data = array ();
+
 					$origin_query = $this->db->query($sql2);
 					foreach ($origin_query->rows as $drow){
+						$insert_data = array ();
 						foreach ($drow as $fld_name => $value){
 							if ($fld_name == 'language_id'){
 								$value = $new_language;
@@ -955,43 +955,44 @@ class ALanguageManager extends Alanguage{
 										$translate_method);
 								//if one of translation is null - means that translation failed
 								// interrupt translation
-								if ($value === null){
+								if ($value === null && $translate_method != 'copy_source_text'){
 									return "Translation skipped for table " . $table . "<br>";
 								}
 							}
 
 							$insert_data[$fld_name] = $this->db->escape($value);
 						}
-					}
 
-					if (!empty($insert_data)){
-						$insert_sql = "REPLACE INTO " . $table . "
+						if (!empty($insert_data)){
+
+							$insert_sql = "REPLACE INTO " . $table . "
 											(" . implode(',', array_keys($insert_data)) . ")
 										VALUES ('" . implode("','", $insert_data) . "')";
 
-						ADebug::variable('class ALanguage cloning data: ', $insert_sql);
+							ADebug::variable('class ALanguage cloning data: ', $insert_sql);
 
-						if ($table == $this->db->table('language_definitions')){
-							//#PR There are some key condition in definitions that can be duplicate (CASE: block = 'english' main language ) skip
-							//We assume that main language XML need to be present 
-							//TODO rename main language file to common.xml
-							if (!$this->_is_definition_in_db($insert_data)){
-								$this->db->query($insert_sql);
+							if ($table == $this->db->table('language_definitions')){
+								//#PR There are some key condition in definitions that can be duplicate (CASE: block = 'english' main language ) skip
+								//We assume that main language XML need to be present
+								//TODO rename main language file to common.xml
+								if (!$this->_is_definition_in_db($insert_data)){
+									$this->db->query($insert_sql);
+								} else{
+									continue;
+								}
+							} else if ($table == $this->db->table('product_tags')){
+								// TODO. ac_product_tags still an issue. Will be clonned as duplication on each translation.
+								//		 Issue. Can not check if translation is present because of no IDs present in ac_product_tags
+								// Offset duplicate error for now.
+								if (!$this->db->query($insert_sql, true)){
+									//skip count on error
+									continue;
+								}
 							} else{
-								continue;
+								$this->db->query($insert_sql);
 							}
-						} else if ($table == $this->db->table('product_tags')){
-							// TODO. ac_product_tags still an issue. Will be clonned as duplication on each translation. 
-							//		 Issue. Can not check if translation is present because of no IDs present in ac_product_tags
-							// Offset duplicate error for now. 
-							if (!$this->db->query($insert_sql, true)){
-								//skip count on error
-								continue;
-							}
-						} else{
-							$this->db->query($insert_sql);
+							$tcount++;
 						}
-						$tcount++;
 					}
 				}
 			}
