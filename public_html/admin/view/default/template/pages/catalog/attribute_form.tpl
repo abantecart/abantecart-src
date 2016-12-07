@@ -20,7 +20,17 @@
 
 	<div class="panel-heading col-xs-12">
 
-		<?php include($tpl_common_dir . 'content_buttons.tpl'); ?>	
+		<div class="primary_content_actions pull-left">
+			<?php if (!empty ($list_url)) { ?>
+			<div class="btn-group">
+				<a class="btn btn-white tooltips" href="<?php echo $list_url; ?>" data-toggle="tooltip" data-original-title="<?php echo $text_back_to_list; ?>">
+					<i class="fa fa-arrow-left fa-lg"></i>
+				</a>
+			</div>
+			<?php } ?>
+		</div>
+
+		<?php include($tpl_common_dir . 'content_buttons.tpl'); ?>
 	</div>
 
 	<?php echo $form['form_open']; ?>

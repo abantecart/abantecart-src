@@ -175,6 +175,15 @@ class ControllerPagesSaleOrder extends AController{
 				'form_name' => 'order_grid_search',
 		));
 
+        //get search filter from cookie if requeted
+        $search_params = array();
+        if($this->request->get['saved_list']) {
+            $grid_search_form = json_decode(html_entity_decode($this->request->cookie['grid_search_form']));
+            if($grid_search_form->table_id == $grid_settings['table_id']) {
+                parse_str($grid_search_form->params, $search_params);
+            }
+        }
+
 		$grid_search_form = array();
 		$grid_search_form['id'] = 'order_grid_search';
 		$grid_search_form['form_open'] = $form->getFieldHtml(array(
@@ -637,10 +646,15 @@ class ControllerPagesSaleOrder extends AController{
 		$this->data['edit_order_total'] = $this->html->getSecureURL('sale/order/recalc', '&order_id=' . $order_id);
 		$this->data['delete_order_total'] = $this->html->getSecureURL('sale/order/delete_total', '&order_id=' . $order_id);
 
+        $saved_list_data = json_decode(html_entity_decode($this->request->cookie['grid_params']));
+        if($saved_list_data->table_id == 'order_grid') {
+            $this->data['list_url'] = $this->html->getSecureURL('sale/order', '&saved_list=order_grid');
+        }
+
 		$this->view->batchAssign($this->data);
 		$this->view->assign('help_url', $this->gen_help_url('order_details'));
 
-		if($viewport_mode == 'modal'){
+        if($viewport_mode == 'modal'){
 			$tpl = 'responses/viewport/modal/sale/order_details.tpl';
 		}else{
 			$this->addChild('pages/sale/order_summary', 'summary_form', 'pages/sale/order_summary.tpl');
