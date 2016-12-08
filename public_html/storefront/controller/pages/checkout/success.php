@@ -42,7 +42,12 @@ class ControllerPagesCheckoutSuccess extends AController{
 						'description'      => sprintf($this->language->get('text_applied_balance_to_order'),
 								$this->currency->format($this->currency->convert($amount, $this->config->get('config_currency'), $this->session->data['currency']), $this->session->data['currency'], 1),
 								(int)$this->session->data['order_id']));
-				$this->customer->debitTransaction($transaction_data);
+				try{
+					$this->customer->debitTransaction($transaction_data);
+				}catch(AException $e){
+					$error = new AError('Error: Debit transaction cannot be applied.'. var_export($transaction_data, true)."\n".$e->getMessage()."\n".$e->getFile());
+					$error->toLog()->toMessages();
+				}
 			}
 
 			$this->cart->clear();
@@ -65,7 +70,7 @@ class ControllerPagesCheckoutSuccess extends AController{
 			$this->extensions->hk_ProcessData($this);
 
 			//Redirect back to load new page with cleared shopping cart content
-			$this->redirect($this->html->getSecureURL('checkout/success'));
+			redirect($this->html->getSecureURL('checkout/success'));
 		}
 
 		$this->document->setTitle($this->language->get('heading_title'));
@@ -128,7 +133,7 @@ class ControllerPagesCheckoutSuccess extends AController{
 		//only one time load, reset
 		unset($this->session->data['processed_order_id']);
 		if(!$order_id) {
-			$this->redirect($this->html->getURL('index/home'));
+			redirect($this->html->getURL('index/home'));
 		}
 
 		$this->loadModel('account/order');
@@ -189,7 +194,6 @@ class ControllerPagesCheckoutSuccess extends AController{
 		    }
 		}
 
-		$addr = array();
 		if (!$order_data['shipping_city']) {
 			$addr = array(
 				'city'           => $order_data['payment_city'],
