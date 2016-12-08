@@ -166,7 +166,13 @@ class ModelSettingSetting extends Model {
 		}
 		$src_lang_id = $this->language->getLanguageIdByCode($this->config->get('translate_src_lang_code'));
 		// if override - edit type is insert
-		if(isset($data['config_description_'.$src_lang_id]) && $this->config->get('translate_override_existing')){
+		if($this->config->get('translate_override_existing')
+				&&
+				(isset($data['config_description_'.$src_lang_id])
+				|| isset($data['config_title_'.$src_lang_id])
+				|| isset($data['config_meta_description_'.$src_lang_id])
+				|| isset($data['config_meta_keywords_'.$src_lang_id]))
+		){
 			$edit_type = 'insert';
 		}
 
@@ -189,6 +195,7 @@ class ModelSettingSetting extends Model {
 					$key = $n.'_'.$src_lang_id;
 					$src_text =  isset($data[$key]) ? $data[$key] : $this->config->get($key);
 					foreach($locales as $dst_lang_id=>$dst_code){
+
 						$data[$n.'_'.$dst_lang_id] = $this->language->translate ($this->config->get('translate_src_lang_code'), $src_text, $dst_code);
 					}
 				}
