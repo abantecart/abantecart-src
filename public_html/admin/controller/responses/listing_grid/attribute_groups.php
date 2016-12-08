@@ -23,6 +23,7 @@ if (! defined ( 'DIR_CORE' ) || !IS_ADMIN) {
 class ControllerResponsesListingGridAttributeGroups extends AController {
 	private $error = array();
     private $attribute_manager;
+	public $data = array();
 
     public function __construct($registry, $instance_id, $controller, $parent_controller = '') {
         parent::__construct($registry, $instance_id, $controller, $parent_controller);
@@ -81,12 +82,12 @@ class ControllerResponsesListingGridAttributeGroups extends AController {
 			);
 			$i++;
 		}
-
+	    $this->data['response'] = $response;
 		//update controller data
         $this->extensions->hk_UpdateData($this,__FUNCTION__);
 
 		$this->load->library('json');
-		$this->response->setOutput(AJson::encode($response));
+		$this->response->setOutput(AJson::encode($this->data['response']));
 	}
 
 	public function update() {

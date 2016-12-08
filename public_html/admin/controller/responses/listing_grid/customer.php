@@ -22,6 +22,7 @@ if (!defined('DIR_CORE') || !IS_ADMIN) {
 }
 class ControllerResponsesListingGridCustomer extends AController {
 	public $error = '';
+	public $data = array();
 	public function main() {
 
 		//init controller data
@@ -47,18 +48,23 @@ class ControllerResponsesListingGridCustomer extends AController {
 			'start' => ($page - 1) * $limit,
 			'limit' => $limit,
 		);
-		if ( has_value($this->request->get[ 'customer_group' ]) )
-			$data['filter']['customer_group_id'] = $this->request->get[ 'customer_group' ];
-		if ( has_value($this->request->get['status']) )
-			$data['filter']['status'] = $this->request->get[ 'status' ];
-		if ( has_value($this->request->get['approved']) )
-			$data['filter']['approved'] = $this->request->get[ 'approved' ];
-		$allowedFields = array( 'name', 'email' );
+		if ( has_value($this->request->get[ 'customer_group' ]) ){
+			$data['filter']['customer_group_id'] = $this->request->get['customer_group'];
+		}
+		if ( has_value($this->request->get['status']) ){
+			$data['filter']['status'] = $this->request->get['status'];
+		}
+		if ( has_value($this->request->get['approved']) ){
+			$data['filter']['approved'] = $this->request->get['approved'];
+		}
+
+		$allowedFields = array_merge(array ('name', 'email'), (array)$this->data['allowed_fields']);
+
 		if ( isset($this->request->post[ '_search' ]) && $this->request->post[ '_search' ] == 'true') {
 			$searchData = AJson::decode(htmlspecialchars_decode($this->request->post[ 'filters' ]), true);
 
 			foreach ($searchData[ 'rules' ] as $rule) {
-				if (!in_array($rule[ 'field' ], $allowedFields)) continue;
+				if (!in_array($rule[ 'field' ], $allowedFields)){ continue; }
 				$data['filter'][ $rule[ 'field' ] ] = $rule[ 'data' ];
 			}
 		}
@@ -80,6 +86,7 @@ class ControllerResponsesListingGridCustomer extends AController {
 		$response->page = $page;
 		$response->total = $total_pages;
 		$response->records = $total;
+		$orders_count = 0;
 
 		if($sidx == 'orders_count'){
 			$mode = '';
@@ -114,7 +121,7 @@ class ControllerResponsesListingGridCustomer extends AController {
 					'value' => $result[ 'status' ],
 					'style' => 'btn_switch',
 				)),
-				$this->html->buildSelectbox(array(
+				$this->html->buildSelectBox(array(
 					'name' => 'approved[' . $result[ 'customer_id' ] . ']',
 					'value' => $result[ 'approved' ],
 					'options' => $approved,
@@ -132,12 +139,11 @@ class ControllerResponsesListingGridCustomer extends AController {
 			);
 			$i++;
 		}
+		$this->data['response'] = $response;
 
 		//update controller data
 		$this->extensions->hk_UpdateData($this, __FUNCTION__);
-
-
-		$this->response->setOutput(AJson::encode($response));
+		$this->response->setOutput(AJson::encode($this->data['response']));
 	}
 
 	public function update() {
@@ -366,10 +372,7 @@ class ControllerResponsesListingGridCustomer extends AController {
 	}
 
 	public function customers() {
-
-		$customers = array();
 		$customers_data = array();
-
 		//init controller data
 		$this->extensions->hk_InitData($this, __FUNCTION__);
 		$this->loadModel('sale/customer');
@@ -390,12 +393,13 @@ class ControllerResponsesListingGridCustomer extends AController {
 			}
 		}
 
+		$this->data['customers_data'] = $customers_data;
 		//update controller data
 		$this->extensions->hk_UpdateData($this, __FUNCTION__);
 
 		$this->load->library('json');
 		$this->response->addJSONHeader();
-		$this->response->setOutput(AJson::encode($customers_data));
+		$this->response->setOutput(AJson::encode($this->data['customers_data']));
 	}
 
 }

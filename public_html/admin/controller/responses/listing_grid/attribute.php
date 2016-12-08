@@ -60,7 +60,7 @@ class ControllerResponsesListingGridAttribute extends AController {
 		}
 
 		$response = new stdClass();
-		$response->page = $page;
+		$response->page = $this->request->post['page'];
 		$response->total = $total_pages;
 		$response->records = $total;
 

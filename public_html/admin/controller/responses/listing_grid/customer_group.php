@@ -21,8 +21,7 @@ if (!defined('DIR_CORE') || !IS_ADMIN) {
 	header('Location: static_pages/');
 }
 class ControllerResponsesListingGridCustomerGroup extends AController {
-	private $error = array();
-
+	public $data = array();
 	public function main() {
 
 		//init controller data
@@ -32,9 +31,8 @@ class ControllerResponsesListingGridCustomerGroup extends AController {
 		$this->loadModel('sale/customer_group');
 
 		//Prepare filter config
-		$grid_filter_params = array( 'name', 'tax_exempt' );
+		$grid_filter_params = array_merge(array ('name', 'tax_exempt'), (array)$this->data['grid_filter_params']);
 		$filter = new AFilter(array( 'method' => 'post', 'grid_filter_params' => $grid_filter_params ));
-
 		$total = $this->model_sale_customer_group->getTotalCustomerGroups($filter->getFilterData());
 
 		$response = new stdClass();
@@ -58,12 +56,12 @@ class ControllerResponsesListingGridCustomerGroup extends AController {
 			);
 			$i++;
 		}
-
+		$this->data['response'] = $response;
 		//update controller data
 		$this->extensions->hk_UpdateData($this, __FUNCTION__);
 
 		$this->load->library('json');
-		$this->response->setOutput(AJson::encode($response));
+		$this->response->setOutput(AJson::encode($this->data['response']));
 	}
 
 	public function update() {
@@ -114,8 +112,6 @@ class ControllerResponsesListingGridCustomerGroup extends AController {
 				break;
 
 			default:
-
-
 		}
 
 		//update controller data
