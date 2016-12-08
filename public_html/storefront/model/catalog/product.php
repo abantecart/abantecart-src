@@ -1239,7 +1239,7 @@ class ModelCatalogProduct extends Model{
 	private function _sql_avg_rating_string(){
 		$sql = " ( SELECT AVG(r.rating)
 						 FROM " . $this->db->table("reviews") . " r
-						 WHERE p.product_id = r.product_id AND r.status = 1
+						 WHERE p.product_id = r.product_id AND status = 1
 						 GROUP BY r.product_id 
 				 ) AS rating ";
 		return $sql;
@@ -1248,7 +1248,7 @@ class ModelCatalogProduct extends Model{
 	private function _sql_review_count_string(){
 		$sql = " ( SELECT COUNT(rw.review_id)
 						 FROM " . $this->db->table("reviews") . " rw
-						 WHERE p.product_id = rw.product_id AND r.status = 1
+						 WHERE p.product_id = rw.product_id AND status = 1
 						 GROUP BY rw.product_id
 				 ) AS review ";
 		return $sql;
