@@ -21,7 +21,7 @@ if (!defined('DIR_CORE') || !IS_ADMIN) {
 	header('Location: static_pages/');
 }
 class ControllerResponsesListingGridReview extends AController {
-
+	public $data = array();
 	public function main() {
 
 		//init controller data
@@ -31,19 +31,32 @@ class ControllerResponsesListingGridReview extends AController {
 		$this->loadModel('catalog/review');
 		$this->loadModel('tool/image');
 
+		if(!isset($this->request->get['store_id'])){
+			$this->request->get['store_id'] = (int)$this->session->data['current_store_id'];
+		}
+
 		//Prepare filter config
-		$filter_params = array( 'product_id', 'status' );
-		$grid_filter_params = array( 'name', 'author' );
+		$filter_params = array_merge(array ('product_id', 'status', 'store_id'), (array)$this->data['filter_params']);
+		$grid_filter_params = array_merge(array ('name', 'author'), (array)$this->data['grid_filter_params']);
 
 		$filter_form = new AFilter(array( 'method' => 'get', 'filter_params' => $filter_params ));
 		$filter_grid = new AFilter(array( 'method' => 'post', 'grid_filter_params' => $grid_filter_params ));
 
-		$total = $this->model_catalog_review->getTotalReviews(array_merge($filter_form->getFilterData(), $filter_grid->getFilterData()));
+		$total = $this->model_catalog_review->getTotalReviews(
+				array_merge($filter_form->getFilterData(),	$filter_grid->getFilterData())
+		);
+
 		$response = new stdClass();
 		$response->page = $filter_grid->getParam('page');
 		$response->total = $filter_grid->calcTotalPages($total);
 		$response->records = $total;
-		$results = $this->model_catalog_review->getReviews(array_merge($filter_form->getFilterData(), $filter_grid->getFilterData()));
+
+		$results = $this->model_catalog_review->getReviews(
+				array_merge(
+						$filter_form->getFilterData(),
+						$filter_grid->getFilterData()
+				)
+		);
 
 		$product_ids = array();
 		foreach($results as $result){
@@ -75,12 +88,12 @@ class ControllerResponsesListingGridReview extends AController {
 			);
 			$i++;
 		}
-
+		$this->data['response'] = $response;
 		//update controller data
 		$this->extensions->hk_UpdateData($this, __FUNCTION__);
 
 		$this->load->library('json');
-		$this->response->setOutput(AJson::encode($response));
+		$this->response->setOutput(AJson::encode($this->data['response']));
 	}
 
 	public function update() {
@@ -143,7 +156,7 @@ class ControllerResponsesListingGridReview extends AController {
 
 		$this->loadLanguage('catalog/review');
 		$this->loadModel('catalog/review');
-		$allowedFields = array( 'status', 'author', 'product_id', 'text', 'rating' );
+		$allowedFields = array_merge(array ('status', 'author', 'product_id', 'text', 'rating'), (array)$this->data['allowed_fields']);
 
 		if (isset($this->request->get[ 'id' ])) {
 			//request sent from edit form. ID in url
