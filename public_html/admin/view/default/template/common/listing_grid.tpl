@@ -522,6 +522,7 @@ var initGrid_<?php echo $data['table_id'] ?> = function ($) {
                     save_grid_parameters($(table_id));
                 }
             <?php } else { ?>
+				$.cookie("grid_search_form", "");
                 save_grid_parameters($(table_id));
             <?php } ?>
         }
