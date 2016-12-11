@@ -22,6 +22,7 @@ if (! defined ( 'DIR_CORE' ) || !IS_ADMIN) {
 }
 class ControllerResponsesListingGridCoupon extends AController {
 	public $data = array();
+	public $error;
     public function main() {
 
 	    //init controller data
@@ -48,7 +49,7 @@ class ControllerResponsesListingGridCoupon extends AController {
 	    $i = 0;
 		$now = time();
 		foreach ($results as $result) {
-			// check daterange
+			// check date range
 			if ( dateISO2Int($result[ 'date_start' ]) > $now || dateISO2Int($result[ 'date_end' ]) < $now ) {
 				$result['status'] = 0;
 			}
@@ -214,8 +215,9 @@ class ControllerResponsesListingGridCoupon extends AController {
 				}
 				break;
 		}
-
-		return $err;
+		$this->error = $err;
+		$this->extensions->hk_ValidateData($this);
+		return $this->error;
   	}
 
 

@@ -177,6 +177,7 @@ class ControllerPagesCatalogReview extends AController {
         $grid = $this->dispatch('common/listing_grid', array( $grid_settings ) );
 		$this->view->assign('listing_grid', $grid->dispatchGetOutput());
 		$this->view->assign('search_form', $grid_search_form);
+		$this->view->assign('form_store_switch', $this->html->getStoreSwitcher());
 
 		$this->document->setTitle( $this->language->get('heading_title') );
 		$this->view->assign( 'insert', $this->html->getSecureURL('catalog/review/insert') );
