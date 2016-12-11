@@ -207,6 +207,7 @@ class ControllerPagesSaleOrder extends AController{
 				'type'    => 'selectbox',
 				'name'    => 'status',
 				'options' => $statuses,
+                'value'   => $search_params['status']
 		));
 		$grid_settings['search_form'] = true;
 
