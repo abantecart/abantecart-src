@@ -324,4 +324,8 @@
 		<key>button_pay_with_balance</key>
 		<value><![CDATA[Оплатить с баланса]]></value>
 	</definition>
+	<definition>
+		<key>text_click_browse_file</key>
+		<value><![CDATA[Нажмите чтобы выбрать файл]]></value>
+	</definition>
 </definitions>
