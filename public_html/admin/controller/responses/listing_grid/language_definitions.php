@@ -22,7 +22,7 @@ if (!defined('DIR_CORE') || !IS_ADMIN){
 }
 
 class ControllerResponsesListingGridLanguageDefinitions extends AController{
-
+	public $data = array();
 	public function main(){
 
 		//init controller data
@@ -32,8 +32,8 @@ class ControllerResponsesListingGridLanguageDefinitions extends AController{
 		$this->loadModel('localisation/language_definitions');
 
 		//Prepare filter config
-		$filter_params = array ('language_key', 'section');
-		$grid_filter_params = array ('name', 'language_key', 'language_value', 'block');
+		$filter_params = array_merge(array ('language_key', 'section'), (array)$this->data['filter_params']);
+		$grid_filter_params = array_merge(array ('name', 'language_key', 'language_value', 'block'), (array)$this->data['grid_filter_params']);
 
 		$filter_form = new AFilter(array ('method' => 'get', 'filter_params' => $filter_params));
 		$filter_grid = new AFilter(array ('method' => 'post', 'grid_filter_params' => $grid_filter_params));
@@ -69,12 +69,12 @@ class ControllerResponsesListingGridLanguageDefinitions extends AController{
 			);
 			$i++;
 		}
+		$this->data['response'] = $response;
 
 		//update controller data
 		$this->extensions->hk_UpdateData($this, __FUNCTION__);
-
 		$this->load->library('json');
-		$this->response->setOutput(AJson::encode($response));
+		$this->response->setOutput(AJson::encode($this->data['response']));
 	}
 
 	public function update(){
@@ -141,14 +141,13 @@ class ControllerResponsesListingGridLanguageDefinitions extends AController{
 		}
 
 		$this->loadModel('localisation/language_definitions');
-		$allowedFields = array ('block', 'language_key', 'language_value', 'section');
+		$allowedFields = array_merge(array ('block', 'language_key', 'language_value', 'section'), (array)$this->data['allowed_fields']);
 
 		$save_id = $this->request->get['id'];
 		if (isset($save_id)){
 			//request sent from edit form. ID in url
 			foreach ($this->request->post as $key => $value){
-				if (!in_array($key, $allowedFields)) continue;
-				$data = array ($key => $value);
+				if (!in_array($key, $allowedFields)){ continue; }
 				if ($key == 'language_value'){
 					//load definition values. 
 					$def = $this->model_localisation_language_definitions->getLanguageDefinition($save_id);
@@ -219,7 +218,6 @@ class ControllerResponsesListingGridLanguageDefinitions extends AController{
 			$this->load->library('json');
 			$this->response->setOutput(AJson::encode(array ('error' => $error_text)));
 		}
-
 	}
 
 }

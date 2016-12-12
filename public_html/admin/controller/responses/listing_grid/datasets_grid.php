@@ -21,7 +21,7 @@ if (!defined('DIR_CORE') || !IS_ADMIN) {
 	header('Location: static_pages/');
 }
 class ControllerResponsesListingGridDatasetsGrid extends AController {
-
+	public $data = array();
 	public function main() {
 		//init controller data
 		$this->extensions->hk_InitData($this, __FUNCTION__);
@@ -30,7 +30,7 @@ class ControllerResponsesListingGridDatasetsGrid extends AController {
 		$this->loadModel('tool/datasets_manager');
 
 		$page = $this->request->post [ 'page' ]; // get the requested page
-		$limit = $this->request->post [ 'rows' ]; // get how many rows we want to have into the grid
+		$limit = $this->request->post [ 'rows' ];// get how many rows we want to have into the grid
 		$sidx = $this->request->post [ 'sidx' ]; // get index row - i.e. user click to sort
 		$sord = $this->request->post [ 'sord' ]; // get the direction
 		$offset = ($page - 1) * $limit;
@@ -62,11 +62,11 @@ class ControllerResponsesListingGridDatasetsGrid extends AController {
 			$i++;
 		}
 
-
+		$this->data['response'] = $response;
 		//update controller data
 		$this->extensions->hk_UpdateData($this, __FUNCTION__);
 		$this->load->library('json');
-		$this->response->setOutput(AJson::encode($response));
+		$this->response->setOutput(AJson::encode($this->data['response']));
 	}
 
 	/**
@@ -82,14 +82,9 @@ class ControllerResponsesListingGridDatasetsGrid extends AController {
 		$this->loadModel('tool/datasets_manager');
 
 		$this->document->setTitle($this->language->get('heading_title'));
-
 		$dataset_info = $this->model_tool_datasets_manager->getDatasetInfo($this->request->get[ 'dataset_id' ]);
-
 		$this->view->assign('dataset_info', $dataset_info);
-
-		$response = $this->view->fetch('responses/tool/dataset_info.tpl');
-		$this->response->setOutput($response);
-
+		$this->processTemplate('responses/tool/dataset_info.tpl');
 		//update controller data
 		$this->extensions->hk_UpdateData($this, __FUNCTION__);
 	}

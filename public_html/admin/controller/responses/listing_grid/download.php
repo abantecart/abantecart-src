@@ -21,7 +21,7 @@ if (!defined('DIR_CORE') || !IS_ADMIN) {
 	header('Location: static_pages/');
 }
 class ControllerResponsesListingGridDownload extends AController {
-
+	public $data = array();
 	public function main() {
 
 		//init controller data
@@ -31,8 +31,8 @@ class ControllerResponsesListingGridDownload extends AController {
 		$this->loadModel('catalog/download');
 
 		//Prepare filter config
-		$grid_filter_params = array( 'name');
-		$filter = new AFilter(array( 'method' => 'post', 'grid_filter_params' => $grid_filter_params,'additional_filter_string' => 'shared=1'));
+		$grid_filter_params = array_merge(array ('name'), (array)$this->data['grid_filter_params']);
+		$filter = new AFilter(array( 'method' => 'post', 'grid_filter_params' => $grid_filter_params, 'additional_filter_string' => 'shared=1'));
 		$filter_data = $filter->getFilterData();
 
 		$total = $this->model_catalog_download->getTotalDownloads($filter_data);
@@ -63,11 +63,11 @@ class ControllerResponsesListingGridDownload extends AController {
 			);
 			$i++;
 		}
-
+		$this->data['response'] = $response;
 		//update controller data
 		$this->extensions->hk_UpdateData($this, __FUNCTION__);
 		$this->load->library('json');
-		$this->response->setOutput(AJson::encode($response));
+		$this->response->setOutput(AJson::encode($this->data['response']));
 	}
 
 	public function update() {
@@ -94,8 +94,7 @@ class ControllerResponsesListingGridDownload extends AController {
 					}
 				break;
 			case 'save':
-				$allowedFields = array('name', 'status');
-
+				$allowedFields = array_merge(array ('name', 'status'), (array)$this->data['allowed_fields']);
 				$ids = explode(',', $this->request->post['id']);
 				if ( !empty($ids) ) {
 					foreach( $ids as $id ) {
@@ -135,19 +134,20 @@ class ControllerResponsesListingGridDownload extends AController {
 
 		$this->loadLanguage('catalog/download');
 		$this->loadLanguage('catalog/files');
-
 		$this->loadModel('catalog/download');
-		$allowedFields = array( 'name',
-								'filename',
-								'mask',
-								'max_downloads',
-								'shared',
-								'expire_days',
-								'sort_order',
-								'activate_order_status_id',
-								'status',
-								'attributes');
-
+		$allowedFields = array_merge(
+				array (
+					'name',
+					'filename',
+					'mask',
+					'max_downloads',
+					'shared',
+					'expire_days',
+					'sort_order',
+					'activate_order_status_id',
+					'status',
+					'attributes'),
+				(array)$this->data['allowed_fields']);
 
 		if (isset($this->request->get[ 'id' ])) {
 			$download_id = (int)$this->request->get[ 'id' ];

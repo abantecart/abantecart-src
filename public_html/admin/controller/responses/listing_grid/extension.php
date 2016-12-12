@@ -226,11 +226,12 @@ class ControllerResponsesListingGridExtension extends AController{
 		}
 
 		$response->rows = array_slice($response->rows, (int)($page - 1) * $limit, $limit);
+		$this->data['response'] = $response;
 
 		//update controller data
 		$this->extensions->hk_UpdateData($this, __FUNCTION__);
 		$this->load->library('json');
-		$this->response->setOutput(AJson::encode($response));
+		$this->response->setOutput(AJson::encode($this->data['response']));
 
 	}
 

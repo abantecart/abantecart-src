@@ -21,7 +21,7 @@ if (!defined('DIR_CORE') || !IS_ADMIN) {
 	header('Location: static_pages/');
 }
 class ControllerResponsesListingGridMessageGrid extends AController {
-	private $error = array();
+	public $error = array();
 	public $data = array();
 
 	public function main() {
@@ -40,7 +40,7 @@ class ControllerResponsesListingGridMessageGrid extends AController {
 		$this->loadModel('tool/message_manager');
 
 		//Prepare filter config
-		$grid_filter_params = array('title', 'date_added', 'status');
+		$grid_filter_params = array_merge(array ('title', 'date_added', 'status'), (array)$this->data['grid_filter_params']);
 		$filter = new AFilter(array('method' => 'post', 'grid_filter_params' => $grid_filter_params));
 
 		$total = $this->model_tool_message_manager->getTotalMessages();
@@ -84,12 +84,13 @@ class ControllerResponsesListingGridMessageGrid extends AController {
 
 			$i++;
 		}
+		$this->data['response'] = $response;
 
 		//update controller data
 		$this->extensions->hk_UpdateData($this, __FUNCTION__);
 
 		$this->load->library('json');
-		$this->response->setOutput(AJson::encode($response));
+		$this->response->setOutput(AJson::encode($this->data['response']));
 
 	}
 
@@ -148,7 +149,7 @@ class ControllerResponsesListingGridMessageGrid extends AController {
 			$this->view->assign('readonly', $this->request->get['readonly']);
 			$this->view->batchAssign($this->language->getASet('tool/message_manager'));
 			$this->view->batchAssign($this->data);
-			$this->response->setOutput($this->view->fetch('responses/tool/message_info.tpl'));
+			$this->processTemplate('responses/tool/message_info.tpl');
 
 			//update controller data
 			$this->extensions->hk_UpdateData($this, __FUNCTION__);

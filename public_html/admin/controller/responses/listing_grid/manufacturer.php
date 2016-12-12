@@ -21,7 +21,7 @@ if (!defined('DIR_CORE') || !IS_ADMIN) {
 	header('Location: static_pages/');
 }
 class ControllerResponsesListingGridManufacturer extends AController {
-
+	public $data = array();
 	public function main() {
 
 		//init controller data
@@ -32,7 +32,7 @@ class ControllerResponsesListingGridManufacturer extends AController {
 		$this->loadModel('tool/image');
 
 		//Prepare filter config
-		$grid_filter_params = array( 'name' );
+		$grid_filter_params = array_merge(array ('name'), (array)$this->data['grid_filter_params']);
 		$filter = new AFilter(array( 'method' => 'post', 'grid_filter_params' => $grid_filter_params ));
 		$filter_data = $filter->getFilterData();
 
@@ -73,12 +73,13 @@ class ControllerResponsesListingGridManufacturer extends AController {
 			);
 			$i++;
 		}
+		$this->data['response'] = $response;
 
 		//update controller data
 		$this->extensions->hk_UpdateData($this, __FUNCTION__);
 
 		$this->load->library('json');
-		$this->response->setOutput(AJson::encode($response));
+		$this->response->setOutput(AJson::encode($this->data['response']));
 	}
 
 	public function update() {
@@ -115,9 +116,9 @@ class ControllerResponsesListingGridManufacturer extends AController {
 					}
 				break;
 			case 'save':
-				$allowedFields = array( 'sort_order', 'name', );
-
+				$allowedFields = array_merge(array ('sort_order', 'name'), (array)$this->data['allowed_fields']);
 				$ids = explode(',', $this->request->post[ 'id' ]);
+				$array = array();
 				if (!empty($ids))
 					//resort required. 
 					if(  $this->request->post['resort'] == 'yes' ) {
@@ -134,9 +135,7 @@ class ControllerResponsesListingGridManufacturer extends AController {
 						}
 					}
 				break;
-
 			default:
-				//print_r($this->request->post);
 		}
 
 		//update controller data
@@ -192,7 +191,7 @@ class ControllerResponsesListingGridManufacturer extends AController {
 
 	public function manufacturers() {
 
-		$output = array();
+		$response = array();
 		//init controller data
 		$this->extensions->hk_InitData($this, __FUNCTION__);
 		$this->loadModel('catalog/manufacturer');
@@ -218,7 +217,7 @@ class ControllerResponsesListingGridManufacturer extends AController {
 			foreach ($results as $item) {
 				$thumbnail = $thumbnails[ $item['manufacturer_id'] ];
 
-				$output[ ] = array(
+				$response[ ] = array(
 					'image' => $icon = $thumbnail['thumb_html'] ? $thumbnail['thumb_html'] : '<i class="fa fa-code fa-4x"></i>&nbsp;',
 					'id' => $item['manufacturer_id'],
 					'name' => $item['name'],
@@ -227,13 +226,14 @@ class ControllerResponsesListingGridManufacturer extends AController {
 				);
 			}
 		}
+		$this->data['response'] = $response;
 
 		//update controller data
 		$this->extensions->hk_UpdateData($this, __FUNCTION__);
 
 		$this->load->library('json');
 		$this->response->addJSONHeader();
-		$this->response->setOutput(AJson::encode($output));
+		$this->response->setOutput(AJson::encode($this->data['response']));
 	}
 
 }

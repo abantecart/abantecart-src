@@ -21,8 +21,8 @@ if (!defined('DIR_CORE') || !IS_ADMIN) {
 	header('Location: static_pages/');
 }
 class ControllerResponsesListingGridGlobalSearchResult extends AController {
-	private $error = array();
-
+	public $error = array();
+	public $data = array();
 	public function main() {
 		//init controller data
 		$this->extensions->hk_InitData($this, __FUNCTION__);
@@ -33,7 +33,7 @@ class ControllerResponsesListingGridGlobalSearchResult extends AController {
 		$limit = $this->request->post['rows']; // get how many rows we want to have into the grid
 
 		$results = $this->model_tool_global_search->getResult($this->request->get['search_category'], $this->request->get['keyword']);
-		// preverse repeat request to db for total
+		// prevent repeat request to db for total
 		if (!isset($this->session->data['search_totals'][ $this->request->get['search_category'] ])) {
 			$total = $this->model_tool_global_search->getTotal($this->request->get['search_category'], $this->request->get['keyword']);
 		} else {
@@ -54,10 +54,6 @@ class ControllerResponsesListingGridGlobalSearchResult extends AController {
 		$response->total = $total_pages;
 		$response->records = $total;
 		$response->userdata = new stdClass();
-
-		//	$response->search_str = $search_str;
-
-
 		$i = 0;
 		foreach ($results['result'] as $result) {
 
@@ -68,14 +64,14 @@ class ControllerResponsesListingGridGlobalSearchResult extends AController {
 			);
 			$i++;
 		}
-
+		$this->data['response'] = $response;
 
 		//update controller data
 		$this->extensions->hk_UpdateData($this, __FUNCTION__);
 
 		$this->load->library('json');
 		$this->response->addJSONHeader();
-		$this->response->setOutput(AJson::encode($response));
+		$this->response->setOutput(AJson::encode($this->data['response']));
 
 	}
 
@@ -89,6 +85,7 @@ class ControllerResponsesListingGridGlobalSearchResult extends AController {
 		if (!$this->user->canAccess('tool/global_search')) {
 			$this->error ['warning'] = $this->language->get('error_permission');
 		}
+		$this->extensions->hk_ValidateData($this);
 		return !$this->error ? true : false;
 	}
 
@@ -153,14 +150,13 @@ class ControllerResponsesListingGridGlobalSearchResult extends AController {
 				}
 			}
 		}
-
+		$this->data['response'] = $results;
 		//update controller data
 		$this->extensions->hk_UpdateData($this, __FUNCTION__);
 
 		$this->load->library('json');
 		$this->response->addJSONHeader();
-		$this->response->setOutput(AJson::encode($results));
-
+		$this->response->setOutput(AJson::encode($this->data['response']));
 	}
 }
 
