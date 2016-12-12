@@ -71,6 +71,7 @@ if (!defined('DIR_CORE')){
  * @property ModelToolBackup $model_tools_backup
  * @property ModelAccountCustomer $model_account_customer
  * @property ModelCatalogContent $model_catalog_content
+ * @property ModelToolDatasetsManager $model_tool_datasets_manager
  * @property AConfig $config
  * @property ADB $db
  * @property ACache $cache
