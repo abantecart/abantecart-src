@@ -266,8 +266,10 @@ class ACart{
 				                        'prefix'                  => $option_value_query['prefix'],
 				                        'price'                   => $option_value_query['price'],
 				                        'sku'                     => $option_value_query['sku'],
+				                        'inventory_quantity'      => ($option_value_query['subtract'] ? (int)$option_value_query['quantity'] : 1000000),
 				                        'weight'                  => $option_value_query['weight'],
-				                        'weight_type'             => $option_value_query['weight_type']);
+				                        'weight_type'             => $option_value_query['weight_type']
+						);
 
 				//check if need to track stock and we have it
 				if ($option_value_query['subtract'] && $option_value_query['quantity'] < $quantity){
@@ -284,6 +286,7 @@ class ACart{
 					                        'prefix'                  => $item['prefix'],
 					                        'price'                   => $item['price'],
 					                        'sku'                     => $item['sku'],
+					                        'inventory_quantity'      => ($item['subtract'] ? (int)$item['quantity'] : 1000000),
 					                        'weight'                  => $item['weight'],
 					                        'weight_type'             => $item['weight_type']);
 					//check if need to track stock and we have it
@@ -351,6 +354,7 @@ class ACart{
 				'option'            => $option_data,
 				'download'          => $download_data,
 				'quantity'          => $quantity,
+				'inventory_quantity'=> ($product_query['subtract'] ? (int)$product_query['quantity'] : 1000000),
 				'minimum'           => $product_query['minimum'],
 				'maximum'           => $product_query['maximum'],
 				'stock'             => $stock,
