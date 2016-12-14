@@ -278,7 +278,7 @@ class ControllerResponsesSaleContact extends AController {
 				$incm_task['message'] = mb_substr($step_settings['message'],0, 300);
 				$incm_task['date_added'] = dateISO2Display($incm_task['date_added'], $this->language->get('date_format_short').' '.$this->language->get('time_format'));
 				$incm_task['last_time_run'] = dateISO2Display($incm_task['last_time_run'], $this->language->get('date_format_short').' '.$this->language->get('time_format'));
-				$incm_task['sent'] = sprintf($this->language->get('text_was_sent'),$incm_task['settings']['sent'], $incm_task['settings']['recipients_count']);
+				$incm_task['sent'] = sprintf($this->language->get('text_sent'),$incm_task['settings']['sent'], $incm_task['settings']['recipients_count']);
 
 				$this->data['tasks'][$k] = $incm_task;
 			}

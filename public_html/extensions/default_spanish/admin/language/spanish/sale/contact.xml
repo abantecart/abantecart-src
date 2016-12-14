@@ -193,7 +193,7 @@
 		<value><![CDATA[Algunos errores durante el proceso de la tarea. Vean el registro de datos o reiniciar esta tarea.]]></value>
 	</definition>
 	<definition>
-		<key>text_was_sent</key>
+		<key>text_sent</key>
 		<value><![CDATA[ %s de %s mensajes se envían]]></value>
 	</definition>
 </definitions>
