@@ -20,7 +20,6 @@
 if (! defined ( 'DIR_CORE' )) {
 	header ( 'Location: static_pages/' );
 }
-/** @noinspection PhpUndefinedClassInspection */
 /**
  * Class ModelAccountCustomer
  * @property ModelCatalogContent $model_catalog_content
@@ -44,7 +43,8 @@ class ModelAccountCustomer extends Model {
 			$data['customer_group_id'] = (int)$this->config->get('config_customer_group_id');
 		}
 		if(!isset($data['status'])){
-			if($this->config->get('config_customer_email_activation')){ // if need to activate via email  - disable status
+			// if need to activate via email  - disable status
+			if($this->config->get('config_customer_email_activation')){
 				$data['status'] = 0;
 			}else{
 				$data['status'] = 1;
@@ -63,11 +63,13 @@ class ModelAccountCustomer extends Model {
 										FROM " . $this->db->table("customers") . "
 										WHERE LOWER(`email`) = LOWER('" . $this->db->escape($data['email']) . "')
 											AND customer_group_id IN (SELECT customer_group_id
-																		  FROM ".$this->db->table('customer_groups')."
-																		  WHERE `name` = 'Newsletter Subscribers')");
+																	  FROM ".$this->db->table('customer_groups')."
+																	  WHERE `name` = 'Newsletter Subscribers')");
 		foreach($subscriber->rows as $row){
-			$this->db->query("DELETE FROM " . $this->db->table("customers") . " WHERE customer_id = '" . (int)$row['customer_id'] . "'");
-			$this->db->query("DELETE FROM " . $this->db->table("addresses") . " WHERE customer_id = '" . (int)$row['customer_id'] . "'");
+			$this->db->query("DELETE FROM " . $this->db->table("customers") . " 
+								WHERE customer_id = '" . (int)$row['customer_id'] . "'");
+			$this->db->query("DELETE FROM " . $this->db->table("addresses") . " 
+								WHERE customer_id = '" . (int)$row['customer_id'] . "'");
 		}
 
     	$salt_key = genToken(8);
@@ -118,8 +120,13 @@ class ModelAccountCustomer extends Model {
 			$language = new ALanguage($this->registry);
 			$language->load('account/create');
 
-			//notify administrator of pending customer approval
-			$msg_text = sprintf($language->get('text_pending_customer_approval'), $data['firstname'].' '.$data['lastname'],$customer_id);
+			if($data['subscriber']){
+				//notify administrator of pending subscriber approval
+				$msg_text = sprintf($language->get('text_pending_subscriber_approval'), $data['firstname'] . ' ' . $data['lastname'], $customer_id);
+			}else{
+				//notify administrator of pending customer approval
+				$msg_text = sprintf($language->get('text_pending_customer_approval'), $data['firstname'] . ' ' . $data['lastname'], $customer_id);
+			}
 			$msg = new AMessage();
 			$msg->saveNotice($language->get('text_new_customer'), $msg_text);
 		}
@@ -140,10 +147,15 @@ class ModelAccountCustomer extends Model {
 		//notify admin
 		$language = new ALanguage($this->registry);
 		$language->load('common/im');
-		$message_arr = array(
-		    	1 => array('message' =>  sprintf($language->get('im_new_customer_text_to_admin'),$customer_id)
-		    )
-		);
+		if($data['subscriber']){
+			$lang_key = 'im_new_subscriber_text_to_admin';
+		}else{
+			$lang_key = 'im_new_customer_text_to_admin';
+		}
+		$message_arr = array (
+							1 => array ('message' => sprintf($language->get($lang_key), $customer_id)
+							)
+					);
 		$this->im->send('new_customer', $message_arr);
 
 		return $customer_id;

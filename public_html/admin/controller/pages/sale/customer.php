@@ -324,7 +324,7 @@ class ControllerPagesSaleCustomer extends AController{
 
 			if ((int)$this->request->post['approved']){
 				$customer_info = $this->model_sale_customer->getCustomer($customer_id);
-				if (!$customer_info['approved']){
+				if (!$customer_info['approved'] && !$this->model_sale_customer->isSubscriber($customer_id)){
 					$this->model_sale_customer->sendApproveMail($customer_id);
 				}
 			}
@@ -864,8 +864,12 @@ class ControllerPagesSaleCustomer extends AController{
 			redirect($this->html->getSecureURL('sale/customer'));
 		}
 
-		$this->model_sale_customer->editCustomerField($this->request->get['customer_id'], 'approved', true);
-		$this->model_sale_customer->sendApproveMail($this->request->get['customer_id']);
+		$customer_id = $this->request->get['customer_id'];
+
+		$this->model_sale_customer->editCustomerField($customer_id, 'approved', true);
+		if(!$this->model_sale_customer->isSubscriber($customer_id)){
+			$this->model_sale_customer->sendApproveMail($customer_id);
+		}
 
 		//update controller data
 		$this->extensions->hk_UpdateData($this, __FUNCTION__);

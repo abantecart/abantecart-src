@@ -972,8 +972,20 @@ class ModelSaleCustomer extends Model {
 									FROM `" . $this->db->table("customer_groups") . "`
 									WHERE `name` = 'Newsletter Subscribers'
 									LIMIT 0,1");
-		$result = !$query->row['customer_group_id'] ? (int)$this->config->get('config_customer_group_id') :  $query->row['customer_group_id'];
+		$result = !$query->row['customer_group_id'] ? (int)$this->config->get('config_customer_group_id') : (int)$query->row['customer_group_id'];
 		return $result;
+	}
+
+	/**
+	 * @param int $customer_id
+	 * @return bool
+	 */
+	public function isSubscriber($customer_id){
+		$sql = "SELECT * 
+				FROM `" . $this->db->table("customers") . "`
+				WHERE customer_id = ".(int)$customer_id." AND customer_group_id = '".$this->getSubscribersCustomerGroupId()."'";
+		$result = $this->db->query($sql);
+		return $result->num_rows ? true : false;
 	}
 
 	/**
@@ -983,6 +995,8 @@ class ModelSaleCustomer extends Model {
 
 		// send email to customer
 		$customer_info = $this->getCustomer($customer_id);
+
+		$this->log->write(var_Export($customer_info, true));
 
 		if ($customer_info && !$customer_info[ 'approved' ]) {
 
