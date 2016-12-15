@@ -855,7 +855,7 @@ class ModelSaleCustomer extends Model {
 	public function getTotalCustomersAwaitingApproval() {
       	$query = $this->db->query("SELECT COUNT(*) AS total
       	                           FROM " . $this->db->table("customers") . "
-      	                           WHERE status = '0' OR approved = '0'");
+      	                           WHERE approved = '0'");
 
 		return $query->row['total'];
 	}
