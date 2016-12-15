@@ -138,6 +138,10 @@ class ControllerPagesCheckoutSuccess extends AController{
 
 		$this->loadModel('account/order');
 		$order_info = $this->model_account_order->getOrder($order_id);
+		if($order_info){
+			$order_info['order_products'] = $this->model_account_order->getOrderProducts($order_id);
+		}
+
 		$order_totals = $this->model_account_order->getOrderTotals($order_id);
 		$this->_google_analytics($order_info, $order_totals);
 			
@@ -207,17 +211,31 @@ class ControllerPagesCheckoutSuccess extends AController{
 				'country'        => $order_data['shipping_country']
 			);		
 		}
+
+		$ga_data =  array_merge (
+				    		array ('transaction_id' => (int)$order_data['order_id'],
+				    		   'store_name'     => $this->config->get('store_name'),
+				    		   'currency_code'  => $order_data['currency'],
+				    		   'total'          => $this->currency->format_number($order_total),
+				    		   'tax'            => $this->currency->format_number($order_tax),
+				    		   'shipping'       => $this->currency->format_number($order_shipping)
+				    		   ), $addr );
+
+		if($order_data['order_products']){
+			$ga_data['items'] = array();
+			foreach($order_data['order_products'] as $product){
+				$ga_data['items'][] = array(
+						'id' => (int)$order_data['order_id'],
+						'name' => $product['name'],
+					// TODO: needs to add sku into order_products table in db
+						'sku' => $product['model'],
+						'price' => $product['price'],
+						'quantity' => $product['quantity']
+				);
+			}
+		}
 		
-		$this->registry->set('google_analytics_data',
-		    	array_merge (
-		    		array ('transaction_id' => (int)$order_data['order_id'],
-		    		   'store_name'     => $this->config->get('store_name'),
-		    		   'currency_code'  => $order_data['currency'],
-		    		   'total'          => $this->currency->format_number($order_total),
-		    		   'tax'            => $this->currency->format_number($order_tax),
-		    		   'shipping'       => $this->currency->format_number($order_shipping)
-		    		   ), $addr )
-		);
+		$this->registry->set('google_analytics_data', $ga_data);
 	}
 		
 }
