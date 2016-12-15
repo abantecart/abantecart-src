@@ -143,6 +143,8 @@ class ControllerResponsesListingGridCustomer extends AController {
 
 		//update controller data
 		$this->extensions->hk_UpdateData($this, __FUNCTION__);
+		$this->load->library('json');
+		$this->response->addJSONHeader();
 		$this->response->setOutput(AJson::encode($this->data['response']));
 	}
 

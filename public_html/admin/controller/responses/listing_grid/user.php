@@ -21,7 +21,7 @@ if (! defined ( 'DIR_CORE' ) || !IS_ADMIN) {
 	header ( 'Location: static_pages/' );
 }
 class ControllerResponsesListingGridUser extends AController {
-	private $error = array();
+	public $data = array();
 
     public function main() {
 
@@ -39,10 +39,11 @@ class ControllerResponsesListingGridUser extends AController {
 		}
 
 		//Prepare filter config
-		$filter_params = array('status', 'user_group_id');
- 		$grid_filter_params = array( 'username' );
+		$filter_params = array_merge(array('status', 'user_group_id'), (array)$this->data['filter_params']);
+	    $grid_filter_params =  array_merge(array('username'), (array)$this->data['grid_filter_params']);
+
  		//Build query string based on GET params first 
-		$filter_form = new AFilter( array( 'method' => 'get', 'filter_params' => $filter_params ) );  
+		$filter_form = new AFilter( array( 'method' => 'get', 'filter_params' => $filter_params ) );
 		//Build final filter
 	    $filter_grid = new AFilter( array( 'method' => 'post', 
 	    								   'grid_filter_params' => $grid_filter_params,
@@ -71,12 +72,11 @@ class ControllerResponsesListingGridUser extends AController {
 			);
 			$i++;
 		}
-
-		//update controller data
-        $this->extensions->hk_UpdateData($this,__FUNCTION__);
-
-		$this->load->library('json');
-		$this->response->setOutput(AJson::encode($response));
+	    $this->data['response'] = $response;
+        //update controller data
+        $this->extensions->hk_UpdateData($this, __FUNCTION__);
+        $this->load->library('json');
+        $this->response->setOutput(AJson::encode($this->data['response']));
 	}
 
 	public function update() {

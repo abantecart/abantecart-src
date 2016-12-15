@@ -22,7 +22,7 @@ if (! defined ( 'DIR_CORE' ) || !IS_ADMIN) {
 }
 class ControllerResponsesListingGridTask extends AController {
 	private $error = array ();
-	
+	public $data = array();
 	public function main() {
 		//init controller data
 		$this->extensions->hk_InitData($this,__FUNCTION__);
@@ -42,7 +42,7 @@ class ControllerResponsesListingGridTask extends AController {
 		$limit = $this->request->post ['rows']; // get how many rows we want to have into the grid
 
 		//Prepare filter config
-		$grid_filter_params = array('name');
+		$grid_filter_params =  array_merge(array('name'), (array)$this->data['grid_filter_params']);
 		$filter = new AFilter( array( 'method' => 'post', 'grid_filter_params' => $grid_filter_params ) );
 		$filter_data = $filter->getFilterData();
 
@@ -61,71 +61,69 @@ class ControllerResponsesListingGridTask extends AController {
 		$response->records = $total;
 		$response->userdata = new stdClass();
 
+		$i = 0;
+		foreach ( $results as $result ) {
 
-			$i = 0;
-			foreach ( $results as $result ) {
+			$id = $result ['task_id'];
+			$response->rows [$i] ['id'] = $id;
 
-				$id = $result ['task_id'];
-				$response->rows [$i] ['id'] = $id;
-
-				$status = $result['status'];
-				//if task works more than 30min - we think it's stuck
-				if($status == 2 && time() - dateISO2Int($result['start_time']) > 1800){
-					$status = -1;
-				}
-
-				switch($status){
-					case -1: // stuck
-						$response->userdata->classes[ $id ] = 'warning disable-run disable-edit';
-						$text_status = $this->language->get('text_stuck');
-						break;
-					case $tm::STATUS_READY:
-						$response->userdata->classes[ $id ] = 'success disable-restart disable-edit';
-						$text_status = $this->language->get('text_ready');
-						break;
-					case $tm::STATUS_RUNNING:
-						//disable all buttons for running tasks
-						$response->userdata->classes[ $id ] = 'attention disable-run disable-restart disable-edit disable-delete';
-						$text_status = $this->language->get('text_running');
-						break;
-					case $tm::STATUS_FAILED:
-						$response->userdata->classes[ $id ] = 'attention disable-run';
-						$text_status = $this->language->get('text_failed');
-						break;
-					case $tm::STATUS_SCHEDULED:
-						$response->userdata->classes[ $id ] = 'success disable-restart disable-edit';
-						$text_status = $this->language->get('text_scheduled');
-						break;
-					case $tm::STATUS_COMPLETED:
-						$response->userdata->classes[ $id ] = 'disable-run disable-edit';
-						$text_status = $this->language->get('text_completed');
-						break;
-					case $tm::STATUS_INCOMPLETE:
-						$response->userdata->classes[ $id ] = 'disable-run disable-edit';
-						$text_status = $this->language->get('text_incomplete');
-						break;
-					default: // disabled
-						$response->userdata->classes[ $id ] = 'attention disable-run disable-restart disable-edit disable-delete';
-						$text_status = $this->language->get('text_disabled');
-
-				}
-
-				$response->rows [$i] ['cell'] = array (
-														$result ['task_id'],
-														$result ['name'],
-														$text_status,
-														dateISO2Display($result ['start_time'],$this->language->get('date_format_short'). ' '. $this->language->get('time_format')),
-														dateISO2Display($result ['date_modified'],$this->language->get('date_format_short'). ' '. $this->language->get('time_format')),
-														);
-
-				$i ++;
+			$status = $result['status'];
+			//if task works more than 30min - we think it's stuck
+			if($status == 2 && time() - dateISO2Int($result['start_time']) > 1800){
+				$status = -1;
 			}
-	
-		//update controller data
-		$this->extensions->hk_UpdateData($this,__FUNCTION__);
-		
-		$this->load->library('json');
-		$this->response->setOutput(AJson::encode($response));
+
+			switch($status){
+				case -1: // stuck
+					$response->userdata->classes[ $id ] = 'warning disable-run disable-edit';
+					$text_status = $this->language->get('text_stuck');
+					break;
+				case $tm::STATUS_READY:
+					$response->userdata->classes[ $id ] = 'success disable-restart disable-edit';
+					$text_status = $this->language->get('text_ready');
+					break;
+				case $tm::STATUS_RUNNING:
+					//disable all buttons for running tasks
+					$response->userdata->classes[ $id ] = 'attention disable-run disable-restart disable-edit disable-delete';
+					$text_status = $this->language->get('text_running');
+					break;
+				case $tm::STATUS_FAILED:
+					$response->userdata->classes[ $id ] = 'attention disable-run';
+					$text_status = $this->language->get('text_failed');
+					break;
+				case $tm::STATUS_SCHEDULED:
+					$response->userdata->classes[ $id ] = 'success disable-restart disable-edit';
+					$text_status = $this->language->get('text_scheduled');
+					break;
+				case $tm::STATUS_COMPLETED:
+					$response->userdata->classes[ $id ] = 'disable-run disable-edit';
+					$text_status = $this->language->get('text_completed');
+					break;
+				case $tm::STATUS_INCOMPLETE:
+					$response->userdata->classes[ $id ] = 'disable-run disable-edit';
+					$text_status = $this->language->get('text_incomplete');
+					break;
+				default: // disabled
+					$response->userdata->classes[ $id ] = 'attention disable-run disable-restart disable-edit disable-delete';
+					$text_status = $this->language->get('text_disabled');
+			}
+
+			$response->rows [$i] ['cell'] = array (
+													$result ['task_id'],
+													$result ['name'],
+													$text_status,
+													dateISO2Display($result ['start_time'],$this->language->get('date_format_short'). ' '. $this->language->get('time_format')),
+													dateISO2Display($result ['date_modified'],$this->language->get('date_format_short'). ' '. $this->language->get('time_format')),
+													);
+
+			$i ++;
+		}
+		$this->data['response'] = $response;
+
+	    //update controller data
+	    $this->extensions->hk_UpdateData($this, __FUNCTION__);
+	    $this->load->library('json');
+	    $this->response->setOutput(AJson::encode($this->data['response']));
 		
 	}
 
@@ -160,6 +158,7 @@ class ControllerResponsesListingGridTask extends AController {
 		//update controller data
 		$this->extensions->hk_UpdateData($this,__FUNCTION__);
 	}
+
 	public function run(){
 		//init controller data
 		$this->extensions->hk_InitData($this,__FUNCTION__);
@@ -182,7 +181,6 @@ class ControllerResponsesListingGridTask extends AController {
 			$this->response->setOutput(AJson::encode(array('result'=> false)));
 		}
 
-
 		//update controller data
 		$this->extensions->hk_UpdateData($this,__FUNCTION__);
 	}
@@ -198,6 +196,5 @@ class ControllerResponsesListingGridTask extends AController {
 		$connect->getDataHeaders( $url );
 		session_write_close();
 	}
-
 
 }
