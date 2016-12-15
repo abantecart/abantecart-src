@@ -173,7 +173,6 @@ class ControllerResponsesListingGridCustomer extends AController {
 				$ids = explode(',', $this->request->post[ 'id' ]);
 				if (!empty($ids))
 					foreach ($ids as $id) {
-
 						$err = $this->_validateForm('status', $this->request->post[ 'status' ][ $id ], $id);
 						if (!$err) {
 							$this->model_sale_customer->editCustomerField($id, 'status', $this->request->post[ 'status' ][ $id ]);
@@ -187,10 +186,12 @@ class ControllerResponsesListingGridCustomer extends AController {
 						$do_approve = $this->request->post[ 'approved' ][ $id ];
 						$err = $this->_validateForm('approved', $do_approve, $id);
 						if (!$err) {
-							if($do_approve){
+							//if customer is not subscriber - send email
+							if($do_approve && !$this->model_sale_customer->isSubscriber($id)){
 								//send email when customer was not approved
 								$this->model_sale_customer->sendApproveMail($id);
 							}
+							//do not change order of calls here!!!
 							$this->model_sale_customer->editCustomerField($id, 'approved', $do_approve);
 						} else {
 							$error = new AError('');
@@ -257,7 +258,7 @@ class ControllerResponsesListingGridCustomer extends AController {
 					if (!$err) {
 						if($field == 'approved') {
 							//send email when customer was not approved
-							if($value){
+							if($value && !$this->model_sale_customer->isSubscriber($customer_id)){
 								$this->model_sale_customer->sendApproveMail($customer_id);
 							}
 						}
@@ -269,6 +270,7 @@ class ControllerResponsesListingGridCustomer extends AController {
 						}else{
 							$this->model_sale_customer->editCustomerField($customer_id, $field, $value);
 						}
+
 					} else {
 						$error = new AError('');
 						return $error->toJSONResponse('VALIDATION_ERROR_406',
@@ -290,7 +292,7 @@ class ControllerResponsesListingGridCustomer extends AController {
 				$err = $this->_validateForm($field, $v);
 				if (!$err) {
 					if ($field == 'approved') {
-						if($v){
+						if($v && !$this->model_sale_customer->isSubscriber($k)){
 							//send email when customer was not approved
 							$this->model_sale_customer->sendApproveMail($k);
 						}

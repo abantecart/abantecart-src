@@ -34,7 +34,7 @@
 	</definition>
 	<definition>
 		<key>text_total_customer_approval</key>
-		<value><![CDATA[Clientes discapacitados o en espera de aprobaci&oacute;n:]]></value>
+    <value><![CDATA[Clientes en espera de aprobaci&oacute;n:]]></value>
 	</definition>
 	<definition>
 		<key>text_total_product</key>

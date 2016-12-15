@@ -34,7 +34,7 @@
 	</definition>
 	<definition>
 		<key>text_total_customer_approval</key>
-		<value><![CDATA[Выключенные Клиенты или Ожидающие Утверждения:]]></value>
+		<value><![CDATA[Клиенты Ожидающие Утверждения:]]></value>
 	</definition>
 	<definition>
 		<key>text_total_product</key>

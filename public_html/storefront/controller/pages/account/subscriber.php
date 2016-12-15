@@ -50,7 +50,8 @@ class ControllerPagesAccountSubscriber extends AController {
 				$request_data['status'] = 0; //disable login ability for subscribers
 				$request_data['customer_group_id'] = $this->model_account_customer->getSubscribersCustomerGroupId();
 				$request_data['ip'] = $this->request->getRemoteIP();
-
+			    //mark customer as subscriber for model
+			    $request_data['subscriber'] = true;
 				$this->model_account_customer->addCustomer($request_data);
 				$this->extensions->hk_UpdateData($this,__FUNCTION__);
 		  		redirect($this->html->getSecureURL('account/subscriber','&success=1'));

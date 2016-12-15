@@ -36,7 +36,6 @@
 		<key>im_order_update_text_to_customer</key>
 		<value><![CDATA[ Your order #%s Updated. New Order Status is %s ]]></value>
 	</definition>
-
 	<definition>
 		<key>im_new_order_text_to_admin</key>
 		<value><![CDATA[ New Order #%s has been placed!]]></value>
@@ -44,6 +43,10 @@
 	<definition>
 		<key>im_new_customer_text_to_admin</key>
 		<value><![CDATA[ New Customer #%s has been registered!]]></value>
+	</definition>
+	<definition>
+		<key>im_new_subscriber_text_to_admin</key>
+		<value><![CDATA[ New Subscriber #%s has been registered!]]></value>
 	</definition>
 	<definition>
 		<key>im_sendpoint_name_customer_account_update</key>
