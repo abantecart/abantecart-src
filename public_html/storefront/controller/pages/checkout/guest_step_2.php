@@ -37,25 +37,25 @@ class ControllerPagesCheckoutGuestStep2 extends AController{
 		}
 
 		if (!$this->cart->hasProducts() || (!$this->cart->hasStock() && !$this->config->get('config_stock_checkout'))){
-			$this->redirect($this->html->getSecureURL($cart_rt));
+			redirect($this->html->getSecureURL($cart_rt));
 		}
 
 		//validate if order min/max are met
 		if (!$this->cart->hasMinRequirement() || !$this->cart->hasMaxRequirement()){
-			$this->redirect($this->html->getSecureURL($cart_rt));
+			redirect($this->html->getSecureURL($cart_rt));
 		}
 
 		if ($this->customer->isLogged()){
-			$this->redirect($this->html->getSecureURL('checkout/shipping'));
+			redirect($this->html->getSecureURL('checkout/shipping'));
 		}
 
 		if (!$this->config->get('config_guest_checkout') || $this->cart->hasDownload()){
 			$this->session->data['redirect'] = $this->html->getSecureURL('checkout/shipping');
-			$this->redirect($this->html->getSecureURL('account/login'));
+			redirect($this->html->getSecureURL('account/login'));
 		}
 
 		if (!isset($this->session->data['guest'])){
-			$this->redirect($this->html->getSecureURL('checkout/guest_step_1'));
+			redirect($this->html->getSecureURL('checkout/guest_step_1'));
 		}
 
 		if (!$this->cart->hasShipping()){
@@ -76,7 +76,7 @@ class ControllerPagesCheckoutGuestStep2 extends AController{
 
                 //process data
                 $this->extensions->hk_ProcessData($this, 'reset_coupon');
-                $this->redirect($this->html->getSecureURL('checkout/guest_step_3'));
+                redirect($this->html->getSecureURL('checkout/guest_step_3'));
             } else if($this->_validateCoupon()) {
                 $this->session->data['coupon'] = $this->request->post['coupon'];
                 $this->session->data['success'] = $this->language->get('text_success');
@@ -90,7 +90,7 @@ class ControllerPagesCheckoutGuestStep2 extends AController{
 
                 //process data
                 $this->extensions->hk_ProcessData($this, 'apply_coupon');
-                $this->redirect($this->html->getSecureURL('checkout/guest_step_3'));
+                redirect($this->html->getSecureURL('checkout/guest_step_3'));
             }
         }
 
@@ -109,11 +109,12 @@ class ControllerPagesCheckoutGuestStep2 extends AController{
 			}
 			$this->session->data['comment'] = $this->request->post['comment'];
 			$this->extensions->hk_ProcessData($this);
-			$this->redirect($this->html->getSecureURL('checkout/guest_step_3'));
+			redirect($this->html->getSecureURL('checkout/guest_step_3'));
 		}
 
 		$this->loadModel('checkout/extension');
 		// Shipping Methods
+		$ext_setgs = array();
 		if ($this->cart->hasShipping() && (!isset($this->session->data['shipping_methods']) || !$this->config->get('config_shipping_session'))){
 			$quote_data = array ();
 
@@ -200,6 +201,7 @@ class ControllerPagesCheckoutGuestStep2 extends AController{
 		$this->session->data['payment_methods'] = $method_data;
 
 		$skip_step = false;
+		$method_name = '';
 		//# If only 1 shipping and 1 payment it is set to be defaulted, select and skip and redirect to checkout guest_step_3
 		if (count($this->session->data['shipping_methods']) == 1){
 			//set only method
@@ -208,7 +210,7 @@ class ControllerPagesCheckoutGuestStep2 extends AController{
 				#Check config if we allowed to set this shipping and skip the step
 				$ext_config = $this->model_checkout_extension->getSettings($method_name);
 				if ($ext_config[$method_name . "_autoselect"]){
-					//take first qoute. This needs to be acounted for if configure shipping to be autoselected
+					//take first quote. This needs to be accounted for if configure shipping to be autoselected
 					if (sizeof($only_method[$method_name]['quote']) == 1){
 						$this->session->data['shipping_method'] = current($only_method[$method_name]['quote']);
 						$skip_step = true;
@@ -243,7 +245,7 @@ class ControllerPagesCheckoutGuestStep2 extends AController{
 				$pkey = key($only_method);
 				if($psettings[$pkey][$pkey."_autoselect"]  && $skip_step){
 					$this->session->data['payment_method'] = $only_method[$pkey];
-					$this->redirect($this->html->getSecureURL('checkout/guest_step_3'));
+					redirect($this->html->getSecureURL('checkout/guest_step_3'));
 				}				
 			}
 		}
@@ -340,7 +342,7 @@ class ControllerPagesCheckoutGuestStep2 extends AController{
 
 		if ($this->session->data['payment_methods']){
 			if ($this->session->data['shipping_methods']){
-				//build array with payments available per each shippiment
+				//build array with payments available per each shipping
 				foreach ($this->session->data['shipping_methods'] as $method_name => $method_val){
 					#Check config of selected shipping method and see if we have accepted payments restriction
 					$ship_ext_config = $this->model_checkout_extension->getSettings($method_name);
