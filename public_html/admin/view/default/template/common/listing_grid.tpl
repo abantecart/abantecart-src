@@ -74,6 +74,7 @@ var initGrid_<?php echo $data['table_id'] ?> = function ($) {
 
 	?>];
 
+	var gridFirstLoad = true;
 	var updatePager = false;
 
 	var updatePerPage = function(records) {
@@ -180,6 +181,8 @@ var initGrid_<?php echo $data['table_id'] ?> = function ($) {
 			<?php } ?>
 		},
 		loadComplete:function (data) {
+			gridFirstLoad = false;
+
 			if(data!=undefined){
 				if (data.userdata!=undefined && data.userdata.classes != null) {
 					for (var id in data.userdata.classes) {
@@ -233,10 +236,7 @@ var initGrid_<?php echo $data['table_id'] ?> = function ($) {
             if(gridInfo && gridInfo.postData && gridInfo.postData.filters){
                 var $filters = $.parseJSON(gridInfo.postData.filters);
                 $.each ($filters.rules, function( index, value ){
-                    console.log(value);
-
                     $('#gs_'+value.field).val(value.data);
-                    console.log($('#gs_'+value.field).parent().html());
                 });
             }
 
@@ -499,8 +499,8 @@ var initGrid_<?php echo $data['table_id'] ?> = function ($) {
             <?php if($this->request->get['saved_list'] == $data['table_id']) { ?>
                 //apply saved grid for initial grid load only
                 var grid = $(table_id);
-                if(grid.jqGrid('getGridParam', 'reccount') == 0) {
-                    if ($.cookie("grid_params") != null && $.cookie("grid_params") != "") {
+                if(gridFirstLoad === true) {
+					if ($.cookie("grid_params") != null && $.cookie("grid_params") != "") {
                         var gridInfo = $.parseJSON($.cookie("grid_params"));
                         grid.jqGrid('setGridParam', {sortname: gridInfo.sortname});
                         grid.jqGrid('setGridParam', {sortorder: gridInfo.sortorder});
@@ -522,7 +522,10 @@ var initGrid_<?php echo $data['table_id'] ?> = function ($) {
                     save_grid_parameters($(table_id));
                 }
             <?php } else { ?>
-				$.cookie("grid_search_form", "");
+				//reset grid search for initial load only
+				if(gridFirstLoad === true) {
+					$.cookie("grid_search_form", "");
+				}
                 save_grid_parameters($(table_id));
             <?php } ?>
         }
