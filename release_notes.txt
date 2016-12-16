@@ -1,3 +1,71 @@
+AbanteCart version 1.2.9
+
+Core:
+- improvement of ACart library. Added inventory quantity to products list of cart (available quantity)
+- Removed trunk from ASession
+- Added to ARequest class method for getting remote IP of web-user
+- helper/utils.php minor fixes and comments
+- cache file driver improvements
+- added better logging into utils.php
+- minor changes of lib/error.php
+- added redirect function to helper/utils.php. methods with name "redirect" marked as deprecated
+- lib/order.php and lib/cart.php improvements related to hooks and extendability
+- lib/order.php improvements extensions API fix related to arounding of methods
+- lib/customer refactoring
+- Aview improvement
+- lib/cart.php minor fix
+- order_status lib phpdoc comments
+- added column settings into products table of db
+- download lib improvements
+- added php-doc comments into download lib
+- model/checkout/order improvements related to hooks call
+- currency auto-update now works only for default store settings
+- currency / rounding fraction issue fix
+- In Tasks, added task_api_key into installation process for secure run task from browser
+- Password validation fix considering HTML entities
+- Admin password quotes support
+- added phpdoc comment to AController class
+
+Control Panel:
+- refactoring of listing_grid response controllers related to hooks.
+- customers grid speedup related to orders count
+- added loading of missing descriptions for language via task-process
+- now task runs via task.php from modal with progressbar
+- sale/order_details tpl improvement (added hookvars)
+- added processData hook call
+- changed $error property to public in some controllers
+- added method getPaymentsWithHandler into extension/setting model
+- changes of product model related to settings column
+- added time for comments on order edit page
+
+Storefront:
+- added disabling coupon button on order confimation page
+- model/checkout/order improvements related to hooks call added trim to account create and guest registration form
+- embed.js minor improvement
+- account/invoice fix
+- model/catalog/product minor fix
+- added prevention from close to embed modal
+- added hookvar for embed product page
+- changes related to order downloads for guest customers
+- product page tpl reformat
+
+Extensions:
+- default_royal_mail fixes related to weight class
+- banner manager minor fix
+- default_stripe version changed to 1.0.1
+- added payment handler to default_stripe extensionMerge remote-tracking branch 'origin/1.2.9' into 1.2.9
+- added items to ecommerce tracking
+- predefined IM URI on guest checkout page 1 fix
+- PayPal handshake error notes
+- Improve transaction submit.
+- Improve extension priority and run order handling.
+
+Various bug fixes and improvements
+
+
+------------------------------------------------------------
+
+
 AbanteCart version 1.2.8
 
 New Features and improvements highlight:
