@@ -14,12 +14,18 @@ if( !$result->num_rows ){
 	$this->db->query("ALTER TABLE ".$this->db->table('products')." ADD COLUMN `settings` LONGTEXT COLLATE utf8_general_ci;");
 }
 
+$this->load->model('setting/store');
+$stores = $this->model_setting_store->getStores();
+
 $task_api_key = $this->config->get('task_api_key');
 if(!$task_api_key){
-	$sql = "REPLACE INTO ".$this->db->table('settings')."
+	foreach($stores as $store){
+		$store_id = (int)$store['store_id'];
+		$sql = "REPLACE INTO " . $this->db->table('settings') . "
 			(`store_id`, `group`, `key`, `value`);
-			VALUES ( '".$store_id."', 'api', 'task_api_key', '".$this->db->escape(genToken(16))."')";
-	$result = $this->db->query($sql);
+			VALUES ( '" . $store_id . "', 'api', 'task_api_key', '" . $this->db->escape(genToken(16)) . "')";
+		$result = $this->db->query($sql);
+	}
 }
 
 // fix for menu
@@ -34,10 +40,7 @@ if($this->config->get('neowize_insights_status')){
 
 $config_keys = array('config_title', 'config_meta_description', 'config_meta_keywords');
 $langs = $this->language->getAvailableLanguages();
-$this->load->model('setting/store');
 $this->load->model('setting/setting');
-$stores = $this->model_setting_store->getStores();
-
 foreach($stores as $store){
 	$store_id = (int)$store['store_id'];
 	foreach ($config_keys as $config_key){
