@@ -1,4 +1,7 @@
 <?php
+/**
+ * @var AController $this
+ */
 //check if columns exists before adding
 $sql = "SELECT *
 		FROM information_schema.COLUMNS
@@ -28,3 +31,28 @@ if($this->config->get('neowize_insights_status')){
 /*
  * TODO moving config_title etc multilingual settings
  */
+
+$config_keys = array('config_title', 'config_meta_description', 'config_meta_keywords');
+$langs = $this->language->getAvailableLanguages();
+$this->load->model('setting/store');
+$this->load->model('setting/setting');
+$stores = $this->model_setting_store->getStores();
+
+foreach($stores as $store){
+	$store_id = (int)$store['store_id'];
+	foreach ($config_keys as $config_key){
+		$values = $this->model_setting_setting->getSetting('details', $store_id);
+		$value = isset($values[$config_key]) ? $values[$config_key] : '';
+		if (!$value){
+			continue;
+		}
+		foreach ($langs as $lang){
+			$this->model_setting_setting->editSetting('details', array($config_key.'_'.$lang['language_id'] => $value), $store_id);
+		}
+	}
+}
+//remove old values
+$sql = "DELETE FROM " . $this->db->table("settings") . " 
+		WHERE `group` = 'details'
+				AND `key` IN ('config_title', 'config_meta_description', 'config_meta_keywords')";
+$this->db->query($sql);

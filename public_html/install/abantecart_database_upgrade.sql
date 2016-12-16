@@ -2,9 +2,7 @@ ALTER TABLE `ac_global_attributes_descriptions`
 ADD COLUMN `placeholder` varchar(255) COLLATE utf8_general_ci DEFAULT '' COMMENT 'translatable';
 
 CREATE FULLTEXT INDEX `ac_customers_name_idx` ON `ac_customers` (`firstname`, `lastname`);
-ALTER TABLE `ac_customers`
-CHANGE COLUMN date_added date_added timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-ADD COLUMN `last_login` TIMESTAMP NULL;
+ALTER TABLE `ac_customers` ADD COLUMN `last_login` TIMESTAMP NULL;
 
 UPDATE `ac_dataset_values`
 SET `value_varchar` = 'extension'
