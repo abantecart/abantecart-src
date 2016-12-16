@@ -752,4 +752,8 @@
 		<key>text_more_new</key>
 		<value><![CDATA[Nuova scheda]]></value>
 	</definition>
+	<definition>
+		<key>text_back_to_list</key>
+		<value><![CDATA[Torna alla quotazione]]></value>
+	</definition>
 </definitions>

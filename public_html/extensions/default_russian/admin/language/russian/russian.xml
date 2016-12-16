@@ -744,4 +744,8 @@
 		<key>text_more_new</key>
 		<value><![CDATA[Новая вкладка]]></value>
 	</definition>
+	<definition>
+		<key>text_back_to_list</key>
+		<value><![CDATA[Назад к списку]]></value>
+	</definition>
 </definitions>

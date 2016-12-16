@@ -64,4 +64,8 @@
 		<key>text_commands</key>
 		<value><![CDATA[Comandi rapidi]]></value>
 	</definition>
+	<definition>
+		<key>text_contents</key>
+		<value><![CDATA[Content Pages]]></value>
+	</definition>
 </definitions>

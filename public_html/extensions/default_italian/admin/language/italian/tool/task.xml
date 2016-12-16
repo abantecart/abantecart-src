@@ -48,4 +48,28 @@
 		<key>text_task_started</key>
 		<value><![CDATA[ Task started]]></value>
 	</definition>
+	<definition>
+		<key>text_stuck</key>
+		<value><![CDATA[ Incollato]]></value>
+	</definition>
+	<definition>
+		<key>text_ready</key>
+		<value><![CDATA[ Pronto]]></value>
+	</definition>
+	<definition>
+		<key>text_running</key>
+		<value><![CDATA[ In esecuzione ]]></value>
+	</definition>
+	<definition>
+		<key>text_failed</key>
+		<value><![CDATA[ Fallito ]]></value>
+	</definition>
+	<definition>
+		<key>text_incomplete</key>
+		<value><![CDATA[ Incompleto ]]></value>
+	</definition>
+	<definition>
+		<key>text_completed</key>
+		<value><![CDATA[ Completato ]]></value>
+	</definition>
 </definitions>

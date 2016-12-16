@@ -90,23 +90,19 @@
 	</definition>
 	<definition>
 		<key>error_default</key>
-		<value>
-			<![CDATA[Внимание: этот язык не может быть удален, так как в настоящее время назначен в качестве языка по умолчанию!]]></value>
+		<value><![CDATA[Внимание: этот язык не может быть удален, так как в настоящее время назначен в качестве языка по умолчанию!]]></value>
 	</definition>
 	<definition>
 		<key>error_admin</key>
-		<value>
-			<![CDATA[Внимание: этот язык не может быть удален, так как в настоящее время назначен в качестве языка по умолчанию админ панели!]]></value>
+		<value><![CDATA[Внимание: этот язык не может быть удален, так как в настоящее время назначен в качестве языка по умолчанию админ панели!]]></value>
 	</definition>
 	<definition>
 		<key>error_store</key>
-		<value>
-			<![CDATA[Внимание: этот язык не может быть удален, так как в настоящее время используется в %s магазинах!]]></value>
+		<value><![CDATA[Внимание: этот язык не может быть удален, так как в настоящее время используется в %s магазинах!]]></value>
 	</definition>
 	<definition>
 		<key>error_order</key>
-		<value>
-			<![CDATA[Внимание: этот язык не может быть удален, так как в настоящее время используется в %s заказах!]]></value>
+		<value><![CDATA[Внимание: этот язык не может быть удален, так как в настоящее время используется в %s заказах!]]></value>
 	</definition>
 	<definition>
 		<key>language_edit_title</key>
@@ -126,13 +122,11 @@
 	</definition>
 	<definition>
 		<key>load_language_note</key>
-		<value>
-			<![CDATA[ПРИМЕЧАНИЕ: Этой операции может потребоваться несколько минут для запуска. Не закрывайте браузер, не оставляйте и не обновляйте страницу!]]></value>
+		<value><![CDATA[ПРИМЕЧАНИЕ: Этой операции может потребоваться несколько минут для запуска. Не закрывайте браузер, не оставляйте и не обновляйте страницу!]]></value>
 	</definition>
 	<definition>
 		<key>create_language_note</key>
-		<value>
-			<![CDATA[ПРИМЕЧАНИЕ: Мы рекомендуем создавать язык как расширение. Проверьте уже существующие расширения языка. Если вы все еще хотите создать новый язык вручную, необходимо добавить флаг языка в admin/language/[Language Directory]/flag.png и storefront/language/[Language Directory]flag.png После того как язык создан загрузите недостающие языковые данные с помощью перевода или копирования текста из языка оригинала.]]></value>
+		<value><![CDATA[ПРИМЕЧАНИЕ: Мы рекомендуем создавать язык как расширение. Проверьте уже существующие расширения языка. Если вы все еще хотите создать новый язык вручную, необходимо добавить флаг языка в admin/language/[Language Directory]/flag.png и storefront/language/[Language Directory]flag.png После того как язык создан загрузите недостающие языковые данные с помощью перевода или копирования текста из языка оригинала.]]></value>
 	</definition>
 	<definition>
 		<key>button_load_language</key>
@@ -145,5 +139,45 @@
 	<definition>
 		<key>entry_translate_method_selector</key>
 		<value><![CDATA[Метод перевода: ]]></value>
+	</definition>
+	<definition>
+		<key>text_incomplete_tasks</key>
+		<value><![CDATA[Незаконченные задания]]></value>
+	</definition>
+	<definition>
+		<key>text_task_id</key>
+		<value><![CDATA[ID Задания:]]></value>
+	</definition>
+	<definition>
+		<key>text_title</key>
+		<value><![CDATA[Название: ]]></value>
+	</definition>
+	<definition>
+		<key>text_last_time_run</key>
+		<value><![CDATA[Время последнего запуска:]]></value>
+	</definition>
+	<definition>
+		<key>text_date_added</key>
+		<value><![CDATA[Создано:]]></value>
+	</definition>
+	<definition>
+		<key>text_starter_name</key>
+		<value><![CDATA[Создал:]]></value>
+	</definition>
+	<definition>
+		<key>text_restart</key>
+		<value><![CDATA[Рестарт]]></value>
+	</definition>
+	<definition>
+		<key>text_remove</key>
+		<value><![CDATA[Удалить]]></value>
+	</definition>
+	<definition>
+		<key>text_task_title</key>
+		<value><![CDATA[Перевод описаний от %s до %s]]></value>
+	</definition>
+	<definition>
+		<key>error_nothing_to_do</key>
+		<value><![CDATA[Ошибка: Пожалуйста укажите язык-источник и метод перевода!]]></value>
 	</definition>
 </definitions>

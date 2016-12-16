@@ -923,4 +923,8 @@ imagen</span>]]></value>
 		<key>entry_html_cache</key>
 		<value><![CDATA[Caché HTML: <br/><span class="help">Páginas HTML y bloques de almacenamiento en caché permitió obtener una mejor velocidad para sus páginas. Este es el almacenamiento en caché adicional para el almacenamiento en caché de datos regular habilitada en el system/config.php</span>]]></value>
 	</definition>
+	<definition>
+		<key>entry_task_api_key</key>
+		<value><![CDATA[Tasks API Key:<br/><span class="help">This is a secret key to allow AbanteCart to run scheduled processes from the browser with /task.php file. If not set, tasks will not run via browser.<br/>NOTE: This API Key is not required for running tasks command line.</span> !!!!!]]></value>
+	</definition>
 </definitions>

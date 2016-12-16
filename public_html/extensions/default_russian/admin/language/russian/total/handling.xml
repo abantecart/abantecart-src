@@ -64,4 +64,8 @@
 		<key>entry_total_placeholder</key>
 		<value><![CDATA[Текстовое Значение]]></value>
 	</definition>
+	<definition>
+		<key>entry_payment_fee</key>
+		<value><![CDATA[Комиссия:<span class="help">Комиссия будет добавлена к заказу если минимальная сумма не достигнута. Это значение перезаписывает ставку основной комиссии</span>]]></value>
+	</definition>
 </definitions>

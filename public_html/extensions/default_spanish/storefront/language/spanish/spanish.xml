@@ -320,4 +320,8 @@
 		<key>button_pay_with_balance</key>
 		<value><![CDATA[Con el Balance de pagar]]></value>
 	</definition>
+	<definition>
+		<key>text_click_browse_file</key>
+		<value><![CDATA[Click to browse file !!!!!]]></value>
+	</definition>
 </definitions>

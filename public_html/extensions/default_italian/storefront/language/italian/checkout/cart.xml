@@ -128,4 +128,8 @@
 		<key>error_quantity_minimum</key>
 		<value><![CDATA[La quantità di prodotto consentita è inferiore al minimo richiesto. La quantità è stata impostata al minimo.]]></value>
 	</definition>
+	<definition>
+		<key>text_coupon_removal</key>
+		<value><![CDATA[Successo: Coupon è stato rimosso!]]></value>
+	</definition>
 </definitions>

@@ -196,4 +196,16 @@
 		<key>text_sent</key>
 		<value><![CDATA[ %s de %s mensajes se envían]]></value>
 	</definition>
+	<definition>
+		<key>error_message_email</key>
+		<value><![CDATA[Email message body is required! !!!!!]]></value>
+	</definition>
+	<definition>
+		<key>error_message_sms</key>
+		<value><![CDATA[SMS message body is required! !!!!!]]></value>
+	</definition>
+	<definition>
+		<key>text_incomplete_tasks</key>
+		<value><![CDATA[Incomplete Tasks !!!!!]]></value>
+	</definition>
 </definitions>

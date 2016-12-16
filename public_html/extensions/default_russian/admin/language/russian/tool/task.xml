@@ -48,4 +48,28 @@
 		<key>text_task_started</key>
 		<value><![CDATA[ Задание Выполняется]]></value>
 	</definition>
+	<definition>
+		<key>text_stuck</key>
+		<value><![CDATA[ Зависло ]]></value>
+	</definition>
+	<definition>
+		<key>text_ready</key>
+		<value><![CDATA[ Готово ]]></value>
+	</definition>
+	<definition>
+		<key>text_running</key>
+		<value><![CDATA[ Выполняется ]]></value>
+	</definition>
+	<definition>
+		<key>text_failed</key>
+		<value><![CDATA[ Неудачно ]]></value>
+	</definition>
+	<definition>
+		<key>text_incomplete</key>
+		<value><![CDATA[ Незавершенное ]]></value>
+	</definition>
+	<definition>
+		<key>text_completed</key>
+		<value><![CDATA[ Завершенное ]]></value>
+	</definition>
 </definitions>

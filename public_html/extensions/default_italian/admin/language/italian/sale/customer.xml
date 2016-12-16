@@ -352,4 +352,12 @@
 		<key>text_total_order</key>
 		<value><![CDATA[Gli ordini totali:]]></value>
 	</definition>
+	<definition>
+		<key>text_last_login</key>
+		<value><![CDATA[Ultimo accesso:]]></value>
+	</definition>
+	<definition>
+		<key>text_never</key>
+		<value><![CDATA[mai]]></value>
+	</definition>
 </definitions>

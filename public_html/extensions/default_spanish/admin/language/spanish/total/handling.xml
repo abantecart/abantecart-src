@@ -64,4 +64,8 @@
 		<key>entry_total_placeholder</key>
 		<value><![CDATA[Valor de texto]]></value>
 	</definition>
+	<definition>
+		<key>entry_payment_fee</key>
+		<value><![CDATA[Fee:<span class="help">Fee to be added to order total if minimum sub-total amount condition is not met. This amount override main fee setting</span> !!!!!]]></value>
+	</definition>
 </definitions>

@@ -360,4 +360,12 @@
 		<key>text_total_order</key>
 		<value><![CDATA[El total de pedidos:]]></value>
 	</definition>
+	<definition>
+		<key>text_last_login</key>
+		<value><![CDATA[Last Log-in: !!!!!]]></value>
+	</definition>
+	<definition>
+		<key>text_never</key>
+		<value><![CDATA[Never !!!!!]]></value>
+	</definition>
 </definitions>

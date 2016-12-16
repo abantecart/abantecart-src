@@ -188,4 +188,16 @@
 		<key>text_sent</key>
 		<value><![CDATA[ %s из %s сообщений отправлено]]></value>
 	</definition>
+	<definition>
+		<key>error_message_email</key>
+		<value><![CDATA[Требуется Содержимое письма!]]></value>
+	</definition>
+	<definition>
+		<key>error_message_sms</key>
+		<value><![CDATA[Требуется текст SMS-сообщения!]]></value>
+	</definition>
+	<definition>
+		<key>text_incomplete_tasks</key>
+		<value><![CDATA[Незавершенные задания]]></value>
+	</definition>
 </definitions>

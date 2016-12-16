@@ -139,47 +139,47 @@
 	<definition>
 		<key>text_connect</key>
 		<value><![CDATA[Connetti]]></value>
-	</definition>	
+	</definition>
 	<definition>
 		<key>text_marketplace_connect</key>
 		<value><![CDATA[Connetti al marketplace]]></value>
-	</definition>	
+	</definition>
 	<definition>
 		<key>text_marketplace_extension</key>
 		<value><![CDATA[Anteprima dell'ordine e estensione ]]></value>
-	</definition>	
+	</definition>
 	<definition>
 		<key>text_marketplace_buy</key>
 		<value><![CDATA[ottieni questa estensione ora]]></value>
-	</definition>	
+	</definition>
 	<definition>
 		<key>text_connected</key>
 		<value><![CDATA[Collegato al marketplace. Clicca per scollegare]]></value>
-	</definition>	
+	</definition>
 	<definition>
 		<key>text_disconnect_confirm</key>
 		<value><![CDATA[Sei sicuro di volerti scollegare?]]></value>
-	</definition>	
+	</definition>
 	<definition>
 		<key>text_disconnect_success</key>
 		<value><![CDATA[Questo negozio è stato scollegato!]]></value>
-	</definition>	
+	</definition>
 	<definition>
 		<key>text_connection_required</key>
 		<value><![CDATA[È necessario colegare AbanteCart al Marketplace per vedere le tue estenzioni! Clicca su "connetti" nel pannello sopra.]]></value>
-	</definition>	
+	</definition>
 	<definition>
 		<key>text_in_other_store</key>
 		<value><![CDATA[L'estensione per questo ordine è già stato installato in un altro AbanteCart. Controlla i tuoi negozi collegati per la cronologia.]]></value>
-	</definition>	
+	</definition>
 	<definition>
 		<key>text_no_purchase_or_not_connected</key>
 		<value><![CDATA[Non ci sono acquisti per questo negozio o esso è stato disconnesso dal Marketplace.]]></value>
-	</definition>	
+	</definition>
 	<definition>
 		<key>text_no_extenions_loaded</key>
 		<value><![CDATA[Non ci sono estensioni disponibili. Controllare la selezione o riprovare..]]></value>
-	</definition>	
+	</definition>
 	<definition>
 		<key>text_compatibility</key>
 		<value><![CDATA[Questa estensione non è confermata per funzionare con la tua versione di AbanteCart. Contatta lo sviluppatore della estansione per verificare la compatibilità.]]></value>
@@ -187,5 +187,9 @@
 	<definition>
 		<key>error_mp_connection</key>
 		<value><![CDATA[Oops, non è possibile connettersi al MarketPlace di AbanteCart. Si prega di provare a controllare più tardi o chiedere aiuto al vostro fornitore di servizi di hosting.]]></value>
+	</definition>
+	<definition>
+		<key>text_search</key>
+		<value><![CDATA[cercare]]></value>
 	</definition>
 </definitions>

@@ -12,14 +12,14 @@
 		<key>text_success</key>
 		<value><![CDATA[Le modifiche degli attributi sono state effettuate!]]></value>
 	</definition>
-    <definition>
-        <key>text_select_type</key>
-        <value><![CDATA[- Seleziona tipo -]]></value>
-    </definition>
-    <definition>
-        <key>text_select_parent</key>
-        <value><![CDATA[- Seleziona genitore -]]></value>
-    </definition>
+	<definition>
+		<key>text_select_type</key>
+		<value><![CDATA[- Seleziona tipo -]]></value>
+	</definition>
+	<definition>
+		<key>text_select_parent</key>
+		<value><![CDATA[- Seleziona genitore -]]></value>
+	</definition>
 	<definition>
 		<key>column_name</key>
 		<value><![CDATA[Nome]]></value>
@@ -135,5 +135,9 @@
 	<definition>
 		<key>entry_show_to_customer</key>
 		<value><![CDATA[Mostra al cliente]]></value>
+	</definition>
+	<definition>
+		<key>entry_placeholder</key>
+		<value><![CDATA[Segnaposto:]]></value>
 	</definition>
 </definitions>
