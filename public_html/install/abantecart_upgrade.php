@@ -22,7 +22,7 @@ if(!$task_api_key){
 	foreach($stores as $store){
 		$store_id = (int)$store['store_id'];
 		$sql = "REPLACE INTO " . $this->db->table('settings') . "
-			(`store_id`, `group`, `key`, `value`);
+			(`store_id`, `group`, `key`, `value`)
 			VALUES ( '" . $store_id . "', 'api', 'task_api_key', '" . $this->db->escape(genToken(16)) . "')";
 		$result = $this->db->query($sql);
 	}
