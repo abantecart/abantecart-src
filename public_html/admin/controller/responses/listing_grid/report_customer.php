@@ -26,8 +26,7 @@ if (! defined ( 'DIR_CORE' ) || !IS_ADMIN) {
  * @property ModelReportCustomer $model_report_customer
  */
 class ControllerResponsesListingGridReportCustomer extends AController {
-	private $error = array();
-
+	public $data = array();
     public function online() {
 
 	    //init controller data
@@ -36,7 +35,8 @@ class ControllerResponsesListingGridReportCustomer extends AController {
 		$this->loadModel('report/customer');
 
 		//Prepare filter config
-		$grid_filter_params = array( 'customer' => 'c.lastname', 'ip' => 'co.ip', 'url' => 'co.url', 'time' => 'co.date_added' );
+	    $grid_filter_params =  array_merge(array('customer' => 'c.lastname', 'ip' => 'co.ip', 'url' => 'co.url', 'time' => 'co.date_added'), (array)$this->data['grid_filter_params']);
+
 		$filter_grid = new AFilter(array( 'method' => 'post', 'grid_filter_params' => $grid_filter_params ));
 
 		$total = $this->model_report_customer->getTotalOnlineCustomers($filter_grid->getFilterData());
@@ -63,11 +63,12 @@ class ControllerResponsesListingGridReportCustomer extends AController {
 			$i++;
 		}
 
-		//update controller data
-        $this->extensions->hk_UpdateData($this,__FUNCTION__);
+	    $this->data['response'] = $response;
 
-		$this->load->library('json');
-		$this->response->setOutput(AJson::encode($response));
+        //update controller data
+        $this->extensions->hk_UpdateData($this, __FUNCTION__);
+	    $this->load->library('json');
+        $this->response->setOutput(AJson::encode($this->data['response']));
 	}
 
     public function orders() {
@@ -77,7 +78,7 @@ class ControllerResponsesListingGridReportCustomer extends AController {
 		$this->loadModel('report/customer');
 
 		//Prepare filter config
-		$filter_params =  array('date_start', 'date_end', 'order_status');
+	    $filter_params =  array_merge(array('date_start', 'date_end', 'order_status'), (array)$this->data['filter_params']);
 		$filter_form = new AFilter(array( 'method' => 'get', 'filter_params' => $filter_params ));
 		$filter_grid = new AFilter(array( 'method' => 'post' ));
 		$data = array_merge($filter_form->getFilterData(), $filter_grid->getFilterData());
@@ -122,11 +123,12 @@ class ControllerResponsesListingGridReportCustomer extends AController {
 			$i++;
 		}
 
-		//update controller data
-        $this->extensions->hk_UpdateData($this,__FUNCTION__);
+	    $this->data['response'] = $response;
 
-		$this->load->library('json');
-		$this->response->setOutput(AJson::encode($response));
+        //update controller data
+        $this->extensions->hk_UpdateData($this, __FUNCTION__);
+	    $this->load->library('json');
+        $this->response->setOutput(AJson::encode($this->data['response']));
 	}
 
     public function transactions() {
@@ -136,13 +138,13 @@ class ControllerResponsesListingGridReportCustomer extends AController {
 		$this->loadModel('report/customer');
 
 		//Prepare filter config
-		$filter_params =  array('date_start', 'date_end');
+		$filter_params =  array_merge(array('date_start', 'date_end'), (array)$this->data['filter_params']);
 		$filter_form = new AFilter(array( 'method' => 'get', 'filter_params' => $filter_params ));
 		$filter_grid = new AFilter(array( 'method' => 'post' ));
 		$data = array_merge($filter_form->getFilterData(), $filter_grid->getFilterData());
 
 		//add filters for custom processing
-		$allowedFields = array( 'customer' );
+		$allowedFields = array_merge(array( 'customer' ), (array)$this->data['allowed_fields']);
 		if ( isset($this->request->post[ '_search' ]) && $this->request->post[ '_search' ] == 'true') {
 			$searchData = AJson::decode(htmlspecialchars_decode($this->request->post[ 'filters' ]), true);
 			foreach ($searchData['rules'] as $rule) {
@@ -176,11 +178,12 @@ class ControllerResponsesListingGridReportCustomer extends AController {
 			$i++;
 		}
 
-		//update controller data
-        $this->extensions->hk_UpdateData($this,__FUNCTION__);
+	    $this->data['response'] = $response;
 
-		$this->load->library('json');
-		$this->response->setOutput(AJson::encode($response));
+        //update controller data
+        $this->extensions->hk_UpdateData($this, __FUNCTION__);
+	    $this->load->library('json');
+        $this->response->setOutput(AJson::encode($this->data['response']));
 	}
 
 }

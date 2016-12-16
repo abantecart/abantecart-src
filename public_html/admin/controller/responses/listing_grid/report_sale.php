@@ -21,7 +21,7 @@ if (! defined ( 'DIR_CORE' ) || !IS_ADMIN) {
 	header ( 'Location: static_pages/' );
 }
 class ControllerResponsesListingGridReportSale extends AController {
-	private $error = array();
+	public $data = array();
 
     public function main() {
 	    //init controller data
@@ -31,8 +31,9 @@ class ControllerResponsesListingGridReportSale extends AController {
 		$this->loadModel('report/sale');
 
 		//Prepare filter config
-		$filter_params =  array('date_start', 'date_end', 'group', 'order_status');
-		$filter_form = new AFilter(array( 'method' => 'get', 'filter_params' => $filter_params ));
+	    $grid_filter_params =  array_merge(array('date_start', 'date_end', 'group', 'order_status'), (array)$this->data['grid_filter_params']);
+
+		$filter_form = new AFilter(array( 'method' => 'get', 'filter_params' => $grid_filter_params ));
 		$filter_grid = new AFilter(array( 'method' => 'post' ));
 		$data = array_merge($filter_form->getFilterData(), $filter_grid->getFilterData());
 
@@ -56,11 +57,13 @@ class ControllerResponsesListingGridReportSale extends AController {
 			$i++;
 		}
 
-		//update controller data
-        $this->extensions->hk_UpdateData($this,__FUNCTION__);
+	    $this->data['response'] = $response;
 
-		$this->load->library('json');
-		$this->response->setOutput(AJson::encode($response));
+        //update controller data
+        $this->extensions->hk_UpdateData($this, __FUNCTION__);
+	    $this->load->library('json');
+	    $this->response->addJSONHeader();
+        $this->response->setOutput(AJson::encode($this->data['response']));
 	}
 
     public function taxes() {
@@ -71,8 +74,8 @@ class ControllerResponsesListingGridReportSale extends AController {
 		$this->loadModel('report/sale');
 
 		//Prepare filter config
-		$filter_params =  array('date_start', 'date_end', 'group', 'order_status');
-		$filter_form = new AFilter(array( 'method' => 'get', 'filter_params' => $filter_params ));
+	    $grid_filter_params =  array_merge(array('date_start', 'date_end', 'group', 'order_status'), (array)$this->data['grid_filter_params']);
+		$filter_form = new AFilter(array( 'method' => 'get', 'filter_params' => $grid_filter_params ));
 		$filter_grid = new AFilter(array( 'method' => 'post' ));
 		$data = array_merge($filter_form->getFilterData(), $filter_grid->getFilterData());
 
@@ -95,12 +98,11 @@ class ControllerResponsesListingGridReportSale extends AController {
 			);
 			$i++;
 		}
-
+	    $this->data['response'] = $response;
 		//update controller data
         $this->extensions->hk_UpdateData($this,__FUNCTION__);
-
 		$this->load->library('json');
-		$this->response->setOutput(AJson::encode($response));
+		$this->response->setOutput(AJson::encode($this->data['response']));
 	}
 
     public function shipping() {
@@ -111,8 +113,8 @@ class ControllerResponsesListingGridReportSale extends AController {
 		$this->loadModel('report/sale');
 
 		//Prepare filter config
-		$filter_params =  array('date_start', 'date_end', 'group', 'order_status');
-		$filter_form = new AFilter(array( 'method' => 'get', 'filter_params' => $filter_params ));
+	    $grid_filter_params =  array_merge(array('date_start', 'date_end', 'group', 'order_status'), (array)$this->data['grid_filter_params']);
+		$filter_form = new AFilter(array( 'method' => 'get', 'filter_params' => $grid_filter_params ));
 		$filter_grid = new AFilter(array( 'method' => 'post' ));
 		$data = array_merge($filter_form->getFilterData(), $filter_grid->getFilterData());
 
@@ -135,12 +137,11 @@ class ControllerResponsesListingGridReportSale extends AController {
 			);
 			$i++;
 		}
-
+	    $this->data['response'] = $response;
 		//update controller data
         $this->extensions->hk_UpdateData($this,__FUNCTION__);
-
 		$this->load->library('json');
-		$this->response->setOutput(AJson::encode($response));
+		$this->response->setOutput(AJson::encode($this->data['response']));
 	}
 
     public function coupons() {
@@ -151,8 +152,8 @@ class ControllerResponsesListingGridReportSale extends AController {
 		$this->loadModel('report/sale');
 
 		//Prepare filter config
-		$filter_params =  array('date_start', 'date_end');
-		$filter_form = new AFilter(array( 'method' => 'get', 'filter_params' => $filter_params ));
+	    $grid_filter_params =  array_merge(array('date_start', 'date_end'), (array)$this->data['grid_filter_params']);
+		$filter_form = new AFilter(array( 'method' => 'get', 'filter_params' => $grid_filter_params ));
 		$filter_grid = new AFilter(array( 'method' => 'post' ));
 		$data = array_merge($filter_form->getFilterData(), $filter_grid->getFilterData());
 
@@ -176,12 +177,11 @@ class ControllerResponsesListingGridReportSale extends AController {
 			);
 			$i++;
 		}
-
+	    $this->data['response'] = $response;
 		//update controller data
         $this->extensions->hk_UpdateData($this,__FUNCTION__);
-
 		$this->load->library('json');
-		$this->response->setOutput(AJson::encode($response));
+		$this->response->setOutput(AJson::encode($this->data['response']));
 	}
 
 

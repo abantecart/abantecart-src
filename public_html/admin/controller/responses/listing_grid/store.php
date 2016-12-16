@@ -21,6 +21,7 @@ if (!defined('DIR_CORE') || !IS_ADMIN) {
 	header('Location: static_pages/');
 }
 class ControllerResponsesListingGridStore extends AController {
+	public $data = array();
 	/**
 	 * update only one field
 	 *
@@ -61,26 +62,23 @@ class ControllerResponsesListingGridStore extends AController {
 	}
 
 	private function _validateField($field, $value) {
-		$err = '';
+		$this->data['error'] = '';
 
 		switch ($field) {
 			case 'config_name' :
 				if (!$value) {
-					$err = $this->language->get('error_name');
+					$this->data['error'] = $this->language->get('error_name');
 				}
 				break;
 			case 'config_url' :
 				if (!$value) {
-					$err = $this->language->get('error_url');
+					$this->data['error'] = $this->language->get('error_url');
 				}
 				break;
 		}
 
-		return $err;
-	}
-
-	private function _validateDelete($id) {
-		return null;
+		$this->extensions->hk_ValidateData($this, array($field, $value));
+		return $this->data['error'];
 	}
 
 }

@@ -21,7 +21,7 @@ if (! defined ( 'DIR_CORE' ) || !IS_ADMIN) {
 	header ( 'Location: static_pages/' );
 }
 class ControllerResponsesListingGridReportPurchased extends AController {
-
+	public $data = array();
     public function main() {
 
 	    //init controller data
@@ -31,7 +31,7 @@ class ControllerResponsesListingGridReportPurchased extends AController {
 		$this->loadModel('report/purchased');
 
 	    //Prepare filter config
-        $filter_params =  array('date_start', 'date_end');
+	    $grid_filter_params =  array_merge(array('date_start', 'date_end'), (array)$this->data['grid_filter_params']);
 
 	    if(!$this->request->get['date_start']){
 		    $this->request->get['date_start'] = dateInt2Display(strtotime('-30 day'));
@@ -40,7 +40,7 @@ class ControllerResponsesListingGridReportPurchased extends AController {
 		    $this->request->get['date_end'] = dateInt2Display(time());
 	    }
 
-        $filter_form = new AFilter(array( 'method' => 'get', 'filter_params' => $filter_params ));
+        $filter_form = new AFilter(array( 'method' => 'get', 'filter_params' => $grid_filter_params ));
         $filter_grid = new AFilter(array( 'method' => 'post' ));
         $data = array_merge($filter_form->getFilterData(), $filter_grid->getFilterData());
 
@@ -64,10 +64,11 @@ class ControllerResponsesListingGridReportPurchased extends AController {
 			$i++;
 		}
 
-		//update controller data
-        $this->extensions->hk_UpdateData($this,__FUNCTION__);
+	    $this->data['response'] = $response;
 
-		$this->load->library('json');
-		$this->response->setOutput(AJson::encode($response));
+        //update controller data
+        $this->extensions->hk_UpdateData($this, __FUNCTION__);
+	    $this->load->library('json');
+        $this->response->setOutput(AJson::encode($this->data['response']));
 	}
 }

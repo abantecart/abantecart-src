@@ -21,7 +21,7 @@ if (!defined('DIR_CORE') || !IS_ADMIN) {
 	header('Location: static_pages/');
 }
 class ControllerResponsesListingGridProduct extends AController {
-
+	public $data = array();
 	public function main() {
 
 		//init controller data
@@ -114,12 +114,11 @@ class ControllerResponsesListingGridProduct extends AController {
 			);
 			$i++;
 		}
-
+		$this->data['response'] = $response;
 		//update controller data
 		$this->extensions->hk_UpdateData($this, __FUNCTION__);
-
 		$this->load->library('json');
-		$this->response->setOutput(AJson::encode($response));
+		$this->response->setOutput(AJson::encode($this->data['response']));
 	}
 
 	public function update() {
@@ -153,11 +152,11 @@ class ControllerResponsesListingGridProduct extends AController {
 					}
 				break;
 			case 'save':
-				$fields = array( 'product_description', 'model', 'call_to_order', 'price', 'quantity', 'status' );
+				$allowedFields = array_merge(array( 'product_description', 'model', 'call_to_order', 'price', 'quantity', 'status' ), (array)$this->data['allowed_fields']);
 				$ids = explode(',', $this->request->post['id']);
 				if (!empty($ids))
 					foreach ($ids as $id) {
-						foreach ($fields as $f) {
+						foreach ($allowedFields as $f) {
 
 							if ($f == 'status' && !isset($this->request->post['status'][ $id ]))
 								$this->request->post['status'][ $id ] = 0;
@@ -228,8 +227,8 @@ class ControllerResponsesListingGridProduct extends AController {
 		}
 
 		//request sent from jGrid. ID is key of array
-		$fields = array( 'product_description', 'model', 'price', 'call_to_order', 'quantity', 'status' );
-		foreach ($fields as $f) {
+		$allowedFields = array_merge(array( 'product_description', 'model', 'price', 'call_to_order', 'quantity', 'status' ), (array)$this->data['allowed_fields']);
+		foreach ($allowedFields as $f) {
 			if (isset($this->request->post[ $f ]))
 				foreach ($this->request->post[ $f ] as $k => $v) {
 					$err = $this->_validateField($f, $v);
@@ -330,20 +329,20 @@ class ControllerResponsesListingGridProduct extends AController {
 	}
 
 	private function _validateField($field, $value) {
-		$err = '';
+		$this->data['error'] = '';
 		switch ($field) {
 			case 'product_description' :
 				if (isset($value['name']) && ((mb_strlen($value['name']) < 1) || (mb_strlen($value['name']) > 255))) {
-					$err = $this->language->get('error_name');
+					$this->data['error'] = $this->language->get('error_name');
 				}
 				break;				
 			case 'model' :
 				if (mb_strlen($value) > 64) {
-					$err = $this->language->get('error_model');
+					$this->data['error'] = $this->language->get('error_model');
 				}
 				break;
 			case 'keyword' :
-				$err = $this->html->isSEOkeywordExists('product_id='.$this->request->get['id'], $value);
+				$this->data['error'] = $this->html->isSEOkeywordExists('product_id='.$this->request->get['id'], $value);
 				break;
 			case 'length' :
 			case 'width'  :
@@ -351,15 +350,18 @@ class ControllerResponsesListingGridProduct extends AController {
 			case 'weight' :
 				$v =  preformatFloat(abs($value), $this->language->get('decimal_point'));
 				if($v>=1000){
-					$err = $this->language->get('error_measure_value');
+					$this->data['error'] = $this->language->get('error_measure_value');
 				}
 				break;
 		}
-		return $err;
+		$this->extensions->hk_ValidateData($this, array(__FUNCTION__, $field, $value));
+		return $this->data['error'];
 	}
 
 	private function _validateDelete($id) {
-		return null;
+		$this->data['error'] = '';
+		$this->extensions->hk_ValidateData($this, array(__FUNCTION__, $id));
+		return $this->data['error'];
 	}
 
 }
