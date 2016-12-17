@@ -25,25 +25,26 @@ if (!defined('DIR_CORE')){
  * Class AData
  * @property ModelToolTableRelationships $model_tool_table_relationships
  * @property ALanguageManager $language
+ * @property ALoad $load
+ * @property AConfig $config
+ * @property ADataEncryption $dcrypt
+ * @property ADB $db
  */
-final class AData{
+class AData{
 	/**
 	 * @var Registry
 	 */
-	private $registry;
+	protected $registry;
 	/**
 	 * @var AMessage
 	 */
-	private $message;
-	/**
-	 * @var ADB
-	 */
-	private $db;
-	private $csvDelimiters = array (',', ';', '\t');
-	private $status_arr = array ();
-	private $run_mode;
-	private $nested_array = array ();
-	private $actions = array ('insert', 'update', 'update_or_insert', 'delete');
+	protected $message;
+	protected $db;
+	protected $csvDelimiters = array (',', ';', '\t');
+	protected $status_arr = array ();
+	protected $run_mode;
+	protected $nested_array = array ();
+	protected $actions = array ('insert', 'update', 'update_or_insert', 'delete');
 
 	public function __construct(){
 		if (!IS_ADMIN){
@@ -120,13 +121,13 @@ final class AData{
 	public function importData($data_array, $mode = 'commit'){
 		$this->run_mode = $mode;
 		//validate the array. 
-		foreach ($data_array['tables'] as $tnode){
-			if (isset($tnode['name'])){
-				$table_cfg = $this->model_tool_table_relationships->find_table_cfg($tnode['name']);
+		foreach ($data_array['tables'] as $t_node){
+			if (isset($t_node['name'])){
+				$table_cfg = $this->model_tool_table_relationships->find_table_cfg($t_node['name']);
 				if ($table_cfg){
-					$this->_process_import_table($tnode['name'], $table_cfg, $tnode);
+					$this->_process_import_table($t_node['name'], $table_cfg, $t_node);
 				} else{
-					$this->_status2array('error', 'Unknown table ' . $tnode['name'] . ' requested. Exit this node');
+					$this->_status2array('error', 'Unknown table ' . $t_node['name'] . ' requested. Exit this node');
 					continue;
 				}
 			} else{
@@ -278,9 +279,9 @@ final class AData{
 	 * @param string $filename
 	 * @return bool
 	 */
-	private function _archive($tar_filename, $tar_dir, $filename){
+	protected function _archive($tar_filename, $tar_dir, $filename){
 		//Archive data to DIR_DATA, delete tmp files in directory 
-		//generate errors: No space on device (log to message as error too), No permissons, Others
+		//generate errors: No space on device (log to message as error too), No permissions, Others
 		//return Success or failed.
 
 		compressTarGZ($tar_filename, $tar_dir . $filename);
@@ -301,7 +302,7 @@ final class AData{
 	 * @param string $dir
 	 * @return boolean
 	 */
-	private function _removeDir($dir = ''){
+	protected function _removeDir($dir = ''){
 		if (is_dir($dir)){
 			$objects = scandir($dir);
 			foreach ($objects as $obj){
@@ -323,13 +324,13 @@ final class AData{
 	}
 
 	/**
-	 * generate 1 dimention array per row of the main table
+	 * generate 1 dimension array per row of the main table
 	 * @param array $data_array
 	 * @param string $append
 	 * @param bool $root
 	 * @return array
 	 */
-	private function _flatten_array(&$data_array, $append = '', $root = true){
+	protected function _flatten_array(&$data_array, $append = '', $root = true){
 		$return = array ();
 		$row_flat = array ();
 		$sub_level = '';
@@ -349,8 +350,8 @@ final class AData{
 				}
 			}
 			if (isset($arow['tables'])){
-				foreach ($arow['tables'] as $atable){
-					$array_rec = $this->_flatten_array($atable, $append . $sub_level, false);
+				foreach ($arow['tables'] as $a_table){
+					$array_rec = $this->_flatten_array($a_table, $append . $sub_level, false);
 					$row_flat = array_merge($row_flat, $array_rec);
 				}
 			}
@@ -377,7 +378,7 @@ final class AData{
 	 * @param string $escape
 	 * @return array|bool
 	 */
-	private function _csv_file2array($file, $delimiter = ',', $enclose = '"', $escape = '"'){
+	protected function _csv_file2array($file, $delimiter = ',', $enclose = '"', $escape = '"'){
 		ini_set('auto_detect_line_endings', true);
 
 		$data = array ();
@@ -426,11 +427,11 @@ final class AData{
 	}
 
 	/**
-	 * generate multi dimention aray from flat structure
+	 * generate multi dimension array from flat structure
 	 * @param array $flat_array
 	 * @return array
 	 */
-	private function _build_nested($flat_array){
+	protected function _build_nested($flat_array){
 		$md_array = array ();
 
 		foreach ($flat_array as $row){
@@ -512,7 +513,7 @@ final class AData{
 	 * @param mixed $parent_key
 	 * @param int $i
 	 */
-	private function _filter_empty(& $data, & $parent = null, $parent_key = null, & $i = 0){
+	protected function _filter_empty(& $data, & $parent = null, $parent_key = null, & $i = 0){
 		ini_set('max_execution_time', 300);
 		if (!empty($data)){
 			foreach ($data as $key => & $val){
@@ -544,7 +545,7 @@ final class AData{
 	 * @param array $data
 	 * @return bool
 	 */
-	private function _empty($data){
+	protected function _empty($data){
 		foreach ($data as $key => $val){
 			if (!empty($val) || (!is_array($val) && $val != '')){
 				return false;
@@ -554,7 +555,7 @@ final class AData{
 	}
 
 	/**
-	 * Specific XML file converion to Data Array
+	 * Specific XML file conversion to Data Array
 	 * @param string $xml_file
 	 * @return array
 	 */
@@ -567,7 +568,7 @@ final class AData{
 	}
 
 	/**
-	 * Specific XML string converion to Data Array
+	 * Specific XML string conversion to Data Array
 	 * @param string $xml_str
 	 * @return array
 	 */
@@ -595,7 +596,7 @@ final class AData{
 	 * @param array $skip_inner_ids
 	 * @return array
 	 */
-	private function _process_section($table_name, $request, $table_cfg, $skip_inner_ids){
+	protected function _process_section($table_name, $request, $table_cfg, $skip_inner_ids){
 		$result_arr = array ();
 		$result_arr['name'] = $table_name;
 		$result_arr['rows'] = array ();
@@ -603,7 +604,7 @@ final class AData{
 		//get data for main level 
 		$node_data = $this->_get_table_data($table_name, $table_cfg, $request);
 
-		//remove relation key id if requested. Mostely it is not needed
+		//remove relation key id if requested. Mostly it is not needed
 		if ($skip_inner_ids){
 			for ($i = 0; $i <= count($node_data); $i++){
 				if ($table_cfg['relation_ids']){
@@ -616,7 +617,7 @@ final class AData{
 			}
 		}
 
-		//process requested nested tables recursevely. 
+		//process requested nested tables recursively.
 		if (is_array($request) && !empty($request['tables'])){
 			//for each key in the data set process all related tables.
 			$id_name = $table_cfg['id'];
@@ -684,7 +685,7 @@ final class AData{
 	 * @param array $request
 	 * @return null
 	 */
-	private function _get_table_data($table_name, $table_cfg, $request){
+	protected function _get_table_data($table_name, $table_cfg, $request){
 		//Future expansion. Provide date_create and date_updated range within $request to build incremental backup. 
 		if (empty($table_name) || empty ($table_cfg)){
 			return null;
@@ -768,7 +769,7 @@ final class AData{
 	 * @param bool $action_delete
 	 * @return array
 	 */
-	private function _process_import_table($table_name, $table_cfg, $data_arr, $parent_vals = array (), $action_delete = false){
+	protected function _process_import_table($table_name, $table_cfg, $data_arr, $parent_vals = array (), $action_delete = false){
 
 		ADebug::checkpoint('AData::importData processing table ' . $table_name);
 		if (!isset($data_arr['rows'])){
@@ -813,7 +814,7 @@ final class AData{
 				}
 			}
 
-			//Validate required keys if wrong donot bother with children exit.
+			//Validate required keys if wrong do not bother with children exit.
 			if (!$this->_validate_action($action, $table_name, $table_cfg, $new_vals)){
 				continue;
 			}
@@ -877,14 +878,14 @@ final class AData{
 	 * @param array $data_arr
 	 * @return string
 	 */
-	private function _get_action($table_name, $table_cfg, $data_arr){
+	protected function _get_action($table_name, $table_cfg, $data_arr){
 		if ($data_arr['action'] && in_array($data_arr['action'], $this->actions)){
 			return $data_arr['action'];
 		} else{
 			//get ids required for the table and not special relationship
 			if ($table_cfg['id'] && $data_arr[$table_cfg['id']] && !isset($table_cfg['special_relation'])){
 				//we have ID, we are not sure if we insert or update. Auto detect
-				//To improve performance selection can be added to skip smart insert/update detection if sertain what needs to be done   
+				//To improve performance selection can be added to skip smart insert/update detection if certain what needs to be done
 				return 'update_or_insert';
 			} else if ($table_cfg['id'] && !$data_arr[$table_cfg['id']]){
 				return 'insert';
@@ -903,7 +904,7 @@ final class AData{
 	 * @param array $new_vals
 	 * @return bool
 	 */
-	private function _validate_action($action, $table_name, $table_cfg, $new_vals){
+	protected function _validate_action($action, $table_name, $table_cfg, $new_vals){
 		if ($action == 'delete' || $action == 'update'){
 			if ($table_cfg['id'] && (!isset($new_vals[$table_cfg['id']]) || $new_vals[$table_cfg['id']] == '')){
 				$this->_status2array('error', 'Missing ID for ' . $action . ' action in table ' . $table_name . '. Skipping.');
@@ -946,7 +947,7 @@ final class AData{
 	 * @param string $status
 	 * @param string $message
 	 */
-	private function _status2array($status, $message){
+	protected function _status2array($status, $message){
 		$this->status_arr[$status][] = $message;
 	}
 
@@ -959,7 +960,7 @@ final class AData{
 	 * @param array $parent_vals
 	 * @return array
 	 */
-	private function _do_fromArray($action, $table_name, $table_cfg, $data_row, $parent_vals){
+	protected function _do_fromArray($action, $table_name, $table_cfg, $data_row, $parent_vals){
 		$results = array ();
 		switch($action){
 			case 'update':
@@ -992,7 +993,7 @@ final class AData{
 	 * @param array $parent_vals
 	 * @return array
 	 */
-	private function _do_all_resources($table_cfg, $data, $parent_vals){
+	protected function _do_all_resources($table_cfg, $data, $parent_vals){
 		$records = array ();
 		foreach ($data['rows'] as $row){
 			if ($row['type']){
@@ -1012,7 +1013,7 @@ final class AData{
 			//delete all resource of the type from library
 			$object_name = $table_cfg['special_relation']['object_name'];
 			$object_id = $parent_vals[$table_cfg['special_relation']['object_id']];
-			$resources = $rm->unmapAndDeleteResources($object_name, $object_id, $type);
+			$rm->unmapAndDeleteResources($object_name, $object_id, $type);
 			//ad new media sources
 			if ($sources['source_url']){
 				$fl = new AFile();
@@ -1074,7 +1075,7 @@ final class AData{
 	 * @param string $code
 	 * @return null
 	 */
-	private function _create_resource($rm, $object_txt_id, $object_id, $image_basename = '', $code = ''){
+	protected function _create_resource($rm, $object_txt_id, $object_id, $image_basename = '', $code = ''){
 		$language_list = $this->language->getAvailableLanguages();
 		$resource = array ('language_id'   => $this->config->get('storefront_language_id'),
 		                   'name'          => array (),
@@ -1102,7 +1103,7 @@ final class AData{
 	 * @param array $parent_vals
 	 * @return array
 	 */
-	private function _update_fromArray($table_name, $table_cfg, $data_row, $parent_vals){
+	protected function _update_fromArray($table_name, $table_cfg, $data_row, $parent_vals){
 		$cols = array ();
 		$where = array ();
 
@@ -1115,7 +1116,7 @@ final class AData{
 			}
 
 			if (isset($parent_vals[$col_name]) && $parent_vals[$col_name] != ''){
-				//we laready set this above.
+				//we already set this above.
 				continue;
 			}
 
@@ -1172,7 +1173,7 @@ final class AData{
 	 * @param array $parent_vals
 	 * @return array
 	 */
-	private function _insert_fromArray($table_name, $table_cfg, $data_row, $parent_vals){
+	protected function _insert_fromArray($table_name, $table_cfg, $data_row, $parent_vals){
 		$return = array ();
 		$cols = array ();
 
@@ -1185,7 +1186,7 @@ final class AData{
 			}
 
 			if (isset($cols[$col_name])){
-				//we laready set this above.
+				//we already set this above.
 				continue;
 			}
 
@@ -1243,7 +1244,7 @@ final class AData{
 	 * @param array $parent_vals
 	 * @return array
 	 */
-	private function _delete_fromArray($table_name, $table_cfg, $data_row, $parent_vals){
+	protected function _delete_fromArray($table_name, $table_cfg, $data_row, $parent_vals){
 
 		//set ids to where from parent they might not be in there 
 		$where = $this->_build_id_columns($table_cfg, $parent_vals);
@@ -1258,7 +1259,7 @@ final class AData{
 			}
 
 			if (isset($parent_vals[$col_name]) && $parent_vals[$col_name] != ''){
-				//we laready set this above.
+				//we already set this above.
 				continue;
 			}
 
@@ -1284,9 +1285,9 @@ final class AData{
 		}
 
 		if (!empty($this->db->error)){
-			$this->_status2array('error', "Delete data error in $table_name." . $this->db->error);
+			$this->_status2array('error', "Delete data error in ". $table_name." .". $this->db->error);
 		} else{
-			$this->_status2array('delete', "Data deleted from table $table_name successfully");
+			$this->_status2array('delete', "Data deleted from table ". $table_name." successfully");
 		}
 		return array ();
 	}
@@ -1298,7 +1299,7 @@ final class AData{
 	 * @param array $parent_vals
 	 * @return array
 	 */
-	private function _update_or_insert_fromArray($table_name, $table_cfg, $data_row, $parent_vals){
+	protected function _update_or_insert_fromArray($table_name, $table_cfg, $data_row, $parent_vals){
 		$return = array ();
 		$where = array ();
 		$cols = array ();
@@ -1312,7 +1313,7 @@ final class AData{
 			}
 
 			if (isset($parent_vals[$col_name]) && $parent_vals[$col_name] != ''){
-				//we laready set this above.
+				//we already set this above.
 				continue;
 			}
 
@@ -1407,9 +1408,9 @@ final class AData{
 		}
 
 		if (!empty($this->db->error)){
-			$this->_status2array('error', "$status data error in $table_name. " . $this->db->error);
+			$this->_status2array('error', $status." data error in ". $table_name.". " . $this->db->error);
 		} else{
-			$this->_status2array($status, "$status for table $table_name done successfully");
+			$this->_status2array($status, $status." for table ". $table_name." done successfully");
 		}
 		return $return;
 	}
@@ -1419,7 +1420,7 @@ final class AData{
 	 * @param array $parent_vals
 	 * @return array
 	 */
-	private function _build_id_columns($table_cfg, $parent_vals){
+	protected function _build_id_columns($table_cfg, $parent_vals){
 		$list = array ();
 		//set ids from parent they might not be in there 
 		if (isset($parent_vals[$table_cfg['id']]) && $parent_vals[$table_cfg['id']] != ''){
@@ -1451,7 +1452,7 @@ final class AData{
 	 * @param $data_array
 	 * @param SimpleXMLElement $xml - it is a reference!!!
 	 */
-	private function _array_part2XML($data_array, $xml){
+	protected function _array_part2XML($data_array, $xml){
 		foreach ($data_array as $akey => $aval){
 			if ($akey == 'tables' || $akey == 'rows'){
 				$new_node = $xml->addChild($akey);
@@ -1476,11 +1477,11 @@ final class AData{
 	}
 
 	/**
-	 * recurcive function to convert nested XML to array
+	 * recursive function to convert nested XML to array
 	 * @param SimpleXMLElement $xml
 	 * @return array
 	 */
-	private function _XML_part2array($xml){
+	protected function _XML_part2array($xml){
 		$results = array ();
 		foreach ($xml->children() as $column){
 			/**
@@ -1500,17 +1501,17 @@ final class AData{
 	}
 
 	/**
-	 * append message to rurrent node
+	 * append message to current node
 	 * @param SimpleXMLElement $node
-	 * @param $ermessage
+	 * @param $err_message
 	 * @param string $type
 	 * @return null
 	 */
-	private function _error2xml($node, $ermessage, $type = ''){
+	protected function _error2xml($node, $err_message, $type = ''){
 		$new_node = $node->addChild('error');
 		$new_node->addAttribute('type', $type);
 		$dom = dom_import_simplexml($new_node);
-		$dom->appendChild($dom->ownerDocument->createCDATASection($ermessage));
+		$dom->appendChild($dom->ownerDocument->createCDATASection($err_message));
 		return null;
 	}
 
@@ -1519,7 +1520,7 @@ final class AData{
 	 * @param array $data_array
 	 * @return array
 	 */
-	private function _build_columns($data_array){
+	protected function _build_columns($data_array){
 		$merged_arr = array ();
 		foreach ($data_array['rows'] as $arow){
 			$merged_arr = $this->_array_merge_replace_recursive($merged_arr, $arow);
@@ -1533,7 +1534,7 @@ final class AData{
 	/**
 	 * @return array
 	 */
-	private function _array_merge_replace_recursive(){
+	protected function _array_merge_replace_recursive(){
 		$arrays = func_get_args();
 		$base = array_shift($arrays);
 		if (!is_array($base)) $base = empty($base) ? array () : array ($base);
@@ -1562,7 +1563,7 @@ final class AData{
 	 * @param string $level
 	 * @return string
 	 */
-	private function processError($title, $error, $level = 'warning'){
+	protected function processError($title, $error, $level = 'warning'){
 		$this->message->{'save' . ucfirst($level)}($title, $error);
 		$wrn = new AError($error);
 		$wrn->toDebug()->toLog();
@@ -1573,7 +1574,7 @@ final class AData{
 	 * @param string $table_name
 	 * @param string $id
 	 */
-	private function _clear_layouts_tables($table_name, $id){
+	protected function _clear_layouts_tables($table_name, $id){
 		if ($key = $this->_get_layout_key($table_name)){
 
 			$ids = $this->_get_layout_ids($key, $id);
@@ -1591,7 +1592,7 @@ final class AData{
 	 * @param $table_name
 	 * @return bool|string
 	 */
-	private function _get_layout_key($table_name){
+	protected function _get_layout_key($table_name){
 		switch($table_name){
 			case 'products':
 				$key = 'product_id';
@@ -1615,7 +1616,7 @@ final class AData{
 	 * @param string $key_value
 	 * @return array
 	 */
-	private function _get_layout_ids($key_param, $key_value){
+	protected function _get_layout_ids($key_param, $key_value){
 		$result = $this->db->query(
 				"SELECT p.page_id, pl.layout_id FROM " . $this->db->table("pages") . " p
 			INNER JOIN " . $this->db->table("pages_layouts") . " pl ON p.page_id = pl.page_id
@@ -1632,7 +1633,7 @@ final class AData{
 	/**
 	 * @param int $page_id
 	 */
-	private function _clear_pages($page_id){
+	protected function _clear_pages($page_id){
 		$this->db->query(
 				"DELETE FROM " . $this->db->table("pages") . "
 			WHERE page_id = '" . (int)$page_id . "'"
@@ -1647,7 +1648,7 @@ final class AData{
 	 * @param int $page_id
 	 * @return bool
 	 */
-	private function _clear_pages_layouts($page_id){
+	protected function _clear_pages_layouts($page_id){
 		$this->db->query(
 				"DELETE FROM " . $this->db->table("pages_layouts") . "
 			WHERE page_id = '" . (int)$page_id . "'"
@@ -1659,7 +1660,7 @@ final class AData{
 	 * @param int $layout_id
 	 * @return bool
 	 */
-	private function _clear_layouts($layout_id){
+	protected function _clear_layouts($layout_id){
 		$this->db->query(
 				"DELETE FROM " . $this->db->table("layouts") . "
 			WHERE layout_id = '" . (int)$layout_id . "'"
