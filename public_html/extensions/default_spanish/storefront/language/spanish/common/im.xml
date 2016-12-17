@@ -90,6 +90,6 @@
 	</definition>
 	<definition>
 		<key>im_new_subscriber_text_to_admin</key>
-		<value><![CDATA[ New Subscriber #%s has been registered! !!!!!]]></value>
+		<value><![CDATA[ Se ha registrado el nuevo suscriptor #%s]]></value>
 	</definition>
 </definitions>

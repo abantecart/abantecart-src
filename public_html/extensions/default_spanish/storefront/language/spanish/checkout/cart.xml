@@ -130,6 +130,6 @@
 	</definition>
 	<definition>
 		<key>text_coupon_removal</key>
-		<value><![CDATA[Success: Coupon has been removed! !!!!!]]></value>
+		<value><![CDATA[Éxito: se eliminó el cupón]]></value>
 	</definition>
 </definitions>

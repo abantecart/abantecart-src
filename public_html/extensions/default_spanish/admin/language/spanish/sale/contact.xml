@@ -198,14 +198,14 @@
 	</definition>
 	<definition>
 		<key>error_message_email</key>
-		<value><![CDATA[Email message body is required! !!!!!]]></value>
+		<value><![CDATA[Se requiere un cuerpo de mensaje de correo electrónico]]></value>
 	</definition>
 	<definition>
 		<key>error_message_sms</key>
-		<value><![CDATA[SMS message body is required! !!!!!]]></value>
+		<value><![CDATA[Se requiere un cuerpo de mensaje SMS]]></value>
 	</definition>
 	<definition>
 		<key>text_incomplete_tasks</key>
-		<value><![CDATA[Incomplete Tasks !!!!!]]></value>
+		<value><![CDATA[Tareas incompletas]]></value>
 	</definition>
 </definitions>

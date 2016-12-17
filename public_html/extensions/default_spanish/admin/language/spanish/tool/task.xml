@@ -50,26 +50,26 @@
 	</definition>
 	<definition>
 		<key>text_stuck</key>
-		<value><![CDATA[ Stuck !!!!!]]></value>
+		<value><![CDATA[ Atascado ]]></value>
 	</definition>
 	<definition>
 		<key>text_ready</key>
-		<value><![CDATA[ Ready !!!!!]]></value>
+		<value><![CDATA[ Listo ]]></value>
 	</definition>
 	<definition>
 		<key>text_running</key>
-		<value><![CDATA[ Running !!!!!]]></value>
+		<value><![CDATA[ Corriendo ]]></value>
 	</definition>
 	<definition>
 		<key>text_failed</key>
-		<value><![CDATA[ Failed !!!!!]]></value>
+		<value><![CDATA[ Ha fallado ]]></value>
 	</definition>
 	<definition>
 		<key>text_incomplete</key>
-		<value><![CDATA[ Incomplete !!!!!]]></value>
+		<value><![CDATA[ Incompleto ]]></value>
 	</definition>
 	<definition>
 		<key>text_completed</key>
-		<value><![CDATA[ Completed !!!!!]]></value>
+		<value><![CDATA[ Terminado ]]></value>
 	</definition>
 </definitions>

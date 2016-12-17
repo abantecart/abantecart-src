@@ -138,6 +138,6 @@
 	</definition>
 	<definition>
 		<key>entry_placeholder</key>
-		<value><![CDATA[Placeholder: !!!!!]]></value>
+		<value><![CDATA[Marcador de posición:]]></value>
 	</definition>
 </definitions>

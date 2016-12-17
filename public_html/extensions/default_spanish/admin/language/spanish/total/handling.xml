@@ -66,6 +66,6 @@
 	</definition>
 	<definition>
 		<key>entry_payment_fee</key>
-		<value><![CDATA[Fee:<span class="help">Fee to be added to order total if minimum sub-total amount condition is not met. This amount override main fee setting</span> !!!!!]]></value>
+		<value><![CDATA[Cuota:<span class="help">Cuota que se agregará al total del pedido si no se cumple la condición de suma total mínima. Esta cantidad anula la configuración de la tarifa principal</span>]]></value>
 	</definition>
 </definitions>

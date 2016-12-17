@@ -194,6 +194,6 @@
 	</definition>
 	<definition>
 		<key>text_pending_subscriber_approval</key>
-		<value><![CDATA[Subscriber %s has registered with new account. Action of approval is required! Click to view #admin#rt=sale/customer/update&customer_id=%s !!!!!]]></value>
+		<value><![CDATA[Suscriptor %s se ha registrado con una nueva cuenta. ¡Se requiere una acción de aprobación! Click para ver #admin#rt=sale/customer/update&customer_id=%s]]></value>
 	</definition>
 </definitions>

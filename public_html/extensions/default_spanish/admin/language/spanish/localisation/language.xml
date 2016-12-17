@@ -143,42 +143,42 @@
 	</definition>
 	<definition>
 		<key>text_incomplete_tasks</key>
-		<value><![CDATA[Incomplete Tasks !!!!!]]></value>
+		<value><![CDATA[Tareas incompletas]]></value>
 	</definition>
 	<definition>
 		<key>text_task_id</key>
-		<value><![CDATA[Task ID: !!!!!]]></value>
+		<value><![CDATA[Task ID:]]></value>
 	</definition>
 	<definition>
 		<key>text_title</key>
-		<value><![CDATA[Title: !!!!!]]></value>
+		<value><![CDATA[Título:]]></value>
 	</definition>
 	<definition>
 		<key>text_last_time_run</key>
-		<value><![CDATA[Last Time Run: !!!!!]]></value>
+		<value><![CDATA[Última ejecución:]]></value>
 	</definition>
 	<definition>
 		<key>text_date_added</key>
-		<value><![CDATA[Created: !!!!!]]></value>
+		<value><![CDATA[Creado:]]></value>
 	</definition>
 	<definition>
 		<key>text_starter_name</key>
-		<value><![CDATA[Created by: !!!!!]]></value>
+		<value><![CDATA[Creado por:]]></value>
 	</definition>
 	<definition>
 		<key>text_restart</key>
-		<value><![CDATA[Restart !!!!!]]></value>
+		<value><![CDATA[Reiniciar]]></value>
 	</definition>
 	<definition>
 		<key>text_remove</key>
-		<value><![CDATA[Remove !!!!!]]></value>
+		<value><![CDATA[Retirar]]></value>
 	</definition>
 	<definition>
 		<key>text_task_title</key>
-		<value><![CDATA[Translation of Descriptions From %s to %s !!!!!]]></value>
+		<value><![CDATA[Traducción de Descripciones De %s a %s]]></value>
 	</definition>
 	<definition>
 		<key>error_nothing_to_do</key>
-		<value><![CDATA[Error: Please Set Source Language and Translation Method! !!!!!]]></value>
+		<value><![CDATA[Error: Establecer idioma de origen y método de traducción]]></value>
 	</definition>
 </definitions>
