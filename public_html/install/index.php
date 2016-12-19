@@ -59,19 +59,16 @@ if ( defined('DB_HOSTNAME') && DB_HOSTNAME ) {
 	$db = new ADB(DB_DRIVER, DB_HOSTNAME, DB_USERNAME, DB_PASSWORD, DB_DATABASE);
     $r = $db->query("SELECT * FROM ".DB_PREFIX."settings");
     $data_exist = $r->num_rows;
-	//if db constants presents - thinks installation process already started.
-	// just check session var to prevent reinstall
-	$session->data['finish'] = !isset($session->data['finish']) ? true : $session->data['finish'];
 } else {
     unset($session->data['finish']);
 }
 
-if ( $data_exist && empty($session->data['finish']) ) {
+if ( $data_exist && !isset($session->data['finish']) ) {
     session_destroy();
     header('Location: ../');
 }
 
-if ( !empty($session->data['finish']) && $session->data['finish'] == 'true' ) {
+if ( isset($session->data['finish']) && $session->data['finish'] == 'true' ) {
     $request->get['rt'] = 'finish';
 }
 
