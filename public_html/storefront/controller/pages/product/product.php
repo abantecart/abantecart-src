@@ -44,8 +44,8 @@ class ControllerPagesProductProduct extends AController{
 
 		//disable cache when some error occurred and need to show it
 		$registry = Registry::getInstance();
-		if( $registry->get('session')->data['error']){
-			return array();
+		if( !empty($registry->get('session')->data['error'])){
+			return null;
 		}
 		return array('product_id','path','key','manufacturer_id','category_id','description','keyword');
 	}
@@ -54,7 +54,6 @@ class ControllerPagesProductProduct extends AController{
 
 		$request = $this->request->get;
 		$this->_init();
-
 
 		//init controller data
 		$this->extensions->hk_InitData($this, __FUNCTION__);
