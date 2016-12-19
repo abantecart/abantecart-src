@@ -57,8 +57,11 @@ if (file_exists(DIR_SYSTEM . 'config.php')){
 $data_exist = false;
 if ( defined('DB_HOSTNAME') && DB_HOSTNAME ) {
 	$db = new ADB(DB_DRIVER, DB_HOSTNAME, DB_USERNAME, DB_PASSWORD, DB_DATABASE);
-    $r = $db->query("SELECT product_id FROM ".DB_PREFIX."products");
+    $r = $db->query("SELECT * FROM ".DB_PREFIX."settings");
     $data_exist = $r->num_rows;
+	//if db constants presents - thinks installation process already started.
+	// just check session var to prevent reinstall
+	$session->data['finish'] = !isset($session->data['finish']) ? true : $session->data['finish'];
 } else {
     unset($session->data['finish']);
 }
