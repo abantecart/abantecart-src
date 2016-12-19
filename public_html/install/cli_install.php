@@ -37,8 +37,12 @@
  *                               --http_server http://localhost/abantecart
  */
 
+ini_set('register_argc_argv', 1);
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
+
+//list of arguments
+$args = $argv;
 
 // Real path (operating system web root) to the directory where abantecart is installed
 $root_path = dirname(__FILE__);
@@ -82,8 +86,8 @@ if (defined('DB_HOSTNAME') && DB_HOSTNAME){
 
 //process command
 
-$script = array_shift($argv);
-$command = array_shift($argv);
+$script = array_shift($args);
+$command = array_shift($args);
 
 switch($command){
 
@@ -209,9 +213,10 @@ function help(){
  * @throws Exception
  */
 function getOptionValues($opt_name = ''){
-	$argv = $_SERVER['argv'];
+	global $args;
+	$args = !$args ? $_SERVER['argv'] : $args;
 	$options = array ();
-	foreach ($argv as $v){
+	foreach ($args as $v){
 		$is_flag = preg_match('/^--(.*)$/', $v, $match);
 		//skip commands
 		if (!$is_flag){
@@ -309,6 +314,7 @@ function checkRequirements($options){
 }
 
 function setupDB($data){
+
 	$registry = Registry::getInstance();
 	$registry->get('load')->model('install');
 	$registry->get('model_install')->RunSQL($data);
