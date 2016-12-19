@@ -27,6 +27,7 @@ class ControllerPagesProductProduct extends AController{
 	private $routes = array();
 
 	private function _init(){
+
 		//is this an embed mode
 		if($this->config->get('embed_mode') == true){
 			$this->routes['cart_rt'] = 'r/checkout/cart/embed';
@@ -40,14 +41,21 @@ class ControllerPagesProductProduct extends AController{
 	 * @return array - array of data keys to be used for cache key building  
 	 */	
 	public static function main_cache_keys(){
+
+		//disable cache when some error occurred and need to show it
+		$registry = Registry::getInstance();
+		if( $registry->get('session')->data['error']){
+			return array();
+		}
 		return array('product_id','path','key','manufacturer_id','category_id','description','keyword');
 	}
 	
 	public function main(){
 
 		$request = $this->request->get;
-
 		$this->_init();
+
+
 		//init controller data
 		$this->extensions->hk_InitData($this, __FUNCTION__);
 

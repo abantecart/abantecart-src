@@ -175,8 +175,6 @@ class ControllerPagesCheckoutCart extends AController{
 
 					if ($text_errors = $this->model_catalog_product->validateProductOptions($product_id, $options)){
 						$this->session->data['error'] = $text_errors;
-						// remove html-cache to
-						$this->cache->remove('html_cache');
 						//send options values back via _GET
 						$url = '&' . http_build_query(array ('option' => $this->request->post['option']));
 						redirect($this->html->getSecureURL($product_rt, '&product_id=' . $this->request->post['product_id'] . $url));
