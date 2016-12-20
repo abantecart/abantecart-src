@@ -26,6 +26,32 @@ function isFunctionAvailable($func_name) {
 }
 
 /*
+ * function abs with locale support
+ * */
+function localeAbs($value, $decimal_point = '.')
+{
+	$value_locale = $value;
+	if ($decimal_point != '.' && strstr($value_locale, $decimal_point)) {
+		$value_locale = str_replace('.', '', $value_locale);
+		$value_locale = str_replace($decimal_point, '.', $value_locale);
+		// doing abs() keeping locale format of decimal point
+		$value = str_replace('.', $decimal_point, abs($value_locale));
+	}
+	return $value;
+}
+
+/*
+ * prepare float to display according to locale decimal point configuration
+ * */
+function localeDisplayFloat($value, $decimal_point = '.') {
+	if ($decimal_point != '.' && strstr($value, '.')) {
+		$value = str_replace($decimal_point, '~', $value);
+		$value = str_replace('.', $decimal_point, $value);
+	}
+	return $value;
+}
+
+/*
  * prepare prices and other floats for database writing,, based on locale settings of number formatting
  * */
 function preformatFloat($value, $decimal_point = '.') {

@@ -834,20 +834,20 @@ class ControllerPagesCatalogProduct extends AController {
         $this->data['form']['fields']['data']['length'] = $form->getFieldHtml(array(
 			'type' => 'input',
 			'name' => 'length',
-			'value' => $this->data['length'],
+			'value' => localeDisplayFloat($this->data['length'], $this->language->get('decimal_point')),
             'style' => 'tiny-field',
 	    ));
         $this->data['form']['fields']['data']['width'] = $form->getFieldHtml(array(
 			'type' => 'input',
 			'name' => 'width',
-			'value' => $this->data['width'],
+			'value' => localeDisplayFloat($this->data['width'], $this->language->get('decimal_point')),
 	        'attr' => ' autocomplete="false"',
             'style' => 'tiny-field',
 		));
         $this->data['form']['fields']['data']['height'] = $form->getFieldHtml(array(
 			'type' => 'input',
 			'name' => 'height',
-			'value' => $this->data['height'],
+			'value' => localeDisplayFloat($this->data['height'], $this->language->get('decimal_point')),
 	        'attr' => ' autocomplete="false"',
             'style' => 'tiny-field',
 		));
@@ -877,11 +877,10 @@ class ControllerPagesCatalogProduct extends AController {
 		    $this->data['weight_classes'][0] = $this->language->get('text_none');
 	    }
 
-
 		$this->data['form']['fields']['data']['weight'] = $form->getFieldHtml(array(
 			'type' => 'input',
 			'name' => 'weight',
-			'value' => $this->data['weight'],
+			'value' => localeDisplayFloat($this->data['weight'], $this->language->get('decimal_point')),
 			'attr' => ' autocomplete="false"',
             'style' => 'tiny-field',
 		));
@@ -950,7 +949,7 @@ class ControllerPagesCatalogProduct extends AController {
 
 
 	    foreach(array('length', 'width', 'height','weight') as $name){
-		    $this->request->post[$name] = abs($this->request->post[$name]);
+		    $this->request->post[$name] = localeAbs($this->request->post[$name]);
 		    $v =  preformatFloat($this->request->post[$name], $this->language->get('decimal_point'));
             if($v>=1000){
 	            $this->error[$name] = $this->language->get('error_measure_value');
