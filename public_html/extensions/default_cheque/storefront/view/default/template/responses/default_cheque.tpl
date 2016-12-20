@@ -10,7 +10,7 @@
 
 <div class="form-group action-buttons">
     <div class="col-md-12">
-    	<button id="checkout_btn" onclick="confirmSubmit();" class="btn btn-orange pull-right" title="<?php echo $button_confirm->text ?>">
+    	<button id="checkout_btn" onclick="confirmSubmit();" class="btn btn-orange pull-right lock-on-click" title="<?php echo $button_confirm->text ?>">
     	    <i class="fa fa-check"></i>
     	    <?php echo $button_confirm->text; ?>
     	</button>
@@ -38,7 +38,8 @@ function confirmSubmit() {
 			alert(textStatus + ' ' + errorThrown);
 			$('.wait').remove();
 			$('.action-buttons').show();
-		}				
+			try { resetLockBtn(); } catch (e){}
+		}
 	});
 }
 </script>

@@ -150,6 +150,25 @@ final class ACurrency{
 		return $this->format($number, $currency, $crr_value, false);
 	}
 
+
+	/**
+	 * Format total number part and/or currency symbol based on original price and quantity
+	 * @param float $price
+	 * @param float $qtty
+	 * @param string $currency
+	 * @param string $crr_value
+	 * @param bool $format
+	 * @return string
+	 */
+	public function format_total($price, $qtty, $currency = '', $crr_value = '', $format = true){
+		if(!is_numeric($price) || !is_numeric($qtty)) {
+			return '';
+		}
+
+		$total = $this->format_number($price, $currency, $crr_value) * $qtty;
+		return $this->wrap_dysplay_format($total, $currency);;		
+	}
+	
 	/**
 	 * Format number part and/or currency symbol
 	 * @param float $number
@@ -173,29 +192,41 @@ final class ACurrency{
 			$value = $number;
 		}
 
-		$symbol_left = '';
-		$symbol_right = '';
-		$decimal_place = $this->currencies[$currency]['decimal_place'];
-
+		$decimal_place = (int)$this->currencies[$currency]['decimal_place'];
+		$formatted_number = '';
 		if ($format){
-			$symbol_left = $this->currencies[$currency]['symbol_left'];
-			$symbol_right = $this->currencies[$currency]['symbol_right'];
-			$decimal_point = $this->language->get('decimal_point');
-			$thousand_point = $this->language->get('thousand_point');
+			$formatted_number = $this->wrap_dysplay_format(round(abs($value), $decimal_place), $currency);
 		} else{
-			$decimal_point = '.';
-			$thousand_point = '';
+			$formatted_number = number_format(round(abs($value), $decimal_place), $decimal_place, '.', '');
 		}
-
 		//check if number is negative
 		$sign = '';
 		if ($value < 0){
 			$sign = '-';
-		}
-		$formatted_number = number_format(round(abs($value), (int)$decimal_place), (int)$decimal_place, $decimal_point, $thousand_point);
-		$string = $sign . $symbol_left . $formatted_number . $symbol_right;
+		}		
+		return $sign . $formatted_number;
+	}
 
-		return $string;
+	/**
+	 * Format number part and/or currency symbol
+	 * @param float $number
+	 * @param string $currency
+	 * @param string $crr_value
+	 * @param bool $format
+	 * @return string
+	 */
+	public function wrap_dysplay_format($number, $currency = ''){
+		if (empty ($currency)){
+			$currency = $this->code;
+		}
+		$symbol_left = $this->currencies[$currency]['symbol_left'];
+		$symbol_right = $this->currencies[$currency]['symbol_right'];
+		$decimal_place = (int)$this->currencies[$currency]['decimal_place'];
+		$decimal_point = $this->language->get('decimal_point');
+		$thousand_point = $this->language->get('thousand_point');
+
+		$formatted_number = number_format($number, $decimal_place, $decimal_point, $thousand_point);	
+		return $symbol_left . $formatted_number . $symbol_right;
 	}
 
 	/**

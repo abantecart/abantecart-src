@@ -30,10 +30,12 @@ if (!defined('DIR_CORE')){
  * @property ARequest $request
  * @property ALoader $load
  * @property ASession $session
+ * @property ExtensionsAPI $extensions
  * @property ModelAccountOrder $model_account_order
  * @property ModelAccountAddress $model_account_address
  * @property ModelCheckoutExtension $model_checkout_extension
  * @property ModelCheckoutOrder $model_checkout_order
+ * @property AIM $im
  *
  */
 class AOrder{
@@ -51,6 +53,10 @@ class AOrder{
 	protected $order_id;
 	protected $customer;
 	protected $order_data;
+	/**
+	 * @var array public property. needs to use inside hooks
+	 */
+	public    $data = array();
 
 	public function __construct($registry, $order_id = ''){
 		$this->registry = $registry;
@@ -58,15 +64,16 @@ class AOrder{
 		$this->load->model('checkout/order', 'storefront');
 		$this->load->model('account/order', 'storefront');
 
-		//if nothing is passed use session array. Customer session, can function on storefrnt only 
+		//if nothing is passed use session array. Customer session, can function on storefront only
 		if (!has_value($order_id)){
 			$this->order_id = (int)$this->session->data['order_id'];
 		} else{
 			$this->order_id = (int)$order_id;
 		}
 
-		if (class_exists($this->registry->customer)){
-			$this->customer_id = $this->registry->customer->getId();
+		if (is_object($this->registry->get('customer'))){
+			$this->customer = $this->registry->get('customer');
+			$this->customer_id = $this->customer->getId();
 		} else{
 			$this->customer = new ACustomer($registry);
 		}
@@ -86,7 +93,9 @@ class AOrder{
 		}
 		//get order details for specific status. NOTE: Customer ID need to be set in customer class
 		$this->order_data = $this->model_account_order->getOrder($this->order_id, $order_status_id);
-		return $this->order_data;
+		$this->extensions->hk_ProcessData($this,'load_order_data');
+		$output = $this->data + $this->order_data;
+		return $output;
 	}
 
 	/**
@@ -291,9 +300,10 @@ class AOrder{
 
 		$product_data = array ();
 
-		foreach ($this->cart->getProducts() as $product){
+		foreach ($this->cart->getProducts() as $key=>$product){
 
 			$product_data[] = array (
+					'key'        => $key,
 					'product_id' => $product['product_id'],
 					'name'       => $product['name'],
 					'model'      => $product['model'],
@@ -329,20 +339,30 @@ class AOrder{
 			$order_info['coupon_id'] = 0;
 		}
 
-		$order_info['ip'] = $this->request->server['REMOTE_ADDR'];
+		$order_info['ip'] = $this->request->getRemoteIP();
+
 		$this->order_data = $order_info;
-		return $this->order_data;
+
+		$this->extensions->hk_ProcessData($this,'build_order_data', $order_info);
+		// merge two arrays. $this-> data can be changed by hooks.
+		$output = $this->data + $this->order_data;
+
+		return $output;
 	}
 
 	public function getOrderData(){
-		return $this->order_data;
+		$this->extensions->hk_ProcessData($this,'get_order_data');
+		$output = $this->data + $this->order_data;
+		return $output;
 	}
 
 	public function saveOrder(){
 		if (empty($this->order_data)){
 			return null;
 		}
-		$this->order_id = $this->model_checkout_order->create($this->order_data, $this->order_id);
+		$this->extensions->hk_ProcessData($this,'save_order');
+		$output = $this->data + $this->order_data;
+		$this->order_id = $this->model_checkout_order->create($output, $this->order_id);
 		return $this->order_id;
 	}
 

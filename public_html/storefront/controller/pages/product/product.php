@@ -27,6 +27,7 @@ class ControllerPagesProductProduct extends AController{
 	private $routes = array();
 
 	private function _init(){
+
 		//is this an embed mode
 		if($this->config->get('embed_mode') == true){
 			$this->routes['cart_rt'] = 'r/checkout/cart/embed';
@@ -40,14 +41,20 @@ class ControllerPagesProductProduct extends AController{
 	 * @return array - array of data keys to be used for cache key building  
 	 */	
 	public static function main_cache_keys(){
+
+		//disable cache when some error occurred and need to show it
+		$registry = Registry::getInstance();
+		if( !empty($registry->get('session')->data['error'])){
+			return null;
+		}
 		return array('product_id','path','key','manufacturer_id','category_id','description','keyword');
 	}
 	
 	public function main(){
 
 		$request = $this->request->get;
-
 		$this->_init();
+
 		//init controller data
 		$this->extensions->hk_InitData($this, __FUNCTION__);
 
@@ -231,7 +238,7 @@ class ControllerPagesProductProduct extends AController{
 						'type'  => 'button',
 						'name'  => 'review_submit',
 						'text'  => $this->language->get('button_submit'),
-						'style' => 'btn-primary',
+						'style' => 'btn-primary lock-on-click',
 						'icon'  => 'fa fa-comment'
 				));
 
@@ -245,9 +252,6 @@ class ControllerPagesProductProduct extends AController{
 						'type'   => 'form',
 						'name'   => 'product',
 						'action' => $this->html->getSecureURL($this->routes['cart_rt'])));
-
-
-		$product_price = $product_info['price'];
 
 		$discount = $promotion->getProductDiscount($product_id);
 
@@ -361,7 +365,7 @@ class ControllerPagesProductProduct extends AController{
 			$this->data['manufacturer_icon'] = $thumbnail['thumb_url'];
 		}
 
-		// Preapare options and values for display 
+		// Prepare options and values for display
 		$elements_with_options = HtmlElementFactory::getElementsWithOptions();
 		$options = array();
 		$product_options = $this->model_catalog_product->getProductOptions($product_id);
@@ -385,7 +389,7 @@ class ControllerPagesProductProduct extends AController{
 			foreach($option['option_value'] as $option_value){
 				$default_value = $option_value['default'] && !$default_value ? $option_value['product_option_value_id'] : $default_value;
 
-				// for case when trying to add to cart withot required options. we get option-array back inside _GET
+				// for case when trying to add to cart without required options. we get option-array back inside _GET
 				if(has_value($request['option'][$option['product_option_id']])){
 					$default_value = $request['option'][$option['product_option_id']];
 				}
@@ -510,7 +514,7 @@ class ControllerPagesProductProduct extends AController{
 				$msg = new AMessage();
 				$msg->saveNotice($message_ttl, $message_txt);
 				$this->model_catalog_product->updateStatus($product_id, 0);
-				$this->redirect($this->html->getSEOURL('product/product', '&product_id=' . $product_info['product_id'], '&encode'));
+				redirect($this->html->getSEOURL('product/product', '&product_id=' . $product_info['product_id'], '&encode'));
 			}
 		}
 

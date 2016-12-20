@@ -4,6 +4,8 @@
 	<button aria-hidden="true" data-dismiss="modal" class="close" type="button">&times;</button>
 	<h4 class="modal-title"><?php  echo $title; ?></h4>
 </div>
+
+<div class="modal-body">
 <div id="ld_form" class="tab-content">
 	<?php echo $form['form_open']; ?>
 	<div class="panel-body panel-body-nopadding">
@@ -80,16 +82,19 @@
 	</div>
 	</form>
 </div>
+</div>
 
 <script type="text/javascript">
 $('#definitionQFrm').submit(function () {
 	save_changes();
 	return false;
 });
-//save an close mode
+//save and close mode
 $('.on_save_close').on('click', function(){
 	var $btn = $(this);
 	save_changes();
+	//reset form fields
+	$('#definitionQFrm').find("input[type=text], textarea").val("");
 	$btn.closest('.modal').modal('hide');
 	return false;
 });
@@ -114,6 +119,7 @@ function save_changes(){
 			<?php } ?>
 	    }
 	});
+	return false;
 }
 
 </script>

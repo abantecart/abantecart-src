@@ -14,8 +14,7 @@
 	</definition>
 	<definition>
 		<key>text_account_already</key>
-		<value>
-			<![CDATA[Se hai già un account con noi, si prega di accedere al <a style="text-decoration: underline" href="%s">Pagina del login</a>.]]></value>
+		<value><![CDATA[Se hai già un account con noi, si prega di accedere al <a style="text-decoration: underline" href="%s">Pagina del login</a>.]]></value>
 	</definition>
 	<definition>
 		<key>text_your_details</key>
@@ -183,8 +182,7 @@
 	</definition>
 	<definition>
 		<key>error_subscriber_exists</key>
-		<value>
-			<![CDATA[I nostri dati indicano che si dispone di un account con noi. Effettua il login al tuo account per gestire il tuo abbonamento alla newsletter.]]></value>
+		<value><![CDATA[I nostri dati indicano che si dispone di un account con noi. Effettua il login al tuo account per gestire il tuo abbonamento alla newsletter.]]></value>
 	</definition>
 	<definition>
 		<key>text_new_customer</key>
@@ -192,7 +190,10 @@
 	</definition>
 	<definition>
 		<key>text_pending_customer_approval</key>
-		<value>
-			<![CDATA[Cliente %s si è registrato con un nuovo account. È necessaria l'approvazione! Clicca per vedere #admin#rt=sale/customer/update&customer_id=%s]]></value>
+		<value><![CDATA[Cliente %s si è registrato con un nuovo account. È necessaria l'approvazione! Clicca per vedere #admin#rt=sale/customer/update&customer_id=%s]]></value>
+	</definition>
+	<definition>
+		<key>text_pending_subscriber_approval</key>
+		<value><![CDATA[Subscriber %s ha registrato con il nuovo account. è necessaria un'azione di approvazione! Clicca per vedere #admin#rt=sale/customer/update&customer_id=%s ]]></value>
 	</definition>
 </definitions>

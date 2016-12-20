@@ -504,13 +504,19 @@ class ControllerPagesSaleCoupon extends AController {
             'value' => $this->data['uses_customer'],
         ));
 
-	    if($this->request->get['coupon_id']){
+        $this->loadModel('setting/store');
+        //Get store name
+        $store_info = $this->model_setting_store->getStore($this->config->get('config_store_id'));
+        $store_name = 'For store ' . $store_info['store_name']. ': ';
+
+        if($this->request->get['coupon_id']){
 		    $this->loadModel('sale/order');
-		    $total = $this->model_sale_order->getTotalOrders(array('filter_coupon_id' => $this->request->get['coupon_id'] ));
+
+            $total = $this->model_sale_order->getTotalOrders(array('filter_coupon_id' => $this->request->get['coupon_id'] ));
 	        $this->data['form']['fields']['total_coupon_usage'] = $form->getFieldHtml(array(
     	        'type' => 'input',
 	            'name' => 'total_coupon_usage',
-    	        'value' => (int)$total,
+    	        'value' => $store_name . (int)$total,
     	        'attr' => 'disabled'
     	    ));
 	    }
@@ -554,10 +560,11 @@ class ControllerPagesSaleCoupon extends AController {
 																'options' => $this->data['products'],
 																'style' => 'chosen',
 																'ajax_url' => $this->html->getSecureURL('r/product/product/products'),
-																'placeholder' => $this->language->get('text_select_from_lookup'),
+																'placeholder' => $store_name . $this->language->get('text_select_from_lookup'),
 														));
 
         $this->view->assign('help_url', $this->gen_help_url('coupon_edit'));
+        $this->view->assign('form_store_switch', $this->html->getStoreSwitcher());
         $this->view->batchAssign($this->data);
 
         $this->processTemplate('pages/sale/coupon_form.tpl');

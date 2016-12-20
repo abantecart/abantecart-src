@@ -23,6 +23,7 @@ if (!defined('DIR_CORE') || !IS_ADMIN) {
 
 /**
  * Class ModelLocalisationCurrency
+ * @property ModelSettingSetting $model_setting_setting
  */
 class ModelLocalisationCurrency extends Model {
 	/**
@@ -187,19 +188,24 @@ class ModelLocalisationCurrency extends Model {
 	}
 
 	/**
+	 * NOTE: Update of currency values works only for default store!
+	 *
 	 * @throws AException
 	 */
 	public function updateCurrencies() {
 		if (extension_loaded('curl')) {
+			$this->load->model('setting/setting');
+			$settings = $this->model_setting_setting->getSetting('details', 0);
+			$base_currency_code = $settings['config_currency'];
 			$data = array();
 
 			$query = $this->db->query("SELECT *
 									   FROM " . $this->db->table("currencies") . " 
-									   WHERE code != '" . $this->db->escape($this->config->get('config_currency')) . "'
+									   WHERE code != '" . $this->db->escape($base_currency_code) . "'
 									        AND date_modified > '" . date(strtotime('-1 day')) . "'");
 
 			foreach ($query->rows as $result) {
-				$data[ ] = $this->config->get('config_currency') . $result[ 'code' ] . '=X';
+				$data[ ] = $base_currency_code . $result[ 'code' ] . '=X';
 			}
 
 			$url = 'http://download.finance.yahoo.com/d/quotes.csv?s=' . implode(',', $data) . '&f=sl1&e=.csv';
@@ -210,22 +216,45 @@ class ModelLocalisationCurrency extends Model {
 			foreach ($lines as $line) {
 				$currency = substr($line, 4, 3);
 				$value = substr($line, 11, 6);
-
 				if ((float)$value) {
 					$sql = "UPDATE " . $this->db->table("currencies") . " 
-									  SET value = '" . (float)$value . "', date_modified = NOW()
-									  WHERE code = '" . $this->db->escape($currency) . "'";
+							SET value = '" . (float)$value . "', date_modified = NOW()
+							WHERE code = '" . $this->db->escape($currency) . "'";
 					$this->db->query($sql);
 				}
 			}
 			$sql = "UPDATE " . $this->db->table("currencies") . " 
 							  SET value = '1.00000',
 							      date_modified = NOW()
-							  WHERE code = '" . $this->db->escape($this->config->get('config_currency')) . "'";
+							  WHERE code = '" . $this->db->escape($base_currency_code) . "'";
 			$this->db->query($sql);
 			$this->cache->remove('localization');
 		}
 	}
+
+	/**
+	 * @param string $new_currency_code
+	 * @return bool
+	 */
+	public function switchConfigCurrency($new_currency_code){
+		$new_currency_code = mb_strtoupper(trim($new_currency_code));
+		$all_currencies = $this->getCurrencies();
+		$new_currency = $all_currencies[$new_currency_code];
+		if(!$new_currency_code || !$new_currency){
+			return false;
+		}
+		$scale = 1/$new_currency['value'];
+		foreach($all_currencies as $code => $currency){
+			if($code == $new_currency_code){
+				$new_value = 1.00000;
+			}else{
+				$new_value = $currency['value']*$scale;
+			}
+			$this->editCurrency($currency['currency_id'], array('value' => $new_value));
+		}
+		return true;
+	}
+
 
 	/**
 	 * @return int

@@ -12,11 +12,11 @@
 		<key>text_success</key>
 		<value><![CDATA[Éxito: Se han modificado los atributos!]]></value>
 	</definition>
-    <definition>
+	<definition>
 		<key>text_select_type</key>
 		<value><![CDATA[- Seleccione el tipo de -]]></value>
 	</definition>
-    <definition>
+	<definition>
 		<key>text_select_parent</key>
 		<value><![CDATA[- Seleccione los Padres -]]></value>
 	</definition>
@@ -79,7 +79,7 @@
 	<definition>
 		<key>entry_children_attributes</key>
 		<value><![CDATA[Niños Atributos:]]></value>
-	</definition>	
+	</definition>
 	<definition>
 		<key>error_permission</key>
 		<value><![CDATA[Advertencia: Usted no tiene permiso para modificar los atributos globales!]]></value>
@@ -135,5 +135,9 @@
 	<definition>
 		<key>entry_show_to_customer</key>
 		<value><![CDATA[Mostrar al Cliente]]></value>
+	</definition>
+	<definition>
+		<key>entry_placeholder</key>
+		<value><![CDATA[Marcador de posición:]]></value>
 	</definition>
 </definitions>

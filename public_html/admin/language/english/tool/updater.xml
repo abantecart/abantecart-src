@@ -97,4 +97,8 @@
 		<key>text_marketplace_connect_your_store</key>
 		<value><![CDATA[Please Connect Your Store to the Marketplace]]></value>
 	</definition>
+	<definition>
+		<key>text_note</key>
+		<value><![CDATA[Note: Update available only for connected stores with purchased history.]]></value>
+	</definition>
 </definitions>

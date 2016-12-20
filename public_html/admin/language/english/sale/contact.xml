@@ -69,8 +69,12 @@
 		<value><![CDATA[Email subject is required!]]></value>
 	</definition>
 	<definition>
-		<key>error_message</key>
+		<key>error_message_email</key>
 		<value><![CDATA[Email message body is required!]]></value>
+	</definition>
+	<definition>
+		<key>error_message_sms</key>
+		<value><![CDATA[SMS message body is required!]]></value>
 	</definition>
 	<definition>
 		<key>error_recipients</key>
@@ -105,8 +109,8 @@
 		<value><![CDATA[SMS]]></value>
 	</definition>
 	<definition>
-		<key>text_incompleted_tasks</key>
-		<value><![CDATA[Incompleted Tasks]]></value>
+		<key>text_incomplete_tasks</key>
+		<value><![CDATA[Incomplete Tasks]]></value>
 	</definition>
 	<definition>
 		<key>text_task_id</key>
@@ -169,7 +173,7 @@
 		<value><![CDATA[Some errors occured during task process. Please see log for details or restart this task.]]></value>
 	</definition>
 	<definition>
-		<key>text_was_sent</key>
+		<key>text_sent</key>
 		<value><![CDATA[ %s of %s messages are sent]]></value>
 	</definition>
 </definitions>

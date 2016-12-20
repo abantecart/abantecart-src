@@ -203,7 +203,7 @@ class ControllerPagesIndexHome extends AController {
 			$this->view->assign('tip_content', $tip_content);
 		}
 
-		//check quick start quide based on no last_login and if it is not yet completed
+		//check quick start guide based on no last_login and if it is not yet completed
 		if( !$this->user->getLastLogin() && $this->session->data['quick_start_step'] != 'finished') {
 			$store_id = !isset($this->session->data['current_store_id']) ? 0 : $this->session->data['current_store_id'];
 			$resources_scripts = $this->dispatch(

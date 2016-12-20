@@ -61,11 +61,11 @@ final class AResponse{
 	}
 
 	/**
+	 * @deprecated since v1.2.9
 	 * @param string $url
 	 */
 	public function redirect($url){
-		header('Location: ' . $url);
-		exit;
+		redirect($url);
 	}
 
 	/**

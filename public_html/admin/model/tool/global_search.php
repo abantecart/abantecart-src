@@ -29,7 +29,7 @@ class ModelToolGlobalSearch extends Model {
 	public $registry;
 	
 	/**
-	 * commans awaialable in the system
+	 * commands available in the system
 	 *
 	 * @var array
 	 */
@@ -102,6 +102,11 @@ class ModelToolGlobalSearch extends Model {
 			'alias' => 'download',
 			'id' => 'download_id',
 			'page' => 'catalog/download/update',
+			'response' => ''),
+		"contents" => array(
+			'alias' => 'content',
+			'id' => 'content_id',
+			'page' => 'design/content/update',
 			'response' => '')
 	);
 
@@ -154,6 +159,8 @@ class ModelToolGlobalSearch extends Model {
 		foreach($all_languages as $l){
 			$search_languages[] = (int)$l['language_id'];
 		}
+
+		$output = array();
 
 		switch ($search_category) {
 			case 'commands' :
@@ -251,6 +258,7 @@ class ModelToolGlobalSearch extends Model {
 							OR (LOWER(shipping_address_2) like '%" . $needle . "%')
 							OR (LOWER(payment_address_1) like '%" . $needle . "%')
 							OR (LOWER(payment_address_2) like '%" . $needle . "%')
+							OR order_id= '".(int)$needle. "'
 							)
 						AND language_id = " . $language_id;
 				$result = $this->db->query($sql);
@@ -329,6 +337,20 @@ class ModelToolGlobalSearch extends Model {
 						RIGHT JOIN " . $this->db->table("download_descriptions") . " dd
 							ON (d.download_id = dd.download_id AND dd.language_id IN (" . (implode(",", $search_languages)) . "))
 						WHERE (LOWER(`name`) like '%" . $needle . "%')";
+				$result = $this->db->query($sql);
+				$output = $result->row ['total'];
+				break;
+			case "contents" :
+				$sql = "SELECT COUNT( DISTINCT c.content_id) as total
+						FROM " . $this->db->table("contents") . " c
+						RIGHT JOIN " . $this->db->table("content_descriptions") . " cd
+							ON (c.content_id = cd.content_id AND cd.language_id IN (" . (implode(",", $search_languages)) . "))
+						WHERE 
+							(LOWER(`name`) like '%" . $needle . "%')
+							OR (LOWER(`title`) like '%" . $needle . "%')
+							OR (LOWER(`description`) like '%" . $needle . "%')
+							OR (LOWER(`content`) like '%" . $needle . "%')						
+						";
 				$result = $this->db->query($sql);
 				$output = $result->row ['total'];
 				break;
@@ -517,6 +539,7 @@ class ModelToolGlobalSearch extends Model {
 							OR (LOWER(shipping_address_2) like '%" . $needle . "%')
 							OR (LOWER(payment_address_1) like '%" . $needle . "%')
 							OR (LOWER(payment_address_2) like '%" . $needle . "%')
+							OR order_id= '".(int)$needle. "'
 							)
 						AND language_id = " . $language_id . "
 						LIMIT " . $offset . "," . $rows_count;
@@ -525,12 +548,14 @@ class ModelToolGlobalSearch extends Model {
 				break;
 
 			case "customers" :
+			    $customer_needle = '+"'.implode('" +"', explode(' ', $needle)).'"';
 				$sql = "SELECT customer_id, CONCAT('" . ($mode == 'listing' ? "customer: " : "") . "', firstname,' ',lastname) as title,
 							CONCAT(firstname,' ',lastname,' ',email)  as text
 						FROM " . $this->db->table("customers") . " 
-						WHERE ((LOWER(firstname) like '%" . $needle . "%')
-							OR (LOWER(lastname) like '%" . $needle . "%')
-							OR (LOWER(email) like '%" . $needle . "%')	)
+						WHERE (
+							    MATCH(firstname, lastname) AGAINST ('".$customer_needle."' IN BOOLEAN MODE)
+							OR  (LOWER(email) like '%" . $needle . "%')
+							)
 						LIMIT " . $offset . "," . $rows_count;
 				$result = $this->db->query($sql);
 				$result = $result->rows;
@@ -653,6 +678,21 @@ class ModelToolGlobalSearch extends Model {
 				$result = $result->rows;
 				break;
 
+			case "contents" :
+				$sql = "SELECT c.content_id, name as title, name  as text
+						FROM " . $this->db->table("contents") . " c
+						RIGHT JOIN " . $this->db->table("content_descriptions") . " cd
+							ON (c.content_id = cd.content_id AND cd.language_id IN (" . (implode(",", $search_languages)) . "))
+						WHERE 
+							(LOWER(`name`) like '%" . $needle . "%')
+							OR (LOWER(`title`) like '%" . $needle . "%')
+							OR (LOWER(`description`) like '%" . $needle . "%')
+							OR (LOWER(`content`) like '%" . $needle . "%')
+						LIMIT " . $offset . "," . $rows_count;
+				$result = $this->db->query($sql);
+				$result = $result->rows;
+				break;
+
 			default :
 				$result = array(0 => array("text" => "no results! "));
 				break;
@@ -672,11 +712,11 @@ class ModelToolGlobalSearch extends Model {
 			$row['controller'] = $this->results_controllers[$search_category]['page'];
 			//shorten text for suggestion
 			if ($mode != 'listing') {
-				$dectext = htmlentities($row['text'], ENT_QUOTES);
-				$len = mb_strlen($dectext);
+				$dec_text = htmlentities($row['text'], ENT_QUOTES);
+				$len = mb_strlen($dec_text);
 				if( $len > 100 ) {
 						$ellipsis = '...';
-						$row['text'] = mb_substr($dectext, 0, 100).$ellipsis;
+						$row['text'] = mb_substr($dec_text, 0, 100).$ellipsis;
 				}
 			}
 		}
@@ -780,9 +820,9 @@ class ModelToolGlobalSearch extends Model {
 	 */
 	private function _possibleCommands($keyword, $mode = '') {
 	
-		$comds_obj = new AdminCommands();
-		$this->commands = $comds_obj->commands;
-		$result = $comds_obj->getCommands($keyword);
+		$commands_obj = new AdminCommands();
+		$this->commands = $commands_obj->commands;
+		$result = $commands_obj->getCommands($keyword);
 
 		if($mode == 'total'){
 			return count($result['found_actions']);
@@ -790,11 +830,11 @@ class ModelToolGlobalSearch extends Model {
 
 		$ret = array();
 		if($result['found_actions']) {
-			foreach($result['found_actions'] as $comnd) {
+			foreach($result['found_actions'] as $command) {
 				$ret[] = array(
-					'text' => $result['command']." ".$comnd['title']." ".$result['request'],
-					'title' => $result['command']." ".$comnd['title']." ".$result['request'],
-					'url' => $comnd['url']
+					'text' => $result['command']." ".$command['title']." ".$result['request'],
+					'title' => $result['command']." ".$command['title']." ".$result['request'],
+					'url' => $command['url']
 				);						
 			}
 		}

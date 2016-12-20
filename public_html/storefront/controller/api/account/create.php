@@ -8,7 +8,7 @@
   Copyright © 2011-2016 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
-  Lincence details is bundled with this package in the file LICENSE.txt.
+  License details is bundled with this package in the file LICENSE.txt.
   It is also available at this URL:
   <http://www.opensource.org/licenses/OSL-3.0>
 
@@ -109,6 +109,16 @@ class ControllerApiAccountCreate extends AControllerAPI {
 		//Get all required data fileds for registration. 
 		$this->loadLanguage('account/create');
         $this->extensions->hk_InitData($this,__FUNCTION__);
+
+		if ($this->config->get('prevent_email_as_login')){ 
+			// require login name
+			$this->data['fields']['loginname'] = array (
+														'type'     => 'input',
+														'name'     => 'loginname',
+														'value'    => $this->request->post['loginname'],
+														'required' => true,
+														'error' =>  $this->v_error['firstname']);
+		}
         
 		$this->data['fields']['firstname'] = array(	'type' => 'input',
 													'name' => 'firstname',

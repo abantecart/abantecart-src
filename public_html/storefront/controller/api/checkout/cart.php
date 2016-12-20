@@ -8,7 +8,7 @@
   Copyright © 2011-2016 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
-  Lincence details is bundled with this package in the file LICENSE.txt.
+  License details is bundled with this package in the file LICENSE.txt.
   It is also available at this URL:
   <http://www.opensource.org/licenses/OSL-3.0>
 
@@ -99,6 +99,7 @@ class ControllerApiCheckoutCart extends AControllerAPI {
           			);
         		}
 
+				$price_with_tax = $this->tax->calculate($result['price'], $result['tax_class_id'], $this->config->get('config_tax'));
         		$products[] = array(
           			'key'      => $result['key'],
           			'name'     => $result['name'],
@@ -107,8 +108,8 @@ class ControllerApiCheckoutCart extends AControllerAPI {
           			'option'   => $option_data,
           			'quantity' => $result['quantity'],
           			'stock'    => $result['stock'],
-					'price'    => $this->currency->format($this->tax->calculate($result['price'], $result['tax_class_id'], $this->config->get('config_tax'))),
-					'total'    => $this->currency->format($this->tax->calculate($result['total'], $result['tax_class_id'], $this->config->get('config_tax')))
+					'price'    => $this->currency->format($price_with_tax),
+					'total'    => $this->currency->format_total($price_with_tax, $result['quantity'])
         		);
       		}
             $this->data['products'] =  $products ;

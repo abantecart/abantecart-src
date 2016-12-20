@@ -8,7 +8,7 @@
   Copyright © 2011-2016 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
-  Lincence details is bundled with this package in the file LICENSE.txt.
+  License details is bundled with this package in the file LICENSE.txt.
   It is also available at this URL:
   <http://www.opensource.org/licenses/OSL-3.0>
 
@@ -65,7 +65,7 @@ class ControllerApiCheckoutProcess extends AControllerAPI {
 			return null;
 		}
 		//we process only responce type payment extensions
-		$payment_controller = $this->dispatch( 'responses/extension/' . $this->session->data['process_rt'] );
+		$payment_controller = $this->dispatch( 'responses/extension/' . $this->session->data['process_rt'], array($request));
 		$this->load->library('json');
 		$this->data = AJson::decode( $payment_controller->dispatchGetOutput(), TRUE );
 

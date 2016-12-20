@@ -50,7 +50,7 @@ final class ASession{
 			){
 				// last request was more than 30 minutes ago
 				$this->clear();
-				header('Location: ' . $this->registry->get('html')->currentURL(array ('token')));
+				redirect($this->registry->get('html')->currentURL(array ('token')));
 			}
 		}
 		// update last activity time stamp
@@ -104,22 +104,13 @@ final class ASession{
 		//check if session can not be started. Try one more time with new generated session ID
 		$is_session_ok = session_start();
 		if (!$is_session_ok){
-			//autogenerate session id and try to start session again
+			//auto generating session id and try to start session again
 			$final_session_id = $this->_prepare_session_id();
 			session_id($final_session_id);
 			setcookie($session_name, $final_session_id, 0, $path, null, (defined('HTTPS') && HTTPS));
 			session_start();
 		}
 
-		/*
-		NOTE: You can enable this section if you need extra security to prevent session attacks. 
-		We recommend to use of SSL on all admin pages and customer related storefront pages.
-		if(!$this->_prevent_hijacking()){
-			$this->clear();
-			session_name($this->ses_name);
-			session_start();
-		}
-		*/
 		$_SESSION['session_mode'] = $session_mode;
 	}
 
@@ -129,27 +120,6 @@ final class ASession{
 		session_unset();
 		session_destroy();
 		$_SESSION = array ();
-	}
-
-	/**
-	 * This function is to prevent session attacks
-	 * Validate that IP and User agent did not change for same session.
-	 * @return bool
-	 */
-	private function _prevent_hijacking(){
-
-		$_SESSION['IPaddress'] = !isset($_SESSION['IPaddress']) ? $_SERVER['REMOTE_ADDR'] : $_SESSION['IPaddress'];
-		$_SESSION['userAgent'] = !isset($_SESSION['userAgent']) ? $_SERVER['HTTP_USER_AGENT'] : $_SESSION['userAgent'];
-
-		if ($_SESSION['IPaddress'] != $_SERVER['REMOTE_ADDR']){
-			return false;
-		}
-
-		if ($_SESSION['userAgent'] != $_SERVER['HTTP_USER_AGENT']){
-			return false;
-		}
-
-		return true;
 	}
 
 	/**

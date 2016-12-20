@@ -141,4 +141,44 @@
 		<key>entry_translate_method_selector</key>
 		<value><![CDATA[Método de conversión de texto: ]]></value>
 	</definition>
+	<definition>
+		<key>text_incomplete_tasks</key>
+		<value><![CDATA[Tareas incompletas]]></value>
+	</definition>
+	<definition>
+		<key>text_task_id</key>
+		<value><![CDATA[Task ID:]]></value>
+	</definition>
+	<definition>
+		<key>text_title</key>
+		<value><![CDATA[Título:]]></value>
+	</definition>
+	<definition>
+		<key>text_last_time_run</key>
+		<value><![CDATA[Última ejecución:]]></value>
+	</definition>
+	<definition>
+		<key>text_date_added</key>
+		<value><![CDATA[Creado:]]></value>
+	</definition>
+	<definition>
+		<key>text_starter_name</key>
+		<value><![CDATA[Creado por:]]></value>
+	</definition>
+	<definition>
+		<key>text_restart</key>
+		<value><![CDATA[Reiniciar]]></value>
+	</definition>
+	<definition>
+		<key>text_remove</key>
+		<value><![CDATA[Retirar]]></value>
+	</definition>
+	<definition>
+		<key>text_task_title</key>
+		<value><![CDATA[Traducción de Descripciones De %s a %s]]></value>
+	</definition>
+	<definition>
+		<key>error_nothing_to_do</key>
+		<value><![CDATA[Error: Establecer idioma de origen y método de traducción]]></value>
+	</definition>
 </definitions>

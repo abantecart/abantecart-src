@@ -37,13 +37,14 @@ if (!defined('DIR_CORE')){
  * @property ALoader $load
  * @property AIMManager $im
  * @property AConfig $config
+ * @property ARequest $request
  *
  * @method array () _build_form_general $method_name
  *
  */
 class AConfigManager{
-	protected $registry;
 	public $errors = 0;
+	protected $registry;
 	private $groups = array ();
 	private $templates = array ();
 
@@ -85,6 +86,7 @@ class AConfigManager{
 			$data['tmpl_id'] = 'default';
 		}
 		$data['one_field'] = $setting_key;
+
 		$fields = $this->getFormFields($group, $form, $data);
 		return $fields;
 	}
@@ -105,12 +107,151 @@ class AConfigManager{
 		return $this->$method_name($form, $data);
 	}
 
+	/**To be removed in v 1.3 or next major release
+	 * @deprecated since 1.2.4
+	 * @param $section
+	 * @return array
+	 */
+	public function getTemplatesLIst($section){
+		return $this->getTemplates($section);
+	}
+
+	public function validate($group, $fields = array ()){
+		if (empty($group) || !is_array($fields)){
+			return false;
+		}
+		$this->load->language('setting/setting');
+		$error = null;
+		foreach ($fields as $field_name => $field_value){
+			switch($group){
+				case 'details':
+					if ($field_name == 'store_name' && !$field_value){
+						$error['name'] = $this->language->get('error_name');
+					}
+					if ($field_name == 'config_title' && !$field_value){
+						$error['title'] = $this->language->get('error_title');
+					}
+					if ($field_name == 'config_url' && !$field_value){
+						$error['url'] = $this->language->get('error_url');
+					}
+					if ($field_name == 'config_ssl_url' && !$field_value && $this->request->get['config_ssl']){
+						$error['ssl_url'] = $this->language->get('error_ssl_url');
+					}
+					if (sizeof($fields) > 1){
+						if (mb_strlen($fields['config_owner']) < 2 || mb_strlen($fields['config_owner']) > 64){
+							$error['owner'] = $this->language->get('error_owner');
+						}
+
+						if (mb_strlen($fields['config_address']) < 2 || mb_strlen($fields['config_address']) > 256){
+							$error['address'] = $this->language->get('error_address');
+						}
+
+						if (mb_strlen($fields['store_main_email']) > 96 || (!preg_match(EMAIL_REGEX_PATTERN, $fields['store_main_email']))){
+							$error['email'] = $this->language->get('error_email');
+						}
+
+						if (mb_strlen($fields['config_telephone']) > 32){
+							$error['telephone'] = $this->language->get('error_telephone');
+						}
+					}
+					break;
+
+				case 'general':
+
+					if ($field_name == 'config_catalog_limit' && !$field_value){
+						$error['catalog_limit'] = $this->language->get('error_limit');
+					}
+
+					if ($field_name == 'config_bestseller_limit' && !$field_value){
+						$error['bestseller_limit'] = $this->language->get('error_limit');
+					}
+
+					if ($field_name == 'config_featured_limit' && !$field_value){
+						$error['featured_limit'] = $this->language->get('error_limit');
+					}
+
+					if ($field_name == 'config_latest_limit' && !$field_value){
+						$error['latest_limit'] = $this->language->get('error_limit');
+					}
+
+					if ($field_name == 'config_special_limit' && !$field_value){
+						$error['special_limit'] = $this->language->get('error_limit');
+					}
+					break;
+
+				case 'appearance':
+					$item_name = array(
+							'thumb',
+							'popup',
+							'category',
+							'manufacturer',
+							'product',
+							'additional',
+							'related',
+							'cart',
+							'grid'
+					);
+
+					foreach($item_name as $key){
+						foreach(array('width', 'height') as $dim){
+							if ($field_name == 'config_image_'.$key.'_'.$dim && !$field_value){
+								$error['image_'.$key.'_'.$dim] = $this->language->get('error_image_'.$key);
+							}
+						}
+					}
+
+					break;
+
+				case 'checkout':
+					if ($field_name == 'config_start_order_id' && $field_value && !(int)$field_value){
+						$error['start_order_id'] = $this->language->get('error_start_order_id');
+					}
+					if ($field_name == 'starting_invoice_id' && $field_value && !(int)$field_value){
+						$error['starting_invoice_id'] = $this->language->get('error_starting_invoice_id');
+					}
+					if ($field_name == 'config_expire_order_days' && $field_value && !(int)$field_value){
+						$error['expire_order_days'] = $this->language->get('error_expire_order_days');
+					}
+
+					break;
+
+				case 'api':
+					break;
+
+				case 'mail':
+
+					if (($fields['config_mail_protocol'] == 'smtp')
+							&& (($field_name == 'config_smtp_host' && !$field_value) || ($field_name == 'config_smtp_port' && !$field_value) || ($field_name == 'config_smtp_timeout' && !$field_value))
+					){
+						$error['mail'] = $this->language->get('error_mail');
+					}
+
+					break;
+
+				case 'system':
+					if ($field_name == 'config_error_filename' && !$field_value){
+						$error['error_filename'] = $this->language->get('error_error_filename');
+					}
+					if ($field_name == 'config_upload_max_size'){
+						$fields[$field_value] = preformatInteger($field_value);
+					}
+
+					break;
+				default:
+			}
+
+		}
+		return array ('error' => $error, 'validated' => $fields);
+	}
+
 	/**
 	 * @var AForm $form
 	 * @param array $data
 	 * @return array
 	 */
 	private function _build_form_details($form, $data){
+
+		$language_id = $this->language->getContentLanguageID();
 		$fields = $props = array ();
 		// details section
 		$fields['name'] = $form->getFieldHtml($props[] = array (
@@ -142,28 +283,32 @@ class AConfigManager{
 		));
 		$fields['title'] = $form->getFieldHtml($props[] = array (
 				'type'     => 'input',
-				'name'     => 'config_title',
-				'value'    => $data['config_title'],
+				'name'     => 'config_title_'.$language_id,
+				'value'    => $data['config_title_'.$language_id],
 				'required' => true,
 				'style'    => 'large-field',
+				'multilingual' => true
 		));
 		$fields['meta_description'] = $form->getFieldHtml($props[] = array (
 				'type'  => 'textarea',
-				'name'  => 'config_meta_description',
-				'value' => $data['config_meta_description'],
+				'name'  => 'config_meta_description_'.$language_id,
+				'value' => $data['config_meta_description_'.$language_id],
 				'style' => 'large-field',
+				'multilingual' => true
 		));
 		$fields['meta_keywords'] = $form->getFieldHtml($props[] = array (
 				'type'  => 'textarea',
-				'name'  => 'config_meta_keywords',
-				'value' => $data['config_meta_keywords'],
+				'name'  => 'config_meta_keywords_'.$language_id,
+				'value' => $data['config_meta_keywords_'.$language_id],
 				'style' => 'large-field',
+				'multilingual' => true
 		));
 		$fields['description'] = $form->getFieldHtml($props[] = array (
 				'type'  => 'texteditor',
-				'name'  => 'config_description_' . $this->session->data['content_language_id'],
-				'value' => $data['config_description_' . $this->session->data['content_language_id']],
+				'name'  => 'config_description_' . $language_id,
+				'value' => $data['config_description_' . $language_id],
 				'style' => 'xl-field',
+				'multilingual' => true
 		));
 		$fields['owner'] = $form->getFieldHtml($props[] = array (
 				'type'     => 'input',
@@ -316,6 +461,25 @@ class AConfigManager{
 			$fields = $this->_filterField($fields, $props, $data['one_field']);
 		}
 		return $fields;
+	}
+
+	private function _filterField($fields, $props, $field_name){
+		$output = array ();
+		foreach ($props as $n => $properties){
+			//for multilingual settings
+			if (preformatTextID($field_name) == preformatTextID($properties['name'])
+					|| (is_int(strpos($field_name, 'config_description')) && is_int(strpos($properties['name'], 'config_description')))
+					|| (is_int(strpos($field_name, 'config_title')) && is_int(strpos($properties['name'], 'config_title')))
+					|| (is_int(strpos($field_name, 'config_meta_description')) && is_int(strpos($properties['name'], 'config_meta_description')))
+					|| (is_int(strpos($field_name, 'config_meta_keywords')) && is_int(strpos($properties['name'], 'config_meta_keywords')))
+			){
+				$names = array_keys($fields);
+				$name = $names[$n];
+				$output = array ($name => $fields[$name]);
+				break;
+			}
+		}
+		return $output;
 	}
 
 	/**
@@ -785,7 +949,7 @@ class AConfigManager{
 					'style'    => 'small-field',
 					'required' => true,
 			));
-			//see if we have resource id or path 
+			//see if we have resource id or path
 			if (is_numeric($data['config_logo'])){
 				$fields['logo'] = $form->getFieldHtml($props[] = array (
 						'type'        => 'resource',
@@ -801,7 +965,7 @@ class AConfigManager{
 						'rl_type'       => 'image'
 				));
 			}
-			//see if we have resource id or path 
+			//see if we have resource id or path
 			if (is_numeric($data['config_icon'])){
 				$fields['icon'] = $form->getFieldHtml($props[] = array (
 						'type'        => 'resource',
@@ -950,15 +1114,6 @@ class AConfigManager{
 			$fields = $this->_filterField($fields, $props, $data['one_field']);
 		}
 		return $fields;
-	}
-
-	/**To be removed in v 1.3 or next major release
-	 * @deprecated since 1.2.4
-	 * @param $section
-	 * @return array
-	 */
-	public function getTemplatesLIst($section){
-		return $this->getTemplates($section);
 	}
 
 	/**
@@ -1163,12 +1318,20 @@ class AConfigManager{
 				'value' => $data['config_admin_access_ip_list'],
 				'style' => 'large-field',
 		));
+		$fields['task_api_key'] = $form->getFieldHtml($props[] = array (
+				'type'  => 'input',
+				'name'  => 'task_api_key',
+				'value' => $data['task_api_key'],
+				'style' => 'large-field',
+		));
 
 		if (isset($data['one_field'])){
 			$fields = $this->_filterField($fields, $props, $data['one_field']);
 		}
 		return $fields;
 	}
+
+	// validate form fields
 
 	/**
 	 * @var AForm $form
@@ -1341,165 +1504,6 @@ class AConfigManager{
 			$fields = $this->_filterField($fields, $props, $data['one_field']);
 		}
 		return $fields;
-	}
-
-	private function _filterField($fields, $props, $field_name){
-		$output = array ();
-		foreach ($props as $n => $properties){
-			if (preformatTextID($field_name) == preformatTextID($properties['name'])
-					|| (is_int(strpos($field_name, 'config_description')) && is_int(strpos($properties['name'], 'config_description')))
-			){
-				$names = array_keys($fields);
-				$name = $names[$n];
-				$output = array ($name => $fields[$name]);
-				break;
-			}
-		}
-		return $output;
-	}
-
-	// validate form fields
-	public function validate($group, $fields = array ()){
-		if (empty($group) || !is_array($fields)){
-			return false;
-		}
-		$this->load->language('setting/setting');
-		$error = null;
-		foreach ($fields as $field_name => $field_value){
-			switch($group){
-				case 'details':
-					if ($field_name == 'store_name' && !$field_value){
-						$error['name'] = $this->language->get('error_name');
-					}
-					if ($field_name == 'config_title' && !$field_value){
-						$error['title'] = $this->language->get('error_title');
-					}
-					if ($field_name == 'config_url' && !$field_value){
-						$error['url'] = $this->language->get('error_url');
-					}
-					if ($field_name == 'config_ssl_url' && !$field_value && $this->request->get['config_ssl']){
-						$error['ssl_url'] = $this->language->get('error_ssl_url');
-					}
-					if (sizeof($fields) > 1){
-						if (mb_strlen($fields['config_owner']) < 2 || mb_strlen($fields['config_owner']) > 64){
-							$error['owner'] = $this->language->get('error_owner');
-						}
-
-						if (mb_strlen($fields['config_address']) < 2 || mb_strlen($fields['config_address']) > 256){
-							$error['address'] = $this->language->get('error_address');
-						}
-
-						if (mb_strlen($fields['store_main_email']) > 96 || (!preg_match(EMAIL_REGEX_PATTERN, $fields['store_main_email']))){
-							$error['email'] = $this->language->get('error_email');
-						}
-
-						if (mb_strlen($fields['config_telephone']) > 32){
-							$error['telephone'] = $this->language->get('error_telephone');
-						}
-					}
-					break;
-
-				case 'general':
-
-					if ($field_name == 'config_catalog_limit' && !$field_value){
-						$error['catalog_limit'] = $this->language->get('error_limit');
-					}
-
-					if ($field_name == 'config_bestseller_limit' && !$field_value){
-						$error['bestseller_limit'] = $this->language->get('error_limit');
-					}
-
-					if ($field_name == 'config_featured_limit' && !$field_value){
-						$error['featured_limit'] = $this->language->get('error_limit');
-					}
-
-					if ($field_name == 'config_latest_limit' && !$field_value){
-						$error['latest_limit'] = $this->language->get('error_limit');
-					}
-
-					if ($field_name == 'config_special_limit' && !$field_value){
-						$error['special_limit'] = $this->language->get('error_limit');
-					}
-					break;
-
-				case 'appearance':
-					if (($field_name == 'config_image_thumb_width' && !$field_value) || ($field_name == 'config_image_thumb_height' && !$field_value)){
-						$error['image_thumb_width'] = $error['image_thumb_height'] = $this->language->get('error_image_thumb');
-					}
-
-					if (($field_name == 'config_image_popup_width' && !$field_value) || ($field_name == 'config_image_popup_height' && !$field_value)){
-						$error['image_popup_height'] = $error['image_popup_width'] = $this->language->get('error_image_popup');
-					}
-
-					if (($field_name == 'config_image_category_width' && !$field_value) || ($field_name == 'config_image_category_height' && !$field_value)){
-						$error['image_category_height'] = $this->language->get('error_image_category');
-					}
-
-					if (($field_name == 'config_image_manufacturer_width' && !$field_value) || ($field_name == 'config_image_manufacturer_height' && !$field_value)){
-						$error['image_manufacturer_height'] = $this->language->get('error_image_manufacturer');
-					}
-
-					if (($field_name == 'config_image_product_width' && !$field_value) || ($field_name == 'config_image_product_height' && !$field_value)){
-						$error['image_product_height'] = $this->language->get('error_image_product');
-					}
-
-					if (($field_name == 'config_image_additional_width' && !$field_value) || ($field_name == 'config_image_additional_height' && !$field_value)){
-						$error['image_additional_height'] = $this->language->get('error_image_additional');
-					}
-
-					if (($field_name == 'config_image_related_width' && !$field_value) || ($field_name == 'config_image_related_height' && !$field_value)){
-						$error['image_related_height'] = $this->language->get('error_image_related');
-					}
-
-					if (($field_name == 'config_image_cart_width' && !$field_value) || ($field_name == 'config_image_cart_height' && !$field_value)){
-						$error['image_cart_height'] = $this->language->get('error_image_cart');
-					}
-
-					if (($field_name == 'config_image_grid_width' && !$field_value) || ($field_name == 'config_image_grid_height' && !$field_value)){
-						$error['image_grid_height'] = $this->language->get('error_image_grid');
-					}
-					break;
-
-				case 'checkout':
-					if ($field_name == 'config_start_order_id' && $field_value && !(int)$field_value){
-						$error['start_order_id'] = $this->language->get('error_start_order_id');
-					}
-					if ($field_name == 'starting_invoice_id' && $field_value && !(int)$field_value){
-						$error['starting_invoice_id'] = $this->language->get('error_starting_invoice_id');
-					}
-					if ($field_name == 'config_expire_order_days' && $field_value && !(int)$field_value){
-						$error['expire_order_days'] = $this->language->get('error_expire_order_days');
-					}
-
-					break;
-
-				case 'api':
-					break;
-
-				case 'mail':
-
-					if (($fields['config_mail_protocol'] == 'smtp')
-							&& (($field_name == 'config_smtp_host' && !$field_value) || ($field_name == 'config_smtp_port' && !$field_value) || ($field_name == 'config_smtp_timeout' && !$field_value))
-					){
-						$error['mail'] = $this->language->get('error_mail');
-					}
-
-					break;
-
-				case 'system':
-					if ($field_name == 'config_error_filename' && !$field_value){
-						$error['error_filename'] = $this->language->get('error_error_filename');
-					}
-					if ($field_name == 'config_upload_max_size'){
-						$fields[$field_value] = preformatInteger($field_value);
-					}
-
-					break;
-				default:
-			}
-
-		}
-		return array ('error' => $error, 'validated' => $fields);
 	}
 
 }

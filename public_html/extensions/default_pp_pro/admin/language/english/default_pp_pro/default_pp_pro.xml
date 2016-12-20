@@ -56,14 +56,14 @@
 		<key>default_pp_pro_transaction_0</key>
 		<value><![CDATA[ Authorization ]]></value>
 	</definition>
-	<definition>	
+	<definition>
 		<key>default_pp_pro_transaction_1</key>
 		<value><![CDATA[ Sale ]]></value>
 	</definition>
-	<definition>	
+	<definition>
 		<key>default_pp_pro_creditcard_types</key>
 		<value><![CDATA[Accepted Credit Card Types:<br /><span class="help">Check with PayPal what credit cards your can accept for your country and select from the list.</span>]]></value>
-	</definition>	
+	</definition>
 	<definition>
 		<key>default_pp_pro_order_status_id</key>
 		<value><![CDATA[Order Status:<br /><span class="help">Order status to be set after customer's order finished based on set Transaction Method</span>]]></value>
@@ -76,10 +76,6 @@
 		<key>default_pp_pro_location_id_0</key>
 		<value><![CDATA[All Locations]]></value>
 	</definition>
-  	<definition>
-    	<key>default_pp_pro_autoselect</key>
-    	<value><![CDATA[Auto Select:<br /><span class="help">You can set to skip payment selection page if there is only one payment option. This payment method will be selected automatically</span>]]></value>
-  	</definition>	
 	<definition>
 		<key>error_permission</key>
 		<value>
@@ -127,7 +123,7 @@
 	</definition>
 	<definition>
 		<key>text_test_connection</key>
-		<value><![CDATA[Test Your Connection:<span class="help">You can test if API credentials that you've entered are correct.</span>]]></value>
+		<value><![CDATA[Test Your Connection:<span class="help">You can test if API credentials that you've entered are correct. If you receive a handshake error, check the merchant keystone to see if the PayPal VeriSign G5 root certification is present. Next, update your SSL software to process SHA-256 certificates.</span>]]></value>
 	</definition>
 	<definition>
 		<key>text_test</key>

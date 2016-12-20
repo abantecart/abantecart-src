@@ -21,34 +21,33 @@ if (!defined('DIR_CORE') || !IS_ADMIN) {
 	header('Location: static_pages/');
 }
 class ControllerResponsesListingGridMenu extends AController {
-	private $error = array();
+	public $data = array();
+	/**
+	 * @var AMenu_Storefront
+	 */
+	protected $menu;
 
 	public function main() {
 
 		//init controller data
 		$this->extensions->hk_InitData($this, __FUNCTION__);
 
-		$language_id = $this->session->data[ 'content_language_id' ];
+		$language_id = $this->language->getContentLanguageID();
 		$this->loadLanguage('design/menu');
 		$this->loadModel('tool/image');
-		$model = $this->model_tool_image;
 
 		$page = $this->request->post[ 'page' ]; // get the requested page
-		if ((int)$page < 0) $page = 0;
+		if ((int)$page < 0){ $page = 0; }
 		$limit = $this->request->post[ 'rows' ]; // get how many rows we want to have into the grid
 		$sidx = $this->request->post[ 'sidx' ]; // get index row - i.e. user click to sort
 		$sord = $this->request->post[ 'sord' ]; // get the direction
 
-
-		$search_str = '';
 		//process custom search form
 		$this->menu = new AMenu_Storefront();
 		$menu_items = $this->menu->getMenuItems();
-
 		$new_level = 0;
-		$leafnodes = array();
 		//get all leave menus 
-		$leafnodes = $this->menu->getLeafMenus();
+		$leaf_nodes = $this->menu->getLeafMenus();
 		//build parent id
 		$menu_parent_id = '';
 		if ($this->request->get[ 'parent_id' ]) {
@@ -58,10 +57,11 @@ class ControllerResponsesListingGridMenu extends AController {
 			$new_level = (integer)$this->request->post[ "n_level" ] + 1;
 		}
 
-		if (!empty($menu_parent_id))
-			$menu_items = $menu_items[ $menu_parent_id ];
-		else
-			$menu_items = $menu_items[ "" ];
+		if (!empty($menu_parent_id)){
+			$menu_items = $menu_items[$menu_parent_id];
+		}else{
+			$menu_items = $menu_items[""];
+		}
 
 		//sort
 		$allowedSort = array( 'item_id', 'item_text', 'sort_order' );
@@ -93,13 +93,14 @@ class ControllerResponsesListingGridMenu extends AController {
 
 			$i = 0;
 			$ar = new AResource('image');
+			$w = (int)$this->config->get('config_image_grid_width');
+			$h = (int)$this->config->get('config_image_grid_height');
 			foreach ($results as $result) {
+				$icon = '';
 				$resource = $ar->getResource($result[ 'item_icon_rl_id' ]);
 				if($resource['resource_path'] || !$resource['resource_code']) {
-					$thumb = $ar->getResourceThumb($result['item_icon_rl_id'],
-							(int)$this->config->get('config_image_grid_width'),
-							(int)$this->config->get('config_image_grid_height'));
-					$icon = '<img src="' . $thumb . '" alt="" />';
+					$thumb = $ar->getResourceThumb($result['item_icon_rl_id'],$w, $h);
+					$icon = '<img src="' . $thumb . '" alt="" style="width: '.$w.'px; height: '.$h.'px;"/>';
 				}elseif($resource['resource_code']){
 					$icon = '<i class="fa fa-code fa-2x"></i>';
 				}
@@ -115,7 +116,7 @@ class ControllerResponsesListingGridMenu extends AController {
 					'action',
 					$new_level,
 					($menu_parent_id ? $menu_parent_id : NULL),
-					($result[ 'item_id' ] == $leafnodes[ $result[ 'item_id' ] ] ? true : false),
+					($result[ 'item_id' ] == $leaf_nodes[ $result[ 'item_id' ] ] ? true : false),
 					false
 				);
 				$i++;
@@ -128,12 +129,13 @@ class ControllerResponsesListingGridMenu extends AController {
 		$response->page = $page;
 		$response->total = $total_pages;
 		$response->records = $total;
+		$this->data['response'] = $response;
 
 		//update controller data
 		$this->extensions->hk_UpdateData($this, __FUNCTION__);
 
 		$this->load->library('json');
-		$this->response->setOutput(AJson::encode($response));
+		$this->response->setOutput(AJson::encode($this->data['response']));
 	}
 
 	public function update() {
@@ -168,6 +170,7 @@ class ControllerResponsesListingGridMenu extends AController {
 				break;
 			case 'save':
 				$ids = explode(',', $this->request->post[ 'id' ]);
+				$array = array();
 				if (!empty($ids)) {
 					//resort required. 
 					if(  $this->request->post['resort'] == 'yes' ) {
@@ -221,7 +224,7 @@ class ControllerResponsesListingGridMenu extends AController {
 		}
 
 		$menu = new AMenu_Storefront();
-		$allowedFields = array( 'item_icon', 'item_text', 'item_url', 'parent_id', 'sort_order' );
+		$allowedFields = array_merge(array ('item_icon', 'item_text', 'item_url', 'parent_id', 'sort_order'), (array)$this->data['allowed_fields']);
 
 		if (isset($this->request->get[ 'id' ])) {
 			//request sent from edit form. ID in url

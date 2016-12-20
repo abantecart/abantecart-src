@@ -22,9 +22,12 @@ if (!defined('DIR_CORE') || !IS_ADMIN){
 }
 
 class ControllerTaskSaleContact extends AController{
-
+	public $data = array();
 	private $protocol;
+	private $sent_count = 0;
 	public function sendSms(){
+		list($task_id,$step_id,) = func_get_args();
+		$this->load->library('json');
 		//for aborting process
 		ignore_user_abort(false);
 		session_write_close();
@@ -33,14 +36,28 @@ class ControllerTaskSaleContact extends AController{
 		$this->extensions->hk_InitData($this, __FUNCTION__);
 
 		$this->protocol = 'sms';
-		$result = $this->_send();
+		$this->sent_count = 0;
+		$result = $this->_send($task_id,$step_id);
+		if(!$this->sent_count){
+			$result = false;
+		}
 		//update controller data
 		$this->extensions->hk_UpdateData($this, __FUNCTION__);
 
-		return $result;
+		$output = array('result'  => $result);
+		if($result){
+			$output['message'] = $this->sent_count . ' sms sent.';
+		}else{
+			$output['error_text'] = $this->sent_count . ' sms sent.';
+		}
+
+		$this->response->setOutput(AJson::encode( $output ));
 	}
 
 	public function sendEmail(){
+		list($task_id,$step_id,) = func_get_args();
+
+		$this->load->library('json');
 		//for aborting process
 		ignore_user_abort(false);
 		session_write_close();
@@ -49,19 +66,28 @@ class ControllerTaskSaleContact extends AController{
 		$this->extensions->hk_InitData($this, __FUNCTION__);
 
 		$this->protocol = 'email';
-		$result = $this->_send();
+		$this->sent_count = 0;
+		$result = $this->_send($task_id,$step_id);
+		if(!$this->sent_count){
+			$result = false;
+		}
 
 		//update controller data
 		$this->extensions->hk_UpdateData($this, __FUNCTION__);
-
+		$output = array('result'  => $result);
+		if($result){
+			$output['message'] = $this->sent_count . ' emails sent.';
+		}else{
+			$output['error_text'] = $this->sent_count . ' emails sent.';
+		}
+		$this->response->setOutput(AJson::encode( $output ));
 		return $result;
 	}
-	private function _send(){
+
+
+	private function _send($task_id, $step_id){
 
 		$this->loadLanguage('sale/contact');
-
-		$task_id = (int)$this->request->get['task_id'];
-		$step_id = (int)$this->request->get['step_id'];
 
 		if (!$task_id || !$step_id){
 			$error_text = 'Cannot run task step. Task_id (or step_id) has not been set.';
@@ -90,7 +116,7 @@ class ControllerTaskSaleContact extends AController{
 
 		$tm->updateStep($step_id, array('last_time_run' => date('Y-m-d H:i:s')));
 
-		if(!$step_info['settings'] || !$step_info['settings']['to']){
+		if(!$step_info['settings'] ){
 			$error_text = 'Cannot run task step #'.$step_id.'. Unknown settings for it.';
 			$this->_return_error($error_text);
 		}
@@ -116,7 +142,16 @@ class ControllerTaskSaleContact extends AController{
 		$step_settings =  $step_info['settings'];
 		$cnt = 0;
 		$step_result = true;
-		foreach($step_info['settings']['to'] as $to){
+		$send_to = $step_info['settings']['to'];
+		//remove step if no recipients
+		if(!$send_to){
+			$tm->deleteStep($step_id);
+			if(sizeof($task_steps)==1){
+				$tm->deleteTask($task_id);
+			}
+			return true;
+		}
+		foreach($send_to as $to){
 			$send_data['subscriber'] = in_array($to,$step_info['settings']['subscribers']) ? true: false;
 
 			if($this->protocol=='email'){
@@ -128,6 +163,7 @@ class ControllerTaskSaleContact extends AController{
 			}
 
 			if($result){
+				$this->sent_count ++;
 				//remove sent address from step
 				$k = array_search($to,$step_settings['to']);
 				unset($step_settings['to'][$k]);
@@ -136,7 +172,8 @@ class ControllerTaskSaleContact extends AController{
 				$sent++;
 				$tm->updateTaskDetails($task_id,
 						array(
-								'created_by' => $this->user->getId(),
+								//set 1 as "admin"
+								'created_by' => 1,
 								'settings'   => array(
 													'recipients_count' => $task_info['settings']['recipients_count'],
 													'sent'             => $sent
@@ -152,7 +189,7 @@ class ControllerTaskSaleContact extends AController{
 		$tm->updateStep($step_id, array('last_result' => $step_result));
 
 		if(!$step_result){
-			$this->_return_error('Some errors during step run. See log for details.');
+			$this->_return_error('Some errors during step run.');
 		}
 		return $step_result;
 	}
@@ -175,39 +212,44 @@ class ControllerTaskSaleContact extends AController{
 		}
 
 		// HTML Mail
-		$template = new ATemplate();
-		$template->data['lang_direction'] = $this->language->get('direction');
-		$template->data['lang_code'] = $this->language->get('code');
-		$text_subject = $data['subject'];
-		$template->data['subject'] = $text_subject;
+		$this->data['mail_template_data']['lang_direction'] = $this->language->get('direction');
+		$this->data['mail_template_data']['lang_code'] = $this->language->get('code');
+		$this->data['mail_template_data']['subject'] = $data['subject'];
 
 		$text_unsubscribe = $this->language->get('text_unsubscribe');
-
-		$text_message = $data['message'];
-
-		$mail = new AMail($this->config);
-
-		$mail->setTo($email);
-		$mail->setFrom($data['from']);
-		$mail->setSender($data['sender']);
-		$mail->setSubject($text_subject);
-
-		$message_body = $text_message;
+		$message_body = $data['message'];
 		if ($data['subscriber']) {
 			$customer_info = $this->model_sale_customer->getCustomersByEmails(array($email));
 			$customer_id = $customer_info[0]['customer_id'];
 			if($customer_id){
 				$message_body .= "\n\n<br><br>" . sprintf($text_unsubscribe,
-								$email,
-								$this->html->getCatalogURL('account/notification', '&email=' . $email . '&customer_id=' . $customer_id));
+												$email,
+												$this->html->getCatalogURL('account/notification',
+																			'&email=' . $email . '&customer_id=' . $customer_id));
 			}
 		}
 
-		$template->data['body'] = html_entity_decode($message_body, ENT_QUOTES, 'UTF-8');
-		$html = $template->fetch('mail/contact.tpl');
-		$mail->setHtml($html);
+		$this->data['mail_template_data']['body'] = html_entity_decode($message_body, ENT_QUOTES, 'UTF-8');
+		$this->data['mail_template'] = 'mail/contact.tpl';
+
+		//allow to change email data from extensions
+		$this->extensions->hk_ProcessData($this, 'cp_sale_contact_mail');
+
+		$view = new AView($this->registry,0);
+		$view->batchAssign($this->data['mail_template_data']);
+		$html_body = $view->fetch($this->data['mail_template']);
+
+		$mail = new AMail($this->config);
+		$mail->setTo($email);
+		$mail->setFrom($data['from']);
+		$mail->setSender($data['sender']);
+		$mail->setSubject($this->data['mail_template_data']['subject']);
+		$mail->setHtml($html_body);
 		$mail->send();
+
 		if ($mail->error) {
+			$error = new AError('AMail Errors: '.implode("\n", $mail->error));
+			$error->toLog()->toDebug();
 			return false;
 		}
 

@@ -27,7 +27,7 @@ class ControllerResponsesEmbedFooter extends AController {
         //init controller data
         $this->extensions->hk_InitData($this,__FUNCTION__);
 		
-		$this->loadLanguage('common/header');
+		$this->loadLanguage('common/footer');
 		$this->data['text_copy'] = $this->config->get('store_name') .' &copy; '. date('Y', time());
 		
 		if ($this->config->get('config_google_analytics_code')) {

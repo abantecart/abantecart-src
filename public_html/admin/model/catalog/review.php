@@ -51,7 +51,7 @@ class ModelCatalogReview extends Model{
 				$update_data[] = "`$key` = '" . $this->db->escape($val) . "' ";
 			}
 		}
-		$review = $this->getReview($review_id);
+
 		$this->db->query("UPDATE " . $this->db->table("reviews") . " 
 						  SET " . implode(',', $update_data) . "
 						  WHERE review_id = '" . (int)$review_id . "'");
@@ -63,7 +63,7 @@ class ModelCatalogReview extends Model{
 	 * @param int $review_id
 	 */
 	public function deleteReview($review_id){
-		$review = $this->getReview($review_id);
+
 		$this->db->query("DELETE FROM " . $this->db->table("reviews") . " WHERE review_id = '" . (int)$review_id . "'");
 		$this->cache->remove('product');
 	}
@@ -88,23 +88,29 @@ class ModelCatalogReview extends Model{
 	public function getReviews($data = array(), $mode = 'default'){
 
 		if($mode == 'total_only'){
-			$total_sql = 'count(*) as total';
+			$total_sql = 'COUNT(*) as total';
 		} else{
 			$total_sql = 'r.review_id, r.product_id, pd.name, r.author, r.rating, r.status, r.date_added';
 		}
-
-		$sql = "SELECT
-					$total_sql
+		$filter = (isset($data['filter']) ? $data['filter'] : array());
+		$join = '';
+		if(isset($filter['store_id']) && $filter['store_id'] !== null){
+			$join = " INNER JOIN " . $this->db->table("products_to_stores") . " p2s 
+			ON (p2s.product_id = r.product_id AND p2s.store_id = '".(int)$filter['store_id']."')";
+		}
+		$sql = "SELECT " . $total_sql ."
 				FROM " . $this->db->table("reviews") . " r
 				LEFT JOIN " . $this->db->table("product_descriptions") . " pd
 					ON (r.product_id = pd.product_id AND pd.language_id = '" . (int)$this->language->getContentLanguageID() . "')
 				LEFT JOIN " . $this->db->table("products") . " p ON (r.product_id = p.product_id)
+				".$join."
 				WHERE 1=1 ";
 
-		$filter = (isset($data['filter']) ? $data['filter'] : array());
+
 		if(isset($filter['product_id']) && !is_null($filter['product_id'])){
 			$sql .= " AND r.product_id = '" . (int)$filter['product_id'] . "'";
 		}
+
 		if(isset($filter['status']) && !is_null($filter['status'])){
 			$sql .= " AND r.status = '" . (int)$filter['status'] . "'";
 		}
@@ -113,7 +119,7 @@ class ModelCatalogReview extends Model{
 			$sql .= " AND " . $data['subsql_filter'];
 		}
 
-		//If for total, we done bulding the query
+		//If for total, we done building the query
 		if($mode == 'total_only'){
 			$query = $this->db->query($sql);
 			return $query->row['total'];

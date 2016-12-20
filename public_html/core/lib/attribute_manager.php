@@ -84,6 +84,7 @@ class AAttribute_Manager extends AAttribute{
 				array ($language_id => array (
 						'name'       => $data['name'],
 						'error_text' => $data['error_text'],
+						'placeholder' => $data['placeholder']
 				)));
 
 		if (!empty($data['values'])){
@@ -152,6 +153,9 @@ class AAttribute_Manager extends AAttribute{
 		}
 		if (isset($data['error_text'])){
 			$update['error_text'] = $data['error_text'];
+		}
+		if (isset($data['placeholder'])){
+			$update['placeholder'] = $data['placeholder'];
 		}
 
 		$this->language->replaceDescriptions('global_attributes_descriptions',
@@ -487,7 +491,7 @@ class AAttribute_Manager extends AAttribute{
 			$language_id = $this->session->data['content_language_id'];
 		}
 
-		$query = $this->db->query("SELECT ga.*, gad.name, gad.error_text
+		$query = $this->db->query("SELECT ga.*, gad.name, gad.error_text, gad.placeholder
 									FROM " . $this->db->table("global_attributes") . " ga
 										LEFT JOIN " . $this->db->table("global_attributes_descriptions") . " gad
 										ON ( ga.attribute_id = gad.attribute_id AND gad.language_id = '" . (int)$language_id . "' )
@@ -510,7 +514,8 @@ class AAttribute_Manager extends AAttribute{
 		$result = array ();
 		foreach ($query->rows as $row){
 			$result[$row['language_id']] = array ('name'       => $row['name'],
-												  'error_text' => $row['error_text']
+												  'error_text' => $row['error_text'],
+												  'placeholder' => $row['placeholder']
 			);
 		}
 		return $result;
@@ -584,7 +589,7 @@ class AAttribute_Manager extends AAttribute{
 		if ($mode == 'total_only'){
 			$total_sql = 'count(*) as total';
 		} else{
-			$total_sql = "ga.*, gad.name, gad.error_text, gatd.type_name ";
+			$total_sql = "ga.*, gad.name, gad.error_text, gad.placeholder, gatd.type_name ";
 		}
 
 		$sql = "SELECT " . $total_sql . "

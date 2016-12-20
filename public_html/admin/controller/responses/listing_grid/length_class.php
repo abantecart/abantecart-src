@@ -21,6 +21,7 @@ if (! defined ( 'DIR_CORE' ) || !IS_ADMIN) {
 	header ( 'Location: static_pages/' );
 }
 class ControllerResponsesListingGridLengthClass extends AController {
+	public $data = array();
 
     public function main() {
 
@@ -86,12 +87,12 @@ class ControllerResponsesListingGridLengthClass extends AController {
 			);
 			$i++;
 		}
-
+	    $this->data['response'] = $response;
 		//update controller data
         $this->extensions->hk_UpdateData($this,__FUNCTION__);
 
 		$this->load->library('json');
-		$this->response->setOutput(AJson::encode($response));
+		$this->response->setOutput(AJson::encode($this->data['response']));
 	}
 
 	public function update() {
@@ -144,8 +145,6 @@ class ControllerResponsesListingGridLengthClass extends AController {
 				break;
 
 			default:
-				//print_r($this->request->post);
-
 		}
 
 		//update controller data
@@ -187,8 +186,8 @@ class ControllerResponsesListingGridLengthClass extends AController {
 	    }
 
 	    //request sent from jGrid. ID is key of array
-	    $fields = array('length_class_description', 'value', );
-	    foreach ( $fields as $f ) {
+	    $allowedFields = array_merge(array ('length_class_description', 'value'), (array)$this->data['allowed_fields']);
+	    foreach ( $allowedFields as $f ) {
 		    if ( isset($this->request->post[$f]) )
 			foreach ( $this->request->post[$f] as $k => $v ) {
 				$err = $this->_validateField($f, $v);

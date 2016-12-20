@@ -88,4 +88,8 @@
 		<key>im_customer_account_update_password_to_customer</key>
 		<value><![CDATA[ Su contraseña de la cuenta se ha cambiado! Si no lo hace este cambio, por favor, póngase en contacto con propietario del sitio]]></value>
 	</definition>
+	<definition>
+		<key>im_new_subscriber_text_to_admin</key>
+		<value><![CDATA[ Se ha registrado el nuevo suscriptor #%s]]></value>
+	</definition>
 </definitions>

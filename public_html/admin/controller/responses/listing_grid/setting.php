@@ -22,6 +22,7 @@ if (!defined('DIR_CORE') || !IS_ADMIN) {
 }
 class ControllerResponsesListingGridSetting extends AController {
 	public $groups = array();
+	public $data = array();
 
 	public function __construct($registry, $instance_id, $controller, $parent_controller = '') {
 		parent::__construct($registry, $instance_id, $controller, $parent_controller);
@@ -38,9 +39,8 @@ class ControllerResponsesListingGridSetting extends AController {
 		$this->loadModel('setting/setting');
 
 		//Prepare filter config
-		$grid_filter_params = array( 'alias', 'group', 'key' );
+		$grid_filter_params =  array_merge(array('alias', 'group', 'key'), (array)$this->data['grid_filter_params']);
 		$filter_grid = new AFilter(array( 'method' => 'post', 'grid_filter_params' => $grid_filter_params ));
-
 
 		$total = $this->model_setting_setting->getTotalSettings($filter_grid->getFilterData());
 		$response = new stdClass();
@@ -81,12 +81,12 @@ class ControllerResponsesListingGridSetting extends AController {
 			);
 			$i++;
 		}
+		$this->data['response'] = $response;
 
-		//update controller data
-		$this->extensions->hk_UpdateData($this, __FUNCTION__);
-
-		$this->load->library('json');
-		$this->response->setOutput(AJson::encode($response));
+	    //update controller data
+	    $this->extensions->hk_UpdateData($this, __FUNCTION__);
+	    $this->load->library('json');
+	    $this->response->setOutput(AJson::encode($this->data['response']));
 	}
 
 	/**
@@ -130,6 +130,15 @@ class ControllerResponsesListingGridSetting extends AController {
 					$data['store_name'] = html_entity_decode($data['store_name'], ENT_COMPAT, 'UTF-8');
 				}
 
+				//when change base currency for default store also change values for all currencies in database before saving
+				if (!(int)$this->request->get[ 'store_id' ]
+						&& has_value($data['config_currency'])
+						&& $data['config_currency'] != $this->config->get('config_currency')
+				){
+					$this->loadModel('localisation/currency');
+					$this->model_localisation_currency->switchConfigCurrency($data['config_currency']);
+				}
+
 				$this->model_setting_setting->editSetting($group, $data, $this->request->get[ 'store_id' ]);
                 startStorefrontSession($this->user->getId());
 			}
@@ -141,10 +150,14 @@ class ControllerResponsesListingGridSetting extends AController {
 	}
 
 	private function _validateField($group, $field, $value) {
-
+		$this->data['error'] = '';
 		$this->load->library('config_manager');
 		$config_mngr = new AConfigManager();
 		$result = $config_mngr->validate($group, array( $field => $value ));
-		return is_array($result[ 'error' ]) ? current($result[ 'error' ]) : $result[ 'error' ];
+		$this->data['error'] = is_array($result[ 'error' ]) ? current($result[ 'error' ]) : $result[ 'error' ];
+
+		$this->extensions->hk_ValidateData($this, array($group, $field, $value));
+
+		return $this->data['error'];
 	}
 }

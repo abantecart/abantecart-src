@@ -61,7 +61,11 @@
 		<value><![CDATA[Subtotal de Orden:]]></value>
 	</definition>
 	<definition>
-		<key>entry_total_palceholder</key>
+		<key>entry_total_placeholder</key>
 		<value><![CDATA[Valor de texto]]></value>
+	</definition>
+	<definition>
+		<key>entry_payment_fee</key>
+		<value><![CDATA[Cuota:<span class="help">Cuota que se agregará al total del pedido si no se cumple la condición de suma total mínima. Esta cantidad anula la configuración de la tarifa principal</span>]]></value>
 	</definition>
 </definitions>

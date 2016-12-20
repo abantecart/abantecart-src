@@ -22,7 +22,7 @@ if (!defined('DIR_CORE') || !IS_ADMIN) {
 }
 
 class ControllerResponsesListingGridTaxClass extends AController {
-
+	public $data = array();
 	public function main() {
 
 		//init controller data
@@ -32,7 +32,7 @@ class ControllerResponsesListingGridTaxClass extends AController {
 		$this->loadModel('localisation/tax_class');
 
 		//Prepare filter config
-		$grid_filter_params = array('title');
+		$grid_filter_params =  array_merge(array('title'), (array)$this->data['grid_filter_params']);
 		$filter = new AFilter(array('method' => 'post', 'grid_filter_params' => $grid_filter_params));
 		$filter_data = $filter->getFilterData();
 
@@ -55,12 +55,12 @@ class ControllerResponsesListingGridTaxClass extends AController {
 			);
 			$i++;
 		}
+		$this->data['response'] = $response;
 
-		//update controller data
-		$this->extensions->hk_UpdateData($this, __FUNCTION__);
-
-		$this->load->library('json');
-		$this->response->setOutput(AJson::encode($response));
+	    //update controller data
+	    $this->extensions->hk_UpdateData($this, __FUNCTION__);
+	    $this->load->library('json');
+	    $this->response->setOutput(AJson::encode($this->data['response']));
 	}
 
 	public function update() {
@@ -142,9 +142,9 @@ class ControllerResponsesListingGridTaxClass extends AController {
 			foreach ($this->request->post as $key => $value) {
 				$err = '';
 				if ($key == 'tax_class') {
-					foreach ($value as $lang => $dvalue) {
-						if (isset($dvalue['title'])) {
-							$err .= $this->_validateField('title', $dvalue['title']);
+					foreach ($value as $lang => $val) {
+						if (isset($val['title'])) {
+							$err .= $this->_validateField('title', $val['title']);
 						}
 					}
 				} else {
@@ -217,31 +217,35 @@ class ControllerResponsesListingGridTaxClass extends AController {
 	}
 
 	private function _validateField($field, $value) {
-		$err = '';
+		$this->data['error'] = '';
 		switch ($field) {
 			case 'title' :
 				if (mb_strlen($value) < 2 || mb_strlen($value) > 128) {
-					$err = $this->language->get('error_tax_title');
+					$this->data['error'] = $this->language->get('error_tax_title');
 				}
 				break;
 			case 'rate' :
 				if (!$value) {
-					$err = $this->language->get('error_rate');
+					$this->data['error'] = $this->language->get('error_rate');
 				}
 				break;
 		}
 
-		return $err;
+		$this->extensions->hk_ValidateData($this, array(__FUNCTION__, $field, $value));
+		return $this->data['error'];
 	}
 
 	private function _validateDelete($tax_class_id) {
-
+		$this->data['error'] = '';
 		$this->loadModel('catalog/product');
 
-		$product_total = $this->model_catalog_product->getTotalproductsByTaxClassId($tax_class_id);
+		$product_total = $this->model_catalog_product->getTotalProductsByTaxClassId($tax_class_id);
 		if ($product_total) {
-			return sprintf($this->language->get('error_product'), $product_total);
+			$this->data['error'] = sprintf($this->language->get('error_product'), $product_total);
 		}
+
+		$this->extensions->hk_ValidateData($this, array(__FUNCTION__, $tax_class_id));
+		return $this->data['error'];
 	}
 
 
@@ -254,7 +258,7 @@ class ControllerResponsesListingGridTaxClass extends AController {
 		$this->loadModel('localisation/tax_class');
 
 		//Prepare filter config
-		$grid_filter_params = array('title');
+		$grid_filter_params =  array_merge(array('title'), (array)$this->data['grid_filter_params']);
 		$filter = new AFilter(array('method' => 'post', 'grid_filter_params' => $grid_filter_params));
 
 		$this->loadModel('localisation/location');
@@ -284,13 +288,11 @@ class ControllerResponsesListingGridTaxClass extends AController {
 		}
 		unset($results, $tmp);
 
-
 		$response = new stdClass();
 		$response->page = $filter->getParam('page');
 		$response->total = $filter->calcTotalPages($total);
 		$response->records = $total;
 		$response->userdata = (object)array('');
-
 
 		foreach ($tax_rates as $i=> $tax_rate) {
 
@@ -304,12 +306,12 @@ class ControllerResponsesListingGridTaxClass extends AController {
 			);
 
 		}
+		$this->data['response'] = $response;
 
 		//update controller data
 		$this->extensions->hk_UpdateData($this, __FUNCTION__);
-
 		$this->load->library('json');
-		$this->response->setOutput(AJson::encode($response));
+		$this->response->setOutput(AJson::encode($this->data['response']));
 	}
 
 }

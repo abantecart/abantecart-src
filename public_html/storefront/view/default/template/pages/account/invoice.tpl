@@ -165,11 +165,19 @@
 				</div>
 
 			<?php } ?>
+
 		    <a href="javascript:window.print();" class="btn btn-orange mr10 pull-right"
 		       title="<?php echo $button_print->text ?>">
 		    	<i class="<?php echo $button_print->{'icon'}; ?>"></i>
 		    	<?php echo $button_print->text ?>
 		    </a>
+			<?php if ($button_download) { ?>
+		    <a href="<?php echo $button_download->href ?>" class="btn btn-default mr10 pull-right"
+		       title="<?php echo $button_download->text ?>">
+		        <i class="<?php echo $button_download->{'icon'}; ?>"></i>
+		        <?php echo $button_download->text ?>
+		    </a>
+			<?php } ?>
 		</div>
 	</div>
 

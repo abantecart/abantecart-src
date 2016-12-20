@@ -1,4 +1,4 @@
-<?php if ($error) { ?>
+<?php if ($error){ ?>
 	<div class="alert alert-error alert-danger">
 		<button type="button" class="close" data-dismiss="alert">&times;</button>
 		<strong><?php echo is_array($error) ? implode('<br>', $error) : $error; ?></strong>
@@ -6,116 +6,120 @@
 <?php } ?>
 
 <div id="product_details">
-		<div class="row">
-			<!-- Left Image-->
-			<div class="col-md-6 text-center">
+	<div class="row">
+		<!-- Left Image-->
+		<div class="col-md-6 text-center">
 
 			<ul class="thumbnails mainimage smallimage">
-			<?php if (sizeof($images) > 1) {
-			    foreach ($images as $image) { ?>
-			    <li class="producthtumb">
-			        <?php
-			        if ($image['origin'] != 'external') {
-			        ?>
-				    	<a href="<?php echo $image['main_url']; ?>" data-standard="<?php echo $image['thumb2_url']; ?>">
-			        	<img src="<?php echo $image['thumb_url']; ?>" alt="<?php echo $image['title']; ?>" title="<?php echo $image['title']; ?>" />
-				    	</a>
-			        <?php } ?>
-			    </li>
-			    <?php
-			    }
-			} ?>
+				<?php if (sizeof($images) > 1){
+					foreach ($images as $image){ ?>
+						<li class="producthtumb">
+							<?php
+							if ($image['origin'] != 'external'){
+								?>
+								<a href="<?php echo $image['main_url']; ?>"
+								   data-standard="<?php echo $image['thumb2_url']; ?>">
+									<img src="<?php echo $image['thumb_url']; ?>" alt="<?php echo $image['title']; ?>"
+									     title="<?php echo $image['title']; ?>"/>
+								</a>
+							<?php } ?>
+						</li>
+						<?php
+					}
+				} ?>
 			</ul>
 
 			<div class="hidden-xs hidden-sm mainimage bigimage easyzoom easyzoom--overlay easyzoom--with-thumbnails">
-			<?php if (sizeof($images) > 0) {
-				//NOTE: ZOOM is not supported for embeded image tags
-				if ($image_main['origin'] == 'external') {
-				?>
-				    <a class="html_with_image">
-				    <?php echo $image_main['main_html'];	?>								
-				    </a>
-				<?php
-				} else {
-				    $image_url = $image_main['main_url'];
-				    $thumb_url = $image_main['thumb_url'];
-				?>
-				    <a class="local_image" href="<?php echo $image_url; ?>" target="_blank" title="<?php echo $image_main['title']; ?>">
-				    	<img width="<?php echo $this->config->get('config_image_thumb_width'); ?>"
-				    		 height="<?php echo $this->config->get('config_image_thumb_height'); ?>"
-							 src="<?php echo $thumb_url; ?>"
-							 alt="<?php echo $image['title']; ?>"
-							 title="<?php echo $image['title']; ?>" />
-				    <i class="fa fa-arrows hidden-xs hidden-sm"></i></a>
-				<?php }
+				<?php if (sizeof($images) > 0){
+					//NOTE: ZOOM is not supported for embeded image tags
+					if ($image_main['origin'] == 'external'){
+						?>
+						<a class="html_with_image">
+							<?php echo $image_main['main_html']; ?>
+						</a>
+						<?php
+					} else{
+						$image_url = $image_main['main_url'];
+						$thumb_url = $image_main['thumb_url'];
+						?>
+						<a class="local_image" href="<?php echo $image_url; ?>" target="_blank"
+						   title="<?php echo $image_main['title']; ?>">
+							<img width="<?php echo $this->config->get('config_image_thumb_width'); ?>"
+							     height="<?php echo $this->config->get('config_image_thumb_height'); ?>"
+							     src="<?php echo $thumb_url; ?>"
+							     alt="<?php echo $image['title']; ?>"
+							     title="<?php echo $image['title']; ?>"/>
+							<i class="fa fa-arrows hidden-xs hidden-sm"></i></a>
+					<?php }
 				} ?>
 			</div>
 			<!-- for mobile devices-->
 			<div class="mainimage bigimage hidden-lg hidden-md">
-			<?php if (sizeof($images) > 0) {
-				//NOTE: ZOOM is not supported for embeded image tags
-				if ($image_main['origin'] == 'external') {
-				?>
-				    <a class="html_with_image">
-				    <?php echo $image_main['main_html'];	?>
-				    </a>
-				<?php
-				} else {
-				    $image_url = $image_main['main_url'];
-				    $thumb_url = $image_main['thumb_url'];
-				?>
-				    <a class="local_image">
-				        <img width="<?php echo $this->config->get('config_image_thumb_width'); ?>"
-				             height="<?php echo $this->config->get('config_image_thumb_height'); ?>"
-							 src="<?php echo $thumb_url; ?>"
-							 alt="<?php echo $image['title']; ?>"
-							 title="<?php echo $image['title']; ?>" />
-				    </a>
-				<?php }
+				<?php if (sizeof($images) > 0){
+					//NOTE: ZOOM is not supported for embeded image tags
+					if ($image_main['origin'] == 'external'){
+						?>
+						<a class="html_with_image">
+							<?php echo $image_main['main_html']; ?>
+						</a>
+						<?php
+					} else{
+						$image_url = $image_main['main_url'];
+						$thumb_url = $image_main['thumb_url'];
+						?>
+						<a class="local_image">
+							<img width="<?php echo $this->config->get('config_image_thumb_width'); ?>"
+							     height="<?php echo $this->config->get('config_image_thumb_height'); ?>"
+							     src="<?php echo $thumb_url; ?>"
+							     alt="<?php echo $image['title']; ?>"
+							     title="<?php echo $image['title']; ?>"/>
+						</a>
+					<?php }
 				} ?>
 			</div>
 
-			</div>
-			<!-- Right Details-->
-			<div class="col-md-6">
-				<div class="row">
-					<div class="col-md-12">
-						<h1 class="productname"><span class="bgnone"><?php echo $heading_title; ?></span></h1>
-						<span class="blurb"><?php echo $product_info['blurb'] ?></span>
-						<div class="productprice">
-							<?php
+		</div>
+		<!-- Right Details-->
+		<div class="col-md-6">
+			<div class="row">
+				<div class="col-md-12">
+					<h1 class="productname"><span class="bgnone"><?php echo $heading_title; ?></span></h1>
+					<span class="blurb"><?php echo $product_info['blurb'] ?></span>
 
-							if ($display_price) { ?>
-								<div class="productpageprice jumbotron">
-									<?php if ($special) { ?>
-										<div class="productfilneprice">
-											<span class="spiral"></span><?php echo $special; ?></div>
-										<span class="productpageoldprice"><?php echo $price; ?></span>
-									<?php } else { ?>
-										<span class="productfilneprice"></span><span
-												class="spiral"></span><?php echo $price; ?>
-									<?php } ?>
-								</div>
-							<?php }
+					<div class="productprice">
+						<?php
 
-							if ($average) { ?>
-								<ul class="rate">
-									<?php
-									#Show stars based on avarage rating
-									for ($i = 1; $i <= 5; $i++) {
-										if ($i <= $average) {
-											echo '<li class="on"></li>';
-										} else {
-											echo '<li class="off"></li>';
-										}
+						if ($display_price){ ?>
+							<div class="productpageprice jumbotron">
+								<?php if ($special){ ?>
+									<div class="productfilneprice">
+										<span class="spiral"></span><?php echo $special; ?></div>
+									<span class="productpageoldprice"><?php echo $price; ?></span>
+								<?php } else{ ?>
+									<span class="productfilneprice"></span><span
+											class="spiral"></span><?php echo $price; ?>
+								<?php } ?>
+							</div>
+						<?php }
+
+						if ($average){ ?>
+							<ul class="rate">
+								<?php
+								#Show stars based on avarage rating
+								for ($i = 1; $i <= 5; $i++){
+									if ($i <= $average){
+										echo '<li class="on"></li>';
+									} else{
+										echo '<li class="off"></li>';
 									}
-									?>
-								</ul>
-							<?php } ?>
-						</div>
+								}
+								?>
+							</ul>
+						<?php } ?>
+					</div>
 
-						<div class="quantitybox">
-							<?php if ($display_price) { ?>
+					<div class="quantitybox">
+						<?php if ($display_price) { ?>
 								<?php echo $form['form_open']; ?>
 								<fieldset>
 									<?php if ($options) { ?>
@@ -189,8 +193,14 @@
 										</ul>
 										<?php } else { ?>
 										<ul class="productpagecart">
-											<li><a href="#" onclick="$(this).closest('form').submit(); return false;"
-												   class="cart"><?php echo $button_add_to_cart; ?></a></li>
+											<li><?php if(!$this->getHookVar('product_add_to_cart_html')) { ?>
+												<a href="#" onclick="$(this).closest('form').submit(); return false;" class="cart">
+													<?php echo $button_add_to_cart; ?>
+												</a>
+												<?php } else { ?>
+											        <?php echo $this->getHookVar('product_add_to_cart_html'); ?>
+											    <?php } ?>
+											</li>
 										</ul>
 										<?php } ?>
 										<?php } else { ?>
@@ -233,11 +243,11 @@
 								</div>
 							<?php } ?>
 
-						</div>
 					</div>
 				</div>
 			</div>
 		</div>
+	</div>
 </div>
 
 <!-- Product Description tab & comments-->
@@ -246,16 +256,17 @@
 		<div class="col-md-12 productdesc">
 			<ul class="nav nav-tabs" id="myTab">
 				<li class="active"><a href="#description"><?php echo $tab_description; ?></a></li>
-				<?php if ($review_status) { ?>
+				<?php if ($review_status){ ?>
 					<li><a href="#review"><?php echo $tab_review; ?></a></li>
 				<?php } ?>
-				<?php if ($tags) { ?>
+				<?php if ($tags){ ?>
 					<li><a href="#producttag"><?php echo $text_tags; ?></a></li>
 				<?php } ?>
-				<?php if ($related_products) { ?>
-					<li><a href="#relatedproducts"><?php echo $tab_related; ?> (<?php echo count($related_products); ?>)</a></li>
+				<?php if ($related_products){ ?>
+					<li><a href="#relatedproducts"><?php echo $tab_related; ?> (<?php echo count($related_products); ?>
+							)</a></li>
 				<?php } ?>
-				<?php if ($downloads) { ?>
+				<?php if ($downloads){ ?>
 					<li><a href="#productdownloads"><?php echo $tab_downloads; ?></a></li>
 				<?php } ?>
 				<?php echo $this->getHookVar('product_features_tab'); ?>
@@ -266,28 +277,28 @@
 					<?php echo $description; ?>
 
 					<ul class="productinfo">
-						<?php if ($stock) { ?>
+						<?php if ($stock){ ?>
 							<li>
 								<span class="productinfoleft"><?php echo $text_availability; ?></span> <?php echo $stock; ?>
 							</li>
 						<?php } ?>
-						<?php if ($model) { ?>
+						<?php if ($model){ ?>
 							<li><span class="productinfoleft"><?php echo $text_model; ?></span> <?php echo $model; ?>
 							</li>
 						<?php } ?>
-						<?php if ($manufacturer) { ?>
+						<?php if ($manufacturer){ ?>
 							<li>
 								<span class="productinfoleft"><?php echo $text_manufacturer; ?></span>
 								<a href="<?php echo $manufacturers; ?>">
-									<?php if ($manufacturer_icon) { ?>
+									<?php if ($manufacturer_icon){ ?>
 										<img alt="<?php echo $manufacturer; ?>"
 										     src="<?php echo $manufacturer_icon; ?>"
-											 title="<?php echo $manufacturer; ?>"
-											 style="width: <?php echo $this->config->get('config_image_grid_width');?>px;"/>
-									<?php
-									} else {
+										     title="<?php echo $manufacturer; ?>"
+										     style="width: <?php echo $this->config->get('config_image_grid_width'); ?>px;"/>
+										<?php
+									} else{
 										echo $manufacturer;
-									}  ?>
+									} ?>
 								</a>
 							</li>
 						<?php } ?>
@@ -295,7 +306,7 @@
 
 				</div>
 
-				<?php if ($review_status) { ?>
+				<?php if ($review_status){ ?>
 					<div class="tab-pane" id="review">
 						<div id="current_reviews" class="mb20"></div>
 						<div class="heading" id="review_title"><h4><?php echo $text_write; ?></h4></div>
@@ -303,14 +314,16 @@
 							<fieldset>
 								<div class="form-group">
 									<div class="form-inline">
-										<label class="control-label col-md-3 pull-left"><?php echo $entry_rating; ?> <span
+										<label class="control-label col-md-3 pull-left"><?php echo $entry_rating; ?>
+											<span
 													class="red">*</span></label>
 										<?php echo $rating_element; ?>
 									</div>
 								</div>
 								<div class="form-group mt40">
 									<div class="form-inline">
-										<label class="control-label col-md-3"><?php echo $entry_name; ?> <span class="red">*</span></label>
+										<label class="control-label col-md-3"><?php echo $entry_name; ?> <span
+													class="red">*</span></label>
 										<?php echo $review_name; ?>
 									</div>
 								</div>
@@ -322,28 +335,29 @@
 									</div>
 									<div class="input-group"><?php echo $text_note; ?></div>
 								</div>
-								<?php if ($review_recaptcha) { ?>
-								<div class="clear form-group">
-								    <div class="form-inline col-md-6 col-md-offset-1 col-sm-6">
-								    	<?php echo $review_recaptcha; ?>
-								    </div>	
-								    <div class="form-inline col-md-5 col-sm-6">								    
-								    	<?php echo $review_button; ?>
-								    </div>
-								</div>
-								<?php } else { ?>
-								<div class="clear form-group">
-									<label class="control-label"><?php echo $entry_captcha; ?> <span
-							    				class="red">*</span></label>
-	
-							    	<div class="form-inline">
-							    		<label class="control-label col-md-3">
-							    			<img src="<?php echo $captcha_url;?>" id="captcha_img" alt=""/>
-							    		</label>
-							    		<?php echo $review_captcha; ?>
-							    		&nbsp;&nbsp;<?php echo $review_button; ?>
-							    	</div>
-								</div>
+								<?php if ($review_recaptcha){ ?>
+									<div class="clear form-group">
+										<div class="form-inline col-md-6 col-md-offset-1 col-sm-6">
+											<?php echo $review_recaptcha; ?>
+										</div>
+										<div class="form-inline col-md-5 col-sm-6">
+											<?php echo $review_button; ?>
+										</div>
+									</div>
+								<?php } else{ ?>
+									<div class="clear form-group">
+										<label class="control-label"><?php echo $entry_captcha; ?> <span
+													class="red">*</span></label>
+
+										<div class="form-inline">
+											<label class="control-label col-md-3">
+												<img src="<?php echo $captcha_url; ?>" id="captcha_img" alt=""/>
+											</label>
+											<?php
+											echo $review_captcha;
+											echo $review_button; ?>
+										</div>
+									</div>
 								<?php } ?>
 
 							</fieldset>
@@ -351,25 +365,26 @@
 					</div>
 				<?php } ?>
 
-				<?php if ($tags) { ?>
+				<?php if ($tags){ ?>
 					<div class="tab-pane" id="producttag">
 						<ul class="tags">
-							<?php foreach ($tags as $tag) { ?>
-							<li><a href="<?php echo $tag['href']; ?>"><i class="fa fa-tag"></i><?php echo $tag['tag']; ?></a></li>
-								<?php } ?>
+							<?php foreach ($tags as $tag){ ?>
+								<li><a href="<?php echo $tag['href']; ?>"><i
+												class="fa fa-tag"></i><?php echo $tag['tag']; ?></a></li>
+							<?php } ?>
 						</ul>
 					</div>
 				<?php } ?>
 
-				<?php if ($related_products) { ?>
+				<?php if ($related_products){ ?>
 					<div class="tab-pane" id="relatedproducts">
 						<ul class="row side_prd_list">
-						<?php foreach ($related_products as $related_product) {
-								$item['rating'] = ($related_product['rating']) ? "<img src='" . $this->templateResource('/image/stars_' . $related_product['rating'] . '.png') . "' alt='" . $related_product['stars'] . "' width='64' height='12' />" : '';
-								if (!$display_price) {
+							<?php foreach ($related_products as $related_product){
+								$item['rating'] = ($related_product['rating']) ? "<img src='" . $this->templateResource('/image/stars_' . $related_product['rating'] . '.png') . "' class='rating' alt='" . $related_product['stars'] . "' width='64' height='12' />" : '';
+								if (!$display_price){
 									$related_product['price'] = $related_product['special'] = '';
 								}
-							?>
+								?>
 								<li class="col-md-3 col-sm-5 col-xs-6 related_product">
 									<a href="<?php echo $related_product['href']; ?>"><?php echo $related_product['image']['thumb_html'] ?></a>
 									<a class="productname" title="<?php echo $related_product['name']; ?>"
@@ -377,31 +392,35 @@
 									<span class="procategory"><?php echo $item['rating'] ?></span>
 
 									<div class="price">
-										<?php if ($related_product['special']) { ?>
+										<?php if ($related_product['special']){ ?>
 											<span class="pricenew"><?php echo $related_product['special'] ?></span>
 											<span class="priceold"><?php echo $related_product['price'] ?></span>
-										<?php } else { ?>
+										<?php } else{ ?>
 											<span class="oneprice"><?php echo $related_product['price'] ?></span>
 										<?php } ?>
 									</div>
 								</li>
-						<?php } ?>
+							<?php } ?>
 						</ul>
 					</div>
 				<?php } ?>
 
-				<?php if ($downloads) { ?>
+				<?php if ($downloads){ ?>
 					<div class="tab-pane" id="productdownloads">
 						<ul class="list-group">
-							<?php foreach ($downloads as $download) { ?>
-							<li class="list-group-item">
-								<a class="pull-right btn btn-default" href="<?php echo $download['button']->href; ?>"><i class="fa fa-download"></i> <?php echo $download['button']->text; ?></a>
-								<div><?php echo $download['name']; ?><div class="download-list-attributes">
-								<?php foreach($download['attributes'] as $name=>$value){
-									echo '<small>- '.$name.': '.(is_array($value) ? implode(' ',$value) : $value).'</small>';
-									}?></div>
-								</div>
-							</li>
+							<?php foreach ($downloads as $download){ ?>
+								<li class="list-group-item">
+									<a class="pull-right btn btn-default"
+									   href="<?php echo $download['button']->href; ?>"><i
+												class="fa fa-download"></i> <?php echo $download['button']->text; ?></a>
+
+									<div><?php echo $download['name']; ?>
+										<div class="download-list-attributes">
+											<?php foreach ($download['attributes'] as $name => $value){
+												echo '<small>- ' . $name . ': ' . (is_array($value) ? implode(' ', $value) : $value) . '</small>';
+											} ?></div>
+									</div>
+								</li>
 							<?php } ?>
 						</ul>
 					</div>
@@ -416,103 +435,105 @@
 
 <script type="text/javascript">
 
-var orig_imgs = $('div.bigimage').html();
-var orig_thumbs = $('ul.smallimage').html();
+	var orig_imgs = $('div.bigimage').html();
+	var orig_thumbs = $('ul.smallimage').html();
 
-$(window).load(function(){
+	$(window).load(function () {
 
-	start_easyzoom();
+		start_easyzoom();
 
-	//if have product options, load select option images
-	var $select = $('input[name^=\'option\'], select[name^=\'option\']');
-	if ($select.length) {
-		//if no images for options are present, main product images will be used.
-		//if at least one image is present in the option, main images will be replaced.
-		load_option_images($select.val(), '<?php echo $product_id; ?>');
-	}
+		//if have product options, load select option images
+		var $select = $('input[name^=\'option\'], select[name^=\'option\']');
+		if ($select.length) {
+			//if no images for options are present, main product images will be used.
+			//if at least one image is present in the option, main images will be replaced.
+			load_option_images($select.val(), '<?php echo $product_id; ?>');
+		}
 
-	display_total_price();
-
-	$('#current_reviews .pagination a').on('click', function () {
-		$('#current_reviews').slideUp('slow');
-		$('#current_reviews').load(this.href);
-		$('#current_reviews').slideDown('slow');
-		return false;
-	});
-
-	reload_review('<?php echo $product_review_url; ?>');
-
-
-	$('#product_add_to_cart').click(function () {
-		$('#product').submit();
-	});
-	$('#review_submit').click(function () {
-		review();
-	})
-	
-	//process clicks in review pagination
-	$('#current_reviews').on('click', '.pagination a', function () {
-		reload_review($(this).attr('href'));
-		return false;
-	})
-
-	/* Process images for product options */
-	$('input[name^=\'option\'], select[name^=\'option\']').change(function () {
-		load_option_images($(this).val(), '<?php echo $product_id; ?>');
 		display_total_price();
+
+		$('#current_reviews .pagination a').on('click', function () {
+			$('#current_reviews').slideUp('slow');
+			$('#current_reviews').load(this.href);
+			$('#current_reviews').slideDown('slow');
+			return false;
+		});
+
+		reload_review('<?php echo $product_review_url; ?>');
+
+
+		$('#product_add_to_cart').click(function () {
+			$('#product').submit();
+		});
+		$('#review_submit').click(function () {
+			review();
+		});
+
+		//process clicks in review pagination
+		$('#current_reviews').on('click', '.pagination a', function () {
+			reload_review($(this).attr('href'));
+			return false;
+		});
+
+		/* Process images for product options */
+		$('input[name^=\'option\'], select[name^=\'option\']').change(function () {
+			load_option_images($(this).val(), '<?php echo $product_id; ?>');
+			display_total_price();
+		});
+
+		$('input[name=quantity]').keyup(function () {
+			display_total_price();
+		});
+
+
+		$.ajax({
+			url: '<?php echo $update_view_count_url; ?>',
+			type: 'GET',
+			dataType: 'json'
+		});
 	});
-
-	$('input[name=quantity]').keyup(function () {
-		display_total_price();
-	});
-
-
-	$.ajax({
-            url:'<?php echo $update_view_count_url; ?>',
-            type:'GET',
-            dataType:'json'
-    });
-});
 	function start_easyzoom() {
-			// Instantiate EasyZoom instances
-			var $easyzoom = $('.easyzoom').easyZoom();
+		// Instantiate EasyZoom instances
+		var $easyzoom = $('.easyzoom').easyZoom();
 
-			// Get an instance API
-			var api1 = $easyzoom.filter('.easyzoom--with-thumbnails').data('easyZoom');
-			//clean and reload existing events
-			api1.teardown();
-			api1._init();
+		// Get an instance API
+		var api1 = $easyzoom.filter('.easyzoom--with-thumbnails').data('easyZoom');
+		//clean and reload existing events
+		api1.teardown();
+		api1._init();
 
-			// Setup thumbnails
-			$('.thumbnails .producthtumb').on('click', 'a', function(e) {
-			   var $this = $(this);
-			   e.preventDefault();
-			   // Use EasyZoom's `swap` method
-			   api1.swap($this.data('standard'), $this.attr('href'));
-				$('.mainimage.bigimage.hidden-lg').find('img').attr('src', $this.attr('href'));
-			});
+		// Setup thumbnails
+		$('.thumbnails .producthtumb').on('click', 'a', function (e) {
+			var $this = $(this);
+			e.preventDefault();
+			// Use EasyZoom's `swap` method
+			api1.swap($this.data('standard'), $this.attr('href'));
+			$('.mainimage.bigimage.hidden-lg').find('img').attr('src', $this.attr('href'));
+		});
 	}
 
-	function load_option_images( attribute_value_id, product_id ) {
+	function load_option_images(attribute_value_id, product_id) {
 		$.ajax({
 			type: 'POST',
-			url: '<?php echo $option_resources_url; ?>&attribute_value_id='+attribute_value_id+'&product_id='+product_id,
+			url: '<?php echo $option_resources_url; ?>&attribute_value_id=' + attribute_value_id + '&product_id=' + product_id,
 			dataType: 'json',
 			success: function (data) {
-				if(data.length == 0){ return false;}
+				if (data.length == 0) {
+					return false;
+				}
 				var html1 = '',
-				html2 = '',
-				main_image = data.main;
+						html2 = '',
+						main_image = data.main;
 
 				if (main_image) {
 					if (main_image.origin == 'external') {
 						html1 = '<a class="html_with_image">';
 						html1 += main_image.main_html + '</a>';
 					} else {
-				        html1 = '<a class="local_image" href="' + main_image.main_url + '">';
-				        html1 += '<img style="width:'+main_image.thumb_width+'px; height:'+main_image.thumb_height+'px;" src="' + main_image.thumb_url + '" />';
-				        html1 += '<i class="fa fa-arrows  hidden-xs hidden-sm"></i></a>';
-				    }
+						html1 = '<a class="local_image" href="' + main_image.main_url + '">';
+						html1 += '<img style="width:' + main_image.thumb_width + 'px; height:' + main_image.thumb_height + 'px;" src="' + main_image.thumb_url + '" />';
+						html1 += '<i class="fa fa-arrows  hidden-xs hidden-sm"></i></a>';
+					}
 				}
 				if (data.images) {
 					for (img in data.images) {
@@ -522,7 +543,7 @@ $(window).load(function(){
 						var tmb_url = image.thumb_url;
 						var tmb2_url = image.thumb2_url;
 						if (image.origin != 'external') {
-							html2 += '<a href="'+img_url+'" data-standard="'+tmb2_url+'"><img style="width:'+image.thumb_width+'px; height:'+image.thumb_height+'px;" src="' + tmb_url + '" alt="' + image.title + '" title="' + image.title + '" /></a>';
+							html2 += '<a href="' + img_url + '" data-standard="' + tmb2_url + '"><img style="width:' + image.thumb_width + 'px; height:' + image.thumb_height + 'px;" src="' + tmb_url + '" alt="' + image.title + '" title="' + image.title + '" /></a>';
 						}
 						html2 += '</li>';
 					}
@@ -530,8 +551,12 @@ $(window).load(function(){
 					html1 = orig_imgs;
 					html2 = orig_thumbs;
 				}
-				$('div.bigimage').each(function(){$(this).html(html1)});
-				$('ul.smallimage').each(function(){$(this).html(html2)});
+				$('div.bigimage').each(function () {
+					$(this).html(html1)
+				});
+				$('ul.smallimage').each(function () {
+					$(this).html(html2)
+				});
 				start_easyzoom();
 			}
 		});
@@ -556,7 +581,7 @@ $(window).load(function(){
 
 	}
 
-	function reload_review( url) {
+	function reload_review(url) {
 		$('#current_reviews').load(url);
 	}
 
@@ -583,11 +608,12 @@ $(window).load(function(){
 				$('#review_button').attr('disabled', '');
 				$('.wait').remove();
 				<?php if ($review_recaptcha) { ?>
-                    grecaptcha.reset();
-                <?php } ?>
+				grecaptcha.reset();
+				<?php } ?>
+				try { resetLockBtn(); } catch (e){}
 			},
-            error: function (jqXHR, exception) {
-                var text = jqXHR.statusText + ": " + jqXHR.responseText;
+			error: function (jqXHR, exception) {
+				var text = jqXHR.statusText + ": " + jqXHR.responseText;
 				$('#review .alert').remove();
 				$('#review_title').after('<div class="alert alert-error alert-danger">' + dismiss + text + '</div>');
 			},
@@ -623,8 +649,8 @@ $(window).load(function(){
 			complete: function () {
 				$('.wait').remove();
 			},
-            error: function (jqXHR, exception) {
-                var text = jqXHR.statusText + ": " + jqXHR.responseText;
+			error: function (jqXHR, exception) {
+				var text = jqXHR.statusText + ": " + jqXHR.responseText;
 				$('.wishlist .alert').remove();
 				$('.wishlist').after('<div class="alert alert-error alert-danger">' + dismiss + text + '</div>');
 				$('.wishlist_add').show();
@@ -644,38 +670,36 @@ $(window).load(function(){
 	}
 
 	function wishlist_remove() {
-				var dismiss = '<button type="button" class="close" data-dismiss="alert">&times;</button>';
-				$.ajax({
-					type: 'POST',
-					url: '<?php echo $product_wishlist_remove_url; ?>',
-					dataType: 'json',
-					beforeSend: function () {
-						$('.success, .warning').remove();
-						$('.wishlist_remove').hide();
-						$('.wishlist').after('<div class="wait"><i class="fa fa-spinner fa-spin"></i> <?php echo $text_wait; ?></div>');
-					},
-					complete: function () {
-						$('.wait').remove();
-					},
-		            error: function (jqXHR, exception) {
-		            	var text = jqXHR.statusText + ": " + jqXHR.responseText;
-						$('.wishlist .alert').remove();
-						$('.wishlist').after('<div class="alert alert-error alert-danger">' + dismiss + text + '</div>');
-						$('.wishlist_remove').show();
-					},
-					success: function (data) {
-						if (data.error) {
-							$('.wishlist .alert').remove();
-							$('.wishlist').after('<div class="alert alert-error alert-danger">' + dismiss + data.error + '</div>');
-							$('.wishlist_remove').show();
-						} else {
-							$('.wishlist .alert').remove();
-							//$('.wishlist').after('<div class="alert alert-success">' + dismiss + data.success + '</div>');
-							$('.wishlist_add').show();
-						}
-					}
-				});
+		var dismiss = '<button type="button" class="close" data-dismiss="alert">&times;</button>';
+		$.ajax({
+			type: 'POST',
+			url: '<?php echo $product_wishlist_remove_url; ?>',
+			dataType: 'json',
+			beforeSend: function () {
+				$('.success, .warning').remove();
+				$('.wishlist_remove').hide();
+				$('.wishlist').after('<div class="wait"><i class="fa fa-spinner fa-spin"></i> <?php echo $text_wait; ?></div>');
+			},
+			complete: function () {
+				$('.wait').remove();
+			},
+			error: function (jqXHR, exception) {
+				var text = jqXHR.statusText + ": " + jqXHR.responseText;
+				$('.wishlist .alert').remove();
+				$('.wishlist').after('<div class="alert alert-error alert-danger">' + dismiss + text + '</div>');
+				$('.wishlist_remove').show();
+			},
+			success: function (data) {
+				if (data.error) {
+					$('.wishlist .alert').remove();
+					$('.wishlist').after('<div class="alert alert-error alert-danger">' + dismiss + data.error + '</div>');
+					$('.wishlist_remove').show();
+				} else {
+					$('.wishlist .alert').remove();
+					//$('.wishlist').after('<div class="alert alert-success">' + dismiss + data.success + '</div>');
+					$('.wishlist_add').show();
+				}
 			}
-
-
+		});
+	}
 </script>

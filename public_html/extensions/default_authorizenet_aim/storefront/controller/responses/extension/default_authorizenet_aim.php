@@ -234,7 +234,7 @@ class ControllerResponsesExtensionDefaultAuthorizeNetAim extends AController {
 		$data['x_zip'] = html_entity_decode($order_info['payment_postcode'], ENT_QUOTES, 'UTF-8');
 		$data['x_country'] = html_entity_decode($order_info['payment_country'], ENT_QUOTES, 'UTF-8');
 		$data['x_phone'] = $order_info['telephone'];
-		$data['x_customer_ip'] = $this->request->server['REMOTE_ADDR'];
+		$data['x_customer_ip'] = $this->request->getRemoteIP();
 		$data['x_email'] = $order_info['email'];
 		$data['x_description'] = html_entity_decode($this->config->get('store_name'), ENT_QUOTES, 'UTF-8');
 		$data['x_amount'] = $this->currency->format($order_info['total'], $order_info['currency'], 1.00000, FALSE);

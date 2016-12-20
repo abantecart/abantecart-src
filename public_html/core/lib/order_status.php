@@ -59,6 +59,11 @@ class AOrderStatus{
 		return $this->registry->get($key);
 	}
 
+	/**
+	 * @param int $order_status_id
+	 * @param string $status_text_id
+	 * @return bool
+	 */
 	public function addStatus($order_status_id, $status_text_id){
 		$order_status_id = (int)$order_status_id;
 		//preformat text_id at first
@@ -82,19 +87,33 @@ class AOrderStatus{
 		return true;
 	}
 
+	/**
+	 * @param int $order_status_text_id
+	 * @return int
+	 */
 	public function getStatusByTextId($order_status_text_id){
 		$flipped = array_flip($this->statuses);
 		return $flipped[$order_status_text_id];
 	}
 
+	/**
+	 * @param int $order_status_id
+	 * @return string
+	 */
 	public function getStatusById($order_status_id){
 		return $this->statuses[$order_status_id];
 	}
 
+	/**
+	 * @return array
+	 */
 	public function getStatuses(){
 		return $this->statuses;
 	}
 
+	/**
+	 * @return array
+	 */
 	public function getBaseStatuses(){
 		return $this->base_statuses;
 	}

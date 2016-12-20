@@ -130,7 +130,7 @@ class ModelExtensionBannerManager extends Model {
 
 		$user_info = array(
 			'user_id' => (is_object($this->user) ? $this->user->getId() : ''),
-			'user_ip' => $this->request->server[ 'REMOTE_ADDR' ],
+			'user_ip' => $this->request->getRemoteIP(),
 			'user_host' => $this->request->server[ 'REMOTE_HOST' ],
 			'rt' => $this->request->get[ 'rt' ]
 		);

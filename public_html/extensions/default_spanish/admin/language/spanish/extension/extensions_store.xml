@@ -188,4 +188,8 @@
 		<key>text_sorting_date_modified_desc</key>
 		<value><![CDATA[Fecha Viejo a nuevo]]></value>
 	</definition>
+	<definition>
+		<key>text_search</key>
+		<value><![CDATA[buscar]]></value>
+	</definition>
 </definitions>

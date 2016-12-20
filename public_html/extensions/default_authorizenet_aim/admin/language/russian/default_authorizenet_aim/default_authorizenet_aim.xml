@@ -65,10 +65,6 @@
     <value><![CDATA[Все местоположения]]></value>
   </definition>
   <definition>
-    <key>default_authorizenet_aim_autoselect</key>
-    <value><![CDATA[Автоматический выбор: <br /><span class="help">Включить, чтобы пропустить страницу выбора способа оплаты, если есть только один вариант оплаты. Этот метод оплаты будет выбран автоматически</span>]]></value>
-  </definition>
-  <definition>
     <key>default_authorizenet_aim_decline_limit</key>
     <value><![CDATA[Лимит отказа кредитной карты:<br /><span class="help">Настройка безопасности для предотвращения мошенничества атаки. Если количество последовательных снижений превышать лимит, счет клиента будет заблокирована и сообщение отправлено администратору</span>]]></value>
   </definition>    

@@ -66,8 +66,7 @@
 	</definition>
 	<definition>
 		<key>text_notice_text</key>
-		<value>
-			<![CDATA[&#39;Nueva versión de la extensión &quot;%% de la extensión&quot; está disponible. Por favor, vaya a%% LINK y actualizarlo.]]></value>
+		<value><![CDATA[&#39;Nueva versión de la extensión &quot;%% de la extensión&quot; está disponible. Por favor, vaya a%% LINK y actualizarlo.]]></value>
 	</definition>
 	<definition>
 		<key>warning_updates</key>
@@ -96,5 +95,9 @@
 	<definition>
 		<key>text_marketplace_connect_your_store</key>
 		<value><![CDATA[Por favor Conecte su tienda en el Mercado]]></value>
+	</definition>
+	<definition>
+		<key>text_note</key>
+		<value><![CDATA[Nota: Actualización disponible sólo para tiendas conectadas con historial comprado.]]></value>
 	</definition>
 </definitions>

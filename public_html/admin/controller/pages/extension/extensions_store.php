@@ -139,7 +139,7 @@ class ControllerPagesExtensionExtensionsStore extends AController {
 														'name' => 'keyword',
 														'value' => $request_data['keyword'],
 														'style'=> 'pull-left',
-														'placeholder'=> $this->language->get('search'),
+														'placeholder'=> $this->language->get('text_search'),
 												   ));
 		$this->data['form']['input'] .= $form->getFieldHtml(array(
 														'type' => 'hidden',

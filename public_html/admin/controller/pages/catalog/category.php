@@ -25,7 +25,7 @@ if (!defined('DIR_CORE') || !IS_ADMIN) {
  * Class ControllerPagesCatalogCategory
  */
 class ControllerPagesCatalogCategory extends AController {
-	private $error = array();
+	public $error = array();
 	public $data = array();
 	private $fields = array('category_description', 'status', 'parent_id', 'category_store', 'keyword', 'sort_order');
 
@@ -164,6 +164,15 @@ class ControllerPagesCatalogCategory extends AController {
 			$parents[$c['category_id']] = $c['name'];
 		}
 
+        //get search filter from cookie if requeted\
+        $search_params = array();
+        if($this->request->get['saved_list']) {
+            $grid_search_form = json_decode(html_entity_decode($this->request->cookie['grid_search_form']));
+            if($grid_search_form->table_id == $grid_settings['table_id']) {
+                parse_str($grid_search_form->params, $search_params);
+            }
+        }
+
 		$form = new AForm();
 		$form->setForm(array(
 				'form_name' => 'category_grid_search',
@@ -193,6 +202,7 @@ class ControllerPagesCatalogCategory extends AController {
 				'name' => 'parent_id',
 				'options' => $parents,
 				'style' => 'chosen',
+                'value' => $search_params['parent_id'],
 				'placeholder' => $this->language->get('text_select_parent')
 		));
 
@@ -516,6 +526,11 @@ class ControllerPagesCatalogCategory extends AController {
 		$this->view->assign('rl', $this->html->getSecureURL('common/resource_library', '&action=list_library&object_name=&object_id&type=image&mode=single'));
 
 		$this->view->assign('current_url', $this->html->currentURL());
+
+        $saved_list_data = json_decode(html_entity_decode($this->request->cookie['grid_params']));
+        if($saved_list_data->table_id == 'category_grid') {
+            $this->view->assign('list_url', $this->html->getSecureURL('catalog/category', '&saved_list=category_grid'));
+        }
 
 		if($viewport_mode == 'modal'){
 			$tpl = 'responses/viewport/modal/catalog/category_form.tpl';

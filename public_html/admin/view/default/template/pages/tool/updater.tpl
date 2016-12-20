@@ -16,7 +16,7 @@
 							<i class="fa fa-sign-in fa-fw"></i> <?php echo $text_connect ?>
 						</a>
 					</div>
-				<?php } ?>
+				<?php }else{ ?>
 				<table class="table table-striped">
 					<?php
 					if ($extensions){
@@ -69,6 +69,7 @@
 					</tbody>
 
 				</table>
+				<?php } ?>
 			</div>
 
 		</div>

@@ -88,4 +88,8 @@
 		<key>im_customer_account_update_password_to_customer</key>
 		<value><![CDATA[La password account è stato cambiato! Se non hai fatto questo cambiamento, si prega di contattare proprietario del sito]]></value>
 	</definition>
+	<definition>
+		<key>im_new_subscriber_text_to_admin</key>
+		<value><![CDATA[ Nuovo abbonato %s è stato registrato!]]></value>
+	</definition>
 </definitions>

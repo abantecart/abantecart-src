@@ -21,14 +21,6 @@
     <value><![CDATA[All Locations]]></value>
   </definition>
   <definition>
-    <key>default_store_pickup_autoselect</key>
-    <value><![CDATA[Auto Select:<br /><span class="help">You can set to skip shipping selection page if there is only one shipping option. This shipping method will be selected automatically</span>]]></value>
-  </definition>
-  <definition>
-    <key>default_store_pickup_accept_payments</key>
-    <value><![CDATA[Accept these payments:<br /><span class="help">If only specific payment methods are needed for this shipping method, select them here. If nothing selected, all available payment methods will be shown</span>]]></value>
-  </definition>
-  <definition>
     <key>error_permission</key>
     <value><![CDATA[Warning: You do not have permission to modify pickup from store!]]></value>
   </definition>

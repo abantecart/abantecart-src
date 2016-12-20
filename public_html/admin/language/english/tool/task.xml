@@ -25,8 +25,16 @@
 		<value><![CDATA[ Start Time]]></value>
 	</definition>
 	<definition>
-		<key>text_active</key>
-		<value><![CDATA[ Active]]></value>
+		<key>text_stuck</key>
+		<value><![CDATA[ Stuck]]></value>
+	</definition>
+	<definition>
+		<key>text_ready</key>
+		<value><![CDATA[ Ready]]></value>
+	</definition>
+	<definition>
+		<key>text_running</key>
+		<value><![CDATA[ Running]]></value>
 	</definition>
 	<definition>
 		<key>text_scheduled</key>
@@ -35,6 +43,18 @@
 	<definition>
 		<key>text_disabled</key>
 		<value><![CDATA[ Disabled]]></value>
+	</definition>
+	<definition>
+		<key>text_failed</key>
+		<value><![CDATA[ Failed]]></value>
+	</definition>
+	<definition>
+		<key>text_incomplete</key>
+		<value><![CDATA[ Incomplete]]></value>
+	</definition>
+	<definition>
+		<key>text_completed</key>
+		<value><![CDATA[ Completed]]></value>
 	</definition>
 	<definition>
 		<key>text_restart</key>

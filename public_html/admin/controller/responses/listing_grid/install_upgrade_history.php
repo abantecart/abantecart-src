@@ -21,7 +21,8 @@ if (! defined ( 'DIR_CORE' ) || !IS_ADMIN) {
 	header ( 'Location: static_pages/' );
 }
 class ControllerResponsesListingGridInstallUpgradeHistory extends AController {
-	private $error = array ();
+	public $error = array ();
+	public $data = array();
 	
 	public function main() {
 		//init controller data
@@ -91,7 +92,7 @@ class ControllerResponsesListingGridInstallUpgradeHistory extends AController {
 				}
 
 				if(is_file(DIR_BACKUP.$result ['backup_file'])){
-					$link = '<a target="_blank" title="'.$this->language->get ( 'text_download' ).'" href="'.$this->html->getSecureUrl('tool/backup/download','&filename='.urlencode($result ['backup_file']) ).'">'.$result ['backup_file'].'</a>';
+					$link = '<a target="_blank" title="'.$this->language->get ( 'text_download' ).'" href="'.$this->html->getSecureURL('tool/backup/download','&filename='.urlencode($result ['backup_file']) ).'">'.$result ['backup_file'].'</a>';
 				}else{
 					$link = $result ['backup_file'];
 				}
@@ -107,12 +108,13 @@ class ControllerResponsesListingGridInstallUpgradeHistory extends AController {
 
 				$i ++;
 			}
-	
+
+		$this->data['response'] = $response;
 		//update controller data
 		$this->extensions->hk_UpdateData($this,__FUNCTION__);
 		
 		$this->load->library('json');
-		$this->response->setOutput(AJson::encode($response));
+		$this->response->setOutput(AJson::encode($this->data['response']));
 		
 	}
 

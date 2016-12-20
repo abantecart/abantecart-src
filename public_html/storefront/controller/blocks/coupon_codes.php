@@ -41,6 +41,8 @@ class ControllerBlocksCouponCodes extends AController {
 
 		$form = new AForm();
 		$form->setForm(array( 'form_name' => 'coupon' ));
+
+        $this->data[ 'coupon_code' ] = $entereted_cpn;
 		$this->data[ 'form_open' ] = $form->getFieldHtml(
                                 array( 'type' => 'form',
                                        'name' => 'coupon',

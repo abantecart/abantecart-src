@@ -10,35 +10,39 @@
 	</definition>
 	<definition>
 		<key>text_total</key>
-		<value><![CDATA[Order Totals]]></value>
+		<value><![CDATA[Handling Fee]]></value>
 	</definition>
 	<definition>
 		<key>text_success</key>
-		<value><![CDATA[Success: You have modified total handling fee!]]></value>
+		<value><![CDATA[Success: You have updated total handling fee!]]></value>
 	</definition>
 	<definition>
 		<key>entry_total</key>
-		<value><![CDATA[Order Total:<span class="help">Minimum order amount to be reached to apply fee</span>]]></value>
+		<value><![CDATA[Order Total:<span class="help">Minimum order amount to be reached to apply the fee. If customer order total will exceed this amount, handling feee will not be applied. This value is overridden with payment specific setting.</span>]]></value>
 	</definition>
 	<definition>
-		<key>entry_total_palceholder</key>
-		<value><![CDATA[Text Value]]></value>
+		<key>entry_total_placeholder</key>
+		<value><![CDATA[Order Amount]]></value>
 	</definition>
 	<definition>
 		<key>entry_fee</key>
-		<value><![CDATA[Fee:]]></value>
+		<value><![CDATA[Fee:<span class="help">Fee to be added to order total if minimum amount condition is not met. This amount is overridden by payment specific setting</span>]]></value>
+	</definition>
+	<definition>
+		<key>entry_payment_fee</key>
+		<value><![CDATA[Fee:<span class="help">Fee to be added to order total if minimum sub-total amount condition is not met. This amount override main fee setting</span>]]></value>
 	</definition>
 	<definition>
 		<key>entry_payment</key>
-		<value><![CDATA[Payment:]]></value>
+		<value><![CDATA[Payment:<span class="help">Select a specific payment you need to add the fee to. These settings will override the main settings if payment is used by customer.</span>]]></value>
 	</definition>
 	<definition>
 		<key>entry_order_subtotal</key>
-		<value><![CDATA[Order Sub-Total:]]></value>
+		<value><![CDATA[Order Sub-Total:<span class="help">Minimum order sub-total amount to be reached to apply the fee. This overrides main setting</span>]]></value>
 	</definition>
 	<definition>
 		<key>entry_tax</key>
-		<value><![CDATA[Tax Class:]]></value>
+		<value><![CDATA[Tax Class:<span class="help">Select if you need tax to be applied on-top of the handling fee</span>]]></value>
 	</definition>
 	<definition>
 		<key>entry_status</key>

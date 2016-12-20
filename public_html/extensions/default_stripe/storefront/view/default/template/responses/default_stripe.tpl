@@ -75,17 +75,9 @@
 	</div>
 	<div class="form-group form-inline">
 	    <label class="col-sm-4 control-label"><?php echo $entry_cc_number; ?></label>
-	    <div class="col-sm-4 input-group">
+	    <div class="col-sm-7 input-group">
 	    	<?php echo $cc_number; ?>
 	    </div>
-	    <?php if($save_cc) { ?>
-	    <div class="input-group col-sm-2 ml10">
-	    	<label>
-	    	<a data-toggle="tooltip" data-original-title="<?php echo $entry_cc_save_details; ?>"><?php echo $entry_cc_save; ?></a>
-	    	</label>
-	    	<?php echo $save_cc; ?>
-	    </div>	    
-	    <?php } ?>
 	    <span class="help-block"></span>
 	</div>
 	<div class="form-group form-inline">
@@ -113,7 +105,7 @@
 			<i class="fa fa-arrow-left"></i>
 			<?php echo $back->text ?>
 		</a>
-		<button id="<?php echo $submit->name ?>" class="btn btn-orange" title="<?php echo $submit->text ?>" type="submit">
+		<button id="<?php echo $submit->name ?>" class="btn btn-orange lock-on-click" title="<?php echo $submit->text ?>" type="submit">
 			<i class="fa fa-check"></i>
 			<?php echo $submit->text; ?>
 		</button>
@@ -141,56 +133,72 @@
 </div>  
 
 <script type="text/javascript">
+jQuery(document).ready(function() {
 
-$('#enter_card').hover(function() {
-	$(this).tooltip('show');
-});
-
-//validate submit
-$('#stripe').submit(function(event) {
-	event.preventDefault();
-	var $form = $(this);
-	if( !$.aCCValidator.validate($form) ){
-		return false;
-	} else {
-		confirmSubmit($form, '<?php echo $this->html->getURL('extension/default_stripe/send');?>');
-	}
-});
-
-function confirmSubmit($form, url) {		
-
-	$.ajax({
-		type: 'POST',
-		url: url,
-		data: $form.find(':input'),
-		dataType: 'json',		
-		beforeSend: function() {
-			$('.alert').remove();
-			$form.find('.action-buttons').hide(); 
-			$form.find('.action-buttons').before('<div class="wait alert alert-info text-center"><i class="fa fa-refresh fa-spin fa-fw"></i> <?php echo $text_wait; ?></div>');
-		},
-		success: function(data) {
-			if (!data) {
-				$('.wait').remove();
-				$form.find('.action-buttons').show(); 
-				$form.before('<div class="alert alert-danger"><i class="fa fa-bug fa-fw"></i> <?php echo $error_unknown; ?></div>');
-			} else {					  			
-				if (data.error) {
+	var submitSent = false;
+	
+	$('#enter_card').hover(function() {
+		$(this).tooltip('show');
+	});
+	
+	//validate submit
+	$('#stripe').submit(function(event) {
+		event.preventDefault();
+		if(submitSent !== true) {	
+			submitSent = true;
+			var $form = $(this);
+			if( !$.aCCValidator.validate($form) ){
+				submitSent = false;
+				try { resetLockBtn(); } catch (e){}
+				return false;
+			} else {
+				confirmSubmit($form, '<?php echo $this->html->getURL('extension/default_stripe/send');?>');
+				return false;
+			}
+		}
+	});
+		
+	function confirmSubmit($form, url) {		
+	
+		$.ajax({
+			type: 'POST',
+			url: url,
+			data: $form.find(':input'),
+			dataType: 'json',		
+			beforeSend: function() {
+				$('.alert').remove();
+				$form.find('.action-buttons').hide(); 
+				$form.find('.action-buttons').before('<div class="wait alert alert-info text-center"><i class="fa fa-refresh fa-spin fa-fw"></i> <?php echo $text_wait; ?></div>');
+			},
+			success: function(data) {
+				if (!data) {
 					$('.wait').remove();
 					$form.find('.action-buttons').show(); 
-					$form.before('<div class="alert alert-warning"><i class="fa fa-exclamation fa-fw"></i> '+data.error+'</div>');
-				}	
-				if (data.success) {			
-					location = data.success;
+					$form.before('<div class="alert alert-danger"><i class="fa fa-bug fa-fw"></i> <?php echo $error_unknown; ?></div>');
+					submitSent = false;
+					try { resetLockBtn(); } catch (e){}
+				} else {					  			
+					if (data.error) {
+						$('.wait').remove();
+						$form.find('.action-buttons').show(); 
+						$form.before('<div class="alert alert-warning"><i class="fa fa-exclamation fa-fw"></i> '+data.error+'</div>');
+						submitSent = false;
+						try { resetLockBtn(); } catch (e){}
+					}	
+					if (data.success) {			
+						location = data.success;
+					}
 				}
+			},
+			error: function (jqXHR, textStatus, errorThrown) {
+				$('.wait').remove();
+				$form.find('.action-buttons').show(); 
+				$form.before('<div class="alert alert-danger"><i class="fa fa-exclamation fa-fw"></i> '+textStatus+' '+errorThrown+'</div>');
+				submitSent = false;
+				try { resetLockBtn(); } catch (e){}
 			}
-		},
-		error: function (jqXHR, textStatus, errorThrown) {
-			$('.wait').remove();
-			$form.find('.action-buttons').show(); 
-			$form.before('<div class="alert alert-danger"><i class="fa fa-exclamation fa-fw"></i> '+textStatus+' '+errorThrown+'</div>');
-		}				
-	});
-}
+		});
+	}
+});
 
 </script>

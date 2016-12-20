@@ -121,6 +121,10 @@
 		<value><![CDATA[Error Message of invalid Value:]]></value>
 	</definition>
 	<definition>
+		<key>entry_placeholder</key>
+		<value><![CDATA[Placeholder:]]></value>
+	</definition>
+	<definition>
 		<key>error_attribute_name</key>
 		<value><![CDATA[Attribute Name must be between 2 and 64 characters!]]></value>
 	</definition>

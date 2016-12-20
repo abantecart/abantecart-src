@@ -193,7 +193,19 @@
 		<value><![CDATA[Algunos errores durante el proceso de la tarea. Vean el registro de datos o reiniciar esta tarea.]]></value>
 	</definition>
 	<definition>
-		<key>text_was_sent</key>
+		<key>text_sent</key>
 		<value><![CDATA[ %s de %s mensajes se envían]]></value>
+	</definition>
+	<definition>
+		<key>error_message_email</key>
+		<value><![CDATA[Se requiere un cuerpo de mensaje de correo electrónico]]></value>
+	</definition>
+	<definition>
+		<key>error_message_sms</key>
+		<value><![CDATA[Se requiere un cuerpo de mensaje SMS]]></value>
+	</definition>
+	<definition>
+		<key>text_incomplete_tasks</key>
+		<value><![CDATA[Tareas incompletas]]></value>
 	</definition>
 </definitions>

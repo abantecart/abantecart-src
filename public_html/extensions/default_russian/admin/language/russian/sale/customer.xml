@@ -356,4 +356,12 @@
 		<key>text_total_order</key>
 		<value><![CDATA[Всего заказов:]]></value>
 	</definition>
+	<definition>
+		<key>text_last_login</key>
+		<value><![CDATA[Время последнего входа:]]></value>
+	</definition>
+	<definition>
+		<key>text_never</key>
+		<value><![CDATA[Никогда]]></value>
+	</definition>
 </definitions>

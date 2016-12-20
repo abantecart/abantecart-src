@@ -38,48 +38,48 @@ class ControllerPagesToolBackup extends AController {
 		$this->loadModel('tool/backup');
 
 		$this->document->setTitle($this->language->get('heading_title'));
-		//shedule task for backup
+		//schedule task for backup
 		if ($this->request->is_POST() && $this->_validate()) {
-
+			$file_type = '';
 			if (is_uploaded_file($this->request->files['restore']['tmp_name'])) {
 				if (pathinfo($this->request->files['restore']['name'], PATHINFO_EXTENSION) == 'sql') {
-					$filetype = 'sql';
+					$file_type = 'sql';
 					$content = file_get_contents($this->request->files['restore']['tmp_name']);
 				} else {
 					$content = false;
 				}
 			} elseif (is_uploaded_file($this->request->files['import']['tmp_name'])) {
 				if (pathinfo($this->request->files['import']['name'], PATHINFO_EXTENSION) == 'xml') {
-					$filetype = 'xml';
+					$file_type = 'xml';
 					$content = file_get_contents($this->request->files['import']['tmp_name']);
 				} else {
 					$content = false;
 				}
 			} else {
 				$content = false;
-				//if do sheduled task for backup
-				$task_details = $this->model_tool_backup->createBackupTask('sheduled_backup', $this->request->post);
+				//if do scheduled task for backup
+				$task_details = $this->model_tool_backup->createBackupTask('scheduled_backup', $this->request->post);
 
 				if(!$task_details){
 					$this->error['warning'] = array_merge($this->error,$this->model_tool_backup->errors);
 				}else{
 					$this->session->data['success'] = sprintf($this->language->get('text_success_scheduled'),
 															  $this->html->getSecureURL('tool/task'));
-					$this->redirect($this->html->getSecureURL('tool/backup'));
+					redirect($this->html->getSecureURL('tool/backup'));
 				}
 
 			}
 
 			if ($content) {
 				$this->cache->remove('*');
-				if ($filetype == 'sql') {
+				if ($file_type == 'sql') {
 					$this->model_tool_backup->restore($content);
 					$this->session->data['success'] = $this->language->get('text_success');
-					$this->redirect($this->html->getSecureURL('tool/backup'));
+					redirect($this->html->getSecureURL('tool/backup'));
 				} else {
 					if ($this->model_tool_backup->load($content)) {
 						$this->session->data['success'] = $this->language->get('text_success_xml');
-						$this->redirect($this->html->getSecureURL('tool/backup'));
+						redirect($this->html->getSecureURL('tool/backup'));
 					} else {
 						$this->error['warning'] = $this->language->get('error_xml');
 					}
@@ -111,11 +111,11 @@ class ControllerPagesToolBackup extends AController {
 			$bkp = new ABackup('manual_backup');
 			$bkp->validate();
 			$this->data['error_warning'] = implode("\n",$bkp->error);
+			$bkp->removeBackupDirectory();
 		}
 
 		if (isset($this->session->data['success'])) {
 			$this->data['success'] = $this->session->data['success'];
-
 			unset($this->session->data['success']);
 		} else {
 			$this->data['success'] = '';
@@ -354,7 +354,7 @@ class ControllerPagesToolBackup extends AController {
 				exit;
 			} else {
 				$this->session->data['error'] = 'Error: You Cannot to Download File '.$file.' Because of Absent on Hard Drive.';
-				$this->redirect($this->html->getSecureURL('tool/install_upgrade_history'));
+				redirect($this->html->getSecureURL('tool/install_upgrade_history'));
 			}
 		} else {
 			return $this->dispatch('error/permission');

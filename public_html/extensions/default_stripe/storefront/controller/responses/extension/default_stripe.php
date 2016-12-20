@@ -139,6 +139,7 @@ class ControllerResponsesExtensionDefaultStripe extends AController{
 
 		//validate input
 		$post = $this->request->post;
+
 		//check if saved cc mode is used
 		if (!$post['use_saved_cc']){
 			if (empty($post['cc_number'])){
@@ -219,5 +220,37 @@ class ControllerResponsesExtensionDefaultStripe extends AController{
 		$this->response->setOutput(AJson::encode($json));
 	}
 
-}
+	public function api() {
+		//init controller data
+		$this->extensions->hk_InitData($this, __FUNCTION__);
 
+		$this->data['text_note'] = $this->language->get('text_note');
+		$data['order_id'] = $this->session->data['order_id'];
+		//list of required fields for payment 
+		$data['required_fields'] = array(
+			'name' => 'cc_owner',
+			'credit_card_number' => 'cc_number', 
+			'credit_card_cvv2' => 'cc_cvv2',
+			'credit_card_expiration_month' => 'cc_expire_date_month',
+			'credit_card_expiration_year' => 'cc_expire_date_year'
+		);
+				
+		$data['process_rt'] = 'default_stripe/api_confirm';
+
+		$this->extensions->hk_UpdateData($this,__FUNCTION__);
+		$this->load->library('json');
+		$this->response->setOutput(AJson::encode($data));
+	}
+
+	public function api_confirm() {
+		//init controller data
+		$this->extensions->hk_InitData($this, __FUNCTION__);
+
+		$payment_controller = $this->dispatch( 'responses/extension/default_stripe/send' );
+
+		$result = $payment_controller->dispatchGetOutput();
+
+		$this->extensions->hk_UpdateData($this,__FUNCTION__);
+		$this->response->setOutput($result);
+	}
+}

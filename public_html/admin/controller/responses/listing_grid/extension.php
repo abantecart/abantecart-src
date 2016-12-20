@@ -26,9 +26,7 @@ if (!defined('DIR_CORE') || !IS_ADMIN){
  * Class ControllerResponsesListingGridExtension
  */
 class ControllerResponsesListingGridExtension extends AController{
-
 	public $data;
-
 	public function main(){
 
 		//init controller data
@@ -37,7 +35,9 @@ class ControllerResponsesListingGridExtension extends AController{
 		$this->loadLanguage('extension/extensions');
 
 		$page = $this->request->post['page']; // get the requested page
-		if ((int)$page < 0) $page = 0;
+		if ((int)$page < 0){
+			$page = 0;
+		}
 		$limit = $this->request->post['rows']; // get how many rows we want to have into the grid
 		$sidx = $this->request->post['sidx']; // get index row - i.e. user click to sort
 		$sord = $this->request->post['sord']; // get the direction
@@ -54,8 +54,10 @@ class ControllerResponsesListingGridExtension extends AController{
 		}
 
 		//sort
-		$allowedSort = array (1 => 'key', 'name', 'category', 'date_modified', 'status', 'store_name');
-		if (!in_array($sidx, $allowedSort)) $sidx = 'date_modified';
+		$allowedSort = array_merge(array (1 => 'key', 'name', 'category', 'date_modified', 'status', 'store_name'), (array)$this->data['allowed_sort']);
+		if (!in_array($sidx, $allowedSort)){
+			$sidx = 'date_modified';
+		}
 
 		$allowedDirection = array (SORT_ASC => 'asc', SORT_DESC => 'desc');
 		if (!in_array($sord, $allowedDirection)){
@@ -174,7 +176,7 @@ class ControllerResponsesListingGridExtension extends AController{
 					));
 				}
 
-				$icon_ext_img_url = HTTP_CATALOG . 'extensions/' . $extension . '/image/icon.png';
+				$icon_ext_img_url = HTTPS_CATALOG . 'extensions/' . $extension . '/image/icon.png';
 				$icon_ext_dir = DIR_EXT . $extension . '/image/icon.png';
 				$icon = (is_file($icon_ext_dir) ? $icon_ext_img_url : RDIR_TEMPLATE . 'image/default_extension.png');
 				if (!$this->config->has($extension . '_status')){
@@ -226,11 +228,12 @@ class ControllerResponsesListingGridExtension extends AController{
 		}
 
 		$response->rows = array_slice($response->rows, (int)($page - 1) * $limit, $limit);
+		$this->data['response'] = $response;
 
 		//update controller data
 		$this->extensions->hk_UpdateData($this, __FUNCTION__);
 		$this->load->library('json');
-		$this->response->setOutput(AJson::encode($response));
+		$this->response->setOutput(AJson::encode($this->data['response']));
 
 	}
 

@@ -96,4 +96,8 @@
 		<key>text_marketplace_connect_your_store</key>
 		<value><![CDATA[Collegate il vostro negozio al Marketplace]]></value>
 	</definition>
+	<definition>
+		<key>text_note</key>
+		<value><![CDATA[Nota: Aggiornamento disponibile solo per i negozi collegati con la storia acquistato.]]></value>
+	</definition>
 </definitions>

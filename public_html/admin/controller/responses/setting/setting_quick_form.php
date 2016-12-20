@@ -47,12 +47,14 @@ class ControllerResponsesSettingSettingQuickForm extends AController {
 		$this->data['group'] = $setting[0];
         $this->data['setting_key'] = $setting[1];
 	    $this->data['store_id'] = !isset($this->session->data['current_store_id']) ? $setting[2] : $this->session->data['current_store_id'];
-
-	    if(is_int(strpos($this->data['setting_key'],'config_description'))){
-	        $this->data['setting_key'] = substr($this->data['setting_key'],0,strrpos($this->data['setting_key'],'_'));
-		    $this->request->get['active'] = $this->data['group'].'-'.$setting[1].'-'.$this->data['store_id'];
-        }else{
-	        $this->request->get['active'] = $this->data['group'].'-'.$this->data['setting_key'].'-'.$this->data['store_id'];
+	    $this->request->get['active'] = $this->data['group'] . '-' . $this->data['setting_key'] . '-' . $this->data['store_id'];
+	    //for multilingual settings
+	    foreach( array('config_description', 'config_title', 'config_meta_description', 'config_meta_keywords') as $n){
+		    if (is_int(strpos($this->data['setting_key'], $n))){
+			    $this->data['setting_key'] = substr($this->data['setting_key'], 0, strrpos($this->data['setting_key'], '_'));
+			    $this->request->get['active'] = $this->data['group'] . '-' . $setting[1] . '-' . $this->data['store_id'];
+			    break;
+		    }
 	    }
 
         $this->document->setTitle($this->language->get('heading_title'));

@@ -177,7 +177,19 @@
 		<value><![CDATA[Alcuni errori si sono verificati durante il processo di operazione. Si prega di consultare il login per i dettagli o riavviare questo compito.]]></value>
 	</definition>
 	<definition>
-		<key>text_was_sent</key>
+		<key>text_sent</key>
 		<value><![CDATA[ %s su %s i messaggi vengono inviati]]></value>
+	</definition>
+	<definition>
+		<key>error_message_email</key>
+		<value><![CDATA[è richiesto corpo del messaggio e-mail!]]></value>
+	</definition>
+	<definition>
+		<key>error_message_sms</key>
+		<value><![CDATA[è richiesto corpo del messaggio SMS!]]></value>
+	</definition>
+	<definition>
+		<key>text_incomplete_tasks</key>
+		<value><![CDATA[Compiti incompleti]]></value>
 	</definition>
 </definitions>

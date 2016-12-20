@@ -1,10 +1,14 @@
 <phpunit
 		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-		xsi:noNamespaceSchemaLocation="http://schema.phpunit.de/4.5/phpunit.xsd">
+		xsi:noNamespaceSchemaLocation="http://schema.phpunit.de/4.5/phpunit.xsd"
+		bootstrap="AbanteCartTestBootstrap.php">
+	<php>
+	  <ini name="display_startup_errors" value="On"/>
+	  <ini name="display_errors" value="On"/>
+	</php>
 	<testsuites>
 		<testsuite name="core_libs">
-			<file>core/helper/UtilsTest.php</file>
-			<file>core/lib/AConfigTest.php</file>
+			<directory>core</directory>
 		</testsuite>
 	</testsuites>
 </phpunit>

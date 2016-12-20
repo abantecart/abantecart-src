@@ -16,7 +16,7 @@
     <?php echo $button_back; ?>
 </a>
 <?php if (!$minimum_notmet) { ?>	
-<a id="checkout" class="btn ml10 pull-right btn-orange">
+<a id="checkout" class="btn ml10 pull-right btn-orange lock-on-click">
     <i class="fa fa-ok fa-white"></i>
     <?php echo $button_confirm; ?>
 </a>
@@ -30,7 +30,10 @@ $('#checkout').click(function() {
 		url: '<?php echo $this->html->getURL('extension/default_banktransfer/confirm');?>',
 		success: function() {
 			goTo('<?php echo $continue; ?>');
-		}		
+		},
+		error: function(){
+			try { resetLockBtn(); } catch (e){}
+		}
 	});
 });
 </script>

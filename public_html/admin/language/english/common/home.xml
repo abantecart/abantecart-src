@@ -1,131 +1,131 @@
 <?xml version="1.0"?>
 <definitions>
-  <definition>
-    <key>heading_title</key>
-    <value><![CDATA[Dashboard]]></value>
-  </definition>
-  <definition>
-    <key>text_overview</key>
-    <value><![CDATA[Overview]]></value>
-  </definition>
-  <definition>
-    <key>text_statistics</key>
-    <value><![CDATA[Statistics]]></value>
-  </definition>
-  <definition>
-    <key>text_latest_10_orders</key>
-    <value><![CDATA[Latest 10 Orders]]></value>
-  </definition>
-  <definition>
-    <key>text_total_sale</key>
-    <value><![CDATA[Total Sales:]]></value>
-  </definition>
-  <definition>
-    <key>text_total_sale_year</key>
-    <value><![CDATA[Total Sales This Year:]]></value>
-  </definition>
-  <definition>
-    <key>text_total_order</key>
-    <value><![CDATA[Total Orders:]]></value>
-  </definition>
-  <definition>
-    <key>text_total_customer</key>
-    <value><![CDATA[No. Of Customers:]]></value>
-  </definition>
-  <definition>
-    <key>text_total_customer_approval</key>
+	<definition>
+		<key>heading_title</key>
+		<value><![CDATA[Dashboard]]></value>
+	</definition>
+	<definition>
+		<key>text_overview</key>
+		<value><![CDATA[Overview]]></value>
+	</definition>
+	<definition>
+		<key>text_statistics</key>
+		<value><![CDATA[Statistics]]></value>
+	</definition>
+	<definition>
+		<key>text_latest_10_orders</key>
+		<value><![CDATA[Latest 10 Orders]]></value>
+	</definition>
+	<definition>
+		<key>text_total_sale</key>
+		<value><![CDATA[Total Sales:]]></value>
+	</definition>
+	<definition>
+		<key>text_total_sale_year</key>
+		<value><![CDATA[Total Sales This Year:]]></value>
+	</definition>
+	<definition>
+		<key>text_total_order</key>
+		<value><![CDATA[Total Orders:]]></value>
+	</definition>
+	<definition>
+		<key>text_total_customer</key>
+		<value><![CDATA[No. Of Customers:]]></value>
+	</definition>
+	<definition>
+		<key>text_total_customer_approval</key>
     <value><![CDATA[Customers Waiting Approval:]]></value>
-  </definition>
-  <definition>
-    <key>text_total_product</key>
-    <value><![CDATA[No. Products:]]></value>
-  </definition>
-  <definition>
-    <key>text_total_review</key>
-    <value><![CDATA[No. Of Reviews:]]></value>
-  </definition>
-  <definition>
-    <key>text_total_review_approval</key>
-    <value><![CDATA[Reviews Waiting Aprroval:]]></value>
-  </definition>
-  <definition>
-    <key>text_day</key>
-    <value><![CDATA[Today]]></value>
-  </definition>
-  <definition>
-    <key>text_week</key>
-    <value><![CDATA[This Week]]></value>
-  </definition>
-  <definition>
-    <key>text_month</key>
-    <value><![CDATA[This Month]]></value>
-  </definition>
-  <definition>
-    <key>text_year</key>
-    <value><![CDATA[This Year]]></value>
-  </definition>
-  <definition>
-    <key>text_order</key>
-    <value><![CDATA[Total Orders]]></value>
-  </definition>
-  <definition>
-    <key>text_order_short</key>
-    <value><![CDATA[Total Orders]]></value>
-  </definition>
-  <definition>
-    <key>text_customer</key>
-    <value><![CDATA[Total Customers]]></value>
-  </definition>
-  <definition>
-    <key>column_order</key>
-    <value><![CDATA[Order ID]]></value>
-  </definition>
-  <definition>
-    <key>column_name</key>
-    <value><![CDATA[Customer Name]]></value>
-  </definition>
-  <definition>
-    <key>column_status</key>
-    <value><![CDATA[Status]]></value>
-  </definition>
-  <definition>
-    <key>column_date_added</key>
-    <value><![CDATA[Date Added]]></value>
-  </definition>
-  <definition>
-    <key>column_total</key>
-    <value><![CDATA[Total]]></value>
-  </definition>
-  <definition>
-    <key>column_firstname</key>
-    <value><![CDATA[First Name]]></value>
-  </definition>
-  <definition>
-    <key>column_lastname</key>
-    <value><![CDATA[Last Name]]></value>
-  </definition>
-  <definition>
-    <key>column_action</key>
-    <value><![CDATA[Action]]></value>
-  </definition>
-  <definition>
-    <key>entry_range</key>
-    <value><![CDATA[Select Range:]]></value>
-  </definition>
-  <definition>
-    <key>orders_text_all</key>
-    <value><![CDATA[All Orders]]></value>
-  </definition>
-  <definition>
-    <key>text_customer_all</key>
-    <value><![CDATA[All Customers]]></value>
-  </definition>
-  <definition>
-    <key>text_latest_10_customers</key>
-    <value><![CDATA[Latest Registrations]]></value>
-  </definition>
-  <definition>
-    <key>column_email</key>
-    <value><![CDATA[Email]]></value>
-  </definition>
+	</definition>
+	<definition>
+		<key>text_total_product</key>
+		<value><![CDATA[No. Products:]]></value>
+	</definition>
+	<definition>
+		<key>text_total_review</key>
+		<value><![CDATA[No. Of Reviews:]]></value>
+	</definition>
+	<definition>
+		<key>text_total_review_approval</key>
+		<value><![CDATA[Reviews Waiting Approval:]]></value>
+	</definition>
+	<definition>
+		<key>text_day</key>
+		<value><![CDATA[Today]]></value>
+	</definition>
+	<definition>
+		<key>text_week</key>
+		<value><![CDATA[This Week]]></value>
+	</definition>
+	<definition>
+		<key>text_month</key>
+		<value><![CDATA[This Month]]></value>
+	</definition>
+	<definition>
+		<key>text_year</key>
+		<value><![CDATA[This Year]]></value>
+	</definition>
+	<definition>
+		<key>text_order</key>
+		<value><![CDATA[Total Orders]]></value>
+	</definition>
+	<definition>
+		<key>text_order_short</key>
+		<value><![CDATA[Total Orders]]></value>
+	</definition>
+	<definition>
+		<key>text_customer</key>
+		<value><![CDATA[Total Customers]]></value>
+	</definition>
+	<definition>
+		<key>column_order</key>
+		<value><![CDATA[Order ID]]></value>
+	</definition>
+	<definition>
+		<key>column_name</key>
+		<value><![CDATA[Customer Name]]></value>
+	</definition>
+	<definition>
+		<key>column_status</key>
+		<value><![CDATA[Status]]></value>
+	</definition>
+	<definition>
+		<key>column_date_added</key>
+		<value><![CDATA[Date Added]]></value>
+	</definition>
+	<definition>
+		<key>column_total</key>
+		<value><![CDATA[Total]]></value>
+	</definition>
+	<definition>
+		<key>column_firstname</key>
+		<value><![CDATA[First Name]]></value>
+	</definition>
+	<definition>
+		<key>column_lastname</key>
+		<value><![CDATA[Last Name]]></value>
+	</definition>
+	<definition>
+		<key>column_action</key>
+		<value><![CDATA[Action]]></value>
+	</definition>
+	<definition>
+		<key>entry_range</key>
+		<value><![CDATA[Select Range:]]></value>
+	</definition>
+	<definition>
+		<key>orders_text_all</key>
+		<value><![CDATA[All Orders]]></value>
+	</definition>
+	<definition>
+		<key>text_customer_all</key>
+		<value><![CDATA[All Customers]]></value>
+	</definition>
+	<definition>
+		<key>text_latest_10_customers</key>
+		<value><![CDATA[Latest Registrations]]></value>
+	</definition>
+	<definition>
+		<key>column_email</key>
+		<value><![CDATA[Email]]></value>
+	</definition>
 </definitions>

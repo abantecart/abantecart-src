@@ -37,36 +37,36 @@ class ControllerPagesCheckoutGuestStep1 extends AController{
 		}
 
 		if (!$this->cart->hasProducts() || (!$this->cart->hasStock() && !$this->config->get('config_stock_checkout'))){
-			$this->redirect($this->html->getSecureURL($cart_rt));
+			redirect($this->html->getSecureURL($cart_rt));
 		}
 
 		//validate if order min/max are met
 		if (!$this->cart->hasMinRequirement() || !$this->cart->hasMaxRequirement()){
-			$this->redirect($this->html->getSecureURL($cart_rt));
+			redirect($this->html->getSecureURL($cart_rt));
 		}
 
 		if ($this->customer->isLogged()){
-			$this->redirect($this->html->getSecureURL('checkout/shipping'));
+			redirect($this->html->getSecureURL('checkout/shipping'));
 		}
 
 		if (!$this->config->get('config_guest_checkout') || $this->cart->hasDownload()){
 			$this->session->data['redirect'] = $this->html->getSecureURL('checkout/shipping');
-			$this->redirect($this->html->getSecureURL('account/login'));
+			redirect($this->html->getSecureURL('account/login'));
 		}
 
 		if ($this->request->is_POST() && $this->_validate()){
-			$this->session->data['guest']['firstname'] = $this->request->post['firstname'];
-			$this->session->data['guest']['lastname'] = $this->request->post['lastname'];
-			$this->session->data['guest']['email'] = $this->request->post['email'];
-			$this->session->data['guest']['telephone'] = $this->request->post['telephone'];
-			$this->session->data['guest']['fax'] = $this->request->post['fax'];
-			$this->session->data['guest']['company'] = $this->request->post['company'];
-			$this->session->data['guest']['address_1'] = $this->request->post['address_1'];
-			$this->session->data['guest']['address_2'] = $this->request->post['address_2'];
-			$this->session->data['guest']['zone_id'] = $this->request->post['zone_id'];
-			$this->session->data['guest']['postcode'] = $this->request->post['postcode'];
-			$this->session->data['guest']['city'] = $this->request->post['city'];
-			$this->session->data['guest']['country_id'] = $this->request->post['country_id'];
+			$this->session->data['guest']['firstname'] = trim($this->request->post['firstname']);
+			$this->session->data['guest']['lastname'] = trim($this->request->post['lastname']);
+			$this->session->data['guest']['email'] = trim($this->request->post['email']);
+			$this->session->data['guest']['telephone'] = trim($this->request->post['telephone']);
+			$this->session->data['guest']['fax'] = trim($this->request->post['fax']);
+			$this->session->data['guest']['company'] = trim($this->request->post['company']);
+			$this->session->data['guest']['address_1'] = trim($this->request->post['address_1']);
+			$this->session->data['guest']['address_2'] = trim($this->request->post['address_2']);
+			$this->session->data['guest']['zone_id'] = (int)$this->request->post['zone_id'];
+			$this->session->data['guest']['postcode'] = trim($this->request->post['postcode']);
+			$this->session->data['guest']['city'] = trim($this->request->post['city']);
+			$this->session->data['guest']['country_id'] = (int)$this->request->post['country_id'];
 
 			//IM addresses
 			$protocols = $this->im->getProtocols();
@@ -76,12 +76,9 @@ class ControllerPagesCheckoutGuestStep1 extends AController{
 				}
 			}
 
-			//if ($this->cart->hasShipping()) {
 			$this->tax->setZone($this->request->post['country_id'], $this->request->post['zone_id']);
-			//}
 
 			$this->loadModel('localisation/country');
-
 			$country_info = $this->model_localisation_country->getCountry($this->request->post['country_id']);
 
 			if ($country_info){
@@ -153,7 +150,7 @@ class ControllerPagesCheckoutGuestStep1 extends AController{
 			unset($this->session->data['payment_method']);
 
 			$this->extensions->hk_ProcessData($this);
-			$this->redirect($this->html->getSecureURL('checkout/guest_step_2'));
+			redirect($this->html->getSecureURL('checkout/guest_step_2'));
 		}
 
 		$this->document->setTitle($this->language->get('heading_title'));
@@ -281,7 +278,16 @@ class ControllerPagesCheckoutGuestStep1 extends AController{
 				if (!is_object($driver_obj) || $protocol=='email'){
 					continue;
 				}
-				$fld = $driver_obj->getURIField($form, $this->request->post[$protocol]);
+
+				if (isset($this->request->post[$protocol])) {
+					$uri = $this->request->post[$protocol];
+				} elseif (isset($this->session->data['guest'][$protocol])) {
+					$uri = $this->session->data['guest'][$protocol];
+				} else {
+					$uri = '';
+				}
+
+				$fld = $driver_obj->getURIField($form, $uri);
 				$this->data['form']['fields']['general'][$protocol] = $fld;
 				$this->data['entry_'.$protocol] = $fld->label_text;
 			}

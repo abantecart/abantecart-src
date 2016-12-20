@@ -8,7 +8,7 @@
   Copyright © 2011-2016 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
-  Lincence details is bundled with this package in the file LICENSE.txt.
+  License details is bundled with this package in the file LICENSE.txt.
   It is also available at this URL:
   <http://www.opensource.org/licenses/OSL-3.0>
 
@@ -39,13 +39,18 @@ class ControllerApiAccountHistory extends AControllerAPI {
 		$order_total = $this->model_account_order->getTotalOrders();
 		
 		if ($order_total) {			
-			if (isset($request_data['page'])) {
-				$page = $request_data['page'];
+			if (isset($request_data['page']) && is_integer($request_data['page'])) {
+				$page = (int)$request_data['page'];
 			} else {
 				$page = 1;
 			}
 
-            $this->data['limit'] = $this->config->get('config_catalog_limit');			
+			if (isset($request_data['limit']) && is_integer($request_data['limit'])) {
+				$this->data['limit'] = (int)$request_data['limit'];
+			} else {           
+				$this->data['limit'] = $this->config->get('config_catalog_limit');   
+			}
+
       		$orders = array();
 			$results = $this->model_account_order->getOrders(($page - 1) * $this->data['limit'], $this->data['limit']);
       		

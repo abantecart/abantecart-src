@@ -31,15 +31,7 @@ class ControllerBlocksOrderSummary extends AController {
 
 		$this->loadModel('tool/seo_url');
     	$this->view->assign('heading_title', $this->language->get('heading_title', 'blocks/order_summary'));
-    	
-		$this->view->assign('text_subtotal', $this->language->get('text_subtotal'));
-		$this->view->assign('text_empty', $this->language->get('text_empty'));
-		$this->view->assign('text_remove', $this->language->get('text_remove'));
-		$this->view->assign('text_confirm', $this->language->get('text_confirm'));
-		$this->view->assign('text_view', $this->language->get('text_view'));
-		$this->view->assign('text_checkout', $this->language->get('text_checkout'));
-		$this->view->assign('text_items', $this->language->get('text_items'));
-		
+    			
 		$this->view->assign('view', $this->html->getSecureURL('checkout/cart'));
 
         $rt = $this->request->get['rt'];

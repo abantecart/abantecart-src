@@ -20,13 +20,14 @@
 if (! defined ( 'DIR_CORE' )) {
 	header ( 'Location: static_pages/' );
 }
-/** @noinspection PhpUndefinedClassInspection */
 /**
  * Class ModelAccountCustomer
  * @property ModelCatalogContent $model_catalog_content
  * @property AIM $im
+ * @property ModelAccountOrder $model_account_order
  */
 class ModelAccountCustomer extends Model {
+	public $data = array();
 	public $error = array();
 	/**
 	 * @param array $data
@@ -42,7 +43,8 @@ class ModelAccountCustomer extends Model {
 			$data['customer_group_id'] = (int)$this->config->get('config_customer_group_id');
 		}
 		if(!isset($data['status'])){
-			if($this->config->get('config_customer_email_activation')){ // if need to activate via email  - disable status
+			// if need to activate via email  - disable status
+			if($this->config->get('config_customer_email_activation')){
 				$data['status'] = 0;
 			}else{
 				$data['status'] = 1;
@@ -61,19 +63,21 @@ class ModelAccountCustomer extends Model {
 										FROM " . $this->db->table("customers") . "
 										WHERE LOWER(`email`) = LOWER('" . $this->db->escape($data['email']) . "')
 											AND customer_group_id IN (SELECT customer_group_id
-																		  FROM ".$this->db->table('customer_groups')."
-																		  WHERE `name` = 'Newsletter Subscribers')");
+																	  FROM ".$this->db->table('customer_groups')."
+																	  WHERE `name` = 'Newsletter Subscribers')");
 		foreach($subscriber->rows as $row){
-			$this->db->query("DELETE FROM " . $this->db->table("customers") . " WHERE customer_id = '" . (int)$row['customer_id'] . "'");
-			$this->db->query("DELETE FROM " . $this->db->table("addresses") . " WHERE customer_id = '" . (int)$row['customer_id'] . "'");
+			$this->db->query("DELETE FROM " . $this->db->table("customers") . " 
+								WHERE customer_id = '" . (int)$row['customer_id'] . "'");
+			$this->db->query("DELETE FROM " . $this->db->table("addresses") . " 
+								WHERE customer_id = '" . (int)$row['customer_id'] . "'");
 		}
 
     	$salt_key = genToken(8);
       	$sql = "INSERT INTO " . $this->db->table("customers") . "
 			  SET	store_id = '" . (int)$this->config->get('config_store_id') . "',
 					loginname = '" . $this->db->escape($data['loginname']) . "',
-					firstname = '" . $this->db->escape($data['firstname']) . "',
-					lastname = '" . $this->db->escape($data['lastname']) . "',
+					firstname = '" . $this->db->escape(trim($data['firstname'])) . "',
+					lastname = '" . $this->db->escape(trim($data['lastname'])) . "',
 					email = '" . $this->db->escape($data['email']) . "',
 					telephone = '" . $this->db->escape($data['telephone']) . "',
 					fax = '" . $this->db->escape($data['fax']) . "',
@@ -116,8 +120,13 @@ class ModelAccountCustomer extends Model {
 			$language = new ALanguage($this->registry);
 			$language->load('account/create');
 
-			//notify administrator of pending customer approval
-			$msg_text = sprintf($language->get('text_pending_customer_approval'), $data['firstname'].' '.$data['lastname'],$customer_id);
+			if($data['subscriber']){
+				//notify administrator of pending subscriber approval
+				$msg_text = sprintf($language->get('text_pending_subscriber_approval'), $data['firstname'] . ' ' . $data['lastname'], $customer_id);
+			}else{
+				//notify administrator of pending customer approval
+				$msg_text = sprintf($language->get('text_pending_customer_approval'), $data['firstname'] . ' ' . $data['lastname'], $customer_id);
+			}
 			$msg = new AMessage();
 			$msg->saveNotice($language->get('text_new_customer'), $msg_text);
 		}
@@ -138,10 +147,15 @@ class ModelAccountCustomer extends Model {
 		//notify admin
 		$language = new ALanguage($this->registry);
 		$language->load('common/im');
-		$message_arr = array(
-		    	1 => array('message' =>  sprintf($language->get('im_new_customer_text_to_admin'),$customer_id)
-		    )
-		);
+		if($data['subscriber']){
+			$lang_key = 'im_new_subscriber_text_to_admin';
+		}else{
+			$lang_key = 'im_new_customer_text_to_admin';
+		}
+		$message_arr = array (
+							1 => array ('message' => sprintf($language->get($lang_key), $customer_id)
+							)
+					);
 		$this->im->send('new_customer', $message_arr);
 
 		return $customer_id;
@@ -185,6 +199,11 @@ class ModelAccountCustomer extends Model {
 			}
 		}
 
+		//trim and remove double whitespaces
+		foreach(array('firstname', 'lastname') as $f){
+			$data[$f] = str_replace('  ', ' ', trim($data[$f]));
+		}
+
 		$sql = "UPDATE " . $this->db->table("customers") . "
 			  SET 	firstname = '" . $this->db->escape($data['firstname']) . "',
 			        lastname = '" . $this->db->escape($data['lastname']) . "', " . $loginname . "
@@ -213,6 +232,7 @@ class ModelAccountCustomer extends Model {
 			$customer_id = (int)$this->customer->getId();
 		}
 
+		$upd = array();
 		//get only active IM drivers
 		$im_protocols = $this->im->getProtocols();
 		foreach ($im_protocols as $protocol){
@@ -459,7 +479,7 @@ class ModelAccountCustomer extends Model {
 	 */
 	public function getCustomerByLoginnameAndEmail($loginname, $email) {
 		$result_row = $this->getCustomerByLoginname($loginname);
-		//validate it is correct row by matchign decrypted email;
+		//validate it is correct row by matching decrypted email;
 		if ( strtolower($result_row['email']) == strtolower($email) ) {
 			return $result_row;
 		} else {
@@ -476,7 +496,7 @@ class ModelAccountCustomer extends Model {
 		$query = $this->db->query("SELECT *
 									FROM " . $this->db->table("customers") . "
 									WHERE LOWER(`lastname`) = LOWER('" . $this->db->escape($lastname) . "')");
-		//validate if we have row with matchign decrypted email;		
+		//validate if we have row with matching decrypted email;
 		$result_row = array();
 		foreach ($query->rows as $result) {
 			if ( strtolower($email) == strtolower($this->dcrypt->decrypt_field($result['email'], $result['key_id'])) ) {
@@ -523,7 +543,7 @@ class ModelAccountCustomer extends Model {
 				require_once DIR_VENDORS . '/google_recaptcha/autoload.php';
 				$recaptcha = new \ReCaptcha\ReCaptcha($this->config->get('config_recaptcha_secret_key'));
 				$resp = $recaptcha->verify(	$data['g-recaptcha-response'],
-											$this->request->server['REMOTE_ADDR']);
+											$this->request->getRemoteIP());
 				if (!$resp->isSuccess() && $resp->getErrorCodes()) {
 					$this->error['captcha'] = $this->language->get('error_captcha');
 				}
@@ -542,7 +562,7 @@ class ModelAccountCustomer extends Model {
 					|| !preg_match($login_name_pattern, $data['loginname'])
 			) {
       			$this->error['loginname'] = $this->language->get('error_loginname');
-    		//validate uniqunes of login name
+    		//validate uniqueness of login name
    		 	} else if ( !$this->is_unique_loginname($data['loginname']) ) {
    		   		$this->error['loginname'] = $this->language->get('error_loginname_notunique');
    		 	}			
@@ -587,7 +607,9 @@ class ModelAccountCustomer extends Model {
 			$this->error['zone'] = $this->language->get('error_zone');
 		}
 
-		if ((mb_strlen($data['password']) < 4) || (mb_strlen($data['password']) > 20)) {
+		//check password length considering html entities (special case for characters " > < & )
+		$pass_len = mb_strlen(htmlspecialchars_decode($data['password']));
+		if ($pass_len < 4 || $pass_len > 20){
 			$this->error['password'] = $this->language->get('error_password');
 		}
 
@@ -612,6 +634,9 @@ class ModelAccountCustomer extends Model {
 		$im_drivers = $this->im->getIMDriverObjects();
 		if ($im_drivers){
 			foreach ($im_drivers as $protocol => $driver_obj){
+				/**
+				 * @var AMailIM $driver_obj
+				 */
 				if (!is_object($driver_obj) || $protocol=='email'){
 					continue;
 				}
@@ -638,7 +663,7 @@ class ModelAccountCustomer extends Model {
 			require_once DIR_VENDORS . '/google_recaptcha/autoload.php';
 			$recaptcha = new \ReCaptcha\ReCaptcha($this->config->get('config_recaptcha_secret_key'));
 			$resp = $recaptcha->verify(	$data['g-recaptcha-response'],
-										$this->request->server['REMOTE_ADDR']);
+										$this->request->getRemoteIP());
 			if (!$resp->isSuccess() && $resp->getErrorCodes()) {
 				$this->error['captcha'] = $this->language->get('error_captcha');
 			}
@@ -669,6 +694,9 @@ class ModelAccountCustomer extends Model {
 		$im_drivers = $this->im->getIMDriverObjects();
 		if ($im_drivers){
 			foreach ($im_drivers as $protocol => $driver_obj){
+				/**
+				 * @var AMailIM $driver_obj
+				 */
 				if (!is_object($driver_obj) || $protocol=='email'){
 					continue;
 				}
@@ -699,7 +727,7 @@ class ModelAccountCustomer extends Model {
     		if ((mb_strlen($data['loginname']) < 5) || (mb_strlen($data['loginname']) > 64)
     			|| (!preg_match($login_name_pattern, $data['loginname'])) ) {
       			$this->error['loginname'] = $this->language->get('error_loginname');
-    		//validate uniqunes of login name
+    		//validate uniqueness of login name
    		 	} else if ( !$this->is_unique_loginname($data['loginname']) ) {
    		   		$this->error['loginname'] = $this->language->get('error_loginname_notunique');
    		 	}			
@@ -734,6 +762,9 @@ class ModelAccountCustomer extends Model {
 		$im_drivers = $this->im->getIMDriverObjects();
 		if ($im_drivers){
 			foreach ($im_drivers as $protocol => $driver_obj){
+				/**
+				 * @var AMailIM $driver_obj
+				 */
 				if (!is_object($driver_obj) || $protocol=='email'){
 					continue;
 				}
@@ -797,38 +828,52 @@ class ModelAccountCustomer extends Model {
 		$login_url = $this->html->getSecureURL('account/login');
 		$this->language->load('mail/account_create');
 		$subject = sprintf($this->language->get('text_subject'), $this->config->get('store_name'));
-		$txt_body = sprintf($this->language->get('text_welcome'), $this->config->get('store_name')) . "\n\n";
+		$store_logo = md5(pathinfo($this->config->get('config_logo'), PATHINFO_FILENAME)) . '.' . pathinfo($this->config->get('config_logo'), PATHINFO_EXTENSION);
+
+		$this->data['mail_plain_text'] = sprintf($this->language->get('text_welcome'), $this->config->get('store_name')) . "\n\n";
 		if($activated){
-			$txt_body .= $this->language->get('text_login') . "\n";	
-			$txt_body .= $login_url . "\n\n";	
+			$this->data['mail_plain_text'] .= $this->language->get('text_login') . "\n";
+			$this->data['mail_plain_text'] .= $login_url . "\n\n";
 		} else {
-			$txt_body .= $this->language->get('text_approval') . "\n\n";
-			$txt_body .= $login_url . "\n\n";
+			$this->data['mail_plain_text'] .= $this->language->get('text_approval') . "\n\n";
+			$this->data['mail_plain_text'] .= $login_url . "\n\n";
 		}
-		$txt_body .= $this->language->get('text_services') . "\n\n";
-		$txt_body .= $this->language->get('text_thanks') . "\n";
-		$txt_body .= $this->config->get('store_name');		
+		$this->data['mail_plain_text'] .= $this->language->get('text_services') . "\n\n";
+		$this->data['mail_plain_text'] .= $this->language->get('text_thanks') . "\n";
+		$this->data['mail_plain_text'] .= $this->config->get('store_name');
 
 		//build HTML message with the template
-		$template = new ATemplate();
-		$template->data['text_welcome'] = sprintf($this->language->get('text_welcome'), $this->config->get('store_name')) . "\n\n";
-		$template->data['text_thanks'] = $this->language->get('text_thanks');		
+		$this->data['mail_template_data']['text_welcome'] = sprintf($this->language->get('text_welcome'), $this->config->get('store_name')) . "\n\n";
+		$this->data['mail_template_data']['text_thanks'] = $this->language->get('text_thanks');
 		if($activated){
-			$template->data['text_login'] = $this->language->get('text_login');
-			$template->data['text_login_later'] = '<a href="' . $login_url . '">' . $login_url . '</a>';
-			$template->data['text_services'] = $this->language->get('text_services');
+			$this->data['mail_template_data']['text_login'] = $this->language->get('text_login');
+			$this->data['mail_template_data']['text_login_later'] = '<a href="' . $login_url . '">' . $login_url . '</a>';
+			$this->data['mail_template_data']['text_services'] = $this->language->get('text_services');
 		} else {
-			$template->data['text_approval'] = $this->language->get('text_approval');
-			$template->data['text_login_later'] = '<a href="' . $login_url . '">' . $login_url . '</a>';
+			$this->data['mail_template_data']['text_approval'] = $this->language->get('text_approval');
+			$this->data['mail_template_data']['text_login_later'] = '<a href="' . $login_url . '">' . $login_url . '</a>';
 		}
-		$store_logo = md5(pathinfo($this->config->get('config_logo'), PATHINFO_FILENAME)) . '.' . pathinfo($this->config->get('config_logo'), PATHINFO_EXTENSION);
-		$template->data['logo'] = 'cid:' . $store_logo;
-		$template->data['store_name'] = $this->config->get('store_name');
-		$template->data['store_url'] = $this->config->get('config_url');
-		$template->data['text_project_label'] = project_base();
-		$html_body = $template->fetch('mail/account_create.tpl');
+
+		$this->data['mail_template_data']['logo'] = 'cid:' . $store_logo;
+		$this->data['mail_template_data']['store_name'] = $this->config->get('store_name');
+		$this->data['mail_template_data']['store_url'] = $this->config->get('config_url');
+		$this->data['mail_template_data']['text_project_label'] = project_base();
+
+		$this->data['mail_template'] = 'mail/account_create.tpl';
+
+		//allow to change email data from extensions
+		$this->extensions->hk_ProcessData($this, 'sf_account_welcome_mail');
+
+		$view = new AView($this->registry,0);
+		$view->batchAssign($this->data['mail_template_data']);
+		$html_body = $view->fetch($this->data['mail_template']);
 		
-		$this->_send_email($email, $subject, $txt_body, $html_body, $store_logo);
+		$this->_send_email($email, array(
+										'subject' => $subject,
+										'txt_body' => $this->data['mail_plain_text'],
+										'html_body' => $html_body,
+										'store_logo' => $store_logo)
+		);
 		return true;
 	}
 
@@ -851,39 +896,77 @@ class ModelAccountCustomer extends Model {
 		//build welcome email
 		$this->language->load('mail/account_create');
 		$subject = sprintf($this->language->get('text_subject'), $this->config->get('store_name'));
-		$txt_body = sprintf($this->language->get('text_welcome'), $this->config->get('store_name')) . "\n\n";
-		$txt_body .= sprintf(strip_tags($this->language->get('text_activate')), "\n". $activate_url . "\n") . "\n";
-		$txt_body .= $this->language->get('text_thanks') . "\n";
-		$txt_body .= $this->config->get('store_name');		
+		$store_logo = md5(pathinfo($this->config->get('config_logo'), PATHINFO_FILENAME)) . '.' . pathinfo($this->config->get('config_logo'), PATHINFO_EXTENSION);
+
+		$this->data['mail_plain_text'] = sprintf($this->language->get('text_welcome'), $this->config->get('store_name')) . "\n\n";
+		$this->data['mail_plain_text'] .= sprintf(strip_tags($this->language->get('text_activate')), "\n". $activate_url . "\n") . "\n";
+		$this->data['mail_plain_text'] .= $this->language->get('text_thanks') . "\n";
+		$this->data['mail_plain_text'] .= $this->config->get('store_name');
 
 		//build HTML message with the template
-		$template = new ATemplate();
-		$template->data['text_welcome'] = sprintf($this->language->get('text_welcome'), $this->config->get('store_name')) . "\n\n";
-		$template->data['text_thanks'] = $this->language->get('text_thanks');		
-		$template->data['text_activate'] = sprintf($this->language->get('text_activate'), '<a href="' . $activate_url . '">' . $activate_url . '</a>');
-		$store_logo = md5(pathinfo($this->config->get('config_logo'), PATHINFO_FILENAME)) . '.' . pathinfo($this->config->get('config_logo'), PATHINFO_EXTENSION);
-		$template->data['logo'] = 'cid:' . $store_logo;
-		$template->data['store_name'] = $this->config->get('store_name');
-		$template->data['store_url'] = $this->config->get('config_url');
-		$template->data['text_project_label'] = project_base();
-		$html_body = $template->fetch('mail/account_create.tpl');
+		$this->data['mail_template_data']['text_welcome'] = sprintf($this->language->get('text_welcome'), $this->config->get('store_name')) . "\n\n";
+		$this->data['mail_template_data']['text_thanks'] = $this->language->get('text_thanks');
+		$this->data['mail_template_data']['text_activate'] = sprintf($this->language->get('text_activate'), '<a href="' . $activate_url . '">' . $activate_url . '</a>');
+		$this->data['mail_template_data']['logo'] = 'cid:' . $store_logo;
+		$this->data['mail_template_data']['store_name'] = $this->config->get('store_name');
+		$this->data['mail_template_data']['store_url'] = $this->config->get('config_url');
+		$this->data['mail_template_data']['text_project_label'] = project_base();
+
+		$this->data['mail_template'] = 'mail/account_create.tpl';
+
+		//allow to change email data from extensions
+		$this->extensions->hk_ProcessData($this, 'sf_account_activation_mail');
+
+		$view = new AView($this->registry,0);
+		$view->batchAssign($this->data['mail_template_data']);
+		$html_body = $view->fetch($this->data['mail_template']);
 		
-		$this->_send_email($customer_data['email'], $subject, $txt_body, $html_body, $store_logo);
+		$this->_send_email($customer_data['email'],
+							array(
+								'subject' => $subject,
+								'txt_body' => $this->data['mail_plain_text'],
+								'html_body' => $html_body,
+								'store_logo' => $store_logo)
+		);
 		return true;
 	}
-	
-	private function _send_email($email, $subject, $txt_body, $html_body, $store_logo) {
-	
+
+
+	private function _send_email($email, $data) {
 		$mail = new AMail($this->config);
 		$mail->setTo($email);
 		$mail->setFrom($this->config->get('store_main_email'));
 		$mail->setSender($this->config->get('store_name'));
-		$mail->setSubject($subject);
-		$mail->setText(html_entity_decode($txt_body, ENT_QUOTES, 'UTF-8'));
-				
-		$mail->addAttachment(DIR_RESOURCE . $this->config->get('config_logo'), $store_logo);
-		$mail->setHtml($html_body);
+		$mail->setSubject($data['subject']);
+		$mail->setText(html_entity_decode($data['txt_body'], ENT_QUOTES, 'UTF-8'));
+		$mail->addAttachment(DIR_RESOURCE . $this->config->get('config_logo'), $data['store_logo']);
+		$mail->setHtml($data['html_body']);
 		$mail->send();	
+	}
+
+	public function parseOrderToken($ot){
+		if(!$ot || !$this->config->get('config_guest_checkout')){
+			return array();
+		}
+
+		//try to decrypt order token
+		$enc = new AEncryption($this->config->get('encryption_key'));
+		$decrypted = $enc->decrypt($ot);
+		list($order_id, $email) = explode('::', $decrypted);
+
+		$order_id = (int)$order_id;
+		if (!$decrypted || !$order_id || !$email){
+			return array();
+		}
+		$this->load->model('account/order');
+		$order_info = $this->model_account_order->getOrder($order_id, '', 'view');
+
+		//compare emails
+		if ($order_info['email'] != $email){
+			return array();
+		}
+
+		return array($order_id,$email);
 	}
 	
 }

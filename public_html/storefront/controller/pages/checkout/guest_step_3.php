@@ -35,36 +35,36 @@ class ControllerPagesCheckoutGuestStep3 extends AController {
 		}
 
 		if (!$this->cart->hasProducts() || (!$this->cart->hasStock() && !$this->config->get('config_stock_checkout'))) {
-	  		$this->redirect($this->html->getSecureURL($cart_rt));
+	  		redirect($this->html->getSecureURL($cart_rt));
     	}
 
 		//validate if order min/max are met
 		if (!$this->cart->hasMinRequirement() || !$this->cart->hasMaxRequirement()) {
-			$this->redirect($this->html->getSecureURL($cart_rt));
+			redirect($this->html->getSecureURL($cart_rt));
 		}
 		
 		if ($this->customer->isLogged()) {
-	  		$this->redirect($this->html->getSecureURL('checkout/shipping'));
+	  		redirect($this->html->getSecureURL('checkout/shipping'));
     	} 
 
 		if (!isset($this->session->data['guest'])) {
-	  		$this->redirect($this->html->getSecureURL('checkout/guest_step_1'));
+	  		redirect($this->html->getSecureURL('checkout/guest_step_1'));
     	} 
 
     	if ($this->cart->hasShipping()) {
 			if (!isset($this->session->data['shipping_method'])) {
-	  			$this->redirect($this->html->getSecureURL('checkout/guest_step_2'));
+	  			redirect($this->html->getSecureURL('checkout/guest_step_2'));
     		}
 		} else {
-			unset($this->session->data['shipping_method']);
-			unset($this->session->data['shipping_methods']);
-			
-			//$this->tax->setZone($this->config->get('config_country_id'), $this->config->get('config_zone_id'));
+			unset(
+				$this->session->data['shipping_method'],
+				$this->session->data['shipping_methods']
+			);
 		    $this->tax->setZone($this->session->data['country_id'], $this->session->data['zone_id']);
 		}
 		
 		if (!isset($this->session->data['payment_method'])) {
-	  		$this->redirect($this->html->getSecureURL('checkout/guest_step_2'));
+	  		redirect($this->html->getSecureURL('checkout/guest_step_2'));
     	}
 		
 
@@ -179,13 +179,15 @@ class ControllerPagesCheckoutGuestStep3 extends AController {
         	$product_id = $this->data['products'][$i]['product_id'];
 	        $thumbnail = $thumbnails[$product_id];
 			$tax = $this->tax->calcTotalTaxAmount($this->data['products'][$i]['total'], $this->data['products'][$i]['tax_class_id']);
+			$price = $this->data['products'][$i]['price'];
+			$quantity = $this->data['products'][$i]['quantity'];			
       		$this->data['products'][$i] = array_merge( 
 												$this->data['products'][$i],
 												array(
 													'thumb'    => $thumbnail,
 													'tax'        => $this->currency->format($tax),
-													'price'      => $this->currency->format($this->data['products'][$i]['price']),
-													'total'      => $this->currency->format($this->data['products'][$i]['total']),
+													'price'      => $this->currency->format($price),
+													'total'      => $this->currency->format_total($price, $quantity),
 													'href'       => $this->html->getSEOURL('product/product', '&product_id=' . $product_id, true )
       		)); 
         }
@@ -202,6 +204,10 @@ class ControllerPagesCheckoutGuestStep3 extends AController {
 			}
 		} else {
 			$this->data['text_accept_agree'] = '';
+		}
+
+		if($this->config->get('coupon_status')){
+			$this->data['coupon_status'] = $this->config->get('coupon_status');
 		}
 
 		if($this->session->data['payment_method']['id'] != 'no_payment_required'){

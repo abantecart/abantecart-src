@@ -21,7 +21,7 @@ if (!defined('DIR_CORE') || !IS_ADMIN) {
 	header('Location: static_pages/');
 }
 class ControllerResponsesListingGridWeightClass extends AController {
-
+	public $data = array();
 	public function main() {
 
 		//init controller data
@@ -85,12 +85,12 @@ class ControllerResponsesListingGridWeightClass extends AController {
 			);
 			$i++;
 		}
+		$this->data['response'] = $response;
 
-		//update controller data
-		$this->extensions->hk_UpdateData($this, __FUNCTION__);
-
-		$this->load->library('json');
-		$this->response->setOutput(AJson::encode($response));
+	    //update controller data
+	    $this->extensions->hk_UpdateData($this, __FUNCTION__);
+	    $this->load->library('json');
+	    $this->response->setOutput(AJson::encode($this->data['response']));
 	}
 
 	public function update() {
@@ -123,11 +123,11 @@ class ControllerResponsesListingGridWeightClass extends AController {
 					}
 				break;
 			case 'save':
-				$fields = array( 'weight_class_description', 'value' );
+				$allowedFields = array_merge(array('weight_class_description', 'value' ), (array)$this->data['allowed_fields']);
 				$ids = explode(',', $this->request->post[ 'id' ]);
 				if (!empty($ids))
 					foreach ($ids as $id) {
-						foreach ($fields as $f) {
+						foreach ($allowedFields as $f) {
 							if (isset($this->request->post[ $f ][ $id ])) {
 								$err = $this->_validateField($f, $this->request->post[ $f ][ $id ]);
 								if (!empty($err)) {
@@ -140,10 +140,7 @@ class ControllerResponsesListingGridWeightClass extends AController {
 					}
 
 				break;
-
 			default:
-
-
 		}
 
 		//update controller data
@@ -185,8 +182,9 @@ class ControllerResponsesListingGridWeightClass extends AController {
 		}
 
 		//request sent from jGrid. ID is key of array
-		$fields = array( 'weight_class_description', 'value', );
-		foreach ($fields as $f) {
+		$allowedFields = array_merge(array( 'weight_class_description', 'value' ), (array)$this->data['allowed_fields']);
+
+		foreach ($allowedFields as $f) {
 			if (isset($this->request->post[ $f ]))
 				foreach ($this->request->post[ $f ] as $k => $v) {
 					$err = $this->_validateField($f, $v);
@@ -203,36 +201,40 @@ class ControllerResponsesListingGridWeightClass extends AController {
 	}
 
 	private function _validateField($field, $value) {
-		$err = '';
+		$this->data['error'] = '';
 		switch ($field) {
 			case 'weight_class_description' :
 				foreach ($value as $v) {
 					if (isset($v[ 'title' ]))
 						if ( mb_strlen($v[ 'title' ]) < 2 || mb_strlen($v[ 'title' ]) > 32 ) {
-							$err = $this->language->get('error_title');
+							$this->data['error'] = $this->language->get('error_title');
 						}
 
 					if (isset($v[ 'unit' ]))
 						if (!$v[ 'unit' ] || mb_strlen($v[ 'unit' ]) > 4) {
-							$err = $this->language->get('error_unit');
+							$this->data['error'] = $this->language->get('error_unit');
 						}
 				}
 				break;
 		}
-
-		return $err;
+		$this->extensions->hk_ValidateData($this, array(__FUNCTION__, $field, $value));
+		return $this->data['error'];
 	}
 
 	private function _validateDelete($weight_class_id) {
+		$this->data['error'] = '';
 		$weight_class_info = $this->model_localisation_weight_class->getWeightClass($weight_class_id);
 		if ($weight_class_info && ($this->config->get('config_weight_class') == $weight_class_info[ 'unit' ])) {
-			return $this->language->get('error_default');
+			$this->data['error'] =  $this->language->get('error_default');
 		}
 
 		$product_total = $this->model_catalog_product->getTotalProductsByWeightClassId($weight_class_id);
 		if ($product_total) {
-			return sprintf($this->language->get('error_product'), $product_total);
+			$this->data['error'] =  sprintf($this->language->get('error_product'), $product_total);
 		}
+
+		$this->extensions->hk_ValidateData($this, array(__FUNCTION__, $weight_class_id));
+		return $this->data['error'];
 	}
 
 }

@@ -29,6 +29,7 @@ if (!defined('DIR_CORE')){
  * @property ACustomer $customer
  * @property AConfig $config
  * @property ALog $log
+ * @property ALoader $load
  * @property ExtensionsAPI $extensions
  * @property ARequest $request
  */
@@ -479,9 +480,48 @@ final class ADownload{
 		foreach ($query->rows as $download_info){
 			$downloads[$download_info['order_download_id']] = $download_info;
 		}
-
 		return $downloads;
+	}
 
+	/**
+	 * @param int $order_id
+	 * @param int $customer_id
+	 * @return array
+	 */
+	public function getCustomerOrderDownloads($order_id, $customer_id){
+		$customer_id = (int)$customer_id;
+		$order_id = (int)$order_id;
+		if (!$order_id){
+			return array ();
+		}
+		$sql = "SELECT o.order_id,
+					  o.order_status_id,
+					  od.download_id,
+					  od.status,
+					  od.date_added,
+					  od.order_download_id,
+					  d.activate,
+					  od.activate_order_status_id,
+					  od.name,
+					  od.filename,
+					  od.mask,
+					  od.remaining_count,
+					  od.expire_date,
+					  op.product_id
+			   FROM " . $this->db->table("order_downloads") . " od
+			   INNER JOIN " . $this->db->table("orders") . " o ON (od.order_id = o.order_id)
+			   LEFT JOIN " . $this->db->table("downloads") . " d ON (d.download_id = od.download_id)
+			   LEFT JOIN " . $this->db->table("order_products") . " op ON (op.order_product_id = od.order_product_id)
+			   WHERE o.order_id = '" . $order_id . "'
+			   " . ($customer_id ? " AND o.customer_id = '" . $customer_id . "'" : "") . "
+			   ORDER BY  o.date_added DESC, od.sort_order ASC ";
+
+		$query = $this->db->query($sql);
+		$downloads = array ();
+		foreach ($query->rows as $download_info){
+			$downloads[$download_info['order_download_id']] = $download_info;
+		}
+		return $downloads;
 	}
 
 	/**
@@ -489,6 +529,24 @@ final class ADownload{
 	 */
 	public function getTotalDownloads(){
 		return sizeof($this->getCustomerDownloads());
+	}
+
+	/**
+	 * @param int $order_id
+	 * @param int $customer_id
+	 * @return mixed
+	 */
+	public function getTotalOrderDownloads($order_id, $customer_id){
+		return sizeof($this->getCustomerOrderDownloads($order_id, $customer_id));
+	}
+
+	/**
+	 * @param int $order_id
+	 * @return int
+	 */
+	public function OrderHasDownloads($order_id){
+		$customer = (int)$this->customer->getId();
+		return $this->getTotalOrderDownloads($order_id, $customer);
 	}
 
 	/**

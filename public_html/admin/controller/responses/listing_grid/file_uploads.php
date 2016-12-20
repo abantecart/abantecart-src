@@ -45,8 +45,6 @@ class ControllerResponsesListingGridFileUploads extends AController {
 		$sord = $this->request->post ['sord']; // get the direction
 
 		$filter = array();
-		//process custom search form
-		$allowedSearchFilter = array ('date_added', 'section' );
 
 		if (isset ( $this->request->post ['filters'] ) && $this->request->post ['filters'] != '') {
 			$this->request->post ['filters'] = json_decode(html_entity_decode($this->request->post ['filters']));
@@ -93,14 +91,14 @@ class ControllerResponsesListingGridFileUploads extends AController {
 
 			$i ++;
 		}
-		$this->data = $response; // for hook access
+
+		$this->data['response'] = $response;
 		//update controller data
 		$this->extensions->hk_UpdateData($this,__FUNCTION__);
 
 		$this->load->library('json');
 		$this->response->addJSONHeader();
-		$this->response->setOutput(AJson::encode($this->data));
-
+		$this->response->setOutput(AJson::encode($this->data['response']));
 	}
 
 }

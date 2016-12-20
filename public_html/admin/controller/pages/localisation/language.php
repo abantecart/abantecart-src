@@ -185,7 +185,7 @@ class ControllerPagesLocalisationLanguage extends AController {
 
 			$language_id = $this->model_localisation_language->addLanguage($this->request->post);
 			$this->session->data['success'] = $this->language->get('text_success');
-			$this->redirect($this->html->getSecureURL('localisation/language/update', '&language_id=' . $language_id ));
+			redirect($this->html->getSecureURL('localisation/language/update', '&language_id=' . $language_id ));
 		}
 
 		$this->_getForm();
@@ -198,9 +198,9 @@ class ControllerPagesLocalisationLanguage extends AController {
 
         //init controller data
         $this->extensions->hk_InitData($this,__FUNCTION__);
-
-		if(!$this->request->get['language_id']){
-			$this->redirect($this->html->getSecureURL('localisation/language'));
+		$language_id = (int)$this->request->get['language_id'];
+		if(!$language_id){
+			redirect($this->html->getSecureURL('localisation/language'));
 		}
 		
 		$this->view->assign('success', $this->session->data['success']);
@@ -210,24 +210,13 @@ class ControllerPagesLocalisationLanguage extends AController {
 
 		$this->document->setTitle( $this->language->get('heading_title') );
 		if ($this->request->is_POST() && $this->_validateForm()) {
-			$this->model_localisation_language->editLanguage($this->request->get['language_id'], $this->request->post);
+			$this->model_localisation_language->editLanguage($language_id, $this->request->post);
 			$this->session->data['success'] = $this->language->get('text_success');			
-			$this->redirect($this->html->getSecureURL('localisation/language/update', '&language_id=' . $this->request->get['language_id'] ));
+			redirect($this->html->getSecureURL('localisation/language/update', '&language_id=' . $language_id ));
 		}
 		$this->_getForm();
 
         //update controller data
-        $this->extensions->hk_UpdateData($this,__FUNCTION__);
-	}
-
-	public function loadlanguageData() {
-        $this->extensions->hk_InitData($this,__FUNCTION__);
-		if ($this->request->post['source_language']) {
-			$this->session->data['success'] = $this->language->fillMissingLanguageEntries( $this->request->get['language_id'], $this->request->post['source_language'], $this->request->post['translate_method']);
-			//This update effect cross system data. Clean whole cache
-			$this->cache->remove('*');
-		}
-		$this->redirect($this->html->getSecureURL('localisation/language/update', '&language_id=' . $this->request->get['language_id'] ));
         $this->extensions->hk_UpdateData($this,__FUNCTION__);
 	}
 
@@ -357,8 +346,8 @@ class ControllerPagesLocalisationLanguage extends AController {
 				'required' => true,
 		));
 
-		if(isset($this->request->get['language_id'])){
-			$form2 = new AForm('HT');
+		if(isset($this->request->get['language_id']) && sizeof($this->language->getAvailableLanguages())>1){
+			$form2 = new AForm();
 			$form2->setForm(array(
 				'form_name' => 'languageLoadFrm',
 			));
@@ -367,7 +356,6 @@ class ControllerPagesLocalisationLanguage extends AController {
 			$this->data['form2']['form_open'] = $form2->getFieldHtml(array(
 				'type' => 'form',
 				'name' => 'languageLoadFrm',
-				'action' => $this->html->getSecureURL('localisation/language/loadlanguageData', '&language_id=' . $this->request->get['language_id'] ),
 				'attr' => 'class="aform form-horizontal"',
 			));
 			$this->data['form2']['load_data'] = $form2->getFieldHtml(array(
@@ -377,16 +365,25 @@ class ControllerPagesLocalisationLanguage extends AController {
 				'style' => 'button3',
 			));
 
-			$all_languages = array('');
-			$all_languages[0] = "-----";
+			$language_id = (int)$this->request->get['language_id'];
+			$all_languages = array();
 			foreach ($this->language->getAvailableLanguages() as $result) {
+				//skip chosen language from list to prevent recursion
+				if($language_id == $result['language_id']){ continue;}
 				$all_languages[$result['language_id']] = $result['name'];
 			}
+			array_unshift($all_languages, $this->language->get('text_select'));
+
 			$this->data['form2']['fields']['language_selector'] = $form2->getFieldHtml(array(
 				'type' => 'selectbox',
 				'name' => 'source_language',
 				'value' => '',
 				'options' => $all_languages,
+			));
+			$this->data['form2']['fields']['language_id'] = $form2->getFieldHtml(array(
+				'type' => 'hidden',
+				'name' => 'language_id',
+				'value' => $language_id
 			));
 
 			$translate_methods = $this->language->getTranslationMethods();
@@ -396,6 +393,41 @@ class ControllerPagesLocalisationLanguage extends AController {
 				'value' => '',
 				'options' => $translate_methods,
 			));
+			$this->data['form2']['build_task_url'] = $this->html->getSecureURL('r/localisation/language_description/buildTask');
+			$this->data['form2']['complete_task_url'] = $this->html->getSecureURL('r/localisation/language_description/complete');
+			$this->data['form']['abort_task_url'] = $this->html->getSecureURL('r/localisation/language_description/abort');
+
+			//check for incomplete tasks
+			$task_name = 'translation';
+			$tm = new ATaskManager();
+			$incomplete = $tm->getTasks(array(
+					'filter' => array(
+							'name' => $task_name
+					)
+			));
+
+			foreach($incomplete as $incm_task){
+				//show all incomplete tasks for Top Administrator user group
+				if($this->user->getUserGroupId() != 1){
+					if ($incm_task['starter'] != $this->user->getId()){
+						continue;
+					}
+					//rename task to prevent colission with new
+					if($incm_task['name']==$task_name){
+						$tm->updateTask($incm_task['task_id'],array('name' => $task_name.'_'.date('YmdHis')));
+					}
+				}
+				//define incomplete tasks by last time run
+				$max_exec_time = (int)$incm_task['max_execution_time'];
+				if(!$max_exec_time){
+					//if no limitations for execution time for task - think it's 2 hours
+					$max_exec_time = 7200;
+				}
+				if( time() - dateISO2Int($incm_task['last_time_run']) > $max_exec_time ){
+					$this->data['incomplete_tasks_url'] = $this->html->getSecureURL('r/localisation/language_description/incomplete');
+					break;
+				}
+			}
 		}else{
 			$this->data['entry_create_language_note'] = $this->language->get('create_language_note');
 		}

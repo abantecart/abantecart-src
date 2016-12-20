@@ -905,4 +905,8 @@
 		<key>entry_html_cache</key>
 		<value><![CDATA[Cache HTML: <br/><span class="help">pagine HTML attivato e blocca caching per ottenere una migliore velocità per le pagine. Questo si aggiunge la cache di regolare la cache dei dati abilitata nel system/config.php </span>]]></value>
 	</definition>
+	<definition>
+		<key>entry_task_api_key</key>
+		<value><![CDATA[Compiti API chiave: <br/><span class="help"> Si tratta di una chiave segreta per permettere AbanteCart per eseguire i processi in programma dal browser con file di /task.php. Se non è impostata, compiti non verrà eseguito tramite browser <br/> NOTA:.. Questo API Key non è richiesta per l'esecuzione di compiti di riga di comando </span>]]></value>
+	</definition>
 </definitions>

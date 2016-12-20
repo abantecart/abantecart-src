@@ -21,7 +21,7 @@ if (! defined ( 'DIR_CORE' ) || !IS_ADMIN) {
 	header ( 'Location: static_pages/' );
 }
 class ControllerResponsesListingGridUserPermission extends AController {
-
+	public $data = array();
 
     public function main() {
 
@@ -79,13 +79,12 @@ class ControllerResponsesListingGridUserPermission extends AController {
 			$response->rows[$i]['cell'] = array( $name	);
 			$i++;
 		}
+	    $this->data['response'] = $response;
 
-		//update controller data
-        $this->extensions->hk_UpdateData($this,__FUNCTION__);
-
-		$this->load->library('json');
-	    $this->response->addJSONHeader();
-		$this->response->setOutput(AJson::encode($response));
+        //update controller data
+        $this->extensions->hk_UpdateData($this, __FUNCTION__);
+        $this->load->library('json');
+        $this->response->setOutput(AJson::encode($this->data['response']));
 	}
 
     /**
@@ -243,11 +242,12 @@ class ControllerResponsesListingGridUserPermission extends AController {
 			                                                                    'style' => 'btn_switch')));
 			$i++;
 		}
+		$this->data['response'] = $response;
 
-		//update controller data
-        $this->extensions->hk_UpdateData($this,__FUNCTION__);
-		$this->response->addJSONHeader();
-		$this->response->setOutput(AJson::encode($response));
+	    //update controller data
+	    $this->extensions->hk_UpdateData($this, __FUNCTION__);
+	    $this->load->library('json');
+	    $this->response->setOutput(AJson::encode($this->data['response']));
 	}
 
 }

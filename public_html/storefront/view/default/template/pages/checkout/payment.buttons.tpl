@@ -2,7 +2,7 @@
 	<i class="fa fa-arrow-left"></i>
 	<?php echo $form['back']->text ?>
 </a>
-<button class="btn btn-orange pull-right ml10" title="<?php echo $form['continue']->name ?>" type="submit">
+<button class="btn btn-orange pull-right ml10 lock-on-click" title="<?php echo $form['continue']->name ?>" type="submit">
 	<i class="fa fa-arrow-right"></i>
 	<?php echo $form['continue']->name ?>
 </button>

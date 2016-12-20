@@ -219,6 +219,108 @@ class AIMManager extends AIM{
 		return true;
 	}
 
+	/**
+	 * @param int $order_id
+	 * @param array $msg_details - structure:
+	 * array(
+	 * message => 'text',
+	 * );
+	 * notes: If message is not provided, message text will be takes from languages based on checkpoint text key.
+	 * @return array|bool
+	 */
+	public function sendToGuest($order_id, $msg_details = array ()){
+		if (!$order_id){
+			return array ();
+		}
+		$this->load->language('common/im');
+		$this->registry->set('force_skip_errors', true);
+
+		foreach ($this->protocols as $protocol){
+			$driver = null;
+
+			//check protocol status
+			if ($protocol == 'email'){
+				//email notifications always enabled
+				$protocol_status = 1;
+			} elseif ((int)$this->config->get('config_storefront_' . $protocol . '_status') ||
+					(int)$this->config->get('config_admin_' . $protocol . '_status')
+			){
+				$protocol_status = 1;
+			} else{
+				$protocol_status = 0;
+			}
+
+			if (!$protocol_status){
+				continue;
+			}
+
+			if ($protocol == 'email'){
+				//see AMailAIM class in im.php
+				$driver = new AMailIM();
+			} else{
+				$driver_txt_id = $this->config->get('config_' . $protocol . '_driver');
+
+				//if driver not set - skip protocol
+				if (!$driver_txt_id){
+					continue;
+				}
+
+				if (!$this->config->get($driver_txt_id . '_status')){
+					$error = new AError('Cannot send notification. Communication driver ' . $driver_txt_id . ' is disabled!');
+					$error->toLog()->toMessages();
+					continue;
+				}
+
+				//use safe usage
+				$driver_file = DIR_EXT . $driver_txt_id . '/core/lib/' . $driver_txt_id . '.php';
+				if (!is_file($driver_file)){
+					$error = new AError('Cannot find file ' . $driver_file . ' to send notification.');
+					$error->toLog()->toMessages();
+					continue;
+				}
+				try{
+					/** @noinspection PhpIncludeInspection */
+					include_once($driver_file);
+					//if class of driver
+					$classname = preg_replace('/[^a-zA-Z]/', '', $driver_txt_id);
+					if (!class_exists($classname)){
+						$error = new AError('IM-driver ' . $driver_txt_id . ' load error.');
+						$error->toLog()->toMessages();
+						continue;
+					}
+
+					$driver = new $classname();
+				} catch(Exception $e){
+				}
+			}
+			//if driver cannot be initialized - skip protocol
+			if ($driver === null){
+				continue;
+			}
+
+			$store_name = $this->config->get('store_name') . ": ";
+			//check is notification for this protocol and sendpoint allowed
+			if ($this->config->get('config_storefront_' . $protocol . '_status') || $protocol == 'email'){
+				$message = $msg_details[0]['message'];
+				if (empty($message)){
+					continue;
+				}
+				$message = $this->_process_message_text($message);
+				$to = $this->getCustomerURI($protocol, 0, $order_id);
+				if ($message && $to){
+					//use safe call
+					try{
+						$driver->send($to, $store_name . $message);
+					} catch(Exception $e){
+					}
+				}
+			}
+			unset($driver);
+		}
+		$this->registry->set('force_skip_errors', false);
+		return true;
+	}
+
 	public function getCustomerIMSettings($customer_id){
 		if (!$customer_id){
 			return array ();

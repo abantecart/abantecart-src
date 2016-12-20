@@ -8,6 +8,15 @@
 
 	<div class="panel-heading col-xs-12">
 		<div class="primary_content_actions pull-left">
+
+			<?php if (!empty ($list_url)) { ?>
+			<div class="btn-group">
+				<a class="btn btn-white tooltips" href="<?php echo $list_url; ?>" data-toggle="tooltip" data-original-title="<?php echo $text_back_to_list; ?>">
+					<i class="fa fa-arrow-left fa-lg"></i>
+				</a>
+			</div>
+			<?php } ?>
+
 			<div class="btn-group mr10 toolbar">
 			<a class="btn btn-white tooltips" target="_invoice" href="<?php echo $invoice_url; ?>" data-toggle="tooltip"
 			   title="<?php echo $text_invoice; ?>" data-original-title="<?php echo $text_invoice; ?>">
@@ -25,6 +34,7 @@
 
 	<div class="container-fluid">
 	<div class="col-sm-6 col-xs-12">
+		<?php echo $this->getHookVar('order_details_left_pre'); ?>
 		<div class="form-group">
 			<label class="control-label col-sm-5"><?php echo $entry_order_id; ?></label>
 			<div class="input-group afield col-sm-7">
@@ -109,8 +119,10 @@
 			<p class="form-control-static"><?php echo $ip; ?></p>
 			</div>
 		</div>
+		<?php echo $this->getHookVar('order_details_left_post'); ?>
 	</div>
 	<div class="col-sm-6 col-xs-12">
+		<?php echo $this->getHookVar('order_details_right_pre'); ?>
 		<div class="form-group">
 			<label class="control-label col-sm-5"><?php echo $entry_store_name; ?></label>
 			<div class="input-group afield col-sm-7">
@@ -153,6 +165,7 @@
 			<p class="form-control-static"><a target="_blank" href="<?php echo $history; ?>"><?php echo $order_status; ?></a></p>
 			</div>
 		</div>
+		<?php echo $this->getHookVar('order_details_right_post'); ?>
 	</div>
 	</div>
 	

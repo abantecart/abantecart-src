@@ -53,8 +53,7 @@ class ExtensionFormsManager extends Extension {
 			}
 
 			if($block_txt_id=='custom_form_block'){
-				header('Location: ' .$this->html->getSecureURL('tool/forms_manager/edit_block', '&custom_block_id=' . (int)$this->request->get['custom_block_id']));
-				exit;
+				redirect($this->html->getSecureURL('tool/forms_manager/edit_block', '&custom_block_id=' . (int)$this->request->get['custom_block_id']));
 			}
 		}
 	}
@@ -90,8 +89,7 @@ class ExtensionFormsManager extends Extension {
 			}
 
 			if($block_txt_id=='custom_form_block'){
-				header('Location: ' .$this->html->getSecureURL('tool/forms_manager/edit_block', '&custom_block_id=' . (int)$this->request->get['custom_block_id']));
-				exit;
+				redirect($this->html->getSecureURL('tool/forms_manager/edit_block', '&custom_block_id=' . (int)$this->request->get['custom_block_id']));
 			}
 		}
 	}

@@ -24,11 +24,11 @@ class ControllerTaskToolBackup extends AController {
 	private $error = array();
 
 	public function dumpTables(){
-		if($this->request->get['eta']>30){
-			set_time_limit((int)$this->request->get['eta']*2);
-		}
-		$backup_name = preg_replace('[^0-9A-z_\.]','', $this->request->get['backup_name']);
+
+		list($task_id,$step_id,$settings) = func_get_args();
+		$backup_name = preg_replace('[^0-9A-z_\.]','', $settings['backup_name']);
 		$backup_name = !$backup_name ? 'manual_backup' : $backup_name;
+
 		$bkp = new ABackup($backup_name);
 
 		if(has_value($this->request->get['sql_dump_mode'])){
@@ -58,7 +58,7 @@ class ControllerTaskToolBackup extends AController {
 		if($result){
 			$this->load->library('json');
 			$this->response->addJSONHeader();
-			$output = array('result' => true);
+			$output = array('result' => true, 'message' => sizeof($table_list). ' tables dumped.');
 			$this->response->setOutput( AJson::encode($output) );
 		}else{
 			$error = new AError('dump tables error');
@@ -71,11 +71,11 @@ class ControllerTaskToolBackup extends AController {
 	}
 
 	public function backupContentFiles(){
-		if($this->request->get['eta']>30){
-			set_time_limit((int)$this->request->get['eta']+30);
-		}
-		$backup_name = preg_replace('[^0-9A-z_\.]','', $this->request->get['backup_name']);
+
+		list($task_id,$step_id,$settings) = func_get_args();
+		$backup_name = preg_replace('[^0-9A-z_\.]','', $settings['backup_name']);
 		$backup_name = !$backup_name ? 'manual_backup' : $backup_name;
+
 		$bkp = new ABackup($backup_name);
 		$content_dirs = array( // white list
 					'resources',
@@ -96,7 +96,7 @@ class ControllerTaskToolBackup extends AController {
 		if($result){
 			$this->load->library('json');
 			$this->response->addJSONHeader();
-			$output = array('result' => true);
+			$output = array('result' => true, 'message' => '( backup content files )');
 			$this->response->setOutput( AJson::encode($output) );
 		}else{
 			$error = new AError('files backup error');
@@ -109,30 +109,29 @@ class ControllerTaskToolBackup extends AController {
 	}
 
 	public function backupCodeFiles(){
-		if($this->request->get['eta']>30){
-			set_time_limit((int)$this->request->get['eta']+30);
-		}
-		$backup_name = preg_replace('[^0-9A-z_\.]','', $this->request->get['backup_name']);
+		list($task_id,$step_id,$settings) = func_get_args();
+		$backup_name = preg_replace('[^0-9A-z_\.]','', $settings['backup_name']);
 		$backup_name = !$backup_name ? 'manual_backup' : $backup_name;
 		$bkp = new ABackup($backup_name);
-		$code_dirs = array( // white list
-			'admin',
-			'core',
-			'storefront',
-			'extensions',
-			'system',
-			'static_pages'
+
+		$content_dirs = array(
+			'resources',
+			'image',
+			'download'
 		);
 
 		$result = true;
 		$files = array_merge(glob(DIR_ROOT.'/.*'), glob(DIR_ROOT.'/*'));
 
 		foreach($files as $file){
-			if(in_array(basename($file), array('.','..'))){ continue; } //those filenames give glob for hidden files (see above)
+			//those file names give glob for hidden files (see above)
+			if(in_array(basename($file), array('.','..'))){ continue; }
 			$res = true;
 			if(is_file($file)){
 				$res = $bkp->backupFile($file, false);
-			}else if(is_dir($file) && in_array(basename($file),$code_dirs)){ //only dirs from white list
+			}
+			//only dirs from white list
+			else if(is_dir($file) && !in_array(basename($file),$content_dirs)){
 				$res = $bkp->backupDirectory($file, false);
 			}
 			$result = !$res ? $res : $result;
@@ -141,7 +140,7 @@ class ControllerTaskToolBackup extends AController {
 		if($result){
 			$this->load->library('json');
 			$this->response->addJSONHeader();
-			$output = array('result' => true);
+			$output = array('result' => true, 'message' => ' Backup code files('.sizeof($files).' directories)');
 			$this->response->setOutput( AJson::encode($output) );
 		}else{
 			$error = new AError('files backup error');
@@ -155,13 +154,13 @@ class ControllerTaskToolBackup extends AController {
 
 
 	public function backupConfig(){
-
-		$backup_name = preg_replace('[^0-9A-z_\.]','', $this->request->get['backup_name']);
+		list($task_id,$step_id,$settings) = func_get_args();
+		$backup_name = preg_replace('[^0-9A-z_\.]','', $settings['backup_name']);
 		$backup_name = !$backup_name ? 'manual_backup' : $backup_name;
 		$bkp = new ABackup($backup_name);
 		$result = $bkp->backupFile(DIR_ROOT . '/system/config.php', false);
 
-		$output = array('result' => $result ? true : false);
+		$output = array('result' => ($result ? true : false), 'message' => '( backup config file )');
 
 		$this->load->library('json');
 		$this->response->addJSONHeader();
@@ -169,11 +168,11 @@ class ControllerTaskToolBackup extends AController {
 	}
 
 	public function CompressBackup(){
-		if($this->request->get['eta']>30){
-			set_time_limit((int)$this->request->get['eta']+30);
-		}
-		$backup_name = preg_replace('[^0-9A-z_\.]','', $this->request->get['backup_name']);
+
+		list($task_id,$step_id,$settings) = func_get_args();
+		$backup_name = preg_replace('[^0-9A-z_\.]','', $settings['backup_name']);
 		$backup_name = !$backup_name ? 'manual_backup' : $backup_name;
+
 		$bkp = new ABackup($backup_name);
 
 		$arc_basename =  DIR_BACKUP . $bkp->getBackupName();
@@ -189,7 +188,11 @@ class ControllerTaskToolBackup extends AController {
 		if($result){
 			$this->load->library('json');
 			$this->response->addJSONHeader();
-			$output = array('result' => true, 'filename' => $bkp->getBackupName());
+			$output = array(
+					'result' => true,
+					'filename' => $bkp->getBackupName(),
+					'message' => '( compressing )'
+			);
 			$this->response->setOutput( AJson::encode($output) );
 		}else{
 			$error = new AError('compress backup error');

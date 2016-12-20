@@ -87,11 +87,14 @@
 							<i class="fa fa-edit"></i>
 							<?php echo $text_edit_payment; ?>
 						</a>
-						<br /><br />
+						<br />
+					<?php if($coupon_status){ ?>
+						<br />
 						<a class="btn btn-default btn-xs" href="<?php echo $checkout_payment_edit; ?>">
 							<i class="fa fa-check-square-o"></i>
 							<?php echo $text_add_coupon; ?>
 						</a>
+					<?php } ?>
 					</td>
 				</tr>
 			<?php }
@@ -173,7 +176,7 @@
 			</table>
 		</div>
 		
-		<div class="col-md-6 col-md-offset-1 payment_confirmation">
+		<div class="col-md-7 payment_confirmation">
 			<?php echo $this->getHookVar('payment_pre'); ?>
 			<div id="payment"><?php echo $payment; ?></div>
 			<?php echo $this->getHookVar('payment_post'); ?>	

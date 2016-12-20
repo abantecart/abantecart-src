@@ -25,19 +25,40 @@ class ModelSettingExtension extends Model {
 	* Get enabled payment extensions. Used in configuration for shipping extensions
 	*/
 	public function getEnabledPayments() {
-		$extension_data = array();
-		
-		$query = $this->db->query("SELECT * FROM " . $this->db->table("extensions") . " WHERE `type` = 'payment' and status = 1");		
+		$query = $this->db->query("SELECT *
+								   FROM " . $this->db->table("extensions") . "
+								   WHERE `type` = 'payment' and status = 1");
 		return $query->rows;
+	}
+
+	/*
+	* Get enabled payment extensions that support handler class. New arch. 
+	*/
+	public function getPaymentsWithHandler() {
+		$query = $this->db->query("SELECT *
+								   FROM " . $this->db->table("extensions") . "
+								   WHERE `type` = 'payment' and status = 1");
+		$output = array();
+		$output[] = array('' => '');
+		foreach($query->rows as $row){
+			if(file_exists(DIR_EXT.$row['key'].DIR_EXT_CORE.'lib/handler.php')){
+				$output[] = $row;
+			}
+		}
+		return $output;
 	}
 	
 	
 	public function install($type, $key) {
-		$this->db->query("INSERT INTO " . $this->db->table("extensions") . " SET `type` = '" . $this->db->escape($type) . "', `key` = '" . $this->db->escape($key) . "'");
+		$this->db->query("INSERT INTO " . $this->db->table("extensions") . "
+							SET
+								`type` = '" . $this->db->escape($type) . "',
+								`key` = '" . $this->db->escape($key) . "'");
 	}
 	
 	public function uninstall($type, $key) {
-		$this->db->query("DELETE FROM " . $this->db->table("extensions") . " WHERE `type` = '" . $this->db->escape($type) . "' AND `key` = '" . $this->db->escape($key) . "'");
+		$this->db->query("DELETE FROM " . $this->db->table("extensions") . "
+						WHERE `type` = '" . $this->db->escape($type) . "'
+								AND `key` = '" . $this->db->escape($key) . "'");
 	}
 }
-?>

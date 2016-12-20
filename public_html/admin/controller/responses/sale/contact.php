@@ -41,6 +41,7 @@ class ControllerResponsesSaleContact extends AController {
 		if ($this->request->is_POST() && $this->_validate()) {
 			$this->loadModel('sale/contact');
 			$task_details = $this->model_sale_contact->createTask('send_now_'.date('Ymd-H:i:s'), $this->request->post);
+			$task_api_key = $this->config->get('task_api_key');
 
 			if(!$task_details){
 				$this->errors = array_merge($this->errors,$this->model_sale_contact->errors);
@@ -49,7 +50,15 @@ class ControllerResponsesSaleContact extends AController {
 										array( 'error_text' => implode(' ', $this->errors),
 												'reset_value' => true
 										));
+			}elseif(!$task_api_key){
+				$error = new AError('files backup error');
+				return $error->toJSONResponse('APP_ERROR_402',
+										array( 'error_text' => 'Please set up Task API Key in the settings!',
+											   'reset_value' => true
+										));
 			}else{
+				$task_details['task_api_key'] = $task_api_key;
+				$task_details['url'] = HTTPS_SERVER.'task.php';
 				$this->data['output']['task_details'] = $task_details;
 			}
 
@@ -92,9 +101,6 @@ class ControllerResponsesSaleContact extends AController {
 		}else{
 			$result_text = $this->language->get('text_task_failed');
 		}
-
-
-
 
 		//update controller data
         $this->extensions->hk_UpdateData($this,__FUNCTION__);
@@ -151,6 +157,7 @@ class ControllerResponsesSaleContact extends AController {
 		$this->extensions->hk_InitData($this,__FUNCTION__);
 
 		$task_id = (int)$this->request->get_or_post('task_id');
+		$task_api_key = $this->config->get('task_api_key');
 		$etas = array();
 		if ($task_id) {
 			$tm= new ATaskManager();
@@ -177,12 +184,24 @@ class ControllerResponsesSaleContact extends AController {
 										array( 'error_text' => $error_text,
 												'reset_value' => true
 										));
+			}elseif(!$task_api_key){
+				$error = new AError('files backup error');
+				return $error->toJSONResponse('APP_ERROR_402',
+										array( 'error_text' => 'Please set up Task API Key in the settings!',
+											   'reset_value' => true
+										));
+			}else{
+				$task_details['task_api_key'] = $task_api_key;
+				$task_details['url'] = HTTPS_SERVER . 'task.php';
+				//change task status
+				$task_details['status'] = $tm::STATUS_READY;
+				$tm->updateTask($task_id, array('status' => $tm::STATUS_READY));
 			}
-
 
 			foreach ($etas as $step_id => $eta){
 				$task_details['steps'][$step_id]['eta'] = $eta;
 			}
+
 			$this->data['output']['task_details'] = $task_details;
 
 		}else{
@@ -214,28 +233,28 @@ class ControllerResponsesSaleContact extends AController {
 		$this->extensions->hk_UpdateData($this,__FUNCTION__);
 	}
 
-	public function incompleted(){
+	public function incomplete(){
 		//init controller data
 		$this->extensions->hk_InitData($this,__FUNCTION__);
 		$this->loadModel('user/user');
 		$this->data = $this->language->getASet('sale/contact');
 
 		$tm = new ATaskManager();
-		$incompleted = $tm->getTasks(array(
+		$incomplete = $tm->getTasks(array(
 				'filter' => array(
 						'name' => 'send_now'
 				)
 		));
 
 		$k = 0;
-		foreach($incompleted as $incm_task){
-			//show all incompleted tasks for Top Administrator user group
+		foreach($incomplete as $incm_task){
+			//show all incomplete tasks for Top Administrator user group
 			if($this->user->getUserGroupId() != 1){
 				if ($incm_task['starter'] != $this->user->getId()){
 					continue;
 				}
 			}
-			//define incompleted tasks by last time run
+			//define incomplete tasks by last time run
 			$max_exec_time = (int)$incm_task['max_execution_time'];
 			if(!$max_exec_time){
 				//if no limitations for execution time for task - think it's 2 hours
@@ -259,7 +278,7 @@ class ControllerResponsesSaleContact extends AController {
 				$incm_task['message'] = mb_substr($step_settings['message'],0, 300);
 				$incm_task['date_added'] = dateISO2Display($incm_task['date_added'], $this->language->get('date_format_short').' '.$this->language->get('time_format'));
 				$incm_task['last_time_run'] = dateISO2Display($incm_task['last_time_run'], $this->language->get('date_format_short').' '.$this->language->get('time_format'));
-				$incm_task['was_sent'] = sprintf($this->language->get('text_was_sent'),$incm_task['settings']['sent'], $incm_task['settings']['recipients_count']);
+				$incm_task['sent'] = sprintf($this->language->get('text_sent'),$incm_task['settings']['sent'], $incm_task['settings']['recipients_count']);
 
 				$this->data['tasks'][$k] = $incm_task;
 			}
@@ -272,7 +291,7 @@ class ControllerResponsesSaleContact extends AController {
 		$this->data['abort_task_url'] = $this->html->getSecureURL('r/sale/contact/abort');
 
 		$this->view->batchAssign($this->data);
-		$this->processTemplate('responses/sale/contact_incompleted.tpl');
+		$this->processTemplate('responses/sale/contact_incomplete.tpl');
 		//update controller data
 		$this->extensions->hk_UpdateData($this,__FUNCTION__);
 
@@ -283,18 +302,18 @@ class ControllerResponsesSaleContact extends AController {
 		if (!$this->user->canModify('sale/contact')) {
 			$this->errors['warning'] = $this->language->get('error_permission');
 		}
-
-		if($this->request->post['protocol']=='email'){
-			if (!$this->request->post['subject']){
+		$post = $this->request->post;
+		if($post['protocol'] == 'email'){
+			if (!$post['subject']){
 				$this->errors['subject'] = $this->language->get('error_subject');
 			}
 		}
 
-		if (!$this->request->post['message']) {
-			$this->errors['message'] = $this->language->get('error_message');
+		if (!$post['message']) {
+			$this->errors['message'] = $this->language->get('error_message_'.$post['protocol']);
 		}
 
-		if (!$this->request->post['recipient'] && !$this->request->post['to'] && !$this->request->post['products']) {
+		if (!$post['recipient'] && !$post['to'] && !$post['products']) {
 			$this->errors['recipient'] = $this->language->get('error_recipients');
 		}
 
@@ -309,6 +328,7 @@ class ControllerResponsesSaleContact extends AController {
 
 	public function getRecipientsCount(){
 		$this->loadModel('sale/customer');
+		$this->loadModel('sale/order');
 
 		//init controller data
 		$this->extensions->hk_InitData($this,__FUNCTION__);
@@ -321,18 +341,18 @@ class ControllerResponsesSaleContact extends AController {
 			$db_filter['filter']['only_with_mobile_phones'] = 1;
 		}
 
-		$newsletter_dbfilter = $db_filter;
-		$newsletter_dbfilter['filter']['newsletter_protocol'] = $protocol;
+		$newsletter_db_filter = $db_filter;
+		$newsletter_db_filter['filter']['newsletter_protocol'] = $protocol;
 
 		$count = 0;
 		$emails = array ();
 
 		switch($recipient){
 			case 'all_subscribers':
-				$count = $this->model_sale_customer->getTotalAllSubscribers($newsletter_dbfilter);
+				$count = $this->model_sale_customer->getTotalAllSubscribers($newsletter_db_filter);
 				break;
 			case 'only_subscribers':
-				$count = $this->model_sale_customer->getTotalOnlyNewsletterSubscribers($newsletter_dbfilter);
+				$count = $this->model_sale_customer->getTotalOnlyNewsletterSubscribers($newsletter_db_filter);
 				break;
 			case 'only_customers':
 				$count = $this->model_sale_customer->getTotalOnlyCustomers($db_filter);
@@ -344,6 +364,22 @@ class ControllerResponsesSaleContact extends AController {
 						$results = $this->model_sale_customer->getCustomersByProduct($product_id);
 						foreach ($results as $result){
 							$emails[] = trim($result[$protocol]);
+						}
+						//for guests
+						$results = $this->model_sale_order->getGuestOrdersWithProduct($product_id);
+						foreach ($results as $result){
+							if($protocol == 'email'){
+								$emails[] = trim($result[$protocol]);
+							}elseif($protocol == 'sms'){
+								$order_id = (int)$result['order_id'];
+								if (!$order_id){
+									continue;
+								}
+								$uri = $this->im->getCustomerURI('sms', 0, $order_id);
+								if ($uri){
+									$emails[] = $uri;
+								}
+							}
 						}
 					}
 				}

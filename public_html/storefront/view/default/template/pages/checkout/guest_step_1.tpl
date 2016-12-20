@@ -108,7 +108,7 @@
       
 	<div class="form-group">
 	    <div class="col-md-12 mt20">
-	    	<button class="btn btn-orange pull-right" title="<?php echo $form['continue']->name ?>" type="submit">
+	    	<button class="btn btn-orange pull-right lock-on-click" title="<?php echo $form['continue']->name ?>" type="submit">
 	    	    <i class="fa fa-arrow-right"></i>
 	    	    <?php echo $form['continue']->name ?>
 	    	</button>

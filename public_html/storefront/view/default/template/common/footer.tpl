@@ -79,7 +79,7 @@
 /* 
 	Placed at the end of the document so the pages load faster
 
-	For better rendering minifi all JavaScripts and merge all JavaScript files in to one singe file
+	For better rendering minify all JavaScripts and merge all JavaScript files in to one singe file
 	Example: <script type="text/javascript" src=".../javascript/footer.all.min.js" defer async></script>
 
 	Check Dan Riti's blog for more fine tunning suggestion:
@@ -101,41 +101,48 @@
 
 <?php if ($google_analytics){
 	$ga_data = $this->registry->get('google_analytics_data');
-	?>
-	<script type="text/javascript">
+?>
 
-		var _gaq = _gaq || [];
-		_gaq.push(['_setAccount', '<?php echo $google_analytics;?>']);
-		_gaq.push(['_trackPageview']);
+<script>
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
 
-		<?php if($ga_data){?>
-		_gaq.push(['_set', 'currencyCode', '<?php echo $ga_data['currency_code'];?>']);
-		_gaq.push(['_addTrans',
-			'<?php echo $ga_data['transaction_id'];?>',
-			'<?php echo $ga_data['store_name'];?>',
-			'<?php echo $ga_data['total'];?>',
-			'<?php echo $ga_data['tax'];?>',
-			'<?php echo $ga_data['shipping'];?>',
-			'<?php echo $ga_data['city'];?>',
-			'<?php echo $ga_data['state'];?>',
-			'<?php echo $ga_data['country'];?>'
-		]);
-		_gaq.push(['_trackTrans']);
-		<?php }?>
+	ga('create', '<?php echo $google_analytics;?>', 'auto');
+	ga('send', 'pageview');
 
-		(function () {
-			var ga = document.createElement('script');
-			ga.type = 'text/javascript';
-			ga.async = true;
-			ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-			var s = document.getElementsByTagName('script')[0];
-			s.parentNode.insertBefore(ga, s);
-		})();
+	<?php if($ga_data){ ?>
+		ga('require', 'ecommerce');
+		ga('ecommerce:addTransaction', {
+			'id': '<?php echo $ga_data['transaction_id'];?>',
+			'affiliation': '<?php echo $ga_data['store_name'];?>',
+			'revenue': '<?php echo $ga_data['total'];?>',
+			'shipping': '<?php echo $ga_data['shipping'];?>',
+			'tax': '<?php echo $ga_data['tax'];?>',
+			'currency': '<?php echo $ga_data['currency_code'];?>',
+			'city':  '<?php echo $ga_data['city'];?>',
+			'state':  '<?php echo $ga_data['state'];?>',
+			'country':  '<?php echo $ga_data['country'];?>'
+		});
 
-	</script>
+		<?php if($ga_data['items']){
+			foreach($ga_data['items'] as $item){ ?>
+				ga('ecommerce:addItem', {
+				  'id': '<?php  echo $item['id']; ?>',
+				  'name': '<?php  echo $item['name']; ?>',
+				  'sku': '<?php  echo $item['sku']; ?>',
+				  'price': '<?php  echo $item['price']; ?>',
+				  'quantity': '<?php  echo $item['quantity']; ?>'
+				});
+			<?php }
+		}?>
+		ga('ecommerce:send');
 
-<?php } ?>
+	<?php } ?>
+</script>
+<?php }
 
-<?php foreach ($scripts_bottom as $script){ ?>
+foreach ($scripts_bottom as $script){ ?>
 	<script type="text/javascript" src="<?php echo $script; ?>" defer></script>
 <?php } ?>

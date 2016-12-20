@@ -8,7 +8,7 @@
   Copyright © 2011-2016 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
-  Lincence details is bundled with this package in the file LICENSE.txt.
+  License details is bundled with this package in the file LICENSE.txt.
   It is also available at this URL:
   <http://www.opensource.org/licenses/OSL-3.0>
 
@@ -126,13 +126,15 @@ class ControllerApiCheckoutConfirm extends AControllerAPI {
 	        $thumbnail = $thumbnails[ $product_id ];
 	        
 			$tax = $this->tax->calcTotalTaxAmount($this->data['products'][$i]['total'], $this->data['products'][$i]['tax_class_id']);
+			$price = $this->data['products'][$i]['price'];
+			$quantity = $this->data['products'][$i]['quantity'];			
       		$this->data['products'][$i] = array_merge( 
       			$this->data['products'][$i], 
       			array(
         		'thumb'    => $thumbnail['thumb_url'],
 				'tax'        => $this->currency->format($tax),
-        		'price'      => $this->currency->format($this->data['products'][$i]['price']),
-        		'total'      => $this->currency->format($this->data['products'][$i]['total'])
+        		'price'      => $this->currency->format($price),
+        		'total'      => $this->currency->format_total($price, $quantity)
       		)); 
         }
 

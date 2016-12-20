@@ -8,7 +8,7 @@
   Copyright © 2011-2016 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
-  Lincence details is bundled with this package in the file LICENSE.txt.
+  Licence details is bundled with this package in the file LICENSE.txt.
   It is also available at this URL:
   <http://www.opensource.org/licenses/OSL-3.0>
 
@@ -21,10 +21,14 @@ if ( !defined ( 'DIR_CORE' )) {
 	header ( 'Location: static_pages/' );
 }
 
+/**
+ * Class ModelExtensionDefaultRoyalMail
+ * @property AWeight $weight
+ */
 class ModelExtensionDefaultRoyalMail extends Model {
 	function getQuote($address) {
 		$this->load->language('default_royal_mail/default_royal_mail');
-		
+		$weight = 0;
 		if ($this->config->get('default_royal_mail_status')) {
       		if (!$this->config->get('default_royal_mail_location_id')) {
         		$status = TRUE;
@@ -103,12 +107,13 @@ class ModelExtensionDefaultRoyalMail extends Model {
 		if($api_weight_product_ids){
 			$weight = $this->weight->convert(
 					$this->cart->getWeight($api_weight_product_ids), //get weight non-free shipping products only
-					$this->config->get('config_weight_class_id'),
-					$this->config->get('default_royal_mail_weight_class_id')
+					$this->config->get('config_weight_class'),
+					$this->config->get('default_royal_mail_weight_class')
 			);
 			$weight = ($weight < 0.1 ? 0.1 : $weight);
 		}
 
+		$weight = ($weight < 0.1 ? 0.1 : $weight);
 
 
 		// FOR CASE WHEN ONLY FREE SHIPPING PRODUCTS IN BASKET
@@ -121,10 +126,6 @@ class ModelExtensionDefaultRoyalMail extends Model {
 				$method_name = 'default_royal_mail_'.  $this->config->get('default_royal_mail_free');
 				$text = $this->language->get( $method_name );
 			}
-			//check is that method enabled
-			/*if(!$this->config->get($method_name)){
-				return array();
-			}*/
 
 			$quote_data[$method_name] = array(
 										'id' => 'default_royal_mail.'.$method_name,
@@ -182,7 +183,7 @@ class ModelExtensionDefaultRoyalMail extends Model {
 				$title = $this->language->get('default_royal_mail_1st_class_standard');
 
 				if ($this->config->get('default_royal_mail_display_weight')) {
-					$title .= ' (' . $this->language->get('default_royal_mail_weight') . ' ' . $this->weight->format($weight, $this->config->get('config_weight_class')) . ')';
+					$title .= ' (' . $this->language->get('default_royal_mail_weight') . ' ' . $this->weight->format($weight, $this->config->get('default_royal_mail_weight_class')) . ')';
 				}
 
 				if ($this->config->get('default_royal_mail_display_insurance') && (float)$compensation) {
@@ -241,7 +242,7 @@ class ModelExtensionDefaultRoyalMail extends Model {
 				$title = $this->language->get('default_royal_mail_1st_class_recorded');
 
 				if ($this->config->get('default_royal_mail_display_weight')) {
-					$title .= ' (' . $this->language->get('default_royal_mail_weight') . ' ' . $this->weight->format($weight, $this->config->get('config_weight_class')) . ')';
+					$title .= ' (' . $this->language->get('default_royal_mail_weight') . ' ' . $this->weight->format($weight, $this->config->get('default_royal_mail_weight_class')) . ')';
 				}
 
 				if ($this->config->get('default_royal_mail_display_insurance') && (float)$compensation) {
@@ -286,7 +287,7 @@ class ModelExtensionDefaultRoyalMail extends Model {
 				$title = $this->language->get('default_royal_mail_2nd_class_standard');
 
 				if ($this->config->get('default_royal_mail_display_weight')) {
-					$title .= ' (' . $this->language->get('default_royal_mail_weight') . ' ' . $this->weight->format($weight, $this->config->get('config_weight_class')) . ')';
+					$title .= ' (' . $this->language->get('default_royal_mail_weight') . ' ' . $this->weight->format($weight, $this->config->get('default_royal_mail_weight_class')) . ')';
 				}
 
 				if ($this->config->get('default_royal_mail_display_time')) {
@@ -342,7 +343,7 @@ class ModelExtensionDefaultRoyalMail extends Model {
 				$title = $this->language->get('default_royal_mail_2nd_class_recorded');
 
 				if ($this->config->get('default_royal_mail_display_weight')) {
-					$title .= ' (' . $this->language->get('default_royal_mail_weight') . ' ' . $this->weight->format($weight, $this->config->get('config_weight_class')) . ')';
+					$title .= ' (' . $this->language->get('default_royal_mail_weight') . ' ' . $this->weight->format($weight, $this->config->get('default_royal_mail_weight_class')) . ')';
 				}
 
 				if ($this->config->get('default_royal_mail_display_insurance') && (float)$compensation) {
@@ -403,7 +404,7 @@ class ModelExtensionDefaultRoyalMail extends Model {
 				$title = $this->language->get('default_royal_mail_standard_parcels');
 
 				if ($this->config->get('default_royal_mail_display_weight')) {
-					$title .= ' (' . $this->language->get('default_royal_mail_weight') . ' ' . $this->weight->format($weight, $this->config->get('config_weight_class')) . ')';
+					$title .= ' (' . $this->language->get('default_royal_mail_weight') . ' ' . $this->weight->format($weight, $this->config->get('default_royal_mail_weight_class')) . ')';
 				}
 
 				if ($this->config->get('default_royal_mail_display_insurance') && (float)$compensation) {
@@ -455,7 +456,7 @@ class ModelExtensionDefaultRoyalMail extends Model {
 					$title = $this->language->get('default_royal_mail_airmail');
 
 					if($this->config->get('default_royal_mail_display_weight')){
-						$title .= ' (' . $this->language->get('default_royal_mail_weight') . ' ' . $this->weight->format($weight, $this->config->get('config_weight_class')) . ')';
+						$title .= ' (' . $this->language->get('default_royal_mail_weight') . ' ' . $this->weight->format($weight, $this->config->get('default_royal_mail_weight_class')) . ')';
 					}
 
 					if($this->config->get('default_royal_mail_display_time')){
@@ -522,7 +523,7 @@ class ModelExtensionDefaultRoyalMail extends Model {
 					$title = $this->language->get('default_royal_mail_international_signed');
 
 					if($this->config->get('default_royal_mail_display_weight')){
-						$title .= ' (' . $this->language->get('default_royal_mail_weight') . ' ' . $this->weight->format($weight, $this->config->get('config_weight_class')) . ')';
+						$title .= ' (' . $this->language->get('default_royal_mail_weight') . ' ' . $this->weight->format($weight, $this->config->get('default_royal_mail_weight_class')) . ')';
 					}
 
 					if($this->config->get('default_royal_mail_display_insurance') && (float)$compensation){
@@ -608,7 +609,7 @@ class ModelExtensionDefaultRoyalMail extends Model {
 					$title = $this->language->get('default_royal_mail_airsure');
 
 					if($this->config->get('default_royal_mail_display_weight')){
-						$title .= ' (' . $this->language->get('default_royal_mail_weight') . ' ' . $this->weight->format($weight, $this->config->get('config_weight_class')) . ')';
+						$title .= ' (' . $this->language->get('default_royal_mail_weight') . ' ' . $this->weight->format($weight, $this->config->get('default_royal_mail_weight_class')) . ')';
 					}
 
 					if($this->config->get('default_royal_mail_display_insurance') && (float)$compensation){
@@ -655,7 +656,7 @@ class ModelExtensionDefaultRoyalMail extends Model {
 					$title = $this->language->get('default_royal_mail_surface');
 
 					if($this->config->get('default_royal_mail_display_weight')){
-						$title .= ' (' . $this->language->get('default_royal_mail_weight') . ' ' . $this->weight->format($weight, $this->config->get('config_weight_class')) . ')';
+						$title .= ' (' . $this->language->get('default_royal_mail_weight') . ' ' . $this->weight->format($weight, $this->config->get('default_royal_mail_weight_class')) . ')';
 					}
 
 					if($this->config->get('default_royal_mail_display_insurance') && (float)$compensation){

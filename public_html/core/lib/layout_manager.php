@@ -2166,12 +2166,16 @@ class ALayoutManager{
 				}
 			}
 
+			$position = (int)$block->position;
 			foreach ($parent_inst as $par_inst){
-				$sql = "SELECT MAX(position) as maxpos
-						FROM " . $this->db->table("block_layouts") . " 
-						WHERE  parent_instance_id = " . ( int )$par_inst;
-				$result = $this->db->query($sql);
-				$position = $result->row ['maxpos'] + 10;
+				//if no position provided increase by 10 
+				if (!$position){
+					$sql = "SELECT MAX(position) as maxpos
+							FROM " . $this->db->table("block_layouts") . " 
+							WHERE  parent_instance_id = " . (int)$par_inst;
+					$result = $this->db->query($sql);
+					$position = $result->row ['maxpos'] + 10;
+				}
 				$sql = "INSERT INTO " . $this->db->table("block_layouts") . " (layout_id,
 																	block_id,
 																	custom_block_id,

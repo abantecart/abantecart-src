@@ -22,7 +22,7 @@ if(!defined('DIR_CORE') || !IS_ADMIN){
 }
 class ControllerPagesSaleOrder extends AController{
 	public $data = array();
-	private $error = array();
+	public $error = array();
 
 	public function main(){
 
@@ -175,6 +175,15 @@ class ControllerPagesSaleOrder extends AController{
 				'form_name' => 'order_grid_search',
 		));
 
+        //get search filter from cookie if requeted
+        $search_params = array();
+        if($this->request->get['saved_list']) {
+            $grid_search_form = json_decode(html_entity_decode($this->request->cookie['grid_search_form']));
+            if($grid_search_form->table_id == $grid_settings['table_id']) {
+                parse_str($grid_search_form->params, $search_params);
+            }
+        }
+
 		$grid_search_form = array();
 		$grid_search_form['id'] = 'order_grid_search';
 		$grid_search_form['form_open'] = $form->getFieldHtml(array(
@@ -198,6 +207,7 @@ class ControllerPagesSaleOrder extends AController{
 				'type'    => 'selectbox',
 				'name'    => 'status',
 				'options' => $statuses,
+                'value'   => $search_params['status']
 		));
 		$grid_settings['search_form'] = true;
 
@@ -287,8 +297,12 @@ class ControllerPagesSaleOrder extends AController{
 							$skip_recalc[] = $key;
 						}
 					}			
-					$this->redirect($this->html->getSecureURL(	'sale/order/recalc', 
-															'&order_id=' . $order_id.'&skip_recalc='.serialize($skip_recalc)));
+
+					$enc = new AEncryption($this->config->get('encryption_key'));
+					$this->redirect($this->html->getSecureURL(	'sale/order/recalc',
+															'&order_id=' . $order_id.'&skip_recalc='.$enc->encrypt(serialize($skip_recalc))
+																)
+					);
 				}
 			}
 		}
@@ -497,7 +511,7 @@ class ControllerPagesSaleOrder extends AController{
 					'option'           => $option_data,
 					'quantity'         => $order_product['quantity'],
 					'price'            => $this->currency->format($order_product['price'], $order_info['currency'], $order_info['value']),
-					'total'            => $this->currency->format($order_product['total'], $order_info['currency'], $order_info['value']),
+					'total'            => $this->currency->format_total($order_product['price'], $order_product['quantity'], $order_info['currency'], $order_info['value']),
 					'href'             => $this->html->getSecureURL('catalog/product/update', '&product_id=' . $order_product['product_id'])
 			);			
 			
@@ -633,10 +647,15 @@ class ControllerPagesSaleOrder extends AController{
 		$this->data['edit_order_total'] = $this->html->getSecureURL('sale/order/recalc', '&order_id=' . $order_id);
 		$this->data['delete_order_total'] = $this->html->getSecureURL('sale/order/delete_total', '&order_id=' . $order_id);
 
+        $saved_list_data = json_decode(html_entity_decode($this->request->cookie['grid_params']));
+        if($saved_list_data->table_id == 'order_grid') {
+            $this->data['list_url'] = $this->html->getSecureURL('sale/order', '&saved_list=order_grid');
+        }
+
 		$this->view->batchAssign($this->data);
 		$this->view->assign('help_url', $this->gen_help_url('order_details'));
 
-		if($viewport_mode == 'modal'){
+        if($viewport_mode == 'modal'){
 			$tpl = 'responses/viewport/modal/sale/order_details.tpl';
 		}else{
 			$this->addChild('pages/sale/order_summary', 'summary_form', 'pages/sale/order_summary.tpl');
@@ -1125,7 +1144,10 @@ class ControllerPagesSaleOrder extends AController{
 		$results = $this->model_sale_order->getOrderHistory($this->request->get['order_id']);
 		foreach($results as $result){
 			$this->data['histories'][] = array(
-					'date_added' => dateISO2Display($result['date_added'], $this->language->get('date_format_short')),
+					'date_added' => dateISO2Display(
+							$result['date_added'],
+							$this->language->get('date_format_short').' '.$this->language->get('time_format')
+					),
 					'status'     => $result['status'],
 					'comment'    => nl2br($result['comment']),
 					'notify'     => $result['notify'] ? $this->language->get('text_yes') : $this->language->get('text_no')
@@ -1500,7 +1522,8 @@ class ControllerPagesSaleOrder extends AController{
     	
 		//do we have to skip recalc for some totals?
 		if($this->request->get['skip_recalc']) {
-			$skip_recalc = unserialize($this->request->get['skip_recalc']);
+			$enc = new AEncryption($this->config->get('encryption_key'));
+			$skip_recalc = unserialize($enc->decrypt($this->request->get['skip_recalc']));
 		}
 		//do we have total values passed?
 		if($this->request->post['totals']) {

@@ -86,6 +86,10 @@
 	</definition>
 	<definition>
 		<key>im_customer_account_update_password_to_customer</key>
-		<value><![CDATA[  Ваш пароль учетной записи был изменен! Если это сделали не Вы, пожалуйста обратитесь к владельцу сайта.]]></value>
+		<value><![CDATA[	Ваш пароль учетной записи был изменен! Если это сделали не Вы, пожалуйста обратитесь к владельцу сайта.]]></value>
+	</definition>
+	<definition>
+		<key>im_new_subscriber_text_to_admin</key>
+		<value><![CDATA[ Зарегистрирован Новый Подписчик %s !]]></value>
 	</definition>
 </definitions>

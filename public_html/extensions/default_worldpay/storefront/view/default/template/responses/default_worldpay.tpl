@@ -14,7 +14,7 @@
 
 	<div class="form-group action-buttons">
     	<div class="col-md-12">
-	   	<button class="btn btn-orange pull-right" onclick="$('#checkout').submit();" title="<?php echo $button_confirm; ?>" type="submit">
+	   	<button class="btn btn-orange pull-right lock-on-click" onclick="$('#checkout').submit();" title="<?php echo $button_confirm; ?>" type="submit">
 	   	    <i class="fa fa-check"></i>
 	   	    <?php echo $button_confirm; ?>
 	   	</button>

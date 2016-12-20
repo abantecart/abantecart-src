@@ -60,10 +60,6 @@
 		<key>default_liqpay_type_card</key>
 		<value><![CDATA[Card]]></value>
 	</definition>
-  	<definition>
-    	<key>default_liqpay_autoselect</key>
-    	<value><![CDATA[Selección automática:<br /><span class="help">Se puede configurar para que omita la página de pago selección si sólo hay una opción de pago. Esta forma de pago se seleccionará automáticamente</span>]]></value>
-  	</definition>		
 	<definition>
 		<key>error_permission</key>
 		<value><![CDATA[Atención: No tiene permisos para modificar su cuenta LIQPAY!]]></value>

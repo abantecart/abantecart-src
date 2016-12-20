@@ -34,7 +34,7 @@
 	    	<i class="fa fa-arrow-left"></i>
 	    	<?php echo $back->text ?>
 	    </a>
-	    <button id="<?php echo $submit->name ?>" class="btn btn-orange" title="<?php echo $submit->text ?>" type="submit">
+	    <button id="<?php echo $submit->name ?>" class="btn btn-orange lock-on-click" title="<?php echo $submit->text ?>" type="submit">
 	        <i class="fa fa-check"></i>
 	        <?php echo $submit->text; ?>
 	    </button>
@@ -60,48 +60,64 @@
 </div>  
 
 <script type="text/javascript">
-//validate submit
-$('form').submit(function(event) {
-	event.preventDefault();
-	if( !$.aCCValidator.validate($('form.validate-creditcard')) ){
-		return false;
-	} else {
-		confirmSubmit();
-	}
-});
+jQuery(document).ready(function() {
 
-function confirmSubmit() {		
-	$.ajax({
-		type: 'POST',
-		url: '<?php echo $this->html->getURL('extension/default_cashflows/send');?>',
-		data: $('#cashflows :input'),
-		dataType: 'json',		
-		beforeSend: function() {
-			$('.alert').remove();
-			$('#cashflows .action-buttons').hide(); 
-			$('#cashflows .action-buttons').before('<div class="wait alert alert-info text-center"><i class="fa fa-refresh fa-spin"></i> <?php echo $text_wait; ?></div>');
-		},
-		success: function(data) {
-			if (!data) {
-				$('.wait').remove();
-				$('#cashflows .action-buttons').show(); 
-				$('#cashflows').before('<div class="alert alert-danger"><i class="fa fa-bug"></i> <?php echo $error_unknown; ?></div>');
-			} else {					  			
-				if (data.error) {
+	var submitSent = false;
+	
+	//validate submit
+	$('form').submit(function(event) {
+		if(submitSent !== true) {	
+			submitSent = true;
+			if( !$.aCCValidator.validate($('form.validate-creditcard')) ){
+				submitSent = false;
+				try { resetLockBtn(); } catch (e){}
+				return false;
+			} else {
+				confirmSubmit();
+				return false;
+			}
+		}
+	});
+	
+	function confirmSubmit() {
+		$.ajax({
+			type: 'POST',
+			url: '<?php echo $this->html->getURL('extension/default_cashflows/send');?>',
+			data: $('#cashflows :input'),
+			dataType: 'json',		
+			beforeSend: function() {
+				$('.alert').remove();
+				$('#cashflows .action-buttons').hide(); 
+				$('#cashflows .action-buttons').before('<div class="wait alert alert-info text-center"><i class="fa fa-refresh fa-spin"></i> <?php echo $text_wait; ?></div>');
+			},
+			success: function(data) {
+				if (!data) {
 					$('.wait').remove();
 					$('#cashflows .action-buttons').show(); 
-					$('#cashflows').before('<div class="alert alert-warning"><i class="fa fa-exclamation"></i> '+data.error+'</div>');
-				}	
-				if (data.success) {			
-					location = data.success;
+					$('#cashflows').before('<div class="alert alert-danger"><i class="fa fa-bug"></i> <?php echo $error_unknown; ?></div>');
+					submitSent = false;
+					try { resetLockBtn(); } catch (e){}
+				} else {					  			
+					if (data.error) {
+						$('.wait').remove();
+						$('#cashflows .action-buttons').show(); 
+						$('#cashflows').before('<div class="alert alert-warning"><i class="fa fa-exclamation"></i> '+data.error+'</div>');
+						submitSent = false;
+						try { resetLockBtn(); } catch (e){}
+					}	
+					if (data.success) {
+						location = data.success;
+					}
 				}
+			},
+			error: function (jqXHR, textStatus, errorThrown) {
+				$('.wait').remove();
+				$('#cashflows .action-buttons').show(); 
+				$('#cashflows').before('<div class="alert alert-danger"><i class="fa fa-exclamation"></i> '+textStatus+' '+errorThrown+'</div>');
+				submitSent = false;
+				try { resetLockBtn(); } catch (e){}
 			}
-		},
-		error: function (jqXHR, textStatus, errorThrown) {
-			$('.wait').remove();
-			$('#cashflows .action-buttons').show(); 
-			$('#cashflows').before('<div class="alert alert-danger"><i class="fa fa-exclamation"></i> '+textStatus+' '+errorThrown+'</div>');
-		}				
-	});
-}
+		});
+	}
+});
 </script>

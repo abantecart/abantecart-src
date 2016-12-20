@@ -114,6 +114,7 @@ class ControllerResponsesEmbedJS extends AController {
 		}
 
 		$this->loadModel('catalog/product');
+		$this->loadLanguage('product/product');
 		$product_info = $this->model_catalog_product->getProduct($product_id);
 
 		//can not locate product? get out
@@ -132,10 +133,29 @@ class ControllerResponsesEmbedJS extends AController {
 		);
 
 		if ($product_info['final_price'] && $product_info['final_price']!=$product_info['price']) {
-			$product_info['special'] = $this->currency->format($product_info['final_price']);
+			$product_price = $this->tax->calculate(
+					$product_info['final_price'],
+										$product_info['tax_class_id'],
+										(bool)$this->config->get('config_tax')
+								);
+			$product_info['special'] = $this->currency->format($product_price);
 		}
 
-		$product_info['price'] = $this->currency->format($product_info['price']);
+		$product_price = $this->tax->calculate(
+							$product_info['price'],
+							$product_info['tax_class_id'],
+							(bool)$this->config->get('config_tax')
+					);
+		$product_info['price'] = $this->currency->format($product_price);
+
+		if($this->config->get('config_customer_price')){
+			$display_price = true;
+		} elseif($this->customer->isLogged()){
+			$display_price = true;
+		} else{
+			$display_price = false;
+		}
+		$this->data['display_price'] = $display_price;
 
 
 		$rt = $this->config->get('config_embed_click_action')=='modal' ? 'r/product/product' : 'product/product';
@@ -187,6 +207,7 @@ class ControllerResponsesEmbedJS extends AController {
 							'attr' => ' data-href="'. $this->data['product_details_url'].'"  data-id="'. $product_id.'" data-html="true" data-target="#abc_embed_modal" data-toggle="abcmodal" '
 					)
 			);
+			$product_info['options'] = $product_options;
 		}
 
 		$product_info['quantity'] = $this->html->buildElement(

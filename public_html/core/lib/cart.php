@@ -39,47 +39,47 @@ class ACart{
 	/**
 	 * @var Registry
 	 */
-	private $registry;
+	protected $registry;
 	/**
 	 * @var array
 	 */
-	private $cart_data = array ();
+	protected $cart_data = array ();
 	/**
 	 * @var array
 	 */
-	private $cust_data = array ();
+	protected $cust_data = array ();
 	/**
 	 * @var float
 	 */
-	private $sub_total;
+	protected $sub_total;
 	/**
 	 * @var array
 	 */
-	private $taxes = array ();
+	protected $taxes = array ();
 	/**
 	 * @var float
 	 */
-	private $total_value;
+	protected $total_value;
 	/**
 	 * @var array
 	 */
-	private $final_total;
+	protected $final_total;
 	/**
 	 * @var array
 	 */
-	private $total_data;
+	protected $total_data;
 	/**
 	 * @var ACustomer
 	 */
-	private $customer;
+	protected $customer;
 	/**
 	 * @var AAttribute
 	 */
-	private $attribute;
+	protected $attribute;
 	/**
 	 * @var APromotion
 	 */
-	private $promotion;
+	protected $promotion;
 
 	/**
 	 * @param $registry Registry
@@ -203,6 +203,8 @@ class ACart{
 			return array ();
 		}
 
+		$options = !is_array($options) ? array() : $options;
+
 		$stock = true;
 		/**
 		 * @var $sf_product_mdl ModelCatalogProduct
@@ -264,8 +266,10 @@ class ACart{
 				                        'prefix'                  => $option_value_query['prefix'],
 				                        'price'                   => $option_value_query['price'],
 				                        'sku'                     => $option_value_query['sku'],
+				                        'inventory_quantity'      => ($option_value_query['subtract'] ? (int)$option_value_query['quantity'] : 1000000),
 				                        'weight'                  => $option_value_query['weight'],
-				                        'weight_type'             => $option_value_query['weight_type']);
+				                        'weight_type'             => $option_value_query['weight_type']
+						);
 
 				//check if need to track stock and we have it
 				if ($option_value_query['subtract'] && $option_value_query['quantity'] < $quantity){
@@ -282,6 +286,7 @@ class ACart{
 					                        'prefix'                  => $item['prefix'],
 					                        'price'                   => $item['price'],
 					                        'sku'                     => $item['sku'],
+					                        'inventory_quantity'      => ($item['subtract'] ? (int)$item['quantity'] : 1000000),
 					                        'weight'                  => $item['weight'],
 					                        'weight_type'             => $item['weight_type']);
 					//check if need to track stock and we have it
@@ -319,10 +324,8 @@ class ACart{
 		}
 
 		//Need to round price after discounts and specials
-		//round main price to currency decimal_place setting (most common 2, but still...)
-		$currency = $this->registry->get('currency')->getCurrency();
-		$decimal_place = (int)$currency['decimal_place'];
-		$decimal_place = !$decimal_place ? 2 : $decimal_place;
+		//round base currency price to 2 decimal place
+		$decimal_place = 2;
 		$price = round($price, $decimal_place);
 
 		foreach ($option_data as $item){
@@ -351,6 +354,7 @@ class ACart{
 				'option'            => $option_data,
 				'download'          => $download_data,
 				'quantity'          => $quantity,
+				'inventory_quantity'=> ($product_query['subtract'] ? (int)$product_query['quantity'] : 1000000),
 				'minimum'           => $product_query['minimum'],
 				'maximum'           => $product_query['maximum'],
 				'stock'             => $stock,
@@ -640,7 +644,11 @@ class ACart{
 		if (has_value($this->taxes) && !$recalculate){
 			return $this->taxes;
 		}
-		$this->taxes = array ();
+
+		//round base currency price calculation to 2 decimal place
+		$decimal_place = 2;
+
+		$this->taxes = array();
 		// taxes for products
 		$products = $this->getProducts();
 		foreach ($products as $product){
@@ -653,6 +661,7 @@ class ACart{
 					$this->taxes[$product['tax_class_id']]['total'] += $product['total'];
 					$this->taxes[$product['tax_class_id']]['tax'] += $this->tax->calcTotalTaxAmount($product['total'], $product['tax_class_id']);
 				}
+				$this->taxes[$product['tax_class_id']]['tax'] = round($this->taxes[$product['tax_class_id']]['tax'], $decimal_place);
 			}
 		}
 		//tax for shipping
@@ -664,7 +673,10 @@ class ACart{
 			} else{
 				$this->taxes[$tax_id]['tax'] += $this->tax->calcTotalTaxAmount($cost, $tax_id);
 			}
+			//round
+			$this->taxes[$tax_id]['tax'] = round($this->taxes[$tax_id]['tax'], $decimal_place);
 		}
+		
 		return $this->taxes;
 	}
 
@@ -705,7 +717,12 @@ class ACart{
 
 		$total_data = array ();
 		$calc_order = array ();
-		$total = 0;
+		$total = 0.0;
+
+        //if cart is empty, nothing to do.
+        if(!$this->getProducts()) {
+            return $total;
+        }
 
 		$taxes = $this->getAppliedTaxes($recalculate);
 		//force storefront load (if called from admin)
@@ -757,6 +774,8 @@ class ACart{
 
 	/**
 	 * Function to build total display based on enabled extensions/settings for total section
+	 * Amounts are automatically converted to currency selected in getFinalTotal().
+	 * Internal currency price is present in [value] fields
 	 * To force recalculate pass argument as TRUE
 	 * @param bool $recalculate
 	 * @return array
@@ -766,7 +785,6 @@ class ACart{
 		$taxes = $this->getAppliedTaxes($recalculate);
 		$total = $this->getFinalTotal($recalculate);
 		$total_data = $this->getFinalTotalData();
-
 		#sort data for view			  
 		$sort_order = array ();
 		foreach ($total_data as $key => $value){

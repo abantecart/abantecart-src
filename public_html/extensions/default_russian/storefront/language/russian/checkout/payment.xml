@@ -72,4 +72,8 @@
 		<key>entry_payment</key>
 		<value><![CDATA[Оплата]]></value>
 	</definition>
+	<definition>
+		<key>text_coupon_removal</key>
+		<value><![CDATA[Успех: Купон удален!]]></value>
+	</definition>
 </definitions>

@@ -71,6 +71,7 @@ if (!defined('DIR_CORE')){
  * @property ModelToolBackup $model_tools_backup
  * @property ModelAccountCustomer $model_account_customer
  * @property ModelCatalogContent $model_catalog_content
+ * @property ModelToolDatasetsManager $model_tool_datasets_manager
  * @property AConfig $config
  * @property ADB $db
  * @property ACache $cache
@@ -292,9 +293,12 @@ abstract class AController{
 	}
 
 	// Redirect to new page
+	/**
+	 * @deprecated since v1.2.9
+	 * @param $url
+	 */
 	protected function redirect($url){
-		header('Location: ' . str_replace('&amp;', '&', $url));
-		die();
+		redirect($url);
 	}
 
 	public function getInstance(){

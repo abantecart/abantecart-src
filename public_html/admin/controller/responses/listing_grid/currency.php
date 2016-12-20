@@ -21,7 +21,7 @@ if (!defined('DIR_CORE') || !IS_ADMIN) {
 	header('Location: static_pages/');
 }
 class ControllerResponsesListingGridCurrency extends AController {
-
+	public $data = array();
 	public function main() {
 
 		//init controller data
@@ -87,11 +87,11 @@ class ControllerResponsesListingGridCurrency extends AController {
 			);
 			$i++;
 		}
-
+		$this->data['response'] = $response;
 		//update controller data
 		$this->extensions->hk_UpdateData($this, __FUNCTION__);
 		$this->load->library('json');
-		$this->response->setOutput(AJson::encode($response));
+		$this->response->setOutput(AJson::encode($this->data['response']));
 	}
 
 	public function update() {
@@ -144,11 +144,11 @@ class ControllerResponsesListingGridCurrency extends AController {
 					}
 				break;
 			case 'save':
-				$fields = array( 'title', 'code', 'value', 'status' );
+				$allowedFields = array_merge(array ('title', 'code', 'value', 'status'), (array)$this->data['allowed_fields']);
 				$ids = explode(',', $this->request->post[ 'id' ]);
 				if (!empty($ids))
 					foreach ($ids as $id) {
-						foreach ($fields as $f) {
+						foreach ($allowedFields as $f) {
 
 							if ($f == 'status' && !isset($this->request->post[ 'status' ][ $id ]))
 								$this->request->post[ 'status' ][ $id ] = 0;
@@ -210,8 +210,8 @@ class ControllerResponsesListingGridCurrency extends AController {
 		}
 
 		//request sent from jGrid. ID is key of array
-		$fields = array( 'title', 'code', 'value', 'status' );
-		foreach ($fields as $f) {
+		$allowedFields = array_merge(array ('title', 'code', 'value', 'status'), (array)$this->data['allowed_fields']);
+		foreach ($allowedFields as $f) {
 			if (isset($this->request->post[ $f ]))
 				foreach ($this->request->post[ $f ] as $k => $v) {
 					$err = $this->_validateField($f, $v);

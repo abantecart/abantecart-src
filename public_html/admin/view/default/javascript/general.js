@@ -668,12 +668,14 @@ function visual2html(text) {
 
 var run_task_url, complete_task_url, abort_task_url;
 var task_fail = false;
-var task_complete_text = task_fail_text = ''; // You can set you own value inside tpl who runs interactive task. see admin/view/default/template/pages/tool/backup.tpl
+// You can set you own value inside tpl who runs interactive task.
+// see admin/view/default/template/pages/tool/backup.tpl
+var task_complete_text = task_fail_text = '';
 
 var defaultTaskMessages = {
     task_failed: 'Task Failed',
-    task_success: 'Task was completed',
-    task_abort: 'Task was aborted',
+    task_success: 'Task has been completed',
+    task_abort: 'Task has been aborted',
     complete: 'Complete',
     step: 'Step',
     failed: 'failed',
@@ -697,6 +699,10 @@ $(document).on('click', ".task_run", function () {
     $("body").first().after(modal);
     var options = {"backdrop": "static", 'show': true};
     $('#task_modal').modal(options);
+    $('#task_modal').on('hidden.bs.modal', function(e){
+            $.xhrPool.abortAll();
+        }
+    );
 
     $('#task_modal .modal-body').html('Building Task...');
 
@@ -735,6 +741,7 @@ $(document).on('click', ".task_run", function () {
 
     return false;
 });
+
 /**/
 var runTaskUI = function (data) {
     if (data.hasOwnProperty("error") && data.error == true) {
@@ -744,19 +751,17 @@ var runTaskUI = function (data) {
     }
 }
 
-
-
 var runTaskStepsUI = function (task_details) {
     if (task_details.status != '1') {
-        runTaskShowError('Cannot to run steps of task "' + task_details.name + '" because status of task is not "scheduled". Current status - ' + task_details.status);
-
+        runTaskShowError('Cannot run task "' + task_details.name + '" steps because task is not yet "scheduled". Current status - ' + task_details.status);
     } else {
-        var html = '<div class="progress-info"></div>' +
-                        '<div class="progress">' +
+        var html = '<div class="progress">' +
                             '<div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="2" aria-valuemin="0" aria-valuemax="100" style="width: 1%;">1%</div>' +
                     '</div>'
-        if(abort_task_url && abort_task_url.length>0){
-            html += '<div class="center">' +
+            +'<div class="progress-info"></div>';
+
+        if(abort_task_url && abort_task_url.length > 0){
+            html += '<div class="center abort_button">' +
                                 '<a class="abort btn btn-danger" title="Interrupt Task" ><i class="fa fa-times-circle-o"></i> Abort</a>' +
                     '</div>';
         }
@@ -768,12 +773,12 @@ var runTaskStepsUI = function (task_details) {
         var ajaxes = {};
         for(var k in task_details.steps){
             var step = task_details.steps[k];
-            var senddata = { rt: decodeURIComponent(step.controller),
-                                             token: getUrlParameter('token'),
-                                             s: getUrlParameter('s'),
-                                             task_id: task_details.task_id,
-                                             step_id: step.step_id
-                            };
+            var senddata = {
+                task_api_key: task_details.task_api_key,
+                mode: 'ajax',
+                task_id: task_details.task_id,
+                step_id: step.step_id
+            };
             for(var s in step.settings){
                 senddata[s] = step.settings[s];
             }
@@ -787,7 +792,7 @@ var runTaskStepsUI = function (task_details) {
                 task_id:task_details.task_id,
                 type:'GET',
                 timeout: timeout,
-                url: window.location.protocol+'//'+window.location.host+window.location.pathname,
+                url: task_details.url,
                 data: senddata,
                 dataType: 'json',
             };
@@ -804,66 +809,47 @@ var runTaskStepsUI = function (task_details) {
         do_seqAjax(ajaxes, 3);
 
         //abort process
-
-        if(abort_task_url && abort_task_url.length>0){
+        if(abort_task_url && abort_task_url.length > 0){
             $('#task_modal .modal-body').find('a.abort').on('click', function(){
                 $.xhrPool.abortAll();
                 $.ajax({
-                            type: "POST",
-                            url: abort_task_url,
-                            data: {task_id: task_details.task_id },
-                            datatype: 'json',
-                            global: false,
-                            success: function (data) {
-                                var mess = '';
-                                if(data.result_text){
-                                    mess = data.result_text
-                                }
-                                task_complete_text += '<div class="alert-success">' + mess + '</div>';
-                                // replace progressbar by result message
-                                $('#task_modal .modal-body').html(task_complete_text);
-                                task_complete_text = '';
-                            },
-                            error: function (xhr, ajaxOptions, thrownError) {
-                                var error_txt = '';
-                                try { //when server response is json formatted string
-                                    var err = $.parseJSON(xhr.responseText);
-                                    if (err.hasOwnProperty("error_text")) {
-                                        runTaskShowError(err.error_text);
-                                    } else {
-                                        if(xhr.status==200){
-                                            error_txt = '('+xhr.responseText+')';
-                                        }else{
-                                            error_txt = 'HTTP-status:' + xhr.status;
-                                        }
-                                        error_txt = 'Connection error occurred. ' + error_txt;
-                                        runTaskShowError(error_txt);
-                                    }
-                                } catch (e) {
-                                    if(xhr.status==200){
-                                        error_txt = '('+xhr.responseText+')';
-                                    }else{
-                                        error_txt = 'HTTP-status:' + xhr.status;
-                                    }
-                                    error_txt = 'Connection error occurred. ' + error_txt;
-                                    runTaskShowError(error_txt);
-                                }
-                            }
-                        });
+                    type: "POST",
+                    url: abort_task_url,
+                    data: {task_id: task_details.task_id },
+                    datatype: 'json',
+                    global: false,
+                    success: function (data) {
+                        var mess = '';
+                        if(data.result_text){
+                            mess = data.result_text
+                        }
+                        task_complete_text += '<div class="alert-success">' + mess + '</div>';
+                        // replace progressbar by result message
+                        $('#task_modal .modal-body').html(task_complete_text);
+                        task_complete_text = '';
+                    },
+                    error: processError
+                });
             });
         }
     }
 }
 
 /* run post-trigger */
-
 var runTaskComplete = function (task_id) {
+    var collapse_btn = '<a class="pull-right details-button collapsed" data-toggle="collapse" href="#tsk_result_details" aria-expanded="false" aria-controls="tsk_result_details"></a>';
+    var collapse_pnl = '<div class="collapse panel-collapse task_result_message" role="tabpanel" id="tsk_result_details" aria-expanded="false"></div>';
+
     if(task_fail){
-        task_complete_text += '<div class="alert-danger">' + defaultTaskMessages.task_failed + '</div>';
-        // replace progressbar by result message
-        $('#task_modal .modal-body').html(task_fail_text + task_complete_text);
+        // add result message
+        $('#task_modal div.progress-info').addClass('alert-danger').append(defaultTaskMessages.task_failed + collapse_btn + collapse_pnl);
+        $('#tsk_result_details').html(task_fail_text + task_complete_text);
         task_fail_text = task_complete_text = '';
-    }else{
+        //remove abort button
+        if($('#task_modal .abort_button').length > 0) {
+            $('#task_modal .abort_button').remove();
+        }
+    } else {
         $.ajax({
             type: "POST",
             async: false,
@@ -872,46 +858,51 @@ var runTaskComplete = function (task_id) {
             datatype: 'json',
             global: false,
             success: function (data) {
-                var mess = '';
+                var message = '';
                 if(data.result_text){
-                    mess = defaultTaskMessages.task_success + '<br>'+data.result_text
+                    message = defaultTaskMessages.task_success + '<br>'+data.result_text
                 }else{
-                    mess = defaultTaskMessages.task_success;
+                    message = defaultTaskMessages.task_success;
                 }
-
-                task_complete_text += '<div class="alert-success">' + mess + '</div>';
-                // replace progressbar by result message
-                $('#task_modal .modal-body').html(task_complete_text);
+                // add result message
+                $('#task_modal div.progress-info').addClass('alert-success').append(message + collapse_btn + collapse_pnl);
+                $('#tsk_result_details').html(task_complete_text);
                 task_complete_text = '';
-            },
-            error: function (xhr, ajaxOptions, thrownError) {
-                var error_txt = '';
-                try { //when server response is json formatted string
-                    var err = $.parseJSON(xhr.responseText);
-                    if (err.hasOwnProperty("error_text")) {
-                        runTaskShowError(err.error_text);
-                    } else {
-                        if(xhr.status==200){
-                            error_txt = '('+xhr.responseText+')';
-                        }else{
-                            error_txt = 'HTTP-status:' + xhr.status;
-                        }
-                        error_txt = 'Connection error occurred. ' + error_txt;
-                        runTaskShowError(error_txt);
-                    }
-                } catch (e) {
-                    if(xhr.status==200){
-                        error_txt = '('+xhr.responseText+')';
-                    }else{
-                        error_txt = 'HTTP-status:' + xhr.status;
-                    }
-                    error_txt = 'Connection error occurred. ' + error_txt;
-                    runTaskShowError(error_txt);
+                //remove abort button
+                if($('#task_modal .abort_button').length > 0) {
+                    $('#task_modal .abort_button').remove();
                 }
-            }
+            },
+            error: processError
         });
     }
     $('#task_modal').data('bs.modal').options.backdrop = true;
+}
+
+var processError = function(xhr, ajaxOptions, thrownError){
+    var error_txt = '';
+    try { //when server response is json formatted string
+        var err = $.parseJSON(xhr.responseText);
+        if (err.hasOwnProperty("error_text")) {
+            runTaskShowError(err.error_text);
+        } else {
+            if(xhr.status==200){
+                error_txt = '('+xhr.responseText+')';
+            }else{
+                error_txt = 'HTTP-status:' + xhr.status;
+            }
+            error_txt = 'Connection error occurred. ' + error_txt;
+            runTaskShowError(error_txt);
+        }
+    } catch (e) {
+        if(xhr.status==200){
+            error_txt = '('+xhr.responseText+')';
+        }else{
+            error_txt = 'HTTP-status:' + xhr.status;
+        }
+        error_txt = 'Connection error occurred. ' + error_txt;
+        runTaskShowError(error_txt);
+    }
 }
 
 
@@ -955,8 +946,7 @@ function do_seqAjax(ajaxes, attempts_count){
                 $('div.progress-bar')
                     .removeClass('active, progress-bar-striped')
                     .css('width', '100%')
-                    .html('100%');
-                $('div.progress-info').html(defaultTaskMessages.complete);
+                    .html(defaultTaskMessages.complete + ' 100%');
                 runTaskComplete(ajaxes[current_key].task_id, ajaxes[current_key].data);
                 return;
             }
@@ -977,11 +967,18 @@ function do_seqAjax(ajaxes, attempts_count){
                 success: function (data, textStatus, xhr) {
                     var prc = Math.round((current+1) * 100 / steps_cnt);
                     $('div.progress-bar').css('width', prc + '%').html(prc + '%');
-                    task_complete_text += '<div class="alert-success">'
-                        +defaultTaskMessages.step+' '
-                        + (current+1) + ': '
-                        +defaultTaskMessages.success+'</div>';
+                    //task.php returns array of messages. so when one step called - take first
+                    var result_text = data[0] ? data[0] : '';
+                    if(!result_text && data.error_text.length>0){
+                        result_text = data.error_text;
+                    }
 
+                    var msg = defaultTaskMessages.step+' '
+                            + (current+1) + ': '
+                            +defaultTaskMessages.success
+                            + '<br/>' + result_text;
+
+                    task_complete_text += '<div class="alert-success">'+msg+'</div>';
                     attempts = 3;
                     current++;
                 },
@@ -1008,6 +1005,11 @@ function do_seqAjax(ajaxes, attempts_count){
                         error_txt = 'Connection error occurred. ' + error_txt;
                     }
 
+                    if(!error_txt && status === 'timeout'){
+                        error_txt = 'Connection error occurred. Timeout exceeded.';
+                    }
+
+
                     //so.. if all attempts of this step are failed
                     if (attempts == 0) {
                         task_complete_text += '<div class="alert-danger">'
@@ -1021,6 +1023,8 @@ function do_seqAjax(ajaxes, attempts_count){
                             task_fail = true;
                             xhr.abort();
                         }else{
+                            var prc = Math.round((current+1) * 100 / steps_cnt);
+                            $('div.progress-bar').css('width', prc + '%').html(prc + '%');
                             task_fail = true;
                             attempts = 3;
                         }

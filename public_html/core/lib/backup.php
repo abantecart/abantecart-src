@@ -29,13 +29,14 @@ if (!defined('DIR_CORE')){
  * @property ModelToolBackup $model_tool_backup
  * @property ExtensionsAPI $extensions
  */
-final class ABackup{
+class ABackup{
 	/**
 	 * @var string - mode of sql dump. can be "data_only" and "recreate"
 	 */
 	public $sql_dump_mode = 'data_only';
 	private $backup_name;
 	private $backup_dir;
+	private $slash;
 	/**
 	 * @var Registry
 	 */
@@ -47,14 +48,14 @@ final class ABackup{
 
 	/**
 	 * @param string $name
-	 * @param bool $create_subfolders - sign for creating temp folder for backup. set false if only validate
+	 * @param bool $create_subdirs - sign for creating temp folder for backup. set false if only validate
 	 */
-	public function __construct($name, $create_subfolders = true){
+	public function __construct($name, $create_subdirs = true){
 		/**
 		 * @var Registry
 		 */
 		$this->registry = Registry::getInstance();
-
+		$this->slash = IS_WINDOWS === true ? '\\' : '/';
 		//first of all check backup directory create or set writable permissions
 		// Before backup process need to call validate() method! (see below)
 		if (!make_writable_dir(DIR_BACKUP)){
@@ -69,8 +70,8 @@ final class ABackup{
 		//Create subdirectory /files and  /data
 		$this->backup_dir = DIR_BACKUP . $this->backup_name . '/';
 
-		if (!is_dir($this->backup_dir) && $create_subfolders){
-			$result = mkdir($this->backup_dir, 0777, true);
+		if (!is_dir($this->backup_dir) && $create_subdirs){
+			$result = mkdir($this->backup_dir, 0755, true);
 
 			if (!$result){
 				$error_text = "Error: Can't create directory " . $this->backup_dir . " during backup.";
@@ -78,18 +79,18 @@ final class ABackup{
 				$this->error[] = $error_text;
 				$this->backup_dir = $this->backup_name = null;
 			}
-			chmod($this->backup_dir, 0777);
+			chmod($this->backup_dir, 0755);
 		}
 
-		if ($this->backup_dir && $create_subfolders){
+		if ($this->backup_dir && $create_subdirs){
 			if (!is_dir($this->backup_dir . 'files')){
 				mkdir($this->backup_dir . 'files');
-				chmod($this->backup_dir . 'files', 0777);
+				chmod($this->backup_dir . 'files', 0755);
 			}
 
 			if (!is_dir($this->backup_dir . 'data')){
 				mkdir($this->backup_dir . 'data');
-				chmod($this->backup_dir . 'data', 0777);
+				chmod($this->backup_dir . 'data', 0755);
 			}
 		}
 	}
@@ -220,7 +221,7 @@ final class ABackup{
 			if ($table_info['size'] > $memory_limit && !$small_table){// for tables greater than 20 MB
 				//max allowed rows count for safe fetching
 				$limit = 10000;
-				//break export aparts to prevent memory overflow
+				//break apart export to prevent memory overflow
 				$stop = $column_min + $limit;
 				$small_table = false;
 			} else{ // for small table get data by one pass
@@ -352,7 +353,7 @@ final class ABackup{
 
 		if (!is_dir($this->backup_dir . 'files/' . $path)){
 			// it need for nested dirs, for example files/extensions
-			mkdir($this->backup_dir . 'files/' . $path, 0777, true);
+			mkdir($this->backup_dir . 'files/' . $path, 0755, true);
 		}
 
 		if (file_exists($this->backup_dir . 'files/' . $path)){
@@ -374,7 +375,6 @@ final class ABackup{
 			$result = rename($dir_path, $this->backup_dir . 'files/' . $path);
 		} else{
 			$result = $this->_copyDir($dir_path, $this->backup_dir . 'files/' . $path);
-
 		}
 
 		if (!$result){
@@ -389,7 +389,7 @@ final class ABackup{
 
 		//Copy directory with content to the directory(s) with the same path starting from $this->backup_dir . '/files/'
 		// Call $this->backupFile if needed. 
-		//generate errors: No space on device (log to message as error too), No permissons, Others  
+		//generate errors: No space on device (log to message as error too), No permissions, Others
 		//return Success or failed.
 		return true;
 	}
@@ -409,7 +409,8 @@ final class ABackup{
 
 		if ($path){ //if nested folders presents in path
 			if (!file_exists($this->backup_dir . 'files/' . $path)){
-				$result = mkdir($this->backup_dir . 'files/' . $path, 0777, true); // create dir with nested folders
+				// create dir with nested folders
+				$result = mkdir($this->backup_dir . 'files/' . $path, 0755, true);
 			} else{
 				$result = true;
 			}
@@ -454,18 +455,19 @@ final class ABackup{
 	public function archive($archive_filename, $src_dir, $filename){
 		//Archive the backup to DIR_BACKUP, delete tmp files in directory $this->backup_dir 
 		//And create record in the database for created archive. 
-		//generate errors: No space on device (log to message as error too), No permissons, Others 
+		//generate errors: No space on device (log to message as error too), No permissions, Others
 		//return Success or failed.
 
 		compressTarGZ($archive_filename, $src_dir . $filename, 1);
 
 		if (!file_exists($archive_filename)){
 			$error_text = 'Error: cannot to pack ' . $archive_filename . "\n Please see error log for details.";
-			$this->log->write($error_text);
 			$this->error[] = $error_text;
+			$log_text = 'Error: cannot to pack ' . $archive_filename . "\n";
+			$this->log->write($log_text);
 			return false;
 		} else{
-			@chmod($archive_filename, 0777);
+			@chmod($archive_filename, 0644);
 		}
 		//remove source folder after compress
 		$this->_removeDir($src_dir . $filename);
@@ -509,13 +511,13 @@ final class ABackup{
 	}
 
 	/**
-	 * Recursive function for copiing of directory with nested
+	 * Recursive function for coping of directory with nested
 	 *
 	 * @param string $src
 	 * @param string $dest
 	 * @return bool
 	 */
-	function _copyDir($src, $dest){
+	public function _copyDir($src, $dest){
 		// If source is not a directory stop processing
 		if (!is_dir($src)) return false;
 		//prevent recursive copying
@@ -536,28 +538,43 @@ final class ABackup{
 		foreach ($i as $f){
 			$real_path = $f->getRealPath();
 			//skip backup, cache and logs
-			if (is_int(strpos($real_path, '/backup')) || is_int(strpos($real_path, '/cache')) || is_int(strpos($real_path, '/logs'))){
+			if (is_int(strpos($real_path, $this->slash.'backup'))
+					|| is_int(strpos($real_path, $this->slash.'cache'))
+					|| is_int(strpos($real_path, $this->slash.'logs'))){
 				continue;
 			}
 			/**
 			 * @var $f DirectoryIterator
 			 */
 			if ($f->isFile()){
-				copy($real_path, "$dest/" . $f->getFilename());
+				copy($real_path, $dest . $this->slash. $f->getFilename());
 			} else if (!$f->isDot() && $f->isDir()){
-				$this->_copyDir($real_path, "$dest/$f");
+				$this->_copyDir($real_path, $dest . $this->slash . $f);
+				$this->_add_empty_index_file($dest . $this->slash . $f);
 			}
 		}
+
+		$this->_add_empty_index_file($dest);
 		return true;
+	}
+
+	private function _add_empty_index_file($dir){
+		//if empty directory - creates new empty file to prevent
+		// excluding directory during tar.gz compression via PharData class
+		$fi = new FilesystemIterator($dir, FilesystemIterator::SKIP_DOTS);
+		$files_count = iterator_count($fi);
+		if(!$files_count){
+			touch($dir.$this->slash."index.html");
+		}
 	}
 
 	/**
 	 * Method for checks before backup
 	 */
-	function validate(){
+	public function validate(){
 		//reset errors array before validation
 		$this->error = array ();
-		//1. check is backdirectory is writable
+		//1. check is backup directory is writable
 		if (!is_writable(DIR_BACKUP)){
 			$this->error[] = 'Directory ' . DIR_BACKUP . ' is non-writable. It is recommended to set write mode for it.';
 		}
@@ -571,11 +588,11 @@ final class ABackup{
 		if ($result === false && DB_DRIVER == 'mysql'){
 			$this->error[] = 'Probably error will occur. Please change db-driver to "amysqli" in your /system/config.php file.';
 		} elseif ($result === false){
-			$this->error[] = 'Cannot get tables list. Please check privilegies of mysql database user.';
+			$this->error[] = 'Cannot get tables list. Please check privileges of mysql database user.';
 		}
 
 		//3. check already created backup directories
-		foreach (array ($this->backup_dir, $this->backup_dir . "files/", $this->backup_dir . "data/") as $dir){
+		foreach (array ($this->backup_dir, $this->backup_dir . "files".$this->slash, $this->backup_dir . "data".$this->slash) as $dir){
 			if (is_dir($dir) && !is_writable($dir)){
 				$this->error[] = 'Directory ' . $dir . ' already exists and it is non-writable. It is recommended to set write mode for it.';
 			}

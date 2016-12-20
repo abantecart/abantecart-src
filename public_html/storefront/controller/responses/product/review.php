@@ -126,7 +126,7 @@ class ControllerResponsesProductReview extends AController {
 			require_once DIR_VENDORS . '/google_recaptcha/autoload.php';
 			$recaptcha = new \ReCaptcha\ReCaptcha($this->config->get('config_recaptcha_secret_key'));
 			$resp = $recaptcha->verify(	$this->request->post['g-recaptcha-response'],
-										$this->request->server['REMOTE_ADDR']);
+										$this->request->getRemoteIP());
 			if (!$resp->isSuccess() && $resp->getErrorCodes()) {
 				$this->error['message'] = $this->language->get('error_captcha');			
 			}

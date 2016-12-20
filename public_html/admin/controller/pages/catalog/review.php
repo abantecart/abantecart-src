@@ -21,7 +21,7 @@ if (! defined ( 'DIR_CORE' ) || !IS_ADMIN) {
 	header ( 'Location: static_pages/' );
 }
 class ControllerPagesCatalogReview extends AController {
-	private $error = array();
+	public $error = array();
 	public $data = array();
 	private $fields = array('status', 'rating', 'text', 'author');
  
@@ -47,7 +47,6 @@ class ControllerPagesCatalogReview extends AController {
 
    		 ));
 
-		
 		$grid_settings = array(
 			'table_id' => 'review_grid',
 			'url' => $this->html->getSecureURL('listing_grid/review'),
@@ -73,7 +72,16 @@ class ControllerPagesCatalogReview extends AController {
 		    'form_name' => 'review_grid_search',
 	    ));
 
-		$grid_search_form = array();
+        //get search filter from cookie if requeted
+        $search_params = array();
+        if($this->request->get['saved_list']) {
+            $grid_search_form = json_decode(html_entity_decode($this->request->cookie['grid_search_form']));
+            if($grid_search_form->table_id == $grid_settings['table_id']) {
+                parse_str($grid_search_form->params, $search_params);
+            }
+        }
+
+        $grid_search_form = array();
 		$grid_search_form['id'] = 'review_grid_search';
         $grid_search_form['form_open'] = $form->getFieldHtml(array(
 		    'type' => 'form',
@@ -96,6 +104,7 @@ class ControllerPagesCatalogReview extends AController {
 	    $grid_search_form['fields']['product_id'] = $form->getFieldHtml(array(
 		    'type' => 'selectbox',
 		    'name' => 'product_id',
+            'value' => $search_params['product_id'],
 		    'options' => array( '' => $this->language->get('text_select_product') ) + $this->model_catalog_review->getReviewProducts(),
 			'style' => 'chosen'
 	    ));
@@ -103,6 +112,7 @@ class ControllerPagesCatalogReview extends AController {
         $grid_search_form['fields']['status'] = $form->getFieldHtml(array(
 		    'type' => 'selectbox',
 		    'name' => 'status',
+            'value' => $search_params['status'],
             'options' => array(
                 1 => $this->language->get('text_enabled'),
                 0 => $this->language->get('text_disabled'),
@@ -167,6 +177,7 @@ class ControllerPagesCatalogReview extends AController {
         $grid = $this->dispatch('common/listing_grid', array( $grid_settings ) );
 		$this->view->assign('listing_grid', $grid->dispatchGetOutput());
 		$this->view->assign('search_form', $grid_search_form);
+		$this->view->assign('form_store_switch', $this->html->getStoreSwitcher());
 
 		$this->document->setTitle( $this->language->get('heading_title') );
 		$this->view->assign( 'insert', $this->html->getSecureURL('catalog/review/insert') );
@@ -364,6 +375,10 @@ class ControllerPagesCatalogReview extends AController {
             'pack' => false,
 	    ));
 
+        $saved_list_data = json_decode(html_entity_decode($this->request->cookie['grid_params']));
+        if($saved_list_data->table_id == 'review_grid') {
+            $this->data['list_url'] = $this->html->getSecureURL('catalog/review', '&saved_list=review_grid');
+        }
 		$this->view->assign('help_url', $this->gen_help_url('review_edit') );
 		$this->view->batchAssign( $this->data );
         $this->processTemplate('pages/catalog/review_form.tpl' );

@@ -171,9 +171,16 @@
 										</ul>
 										<?php } else { ?>
 										<ul class="productpagecart">
-											<li><a href="#" onclick="$(this).closest('form').submit(); return false;"
-												   class="cart"><?php echo $button_add_to_cart; ?></a></li>
+											<li><?php if(!$this->getHookVar('product_add_to_cart_html')) { ?>
+												<a href="#" onclick="$(this).closest('form').submit(); return false;" class="cart">
+													<?php echo $button_add_to_cart; ?>
+												</a>
+												<?php } else { ?>
+											        <?php echo $this->getHookVar('product_add_to_cart_html'); ?>
+											    <?php } ?>
+											</li>
 										</ul>
+
 										<?php } ?>
 										<?php } else { ?>
 											<ul class="productpagecart call_to_order">

@@ -23,7 +23,7 @@ if (!defined('DIR_CORE') || !IS_ADMIN) {
 class ControllerResponsesListingGridAttribute extends AController {
 
 	private $attribute_manager;
-	public $data;
+	public $data = array();
 
 	public function __construct($registry, $instance_id, $controller, $parent_controller = '') {
 		parent::__construct($registry, $instance_id, $controller, $parent_controller);
@@ -60,7 +60,7 @@ class ControllerResponsesListingGridAttribute extends AController {
 		}
 
 		$response = new stdClass();
-		$response->page = $page;
+		$response->page = $this->request->post['page'];
 		$response->total = $total_pages;
 		$response->records = $total;
 
@@ -96,12 +96,12 @@ class ControllerResponsesListingGridAttribute extends AController {
 			);
 			$i++;
 		}
-
+		$this->data['response'] = $response;
 		//update controller data
 		$this->extensions->hk_UpdateData($this, __FUNCTION__);
 
 		$this->load->library('json');
-		$this->response->setOutput(AJson::encode($response));
+		$this->response->setOutput(AJson::encode($this->data['response']));
 	}
 
 	public function update() {
@@ -132,7 +132,8 @@ class ControllerResponsesListingGridAttribute extends AController {
 					}
 				break;
 			case 'save':
-				$fields = array( 'name', 'attribute_type_id', 'sort_order', 'status' );
+				$allowedFields = array_merge(array ('name', 'attribute_type_id', 'sort_order', 'status'), (array)$this->data['allowed_fields']);
+
 				$ids = explode(',', $this->request->post[ 'id' ]);
 				if (!empty($ids))
 					//resort required. 
@@ -145,7 +146,7 @@ class ControllerResponsesListingGridAttribute extends AController {
 	 					$this->request->post['sort_order'] = $new_sort;
 					}
 					foreach ($ids as $id) {
-						foreach ($fields as $f) {
+						foreach ($allowedFields as $f) {
 							if (isset($this->request->post[ $f ][ $id ])) {
 								$err = $this->_validateField($f, $this->request->post[ $f ][ $id ]);
 								if (!empty($err)) {
@@ -235,9 +236,9 @@ class ControllerResponsesListingGridAttribute extends AController {
 		return $err;
 	}
 
-	public function validateDelete($attribute_id) {
+	public function validateDelete() {
 		$this->data['error'] = '';
-		$this->extensions->hk_InitData($this, __FUNCTION__);
+		$this->extensions->hk_ValidateData($this);
 		return $this->data['error'];
 	}
 

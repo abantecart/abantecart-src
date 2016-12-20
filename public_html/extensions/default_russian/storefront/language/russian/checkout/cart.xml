@@ -90,13 +90,11 @@
 	</definition>
 	<definition>
 		<key>error_order_minimum</key>
-		<value>
-			<![CDATA[Сумма вашего заказа не соответствует минимальной требуемой %s . Пожалуйста, добавьте больше товаров в корзину!]]></value>
+		<value><![CDATA[Сумма вашего заказа не соответствует минимальной требуемой %s . Пожалуйста, добавьте больше товаров в корзину!]]></value>
 	</definition>
 	<definition>
 		<key>error_order_maximum</key>
-		<value>
-			<![CDATA[Сумма вашего заказа превышает максимальное %s позволеное за заказ. Пожалуйста, удалите некоторые товары из корзины!]]></value>
+		<value><![CDATA[Сумма вашего заказа превышает максимальное %s позволеное за заказ. Пожалуйста, удалите некоторые товары из корзины!]]></value>
 	</definition>
 	<definition>
 		<key>error_empty_file_data</key>
@@ -129,5 +127,9 @@
 	<definition>
 		<key>error_quantity_minimum</key>
 		<value><![CDATA[Разрешенное количество продукта ниже минимального. Количество выставлено в минимум.]]></value>
+	</definition>
+	<definition>
+		<key>text_coupon_removal</key>
+		<value><![CDATA[Успех: Купон удален!]]></value>
 	</definition>
 </definitions>

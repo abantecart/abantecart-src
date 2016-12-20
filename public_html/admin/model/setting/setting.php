@@ -80,7 +80,7 @@ class ModelSettingSetting extends Model {
 			$sql .= " AND ".$data['subsql_filter'];
 		}
 
-		//If for total, we done bulding the query
+		//If for total, we done building the query
 		if ($mode == 'total_only') {
 		    $query = $this->db->query($sql);
 		    return $query->row['total'];
@@ -166,7 +166,13 @@ class ModelSettingSetting extends Model {
 		}
 		$src_lang_id = $this->language->getLanguageIdByCode($this->config->get('translate_src_lang_code'));
 		// if override - edit type is insert
-		if(isset($data['config_description_'.$src_lang_id]) && $this->config->get('translate_override_existing')){
+		if($this->config->get('translate_override_existing')
+				&&
+				(isset($data['config_description_'.$src_lang_id])
+				|| isset($data['config_title_'.$src_lang_id])
+				|| isset($data['config_meta_description_'.$src_lang_id])
+				|| isset($data['config_meta_keywords_'.$src_lang_id]))
+		){
 			$edit_type = 'insert';
 		}
 
@@ -185,9 +191,13 @@ class ModelSettingSetting extends Model {
 		// if need translate
 		if($locales){
 			if($src_lang_id){
-				$src_text =  isset($data['config_description_'.$src_lang_id]) ? $data['config_description_'.$src_lang_id] : $this->config->get('config_description_'.$src_lang_id);
-				foreach($locales as $dst_lang_id=>$dst_code){
-					$data['config_description_'.$dst_lang_id] = $this->language->translate ($this->config->get('translate_src_lang_code'), $src_text, $dst_code);
+				foreach( array('config_description', 'config_title', 'config_meta_description', 'config_meta_keywords') as $n){
+					$key = $n.'_'.$src_lang_id;
+					$src_text =  isset($data[$key]) ? $data[$key] : $this->config->get($key);
+					foreach($locales as $dst_lang_id=>$dst_code){
+
+						$data[$n.'_'.$dst_lang_id] = $this->language->translate ($this->config->get('translate_src_lang_code'), $src_text, $dst_code);
+					}
 				}
 			}
 		}

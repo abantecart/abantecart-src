@@ -29,7 +29,7 @@ class ControllerPagesAccountSubscriber extends AController {
         $this->extensions->hk_InitData($this,__FUNCTION__);
 
 		if ($this->customer->isLogged()) {
-	  		$this->redirect($this->html->getSecureURL('account/notification'));
+	  		redirect($this->html->getSecureURL('account/notification'));
     	}
 		$this->loadModel('account/customer');
     	$this->loadLanguage('account/create');
@@ -43,17 +43,18 @@ class ControllerPagesAccountSubscriber extends AController {
 			$this->error = $this->model_account_customer->validateSubscribeData($request_data);
 
     		if ( !$this->error ) {
-				// generate random password for subsribers only
+				// generate random password for subscribers only
 				$request_data['password'] = md5(mt_rand(0,10000)); //random password
 				$request_data['loginname'] = md5(time()); // loginname must be unique!
 				$request_data['newsletter'] = 1; // sign of subscriber
 				$request_data['status'] = 0; //disable login ability for subscribers
 				$request_data['customer_group_id'] = $this->model_account_customer->getSubscribersCustomerGroupId();
-				$request_data['ip'] = $this->request->server['REMOTE_ADDR'];
-
+				$request_data['ip'] = $this->request->getRemoteIP();
+			    //mark customer as subscriber for model
+			    $request_data['subscriber'] = true;
 				$this->model_account_customer->addCustomer($request_data);
 				$this->extensions->hk_UpdateData($this,__FUNCTION__);
-		  		$this->redirect($this->html->getSecureURL('account/subscriber','&success=1'));
+		  		redirect($this->html->getSecureURL('account/subscriber','&success=1'));
 	  		}
     	}
 

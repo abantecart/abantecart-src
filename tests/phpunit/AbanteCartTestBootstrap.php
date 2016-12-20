@@ -1,39 +1,19 @@
 <?php
 
 class AbanteCartTest extends PHPUnit_Framework_TestCase {
-	
 	protected $registry;
-
-	
-	public function __get($key) {
-		return $this->registry->get($key);
-	}
-	
-	public function __set($key, $value) {
-		$this->registry->set($key, $value);
-	}	
-	
-	public function loadConfiguration($path) {
-
-
-		// Configuration
-		if (file_exists($path) && filesize($path)) {
-			require_once($path);
-		} else {
-			exit($path);
-			throw new Exception('AbanteCart has to be installed first!');
-		}
-
-		// New Installation
-		if (!defined('DB_DATABASE')) {
-			throw new Exception('AbanteCart has to be installed first!');
-		}
-	}
-	
 	public function __construct() {
 
 		$GLOBALS[ 'error_descriptions' ] = 'Abantecart PhpUnit test';
-		require('config.php');
+
+		$dirname = dirname(__FILE__);
+		$dirname = dirname($dirname);
+
+		$dirname = dirname($dirname).'/public_html';
+		define('ABC_TEST_ROOT_PATH', $dirname);
+		define('ABC_TEST_HTTP_HOST', 'travis-ci.org');
+		define('ABC_TEST_PHP_SELF',  'abantecart/abantecart-src/public_html/index.php');
+
 		$_SERVER['HTTP_HOST'] = ABC_TEST_HTTP_HOST;
 		$_SERVER['PHP_SELF'] = ABC_TEST_PHP_SELF;
 
@@ -85,7 +65,34 @@ class AbanteCartTest extends PHPUnit_Framework_TestCase {
 
 		// Registry
 		$this->registry = Registry::getInstance();
-	}	
+		//add admin in scope
+		$this->registry->get('session')->data['user_id'] = 1;
+		$this->registry->set('user', new AUser($this->registry));
+	}
+
+	public function __get($key) {
+		return $this->registry->get($key);
+	}
+
+	public function __set($key, $value) {
+		$this->registry->set($key, $value);
+	}
+
+	public function loadConfiguration($path) {
+
+
+		// Configuration
+		if (file_exists($path) && filesize($path)) {
+			require_once($path);
+		} else {
+			throw new Exception('AbanteCart has to be installed first!');
+		}
+
+		// New Installation
+		if (!defined('DB_DATABASE')) {
+			throw new Exception('AbanteCart has to be installed first!');
+		}
+	}
 	
 	public function customerLogin($user,$password,$override=false) {
 		$logged = $this->customer->login($user,$password,$override);		

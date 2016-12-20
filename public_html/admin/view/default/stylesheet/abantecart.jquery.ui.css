@@ -995,3 +995,9 @@ tr.jqgrow td[aria-describedby="extension_grid_icon"] img{
 .ui-jqgrid-btable .input-group, .ui-jqgrid-btable .form-group {
 	width: 100%;
 }
+
+
+.ui-jqgrid-btable label.grid-parent-category{
+	white-space: nowrap;
+	display: block;
+}

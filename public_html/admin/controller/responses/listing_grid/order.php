@@ -21,8 +21,8 @@ if (!defined('DIR_CORE') || !IS_ADMIN) {
 	header('Location: static_pages/');
 }
 class ControllerResponsesListingGridOrder extends AController {
-	private $error = array();
-
+	public $error = array();
+	public $data = array();
 	public function main() {
 
 		//init controller data
@@ -38,8 +38,8 @@ class ControllerResponsesListingGridOrder extends AController {
 
 
 		// process jGrid search parameter
-		$allowedFields = array( 'name', 'order_id', 'date_added', 'total' );
-		$allowedSortFields = array('customer_id', 'order_id', 'name', 'status', 'date_added', 'total', );
+		$allowedFields = array_merge(array ('name', 'order_id', 'date_added', 'total'), (array)$this->data['allowed_fields']);
+		$allowedSortFields = array_merge(array ('customer_id', 'order_id', 'name', 'status', 'date_added', 'total'), (array)$this->data['allowed_sort_fields']);
 
 		$allowedDirection = array( 'asc', 'desc' );
 
@@ -113,7 +113,7 @@ class ControllerResponsesListingGridOrder extends AController {
 			$response->rows[ $i ][ 'cell' ] = array(
 				$result[ 'order_id' ],
 				$result[ 'name' ],
-				$this->html->buildSelectbox(array(
+				$this->html->buildSelectBox(array(
 					'name' => 'order_status_id[' . $result[ 'order_id' ] . ']',
 					'value' => array_search($result[ 'status' ], $statuses),
 					'options' => $statuses,
@@ -123,12 +123,11 @@ class ControllerResponsesListingGridOrder extends AController {
 			);
 			$i++;
 		}
-
+		$this->data['response'] = $response;
 		//update controller data
 		$this->extensions->hk_UpdateData($this, __FUNCTION__);
-
 		$this->load->library('json');
-		$this->response->setOutput(AJson::encode($response));
+		$this->response->setOutput(AJson::encode($this->data['response']));
 	}
 
 	public function update() {
@@ -161,10 +160,7 @@ class ControllerResponsesListingGridOrder extends AController {
 						$this->model_sale_order->editOrder($id, array( 'order_status_id' => $this->request->post[ 'order_status_id' ][ $id ] ));
 					}
 				break;
-
 			default:
-				//print_r($this->request->post);
-
 		}
 
 		//update controller data
@@ -210,15 +206,12 @@ class ControllerResponsesListingGridOrder extends AController {
 			return null;
 		}
 
-
-
 		//request sent from jGrid. ID is key of array
 		foreach ($this->request->post as $field => $value) {
 			foreach ($value as $k => $v) {
 				$this->model_sale_order->editOrder($k, array( $field => $v ));
 			}
 		}
-
 
 		//update controller data
 		$this->extensions->hk_UpdateData($this, __FUNCTION__);
@@ -267,12 +260,12 @@ class ControllerResponsesListingGridOrder extends AController {
 				$response->order[ 'order_status' ] = $status[ 'name' ];
 
 		}
-
+		$this->data['response'] = $response;
 		//update controller data
 		$this->extensions->hk_UpdateData($this, __FUNCTION__);
 
 		$this->load->library('json');
-		$this->response->setOutput(AJson::encode($response));
+		$this->response->setOutput(AJson::encode($this->data['response']));
 	}
 
 }

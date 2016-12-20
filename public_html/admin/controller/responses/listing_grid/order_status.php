@@ -21,7 +21,7 @@ if (!defined('DIR_CORE') || !IS_ADMIN){
 	header('Location: static_pages/');
 }
 class ControllerResponsesListingGridOrderStatus extends AController{
-
+	public $data = array();
 	public function main(){
 
 		//init controller data
@@ -84,12 +84,11 @@ class ControllerResponsesListingGridOrderStatus extends AController{
 			);
 			$i++;
 		}
-
+		$this->data['response'] = $response;
 		//update controller data
 		$this->extensions->hk_UpdateData($this, __FUNCTION__);
-
 		$this->load->library('json');
-		$this->response->setOutput(AJson::encode($response));
+		$this->response->setOutput(AJson::encode($this->data['response']));
 	}
 
 	public function update(){
@@ -137,12 +136,8 @@ class ControllerResponsesListingGridOrderStatus extends AController{
 							$this->model_localisation_order_status->editOrderStatus($id, array ('order_status' => $this->request->post['order_status'][$id]));
 						}
 					}
-
 				break;
-
 			default:
-				//print_r($this->request->post);
-
 		}
 
 		//update controller data

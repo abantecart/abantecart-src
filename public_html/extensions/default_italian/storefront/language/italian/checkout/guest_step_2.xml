@@ -42,8 +42,7 @@
 	</definition>
 	<definition>
 		<key>text_coupon</key>
-		<value>
-			<![CDATA[Inserisci il codice clicca su "Applica Coupon" e guarda lo sconto da applicare immediatamente al tuo ordine.]]></value>
+		<value><![CDATA[Inserisci il codice clicca su "Applica Coupon" e guarda lo sconto da applicare immediatamente al tuo ordine.]]></value>
 	</definition>
 	<definition>
 		<key>text_success</key>
@@ -67,8 +66,7 @@
 	</definition>
 	<definition>
 		<key>error_no_shipping</key>
-		<value>
-			<![CDATA[Errore: Nessuna opzione di spedizione è disponibile. <a href="index.php?rt=content/contact">Contattaci</a> per assistenza!]]></value>
+		<value><![CDATA[Errore: Nessuna opzione di spedizione è disponibile. <a href="index.php?rt=content/contact">Contattaci</a> per assistenza!]]></value>
 	</definition>
 	<definition>
 		<key>error_payment</key>
@@ -81,5 +79,9 @@
 	<definition>
 		<key>error_coupon</key>
 		<value><![CDATA[Errore: Il coupon non è valido, è scaduto o ha raggiunto il suo limite di utilizzo!]]></value>
+	</definition>
+	<definition>
+		<key>text_coupon_removal</key>
+		<value><![CDATA[Successo: Coupon è stato rimosso!]]></value>
 	</definition>
 </definitions>

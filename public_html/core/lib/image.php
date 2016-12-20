@@ -122,7 +122,7 @@ final class AImage{
 		$nofill = !isset($options['nofill']) ? false : $options['nofill'];
 
 		//if size will change - resize it and save with GD2, otherwise - just copy file
-		if ($this->info['width'] != $width && $this->info['height'] != $height){
+		if ($this->info['width'] != $width || $this->info['height'] != $height){
 			$this->resize($width, $height, $nofill);
 			$result = $this->save($filename, $quality);
 		} else{
@@ -196,6 +196,8 @@ final class AImage{
 		}
 
 		$scale = min($width / $this->info['width'], $height / $this->info['height']);
+
+//var_dump($this->info['width'],$width,$this->info['height'], $height, $scale);
 
 		if ($scale == 1 && $this->info['mime'] != 'image/png'){
 			return false;

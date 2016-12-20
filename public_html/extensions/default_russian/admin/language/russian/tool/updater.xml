@@ -66,8 +66,7 @@
 	</definition>
 	<definition>
 		<key>text_notice_text</key>
-		<value>
-			<![CDATA[&quot;Новая версия расширения &quot;%EXTENSION%&quot; доступна. Пожалуйста, перейдите к %LINK% и обновите его.]]></value>
+		<value><![CDATA[&quot;Новая версия расширения &quot;%EXTENSION%&quot; доступна. Пожалуйста, перейдите к %LINK% и обновите его.]]></value>
 	</definition>
 	<definition>
 		<key>warning_updates</key>
@@ -96,5 +95,9 @@
 	<definition>
 		<key>text_marketplace_connect_your_store</key>
 		<value><![CDATA[Пожалуйста, Подключите Ваш Магазин к Marketplace]]></value>
+	</definition>
+	<definition>
+		<key>text_note</key>
+		<value><![CDATA[Примечание: Обновления доступны только для авторизированных магазинов с историей покупок!]]></value>
 	</definition>
 </definitions>

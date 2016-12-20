@@ -161,16 +161,22 @@
 		}
 
 		$('#editFrm_element_type').change(function () {
-			if ($.inArray($(this).val(), elements_with_options) > -1) {
+			var curr_value = $(this).val();
+			if ($.inArray(curr_value, elements_with_options) > -1) {
 				$('#values').show();
 			} else {
 				$('#values').hide();
 			}
 
-			if ($(this).val() == 'U') {
+			if (curr_value == 'U') {
 				$('#file_settings').show();
 			} else {
 				$('#file_settings').hide();
+			}
+			if(curr_value == 'I' || curr_value == 'T' ){
+				$('#editFrm_placeholder').removeAttr('disabled').parents('.form-group').show();
+			}else{
+				$('#editFrm_placeholder').attr('disabled','disabled').parents('.form-group').hide();
 			}
 		});
 
@@ -209,6 +215,10 @@
 		});
 
 		$('#file_settings .aform').show();
+
+		$(document).ready(function(){
+			$('#editFrm_element_type').change();
+		});
 
 	});
 </script>

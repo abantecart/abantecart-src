@@ -61,7 +61,11 @@
 		<value><![CDATA[ATTENZIONE: Il totale ordine e spese di gestione deve essere espresso con un numero!]]></value>
 	</definition>
 	<definition>
-		<key>entry_total_palceholder</key>
+		<key>entry_total_placeholder</key>
 		<value><![CDATA[Valore di testo]]></value>
+	</definition>
+	<definition>
+		<key>entry_payment_fee</key>
+		<value><![CDATA[Costo: <span class="help"> libero da aggiungere al totale dell'ordine se minimo sub-totale importo condizione non è soddisfatta. Tale importo ignorare impostazione quota principale</span>]]></value>
 	</definition>
 </definitions>

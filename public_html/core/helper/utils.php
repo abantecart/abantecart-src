@@ -127,6 +127,7 @@ function is_multi ($array) {
 	    return false;
 	}
 }
+
  
 /*
 *
@@ -137,10 +138,9 @@ function is_multi ($array) {
  * @param $string_value
  * @param string $object_key_name
  * @param int $object_id
- * @param int $language_id
  * @return string
  */
-function SEOEncode($string_value, $object_key_name='', $object_id=0, $language_id=0) {
+function SEOEncode($string_value, $object_key_name='', $object_id=0) {
 	$seo_key = html_entity_decode($string_value, ENT_QUOTES, 'UTF-8');
 	$seo_key = preg_replace('/[^\pL\p{Zs}0-9\s\-_]+/u', '', $seo_key);
 	$seo_key = trim(mb_strtolower($seo_key));
@@ -193,9 +193,9 @@ function getUniqueSeoKeyword($seo_key, $object_key_name='', $object_id=0){
 * Echo array with readable formal. Useful in debugging of array data. 
 */
 function echo_array($array_data) {
-	$wrapper = '<div class="debug_alert salert alert-info alert-dismissible" role="alert"><button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span></button>';	
+	$wrapper = '<div class="debug_alert alert alert-info alert-dismissible" role="alert"><button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span></button>';
 	echo $wrapper;
-	echo "<pre>";// $sub_table_name: ";
+	echo "<pre>";
 	print_r($array_data);
 	echo'</pre>';
 	echo'</div>';	
@@ -225,7 +225,7 @@ function getFilesInDir($dir, $file_ext = '') {
 }
 
 //Custom function for version compare between store version and extensions
-//NOTE: Function will return false if major versions donot match. 
+//NOTE: Function will return false if major versions do not match.
 function versionCompare($version1, $version2, $operator) {
 	$version1 = explode('.', preg_replace('/[^0-9\.]/', '', $version1));
 	$version2 = explode('.', preg_replace('/[^0-9\.]/', '', $version2));
@@ -427,7 +427,7 @@ function dateFromFormat($string_date, $date_format, $timezone = null) {
  */
 function DateTimeCreateFromFormat($date_format, $string_date) {
 	// convert date format first from format of date() to format of strftime()
-    $caracs = array(
+    $chars = array(
         // Day - no strf eq : S
         'd' => '%d', 'D' => '%a', 'j' => '%e', 'l' => '%A', 'N' => '%u', 'w' => '%w', 'z' => '%j',
         // Week - no date eq : %U, %W
@@ -443,7 +443,7 @@ function DateTimeCreateFromFormat($date_format, $string_date) {
         // Full Date / Time - no strf eq : c, r; no date eq : %c, %D, %F, %x
         'U' => '%s'
     );
-    $strftime_format = strtr((string)$date_format, $caracs);
+    $strftime_format = strtr((string)$date_format, $chars);
 
 	$date_parsed = strptime($string_date, $strftime_format);
 	$int_date = mktime($date_parsed["tm_hour"],$date_parsed["tm_min"],$date_parsed["tm_sec"],$date_parsed["tm_mon"]+1,($date_parsed["tm_mday"]),(1900+$date_parsed["tm_year"]));
@@ -462,8 +462,8 @@ if( !function_exists("strptime")) {
 	      '%S' => '(?P<S>[0-9]{2})',
 	    );
 	
-	    $rexep = "#".strtr(preg_quote($format), $masks)."#";
-	    if(!preg_match($rexep, $date, $out))
+	    $regexp = "#".strtr(preg_quote($format), $masks)."#";
+	    if(!preg_match($regexp, $date, $out))
 	      return false;
 	
 	    $ret = array(
@@ -480,7 +480,7 @@ if( !function_exists("strptime")) {
 
 /**
  * @param string $extension_txt_id
- * @return SimpleXMLElement | bool
+ * @return SimpleXMLElement | false
  */
 function getExtensionConfigXml($extension_txt_id) {
 	$registry = Registry::getInstance();
@@ -492,6 +492,9 @@ function getExtensionConfigXml($extension_txt_id) {
 
 	$extension_txt_id = str_replace('../', '', $extension_txt_id);
 	$filename = DIR_EXT . $extension_txt_id . '/config.xml';
+	/**
+	 * @var $ext_configs SimpleXMLElement|false
+	 */
 	$ext_configs = simplexml_load_file($filename);
 
 	if($ext_configs === false){
@@ -563,7 +566,7 @@ function getExtensionConfigXml($extension_txt_id) {
 					$item_id = $extension_txt_id.'_'.$attr['id'];
 					$is_exists = $ext_configs->xpath('/extension/settings/item[@id=\''.$item_id.'\']');
 					if(!$is_exists){
-						// remove item that was appended on previous cicle from additional xml (override)
+						// remove item that was appended on previous cycle from additional xml (override)
 						$qry = "/extension/settings/item[@id='".$item_id."']";
 						$existed = $xpath->query($qry);
 						if(!is_null($existed)){
@@ -714,7 +717,7 @@ function is_html($test_string) {
  *
  * @param string $email The email address
  * @param int|string $s Size in pixels, defaults to 80px [ 1 - 2048 ]
- * @param string $d Default imageset to use [ 404 | mm | identicon | monsterid | wavatar ]
+ * @param string $d Default image set to use [ 404 | mm | identicon | monsterid | wavatar ]
  * @param string $r Maximum rating (inclusive) [ g | pg | r | x ]
  * @return String containing either just a URL or a complete image tag
  */
@@ -753,17 +756,21 @@ function compressTarGZ($tar_filename, $tar_dir, $compress_level = 5){
 	if(class_exists('PharData') ){
 		try{
 			$a = new PharData($tar );
-			$a->buildFromDirectory($tar_dir); // this code creates tar-file
-			if(file_exists($tar)){ // remove tar-file after zipping
+			//creates tar-file
+			$a->buildFromDirectory($tar_dir);
+			// remove tar-file after zipping
+			if(file_exists($tar)){
 				gzip($tar, $compress_level);
 				unlink($tar);
 			}
 		}catch (Exception $e){
-			$error = new AError( $e->getMessage() );
+			$error = new AError( 'Tar GZ compressing error: '. $e->getMessage() );
 			$error->toLog()->toDebug();
 			$exit_code =1;
 		}
 	}else{
+		//class pharData does not exists.
+		//set mark to use targz-lib
 		$exit_code =1;
 	}
 
@@ -816,9 +823,9 @@ function gzip($src, $level = 5, $dst = false){
  * @return string
  */
 function randomWord($length = 4){
-    $newcode_length=0;
-    $newcode='';
-    while($newcode_length < $length) {
+    $new_code_length=0;
+    $new_code='';
+    while($new_code_length < $length) {
         $x=1;
         $y=3;
         $part = rand($x,$y);
@@ -835,10 +842,10 @@ function randomWord($length = 4){
         	$b=122;
         } 
         $code_part=chr(rand($a,$b));
-        $newcode_length = $newcode_length + 1;
-        $newcode = $newcode.$code_part;
+        $new_code_length = $new_code_length + 1;
+        $new_code = $new_code.$code_part;
     }
-    return $newcode;
+    return $new_code;
 }
 
 
@@ -1100,7 +1107,6 @@ function js_echo($text) {
  * Function output string with html-entities
  *
  * @param string $html
- * @return string
 */
 function echo_html2view($html){
 	echo htmlspecialchars($html,ENT_QUOTES,'UTF-8');
@@ -1163,7 +1169,11 @@ function check_resize_image($orig_image, $new_image, $width, $height, $quality) 
 	    	if (!file_exists(DIR_IMAGE . $path)){
 	    		// Make sure the index file is there
 	    		$indexFile = DIR_IMAGE . $path . '/index.php';
-	    		@mkdir(DIR_IMAGE . $path, 0775) && file_put_contents($indexFile, "<?php die('Restricted Access!'); ?>");
+	    		$result = mkdir(DIR_IMAGE . $path, 0775) && file_put_contents($indexFile, "<?php die('Restricted Access!'); ?>");
+			    if(!$result){
+				    $error = new AError('Cannot to create directory '.DIR_IMAGE. $path. '. Please check permissions for '.DIR_IMAGE);
+				    $error->toLog();
+			    }
 	    	}
 	    }
 	}
@@ -1180,4 +1190,11 @@ function check_resize_image($orig_image, $new_image, $width, $height, $quality) 
 	}
 
 	return $new_image;
+}
+
+
+function redirect($url){
+	if(!$url){ return false; }
+	header('Location: ' . str_replace('&amp;', '&', $url));
+	exit;
 }

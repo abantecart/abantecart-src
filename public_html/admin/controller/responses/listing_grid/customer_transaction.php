@@ -48,20 +48,27 @@ class ControllerResponsesListingGridCustomerTransaction extends AController {
 			'customer_id' => (int)$this->request->get['customer_id']
 		);
 
-		if ( has_value($this->request->get[ 'user' ]) )
-			$data['filter']['user'] = $this->request->get[ 'user' ];
-		if ( has_value($this->request->get['credit']) )
-			$data['filter']['credit'] = $this->request->get[ 'credit' ];
-		if ( has_value($this->request->get['debit']) )
-			$data['filter']['debit'] = $this->request->get[ 'debit' ];
-		if ( has_value($this->request->get['transaction_type']) )
-			$data['filter']['transaction_type'] = $this->request->get[ 'transaction_type' ];
-		if ( has_value($this->request->get['date_start']) )
-			$data['filter']['date_start'] = dateDisplay2ISO($this->request->get[ 'date_start' ]);
-		if ( has_value($this->request->get['date_end']) )
-			$data['filter']['date_end'] = dateDisplay2ISO($this->request->get[ 'date_end' ]);
+		if ( has_value($this->request->get[ 'user' ]) ){
+			$data['filter']['user'] = $this->request->get['user'];
+		}
+		if ( has_value($this->request->get['credit']) ){
+			$data['filter']['credit'] = $this->request->get['credit'];
+		}
+		if ( has_value($this->request->get['debit']) ){
+			$data['filter']['debit'] = $this->request->get['debit'];
+		}
+		if ( has_value($this->request->get['transaction_type']) ){
+			$data['filter']['transaction_type'] = $this->request->get['transaction_type'];
+		}
+		if ( has_value($this->request->get['date_start']) ){
+			$data['filter']['date_start'] = dateDisplay2ISO($this->request->get['date_start']);
+		}
+		if ( has_value($this->request->get['date_end']) ){
+			$data['filter']['date_end'] = dateDisplay2ISO($this->request->get['date_end']);
+		}
 
-		$allowedFields = array( 'user', 'credit', 'debit', 'transaction_type', 'date_start', 'date_end' );
+		$allowedFields = array_merge(array ('user', 'credit', 'debit', 'transaction_type', 'date_start', 'date_end'), (array)$this->data['allowed_fields']);
+
 		if ( isset($this->request->post[ '_search' ]) && $this->request->post[ '_search' ] == 'true') {
 			$searchData = AJson::decode(htmlspecialchars_decode($this->request->post[ 'filters' ]), true);
 
@@ -103,19 +110,20 @@ class ControllerResponsesListingGridCustomerTransaction extends AController {
 			);
 			$i++;
 		}
-
+		$this->data['response'] = $response;
 		//update controller data
 		$this->extensions->hk_UpdateData($this, __FUNCTION__);
-
+		$this->load->library('json');
 		$this->response->addJSONHeader();
-		$this->response->setOutput(AJson::encode($response));
+		$this->response->setOutput(AJson::encode($this->data['response']));
 	}
 
 
 	private function _validateForm($data=array()) {
-
-		$output['credit'] = (float)$data['credit'];
-		$output['debit'] = (float)$data['debit'];
+		$output = array(
+				'credit' => (float)$data['credit'],
+				'debit'  => (float)$data['debit']
+		);
 
 		if(!$output['credit'] && !$output['debit']){
 			$this->error[] = $this->language->get('error_empty_debit_credit');
@@ -135,10 +143,10 @@ class ControllerResponsesListingGridCustomerTransaction extends AController {
 		$output['comment'] = htmlentities($data['comment'],ENT_QUOTES,'UTF-8');
 		$output['description'] = htmlentities($data['description'],ENT_QUOTES,'UTF-8');
 		$output['notify'] = (int)$data['notify'] ? 1 : 0;
-
+		$this->data['output'] = $output;
 		$this->extensions->hk_ValidateData( $this );
 
-		return $output;
+		return $this->data['output'];
 	}
 
 

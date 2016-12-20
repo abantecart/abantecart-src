@@ -102,11 +102,11 @@ class AView{
 	}
 
 	/**
+	 * @deprecated since v1.2.9
 	 * @param string $url
 	 */
 	protected function redirect($url){
-		header('Location: ' . str_replace('&amp;', '&', $url));
-		die();
+		redirect($url);
 	}
 
 	/**
@@ -138,10 +138,31 @@ class AView{
 	}
 
 	/**
-	 * @param string $key - optional parameter for better access from hook that called by "_UpdateData".
+	 * Return array with awailable variables and types in the view
+	 * @param string $key - optional parameter to spcify variable type of array.
 	 * @return array | mixed
 	 */
-	public function getData($key = ''){
+	public function getVariables($key = ''){
+		$variables = array();
+		$scope = array();
+		if ($key){
+			$scope = $this->data[$key];
+		} else{
+			$scope = $this->data;
+		}
+		if(is_array($scope)){
+			foreach(array_keys($scope) as $var){
+				$variables[$var] = gettype($scope[$var]);
+			}		
+		}
+		return $variables;
+	}
+
+	/**
+	 * @param string $key - optional parameter for better access from hook that called by "_UpdateData".
+	 * @return array | mixed - reference to $this->data
+	 */
+	public function &getData($key = ''){
 		if ($key){
 			return $this->data[$key];
 		} else{

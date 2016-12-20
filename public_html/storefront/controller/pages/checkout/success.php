@@ -30,8 +30,9 @@ class ControllerPagesCheckoutSuccess extends AController{
 		$this->extensions->hk_InitData($this, __FUNCTION__);
 
 		if (isset($this->session->data['order_id'])){
-
-			$amount = $this->session->data['used_balance']; // in default currency
+			
+			// in default currency
+			$amount = $this->session->data['used_balance']; 
 			if ($amount){
 				$transaction_data = array (
 						'order_id'         => (int)$this->session->data['order_id'],
@@ -41,39 +42,18 @@ class ControllerPagesCheckoutSuccess extends AController{
 						'description'      => sprintf($this->language->get('text_applied_balance_to_order'),
 								$this->currency->format($this->currency->convert($amount, $this->config->get('config_currency'), $this->session->data['currency']), $this->session->data['currency'], 1),
 								(int)$this->session->data['order_id']));
-				$this->customer->debitTransaction($transaction_data);
-			}
-
-			// google analytics data for js-script in footer.tpl
-
-			$order = new AOrder($this->registry);
-			$order_data = $order->buildOrderData($this->session->data);
-			$order_tax = $order_total = $order_shipping = 0.0;
-			foreach ($order_data['totals'] as $total){
-				if ($total['total_type'] == 'total'){
-					$order_total += $total['value'];
-				} elseif ($total['total_type'] == 'tax'){
-					$order_tax += $total['value'];
-				} elseif ($total['total_type'] == 'shipping'){
-					$order_shipping += $total['value'];
+				try{
+					$this->customer->debitTransaction($transaction_data);
+				}catch(AException $e){
+					$error = new AError('Error: Debit transaction cannot be applied.'. var_export($transaction_data, true)."\n".$e->getMessage()."\n".$e->getFile());
+					$error->toLog()->toMessages();
 				}
 			}
-
-			$this->registry->set('google_analytics_data',
-					array ('transaction_id' => (int)$this->session->data['order_id'],
-						   'store_name'     => $this->config->get('store_name'),
-						   'currency_code'  => $order_data['currency'],
-						   'total'          => $order_total,
-						   'tax'            => $order_tax,
-						   'shipping'       => $order_shipping,
-						   'city'           => $order_data['shipping_city'],
-						   'state'          => $order_data['shipping_zone'],
-						   'country'        => $order_data['shipping_country']));
 
 			$this->cart->clear();
 			$this->customer->clearCustomerCart();
 
-			//save order_id into sassion to show link on it in history
+			//save order_id into session as processed order to allow one redirect
 			$this->session->data['processed_order_id'] = (int)$this->session->data['order_id'];
 
 			unset($this->session->data['shipping_method'],
@@ -89,11 +69,9 @@ class ControllerPagesCheckoutSuccess extends AController{
 
 			$this->extensions->hk_ProcessData($this);
 
-			//Redirect back. Fix for clearing shopping cart content
-			$this->redirect($this->html->getSecureURL('checkout/success'));
+			//Redirect back to load new page with cleared shopping cart content
+			redirect($this->html->getSecureURL('checkout/success'));
 		}
-
-		//Show message
 
 		$this->document->setTitle($this->language->get('heading_title'));
 
@@ -152,11 +130,22 @@ class ControllerPagesCheckoutSuccess extends AController{
 		$this->view->assign('heading_title', $this->language->get('heading_title'));
 
 		$order_id = $this->session->data['processed_order_id'];
+		//only one time load, reset
 		unset($this->session->data['processed_order_id']);
+		if(!$order_id) {
+			redirect($this->html->getURL('index/home'));
+		}
 
+		$this->loadModel('account/order');
+		$order_info = $this->model_account_order->getOrder($order_id);
+		if($order_info){
+			$order_info['order_products'] = $this->model_account_order->getOrderProducts($order_id);
+		}
+
+		$order_totals = $this->model_account_order->getOrderTotals($order_id);
+		$this->_google_analytics($order_info, $order_totals);
+			
 		if ($this->session->data['account'] == 'guest'){
-			$this->loadModel('checkout/order');
-			$order_info = $this->model_checkout_order->getOrder($order_id);
 			//give link on order page for quest
 			$enc = new AEncryption($this->config->get('encryption_key'));
 			$order_token = $enc->encrypt($order_id.'::'.$order_info['email']);
@@ -164,7 +153,7 @@ class ControllerPagesCheckoutSuccess extends AController{
 			$this->view->assign('text_message',
 					sprintf($this->language->get('text_message_guest'), $order_url, $this->html->getURL('content/contact'))
 			);
-		}else{
+		} else {
 			$text_message = sprintf($this->language->get('text_message_account'),
 										$order_id,
 										$this->html->getSecureURL('account/invoice','&order_id='.$order_id),
@@ -194,4 +183,59 @@ class ControllerPagesCheckoutSuccess extends AController{
 		//init controller data
 		$this->extensions->hk_UpdateData($this, __FUNCTION__);
 	}
+	
+	private function _google_analytics( $order_data, $order_totals ){
+
+		// google analytics data for js-script in footer.tpl
+		$order_tax = $order_total = $order_shipping = 0.0;
+		foreach ($order_totals as $i => $total){
+		    if ($total['type'] == 'total'){
+		    	$order_total += $total['value'];
+		    } elseif ($total['type'] == 'tax'){
+		    	$order_tax += $total['value'];
+		    } elseif ($total['type'] == 'shipping'){
+		    	$order_shipping += $total['value'];
+		    }
+		}
+
+		if (!$order_data['shipping_city']) {
+			$addr = array(
+				'city'           => $order_data['payment_city'],
+				'state'          => $order_data['payment_zone'],
+				'country'        => $order_data['payment_country']
+			);					
+		} else {
+			$addr = array(
+				'city'           => $order_data['shipping_city'],
+				'state'          => $order_data['shipping_zone'],
+				'country'        => $order_data['shipping_country']
+			);		
+		}
+
+		$ga_data =  array_merge (
+				    		array ('transaction_id' => (int)$order_data['order_id'],
+				    		   'store_name'     => $this->config->get('store_name'),
+				    		   'currency_code'  => $order_data['currency'],
+				    		   'total'          => $this->currency->format_number($order_total),
+				    		   'tax'            => $this->currency->format_number($order_tax),
+				    		   'shipping'       => $this->currency->format_number($order_shipping)
+				    		   ), $addr );
+
+		if($order_data['order_products']){
+			$ga_data['items'] = array();
+			foreach($order_data['order_products'] as $product){
+				$ga_data['items'][] = array(
+						'id' => (int)$order_data['order_id'],
+						'name' => $product['name'],
+					// TODO: needs to add sku into order_products table in db
+						'sku' => $product['model'],
+						'price' => $product['price'],
+						'quantity' => $product['quantity']
+				);
+			}
+		}
+		
+		$this->registry->set('google_analytics_data', $ga_data);
+	}
+		
 }

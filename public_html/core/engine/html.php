@@ -1986,9 +1986,10 @@ class PhoneHtmlElement extends HtmlElement{
 		$doc = $this->registry->get('document');
 		$doc->addScript($this->view->templateResource('/javascript/intl-tel-input/js/intlTelInput.min.js'));
 		$doc->addStyle(array (
-				'href' => RDIR_TEMPLATE . 'javascript/intl-tel-input/css/intlTelInput.css',
+				'href' => $this->view->templateResource('/javascript/intl-tel-input/css/intlTelInput.css'),
 				'rel'  => 'stylesheet'
 		));
+		
 
 		$this->view->batchAssign(
 				array (
@@ -2026,7 +2027,7 @@ class IPaddressHtmlElement extends HtmlElement{
 				array (
 						'id'    => $this->element_id,
 						'name'  => $this->name,
-						'value' => $_SERVER['REMOTE_ADDR'],
+						'value' => $this->registry->get('request')->getRemoteIP(),
 					//TODO: remove deprecated attribute aform_field_type
 						'attr'  => 'aform_field_type="ipaddress" ' . $this->attr . ' data-aform-field-type="captcha"',
 				)
@@ -2329,17 +2330,21 @@ class PaginationHtmlElement extends HtmlElement{
 				$s['limits'][] = $s['limit'];
 				sort($s['limits']);
 			}
-			$options = array ();
+			$options = array();
 			foreach ($s['limits'] as $item){
 				$options[$item] = $item;
 			}
 
-			$limit_select = $html->buildSelectbox(array (
+			$limit_url = str_replace('{page}', 1, $s['url']);
+			$limit_url = str_replace('&amp;limit='.$s['limit'], '', $limit_url);
+
+			$limit_select = $html->buildSelectbox(
+					array (
 							'name'    => 'limit',
 							'value'   => $s['limit'],
 							'options' => $options,
 							'style'   => 'input-mini',
-							'attr'    => ' onchange="location=\'' . str_replace('{page}', 1, $s['url']) . '&limit=\'+this.value;"',
+							'attr'    => ' onchange="location=\'' . $limit_url . '&limit=\'+this.value;"',
 					)
 			);
 

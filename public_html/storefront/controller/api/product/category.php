@@ -8,7 +8,7 @@
   Copyright © 2011-2016 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
-  Lincence details is bundled with this package in the file LICENSE.txt.
+  License details is bundled with this package in the file LICENSE.txt.
   It is also available at this URL:
   <http://www.opensource.org/licenses/OSL-3.0>
 
@@ -109,7 +109,9 @@ class ControllerApiProductCategory extends AControllerAPI {
             			'name'  => $result['name'],
             			'category_id'	=> $result['category_id'],
             			'sort_order'	=> $result['sort_order'],
-            			'thumb' => $thumbnail['thumb_url']);
+            			'thumb' => $thumbnail['thumb_url'],
+            			'total_subcategories' => $this->model_catalog_category->getTotalCategoriesByCategoryId($result['category_id'])
+            			);
 		}
 	
         $this->extensions->hk_UpdateData($this,__FUNCTION__);

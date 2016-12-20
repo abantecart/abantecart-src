@@ -104,6 +104,7 @@ class ALanguage{
 
 		$this->db = $registry->get('db');
 		$this->cache = $registry->get('cache');
+		//current active language details
 		$this->language_details = $this->getLanguageDetails($this->code);
 
 		$this->entries = array ();
@@ -548,6 +549,8 @@ class ALanguage{
 
 			//Check that filename has proper name with no other special characters. 
 			$block_name = str_replace('/', '_', $filename);
+			//prevent error for pre and post controllers
+			$block_name = str_replace('.', '_', $block_name);
 			if (preg_match("/[\W]+/", $block_name)){
 				$error = new AError('Error! Trying to load language with invalid path: "' . $filename . '"!');
 				$error->toLog()->toDebug()->toMessages();
@@ -558,29 +561,15 @@ class ALanguage{
 			// nothing in cache. Start loading
 			ADebug::checkpoint('ALanguage ' . $this->language_details['name'] . ' ' . $filename . ' no cache, so loading');
 
-			//check is xml-file exists at all (including default language file)
-			$is_xml_exist = false;
-			$default_language_info = $this->getDefaultLanguage();
-			if (is_file($this->_detect_language_xml_file($filename, $directory))){
-				$is_xml_exist = true;
-			} elseif ($directory != $default_language_info['directory']){
-				if (is_file($this->_detect_language_xml_file($filename, $default_language_info['directory']))){
-					$is_xml_exist = true;
-				}
-			}
-
-			//if xml-file presents - try to get data from db
-			if ($is_xml_exist){
-				$_ = $this->_load_from_db($this->language_details['language_id'], $filename, $this->is_admin);
-			} else{
-				$_ = false;
-			}
-
-			if (!$_ && $is_xml_exist){
-				// nothing in the database. This block (rt) was never accessed before for this language. Need to load definitions
+			//try to get text data from db
+			$_ = array ();
+			$_ = $this->_load_from_db($this->language_details['language_id'], $filename, $this->is_admin);
+			
+			if (empty($_)){
+				// nothing in the database. This block (rt) was never accessed before for this language. Need to load definitions from XML
 				$_ = $this->_load_from_xml($filename, $directory, $mode);
 				$this->_save_to_db($filename, $_);
-			} elseif ($_){
+			} else {
 				//We have something in database, look for missing or new values.
 				//Do this silently in case language file is misssing, Not a big problem
 				$xml_vals = $this->_load_from_xml($filename, $directory, 'silent');
@@ -600,9 +589,6 @@ class ALanguage{
 						}
 					}
 				}
-				//if no one definition found
-			} else{
-				$_ = array ();
 			}
 
 			$load_data = $_;
@@ -788,6 +774,7 @@ class ALanguage{
 
 		//get default extension language file
 		$default_language_info = $this->getDefaultLanguage();
+
 		if ($filename == $directory){ // for common language file (english.xml. russian.xml, etc)
 			$file_name = $default_language_info['filename'];
 			$mode = 'silent';
@@ -796,31 +783,28 @@ class ALanguage{
 		}
 		// get path to actual language
 		$file_path = $this->_detect_language_xml_file($filename, $this->language_details['directory']);
-
-		if ($this->language_details['directory'] == $default_language_info['directory']){
-			$default_file_path = $file_path;
-		} else{
+		if (file_exists($file_path)){
+			ADebug::checkpoint('ALanguage ' . $this->language_details['name'] . ' loading XML file ' . $file_path);
+			$definitions = $this->ReadXmlFile($file_path);
+		} else {
+			//Missing xml, now handle default language XML load 
 			$default_file_path = $this->_detect_language_xml_file($file_name, $default_language_info['directory']);
-			// if default language file path wrong - takes english
+			// if default language file path wrong - takes english as a fallback
 			if (!file_exists($default_file_path) && $default_language_info['directory'] != 'english'){
 				$file_name = $filename == $directory ? 'english' : $file_name;
 				$default_file_path = $this->_detect_language_xml_file($file_name, 'english');
 			}
-		}
-
-		if (file_exists($file_path)){
-			ADebug::checkpoint('ALanguage ' . $this->language_details['name'] . ' loading XML file ' . $file_path);
-			$definitions = $this->ReadXmlFile($file_path);
-		} else if (file_exists($default_file_path)){
-			ADebug::checkpoint('ALanguage ' . $this->language_details['name'] . ' loading XML file ' . $default_file_path);
-			$definitions = $this->ReadXmlFile($default_file_path);
-		} else{
-			if ($mode != 'silent'){
-				$error = new AError('Missing default English definition XML file for ' . $filename . ' !');
-				$error->toLog()->toDebug();
+			if (file_exists($default_file_path)){
+				ADebug::checkpoint('ALanguage ' . $this->language_details['name'] . ' loading default language XML file ' . $default_file_path);
+				$definitions = $this->ReadXmlFile($default_file_path);
+			} else{
+				if ($mode != 'silent'){
+					$error = new AError('Missing default English definition XML file for ' . $filename . ' !');
+					$error->toLog()->toDebug();
+				}
 			}
 		}
-
+		
 		//skip if not required and language file does not exist for silent mode.
 		if (empty($definitions) && $mode != 'silent'){
 			$error = new AError('Could not load language ' . $filename . ' from file "' . $file_path . '"!');

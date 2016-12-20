@@ -21,7 +21,7 @@ if (!defined('DIR_CORE') || !IS_ADMIN) {
 	header('Location: static_pages/');
 }
 class ControllerResponsesListingGridZone extends AController {
-
+	public $data = array();
 	public function main() {
 
 		//init controller data
@@ -103,12 +103,12 @@ class ControllerResponsesListingGridZone extends AController {
 			);
 			$i++;
 		}
+		$this->data['response'] = $response;
 
-		//update controller data
-		$this->extensions->hk_UpdateData($this, __FUNCTION__);
-
-		$this->load->library('json');
-		$this->response->setOutput(AJson::encode($response));
+	    //update controller data
+	    $this->extensions->hk_UpdateData($this, __FUNCTION__);
+	    $this->load->library('json');
+	    $this->response->setOutput(AJson::encode($this->data['response']));
 	}
 
 	public function update() {
@@ -147,11 +147,11 @@ class ControllerResponsesListingGridZone extends AController {
 					}
 				break;
 			case 'save':
-				$fields = array( 'status', 'code' );
+				$allowedFields = array_merge(array( 'status', 'code' ), (array)$this->data['allowed_fields']);
 				$ids = explode(',', $this->request->post[ 'id' ]);
 				if (!empty($ids))
 					foreach ($ids as $id) {
-						foreach ($fields as $f) {
+						foreach ($allowedFields as $f) {
 							if ($f == 'status' && !isset($this->request->post[ 'status' ][ $id ]))
 								$this->request->post[ 'status' ][ $id ] = 0;
 
@@ -164,8 +164,7 @@ class ControllerResponsesListingGridZone extends AController {
 								$this->model_localisation_zone->editZone($id, array( $f => $this->request->post[ $f ][ $id ] ));
 							}
 						}
-						
-						$err = '';
+
 						if (isset($this->request->post['zone_name'][ $id ]) ) {
 							foreach ($this->request->post[ 'zone_name' ][ $id ] as $lang => $value) {
 		    					$err = $this->_validateField('name', $value['name']);
@@ -213,8 +212,8 @@ class ControllerResponsesListingGridZone extends AController {
 			foreach ($this->request->post as $key => $value) {
 				$err = '';
 				if ( $key == 'zone_name' ) {
-					foreach ($value as $lang => $dvalue) {		
-		    			$err .= $this->_validateField('name', $dvalue['name']);
+					foreach ($value as $lang => $val) {
+		    			$err .= $this->_validateField('name', $val['name']);
 		    		}				
 				} else {
 					$err = $this->_validateField($key, $value);			
@@ -261,38 +260,41 @@ class ControllerResponsesListingGridZone extends AController {
 	}
 
 	private function _validateField($field, $value) {
-		$err = '';
+		$this->data['error'] = '';
 		switch ($field) {
 			case 'name' :
 				if (mb_strlen($value) < 2 || mb_strlen($value) > 128) {
-					$err = $this->language->get('error_name');
+					$this->data['error'] = $this->language->get('error_name');
 				}
 				break;
 		}
-
-		return $err;
+		$this->extensions->hk_ValidateData($this, array(__FUNCTION__, $field, $value));
+		return $this->data['error'];
 	}
 
 	private function _validateDelete($zone_id) {
-
+		$this->data['error'] = '';
 		if ($this->config->get('config_zone_id') == $zone_id) {
-			return $this->language->get('error_default');
+			$this->data['error'] = $this->language->get('error_default');
 		}
 
 		$store_total = $this->model_setting_store->getTotalStoresByZoneId($zone_id);
 		if ($store_total) {
-			return sprintf($this->language->get('error_store'), $store_total);
+			$this->data['error'] = sprintf($this->language->get('error_store'), $store_total);
 		}
 
 		$address_total = $this->model_sale_customer->getTotalAddressesByZoneId($zone_id);
 		if ($address_total) {
-			return sprintf($this->language->get('error_address'), $address_total);
+			$this->data['error'] = sprintf($this->language->get('error_address'), $address_total);
 		}
 
 		$zone_to_location_total = $this->model_localisation_location->getTotalZoneToLocationByZoneId($zone_id);
 		if ($zone_to_location_total) {
-			return sprintf($this->language->get('error_zone_to_location'), $zone_to_location_total);
+			$this->data['error'] = sprintf($this->language->get('error_zone_to_location'), $zone_to_location_total);
 		}
+
+		$this->extensions->hk_ValidateData($this, array(__FUNCTION__, $zone_id));
+		return $this->data['error'];
 	}
 
 }

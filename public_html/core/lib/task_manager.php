@@ -22,25 +22,48 @@ if (!defined('DIR_CORE')){
 }
 
 /**
+ * Class ATaskManager
+ *
+ * @link http://docs.abantecart.com/pages/developer/tasks_processing.html
  * @property ADB $db
  * @property ALog $log
  */
 class ATaskManager{
 	protected $registry;
 	public $errors = array (); // errors during process
-	private $starter;
-	private $task_log;
+	protected $starter;
+	/**
+	 * @var ALog
+	 */
+	protected $task_log;
+	/**
+	 * @var string - can be 'html' for running task.php directly from browser, 'ajax' - for running task by ajax-requests and 'cli' - shell run
+	 */
+	private $mode = 'html';
 
-	public function __construct(){
-		/*if (! IS_ADMIN) { // forbid for non admin calls
-			throw new AException ( AC_ERR_LOAD, 'Error: permission denied to change forms' );
-		}*/
+	protected $run_log = array();
+	/**
+	 * @var string can be 'simple' or 'detailed'
+	 */
+	protected $log_level = 'simple';
+	const STATUS_DISABLED = 0;
+	const STATUS_READY = 1;
+	const STATUS_RUNNING = 2;
+	const STATUS_FAILED = 3;
+	const STATUS_SCHEDULED = 4;
+	const STATUS_COMPLETED = 5;
+	const STATUS_INCOMPLETE = 6;
 
+	/**
+	 * @param string $mode  Can be html or cli. Needed for run log format
+	 */
+	public function __construct($mode='html'){
+		$this->mode = in_array($mode, array('html', 'ajax', 'cli')) ? $mode : 'html';
 		$this->registry = Registry::getInstance();
-		$this->starter = IS_ADMIN === true ? 1 : 0; // who is starter
+		// who is initiator of process, admin or storefront
+		$this->starter = IS_ADMIN === true ? 1 : 0;
 
 		$this->task_log = new ALog(DIR_LOGS . 'task_log.txt');
-
 	}
 
 	public function __get($key){
@@ -51,20 +74,27 @@ class ATaskManager{
 		$this->registry->set($key, $value);
 	}
 
+	public function setRunLogLevel($level = 'simple'){
+		$this->log_level = $level;
+	}
+
 	public function runTasks(){
-		$task_list = $this->_getScheduledTasks();
+		$this->run_log = array();
+		$task_list = $this->_getReadyTasks();
 		// run loop tasks
 		foreach ($task_list as $task){
 			//check interval and skip task
-			$this->toLog('Tried to run task #' . $task['task_id']);
-			if ($task['interval'] > 0 && (time() - dateISO2Int($task['last_time_run']) >= $task['interval'] || is_null($task['last_time_run']))){
-				$this->toLog('task #' . $task['task_id'] . ' skipped.');
+			$this->toLog('Task_id: ' . $task['task_id'] ." state - running.");
+			if ($task['interval'] > 0
+					&&
+				(time() - dateISO2Int($task['last_time_run']) >= $task['interval'] || is_null($task['last_time_run']))){
+				$this->toLog('Task_id: ' . $task['task_id'] . ' skipped.');
 				continue;
 			}
 			$task_settings = unserialize($task['settings']);
 
 			$this->_run_steps($task['task_id'], $task_settings);
-			$this->toLog('task #' . $task['task_id'] . ' finished.');
+			$this->toLog('Task_id: ' . $task['task_id'] . ' state - finished.');
 		}
 	}
 
@@ -73,41 +103,176 @@ class ATaskManager{
 	 * @return bool
 	 */
 	public function runTask($task_id){
-		$this->toLog('Tried to run task #' . $task_id . '.');
+
 		$task_id = (int)$task_id;
-		$task = $this->_getScheduledTasks($task_id);
+		$task = $this->_getReadyTasks($task_id);
+		if(!$task){
+			return false;
+		}
+
+		$this->toLog('Task_id: ' . $task_id . ' state - running.');
 
 		//check interval and skip task
+		//check if task ran first time or
 		if ($task['interval'] > 0
-				&& (time() - dateISO2Int($task['last_time_run']) >= $task['interval'] || is_null($task['last_time_run']))
+				&& (is_null($task['last_time_run'] || time() - dateISO2Int($task['last_time_run']) >= $task['interval']))
 		){
-			$this->toLog('task #' . $task_id . ' skipped.');
+			$this->toLog('Warning: task_id ' . $task_id . ' skipped. Task interval.');
 			return false;
 		}
 		$task_settings = unserialize($task['settings']);
-		$this->_run_steps($task['task_id'], $task_settings);
-		$this->toLog('task #' . $task_id . ' finished.');
-		return true;
+		$task_result = $this->_run_steps($task['task_id'], $task_settings);
+		$this->toLog('Task_id: ' . $task_id . ' state - finished.');
+		return $task_result;
 	}
 
 	/**
 	 * @param int $task_id
 	 * @return array
 	 */
-	private function _getScheduledTasks($task_id = 0){
+	private function _getReadyTasks($task_id = 0){
 		$task_id = (int)$task_id;
-		//get list only sheduled tasks
+		//get list only ready tasks for needed start-side (sf, admin or both)
 		$sql = "SELECT *
 				FROM " . $this->db->table('tasks') . " t
-				WHERE t.status = 1 AND t.starter IN ('" . $this->starter . "','2')
-				" . ($task_id ? " AND t.task_id = " . $task_id : '');
+				WHERE t.status = ".self::STATUS_READY."
+					AND t.starter IN ('" . $this->starter . "','2')
+					" . ($task_id ? " AND t.task_id = " . $task_id : '');
 		$result = $this->db->query($sql);
 		return $task_id ? $result->row : $result->rows;
 	}
 
+	public function canStepRun($task_id, $step_id){
+		$task_id = (int)$task_id;
+		$step_id = (int)$step_id;
+		if(!$step_id || !$task_id){
+			return false;
+		}
+
+		$all_steps = $this->getTaskSteps($task_id);
+		if(!$all_steps){
+			return false;
+		}
+		foreach($all_steps as $step){
+			if($step['step_id'] == $step_id){
+				break;
+			}
+			//do not allow run step if previous step failed and interrupted task
+			if($step['status'] == self::STATUS_FAILED && $step['settings']['interrupt_on_step_fault'] === true){
+				return false;
+			}
+		}
+
+		return true;
+	}
+
+	/**
+	 * @param $task_id
+	 * @param $step_id
+	 * @return bool
+	 */
+	public function isLastStep($task_id, $step_id){
+		$task_id = (int)$task_id;
+		$step_id = (int)$step_id;
+		if(!$step_id || !$task_id){
+			$this->toLog('Error: Tried to check is step_id: ' . $step_id . ' of task_id: ' . $task_id." last, but fail!");
+			return false;
+		}
+
+		$all_steps = $this->getTaskSteps($task_id);
+		if(!$all_steps){
+			$this->toLog('Error: Tried to check is step_id: ' . $step_id . ' of task_id: ' . $task_id." last, but steps list empty!");
+			return false;
+		}
+
+		$last_step = array_pop($all_steps);
+		if($last_step['step_id'] == $step_id && $last_step['task_id'] == $task_id){
+			return true;
+		}else{
+			return false;
+		}
+	}
+
+	/**
+	 * @param array $step_details
+	 * @return bool
+	 */
+	public function runStep($step_details){
+
+		$task_id = (int)$step_details['task_id'];
+		$step_id = (int)$step_details['step_id'];
+		if(!$step_id || !$task_id){
+			return false;
+		}
+
+		//change status to active
+		$this->_update_step_state(
+				$step_id,
+				array (
+						'last_time_run' => date('Y-m-d H:i:s'),
+						//change status of step to "running" while it run
+						'status'        => self::STATUS_READY
+				)
+		);
+
+		try{
+			$dd = new ADispatcher($step_details['controller'], array($task_id, $step_id, $step_details['settings']));
+			// waiting for result array from step's controller
+			$response = $dd->dispatchGetOutput();
+
+			//check is result have json-formatted string
+			$json = json_decode($response, true);
+			if(json_last_error() == JSON_ERROR_NONE){
+				$response = $json;
+			}
+			$result = isset($response['result']) && $response['result'] ? true : false;
+			if($result){
+				$response_message = isset($response['message']) ? $response['message'] : '';
+			} else {
+				$response_message = isset($response['error_text']) ? $response['error_text'] : '';
+			}
+		} catch(AException $e){
+            $this->log->write($e);
+			$result = false;
+		}
+
+		$this->_update_step_state(
+				$step_id,
+				array (
+						'result'        => (int)$result,
+						'status'        => ($result ? self::STATUS_COMPLETED : self::STATUS_FAILED)
+				)
+		);
+
+		if (!$result){
+            //write to AbanteCart log
+            $error_msg = 'Task_id: ' . $task_id . ' : step_id: ' . $step_id . ' - Failed. ' . $response_message;
+            $this->log->write($error_msg);
+            //write to task log
+			$this->toLog($error_msg, 0);
+		}else{
+            //write to task log
+			$this->toLog('Task_id: ' . $task_id . ' : step_id: ' . $step_id . '. ' . $response_message, 1);
+		}
+
+		//set task status
+		if($this->isLastStep($task_id, $step_id)){
+			if($result){
+				$task_status = self::STATUS_COMPLETED;
+			}else{
+				$task_status = self::STATUS_FAILED;
+			}
+		}else{
+			$task_status = self::STATUS_INCOMPLETE;
+		}
+		$this->updateTask($task_id, array('status' => $task_status));
+
+		return $result;
+	}
+
 	/**
 	 * @param int $task_id
-	 * @param array $task_settings
+	 * @param array $task_settings - for future. it can be reference for callback
 	 * @return bool
 	 */
 	private function _run_steps($task_id, $task_settings){
@@ -116,56 +281,38 @@ class ATaskManager{
 			return false;
 		}
 
-		$this->_update_task_state($task_id, array ('status' => 2));//change status of task to "active" while it run
+		$this->_update_task_state(
+				$task_id,
+				array (
+						'status' => self::STATUS_RUNNING,
+						'last_time_run' => date('Y-m-d H:i:s'),
+				)
+		);
+
 		//get steps
-		$steps = $this->getScheduledTaskSteps($task_id);
-		$task_result = 0;
-
-		$steps_count = sizeof($steps); // total count of steps to calculate percentage (for future)
+		$steps = $this->getReadyTaskSteps($task_id);
+		$task_result = true;
+		// total count of steps to calculate percentage (for future)
+		$steps_count = sizeof($steps);
 		$k = 0;
-		foreach ($steps as $step){
-
-			$this->toLog('Tried to run step #' . $step['step_id'] . ' of task #' . $task_id);
-			//change status to active
-			$this->_update_step_state($step['step_id'],
-					array ('result'        => 1, // mark last result as "failed"
-						   'last_time_run' => date('Y-m-d H:i:s'),
-						   'status'        => 2)); //change status of step to active while it run
-			$response = array();
-			try{
-				$dd = new ADispatcher($step['controller'], $step['settings']);
-				$response = $dd->dispatchGetOutput($step['controller']);
-			} catch(AException $e){}
-
-			$result = $response['result'] == true ? 0 : 1;
-			$this->_update_step_state($step['step_id'],
-					array ('result'        => $result,
-						   'last_time_run' => date('Y-m-d H:i:s'),
-						   'status'        => 1));
-
-			if (!$result){
-				$this->log->write('Scheduled step #' . $step['step_id'] . ' of task #' . $task_id . ' failed during process');
-				//interrupt task if need
-				if ($step['settings']['interrupt_on_step_fault'] === true){
-					$this->_update_task_state($task_id, array ('result'        => 1, // mark last result of task as "failed"
-															   'last_time_run' => date('Y-m-d H:i:s'),
-															   'status'        => 1)//change status of task to sheduled for future run
-					);
-					return false;
+		foreach ($steps as $step_details){
+			$step_result = $this->runStep($step_details);
+			if(!$step_result){
+				$task_result = false;
+				//interrupt task process when step failed
+				if($step_details['interrupt_on_step_fault'] === true){
+					break;
 				}
-				$task_result = 1;
-				$this->toLog('Step #' . $step['step_id'] . ' of task #' . $task_id . ' failed.');
+			}else{
+				if($this->log_level == 'detailed'){
+					$this->log_level['steps'][$step_details['step_id']] = $step_result;
+				}
 			}
-			$this->toLog('Step #' . $step['step_id'] . ' of task #' . $task_id . ' finished.');
-
 			$this->_update_task_state($task_id, array ('progress' => ceil($k * 100 / $steps_count)));
+			$k++;
 		}
 
-		$this->_update_task_state($task_id, array ('result'        => $task_result,
-												   'last_time_run' => date('Y-m-d H:i:s'),
-												   'status'        => 1)//change status of task to sheduled for future run
-		);
-		return true;
+		return $task_result;
 	}
 
 	/**
@@ -173,13 +320,14 @@ class ATaskManager{
 	 * @param array $state
 	 * @return bool
 	 */
-	private function _update_task_state($task_id, $state = array ()){
+	protected function _update_task_state($task_id, $state = array ()){
 		$task_id = (int)$task_id;
 		if (!$task_id){
 			return false;
 		}
 
-		$upd_flds = array ('last_result',
+		$upd_flds = array (
+				'last_result',
 				'last_time_run',
 				'status',
 				'progress');
@@ -197,8 +345,9 @@ class ATaskManager{
 	 * @param array $state
 	 * @return bool
 	 */
-	private function _update_step_state($step_id, $state = array ()){
-		$upd_flds = array ('task_id',
+	protected function _update_step_state($step_id, $state = array ()){
+		$upd_flds = array (
+				'task_id',
 				'last_result',
 				'last_time_run',
 				'status');
@@ -213,8 +362,18 @@ class ATaskManager{
 
 	/**
 	 * @param $message
+	 * @param int $msg_code - can be 0 - fail, 1 -success
+	 * @return null
 	 */
-	public function toLog($message){
+	public function toLog($message, $msg_code = 1){
+		if(!$message){
+			return null;
+		}
+		if($this->mode=='html'){
+			$this->run_log[] = '<i style="color: ' . ($msg_code ? 'green' : 'red') . '">' . $message . "</i>";
+		}else{
+			$this->run_log[] = $message;
+		}
 		$this->task_log->write($message);
 	}
 
@@ -228,15 +387,26 @@ class ATaskManager{
 			return false;
 		}
 		// check
-		$sql = "SELECT * from " . $this->db->table('tasks') . " WHERE name = '" . $this->db->escape($data['name']) . "'";
+		$sql = "SELECT *
+				FROM " . $this->db->table('tasks') . "
+				WHERE name = '" . $this->db->escape($data['name']) . "'";
 		$res = $this->db->query($sql);
 		if ($res->num_rows){
 			$this->deleteTask($res->row['task_id']);
-			$this->toLog('Error: Task with name "' . $data['name'] . '" is already exists. Overrided!');
+			$this->toLog('Error: Task with name "' . $data['name'] . '" is already exists. Override!');
 		}
 
 		$sql = "INSERT INTO " . $this->db->table('tasks') . "
-				(`name`,`starter`,`status`,`start_time`,`last_time_run`,`progress`,`last_result`,`run_interval`,`max_execution_time`,`date_added`)
+				(`name`,
+				`starter`,
+				`status`,
+				`start_time`,
+				`last_time_run`,
+				`progress`,
+				`last_result`,
+				`run_interval`,
+				`max_execution_time`,
+				`date_added`)
 				VALUES ('" . $this->db->escape($data['name']) . "',
 						'" . (int)$data['starter'] . "',
 						'" . (int)$data['status'] . "',
@@ -326,7 +496,9 @@ class ATaskManager{
 			$data['settings'] = serialize($data['settings']);
 		}
 
-		$sql = "SELECT * FROM " . $this->db->table('task_details') . " WHERE task_id = " . $task_id;
+		$sql = "SELECT *
+				FROM " . $this->db->table('task_details') . "
+				WHERE task_id = " . $task_id;
 		$result = $this->db->query($sql);
 		if ($result->num_rows){
 			foreach ($result->row as $k => $ov){
@@ -361,7 +533,15 @@ class ATaskManager{
 		}
 		$data['settings'] = !is_string($data['settings']) ? serialize($data['settings']) : $data['settings'];
 		$sql = "INSERT INTO " . $this->db->table('task_steps') . "
-				(`task_id`,`sort_order`,`status`,`last_time_run`,`last_result`,`max_execution_time`,`controller`, `settings`,`date_modified`)
+				(`task_id`,
+				`sort_order`,
+				`status`,
+				`last_time_run`,
+				`last_result`,
+				`max_execution_time`,
+				`controller`,
+				`settings`,
+				`date_modified`)
 				VALUES (
 						'" . (int)$data['task_id'] . "',
 						'" . (int)$data['sort_order'] . "',
@@ -463,7 +643,7 @@ class ATaskManager{
 		$result = $this->db->query($sql);
 		$output = $result->row;
 		if ($output){
-			$output['steps'] = $this->getScheduledTaskSteps($output['task_id']);
+			$output['steps'] = $this->getTaskSteps($output['task_id']);
 		}
 
 		if ($output['settings']){
@@ -490,7 +670,7 @@ class ATaskManager{
 		$result = $this->db->query($sql);
 		$output = $result->row;
 		if ($output){
-			$output['steps'] = $this->getScheduledTaskSteps($output['task_id']);
+			$output['steps'] = $this->getReadyTaskSteps($output['task_id']);
 		}
 
 		if ($output['settings']){
@@ -518,7 +698,30 @@ class ATaskManager{
 		$output = array ();
 		foreach ($result->rows as $row){
 			$row['settings'] = $row['settings'] ? unserialize($row['settings']) : '';
-			$output[] = $row;
+			$output[(string)$row['step_id']] = $row;
+		}
+		return $output;
+	}
+
+	/**
+	 * @param int $task_id
+	 * @param $step_id
+	 * @return array
+	 */
+	public function getTaskStep($task_id, $step_id){
+		$task_id = (int)$task_id;
+		$step_id = (int)$step_id;
+		if (!$task_id || !$step_id){
+			return array ();
+		}
+
+		$sql = "SELECT *
+				FROM " . $this->db->table('task_steps') . "
+				WHERE task_id = " . $task_id . " AND step_id = " . $step_id;
+		$result = $this->db->query($sql);
+		$output = $result->row;
+		if($output){
+			$output['settings'] = $output['settings'] ? unserialize($output['settings']) : '';
 		}
 		return $output;
 	}
@@ -527,7 +730,7 @@ class ATaskManager{
 	 * @param int $task_id
 	 * @return array
 	 */
-	public function getScheduledTaskSteps($task_id){
+	public function getReadyTaskSteps($task_id){
 		$task_id = (int)$task_id;
 		if (!$task_id){
 			return array ();
@@ -536,7 +739,8 @@ class ATaskManager{
 		$all_steps = $this->getTaskSteps($task_id);
 		$steps = array();
 		foreach ($all_steps as $step){
-			if ($step['status'] != 1){ //skip all steps that not scheduled
+			//skip all steps that not scheduled
+			if ($step['status'] != self::STATUS_READY){
 				continue;
 			}
 			$steps[$step['step_id']] = $step;
@@ -571,7 +775,7 @@ class ATaskManager{
 	 */
 	public function getTasks($data = array ()){
 
-		$sql = "SELECT *
+		$sql = "SELECT td.*, t.*
 				FROM " . $this->db->table('tasks') . " t
 				LEFT JOIN " . $this->db->table('task_details') . " td ON td.task_id = t.task_id
 				WHERE 1=1 ";
@@ -621,9 +825,24 @@ class ATaskManager{
 			if ($row['settings']){
 				$row['settings'] = unserialize($row['settings']);
 			}
+
+			//check is task stuck
+			if($row['status'] == self::STATUS_RUNNING
+					&&
+					$row['max_execution_time']>0
+					&&
+					(time() - dateISO2Int($row['last_time_run'])) > $row['max_execution_time']
+			){
+				//mark task as stuck
+				$row['status'] = -1;
+			}
 		}
 		unset($row);
 
 		return $output;
+	}
+
+	public function getRunLog(){
+		return $this->run_log;
 	}
 }
