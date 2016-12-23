@@ -34,6 +34,8 @@ final class AUser{
 	 */
 	private $email;
 	private $username;
+	private $firstname;
+	private $lastname;
 	private $last_login;
 	private $user_group_id;
 	/**
@@ -56,6 +58,8 @@ final class AUser{
 				$this->user_id = $user_query->row['user_id'];
 				$this->email = $user_query->row['email'];
 				$this->username = $user_query->row['username'];
+				$this->firstname = $user_query->row['firstname'];
+				$this->lastname = $user_query->row['lastname'];
 				$this->last_login = $this->session->data['user_last_login'];
 				$this->user_group_id = (int)$user_query->row['user_group_id'];
 
@@ -263,4 +267,16 @@ final class AUser{
 		return getGravatar($this->email);
 	}
 
+	/**
+	  * @return string
+	  */
+	public function getUserFirstName() {
+		return $this->firstname;
+	}
+	/**
+	 * @return string
+	 */
+	public function getUserLastName() {
+		return $this->lastname;
+	}
 }
