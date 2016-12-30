@@ -1290,7 +1290,10 @@ class ModelCatalogProduct extends Model{
 
 	public function getProductsAllInfo($products = array ()){
 		if (!$products) return false;
-
+		foreach($products as &$id){
+			$id = (int)$id;
+		}
+		
 		//special prices
 		if ($this->customer->isLogged()){
 			$customer_group_id = (int)$this->customer->getCustomerGroupId();
