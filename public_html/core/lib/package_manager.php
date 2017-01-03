@@ -677,7 +677,7 @@ class APackageManager{
 					// running php install script if it exists
 					if (isset($config->upgrade->trigger)){
 						$file = $this->session->data['package_info']['tmp_dir'] . $package_dirname . '/code/extensions/' . $extension_id . '/' . (string)$config->upgrade->trigger;
-						$file = !file_exists($file) ? DIR_EXT . $extension_id . '/' . (string)$config->upgrade->sql : $file;
+						$file = !file_exists($file) ? DIR_EXT . $extension_id . '/' . (string)$config->upgrade->trigger : $file;
 						if (file_exists($file)){
 							/** @noinspection PhpIncludeInspection */
 							include($file);
