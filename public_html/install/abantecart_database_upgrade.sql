@@ -1,10 +1,9 @@
-ALTER TABLE `ac_global_attributes_descriptions`
-ADD COLUMN `placeholder` varchar(255) COLLATE utf8_general_ci DEFAULT '' COMMENT 'translatable';
+CREATE INDEX `ac_products_status_idx` ON `abc_products` (`product_id`, `status`, `date_available`);
+CREATE INDEX `ac_product_descriptions_name_idx` ON `ac_product_descriptions` (`product_id`, `name`);
 
-CREATE FULLTEXT INDEX `ac_customers_name_idx` ON `ac_customers` (`firstname`, `lastname`);
-ALTER TABLE `ac_customers` ADD COLUMN `last_login` TIMESTAMP NULL;
+CREATE INDEX `ac_resource_library_idx` ON `ac_resource_library` ( `resource_id`, `type_id`);
 
-UPDATE `ac_dataset_values`
-SET `value_varchar` = 'extension'
-WHERE `dataset_column_id` = 15 AND `row_id` = 222;
+CREATE INDEX `ac_resource_map_sorting_idx` ON `ac_resource_map` ( `resource_id`, `sort_order`);
 
+CREATE INDEX `ac_resource_descriptions_name_idx` ON `ac_resource_descriptions` ( `resource_id`, `name`);
+CREATE INDEX `ac_resource_descriptions_title_idx` ON `ac_resource_descriptions` ( `resource_id`, `title`);

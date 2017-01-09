@@ -598,6 +598,8 @@ class AResourceManager extends AResource{
 	 */
 	public function getResourcesList($data, $mode = 'default'){
 
+
+
 		if ((int)$data['language_id']){
 			$language_id = (int)$data['language_id'];
 		} else{
@@ -612,18 +614,39 @@ class AResourceManager extends AResource{
         				  rd.name,
         				  rd.title,
         				  rd.description,
+        				  (SELECT COUNT(resource_id) FROM " . $this->db->table("resource_map") . " rm1 WHERE rm1.resource_id = rd.resource_id) as mapped, 
+        	";
+            if($language_id == (int)$this->language->getContentLanguageID()){
+                //only 1 language
+                $top_sql .= "
+        				  rd.resource_path as resource_path,
+        				  rd.resource_code as resource_code
+                ";
+            } else {
+                $top_sql .= "
         				  COALESCE(rd.resource_path,rdd.resource_path) as resource_path,
-        				  COALESCE(rd.resource_code,rdd.resource_code) as resource_code,
-        				  (SELECT COUNT(resource_id) FROM " . $this->db->table("resource_map") . " rm1 WHERE rm1.resource_id = rd.resource_id) as mapped ";
+        				  COALESCE(rd.resource_code,rdd.resource_code) as resource_code
+                ";
+            }
 		}
 
 		$where = $join = '';
-		$join = " LEFT JOIN " . $this->db->table("resource_descriptions") . " rd ON (rl.resource_id = rd.resource_id AND rd.language_id = '" . $language_id . "') ";
-		$join .= " LEFT JOIN " . $this->db->table("resource_descriptions") . " rdd ON (rl.resource_id = rdd.resource_id AND rdd.language_id = '" . $this->language->getDefaultLanguageID() . "') ";
+        $join = " LEFT JOIN " . $this->db->table("resource_descriptions") . " rd ON (rl.resource_id = rd.resource_id AND rd.language_id = '" . $language_id . "') ";
+        if($language_id != (int)$this->language->getContentLanguageID()){
+            //add default language
+            $join .= " LEFT JOIN " . $this->db->table("resource_descriptions") . " rdd ON (rl.resource_id = rdd.resource_id AND rdd.language_id = '" . $this->language->getDefaultLanguageID() . "') ";
+        }
 
 		if ($data['sort'] == 'sort_order' || !empty($data['object_name']) || !empty($data['object_id'])){
 			$top_sql .= ", rm.sort_order";
-			$join .= " LEFT JOIN " . $this->db->table("resource_map") . " rm ON (rl.resource_id = rm.resource_id) ";
+            $sub_join = '';
+            if (!empty($data['object_name'])){
+                $sub_join .= " AND rm.object_name = '" . $this->db->escape($data['object_name']) . "'";
+            }
+            if (!empty($data['object_id'])){
+                $sub_join .= " AND rm.object_id = '" . (int)$data['object_id'] . "'";
+            }
+            $join .= " INNER JOIN " . $this->db->table("resource_map") . " rm ON (rl.resource_id = rm.resource_id ".$sub_join.") ";
 		}
 
 		if (!empty($data['keyword'])){
@@ -635,14 +658,6 @@ class AResourceManager extends AResource{
 		if (!empty($data['type_id'])){
 			$where .= ($where ? " AND " : ' WHERE ');
 			$where .= " rl.type_id = '" . (int)$data['type_id'] . "'";
-		}
-		if (!empty($data['object_name'])){
-			$where .= ($where ? " AND " : ' WHERE ');
-			$where .= " rm.object_name = '" . $this->db->escape($data['object_name']) . "'";
-		}
-		if (!empty($data['object_id'])){
-			$where .= ($where ? " AND " : ' WHERE ');
-			$where .= " rm.object_id = '" . (int)$data['object_id'] . "'";
 		}
 
 		$sql = "SELECT " . $top_sql . " FROM " . $this->db->table("resource_library") . " rl" . $join . $where;
@@ -666,7 +681,8 @@ class AResourceManager extends AResource{
 		if (isset($data['sort']) && in_array($data['sort'], array_keys($sort_data))){
 			$sql .= " ORDER BY " . $sort_data[$data['sort']];
 		} else{
-			$sql .= " ORDER BY rd.name ";
+            //for faster SQL do default sorting on main table
+			$sql .= " ORDER BY rl.date_added ";
 		}
 
 		if (isset($data['order']) && ($data['order'] == 'DESC')){

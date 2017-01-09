@@ -798,7 +798,7 @@ class ControllerResponsesCommonResourceLibrary extends AController {
 		if (!empty($this->request->get['sort'])) {
 			$filter_data['sort'] = $this->request->get['sort'];		
 		} else {
-			$filter_data['sort'] = 'sort_order';		
+			$filter_data['sort'] = 'sort_order';
 		}
 		
 		if (!empty($this->request->get['order'])) {

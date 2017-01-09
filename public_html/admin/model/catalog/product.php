@@ -1943,6 +1943,7 @@ class ModelCatalogProduct extends Model{
 			}
 
 			$sort_data = array (
+                    'product_id' => 'p.product_id',
 					'name'       => 'pd.name',
 					'model'      => 'p.model',
 					'quantity'   => 'p.quantity',
@@ -1954,7 +1955,8 @@ class ModelCatalogProduct extends Model{
 			if (isset($data['sort']) && array_key_exists($data['sort'], $sort_data)){
 				$sql .= " ORDER BY " . $sort_data[$data['sort']];
 			} else{
-				$sql .= " ORDER BY pd.name";
+                //for faster SQL default to ID based order
+				$sql .= " ORDER BY p.product_id";
 			}
 
 			if (isset($data['order']) && ($data['order'] == 'DESC')){

@@ -793,4 +793,7 @@ if ($init_onload) {
 initGrid_<?php echo $data['table_id'] ?>($);
 <?php } ?>
 
+//adjust grid pager:
+$('#<?php echo $data['table_id'] ?>_pager_center').css({width: ''});
+
 </script>

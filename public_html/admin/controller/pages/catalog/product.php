@@ -64,7 +64,7 @@ class ControllerPagesCatalogProduct extends AController {
 			'url' => $this->html->getSecureURL('listing_grid/product','&category='.(int)$this->request->get['category']),
 			'editurl' => $this->html->getSecureURL('listing_grid/product/update'),
             'update_field' => $this->html->getSecureURL('listing_grid/product/update_field'),
-			'sortname' => 'name',
+			'sortname' => 'product_id',
 			'sortorder' => 'asc',
             'actions' => array(
                 'edit' => array(

@@ -1336,6 +1336,7 @@ CREATE TABLE `ac_products` (
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
 
 CREATE INDEX `ac_products_idx` ON `ac_products` (`stock_status_id`,  `manufacturer_id`, `weight_class_id`, `length_class_id`);
+CREATE INDEX `ac_products_status_idx` ON `abc_products` (`product_id`, `status`, `date_available`);
 
 
 --
@@ -1354,6 +1355,7 @@ CREATE TABLE `ac_product_descriptions` (
   KEY `name` (`name`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
+CREATE INDEX `ac_product_descriptions_name_idx` ON `ac_product_descriptions` (`product_id`, `name`);
 
 --
 -- DDL for table `product_discounts`
@@ -12050,6 +12052,8 @@ CREATE TABLE `ac_resource_library` (
   PRIMARY KEY (`resource_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=100000;
 
+CREATE INDEX `ac_resource_library_idx` ON `ac_resource_library` ( `resource_id`, `type_id`);
+
 --
 -- DDL for table `ac_resource_descriptions`
 --
@@ -12068,7 +12072,8 @@ CREATE TABLE `ac_resource_descriptions` (
   PRIMARY KEY (`resource_id`,`language_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci ;
 
-
+CREATE INDEX `ac_resource_descriptions_name_idx` ON `ac_resource_descriptions` ( `resource_id`, `name`);
+CREATE INDEX `ac_resource_descriptions_title_idx` ON `ac_resource_descriptions` ( `resource_id`, `title`);
 
 #storefront menu icons
 INSERT INTO `ac_resource_library` ( `resource_id`, `type_id`, `date_added`)
@@ -12294,6 +12299,7 @@ CREATE TABLE `ac_resource_map` (
 	PRIMARY KEY ( `resource_id`, `object_name`, `object_id` )
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
+CREATE INDEX `ac_resource_map_sorting_idx` ON `ac_resource_map` ( `resource_id`, `sort_order`);
 
 INSERT INTO `ac_resource_map` ( `resource_id`, `object_name`, `object_id`, `default`, `sort_order`, `date_added`)
 VALUES
