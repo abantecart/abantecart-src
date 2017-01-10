@@ -1336,7 +1336,7 @@ CREATE TABLE `ac_products` (
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;
 
 CREATE INDEX `ac_products_idx` ON `ac_products` (`stock_status_id`,  `manufacturer_id`, `weight_class_id`, `length_class_id`);
-CREATE INDEX `ac_products_status_idx` ON `abc_products` (`product_id`, `status`, `date_available`);
+CREATE INDEX `ac_products_status_idx` ON `ac_products` (`product_id`, `status`, `date_available`);
 
 
 --
