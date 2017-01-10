@@ -1219,9 +1219,9 @@ class ControllerResponsesProductProduct extends AController{
 				}
 
 				if (!in_array($attribute['element_type'], $html_multivalue_elements)){
-					$option_name = 'attributes[' . $this->data['download_id'] . '][' . $attribute['attribute_id'] . ']';
+					$option_name = 'attributes[' . (int)$this->data['download_id'] . '][' . $attribute['attribute_id'] . ']';
 				} else{
-					$option_name = 'attributes[' . $this->data['download_id'] . '][' . $attribute['attribute_id'] . '][' . $attribute['attribute_value_id'] . ']';
+					$option_name = 'attributes[' . (int)$this->data['download_id'] . '][' . $attribute['attribute_id'] . '][' . $attribute['attribute_value_id'] . ']';
 				}
 
 				$disabled = '';
