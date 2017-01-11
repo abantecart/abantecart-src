@@ -875,6 +875,7 @@ class ModelCatalogProduct extends Model{
 	}
 
 	/**
+	 * Update view count. Do not update modification date. See lat
 	 * @param int $product_id
 	 * @return null
 	 */
@@ -882,8 +883,10 @@ class ModelCatalogProduct extends Model{
 		if (empty($product_id)){
 			return false;
 		}
+
 		$this->db->query("UPDATE " . $this->db->table("products") . "
-						  SET viewed = viewed + 1
+						  SET viewed = viewed + 1,
+						      date_modified = date_modified 
 						  WHERE product_id = '" . (int)$product_id . "'");
 		return true;
 	}
