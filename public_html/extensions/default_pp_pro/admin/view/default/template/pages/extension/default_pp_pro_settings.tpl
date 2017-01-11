@@ -222,7 +222,12 @@ echo $this->html->buildElement(
 					error_alert( <?php js_echo($error_turn_extension_on); ?> );
 					return false;
 				}
-				info_alert( response['message'] );
+				if(response['error'] == true){
+					error_alert( response['message'] );
+				}else{
+					info_alert( response['message'] );
+				}
+
 				$('#test_connection').button('reset');
 			}
 		});
