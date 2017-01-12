@@ -567,6 +567,7 @@
             	var text = jqXHR.statusText + ": " + jqXHR.responseText;
 				$('#review .alert').remove();
 				$('#review_title').after('<div class="alert alert-error alert-danger">' + dismiss + text + '</div>');
+	            try { resetLockBtn(); } catch (e){}
 			},
 			success: function (data) {
 				if (data.error) {
@@ -582,6 +583,7 @@
 					$('input[name=\'captcha\']').val('');
 				}
 				$('img#captcha_img').attr('src', $('img#captcha_img').attr('src') + '&' + Math.random());
+				try { resetLockBtn(); } catch (e){}
 			}
 		});
 	}
