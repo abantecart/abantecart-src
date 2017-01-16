@@ -216,13 +216,10 @@ class ModelExtensionDefaultUsps extends Model {
 
 
 		$curl = curl_init();
-
-		curl_setopt($curl, CURLOPT_URL, 'http://production.shippingapis.com/ShippingAPI.dll?' . $request);
+		curl_setopt($curl, CURLOPT_URL, 'https://secure.shippingapis.com/ShippingAPI.dll?' . $request);
 		curl_setopt($curl, CURLOPT_HEADER, 0);
 		curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
-
 		$result = curl_exec($curl);
-
 		curl_close($curl);
 
 		// strip reg, trade and ** out 01-02-2011
