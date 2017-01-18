@@ -1560,6 +1560,7 @@ class FormHtmlElement extends HtmlElement{
 
 	public function getHtml(){
 		$this->method = empty($this->method) ? 'post' : $this->method;
+		$this->enctype = empty($this->enctype) ? 'multipart/form-data' : $this->enctype;
 		$this->view->batchAssign(
 				array (
 						'id'     => $this->name,
@@ -1568,6 +1569,7 @@ class FormHtmlElement extends HtmlElement{
 						'method' => $this->method,
 						'attr'   => $this->attr,
 						'style'  => $this->style,
+						'enctype'=> $this->enctype
 				)
 		);
 
