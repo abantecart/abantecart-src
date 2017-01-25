@@ -123,7 +123,7 @@ final class ARequest{
 
 	private function _detectBrowser(){
 
-		$nua = strToLower($_SERVER['HTTP_USER_AGENT']);
+		$nua = strtolower($_SERVER['HTTP_USER_AGENT']);
 
 		$agent['http'] = isset($nua) ? $nua : "";
 		$agent['version'] = 'unknown';
@@ -144,8 +144,7 @@ final class ARequest{
 		for ($i = 0; $i < count($browsers); $i++){
 			if (strlen(stristr($nua, $browsers[$i])) > 0){
 				$agent["browser"] = $browsers[$i];
-				$n = stristr($nua, $agent["browser"]);
-				$j = strpos($nua, $agent["browser"]) + $n + strlen($agent["browser"]) + 1;
+				break;
 			}
 		}
 

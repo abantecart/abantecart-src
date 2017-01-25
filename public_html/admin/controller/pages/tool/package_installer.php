@@ -741,11 +741,20 @@ class ControllerPagesToolPackageInstaller extends AController {
 		}
 		// license agreement
 		else {
-			if(file_exists($package_info['tmp_dir'] . $package_dirname . "/license.txt")){
-				$this->data['agreement_text'] = file_get_contents($package_info['tmp_dir'] . $package_dirname . "/license.txt");
+			$license_filepath = $package_info['tmp_dir'] . $package_dirname . "/license.txt";
+
+			if(file_exists($license_filepath)){
+				$agreement_text = file_get_contents($license_filepath);
+				//detect encoding of file
+				$is_utf8 = mb_detect_encoding($agreement_text, 'UTF-8', true);
+				if(!$is_utf8){
+					$agreement_text = 'Oops. Something goes wrong. Try to continue or check error log for details.';
+					$err = new AError('Incorrect character set encoding of file '.$license_filepath.' has been detected.');
+					$err->toLog()->toMessages();
+				}
 			}
-			$this->data['agreement_text'] = htmlentities($this->data['agreement_text'], ENT_QUOTES, 'UTF-8');
-			$this->data['agreement_text'] = nl2br($this->data['agreement_text']);
+			$agreement_text = htmlentities($agreement_text, ENT_QUOTES, 'UTF-8');
+			$this->data['agreement_text'] = nl2br($agreement_text);
 
 			$template = 'pages/tool/package_installer_agreement.tpl';
 
