@@ -680,7 +680,7 @@ CREATE TABLE `ac_customers` (
   `status` int(1) NOT NULL,
   `approved` int(1) NOT NULL DEFAULT '0',
   `customer_group_id` int(11) NOT NULL,
-  `ip` varchar(15) COLLATE utf8_general_ci NOT NULL DEFAULT '0',
+  `ip` varchar(50) COLLATE utf8_general_ci NOT NULL DEFAULT '0',
   `data` text DEFAULT null,
   `date_added` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `date_modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
@@ -1068,7 +1068,7 @@ CREATE TABLE `ac_orders` (
   `coupon_id` int(11) NOT NULL,
   `date_added` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `date_modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `ip` varchar(15) COLLATE utf8_general_ci NOT NULL DEFAULT '',
+  `ip` varchar(50) COLLATE utf8_general_ci NOT NULL DEFAULT '',
   `payment_method_data` text COLLATE utf8_general_ci NOT NULL,
   PRIMARY KEY (`order_id`, `customer_id`, `order_status_id`)
 
@@ -1938,7 +1938,7 @@ CREATE TABLE `ac_users` (
   `lastname` varchar(32) COLLATE utf8_general_ci NOT NULL DEFAULT '',
   `email` varchar(96) COLLATE utf8_general_ci NOT NULL DEFAULT '',
   `status` int(1) NOT NULL,
-  `ip` varchar(15) COLLATE utf8_general_ci NOT NULL DEFAULT '',
+  `ip` varchar(50) COLLATE utf8_general_ci NOT NULL DEFAULT '',
   `last_login` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   `date_added` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `date_modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
