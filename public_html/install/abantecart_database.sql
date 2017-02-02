@@ -10083,7 +10083,8 @@ INSERT INTO `ac_page_descriptions` (`page_id`, `language_id`, `name`, `title`, `
 (4, 1, 'Login Page', '', '', '', '', '', now() ),
 (5, 1, 'Default Product Page', '', '', '', '', '', now() ),
 (10, 1, 'Maintenance Page', '', '', '', '', '', now() ),
-(11, 1, 'Customer Account Pages', '', '', '', '', '', now() );
+(11, 1, 'Customer Account Pages', '', '', '', '', '', now() ),
+(12, 1, 'Cart Page', '', '', '', '', '', now() );
 
 --
 -- DDL for table `contents`
