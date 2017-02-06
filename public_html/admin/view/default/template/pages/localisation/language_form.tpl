@@ -131,6 +131,20 @@
 		});
 	}
 
+	//Language locale
+	$('#languageFrm_locale').on('focus', function () {
+		if ($(this).val().length > 0) {
+			return null;
+		}
+		var code = $('#languageFrm_code').val().toLowerCase();
+		var upper_code = code.toUpperCase();
+		if (code.length == 0) {
+			return null;
+		}
+		var locale = code+'_'+upper_code+'.UTF-8,'+code+'_'+upper_code+','+code+'-'+code+','+$('#languageFrm_name').val().toLowerCase().replace('default_', '');
+		$(this).val(locale);
+	});
+
 	$(document).on('click', 'a.restart_task', function(){
 		$('#incomplete_tasks_modal').modal('hide');
 	});
