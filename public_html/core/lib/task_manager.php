@@ -247,7 +247,8 @@ class ATaskManager{
 		if (!$result){
             //write to AbanteCart log
             $error_msg = 'Task_id: ' . $task_id . ' : step_id: ' . $step_id . ' - Failed. ' . $response_message;
-            $this->log->write($error_msg);
+
+            $this->log->write($error_msg."\n step details:\n".var_export($step_details, true) );
             //write to task log
 			$this->toLog($error_msg, 0);
 		}else{
