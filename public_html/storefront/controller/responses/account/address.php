@@ -31,8 +31,8 @@ class ControllerResponsesAccountAddress extends AController {
 
 		try{
 			$this->config->set('embed_mode', true);
-			$cntr = $this->dispatch('pages/account/address');
-			$html_out = $cntr->dispatchGetOutput();
+			$controller = $this->dispatch('pages/account/address');
+			$html_out = $controller->dispatchGetOutput();
 		}catch(AException $e){	}
 	
         $this->extensions->hk_UpdateData($this,__FUNCTION__);
@@ -46,8 +46,8 @@ class ControllerResponsesAccountAddress extends AController {
 
 		try{
 			$this->config->set('embed_mode', true);
-			$cntr = $this->dispatch('pages/account/address/update');
-			$html_out = $cntr->dispatchGetOutput();
+			$controller = $this->dispatch('pages/account/address/update');
+			$html_out = $controller->dispatchGetOutput();
 		}catch(AException $e){	}
 	
         $this->extensions->hk_UpdateData($this,__FUNCTION__);
@@ -61,13 +61,29 @@ class ControllerResponsesAccountAddress extends AController {
 
 		try{
 			$this->config->set('embed_mode', true);
-			$cntr = $this->dispatch('pages/account/address/insert');
-			$html_out = $cntr->dispatchGetOutput();
+			$controller = $this->dispatch('pages/account/address/insert');
+			$html_out = $controller->dispatchGetOutput();
 		}catch(AException $e){	}
 	
         $this->extensions->hk_UpdateData($this,__FUNCTION__);
 
 		$this->response->setOutput($html_out);
-	}	
+	}
+
+
+	public function delete() {
+		//init controller data
+		$this->extensions->hk_InitData($this, __FUNCTION__);
+
+		try{
+			$this->config->set('embed_mode', true);
+			$controller = $this->dispatch('pages/account/address/delete');
+			$html_out = $controller->dispatchGetOutput();
+		}catch(AException $e){	}
+
+        $this->extensions->hk_UpdateData($this,__FUNCTION__);
+
+		$this->response->setOutput($html_out);
+	}
 
 }
