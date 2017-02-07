@@ -10,7 +10,7 @@
 	</definition>
 	<definition>
 		<key>text_total</key>
-		<value><![CDATA[Balance Total]]></value>
+		<value><![CDATA[Order Totals]]></value>
 	</definition>
 	<definition>
 		<key>text_success</key>
