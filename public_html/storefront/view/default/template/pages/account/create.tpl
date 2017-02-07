@@ -26,7 +26,9 @@
 	<div class="registerbox form-horizontal">
 		<fieldset>
 		<?php
-			foreach ($form['fields']['general'] as $field_name=>$field) { ?>
+			foreach ($form['fields']['general'] as $field_name=>$field) {
+				//todo: remove this in the next major release
+				if($field_name == 'loginname'){ continue;} 	?>
 			<div class="form-group <?php echo ${'error_'.$field_name} ? 'has-error' : ''; ?>">
 				<label class="control-label col-sm-4"><?php echo ${'entry_'.$field_name}; ?></label>
 				<div class="input-group col-sm-4">
@@ -60,6 +62,15 @@
 	
 	<h4 class="heading4 "><?php echo $text_your_password; ?></h4>
 	<div class="registerbox form-horizontal">
+		<fieldset>
+			<div class="form-group <?php if ($error_loginname) echo 'has-error'; ?>">
+				<label class="col-sm-4 control-label"><?php echo $entry_loginname; ?></label>
+				<div class="input-group col-sm-4">
+				    <?php echo $form['fields']['general']['loginname']; ?>
+				</div>
+				<span class="help-block"><?php echo $error_loginname; ?></span>
+			</div>
+		</fieldset>
 		<fieldset>
 			<div class="form-group <?php if ($error_password) echo 'has-error'; ?>">
 				<label class="col-sm-4 control-label"><?php echo $entry_password; ?></label>
