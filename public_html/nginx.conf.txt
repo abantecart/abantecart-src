@@ -1,0 +1,64 @@
+#Abantecart Settings
+    location = /favicon.ico {
+        log_not_found off;
+        access_log off;
+    }
+    location = /robots.txt {
+        allow all;
+        log_not_found off;
+        access_log off;
+    }
+    # Make sure files with the following extensions do not get loaded by nginx because nginx would display the source code, and these files can contain PASSWORDS!
+    location ~* \.(engine|inc|info|install|make|module|profile|test|po|sh|.*sql|theme|tpl(\.php)?|xtmpl)$|^(\..*|Entries.*|Repository|Root|Tag|Template)$|\.php_ {
+        deny all;
+    }
+    # Deny all attempts to access hidden files such as .htaccess, .htpasswd, .DS_Store (Mac).
+    location ~ /\. {
+        deny all;
+        access_log off;
+        log_not_found off;
+    }
+    location ~*  \.(jpg|jpeg|png|gif|css|js|ico)$ {
+    expires max;
+    log_not_found off;
+    }
+
+    location ~ /(system/logs|resources/download) {
+      deny all;
+      return 403;
+    }
+    location /admin/ {
+        location ~ .*\.(php)?$ {
+          deny all;
+          return 403;
+        }
+    }
+    #rewrite for images for retina-displays
+    location ~ / {
+        if (!-e $request_filename){
+            rewrite ^/(.*)\?*$ /index.php?_route_=$1 last;
+        }
+    }
+
+
+    ### Retina images handler
+        if ($http_cookie ~* "HTTP_IS_RETINA=1" ) {
+            set $isRetina "retina";
+        }
+        location ~ ^/image/(.*)\@2x\.png {
+            try_files /image/$1\@2x.png @retinaFallback;
+        }
+
+        location ~ ^/(.*)\.png$ {
+            if ($isRetina = "retina") {
+                rewrite ^/image/(.*).png$ /image/$1\@2x.png last;
+            }
+        }
+
+        location @retinaFallback {
+            rewrite ^/image/(.*)\@2x.png$ /image/$1.png break;
+        }
+
+    ### End retina handler
+
+#End of AbanteCart settings
