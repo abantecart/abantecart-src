@@ -19,6 +19,15 @@
         access_log off;
         log_not_found off;
     }
+    ### Retina images handler. Check cookie and looking for file with @2x at the end of name
+    location ~* ^(.*)\.(jpg|png|gif)$ {
+        set $hidpi_uri $1@2x.png;
+        if ($http_cookie !~ 'HTTP_IS_RETINA=1') {
+          break;
+        }
+        try_files $hidpi_uri $uri =404;
+    }
+
     location ~*  \.(jpg|jpeg|png|gif|css|js|ico)$ {
         expires max;
         log_not_found off;
@@ -40,9 +49,5 @@
         }
     }
 
-    ### Retina images handler
-    if ($http_cookie ~* "HTTP_IS_RETINA=1" ) {
-        rewrite ^/(.*)\.(gif|jpg|png)$ /$1@2x.$2;
-    }
 
 ### End of AbanteCart settings ###
