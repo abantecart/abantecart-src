@@ -49,7 +49,7 @@ class ModelCatalogCategory extends Model {
 									WHERE c.category_id = '" . (int)$category_id . "'
 										AND c2s.store_id = '" . $store_id . "'
 										AND c.status = '1'");
-            $cache = $query->rows;
+            $cache = $query->row;
             $this->cache->push($cache_key, $cache);
         }
 
