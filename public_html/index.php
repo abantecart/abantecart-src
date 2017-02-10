@@ -81,7 +81,11 @@ if (!defined('IS_ADMIN') || !IS_ADMIN ) { // storefront load
 	
 	// User
 	$registry->set('user', new AUser($registry));
-					
+	//check for cookie for storefront on admin-side. If absent - create to allow admin view storefront in maintenance mode.
+	if($registry->get('config')->get('config_maintenance') && $registry->get('user')->isLogged()){
+		$user_id = $registry->get('user')->getId();
+		startStorefrontSession($user_id);
+	}
 }// end admin load
 
 // Currency
