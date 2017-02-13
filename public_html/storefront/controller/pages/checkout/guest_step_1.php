@@ -175,11 +175,6 @@ class ControllerPagesCheckoutGuestStep1 extends AController{
 						'separator' => $this->language->get('text_separator')
 				));
 
-		foreach($this->error as $key=>$text){
-			$this->data['error_'.$key] = $text;
-		}
-
-
 		$form = new AForm();
 		$form->setForm(array ('form_name' => 'guestFrm'));
 		$this->data['form']['form_open'] = $form->getFieldHtml(
@@ -575,6 +570,13 @@ class ControllerPagesCheckoutGuestStep1 extends AController{
 				array (
 						'type' => 'submit',
 						'name' => $this->language->get('button_continue')));
+
+		//fill error messages.
+		foreach($this->data['form']['fields'] as $section=>$fields){
+			foreach ($fields as $key => $text){
+				$this->data['error_' . $key] = (string)$this->error[$key];
+			}
+		}
 
 		$this->view->batchAssign($this->data);
 		$this->processTemplate('pages/checkout/guest_step_1.tpl');
