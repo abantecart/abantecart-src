@@ -405,7 +405,7 @@ class ControllerPagesCheckoutGuestStep1 extends AController{
 		} else{
 			$shipping_firstname = '';
 		}
-		$this->data['form']['fields']['shipping']['firstname'] = $form->getFieldHtml(
+		$this->data['form']['fields']['shipping']['shipping_firstname'] = $form->getFieldHtml(
 				array (
 						'type'     => 'input',
 						'name'     => 'shipping_firstname',
@@ -418,7 +418,7 @@ class ControllerPagesCheckoutGuestStep1 extends AController{
 		} else{
 			$shipping_lastname = '';
 		}
-		$this->data['form']['fields']['shipping']['lastname'] = $form->getFieldHtml(
+		$this->data['form']['fields']['shipping']['shipping_lastname'] = $form->getFieldHtml(
 				array (
 						'type'     => 'input',
 						'name'     => 'shipping_lastname',
@@ -431,7 +431,7 @@ class ControllerPagesCheckoutGuestStep1 extends AController{
 		} else{
 			$shipping_company = '';
 		}
-		$this->data['form']['fields']['shipping']['company'] = $form->getFieldHtml(
+		$this->data['form']['fields']['shipping']['shipping_company'] = $form->getFieldHtml(
 				array (
 						'type'     => 'input',
 						'name'     => 'shipping_company',
@@ -444,7 +444,7 @@ class ControllerPagesCheckoutGuestStep1 extends AController{
 		} else{
 			$shipping_address_1 = '';
 		}
-		$this->data['form']['fields']['shipping']['address_1'] = $form->getFieldHtml(
+		$this->data['form']['fields']['shipping']['shipping_address_1'] = $form->getFieldHtml(
 				array (
 						'type'     => 'input',
 						'name'     => 'shipping_address_1',
@@ -457,7 +457,7 @@ class ControllerPagesCheckoutGuestStep1 extends AController{
 		} else{
 			$shipping_address_2 = '';
 		}
-		$this->data['form']['fields']['shipping']['address_2'] = $form->getFieldHtml(
+		$this->data['form']['fields']['shipping']['shipping_address_2'] = $form->getFieldHtml(
 				array (
 						'type'     => 'input',
 						'name'     => 'shipping_address_2',
@@ -471,7 +471,7 @@ class ControllerPagesCheckoutGuestStep1 extends AController{
 		} else{
 			$shipping_city = '';
 		}
-		$this->data['form']['fields']['shipping']['city'] = $form->getFieldHtml(
+		$this->data['form']['fields']['shipping']['shipping_city'] = $form->getFieldHtml(
 				array (
 						'type'     => 'input',
 						'name'     => 'shipping_city',
@@ -486,7 +486,7 @@ class ControllerPagesCheckoutGuestStep1 extends AController{
 			$shipping_zone_id = 'FALSE';
 		}
 		$this->view->assign('shipping_zone_id', $shipping_zone_id);
-		$this->data['form']['fields']['shipping']['zone'] = $form->getFieldHtml(
+		$this->data['form']['fields']['shipping']['shipping_zone'] = $form->getFieldHtml(
 				array (
 						'type'     => 'selectbox',
 						'name'     => 'shipping_zone_id',
@@ -499,7 +499,7 @@ class ControllerPagesCheckoutGuestStep1 extends AController{
 		} else{
 			$shipping_postcode = '';
 		}
-		$this->data['form']['fields']['shipping']['postcode'] = $form->getFieldHtml(
+		$this->data['form']['fields']['shipping']['shipping_postcode'] = $form->getFieldHtml(
 				array (
 						'type'     => 'input',
 						'name'     => 'shipping_postcode',
@@ -517,7 +517,7 @@ class ControllerPagesCheckoutGuestStep1 extends AController{
 		} else{
 			$shipping_country_id = $this->config->get('config_country_id');
 		}
-		$this->data['form']['fields']['shipping']['country'] = $form->getFieldHtml(
+		$this->data['form']['fields']['shipping']['shipping_country'] = $form->getFieldHtml(
 				array (
 						'type'     => 'selectbox',
 						'name'     => 'shipping_country_id',
@@ -537,25 +537,6 @@ class ControllerPagesCheckoutGuestStep1 extends AController{
 		$this->loadModel('localisation/country');
 		$this->view->assign('countries', $this->model_localisation_country->getCountries());
 
-		//TODO: REMOVE THIS IN 1.3!!!
-		// backward compatibility code
-		$deprecated = $this->data['form']['fields'];
-		foreach($deprecated as $section=>$fields){
-			foreach ($fields as $name=>$fld){
-				if(in_array($name, array('country','zone'))){
-					$name .= '_id';
-				}
-
-				if($section=='shipping'){
-					$name = 'shipping_'.$name;
-				}
-
-				$this->data['form'][$name] = $fld;
-			}
-		}
-		//end of trick
-
-
 		$this->view->assign('back', $this->html->getSecureURL($cart_rt));
 
 		$this->data['form']['back'] = $form->getFieldHtml(
@@ -574,9 +555,22 @@ class ControllerPagesCheckoutGuestStep1 extends AController{
 		//fill error messages.
 		foreach($this->data['form']['fields'] as $section=>$fields){
 			foreach ($fields as $key => $text){
-				$this->data['error_' . $key] = (string)$this->error[$key];
+				$this->data['error_'.$key] = (string)$this->error[$key];
 			}
 		}
+
+		//TODO: REMOVE THIS IN 2.0!!!
+		// backward compatibility code
+		$deprecated = $this->data['form']['fields'];
+		foreach($deprecated as $section=>$fields){
+			foreach ($fields as $name=>$fld){
+				if(in_array($name, array('country','zone'))){
+					$name .= '_id';
+				}
+				$this->data['form'][$name] = $fld;
+			}
+		}
+		//end of trick
 
 		$this->view->batchAssign($this->data);
 		$this->processTemplate('pages/checkout/guest_step_1.tpl');
@@ -621,7 +615,7 @@ class ControllerPagesCheckoutGuestStep1 extends AController{
 			$this->error['zone'] = $this->language->get('error_zone');
 		}
 
-		if (isset($data['shipping_indicator'])){
+		if ($data['shipping_indicator']){
 
 			if ((mb_strlen($data['shipping_firstname']) < 3) || (mb_strlen($data['shipping_firstname']) > 32)){
 				$this->error['shipping_firstname'] = $this->language->get('error_firstname');
