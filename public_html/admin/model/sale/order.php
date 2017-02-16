@@ -45,6 +45,8 @@ class ModelSaleOrder extends Model{
 								lastname = '" . $this->db->escape($data['lastname']) . "',
 								telephone = '" . $this->db->escape($data['telephone']) . "',
 								email = '" . $this->db->escape($data['email']) . "',
+								customer_id = '" . (int)$data['customer_id'] . "',
+								customer_group_id = '" . (int)$data['customer_group_id'] . "',
 								shipping_firstname = '" . $this->db->escape($data['shipping_firstname']) . "',
 								shipping_lastname = '" . $this->db->escape($data['shipping_lastname']) . "',
 								shipping_company = '" . $this->db->escape($data['shipping_company']) . "',
