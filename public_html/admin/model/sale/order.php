@@ -55,6 +55,7 @@ class ModelSaleOrder extends Model{
 								shipping_zone_id = '" . (int)$data['shipping_zone_id'] . "',
 								shipping_country = '" . $this->db->escape($data['shipping_country']) . "',
 								shipping_country_id = '" . (int)$data['shipping_country_id'] . "',
+								payment_method = '" . $this->db->escape($data['payment_method']) . "',
 								payment_firstname = '" . $this->db->escape($data['payment_firstname']) . "',
 								payment_lastname = '" . $this->db->escape($data['payment_lastname']) . "',
 								payment_company = '" . $this->db->escape($data['payment_company']) . "',
@@ -66,9 +67,16 @@ class ModelSaleOrder extends Model{
 								payment_zone_id = '" . (int)$data['payment_zone_id'] . "',
 								payment_country = '" . $this->db->escape($data['payment_country']) . "',
 								payment_country_id = '" . (int)$data['payment_country_id'] . "',
+								value = '" . (float)$data['value'] . "',
+								currency_id = '" . (int)$data['currency_id'] . "',
+								currency = '" . $this->db->escape($data['currency']) . "',
+								language_id = '" . (int)$data['language_id'] . "',
+								order_status_id = '" . (int)$data['order_status_id'] . "',
 								ip = '" . $this->db->escape('0.0.0.0') . "',
 								total = '" . $this->db->escape(preformatFloat($data['total'], $this->language->get('decimal_point'))) . "'" . $key_sql . ",
-								date_modified = NOW()");
+								date_added = NOW(),
+								date_modified = NOW()"
+		);
 
 		$order_id = $this->db->getLastId();
 
@@ -91,6 +99,7 @@ class ModelSaleOrder extends Model{
 				}
 			}
 		}
+		return $order_id;
 	}
 
 	/**
