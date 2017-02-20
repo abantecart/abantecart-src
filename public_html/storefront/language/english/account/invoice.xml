@@ -109,6 +109,10 @@
 		<value><![CDATA[Request Cancellation of Order]]></value>
 	</definition>
 	<definition>
+		<key>text_request_cancellation_from_customer</key>
+		<value><![CDATA[Request an Order cancellation from Customer ]]></value>
+	</definition>
+	<definition>
 		<key>text_order_cancelation_confirm</key>
 		<value>
 			<![CDATA[Your cancellation request may not be made in some cases, for example, when the goods have been shipped. Continue?]]></value>
