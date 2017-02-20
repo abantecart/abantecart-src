@@ -282,15 +282,16 @@ class ALanguage{
 	public function getClientBrowserLanguage(){
 		$request = $this->registry->get('request');
 		$browser_langs = (string)$request->server['HTTP_ACCEPT_LANGUAGE'];
+
 		if ($browser_langs){
 			$parse = explode(';', $browser_langs);
 			$browser_languages = array_map('trim', explode(',', $parse[0]));
 			if ($browser_languages){
 				foreach ($browser_languages as $browser_language){
 					$browser_language = trim($browser_language);
-					$browser_language = preg_replace('[^a-zA-Z\-\_]', '', $browser_language);
+					$browser_language = preg_replace('/[^a-zA-Z\-\_]/', '', $browser_language);
 					//validate and ignore browser data if causing warnings
-					if (!$browser_language || @preg_match("/" . $browser_language . "/i", '') === false){
+					if (!$browser_language){
 						continue;
 					}
 					foreach ($this->getActiveLanguages() as $key => $value){
