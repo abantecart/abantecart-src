@@ -76,21 +76,11 @@
 		<div class="registerbox form-horizontal">
 		<fieldset>
 		<?php
-			$field_list = array('firstname' => 'shipping_firstname',
-								'lastname' => 'shipping_lastname',
-								'company' => 'shipping_company', 
-								'address_1' => 'shipping_address_1', 
-								'address_2' => 'shipping_address_2', 
-								'city' => 'shipping_city',
-								'zone' => 'shipping_zone',
-								'postcode' => 'shipping_postcode',
-								'country' => 'shipping_country', 
-								);
-			
 			foreach ($form['fields']['shipping'] as $field_name=>$field) {
-		?>
+				$entry_text = str_replace('shipping_','', $field_name);
+				?>
 			<div class="form-group <?php if (${'error_'.$field_name}) echo 'has-error'; ?>">
-				<label class="control-label col-md-4"><?php echo ${'entry_'.$field_name}; ?></label>
+				<label class="control-label col-md-4"><?php echo ${'entry_'.$entry_text}; ?></label>
 				<div class="input-group col-md-6">
 					<?php
 				   		echo $field;
