@@ -5,10 +5,10 @@
   AbanteCart, Ideal OpenSource Ecommerce Solution
   http://www.AbanteCart.com
 
-  Copyright © 2011-2016 Belavier Commerce LLC
+  Copyright © 2011-2017 Belavier Commerce LLC
 
   This source file is subject to Open Software License (OSL 3.0)
-  Lincence details is bundled with this package in the file LICENSE.txt.
+  Licence details is bundled with this package in the file LICENSE.txt.
   It is also available at this URL:
   <http://www.opensource.org/licenses/OSL-3.0>
 
@@ -56,7 +56,7 @@ class ModelExtensionDefaultUps extends Model {
 		}
 
         $length = $width = $height = 0.00;
-
+		$product_ids = array();
         $basic_products = $this->cart->basicShippingProducts();
         foreach($basic_products as $product){
             $product_ids[] = $product['product_id'];
@@ -73,6 +73,7 @@ class ModelExtensionDefaultUps extends Model {
 		$width = $width ? $width : $this->length->convert($this->config->get('default_ups_width'), $this->config->get('config_length_class'), 'in');
 		$height = $height ? $height : $this->length->convert($this->config->get('default_ups_height'), $this->config->get('config_length_class'), 'in');
 
+		$use_width = $use_length = $use_height = 0;
 		$request = $this->_buildRequest($address, $weight, $length, $width, $height);
 
         $quote_data = $this->_processRequest($request);
@@ -97,7 +98,7 @@ class ModelExtensionDefaultUps extends Model {
                 $fixed_cost = 0;
             } else if($product['shipping_price'] > 0) {
                 $fixed_cost = $product['shipping_price'];
-                //If ship individually count every quintaty
+                //If ship individually count every quantity
                 if ($product['ship_individually']) {
                     $fixed_cost = $fixed_cost * $product['quantity'];
                 }
@@ -140,7 +141,7 @@ class ModelExtensionDefaultUps extends Model {
 
 		$title = $this->language->get('text_title');
 
-		//for case when only products with fixed shippig price are in the cart
+		//for case when only products with fixed shipping price are in the cart
 
 		if(!$basic_products && $special_ship_products){
 			$quote_data = array('default_ups' => array(
@@ -181,7 +182,7 @@ class ModelExtensionDefaultUps extends Model {
 	}
 
     private function _buildRequest($address, $weight,$length,$width,$height){
-	    //set hardcoded inches beause of API error
+	    //set hardcoded inches because of API error
         $length_code = 'IN';//strtoupper( $this->length->getUnit($this->config->get('default_ups_length_class') ) );
         $weight_code = strtoupper( $this->length->getUnit($this->config->get('default_ups_weight') ) );
 
@@ -439,6 +440,6 @@ class ModelExtensionDefaultUps extends Model {
                 }
             }
         }
-        return array('quote_data'=>$quote_data, 'error_msg'=>$error_msg);
+        return array('quote_data' => $quote_data, 'error_msg' => $error_msg);
     }
 }

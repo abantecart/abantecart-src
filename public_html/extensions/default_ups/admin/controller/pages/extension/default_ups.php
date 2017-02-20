@@ -678,10 +678,6 @@ class ControllerPagesExtensionDefaultUPS extends AController {
 			$this->error['city'] = $this->language->get('error_city');
 		}
 
-		if (!$this->request->post['default_ups_state']) {
-			$this->error['state'] = $this->language->get('error_state');
-		}
-
 		if (!$this->request->post['default_ups_country']) {
 			$this->error['country'] = $this->language->get('error_country');
 		}
