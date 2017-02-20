@@ -102,7 +102,7 @@
 	</definition>
 	<definition>
 		<key>entry_meta_description</key>
-		<value><![CDATA[Описание Мета-тегов:<br /><span class="help">Описание мата-тега главной страницы витрины</span>]]></value>
+		<value><![CDATA[Описание Мета-тегов:<br /><span class="help">Описание мeта-тега главной страницы витрины</span>]]></value>
 	</definition>
 	<definition>
 		<key>entry_meta_keywords</key>
