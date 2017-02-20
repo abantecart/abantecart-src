@@ -113,7 +113,7 @@ class ALanguage{
 	/* Maim Language API methods */
 
 	// NOTE; Template language variables do not use ->get and loaded automatically in controller class.
-	//		 There is no way to get acccess to used definitions and not possible to validate missing values  
+	//		 There is no way to get access to used definitions and not possible to validate missing values
 
 	/**
 	 * Get single language definition
@@ -700,10 +700,12 @@ class ALanguage{
 	/**
 	 * @param $filename
 	 * @param  array $definitions
-	 * @return bool|void
+	 * @return bool
 	 */
 	protected function _save_to_db($filename, $definitions){
-		if (!$definitions) return false;
+		if (!$definitions){
+			return false;
+		}
 
 		$block = str_replace('/', '_', $filename);
 		ADebug::checkpoint('ALanguage ' . $this->language_details['name'] . ' ' . $block . ' saving to database');
@@ -735,7 +737,7 @@ class ALanguage{
 			$sql = $sql . implode(', ', $values);
 			$this->db->query($sql);
 		}
-		return null;
+		return true;
 	}
 
 	/**
