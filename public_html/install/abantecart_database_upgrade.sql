@@ -14,3 +14,6 @@ ALTER TABLE `ac_users` CHANGE COLUMN `ip` VARCHAR(50);
 
 REPLACE INTO `ac_page_descriptions` (`page_id`, `language_id`, `name`, `title`, `seo_url`, `keywords`, `description`, `content`, `date_added`)
 VALUES (12, 1, 'Cart Page', '', '', '', '', '', now() );
+
+INSERT INTO `ac_settings` (`group`, `key`, `value`)
+VALUES ('details','config_duplicate_contact_us_to_message',1);

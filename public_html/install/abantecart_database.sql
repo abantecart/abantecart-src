@@ -1605,6 +1605,7 @@ INSERT INTO `ac_settings` (`group`, `key`, `value`) VALUES
 ('details','translate_src_lang_code','en'),
 ('details','translate_override_existing',0),
 ('details','warn_lang_text_missing',0),
+('details','config_duplicate_contact_us_to_message',1),
 -- general
 ('general','config_admin_limit',20),
 ('general','config_catalog_limit',20),

@@ -382,6 +382,13 @@ class AConfigManager{
 				'submit_mode'     => 'id'
 		));
 
+		$fields['duplicate_contact_us'] = $form->getFieldHtml($props[] = array (
+				'type'  => 'checkbox',
+				'name'  => 'config_duplicate_contact_us_to_message',
+				'value' => $data['config_duplicate_contact_us_to_message'],
+				'style' => 'btn_switch',
+		));
+
 		$fields['language'] = $form->getFieldHtml($props[] = array (
 				'type'    => 'selectbox',
 				'name'    => 'config_storefront_language',
