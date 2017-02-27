@@ -19,7 +19,8 @@
 								?>
 								<a href="<?php echo $image['main_url']; ?>"
 								   data-standard="<?php echo $image['thumb2_url']; ?>">
-									<img src="<?php echo $image['thumb_url']; ?>" alt="<?php echo $image['title']; ?>"
+									<img style="width: <?php echo $this->config->get('config_image_thumb_width'); ?>px;	height: <?php echo $this->config->get('config_image_thumb_height'); ?>px;"
+											src="<?php echo $image['thumb_url']; ?>" alt="<?php echo $image['title']; ?>"
 									     title="<?php echo $image['title']; ?>"/>
 								</a>
 							<?php } ?>
@@ -44,8 +45,7 @@
 						?>
 						<a class="local_image" href="<?php echo $image_url; ?>" target="_blank"
 						   title="<?php echo $image_main['title']; ?>">
-							<img width="<?php echo $this->config->get('config_image_thumb_width'); ?>"
-							     height="<?php echo $this->config->get('config_image_thumb_height'); ?>"
+							<img style="width: <?php echo $this->config->get('config_image_thumb_width'); ?>px;	height: <?php echo $this->config->get('config_image_thumb_height'); ?>px;"
 							     src="<?php echo $thumb_url; ?>"
 							     alt="<?php echo $image['title']; ?>"
 							     title="<?php echo $image['title']; ?>"/>
@@ -68,8 +68,7 @@
 						$thumb_url = $image_main['thumb_url'];
 						?>
 						<a class="local_image">
-							<img width="<?php echo $this->config->get('config_image_thumb_width'); ?>"
-							     height="<?php echo $this->config->get('config_image_thumb_height'); ?>"
+							<img style="width: <?php echo $this->config->get('config_image_thumb_width'); ?>px;	height: <?php echo $this->config->get('config_image_thumb_height'); ?>px;"
 							     src="<?php echo $thumb_url; ?>"
 							     alt="<?php echo $image['title']; ?>"
 							     title="<?php echo $image['title']; ?>"/>
@@ -530,7 +529,7 @@
 						html1 = '<a class="html_with_image">';
 						html1 += main_image.main_html + '</a>';
 					} else {
-						html1 = '<a class="local_image" href="' + main_image.main_url + '">';
+						html1 = '<a style="width:' + main_image.thumb_width + 'px; height:' + main_image.thumb_height + 'px;" class="local_image" href="' + main_image.main_url + '">';
 						html1 += '<img style="width:' + main_image.thumb_width + 'px; height:' + main_image.thumb_height + 'px;" src="' + main_image.thumb_url + '" />';
 						html1 += '<i class="fa fa-arrows  hidden-xs hidden-sm"></i></a>';
 					}
@@ -543,7 +542,7 @@
 						var tmb_url = image.thumb_url;
 						var tmb2_url = image.thumb2_url;
 						if (image.origin != 'external') {
-							html2 += '<a href="' + img_url + '" data-standard="' + tmb2_url + '"><img style="width:' + image.thumb_width + 'px; height:' + image.thumb_height + 'px;" src="' + tmb_url + '" alt="' + image.title + '" title="' + image.title + '" /></a>';
+							html2 += '<a style="width:' + image.thumb_width + 'px; height:' + image.thumb_height + 'px;" href="' + img_url + '" data-standard="' + tmb2_url + '"><img style="width:' + image.thumb_width + 'px; height:' + image.thumb_height + 'px;" src="' + tmb_url + '" alt="' + image.title + '" title="' + image.title + '" /></a>';
 						}
 						html2 += '</li>';
 					}
