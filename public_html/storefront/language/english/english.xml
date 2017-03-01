@@ -325,4 +325,8 @@
 		<key>text_click_browse_file</key>
 		<value><![CDATA[Click to browse file]]></value>
 	</definition>
+	<definition>
+		<key>price_with_tax</key>
+		<value><![CDATA[Inc Tax]]></value>
+	</definition>
 </definitions>
