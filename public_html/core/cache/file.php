@@ -59,6 +59,7 @@ class ACacheDriverFile extends ACacheDriver{
 			$lock_time = 10;
 		}
 		parent::__construct($expiration, $lock_time);
+		// note: path with slash at the end!
 		$this->path = DIR_CACHE;
 	}
 
@@ -174,8 +175,8 @@ class ACacheDriverFile extends ACacheDriver{
    				$return |= $this->_delete_directory($dirs[$i]);
     		}
 		} else if($group) {
-			if (is_dir($this->path . '/' . $group)){
-			    $return = $this->_delete_directory($this->path . '/' . $group);
+			if (is_dir($this->path . $group)){
+			    $return = $this->_delete_directory($this->path . $group);
 			}		
 		}
 
@@ -357,6 +358,21 @@ class ACacheDriverFile extends ACacheDriver{
 			$error = new AError($err_text);
 			$error->toLog()->toDebug();
 			return false;
+		}
+
+		//check permissions before rename
+		if (!is_writable_dir($path)){
+			$err_text = sprintf('Error: Cannot delete cache folder: %s! Permission denied.', $path);
+			$error = new AError($err_text);
+			$error->toLog()->toDebug();
+			return false;
+		}
+		//rename folder to prevent recreation by other process
+		$new_path = $path.'_trash';
+		if(!is_dir($new_path)){
+			if(rename($path, $new_path)){
+				$path = $new_path;
+			}
 		}
 
 		// Remove all the files in folder if they exist; disable all filtering
