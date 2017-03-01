@@ -889,21 +889,11 @@ var processError = function(xhr, ajaxOptions, thrownError){
         if (err.hasOwnProperty("error_text")) {
             runTaskShowError(err.error_text);
         } else {
-            if(xhr.status==200){
-                error_txt = '('+xhr.responseText+')';
-            }else{
-                error_txt = 'HTTP-status:' + xhr.status;
-            }
-            error_txt = 'Connection error occurred. ' + error_txt;
+            error_txt = getErrorTextByXHR(xhr);
             runTaskShowError(error_txt);
         }
     } catch (e) {
-        if(xhr.status==200){
-            error_txt = '('+xhr.responseText+')';
-        }else{
-            error_txt = 'HTTP-status:' + xhr.status;
-        }
-        error_txt = 'Connection error occurred. ' + error_txt;
+        error_txt = getErrorTextByXHR(xhr);
         runTaskShowError(error_txt);
     }
 }
@@ -994,20 +984,10 @@ function do_seqAjax(ajaxes, attempts_count){
                         if (err.hasOwnProperty("error_text")) {
                             error_txt = err.error_text;
                         } else {
-                            if(xhr.status==200){
-                                error_txt = '('+xhr.responseText+')';
-                            }else{
-                                error_txt = 'HTTP-status:' + xhr.status;
-                            }
-                            error_txt = 'Connection error occurred. ' + error_txt;
+                            error_txt = getErrorTextByXHR(xhr);
                         }
                     } catch (e) {
-                        if(xhr.status==200){
-                            error_txt = '('+xhr.responseText+')';
-                        }else{
-                            error_txt = 'HTTP-status:' + xhr.status;
-                        }
-                        error_txt = 'Connection error occurred. ' + error_txt;
+                        error_txt = getErrorTextByXHR(xhr);
                     }
 
                     if(!error_txt && status === 'timeout'){
@@ -1055,6 +1035,18 @@ function do_seqAjax(ajaxes, attempts_count){
         //first run
         do_ajax();
 }
+
+var getErrorTextByXHR = function(xhr){
+    var error_txt = ''
+    if(xhr.status==200){
+        error_txt = '('+xhr.responseText+')';
+    }else{
+        error_txt = 'HTTP-status:' + xhr.status;
+    }
+    console.log(xhr);
+    return 'Connection error occurred. ' + error_txt;
+}
+// end of task js
 
 
 var getUrlParameter = function (sParam) {
