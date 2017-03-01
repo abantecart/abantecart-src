@@ -98,6 +98,8 @@ if($command_line){
 }else{
 	$tm_mode = 'html';
 }
+// unlock session for repeat of request
+session_write_close();
 $tm = new ATaskManager($tm_mode);
 //set detailed log level for json-requests from admin-side
 if($tm_mode == 'json'){
@@ -134,7 +136,6 @@ elseif ($mode && $task_id && !$step_id){
 	//run all steps of task and change it's status after
 	$data = array('task_details' => $task_details);
 	$tm->runTask($task_id);
-	session_write_close();
 }
 
 //get log for each task ans steps

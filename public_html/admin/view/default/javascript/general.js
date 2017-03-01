@@ -684,6 +684,10 @@ var defaultTaskMessages = {
 
 $(document).on('click', ".task_run", function () {
     task_fail = false;
+    run_task_url = $(this).attr('data-run-task-url');
+    complete_task_url = $(this).attr('data-complete-task-url');
+    abort_task_url = $(this).attr('data-abort-task-url');
+
     var modal =
         '<div id="task_modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">' +
         '<div class="modal-dialog">' +
@@ -695,18 +699,25 @@ $(document).on('click', ".task_run", function () {
         '<div class="modal-body panel-body panel-body-nopadding"></div>' +
         '</div></div></div>';
     $("body").first().after(modal);
-    var options = {"backdrop": "static", 'show': true};
-    $('#task_modal').modal(options);
+    $('#task_modal').modal({"backdrop": "static", 'show': true});
     $('#task_modal').on('hidden.bs.modal', function(e){
             $.xhrPool.abortAll();
         }
     );
 
-    $('#task_modal .modal-body').html('Building Task...');
+    var progress_html = '<div class="progress_description">Initialization...</div>' +
+        '<div class="progress">' +
+               '<div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="2" aria-valuemin="0" aria-valuemax="100" style="width: 1%;">1%</div></div>'
+               +'<div class="progress-info"></div>';
 
-    run_task_url = $(this).attr('data-run-task-url');
-    complete_task_url = $(this).attr('data-complete-task-url');
-    abort_task_url = $(this).attr('data-abort-task-url');
+    if(abort_task_url && abort_task_url.length > 0){
+        progress_html += '<div class="center abort_button">' +
+                            '<a class="abort btn btn-danger" title="Interrupt Task" ><i class="fa fa-times-circle-o"></i> Abort</a>' +
+                '</div>';
+    }
+    progress_html += '</div>';
+    $('#task_modal .modal-body').html(progress_html);
+    progress_html = null;
 
     //do the trick before form serialization
     if(tinyMCE) {
@@ -726,7 +737,7 @@ $(document).on('click', ".task_run", function () {
             try{
                 var err = $.parseJSON(xhr.responseText);
                 if (err.hasOwnProperty("error_text")) {
-                    runTaskShowError(err.error_text);
+                    runTaskShowError(err['error_text']);
                 }else{
                     runTaskShowError('Error occurred. See error log for details.');
                 }
@@ -751,22 +762,12 @@ var runTaskStepsUI = function (task_details) {
     if (task_details.status != '1') {
         runTaskShowError('Cannot run task "' + task_details.name + '" steps because task is not yet "scheduled". Current status - ' + task_details.status);
     } else {
-        var html = '<div class="progress">' +
-                            '<div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="2" aria-valuemin="0" aria-valuemax="100" style="width: 1%;">1%</div>' +
-                    '</div>'
-            +'<div class="progress-info"></div>';
-
-        if(abort_task_url && abort_task_url.length > 0){
-            html += '<div class="center abort_button">' +
-                                '<a class="abort btn btn-danger" title="Interrupt Task" ><i class="fa fa-times-circle-o"></i> Abort</a>' +
-                    '</div>';
-        }
-        html += '</div>';
-
-        $('#task_modal .modal-body').html(html);
         //then run sequental ajax calls
-        //note: all that calls must be asynchronous to be interruptable!
+        //note: all that calls must be asynchronous to be interruptible!
         var ajaxes = {};
+        console.log(task_details.steps);
+        var total_steps_count = Object.keys(task_details.steps).length;
+        var num = 1;
         for(var k in task_details.steps){
             var step = task_details.steps[k];
             var senddata = {
@@ -789,6 +790,7 @@ var runTaskStepsUI = function (task_details) {
                 type:'GET',
                 timeout: timeout,
                 url: task_details.url,
+                title: 'Execution of Step ' + num + ' of '+total_steps_count,
                 data: senddata,
                 dataType: 'json',
             };
@@ -800,7 +802,7 @@ var runTaskStepsUI = function (task_details) {
             else{
                 ajaxes[k]['interrupt_on_step_fault'] = false;
             }
-
+            num++;
         }
         do_seqAjax(ajaxes, 3);
 
@@ -836,6 +838,8 @@ var runTaskComplete = function (task_id) {
     var collapse_btn = '<a class="pull-right details-button collapsed" data-toggle="collapse" href="#tsk_result_details" aria-expanded="false" aria-controls="tsk_result_details"></a>';
     var collapse_pnl = '<div class="collapse panel-collapse task_result_message" role="tabpanel" id="tsk_result_details" aria-expanded="false"></div>';
 
+    $('div.progress_description').html('Completing...');
+
     if(task_fail){
         // add result message
         $('#task_modal div.progress-info').addClass('alert-danger').append(defaultTaskMessages.task_failed + collapse_btn + collapse_pnl);
@@ -869,7 +873,10 @@ var runTaskComplete = function (task_id) {
                     $('#task_modal .abort_button').remove();
                 }
             },
-            error: processError
+            error: processError,
+            complete: function(){
+                $('div.progress_description').html('');
+            }
         });
     }
     $('#task_modal').data('bs.modal').options.backdrop = true;
@@ -959,10 +966,12 @@ function do_seqAjax(ajaxes, attempts_count){
                 cache: false,
                 beforeSend: function(jqXHR) {
                     $.xhrPool.push(jqXHR);
+                    $('div.progress_description').html(ajaxes[current_key].title);
                 },
                 success: function (data, textStatus, xhr) {
                     var prc = Math.round((current+1) * 100 / steps_cnt);
                     $('div.progress-bar').css('width', prc + '%').html(prc + '%');
+
                     //task.php returns array of messages. so when one step called - take first
                     var result_text = data[0] ? data[0] : '';
                     if(!result_text && data.error_text.length>0){
