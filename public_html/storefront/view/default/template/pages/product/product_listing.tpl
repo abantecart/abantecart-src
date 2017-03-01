@@ -66,12 +66,19 @@
 													   href="<?php echo $item['buy_url'] ?>"
 													   class="productcart"><?php echo $button_add_to_cart ?></a>
 						<?php } ?>
+
+						<?php
+							$tax_message = '';
+							if($this->config->get('config_tax')){
+								$tax_message = '&nbsp;&nbsp;'.$price_with_tax;
+							}
+						?>
 						<div class="price">
 							<?php if ($product['special']) { ?>
-								<div class="pricenew"><?php echo $product['special'] ?></div>
+								<div class="pricenew"><?php echo $product['special'] . $tax_message; ?></div>
 								<div class="priceold"><?php echo $product['price'] ?></div>
 							<?php } else { ?>
-								<div class="oneprice"><?php echo $product['price'] ?></div>
+								<div class="oneprice"><?php echo $product['price'] . $tax_message; ?></div>
 							<?php } ?>
 						</div>
 						<?php echo $this->getHookvar('product_listing_details1_'.$product['product_id']);?>

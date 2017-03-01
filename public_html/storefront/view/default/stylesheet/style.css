@@ -1531,6 +1531,10 @@ ul.rate li.off {
 	text-decoration: line-through;;
 	margin-left: 0
 }
+.productpricesmall {
+	font-size: 16px;
+	margin-left: 0
+}
 
 ul.productpagecart {
 	margin-top: 20px;

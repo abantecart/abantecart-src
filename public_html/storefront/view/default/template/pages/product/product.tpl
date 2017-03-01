@@ -87,18 +87,28 @@
 
 					<div class="productprice">
 						<?php
-
-						if ($display_price){ ?>
-							<div class="productpageprice jumbotron">
-								<?php if ($special){ ?>
-									<div class="productfilneprice">
-										<span class="spiral"></span><?php echo $special; ?></div>
-									<span class="productpageoldprice"><?php echo $price; ?></span>
-								<?php } else{ ?>
-									<span class="productfilneprice"></span><span
-											class="spiral"></span><?php echo $price; ?>
-								<?php } ?>
-							</div>
+						if ($display_price){
+						?>
+						<?php
+							$tax_message = '';
+							if($this->config->get('config_tax')){
+							$tax_message = '&nbsp;&nbsp;<span class="productpricesmall">'.$price_with_tax.'</span>';
+						}
+						?>
+						<div class="productpageprice jumbotron">
+							<?php if ($special){ ?>
+								<div class="productfilneprice">
+									<?php echo $special . $tax_message; ?>
+								</div>
+								<span class="productpageoldprice">
+									<?php echo $price; ?>
+								</span>
+							<?php } else { ?>
+								<div class="productfilneprice">
+									<?php echo $price . $tax_message; ?>
+								</div>
+							<?php } ?>
+						</div>
 						<?php }
 
 						if ($average){ ?>
@@ -168,8 +178,9 @@
 									</div>
 
 									<div class="form-group mt20 mb10 total-price-holder">
-										<label class="control-label"><?php echo $text_total_price; ?>
-											<span class="total-price"></span>
+										<label class="control-label">
+											<?php echo $text_total_price; ?>&nbsp;&nbsp;
+											<span class="total-price"></span><?php echo $tax_message; ?>
 										</label>
 									</div>
 									<?php }?>
