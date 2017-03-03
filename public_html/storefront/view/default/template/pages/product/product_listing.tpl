@@ -19,6 +19,12 @@
 		if ($item['rating']) {
 			$review = $item['rating'];
 		}
+
+		$tax_message = '';
+		if($this->config->get('config_tax')){
+			$tax_message = '&nbsp;&nbsp;'.$price_with_tax;
+		}
+
 		if($icount == 4) {
 			$icount = 0;
 	?>
@@ -67,12 +73,6 @@
 													   class="productcart"><?php echo $button_add_to_cart ?></a>
 						<?php } ?>
 
-						<?php
-							$tax_message = '';
-							if($this->config->get('config_tax')){
-								$tax_message = '&nbsp;&nbsp;'.$price_with_tax;
-							}
-						?>
 						<div class="price">
 							<?php if ($product['special']) { ?>
 								<div class="pricenew"><?php echo $product['special'] . $tax_message; ?></div>
@@ -103,6 +103,11 @@
 		$item['buy_url'] = $product['add'];
 		if (!$display_price) {
 			$item['price'] = '';
+		}
+
+		$tax_message = '';
+		if($this->config->get('config_tax')){
+			$tax_message = '&nbsp;&nbsp;'.$price_with_tax;
 		}
 
 		$review = $button_write;
@@ -139,7 +144,7 @@
 						<div class="blurb"><?php echo $product['blurb'] ?></div>
 						<?php echo $this->getHookvar('product_listing_details00_'.$product['product_id']);?>
 						<?php if ($display_price) { ?>
-						<div class="pricetag pull-right">
+						<div class="pricetag_wide pull-right">
 							<span class="spiral"></span>
 
 							<?php if($product['call_to_order']){ ?>
@@ -156,10 +161,10 @@
 
 							<div class="price">
 								<?php if ($product['special']) { ?>
-									<div class="pricenew"><?php echo $product['special'] ?></div>
+									<div class="pricenew"><?php echo $product['special'] . $tax_message; ?></div>
 									<div class="priceold"><?php echo $product['price'] ?></div>
 								<?php } else { ?>
-									<div class="oneprice"><?php echo $product['price'] ?></div>
+									<div class="oneprice"><?php echo $product['price'] . $tax_message; ?></div>
 								<?php } ?>
 							</div>
 						</div>

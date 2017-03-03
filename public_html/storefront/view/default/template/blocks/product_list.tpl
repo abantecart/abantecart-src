@@ -1,7 +1,12 @@
 <div class="thumbnails list-inline">
 	<?php
 	if ($products) {
+		$tax_message = '';
+		if ($this->config->get('config_tax')){
+			$tax_message = '&nbsp;&nbsp;'.$price_with_tax;
+		}
 		$icount = 0;
+
 		foreach ($products as $product) {
 			$item = array();
 			$item['image'] = $product['thumb']['thumb_html'];
@@ -71,10 +76,10 @@
 							<?php } ?>
 							<div class="price">
 								<?php if ($product['special']) { ?>
-									<div class="pricenew"><?php echo $product['special'] ?></div>
-									<div class="priceold"><?php echo $product['price'] ?></div>
+									<div class="pricenew"><?php echo $product['special'] . $tax_message; ?></div>
+									<div class="priceold"><?php echo $product['price']; ?></div>
 								<?php } else { ?>
-									<div class="oneprice"><?php echo $product['price'] ?></div>
+									<div class="oneprice"><?php echo $product['price'] . $tax_message; ?></div>
 								<?php } ?>
 							</div>
 						</div>
