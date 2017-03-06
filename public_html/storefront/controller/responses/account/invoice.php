@@ -22,22 +22,30 @@ if (! defined ( 'DIR_CORE' )) {
 }
 
 class ControllerResponsesAccountInvoice extends AController {
-	private $error = array();
-	public $data = array();
 
-	public function main() {
+	public function main($method) {
+		$method = (string)$method;
+		$method = !$method ? __FUNCTION__ : (string)$method;
 		//init controller data
-		$this->extensions->hk_InitData($this, __FUNCTION__);
+		$this->extensions->hk_InitData($this, $method);
 
 		try{
+			$page_rt = 'pages/account/invoice';
+			if($method != 'main'){
+				$page_rt .= '/'.$method;
+			}
 			$this->config->set('embed_mode', true);
-			$cntr = $this->dispatch('pages/account/invoice');
+			$cntr = $this->dispatch($page_rt);
 			$html_out = $cntr->dispatchGetOutput();
 		}catch(AException $e){	}
 	
-        $this->extensions->hk_UpdateData($this,__FUNCTION__);
+        $this->extensions->hk_UpdateData($this, $method);
 
 		$this->response->setOutput($html_out);
-	}	
+	}
+
+	public function CancelOrder(){
+		$this->main('CancelOrder');
+	}
 
 }
