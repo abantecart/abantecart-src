@@ -654,8 +654,8 @@ function html2visual(text) {
 }
 
 function visual2html(text) {
-    var output = '';
-    output = text.replace(new RegExp('(<!--n-->)','g'), '\r\n');
+    var output = text.replace(/\n/g, "");
+    output = output.replace(new RegExp('<!--n-->','g'), '\r\n');
     output = output.replace(new RegExp('<!--t-->','g'), '\t');
     return output;
 }
