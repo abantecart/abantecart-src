@@ -347,6 +347,14 @@ class ControllerPagesLocalisationLanguage extends AController {
 		));
 
 		if(isset($this->request->get['language_id']) && sizeof($this->language->getAvailableLanguages())>1){
+
+			if($this->config->get('translate_override_existing')){
+				$this->data['override_text_note'] = sprintf(
+						$this->language->get('text_translate_override_existing'),
+						$this->html->getSecureURL('setting/setting/details')
+						);
+			}
+
 			$form2 = new AForm();
 			$form2->setForm(array(
 				'form_name' => 'languageLoadFrm',

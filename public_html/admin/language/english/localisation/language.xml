@@ -176,4 +176,8 @@
 		<key>error_nothing_to_do</key>
 		<value><![CDATA[Error: Please Set Source Language and Translation Method!]]></value>
 	</definition>
+	<definition>
+		<key>text_translate_override_existing</key>
+		<value><![CDATA[Note: All existing descriptions in target language will be replaced with new translation. You can disable overriding in <a href="%s">System->Settings->Store Details</a>.]]></value>
+	</definition>
 </definitions>

@@ -100,10 +100,13 @@
 		</div>
 			<?php }  ?><!-- <div class="fieldset"> -->
 		<div role="alert" class="alert alert-warning fade in">
-		      <strong><?php echo $load_language_note; ?></strong>
+			<i class="fa fa fa-exclamation-triangle fa-fw"></i> <strong><?php echo $load_language_note; ?></strong>
 		</div>
+		<?php if($override_text_note){ ?>
+			<div class="info alert alert-warning"><i class="fa fa fa-exclamation-triangle fa-fw"></i> <?php echo $override_text_note; ?></div>
+		<?php } ?>
 	</div>
-	
+
 	<div class="panel-footer col-xs-12">
 		<div class="text-center">
 		  <button class="btn btn-primary task_run"
