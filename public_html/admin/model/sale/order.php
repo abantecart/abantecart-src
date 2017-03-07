@@ -808,43 +808,59 @@ class ModelSaleOrder extends Model{
 				$order_data['payment_method_data'] = $order_row['payment_method_data'];
 			}
 
-			$protocols = $this->im->getProtocols();
-			if (!$order_data['customer_id']){
-				$p = array ();
-				foreach ($protocols as $protocol){
-					$p[] = $this->db->escape($protocol);
-				}
-				$sql = "SELECT od.*, odt.name as type_name
-						FROM " . $this->db->table('order_data') . " od
-						LEFT JOIN " . $this->db->table('order_data_types') . " odt ON odt.type_id = od.type_id
-						WHERE od.order_id = " . (int)$order_data['order_id'] . "
-								AND od.type_id IN (
-											SELECT DISTINCT `type_id`
-											FROM " . $this->db->table('order_data_types') . "
-											WHERE `name` IN ('" . implode("', '", $p) . "')) ";
-				$result = $this->db->query($sql);
-
-				foreach ($result->rows as $row){
-					if ($row['type_name'] == 'email'){
-						continue;
-					}
-					$order_data['im'][$row['type_name']] = unserialize($row['data']);
-				}
-
-			} else{
-				foreach ($protocols as $protocol){
-					if ($protocol == 'email'){
-						continue;
-					}
-					$uri = $this->im->getCustomerURI($protocol, $order_data['customer_id'], $order_id);
-					$order_data['im'][$protocol] = array ('uri' => $uri);
-				}
-			}
+			$order_data['im'] = $this->getImFromOrderData((int)$order_id, (int)$order_data['customer_id']);
 
 			return $order_data;
 		} else{
 			return false;
 		}
+	}
+
+	/**
+	 * @param int $order_id
+	 * @param int $customer_id
+	 * @return array
+	 */
+	public function getImFromOrderData($order_id, $customer_id){
+		$order_id = (int)$order_id;
+		if(!$order_id){
+			return array();
+		}
+		$protocols = $this->im->getProtocols();
+		if(!$protocols){
+			return array();
+		}
+		$output = $p = array ();
+		foreach ($protocols as $protocol){
+			$p[] = $this->db->escape($protocol);
+		}
+		$sql = "SELECT od.*, odt.name as type_name
+				FROM " . $this->db->table('order_data') . " od
+				LEFT JOIN " . $this->db->table('order_data_types') . " odt ON odt.type_id = od.type_id
+				WHERE od.order_id = " . (int)$order_id . "
+						AND od.type_id IN (
+									SELECT DISTINCT `type_id`
+									FROM " . $this->db->table('order_data_types') . "
+									WHERE `name` IN ('" . implode("', '", $p) . "')) ";
+		$result = $this->db->query($sql);
+		foreach ($result->rows as $row){
+			if ($row['type_name'] == 'email'){
+				continue;
+			}
+			$output[$row['type_name']] = unserialize($row['data']);
+		}
+
+		if( $customer_id ){
+			foreach ($protocols as $protocol){
+				if ($protocol == 'email' || $output[$protocol]){
+					continue;
+				}
+				$uri = $this->im->getCustomerURI($protocol, $customer_id, $order_id);
+				$output[$protocol] = array ('uri' => $uri);
+			}
+		}
+
+		return $output;
 	}
 
 	/**

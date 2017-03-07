@@ -263,32 +263,49 @@ class ModelCheckoutOrder extends Model{
 			);
 		}
 
-		//save IM settings for guest checkout
-		if (!$data['customer_id']){
-			$protocols = $this->im->getProtocols();
-			$p = array ();
-			foreach ($protocols as $protocol){
-				$p[] = $this->db->escape($protocol);
-			}
+		//save IM URI of order
+		$this->saveIMOrderData($order_id, $data);
+		return $order_id;
+	}
 
-			$sql = "SELECT DISTINCT `type_id`, `name` as protocol
-					FROM " . $this->db->table('order_data_types') . "
-					WHERE `name` IN ('" . implode("', '", $p) . "')";
-			$result = $this->db->query($sql);
-			foreach ($result->rows as $row){
-				if (has_value($data[$row['protocol']])){
-					$type_id = (int)$row['type_id'];
-					$im_data = serialize(array ('uri' => $data[$row['protocol']], 'status' => $this->config->get('config_im_guest_' . $row['protocol'] . '_status')));
-					$sql = "REPLACE INTO " . $this->db->table('order_data') . "
-							(`order_id`, `type_id`, `data`, `date_added`)
-							VALUES (" . (int)$order_id . ", " . (int)$type_id . ", '" . $this->db->escape($im_data) . "', NOW() )";
-					$this->db->query($sql);
-				}
-			}
-
+	protected function saveIMOrderData($order_id, $data){
+		$protocols = $this->im->getProtocols();
+		$p = array ();
+		foreach ($protocols as $protocol){
+			$p[] = $this->db->escape($protocol);
 		}
 
-		return $order_id;
+		$sql = "SELECT DISTINCT `type_id`, `name` as protocol
+				FROM " . $this->db->table('order_data_types') . "
+				WHERE `name` IN ('" . implode("', '", $p) . "')";
+		$result = $this->db->query($sql);
+		if(!$result->num_rows){
+			return null;
+		}
+
+		foreach ($result->rows as $row){
+			$type_id = (int)$row['type_id'];
+			if($data['customer_id']){
+				$uri = $this->im->getCustomerURI($row['protocol'], $data['customer_id']);
+			}else{
+				$uri = $data[$row['protocol']];
+			}
+			if ($uri){
+				$im_data = serialize(
+						array (
+								'uri' => $uri,
+								'status' => $this->config->get('config_im_guest_' . $row['protocol'] . '_status')
+						)
+				);
+
+				$sql = "REPLACE INTO " . $this->db->table('order_data') . "
+						(`order_id`, `type_id`, `data`, `date_added`)
+						VALUES (" . (int)$order_id . ", " . (int)$type_id . ", '" . $this->db->escape($im_data) . "', NOW() )";
+		$this->log->write($sql);
+
+				$this->db->query($sql);
+			}
+		}
 	}
 
 	/**
