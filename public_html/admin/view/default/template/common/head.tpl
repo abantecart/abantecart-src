@@ -99,6 +99,7 @@ var mcei = {
 	selector: '',
 	valid_elements : '*[*]',
 	valid_children : "+body[style]",
+	extended_valid_elements:'script[language|type|src]',
 	invalid_elements : "...",
 	tabfocus_elements: "content-html,save-post",
 	body_class: "content post-type-post post-status-auto-draft post-format-standard locale-en-gb",
