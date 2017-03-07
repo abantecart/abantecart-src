@@ -47,7 +47,7 @@ $this->db->query("INSERT INTO ".$this->db->table('languages')." (`name`,`code`,`
 				  VALUES ('".$lng_name."', '".$lng_code."', '".$lng_locale."', '".$lng_flag_path."','".$lng_directory."','".$lng_directory."','".$lng_sort."',".$lng_status.");");
 $new_language_id = $this->db->getLastId();
 
-//Load langaunge specific data
+//Load language specific data
 $xml = simplexml_load_file(DIR_EXT.'default_russian/menu.xml');
 $routes = array(
 			'text_index_home_menu'=>'index/home',
