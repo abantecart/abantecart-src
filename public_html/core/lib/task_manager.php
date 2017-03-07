@@ -697,8 +697,12 @@ class ATaskManager{
 				WHERE task_id = " . $task_id . "
 				ORDER BY sort_order";
 			$result = $this->db->query($sql);
-
+			$memory_limit = getMemoryLimitInBytes();
 			foreach ($result->rows as $row){
+				$used = memory_get_usage();
+				if($memory_limit - $used <= 204800){
+					$this->log->write('Error: Task Manager Memory overflow! To Get all Steps of Task you should to increase memory_limit_size in your php.ini');
+				}
 				$row['settings'] = $row['settings'] ? unserialize($row['settings']) : '';
 				$output[(string)$row['step_id']] = $row;
 			}
