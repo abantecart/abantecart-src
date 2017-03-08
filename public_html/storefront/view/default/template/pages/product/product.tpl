@@ -9,27 +9,22 @@
 	<div class="row">
 		<!-- Left Image-->
 		<div class="col-md-6 text-center">
-
 			<ul class="thumbnails mainimage smallimage">
 				<?php if (sizeof($images) > 1){
-					foreach ($images as $image){ ?>
-						<li class="producthtumb">
-							<?php
-							if ($image['origin'] != 'external'){
-								?>
+					$add_w = $this->config->get('config_image_additional_width');
+					$add_h = $this->config->get('config_image_additional_height');
+					foreach ($images as $image){
+						?><li class="producthtumb"><?php
+							if ($image['origin'] != 'external'){?>
 								<a href="<?php echo $image['main_url']; ?>"
-								   data-standard="<?php echo $image['thumb2_url']; ?>">
-									<img style="width: <?php echo $this->config->get('config_image_thumb_width'); ?>px;	height: <?php echo $this->config->get('config_image_thumb_height'); ?>px;"
-											src="<?php echo $image['thumb_url']; ?>" alt="<?php echo $image['title']; ?>"
-									     title="<?php echo $image['title']; ?>"/>
-								</a>
-							<?php } ?>
-						</li>
-						<?php
-					}
+								   data-standard="<?php echo $image['thumb2_url']; ?>"
+								><img style="width: <?php echo $add_w; ?>px; height: <?php echo $add_h; ?>px;"
+										src="<?php echo $image['thumb_url']; ?>" alt="<?php echo $image['title']; ?>"
+										title="<?php echo $image['title']; ?>"/></a>
+							<?php }
+						?></li><?php	}
 				} ?>
 			</ul>
-
 			<div class="hidden-xs hidden-sm mainimage bigimage easyzoom easyzoom--overlay easyzoom--with-thumbnails">
 				<?php if (sizeof($images) > 0){
 					//NOTE: ZOOM is not supported for embeded image tags
@@ -451,15 +446,6 @@
 	$(window).load(function () {
 
 		start_easyzoom();
-
-		//if have product options, load select option images
-		var $select = $('input[name^=\'option\'], select[name^=\'option\']');
-		if ($select.length) {
-			//if no images for options are present, main product images will be used.
-			//if at least one image is present in the option, main images will be replaced.
-			load_option_images($select.val(), '<?php echo $product_id; ?>');
-		}
-
 		display_total_price();
 
 		$('#current_reviews .pagination a').on('click', function () {
@@ -553,7 +539,7 @@
 						var tmb_url = image.thumb_url;
 						var tmb2_url = image.thumb2_url;
 						if (image.origin != 'external') {
-							html2 += '<a style="width:' + image.thumb_width + 'px; height:' + image.thumb_height + 'px;" href="' + img_url + '" data-standard="' + tmb2_url + '"><img style="width:' + image.thumb_width + 'px; height:' + image.thumb_height + 'px;" src="' + tmb_url + '" alt="' + image.title + '" title="' + image.title + '" /></a>';
+							html2 += '<a href="' + img_url + '" data-standard="' + tmb2_url + '"><img style="width:' + image.thumb_width + 'px; height:' + image.thumb_height + 'px;" src="' + tmb_url + '" alt="' + image.title + '" title="' + image.title + '" /></a>';
 						}
 						html2 += '</li>';
 					}
@@ -565,7 +551,7 @@
 					$(this).html(html1)
 				});
 				$('ul.smallimage').each(function () {
-					$(this).html(html2)
+					$(this).html(html2);
 				});
 				start_easyzoom();
 			}
