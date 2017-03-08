@@ -757,10 +757,11 @@ class ALanguageManager extends Alanguage{
 	 * @param string $src_text
 	 * @param string $dest_lang_code - two-letters language code (ISO 639-1)
 	 * @param string $translate_method (optional)
+	 * @param string $mode - can be 'safe' to return source string as translation
 	 * @return null
 	 * @throws AException
 	 */
-	public function translate($source_lang_code, $src_text, $dest_lang_code, $translate_method = ''){
+	public function translate($source_lang_code, $src_text, $dest_lang_code, $translate_method = '', $mode = 'safe'){
 		$this->registry->get('extensions')->hk_InitData($this, __FUNCTION__);
 
 		if (empty($source_lang_code) || empty($src_text) || empty($dest_lang_code)){
@@ -770,6 +771,7 @@ class ALanguageManager extends Alanguage{
 		if (empty($translate_method)){
 			$translate_method = $this->registry->get('config')->get('translate_method');
 		}
+		$result_txt = '';
 		$extensions = $this->registry->get('extensions')->getEnabledExtensions();
 		if (in_array($translate_method, $extensions)){
 			$ex_class = DIR_EXT . $translate_method . '/core/translator.php';
@@ -789,7 +791,9 @@ class ALanguageManager extends Alanguage{
 			ADebug::checkpoint("ALanguageManager: Translated text:" . $src_text . " from " . $source_lang_code . " to " . $dest_lang_code);
 		} else{
 			//fail over to default 'copy_source_text' method
-			$result_txt = (string)$src_text;
+			if($mode == 'safe'){
+				$result_txt = (string)$src_text;
+			}
 		}
 		$this->registry->get('extensions')->hk_UpdateData($this, __FUNCTION__);
 		return $result_txt;
