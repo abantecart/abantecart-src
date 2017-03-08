@@ -89,7 +89,8 @@ final class AFilter{
 			$fl_str = array ();
 			foreach ($keys_arr as $kk => $filter){
 				$value = isset($this->request->{$this->method}[$filter]) ? $this->request->{$this->method}[$filter] : false;
-				if ($value == ''){
+				//set null as non-set value. 0 - is value!!!
+				if ($value === '' || $value === false || $value === array()){
 					$value = null;
 				}
 				if (isset($value) && !is_null($value)){
