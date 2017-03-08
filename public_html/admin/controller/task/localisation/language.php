@@ -105,11 +105,11 @@ class ControllerTaskLocalisationLanguage extends AController{
 			$this->_return_error('Some errors during step run. See log for details.');
 		}
 
-		$this->response->setOutput(AJson::encode(array ('result' => $step_result, 'message' => $translate_result)));
+		$this->response->setOutput(AJson::encode(array ('result' => true, 'message' => $translate_result)));
 	}
 
 	private function _return_error($error_text){
-		$this->response->setOutput(AJson::encode(array ('result' => false, 'message' => $error_text)));
+		$this->response->setOutput(AJson::encode(array ('result' => false, 'error_text' => $error_text)));
 	}
 
 }
