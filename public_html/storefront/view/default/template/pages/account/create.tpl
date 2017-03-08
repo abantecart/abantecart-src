@@ -60,7 +60,7 @@
 		</fieldset>
 	</div>
 	
-	<h4 class="heading4 "><?php echo $text_your_password; ?></h4>
+	<h4 class="heading4 "><?php echo $text_login_details; ?></h4>
 	<div class="registerbox form-horizontal">
 		<fieldset>
 			<div class="form-group <?php if ($error_loginname) echo 'has-error'; ?>">

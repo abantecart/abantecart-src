@@ -34,6 +34,10 @@
 		<value><![CDATA[Your Password]]></value>
 	</definition>
 	<definition>
+		<key>text_login_details</key>
+		<value><![CDATA[Login Details]]></value>
+	</definition>
+	<definition>
 		<key>text_agree</key>
 		<value><![CDATA[I have read and agree to the]]></value>
 	</definition>
