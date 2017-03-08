@@ -471,7 +471,7 @@ class AIM{
 		$order_id = (int)$order_id ? (int)$order_id : (int)$this->session->data['order_id'];
 
 		//for registered customers - get address from database
-		if ($customer_id){
+		if ($customer_id && !$order_id){
 			$sql = "SELECT *
 					FROM " . $this->db->table('customers') . "
 					WHERE customer_id=" . $customer_id;
