@@ -89,7 +89,7 @@ class ControllerPagesExtensionDefaultUPS extends AController {
 		if ( $this->request->is_POST() && $this->_validate() ) {
 			$this->model_setting_setting->editSetting('default_ups', $this->request->post);
 			$this->session->data['success'] = $this->language->get('text_success');
-			$this->redirect($this->html->getSecureURL('extension/default_ups'));
+			redirect($this->html->getSecureURL('extension/default_ups'));
 		}
 
 		if (isset($this->error['warning'])) {
@@ -287,7 +287,6 @@ class ControllerPagesExtensionDefaultUPS extends AController {
 		    'type' => 'input',
 		    'name' => 'default_ups_state',
 		    'value' => $this->data['default_ups_state'],
-			'required' => true,
 			'attr' => ' maxlength="2" '
 	    ));
 		$this->data['form']['fields']['country'] = $form->getFieldHtml(array(
