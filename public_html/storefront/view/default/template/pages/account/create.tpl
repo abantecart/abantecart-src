@@ -70,8 +70,6 @@
 				</div>
 				<span class="help-block"><?php echo $error_loginname; ?></span>
 			</div>
-		</fieldset>
-		<fieldset>
 			<div class="form-group <?php if ($error_password) echo 'has-error'; ?>">
 				<label class="col-sm-4 control-label"><?php echo $entry_password; ?></label>
 				<div class="input-group col-sm-4">
