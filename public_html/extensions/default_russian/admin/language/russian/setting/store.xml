@@ -102,7 +102,7 @@
   </definition>
   <definition>
     <key>error_image_popup</key>
-    <value><![CDATA[[Укажите размеры всплывающего окна с изображением товара!]]></value>
+    <value><![CDATA[Укажите размеры всплывающего окна с изображением товара!]]></value>
   </definition>
   <definition>
     <key>error_image_category</key>
@@ -122,11 +122,11 @@
   </definition>
   <definition>
     <key>error_image_cart</key>
-    <value><![CDATA[[Укажите размеры изображений товаров в корзине!]]></value>
+    <value><![CDATA[Укажите размеры изображений товаров в корзине!]]></value>
   </definition>
   <definition>
     <key>error_image_grid</key>
-    <value><![CDATA[[Укажите размеры изображений сетки!]]></value>
+    <value><![CDATA[Укажите размеры изображений сетки!]]></value>
   </definition>
   <definition>
     <key>error_store</key>
