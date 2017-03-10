@@ -139,10 +139,32 @@ class ControllerResponsesListingGridTask extends AController {
 			$task = $tm->getTaskById($this->request->post_or_get('task_id'));
 
 			//check
-			if($task && in_array($task['status'], array($tm::STATUS_RUNNING, $tm::STATUS_FAILED,$tm::STATUS_COMPLETED,$tm::STATUS_INCOMPLETE))){
+			if($task && in_array($task['status'],
+								 array($tm::STATUS_RUNNING, $tm::STATUS_FAILED,$tm::STATUS_COMPLETED,$tm::STATUS_INCOMPLETE))){
+
+				//then two scenarios:
+				$restart_all = false;
+				//if some of steps have sign for interruption on fail - restart whole task
+				foreach($task['steps'] as $step){
+					if($step['settings']['interrupt_on_step_fault'] === true){
+						$restart_all = true;
+						break;
+					}
+				}
+				//if task with standalone steps - remove successful steps from task before restart
+				if(!$restart_all){
+					foreach($task['steps'] as &$step){
+						if($step['last_result']==1){
+							$tm->deleteStep($step['step_id']);
+							unset($step);
+						}
+					}
+				}
+				//mark all remained step as ready for run
 				foreach($task['steps'] as $step){
 					$tm->updateStep($step['step_id'], array('status'=> $tm::STATUS_READY));
 				}
+
 				$tm->updateTask($task['task_id'], array(
 													'status' => $tm::STATUS_READY,
 													'start_time' => date('Y-m-d H:i:s')

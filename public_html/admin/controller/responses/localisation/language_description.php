@@ -33,7 +33,7 @@ class ControllerResponsesLocalisationLanguageDescription extends AController{
 
 		if ($this->_validate()){
 			$this->loadModel('localisation/language');
-			$task_name = 'translation' . $this->request->post['source_language'] . '_' . $this->request->post['language_id'];
+			$task_name = 'description_translation' . $this->request->post['source_language'] . '_' . $this->request->post['language_id'];
 			$task_details = $this->model_localisation_language->createTask($task_name, $this->request->post);
 			$task_api_key = $this->config->get('task_api_key');
 
@@ -124,7 +124,7 @@ class ControllerResponsesLocalisationLanguageDescription extends AController{
 		$tm = new ATaskManager();
 		$incomplete = $tm->getTasks(array (
 				'filter' => array (
-						'name' => 'translation'
+						'name' => 'description_translation'
 				)
 		));
 

@@ -406,7 +406,7 @@ class ControllerPagesLocalisationLanguage extends AController {
 			$this->data['form']['abort_task_url'] = $this->html->getSecureURL('r/localisation/language_description/abort');
 
 			//check for incomplete tasks
-			$task_name = 'translation';
+			$task_name = 'description_translation';
 			$tm = new ATaskManager();
 			$incomplete = $tm->getTasks(array(
 					'filter' => array(
@@ -420,7 +420,7 @@ class ControllerPagesLocalisationLanguage extends AController {
 					if ($incm_task['starter'] != $this->user->getId()){
 						continue;
 					}
-					//rename task to prevent colission with new
+					//rename task to prevent collision with new
 					if($incm_task['name']==$task_name){
 						$tm->updateTask($incm_task['task_id'],array('name' => $task_name.'_'.date('YmdHis')));
 					}
