@@ -819,7 +819,7 @@ var spanHelp2Toggles = function(){
     		var $help = $label.find('span.help');
     		if( $help.length > 0) {
     			var $icon = '&nbsp;<i class="fa fa-comment-o"></i>';
-    			var content = $help.text();
+    			var content = $help.text().replace('"','&quot;').replace("'",'&apos;');
     			//destroy span
     			$help.remove();
     			$label.html($label.text()+$icon);
@@ -827,7 +827,7 @@ var spanHelp2Toggles = function(){
     			//build and activate popover
     			$i.attr('data-container', 'body');
     			$i.attr('data-toggle', 'popover');
-    			$i.attr('data-content', $help.text());
+    			$i.attr('data-content', content);
     			$i.popover({trigger: 'hover', placement: 'auto'});
     		}
     	});
