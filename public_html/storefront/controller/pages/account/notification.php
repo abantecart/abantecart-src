@@ -36,7 +36,7 @@ class ControllerPagesAccountNotification extends AController {
 
 		$this->loadModel('account/customer');
 
-		if ($this->request->is_POST()) {
+		if ($this->request->is_POST() && $this->csrftoken->isTokenValid()) {
 			$this->model_account_customer->saveCustomerNotificationSettings($this->request->post['settings']);
 			$this->session->data['success'] = $this->language->get('text_success');
 			redirect($this->html->getSecureURL('account/account'));
@@ -68,7 +68,10 @@ class ControllerPagesAccountNotification extends AController {
 		        array(
                     'type' => 'form',
                     'name' => 'imFrm',
-                    'action' => $this->html->getSecureURL('account/notification') ));
+                    'action' => $this->html->getSecureURL('account/notification'),
+                    'csrf' => true
+                )
+        );
 
 		$protocols = $this->im->getActiveProtocols('storefront');
 		$im_drivers = $this->im->getIMDriverObjects();

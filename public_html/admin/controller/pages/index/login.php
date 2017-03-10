@@ -57,7 +57,6 @@ class ControllerPagesIndexLogin extends AController {
 				redirect($redirect);
 			} else {
 				redirect($this->html->getSecureURL('index/home'));
-				
 			}
 		}
 

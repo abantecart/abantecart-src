@@ -41,39 +41,42 @@ class ControllerPagesAccountLogin extends AController{
 		$this->document->setTitle($this->language->get('heading_title'));
 		$loginname = '';
 		if (($this->request->is_POST())){
-			if (isset($this->request->post['account'])){
-				$this->session->data['account'] = $this->request->post['account'];
+            if(!$this->csrftoken->isTokenValid()) {
+                $this->error['message'] = $this->language->get('error_unknown');
+            } else {
+                if (isset($this->request->post['account'])){
+                    $this->session->data['account'] = $this->request->post['account'];
 
-				if ($this->request->post['account'] == 'register'){
-					$this->redirect($this->html->getSecureURL('account/create'));
-				}
+                    if ($this->request->post['account'] == 'register'){
+                        $this->redirect($this->html->getSecureURL('account/create'));
+                    }
 
-				if ($this->request->post['account'] == 'guest'){
-					$this->redirect($this->html->getSecureURL('checkout/guest_step_1'));
-				}
-			}
-			//support old email based login
-			$loginname = (isset($this->request->post['loginname'])) ? $this->request->post['loginname'] : $this->request->post['email'];
-			$password = $this->request->post['password'];
-			if (isset($loginname) && isset($password) && $this->_validate($loginname, $password)){
-				unset($this->session->data['guest']);
-				unset($this->session->data['account']);
+                    if ($this->request->post['account'] == 'guest'){
+                        $this->redirect($this->html->getSecureURL('checkout/guest_step_1'));
+                    }
+                }
+                //support old email based login
+                $loginname = (isset($this->request->post['loginname'])) ? $this->request->post['loginname'] : $this->request->post['email'];
+                $password = $this->request->post['password'];
+                if (isset($loginname) && isset($password) && $this->_validate($loginname, $password)){
+                    unset($this->session->data['guest']);
+                    unset($this->session->data['account']);
 
-				$address_id = $this->customer->getAddressId();
-				$this->loadModel('account/address');
-				$address = $this->model_account_address->getAddress($address_id);
-				$this->tax->setZone($address['country_id'], $address['zone_id']);
+                    $address_id = $this->customer->getAddressId();
+                    $this->loadModel('account/address');
+                    $address = $this->model_account_address->getAddress($address_id);
+                    $this->tax->setZone($address['country_id'], $address['zone_id']);
 
-				if ($this->session->data['redirect']){
-					$redirect_url = $this->session->data['redirect'];
-					unset($this->session->data['redirect']);
-				} else{
-					$redirect_url = $this->html->getSecureURL('account/account');
-				}
-				$this->extensions->hk_ProcessData($this);
-				$this->redirect($redirect_url);
-			}
-			
+                    if ($this->session->data['redirect']){
+                        $redirect_url = $this->session->data['redirect'];
+                        unset($this->session->data['redirect']);
+                    } else{
+                        $redirect_url = $this->html->getSecureURL('account/account');
+                    }
+                    $this->extensions->hk_ProcessData($this);
+                    $this->redirect($redirect_url);
+                }
+            }
 		} elseif( has_value($this->request->get['ac']) ){
 			//activation of account via email-code. 
 			$enc = new AEncryption($this->config->get('encryption_key'));	
@@ -138,9 +141,12 @@ class ControllerPagesAccountLogin extends AController{
 		$form->setForm(array ('form_name' => 'accountFrm'));
 		$this->data['form1']['form_open'] = $form->getFieldHtml(
 				array (
-						'type'   => 'form',
-						'name'   => 'accountFrm',
-						'action' => $this->html->getSecureURL('account/login')));
+                    'type'   => 'form',
+                    'name'   => 'accountFrm',
+                    'action' => $this->html->getSecureURL('account/login'),
+                    'csrf' => true
+                )
+        );
 
 		$this->data['form1']['register'] = $form->getFieldHtml(
 				array (
@@ -175,9 +181,12 @@ class ControllerPagesAccountLogin extends AController{
 		$form->setForm(array ('form_name' => 'loginFrm'));
 		$this->data['form2']['form_open'] = $form->getFieldHtml(
 				array (
-						'type'   => 'form',
-						'name'   => 'loginFrm',
-						'action' => $this->html->getSecureURL('account/login')));
+                    'type'   => 'form',
+                    'name'   => 'loginFrm',
+                    'action' => $this->html->getSecureURL('account/login'),
+                    'csrf' => true
+                )
+        );
 
 		if ($this->config->get('prevent_email_as_login')){
 			$this->data['noemaillogin'] = true;

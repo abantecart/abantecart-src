@@ -213,10 +213,13 @@ class AHtml extends AController{
 		}
 
 		$suburl = $this->buildURL($rt, $params);
-		//#PR Add session
-		if (isset($session->data['token']) && $session->data['token']){
-			$suburl .= '&token=' . $this->registry->get('session')->data['token'];
-		}
+
+        if(IS_ADMIN === true || (defined('IS_API') && IS_API === true)) {
+            //Add session token for admin and API
+            if (isset($session->data['token']) && $session->data['token']){
+                $suburl .= '&token=' . $this->registry->get('session')->data['token'];
+            }
+        }
 
 		//add token for embed mode with forbidden 3d-party cookies
 		if ($session->data['session_mode'] == 'embed_token'){
@@ -1569,9 +1572,19 @@ class FormHtmlElement extends HtmlElement{
 						'method' => $this->method,
 						'attr'   => $this->attr,
 						'style'  => $this->style,
-						'enctype'=> $this->enctype
+						'enctype' => $this->enctype
 				)
 		);
+        //add CSRF token
+        if($this->csrf === true) {
+            $csrftoken = $this->registry->get('csrftoken');
+            $this->view->batchAssign(
+                array (
+                    'csrfinstance' => $csrftoken->setInstance(),
+                    'csrftoken' => $csrftoken->setToken()
+                )
+            );
+        }
 
 		return $this->view->fetch('form/form_open.tpl');
 	}

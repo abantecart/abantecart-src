@@ -38,7 +38,11 @@ class ControllerPagesAccountCreate extends AController{
 		$this->loadModel('account/customer');
 		$request_data = $this->request->post;
 		if ($this->request->is_POST()){
-			$this->errors = array_merge($this->errors, $this->model_account_customer->validateRegistrationData($request_data));
+            if($this->csrftoken->isTokenValid()){
+                $this->errors = array_merge($this->errors, $this->model_account_customer->validateRegistrationData($request_data));
+            } else {
+                $this->error['warning'] = $this->language->get('error_unknown');
+            }
 			if (!$this->errors){
 				//if allow login as email, need to set loginname = email
 				if (!$this->config->get('prevent_email_as_login')){
@@ -83,7 +87,7 @@ class ControllerPagesAccountCreate extends AController{
 				}
 
 				redirect($redirect_url);
-			}else{
+			} else {
 				if(!$this->errors['warning']){
 					$this->errors['warning'] = implode('<br>',$this->errors);
 				}
@@ -118,7 +122,10 @@ class ControllerPagesAccountCreate extends AController{
 				array (
 						'type'   => 'form',
 		                'name'   => 'AccountFrm',
-		                'action' => $this->html->getSecureURL('account/create')));
+		                'action' => $this->html->getSecureURL('account/create'),
+                        'csrf' => true
+                )
+        );
 		/** TODO: move this field into password section  */
 		if ($this->config->get('prevent_email_as_login')){ // require login name
 			$this->data['form']['fields']['general']['loginname'] = $form->getFieldHtml(

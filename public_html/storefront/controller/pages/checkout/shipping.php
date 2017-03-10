@@ -205,9 +205,12 @@ class ControllerPagesCheckoutShipping extends AController{
 		$form = new AForm();
 		$form->setForm(array ('form_name' => 'shipping'));
 		$this->data['form']['form_open'] = $form->getFieldHtml(
-				array ('type'   => 'form',
-				       'name'   => 'shipping',
-				       'action' => $this->html->getSecureURL($checkout_rt)));
+				array ( 'type'   => 'form',
+				        'name'   => 'shipping',
+				        'action' => $this->html->getSecureURL($checkout_rt),
+                        'csrf' => true
+                )
+        );
 
 		$this->data['shipping_methods'] = $this->session->data['shipping_methods'] ? $this->session->data['shipping_methods'] : array ();
 		$shipping = $this->session->data['shipping_method']['id'];
@@ -276,7 +279,9 @@ class ControllerPagesCheckoutShipping extends AController{
 	}
 
 	public function validate(){
-		if (!isset($this->request->post['shipping_method'])){
+        if (!$this->csrftoken->isTokenValid()) {
+			$this->error['warning'] = $this->language->get('error_unknown');
+        } else if (!isset($this->request->post['shipping_method'])){
 			$this->error['warning'] = $this->language->get('error_shipping');
 		} else{
 			$shipping = explode('.', $this->request->post['shipping_method']);

@@ -68,49 +68,55 @@ class ControllerPagesCheckoutGuestStep2 extends AController{
 
 		$this->document->setTitle($this->language->get('heading_title'));
 
-        if ($this->request->is_POST() && isset($this->request->post['coupon'])) {
-            if(isset($this->request->post['reset_coupon'])) {
-                //remove coupon
-                unset($this->session->data['coupon']);
-                $this->session->data['success'] = $this->language->get('text_coupon_removal');
+        if ($this->request->is_POST()){
 
-                //process data
-                $this->extensions->hk_ProcessData($this, 'reset_coupon');
-                redirect($this->html->getSecureURL('checkout/guest_step_3'));
-            } else if($this->_validateCoupon()) {
-                $this->session->data['coupon'] = $this->request->post['coupon'];
-                $this->session->data['success'] = $this->language->get('text_success');
+            if(!$this->csrftoken->isTokenValid()){
+                $this->error['warning'] = $this->language->get('error_unknown');
+            } else {
+                if (isset($this->request->post['coupon'])) {
+                    if(isset($this->request->post['reset_coupon'])) {
+                        //remove coupon
+                        unset($this->session->data['coupon']);
+                        $this->session->data['success'] = $this->language->get('text_coupon_removal');
 
-                if ($this->cart->getFinalTotal() == 0 && $this->request->get['mode'] != 'edit'){
-                    $this->session->data['payment_method'] = array (
-                        'id'    => 'no_payment_required',
-                        'title' => $this->language->get('no_payment_required')
-                    );
+                        //process data
+                        $this->extensions->hk_ProcessData($this, 'reset_coupon');
+                        redirect($this->html->getSecureURL('checkout/guest_step_3'));
+                    } else if($this->_validateCoupon()) {
+                        $this->session->data['coupon'] = $this->request->post['coupon'];
+                        $this->session->data['success'] = $this->language->get('text_success');
+
+                        if ($this->cart->getFinalTotal() == 0 && $this->request->get['mode'] != 'edit'){
+                            $this->session->data['payment_method'] = array (
+                                'id'    => 'no_payment_required',
+                                'title' => $this->language->get('no_payment_required')
+                            );
+                        }
+                        //process data
+                        $this->extensions->hk_ProcessData($this, 'apply_coupon');
+                        redirect($this->html->getSecureURL('checkout/guest_step_3'));
+                    }
                 }
 
-                //process data
-                $this->extensions->hk_ProcessData($this, 'apply_coupon');
-                redirect($this->html->getSecureURL('checkout/guest_step_3'));
+                if (!isset($this->request->post['coupon']) && $this->validate()){
+                    if (isset($this->request->post['shipping_method'])){
+                        $shipping = explode('.', $this->request->post['shipping_method']);
+                        $this->session->data['shipping_method'] = $this->session->data['shipping_methods'][$shipping[0]]['quote'][$shipping[1]];
+                    }
+                    if ($this->cart->getFinalTotal() == 0 && $this->request->get['mode'] != 'edit'){
+                        $this->session->data['payment_method'] = array (
+                            'id'    => 'no_payment_required',
+                            'title' => $this->language->get('no_payment_required')
+                        );
+                    } else{
+                        $this->session->data['payment_method'] = $this->session->data['payment_methods'][$this->request->post['payment_method']];
+                    }
+                    $this->session->data['comment'] = $this->request->post['comment'];
+                    $this->extensions->hk_ProcessData($this);
+                    redirect($this->html->getSecureURL('checkout/guest_step_3'));
+                }
             }
         }
-
-		if (($this->request->is_POST()) && !isset($this->request->post['coupon']) && $this->validate()){
-			if (isset($this->request->post['shipping_method'])){
-				$shipping = explode('.', $this->request->post['shipping_method']);
-				$this->session->data['shipping_method'] = $this->session->data['shipping_methods'][$shipping[0]]['quote'][$shipping[1]];
-			}
-			if ($this->cart->getFinalTotal() == 0 && $this->request->get['mode'] != 'edit'){
-				$this->session->data['payment_method'] = array (
-						'id'    => 'no_payment_required',
-						'title' => $this->language->get('no_payment_required')
-				);
-			} else{
-				$this->session->data['payment_method'] = $this->session->data['payment_methods'][$this->request->post['payment_method']];
-			}
-			$this->session->data['comment'] = $this->request->post['comment'];
-			$this->extensions->hk_ProcessData($this);
-			redirect($this->html->getSecureURL('checkout/guest_step_3'));
-		}
 
 		$this->loadModel('checkout/extension');
 		// Shipping Methods
@@ -315,9 +321,13 @@ class ControllerPagesCheckoutGuestStep2 extends AController{
 		$form = new AForm();
 		$form->setForm(array ('form_name' => 'guest'));
 		$this->data['form']['form_open'] = $form->getFieldHtml(
-				array ('type'   => 'form',
-				       'name'   => 'guest',
-				       'action' => $action));
+				array (
+				    'type'   => 'form',
+                    'name'   => 'guest',
+                    'action' => $action,
+                    'csrf' => true
+                )
+        );
 
 		$this->data['shipping_methods'] = $this->session->data['shipping_methods'] ? $this->session->data['shipping_methods'] : array ();
 		$shipping = isset($this->request->post['shipping_method']) ? $this->request->post['shipping_method'] : $this->session->data['shipping_method']['id'];

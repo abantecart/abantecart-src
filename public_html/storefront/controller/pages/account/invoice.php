@@ -345,9 +345,10 @@ class ControllerPagesAccountInvoice extends AController{
 
 		$this->data['form']['form_open'] = $form->getFieldHtml(
 				array (
-						'type'   => 'form',
-						'name'   => 'CheckOrderFrm',
-						'action' => $this->html->getSecureURL('account/invoice')
+                    'type'   => 'form',
+                    'name'   => 'CheckOrderFrm',
+                    'action' => $this->html->getSecureURL('account/invoice'),
+                    'csrf' => true,
 				));
 
 		$order_id = (int)$this->request->post['order_id'] ? (int)$this->request->post['order_id'] : '';
@@ -480,15 +481,20 @@ class ControllerPagesAccountInvoice extends AController{
 	}
 
 	protected function _validate(){
-		if (!(int)$this->request->post['order_id']){
-			$this->error['order_id'] = $this->language->get('error_order_id');
-		}
 
-		if (mb_strlen($this->request->post['email']) > 96 || !preg_match(EMAIL_REGEX_PATTERN, $this->request->post['email'])){
-			$this->error['email'] = $this->language->get('error_email');
-		}
+        if (!$this->csrftoken->isTokenValid()) {
+            $this->error['warning'] = $this->language->get('error_unknown');
+        } else {
+            if (!(int)$this->request->post['order_id']){
+                $this->error['order_id'] = $this->language->get('error_order_id');
+            }
 
-		$this->extensions->hk_ValidateData($this);
+            if (mb_strlen($this->request->post['email']) > 96 || !preg_match(EMAIL_REGEX_PATTERN, $this->request->post['email'])){
+                $this->error['email'] = $this->language->get('error_email');
+            }
+
+            $this->extensions->hk_ValidateData($this);
+        }
 
 		return !$this->error ? true : false;
 	}

@@ -47,27 +47,31 @@ class ControllerPagesCheckoutPayment extends AController{
 
 		//Selections are posted, validate and apply
         if ($this->request->is_POST() && isset($this->request->post['coupon'])) {
-            //reload and re-apply balance if was requested
-            $param = '';
-            if(isset($this->session->data['used_balance'])) {
-                $param = '&balance=reapply';
-            }
+            if(!$this->csrftoken->isTokenValid()){
+                $this->error['warning'] = $this->language->get('error_unknown');
+            } else {
+                //reload and re-apply balance if was requested
+                $param = '';
+                if(isset($this->session->data['used_balance'])) {
+                    $param = '&balance=reapply';
+                }
 
-            if(isset($this->request->post['reset_coupon'])) {
-                //remove coupon
-                unset($this->session->data['coupon']);
-                $this->session->data['success'] = $this->language->get('text_coupon_removal');
+                if(isset($this->request->post['reset_coupon'])) {
+                    //remove coupon
+                    unset($this->session->data['coupon']);
+                    $this->session->data['success'] = $this->language->get('text_coupon_removal');
 
-                //process data
-                $this->extensions->hk_ProcessData($this, 'reset_coupon');
-                $this->redirect($this->html->getSecureURL($payment_rt, $param));
-            } else if($this->_validateCoupon()) {
-                $this->session->data['coupon'] = $this->request->post['coupon'];
-                $this->session->data['success'] = $this->language->get('text_success');
+                    //process data
+                    $this->extensions->hk_ProcessData($this, 'reset_coupon');
+                    $this->redirect($this->html->getSecureURL($payment_rt, $param));
+                } else if($this->_validateCoupon()) {
+                    $this->session->data['coupon'] = $this->request->post['coupon'];
+                    $this->session->data['success'] = $this->language->get('text_success');
 
-                //process data
-                $this->extensions->hk_ProcessData($this, 'apply_coupon');
-                $this->redirect($this->html->getSecureURL($payment_rt, $param));
+                    //process data
+                    $this->extensions->hk_ProcessData($this, 'apply_coupon');
+                    $this->redirect($this->html->getSecureURL($payment_rt, $param));
+                }
             }
         }
 
@@ -284,9 +288,13 @@ class ControllerPagesCheckoutPayment extends AController{
 		$form = new AForm();
 		$form->setForm(array ('form_name' => 'payment'));
 		$this->data['form']['form_open'] = $form->getFieldHtml(
-				array ('type'   => 'form',
-				       'name'   => 'payment',
-				       'action' => $action));
+				array (
+				    'type'   => 'form',
+                    'name'   => 'payment',
+                    'action' => $action,
+                    'csrf' => true
+                )
+        );
 
 		$this->data['payment_methods'] = $this->session->data['payment_methods'];
 		$payment = isset($this->request->post['payment_method']) ? $this->request->post['payment_method'] : $this->session->data['payment_method']['id'];
