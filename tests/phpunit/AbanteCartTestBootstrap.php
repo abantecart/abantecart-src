@@ -1,5 +1,5 @@
 <?php
-
+require_once ('PHPUnit/Framework/TestCase.php');
 class AbanteCartTest extends PHPUnit_Framework_TestCase {
 	protected $registry;
 	public function __construct() {
