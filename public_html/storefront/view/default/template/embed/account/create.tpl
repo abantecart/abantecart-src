@@ -125,7 +125,7 @@
 		<div class="col-md-12">
 	<?php if ($text_agree) { ?>
 			<label class="col-md-6 mt10 mb10">
-				<?php echo $text_agree; ?><a href="<?php echo $text_agree_href; ?>" onclick="openModalRemote('#privacyPolicyModal','<?php echo $text_agree_href; ?>'); return false;"><b><?php echo $text_agree_href_text; ?></b></a>
+				<?php echo $text_agree; ?>&nbsp;<a href="<?php echo $text_agree_href; ?>" onclick="openModalRemote('#privacyPolicyModal','<?php echo $text_agree_href; ?>'); return false;"><b><?php echo $text_agree_href_text; ?></b></a>
 
 				<?php echo $form['agree']; ?>
 			</label>
