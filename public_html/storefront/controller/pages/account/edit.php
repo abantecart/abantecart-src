@@ -41,16 +41,20 @@ class ControllerPagesAccountEdit extends AController{
 
 		$request_data = $this->request->post;
 		if ($this->request->is_POST()){
-			$this->error = $this->model_account_customer->validateEditData($request_data);
-			//if no update for loginname do not allow edit of username/loginname
-			if (!$this->customer->isLoginnameAsEmail()){
-				$request_data['loginname'] = null;
-			} else{
-				//if allow login as email, need to set loginname = email in case email changed
-				if (!$this->config->get('prevent_email_as_login')){
-					$request_data['loginname'] = $request_data['email'];
-				}
-			}
+            if($this->csrftoken->isTokenValid()){
+                $this->error = $this->model_account_customer->validateEditData($request_data);
+                //if no update for loginname do not allow edit of username/loginname
+                if (!$this->customer->isLoginnameAsEmail()){
+                    $request_data['loginname'] = null;
+                } else{
+                    //if allow login as email, need to set loginname = email in case email changed
+                    if (!$this->config->get('prevent_email_as_login')){
+                        $request_data['loginname'] = $request_data['email'];
+                    }
+                }
+            } else {
+                $this->error['warning'] = $this->language->get('error_unknown');
+            }
 
 			if (!$this->error){
 				$this->model_account_customer->editCustomer($request_data);
@@ -139,9 +143,12 @@ class ControllerPagesAccountEdit extends AController{
 		$form->setForm(array ('form_name' => 'AccountFrm'));
 		$this->data['form']['form_open'] = $form->getFieldHtml(
 				array (
-						'type'   => 'form',
-						'name'   => 'AccountFrm',
-						'action' => $this->html->getSecureURL('account/edit')));
+                    'type'   => 'form',
+                    'name'   => 'AccountFrm',
+                    'action' => $this->html->getSecureURL('account/edit'),
+                    'csrf' => true,
+                )
+        );
 
 		$this->data['reset_loginname'] = $reset_loginname;
 

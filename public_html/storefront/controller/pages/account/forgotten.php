@@ -42,42 +42,50 @@ class ControllerPagesAccountForgotten extends AController {
 		$this->loadModel('account/customer');
 		
 		$customer_details = array();
-		if ($this->request->is_POST() && $this->_find_customer('password', $customer_details)) {
-			//extra check that we have customer details
-			if (!empty($customer_details['email'])) {
-				$this->loadLanguage('mail/account_forgotten');
-				
-				$customer_id = $customer_details['customer_id'];
-				$code = genToken(32);
-				//save password reset code
-				$this->model_account_customer->updateOtherData($customer_id, array('password_reset' => $code));			
-				//build reset link 
-				$enc = new AEncryption($this->config->get('encryption_key'));
-				$rtoken = $enc->encrypt($customer_id.'::'.$code);
+		if ($this->request->is_POST()) {
 
-				//do the trick for correct url
-				$embed_mode = $this->registry->get('config')->get('embed_mode');
-				$this->registry->get('config')->set('embed_mode', false);
-				$link = $this->html->getSecureURL('account/forgotten/reset', '&rtoken=' . $rtoken);
-				$this->registry->get('config')->set('embed_mode', $embed_mode);
+            if(!$this->csrftoken->isTokenValid()){
+                $this->error['message'] = $this->language->get('error_unknown');
+                return false;
+            }
 
-		
-				$subject = sprintf($this->language->get('text_subject'), $this->config->get('store_name'));				
-				$message  = sprintf($this->language->get('text_greeting'), $this->config->get('store_name')) . "\n\n";
-				$message .= $this->language->get('text_password') . "\n\n";
-				$message .= $link;
-	
-				$mail = new AMail( $this->config );
-				$mail->setTo($customer_details['email']);
-				$mail->setFrom($this->config->get('store_main_email'));
-				$mail->setSender($this->config->get('store_name'));
-				$mail->setSubject($subject);
-				$mail->setText(html_entity_decode($message, ENT_QUOTES, 'UTF-8'));
-				$mail->send();
-								
-				$this->session->data['success'] = $this->language->get('text_success');
-				redirect($this->html->getSecureURL('account/login'));
-			}
+            if($this->_find_customer('password', $customer_details)){
+                //extra check that we have customer details
+                if (!empty($customer_details['email'])) {
+                    $this->loadLanguage('mail/account_forgotten');
+
+                    $customer_id = $customer_details['customer_id'];
+                    $code = genToken(32);
+                    //save password reset code
+                    $this->model_account_customer->updateOtherData($customer_id, array('password_reset' => $code));
+                    //build reset link
+                    $enc = new AEncryption($this->config->get('encryption_key'));
+                    $rtoken = $enc->encrypt($customer_id.'::'.$code);
+
+                    //do the trick for correct url
+                    $embed_mode = $this->registry->get('config')->get('embed_mode');
+                    $this->registry->get('config')->set('embed_mode', false);
+                    $link = $this->html->getSecureURL('account/forgotten/reset', '&rtoken=' . $rtoken);
+                    $this->registry->get('config')->set('embed_mode', $embed_mode);
+
+
+                    $subject = sprintf($this->language->get('text_subject'), $this->config->get('store_name'));
+                    $message  = sprintf($this->language->get('text_greeting'), $this->config->get('store_name')) . "\n\n";
+                    $message .= $this->language->get('text_password') . "\n\n";
+                    $message .= $link;
+
+                    $mail = new AMail( $this->config );
+                    $mail->setTo($customer_details['email']);
+                    $mail->setFrom($this->config->get('store_main_email'));
+                    $mail->setSender($this->config->get('store_name'));
+                    $mail->setSubject($subject);
+                    $mail->setText(html_entity_decode($message, ENT_QUOTES, 'UTF-8'));
+                    $mail->send();
+
+                    $this->session->data['success'] = $this->language->get('text_success');
+                    redirect($this->html->getSecureURL('account/login'));
+                }
+            }
 		}
 
       	$this->document->resetBreadcrumbs();
@@ -106,11 +114,14 @@ class ControllerPagesAccountForgotten extends AController {
 
 		$form = new AForm();
         $form->setForm(array( 'form_name' => 'forgottenFrm' ));
-        $this->data['form'][ 'form_open' ] = $form->getFieldHtml(
-                                                                array(
-                                                                       'type' => 'form',
-                                                                       'name' => 'forgottenFrm',
-                                                                       'action' => $this->html->getSecureURL('account/forgotten/password')));
+        $this->data['form']['form_open'] = $form->getFieldHtml(
+                    array(
+                        'type' => 'form',
+                        'name' => 'forgottenFrm',
+                        'action' => $this->html->getSecureURL('account/forgotten/password'),
+                        'csrf' => true
+                    )
+        );
 		
 		//verify loginname if non email login used or data encryption is ON
 		if( $this->config->get('prevent_email_as_login') || $this->dcrypt->active ){
@@ -169,7 +180,13 @@ class ControllerPagesAccountForgotten extends AController {
 		}
 						
 		if ($this->request->is_POST() && $this->_validatePassword()) {
-			//extra check that we have customer details
+
+            if(!$this->csrftoken->isTokenValid()){
+                $this->error['warning'] = $this->language->get('error_unknown');
+                return false;
+            }
+
+            //extra check that we have customer details
 			if (!empty($customer_details['email'])) {
 				$this->loadLanguage('mail/account_forgotten');
 
@@ -224,9 +241,12 @@ class ControllerPagesAccountForgotten extends AController {
 		$form->setForm(array ('form_name' => 'PasswordFrm'));
 		$form_open = $form->getFieldHtml(
 				array (
-						'type'   => 'form',
-						'name'   => 'PasswordFrm',
-						'action' => $this->html->getSecureURL('account/forgotten/reset','&rtoken='.$rtoken)));
+                    'type'   => 'form',
+                    'name'   => 'PasswordFrm',
+                    'action' => $this->html->getSecureURL('account/forgotten/reset','&rtoken='.$rtoken),
+                    'csrf' => true
+                )
+        );
 		$this->view->assign('form_open', $form_open);
 
 		$password = $form->getFieldHtml(
@@ -281,28 +301,30 @@ class ControllerPagesAccountForgotten extends AController {
 		$this->loadModel('account/customer');
 		
 		$customer_details = array();
-		if ($this->request->is_POST() && $this->_find_customer('loginname', $customer_details)) {
-			//extra check that we have customer details
-			if (!empty($customer_details['email'])) {
-				$this->loadLanguage('mail/account_forgotten_login');
-				
-				$subject = sprintf($this->language->get('text_subject'), $this->config->get('store_name'));
-				
-				$message  = sprintf($this->language->get('text_greeting'), $this->config->get('store_name')) . "\n\n";
-				$message .= $this->language->get('text_your_loginname') . "\n\n";
-				$message .= $customer_details['loginname'];
-	
-				$mail = new AMail( $this->config );
-				$mail->setTo($customer_details['email']);
-				$mail->setFrom($this->config->get('store_main_email'));
-				$mail->setSender($this->config->get('store_name'));
-				$mail->setSubject($subject);
-				$mail->setText(html_entity_decode($message, ENT_QUOTES, 'UTF-8'));
-				$mail->send();
-				
-				$this->session->data['success'] = $this->language->get('text_success_loginname');
-				redirect($this->html->getSecureURL('account/login'));
-			}
+		if ($this->request->is_POST()) {
+            if($this->_find_customer('loginname', $customer_details)) {
+                //extra check that we have customer details
+                if (!empty($customer_details['email'])) {
+                    $this->loadLanguage('mail/account_forgotten_login');
+
+                    $subject = sprintf($this->language->get('text_subject'), $this->config->get('store_name'));
+
+                    $message  = sprintf($this->language->get('text_greeting'), $this->config->get('store_name')) . "\n\n";
+                    $message .= $this->language->get('text_your_loginname') . "\n\n";
+                    $message .= $customer_details['loginname'];
+
+                    $mail = new AMail( $this->config );
+                    $mail->setTo($customer_details['email']);
+                    $mail->setFrom($this->config->get('store_main_email'));
+                    $mail->setSender($this->config->get('store_name'));
+                    $mail->setSubject($subject);
+                    $mail->setText(html_entity_decode($message, ENT_QUOTES, 'UTF-8'));
+                    $mail->send();
+
+                    $this->session->data['success'] = $this->language->get('text_success_loginname');
+                    redirect($this->html->getSecureURL('account/login'));
+                }
+            }
 		}
 
       	$this->document->resetBreadcrumbs();
@@ -332,11 +354,14 @@ class ControllerPagesAccountForgotten extends AController {
 
 		$form = new AForm();
         $form->setForm(array( 'form_name' => 'forgottenFrm' ));
-        $this->data['form'][ 'form_open' ] = $form->getFieldHtml(
-                                                                array(
-                                                                       'type' => 'form',
-                                                                       'name' => 'forgottenFrm',
-                                                                       'action' => $this->html->getSecureURL('account/forgotten/loginname')));
+        $this->data['form']['form_open'] = $form->getFieldHtml(
+                        array(
+                            'type' => 'form',
+                            'name' => 'forgottenFrm',
+                            'action' => $this->html->getSecureURL('account/forgotten/loginname'),
+                            'csrf' => true
+                        )
+        );
 		
 		$this->data['help_text'] =  $this->language->get('text_lastname_email');                                                       
 		$this->data['heading_title'] =  $this->language->get('heading_title_loginname');                                                       

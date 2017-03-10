@@ -267,6 +267,7 @@ try {
 	require_once(DIR_CORE . 'lib/listing.php');
 	require_once(DIR_CORE . 'lib/task_manager.php');
 	require_once(DIR_CORE . 'lib/im.php');
+    require_once(DIR_CORE . 'lib/csrf_token.php');
 
 //Admin manager classes
 	if (IS_ADMIN === true) {
@@ -324,6 +325,9 @@ try {
 	if($config->has('current_store_id')){
 		$registry->get('session')->data['current_store_id'] = $config->get('current_store_id');
 	}
+
+// CSRF Token Class
+    $registry->set('csrftoken', new CSRFToken());
 
 // Set up HTTP and HTTPS based automatic and based on config
 	if (IS_ADMIN === true) {

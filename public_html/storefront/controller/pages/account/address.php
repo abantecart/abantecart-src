@@ -280,7 +280,10 @@ class ControllerPagesAccountAddress extends AController{
 				array (
 						'type'   => 'form',
 						'name'   => 'AddressFrm',
-						'action' => $action));
+						'action' => $action,
+                        'csrf' => true,
+                )
+        );
 
 
 		if (isset($this->request->post['firstname'])){
@@ -458,7 +461,11 @@ class ControllerPagesAccountAddress extends AController{
 
 		$this->extensions->hk_ValidateData($this);
 
-		if (!$this->error){
+        if (!$this->csrftoken->isTokenValid()) {
+            $this->error['warning'] = $this->language->get('error_unknown');
+        }
+
+        if (!$this->error){
 			return true;
 		} else{
 			return false;

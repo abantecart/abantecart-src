@@ -42,6 +42,7 @@ class ControllerPagesAccountLogout extends AController {
 			unset($this->session->data['merchant']);
             unset($this->session->data['used_balance']);
             unset($this->session->data['used_balance_full']);
+            unset($this->session->data['csrftoken']);
 
 		    if($this->config->get('config_tax_store')){
 				$country_id = $this->config->get('config_country_id');

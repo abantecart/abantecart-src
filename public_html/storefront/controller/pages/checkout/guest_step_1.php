@@ -179,9 +179,12 @@ class ControllerPagesCheckoutGuestStep1 extends AController{
 		$form->setForm(array ('form_name' => 'guestFrm'));
 		$this->data['form']['form_open'] = $form->getFieldHtml(
 				array (
-						'type'   => 'form',
-						'name'   => 'guestFrm',
-						'action' => $this->html->getSecureURL('checkout/guest_step_1')));
+                    'type'   => 'form',
+                    'name'   => 'guestFrm',
+                    'action' => $this->html->getSecureURL('checkout/guest_step_1'),
+                    'csrf' => true
+                )
+        );
 
 		if (isset($_post['firstname'])){
 			$firstname = $_post['firstname'];
@@ -580,6 +583,11 @@ class ControllerPagesCheckoutGuestStep1 extends AController{
 	}
 
 	private function _validate($data){
+        if(!$this->csrftoken->isTokenValid()){
+            $this->error['warning'] = $this->language->get('error_unknown');
+            return false;
+        }
+
 		if ((mb_strlen($data['firstname']) < 3) || (mb_strlen($data['firstname']) > 32)){
 			$this->error['firstname'] = $this->language->get('error_firstname');
 		}
