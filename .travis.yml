@@ -35,8 +35,6 @@ before_script:
 
 script:
   - phpunit -v -c tests/phpunit/phpunit_$DB.xml
-  - ls /home/travis/.phpenv/versions/7.0.16/bin/phpunit
-  - ls /home/travis/.phpenv/versions/7.0.16/bin/phpunit/phpunit
 
 
 

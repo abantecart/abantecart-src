@@ -1,6 +1,7 @@
 <?php
-require_once ('/home/travis/.phpenv/versions/7.0.16/bin/phpunit/phpunit/Framework/TestCase.php');
-class AbanteCartTest extends PHPUnit_Framework_TestCase {
+require_once ('phpunit/Framework/TestCase.php');
+use PHPUnit\Framework\TestCase;
+class AbanteCartTest extends TestCase {
 	protected $registry;
 	public function __construct() {
 
