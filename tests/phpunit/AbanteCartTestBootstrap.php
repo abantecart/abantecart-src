@@ -1,5 +1,5 @@
 <?php
-require_once ('/home/travis/.phpenv/versions/7.0.16/bin/phpunit/phpunit/Framework/TestCase.php');
+//require_once ('phar:///home/travis/.phpenv/versions/7.0.16/bin/phpunit/phpunit/Framework/TestCase.php');
 use PHPUnit\Framework\TestCase;
 class AbanteCartTest extends TestCase {
 	protected $registry;
