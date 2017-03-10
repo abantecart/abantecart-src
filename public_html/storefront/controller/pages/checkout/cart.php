@@ -76,39 +76,43 @@ class ControllerPagesCheckoutCart extends AController{
 			redirect($this->html->getSecureURL($cart_rt));
 
 		} else if ($this->request->is_POST()){
-
+            $post = $this->request->post;
 			//if this is coupon, validate and apply
-			if (isset($this->request->post['reset_coupon'])){
-				//remove coupon
-				unset($this->session->data['coupon']);
-				$this->data['success'] = $this->language->get('text_coupon_removal');
-				unset($this->session->data['success']);
-				$this->reapplyBalance();
-				//process data
-				$this->extensions->hk_ProcessData($this, 'reset_coupon');
+            if((isset($post['reset_coupon']) || isset($post['coupon'])) && !$this->csrftoken->isTokenValid()){
+                $this->error['error_warning'] = $this->language->get('error_unknown');
+            } else {
+                if (isset($post['reset_coupon'])){
+                    //remove coupon
+                    unset($this->session->data['coupon']);
+                    $this->data['success'] = $this->language->get('text_coupon_removal');
+                    unset($this->session->data['success']);
+                    $this->reapplyBalance();
+                    //process data
+                    $this->extensions->hk_ProcessData($this, 'reset_coupon');
 
-			} else if (isset($this->request->post['coupon']) && $this->_validateCoupon()){
-				$this->session->data['coupon'] = $this->request->post['coupon'];
-				$this->data['success'] = $this->language->get('text_coupon_success');
-				unset($this->session->data['success']);
-				$this->reapplyBalance();
-				//process data
-				$this->extensions->hk_ProcessData($this, 'apply_coupon');
-			}
+                } else if (isset($post['coupon']) && $this->_validateCoupon()){
+                    $this->session->data['coupon'] = $post['coupon'];
+                    $this->data['success'] = $this->language->get('text_coupon_success');
+                    unset($this->session->data['success']);
+                    $this->reapplyBalance();
+                    //process data
+                    $this->extensions->hk_ProcessData($this, 'apply_coupon');
+                }
+            }
 
 			if ($this->error['error_warning']){
 				$error_msg[] = $this->error['error_warning'];
 			}
 
-			if (isset($this->request->post['quantity'])){
+			if (isset($post['quantity'])){
 				//we update cart
-				if (!is_array($this->request->post['quantity'])){
+				if (!is_array($post['quantity'])){
 
 					$this->loadModel('catalog/product', 'storefront');
-					$product_id = $this->request->post['product_id'];
+					$product_id = $post['product_id'];
 
-					if (isset($this->request->post['option'])){
-						$options = $this->request->post['option'];
+					if (isset($post['option'])){
+						$options = $post['option'];
 					} else{
 						$options = array ();
 					}
@@ -176,21 +180,21 @@ class ControllerPagesCheckoutCart extends AController{
 					if ($text_errors = $this->model_catalog_product->validateProductOptions($product_id, $options)){
 						$this->session->data['error'] = $text_errors;
 						//send options values back via _GET
-						$url = '&' . http_build_query(array ('option' => $this->request->post['option']));
-						redirect($this->html->getSecureURL($product_rt, '&product_id=' . $this->request->post['product_id'] . $url));
+						$url = '&' . http_build_query(array ('option' => $post['option']));
+						redirect($this->html->getSecureURL($product_rt, '&product_id=' . $post['product_id'] . $url));
 					}
 
-					$this->cart->add($this->request->post['product_id'], $this->request->post['quantity'], $options);
+					$this->cart->add($post['product_id'], $post['quantity'], $options);
 				} else{
-					foreach ($this->request->post['quantity'] as $key => $value){
+					foreach ($post['quantity'] as $key => $value){
 						$this->cart->update($key, $value);
 					}
 				}
 				$this->_unset_methods_data_in_session();
 			}
 
-			if (isset($this->request->post['remove'])){
-				foreach (array_keys($this->request->post['remove']) as $key){
+			if (isset($post['remove'])){
+				foreach (array_keys($post['remove']) as $key){
 					$this->cart->remove($key);
 				}
 			}
@@ -198,15 +202,15 @@ class ControllerPagesCheckoutCart extends AController{
 			$this->extensions->hk_ProcessData($this);
 
 			//next page is requested after cart update
-			if (isset($this->request->post['next_step'])){
-				redirect($this->html->getSecureURL($this->request->post['next_step']));
+			if (isset($post['next_step'])){
+				redirect($this->html->getSecureURL($post['next_step']));
 			}
 
-			if (isset($this->request->post['redirect'])){
-				$this->session->data['redirect'] = $this->request->post['redirect'];
+			if (isset($post['redirect'])){
+				$this->session->data['redirect'] = $post['redirect'];
 			}
 
-			if (isset($this->request->post['quantity']) || isset($this->request->post['remove'])){
+			if (isset($post['quantity']) || isset($post['remove'])){
 				$this->_unset_methods_data_in_session();
 				redirect($this->html->getSecureURL($cart_rt));
 			}
