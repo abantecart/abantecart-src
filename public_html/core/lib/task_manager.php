@@ -667,7 +667,7 @@ class ATaskManager{
 		$sql = "SELECT *
 				FROM " . $this->db->table('tasks') . " t
 				LEFT JOIN " . $this->db->table('task_details') . " td ON td.task_id = t.task_id
-				WHERE t.task_name = '" . $task_name . "'";
+				WHERE t.name = '" . $task_name . "'";
 		$result = $this->db->query($sql);
 		$output = $result->row;
 		if ($output){
