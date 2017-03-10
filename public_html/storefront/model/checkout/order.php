@@ -301,7 +301,6 @@ class ModelCheckoutOrder extends Model{
 				$sql = "REPLACE INTO " . $this->db->table('order_data') . "
 						(`order_id`, `type_id`, `data`, `date_added`)
 						VALUES (" . (int)$order_id . ", " . (int)$type_id . ", '" . $this->db->escape($im_data) . "', NOW() )";
-		$this->log->write($sql);
 
 				$this->db->query($sql);
 			}
