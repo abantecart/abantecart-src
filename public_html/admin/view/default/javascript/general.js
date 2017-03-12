@@ -701,9 +701,10 @@ $(document).on('click', ".task_run", function () {
     $("body").first().after(modal);
     $('#task_modal').modal({"backdrop": "static", 'show': true});
     $('#task_modal').on('hidden.bs.modal', function(e){
+        if($.xhrPool != null){
             $.xhrPool.abortAll();
         }
-    );
+    });
 
     var progress_html = '<div class="progress_description">Initialization...</div>' +
         '<div class="progress">' +
@@ -733,18 +734,7 @@ $(document).on('click', ".task_run", function () {
         cache:false,
         success: runTaskUI,
         global: false,
-        error: function (xhr, ajaxOptions, thrownError) {
-            try{
-                var err = $.parseJSON(xhr.responseText);
-                if (err.hasOwnProperty("error_text")) {
-                    runTaskShowError(err['error_text']);
-                }else{
-                    runTaskShowError('Error occurred. See error log for details.');
-                }
-            }catch(e){
-                runTaskShowError('Error occurred. See error log for details.');
-            }
-        }
+        error: taskRunError
     });
     return false;
 });
@@ -826,7 +816,7 @@ var runTaskStepsUI = function (task_details) {
                         $('#task_modal .modal-body').html(task_complete_text);
                         task_complete_text = '';
                     },
-                    error: processError
+                    error: taskRunError
                 });
             });
         }
@@ -873,7 +863,7 @@ var runTaskComplete = function (task_id) {
                     $('#task_modal .abort_button').remove();
                 }
             },
-            error: processError,
+            error: taskRunError,
             complete: function(){
                 $('div.progress_description').html('');
             }
@@ -882,22 +872,21 @@ var runTaskComplete = function (task_id) {
     $('#task_modal').data('bs.modal').options.backdrop = true;
 }
 
-var processError = function(xhr, ajaxOptions, thrownError){
+var taskRunError = function (jqXHR, textStatus, errorThrown) {
     var error_txt = '';
     try { //when server response is json formatted string
-        var err = $.parseJSON(xhr.responseText);
+        var err = $.parseJSON(jqXHR.responseText);
         if (err.hasOwnProperty("error_text")) {
             runTaskShowError(err.error_text);
         } else {
-            error_txt = getErrorTextByXHR(xhr);
+            error_txt = getErrorTextByXHR(jqXHR);
             runTaskShowError(error_txt);
         }
     } catch (e) {
-        error_txt = getErrorTextByXHR(xhr);
+        error_txt = getErrorTextByXHR(jqXHR);
         runTaskShowError(error_txt);
     }
 }
-
 
 var runTaskShowError = function (error_text) {
     $('#task_modal .modal-body').html('<div class="alert alert-danger" role="alert">' + error_text + '</div>');

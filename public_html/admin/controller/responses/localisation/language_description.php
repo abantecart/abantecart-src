@@ -40,28 +40,37 @@ class ControllerResponsesLocalisationLanguageDescription extends AController{
 			if (!$task_details){
 				$this->errors = array_merge($this->errors, $this->model_localisation_language->errors);
 				$error = new AError('translation task error');
-				return $error->toJSONResponse('APP_ERROR_402',
-						array ('error_text'  => implode(' ', $this->errors),
-						       'reset_value' => true
-						));
+				return $error->toJSONResponse(
+				    'APP_ERROR_402',
+                    array (
+                        'error_text'  => implode(' ', $this->errors),
+                        'reset_value' => true
+                    )
+                );
 			} elseif (!$task_api_key){
 				$error = new AError('translation task error');
-				return $error->toJSONResponse('APP_ERROR_402',
-						array ('error_text'  => 'Please set up Task API Key in the settings!',
-						       'reset_value' => true
-						));
-			} else{
+				return $error->toJSONResponse(
+				    'APP_ERROR_402',
+                    array (
+                        'error_text'  => 'Please set up Task API Key in the settings!',
+                        'reset_value' => true
+                    )
+                );
+			} else {
 				$task_details['task_api_key'] = $task_api_key;
 				$task_details['url'] = HTTPS_SERVER . 'task.php';
 				$this->data['output']['task_details'] = $task_details;
 			}
 
-		}else{
+		} else {
 			$error = new AError('translation task error');
-			return $error->toJSONResponse('APP_ERROR_402',
-									array ('error_text'  => implode(' ', $this->errors),
-									       'reset_value' => true
-									));
+			return $error->toJSONResponse(
+			    'APP_ERROR_402',
+                array (
+                    'error_text'  => implode(' ', $this->errors),
+                    'reset_value' => true
+                )
+            );
 		}
 
 		//update controller data
@@ -86,7 +95,7 @@ class ControllerResponsesLocalisationLanguageDescription extends AController{
 
 		if (!$this->errors){
 			return true;
-		} else{
+		} else {
 			return false;
 		}
 	}
@@ -195,13 +204,16 @@ class ControllerResponsesLocalisationLanguageDescription extends AController{
 		if ($task_info){
 			$tm->deleteTask($task_id);
 			$result_text = $this->language->get('text_success_abort');
-		} else{
+		} else {
 			$error_text = 'Task #' . $task_id . ' not found!';
 			$error = new AError($error_text);
-			return $error->toJSONResponse('APP_ERROR_402',
-					array ('error_text'  => $error_text,
-					       'reset_value' => true
-					));
+			return $error->toJSONResponse(
+			    'APP_ERROR_402',
+                array (
+                    'error_text'  => $error_text,
+                    'reset_value' => true
+                )
+            );
 		}
 
 		//update controller data
@@ -209,9 +221,13 @@ class ControllerResponsesLocalisationLanguageDescription extends AController{
 
 		$this->load->library('json');
 		$this->response->addJSONHeader();
-		$this->response->setOutput(AJson::encode(array (
-				'result'      => true,
-				'result_text' => $result_text))
+		$this->response->setOutput(
+		    AJson::encode(
+		        array (
+				    'result'      => true,
+				    'result_text' => $result_text
+                )
+            )
 		);
 	}
 
@@ -240,16 +256,22 @@ class ControllerResponsesLocalisationLanguageDescription extends AController{
 				}
 				$error_text = "Error: Cannot to restart task #" . $task_id . '. Task removed.';
 				$error = new AError($error_text);
-				return $error->toJSONResponse('APP_ERROR_402',
-						array ('error_text'  => $error_text,
-						       'reset_value' => true
-						));
+				return $error->toJSONResponse(
+				    'APP_ERROR_402',
+                    array (
+                        'error_text'  => $error_text,
+                        'reset_value' => true
+                    )
+                );
 			} elseif (!$task_api_key){
 				$error = new AError('files backup error');
-				return $error->toJSONResponse('APP_ERROR_402',
-						array ('error_text'  => 'Please set up Task API Key in the settings!',
-						       'reset_value' => true
-						));
+				return $error->toJSONResponse(
+				    'APP_ERROR_402',
+                    array (
+                        'error_text'  => 'Please set up Task API Key in the settings!',
+                        'reset_value' => true
+                    )
+                );
 			} else{
 				$task_details['task_api_key'] = $task_api_key;
 				$task_details['url'] = HTTPS_SERVER . 'task.php';
@@ -266,10 +288,13 @@ class ControllerResponsesLocalisationLanguageDescription extends AController{
 
 		} else{
 			$error = new AError(implode('<br>', $this->errors));
-			return $error->toJSONResponse('VALIDATION_ERROR_406',
-					array ('error_text'  => 'Unknown task ID.',
-					       'reset_value' => true
-					));
+			return $error->toJSONResponse(
+			    'VALIDATION_ERROR_406',
+                array (
+                    'error_text'  => 'Unknown task ID.',
+                    'reset_value' => true
+                )
+            );
 		}
 
 		//update controller data
@@ -280,6 +305,5 @@ class ControllerResponsesLocalisationLanguageDescription extends AController{
 		$this->response->setOutput(AJson::encode($this->data['output']));
 
 	}
-
 
 }
