@@ -1,57 +1,5 @@
-<?php if($saved_cc_list) { ?>
-<div class="saved_cards">
-<form id="stripe_saved_cc" class="validate-creditcard">
-<h4 class="heading4"><?php echo $text_saved_credit_card; ?></h4>
-
-	<div class="form-group form-inline">
-		<span class="subtext"><?php echo $entry_billing_address; ?>: <?php echo $payment_address; ?>...</span>
-		<div class="col-sm-2 input-group">
-			<a href="<?php echo $edit_address; ?>" class="btn btn-default btn-sm">
-				<i class="fa fa-edit fa-fw"></i>
-				<?php echo $entry_edit; ?>
-			</a>
-		</div>
-	</div>
-
-	<div class="form-group form-inline">
-	    <div class="col-sm-6 input-group">
-	    	<?php echo $saved_cc_list; ?>
-	    </div>
-		<div class="col-sm-2 input-group">
-			<a id="delete_card" class="btn btn-default btn-sm" title="<?php echo $text_delete_saved_credit_card; ?>">
-				<i class="fa fa-trash-o fa-fw"></i>
-				<?php echo $text_delete_saved_credit_card; ?>
-			</a>
-	    </div>
-		<div class="col-sm-2 input-group">
-			<a id="new_card" class="btn btn-info btn-sm" title="<?php echo $text_new_credit_card; ?>">
-				<i class="fa fa-plus fa-fw"></i>
-				<?php echo $text_new_credit_card; ?>
-			</a>
-		</div>
-	</div>
-
-	<div class="form-group action-buttons text-center">
-		<a id="<?php echo $back->name ?>" href="<?php echo $back->href; ?>" class="btn btn-default mr10">
-			<i class="fa fa-arrow-left"></i>
-			<?php echo $back->text ?>
-		</a>
-		<button id="<?php echo $submit->name ?>" class="btn btn-orange" title="<?php echo $submit->text ?>" type="submit">
-			<i class="fa fa-check"></i>
-			<?php echo $submit->text; ?>
-		</button>
-	</div>
-	
-</form>
-
-</div>
-
-<div class="enter_card" style="display:none;">
-<?php } else { ?>
-
 <div class="enter_card">
-<?php } ?>
-<form id="stripe" class="validate-creditcard">
+<?php echo $form_open; ?>
 <h4 class="heading4"><?php echo $text_credit_card; ?></h4>
 
 	<?php echo $this->getHookVar('payment_table_pre'); ?>
@@ -152,7 +100,7 @@ jQuery(document).ready(function() {
 				try { resetLockBtn(); } catch (e){}
 				return false;
 			} else {
-				confirmSubmit($form, '<?php echo $this->html->getURL('extension/default_stripe/send');?>');
+				confirmSubmit($form, '<?php echo $action; ?>');
 				return false;
 			}
 		}

@@ -70,15 +70,19 @@ class ControllerResponsesExtensionDefaultLiqPay extends AController{
 
 		$form = new AForm();
 		$form->setForm(array('form_name' => 'checkout'));
-		$data['form']['form_open'] = $form->getFieldHtml(array('type'   => 'form',
-															   'name'   => 'checkout',
-															   'action' => 'https://www.liqpay.com/api/checkout'
+		$data['form']['form_open'] = $form->getFieldHtml(
+		    array(
+		        'type'   => 'form',
+                'name'   => 'checkout',
+                'action' => 'https://www.liqpay.com/api/checkout'
 		));
 
 		foreach($params as $k=>$val){
-			$data['form']['fields'][$k] = $form->getFieldHtml(array('type'  => 'hidden',
-																	'name'  => $k,
-																	'value' => $val
+			$data['form']['fields'][$k] = $form->getFieldHtml(
+			    array(
+			        'type'  => 'hidden',
+                    'name'  => $k,
+                    'value' => $val
 			));
 		}
 
