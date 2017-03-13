@@ -784,9 +784,9 @@ class ALanguageManager extends Alanguage{
 
 			$translate_driver = new translator($this->registry->get('config'));
 			$result_txt = $translate_driver->translate($source_lang_code, $src_text, $dest_lang_code);
-			//extension driver cannot respond the source text!
-			if (!$result_txt || $result_txt == $src_text){
-				$result_txt = null;
+			//fail over to default 'copy_source_text' method
+			if (!$result_txt && $mode == 'safe'){
+				$result_txt = $src_text;
 			}
 			ADebug::checkpoint("ALanguageManager: Translated text:" . $src_text . " from " . $source_lang_code . " to " . $dest_lang_code);
 		} else{
