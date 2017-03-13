@@ -1216,6 +1216,6 @@ dl {
     margin-top: 0;
 }
 
-.modal-body div.alert-success{
+.modal-body div.alert-success, .modal-body div.alert-danger {
    overflow: auto;
 }
