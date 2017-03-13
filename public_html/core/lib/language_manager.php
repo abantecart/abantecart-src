@@ -791,7 +791,7 @@ class ALanguageManager extends Alanguage{
 			ADebug::checkpoint("ALanguageManager: Translated text:" . $src_text . " from " . $source_lang_code . " to " . $dest_lang_code);
 		} else{
 			//fail over to default 'copy_source_text' method
-			if($mode == 'safe'){
+			if($mode == 'safe' || $translate_method == 'copy_source_text'){
 				$result_txt = (string)$src_text;
 			}
 		}

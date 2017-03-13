@@ -68,4 +68,16 @@
 		<key>text_task_started</key>
 		<value><![CDATA[ Task started]]></value>
 	</definition>
+	<definition>
+		<key>text_task_not_found</key>
+		<value><![CDATA[ Task not Found.]]></value>
+	</definition>
+	<definition>
+		<key>text_empty_task</key>
+		<value><![CDATA[ Task does not contains steps. Removed.]]></value>
+	</definition>
+	<definition>
+		<key>text_forbidden_to_restart</key>
+		<value><![CDATA[ Forbidden To restart!]]></value>
+	</definition>
 </definitions>

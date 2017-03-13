@@ -132,49 +132,75 @@ class ControllerResponsesListingGridTask extends AController {
 		$this->extensions->hk_InitData($this,__FUNCTION__);
 
 		$this->load->library('json');
+		$this->load->language('tool/task');
 		$this->response->addJSONHeader();
+		$task_id = (int)$this->request->post_or_get('task_id');
+		$tm = new ATaskManager();
+		$task = $tm->getTaskById($task_id);
 
-		if(has_value($this->request->post_or_get('task_id'))){
-			$tm = new ATaskManager();
-			$task = $tm->getTaskById($this->request->post_or_get('task_id'));
-
-			//check
-			if($task && in_array($task['status'],
-								 array($tm::STATUS_RUNNING, $tm::STATUS_FAILED,$tm::STATUS_COMPLETED,$tm::STATUS_INCOMPLETE))){
-
-				//then two scenarios:
-				$restart_all = false;
-				//if some of steps have sign for interruption on fail - restart whole task
-				foreach($task['steps'] as $step){
-					if($step['settings']['interrupt_on_step_fault'] === true){
-						$restart_all = true;
-						break;
-					}
-				}
-				//if task with standalone steps - remove successful steps from task before restart
-				if(!$restart_all){
-					foreach($task['steps'] as &$step){
-						if($step['last_result']==1){
-							$tm->deleteStep($step['step_id']);
-							unset($step);
-						}
-					}
-				}
-				//mark all remained step as ready for run
-				foreach($task['steps'] as $step){
-					$tm->updateStep($step['step_id'], array('status'=> $tm::STATUS_READY));
-				}
-
-				$tm->updateTask($task['task_id'], array(
-													'status' => $tm::STATUS_READY,
-													'start_time' => date('Y-m-d H:i:s')
-													));
-				$task_id = $task['task_id'];
-			}
-			$this->_run_task($task_id);
-		}else{
-			$this->response->setOutput(AJson::encode(array('result'=> false)));
+		if(!$task_id || !$task){
+			$err = new AError('Task runtime error');
+			return $err->toJSONResponse(
+						'APP_ERROR_402',
+						array( 'error_text' => $this->language->get('text_task_not_found'))
+					);
 		}
+
+		//remove task without steps
+		if(!$task['steps']){
+			$tm->deleteTask($task_id);
+			$err = new AError('Task runtime error');
+			return $err->toJSONResponse(
+						'APP_ERROR_402',
+						array( 'error_text' => $this->language->get('text_empty_task'))
+					);
+		}
+
+		//check status
+		if(!in_array($task['status'],
+							 array(
+							         $tm::STATUS_RUNNING,
+									 $tm::STATUS_FAILED,
+									 $tm::STATUS_COMPLETED,
+									 $tm::STATUS_INCOMPLETE))
+		){
+			$err = new AError('Task runtime error');
+			return $err->toJSONResponse(
+						'APP_ERROR_402',
+						array( 'error_text' => $this->language->get('text_forbidden_to_restart'))
+					);
+		}
+
+
+
+		//then two scenarios:
+		$restart_all = false;
+		//if some of steps have sign for interruption on fail - restart whole task
+		foreach($task['steps'] as $step){
+			if($step['settings']['interrupt_on_step_fault'] === true){
+				$restart_all = true;
+				break;
+			}
+		}
+		//if task with standalone steps - remove successful steps from task before restart
+		if(!$restart_all){
+			foreach($task['steps'] as &$step){
+				if($step['last_result']==1){
+					$tm->deleteStep($step['step_id']);
+					unset($step);
+				}
+			}
+		}
+		//mark all remained step as ready for run
+		foreach($task['steps'] as $step){
+			$tm->updateStep($step['step_id'], array('status'=> $tm::STATUS_READY));
+		}
+
+		$tm->updateTask($task_id, array(
+											'status' => $tm::STATUS_READY,
+											'start_time' => date('Y-m-d H:i:s')
+											));
+		$this->_run_task($task_id);
 
 
 		//update controller data
