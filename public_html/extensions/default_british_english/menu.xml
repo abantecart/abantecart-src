@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>text_index_home_menu</key>
+    <value><![CDATA[Home]]></value>
+  </definition>
+  <definition>
+    <key>text_product_special_menu</key>
+    <value><![CDATA[Specials]]></value>
+  </definition>
+  <definition>
+    <key>text_account_account_menu</key>
+    <value><![CDATA[Account]]></value>
+  </definition>
+  <definition>
+    <key>text_checkout_cart_menu</key>
+    <value><![CDATA[Cart]]></value>
+  </definition>
+  <definition>
+    <key>text_checkout_shipping_menu</key>
+    <value><![CDATA[Checkout]]></value>
+  </definition>
+</definitions>
