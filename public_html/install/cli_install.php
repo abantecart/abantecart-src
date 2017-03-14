@@ -25,16 +25,16 @@
  * cd install
  *
  *    php cli_install.php install 
- *                               --db_hostname localhost
- *                                --db_username root
- *                                --db_password pass
- *                                --db_database abantecart
- *                                --db_driver mysqli
- *                                --db_port 3306
- *                                --username admin
- *                                --password admin
- *                                --email youremail@example.com
- *                               --http_server http://localhost/abantecart
+ *                               --db_hostname=localhost
+ *                                --db_username=root
+ *                                --db_password=pass
+ *                                --db_database=abantecart
+ *                                --db_driver=mysqli
+ *                                --db_port=3306
+ *                                --username=admin
+ *                                --password=admin
+ *                                --email=youremail@example.com
+ *                               --http_server=http://localhost/abantecart
  */
 
 ini_set('register_argc_argv', 1);
