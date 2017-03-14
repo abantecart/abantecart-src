@@ -305,7 +305,7 @@ class ModelCatalogProduct extends Model{
 										AND p2s.store_id = '" . $store_id . "'"
             );
 
-            $cache = $query->row['total'];;
+            $cache = $query->row['total'];
             $this->cache->push($cache_key, $cache);
         }
 
@@ -970,6 +970,27 @@ class ModelCatalogProduct extends Model{
 
 		return $result;
 	}
+
+    /**
+     * Quick check if there are any optioins for the product
+     *
+     * @param int $product_id
+     * @return boolean
+     */
+    public function hasAnyOptions($product_id){
+        return true;
+        if (!(int)$product_id) {
+            return null;
+        }
+        $query = $this->db->query(
+            "SELECT count(*) as total FROM " . $this->db->table("product_options") . " WHERE product_id = '" . (int)$product_id . "'"
+        );
+        if($query->row['total'] > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 
 	/**
 	 * @param int $product_id
