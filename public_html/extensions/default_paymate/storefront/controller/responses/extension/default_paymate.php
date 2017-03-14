@@ -107,6 +107,7 @@ class ControllerResponsesExtensionDefaultPaymate extends AController{
 					$encryption = new AEncryption($this->config->get('encryption_key'));
 
 					$order_id = $encryption->decrypt($this->request->get['oid']);
+					if(!$order_id){ exit; }
 
 					$this->load->model('checkout/order');
 
@@ -127,7 +128,7 @@ class ControllerResponsesExtensionDefaultPaymate extends AController{
 			$error = $this->language->get('text_unable');
 		}
 
-		if ($error != ''){
+		if ($error){
 			$this->data['heading_title'] = $this->language->get('text_failed');
 			$this->data['text_message'] = sprintf($this->language->get('text_failed_message'), $error, $this->html->getURL('content/contact'));
 			$this->data['button_continue'] = $this->language->get('button_continue');
@@ -136,7 +137,7 @@ class ControllerResponsesExtensionDefaultPaymate extends AController{
 			$this->view->batchAssign($this->data);
 			$this->processTemplate($this->config->get('config_storefront_template') . 'common/success.tpl');
 		} else{
-			$this->redirect($this->html->getSecureURL('checkout/success'));
+			redirect($this->html->getSecureURL('checkout/success'));
 		}
 	}
 }

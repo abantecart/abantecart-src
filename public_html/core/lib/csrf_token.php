@@ -24,6 +24,8 @@ if (!defined('DIR_CORE')){
 /**
  * Class to handle CSRF Token
  *
+ * @property ASession $session
+ * @property ARequest $request
  */
 
 class CSRFToken{
@@ -33,11 +35,11 @@ class CSRFToken{
 	 */
 	protected $registry;
     /**
-     * @var CSRF token
+     * @var string CSRF-token
      */
     private $token;
     /**
-     * @var CSRF token instance
+     * @var int CSRF-token instance
      */
     private $instance;
 

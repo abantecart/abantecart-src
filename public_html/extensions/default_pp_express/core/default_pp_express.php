@@ -263,7 +263,7 @@ class ExtensionDefaultPPExpress extends Extension {
 				if ( strpos($that->config->get('default_pp_express_custom_logo'), 'http')===0 ) {
 					$custom_logo = $that->config->get('default_pp_express_custom_logo');
 				} else {
-					$custom_logo = HTTPS_SERVER . $that->config->get('default_pp_express_custom_logo');
+					$custom_logo = HTTPS_SERVER . 'resources/' . $that->config->get('default_pp_express_custom_logo');
 				}
 
 				$payment_data['LOGOIMG'] = $custom_logo;
@@ -472,7 +472,7 @@ class ExtensionDefaultPPExpress extends Extension {
 				if ( strpos($that->config->get('default_pp_express_custom_logo'), 'http')===0 ) {
 					$custom_logo = $that->config->get('default_pp_express_custom_logo');
 				} else {
-					$custom_logo = HTTPS_SERVER . $that->config->get('default_pp_express_custom_logo');
+					$custom_logo = HTTPS_SERVER . 'resources/' . $that->config->get('default_pp_express_custom_logo');
 				}
 
 				$payment_data['LOGOIMG'] = $custom_logo;

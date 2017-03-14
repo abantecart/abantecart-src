@@ -107,7 +107,12 @@ class ControllerResponsesExtension2Checkout extends AController{
 
 	public function callback(){
 		if ($this->request->is_GET()){
-			$this->redirect($this->html->getNonSecureURL('index/home'));
+			redirect($this->html->getNonSecureURL('index/home'));
+		}
+		$post = $this->request->post;
+		// hash check
+		if (!md5($post['sale_id'] . $this->config->get('2checkout_account') . $post['invoice_id'] . $this->config->get('2checkout_secret')) == strtolower($post['md5_hash'])){
+			exit;
 		}
 
 		$this->load->model('checkout/order');
@@ -117,15 +122,7 @@ class ControllerResponsesExtension2Checkout extends AController{
 		if (!$order_info){
 			return null;
 		}
-
-		$post = $this->request->post;
-
 		$this->load->model('extension/2checkout');
-		// hash check
-		if (!md5($post['sale_id'] . $this->config->get('2checkout_account') . $post['invoice_id'] . $this->config->get('2checkout_secret')) == strtolower($post['md5_hash'])){
-			exit;
-		}
-
 		if ($post['message_type'] == 'ORDER_CREATED'){
 			$this->model_checkout_order->confirm((int)$post['vendor_order_id'], $this->config->get('2checkout_order_status_id'));
 		} elseif ($post['message_type'] == 'REFUND_ISSUED'){
@@ -138,7 +135,7 @@ class ControllerResponsesExtension2Checkout extends AController{
 			$order_status_id = $this->model_extension_2checkout->getOrderStatusIdByName('complete');
 			$this->model_checkout_order->update((int)$post['vendor_order_id'], $order_status_id, 'Status changed by 2Checkout INS');
 		} else{
-			$this->redirect($this->html->getSecureURL('checkout/confirm'));
+			redirect($this->html->getSecureURL('checkout/confirm'));
 		}
 	}
 }
