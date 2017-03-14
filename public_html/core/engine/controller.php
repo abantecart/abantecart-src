@@ -101,6 +101,7 @@ if (!defined('DIR_CORE')){
  * @property ADownload $download
  * @property AOrderStatus $order_status
  * @property AIMManager $im
+ * @property CSRFToken $csrftoken
  */
 abstract class AController{
 	protected $registry;
