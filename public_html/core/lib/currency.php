@@ -175,7 +175,7 @@ final class ACurrency{
 	 * @param string $currency
 	 * @param string $crr_value
 	 * @param bool $format
-	 * @return string
+	 * @return string|float
 	 */
 	public function format($number, $currency = '', $crr_value = '', $format = true){
 		if (empty ($currency)){
