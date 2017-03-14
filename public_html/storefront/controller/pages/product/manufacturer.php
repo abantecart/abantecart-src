@@ -158,9 +158,7 @@ class ControllerPagesProductManufacturer extends AController {
 						}						
 					}
 					
-					$options = $products_info[$result['product_id']]['options'];
-					
-					if ($options) {
+					if ($products_info[$result['product_id']]['options']) {
 						$add = $this->html->getSEOURL('product/product', '&product_id=' . $result['product_id'], '&encode');
 					} else {
                         if($this->config->get('config_cart_ajax')){
@@ -194,7 +192,7 @@ class ControllerPagesProductManufacturer extends AController {
 						'thumb'   => $thumbnail,
             			'price'   => $price,
 						'call_to_order'=> $result['call_to_order'],
-            			'options' => $options,
+            			'options' => $products_info[$result['product_id']]['options'],
 						'special' => $special,
 						'href'    => $this->html->getSEOURL('product/product','&manufacturer_id=' . $request['manufacturer_id'] . '&product_id=' . $result['product_id'], '&encode'),
 						'add'	  => $add,
@@ -280,13 +278,13 @@ class ControllerPagesProductManufacturer extends AController {
 					'value' => 'date_modified-ASC',
 					'href'  => $this->html->getSEOURL('product/manufacturer','&manufacturer_id=' . $request['manufacturer_id'] . '&sort=date_modified&order=ASC', '&encode')
 				);
-				$options = array();
+                $sort_options = array();
 				foreach($sorts as $item){
-					$options[$item['value']] = $item['text'];
+                    $sort_options[$item['value']] = $item['text'];
 				}
 				$sorting = $this->html->buildSelectbox( array (
 													 'name' => 'sort',
-													 'options'=> $options,
+													 'options'=> $sort_options,
 													 'value'=> $sort.'-'.$order
 													 ) );
 				$this->view->assign( 'sorting', $sorting );

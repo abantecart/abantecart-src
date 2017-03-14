@@ -69,7 +69,7 @@ class ControllerPagesProductSpecial extends AController {
 
         if (isset($request['limit'])) {
             $limit = (int)$request['limit'];
-            $limit = $limit>50 ? 50 : $limit;
+            $limit = $limit > 50 ? 50 : $limit;
         } else {
             $limit = $this->config->get('config_catalog_limit');
         }
@@ -142,7 +142,6 @@ class ControllerPagesProductSpecial extends AController {
                 }
 
                 $options = $this->model_catalog_product->getProductOptions($result['product_id']);
-
                 if ($options) {
                     $add = $this->html->getSEOURL('product/product','&product_id=' . $result['product_id'], '&encode');
                 } else {
@@ -253,16 +252,18 @@ class ControllerPagesProductSpecial extends AController {
 				'href'  => $this->html->getSEOURL('product/special', $url . '&sort=date_modified&order=ASC', '&encode')
 			);
 
-			$options = array();
-				foreach($sorts as $item){
-					$options[$item['value']] = $item['text'];
-				}
-			$sorting = $this->html->buildElement( array (
-				'type' => 'selectbox',
-                 'name' => 'sort',
-                 'options'=> $options,
-                 'value'=> $sort.'-'.$order
-                 ) );
+			$sort_options = array();
+            foreach($sorts as $item){
+                $sort_options[$item['value']] = $item['text'];
+            }
+			$sorting = $this->html->buildElement(
+			    array (
+				    'type' => 'selectbox',
+                    'name' => 'sort',
+                    'options'=> $sort_options,
+                    'value'=> $sort.'-'.$order
+                )
+            );
 
 			$this->view->assign('sorting', $sorting );
 			$this->view->assign('url', $this->html->getURL('product/special') );
