@@ -20,4 +20,16 @@
     <key>text_checkout_shipping_menu</key>
     <value><![CDATA[Checkout]]></value>
   </definition>
+  <definition>
+    <key>text_account_login_menu</key>
+    <value><![CDATA[Login]]></value>
+  </definition>
+  <definition>
+    <key>text_account_invoice_menu</key>
+    <value><![CDATA[Check Your Order]]></value>
+  </definition>
+  <definition>
+    <key>text_account_logout_menu</key>
+    <value><![CDATA[Logout]]></value>
+  </definition>
 </definitions>
