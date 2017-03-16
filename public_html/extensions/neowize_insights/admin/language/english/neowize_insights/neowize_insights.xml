@@ -8,8 +8,4 @@
     <key>neowize_insights_status</key>
     <value><![CDATA[Status]]></value>
   </definition>
-  <definition>
-    <key>neowize_insights_note</key>
-    <value><![CDATA[]]></value>
-  </definition>
 </definitions>

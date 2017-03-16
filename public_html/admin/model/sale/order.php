@@ -30,6 +30,7 @@ if (!defined('DIR_CORE') || !IS_ADMIN){
 class ModelSaleOrder extends Model{
 	/**
 	 * @param array $data
+	 * @return int
 	 */
 	public function addOrder($data){
 		//encrypt order data
