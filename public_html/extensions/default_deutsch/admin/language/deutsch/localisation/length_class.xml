@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Längenklassen]]></value>
+  </definition>
+  <definition>
+    <key>text_class</key>
+    <value><![CDATA[Länge Klasse]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Erfolg: Sie haben Längenklassen geändert!]]></value>
+  </definition>
+  <definition>
+    <key>column_title</key>
+    <value><![CDATA[Länge Titel]]></value>
+  </definition>
+  <definition>
+    <key>column_unit</key>
+    <value><![CDATA[Länge Einheit]]></value>
+  </definition>
+  <definition>
+    <key>column_value</key>
+    <value><![CDATA[Wert]]></value>
+  </definition>
+  <definition>
+    <key>column_action</key>
+    <value><![CDATA[Aktion]]></value>
+  </definition>
+  <definition>
+    <key>entry_title</key>
+    <value><![CDATA[Länge Titel:]]></value>
+  </definition>
+  <definition>
+    <key>entry_unit</key>
+    <value><![CDATA[Länge Einheit:]]></value>
+  </definition>
+  <definition>
+    <key>entry_value</key>
+    <value><![CDATA[Wert: <br/><span class="help">Set auf 1,00000 wenn dies Ihre Standardlänge.</span>]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Warnung: Sie haben keine Berechtigung, Längenklassen zu ändern!]]></value>
+  </definition>
+  <definition>
+    <key>error_title</key>
+    <value><![CDATA[Länge Titel muss zwischen 2 und 32 Zeichen lang sein!]]></value>
+  </definition>
+  <definition>
+    <key>error_unit</key>
+    <value><![CDATA[Länge Einheit muss zwischen 1 und 4 Zeichen lang sein!]]></value>
+  </definition>
+  <definition>
+    <key>error_default</key>
+    <value><![CDATA[Achtung: Diese Länge Klasse kann nicht gelöscht werden, da es zur Zeit als Standardspeicher Länge Klasse zugeordnet ist!]]></value>
+  </definition>
+  <definition>
+    <key>error_product</key>
+    <value><![CDATA[Achtung: Diese Länge Klasse nicht gelöscht werden kann, wie es derzeit %s Produkte zugeordnet!]]></value>
+  </definition>
+</definitions>

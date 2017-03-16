@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Installation / Upgrade-Geschichte]]></value>
+  </definition>
+  <definition>
+    <key>column_type</key>
+    <value><![CDATA[Art]]></value>
+  </definition>
+  <definition>
+    <key>column_date_added</key>
+    <value><![CDATA[Datum hinzugefügt]]></value>
+  </definition>
+  <definition>
+    <key>column_name</key>
+    <value><![CDATA[Package Key]]></value>
+  </definition>
+  <definition>
+    <key>column_version</key>
+    <value><![CDATA[Version]]></value>
+  </definition>
+  <definition>
+    <key>column_backup_date</key>
+    <value><![CDATA[Backup-Datum]]></value>
+  </definition>
+  <definition>
+    <key>column_backup_file</key>
+    <value><![CDATA[Sicherungskopie]]></value>
+  </definition>
+  <definition>
+    <key>column_user</key>
+    <value><![CDATA[Benutzername]]></value>
+  </definition>
+  <definition>
+    <key>text_download</key>
+    <value><![CDATA[zum Download-Datei]]></value>
+  </definition>
+  <definition>
+    <key>text_delete_history</key>
+    <value><![CDATA[Verlauf löschen]]></value>
+  </definition>
+  <definition>
+    <key>text_delete_success</key>
+    <value><![CDATA[Ihre Installation / Upgrade-Geschichte wurde erfolgreich gelöscht.]]></value>
+  </definition>
+</definitions>

@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Geteilt Downloads]]></value>
+  </definition>
+  <definition>
+    <key>text_download</key>
+    <value><![CDATA[Gemeinsames herunterladen]]></value>
+  </definition>
+  <definition>
+    <key>insert_title</key>
+    <value><![CDATA[Insert herunterladen]]></value>
+  </definition>
+  <definition>
+    <key>update_title</key>
+    <value><![CDATA[Update Download]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Erfolg: Sie haben modifizierte Downloads!]]></value>
+  </definition>
+  <definition>
+    <key>column_name</key>
+    <value><![CDATA[Download-Name]]></value>
+  </definition>
+  <definition>
+    <key>column_remaining</key>
+    <value><![CDATA[Anzahl der Downloads erlaubt]]></value>
+  </definition>
+  <definition>
+    <key>column_action</key>
+    <value><![CDATA[Aktion]]></value>
+  </definition>
+  <definition>
+    <key>entry_name</key>
+    <value><![CDATA[Download-Name:]]></value>
+  </definition>
+  <definition>
+    <key>entry_filename</key>
+    <value><![CDATA[Dateiname:]]></value>
+  </definition>
+  <definition>
+    <key>entry_remaining</key>
+    <value><![CDATA[Anzahl der Downloads erlaubt:]]></value>
+  </definition>
+  <definition>
+    <key>entry_update</key>
+    <value><![CDATA[Push - to - Zurück Kunden: <br/><span class="help">Überprüfen</span> Sie <span class="help">dies auch zuvor gekauften Versionen zu aktualisieren.</span>]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Warnung: Sie haben keine Berechtigung Downloads zu ändern!]]></value>
+  </definition>
+  <definition>
+    <key>error_name</key>
+    <value><![CDATA[Der Name muss zwischen 2 und 64 Zeichen lang sein!]]></value>
+  </definition>
+  <definition>
+    <key>error_file</key>
+    <value><![CDATA[Bitte stellen Sie die Datei zum Download bereit.]]></value>
+  </definition>
+  <definition>
+    <key>error_product</key>
+    <value><![CDATA[Achtung: Dieser Download kann nicht gelöscht werden, da es derzeit %s Produkte zugeordnet!]]></value>
+  </definition>
+  <definition>
+    <key>column_image</key>
+    <value><![CDATA[Bild]]></value>
+  </definition>
+  <definition>
+    <key>column_products_count</key>
+    <value><![CDATA[Produkte zählen]]></value>
+  </definition>
+</definitions>

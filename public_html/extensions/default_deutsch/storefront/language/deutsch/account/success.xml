@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Ihr Konto wurde erstellt!]]></value>
+  </definition>
+  <definition>
+    <key>text_message</key>
+    <value><![CDATA[<p> Glückwünsche! Ihr neues Konto wurde erfolgreich erstellt! </p><p> Sie können jetzt die Vorteile der Mitgliedsrechte nehmen Ihre Online-Shopping-Erlebnis mit uns zu verbessern. </p><p> Wenn Sie Fragen zu den Betrieb dieses Online-Shop haben, mailen Sie bitte den Ladenbesitzer. </p><p> Eine Bestätigung wurde an die angegebene E-Mail-Adresse gesendet. Wenn Sie es nicht innerhalb einer Stunde erhalten, wenden Sie sich bitte mit <a href="%s">uns</a> in <a href="%s">Verbindung</a>. </p>]]></value>
+  </definition>
+  <definition>
+    <key>text_approval</key>
+    <value><![CDATA[<p> Vielen Dank für Ihre Registrierung mit %s! </p><p> Sie werden per E-Mail benachrichtigt werden, sobald Ihr Konto wurde von dem Ladenbesitzer aktiviert. </p><p> Wenn Sie Fragen zu den Betrieb dieses Online - Shop haben, wenden Sie sich bitte <a href="%s">an den Händler</a> , <a href="%s">Eigentümer</a>. </p>]]></value>
+  </definition>
+  <definition>
+    <key>text_activate</key>
+    <value><![CDATA[<p> Vielen Dank für Ihre Registrierung mit %s! </p><p> Sie werden per E-Mail mit Ihrem Konto Anweisungen für die Aktivierung benachrichtigt. Sie müssen auf den Link in der E-Mail klicken Sie auf Ihr Konto zu aktivieren. Wenn Sie keine E-Mail erhalten, überprüfen Sie bitte Ihren Trödel- oder Spamordner. </p><p> Wenn Sie Fragen zu den Betrieb dieses Online - Shop haben, wenden Sie sich bitte <a href="%s">an den Händler</a> , <a href="%s">Eigentümer</a>. </p>]]></value>
+  </definition>
+  <definition>
+    <key>text_account</key>
+    <value><![CDATA[Konto]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Erfolg]]></value>
+  </definition>
+</definitions>

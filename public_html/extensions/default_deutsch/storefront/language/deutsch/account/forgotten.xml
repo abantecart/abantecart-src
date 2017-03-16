@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Haben Sie Ihr Passwort vergessen?]]></value>
+  </definition>
+  <definition>
+    <key>heading_title_loginname</key>
+    <value><![CDATA[Sie haben Ihr Passwort Login-Name?]]></value>
+  </definition>
+  <definition>
+    <key>text_account</key>
+    <value><![CDATA[Konto]]></value>
+  </definition>
+  <definition>
+    <key>text_forgotten</key>
+    <value><![CDATA[Passwort vergessen]]></value>
+  </definition>
+  <definition>
+    <key>text_your_email</key>
+    <value><![CDATA[Deine Emailadresse]]></value>
+  </definition>
+  <definition>
+    <key>text_email</key>
+    <value><![CDATA[Geben Sie die E-Mail-Adresse mit Ihrem Konto verknüpft. Klicken Sie auf Senden, um Sie Ihr Passwort per E-Mail]]></value>
+  </definition>
+  <definition>
+    <key>text_loginname_email</key>
+    <value><![CDATA[Geben Sie den Login-Namen und E-Mail-Adresse mit Ihrem Konto verknüpft. Klicken Sie auf Absenden Zurücksetzen des Kennworts anfordern]]></value>
+  </definition>
+  <definition>
+    <key>text_lastname_email</key>
+    <value><![CDATA[Geben Sie den Nachnamen und Ihre E-Mail-Adresse mit Ihrem Konto verknüpft. Klicken Sie auf Senden Sie Ihren Benutzernamen an Sie geschickt haben]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Erfolg: Passwort-Reset-Link wurde an Ihre E-Mail-Adresse gesendet.]]></value>
+  </definition>
+  <definition>
+    <key>text_success_loginname</key>
+    <value><![CDATA[Erfolg: Ihre Login-Namen Erinnerung hat an Ihre E-Mail-Adresse gesendet.]]></value>
+  </definition>
+  <definition>
+    <key>entry_loginname</key>
+    <value><![CDATA[Benutzername:]]></value>
+  </definition>
+  <definition>
+    <key>entry_lastname</key>
+    <value><![CDATA[Familienname, Nachname:]]></value>
+  </definition>
+  <definition>
+    <key>entry_email</key>
+    <value><![CDATA[E-Mail-Addresse:]]></value>
+  </definition>
+  <definition>
+    <key>error_email</key>
+    <value><![CDATA[Fehler: Die E-Mail-Adresse nicht zur Verfügung gestellt wurde oder nicht in unseren Unterlagen gefunden, versuchen Sie es noch einmal!]]></value>
+  </definition>
+  <definition>
+    <key>error_loginname</key>
+    <value><![CDATA[Fehler: Der Login-Name nicht zur Verfügung gestellt oder nicht wieder in unseren Aufzeichnungen versuchen, bitte gefunden wurde!]]></value>
+  </definition>
+  <definition>
+    <key>error_lastname</key>
+    <value><![CDATA[Fehler: Der Name nicht zur Verfügung gestellt oder nicht in unseren Unterlagen gefunden wurde, versuchen Sie es noch einmal!]]></value>
+  </definition>
+  <definition>
+    <key>error_not_found</key>
+    <value><![CDATA[Fehler: Keine Aufzeichnungen gefunden Informationen, um Ihre zur Verfügung gestellt, geben Sie bitte Ihre Informationen überprüfen und versuchen Sie es erneut!]]></value>
+  </definition>
+  <definition>
+    <key>text_forgotten_loginname</key>
+    <value><![CDATA[Vergessen Login-Namen]]></value>
+  </definition>
+</definitions>

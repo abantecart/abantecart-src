@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Update Manager]]></value>
+  </definition>
+  <definition>
+    <key>text_checkupdates</key>
+    <value><![CDATA[auf Updates prüfen]]></value>
+  </definition>
+  <definition>
+    <key>column_name</key>
+    <value><![CDATA[Name der Erweiterung]]></value>
+  </definition>
+  <definition>
+    <key>column_type</key>
+    <value><![CDATA[Art]]></value>
+  </definition>
+  <definition>
+    <key>column_category</key>
+    <value><![CDATA[Kategorie]]></value>
+  </definition>
+  <definition>
+    <key>column_status</key>
+    <value><![CDATA[Status]]></value>
+  </definition>
+  <definition>
+    <key>column_version</key>
+    <value><![CDATA[Aktuelle Version]]></value>
+  </definition>
+  <definition>
+    <key>column_new_version</key>
+    <value><![CDATA[Neue Version]]></value>
+  </definition>
+  <definition>
+    <key>column_action</key>
+    <value><![CDATA[Aktion]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Erfolg: Erweiterung wurde erfolgreich aktualisiert!]]></value>
+  </definition>
+  <definition>
+    <key>text_update</key>
+    <value><![CDATA[Aktualisieren]]></value>
+  </definition>
+  <definition>
+    <key>entry_restore_exts</key>
+    <value><![CDATA[Wiederherstellen backuped Erweiterung:]]></value>
+  </definition>
+  <definition>
+    <key>entry_update</key>
+    <value><![CDATA[Updates:]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Achtung: Sie haben keine Berechtigung Verzeichnis ändern müssen:]]></value>
+  </definition>
+  <definition>
+    <key>warning_server</key>
+    <value><![CDATA[Server mit Updates ist inaccesible.]]></value>
+  </definition>
+  <definition>
+    <key>text_notice_title</key>
+    <value><![CDATA[Update-Hinweis für% EXTENSION%]]></value>
+  </definition>
+  <definition>
+    <key>text_notice_text</key>
+    <value><![CDATA[&#39;Neue Version der Erweiterung &quot;% EXTENSION%&quot; zur Verfügung. Bitte, gehen Sie zu% LINK% und aktualisieren Sie sie. &quot;]]></value>
+  </definition>
+  <definition>
+    <key>warning_updates</key>
+    <value><![CDATA[Kann keine Informationen über Updates.]]></value>
+  </definition>
+  <definition>
+    <key>error_empty</key>
+    <value><![CDATA[Achtung: Die hochgeladene Datei war leer!]]></value>
+  </definition>
+  <definition>
+    <key>error_exts_list</key>
+    <value><![CDATA[Achtung: Erweiterungsliste ist nicht Array!]]></value>
+  </definition>
+  <definition>
+    <key>text_nothing_todo</key>
+    <value><![CDATA[Ihr die Erweiterungen sind auf dem neuesten Stand. Nichts zu tun.]]></value>
+  </definition>
+  <definition>
+    <key>text_connect</key>
+    <value><![CDATA[Verbinden]]></value>
+  </definition>
+  <definition>
+    <key>text_marketplace_connect</key>
+    <value><![CDATA[Eine Verbindung mit dem Markt]]></value>
+  </definition>
+  <definition>
+    <key>text_marketplace_connect_your_store</key>
+    <value><![CDATA[Bitte verbinden Sie Ihren Shop auf dem Marktplatz]]></value>
+  </definition>
+  <definition>
+    <key>text_note</key>
+    <value><![CDATA[Hinweis: Update nur für die angeschlossenen Filialen mit gekauften Geschichte.]]></value>
+  </definition>
+</definitions>

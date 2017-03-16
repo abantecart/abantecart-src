@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>text_subject</key>
+    <value><![CDATA[%s - Passwort-Reset]]></value>
+  </definition>
+  <definition>
+    <key>text_greeting</key>
+    <value><![CDATA[Ein Passwort-Reset wurde von %s angefordert.]]></value>
+  </definition>
+  <definition>
+    <key>text_password</key>
+    <value><![CDATA[So setzen Sie unten Ihr Passwort Link klicken:]]></value>
+  </definition>
+  <definition>
+    <key>text_password_reset</key>
+    <value><![CDATA[Ihr Passwort wurde zurückgesetzt auf erfolgreich %s.]]></value>
+  </definition>
+  <definition>
+    <key>text_new_password</key>
+    <value><![CDATA[Geben Sie Ihr neues Passwort ein:]]></value>
+  </definition>
+  <definition>
+    <key>error_reset_token</key>
+    <value><![CDATA[Falsche Link für Passwortabfrage. Versuchen Sie noch einmal zurück und verwenden Sie den Link aus neuesten E-Mail.]]></value>
+  </definition>
+</definitions>

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Rabatte Bericht]]></value>
+  </definition>
+  <definition>
+    <key>column_coupon_name</key>
+    <value><![CDATA[Discount / Coupon-Name]]></value>
+  </definition>
+  <definition>
+    <key>column_code</key>
+    <value><![CDATA[Code]]></value>
+  </definition>
+  <definition>
+    <key>column_orders</key>
+    <value><![CDATA[Nr Aufträge]]></value>
+  </definition>
+  <definition>
+    <key>column_total</key>
+    <value><![CDATA[Gesamt]]></value>
+  </definition>
+  <definition>
+    <key>column_discount_total</key>
+    <value><![CDATA[Totaler Rabatt]]></value>
+  </definition>
+  <definition>
+    <key>entry_date_start</key>
+    <value><![CDATA[Datum Beginn:]]></value>
+  </definition>
+  <definition>
+    <key>entry_date_end</key>
+    <value><![CDATA[Datum Ende:]]></value>
+  </definition>
+</definitions>

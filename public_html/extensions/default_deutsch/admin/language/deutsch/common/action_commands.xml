@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>text_possible_commands</key>
+    <value><![CDATA[Bellow sind möglich Befehle. Sie können weitere Details nach Befehl Stichwort speek. Beispiel: &quot;offene Seite Nachrichten&quot; oder &quot;Insert Produkt&quot;]]></value>
+  </definition>
+  <definition>
+    <key>text_multiple_result_found</key>
+    <value><![CDATA[Mehrere Aktion Ergebnis gefunden:]]></value>
+  </definition>
+  <definition>
+    <key>text_action_confirm</key>
+    <value><![CDATA[Bitte bestätigen Sie Ihre Anfrage:]]></value>
+  </definition>
+  <definition>
+    <key>command_open</key>
+    <value><![CDATA[offen, offene Seite, Menü öffnen]]></value>
+  </definition>
+  <definition>
+    <key>command_find</key>
+    <value><![CDATA[lokalisieren, finden, suchen, suchen, suchen 4]]></value>
+  </definition>
+  <definition>
+    <key>command_clear_cache</key>
+    <value><![CDATA[Löschen des Cache, Cache klar, deaktivieren Sie alle Cache]]></value>
+  </definition>
+  <definition>
+    <key>command_view_log</key>
+    <value><![CDATA[View-Protokoll, Protokoll Sie sehen, prüfen Log finden sich einzuloggen, Fehlerprotokoll anzeigen, sehen Fehler]]></value>
+  </definition>
+  <definition>
+    <key>command_clear_log</key>
+    <value><![CDATA[Protokollöschen, melden Sie sich klar, löschen log, log löschen]]></value>
+  </definition>
+  <definition>
+    <key>command_view_order</key>
+    <value><![CDATA[Ansicht Bestellung, Auftragsnummer, offene Bestellung, Show um, offene Auftragsnummer, Auftragsnummer Ansicht, zeigen Bestellnummer, Bestell #]]></value>
+  </definition>
+  <definition>
+    <key>command_view_product</key>
+    <value><![CDATA[Ansicht Produkt, die Produktnummer, offen Produkt, zeigen Produkt, offene Produktnummer, Ansicht Produktnummer, zeigen die Produktnummer, Produkt #]]></value>
+  </definition>
+  <definition>
+    <key>command_create_new</key>
+    <value><![CDATA[einfügen, erstellen, hinzufügen, neu, legen Sie neu, neu erstellen, fügen Sie neue]]></value>
+  </definition>
+  <definition>
+    <key>category</key>
+    <value><![CDATA[Kategorie]]></value>
+  </definition>
+  <definition>
+    <key>product</key>
+    <value><![CDATA[Produkt]]></value>
+  </definition>
+  <definition>
+    <key>brand</key>
+    <value><![CDATA[Marke]]></value>
+  </definition>
+  <definition>
+    <key>manufacturer</key>
+    <value><![CDATA[Hersteller]]></value>
+  </definition>
+  <definition>
+    <key>review</key>
+    <value><![CDATA[Überprüfung]]></value>
+  </definition>
+  <definition>
+    <key>download</key>
+    <value><![CDATA[herunterladen]]></value>
+  </definition>
+  <definition>
+    <key>attribute</key>
+    <value><![CDATA[Attribut]]></value>
+  </definition>
+  <definition>
+    <key>customer</key>
+    <value><![CDATA[Kunde]]></value>
+  </definition>
+  <definition>
+    <key>coupon</key>
+    <value><![CDATA[Coupon]]></value>
+  </definition>
+  <definition>
+    <key>discount</key>
+    <value><![CDATA[Rabatt]]></value>
+  </definition>
+  <definition>
+    <key>block</key>
+    <value><![CDATA[Block]]></value>
+  </definition>
+  <definition>
+    <key>menu</key>
+    <value><![CDATA[Menü]]></value>
+  </definition>
+  <definition>
+    <key>content</key>
+    <value><![CDATA[Inhalt]]></value>
+  </definition>
+  <definition>
+    <key>banner</key>
+    <value><![CDATA[Banner]]></value>
+  </definition>
+  <definition>
+    <key>page</key>
+    <value><![CDATA[Seite]]></value>
+  </definition>
+  <definition>
+    <key>store</key>
+    <value><![CDATA[Geschäft]]></value>
+  </definition>
+  <definition>
+    <key>language</key>
+    <value><![CDATA[Sprache]]></value>
+  </definition>
+  <definition>
+    <key>currency</key>
+    <value><![CDATA[Währung]]></value>
+  </definition>
+  <definition>
+    <key>location</key>
+    <value><![CDATA[Lage]]></value>
+  </definition>
+  <definition>
+    <key>tax</key>
+    <value><![CDATA[Steuer]]></value>
+  </definition>
+</definitions>

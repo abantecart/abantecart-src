@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>text_send_email</key>
+    <value><![CDATA[Mail senden]]></value>
+  </definition>
+  <definition>
+    <key>text_send_sms</key>
+    <value><![CDATA[SMS senden]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Ihre Nachricht wurde erfolgreich gesendet!]]></value>
+  </definition>
+  <definition>
+    <key>text_default</key>
+    <value><![CDATA[Standard]]></value>
+  </definition>
+  <definition>
+    <key>text_custom_send</key>
+    <value><![CDATA[Händisch ausgewählte Kunden]]></value>
+  </definition>
+  <definition>
+    <key>text_all_subscribers</key>
+    <value><![CDATA[Alle Abonnenten]]></value>
+  </definition>
+  <definition>
+    <key>text_subscribers_only</key>
+    <value><![CDATA[Newsletter-Abonnenten Nur (Nicht-Kunden)]]></value>
+  </definition>
+  <definition>
+    <key>text_customers_only</key>
+    <value><![CDATA[Alle Kunden,]]></value>
+  </definition>
+  <definition>
+    <key>entry_store</key>
+    <value><![CDATA[Von Store: <span class="help">Shop E</span> - <span class="help">Mail</span> - <span class="help">Adresse E</span> - <span class="help">Mail senden aus.</span> Der <span class="help">Wert wird im Speicher Einstellungen</span>]]></value>
+  </definition>
+  <definition>
+    <key>text_customers_who_ordered</key>
+    <value><![CDATA[Um den Kunden bestellt, die Produkte ausgewählt]]></value>
+  </definition>
+  <definition>
+    <key>entry_to</key>
+    <value><![CDATA[An: <span class="help">Liste der Kunden Diese Nachricht zu empfangen. HINWEIS: Große Kundenlisten lange Zeit zu verarbeiten erfordern und könnten alternative Methoden erfordern. Wenden</span> Sie sich <span class="help">an Ihren Web</span> - <span class="help">und E</span> - <span class="help">Mail</span> - <span class="help">Server</span> - <span class="help">Konfigurationen</span>]]></value>
+  </definition>
+  <definition>
+    <key>text_customers_from_lookup</key>
+    <value><![CDATA[Starten Sie die Eingabe einer Kundennamen nachschlagen und wählen Sie]]></value>
+  </definition>
+  <definition>
+    <key>text_products_from_lookup</key>
+    <value><![CDATA[Starten Sie die Eingabe einer Produktnamen zu suchen, und wählen Sie]]></value>
+  </definition>
+  <definition>
+    <key>entry_subject</key>
+    <value><![CDATA[Fach:]]></value>
+  </definition>
+  <definition>
+    <key>entry_message</key>
+    <value><![CDATA[Nachrichtentext:]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Warnung: Sie haben keine Berechtigung, E-Mails zu senden!]]></value>
+  </definition>
+  <definition>
+    <key>error_subject</key>
+    <value><![CDATA[Email-Betreff ist erforderlich!]]></value>
+  </definition>
+  <definition>
+    <key>error_message_email</key>
+    <value><![CDATA[E-Mail-Nachrichtentext ist erforderlich!]]></value>
+  </definition>
+  <definition>
+    <key>error_message_sms</key>
+    <value><![CDATA[SMS-Nachrichtentext ist erforderlich!]]></value>
+  </definition>
+  <definition>
+    <key>error_recipients</key>
+    <value><![CDATA[Empfängerliste, Abonnenten oder bestellten Produkte sind erforderlich!]]></value>
+  </definition>
+  <definition>
+    <key>error_not_sent</key>
+    <value><![CDATA[&#39;Fehler: Es wurden keine E-Mails gesendet! Bitte siehe Fehlerprotokoll für Details. &quot;]]></value>
+  </definition>
+  <definition>
+    <key>text_unsubscribe</key>
+    <value><![CDATA[Diese E-Mail wurde auf %s geschickt, weil Sie Ihre E-Mail-Einstellungen Newsletter erhalten werden eingestellt. Klicken Sie <a href="%s">hier</a> , <a href="%s">um</a> die <a href="%s">Abmeldung</a> .]]></value>
+  </definition>
+  <definition>
+    <key>text_total_to_be_sent</key>
+    <value><![CDATA[(Total zu richten an: %s)]]></value>
+  </definition>
+  <definition>
+    <key>text_select_products</key>
+    <value><![CDATA[- Produkte wählen -]]></value>
+  </definition>
+  <definition>
+    <key>text_select_customers</key>
+    <value><![CDATA[- Kunden wählen -]]></value>
+  </definition>
+  <definition>
+    <key>text_email</key>
+    <value><![CDATA[Email]]></value>
+  </definition>
+  <definition>
+    <key>text_sms</key>
+    <value><![CDATA[SMS]]></value>
+  </definition>
+  <definition>
+    <key>text_incomplete_tasks</key>
+    <value><![CDATA[Unvollständige Aufgaben]]></value>
+  </definition>
+  <definition>
+    <key>text_task_id</key>
+    <value><![CDATA[Task-ID:]]></value>
+  </definition>
+  <definition>
+    <key>text_last_time_run</key>
+    <value><![CDATA[Last Time Run:]]></value>
+  </definition>
+  <definition>
+    <key>text_date_added</key>
+    <value><![CDATA[Erstellt:]]></value>
+  </definition>
+  <definition>
+    <key>text_subject</key>
+    <value><![CDATA[Fach:]]></value>
+  </definition>
+  <definition>
+    <key>text_message</key>
+    <value><![CDATA[Nachricht:]]></value>
+  </definition>
+  <definition>
+    <key>text_starter_name</key>
+    <value><![CDATA[Erstellt von:]]></value>
+  </definition>
+  <definition>
+    <key>text_restart</key>
+    <value><![CDATA[Neustart]]></value>
+  </definition>
+  <definition>
+    <key>text_remove</key>
+    <value><![CDATA[Entfernen]]></value>
+  </definition>
+  <definition>
+    <key>error_email_no_recipients</key>
+    <value><![CDATA[Aufmerksamkeit! Die Nachricht wird nicht gesendet werden.]]></value>
+  </definition>
+  <definition>
+    <key>error_sms_no_recipients</key>
+    <value><![CDATA[Aufmerksamkeit! Keine Kunden mit Handy-Nummern.]]></value>
+  </definition>
+  <definition>
+    <key>text_attention_recipients_count</key>
+    <value><![CDATA[Aufmerksamkeit! Die Nachricht wird an %s Kunden gesendet werden.]]></value>
+  </definition>
+  <definition>
+    <key>text_success_abort</key>
+    <value><![CDATA[Aufgabe unterbrochen erfolgreich.]]></value>
+  </definition>
+  <definition>
+    <key>text_success_sent</key>
+    <value><![CDATA[%s Nachrichten gesendet wurden.]]></value>
+  </definition>
+  <definition>
+    <key>text_task_failed</key>
+    <value><![CDATA[Einige Fehler aufgetreten während der Task-Prozess. Bitte siehe Protokoll für Details oder diese Aufgabe neu zu starten.]]></value>
+  </definition>
+  <definition>
+    <key>text_sent</key>
+    <value><![CDATA[%s %s Von Nachrichten gesendet werden]]></value>
+  </definition>
+</definitions>

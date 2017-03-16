@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Gutscheine]]></value>
+  </definition>
+  <definition>
+    <key>text_coupon</key>
+    <value><![CDATA[Coupon]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Erfolg: Sie haben modifizierte Gutscheine!]]></value>
+  </definition>
+  <definition>
+    <key>text_percent</key>
+    <value><![CDATA[Prozentsatz]]></value>
+  </definition>
+  <definition>
+    <key>text_amount</key>
+    <value><![CDATA[Fester Betrag]]></value>
+  </definition>
+  <definition>
+    <key>column_name</key>
+    <value><![CDATA[Coupon-Name]]></value>
+  </definition>
+  <definition>
+    <key>column_code</key>
+    <value><![CDATA[Code]]></value>
+  </definition>
+  <definition>
+    <key>column_discount</key>
+    <value><![CDATA[Rabatt]]></value>
+  </definition>
+  <definition>
+    <key>column_date_start</key>
+    <value><![CDATA[Datum Start]]></value>
+  </definition>
+  <definition>
+    <key>column_date_end</key>
+    <value><![CDATA[Ende]]></value>
+  </definition>
+  <definition>
+    <key>column_status</key>
+    <value><![CDATA[Status]]></value>
+  </definition>
+  <definition>
+    <key>column_action</key>
+    <value><![CDATA[Aktion]]></value>
+  </definition>
+  <definition>
+    <key>entry_name</key>
+    <value><![CDATA[Coupon Name:]]></value>
+  </definition>
+  <definition>
+    <key>entry_description</key>
+    <value><![CDATA[Coupon Beschreibung:]]></value>
+  </definition>
+  <definition>
+    <key>entry_code</key>
+    <value><![CDATA[Code: <br/><span class="help">Der Code der Kunde gibt den Rabatt zu erhalten</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_type</key>
+    <value><![CDATA[Typ: <br/><span class="help">Prozentsatz oder Festbetrag</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_discount</key>
+    <value><![CDATA[Rabatt:]]></value>
+  </definition>
+  <definition>
+    <key>entry_logged</key>
+    <value><![CDATA[Kunden - Login: <br/> Der <span class="help">Kunde muss den Gutschein zu verwenden</span> , <span class="help">angemeldet sein.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_shipping</key>
+    <value><![CDATA[Kostenloser Versand:]]></value>
+  </definition>
+  <definition>
+    <key>entry_total</key>
+    <value><![CDATA[Gesamtbetrag: <br/><span class="help">Der Teilgesamtbetrag,</span> der <span class="help">erreicht ist</span> , <span class="help">bevor der Gutschein gültig ist.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_product</key>
+    <value><![CDATA[Ausgewählte Produkte:]]></value>
+  </definition>
+  <definition>
+    <key>entry_date_start</key>
+    <value><![CDATA[Datum Beginn:]]></value>
+  </definition>
+  <definition>
+    <key>entry_date_end</key>
+    <value><![CDATA[Datum Ende:]]></value>
+  </definition>
+  <definition>
+    <key>entry_uses_total</key>
+    <value><![CDATA[Verwendet Per Coupon: <br/><span class="help">Die maximale Anzahl der Zeiten kann der Coupon von jedem Kunden verwendet werden.</span> Oder <span class="help">leer lassen</span> , <span class="help">unbegrenzt</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_uses_customer</key>
+    <value><![CDATA[Verwendet pro Kunde: <br/><span class="help">Die maximale Anzahl von Zeiten der Gutschein kann von einem einzigen Kunden verwendet werden.</span> Oder <span class="help">leer lassen</span> , <span class="help">unbegrenzt</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_status</key>
+    <value><![CDATA[Status:]]></value>
+  </definition>
+  <definition>
+    <key>entry_total_coupon_usage</key>
+    <value><![CDATA[Insgesamt Coupon Verbrauch: <br/><span class="help">Anzahl aller Aufträge</span> , <span class="help">die diesen Coupon</span>]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Achtung: Sie sind nicht berechtigt, Gutscheine zu ändern!]]></value>
+  </definition>
+  <definition>
+    <key>error_name</key>
+    <value><![CDATA[Coupon-Name muss zwischen 2 und 64 Zeichen lang sein!]]></value>
+  </definition>
+  <definition>
+    <key>error_description</key>
+    <value><![CDATA[Coupon Beschreibung muss zwischen 2 Zeichen lang sein!]]></value>
+  </definition>
+  <definition>
+    <key>error_code</key>
+    <value><![CDATA[-Code muss zwischen 2 und 10 Zeichen lang sein!]]></value>
+  </definition>
+  <definition>
+    <key>error_date</key>
+    <value><![CDATA[Bitte setzen Sie Datumsbereich!]]></value>
+  </definition>
+</definitions>

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Verwaltung]]></value>
+  </definition>
+  <definition>
+    <key>text_heading</key>
+    <value><![CDATA[Verwaltung]]></value>
+  </definition>
+  <definition>
+    <key>text_login</key>
+    <value><![CDATA[Bitte geben Sie Ihre Login-Daten.]]></value>
+  </definition>
+  <definition>
+    <key>entry_username</key>
+    <value><![CDATA[Benutzername:]]></value>
+  </definition>
+  <definition>
+    <key>entry_password</key>
+    <value><![CDATA[Passwort:]]></value>
+  </definition>
+  <definition>
+    <key>entry_forgot_password</key>
+    <value><![CDATA[Passwort vergessen?]]></value>
+  </definition>
+  <definition>
+    <key>button_login</key>
+    <value><![CDATA[Anmeldung]]></value>
+  </definition>
+  <definition>
+    <key>error_login</key>
+    <value><![CDATA[Kein Spiel für Benutzername und / oder Passwort.]]></value>
+  </definition>
+  <definition>
+    <key>error_token</key>
+    <value><![CDATA[Ungültige Token-Sitzung. Bitte melden Sie sich erneut an.]]></value>
+  </definition>
+  <definition>
+    <key>error_login_message</key>
+    <value><![CDATA[Anmeldung fehlgeschlagen dem Server-Betreiber Versuch von IP:]]></value>
+  </definition>
+  <definition>
+    <key>error_login_message_text</key>
+    <value><![CDATA[Da Benutzer Login:]]></value>
+  </definition>
+</definitions>

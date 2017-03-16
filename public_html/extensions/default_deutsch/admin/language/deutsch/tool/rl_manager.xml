@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Media Resource Library Manager]]></value>
+  </definition>
+  <definition>
+    <key>text_rl_latest</key>
+    <value><![CDATA[Neueste Ressourcen]]></value>
+  </definition>
+  <definition>
+    <key>text_rl_type</key>
+    <value><![CDATA[Ressourcentyp]]></value>
+  </definition>
+  <definition>
+    <key>entry_type_name</key>
+    <value><![CDATA[Ressourcentyp Key <br/><span class="help">Diese Ressourcentyp Schlüssel / name Wert kann nicht geändert werden</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_default_directory</key>
+    <value><![CDATA[Ressourcenverzeichnis <br/><span class="help">Verzeichnis Ortungs Ressource für diese Art. Wenn geändert, werden</span> die <span class="help">vorhandenen Ressourcen nicht acceccible sein und müssen neue Verzeichnis kopiert werden!</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_default_icon</key>
+    <value><![CDATA[Symbol Standard <br/><span class="help">Icon Bild werden in der Liste der Ressourcen angezeigt (Ort: / image / ...).</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_file_types</key>
+    <value><![CDATA[Erlaubte Dateiendungen <br/><span class="help">Regex mit einer Liste der zulässigen Dateierweiterungen für diesen Ressourcentyp</span>]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Erfolg: Sie haben Ressourcentyp aktualisiert!]]></value>
+  </definition>
+  <definition>
+    <key>error_missing_type_id</key>
+    <value><![CDATA[Fehler: Fehlende Ressource-Typ-ID!]]></value>
+  </definition>
+  <definition>
+    <key>error_type_name</key>
+    <value><![CDATA[Fehler: Ressourcentyp Name muss zwischen 2 und 40 charcters sein]]></value>
+  </definition>
+  <definition>
+    <key>error_default_directory</key>
+    <value><![CDATA[Fehler: Ressourcentyp-Verzeichnis muss zwischen 2 und 64 charcters sein]]></value>
+  </definition>
+  <definition>
+    <key>error_default_icon</key>
+    <value><![CDATA[Fehler: Ressourcentyp Symbol muss zwischen 2 und 64 charcters sein]]></value>
+  </definition>
+  <definition>
+    <key>error_file_types</key>
+    <value><![CDATA[Fehler: Ressourcentyp Datei extenions regex muss zwischen 2 und 40 charcters sein]]></value>
+  </definition>
+</definitions>

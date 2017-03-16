@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>im_text_notification</key>
+    <value><![CDATA[Benachrichtigung]]></value>
+  </definition>
+  <definition>
+    <key>im_error_mail_address</key>
+    <value><![CDATA[E-Mail-Adresse %s ist nicht gültig!]]></value>
+  </definition>
+  <definition>
+    <key>im_protocol_email_title</key>
+    <value><![CDATA[Email]]></value>
+  </definition>
+  <definition>
+    <key>im_protocol_sms_title</key>
+    <value><![CDATA[SMS]]></value>
+  </definition>
+  <definition>
+    <key>im_protocol_sms_empty_warn</key>
+    <value><![CDATA[SMS-Benachrichtigungen sind nicht möglich. Mobilnummer in Ihrem Konto Datensätze nicht gespeichert.]]></value>
+  </definition>
+  <definition>
+    <key>im_sendpoint_name_order_update</key>
+    <value><![CDATA[Update bestellen]]></value>
+  </definition>
+  <definition>
+    <key>im_sendpoint_name_order_update_note</key>
+    <value><![CDATA[Wählen Sie, wenn gerne erhalten Benachrichtigungen über Ihre Bestellungen &quot;Updates.]]></value>
+  </definition>
+  <definition>
+    <key>im_order_update_text_to_admin</key>
+    <value><![CDATA[Order # %s wurde aktualisiert! Auftragsstatus ID %s]]></value>
+  </definition>
+  <definition>
+    <key>im_order_update_text_to_customer</key>
+    <value><![CDATA[Ihre Bestellung # %s aktualisiert. New Order Status ist %s]]></value>
+  </definition>
+  <definition>
+    <key>im_new_order_text_to_admin</key>
+    <value><![CDATA[New Order # %s gesetzt wurde!]]></value>
+  </definition>
+  <definition>
+    <key>im_new_customer_text_to_admin</key>
+    <value><![CDATA[Neuer Kunde # %s registriert wurde!]]></value>
+  </definition>
+  <definition>
+    <key>im_new_subscriber_text_to_admin</key>
+    <value><![CDATA[Neue Abonnenten # %s registriert wurde!]]></value>
+  </definition>
+  <definition>
+    <key>im_sendpoint_name_customer_account_update</key>
+    <value><![CDATA[Konto-Update]]></value>
+  </definition>
+  <definition>
+    <key>im_sendpoint_name_customer_account_update_note</key>
+    <value><![CDATA[Wählen Sie, ob möchten erhalten Benachrichtigungen zu Ihrem Konto Updates.]]></value>
+  </definition>
+  <definition>
+    <key>im_customer_account_update_text_to_customer</key>
+    <value><![CDATA[Dein Konto wurde aktualisiert! Wenn Sie keine Änderungen zu tun haben, wenden Sie sich bitte Webseiten-Inhaber]]></value>
+  </definition>
+  <definition>
+    <key>im_customer_account_update_email_to_customer</key>
+    <value><![CDATA[Ihr Konto E-Mail-Adresse wurde auf %s geändert! Wenn Sie diese Änderung nicht zu tun haben, wenden Sie sich bitte Webseiten-Inhaber]]></value>
+  </definition>
+  <definition>
+    <key>im_customer_account_update_login_to_customer</key>
+    <value><![CDATA[Ihr Konto Login-Name wurde auf %s geändert! Wenn Sie diese Änderung nicht zu tun haben, wenden Sie sich bitte Webseiten-Inhaber]]></value>
+  </definition>
+  <definition>
+    <key>im_customer_account_update_password_to_customer</key>
+    <value><![CDATA[Ihr Konto Passwort wurde geändert! Wenn Sie diese Änderung nicht zu tun haben, wenden Sie sich bitte Webseiten-Inhaber]]></value>
+  </definition>
+  <definition>
+    <key>im_customer_contact_admin_text</key>
+    <value><![CDATA[Sie haben von Kunden neue Anfrage bekam (%s %s)!]]></value>
+  </definition>
+  <definition>
+    <key>im_sendpoint_name_newsletter</key>
+    <value><![CDATA[Newsletter]]></value>
+  </definition>
+  <definition>
+    <key>im_sendpoint_name_newsletter_note</key>
+    <value><![CDATA[Wählen Sie, wenn wie Benachrichtigungen über unsere Produkte und Service-Updates zu erhalten.]]></value>
+  </definition>
+  <definition>
+    <key>im_product_review_text_to_admin</key>
+    <value><![CDATA[Neue Produkt Bewertung wurde hinzugefügt. Details sehen # admin # rt = Katalog / Review / update &amp; review_id = %s]]></value>
+  </definition>
+  <definition>
+    <key>im_product_out_of_stock_admin_text</key>
+    <value><![CDATA[Das Produkt ist mit ID # %s ist nicht lieferbar.]]></value>
+  </definition>
+</definitions>

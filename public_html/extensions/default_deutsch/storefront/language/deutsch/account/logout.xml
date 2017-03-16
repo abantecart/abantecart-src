@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Konto Logout]]></value>
+  </definition>
+  <definition>
+    <key>text_message</key>
+    <value><![CDATA[<p> Sie haben Ihr Konto abgemeldet. Es ist jetzt sicher, den Computer zu verlassen. </p><p> Ihr Warenkorb gespeichert wurde, werden die darin enthaltenen Elemente wiederhergestellt werden, wenn Sie zurück in Ihr Konto einloggen. </p>]]></value>
+  </definition>
+  <definition>
+    <key>text_account</key>
+    <value><![CDATA[Konto]]></value>
+  </definition>
+  <definition>
+    <key>text_logout</key>
+    <value><![CDATA[Ausloggen]]></value>
+  </definition>
+</definitions>

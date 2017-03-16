@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Store Details]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Erfolg: Sie haben geänderten Einstellungen!]]></value>
+  </definition>
+  <definition>
+    <key>text_image_manager</key>
+    <value><![CDATA[image Manager]]></value>
+  </definition>
+  <definition>
+    <key>text_default</key>
+    <value><![CDATA[Standard]]></value>
+  </definition>
+  <definition>
+    <key>text_edit_store</key>
+    <value><![CDATA[Bearbeiten Store:]]></value>
+  </definition>
+  <definition>
+    <key>entry_name</key>
+    <value><![CDATA[Store Name: <br/> , <span class="help">um</span> die <span class="help">Einstellungen kopiert und auf einer Shop</span> - <span class="help">Abschnitt gezeigt.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_url</key>
+    <value><![CDATA[URL Store: <br/><span class="help">Schließen</span> Sie <span class="help">den vollständigen URL zu Ihrem Geschäft. Stellen</span> Sie <span class="help">sicher</span> , <span class="help">&#39;/&#39; am Ende hinzuzufügen. Beispiel: http://www.yourdomain.com/path/ <br/><br/> Nicht</span> - <span class="help">Verzeichnisse verwenden</span> , um <span class="help">einen neuen Speicher zu erstellen. Sie sollten immer</span> eine <span class="help">andere Domain oder Sub</span> - <span class="help">Domain zu Ihrem Hosting</span> - <span class="help">Punkt.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_ssl</key>
+    <value><![CDATA[SSL verwenden: <br/><span class="help">Um</span> die <span class="help">SSL</span> - <span class="help">Check mit Ihrem Host verwenden</span> , <span class="help">wenn ein SSL</span> - <span class="help">Zertifikat installiert ist.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_title</key>
+    <value><![CDATA[Titel:]]></value>
+  </definition>
+  <definition>
+    <key>entry_meta_description</key>
+    <value><![CDATA[Meta-Tag-Beschreibung:]]></value>
+  </definition>
+  <definition>
+    <key>entry_template</key>
+    <value><![CDATA[Vorlage:]]></value>
+  </definition>
+  <definition>
+    <key>entry_description</key>
+    <value><![CDATA[Willkommensnachricht:]]></value>
+  </definition>
+  <definition>
+    <key>entry_country</key>
+    <value><![CDATA[Land:]]></value>
+  </definition>
+  <definition>
+    <key>entry_zone</key>
+    <value><![CDATA[Region / Bundesland:]]></value>
+  </definition>
+  <definition>
+    <key>entry_language</key>
+    <value><![CDATA[Sprache:]]></value>
+  </definition>
+  <definition>
+    <key>entry_status</key>
+    <value><![CDATA[Speicherstatus <br/><span class="help">Shop</span> - <span class="help">Status in einem Schaufenster.</span> Der <span class="help">Status OFF Direct Store auf Standard. Verwenden</span> Sie den <span class="help">Wartungsmodus einstellen Zwischenspeicher Wartungsmeldung einstellen</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_alias</key>
+    <value><![CDATA[Name des Alias <br/><span class="help">Store Name Alias. Wenn leer, wird auf Kurznamen basieren</span>]]></value>
+  </definition>
+  <definition>
+    <key>button_add_store</key>
+    <value><![CDATA[Neues Geschäft]]></value>
+  </definition>
+  <definition>
+    <key>button_delete_store</key>
+    <value><![CDATA[löschen Speichern]]></value>
+  </definition>
+  <definition>
+    <key>button_edit_settings</key>
+    <value><![CDATA[Einstellungen bearbeiten]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Warnung: Sie haben keine Berechtigung, Läden zu ändern!]]></value>
+  </definition>
+  <definition>
+    <key>error_name</key>
+    <value><![CDATA[Store Name muss zwischen 3 und 32 Zeichen lang sein!]]></value>
+  </definition>
+  <definition>
+    <key>error_url</key>
+    <value><![CDATA[Store-URL erforderlich!]]></value>
+  </definition>
+  <definition>
+    <key>error_title</key>
+    <value><![CDATA[Titel muss zwischen 3 und 32 Zeichen lang sein!]]></value>
+  </definition>
+  <definition>
+    <key>error_image_thumb</key>
+    <value><![CDATA[Artikelbild Daumen Größe Abmessungen erforderlich!]]></value>
+  </definition>
+  <definition>
+    <key>error_image_popup</key>
+    <value><![CDATA[Produkt-Bild Popup-Größe Abmessungen erforderlich!]]></value>
+  </definition>
+  <definition>
+    <key>error_image_category</key>
+    <value><![CDATA[Kategorieliste Größe Abmessungen erforderlich!]]></value>
+  </definition>
+  <definition>
+    <key>error_image_product</key>
+    <value><![CDATA[Artikelliste Größe Abmessungen erforderlich!]]></value>
+  </definition>
+  <definition>
+    <key>error_image_additional</key>
+    <value><![CDATA[Zusätzliche Produktbildgröße Abmessungen erforderlich!]]></value>
+  </definition>
+  <definition>
+    <key>error_image_related</key>
+    <value><![CDATA[In Verbindung stehendes Produkt Größe des Bildes Abmessungen erforderlich!]]></value>
+  </definition>
+  <definition>
+    <key>error_image_cart</key>
+    <value><![CDATA[Warenkorb Bildgröße Abmessungen erforderlich!]]></value>
+  </definition>
+  <definition>
+    <key>error_image_grid</key>
+    <value><![CDATA[Grid Bildgröße Abmessungen erforderlich!]]></value>
+  </definition>
+  <definition>
+    <key>error_store</key>
+    <value><![CDATA[Achtung: Dieser Store kann nicht gelöscht werden, da es zur Zeit auf %s Aufträge zugewiesen wird!]]></value>
+  </definition>
+  <definition>
+    <key>error_required_data</key>
+    <value><![CDATA[Erforderliche Daten wurden nicht eingegeben. Überprüfen Sie für Feldfehler!]]></value>
+  </definition>
+  <definition>
+    <key>error_limit</key>
+    <value><![CDATA[Limit erforderlich!]]></value>
+  </definition>
+  <definition>
+    <key>entry_clone_store</key>
+    <value><![CDATA[Kopieren Einstellungen: <br/><span class="help">Sie können Kopie aller Einstellungen von einem bestehenden Speicher wählen</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_ssl_url</key>
+    <value><![CDATA[Secure Store URL: <br/><span class="help">Schließen</span> Sie <span class="help">den vollständigen SSL</span> - <span class="help">URL (HTTPS) zu Ihrem Geschäft. Stellen</span> Sie <span class="help">sicher</span> , <span class="help">&#39;/&#39; am Ende hinzuzufügen. Beispiel: https://www.yourdomain.com/path/</span>]]></value>
+  </definition>
+  <definition>
+    <key>error_ssl_url</key>
+    <value><![CDATA[Sichere URL erforderlich!]]></value>
+  </definition>
+</definitions>

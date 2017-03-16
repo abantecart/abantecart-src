@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>import_export_title</key>
+    <value><![CDATA[Import Export]]></value>
+  </definition>
+  <definition>
+    <key>tab_import</key>
+    <value><![CDATA[Einführen]]></value>
+  </definition>
+  <definition>
+    <key>tab_export</key>
+    <value><![CDATA[Export]]></value>
+  </definition>
+  <definition>
+    <key>text_tables</key>
+    <value><![CDATA[Tische]]></value>
+  </definition>
+  <definition>
+    <key>text_options</key>
+    <value><![CDATA[Optionen]]></value>
+  </definition>
+  <definition>
+    <key>text_file_format</key>
+    <value><![CDATA[Datei Format:]]></value>
+  </definition>
+  <definition>
+    <key>text_file_name</key>
+    <value><![CDATA[Dateiname:]]></value>
+  </definition>
+  <definition>
+    <key>text_load_file</key>
+    <value><![CDATA[Lade Datei]]></value>
+  </definition>
+  <definition>
+    <key>text_load</key>
+    <value><![CDATA[Belastung]]></value>
+  </definition>
+  <definition>
+    <key>text_import_loaded</key>
+    <value><![CDATA[Insgesamt geladen:]]></value>
+  </definition>
+  <definition>
+    <key>text_file_field</key>
+    <value><![CDATA[Datei zu importieren: <br/><span class="help">Unterstützte Formate für Importdateien: XML, CSV, TXT</span>]]></value>
+  </definition>
+  <definition>
+    <key>text_id_range_from</key>
+    <value><![CDATA[ID-Bereich von:]]></value>
+  </definition>
+  <definition>
+    <key>text_to</key>
+    <value><![CDATA[nach:]]></value>
+  </definition>
+  <definition>
+    <key>text_csv_delimiter</key>
+    <value><![CDATA[CSV / TXT-Trennzeichen:]]></value>
+  </definition>
+  <definition>
+    <key>text_export_note_csv_delimiter</key>
+    <value><![CDATA[<span class="help">Alle Felder werden in doppelte Anführungszeichen gesetzt werden.</span>]]></value>
+  </definition>
+  <definition>
+    <key>text_import_note_csv_delimiter</key>
+    <value><![CDATA[<span class="help">Alle Felder müssen in doppelte Anführungszeichen gesetzt werden.</span>]]></value>
+  </definition>
+  <definition>
+    <key>text_test_mode</key>
+    <value><![CDATA[Führen Sie in einem Testmodus <br/><span class="help">Es wird empfohlen</span> , den <span class="help">Datenimport in einem Testmodus laufen zuerst zu sehen</span> , <span class="help">ob irgendwelche Probleme vorhanden sind.</span>]]></value>
+  </definition>
+  <definition>
+    <key>error_file_format</key>
+    <value><![CDATA[Falsches Dateiformat!]]></value>
+  </definition>
+  <definition>
+    <key>error_xml_import</key>
+    <value><![CDATA[Fehler beim Import von XML-Datei!]]></value>
+  </definition>
+  <definition>
+    <key>error_csv_import</key>
+    <value><![CDATA[Fehler beim Import CSV / TXT-Datei! Überprüfen Sie bitte Felder Trennzeichen.]]></value>
+  </definition>
+  <definition>
+    <key>error_data_corrupted</key>
+    <value><![CDATA[Die Daten sind leer oder beschädigt.]]></value>
+  </definition>
+  <definition>
+    <key>error_file_empty</key>
+    <value><![CDATA[Die Datei ist leer.]]></value>
+  </definition>
+  <definition>
+    <key>error_writable_backup</key>
+    <value><![CDATA[Backup-Verzeichnis muss beschreibbar sein für CSV / TXT-Export arbeiten.]]></value>
+  </definition>
+  <definition>
+    <key>text_updated</key>
+    <value><![CDATA[Aktualisiert:]]></value>
+  </definition>
+  <definition>
+    <key>text_created</key>
+    <value><![CDATA[Erstellt:]]></value>
+  </definition>
+  <definition>
+    <key>text_errors</key>
+    <value><![CDATA[Fehler:]]></value>
+  </definition>
+  <definition>
+    <key>text_show_details</key>
+    <value><![CDATA[Zeige Details]]></value>
+  </definition>
+  <definition>
+    <key>text_no_children</key>
+    <value><![CDATA[Kein Kind Artikel]]></value>
+  </definition>
+  <definition>
+    <key>text_some_errors</key>
+    <value><![CDATA[Es gibt einige Fehler.]]></value>
+  </definition>
+  <definition>
+    <key>text_test_completed</key>
+    <value><![CDATA[Testlauf abgeschlossen. Insgesamt SQL-Abfragen:]]></value>
+  </definition>
+  <definition>
+    <key>text_sort_by</key>
+    <value><![CDATA[Sortiere nach:]]></value>
+  </definition>
+</definitions>

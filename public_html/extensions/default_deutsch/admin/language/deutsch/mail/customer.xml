@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>text_subject</key>
+    <value><![CDATA[%s - Ihr Konto wurde aktiviert!]]></value>
+  </definition>
+  <definition>
+    <key>text_welcome</key>
+    <value><![CDATA[Willkommen und vielen Dank für die bei %s Registrierung notwendig!]]></value>
+  </definition>
+  <definition>
+    <key>text_login</key>
+    <value><![CDATA[Ihr Konto ist nun angelegt, und Sie können mit Ihrer E-Mail-Adresse und Passwort einloggen durch den Besuch unserer Website oder unter der folgenden URL:]]></value>
+  </definition>
+  <definition>
+    <key>text_services</key>
+    <value><![CDATA[Sobald Sie sich angemeldet haben, können Sie für den Zugriff auf Ihre Wunschliste, um die Geschichte, das Drucken von Rechnungen und Bearbeiten Ihrer Kontoinformationen.]]></value>
+  </definition>
+  <definition>
+    <key>text_thanks</key>
+    <value><![CDATA[Vielen Dank,]]></value>
+  </definition>
+</definitions>

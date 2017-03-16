@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Gast Kasse - Schritt 2]]></value>
+  </definition>
+  <definition>
+    <key>text_cart</key>
+    <value><![CDATA[Karte]]></value>
+  </definition>
+  <definition>
+    <key>text_guest_step_1</key>
+    <value><![CDATA[Gast Kasse - Schritt 1]]></value>
+  </definition>
+  <definition>
+    <key>text_guest_step_2</key>
+    <value><![CDATA[Gast Kasse - Schritt 2]]></value>
+  </definition>
+  <definition>
+    <key>text_shipping_method</key>
+    <value><![CDATA[Versandart]]></value>
+  </definition>
+  <definition>
+    <key>text_shipping_methods</key>
+    <value><![CDATA[Bitte wählen Sie die bevorzugten Versandmethoden für diese Bestellung zu verwenden.]]></value>
+  </definition>
+  <definition>
+    <key>text_payment_method</key>
+    <value><![CDATA[Bezahlverfahren]]></value>
+  </definition>
+  <definition>
+    <key>text_payment_methods</key>
+    <value><![CDATA[Bitte wählen Sie die bevorzugte Zahlungsmethode bei dieser Reihenfolge zu verwenden.]]></value>
+  </definition>
+  <definition>
+    <key>text_comments</key>
+    <value><![CDATA[Kommentare zu Ihrer Bestellung hinzufügen]]></value>
+  </definition>
+  <definition>
+    <key>text_agree</key>
+    <value><![CDATA[Ich habe die ... gelesen und stimme ihnen zu]]></value>
+  </definition>
+  <definition>
+    <key>text_coupon</key>
+    <value><![CDATA[Geben Sie Ihren Code, auf den &quot;Apply Coupon&quot; und beobachten Sie Ihren Rabatt sofort auf Ihre Bestellung angewendet werden.]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Erfolg: Ihr Gutschein Rabatt angewendet worden ist!]]></value>
+  </definition>
+  <definition>
+    <key>text_coupon_removal</key>
+    <value><![CDATA[Erfolg: Coupon wurde entfernt!]]></value>
+  </definition>
+  <definition>
+    <key>entry_shipping</key>
+    <value><![CDATA[Versandart:]]></value>
+  </definition>
+  <definition>
+    <key>entry_payment</key>
+    <value><![CDATA[Bezahlverfahren:]]></value>
+  </definition>
+  <definition>
+    <key>entry_coupon</key>
+    <value><![CDATA[Coupon:]]></value>
+  </definition>
+  <definition>
+    <key>error_shipping</key>
+    <value><![CDATA[Fehler: Versandart erforderlich!]]></value>
+  </definition>
+  <definition>
+    <key>error_no_shipping</key>
+    <value><![CDATA[Fehler: Keine Optionen Versand zur Verfügung. Bitte <a href="index.php?rt=content/contact">kontaktieren</a> Sie <a href="index.php?rt=content/contact">uns</a> für die Unterstützung!]]></value>
+  </definition>
+  <definition>
+    <key>error_payment</key>
+    <value><![CDATA[Fehler: Zahlungsmethode erforderlich!]]></value>
+  </definition>
+  <definition>
+    <key>error_agree</key>
+    <value><![CDATA[Fehler: Sie müssen mit dem zustimmen %s!]]></value>
+  </definition>
+  <definition>
+    <key>error_coupon</key>
+    <value><![CDATA[Fehler: Coupon ist ungültig, abgelaufen oder erreicht es Nutzungsbeschränkung!]]></value>
+  </definition>
+</definitions>

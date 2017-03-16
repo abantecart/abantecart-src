@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Account Login]]></value>
+  </definition>
+  <definition>
+    <key>text_account</key>
+    <value><![CDATA[Account registrieren]]></value>
+  </definition>
+  <definition>
+    <key>text_login</key>
+    <value><![CDATA[Anmeldung]]></value>
+  </definition>
+  <definition>
+    <key>text_i_am_new_customer</key>
+    <value><![CDATA[Ich bin ein neuer Kunde.]]></value>
+  </definition>
+  <definition>
+    <key>text_checkout</key>
+    <value><![CDATA[Kasse Optionen:]]></value>
+  </definition>
+  <definition>
+    <key>text_guest</key>
+    <value><![CDATA[Gast Kasse]]></value>
+  </definition>
+  <definition>
+    <key>text_create_account</key>
+    <value><![CDATA[Durch Ihre Anmeldung sind Sie in der Lage schneller zu bestellen, auf dem Laufenden über den Status einer Bestellung, und verfolgen Sie Ihre bisherigen Bestellungen gemacht haben.]]></value>
+  </definition>
+  <definition>
+    <key>text_returning_customer</key>
+    <value><![CDATA[Bereits Kunde]]></value>
+  </definition>
+  <definition>
+    <key>text_i_am_returning_customer</key>
+    <value><![CDATA[Ich bin ein wiederkehrender Kunde.]]></value>
+  </definition>
+  <definition>
+    <key>text_forgotten_login</key>
+    <value><![CDATA[Passwort vergessen?]]></value>
+  </definition>
+  <definition>
+    <key>text_forgotten_password</key>
+    <value><![CDATA[Haben Sie Ihr Passwort vergessen?]]></value>
+  </definition>
+  <definition>
+    <key>entry_loginname</key>
+    <value><![CDATA[Benutzername:]]></value>
+  </definition>
+  <definition>
+    <key>entry_email_address</key>
+    <value><![CDATA[E-Mail-Addresse:]]></value>
+  </definition>
+  <definition>
+    <key>entry_password</key>
+    <value><![CDATA[Passwort:]]></value>
+  </definition>
+  <definition>
+    <key>error_login</key>
+    <value><![CDATA[Fehler: Falsche Login oder Passwort.]]></value>
+  </definition>
+  <definition>
+    <key>text_success_activated</key>
+    <value><![CDATA[Erfolg: Ihr Konto wurde erfolgreich aktiviert. Bitte loggen Sie sich mit Ihren Zugangsdaten.]]></value>
+  </definition>
+  <definition>
+    <key>text_already_activated</key>
+    <value><![CDATA[Ihr Konto ist bereits aktiviert. Bitte loggen Sie sich mit Ihren Zugangsdaten.]]></value>
+  </definition>
+  <definition>
+    <key>text_resend_activation_email</key>
+    <value><![CDATA[Fehler: Ihre E-Mail-Adresse wurde noch nicht bestätigt. Um neue E - Mail - Bestätigung senden Sie bitte klicken Sie auf diesen <a href=" %s ">Link</a>]]></value>
+  </definition>
+</definitions>

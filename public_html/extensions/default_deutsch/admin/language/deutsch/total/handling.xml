@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Bearbeitungsgebühr]]></value>
+  </definition>
+  <definition>
+    <key>total_name</key>
+    <value><![CDATA[Bearbeitungsgebühr]]></value>
+  </definition>
+  <definition>
+    <key>text_total</key>
+    <value><![CDATA[Bestellen Sie Totals]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Erfolg: Sie haben insgesamt Bearbeitungsgebühr aktualisiert!]]></value>
+  </definition>
+  <definition>
+    <key>entry_total</key>
+    <value><![CDATA[Gesamtbestellung: <span class="help">Mindestbestellwert erreicht werden soll</span> , <span class="help">die Gebühr zu beantragen. Wenn</span> der <span class="help">Kundenauftragssumme diesen Betrag übersteigen, feee Handhabung nicht angewendet werden. Dieser Wert wird mit</span> der <span class="help">Zahlung spezifische Einstellung außer Kraft gesetzt.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_total_placeholder</key>
+    <value><![CDATA[Bestellbetrag]]></value>
+  </definition>
+  <definition>
+    <key>entry_fee</key>
+    <value><![CDATA[Gebühr: <span class="help">Gebühr hinzugefügt werden insgesamt zu bestellen</span> , <span class="help">wenn Mindestbetrag Bedingung nicht erfüllt ist. Dieser Betrag wird durch Zahlung spezifische Einstellung außer Kraft gesetzt</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_payment_fee</key>
+    <value><![CDATA[Gebühr: <span class="help">Gebühr hinzugefügt werden insgesamt zu bestellen</span> , <span class="help">wenn Mindestunter Gesamtsumme Bedingung nicht erfüllt ist. Dieser Betrag überschreiben Hauptgebühr Einstellung</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_payment</key>
+    <value><![CDATA[Zahlung: <span class="help">Wählen</span> Sie <span class="help">eine bestimmte Zahlung</span> , die <span class="help">Sie die Gebühr hinzufügen müssen. Diese Einstellungen werden die wichtigsten Einstellungen außer Kraft setzen</span> , <span class="help">wenn</span> die <span class="help">Zahlung vom Kunden verwendet wird.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_order_subtotal</key>
+    <value><![CDATA[Bestellen Zwischensumme: <span class="help">Mindestbestelluntergesamtbetrag erreicht werden</span> , um <span class="help">die Gebühr zu beantragen. Dies überschreibt Haupteinstelleinheit</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_tax</key>
+    <value><![CDATA[Steuerklasse: <span class="help">Wählen</span> Sie, <span class="help">wenn Sie Steuern müssen auf</span> der <span class="help">Oberseite des Bearbeitungsgebühr angewendet werden</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_status</key>
+    <value><![CDATA[Status:]]></value>
+  </definition>
+  <definition>
+    <key>entry_sort_order</key>
+    <value><![CDATA[Sortierreihenfolge:]]></value>
+  </definition>
+  <definition>
+    <key>entry_calculation_order</key>
+    <value><![CDATA[Berechnungsreihenfolge:]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Warnung: Sie haben keine Berechtigung, Gesamtbearbeitungsgebühr zu ändern!]]></value>
+  </definition>
+  <definition>
+    <key>error_number</key>
+    <value><![CDATA[Achtung: Bestellsumme und Behandlungsgebühr muss eine Zahl sein!]]></value>
+  </definition>
+</definitions>
