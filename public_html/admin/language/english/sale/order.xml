@@ -22,7 +22,7 @@
 	</definition>
 	<definition>
 		<key>text_success</key>
-		<value><![CDATA[Success: You have modified orders!]]></value>
+		<value><![CDATA[Success: Order details have been updated!]]></value>
 	</definition>
 	<definition>
 		<key>text_invoice</key>
