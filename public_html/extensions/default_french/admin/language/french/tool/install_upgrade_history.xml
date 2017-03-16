@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Installer / Mettre à niveau Histoire]]></value>
+  </definition>
+  <definition>
+    <key>column_type</key>
+    <value><![CDATA[Type]]></value>
+  </definition>
+  <definition>
+    <key>column_date_added</key>
+    <value><![CDATA[date ajoutée]]></value>
+  </definition>
+  <definition>
+    <key>column_name</key>
+    <value><![CDATA[Key package]]></value>
+  </definition>
+  <definition>
+    <key>column_version</key>
+    <value><![CDATA[Version]]></value>
+  </definition>
+  <definition>
+    <key>column_backup_date</key>
+    <value><![CDATA[date de la sauvegarde]]></value>
+  </definition>
+  <definition>
+    <key>column_backup_file</key>
+    <value><![CDATA[Fichier de sauvegarde]]></value>
+  </definition>
+  <definition>
+    <key>column_user</key>
+    <value><![CDATA[Nom d&#39;utilisateur]]></value>
+  </definition>
+  <definition>
+    <key>text_download</key>
+    <value><![CDATA[pour télécharger le fichier]]></value>
+  </definition>
+  <definition>
+    <key>text_delete_history</key>
+    <value><![CDATA[Supprimer l&#39;historique]]></value>
+  </definition>
+  <definition>
+    <key>text_delete_success</key>
+    <value><![CDATA[Votre Install / Upgrade History a été supprimé avec succès.]]></value>
+  </definition>
+</definitions>

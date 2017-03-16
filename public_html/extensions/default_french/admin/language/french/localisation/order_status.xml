@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Ordre Statuses]]></value>
+  </definition>
+  <definition>
+    <key>text_status</key>
+    <value><![CDATA[Statut de la commande]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Succès: Vous avez modifié les statuts des commandes!]]></value>
+  </definition>
+  <definition>
+    <key>column_name</key>
+    <value><![CDATA[Statut De Commande Nom]]></value>
+  </definition>
+  <definition>
+    <key>column_text_id</key>
+    <value><![CDATA[État de texte ID]]></value>
+  </definition>
+  <definition>
+    <key>entry_text_id</key>
+    <value><![CDATA[État de texte ID:]]></value>
+  </definition>
+  <definition>
+    <key>column_action</key>
+    <value><![CDATA[action]]></value>
+  </definition>
+  <definition>
+    <key>entry_name</key>
+    <value><![CDATA[Statut De Commande Nom:]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Attention: Vous n&#39;êtes pas autorisé à modifier l&#39;ordre des statues!]]></value>
+  </definition>
+  <definition>
+    <key>error_name</key>
+    <value><![CDATA[État de nom doit être compris entre 2 et 32 ​​caractères!]]></value>
+  </definition>
+  <definition>
+    <key>error_default</key>
+    <value><![CDATA[Attention: état Cette commande ne peut pas être supprimé car il est actuellement affecté comme l&#39;état de la commande du magasin par défaut!]]></value>
+  </definition>
+  <definition>
+    <key>error_download</key>
+    <value><![CDATA[Attention: état Cette commande ne peut pas être supprimé car il est actuellement affecté que le statut de téléchargement par défaut!]]></value>
+  </definition>
+  <definition>
+    <key>error_store</key>
+    <value><![CDATA[Attention: Ce statut de la commande ne peut pas être supprimé car il est actuellement affecté à %s magasins!]]></value>
+  </definition>
+  <definition>
+    <key>error_order</key>
+    <value><![CDATA[Attention: Ce statut de la commande ne peut pas être supprimé car il est actuellement assigné à %s commandes!]]></value>
+  </definition>
+  <definition>
+    <key>error_nondeletable</key>
+    <value><![CDATA[Attention: Ceci est l&#39;état des commandes important qui est lié à des paiements. Vous ne pouvez pas supprimer ce statut.]]></value>
+  </definition>
+  <definition>
+    <key>error_status_text_id</key>
+    <value><![CDATA[État de Id texte doit être unique et entre 2 et 32 ​​caractères!]]></value>
+  </definition>
+</definitions>

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Médias Resource Library Manager]]></value>
+  </definition>
+  <definition>
+    <key>text_rl_latest</key>
+    <value><![CDATA[Dernières ressources ajoutées]]></value>
+  </definition>
+  <definition>
+    <key>text_rl_type</key>
+    <value><![CDATA[type de ressource]]></value>
+  </definition>
+  <definition>
+    <key>entry_type_name</key>
+    <value><![CDATA[Type de ressource clé <br/><span class="help">valeur Cette ressource clé de type / nom ne peut pas être modifié</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_default_directory</key>
+    <value><![CDATA[Répertoire des ressources <br/><span class="help">Répertoire</span> des <span class="help">ressources de localisation pour ce type.</span> En <span class="help">cas</span> de <span class="help">modification,</span> les <span class="help">ressources existantes ne seront pas acceccible et devront être copiés nouveau répertoire!</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_default_icon</key>
+    <value><![CDATA[Par défaut icône <br/><span class="help">Icône</span> d&#39; <span class="help">image à afficher dans la liste des ressources (Lieu: / image / ...).</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_file_types</key>
+    <value><![CDATA[Autorisés extensions de fichier <br/><span class="help">Regex avec une liste des extensions de fichiers autorisés pour ce type de ressource</span>]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Succès: Vous avez mis à jour le type de ressource!]]></value>
+  </definition>
+  <definition>
+    <key>error_missing_type_id</key>
+    <value><![CDATA[Erreur: ressource manquante type ID!]]></value>
+  </definition>
+  <definition>
+    <key>error_type_name</key>
+    <value><![CDATA[Erreur: nom du type de ressources doit être compris entre 2 et 40 charcters]]></value>
+  </definition>
+  <definition>
+    <key>error_default_directory</key>
+    <value><![CDATA[Erreur: le répertoire du type de ressources doit être compris entre 2 et 64 charcters]]></value>
+  </definition>
+  <definition>
+    <key>error_default_icon</key>
+    <value><![CDATA[Erreur: Type de ressource icône doit être compris entre 2 et 64 charcters]]></value>
+  </definition>
+  <definition>
+    <key>error_file_types</key>
+    <value><![CDATA[Erreur: extenions de fichiers de type ressource regex doit être compris entre 2 et 40 charcters]]></value>
+  </definition>
+</definitions>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Template Manager]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Succès: Vous avez établi un nouveau modèle de vitrine!]]></value>
+  </definition>
+  <definition>
+    <key>text_storefront_templates</key>
+    <value><![CDATA[Disponible Modèles Storefront]]></value>
+  </definition>
+  <definition>
+    <key>text_edit_extension</key>
+    <value><![CDATA[Paramètres d&#39;extension]]></value>
+  </definition>
+  <definition>
+    <key>text_error</key>
+    <value><![CDATA[Erreur: Il manque un paramètre requis dans votre demande!]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Attention: Vous n&#39;êtes pas autorisé à modifier les modèles!]]></value>
+  </definition>
+</definitions>

@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[compte Téléchargements]]></value>
+  </definition>
+  <definition>
+    <key>text_account</key>
+    <value><![CDATA[Compte]]></value>
+  </definition>
+  <definition>
+    <key>text_downloads</key>
+    <value><![CDATA[Téléchargements]]></value>
+  </definition>
+  <definition>
+    <key>text_order</key>
+    <value><![CDATA[Numéro de commande:]]></value>
+  </definition>
+  <definition>
+    <key>text_date_added</key>
+    <value><![CDATA[Date ajoutée:]]></value>
+  </definition>
+  <definition>
+    <key>text_date_purchased</key>
+    <value><![CDATA[Date d&#39;achat:]]></value>
+  </definition>
+  <definition>
+    <key>text_name</key>
+    <value><![CDATA[Prénom:]]></value>
+  </definition>
+  <definition>
+    <key>text_remaining</key>
+    <value><![CDATA[Restant:]]></value>
+  </definition>
+  <definition>
+    <key>text_size</key>
+    <value><![CDATA[Taille:]]></value>
+  </definition>
+  <definition>
+    <key>text_download</key>
+    <value><![CDATA[Télécharger]]></value>
+  </definition>
+  <definition>
+    <key>text_error</key>
+    <value><![CDATA[Vous avez pas fait de commandes téléchargeables précédentes!]]></value>
+  </definition>
+  <definition>
+    <key>text_expire_date</key>
+    <value><![CDATA[Date d&#39;expiration:]]></value>
+  </definition>
+  <definition>
+    <key>text_expired</key>
+    <value><![CDATA[Expiré]]></value>
+  </definition>
+  <definition>
+    <key>text_pending</key>
+    <value><![CDATA[en attendant]]></value>
+  </definition>
+  <definition>
+    <key>text_unavailable</key>
+    <value><![CDATA[Indisponible]]></value>
+  </definition>
+  <definition>
+    <key>text_reached_limit</key>
+    <value><![CDATA[Limite atteint]]></value>
+  </definition>
+  <definition>
+    <key>error_download_not_exists</key>
+    <value><![CDATA[fichier demandé n&#39;existe!]]></value>
+  </definition>
+</definitions>

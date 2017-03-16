@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Erreur d&#39;identification!]]></value>
+  </definition>
+  <definition>
+    <key>text_login</key>
+    <value><![CDATA[Vous n&#39;êtes pas connecté. Vous serez redirigé vers la page de connexion]]></value>
+  </definition>
+</definitions>

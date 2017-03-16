@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>text_possible_commands</key>
+    <value><![CDATA[Bellow sont des commandes possibles. Vous pouvez speek plus de détails après commande mot-clé. Exemple, &quot;ouverts messages de page&quot; ou &quot;produit insert&quot;]]></value>
+  </definition>
+  <definition>
+    <key>text_multiple_result_found</key>
+    <value><![CDATA[Résultat multiple d&#39;action trouvé:]]></value>
+  </definition>
+  <definition>
+    <key>text_action_confirm</key>
+    <value><![CDATA[S&#39;il vous plaît confirmer votre demande:]]></value>
+  </definition>
+  <definition>
+    <key>command_open</key>
+    <value><![CDATA[ouvert page ouverte, menu, ouvert]]></value>
+  </definition>
+  <definition>
+    <key>command_find</key>
+    <value><![CDATA[localiser, trouver, recherche, rechercher, chercher 4]]></value>
+  </definition>
+  <definition>
+    <key>command_clear_cache</key>
+    <value><![CDATA[cache clair, cache clair, tout effacer cache]]></value>
+  </definition>
+  <definition>
+    <key>command_view_log</key>
+    <value><![CDATA[vue journal, journal vue, inspecter journal, voir log, afficher le journal des erreurs, afficher les erreurs]]></value>
+  </definition>
+  <definition>
+    <key>command_clear_log</key>
+    <value><![CDATA[log clair, log clair, supprimer journal, connectez-vous supprimer]]></value>
+  </definition>
+  <definition>
+    <key>command_view_order</key>
+    <value><![CDATA[vue ordre, numéro de commande, commande ouverte, spectacle commande, le numéro de commande ouvert, le nombre de vue de la commande, le numéro show de commande, commande n °]]></value>
+  </definition>
+  <definition>
+    <key>command_view_product</key>
+    <value><![CDATA[vue produit, numéro de produit, produit ouvert, spectacle produit, numéro de produit ouvert, le nombre de vue du produit, numéro spectacle produit, produit #]]></value>
+  </definition>
+  <definition>
+    <key>command_create_new</key>
+    <value><![CDATA[insérer, créer, ajouter, nouveau, insérer le nouveau, créer de nouvelles, ajouter de nouvelles]]></value>
+  </definition>
+  <definition>
+    <key>category</key>
+    <value><![CDATA[Catégorie]]></value>
+  </definition>
+  <definition>
+    <key>product</key>
+    <value><![CDATA[produit]]></value>
+  </definition>
+  <definition>
+    <key>brand</key>
+    <value><![CDATA[marque]]></value>
+  </definition>
+  <definition>
+    <key>manufacturer</key>
+    <value><![CDATA[fabricant]]></value>
+  </definition>
+  <definition>
+    <key>review</key>
+    <value><![CDATA[la revue]]></value>
+  </definition>
+  <definition>
+    <key>download</key>
+    <value><![CDATA[Télécharger]]></value>
+  </definition>
+  <definition>
+    <key>attribute</key>
+    <value><![CDATA[attribut]]></value>
+  </definition>
+  <definition>
+    <key>customer</key>
+    <value><![CDATA[client]]></value>
+  </definition>
+  <definition>
+    <key>coupon</key>
+    <value><![CDATA[coupon]]></value>
+  </definition>
+  <definition>
+    <key>discount</key>
+    <value><![CDATA[remise]]></value>
+  </definition>
+  <definition>
+    <key>block</key>
+    <value><![CDATA[bloc]]></value>
+  </definition>
+  <definition>
+    <key>menu</key>
+    <value><![CDATA[menu]]></value>
+  </definition>
+  <definition>
+    <key>content</key>
+    <value><![CDATA[contenu]]></value>
+  </definition>
+  <definition>
+    <key>banner</key>
+    <value><![CDATA[bannière]]></value>
+  </definition>
+  <definition>
+    <key>page</key>
+    <value><![CDATA[page]]></value>
+  </definition>
+  <definition>
+    <key>store</key>
+    <value><![CDATA[le magasin]]></value>
+  </definition>
+  <definition>
+    <key>language</key>
+    <value><![CDATA[la langue]]></value>
+  </definition>
+  <definition>
+    <key>currency</key>
+    <value><![CDATA[devise]]></value>
+  </definition>
+  <definition>
+    <key>location</key>
+    <value><![CDATA[emplacement]]></value>
+  </definition>
+  <definition>
+    <key>tax</key>
+    <value><![CDATA[impôt]]></value>
+  </definition>
+</definitions>

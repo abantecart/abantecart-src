@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Message Manager]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Succès: Vous avez modifié la liste des messages!]]></value>
+  </definition>
+  <definition>
+    <key>column_title</key>
+    <value><![CDATA[Message Titre]]></value>
+  </definition>
+  <definition>
+    <key>column_create_date</key>
+    <value><![CDATA[Rendez-vous amoureux]]></value>
+  </definition>
+  <definition>
+    <key>column_status</key>
+    <value><![CDATA[Statut]]></value>
+  </definition>
+  <definition>
+    <key>column_action</key>
+    <value><![CDATA[action]]></value>
+  </definition>
+  <definition>
+    <key>entry_error</key>
+    <value><![CDATA[Critique]]></value>
+  </definition>
+  <definition>
+    <key>entry_warning</key>
+    <value><![CDATA[Attention]]></value>
+  </definition>
+  <definition>
+    <key>entry_notice</key>
+    <value><![CDATA[Remarquer]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Attention: Vous n&#39;êtes pas autorisé à modifier la liste des messages!]]></value>
+  </definition>
+  <definition>
+    <key>error_name</key>
+    <value><![CDATA[Titre du message doit être compris entre 3 et 32 ​​caractères!]]></value>
+  </definition>
+  <definition>
+    <key>text_show</key>
+    <value><![CDATA[Montrer]]></value>
+  </definition>
+  <definition>
+    <key>text_not_found</key>
+    <value><![CDATA[Ooops. Nous ne pouvons pas trouver ce message.]]></value>
+  </definition>
+  <definition>
+    <key>text_status</key>
+    <value><![CDATA[Etat du message:]]></value>
+  </definition>
+  <definition>
+    <key>text_date</key>
+    <value><![CDATA[Rendez-vous amoureux:]]></value>
+  </definition>
+  <definition>
+    <key>text_repeats</key>
+    <value><![CDATA[Nombre de répétitions:]]></value>
+  </definition>
+  <definition>
+    <key>text_warning</key>
+    <value><![CDATA[Attention]]></value>
+  </definition>
+  <definition>
+    <key>text_error</key>
+    <value><![CDATA[critique]]></value>
+  </definition>
+  <definition>
+    <key>text_notice</key>
+    <value><![CDATA[remarquer]]></value>
+  </definition>
+  <definition>
+    <key>text_delete</key>
+    <value><![CDATA[effacer]]></value>
+  </definition>
+  <definition>
+    <key>text_close</key>
+    <value><![CDATA[Fermer]]></value>
+  </definition>
+  <definition>
+    <key>text_confirm</key>
+    <value><![CDATA[Confirmer?]]></value>
+  </definition>
+  <definition>
+    <key>text_linktext</key>
+    <value><![CDATA[ce lien]]></value>
+  </definition>
+  <definition>
+    <key>text_notifier_title</key>
+    <value><![CDATA[Vous avez %s Nouveau message (s)]]></value>
+  </definition>
+</definitions>

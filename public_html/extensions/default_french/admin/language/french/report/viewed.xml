@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Produits consultés Rapport]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Succès: Vous avez remis le rapport du produit vu!]]></value>
+  </definition>
+  <definition>
+    <key>column_product_id</key>
+    <value><![CDATA[ID du produit]]></value>
+  </definition>
+  <definition>
+    <key>column_name</key>
+    <value><![CDATA[Nom du produit]]></value>
+  </definition>
+  <definition>
+    <key>column_model</key>
+    <value><![CDATA[maquette]]></value>
+  </definition>
+  <definition>
+    <key>column_category</key>
+    <value><![CDATA[Catégorie]]></value>
+  </definition>
+  <definition>
+    <key>column_viewed</key>
+    <value><![CDATA[Vue]]></value>
+  </definition>
+  <definition>
+    <key>column_percent</key>
+    <value><![CDATA[Pour cent]]></value>
+  </definition>
+</definitions>

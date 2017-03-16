@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Panier migration]]></value>
+  </definition>
+  <definition>
+    <key>heading_title_step_one</key>
+    <value><![CDATA[- Étape 1]]></value>
+  </definition>
+  <definition>
+    <key>heading_title_step_two</key>
+    <value><![CDATA[- Étape 2]]></value>
+  </definition>
+  <definition>
+    <key>heading_title_step_three</key>
+    <value><![CDATA[- Terminer]]></value>
+  </definition>
+  <definition>
+    <key>text_description</key>
+    <value><![CDATA[Outil de migration vous permettent d&#39;importer des données provenant d&#39;une autre chariots. <br/> Note: AbanteCart import de support pour mysql seulement pour l&#39; instant. <br/> Appuyez sur le bouton de migration de démarrage pour continuer ...]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Succès: Vos données transfeerd avec succès à Abantecart!]]></value>
+  </definition>
+  <definition>
+    <key>text_cart_info</key>
+    <value><![CDATA[Source <span class="help">panier</span> Info <span class="help">Source détails panier d&#39;application.</span>]]></value>
+  </definition>
+  <definition>
+    <key>text_db_info</key>
+    <value><![CDATA[Base de données Information <span class="help">Note: AbanteCart import de support pour mysql uniquement pour</span> l&#39; <span class="help">instant.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_cart_type</key>
+    <value><![CDATA[Source type de panier:]]></value>
+  </definition>
+  <definition>
+    <key>entry_cart_url</key>
+    <value><![CDATA[Source panier URL:]]></value>
+  </definition>
+  <definition>
+    <key>entry_db_host</key>
+    <value><![CDATA[Base de données Hôte:]]></value>
+  </definition>
+  <definition>
+    <key>entry_db_user</key>
+    <value><![CDATA[Base de données utilisateur:]]></value>
+  </definition>
+  <definition>
+    <key>entry_db_password</key>
+    <value><![CDATA[Mot de passe:]]></value>
+  </definition>
+  <definition>
+    <key>entry_db_name</key>
+    <value><![CDATA[Nom de la base de données:]]></value>
+  </definition>
+  <definition>
+    <key>entry_db_prefix</key>
+    <value><![CDATA[Base de données Prefix:]]></value>
+  </definition>
+  <definition>
+    <key>entry_cart_select</key>
+    <value><![CDATA[- Sélectionner le type de panier -]]></value>
+  </definition>
+  <definition>
+    <key>entry_cart_osc</key>
+    <value><![CDATA[oscommerce 2.2RC2]]></value>
+  </definition>
+  <definition>
+    <key>entry_cart_oscmax</key>
+    <value><![CDATA[osCMax]]></value>
+  </definition>
+  <definition>
+    <key>entry_cart_zen</key>
+    <value><![CDATA[ZenCart 1.3.9h]]></value>
+  </definition>
+  <definition>
+    <key>entry_cart_cre</key>
+    <value><![CDATA[CRE Loaded 6.4.1 STD]]></value>
+  </definition>
+  <definition>
+    <key>entry_cart_opencart</key>
+    <value><![CDATA[OpenCart 1.4.9]]></value>
+  </definition>
+  <definition>
+    <key>entry_migrate_data</key>
+    <value><![CDATA[Sélectionnez les données à migrer]]></value>
+  </definition>
+  <definition>
+    <key>entry_migrate_data_categories</key>
+    <value><![CDATA[Catégories]]></value>
+  </definition>
+  <definition>
+    <key>entry_migrate_data_products</key>
+    <value><![CDATA[Produits, Catégories, Marques]]></value>
+  </definition>
+  <definition>
+    <key>entry_migrate_data_customers</key>
+    <value><![CDATA[Les clients]]></value>
+  </definition>
+  <definition>
+    <key>entry_migrate_data_orders</key>
+    <value><![CDATA[Ordres]]></value>
+  </definition>
+  <definition>
+    <key>entry_erase_existing_data</key>
+    <value><![CDATA[Effacer les données existantes?]]></value>
+  </definition>
+  <definition>
+    <key>button_start_migration</key>
+    <value><![CDATA[Démarrer la migration]]></value>
+  </definition>
+  <definition>
+    <key>button_continue</key>
+    <value><![CDATA[Continuer]]></value>
+  </definition>
+  <definition>
+    <key>button_back</key>
+    <value><![CDATA[Arrière]]></value>
+  </definition>
+  <definition>
+    <key>button_cancel</key>
+    <value><![CDATA[Annuler]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Attention: Vous n&#39;êtes pas autorisé à effectuer la migration!]]></value>
+  </definition>
+  <definition>
+    <key>error_db_host</key>
+    <value><![CDATA[Hôte requis!]]></value>
+  </definition>
+  <definition>
+    <key>error_db_user</key>
+    <value><![CDATA[Utilisateur requis!]]></value>
+  </definition>
+  <definition>
+    <key>error_db_name</key>
+    <value><![CDATA[Nom de la base nécessaire!]]></value>
+  </definition>
+  <definition>
+    <key>error_db_connection</key>
+    <value><![CDATA[Erreur: Impossible de se connecter à la base de données s&#39;il vous plaît assurez-vous que le serveur de base de données, nom d&#39;utilisateur et mot de passe est correct!]]></value>
+  </definition>
+  <definition>
+    <key>error_db_not_exist</key>
+    <value><![CDATA[Erreur: n&#39;existe pas de base de données!]]></value>
+  </definition>
+  <definition>
+    <key>error_cart_type</key>
+    <value><![CDATA[Erreur: S&#39;il vous plaît sélectionner le type de panier!]]></value>
+  </definition>
+  <definition>
+    <key>error_cart_url</key>
+    <value><![CDATA[Erreur: Panier URL requise!]]></value>
+  </definition>
+  <definition>
+    <key>error_cart_not_supported</key>
+    <value><![CDATA[Attention: panier Choisi pas pris en charge maintenant!]]></value>
+  </definition>
+  <definition>
+    <key>error_migrate_data</key>
+    <value><![CDATA[Erreur: S&#39;il vous plaît sélectionner au moins un article!]]></value>
+  </definition>
+  <definition>
+    <key>text_no_customers</key>
+    <value><![CDATA[Remarque: Aucun client a été importé.]]></value>
+  </definition>
+  <definition>
+    <key>text_no_products</key>
+    <value><![CDATA[Remarque: Aucun produit a été importé.]]></value>
+  </definition>
+  <definition>
+    <key>text_no_orders</key>
+    <value><![CDATA[Note: Pas un ordre a été importé.]]></value>
+  </definition>
+  <definition>
+    <key>text_no_brands</key>
+    <value><![CDATA[Note: Pas une seule marque a été importé.]]></value>
+  </definition>
+  <definition>
+    <key>text_no_categories</key>
+    <value><![CDATA[Note: Pas une catégorie de produit a été importé.]]></value>
+  </definition>
+  <definition>
+    <key>error_empty_source_cart</key>
+    <value><![CDATA[Attention: Choisi la source panier est vide! S&#39;il vous plaît vérifier base de données et préfixe de table.]]></value>
+  </definition>
+  <definition>
+    <key>text_finished</key>
+    <value><![CDATA[La migration est terminée.]]></value>
+  </definition>
+</definitions>

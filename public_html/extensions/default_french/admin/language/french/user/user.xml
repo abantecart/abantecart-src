@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Utilisateurs]]></value>
+  </definition>
+  <definition>
+    <key>text_edit_details</key>
+    <value><![CDATA[Modifier le profil Détails]]></value>
+  </definition>
+  <definition>
+    <key>text_user</key>
+    <value><![CDATA[Utilisateur]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Succès: Vous avez des utilisateurs modifiés!]]></value>
+  </definition>
+  <definition>
+    <key>text_success_details</key>
+    <value><![CDATA[Succès: Vous avez modifié votre profil!]]></value>
+  </definition>
+  <definition>
+    <key>column_username</key>
+    <value><![CDATA[Nom d&#39;utilisateur]]></value>
+  </definition>
+  <definition>
+    <key>column_group</key>
+    <value><![CDATA[Groupe]]></value>
+  </definition>
+  <definition>
+    <key>column_status</key>
+    <value><![CDATA[Statut]]></value>
+  </definition>
+  <definition>
+    <key>column_date_added</key>
+    <value><![CDATA[date ajoutée]]></value>
+  </definition>
+  <definition>
+    <key>column_action</key>
+    <value><![CDATA[action]]></value>
+  </definition>
+  <definition>
+    <key>entry_username</key>
+    <value><![CDATA[Nom d&#39;utilisateur:]]></value>
+  </definition>
+  <definition>
+    <key>entry_password</key>
+    <value><![CDATA[Mot de passe:]]></value>
+  </definition>
+  <definition>
+    <key>entry_confirm</key>
+    <value><![CDATA[Confirmer:]]></value>
+  </definition>
+  <definition>
+    <key>entry_firstname</key>
+    <value><![CDATA[Prénom:]]></value>
+  </definition>
+  <definition>
+    <key>entry_lastname</key>
+    <value><![CDATA[Nom de famille:]]></value>
+  </definition>
+  <definition>
+    <key>entry_email</key>
+    <value><![CDATA[Email:]]></value>
+  </definition>
+  <definition>
+    <key>entry_user_group</key>
+    <value><![CDATA[Groupe d&#39;utilisateurs:]]></value>
+  </definition>
+  <definition>
+    <key>entry_status</key>
+    <value><![CDATA[Statut:]]></value>
+  </definition>
+  <definition>
+    <key>entry_ims</key>
+    <value><![CDATA[Notifications]]></value>
+  </definition>
+  <definition>
+    <key>entry_captcha</key>
+    <value><![CDATA[Entrez le code dans la case ci-dessous:]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Attention: Vous n&#39;êtes pas autorisé à modifier les utilisateurs!]]></value>
+  </definition>
+  <definition>
+    <key>error_account</key>
+    <value><![CDATA[Attention: Vous ne pouvez pas supprimer votre propre compte!]]></value>
+  </definition>
+  <definition>
+    <key>error_username</key>
+    <value><![CDATA[Nom d&#39;utilisateur doit être comprise entre 2 et 20 caractères!]]></value>
+  </definition>
+  <definition>
+    <key>error_password</key>
+    <value><![CDATA[Mot de passe doit être plus de 3 caractères!]]></value>
+  </definition>
+  <definition>
+    <key>error_confirm</key>
+    <value><![CDATA[Mot de passe et la confirmation du mot de passe ne correspondent pas!]]></value>
+  </definition>
+  <definition>
+    <key>error_firstname</key>
+    <value><![CDATA[Prénom doit être comprise entre 2 et 32 ​​caractères!]]></value>
+  </definition>
+  <definition>
+    <key>error_lastname</key>
+    <value><![CDATA[Nom doit être comprise entre 2 et 32 ​​caractères!]]></value>
+  </definition>
+  <definition>
+    <key>error_email</key>
+    <value><![CDATA[Adresse e-mail ne semble pas être valide!]]></value>
+  </definition>
+  <definition>
+    <key>error_captcha</key>
+    <value><![CDATA[Vérification humaine a échoué!]]></value>
+  </definition>
+  <definition>
+    <key>error_user_group</key>
+    <value><![CDATA[Vous n&#39;avez pas autorisé à modifier un groupe d&#39;utilisateurs.]]></value>
+  </definition>
+  <definition>
+    <key>text_select_group</key>
+    <value><![CDATA[- Sélectionner le groupe -]]></value>
+  </definition>
+  <definition>
+    <key>entry_im_email</key>
+    <value><![CDATA[E-Mail: <span class="help">Un ou plusieurs séparés par</span> des <span class="help">virgules adresses e</span> - <span class="help">mail</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_im_sms</key>
+    <value><![CDATA[Téléphone mobile: <span class="help">numéro de téléphone au format international. ex. +14566887777</span>]]></value>
+  </definition>
+  <definition>
+    <key>text_edit_im</key>
+    <value><![CDATA[Modifier les notifications]]></value>
+  </definition>
+  <definition>
+    <key>text_sendpoints</key>
+    <value><![CDATA[Paramètres de notification]]></value>
+  </definition>
+  <definition>
+    <key>text_change_im_addresses</key>
+    <value><![CDATA[Modifier la notification Adresses pour cette SendPoint]]></value>
+  </definition>
+</definitions>

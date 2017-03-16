@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Groupe de clients]]></value>
+  </definition>
+  <definition>
+    <key>breadcrumb_title</key>
+    <value><![CDATA[Groupes de clients]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Succès: Vous avez modifié les groupes de clients!]]></value>
+  </definition>
+  <definition>
+    <key>column_name</key>
+    <value><![CDATA[Nom du groupe de clients]]></value>
+  </definition>
+  <definition>
+    <key>column_tax_exempt</key>
+    <value><![CDATA[exonérés de taxe]]></value>
+  </definition>
+  <definition>
+    <key>column_action</key>
+    <value><![CDATA[action]]></value>
+  </definition>
+  <definition>
+    <key>entry_name</key>
+    <value><![CDATA[Groupe Nom du client:]]></value>
+  </definition>
+  <definition>
+    <key>entry_tax_exempt</key>
+    <value><![CDATA[Exonérés de tous impôts:]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Attention: Vous n&#39;êtes pas autorisé à modifier les groupes de clients!]]></value>
+  </definition>
+  <definition>
+    <key>error_name</key>
+    <value><![CDATA[Client Nom du groupe doit être comprise entre 2 et 64 caractères!]]></value>
+  </definition>
+  <definition>
+    <key>error_default</key>
+    <value><![CDATA[Attention: Ce groupe de client ne peut pas être supprimé car il est actuellement affecté en tant que groupe de clients du magasin par défaut!]]></value>
+  </definition>
+  <definition>
+    <key>error_store</key>
+    <value><![CDATA[Attention: Ce groupe de client ne peut pas être supprimé car il est actuellement affecté à %s magasins!]]></value>
+  </definition>
+  <definition>
+    <key>error_customer</key>
+    <value><![CDATA[Attention: Ce groupe de client ne peut pas être supprimé car il est actuellement affecté à %s clients!]]></value>
+  </definition>
+</definitions>

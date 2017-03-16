@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Promotions]]></value>
+  </definition>
+  <definition>
+    <key>heading_subtitle</key>
+    <value><![CDATA[Voir les produits en vente]]></value>
+  </definition>
+  <definition>
+    <key>text_stars</key>
+    <value><![CDATA[%s Sur 5 Étoiles!]]></value>
+  </definition>
+</definitions>

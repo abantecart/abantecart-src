@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Mot de passe oublié?]]></value>
+  </definition>
+  <definition>
+    <key>heading_title_loginname</key>
+    <value><![CDATA[Vous avez oublié votre nom de connexion?]]></value>
+  </definition>
+  <definition>
+    <key>text_account</key>
+    <value><![CDATA[Compte]]></value>
+  </definition>
+  <definition>
+    <key>text_forgotten</key>
+    <value><![CDATA[mot de passe oublié]]></value>
+  </definition>
+  <definition>
+    <key>text_your_email</key>
+    <value><![CDATA[Votre adresse email]]></value>
+  </definition>
+  <definition>
+    <key>text_email</key>
+    <value><![CDATA[Entrez l&#39;adresse e-mail associée à votre compte. Cliquez sur Soumettre pour avoir votre mot de passe envoyé par courriel]]></value>
+  </definition>
+  <definition>
+    <key>text_loginname_email</key>
+    <value><![CDATA[Entrez le nom d&#39;utilisateur et adresse e-mail associée à votre compte. Cliquez sur soumettre pour demander le mot de passe reset]]></value>
+  </definition>
+  <definition>
+    <key>text_lastname_email</key>
+    <value><![CDATA[Entrez le nom et l&#39;adresse e-mail associée à votre compte. Cliquez sur soumettre pour avoir votre nom de connexion envoyé par courriel]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Succès: Mot de passe lien de réinitialisation a été envoyé à votre adresse e-mail.]]></value>
+  </definition>
+  <definition>
+    <key>text_success_loginname</key>
+    <value><![CDATA[Succès: Votre nom de connexion de rappel a été envoyé à votre adresse e-mail.]]></value>
+  </definition>
+  <definition>
+    <key>entry_loginname</key>
+    <value><![CDATA[Identifiant:]]></value>
+  </definition>
+  <definition>
+    <key>entry_lastname</key>
+    <value><![CDATA[Nom de famille:]]></value>
+  </definition>
+  <definition>
+    <key>entry_email</key>
+    <value><![CDATA[Adresse e-mail:]]></value>
+  </definition>
+  <definition>
+    <key>error_email</key>
+    <value><![CDATA[Erreur: L&#39;adresse e-mail n&#39;a pas été fourni ou non trouvé dans nos dossiers, s&#39;il vous plaît essayer à nouveau!]]></value>
+  </definition>
+  <definition>
+    <key>error_loginname</key>
+    <value><![CDATA[Erreur: Le nom de connexion n&#39;a pas été fourni ou non trouvé dans nos dossiers, s&#39;il vous plaît essayer à nouveau!]]></value>
+  </definition>
+  <definition>
+    <key>error_lastname</key>
+    <value><![CDATA[Erreur: Le dernier nom n&#39;a pas été fourni ou non trouvé dans nos dossiers, s&#39;il vous plaît essayer à nouveau!]]></value>
+  </definition>
+  <definition>
+    <key>error_not_found</key>
+    <value><![CDATA[Erreur: Aucun enregistrement d&#39;informations correspondant trouvé votre fournie, s&#39;il vous plaît vérifier vos informations et réessayer!]]></value>
+  </definition>
+  <definition>
+    <key>text_forgotten_loginname</key>
+    <value><![CDATA[Login oublié Nom]]></value>
+  </definition>
+</definitions>

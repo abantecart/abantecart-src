@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>text_send_email</key>
+    <value><![CDATA[Envoyer un mail]]></value>
+  </definition>
+  <definition>
+    <key>text_send_sms</key>
+    <value><![CDATA[Envoyer un SMS]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Votre message a été envoyé avec succès!]]></value>
+  </definition>
+  <definition>
+    <key>text_default</key>
+    <value><![CDATA[Défaut]]></value>
+  </definition>
+  <definition>
+    <key>text_custom_send</key>
+    <value><![CDATA[clients manualy sélectionnés]]></value>
+  </definition>
+  <definition>
+    <key>text_all_subscribers</key>
+    <value><![CDATA[Tous les abonnés]]></value>
+  </definition>
+  <definition>
+    <key>text_subscribers_only</key>
+    <value><![CDATA[Lettre d&#39;information aux abonnés (non-clients)]]></value>
+  </definition>
+  <definition>
+    <key>text_customers_only</key>
+    <value><![CDATA[Tous les clients]]></value>
+  </definition>
+  <definition>
+    <key>entry_store</key>
+    <value><![CDATA[De magasin: <span class="help">Magasin adresse e</span> - <span class="help">mail pour envoyer e</span> - <span class="help">mails.</span> La <span class="help">valeur est définie dans</span> les <span class="help">paramètres de magasin</span>]]></value>
+  </definition>
+  <definition>
+    <key>text_customers_who_ordered</key>
+    <value><![CDATA[Pour les clients qui ont commandé des produits sélectionnés]]></value>
+  </definition>
+  <definition>
+    <key>entry_to</key>
+    <value><![CDATA[Pour: <span class="help">Liste des clients pour recevoir ce message. REMARQUE:</span> Les <span class="help">listes de clients grands</span> , <span class="help">il faudra beaucoup</span> de <span class="help">temps pour traiter et peuvent nécessiter</span> des <span class="help">méthodes alternatives. Reportez</span> - <span class="help">vous à vos configurations de serveur web et</span> de <span class="help">messagerie</span>]]></value>
+  </definition>
+  <definition>
+    <key>text_customers_from_lookup</key>
+    <value><![CDATA[Commencez à taper le nom du client pour rechercher et sélectionner]]></value>
+  </definition>
+  <definition>
+    <key>text_products_from_lookup</key>
+    <value><![CDATA[Commencez à taper le nom du produit pour rechercher et sélectionner]]></value>
+  </definition>
+  <definition>
+    <key>entry_subject</key>
+    <value><![CDATA[Assujettir:]]></value>
+  </definition>
+  <definition>
+    <key>entry_message</key>
+    <value><![CDATA[Corps du message:]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Attention: Vous n&#39;êtes pas autorisé à envoyer des e-mails!]]></value>
+  </definition>
+  <definition>
+    <key>error_subject</key>
+    <value><![CDATA[Email sujet est nécessaire!]]></value>
+  </definition>
+  <definition>
+    <key>error_message_email</key>
+    <value><![CDATA[corps du message est nécessaire!]]></value>
+  </definition>
+  <definition>
+    <key>error_message_sms</key>
+    <value><![CDATA[corps de message SMS est nécessaire!]]></value>
+  </definition>
+  <definition>
+    <key>error_recipients</key>
+    <value><![CDATA[liste des destinataires, les abonnés ou les produits commandés sont nécessaires!]]></value>
+  </definition>
+  <definition>
+    <key>error_not_sent</key>
+    <value><![CDATA[&#39;Erreur: Aucun e-mail a été envoyé! S&#39;il vous plaît voir le journal des erreurs pour plus de détails.]]></value>
+  </definition>
+  <definition>
+    <key>text_unsubscribe</key>
+    <value><![CDATA[Ce courriel a été envoyé à %s, parce que vos préférences de messagerie sont configurés pour recevoir des bulletins d&#39;information. Cliquez <a href="%s">ici pour</a> vous <a href="%s">désinscrire</a> .]]></value>
+  </definition>
+  <definition>
+    <key>text_total_to_be_sent</key>
+    <value><![CDATA[(Total à envoyer à: %s)]]></value>
+  </definition>
+  <definition>
+    <key>text_select_products</key>
+    <value><![CDATA[- Sélectionnez Produits -]]></value>
+  </definition>
+  <definition>
+    <key>text_select_customers</key>
+    <value><![CDATA[- Sélectionnez Clients -]]></value>
+  </definition>
+  <definition>
+    <key>text_email</key>
+    <value><![CDATA[Email]]></value>
+  </definition>
+  <definition>
+    <key>text_sms</key>
+    <value><![CDATA[SMS]]></value>
+  </definition>
+  <definition>
+    <key>text_incomplete_tasks</key>
+    <value><![CDATA[Tâches incomplètes]]></value>
+  </definition>
+  <definition>
+    <key>text_task_id</key>
+    <value><![CDATA[Groupe ID:]]></value>
+  </definition>
+  <definition>
+    <key>text_last_time_run</key>
+    <value><![CDATA[Last Time Run:]]></value>
+  </definition>
+  <definition>
+    <key>text_date_added</key>
+    <value><![CDATA[Créé:]]></value>
+  </definition>
+  <definition>
+    <key>text_subject</key>
+    <value><![CDATA[Assujettir:]]></value>
+  </definition>
+  <definition>
+    <key>text_message</key>
+    <value><![CDATA[Message:]]></value>
+  </definition>
+  <definition>
+    <key>text_starter_name</key>
+    <value><![CDATA[Créé par:]]></value>
+  </definition>
+  <definition>
+    <key>text_restart</key>
+    <value><![CDATA[Redémarrer]]></value>
+  </definition>
+  <definition>
+    <key>text_remove</key>
+    <value><![CDATA[Retirer]]></value>
+  </definition>
+  <definition>
+    <key>error_email_no_recipients</key>
+    <value><![CDATA[Attention! Message ne sera pas envoyé.]]></value>
+  </definition>
+  <definition>
+    <key>error_sms_no_recipients</key>
+    <value><![CDATA[Attention! Aucun client avec des numéros de téléphone mobile.]]></value>
+  </definition>
+  <definition>
+    <key>text_attention_recipients_count</key>
+    <value><![CDATA[Attention! Le message sera envoyé aux clients %s.]]></value>
+  </definition>
+  <definition>
+    <key>text_success_abort</key>
+    <value><![CDATA[Tâche interrompue avec succès.]]></value>
+  </definition>
+  <definition>
+    <key>text_success_sent</key>
+    <value><![CDATA[%s Messages ont été envoyés.]]></value>
+  </definition>
+  <definition>
+    <key>text_task_failed</key>
+    <value><![CDATA[Quelques erreurs se sont produites au cours du processus de la tâche. S&#39;il vous plaît voir log pour plus de détails ou redémarrer cette tâche.]]></value>
+  </definition>
+  <definition>
+    <key>text_sent</key>
+    <value><![CDATA[%s De %s messages sont envoyés]]></value>
+  </definition>
+</definitions>

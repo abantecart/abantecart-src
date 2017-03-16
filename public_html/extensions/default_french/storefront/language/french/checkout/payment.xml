@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Informations de paiement]]></value>
+  </definition>
+  <definition>
+    <key>text_basket</key>
+    <value><![CDATA[Panier]]></value>
+  </definition>
+  <definition>
+    <key>entry_shipping</key>
+    <value><![CDATA[livraison]]></value>
+  </definition>
+  <definition>
+    <key>entry_payment</key>
+    <value><![CDATA[Paiement]]></value>
+  </definition>
+  <definition>
+    <key>text_payment_to</key>
+    <value><![CDATA[S&#39;il vous plaît choisir votre carnet d&#39;adresses où vous souhaitez la facture envoyée.]]></value>
+  </definition>
+  <definition>
+    <key>text_payment_address</key>
+    <value><![CDATA[adresse de facturation]]></value>
+  </definition>
+  <definition>
+    <key>text_payment_method</key>
+    <value><![CDATA[Mode de paiement]]></value>
+  </definition>
+  <definition>
+    <key>text_payment_methods</key>
+    <value><![CDATA[S&#39;il vous plaît sélectionner le mode de paiement préféré à utiliser sur cet ordre.]]></value>
+  </definition>
+  <definition>
+    <key>text_comments</key>
+    <value><![CDATA[Ajoutez des commentaires à propos de votre commande]]></value>
+  </definition>
+  <definition>
+    <key>text_agree</key>
+    <value><![CDATA[j&#39;ai lu et accepté les]]></value>
+  </definition>
+  <definition>
+    <key>text_coupon</key>
+    <value><![CDATA[Entrez votre code et cliquez sur &quot;Apply Coupon&quot; et pour voir votre remise instantanément appliquée à votre commande.]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Succès: Votre bon de réduction a été appliquée!]]></value>
+  </definition>
+  <definition>
+    <key>text_coupon_removal</key>
+    <value><![CDATA[Succès: Coupon a été supprimé!]]></value>
+  </definition>
+  <definition>
+    <key>entry_coupon</key>
+    <value><![CDATA[Coupon:]]></value>
+  </definition>
+  <definition>
+    <key>error_payment</key>
+    <value><![CDATA[Erreur: Mode de paiement requis!]]></value>
+  </definition>
+  <definition>
+    <key>error_agree</key>
+    <value><![CDATA[Erreur: Vous devez accepter le %s!]]></value>
+  </definition>
+  <definition>
+    <key>error_coupon</key>
+    <value><![CDATA[Erreur: Coupon est soit invalide, expiré ou a atteint sa limite d&#39;utilisation!]]></value>
+  </definition>
+</definitions>

@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Frais de gestion]]></value>
+  </definition>
+  <definition>
+    <key>total_name</key>
+    <value><![CDATA[Frais de gestion]]></value>
+  </definition>
+  <definition>
+    <key>text_total</key>
+    <value><![CDATA[Ordre totaux]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Succès: Vous avez mis à jour les frais de manutention au total!]]></value>
+  </definition>
+  <definition>
+    <key>entry_total</key>
+    <value><![CDATA[Total de la commande: <span class="help">montant minimum de commande à atteindre pour appliquer les frais. Si</span> la <span class="help">commande du client totale dépassera ce montant, feee manipulation ne sera pas appliquée. Cette valeur est remplacée avec</span> un <span class="help">réglage spécifique de paiement.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_total_placeholder</key>
+    <value><![CDATA[Montant de la commande]]></value>
+  </definition>
+  <definition>
+    <key>entry_fee</key>
+    <value><![CDATA[Frais: <span class="help">Frais à ajouter à</span> l&#39; <span class="help">ordre total si</span> la <span class="help">condition de montant minimum ne soit pas atteint. Ce montant est remplacé par</span> un <span class="help">réglage spécifique de paiement</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_payment_fee</key>
+    <value><![CDATA[Frais: <span class="help">Frais à ajouter à</span> l&#39; <span class="help">ordre total si quantité condition de sous-total minimum ne sont pas respectées. Ce montant remplacer</span> la <span class="help">fixation des tarifs principale</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_payment</key>
+    <value><![CDATA[Paiement: <span class="help">Sélectionnez un paiement spécifique</span> , <span class="help">vous devez ajouter les frais à. Ces paramètres remplaceront les principaux paramètres si</span> le <span class="help">paiement est utilisé par</span> le <span class="help">client.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_order_subtotal</key>
+    <value><![CDATA[Ordre Sous-total: <span class="help">Montant du sous-total Ordre minimum à atteindre pour appliquer les frais. Ceci remplace paramètre principal</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_tax</key>
+    <value><![CDATA[Classe de TVA: <span class="help">Sélectionnez si vous avez besoin taxe à appliquer sur</span> le <span class="help">dessus de la taxe de traitement</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_status</key>
+    <value><![CDATA[Statut:]]></value>
+  </definition>
+  <definition>
+    <key>entry_sort_order</key>
+    <value><![CDATA[Ordre de tri:]]></value>
+  </definition>
+  <definition>
+    <key>entry_calculation_order</key>
+    <value><![CDATA[Calcul Ordre:]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Attention: Vous n&#39;êtes pas autorisé à modifier les frais de manutention totale!]]></value>
+  </definition>
+  <definition>
+    <key>error_number</key>
+    <value><![CDATA[Attention: Total des commandes et de manutention doit être un nombre!]]></value>
+  </definition>
+</definitions>

@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[détails de la commande]]></value>
+  </definition>
+  <definition>
+    <key>text_account</key>
+    <value><![CDATA[Compte]]></value>
+  </definition>
+  <definition>
+    <key>text_history</key>
+    <value><![CDATA[Historique des commandes]]></value>
+  </definition>
+  <definition>
+    <key>text_invoice</key>
+    <value><![CDATA[Facture d&#39;achat]]></value>
+  </definition>
+  <definition>
+    <key>text_invoice_id</key>
+    <value><![CDATA[ID facture]]></value>
+  </definition>
+  <definition>
+    <key>text_order_id</key>
+    <value><![CDATA[numéro de commande]]></value>
+  </definition>
+  <definition>
+    <key>text_email</key>
+    <value><![CDATA[Email]]></value>
+  </definition>
+  <definition>
+    <key>text_telephone</key>
+    <value><![CDATA[Téléphone]]></value>
+  </definition>
+  <definition>
+    <key>text_mobile_phone</key>
+    <value><![CDATA[Téléphone portable:]]></value>
+  </definition>
+  <definition>
+    <key>text_fax</key>
+    <value><![CDATA[Fax]]></value>
+  </definition>
+  <definition>
+    <key>text_shipping_address</key>
+    <value><![CDATA[Adresse de livraison]]></value>
+  </definition>
+  <definition>
+    <key>text_shipping_method</key>
+    <value><![CDATA[Méthode d&#39;envoi]]></value>
+  </definition>
+  <definition>
+    <key>text_payment_address</key>
+    <value><![CDATA[adresse de facturation]]></value>
+  </definition>
+  <definition>
+    <key>text_payment_method</key>
+    <value><![CDATA[Mode de paiement]]></value>
+  </definition>
+  <definition>
+    <key>text_order_history</key>
+    <value><![CDATA[Historique des commandes]]></value>
+  </definition>
+  <definition>
+    <key>text_product</key>
+    <value><![CDATA[Produit]]></value>
+  </definition>
+  <definition>
+    <key>text_model</key>
+    <value><![CDATA[maquette]]></value>
+  </definition>
+  <definition>
+    <key>text_quantity</key>
+    <value><![CDATA[Quantité]]></value>
+  </definition>
+  <definition>
+    <key>text_price</key>
+    <value><![CDATA[Prix ​​unitaire]]></value>
+  </definition>
+  <definition>
+    <key>text_total</key>
+    <value><![CDATA[Total]]></value>
+  </definition>
+  <definition>
+    <key>text_comment</key>
+    <value><![CDATA[Commander Commentaires]]></value>
+  </definition>
+  <definition>
+    <key>text_image</key>
+    <value><![CDATA[Image]]></value>
+  </definition>
+  <definition>
+    <key>text_error</key>
+    <value><![CDATA[L&#39;ordre que vous avez demandé n&#39;a pas été trouvé!]]></value>
+  </definition>
+  <definition>
+    <key>column_date_added</key>
+    <value><![CDATA[date ajoutée]]></value>
+  </definition>
+  <definition>
+    <key>column_status</key>
+    <value><![CDATA[Statut]]></value>
+  </definition>
+  <definition>
+    <key>column_comment</key>
+    <value><![CDATA[Pour le commentaire de client]]></value>
+  </definition>
+  <definition>
+    <key>text_order_cancelation</key>
+    <value><![CDATA[Demande d&#39;annulation de l&#39;ordonnance]]></value>
+  </definition>
+  <definition>
+    <key>text_request_cancellation_from_customer</key>
+    <value><![CDATA[Demander une annulation de commande du client]]></value>
+  </definition>
+  <definition>
+    <key>text_order_cancelation_confirm</key>
+    <value><![CDATA[Votre demande d&#39;annulation ne peut être faite dans certains cas, par exemple, lorsque les marchandises ont été expédiées. Continuer?]]></value>
+  </definition>
+  <definition>
+    <key>text_order_cancelation_success</key>
+    <value><![CDATA[demande d&#39;annulation de la commande a été soumis]]></value>
+  </definition>
+  <definition>
+    <key>text_order_cancelation_message_title</key>
+    <value><![CDATA[Commandez # %s demande d&#39;annulation]]></value>
+  </definition>
+  <definition>
+    <key>text_order_cancelation_message_body</key>
+    <value><![CDATA[Client %s a demandé annulation de commande pour la commande n ° %s. Pour passer en revue go to %s]]></value>
+  </definition>
+  <definition>
+    <key>error_email</key>
+    <value><![CDATA[Adresse e-mail ne semble pas être valide!]]></value>
+  </definition>
+  <definition>
+    <key>error_order_id</key>
+    <value><![CDATA[Numéro de commande est obligatoire Champ!]]></value>
+  </definition>
+</definitions>

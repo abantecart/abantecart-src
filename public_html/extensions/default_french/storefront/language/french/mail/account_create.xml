@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>text_subject</key>
+    <value><![CDATA[%s - Merci pour votre inscription]]></value>
+  </definition>
+  <definition>
+    <key>text_welcome</key>
+    <value><![CDATA[Bienvenue et merci de vous inscrire à %s!]]></value>
+  </definition>
+  <definition>
+    <key>text_login</key>
+    <value><![CDATA[Votre compte a été créé et vous pouvez y accéder en visitant notre site Web ou à l&#39;adresse suivante:]]></value>
+  </definition>
+  <definition>
+    <key>text_approval</key>
+    <value><![CDATA[Votre compte doit être approuvé avant que vous pouvez vous connecter. Une fois approuvée, vous pouvez vous connecter en utilisant votre adresse e-mail et mot de passe en visitant notre site Web ou à l&#39;adresse suivante:]]></value>
+  </definition>
+  <definition>
+    <key>text_activate</key>
+    <value><![CDATA[Avant de pouvoir activer votre compte une dernière étape doit être prise pour compléter votre inscription. <br/> 
+ Vous devez remplir cette dernière étape pour devenir un membre enregistré. S&#39;il vous plaît cliquer sur le lien suivant pour activer votre compte %s.]]></value>
+  </definition>
+  <definition>
+    <key>text_services</key>
+    <value><![CDATA[Une fois connecté, vous serez en mesure d&#39;accéder à d&#39;autres services, y compris l&#39;examen des commandes passées, des factures d&#39;impression et éditer les informations de votre compte.]]></value>
+  </definition>
+  <definition>
+    <key>text_thanks</key>
+    <value><![CDATA[Je vous remercie,]]></value>
+  </definition>
+</definitions>

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Votre commande a été traitée!]]></value>
+  </definition>
+  <definition>
+    <key>text_message_account</key>
+    <value><![CDATA[<p> Votre commande # %s a été créé! </p> 
+ <p> Vous pouvez consulter les détails de votre commande en allant à la <a href="%s">page de</a> la <a href="%s">facture</a>. </p> 
+ <p> S&#39;il vous plaît diriger toutes vos questions au <a href="%s">propriétaire du magasin</a>. </p> 
+ <p> Merci de magasiner avec nous! </p>]]></value>
+  </definition>
+  <definition>
+    <key>text_message_guest</key>
+    <value><![CDATA[<p> Votre commande a été traitée avec succès! </p> 
+ <p> Vous pouvez consulter les détails de votre commande en allant à la <a href="%s">page de</a> la <a href="%s">facture</a>. </p> 
+ <p> S&#39;il vous plaît diriger toutes vos questions au <a href="%s">propriétaire du magasin</a>. </p> 
+ <p> Merci de magasiner avec nous! </p>]]></value>
+  </definition>
+  <definition>
+    <key>text_basket</key>
+    <value><![CDATA[Panier]]></value>
+  </definition>
+  <definition>
+    <key>text_shipping</key>
+    <value><![CDATA[livraison]]></value>
+  </definition>
+  <definition>
+    <key>text_payment</key>
+    <value><![CDATA[Paiement]]></value>
+  </definition>
+  <definition>
+    <key>text_guest</key>
+    <value><![CDATA[Guest Checkout]]></value>
+  </definition>
+  <definition>
+    <key>text_confirm</key>
+    <value><![CDATA[Confirmer]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Succès]]></value>
+  </definition>
+</definitions>

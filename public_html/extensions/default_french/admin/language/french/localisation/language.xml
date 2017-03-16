@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Langues]]></value>
+  </definition>
+  <definition>
+    <key>text_language</key>
+    <value><![CDATA[La langue]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Succès: Vous avez langues modifiés!]]></value>
+  </definition>
+  <definition>
+    <key>column_name</key>
+    <value><![CDATA[Nom de la langue]]></value>
+  </definition>
+  <definition>
+    <key>column_code</key>
+    <value><![CDATA[Code]]></value>
+  </definition>
+  <definition>
+    <key>column_sort_order</key>
+    <value><![CDATA[Ordre de tri]]></value>
+  </definition>
+  <definition>
+    <key>column_action</key>
+    <value><![CDATA[action]]></value>
+  </definition>
+  <definition>
+    <key>entry_name</key>
+    <value><![CDATA[Nom de la langue:]]></value>
+  </definition>
+  <definition>
+    <key>entry_code</key>
+    <value><![CDATA[Code Promo: <br/><span class="help">Ne pas changer si cela est votre langue par défaut.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_locale</key>
+    <value><![CDATA[Lieu:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image</key>
+    <value><![CDATA[Image:]]></value>
+  </definition>
+  <definition>
+    <key>entry_directory</key>
+    <value><![CDATA[Annuaire:]]></value>
+  </definition>
+  <definition>
+    <key>entry_filename</key>
+    <value><![CDATA[Nom de fichier:]]></value>
+  </definition>
+  <definition>
+    <key>entry_status</key>
+    <value><![CDATA[Statut:]]></value>
+  </definition>
+  <definition>
+    <key>entry_sort_order</key>
+    <value><![CDATA[Ordre de tri:]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Attention: Vous n&#39;êtes pas autorisé à modifier les langues!]]></value>
+  </definition>
+  <definition>
+    <key>error_name</key>
+    <value><![CDATA[Nom Langue doit être comprise entre 2 et 32 ​​caractères!]]></value>
+  </definition>
+  <definition>
+    <key>error_code</key>
+    <value><![CDATA[Code de la langue doit être au moins 2 caractères!]]></value>
+  </definition>
+  <definition>
+    <key>error_locale</key>
+    <value><![CDATA[Locale nécessaire!]]></value>
+  </definition>
+  <definition>
+    <key>error_image</key>
+    <value><![CDATA[Nom du fichier image doit être comprise entre 2 et 64 caractères!]]></value>
+  </definition>
+  <definition>
+    <key>error_directory</key>
+    <value><![CDATA[Répertoire nécessaire!]]></value>
+  </definition>
+  <definition>
+    <key>error_filename</key>
+    <value><![CDATA[Nom du fichier doit être comprise entre 2 et 64 caractères!]]></value>
+  </definition>
+  <definition>
+    <key>error_default</key>
+    <value><![CDATA[Attention: Cette langue ne peut pas être supprimé car il est actuellement affecté comme langue de magasin par défaut!]]></value>
+  </definition>
+  <definition>
+    <key>error_admin</key>
+    <value><![CDATA[Attention: Cette langue ne peut pas être supprimé car il est actuellement affecté comme langue de l&#39;administration!]]></value>
+  </definition>
+  <definition>
+    <key>error_store</key>
+    <value><![CDATA[Attention: Cette langue ne peut pas être supprimé car il est actuellement affecté à %s magasins!]]></value>
+  </definition>
+  <definition>
+    <key>error_order</key>
+    <value><![CDATA[Attention: Cette langue ne peut pas être supprimé car il est actuellement assigné à %s commandes!]]></value>
+  </definition>
+  <definition>
+    <key>language_edit_title</key>
+    <value><![CDATA[Modifier la langue Détails]]></value>
+  </definition>
+  <definition>
+    <key>load_language_title</key>
+    <value><![CDATA[Charger des données de langue manquante]]></value>
+  </definition>
+  <definition>
+    <key>entry_language_selector</key>
+    <value><![CDATA[Langue originelle:]]></value>
+  </definition>
+  <definition>
+    <key>entry_translate_method_selector</key>
+    <value><![CDATA[Texte méthode de traduction:]]></value>
+  </definition>
+  <definition>
+    <key>load_language_note</key>
+    <value><![CDATA[NOTE: Cette opération peut prendre quelques minutes à courir. Ne fermez pas le navigateur, laissez ou rafraîchir la page!]]></value>
+  </definition>
+  <definition>
+    <key>create_language_note</key>
+    <value><![CDATA[NOTE: Nous vous recommandons de créer le langage comme une extension. Vérifiez extensions linguistiques existantes. Si vous voulez continuer à créer de nouvelles langue manuellement, vous devez ajouter la langue Drapeau à admin / langue / [Répertoire Langue] /flag.png et vitrine / langue / [Répertoire des langues] flag.png 
+ Une fois la langue est créée charge les données manquantes de langue de traduire ou de copier le contenu du texte de la langue source.]]></value>
+  </definition>
+  <definition>
+    <key>button_load_language</key>
+    <value><![CDATA[Charge]]></value>
+  </definition>
+  <definition>
+    <key>text_incomplete_tasks</key>
+    <value><![CDATA[Tâches incomplètes]]></value>
+  </definition>
+  <definition>
+    <key>text_task_id</key>
+    <value><![CDATA[Groupe ID:]]></value>
+  </definition>
+  <definition>
+    <key>text_title</key>
+    <value><![CDATA[Titre:]]></value>
+  </definition>
+  <definition>
+    <key>text_last_time_run</key>
+    <value><![CDATA[Last Time Run:]]></value>
+  </definition>
+  <definition>
+    <key>text_date_added</key>
+    <value><![CDATA[Créé:]]></value>
+  </definition>
+  <definition>
+    <key>text_starter_name</key>
+    <value><![CDATA[Créé par:]]></value>
+  </definition>
+  <definition>
+    <key>text_restart</key>
+    <value><![CDATA[Redémarrer]]></value>
+  </definition>
+  <definition>
+    <key>text_remove</key>
+    <value><![CDATA[Retirer]]></value>
+  </definition>
+  <definition>
+    <key>text_task_title</key>
+    <value><![CDATA[Traduction des Descriptions Du %s à %s]]></value>
+  </definition>
+  <definition>
+    <key>error_nothing_to_do</key>
+    <value><![CDATA[Erreur: S&#39;il vous plaît Définir la langue source et la méthode de traduction!]]></value>
+  </definition>
+  <definition>
+    <key>text_translate_override_existing</key>
+    <value><![CDATA[Remarque: Toutes les descriptions existantes dans la langue cible seront remplacées par une nouvelle traduction. Vous pouvez désactiver dominante dans <a href="%s">Système-&gt; Paramètres-&gt; Détails</a> du <a href="%s">magasin</a> .]]></value>
+  </definition>
+</definitions>

@@ -1,0 +1,255 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Fichiers de produit]]></value>
+  </definition>
+  <definition>
+    <key>text_product</key>
+    <value><![CDATA[Produit]]></value>
+  </definition>
+  <definition>
+    <key>text_edit_product_file</key>
+    <value><![CDATA[Modifier Fiche produit]]></value>
+  </definition>
+  <definition>
+    <key>tab_files</key>
+    <value><![CDATA[Des dossiers]]></value>
+  </definition>
+  <definition>
+    <key>tab_general</key>
+    <value><![CDATA[Général]]></value>
+  </definition>
+  <definition>
+    <key>tab_attributes</key>
+    <value><![CDATA[Télécharger Attributs]]></value>
+  </definition>
+  <definition>
+    <key>entry_file_icon</key>
+    <value><![CDATA[File Icon]]></value>
+  </definition>
+  <definition>
+    <key>entry_status</key>
+    <value><![CDATA[Statut]]></value>
+  </definition>
+  <definition>
+    <key>entry_resource</key>
+    <value><![CDATA[Ressource]]></value>
+  </definition>
+  <definition>
+    <key>entry_name</key>
+    <value><![CDATA[prénom]]></value>
+  </definition>
+  <definition>
+    <key>entry_download_name</key>
+    <value><![CDATA[Télécharger Nom]]></value>
+  </definition>
+  <definition>
+    <key>entry_mask</key>
+    <value><![CDATA[Télécharger Masque <span class="help">Nom</span> du <span class="help">fichier alias pour</span> le <span class="help">téléchargement du client sortie</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_file_full_path</key>
+    <value><![CDATA[Chemin du fichier du serveur]]></value>
+  </definition>
+  <definition>
+    <key>entry_file_max_downloads</key>
+    <value><![CDATA[Max Télécharger]]></value>
+  </definition>
+  <definition>
+    <key>entry_file_sort_order</key>
+    <value><![CDATA[Ordre de tri]]></value>
+  </definition>
+  <definition>
+    <key>entry_file_status</key>
+    <value><![CDATA[Statut]]></value>
+  </definition>
+  <definition>
+    <key>entry_file_push_to_customers</key>
+    <value><![CDATA[Poussez aux clients]]></value>
+  </definition>
+  <definition>
+    <key>entry_file_activation</key>
+    <value><![CDATA[Mode d&#39;activation]]></value>
+  </definition>
+  <definition>
+    <key>text_add_file</key>
+    <value><![CDATA[Ajouter le fichier]]></value>
+  </definition>
+  <definition>
+    <key>text_new_file</key>
+    <value><![CDATA[Ajouter un nouveau fichier]]></value>
+  </definition>
+  <definition>
+    <key>text_download_attributes</key>
+    <value><![CDATA[Télécharger Attributs]]></value>
+  </definition>
+  <definition>
+    <key>text_download_information</key>
+    <value><![CDATA[Général]]></value>
+  </definition>
+  <definition>
+    <key>entry_date_added</key>
+    <value><![CDATA[Ajouté le]]></value>
+  </definition>
+  <definition>
+    <key>entry_date_modified</key>
+    <value><![CDATA[Modifié]]></value>
+  </definition>
+  <definition>
+    <key>entry_max_downloads</key>
+    <value><![CDATA[Max téléchargements <span class="help">Nombre de téléchargements autorisés pour</span> le <span class="help">client</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_activate</key>
+    <value><![CDATA[<span class="help">Télécharger</span> Activé <span class="help">sera active sur l&#39;événement sélectionné. <br/> Exemple: Immédiatement.</span> Le <span class="help">téléchargement est active après</span> la <span class="help">commande, quel</span> que <span class="help">soit le statut de</span> la <span class="help">commande</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_sort_order</key>
+    <value><![CDATA[Ordre de tri]]></value>
+  </definition>
+  <definition>
+    <key>entry_expire_days</key>
+    <value><![CDATA[Expirez jours <span class="help">Nombre de jours</span> à <span class="help">partir</span> de la <span class="help">date d&#39;achat</span>]]></value>
+  </definition>
+  <definition>
+    <key>text_before_order</key>
+    <value><![CDATA[Avant Ordre]]></value>
+  </definition>
+  <definition>
+    <key>text_immediately</key>
+    <value><![CDATA[Immédiatement]]></value>
+  </definition>
+  <definition>
+    <key>text_on_order_status</key>
+    <value><![CDATA[sur le statut de la commande]]></value>
+  </definition>
+  <definition>
+    <key>text_manually</key>
+    <value><![CDATA[Manuellement]]></value>
+  </definition>
+  <definition>
+    <key>text_success_download_save</key>
+    <value><![CDATA[Succès: Vous avez fichier modifié!]]></value>
+  </definition>
+  <definition>
+    <key>error_download_exists</key>
+    <value><![CDATA[Erreur: Impossible de mettre à jour le téléchargement, car il n&#39;existe pas dans la base de données!]]></value>
+  </definition>
+  <definition>
+    <key>error_download_name</key>
+    <value><![CDATA[Erreur: le nom de fichier doit avoir une longueur entre 2 et 128 caractères!]]></value>
+  </definition>
+  <definition>
+    <key>error_max_downloads</key>
+    <value><![CDATA[Erreur: nombre maximal de téléchargements comptent doit être supérieure 0!]]></value>
+  </definition>
+  <definition>
+    <key>error_activate</key>
+    <value><![CDATA[Erreur: sélectionnez l&#39;action pour l&#39;activation de téléchargement!]]></value>
+  </definition>
+  <definition>
+    <key>error_order_status</key>
+    <value><![CDATA[Erreur: sélectionnez l&#39;état des commandes pour l&#39;activation de téléchargement!]]></value>
+  </definition>
+  <definition>
+    <key>error_download_attributes</key>
+    <value><![CDATA[Télécharger Attributs erreur (s):]]></value>
+  </definition>
+  <definition>
+    <key>text_shared_downloads</key>
+    <value><![CDATA[Téléchargements partagés]]></value>
+  </definition>
+  <definition>
+    <key>text_create_download</key>
+    <value><![CDATA[Créer un nouveau téléchargement]]></value>
+  </definition>
+  <definition>
+    <key>text_path</key>
+    <value><![CDATA[Chemin relatif au fichier]]></value>
+  </definition>
+  <definition>
+    <key>text_preview</key>
+    <value><![CDATA[Aperçu]]></value>
+  </definition>
+  <definition>
+    <key>entry_shared</key>
+    <value><![CDATA[Télécharger partagée]]></value>
+  </definition>
+  <definition>
+    <key>text_assign</key>
+    <value><![CDATA[sauvegarder]]></value>
+  </definition>
+  <definition>
+    <key>text_assigned_to</key>
+    <value><![CDATA[Aussi attribué à:]]></value>
+  </definition>
+  <definition>
+    <key>text_select_shared_downloads</key>
+    <value><![CDATA[Sélectionnez téléchargements partagés]]></value>
+  </definition>
+  <definition>
+    <key>error_selected_downloads</key>
+    <value><![CDATA[Attention: S&#39;il vous plaît sélectionner les téléchargements partagés pour assign.]]></value>
+  </definition>
+  <definition>
+    <key>text_map_success</key>
+    <value><![CDATA[Succès: Vous avez affecté téléchargements partagés au produit!]]></value>
+  </definition>
+  <definition>
+    <key>text_delete_or_refuse</key>
+    <value><![CDATA[supprimer ou refuser (en commun)]]></value>
+  </definition>
+  <definition>
+    <key>text_confirm_delete</key>
+    <value><![CDATA[Confirmer téléchargement supprimer / refuser]]></value>
+  </definition>
+  <definition>
+    <key>text_success_remove</key>
+    <value><![CDATA[Success: produit la liste des fichiers modifiés!]]></value>
+  </definition>
+  <definition>
+    <key>text_push</key>
+    <value><![CDATA[Pousser]]></value>
+  </definition>
+  <definition>
+    <key>text_push_to_customers</key>
+    <value><![CDATA[Push-to-clients]]></value>
+  </definition>
+  <definition>
+    <key>text_push_to_orders</key>
+    <value><![CDATA[Appuyez sur Télécharger pour %s commandes]]></value>
+  </definition>
+  <definition>
+    <key>success_push_to_orders</key>
+    <value><![CDATA[Succès: Télécharger a été poussé à %s commande (s) avec succès]]></value>
+  </definition>
+  <definition>
+    <key>text_no_download_attributes_yet</key>
+    <value><![CDATA[Aucun téléchargement attribue encore. <a href="%s" target="_blank">Cliquez pour ajouter</a>]]></value>
+  </definition>
+  <definition>
+    <key>text_confirm_push</key>
+    <value><![CDATA[Confirmer?]]></value>
+  </definition>
+  <definition>
+    <key>error_downloads_disabled</key>
+    <value><![CDATA[Attention: Les téléchargements sont désactivées dans les paramètres du magasin. <a href="#admin#rt=setting/setting&active=general" target="new">Cliquez sur Modifier</a> !]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Attention: Vous n&#39;êtes pas autorisé à modifier les fichiers de produit!]]></value>
+  </definition>
+  <definition>
+    <key>error_file</key>
+    <value><![CDATA[S&#39;il vous plaît définir le fichier à télécharger.]]></value>
+  </definition>
+  <definition>
+    <key>attention_shared</key>
+    <value><![CDATA[Vous êtes sur le point de modifier le téléchargement partagé. Modifier affectera d&#39;autres produits.]]></value>
+  </definition>
+  <definition>
+    <key>text_shared_with</key>
+    <value><![CDATA[Partagé avec:]]></value>
+  </definition>
+</definitions>

@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>import_export_title</key>
+    <value><![CDATA[Import &amp; Export]]></value>
+  </definition>
+  <definition>
+    <key>tab_import</key>
+    <value><![CDATA[Importer]]></value>
+  </definition>
+  <definition>
+    <key>tab_export</key>
+    <value><![CDATA[Exportation]]></value>
+  </definition>
+  <definition>
+    <key>text_tables</key>
+    <value><![CDATA[les tables]]></value>
+  </definition>
+  <definition>
+    <key>text_options</key>
+    <value><![CDATA[options de]]></value>
+  </definition>
+  <definition>
+    <key>text_file_format</key>
+    <value><![CDATA[Format de fichier:]]></value>
+  </definition>
+  <definition>
+    <key>text_file_name</key>
+    <value><![CDATA[Nom de fichier:]]></value>
+  </definition>
+  <definition>
+    <key>text_load_file</key>
+    <value><![CDATA[Fichier de chargement]]></value>
+  </definition>
+  <definition>
+    <key>text_load</key>
+    <value><![CDATA[Charge]]></value>
+  </definition>
+  <definition>
+    <key>text_import_loaded</key>
+    <value><![CDATA[Total chargé:]]></value>
+  </definition>
+  <definition>
+    <key>text_file_field</key>
+    <value><![CDATA[Fichier à importer: <br/><span class="help">formats pris</span> en <span class="help">charge pour</span> les <span class="help">fichiers d&#39;importation: XML, CSV, TXT</span>]]></value>
+  </definition>
+  <definition>
+    <key>text_id_range_from</key>
+    <value><![CDATA[Gamme de ID de:]]></value>
+  </definition>
+  <definition>
+    <key>text_to</key>
+    <value><![CDATA[à:]]></value>
+  </definition>
+  <definition>
+    <key>text_csv_delimiter</key>
+    <value><![CDATA[CSV / TXT delimiter:]]></value>
+  </definition>
+  <definition>
+    <key>text_export_note_csv_delimiter</key>
+    <value><![CDATA[<span class="help">Tous</span> les <span class="help">champs seront placés entre guillemets.</span>]]></value>
+  </definition>
+  <definition>
+    <key>text_import_note_csv_delimiter</key>
+    <value><![CDATA[<span class="help">Tous</span> les <span class="help">champs doivent être placés entre guillemets.</span>]]></value>
+  </definition>
+  <definition>
+    <key>text_test_mode</key>
+    <value><![CDATA[Exécuter dans un mode de test <br/><span class="help">Il est recommandé d&#39;exécuter</span> l&#39; <span class="help">importation de données dans un mode de test</span> d&#39; <span class="help">abord pour voir si des problèmes sont présents.</span>]]></value>
+  </definition>
+  <definition>
+    <key>error_file_format</key>
+    <value><![CDATA[Mauvais format de fichier!]]></value>
+  </definition>
+  <definition>
+    <key>error_xml_import</key>
+    <value><![CDATA[Erreur lors de fichier XML d&#39;importation!]]></value>
+  </definition>
+  <definition>
+    <key>error_csv_import</key>
+    <value><![CDATA[Erreur lors de l&#39;importation fichier CSV / TXT! S&#39;il vous plaît vérifier les champs delimiter.]]></value>
+  </definition>
+  <definition>
+    <key>error_data_corrupted</key>
+    <value><![CDATA[Données est vide ou corrompu.]]></value>
+  </definition>
+  <definition>
+    <key>error_file_empty</key>
+    <value><![CDATA[Le fichier est vide.]]></value>
+  </definition>
+  <definition>
+    <key>error_writable_backup</key>
+    <value><![CDATA[répertoire de sauvegarde doit être inscriptible pour CSV / TXT export pour travailler.]]></value>
+  </definition>
+  <definition>
+    <key>text_updated</key>
+    <value><![CDATA[Actualisé:]]></value>
+  </definition>
+  <definition>
+    <key>text_created</key>
+    <value><![CDATA[Créé:]]></value>
+  </definition>
+  <definition>
+    <key>text_errors</key>
+    <value><![CDATA[Les erreurs:]]></value>
+  </definition>
+  <definition>
+    <key>text_show_details</key>
+    <value><![CDATA[Afficher les détails]]></value>
+  </definition>
+  <definition>
+    <key>text_no_children</key>
+    <value><![CDATA[Aucun élément de l&#39;enfant]]></value>
+  </definition>
+  <definition>
+    <key>text_some_errors</key>
+    <value><![CDATA[Il y a quelques erreurs.]]></value>
+  </definition>
+  <definition>
+    <key>text_test_completed</key>
+    <value><![CDATA[Essai de fonctionnement terminé. Nombre de requêtes SQL:]]></value>
+  </definition>
+  <definition>
+    <key>text_sort_by</key>
+    <value><![CDATA[Trier par:]]></value>
+  </definition>
+</definitions>

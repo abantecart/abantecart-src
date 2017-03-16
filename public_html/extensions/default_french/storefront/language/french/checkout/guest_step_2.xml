@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Guest Checkout - Etape 2]]></value>
+  </definition>
+  <definition>
+    <key>text_cart</key>
+    <value><![CDATA[Chariot]]></value>
+  </definition>
+  <definition>
+    <key>text_guest_step_1</key>
+    <value><![CDATA[Guest Checkout - Etape 1]]></value>
+  </definition>
+  <definition>
+    <key>text_guest_step_2</key>
+    <value><![CDATA[Guest Checkout - Etape 2]]></value>
+  </definition>
+  <definition>
+    <key>text_shipping_method</key>
+    <value><![CDATA[Méthode d&#39;envoi]]></value>
+  </definition>
+  <definition>
+    <key>text_shipping_methods</key>
+    <value><![CDATA[S&#39;il vous plaît sélectionner les méthodes d&#39;expédition préférées à utiliser sur cet ordre.]]></value>
+  </definition>
+  <definition>
+    <key>text_payment_method</key>
+    <value><![CDATA[Mode de paiement]]></value>
+  </definition>
+  <definition>
+    <key>text_payment_methods</key>
+    <value><![CDATA[S&#39;il vous plaît sélectionner le mode de paiement préféré à utiliser sur cet ordre.]]></value>
+  </definition>
+  <definition>
+    <key>text_comments</key>
+    <value><![CDATA[Ajoutez des commentaires à propos de votre commande]]></value>
+  </definition>
+  <definition>
+    <key>text_agree</key>
+    <value><![CDATA[j&#39;ai lu et accepté les]]></value>
+  </definition>
+  <definition>
+    <key>text_coupon</key>
+    <value><![CDATA[Entrez votre code, appuyez sur le bouton &quot;Appliquer Coupon&quot; et regarder votre remise instantanément être appliquée à votre commande.]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Succès: Votre bon de réduction a été appliquée!]]></value>
+  </definition>
+  <definition>
+    <key>text_coupon_removal</key>
+    <value><![CDATA[Succès: Coupon a été supprimé!]]></value>
+  </definition>
+  <definition>
+    <key>entry_shipping</key>
+    <value><![CDATA[Méthode d&#39;envoi:]]></value>
+  </definition>
+  <definition>
+    <key>entry_payment</key>
+    <value><![CDATA[Mode de paiement:]]></value>
+  </definition>
+  <definition>
+    <key>entry_coupon</key>
+    <value><![CDATA[Coupon:]]></value>
+  </definition>
+  <definition>
+    <key>error_shipping</key>
+    <value><![CDATA[Erreur: Méthode d&#39;expédition requis!]]></value>
+  </definition>
+  <definition>
+    <key>error_no_shipping</key>
+    <value><![CDATA[Erreur: Pas d&#39;options de livraison sont disponibles. S&#39;il vous plaît <a href="index.php?rt=content/contact">nous contacter</a> pour l&#39; aide!]]></value>
+  </definition>
+  <definition>
+    <key>error_payment</key>
+    <value><![CDATA[Erreur: Mode de paiement requis!]]></value>
+  </definition>
+  <definition>
+    <key>error_agree</key>
+    <value><![CDATA[Erreur: Vous devez accepter le %s!]]></value>
+  </definition>
+  <definition>
+    <key>error_coupon</key>
+    <value><![CDATA[Erreur: Coupon est soit invalide, expiré ou a atteint sa limite d&#39;utilisation!]]></value>
+  </definition>
+</definitions>

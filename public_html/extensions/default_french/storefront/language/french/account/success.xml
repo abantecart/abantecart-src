@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Votre compte a été créé!]]></value>
+  </definition>
+  <definition>
+    <key>text_message</key>
+    <value><![CDATA[<p> Toutes nos félicitations! Votre nouveau compte a été créé avec succès! </p><p> Vous pouvez maintenant profiter des privilèges de membres pour améliorer votre expérience de magasinage en ligne avec nous. </p><p> Si vous avez des questions sur le fonctionnement de cette boutique en ligne, s&#39;il vous plaît envoyer un courriel au propriétaire du magasin. </p><p> Une confirmation a été envoyé à l&#39;adresse e-mail fournie. Si vous ne l&#39; avez pas reçu dans l&#39;heure, s&#39;il vous plaît <a href="%s">contactez</a> - <a href="%s">nous</a>. </p>]]></value>
+  </definition>
+  <definition>
+    <key>text_approval</key>
+    <value><![CDATA[<p> Nous vous remercions de vous inscrire avec %s! </p><p> Vous serez averti par email une fois que votre compte a été activé par le propriétaire du magasin. </p><p> Si vous avez des questions sur le fonctionnement de cette boutique en ligne, s&#39;il vous plaît <a href="%s">contacter le propriétaire du magasin</a>. </p>]]></value>
+  </definition>
+  <definition>
+    <key>text_activate</key>
+    <value><![CDATA[<p> Nous vous remercions de vous inscrire avec %s! </p><p> Vous serez averti par email avec votre compte instructions d&#39;activation. Vous devez cliquer sur le lien fourni dans l&#39;e-mail pour activer votre compte. Si vous ne recevez pas de courriel, s&#39;il vous plaît vérifier dans vos dossiers de spam ou un abus. </p><p> Si vous avez des questions sur le fonctionnement de cette boutique en ligne, s&#39;il vous plaît <a href="%s">contacter le propriétaire du magasin</a>. </p>]]></value>
+  </definition>
+  <definition>
+    <key>text_account</key>
+    <value><![CDATA[Compte]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Succès]]></value>
+  </definition>
+</definitions>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>text_subject</key>
+    <value><![CDATA[%s - Nom d&#39;utilisateur rappel]]></value>
+  </definition>
+  <definition>
+    <key>text_greeting</key>
+    <value><![CDATA[Nom de connexion de rappel a été demandé à %s.]]></value>
+  </definition>
+  <definition>
+    <key>text_your_loginname</key>
+    <value><![CDATA[Votre nom d&#39;utilisateur est:]]></value>
+  </definition>
+</definitions>

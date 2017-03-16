@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Détails du magasin]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Succès: Vous avez des paramètres modifiés!]]></value>
+  </definition>
+  <definition>
+    <key>text_image_manager</key>
+    <value><![CDATA[Image Manager]]></value>
+  </definition>
+  <definition>
+    <key>text_default</key>
+    <value><![CDATA[Défaut]]></value>
+  </definition>
+  <definition>
+    <key>text_edit_store</key>
+    <value><![CDATA[Modifier magasin:]]></value>
+  </definition>
+  <definition>
+    <key>entry_name</key>
+    <value><![CDATA[Nom du magasin: <br/><span class="help">Copié aux réglages et montré sur une section de vitrine.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_url</key>
+    <value><![CDATA[Magasin URL: <br/><span class="help">Inclure l&#39;URL complète à votre magasin. Assurez</span> - <span class="help">vous d&#39;ajouter &#39;/&#39; à la fin. Exemple: http://www.yourdomain.com/path/ <br/><br/> Ne pas utiliser</span> des <span class="help">répertoires pour créer un nouveau magasin. Vous devriez toujours pointer un autre domaine ou sous</span> - <span class="help">domaine pour votre hébergement.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_ssl</key>
+    <value><![CDATA[Utiliser SSL: <br/><span class="help">Pour utiliser</span> l&#39; <span class="help">enregistrement SSL avec votre hôte si un certificat SSL est installé.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_title</key>
+    <value><![CDATA[Titre:]]></value>
+  </definition>
+  <definition>
+    <key>entry_meta_description</key>
+    <value><![CDATA[Meta Tag Description:]]></value>
+  </definition>
+  <definition>
+    <key>entry_template</key>
+    <value><![CDATA[Modèle:]]></value>
+  </definition>
+  <definition>
+    <key>entry_description</key>
+    <value><![CDATA[Message de bienvenue:]]></value>
+  </definition>
+  <definition>
+    <key>entry_country</key>
+    <value><![CDATA[Pays:]]></value>
+  </definition>
+  <definition>
+    <key>entry_zone</key>
+    <value><![CDATA[Région / État:]]></value>
+  </definition>
+  <definition>
+    <key>entry_language</key>
+    <value><![CDATA[La langue:]]></value>
+  </definition>
+  <definition>
+    <key>entry_status</key>
+    <value><![CDATA[Magasin Statut <br/><span class="help">statut</span> de <span class="help">magasin dans une vitrine. Statut OFF dirigera par défaut magasin. Utilisez</span> le <span class="help">paramètre</span> du <span class="help">mode</span> de <span class="help">maintenance pour définir stockage temporaire message de maintenance</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_alias</key>
+    <value><![CDATA[Nom Alias <br/><span class="help">Nom magasin Alias. Si laissé vide, sera basé sur</span> le <span class="help">nom raccourci</span>]]></value>
+  </definition>
+  <definition>
+    <key>button_add_store</key>
+    <value><![CDATA[Nouveau magasin]]></value>
+  </definition>
+  <definition>
+    <key>button_delete_store</key>
+    <value><![CDATA[Supprimer magasin]]></value>
+  </definition>
+  <definition>
+    <key>button_edit_settings</key>
+    <value><![CDATA[Modifier les paramètres]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Attention: Vous n&#39;êtes pas autorisé à modifier les magasins!]]></value>
+  </definition>
+  <definition>
+    <key>error_name</key>
+    <value><![CDATA[Nom du magasin doit être comprise entre 3 et 32 ​​caractères!]]></value>
+  </definition>
+  <definition>
+    <key>error_url</key>
+    <value><![CDATA[Magasin URL nécessaire!]]></value>
+  </definition>
+  <definition>
+    <key>error_title</key>
+    <value><![CDATA[Titre doit être comprise entre 3 et 32 ​​caractères!]]></value>
+  </definition>
+  <definition>
+    <key>error_image_thumb</key>
+    <value><![CDATA[Product Image Thumb Taille dimensions requises!]]></value>
+  </definition>
+  <definition>
+    <key>error_image_popup</key>
+    <value><![CDATA[Product Image Popup Taille dimensions requises!]]></value>
+  </definition>
+  <definition>
+    <key>error_image_category</key>
+    <value><![CDATA[dimensions Catégorie Liste de taille requise!]]></value>
+  </definition>
+  <definition>
+    <key>error_image_product</key>
+    <value><![CDATA[dimensions liste des produits de taille requise!]]></value>
+  </definition>
+  <definition>
+    <key>error_image_additional</key>
+    <value><![CDATA[D&#39;autres produits dimensions de taille d&#39;image requise!]]></value>
+  </definition>
+  <definition>
+    <key>error_image_related</key>
+    <value><![CDATA[Produit connexes dimensions de taille d&#39;image requise!]]></value>
+  </definition>
+  <definition>
+    <key>error_image_cart</key>
+    <value><![CDATA[dimensions panier de taille d&#39;image requise!]]></value>
+  </definition>
+  <definition>
+    <key>error_image_grid</key>
+    <value><![CDATA[dimensions Grille de taille d&#39;image requise!]]></value>
+  </definition>
+  <definition>
+    <key>error_store</key>
+    <value><![CDATA[Attention: Ce magasin ne peut pas être supprimé car il est actuellement assigné à %s commandes!]]></value>
+  </definition>
+  <definition>
+    <key>error_required_data</key>
+    <value><![CDATA[Données requises n&#39;a pas été saisi. Vérifiez les erreurs sur le terrain!]]></value>
+  </definition>
+  <definition>
+    <key>error_limit</key>
+    <value><![CDATA[Limite nécessaire!]]></value>
+  </definition>
+  <definition>
+    <key>entry_clone_store</key>
+    <value><![CDATA[Paramètres de copie: <br/><span class="help">Vous pouvez sélectionner copie de tous</span> les <span class="help">paramètres de certains magasins existants</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_ssl_url</key>
+    <value><![CDATA[Sécurisé magasin URL: <br/><span class="help">Inclure l&#39;URL SSL complète (HTTPS) à votre magasin. Assurez</span> - <span class="help">vous d&#39;ajouter &#39;/&#39; à la fin. Exemple: https://www.yourdomain.com/path/</span>]]></value>
+  </definition>
+  <definition>
+    <key>error_ssl_url</key>
+    <value><![CDATA[Secure URL requise!]]></value>
+  </definition>
+</definitions>

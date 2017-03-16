@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Connexion au compte]]></value>
+  </definition>
+  <definition>
+    <key>text_account</key>
+    <value><![CDATA[Créer un compte]]></value>
+  </definition>
+  <definition>
+    <key>text_login</key>
+    <value><![CDATA[S&#39;identifier]]></value>
+  </definition>
+  <definition>
+    <key>text_i_am_new_customer</key>
+    <value><![CDATA[Je suis un nouveau client.]]></value>
+  </definition>
+  <definition>
+    <key>text_checkout</key>
+    <value><![CDATA[Commander Options:]]></value>
+  </definition>
+  <definition>
+    <key>text_guest</key>
+    <value><![CDATA[Guest Checkout]]></value>
+  </definition>
+  <definition>
+    <key>text_create_account</key>
+    <value><![CDATA[En créant un compte, vous pourrez commander plus vite, d&#39;être à jour sur le statut de l&#39;ordre, et de garder trace de vos précédents achats.]]></value>
+  </definition>
+  <definition>
+    <key>text_returning_customer</key>
+    <value><![CDATA[Déjà client]]></value>
+  </definition>
+  <definition>
+    <key>text_i_am_returning_customer</key>
+    <value><![CDATA[Je suis un client de retour.]]></value>
+  </definition>
+  <definition>
+    <key>text_forgotten_login</key>
+    <value><![CDATA[Vous avez oublié votre login?]]></value>
+  </definition>
+  <definition>
+    <key>text_forgotten_password</key>
+    <value><![CDATA[Mot de passe oublié?]]></value>
+  </definition>
+  <definition>
+    <key>entry_loginname</key>
+    <value><![CDATA[Identifiant:]]></value>
+  </definition>
+  <definition>
+    <key>entry_email_address</key>
+    <value><![CDATA[Adresse e-mail:]]></value>
+  </definition>
+  <definition>
+    <key>entry_password</key>
+    <value><![CDATA[Mot de passe:]]></value>
+  </definition>
+  <definition>
+    <key>error_login</key>
+    <value><![CDATA[Erreur: login ou mot de passe incorrect fourni.]]></value>
+  </definition>
+  <definition>
+    <key>text_success_activated</key>
+    <value><![CDATA[Succès: Votre compte a été activé avec succès. S&#39;il vous plaît connectez-vous avec vos informations d&#39;identification.]]></value>
+  </definition>
+  <definition>
+    <key>text_already_activated</key>
+    <value><![CDATA[Votre compte est déjà activé. S&#39;il vous plaît connectez-vous avec vos informations d&#39;identification.]]></value>
+  </definition>
+  <definition>
+    <key>text_resend_activation_email</key>
+    <value><![CDATA[Erreur: Votre adresse e-mail n&#39;a pas encore été confirmée. Pour renvoyer une nouvelle confirmation email s&#39;il vous plaît cliquer sur ce <a href=" %s ">lien</a>]]></value>
+  </definition>
+</definitions>

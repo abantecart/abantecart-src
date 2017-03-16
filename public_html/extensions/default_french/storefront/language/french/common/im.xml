@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>im_text_notification</key>
+    <value><![CDATA[Notification]]></value>
+  </definition>
+  <definition>
+    <key>im_error_mail_address</key>
+    <value><![CDATA[Adresse e-mail %s est pas valide!]]></value>
+  </definition>
+  <definition>
+    <key>im_protocol_email_title</key>
+    <value><![CDATA[Email]]></value>
+  </definition>
+  <definition>
+    <key>im_protocol_sms_title</key>
+    <value><![CDATA[SMS]]></value>
+  </definition>
+  <definition>
+    <key>im_protocol_sms_empty_warn</key>
+    <value><![CDATA[notifications par SMS ne sont pas possibles. Numéro de téléphone mobile ne sont pas sauvegardées dans vos relevés de compte.]]></value>
+  </definition>
+  <definition>
+    <key>im_sendpoint_name_order_update</key>
+    <value><![CDATA[Mise à jour de la commande]]></value>
+  </definition>
+  <definition>
+    <key>im_sendpoint_name_order_update_note</key>
+    <value><![CDATA[Sélectionnez si recevoir des notifications concernant les mises à jour de vos commandes.]]></value>
+  </definition>
+  <definition>
+    <key>im_order_update_text_to_admin</key>
+    <value><![CDATA[Commande # %s a été mis à jour! Suivi commande ID %s]]></value>
+  </definition>
+  <definition>
+    <key>im_order_update_text_to_customer</key>
+    <value><![CDATA[Votre commande # %s Mise à jour. New Order Status est %s]]></value>
+  </definition>
+  <definition>
+    <key>im_new_order_text_to_admin</key>
+    <value><![CDATA[New Order # %s a été placé!]]></value>
+  </definition>
+  <definition>
+    <key>im_new_customer_text_to_admin</key>
+    <value><![CDATA[Nouveau client # %s a été enregistré!]]></value>
+  </definition>
+  <definition>
+    <key>im_new_subscriber_text_to_admin</key>
+    <value><![CDATA[New Subscriber # %s a été enregistré!]]></value>
+  </definition>
+  <definition>
+    <key>im_sendpoint_name_customer_account_update</key>
+    <value><![CDATA[Mise à jour du compte]]></value>
+  </definition>
+  <definition>
+    <key>im_sendpoint_name_customer_account_update_note</key>
+    <value><![CDATA[Sélectionnez si recevoir des notifications sur les mises à jour de compte.]]></value>
+  </definition>
+  <definition>
+    <key>im_customer_account_update_text_to_customer</key>
+    <value><![CDATA[Votre compte a été mis à jour! Si vous ne l&#39;avez pas tout changement, s&#39;il vous plaît contacter le propriétaire du site]]></value>
+  </definition>
+  <definition>
+    <key>im_customer_account_update_email_to_customer</key>
+    <value><![CDATA[Votre compte adresse e-mail a été changé pour %s! Si vous ne l&#39;avez pas ce changement, s&#39;il vous plaît contacter le propriétaire du site]]></value>
+  </definition>
+  <definition>
+    <key>im_customer_account_update_login_to_customer</key>
+    <value><![CDATA[Votre compte nom de connexion a été changé pour %s! Si vous ne l&#39;avez pas ce changement, s&#39;il vous plaît contacter le propriétaire du site]]></value>
+  </definition>
+  <definition>
+    <key>im_customer_account_update_password_to_customer</key>
+    <value><![CDATA[Votre mot de passe a été changé! Si vous ne l&#39;avez pas ce changement, s&#39;il vous plaît contacter le propriétaire du site]]></value>
+  </definition>
+  <definition>
+    <key>im_customer_contact_admin_text</key>
+    <value><![CDATA[Vous avez une nouvelle demande du client (%s, %s)!]]></value>
+  </definition>
+  <definition>
+    <key>im_sendpoint_name_newsletter</key>
+    <value><![CDATA[Newsletters]]></value>
+  </definition>
+  <definition>
+    <key>im_sendpoint_name_newsletter_note</key>
+    <value><![CDATA[Sélectionnez si recevoir des notifications concernant nos produits et mises à jour de service.]]></value>
+  </definition>
+  <definition>
+    <key>im_product_review_text_to_admin</key>
+    <value><![CDATA[avis Nouveau produit a été ajouté. Voir les détails # admin # rt = catalogue / révision / mise à jour et review_id = %s]]></value>
+  </definition>
+  <definition>
+    <key>im_product_out_of_stock_admin_text</key>
+    <value><![CDATA[Produit avec ID # %s en Stock.]]></value>
+  </definition>
+</definitions>

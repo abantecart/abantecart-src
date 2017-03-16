@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Tâches planifiées]]></value>
+  </definition>
+  <definition>
+    <key>column_id</key>
+    <value><![CDATA[ça]]></value>
+  </definition>
+  <definition>
+    <key>column_date_created</key>
+    <value><![CDATA[date créée]]></value>
+  </definition>
+  <definition>
+    <key>column_name</key>
+    <value><![CDATA[prénom]]></value>
+  </definition>
+  <definition>
+    <key>column_status</key>
+    <value><![CDATA[Statut]]></value>
+  </definition>
+  <definition>
+    <key>column_start_time</key>
+    <value><![CDATA[Heure de début]]></value>
+  </definition>
+  <definition>
+    <key>text_stuck</key>
+    <value><![CDATA[Coincé]]></value>
+  </definition>
+  <definition>
+    <key>text_ready</key>
+    <value><![CDATA[Prêt]]></value>
+  </definition>
+  <definition>
+    <key>text_running</key>
+    <value><![CDATA[Fonctionnement]]></value>
+  </definition>
+  <definition>
+    <key>text_scheduled</key>
+    <value><![CDATA[Prévu]]></value>
+  </definition>
+  <definition>
+    <key>text_disabled</key>
+    <value><![CDATA[désactivé]]></value>
+  </definition>
+  <definition>
+    <key>text_failed</key>
+    <value><![CDATA[Échoué]]></value>
+  </definition>
+  <definition>
+    <key>text_incomplete</key>
+    <value><![CDATA[Incomplet]]></value>
+  </definition>
+  <definition>
+    <key>text_completed</key>
+    <value><![CDATA[Terminé]]></value>
+  </definition>
+  <definition>
+    <key>text_restart</key>
+    <value><![CDATA[Restart Task]]></value>
+  </definition>
+  <definition>
+    <key>text_run</key>
+    <value><![CDATA[Exécuter la tâche]]></value>
+  </definition>
+  <definition>
+    <key>text_task_started</key>
+    <value><![CDATA[Tâche a commencé]]></value>
+  </definition>
+  <definition>
+    <key>text_task_not_found</key>
+    <value><![CDATA[Tâche introuvable.]]></value>
+  </definition>
+  <definition>
+    <key>text_empty_task</key>
+    <value><![CDATA[Tâche ne contient pas de mesures. Supprimé.]]></value>
+  </definition>
+  <definition>
+    <key>text_forbidden_to_restart</key>
+    <value><![CDATA[Interdite Pour redémarrer!]]></value>
+  </definition>
+</definitions>

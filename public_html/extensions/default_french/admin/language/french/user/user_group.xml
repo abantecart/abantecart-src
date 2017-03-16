@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Groupes d&#39;utilisateurs]]></value>
+  </definition>
+  <definition>
+    <key>text_group</key>
+    <value><![CDATA[Groupe d&#39;utilisateurs]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Succès: Vous avez modifié les groupes d&#39;utilisateurs!]]></value>
+  </definition>
+  <definition>
+    <key>text_success_group_added</key>
+    <value><![CDATA[Succès: Vous avez créé un groupe d&#39;utilisateurs avec succès!]]></value>
+  </definition>
+  <definition>
+    <key>text_go_to_page</key>
+    <value><![CDATA[Aller à la page]]></value>
+  </definition>
+  <definition>
+    <key>text_delete_confirm</key>
+    <value><![CDATA[Supprimer le groupe de l&#39;utilisateur?]]></value>
+  </definition>
+  <definition>
+    <key>column_name</key>
+    <value><![CDATA[Nom d&#39;utilisateur Groupe]]></value>
+  </definition>
+  <definition>
+    <key>column_action</key>
+    <value><![CDATA[action]]></value>
+  </definition>
+  <definition>
+    <key>entry_name</key>
+    <value><![CDATA[Utilisateur Nom du groupe:]]></value>
+  </definition>
+  <definition>
+    <key>column_controller</key>
+    <value><![CDATA[Manette]]></value>
+  </definition>
+  <definition>
+    <key>column_access</key>
+    <value><![CDATA[Accès]]></value>
+  </definition>
+  <definition>
+    <key>column_modify</key>
+    <value><![CDATA[Modifier]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Attention: Vous n&#39;êtes pas autorisé à modifier les groupes d&#39;utilisateurs!]]></value>
+  </definition>
+  <definition>
+    <key>error_name</key>
+    <value><![CDATA[User Group Nom doit être comprise entre 2 et 64 caractères!]]></value>
+  </definition>
+  <definition>
+    <key>error_user</key>
+    <value><![CDATA[Attention: Ce groupe d&#39;utilisateurs ne peut pas être supprimé car il est actuellement assigné à %s utilisateurs!]]></value>
+  </definition>
+</definitions>

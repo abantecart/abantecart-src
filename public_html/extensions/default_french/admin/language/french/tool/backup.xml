@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Sauvegarde / Restauration / Charger]]></value>
+  </definition>
+  <definition>
+    <key>text_backup</key>
+    <value><![CDATA[Télécharger Backup]]></value>
+  </definition>
+  <definition>
+    <key>text_success_backup</key>
+    <value><![CDATA[Succès: Vous avez réussi à créer le fichier de sauvegarde!]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Succès: Vous avez importé avec succès votre base de données!]]></value>
+  </definition>
+  <definition>
+    <key>text_success_xml</key>
+    <value><![CDATA[Succès: Vous avez importé avec succès votre xml!]]></value>
+  </definition>
+  <definition>
+    <key>entry_restore</key>
+    <value><![CDATA[Restaurer à partir du fichier sql ou xml:]]></value>
+  </definition>
+  <definition>
+    <key>entry_tables</key>
+    <value><![CDATA[Tables de sauvegarde:]]></value>
+  </definition>
+  <definition>
+    <key>entry_loadxml</key>
+    <value><![CDATA[Charger fichier XML:]]></value>
+  </definition>
+  <definition>
+    <key>tab_backup</key>
+    <value><![CDATA[sauvegarde]]></value>
+  </definition>
+  <definition>
+    <key>tab_restore</key>
+    <value><![CDATA[Restaurer]]></value>
+  </definition>
+  <definition>
+    <key>tab_loadxml</key>
+    <value><![CDATA[Mise en page et la charge du jeu de données XML]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Attention: Vous n&#39;êtes pas autorisé à modifier les sauvegardes!]]></value>
+  </definition>
+  <definition>
+    <key>error_nothing_to_do</key>
+    <value><![CDATA[Attention: S&#39;il vous plaît définir ce que vous voulez sauvegarder ou importer!]]></value>
+  </definition>
+  <definition>
+    <key>error_empty</key>
+    <value><![CDATA[Attention: Le fichier téléchargé est vide ou a mauvais type de fichier!]]></value>
+  </definition>
+  <definition>
+    <key>error_upload</key>
+    <value><![CDATA[Attention: Le fichier n&#39;a pas été téléchargé. Vérifiez post_max_size ou file_upload directives de votre fichier php.ini.]]></value>
+  </definition>
+  <definition>
+    <key>error_xml</key>
+    <value><![CDATA[Attention: Le fichier que vous avez téléchargé ne pas chargé en tant que XML! S&#39;il vous plaît, voir log-file pour plus de détails]]></value>
+  </definition>
+  <definition>
+    <key>entry_backup_code</key>
+    <value><![CDATA[Code de sauvegarde (%s) <br/><span class="help">sous-répertoires avec</span> les <span class="help">fichiers de code</span> à l&#39; <span class="help">exclusion</span> des <span class="help">fichiers dynamiques tels que</span> le <span class="help">cache,</span> les <span class="help">fichiers journaux, images, ressources</span> , <span class="help">etc.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_backup_content</key>
+    <value><![CDATA[Contenu de la sauvegarde (%s) <br/><span class="help">sous-répertoires avec</span> des <span class="help">fichiers dynamiques tels que</span> des <span class="help">images,</span> des <span class="help">téléchargements,</span> des <span class="help">ressources</span> , <span class="help">etc.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_compress_backup</key>
+    <value><![CDATA[Compresser Répertoire de sauvegarde %s? <br/><span class="help">Archive * .tar.gz sera créé. <br/> Note: il pourrait prendre beaucoup</span> de <span class="help">temps. Sinon</span> , <span class="help">vous pouvez désactiver</span> la <span class="help">compression et trouver votre sauvegarde dans</span> le <span class="help">dossier %s</span>]]></value>
+  </definition>
+  <definition>
+    <key>button_backup_now</key>
+    <value><![CDATA[Sauvegarder maintenant]]></value>
+  </definition>
+  <definition>
+    <key>button_load</key>
+    <value><![CDATA[Charge]]></value>
+  </definition>
+  <definition>
+    <key>button_backup_schedule</key>
+    <value><![CDATA[Planification de la sauvegarde]]></value>
+  </definition>
+  <definition>
+    <key>text_success_scheduled</key>
+    <value><![CDATA[Succès: Vous avez réussi à créer tâche planifiée de sauvegarde! <a href="%s">Voir les détails</a>]]></value>
+  </definition>
+  <definition>
+    <key>text_fail_note</key>
+    <value><![CDATA[NOTE: Cette exécution du processus dépend de la taille des données de votre AbanteCart ainsi que votre serveur taille de la mémoire virtuelle. Si processus se termine avec des erreurs, vérifiez répertoire %s autorisations pour être mis à -rw-rw-rw et <a href="http://php.net/manual/en/ini.core.php#ini.memory-limit" target="_blank">[PHP paramètre de mémoire]</a>. Augmentez le réglage de mémoire ou exécuter la sauvegarde manuellement si le processus échouent toujours.]]></value>
+  </definition>
+  <definition>
+    <key>backup_complete_text_file</key>
+    <value><![CDATA[Pour télécharger fichier_de_sauvegarde s&#39;il vous plaît visitez <a href="#admin#rt=tool/install_upgrade_history">Installation / Mise</a> à <a href="#admin#rt=tool/install_upgrade_history">niveau Histoire</a>]]></value>
+  </definition>
+  <definition>
+    <key>backup_complete_text_dir</key>
+    <value><![CDATA[Directory avec sauvegarde des fichiers est %s]]></value>
+  </definition>
+</definitions>

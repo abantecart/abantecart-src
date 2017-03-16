@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Se déconnecter]]></value>
+  </definition>
+  <definition>
+    <key>text_message</key>
+    <value><![CDATA[<p> Vous avez été déconnecté de votre compte. Il est maintenant sûr de laisser l&#39;ordinateur. </p><p> Votre panier a été enregistré, les éléments à l&#39;intérieur, il sera restauré chaque fois que vous ouvrez une session sur votre compte. </p>]]></value>
+  </definition>
+  <definition>
+    <key>text_account</key>
+    <value><![CDATA[Compte]]></value>
+  </definition>
+  <definition>
+    <key>text_logout</key>
+    <value><![CDATA[Connectez - Out]]></value>
+  </definition>
+</definitions>

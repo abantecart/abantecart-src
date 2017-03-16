@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>text_subject</key>
+    <value><![CDATA[%s - Votre compte a été activé!]]></value>
+  </definition>
+  <definition>
+    <key>text_welcome</key>
+    <value><![CDATA[Bienvenue et merci de vous inscrire à %s!]]></value>
+  </definition>
+  <definition>
+    <key>text_login</key>
+    <value><![CDATA[Votre compte a été créé et vous pouvez vous connecter en utilisant votre adresse e-mail et mot de passe en visitant notre site Web ou à l&#39;adresse suivante:]]></value>
+  </definition>
+  <definition>
+    <key>text_services</key>
+    <value><![CDATA[Une fois que vous vous connecter, vous serez en mesure d&#39;accéder, vos cadeaux, l&#39;historique des commandes, des factures d&#39;impression et éditer les informations de votre compte.]]></value>
+  </definition>
+  <definition>
+    <key>text_thanks</key>
+    <value><![CDATA[Je vous remercie,]]></value>
+  </definition>
+</definitions>

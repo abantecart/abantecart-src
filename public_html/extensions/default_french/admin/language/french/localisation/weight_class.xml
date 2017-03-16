@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Catégories de poids]]></value>
+  </definition>
+  <definition>
+    <key>text_class</key>
+    <value><![CDATA[Catégorie de poids]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Succès: Vous avez modifié les catégories de poids!]]></value>
+  </definition>
+  <definition>
+    <key>column_title</key>
+    <value><![CDATA[Poids Titre]]></value>
+  </definition>
+  <definition>
+    <key>column_unit</key>
+    <value><![CDATA[Unité de poids]]></value>
+  </definition>
+  <definition>
+    <key>column_value</key>
+    <value><![CDATA[Valeur]]></value>
+  </definition>
+  <definition>
+    <key>column_action</key>
+    <value><![CDATA[action]]></value>
+  </definition>
+  <definition>
+    <key>entry_title</key>
+    <value><![CDATA[Poids Titre:]]></value>
+  </definition>
+  <definition>
+    <key>entry_unit</key>
+    <value><![CDATA[Poids unitaire:]]></value>
+  </definition>
+  <definition>
+    <key>entry_value</key>
+    <value><![CDATA[Valeur: <br/><span class="help">Set à 1,00000 si tel est votre poids par défaut.</span>]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Attention: Vous n&#39;êtes pas autorisé à modifier les catégories de poids!]]></value>
+  </definition>
+  <definition>
+    <key>error_title</key>
+    <value><![CDATA[Poids Titre doit être comprise entre 2 et 32 ​​caractères!]]></value>
+  </definition>
+  <definition>
+    <key>error_unit</key>
+    <value><![CDATA[Poids de l&#39;unité doit être comprise entre 1 et 4 caractères!]]></value>
+  </definition>
+  <definition>
+    <key>error_default</key>
+    <value><![CDATA[Attention: Cette catégorie de poids ne peut pas être supprimé car il est actuellement affecté en tant que classe de poids de magasin par défaut!]]></value>
+  </definition>
+  <definition>
+    <key>error_product</key>
+    <value><![CDATA[Attention: Cette classe de poids ne peut pas être supprimé car il est actuellement assigné à %s produits!]]></value>
+  </definition>
+</definitions>

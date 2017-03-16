@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>text_get_product_embed_code</key>
+    <value><![CDATA[Produit Intégrer le code]]></value>
+  </definition>
+  <definition>
+    <key>text_get_category_embed_code</key>
+    <value><![CDATA[Catégorie Code d&#39;intégration]]></value>
+  </definition>
+  <definition>
+    <key>text_get_manufacturer_embed_code</key>
+    <value><![CDATA[Fabricant Code intégré]]></value>
+  </definition>
+  <definition>
+    <key>entry_image</key>
+    <value><![CDATA[Afficher l&#39;image]]></value>
+  </definition>
+  <definition>
+    <key>entry_name</key>
+    <value><![CDATA[Afficher le nom]]></value>
+  </definition>
+  <definition>
+    <key>entry_price</key>
+    <value><![CDATA[Voir Prix]]></value>
+  </definition>
+  <definition>
+    <key>entry_rating</key>
+    <value><![CDATA[Voir les commentaires et Notes]]></value>
+  </definition>
+  <definition>
+    <key>entry_blurb</key>
+    <value><![CDATA[Afficher Blurb]]></value>
+  </definition>
+  <definition>
+    <key>entry_quantity</key>
+    <value><![CDATA[Afficher Quantité]]></value>
+  </definition>
+  <definition>
+    <key>entry_addtocart</key>
+    <value><![CDATA[Afficher Bouton]]></value>
+  </definition>
+  <definition>
+    <key>entry_language</key>
+    <value><![CDATA[Choisir la langue]]></value>
+  </definition>
+  <definition>
+    <key>entry_currency</key>
+    <value><![CDATA[Sélectionnez la devise]]></value>
+  </definition>
+  <definition>
+    <key>entry_products_count</key>
+    <value><![CDATA[Produits Count]]></value>
+  </definition>
+</definitions>

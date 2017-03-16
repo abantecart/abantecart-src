@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Les clients en ligne]]></value>
+  </definition>
+  <definition>
+    <key>column_customer</key>
+    <value><![CDATA[Nom du client]]></value>
+  </definition>
+  <definition>
+    <key>column_ip</key>
+    <value><![CDATA[client IP]]></value>
+  </definition>
+  <definition>
+    <key>column_time</key>
+    <value><![CDATA[Dernier accès]]></value>
+  </definition>
+  <definition>
+    <key>column_url</key>
+    <value><![CDATA[url Accessed]]></value>
+  </definition>
+</definitions>

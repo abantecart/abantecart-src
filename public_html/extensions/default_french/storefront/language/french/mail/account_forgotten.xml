@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>text_subject</key>
+    <value><![CDATA[%s - Mot de passe reset]]></value>
+  </definition>
+  <definition>
+    <key>text_greeting</key>
+    <value><![CDATA[Une réinitialisation de mot de passe a été demandé de %s.]]></value>
+  </definition>
+  <definition>
+    <key>text_password</key>
+    <value><![CDATA[Pour réinitialiser votre mot de passe cliquez sur le lien ci-dessous:]]></value>
+  </definition>
+  <definition>
+    <key>text_password_reset</key>
+    <value><![CDATA[Votre mot de passe a été réinitialisé avec succès sur %s.]]></value>
+  </definition>
+  <definition>
+    <key>text_new_password</key>
+    <value><![CDATA[Entrez votre nouveau mot de passe ci-dessous:]]></value>
+  </definition>
+  <definition>
+    <key>error_reset_token</key>
+    <value><![CDATA[lien incorrect pour la demande de mot de passe. Essayez de réinitialiser une fois de plus et d&#39;utiliser le lien de la plupart récent courriel.]]></value>
+  </definition>
+</definitions>

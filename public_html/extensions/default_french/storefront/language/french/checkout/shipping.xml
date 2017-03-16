@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Informations de livraison]]></value>
+  </definition>
+  <definition>
+    <key>text_basket</key>
+    <value><![CDATA[Panier]]></value>
+  </definition>
+  <definition>
+    <key>text_shipping</key>
+    <value><![CDATA[livraison]]></value>
+  </definition>
+  <definition>
+    <key>text_shipping_to</key>
+    <value><![CDATA[S&#39;il vous plaît choisir votre carnet d&#39;adresses où vous souhaitez que les articles à livrer à.]]></value>
+  </definition>
+  <definition>
+    <key>text_shipping_address</key>
+    <value><![CDATA[Adresse de livraison]]></value>
+  </definition>
+  <definition>
+    <key>text_shipping_method</key>
+    <value><![CDATA[Méthode d&#39;envoi]]></value>
+  </definition>
+  <definition>
+    <key>text_shipping_methods</key>
+    <value><![CDATA[S&#39;il vous plaît sélectionner les méthodes d&#39;expédition préférées à utiliser sur cet ordre.]]></value>
+  </definition>
+  <definition>
+    <key>text_comments</key>
+    <value><![CDATA[Ajoutez des commentaires à propos de votre commande]]></value>
+  </definition>
+  <definition>
+    <key>error_shipping</key>
+    <value><![CDATA[Erreur: Méthode d&#39;expédition requis!]]></value>
+  </definition>
+  <definition>
+    <key>error_no_shipping</key>
+    <value><![CDATA[Erreur: Pas d&#39;options de livraison sont disponibles. S&#39;il vous plaît <a href="index.php?rt=content/contact">nous contacter</a> pour l&#39; aide!]]></value>
+  </definition>
+</definitions>

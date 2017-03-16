@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[La page que vous recherchez n&#39;a pu être trouvée!]]></value>
+  </definition>
+  <definition>
+    <key>text_error</key>
+    <value><![CDATA[La page que vous recherchez n&#39;a pu être trouvée.]]></value>
+  </definition>
+</definitions>

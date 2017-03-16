@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[gestionnaire de mise à jour]]></value>
+  </definition>
+  <definition>
+    <key>text_checkupdates</key>
+    <value><![CDATA[vérifier les mises à jour]]></value>
+  </definition>
+  <definition>
+    <key>column_name</key>
+    <value><![CDATA[Nom d&#39;extension]]></value>
+  </definition>
+  <definition>
+    <key>column_type</key>
+    <value><![CDATA[Type]]></value>
+  </definition>
+  <definition>
+    <key>column_category</key>
+    <value><![CDATA[Catégorie]]></value>
+  </definition>
+  <definition>
+    <key>column_status</key>
+    <value><![CDATA[Statut]]></value>
+  </definition>
+  <definition>
+    <key>column_version</key>
+    <value><![CDATA[Version actuelle]]></value>
+  </definition>
+  <definition>
+    <key>column_new_version</key>
+    <value><![CDATA[Nouvelle version]]></value>
+  </definition>
+  <definition>
+    <key>column_action</key>
+    <value><![CDATA[action]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Succès: Extensions a été mis à jour avec succès!]]></value>
+  </definition>
+  <definition>
+    <key>text_update</key>
+    <value><![CDATA[Mettre à jour]]></value>
+  </definition>
+  <definition>
+    <key>entry_restore_exts</key>
+    <value><![CDATA[Restaurer l&#39;extension Backupées:]]></value>
+  </definition>
+  <definition>
+    <key>entry_update</key>
+    <value><![CDATA[Mises à jour:]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Avertissement: Vous n&#39;êtes pas autorisé à modifier le répertoire:]]></value>
+  </definition>
+  <definition>
+    <key>warning_server</key>
+    <value><![CDATA[Server avec des mises à jour est inaccessible.]]></value>
+  </definition>
+  <definition>
+    <key>text_notice_title</key>
+    <value><![CDATA[Mise à jour de l&#39;avis pour% EXTENSION%]]></value>
+  </definition>
+  <definition>
+    <key>text_notice_text</key>
+    <value><![CDATA[&#39;Nouvelle version de l&#39;extension &quot;% EXTENSION%» est disponible. S&#39;il vous plaît, allez à% LINK% et le mettre à jour. &#39;]]></value>
+  </definition>
+  <definition>
+    <key>warning_updates</key>
+    <value><![CDATA[Vous ne pouvez pas obtenir des informations sur les mises à jour.]]></value>
+  </definition>
+  <definition>
+    <key>error_empty</key>
+    <value><![CDATA[Attention: Le fichier que vous avez téléchargé est vide!]]></value>
+  </definition>
+  <definition>
+    <key>error_exts_list</key>
+    <value><![CDATA[Attention: la liste d&#39;extension ne sont pas ensemble!]]></value>
+  </definition>
+  <definition>
+    <key>text_nothing_todo</key>
+    <value><![CDATA[Vôtre extensions sont à jour. Rien à faire.]]></value>
+  </definition>
+  <definition>
+    <key>text_connect</key>
+    <value><![CDATA[Relier]]></value>
+  </definition>
+  <definition>
+    <key>text_marketplace_connect</key>
+    <value><![CDATA[Connectez-vous au marché]]></value>
+  </definition>
+  <definition>
+    <key>text_marketplace_connect_your_store</key>
+    <value><![CDATA[S&#39;il vous plaît Connectez votre magasin au marché]]></value>
+  </definition>
+  <definition>
+    <key>text_note</key>
+    <value><![CDATA[Remarque: Mise à jour disponible uniquement pour les magasins connectés avec l&#39;histoire acheté.]]></value>
+  </definition>
+</definitions>

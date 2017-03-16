@@ -1,0 +1,915 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Paramètres]]></value>
+  </definition>
+  <definition>
+    <key>column_store_alias</key>
+    <value><![CDATA[le magasin]]></value>
+  </definition>
+  <definition>
+    <key>column_group</key>
+    <value><![CDATA[Groupe]]></value>
+  </definition>
+  <definition>
+    <key>column_key</key>
+    <value><![CDATA[Clé]]></value>
+  </definition>
+  <definition>
+    <key>column_value</key>
+    <value><![CDATA[Valeur]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Succès: Vous avez enregistré avec succès vos paramètres!]]></value>
+  </definition>
+  <definition>
+    <key>text_image_manager</key>
+    <value><![CDATA[Image Manager]]></value>
+  </definition>
+  <definition>
+    <key>text_select_group</key>
+    <value><![CDATA[- Sélectionner le groupe -]]></value>
+  </definition>
+  <definition>
+    <key>text_default</key>
+    <value><![CDATA[Défaut]]></value>
+  </definition>
+  <definition>
+    <key>text_edit_store_settings</key>
+    <value><![CDATA[Modifier les paramètres:]]></value>
+  </definition>
+  <definition>
+    <key>text_edit_template_settings</key>
+    <value><![CDATA[Modifier les paramètres du modèle:]]></value>
+  </definition>
+  <definition>
+    <key>text_common_template_settings</key>
+    <value><![CDATA[Sélection modèle]]></value>
+  </definition>
+  <definition>
+    <key>text_edit_store</key>
+    <value><![CDATA[Modifier magasin]]></value>
+  </definition>
+  <definition>
+    <key>text_mail</key>
+    <value><![CDATA[Courrier]]></value>
+  </definition>
+  <definition>
+    <key>text_smtp</key>
+    <value><![CDATA[SMTP]]></value>
+  </definition>
+  <definition>
+    <key>tab_all</key>
+    <value><![CDATA[Tout]]></value>
+  </definition>
+  <definition>
+    <key>entry_name</key>
+    <value><![CDATA[Nom du magasin:]]></value>
+  </definition>
+  <definition>
+    <key>entry_url</key>
+    <value><![CDATA[Magasin URL: <br/><span class="help">Inclure l&#39;URL complète à votre magasin. Assurez</span> - <span class="help">vous d&#39;ajouter &#39;/&#39; à la fin. Exemple: http://www.yourdomain.com/path/</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_owner</key>
+    <value><![CDATA[Propriétaire du magasin:]]></value>
+  </definition>
+  <definition>
+    <key>entry_address</key>
+    <value><![CDATA[Adresse:]]></value>
+  </definition>
+  <definition>
+    <key>entry_email</key>
+    <value><![CDATA[Email:]]></value>
+  </definition>
+  <definition>
+    <key>entry_alert_emails</key>
+    <value><![CDATA[D&#39; autres alertes E-Mails: <br/><span class="help">Tous</span> les <span class="help">e</span> - <span class="help">mails supplémentaires</span> que <span class="help">vous souhaitez recevoir l&#39;alerte e</span> - <span class="help">mail, en plus du magasin principal email. (séparées par des virgules)</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_telephone</key>
+    <value><![CDATA[Téléphone:]]></value>
+  </definition>
+  <definition>
+    <key>entry_fax</key>
+    <value><![CDATA[Fax:]]></value>
+  </definition>
+  <definition>
+    <key>entry_title</key>
+    <value><![CDATA[Titre: <br/><span class="help">Ceci est affiché en vitrine titre du navigateur</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_meta_description</key>
+    <value><![CDATA[Meta Tag Description: <br/><span class="help">Storefront</span> la <span class="help">page principale balise META Description</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_meta_keywords</key>
+    <value><![CDATA[Meta Keywords: <br/><span class="help">Storefront Page principale balise meta mots</span> - <span class="help">clés (séparés par</span> une <span class="help">virgule)</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_description</key>
+    <value><![CDATA[Message de bienvenue:]]></value>
+  </definition>
+  <definition>
+    <key>entry_template</key>
+    <value><![CDATA[Modèle: <span class="help">modèle Storefront. Cela peut être modèle principal ou</span> d&#39; <span class="help">extension</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_admin_template</key>
+    <value><![CDATA[Template Panneau de configuration:]]></value>
+  </definition>
+  <definition>
+    <key>entry_country</key>
+    <value><![CDATA[Pays:]]></value>
+  </definition>
+  <definition>
+    <key>entry_zone</key>
+    <value><![CDATA[Région / État:]]></value>
+  </definition>
+  <definition>
+    <key>entry_language</key>
+    <value><![CDATA[Storefront Langue:]]></value>
+  </definition>
+  <definition>
+    <key>entry_admin_language</key>
+    <value><![CDATA[Administration Langue: <span class="help">REMARQUE: si aucun utilisateur</span> ne <span class="help">fonctionne langue préférée se trouve dans le navigateur</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_currency</key>
+    <value><![CDATA[Devise de base: <span class="help">Ceci est une monnaie</span> de <span class="help">base pour tous</span> les <span class="help">magasins. Ne pas changer si vous ne comprenez pas ce qui se passera. Attention: Changement de devise de base ne changera pas vos prix de base pour</span> les <span class="help">produits. Vous aurez besoin d&#39;examiner et</span> de <span class="help">régler tous les prix si nécessaire. Taux de change</span> de <span class="help">base sera fixé à 1,00 et tous</span> les <span class="help">autres taux de change des monnaies sera ajusté par rapport à</span> la <span class="help">nouvelle monnaie de base.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_currency_auto</key>
+    <value><![CDATA[Mise à jour automatique Monnaie: <br/><span class="help">Définir votre magasin pour mettre</span> à <span class="help">jour automatiquement</span> les <span class="help">monnaies</span> par <span class="help">jour. Yahoo serveur est utilisé.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_weight_class</key>
+    <value><![CDATA[Catégorie de poids:]]></value>
+  </definition>
+  <definition>
+    <key>entry_length_class</key>
+    <value><![CDATA[Longueur Classe:]]></value>
+  </definition>
+  <definition>
+    <key>entry_auto_translate_status</key>
+    <value><![CDATA[Statut Autotranslate: <br/><span class="help">Cette traduction</span> a <span class="help">permis de définitions de texte ou</span> de <span class="help">données linguistiques spécifiques si</span> les <span class="help">valeurs de texte sont manquantes pour</span> la <span class="help">langue utilisée manquante.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_translate_src_lang_code</key>
+    <value><![CDATA[Langue de la traduction: <br/><span class="help">Sélectionnez</span> la <span class="help">langue source à utiliser pour</span> la traduction <span class="help">automatique.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_translate_method</key>
+    <value><![CDATA[Texte de traduction Méthode: <br/><span class="help">Sélectionnez</span> la <span class="help">méthode</span> que <span class="help">vous souhaitez utiliser pour</span> la <span class="help">traduction. Méthode par défaut est une copie droite du texte de</span> la <span class="help">langue source</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_translate_override_existing</key>
+    <value><![CDATA[Remplacer si le texte de la langue source a été changé: <br/><span class="help">Si</span> elle est <span class="help">définie,</span> le <span class="help">texte dans toutes</span> les <span class="help">langues sera remplacée par</span> une <span class="help">nouvelle traduction si</span> le <span class="help">texte de</span> la <span class="help">langue source est édité. NOTE: Peut causer</span> de <span class="help">nombreuses traductions.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_warn_lang_text_missing</key>
+    <value><![CDATA[Warn pour le texte de la langue manquante: <br/><span class="help">Obtenir</span> un <span class="help">message</span> d&#39; <span class="help">avertissement si</span> le <span class="help">texte de</span> la <span class="help">langue manquante est détectée.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_tax</key>
+    <value><![CDATA[Affichage Prix TTC:]]></value>
+  </definition>
+  <definition>
+    <key>entry_tax_store</key>
+    <value><![CDATA[Par défaut Magasin Taux d&#39;imposition:]]></value>
+  </definition>
+  <definition>
+    <key>entry_tax_store_0</key>
+    <value><![CDATA[Pas de taxes]]></value>
+  </definition>
+  <definition>
+    <key>entry_tax_store_1</key>
+    <value><![CDATA[Magasin Zone par défaut]]></value>
+  </definition>
+  <definition>
+    <key>entry_tax_customer</key>
+    <value><![CDATA[Utilisez Customer Tax Adresse:]]></value>
+  </definition>
+  <definition>
+    <key>entry_tax_customer_0</key>
+    <value><![CDATA[Adresse de livraison]]></value>
+  </definition>
+  <definition>
+    <key>entry_tax_customer_1</key>
+    <value><![CDATA[Adresse de facturation]]></value>
+  </definition>
+  <definition>
+    <key>entry_invoice</key>
+    <value><![CDATA[Facture Démarrer No .: <br/><span class="help">Définir le numéro</span> de <span class="help">départ les factures commencent</span> à <span class="help">partir.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_invoice_prefix</key>
+    <value><![CDATA[Facture Prefix: <br/><span class="help">Set la facture préfixe par exemple IN / 001</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_customer_group</key>
+    <value><![CDATA[Groupe clients: <br/><span class="help">groupe de clients par défaut.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_customer_price</key>
+    <value><![CDATA[Se connecter Afficher les prix: <br/><span class="help">Afficher</span> les <span class="help">prix</span> , <span class="help">même si</span> le <span class="help">client n&#39;a pas connecté.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_customer_approval</key>
+    <value><![CDATA[Approuver Nouveaux clients: <br/><span class="help">Ne laissez pas nouveau client</span> de <span class="help">se connecter jusqu&#39;à ce que leur compte a été approuvé.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_prevent_email_as_login</key>
+    <value><![CDATA[Exiger Nom de connexion: <br/><span class="help">Pour améliorer</span> la <span class="help">sécurité, demander</span> aux <span class="help">clients de créer</span> le <span class="help">nom de connexion unique</span> , au <span class="help">lieu d&#39;utiliser</span> l&#39; <span class="help">adresse e</span> - <span class="help">mail comme nom de connexion. Si</span> elle est <span class="help">activée,</span> les <span class="help">clients existants seront invités à créer</span> un <span class="help">nouveau nom de connexion lors</span> de <span class="help">la première connexion. Si OFF,</span> le <span class="help">nom de connexion est défini comme adresse e</span> - <span class="help">mail du client.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_guest_checkout</key>
+    <value><![CDATA[Guest Checkout: <br/><span class="help">Autoriser</span> les <span class="help">clients à</span> la <span class="help">caisse sans créer de compte. Ce ne sera pas disponible quand un produit téléchargeable est dans le panier.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_account</key>
+    <value><![CDATA[Compte Conditions: <br/><span class="help">personnes Forces acceptent des conditions avant</span> que <span class="help">le compte peut être créé.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_checkout</key>
+    <value><![CDATA[Commander Conditions: <br/><span class="help">personnes Forces acceptent des conditions avant qu&#39;un client peut caisse.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_order_status</key>
+    <value><![CDATA[Statut de la commande: <br/><span class="help">Définir le statut de commande par défaut lorsqu&#39;une commande est traitée.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_customer_cancelation_order_status</key>
+    <value><![CDATA[Permettre à la clientèle d&#39;annuler la commande sur le statut:]]></value>
+  </definition>
+  <definition>
+    <key>entry_stock_display</key>
+    <value><![CDATA[Affichage Stock: <br/><span class="help">Affichage stock Quantité sur la page du produit.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_nostock_autodisable</key>
+    <value><![CDATA[Pas de stock Auto Disable: <br/><span class="help">Désactivez votre produit ou valeur d&#39;option pour</span> une <span class="help">vue si</span> le <span class="help">stock tombe à 0. notification de message sera envoyé</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_stock_checkout</key>
+    <value><![CDATA[Stock Commander: <br/><span class="help">Laisser</span> les <span class="help">clients à</span> la <span class="help">caisse encore si les produits qu&#39;ils commandent ne sont pas en stock.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_stock_status</key>
+    <value><![CDATA[Stock Status: <br/><span class="help">Réglage par défaut pour sortir du message d&#39;état de stock pour</span> ce <span class="help">produit. Utilisé sur</span> le <span class="help">produit modifier</span> la <span class="help">page.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_logo</key>
+    <value><![CDATA[Store Logo:]]></value>
+  </definition>
+  <definition>
+    <key>entry_icon</key>
+    <value><![CDATA[Icône: <br/><span class="help">L&#39;icône peut être un PNG ou ICON type qui est 16px x 16px.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_width</key>
+    <value><![CDATA[Largeur:]]></value>
+  </definition>
+  <definition>
+    <key>entry_height</key>
+    <value><![CDATA[La taille:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_thumb</key>
+    <value><![CDATA[Product Image Thumb Taille:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_thumb_width</key>
+    <value><![CDATA[Product Image Thumb Largeur:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_thumb_height</key>
+    <value><![CDATA[Product Image Thumb Hauteur:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_popup</key>
+    <value><![CDATA[Product Image Popup Taille:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_popup_width</key>
+    <value><![CDATA[Grande fenêtre Aperçu Largeur:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_popup_height</key>
+    <value><![CDATA[Grande fenêtre Aperçu Taille:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_category</key>
+    <value><![CDATA[Catégorie Liste Taille:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_category_width</key>
+    <value><![CDATA[Catégorie Liste Largeur:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_category_height</key>
+    <value><![CDATA[Catégorie Liste Taille:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_manufacturer_width</key>
+    <value><![CDATA[Marque Icône Liste Largeur:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_manufacturer_height</key>
+    <value><![CDATA[Marque Liste des icônes Hauteur:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_product</key>
+    <value><![CDATA[Liste des produits Taille:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_product_height</key>
+    <value><![CDATA[Liste de produit Hauteur: <br/><span class="help">Ceci pour contrôler</span> la <span class="help">hauteur d&#39;une image d&#39;aperçu dans les pages d&#39;inscription de admin et</span> d&#39; <span class="help">autres endroits dans la vitrine. Remarque, ce paramètre est partagé entre admin et modèle par défaut de vitrine.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_product_width</key>
+    <value><![CDATA[Liste des produits Largeur: <br/><span class="help">Ceci pour contrôler</span> la <span class="help">largeur d&#39;une image d&#39;aperçu dans les pages d&#39;inscription de admin et</span> d&#39; <span class="help">autres endroits dans la vitrine. Remarque, ce paramètre est partagé entre admin et modèle par défaut de vitrine.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_additional</key>
+    <value><![CDATA[Supplémentaires Taille de l&#39;image du produit:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_additional_width</key>
+    <value><![CDATA[Supplémentaires Largeur de l&#39;image du produit:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_additional_height</key>
+    <value><![CDATA[Supplémentaires Hauteur de l&#39;image du produit:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_related</key>
+    <value><![CDATA[Related Taille de l&#39;image du produit:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_related_width</key>
+    <value><![CDATA[Largeur de l&#39;image du produit:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_related_height</key>
+    <value><![CDATA[Connexes Hauteur de l&#39;image du produit:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_cart</key>
+    <value><![CDATA[Panier Taille de l&#39;image:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_cart_width</key>
+    <value><![CDATA[Panier Largeur de l&#39;image:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_cart_height</key>
+    <value><![CDATA[Panier Hauteur de l&#39;image:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_grid</key>
+    <value><![CDATA[Grille Taille de l&#39;image:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_grid_width</key>
+    <value><![CDATA[Grille Largeur de l&#39; image: <br/><span class="help">Ceci pour contrôler</span> la <span class="help">largeur d&#39;une image très petit aperçu dans la liste</span> des <span class="help">grilles de admin et</span> d&#39; <span class="help">autres endroits dans la vitrine. Remarque, ce paramètre est partagé entre admin et modèle par défaut de vitrine.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_grid_height</key>
+    <value><![CDATA[Grille Hauteur de l&#39; image: <br/><span class="help">Ceci pour contrôler</span> la <span class="help">hauteur d&#39;une image très petit aperçu dans la liste</span> des <span class="help">grilles de admin et</span> d&#39; <span class="help">autres endroits dans la vitrine. Remarque, ce paramètre est partagé entre admin et modèle par défaut de vitrine.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_alert_mail</key>
+    <value><![CDATA[Alerte E - Mail: <br/><span class="help">Envoyer un e</span> - <span class="help">mail au propriétaire du magasin quand un nouvel ordre est créé.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_download</key>
+    <value><![CDATA[Autoriser Téléchargements:]]></value>
+  </definition>
+  <definition>
+    <key>entry_download_status</key>
+    <value><![CDATA[Télécharger Order Status: <br/><span class="help">Définissez le statut de</span> la <span class="help">commande la commande du client doivent parvenir avant qu&#39;ils</span> ne <span class="help">soient autorisés à accéder</span> à <span class="help">leurs produits téléchargeables.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_mail_protocol</key>
+    <value><![CDATA[Protocole Mail: <span class="help">Mail: Par défaut serveur de messagerie du serveur sera utilisé. Assurez</span> - <span class="help">vous qu&#39;il est configuré et capable d&#39;envoyer</span> des <span class="help">e</span> - <span class="help">mail avec PHP courrier.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_mail_parameter</key>
+    <value><![CDATA[Courrier Paramètres: <span class="help">Lorsque</span> vous <span class="help">utilisez &#39;Mail&#39;,</span> les <span class="help">paramètres de messagerie supplémentaires peuvent être ajoutés ici (par exemple &quot;-femail@storeaddress.com&quot;.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_smtp_host</key>
+    <value><![CDATA[Hôte SMTP: <br/><span class="help">Utilisation ssl: //smtp.yourdomain.com pour</span> le <span class="help">raccordement de smtp sécurisé</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_smtp_username</key>
+    <value><![CDATA[Nom d&#39;utilisateur SMTP:]]></value>
+  </definition>
+  <definition>
+    <key>entry_smtp_password</key>
+    <value><![CDATA[SMTP Mot de passe:]]></value>
+  </definition>
+  <definition>
+    <key>entry_smtp_port</key>
+    <value><![CDATA[Port SMTP:]]></value>
+  </definition>
+  <definition>
+    <key>entry_smtp_timeout</key>
+    <value><![CDATA[SMTP Timeout:]]></value>
+  </definition>
+  <definition>
+    <key>entry_ssl</key>
+    <value><![CDATA[Utiliser SSL: <br/><span class="help">Pour utiliser</span> l&#39; <span class="help">enregistrement SSL avec votre hôte si un certificat SSL est installé.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_session_ttl</key>
+    <value><![CDATA[Expiration Session Control Panel: <br/><span class="help">Cette valeur contrôle</span> l&#39; <span class="help">intervalle de temps en minutes avant</span> que <span class="help">vous serez invité à vous connecter</span> à <span class="help">nouveau</span> en <span class="help">raison de pas</span> d&#39; <span class="help">activité.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_encryption</key>
+    <value><![CDATA[Clé de cryptage: <br/><span class="help">Réglage migré vers fichier config</span> à <span class="help">partir de v1.2.1.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_seo_url</key>
+    <value><![CDATA[Utilisez SEO URL: <br/><span class="help">Pour utiliser</span> le <span class="help">module apache mod-rewrite SEO URL doit être installé et vous devez renommer le htaccess.txt en .htaccess. Remarque: Si abantecart pas installé à la racine du domaine doit être changé règle RewriteBase intérieur fichier .htaccess.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_retina_enable</key>
+    <value><![CDATA[Générer haute - rés (rétine) images: <br/><span class="help">Pour utiliser ce module apache mod-rewrite doit être installé et vous devez renommer le htaccess.txt en .htaccess. Remarque: Si abantecart pas installé à la racine du domaine doit être changé règle RewriteBase intérieur fichier .htaccess. <br/> Après avoir activé devrait effacer les images du cache.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_quality</key>
+    <value><![CDATA[Jpeg Images Niveau de compression]]></value>
+  </definition>
+  <definition>
+    <key>entry_compression</key>
+    <value><![CDATA[Compression Niveau de sortie: <br/><span class="help">GZIP pour</span> un <span class="help">transfert plus efficace aux clients demandeurs. Niveau de compression doit être comprise entre 0 - 9</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_error_display</key>
+    <value><![CDATA[Afficher Erreurs: <br/><span class="help">Set à yes si vous voulez voir les exceptions et</span> les <span class="help">erreurs</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_error_log</key>
+    <value><![CDATA[Consigner les erreurs: <br/><span class="help">Set yes si vous souhaitez enregistrer les exceptions et</span> les <span class="help">erreurs dans le journal</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_enable_reviews</key>
+    <value><![CDATA[Activer les avis: <br/><span class="help"></span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_cache_enable</key>
+    <value><![CDATA[Cache activé: <br/><span class="help">S&#39;il vous plaît soyez prudent lorsque désactive</span> le <span class="help">cache. Pages mises</span> en <span class="help">cache ne seront pas recréés et</span> le <span class="help">site pourrait commencer</span> le <span class="help">chargement lent.</span>]]></value>
+  </definition>
+  <definition>
+    <key>text_setting_cache_drivers</key>
+    <value><![CDATA[Actuellement en utilisant cache <b>%s</b> pilote. D&#39; autres pilotes disponibles pour la configuration sont <i>%s</i>]]></value>
+  </definition>
+  <definition>
+    <key>entry_storefront_api_status</key>
+    <value><![CDATA[Storefront état de l&#39;API:]]></value>
+  </definition>
+  <definition>
+    <key>entry_storefront_api_key</key>
+    <value><![CDATA[Storefront clé API: <br/><span class="help">Définissez cette clé pour fournir</span> un <span class="help">accès restreint (plus sûr) à</span> l&#39; <span class="help">API de devanture de magasin.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_storefront_api_stock_check</key>
+    <value><![CDATA[Storefront API Stock Accès: <br/><span class="help">Activer si vous permettez API de devanture de magasin pour vérifier</span> la <span class="help">disponibilité</span> des <span class="help">stocks</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_admin_api_status</key>
+    <value><![CDATA[Administrateur état de l&#39;API:]]></value>
+  </definition>
+  <definition>
+    <key>entry_admin_api_key</key>
+    <value><![CDATA[API Admin Key: <br/><span class="help">Définissez cette clé pour fournir</span> un <span class="help">accès restreint (plus sûr) à</span> l&#39; <span class="help">API administration.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_admin_access_ip_list</key>
+    <value><![CDATA[Administrateur IP Access API: <br/><span class="help">Fournir</span> la <span class="help">liste des adresses IP (séparées par</span> des <span class="help">virgules) qui seront autorisés à accéder</span> à l&#39; <span class="help">API</span> d&#39; <span class="help">administration.</span> D&#39; <span class="help">autres adresses IP seront bloquées</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_upload_max_size</key>
+    <value><![CDATA[Bibliothèque de ressources Upload Max Taille du fichier, kB]]></value>
+  </definition>
+  <definition>
+    <key>entry_debug</key>
+    <value><![CDATA[Afficher les informations de débogage: <br/><span class="help">Activez si vous voulez voir les détails d&#39;exécution et afficher</span> les <span class="help">détails de débogage.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_debug_0</key>
+    <value><![CDATA[De]]></value>
+  </definition>
+  <definition>
+    <key>entry_debug_1</key>
+    <value><![CDATA[Montrer]]></value>
+  </definition>
+  <definition>
+    <key>entry_debug_2</key>
+    <value><![CDATA[Bûche]]></value>
+  </definition>
+  <definition>
+    <key>entry_debug_level</key>
+    <value><![CDATA[Debug Level: <br/><span class="help">Sélectionnez la profondeur des détails</span> que <span class="help">vous devez voir dans la sortie de débogage.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_debug_level_0</key>
+    <value><![CDATA[Niveau 0 - pas de journaux, seulement des erreurs d&#39;exception]]></value>
+  </definition>
+  <definition>
+    <key>entry_debug_level_1</key>
+    <value><![CDATA[Niveau 1 - erreurs et avertissements]]></value>
+  </definition>
+  <definition>
+    <key>entry_debug_level_2</key>
+    <value><![CDATA[Niveau 2 - # 1 + mysql site de charge, des éléments de temps d&#39;exécution de fichier php et chargement de la page du temps]]></value>
+  </definition>
+  <definition>
+    <key>entry_debug_level_3</key>
+    <value><![CDATA[Niveau 3 - # 2 logs + de base et de la pile d&#39;exécution]]></value>
+  </definition>
+  <definition>
+    <key>entry_debug_level_4</key>
+    <value><![CDATA[Niveau 4 - # 3 déclarations mysql + dump]]></value>
+  </definition>
+  <definition>
+    <key>entry_debug_level_5</key>
+    <value><![CDATA[Niveau 5 - # 4 + variable intermédiaire]]></value>
+  </definition>
+  <definition>
+    <key>entry_template_debug</key>
+    <value><![CDATA[Debug Modèle: <br/><span class="help">Activez ce paramètre si vous avez besoin de vérifier</span> les <span class="help">problèmes avec</span> le <span class="help">modèle en vitrine et panneau</span> de <span class="help">commande.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_error_filename</key>
+    <value><![CDATA[Error Log Nom du fichier: <br/><span class="help">Ceci est un fichier où</span> les <span class="help">erreurs sont enregistrées.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_shipping_session</key>
+    <value><![CDATA[Utilisation Session Livraison: <br/><span class="help">Enregistre</span> les <span class="help">citations d&#39;expédition à</span> la <span class="help">session pour éviter</span> la <span class="help">ré-cite inutilement. Citations ne seront re-cité si panier ou</span> l&#39; <span class="help">adresse est modifiée.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_catalog_limit</key>
+    <value><![CDATA[Par défaut des objets par page (Storefront): <br/><span class="help">Sets combien d&#39;articles de devanture de magasin sont affichés par page (produits, catégories, etc.)</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_admin_limit</key>
+    <value><![CDATA[Par défaut des objets par page (Admin): <br/><span class="help">Sets combien d&#39;articles d&#39;administration sont affichés par page dans</span> la <span class="help">liste</span> des <span class="help">grilles (commandes, clients, etc.)</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_bestseller_limit</key>
+    <value><![CDATA[Nombre d&#39;articles dans Bestseller Bloc]]></value>
+  </definition>
+  <definition>
+    <key>entry_featured_limit</key>
+    <value><![CDATA[Nombre d&#39;articles Dans Block vedette]]></value>
+  </definition>
+  <definition>
+    <key>entry_latest_limit</key>
+    <value><![CDATA[Nombre d&#39;éléments dans le dernier bloc]]></value>
+  </definition>
+  <definition>
+    <key>entry_special_limit</key>
+    <value><![CDATA[Nombre d&#39;articles dans Bloc spécial]]></value>
+  </definition>
+  <definition>
+    <key>entry_cart_weight</key>
+    <value><![CDATA[Affichage Poids sur panier Page: <br/><span class="help">Voir le poids de panier sur la page du panier</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_reviews</key>
+    <value><![CDATA[Autoriser Avis: <br/><span class="help">Activer / Désactiver nouvelle entrée d&#39;examen et</span> l&#39; <span class="help">affichage des avis existants</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_maintenance</key>
+    <value><![CDATA[Mode de maintenance: <br/><span class="help">Empêche</span> les <span class="help">clients de</span> la <span class="help">navigation</span> de <span class="help">votre magasin. Ils vont plutôt voir un message de maintenance. Si</span> vous <span class="help">êtes connecté en tant qu&#39;administrateur, vous verrez le magasin comme normal.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_voicecontrol</key>
+    <value><![CDATA[Commande vocale: <br/><span class="help">Activer</span> la <span class="help">commande vocale admin pour activer</span> les <span class="help">commandes vocales disposent. Actuellement supporté seulement</span> la <span class="help">version Chrome 25 ou version ultérieure.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_help_links</key>
+    <value><![CDATA[Aide Liens: <br/><span class="help">Si vous voulez voir Aide Icônes et liens vers</span> le <span class="help">site AbanteCart. Cela vous aidera</span> à en <span class="help">apprendre davantage sur</span> les <span class="help">caractéristiques et</span> la <span class="help">façon de les utiliser. Si vous avez avancé</span> l&#39; <span class="help">utilisateur et ne veulent pas voir ces icônes</span> d&#39; <span class="help">aide, vous pouvez désactiver.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_show_tree_data</key>
+    <value><![CDATA[Activer Arbre Grid: <br/><span class="help">Active grilles d&#39;administration pour montrer parents / enfants types dans une liste de grille. NOTE: Pagination et multi-actions sont désactivées pour ces grilles</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_cart_ajax</key>
+    <value><![CDATA[Même page Ajouter au panier: <br/><span class="help">Cela permettra AJAX ajouter au panier fonctionnalité.</span> Le <span class="help">produit peut être ajouté au panier sans rediriger</span> la <span class="help">page au panier</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_storefront_width</key>
+    <value><![CDATA[Storefront Largeur du site: <br/><span class="help">Exemple: 100% ou 1000px</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_admin_width</key>
+    <value><![CDATA[Administrateur Largeur du site: <br/><span class="help">Exemple: 100% ou 1000px</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_total_order_maximum</key>
+    <value><![CDATA[Montant de la commande maximum autorisée: <br/><span class="help">Empêcher</span> la <span class="help">caisse avec</span> des <span class="help">quantités de sous-total</span> de <span class="help">grand ordre. 0 = NO LIMIT</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_total_order_minimum</key>
+    <value><![CDATA[Montant minimum de commande: <br/><span class="help">Empêcher</span> la <span class="help">caisse si</span> le <span class="help">sous-total de</span> la <span class="help">commande ne parvient pas</span> à <span class="help">montant minimum fixé. 0 = NON MINIMUM</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_system_check</key>
+    <value><![CDATA[Vérification du système: <br/><span class="help">Activez ce paramètre si vous voulez vérifier votre état du système en</span> ce qui <span class="help">concerne</span> la <span class="help">fonctionnalité AbanteCart.</span> Les <span class="help">questions de système effectuant AbanteCart seront présentés sous forme</span> de <span class="help">messages visibles dans</span> l&#39; <span class="help">admin.</span>]]></value>
+  </definition>
+  <definition>
+    <key>button_add_store</key>
+    <value><![CDATA[Nouveau magasin]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Attention: Vous n&#39;êtes pas autorisé à modifier les paramètres!]]></value>
+  </definition>
+  <definition>
+    <key>error_loginname</key>
+    <value><![CDATA[Nom de connexion doit être seulement et entre 5 et 64 caractères alphanumériques!]]></value>
+  </definition>
+  <definition>
+    <key>error_loginname_notunique</key>
+    <value><![CDATA[Ce nom de connexion ne sont pas disponibles. Essayez différents nom de connexion!]]></value>
+  </definition>
+  <definition>
+    <key>error_name</key>
+    <value><![CDATA[Nom du magasin doit être comprise entre 2 et 32 ​​caractères!]]></value>
+  </definition>
+  <definition>
+    <key>error_url</key>
+    <value><![CDATA[Magasin URL nécessaire!]]></value>
+  </definition>
+  <definition>
+    <key>error_title</key>
+    <value><![CDATA[Titre doit être comprise entre 2 et 32 ​​caractères!]]></value>
+  </definition>
+  <definition>
+    <key>error_owner</key>
+    <value><![CDATA[Le propriétaire du magasin doit être comprise entre 2 et 64 caractères!]]></value>
+  </definition>
+  <definition>
+    <key>error_address</key>
+    <value><![CDATA[Adresse du magasin doit être comprise entre 10 et 256 caractères!]]></value>
+  </definition>
+  <definition>
+    <key>error_email</key>
+    <value><![CDATA[Adresse e-mail ne semble pas être valide!]]></value>
+  </definition>
+  <definition>
+    <key>error_telephone</key>
+    <value><![CDATA[Téléphone doit être comprise entre 2 et 32 ​​caractères!]]></value>
+  </definition>
+  <definition>
+    <key>error_image_thumb</key>
+    <value><![CDATA[Product Image Thumb Taille dimensions requises!]]></value>
+  </definition>
+  <definition>
+    <key>error_image_popup</key>
+    <value><![CDATA[Product Image Popup Taille dimensions requises!]]></value>
+  </definition>
+  <definition>
+    <key>error_image_category</key>
+    <value><![CDATA[dimensions Catégorie Liste de taille requise!]]></value>
+  </definition>
+  <definition>
+    <key>error_image_manufacturer</key>
+    <value><![CDATA[Marque Liste Icône dimensions de taille requise!]]></value>
+  </definition>
+  <definition>
+    <key>error_image_product</key>
+    <value><![CDATA[dimensions liste des produits de taille requise!]]></value>
+  </definition>
+  <definition>
+    <key>error_image_additional</key>
+    <value><![CDATA[D&#39;autres produits dimensions de taille d&#39;image requise!]]></value>
+  </definition>
+  <definition>
+    <key>error_image_related</key>
+    <value><![CDATA[Produit connexes dimensions de taille d&#39;image requise!]]></value>
+  </definition>
+  <definition>
+    <key>error_image_cart</key>
+    <value><![CDATA[dimensions panier de taille d&#39;image requise!]]></value>
+  </definition>
+  <definition>
+    <key>error_image_grid</key>
+    <value><![CDATA[dimensions Grille de taille d&#39;image requise!]]></value>
+  </definition>
+  <definition>
+    <key>error_error_filename</key>
+    <value><![CDATA[Error Log Nom du fichier nécessaire!]]></value>
+  </definition>
+  <definition>
+    <key>error_required_data</key>
+    <value><![CDATA[Données requises n&#39;a pas été saisi. Vérifiez les erreurs sur le terrain!]]></value>
+  </definition>
+  <definition>
+    <key>error_uploaded_image</key>
+    <value><![CDATA[fichier Téléchargé %s est pas l&#39;image ou cassé!]]></value>
+  </definition>
+  <definition>
+    <key>error_limit</key>
+    <value><![CDATA[Limite nécessaire!]]></value>
+  </definition>
+  <definition>
+    <key>text_front</key>
+    <value><![CDATA[Store front]]></value>
+  </definition>
+  <definition>
+    <key>text_admin</key>
+    <value><![CDATA[Administrateur]]></value>
+  </definition>
+  <definition>
+    <key>error_mail</key>
+    <value><![CDATA[S&#39;il vous plaît remplir les champs requis pour smtp protocole!]]></value>
+  </definition>
+  <definition>
+    <key>text_sorting_sort_order_asc</key>
+    <value><![CDATA[Produit de l&#39;ordre de tri Low &gt; Haute]]></value>
+  </definition>
+  <definition>
+    <key>text_sorting_name_asc</key>
+    <value><![CDATA[Nom A - Z]]></value>
+  </definition>
+  <definition>
+    <key>text_sorting_name_desc</key>
+    <value><![CDATA[Nom Z - A]]></value>
+  </definition>
+  <definition>
+    <key>text_sorting_price_asc</key>
+    <value><![CDATA[Prix bas &gt; Haute]]></value>
+  </definition>
+  <definition>
+    <key>text_sorting_price_desc</key>
+    <value><![CDATA[Prix élevé &gt; Faible]]></value>
+  </definition>
+  <definition>
+    <key>text_sorting_rating_asc</key>
+    <value><![CDATA[Classement le plus bas]]></value>
+  </definition>
+  <definition>
+    <key>text_sorting_rating_desc</key>
+    <value><![CDATA[Note la plus élevée]]></value>
+  </definition>
+  <definition>
+    <key>text_sorting_date_asc</key>
+    <value><![CDATA[Date de Old &gt; Nouveau]]></value>
+  </definition>
+  <definition>
+    <key>text_sorting_date_desc</key>
+    <value><![CDATA[Date de New &gt; Vieux]]></value>
+  </definition>
+  <definition>
+    <key>entry_product_default_sort_order</key>
+    <value><![CDATA[Trier les produits comme défaut par:]]></value>
+  </definition>
+  <definition>
+    <key>entry_zero_customer_balance</key>
+    <value><![CDATA[Afficher Bilan Zéro client: <br/><span class="help">Note: Activer / désactiver</span> l&#39; <span class="help">affichage du message d&#39;équilibre si</span> le <span class="help">solde du compte client est 0</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_shipping_tax_estimate</key>
+    <value><![CDATA[Taxes et expédition Estimation: <br/><span class="help">Permettre</span> aux <span class="help">clients d&#39;obtenir expédition rapide et</span> une <span class="help">estimation de</span> la <span class="help">taxe dans le panier.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_coupon_on_cart_page</key>
+    <value><![CDATA[Coupon sur panier page: <br/><span class="help">Permettre</span> aux <span class="help">clients d&#39;entrer</span> le <span class="help">code de coupon et voir</span> une <span class="help">réduction dans le panier.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_google_analytics</key>
+    <value><![CDATA[Google Analytics Numéro de compte: <br/><span class="help">Ajoutez votre <a href="https://support.google.com/analytics/answer/1032385?hl=en&ref_topic=1008082" target="_blank">Google Analytics numéro</a></span> de <span class="help"><a href="https://support.google.com/analytics/answer/1032385?hl=en&ref_topic=1008082" target="_blank">compte</a> pour permettre</span> le <span class="help">site</span> de <span class="help">suivi de</span> l&#39; <span class="help">activité. Ceci permet également</span> le <span class="help">suivi de</span> l&#39; <span class="help">activité de commerce électronique. Vous devez activer</span> le <span class="help">suivi dans google sur la page des paramètres de profil pour votre site e</span> - <span class="help">commerce</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_ssl_url</key>
+    <value><![CDATA[Sécurisé magasin URL: <br/><span class="help">Inclure l&#39;URL SSL complète (HTTPS) à votre magasin. Assurez</span> - <span class="help">vous d&#39;ajouter &#39;/&#39; à la fin. Exemple: https://www.yourdomain.com/path/</span>]]></value>
+  </definition>
+  <definition>
+    <key>error_ssl_url</key>
+    <value><![CDATA[Secure URL requise!]]></value>
+  </definition>
+  <definition>
+    <key>entry_customer_email_activation</key>
+    <value><![CDATA[Activation E - mail pour les nouveaux clients: <br/><span class="help">Ne laissez pas nouveau client</span> de <span class="help">se connecter jusqu&#39;à ce que leur compte a été confirmé par</span> le <span class="help">lien d&#39;activation envoyé par courriel. Pour</span> que <span class="help">cela fonctionne, assurez</span> - <span class="help">vous &quot;Approuver</span> de <span class="help">nouveaux clients&quot; est réglé sur OFF.</span>]]></value>
+  </definition>
+  <definition>
+    <key>text_clone_template</key>
+    <value><![CDATA[Modèle de Clone Avec AbanteCart Developer Tools]]></value>
+  </definition>
+  <definition>
+    <key>text_set_template</key>
+    <value><![CDATA[Réglez ce modèle pour la vitrine]]></value>
+  </definition>
+  <definition>
+    <key>entry_embed_status</key>
+    <value><![CDATA[Activer Storefront Intégrer:]]></value>
+  </definition>
+  <definition>
+    <key>entry_embed_click_action</key>
+    <value><![CDATA[Intégrer Cliquez sur Action:]]></value>
+  </definition>
+  <definition>
+    <key>text_embed_click_action_modal</key>
+    <value><![CDATA[Meme page Modal Dialog]]></value>
+  </definition>
+  <definition>
+    <key>text_embed_click_action_new_window</key>
+    <value><![CDATA[Ouvrir nouvelle page dans un nouvel onglet]]></value>
+  </definition>
+  <definition>
+    <key>text_embed_click_action_same_window</key>
+    <value><![CDATA[Ouvrir nouvelle page dans la même fenêtre]]></value>
+  </definition>
+  <definition>
+    <key>entry_account_create_captcha</key>
+    <value><![CDATA[Captcha sur créer un compte formulaire: <br/><span class="help">création de compte / robot Prévenir spam à</span> l&#39; <span class="help">activation</span> de la <span class="help">vérification humaine captcha</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_recaptcha_site_key</key>
+    <value><![CDATA[Google reCAPTCHA Key Site: <br/><span class="help">Ajouter <a href="https://www.google.com/recaptcha" target="_blank">Google reCAPTCHA v2</a> pour aider vos visiteurs avec</span> une <span class="help">meilleure entrée de captcha. Si vous activez</span> le <span class="help">site clés reCAPTCHA / secrets, Google reCAPTCHA v2 sera activée</span> l&#39; <span class="help">image AbanteCart captcha par défaut</span> au <span class="help">lieu de</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_recaptcha_secret_key</key>
+    <value><![CDATA[Google reCAPTCHA Secret Key: <br/><span class="help">Ajouter <a href="https://www.google.com/recaptcha" target="_blank">Google reCAPTCHA v2</a> pour aider vos visiteurs avec</span> une <span class="help">meilleure entrée de captcha. Si vous activez</span> le <span class="help">site clés reCAPTCHA / secrets, Google reCAPTCHA v2 sera activée</span> l&#39; <span class="help">image AbanteCart captcha par défaut</span> au <span class="help">lieu de</span>]]></value>
+  </definition>
+  <definition>
+    <key>text_setting_php_exceed</key>
+    <value><![CDATA[Cette valeur ne peut pas dépasser votre directive php.ini %s (&lt;= %s)]]></value>
+  </definition>
+  <definition>
+    <key>entry_start_order_id</key>
+    <value><![CDATA[Début de commande No .: <br/><span class="help">Définissez le nombre de départ les commandes commenceront</span> à <span class="help">partir.</span>]]></value>
+  </definition>
+  <definition>
+    <key>error_start_order_id</key>
+    <value><![CDATA[Numéro de commande de démarrage doit être un numérique!]]></value>
+  </definition>
+  <definition>
+    <key>error_starting_invoice_id</key>
+    <value><![CDATA[numéro de départ facture doit être un numérique!]]></value>
+  </definition>
+  <definition>
+    <key>entry_expire_order_days</key>
+    <value><![CDATA[Commande incomplète Expiration: <br/><br/><span class="help">Cette valeur contrôle</span> l&#39; <span class="help">intervalle de temps en jours avant</span> que les <span class="help">commandes incomplètes seront supprimées. Valeur vide signifie qu&#39;aucun ordre sera de supprimer.</span>]]></value>
+  </definition>
+  <definition>
+    <key>error_expire_order_days</key>
+    <value><![CDATA[Ordre valeur Expiration incomplète doit être un numérique!]]></value>
+  </definition>
+  <definition>
+    <key>text_storefront</key>
+    <value><![CDATA[Storefront]]></value>
+  </definition>
+  <definition>
+    <key>text_im_driver</key>
+    <value><![CDATA[Chauffeur]]></value>
+  </definition>
+  <definition>
+    <key>text_im_protocol</key>
+    <value><![CDATA[Protocole IM]]></value>
+  </definition>
+  <definition>
+    <key>entry_sms_driver</key>
+    <value><![CDATA[SMS Provider]]></value>
+  </definition>
+  <definition>
+    <key>entry_sms_driver_tooltip</key>
+    <value><![CDATA[Sélectionnez une extension pour le fournisseur de service SMS]]></value>
+  </definition>
+  <definition>
+    <key>entry_storefront_status_tooltip</key>
+    <value><![CDATA[Activer SMS pour les clients]]></value>
+  </definition>
+  <definition>
+    <key>entry_admin_status_tooltip</key>
+    <value><![CDATA[Activer SMS pour les administrateurs]]></value>
+  </definition>
+  <definition>
+    <key>text_no_driver</key>
+    <value><![CDATA[Aucun pilote IM Trouvé]]></value>
+  </definition>
+  <definition>
+    <key>text_im_settings_attention</key>
+    <value><![CDATA[Ces paramètres sont pour les messages instantanés envoyés automatiquement lors d&#39;événements AbanteCart en vitrine et admin.]]></value>
+  </definition>
+  <definition>
+    <key>entry_html_cache</key>
+    <value><![CDATA[HTML Cache: <br/><span class="help">pages et</span> des <span class="help">blocs HTML Enabled mise</span> en <span class="help">cache pour obtenir</span> une <span class="help">meilleure vitesse pour vos pages. Ceci est</span> la <span class="help">mise</span> en <span class="help">cache supplémentaire pour</span> la <span class="help">mise</span> en <span class="help">cache de données régulière activé dans</span> le <span class="help">système</span> de <span class="help">fichiers / config.php</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_task_api_key</key>
+    <value><![CDATA[Tâches API Key: <br/><span class="help">Ceci est une clé secrète pour permettre AbanteCart d&#39;exécuter</span> des <span class="help">processus programmés</span> à <span class="help">partir du navigateur avec</span> le <span class="help">fichier /task.php. Si non défini,</span> les <span class="help">tâches ne fonctionnent pas via</span> un <span class="help">navigateur. <br/> REMARQUE: Cette clé API est pas nécessaire pour</span> l&#39; <span class="help">exécution</span> de <span class="help">tâches</span> en <span class="help">ligne de commande.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_duplicate_contact_us</key>
+    <value><![CDATA[Duplicate Contacts Demandes de messages]]></value>
+  </definition>
+</definitions>

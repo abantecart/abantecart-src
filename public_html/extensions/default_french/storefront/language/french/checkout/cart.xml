@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Chariot]]></value>
+  </definition>
+  <definition>
+    <key>text_basket</key>
+    <value><![CDATA[Panier]]></value>
+  </definition>
+  <definition>
+    <key>text_sub_total</key>
+    <value><![CDATA[Total:]]></value>
+  </definition>
+  <definition>
+    <key>text_weight</key>
+    <value><![CDATA[Panier Poids:]]></value>
+  </definition>
+  <definition>
+    <key>text_error</key>
+    <value><![CDATA[Votre panier est vide!]]></value>
+  </definition>
+  <definition>
+    <key>column_remove</key>
+    <value><![CDATA[Retirer]]></value>
+  </definition>
+  <definition>
+    <key>column_image</key>
+    <value><![CDATA[Image]]></value>
+  </definition>
+  <definition>
+    <key>column_name</key>
+    <value><![CDATA[prénom]]></value>
+  </definition>
+  <definition>
+    <key>column_model</key>
+    <value><![CDATA[maquette]]></value>
+  </definition>
+  <definition>
+    <key>column_quantity</key>
+    <value><![CDATA[Quantité]]></value>
+  </definition>
+  <definition>
+    <key>column_price</key>
+    <value><![CDATA[Prix ​​unitaire]]></value>
+  </definition>
+  <definition>
+    <key>column_total</key>
+    <value><![CDATA[Total]]></value>
+  </definition>
+  <definition>
+    <key>text_continue_shopping</key>
+    <value><![CDATA[Continuer vos achats]]></value>
+  </definition>
+  <definition>
+    <key>text_coupon_codes</key>
+    <value><![CDATA[Appliquer Code Promo]]></value>
+  </definition>
+  <definition>
+    <key>text_estimate_shipping_tax</key>
+    <value><![CDATA[Estimation Frais de port et taxes]]></value>
+  </definition>
+  <definition>
+    <key>text_estimate_country</key>
+    <value><![CDATA[Pays et de l&#39;État]]></value>
+  </definition>
+  <definition>
+    <key>text_estimate_postcode</key>
+    <value><![CDATA[NPA / code postal]]></value>
+  </definition>
+  <definition>
+    <key>button_text_estimate</key>
+    <value><![CDATA[Estimation]]></value>
+  </definition>
+  <definition>
+    <key>text_estimate_shipments</key>
+    <value><![CDATA[Livraisons]]></value>
+  </definition>
+  <definition>
+    <key>error_coupon</key>
+    <value><![CDATA[Erreur: Coupon est soit invalide, expiré ou a atteint sa limite d&#39;utilisation!]]></value>
+  </definition>
+  <definition>
+    <key>error_stock</key>
+    <value><![CDATA[Les produits marqués avec *** ne sont pas disponibles dans la quantité désirée ou en rupture de stock!]]></value>
+  </definition>
+  <definition>
+    <key>error_required_options</key>
+    <value><![CDATA[S&#39;il vous plaît sélectionner toutes les options requises!]]></value>
+  </definition>
+  <definition>
+    <key>error_order_minimum</key>
+    <value><![CDATA[Le montant de votre sous-total pour ne satisfait pas quantité minimale de %s requise. S&#39;il vous plaît ajouter d&#39;autres produits à votre panier!]]></value>
+  </definition>
+  <definition>
+    <key>error_order_maximum</key>
+    <value><![CDATA[Le montant de votre sous-total commande dépasse montant maximum de %s autorisé par commande. S&#39;il vous plaît supprimer certains articles de votre panier!]]></value>
+  </definition>
+  <definition>
+    <key>error_empty_file_data</key>
+    <value><![CDATA[les données du fichier est corrompu ou vide.]]></value>
+  </definition>
+  <definition>
+    <key>error_empty_file_name</key>
+    <value><![CDATA[Nom du fichier est vide!]]></value>
+  </definition>
+  <definition>
+    <key>error_file_extension</key>
+    <value><![CDATA[Seuls les fichiers avec extension (s) %s est (sont) autorisés!]]></value>
+  </definition>
+  <definition>
+    <key>error_min_file_size</key>
+    <value><![CDATA[taille de fichier minimale pour le téléchargement est %s Kb.]]></value>
+  </definition>
+  <definition>
+    <key>error_max_file_size</key>
+    <value><![CDATA[Taille maximale du fichier pour le téléchargement est %s Kb.]]></value>
+  </definition>
+  <definition>
+    <key>text_coupon_success</key>
+    <value><![CDATA[Succès: Votre bon de réduction a été appliquée!]]></value>
+  </definition>
+  <definition>
+    <key>text_coupon_removal</key>
+    <value><![CDATA[Succès: Coupon a été supprimé!]]></value>
+  </definition>
+  <definition>
+    <key>error_quantity_maximum</key>
+    <value><![CDATA[La quantité de produit admis dépasse. Quantité a été réglé au maximum.]]></value>
+  </definition>
+  <definition>
+    <key>error_quantity_minimum</key>
+    <value><![CDATA[La quantité de produit admis est inférieur au minimum requis. Quantité a été fixé à quantité minimale.]]></value>
+  </definition>
+</definitions>

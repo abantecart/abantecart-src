@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Error Log]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Succès: Vous avez réussi effacé votre journal des erreurs!]]></value>
+  </definition>
+  <definition>
+    <key>text_file_tail</key>
+    <value><![CDATA[En raison de la grande taille du fichier journal, seulement 500Kb dernière des données peut être consultée ici. 
+ Pour afficher journal complet, l&#39; obtenir à partir de votre serveur directement. 
+ Chemin:]]></value>
+  </definition>
+</definitions>
