@@ -196,4 +196,8 @@
 		<key>text_pending_subscriber_approval</key>
 		<value><![CDATA[Suscriptor %s se ha registrado con una nueva cuenta. ¡Se requiere una acción de aprobación! Click para ver #admin#rt=sale/customer/update&customer_id=%s]]></value>
 	</definition>
+	<definition>
+		<key>text_login_details</key>
+		<value><![CDATA[detalles de registro]]></value>
+	</definition>
 </definitions>

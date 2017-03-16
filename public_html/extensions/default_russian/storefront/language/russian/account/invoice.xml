@@ -132,4 +132,8 @@
 		<key>text_mobile_phone</key>
 		<value><![CDATA[Мобильный телефон:]]></value>
 	</definition>
+	<definition>
+		<key>text_request_cancellation_from_customer</key>
+		<value><![CDATA[Запрос отмены заказа от клиента]]></value>
+	</definition>
 </definitions>

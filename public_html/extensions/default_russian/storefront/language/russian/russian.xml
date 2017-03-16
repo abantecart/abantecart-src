@@ -328,4 +328,8 @@
 		<key>text_click_browse_file</key>
 		<value><![CDATA[Нажмите чтобы выбрать файл]]></value>
 	</definition>
+	<definition>
+		<key>price_with_tax</key>
+		<value><![CDATA[вкл. налоги]]></value>
+	</definition>
 </definitions>

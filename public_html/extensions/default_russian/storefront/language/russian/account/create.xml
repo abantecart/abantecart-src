@@ -196,4 +196,8 @@
 		<key>text_pending_subscriber_approval</key>
 		<value><![CDATA[Зарегистрирован новый подписчик %s. Требуется утверждение! Нажмике чтоб посмотреть #admin#rt=sale/customer/update&customer_id=%s]]></value>
 	</definition>
+	<definition>
+		<key>text_login_details</key>
+		<value><![CDATA[Детали входа]]></value>
+	</definition>
 </definitions>

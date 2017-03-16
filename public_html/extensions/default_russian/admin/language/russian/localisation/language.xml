@@ -180,4 +180,8 @@
 		<key>error_nothing_to_do</key>
 		<value><![CDATA[Ошибка: Пожалуйста укажите язык-источник и метод перевода!]]></value>
 	</definition>
+	<definition>
+		<key>text_translate_override_existing</key>
+		<value><![CDATA[Примечание: Все существующие описания в целевом языке будет заменены на новый перевод. Вы можете отключить переопределение в <a href="%s">Система-&gt; Настройка-&gt; Детали</a> .]]></value>
+	</definition>
 </definitions>

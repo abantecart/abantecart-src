@@ -324,4 +324,8 @@
 		<key>text_click_browse_file</key>
 		<value><![CDATA[Haga clic para examinar el archivo]]></value>
 	</definition>
+	<definition>
+		<key>price_with_tax</key>
+		<value><![CDATA[IVA Inc.]]></value>
+	</definition>
 </definitions>
