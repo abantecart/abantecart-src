@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Truyền thông tài nguyên Thư viện Quản lý]]></value>
+  </definition>
+  <definition>
+    <key>text_rl_latest</key>
+    <value><![CDATA[nguồn lực bổ sung mới nhất]]></value>
+  </definition>
+  <definition>
+    <key>text_rl_type</key>
+    <value><![CDATA[loại tài nguyên]]></value>
+  </definition>
+  <definition>
+    <key>entry_type_name</key>
+    <value><![CDATA[Loại tài chính <br/><span class="help">giá trị tài nguyên này loại quan trọng / tên không thể thay đổi</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_default_directory</key>
+    <value><![CDATA[Thư mục Resource <br/><span class="help">thư mục tài nguyên định vị cho loại này. Nếu thay đổi, nguồn lực hiện có sẽ không acceccible và sẽ cần phải được sao chép vào thư mục mới!</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_default_icon</key>
+    <value><![CDATA[Biểu tượng mặc định <br/><span class="help">Biểu tượng hình ảnh sẽ được hiển thị trong danh sách các nguồn lực (Vị trí: / hình ảnh / ...).</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_file_types</key>
+    <value><![CDATA[Cho phép mở rộng tập tin <br/><span class="help">Regex với một danh sách các phần mở rộng tập tin cho phép đối với loại tài nguyên này</span>]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Thành công: Bạn đã cập nhật loại tài nguyên!]]></value>
+  </definition>
+  <definition>
+    <key>error_missing_type_id</key>
+    <value><![CDATA[Lỗi: Tài nguyên bị thiếu loại ID!]]></value>
+  </definition>
+  <definition>
+    <key>error_type_name</key>
+    <value><![CDATA[Lỗi: Loại tài nguyên tên cần phải được giữa 2 và 40 charcters]]></value>
+  </definition>
+  <definition>
+    <key>error_default_directory</key>
+    <value><![CDATA[Lỗi: Loại tài nguyên thư mục cần được giữa 2 và 64 charcters]]></value>
+  </definition>
+  <definition>
+    <key>error_default_icon</key>
+    <value><![CDATA[Lỗi: Loại tài nguyên biểu tượng cần phải được giữa 2 và 64 charcters]]></value>
+  </definition>
+  <definition>
+    <key>error_file_types</key>
+    <value><![CDATA[Lỗi: Tài nguyên extenions loại tập tin regex cần phải được giữa 2 và 40 charcters]]></value>
+  </definition>
+</definitions>

@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Nhận xét]]></value>
+  </definition>
+  <definition>
+    <key>text_review</key>
+    <value><![CDATA[Ôn tập]]></value>
+  </definition>
+  <definition>
+    <key>insert_title</key>
+    <value><![CDATA[Chèn giá]]></value>
+  </definition>
+  <definition>
+    <key>update_title</key>
+    <value><![CDATA[cập nhật giá]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Thành công: Bạn có nhận xét sửa đổi!]]></value>
+  </definition>
+  <definition>
+    <key>column_product</key>
+    <value><![CDATA[Sản phẩm]]></value>
+  </definition>
+  <definition>
+    <key>column_author</key>
+    <value><![CDATA[tác giả]]></value>
+  </definition>
+  <definition>
+    <key>column_rating</key>
+    <value><![CDATA[Xêp hạng]]></value>
+  </definition>
+  <definition>
+    <key>column_status</key>
+    <value><![CDATA[Trạng thái]]></value>
+  </definition>
+  <definition>
+    <key>column_date_added</key>
+    <value><![CDATA[ngày thêm]]></value>
+  </definition>
+  <definition>
+    <key>column_action</key>
+    <value><![CDATA[Hoạt động]]></value>
+  </definition>
+  <definition>
+    <key>entry_product</key>
+    <value><![CDATA[Sản phẩm:]]></value>
+  </definition>
+  <definition>
+    <key>entry_author</key>
+    <value><![CDATA[tác giả:]]></value>
+  </definition>
+  <definition>
+    <key>entry_rating</key>
+    <value><![CDATA[Xêp hạng:]]></value>
+  </definition>
+  <definition>
+    <key>entry_status</key>
+    <value><![CDATA[Trạng thái:]]></value>
+  </definition>
+  <definition>
+    <key>entry_text</key>
+    <value><![CDATA[Bản văn:]]></value>
+  </definition>
+  <definition>
+    <key>entry_good</key>
+    <value><![CDATA[tốt]]></value>
+  </definition>
+  <definition>
+    <key>entry_bad</key>
+    <value><![CDATA[Xấu]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Cảnh báo: Bạn không có quyền sửa đổi các ý kiến!]]></value>
+  </definition>
+  <definition>
+    <key>error_product</key>
+    <value><![CDATA[yêu cầu sản phẩm!]]></value>
+  </definition>
+  <definition>
+    <key>error_author</key>
+    <value><![CDATA[Tác giả phải có từ 2 đến 64 ký tự!]]></value>
+  </definition>
+  <definition>
+    <key>error_text</key>
+    <value><![CDATA[Xem lại bản phải có từ 25 đến 1000 ký tự!]]></value>
+  </definition>
+  <definition>
+    <key>error_rating</key>
+    <value><![CDATA[xếp hạng đánh giá yêu cầu!]]></value>
+  </definition>
+  <definition>
+    <key>text_select_product</key>
+    <value><![CDATA[- Chọn sản phẩm -]]></value>
+  </definition>
+  <definition>
+    <key>text_select_category</key>
+    <value><![CDATA[- Chọn loại -]]></value>
+  </definition>
+</definitions>

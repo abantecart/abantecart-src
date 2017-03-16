@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>im_text_notification</key>
+    <value><![CDATA[thông báo]]></value>
+  </definition>
+  <definition>
+    <key>im_error_mail_address</key>
+    <value><![CDATA[Địa chỉ Email %s là không hợp lệ!]]></value>
+  </definition>
+  <definition>
+    <key>im_protocol_email_title</key>
+    <value><![CDATA[E-mail]]></value>
+  </definition>
+  <definition>
+    <key>im_protocol_sms_title</key>
+    <value><![CDATA[tin nhắn]]></value>
+  </definition>
+  <definition>
+    <key>im_protocol_sms_empty_warn</key>
+    <value><![CDATA[Thông báo qua SMS không thể. số điện thoại di động không được lưu trong hồ sơ tài khoản của bạn.]]></value>
+  </definition>
+  <definition>
+    <key>im_sendpoint_name_order_update</key>
+    <value><![CDATA[cập nhật đơn hàng]]></value>
+  </definition>
+  <definition>
+    <key>im_sendpoint_name_order_update_note</key>
+    <value><![CDATA[Chọn nếu muốn nhận được thông báo về bản cập nhật đơn đặt hàng của bạn.]]></value>
+  </definition>
+  <definition>
+    <key>im_order_update_text_to_admin</key>
+    <value><![CDATA[Thứ tự # %s đã được cập nhật! Order ID tình trạng %s]]></value>
+  </definition>
+  <definition>
+    <key>im_order_update_text_to_customer</key>
+    <value><![CDATA[Chỗ đặt của bạn # %s cập nhật. Mới Tình hình đơn hàng là %s]]></value>
+  </definition>
+  <definition>
+    <key>im_new_order_text_to_admin</key>
+    <value><![CDATA[New Order # %s đã được đặt!]]></value>
+  </definition>
+  <definition>
+    <key>im_new_customer_text_to_admin</key>
+    <value><![CDATA[Khách hàng mới # %s đã được đăng ký!]]></value>
+  </definition>
+  <definition>
+    <key>im_new_subscriber_text_to_admin</key>
+    <value><![CDATA[New Subscriber # %s đã được đăng ký!]]></value>
+  </definition>
+  <definition>
+    <key>im_sendpoint_name_customer_account_update</key>
+    <value><![CDATA[cập nhật tài khoản]]></value>
+  </definition>
+  <definition>
+    <key>im_sendpoint_name_customer_account_update_note</key>
+    <value><![CDATA[Chọn nếu muốn nhận được thông báo về bản cập nhật tài khoản của bạn.]]></value>
+  </definition>
+  <definition>
+    <key>im_customer_account_update_text_to_customer</key>
+    <value><![CDATA[Tài khoản của bạn đã được cập nhật! Nếu bạn không làm bất kỳ thay đổi, xin vui lòng liên hệ với chủ sở hữu trang web]]></value>
+  </definition>
+  <definition>
+    <key>im_customer_account_update_email_to_customer</key>
+    <value><![CDATA[địa chỉ email tài khoản của bạn đã được thay đổi vào %s! Nếu bạn không làm thay đổi này, xin vui lòng liên hệ với chủ sở hữu trang web]]></value>
+  </definition>
+  <definition>
+    <key>im_customer_account_update_login_to_customer</key>
+    <value><![CDATA[Tên đăng nhập tài khoản của bạn đã được thay đổi vào %s! Nếu bạn không làm thay đổi này, xin vui lòng liên hệ với chủ sở hữu trang web]]></value>
+  </definition>
+  <definition>
+    <key>im_customer_account_update_password_to_customer</key>
+    <value><![CDATA[mật khẩu tài khoản của bạn đã bị thay đổi! Nếu bạn không làm thay đổi này, xin vui lòng liên hệ với chủ sở hữu trang web]]></value>
+  </definition>
+  <definition>
+    <key>im_customer_contact_admin_text</key>
+    <value><![CDATA[Bạn đã có cuộc điều tra mới từ khách hàng (%s, %s)!]]></value>
+  </definition>
+  <definition>
+    <key>im_sendpoint_name_newsletter</key>
+    <value><![CDATA[Tin]]></value>
+  </definition>
+  <definition>
+    <key>im_sendpoint_name_newsletter_note</key>
+    <value><![CDATA[Chọn nếu muốn nhận được các thông báo về các sản phẩm của chúng tôi và cập nhật dịch vụ.]]></value>
+  </definition>
+  <definition>
+    <key>im_product_review_text_to_admin</key>
+    <value><![CDATA[đánh giá sản phẩm mới đã được thêm vào. Xem chi tiết # # quản trị rt = Danh mục hàng / đánh giá / cập nhật &amp; review_id = %s]]></value>
+  </definition>
+  <definition>
+    <key>im_product_out_of_stock_admin_text</key>
+    <value><![CDATA[Sản phẩm có ID # %s là ra khỏi cổ.]]></value>
+  </definition>
+</definitions>

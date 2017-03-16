@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>text_subject</key>
+    <value><![CDATA[%s - Đặt hàng Cập nhật %s]]></value>
+  </definition>
+  <definition>
+    <key>text_order</key>
+    <value><![CDATA[ID đơn hàng:]]></value>
+  </definition>
+  <definition>
+    <key>text_date_added</key>
+    <value><![CDATA[Ngày đặt hàng:]]></value>
+  </definition>
+  <definition>
+    <key>text_order_status</key>
+    <value><![CDATA[Chỗ đặt của bạn đã được cập nhật tình trạng sau đây:]]></value>
+  </definition>
+  <definition>
+    <key>text_comment</key>
+    <value><![CDATA[Các ý kiến ​​cho đơn đặt hàng của bạn là:]]></value>
+  </definition>
+  <definition>
+    <key>text_invoice</key>
+    <value><![CDATA[Để xem nhấp chuột đặt hàng của bạn vào link dưới đây:]]></value>
+  </definition>
+  <definition>
+    <key>text_footer</key>
+    <value><![CDATA[Hãy trả lời email này nếu bạn có bất kỳ câu hỏi.]]></value>
+  </definition>
+</definitions>

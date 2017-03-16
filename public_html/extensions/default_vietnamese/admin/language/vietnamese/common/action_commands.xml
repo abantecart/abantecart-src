@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>text_possible_commands</key>
+    <value><![CDATA[Dưới đây là những lệnh có thể. Bạn có thể speek thêm chi tiết sau từ khóa lệnh. Ví dụ, &quot;mở tin trang&quot; hoặc &quot;sản phẩm chèn&quot;]]></value>
+  </definition>
+  <definition>
+    <key>text_multiple_result_found</key>
+    <value><![CDATA[kết quả hành động nhiều được tìm thấy:]]></value>
+  </definition>
+  <definition>
+    <key>text_action_confirm</key>
+    <value><![CDATA[Vui lòng xác nhận yêu cầu của bạn:]]></value>
+  </definition>
+  <definition>
+    <key>command_open</key>
+    <value><![CDATA[mở, trang mở, menu mở]]></value>
+  </definition>
+  <definition>
+    <key>command_find</key>
+    <value><![CDATA[xác định vị trí, tìm, tìm kiếm, tìm kiếm, tìm 4]]></value>
+  </definition>
+  <definition>
+    <key>command_clear_cache</key>
+    <value><![CDATA[bộ nhớ cache rõ ràng, bộ nhớ cache rõ ràng, rõ ràng tất cả các bộ nhớ cache]]></value>
+  </definition>
+  <definition>
+    <key>command_view_log</key>
+    <value><![CDATA[nhật ký, đăng nhập xem, kiểm tra log, xem log, xem ghi lỗi, xem các lỗi]]></value>
+  </definition>
+  <definition>
+    <key>command_clear_log</key>
+    <value><![CDATA[rõ ràng nhật ký, đăng nhập rõ ràng, xóa nhật ký, đăng nhập xóa]]></value>
+  </definition>
+  <definition>
+    <key>command_view_order</key>
+    <value><![CDATA[xem thứ tự, số thứ tự, trật tự mở, show hàng, mở số thứ tự, số điểm thứ tự, số chương trình tự, trật tự #]]></value>
+  </definition>
+  <definition>
+    <key>command_view_product</key>
+    <value><![CDATA[xem sản phẩm, số lượng sản phẩm, sản phẩm mở, giới thiệu sản phẩm, số lượng sản phẩm mở, số điểm của sản phẩm, số lượng chương trình sản phẩm, sản phẩm #]]></value>
+  </definition>
+  <definition>
+    <key>command_create_new</key>
+    <value><![CDATA[chèn, tạo, thêm, mới, chèn mới, tạo mới, thêm mới]]></value>
+  </definition>
+  <definition>
+    <key>category</key>
+    <value><![CDATA[thể loại]]></value>
+  </definition>
+  <definition>
+    <key>product</key>
+    <value><![CDATA[sản phẩm]]></value>
+  </definition>
+  <definition>
+    <key>brand</key>
+    <value><![CDATA[nhãn hiệu]]></value>
+  </definition>
+  <definition>
+    <key>manufacturer</key>
+    <value><![CDATA[nhà chế tạo]]></value>
+  </definition>
+  <definition>
+    <key>review</key>
+    <value><![CDATA[ôn tập]]></value>
+  </definition>
+  <definition>
+    <key>download</key>
+    <value><![CDATA[tải về]]></value>
+  </definition>
+  <definition>
+    <key>attribute</key>
+    <value><![CDATA[đặc tính]]></value>
+  </definition>
+  <definition>
+    <key>customer</key>
+    <value><![CDATA[khách hàng]]></value>
+  </definition>
+  <definition>
+    <key>coupon</key>
+    <value><![CDATA[phiếu mua hàng]]></value>
+  </definition>
+  <definition>
+    <key>discount</key>
+    <value><![CDATA[giảm giá]]></value>
+  </definition>
+  <definition>
+    <key>block</key>
+    <value><![CDATA[khối]]></value>
+  </definition>
+  <definition>
+    <key>menu</key>
+    <value><![CDATA[thực đơn]]></value>
+  </definition>
+  <definition>
+    <key>content</key>
+    <value><![CDATA[Nội dung]]></value>
+  </definition>
+  <definition>
+    <key>banner</key>
+    <value><![CDATA[cờ]]></value>
+  </definition>
+  <definition>
+    <key>page</key>
+    <value><![CDATA[trang]]></value>
+  </definition>
+  <definition>
+    <key>store</key>
+    <value><![CDATA[cửa hàng]]></value>
+  </definition>
+  <definition>
+    <key>language</key>
+    <value><![CDATA[ngôn ngữ]]></value>
+  </definition>
+  <definition>
+    <key>currency</key>
+    <value><![CDATA[tiền tệ]]></value>
+  </definition>
+  <definition>
+    <key>location</key>
+    <value><![CDATA[vị trí]]></value>
+  </definition>
+  <definition>
+    <key>tax</key>
+    <value><![CDATA[Thuế]]></value>
+  </definition>
+</definitions>

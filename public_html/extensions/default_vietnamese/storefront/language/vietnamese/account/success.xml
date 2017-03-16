@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Tài khoản của bạn đã được tạo!]]></value>
+  </definition>
+  <definition>
+    <key>text_message</key>
+    <value><![CDATA[<p> Xin chúc mừng! tài khoản mới của bạn đã được tạo thành công! </p><p> Bây giờ bạn có thể tận dụng các đặc quyền thành viên để nâng cao kinh nghiệm mua sắm trực tuyến của bạn với chúng tôi. </p><p> Nếu bạn có bất kỳ câu hỏi về hoạt động của cửa hàng trực tuyến này, hãy gửi email cho các chủ cửa hàng. </p><p> Một xác nhận đã được gửi đến địa chỉ email được cung cấp. Nếu bạn không nhận được nó trong vòng một giờ, xin vui lòng <a href="%s">liên hệ với chúng tôi</a>. </p>]]></value>
+  </definition>
+  <definition>
+    <key>text_approval</key>
+    <value><![CDATA[<p> Cảm ơn bạn đã đăng ký với %s! </p><p> Bạn sẽ được thông báo bằng email khi tài khoản của bạn đã được kích hoạt bởi các chủ cửa hàng. </p><p> Nếu bạn có bất kỳ câu hỏi về hoạt động của cửa hàng trực tuyến này, xin vui lòng <a href="%s">liên hệ với chủ cửa hàng</a>. </p>]]></value>
+  </definition>
+  <definition>
+    <key>text_activate</key>
+    <value><![CDATA[<p> Cảm ơn bạn đã đăng ký với %s! </p><p> Bạn sẽ được thông báo qua email với hướng dẫn kích hoạt tài khoản của bạn. Bạn phải nhấp vào liên kết được cung cấp trong email để kích hoạt tài khoản của bạn. Nếu bạn không nhận được email, vui lòng kiểm tra trong rác hay thư rác của bạn thư mục. </p><p> Nếu bạn có bất kỳ câu hỏi về hoạt động của cửa hàng trực tuyến này, xin vui lòng <a href="%s">liên hệ với chủ cửa hàng</a>. </p>]]></value>
+  </definition>
+  <definition>
+    <key>text_account</key>
+    <value><![CDATA[Tài khoản]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Sự thành công]]></value>
+  </definition>
+</definitions>

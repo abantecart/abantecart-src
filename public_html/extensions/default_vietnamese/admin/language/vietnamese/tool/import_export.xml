@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>import_export_title</key>
+    <value><![CDATA[Nhập khẩu xuất khẩu]]></value>
+  </definition>
+  <definition>
+    <key>tab_import</key>
+    <value><![CDATA[nhập]]></value>
+  </definition>
+  <definition>
+    <key>tab_export</key>
+    <value><![CDATA[Xuất khẩu]]></value>
+  </definition>
+  <definition>
+    <key>text_tables</key>
+    <value><![CDATA[Những cái bàn]]></value>
+  </definition>
+  <definition>
+    <key>text_options</key>
+    <value><![CDATA[Tùy chọn]]></value>
+  </definition>
+  <definition>
+    <key>text_file_format</key>
+    <value><![CDATA[Định dạng tập tin:]]></value>
+  </definition>
+  <definition>
+    <key>text_file_name</key>
+    <value><![CDATA[File Name:]]></value>
+  </definition>
+  <definition>
+    <key>text_load_file</key>
+    <value><![CDATA[load file]]></value>
+  </definition>
+  <definition>
+    <key>text_load</key>
+    <value><![CDATA[tải]]></value>
+  </definition>
+  <definition>
+    <key>text_import_loaded</key>
+    <value><![CDATA[Tổng số tải:]]></value>
+  </definition>
+  <definition>
+    <key>text_file_field</key>
+    <value><![CDATA[File để nhập khẩu: <br/><span class="help">định dạng được hỗ trợ cho các tập tin nhập khẩu: XML, CSV, TXT</span>]]></value>
+  </definition>
+  <definition>
+    <key>text_id_range_from</key>
+    <value><![CDATA[phạm vi ID từ:]]></value>
+  </definition>
+  <definition>
+    <key>text_to</key>
+    <value><![CDATA[đến:]]></value>
+  </definition>
+  <definition>
+    <key>text_csv_delimiter</key>
+    <value><![CDATA[CSV / TXT delimiter:]]></value>
+  </definition>
+  <definition>
+    <key>text_export_note_csv_delimiter</key>
+    <value><![CDATA[<span class="help">Tất cả các lĩnh vực sẽ được kèm theo trong dấu ngoặc kép.</span>]]></value>
+  </definition>
+  <definition>
+    <key>text_import_note_csv_delimiter</key>
+    <value><![CDATA[<span class="help">Tất cả các lĩnh vực phải được đặt trong dấu ngoặc kép.</span>]]></value>
+  </definition>
+  <definition>
+    <key>text_test_mode</key>
+    <value><![CDATA[Chạy trong một chế độ kiểm tra <br/><span class="help">Đó là khuyến cáo để chạy nhập dữ liệu trong một chế độ thử nghiệm đầu tiên để xem nếu có vấn đề xuất hiện.</span>]]></value>
+  </definition>
+  <definition>
+    <key>error_file_format</key>
+    <value><![CDATA[định dạng tập tin sai!]]></value>
+  </definition>
+  <definition>
+    <key>error_xml_import</key>
+    <value><![CDATA[Lỗi trong tập tin XML nhập khẩu!]]></value>
+  </definition>
+  <definition>
+    <key>error_csv_import</key>
+    <value><![CDATA[Lỗi trong quá trình nhập khẩu tập tin CSV / TXT! Vui lòng kiểm tra lĩnh vực phân cách.]]></value>
+  </definition>
+  <definition>
+    <key>error_data_corrupted</key>
+    <value><![CDATA[Dữ liệu là trống hoặc bị hỏng.]]></value>
+  </definition>
+  <definition>
+    <key>error_file_empty</key>
+    <value><![CDATA[File là trống rỗng.]]></value>
+  </definition>
+  <definition>
+    <key>error_writable_backup</key>
+    <value><![CDATA[thư mục sao lưu cần phải có khả năng ghi cho CSV / TXT xuất khẩu để làm việc.]]></value>
+  </definition>
+  <definition>
+    <key>text_updated</key>
+    <value><![CDATA[Cập nhật:]]></value>
+  </definition>
+  <definition>
+    <key>text_created</key>
+    <value><![CDATA[Tạo:]]></value>
+  </definition>
+  <definition>
+    <key>text_errors</key>
+    <value><![CDATA[lỗi:]]></value>
+  </definition>
+  <definition>
+    <key>text_show_details</key>
+    <value><![CDATA[Hiển thị chi tiết]]></value>
+  </definition>
+  <definition>
+    <key>text_no_children</key>
+    <value><![CDATA[Không có mục con]]></value>
+  </definition>
+  <definition>
+    <key>text_some_errors</key>
+    <value><![CDATA[Có một số lỗi.]]></value>
+  </definition>
+  <definition>
+    <key>text_test_completed</key>
+    <value><![CDATA[Chạy thử hoàn thành. Tổng số truy vấn SQL:]]></value>
+  </definition>
+  <definition>
+    <key>text_sort_by</key>
+    <value><![CDATA[Sắp xếp theo:]]></value>
+  </definition>
+</definitions>

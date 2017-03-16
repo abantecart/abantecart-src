@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Định nghĩa ngôn ngữ]]></value>
+  </definition>
+  <definition>
+    <key>text_definition</key>
+    <value><![CDATA[ngôn ngữ định nghĩa]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Thành công: Bạn có ngôn ngữ biến đổi!]]></value>
+  </definition>
+  <definition>
+    <key>column_language</key>
+    <value><![CDATA[ngôn ngữ]]></value>
+  </definition>
+  <definition>
+    <key>column_key</key>
+    <value><![CDATA[Chìa khóa]]></value>
+  </definition>
+  <definition>
+    <key>column_translation</key>
+    <value><![CDATA[Dịch]]></value>
+  </definition>
+  <definition>
+    <key>column_block</key>
+    <value><![CDATA[Khối]]></value>
+  </definition>
+  <definition>
+    <key>column_update_date</key>
+    <value><![CDATA[Cập nhật ngày tháng]]></value>
+  </definition>
+  <definition>
+    <key>column_action</key>
+    <value><![CDATA[Hoạt động]]></value>
+  </definition>
+  <definition>
+    <key>entry_language_key</key>
+    <value><![CDATA[Chìa khóa]]></value>
+  </definition>
+  <definition>
+    <key>entry_language_value</key>
+    <value><![CDATA[Giá trị]]></value>
+  </definition>
+  <definition>
+    <key>entry_translation</key>
+    <value><![CDATA[Dịch]]></value>
+  </definition>
+  <definition>
+    <key>entry_block</key>
+    <value><![CDATA[Khối]]></value>
+  </definition>
+  <definition>
+    <key>entry_section</key>
+    <value><![CDATA[Phần]]></value>
+  </definition>
+  <definition>
+    <key>text_admin</key>
+    <value><![CDATA[quản trị viên]]></value>
+  </definition>
+  <definition>
+    <key>text_storefront</key>
+    <value><![CDATA[cửa hàng]]></value>
+  </definition>
+  <definition>
+    <key>error_language_key</key>
+    <value><![CDATA[phím ngôn ngữ yêu cầu!]]></value>
+  </definition>
+  <definition>
+    <key>error_language_value</key>
+    <value><![CDATA[Dịch yêu cầu!]]></value>
+  </definition>
+  <definition>
+    <key>error_block</key>
+    <value><![CDATA[Khối yêu cầu!]]></value>
+  </definition>
+  <definition>
+    <key>error_section</key>
+    <value><![CDATA[Mục yêu cầu!]]></value>
+  </definition>
+  <definition>
+    <key>text_all_section</key>
+    <value><![CDATA[Tất cả các mục]]></value>
+  </definition>
+  <definition>
+    <key>text_all_languages</key>
+    <value><![CDATA[Tất cả các ngôn ngữ]]></value>
+  </definition>
+  <definition>
+    <key>error_already exists</key>
+    <value><![CDATA[Lỗi! <br/> định nghĩa ngôn ngữ với phím &quot;%s&quot; và khối &quot;%s&quot; cho %s phần đã tồn tại! <br/> Nhấn vào <a target="_blank" href="%s">liên kết này</a> để xem]]></value>
+  </definition>
+</definitions>

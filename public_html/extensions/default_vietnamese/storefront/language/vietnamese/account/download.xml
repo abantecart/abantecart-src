@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[tài khoản Downloads]]></value>
+  </definition>
+  <definition>
+    <key>text_account</key>
+    <value><![CDATA[Tài khoản]]></value>
+  </definition>
+  <definition>
+    <key>text_downloads</key>
+    <value><![CDATA[tải]]></value>
+  </definition>
+  <definition>
+    <key>text_order</key>
+    <value><![CDATA[ID đơn hàng:]]></value>
+  </definition>
+  <definition>
+    <key>text_date_added</key>
+    <value><![CDATA[Ngày thêm vào:]]></value>
+  </definition>
+  <definition>
+    <key>text_date_purchased</key>
+    <value><![CDATA[Ngày mua:]]></value>
+  </definition>
+  <definition>
+    <key>text_name</key>
+    <value><![CDATA[Tên:]]></value>
+  </definition>
+  <definition>
+    <key>text_remaining</key>
+    <value><![CDATA[còn lại:]]></value>
+  </definition>
+  <definition>
+    <key>text_size</key>
+    <value><![CDATA[Kích thước:]]></value>
+  </definition>
+  <definition>
+    <key>text_download</key>
+    <value><![CDATA[Tải về]]></value>
+  </definition>
+  <definition>
+    <key>text_error</key>
+    <value><![CDATA[Bạn đã không thực hiện bất kỳ đơn đặt hàng có thể tải về trước!]]></value>
+  </definition>
+  <definition>
+    <key>text_expire_date</key>
+    <value><![CDATA[Hạn sử dụng:]]></value>
+  </definition>
+  <definition>
+    <key>text_expired</key>
+    <value><![CDATA[Đã hết hạn]]></value>
+  </definition>
+  <definition>
+    <key>text_pending</key>
+    <value><![CDATA[chưa giải quyết]]></value>
+  </definition>
+  <definition>
+    <key>text_unavailable</key>
+    <value><![CDATA[Không có sẵn]]></value>
+  </definition>
+  <definition>
+    <key>text_reached_limit</key>
+    <value><![CDATA[đạt đến giới hạn]]></value>
+  </definition>
+  <definition>
+    <key>error_download_not_exists</key>
+    <value><![CDATA[tập tin yêu cầu không tồn tại!]]></value>
+  </definition>
+</definitions>

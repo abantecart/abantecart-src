@@ -1,0 +1,915 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Cài đặt]]></value>
+  </definition>
+  <definition>
+    <key>column_store_alias</key>
+    <value><![CDATA[Cửa hàng]]></value>
+  </definition>
+  <definition>
+    <key>column_group</key>
+    <value><![CDATA[Nhóm]]></value>
+  </definition>
+  <definition>
+    <key>column_key</key>
+    <value><![CDATA[Chìa khóa]]></value>
+  </definition>
+  <definition>
+    <key>column_value</key>
+    <value><![CDATA[Giá trị]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Thành công: Bạn đã lưu thành công các thiết lập của bạn!]]></value>
+  </definition>
+  <definition>
+    <key>text_image_manager</key>
+    <value><![CDATA[image Manager]]></value>
+  </definition>
+  <definition>
+    <key>text_select_group</key>
+    <value><![CDATA[- Chọn Nhóm -]]></value>
+  </definition>
+  <definition>
+    <key>text_default</key>
+    <value><![CDATA[Mặc định]]></value>
+  </definition>
+  <definition>
+    <key>text_edit_store_settings</key>
+    <value><![CDATA[Edit Settings:]]></value>
+  </definition>
+  <definition>
+    <key>text_edit_template_settings</key>
+    <value><![CDATA[Edit Settings mẫu:]]></value>
+  </definition>
+  <definition>
+    <key>text_common_template_settings</key>
+    <value><![CDATA[Lựa chọn template]]></value>
+  </definition>
+  <definition>
+    <key>text_edit_store</key>
+    <value><![CDATA[chỉnh sửa cửa hàng]]></value>
+  </definition>
+  <definition>
+    <key>text_mail</key>
+    <value><![CDATA[Thư]]></value>
+  </definition>
+  <definition>
+    <key>text_smtp</key>
+    <value><![CDATA[SMTP]]></value>
+  </definition>
+  <definition>
+    <key>tab_all</key>
+    <value><![CDATA[Tất cả các]]></value>
+  </definition>
+  <definition>
+    <key>entry_name</key>
+    <value><![CDATA[Tên cửa hàng:]]></value>
+  </definition>
+  <definition>
+    <key>entry_url</key>
+    <value><![CDATA[URL Cửa hàng: <br/><span class="help">Bao gồm URL đầy đủ cho cửa hàng của bạn. Hãy chắc chắn để thêm &#39;/&#39; ở cuối. Ví dụ: http://www.yourdomain.com/path/</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_owner</key>
+    <value><![CDATA[Chủ sở hữu cửa tiệm:]]></value>
+  </definition>
+  <definition>
+    <key>entry_address</key>
+    <value><![CDATA[Địa chỉ nhà:]]></value>
+  </definition>
+  <definition>
+    <key>entry_email</key>
+    <value><![CDATA[E-mail:]]></value>
+  </definition>
+  <definition>
+    <key>entry_alert_emails</key>
+    <value><![CDATA[Bổ sung Báo E-Mails: <br/><span class="help">Bất kỳ email bổ sung mà bạn muốn nhận được email cảnh báo, ngoài các email lưu trữ chính. (dấu phẩy)</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_telephone</key>
+    <value><![CDATA[Điện thoại:]]></value>
+  </definition>
+  <definition>
+    <key>entry_fax</key>
+    <value><![CDATA[Số fax:]]></value>
+  </definition>
+  <definition>
+    <key>entry_title</key>
+    <value><![CDATA[Tiêu đề: <br/><span class="help">này được hiển thị trong tiêu đề trình duyệt cửa hàng</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_meta_description</key>
+    <value><![CDATA[Meta Tag Mô tả: <br/><span class="help">cửa hàng trang chính mô tả thẻ meta</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_meta_keywords</key>
+    <value><![CDATA[Từ khóa Meta: <br/><span class="help">cửa hàng trang chính thẻ meta từ khóa (dấu phẩy)</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_description</key>
+    <value><![CDATA[Thư Chào mừng:]]></value>
+  </definition>
+  <definition>
+    <key>entry_template</key>
+    <value><![CDATA[Bản mẫu: <span class="help">mẫu cửa hàng. Đây có thể là chính hoặc mở rộng mẫu</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_admin_template</key>
+    <value><![CDATA[Bảng điều chỉnh mẫu:]]></value>
+  </definition>
+  <definition>
+    <key>entry_country</key>
+    <value><![CDATA[Quốc gia:]]></value>
+  </definition>
+  <definition>
+    <key>entry_zone</key>
+    <value><![CDATA[Vùng / tiểu bang:]]></value>
+  </definition>
+  <definition>
+    <key>entry_language</key>
+    <value><![CDATA[Ngôn ngữ có cửa hàng:]]></value>
+  </definition>
+  <definition>
+    <key>entry_admin_language</key>
+    <value><![CDATA[Quản lý Ngôn ngữ: <span class="help">LƯU Ý: hoạt động nếu không có người sử dụng ngôn ngữ ưa thích được tìm thấy trong các trình duyệt</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_currency</key>
+    <value><![CDATA[Base Currency: <span class="help">Đây là tiền tệ cơ sở cho tất cả các cửa hàng. Không thay đổi nếu bạn không hiểu những gì sẽ xảy ra. Cảnh báo: Thay đổi của tiền tệ cơ bản sẽ không thay đổi giá cơ sở của bạn cho sản phẩm. Bạn sẽ cần phải xem xét và điều chỉnh tất cả các giá nếu cần thiết. Tỷ giá hối đoái tiền tệ cơ bản sẽ được thiết lập để 1,00 và tất cả các tỷ giá hối đoái các đồng tiền khác sẽ được điều chỉnh liên quan đến tiền tệ căn cứ mới.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_currency_auto</key>
+    <value><![CDATA[Auto Update tệ: <br/><span class="help">Thiết lập cửa hàng của bạn để tự động cập nhật tiền tệ hàng ngày. Yahoo máy chủ được sử dụng.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_weight_class</key>
+    <value><![CDATA[Hạng cân:]]></value>
+  </definition>
+  <definition>
+    <key>entry_length_class</key>
+    <value><![CDATA[Thời lượng học:]]></value>
+  </definition>
+  <definition>
+    <key>entry_auto_translate_status</key>
+    <value><![CDATA[Tình trạng Autotranslate: <br/><span class="help">Điều này cho phép dịch của thiếu định nghĩa văn bản hoặc dữ liệu ngôn ngữ cụ thể nếu giá trị văn bản bị thiếu cho ngôn ngữ được sử dụng.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_translate_src_lang_code</key>
+    <value><![CDATA[Ngôn ngữ nguồn để dịch: <br/><span class="help">Chọn ngôn ngữ gốc được sử dụng cho autotranslation.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_translate_method</key>
+    <value><![CDATA[Văn bản pháp Dịch: <br/><span class="help">Chọn cách bạn muốn sử dụng cho dịch. Phương pháp mặc định là một bản sao của văn bản thẳng ngôn ngữ nguồn</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_translate_override_existing</key>
+    <value><![CDATA[Ghi đè nếu văn bản ngôn ngữ nguồn được thay đổi: <br/><span class="help">Nếu đặt, văn bản trong tất cả các ngôn ngữ này sẽ được thay thế bằng bản dịch mới nếu văn bản ngôn ngữ nguồn được chỉnh sửa. Chú ý: Có thể gây ra nhiều bản dịch.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_warn_lang_text_missing</key>
+    <value><![CDATA[Cảnh báo cho văn bản thiếu ngôn ngữ: <br/><span class="help">Nhận thông điệp cảnh báo nếu văn bản thiếu ngôn ngữ được phát hiện.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_tax</key>
+    <value><![CDATA[Hiển thị giá Với thuế:]]></value>
+  </definition>
+  <definition>
+    <key>entry_tax_store</key>
+    <value><![CDATA[Mặc định cửa hàng Thuế suất:]]></value>
+  </definition>
+  <definition>
+    <key>entry_tax_store_0</key>
+    <value><![CDATA[Không thuế]]></value>
+  </definition>
+  <definition>
+    <key>entry_tax_store_1</key>
+    <value><![CDATA[Cửa hàng Khu Mặc định]]></value>
+  </definition>
+  <definition>
+    <key>entry_tax_customer</key>
+    <value><![CDATA[Sử dụng khách hàng Địa chỉ thuế:]]></value>
+  </definition>
+  <definition>
+    <key>entry_tax_customer_0</key>
+    <value><![CDATA[Địa chỉ giao hàng]]></value>
+  </definition>
+  <definition>
+    <key>entry_tax_customer_1</key>
+    <value><![CDATA[Địa chỉ thanh toán]]></value>
+  </definition>
+  <definition>
+    <key>entry_invoice</key>
+    <value><![CDATA[Hóa đơn Bắt đầu No .: <br/><span class="help">Thiết lập số bắt đầu từ các hóa đơn sẽ bắt đầu từ đâu.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_invoice_prefix</key>
+    <value><![CDATA[Invoice Prefix: <br/><span class="help">Set hóa đơn tiền tố ví dụ IN / 001</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_customer_group</key>
+    <value><![CDATA[Khách hàng Nhóm: <br/><span class="help">Mặc định nhóm khách hàng.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_customer_price</key>
+    <value><![CDATA[Đăng nhập Display Giá: <br/><span class="help">Hiển thị giá thậm chí nếu khách hàng không đăng nhập.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_customer_approval</key>
+    <value><![CDATA[Phê duyệt khách hàng mới: <br/><span class="help">Không cho phép khách hàng mới đăng nhập cho đến khi tài khoản của họ đã được chấp thuận.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_prevent_email_as_login</key>
+    <value><![CDATA[Yêu cầu tên đăng nhập: <br/><span class="help">Để cải thiện an ninh, yêu cầu khách hàng để tạo tên đăng nhập duy nhất thay vì sử dụng địa chỉ email như tên đăng nhập. Nếu thiết lập để ON, khách hàng hiện tại sẽ được yêu cầu tạo tên đăng nhập mới trong lần đăng nhập đầu tiên. Nếu OFF, tên đăng nhập được thiết lập như là địa chỉ email của khách hàng.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_guest_checkout</key>
+    <value><![CDATA[Khách Checkout: <br/><span class="help">Cho phép khách hàng để kiểm tra mà không cần tạo một tài khoản. Điều này sẽ không có sẵn khi một sản phẩm có thể tải xuống trong giỏ hàng.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_account</key>
+    <value><![CDATA[Điều khoản tài khoản: <br/><span class="help">Lực lượng dân đồng ý với các điều khoản trước khi tài khoản có thể được tạo ra.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_checkout</key>
+    <value><![CDATA[Điều khoản thanh toán: <br/><span class="help">Lực lượng dân đồng ý với các điều khoản trước khi một khách hàng có thể kiểm tra.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_order_status</key>
+    <value><![CDATA[Tình hình đơn hàng: <br/><span class="help">Cài trạng thái tự mặc định khi một đơn hàng được xử lý.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_customer_cancelation_order_status</key>
+    <value><![CDATA[Cho phép khách hàng để Hủy bỏ thứ tự trên Status:]]></value>
+  </definition>
+  <definition>
+    <key>entry_stock_display</key>
+    <value><![CDATA[Hiển thị chứng khoán: <br/><span class="help">số lượng cổ phiếu hiển thị trên trang sản phẩm.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_nostock_autodisable</key>
+    <value><![CDATA[Không Cổ Auto Disable: <br/><span class="help">Vô hiệu hoá sản phẩm hoặc giá trị tùy chọn để xem nếu chứng khoán giảm xuống 0. tin nhắn thông báo sẽ được gửi</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_stock_checkout</key>
+    <value><![CDATA[Cổ Checkout: <br/><span class="help">Cho phép khách hàng vẫn kiểm nếu sản phẩm họ đang đặt hàng là không có trong kho.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_stock_status</key>
+    <value><![CDATA[Tình trạng chứng khoán: <br/><span class="help">Thiết lập mặc định cho ra các thông báo trạng thái cổ phiếu cho sản phẩm. Được sử dụng trên sản phẩm chỉnh sửa trang.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_logo</key>
+    <value><![CDATA[Cửa hàng Logo:]]></value>
+  </definition>
+  <definition>
+    <key>entry_icon</key>
+    <value><![CDATA[Biểu tượng: <br/><span class="help">Các biểu tượng có thể là một PNG hoặc ICON loại đó là 16px x 16px.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_width</key>
+    <value><![CDATA[Chiều rộng:]]></value>
+  </definition>
+  <definition>
+    <key>entry_height</key>
+    <value><![CDATA[Chiều cao:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_thumb</key>
+    <value><![CDATA[Sản phẩm hình Thumb:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_thumb_width</key>
+    <value><![CDATA[Product Image Thumb Chiều rộng:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_thumb_height</key>
+    <value><![CDATA[Product Image Thumb Chiều cao:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_popup</key>
+    <value><![CDATA[Sản phẩm hình Popup:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_popup_width</key>
+    <value><![CDATA[Large Window Xem trước Chiều rộng:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_popup_height</key>
+    <value><![CDATA[Large Window Xem trước Chiều cao:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_category</key>
+    <value><![CDATA[Danh sách chuyên mục Size:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_category_width</key>
+    <value><![CDATA[Danh sách chuyên mục Width:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_category_height</key>
+    <value><![CDATA[Danh sách chuyên mục Chiều cao:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_manufacturer_width</key>
+    <value><![CDATA[Nhãn hiệu Biểu tượng Danh sách Chiều rộng:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_manufacturer_height</key>
+    <value><![CDATA[Nhãn hiệu Danh sách Biểu tượng Chiều cao:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_product</key>
+    <value><![CDATA[Danh sách sản phẩm Kích thước:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_product_height</key>
+    <value><![CDATA[Danh sách sản phẩm Chiều cao: <br/><span class="help">này là để kiểm soát chiều cao của một hình ảnh xem trước trong các trang danh sách các admin và các nơi khác trong các cửa hàng. Lưu ý, thiết lập này sẽ được chia sẻ giữa admin và mặc định mẫu mặt tiền cửa hàng.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_product_width</key>
+    <value><![CDATA[Danh sách sản phẩm Chiều rộng: <br/><span class="help">này là để kiểm soát chiều rộng của một hình ảnh xem trước trong các trang danh sách các admin và các nơi khác trong các cửa hàng. Lưu ý, thiết lập này sẽ được chia sẻ giữa admin và mặc định mẫu mặt tiền cửa hàng.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_additional</key>
+    <value><![CDATA[Bổ sung hình sản phẩm:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_additional_width</key>
+    <value><![CDATA[Bổ sung hình ảnh sản phẩm Chiều rộng:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_additional_height</key>
+    <value><![CDATA[Bổ sung hình ảnh sản phẩm Chiều cao:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_related</key>
+    <value><![CDATA[Liên quan đến hình sản phẩm:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_related_width</key>
+    <value><![CDATA[Liên quan Chiều rộng hình ảnh sản phẩm:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_related_height</key>
+    <value><![CDATA[Liên quan Chiều cao hình ảnh sản phẩm:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_cart</key>
+    <value><![CDATA[Giỏ Kích thước hình ảnh:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_cart_width</key>
+    <value><![CDATA[Giỏ Chiều rộng hình ảnh:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_cart_height</key>
+    <value><![CDATA[Giỏ Chiều cao hình ảnh:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_grid</key>
+    <value><![CDATA[Lưới Kích thước hình ảnh:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_grid_width</key>
+    <value><![CDATA[Lưới Chiều rộng hình ảnh: <br/><span class="help">này là để kiểm soát chiều rộng của một hình ảnh xem trước rất nhỏ trong lưới niêm yết của admin và các nơi khác trong các cửa hàng. Lưu ý, thiết lập này sẽ được chia sẻ giữa admin và mặc định mẫu mặt tiền cửa hàng.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_grid_height</key>
+    <value><![CDATA[Lưới điện ảnh Chiều cao: <br/><span class="help">này là để kiểm soát chiều cao của một hình ảnh xem trước rất nhỏ trong lưới niêm yết của admin và các nơi khác trong các cửa hàng. Lưu ý, thiết lập này sẽ được chia sẻ giữa admin và mặc định mẫu mặt tiền cửa hàng.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_alert_mail</key>
+    <value><![CDATA[Báo Mail: <br/><span class="help">Gửi một email đến các chủ cửa hàng khi một trật tự mới được tạo ra.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_download</key>
+    <value><![CDATA[Cho phép tải:]]></value>
+  </definition>
+  <definition>
+    <key>entry_download_status</key>
+    <value><![CDATA[Tải Đặt hàng: <br/><span class="help">Thiết lập trạng thái đơn hàng của khách hàng đặt hàng phải đạt trước khi họ được phép truy cập vào các sản phẩm của họ có thể tải về.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_mail_protocol</key>
+    <value><![CDATA[Thư Protocol: <span class="help">Mail: Mặc định máy chủ mail server sẽ được sử dụng. Hãy chắc chắn rằng nó được cấu hình và có thể gửi email với PHP mail.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_mail_parameter</key>
+    <value><![CDATA[Thư thông số: <span class="help">Khi sử dụng &#39;Thư&#39;, thêm thông số mail có thể được thêm vào ở đây (ví dụ như &quot;-femail@storeaddress.com&quot;.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_smtp_host</key>
+    <value><![CDATA[Máy chủ SMTP: <br/><span class="help">Sử dụng ssl: //smtp.yourdomain.com cho kết nối SMTP an toàn</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_smtp_username</key>
+    <value><![CDATA[SMTP Username:]]></value>
+  </definition>
+  <definition>
+    <key>entry_smtp_password</key>
+    <value><![CDATA[SMTP Password:]]></value>
+  </definition>
+  <definition>
+    <key>entry_smtp_port</key>
+    <value><![CDATA[Cảng SMTP:]]></value>
+  </definition>
+  <definition>
+    <key>entry_smtp_timeout</key>
+    <value><![CDATA[SMTP Timeout:]]></value>
+  </definition>
+  <definition>
+    <key>entry_ssl</key>
+    <value><![CDATA[Sử dụng SSL: <br/><span class="help">Để sử dụng kiểm tra SSL với máy chủ của bạn nếu một giấy chứng nhận SSL được cài đặt.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_session_ttl</key>
+    <value><![CDATA[Bảng điều chỉnh phiên Hết hạn: <br/><span class="help">Giá trị này điều khiển khoảng thời gian trong vài phút trước khi bạn sẽ được yêu cầu đăng nhập lại do không có hoạt động.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_encryption</key>
+    <value><![CDATA[Encryption Key: <br/><span class="help">Setting di chuyển đến cấu hình tập tin bắt đầu từ v1.2.1.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_seo_url</key>
+    <value><![CDATA[Sử dụng SEO URL: <br/><span class="help">Để sử dụng module apache mod-rewrite URL SEO phải được cài đặt và bạn cần phải đổi tên htaccess.txt để .htaccess. Lưu ý: Nếu abantecart không được cài đặt trong thư mục gốc của tên miền phải được thay đổi quy tắc RewriteBase bên trong tập tin .htaccess.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_retina_enable</key>
+    <value><![CDATA[Tạo độ phân giải cao (võng mạc) hình ảnh: <br/><span class="help">Để sử dụng module apache mod-viết lại phải được cài đặt và bạn cần phải đổi tên htaccess.txt để .htaccess. Lưu ý: Nếu abantecart không được cài đặt trong thư mục gốc của tên miền phải được thay đổi quy tắc RewriteBase bên trong tập tin .htaccess. <br/> Sau khi kích hoạt nên rõ ràng những hình ảnh bộ nhớ cache.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_image_quality</key>
+    <value><![CDATA[Jpeg hình ảnh nén Cấp]]></value>
+  </definition>
+  <definition>
+    <key>entry_compression</key>
+    <value><![CDATA[Output Compression Level: <br/><span class="help">GZIP chuyển hiệu quả hơn cho các khách hàng yêu cầu. Mức độ nén phải có từ 0-9</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_error_display</key>
+    <value><![CDATA[Hiển thị lỗi: <br/><span class="help">Set để có nếu bạn muốn xem các trường hợp ngoại lệ và lỗi</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_error_log</key>
+    <value><![CDATA[Đăng Lỗi: <br/><span class="help">Set để có nếu bạn muốn lưu các trường hợp ngoại lệ và các lỗi để đăng nhập</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_enable_reviews</key>
+    <value><![CDATA[Kích hoạt tính năng Đánh giá: <br/><span class="help"></span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_cache_enable</key>
+    <value><![CDATA[Bộ nhớ cache được kích hoạt: <br/><span class="help">Hãy cẩn thận khi vô hiệu hóa bộ nhớ đệm. Những trang lưu trữ sẽ không được tái tạo và trang web có thể bắt đầu tải chậm.</span>]]></value>
+  </definition>
+  <definition>
+    <key>text_setting_cache_drivers</key>
+    <value><![CDATA[Hiện đang sử dụng bộ nhớ cache <b>%s</b> lái xe. Trình điều khiển khác có sẵn cho cấu hình là <i>%s</i>]]></value>
+  </definition>
+  <definition>
+    <key>entry_storefront_api_status</key>
+    <value><![CDATA[tình trạng API cửa hàng:]]></value>
+  </definition>
+  <definition>
+    <key>entry_storefront_api_key</key>
+    <value><![CDATA[Storefront API chính: <br/><span class="help">Set phím này để cung cấp hạn chế truy cập (an toàn hơn) đến cửa hàng API.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_storefront_api_stock_check</key>
+    <value><![CDATA[Storefront API Cổ truy cập: <br/><span class="help">Bật nếu bạn cho phép cửa hàng API để kiểm tra phòng trống cổ</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_admin_api_status</key>
+    <value><![CDATA[tình trạng API quản trị:]]></value>
+  </definition>
+  <definition>
+    <key>entry_admin_api_key</key>
+    <value><![CDATA[API quản trị chính: <br/><span class="help">Set phím này để cung cấp hạn chế truy cập (an toàn hơn) để API admin.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_admin_access_ip_list</key>
+    <value><![CDATA[API quản trị truy cập IP: <br/><span class="help">Cung cấp danh sách các IP (dấu phẩy) sẽ được phép truy cập vào API admin. IP khác sẽ bị chặn</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_upload_max_size</key>
+    <value><![CDATA[Thư viện tài nguyên Tải lên Max File Size, kB]]></value>
+  </definition>
+  <definition>
+    <key>entry_debug</key>
+    <value><![CDATA[Hiện Thông tin gỡ lỗi: <br/><span class="help">Set này ON nếu bạn muốn xem các chi tiết thực hiện và hiển thị chi tiết debug.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_debug_0</key>
+    <value><![CDATA[Tắt]]></value>
+  </definition>
+  <definition>
+    <key>entry_debug_1</key>
+    <value><![CDATA[Chỉ]]></value>
+  </definition>
+  <definition>
+    <key>entry_debug_2</key>
+    <value><![CDATA[Đăng nhập]]></value>
+  </definition>
+  <definition>
+    <key>entry_debug_level</key>
+    <value><![CDATA[Debug Level: <br/><span class="help">Chọn độ sâu của các chi tiết bạn cần phải nhìn thấy trong kết xuất debug.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_debug_level_0</key>
+    <value><![CDATA[Cấp 0 - không có bản ghi, chỉ lỗi ngoại lệ]]></value>
+  </definition>
+  <definition>
+    <key>entry_debug_level_1</key>
+    <value><![CDATA[Level 1 - lỗi và cảnh báo]]></value>
+  </definition>
+  <definition>
+    <key>entry_debug_level_2</key>
+    <value><![CDATA[Level 2 - # 1 + mysql trang web tải, thời gian php tập tin thực thi và trang yếu tố tải thời gian]]></value>
+  </definition>
+  <definition>
+    <key>entry_debug_level_3</key>
+    <value><![CDATA[Level 3 - # 2 log + cơ bản và chồng thực hiện]]></value>
+  </definition>
+  <definition>
+    <key>entry_debug_level_4</key>
+    <value><![CDATA[Level 4 - # 3 báo cáo mysql + bãi]]></value>
+  </definition>
+  <definition>
+    <key>entry_debug_level_5</key>
+    <value><![CDATA[Level 5 - # 4 + biến trung gian]]></value>
+  </definition>
+  <definition>
+    <key>entry_template_debug</key>
+    <value><![CDATA[Mẫu debug: <br/><span class="help">Kích hoạt cài đặt này nếu bạn cần phải kiểm tra các vấn đề với các mẫu trong cửa hàng và bảng điều khiển.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_error_filename</key>
+    <value><![CDATA[Lỗi Đăng Filename: <br/><span class="help">Đây là một tập tin mà lỗi được lưu.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_shipping_session</key>
+    <value><![CDATA[Sử dụng Vận Chuyển Session: <br/><span class="help">Tiết kiệm báo giá vận chuyển đến phiên để tránh tái trích dẫn không cần thiết. Báo giá sẽ chỉ được tái trích dẫn nếu giỏ hàng hoặc địa chỉ được thay đổi.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_catalog_limit</key>
+    <value><![CDATA[Mặc định mỗi trang (cửa hàng): <br/><span class="help">Bộ bao nhiêu mục cửa hàng được hiển thị trên mỗi trang (sản phẩm, chủng loại, vv)</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_admin_limit</key>
+    <value><![CDATA[Mặc định mỗi trang (Admin): <br/><span class="help">Bộ bao nhiêu mục quản trị được hiển thị trên mỗi trang trong danh sách lưới (đơn đặt hàng, khách hàng, vv)</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_bestseller_limit</key>
+    <value><![CDATA[Số Items Trong Bestseller Khối]]></value>
+  </definition>
+  <definition>
+    <key>entry_featured_limit</key>
+    <value><![CDATA[Số Items Trong Các Khối]]></value>
+  </definition>
+  <definition>
+    <key>entry_latest_limit</key>
+    <value><![CDATA[Số Items Trong Khối mới nhất]]></value>
+  </definition>
+  <definition>
+    <key>entry_special_limit</key>
+    <value><![CDATA[Số Items Trong Khối đặc biệt]]></value>
+  </definition>
+  <definition>
+    <key>entry_cart_weight</key>
+    <value><![CDATA[Khối lượng màn hình trên giỏ trang: <br/><span class="help">Xem giỏ hàng trọng lượng trên các trang giỏ</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_reviews</key>
+    <value><![CDATA[Cho phép Nhận xét: <br/><span class="help">Kích hoạt / Vô hiệu hoá nhập mới và trình bày ý kiến hiện tại</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_maintenance</key>
+    <value><![CDATA[Bảo trì Mode: <br/><span class="help">Ngăn chặn khách hàng từ duyệt cửa hàng của bạn. Thay vào đó họ sẽ thấy một thông báo bảo trì. Nếu đăng nhập như là admin, bạn sẽ thấy các cửa hàng như bình thường.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_voicecontrol</key>
+    <value><![CDATA[Voice Control: <br/><span class="help">Kích hoạt tính năng điều khiển giọng nói admin để kích hoạt lệnh bằng giọng nói đặc trưng. Hiện tại chỉ hỗ trợ trong Chrome phiên bản 25 hoặc sau đó.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_help_links</key>
+    <value><![CDATA[Trợ giúp Liên kết: <br/><span class="help">Nếu bạn muốn xem Trợ giúp biểu tượng và liên kết đến các trang web AbanteCart. Điều này sẽ giúp bạn tìm hiểu về các tính năng và cách sử dụng chúng. Nếu bạn tiến sử dụng và không muốn nhìn thấy những biểu tượng trợ giúp, bạn có thể vô hiệu hóa.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_show_tree_data</key>
+    <value><![CDATA[Kích hoạt tính năng Tree Grid: <br/><span class="help">Cho phép lưới admin để cho cha mẹ / con loại trong một danh sách lưới. LƯU Ý: Phân trang và đa hành động là người khuyết tật cho các lưới</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_cart_ajax</key>
+    <value><![CDATA[Cùng trang Thêm vào giỏ hàng: <br/><span class="help">này sẽ cho phép AJAX thêm vào tính năng giỏ. Sản phẩm có thể được thêm vào giỏ hàng mà không cần chuyển hướng đến trang giỏ</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_storefront_width</key>
+    <value><![CDATA[Cửa hàng trang Chiều rộng: <br/><span class="help">Ví dụ: 100% hoặc 1000px</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_admin_width</key>
+    <value><![CDATA[Quản trị trang web Chiều rộng: <br/><span class="help">Ví dụ: 100% hoặc 1000px</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_total_order_maximum</key>
+    <value><![CDATA[Số tiền đặt hàng tối đa cho phép: <br/><span class="help">Ngăn chặn thanh toán với đơn đặt hàng lớn các khoản phụ tổng. 0 = NO LIMIT</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_total_order_minimum</key>
+    <value><![CDATA[Số lượng đặt hàng tối thiểu: <br/><span class="help">Ngăn chặn kiểm tra nếu để phụ tổng không đạt đến số tiền tối thiểu. 0 = NO TỐI THIỂU</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_system_check</key>
+    <value><![CDATA[Hệ thống Kiểm tra: <br/><span class="help">Kích hoạt cài đặt này nếu bạn muốn kiểm tra tình trạng hệ thống của bạn đối với các chức năng AbanteCart. Các vấn đề hệ thống thực AbanteCart sẽ được báo cáo như là tin nhắn có thể nhìn thấy trong admin.</span>]]></value>
+  </definition>
+  <definition>
+    <key>button_add_store</key>
+    <value><![CDATA[Cửa hàng mới]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Cảnh báo: Bạn không có quyền sửa đổi các thiết lập!]]></value>
+  </definition>
+  <definition>
+    <key>error_loginname</key>
+    <value><![CDATA[Tên đăng nhập phải là duy nhất và từ 5 đến 64 ký tự chữ và số!]]></value>
+  </definition>
+  <definition>
+    <key>error_loginname_notunique</key>
+    <value><![CDATA[tên đăng nhập này là không có sẵn. Hãy thử tên đăng nhập khác nhau!]]></value>
+  </definition>
+  <definition>
+    <key>error_name</key>
+    <value><![CDATA[Tên cửa hàng phải có từ 2 đến 32 kí tự!]]></value>
+  </definition>
+  <definition>
+    <key>error_url</key>
+    <value><![CDATA[URL Cửa hàng yêu cầu!]]></value>
+  </definition>
+  <definition>
+    <key>error_title</key>
+    <value><![CDATA[Tiêu đề phải có từ 2 đến 32 kí tự!]]></value>
+  </definition>
+  <definition>
+    <key>error_owner</key>
+    <value><![CDATA[Cửa hàng chủ phải có từ 2 đến 64 ký tự!]]></value>
+  </definition>
+  <definition>
+    <key>error_address</key>
+    <value><![CDATA[Địa chỉ cửa hàng phải có từ 10 đến 256 ký tự!]]></value>
+  </definition>
+  <definition>
+    <key>error_email</key>
+    <value><![CDATA[E-Mail Địa chỉ không có vẻ hợp lệ!]]></value>
+  </definition>
+  <definition>
+    <key>error_telephone</key>
+    <value><![CDATA[Điện thoại phải có từ 2 đến 32 kí tự!]]></value>
+  </definition>
+  <definition>
+    <key>error_image_thumb</key>
+    <value><![CDATA[Hình ảnh sản phẩm kích thước Thumb Kích thước yêu cầu!]]></value>
+  </definition>
+  <definition>
+    <key>error_image_popup</key>
+    <value><![CDATA[Hình ảnh sản phẩm kích thước Kích Popup yêu cầu!]]></value>
+  </definition>
+  <definition>
+    <key>error_image_category</key>
+    <value><![CDATA[kích thước Danh sách chuyên mục Kích thước yêu cầu!]]></value>
+  </definition>
+  <definition>
+    <key>error_image_manufacturer</key>
+    <value><![CDATA[Nhãn hiệu Biểu tượng Danh sách Kích thước kích thước yêu cầu!]]></value>
+  </definition>
+  <definition>
+    <key>error_image_product</key>
+    <value><![CDATA[kích thước danh sách sản phẩm Kích thước yêu cầu!]]></value>
+  </definition>
+  <definition>
+    <key>error_image_additional</key>
+    <value><![CDATA[Bổ sung sản phẩm kích thước Kích thước yêu cầu!]]></value>
+  </definition>
+  <definition>
+    <key>error_image_related</key>
+    <value><![CDATA[Sản phẩm kích thước Kích thước liên quan đến yêu cầu!]]></value>
+  </definition>
+  <definition>
+    <key>error_image_cart</key>
+    <value><![CDATA[kích thước giỏ Kích thước yêu cầu!]]></value>
+  </definition>
+  <definition>
+    <key>error_image_grid</key>
+    <value><![CDATA[kích thước lưới Kích thước yêu cầu!]]></value>
+  </definition>
+  <definition>
+    <key>error_error_filename</key>
+    <value><![CDATA[Lỗi Đăng Filename yêu cầu!]]></value>
+  </definition>
+  <definition>
+    <key>error_required_data</key>
+    <value><![CDATA[Yêu cầu dữ liệu chưa được nhập vào. Kiểm tra các lỗi trong trường!]]></value>
+  </definition>
+  <definition>
+    <key>error_uploaded_image</key>
+    <value><![CDATA[tập tin được tải lên %s không phải là hình ảnh hoặc bị hỏng!]]></value>
+  </definition>
+  <definition>
+    <key>error_limit</key>
+    <value><![CDATA[Giới hạn yêu cầu!]]></value>
+  </definition>
+  <definition>
+    <key>text_front</key>
+    <value><![CDATA[Mặt trước cửa hàng]]></value>
+  </definition>
+  <definition>
+    <key>text_admin</key>
+    <value><![CDATA[quản trị viên]]></value>
+  </definition>
+  <definition>
+    <key>error_mail</key>
+    <value><![CDATA[Vui lòng điền vào các trường bắt buộc cho smtp-giao thức!]]></value>
+  </definition>
+  <definition>
+    <key>text_sorting_sort_order_asc</key>
+    <value><![CDATA[Sản phẩm của Xếp theo thứ tự thấp &gt; Cao]]></value>
+  </definition>
+  <definition>
+    <key>text_sorting_name_asc</key>
+    <value><![CDATA[Tên A - Z]]></value>
+  </definition>
+  <definition>
+    <key>text_sorting_name_desc</key>
+    <value><![CDATA[Tên Z - A]]></value>
+  </definition>
+  <definition>
+    <key>text_sorting_price_asc</key>
+    <value><![CDATA[Giá thấp &gt; Cao]]></value>
+  </definition>
+  <definition>
+    <key>text_sorting_price_desc</key>
+    <value><![CDATA[Giá cao &gt; thấp]]></value>
+  </definition>
+  <definition>
+    <key>text_sorting_rating_asc</key>
+    <value><![CDATA[Đánh giá thấp nhất]]></value>
+  </definition>
+  <definition>
+    <key>text_sorting_rating_desc</key>
+    <value><![CDATA[Đánh giá cao nhất]]></value>
+  </definition>
+  <definition>
+    <key>text_sorting_date_asc</key>
+    <value><![CDATA[Ngày Cũ &gt; Mới]]></value>
+  </definition>
+  <definition>
+    <key>text_sorting_date_desc</key>
+    <value><![CDATA[Ngày mới &gt; Cũ]]></value>
+  </definition>
+  <definition>
+    <key>entry_product_default_sort_order</key>
+    <value><![CDATA[Sắp xếp sản phẩm như mặc định bằng cách:]]></value>
+  </definition>
+  <definition>
+    <key>entry_zero_customer_balance</key>
+    <value><![CDATA[Hiện Zero, khách hàng cân bằng: <br/><span class="help">Lưu ý: Bật / tắt màn hình thông báo cân bằng nếu số dư tài khoản của khách hàng là 0</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_shipping_tax_estimate</key>
+    <value><![CDATA[Vận chuyển và thuế Ước: <br/><span class="help">Cho phép khách hàng để có được vận chuyển nhanh chóng và dự toán thuế trong các giỏ mua hàng.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_coupon_on_cart_page</key>
+    <value><![CDATA[Phiếu giảm giá trên trang giỏ hàng: <br/><span class="help">Cho phép khách hàng nhập mã phiếu giảm giá và thấy giảm giá trong giỏ hàng.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_google_analytics</key>
+    <value><![CDATA[Google Số tài khoản Analytics: <br/><span class="help">Thêm bạn <a href="https://support.google.com/analytics/answer/1032385?hl=en&ref_topic=1008082" target="_blank">Số tài khoản Google Analytics</a> cho phép theo dõi hoạt động trang web. Điều này cũng cho phép theo dõi các hoạt động thương mại điện tử. Bạn phải kích hoạt theo dõi trong google trên trang cài đặt cấu hình cho trang web của bạn thương mại điện tử</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_ssl_url</key>
+    <value><![CDATA[An toàn URL Cửa hàng: <br/><span class="help">Bao gồm URL đầy đủ SSL (HTTPS) đến cửa hàng của bạn. Hãy chắc chắn để thêm &#39;/&#39; ở cuối. Ví dụ: https://www.yourdomain.com/path/</span>]]></value>
+  </definition>
+  <definition>
+    <key>error_ssl_url</key>
+    <value><![CDATA[URL an toàn cần thiết!]]></value>
+  </definition>
+  <definition>
+    <key>entry_customer_email_activation</key>
+    <value><![CDATA[Email kích hoạt cho khách hàng mới: <br/><span class="help">Không cho phép khách hàng mới đăng nhập cho đến khi tài khoản của họ đã được khẳng định bởi liên kết kích hoạt gửi qua email. Để làm việc này, chắc chắn rằng &quot;Phê duyệt khách hàng mới&quot; được thiết lập để OFF.</span>]]></value>
+  </definition>
+  <definition>
+    <key>text_clone_template</key>
+    <value><![CDATA[Clone bản Với AbanteCart Công cụ phát triển]]></value>
+  </definition>
+  <definition>
+    <key>text_set_template</key>
+    <value><![CDATA[Đặt mẫu này cho các cửa hàng]]></value>
+  </definition>
+  <definition>
+    <key>entry_embed_status</key>
+    <value><![CDATA[Kích hoạt cửa hàng Nhúng:]]></value>
+  </definition>
+  <definition>
+    <key>entry_embed_click_action</key>
+    <value><![CDATA[Nhúng Bấm Hành động:]]></value>
+  </definition>
+  <definition>
+    <key>text_embed_click_action_modal</key>
+    <value><![CDATA[Cùng trang Modal Dialog]]></value>
+  </definition>
+  <definition>
+    <key>text_embed_click_action_new_window</key>
+    <value><![CDATA[Mở trang mới trong tab mới]]></value>
+  </definition>
+  <definition>
+    <key>text_embed_click_action_same_window</key>
+    <value><![CDATA[Mở trang mới trong cùng một cửa sổ]]></value>
+  </definition>
+  <definition>
+    <key>entry_account_create_captcha</key>
+    <value><![CDATA[Captcha trên tạo ra hình thức tài khoản: <br/><span class="help">Ngăn chặn thư rác / Robot tạo tài khoản bằng cách kích hoạt mã xác nhận xác minh con người</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_recaptcha_site_key</key>
+    <value><![CDATA[Google reCAPTCHA Site chính: <br/><span class="help">Thêm <a href="https://www.google.com/recaptcha" target="_blank">Google reCAPTCHA v2</a> để giúp truy cập của bạn với mục mã xác nhận khác tốt hơn. Nếu bạn kích hoạt reCAPTCHA trang web / khóa bí mật, Google reCAPTCHA v2 sẽ được kích hoạt, thay vì hình ảnh AbanteCart mã xác nhận khác mặc định</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_recaptcha_secret_key</key>
+    <value><![CDATA[Google reCAPTCHA bí mật chính: <br/><span class="help">Thêm <a href="https://www.google.com/recaptcha" target="_blank">Google reCAPTCHA v2</a> để giúp truy cập của bạn với mục mã xác nhận khác tốt hơn. Nếu bạn kích hoạt reCAPTCHA trang web / khóa bí mật, Google reCAPTCHA v2 sẽ được kích hoạt, thay vì hình ảnh AbanteCart mã xác nhận khác mặc định</span>]]></value>
+  </definition>
+  <definition>
+    <key>text_setting_php_exceed</key>
+    <value><![CDATA[Giá trị này không thể vượt quá chỉ thị php.ini của bạn %s (&lt;= %s)]]></value>
+  </definition>
+  <definition>
+    <key>entry_start_order_id</key>
+    <value><![CDATA[Bắt đầu Đơn hàng No .: <br/><span class="help">Thiết lập số khởi đầu các đơn đặt hàng sẽ bắt đầu từ đâu.</span>]]></value>
+  </definition>
+  <definition>
+    <key>error_start_order_id</key>
+    <value><![CDATA[Số thứ tự bắt đầu phải là một số!]]></value>
+  </definition>
+  <definition>
+    <key>error_starting_invoice_id</key>
+    <value><![CDATA[số đầu số hoá đơn phải có một số!]]></value>
+  </definition>
+  <definition>
+    <key>entry_expire_order_days</key>
+    <value><![CDATA[Không đầy đủ theo thứ tự hết hạn: <br/><br/><span class="help">giá trị này điều khiển khoảng thời gian trong ngày trước khi đơn đặt hàng đầy đủ sẽ bị xóa. Giá trị rỗng có nghĩa là không có đơn đặt hàng sẽ được xóa.</span>]]></value>
+  </definition>
+  <definition>
+    <key>error_expire_order_days</key>
+    <value><![CDATA[Không đầy đủ giá trị hết hạn đơn hàng phải là một số!]]></value>
+  </definition>
+  <definition>
+    <key>text_storefront</key>
+    <value><![CDATA[cửa hàng]]></value>
+  </definition>
+  <definition>
+    <key>text_im_driver</key>
+    <value><![CDATA[Người lái xe]]></value>
+  </definition>
+  <definition>
+    <key>text_im_protocol</key>
+    <value><![CDATA[Nghị định thư IM]]></value>
+  </definition>
+  <definition>
+    <key>entry_sms_driver</key>
+    <value><![CDATA[Nhà cung cấp tin nhắn SMS]]></value>
+  </definition>
+  <definition>
+    <key>entry_sms_driver_tooltip</key>
+    <value><![CDATA[Chọn một phần mở rộng cho nhà cung cấp dịch vụ tin nhắn SMS]]></value>
+  </definition>
+  <definition>
+    <key>entry_storefront_status_tooltip</key>
+    <value><![CDATA[Bật SMS cho khách hàng]]></value>
+  </definition>
+  <definition>
+    <key>entry_admin_status_tooltip</key>
+    <value><![CDATA[Bật SMS cho các quản trị viên]]></value>
+  </definition>
+  <definition>
+    <key>text_no_driver</key>
+    <value><![CDATA[Không có Driver IM Tìm thấy]]></value>
+  </definition>
+  <definition>
+    <key>text_im_settings_attention</key>
+    <value><![CDATA[Các thiết lập này cho các tin nhắn ngay lập tức gửi tự động trong các sự kiện AbanteCart trong cửa hàng và admin.]]></value>
+  </definition>
+  <definition>
+    <key>entry_html_cache</key>
+    <value><![CDATA[HTML Cache: <br/><span class="help">trang HTML Enabled và khối bộ nhớ đệm để có được tốc độ tốt hơn cho các trang của bạn. Đây là thêm bộ nhớ đệm bộ nhớ đệm dữ liệu thường xuyên cho phép trong hệ thống tập tin / config.php</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_task_api_key</key>
+    <value><![CDATA[Nhiệm vụ API chính: <br/><span class="help">Đây là một khóa bí mật để cho phép AbanteCart để chạy các quy trình dự kiến từ trình duyệt với tập tin /task.php. Nếu không thiết lập, nhiệm vụ sẽ không chạy qua trình duyệt. <br/> Chú ý: Key API này không cần thiết để chạy các nhiệm vụ dòng lệnh.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_duplicate_contact_us</key>
+    <value><![CDATA[Duplicate Liên thắc mắc để tin nhắn]]></value>
+  </definition>
+</definitions>

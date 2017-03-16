@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Nội dung quản lí]]></value>
+  </definition>
+  <definition>
+    <key>insert_title</key>
+    <value><![CDATA[Thêm nội dung mới]]></value>
+  </definition>
+  <definition>
+    <key>update_title</key>
+    <value><![CDATA[cập nhật nội dung]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Thành công: Bạn có nội dung thay đổi!]]></value>
+  </definition>
+  <definition>
+    <key>text_success_layout</key>
+    <value><![CDATA[Thành công: Bạn đã thay đổi cách bố trí trang nội dung.]]></value>
+  </definition>
+  <definition>
+    <key>text_hidden</key>
+    <value><![CDATA[giấu]]></value>
+  </definition>
+  <definition>
+    <key>text_default</key>
+    <value><![CDATA[Mặc định]]></value>
+  </definition>
+  <definition>
+    <key>column_title</key>
+    <value><![CDATA[Tiêu đề Nội dung]]></value>
+  </definition>
+  <definition>
+    <key>column_parent</key>
+    <value><![CDATA[Nội dung mẹ]]></value>
+  </definition>
+  <definition>
+    <key>entry_parent</key>
+    <value><![CDATA[Chánh Content Trang]]></value>
+  </definition>
+  <definition>
+    <key>column_sort_order</key>
+    <value><![CDATA[Thứ tự sắp xếp]]></value>
+  </definition>
+  <definition>
+    <key>column_status</key>
+    <value><![CDATA[Trạng thái]]></value>
+  </definition>
+  <definition>
+    <key>column_action</key>
+    <value><![CDATA[Hoạt động]]></value>
+  </definition>
+  <definition>
+    <key>entry_name</key>
+    <value><![CDATA[Tên Nội dung:]]></value>
+  </definition>
+  <definition>
+    <key>entry_title</key>
+    <value><![CDATA[Tiêu đề Nội dung:]]></value>
+  </definition>
+  <definition>
+    <key>entry_description</key>
+    <value><![CDATA[Sự miêu tả:]]></value>
+  </definition>
+  <definition>
+    <key>entry_content</key>
+    <value><![CDATA[Nội dung:]]></value>
+  </definition>
+  <definition>
+    <key>entry_store</key>
+    <value><![CDATA[cửa hàng:]]></value>
+  </definition>
+  <definition>
+    <key>entry_status</key>
+    <value><![CDATA[Trạng thái:]]></value>
+  </definition>
+  <definition>
+    <key>entry_keyword</key>
+    <value><![CDATA[SEO từ khóa:]]></value>
+  </definition>
+  <definition>
+    <key>entry_sort_order</key>
+    <value><![CDATA[Thứ tự sắp xếp:]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Cảnh báo: Bạn không được phép sửa đổi nội dung!]]></value>
+  </definition>
+  <definition>
+    <key>error_title</key>
+    <value><![CDATA[Nội dung Tiêu đề phải có từ 2 đến 64 ký tự!]]></value>
+  </definition>
+  <definition>
+    <key>error_name</key>
+    <value><![CDATA[Nội dung Tên phải có từ 2 đến 64 ký tự!]]></value>
+  </definition>
+  <definition>
+    <key>error_description</key>
+    <value><![CDATA[Mô tả phải nhiều hơn 1 nhân vật!]]></value>
+  </definition>
+  <definition>
+    <key>error_content</key>
+    <value><![CDATA[Nội dung phải có nhiều hơn 1 nhân vật!]]></value>
+  </definition>
+  <definition>
+    <key>error_seo_url</key>
+    <value><![CDATA[SEO URL phải có nhiều hơn 1 nhân vật!]]></value>
+  </definition>
+  <definition>
+    <key>error_account</key>
+    <value><![CDATA[Cảnh báo: Nội dung này không thể bị xóa vì nó hiện đang được phân công như các điều khoản tài khoản lưu trữ mặc định!]]></value>
+  </definition>
+  <definition>
+    <key>error_checkout</key>
+    <value><![CDATA[Cảnh báo: Nội dung này không thể bị xóa vì nó hiện đang được phân công như các điều khoản lưu trữ mặc định thanh toán!]]></value>
+  </definition>
+  <definition>
+    <key>error_required_data</key>
+    <value><![CDATA[Yêu cầu dữ liệu chưa được nhập vào. Kiểm tra các lỗi trong trường!]]></value>
+  </definition>
+  <definition>
+    <key>text_top_level</key>
+    <value><![CDATA[Top Level]]></value>
+  </definition>
+  <definition>
+    <key>text_any</key>
+    <value><![CDATA[bất kì]]></value>
+  </definition>
+  <definition>
+    <key>tab_form</key>
+    <value><![CDATA[Chỉnh sửa]]></value>
+  </definition>
+  <definition>
+    <key>tab_layout</key>
+    <value><![CDATA[Bố trí]]></value>
+  </definition>
+</definitions>

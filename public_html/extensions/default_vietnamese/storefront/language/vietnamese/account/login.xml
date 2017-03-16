@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[tài khoản Đăng nhập]]></value>
+  </definition>
+  <definition>
+    <key>text_account</key>
+    <value><![CDATA[đăng ký tài khoản]]></value>
+  </definition>
+  <definition>
+    <key>text_login</key>
+    <value><![CDATA[Đăng nhập]]></value>
+  </definition>
+  <definition>
+    <key>text_i_am_new_customer</key>
+    <value><![CDATA[Tôi là một khách hàng mới.]]></value>
+  </definition>
+  <definition>
+    <key>text_checkout</key>
+    <value><![CDATA[Tùy chọn thanh toán:]]></value>
+  </definition>
+  <definition>
+    <key>text_guest</key>
+    <value><![CDATA[Guest Checkout]]></value>
+  </definition>
+  <definition>
+    <key>text_create_account</key>
+    <value><![CDATA[Bằng cách tạo một tài khoản bạn sẽ có thể mua sắm nhanh hơn, cập nhật về tình trạng của đơn hàng, và theo dõi các đơn hàng bạn đã thực hiện trước đây.]]></value>
+  </definition>
+  <definition>
+    <key>text_returning_customer</key>
+    <value><![CDATA[Phản hồi khách hàng]]></value>
+  </definition>
+  <definition>
+    <key>text_i_am_returning_customer</key>
+    <value><![CDATA[Tôi là một khách hàng cũ.]]></value>
+  </definition>
+  <definition>
+    <key>text_forgotten_login</key>
+    <value><![CDATA[Quên đăng nhập của bạn?]]></value>
+  </definition>
+  <definition>
+    <key>text_forgotten_password</key>
+    <value><![CDATA[Quên mật khẩu?]]></value>
+  </definition>
+  <definition>
+    <key>entry_loginname</key>
+    <value><![CDATA[Tên đăng nhập:]]></value>
+  </definition>
+  <definition>
+    <key>entry_email_address</key>
+    <value><![CDATA[Địa chỉ email:]]></value>
+  </definition>
+  <definition>
+    <key>entry_password</key>
+    <value><![CDATA[Mật khẩu:]]></value>
+  </definition>
+  <definition>
+    <key>error_login</key>
+    <value><![CDATA[Lỗi: đăng nhập không chính xác hoặc mật khẩu được cung cấp.]]></value>
+  </definition>
+  <definition>
+    <key>text_success_activated</key>
+    <value><![CDATA[Thành công: Tài khoản của bạn đã được kích hoạt thành công. Hãy đăng nhập với thông tin của bạn.]]></value>
+  </definition>
+  <definition>
+    <key>text_already_activated</key>
+    <value><![CDATA[Tài khoản của bạn đã được kích hoạt. Hãy đăng nhập với thông tin của bạn.]]></value>
+  </definition>
+  <definition>
+    <key>text_resend_activation_email</key>
+    <value><![CDATA[Lỗi: địa chỉ email của bạn vẫn chưa được xác nhận. Để gửi lại email xác nhận mới xin vui lòng bấm vào đây <a href=" %s ">liên kết</a>]]></value>
+  </definition>
+</definitions>

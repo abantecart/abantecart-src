@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Thoát tài khoản]]></value>
+  </definition>
+  <definition>
+    <key>text_message</key>
+    <value><![CDATA[<p> Bạn đã được đăng xuất tài khoản của bạn. Nó bây giờ là an toàn để rời khỏi máy tính. </p><p> Giỏ hàng của bạn đã được lưu, các mục bên trong nó sẽ được phục hồi bất cứ khi nào bạn đăng nhập lại vào tài khoản của bạn. </p>]]></value>
+  </definition>
+  <definition>
+    <key>text_account</key>
+    <value><![CDATA[Tài khoản]]></value>
+  </definition>
+  <definition>
+    <key>text_logout</key>
+    <value><![CDATA[Đăng xuất]]></value>
+  </definition>
+</definitions>

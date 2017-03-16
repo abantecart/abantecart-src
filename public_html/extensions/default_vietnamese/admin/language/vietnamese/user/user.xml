@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Người dùng]]></value>
+  </definition>
+  <definition>
+    <key>text_edit_details</key>
+    <value><![CDATA[Chỉnh sửa chi tiết hồ sơ]]></value>
+  </definition>
+  <definition>
+    <key>text_user</key>
+    <value><![CDATA[Người dùng]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Thành công: Bạn có người sử dụng sửa đổi!]]></value>
+  </definition>
+  <definition>
+    <key>text_success_details</key>
+    <value><![CDATA[Thành công: Bạn đã sửa đổi hồ sơ của bạn!]]></value>
+  </definition>
+  <definition>
+    <key>column_username</key>
+    <value><![CDATA[Tên đăng nhập]]></value>
+  </definition>
+  <definition>
+    <key>column_group</key>
+    <value><![CDATA[Nhóm]]></value>
+  </definition>
+  <definition>
+    <key>column_status</key>
+    <value><![CDATA[Trạng thái]]></value>
+  </definition>
+  <definition>
+    <key>column_date_added</key>
+    <value><![CDATA[ngày thêm]]></value>
+  </definition>
+  <definition>
+    <key>column_action</key>
+    <value><![CDATA[Hoạt động]]></value>
+  </definition>
+  <definition>
+    <key>entry_username</key>
+    <value><![CDATA[Tên đăng nhập:]]></value>
+  </definition>
+  <definition>
+    <key>entry_password</key>
+    <value><![CDATA[Mật khẩu:]]></value>
+  </definition>
+  <definition>
+    <key>entry_confirm</key>
+    <value><![CDATA[Xác nhận:]]></value>
+  </definition>
+  <definition>
+    <key>entry_firstname</key>
+    <value><![CDATA[Tên đầu tiên:]]></value>
+  </definition>
+  <definition>
+    <key>entry_lastname</key>
+    <value><![CDATA[Họ:]]></value>
+  </definition>
+  <definition>
+    <key>entry_email</key>
+    <value><![CDATA[E-mail:]]></value>
+  </definition>
+  <definition>
+    <key>entry_user_group</key>
+    <value><![CDATA[Nhóm người dùng:]]></value>
+  </definition>
+  <definition>
+    <key>entry_status</key>
+    <value><![CDATA[Trạng thái:]]></value>
+  </definition>
+  <definition>
+    <key>entry_ims</key>
+    <value><![CDATA[thông báo]]></value>
+  </definition>
+  <definition>
+    <key>entry_captcha</key>
+    <value><![CDATA[Nhập mã kiểm tra vào ô bên dưới:]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Cảnh báo: Bạn không có quyền sửa đổi người sử dụng!]]></value>
+  </definition>
+  <definition>
+    <key>error_account</key>
+    <value><![CDATA[Cảnh báo: Bạn không có quyền xóa tài khoản của bạn!]]></value>
+  </definition>
+  <definition>
+    <key>error_username</key>
+    <value><![CDATA[Tên đăng nhập phải có từ 2 đến 20 ký tự!]]></value>
+  </definition>
+  <definition>
+    <key>error_password</key>
+    <value><![CDATA[Mật khẩu phải có nhiều hơn 3 ký tự!]]></value>
+  </definition>
+  <definition>
+    <key>error_confirm</key>
+    <value><![CDATA[Mật khẩu và xác nhận mật khẩu không phù hợp!]]></value>
+  </definition>
+  <definition>
+    <key>error_firstname</key>
+    <value><![CDATA[Tên đầu tiên phải là giữa 2 và 32 ký tự!]]></value>
+  </definition>
+  <definition>
+    <key>error_lastname</key>
+    <value><![CDATA[Họ phải có từ 2 đến 32 kí tự!]]></value>
+  </definition>
+  <definition>
+    <key>error_email</key>
+    <value><![CDATA[E-Mail Địa chỉ không có vẻ hợp lệ!]]></value>
+  </definition>
+  <definition>
+    <key>error_captcha</key>
+    <value><![CDATA[Nhân Không xác minh!]]></value>
+  </definition>
+  <definition>
+    <key>error_user_group</key>
+    <value><![CDATA[Bạn không có quyền thay đổi nhóm người sử dụng.]]></value>
+  </definition>
+  <definition>
+    <key>text_select_group</key>
+    <value><![CDATA[- Chọn Nhóm -]]></value>
+  </definition>
+  <definition>
+    <key>entry_im_email</key>
+    <value><![CDATA[E-Mail: <span class="help">Một hoặc dấu phẩy tách nhiều địa chỉ email</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_im_sms</key>
+    <value><![CDATA[Điện thoại di động: <span class="help">Điện thoại trong định dạng quốc tế. ex. +14566887777</span>]]></value>
+  </definition>
+  <definition>
+    <key>text_edit_im</key>
+    <value><![CDATA[chỉnh sửa Thông báo]]></value>
+  </definition>
+  <definition>
+    <key>text_sendpoints</key>
+    <value><![CDATA[Thiết lập thông báo]]></value>
+  </definition>
+  <definition>
+    <key>text_change_im_addresses</key>
+    <value><![CDATA[Chỉnh sửa thông báo Addresses cho SendPoint này]]></value>
+  </definition>
+</definitions>

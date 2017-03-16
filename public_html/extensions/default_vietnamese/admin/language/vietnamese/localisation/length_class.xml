@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Lớp học dài]]></value>
+  </definition>
+  <definition>
+    <key>text_class</key>
+    <value><![CDATA[Chiều dài lớp]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Thành công: Bạn đã sửa đổi các lớp học dài!]]></value>
+  </definition>
+  <definition>
+    <key>column_title</key>
+    <value><![CDATA[Chiều dài Tiêu đề]]></value>
+  </definition>
+  <definition>
+    <key>column_unit</key>
+    <value><![CDATA[Đơn vị chiều dài]]></value>
+  </definition>
+  <definition>
+    <key>column_value</key>
+    <value><![CDATA[Giá trị]]></value>
+  </definition>
+  <definition>
+    <key>column_action</key>
+    <value><![CDATA[Hoạt động]]></value>
+  </definition>
+  <definition>
+    <key>entry_title</key>
+    <value><![CDATA[Chiều dài Tiêu đề:]]></value>
+  </definition>
+  <definition>
+    <key>entry_unit</key>
+    <value><![CDATA[Chiều dài Đơn vị:]]></value>
+  </definition>
+  <definition>
+    <key>entry_value</key>
+    <value><![CDATA[Giá trị: <br/><span class="help">Set để 1,00000 nếu điều này là chiều dài mặc định của bạn.</span>]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Cảnh báo: Bạn không có quyền sửa đổi các lớp học dài!]]></value>
+  </definition>
+  <definition>
+    <key>error_title</key>
+    <value><![CDATA[Chiều dài Tiêu đề phải có từ 2 đến 32 kí tự!]]></value>
+  </definition>
+  <definition>
+    <key>error_unit</key>
+    <value><![CDATA[Thêm đơn vị phải có từ 1 đến 4 ký tự!]]></value>
+  </definition>
+  <definition>
+    <key>error_default</key>
+    <value><![CDATA[Cảnh báo: lớp dài này không thể bị xóa vì nó hiện đang được phân công như lớp chiều dài cửa hàng mặc định!]]></value>
+  </definition>
+  <definition>
+    <key>error_product</key>
+    <value><![CDATA[Cảnh báo: lớp dài này không thể bị xóa vì nó đang được gán cho %s sản phẩm!]]></value>
+  </definition>
+</definitions>

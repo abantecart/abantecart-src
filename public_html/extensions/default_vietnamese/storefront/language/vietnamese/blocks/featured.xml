@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Đặc sắc]]></value>
+  </definition>
+  <definition>
+    <key>heading_subtitle</key>
+    <value><![CDATA[Xem sản phẩm đặc trưng nhất của chúng tôi]]></value>
+  </definition>
+  <definition>
+    <key>text_stars</key>
+    <value><![CDATA[%s Ra của 5 sao!]]></value>
+  </definition>
+</definitions>

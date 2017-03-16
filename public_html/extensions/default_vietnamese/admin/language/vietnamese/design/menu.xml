@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Thực đơn]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Thành công: Bạn đã thay đổi menu!]]></value>
+  </definition>
+  <definition>
+    <key>entry_item_id</key>
+    <value><![CDATA[ID duy nhất]]></value>
+  </definition>
+  <definition>
+    <key>entry_item_icon</key>
+    <value><![CDATA[Biểu tượng]]></value>
+  </definition>
+  <definition>
+    <key>entry_item_text</key>
+    <value><![CDATA[Bản văn]]></value>
+  </definition>
+  <definition>
+    <key>entry_item_url</key>
+    <value><![CDATA[Liên kết <br/><span class="help">Đối với các liên kết bên ngoài thêm http: // hoặc https: // trong đầu</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_parent_id</key>
+    <value><![CDATA[Cha mẹ]]></value>
+  </definition>
+  <definition>
+    <key>entry_sort_order</key>
+    <value><![CDATA[Thứ tự sắp xếp]]></value>
+  </definition>
+  <definition>
+    <key>entry_link_category</key>
+    <value><![CDATA[Liên kết đến Thể loại]]></value>
+  </definition>
+  <definition>
+    <key>entry_link_page</key>
+    <value><![CDATA[Liên kết đến trang]]></value>
+  </definition>
+  <definition>
+    <key>text_link</key>
+    <value><![CDATA[liên kết]]></value>
+  </definition>
+  <definition>
+    <key>text_select_parent_id</key>
+    <value><![CDATA[- Root Menu -]]></value>
+  </definition>
+  <definition>
+    <key>error_empty</key>
+    <value><![CDATA[Không được để trống!]]></value>
+  </definition>
+  <definition>
+    <key>error_non_unique</key>
+    <value><![CDATA[Item ID phải là duy nhất!]]></value>
+  </definition>
+  <definition>
+    <key>error_non_ascii</key>
+    <value><![CDATA[Chỉ có ký tự chữ số cho phép đối với lĩnh vực đơn ID!]]></value>
+  </definition>
+</definitions>

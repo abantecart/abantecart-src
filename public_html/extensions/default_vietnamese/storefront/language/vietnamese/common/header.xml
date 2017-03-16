@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>text_home</key>
+    <value><![CDATA[Nhà]]></value>
+  </definition>
+  <definition>
+    <key>text_special</key>
+    <value><![CDATA[Quà đặc biệt]]></value>
+  </definition>
+  <definition>
+    <key>text_contact</key>
+    <value><![CDATA[Tiếp xúc]]></value>
+  </definition>
+  <definition>
+    <key>text_sitemap</key>
+    <value><![CDATA[Sơ đồ trang web]]></value>
+  </definition>
+  <definition>
+    <key>text_bookmark</key>
+    <value><![CDATA[Bookmark]]></value>
+  </definition>
+  <definition>
+    <key>text_account</key>
+    <value><![CDATA[Tài khoản]]></value>
+  </definition>
+  <definition>
+    <key>text_login</key>
+    <value><![CDATA[Đăng nhập]]></value>
+  </definition>
+  <definition>
+    <key>text_logout</key>
+    <value><![CDATA[logoff]]></value>
+  </definition>
+  <definition>
+    <key>text_cart</key>
+    <value><![CDATA[Cái rổ]]></value>
+  </definition>
+  <definition>
+    <key>text_checkout</key>
+    <value><![CDATA[Kiểm tra]]></value>
+  </definition>
+  <definition>
+    <key>text_keyword</key>
+    <value><![CDATA[Từ khóa]]></value>
+  </definition>
+  <definition>
+    <key>text_advanced</key>
+    <value><![CDATA[tìm kiếm nâng cao]]></value>
+  </definition>
+  <definition>
+    <key>text_category</key>
+    <value><![CDATA[Tất cả danh mục]]></value>
+  </definition>
+  <definition>
+    <key>entry_search</key>
+    <value><![CDATA[Tìm kiếm:]]></value>
+  </definition>
+  <definition>
+    <key>text_welcome</key>
+    <value><![CDATA[Chào mừng trở lại]]></value>
+  </definition>
+  <definition>
+    <key>text_not</key>
+    <value><![CDATA[không phải]]></value>
+  </definition>
+  <definition>
+    <key>text_login_or_register</key>
+    <value><![CDATA[Đăng nhập hay đăng ký]]></value>
+  </definition>
+</definitions>

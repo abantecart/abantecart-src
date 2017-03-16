@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Địa chỉ thanh toán]]></value>
+  </definition>
+  <definition>
+    <key>text_basket</key>
+    <value><![CDATA[Cái rổ]]></value>
+  </definition>
+  <definition>
+    <key>text_shipping</key>
+    <value><![CDATA[Đang chuyển hàng]]></value>
+  </definition>
+  <definition>
+    <key>text_payment</key>
+    <value><![CDATA[Thanh toán]]></value>
+  </definition>
+  <definition>
+    <key>text_address</key>
+    <value><![CDATA[Địa chỉ nhà]]></value>
+  </definition>
+  <definition>
+    <key>text_new_address</key>
+    <value><![CDATA[Địa chỉ mới]]></value>
+  </definition>
+  <definition>
+    <key>text_entries</key>
+    <value><![CDATA[Address Book Entries]]></value>
+  </definition>
+  <definition>
+    <key>entry_firstname</key>
+    <value><![CDATA[Tên đầu tiên:]]></value>
+  </definition>
+  <definition>
+    <key>entry_lastname</key>
+    <value><![CDATA[Họ:]]></value>
+  </definition>
+  <definition>
+    <key>entry_company</key>
+    <value><![CDATA[Công ty:]]></value>
+  </definition>
+  <definition>
+    <key>entry_address_1</key>
+    <value><![CDATA[Địa chỉ 1:]]></value>
+  </definition>
+  <definition>
+    <key>entry_address_2</key>
+    <value><![CDATA[Địa chỉ 2:]]></value>
+  </definition>
+  <definition>
+    <key>entry_postcode</key>
+    <value><![CDATA[ZIP / Mã bài:]]></value>
+  </definition>
+  <definition>
+    <key>entry_city</key>
+    <value><![CDATA[Thành phố:]]></value>
+  </definition>
+  <definition>
+    <key>entry_zone</key>
+    <value><![CDATA[Vùng / tiểu bang:]]></value>
+  </definition>
+  <definition>
+    <key>entry_country</key>
+    <value><![CDATA[Quốc gia:]]></value>
+  </definition>
+  <definition>
+    <key>entry_telephone</key>
+    <value><![CDATA[Điện thoại:]]></value>
+  </definition>
+  <definition>
+    <key>entry_fax</key>
+    <value><![CDATA[Số fax:]]></value>
+  </definition>
+  <definition>
+    <key>error_firstname</key>
+    <value><![CDATA[Tên phải được từ 1 đến 32 ký tự!]]></value>
+  </definition>
+  <definition>
+    <key>error_lastname</key>
+    <value><![CDATA[Họ phải có từ 1 đến 32 ký tự!]]></value>
+  </definition>
+  <definition>
+    <key>error_address_1</key>
+    <value><![CDATA[Địa chỉ 1 phải có từ 3 đến 64 ký tự!]]></value>
+  </definition>
+  <definition>
+    <key>error_city</key>
+    <value><![CDATA[Thành phố phải có từ 3 đến 32 ký tự!]]></value>
+  </definition>
+  <definition>
+    <key>error_postcode</key>
+    <value><![CDATA[Zip / Mã bưu chính phải có từ 3 đến 10 ký tự!]]></value>
+  </definition>
+  <definition>
+    <key>error_country</key>
+    <value><![CDATA[Vui lòng chọn một quốc gia!]]></value>
+  </definition>
+  <definition>
+    <key>error_zone</key>
+    <value><![CDATA[Vui lòng chọn một vùng / nhà nước!]]></value>
+  </definition>
+</definitions>

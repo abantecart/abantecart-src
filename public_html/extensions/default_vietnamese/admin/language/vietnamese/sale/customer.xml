@@ -1,0 +1,359 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[khách hàng]]></value>
+  </definition>
+  <definition>
+    <key>text_customer</key>
+    <value><![CDATA[khách hàng]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Thành công: Bạn có khách hàng sửa đổi!]]></value>
+  </definition>
+  <definition>
+    <key>text_approved</key>
+    <value><![CDATA[Bạn đã chấp thuận %s tài khoản!]]></value>
+  </definition>
+  <definition>
+    <key>tab_customer_address</key>
+    <value><![CDATA[Địa chỉ nhà]]></value>
+  </definition>
+  <definition>
+    <key>text_customer_addresses</key>
+    <value><![CDATA[Địa chỉ khách hàng]]></value>
+  </definition>
+  <definition>
+    <key>text_add_address</key>
+    <value><![CDATA[Thêm địa chỉ mới]]></value>
+  </definition>
+  <definition>
+    <key>button_add</key>
+    <value><![CDATA[Thêm vào]]></value>
+  </definition>
+  <definition>
+    <key>column_name</key>
+    <value><![CDATA[tên khách hàng]]></value>
+  </definition>
+  <definition>
+    <key>column_email</key>
+    <value><![CDATA[E-mail]]></value>
+  </definition>
+  <definition>
+    <key>column_customer_group</key>
+    <value><![CDATA[Nhóm khách hàng]]></value>
+  </definition>
+  <definition>
+    <key>column_group</key>
+    <value><![CDATA[Nhóm]]></value>
+  </definition>
+  <definition>
+    <key>column_status</key>
+    <value><![CDATA[Trạng thái]]></value>
+  </definition>
+  <definition>
+    <key>column_approved</key>
+    <value><![CDATA[Tán thành]]></value>
+  </definition>
+  <definition>
+    <key>column_date_added</key>
+    <value><![CDATA[ngày thêm]]></value>
+  </definition>
+  <definition>
+    <key>column_action</key>
+    <value><![CDATA[Hoạt động]]></value>
+  </definition>
+  <definition>
+    <key>entry_loginname</key>
+    <value><![CDATA[Tên đăng nhập:]]></value>
+  </definition>
+  <definition>
+    <key>entry_firstname</key>
+    <value><![CDATA[Tên đầu tiên:]]></value>
+  </definition>
+  <definition>
+    <key>entry_lastname</key>
+    <value><![CDATA[Họ:]]></value>
+  </definition>
+  <definition>
+    <key>entry_email</key>
+    <value><![CDATA[E-mail:]]></value>
+  </definition>
+  <definition>
+    <key>entry_telephone</key>
+    <value><![CDATA[Điện thoại:]]></value>
+  </definition>
+  <definition>
+    <key>entry_fax</key>
+    <value><![CDATA[Số fax:]]></value>
+  </definition>
+  <definition>
+    <key>entry_newsletter</key>
+    <value><![CDATA[Bản tin:]]></value>
+  </definition>
+  <definition>
+    <key>entry_customer_group</key>
+    <value><![CDATA[Nhóm khách hàng:]]></value>
+  </definition>
+  <definition>
+    <key>entry_status</key>
+    <value><![CDATA[Trạng thái:]]></value>
+  </definition>
+  <definition>
+    <key>entry_approved</key>
+    <value><![CDATA[Tán thành:]]></value>
+  </definition>
+  <definition>
+    <key>entry_password</key>
+    <value><![CDATA[Mật khẩu:]]></value>
+  </definition>
+  <definition>
+    <key>entry_confirm</key>
+    <value><![CDATA[Xác nhận:]]></value>
+  </definition>
+  <definition>
+    <key>entry_company</key>
+    <value><![CDATA[Công ty:]]></value>
+  </definition>
+  <definition>
+    <key>entry_address_1</key>
+    <value><![CDATA[Địa chỉ 1:]]></value>
+  </definition>
+  <definition>
+    <key>entry_address_2</key>
+    <value><![CDATA[Địa chỉ 2:]]></value>
+  </definition>
+  <definition>
+    <key>entry_city</key>
+    <value><![CDATA[Thành phố:]]></value>
+  </definition>
+  <definition>
+    <key>entry_postcode</key>
+    <value><![CDATA[Mã bưu điện:]]></value>
+  </definition>
+  <definition>
+    <key>entry_country</key>
+    <value><![CDATA[Quốc gia:]]></value>
+  </definition>
+  <definition>
+    <key>entry_country_id</key>
+    <value><![CDATA[Quốc gia:]]></value>
+  </definition>
+  <definition>
+    <key>entry_zone</key>
+    <value><![CDATA[Vùng / tiểu bang:]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Cảnh báo: Bạn không có quyền sửa đổi khách hàng!]]></value>
+  </definition>
+  <definition>
+    <key>error_loginname</key>
+    <value><![CDATA[Tên đăng nhập phải là duy nhất và từ 5 đến 64 ký tự chữ và số!]]></value>
+  </definition>
+  <definition>
+    <key>error_loginname_notunique</key>
+    <value><![CDATA[tên đăng nhập này là không có sẵn. Hãy thử tên đăng nhập khác nhau!]]></value>
+  </definition>
+  <definition>
+    <key>error_firstname</key>
+    <value><![CDATA[Tên phải được từ 1 đến 32 ký tự!]]></value>
+  </definition>
+  <definition>
+    <key>error_lastname</key>
+    <value><![CDATA[Họ phải có từ 1 đến 32 ký tự!]]></value>
+  </definition>
+  <definition>
+    <key>error_email</key>
+    <value><![CDATA[E-Mail Địa chỉ không có vẻ hợp lệ!]]></value>
+  </definition>
+  <definition>
+    <key>error_telephone</key>
+    <value><![CDATA[Điện thoại phải có từ 3 đến 32 ký tự!]]></value>
+  </definition>
+  <definition>
+    <key>error_password</key>
+    <value><![CDATA[Mật khẩu phải từ 3 đến 20 ký tự!]]></value>
+  </definition>
+  <definition>
+    <key>error_confirm</key>
+    <value><![CDATA[Mật khẩu và xác nhận mật khẩu không phù hợp!]]></value>
+  </definition>
+  <definition>
+    <key>error_address_firstname</key>
+    <value><![CDATA[Tên phải được từ 1 đến 32 ký tự!]]></value>
+  </definition>
+  <definition>
+    <key>error_address_lastname</key>
+    <value><![CDATA[Họ phải có từ 1 đến 32 ký tự!]]></value>
+  </definition>
+  <definition>
+    <key>error_address_1</key>
+    <value><![CDATA[Địa chỉ phải từ 3 đến 128 ký tự!]]></value>
+  </definition>
+  <definition>
+    <key>error_city</key>
+    <value><![CDATA[Thành phố phải có từ 3 đến 128 ký tự!]]></value>
+  </definition>
+  <definition>
+    <key>error_country</key>
+    <value><![CDATA[Vui lòng chọn một quốc gia!]]></value>
+  </definition>
+  <definition>
+    <key>error_zone</key>
+    <value><![CDATA[Vui lòng chọn một vùng / nhà nước!]]></value>
+  </definition>
+  <definition>
+    <key>text_select_approved</key>
+    <value><![CDATA[- Chọn được chấp thuận -]]></value>
+  </definition>
+  <definition>
+    <key>text_select_group</key>
+    <value><![CDATA[- Chọn Nhóm -]]></value>
+  </definition>
+  <definition>
+    <key>tab_customer_details</key>
+    <value><![CDATA[thông tin khách hàng]]></value>
+  </definition>
+  <definition>
+    <key>tab_transactions</key>
+    <value><![CDATA[giao dịch]]></value>
+  </definition>
+  <definition>
+    <key>heading_title_transactions</key>
+    <value><![CDATA[các giao dịch của khách hàng]]></value>
+  </definition>
+  <definition>
+    <key>column_create_date</key>
+    <value><![CDATA[Ngày tạo]]></value>
+  </definition>
+  <definition>
+    <key>column_created_by</key>
+    <value><![CDATA[Được tạo bởi]]></value>
+  </definition>
+  <definition>
+    <key>column_debit</key>
+    <value><![CDATA[Ghi nợ]]></value>
+  </definition>
+  <definition>
+    <key>column_credit</key>
+    <value><![CDATA[tín dụng]]></value>
+  </definition>
+  <definition>
+    <key>column_transaction_type</key>
+    <value><![CDATA[Loại giao dịch]]></value>
+  </definition>
+  <definition>
+    <key>text_balance</key>
+    <value><![CDATA[Cân đối:]]></value>
+  </definition>
+  <definition>
+    <key>text_last_login</key>
+    <value><![CDATA[Lân đăng nhập cuôi:]]></value>
+  </definition>
+  <definition>
+    <key>text_never</key>
+    <value><![CDATA[Không bao giờ]]></value>
+  </definition>
+  <definition>
+    <key>popup_title_info</key>
+    <value><![CDATA[thông tin giao dịch]]></value>
+  </definition>
+  <definition>
+    <key>popup_title_insert</key>
+    <value><![CDATA[Chèn mới giao dịch]]></value>
+  </definition>
+  <definition>
+    <key>entry_credit</key>
+    <value><![CDATA[Tín dụng (tăng cân)]]></value>
+  </definition>
+  <definition>
+    <key>entry_debit</key>
+    <value><![CDATA[Nợ (cân đối giảm)]]></value>
+  </definition>
+  <definition>
+    <key>entry_transaction_type</key>
+    <value><![CDATA[Loại giao dịch:]]></value>
+  </definition>
+  <definition>
+    <key>entry_other_type</key>
+    <value><![CDATA[Khác Loại Tuỳ chỉnh giao dịch:]]></value>
+  </definition>
+  <definition>
+    <key>text_option_other_type</key>
+    <value><![CDATA[Khác ...]]></value>
+  </definition>
+  <definition>
+    <key>entry_transaction_description</key>
+    <value><![CDATA[Mô tả (dành cho khách hàng):]]></value>
+  </definition>
+  <definition>
+    <key>entry_transaction_comment</key>
+    <value><![CDATA[Bình luận (để sử dụng nội bộ):]]></value>
+  </definition>
+  <definition>
+    <key>entry_update_date</key>
+    <value><![CDATA[Cập nhật ngày tháng:]]></value>
+  </definition>
+  <definition>
+    <key>entry_create_date</key>
+    <value><![CDATA[Tạo ngày:]]></value>
+  </definition>
+  <definition>
+    <key>error_transaction_type</key>
+    <value><![CDATA[Lỗi: Xin vui lòng điền vào giao dịch trường mẫu loại.]]></value>
+  </definition>
+  <definition>
+    <key>error_empty_debit_credit</key>
+    <value><![CDATA[Lỗi: Xin vui lòng điền ghi nợ hay tín dụng giá trị giao dịch của khách hàng.]]></value>
+  </definition>
+  <definition>
+    <key>text_transaction_success</key>
+    <value><![CDATA[Thành công: Bạn đã sửa đổi giao dịch!]]></value>
+  </definition>
+  <definition>
+    <key>text_edit_address</key>
+    <value><![CDATA[sửa địa chỉ]]></value>
+  </definition>
+  <definition>
+    <key>entry_default</key>
+    <value><![CDATA[Địa chỉ mặc định:]]></value>
+  </definition>
+  <definition>
+    <key>error_delete_default</key>
+    <value><![CDATA[Lỗi: địa chỉ mặc định không thể bị xóa!]]></value>
+  </definition>
+  <definition>
+    <key>error_delete_last</key>
+    <value><![CDATA[Lỗi: bạn phải có ít nhất một địa chỉ!]]></value>
+  </definition>
+  <definition>
+    <key>entry_date_added</key>
+    <value><![CDATA[Ngày thêm vào:]]></value>
+  </definition>
+  <definition>
+    <key>entry_date_modified</key>
+    <value><![CDATA[Ngày sửa đổi:]]></value>
+  </definition>
+  <definition>
+    <key>warning_actonbehalf_additional_store</key>
+    <value><![CDATA[Để hành động thay mặt cho khách hàng trong cửa hàng bổ sung mà bạn cần phải đăng nhập vào phần quản trị của một cửa hàng khác. Tiếp tục?]]></value>
+  </definition>
+  <definition>
+    <key>entry_notify</key>
+    <value><![CDATA[Thông báo cho khách hàng:]]></value>
+  </definition>
+  <definition>
+    <key>text_transaction_notification_subject</key>
+    <value><![CDATA[giao dịch mới đã được đăng lên tài khoản của bạn %s]]></value>
+  </definition>
+  <definition>
+    <key>text_transaction_notification_message</key>
+    <value><![CDATA[giao dịch mới đã được đăng lên tài khoản %s bạn với số tiền của %s. Để biết thêm thông tin chi tiết, đăng nhập vào tài khoản %s]]></value>
+  </definition>
+  <definition>
+    <key>text_total_order</key>
+    <value><![CDATA[Tổng số đơn đặt hàng:]]></value>
+  </definition>
+</definitions>

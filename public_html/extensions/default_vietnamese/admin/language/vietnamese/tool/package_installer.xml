@@ -1,0 +1,252 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Thành công: Package đã được cài đặt thành công.]]></value>
+  </definition>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Package Installer]]></value>
+  </definition>
+  <definition>
+    <key>heading_title_license</key>
+    <value><![CDATA[Thỏa thuận Giấy phép gói]]></value>
+  </definition>
+  <definition>
+    <key>heading_title_ftp</key>
+    <value><![CDATA[thông số truy cập FTP]]></value>
+  </definition>
+  <definition>
+    <key>heading_title_download</key>
+    <value><![CDATA[gói tải]]></value>
+  </definition>
+  <definition>
+    <key>text_preloading</key>
+    <value><![CDATA[Tệp gói% file% sẽ được tải về.]]></value>
+  </definition>
+  <definition>
+    <key>text_loading</key>
+    <value><![CDATA[Tải tập tin. Kích thước: %s. <br/> Nó có thể mất vài giây tùy thuộc vào kết nối của bạn.]]></value>
+  </definition>
+  <definition>
+    <key>text_key_hint</key>
+    <value><![CDATA[Nhập cài đặt chính đây]]></value>
+  </definition>
+  <definition>
+    <key>text_ftp_user</key>
+    <value><![CDATA[FTP Tên tài khoản:]]></value>
+  </definition>
+  <definition>
+    <key>text_ftp_password</key>
+    <value><![CDATA[FTP người dùng Mật khẩu:]]></value>
+  </definition>
+  <definition>
+    <key>text_ftp_host</key>
+    <value><![CDATA[FTP Host:]]></value>
+  </definition>
+  <definition>
+    <key>text_i_agree</key>
+    <value><![CDATA[Tôi đồng ý với các giấy phép]]></value>
+  </definition>
+  <definition>
+    <key>text_agree</key>
+    <value><![CDATA[Đồng ý]]></value>
+  </definition>
+  <definition>
+    <key>text_retry</key>
+    <value><![CDATA[Thử lại]]></value>
+  </definition>
+  <definition>
+    <key>text_disagree</key>
+    <value><![CDATA[Không đồng ý]]></value>
+  </definition>
+  <definition>
+    <key>text_download_error</key>
+    <value><![CDATA[Chúng tôi rất xin lỗi, nhưng đã xảy ra lỗi khi tải file. </br> Thử thêm một lần nữa. </br> Nếu vấn đề vẫn tồn tại tập tin tải về trong lịch sử đặt hàng của bạn và cài đặt bằng tay.]]></value>
+  </definition>
+  <definition>
+    <key>text_continue</key>
+    <value><![CDATA[Tiếp tục]]></value>
+  </definition>
+  <definition>
+    <key>text_disclaimer_heading</key>
+    <value><![CDATA[Disclaimer]]></value>
+  </definition>
+  <definition>
+    <key>text_disclaimer</key>
+    <value><![CDATA[<h3> khách hàng AbanteCart thân mến, </h3><br/> 
+ Bạn đang về để cài đặt phần mở rộng của bên thứ ba để AbanteCart của bạn. <br/><br/> 
+ Hãy đọc và hiểu từ chối trách nhiệm này về phần mở rộng của bên thứ ba mà bạn muốn cài đặt. <br/><br/> 
+ phần mở rộng và dịch vụ của bên thứ ba được cung cấp bởi các nhà cung cấp bên thứ ba. <br/><br/> 
+ Mặc dù, AbanteCart xác nhận chất lượng của các phần mở rộng và các dịch vụ được cung cấp bởi bên thứ ba, AbanterCart không bảo lãnh rằng tất cả các bên thứ ba làm việc mở rộng một cách chính xác hoặc sẽ không gây ra bất kỳ xung đột trong hệ thống. 
+ thành viên AbanteCart và chi nhánh là không có cách nào chịu trách nhiệm hoặc chịu trách nhiệm về các khiếu nại được thực hiện liên quan đến sản phẩm hoặc dịch vụ được cung cấp bởi các nhà cung cấp bên thứ ba. AbanteCart không đảm bảo chất lượng của các phần mở rộng của bên thứ ba hoặc các dịch vụ. Xin gửi trực tiếp câu hỏi của bạn liên quan đến mở rộng của bên thứ ba hoặc các dịch vụ cho các nhà cung cấp bên thứ ba thích hợp. 
+ Nếu bạn lo ngại về bất kỳ nhà cung cấp bên thứ ba vui lòng liên hệ AbanteCart tại <a href="http://www.abantecart.com/contact-us" target="_blank">http://www.abantecart.com/contact-us</a><br/><br/> 
+ Trân trọng, <br/> 
+ AbanteCart <br/> 
+ Giải pháp thương mại điện tử lý tưởng mã nguồn mở]]></value>
+  </definition>
+  <definition>
+    <key>warning_ftp</key>
+    <value><![CDATA[Cảnh báo: Một số thư mục hoặc tập tin không có quyền ghi <span id="see_details">(xem chi tiết)</span><br/> Bạn có thể thay đổi quyền truy cập vào máy chủ của bạn hoặc <br/> sử dụng truy cập ftp máy chủ của bạn để cài đặt (thông thường, nhà cung cấp hosting sẽ gửi thông tin này qua email hoặc bạn có thể quản lý nó trong lưu trữ các công cụ điều khiển) <br/>]]></value>
+  </definition>
+  <definition>
+    <key>warning_already_installed</key>
+    <value><![CDATA[<p class="success"> Bạn đã có%% mở rộng HẠN cài đặt! Nếu bạn muốn tham gia thảo luận và nâng cấp, vui lòng xác nhận. </p>]]></value>
+  </definition>
+  <definition>
+    <key>warning_already_installed_uninstall</key>
+    <value><![CDATA[Bạn đã có phần mở rộng này &quot;% HẠN%&quot; cài đặt! Nếu bạn muốn tiến hành cài đặt lại, xin vui lòng gỡ bỏ và xóa mở rộng đầu tiên.]]></value>
+  </definition>
+  <definition>
+    <key>error_pack_file_not_found</key>
+    <value><![CDATA[Lỗi: Không thể giải nén mở rộng từ các kho lưu trữ để %s. Kiểm tra <a href="#admin#rt=tool/error_log" target="_blank">đăng nhập</a> lỗi]]></value>
+  </definition>
+  <definition>
+    <key>error_mp</key>
+    <value><![CDATA[lỗi Marketplace:]]></value>
+  </definition>
+  <definition>
+    <key>error_repository</key>
+    <value><![CDATA[Lỗi: Không thể tải tập tin. lỗi kho hoặc phím mở rộng không hợp lệ. Thử thêm một lần nữa. Nếu vấn đề vẫn tồn tại tập tin tải về trong lịch sử đặt hàng của bạn và cài đặt bằng tay.]]></value>
+  </definition>
+  <definition>
+    <key>error_ftp_user</key>
+    <value><![CDATA[Lỗi: FTP User Name là trống rỗng.]]></value>
+  </definition>
+  <definition>
+    <key>error_ftp_password</key>
+    <value><![CDATA[Lỗi: FTP người dùng Mật khẩu là trống rỗng.]]></value>
+  </definition>
+  <definition>
+    <key>error_ftp_connect</key>
+    <value><![CDATA[Lỗi: Không thể kết nối đến máy chủ ftp-]]></value>
+  </definition>
+  <definition>
+    <key>error_ftp_login</key>
+    <value><![CDATA[Lỗi: Không thể đăng nhập vào ftp-server. Sai username hoặc password.]]></value>
+  </definition>
+  <definition>
+    <key>error_ftp_path</key>
+    <value><![CDATA[Lỗi: Không thể tìm thấy thư mục gốc của AbanteCart bằng đường FTP. <br/> Hãy thử để nó trống cho tìm kiếm tự động.]]></value>
+  </definition>
+  <definition>
+    <key>error_ftp_path_array</key>
+    <value><![CDATA[Lỗi: Không thể tự động nhận ra thư mục gốc của AbanteCart trong FTP-mode. <br/> Vui lòng điền vào trường mẫu FTP-path. <br/> gợi ý đường dẫn là:]]></value>
+  </definition>
+  <definition>
+    <key>error_dir_permission</key>
+    <value><![CDATA[Không thể lưu tập tin vì mục là không thể ghi:]]></value>
+  </definition>
+  <definition>
+    <key>error_package_structure</key>
+    <value><![CDATA[Lỗi: Có thể gói là bị hỏng. Cấu trúc của lỗi gói.]]></value>
+  </definition>
+  <definition>
+    <key>error_package_config_xml</key>
+    <value><![CDATA[Lỗi: Không thể xác định vị trí tập tin package.xml bên gia hạn trích xuất. Có thể mở rộng không được chiết xuất một cách chính xác. Kiểm tra <a href="#admin#rt=tool/error_log" target="_blank">đăng nhập</a> lỗi]]></value>
+  </definition>
+  <definition>
+    <key>error_package_config2</key>
+    <value><![CDATA[Lỗi: Không thể tìm thấy chế độ cài đặt trong package.xml bên trong gói.]]></value>
+  </definition>
+  <definition>
+    <key>error_package_info_not_exists</key>
+    <value><![CDATA[Lỗi: Không thể tìm thấy gói thông tin phiên về tải này.]]></value>
+  </definition>
+  <definition>
+    <key>error_unpack</key>
+    <value><![CDATA[Lỗi: Không thể giải nén gói &quot;% GÓI%&quot; sau khi tải về. lỗi Lưu trữ. Xem bản ghi lỗi để biết chi tiết.]]></value>
+  </definition>
+  <definition>
+    <key>error_move</key>
+    <value><![CDATA[Lỗi: Không thể di chuyển mã gói sau khi giải nén. Hãy thử kiểm tra lại quyền của thư mục:]]></value>
+  </definition>
+  <definition>
+    <key>error_install_mode</key>
+    <value><![CDATA[Lỗi: Không thể cài đặt phần mở rộng &quot;% gói%&quot; bởi vì nó đã được cài đặt. Bạn cần deinstall và xóa nó đầu tiên hoặc nhận được gói nâng cấp.]]></value>
+  </definition>
+  <definition>
+    <key>error_install_mode2</key>
+    <value><![CDATA[Lỗi: Không thể nâng cấp mở rộng &quot;% gói%&quot; bởi vì nó không được cài đặt. Bạn cần có được gói để cài đặt.]]></value>
+  </definition>
+  <definition>
+    <key>error_version_compatibility</key>
+    <value><![CDATA[Lỗi: Không thể cài đặt gói. Phiên bản Giỏ hàng của bạn <b>là% CURRENT_VERSION%.</b> Phiên bản <b>(s)% PHIÊN BẢN%</b> yêu cầu.]]></value>
+  </definition>
+  <definition>
+    <key>error_package_version_compatibility</key>
+    <value><![CDATA[Lỗi: Không thể nâng cấp gói. phiên bản gói mới hơn đã được cài đặt.]]></value>
+  </definition>
+  <definition>
+    <key>error_install</key>
+    <value><![CDATA[Lỗi: Không thể cài đặt gói. Xin vui lòng xem System -&gt; Lỗi Đăng nhập để biết chi tiết.]]></value>
+  </definition>
+  <definition>
+    <key>error_core_version</key>
+    <value><![CDATA[Lỗi: Bạn có phiên bản AbanteCart% VERSION% cài đặt. <br/> này gói nâng cấp chỉ dành cho phiên bản thấp hơn]]></value>
+  </definition>
+  <definition>
+    <key>text_interrupt</key>
+    <value><![CDATA[Làm gián đoạn]]></value>
+  </definition>
+  <definition>
+    <key>confirm_version_incompatibility</key>
+    <value><![CDATA[bản hiện tại của phần mở rộng này không được xác minh cho các phiên bản của AbanteCart (v %s). <br/> mở rộng xây dựng được quy định cho AbanteCart v %s. <br/> 
+ Đây không phải là một vấn đề, nhưng nếu bạn nhận thấy vấn đề hoặc không tương thích, xin vui lòng liên hệ với nhà phát triển phần mở rộng.]]></value>
+  </definition>
+  <definition>
+    <key>error_move_ftp</key>
+    <value><![CDATA[Lỗi: Không thể di chuyển mã gói sau khi giải nén. Có lẽ con đường FTP là không chính xác. <br/> Ngoài ra, xin vui lòng, hãy thử để kiểm tra lại quyền của thư mục:]]></value>
+  </definition>
+  <definition>
+    <key>text_network_install</key>
+    <value><![CDATA[Cài đặt mạng]]></value>
+  </definition>
+  <definition>
+    <key>text_extension_upload</key>
+    <value><![CDATA[Extension Tải lên]]></value>
+  </definition>
+  <definition>
+    <key>error_archive_extension</key>
+    <value><![CDATA[Lỗi: Chỉ có file .tar.gz hỗ trợ.]]></value>
+  </definition>
+  <definition>
+    <key>entry_upload_file</key>
+    <value><![CDATA[Cập nhật dử liệu:]]></value>
+  </definition>
+  <definition>
+    <key>entry_upload_url</key>
+    <value><![CDATA[Chèn URL:]]></value>
+  </definition>
+  <definition>
+    <key>error_move_backup</key>
+    <value><![CDATA[Lỗi: có thể các file không sao lưu trước khi nâng cấp. Kiểm tra lại quyền của thư mục:]]></value>
+  </definition>
+  <definition>
+    <key>text_core_upgrade_title</key>
+    <value><![CDATA[Abantecart lõi nâng cấp]]></value>
+  </definition>
+  <definition>
+    <key>text_core_upgrade_attention</key>
+    <value><![CDATA[Chú ý! 
+ AbanteCart sắp được nâng cấp lên phiên bản %s!]]></value>
+  </definition>
+  <definition>
+    <key>text_core_upgrade_warning</key>
+    <value><![CDATA[Không thể phục hồi sau khi bắt đầu quá trình nâng cấp. 
+ cơ sở dữ liệu đầy đủ và sao lưu đang rất khuyến khích. 
+ nâng cấp thử nghiệm trên các trang web không trực tiếp đầu tiên. Nâng cấp trên các trang web trực tiếp không được khuyến khích.]]></value>
+  </definition>
+  <definition>
+    <key>text_upgrade_now</key>
+    <value><![CDATA[Nâng cấp ngay bây giờ!]]></value>
+  </definition>
+  <definition>
+    <key>error_additional_help_text</key>
+    <value><![CDATA[Bị mắc kẹt? Không thành vấn đề. Bạn có thể cài đặt phần mở rộng một cách khác. Kiểm tra <a href="http://docs.abantecart.com/pages/extensions/install.html#FTPinstall" target="_blank">liên kết này giúp đỡ</a>]]></value>
+  </definition>
+  <definition>
+    <key>error_notconnected</key>
+    <value><![CDATA[Không thể nâng cấp hoặc cài đặt phần mở rộng từ thị trường. Cửa hàng này không được chứng thực / kết nối. Vui lòng xác thực và kết nối với các <a href="%s">thị trường</a>]]></value>
+  </definition>
+</definitions>

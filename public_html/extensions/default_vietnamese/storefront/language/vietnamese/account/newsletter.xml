@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Bản tin đăng ký]]></value>
+  </definition>
+  <definition>
+    <key>text_account</key>
+    <value><![CDATA[Tài khoản]]></value>
+  </definition>
+  <definition>
+    <key>text_newsletter</key>
+    <value><![CDATA[Bản tin]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Thành công: thuê bao nhận bản tin của bạn đã được cập nhật thành công!]]></value>
+  </definition>
+  <definition>
+    <key>entry_newsletter</key>
+    <value><![CDATA[Theo dõi:]]></value>
+  </definition>
+  <definition>
+    <key>text_customer_registration</key>
+    <value><![CDATA[Đăng ký khách hàng]]></value>
+  </definition>
+  <definition>
+    <key>entry_captcha</key>
+    <value><![CDATA[Nhập mã:]]></value>
+  </definition>
+  <definition>
+    <key>error_captcha</key>
+    <value><![CDATA[xác minh của con người đã không thành công! Vui lòng thử agan.]]></value>
+  </definition>
+</definitions>

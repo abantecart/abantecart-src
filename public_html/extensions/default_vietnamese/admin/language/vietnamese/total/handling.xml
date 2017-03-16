@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Phí xử lý]]></value>
+  </definition>
+  <definition>
+    <key>total_name</key>
+    <value><![CDATA[Phí xử lý]]></value>
+  </definition>
+  <definition>
+    <key>text_total</key>
+    <value><![CDATA[Các tổng số thứ tự]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Thành công: Bạn đã cập nhật tổng phí xử lý!]]></value>
+  </definition>
+  <definition>
+    <key>entry_total</key>
+    <value><![CDATA[Order Total: <span class="help">số lượng đặt hàng tối thiểu phải đạt được để áp dụng lệ phí. Nếu tổng số đơn đặt hàng sẽ vượt quá số tiền này, xử lý feee sẽ không được áp dụng. Giá trị này được ghi đè với khung cảnh thanh toán cụ thể.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_total_placeholder</key>
+    <value><![CDATA[Số lượng đơn đặt hàng]]></value>
+  </definition>
+  <definition>
+    <key>entry_fee</key>
+    <value><![CDATA[Lệ phí: <span class="help">Lệ phí được thêm vào để đặt hàng tổng cộng nếu điều kiện số tiền tối thiểu không được đáp ứng. Số tiền này được ghi đè bởi khung cảnh thanh toán cụ thể</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_payment_fee</key>
+    <value><![CDATA[Lệ phí: <span class="help">Lệ phí được thêm vào để đặt hàng tổng cộng nếu tình trạng số lượng phụ tổng tối thiểu không được đáp ứng. Số tiền này ghi đè thiết lập lệ phí chính</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_payment</key>
+    <value><![CDATA[Thanh <span class="help">toán: Chọn thanh toán cụ thể bạn cần phải thêm chi phí để. Các thiết lập này sẽ ghi đè lên các thiết lập chính nếu thanh toán được sử dụng bởi khách hàng.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_order_subtotal</key>
+    <value><![CDATA[Đặt hàng Tổng số phụ: <span class="help">Để tối thiểu lượng tiểu tổng để đạt được áp dụng lệ phí. Điều này sẽ ghi đè thiết lập chính</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_tax</key>
+    <value><![CDATA[Thuế Class: <span class="help">Chọn nếu bạn cần thuế được áp dụng trên đầu trang của phí xử lý</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_status</key>
+    <value><![CDATA[Trạng thái:]]></value>
+  </definition>
+  <definition>
+    <key>entry_sort_order</key>
+    <value><![CDATA[Thứ tự sắp xếp:]]></value>
+  </definition>
+  <definition>
+    <key>entry_calculation_order</key>
+    <value><![CDATA[Tính toán theo thứ tự:]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Cảnh báo: Bạn không có quyền sửa đổi tổng phí xử lý!]]></value>
+  </definition>
+  <definition>
+    <key>error_number</key>
+    <value><![CDATA[Cảnh báo: tổng số thứ tự và xử lý các khoản phí phải là một con số!]]></value>
+  </definition>
+</definitions>

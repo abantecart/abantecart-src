@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Giỏ hàng]]></value>
+  </definition>
+  <definition>
+    <key>text_basket</key>
+    <value><![CDATA[Cái rổ]]></value>
+  </definition>
+  <definition>
+    <key>text_sub_total</key>
+    <value><![CDATA[Tổng số phụ:]]></value>
+  </definition>
+  <definition>
+    <key>text_weight</key>
+    <value><![CDATA[Giỏ Trọng lượng:]]></value>
+  </definition>
+  <definition>
+    <key>text_error</key>
+    <value><![CDATA[Giỏ hàng của bạn đang trống!]]></value>
+  </definition>
+  <definition>
+    <key>column_remove</key>
+    <value><![CDATA[Tẩy]]></value>
+  </definition>
+  <definition>
+    <key>column_image</key>
+    <value><![CDATA[hình ảnh]]></value>
+  </definition>
+  <definition>
+    <key>column_name</key>
+    <value><![CDATA[Tên]]></value>
+  </definition>
+  <definition>
+    <key>column_model</key>
+    <value><![CDATA[Mô hình]]></value>
+  </definition>
+  <definition>
+    <key>column_quantity</key>
+    <value><![CDATA[Số lượng]]></value>
+  </definition>
+  <definition>
+    <key>column_price</key>
+    <value><![CDATA[đơn giá]]></value>
+  </definition>
+  <definition>
+    <key>column_total</key>
+    <value><![CDATA[Toàn bộ]]></value>
+  </definition>
+  <definition>
+    <key>text_continue_shopping</key>
+    <value><![CDATA[tiếp tục mua hàng]]></value>
+  </definition>
+  <definition>
+    <key>text_coupon_codes</key>
+    <value><![CDATA[Áp dụng Coupon Code]]></value>
+  </definition>
+  <definition>
+    <key>text_estimate_shipping_tax</key>
+    <value><![CDATA[Ước tính hàng &amp; Thuế]]></value>
+  </definition>
+  <definition>
+    <key>text_estimate_country</key>
+    <value><![CDATA[Quốc gia và Nhà nước]]></value>
+  </definition>
+  <definition>
+    <key>text_estimate_postcode</key>
+    <value><![CDATA[ZIP / Post Mã]]></value>
+  </definition>
+  <definition>
+    <key>button_text_estimate</key>
+    <value><![CDATA[Ước tính]]></value>
+  </definition>
+  <definition>
+    <key>text_estimate_shipments</key>
+    <value><![CDATA[lô hàng]]></value>
+  </definition>
+  <definition>
+    <key>error_coupon</key>
+    <value><![CDATA[Lỗi: Phiếu giảm giá là không hợp lệ, hết hạn hoặc đạt đó là giới hạn sử dụng!]]></value>
+  </definition>
+  <definition>
+    <key>error_stock</key>
+    <value><![CDATA[Sản phẩm được đánh dấu bằng *** không có sẵn trong số lượng mong muốn hoặc hết hàng!]]></value>
+  </definition>
+  <definition>
+    <key>error_required_options</key>
+    <value><![CDATA[Vui lòng chọn tất cả các tùy chọn cần thiết!]]></value>
+  </definition>
+  <definition>
+    <key>error_order_minimum</key>
+    <value><![CDATA[Để lượng tiểu tổng số của bạn không đáp ứng được số tiền tối thiểu của %s yêu cầu. Hãy thêm sản phẩm vào giỏ hàng của bạn!]]></value>
+  </definition>
+  <definition>
+    <key>error_order_maximum</key>
+    <value><![CDATA[Để lượng tiểu tổng vượt quá số tiền tối đa %s cho phép mỗi đơn hàng. Hãy loại bỏ một số mặt hàng từ giỏ hàng của bạn!]]></value>
+  </definition>
+  <definition>
+    <key>error_empty_file_data</key>
+    <value><![CDATA[File dữ liệu bị hỏng hoặc bị rỗng.]]></value>
+  </definition>
+  <definition>
+    <key>error_empty_file_name</key>
+    <value><![CDATA[Tên tập tin có sản phẩm nào!]]></value>
+  </definition>
+  <definition>
+    <key>error_file_extension</key>
+    <value><![CDATA[Chỉ những tập tin với phần mở rộng (s) %s được (đang) được phép!]]></value>
+  </definition>
+  <definition>
+    <key>error_min_file_size</key>
+    <value><![CDATA[Kích thước tập tin tối thiểu để tải lên là %s Kb.]]></value>
+  </definition>
+  <definition>
+    <key>error_max_file_size</key>
+    <value><![CDATA[Kích thước tối đa để tải lên là %s Kb.]]></value>
+  </definition>
+  <definition>
+    <key>text_coupon_success</key>
+    <value><![CDATA[Thành công: phiếu giảm giá của bạn đã được áp dụng!]]></value>
+  </definition>
+  <definition>
+    <key>text_coupon_removal</key>
+    <value><![CDATA[Thành công: Phiếu giảm giá đã được loại bỏ!]]></value>
+  </definition>
+  <definition>
+    <key>error_quantity_maximum</key>
+    <value><![CDATA[số lượng được phép sản phẩm của vượt quá. Số lượng đã được thiết lập để tối đa.]]></value>
+  </definition>
+  <definition>
+    <key>error_quantity_minimum</key>
+    <value><![CDATA[số lượng được phép sản phẩm là dưới mức tối thiểu cần thiết. Số lượng đã được thiết lập để số tiền tối thiểu.]]></value>
+  </definition>
+</definitions>

@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[bảng điều khiển]]></value>
+  </definition>
+  <definition>
+    <key>text_overview</key>
+    <value><![CDATA[Tổng quan]]></value>
+  </definition>
+  <definition>
+    <key>text_statistics</key>
+    <value><![CDATA[Số liệu thống kê]]></value>
+  </definition>
+  <definition>
+    <key>text_latest_10_orders</key>
+    <value><![CDATA[Mới nhất 10 Đơn đặt hàng]]></value>
+  </definition>
+  <definition>
+    <key>text_total_sale</key>
+    <value><![CDATA[Tổng doanh thu:]]></value>
+  </definition>
+  <definition>
+    <key>text_total_sale_year</key>
+    <value><![CDATA[Tổng doanh Năm nay:]]></value>
+  </definition>
+  <definition>
+    <key>text_total_order</key>
+    <value><![CDATA[Tổng số đơn đặt hàng:]]></value>
+  </definition>
+  <definition>
+    <key>text_total_customer</key>
+    <value><![CDATA[Trong số khách hàng:]]></value>
+  </definition>
+  <definition>
+    <key>text_total_customer_approval</key>
+    <value><![CDATA[Khách hàng chờ phê duyệt:]]></value>
+  </definition>
+  <definition>
+    <key>text_total_product</key>
+    <value><![CDATA[Số sản phẩm:]]></value>
+  </definition>
+  <definition>
+    <key>text_total_review</key>
+    <value><![CDATA[Trong số Nhận xét:]]></value>
+  </definition>
+  <definition>
+    <key>text_total_review_approval</key>
+    <value><![CDATA[Nhận xét chờ phê duyệt:]]></value>
+  </definition>
+  <definition>
+    <key>text_day</key>
+    <value><![CDATA[Hôm nay]]></value>
+  </definition>
+  <definition>
+    <key>text_week</key>
+    <value><![CDATA[Tuần này]]></value>
+  </definition>
+  <definition>
+    <key>text_month</key>
+    <value><![CDATA[Tháng này]]></value>
+  </definition>
+  <definition>
+    <key>text_year</key>
+    <value><![CDATA[Năm nay]]></value>
+  </definition>
+  <definition>
+    <key>text_order</key>
+    <value><![CDATA[Tổng số đơn đặt hàng]]></value>
+  </definition>
+  <definition>
+    <key>text_order_short</key>
+    <value><![CDATA[Tổng số đơn đặt hàng]]></value>
+  </definition>
+  <definition>
+    <key>text_customer</key>
+    <value><![CDATA[Tổng số khách hàng]]></value>
+  </definition>
+  <definition>
+    <key>column_order</key>
+    <value><![CDATA[Order ID]]></value>
+  </definition>
+  <definition>
+    <key>column_name</key>
+    <value><![CDATA[tên khách hàng]]></value>
+  </definition>
+  <definition>
+    <key>column_status</key>
+    <value><![CDATA[Trạng thái]]></value>
+  </definition>
+  <definition>
+    <key>column_date_added</key>
+    <value><![CDATA[ngày thêm]]></value>
+  </definition>
+  <definition>
+    <key>column_total</key>
+    <value><![CDATA[Toàn bộ]]></value>
+  </definition>
+  <definition>
+    <key>column_firstname</key>
+    <value><![CDATA[Tên đầu tiên]]></value>
+  </definition>
+  <definition>
+    <key>column_lastname</key>
+    <value><![CDATA[tên họ]]></value>
+  </definition>
+  <definition>
+    <key>column_action</key>
+    <value><![CDATA[Hoạt động]]></value>
+  </definition>
+  <definition>
+    <key>entry_range</key>
+    <value><![CDATA[Chọn Range:]]></value>
+  </definition>
+  <definition>
+    <key>orders_text_all</key>
+    <value><![CDATA[Tất cả các đơn đặt hàng]]></value>
+  </definition>
+  <definition>
+    <key>text_customer_all</key>
+    <value><![CDATA[Tất cả khách hàng]]></value>
+  </definition>
+  <definition>
+    <key>text_latest_10_customers</key>
+    <value><![CDATA[Đăng ký mới nhất]]></value>
+  </definition>
+  <definition>
+    <key>column_email</key>
+    <value><![CDATA[E-mail]]></value>
+  </definition>
+</definitions>

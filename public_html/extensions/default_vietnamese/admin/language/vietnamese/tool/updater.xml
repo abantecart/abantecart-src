@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[quản lý cập nhật]]></value>
+  </definition>
+  <definition>
+    <key>text_checkupdates</key>
+    <value><![CDATA[kiểm tra cập nhật]]></value>
+  </definition>
+  <definition>
+    <key>column_name</key>
+    <value><![CDATA[Tên Extension]]></value>
+  </definition>
+  <definition>
+    <key>column_type</key>
+    <value><![CDATA[Kiểu]]></value>
+  </definition>
+  <definition>
+    <key>column_category</key>
+    <value><![CDATA[Thể loại]]></value>
+  </definition>
+  <definition>
+    <key>column_status</key>
+    <value><![CDATA[Trạng thái]]></value>
+  </definition>
+  <definition>
+    <key>column_version</key>
+    <value><![CDATA[Phiên bản hiện tại]]></value>
+  </definition>
+  <definition>
+    <key>column_new_version</key>
+    <value><![CDATA[Phiên bản mới]]></value>
+  </definition>
+  <definition>
+    <key>column_action</key>
+    <value><![CDATA[Hoạt động]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Thành công: Phần mở rộng đã được cập nhật thành công!]]></value>
+  </definition>
+  <definition>
+    <key>text_update</key>
+    <value><![CDATA[cập nhật]]></value>
+  </definition>
+  <definition>
+    <key>entry_restore_exts</key>
+    <value><![CDATA[Khôi phục phần mở rộng backup:]]></value>
+  </definition>
+  <definition>
+    <key>entry_update</key>
+    <value><![CDATA[Tin cập nhật:]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Cảnh báo: Bạn không có quyền sửa đổi thư mục:]]></value>
+  </definition>
+  <definition>
+    <key>warning_server</key>
+    <value><![CDATA[Server với các bản cập nhật inaccesible.]]></value>
+  </definition>
+  <definition>
+    <key>text_notice_title</key>
+    <value><![CDATA[Cập nhật Thông báo cho% HẠN%]]></value>
+  </definition>
+  <definition>
+    <key>text_notice_text</key>
+    <value><![CDATA[&#39;Phiên bản mới của phần mở rộng &quot;% HẠN%&quot; sẵn. Xin vui lòng, đi đến% LINK% và nâng cấp nó.]]></value>
+  </definition>
+  <definition>
+    <key>warning_updates</key>
+    <value><![CDATA[Không thể có được thông tin về bản cập nhật.]]></value>
+  </definition>
+  <definition>
+    <key>error_empty</key>
+    <value><![CDATA[Cảnh báo: Các tập tin bạn đã tải lên rỗng!]]></value>
+  </definition>
+  <definition>
+    <key>error_exts_list</key>
+    <value><![CDATA[Cảnh báo: danh sách mở rộng không phải là mảng!]]></value>
+  </definition>
+  <definition>
+    <key>text_nothing_todo</key>
+    <value><![CDATA[phần mở rộng của bạn được cập nhật. Không có gì làm.]]></value>
+  </definition>
+  <definition>
+    <key>text_connect</key>
+    <value><![CDATA[Kết nối]]></value>
+  </definition>
+  <definition>
+    <key>text_marketplace_connect</key>
+    <value><![CDATA[Kết nối thị trường]]></value>
+  </definition>
+  <definition>
+    <key>text_marketplace_connect_your_store</key>
+    <value><![CDATA[Hãy kết nối Store của bạn để Marketplace]]></value>
+  </definition>
+  <definition>
+    <key>text_note</key>
+    <value><![CDATA[Lưu ý: Cập nhật chỉ dành cho các cửa hàng được kết nối với lịch sử mua.]]></value>
+  </definition>
+</definitions>

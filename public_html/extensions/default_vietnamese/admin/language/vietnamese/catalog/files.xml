@@ -1,0 +1,255 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[tập tin sản phẩm]]></value>
+  </definition>
+  <definition>
+    <key>text_product</key>
+    <value><![CDATA[Sản phẩm]]></value>
+  </definition>
+  <definition>
+    <key>text_edit_product_file</key>
+    <value><![CDATA[Edit File sản phẩm]]></value>
+  </definition>
+  <definition>
+    <key>tab_files</key>
+    <value><![CDATA[Các tập tin]]></value>
+  </definition>
+  <definition>
+    <key>tab_general</key>
+    <value><![CDATA[Chung]]></value>
+  </definition>
+  <definition>
+    <key>tab_attributes</key>
+    <value><![CDATA[Tải về thuộc tính]]></value>
+  </definition>
+  <definition>
+    <key>entry_file_icon</key>
+    <value><![CDATA[Biểu tượng tập tin]]></value>
+  </definition>
+  <definition>
+    <key>entry_status</key>
+    <value><![CDATA[Trạng thái]]></value>
+  </definition>
+  <definition>
+    <key>entry_resource</key>
+    <value><![CDATA[Resource]]></value>
+  </definition>
+  <definition>
+    <key>entry_name</key>
+    <value><![CDATA[Tên]]></value>
+  </definition>
+  <definition>
+    <key>entry_download_name</key>
+    <value><![CDATA[Tải Tên]]></value>
+  </definition>
+  <definition>
+    <key>entry_mask</key>
+    <value><![CDATA[Tải về mặt nạ <span class="help">Filename bí danh cho đầu ra của khách hàng tải về</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_file_full_path</key>
+    <value><![CDATA[File Server Đường dẫn]]></value>
+  </definition>
+  <definition>
+    <key>entry_file_max_downloads</key>
+    <value><![CDATA[Max Tải về]]></value>
+  </definition>
+  <definition>
+    <key>entry_file_sort_order</key>
+    <value><![CDATA[Thứ tự sắp xếp]]></value>
+  </definition>
+  <definition>
+    <key>entry_file_status</key>
+    <value><![CDATA[Trạng thái]]></value>
+  </definition>
+  <definition>
+    <key>entry_file_push_to_customers</key>
+    <value><![CDATA[Đẩy cho khách hàng]]></value>
+  </definition>
+  <definition>
+    <key>entry_file_activation</key>
+    <value><![CDATA[Chế độ kích hoạt]]></value>
+  </definition>
+  <definition>
+    <key>text_add_file</key>
+    <value><![CDATA[Thêm tập tin]]></value>
+  </definition>
+  <definition>
+    <key>text_new_file</key>
+    <value><![CDATA[Thêm New File]]></value>
+  </definition>
+  <definition>
+    <key>text_download_attributes</key>
+    <value><![CDATA[Tải về thuộc tính]]></value>
+  </definition>
+  <definition>
+    <key>text_download_information</key>
+    <value><![CDATA[Chung]]></value>
+  </definition>
+  <definition>
+    <key>entry_date_added</key>
+    <value><![CDATA[thêm vào]]></value>
+  </definition>
+  <definition>
+    <key>entry_date_modified</key>
+    <value><![CDATA[Được thay đổi]]></value>
+  </definition>
+  <definition>
+    <key>entry_max_downloads</key>
+    <value><![CDATA[Max tải <span class="help">Tính của tải cho phép khách hàng</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_activate</key>
+    <value><![CDATA[<span class="help">Tải</span> kích hoạt <span class="help">sẽ được kích hoạt trên các sự kiện được lựa chọn. <br/> Ví dụ: Ngay lập tức. Download có thể kích hoạt sau khi đặt hàng được đặt, không phụ thuộc vào trạng thái đơn hàng</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_sort_order</key>
+    <value><![CDATA[Thứ tự sắp xếp]]></value>
+  </definition>
+  <definition>
+    <key>entry_expire_days</key>
+    <value><![CDATA[Hết Hạn ngày <span class="help">Tính của ngày kể từ ngày mua</span>]]></value>
+  </definition>
+  <definition>
+    <key>text_before_order</key>
+    <value><![CDATA[trước khi tự]]></value>
+  </definition>
+  <definition>
+    <key>text_immediately</key>
+    <value><![CDATA[Ngay]]></value>
+  </definition>
+  <definition>
+    <key>text_on_order_status</key>
+    <value><![CDATA[về Tình hình đơn hàng]]></value>
+  </definition>
+  <definition>
+    <key>text_manually</key>
+    <value><![CDATA[thủ]]></value>
+  </definition>
+  <definition>
+    <key>text_success_download_save</key>
+    <value><![CDATA[Thành công: Bạn đã sửa đổi tập tin!]]></value>
+  </definition>
+  <definition>
+    <key>error_download_exists</key>
+    <value><![CDATA[Lỗi: Không thể để cập nhật tải vì nó không tồn tại trong cơ sở dữ liệu!]]></value>
+  </definition>
+  <definition>
+    <key>error_download_name</key>
+    <value><![CDATA[Lỗi: Tải về tên phải có chiều dài từ 2 đến 128 ký tự!]]></value>
+  </definition>
+  <definition>
+    <key>error_max_downloads</key>
+    <value><![CDATA[Lỗi: tải tối đa đếm phải lớn 0!]]></value>
+  </definition>
+  <definition>
+    <key>error_activate</key>
+    <value><![CDATA[Lỗi: chọn hành động để kích hoạt các download!]]></value>
+  </definition>
+  <definition>
+    <key>error_order_status</key>
+    <value><![CDATA[Lỗi: chọn trạng thái đơn hàng để kích hoạt các download!]]></value>
+  </definition>
+  <definition>
+    <key>error_download_attributes</key>
+    <value><![CDATA[Tải về thuộc tính Lỗi (s):]]></value>
+  </definition>
+  <definition>
+    <key>text_shared_downloads</key>
+    <value><![CDATA[Shared Downloads]]></value>
+  </definition>
+  <definition>
+    <key>text_create_download</key>
+    <value><![CDATA[Tạo download mới]]></value>
+  </definition>
+  <definition>
+    <key>text_path</key>
+    <value><![CDATA[đường dẫn tương đối đến tập tin]]></value>
+  </definition>
+  <definition>
+    <key>text_preview</key>
+    <value><![CDATA[Xem trước]]></value>
+  </definition>
+  <definition>
+    <key>entry_shared</key>
+    <value><![CDATA[chia sẻ Tải về]]></value>
+  </definition>
+  <definition>
+    <key>text_assign</key>
+    <value><![CDATA[Tiết kiệm]]></value>
+  </definition>
+  <definition>
+    <key>text_assigned_to</key>
+    <value><![CDATA[Ngoài ra giao cho:]]></value>
+  </definition>
+  <definition>
+    <key>text_select_shared_downloads</key>
+    <value><![CDATA[Chọn tải chia sẻ]]></value>
+  </definition>
+  <definition>
+    <key>error_selected_downloads</key>
+    <value><![CDATA[Cảnh báo: Hãy chọn tải chia sẻ cho assign.]]></value>
+  </definition>
+  <definition>
+    <key>text_map_success</key>
+    <value><![CDATA[Thành công: Bạn đã chỉ định tải chia sẻ đến sản phẩm!]]></value>
+  </definition>
+  <definition>
+    <key>text_delete_or_refuse</key>
+    <value><![CDATA[xóa hoặc từ chối (vì được chia sẻ)]]></value>
+  </definition>
+  <definition>
+    <key>text_confirm_delete</key>
+    <value><![CDATA[Xác nhận tải về xóa / từ chối]]></value>
+  </definition>
+  <definition>
+    <key>text_success_remove</key>
+    <value><![CDATA[Thành công: sản phẩm danh sách file đã thay đổi!]]></value>
+  </definition>
+  <definition>
+    <key>text_push</key>
+    <value><![CDATA[Đẩy]]></value>
+  </definition>
+  <definition>
+    <key>text_push_to_customers</key>
+    <value><![CDATA[Đẩy Khách]]></value>
+  </definition>
+  <definition>
+    <key>text_push_to_orders</key>
+    <value><![CDATA[Đẩy Download để %s Đơn đặt hàng]]></value>
+  </definition>
+  <definition>
+    <key>success_push_to_orders</key>
+    <value><![CDATA[Thành công: Tải được đẩy lên %s order (s) thành công]]></value>
+  </definition>
+  <definition>
+    <key>text_no_download_attributes_yet</key>
+    <value><![CDATA[Không cần tải về các thuộc tính nào. <a href="%s" target="_blank">Nhấn vào đây để thêm</a>]]></value>
+  </definition>
+  <definition>
+    <key>text_confirm_push</key>
+    <value><![CDATA[Xác nhận?]]></value>
+  </definition>
+  <definition>
+    <key>error_downloads_disabled</key>
+    <value><![CDATA[Cảnh báo: Tải xuống là vô hiệu hóa trong lưu các thiết lập. <a href="#admin#rt=setting/setting&active=general" target="new">Nhấn vào đây để sửa</a> !]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Cảnh báo: Bạn không có quyền sửa đổi các tập tin sản phẩm!]]></value>
+  </definition>
+  <definition>
+    <key>error_file</key>
+    <value><![CDATA[Hãy thiết lập các tập tin để tải về.]]></value>
+  </definition>
+  <definition>
+    <key>attention_shared</key>
+    <value><![CDATA[Bạn muốn chỉnh sửa chia sẻ tải. Chỉnh sửa sẽ ảnh hưởng đến các sản phẩm khác.]]></value>
+  </definition>
+  <definition>
+    <key>text_shared_with</key>
+    <value><![CDATA[Đã được chia sẻ với:]]></value>
+  </definition>
+</definitions>

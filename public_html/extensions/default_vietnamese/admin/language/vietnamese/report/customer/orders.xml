@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Đơn đặt hàng của khách hàng]]></value>
+  </definition>
+  <definition>
+    <key>column_customer_id</key>
+    <value><![CDATA[ID khách hàng]]></value>
+  </definition>
+  <definition>
+    <key>column_customer</key>
+    <value><![CDATA[tên khách hàng]]></value>
+  </definition>
+  <definition>
+    <key>column_group</key>
+    <value><![CDATA[Nhóm khách hàng]]></value>
+  </definition>
+  <definition>
+    <key>column_order_count</key>
+    <value><![CDATA[Đơn đặt hàng Đếm]]></value>
+  </definition>
+  <definition>
+    <key>column_total</key>
+    <value><![CDATA[Toàn bộ]]></value>
+  </definition>
+</definitions>

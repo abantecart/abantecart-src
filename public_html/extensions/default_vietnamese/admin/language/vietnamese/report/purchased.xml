@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Sản phẩm đã mua Báo cáo]]></value>
+  </definition>
+  <definition>
+    <key>column_name</key>
+    <value><![CDATA[tên sản phẩm]]></value>
+  </definition>
+  <definition>
+    <key>column_model</key>
+    <value><![CDATA[Mô hình]]></value>
+  </definition>
+  <definition>
+    <key>column_quantity</key>
+    <value><![CDATA[Số lượng]]></value>
+  </definition>
+  <definition>
+    <key>column_total</key>
+    <value><![CDATA[Toàn bộ]]></value>
+  </definition>
+</definitions>

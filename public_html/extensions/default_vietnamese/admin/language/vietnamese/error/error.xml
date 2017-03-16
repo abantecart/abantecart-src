@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Lỗi ứng dụng!]]></value>
+  </definition>
+  <definition>
+    <key>text_error</key>
+    <value><![CDATA[Vui lòng kiểm tra lỗi đăng nhập để biết thêm thông tin]]></value>
+  </definition>
+</definitions>

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Bố trí &amp; khối quản lý]]></value>
+  </definition>
+  <definition>
+    <key>text_select_template</key>
+    <value><![CDATA[Chọn mẫu:]]></value>
+  </definition>
+  <definition>
+    <key>text_delete_success</key>
+    <value><![CDATA[Thành công: Page Layout đã được loại bỏ!]]></value>
+  </definition>
+  <definition>
+    <key>text_delete_restricted</key>
+    <value><![CDATA[Lỗi: Page Layout bị hạn chế và không thể được gỡ bỏ!]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Thành công: Bạn đã sửa đổi bố trí &amp; khối!]]></value>
+  </definition>
+  <definition>
+    <key>text_preview_generated</key>
+    <value><![CDATA[Xem trước Generated!]]></value>
+  </definition>
+  <definition>
+    <key>text_click_here</key>
+    <value><![CDATA[Bấm vào đây]]></value>
+  </definition>
+</definitions>

@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Ngôn ngữ]]></value>
+  </definition>
+  <definition>
+    <key>text_language</key>
+    <value><![CDATA[ngôn ngữ]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Thành công: Bạn có ngôn ngữ biến đổi!]]></value>
+  </definition>
+  <definition>
+    <key>column_name</key>
+    <value><![CDATA[Tên ngôn ngữ]]></value>
+  </definition>
+  <definition>
+    <key>column_code</key>
+    <value><![CDATA[Mã]]></value>
+  </definition>
+  <definition>
+    <key>column_sort_order</key>
+    <value><![CDATA[Thứ tự sắp xếp]]></value>
+  </definition>
+  <definition>
+    <key>column_action</key>
+    <value><![CDATA[Hoạt động]]></value>
+  </definition>
+  <definition>
+    <key>entry_name</key>
+    <value><![CDATA[Tên ngôn ngữ:]]></value>
+  </definition>
+  <definition>
+    <key>entry_code</key>
+    <value><![CDATA[Mã số: <br/><span class="help">Không thay đổi nếu đây là ngôn ngữ mặc định của bạn.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_locale</key>
+    <value><![CDATA[locale:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image</key>
+    <value><![CDATA[hình ảnh:]]></value>
+  </definition>
+  <definition>
+    <key>entry_directory</key>
+    <value><![CDATA[Danh mục:]]></value>
+  </definition>
+  <definition>
+    <key>entry_filename</key>
+    <value><![CDATA[filename:]]></value>
+  </definition>
+  <definition>
+    <key>entry_status</key>
+    <value><![CDATA[Trạng thái:]]></value>
+  </definition>
+  <definition>
+    <key>entry_sort_order</key>
+    <value><![CDATA[Thứ tự sắp xếp:]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Cảnh báo: Bạn không có quyền sửa đổi ngôn ngữ!]]></value>
+  </definition>
+  <definition>
+    <key>error_name</key>
+    <value><![CDATA[Ngôn ngữ Tên phải có từ 2 đến 32 kí tự!]]></value>
+  </definition>
+  <definition>
+    <key>error_code</key>
+    <value><![CDATA[Mã ngôn ngữ phải có ít nhất 2 ký tự!]]></value>
+  </definition>
+  <definition>
+    <key>error_locale</key>
+    <value><![CDATA[Locale yêu cầu!]]></value>
+  </definition>
+  <definition>
+    <key>error_image</key>
+    <value><![CDATA[Hình ảnh Filename phải có từ 2 đến 64 ký tự!]]></value>
+  </definition>
+  <definition>
+    <key>error_directory</key>
+    <value><![CDATA[Directory yêu cầu!]]></value>
+  </definition>
+  <definition>
+    <key>error_filename</key>
+    <value><![CDATA[Filename phải có từ 2 đến 64 ký tự!]]></value>
+  </definition>
+  <definition>
+    <key>error_default</key>
+    <value><![CDATA[Cảnh báo: Ngôn ngữ này không thể bị xóa vì nó đang được gán làm ngôn ngữ mặc định cửa hàng!]]></value>
+  </definition>
+  <definition>
+    <key>error_admin</key>
+    <value><![CDATA[Cảnh báo: Ngôn ngữ này không thể bị xóa vì nó đang được gán như là ngôn ngữ chính!]]></value>
+  </definition>
+  <definition>
+    <key>error_store</key>
+    <value><![CDATA[Cảnh báo: Ngôn ngữ này không thể bị xóa vì nó đang được gán cho %s cửa hàng!]]></value>
+  </definition>
+  <definition>
+    <key>error_order</key>
+    <value><![CDATA[Cảnh báo: Ngôn ngữ này không thể bị xóa vì nó đang được gán cho %s đơn đặt hàng!]]></value>
+  </definition>
+  <definition>
+    <key>language_edit_title</key>
+    <value><![CDATA[Chỉnh sửa chi tiết Ngôn ngữ]]></value>
+  </definition>
+  <definition>
+    <key>load_language_title</key>
+    <value><![CDATA[Tải dữ liệu thiếu ngôn ngữ]]></value>
+  </definition>
+  <definition>
+    <key>entry_language_selector</key>
+    <value><![CDATA[Ngôn ngữ Nguồn:]]></value>
+  </definition>
+  <definition>
+    <key>entry_translate_method_selector</key>
+    <value><![CDATA[phương pháp dịch thuật văn bản:]]></value>
+  </definition>
+  <definition>
+    <key>load_language_note</key>
+    <value><![CDATA[Chú ý: Thao tác này có thể mất vài phút để chạy. ĐỪNG duyệt chặt chẽ, để lại hoặc làm mới trang!]]></value>
+  </definition>
+  <definition>
+    <key>create_language_note</key>
+    <value><![CDATA[LƯU Ý: Chúng tôi khuyên bạn nên tạo ngôn ngữ như là một phần mở rộng. Kiểm tra phần mở rộng ngôn ngữ hiện có. Nếu bạn vẫn muốn tạo ra ngôn ngữ mới bằng tay, bạn cần phải thêm Cờ ngôn ngữ để admin / ngôn ngữ / [Ngôn ngữ bạ] /flag.png và cửa hàng / ngôn ngữ / [Ngôn ngữ bạ] flag.png 
+ Sau khi ngôn ngữ được tạo ra tải dữ liệu bị mất ngôn ngữ dịch hoặc sao chép nội dung văn bản từ ngôn ngữ nguồn.]]></value>
+  </definition>
+  <definition>
+    <key>button_load_language</key>
+    <value><![CDATA[tải]]></value>
+  </definition>
+  <definition>
+    <key>text_incomplete_tasks</key>
+    <value><![CDATA[Nhiệm vụ không đầy đủ]]></value>
+  </definition>
+  <definition>
+    <key>text_task_id</key>
+    <value><![CDATA[Nhiệm vụ ID:]]></value>
+  </definition>
+  <definition>
+    <key>text_title</key>
+    <value><![CDATA[Chức vụ:]]></value>
+  </definition>
+  <definition>
+    <key>text_last_time_run</key>
+    <value><![CDATA[Last Time Run:]]></value>
+  </definition>
+  <definition>
+    <key>text_date_added</key>
+    <value><![CDATA[Tạo:]]></value>
+  </definition>
+  <definition>
+    <key>text_starter_name</key>
+    <value><![CDATA[Được tạo bởi:]]></value>
+  </definition>
+  <definition>
+    <key>text_restart</key>
+    <value><![CDATA[Khởi động lại]]></value>
+  </definition>
+  <definition>
+    <key>text_remove</key>
+    <value><![CDATA[Tẩy]]></value>
+  </definition>
+  <definition>
+    <key>text_task_title</key>
+    <value><![CDATA[Dịch mô tả từ %s đến %s]]></value>
+  </definition>
+  <definition>
+    <key>error_nothing_to_do</key>
+    <value><![CDATA[Lỗi: Xin Đặt Ngôn ngữ nguồn và phương pháp dịch!]]></value>
+  </definition>
+  <definition>
+    <key>text_translate_override_existing</key>
+    <value><![CDATA[Lưu ý: Mọi sự mô tả hiện bằng ngôn ngữ đích sẽ được thay thế bằng bản dịch mới. Bạn có thể vô hiệu hóa trọng trong <a href="%s">System-&gt; Settings-&gt; Store chi tiết</a> .]]></value>
+  </definition>
+</definitions>

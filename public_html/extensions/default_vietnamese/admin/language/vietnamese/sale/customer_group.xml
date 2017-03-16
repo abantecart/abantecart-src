@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Nhóm khách hàng]]></value>
+  </definition>
+  <definition>
+    <key>breadcrumb_title</key>
+    <value><![CDATA[Nhóm khách hàng]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Thành công: Bạn đã sửa đổi các nhóm khách hàng!]]></value>
+  </definition>
+  <definition>
+    <key>column_name</key>
+    <value><![CDATA[Tên khách hàng Nhóm]]></value>
+  </definition>
+  <definition>
+    <key>column_tax_exempt</key>
+    <value><![CDATA[Miễn thuế]]></value>
+  </definition>
+  <definition>
+    <key>column_action</key>
+    <value><![CDATA[Hoạt động]]></value>
+  </definition>
+  <definition>
+    <key>entry_name</key>
+    <value><![CDATA[Tên Nhóm khách hàng:]]></value>
+  </definition>
+  <definition>
+    <key>entry_tax_exempt</key>
+    <value><![CDATA[Miễn các loại thuế:]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Cảnh báo: Bạn không có quyền sửa đổi các nhóm khách hàng!]]></value>
+  </definition>
+  <definition>
+    <key>error_name</key>
+    <value><![CDATA[Khách hàng Tên nhóm phải có từ 2 đến 64 ký tự!]]></value>
+  </definition>
+  <definition>
+    <key>error_default</key>
+    <value><![CDATA[Cảnh báo: nhóm khách hàng này không thể bị xóa vì nó hiện đang được phân công như các nhóm khách hàng lưu trữ mặc định!]]></value>
+  </definition>
+  <definition>
+    <key>error_store</key>
+    <value><![CDATA[Cảnh báo: nhóm khách hàng này không thể bị xóa vì nó đang được gán cho %s cửa hàng!]]></value>
+  </definition>
+  <definition>
+    <key>error_customer</key>
+    <value><![CDATA[Cảnh báo: nhóm khách hàng này không thể bị xóa vì nó đang được gán cho %s khách hàng!]]></value>
+  </definition>
+</definitions>

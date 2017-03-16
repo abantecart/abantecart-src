@@ -1,0 +1,255 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[khối]]></value>
+  </definition>
+  <definition>
+    <key>text_delete</key>
+    <value><![CDATA[xóa khối]]></value>
+  </definition>
+  <definition>
+    <key>text_edit</key>
+    <value><![CDATA[chỉnh sửa khối]]></value>
+  </definition>
+  <definition>
+    <key>text_enable</key>
+    <value><![CDATA[Cho phép vô hiệu hóa]]></value>
+  </definition>
+  <definition>
+    <key>text_details</key>
+    <value><![CDATA[Chi tiết]]></value>
+  </definition>
+  <definition>
+    <key>text_create</key>
+    <value><![CDATA[tạo khối]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Thành công: Bạn đã sửa đổi khối!]]></value>
+  </definition>
+  <definition>
+    <key>column_block_id</key>
+    <value><![CDATA[ID]]></value>
+  </definition>
+  <definition>
+    <key>column_block_txt_id</key>
+    <value><![CDATA[ID Tiêu độc đáo]]></value>
+  </definition>
+  <definition>
+    <key>column_block_name</key>
+    <value><![CDATA[Tên]]></value>
+  </definition>
+  <definition>
+    <key>column_date_added</key>
+    <value><![CDATA[ngày thêm]]></value>
+  </definition>
+  <definition>
+    <key>column_block_type</key>
+    <value><![CDATA[Kiểu]]></value>
+  </definition>
+  <definition>
+    <key>column_action</key>
+    <value><![CDATA[Hoạt động]]></value>
+  </definition>
+  <definition>
+    <key>column_sort_order</key>
+    <value><![CDATA[Thứ tự sắp xếp]]></value>
+  </definition>
+  <definition>
+    <key>column_image</key>
+    <value><![CDATA[hình ảnh]]></value>
+  </definition>
+  <definition>
+    <key>entry_block_status</key>
+    <value><![CDATA[Trạng thái]]></value>
+  </definition>
+  <definition>
+    <key>entry_block_status_note</key>
+    <value><![CDATA[Lưu ý: Bạn cần phải thêm khối này trong <a style="text-decoration: underline; font-weight: bold;" href="#admin#rt=design/layout">LAYOUT</a> trên trang mong muốn nhìn thấy nó làm việc]]></value>
+  </definition>
+  <definition>
+    <key>entry_block_type</key>
+    <value><![CDATA[Tuỳ Loại Lô]]></value>
+  </definition>
+  <definition>
+    <key>entry_block_name</key>
+    <value><![CDATA[Tên tùy chỉnh khối]]></value>
+  </definition>
+  <definition>
+    <key>entry_block_wrapper</key>
+    <value><![CDATA[Sử dụng khối wrapper (xuất hiện)]]></value>
+  </definition>
+  <definition>
+    <key>entry_block_framed</key>
+    <value><![CDATA[sử dụng khung khối của]]></value>
+  </definition>
+  <definition>
+    <key>entry_block_title</key>
+    <value><![CDATA[Tuỳ chỉnh Khối Tiêu đề]]></value>
+  </definition>
+  <definition>
+    <key>entry_block_description</key>
+    <value><![CDATA[Tuỳ chỉnh khối mô tả <p> chỉ sử dụng nội bộ: Lưu ý </p>]]></value>
+  </definition>
+  <definition>
+    <key>entry_block_content</key>
+    <value><![CDATA[nội dung tùy chỉnh khối]]></value>
+  </definition>
+  <definition>
+    <key>entry_listing_datasource</key>
+    <value><![CDATA[Liệt kê các nguồn dữ liệu]]></value>
+  </definition>
+  <definition>
+    <key>text_delete_confirm</key>
+    <value><![CDATA[Xác nhận để xóa khối?]]></value>
+  </definition>
+  <definition>
+    <key>error_empty</key>
+    <value><![CDATA[Vui lòng điền vào tất cả các lĩnh vực cần thiết!]]></value>
+  </definition>
+  <definition>
+    <key>error_delete</key>
+    <value><![CDATA[Không thể xóa vì khối này đang được sử dụng. Vui lòng truy cập phần Layout.]]></value>
+  </definition>
+  <definition>
+    <key>error_text_status</key>
+    <value><![CDATA[Không thể thay đổi tình trạng vì khối này không được sử dụng. Vui lòng truy cập phần Layout.]]></value>
+  </definition>
+  <definition>
+    <key>text_success_deleted</key>
+    <value><![CDATA[Thành công: Bạn đã xóa khối tùy chỉnh!]]></value>
+  </definition>
+  <definition>
+    <key>entry_data_source</key>
+    <value><![CDATA[Nguồn dữ liệu:]]></value>
+  </definition>
+  <definition>
+    <key>entry_limit</key>
+    <value><![CDATA[Giới hạn:]]></value>
+  </definition>
+  <definition>
+    <key>text_listing_auto</key>
+    <value><![CDATA[danh sách tự động]]></value>
+  </definition>
+  <definition>
+    <key>text_listing_manual</key>
+    <value><![CDATA[danh sách tùy chỉnh]]></value>
+  </definition>
+  <definition>
+    <key>text_select_listing</key>
+    <value><![CDATA[--- Chọn nguồn danh sách dữ liệu ---]]></value>
+  </definition>
+  <definition>
+    <key>text_products_special</key>
+    <value><![CDATA[Quà đặc biệt]]></value>
+  </definition>
+  <definition>
+    <key>text_products_popular</key>
+    <value><![CDATA[Sản phẩm được ưa thích]]></value>
+  </definition>
+  <definition>
+    <key>text_categories</key>
+    <value><![CDATA[Thể loại]]></value>
+  </definition>
+  <definition>
+    <key>text_manufacturers</key>
+    <value><![CDATA[Nhà sản xuất của]]></value>
+  </definition>
+  <definition>
+    <key>text_featured</key>
+    <value><![CDATA[Các sản phẩm]]></value>
+  </definition>
+  <definition>
+    <key>text_latest</key>
+    <value><![CDATA[Sản phẩm mới nhất]]></value>
+  </definition>
+  <definition>
+    <key>text_bestsellers</key>
+    <value><![CDATA[Sản phẩm bán chạy Sản phẩm]]></value>
+  </definition>
+  <definition>
+    <key>text_media</key>
+    <value><![CDATA[Phương tiện truyền thông]]></value>
+  </definition>
+  <definition>
+    <key>entry_resource_type</key>
+    <value><![CDATA[Loại phương tiện truyền thông:]]></value>
+  </definition>
+  <definition>
+    <key>text_custom_products</key>
+    <value><![CDATA[tuỳ chỉnh sản phẩm]]></value>
+  </definition>
+  <definition>
+    <key>text_custom_categories</key>
+    <value><![CDATA[tuỳ chỉnh mục]]></value>
+  </definition>
+  <definition>
+    <key>text_custom_manufacturers</key>
+    <value><![CDATA[Các nhà sản xuất tùy chỉnh]]></value>
+  </definition>
+  <definition>
+    <key>text_html_block</key>
+    <value><![CDATA[HTML]]></value>
+  </definition>
+  <definition>
+    <key>text_listing_block</key>
+    <value><![CDATA[Liệt kê dữ liệu]]></value>
+  </definition>
+  <definition>
+    <key>text_selected</key>
+    <value><![CDATA[Các mục đã chọn:]]></value>
+  </definition>
+  <definition>
+    <key>text_data_listed</key>
+    <value><![CDATA[Dữ liệu được liệt kê]]></value>
+  </definition>
+  <definition>
+    <key>text_save_edit</key>
+    <value><![CDATA[Thêm / Sửa]]></value>
+  </definition>
+  <definition>
+    <key>text_apply</key>
+    <value><![CDATA[áp dụng lựa chọn]]></value>
+  </definition>
+  <definition>
+    <key>text_block_id</key>
+    <value><![CDATA[khối ID]]></value>
+  </definition>
+  <definition>
+    <key>text_block_txt_id</key>
+    <value><![CDATA[Khối Tiêu ID]]></value>
+  </definition>
+  <definition>
+    <key>text_controller</key>
+    <value><![CDATA[Bộ điều khiển]]></value>
+  </definition>
+  <definition>
+    <key>text_templates</key>
+    <value><![CDATA[khối Templates]]></value>
+  </definition>
+  <definition>
+    <key>text_block_date_added</key>
+    <value><![CDATA[Khối Ngày Sáng tạo]]></value>
+  </definition>
+  <definition>
+    <key>text_layouts</key>
+    <value><![CDATA[Được sử dụng trong bố trí]]></value>
+  </definition>
+  <definition>
+    <key>text_block_info</key>
+    <value><![CDATA[Thông tin về Tuỳ chỉnh Khối]]></value>
+  </definition>
+  <definition>
+    <key>text_add_block</key>
+    <value><![CDATA[Thêm khối phần]]></value>
+  </definition>
+  <definition>
+    <key>text_available_block</key>
+    <value><![CDATA[khối sẵn]]></value>
+  </definition>
+  <definition>
+    <key>error_block_not_available</key>
+    <value><![CDATA[Khối này sẽ không được hiển thị ở vị trí được lựa chọn vào một cửa hàng!]]></value>
+  </definition>
+</definitions>

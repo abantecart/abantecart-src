@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Thuộc tính toàn cầu]]></value>
+  </definition>
+  <definition>
+    <key>text_attribute</key>
+    <value><![CDATA[Thuộc tính toàn cầu]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Thành công: Bạn có thuộc tính biến đổi!]]></value>
+  </definition>
+  <definition>
+    <key>text_select_type</key>
+    <value><![CDATA[- Lựa chọn đối tượng -]]></value>
+  </definition>
+  <definition>
+    <key>text_select_parent</key>
+    <value><![CDATA[- Chọn mẹ -]]></value>
+  </definition>
+  <definition>
+    <key>column_name</key>
+    <value><![CDATA[Tên]]></value>
+  </definition>
+  <definition>
+    <key>column_type</key>
+    <value><![CDATA[Kiểu]]></value>
+  </definition>
+  <definition>
+    <key>column_sort_order</key>
+    <value><![CDATA[Thứ tự sắp xếp]]></value>
+  </definition>
+  <definition>
+    <key>column_status</key>
+    <value><![CDATA[Trạng thái]]></value>
+  </definition>
+  <definition>
+    <key>column_action</key>
+    <value><![CDATA[Hoạt động]]></value>
+  </definition>
+  <definition>
+    <key>entry_name</key>
+    <value><![CDATA[Tên:]]></value>
+  </definition>
+  <definition>
+    <key>entry_attribute_parent</key>
+    <value><![CDATA[Thuộc tính của phụ huynh:]]></value>
+  </definition>
+  <definition>
+    <key>entry_attribute_group</key>
+    <value><![CDATA[Attribute Nhóm:]]></value>
+  </definition>
+  <definition>
+    <key>entry_attribute_type</key>
+    <value><![CDATA[Loại thuộc tính:]]></value>
+  </definition>
+  <definition>
+    <key>entry_element_type</key>
+    <value><![CDATA[Element Type:]]></value>
+  </definition>
+  <definition>
+    <key>entry_element_values</key>
+    <value><![CDATA[Giá trị phần tử:]]></value>
+  </definition>
+  <definition>
+    <key>entry_sort_order</key>
+    <value><![CDATA[Thứ tự sắp xếp:]]></value>
+  </definition>
+  <definition>
+    <key>entry_required</key>
+    <value><![CDATA[Cần thiết:]]></value>
+  </definition>
+  <definition>
+    <key>entry_status</key>
+    <value><![CDATA[Trạng thái:]]></value>
+  </definition>
+  <definition>
+    <key>entry_children_attributes</key>
+    <value><![CDATA[Trẻ em thuộc tính:]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Cảnh báo: Bạn không có quyền sửa đổi các thuộc tính toàn cầu!]]></value>
+  </definition>
+  <definition>
+    <key>error_name</key>
+    <value><![CDATA[Tên nhóm phải có từ 2 đến 32 kí tự!]]></value>
+  </definition>
+  <definition>
+    <key>error_required</key>
+    <value><![CDATA[lĩnh vực này là cần thiết!]]></value>
+  </definition>
+  <definition>
+    <key>text_parent_note</key>
+    <value><![CDATA[Nếu đây là một thuộc tính cha mẹ với con cái thuộc tính, nó chỉ có thể được loại selectbox, Multiselect Box, Checkbox và Checkbox nhóm. <br/> trẻ em giá trị hợp sẽ được hiển thị như là một bộ.]]></value>
+  </definition>
+  <definition>
+    <key>entry_allowed_extensions</key>
+    <value><![CDATA[Được phép File Phần mở rộng (txt, jpg ...)]]></value>
+  </definition>
+  <definition>
+    <key>entry_min_size</key>
+    <value><![CDATA[kích thước tập tin Min (Kb)]]></value>
+  </definition>
+  <definition>
+    <key>entry_max_size</key>
+    <value><![CDATA[kích thước tập tin tối đa (Kb)]]></value>
+  </definition>
+  <definition>
+    <key>entry_upload_dir</key>
+    <value><![CDATA[Tên thư mục upload <br/> %s]]></value>
+  </definition>
+  <definition>
+    <key>entry_regexp_pattern</key>
+    <value><![CDATA[Mẫu biểu hiện thường xuyên cho Validation của các giá trị:]]></value>
+  </definition>
+  <definition>
+    <key>entry_error_text</key>
+    <value><![CDATA[Thông báo lỗi của các giá trị không hợp lệ:]]></value>
+  </definition>
+  <definition>
+    <key>entry_placeholder</key>
+    <value><![CDATA[giữ chỗ:]]></value>
+  </definition>
+  <definition>
+    <key>error_attribute_name</key>
+    <value><![CDATA[Tên thuộc tính phải có từ 2 đến 64 ký tự!]]></value>
+  </definition>
+  <definition>
+    <key>error_error_text</key>
+    <value><![CDATA[Lỗi văn bản về giá trị thuộc tính không hợp lệ phải có từ 2 đến 255 ký tự!]]></value>
+  </definition>
+  <definition>
+    <key>error_regexp_pattern</key>
+    <value><![CDATA[Thường xuyên mẫu Expression là không hợp lệ!]]></value>
+  </definition>
+  <definition>
+    <key>entry_show_to_customer</key>
+    <value><![CDATA[Hiển thị cho khách hàng]]></value>
+  </definition>
+</definitions>

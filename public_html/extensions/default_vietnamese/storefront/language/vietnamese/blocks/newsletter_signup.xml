@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Bản tin đăng ký]]></value>
+  </definition>
+  <definition>
+    <key>text_signup</key>
+    <value><![CDATA[Đăng ký để chúng tôi Bản tin &amp; được Chào giá hấp dẫn bằng cách đăng ký nhận bản tin của chúng tôi.]]></value>
+  </definition>
+  <definition>
+    <key>text_sign_in</key>
+    <value><![CDATA[Đăng nhập]]></value>
+  </definition>
+  <definition>
+    <key>text_subscribe</key>
+    <value><![CDATA[Đăng ký tin]]></value>
+  </definition>
+  <definition>
+    <key>button_subscribe</key>
+    <value><![CDATA[Theo dõi]]></value>
+  </definition>
+</definitions>

@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>text_subject</key>
+    <value><![CDATA[%s - Đặt hàng %s]]></value>
+  </definition>
+  <definition>
+    <key>text_greeting</key>
+    <value><![CDATA[Cảm ơn bạn đã quan tâm đến sản phẩm %s. cầu của bạn đã được nhận và sẽ được xử lý sau thanh toán được xác nhận.]]></value>
+  </definition>
+  <definition>
+    <key>text_received</key>
+    <value><![CDATA[Bạn đã nhận được một đơn đặt hàng.]]></value>
+  </definition>
+  <definition>
+    <key>text_order_detail</key>
+    <value><![CDATA[Đặt hàng Chi tiết]]></value>
+  </definition>
+  <definition>
+    <key>text_order_id</key>
+    <value><![CDATA[ID đơn hàng:]]></value>
+  </definition>
+  <definition>
+    <key>text_date_added</key>
+    <value><![CDATA[Ngày đặt hàng:]]></value>
+  </definition>
+  <definition>
+    <key>text_order_status</key>
+    <value><![CDATA[Tình trạng đặt hàng:]]></value>
+  </definition>
+  <definition>
+    <key>text_invoice</key>
+    <value><![CDATA[Để xem nhấp chuột đặt hàng của bạn vào link dưới đây:]]></value>
+  </definition>
+  <definition>
+    <key>text_shipping_method</key>
+    <value><![CDATA[Phương pháp vận chuyển:]]></value>
+  </definition>
+  <definition>
+    <key>text_payment_method</key>
+    <value><![CDATA[Phương thức thanh toán:]]></value>
+  </definition>
+  <definition>
+    <key>text_shipping_address</key>
+    <value><![CDATA[Địa chỉ giao hàng]]></value>
+  </definition>
+  <definition>
+    <key>text_payment_address</key>
+    <value><![CDATA[Địa chỉ thanh toán]]></value>
+  </definition>
+  <definition>
+    <key>text_email</key>
+    <value><![CDATA[E-mail:]]></value>
+  </definition>
+  <definition>
+    <key>text_telephone</key>
+    <value><![CDATA[Điện thoại:]]></value>
+  </definition>
+  <definition>
+    <key>text_mobile_phone</key>
+    <value><![CDATA[Điện thoại di động:]]></value>
+  </definition>
+  <definition>
+    <key>text_fax</key>
+    <value><![CDATA[Số fax:]]></value>
+  </definition>
+  <definition>
+    <key>text_ip</key>
+    <value><![CDATA[Địa chỉ IP:]]></value>
+  </definition>
+  <definition>
+    <key>text_product</key>
+    <value><![CDATA[Các sản phẩm:]]></value>
+  </definition>
+  <definition>
+    <key>text_total</key>
+    <value><![CDATA[tổng cộng:]]></value>
+  </definition>
+  <definition>
+    <key>text_download</key>
+    <value><![CDATA[Sau khi thanh toán của bạn đã được xác nhận, bạn có thể bấm vào liên kết dưới đây để truy cập vào các sản phẩm của bạn có thể tải về:]]></value>
+  </definition>
+  <definition>
+    <key>text_comment</key>
+    <value><![CDATA[Các ý kiến ​​cho đơn đặt hàng của bạn là:]]></value>
+  </definition>
+  <definition>
+    <key>text_footer</key>
+    <value><![CDATA[Hãy trả lời email này nếu bạn có bất kỳ câu hỏi.]]></value>
+  </definition>
+  <definition>
+    <key>text_powered_by</key>
+    <value><![CDATA[cung cấp bởi]]></value>
+  </definition>
+  <definition>
+    <key>text_new_order</key>
+    <value><![CDATA[Đơn hàng mới - #]]></value>
+  </definition>
+  <definition>
+    <key>text_new_order_text</key>
+    <value><![CDATA[Khách hàng %s thêm vào trật tự mới]]></value>
+  </definition>
+  <definition>
+    <key>column_product</key>
+    <value><![CDATA[Sản phẩm]]></value>
+  </definition>
+  <definition>
+    <key>column_model</key>
+    <value><![CDATA[Mô hình]]></value>
+  </definition>
+  <definition>
+    <key>column_quantity</key>
+    <value><![CDATA[Số lượng]]></value>
+  </definition>
+  <definition>
+    <key>column_price</key>
+    <value><![CDATA[Giá bán]]></value>
+  </definition>
+  <definition>
+    <key>column_total</key>
+    <value><![CDATA[Toàn bộ]]></value>
+  </definition>
+</definitions>

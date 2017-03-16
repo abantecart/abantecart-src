@@ -1,0 +1,375 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Đơn đặt hàng]]></value>
+  </definition>
+  <definition>
+    <key>edit_title_details</key>
+    <value><![CDATA[Sửa Đặt hàng Chi tiết]]></value>
+  </definition>
+  <definition>
+    <key>edit_title_shipping</key>
+    <value><![CDATA[Chỉnh sửa địa chỉ giao hàng]]></value>
+  </definition>
+  <definition>
+    <key>edit_title_payment</key>
+    <value><![CDATA[Chỉnh sửa Địa chỉ thanh toán]]></value>
+  </definition>
+  <definition>
+    <key>title_payment_details</key>
+    <value><![CDATA[Chi tiết Thanh toán]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Thành công: chi tiết theo thứ tự đã được cập nhật!]]></value>
+  </definition>
+  <definition>
+    <key>text_invoice</key>
+    <value><![CDATA[Hóa đơn]]></value>
+  </definition>
+  <definition>
+    <key>text_order_id</key>
+    <value><![CDATA[ID đơn hàng:]]></value>
+  </definition>
+  <definition>
+    <key>text_invoice_id</key>
+    <value><![CDATA[Hóa đơn không có.:]]></value>
+  </definition>
+  <definition>
+    <key>text_date_added</key>
+    <value><![CDATA[Ngày hóa đơn:]]></value>
+  </definition>
+  <definition>
+    <key>text_telephone</key>
+    <value><![CDATA[Điện thoại]]></value>
+  </definition>
+  <definition>
+    <key>text_fax</key>
+    <value><![CDATA[Số fax]]></value>
+  </definition>
+  <definition>
+    <key>text_select_country</key>
+    <value><![CDATA[- Chọn quốc gia -]]></value>
+  </definition>
+  <definition>
+    <key>text_to</key>
+    <value><![CDATA[Đến]]></value>
+  </definition>
+  <definition>
+    <key>text_ship_to</key>
+    <value><![CDATA[Ship To (nếu khác với địa chỉ)]]></value>
+  </definition>
+  <definition>
+    <key>text_missing_orders</key>
+    <value><![CDATA[Đơn đặt hàng thiếu]]></value>
+  </definition>
+  <definition>
+    <key>text_wait</key>
+    <value><![CDATA[Please Wait!]]></value>
+  </definition>
+  <definition>
+    <key>column_order</key>
+    <value><![CDATA[Order ID]]></value>
+  </definition>
+  <definition>
+    <key>column_name</key>
+    <value><![CDATA[tên khách hàng]]></value>
+  </definition>
+  <definition>
+    <key>column_status</key>
+    <value><![CDATA[Trạng thái]]></value>
+  </definition>
+  <definition>
+    <key>column_date_added</key>
+    <value><![CDATA[ngày thêm]]></value>
+  </definition>
+  <definition>
+    <key>column_total</key>
+    <value><![CDATA[Toàn bộ]]></value>
+  </definition>
+  <definition>
+    <key>column_product</key>
+    <value><![CDATA[Sản phẩm]]></value>
+  </definition>
+  <definition>
+    <key>column_model</key>
+    <value><![CDATA[Mô hình]]></value>
+  </definition>
+  <definition>
+    <key>column_quantity</key>
+    <value><![CDATA[Số lượng]]></value>
+  </definition>
+  <definition>
+    <key>column_price</key>
+    <value><![CDATA[đơn giá]]></value>
+  </definition>
+  <definition>
+    <key>column_download</key>
+    <value><![CDATA[Tải Tên]]></value>
+  </definition>
+  <definition>
+    <key>column_file</key>
+    <value><![CDATA[Tập tin]]></value>
+  </definition>
+  <definition>
+    <key>column_remaining</key>
+    <value><![CDATA[còn lại]]></value>
+  </definition>
+  <definition>
+    <key>column_expire_date</key>
+    <value><![CDATA[Hạn sử dụng]]></value>
+  </definition>
+  <definition>
+    <key>column_mask</key>
+    <value><![CDATA[Mặt nạ]]></value>
+  </definition>
+  <definition>
+    <key>column_notify</key>
+    <value><![CDATA[khách hàng Thông báo]]></value>
+  </definition>
+  <definition>
+    <key>column_comment</key>
+    <value><![CDATA[bình luận theo thứ tự của khách hàng]]></value>
+  </definition>
+  <definition>
+    <key>column_action</key>
+    <value><![CDATA[Hoạt động]]></value>
+  </definition>
+  <definition>
+    <key>entry_order_id</key>
+    <value><![CDATA[ID đơn hàng:]]></value>
+  </definition>
+  <definition>
+    <key>entry_invoice_id</key>
+    <value><![CDATA[ID hóa đơn:]]></value>
+  </definition>
+  <definition>
+    <key>entry_customer</key>
+    <value><![CDATA[Khách hàng:]]></value>
+  </definition>
+  <definition>
+    <key>entry_firstname</key>
+    <value><![CDATA[Tên đầu tiên:]]></value>
+  </definition>
+  <definition>
+    <key>entry_lastname</key>
+    <value><![CDATA[Họ:]]></value>
+  </definition>
+  <definition>
+    <key>entry_customer_group</key>
+    <value><![CDATA[Nhóm khách hàng:]]></value>
+  </definition>
+  <definition>
+    <key>entry_email</key>
+    <value><![CDATA[E-mail:]]></value>
+  </definition>
+  <definition>
+    <key>entry_ip</key>
+    <value><![CDATA[Địa chỉ IP:]]></value>
+  </definition>
+  <definition>
+    <key>entry_telephone</key>
+    <value><![CDATA[Điện thoại:]]></value>
+  </definition>
+  <definition>
+    <key>entry_fax</key>
+    <value><![CDATA[Số fax:]]></value>
+  </definition>
+  <definition>
+    <key>entry_store_name</key>
+    <value><![CDATA[Tên cửa hàng:]]></value>
+  </definition>
+  <definition>
+    <key>entry_store_url</key>
+    <value><![CDATA[Cửa hàng Url:]]></value>
+  </definition>
+  <definition>
+    <key>entry_date_added</key>
+    <value><![CDATA[Ngày thêm vào:]]></value>
+  </definition>
+  <definition>
+    <key>entry_shipping_method</key>
+    <value><![CDATA[Phương pháp vận chuyển:]]></value>
+  </definition>
+  <definition>
+    <key>entry_payment_method</key>
+    <value><![CDATA[Phương thức thanh toán:]]></value>
+  </definition>
+  <definition>
+    <key>entry_total</key>
+    <value><![CDATA[Đơn đặt hàng Gốc Tổng số:]]></value>
+  </definition>
+  <definition>
+    <key>entry_order_status</key>
+    <value><![CDATA[Tình trạng đặt hàng:]]></value>
+  </definition>
+  <definition>
+    <key>entry_comment</key>
+    <value><![CDATA[Bình luận:]]></value>
+  </definition>
+  <definition>
+    <key>entry_company</key>
+    <value><![CDATA[Công ty:]]></value>
+  </definition>
+  <definition>
+    <key>entry_address_1</key>
+    <value><![CDATA[Địa chỉ 1:]]></value>
+  </definition>
+  <definition>
+    <key>entry_address_2</key>
+    <value><![CDATA[Địa chỉ 2:]]></value>
+  </definition>
+  <definition>
+    <key>entry_postcode</key>
+    <value><![CDATA[ZIP / Mã bài:]]></value>
+  </definition>
+  <definition>
+    <key>entry_city</key>
+    <value><![CDATA[Thành phố:]]></value>
+  </definition>
+  <definition>
+    <key>entry_zone</key>
+    <value><![CDATA[Vùng / tiểu bang:]]></value>
+  </definition>
+  <definition>
+    <key>entry_zone_code</key>
+    <value><![CDATA[Khu vực / Mã Nhà nước:]]></value>
+  </definition>
+  <definition>
+    <key>entry_country</key>
+    <value><![CDATA[Quốc gia:]]></value>
+  </definition>
+  <definition>
+    <key>entry_status</key>
+    <value><![CDATA[Tình trạng đặt hàng:]]></value>
+  </definition>
+  <definition>
+    <key>entry_notify</key>
+    <value><![CDATA[Thông báo cho khách hàng:]]></value>
+  </definition>
+  <definition>
+    <key>entry_append</key>
+    <value><![CDATA[Nối Bình luận:]]></value>
+  </definition>
+  <definition>
+    <key>entry_add_product</key>
+    <value><![CDATA[Thêm sản phẩm:]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Cảnh báo: Bạn không có quyền sửa đổi đơn đặt hàng!]]></value>
+  </definition>
+  <definition>
+    <key>error_order_load</key>
+    <value><![CDATA[Cảnh báo: Không có đơn đặt hàng với ID như vậy!]]></value>
+  </definition>
+  <definition>
+    <key>text_order_summary</key>
+    <value><![CDATA[Tóm tắt theo thứ tự]]></value>
+  </definition>
+  <definition>
+    <key>tab_order_details</key>
+    <value><![CDATA[Đặt hàng Chi tiết]]></value>
+  </definition>
+  <definition>
+    <key>tab_shipping</key>
+    <value><![CDATA[Địa chỉ giao hàng]]></value>
+  </definition>
+  <definition>
+    <key>tab_payment</key>
+    <value><![CDATA[Địa chỉ thanh toán]]></value>
+  </definition>
+  <definition>
+    <key>tab_history</key>
+    <value><![CDATA[Status &amp; Bình luận]]></value>
+  </definition>
+  <definition>
+    <key>tab_files</key>
+    <value><![CDATA[thứ tự tập tin]]></value>
+  </definition>
+  <definition>
+    <key>tab_payment_details</key>
+    <value><![CDATA[Chi tiết Thanh toán]]></value>
+  </definition>
+  <definition>
+    <key>edit_title_files</key>
+    <value><![CDATA[Chỉnh sửa tập tin theo thứ tự]]></value>
+  </definition>
+  <definition>
+    <key>text_missing_file</key>
+    <value><![CDATA[Tệp tin thất lạc]]></value>
+  </definition>
+  <definition>
+    <key>order_download_history</key>
+    <value><![CDATA[Tải về Lịch sử]]></value>
+  </definition>
+  <definition>
+    <key>text_time</key>
+    <value><![CDATA[Thời gian]]></value>
+  </definition>
+  <definition>
+    <key>text_filename</key>
+    <value><![CDATA[filename]]></value>
+  </definition>
+  <definition>
+    <key>text_mask</key>
+    <value><![CDATA[Mặt nạ]]></value>
+  </definition>
+  <definition>
+    <key>text_download_percent</key>
+    <value><![CDATA[Tải trăm so]]></value>
+  </definition>
+  <definition>
+    <key>text_download_expired</key>
+    <value><![CDATA[ngày hết hạn]]></value>
+  </definition>
+  <definition>
+    <key>text_download_remaining_count</key>
+    <value><![CDATA[Đếm còn lại]]></value>
+  </definition>
+  <definition>
+    <key>text_order_status_required</key>
+    <value><![CDATA[Tình hình đơn hàng &quot;%s&quot; Yêu cầu]]></value>
+  </definition>
+  <definition>
+    <key>text_select_product</key>
+    <value><![CDATA[- Chọn sản phẩm -]]></value>
+  </definition>
+  <definition>
+    <key>text_push_download</key>
+    <value><![CDATA[- Đẩy Download -]]></value>
+  </definition>
+  <definition>
+    <key>text_add_product_to_order</key>
+    <value><![CDATA[Thêm sản phẩm để đặt hàng # %s]]></value>
+  </definition>
+  <definition>
+    <key>text_edit_order_product</key>
+    <value><![CDATA[Sửa sản phẩm]]></value>
+  </definition>
+  <definition>
+    <key>attention_check_total</key>
+    <value><![CDATA[Lưu ý: Các chi tiết sản phẩm thứ đã thay đổi. Tổng số đã được tính lại tự động. Xem lại được yêu cầu.]]></value>
+  </definition>
+  <definition>
+    <key>text_order_total_add</key>
+    <value><![CDATA[Thêm tiền mới để tổng tính]]></value>
+  </definition>
+  <definition>
+    <key>text_order_total_title</key>
+    <value><![CDATA[Tiêu đề để hiển thị]]></value>
+  </definition>
+  <definition>
+    <key>text_order_total_amount</key>
+    <value><![CDATA[Số tiền]]></value>
+  </definition>
+  <definition>
+    <key>text_recalc</key>
+    <value><![CDATA[Tính toán lại sử dụng cài đặt]]></value>
+  </definition>
+  <definition>
+    <key>entry_im</key>
+    <value><![CDATA[IM:]]></value>
+  </definition>
+</definitions>

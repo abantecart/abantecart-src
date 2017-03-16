@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[cài đặt / nâng cấp Lịch sử]]></value>
+  </definition>
+  <definition>
+    <key>column_type</key>
+    <value><![CDATA[Kiểu]]></value>
+  </definition>
+  <definition>
+    <key>column_date_added</key>
+    <value><![CDATA[ngày thêm]]></value>
+  </definition>
+  <definition>
+    <key>column_name</key>
+    <value><![CDATA[gói chính]]></value>
+  </definition>
+  <definition>
+    <key>column_version</key>
+    <value><![CDATA[Phiên bản]]></value>
+  </definition>
+  <definition>
+    <key>column_backup_date</key>
+    <value><![CDATA[ngày backup]]></value>
+  </definition>
+  <definition>
+    <key>column_backup_file</key>
+    <value><![CDATA[Tập tin sao lưu]]></value>
+  </definition>
+  <definition>
+    <key>column_user</key>
+    <value><![CDATA[tên người dùng]]></value>
+  </definition>
+  <definition>
+    <key>text_download</key>
+    <value><![CDATA[để tải tập tin]]></value>
+  </definition>
+  <definition>
+    <key>text_delete_history</key>
+    <value><![CDATA[xóa Lịch sử]]></value>
+  </definition>
+  <definition>
+    <key>text_delete_success</key>
+    <value><![CDATA[Cài đặt / Nâng cấp Lịch sử của bạn đã được xóa thành công.]]></value>
+  </definition>
+</definitions>

@@ -1,0 +1,371 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Thư viện tài nguyên]]></value>
+  </definition>
+  <definition>
+    <key>view_title</key>
+    <value><![CDATA[Tài nguyên Xem Object]]></value>
+  </definition>
+  <definition>
+    <key>confirm_title</key>
+    <value><![CDATA[Xác nhận tài nguyên (s) xóa]]></value>
+  </definition>
+  <definition>
+    <key>text_confirm_delete</key>
+    <value><![CDATA[Một số nguồn tài nguyên có thể được bao gồm trong các văn bản. Chúng tôi không thể kiểm tra điều này tự động. Xóa bỏ?]]></value>
+  </definition>
+  <definition>
+    <key>text_cant_delete_title</key>
+    <value><![CDATA[Tài nguyên (s) xóa]]></value>
+  </definition>
+  <definition>
+    <key>text_cant_delete</key>
+    <value><![CDATA[Cant xóa tài nguyên (s) vì một hoặc nhiều nguồn lực có liên quan đến đối tượng]]></value>
+  </definition>
+  <definition>
+    <key>text_edit_resource</key>
+    <value><![CDATA[chỉnh sửa tài nguyên]]></value>
+  </definition>
+  <definition>
+    <key>text_resource_details</key>
+    <value><![CDATA[Chi tiết tài nguyên]]></value>
+  </definition>
+  <definition>
+    <key>text_mapped_to</key>
+    <value><![CDATA[Kêt nôi đên]]></value>
+  </definition>
+  <definition>
+    <key>text_products</key>
+    <value><![CDATA[Các sản phẩm]]></value>
+  </definition>
+  <definition>
+    <key>text_add_file</key>
+    <value><![CDATA[Thêm nguồn tin]]></value>
+  </definition>
+  <definition>
+    <key>text_add_code</key>
+    <value><![CDATA[Thêm nguồn HTML]]></value>
+  </definition>
+  <definition>
+    <key>text_add_files</key>
+    <value><![CDATA[Thêm các tập tin...]]></value>
+  </definition>
+  <definition>
+    <key>text_upload_files</key>
+    <value><![CDATA[Tải file]]></value>
+  </definition>
+  <definition>
+    <key>text_drag</key>
+    <value><![CDATA[hoặc Kéo chúng vào đây để bắt đầu tải lên]]></value>
+  </definition>
+  <definition>
+    <key>text_start_upload</key>
+    <value><![CDATA[Bắt đầu tải lên]]></value>
+  </definition>
+  <definition>
+    <key>text_cancel_upload</key>
+    <value><![CDATA[Hủy tải lên]]></value>
+  </definition>
+  <definition>
+    <key>text_start</key>
+    <value><![CDATA[Khởi đầu]]></value>
+  </definition>
+  <definition>
+    <key>text_cancel</key>
+    <value><![CDATA[hủy bỏ]]></value>
+  </definition>
+  <definition>
+    <key>text_save_sort_order</key>
+    <value><![CDATA[Lưu Xếp theo thứ tự]]></value>
+  </definition>
+  <definition>
+    <key>text_error</key>
+    <value><![CDATA[lỗi]]></value>
+  </definition>
+  <definition>
+    <key>text_delete_files</key>
+    <value><![CDATA[Xóa các tập tin]]></value>
+  </definition>
+  <definition>
+    <key>text_search</key>
+    <value><![CDATA[Tìm kiếm]]></value>
+  </definition>
+  <definition>
+    <key>text_type</key>
+    <value><![CDATA[Kiểu]]></value>
+  </definition>
+  <definition>
+    <key>text_language</key>
+    <value><![CDATA[ngôn ngữ]]></value>
+  </definition>
+  <definition>
+    <key>text_resource_code</key>
+    <value><![CDATA[nguồn HTML]]></value>
+  </definition>
+  <definition>
+    <key>text_name</key>
+    <value><![CDATA[Tên]]></value>
+  </definition>
+  <definition>
+    <key>text_title</key>
+    <value><![CDATA[Chức vụ]]></value>
+  </definition>
+  <definition>
+    <key>text_description</key>
+    <value><![CDATA[Sự miêu tả]]></value>
+  </definition>
+  <definition>
+    <key>text_uploaded</key>
+    <value><![CDATA[Thành công: tài nguyên đã được tải lên!]]></value>
+  </definition>
+  <definition>
+    <key>text_add</key>
+    <value><![CDATA[Thêm vào]]></value>
+  </definition>
+  <definition>
+    <key>text_edit</key>
+    <value><![CDATA[Chỉnh sửa]]></value>
+  </definition>
+  <definition>
+    <key>text_map</key>
+    <value><![CDATA[Liên kết với đối tượng]]></value>
+  </definition>
+  <definition>
+    <key>text_map_to</key>
+    <value><![CDATA[Liên kết với %s]]></value>
+  </definition>
+  <definition>
+    <key>text_unmap</key>
+    <value><![CDATA[Bỏ liên kết từ đối tượng]]></value>
+  </definition>
+  <definition>
+    <key>text_unmap_from</key>
+    <value><![CDATA[Bỏ liên kết từ %s]]></value>
+  </definition>
+  <definition>
+    <key>text_success_unmap</key>
+    <value><![CDATA[Thành công: tài nguyên đã được liên kết.]]></value>
+  </definition>
+  <definition>
+    <key>text_file_delete</key>
+    <value><![CDATA[Tài nguyên đã bị xóa!]]></value>
+  </definition>
+  <definition>
+    <key>text_delete</key>
+    <value><![CDATA[Thành công: tài nguyên của bạn đã bị xóa!]]></value>
+  </definition>
+  <definition>
+    <key>error_file_type</key>
+    <value><![CDATA[Cảnh báo: loại tập tin sai!]]></value>
+  </definition>
+  <definition>
+    <key>error_file_size</key>
+    <value><![CDATA[Cảnh báo: File để lớn xin vui lòng ghi dưới 300KB và không quá 1000px chiều cao hoặc chiều rộng!]]></value>
+  </definition>
+  <definition>
+    <key>error_maxFileSize</key>
+    <value><![CDATA[Tập tin quá lớn]]></value>
+  </definition>
+  <definition>
+    <key>error_minFileSize</key>
+    <value><![CDATA[File là quá nhỏ]]></value>
+  </definition>
+  <definition>
+    <key>error_acceptFileTypes</key>
+    <value><![CDATA[Filetype không được phép]]></value>
+  </definition>
+  <definition>
+    <key>error_maxNumberOfFiles</key>
+    <value><![CDATA[Số lượng tối đa của tập tin vượt quá]]></value>
+  </definition>
+  <definition>
+    <key>error_uploadedBytes</key>
+    <value><![CDATA[byte tải lên vượt quá kích thước tập tin]]></value>
+  </definition>
+  <definition>
+    <key>error_emptyResult</key>
+    <value><![CDATA[Kết quả trống tập tin tải lên. Có lẽ tập tin bị hỏng hoặc quá lớn. Kích thước giới hạn 16MB. Nếu kích thước tập tin nhỏ hơn giới hạn xin vui lòng kiểm tra thiết lập php cho post_max_filesize &amp; post_max_size]]></value>
+  </definition>
+  <definition>
+    <key>error_1</key>
+    <value><![CDATA[Tập tin vượt quá post_max_filesize (chỉ thị php.ini)]]></value>
+  </definition>
+  <definition>
+    <key>error_2</key>
+    <value><![CDATA[Tập tin vượt quá MAX_FILE_SIZE (HTML hình thức chỉ thị)]]></value>
+  </definition>
+  <definition>
+    <key>error_3</key>
+    <value><![CDATA[Tập tin đã được tải lên chỉ một phần]]></value>
+  </definition>
+  <definition>
+    <key>error_4</key>
+    <value><![CDATA[Không có tập tin đã được tải lên]]></value>
+  </definition>
+  <definition>
+    <key>error_5</key>
+    <value><![CDATA[Thiếu một thư mục tạm thời]]></value>
+  </definition>
+  <definition>
+    <key>error_6</key>
+    <value><![CDATA[Không thể ghi file vào đĩa]]></value>
+  </definition>
+  <definition>
+    <key>error_7</key>
+    <value><![CDATA[File tải lên dừng lại bằng cách mở rộng]]></value>
+  </definition>
+  <definition>
+    <key>error_uploaded</key>
+    <value><![CDATA[Cảnh báo: Tập tin không thể được tải lên cho một lý do không rõ!]]></value>
+  </definition>
+  <definition>
+    <key>error_no_type</key>
+    <value><![CDATA[Vui lòng chọn loại tài nguyên]]></value>
+  </definition>
+  <definition>
+    <key>error_required_data</key>
+    <value><![CDATA[Yêu cầu dữ liệu chưa được nhập]]></value>
+  </definition>
+  <definition>
+    <key>error_not_added</key>
+    <value><![CDATA[Tài nguyên không được thêm vào. Vui lòng kiểm tra lỗi đăng nhập để biết thêm]]></value>
+  </definition>
+  <definition>
+    <key>error_ajax</key>
+    <value><![CDATA[Tải dữ liệu lỗi. Vui lòng kiểm tra lỗi đăng nhập để biết thêm]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Cảnh báo: Quyền bị từ chối!]]></value>
+  </definition>
+  <definition>
+    <key>error_name</key>
+    <value><![CDATA[Lỗi: Trường Tên được yêu cầu!]]></value>
+  </definition>
+  <definition>
+    <key>button_delete</key>
+    <value><![CDATA[Xóa bỏ]]></value>
+  </definition>
+  <definition>
+    <key>button_add</key>
+    <value><![CDATA[Thêm tài nguyên]]></value>
+  </definition>
+  <definition>
+    <key>button_done</key>
+    <value><![CDATA[Làm xong]]></value>
+  </definition>
+  <definition>
+    <key>button_select</key>
+    <value><![CDATA[Chọn Tài]]></value>
+  </definition>
+  <definition>
+    <key>text_with_selected</key>
+    <value><![CDATA[Với lựa chọn:]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Nguồn cập nhật thành công]]></value>
+  </definition>
+  <definition>
+    <key>text_map_success</key>
+    <value><![CDATA[Tài nguyên liên kết thành công]]></value>
+  </definition>
+  <definition>
+    <key>text_no_resources</key>
+    <value><![CDATA[Không có nguồn lực sẵn có]]></value>
+  </definition>
+  <definition>
+    <key>text_preview</key>
+    <value><![CDATA[Xem trước / Tải về]]></value>
+  </definition>
+  <definition>
+    <key>error_file size</key>
+    <value><![CDATA[Chú ý: Kích thước tối đa của tập tin để tải lên là %s. Bạn có thể tăng giá trị này trong php.ini.]]></value>
+  </definition>
+  <definition>
+    <key>text_product_option_value</key>
+    <value><![CDATA[giá trị lựa chọn sản phẩm]]></value>
+  </definition>
+  <definition>
+    <key>text_categories</key>
+    <value><![CDATA[Thể loại]]></value>
+  </definition>
+  <definition>
+    <key>text_manufacturers</key>
+    <value><![CDATA[Nhà sản xuất của]]></value>
+  </definition>
+  <definition>
+    <key>error_delete</key>
+    <value><![CDATA[Không thể xóa tài nguyên liên kết với nhiều đối tượng]]></value>
+  </definition>
+  <definition>
+    <key>error_unmap</key>
+    <value><![CDATA[không thể hủy liên kết tài nguyên. Đối tượng chưa được đặt.]]></value>
+  </definition>
+  <definition>
+    <key>text_replace_file</key>
+    <value><![CDATA[thay thế tập tin]]></value>
+  </definition>
+  <definition>
+    <key>error_not_replaced</key>
+    <value><![CDATA[Tập tin lỗi thay thế. ID yêu cầu!]]></value>
+  </definition>
+  <definition>
+    <key>error_not_exists</key>
+    <value><![CDATA[Tập tin lỗi thay thế. Tài nguyên không tồn tại!]]></value>
+  </definition>
+  <definition>
+    <key>error_cannot_move</key>
+    <value><![CDATA[Lỗi: Không thể di chuyển tập tin vào thư mục %s nguồn lực.]]></value>
+  </definition>
+  <definition>
+    <key>button_save_n_apply</key>
+    <value><![CDATA[Lưu và áp dụng]]></value>
+  </definition>
+  <definition>
+    <key>text_image_size</key>
+    <value><![CDATA[Kích cỡ hình:]]></value>
+  </definition>
+  <definition>
+    <key>text_file_size</key>
+    <value><![CDATA[Kích thước tập tin:]]></value>
+  </definition>
+  <definition>
+    <key>text_file_mime</key>
+    <value><![CDATA[MIME:]]></value>
+  </definition>
+  <definition>
+    <key>text_file_path</key>
+    <value><![CDATA[Vị trí tập tin:]]></value>
+  </definition>
+  <definition>
+    <key>text_file_url</key>
+    <value><![CDATA[URL tài nguyên:]]></value>
+  </definition>
+  <definition>
+    <key>text_sorting_date_asc</key>
+    <value><![CDATA[Ngày Cũ &gt; Mới]]></value>
+  </definition>
+  <definition>
+    <key>text_sorting_date_desc</key>
+    <value><![CDATA[Ngày mới &gt; Cũ]]></value>
+  </definition>
+  <definition>
+    <key>text_sorting_name_asc</key>
+    <value><![CDATA[Tên A - Z]]></value>
+  </definition>
+  <definition>
+    <key>text_sorting_name_desc</key>
+    <value><![CDATA[Tên Z - A]]></value>
+  </definition>
+  <definition>
+    <key>text_sorting_asc</key>
+    <value><![CDATA[Xếp theo thứ tự thấp &gt; Cao]]></value>
+  </definition>
+  <definition>
+    <key>text_sorting_desc</key>
+    <value><![CDATA[Xếp theo thứ tự cao &gt; thấp]]></value>
+  </definition>
+</definitions>

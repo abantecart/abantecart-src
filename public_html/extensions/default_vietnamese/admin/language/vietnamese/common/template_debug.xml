@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>text_block_id</key>
+    <value><![CDATA[Khối ID:]]></value>
+  </definition>
+  <definition>
+    <key>text_block_name</key>
+    <value><![CDATA[Tên:]]></value>
+  </definition>
+  <definition>
+    <key>text_block_controller</key>
+    <value><![CDATA[Bộ điều khiển:]]></value>
+  </definition>
+  <definition>
+    <key>text_block_path</key>
+    <value><![CDATA[Con đường:]]></value>
+  </definition>
+  <definition>
+    <key>text_block_template</key>
+    <value><![CDATA[Bản mẫu:]]></value>
+  </definition>
+  <definition>
+    <key>text_block_parent</key>
+    <value><![CDATA[Cha mẹ:]]></value>
+  </definition>
+  <definition>
+    <key>text_parent_id</key>
+    <value><![CDATA[ID cha mẹ:]]></value>
+  </definition>
+  <definition>
+    <key>text_close</key>
+    <value><![CDATA[Gần]]></value>
+  </definition>
+  <definition>
+    <key>text_click</key>
+    <value><![CDATA[Nhấp vào đây]]></value>
+  </definition>
+</definitions>

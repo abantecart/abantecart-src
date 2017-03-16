@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Scheduled Tasks]]></value>
+  </definition>
+  <definition>
+    <key>column_id</key>
+    <value><![CDATA[ID]]></value>
+  </definition>
+  <definition>
+    <key>column_date_created</key>
+    <value><![CDATA[Ngày tạo]]></value>
+  </definition>
+  <definition>
+    <key>column_name</key>
+    <value><![CDATA[Tên]]></value>
+  </definition>
+  <definition>
+    <key>column_status</key>
+    <value><![CDATA[Trạng thái]]></value>
+  </definition>
+  <definition>
+    <key>column_start_time</key>
+    <value><![CDATA[Thời gian bắt đầu]]></value>
+  </definition>
+  <definition>
+    <key>text_stuck</key>
+    <value><![CDATA[Bị mắc kẹt]]></value>
+  </definition>
+  <definition>
+    <key>text_ready</key>
+    <value><![CDATA[Sẳn sàng]]></value>
+  </definition>
+  <definition>
+    <key>text_running</key>
+    <value><![CDATA[Đang chạy]]></value>
+  </definition>
+  <definition>
+    <key>text_scheduled</key>
+    <value><![CDATA[Lên kế hoạch]]></value>
+  </definition>
+  <definition>
+    <key>text_disabled</key>
+    <value><![CDATA[Tàn tật]]></value>
+  </definition>
+  <definition>
+    <key>text_failed</key>
+    <value><![CDATA[Thất bại]]></value>
+  </definition>
+  <definition>
+    <key>text_incomplete</key>
+    <value><![CDATA[chưa hoàn thiện]]></value>
+  </definition>
+  <definition>
+    <key>text_completed</key>
+    <value><![CDATA[Đã hoàn thành]]></value>
+  </definition>
+  <definition>
+    <key>text_restart</key>
+    <value><![CDATA[Khởi động lại công tác]]></value>
+  </definition>
+  <definition>
+    <key>text_run</key>
+    <value><![CDATA[chạy nhiệm vụ]]></value>
+  </definition>
+  <definition>
+    <key>text_task_started</key>
+    <value><![CDATA[nhiệm vụ bắt đầu]]></value>
+  </definition>
+  <definition>
+    <key>text_task_not_found</key>
+    <value><![CDATA[Nhiệm vụ không tìm thấy.]]></value>
+  </definition>
+  <definition>
+    <key>text_empty_task</key>
+    <value><![CDATA[Công việc không chứa các bước. Loại bỏ.]]></value>
+  </definition>
+  <definition>
+    <key>text_forbidden_to_restart</key>
+    <value><![CDATA[Cấm Để khởi động lại!]]></value>
+  </definition>
+</definitions>

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>text_subject</key>
+    <value><![CDATA[%s - Cảm ơn bạn đã đăng ký]]></value>
+  </definition>
+  <definition>
+    <key>text_welcome</key>
+    <value><![CDATA[Chào mừng và cảm ơn bạn đã đăng ký tại %s!]]></value>
+  </definition>
+  <definition>
+    <key>text_login</key>
+    <value><![CDATA[Tài khoản của bạn hiện đã được tạo ra và bạn có thể truy cập nó bằng cách truy cập trang web của chúng tôi hoặc tại URL sau đây:]]></value>
+  </definition>
+  <definition>
+    <key>text_approval</key>
+    <value><![CDATA[Tài khoản của bạn phải được chấp thuận trước khi bạn có thể đăng nhập. Khi được chấp nhận, bạn có thể đăng nhập bằng cách sử dụng địa chỉ email và mật khẩu của bạn bằng cách truy cập trang web của chúng tôi hoặc tại URL sau đây:]]></value>
+  </definition>
+  <definition>
+    <key>text_activate</key>
+    <value><![CDATA[Trước khi chúng ta có thể kích hoạt tài khoản của bạn một bước cuối cùng phải được thực hiện để hoàn tất đăng ký của bạn. <br/> 
+ Bạn phải hoàn tất bước cuối cùng này để trở thành một thành viên đã đăng ký. Hãy nhấp vào liên kết sau đây để kích hoạt tài khoản của bạn %s.]]></value>
+  </definition>
+  <definition>
+    <key>text_services</key>
+    <value><![CDATA[Sau khi đăng nhập, bạn sẽ có thể truy cập các dịch vụ khác bao gồm xem xét đơn đặt hàng qua, hoá đơn in ấn và chỉnh sửa thông tin tài khoản của bạn.]]></value>
+  </definition>
+  <definition>
+    <key>text_thanks</key>
+    <value><![CDATA[Cảm ơn bạn,]]></value>
+  </definition>
+</definitions>

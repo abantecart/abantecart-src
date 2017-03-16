@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Các tổng số thứ tự]]></value>
+  </definition>
+  <definition>
+    <key>text_install</key>
+    <value><![CDATA[cài đặt, dựng lên]]></value>
+  </definition>
+  <definition>
+    <key>text_uninstall</key>
+    <value><![CDATA[Uninstall]]></value>
+  </definition>
+  <definition>
+    <key>column_name</key>
+    <value><![CDATA[Các tổng số thứ tự]]></value>
+  </definition>
+  <definition>
+    <key>column_status</key>
+    <value><![CDATA[Trạng thái]]></value>
+  </definition>
+  <definition>
+    <key>column_sort_order</key>
+    <value><![CDATA[Thứ tự sắp xếp]]></value>
+  </definition>
+  <definition>
+    <key>column_calculation_order</key>
+    <value><![CDATA[tính toán theo thứ tự]]></value>
+  </definition>
+  <definition>
+    <key>column_action</key>
+    <value><![CDATA[Hoạt động]]></value>
+  </definition>
+</definitions>

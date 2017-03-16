@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>text_subject</key>
+    <value><![CDATA[%s - Đặt lại mật khẩu]]></value>
+  </definition>
+  <definition>
+    <key>text_greeting</key>
+    <value><![CDATA[Một thiết lập lại mật khẩu đã được yêu cầu từ %s.]]></value>
+  </definition>
+  <definition>
+    <key>text_password</key>
+    <value><![CDATA[Để thiết lập lại liên kết nhấp chuột mật khẩu của bạn dưới đây:]]></value>
+  </definition>
+  <definition>
+    <key>text_password_reset</key>
+    <value><![CDATA[Mật khẩu của bạn đã được đặt lại thành công trên %s.]]></value>
+  </definition>
+  <definition>
+    <key>text_new_password</key>
+    <value><![CDATA[Nhập mật khẩu mới của bạn ở dưới:]]></value>
+  </definition>
+  <definition>
+    <key>error_reset_token</key>
+    <value><![CDATA[liên kết không chính xác cho yêu cầu mật khẩu. Hãy cố gắng thiết lập lại một lần nữa và sử dụng liên kết với hầu hết các email gần đây.]]></value>
+  </definition>
+</definitions>

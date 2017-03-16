@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Giao dịch khách hàng]]></value>
+  </definition>
+  <definition>
+    <key>column_transaction_date</key>
+    <value><![CDATA[Ngày Giao dịch]]></value>
+  </definition>
+  <definition>
+    <key>column_customer</key>
+    <value><![CDATA[tên khách hàng]]></value>
+  </definition>
+  <definition>
+    <key>column_created_by</key>
+    <value><![CDATA[Được tạo bởi]]></value>
+  </definition>
+  <definition>
+    <key>column_debit</key>
+    <value><![CDATA[Ghi nợ]]></value>
+  </definition>
+  <definition>
+    <key>column_credit</key>
+    <value><![CDATA[tín dụng]]></value>
+  </definition>
+  <definition>
+    <key>column_transaction_type</key>
+    <value><![CDATA[Loại giao dịch]]></value>
+  </definition>
+</definitions>

@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Shared Downloads]]></value>
+  </definition>
+  <definition>
+    <key>text_download</key>
+    <value><![CDATA[chia sẻ Tải về]]></value>
+  </definition>
+  <definition>
+    <key>insert_title</key>
+    <value><![CDATA[Chèn Tải về]]></value>
+  </definition>
+  <definition>
+    <key>update_title</key>
+    <value><![CDATA[cập nhật Tải về]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Thành công: Bạn có tải biến đổi!]]></value>
+  </definition>
+  <definition>
+    <key>column_name</key>
+    <value><![CDATA[Tải Tên]]></value>
+  </definition>
+  <definition>
+    <key>column_remaining</key>
+    <value><![CDATA[Tổng số lượt tải phép]]></value>
+  </definition>
+  <definition>
+    <key>column_action</key>
+    <value><![CDATA[Hoạt động]]></value>
+  </definition>
+  <definition>
+    <key>entry_name</key>
+    <value><![CDATA[Tải Tên:]]></value>
+  </definition>
+  <definition>
+    <key>entry_filename</key>
+    <value><![CDATA[filename:]]></value>
+  </definition>
+  <definition>
+    <key>entry_remaining</key>
+    <value><![CDATA[Tổng số lượt tải cho phép:]]></value>
+  </definition>
+  <definition>
+    <key>entry_update</key>
+    <value><![CDATA[Đẩy Khách Previous: <br/><span class="help">Kiểm tra này để cập nhật các phiên bản đã mua trước đó là tốt.</span>]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Cảnh báo: Bạn không có quyền sửa đổi tải!]]></value>
+  </definition>
+  <definition>
+    <key>error_name</key>
+    <value><![CDATA[Tên phải có từ 2 đến 64 ký tự!]]></value>
+  </definition>
+  <definition>
+    <key>error_file</key>
+    <value><![CDATA[Hãy thiết lập các tập tin để tải về.]]></value>
+  </definition>
+  <definition>
+    <key>error_product</key>
+    <value><![CDATA[Cảnh báo: tải về này không thể bị xóa vì nó đang được gán cho %s sản phẩm!]]></value>
+  </definition>
+  <definition>
+    <key>column_image</key>
+    <value><![CDATA[hình ảnh]]></value>
+  </definition>
+  <definition>
+    <key>column_products_count</key>
+    <value><![CDATA[sản phẩm Đếm]]></value>
+  </definition>
+</definitions>

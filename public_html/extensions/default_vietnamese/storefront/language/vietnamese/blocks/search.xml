@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Tìm kiếm]]></value>
+  </definition>
+  <definition>
+    <key>text_keyword</key>
+    <value><![CDATA[Tìm kiếm từ khóa]]></value>
+  </definition>
+  <definition>
+    <key>text_advanced</key>
+    <value><![CDATA[tìm kiếm nâng cao]]></value>
+  </definition>
+</definitions>

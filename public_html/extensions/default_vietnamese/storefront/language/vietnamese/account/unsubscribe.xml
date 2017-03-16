@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Của bạn Đã được hủy đăng thành công!]]></value>
+  </definition>
+  <definition>
+    <key>text_message</key>
+    <value><![CDATA[Bạn đã hủy đăng ký thành công liên lạc qua email.]]></value>
+  </definition>
+  <definition>
+    <key>text_account</key>
+    <value><![CDATA[Tài khoản]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Sự thành công]]></value>
+  </definition>
+</definitions>

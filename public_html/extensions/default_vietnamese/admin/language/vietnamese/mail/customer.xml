@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>text_subject</key>
+    <value><![CDATA[%s - Tài khoản của bạn đã được kích hoạt!]]></value>
+  </definition>
+  <definition>
+    <key>text_welcome</key>
+    <value><![CDATA[Chào mừng và cảm ơn bạn đã đăng ký tại %s!]]></value>
+  </definition>
+  <definition>
+    <key>text_login</key>
+    <value><![CDATA[Tài khoản của bạn hiện đã được tạo ra và bạn có thể đăng nhập bằng cách sử dụng địa chỉ email và mật khẩu của bạn bằng cách truy cập trang web của chúng tôi hoặc tại URL sau đây:]]></value>
+  </definition>
+  <definition>
+    <key>text_services</key>
+    <value><![CDATA[Khi bạn đăng nhập, bạn sẽ có thể truy cập, muốn được tặng quà, lịch sử đặt hàng, hoá đơn in ấn của bạn và chỉnh sửa thông tin tài khoản của bạn.]]></value>
+  </definition>
+  <definition>
+    <key>text_thanks</key>
+    <value><![CDATA[Cảm ơn bạn,]]></value>
+  </definition>
+</definitions>

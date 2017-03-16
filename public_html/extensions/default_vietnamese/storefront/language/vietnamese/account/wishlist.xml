@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Sản phẩm yêu thích]]></value>
+  </definition>
+  <definition>
+    <key>text_account</key>
+    <value><![CDATA[Tài khoản]]></value>
+  </definition>
+  <definition>
+    <key>text_empty_wishlist</key>
+    <value><![CDATA[danh sách mong muốn có sản phẩm nào]]></value>
+  </definition>
+  <definition>
+    <key>button_cart</key>
+    <value><![CDATA[Xem giỏ hàng]]></value>
+  </definition>
+  <definition>
+    <key>button_continue</key>
+    <value><![CDATA[tiếp tục mua hàng]]></value>
+  </definition>
+  <definition>
+    <key>column_image</key>
+    <value><![CDATA[hình ảnh]]></value>
+  </definition>
+  <definition>
+    <key>column_name</key>
+    <value><![CDATA[Tên]]></value>
+  </definition>
+  <definition>
+    <key>column_model</key>
+    <value><![CDATA[Mô hình]]></value>
+  </definition>
+  <definition>
+    <key>column_added</key>
+    <value><![CDATA[Đã thêm vào danh sách mong muốn]]></value>
+  </definition>
+  <definition>
+    <key>column_price</key>
+    <value><![CDATA[đơn giá]]></value>
+  </definition>
+  <definition>
+    <key>column_actions</key>
+    <value><![CDATA[Hoạt động]]></value>
+  </definition>
+</definitions>

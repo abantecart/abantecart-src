@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Trạng thái có trật tự]]></value>
+  </definition>
+  <definition>
+    <key>text_status</key>
+    <value><![CDATA[Tình trạng đặt hàng]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Thành công: Bạn đã thay đổi trạng thái trật tự!]]></value>
+  </definition>
+  <definition>
+    <key>column_name</key>
+    <value><![CDATA[Thứ tự Tên Status]]></value>
+  </definition>
+  <definition>
+    <key>column_text_id</key>
+    <value><![CDATA[Tình hình đơn hàng Tiêu ID]]></value>
+  </definition>
+  <definition>
+    <key>entry_text_id</key>
+    <value><![CDATA[Tình hình đơn hàng Tiêu ID:]]></value>
+  </definition>
+  <definition>
+    <key>column_action</key>
+    <value><![CDATA[Hoạt động]]></value>
+  </definition>
+  <definition>
+    <key>entry_name</key>
+    <value><![CDATA[Thứ tự Tên Tình trạng:]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Cảnh báo: Bạn không có quyền chỉnh sửa bức tượng trật tự!]]></value>
+  </definition>
+  <definition>
+    <key>error_name</key>
+    <value><![CDATA[Thứ tự Tên Status phải có từ 2 đến 32 kí tự!]]></value>
+  </definition>
+  <definition>
+    <key>error_default</key>
+    <value><![CDATA[Cảnh báo: trạng thái đơn hàng này không thể bị xóa vì nó hiện đang được phân công như các tình trạng đặt hàng cửa hàng mặc định!]]></value>
+  </definition>
+  <definition>
+    <key>error_download</key>
+    <value><![CDATA[Cảnh báo: trạng thái đơn hàng này không thể bị xóa vì nó đang được gán như tình trạng download mặc định!]]></value>
+  </definition>
+  <definition>
+    <key>error_store</key>
+    <value><![CDATA[Cảnh báo: trạng thái đơn hàng này không thể bị xóa vì nó đang được gán cho %s cửa hàng!]]></value>
+  </definition>
+  <definition>
+    <key>error_order</key>
+    <value><![CDATA[Cảnh báo: trạng thái đơn hàng này không thể bị xóa vì nó đang được gán cho %s đơn đặt hàng!]]></value>
+  </definition>
+  <definition>
+    <key>error_nondeletable</key>
+    <value><![CDATA[Cảnh báo: Đây là tình trạng đặt hàng quan trọng có liên quan đến thanh toán. Bạn không thể xóa tình trạng này.]]></value>
+  </definition>
+  <definition>
+    <key>error_status_text_id</key>
+    <value><![CDATA[Id Tiêu Tình hình đơn hàng phải độc đáo và giữa 2 và 32 ký tự!]]></value>
+  </definition>
+</definitions>

@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Quên mật khẩu?]]></value>
+  </definition>
+  <definition>
+    <key>heading_title_loginname</key>
+    <value><![CDATA[Quên tên đăng nhập của bạn?]]></value>
+  </definition>
+  <definition>
+    <key>text_account</key>
+    <value><![CDATA[Tài khoản]]></value>
+  </definition>
+  <definition>
+    <key>text_forgotten</key>
+    <value><![CDATA[Đã quên mật khẩu]]></value>
+  </definition>
+  <definition>
+    <key>text_your_email</key>
+    <value><![CDATA[Địa chỉ email của bạn]]></value>
+  </definition>
+  <definition>
+    <key>text_email</key>
+    <value><![CDATA[Nhập địa chỉ e-mail liên kết với tài khoản của bạn. Nhấp vào trình đã mật khẩu của bạn gửi qua email cho bạn]]></value>
+  </definition>
+  <definition>
+    <key>text_loginname_email</key>
+    <value><![CDATA[Nhập tên đăng nhập và địa chỉ e-mail liên quan đến tài khoản của bạn. Nhấp vào trình yêu cầu thiết lập lại mật khẩu]]></value>
+  </definition>
+  <definition>
+    <key>text_lastname_email</key>
+    <value><![CDATA[Nhập tên và e-mail qua địa chỉ liên kết với tài khoản của bạn. Nhấp vào trình có tên đăng nhập của bạn gửi qua email cho bạn]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Thành công: Password reset link đã được gửi đến địa chỉ e-mail của bạn.]]></value>
+  </definition>
+  <definition>
+    <key>text_success_loginname</key>
+    <value><![CDATA[Thành công: bạn nhắc tên đăng nhập đã được gửi đến địa chỉ e-mail của bạn.]]></value>
+  </definition>
+  <definition>
+    <key>entry_loginname</key>
+    <value><![CDATA[Tên đăng nhập:]]></value>
+  </definition>
+  <definition>
+    <key>entry_lastname</key>
+    <value><![CDATA[Họ:]]></value>
+  </definition>
+  <definition>
+    <key>entry_email</key>
+    <value><![CDATA[Địa chỉ email:]]></value>
+  </definition>
+  <definition>
+    <key>error_email</key>
+    <value><![CDATA[Lỗi: Địa chỉ email không được cung cấp hoặc không tìm thấy trong hồ sơ của chúng tôi, xin vui lòng thử lại!]]></value>
+  </definition>
+  <definition>
+    <key>error_loginname</key>
+    <value><![CDATA[Lỗi: Tên đăng nhập không được cung cấp hoặc không tìm thấy trong hồ sơ của chúng tôi, xin vui lòng thử lại!]]></value>
+  </definition>
+  <definition>
+    <key>error_lastname</key>
+    <value><![CDATA[Lỗi: Tên cuối không được cung cấp hoặc không tìm thấy trong hồ sơ của chúng tôi, xin vui lòng thử lại!]]></value>
+  </definition>
+  <definition>
+    <key>error_not_found</key>
+    <value><![CDATA[Lỗi: Không có hồ sơ tìm thấy thông tin phù hợp với quy định của bạn, xin vui lòng kiểm tra thông tin của bạn và thử lại!]]></value>
+  </definition>
+  <definition>
+    <key>text_forgotten_loginname</key>
+    <value><![CDATA[Quên Tên đăng nhập]]></value>
+  </definition>
+</definitions>

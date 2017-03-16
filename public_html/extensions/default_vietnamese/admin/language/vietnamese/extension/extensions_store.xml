@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Phần mở rộng Marketplace]]></value>
+  </definition>
+  <definition>
+    <key>text_install</key>
+    <value><![CDATA[cài đặt, dựng lên]]></value>
+  </definition>
+  <definition>
+    <key>text_uninstall</key>
+    <value><![CDATA[Uninstall]]></value>
+  </definition>
+  <definition>
+    <key>text_uninstall_delete</key>
+    <value><![CDATA[Gỡ / Xóa]]></value>
+  </definition>
+  <definition>
+    <key>text_uninstall_confirm</key>
+    <value><![CDATA[Vui lòng xác nhận bạn muốn gỡ bỏ cài đặt phần mở rộng [% mở rộng%]. Tất cả các cài đặt tiện ích và các dữ liệu liên quan có thể bị xóa và bị mất.]]></value>
+  </definition>
+  <definition>
+    <key>text_delete</key>
+    <value><![CDATA[Xóa bỏ]]></value>
+  </definition>
+  <definition>
+    <key>text_enlarge</key>
+    <value><![CDATA[Click vào hình để phóng to]]></value>
+  </definition>
+  <definition>
+    <key>text_activate</key>
+    <value><![CDATA[Kích hoạt]]></value>
+  </definition>
+  <definition>
+    <key>text_deactivate</key>
+    <value><![CDATA[tắt]]></value>
+  </definition>
+  <definition>
+    <key>text_left</key>
+    <value><![CDATA[Trái]]></value>
+  </definition>
+  <definition>
+    <key>text_right</key>
+    <value><![CDATA[Đúng]]></value>
+  </definition>
+  <definition>
+    <key>text_date_added</key>
+    <value><![CDATA[thêm vào]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Cảnh báo: Bạn không có quyền sửa đổi phần mở rộng!]]></value>
+  </definition>
+  <definition>
+    <key>error_required_field</key>
+    <value><![CDATA[Cảnh báo: Vui lòng điền vào các trường bắt buộc!]]></value>
+  </definition>
+  <definition>
+    <key>error_payment_uninstall</key>
+    <value><![CDATA[Cảnh báo: Vô hiệu hóa phần mở rộng trước khi gỡ bỏ!]]></value>
+  </definition>
+  <definition>
+    <key>error_uninstall</key>
+    <value><![CDATA[Cảnh báo: Gỡ bỏ phần mở rộng trước khi xóa!]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Thành công: Bạn đã sửa đổi cài đặt tiện ích!]]></value>
+  </definition>
+  <definition>
+    <key>text_extensions_store</key>
+    <value><![CDATA[Phần mở rộng Marketplace]]></value>
+  </definition>
+  <definition>
+    <key>text_required</key>
+    <value><![CDATA[Cần thiết]]></value>
+  </definition>
+  <definition>
+    <key>text_optional</key>
+    <value><![CDATA[Không bắt buộc]]></value>
+  </definition>
+  <definition>
+    <key>text_add_new</key>
+    <value><![CDATA[cài đặt Extension]]></value>
+  </definition>
+  <definition>
+    <key>error_connect</key>
+    <value><![CDATA[Rất tiếc, AbanteCart của bạn không thể kết nối với các phần mở rộng thị trường. Xin vui lòng xem System-&gt; bản ghi lỗi để biết chi tiết.]]></value>
+  </definition>
+  <definition>
+    <key>text_sorting_review_asc</key>
+    <value><![CDATA[Xem lại Đếm Thấp&gt; Cao]]></value>
+  </definition>
+  <definition>
+    <key>text_sorting_review_desc</key>
+    <value><![CDATA[Xem lại Đếm Cao&gt; Thấp]]></value>
+  </definition>
+  <definition>
+    <key>text_sorting_price_asc</key>
+    <value><![CDATA[Giá Thấp&gt; Cao]]></value>
+  </definition>
+  <definition>
+    <key>text_sorting_price_desc</key>
+    <value><![CDATA[Giá Cao&gt; Thấp]]></value>
+  </definition>
+  <definition>
+    <key>text_sorting_rating_desc</key>
+    <value><![CDATA[Đánh giá cao nhất]]></value>
+  </definition>
+  <definition>
+    <key>text_sorting_rating_asc</key>
+    <value><![CDATA[Đánh giá thấp nhất]]></value>
+  </definition>
+  <definition>
+    <key>text_sorting_date_modified_asc</key>
+    <value><![CDATA[Ngày mới Để Cũ]]></value>
+  </definition>
+  <definition>
+    <key>text_sorting_date_modified_desc</key>
+    <value><![CDATA[Ngày Cũ đến mới]]></value>
+  </definition>
+  <definition>
+    <key>text_my_extensions</key>
+    <value><![CDATA[Phần mở rộng của tôi]]></value>
+  </definition>
+  <definition>
+    <key>text_my_account</key>
+    <value><![CDATA[Tài khoản của tôi]]></value>
+  </definition>
+  <definition>
+    <key>text_marketplace_site</key>
+    <value><![CDATA[Marketplace Site]]></value>
+  </definition>
+  <definition>
+    <key>text_all_categories</key>
+    <value><![CDATA[Tất cả danh mục]]></value>
+  </definition>
+  <definition>
+    <key>text_connect</key>
+    <value><![CDATA[Kết nối]]></value>
+  </definition>
+  <definition>
+    <key>text_marketplace_connect</key>
+    <value><![CDATA[Kết nối thị trường]]></value>
+  </definition>
+  <definition>
+    <key>text_marketplace_extension</key>
+    <value><![CDATA[xem trước phần mở rộng và trật tự]]></value>
+  </definition>
+  <definition>
+    <key>text_marketplace_buy</key>
+    <value><![CDATA[Nhận phần mở rộng này tại]]></value>
+  </definition>
+  <definition>
+    <key>text_connected</key>
+    <value><![CDATA[Kết nối với thị trường. Nhấn vào đây để ngắt kết nối]]></value>
+  </definition>
+  <definition>
+    <key>text_disconnect_confirm</key>
+    <value><![CDATA[Bạn có chắc chắn bạn muốn ngắt kết nối?]]></value>
+  </definition>
+  <definition>
+    <key>text_disconnect_success</key>
+    <value><![CDATA[Cửa hàng này đã được ngắt kết nối!]]></value>
+  </definition>
+  <definition>
+    <key>text_connection_required</key>
+    <value><![CDATA[Bạn cần kết nối AbanteCart đến Marketplace để xem các tiện ích của bạn! Nhấn vào nút &quot;kết nối&quot; trong bảng trên.]]></value>
+  </definition>
+  <definition>
+    <key>text_in_other_store</key>
+    <value><![CDATA[Gia hạn cho đơn đặt hàng này đã được cài đặt trong AbanteCart khác. Kiểm tra các cửa hàng được kết nối với lịch sử.]]></value>
+  </definition>
+  <definition>
+    <key>text_no_purchase_or_not_connected</key>
+    <value><![CDATA[Bạn không có mua cho cửa hàng hoặc cửa hàng này đã được diconnected từ Marketplace.]]></value>
+  </definition>
+  <definition>
+    <key>text_no_extenions_loaded</key>
+    <value><![CDATA[Không có tiện ích có sẵn. Kiểm tra lựa chọn của bạn hoặc thử một lần nữa.]]></value>
+  </definition>
+  <definition>
+    <key>text_compatibility</key>
+    <value><![CDATA[Phần mở rộng này không được xác nhận để làm việc với các phiên bản của AbanteCart. Liên hệ với nhà phát triển phần mở rộng để xác nhận khả năng tương thích.]]></value>
+  </definition>
+  <definition>
+    <key>error_mp_connection</key>
+    <value><![CDATA[Rất tiếc, không thể kết nối với AbanteCart Marketplace. Hãy cố gắng để kiểm tra sau hoặc yêu cầu nhà cung cấp dịch vụ lưu trữ của bạn để được giúp đỡ.]]></value>
+  </definition>
+  <definition>
+    <key>text_search</key>
+    <value><![CDATA[Tìm kiếm]]></value>
+  </definition>
+</definitions>

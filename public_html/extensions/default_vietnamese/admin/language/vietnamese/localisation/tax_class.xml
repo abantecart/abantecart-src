@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Lớp học thuế]]></value>
+  </definition>
+  <definition>
+    <key>text_class</key>
+    <value><![CDATA[Lớp thuế]]></value>
+  </definition>
+  <definition>
+    <key>text_rate</key>
+    <value><![CDATA[Thuế suất]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Thành công: Bạn đã sửa đổi các lớp thuế!]]></value>
+  </definition>
+  <definition>
+    <key>column_title</key>
+    <value><![CDATA[Thuế Lớp Tiêu đề]]></value>
+  </definition>
+  <definition>
+    <key>column_action</key>
+    <value><![CDATA[Hoạt động]]></value>
+  </definition>
+  <definition>
+    <key>tab_details</key>
+    <value><![CDATA[Chi tiết]]></value>
+  </definition>
+  <definition>
+    <key>tab_rates</key>
+    <value><![CDATA[Giá]]></value>
+  </definition>
+  <definition>
+    <key>entry_title</key>
+    <value><![CDATA[Thuế Lớp Tiêu đề:]]></value>
+  </definition>
+  <definition>
+    <key>entry_description</key>
+    <value><![CDATA[Mô tả rõ cho khách hàng]]></value>
+  </definition>
+  <definition>
+    <key>entry_location</key>
+    <value><![CDATA[Vị trí]]></value>
+  </definition>
+  <definition>
+    <key>entry_zone</key>
+    <value><![CDATA[khu vị trí]]></value>
+  </definition>
+  <definition>
+    <key>entry_priority</key>
+    <value><![CDATA[Sự ưu tiên]]></value>
+  </definition>
+  <definition>
+    <key>entry_rate</key>
+    <value><![CDATA[Thuế suất]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Cảnh báo: Bạn không có quyền sửa đổi các lớp thuế!]]></value>
+  </definition>
+  <definition>
+    <key>error_tax_title</key>
+    <value><![CDATA[Thuế Lớp Tiêu đề phải có từ 2 đến 32 kí tự!]]></value>
+  </definition>
+  <definition>
+    <key>error_rate</key>
+    <value><![CDATA[Thuế suất yêu cầu!]]></value>
+  </definition>
+  <definition>
+    <key>error_product</key>
+    <value><![CDATA[Cảnh báo: class thuế này không thể bị xóa vì nó đang được gán cho %s sản phẩm!]]></value>
+  </definition>
+  <definition>
+    <key>text_tax_all_zones</key>
+    <value><![CDATA[tất cả các khu vị trí]]></value>
+  </definition>
+  <definition>
+    <key>entry_tax_rate_threshold</key>
+    <value><![CDATA[Áp dụng thuế nếu <br/><span class="help">Áp dụng thuế này chỉ khi, số tiền bị đánh thuế (sản phẩm, vận chuyển, tổng số phụ, vv) là ...</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_tax_exempt_groups</key>
+    <value><![CDATA[Thuế Groups Miễn <br/><span class="help">Chọn nhóm khách hàng để được miễn thuế này</span>]]></value>
+  </definition>
+  <definition>
+    <key>text_absolute</key>
+    <value><![CDATA[tuyệt đối]]></value>
+  </definition>
+  <definition>
+    <key>text_percent</key>
+    <value><![CDATA[Phần trăm]]></value>
+  </definition>
+</definitions>

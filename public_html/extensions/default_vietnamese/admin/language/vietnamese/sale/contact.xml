@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>text_send_email</key>
+    <value><![CDATA[Gửi thư]]></value>
+  </definition>
+  <definition>
+    <key>text_send_sms</key>
+    <value><![CDATA[Gửi tin nhắn]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Tin nhắn của bạn đã được gửi thành công!]]></value>
+  </definition>
+  <definition>
+    <key>text_default</key>
+    <value><![CDATA[Mặc định]]></value>
+  </definition>
+  <definition>
+    <key>text_custom_send</key>
+    <value><![CDATA[khách hàng lựa chọn manualy]]></value>
+  </definition>
+  <definition>
+    <key>text_all_subscribers</key>
+    <value><![CDATA[Tất cả các thuê bao]]></value>
+  </definition>
+  <definition>
+    <key>text_subscribers_only</key>
+    <value><![CDATA[Các thuê bao nhận bản tin Chỉ (không phải khách hàng)]]></value>
+  </definition>
+  <definition>
+    <key>text_customers_only</key>
+    <value><![CDATA[Tất cả khách hàng]]></value>
+  </definition>
+  <definition>
+    <key>entry_store</key>
+    <value><![CDATA[Từ cửa hàng: <span class="help">Địa chỉ email Store để gửi email từ. Giá trị được đặt trong cài đặt cửa hàng</span>]]></value>
+  </definition>
+  <definition>
+    <key>text_customers_who_ordered</key>
+    <value><![CDATA[Để khách hàng ra lệnh lựa chọn sản phẩm]]></value>
+  </definition>
+  <definition>
+    <key>entry_to</key>
+    <value><![CDATA[Để: <span class="help">Danh sách khách hàng nhận được tin nhắn này. Chú ý: danh sách khách hàng lớn sẽ đòi hỏi thời gian dài để được xử lý và có thể yêu cầu các phương pháp thay thế. Tham khảo web và email các cấu hình máy chủ của bạn</span>]]></value>
+  </definition>
+  <definition>
+    <key>text_customers_from_lookup</key>
+    <value><![CDATA[Bắt đầu nhập tên khách hàng để tìm kiếm và chọn]]></value>
+  </definition>
+  <definition>
+    <key>text_products_from_lookup</key>
+    <value><![CDATA[Bắt đầu nhập tên sản phẩm để tìm và chọn]]></value>
+  </definition>
+  <definition>
+    <key>entry_subject</key>
+    <value><![CDATA[Môn học:]]></value>
+  </definition>
+  <definition>
+    <key>entry_message</key>
+    <value><![CDATA[Tin cơ thể:]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Cảnh báo: Bạn không có quyền để gửi email!]]></value>
+  </definition>
+  <definition>
+    <key>error_subject</key>
+    <value><![CDATA[Tiêu đề email là cần thiết!]]></value>
+  </definition>
+  <definition>
+    <key>error_message_email</key>
+    <value><![CDATA[cơ thể nhắn email được yêu cầu!]]></value>
+  </definition>
+  <definition>
+    <key>error_message_sms</key>
+    <value><![CDATA[cơ thể nhắn SMS được yêu cầu!]]></value>
+  </definition>
+  <definition>
+    <key>error_recipients</key>
+    <value><![CDATA[danh sách người nhận, các thuê bao hoặc sản phẩm đặt hàng được yêu cầu!]]></value>
+  </definition>
+  <definition>
+    <key>error_not_sent</key>
+    <value><![CDATA[&#39;Lỗi: Không có email đã được gửi! Xin vui lòng xem bản ghi lỗi để biết chi tiết. &quot;]]></value>
+  </definition>
+  <definition>
+    <key>text_unsubscribe</key>
+    <value><![CDATA[Email này đã được gửi đến %s, vì sở thích email của bạn được thiết lập để nhận các bản tin. Nhấn vào <a href="%s">đây để Hủy đăng ký</a> .]]></value>
+  </definition>
+  <definition>
+    <key>text_total_to_be_sent</key>
+    <value><![CDATA[(Tổng số phải được gửi đến: %s)]]></value>
+  </definition>
+  <definition>
+    <key>text_select_products</key>
+    <value><![CDATA[- Chọn sản phẩm -]]></value>
+  </definition>
+  <definition>
+    <key>text_select_customers</key>
+    <value><![CDATA[- Chọn Khách hàng -]]></value>
+  </definition>
+  <definition>
+    <key>text_email</key>
+    <value><![CDATA[E-mail]]></value>
+  </definition>
+  <definition>
+    <key>text_sms</key>
+    <value><![CDATA[tin nhắn]]></value>
+  </definition>
+  <definition>
+    <key>text_incomplete_tasks</key>
+    <value><![CDATA[Nhiệm vụ không đầy đủ]]></value>
+  </definition>
+  <definition>
+    <key>text_task_id</key>
+    <value><![CDATA[Nhiệm vụ ID:]]></value>
+  </definition>
+  <definition>
+    <key>text_last_time_run</key>
+    <value><![CDATA[Last Time Run:]]></value>
+  </definition>
+  <definition>
+    <key>text_date_added</key>
+    <value><![CDATA[Tạo:]]></value>
+  </definition>
+  <definition>
+    <key>text_subject</key>
+    <value><![CDATA[Môn học:]]></value>
+  </definition>
+  <definition>
+    <key>text_message</key>
+    <value><![CDATA[Thông điệp:]]></value>
+  </definition>
+  <definition>
+    <key>text_starter_name</key>
+    <value><![CDATA[Được tạo bởi:]]></value>
+  </definition>
+  <definition>
+    <key>text_restart</key>
+    <value><![CDATA[Khởi động lại]]></value>
+  </definition>
+  <definition>
+    <key>text_remove</key>
+    <value><![CDATA[Tẩy]]></value>
+  </definition>
+  <definition>
+    <key>error_email_no_recipients</key>
+    <value><![CDATA[Chú ý! Tin sẽ không được gửi đi.]]></value>
+  </definition>
+  <definition>
+    <key>error_sms_no_recipients</key>
+    <value><![CDATA[Chú ý! Không có khách hàng với số điện thoại di động.]]></value>
+  </definition>
+  <definition>
+    <key>text_attention_recipients_count</key>
+    <value><![CDATA[Chú ý! Các tin nhắn sẽ được gửi đến khách hàng %s.]]></value>
+  </definition>
+  <definition>
+    <key>text_success_abort</key>
+    <value><![CDATA[Nhiệm vụ gián đoạn thành công.]]></value>
+  </definition>
+  <definition>
+    <key>text_success_sent</key>
+    <value><![CDATA[%s Tin nhắn đã được gửi đi.]]></value>
+  </definition>
+  <definition>
+    <key>text_task_failed</key>
+    <value><![CDATA[Một số lỗi xảy ra trong quá trình công tác. Hãy xem để biết chi tiết đăng nhập hoặc khởi động lại nhiệm vụ này.]]></value>
+  </definition>
+  <definition>
+    <key>text_sent</key>
+    <value><![CDATA[%s %s Của thông điệp được gửi]]></value>
+  </definition>
+</definitions>

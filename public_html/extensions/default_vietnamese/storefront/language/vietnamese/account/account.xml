@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Tài khoản của tôi]]></value>
+  </definition>
+  <definition>
+    <key>text_account_dashboard</key>
+    <value><![CDATA[Bảng điều khiển tài khoản]]></value>
+  </definition>
+  <definition>
+    <key>text_account</key>
+    <value><![CDATA[Tài khoản]]></value>
+  </definition>
+  <definition>
+    <key>text_my_account</key>
+    <value><![CDATA[Tài khoản của tôi]]></value>
+  </definition>
+  <definition>
+    <key>text_my_orders</key>
+    <value><![CDATA[Đơn đặt hàng của tôi]]></value>
+  </definition>
+  <definition>
+    <key>text_my_notifications</key>
+    <value><![CDATA[thông báo]]></value>
+  </definition>
+  <definition>
+    <key>text_information</key>
+    <value><![CDATA[Chỉnh sửa chi tiết tài khoản]]></value>
+  </definition>
+  <definition>
+    <key>text_password</key>
+    <value><![CDATA[Đổi mật khẩu]]></value>
+  </definition>
+  <definition>
+    <key>text_address</key>
+    <value><![CDATA[Quản lý Address Book]]></value>
+  </definition>
+  <definition>
+    <key>text_history</key>
+    <value><![CDATA[Lịch sử đơn hàng]]></value>
+  </definition>
+  <definition>
+    <key>text_transactions</key>
+    <value><![CDATA[Lịch sử giao dịch]]></value>
+  </definition>
+  <definition>
+    <key>text_download</key>
+    <value><![CDATA[tải]]></value>
+  </definition>
+  <definition>
+    <key>text_newsletter</key>
+    <value><![CDATA[Bản tin đăng ký]]></value>
+  </definition>
+  <definition>
+    <key>text_account_wishlist</key>
+    <value><![CDATA[Sản phẩm yêu thích]]></value>
+  </definition>
+</definitions>

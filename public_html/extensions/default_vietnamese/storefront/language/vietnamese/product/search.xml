@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Tìm kiếm]]></value>
+  </definition>
+  <definition>
+    <key>text_search</key>
+    <value><![CDATA[Sản phẩm đáp ứng các tiêu chí tìm kiếm]]></value>
+  </definition>
+  <definition>
+    <key>text_keyword</key>
+    <value><![CDATA[Từ khóa]]></value>
+  </definition>
+  <definition>
+    <key>text_category</key>
+    <value><![CDATA[Tất cả danh mục]]></value>
+  </definition>
+  <definition>
+    <key>text_critea</key>
+    <value><![CDATA[tiêu chí tìm kiếm]]></value>
+  </definition>
+  <definition>
+    <key>text_empty</key>
+    <value><![CDATA[Không có sản phẩm phù hợp với tiêu chí tìm kiếm.]]></value>
+  </definition>
+  <definition>
+    <key>text_stars</key>
+    <value><![CDATA[%s Ra của 5 sao!]]></value>
+  </definition>
+  <definition>
+    <key>text_sort</key>
+    <value><![CDATA[Sắp xếp theo:]]></value>
+  </definition>
+  <definition>
+    <key>text_default</key>
+    <value><![CDATA[Mặc định]]></value>
+  </definition>
+  <definition>
+    <key>text_name_asc</key>
+    <value><![CDATA[Tên A - Z]]></value>
+  </definition>
+  <definition>
+    <key>text_name_desc</key>
+    <value><![CDATA[Tên Z - A]]></value>
+  </definition>
+  <definition>
+    <key>text_price_asc</key>
+    <value><![CDATA[Giá thấp &gt; Cao]]></value>
+  </definition>
+  <definition>
+    <key>text_price_desc</key>
+    <value><![CDATA[Giá cao &gt; thấp]]></value>
+  </definition>
+  <definition>
+    <key>text_rating_asc</key>
+    <value><![CDATA[Đánh giá thấp nhất]]></value>
+  </definition>
+  <definition>
+    <key>text_rating_desc</key>
+    <value><![CDATA[Đánh giá cao nhất]]></value>
+  </definition>
+  <definition>
+    <key>entry_search</key>
+    <value><![CDATA[Tìm kiếm:]]></value>
+  </definition>
+  <definition>
+    <key>entry_description</key>
+    <value><![CDATA[Tìm trong mô tả sản phẩm]]></value>
+  </definition>
+  <definition>
+    <key>entry_model</key>
+    <value><![CDATA[Tìm kiếm trong model sản phẩm]]></value>
+  </definition>
+</definitions>

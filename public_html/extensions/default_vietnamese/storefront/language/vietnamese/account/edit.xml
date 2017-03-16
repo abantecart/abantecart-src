@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[thông tin tài khoản của tôi]]></value>
+  </definition>
+  <definition>
+    <key>text_account</key>
+    <value><![CDATA[Tài khoản]]></value>
+  </definition>
+  <definition>
+    <key>text_edit</key>
+    <value><![CDATA[chỉnh sửa thông tin]]></value>
+  </definition>
+  <definition>
+    <key>text_your_details</key>
+    <value><![CDATA[Thông tin cá nhân của bạn]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Thành công: tài khoản của bạn đã được cập nhật thành công.]]></value>
+  </definition>
+  <definition>
+    <key>entry_loginname</key>
+    <value><![CDATA[Tên đăng nhập:]]></value>
+  </definition>
+  <definition>
+    <key>entry_firstname</key>
+    <value><![CDATA[Tên đầu tiên:]]></value>
+  </definition>
+  <definition>
+    <key>entry_lastname</key>
+    <value><![CDATA[Họ:]]></value>
+  </definition>
+  <definition>
+    <key>entry_date_of_birth</key>
+    <value><![CDATA[Ngày sinh:]]></value>
+  </definition>
+  <definition>
+    <key>entry_email</key>
+    <value><![CDATA[E-mail:]]></value>
+  </definition>
+  <definition>
+    <key>entry_telephone</key>
+    <value><![CDATA[Điện thoại:]]></value>
+  </definition>
+  <definition>
+    <key>entry_fax</key>
+    <value><![CDATA[Số fax:]]></value>
+  </definition>
+  <definition>
+    <key>error_exists</key>
+    <value><![CDATA[Lỗi: E-Mail địa chỉ đã được đăng ký!]]></value>
+  </definition>
+  <definition>
+    <key>error_loginname</key>
+    <value><![CDATA[Tên đăng nhập phải là duy nhất và từ 5 đến 64 ký tự chữ và số!]]></value>
+  </definition>
+  <definition>
+    <key>error_loginname_notunique</key>
+    <value><![CDATA[tên đăng nhập này là không có sẵn. Hãy thử tên đăng nhập khác nhau!]]></value>
+  </definition>
+  <definition>
+    <key>error_firstname</key>
+    <value><![CDATA[Tên phải được từ 1 đến 32 ký tự!]]></value>
+  </definition>
+  <definition>
+    <key>error_lastname</key>
+    <value><![CDATA[Họ phải có từ 1 đến 32 ký tự!]]></value>
+  </definition>
+  <definition>
+    <key>error_email</key>
+    <value><![CDATA[E-Mail Địa chỉ không có vẻ hợp lệ!]]></value>
+  </definition>
+  <definition>
+    <key>error_telephone</key>
+    <value><![CDATA[Điện thoại phải có từ 3 đến 32 ký tự!]]></value>
+  </definition>
+  <definition>
+    <key>loginname_update_required</key>
+    <value><![CDATA[Tên đăng nhập của bạn cũng giống như email của bạn. Để giữ cho tài khoản của bạn được bảo vệ, xin vui lòng tạo một tên đăng nhập mới độc đáo]]></value>
+  </definition>
+</definitions>

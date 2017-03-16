@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[cửa hàng Chi tiết]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Thành công: Bạn có cài đặt sửa đổi!]]></value>
+  </definition>
+  <definition>
+    <key>text_image_manager</key>
+    <value><![CDATA[image Manager]]></value>
+  </definition>
+  <definition>
+    <key>text_default</key>
+    <value><![CDATA[Mặc định]]></value>
+  </definition>
+  <definition>
+    <key>text_edit_store</key>
+    <value><![CDATA[Chỉnh sửa cửa hàng:]]></value>
+  </definition>
+  <definition>
+    <key>entry_name</key>
+    <value><![CDATA[Tên cửa hàng: <br/><span class="help">sao chép các thiết lập và hiển thị trên một phần mặt tiền cửa hàng.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_url</key>
+    <value><![CDATA[URL Cửa hàng: <br/><span class="help">Bao gồm URL đầy đủ cho cửa hàng của bạn. Hãy chắc chắn để thêm &#39;/&#39; ở cuối. Ví dụ: http://www.yourdomain.com/path/ <br/><br/> Không sử dụng các thư mục để tạo ra một cửa hàng mới. Bạn nên luôn luôn điểm một tên miền hoặc tên miền phụ để lưu trữ của bạn.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_ssl</key>
+    <value><![CDATA[Sử dụng SSL: <br/><span class="help">Để sử dụng kiểm tra SSL với máy chủ của bạn nếu một giấy chứng nhận SSL được cài đặt.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_title</key>
+    <value><![CDATA[Chức vụ:]]></value>
+  </definition>
+  <definition>
+    <key>entry_meta_description</key>
+    <value><![CDATA[Meta Tag Mô tả:]]></value>
+  </definition>
+  <definition>
+    <key>entry_template</key>
+    <value><![CDATA[Bản mẫu:]]></value>
+  </definition>
+  <definition>
+    <key>entry_description</key>
+    <value><![CDATA[Thư Chào mừng:]]></value>
+  </definition>
+  <definition>
+    <key>entry_country</key>
+    <value><![CDATA[Quốc gia:]]></value>
+  </definition>
+  <definition>
+    <key>entry_zone</key>
+    <value><![CDATA[Vùng / tiểu bang:]]></value>
+  </definition>
+  <definition>
+    <key>entry_language</key>
+    <value><![CDATA[ngôn ngữ:]]></value>
+  </definition>
+  <definition>
+    <key>entry_status</key>
+    <value><![CDATA[Cửa hàng Status <br/><span class="help">tình trạng cửa hàng trong một cửa hàng. Tình trạng OFF sẽ chỉ đạo để mặc định cửa hàng. Sử dụng Bảo trì Chế độ thiết lập để đặt tin bảo trì cửa hàng tạm thời</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_alias</key>
+    <value><![CDATA[Đặt tên Bí danh <br/><span class="help">Tên cửa hàng Alias. Nếu để trống, sẽ dựa trên tên viết tắt</span>]]></value>
+  </definition>
+  <definition>
+    <key>button_add_store</key>
+    <value><![CDATA[Cửa hàng mới]]></value>
+  </definition>
+  <definition>
+    <key>button_delete_store</key>
+    <value><![CDATA[xóa hàng]]></value>
+  </definition>
+  <definition>
+    <key>button_edit_settings</key>
+    <value><![CDATA[chỉnh sửa Cài đặt]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Cảnh báo: Bạn không có quyền sửa đổi các cửa hàng!]]></value>
+  </definition>
+  <definition>
+    <key>error_name</key>
+    <value><![CDATA[Tên cửa hàng phải có từ 3 đến 32 ký tự!]]></value>
+  </definition>
+  <definition>
+    <key>error_url</key>
+    <value><![CDATA[URL Cửa hàng yêu cầu!]]></value>
+  </definition>
+  <definition>
+    <key>error_title</key>
+    <value><![CDATA[Tiêu đề phải có từ 3 đến 32 ký tự!]]></value>
+  </definition>
+  <definition>
+    <key>error_image_thumb</key>
+    <value><![CDATA[Hình ảnh sản phẩm kích thước Thumb Kích thước yêu cầu!]]></value>
+  </definition>
+  <definition>
+    <key>error_image_popup</key>
+    <value><![CDATA[Hình ảnh sản phẩm kích thước Kích Popup yêu cầu!]]></value>
+  </definition>
+  <definition>
+    <key>error_image_category</key>
+    <value><![CDATA[kích thước Danh sách chuyên mục Kích thước yêu cầu!]]></value>
+  </definition>
+  <definition>
+    <key>error_image_product</key>
+    <value><![CDATA[kích thước danh sách sản phẩm Kích thước yêu cầu!]]></value>
+  </definition>
+  <definition>
+    <key>error_image_additional</key>
+    <value><![CDATA[Bổ sung sản phẩm kích thước Kích thước yêu cầu!]]></value>
+  </definition>
+  <definition>
+    <key>error_image_related</key>
+    <value><![CDATA[Sản phẩm kích thước Kích thước liên quan đến yêu cầu!]]></value>
+  </definition>
+  <definition>
+    <key>error_image_cart</key>
+    <value><![CDATA[kích thước giỏ Kích thước yêu cầu!]]></value>
+  </definition>
+  <definition>
+    <key>error_image_grid</key>
+    <value><![CDATA[kích thước lưới Kích thước yêu cầu!]]></value>
+  </definition>
+  <definition>
+    <key>error_store</key>
+    <value><![CDATA[Cảnh báo: Cửa hàng này không thể bị xóa vì nó đang được gán cho %s đơn đặt hàng!]]></value>
+  </definition>
+  <definition>
+    <key>error_required_data</key>
+    <value><![CDATA[Yêu cầu dữ liệu chưa được nhập vào. Kiểm tra các lỗi trong trường!]]></value>
+  </definition>
+  <definition>
+    <key>error_limit</key>
+    <value><![CDATA[Giới hạn yêu cầu!]]></value>
+  </definition>
+  <definition>
+    <key>entry_clone_store</key>
+    <value><![CDATA[Sao chép Cài đặt: <br/><span class="help">Bạn có thể chọn bản sao của tất cả các thiết lập từ một số cửa hàng hiện tại</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_ssl_url</key>
+    <value><![CDATA[An toàn URL Cửa hàng: <br/><span class="help">Bao gồm URL đầy đủ SSL (HTTPS) đến cửa hàng của bạn. Hãy chắc chắn để thêm &#39;/&#39; ở cuối. Ví dụ: https://www.yourdomain.com/path/</span>]]></value>
+  </definition>
+  <definition>
+    <key>error_ssl_url</key>
+    <value><![CDATA[URL an toàn cần thiết!]]></value>
+  </definition>
+</definitions>

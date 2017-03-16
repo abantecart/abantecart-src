@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>text_product</key>
+    <value><![CDATA[Các sản phẩm]]></value>
+  </definition>
+  <definition>
+    <key>text_error</key>
+    <value><![CDATA[Nhà sản xuất không tìm thấy!]]></value>
+  </definition>
+  <definition>
+    <key>text_empty</key>
+    <value><![CDATA[Hiện tại không có sản phẩm nào từ nhà sản xuất này.]]></value>
+  </definition>
+  <definition>
+    <key>text_stars</key>
+    <value><![CDATA[%s Ra của 5 sao!]]></value>
+  </definition>
+  <definition>
+    <key>text_sort</key>
+    <value><![CDATA[Sắp xếp theo:]]></value>
+  </definition>
+  <definition>
+    <key>text_default</key>
+    <value><![CDATA[Mặc định]]></value>
+  </definition>
+  <definition>
+    <key>text_name_asc</key>
+    <value><![CDATA[Tên A - Z]]></value>
+  </definition>
+  <definition>
+    <key>text_name_desc</key>
+    <value><![CDATA[Tên Z - A]]></value>
+  </definition>
+  <definition>
+    <key>text_price_asc</key>
+    <value><![CDATA[Giá thấp &gt; Cao]]></value>
+  </definition>
+  <definition>
+    <key>text_price_desc</key>
+    <value><![CDATA[Giá cao &gt; thấp]]></value>
+  </definition>
+  <definition>
+    <key>text_rating_asc</key>
+    <value><![CDATA[Đánh giá thấp nhất]]></value>
+  </definition>
+  <definition>
+    <key>text_rating_desc</key>
+    <value><![CDATA[Đánh giá cao nhất]]></value>
+  </definition>
+</definitions>

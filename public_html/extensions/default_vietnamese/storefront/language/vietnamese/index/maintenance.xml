@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Bảo trì]]></value>
+  </definition>
+  <definition>
+    <key>text_maintenance</key>
+    <value><![CDATA[Bảo trì]]></value>
+  </definition>
+  <definition>
+    <key>text_message</key>
+    <value><![CDATA[<h1 style="text-align:center;"> Chúng tôi hiện đang thực hiện một số bảo trì theo lịch trình. <br/> Chúng tôi sẽ trở lại càng sớm càng tốt. Làm ơn hãy kiểm tra lại sớm. </h1>]]></value>
+  </definition>
+</definitions>

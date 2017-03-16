@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Backup / Restore / Load]]></value>
+  </definition>
+  <definition>
+    <key>text_backup</key>
+    <value><![CDATA[Tải Sao lưu]]></value>
+  </definition>
+  <definition>
+    <key>text_success_backup</key>
+    <value><![CDATA[Thành công: Bạn đã tạo thành tập tin sao lưu!]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Thành công: Bạn đã nhập thành công cơ sở dữ liệu của bạn!]]></value>
+  </definition>
+  <definition>
+    <key>text_success_xml</key>
+    <value><![CDATA[Thành công: Bạn đã nhập thành công xml của bạn!]]></value>
+  </definition>
+  <definition>
+    <key>entry_restore</key>
+    <value><![CDATA[Khôi phục từ file sql hoặc xml:]]></value>
+  </definition>
+  <definition>
+    <key>entry_tables</key>
+    <value><![CDATA[Sao lưu Bàn:]]></value>
+  </definition>
+  <definition>
+    <key>entry_loadxml</key>
+    <value><![CDATA[Tải file XML:]]></value>
+  </definition>
+  <definition>
+    <key>tab_backup</key>
+    <value><![CDATA[Sao lưu]]></value>
+  </definition>
+  <definition>
+    <key>tab_restore</key>
+    <value><![CDATA[khôi phục]]></value>
+  </definition>
+  <definition>
+    <key>tab_loadxml</key>
+    <value><![CDATA[Giao diện và tải dữ liệu XML]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Cảnh báo: Bạn không có quyền sửa đổi bản sao lưu!]]></value>
+  </definition>
+  <definition>
+    <key>error_nothing_to_do</key>
+    <value><![CDATA[Cảnh báo: Hãy thiết lập những gì bạn muốn sao lưu hoặc nhập khẩu!]]></value>
+  </definition>
+  <definition>
+    <key>error_empty</key>
+    <value><![CDATA[Cảnh báo: Các tập tin bạn đã tải lên rỗng hoặc có loại tập tin sai!]]></value>
+  </definition>
+  <definition>
+    <key>error_upload</key>
+    <value><![CDATA[Cảnh báo: Các tập tin không được tải lên. Kiểm tra post_max_size hoặc file_upload chỉ thị của file php.ini của bạn.]]></value>
+  </definition>
+  <definition>
+    <key>error_xml</key>
+    <value><![CDATA[Cảnh báo: Các tập tin bạn đã tải lên không nạp như XML! Xin vui lòng, xem tệp nhật ký cho các chi tiết]]></value>
+  </definition>
+  <definition>
+    <key>entry_backup_code</key>
+    <value><![CDATA[Sao lưu Mã (%s) <br/><span class="help">Sub-thư mục với tập tin mã không bao gồm các tập tin năng động như bộ nhớ cache, log file, hình ảnh, tài nguyên vv</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_backup_content</key>
+    <value><![CDATA[Nội dung bản sao lưu (%s) <br/><span class="help">Sub-thư mục với các tập tin năng động như hình ảnh, tải, tài nguyên vv</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_compress_backup</key>
+    <value><![CDATA[Nén sao lưu thư mục %s? <br/><span class="help">Lưu Trữ * .tar.gz sẽ được tạo ra. <br/> Lưu ý: nó có thể mất một thời gian dài. Nếu không, bạn có thể vô hiệu hóa nén và tìm thấy bản sao lưu của bạn trong thư mục %s</span>]]></value>
+  </definition>
+  <definition>
+    <key>button_backup_now</key>
+    <value><![CDATA[backup Now]]></value>
+  </definition>
+  <definition>
+    <key>button_load</key>
+    <value><![CDATA[tải]]></value>
+  </definition>
+  <definition>
+    <key>button_backup_schedule</key>
+    <value><![CDATA[backup Schedule]]></value>
+  </definition>
+  <definition>
+    <key>text_success_scheduled</key>
+    <value><![CDATA[Thành công: Bạn đã thành công tạo ra lịch trình công việc sao lưu! <a href="%s">Xem chi tiết</a>]]></value>
+  </definition>
+  <definition>
+    <key>text_fail_note</key>
+    <value><![CDATA[Chú ý: thực hiện quá trình này phụ thuộc vào kích thước dữ liệu AbanteCart của bạn cũng như máy chủ kích thước bộ nhớ ảo của bạn. Nếu quá trình kết thúc với các lỗi, kiểm tra thư mục %s quyền được thiết lập để -rw-rw-rw và <a href="http://php.net/manual/en/ini.core.php#ini.memory-limit" target="_blank">[thiết lập bộ nhớ PHP]</a>. Tăng thiết lập bộ nhớ hoặc chạy sao lưu bằng tay nếu quá trình vẫn thất bại.]]></value>
+  </definition>
+  <definition>
+    <key>backup_complete_text_file</key>
+    <value><![CDATA[Để tải về bản sao lưu tập tin vui lòng truy cập <a href="#admin#rt=tool/install_upgrade_history">Cài đặt / Nâng cấp Lịch sử</a>]]></value>
+  </definition>
+  <definition>
+    <key>backup_complete_text_dir</key>
+    <value><![CDATA[Directory với sao lưu các tập tin là %s]]></value>
+  </definition>
+</definitions>

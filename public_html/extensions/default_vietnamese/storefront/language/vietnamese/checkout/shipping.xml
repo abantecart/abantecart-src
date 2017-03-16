@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Thông tin giao hàng]]></value>
+  </definition>
+  <definition>
+    <key>text_basket</key>
+    <value><![CDATA[Cái rổ]]></value>
+  </definition>
+  <definition>
+    <key>text_shipping</key>
+    <value><![CDATA[Đang chuyển hàng]]></value>
+  </definition>
+  <definition>
+    <key>text_shipping_to</key>
+    <value><![CDATA[Hãy chọn từ sổ địa chỉ của bạn, nơi bạn muốn các mặt hàng sẽ được giao cho.]]></value>
+  </definition>
+  <definition>
+    <key>text_shipping_address</key>
+    <value><![CDATA[Địa chỉ giao hàng]]></value>
+  </definition>
+  <definition>
+    <key>text_shipping_method</key>
+    <value><![CDATA[Phương pháp vận chuyển]]></value>
+  </definition>
+  <definition>
+    <key>text_shipping_methods</key>
+    <value><![CDATA[Vui lòng chọn phương thức giao hàng ưa thích sử dụng đơn đặt hàng này.]]></value>
+  </definition>
+  <definition>
+    <key>text_comments</key>
+    <value><![CDATA[Thêm bình luận về đơn hàng của bạn]]></value>
+  </definition>
+  <definition>
+    <key>error_shipping</key>
+    <value><![CDATA[Lỗi: Phương thức giao hàng yêu cầu!]]></value>
+  </definition>
+  <definition>
+    <key>error_no_shipping</key>
+    <value><![CDATA[Lỗi: Không có tùy chọn Vận chuyển có sẵn. Hãy <a href="index.php?rt=content/contact">liên hệ với chúng tôi</a> để được giúp đỡ!]]></value>
+  </definition>
+</definitions>

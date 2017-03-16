@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Thông báo và bản tin]]></value>
+  </definition>
+  <definition>
+    <key>text_account</key>
+    <value><![CDATA[Tài khoản]]></value>
+  </definition>
+  <definition>
+    <key>text_notifications</key>
+    <value><![CDATA[thông báo]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Thành công: thiết lập thông báo của bạn đã được cập nhật thành công!]]></value>
+  </definition>
+  <definition>
+    <key>text_sendpoint</key>
+    <value><![CDATA[thông báo]]></value>
+  </definition>
+</definitions>

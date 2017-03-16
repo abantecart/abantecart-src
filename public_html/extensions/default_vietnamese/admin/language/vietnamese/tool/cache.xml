@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Quản lý bộ nhớ cache]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Thành công: Bạn đã xóa thành công các tập tin bộ nhớ cache!]]></value>
+  </definition>
+  <definition>
+    <key>text_configuration</key>
+    <value><![CDATA[Cấu hình]]></value>
+  </definition>
+  <definition>
+    <key>text_layouts_blocks</key>
+    <value><![CDATA[Bố trí &amp; khối]]></value>
+  </definition>
+  <definition>
+    <key>text_flexyforms</key>
+    <value><![CDATA[Hình thức Flexy]]></value>
+  </definition>
+  <definition>
+    <key>text_images</key>
+    <value><![CDATA[hình ảnh]]></value>
+  </definition>
+  <definition>
+    <key>text_products</key>
+    <value><![CDATA[Các sản phẩm]]></value>
+  </definition>
+  <definition>
+    <key>text_categories</key>
+    <value><![CDATA[Thể loại]]></value>
+  </definition>
+  <definition>
+    <key>text_manufacturers</key>
+    <value><![CDATA[Nhà sản xuất của]]></value>
+  </definition>
+  <definition>
+    <key>text_localisations</key>
+    <value><![CDATA[Bản địa hoá]]></value>
+  </definition>
+  <definition>
+    <key>text_error_log</key>
+    <value><![CDATA[lỗi Đăng Nhập]]></value>
+  </definition>
+  <definition>
+    <key>text_clear_cache</key>
+    <value><![CDATA[Clear Cache chọn]]></value>
+  </definition>
+  <definition>
+    <key>text_clear_all_cache</key>
+    <value><![CDATA[Xóa tất cả bộ nhớ cache]]></value>
+  </definition>
+  <definition>
+    <key>desc_configuration</key>
+    <value><![CDATA[Cấu hình hệ thống và lưu trữ]]></value>
+  </definition>
+  <definition>
+    <key>desc_layouts_blocks</key>
+    <value><![CDATA[Pages, bố cục trang, khối]]></value>
+  </definition>
+  <definition>
+    <key>desc_flexyforms</key>
+    <value><![CDATA[hình thức Flexy dữ liệu]]></value>
+  </definition>
+  <definition>
+    <key>desc_images</key>
+    <value><![CDATA[hình thu nhỏ hình ảnh]]></value>
+  </definition>
+  <definition>
+    <key>desc_products</key>
+    <value><![CDATA[dữ liệu sản phẩm]]></value>
+  </definition>
+  <definition>
+    <key>desc_categories</key>
+    <value><![CDATA[Thể loại dữ liệu]]></value>
+  </definition>
+  <definition>
+    <key>desc_manufacturers</key>
+    <value><![CDATA[dữ liệu sản xuất]]></value>
+  </definition>
+  <definition>
+    <key>desc_localisations</key>
+    <value><![CDATA[Ngoại tệ, Ngôn ngữ, Quốc gia, Khu, dài, cân nặng, &amp; khác]]></value>
+  </definition>
+  <definition>
+    <key>desc_error_log</key>
+    <value><![CDATA[lỗi Đăng Nhập]]></value>
+  </definition>
+  <definition>
+    <key>column_type</key>
+    <value><![CDATA[Loại bộ nhớ cache]]></value>
+  </definition>
+  <definition>
+    <key>column_description</key>
+    <value><![CDATA[Sự miêu tả]]></value>
+  </definition>
+  <definition>
+    <key>text_html_cache</key>
+    <value><![CDATA[HTML-cache]]></value>
+  </definition>
+  <definition>
+    <key>desc_html_cache</key>
+    <value><![CDATA[các trang HTML cache và khối]]></value>
+  </definition>
+  <definition>
+    <key>text_install_upgrade_history</key>
+    <value><![CDATA[Cài đặt / Nâng cấp Lịch sử]]></value>
+  </definition>
+  <definition>
+    <key>desc_install_upgrade_history</key>
+    <value><![CDATA[Xóa hết Cài đặt / Nâng cấp Lịch sử]]></value>
+  </definition>
+</definitions>

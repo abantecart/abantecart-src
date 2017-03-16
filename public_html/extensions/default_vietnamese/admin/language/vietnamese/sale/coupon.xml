@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[phiếu giảm giá]]></value>
+  </definition>
+  <definition>
+    <key>text_coupon</key>
+    <value><![CDATA[Phiếu mua hàng]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Thành công: Bạn có phiếu giảm giá sửa đổi!]]></value>
+  </definition>
+  <definition>
+    <key>text_percent</key>
+    <value><![CDATA[tỷ lệ phần trăm]]></value>
+  </definition>
+  <definition>
+    <key>text_amount</key>
+    <value><![CDATA[Số tiền cố định]]></value>
+  </definition>
+  <definition>
+    <key>column_name</key>
+    <value><![CDATA[Tên phiếu giảm giá]]></value>
+  </definition>
+  <definition>
+    <key>column_code</key>
+    <value><![CDATA[Mã]]></value>
+  </definition>
+  <definition>
+    <key>column_discount</key>
+    <value><![CDATA[Giảm giá]]></value>
+  </definition>
+  <definition>
+    <key>column_date_start</key>
+    <value><![CDATA[ngày bắt đầu]]></value>
+  </definition>
+  <definition>
+    <key>column_date_end</key>
+    <value><![CDATA[ngày kết thúc]]></value>
+  </definition>
+  <definition>
+    <key>column_status</key>
+    <value><![CDATA[Trạng thái]]></value>
+  </definition>
+  <definition>
+    <key>column_action</key>
+    <value><![CDATA[Hoạt động]]></value>
+  </definition>
+  <definition>
+    <key>entry_name</key>
+    <value><![CDATA[Tên Coupon:]]></value>
+  </definition>
+  <definition>
+    <key>entry_description</key>
+    <value><![CDATA[Phiếu giảm giá Mô tả:]]></value>
+  </definition>
+  <definition>
+    <key>entry_code</key>
+    <value><![CDATA[Mã số: <br/><span class="help">Mã khách hàng đi vào để có được giảm giá</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_type</key>
+    <value><![CDATA[Loại: <br/><span class="help">Tỷ lệ phần trăm hoặc cố định Số tiền</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_discount</key>
+    <value><![CDATA[Giảm giá:]]></value>
+  </definition>
+  <definition>
+    <key>entry_logged</key>
+    <value><![CDATA[Khách hàng đăng nhập: <br/><span class="help">Khách hàng phải đăng nhập để sử dụng phiếu giảm giá.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_shipping</key>
+    <value><![CDATA[Miễn phí vận chuyển:]]></value>
+  </definition>
+  <definition>
+    <key>entry_total</key>
+    <value><![CDATA[Tổng số tiền: <br/><span class="help">Số lượng tiểu tổng số đó phải đạt được trước khi các phiếu giảm giá là hợp lệ.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_product</key>
+    <value><![CDATA[Sản phẩm đã chọn:]]></value>
+  </definition>
+  <definition>
+    <key>entry_date_start</key>
+    <value><![CDATA[Ngày bắt đầu:]]></value>
+  </definition>
+  <definition>
+    <key>entry_date_end</key>
+    <value><![CDATA[Ngày kết thúc:]]></value>
+  </definition>
+  <definition>
+    <key>entry_uses_total</key>
+    <value><![CDATA[Sử dụng mỗi Coupon: <br/><span class="help">Số lần tối đa các phiếu giảm giá có thể được sử dụng bởi bất kỳ khách hàng. Để trống cho không giới hạn</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_uses_customer</key>
+    <value><![CDATA[Sử dụng mỗi khách hàng: <br/><span class="help">Số lần tối đa các phiếu giảm giá có thể được sử dụng bởi một khách hàng duy nhất. Để trống cho không giới hạn</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_status</key>
+    <value><![CDATA[Trạng thái:]]></value>
+  </definition>
+  <definition>
+    <key>entry_total_coupon_usage</key>
+    <value><![CDATA[Tổng số phiếu giảm giá sử dụng: <br/><span class="help">Tính của tất cả các đơn đặt hàng sử dụng phiếu giảm giá này</span>]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Cảnh báo: Bạn không có quyền sửa đổi phiếu giảm giá!]]></value>
+  </definition>
+  <definition>
+    <key>error_name</key>
+    <value><![CDATA[Phiếu giảm giá Tên phải có từ 2 đến 64 ký tự!]]></value>
+  </definition>
+  <definition>
+    <key>error_description</key>
+    <value><![CDATA[Phiếu giảm giá Mô tả phải giữa 2 nhân vật!]]></value>
+  </definition>
+  <definition>
+    <key>error_code</key>
+    <value><![CDATA[Mã phải có từ 2 đến 10 ký tự!]]></value>
+  </definition>
+  <definition>
+    <key>error_date</key>
+    <value><![CDATA[Hãy đặt phạm vi ngày!]]></value>
+  </definition>
+</definitions>

@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Tạo tài khoản]]></value>
+  </definition>
+  <definition>
+    <key>text_account</key>
+    <value><![CDATA[Tài khoản]]></value>
+  </definition>
+  <definition>
+    <key>text_create</key>
+    <value><![CDATA[Ghi danh]]></value>
+  </definition>
+  <definition>
+    <key>text_account_already</key>
+    <value><![CDATA[Nếu bạn đã có một tài khoản với chúng tôi, xin vui lòng đăng nhập vào <a style="text-decoration: underline" href="%s">trang đăng nhập</a> .]]></value>
+  </definition>
+  <definition>
+    <key>text_your_details</key>
+    <value><![CDATA[Thông tin cá nhân của bạn]]></value>
+  </definition>
+  <definition>
+    <key>text_your_address</key>
+    <value><![CDATA[Địa chỉ của bạn]]></value>
+  </definition>
+  <definition>
+    <key>text_newsletter</key>
+    <value><![CDATA[Bản tin]]></value>
+  </definition>
+  <definition>
+    <key>text_your_password</key>
+    <value><![CDATA[Mật khẩu của bạn]]></value>
+  </definition>
+  <definition>
+    <key>text_login_details</key>
+    <value><![CDATA[Thông tin thêm về đăng nhập]]></value>
+  </definition>
+  <definition>
+    <key>text_agree</key>
+    <value><![CDATA[tôi đã đọc và đồng ý với]]></value>
+  </definition>
+  <definition>
+    <key>entry_loginname</key>
+    <value><![CDATA[Tên đăng nhập:]]></value>
+  </definition>
+  <definition>
+    <key>entry_firstname</key>
+    <value><![CDATA[Tên đầu tiên:]]></value>
+  </definition>
+  <definition>
+    <key>entry_lastname</key>
+    <value><![CDATA[Họ:]]></value>
+  </definition>
+  <definition>
+    <key>entry_email</key>
+    <value><![CDATA[E-mail:]]></value>
+  </definition>
+  <definition>
+    <key>entry_telephone</key>
+    <value><![CDATA[Điện thoại:]]></value>
+  </definition>
+  <definition>
+    <key>entry_fax</key>
+    <value><![CDATA[Số fax:]]></value>
+  </definition>
+  <definition>
+    <key>entry_company</key>
+    <value><![CDATA[Công ty:]]></value>
+  </definition>
+  <definition>
+    <key>entry_address_1</key>
+    <value><![CDATA[Địa chỉ 1:]]></value>
+  </definition>
+  <definition>
+    <key>entry_address_2</key>
+    <value><![CDATA[Địa chỉ 2:]]></value>
+  </definition>
+  <definition>
+    <key>entry_postcode</key>
+    <value><![CDATA[Mã Bưu Chính:]]></value>
+  </definition>
+  <definition>
+    <key>entry_city</key>
+    <value><![CDATA[Thành phố:]]></value>
+  </definition>
+  <definition>
+    <key>entry_country</key>
+    <value><![CDATA[Quốc gia:]]></value>
+  </definition>
+  <definition>
+    <key>entry_zone</key>
+    <value><![CDATA[Vùng / tiểu bang:]]></value>
+  </definition>
+  <definition>
+    <key>entry_newsletter</key>
+    <value><![CDATA[Theo dõi:]]></value>
+  </definition>
+  <definition>
+    <key>entry_password</key>
+    <value><![CDATA[Mật khẩu:]]></value>
+  </definition>
+  <definition>
+    <key>entry_confirm</key>
+    <value><![CDATA[Xác nhận mật khẩu:]]></value>
+  </definition>
+  <definition>
+    <key>error_exists</key>
+    <value><![CDATA[Lỗi: E-Mail Địa chỉ đã được đăng ký!]]></value>
+  </definition>
+  <definition>
+    <key>error_loginname</key>
+    <value><![CDATA[Tên đăng nhập phải là duy nhất và từ 5 đến 64 ký tự chữ và số!]]></value>
+  </definition>
+  <definition>
+    <key>error_loginname_notunique</key>
+    <value><![CDATA[tên đăng nhập này là không có sẵn. Hãy thử tên đăng nhập khác nhau!]]></value>
+  </definition>
+  <definition>
+    <key>error_firstname</key>
+    <value><![CDATA[Tên phải được từ 1 đến 32 ký tự!]]></value>
+  </definition>
+  <definition>
+    <key>error_lastname</key>
+    <value><![CDATA[Họ phải có từ 1 đến 32 ký tự!]]></value>
+  </definition>
+  <definition>
+    <key>error_email</key>
+    <value><![CDATA[Địa chỉ email không có vẻ hợp lệ!]]></value>
+  </definition>
+  <definition>
+    <key>error_email_exists</key>
+    <value><![CDATA[Địa chỉ email là đã Tồn tại!]]></value>
+  </definition>
+  <definition>
+    <key>error_password</key>
+    <value><![CDATA[Mật khẩu phải từ 4 đến 20 ký tự!]]></value>
+  </definition>
+  <definition>
+    <key>error_confirm</key>
+    <value><![CDATA[Mật khẩu xác nhận không khớp mật khẩu!]]></value>
+  </definition>
+  <definition>
+    <key>error_address_1</key>
+    <value><![CDATA[Địa chỉ 1 phải có từ 3 đến 128 ký tự!]]></value>
+  </definition>
+  <definition>
+    <key>error_city</key>
+    <value><![CDATA[Thành phố phải có từ 3 đến 128 ký tự!]]></value>
+  </definition>
+  <definition>
+    <key>error_postcode</key>
+    <value><![CDATA[Zip / Mã bưu chính phải có từ 3 đến 10 ký tự!]]></value>
+  </definition>
+  <definition>
+    <key>error_country</key>
+    <value><![CDATA[Vui lòng chọn một quốc gia!]]></value>
+  </definition>
+  <definition>
+    <key>error_zone</key>
+    <value><![CDATA[Vui lòng chọn một vùng / nhà nước!]]></value>
+  </definition>
+  <definition>
+    <key>error_telephone</key>
+    <value><![CDATA[Điện thoại phải có từ 3 đến 32 ký tự!]]></value>
+  </definition>
+  <definition>
+    <key>error_agree</key>
+    <value><![CDATA[Lỗi: Bạn phải đồng ý với %s!]]></value>
+  </definition>
+  <definition>
+    <key>text_full_register</key>
+    <value><![CDATA[Trở thành khách hàng và đăng ký với thông tin chi tiết của bạn]]></value>
+  </definition>
+  <definition>
+    <key>text_subscribe_register</key>
+    <value><![CDATA[Trở thành một thuê bao nhận bản tin]]></value>
+  </definition>
+  <definition>
+    <key>text_success_subscribe_heading</key>
+    <value><![CDATA[Bạn đã đăng ký thành công!]]></value>
+  </definition>
+  <definition>
+    <key>text_success_subscribe</key>
+    <value><![CDATA[Thành công: thuê bao nhận bản tin của bạn đã được tạo thành công!]]></value>
+  </definition>
+  <definition>
+    <key>error_subscriber_exists</key>
+    <value><![CDATA[hồ sơ của chúng tôi chỉ ra rằng bạn có một tài khoản với chúng tôi. Xin hãy đăng nhập vào tài khoản của bạn để quản lý đăng ký nhận bản tin của bạn.]]></value>
+  </definition>
+  <definition>
+    <key>text_new_customer</key>
+    <value><![CDATA[chính khách hàng đăng ký mới được cấp phát]]></value>
+  </definition>
+  <definition>
+    <key>text_pending_customer_approval</key>
+    <value><![CDATA[Khách hàng %s đã đăng ký với tài khoản mới. Hành động của chính được yêu cầu! Nhấn vào để xem # # quản trị rt = bán / khách hàng / cập nhật &amp; customer_id = %s]]></value>
+  </definition>
+  <definition>
+    <key>text_pending_subscriber_approval</key>
+    <value><![CDATA[Subscriber %s đã đăng ký với tài khoản mới. Hành động của chính được yêu cầu! Nhấn vào để xem # # quản trị rt = bán / khách hàng / cập nhật &amp; customer_id = %s]]></value>
+  </definition>
+</definitions>

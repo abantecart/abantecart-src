@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Thông tin thanh toán]]></value>
+  </definition>
+  <definition>
+    <key>text_basket</key>
+    <value><![CDATA[Cái rổ]]></value>
+  </definition>
+  <definition>
+    <key>entry_shipping</key>
+    <value><![CDATA[Đang chuyển hàng]]></value>
+  </definition>
+  <definition>
+    <key>entry_payment</key>
+    <value><![CDATA[Thanh toán]]></value>
+  </definition>
+  <definition>
+    <key>text_payment_to</key>
+    <value><![CDATA[Hãy chọn từ sổ địa chỉ của bạn, nơi bạn muốn các hóa đơn được gửi đi.]]></value>
+  </definition>
+  <definition>
+    <key>text_payment_address</key>
+    <value><![CDATA[Địa chỉ thanh toán]]></value>
+  </definition>
+  <definition>
+    <key>text_payment_method</key>
+    <value><![CDATA[Phương thức thanh toán]]></value>
+  </definition>
+  <definition>
+    <key>text_payment_methods</key>
+    <value><![CDATA[Vui lòng chọn phương thức thanh toán ưa thích để sử dụng trên đơn hàng này.]]></value>
+  </definition>
+  <definition>
+    <key>text_comments</key>
+    <value><![CDATA[Thêm bình luận về đơn hàng của bạn]]></value>
+  </definition>
+  <definition>
+    <key>text_agree</key>
+    <value><![CDATA[tôi đã đọc và đồng ý với]]></value>
+  </definition>
+  <definition>
+    <key>text_coupon</key>
+    <value><![CDATA[Nhập mã của bạn và bấm vào nút &quot;Áp dụng phiếu giảm giá&quot; và cho thấy giảm giá của bạn ngay lập tức áp dụng cho đặt hàng của bạn.]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Thành công: phiếu giảm giá của bạn đã được áp dụng!]]></value>
+  </definition>
+  <definition>
+    <key>text_coupon_removal</key>
+    <value><![CDATA[Thành công: Phiếu giảm giá đã được loại bỏ!]]></value>
+  </definition>
+  <definition>
+    <key>entry_coupon</key>
+    <value><![CDATA[Phiếu mua hàng:]]></value>
+  </definition>
+  <definition>
+    <key>error_payment</key>
+    <value><![CDATA[Lỗi: Phương thức thanh toán yêu cầu!]]></value>
+  </definition>
+  <definition>
+    <key>error_agree</key>
+    <value><![CDATA[Lỗi: Bạn phải đồng ý với %s!]]></value>
+  </definition>
+  <definition>
+    <key>error_coupon</key>
+    <value><![CDATA[Lỗi: Phiếu giảm giá là không hợp lệ, hết hạn hoặc đạt đó là giới hạn sử dụng!]]></value>
+  </definition>
+</definitions>

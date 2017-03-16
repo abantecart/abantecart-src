@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[image Manager]]></value>
+  </definition>
+  <definition>
+    <key>text_uploaded</key>
+    <value><![CDATA[Thành công: tập tin của bạn đã được tải lên!]]></value>
+  </definition>
+  <definition>
+    <key>text_file_delete</key>
+    <value><![CDATA[Tập tin đã bị xóa!]]></value>
+  </definition>
+  <definition>
+    <key>text_create</key>
+    <value><![CDATA[Thành công: Directory tạo ra!]]></value>
+  </definition>
+  <definition>
+    <key>text_delete</key>
+    <value><![CDATA[Thành công: tập tin hoặc thư mục của bạn đã bị xóa!]]></value>
+  </definition>
+  <definition>
+    <key>text_move</key>
+    <value><![CDATA[Thành công: tập tin hoặc thư mục của bạn đã được di chuyển!]]></value>
+  </definition>
+  <definition>
+    <key>text_copy</key>
+    <value><![CDATA[Thành công: tập tin hoặc thư mục của bạn đã được sao chép!]]></value>
+  </definition>
+  <definition>
+    <key>text_rename</key>
+    <value><![CDATA[Thành công: tập tin hoặc thư mục của bạn đã được đổi tên!]]></value>
+  </definition>
+  <definition>
+    <key>entry_folder</key>
+    <value><![CDATA[Thư mục mới:]]></value>
+  </definition>
+  <definition>
+    <key>entry_move</key>
+    <value><![CDATA[di chuyển:]]></value>
+  </definition>
+  <definition>
+    <key>entry_copy</key>
+    <value><![CDATA[Tên:]]></value>
+  </definition>
+  <definition>
+    <key>entry_rename</key>
+    <value><![CDATA[Tên:]]></value>
+  </definition>
+  <definition>
+    <key>error_select</key>
+    <value><![CDATA[Cảnh báo: Vui lòng chọn một thư mục hoặc tập tin!]]></value>
+  </definition>
+  <definition>
+    <key>error_file</key>
+    <value><![CDATA[Cảnh báo: Vui lòng chọn một tập tin!]]></value>
+  </definition>
+  <definition>
+    <key>error_directory</key>
+    <value><![CDATA[Cảnh báo: Vui lòng chọn một thư mục!]]></value>
+  </definition>
+  <definition>
+    <key>error_default</key>
+    <value><![CDATA[Cảnh báo: Không thể thay đổi thư mục mặc định của bạn!]]></value>
+  </definition>
+  <definition>
+    <key>error_delete</key>
+    <value><![CDATA[Cảnh báo: Bạn không thể xóa thư mục này!]]></value>
+  </definition>
+  <definition>
+    <key>error_filename</key>
+    <value><![CDATA[Cảnh báo: Tên file phải là giữa 3 và 255!]]></value>
+  </definition>
+  <definition>
+    <key>error_missing</key>
+    <value><![CDATA[Cảnh báo: Tập tin hoặc thư mục không tồn tại!]]></value>
+  </definition>
+  <definition>
+    <key>error_exists</key>
+    <value><![CDATA[Cảnh báo: Một tập tin hoặc thư mục có cùng tên đã tồn tại!]]></value>
+  </definition>
+  <definition>
+    <key>error_name</key>
+    <value><![CDATA[Cảnh báo: Vui lòng nhập một tên mới!]]></value>
+  </definition>
+  <definition>
+    <key>error_move</key>
+    <value><![CDATA[Cảnh báo: Di chuyển đến thư mục không tồn tại!]]></value>
+  </definition>
+  <definition>
+    <key>error_copy</key>
+    <value><![CDATA[Cảnh báo: Không thể sao chép tập tin này hoặc thư mục!]]></value>
+  </definition>
+  <definition>
+    <key>error_rename</key>
+    <value><![CDATA[Cảnh báo: Không thể đổi tên thư mục này!]]></value>
+  </definition>
+  <definition>
+    <key>error_file_type</key>
+    <value><![CDATA[Cảnh báo: loại tập tin sai!]]></value>
+  </definition>
+  <definition>
+    <key>error_file_size</key>
+    <value><![CDATA[Cảnh báo: File để lớn xin vui lòng ghi dưới 300KB và không quá 1000px chiều cao hoặc chiều rộng!]]></value>
+  </definition>
+  <definition>
+    <key>error_uploaded</key>
+    <value><![CDATA[Cảnh báo: Tập tin không thể được tải lên cho một lý do không rõ!]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Cảnh báo: Quyền bị từ chối!]]></value>
+  </definition>
+  <definition>
+    <key>button_folder</key>
+    <value><![CDATA[Thư mục mới]]></value>
+  </definition>
+  <definition>
+    <key>button_delete</key>
+    <value><![CDATA[Xóa bỏ]]></value>
+  </definition>
+  <definition>
+    <key>button_move</key>
+    <value><![CDATA[chuyển động]]></value>
+  </definition>
+  <definition>
+    <key>button_copy</key>
+    <value><![CDATA[bản sao]]></value>
+  </definition>
+  <definition>
+    <key>button_rename</key>
+    <value><![CDATA[Đổi tên]]></value>
+  </definition>
+  <definition>
+    <key>button_upload</key>
+    <value><![CDATA[Tải lên]]></value>
+  </definition>
+  <definition>
+    <key>button_refresh</key>
+    <value><![CDATA[Làm tươi]]></value>
+  </definition>
+</definitions>

@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>text_enlarge</key>
+    <value><![CDATA[Bấm vào hình ảnh để phóng to]]></value>
+  </definition>
+  <definition>
+    <key>text_zoom</key>
+    <value><![CDATA[Di chuyển con trỏ lên ảnh để phóng to]]></value>
+  </definition>
+  <definition>
+    <key>text_discount</key>
+    <value><![CDATA[Số lượng: Giảm giá:]]></value>
+  </definition>
+  <definition>
+    <key>text_options</key>
+    <value><![CDATA[Tùy chọn có sẵn:]]></value>
+  </definition>
+  <definition>
+    <key>text_error</key>
+    <value><![CDATA[Sản phẩm không có!]]></value>
+  </definition>
+  <definition>
+    <key>text_price</key>
+    <value><![CDATA[Giá bán:]]></value>
+  </definition>
+  <definition>
+    <key>text_availability</key>
+    <value><![CDATA[Khả dụng:]]></value>
+  </definition>
+  <definition>
+    <key>text_model</key>
+    <value><![CDATA[Mô hình:]]></value>
+  </definition>
+  <definition>
+    <key>text_manufacturer</key>
+    <value><![CDATA[Nhà chế tạo:]]></value>
+  </definition>
+  <definition>
+    <key>text_instock</key>
+    <value><![CDATA[Trong kho]]></value>
+  </definition>
+  <definition>
+    <key>text_order_quantity</key>
+    <value><![CDATA[số lượng đặt hàng]]></value>
+  </definition>
+  <definition>
+    <key>text_price_per_item</key>
+    <value><![CDATA[Giá mỗi mục]]></value>
+  </definition>
+  <definition>
+    <key>text_write</key>
+    <value><![CDATA[Viết đánh giá]]></value>
+  </definition>
+  <definition>
+    <key>text_no_reviews</key>
+    <value><![CDATA[Không có đánh giá nào về sản phẩm này.]]></value>
+  </definition>
+  <definition>
+    <key>text_average</key>
+    <value><![CDATA[Trung bình Đánh giá:]]></value>
+  </definition>
+  <definition>
+    <key>text_stars</key>
+    <value><![CDATA[%s Ra của 5 sao!]]></value>
+  </definition>
+  <definition>
+    <key>text_no_rating</key>
+    <value><![CDATA[Không được đánh giá]]></value>
+  </definition>
+  <definition>
+    <key>text_no_images</key>
+    <value><![CDATA[Không có hình ảnh nào cho sản phẩm này.]]></value>
+  </definition>
+  <definition>
+    <key>text_no_related</key>
+    <value><![CDATA[Không có sản phẩm liên quan cho sản phẩm này.]]></value>
+  </definition>
+  <definition>
+    <key>text_qty</key>
+    <value><![CDATA[Số lượng:]]></value>
+  </definition>
+  <definition>
+    <key>text_note</key>
+    <value><![CDATA[<span style="color: #FF0000;">Lưu ý:</span> Không sử dụng HTML trong văn bản.]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Cám ơn, vì phản hồi của bạn. Nó đã được nộp cho quản trị trang web chính.]]></value>
+  </definition>
+  <definition>
+    <key>text_wait</key>
+    <value><![CDATA[Please Wait!]]></value>
+  </definition>
+  <definition>
+    <key>text_search</key>
+    <value><![CDATA[Tìm kiếm]]></value>
+  </definition>
+  <definition>
+    <key>text_tags</key>
+    <value><![CDATA[tags:]]></value>
+  </definition>
+  <definition>
+    <key>text_minimum</key>
+    <value><![CDATA[(Sản phẩm này có số lượng tối thiểu của %s)]]></value>
+  </definition>
+  <definition>
+    <key>text_maximum</key>
+    <value><![CDATA[(Sản phẩm này có một giới hạn thiết lập để %s item (s) mỗi đơn hàng)]]></value>
+  </definition>
+  <definition>
+    <key>entry_name</key>
+    <value><![CDATA[Tên của bạn:]]></value>
+  </definition>
+  <definition>
+    <key>entry_review</key>
+    <value><![CDATA[Đánh giá của bạn:]]></value>
+  </definition>
+  <definition>
+    <key>entry_rating</key>
+    <value><![CDATA[Xêp hạng:]]></value>
+  </definition>
+  <definition>
+    <key>entry_good</key>
+    <value><![CDATA[tốt]]></value>
+  </definition>
+  <definition>
+    <key>entry_bad</key>
+    <value><![CDATA[Xấu]]></value>
+  </definition>
+  <definition>
+    <key>entry_captcha</key>
+    <value><![CDATA[Nhập mã kiểm tra vào ô bên dưới:]]></value>
+  </definition>
+  <definition>
+    <key>tab_description</key>
+    <value><![CDATA[Sự miêu tả]]></value>
+  </definition>
+  <definition>
+    <key>tab_image</key>
+    <value><![CDATA[Hình ảnh khác]]></value>
+  </definition>
+  <definition>
+    <key>tab_review</key>
+    <value><![CDATA[Đánh giá (%s)]]></value>
+  </definition>
+  <definition>
+    <key>tab_related</key>
+    <value><![CDATA[Những sảm phẩm tương tự]]></value>
+  </definition>
+  <definition>
+    <key>error_name</key>
+    <value><![CDATA[Lỗi: Đánh giá Tên phải có từ 3 đến 25 ký tự!]]></value>
+  </definition>
+  <definition>
+    <key>error_text</key>
+    <value><![CDATA[Lỗi: Đánh giá Tiêu đề phải có từ 25 đến 1000 ký tự!]]></value>
+  </definition>
+  <definition>
+    <key>error_rating</key>
+    <value><![CDATA[Lỗi: Vui lòng chọn một đánh giá xem xét lại!]]></value>
+  </definition>
+  <definition>
+    <key>text_total_price</key>
+    <value><![CDATA[Tổng giá:]]></value>
+  </definition>
+  <definition>
+    <key>text_login_view_price</key>
+    <value><![CDATA[Hãy đăng nhập hoặc đăng ký để xem giá hoặc để đặt hàng.]]></value>
+  </definition>
+  <definition>
+    <key>tab_downloads</key>
+    <value><![CDATA[tải]]></value>
+  </definition>
+  <definition>
+    <key>text_start_download</key>
+    <value><![CDATA[Bắt đầu Tải về]]></value>
+  </definition>
+  <definition>
+    <key>text_new_review</key>
+    <value><![CDATA[chính đánh giá sản phẩm đang chờ]]></value>
+  </definition>
+  <definition>
+    <key>text_pending_review_approval</key>
+    <value><![CDATA[Đánh giá cho sản phẩm id %s được đăng. Hành động của chính được yêu cầu! Nhấn vào để xem # # quản trị rt = Danh mục hàng / đánh giá / cập nhật &amp; review_id = %s]]></value>
+  </definition>
+</definitions>

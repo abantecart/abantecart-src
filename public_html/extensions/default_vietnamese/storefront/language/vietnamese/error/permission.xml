@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Quyền bị từ chối!]]></value>
+  </definition>
+  <definition>
+    <key>text_permission</key>
+    <value><![CDATA[Bạn không có quyền truy cập trang này, vui lòng tham khảo quản trị hệ thống của bạn.]]></value>
+  </definition>
+</definitions>

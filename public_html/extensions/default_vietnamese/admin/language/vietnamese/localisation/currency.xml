@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Đơn vị tiền tệ]]></value>
+  </definition>
+  <definition>
+    <key>text_currency</key>
+    <value><![CDATA[Tiền tệ]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Thành công: Bạn có đồng tiền biến đổi!]]></value>
+  </definition>
+  <definition>
+    <key>column_title</key>
+    <value><![CDATA[Tiêu đề tiền tệ]]></value>
+  </definition>
+  <definition>
+    <key>column_code</key>
+    <value><![CDATA[Mã]]></value>
+  </definition>
+  <definition>
+    <key>column_value</key>
+    <value><![CDATA[Giá trị]]></value>
+  </definition>
+  <definition>
+    <key>column_date_modified</key>
+    <value><![CDATA[Cập nhật mới nhất]]></value>
+  </definition>
+  <definition>
+    <key>column_status</key>
+    <value><![CDATA[Trạng thái]]></value>
+  </definition>
+  <definition>
+    <key>column_action</key>
+    <value><![CDATA[Hoạt động]]></value>
+  </definition>
+  <definition>
+    <key>entry_title</key>
+    <value><![CDATA[Tệ Tiêu đề:]]></value>
+  </definition>
+  <definition>
+    <key>entry_code</key>
+    <value><![CDATA[Mã số: <br/><span class="help">Không thay đổi nếu điều này là tiền tệ mặc định của bạn.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_value</key>
+    <value><![CDATA[Giá trị: <br/><span class="help">Set để 1,00000 nếu điều này là tiền tệ mặc định của bạn.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_symbol_left</key>
+    <value><![CDATA[Biểu tượng trái:]]></value>
+  </definition>
+  <definition>
+    <key>entry_symbol_right</key>
+    <value><![CDATA[Biểu tượng bên phải:]]></value>
+  </definition>
+  <definition>
+    <key>entry_decimal_place</key>
+    <value><![CDATA[Địa điểm thập phân:]]></value>
+  </definition>
+  <definition>
+    <key>entry_status</key>
+    <value><![CDATA[Trạng thái:]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Cảnh báo: Bạn không có quyền sửa đổi các đồng tiền!]]></value>
+  </definition>
+  <definition>
+    <key>error_title</key>
+    <value><![CDATA[Tiêu đề tiền tệ phải có từ 2 đến 32 kí tự!]]></value>
+  </definition>
+  <definition>
+    <key>error_code</key>
+    <value><![CDATA[Mã tiền tệ phải có 3 ký tự!]]></value>
+  </definition>
+  <definition>
+    <key>error_default</key>
+    <value><![CDATA[Cảnh báo: tiền tệ này không thể bị xóa vì nó hiện đang được phân công như tiền cửa hàng mặc định!]]></value>
+  </definition>
+  <definition>
+    <key>error_store</key>
+    <value><![CDATA[Cảnh báo: tiền tệ này không thể bị xóa vì nó đang được gán cho %s cửa hàng!]]></value>
+  </definition>
+  <definition>
+    <key>error_order</key>
+    <value><![CDATA[Cảnh báo: tiền tệ này không thể bị xóa vì nó đang được gán cho %s đơn đặt hàng!]]></value>
+  </definition>
+</definitions>

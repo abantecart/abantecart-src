@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Lịch sử đơn hàng của tôi]]></value>
+  </definition>
+  <definition>
+    <key>text_account</key>
+    <value><![CDATA[Tài khoản]]></value>
+  </definition>
+  <definition>
+    <key>text_history</key>
+    <value><![CDATA[lịch sử đơn hàng]]></value>
+  </definition>
+  <definition>
+    <key>text_order</key>
+    <value><![CDATA[ID đơn hàng:]]></value>
+  </definition>
+  <definition>
+    <key>text_status</key>
+    <value><![CDATA[Trạng thái:]]></value>
+  </definition>
+  <definition>
+    <key>text_date_added</key>
+    <value><![CDATA[Ngày thêm vào:]]></value>
+  </definition>
+  <definition>
+    <key>text_customer</key>
+    <value><![CDATA[Khách hàng:]]></value>
+  </definition>
+  <definition>
+    <key>text_products</key>
+    <value><![CDATA[Các sản phẩm:]]></value>
+  </definition>
+  <definition>
+    <key>text_total</key>
+    <value><![CDATA[Toàn bộ:]]></value>
+  </definition>
+  <definition>
+    <key>text_error</key>
+    <value><![CDATA[Bạn đã không thực hiện bất kỳ đơn đặt hàng trước!]]></value>
+  </definition>
+</definitions>

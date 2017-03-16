@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[lỗi Đăng Nhập]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Thành công: Bạn đã xoá thành công lỗi đăng nhập của bạn!]]></value>
+  </definition>
+  <definition>
+    <key>text_file_tail</key>
+    <value><![CDATA[Do kích thước lớn của các tập tin đăng nhập, chỉ có 500KB cuối cùng của dữ liệu có thể được xem tại đây. 
+ Để xem toàn đăng nhập, có được nó từ máy chủ của bạn trực tiếp. 
+ con đường:]]></value>
+  </definition>
+</definitions>

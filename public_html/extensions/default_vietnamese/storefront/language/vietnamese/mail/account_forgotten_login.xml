@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>text_subject</key>
+    <value><![CDATA[%s - Tên đăng nhập lời nhắc nhở]]></value>
+  </definition>
+  <definition>
+    <key>text_greeting</key>
+    <value><![CDATA[Đăng nhập tên nhắc nhở đã được yêu cầu từ %s.]]></value>
+  </definition>
+  <definition>
+    <key>text_your_loginname</key>
+    <value><![CDATA[Tên đăng nhập của bạn là:]]></value>
+  </definition>
+</definitions>
