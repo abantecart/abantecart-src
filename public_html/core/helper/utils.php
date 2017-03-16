@@ -411,7 +411,7 @@ function dateFromFormat($string_date, $date_format, $timezone = null) {
 		$iso_date = DateTime::createFromFormat($date_format, $string_date, $timezone);
 		$result = $iso_date ? $iso_date->getTimestamp() : null;
 	}else{
-		$iso_date = DateTimeCreateFromFormat($date_format, $string_date, $timezone);
+		$iso_date = DateTimeCreateFromFormat($date_format, $string_date);
 		$result = $iso_date ? $iso_date : null;
 	}
 	return $result;

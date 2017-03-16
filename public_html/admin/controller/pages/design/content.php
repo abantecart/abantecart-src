@@ -425,7 +425,7 @@ class ControllerPagesDesignContent extends AController {
 		$store_values = $store_selected = array();
 		$store_values[0] = $this->language->get('text_default');
 
-		$stores = $this->acm->getContentStores($content_id);
+		$stores = $this->acm->getContentStores();
 
 		foreach ($stores as $store_id => $store) {
 			$store_values[$store_id] = trim(current($store));

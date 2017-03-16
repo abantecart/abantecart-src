@@ -563,7 +563,7 @@ class AExtensionManager{
 	 */
 	public function validate($extension_txt_id){
 
-		$result = $this->validateFreeSpace($extension_txt_id);
+		$result = $this->validateFreeSpace();
 		if (!$result){
 			return false;
 		}

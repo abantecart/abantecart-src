@@ -48,7 +48,7 @@ class ControllerResponsesListingGridUserPermission extends AController {
 		);
 
 
-		$total = $this->model_user_user_group->getTotalUserGroups($data);
+		$total = $this->model_user_user_group->getTotalUserGroups();
 	    if( $total > 0 ) {
 			$total_pages = ceil($total/$limit);
 		} else {

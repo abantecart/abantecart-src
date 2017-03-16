@@ -43,8 +43,7 @@ class ControllerResponsesCommonCommon extends AController {
 		$this->extensions->hk_InitData($this, __FUNCTION__);
 		$seo_key = SEOEncode($this->request->get['seo_name'],
 							$this->request->get['object_key_name'],
-							(int)$this->request->get['id'],
-							(int)$this->language->getContentLanguageID());
+							(int)$this->request->get['id']);
 
 		//update controller data
 		$this->extensions->hk_UpdateData($this, __FUNCTION__);

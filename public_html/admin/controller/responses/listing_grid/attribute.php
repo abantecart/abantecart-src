@@ -236,7 +236,7 @@ class ControllerResponsesListingGridAttribute extends AController {
 		return $err;
 	}
 
-	public function validateDelete() {
+	public function validateDelete($id) {
 		$this->data['error'] = '';
 		$this->extensions->hk_ValidateData($this);
 		return $this->data['error'];
