@@ -1,0 +1,255 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[súbory tovar]]></value>
+  </definition>
+  <definition>
+    <key>text_product</key>
+    <value><![CDATA[produkt]]></value>
+  </definition>
+  <definition>
+    <key>text_edit_product_file</key>
+    <value><![CDATA[Upraviť súbor tovar]]></value>
+  </definition>
+  <definition>
+    <key>tab_files</key>
+    <value><![CDATA[súbory]]></value>
+  </definition>
+  <definition>
+    <key>tab_general</key>
+    <value><![CDATA[všeobecný]]></value>
+  </definition>
+  <definition>
+    <key>tab_attributes</key>
+    <value><![CDATA[Na stiahnutie atribúty]]></value>
+  </definition>
+  <definition>
+    <key>entry_file_icon</key>
+    <value><![CDATA[ikona súboru]]></value>
+  </definition>
+  <definition>
+    <key>entry_status</key>
+    <value><![CDATA[Postavenie]]></value>
+  </definition>
+  <definition>
+    <key>entry_resource</key>
+    <value><![CDATA[prostriedky]]></value>
+  </definition>
+  <definition>
+    <key>entry_name</key>
+    <value><![CDATA[názov]]></value>
+  </definition>
+  <definition>
+    <key>entry_download_name</key>
+    <value><![CDATA[Na stiahnutie Názov]]></value>
+  </definition>
+  <definition>
+    <key>entry_mask</key>
+    <value><![CDATA[Download maska <span class="help">Názov súboru alias pre zákazníka k stiahnutiu výstup</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_file_full_path</key>
+    <value><![CDATA[Path File Server]]></value>
+  </definition>
+  <definition>
+    <key>entry_file_max_downloads</key>
+    <value><![CDATA[Max Download]]></value>
+  </definition>
+  <definition>
+    <key>entry_file_sort_order</key>
+    <value><![CDATA[radenie]]></value>
+  </definition>
+  <definition>
+    <key>entry_file_status</key>
+    <value><![CDATA[Postavenie]]></value>
+  </definition>
+  <definition>
+    <key>entry_file_push_to_customers</key>
+    <value><![CDATA[Tlačiť k zákazníkom]]></value>
+  </definition>
+  <definition>
+    <key>entry_file_activation</key>
+    <value><![CDATA[režim aktivácia]]></value>
+  </definition>
+  <definition>
+    <key>text_add_file</key>
+    <value><![CDATA[Pridať súbor]]></value>
+  </definition>
+  <definition>
+    <key>text_new_file</key>
+    <value><![CDATA[Pridať nový súbor]]></value>
+  </definition>
+  <definition>
+    <key>text_download_attributes</key>
+    <value><![CDATA[Na stiahnutie atribúty]]></value>
+  </definition>
+  <definition>
+    <key>text_download_information</key>
+    <value><![CDATA[všeobecný]]></value>
+  </definition>
+  <definition>
+    <key>entry_date_added</key>
+    <value><![CDATA[pridané]]></value>
+  </definition>
+  <definition>
+    <key>entry_date_modified</key>
+    <value><![CDATA[modifikovaná]]></value>
+  </definition>
+  <definition>
+    <key>entry_max_downloads</key>
+    <value><![CDATA[Max stiahnutie <span class="help">Počet stiahnutí povolené pre zákazníka</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_activate</key>
+    <value><![CDATA[Aktivované <span class="help">Na stiahnutie bude aktivuje na akciu vybrané. <br/> Príklad: Ihneď. Na stiahnutie je aktivovať po pokyne, bez ohľadu na stav objednávky</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_sort_order</key>
+    <value><![CDATA[poradie zoradenia]]></value>
+  </definition>
+  <definition>
+    <key>entry_expire_days</key>
+    <value><![CDATA[Vyprší dní <span class="help">Count dní od dátumu nákupu</span>]]></value>
+  </definition>
+  <definition>
+    <key>text_before_order</key>
+    <value><![CDATA[pred Order]]></value>
+  </definition>
+  <definition>
+    <key>text_immediately</key>
+    <value><![CDATA[Okamžite]]></value>
+  </definition>
+  <definition>
+    <key>text_on_order_status</key>
+    <value><![CDATA[Na Stav objednávky]]></value>
+  </definition>
+  <definition>
+    <key>text_manually</key>
+    <value><![CDATA[ručne]]></value>
+  </definition>
+  <definition>
+    <key>text_success_download_save</key>
+    <value><![CDATA[Úspech: Zmenili ste súbor!]]></value>
+  </definition>
+  <definition>
+    <key>error_download_exists</key>
+    <value><![CDATA[Chyba: Nie je možné aktualizovať sťahovania, pretože neexistuje v databáze!]]></value>
+  </definition>
+  <definition>
+    <key>error_download_name</key>
+    <value><![CDATA[Chyba: Stiahnutie meno musí mať dĺžku v rozmedzí 2 až 128 znakov!]]></value>
+  </definition>
+  <definition>
+    <key>error_max_downloads</key>
+    <value><![CDATA[Chyba: počet maximálne sťahovania musí byť väčší 0!]]></value>
+  </definition>
+  <definition>
+    <key>error_activate</key>
+    <value><![CDATA[Chyba: select akcie pre aktiváciu stiahnutie!]]></value>
+  </definition>
+  <definition>
+    <key>error_order_status</key>
+    <value><![CDATA[Chyba: Vyberte stav objednávky pre aktiváciu stiahnutie!]]></value>
+  </definition>
+  <definition>
+    <key>error_download_attributes</key>
+    <value><![CDATA[Download Atribúty Error (s):]]></value>
+  </definition>
+  <definition>
+    <key>text_shared_downloads</key>
+    <value><![CDATA[zdieľané k stiahnutiu]]></value>
+  </definition>
+  <definition>
+    <key>text_create_download</key>
+    <value><![CDATA[Vytvorenie novej sťahovanie]]></value>
+  </definition>
+  <definition>
+    <key>text_path</key>
+    <value><![CDATA[Relatívna cesta k súboru]]></value>
+  </definition>
+  <definition>
+    <key>text_preview</key>
+    <value><![CDATA[Náhľad]]></value>
+  </definition>
+  <definition>
+    <key>entry_shared</key>
+    <value><![CDATA[spoločná Download]]></value>
+  </definition>
+  <definition>
+    <key>text_assign</key>
+    <value><![CDATA[uložiť]]></value>
+  </definition>
+  <definition>
+    <key>text_assigned_to</key>
+    <value><![CDATA[Priradená tiež:]]></value>
+  </definition>
+  <definition>
+    <key>text_select_shared_downloads</key>
+    <value><![CDATA[Vyberte zdieľanej stiahnutie]]></value>
+  </definition>
+  <definition>
+    <key>error_selected_downloads</key>
+    <value><![CDATA[Varovanie: Vyberte zdieľané k stiahnutiu pre priradiť.]]></value>
+  </definition>
+  <definition>
+    <key>text_map_success</key>
+    <value><![CDATA[Úspech: ste priradili zdieľané súbory na stiahnutie k tomuto produktu!]]></value>
+  </definition>
+  <definition>
+    <key>text_delete_or_refuse</key>
+    <value><![CDATA[odstrániť alebo odmietnuť (spoločné)]]></value>
+  </definition>
+  <definition>
+    <key>text_confirm_delete</key>
+    <value><![CDATA[Potvrdiť stiahnutie zmazať / odmietnuť]]></value>
+  </definition>
+  <definition>
+    <key>text_success_remove</key>
+    <value><![CDATA[Úspech: Produkt zoznam súborov meniť!]]></value>
+  </definition>
+  <definition>
+    <key>text_push</key>
+    <value><![CDATA[TAM]]></value>
+  </definition>
+  <definition>
+    <key>text_push_to_customers</key>
+    <value><![CDATA[Tlačiť na zákazníkov]]></value>
+  </definition>
+  <definition>
+    <key>text_push_to_orders</key>
+    <value><![CDATA[Tlačiť sťahovanie do %s Objednávky]]></value>
+  </definition>
+  <definition>
+    <key>success_push_to_orders</key>
+    <value><![CDATA[Úspech: Download doviedlo k %s poradí (y) úspešne]]></value>
+  </definition>
+  <definition>
+    <key>text_no_download_attributes_yet</key>
+    <value><![CDATA[atribúty žiadne sťahovanie napriek tomu. <a href="%s" target="_blank">Kliknutím pridajte</a>]]></value>
+  </definition>
+  <definition>
+    <key>text_confirm_push</key>
+    <value><![CDATA[Potvrdiť?]]></value>
+  </definition>
+  <definition>
+    <key>error_downloads_disabled</key>
+    <value><![CDATA[Varovanie: Na stiahnutie sú zakázané v nastavení ukladania. <a href="#admin#rt=setting/setting&active=general" target="new">Kliknutím upravíte</a> !]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Varovanie: Nemáte oprávnenie na zmenu súbory produktu!]]></value>
+  </definition>
+  <definition>
+    <key>error_file</key>
+    <value><![CDATA[Prosím nastaviť súbor k stiahnutiu.]]></value>
+  </definition>
+  <definition>
+    <key>attention_shared</key>
+    <value><![CDATA[Chystáte sa upravovať zdieľané sťahovanie. Úpravy budú mať vplyv ďalších produktov.]]></value>
+  </definition>
+  <definition>
+    <key>text_shared_with</key>
+    <value><![CDATA[Spoločne s:]]></value>
+  </definition>
+</definitions>

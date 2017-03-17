@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[zdieľané k stiahnutiu]]></value>
+  </definition>
+  <definition>
+    <key>text_download</key>
+    <value><![CDATA[spoločná Download]]></value>
+  </definition>
+  <definition>
+    <key>insert_title</key>
+    <value><![CDATA[Insert Download]]></value>
+  </definition>
+  <definition>
+    <key>update_title</key>
+    <value><![CDATA[aktualizácia k stiahnutiu]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Úspech: Zmenili ste stiahnutie!]]></value>
+  </definition>
+  <definition>
+    <key>column_name</key>
+    <value><![CDATA[Na stiahnutie Názov]]></value>
+  </definition>
+  <definition>
+    <key>column_remaining</key>
+    <value><![CDATA[Celkový počet stiahnutí zvieratá povolené]]></value>
+  </definition>
+  <definition>
+    <key>column_action</key>
+    <value><![CDATA[akčná]]></value>
+  </definition>
+  <definition>
+    <key>entry_name</key>
+    <value><![CDATA[Zavádzanie Meno:]]></value>
+  </definition>
+  <definition>
+    <key>entry_filename</key>
+    <value><![CDATA[Názov súboru:]]></value>
+  </definition>
+  <definition>
+    <key>entry_remaining</key>
+    <value><![CDATA[Celkový počet stiahnutí povolená:]]></value>
+  </definition>
+  <definition>
+    <key>entry_update</key>
+    <value><![CDATA[Tlačiť na predchádzajúcu zákazníkov: <br/><span class="help">Skontrolujte, či táto aktualizácia skôr zakúpené verzie rovnako.</span>]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Varovanie: Nemáte oprávnenie k úprave stiahnutie!]]></value>
+  </definition>
+  <definition>
+    <key>error_name</key>
+    <value><![CDATA[Meno musí byť medzi 2 a 64 znakov!]]></value>
+  </definition>
+  <definition>
+    <key>error_file</key>
+    <value><![CDATA[Prosím nastaviť súbor k stiahnutiu.]]></value>
+  </definition>
+  <definition>
+    <key>error_product</key>
+    <value><![CDATA[Upozornenie: Tento súbor k stiahnutiu nemôže byť zmazaný, pretože je aktuálne priradený %s výrobkov!]]></value>
+  </definition>
+  <definition>
+    <key>column_image</key>
+    <value><![CDATA[obraz]]></value>
+  </definition>
+  <definition>
+    <key>column_products_count</key>
+    <value><![CDATA[produkty Count]]></value>
+  </definition>
+</definitions>

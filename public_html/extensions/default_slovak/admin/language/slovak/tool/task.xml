@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[naplánované úlohy]]></value>
+  </definition>
+  <definition>
+    <key>column_id</key>
+    <value><![CDATA[Id]]></value>
+  </definition>
+  <definition>
+    <key>column_date_created</key>
+    <value><![CDATA[dátum vytvorenia]]></value>
+  </definition>
+  <definition>
+    <key>column_name</key>
+    <value><![CDATA[názov]]></value>
+  </definition>
+  <definition>
+    <key>column_status</key>
+    <value><![CDATA[Postavenie]]></value>
+  </definition>
+  <definition>
+    <key>column_start_time</key>
+    <value><![CDATA[Doba spustenia]]></value>
+  </definition>
+  <definition>
+    <key>text_stuck</key>
+    <value><![CDATA[Stuck]]></value>
+  </definition>
+  <definition>
+    <key>text_ready</key>
+    <value><![CDATA[Pripravený]]></value>
+  </definition>
+  <definition>
+    <key>text_running</key>
+    <value><![CDATA[Bezat]]></value>
+  </definition>
+  <definition>
+    <key>text_scheduled</key>
+    <value><![CDATA[Naplánovaný]]></value>
+  </definition>
+  <definition>
+    <key>text_disabled</key>
+    <value><![CDATA[invalidný]]></value>
+  </definition>
+  <definition>
+    <key>text_failed</key>
+    <value><![CDATA[neúspešný]]></value>
+  </definition>
+  <definition>
+    <key>text_incomplete</key>
+    <value><![CDATA[neúplný]]></value>
+  </definition>
+  <definition>
+    <key>text_completed</key>
+    <value><![CDATA[dokončený]]></value>
+  </definition>
+  <definition>
+    <key>text_restart</key>
+    <value><![CDATA[reštart Task]]></value>
+  </definition>
+  <definition>
+    <key>text_run</key>
+    <value><![CDATA[úloha Run]]></value>
+  </definition>
+  <definition>
+    <key>text_task_started</key>
+    <value><![CDATA[začal úloha]]></value>
+  </definition>
+  <definition>
+    <key>text_task_not_found</key>
+    <value><![CDATA[Úloha nebola nájdená.]]></value>
+  </definition>
+  <definition>
+    <key>text_empty_task</key>
+    <value><![CDATA[Úlohou nie je obsahuje kroky. Odstránený.]]></value>
+  </definition>
+  <definition>
+    <key>text_forbidden_to_restart</key>
+    <value><![CDATA[Zakázané Ak chcete reštartovať!]]></value>
+  </definition>
+</definitions>

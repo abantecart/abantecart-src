@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>im_text_notification</key>
+    <value><![CDATA[oznámenia]]></value>
+  </definition>
+  <definition>
+    <key>im_sendpoint_name_order_update</key>
+    <value><![CDATA[objednať Aktualizácia]]></value>
+  </definition>
+  <definition>
+    <key>im_order_update_text_to_customer</key>
+    <value><![CDATA[Vaša objednávka <a href="%s"># %s</a> bol aktualizovaný. Pre viac informácií prihlásenie do %s účet.]]></value>
+  </definition>
+  <definition>
+    <key>im_sendpoint_name_new_order</key>
+    <value><![CDATA[Hodnota nových zákaziek]]></value>
+  </definition>
+  <definition>
+    <key>im_new_order_text_to_admin</key>
+    <value><![CDATA[New Order <a href="#admin#rt=sale/order/details&order_id=%s"># %s</a> bol vytvorený!]]></value>
+  </definition>
+  <definition>
+    <key>im_sendpoint_name_new_customer</key>
+    <value><![CDATA[Registrácia zákazníkov]]></value>
+  </definition>
+  <definition>
+    <key>im_new_customer_text_to_admin</key>
+    <value><![CDATA[Nový zákazník # %s bola zaregistrovaná!]]></value>
+  </definition>
+  <definition>
+    <key>im_sendpoint_name_account_update</key>
+    <value><![CDATA[Aktualizácia správca používateľských účtov]]></value>
+  </definition>
+  <definition>
+    <key>im_account_update_text_to_admin</key>
+    <value><![CDATA[Vaše užívateľská správca údaje o účte boli zmenené.]]></value>
+  </definition>
+  <definition>
+    <key>im_customer_account_update_text_to_admin</key>
+    <value><![CDATA[Nový zákazník # %s bola aktualizovaná!]]></value>
+  </definition>
+  <definition>
+    <key>im_sendpoint_name_customer_contact</key>
+    <value><![CDATA[otázky zákazníkov]]></value>
+  </definition>
+  <definition>
+    <key>im_sendpoint_name_product_out_of_stock</key>
+    <value><![CDATA[Výrobky Nie je skladom]]></value>
+  </definition>
+  <definition>
+    <key>im_sendpoint_name_product_review</key>
+    <value><![CDATA[Nové Recenzie produktov]]></value>
+  </definition>
+  <definition>
+    <key>im_sendpoint_name_newsletter</key>
+    <value><![CDATA[spravodajcu]]></value>
+  </definition>
+  <definition>
+    <key>im_sendpoint_name_system_messages</key>
+    <value><![CDATA[systémové hlásenia]]></value>
+  </definition>
+  <definition>
+    <key>im_customer_account_update_text_to_customer</key>
+    <value><![CDATA[Nová transakcia bola zaúčtovaná do súboru %s účtu vo výške %s. Pre viac informácií prihlásenie do %s účet.]]></value>
+  </definition>
+  <definition>
+    <key>text_notification_for</key>
+    <value><![CDATA[Upozornenie pre užívateľa %s]]></value>
+  </definition>
+  <definition>
+    <key>error_unknown_sendpoint</key>
+    <value><![CDATA[Sendpoint %s nie je nájdený v zozname sendpoints!]]></value>
+  </definition>
+  <definition>
+    <key>text_settings_success_saved</key>
+    <value><![CDATA[Nastavenie oznámenia úspešne uložený!]]></value>
+  </definition>
+  <definition>
+    <key>im_error_mail_address</key>
+    <value><![CDATA[E-mailová adresa %s vyzerá neplatné!]]></value>
+  </definition>
+</definitions>

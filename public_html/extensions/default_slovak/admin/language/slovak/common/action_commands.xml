@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>text_possible_commands</key>
+    <value><![CDATA[Nižšie sú možné príkazy. Môžete speek viac detailov po príkaze kľúčové slovo. Napríklad, &quot;otvorenú stránku správy&quot; alebo &quot;insert produkt&quot;]]></value>
+  </definition>
+  <definition>
+    <key>text_multiple_result_found</key>
+    <value><![CDATA[Multiple akcie výsledok:]]></value>
+  </definition>
+  <definition>
+    <key>text_action_confirm</key>
+    <value><![CDATA[Potvrďte prosím svoju požiadavku:]]></value>
+  </definition>
+  <definition>
+    <key>command_open</key>
+    <value><![CDATA[šírym, otvorené strana, otvorte menu]]></value>
+  </definition>
+  <definition>
+    <key>command_find</key>
+    <value><![CDATA[lokalizovať, nájsť, hľadať, hľadať, hľadať 4]]></value>
+  </definition>
+  <definition>
+    <key>command_clear_cache</key>
+    <value><![CDATA[vymazať cache, vyrovnávacia pamäť jasné, vymazať všetky vyrovnávacej pamäte]]></value>
+  </definition>
+  <definition>
+    <key>command_view_log</key>
+    <value><![CDATA[Pohľad log, log názor, skontrolujte protokol, pozri log, zobrazenie denníka chýb, zobrazenie chyby]]></value>
+  </definition>
+  <definition>
+    <key>command_clear_log</key>
+    <value><![CDATA[clear log, log jasné, odstránenie log, log zmazať]]></value>
+  </definition>
+  <definition>
+    <key>command_view_order</key>
+    <value><![CDATA[Pohľad objednávky, číslo objednávky, otvorené objednávky, show príkaz, open poradové číslo, číslo objednávky pohľad, počet výstava poriadok, poriadok #]]></value>
+  </definition>
+  <definition>
+    <key>command_view_product</key>
+    <value><![CDATA[náhľad výrobku, číslo výrobku, otvorený produkt, show produkt, otvorený číslo výrobku, počet Zobraziť produkt, počet ukázať produkt, produkt #]]></value>
+  </definition>
+  <definition>
+    <key>command_create_new</key>
+    <value><![CDATA[vkladať, vytvárať, pridávať nové, vložiť nový, vytvoriť nový, pridať nový]]></value>
+  </definition>
+  <definition>
+    <key>category</key>
+    <value><![CDATA[kategórie]]></value>
+  </definition>
+  <definition>
+    <key>product</key>
+    <value><![CDATA[produkt]]></value>
+  </definition>
+  <definition>
+    <key>brand</key>
+    <value><![CDATA[značka]]></value>
+  </definition>
+  <definition>
+    <key>manufacturer</key>
+    <value><![CDATA[výrobca]]></value>
+  </definition>
+  <definition>
+    <key>review</key>
+    <value><![CDATA[preskúmanie]]></value>
+  </definition>
+  <definition>
+    <key>download</key>
+    <value><![CDATA[Stiahnuť ▼]]></value>
+  </definition>
+  <definition>
+    <key>attribute</key>
+    <value><![CDATA[atribút]]></value>
+  </definition>
+  <definition>
+    <key>customer</key>
+    <value><![CDATA[zákazník]]></value>
+  </definition>
+  <definition>
+    <key>coupon</key>
+    <value><![CDATA[kupón]]></value>
+  </definition>
+  <definition>
+    <key>discount</key>
+    <value><![CDATA[zľava]]></value>
+  </definition>
+  <definition>
+    <key>block</key>
+    <value><![CDATA[blok]]></value>
+  </definition>
+  <definition>
+    <key>menu</key>
+    <value><![CDATA[Ponuka]]></value>
+  </definition>
+  <definition>
+    <key>content</key>
+    <value><![CDATA[obsah]]></value>
+  </definition>
+  <definition>
+    <key>banner</key>
+    <value><![CDATA[prápor]]></value>
+  </definition>
+  <definition>
+    <key>page</key>
+    <value><![CDATA[strana]]></value>
+  </definition>
+  <definition>
+    <key>store</key>
+    <value><![CDATA[sklad]]></value>
+  </definition>
+  <definition>
+    <key>language</key>
+    <value><![CDATA[Jazyk]]></value>
+  </definition>
+  <definition>
+    <key>currency</key>
+    <value><![CDATA[mena]]></value>
+  </definition>
+  <definition>
+    <key>location</key>
+    <value><![CDATA[umiestnenie]]></value>
+  </definition>
+  <definition>
+    <key>tax</key>
+    <value><![CDATA[daň]]></value>
+  </definition>
+</definitions>

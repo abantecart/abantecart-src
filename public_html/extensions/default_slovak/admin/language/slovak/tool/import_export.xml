@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>import_export_title</key>
+    <value><![CDATA[Import &amp; Export]]></value>
+  </definition>
+  <definition>
+    <key>tab_import</key>
+    <value><![CDATA[import]]></value>
+  </definition>
+  <definition>
+    <key>tab_export</key>
+    <value><![CDATA[Export]]></value>
+  </definition>
+  <definition>
+    <key>text_tables</key>
+    <value><![CDATA[stoly]]></value>
+  </definition>
+  <definition>
+    <key>text_options</key>
+    <value><![CDATA[možnosti]]></value>
+  </definition>
+  <definition>
+    <key>text_file_format</key>
+    <value><![CDATA[Formát súboru:]]></value>
+  </definition>
+  <definition>
+    <key>text_file_name</key>
+    <value><![CDATA[Názov súboru:]]></value>
+  </definition>
+  <definition>
+    <key>text_load_file</key>
+    <value><![CDATA[load File]]></value>
+  </definition>
+  <definition>
+    <key>text_load</key>
+    <value><![CDATA[zaťaženie]]></value>
+  </definition>
+  <definition>
+    <key>text_import_loaded</key>
+    <value><![CDATA[Celkový naložený:]]></value>
+  </definition>
+  <definition>
+    <key>text_file_field</key>
+    <value><![CDATA[Súbor na import: <br/><span class="help">Podporované formáty pre importovať súbory: XML, CSV, TXT</span>]]></value>
+  </definition>
+  <definition>
+    <key>text_id_range_from</key>
+    <value><![CDATA[ID rozsah od:]]></value>
+  </definition>
+  <definition>
+    <key>text_to</key>
+    <value><![CDATA[na adresu:]]></value>
+  </definition>
+  <definition>
+    <key>text_csv_delimiter</key>
+    <value><![CDATA[CSV / TXT oddeľovač:]]></value>
+  </definition>
+  <definition>
+    <key>text_export_note_csv_delimiter</key>
+    <value><![CDATA[<span class="help">Všetky polia budú uzavreté v úvodzovkách.</span>]]></value>
+  </definition>
+  <definition>
+    <key>text_import_note_csv_delimiter</key>
+    <value><![CDATA[<span class="help">Všetky polia musia byť uzavretý v úvodzovkách.</span>]]></value>
+  </definition>
+  <definition>
+    <key>text_test_mode</key>
+    <value><![CDATA[Beží v testovacom režime <br/><span class="help">Odporúča sa spustiť import dát v testovacom režime najprv zistiť, či sú prítomné nejaké problémy.</span>]]></value>
+  </definition>
+  <definition>
+    <key>error_file_format</key>
+    <value><![CDATA[Chybný formát súboru!]]></value>
+  </definition>
+  <definition>
+    <key>error_xml_import</key>
+    <value><![CDATA[Chyba pri importe XML súboru!]]></value>
+  </definition>
+  <definition>
+    <key>error_csv_import</key>
+    <value><![CDATA[Chyba pri importe súboru CSV / TXT! Skontrolujte prosím polí oddeľovač.]]></value>
+  </definition>
+  <definition>
+    <key>error_data_corrupted</key>
+    <value><![CDATA[Dáta je prázdna alebo je poškodený.]]></value>
+  </definition>
+  <definition>
+    <key>error_file_empty</key>
+    <value><![CDATA[Súbor je prázdny.]]></value>
+  </definition>
+  <definition>
+    <key>error_writable_backup</key>
+    <value><![CDATA[Záložný adresár musí byť zapisovateľný pre export do formátu CSV / TXT do práce.]]></value>
+  </definition>
+  <definition>
+    <key>text_updated</key>
+    <value><![CDATA[Aktualizované:]]></value>
+  </definition>
+  <definition>
+    <key>text_created</key>
+    <value><![CDATA[Vytvorené:]]></value>
+  </definition>
+  <definition>
+    <key>text_errors</key>
+    <value><![CDATA[chyby:]]></value>
+  </definition>
+  <definition>
+    <key>text_show_details</key>
+    <value><![CDATA[Zobraziť podrobnosti]]></value>
+  </definition>
+  <definition>
+    <key>text_no_children</key>
+    <value><![CDATA[Žiadne dieťa položiek]]></value>
+  </definition>
+  <definition>
+    <key>text_some_errors</key>
+    <value><![CDATA[Tam sú niektoré chyby.]]></value>
+  </definition>
+  <definition>
+    <key>text_test_completed</key>
+    <value><![CDATA[Skúšobná prevádzka ukončený. Celkom SQL dotazy:]]></value>
+  </definition>
+  <definition>
+    <key>text_sort_by</key>
+    <value><![CDATA[Triediť podľa:]]></value>
+  </definition>
+</definitions>

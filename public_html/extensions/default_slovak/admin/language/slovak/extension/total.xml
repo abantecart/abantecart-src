@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[objednať Súčty]]></value>
+  </definition>
+  <definition>
+    <key>text_install</key>
+    <value><![CDATA[Inštalovať]]></value>
+  </definition>
+  <definition>
+    <key>text_uninstall</key>
+    <value><![CDATA[odinštalovať]]></value>
+  </definition>
+  <definition>
+    <key>column_name</key>
+    <value><![CDATA[objednať Súčty]]></value>
+  </definition>
+  <definition>
+    <key>column_status</key>
+    <value><![CDATA[Postavenie]]></value>
+  </definition>
+  <definition>
+    <key>column_sort_order</key>
+    <value><![CDATA[poradie zoradenia]]></value>
+  </definition>
+  <definition>
+    <key>column_calculation_order</key>
+    <value><![CDATA[kalkulácia Objednávka]]></value>
+  </definition>
+  <definition>
+    <key>column_action</key>
+    <value><![CDATA[akčná]]></value>
+  </definition>
+</definitions>

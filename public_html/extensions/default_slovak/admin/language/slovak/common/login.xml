@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Administrácia]]></value>
+  </definition>
+  <definition>
+    <key>text_heading</key>
+    <value><![CDATA[Administrácia]]></value>
+  </definition>
+  <definition>
+    <key>text_login</key>
+    <value><![CDATA[Prosím, zadajte svoje prihlasovacie údaje.]]></value>
+  </definition>
+  <definition>
+    <key>entry_username</key>
+    <value><![CDATA[Užívateľské meno:]]></value>
+  </definition>
+  <definition>
+    <key>entry_password</key>
+    <value><![CDATA[heslo:]]></value>
+  </definition>
+  <definition>
+    <key>entry_forgot_password</key>
+    <value><![CDATA[Zabudol si heslo?]]></value>
+  </definition>
+  <definition>
+    <key>button_login</key>
+    <value><![CDATA[Prihlásiť sa]]></value>
+  </definition>
+  <definition>
+    <key>error_login</key>
+    <value><![CDATA[zápas pre užívateľské meno a / alebo heslo nie.]]></value>
+  </definition>
+  <definition>
+    <key>error_token</key>
+    <value><![CDATA[Neplatný Token relácie. Prosím prihláste sa znovu.]]></value>
+  </definition>
+  <definition>
+    <key>error_login_message</key>
+    <value><![CDATA[Nepodarilo prihlásenie k pokusu admin z IP:]]></value>
+  </definition>
+  <definition>
+    <key>error_login_message_text</key>
+    <value><![CDATA[Vzhľadom k prihlásenie užívateľa:]]></value>
+  </definition>
+</definitions>

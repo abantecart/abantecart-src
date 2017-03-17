@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[prístrojová doska]]></value>
+  </definition>
+  <definition>
+    <key>text_overview</key>
+    <value><![CDATA[Prehľad]]></value>
+  </definition>
+  <definition>
+    <key>text_statistics</key>
+    <value><![CDATA[štatistika]]></value>
+  </definition>
+  <definition>
+    <key>text_latest_10_orders</key>
+    <value><![CDATA[Najnovšie 10 Objednávky]]></value>
+  </definition>
+  <definition>
+    <key>text_total_sale</key>
+    <value><![CDATA[celkové tržby]]></value>
+  </definition>
+  <definition>
+    <key>text_total_sale_year</key>
+    <value><![CDATA[Celkový objem predaja v tomto roku:]]></value>
+  </definition>
+  <definition>
+    <key>text_total_order</key>
+    <value><![CDATA[Celkom Objednávky:]]></value>
+  </definition>
+  <definition>
+    <key>text_total_customer</key>
+    <value><![CDATA[Počet zákazníkov:]]></value>
+  </definition>
+  <definition>
+    <key>text_total_customer_approval</key>
+    <value><![CDATA[Zákazníci Čakanie schválenie:]]></value>
+  </definition>
+  <definition>
+    <key>text_total_product</key>
+    <value><![CDATA[Č produkty:]]></value>
+  </definition>
+  <definition>
+    <key>text_total_review</key>
+    <value><![CDATA[Nie recenzií:]]></value>
+  </definition>
+  <definition>
+    <key>text_total_review_approval</key>
+    <value><![CDATA[Recenzia Čakanie schválenie:]]></value>
+  </definition>
+  <definition>
+    <key>text_day</key>
+    <value><![CDATA[dnes]]></value>
+  </definition>
+  <definition>
+    <key>text_week</key>
+    <value><![CDATA[Tento týždeň]]></value>
+  </definition>
+  <definition>
+    <key>text_month</key>
+    <value><![CDATA[Tento mesiac]]></value>
+  </definition>
+  <definition>
+    <key>text_year</key>
+    <value><![CDATA[Tento rok]]></value>
+  </definition>
+  <definition>
+    <key>text_order</key>
+    <value><![CDATA[Celkom objednávky]]></value>
+  </definition>
+  <definition>
+    <key>text_order_short</key>
+    <value><![CDATA[Celkom objednávky]]></value>
+  </definition>
+  <definition>
+    <key>text_customer</key>
+    <value><![CDATA[Celkom Zákazníci]]></value>
+  </definition>
+  <definition>
+    <key>column_order</key>
+    <value><![CDATA[Číslo objednávky]]></value>
+  </definition>
+  <definition>
+    <key>column_name</key>
+    <value><![CDATA[Meno zákazníka]]></value>
+  </definition>
+  <definition>
+    <key>column_status</key>
+    <value><![CDATA[Postavenie]]></value>
+  </definition>
+  <definition>
+    <key>column_date_added</key>
+    <value><![CDATA[Dátum pridané]]></value>
+  </definition>
+  <definition>
+    <key>column_total</key>
+    <value><![CDATA[celkom]]></value>
+  </definition>
+  <definition>
+    <key>column_firstname</key>
+    <value><![CDATA[Krstné meno]]></value>
+  </definition>
+  <definition>
+    <key>column_lastname</key>
+    <value><![CDATA[Priezvisko]]></value>
+  </definition>
+  <definition>
+    <key>column_action</key>
+    <value><![CDATA[akčná]]></value>
+  </definition>
+  <definition>
+    <key>entry_range</key>
+    <value><![CDATA[Vybrať rozsah:]]></value>
+  </definition>
+  <definition>
+    <key>orders_text_all</key>
+    <value><![CDATA[všetky objednávky]]></value>
+  </definition>
+  <definition>
+    <key>text_customer_all</key>
+    <value><![CDATA[všetci zákazníci]]></value>
+  </definition>
+  <definition>
+    <key>text_latest_10_customers</key>
+    <value><![CDATA[posledné prihlášky]]></value>
+  </definition>
+  <definition>
+    <key>column_email</key>
+    <value><![CDATA[E-mail]]></value>
+  </definition>
+</definitions>

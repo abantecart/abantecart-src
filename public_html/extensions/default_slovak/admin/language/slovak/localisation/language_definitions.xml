@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[jazykové Definícia]]></value>
+  </definition>
+  <definition>
+    <key>text_definition</key>
+    <value><![CDATA[jazyk Definition]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Úspech: Zmenili ste jazyk!]]></value>
+  </definition>
+  <definition>
+    <key>column_language</key>
+    <value><![CDATA[Jazyk]]></value>
+  </definition>
+  <definition>
+    <key>column_key</key>
+    <value><![CDATA[kľúč]]></value>
+  </definition>
+  <definition>
+    <key>column_translation</key>
+    <value><![CDATA[preklad]]></value>
+  </definition>
+  <definition>
+    <key>column_block</key>
+    <value><![CDATA[blok]]></value>
+  </definition>
+  <definition>
+    <key>column_update_date</key>
+    <value><![CDATA[dátum aktualizácie]]></value>
+  </definition>
+  <definition>
+    <key>column_action</key>
+    <value><![CDATA[Akcia]]></value>
+  </definition>
+  <definition>
+    <key>entry_language_key</key>
+    <value><![CDATA[kľúč]]></value>
+  </definition>
+  <definition>
+    <key>entry_language_value</key>
+    <value><![CDATA[hodnota]]></value>
+  </definition>
+  <definition>
+    <key>entry_translation</key>
+    <value><![CDATA[preklad]]></value>
+  </definition>
+  <definition>
+    <key>entry_block</key>
+    <value><![CDATA[blok]]></value>
+  </definition>
+  <definition>
+    <key>entry_section</key>
+    <value><![CDATA[časť]]></value>
+  </definition>
+  <definition>
+    <key>text_admin</key>
+    <value><![CDATA[admin]]></value>
+  </definition>
+  <definition>
+    <key>text_storefront</key>
+    <value><![CDATA[výkladná skriňa]]></value>
+  </definition>
+  <definition>
+    <key>error_language_key</key>
+    <value><![CDATA[požadovaný jazyk kľúč!]]></value>
+  </definition>
+  <definition>
+    <key>error_language_value</key>
+    <value><![CDATA[Preklad potrebné!]]></value>
+  </definition>
+  <definition>
+    <key>error_block</key>
+    <value><![CDATA[potrebný blok!]]></value>
+  </definition>
+  <definition>
+    <key>error_section</key>
+    <value><![CDATA[Sekcia povinné!]]></value>
+  </definition>
+  <definition>
+    <key>text_all_section</key>
+    <value><![CDATA[všetky sekcie]]></value>
+  </definition>
+  <definition>
+    <key>text_all_languages</key>
+    <value><![CDATA[všetky jazyky]]></value>
+  </definition>
+  <definition>
+    <key>error_already exists</key>
+    <value><![CDATA[Chyba! <br/> definícia Language tlačidlom &quot;%s&quot; a blok &quot;%s&quot; %s pre oddiel už existuje! <br/> Kliknutím <a target="_blank" href="%s">na tento odkaz</a> pre zobrazenie]]></value>
+  </definition>
+</definitions>

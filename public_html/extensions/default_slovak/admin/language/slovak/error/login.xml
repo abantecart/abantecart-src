@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Chyba prihlásenie!]]></value>
+  </definition>
+  <definition>
+    <key>text_login</key>
+    <value><![CDATA[Nie ste prihlásený. Budete presmerovaný na prihlasovaciu stránku]]></value>
+  </definition>
+</definitions>

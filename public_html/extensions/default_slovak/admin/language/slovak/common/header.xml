@@ -1,0 +1,463 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Administrácia]]></value>
+  </definition>
+  <definition>
+    <key>text_backup</key>
+    <value><![CDATA[Backup / Restore]]></value>
+  </definition>
+  <definition>
+    <key>text_welcome</key>
+    <value><![CDATA[Vitajte, <b>%s</b>]]></value>
+  </definition>
+  <definition>
+    <key>text_last_login</key>
+    <value><![CDATA[Posledné prihlásenie: %s]]></value>
+  </definition>
+  <definition>
+    <key>text_edit_details</key>
+    <value><![CDATA[Úprava Profil Podrobnosti]]></value>
+  </definition>
+  <definition>
+    <key>text_edit_notifications</key>
+    <value><![CDATA[Upraviť nastavenia oznámenia]]></value>
+  </definition>
+  <definition>
+    <key>text_catalog</key>
+    <value><![CDATA[katalóg]]></value>
+  </definition>
+  <definition>
+    <key>text_category</key>
+    <value><![CDATA[Kategórie]]></value>
+  </definition>
+  <definition>
+    <key>text_confirm</key>
+    <value><![CDATA[Potvrdiť?]]></value>
+  </definition>
+  <definition>
+    <key>text_country</key>
+    <value><![CDATA[krajiny]]></value>
+  </definition>
+  <definition>
+    <key>text_coupon</key>
+    <value><![CDATA[kupóny]]></value>
+  </definition>
+  <definition>
+    <key>text_discount</key>
+    <value><![CDATA[zľavy]]></value>
+  </definition>
+  <definition>
+    <key>text_currency</key>
+    <value><![CDATA[meny]]></value>
+  </definition>
+  <definition>
+    <key>text_customer</key>
+    <value><![CDATA[zákazníci]]></value>
+  </definition>
+  <definition>
+    <key>text_customer_group</key>
+    <value><![CDATA[skupiny zákazníkov]]></value>
+  </definition>
+  <definition>
+    <key>text_dashboard</key>
+    <value><![CDATA[prístrojová doska]]></value>
+  </definition>
+  <definition>
+    <key>text_download</key>
+    <value><![CDATA[K stiahnutiu]]></value>
+  </definition>
+  <definition>
+    <key>text_error_log</key>
+    <value><![CDATA[chyba Protokoly]]></value>
+  </definition>
+  <definition>
+    <key>text_extension</key>
+    <value><![CDATA[rozšírenie]]></value>
+  </definition>
+  <definition>
+    <key>text_extensions_short</key>
+    <value><![CDATA[rozšírenie]]></value>
+  </definition>
+  <definition>
+    <key>text_front</key>
+    <value><![CDATA[výkladná skriňa]]></value>
+  </definition>
+  <definition>
+    <key>text_location</key>
+    <value><![CDATA[miesta]]></value>
+  </definition>
+  <definition>
+    <key>text_help</key>
+    <value><![CDATA[Pomoc]]></value>
+  </definition>
+  <definition>
+    <key>text_information</key>
+    <value><![CDATA[informácie]]></value>
+  </definition>
+  <definition>
+    <key>text_language</key>
+    <value><![CDATA[Jazyky]]></value>
+  </definition>
+  <definition>
+    <key>text_language_definitions</key>
+    <value><![CDATA[jazykové Definícia]]></value>
+  </definition>
+  <definition>
+    <key>text_localisation</key>
+    <value><![CDATA[lokalizácia]]></value>
+  </definition>
+  <definition>
+    <key>text_logged</key>
+    <value><![CDATA[Ste prihlásení ako <span>%s</span>]]></value>
+  </definition>
+  <definition>
+    <key>text_logout</key>
+    <value><![CDATA[Odhlásiť sa]]></value>
+  </definition>
+  <definition>
+    <key>text_contact</key>
+    <value><![CDATA[Poslať mail]]></value>
+  </definition>
+  <definition>
+    <key>text_manufacturer</key>
+    <value><![CDATA[výrobcovia]]></value>
+  </definition>
+  <definition>
+    <key>text_order</key>
+    <value><![CDATA[objednávky]]></value>
+  </definition>
+  <definition>
+    <key>text_order_status</key>
+    <value><![CDATA[stavy objednávok]]></value>
+  </definition>
+  <definition>
+    <key>text_abantecart</key>
+    <value><![CDATA[Úvodné]]></value>
+  </definition>
+  <definition>
+    <key>text_payment</key>
+    <value><![CDATA[platby]]></value>
+  </definition>
+  <definition>
+    <key>text_product</key>
+    <value><![CDATA[Produkty]]></value>
+  </definition>
+  <definition>
+    <key>text_reports</key>
+    <value><![CDATA[správy]]></value>
+  </definition>
+  <definition>
+    <key>text_online</key>
+    <value><![CDATA[online]]></value>
+  </definition>
+  <definition>
+    <key>text_transactions</key>
+    <value><![CDATA[transakcie]]></value>
+  </definition>
+  <definition>
+    <key>text_tax</key>
+    <value><![CDATA[daň]]></value>
+  </definition>
+  <definition>
+    <key>text_report_purchased</key>
+    <value><![CDATA[produkt zakúpený]]></value>
+  </definition>
+  <definition>
+    <key>text_report_sale</key>
+    <value><![CDATA[odbyt]]></value>
+  </definition>
+  <definition>
+    <key>text_analytics</key>
+    <value><![CDATA[Analytics &amp; Insights]]></value>
+  </definition>
+  <definition>
+    <key>text_report_viewed</key>
+    <value><![CDATA[priebeh]]></value>
+  </definition>
+  <definition>
+    <key>text_review</key>
+    <value><![CDATA[recenzia]]></value>
+  </definition>
+  <definition>
+    <key>text_sale</key>
+    <value><![CDATA[odbyt]]></value>
+  </definition>
+  <definition>
+    <key>text_shipping</key>
+    <value><![CDATA[Doprava]]></value>
+  </definition>
+  <definition>
+    <key>text_setting</key>
+    <value><![CDATA[nastavenie]]></value>
+  </definition>
+  <definition>
+    <key>text_stock_status</key>
+    <value><![CDATA[sklad Stavy]]></value>
+  </definition>
+  <definition>
+    <key>text_support</key>
+    <value><![CDATA[Support Forum]]></value>
+  </definition>
+  <definition>
+    <key>text_system</key>
+    <value><![CDATA[systém]]></value>
+  </definition>
+  <definition>
+    <key>text_tax_class</key>
+    <value><![CDATA[daňové Triedy]]></value>
+  </definition>
+  <definition>
+    <key>text_total</key>
+    <value><![CDATA[objednať Súčty]]></value>
+  </definition>
+  <definition>
+    <key>text_user</key>
+    <value><![CDATA[užívatelia]]></value>
+  </definition>
+  <definition>
+    <key>text_documentation</key>
+    <value><![CDATA[dokumentácia]]></value>
+  </definition>
+  <definition>
+    <key>text_users</key>
+    <value><![CDATA[užívatelia]]></value>
+  </definition>
+  <definition>
+    <key>text_user_group</key>
+    <value><![CDATA[skupiny užívateľov]]></value>
+  </definition>
+  <definition>
+    <key>text_weight_class</key>
+    <value><![CDATA[hmotnosť Triedy]]></value>
+  </definition>
+  <definition>
+    <key>text_length_class</key>
+    <value><![CDATA[dĺžka Triedy]]></value>
+  </definition>
+  <definition>
+    <key>text_zone</key>
+    <value><![CDATA[zóny]]></value>
+  </definition>
+  <definition>
+    <key>text_extensions</key>
+    <value><![CDATA[Všetky rozšírenie]]></value>
+  </definition>
+  <definition>
+    <key>text_add_extension</key>
+    <value><![CDATA[nainštalovať rozšírenie]]></value>
+  </definition>
+  <definition>
+    <key>text_extensions_store</key>
+    <value><![CDATA[Get Extensions]]></value>
+  </definition>
+  <definition>
+    <key>text_migrate</key>
+    <value><![CDATA[Migration Tool]]></value>
+  </definition>
+  <definition>
+    <key>text_updater</key>
+    <value><![CDATA[Updater]]></value>
+  </definition>
+  <definition>
+    <key>text_design</key>
+    <value><![CDATA[dizajn]]></value>
+  </definition>
+  <definition>
+    <key>text_templates</key>
+    <value><![CDATA[šablóny]]></value>
+  </definition>
+  <definition>
+    <key>text_layout</key>
+    <value><![CDATA[rozvrhnutie]]></value>
+  </definition>
+  <definition>
+    <key>text_blocks</key>
+    <value><![CDATA[bloky]]></value>
+  </definition>
+  <definition>
+    <key>text_menu</key>
+    <value><![CDATA[Ponuka]]></value>
+  </definition>
+  <definition>
+    <key>text_cache</key>
+    <value><![CDATA[cache]]></value>
+  </definition>
+  <definition>
+    <key>text_messages</key>
+    <value><![CDATA[správy]]></value>
+  </definition>
+  <definition>
+    <key>text_content</key>
+    <value><![CDATA[obsah]]></value>
+  </definition>
+  <definition>
+    <key>text_datasets_manager</key>
+    <value><![CDATA[DataSets]]></value>
+  </definition>
+  <definition>
+    <key>text_install_upgrade_history</key>
+    <value><![CDATA[Pomoc pri inštalácii / upgrade histórie]]></value>
+  </definition>
+  <definition>
+    <key>text_attribute</key>
+    <value><![CDATA[globálne atribúty]]></value>
+  </definition>
+  <definition>
+    <key>text_attribute_groups</key>
+    <value><![CDATA[Globálne atribúty Skupiny]]></value>
+  </definition>
+  <definition>
+    <key>text_import_export</key>
+    <value><![CDATA[Import / Export]]></value>
+  </definition>
+  <definition>
+    <key>text_data</key>
+    <value><![CDATA[dáta]]></value>
+  </definition>
+  <definition>
+    <key>text_logs</key>
+    <value><![CDATA[protokoly]]></value>
+  </definition>
+  <definition>
+    <key>text_quick_edit_form</key>
+    <value><![CDATA[Quick Edit Form]]></value>
+  </definition>
+  <definition>
+    <key>text_all_matches</key>
+    <value><![CDATA[všetky zápasy]]></value>
+  </definition>
+  <definition>
+    <key>text_file_uploads</key>
+    <value><![CDATA[nahrávanie súborov]]></value>
+  </definition>
+  <definition>
+    <key>text_all_settings</key>
+    <value><![CDATA[Všetky nastavenia]]></value>
+  </definition>
+  <definition>
+    <key>text_settings_details</key>
+    <value><![CDATA[uloženie Podrobnosti]]></value>
+  </definition>
+  <definition>
+    <key>text_settings_general</key>
+    <value><![CDATA[všeobecný]]></value>
+  </definition>
+  <definition>
+    <key>text_settings_checkout</key>
+    <value><![CDATA[Odhlásiť sa]]></value>
+  </definition>
+  <definition>
+    <key>text_settings_appearance</key>
+    <value><![CDATA[vzhľad]]></value>
+  </definition>
+  <definition>
+    <key>text_settings_mail</key>
+    <value><![CDATA[pošta]]></value>
+  </definition>
+  <definition>
+    <key>text_settings_im</key>
+    <value><![CDATA[SOM]]></value>
+  </definition>
+  <definition>
+    <key>text_settings_api</key>
+    <value><![CDATA[API]]></value>
+  </definition>
+  <definition>
+    <key>text_settings_system</key>
+    <value><![CDATA[systém]]></value>
+  </definition>
+  <definition>
+    <key>text_settings_newstore</key>
+    <value><![CDATA[Vytvoriť nový obchod]]></value>
+  </definition>
+  <definition>
+    <key>text_voice_command_prompt</key>
+    <value><![CDATA[Hlasové Príkazový riadok.]]></value>
+  </definition>
+  <definition>
+    <key>text_voice_select_dialect</key>
+    <value><![CDATA[Vyberte si dialekt]]></value>
+  </definition>
+  <definition>
+    <key>text_voice_confirm_action</key>
+    <value><![CDATA[Potvrdenie tejto akcie alebo zrušiť]]></value>
+  </definition>
+  <definition>
+    <key>text_voice_speak_now</key>
+    <value><![CDATA[Hovor teraz.]]></value>
+  </definition>
+  <definition>
+    <key>text_voice_no_speach_detected</key>
+    <value><![CDATA[Žiadny prejav bol zistený. Možno budete musieť upraviť <a href="//support.google.com/chrome/bin/answer.py?hl=en<span class="notranslate">1 #### 1amp; answer = 1407892 &quot;&gt; nastavenie mikrofónu</a> .]]></value>
+  </definition>
+  <definition>
+    <key>text_voice_no_mic_detected</key>
+    <value><![CDATA[Nebola nájdená žiadna mikrofón. Uistite sa, že je nainštalovaný mikrofón a to <a href="//support.google.com/chrome/bin/answer.py?hl=en<span class="notranslate">1. #### 1amp; answer = 1407892 &quot;&gt; Nastavenie mikrofónu</a> sú nakonfigurované správne.]]></value>
+  </definition>
+  <definition>
+    <key>text_voice_click_allow</key>
+    <value><![CDATA[Kliknutím na tlačidlo &quot;Povoliť&quot; zhora k tomu, aby mikrofón.]]></value>
+  </definition>
+  <definition>
+    <key>text_voice_mic_denied</key>
+    <value><![CDATA[Povolenie používať mikrofón bol odmietnutý.]]></value>
+  </definition>
+  <definition>
+    <key>text_voice_mic_permission</key>
+    <value><![CDATA[Povolenie na použitie mikrofónu je zablokovaný. Ak chcete zmeniť, prejdite do prehliadača <a href="chrome://settings/contentExceptions#media-stream">nastavenie médií</a>]]></value>
+  </definition>
+  <definition>
+    <key>text_voice_not_supported</key>
+    <value><![CDATA[Hlasové ovládanie nie je podporované týmto prehliadači. <a href="//www.google.com/chrome" target="_new">Chrome</a> verzia 25 alebo neskoršej potreby.]]></value>
+  </definition>
+  <definition>
+    <key>text_tasks</key>
+    <value><![CDATA[naplánované úlohy]]></value>
+  </definition>
+  <definition>
+    <key>text_read_all_messages</key>
+    <value><![CDATA[čítanie správ]]></value>
+  </definition>
+  <definition>
+    <key>text_short_stats</key>
+    <value><![CDATA[rýchle štatistiky]]></value>
+  </definition>
+  <definition>
+    <key>text_online_now</key>
+    <value><![CDATA[online Zákazníci]]></value>
+  </definition>
+  <definition>
+    <key>text_online_new</key>
+    <value><![CDATA[Nový]]></value>
+  </definition>
+  <definition>
+    <key>text_online_registered</key>
+    <value><![CDATA[Prihlásený]]></value>
+  </definition>
+  <definition>
+    <key>text_today_orders</key>
+    <value><![CDATA[Hodnota nových zákaziek bola Dnes]]></value>
+  </definition>
+  <definition>
+    <key>text_today_sales</key>
+    <value><![CDATA[Celkový objem predaja Dnes]]></value>
+  </definition>
+  <definition>
+    <key>text_today_customers</key>
+    <value><![CDATA[Noví zákazníci V súčasnej dobe]]></value>
+  </definition>
+  <definition>
+    <key>text_today_reviews</key>
+    <value><![CDATA[Nové komentáre Dnes]]></value>
+  </definition>
+  <definition>
+    <key>text_rl_manager</key>
+    <value><![CDATA[media manager]]></value>
+  </definition>
+  <definition>
+    <key>text_server_time</key>
+    <value><![CDATA[server Time]]></value>
+  </definition>
+</definitions>

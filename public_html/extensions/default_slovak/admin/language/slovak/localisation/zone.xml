@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[zóny]]></value>
+  </definition>
+  <definition>
+    <key>text_zone</key>
+    <value><![CDATA[zóna]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Úspech: Zmenili ste zóny!]]></value>
+  </definition>
+  <definition>
+    <key>column_name</key>
+    <value><![CDATA[Názov zóny]]></value>
+  </definition>
+  <definition>
+    <key>column_code</key>
+    <value><![CDATA[code Zone]]></value>
+  </definition>
+  <definition>
+    <key>column_country</key>
+    <value><![CDATA[Krajina]]></value>
+  </definition>
+  <definition>
+    <key>column_action</key>
+    <value><![CDATA[akčná]]></value>
+  </definition>
+  <definition>
+    <key>column_status</key>
+    <value><![CDATA[Postavenie]]></value>
+  </definition>
+  <definition>
+    <key>entry_status</key>
+    <value><![CDATA[Zóna Stav:]]></value>
+  </definition>
+  <definition>
+    <key>entry_name</key>
+    <value><![CDATA[Názov zóny:]]></value>
+  </definition>
+  <definition>
+    <key>entry_code</key>
+    <value><![CDATA[Kód Oblasť:]]></value>
+  </definition>
+  <definition>
+    <key>entry_country</key>
+    <value><![CDATA[Krajina:]]></value>
+  </definition>
+  <definition>
+    <key>text_select_country</key>
+    <value><![CDATA[- Vyberte krajinu -]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Varovanie: Nemáte oprávnenie k úprave zón!]]></value>
+  </definition>
+  <definition>
+    <key>error_name</key>
+    <value><![CDATA[Názov zóny musí byť v rozmedzí 2 až 128 znakov!]]></value>
+  </definition>
+  <definition>
+    <key>error_default</key>
+    <value><![CDATA[Varovanie: Táto zóna nemôže byť zmazaný, pretože je aktuálne priradená ako predvolené úložisko zóne!]]></value>
+  </definition>
+  <definition>
+    <key>error_store</key>
+    <value><![CDATA[Varovanie: Táto zóna nemôže byť zmazaný, pretože je aktuálne priradený %s obchodoch!]]></value>
+  </definition>
+  <definition>
+    <key>error_address</key>
+    <value><![CDATA[Varovanie: Táto zóna nemôže byť zmazaný, pretože je aktuálne priradený %s položiek adresára!]]></value>
+  </definition>
+  <definition>
+    <key>error_zone_to_location</key>
+    <value><![CDATA[Varovanie: Táto zóna nemôže byť zmazaný, pretože je aktuálne priradený %s zón miestach!]]></value>
+  </definition>
+</definitions>

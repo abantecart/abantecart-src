@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[meny]]></value>
+  </definition>
+  <definition>
+    <key>text_currency</key>
+    <value><![CDATA[mena]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Úspech: Zmenili ste mien!]]></value>
+  </definition>
+  <definition>
+    <key>column_title</key>
+    <value><![CDATA[mena Názov]]></value>
+  </definition>
+  <definition>
+    <key>column_code</key>
+    <value><![CDATA[kód]]></value>
+  </definition>
+  <definition>
+    <key>column_value</key>
+    <value><![CDATA[hodnota]]></value>
+  </definition>
+  <definition>
+    <key>column_date_modified</key>
+    <value><![CDATA[Naposledy aktualizovaný]]></value>
+  </definition>
+  <definition>
+    <key>column_status</key>
+    <value><![CDATA[Postavenie]]></value>
+  </definition>
+  <definition>
+    <key>column_action</key>
+    <value><![CDATA[akčná]]></value>
+  </definition>
+  <definition>
+    <key>entry_title</key>
+    <value><![CDATA[Mena Názov:]]></value>
+  </definition>
+  <definition>
+    <key>entry_code</key>
+    <value><![CDATA[Code: <br/><span class="help">Nemeňte ak je to váš predvolený menou.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_value</key>
+    <value><![CDATA[Hodnota: <br/><span class="help">Set 1.00000 ak je to váš predvolený menou.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_symbol_left</key>
+    <value><![CDATA[Symbol Vľavo:]]></value>
+  </definition>
+  <definition>
+    <key>entry_symbol_right</key>
+    <value><![CDATA[Symbol vpravo:]]></value>
+  </definition>
+  <definition>
+    <key>entry_decimal_place</key>
+    <value><![CDATA[Desatinné miesta:]]></value>
+  </definition>
+  <definition>
+    <key>entry_status</key>
+    <value><![CDATA[Postavenie:]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Varovanie: Nemáte oprávnenie na zmenu meny!]]></value>
+  </definition>
+  <definition>
+    <key>error_title</key>
+    <value><![CDATA[Mena Hlava musí byť medzi 2 a 32 znakov!]]></value>
+  </definition>
+  <definition>
+    <key>error_code</key>
+    <value><![CDATA[Kód meny musí obsahovať 3 znaky!]]></value>
+  </definition>
+  <definition>
+    <key>error_default</key>
+    <value><![CDATA[Varovanie: Táto mena nemôže byť zmazaný, pretože je aktuálne priradená ako predvolené úložisko mene!]]></value>
+  </definition>
+  <definition>
+    <key>error_store</key>
+    <value><![CDATA[Varovanie: Táto mena nemôže byť zmazaný, pretože je aktuálne priradený %s obchodoch!]]></value>
+  </definition>
+  <definition>
+    <key>error_order</key>
+    <value><![CDATA[Varovanie: Táto mena nemôže byť zmazaný, pretože je aktuálne priradený %s objednávok!]]></value>
+  </definition>
+</definitions>

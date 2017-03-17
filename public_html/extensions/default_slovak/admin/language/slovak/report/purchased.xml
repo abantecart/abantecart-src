@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Produkty Zakúpené Správa]]></value>
+  </definition>
+  <definition>
+    <key>column_name</key>
+    <value><![CDATA[Meno Produktu]]></value>
+  </definition>
+  <definition>
+    <key>column_model</key>
+    <value><![CDATA[Model]]></value>
+  </definition>
+  <definition>
+    <key>column_quantity</key>
+    <value><![CDATA[množstvo]]></value>
+  </definition>
+  <definition>
+    <key>column_total</key>
+    <value><![CDATA[celkom]]></value>
+  </definition>
+</definitions>

@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Content manager]]></value>
+  </definition>
+  <definition>
+    <key>insert_title</key>
+    <value><![CDATA[Pridať nový obsah]]></value>
+  </definition>
+  <definition>
+    <key>update_title</key>
+    <value><![CDATA[aktualizácie obsahu]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Úspech: Máte upravený obsah!]]></value>
+  </definition>
+  <definition>
+    <key>text_success_layout</key>
+    <value><![CDATA[Úspech: Zmenili ste obsahu rozloženie stránky.]]></value>
+  </definition>
+  <definition>
+    <key>text_hidden</key>
+    <value><![CDATA[skrytý]]></value>
+  </definition>
+  <definition>
+    <key>text_default</key>
+    <value><![CDATA[štandardné]]></value>
+  </definition>
+  <definition>
+    <key>column_title</key>
+    <value><![CDATA[obsah Názov]]></value>
+  </definition>
+  <definition>
+    <key>column_parent</key>
+    <value><![CDATA[Parent Content]]></value>
+  </definition>
+  <definition>
+    <key>entry_parent</key>
+    <value><![CDATA[Parent Obsah Page]]></value>
+  </definition>
+  <definition>
+    <key>column_sort_order</key>
+    <value><![CDATA[poradie zoradenia]]></value>
+  </definition>
+  <definition>
+    <key>column_status</key>
+    <value><![CDATA[Postavenie]]></value>
+  </definition>
+  <definition>
+    <key>column_action</key>
+    <value><![CDATA[akčná]]></value>
+  </definition>
+  <definition>
+    <key>entry_name</key>
+    <value><![CDATA[Obsah Meno:]]></value>
+  </definition>
+  <definition>
+    <key>entry_title</key>
+    <value><![CDATA[Obsah Názov:]]></value>
+  </definition>
+  <definition>
+    <key>entry_description</key>
+    <value><![CDATA[Popis:]]></value>
+  </definition>
+  <definition>
+    <key>entry_content</key>
+    <value><![CDATA[obsah:]]></value>
+  </definition>
+  <definition>
+    <key>entry_store</key>
+    <value><![CDATA[Obchody:]]></value>
+  </definition>
+  <definition>
+    <key>entry_status</key>
+    <value><![CDATA[Postavenie:]]></value>
+  </definition>
+  <definition>
+    <key>entry_keyword</key>
+    <value><![CDATA[SEO Kľúčové slovo:]]></value>
+  </definition>
+  <definition>
+    <key>entry_sort_order</key>
+    <value><![CDATA[usporiadanie:]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Varovanie: Nemáte oprávnenie k zmene obsahu!]]></value>
+  </definition>
+  <definition>
+    <key>error_title</key>
+    <value><![CDATA[Obsah Hlava musí byť medzi 2 a 64 znakov!]]></value>
+  </definition>
+  <definition>
+    <key>error_name</key>
+    <value><![CDATA[Obsah Meno musí byť medzi 2 a 64 znakov!]]></value>
+  </definition>
+  <definition>
+    <key>error_description</key>
+    <value><![CDATA[Opis musí byť väčšia ako 1 znakov!]]></value>
+  </definition>
+  <definition>
+    <key>error_content</key>
+    <value><![CDATA[Obsah musí byť väčšia ako 1 znakov!]]></value>
+  </definition>
+  <definition>
+    <key>error_seo_url</key>
+    <value><![CDATA[SEO URL musí byť väčšia ako 1 znakov!]]></value>
+  </definition>
+  <definition>
+    <key>error_account</key>
+    <value><![CDATA[Upozornenie: Tento obsah nie je možné zmazať, pretože je aktuálne priradená ako z hľadiska východiskovej úložiska účtov!]]></value>
+  </definition>
+  <definition>
+    <key>error_checkout</key>
+    <value><![CDATA[Upozornenie: Tento obsah nie je možné zmazať, pretože je aktuálne priradená ako predvolené úložisko pokladní, pokiaľ ide!]]></value>
+  </definition>
+  <definition>
+    <key>error_required_data</key>
+    <value><![CDATA[Požadovaný údaj nebol zadaný. Kontrola chýb v teréne!]]></value>
+  </definition>
+  <definition>
+    <key>text_top_level</key>
+    <value><![CDATA[Top Level]]></value>
+  </definition>
+  <definition>
+    <key>text_any</key>
+    <value><![CDATA[akýkoľvek]]></value>
+  </definition>
+  <definition>
+    <key>tab_form</key>
+    <value><![CDATA[editovať]]></value>
+  </definition>
+  <definition>
+    <key>tab_layout</key>
+    <value><![CDATA[dispozície]]></value>
+  </definition>
+</definitions>

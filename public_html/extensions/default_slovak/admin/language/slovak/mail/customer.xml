@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>text_subject</key>
+    <value><![CDATA[%s - Váš účet bol aktivovaný!]]></value>
+  </definition>
+  <definition>
+    <key>text_welcome</key>
+    <value><![CDATA[Vítame Vás a ďakujem za registráciu na %s!]]></value>
+  </definition>
+  <definition>
+    <key>text_login</key>
+    <value><![CDATA[Váš účet bol teraz vytvorený a môžete sa prihlásiť pomocou svojej e-mailovej adresy a hesla tým, že navštívite naše webové stránky, alebo na adrese:]]></value>
+  </definition>
+  <definition>
+    <key>text_services</key>
+    <value><![CDATA[Akonáhle budete prihlásení, budete mať prístup k svojim, v zozname želaní, históriu objednávok, tlač faktúr a editáciu informácií o účte.]]></value>
+  </definition>
+  <definition>
+    <key>text_thanks</key>
+    <value><![CDATA[Ďakujem,]]></value>
+  </definition>
+</definitions>

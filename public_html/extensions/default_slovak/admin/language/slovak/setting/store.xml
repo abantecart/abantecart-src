@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[uloženie Podrobnosti]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Úspech: Zmenili ste nastavenie!]]></value>
+  </definition>
+  <definition>
+    <key>text_image_manager</key>
+    <value><![CDATA[image manager]]></value>
+  </definition>
+  <definition>
+    <key>text_default</key>
+    <value><![CDATA[štandardné]]></value>
+  </definition>
+  <definition>
+    <key>text_edit_store</key>
+    <value><![CDATA[Edit Store:]]></value>
+  </definition>
+  <definition>
+    <key>entry_name</key>
+    <value><![CDATA[Názov obchodu: <br/><span class="help">kopírované nastavenia a zobrazí sa na časti priečelia.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_url</key>
+    <value><![CDATA[Store URL: <br/><span class="help">zahrnúť celú adresu URL do vášho obchodu. Uistite sa, že pridanie &quot;/&quot; na konci. Príklad: http://www.yourdomain.com/path/ <br/><br/> Nepoužívať adresára vytvoriť novú predajňu. Vždy by ste mali ukazovať inú doménu alebo čiastkové doménu do svojho hosting.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_ssl</key>
+    <value><![CDATA[Použiť SSL: <br/><span class="help">Ak chcete použiť kontrolu SSL so svojím hostiteľom, ak je nainštalovaný certifikát SSL.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_title</key>
+    <value><![CDATA[Názov:]]></value>
+  </definition>
+  <definition>
+    <key>entry_meta_description</key>
+    <value><![CDATA[Meta Tag Opis:]]></value>
+  </definition>
+  <definition>
+    <key>entry_template</key>
+    <value><![CDATA[šablóna:]]></value>
+  </definition>
+  <definition>
+    <key>entry_description</key>
+    <value><![CDATA[Uvítacia správa:]]></value>
+  </definition>
+  <definition>
+    <key>entry_country</key>
+    <value><![CDATA[Krajina:]]></value>
+  </definition>
+  <definition>
+    <key>entry_zone</key>
+    <value><![CDATA[Región / Štát:]]></value>
+  </definition>
+  <definition>
+    <key>entry_language</key>
+    <value><![CDATA[Jazyk:]]></value>
+  </definition>
+  <definition>
+    <key>entry_status</key>
+    <value><![CDATA[Status Store <br/><span class="help">status Store v obchode. Stav OFF bude smerovať do východzieho úložiska. Používať Režim údržby Nastavenie pre nastavenie dočasné úložisko správ na údržbu</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_alias</key>
+    <value><![CDATA[Názov aliasu <br/><span class="help">Store Name Alias. Pokiaľ je ponechaný prázdny, budú založené na skráteným názvom</span>]]></value>
+  </definition>
+  <definition>
+    <key>button_add_store</key>
+    <value><![CDATA[new Store]]></value>
+  </definition>
+  <definition>
+    <key>button_delete_store</key>
+    <value><![CDATA[odstrániť Store]]></value>
+  </definition>
+  <definition>
+    <key>button_edit_settings</key>
+    <value><![CDATA[upraviť nastavenia]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Varovanie: Nemáte oprávnenie k úprave predajní!]]></value>
+  </definition>
+  <definition>
+    <key>error_name</key>
+    <value><![CDATA[Názov obchodu musí byť medzi 3 a 32 znakov!]]></value>
+  </definition>
+  <definition>
+    <key>error_url</key>
+    <value><![CDATA[potrebná Store URL!]]></value>
+  </definition>
+  <definition>
+    <key>error_title</key>
+    <value><![CDATA[Hlava musí byť medzi 3 a 32 znakov!]]></value>
+  </definition>
+  <definition>
+    <key>error_image_thumb</key>
+    <value><![CDATA[požadovaný tovar Obrázok Palec Veľkosť rozmery!]]></value>
+  </definition>
+  <definition>
+    <key>error_image_popup</key>
+    <value><![CDATA[požadovaný tovar obrázok Pop-up Veľkosť rozmery!]]></value>
+  </definition>
+  <definition>
+    <key>error_image_category</key>
+    <value><![CDATA[požadovanej kategórie Zoznam Veľkosť rozmery!]]></value>
+  </definition>
+  <definition>
+    <key>error_image_product</key>
+    <value><![CDATA[požadované zoznam tovaru Veľkosť rozmery!]]></value>
+  </definition>
+  <definition>
+    <key>error_image_additional</key>
+    <value><![CDATA[potrebné ďalšie tovaru Rozmery Veľkosť obrazu!]]></value>
+  </definition>
+  <definition>
+    <key>error_image_related</key>
+    <value><![CDATA[potrebný podobný produkt rozmery Skutočná veľkosť obrazu!]]></value>
+  </definition>
+  <definition>
+    <key>error_image_cart</key>
+    <value><![CDATA[potrebná košík Size Image rozmery!]]></value>
+  </definition>
+  <definition>
+    <key>error_image_grid</key>
+    <value><![CDATA[požadovanej mriežky Veľkosť obrazu rozmery!]]></value>
+  </definition>
+  <definition>
+    <key>error_store</key>
+    <value><![CDATA[Upozornenie: Tento Store nemôže byť zmazaný, pretože je aktuálne priradený %s objednávok!]]></value>
+  </definition>
+  <definition>
+    <key>error_required_data</key>
+    <value><![CDATA[Požadovaný údaj nebol zadaný. Kontrola chýb v teréne!]]></value>
+  </definition>
+  <definition>
+    <key>error_limit</key>
+    <value><![CDATA[Limit povinné!]]></value>
+  </definition>
+  <definition>
+    <key>entry_clone_store</key>
+    <value><![CDATA[Nastavenie kopírovania: <br/><span class="help">Môžete si vybrať kópiu všetkých nastavení z nejakého existujúceho skladu</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_ssl_url</key>
+    <value><![CDATA[Secure Store URL: <br/><span class="help">obsahovať plné SSL URL (HTTPS) do vášho obchodu. Uistite sa, že pridanie &quot;/&quot; na konci. Príklad: https://www.yourdomain.com/path/</span>]]></value>
+  </definition>
+  <definition>
+    <key>error_ssl_url</key>
+    <value><![CDATA[požadované zabezpečené URL!]]></value>
+  </definition>
+</definitions>

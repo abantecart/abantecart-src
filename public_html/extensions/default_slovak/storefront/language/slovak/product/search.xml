@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Vyhľadávanie]]></value>
+  </definition>
+  <definition>
+    <key>text_search</key>
+    <value><![CDATA[Produkty spĺňajúce kritériá vyhľadávania]]></value>
+  </definition>
+  <definition>
+    <key>text_keyword</key>
+    <value><![CDATA[Kľúčové slová]]></value>
+  </definition>
+  <definition>
+    <key>text_category</key>
+    <value><![CDATA[Všetky kategórie]]></value>
+  </definition>
+  <definition>
+    <key>text_critea</key>
+    <value><![CDATA[kritériá hľadania]]></value>
+  </definition>
+  <definition>
+    <key>text_empty</key>
+    <value><![CDATA[Neexistuje žiadny produkt, ktorý zodpovedá kritériám vyhľadávania.]]></value>
+  </definition>
+  <definition>
+    <key>text_stars</key>
+    <value><![CDATA[%s Z 5 hviezdičiek!]]></value>
+  </definition>
+  <definition>
+    <key>text_sort</key>
+    <value><![CDATA[Triediť podľa:]]></value>
+  </definition>
+  <definition>
+    <key>text_default</key>
+    <value><![CDATA[štandardné]]></value>
+  </definition>
+  <definition>
+    <key>text_name_asc</key>
+    <value><![CDATA[Name A - Z]]></value>
+  </definition>
+  <definition>
+    <key>text_name_desc</key>
+    <value><![CDATA[Názvu Z - A]]></value>
+  </definition>
+  <definition>
+    <key>text_price_asc</key>
+    <value><![CDATA[Cena Low &gt; vysoký]]></value>
+  </definition>
+  <definition>
+    <key>text_price_desc</key>
+    <value><![CDATA[Cena High &gt; nízky]]></value>
+  </definition>
+  <definition>
+    <key>text_rating_asc</key>
+    <value><![CDATA[hodnotenie najnižšiu]]></value>
+  </definition>
+  <definition>
+    <key>text_rating_desc</key>
+    <value><![CDATA[hodnotenie Najvyššia]]></value>
+  </definition>
+  <definition>
+    <key>entry_search</key>
+    <value><![CDATA[Vyhľadávanie:]]></value>
+  </definition>
+  <definition>
+    <key>entry_description</key>
+    <value><![CDATA[Hľadanie v popisoch produktov]]></value>
+  </definition>
+  <definition>
+    <key>entry_model</key>
+    <value><![CDATA[Vyhľadávanie v modeli výrobku]]></value>
+  </definition>
+</definitions>

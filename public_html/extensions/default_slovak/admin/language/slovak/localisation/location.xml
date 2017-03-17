@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[miesta]]></value>
+  </definition>
+  <definition>
+    <key>text_location</key>
+    <value><![CDATA[umiestnenie]]></value>
+  </definition>
+  <definition>
+    <key>text_location_zone</key>
+    <value><![CDATA[miesto Zone]]></value>
+  </definition>
+  <definition>
+    <key>text_location_zones</key>
+    <value><![CDATA[miesto zóny]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Úspech: Zmenili ste umiestnenie!]]></value>
+  </definition>
+  <definition>
+    <key>column_name</key>
+    <value><![CDATA[miesto Meno]]></value>
+  </definition>
+  <definition>
+    <key>column_description</key>
+    <value><![CDATA[popis]]></value>
+  </definition>
+  <definition>
+    <key>column_action</key>
+    <value><![CDATA[akčná]]></value>
+  </definition>
+  <definition>
+    <key>tab_details</key>
+    <value><![CDATA[podrobnosti]]></value>
+  </definition>
+  <definition>
+    <key>tab_locations</key>
+    <value><![CDATA[miesto zóny]]></value>
+  </definition>
+  <definition>
+    <key>entry_name</key>
+    <value><![CDATA[Miesto Meno:]]></value>
+  </definition>
+  <definition>
+    <key>entry_description</key>
+    <value><![CDATA[Popis:]]></value>
+  </definition>
+  <definition>
+    <key>entry_country</key>
+    <value><![CDATA[Krajina:]]></value>
+  </definition>
+  <definition>
+    <key>entry_zone</key>
+    <value><![CDATA[Zóna (y):]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Varovanie: Nemáte oprávnenie na zmenu miesta!]]></value>
+  </definition>
+  <definition>
+    <key>error_name</key>
+    <value><![CDATA[Miesto Meno musí byť medzi 2 a 32 znakov!]]></value>
+  </definition>
+  <definition>
+    <key>error_description</key>
+    <value><![CDATA[Popis Názov musí byť v rozmedzí 2 až 255 znakov!]]></value>
+  </definition>
+  <definition>
+    <key>error_tax_rate</key>
+    <value><![CDATA[Varovanie: Toto umiestnenie nemôže byť zmazaný, pretože je aktuálne priradený jednému alebo viac daňových sadzieb!]]></value>
+  </definition>
+</definitions>

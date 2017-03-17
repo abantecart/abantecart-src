@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[DataSets Manažér]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Úspech: Zmenili ste zoznam správ!]]></value>
+  </definition>
+  <definition>
+    <key>column_id</key>
+    <value><![CDATA[Id]]></value>
+  </definition>
+  <definition>
+    <key>column_name</key>
+    <value><![CDATA[dataset Name]]></value>
+  </definition>
+  <definition>
+    <key>column_key</key>
+    <value><![CDATA[dátová sada kľúčov]]></value>
+  </definition>
+  <definition>
+    <key>column_action</key>
+    <value><![CDATA[akčná]]></value>
+  </definition>
+  <definition>
+    <key>text_dataset_name</key>
+    <value><![CDATA[dataset Name]]></value>
+  </definition>
+  <definition>
+    <key>text_dataset_key</key>
+    <value><![CDATA[dátová sada kľúčov]]></value>
+  </definition>
+  <definition>
+    <key>text_dataset_properties</key>
+    <value><![CDATA[Vlastnosti dátovej sady]]></value>
+  </definition>
+  <definition>
+    <key>text_dataset_column_properties</key>
+    <value><![CDATA[Vlastnosti dátovej sady stĺpcov]]></value>
+  </definition>
+  <definition>
+    <key>text_dataset_column_definition</key>
+    <value><![CDATA[dátovej sady Stĺpce]]></value>
+  </definition>
+  <definition>
+    <key>text_num_rows</key>
+    <value><![CDATA[Dataset Row Count]]></value>
+  </definition>
+  <definition>
+    <key>text_popup_title</key>
+    <value><![CDATA[Informácie o súbore údajov]]></value>
+  </definition>
+  <definition>
+    <key>text_confirm</key>
+    <value><![CDATA[Potvrdiť?]]></value>
+  </definition>
+  <definition>
+    <key>text_date</key>
+    <value><![CDATA[dátum]]></value>
+  </definition>
+  <definition>
+    <key>text_show</key>
+    <value><![CDATA[Šou]]></value>
+  </definition>
+  <definition>
+    <key>text_repeats</key>
+    <value><![CDATA[Počet opakovaní:]]></value>
+  </definition>
+</definitions>

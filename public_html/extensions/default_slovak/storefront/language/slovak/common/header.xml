@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>text_home</key>
+    <value><![CDATA[Domov]]></value>
+  </definition>
+  <definition>
+    <key>text_special</key>
+    <value><![CDATA[Špeciálne ponuky]]></value>
+  </definition>
+  <definition>
+    <key>text_contact</key>
+    <value><![CDATA[Kontakt]]></value>
+  </definition>
+  <definition>
+    <key>text_sitemap</key>
+    <value><![CDATA[mapa stránok]]></value>
+  </definition>
+  <definition>
+    <key>text_bookmark</key>
+    <value><![CDATA[záložka]]></value>
+  </definition>
+  <definition>
+    <key>text_account</key>
+    <value><![CDATA[účet]]></value>
+  </definition>
+  <definition>
+    <key>text_login</key>
+    <value><![CDATA[Prihlásiť sa]]></value>
+  </definition>
+  <definition>
+    <key>text_logout</key>
+    <value><![CDATA[Odhlásiť sa]]></value>
+  </definition>
+  <definition>
+    <key>text_cart</key>
+    <value><![CDATA[košík]]></value>
+  </definition>
+  <definition>
+    <key>text_checkout</key>
+    <value><![CDATA[Odhlásiť sa]]></value>
+  </definition>
+  <definition>
+    <key>text_keyword</key>
+    <value><![CDATA[Kľúčové slová]]></value>
+  </definition>
+  <definition>
+    <key>text_advanced</key>
+    <value><![CDATA[pokročilé vyhľadávanie]]></value>
+  </definition>
+  <definition>
+    <key>text_category</key>
+    <value><![CDATA[Všetky kategórie]]></value>
+  </definition>
+  <definition>
+    <key>entry_search</key>
+    <value><![CDATA[Vyhľadávanie:]]></value>
+  </definition>
+  <definition>
+    <key>text_welcome</key>
+    <value><![CDATA[Vitaj späť]]></value>
+  </definition>
+  <definition>
+    <key>text_not</key>
+    <value><![CDATA[nie]]></value>
+  </definition>
+  <definition>
+    <key>text_login_or_register</key>
+    <value><![CDATA[Prihláste sa alebo zaregistrujte]]></value>
+  </definition>
+</definitions>

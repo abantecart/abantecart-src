@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[zákazníci on-line]]></value>
+  </definition>
+  <definition>
+    <key>column_customer</key>
+    <value><![CDATA[Meno zákazníka]]></value>
+  </definition>
+  <definition>
+    <key>column_ip</key>
+    <value><![CDATA[zákazník IP]]></value>
+  </definition>
+  <definition>
+    <key>column_time</key>
+    <value><![CDATA[posledný prístup]]></value>
+  </definition>
+  <definition>
+    <key>column_url</key>
+    <value><![CDATA[URL sprístupňovanie]]></value>
+  </definition>
+</definitions>

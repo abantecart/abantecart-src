@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[stavy objednávok]]></value>
+  </definition>
+  <definition>
+    <key>text_status</key>
+    <value><![CDATA[Stav objednávky]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Úspech: Zmenili ste stavy objednávok!]]></value>
+  </definition>
+  <definition>
+    <key>column_name</key>
+    <value><![CDATA[Stav objednávky Name]]></value>
+  </definition>
+  <definition>
+    <key>column_text_id</key>
+    <value><![CDATA[Stav objednávky Text ID]]></value>
+  </definition>
+  <definition>
+    <key>entry_text_id</key>
+    <value><![CDATA[Stav objednávky Text ID:]]></value>
+  </definition>
+  <definition>
+    <key>column_action</key>
+    <value><![CDATA[akčná]]></value>
+  </definition>
+  <definition>
+    <key>entry_name</key>
+    <value><![CDATA[Stav objednávky Meno:]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Varovanie: Nemáte povolenie na zmenu poradia sochy!]]></value>
+  </definition>
+  <definition>
+    <key>error_name</key>
+    <value><![CDATA[Stav objednávky Meno musí byť medzi 2 a 32 znakov!]]></value>
+  </definition>
+  <definition>
+    <key>error_default</key>
+    <value><![CDATA[Varovanie: Stav Toto poradie nemožno zmazať, pretože je aktuálne priradená ako východiskový stav úložisko objednávky!]]></value>
+  </definition>
+  <definition>
+    <key>error_download</key>
+    <value><![CDATA[Varovanie: Stav Toto poradie nemožno zmazať, pretože je aktuálne priradená ako východiskový stav pre stiahnutie!]]></value>
+  </definition>
+  <definition>
+    <key>error_store</key>
+    <value><![CDATA[Upozornenie: Tento stav objednávky nemožno zmazať, pretože je aktuálne priradený %s obchodoch!]]></value>
+  </definition>
+  <definition>
+    <key>error_order</key>
+    <value><![CDATA[Upozornenie: Tento stav objednávky nemožno zmazať, pretože je aktuálne priradený %s objednávok!]]></value>
+  </definition>
+  <definition>
+    <key>error_nondeletable</key>
+    <value><![CDATA[Varovanie: Toto je dôležité, stav objednávky, ktorá je spojená s platbami. Nemôžete odstrániť tento stav.]]></value>
+  </definition>
+  <definition>
+    <key>error_status_text_id</key>
+    <value><![CDATA[Objednať Id Text Stav musí byť jedinečný a medzi 2 a 32 znakov!]]></value>
+  </definition>
+</definitions>

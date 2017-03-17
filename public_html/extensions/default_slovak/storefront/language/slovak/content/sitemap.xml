@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[mapa stránok]]></value>
+  </definition>
+  <definition>
+    <key>text_special</key>
+    <value><![CDATA[Špeciálne ponuky]]></value>
+  </definition>
+  <definition>
+    <key>text_account</key>
+    <value><![CDATA[Môj účet]]></value>
+  </definition>
+  <definition>
+    <key>text_edit</key>
+    <value><![CDATA[Informácie o účte]]></value>
+  </definition>
+  <definition>
+    <key>text_password</key>
+    <value><![CDATA[heslo]]></value>
+  </definition>
+  <definition>
+    <key>text_address</key>
+    <value><![CDATA[Adresár]]></value>
+  </definition>
+  <definition>
+    <key>text_history</key>
+    <value><![CDATA[História objednávok]]></value>
+  </definition>
+  <definition>
+    <key>text_download</key>
+    <value><![CDATA[K stiahnutiu]]></value>
+  </definition>
+  <definition>
+    <key>text_cart</key>
+    <value><![CDATA[Nákupný vozík]]></value>
+  </definition>
+  <definition>
+    <key>text_checkout</key>
+    <value><![CDATA[Odhlásiť sa]]></value>
+  </definition>
+  <definition>
+    <key>text_search</key>
+    <value><![CDATA[Vyhľadávanie]]></value>
+  </definition>
+  <definition>
+    <key>text_information</key>
+    <value><![CDATA[informácie]]></value>
+  </definition>
+  <definition>
+    <key>text_contact</key>
+    <value><![CDATA[Kontaktuj nás]]></value>
+  </definition>
+</definitions>

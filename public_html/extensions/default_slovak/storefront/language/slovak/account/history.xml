@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Môj História objednávok]]></value>
+  </definition>
+  <definition>
+    <key>text_account</key>
+    <value><![CDATA[účet]]></value>
+  </definition>
+  <definition>
+    <key>text_history</key>
+    <value><![CDATA[História objednávok]]></value>
+  </definition>
+  <definition>
+    <key>text_order</key>
+    <value><![CDATA[Číslo objednávky:]]></value>
+  </definition>
+  <definition>
+    <key>text_status</key>
+    <value><![CDATA[Postavenie:]]></value>
+  </definition>
+  <definition>
+    <key>text_date_added</key>
+    <value><![CDATA[Dátum pridania:]]></value>
+  </definition>
+  <definition>
+    <key>text_customer</key>
+    <value><![CDATA[zákazník:]]></value>
+  </definition>
+  <definition>
+    <key>text_products</key>
+    <value><![CDATA[Produkty:]]></value>
+  </definition>
+  <definition>
+    <key>text_total</key>
+    <value><![CDATA[Celkom:]]></value>
+  </definition>
+  <definition>
+    <key>text_error</key>
+    <value><![CDATA[Ste nevykonali žiadne predchádzajúce objednávky!]]></value>
+  </definition>
+</definitions>

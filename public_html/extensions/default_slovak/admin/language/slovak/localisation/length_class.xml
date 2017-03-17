@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[dĺžka Triedy]]></value>
+  </definition>
+  <definition>
+    <key>text_class</key>
+    <value><![CDATA[dĺžka Class]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Úspech: Zmenili ste dĺžkové triedy!]]></value>
+  </definition>
+  <definition>
+    <key>column_title</key>
+    <value><![CDATA[dĺžka Titul]]></value>
+  </definition>
+  <definition>
+    <key>column_unit</key>
+    <value><![CDATA[Length Unit]]></value>
+  </definition>
+  <definition>
+    <key>column_value</key>
+    <value><![CDATA[hodnota]]></value>
+  </definition>
+  <definition>
+    <key>column_action</key>
+    <value><![CDATA[akčná]]></value>
+  </definition>
+  <definition>
+    <key>entry_title</key>
+    <value><![CDATA[Dĺžka Názov:]]></value>
+  </definition>
+  <definition>
+    <key>entry_unit</key>
+    <value><![CDATA[Dĺžka Jednotka:]]></value>
+  </definition>
+  <definition>
+    <key>entry_value</key>
+    <value><![CDATA[Hodnota: <br/><span class="help">Set 1.00000 ak je to váš predvolený dĺžku.</span>]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Varovanie: Nemáte oprávnenie na zmenu dĺžkové triedy!]]></value>
+  </definition>
+  <definition>
+    <key>error_title</key>
+    <value><![CDATA[Dĺžka Hlava musí byť medzi 2 a 32 znakov!]]></value>
+  </definition>
+  <definition>
+    <key>error_unit</key>
+    <value><![CDATA[Dĺžka musí byť v rozmedzí 1 až 4 znaky!]]></value>
+  </definition>
+  <definition>
+    <key>error_default</key>
+    <value><![CDATA[Varovanie: Táto dĺžka trieda nemôže byť odstránený, pretože je aktuálne priradená ako trieda východiskovej dĺžky obchod!]]></value>
+  </definition>
+  <definition>
+    <key>error_product</key>
+    <value><![CDATA[Varovanie: Táto trieda dĺžka nemôže byť odstránený, pretože je aktuálne priradený %s výrobkov!]]></value>
+  </definition>
+</definitions>

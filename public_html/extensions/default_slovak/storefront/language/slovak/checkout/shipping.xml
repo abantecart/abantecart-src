@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Informácie o dodaní]]></value>
+  </definition>
+  <definition>
+    <key>text_basket</key>
+    <value><![CDATA[košík]]></value>
+  </definition>
+  <definition>
+    <key>text_shipping</key>
+    <value><![CDATA[Doprava]]></value>
+  </definition>
+  <definition>
+    <key>text_shipping_to</key>
+    <value><![CDATA[Vyberte si z adresára, kde by ste chceli položky, ktoré majú byť doručené.]]></value>
+  </definition>
+  <definition>
+    <key>text_shipping_address</key>
+    <value><![CDATA[poštová adresa]]></value>
+  </definition>
+  <definition>
+    <key>text_shipping_method</key>
+    <value><![CDATA[spôsob dopravy]]></value>
+  </definition>
+  <definition>
+    <key>text_shipping_methods</key>
+    <value><![CDATA[Prosím, vyberte preferované spôsoby dopravy pre použitie na tomto poradí.]]></value>
+  </definition>
+  <definition>
+    <key>text_comments</key>
+    <value><![CDATA[Pridať komentár ohľadom objednávky]]></value>
+  </definition>
+  <definition>
+    <key>error_shipping</key>
+    <value><![CDATA[Chyba: Spôsob dopravy povinné!]]></value>
+  </definition>
+  <definition>
+    <key>error_no_shipping</key>
+    <value><![CDATA[Chyba: nie sú k dispozícii žiadne možnosti doprava. Prosím <a href="index.php?rt=content/contact">kontaktujte nás</a> o pomoc!]]></value>
+  </definition>
+</definitions>
