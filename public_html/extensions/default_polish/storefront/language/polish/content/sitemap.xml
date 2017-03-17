@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Site Map]]></value>
+  </definition>
+  <definition>
+    <key>text_special</key>
+    <value><![CDATA[Specjalne oferty]]></value>
+  </definition>
+  <definition>
+    <key>text_account</key>
+    <value><![CDATA[Moje konto]]></value>
+  </definition>
+  <definition>
+    <key>text_edit</key>
+    <value><![CDATA[informacje o koncie]]></value>
+  </definition>
+  <definition>
+    <key>text_password</key>
+    <value><![CDATA[Hasło]]></value>
+  </definition>
+  <definition>
+    <key>text_address</key>
+    <value><![CDATA[Książka adresowa]]></value>
+  </definition>
+  <definition>
+    <key>text_history</key>
+    <value><![CDATA[Historia zamówień]]></value>
+  </definition>
+  <definition>
+    <key>text_download</key>
+    <value><![CDATA[pliki do pobrania]]></value>
+  </definition>
+  <definition>
+    <key>text_cart</key>
+    <value><![CDATA[Wózek sklepowy]]></value>
+  </definition>
+  <definition>
+    <key>text_checkout</key>
+    <value><![CDATA[Sprawdzić]]></value>
+  </definition>
+  <definition>
+    <key>text_search</key>
+    <value><![CDATA[Szukanie]]></value>
+  </definition>
+  <definition>
+    <key>text_information</key>
+    <value><![CDATA[Informacja]]></value>
+  </definition>
+  <definition>
+    <key>text_contact</key>
+    <value><![CDATA[Skontaktuj się z nami]]></value>
+  </definition>
+</definitions>

@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[menadżer aktualizacji]]></value>
+  </definition>
+  <definition>
+    <key>text_checkupdates</key>
+    <value><![CDATA[Sprawdź aktualizacje]]></value>
+  </definition>
+  <definition>
+    <key>column_name</key>
+    <value><![CDATA[rozszerzenie nazwy]]></value>
+  </definition>
+  <definition>
+    <key>column_type</key>
+    <value><![CDATA[Rodzaj]]></value>
+  </definition>
+  <definition>
+    <key>column_category</key>
+    <value><![CDATA[Kategoria]]></value>
+  </definition>
+  <definition>
+    <key>column_status</key>
+    <value><![CDATA[Status]]></value>
+  </definition>
+  <definition>
+    <key>column_version</key>
+    <value><![CDATA[Obecna wersja]]></value>
+  </definition>
+  <definition>
+    <key>column_new_version</key>
+    <value><![CDATA[Nowa wersja]]></value>
+  </definition>
+  <definition>
+    <key>column_action</key>
+    <value><![CDATA[Akcja]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Sukces: Rozszerzenia została zaktualizowana!]]></value>
+  </definition>
+  <definition>
+    <key>text_update</key>
+    <value><![CDATA[Aktualizacja]]></value>
+  </definition>
+  <definition>
+    <key>entry_restore_exts</key>
+    <value><![CDATA[Przywracanie rozszerzenie archiwizowane:]]></value>
+  </definition>
+  <definition>
+    <key>entry_update</key>
+    <value><![CDATA[aktualizacje:]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Ostrzeżenie: Nie masz uprawnień do modyfikacji katalogu:]]></value>
+  </definition>
+  <definition>
+    <key>warning_server</key>
+    <value><![CDATA[Serwer z aktualizacjami jest inaccesible.]]></value>
+  </definition>
+  <definition>
+    <key>text_notice_title</key>
+    <value><![CDATA[Aktualizacja Zawiadomienie% EXTENSION%]]></value>
+  </definition>
+  <definition>
+    <key>text_notice_text</key>
+    <value><![CDATA[&quot;Nowa wersja rozszerzenia&quot;% ROZSZERZENIE% &quot;jest dostępna. Proszę przejść do% LINK% i uaktualnić go.]]></value>
+  </definition>
+  <definition>
+    <key>warning_updates</key>
+    <value><![CDATA[Nie można uzyskać informacji o aktualizacjach.]]></value>
+  </definition>
+  <definition>
+    <key>error_empty</key>
+    <value><![CDATA[Ostrzeżenie: Przesłany plik był pusty!]]></value>
+  </definition>
+  <definition>
+    <key>error_exts_list</key>
+    <value><![CDATA[Ostrzeżenie: lista Rozszerzenie nie jest tablicą!]]></value>
+  </definition>
+  <definition>
+    <key>text_nothing_todo</key>
+    <value><![CDATA[Twoje&#39;S rozszerzenia są aktualne. Nic do roboty.]]></value>
+  </definition>
+  <definition>
+    <key>text_connect</key>
+    <value><![CDATA[Połączyć]]></value>
+  </definition>
+  <definition>
+    <key>text_marketplace_connect</key>
+    <value><![CDATA[Połącz się z rynku]]></value>
+  </definition>
+  <definition>
+    <key>text_marketplace_connect_your_store</key>
+    <value><![CDATA[Proszę podłączyć swój sklep na Marketplace]]></value>
+  </definition>
+  <definition>
+    <key>text_note</key>
+    <value><![CDATA[Uwaga: Update dostępny tylko dla podłączonych sklepach z zakupionego historii.]]></value>
+  </definition>
+</definitions>

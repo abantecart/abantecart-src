@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[użytkownicy]]></value>
+  </definition>
+  <definition>
+    <key>text_edit_details</key>
+    <value><![CDATA[Edycja profilu szczegóły]]></value>
+  </definition>
+  <definition>
+    <key>text_user</key>
+    <value><![CDATA[Użytkownik]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Sukces: Zmieniłeś użytkowników!]]></value>
+  </definition>
+  <definition>
+    <key>text_success_details</key>
+    <value><![CDATA[Sukces: Zmieniłeś swój profil!]]></value>
+  </definition>
+  <definition>
+    <key>column_username</key>
+    <value><![CDATA[Nazwa Użytkownika]]></value>
+  </definition>
+  <definition>
+    <key>column_group</key>
+    <value><![CDATA[Grupa]]></value>
+  </definition>
+  <definition>
+    <key>column_status</key>
+    <value><![CDATA[Status]]></value>
+  </definition>
+  <definition>
+    <key>column_date_added</key>
+    <value><![CDATA[Data dodania]]></value>
+  </definition>
+  <definition>
+    <key>column_action</key>
+    <value><![CDATA[Akcja]]></value>
+  </definition>
+  <definition>
+    <key>entry_username</key>
+    <value><![CDATA[Nazwa Użytkownika:]]></value>
+  </definition>
+  <definition>
+    <key>entry_password</key>
+    <value><![CDATA[Hasło:]]></value>
+  </definition>
+  <definition>
+    <key>entry_confirm</key>
+    <value><![CDATA[Potwierdzać:]]></value>
+  </definition>
+  <definition>
+    <key>entry_firstname</key>
+    <value><![CDATA[Pierwsze imię:]]></value>
+  </definition>
+  <definition>
+    <key>entry_lastname</key>
+    <value><![CDATA[Nazwisko:]]></value>
+  </definition>
+  <definition>
+    <key>entry_email</key>
+    <value><![CDATA[E-mail:]]></value>
+  </definition>
+  <definition>
+    <key>entry_user_group</key>
+    <value><![CDATA[Grupa użytkowników:]]></value>
+  </definition>
+  <definition>
+    <key>entry_status</key>
+    <value><![CDATA[Status:]]></value>
+  </definition>
+  <definition>
+    <key>entry_ims</key>
+    <value><![CDATA[Powiadomienia]]></value>
+  </definition>
+  <definition>
+    <key>entry_captcha</key>
+    <value><![CDATA[Wpisz kod w polu poniżej:]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Ostrzeżenie: Nie masz uprawnień do modyfikowania użytkowników!]]></value>
+  </definition>
+  <definition>
+    <key>error_account</key>
+    <value><![CDATA[Uwaga: Nie można usunąć swoje konto!]]></value>
+  </definition>
+  <definition>
+    <key>error_username</key>
+    <value><![CDATA[Nazwa użytkownika musi mieć od 2 do 20 znaków!]]></value>
+  </definition>
+  <definition>
+    <key>error_password</key>
+    <value><![CDATA[Hasło musi mieć więcej niż 3 znaki!]]></value>
+  </definition>
+  <definition>
+    <key>error_confirm</key>
+    <value><![CDATA[Hasło i potwierdzenie hasła nie pasują do siebie!]]></value>
+  </definition>
+  <definition>
+    <key>error_firstname</key>
+    <value><![CDATA[Imię musi być pomiędzy 2 a 32 znaków!]]></value>
+  </definition>
+  <definition>
+    <key>error_lastname</key>
+    <value><![CDATA[Nazwisko musi być pomiędzy 2 a 32 znaków!]]></value>
+  </definition>
+  <definition>
+    <key>error_email</key>
+    <value><![CDATA[E-mail nie wydaje się być ważne!]]></value>
+  </definition>
+  <definition>
+    <key>error_captcha</key>
+    <value><![CDATA[Weryfikacja ludzka nie powiodło się!]]></value>
+  </definition>
+  <definition>
+    <key>error_user_group</key>
+    <value><![CDATA[Nie masz uprawnień, aby zmienić grupę użytkowników.]]></value>
+  </definition>
+  <definition>
+    <key>text_select_group</key>
+    <value><![CDATA[- Wybierz Group -]]></value>
+  </definition>
+  <definition>
+    <key>entry_im_email</key>
+    <value><![CDATA[E-mail: <span class="help">Jeden lub więcej adresów e-mail oddzielonych przecinkami</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_im_sms</key>
+    <value><![CDATA[Mobile Phone: <span class="help">Numer telefonu w formacie międzynarodowym. dawny. +14566887777</span>]]></value>
+  </definition>
+  <definition>
+    <key>text_edit_im</key>
+    <value><![CDATA[Edycja Powiadomienia]]></value>
+  </definition>
+  <definition>
+    <key>text_sendpoints</key>
+    <value><![CDATA[Ustawienia powiadomień]]></value>
+  </definition>
+  <definition>
+    <key>text_change_im_addresses</key>
+    <value><![CDATA[Edycja Powiadomienie Adresy w tym SendPoint]]></value>
+  </definition>
+</definitions>

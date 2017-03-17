@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Szukanie]]></value>
+  </definition>
+  <definition>
+    <key>text_search</key>
+    <value><![CDATA[Produkty spełniające kryteria wyszukiwania]]></value>
+  </definition>
+  <definition>
+    <key>text_keyword</key>
+    <value><![CDATA[Słowa kluczowe]]></value>
+  </definition>
+  <definition>
+    <key>text_category</key>
+    <value><![CDATA[Wszystkie kategorie]]></value>
+  </definition>
+  <definition>
+    <key>text_critea</key>
+    <value><![CDATA[Kryteria wyszukiwania]]></value>
+  </definition>
+  <definition>
+    <key>text_empty</key>
+    <value><![CDATA[Nie ma produktów spełniających kryteria wyszukiwania.]]></value>
+  </definition>
+  <definition>
+    <key>text_stars</key>
+    <value><![CDATA[%s Z 5 gwiazdek!]]></value>
+  </definition>
+  <definition>
+    <key>text_sort</key>
+    <value><![CDATA[Sortuj według:]]></value>
+  </definition>
+  <definition>
+    <key>text_default</key>
+    <value><![CDATA[Zaniedbanie]]></value>
+  </definition>
+  <definition>
+    <key>text_name_asc</key>
+    <value><![CDATA[Nazwa A - Z]]></value>
+  </definition>
+  <definition>
+    <key>text_name_desc</key>
+    <value><![CDATA[Nazwa Z - A]]></value>
+  </definition>
+  <definition>
+    <key>text_price_asc</key>
+    <value><![CDATA[Cena Niska &gt; Wysoki]]></value>
+  </definition>
+  <definition>
+    <key>text_price_desc</key>
+    <value><![CDATA[Cena wysoka &gt; Niska]]></value>
+  </definition>
+  <definition>
+    <key>text_rating_asc</key>
+    <value><![CDATA[Najniższa ocena]]></value>
+  </definition>
+  <definition>
+    <key>text_rating_desc</key>
+    <value><![CDATA[Najwyższa ocena]]></value>
+  </definition>
+  <definition>
+    <key>entry_search</key>
+    <value><![CDATA[Szukanie:]]></value>
+  </definition>
+  <definition>
+    <key>entry_description</key>
+    <value><![CDATA[Szukaj w opisach produktów]]></value>
+  </definition>
+  <definition>
+    <key>entry_model</key>
+    <value><![CDATA[Szukaj w modelu produktu]]></value>
+  </definition>
+</definitions>

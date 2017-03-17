@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Twój powodzeniem subskrypcję!]]></value>
+  </definition>
+  <definition>
+    <key>text_message</key>
+    <value><![CDATA[Byliście pomyślnie wypisany z komunikacji elektronicznej.]]></value>
+  </definition>
+  <definition>
+    <key>text_account</key>
+    <value><![CDATA[Konto]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Powodzenie]]></value>
+  </definition>
+</definitions>

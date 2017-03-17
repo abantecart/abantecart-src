@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Zarządzanie cache]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Sukces: Pomyślnie usunięte pliki cache!]]></value>
+  </definition>
+  <definition>
+    <key>text_configuration</key>
+    <value><![CDATA[Konfiguracja]]></value>
+  </definition>
+  <definition>
+    <key>text_layouts_blocks</key>
+    <value><![CDATA[Podzial &amp; Bloki]]></value>
+  </definition>
+  <definition>
+    <key>text_flexyforms</key>
+    <value><![CDATA[Flexy Forms]]></value>
+  </definition>
+  <definition>
+    <key>text_images</key>
+    <value><![CDATA[Obrazy]]></value>
+  </definition>
+  <definition>
+    <key>text_products</key>
+    <value><![CDATA[Produkty]]></value>
+  </definition>
+  <definition>
+    <key>text_categories</key>
+    <value><![CDATA[Kategorie]]></value>
+  </definition>
+  <definition>
+    <key>text_manufacturers</key>
+    <value><![CDATA[producenci]]></value>
+  </definition>
+  <definition>
+    <key>text_localisations</key>
+    <value><![CDATA[lokalizacje]]></value>
+  </definition>
+  <definition>
+    <key>text_error_log</key>
+    <value><![CDATA[Dziennik błędów]]></value>
+  </definition>
+  <definition>
+    <key>text_clear_cache</key>
+    <value><![CDATA[Usuń wybrane Cache]]></value>
+  </definition>
+  <definition>
+    <key>text_clear_all_cache</key>
+    <value><![CDATA[Wyczyść wszystko Cache]]></value>
+  </definition>
+  <definition>
+    <key>desc_configuration</key>
+    <value><![CDATA[Konfiguracje systemu i przechowywać]]></value>
+  </definition>
+  <definition>
+    <key>desc_layouts_blocks</key>
+    <value><![CDATA[Strony, układy stron, bloki]]></value>
+  </definition>
+  <definition>
+    <key>desc_flexyforms</key>
+    <value><![CDATA[Dane formy Flexy]]></value>
+  </definition>
+  <definition>
+    <key>desc_images</key>
+    <value><![CDATA[miniatury obrazu]]></value>
+  </definition>
+  <definition>
+    <key>desc_products</key>
+    <value><![CDATA[Dane produktu]]></value>
+  </definition>
+  <definition>
+    <key>desc_categories</key>
+    <value><![CDATA[Kategoria dane]]></value>
+  </definition>
+  <definition>
+    <key>desc_manufacturers</key>
+    <value><![CDATA[dane producenta]]></value>
+  </definition>
+  <definition>
+    <key>desc_localisations</key>
+    <value><![CDATA[Waluty, języka, kraju, Zone, długość, waga, &amp; inny]]></value>
+  </definition>
+  <definition>
+    <key>desc_error_log</key>
+    <value><![CDATA[Dziennik błędów]]></value>
+  </definition>
+  <definition>
+    <key>column_type</key>
+    <value><![CDATA[Typ skrzynki]]></value>
+  </definition>
+  <definition>
+    <key>column_description</key>
+    <value><![CDATA[Opis]]></value>
+  </definition>
+  <definition>
+    <key>text_html_cache</key>
+    <value><![CDATA[HTML-cache]]></value>
+  </definition>
+  <definition>
+    <key>desc_html_cache</key>
+    <value><![CDATA[Buforowane stron HTML i bloki]]></value>
+  </definition>
+  <definition>
+    <key>text_install_upgrade_history</key>
+    <value><![CDATA[Install / Upgrade Historia]]></value>
+  </definition>
+  <definition>
+    <key>desc_install_upgrade_history</key>
+    <value><![CDATA[Clear All Install / Upgrade Historia]]></value>
+  </definition>
+</definitions>

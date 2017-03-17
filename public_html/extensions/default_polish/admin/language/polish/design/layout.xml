@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Układ &amp; bloki Menedżer]]></value>
+  </definition>
+  <definition>
+    <key>text_select_template</key>
+    <value><![CDATA[Wybierz szablon:]]></value>
+  </definition>
+  <definition>
+    <key>text_delete_success</key>
+    <value><![CDATA[Sukces: Układ strony został usunięty!]]></value>
+  </definition>
+  <definition>
+    <key>text_delete_restricted</key>
+    <value><![CDATA[Błąd: Układ strony jest ograniczona i nie może być usunięty!]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Sukces: Zmieniłeś graficzny wzór &amp; Bloki!]]></value>
+  </definition>
+  <definition>
+    <key>text_preview_generated</key>
+    <value><![CDATA[Podgląd Generated!]]></value>
+  </definition>
+  <definition>
+    <key>text_click_here</key>
+    <value><![CDATA[Kliknij tutaj]]></value>
+  </definition>
+</definitions>

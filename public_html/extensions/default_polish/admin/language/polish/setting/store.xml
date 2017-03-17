@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Szczegóły Store]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Sukces: Zmieniłeś ustawienia!]]></value>
+  </definition>
+  <definition>
+    <key>text_image_manager</key>
+    <value><![CDATA[Image Manager]]></value>
+  </definition>
+  <definition>
+    <key>text_default</key>
+    <value><![CDATA[Zaniedbanie]]></value>
+  </definition>
+  <definition>
+    <key>text_edit_store</key>
+    <value><![CDATA[Zmień sklep:]]></value>
+  </definition>
+  <definition>
+    <key>entry_name</key>
+    <value><![CDATA[Nazwa magazynu: <br/><span class="help">skopiowane do ustawień i pokazano na odcinku storefront.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_url</key>
+    <value><![CDATA[Adres sklepu: <br/><span class="help">Dołącz pełny adres URL do swojego sklepu. Upewnij się, aby dodać &quot;/&quot; na końcu. Przykład: http://www.yourdomain.com/path/ <br/><br/> Nie używaj katalogów, aby utworzyć nowy sklep. Zawsze należy wskazać inną domenę lub domenę podrzędną do Twojego hostingu.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_ssl</key>
+    <value><![CDATA[Użyj SSL: <br/><span class="help">Aby użyć SSL czek na hoście, jeśli jest zainstalowany certyfikat SSL.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_title</key>
+    <value><![CDATA[Tytuł:]]></value>
+  </definition>
+  <definition>
+    <key>entry_meta_description</key>
+    <value><![CDATA[Meta Tag Description:]]></value>
+  </definition>
+  <definition>
+    <key>entry_template</key>
+    <value><![CDATA[Szablon:]]></value>
+  </definition>
+  <definition>
+    <key>entry_description</key>
+    <value><![CDATA[Wiadomość powitalna:]]></value>
+  </definition>
+  <definition>
+    <key>entry_country</key>
+    <value><![CDATA[Kraj:]]></value>
+  </definition>
+  <definition>
+    <key>entry_zone</key>
+    <value><![CDATA[Region / Stan:]]></value>
+  </definition>
+  <definition>
+    <key>entry_language</key>
+    <value><![CDATA[Język:]]></value>
+  </definition>
+  <definition>
+    <key>entry_status</key>
+    <value><![CDATA[Przechowywać Stan <br/><span class="help">Stan Przechowywać w sklepu. Stan OFF skieruje do magazynu domyślnego. Użyj trybu konserwacji ustawienie, aby ustawić komunikat konserwacji tymczasowy sklep</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_alias</key>
+    <value><![CDATA[Alias <br/><span class="help">Store alias. Jeśli pozostanie puste, będzie oparty na skróconej nazwy</span>]]></value>
+  </definition>
+  <definition>
+    <key>button_add_store</key>
+    <value><![CDATA[Nowy sklep]]></value>
+  </definition>
+  <definition>
+    <key>button_delete_store</key>
+    <value><![CDATA[Usuń Store]]></value>
+  </definition>
+  <definition>
+    <key>button_edit_settings</key>
+    <value><![CDATA[Edytuj ustawienia]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Ostrzeżenie: Nie masz uprawnień do modyfikowania sklepów!]]></value>
+  </definition>
+  <definition>
+    <key>error_name</key>
+    <value><![CDATA[Nazwa magazynu musi być od 3 do 32 znaków!]]></value>
+  </definition>
+  <definition>
+    <key>error_url</key>
+    <value><![CDATA[Adres sklepu wymagane!]]></value>
+  </definition>
+  <definition>
+    <key>error_title</key>
+    <value><![CDATA[Tytuł musi być od 3 do 32 znaków!]]></value>
+  </definition>
+  <definition>
+    <key>error_image_thumb</key>
+    <value><![CDATA[Obraz produktu wymiary Thumb Size wymagany!]]></value>
+  </definition>
+  <definition>
+    <key>error_image_popup</key>
+    <value><![CDATA[Obraz produktu wymiary Popup Size wymagany!]]></value>
+  </definition>
+  <definition>
+    <key>error_image_category</key>
+    <value><![CDATA[Wymiary Kategoria listy Rozmiar wymagany!]]></value>
+  </definition>
+  <definition>
+    <key>error_image_product</key>
+    <value><![CDATA[Wymiary listy produktów Size wymagany!]]></value>
+  </definition>
+  <definition>
+    <key>error_image_additional</key>
+    <value><![CDATA[Dodatkowe wymiary produktu Rozmiar obrazu wymagany!]]></value>
+  </definition>
+  <definition>
+    <key>error_image_related</key>
+    <value><![CDATA[Powiązany produkt Wymiary Rozmiar obrazu wymagany!]]></value>
+  </definition>
+  <definition>
+    <key>error_image_cart</key>
+    <value><![CDATA[Wymiary Koszyk Format zdjęcia wymagany!]]></value>
+  </definition>
+  <definition>
+    <key>error_image_grid</key>
+    <value><![CDATA[Wymiary siatki Rozmiar obrazu wymagany!]]></value>
+  </definition>
+  <definition>
+    <key>error_store</key>
+    <value><![CDATA[Ostrzeżenie: Ten sklep nie może zostać usunięty, ponieważ jest aktualnie przypisany do %s zleceń!]]></value>
+  </definition>
+  <definition>
+    <key>error_required_data</key>
+    <value><![CDATA[Wymagane dane nie zostały wprowadzone. Sprawdź błędy w terenie!]]></value>
+  </definition>
+  <definition>
+    <key>error_limit</key>
+    <value><![CDATA[Limit wymagane!]]></value>
+  </definition>
+  <definition>
+    <key>entry_clone_store</key>
+    <value><![CDATA[Ustawienia kopiowania: <br/><span class="help">Można wybrać kopię wszystkich ustawień z jakiegoś istniejącego sklepu</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_ssl_url</key>
+    <value><![CDATA[Bezpieczne URL Store: <br/><span class="help">Dołącz pełny adres URL protokołu SSL (https) do swojego sklepu. Upewnij się, aby dodać &quot;/&quot; na końcu. Przykład: https://www.yourdomain.com/path/</span>]]></value>
+  </definition>
+  <definition>
+    <key>error_ssl_url</key>
+    <value><![CDATA[Bezpieczne URL wymagane!]]></value>
+  </definition>
+</definitions>

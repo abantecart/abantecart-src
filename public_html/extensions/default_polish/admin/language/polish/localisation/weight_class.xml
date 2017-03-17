@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Klasy Waga]]></value>
+  </definition>
+  <definition>
+    <key>text_class</key>
+    <value><![CDATA[Klasa wagowa]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Sukces: Zmieniłeś kategorie wagowe!]]></value>
+  </definition>
+  <definition>
+    <key>column_title</key>
+    <value><![CDATA[Waga Tytuł]]></value>
+  </definition>
+  <definition>
+    <key>column_unit</key>
+    <value><![CDATA[Jednostka wagi]]></value>
+  </definition>
+  <definition>
+    <key>column_value</key>
+    <value><![CDATA[Wartość]]></value>
+  </definition>
+  <definition>
+    <key>column_action</key>
+    <value><![CDATA[Akcja]]></value>
+  </definition>
+  <definition>
+    <key>entry_title</key>
+    <value><![CDATA[Waga Tytuł:]]></value>
+  </definition>
+  <definition>
+    <key>entry_unit</key>
+    <value><![CDATA[Jednostka wagi:]]></value>
+  </definition>
+  <definition>
+    <key>entry_value</key>
+    <value><![CDATA[Wartość: <br/><span class="help">Zestaw do 1,00000, jeśli jest to domyślny wagi.</span>]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Ostrzeżenie: Nie masz uprawnień do modyfikowania kategorie wagowe!]]></value>
+  </definition>
+  <definition>
+    <key>error_title</key>
+    <value><![CDATA[Waga Tytuł musi zawierać się między 2 a 32 znaków!]]></value>
+  </definition>
+  <definition>
+    <key>error_unit</key>
+    <value><![CDATA[Masa musi wynosić od 1 do 4 znaków!]]></value>
+  </definition>
+  <definition>
+    <key>error_default</key>
+    <value><![CDATA[Ostrzeżenie: Klasa ta waga nie może być usunięty, ponieważ jest aktualnie przypisany jako domyślnej klasy wagowej sklep!]]></value>
+  </definition>
+  <definition>
+    <key>error_product</key>
+    <value><![CDATA[Ostrzeżenie: Ta klasa waga nie może być usunięty, ponieważ jest aktualnie przypisany do %s produktów!]]></value>
+  </definition>
+</definitions>

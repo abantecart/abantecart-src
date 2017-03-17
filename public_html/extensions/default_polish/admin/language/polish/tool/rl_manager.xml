@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Media Baza Menedżer]]></value>
+  </definition>
+  <definition>
+    <key>text_rl_latest</key>
+    <value><![CDATA[Ostatnio dodane zasobów]]></value>
+  </definition>
+  <definition>
+    <key>text_rl_type</key>
+    <value><![CDATA[Typ zasobu]]></value>
+  </definition>
+  <definition>
+    <key>entry_type_name</key>
+    <value><![CDATA[Typ zasobu Key <br/><span class="help">Wartość Ten zasób kluczem typ / nazwa nie może zostać zmieniona</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_default_directory</key>
+    <value><![CDATA[Katalog zasobów <br/><span class="help">katalog lokalizowania zasobów dla tego typu. Jeśli zmieniły istniejące zasoby nie będą acceccible i będą musiały być kopiowane do nowego katalogu!</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_default_icon</key>
+    <value><![CDATA[Domyślnie ikona <br/><span class="help">Ikona obraz ma być pokazany w listingu zasobów (lokalizacja: / image / ...).</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_file_types</key>
+    <value><![CDATA[Dopuszczalne rozszerzenia <br/><span class="help">Regex z listy dozwolonych rozszerzeń plików dla tego typu zasobu</span>]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Sukces: Zaktualizowałeś typ zasobu!]]></value>
+  </definition>
+  <definition>
+    <key>error_missing_type_id</key>
+    <value><![CDATA[Błąd: brak Typ zasobu ID!]]></value>
+  </definition>
+  <definition>
+    <key>error_type_name</key>
+    <value><![CDATA[Błąd: Nazwa Typ zasobu musi być między 2 a 40 charcters]]></value>
+  </definition>
+  <definition>
+    <key>error_default_directory</key>
+    <value><![CDATA[Błąd: katalog Typ zasobu musi być między 2 a 64 charcters]]></value>
+  </definition>
+  <definition>
+    <key>error_default_icon</key>
+    <value><![CDATA[Błąd: Typ zasobu ikona musi być między 2 a 64 charcters]]></value>
+  </definition>
+  <definition>
+    <key>error_file_types</key>
+    <value><![CDATA[Błąd: zasób extenions plików typu regex musi wynosić między 2 a 40 charcters]]></value>
+  </definition>
+</definitions>

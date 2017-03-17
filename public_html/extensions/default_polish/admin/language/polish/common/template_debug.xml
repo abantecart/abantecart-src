@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>text_block_id</key>
+    <value><![CDATA[Blok ID:]]></value>
+  </definition>
+  <definition>
+    <key>text_block_name</key>
+    <value><![CDATA[Nazwa:]]></value>
+  </definition>
+  <definition>
+    <key>text_block_controller</key>
+    <value><![CDATA[Kontroler:]]></value>
+  </definition>
+  <definition>
+    <key>text_block_path</key>
+    <value><![CDATA[Ścieżka:]]></value>
+  </definition>
+  <definition>
+    <key>text_block_template</key>
+    <value><![CDATA[Szablon:]]></value>
+  </definition>
+  <definition>
+    <key>text_block_parent</key>
+    <value><![CDATA[Roślina mateczna:]]></value>
+  </definition>
+  <definition>
+    <key>text_parent_id</key>
+    <value><![CDATA[Dominująca ID:]]></value>
+  </definition>
+  <definition>
+    <key>text_close</key>
+    <value><![CDATA[Blisko]]></value>
+  </definition>
+  <definition>
+    <key>text_click</key>
+    <value><![CDATA[Kliknij]]></value>
+  </definition>
+</definitions>

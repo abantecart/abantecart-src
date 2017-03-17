@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Uwagi szczególne i biuletyn]]></value>
+  </definition>
+  <definition>
+    <key>text_account</key>
+    <value><![CDATA[Konto]]></value>
+  </definition>
+  <definition>
+    <key>text_notifications</key>
+    <value><![CDATA[Powiadomienia]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Sukces: Twoje ustawienia powiadomień została zaktualizowana!]]></value>
+  </definition>
+  <definition>
+    <key>text_sendpoint</key>
+    <value><![CDATA[Powiadomienia]]></value>
+  </definition>
+</definitions>

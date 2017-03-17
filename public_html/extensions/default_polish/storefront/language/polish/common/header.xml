@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>text_home</key>
+    <value><![CDATA[Dom]]></value>
+  </definition>
+  <definition>
+    <key>text_special</key>
+    <value><![CDATA[Specjalne oferty]]></value>
+  </definition>
+  <definition>
+    <key>text_contact</key>
+    <value><![CDATA[Kontakt]]></value>
+  </definition>
+  <definition>
+    <key>text_sitemap</key>
+    <value><![CDATA[Sitemap]]></value>
+  </definition>
+  <definition>
+    <key>text_bookmark</key>
+    <value><![CDATA[Zakładka]]></value>
+  </definition>
+  <definition>
+    <key>text_account</key>
+    <value><![CDATA[Konto]]></value>
+  </definition>
+  <definition>
+    <key>text_login</key>
+    <value><![CDATA[Zaloguj Się]]></value>
+  </definition>
+  <definition>
+    <key>text_logout</key>
+    <value><![CDATA[Wyloguj]]></value>
+  </definition>
+  <definition>
+    <key>text_cart</key>
+    <value><![CDATA[Kosz]]></value>
+  </definition>
+  <definition>
+    <key>text_checkout</key>
+    <value><![CDATA[Sprawdzić]]></value>
+  </definition>
+  <definition>
+    <key>text_keyword</key>
+    <value><![CDATA[Słowa kluczowe]]></value>
+  </definition>
+  <definition>
+    <key>text_advanced</key>
+    <value><![CDATA[zaawansowane wyszukiwanie]]></value>
+  </definition>
+  <definition>
+    <key>text_category</key>
+    <value><![CDATA[Wszystkie kategorie]]></value>
+  </definition>
+  <definition>
+    <key>entry_search</key>
+    <value><![CDATA[Szukanie:]]></value>
+  </definition>
+  <definition>
+    <key>text_welcome</key>
+    <value><![CDATA[Witamy spowrotem]]></value>
+  </definition>
+  <definition>
+    <key>text_not</key>
+    <value><![CDATA[Nie]]></value>
+  </definition>
+  <definition>
+    <key>text_login_or_register</key>
+    <value><![CDATA[Zaloguj się lub zarejestruj]]></value>
+  </definition>
+</definitions>

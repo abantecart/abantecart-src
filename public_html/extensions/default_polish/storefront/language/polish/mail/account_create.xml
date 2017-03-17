@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>text_subject</key>
+    <value><![CDATA[%s - Dziękujemy za rejestrację]]></value>
+  </definition>
+  <definition>
+    <key>text_welcome</key>
+    <value><![CDATA[Witamy i dziękujemy za zarejestrowanie się %s!]]></value>
+  </definition>
+  <definition>
+    <key>text_login</key>
+    <value><![CDATA[Twoje konto zostało utworzone i można uzyskać do niego dostęp, odwiedzając naszą stronę internetową lub pod następującym adresem URL:]]></value>
+  </definition>
+  <definition>
+    <key>text_approval</key>
+    <value><![CDATA[Twoje konto musi zostać zatwierdzone, zanim będzie można się zalogować. Po zatwierdzeniu możesz zalogować się za pomocą adresu e-mail i hasło, odwiedzając naszą stronę internetową lub pod następującym adresem URL:]]></value>
+  </definition>
+  <definition>
+    <key>text_activate</key>
+    <value><![CDATA[Zanim będziemy mogli aktywować konto jeden ostatni krok należy podjąć, aby zakończyć rejestrację. <br/> 
+ Należy wykonać ten ostatni krok, aby stać się zarejestrowanym członkiem. Proszę kliknąć na poniższy link w celu aktywacji konta %s.]]></value>
+  </definition>
+  <definition>
+    <key>text_services</key>
+    <value><![CDATA[Po zalogowaniu się, będziesz mógł uzyskać dostęp do innych usług, w tym przeglądu wcześniejszych zamówień, faktur, drukowania i edytowania informacji o koncie.]]></value>
+  </definition>
+  <definition>
+    <key>text_thanks</key>
+    <value><![CDATA[Dziękuję Ci,]]></value>
+  </definition>
+</definitions>

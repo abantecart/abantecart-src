@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>text_subject</key>
+    <value><![CDATA[%s - Nazwa logowania przypomnieniem]]></value>
+  </definition>
+  <definition>
+    <key>text_greeting</key>
+    <value><![CDATA[Nazwa logowania przypomnieniem poproszono %s.]]></value>
+  </definition>
+  <definition>
+    <key>text_your_loginname</key>
+    <value><![CDATA[Twój login to:]]></value>
+  </definition>
+</definitions>

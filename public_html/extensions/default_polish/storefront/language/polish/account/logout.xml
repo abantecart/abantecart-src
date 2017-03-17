@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[konto Wyloguj]]></value>
+  </definition>
+  <definition>
+    <key>text_message</key>
+    <value><![CDATA[<p> Zostałeś wylogowany konta. Teraz można bezpiecznie zostawić komputer. </p><p> Twój koszyk został zapisany, elementy wewnątrz niego zostanie przywrócony, gdy logujesz się na swoje konto. </p>]]></value>
+  </definition>
+  <definition>
+    <key>text_account</key>
+    <value><![CDATA[Konto]]></value>
+  </definition>
+  <definition>
+    <key>text_logout</key>
+    <value><![CDATA[Wyloguj]]></value>
+  </definition>
+</definitions>

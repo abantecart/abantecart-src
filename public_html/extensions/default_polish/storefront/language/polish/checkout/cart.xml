@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Wózek sklepowy]]></value>
+  </definition>
+  <definition>
+    <key>text_basket</key>
+    <value><![CDATA[Kosz]]></value>
+  </definition>
+  <definition>
+    <key>text_sub_total</key>
+    <value><![CDATA[Suma częściowa:]]></value>
+  </definition>
+  <definition>
+    <key>text_weight</key>
+    <value><![CDATA[Koszyk Waga:]]></value>
+  </definition>
+  <definition>
+    <key>text_error</key>
+    <value><![CDATA[Twój koszyk jest pusty!]]></value>
+  </definition>
+  <definition>
+    <key>column_remove</key>
+    <value><![CDATA[Usunąć]]></value>
+  </definition>
+  <definition>
+    <key>column_image</key>
+    <value><![CDATA[Obraz]]></value>
+  </definition>
+  <definition>
+    <key>column_name</key>
+    <value><![CDATA[Nazwa]]></value>
+  </definition>
+  <definition>
+    <key>column_model</key>
+    <value><![CDATA[Model]]></value>
+  </definition>
+  <definition>
+    <key>column_quantity</key>
+    <value><![CDATA[Ilość]]></value>
+  </definition>
+  <definition>
+    <key>column_price</key>
+    <value><![CDATA[Cena za sztukę]]></value>
+  </definition>
+  <definition>
+    <key>column_total</key>
+    <value><![CDATA[Całkowity]]></value>
+  </definition>
+  <definition>
+    <key>text_continue_shopping</key>
+    <value><![CDATA[Kontynuować zakupy]]></value>
+  </definition>
+  <definition>
+    <key>text_coupon_codes</key>
+    <value><![CDATA[Zastosuj kod kuponu]]></value>
+  </definition>
+  <definition>
+    <key>text_estimate_shipping_tax</key>
+    <value><![CDATA[Estimate Shipping &amp; Podatki]]></value>
+  </definition>
+  <definition>
+    <key>text_estimate_country</key>
+    <value><![CDATA[Kraj i państwo]]></value>
+  </definition>
+  <definition>
+    <key>text_estimate_postcode</key>
+    <value><![CDATA[Kod pocztowy]]></value>
+  </definition>
+  <definition>
+    <key>button_text_estimate</key>
+    <value><![CDATA[Oszacowanie]]></value>
+  </definition>
+  <definition>
+    <key>text_estimate_shipments</key>
+    <value><![CDATA[Przesyłki]]></value>
+  </definition>
+  <definition>
+    <key>error_coupon</key>
+    <value><![CDATA[Błąd: Kupon jest albo nieważny, wygasły lub osiągnął to wykorzystanie limitu!]]></value>
+  </definition>
+  <definition>
+    <key>error_stock</key>
+    <value><![CDATA[Produkty oznaczone *** nie są dostępne w odpowiedniej ilości, czy w magazynie!]]></value>
+  </definition>
+  <definition>
+    <key>error_required_options</key>
+    <value><![CDATA[Proszę zaznaczyć wszystkie wymagane opcje!]]></value>
+  </definition>
+  <definition>
+    <key>error_order_minimum</key>
+    <value><![CDATA[Twoje zamówienie Ilość Suma nie spełnia minimalnych ilości %s wymagane. Proszę dodać więcej produktów do koszyka!]]></value>
+  </definition>
+  <definition>
+    <key>error_order_maximum</key>
+    <value><![CDATA[Twoje zamówienie Ilość Suma przekracza maksymalną dozwoloną ilość %s za zamówienie. Należy usunąć niektóre elementy z koszyka!]]></value>
+  </definition>
+  <definition>
+    <key>error_empty_file_data</key>
+    <value><![CDATA[Dane pliku jest uszkodzona lub pusta.]]></value>
+  </definition>
+  <definition>
+    <key>error_empty_file_name</key>
+    <value><![CDATA[Nazwa pliku jest pusta!]]></value>
+  </definition>
+  <definition>
+    <key>error_file_extension</key>
+    <value><![CDATA[Tylko pliki z rozszerzeniem (ów) %s jest (są) dozwolona!]]></value>
+  </definition>
+  <definition>
+    <key>error_min_file_size</key>
+    <value><![CDATA[Minimalny rozmiar pliku do przesłania jest %s Kb.]]></value>
+  </definition>
+  <definition>
+    <key>error_max_file_size</key>
+    <value><![CDATA[Maksymalny rozmiar pliku do przesłania jest %s Kb.]]></value>
+  </definition>
+  <definition>
+    <key>text_coupon_success</key>
+    <value><![CDATA[Sukces: Twój kupon został zastosowany zniżki!]]></value>
+  </definition>
+  <definition>
+    <key>text_coupon_removal</key>
+    <value><![CDATA[Sukces: Kupon został usunięty!]]></value>
+  </definition>
+  <definition>
+    <key>error_quantity_maximum</key>
+    <value><![CDATA[Ilość produktu przekracza dozwolone. Ilość została ustawiona na maksimum.]]></value>
+  </definition>
+  <definition>
+    <key>error_quantity_minimum</key>
+    <value><![CDATA[dozwolona ilość produktu znajduje się poniżej wymaganego minimum. Ilość została ustawiona na minimalną kwotę.]]></value>
+  </definition>
+</definitions>

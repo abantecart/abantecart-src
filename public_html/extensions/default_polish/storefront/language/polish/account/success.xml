@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Twoje konto zostało utworzone!]]></value>
+  </definition>
+  <definition>
+    <key>text_message</key>
+    <value><![CDATA[<p> Gratulacje! Nowe konto zostało pomyślnie utworzone! </p><p> Teraz możesz skorzystać z przywilejów członkowskich w celu zwiększenia zakupów online z nami. </p><p> Jeśli masz jakieś pytania dotyczące funkcjonowania niniejszego sklepu internetowego, napisz do właściciela sklepu. </p><p> Potwierdzenie zostało wysłane na podany adres e-mail. Jeśli nie otrzymali go w ciągu godziny, prosimy o <a href="%s">kontakt z nami</a>. </p>]]></value>
+  </definition>
+  <definition>
+    <key>text_approval</key>
+    <value><![CDATA[<p> Dziękujemy za zarejestrowanie się %s! </p><p> Zostaniesz powiadomiony e-mailem gdy konto zostało aktywowane przez właściciela sklepu. </p><p> Jeśli masz jakieś pytania dotyczące funkcjonowania niniejszego sklepu internetowego, prosimy <a href="%s">skontaktować się z właścicielem sklepu</a>. </p>]]></value>
+  </definition>
+  <definition>
+    <key>text_activate</key>
+    <value><![CDATA[<p> Dziękujemy za zarejestrowanie się %s! </p><p> Użytkownik zostanie powiadomiony za pośrednictwem poczty elektronicznej z konta instrukcją aktywacji. Należy kliknąć link podany w mailu, aby aktywować konto. Jeśli nie otrzymasz e-maila, proszę sprawdzić w swoich śmieci lub spamu foldery. </p><p> Jeśli masz jakieś pytania dotyczące funkcjonowania niniejszego sklepu internetowego, prosimy <a href="%s">skontaktować się z właścicielem sklepu</a>. </p>]]></value>
+  </definition>
+  <definition>
+    <key>text_account</key>
+    <value><![CDATA[Konto]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Powodzenie]]></value>
+  </definition>
+</definitions>

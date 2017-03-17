@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Administracja]]></value>
+  </definition>
+  <definition>
+    <key>text_heading</key>
+    <value><![CDATA[Administracja]]></value>
+  </definition>
+  <definition>
+    <key>text_login</key>
+    <value><![CDATA[Podaj swoje dane logowania.]]></value>
+  </definition>
+  <definition>
+    <key>entry_username</key>
+    <value><![CDATA[Nazwa Użytkownika:]]></value>
+  </definition>
+  <definition>
+    <key>entry_password</key>
+    <value><![CDATA[Hasło:]]></value>
+  </definition>
+  <definition>
+    <key>entry_forgot_password</key>
+    <value><![CDATA[Zapomniałeś hasła?]]></value>
+  </definition>
+  <definition>
+    <key>button_login</key>
+    <value><![CDATA[Zaloguj Się]]></value>
+  </definition>
+  <definition>
+    <key>error_login</key>
+    <value><![CDATA[Nie pasuje do nazwy użytkownika i / lub hasło.]]></value>
+  </definition>
+  <definition>
+    <key>error_token</key>
+    <value><![CDATA[Nieprawidłowy token sesji. Proszę, zaloguj się ponownie.]]></value>
+  </definition>
+  <definition>
+    <key>error_login_message</key>
+    <value><![CDATA[Nieudana próba logowania się do administratora z IP:]]></value>
+  </definition>
+  <definition>
+    <key>error_login_message_text</key>
+    <value><![CDATA[Biorąc logowania użytkownika:]]></value>
+  </definition>
+</definitions>

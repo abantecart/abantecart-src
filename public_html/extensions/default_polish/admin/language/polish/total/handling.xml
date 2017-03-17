@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Opłata manipulacyjna]]></value>
+  </definition>
+  <definition>
+    <key>total_name</key>
+    <value><![CDATA[Opłata manipulacyjna]]></value>
+  </definition>
+  <definition>
+    <key>text_total</key>
+    <value><![CDATA[Sumy Zamówienie]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Sukces: Zaktualizowałeś łączna opłata manipulacyjna!]]></value>
+  </definition>
+  <definition>
+    <key>entry_total</key>
+    <value><![CDATA[Zamówienie Razem: <span class="help">Minimalna kwota zamówienia, które należy osiągnąć, aby zastosować opłatę. Jeżeli łączna zamówienia klienta przekroczy tę kwotę, obsługi feee nie będzie stosowana. Wartość ta nie jest uwzględniana przy konkretnym ustawieniu płatności.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_total_placeholder</key>
+    <value><![CDATA[Kwota zamówienia]]></value>
+  </definition>
+  <definition>
+    <key>entry_fee</key>
+    <value><![CDATA[Opłata: <span class="help">Opłata zostać dodany do zamówienia łączna minimalna kwota jeśli warunek nie jest spełniony. Kwota ta jest przesłonięta przez określonąwartośćdla płatności</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_payment_fee</key>
+    <value><![CDATA[Opłata: <span class="help">Opłata zostać dodany do zamówienia, jeśli minimalna łączna suma cząstkowa warunek kwota nie jest spełniony. Kwota ta przesłonić głównego ustawienie opłat</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_payment</key>
+    <value><![CDATA[Płatność: <span class="help">Wybierz konkretną zapłatę trzeba dodać opłatę. Ustawienia te zastępują ustawienia główne, jeśli płatność jest używany przez klienta.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_order_subtotal</key>
+    <value><![CDATA[Zamów Suma częściowa: <span class="help">Minimalne zamówienie Ilość Suma zostać osiągnięty, aby zastosować opłatę. Przesłania to główne ustawienia</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_tax</key>
+    <value><![CDATA[Klasa podatku: <span class="help">Wybierz, jeśli chcesz aby umożliwić zastosowanie podatku na szczycie opłaty manipulacyjnej</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_status</key>
+    <value><![CDATA[Status:]]></value>
+  </definition>
+  <definition>
+    <key>entry_sort_order</key>
+    <value><![CDATA[Porządek sortowania:]]></value>
+  </definition>
+  <definition>
+    <key>entry_calculation_order</key>
+    <value><![CDATA[Obliczanie Order:]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Ostrzeżenie: Nie masz uprawnień do modyfikowania całkowitej opłaty manipulacyjnej!]]></value>
+  </definition>
+  <definition>
+    <key>error_number</key>
+    <value><![CDATA[Ostrzeżenie: Łączna Porządek i opłata manipulacyjna musi być numery!]]></value>
+  </definition>
+</definitions>

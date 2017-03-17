@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Klasy podatkowe]]></value>
+  </definition>
+  <definition>
+    <key>text_class</key>
+    <value><![CDATA[Klasa podatkowa]]></value>
+  </definition>
+  <definition>
+    <key>text_rate</key>
+    <value><![CDATA[Wysokość podatku]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Sukces: Zmieniłeś klas podatkowych!]]></value>
+  </definition>
+  <definition>
+    <key>column_title</key>
+    <value><![CDATA[Tytuł klasa podatkowa]]></value>
+  </definition>
+  <definition>
+    <key>column_action</key>
+    <value><![CDATA[Akcja]]></value>
+  </definition>
+  <definition>
+    <key>tab_details</key>
+    <value><![CDATA[Detale]]></value>
+  </definition>
+  <definition>
+    <key>tab_rates</key>
+    <value><![CDATA[ceny]]></value>
+  </definition>
+  <definition>
+    <key>entry_title</key>
+    <value><![CDATA[Klasa podatkowa Tytuł:]]></value>
+  </definition>
+  <definition>
+    <key>entry_description</key>
+    <value><![CDATA[Opis widoczny dla klientów]]></value>
+  </definition>
+  <definition>
+    <key>entry_location</key>
+    <value><![CDATA[Lokalizacja]]></value>
+  </definition>
+  <definition>
+    <key>entry_zone</key>
+    <value><![CDATA[strefa Lokalizacja]]></value>
+  </definition>
+  <definition>
+    <key>entry_priority</key>
+    <value><![CDATA[Priorytet]]></value>
+  </definition>
+  <definition>
+    <key>entry_rate</key>
+    <value><![CDATA[Wysokość podatku]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Ostrzeżenie: Nie masz uprawnień do modyfikowania klas podatkowych!]]></value>
+  </definition>
+  <definition>
+    <key>error_tax_title</key>
+    <value><![CDATA[Podatek Klasa Tytuł musi zawierać się między 2 a 32 znaków!]]></value>
+  </definition>
+  <definition>
+    <key>error_rate</key>
+    <value><![CDATA[Stawka podatku wymagany!]]></value>
+  </definition>
+  <definition>
+    <key>error_product</key>
+    <value><![CDATA[Ostrzeżenie: Ta klasa podatkowa nie może zostać usunięty, ponieważ jest aktualnie przypisany do %s produktów!]]></value>
+  </definition>
+  <definition>
+    <key>text_tax_all_zones</key>
+    <value><![CDATA[wszystkie strefy lokalizacji]]></value>
+  </definition>
+  <definition>
+    <key>entry_tax_rate_threshold</key>
+    <value><![CDATA[Zastosuj podatku, jeżeli <br/><span class="help">mają zastosowanie tylko wtedy, gdy tego podatku, kwotę opodatkowane (produkt, przesyłki subtotal, etc.) ...</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_tax_exempt_groups</key>
+    <value><![CDATA[Zwolnione z podatku Grupy <br/><span class="help">Wybierz grupy klientów do zwolnienia z tego podatku</span>]]></value>
+  </definition>
+  <definition>
+    <key>text_absolute</key>
+    <value><![CDATA[Absolutny]]></value>
+  </definition>
+  <definition>
+    <key>text_percent</key>
+    <value><![CDATA[Procent]]></value>
+  </definition>
+</definitions>

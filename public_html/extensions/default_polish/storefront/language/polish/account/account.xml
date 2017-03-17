@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Moje konto]]></value>
+  </definition>
+  <definition>
+    <key>text_account_dashboard</key>
+    <value><![CDATA[konto Dashboard]]></value>
+  </definition>
+  <definition>
+    <key>text_account</key>
+    <value><![CDATA[Konto]]></value>
+  </definition>
+  <definition>
+    <key>text_my_account</key>
+    <value><![CDATA[Moje konto]]></value>
+  </definition>
+  <definition>
+    <key>text_my_orders</key>
+    <value><![CDATA[Moje zamówienia]]></value>
+  </definition>
+  <definition>
+    <key>text_my_notifications</key>
+    <value><![CDATA[Powiadomienia]]></value>
+  </definition>
+  <definition>
+    <key>text_information</key>
+    <value><![CDATA[Edycja szczegółów konta]]></value>
+  </definition>
+  <definition>
+    <key>text_password</key>
+    <value><![CDATA[Zmień hasło]]></value>
+  </definition>
+  <definition>
+    <key>text_address</key>
+    <value><![CDATA[Zarządzaj książka adresowa]]></value>
+  </definition>
+  <definition>
+    <key>text_history</key>
+    <value><![CDATA[Historia zamówień]]></value>
+  </definition>
+  <definition>
+    <key>text_transactions</key>
+    <value><![CDATA[Historia transakcji]]></value>
+  </definition>
+  <definition>
+    <key>text_download</key>
+    <value><![CDATA[pliki do pobrania]]></value>
+  </definition>
+  <definition>
+    <key>text_newsletter</key>
+    <value><![CDATA[Subskrypcja newslettera]]></value>
+  </definition>
+  <definition>
+    <key>text_account_wishlist</key>
+    <value><![CDATA[Moja lista życzeń]]></value>
+  </definition>
+</definitions>

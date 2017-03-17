@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>im_text_notification</key>
+    <value><![CDATA[Powiadomienie]]></value>
+  </definition>
+  <definition>
+    <key>im_error_mail_address</key>
+    <value><![CDATA[Adres e-mail %s nie jest ważny!]]></value>
+  </definition>
+  <definition>
+    <key>im_protocol_email_title</key>
+    <value><![CDATA[E-mail]]></value>
+  </definition>
+  <definition>
+    <key>im_protocol_sms_title</key>
+    <value><![CDATA[SMS]]></value>
+  </definition>
+  <definition>
+    <key>im_protocol_sms_empty_warn</key>
+    <value><![CDATA[Powiadomienia SMS nie są możliwe. Numer telefonu nie jest zapisywany w swoich rachunkach.]]></value>
+  </definition>
+  <definition>
+    <key>im_sendpoint_name_order_update</key>
+    <value><![CDATA[Zamówienie Aktualizacja]]></value>
+  </definition>
+  <definition>
+    <key>im_sendpoint_name_order_update_note</key>
+    <value><![CDATA[Wybierz, czy chcesz otrzymywać powiadomienia o aktualizacjach swoich zamówień.]]></value>
+  </definition>
+  <definition>
+    <key>im_order_update_text_to_admin</key>
+    <value><![CDATA[Zamówienie # %s został zaktualizowany! Status zamówienia ID %s]]></value>
+  </definition>
+  <definition>
+    <key>im_order_update_text_to_customer</key>
+    <value><![CDATA[Twoje zamówienie # %s aktualizowana. Nowy status zamówienia wynosi %s]]></value>
+  </definition>
+  <definition>
+    <key>im_new_order_text_to_admin</key>
+    <value><![CDATA[New Order # %s został umieszczony!]]></value>
+  </definition>
+  <definition>
+    <key>im_new_customer_text_to_admin</key>
+    <value><![CDATA[Nowy klient # %s zostało zarejestrowane!]]></value>
+  </definition>
+  <definition>
+    <key>im_new_subscriber_text_to_admin</key>
+    <value><![CDATA[Nowy Abonent # %s zostało zarejestrowane!]]></value>
+  </definition>
+  <definition>
+    <key>im_sendpoint_name_customer_account_update</key>
+    <value><![CDATA[konto Aktualizacja]]></value>
+  </definition>
+  <definition>
+    <key>im_sendpoint_name_customer_account_update_note</key>
+    <value><![CDATA[Wybierz, czy chcesz otrzymywać powiadomienia o aktualizacjach swojego konta.]]></value>
+  </definition>
+  <definition>
+    <key>im_customer_account_update_text_to_customer</key>
+    <value><![CDATA[Twoje konto zostało zaktualizowane! Jeśli tego nie zrobił żadnych zmian, prosimy o kontakt z właścicielem witryny]]></value>
+  </definition>
+  <definition>
+    <key>im_customer_account_update_email_to_customer</key>
+    <value><![CDATA[Konto e-mail została zmieniona na %s! Jeśli nie zrobiłeś tę zmianę, należy skontaktować się z właścicielem witryny]]></value>
+  </definition>
+  <definition>
+    <key>im_customer_account_update_login_to_customer</key>
+    <value><![CDATA[Twoje konto login została zmieniona na %s! Jeśli nie zrobiłeś tę zmianę, należy skontaktować się z właścicielem witryny]]></value>
+  </definition>
+  <definition>
+    <key>im_customer_account_update_password_to_customer</key>
+    <value><![CDATA[Twoje hasło zostało zmienione! Jeśli nie zrobiłeś tę zmianę, należy skontaktować się z właścicielem witryny]]></value>
+  </definition>
+  <definition>
+    <key>im_customer_contact_admin_text</key>
+    <value><![CDATA[Masz nową wiadomość Od klienta (%s, %s)!]]></value>
+  </definition>
+  <definition>
+    <key>im_sendpoint_name_newsletter</key>
+    <value><![CDATA[Biuletyny]]></value>
+  </definition>
+  <definition>
+    <key>im_sendpoint_name_newsletter_note</key>
+    <value><![CDATA[Wybierz, czy chcesz otrzymywać powiadomienia o naszych produktach i aktualizacjach usług.]]></value>
+  </definition>
+  <definition>
+    <key>im_product_review_text_to_admin</key>
+    <value><![CDATA[Nowa ocena produkt został dodany. Zobacz szczegóły # Administrator # rt = Katalog / przegląd / aktualizacja i review_id = %s]]></value>
+  </definition>
+  <definition>
+    <key>im_product_out_of_stock_admin_text</key>
+    <value><![CDATA[Produkt o ID # %s jest niedostepny.]]></value>
+  </definition>
+</definitions>
