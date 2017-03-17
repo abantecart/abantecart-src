@@ -1,0 +1,371 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[리소스 라이브러리]]></value>
+  </definition>
+  <definition>
+    <key>view_title</key>
+    <value><![CDATA[객체보기 자료]]></value>
+  </definition>
+  <definition>
+    <key>confirm_title</key>
+    <value><![CDATA[자원 확인 (들) 삭제]]></value>
+  </definition>
+  <definition>
+    <key>text_confirm_delete</key>
+    <value><![CDATA[일부 자원은 텍스트에 포함 될 수 있습니다. 우리는이 작업을 자동으로 확인할 수 없습니다. 지우다?]]></value>
+  </definition>
+  <definition>
+    <key>text_cant_delete_title</key>
+    <value><![CDATA[자원 (들) 삭제]]></value>
+  </definition>
+  <definition>
+    <key>text_cant_delete</key>
+    <value><![CDATA[하나 이상의 리소스가 객체에 링크되어 있기 때문에 자원을 삭제 질수]]></value>
+  </definition>
+  <definition>
+    <key>text_edit_resource</key>
+    <value><![CDATA[편집 자원]]></value>
+  </definition>
+  <definition>
+    <key>text_resource_details</key>
+    <value><![CDATA[자원 세부 사항]]></value>
+  </definition>
+  <definition>
+    <key>text_mapped_to</key>
+    <value><![CDATA[연결]]></value>
+  </definition>
+  <definition>
+    <key>text_products</key>
+    <value><![CDATA[제작품]]></value>
+  </definition>
+  <definition>
+    <key>text_add_file</key>
+    <value><![CDATA[리소스 파일 추가]]></value>
+  </definition>
+  <definition>
+    <key>text_add_code</key>
+    <value><![CDATA[자원 HTML 추가]]></value>
+  </definition>
+  <definition>
+    <key>text_add_files</key>
+    <value><![CDATA[파일 추가...]]></value>
+  </definition>
+  <definition>
+    <key>text_upload_files</key>
+    <value><![CDATA[파일 업로드하다]]></value>
+  </definition>
+  <definition>
+    <key>text_drag</key>
+    <value><![CDATA[또는 업로드를 시작하기 위해 여기를 드래그]]></value>
+  </definition>
+  <definition>
+    <key>text_start_upload</key>
+    <value><![CDATA[업로드를 시작합니다]]></value>
+  </definition>
+  <definition>
+    <key>text_cancel_upload</key>
+    <value><![CDATA[업로드 취소]]></value>
+  </definition>
+  <definition>
+    <key>text_start</key>
+    <value><![CDATA[스타트]]></value>
+  </definition>
+  <definition>
+    <key>text_cancel</key>
+    <value><![CDATA[취소]]></value>
+  </definition>
+  <definition>
+    <key>text_save_sort_order</key>
+    <value><![CDATA[주문 정렬 저장]]></value>
+  </definition>
+  <definition>
+    <key>text_error</key>
+    <value><![CDATA[오류]]></value>
+  </definition>
+  <definition>
+    <key>text_delete_files</key>
+    <value><![CDATA[파일을 삭제]]></value>
+  </definition>
+  <definition>
+    <key>text_search</key>
+    <value><![CDATA[수색]]></value>
+  </definition>
+  <definition>
+    <key>text_type</key>
+    <value><![CDATA[유형]]></value>
+  </definition>
+  <definition>
+    <key>text_language</key>
+    <value><![CDATA[언어]]></value>
+  </definition>
+  <definition>
+    <key>text_resource_code</key>
+    <value><![CDATA[자원 HTML]]></value>
+  </definition>
+  <definition>
+    <key>text_name</key>
+    <value><![CDATA[이름]]></value>
+  </definition>
+  <definition>
+    <key>text_title</key>
+    <value><![CDATA[표제]]></value>
+  </definition>
+  <definition>
+    <key>text_description</key>
+    <value><![CDATA[기술]]></value>
+  </definition>
+  <definition>
+    <key>text_uploaded</key>
+    <value><![CDATA[성공 : 자원이 업로드되었습니다!]]></value>
+  </definition>
+  <definition>
+    <key>text_add</key>
+    <value><![CDATA[더하다]]></value>
+  </definition>
+  <definition>
+    <key>text_edit</key>
+    <value><![CDATA[편집하다]]></value>
+  </definition>
+  <definition>
+    <key>text_map</key>
+    <value><![CDATA[개체 링크]]></value>
+  </definition>
+  <definition>
+    <key>text_map_to</key>
+    <value><![CDATA[%s 링크]]></value>
+  </definition>
+  <definition>
+    <key>text_unmap</key>
+    <value><![CDATA[Object에서 연결 해제]]></value>
+  </definition>
+  <definition>
+    <key>text_unmap_from</key>
+    <value><![CDATA[%s에서 연결 해제]]></value>
+  </definition>
+  <definition>
+    <key>text_success_unmap</key>
+    <value><![CDATA[성공 : 자원 연결이 해제되었습니다.]]></value>
+  </definition>
+  <definition>
+    <key>text_file_delete</key>
+    <value><![CDATA[자원이 삭제되었습니다!]]></value>
+  </definition>
+  <definition>
+    <key>text_delete</key>
+    <value><![CDATA[성공 : 당신의 자원이 삭제되었습니다!]]></value>
+  </definition>
+  <definition>
+    <key>error_file_type</key>
+    <value><![CDATA[경고 : 잘못된 파일 형식!]]></value>
+  </definition>
+  <definition>
+    <key>error_file_size</key>
+    <value><![CDATA[경고 : 큰에 파일 3백킬로바이트 아래에 보관하십시오 및 이하 1000px 높이 또는 너비!]]></value>
+  </definition>
+  <definition>
+    <key>error_maxFileSize</key>
+    <value><![CDATA[파일이 너무 큽니다]]></value>
+  </definition>
+  <definition>
+    <key>error_minFileSize</key>
+    <value><![CDATA[파일이 너무 작습니다]]></value>
+  </definition>
+  <definition>
+    <key>error_acceptFileTypes</key>
+    <value><![CDATA[파일 형식 수 없습니다]]></value>
+  </definition>
+  <definition>
+    <key>error_maxNumberOfFiles</key>
+    <value><![CDATA[파일의 최대 수를 초과]]></value>
+  </definition>
+  <definition>
+    <key>error_uploadedBytes</key>
+    <value><![CDATA[업로드 바이트 파일 크기를 초과]]></value>
+  </definition>
+  <definition>
+    <key>error_emptyResult</key>
+    <value><![CDATA[빈 파일 업로드 결과. 아마도 파일이 손상되거나 너무 큰. 16메가바이트 제한 파일 크기. 파일 크기가 제한보다 작 으면이 upload_max_filesize &amp; post_max_size을위한 PHP 설정을 확인하시기 바랍니다]]></value>
+  </definition>
+  <definition>
+    <key>error_1</key>
+    <value><![CDATA[파일이 upload_max_filesize (php.ini의 지시)를 초과]]></value>
+  </definition>
+  <definition>
+    <key>error_2</key>
+    <value><![CDATA[파일 MAX_FILE_SIZE (HTML 양식 지시어)를 초과]]></value>
+  </definition>
+  <definition>
+    <key>error_3</key>
+    <value><![CDATA[파일은 부분적으로 만 업로드되었습니다]]></value>
+  </definition>
+  <definition>
+    <key>error_4</key>
+    <value><![CDATA[어떤 파일이 업로드되지 않았습니다]]></value>
+  </definition>
+  <definition>
+    <key>error_5</key>
+    <value><![CDATA[임시 폴더를 누락]]></value>
+  </definition>
+  <definition>
+    <key>error_6</key>
+    <value><![CDATA[디스크에 파일을 작성하는 데 실패했습니다]]></value>
+  </definition>
+  <definition>
+    <key>error_7</key>
+    <value><![CDATA[파일 업로드는 확장에 의해 정지]]></value>
+  </definition>
+  <definition>
+    <key>error_uploaded</key>
+    <value><![CDATA[경고 : 파일은 알 수없는 이유로 업로드 할 수 없습니다!]]></value>
+  </definition>
+  <definition>
+    <key>error_no_type</key>
+    <value><![CDATA[자원 유형을 선택하세요]]></value>
+  </definition>
+  <definition>
+    <key>error_required_data</key>
+    <value><![CDATA[필요한 데이터가 입력되지 않았습니다]]></value>
+  </definition>
+  <definition>
+    <key>error_not_added</key>
+    <value><![CDATA[리소스가 없습니다. 더 많은 정보를 원하시면 오류 로그를 확인하십시오]]></value>
+  </definition>
+  <definition>
+    <key>error_ajax</key>
+    <value><![CDATA[로드 데이터 오류가 발생했습니다. 더 많은 정보를 원하시면 오류 로그를 확인하십시오]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[경고 : 권한 거부!]]></value>
+  </definition>
+  <definition>
+    <key>error_name</key>
+    <value><![CDATA[오류 : 이름 필드가 필요합니다!]]></value>
+  </definition>
+  <definition>
+    <key>button_delete</key>
+    <value><![CDATA[지우다]]></value>
+  </definition>
+  <definition>
+    <key>button_add</key>
+    <value><![CDATA[자원 추가]]></value>
+  </definition>
+  <definition>
+    <key>button_done</key>
+    <value><![CDATA[끝난]]></value>
+  </definition>
+  <definition>
+    <key>button_select</key>
+    <value><![CDATA[리소스 선택]]></value>
+  </definition>
+  <definition>
+    <key>text_with_selected</key>
+    <value><![CDATA[로 선택 :]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[자원이 성공적으로 업데이트]]></value>
+  </definition>
+  <definition>
+    <key>text_map_success</key>
+    <value><![CDATA[자원이 성공적으로 연결]]></value>
+  </definition>
+  <definition>
+    <key>text_no_resources</key>
+    <value><![CDATA[사용 가능한 자원 없음]]></value>
+  </definition>
+  <definition>
+    <key>text_preview</key>
+    <value><![CDATA[미리보기 / 다운로드]]></value>
+  </definition>
+  <definition>
+    <key>error_file size</key>
+    <value><![CDATA[주의 : 업로드 파일의 최대 크기는 %s이다. 당신은 php.ini 파일에서이 값을 증가시킬 수있다.]]></value>
+  </definition>
+  <definition>
+    <key>text_product_option_value</key>
+    <value><![CDATA[제품 옵션 값]]></value>
+  </definition>
+  <definition>
+    <key>text_categories</key>
+    <value><![CDATA[카테고리]]></value>
+  </definition>
+  <definition>
+    <key>text_manufacturers</key>
+    <value><![CDATA[제조사]]></value>
+  </definition>
+  <definition>
+    <key>error_delete</key>
+    <value><![CDATA[자원은 여러 개체에 연결된 삭제할 수 없습니다]]></value>
+  </definition>
+  <definition>
+    <key>error_unmap</key>
+    <value><![CDATA[자원을 해제 할 수 없습니다. 오브젝트가 설정되지 않았습니다.]]></value>
+  </definition>
+  <definition>
+    <key>text_replace_file</key>
+    <value><![CDATA[파일 바꾸기]]></value>
+  </definition>
+  <definition>
+    <key>error_not_replaced</key>
+    <value><![CDATA[파일 교체 오류가 발생했습니다. ID 필요합니다!]]></value>
+  </definition>
+  <definition>
+    <key>error_not_exists</key>
+    <value><![CDATA[파일 교체 오류가 발생했습니다. 자원이 존재하지 않습니다!]]></value>
+  </definition>
+  <definition>
+    <key>error_cannot_move</key>
+    <value><![CDATA[오류 : 자원 디렉토리에 %s 파일을 이동할 수 없습니다.]]></value>
+  </definition>
+  <definition>
+    <key>button_save_n_apply</key>
+    <value><![CDATA[저장하고 적용]]></value>
+  </definition>
+  <definition>
+    <key>text_image_size</key>
+    <value><![CDATA[이미지 크기:]]></value>
+  </definition>
+  <definition>
+    <key>text_file_size</key>
+    <value><![CDATA[파일 크기 :]]></value>
+  </definition>
+  <definition>
+    <key>text_file_mime</key>
+    <value><![CDATA[몸짓 광대극:]]></value>
+  </definition>
+  <definition>
+    <key>text_file_path</key>
+    <value><![CDATA[파일 위치 :]]></value>
+  </definition>
+  <definition>
+    <key>text_file_url</key>
+    <value><![CDATA[자원 URL :]]></value>
+  </definition>
+  <definition>
+    <key>text_sorting_date_asc</key>
+    <value><![CDATA[이전 날짜 &gt; 새로운]]></value>
+  </definition>
+  <definition>
+    <key>text_sorting_date_desc</key>
+    <value><![CDATA[새 날짜 &gt; 늙은]]></value>
+  </definition>
+  <definition>
+    <key>text_sorting_name_asc</key>
+    <value><![CDATA[Z - 이름]]></value>
+  </definition>
+  <definition>
+    <key>text_sorting_name_desc</key>
+    <value><![CDATA[이름 Z -]]></value>
+  </definition>
+  <definition>
+    <key>text_sorting_asc</key>
+    <value><![CDATA[정렬 순서 낮은 &gt; 높은]]></value>
+  </definition>
+  <definition>
+    <key>text_sorting_desc</key>
+    <value><![CDATA[정렬 순서 고 &gt; 낮은]]></value>
+  </definition>
+</definitions>

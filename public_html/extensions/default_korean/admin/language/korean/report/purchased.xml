@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[제품 보고서 구매]]></value>
+  </definition>
+  <definition>
+    <key>column_name</key>
+    <value><![CDATA[상품명]]></value>
+  </definition>
+  <definition>
+    <key>column_model</key>
+    <value><![CDATA[모델]]></value>
+  </definition>
+  <definition>
+    <key>column_quantity</key>
+    <value><![CDATA[수량]]></value>
+  </definition>
+  <definition>
+    <key>column_total</key>
+    <value><![CDATA[합계]]></value>
+  </definition>
+</definitions>

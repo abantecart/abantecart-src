@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[유지]]></value>
+  </definition>
+  <definition>
+    <key>text_maintenance</key>
+    <value><![CDATA[유지]]></value>
+  </definition>
+  <definition>
+    <key>text_message</key>
+    <value><![CDATA[<h1 style="text-align:center;"> 우리는 현재 일부 예약 된 유지 관리를 수행하고 있습니다. <br/> 우리는 가능한 한 빨리 돌아올 것이다. 곧 다시 확인하시기 바랍니다. </h1>]]></value>
+  </definition>
+</definitions>

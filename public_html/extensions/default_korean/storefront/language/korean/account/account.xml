@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[내 계정]]></value>
+  </definition>
+  <definition>
+    <key>text_account_dashboard</key>
+    <value><![CDATA[계정 대시 보드]]></value>
+  </definition>
+  <definition>
+    <key>text_account</key>
+    <value><![CDATA[계정]]></value>
+  </definition>
+  <definition>
+    <key>text_my_account</key>
+    <value><![CDATA[내 계정]]></value>
+  </definition>
+  <definition>
+    <key>text_my_orders</key>
+    <value><![CDATA[내 주문]]></value>
+  </definition>
+  <definition>
+    <key>text_my_notifications</key>
+    <value><![CDATA[알림]]></value>
+  </definition>
+  <definition>
+    <key>text_information</key>
+    <value><![CDATA[편집 계좌 정보]]></value>
+  </definition>
+  <definition>
+    <key>text_password</key>
+    <value><![CDATA[비밀번호 변경]]></value>
+  </definition>
+  <definition>
+    <key>text_address</key>
+    <value><![CDATA[주소록 관리]]></value>
+  </definition>
+  <definition>
+    <key>text_history</key>
+    <value><![CDATA[주문 내역]]></value>
+  </definition>
+  <definition>
+    <key>text_transactions</key>
+    <value><![CDATA[거래 내역]]></value>
+  </definition>
+  <definition>
+    <key>text_download</key>
+    <value><![CDATA[다운로드]]></value>
+  </definition>
+  <definition>
+    <key>text_newsletter</key>
+    <value><![CDATA[신문 구독]]></value>
+  </definition>
+  <definition>
+    <key>text_account_wishlist</key>
+    <value><![CDATA[내 위시리스트]]></value>
+  </definition>
+</definitions>

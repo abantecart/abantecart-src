@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>text_subject</key>
+    <value><![CDATA[%s - 주문 업데이트 %s]]></value>
+  </definition>
+  <definition>
+    <key>text_order</key>
+    <value><![CDATA[주문 아이디:]]></value>
+  </definition>
+  <definition>
+    <key>text_date_added</key>
+    <value><![CDATA[날짜 정렬 :]]></value>
+  </definition>
+  <definition>
+    <key>text_order_status</key>
+    <value><![CDATA[당신의 순서는 다음과 같은 상태로 업데이트되었습니다 :]]></value>
+  </definition>
+  <definition>
+    <key>text_comment</key>
+    <value><![CDATA[주문에 대한 의견은 다음과 같습니다 :]]></value>
+  </definition>
+  <definition>
+    <key>text_invoice</key>
+    <value><![CDATA[아래의 링크를 주문 클릭을 보려면 :]]></value>
+  </definition>
+  <definition>
+    <key>text_footer</key>
+    <value><![CDATA[당신은 질문이있는 경우이 이메일에 회신 해 주시기 바랍니다.]]></value>
+  </definition>
+</definitions>

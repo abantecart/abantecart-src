@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[로그인 오류!]]></value>
+  </definition>
+  <definition>
+    <key>text_login</key>
+    <value><![CDATA[당신은 로그인하지 않았습니다. 당신은 로그인 페이지로 리디렉션됩니다]]></value>
+  </definition>
+</definitions>

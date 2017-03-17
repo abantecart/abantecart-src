@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>text_subject</key>
+    <value><![CDATA[%s - 계정이 활성화되었습니다!]]></value>
+  </definition>
+  <definition>
+    <key>text_welcome</key>
+    <value><![CDATA[오신 것을 환영 %s에 등록 해 주셔서 감사합니다!]]></value>
+  </definition>
+  <definition>
+    <key>text_login</key>
+    <value><![CDATA[계정이 현재 생성 된 당신은 우리의 웹 사이트를 방문하거나 다음 URL에서 이메일 주소와 비밀번호를 사용하여 로그인 할 수 있습니다 :]]></value>
+  </definition>
+  <definition>
+    <key>text_services</key>
+    <value><![CDATA[당신이 로그인하면, 위시리스트, 주문 내역, 인쇄 송장 및 계정 정보를 편집 액세스 할 수 있습니다.]]></value>
+  </definition>
+  <definition>
+    <key>text_thanks</key>
+    <value><![CDATA[고맙습니다,]]></value>
+  </definition>
+</definitions>

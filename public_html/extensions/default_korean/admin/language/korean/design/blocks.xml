@@ -1,0 +1,255 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[블록]]></value>
+  </definition>
+  <definition>
+    <key>text_delete</key>
+    <value><![CDATA[블록을 삭제]]></value>
+  </definition>
+  <definition>
+    <key>text_edit</key>
+    <value><![CDATA[편집 블록]]></value>
+  </definition>
+  <definition>
+    <key>text_enable</key>
+    <value><![CDATA[켜기 끄기]]></value>
+  </definition>
+  <definition>
+    <key>text_details</key>
+    <value><![CDATA[세부]]></value>
+  </definition>
+  <definition>
+    <key>text_create</key>
+    <value><![CDATA[블록 만들기]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[성공 : 당신이 블록을 수정 한!]]></value>
+  </definition>
+  <definition>
+    <key>column_block_id</key>
+    <value><![CDATA[신분증]]></value>
+  </definition>
+  <definition>
+    <key>column_block_txt_id</key>
+    <value><![CDATA[고유 한 텍스트 ID]]></value>
+  </definition>
+  <definition>
+    <key>column_block_name</key>
+    <value><![CDATA[이름]]></value>
+  </definition>
+  <definition>
+    <key>column_date_added</key>
+    <value><![CDATA[날짜 추가]]></value>
+  </definition>
+  <definition>
+    <key>column_block_type</key>
+    <value><![CDATA[유형]]></value>
+  </definition>
+  <definition>
+    <key>column_action</key>
+    <value><![CDATA[동작]]></value>
+  </definition>
+  <definition>
+    <key>column_sort_order</key>
+    <value><![CDATA[정렬 순서]]></value>
+  </definition>
+  <definition>
+    <key>column_image</key>
+    <value><![CDATA[영상]]></value>
+  </definition>
+  <definition>
+    <key>entry_block_status</key>
+    <value><![CDATA[지위]]></value>
+  </definition>
+  <definition>
+    <key>entry_block_status_note</key>
+    <value><![CDATA[참고 :이 블록을 추가 할 필요가 <a style="text-decoration: underline; font-weight: bold;" href="#admin#rt=design/layout">레이아웃</a> 작업을 볼 수 원하는 페이지에]]></value>
+  </definition>
+  <definition>
+    <key>entry_block_type</key>
+    <value><![CDATA[사용자 정의 블록 유형]]></value>
+  </definition>
+  <definition>
+    <key>entry_block_name</key>
+    <value><![CDATA[사용자 정의 블록 이름]]></value>
+  </definition>
+  <definition>
+    <key>entry_block_wrapper</key>
+    <value><![CDATA[사용 블록 래퍼 (외관)]]></value>
+  </definition>
+  <definition>
+    <key>entry_block_framed</key>
+    <value><![CDATA[사용 블록의 프레임]]></value>
+  </definition>
+  <definition>
+    <key>entry_block_title</key>
+    <value><![CDATA[사용자 정의 블록 제목]]></value>
+  </definition>
+  <definition>
+    <key>entry_block_description</key>
+    <value><![CDATA[사용자 정의 블록 설명 <p> 참고 : 내부에서만 사용 </p>]]></value>
+  </definition>
+  <definition>
+    <key>entry_block_content</key>
+    <value><![CDATA[사용자 지정 콘텐츠 차단]]></value>
+  </definition>
+  <definition>
+    <key>entry_listing_datasource</key>
+    <value><![CDATA[목록 데이터 소스]]></value>
+  </definition>
+  <definition>
+    <key>text_delete_confirm</key>
+    <value><![CDATA[블록을 삭제 확인?]]></value>
+  </definition>
+  <definition>
+    <key>error_empty</key>
+    <value><![CDATA[모든 필수 필드를 입력하세요!]]></value>
+  </definition>
+  <definition>
+    <key>error_delete</key>
+    <value><![CDATA[이 블록을 사용하기 때문에 삭제할 수 없습니다. 레이아웃 섹션을 참조하십시오.]]></value>
+  </definition>
+  <definition>
+    <key>error_text_status</key>
+    <value><![CDATA[이 블록은 사용되지 않기 때문에 상태를 변경할 수 없다. 레이아웃 섹션을 참조하십시오.]]></value>
+  </definition>
+  <definition>
+    <key>text_success_deleted</key>
+    <value><![CDATA[성공 : 당신이 삭제 한 사용자 정의 블록!]]></value>
+  </definition>
+  <definition>
+    <key>entry_data_source</key>
+    <value><![CDATA[자료 :]]></value>
+  </definition>
+  <definition>
+    <key>entry_limit</key>
+    <value><![CDATA[한도:]]></value>
+  </definition>
+  <definition>
+    <key>text_listing_auto</key>
+    <value><![CDATA[자동 목록]]></value>
+  </definition>
+  <definition>
+    <key>text_listing_manual</key>
+    <value><![CDATA[사용자 지정 목록]]></value>
+  </definition>
+  <definition>
+    <key>text_select_listing</key>
+    <value><![CDATA[소스 목록 --- 선택 데이터 ---]]></value>
+  </definition>
+  <definition>
+    <key>text_products_special</key>
+    <value><![CDATA[특별 제공]]></value>
+  </definition>
+  <definition>
+    <key>text_products_popular</key>
+    <value><![CDATA[인기 제품]]></value>
+  </definition>
+  <definition>
+    <key>text_categories</key>
+    <value><![CDATA[카테고리]]></value>
+  </definition>
+  <definition>
+    <key>text_manufacturers</key>
+    <value><![CDATA[제조사]]></value>
+  </definition>
+  <definition>
+    <key>text_featured</key>
+    <value><![CDATA[주요 제품]]></value>
+  </definition>
+  <definition>
+    <key>text_latest</key>
+    <value><![CDATA[최신 제품]]></value>
+  </definition>
+  <definition>
+    <key>text_bestsellers</key>
+    <value><![CDATA[베스트 셀러 제품]]></value>
+  </definition>
+  <definition>
+    <key>text_media</key>
+    <value><![CDATA[미디어]]></value>
+  </definition>
+  <definition>
+    <key>entry_resource_type</key>
+    <value><![CDATA[미디어 유형 :]]></value>
+  </definition>
+  <definition>
+    <key>text_custom_products</key>
+    <value><![CDATA[사용자 정의 제품]]></value>
+  </definition>
+  <definition>
+    <key>text_custom_categories</key>
+    <value><![CDATA[사용자 정의 카테고리]]></value>
+  </definition>
+  <definition>
+    <key>text_custom_manufacturers</key>
+    <value><![CDATA[사용자 정의 제조 업체]]></value>
+  </definition>
+  <definition>
+    <key>text_html_block</key>
+    <value><![CDATA[HTML]]></value>
+  </definition>
+  <definition>
+    <key>text_listing_block</key>
+    <value><![CDATA[데이터 목록]]></value>
+  </definition>
+  <definition>
+    <key>text_selected</key>
+    <value><![CDATA[선택 항목 :]]></value>
+  </definition>
+  <definition>
+    <key>text_data_listed</key>
+    <value><![CDATA[데이터를 나열하는]]></value>
+  </definition>
+  <definition>
+    <key>text_save_edit</key>
+    <value><![CDATA[추가 / 편집]]></value>
+  </definition>
+  <definition>
+    <key>text_apply</key>
+    <value><![CDATA[선택 적용]]></value>
+  </definition>
+  <definition>
+    <key>text_block_id</key>
+    <value><![CDATA[블록 ID]]></value>
+  </definition>
+  <definition>
+    <key>text_block_txt_id</key>
+    <value><![CDATA[블록 텍스트 ID]]></value>
+  </definition>
+  <definition>
+    <key>text_controller</key>
+    <value><![CDATA[제어 장치]]></value>
+  </definition>
+  <definition>
+    <key>text_templates</key>
+    <value><![CDATA[블록 템플릿]]></value>
+  </definition>
+  <definition>
+    <key>text_block_date_added</key>
+    <value><![CDATA[블록 생성 일]]></value>
+  </definition>
+  <definition>
+    <key>text_layouts</key>
+    <value><![CDATA[레이아웃에 사용]]></value>
+  </definition>
+  <definition>
+    <key>text_block_info</key>
+    <value><![CDATA[사용자 정의 블록에 대한 정보]]></value>
+  </definition>
+  <definition>
+    <key>text_add_block</key>
+    <value><![CDATA[섹션에 블록을 추가]]></value>
+  </definition>
+  <definition>
+    <key>text_available_block</key>
+    <value><![CDATA[사용 가능한 블록]]></value>
+  </definition>
+  <definition>
+    <key>error_block_not_available</key>
+    <value><![CDATA[이 블록은 점포에서 선택한 위치에 표시되지 않습니다!]]></value>
+  </definition>
+</definitions>

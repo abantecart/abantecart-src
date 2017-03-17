@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[체크 아웃 주소]]></value>
+  </definition>
+  <definition>
+    <key>text_basket</key>
+    <value><![CDATA[바구니]]></value>
+  </definition>
+  <definition>
+    <key>text_shipping</key>
+    <value><![CDATA[배송]]></value>
+  </definition>
+  <definition>
+    <key>text_payment</key>
+    <value><![CDATA[지불]]></value>
+  </definition>
+  <definition>
+    <key>text_address</key>
+    <value><![CDATA[주소]]></value>
+  </definition>
+  <definition>
+    <key>text_new_address</key>
+    <value><![CDATA[새 주소]]></value>
+  </definition>
+  <definition>
+    <key>text_entries</key>
+    <value><![CDATA[도서 항목 주소]]></value>
+  </definition>
+  <definition>
+    <key>entry_firstname</key>
+    <value><![CDATA[이름:]]></value>
+  </definition>
+  <definition>
+    <key>entry_lastname</key>
+    <value><![CDATA[성:]]></value>
+  </definition>
+  <definition>
+    <key>entry_company</key>
+    <value><![CDATA[회사:]]></value>
+  </definition>
+  <definition>
+    <key>entry_address_1</key>
+    <value><![CDATA[주소 1:]]></value>
+  </definition>
+  <definition>
+    <key>entry_address_2</key>
+    <value><![CDATA[주소 2:]]></value>
+  </definition>
+  <definition>
+    <key>entry_postcode</key>
+    <value><![CDATA[ZIP / 우편 번호 :]]></value>
+  </definition>
+  <definition>
+    <key>entry_city</key>
+    <value><![CDATA[시티:]]></value>
+  </definition>
+  <definition>
+    <key>entry_zone</key>
+    <value><![CDATA[지역 / 국가 :]]></value>
+  </definition>
+  <definition>
+    <key>entry_country</key>
+    <value><![CDATA[국가:]]></value>
+  </definition>
+  <definition>
+    <key>entry_telephone</key>
+    <value><![CDATA[전화:]]></value>
+  </definition>
+  <definition>
+    <key>entry_fax</key>
+    <value><![CDATA[팩스:]]></value>
+  </definition>
+  <definition>
+    <key>error_firstname</key>
+    <value><![CDATA[이름은 1과 32 자 사이 여야합니다!]]></value>
+  </definition>
+  <definition>
+    <key>error_lastname</key>
+    <value><![CDATA[성 1과 32 자 사이 여야합니다!]]></value>
+  </definition>
+  <definition>
+    <key>error_address_1</key>
+    <value><![CDATA[주소 1은 3과 64 자 사이 여야합니다!]]></value>
+  </definition>
+  <definition>
+    <key>error_city</key>
+    <value><![CDATA[시는 3과 32 자 사이 여야합니다!]]></value>
+  </definition>
+  <definition>
+    <key>error_postcode</key>
+    <value><![CDATA[우편 번호 / 우편 번호는 3, 10 자 사이 여야합니다!]]></value>
+  </definition>
+  <definition>
+    <key>error_country</key>
+    <value><![CDATA[국가를 선택하세요!]]></value>
+  </definition>
+  <definition>
+    <key>error_zone</key>
+    <value><![CDATA[지역 / 국가를 선택하세요!]]></value>
+  </definition>
+</definitions>

@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[주문되는 상태]]></value>
+  </definition>
+  <definition>
+    <key>text_status</key>
+    <value><![CDATA[주문 상태]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[성공 : 당신은 주문 상태를 수정했습니다!]]></value>
+  </definition>
+  <definition>
+    <key>column_name</key>
+    <value><![CDATA[주문 상태 이름]]></value>
+  </definition>
+  <definition>
+    <key>column_text_id</key>
+    <value><![CDATA[주문 상태 텍스트 ID]]></value>
+  </definition>
+  <definition>
+    <key>entry_text_id</key>
+    <value><![CDATA[주문 상태 텍스트 ID :]]></value>
+  </definition>
+  <definition>
+    <key>column_action</key>
+    <value><![CDATA[동작]]></value>
+  </definition>
+  <definition>
+    <key>entry_name</key>
+    <value><![CDATA[주문 상태 이름 :]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[경고 : 주문 동상을 수정할 수있는 권한이 없습니다!]]></value>
+  </definition>
+  <definition>
+    <key>error_name</key>
+    <value><![CDATA[주문 상태 이름이 32 자 사이 여야합니다!]]></value>
+  </definition>
+  <definition>
+    <key>error_default</key>
+    <value><![CDATA[경고 : 현재 기본 저장 주문 상태로 할당 될 때이 주문 상태를 삭제할 수 없습니다!]]></value>
+  </definition>
+  <definition>
+    <key>error_download</key>
+    <value><![CDATA[경고 : 현재 기본 다운로드 상태로 할당 될 때이 주문 상태를 삭제할 수 없습니다!]]></value>
+  </definition>
+  <definition>
+    <key>error_store</key>
+    <value><![CDATA[경고 : 현재 %s 매장에 할당으로이 주문 상태를 삭제할 수 없습니다!]]></value>
+  </definition>
+  <definition>
+    <key>error_order</key>
+    <value><![CDATA[경고 : 현재 %s 주문에 할당으로이 주문 상태를 삭제할 수 없습니다!]]></value>
+  </definition>
+  <definition>
+    <key>error_nondeletable</key>
+    <value><![CDATA[경고 :이 지불에 연결된 중요한 주문 상태입니다. 이 상태를 삭제할 수 없습니다.]]></value>
+  </definition>
+  <definition>
+    <key>error_status_text_id</key>
+    <value><![CDATA[주문 상태 텍스트 ID는 고유하고 2, 32 자 사이 여야합니다!]]></value>
+  </definition>
+</definitions>

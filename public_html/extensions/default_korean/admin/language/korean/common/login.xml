@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[관리]]></value>
+  </definition>
+  <definition>
+    <key>text_heading</key>
+    <value><![CDATA[관리]]></value>
+  </definition>
+  <definition>
+    <key>text_login</key>
+    <value><![CDATA[로그인 정보를 입력 해주세요.]]></value>
+  </definition>
+  <definition>
+    <key>entry_username</key>
+    <value><![CDATA[사용자 이름:]]></value>
+  </definition>
+  <definition>
+    <key>entry_password</key>
+    <value><![CDATA[암호:]]></value>
+  </definition>
+  <definition>
+    <key>entry_forgot_password</key>
+    <value><![CDATA[비밀번호를 잊으 셨나요?]]></value>
+  </definition>
+  <definition>
+    <key>button_login</key>
+    <value><![CDATA[로그인]]></value>
+  </definition>
+  <definition>
+    <key>error_login</key>
+    <value><![CDATA[사용자 이름 및 / 또는 암호에 대한 일치하지 않습니다.]]></value>
+  </definition>
+  <definition>
+    <key>error_token</key>
+    <value><![CDATA[잘못된 토큰 세션. 다시 로그인 해주세요.]]></value>
+  </definition>
+  <definition>
+    <key>error_login_message</key>
+    <value><![CDATA[IP에서 관리 시도에 실패 로그인 :]]></value>
+  </definition>
+  <definition>
+    <key>error_login_message_text</key>
+    <value><![CDATA[주어진 사용자 로그인 :]]></value>
+  </definition>
+</definitions>

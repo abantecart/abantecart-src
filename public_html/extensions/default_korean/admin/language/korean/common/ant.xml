@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>notification</key>
+    <value><![CDATA[주의!]]></value>
+  </definition>
+  <definition>
+    <key>warning</key>
+    <value><![CDATA[경고!]]></value>
+  </definition>
+</definitions>

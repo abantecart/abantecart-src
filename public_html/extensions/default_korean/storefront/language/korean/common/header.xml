@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>text_home</key>
+    <value><![CDATA[집]]></value>
+  </definition>
+  <definition>
+    <key>text_special</key>
+    <value><![CDATA[특별 제공]]></value>
+  </definition>
+  <definition>
+    <key>text_contact</key>
+    <value><![CDATA[접촉]]></value>
+  </definition>
+  <definition>
+    <key>text_sitemap</key>
+    <value><![CDATA[사이트 맵]]></value>
+  </definition>
+  <definition>
+    <key>text_bookmark</key>
+    <value><![CDATA[서표]]></value>
+  </definition>
+  <definition>
+    <key>text_account</key>
+    <value><![CDATA[계정]]></value>
+  </definition>
+  <definition>
+    <key>text_login</key>
+    <value><![CDATA[로그인]]></value>
+  </definition>
+  <definition>
+    <key>text_logout</key>
+    <value><![CDATA[로그 오프]]></value>
+  </definition>
+  <definition>
+    <key>text_cart</key>
+    <value><![CDATA[바구니]]></value>
+  </definition>
+  <definition>
+    <key>text_checkout</key>
+    <value><![CDATA[점검]]></value>
+  </definition>
+  <definition>
+    <key>text_keyword</key>
+    <value><![CDATA[키워드]]></value>
+  </definition>
+  <definition>
+    <key>text_advanced</key>
+    <value><![CDATA[고급 검색]]></value>
+  </definition>
+  <definition>
+    <key>text_category</key>
+    <value><![CDATA[모든 카테고리]]></value>
+  </definition>
+  <definition>
+    <key>entry_search</key>
+    <value><![CDATA[수색:]]></value>
+  </definition>
+  <definition>
+    <key>text_welcome</key>
+    <value><![CDATA[다시 오신 것을 환영합니다]]></value>
+  </definition>
+  <definition>
+    <key>text_not</key>
+    <value><![CDATA[아니]]></value>
+  </definition>
+  <definition>
+    <key>text_login_or_register</key>
+    <value><![CDATA[로그인 또는 등록]]></value>
+  </definition>
+</definitions>

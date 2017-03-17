@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[계정 로그 아웃]]></value>
+  </definition>
+  <definition>
+    <key>text_message</key>
+    <value><![CDATA[<p> 당신은 당신의 계정에서 로그 오프하고있다. 컴퓨터를 떠나 지금은 안전합니다. </p><p> 쇼핑 카트가 계정에 다시 로그인 할 때마다 그 안에 항목이 복원됩니다, 저장되었습니다. </p>]]></value>
+  </definition>
+  <definition>
+    <key>text_account</key>
+    <value><![CDATA[계정]]></value>
+  </definition>
+  <definition>
+    <key>text_logout</key>
+    <value><![CDATA[로그 아웃]]></value>
+  </definition>
+</definitions>

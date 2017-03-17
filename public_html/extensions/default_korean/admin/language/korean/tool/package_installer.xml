@@ -1,0 +1,252 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[성공 : 패키지가 성공적으로 설치되었습니다.]]></value>
+  </definition>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[패키지 설치]]></value>
+  </definition>
+  <definition>
+    <key>heading_title_license</key>
+    <value><![CDATA[패키지 라이센스 계약]]></value>
+  </definition>
+  <definition>
+    <key>heading_title_ftp</key>
+    <value><![CDATA[FTP 액세스 파라미터]]></value>
+  </definition>
+  <definition>
+    <key>heading_title_download</key>
+    <value><![CDATA[패키지로드]]></value>
+  </definition>
+  <definition>
+    <key>text_preloading</key>
+    <value><![CDATA[패키지 파일 % 파일 %가 다운로드됩니다.]]></value>
+  </definition>
+  <definition>
+    <key>text_loading</key>
+    <value><![CDATA[파일을 다운로드. 크기 : %s. <br/> 그것은 당신의 연결에 따라 몇 초 정도 걸릴 수 있습니다.]]></value>
+  </definition>
+  <definition>
+    <key>text_key_hint</key>
+    <value><![CDATA[여기에서 설치 키를 입력]]></value>
+  </definition>
+  <definition>
+    <key>text_ftp_user</key>
+    <value><![CDATA[FTP 사용자 이름 :]]></value>
+  </definition>
+  <definition>
+    <key>text_ftp_password</key>
+    <value><![CDATA[FTP 사용자 암호 :]]></value>
+  </definition>
+  <definition>
+    <key>text_ftp_host</key>
+    <value><![CDATA[FTP 호스트 :]]></value>
+  </definition>
+  <definition>
+    <key>text_i_agree</key>
+    <value><![CDATA[나는 라이센스에 동의]]></value>
+  </definition>
+  <definition>
+    <key>text_agree</key>
+    <value><![CDATA[동의하다]]></value>
+  </definition>
+  <definition>
+    <key>text_retry</key>
+    <value><![CDATA[다시 해 보다]]></value>
+  </definition>
+  <definition>
+    <key>text_disagree</key>
+    <value><![CDATA[동의하지 않는다]]></value>
+  </definition>
+  <definition>
+    <key>text_download_error</key>
+    <value><![CDATA[죄송합니다 파일을 업로드하는 동안 오류가 발생했습니다. </br> 한 번 더 시도해보십시오. </br> 문제는 주문 내역에서 다운로드 파일을 지속하고 수동으로 설치합니다.]]></value>
+  </definition>
+  <definition>
+    <key>text_continue</key>
+    <value><![CDATA[잇다]]></value>
+  </definition>
+  <definition>
+    <key>text_disclaimer_heading</key>
+    <value><![CDATA[부인 성명]]></value>
+  </definition>
+  <definition>
+    <key>text_disclaimer</key>
+    <value><![CDATA[<h3> 친애하는 AbanteCart 고객, </h3><br/> 
+ 당신은 당신의 AbanteCart에 타사 확장을 설치하려고합니다. <br/><br/> 
+ 읽고에 대한 설치 타사 확장에 대한이 면책 조항을 양해 해 주시기 바랍니다. <br/><br/> 
+ 타사 확장 및 서비스는 타사 공급 업체에서 제공합니다. <br/><br/> 
+ 있지만, AbanteCart 타사에서 제공하는 확장과 서비스의 품질을 확인, AbanterCart가 아닌 시스템의 충돌을 발생하지 않습니다 모든 제 3 자 확장 작업을 제대로 또는 보증을하지 않습니다. 
+ AbanteCart 회원 및 계열사는 어떠한 방식으로도 책임을지지 또는 타사 공급 업체에서 제공하는 제품이나 서비스와 관련된 청구에 대한 책임이 있습니다. AbanteCart 타사 확장 또는 서비스의 품질을 보증하지 않습니다. 해당 타사 공급 업체에 타사 확장 또는 서비스에 대한 귀하의 문의를 직접하시기 바랍니다. 
+ 당신은 제 3 자 제공에 대한 우려에서 AbanteCart 문의하시기 바랍니다이있는 경우 <a href="http://www.abantecart.com/contact-us" target="_blank">http://www.abantecart.com/contact-us</a><br/><br/> 
+ 감사합니다, <br/> 
+ AbanteCart <br/> 
+ 에 적합하는 OpenSource 전자 상거래 솔루션]]></value>
+  </definition>
+  <definition>
+    <key>warning_ftp</key>
+    <value><![CDATA[경고 : 일부 디렉토리 나 파일에 쓰기 권한 <span id="see_details">(자세한 내용 참조)가없는</span><br/> 당신은 당신의 서버 또는 권한 변경할 수 <br/> 설치 (일반적으로 귀하의 서버에 사용 FTP 접속, 호스팅 제공하면 이메일을 통해이 정보를 전송하거나 그것을 관리 할 수 있습니다 제어 도구를 호스팅) <br/>]]></value>
+  </definition>
+  <definition>
+    <key>warning_already_installed</key>
+    <value><![CDATA[<p class="success"> 이미 %의 EXTENSION %의 확장은 설치! 계속 진행하고 업그레이드 할 경우, 확인하시기 바랍니다. </p>]]></value>
+  </definition>
+  <definition>
+    <key>warning_already_installed_uninstall</key>
+    <value><![CDATA[이미이 확장 &quot;% 확장의 %&quot;가 설치되어! 다시 설치를 진행하려면 제거하고 제 1의 확장을 삭제하시기 바랍니다.]]></value>
+  </definition>
+  <definition>
+    <key>error_pack_file_not_found</key>
+    <value><![CDATA[오류 : %s 아카이브에에서 확장을 추출 할 수 없습니다. 확인 <a href="#admin#rt=tool/error_log" target="_blank">로그인</a> 오류]]></value>
+  </definition>
+  <definition>
+    <key>error_mp</key>
+    <value><![CDATA[마켓 플레이스 오류 :]]></value>
+  </definition>
+  <definition>
+    <key>error_repository</key>
+    <value><![CDATA[오류 : 파일을 다운로드 할 수 없습니다. 저장소 오류 또는 잘못된 확장 키를 누릅니다. 한 번 더 시도해보십시오. 문제는 주문 내역에서 다운로드 파일을 지속하고 수동으로 설치합니다.]]></value>
+  </definition>
+  <definition>
+    <key>error_ftp_user</key>
+    <value><![CDATA[오류 : FTP 사용자 이름이 비어 있습니다.]]></value>
+  </definition>
+  <definition>
+    <key>error_ftp_password</key>
+    <value><![CDATA[오류 : FTP 사용자 암호가 비어 있습니다.]]></value>
+  </definition>
+  <definition>
+    <key>error_ftp_connect</key>
+    <value><![CDATA[오류 : ftp로 서버를 연결할 수 없습니다]]></value>
+  </definition>
+  <definition>
+    <key>error_ftp_login</key>
+    <value><![CDATA[오류 : ftp로 서버를 로그인 할 수 없습니다. 잘못된 아이디 또는 비밀번호입니다.]]></value>
+  </definition>
+  <definition>
+    <key>error_ftp_path</key>
+    <value><![CDATA[오류 : FTP 경로에 의해 AbanteCart의 루트 디렉터리를 찾을 수 없습니다. <br/> 자동 검색 빈을 떠나보십시오.]]></value>
+  </definition>
+  <definition>
+    <key>error_ftp_path_array</key>
+    <value><![CDATA[오류 : FTP 모드에서 AbanteCart의 루트 디렉토리를 인식 할 수있는 자동 없습니다. <br/> FTP 경로 양식 필드를 기입하십시오. <br/> 경로 제안은 다음과 같습니다 :]]></value>
+  </definition>
+  <definition>
+    <key>error_dir_permission</key>
+    <value><![CDATA[디렉토리에 쓸 수 없기 때문에 파일을 저장 할 수 없습니다 :]]></value>
+  </definition>
+  <definition>
+    <key>error_package_structure</key>
+    <value><![CDATA[오류 : 아마 패키지는 끊어집니다. 패키지 오류의 구조.]]></value>
+  </definition>
+  <definition>
+    <key>error_package_config_xml</key>
+    <value><![CDATA[오류 : 추출 확장의 내부 파일 package.xml을 찾을 수 없습니다. 아마도 확장이 제대로 추출되지 않았습니다. 확인 <a href="#admin#rt=tool/error_log" target="_blank">로그인</a> 오류]]></value>
+  </definition>
+  <definition>
+    <key>error_package_config2</key>
+    <value><![CDATA[오류 : 패키지 내부 package.xml에 설치 모드를 찾을 수 없습니다.]]></value>
+  </definition>
+  <definition>
+    <key>error_package_info_not_exists</key>
+    <value><![CDATA[오류 :이 다운로드에 대한 패키지 세션 정보를 찾을 수 없습니다.]]></value>
+  </definition>
+  <definition>
+    <key>error_unpack</key>
+    <value><![CDATA[오류 : 다운로드 후 &quot;% 패키지 %&quot;를 패키지 압축을 해제 할 수 없습니다. 아카이브 오류가 발생했습니다. 자세한 내용은 오류 로그를 참조하십시오.]]></value>
+  </definition>
+  <definition>
+    <key>error_move</key>
+    <value><![CDATA[오류 : 개봉 후 패키지 코드를 이동할 수 없습니다. 디렉토리의 쓰기 권한을 확인 해보세요 :]]></value>
+  </definition>
+  <definition>
+    <key>error_install_mode</key>
+    <value><![CDATA[오류 : 이미 설치되어 있기 때문에 &quot;% 패키지 %를&quot;확장을 설치할 수 없습니다. 당신은 설치 제거하고 먼저 삭제 또는 업그레이드 패키지를 얻을 필요가있다.]]></value>
+  </definition>
+  <definition>
+    <key>error_install_mode2</key>
+    <value><![CDATA[오류 :이 설치되어 있지 때문에 &quot;% 패키지 %를&quot;확장자를 업그레이드 할 수 없습니다. 당신은 설치를위한 패키지를 얻을 필요가있다.]]></value>
+  </definition>
+  <definition>
+    <key>error_version_compatibility</key>
+    <value><![CDATA[오류 : 패키지를 설치할 수 없습니다. 장바구니 버전 <b>%의 CURRENT_VERSION %이다.</b> 버전 (들) <b>% 버전 %가 필요합니다.</b>]]></value>
+  </definition>
+  <definition>
+    <key>error_package_version_compatibility</key>
+    <value><![CDATA[오류 : 패키지를 업그레이드 할 수 없습니다. 최신 패키지 버전이 이미 설치되어 있습니다.]]></value>
+  </definition>
+  <definition>
+    <key>error_install</key>
+    <value><![CDATA[오류 : 패키지를 설치할 수 없습니다. 자세한 내용은&gt; 오류 로그 - 시스템을 참조하십시오.]]></value>
+  </definition>
+  <definition>
+    <key>error_core_version</key>
+    <value><![CDATA[오류 : 당신은 AbanteCart 버전 % 버전 %가 설치되어 있습니다. <br/> 이상 만 버전이 업그레이드 패키지 낮은]]></value>
+  </definition>
+  <definition>
+    <key>text_interrupt</key>
+    <value><![CDATA[일시 정지]]></value>
+  </definition>
+  <definition>
+    <key>confirm_version_incompatibility</key>
+    <value><![CDATA[이 확장의 현재 사본 AbanteCart 버전 (V %s)에 대한 확인되지 않습니다. <br/> 확장 빌드 %s AbanteCart의 V에 대해 지정됩니다. <br/> 
+ 이 문제가되지 않습니다,하지만 당신은 문제 또는 비 호환성 문제를 발견하는 경우, 확장 개발자에게 문의하시기 바랍니다.]]></value>
+  </definition>
+  <definition>
+    <key>error_move_ftp</key>
+    <value><![CDATA[오류 : 개봉 후 패키지 코드를 이동할 수 없습니다. 아마 FTP 경로가 올바르지 않습니다. <br/> 또한, 디렉토리의 쓰기 권한을 확인하는 시도하십시오 :]]></value>
+  </definition>
+  <definition>
+    <key>text_network_install</key>
+    <value><![CDATA[네트워크 설치]]></value>
+  </definition>
+  <definition>
+    <key>text_extension_upload</key>
+    <value><![CDATA[확장 업로드]]></value>
+  </definition>
+  <definition>
+    <key>error_archive_extension</key>
+    <value><![CDATA[오류 : 만은 .tar.gz 파일을 지원했다.]]></value>
+  </definition>
+  <definition>
+    <key>entry_upload_file</key>
+    <value><![CDATA[파일 업로드 :]]></value>
+  </definition>
+  <definition>
+    <key>entry_upload_url</key>
+    <value><![CDATA[URL을 삽입 :]]></value>
+  </definition>
+  <definition>
+    <key>error_move_backup</key>
+    <value><![CDATA[오류 : 업그레이드 전에 수 없습니다 백업 파일. 디렉토리의 쓰기 권한을 확인합니다 :]]></value>
+  </definition>
+  <definition>
+    <key>text_core_upgrade_title</key>
+    <value><![CDATA[Abantecart 코어 업그레이드]]></value>
+  </definition>
+  <definition>
+    <key>text_core_upgrade_attention</key>
+    <value><![CDATA[주의! 
+ AbanteCart 버전에 %s 업그레이드 할 수입니다!]]></value>
+  </definition>
+  <definition>
+    <key>text_core_upgrade_warning</key>
+    <value><![CDATA[업그레이드 프로세스를 시작한 후에는 취소가 없습니다. 
+ 전체 데이터베이스 및 코드 백업이 좋습니다. 
+ 최초의 비 라이브 사이트에서 테스트 업그레이드. 라이브 사이트에서 업그레이드하지 않는 것이 좋습니다.]]></value>
+  </definition>
+  <definition>
+    <key>text_upgrade_now</key>
+    <value><![CDATA[지금 업그레이드!]]></value>
+  </definition>
+  <definition>
+    <key>error_additional_help_text</key>
+    <value><![CDATA[붙어? 문제가 아니다. 당신은 다른 방법 확장을 설치할 수 있습니다. 확인 <a href="http://docs.abantecart.com/pages/extensions/install.html#FTPinstall" target="_blank">이 도움말 링크를</a>]]></value>
+  </definition>
+  <definition>
+    <key>error_notconnected</key>
+    <value><![CDATA[업그레이드하거나 시장에서 확장을 설치할 수 없습니다. 이 가게가 연결 / 인증되지 않습니다. 인증하고 연결하십시오 <a href="%s">시장</a>]]></value>
+  </definition>
+</definitions>

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[역사를 업그레이드 / 설치]]></value>
+  </definition>
+  <definition>
+    <key>column_type</key>
+    <value><![CDATA[유형]]></value>
+  </definition>
+  <definition>
+    <key>column_date_added</key>
+    <value><![CDATA[날짜 추가]]></value>
+  </definition>
+  <definition>
+    <key>column_name</key>
+    <value><![CDATA[패키지 키]]></value>
+  </definition>
+  <definition>
+    <key>column_version</key>
+    <value><![CDATA[번역]]></value>
+  </definition>
+  <definition>
+    <key>column_backup_date</key>
+    <value><![CDATA[백업 날짜]]></value>
+  </definition>
+  <definition>
+    <key>column_backup_file</key>
+    <value><![CDATA[백업 파일]]></value>
+  </definition>
+  <definition>
+    <key>column_user</key>
+    <value><![CDATA[사용자 이름]]></value>
+  </definition>
+  <definition>
+    <key>text_download</key>
+    <value><![CDATA[파일을 다운로드]]></value>
+  </definition>
+  <definition>
+    <key>text_delete_history</key>
+    <value><![CDATA[기록 삭제]]></value>
+  </definition>
+  <definition>
+    <key>text_delete_success</key>
+    <value><![CDATA[업그레이드 / 설치 기록이 삭제되었습니다.]]></value>
+  </definition>
+</definitions>

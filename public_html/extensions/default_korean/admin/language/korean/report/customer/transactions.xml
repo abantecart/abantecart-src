@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[고객 거래]]></value>
+  </definition>
+  <definition>
+    <key>column_transaction_date</key>
+    <value><![CDATA[거래 날짜]]></value>
+  </definition>
+  <definition>
+    <key>column_customer</key>
+    <value><![CDATA[고객 이름]]></value>
+  </definition>
+  <definition>
+    <key>column_created_by</key>
+    <value><![CDATA[작성자]]></value>
+  </definition>
+  <definition>
+    <key>column_debit</key>
+    <value><![CDATA[직불]]></value>
+  </definition>
+  <definition>
+    <key>column_credit</key>
+    <value><![CDATA[신용]]></value>
+  </definition>
+  <definition>
+    <key>column_transaction_type</key>
+    <value><![CDATA[거래 유형]]></value>
+  </definition>
+</definitions>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[응용 프로그램 오류!]]></value>
+  </definition>
+  <definition>
+    <key>text_error</key>
+    <value><![CDATA[자세한 내용은 오류 로그를 확인하십시오]]></value>
+  </definition>
+</definitions>

@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[수수료]]></value>
+  </definition>
+  <definition>
+    <key>total_name</key>
+    <value><![CDATA[수수료]]></value>
+  </definition>
+  <definition>
+    <key>text_total</key>
+    <value><![CDATA[주문 합계]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[성공 : 당신이 업데이트 한 총 수수료!]]></value>
+  </definition>
+  <definition>
+    <key>entry_total</key>
+    <value><![CDATA[주문 합계 : <span class="help">최소 주문 금액은 수수료를 적용하기에 도달한다. 고객 주문 전체가이 금액을 초과하는 경우, feee을 처리하는 것은 적용되지 않습니다. 이 값은 지불 특정 설정으로 대체됩니다.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_total_placeholder</key>
+    <value><![CDATA[주문 금액]]></value>
+  </definition>
+  <definition>
+    <key>entry_fee</key>
+    <value><![CDATA[요금 : <span class="help">요금은 최소량의 조건이 충족되지 않는 경우 전체 순서를 첨가한다. 이 금액은 결제 특정 설정에 의해 무시된다</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_payment_fee</key>
+    <value><![CDATA[요금 : <span class="help">요금이 최소 서브 총량 조건이 충족되지 않는 경우 전체 순서를 첨가한다. 이 금액은 기본 요금 설정을 재정의</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_payment</key>
+    <value><![CDATA[지불 : <span class="help">당신이 수수료를 추가 할 필요가 특정 지불을 선택합니다. 지불은 고객이 사용되는 경우 이러한 설정은 기본 설정보다 우선합니다.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_order_subtotal</key>
+    <value><![CDATA[서브 총 주문 : <span class="help">최소 주문 소계 금액은 수수료를 적용 도달 할 수 있습니다. 이 기본 설정을 재정의</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_tax</key>
+    <value><![CDATA[세금 클래스 : <span class="help">당신은 세금이 필요한 경우 선택에 정상 취급 수수료 적용 할</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_status</key>
+    <value><![CDATA[지위:]]></value>
+  </definition>
+  <definition>
+    <key>entry_sort_order</key>
+    <value><![CDATA[정렬 순서 :]]></value>
+  </definition>
+  <definition>
+    <key>entry_calculation_order</key>
+    <value><![CDATA[계산 순서 :]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[경고 : 총 수수료를 수정할 수있는 권한이 없습니다!]]></value>
+  </definition>
+  <definition>
+    <key>error_number</key>
+    <value><![CDATA[경고 : 주문 합계 및 수수료를 처리하는 것은 숫자해야합니다!]]></value>
+  </definition>
+</definitions>

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[미디어 리소스 라이브러리 관리자]]></value>
+  </definition>
+  <definition>
+    <key>text_rl_latest</key>
+    <value><![CDATA[최근 추가 자원]]></value>
+  </definition>
+  <definition>
+    <key>text_rl_type</key>
+    <value><![CDATA[자원 유형]]></value>
+  </definition>
+  <definition>
+    <key>entry_type_name</key>
+    <value><![CDATA[자원 유형 키 <br/><span class="help">이 자원 형 키 / name 값은 변경 될 수 없다</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_default_directory</key>
+    <value><![CDATA[자원 디렉토리 <br/><span class="help">이 유형의 디렉토리 위치 결정 자원. 변경 한 경우, 기존의 자원 acceccible 수 없으며 새 디렉토리에 복사해야합니다!</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_default_icon</key>
+    <value><![CDATA[기본 아이콘 <br/><span class="help">아이콘 이미지 자원의 목록에 표시합니다 (위치 : / 이미지 / ...).</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_file_types</key>
+    <value><![CDATA[파일 확장자 허용 <br/><span class="help">이 자원 유형에 대한 허용 된 파일 확장명 목록에 정규식</span>]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[성공 : 당신이 업데이트 한 자원 유형!]]></value>
+  </definition>
+  <definition>
+    <key>error_missing_type_id</key>
+    <value><![CDATA[오류 : 누락 된 자원 유형 ID!]]></value>
+  </definition>
+  <definition>
+    <key>error_type_name</key>
+    <value><![CDATA[오류 : 자원 유형 이름이 40 charcters 사이에 있어야]]></value>
+  </definition>
+  <definition>
+    <key>error_default_directory</key>
+    <value><![CDATA[오류 : 자원 유형 디렉토리는 2와 64 사이 charcters 있어야]]></value>
+  </definition>
+  <definition>
+    <key>error_default_icon</key>
+    <value><![CDATA[오류 : 리소스 유형의 아이콘이 64 charcters 사이에 있어야합니다]]></value>
+  </definition>
+  <definition>
+    <key>error_file_types</key>
+    <value><![CDATA[오류 : 리소스 유형의 파일 extenions의 정규식이 40 charcters 사이에 있어야합니다]]></value>
+  </definition>
+</definitions>

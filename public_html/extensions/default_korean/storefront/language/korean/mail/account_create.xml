@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>text_subject</key>
+    <value><![CDATA[%s - 등록 해 주셔서 감사합니다]]></value>
+  </definition>
+  <definition>
+    <key>text_welcome</key>
+    <value><![CDATA[오신 것을 환영 %s에 등록 해 주셔서 감사합니다!]]></value>
+  </definition>
+  <definition>
+    <key>text_login</key>
+    <value><![CDATA[계정이 현재 생성 된 당신은 우리의 웹 사이트를 방문하거나 다음 URL에 액세스 할 수 있습니다 :]]></value>
+  </definition>
+  <definition>
+    <key>text_approval</key>
+    <value><![CDATA[당신이 로그인 할 수 있습니다 전에 계정이 승인을 받아야합니다. 승인 후에는 우리의 웹 사이트를 방문하거나 다음 URL에서 이메일 주소와 비밀번호를 사용하여 로그인 할 수 있습니다 :]]></value>
+  </definition>
+  <definition>
+    <key>text_activate</key>
+    <value><![CDATA[우리는 귀하의 계정 활성화하기 전에 마지막 단계는 등록을 완료하는 데주의해야한다. <br/> 
+ 당신은 등록 회원이이 마지막 단계를 완료해야합니다. %s 계정을 활성화는 아래의 링크를 클릭하십시오.]]></value>
+  </definition>
+  <definition>
+    <key>text_services</key>
+    <value><![CDATA[로그인하면, 당신은 과거의 주문, 인쇄 송장을 검토하고 계정 정보를 편집 포함한 다른 서비스에 액세스 할 수 있습니다.]]></value>
+  </definition>
+  <definition>
+    <key>text_thanks</key>
+    <value><![CDATA[고맙습니다,]]></value>
+  </definition>
+</definitions>

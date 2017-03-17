@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[쇼핑 카트]]></value>
+  </definition>
+  <definition>
+    <key>text_basket</key>
+    <value><![CDATA[바구니]]></value>
+  </definition>
+  <definition>
+    <key>text_sub_total</key>
+    <value><![CDATA[소계 :]]></value>
+  </definition>
+  <definition>
+    <key>text_weight</key>
+    <value><![CDATA[장바구니 무게 :]]></value>
+  </definition>
+  <definition>
+    <key>text_error</key>
+    <value><![CDATA[귀하의 쇼핑 바구니가 비어 있습니다!]]></value>
+  </definition>
+  <definition>
+    <key>column_remove</key>
+    <value><![CDATA[풀다]]></value>
+  </definition>
+  <definition>
+    <key>column_image</key>
+    <value><![CDATA[영상]]></value>
+  </definition>
+  <definition>
+    <key>column_name</key>
+    <value><![CDATA[이름]]></value>
+  </definition>
+  <definition>
+    <key>column_model</key>
+    <value><![CDATA[모델]]></value>
+  </definition>
+  <definition>
+    <key>column_quantity</key>
+    <value><![CDATA[수량]]></value>
+  </definition>
+  <definition>
+    <key>column_price</key>
+    <value><![CDATA[단가]]></value>
+  </definition>
+  <definition>
+    <key>column_total</key>
+    <value><![CDATA[합계]]></value>
+  </definition>
+  <definition>
+    <key>text_continue_shopping</key>
+    <value><![CDATA[쇼핑을 계속]]></value>
+  </definition>
+  <definition>
+    <key>text_coupon_codes</key>
+    <value><![CDATA[쿠폰 코드를 적용]]></value>
+  </definition>
+  <definition>
+    <key>text_estimate_shipping_tax</key>
+    <value><![CDATA[예상 배송 및 세금]]></value>
+  </definition>
+  <definition>
+    <key>text_estimate_country</key>
+    <value><![CDATA[국가와 국가]]></value>
+  </definition>
+  <definition>
+    <key>text_estimate_postcode</key>
+    <value><![CDATA[ZIP / 우편 번호]]></value>
+  </definition>
+  <definition>
+    <key>button_text_estimate</key>
+    <value><![CDATA[견적]]></value>
+  </definition>
+  <definition>
+    <key>text_estimate_shipments</key>
+    <value><![CDATA[선적]]></value>
+  </definition>
+  <definition>
+    <key>error_coupon</key>
+    <value><![CDATA[오류 : 쿠폰이 중 유효 만료하거나 사용 한계의 도달!]]></value>
+  </definition>
+  <definition>
+    <key>error_stock</key>
+    <value><![CDATA[***로 표시된 제품은 원하는 수량 또는 품절 사용할 수 없습니다!]]></value>
+  </definition>
+  <definition>
+    <key>error_required_options</key>
+    <value><![CDATA[필요한 모든 옵션을 선택하세요!]]></value>
+  </definition>
+  <definition>
+    <key>error_order_minimum</key>
+    <value><![CDATA[주문 서브 총량은 %s에 필요한 최소 금액을 충족하지 않습니다. 장바구니에 더 많은 제품을 추가하십시오!]]></value>
+  </definition>
+  <definition>
+    <key>error_order_maximum</key>
+    <value><![CDATA[주문 서브 총량은 주문 당 허용 %s의 최대 금액을 초과합니다. 장바구니에서 일부 항목을 삭제하십시오!]]></value>
+  </definition>
+  <definition>
+    <key>error_empty_file_data</key>
+    <value><![CDATA[파일 데이터가 손상 또는 비어 있습니다.]]></value>
+  </definition>
+  <definition>
+    <key>error_empty_file_name</key>
+    <value><![CDATA[파일 이름이 비어 있습니다!]]></value>
+  </definition>
+  <definition>
+    <key>error_file_extension</key>
+    <value><![CDATA[확장 (들) %s와 파일 만 허용 (있다)입니다!]]></value>
+  </definition>
+  <definition>
+    <key>error_min_file_size</key>
+    <value><![CDATA[업로드 최소 파일 크기는 %s 이하이다.]]></value>
+  </definition>
+  <definition>
+    <key>error_max_file_size</key>
+    <value><![CDATA[업로드 최대 파일 크기는 %s 이하이다.]]></value>
+  </definition>
+  <definition>
+    <key>text_coupon_success</key>
+    <value><![CDATA[성공 : 쿠폰 할인이 적용되었습니다!]]></value>
+  </definition>
+  <definition>
+    <key>text_coupon_removal</key>
+    <value><![CDATA[성공 : 쿠폰이 삭제되었습니다!]]></value>
+  </definition>
+  <definition>
+    <key>error_quantity_maximum</key>
+    <value><![CDATA[허용 된 제품의 수량 초과합니다. 수량은 최대로 설정했다.]]></value>
+  </definition>
+  <definition>
+    <key>error_quantity_minimum</key>
+    <value><![CDATA[허용 된 제품의 수량이 필요 최소한 이하이다. 수량은 최소 금액으로 설정했다.]]></value>
+  </definition>
+</definitions>

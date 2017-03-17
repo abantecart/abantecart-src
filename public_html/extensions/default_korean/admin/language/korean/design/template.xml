@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[템플릿 관리자]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[성공 : 새 점포 템플릿을 설정!]]></value>
+  </definition>
+  <definition>
+    <key>text_storefront_templates</key>
+    <value><![CDATA[사용 가능한 점포 템플릿]]></value>
+  </definition>
+  <definition>
+    <key>text_edit_extension</key>
+    <value><![CDATA[확장 설정]]></value>
+  </definition>
+  <definition>
+    <key>text_error</key>
+    <value><![CDATA[오류 : 귀하의 요청에 필요한 매개 변수를 누락!]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[경고 : 템플릿을 수정할 수있는 권한이 없습니다!]]></value>
+  </definition>
+</definitions>

@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[계정 다운로드]]></value>
+  </definition>
+  <definition>
+    <key>text_account</key>
+    <value><![CDATA[계정]]></value>
+  </definition>
+  <definition>
+    <key>text_downloads</key>
+    <value><![CDATA[다운로드]]></value>
+  </definition>
+  <definition>
+    <key>text_order</key>
+    <value><![CDATA[주문 아이디:]]></value>
+  </definition>
+  <definition>
+    <key>text_date_added</key>
+    <value><![CDATA[날자 :]]></value>
+  </definition>
+  <definition>
+    <key>text_date_purchased</key>
+    <value><![CDATA[날짜는 구매 :]]></value>
+  </definition>
+  <definition>
+    <key>text_name</key>
+    <value><![CDATA[이름:]]></value>
+  </definition>
+  <definition>
+    <key>text_remaining</key>
+    <value><![CDATA[남은 :]]></value>
+  </definition>
+  <definition>
+    <key>text_size</key>
+    <value><![CDATA[크기:]]></value>
+  </definition>
+  <definition>
+    <key>text_download</key>
+    <value><![CDATA[다운로드]]></value>
+  </definition>
+  <definition>
+    <key>text_error</key>
+    <value><![CDATA[당신은 이전 다운로드 주문을하지 않은!]]></value>
+  </definition>
+  <definition>
+    <key>text_expire_date</key>
+    <value><![CDATA[날짜 만료 :]]></value>
+  </definition>
+  <definition>
+    <key>text_expired</key>
+    <value><![CDATA[만료]]></value>
+  </definition>
+  <definition>
+    <key>text_pending</key>
+    <value><![CDATA[대기 중]]></value>
+  </definition>
+  <definition>
+    <key>text_unavailable</key>
+    <value><![CDATA[없는]]></value>
+  </definition>
+  <definition>
+    <key>text_reached_limit</key>
+    <value><![CDATA[도달 제한]]></value>
+  </definition>
+  <definition>
+    <key>error_download_not_exists</key>
+    <value><![CDATA[요청 된 파일이 없습니다 존재한다!]]></value>
+  </definition>
+</definitions>

@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[세금 클래스]]></value>
+  </definition>
+  <definition>
+    <key>text_class</key>
+    <value><![CDATA[세금 클래스]]></value>
+  </definition>
+  <definition>
+    <key>text_rate</key>
+    <value><![CDATA[세율]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[성공 : 당신은 세금 클래스를 수정했습니다!]]></value>
+  </definition>
+  <definition>
+    <key>column_title</key>
+    <value><![CDATA[세금 클래스 제목]]></value>
+  </definition>
+  <definition>
+    <key>column_action</key>
+    <value><![CDATA[동작]]></value>
+  </definition>
+  <definition>
+    <key>tab_details</key>
+    <value><![CDATA[세부]]></value>
+  </definition>
+  <definition>
+    <key>tab_rates</key>
+    <value><![CDATA[환율]]></value>
+  </definition>
+  <definition>
+    <key>entry_title</key>
+    <value><![CDATA[세금 클래스 제목 :]]></value>
+  </definition>
+  <definition>
+    <key>entry_description</key>
+    <value><![CDATA[고객이 볼 설명]]></value>
+  </definition>
+  <definition>
+    <key>entry_location</key>
+    <value><![CDATA[위치]]></value>
+  </definition>
+  <definition>
+    <key>entry_zone</key>
+    <value><![CDATA[위치 영역]]></value>
+  </definition>
+  <definition>
+    <key>entry_priority</key>
+    <value><![CDATA[우선 순위]]></value>
+  </definition>
+  <definition>
+    <key>entry_rate</key>
+    <value><![CDATA[세율]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[경고 : 당신은 세금 클래스를 수정할 수있는 권한이 없습니다!]]></value>
+  </definition>
+  <definition>
+    <key>error_tax_title</key>
+    <value><![CDATA[세금 클래스 제목이 32 자 사이 여야합니다!]]></value>
+  </definition>
+  <definition>
+    <key>error_rate</key>
+    <value><![CDATA[세율은 필수!]]></value>
+  </definition>
+  <definition>
+    <key>error_product</key>
+    <value><![CDATA[경고 : 현재 %s 제품에 할당으로이 세금 클래스는 삭제할 수 없습니다!]]></value>
+  </definition>
+  <definition>
+    <key>text_tax_all_zones</key>
+    <value><![CDATA[모든 위치 영역]]></value>
+  </definition>
+  <definition>
+    <key>entry_tax_rate_threshold</key>
+    <value><![CDATA[경우 세금 적용 <br/><span class="help">과세 금액 (제품, 운송, 소계 등) 만, 경우이 세금을 적용 ...</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_tax_exempt_groups</key>
+    <value><![CDATA[세금 면제 그룹 <br/><span class="help">을 선택 고객 그룹은이 세금 면제하기</span>]]></value>
+  </definition>
+  <definition>
+    <key>text_absolute</key>
+    <value><![CDATA[순수한]]></value>
+  </definition>
+  <definition>
+    <key>text_percent</key>
+    <value><![CDATA[퍼센트]]></value>
+  </definition>
+</definitions>

@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>import_export_title</key>
+    <value><![CDATA[수입 수출]]></value>
+  </definition>
+  <definition>
+    <key>tab_import</key>
+    <value><![CDATA[수입]]></value>
+  </definition>
+  <definition>
+    <key>tab_export</key>
+    <value><![CDATA[수출]]></value>
+  </definition>
+  <definition>
+    <key>text_tables</key>
+    <value><![CDATA[테이블]]></value>
+  </definition>
+  <definition>
+    <key>text_options</key>
+    <value><![CDATA[옵션]]></value>
+  </definition>
+  <definition>
+    <key>text_file_format</key>
+    <value><![CDATA[파일 형식:]]></value>
+  </definition>
+  <definition>
+    <key>text_file_name</key>
+    <value><![CDATA[파일 이름:]]></value>
+  </definition>
+  <definition>
+    <key>text_load_file</key>
+    <value><![CDATA[로드 파일]]></value>
+  </definition>
+  <definition>
+    <key>text_load</key>
+    <value><![CDATA[하중]]></value>
+  </definition>
+  <definition>
+    <key>text_import_loaded</key>
+    <value><![CDATA[로드 총 :]]></value>
+  </definition>
+  <definition>
+    <key>text_file_field</key>
+    <value><![CDATA[수입에 파일 : <br/><span class="help">지원되는 포맷을 가져 오기 파일 : XML, CSV, TXT</span>]]></value>
+  </definition>
+  <definition>
+    <key>text_id_range_from</key>
+    <value><![CDATA[ID 범위에서 :]]></value>
+  </definition>
+  <definition>
+    <key>text_to</key>
+    <value><![CDATA[에:]]></value>
+  </definition>
+  <definition>
+    <key>text_csv_delimiter</key>
+    <value><![CDATA[CSV / TXT 구분 :]]></value>
+  </definition>
+  <definition>
+    <key>text_export_note_csv_delimiter</key>
+    <value><![CDATA[<span class="help">모든 필드는 큰 따옴표로 묶어야합니다.</span>]]></value>
+  </definition>
+  <definition>
+    <key>text_import_note_csv_delimiter</key>
+    <value><![CDATA[<span class="help">모든 필드는 큰 따옴표로 묶어야합니다.</span>]]></value>
+  </definition>
+  <definition>
+    <key>text_test_mode</key>
+    <value><![CDATA[테스트 모드에서 실행 <br/><span class="help">어떤 문제가 존재하는지 먼저 테스트 모드에서 데이터 가져 오기를 실행하는 것이 좋습니다.</span>]]></value>
+  </definition>
+  <definition>
+    <key>error_file_format</key>
+    <value><![CDATA[잘못된 파일 형식!]]></value>
+  </definition>
+  <definition>
+    <key>error_xml_import</key>
+    <value><![CDATA[가져 오기 XML 파일 중 오류!]]></value>
+  </definition>
+  <definition>
+    <key>error_csv_import</key>
+    <value><![CDATA[CSV / TXT 파일을 가져 오는 동안 오류! 필드 구분 기호를 확인하시기 바랍니다.]]></value>
+  </definition>
+  <definition>
+    <key>error_data_corrupted</key>
+    <value><![CDATA[데이터가 비어 있거나 손상된이다.]]></value>
+  </definition>
+  <definition>
+    <key>error_file_empty</key>
+    <value><![CDATA[파일이 비어 있습니다.]]></value>
+  </definition>
+  <definition>
+    <key>error_writable_backup</key>
+    <value><![CDATA[백업 디렉토리는 CSV / TXT 수출이 작동하려면 쓰기 권한을 설정해야합니다.]]></value>
+  </definition>
+  <definition>
+    <key>text_updated</key>
+    <value><![CDATA[업데이트 :]]></value>
+  </definition>
+  <definition>
+    <key>text_created</key>
+    <value><![CDATA[만들어진:]]></value>
+  </definition>
+  <definition>
+    <key>text_errors</key>
+    <value><![CDATA[오류 :]]></value>
+  </definition>
+  <definition>
+    <key>text_show_details</key>
+    <value><![CDATA[세부 정보]]></value>
+  </definition>
+  <definition>
+    <key>text_no_children</key>
+    <value><![CDATA[자식 항목이 없습니다]]></value>
+  </definition>
+  <definition>
+    <key>text_some_errors</key>
+    <value><![CDATA[약간의 오차가 있습니다.]]></value>
+  </definition>
+  <definition>
+    <key>text_test_completed</key>
+    <value><![CDATA[테스트 실행이 완료되었습니다. 전체 SQL 쿼리 :]]></value>
+  </definition>
+  <definition>
+    <key>text_sort_by</key>
+    <value><![CDATA[정렬 기준 :]]></value>
+  </definition>
+</definitions>

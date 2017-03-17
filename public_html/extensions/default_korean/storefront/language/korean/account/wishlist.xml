@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[내 위시리스트]]></value>
+  </definition>
+  <definition>
+    <key>text_account</key>
+    <value><![CDATA[계정]]></value>
+  </definition>
+  <definition>
+    <key>text_empty_wishlist</key>
+    <value><![CDATA[위시리스트가 비었습니다]]></value>
+  </definition>
+  <definition>
+    <key>button_cart</key>
+    <value><![CDATA[장바구니보기]]></value>
+  </definition>
+  <definition>
+    <key>button_continue</key>
+    <value><![CDATA[쇼핑을 계속]]></value>
+  </definition>
+  <definition>
+    <key>column_image</key>
+    <value><![CDATA[영상]]></value>
+  </definition>
+  <definition>
+    <key>column_name</key>
+    <value><![CDATA[이름]]></value>
+  </definition>
+  <definition>
+    <key>column_model</key>
+    <value><![CDATA[모델]]></value>
+  </definition>
+  <definition>
+    <key>column_added</key>
+    <value><![CDATA[목록 위시 추가]]></value>
+  </definition>
+  <definition>
+    <key>column_price</key>
+    <value><![CDATA[단가]]></value>
+  </definition>
+  <definition>
+    <key>column_actions</key>
+    <value><![CDATA[행위]]></value>
+  </definition>
+</definitions>

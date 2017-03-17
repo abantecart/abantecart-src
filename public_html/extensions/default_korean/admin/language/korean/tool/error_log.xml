@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[오류 로그]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[성공 : 당신은 성공적으로 오류 로그를 삭제했습니다!]]></value>
+  </definition>
+  <definition>
+    <key>text_file_tail</key>
+    <value><![CDATA[때문에 로그 파일의 큰 크기로, 데이터의 마지막 500KB 여기에서 볼 수있다. 
+ , 전체 로그를 보려면 직접 서버에서 그것을 얻을합니다. 
+ 경로 :]]></value>
+  </definition>
+</definitions>

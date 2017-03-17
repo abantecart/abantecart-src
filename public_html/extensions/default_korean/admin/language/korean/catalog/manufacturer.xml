@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[제조사 또는 브랜드]]></value>
+  </definition>
+  <definition>
+    <key>text_manufacturer</key>
+    <value><![CDATA[제조 업체 또는 브랜드]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[성공 : 당신은 수정 제조 업체가있다!]]></value>
+  </definition>
+  <definition>
+    <key>text_default</key>
+    <value><![CDATA[태만]]></value>
+  </definition>
+  <definition>
+    <key>text_image_manager</key>
+    <value><![CDATA[이미지 관리자]]></value>
+  </definition>
+  <definition>
+    <key>column_name</key>
+    <value><![CDATA[제조업체 이름]]></value>
+  </definition>
+  <definition>
+    <key>column_sort_order</key>
+    <value><![CDATA[정렬 순서]]></value>
+  </definition>
+  <definition>
+    <key>column_action</key>
+    <value><![CDATA[동작]]></value>
+  </definition>
+  <definition>
+    <key>entry_name</key>
+    <value><![CDATA[제조업체 이름 :]]></value>
+  </definition>
+  <definition>
+    <key>entry_store</key>
+    <value><![CDATA[백화점:]]></value>
+  </definition>
+  <definition>
+    <key>entry_keyword</key>
+    <value><![CDATA[SEO 키워드 :]]></value>
+  </definition>
+  <definition>
+    <key>entry_edit</key>
+    <value><![CDATA[편집하다]]></value>
+  </definition>
+  <definition>
+    <key>entry_layout</key>
+    <value><![CDATA[형세]]></value>
+  </definition>
+  <definition>
+    <key>entry_image</key>
+    <value><![CDATA[영상:]]></value>
+  </definition>
+  <definition>
+    <key>entry_sort_order</key>
+    <value><![CDATA[정렬 순서 :]]></value>
+  </definition>
+  <definition>
+    <key>error_manufacturer_not_found</key>
+    <value><![CDATA[오류 : 제조 업체를 찾을 수 없습니다!]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[경고 : 제조 업체를 수정할 수있는 권한이 없습니다!]]></value>
+  </definition>
+  <definition>
+    <key>error_name</key>
+    <value><![CDATA[제조업체 이름이 64 자 사이 여야합니다!]]></value>
+  </definition>
+  <definition>
+    <key>error_product</key>
+    <value><![CDATA[경고 : 현재 %s 제품에 할당으로이 업체는 삭제할 수 없습니다!]]></value>
+  </definition>
+  <definition>
+    <key>text_success_layout</key>
+    <value><![CDATA[성공 : 당신은 카테고리 페이지 레이아웃을 수정했습니다.]]></value>
+  </definition>
+</definitions>

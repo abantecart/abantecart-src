@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[정보]]></value>
+  </definition>
+  <definition>
+    <key>text_contact</key>
+    <value><![CDATA[문의]]></value>
+  </definition>
+  <definition>
+    <key>text_sitemap</key>
+    <value><![CDATA[사이트 맵]]></value>
+  </definition>
+</definitions>

@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[계정 로그인]]></value>
+  </definition>
+  <definition>
+    <key>text_account</key>
+    <value><![CDATA[계정 등록]]></value>
+  </definition>
+  <definition>
+    <key>text_login</key>
+    <value><![CDATA[로그인]]></value>
+  </definition>
+  <definition>
+    <key>text_i_am_new_customer</key>
+    <value><![CDATA[나는 새로운 고객입니다.]]></value>
+  </definition>
+  <definition>
+    <key>text_checkout</key>
+    <value><![CDATA[체크 아웃 옵션 :]]></value>
+  </definition>
+  <definition>
+    <key>text_guest</key>
+    <value><![CDATA[고객 체크 아웃]]></value>
+  </definition>
+  <definition>
+    <key>text_create_account</key>
+    <value><![CDATA[계정을 만들면 당신은 빠른 쇼핑 주문의 상태에 대한 최신, 그리고 이전에 수행 한 주문을 추적 할 수있을 것입니다.]]></value>
+  </definition>
+  <definition>
+    <key>text_returning_customer</key>
+    <value><![CDATA[반환 고객]]></value>
+  </definition>
+  <definition>
+    <key>text_i_am_returning_customer</key>
+    <value><![CDATA[나는 돌아 오는 고객입니다.]]></value>
+  </definition>
+  <definition>
+    <key>text_forgotten_login</key>
+    <value><![CDATA[로그인 정보를 잊으 셨나요?]]></value>
+  </definition>
+  <definition>
+    <key>text_forgotten_password</key>
+    <value><![CDATA[비밀번호를 잊어 버렸습니까?]]></value>
+  </definition>
+  <definition>
+    <key>entry_loginname</key>
+    <value><![CDATA[로그인 이름:]]></value>
+  </definition>
+  <definition>
+    <key>entry_email_address</key>
+    <value><![CDATA[이메일 주소:]]></value>
+  </definition>
+  <definition>
+    <key>entry_password</key>
+    <value><![CDATA[암호:]]></value>
+  </definition>
+  <definition>
+    <key>error_login</key>
+    <value><![CDATA[오류 : 잘못된 로그인 또는 암호를 제공했다.]]></value>
+  </definition>
+  <definition>
+    <key>text_success_activated</key>
+    <value><![CDATA[성공 : 계정이 성공적으로 활성화되었다. 자격 증명 로그인하십시오.]]></value>
+  </definition>
+  <definition>
+    <key>text_already_activated</key>
+    <value><![CDATA[계정이 이미 활성화됩니다. 자격 증명 로그인하십시오.]]></value>
+  </definition>
+  <definition>
+    <key>text_resend_activation_email</key>
+    <value><![CDATA[오류 : 귀하의 이메일 주소는 아직 확인되지 않았습니다. 새로운 확인 이메일을 다시 보내려면이 링크를 클릭하십시오 <a href=" %s ">링크를</a>]]></value>
+  </definition>
+</definitions>

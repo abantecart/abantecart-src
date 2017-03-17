@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>text_possible_commands</key>
+    <value><![CDATA[벨로 가능한 명령입니다. 당신은 명령 키워드 후 자세한 내용을 speek 수 있습니다. 예를 들어, &quot;오픈 페이지 메시지&quot;또는 &quot;삽입 제품&quot;]]></value>
+  </definition>
+  <definition>
+    <key>text_multiple_result_found</key>
+    <value><![CDATA[여러 작업 결과를 찾을 수 :]]></value>
+  </definition>
+  <definition>
+    <key>text_action_confirm</key>
+    <value><![CDATA[귀하의 요청을 확인하십시오 :]]></value>
+  </definition>
+  <definition>
+    <key>command_open</key>
+    <value><![CDATA[오픈 오픈 페이지를 열고 메뉴]]></value>
+  </definition>
+  <definition>
+    <key>command_find</key>
+    <value><![CDATA[4 검색, 검색, 검색, 위치를 찾을]]></value>
+  </definition>
+  <definition>
+    <key>command_clear_cache</key>
+    <value><![CDATA[캐시 지우기, 캐시 명확하고 분명 모든 캐시]]></value>
+  </definition>
+  <definition>
+    <key>command_view_log</key>
+    <value><![CDATA[보기 로그를보고, 로그 참조 로그를 검사, 오류 로그를보기를 기록, 오류를 보려면]]></value>
+  </definition>
+  <definition>
+    <key>command_clear_log</key>
+    <value><![CDATA[로그 지우기, 삭제, 로그 기록을 삭제 명확 로그인]]></value>
+  </definition>
+  <definition>
+    <key>command_view_order</key>
+    <value><![CDATA[보기 위해, 주문 번호, 열린 순서, 표시 순서, 열린 주문 번호,보기 주문 번호, 쇼 주문 번호, 주문 번호]]></value>
+  </definition>
+  <definition>
+    <key>command_view_product</key>
+    <value><![CDATA[보기 제품, 제품 번호, 개방 제품, 표시 제품을 열고 제품 번호,보기 제품 번호, 표시 제품 번호, 제품 번호]]></value>
+  </definition>
+  <definition>
+    <key>command_create_new</key>
+    <value><![CDATA[새로운 추가, 새로 만들기, 새를 추가, 생성, 삽입 새를 삽입]]></value>
+  </definition>
+  <definition>
+    <key>category</key>
+    <value><![CDATA[범주]]></value>
+  </definition>
+  <definition>
+    <key>product</key>
+    <value><![CDATA[생성물]]></value>
+  </definition>
+  <definition>
+    <key>brand</key>
+    <value><![CDATA[상표]]></value>
+  </definition>
+  <definition>
+    <key>manufacturer</key>
+    <value><![CDATA[제조업 자]]></value>
+  </definition>
+  <definition>
+    <key>review</key>
+    <value><![CDATA[리뷰]]></value>
+  </definition>
+  <definition>
+    <key>download</key>
+    <value><![CDATA[다운로드]]></value>
+  </definition>
+  <definition>
+    <key>attribute</key>
+    <value><![CDATA[속성]]></value>
+  </definition>
+  <definition>
+    <key>customer</key>
+    <value><![CDATA[고객]]></value>
+  </definition>
+  <definition>
+    <key>coupon</key>
+    <value><![CDATA[쿠폰]]></value>
+  </definition>
+  <definition>
+    <key>discount</key>
+    <value><![CDATA[할인]]></value>
+  </definition>
+  <definition>
+    <key>block</key>
+    <value><![CDATA[블록]]></value>
+  </definition>
+  <definition>
+    <key>menu</key>
+    <value><![CDATA[메뉴]]></value>
+  </definition>
+  <definition>
+    <key>content</key>
+    <value><![CDATA[함유량]]></value>
+  </definition>
+  <definition>
+    <key>banner</key>
+    <value><![CDATA[기치]]></value>
+  </definition>
+  <definition>
+    <key>page</key>
+    <value><![CDATA[페이지]]></value>
+  </definition>
+  <definition>
+    <key>store</key>
+    <value><![CDATA[저장]]></value>
+  </definition>
+  <definition>
+    <key>language</key>
+    <value><![CDATA[언어]]></value>
+  </definition>
+  <definition>
+    <key>currency</key>
+    <value><![CDATA[통화]]></value>
+  </definition>
+  <definition>
+    <key>location</key>
+    <value><![CDATA[위치]]></value>
+  </definition>
+  <definition>
+    <key>tax</key>
+    <value><![CDATA[세]]></value>
+  </definition>
+</definitions>

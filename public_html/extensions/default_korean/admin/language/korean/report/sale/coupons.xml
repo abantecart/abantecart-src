@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[할인 보고서]]></value>
+  </definition>
+  <definition>
+    <key>column_coupon_name</key>
+    <value><![CDATA[할인 / 쿠폰 이름]]></value>
+  </definition>
+  <definition>
+    <key>column_code</key>
+    <value><![CDATA[암호]]></value>
+  </definition>
+  <definition>
+    <key>column_orders</key>
+    <value><![CDATA[제 주문]]></value>
+  </definition>
+  <definition>
+    <key>column_total</key>
+    <value><![CDATA[합계]]></value>
+  </definition>
+  <definition>
+    <key>column_discount_total</key>
+    <value><![CDATA[총 할인]]></value>
+  </definition>
+  <definition>
+    <key>entry_date_start</key>
+    <value><![CDATA[날짜 시작 :]]></value>
+  </definition>
+  <definition>
+    <key>entry_date_end</key>
+    <value><![CDATA[날짜 끝 :]]></value>
+  </definition>
+</definitions>

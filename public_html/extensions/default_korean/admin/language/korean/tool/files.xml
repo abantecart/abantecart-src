@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[파일 업로드]]></value>
+  </definition>
+  <definition>
+    <key>column_date_added</key>
+    <value><![CDATA[날짜 추가]]></value>
+  </definition>
+  <definition>
+    <key>column_path</key>
+    <value><![CDATA[파일]]></value>
+  </definition>
+  <definition>
+    <key>column_section</key>
+    <value><![CDATA[섹션]]></value>
+  </definition>
+  <definition>
+    <key>text_download</key>
+    <value><![CDATA[파일을 다운로드]]></value>
+  </definition>
+</definitions>

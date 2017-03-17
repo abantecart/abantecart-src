@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[공유 다운로드]]></value>
+  </definition>
+  <definition>
+    <key>text_download</key>
+    <value><![CDATA[공유 다운로드]]></value>
+  </definition>
+  <definition>
+    <key>insert_title</key>
+    <value><![CDATA[삽입 다운로드]]></value>
+  </definition>
+  <definition>
+    <key>update_title</key>
+    <value><![CDATA[업데이트 다운로드]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[성공 : 당신은 수정 다운로드를!]]></value>
+  </definition>
+  <definition>
+    <key>column_name</key>
+    <value><![CDATA[다운로드 이름]]></value>
+  </definition>
+  <definition>
+    <key>column_remaining</key>
+    <value><![CDATA[총 다운로드 허용]]></value>
+  </definition>
+  <definition>
+    <key>column_action</key>
+    <value><![CDATA[동작]]></value>
+  </definition>
+  <definition>
+    <key>entry_name</key>
+    <value><![CDATA[이름 다운로드 :]]></value>
+  </definition>
+  <definition>
+    <key>entry_filename</key>
+    <value><![CDATA[파일 이름:]]></value>
+  </definition>
+  <definition>
+    <key>entry_remaining</key>
+    <value><![CDATA[총 다운로드 허용 :]]></value>
+  </definition>
+  <definition>
+    <key>entry_update</key>
+    <value><![CDATA[이전 고객에게 밀어 : <br/><span class="help">확인이뿐만 아니라 이전에 구입 한 버전을 업데이트합니다.</span>]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[경고 :이 다운로드를 수정할 수있는 권한이 없습니다!]]></value>
+  </definition>
+  <definition>
+    <key>error_name</key>
+    <value><![CDATA[이름이 64 자 사이 여야합니다!]]></value>
+  </definition>
+  <definition>
+    <key>error_file</key>
+    <value><![CDATA[다운로드 할 파일을 설정하십시오.]]></value>
+  </definition>
+  <definition>
+    <key>error_product</key>
+    <value><![CDATA[경고 : 현재 %s 제품에 할당으로이 다운로드는 삭제할 수 없습니다!]]></value>
+  </definition>
+  <definition>
+    <key>column_image</key>
+    <value><![CDATA[영상]]></value>
+  </definition>
+  <definition>
+    <key>column_products_count</key>
+    <value><![CDATA[제품 개수]]></value>
+  </definition>
+</definitions>

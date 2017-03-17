@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[쿠폰]]></value>
+  </definition>
+  <definition>
+    <key>text_coupon</key>
+    <value><![CDATA[쿠폰]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[성공 : 당신은 수정 된 쿠폰을 가지고!]]></value>
+  </definition>
+  <definition>
+    <key>text_percent</key>
+    <value><![CDATA[백분율]]></value>
+  </definition>
+  <definition>
+    <key>text_amount</key>
+    <value><![CDATA[정액]]></value>
+  </definition>
+  <definition>
+    <key>column_name</key>
+    <value><![CDATA[쿠폰 이름]]></value>
+  </definition>
+  <definition>
+    <key>column_code</key>
+    <value><![CDATA[암호]]></value>
+  </definition>
+  <definition>
+    <key>column_discount</key>
+    <value><![CDATA[할인]]></value>
+  </definition>
+  <definition>
+    <key>column_date_start</key>
+    <value><![CDATA[날짜 시작]]></value>
+  </definition>
+  <definition>
+    <key>column_date_end</key>
+    <value><![CDATA[날짜 종료]]></value>
+  </definition>
+  <definition>
+    <key>column_status</key>
+    <value><![CDATA[지위]]></value>
+  </definition>
+  <definition>
+    <key>column_action</key>
+    <value><![CDATA[동작]]></value>
+  </definition>
+  <definition>
+    <key>entry_name</key>
+    <value><![CDATA[쿠폰 이름 :]]></value>
+  </definition>
+  <definition>
+    <key>entry_description</key>
+    <value><![CDATA[쿠폰 설명 :]]></value>
+  </definition>
+  <definition>
+    <key>entry_code</key>
+    <value><![CDATA[코드 : <br/><span class="help">코드 고객은 할인 혜택을받을하기 위해 입력</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_type</key>
+    <value><![CDATA[유형 : <br/><span class="help">비율 또는 고정 금액</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_discount</key>
+    <value><![CDATA[할인:]]></value>
+  </definition>
+  <definition>
+    <key>entry_logged</key>
+    <value><![CDATA[고객 로그인 : <br/><span class="help">고객이 쿠폰을 사용하려면 로그인해야합니다.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_shipping</key>
+    <value><![CDATA[무료 배송:]]></value>
+  </definition>
+  <definition>
+    <key>entry_total</key>
+    <value><![CDATA[총 금액 : <br/><span class="help">쿠폰이 유효하기 전에 도달해야하는 서브 총 금액을.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_product</key>
+    <value><![CDATA[선택한 제품 :]]></value>
+  </definition>
+  <definition>
+    <key>entry_date_start</key>
+    <value><![CDATA[날짜 시작 :]]></value>
+  </definition>
+  <definition>
+    <key>entry_date_end</key>
+    <value><![CDATA[날짜 끝 :]]></value>
+  </definition>
+  <definition>
+    <key>entry_uses_total</key>
+    <value><![CDATA[쿠폰 당 용도 : <br/><span class="help">최대 횟수 쿠폰 모든 고객에 의해 사용될 수있다. 무제한 비워 둡니다</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_uses_customer</key>
+    <value><![CDATA[고객 당 용도 : <br/><span class="help">최대 횟수 쿠폰이 단일 고객에 의해 사용될 수있다. 무제한 비워 둡니다</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_status</key>
+    <value><![CDATA[지위:]]></value>
+  </definition>
+  <definition>
+    <key>entry_total_coupon_usage</key>
+    <value><![CDATA[전체 쿠폰 사용 : <br/><span class="help">모든 주문이 백작이 쿠폰을 사용하여 배치</span>]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[경고 :이 쿠폰을 수정할 수있는 권한이 없습니다!]]></value>
+  </definition>
+  <definition>
+    <key>error_name</key>
+    <value><![CDATA[쿠폰 이름이 64 자 사이 여야합니다!]]></value>
+  </definition>
+  <definition>
+    <key>error_description</key>
+    <value><![CDATA[쿠폰 설명이 자 사이 여야합니다!]]></value>
+  </definition>
+  <definition>
+    <key>error_code</key>
+    <value><![CDATA[코드 2 10 자 사이 여야합니다!]]></value>
+  </definition>
+  <definition>
+    <key>error_date</key>
+    <value><![CDATA[날짜 범위를 설정하십시오!]]></value>
+  </definition>
+</definitions>

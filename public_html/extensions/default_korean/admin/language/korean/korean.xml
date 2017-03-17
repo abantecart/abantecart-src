@@ -1,0 +1,747 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>code</key>
+    <value><![CDATA[ko]]></value>
+  </definition>
+  <definition>
+    <key>direction</key>
+    <value><![CDATA[ltr]]></value>
+  </definition>
+  <definition>
+    <key>date_format_short</key>
+    <value><![CDATA[Y-m-d]]></value>
+  </definition>
+  <definition>
+    <key>date_format_long</key>
+    <value><![CDATA[Y-m-d H:i:s]]></value>
+  </definition>
+  <definition>
+    <key>time_format</key>
+    <value><![CDATA[Y-m-d H:i:s]]></value>
+  </definition>
+  <definition>
+    <key>time_format_short</key>
+    <value><![CDATA[h:i:s A]]></value>
+  </definition>
+  <definition>
+    <key>decimal_point</key>
+    <value><![CDATA[.]]></value>
+  </definition>
+  <definition>
+    <key>thousand_point</key>
+    <value><![CDATA[,]]></value>
+  </definition>
+  <definition>
+    <key>text_yes</key>
+    <value><![CDATA[예]]></value>
+  </definition>
+  <definition>
+    <key>text_no</key>
+    <value><![CDATA[아니]]></value>
+  </definition>
+  <definition>
+    <key>text_plus</key>
+    <value><![CDATA[+]]></value>
+  </definition>
+  <definition>
+    <key>text_minus</key>
+    <value><![CDATA[-]]></value>
+  </definition>
+  <definition>
+    <key>text_enabled</key>
+    <value><![CDATA[사용]]></value>
+  </definition>
+  <definition>
+    <key>text_disabled</key>
+    <value><![CDATA[장애인]]></value>
+  </definition>
+  <definition>
+    <key>text_none</key>
+    <value><![CDATA[--- 없음 ---]]></value>
+  </definition>
+  <definition>
+    <key>text_select</key>
+    <value><![CDATA[--- 선택 해주세요 ---]]></value>
+  </definition>
+  <definition>
+    <key>text_select_all</key>
+    <value><![CDATA[모두 선택]]></value>
+  </definition>
+  <definition>
+    <key>text_unselect_all</key>
+    <value><![CDATA[모두 선택 해제]]></value>
+  </definition>
+  <definition>
+    <key>text_all_zones</key>
+    <value><![CDATA[모든 영역]]></value>
+  </definition>
+  <definition>
+    <key>text_default</key>
+    <value><![CDATA[(태만)]]></value>
+  </definition>
+  <definition>
+    <key>text_close</key>
+    <value><![CDATA[닫기]]></value>
+  </definition>
+  <definition>
+    <key>text_pagination</key>
+    <value><![CDATA[의 {말} {총} ({페이지} 페이지)에 {시작}보기]]></value>
+  </definition>
+  <definition>
+    <key>text_per_page</key>
+    <value><![CDATA[페이지 당]]></value>
+  </definition>
+  <definition>
+    <key>text_no_results</key>
+    <value><![CDATA[어떤 결과를 찾을 수 없습니다.]]></value>
+  </definition>
+  <definition>
+    <key>text_separator</key>
+    <value><![CDATA[&gt;]]></value>
+  </definition>
+  <definition>
+    <key>text_edit</key>
+    <value><![CDATA[편집하다]]></value>
+  </definition>
+  <definition>
+    <key>text_view</key>
+    <value><![CDATA[전망]]></value>
+  </definition>
+  <definition>
+    <key>text_home</key>
+    <value><![CDATA[집]]></value>
+  </definition>
+  <definition>
+    <key>button_insert</key>
+    <value><![CDATA[끼워 넣다]]></value>
+  </definition>
+  <definition>
+    <key>button_delete</key>
+    <value><![CDATA[지우다]]></value>
+  </definition>
+  <definition>
+    <key>button_save</key>
+    <value><![CDATA[구하다]]></value>
+  </definition>
+  <definition>
+    <key>button_save_and_close</key>
+    <value><![CDATA[저장 및 닫기]]></value>
+  </definition>
+  <definition>
+    <key>button_cancel</key>
+    <value><![CDATA[취소]]></value>
+  </definition>
+  <definition>
+    <key>button_reset</key>
+    <value><![CDATA[다시 놓기]]></value>
+  </definition>
+  <definition>
+    <key>button_reload</key>
+    <value><![CDATA[새로 고침]]></value>
+  </definition>
+  <definition>
+    <key>button_clear</key>
+    <value><![CDATA[로그 지우기]]></value>
+  </definition>
+  <definition>
+    <key>button_close</key>
+    <value><![CDATA[닫기]]></value>
+  </definition>
+  <definition>
+    <key>button_upgrade</key>
+    <value><![CDATA[업그레이드]]></value>
+  </definition>
+  <definition>
+    <key>button_filter</key>
+    <value><![CDATA[필터]]></value>
+  </definition>
+  <definition>
+    <key>button_send</key>
+    <value><![CDATA[보내다]]></value>
+  </definition>
+  <definition>
+    <key>button_edit</key>
+    <value><![CDATA[편집하다]]></value>
+  </definition>
+  <definition>
+    <key>button_copy</key>
+    <value><![CDATA[부]]></value>
+  </definition>
+  <definition>
+    <key>button_agree</key>
+    <value><![CDATA[동의하다]]></value>
+  </definition>
+  <definition>
+    <key>button_back</key>
+    <value><![CDATA[뒤로]]></value>
+  </definition>
+  <definition>
+    <key>button_continue</key>
+    <value><![CDATA[잇다]]></value>
+  </definition>
+  <definition>
+    <key>button_remove</key>
+    <value><![CDATA[풀다]]></value>
+  </definition>
+  <definition>
+    <key>button_backup</key>
+    <value><![CDATA[지원]]></value>
+  </definition>
+  <definition>
+    <key>button_restore</key>
+    <value><![CDATA[복원]]></value>
+  </definition>
+  <definition>
+    <key>button_invoice</key>
+    <value><![CDATA[인쇄 송장]]></value>
+  </definition>
+  <definition>
+    <key>button_invoices</key>
+    <value><![CDATA[인쇄 송장]]></value>
+  </definition>
+  <definition>
+    <key>button_add_option</key>
+    <value><![CDATA[옵션 추가]]></value>
+  </definition>
+  <definition>
+    <key>button_add_option_value</key>
+    <value><![CDATA[옵션 값 추가]]></value>
+  </definition>
+  <definition>
+    <key>button_add_discount</key>
+    <value><![CDATA[할인 추가]]></value>
+  </definition>
+  <definition>
+    <key>button_add_special</key>
+    <value><![CDATA[특별 추가]]></value>
+  </definition>
+  <definition>
+    <key>button_add_image</key>
+    <value><![CDATA[이미지 추가]]></value>
+  </definition>
+  <definition>
+    <key>button_add_location_zone</key>
+    <value><![CDATA[위치 영역 추가]]></value>
+  </definition>
+  <definition>
+    <key>button_add_rate</key>
+    <value><![CDATA[세율 추가]]></value>
+  </definition>
+  <definition>
+    <key>button_add_history</key>
+    <value><![CDATA[주문 내역 추가]]></value>
+  </definition>
+  <definition>
+    <key>button_actas</key>
+    <value><![CDATA[대신에 관한 법률]]></value>
+  </definition>
+  <definition>
+    <key>button_message</key>
+    <value><![CDATA[이 고객에게 직접 연락]]></value>
+  </definition>
+  <definition>
+    <key>button_approve</key>
+    <value><![CDATA[승인]]></value>
+  </definition>
+  <definition>
+    <key>button_generate</key>
+    <value><![CDATA[일으키다]]></value>
+  </definition>
+  <definition>
+    <key>tab_admin</key>
+    <value><![CDATA[관리자]]></value>
+  </definition>
+  <definition>
+    <key>tab_data</key>
+    <value><![CDATA[데이터]]></value>
+  </definition>
+  <definition>
+    <key>tab_discount</key>
+    <value><![CDATA[할인]]></value>
+  </definition>
+  <definition>
+    <key>tab_details</key>
+    <value><![CDATA[스토어 상세]]></value>
+  </definition>
+  <definition>
+    <key>tab_checkout</key>
+    <value><![CDATA[점검]]></value>
+  </definition>
+  <definition>
+    <key>tab_appearance</key>
+    <value><![CDATA[외관]]></value>
+  </definition>
+  <definition>
+    <key>tab_im</key>
+    <value><![CDATA[IM]]></value>
+  </definition>
+  <definition>
+    <key>tab_api</key>
+    <value><![CDATA[API]]></value>
+  </definition>
+  <definition>
+    <key>tab_general</key>
+    <value><![CDATA[일반]]></value>
+  </definition>
+  <definition>
+    <key>tab_image</key>
+    <value><![CDATA[추가 이미지]]></value>
+  </definition>
+  <definition>
+    <key>tab_option</key>
+    <value><![CDATA[옵션]]></value>
+  </definition>
+  <definition>
+    <key>tab_system</key>
+    <value><![CDATA[체계]]></value>
+  </definition>
+  <definition>
+    <key>tab_store</key>
+    <value><![CDATA[저장]]></value>
+  </definition>
+  <definition>
+    <key>tab_special</key>
+    <value><![CDATA[특가]]></value>
+  </definition>
+  <definition>
+    <key>tab_local</key>
+    <value><![CDATA[노동 조합 지부]]></value>
+  </definition>
+  <definition>
+    <key>tab_mail</key>
+    <value><![CDATA[우편]]></value>
+  </definition>
+  <definition>
+    <key>tab_order</key>
+    <value><![CDATA[주문 정보]]></value>
+  </definition>
+  <definition>
+    <key>tab_history</key>
+    <value><![CDATA[주문 내역]]></value>
+  </definition>
+  <definition>
+    <key>tab_product</key>
+    <value><![CDATA[제작품]]></value>
+  </definition>
+  <definition>
+    <key>tab_shipping</key>
+    <value><![CDATA[배송 주소]]></value>
+  </definition>
+  <definition>
+    <key>tab_payment</key>
+    <value><![CDATA[결제 주소]]></value>
+  </definition>
+  <definition>
+    <key>entry_discount</key>
+    <value><![CDATA[할인]]></value>
+  </definition>
+  <definition>
+    <key>entry_special</key>
+    <value><![CDATA[특별한]]></value>
+  </definition>
+  <definition>
+    <key>error_upload_1</key>
+    <value><![CDATA[경고 : 업로드 된 파일은 php.ini 파일에서이 upload_max_filesize 지시어를 초과!]]></value>
+  </definition>
+  <definition>
+    <key>error_upload_2</key>
+    <value><![CDATA[경고 : 업로드 된 파일은 HTML 형태로 지정한 MAX_FILE_SIZE 지시어를 초과!]]></value>
+  </definition>
+  <definition>
+    <key>error_upload_3</key>
+    <value><![CDATA[경고 : 업로드 된 파일이 부분적으로 만 업로드되었습니다!]]></value>
+  </definition>
+  <definition>
+    <key>error_upload_4</key>
+    <value><![CDATA[경고 : 어떤 파일이 업로드되지 않았습니다!]]></value>
+  </definition>
+  <definition>
+    <key>error_upload_6</key>
+    <value><![CDATA[경고 : 임시 폴더를 누락!]]></value>
+  </definition>
+  <definition>
+    <key>error_upload_7</key>
+    <value><![CDATA[경고 : 디스크에 파일을 쓰지 못했습니다!]]></value>
+  </definition>
+  <definition>
+    <key>error_upload_8</key>
+    <value><![CDATA[경고 : 파일 업로드는 확장에 의해 중단!]]></value>
+  </definition>
+  <definition>
+    <key>error_upload_999</key>
+    <value><![CDATA[경고 : 없음 오류 코드 avaiable이다!]]></value>
+  </definition>
+  <definition>
+    <key>text_choose_action</key>
+    <value><![CDATA[작업을 선택 ..]]></value>
+  </definition>
+  <definition>
+    <key>text_delete</key>
+    <value><![CDATA[지우다]]></value>
+  </definition>
+  <definition>
+    <key>text_delete_selected</key>
+    <value><![CDATA[선택된 것을 지워 라]]></value>
+  </definition>
+  <definition>
+    <key>text_save_selected</key>
+    <value><![CDATA[저장 선정]]></value>
+  </definition>
+  <definition>
+    <key>text_save_all</key>
+    <value><![CDATA[모든 저장]]></value>
+  </definition>
+  <definition>
+    <key>text_select_status</key>
+    <value><![CDATA[- 선택 상태 -]]></value>
+  </definition>
+  <definition>
+    <key>text_all_orders</key>
+    <value><![CDATA[모든 주문]]></value>
+  </definition>
+  <definition>
+    <key>text_confirm_password</key>
+    <value><![CDATA[비밀번호 확인]]></value>
+  </definition>
+  <definition>
+    <key>text_insert</key>
+    <value><![CDATA[끼워 넣다]]></value>
+  </definition>
+  <definition>
+    <key>text_select_items</key>
+    <value><![CDATA[항목을 선택하세요]]></value>
+  </definition>
+  <definition>
+    <key>button_go</key>
+    <value><![CDATA[가기]]></value>
+  </definition>
+  <definition>
+    <key>search_everywhere</key>
+    <value><![CDATA[전체 사이트 검색]]></value>
+  </definition>
+  <definition>
+    <key>column_action</key>
+    <value><![CDATA[동작]]></value>
+  </definition>
+  <definition>
+    <key>error_permission_access</key>
+    <value><![CDATA[경고 : 액세스 권한이 %s하지 않습니다!]]></value>
+  </definition>
+  <definition>
+    <key>error_permission_modify</key>
+    <value><![CDATA[경고 :이 수정할 수있는 권한이 %s하지 않습니다!]]></value>
+  </definition>
+  <definition>
+    <key>text_add</key>
+    <value><![CDATA[더하다]]></value>
+  </definition>
+  <definition>
+    <key>text_add_block</key>
+    <value><![CDATA[블록 추가]]></value>
+  </definition>
+  <definition>
+    <key>text_resource_library</key>
+    <value><![CDATA[리소스 라이브러리]]></value>
+  </definition>
+  <definition>
+    <key>text_add_media</key>
+    <value><![CDATA[미디어 추가]]></value>
+  </definition>
+  <definition>
+    <key>confirm_unmap_title</key>
+    <value><![CDATA[자원 (들)을 확인 링크 해제]]></value>
+  </definition>
+  <definition>
+    <key>text_confirm_unmap</key>
+    <value><![CDATA[당신은 자원 (들)을 해제 하시겠습니까?]]></value>
+  </definition>
+  <definition>
+    <key>confirm_del_title</key>
+    <value><![CDATA[자원 확인 (들) 삭제]]></value>
+  </definition>
+  <definition>
+    <key>text_confirm_del</key>
+    <value><![CDATA[당신은 자원을 삭제 하시겠습니까?]]></value>
+  </definition>
+  <definition>
+    <key>text_type_image</key>
+    <value><![CDATA[이미지]]></value>
+  </definition>
+  <definition>
+    <key>text_type_audio</key>
+    <value><![CDATA[오디오]]></value>
+  </definition>
+  <definition>
+    <key>text_type_video</key>
+    <value><![CDATA[비디오]]></value>
+  </definition>
+  <definition>
+    <key>text_type_pdf</key>
+    <value><![CDATA[PDF 문서]]></value>
+  </definition>
+  <definition>
+    <key>text_type_archive</key>
+    <value><![CDATA[아카이브]]></value>
+  </definition>
+  <definition>
+    <key>text_type_download</key>
+    <value><![CDATA[파일 다운로드]]></value>
+  </definition>
+  <definition>
+    <key>button_unmap</key>
+    <value><![CDATA[풀리다]]></value>
+  </definition>
+  <definition>
+    <key>button_select_resource</key>
+    <value><![CDATA[고르다]]></value>
+  </definition>
+  <definition>
+    <key>text_click_to_change</key>
+    <value><![CDATA[변경 이미지를 클릭]]></value>
+  </definition>
+  <definition>
+    <key>text_select_from_list</key>
+    <value><![CDATA[목록에서 선택]]></value>
+  </definition>
+  <definition>
+    <key>text_count_selected</key>
+    <value><![CDATA[선택한 항목의 개수 :]]></value>
+  </definition>
+  <definition>
+    <key>text_delete_confirm</key>
+    <value><![CDATA[삭제 확인하시기 바랍니다]]></value>
+  </definition>
+  <definition>
+    <key>text_save_edit</key>
+    <value><![CDATA[추가 / 편집]]></value>
+  </definition>
+  <definition>
+    <key>text_apply</key>
+    <value><![CDATA[대다]]></value>
+  </definition>
+  <definition>
+    <key>text_on_top</key>
+    <value><![CDATA[뒷면 상단에]]></value>
+  </definition>
+  <definition>
+    <key>text_all</key>
+    <value><![CDATA[모든]]></value>
+  </definition>
+  <definition>
+    <key>text_create_new_block</key>
+    <value><![CDATA[새 블록 만들기]]></value>
+  </definition>
+  <definition>
+    <key>button_unlink</key>
+    <value><![CDATA[풀리다]]></value>
+  </definition>
+  <definition>
+    <key>text_confirm_unlink</key>
+    <value><![CDATA[당신은 자원을 해제 하시겠습니까?]]></value>
+  </definition>
+  <definition>
+    <key>confirm_unlink_title</key>
+    <value><![CDATA[자원 연결 해제 확인]]></value>
+  </definition>
+  <definition>
+    <key>text_select_store</key>
+    <value><![CDATA[다른 저장소를 선택]]></value>
+  </definition>
+  <definition>
+    <key>text_click_browse_file</key>
+    <value><![CDATA[파일을 찾아 클릭]]></value>
+  </definition>
+  <definition>
+    <key>text_browse</key>
+    <value><![CDATA[검색]]></value>
+  </definition>
+  <definition>
+    <key>text_or</key>
+    <value><![CDATA[또는]]></value>
+  </definition>
+  <definition>
+    <key>error_seo_keyword</key>
+    <value><![CDATA[SEO 키워드는 <a target="_blank" href="%s">&quot;%s&quot;</a> 이미 존재입니다!]]></value>
+  </definition>
+  <definition>
+    <key>column_update_date</key>
+    <value><![CDATA[업데이트 날짜]]></value>
+  </definition>
+  <definition>
+    <key>text_automatic</key>
+    <value><![CDATA[오토매틱]]></value>
+  </definition>
+  <definition>
+    <key>text_sort_order</key>
+    <value><![CDATA[정렬 순서]]></value>
+  </definition>
+  <definition>
+    <key>text_select_copy_layout</key>
+    <value><![CDATA[에서 레이아웃을 복사하려면 선택]]></value>
+  </definition>
+  <definition>
+    <key>text_apply_layout</key>
+    <value><![CDATA[지금 적용]]></value>
+  </definition>
+  <definition>
+    <key>text_new_download</key>
+    <value><![CDATA[새 다운로드]]></value>
+  </definition>
+  <definition>
+    <key>text_free</key>
+    <value><![CDATA[비어 있는]]></value>
+  </definition>
+  <definition>
+    <key>text_sure</key>
+    <value><![CDATA[확실합니까?]]></value>
+  </definition>
+  <definition>
+    <key>button_add</key>
+    <value><![CDATA[더하다]]></value>
+  </definition>
+  <definition>
+    <key>text_please_confirm</key>
+    <value><![CDATA[확인하세요]]></value>
+  </definition>
+  <definition>
+    <key>button_confirm</key>
+    <value><![CDATA[확인]]></value>
+  </definition>
+  <definition>
+    <key>button_download</key>
+    <value><![CDATA[다운로드]]></value>
+  </definition>
+  <definition>
+    <key>recent_customers</key>
+    <value><![CDATA[최근 등록 된 고객]]></value>
+  </definition>
+  <definition>
+    <key>new_orders</key>
+    <value><![CDATA[수주]]></value>
+  </definition>
+  <definition>
+    <key>text_saved</key>
+    <value><![CDATA[성공적으로 저장]]></value>
+  </definition>
+  <definition>
+    <key>text_processing</key>
+    <value><![CDATA[처리 중 ...]]></value>
+  </definition>
+  <definition>
+    <key>text_next</key>
+    <value><![CDATA[다음 것]]></value>
+  </definition>
+  <definition>
+    <key>text_previous</key>
+    <value><![CDATA[너무 이른]]></value>
+  </definition>
+  <definition>
+    <key>text_on</key>
+    <value><![CDATA[에]]></value>
+  </definition>
+  <definition>
+    <key>text_off</key>
+    <value><![CDATA[떨어져서]]></value>
+  </definition>
+  <definition>
+    <key>text_external_help</key>
+    <value><![CDATA[외부 도움말]]></value>
+  </definition>
+  <definition>
+    <key>text_select_from_lookup</key>
+    <value><![CDATA[입력을 시작 (이름, 모델 등 SKU는) 선택 결과를 검색합니다]]></value>
+  </definition>
+  <definition>
+    <key>text_continue_typing</key>
+    <value><![CDATA[입력을 계속 ...]]></value>
+  </definition>
+  <definition>
+    <key>text_looking_for</key>
+    <value><![CDATA[찾고]]></value>
+  </definition>
+  <definition>
+    <key>button_manage_extensions</key>
+    <value><![CDATA[확장 관리]]></value>
+  </definition>
+  <definition>
+    <key>text_abc_notification</key>
+    <value><![CDATA[소프트웨어 업데이트 및 알림]]></value>
+  </definition>
+  <definition>
+    <key>text_not_applicable</key>
+    <value><![CDATA[NA]]></value>
+  </definition>
+  <definition>
+    <key>text_share_embed_code</key>
+    <value><![CDATA[삽입 코드 가져 오기]]></value>
+  </definition>
+  <definition>
+    <key>text_copy_embed_code</key>
+    <value><![CDATA[당신이 판매하고 싶은 곳 Сopy는 HTML 코드로이 붙여]]></value>
+  </definition>
+  <definition>
+    <key>button_retry</key>
+    <value><![CDATA[다시 해 보다]]></value>
+  </definition>
+  <definition>
+    <key>text_system_error</key>
+    <value><![CDATA[시스템 오류가 발생했습니다. 시스템 확인 <a target="_blank" href="%s">메시지</a> 또는 <a target="_blank" href="%s">오류 로그를</a>]]></value>
+  </definition>
+  <definition>
+    <key>text_system_warning</key>
+    <value><![CDATA[시스템 경고가보고되었다. 시스템 확인 <a target="_blank" href="%s">메시지를</a>]]></value>
+  </definition>
+  <definition>
+    <key>text_system_notice</key>
+    <value><![CDATA[시스템 통지가보고 된 바있다. 시스템 확인 <a target="_blank" href="%s">메시지를</a>]]></value>
+  </definition>
+  <definition>
+    <key>text_set_related</key>
+    <value><![CDATA[관련 설정]]></value>
+  </definition>
+  <definition>
+    <key>tab_text</key>
+    <value><![CDATA[HTML / 텍스트]]></value>
+  </definition>
+  <definition>
+    <key>tab_visual</key>
+    <value><![CDATA[비주얼]]></value>
+  </definition>
+  <definition>
+    <key>button_add_media</key>
+    <value><![CDATA[미디어 추가]]></value>
+  </definition>
+  <definition>
+    <key>text_view_more</key>
+    <value><![CDATA[더보기]]></value>
+  </definition>
+  <definition>
+    <key>text_admin</key>
+    <value><![CDATA[제어판]]></value>
+  </definition>
+  <definition>
+    <key>text_storefront</key>
+    <value><![CDATA[점포]]></value>
+  </definition>
+  <definition>
+    <key>text_texteditor_extended_mode</key>
+    <value><![CDATA[<a class="texteditor_ext_mode" href="%s" ><i class="fa fa-external-link"></i> 확장 모드에서 편집</a>]]></value>
+  </definition>
+  <definition>
+    <key>text_quick_view</key>
+    <value><![CDATA[퀵뷰]]></value>
+  </definition>
+  <definition>
+    <key>text_more_current</key>
+    <value><![CDATA[전체 페이지 편집]]></value>
+  </definition>
+  <definition>
+    <key>text_more_new</key>
+    <value><![CDATA[새 탭 편집]]></value>
+  </definition>
+  <definition>
+    <key>text_back_to_list</key>
+    <value><![CDATA[리스트로 돌아 가기]]></value>
+  </definition>
+</definitions>

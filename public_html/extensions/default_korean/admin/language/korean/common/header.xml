@@ -1,0 +1,463 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[관리]]></value>
+  </definition>
+  <definition>
+    <key>text_backup</key>
+    <value><![CDATA[백업 / 복원]]></value>
+  </definition>
+  <definition>
+    <key>text_welcome</key>
+    <value><![CDATA[에 오신 것을 환영합니다 <b>%s</b>]]></value>
+  </definition>
+  <definition>
+    <key>text_last_login</key>
+    <value><![CDATA[마지막 로그인 : %s]]></value>
+  </definition>
+  <definition>
+    <key>text_edit_details</key>
+    <value><![CDATA[프로필 세부 사항을 편집]]></value>
+  </definition>
+  <definition>
+    <key>text_edit_notifications</key>
+    <value><![CDATA[편집 알림 설정]]></value>
+  </definition>
+  <definition>
+    <key>text_catalog</key>
+    <value><![CDATA[목록]]></value>
+  </definition>
+  <definition>
+    <key>text_category</key>
+    <value><![CDATA[카테고리]]></value>
+  </definition>
+  <definition>
+    <key>text_confirm</key>
+    <value><![CDATA[확인?]]></value>
+  </definition>
+  <definition>
+    <key>text_country</key>
+    <value><![CDATA[나라]]></value>
+  </definition>
+  <definition>
+    <key>text_coupon</key>
+    <value><![CDATA[쿠폰]]></value>
+  </definition>
+  <definition>
+    <key>text_discount</key>
+    <value><![CDATA[할인]]></value>
+  </definition>
+  <definition>
+    <key>text_currency</key>
+    <value><![CDATA[통화]]></value>
+  </definition>
+  <definition>
+    <key>text_customer</key>
+    <value><![CDATA[고객]]></value>
+  </definition>
+  <definition>
+    <key>text_customer_group</key>
+    <value><![CDATA[고객 그룹]]></value>
+  </definition>
+  <definition>
+    <key>text_dashboard</key>
+    <value><![CDATA[계기반]]></value>
+  </definition>
+  <definition>
+    <key>text_download</key>
+    <value><![CDATA[다운로드]]></value>
+  </definition>
+  <definition>
+    <key>text_error_log</key>
+    <value><![CDATA[오류 로그]]></value>
+  </definition>
+  <definition>
+    <key>text_extension</key>
+    <value><![CDATA[확장]]></value>
+  </definition>
+  <definition>
+    <key>text_extensions_short</key>
+    <value><![CDATA[확장]]></value>
+  </definition>
+  <definition>
+    <key>text_front</key>
+    <value><![CDATA[점포]]></value>
+  </definition>
+  <definition>
+    <key>text_location</key>
+    <value><![CDATA[위치]]></value>
+  </definition>
+  <definition>
+    <key>text_help</key>
+    <value><![CDATA[도움]]></value>
+  </definition>
+  <definition>
+    <key>text_information</key>
+    <value><![CDATA[정보]]></value>
+  </definition>
+  <definition>
+    <key>text_language</key>
+    <value><![CDATA[언어]]></value>
+  </definition>
+  <definition>
+    <key>text_language_definitions</key>
+    <value><![CDATA[언어 정의]]></value>
+  </definition>
+  <definition>
+    <key>text_localisation</key>
+    <value><![CDATA[현지화]]></value>
+  </definition>
+  <definition>
+    <key>text_logged</key>
+    <value><![CDATA[당신은 <span>%s로</span> 로그인]]></value>
+  </definition>
+  <definition>
+    <key>text_logout</key>
+    <value><![CDATA[로그 아웃]]></value>
+  </definition>
+  <definition>
+    <key>text_contact</key>
+    <value><![CDATA[메일을 보내다]]></value>
+  </definition>
+  <definition>
+    <key>text_manufacturer</key>
+    <value><![CDATA[제조사]]></value>
+  </definition>
+  <definition>
+    <key>text_order</key>
+    <value><![CDATA[명령]]></value>
+  </definition>
+  <definition>
+    <key>text_order_status</key>
+    <value><![CDATA[주문되는 상태]]></value>
+  </definition>
+  <definition>
+    <key>text_abantecart</key>
+    <value><![CDATA[홈페이지]]></value>
+  </definition>
+  <definition>
+    <key>text_payment</key>
+    <value><![CDATA[지급]]></value>
+  </definition>
+  <definition>
+    <key>text_product</key>
+    <value><![CDATA[제작품]]></value>
+  </definition>
+  <definition>
+    <key>text_reports</key>
+    <value><![CDATA[보고서]]></value>
+  </definition>
+  <definition>
+    <key>text_online</key>
+    <value><![CDATA[온라인으로]]></value>
+  </definition>
+  <definition>
+    <key>text_transactions</key>
+    <value><![CDATA[업무]]></value>
+  </definition>
+  <definition>
+    <key>text_tax</key>
+    <value><![CDATA[세]]></value>
+  </definition>
+  <definition>
+    <key>text_report_purchased</key>
+    <value><![CDATA[제품 구매]]></value>
+  </definition>
+  <definition>
+    <key>text_report_sale</key>
+    <value><![CDATA[매상]]></value>
+  </definition>
+  <definition>
+    <key>text_analytics</key>
+    <value><![CDATA[웹 로그 분석 및 인사이트]]></value>
+  </definition>
+  <definition>
+    <key>text_report_viewed</key>
+    <value><![CDATA[제품 조회]]></value>
+  </definition>
+  <definition>
+    <key>text_review</key>
+    <value><![CDATA[리뷰]]></value>
+  </definition>
+  <definition>
+    <key>text_sale</key>
+    <value><![CDATA[매상]]></value>
+  </definition>
+  <definition>
+    <key>text_shipping</key>
+    <value><![CDATA[배송]]></value>
+  </definition>
+  <definition>
+    <key>text_setting</key>
+    <value><![CDATA[설정]]></value>
+  </definition>
+  <definition>
+    <key>text_stock_status</key>
+    <value><![CDATA[주식되는 상태]]></value>
+  </definition>
+  <definition>
+    <key>text_support</key>
+    <value><![CDATA[지원 포럼]]></value>
+  </definition>
+  <definition>
+    <key>text_system</key>
+    <value><![CDATA[체계]]></value>
+  </definition>
+  <definition>
+    <key>text_tax_class</key>
+    <value><![CDATA[세금 클래스]]></value>
+  </definition>
+  <definition>
+    <key>text_total</key>
+    <value><![CDATA[주문 합계]]></value>
+  </definition>
+  <definition>
+    <key>text_user</key>
+    <value><![CDATA[사용자]]></value>
+  </definition>
+  <definition>
+    <key>text_documentation</key>
+    <value><![CDATA[선적 서류 비치]]></value>
+  </definition>
+  <definition>
+    <key>text_users</key>
+    <value><![CDATA[사용자]]></value>
+  </definition>
+  <definition>
+    <key>text_user_group</key>
+    <value><![CDATA[사용자 그룹]]></value>
+  </definition>
+  <definition>
+    <key>text_weight_class</key>
+    <value><![CDATA[무게 클래스]]></value>
+  </definition>
+  <definition>
+    <key>text_length_class</key>
+    <value><![CDATA[길이 클래스]]></value>
+  </definition>
+  <definition>
+    <key>text_zone</key>
+    <value><![CDATA[영역]]></value>
+  </definition>
+  <definition>
+    <key>text_extensions</key>
+    <value><![CDATA[모든 확장]]></value>
+  </definition>
+  <definition>
+    <key>text_add_extension</key>
+    <value><![CDATA[확장 설치]]></value>
+  </definition>
+  <definition>
+    <key>text_extensions_store</key>
+    <value><![CDATA[확장을 가져 오기]]></value>
+  </definition>
+  <definition>
+    <key>text_migrate</key>
+    <value><![CDATA[마이그레이션 도구]]></value>
+  </definition>
+  <definition>
+    <key>text_updater</key>
+    <value><![CDATA[업데이터]]></value>
+  </definition>
+  <definition>
+    <key>text_design</key>
+    <value><![CDATA[디자인]]></value>
+  </definition>
+  <definition>
+    <key>text_templates</key>
+    <value><![CDATA[템플릿]]></value>
+  </definition>
+  <definition>
+    <key>text_layout</key>
+    <value><![CDATA[레이아웃]]></value>
+  </definition>
+  <definition>
+    <key>text_blocks</key>
+    <value><![CDATA[블록]]></value>
+  </definition>
+  <definition>
+    <key>text_menu</key>
+    <value><![CDATA[메뉴]]></value>
+  </definition>
+  <definition>
+    <key>text_cache</key>
+    <value><![CDATA[은닉처]]></value>
+  </definition>
+  <definition>
+    <key>text_messages</key>
+    <value><![CDATA[메시지]]></value>
+  </definition>
+  <definition>
+    <key>text_content</key>
+    <value><![CDATA[함유량]]></value>
+  </definition>
+  <definition>
+    <key>text_datasets_manager</key>
+    <value><![CDATA[데이터 집합]]></value>
+  </definition>
+  <definition>
+    <key>text_install_upgrade_history</key>
+    <value><![CDATA[역사를 업그레이드 / 설치]]></value>
+  </definition>
+  <definition>
+    <key>text_attribute</key>
+    <value><![CDATA[글로벌 속성]]></value>
+  </definition>
+  <definition>
+    <key>text_attribute_groups</key>
+    <value><![CDATA[글로벌 그룹 속성]]></value>
+  </definition>
+  <definition>
+    <key>text_import_export</key>
+    <value><![CDATA[수입 수출]]></value>
+  </definition>
+  <definition>
+    <key>text_data</key>
+    <value><![CDATA[데이터]]></value>
+  </definition>
+  <definition>
+    <key>text_logs</key>
+    <value><![CDATA[로그]]></value>
+  </definition>
+  <definition>
+    <key>text_quick_edit_form</key>
+    <value><![CDATA[빠른 편집 양식]]></value>
+  </definition>
+  <definition>
+    <key>text_all_matches</key>
+    <value><![CDATA[모든 경기]]></value>
+  </definition>
+  <definition>
+    <key>text_file_uploads</key>
+    <value><![CDATA[파일 업로드]]></value>
+  </definition>
+  <definition>
+    <key>text_all_settings</key>
+    <value><![CDATA[모든 설정]]></value>
+  </definition>
+  <definition>
+    <key>text_settings_details</key>
+    <value><![CDATA[스토어 상세]]></value>
+  </definition>
+  <definition>
+    <key>text_settings_general</key>
+    <value><![CDATA[일반]]></value>
+  </definition>
+  <definition>
+    <key>text_settings_checkout</key>
+    <value><![CDATA[점검]]></value>
+  </definition>
+  <definition>
+    <key>text_settings_appearance</key>
+    <value><![CDATA[외관]]></value>
+  </definition>
+  <definition>
+    <key>text_settings_mail</key>
+    <value><![CDATA[우편]]></value>
+  </definition>
+  <definition>
+    <key>text_settings_im</key>
+    <value><![CDATA[IM]]></value>
+  </definition>
+  <definition>
+    <key>text_settings_api</key>
+    <value><![CDATA[API]]></value>
+  </definition>
+  <definition>
+    <key>text_settings_system</key>
+    <value><![CDATA[체계]]></value>
+  </definition>
+  <definition>
+    <key>text_settings_newstore</key>
+    <value><![CDATA[새 저장소 만들기]]></value>
+  </definition>
+  <definition>
+    <key>text_voice_command_prompt</key>
+    <value><![CDATA[음성 명령 프롬프트.]]></value>
+  </definition>
+  <definition>
+    <key>text_voice_select_dialect</key>
+    <value><![CDATA[당신의 방언을 선택]]></value>
+  </definition>
+  <definition>
+    <key>text_voice_confirm_action</key>
+    <value><![CDATA[이 작업을 확인하거나 취소]]></value>
+  </definition>
+  <definition>
+    <key>text_voice_speak_now</key>
+    <value><![CDATA[지금 말하세요.]]></value>
+  </definition>
+  <definition>
+    <key>text_voice_no_speach_detected</key>
+    <value><![CDATA[어떤 연설은 검출되지 않았다. 당신은 당신의 조정해야 할 수도 있습니다 <a href="//support.google.com/chrome/bin/answer.py?hl=en<span class="notranslate">(1) #### 1A를; = 1407892 &quot;&gt; 마이크 설정을 대답</a> .]]></value>
+  </definition>
+  <definition>
+    <key>text_voice_no_mic_detected</key>
+    <value><![CDATA[어떤 마이크를 찾을 수 없습니다. 마이크가 설치되어 있는지 확인하고 그 <a href="//support.google.com/chrome/bin/answer.py?hl=en<span class="notranslate">일 #### 1A; 답 = 1407892 &quot;&gt; 마이크 설정이</a> 올바르게 구성되어있다.]]></value>
+  </definition>
+  <definition>
+    <key>text_voice_click_allow</key>
+    <value><![CDATA[마이크를 사용하려면 위의 &quot;허용&quot;버튼을 클릭합니다.]]></value>
+  </definition>
+  <definition>
+    <key>text_voice_mic_denied</key>
+    <value><![CDATA[마이크를 사용할 수있는 권한이 거부되었습니다.]]></value>
+  </definition>
+  <definition>
+    <key>text_voice_mic_permission</key>
+    <value><![CDATA[마이크를 사용할 수있는 권한이 차단됩니다. 변경하려면 브라우저로 이동 <a href="chrome://settings/contentExceptions#media-stream">미디어 설정</a>]]></value>
+  </definition>
+  <definition>
+    <key>text_voice_not_supported</key>
+    <value><![CDATA[음성 컨트롤이 브라우저에서 지원되지 않습니다. <a href="//www.google.com/chrome" target="_new">크롬</a> 버전 25 또는 이상이 필요합니다.]]></value>
+  </definition>
+  <definition>
+    <key>text_tasks</key>
+    <value><![CDATA[예약 된 작업]]></value>
+  </definition>
+  <definition>
+    <key>text_read_all_messages</key>
+    <value><![CDATA[모든 메시지를 읽고]]></value>
+  </definition>
+  <definition>
+    <key>text_short_stats</key>
+    <value><![CDATA[빠른 통계]]></value>
+  </definition>
+  <definition>
+    <key>text_online_now</key>
+    <value><![CDATA[온라인 고객]]></value>
+  </definition>
+  <definition>
+    <key>text_online_new</key>
+    <value><![CDATA[새로운]]></value>
+  </definition>
+  <definition>
+    <key>text_online_registered</key>
+    <value><![CDATA[로그인]]></value>
+  </definition>
+  <definition>
+    <key>text_today_orders</key>
+    <value><![CDATA[새로운 주문 오늘]]></value>
+  </definition>
+  <definition>
+    <key>text_today_sales</key>
+    <value><![CDATA[총 판매 오늘]]></value>
+  </definition>
+  <definition>
+    <key>text_today_customers</key>
+    <value><![CDATA[신규 고객 오늘]]></value>
+  </definition>
+  <definition>
+    <key>text_today_reviews</key>
+    <value><![CDATA[새로운 리뷰 오늘]]></value>
+  </definition>
+  <definition>
+    <key>text_rl_manager</key>
+    <value><![CDATA[미디어 관리자]]></value>
+  </definition>
+  <definition>
+    <key>text_server_time</key>
+    <value><![CDATA[서버 시간]]></value>
+  </definition>
+</definitions>
