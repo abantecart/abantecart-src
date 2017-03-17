@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Stránka nenalezena!]]></value>
+  </definition>
+  <definition>
+    <key>text_not_found</key>
+    <value><![CDATA[Stránka, kterou hledáte nebyla nalezena! Obraťte se na správce, zda problém přetrvává.]]></value>
+  </definition>
+</definitions>

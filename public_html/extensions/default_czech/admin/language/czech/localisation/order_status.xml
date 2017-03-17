@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Stavy objednávek]]></value>
+  </definition>
+  <definition>
+    <key>text_status</key>
+    <value><![CDATA[Stav objednávky]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Úspěch: Změnili jste stavy objednávek!]]></value>
+  </definition>
+  <definition>
+    <key>column_name</key>
+    <value><![CDATA[Stav objednávky Name]]></value>
+  </definition>
+  <definition>
+    <key>column_text_id</key>
+    <value><![CDATA[Stav objednávky Text ID]]></value>
+  </definition>
+  <definition>
+    <key>entry_text_id</key>
+    <value><![CDATA[Stav objednávky Text ID:]]></value>
+  </definition>
+  <definition>
+    <key>column_action</key>
+    <value><![CDATA[Akce]]></value>
+  </definition>
+  <definition>
+    <key>entry_name</key>
+    <value><![CDATA[Stav objednávky Jméno:]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Varování: Nemáte oprávnění ke změně pořadí sochy!]]></value>
+  </definition>
+  <definition>
+    <key>error_name</key>
+    <value><![CDATA[Stav objednávky Jméno musí být mezi 2 a 32 znaků!]]></value>
+  </definition>
+  <definition>
+    <key>error_default</key>
+    <value><![CDATA[Varování: Stav Toto pořadí nelze smazat, protože je aktuálně přiřazena jako výchozí stav úložiště objednávky!]]></value>
+  </definition>
+  <definition>
+    <key>error_download</key>
+    <value><![CDATA[Varování: Stav Toto pořadí nelze smazat, protože je aktuálně přiřazena jako výchozí stav pro stažení!]]></value>
+  </definition>
+  <definition>
+    <key>error_store</key>
+    <value><![CDATA[Upozornění: Tento stav objednávky nelze smazat, protože je aktuálně přiřazen %s obchodech!]]></value>
+  </definition>
+  <definition>
+    <key>error_order</key>
+    <value><![CDATA[Upozornění: Tento stav objednávky nelze smazat, protože je aktuálně přiřazen %s objednávek!]]></value>
+  </definition>
+  <definition>
+    <key>error_nondeletable</key>
+    <value><![CDATA[Varování: Toto je důležité, stav objednávky, která je spojena s platbami. Nemůžete odstranit tento stav.]]></value>
+  </definition>
+  <definition>
+    <key>error_status_text_id</key>
+    <value><![CDATA[Objednat Id Text Stav musí být jedinečný a mezi 2 a 32 znaků!]]></value>
+  </definition>
+</definitions>

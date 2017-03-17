@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Zapomněli jste heslo?]]></value>
+  </definition>
+  <definition>
+    <key>heading_title_loginname</key>
+    <value><![CDATA[Zapomněli jste přihlašovací jméno?]]></value>
+  </definition>
+  <definition>
+    <key>text_account</key>
+    <value><![CDATA[Účet]]></value>
+  </definition>
+  <definition>
+    <key>text_forgotten</key>
+    <value><![CDATA[Zapomenuté heslo]]></value>
+  </definition>
+  <definition>
+    <key>text_your_email</key>
+    <value><![CDATA[Vaše emailová adresa]]></value>
+  </definition>
+  <definition>
+    <key>text_email</key>
+    <value><![CDATA[Zadejte e-mailovou adresu spojenou s vaším účtem. Kliknutím na tlačítko Odeslat se, že vaše heslo e-mailem na vás]]></value>
+  </definition>
+  <definition>
+    <key>text_loginname_email</key>
+    <value><![CDATA[Zadat adresu přihlašovací jméno a e-mailovou spojený s vaším účtem. Kliknutím na tlačítko Odeslat Žádost o resetování hesla]]></value>
+  </definition>
+  <definition>
+    <key>text_lastname_email</key>
+    <value><![CDATA[Zadejte poslední adresu, jméno a e-mailovou spojený s vaším účtem. Kliknutím na tlačítko Odeslat mít své přihlašovací jméno, e-mailovou adresou]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Úspěch: resetování hesla odkaz byl odeslán na vaši e-mailovou adresu.]]></value>
+  </definition>
+  <definition>
+    <key>text_success_loginname</key>
+    <value><![CDATA[Úspěch: Vaše přihlašovací jméno připomínka byla odeslána na Vaši e-mailovou adresu.]]></value>
+  </definition>
+  <definition>
+    <key>entry_loginname</key>
+    <value><![CDATA[Přihlašovací jméno:]]></value>
+  </definition>
+  <definition>
+    <key>entry_lastname</key>
+    <value><![CDATA[Příjmení:]]></value>
+  </definition>
+  <definition>
+    <key>entry_email</key>
+    <value><![CDATA[Emailová adresa:]]></value>
+  </definition>
+  <definition>
+    <key>error_email</key>
+    <value><![CDATA[Chyba: E-mailová adresa nebyl poskytnut nebo nebyla nalezena v našich záznamech, zkuste to znovu!]]></value>
+  </definition>
+  <definition>
+    <key>error_loginname</key>
+    <value><![CDATA[Chyba: Název Vstup nebyl poskytnut nebo nebyla nalezena v našich záznamech, zkuste to znovu!]]></value>
+  </definition>
+  <definition>
+    <key>error_lastname</key>
+    <value><![CDATA[Chyba: Příjmení nebyl poskytnut nebo nebyla nalezena v našich záznamech, zkuste to znovu!]]></value>
+  </definition>
+  <definition>
+    <key>error_not_found</key>
+    <value><![CDATA[Chyba: nalezeno odpovídající informace o vaší poskytnuto žádné záznamy, zkontrolujte své údaje a zkuste to znovu!]]></value>
+  </definition>
+  <definition>
+    <key>text_forgotten_loginname</key>
+    <value><![CDATA[Zapomněl jsem přihlašovací jméno]]></value>
+  </definition>
+</definitions>

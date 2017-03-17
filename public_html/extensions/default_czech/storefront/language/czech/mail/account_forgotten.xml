@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>text_subject</key>
+    <value><![CDATA[%s - Resetování hesla]]></value>
+  </definition>
+  <definition>
+    <key>text_greeting</key>
+    <value><![CDATA[O resetování hesla bylo požadováno z %s.]]></value>
+  </definition>
+  <definition>
+    <key>text_password</key>
+    <value><![CDATA[Chcete-li obnovit heslo, klikněte níže uvedený odkaz:]]></value>
+  </definition>
+  <definition>
+    <key>text_password_reset</key>
+    <value><![CDATA[Vaše heslo bylo úspěšně obnovit na %s.]]></value>
+  </definition>
+  <definition>
+    <key>text_new_password</key>
+    <value><![CDATA[Zadejte své nové heslo:]]></value>
+  </definition>
+  <definition>
+    <key>error_reset_token</key>
+    <value><![CDATA[Nesprávný odkaz na vyžádání hesla. Pokusit se obnovit ještě jednou a pomocí odkazu z nejnovějších e-mailu.]]></value>
+  </definition>
+</definitions>

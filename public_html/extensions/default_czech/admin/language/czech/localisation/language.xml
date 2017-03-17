@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[jazyky]]></value>
+  </definition>
+  <definition>
+    <key>text_language</key>
+    <value><![CDATA[Jazyk]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Úspěch: Změnili jste jazyk!]]></value>
+  </definition>
+  <definition>
+    <key>column_name</key>
+    <value><![CDATA[jazyk Name]]></value>
+  </definition>
+  <definition>
+    <key>column_code</key>
+    <value><![CDATA[Kód]]></value>
+  </definition>
+  <definition>
+    <key>column_sort_order</key>
+    <value><![CDATA[Pořadí řazení]]></value>
+  </definition>
+  <definition>
+    <key>column_action</key>
+    <value><![CDATA[Akce]]></value>
+  </definition>
+  <definition>
+    <key>entry_name</key>
+    <value><![CDATA[Jazyk Jméno:]]></value>
+  </definition>
+  <definition>
+    <key>entry_code</key>
+    <value><![CDATA[Code: <br/><span class="help">Neměňte pokud je to váš výchozí jazyk.</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_locale</key>
+    <value><![CDATA[locale:]]></value>
+  </definition>
+  <definition>
+    <key>entry_image</key>
+    <value><![CDATA[Obraz:]]></value>
+  </definition>
+  <definition>
+    <key>entry_directory</key>
+    <value><![CDATA[Adresář:]]></value>
+  </definition>
+  <definition>
+    <key>entry_filename</key>
+    <value><![CDATA[Název souboru:]]></value>
+  </definition>
+  <definition>
+    <key>entry_status</key>
+    <value><![CDATA[Postavení:]]></value>
+  </definition>
+  <definition>
+    <key>entry_sort_order</key>
+    <value><![CDATA[Uspořádání:]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Varování: Nemáte oprávnění k úpravě jazyky!]]></value>
+  </definition>
+  <definition>
+    <key>error_name</key>
+    <value><![CDATA[Jazyk Jméno musí být mezi 2 a 32 znaků!]]></value>
+  </definition>
+  <definition>
+    <key>error_code</key>
+    <value><![CDATA[Kód jazyka musí být alespoň 2 znaky!]]></value>
+  </definition>
+  <definition>
+    <key>error_locale</key>
+    <value><![CDATA[požadováno Locale!]]></value>
+  </definition>
+  <definition>
+    <key>error_image</key>
+    <value><![CDATA[Image Název souboru musí být mezi 2 a 64 znaků!]]></value>
+  </definition>
+  <definition>
+    <key>error_directory</key>
+    <value><![CDATA[požadováno Directory!]]></value>
+  </definition>
+  <definition>
+    <key>error_filename</key>
+    <value><![CDATA[Název souboru musí být mezi 2 a 64 znaků!]]></value>
+  </definition>
+  <definition>
+    <key>error_default</key>
+    <value><![CDATA[Upozornění: Tento jazyk nelze vymazat, protože je aktuálně přiřazena jako výchozí jazyk obchodu!]]></value>
+  </definition>
+  <definition>
+    <key>error_admin</key>
+    <value><![CDATA[Upozornění: Tento jazyk nelze vymazat, protože je aktuálně přiřazena jako jazyk administrace!]]></value>
+  </definition>
+  <definition>
+    <key>error_store</key>
+    <value><![CDATA[Upozornění: Tento jazyk nelze vymazat, protože je aktuálně přiřazen %s obchodech!]]></value>
+  </definition>
+  <definition>
+    <key>error_order</key>
+    <value><![CDATA[Upozornění: Tento jazyk nelze vymazat, protože je aktuálně přiřazen %s objednávek!]]></value>
+  </definition>
+  <definition>
+    <key>language_edit_title</key>
+    <value><![CDATA[Editovat Language Podrobnosti]]></value>
+  </definition>
+  <definition>
+    <key>load_language_title</key>
+    <value><![CDATA[Načíst chybějící jazykových dat]]></value>
+  </definition>
+  <definition>
+    <key>entry_language_selector</key>
+    <value><![CDATA[Zdroj Jazyk:]]></value>
+  </definition>
+  <definition>
+    <key>entry_translate_method_selector</key>
+    <value><![CDATA[Text způsob překladu:]]></value>
+  </definition>
+  <definition>
+    <key>load_language_note</key>
+    <value><![CDATA[POZNÁMKA: Tato operace může trvat několik minut běžet. Nezavírejte prohlížeč, opustí nebo aktualizovat stránku!]]></value>
+  </definition>
+  <definition>
+    <key>create_language_note</key>
+    <value><![CDATA[Poznámka: Doporučujeme vytvořit jazyk jako rozšíření. Zkontrolujte, zda stávající rozšíření jazyka. Pokud si přesto chcete ručně vytvořit nový jazyk, je třeba přidat jazykovou vlajku admin / jazyk / [Language Directory] /flag.png a průčelí / jazyk / [Language Directory] flag.png 
+ Poté, co je vytvořen jazyk load chybějící údaje jazyk přeložit nebo kopírování textového obsahu ze zdrojového jazyka.]]></value>
+  </definition>
+  <definition>
+    <key>button_load_language</key>
+    <value><![CDATA[Zatížení]]></value>
+  </definition>
+  <definition>
+    <key>text_incomplete_tasks</key>
+    <value><![CDATA[nedokončené úkoly]]></value>
+  </definition>
+  <definition>
+    <key>text_task_id</key>
+    <value><![CDATA[ID úkol:]]></value>
+  </definition>
+  <definition>
+    <key>text_title</key>
+    <value><![CDATA[Titul:]]></value>
+  </definition>
+  <definition>
+    <key>text_last_time_run</key>
+    <value><![CDATA[Naposledy Run:]]></value>
+  </definition>
+  <definition>
+    <key>text_date_added</key>
+    <value><![CDATA[Vytvořeno:]]></value>
+  </definition>
+  <definition>
+    <key>text_starter_name</key>
+    <value><![CDATA[Vytvořil:]]></value>
+  </definition>
+  <definition>
+    <key>text_restart</key>
+    <value><![CDATA[restart]]></value>
+  </definition>
+  <definition>
+    <key>text_remove</key>
+    <value><![CDATA[Odstranit]]></value>
+  </definition>
+  <definition>
+    <key>text_task_title</key>
+    <value><![CDATA[Překlad Popisy z %s do %s]]></value>
+  </definition>
+  <definition>
+    <key>error_nothing_to_do</key>
+    <value><![CDATA[Chyba: Prosím Set zdrojovém jazyce a metoda převodu!]]></value>
+  </definition>
+  <definition>
+    <key>text_translate_override_existing</key>
+    <value><![CDATA[Poznámka: Všechny stávající popisy v cizím jazyce bude nahrazen novým překladem. Můžete zakázat převažujícího v <a href="%s">Systém-&gt; Nastavení-&gt; Store designu</a> .]]></value>
+  </definition>
+</definitions>

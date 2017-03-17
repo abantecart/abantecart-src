@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Hmotnost Třídy]]></value>
+  </definition>
+  <definition>
+    <key>text_class</key>
+    <value><![CDATA[hmotnost Třída]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Úspěch: Změnili jste váhových třídách!]]></value>
+  </definition>
+  <definition>
+    <key>column_title</key>
+    <value><![CDATA[hmotnost Název]]></value>
+  </definition>
+  <definition>
+    <key>column_unit</key>
+    <value><![CDATA[hmotnost jednotka]]></value>
+  </definition>
+  <definition>
+    <key>column_value</key>
+    <value><![CDATA[Hodnota]]></value>
+  </definition>
+  <definition>
+    <key>column_action</key>
+    <value><![CDATA[Akce]]></value>
+  </definition>
+  <definition>
+    <key>entry_title</key>
+    <value><![CDATA[Hmotnost Název:]]></value>
+  </definition>
+  <definition>
+    <key>entry_unit</key>
+    <value><![CDATA[Hmotnost Jednotka:]]></value>
+  </definition>
+  <definition>
+    <key>entry_value</key>
+    <value><![CDATA[Hodnota: <br/><span class="help">Set 1.00000, je-li to váš výchozí hmotnosti.</span>]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Varování: Nemáte oprávnění ke změně hmotnostních tříd!]]></value>
+  </definition>
+  <definition>
+    <key>error_title</key>
+    <value><![CDATA[Hmotnost Hlava musí být mezi 2 a 32 znaků!]]></value>
+  </definition>
+  <definition>
+    <key>error_unit</key>
+    <value><![CDATA[Hmotnost jednotky musí být v rozmezí 1 až 4 znaky!]]></value>
+  </definition>
+  <definition>
+    <key>error_default</key>
+    <value><![CDATA[Varování: Třída Tato hmotnost nelze smazat, protože je aktuálně přiřazena jako třída výchozí úložiště váhy!]]></value>
+  </definition>
+  <definition>
+    <key>error_product</key>
+    <value><![CDATA[Upozornění: Tento váhová kategorie nemůže být smazána, protože je aktuálně přiřazen %s výrobků!]]></value>
+  </definition>
+</definitions>

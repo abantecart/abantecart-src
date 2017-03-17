@@ -1,0 +1,391 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[rozšíření]]></value>
+  </definition>
+  <definition>
+    <key>text_install</key>
+    <value><![CDATA[Nainstalujte]]></value>
+  </definition>
+  <definition>
+    <key>text_uninstall</key>
+    <value><![CDATA[Odinstalovat]]></value>
+  </definition>
+  <definition>
+    <key>text_uninstall_delete</key>
+    <value><![CDATA[Odinstalovat / Odstranit]]></value>
+  </definition>
+  <definition>
+    <key>text_uninstall_confirm</key>
+    <value><![CDATA[Potvrďte prosím, že chcete odinstalovat rozšíření. Všechna nastavení rozšíření a související údaje mohou být odstraněny a ztratil.]]></value>
+  </definition>
+  <definition>
+    <key>text_delete</key>
+    <value><![CDATA[Vymazat]]></value>
+  </definition>
+  <definition>
+    <key>text_enlarge</key>
+    <value><![CDATA[Kliknutím na obrázek pro zvětšení]]></value>
+  </definition>
+  <definition>
+    <key>text_activate</key>
+    <value><![CDATA[aktivovat]]></value>
+  </definition>
+  <definition>
+    <key>text_deactivate</key>
+    <value><![CDATA[deaktivovat]]></value>
+  </definition>
+  <definition>
+    <key>text_left</key>
+    <value><![CDATA[Vlevo, odjet]]></value>
+  </definition>
+  <definition>
+    <key>text_right</key>
+    <value><![CDATA[Že jo]]></value>
+  </definition>
+  <definition>
+    <key>text_date_added</key>
+    <value><![CDATA[přidáno]]></value>
+  </definition>
+  <definition>
+    <key>column_icon</key>
+    <value><![CDATA[Ikona]]></value>
+  </definition>
+  <definition>
+    <key>column_id</key>
+    <value><![CDATA[rozšíření ID]]></value>
+  </definition>
+  <definition>
+    <key>column_required</key>
+    <value><![CDATA[Povinný]]></value>
+  </definition>
+  <definition>
+    <key>column_name</key>
+    <value><![CDATA[rozšíření Name]]></value>
+  </definition>
+  <definition>
+    <key>column_position</key>
+    <value><![CDATA[Pozice]]></value>
+  </definition>
+  <definition>
+    <key>column_update_date</key>
+    <value><![CDATA[aktualizace Datum]]></value>
+  </definition>
+  <definition>
+    <key>column_category</key>
+    <value><![CDATA[Kategorie]]></value>
+  </definition>
+  <definition>
+    <key>column_status</key>
+    <value><![CDATA[Postavení]]></value>
+  </definition>
+  <definition>
+    <key>column_sort_order</key>
+    <value><![CDATA[Pořadí řazení]]></value>
+  </definition>
+  <definition>
+    <key>column_action</key>
+    <value><![CDATA[Rychlé akce]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Varování: Nemáte oprávnění k úpravě rozšíření!]]></value>
+  </definition>
+  <definition>
+    <key>error_required_field</key>
+    <value><![CDATA[Chyba: Uveďte požadovaná pole. Nic byl aktualizován!]]></value>
+  </definition>
+  <definition>
+    <key>error_payment_uninstall</key>
+    <value><![CDATA[Varování: Zakázat rozšíření před odinstalace!]]></value>
+  </definition>
+  <definition>
+    <key>error_uninstall</key>
+    <value><![CDATA[Upozornění: Odinstalace rozšíření před smazat!]]></value>
+  </definition>
+  <definition>
+    <key>text_save_success</key>
+    <value><![CDATA[Úspěch: Změnili jste nastavení rozšíření!]]></value>
+  </definition>
+  <definition>
+    <key>text_restore_success</key>
+    <value><![CDATA[Úspěch: jste obnovili výchozí nastavení rozšíření!]]></value>
+  </definition>
+  <definition>
+    <key>text_extensions_store</key>
+    <value><![CDATA[Get Extensions]]></value>
+  </definition>
+  <definition>
+    <key>text_required</key>
+    <value><![CDATA[Povinný]]></value>
+  </definition>
+  <definition>
+    <key>text_optional</key>
+    <value><![CDATA[Volitelný]]></value>
+  </definition>
+  <definition>
+    <key>text_add_new</key>
+    <value><![CDATA[nainstalovat rozšíření]]></value>
+  </definition>
+  <definition>
+    <key>text_search</key>
+    <value><![CDATA[Vyhledávání]]></value>
+  </definition>
+  <definition>
+    <key>text_search_for_extension</key>
+    <value><![CDATA[Vyhledat rozšíření]]></value>
+  </definition>
+  <definition>
+    <key>text_missing_extension</key>
+    <value><![CDATA[&quot;Rozšíření %s: Zdroj nelze nalézt Prosím, odstraňte ji a navštívit poskytovatele přístavby získat úplné zdroje a nainstalujte jej znovu!&quot;]]></value>
+  </definition>
+  <definition>
+    <key>text_broken_extension</key>
+    <value><![CDATA[&quot;Rozšíření %s:!. Zdroj pravděpodobně zlomený Nelze najít Konfigurace.xml nebo main.php soubory Prosím odstraňte ji a navštívit poskytovatele přístavby získat úplné zdroj a znovu nainstalovat&quot;]]></value>
+  </definition>
+  <definition>
+    <key>text_extension_pagination</key>
+    <value><![CDATA[Extension (y) {start} až {konci} o {celk}]]></value>
+  </definition>
+  <definition>
+    <key>text_per_page</key>
+    <value><![CDATA[na stránce]]></value>
+  </definition>
+  <definition>
+    <key>text_error_in_ajax</key>
+    <value><![CDATA[Chyba v ajax volání]]></value>
+  </definition>
+  <definition>
+    <key>text_saved</key>
+    <value><![CDATA[Uložen]]></value>
+  </definition>
+  <definition>
+    <key>text_save</key>
+    <value><![CDATA[Uložit]]></value>
+  </definition>
+  <definition>
+    <key>text_reset</key>
+    <value><![CDATA[resetovat]]></value>
+  </definition>
+  <definition>
+    <key>text_back</key>
+    <value><![CDATA[Zadní]]></value>
+  </definition>
+  <definition>
+    <key>text_additional_settings</key>
+    <value><![CDATA[Další nastavení]]></value>
+  </definition>
+  <definition>
+    <key>text_reload</key>
+    <value><![CDATA[Znovu načíst]]></value>
+  </definition>
+  <definition>
+    <key>text_version</key>
+    <value><![CDATA[Verze]]></value>
+  </definition>
+  <definition>
+    <key>text_installed_on</key>
+    <value><![CDATA[instalován na]]></value>
+  </definition>
+  <definition>
+    <key>text_installed</key>
+    <value><![CDATA[Instalovaný]]></value>
+  </definition>
+  <definition>
+    <key>text_not_installed</key>
+    <value><![CDATA[Není nainstalován]]></value>
+  </definition>
+  <definition>
+    <key>text_visit_repository</key>
+    <value><![CDATA[Navštivte rozšíření úložiště ke stažení prodloužení]]></value>
+  </definition>
+  <definition>
+    <key>text_license</key>
+    <value><![CDATA[Licence]]></value>
+  </definition>
+  <definition>
+    <key>text_dependency</key>
+    <value><![CDATA[Závislost]]></value>
+  </definition>
+  <definition>
+    <key>text_configuration_settings</key>
+    <value><![CDATA[Nastavení konfigurace]]></value>
+  </definition>
+  <definition>
+    <key>text_upgrade</key>
+    <value><![CDATA[Vylepšit]]></value>
+  </definition>
+  <definition>
+    <key>text_help</key>
+    <value><![CDATA[Pomoc]]></value>
+  </definition>
+  <definition>
+    <key>text_dependencies</key>
+    <value><![CDATA[závislosti]]></value>
+  </definition>
+  <definition>
+    <key>text_update_available</key>
+    <value><![CDATA[Nová verze (%s) je k dispozici. <a href="%s">Klikněte pro aktualizaci nyní.</a>]]></value>
+  </definition>
+  <definition>
+    <key>text_delete_confirm</key>
+    <value><![CDATA[Jste si jisti, že chcete smazat rozšíření?]]></value>
+  </definition>
+  <definition>
+    <key>error_config_load</key>
+    <value><![CDATA[Chyba: Nelze načíst konfiguraci pro <b>%s!</b>]]></value>
+  </definition>
+  <definition>
+    <key>error_required_extension</key>
+    <value><![CDATA[<b>%s</b> Rozšíření nelze nainstalovat: <b>%s</b> Protažení požadované]]></value>
+  </definition>
+  <definition>
+    <key>error_required_phpmodule</key>
+    <value><![CDATA[<b>%s</b> Rozšíření nelze nainstalovat: Nejsou nutná <b>%s</b> php modul]]></value>
+  </definition>
+  <definition>
+    <key>button_restore_defaults</key>
+    <value><![CDATA[Obnovit výchozí nastavení]]></value>
+  </definition>
+  <definition>
+    <key>additional_settings_confirm</key>
+    <value><![CDATA[Chcete-li nastavit další nastavení prodloužení jiného úložiště, které potřebujete k přihlášení do ovládacího panelu na jiný název domény. OK?]]></value>
+  </definition>
+  <definition>
+    <key>error_no_help_file</key>
+    <value><![CDATA[Omlouváme se, ale není tam žádný soubor nápovědy pro toto rozšíření.]]></value>
+  </definition>
+  <definition>
+    <key>text_more_help</key>
+    <value><![CDATA[další nápověda]]></value>
+  </definition>
+  <definition>
+    <key>entry_total_type</key>
+    <value><![CDATA[Typ]]></value>
+  </definition>
+  <definition>
+    <key>text_total</key>
+    <value><![CDATA[Celkový]]></value>
+  </definition>
+  <definition>
+    <key>text_subtotal</key>
+    <value><![CDATA[Sub-total]]></value>
+  </definition>
+  <definition>
+    <key>text_shipping</key>
+    <value><![CDATA[Lodní doprava]]></value>
+  </definition>
+  <definition>
+    <key>text_tax</key>
+    <value><![CDATA[Daň]]></value>
+  </definition>
+  <definition>
+    <key>text_fee</key>
+    <value><![CDATA[Poplatek]]></value>
+  </definition>
+  <definition>
+    <key>text_discount</key>
+    <value><![CDATA[Sleva]]></value>
+  </definition>
+  <definition>
+    <key>text_confirm_disable_dependants</key>
+    <value><![CDATA[Prodloužení %s mají rodinní příslušníci: <br/> %s <br/> bude automaticky zakázána také. <br/> Myslíte si potvrdit?]]></value>
+  </definition>
+  <definition>
+    <key>text_status</key>
+    <value><![CDATA[Status: <span class="help">Toto je ovládat průčelí stav rozšíření.</span>]]></value>
+  </definition>
+  <definition>
+    <key>text_sort_order</key>
+    <value><![CDATA[Run Pořadí: <span class="help">Number pro nastavení zobrazení polohy pořadí pro toto rozšíření ve vztahu k ostatním umožnil rozšíření. (Řazení je z nižší do vyšší číslo, ignorování 0 a prázdné hodnoty)</span>]]></value>
+  </definition>
+  <definition>
+    <key>text_payment_minimum_total</key>
+    <value><![CDATA[Celkem Objednat Minimum: <span class="help">Minimální výše objednávky kterého má být dosaženo, aby tuto platbu</span>]]></value>
+  </definition>
+  <definition>
+    <key>text_payment_maximum_total</key>
+    <value><![CDATA[Celkem Objednat Maximum: <span class="help">Maximální výše, aby se dosáhlo zakázat tuto platbu</span>]]></value>
+  </definition>
+  <definition>
+    <key>text_payment_storefront_icon</key>
+    <value><![CDATA[Výkladní skříň Icon: <span class="help">Platba ikonu, která se zobrazí při výběru platební pokladny</span>]]></value>
+  </definition>
+  <definition>
+    <key>text_shipping_storefront_icon</key>
+    <value><![CDATA[Výkladní skříň Icon: <span class="help">Přepravní ikonu, která se zobrazí při výběru pokladny lodní</span>]]></value>
+  </definition>
+  <definition>
+    <key>text_autoselect_payment</key>
+    <value><![CDATA[Automatický výběr: <span class="help">můžete nastavit tuto platbu musí být vybrána ve výchozím nastavení. Tato platební metoda bude předběžně vybrán pro více plateb. Pokud je to jediný způsob platby k dispozici, možnost placení výběr krok se přeskočí.</span>]]></value>
+  </definition>
+  <definition>
+    <key>text_autoselect_shipping</key>
+    <value><![CDATA[Automatický výběr: <span class="help">můžete nastavit tak, aby přeskočit stránku výběru přepravní pokud je tam jen jeden způsob dopravy. Tento způsob dopravy bude vybrána automaticky</span>]]></value>
+  </definition>
+  <definition>
+    <key>text_accept_payments_shipping</key>
+    <value><![CDATA[Přijmout tyto platby: <span class="help">Pokud jsou potřeba pouze specifické způsoby platby v tomto způsobu dopravy, vyberte je zde. Pokud se nic vybráno, zobrazí se všechny dostupné způsoby platby</span>]]></value>
+  </definition>
+  <definition>
+    <key>text_ready_to_install</key>
+    <value><![CDATA[Připravené k instalaci]]></value>
+  </definition>
+  <definition>
+    <key>button_install</key>
+    <value><![CDATA[Nainstalujte]]></value>
+  </definition>
+  <definition>
+    <key>error_dependencies</key>
+    <value><![CDATA[Toto rozšíření nelze povolit, protože požadované závislost chybí nebo není povolen.]]></value>
+  </definition>
+  <definition>
+    <key>button_howto</key>
+    <value><![CDATA[Jak]]></value>
+  </definition>
+  <definition>
+    <key>text_developer_site</key>
+    <value><![CDATA[Externí stránky podpory]]></value>
+  </definition>
+  <definition>
+    <key>text_preview</key>
+    <value><![CDATA[Náhled]]></value>
+  </definition>
+  <definition>
+    <key>text_confirmation</key>
+    <value><![CDATA[potvrzení]]></value>
+  </definition>
+  <definition>
+    <key>button_confirm</key>
+    <value><![CDATA[Potvrdit]]></value>
+  </definition>
+  <definition>
+    <key>button_continue</key>
+    <value><![CDATA[Pokračovat]]></value>
+  </definition>
+  <definition>
+    <key>button_cancel</key>
+    <value><![CDATA[zrušení]]></value>
+  </definition>
+  <definition>
+    <key>error_could_not_load_config</key>
+    <value><![CDATA[Chyba: Nelze načíst konfiguraci pro <b>%s</b> (%s)!]]></value>
+  </definition>
+  <definition>
+    <key>error_could_not_load_override</key>
+    <value><![CDATA[Chyba: Nelze načíst potlačení šablonu %s v prodloužení %s!]]></value>
+  </definition>
+  <definition>
+    <key>tab_general</key>
+    <value><![CDATA[Všeobecné]]></value>
+  </definition>
+  <definition>
+    <key>tab_additional_settings</key>
+    <value><![CDATA[Další nastavení]]></value>
+  </definition>
+  <definition>
+    <key>text_more_extensions</key>
+    <value><![CDATA[Další rozšíření jsou k dispozici pro snadnou instalaci.]]></value>
+  </definition>
+</definitions>

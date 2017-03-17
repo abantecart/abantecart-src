@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Váš účet byl vytvořen!]]></value>
+  </definition>
+  <definition>
+    <key>text_message</key>
+    <value><![CDATA[<p> Gratulace! Váš nový účet byl úspěšně vytvořen! </p><p> Nyní můžete využít členských privilegií, aby posílily své online nakupování zkušenosti s námi. </p><p> Máte-li jakékoli dotazy týkající se fungování tohoto e-shopu, napište na majitele obchodu. </p><p> Potvrzovací byla odeslána na poskytnutou e-mailovou adresu. Pokud jste neobdrželi jej do hodiny, prosím <a href="%s">kontaktujte nás</a>. </p>]]></value>
+  </definition>
+  <definition>
+    <key>text_approval</key>
+    <value><![CDATA[<p> Děkujeme vám za registraci s %s! </p><p> Budete upozorněni e-mailem, jakmile váš účet byl aktivován majitele obchodu. </p><p> Máte-li jakékoli dotazy týkající se fungování této internetovém obchodě, prosím, <a href="%s">obraťte se na majitele obchodu</a>. </p>]]></value>
+  </definition>
+  <definition>
+    <key>text_activate</key>
+    <value><![CDATA[<p> Děkujeme vám za registraci s %s! </p><p> Budete upozorněni e-mailem pomocí svého účtu aktivačních pokynů. Musíte kliknout na odkaz uvedený v e-mailu aktivovat svůj účet. Pokud nechcete přijímat e-maily, zkontrolujte ve svém nevyžádanou nebo spam složky. </p><p> Máte-li jakékoli dotazy týkající se fungování této internetovém obchodě, prosím, <a href="%s">obraťte se na majitele obchodu</a>. </p>]]></value>
+  </definition>
+  <definition>
+    <key>text_account</key>
+    <value><![CDATA[Účet]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Úspěch]]></value>
+  </definition>
+</definitions>

@@ -1,0 +1,331 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>code</key>
+    <value><![CDATA[cs]]></value>
+  </definition>
+  <definition>
+    <key>direction</key>
+    <value><![CDATA[ltr]]></value>
+  </definition>
+  <definition>
+    <key>date_format_short</key>
+    <value><![CDATA[d/m/Y]]></value>
+  </definition>
+  <definition>
+    <key>date_format_long</key>
+    <value><![CDATA[l dS F Y]]></value>
+  </definition>
+  <definition>
+    <key>time_format</key>
+    <value><![CDATA[d/m/Y H:i:s]]></value>
+  </definition>
+  <definition>
+    <key>time_format_short</key>
+    <value><![CDATA[h:i:s A]]></value>
+  </definition>
+  <definition>
+    <key>decimal_point</key>
+    <value><![CDATA[,]]></value>
+  </definition>
+  <definition>
+    <key>thousand_point</key>
+    <value><![CDATA[.]]></value>
+  </definition>
+  <definition>
+    <key>text_home</key>
+    <value><![CDATA[domů]]></value>
+  </definition>
+  <definition>
+    <key>text_yes</key>
+    <value><![CDATA[Ano]]></value>
+  </definition>
+  <definition>
+    <key>text_no</key>
+    <value><![CDATA[Ne]]></value>
+  </definition>
+  <definition>
+    <key>text_none</key>
+    <value><![CDATA[--- Žádný ---]]></value>
+  </definition>
+  <definition>
+    <key>text_select</key>
+    <value><![CDATA[--- Prosím vyberte ---]]></value>
+  </definition>
+  <definition>
+    <key>text_all_zones</key>
+    <value><![CDATA[Všechny zóny]]></value>
+  </definition>
+  <definition>
+    <key>text_pagination</key>
+    <value><![CDATA[{Start} - {end} o {celk}]]></value>
+  </definition>
+  <definition>
+    <key>text_per_page</key>
+    <value><![CDATA[per Page]]></value>
+  </definition>
+  <definition>
+    <key>text_separator</key>
+    <value><![CDATA[&gt;]]></value>
+  </definition>
+  <definition>
+    <key>button_continue</key>
+    <value><![CDATA[Pokračovat]]></value>
+  </definition>
+  <definition>
+    <key>button_back</key>
+    <value><![CDATA[Zadní]]></value>
+  </definition>
+  <definition>
+    <key>button_add_to_cart</key>
+    <value><![CDATA[Přidat do košíku]]></value>
+  </definition>
+  <definition>
+    <key>button_add_wishlist</key>
+    <value><![CDATA[Přidat do seznamu přání]]></value>
+  </definition>
+  <definition>
+    <key>button_remove_wishlist</key>
+    <value><![CDATA[Odebrat ze seznamu přání]]></value>
+  </definition>
+  <definition>
+    <key>text_wishlist_add_success</key>
+    <value><![CDATA[Přidáno do seznamu přání]]></value>
+  </definition>
+  <definition>
+    <key>text_wishlist_remove_success</key>
+    <value><![CDATA[Odstraněn ze seznamu přání]]></value>
+  </definition>
+  <definition>
+    <key>button_add_address</key>
+    <value><![CDATA[Přidat adresu]]></value>
+  </definition>
+  <definition>
+    <key>button_new_address</key>
+    <value><![CDATA[Nová adresa]]></value>
+  </definition>
+  <definition>
+    <key>button_change_address</key>
+    <value><![CDATA[Změnit adresu]]></value>
+  </definition>
+  <definition>
+    <key>button_edit</key>
+    <value><![CDATA[Upravit]]></value>
+  </definition>
+  <definition>
+    <key>button_delete</key>
+    <value><![CDATA[Vymazat]]></value>
+  </definition>
+  <definition>
+    <key>button_reviews</key>
+    <value><![CDATA[recenze]]></value>
+  </definition>
+  <definition>
+    <key>button_write</key>
+    <value><![CDATA[Napsat recenzi]]></value>
+  </definition>
+  <definition>
+    <key>button_login</key>
+    <value><![CDATA[Přihlásit se]]></value>
+  </definition>
+  <definition>
+    <key>button_update</key>
+    <value><![CDATA[Aktualizace]]></value>
+  </definition>
+  <definition>
+    <key>button_wish</key>
+    <value><![CDATA[Přání]]></value>
+  </definition>
+  <definition>
+    <key>button_print</key>
+    <value><![CDATA[Tisk]]></value>
+  </definition>
+  <definition>
+    <key>button_shopping</key>
+    <value><![CDATA[Pokračovat v nákupu]]></value>
+  </definition>
+  <definition>
+    <key>button_checkout</key>
+    <value><![CDATA[Překontrolovat]]></value>
+  </definition>
+  <definition>
+    <key>button_confirm</key>
+    <value><![CDATA[Potvrďte objednávku]]></value>
+  </definition>
+  <definition>
+    <key>button_view</key>
+    <value><![CDATA[Pohled]]></value>
+  </definition>
+  <definition>
+    <key>button_search</key>
+    <value><![CDATA[Vyhledávání]]></value>
+  </definition>
+  <definition>
+    <key>button_go</key>
+    <value><![CDATA[Jít]]></value>
+  </definition>
+  <definition>
+    <key>button_coupon</key>
+    <value><![CDATA[Použít kupón]]></value>
+  </definition>
+  <definition>
+    <key>button_guest</key>
+    <value><![CDATA[host Pokladna]]></value>
+  </definition>
+  <definition>
+    <key>notice_out_of_stock_ttl</key>
+    <value><![CDATA[Není skladem oznámení pro: %s]]></value>
+  </definition>
+  <definition>
+    <key>notice_out_of_stock_body</key>
+    <value><![CDATA[Produkt &quot;%s&quot; dosáhla nulová nebo záporná počet akcie na hlavním výrobkem nebo všemi možnostmi. <br/> V důsledku autodisable nastavení, produkt (%s) se automaticky vypnuta!]]></value>
+  </definition>
+  <definition>
+    <key>no_payment_required</key>
+    <value><![CDATA[Žádné platby vyžadované]]></value>
+  </definition>
+  <definition>
+    <key>gen_data_entry_error</key>
+    <value><![CDATA[Jejda, došlo k chybě s informacemi za předpokladu!]]></value>
+  </definition>
+  <definition>
+    <key>text_sorting_name_asc</key>
+    <value><![CDATA[Name A - Z]]></value>
+  </definition>
+  <definition>
+    <key>text_sorting_name_desc</key>
+    <value><![CDATA[Názvu Z - A]]></value>
+  </definition>
+  <definition>
+    <key>text_sorting_price_asc</key>
+    <value><![CDATA[Cena Low &gt; Vysoký]]></value>
+  </definition>
+  <definition>
+    <key>text_sorting_price_desc</key>
+    <value><![CDATA[Cena High &gt; Nízký]]></value>
+  </definition>
+  <definition>
+    <key>text_sorting_rating_asc</key>
+    <value><![CDATA[Hodnocení nejnižší]]></value>
+  </definition>
+  <definition>
+    <key>text_sorting_rating_desc</key>
+    <value><![CDATA[Hodnocení Nejvyšší]]></value>
+  </definition>
+  <definition>
+    <key>text_sorting_date_asc</key>
+    <value><![CDATA[Datum Old &gt; Nový]]></value>
+  </definition>
+  <definition>
+    <key>text_sorting_date_desc</key>
+    <value><![CDATA[Datum New &gt; Starý]]></value>
+  </definition>
+  <definition>
+    <key>text_add_cart_confirm</key>
+    <value><![CDATA[Přidáno do košíku]]></value>
+  </definition>
+  <definition>
+    <key>text_close</key>
+    <value><![CDATA[Zavřít]]></value>
+  </definition>
+  <definition>
+    <key>text_balance</key>
+    <value><![CDATA[Zůstatek na účtu]]></value>
+  </definition>
+  <definition>
+    <key>text_balance_checkout</key>
+    <value><![CDATA[Zůstatek na účtu:]]></value>
+  </definition>
+  <definition>
+    <key>button_pay_with_balance</key>
+    <value><![CDATA[Platit s rovnováhou]]></value>
+  </definition>
+  <definition>
+    <key>button_apply_balance</key>
+    <value><![CDATA[Použít k objednávce]]></value>
+  </definition>
+  <definition>
+    <key>button_disapply_balance</key>
+    <value><![CDATA[Odstranit z řádu]]></value>
+  </definition>
+  <definition>
+    <key>text_applied_balance</key>
+    <value><![CDATA[aplikován na objednávku]]></value>
+  </definition>
+  <definition>
+    <key>text_applied_balance_to_order</key>
+    <value><![CDATA[%s Použity na objednávku # %s]]></value>
+  </definition>
+  <definition>
+    <key>text_maintenance_notice</key>
+    <value><![CDATA[Upozornění: Režim údržby zapnutý.]]></value>
+  </definition>
+  <definition>
+    <key>text_browse</key>
+    <value><![CDATA[Zvolte soubor]]></value>
+  </definition>
+  <definition>
+    <key>button_cancel</key>
+    <value><![CDATA[zrušení]]></value>
+  </definition>
+  <definition>
+    <key>button_reset</key>
+    <value><![CDATA[resetovat]]></value>
+  </definition>
+  <definition>
+    <key>button_submit</key>
+    <value><![CDATA[Předložit]]></value>
+  </definition>
+  <definition>
+    <key>button_save</key>
+    <value><![CDATA[Uložit]]></value>
+  </definition>
+  <definition>
+    <key>text_field_required</key>
+    <value><![CDATA[Je povinné pole!]]></value>
+  </definition>
+  <definition>
+    <key>error_captcha</key>
+    <value><![CDATA[Human verification selhala! Prosím zkuste to znovu.]]></value>
+  </definition>
+  <definition>
+    <key>entry_attached</key>
+    <value><![CDATA[Připojený]]></value>
+  </definition>
+  <definition>
+    <key>text_call_to_order</key>
+    <value><![CDATA[Napomene]]></value>
+  </definition>
+  <definition>
+    <key>text_discount</key>
+    <value><![CDATA[Sleva]]></value>
+  </definition>
+  <definition>
+    <key>text_download</key>
+    <value><![CDATA[Stažení]]></value>
+  </definition>
+  <definition>
+    <key>text_free</key>
+    <value><![CDATA[Volný, uvolnit]]></value>
+  </definition>
+  <definition>
+    <key>text_free_shipping</key>
+    <value><![CDATA[Doprava zdarma]]></value>
+  </definition>
+  <definition>
+    <key>price_with_tax</key>
+    <value><![CDATA[s DPH]]></value>
+  </definition>
+  <definition>
+    <key>text_unavailable</key>
+    <value><![CDATA[nedostupné]]></value>
+  </definition>
+  <definition>
+    <key>error_unknown</key>
+    <value><![CDATA[setkali neznámé chybě. Prosím zkuste to znovu!]]></value>
+  </definition>
+  <definition>
+    <key>text_click_browse_file</key>
+    <value><![CDATA[Klikněte pro procházení souborů]]></value>
+  </definition>
+</definitions>

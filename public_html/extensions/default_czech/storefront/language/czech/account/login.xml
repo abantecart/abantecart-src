@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Přihlášení]]></value>
+  </definition>
+  <definition>
+    <key>text_account</key>
+    <value><![CDATA[Vytvořit účet]]></value>
+  </definition>
+  <definition>
+    <key>text_login</key>
+    <value><![CDATA[Přihlásit se]]></value>
+  </definition>
+  <definition>
+    <key>text_i_am_new_customer</key>
+    <value><![CDATA[Jsem nový zákazník.]]></value>
+  </definition>
+  <definition>
+    <key>text_checkout</key>
+    <value><![CDATA[Pokladna Možnosti:]]></value>
+  </definition>
+  <definition>
+    <key>text_guest</key>
+    <value><![CDATA[host Pokladna]]></value>
+  </definition>
+  <definition>
+    <key>text_create_account</key>
+    <value><![CDATA[Vytvořením účtu budete moci nakupovat rychleji, být až informován o stavu objednávky a sledovat objednávky jste v minulosti provedli.]]></value>
+  </definition>
+  <definition>
+    <key>text_returning_customer</key>
+    <value><![CDATA[věrný zákazník]]></value>
+  </definition>
+  <definition>
+    <key>text_i_am_returning_customer</key>
+    <value><![CDATA[Jsem vracející se zákazník.]]></value>
+  </definition>
+  <definition>
+    <key>text_forgotten_login</key>
+    <value><![CDATA[Zapomněli jste heslo?]]></value>
+  </definition>
+  <definition>
+    <key>text_forgotten_password</key>
+    <value><![CDATA[Zapomněli jste heslo?]]></value>
+  </definition>
+  <definition>
+    <key>entry_loginname</key>
+    <value><![CDATA[Přihlašovací jméno:]]></value>
+  </definition>
+  <definition>
+    <key>entry_email_address</key>
+    <value><![CDATA[Emailová adresa:]]></value>
+  </definition>
+  <definition>
+    <key>entry_password</key>
+    <value><![CDATA[Heslo:]]></value>
+  </definition>
+  <definition>
+    <key>error_login</key>
+    <value><![CDATA[Chyba: Nesprávný login nebo heslo k dispozici.]]></value>
+  </definition>
+  <definition>
+    <key>text_success_activated</key>
+    <value><![CDATA[Úspěch: Váš účet byl úspěšně aktivován. Prosím, přihlaste se pomocí pověření.]]></value>
+  </definition>
+  <definition>
+    <key>text_already_activated</key>
+    <value><![CDATA[Váš účet je již aktivován. Prosím, přihlaste se pomocí pověření.]]></value>
+  </definition>
+  <definition>
+    <key>text_resend_activation_email</key>
+    <value><![CDATA[Chyba: Vaše e-mailová adresa nebyla dosud potvrzena. Chcete-li znovu odeslat nový e-mail s potvrzením klikněte na tento <a href=" %s ">odkaz</a>]]></value>
+  </definition>
+</definitions>

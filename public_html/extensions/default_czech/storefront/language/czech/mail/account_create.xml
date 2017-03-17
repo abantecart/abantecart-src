@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>text_subject</key>
+    <value><![CDATA[%s - Děkujeme vám za registraci]]></value>
+  </definition>
+  <definition>
+    <key>text_welcome</key>
+    <value><![CDATA[Vítáme Vás a děkuji za registraci na %s!]]></value>
+  </definition>
+  <definition>
+    <key>text_login</key>
+    <value><![CDATA[Váš účet byl nyní vytvořen a můžete k němu přistupovat tím, že navštívíte naše webové stránky, nebo na následující adrese:]]></value>
+  </definition>
+  <definition>
+    <key>text_approval</key>
+    <value><![CDATA[Váš účet musí být schválena dříve, než se můžete přihlásit. Po schválení se můžete přihlásit pomocí své e-mailové adresy a hesla tím, že navštívíte naše webové stránky, nebo na následující adrese:]]></value>
+  </definition>
+  <definition>
+    <key>text_activate</key>
+    <value><![CDATA[Než budeme moci aktivovat váš účet je třeba vzít poslední krok k dokončení registrace. <br/> 
+ Je nutné dokončit tento poslední krok, aby se stal registrovaným členem. Pro aktivaci účtu klikněte na následující odkaz %s.]]></value>
+  </definition>
+  <definition>
+    <key>text_services</key>
+    <value><![CDATA[Po přihlášení, budete mít přístup k dalším službám, včetně přezkoumání minulé objednávky, tisk faktur a úpravy informací o účtu.]]></value>
+  </definition>
+  <definition>
+    <key>text_thanks</key>
+    <value><![CDATA[Děkuji,]]></value>
+  </definition>
+</definitions>

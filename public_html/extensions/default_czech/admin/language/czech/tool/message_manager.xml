@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Manažer Message]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Úspěch: Změnili jste seznam zpráv!]]></value>
+  </definition>
+  <definition>
+    <key>column_title</key>
+    <value><![CDATA[zpráva Název]]></value>
+  </definition>
+  <definition>
+    <key>column_create_date</key>
+    <value><![CDATA[datum]]></value>
+  </definition>
+  <definition>
+    <key>column_status</key>
+    <value><![CDATA[Postavení]]></value>
+  </definition>
+  <definition>
+    <key>column_action</key>
+    <value><![CDATA[Akce]]></value>
+  </definition>
+  <definition>
+    <key>entry_error</key>
+    <value><![CDATA[kritický]]></value>
+  </definition>
+  <definition>
+    <key>entry_warning</key>
+    <value><![CDATA[Varování]]></value>
+  </definition>
+  <definition>
+    <key>entry_notice</key>
+    <value><![CDATA[Oznámení]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Varování: Nemáte oprávnění ke změně seznamu zpráv!]]></value>
+  </definition>
+  <definition>
+    <key>error_name</key>
+    <value><![CDATA[Titulní zpráva musí být od 3 do 32 znaků!]]></value>
+  </definition>
+  <definition>
+    <key>text_show</key>
+    <value><![CDATA[Show]]></value>
+  </definition>
+  <definition>
+    <key>text_not_found</key>
+    <value><![CDATA[Ooops. Nemůžeme najít tuto zprávu.]]></value>
+  </definition>
+  <definition>
+    <key>text_status</key>
+    <value><![CDATA[Zpráva o stavu:]]></value>
+  </definition>
+  <definition>
+    <key>text_date</key>
+    <value><![CDATA[Datum:]]></value>
+  </definition>
+  <definition>
+    <key>text_repeats</key>
+    <value><![CDATA[Počet opakování:]]></value>
+  </definition>
+  <definition>
+    <key>text_warning</key>
+    <value><![CDATA[Varování]]></value>
+  </definition>
+  <definition>
+    <key>text_error</key>
+    <value><![CDATA[kritický]]></value>
+  </definition>
+  <definition>
+    <key>text_notice</key>
+    <value><![CDATA[oznámení]]></value>
+  </definition>
+  <definition>
+    <key>text_delete</key>
+    <value><![CDATA[vymazat]]></value>
+  </definition>
+  <definition>
+    <key>text_close</key>
+    <value><![CDATA[zavřít]]></value>
+  </definition>
+  <definition>
+    <key>text_confirm</key>
+    <value><![CDATA[Potvrdit?]]></value>
+  </definition>
+  <definition>
+    <key>text_linktext</key>
+    <value><![CDATA[odkaz]]></value>
+  </definition>
+  <definition>
+    <key>text_notifier_title</key>
+    <value><![CDATA[Máte %s Nová zpráva (y)]]></value>
+  </definition>
+</definitions>

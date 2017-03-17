@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Template manager]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Úspěch: Nastavili jste novou šablonu průčelí!]]></value>
+  </definition>
+  <definition>
+    <key>text_storefront_templates</key>
+    <value><![CDATA[Dostupné Firmy s šablony]]></value>
+  </definition>
+  <definition>
+    <key>text_edit_extension</key>
+    <value><![CDATA[Nastavení Extension]]></value>
+  </definition>
+  <definition>
+    <key>text_error</key>
+    <value><![CDATA[Chyba: Chybí požadovaný parametr ve vaší žádosti!]]></value>
+  </definition>
+  <definition>
+    <key>error_permission</key>
+    <value><![CDATA[Varování: Nemáte oprávnění k úpravě šablon!]]></value>
+  </definition>
+</definitions>

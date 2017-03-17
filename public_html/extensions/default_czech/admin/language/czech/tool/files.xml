@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[nahrávání souborů]]></value>
+  </definition>
+  <definition>
+    <key>column_date_added</key>
+    <value><![CDATA[datum přidáno]]></value>
+  </definition>
+  <definition>
+    <key>column_path</key>
+    <value><![CDATA[Soubor]]></value>
+  </definition>
+  <definition>
+    <key>column_section</key>
+    <value><![CDATA[Sekce]]></value>
+  </definition>
+  <definition>
+    <key>text_download</key>
+    <value><![CDATA[stáhnout soubor]]></value>
+  </definition>
+</definitions>

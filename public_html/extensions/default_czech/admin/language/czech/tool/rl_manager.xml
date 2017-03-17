@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions>
+  <definition>
+    <key>heading_title</key>
+    <value><![CDATA[Media Library Manager Resource]]></value>
+  </definition>
+  <definition>
+    <key>text_rl_latest</key>
+    <value><![CDATA[Poslední přidané zdroje]]></value>
+  </definition>
+  <definition>
+    <key>text_rl_type</key>
+    <value><![CDATA[Typ prostředku]]></value>
+  </definition>
+  <definition>
+    <key>entry_type_name</key>
+    <value><![CDATA[Typ zdroje Key <br/><span class="help">hodnota Tento zdroj typ klíč / název nelze změnit</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_default_directory</key>
+    <value><![CDATA[Adresář Resource <br/><span class="help">Adresář polohovací zdrojem pro tento typ. Pokud se změní, bude existující zdroje nebudou acceccible a bude muset být zkopírovány do nového adresáře!</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_default_icon</key>
+    <value><![CDATA[Výchozí ikona <br/><span class="help">Obrázek ikony, který bude zobrazen v seznamu zdrojů (Umístění: / image / ...).</span>]]></value>
+  </definition>
+  <definition>
+    <key>entry_file_types</key>
+    <value><![CDATA[Povoleno přípony souborů <br/><span class="help">Regex se seznamem povolených přípon pro tento typ zdrojů</span>]]></value>
+  </definition>
+  <definition>
+    <key>text_success</key>
+    <value><![CDATA[Úspěch: Aktualizovali jste typ prostředku!]]></value>
+  </definition>
+  <definition>
+    <key>error_missing_type_id</key>
+    <value><![CDATA[Chyba: Chybějící zdroj typ ID!]]></value>
+  </definition>
+  <definition>
+    <key>error_type_name</key>
+    <value><![CDATA[Chyba: Název Typ zdroje musí být mezi 2 a 40 charcters]]></value>
+  </definition>
+  <definition>
+    <key>error_default_directory</key>
+    <value><![CDATA[Chyba: Typ zdroje adresář musí být mezi 2 a 64 charcters]]></value>
+  </definition>
+  <definition>
+    <key>error_default_icon</key>
+    <value><![CDATA[Chyba: Ikona Typ zdroje musí být mezi 2 a 64 charcters]]></value>
+  </definition>
+  <definition>
+    <key>error_file_types</key>
+    <value><![CDATA[Chyba: Resource File Type Rozšíření na regex musí být mezi 2 a 40 charcters]]></value>
+  </definition>
+</definitions>
