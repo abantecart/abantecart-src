@@ -272,12 +272,15 @@ class ControllerPagesSaleContact extends AController {
 			));
 		}
 
+		$this->loadModel('setting/store');
+
 		$this->data['form']['fields']['message'] = $form->getFieldHtml(array(
 				'type' => ($this->data['protocol']=='email' ? 'texteditor' : 'textarea'),
 				'name' => 'message',
 				'value' => $this->data['message'],
 				'style' => 'ml_ckeditor',
-				'required' => true
+				'required' => true,
+				'base_url' => $this->model_setting_store->getStoreURL($this->data['store_id'])
 		));
 
 		//if email address given

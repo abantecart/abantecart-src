@@ -1119,7 +1119,7 @@ var loadAndShowData = function (url, $elem) {
 }
 		
 //function adds Resource Library Button into WYSIWYG editor
-function openTextEditRLModal(editor, cursorPosition){
+function openTextEditRLModal(editor, cursorPosition, baseUrl){
 	modalscope.mode = 'single';
 	mediaDialog('image', 'list_library');
 	sideDialog('image', 'add');
@@ -1133,7 +1133,7 @@ function openTextEditRLModal(editor, cursorPosition){
 			var insert_html='';
 			if( item.resource_path != undefined && item.resource_path.length>0 ){
 				var type_name = item.type_name;
-				insert_html = 'resources/'+type_name+'/'+item.resource_path;
+				insert_html = baseUrl + 'resources/'+type_name+'/'+item.resource_path;
 				if(type_name=='image'){
                     var alt='';
                     if(item['title'].length>0){

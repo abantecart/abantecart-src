@@ -1170,6 +1170,7 @@ class TextareaHtmlElement extends HtmlElement{
  * @property string $required
  * @property string $style
  * @property string $placeholder
+ * @property string $base_url - need for inserting pictures into html for emails
  * @property bool $multilingual
  */
 class TextEditorHtmlElement extends HtmlElement{
@@ -1186,7 +1187,8 @@ class TextEditorHtmlElement extends HtmlElement{
 						'attr'        => $this->attr,
 						'required'    => $this->required,
 						'style'       => $this->style,
-						'placeholder' => $this->placeholder
+						'placeholder' => $this->placeholder,
+						'base_url'    => $this->base_url
 				)
 		);
 		if (is_object($this->language)){
