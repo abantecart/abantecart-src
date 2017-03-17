@@ -8,9 +8,9 @@ CREATE INDEX `ac_resource_map_sorting_idx` ON `ac_resource_map` ( `resource_id`,
 CREATE INDEX `ac_resource_descriptions_name_idx` ON `ac_resource_descriptions` ( `resource_id`, `name`);
 CREATE INDEX `ac_resource_descriptions_title_idx` ON `ac_resource_descriptions` ( `resource_id`, `title`);
 
-ALTER TABLE `ac_customers` CHANGE COLUMN `ip` VARCHAR(50);
-ALTER TABLE `ac_orders` CHANGE COLUMN `ip` VARCHAR(50);
-ALTER TABLE `ac_users` CHANGE COLUMN `ip` VARCHAR(50);
+ALTER TABLE `ac_customers` CHANGE COLUMN `ip` `ip` VARCHAR(50);
+ALTER TABLE `ac_orders` CHANGE COLUMN `ip` `ip` VARCHAR(50);
+ALTER TABLE `ac_users` CHANGE COLUMN `ip` `ip` VARCHAR(50);
 
 REPLACE INTO `ac_page_descriptions` (`page_id`, `language_id`, `name`, `title`, `seo_url`, `keywords`, `description`, `content`, `date_added`)
 VALUES (12, 1, 'Cart Page', '', '', '', '', '', now() );
