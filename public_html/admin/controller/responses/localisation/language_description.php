@@ -115,6 +115,8 @@ class ControllerResponsesLocalisationLanguageDescription extends AController{
 		//update controller data
 		$this->extensions->hk_UpdateData($this, __FUNCTION__);
 
+		$this->cache->remove('*');
+
 		$this->load->library('json');
 		$this->response->addJSONHeader();
 		$this->response->setOutput(AJson::encode(array (
